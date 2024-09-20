@@ -2,49 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DB3697D3F1
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 11:58:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A98897D401
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 12:07:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28F3310E06C;
-	Fri, 20 Sep 2024 09:57:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A7D510E7FA;
+	Fri, 20 Sep 2024 10:07:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="s0ZPmlhe";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="KDs7Da1N";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2086.outbound.protection.outlook.com [40.107.243.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDAFA10E06C;
- Fri, 20 Sep 2024 09:57:46 +0000 (UTC)
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2050.outbound.protection.outlook.com [40.107.244.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7FDD10E800;
+ Fri, 20 Sep 2024 10:07:45 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=y/lOk743h5Txm4fkKEv+vHBQQyBh+g40+7xKYzJN+haat6+UsCXxyKKJOqQuAw7cBCCUrpkj2fRnu8/fJtg9q0f4lGzaGC1Pnfz1QJxwnLuYudQ8PNHh0T7T52q+DVb/wjbiuOTLK0ld0cMe0cazl3ftP/uCWxEZzpG5OfJhOryOME7qmYPZYS5+LVE7hOOmtHn9rvwnYLO8gNKLSVCuqFYMET+rq9p0G0TYYRaX+k+p0CcGO78gW6Nuv1BkShHUoFF6p3S4okGfpf1Pj1jjQKUIFcZeJLGcOdMDMXdbbLWPbQtU91BeDwnGo+92/gHbCasVCscn5r5oSDXAjYXDvg==
+ b=Mgm1RybAZitGy3Ucl084c/UiaHrq/9zJsaJ1Aj2WMM9t+ATHr+Es31Bs0AeWUvh4YaCpXY5tjwnpgUky+pi13B2+1F6iPnL8/9RPtjXq1u2kzVARs3j/Dk8EDqztRExT/v7lExjNBTzYrKhtJ/sZoLaawlCcZrxsTkTysIumIAhyILG0Iox573FrZQyLJePQQ6VX+YTNm3YbB7FxJJDAK6IuZ6WqZ3OOSbMVQNUS/Do62GqKRCJIiBaUmG+1u4esTaaPJRI/cg0IDb5sEzhAdL3G60P7Ne+rHnbyQeKTgyBBDDjITvwZmVaBNMI1At4zhngcf6IQUrckAMpiwcDwkw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=61qMzP9iVslx33iMVTuXK1dCaibDXpSbQ7jDxA1/7mY=;
- b=EGwjC2eUASXcabB8SGzan8w79Vg2YyA9KqIvmcZUDQ/gfECaCwNDMt/3JjxSgPIACgLD8Co7vUIxvbExYsgB26/qOOt+emcAcNYkGGgIzFY1CZDAW+CKvLc8UrT+DXChLTtKrXoqS5suH+wlzkT4Fxs3BMCh1wIYisUAjkoUNmholIAH3Fp7+hT87kHFb2D4eSF70CruydjFbexfql47p0gQXOuAyybzRKpJ15wm0DZ0S7foSMhtU+q/fEEpSXHZ8LLKhrC4TylnUZ/T37GhrEFmgoPGhAbDO+DRettAWH2Gf3FZ1N+5hnSUEgM/8NqPvTp+gtQNoF2yT2dISNb2MA==
+ bh=/PepK+BsQUF6r8qf+uEI10/9bKiD3KRxnKY3e13OXcs=;
+ b=oqMtMmw8Wn0BnKvycdfyZgPyVOmz56mzkPQNKTrP42OI4eA/V7dk1M42NUjAv6uknhxQWp54v16qknT5EutlqRVhCzrFnZeHh+mlsnsIc0XfpWuLuJfwVs6bjXQuDjGAAlBoe8tTgIBrF0ePS3ZpT0hu3xmopC2YfaRcEAU1JtQ/aHtSUgz6KpsFpd6Va59b+P5BEO6Jy1PUvUdTBcVvX4yl+3uCkF1Ezxf8/1Br4s+fGR5qx99auPWo2rMNu5okbgto9AjLXjKptm/77Olk2YVZbtg0FWagPoDIoQbX2VyX3X5bf2N8tryDZgVfhOIlEz9rGQ25yI6Ex61NceCU7Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=61qMzP9iVslx33iMVTuXK1dCaibDXpSbQ7jDxA1/7mY=;
- b=s0ZPmlhejf4vy6J0EAWSDk0c1T0vN0EFCcyA2JDn1+AZfqjmH1H6rgNcQ9MBdMhCcPAMkGMQtqzVCZTMcjsRHH9sihUsia9SIoVpmSpxABVAb6j2W680+huAdQ7RqyFMTqwiC3CiKHDmAHTj87E6xm1AiQDXiN6PLi9JFibUeds=
+ bh=/PepK+BsQUF6r8qf+uEI10/9bKiD3KRxnKY3e13OXcs=;
+ b=KDs7Da1NsXIbi6N7UyceZ2seTu2UIubjas2T7fJhPzxf8svE8PutX/PZ/i0ZgeMPQaF2Jej011Jqbkvy9SCWOxcakdeicwY0P4dePsw0fLbVJp5P7rhhC/V4EVOkibg8IDLllq1RVE/7oGHtYnJVMk3R4WtUemBMaamgutxO/s8=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by PH7PR12MB7916.namprd12.prod.outlook.com (2603:10b6:510:26a::18)
+ by MN2PR12MB4333.namprd12.prod.outlook.com (2603:10b6:208:1d3::23)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.16; Fri, 20 Sep
- 2024 09:57:42 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.23; Fri, 20 Sep
+ 2024 10:07:41 +0000
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::46fb:96f2:7667:7ca5%2]) with mapi id 15.20.7982.012; Fri, 20 Sep 2024
- 09:57:42 +0000
-Message-ID: <15a36075-2800-4274-a404-402ceafde5a0@amd.com>
-Date: Fri, 20 Sep 2024 11:57:34 +0200
+ 10:07:41 +0000
+Message-ID: <376713b2-6703-4fd2-b99f-cc67de4f267e@amd.com>
+Date: Fri, 20 Sep 2024 12:07:34 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] PCI: Add support for VF Resizable Bar extended cap
+Subject: Re: [PATCH v2 2/3] PCI: Allow extending VF BAR within original
+ resource boundary
 To: =?UTF-8?Q?Micha=C5=82_Winiarski?= <michal.winiarski@intel.com>,
  linux-pci@vger.kernel.org, intel-xe@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
@@ -59,101 +60,103 @@ Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Matt Roper <matthew.d.roper@intel.com>
 References: <20240919223557.1897608-1-michal.winiarski@intel.com>
- <20240919223557.1897608-2-michal.winiarski@intel.com>
+ <20240919223557.1897608-3-michal.winiarski@intel.com>
 Content-Language: en-US
 From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20240919223557.1897608-2-michal.winiarski@intel.com>
+In-Reply-To: <20240919223557.1897608-3-michal.winiarski@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR3P281CA0017.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:1d::20) To PH7PR12MB5685.namprd12.prod.outlook.com
+X-ClientProxiedBy: FR0P281CA0001.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:15::6) To PH7PR12MB5685.namprd12.prod.outlook.com
  (2603:10b6:510:13c::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH7PR12MB7916:EE_
-X-MS-Office365-Filtering-Correlation-Id: d2257a16-cbf8-4bc9-c2ae-08dcd95aaade
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MN2PR12MB4333:EE_
+X-MS-Office365-Filtering-Correlation-Id: b7073752-a6c8-418d-8922-08dcd95c100f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?S0ZmOVdhUGZiQXRRWm9obFhLSEtJVWZDQWhXVU1MRHlHa1hpNUl0a3FXWTNr?=
- =?utf-8?B?SU5LRUZwOGR5QjJZczlYZ2RxMXN0dS93U0lSZmxhVXV4elRQc3BRUnVxZE11?=
- =?utf-8?B?NkJPclpsNUs1NDRWTkJGdnBVOUZBcjFqdmZFYTJUejV4QWw0MmYrNWd5YUhl?=
- =?utf-8?B?TC9pWmpaSlpIUDZNQWpzbW43T1plS2VkaXZqWE5IeEJ2cnU3SGQ2N3UyTFhD?=
- =?utf-8?B?S2FhblFYd0tsWC9MU0NEQTh6MHN2NUl4b3lsZGhsNE5Qc0xFVy9HMEJJRnQw?=
- =?utf-8?B?NkNON3gveVN4aUt0VStncnE1ZXhianRBUkpFR1drbUlHZzhRQTlQNjVnQkNk?=
- =?utf-8?B?L1J6aTEzbDlkTjJuKzN0Z0N4bzVDQ3Y2T2NBUHprd0srNzdZaDhRazN3SlBo?=
- =?utf-8?B?Y0Zzbi9kaWRNNEwyMk1YM0JqR1dBSVlOdDMvTld3WGNnMGZ4TXZVTVRBVHIx?=
- =?utf-8?B?TzQ4NlpoUkdLckNkVE9hZ3BtY2Z3ZXNFWUNrWWJlU0ZON2JGVnpuWDdlR2Vj?=
- =?utf-8?B?SXQxTFBKWm5zOUdJblNWMW51NWZQOXJWTGlMRkJPOXUvemdFS1JvSjYzakxt?=
- =?utf-8?B?ajV3T3RMdVJnOU5ES09nY3Z2T2dETWJ5RlpyR1pPRkpHZlh0emh1bVQzc25J?=
- =?utf-8?B?Q3FwMTBvckhVTDV4aG9ldWE3Z3hsU0ZUdkJMNGJLdCtDdDNlakN3MDZMNnB3?=
- =?utf-8?B?TTJLY2hScnJUOHF4ekpsb3hNaDUwZ1RyRnpqelorNGptTVVZWm83a0FuL3Ro?=
- =?utf-8?B?dS83QjRGeVp1R3RBRVozNHNTczljaVdyeDhUR1I0NjJkV1NiZlBQbE5SSmF3?=
- =?utf-8?B?UEdvQkt1QzdtU3pVQ09CZlVuY2Q1NC8vcjY4R1c3NStsMVJTTU1TYjZ3NFJT?=
- =?utf-8?B?NE5jZ2NRSGs2NENneWh4S0JOTkx3a3p1bGdrK1JGZ3RnNHVKaWNhVEtEOTNC?=
- =?utf-8?B?V2VpN3c2TFFGSDI4dnJ0K2QwNWwzQm5ZZmJVcVRhajJSYTFmSDd0Sm81K0lx?=
- =?utf-8?B?QWhrZG1jZjBtVWRRR0JqUHFoMlIyNUZYTXQxSFFhVEd4Q21ibG9aZlEwZlVL?=
- =?utf-8?B?VnF2d3ZiK2k1SUFuTlpzZXJKZkFjRXN5dy9ob2lLc0VtZHczUGVSOHZETHdY?=
- =?utf-8?B?a3dPaDR1MGNiTlVwTjVxSVY0ekJTZE9rMW43TExqSXpzUThLZ0dwT25yMkxX?=
- =?utf-8?B?bDJqZmNQRUJkTlFnQm4rSmVSQlVjTTMxMXR3ckNtY3RpM3JQdUVVcUtiaUNX?=
- =?utf-8?B?aTFKK2JxL2toaUVXRzhqMGU1UmQyVTZqWDRCUTAzZFBzUG9mbzc4Q1NIYVMw?=
- =?utf-8?B?OEsrOFJuMGhWWkVkWjBvcHY2VkFrczl5eWJjdlN4dTJjQ1lBRU1RZ2xBKzFF?=
- =?utf-8?B?WHROR3o2ZXdQTFNGWXlvU2syMnpLZEZpZTlBeVFzRVJsNHZMTU1Eb0NFcEt0?=
- =?utf-8?B?MDdWZjJTWkJxcnNFTGhjVHRCVERaamRWZVNEbzZxdUVaSThBZkR6M1RGYWx3?=
- =?utf-8?B?RWFZZlM2SVJ0RE5nVlpuSFI4ZCsyeW9kaXFVMTM5TjBlZElyeEtYbWwwakNV?=
- =?utf-8?B?Q1JMMk1LZXh0dEpFekx4VlgrZDhZTVY5ejhZMmtBZmxaNHQ4TE15dXVNb21S?=
- =?utf-8?B?TG9sMi92dFVOc0plcnkvdHVFNlEvY1REYTlkdFNTTXRvZ1Fmc2FVVmxSMVhX?=
- =?utf-8?B?cm1JZnZLQUs5Rzh1VWs2SVNHUitrK3E5NnBVRnVES2FDNTBaaytlS3NRPT0=?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?VkttSlVEakZoTzdrTGlWQlJhS29mR0J5MS9kM0ZZVkxONktSUVZDK3A5NWU4?=
+ =?utf-8?B?ckxqNjJlTXcycEFYenJUYnhhMTV0TGNrNk9FKzVOZk0veThKcDZCQlN5TWpz?=
+ =?utf-8?B?MTkvZXNpNXA1NlBKL200bFVVdW1ST2tzdXc1TGZ2QjM4K09jeVhBZFNadkkr?=
+ =?utf-8?B?cGVheklTaGJWQ3lrNEVMVTFZb2RJNnNiZzBxTGRQU2Y2MjRVTHoxTXFiTHZK?=
+ =?utf-8?B?cnlhNXFOTVZpVHVaeCt1VjBoT0o5UVNHRkRPUFlGMFBGRUJ2Mk1oZ0ZZd0tK?=
+ =?utf-8?B?RkVBbHQySWxnU3A3b0tRbEE2VU45MFlsUmFicjRvcGdsaEs1eUZtVVptb3NZ?=
+ =?utf-8?B?NG9VWXFQMUxUNk0yUmxqTXQyYU91TFptUDluQnBmVysvcjgyNzdQbUVjWnd1?=
+ =?utf-8?B?TTZ4U0E2enI0a0JHcHBHSXdwWXdyNms1MFFxWGtmenJvY3JrSzJOWjRuRU9P?=
+ =?utf-8?B?RHREZ3l1a3ZmZ2k0Vm1wRDl4ZGt4aDI1ZlNjMzBUUlJ3Zm1wNUgxUXhFNlp0?=
+ =?utf-8?B?QUlOQ2o2cjZ2SkJvUWs0bnNnbW5XZGhiSkRrcERza2dEOS9sVXIwTlA5N3VK?=
+ =?utf-8?B?dWdTaHB0SmVaOFAxZzltUUhBUHNZWUdHLzdPUlJGRkNJaExSTkNsY2EvN3dR?=
+ =?utf-8?B?SUxmV29BNG5sMlZjZGNJTTk2N0NIdVZ3KzN4Q1I4RWQ0ZitGTGZ3NzB6dUx1?=
+ =?utf-8?B?emdES1lIK1V6SEp0QUh2UUdJdC9KdXRMYm5oRGhsM2NzWERMU240a1BmOGVS?=
+ =?utf-8?B?QzBZSTdUT3hlQzYwdmJtMHdmK1lGbmp1eVo5dDBZS082YWsydVFzcFlqd2dO?=
+ =?utf-8?B?bDlORU85VXlhME43bkZTZ3JHczB5SjdIdzU0VUU3NTJVUzZYUFRzZElDWkty?=
+ =?utf-8?B?ajdUb3E0bjJOb0FtQkJ1K3hLQlZNdEx2dk83UHdncWk4OWg3VWlGdTZkR3FH?=
+ =?utf-8?B?aHdmekhVNjdFb2FCa3ZGbHhnV05QNXJUbysyWExPSTVXVjBrQ0ZmU2V0Qmp6?=
+ =?utf-8?B?UUg2L2puc0ZkQ3pMY01OV2RvYTZtWTRLMDBqZzk4VjltR2xvdFNVSDNxL1M3?=
+ =?utf-8?B?a0wxRmoxdFhiZUJQdzU0ODRpakh5Tm8wczNVRFNlRlhnd2xwbE5BS2NqWnll?=
+ =?utf-8?B?YWhxbnlZMm9jVjBEWGV3clk4NWtCd1BDelpmZHRqZGdiTXpkOU10NndDNGdE?=
+ =?utf-8?B?NHVSQitZcVdiRDl5RERaRmIrVSswbzRsanE3OTA2TWt4SERWTlkyL2xZSkQx?=
+ =?utf-8?B?eUQyS0RRNU81cXVSMk9TU01UOEVWMHUvUHdZU0Jac2psOTcwUzBYWUVyVjRM?=
+ =?utf-8?B?b3NNQTRkUytjb05LVnd0R0s1VFpKdFlXMjhwdEQrZEkvempTamN1dGxJWFRW?=
+ =?utf-8?B?OUtkd3V5M3YzbThaWTJEcFpKYjBJV2p0V0ljazJydDB0eEx3NHpEbkZFcFgr?=
+ =?utf-8?B?UHBGZzdoQ3IxNWRUTjdYVkpmYUdGdEJtTldhME8vQy9IdllVSjF5Z1VWdHRH?=
+ =?utf-8?B?bkt4K2FpejBiYkRISWVWb0lUT0h1czJqYUNUS1k3K211c0ZrMW5GT3haa3hz?=
+ =?utf-8?B?c0lpaGxIYjlQbERjUDhiaU00S2JYKzJNd21na2J5bVROQmlyNVJOYkw0UDFq?=
+ =?utf-8?B?TXNQazY4SEFrd2poZCtNSkJ0dHdEOUkwa1RuaXg3VEcwYURjaWtTbHVZOVky?=
+ =?utf-8?B?dVR6OHZpQXA2RE13UnNKaHlxM3VGQnVYYUNSbFZtM0lUR2M1dkNTSGN4a3k4?=
+ =?utf-8?B?STBkeTc1a2pzakNFYnRhYzQ1Z3VLaG1hYlh0TE1JMTRIaUd4aUNtZTRHQURG?=
+ =?utf-8?B?VWoxd1QzZ1QxUmZkY3VIdz09?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+ SFS:(13230040)(366016)(7416014)(376014)(1800799024); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MGp5MGR3cFdoTytmZFRVRHRBc2VWVlpjckl1amwvbHptQk5FVER1UUI3NGFt?=
- =?utf-8?B?WFpDWVFBcUFUZWM0WU9SR2VjbDBlRVgxSklJVEJ1MUNXajlMVCtiUFU5YnJT?=
- =?utf-8?B?dE84bzdSTjg0b0xxeUxrNTQyMmNZY3FSbXMvK09FR0oxK1RIUjFEN3JIZC9Y?=
- =?utf-8?B?SnpRdjBHckd1bVU0QzQyaEcyY0xRWW9PeG05RW1scEltcWJBUkJJSVhuSDU1?=
- =?utf-8?B?RFhpek8za3F3WGx5aWc5cmp1dWJJelJHUHNVSW9aSXFETnR0M1ZYRWM3cWY2?=
- =?utf-8?B?M0dFckFEM2l0RnpkTnpHSFZOMU9Nb0tpSHlxYi9QcFR1Z3YyTnNPbFJxdCtn?=
- =?utf-8?B?ZlhaV2NlL2U3UEJwNk9BS3pWMkJMNlVNVjhVVFRhN1JRZWM2aUJHdERSd3FG?=
- =?utf-8?B?MVUvOFFnaXMwZGE1cEk2VlFoMWVaOFhYRFoyME9zYVJ4NklDM0c0N1lZMU4w?=
- =?utf-8?B?M0xidEpYamZLM1BUMXRpZmhNWEpENDIxZThrRGRwSmxsa2JNY05rbnNOZ0RH?=
- =?utf-8?B?aTBLa2wvdkVYZi90WklqWXlyRXRFNkxGaEJnVUY0eWhmQjgvWTJYeE0xdHky?=
- =?utf-8?B?ZFRHZGR2V29NWHhzOEVMTEM4Z0ZBOUtzZFZ4cDJOUmgzYzBJdURJVzE5Ulp2?=
- =?utf-8?B?MG9vaERMR29aZklwL1ZENTVwTFpHdis0MnJTQUVKdnpLOTQxVTg3ZzhMb0FV?=
- =?utf-8?B?RTdTYkMzaGFSbjhXbTBOVFd5YkJoNUNqSGNTaFAxclBaTThZZ0JsSlNOODRz?=
- =?utf-8?B?TkRFY3QxN2VQQXQwR3hUaEZYSFUzYmFlcVVLOVY0dG5SQm5ZeWQ0RE54TVNW?=
- =?utf-8?B?ZStHMHkvdktIY25ZSmFZYUpzMkNKc3lFQTQ1Wi9sU3Y2cVM1bGNyRG01UlNC?=
- =?utf-8?B?WUZmaWsxNmIyNGVFQjRFQzErbW1yMGl4dXlCRFpkakJvdmZNMHhEU2t6cW84?=
- =?utf-8?B?NllWK1ZOTmFXVld6b1V4UUhWTTBESTJVTU1NQXBaVDdsVWFiS1ltb21Rd1Ba?=
- =?utf-8?B?MzkxQ0c0Sm5aZnQxS21SbTE0VmV0VUFaQzlkOUF3N20rRmp3WCs2OXpJYloz?=
- =?utf-8?B?U001TzVsaVV5cE9jRXQ4bE1RTVhlUjh6ajFWWE1xZnNSSDg5QUx1QnFIQ2Vl?=
- =?utf-8?B?Ky9hVWZNSXE2MkkvOFFkc3I1UHZVZjRxNm1hejVabHMrdGlaQWlxUG1FUHE3?=
- =?utf-8?B?RitINW81NnB1cUIzRDhOUDFLVUFvWlg3YXBVSW5LazVlSmhmZTNaZnBQRFBX?=
- =?utf-8?B?MW9pMStqRkt5TUdjbURNR2I4ZUtKRENUbHNJMEcwc0xKLy9QeHRDMlhUeVlK?=
- =?utf-8?B?cG9QcWhzK21sdGpLTU9MZ2xlUGFMWG1qTnVqQU05clQyeXpZSG9rVEV1MC9D?=
- =?utf-8?B?Y00wQk05ekdaaCtQbWthMitoY3M3QXBEU0xUdGVsNVNCOUc1VGJZelhiK3l6?=
- =?utf-8?B?STlhVnp0RkpPMDhoeHdYdEJkUm8raHZybyt0VjRVQVhESm5CRnZtSlR3WW1q?=
- =?utf-8?B?ZVdNcjdrbGwvMGtWWmttQkJ0aGltY2lldG43RU0rbldzVFI1WDBlbnVVL3da?=
- =?utf-8?B?ekNScHVudUphNWVYUk1hWlBmWDBmTXg4SjRYbjdlaisxZjVrRG9DVGFJMHpV?=
- =?utf-8?B?Vi9ReUc1dTVTakQ5RysvNnQrYVRPT01VcnN3dG03eUNHdldOaStDZ1IzSThn?=
- =?utf-8?B?b1hzeVA3WUpjaVYxTkZiRUh2VXYyakhWbi8zNm9tRFd3MmU5d2JQMnlDaDBH?=
- =?utf-8?B?TDFqWEowNENxZWIxWlZVeTkxbDVCZlBWZXBrNmtpVk1HOXMwamZHMExSSzh1?=
- =?utf-8?B?RXMwYU1qRDVETi9OYnBTbkVnR0pocEpidmVoSTVSalpRaWVqZFEvYVVTbmpz?=
- =?utf-8?B?NWdsdDY0YVBnZUtOclBqeWVIbGJ5dUJmMFFUeUxjaXRQcG4va0xweHhqZDNy?=
- =?utf-8?B?cjd4WUtWOHhBWDRCYkxQSHlRVkl0Yi9RN3NjU2lWdThOc05USWdPd0Mwelht?=
- =?utf-8?B?d05SeFVxUjc0ZVNOSnFaSU0rWERkbktReDBtT3Y1cjM0azMyQjN3ZlBURmFy?=
- =?utf-8?B?TTdJU3RRT3g5bW94bHhPTEVESkc4V3N2RDVSd0Y5dTNJa1dNUVZkNVFUaDYx?=
- =?utf-8?Q?UYg4=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Y0ZrbnlPa0ZsSm1OVmxudEJJVzM5UE1oYlB0Y3lUdHJ5cUFjT0VSaENOMzdr?=
+ =?utf-8?B?MnpYSlVXOHVUMXZuMHo2bXVVMFl0TVBTbU5aeUp3QmlIZERUL3lmU3BKSTEx?=
+ =?utf-8?B?eEJwUGJJUkI2TlBlZTMyejZPaVFqNjdSd25RYktOdWVSK2N0cnpUejVIZG04?=
+ =?utf-8?B?eWNRaGIvTkt4ZGNIOHpWRktoUjhaTGZYTlRDN0Fka203K0JLRGQzY21oSU5o?=
+ =?utf-8?B?dzR1M1Fzb1c4a0pRNURDZm5kNWNHS1dmTm9vS3BuTkJZY1RHeUJiK0JDOXFP?=
+ =?utf-8?B?cEZCZXpHMUVBQm9qYnlmV0JpQ3VEM0JxL3hCSzZSYmZ2S0xrc21LbXFxMHVD?=
+ =?utf-8?B?dTJTVExDVjBvcDA5MUdERzF3MEFKMWpqeElCQWtJcHJteVJBMjNuNlFvbTJP?=
+ =?utf-8?B?QjdCY1JWd2plVEY2aTdNeUFoaWI5b0hvaWFjUHpoREtlVHBsVWZGSElqb0x4?=
+ =?utf-8?B?ZlhPWGcrd0dzR1YyTGlmdExIVDgxMUI2aVVrMktxZXBOMnd1R3E1aXU0Q3Vs?=
+ =?utf-8?B?eEozSGhuQWoybGEzNnlFc09DTUFzV0tZQTNMUWFtTEJFa1Ftck94Tm0xVVU4?=
+ =?utf-8?B?YWlGQ3VoaWRRQjB6VkZvUkZJZ25qSVhwNUVBcThscDFoQk4xUUFTRU1sSlhp?=
+ =?utf-8?B?M1d5SzljbFdacHJPSGlKd3huMXpoOGxMNFZEOGRkellKZ3piYXJzSnRkZ2FO?=
+ =?utf-8?B?aG9BRVpLTEVYbzAyUU9GTlI4QjlGWHZ0S0RiNlBNQ29pRFUwZEJXREQ1eGo5?=
+ =?utf-8?B?azRNdW1rVEFudnBXSzFSNmh2QUg1c0RNL21JSUZSbDh0bWJvREJydjJqRmFl?=
+ =?utf-8?B?Wm9GaTZkZVVSY2FtcE83aGNkL2ZreWluSEIzRUQ3aUpQL04zTy81WmxXRXZZ?=
+ =?utf-8?B?WXBFQlkrR1F1WjlEN25lR01YWVNjMTRFVjkrYjlyTkJldEI1MUVkaTlwNXkr?=
+ =?utf-8?B?aWpSNUVVM0ZDNnNtYmoyQll0NlFBWWJoaDhJM2VySUloM3krOUJRQmRZRk9v?=
+ =?utf-8?B?K29HZ1pmZTZsZlVRc2svMmJ0eGUxaFc1dDljdlh3SkVYYVQvazNlRzVTeHJW?=
+ =?utf-8?B?b1hwNFpGMW5LSDBtbzdyUEo0ak5sZks4Q2tROTRFUUxaT296b0EvaEREY3dL?=
+ =?utf-8?B?eDZ5YVljcnZ1bnB4MGMyZGNZUHFVZUp4eDRmSVppSUZLaWtHZXRrS2d6TnZ4?=
+ =?utf-8?B?aWYvdkNKRlhQS2daSlRPazlCWk1vYlpZd1hsMjhPQ3lWNkhzUDR4UUtuK0ts?=
+ =?utf-8?B?VmU1MEhDeVVUZlNRc3BSZTJDd29mMEFUbkV4NnNPaEF2aVc3K2xDVllBSWxQ?=
+ =?utf-8?B?NnVQNnJ5RWhvSnl3dVhxNGdMblNKb0lOZXZPdk9CbGpWaUVIOExtQ2ZlZWo3?=
+ =?utf-8?B?OEdLVjJuZER3NDNCdWpFSi9IN0pVbUVUSjhaL0JjWEJFZituNHRGOUVQS05o?=
+ =?utf-8?B?ZUt3MlBiQzhod1BROHljTmZldFBaeG0rOVcrdVc4M2U0YzVQUmx3ckRoTHJz?=
+ =?utf-8?B?SWdxaWJhT3JmcTlJL051L3FsY3JLblJ0UlMzcGVmVVQzUk05c2liV2lPOGxq?=
+ =?utf-8?B?aE1vL21JNDJrb0lUQ3piVEFyaWRsR0trWDVjSHh3cXFxbDlZQllMSVEvakND?=
+ =?utf-8?B?OCtzQjR2YzlST2dCOGxmWnMzTDl5TGg3VDM0S0doMUh0YXI3WXJoQlV6Nk9S?=
+ =?utf-8?B?OEF1MitzK0NwSSt3b2hhUXd2YnhOT1ZudGt6eEs0VDNnQWZUZHpVK2pDMmxo?=
+ =?utf-8?B?ajBWaHl5YTAyamV4Q1hmRnBOZ0dDck9XMUVJNmZzdjA1c3lqRXorcHZrWEp0?=
+ =?utf-8?B?dHRzdnVRQkRQZnN1WitXNDNEUmVBMzF6ZU5kWm1JOU9YNUN3VGpMSFRBNGNU?=
+ =?utf-8?B?dGYybzRaMVlRU3VkSExNQ3ovb2RsZTRqRkZwb0tuL1NwUE1GVXhoeFpDU3RS?=
+ =?utf-8?B?RnRBcUxleEpYQjh5QzFta3lzekVhVGdGZm1ld1RrWDBiZml1RVk2ZHpUZU8z?=
+ =?utf-8?B?RHVVeXFLbzZSbmhBeVJtOFpLeXFrcG1tRXZVdFcySEhDeGIyUHJhMk5wZUg1?=
+ =?utf-8?B?MnI3anZrTEZ3NjFJS0t6RmRTbTE3VnI3M29oeWpORVQ1VHh1M0djaGhkYXRq?=
+ =?utf-8?Q?pVW4=3D?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d2257a16-cbf8-4bc9-c2ae-08dcd95aaade
+X-MS-Exchange-CrossTenant-Network-Message-Id: b7073752-a6c8-418d-8922-08dcd95c100f
 X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Sep 2024 09:57:41.9344 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Sep 2024 10:07:41.2005 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kNLPfDc20R3drrfv0jE6Zvru/Mj+YDgJO4LWurgP5KNi5Fe3Y0hEcDh4sGhxP1O7
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7916
+X-MS-Exchange-CrossTenant-UserPrincipalName: GpgGCuY1F1FVkf5UrQz+SBIJhmriMXmdjsO5nV3jnE5SyyxuxcRe6tsriePk9EPn
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4333
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -170,284 +173,194 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Am 20.09.24 um 00:35 schrieb Michał Winiarski:
-> Similar to regular resizable BAR, VF BAR can also be resized.
-> The structures are very similar, which means we can reuse most of the
-> implementation. See PCIe r4.0, sec 9.3.7.4.
+> VF MMIO resource reservation, either created by system firmware and
+> inherited by Linux PCI subsystem or created by the subsystem itself,
+> contains enough space to fit the BAR of all SR-IOV Virtual Functions
+> that can potentially be created (total VFs supported by the device).
+> This can be leveraged when the device is exposing lower than optimal BAR
+> size as a default, allowing access to the entire resource when lower
+> number of VFs are created.
+> It is achieved by dynamically resizing the BAR to largest possible value
+> that allows to fit all newly created VFs within the original resource
+> boundary.
 >
 > Signed-off-by: Michał Winiarski <michal.winiarski@intel.com>
 > ---
->   drivers/pci/iov.c             | 28 ++++++++++++++++++++++
->   drivers/pci/pci.c             | 40 ++++++++++++++++++++++++++++++-
->   drivers/pci/pci.h             | 14 ++++++++++-
->   drivers/pci/setup-res.c       | 44 ++++++++++++++++++++++++++++++-----
->   include/uapi/linux/pci_regs.h |  1 +
->   5 files changed, 119 insertions(+), 8 deletions(-)
+>   drivers/pci/iov.c   | 92 ++++++++++++++++++++++++++++++++++++++++++++-
+>   drivers/pci/pci.h   |  1 +
+>   include/linux/pci.h |  3 ++
+>   3 files changed, 95 insertions(+), 1 deletion(-)
 >
 > diff --git a/drivers/pci/iov.c b/drivers/pci/iov.c
-> index aaa33e8dc4c97..e8ccd2ae0f024 100644
+> index e8ccd2ae0f024..d88efbfa70e42 100644
 > --- a/drivers/pci/iov.c
 > +++ b/drivers/pci/iov.c
-> @@ -153,6 +153,34 @@ resource_size_t pci_iov_resource_size(struct pci_dev *dev, int resno)
->   	return dev->sriov->barsz[resno - PCI_IOV_RESOURCES];
+> @@ -181,6 +181,86 @@ bool pci_iov_memory_decoding_enabled(struct pci_dev *dev)
+>   	return cmd & PCI_SRIOV_CTRL_MSE;
 >   }
 >   
-> +bool pci_resource_is_iov(struct pci_dev *dev, int resno)
+> +static void pci_iov_resource_do_extend(struct pci_dev *dev, int resno, u16 num_vfs)
 > +{
-> +	if (resno >= PCI_IOV_RESOURCES && resno <= PCI_IOV_RESOURCE_END)
-> +		return true;
+> +	resource_size_t size;
+> +	int ret, old, i;
+> +	u32 sizes;
 > +
-> +	return false;
+> +	pci_config_pm_runtime_get(dev);
+> +
+> +	if (pci_iov_memory_decoding_enabled(dev)) {
+> +		ret = -EBUSY;
+> +		goto err;
+> +	}
+> +
+> +	sizes = pci_rebar_get_possible_sizes(dev, resno);
+> +	if (!sizes) {
+> +		ret = -ENOTSUPP;
+> +		goto err;
+> +	}
+> +
+> +	old = pci_rebar_get_current_size(dev, resno);
+> +	if (old < 0) {
+> +		ret = old;
+> +		goto err;
+> +	}
+> +
+> +	while (sizes > 0) {
+> +		i = __fls(sizes);
+> +		size = pci_rebar_size_to_bytes(i);
+> +		if (size * num_vfs <= pci_resource_len(dev, resno)) {
+> +			if (i != old) {
+> +				ret = pci_rebar_set_size(dev, resno, size);
+> +				if (ret)
+> +					goto err;
+> +
+> +				pci_iov_resource_set_size(dev, resno, size);
+> +				pci_iov_update_resource(dev, resno);
+> +			}
+> +			break;
+> +		}
+> +		sizes &= ~BIT(i);
+> +	}
+> +
+> +	pci_config_pm_runtime_put(dev);
+> +
+> +	return;
+> +
+> +err:
+> +	dev_WARN(&dev->dev, "Failed to extend %s: %d\n",
+> +		 pci_resource_name(dev, resno), ret);
+> +
+> +	pci_config_pm_runtime_put(dev);
 > +}
-
-When you want to generalize that check you should probably but it in a 
-header and change the existing checks in pci.h and setup-res.c as well. 
-Otherwise I don't really see the value in having a separate function.
-
-Additional to that please code that something like "return resno >=...." 
-the extra if just increases the number of lines without adding any value.
-
 > +
-> +void pci_iov_resource_set_size(struct pci_dev *dev, int resno, resource_size_t size)
+> +static void pci_iov_resource_do_restore(struct pci_dev *dev, int resno)
+> +{
+> +	if (dev->sriov->rebar_extend[resno - PCI_IOV_RESOURCES])
+> +		pci_iov_resource_do_extend(dev, resno, dev->sriov->total_VFs);
+> +}
+> +
+> +int pci_iov_resource_extend(struct pci_dev *dev, int resno, bool enable)
 > +{
 > +	if (!pci_resource_is_iov(dev, resno)) {
 > +		dev_WARN(&dev->dev, "%s is not an IOV resource\n",
 > +			 pci_resource_name(dev, resno));
-> +		return;
+> +
+> +		return -ENODEV;
 > +	}
 > +
-> +	dev->sriov->barsz[resno - PCI_IOV_RESOURCES] = size;
+> +	if (!pci_rebar_get_possible_sizes(dev, resno))
+> +		return -ENOTSUPP;
+> +
+> +	if (!enable)
+> +		pci_iov_resource_do_restore(dev, resno);
+> +
+> +	dev->sriov->rebar_extend[resno - PCI_IOV_RESOURCES] = enable;
+> +
+> +	return 0;
 > +}
-> +
-> +bool pci_iov_memory_decoding_enabled(struct pci_dev *dev)
-> +{
-> +	u16 cmd;
-> +
-> +	pci_read_config_word(dev, dev->sriov->pos + PCI_SRIOV_CTRL, &cmd);
-> +
-> +	return cmd & PCI_SRIOV_CTRL_MSE;
-> +}
+> +EXPORT_SYMBOL_GPL(pci_iov_resource_extend);
 > +
 >   static void pci_read_vf_config_common(struct pci_dev *virtfn)
 >   {
 >   	struct pci_dev *physfn = virtfn->physfn;
-> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-> index ffaaca0978cbc..d4522e365e7ba 100644
-> --- a/drivers/pci/pci.c
-> +++ b/drivers/pci/pci.c
-> @@ -1901,6 +1901,35 @@ static void pci_restore_rebar_state(struct pci_dev *pdev)
+> @@ -445,7 +525,7 @@ static ssize_t sriov_numvfs_store(struct device *dev,
+>   				  const char *buf, size_t count)
+>   {
+>   	struct pci_dev *pdev = to_pci_dev(dev);
+> -	int ret = 0;
+> +	int i, ret = 0;
+>   	u16 num_vfs;
+>   
+>   	if (kstrtou16(buf, 0, &num_vfs) < 0)
+> @@ -487,6 +567,11 @@ static ssize_t sriov_numvfs_store(struct device *dev,
+>   		goto exit;
 >   	}
->   }
 >   
-> +static void pci_restore_vf_rebar_state(struct pci_dev *pdev)
-> +{
-> +	unsigned int pos, nbars, i;
-> +	u32 ctrl;
-> +
-> +	if (!pdev->is_physfn)
-> +		return;
-> +
-> +	pos = pci_find_ext_capability(pdev, PCI_EXT_CAP_ID_VF_REBAR);
-> +	if (!pos)
-> +		return;
-> +
-> +	pci_read_config_dword(pdev, pos + PCI_REBAR_CTRL, &ctrl);
-> +	nbars = FIELD_GET(PCI_REBAR_CTRL_NBAR_MASK, ctrl);
-> +
-> +	for (i = 0; i < nbars; i++, pos += 8) {
-> +		struct resource *res;
-> +		int bar_idx, size;
-> +
-> +		pci_read_config_dword(pdev, pos + PCI_REBAR_CTRL, &ctrl);
-> +		bar_idx = ctrl & PCI_REBAR_CTRL_BAR_IDX;
-> +		res = pdev->resource + bar_idx;
-
-The variable res seems to be unused.
-
-In general I think you should split up the patch into restoring the VF 
-rebar state on resume and implementing the new resize API.
-
-> +		size = pci_rebar_bytes_to_size(pdev->sriov->barsz[bar_idx]);
-> +		ctrl &= ~PCI_REBAR_CTRL_BAR_SIZE;
-> +		ctrl |= FIELD_PREP(PCI_REBAR_CTRL_BAR_SIZE, size);
-> +		pci_write_config_dword(pdev, pos + PCI_REBAR_CTRL, ctrl);
+> +	for (i = 0; i < PCI_SRIOV_NUM_BARS; i++) {
+> +		if (pdev->sriov->rebar_extend[i])
+> +			pci_iov_resource_do_extend(pdev, i + PCI_IOV_RESOURCES, num_vfs);
 > +	}
-> +}
 > +
->   /**
->    * pci_restore_state - Restore the saved state of a PCI device
->    * @dev: PCI device that we're dealing with
-> @@ -1916,6 +1945,7 @@ void pci_restore_state(struct pci_dev *dev)
->   	pci_restore_ats_state(dev);
->   	pci_restore_vc_state(dev);
->   	pci_restore_rebar_state(dev);
-> +	pci_restore_vf_rebar_state(dev);
->   	pci_restore_dpc_state(dev);
->   	pci_restore_ptm_state(dev);
->   
-> @@ -3703,10 +3733,18 @@ void pci_acs_init(struct pci_dev *dev)
->    */
->   static int pci_rebar_find_pos(struct pci_dev *pdev, int bar)
->   {
-> +	int cap = PCI_EXT_CAP_ID_REBAR;
->   	unsigned int pos, nbars, i;
->   	u32 ctrl;
->   
-> -	pos = pci_find_ext_capability(pdev, PCI_EXT_CAP_ID_REBAR);
-> +#ifdef CONFIG_PCI_IOV
-> +	if (pci_resource_is_iov(pdev, bar)) {
-> +		cap = PCI_EXT_CAP_ID_VF_REBAR;
-> +		bar -= PCI_IOV_RESOURCES;
-> +	}
-> +#endif
-> +
-> +	pos = pci_find_ext_capability(pdev, cap);
->   	if (!pos)
->   		return -ENOTSUPP;
->   
-> diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
-> index 79c8398f39384..e763b3fd4c7a2 100644
-> --- a/drivers/pci/pci.h
-> +++ b/drivers/pci/pci.h
-> @@ -556,6 +556,9 @@ void pci_restore_iov_state(struct pci_dev *dev);
->   int pci_iov_bus_range(struct pci_bus *bus);
->   extern const struct attribute_group sriov_pf_dev_attr_group;
->   extern const struct attribute_group sriov_vf_dev_attr_group;
-> +bool pci_resource_is_iov(struct pci_dev *dev, int resno);
-> +bool pci_iov_memory_decoding_enabled(struct pci_dev *dev);
-> +void pci_iov_resource_set_size(struct pci_dev *dev, int resno, resource_size_t size);
->   #else
->   static inline int pci_iov_init(struct pci_dev *dev)
->   {
-> @@ -568,7 +571,16 @@ static inline int pci_iov_bus_range(struct pci_bus *bus)
->   {
->   	return 0;
->   }
-> -
-> +static inline bool pci_iov_memory_decoding_enabled(struct pci_dev *dev)
-> +{
-> +	return false;
-> +}
-> +static inline bool pci_resource_is_iov(struct pci_dev *dev, int resno)
-> +{
-> +	return false;
-> +}
-> +static inline void pci_iov_resource_set_size(struct pci_dev *dev, int resno,
-> +					     resource_size_t size) { }
->   #endif /* CONFIG_PCI_IOV */
->   
->   #ifdef CONFIG_PCIE_PTM
-> diff --git a/drivers/pci/setup-res.c b/drivers/pci/setup-res.c
-> index c6d933ddfd464..87a952a114f38 100644
-> --- a/drivers/pci/setup-res.c
-> +++ b/drivers/pci/setup-res.c
-> @@ -427,13 +427,44 @@ void pci_release_resource(struct pci_dev *dev, int resno)
->   }
->   EXPORT_SYMBOL(pci_release_resource);
->   
-> +static bool pci_memory_decoding_enabled(struct pci_dev *dev)
-> +{
 
-I don't really see the value in making it a separate function, just keep 
-the check inside the only caller.
+That sounds like a really bad idea to me.
 
-> +	u16 cmd;
-> +
-> +	pci_read_config_word(dev, PCI_COMMAND, &cmd);
-> +
-> +	return cmd & PCI_COMMAND_MEMORY;
-> +}
-> +
-> +static int pci_resize_check_memory_decoding(struct pci_dev *dev, int resno)
+Basically the suggestion is here that the PCI subsystem should silently 
+extend and shrink the VF BARs when the number of VFs change?
 
-Also doesn't look like much value in having that a separate function.
-
-> +{
-> +	if (!pci_resource_is_iov(dev, resno) && pci_memory_decoding_enabled(dev))
-> +		return -EBUSY;
-> +	else if (pci_resource_is_iov(dev, resno) && pci_iov_memory_decoding_enabled(dev))
-> +		return -EBUSY;
-
-Well that is coded as ugly as it could be.
-
-I strongly suggest to not call pci_resource_is_iov() twice and to move 
-the -EBUSY return code outside of the function (if you really want a 
-separate function for that).
-
-E.g. something like "bool pci_resize_is_decoding_enabled(...)" and then 
-"if (pci_resize_is_decoding_enabled(...)) return -EBUSY;" in the caller.
+Bjorn has the last word on that but I would say that instead the driver 
+owning the PCIe device as hypervisor should resize the VF BARs to a 
+desired size and that in turn restricts the number of VFs you can enable.
 
 Regards,
 Christian.
 
-> +
-> +	return 0;
-> +}
-> +
-> +static void pci_resize_resource_set_size(struct pci_dev *dev, int resno, int size)
-> +{
-> +	resource_size_t res_size = pci_rebar_size_to_bytes(size);
-> +	struct resource *res = dev->resource + resno;
-> +
-> +	if (!pci_resource_is_iov(dev, resno)) {
-> +		res->end = res->start + res_size - 1;
-> +	} else {
-> +		res->end = res->start + res_size * pci_sriov_get_totalvfs(dev) - 1;
-> +		pci_iov_resource_set_size(dev, resno, res_size);
-> +	}
-> +}
-> +
->   int pci_resize_resource(struct pci_dev *dev, int resno, int size)
+>   	ret = pdev->driver->sriov_configure(pdev, num_vfs);
+>   	if (ret < 0)
+>   		goto exit;
+> @@ -881,8 +966,13 @@ static int sriov_init(struct pci_dev *dev, int pos)
+>   
+>   static void sriov_release(struct pci_dev *dev)
 >   {
->   	struct resource *res = dev->resource + resno;
->   	struct pci_host_bridge *host;
->   	int old, ret;
->   	u32 sizes;
-> -	u16 cmd;
->   
->   	/* Check if we must preserve the firmware's resource assignment */
->   	host = pci_find_host_bridge(dev->bus);
-> @@ -444,9 +475,9 @@ int pci_resize_resource(struct pci_dev *dev, int resno, int size)
->   	if (!(res->flags & IORESOURCE_UNSET))
->   		return -EBUSY;
->   
-> -	pci_read_config_word(dev, PCI_COMMAND, &cmd);
-> -	if (cmd & PCI_COMMAND_MEMORY)
-> -		return -EBUSY;
-> +	ret = pci_resize_check_memory_decoding(dev, resno);
-> +	if (ret)
-> +		return ret;
->   
->   	sizes = pci_rebar_get_possible_sizes(dev, resno);
->   	if (!sizes)
-> @@ -463,7 +494,7 @@ int pci_resize_resource(struct pci_dev *dev, int resno, int size)
->   	if (ret)
->   		return ret;
->   
-> -	res->end = res->start + pci_rebar_size_to_bytes(size) - 1;
-> +	pci_resize_resource_set_size(dev, resno, size);
->   
->   	/* Check if the new config works by trying to assign everything. */
->   	if (dev->bus->self) {
-> @@ -475,7 +506,8 @@ int pci_resize_resource(struct pci_dev *dev, int resno, int size)
->   
->   error_resize:
->   	pci_rebar_set_size(dev, resno, old);
-> -	res->end = res->start + pci_rebar_size_to_bytes(old) - 1;
-> +	pci_resize_resource_set_size(dev, resno, old);
+> +	int i;
 > +
->   	return ret;
->   }
->   EXPORT_SYMBOL(pci_resize_resource);
-> diff --git a/include/uapi/linux/pci_regs.h b/include/uapi/linux/pci_regs.h
-> index 94c00996e633e..cb010008c6bb3 100644
-> --- a/include/uapi/linux/pci_regs.h
-> +++ b/include/uapi/linux/pci_regs.h
-> @@ -738,6 +738,7 @@
->   #define PCI_EXT_CAP_ID_L1SS	0x1E	/* L1 PM Substates */
->   #define PCI_EXT_CAP_ID_PTM	0x1F	/* Precision Time Measurement */
->   #define PCI_EXT_CAP_ID_DVSEC	0x23	/* Designated Vendor-Specific */
-> +#define PCI_EXT_CAP_ID_VF_REBAR 0x24	/* VF Resizable BAR */
->   #define PCI_EXT_CAP_ID_DLF	0x25	/* Data Link Feature */
->   #define PCI_EXT_CAP_ID_PL_16GT	0x26	/* Physical Layer 16.0 GT/s */
->   #define PCI_EXT_CAP_ID_PL_32GT  0x2A    /* Physical Layer 32.0 GT/s */
+>   	BUG_ON(dev->sriov->num_VFs);
+>   
+> +	for (i = 0; i < PCI_SRIOV_NUM_BARS; i++)
+> +		pci_iov_resource_do_restore(dev, i + PCI_IOV_RESOURCES);
+> +
+>   	if (dev != dev->sriov->dev)
+>   		pci_dev_put(dev->sriov->dev);
+>   
+> diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
+> index e763b3fd4c7a2..47ed2633232aa 100644
+> --- a/drivers/pci/pci.h
+> +++ b/drivers/pci/pci.h
+> @@ -385,6 +385,7 @@ struct pci_sriov {
+>   	u16		subsystem_vendor; /* VF subsystem vendor */
+>   	u16		subsystem_device; /* VF subsystem device */
+>   	resource_size_t	barsz[PCI_SRIOV_NUM_BARS];	/* VF BAR size */
+> +	bool		rebar_extend[PCI_SRIOV_NUM_BARS];	/* Resize VF BAR */
+>   	bool		drivers_autoprobe; /* Auto probing of VFs by driver */
+>   };
+>   
+> diff --git a/include/linux/pci.h b/include/linux/pci.h
+> index 4cf89a4b4cbcf..c007119da7b3d 100644
+> --- a/include/linux/pci.h
+> +++ b/include/linux/pci.h
+> @@ -2364,6 +2364,7 @@ int pci_sriov_set_totalvfs(struct pci_dev *dev, u16 numvfs);
+>   int pci_sriov_get_totalvfs(struct pci_dev *dev);
+>   int pci_sriov_configure_simple(struct pci_dev *dev, int nr_virtfn);
+>   resource_size_t pci_iov_resource_size(struct pci_dev *dev, int resno);
+> +int pci_iov_resource_extend(struct pci_dev *dev, int resno, bool enable);
+>   void pci_vf_drivers_autoprobe(struct pci_dev *dev, bool probe);
+>   
+>   /* Arch may override these (weak) */
+> @@ -2416,6 +2417,8 @@ static inline int pci_sriov_get_totalvfs(struct pci_dev *dev)
+>   #define pci_sriov_configure_simple	NULL
+>   static inline resource_size_t pci_iov_resource_size(struct pci_dev *dev, int resno)
+>   { return 0; }
+> +static inline void pci_iov_resource_extend(struct pci_dev *dev, int resno, bool enable)
+> +{ return -ENODEV; }
+>   static inline void pci_vf_drivers_autoprobe(struct pci_dev *dev, bool probe) { }
+>   #endif
+>   
 
