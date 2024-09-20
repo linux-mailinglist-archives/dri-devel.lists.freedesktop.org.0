@@ -2,67 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A1BE97D2E7
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 10:40:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D951C97D2D0
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 10:37:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8338110E2E4;
-	Fri, 20 Sep 2024 08:40:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E811810E2E0;
+	Fri, 20 Sep 2024 08:37:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ite.com.tw header.i=@ite.com.tw header.b="raYL+J1L";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eCemhpwo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ironport.ite.com.tw (60-251-196-230.hinet-ip.hinet.net
- [60.251.196.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1547810E7E2
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2024 08:25:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ite.com.tw; s=dkim;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=bTDzqOS47QQw0H5HnXPUclM1b17EzbnVmqfdMQjEfc0=;
- b=raYL+J1L9EKLvygJla840e85nw3gQXuPKNJDEoQ/BE8CP6bcI+xWy+1C
- mer378T323BCHkJ6ABmc1JGUXMe0smeh+9Jj1pC2x7ZT/iJ4wAsJ5hq+v
- zYobq+cPQM8zpla2Bvmt7Z8mO6GRn8VH3mJ8HzYCslJbffvuy6cIOnsY3
- 8x/zumkAF3kyX4uNu59oP9SdXOpqx2FBGqN4R8mDvvltXgfCd3jfZp+ij
- OOie2J2mfdJ5Ts86J3AJKGbiPTX5IQnC6mTSrX9GBwGuNtaLW2mEJRmSE
- CFff654UpA4+hwvKyiHyYJ/mV2YwSUm4EmdwR7yArQfShKu9okZo8cLkO Q==;
-X-CSE-ConnectionGUID: YQ6cslkHT8eTX8x/PkZXgA==
-X-CSE-MsgGUID: Q3nt34DVSjaUUA5dKNT9xA==
-Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
- by ironport.ite.com.tw with ESMTP; 20 Sep 2024 16:25:11 +0800
-Received: from tpemail1.internal.ite.com.tw (TPEMAIL1.internal.ite.com.tw
- [192.168.15.58]) by mse.ite.com.tw with ESMTP id 48K8P5vw024311;
- Fri, 20 Sep 2024 16:25:05 +0800 (GMT-8)
- (envelope-from Hermes.Wu@ite.com.tw)
-Received: from LAPTOP-C4GM1L3U.localdomain (192.168.82.6) by
- TPEMAIL1.internal.ite.com.tw (192.168.15.58) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Fri, 20 Sep 2024 16:25:06 +0800
-From: Hermes Wu <Hermes.Wu@ite.com.tw>
-To: Pin-yen Lin <treapking@chromium.org>, Andrzej Hajda <a.hajda@samsung.com>, 
- Neil Armstrong <narmstrong@baylibre.com>, Robert Foss
- <robert.foss@linaro.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>
-CC: Kenneth Hung <Kenneth.hung@ite.com.tw>, Hermes Wu <Hermes.wu@ite.com.tw>
-Subject: [PATCH v2 2/2] drm/bridge: it6505: Add MCCS support
-Date: Fri, 20 Sep 2024 16:24:51 +0800
-Message-ID: <20240920082451.9240-7-Hermes.Wu@ite.com.tw>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240920082451.9240-1-Hermes.Wu@ite.com.tw>
-References: <20240920082451.9240-1-Hermes.Wu@ite.com.tw>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1A9F10E2E3;
+ Fri, 20 Sep 2024 08:37:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1726821458; x=1758357458;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=FjYT2BKjGT6OchrotM7LjHr6S6Ni/aoPuOPvVS5kbqU=;
+ b=eCemhpwoplWgliqNxRtvRZJWspE9EeLvYFhGczQz4dePwLsEY4NZz7jp
+ gttH714tzax2oRISeAXKFEAiFSgC8pnfdwaKaBTEjdw9E9swwYK7unfXj
+ 8kcUoP+JNbszLgXh9eofPbREYu8UyIuTpIXw/ibEyDTVGLhX+Z2U9dhfG
+ mFjm7Xg3Sjm+WxDUtMGkWycsQxcEEy8TLRtR7xQdDTorYGlMIQuybGbV/
+ wkzEtAn+zQLf6Nz+nlttOQjvf2rxeUFRmNspBdeYV4FEnPUmvVqV0DfXS
+ UtezTIS6X16SFua60w1FyB7OIKjXoJ3i6ozdEm/el/ffalg2NtWTEFUAf Q==;
+X-CSE-ConnectionGUID: 95MOZ2JdT+qdRRyb1xwl5g==
+X-CSE-MsgGUID: VMebNUVoRV+qkUPbO0gJWg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11200"; a="29605462"
+X-IronPort-AV: E=Sophos;i="6.10,243,1719903600"; d="scan'208";a="29605462"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Sep 2024 01:37:38 -0700
+X-CSE-ConnectionGUID: Rm93kEgkS8SLlfUah43CXQ==
+X-CSE-MsgGUID: zz7eSZuWRdKWQL8YubJJjg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,243,1719903600"; d="scan'208";a="93540570"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+ by fmviesa002.fm.intel.com with ESMTP; 20 Sep 2024 01:37:33 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1srZ8s-000E8n-30;
+ Fri, 20 Sep 2024 08:37:30 +0000
+Date: Fri, 20 Sep 2024 16:36:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>,
+ linux-pci@vger.kernel.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Bjorn Helgaas <helgaas@kernel.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Michal Wajdeczko <michal.wajdeczko@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Matt Roper <matthew.d.roper@intel.com>,
+ =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>
+Subject: Re: [PATCH v2 1/3] PCI: Add support for VF Resizable Bar extended cap
+Message-ID: <202409201629.QlC0MRbn-lkp@intel.com>
+References: <20240919223557.1897608-2-michal.winiarski@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [192.168.82.6]
-X-ClientProxiedBy: TPEMAIL1.internal.ite.com.tw (192.168.15.58) To
- TPEMAIL1.internal.ite.com.tw (192.168.15.58)
-X-TM-SNTS-SMTP: C6DFD326E296B29C3DA7A0BAB263AE5FE650988372D7E9840CB33A4DF2B581EA2002:8
-X-MAIL: mse.ite.com.tw 48K8P5vw024311
-X-Mailman-Approved-At: Fri, 20 Sep 2024 08:40:41 +0000
+In-Reply-To: <20240919223557.1897608-2-michal.winiarski@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,327 +85,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Hermes Wu <Hermes.wu@ite.com.tw>
+Hi Michał,
 
-add AUX-I2C functionality to support MCCS
+kernel test robot noticed the following build warnings:
 
-Signed-off-by: Hermes Wu <Hermes.wu@ite.com.tw>
----
- drivers/gpu/drm/bridge/ite-it6505.c | 209 ++++++++++++++++++++++++++--
- 1 file changed, 200 insertions(+), 9 deletions(-)
+[auto build test WARNING on pci/for-linus]
+[also build test WARNING on drm-xe/drm-xe-next drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip linus/master v6.11 next-20240919]
+[cannot apply to pci/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-index cef02c8c363e..1a272c67e82b 100644
---- a/drivers/gpu/drm/bridge/ite-it6505.c
-+++ b/drivers/gpu/drm/bridge/ite-it6505.c
-@@ -127,6 +127,9 @@
- #define REG_AUX_ADR_16_19 0x26
- #define REG_AUX_OUT_DATA0 0x27
- 
-+#define REG_AUX_I2C_ADR 0x25
-+#define REG_AUX_I2C_OP 0x26
-+
- #define REG_AUX_CMD_REQ 0x2B
- #define AUX_BUSY BIT(5)
- 
-@@ -268,6 +271,19 @@
- #define REG_SSC_CTRL1 0x189
- #define REG_SSC_CTRL2 0x18A
- 
-+#define REG_AUX_USER_CTRL 0x190
-+#define EN_USER_AUX BIT(0)
-+#define USER_AUX_DONE BIT(1)
-+#define AUX_EVENT BIT(4)
-+
-+#define REG_AUX_USER_DATA_REC 0x191
-+#define M_AUX_IN_REC   0xF0
-+#define M_AUX_OUT_REC  0x0F
-+
-+#define REG_AUX_USER_TXB 0x190
-+#define REG_AUX_USER_REPLY 0x19A
-+#define REG_AUX_USER_RXB(n) (n + 0x19B)
-+
- #define RBR DP_LINK_BW_1_62
- #define HBR DP_LINK_BW_2_7
- #define HBR2 DP_LINK_BW_5_4
-@@ -303,6 +319,8 @@
- #define MAX_EQ_LEVEL 0x03
- #define AUX_WAIT_TIMEOUT_MS 15
- #define AUX_FIFO_MAX_SIZE 16
-+#define AUX_I2C_MAX_SIZE 4
-+#define AUX_I2C_DEFER_RETRY 4
- #define PIXEL_CLK_DELAY 1
- #define PIXEL_CLK_INVERSE 0
- #define ADJUST_PHASE_THRESHOLD 80000
-@@ -325,7 +343,12 @@
- enum aux_cmd_type {
- 	CMD_AUX_NATIVE_READ = 0x0,
- 	CMD_AUX_NATIVE_WRITE = 0x5,
-+	CMD_AUX_GI2C_ADR = 0x08,
-+	CMD_AUX_GI2C_READ = 0x09,
-+	CMD_AUX_GI2C_WRITE = 0x0A,
- 	CMD_AUX_I2C_EDID_READ = 0xB,
-+	CMD_AUX_I2C_READ = 0x0D,
-+	CMD_AUX_I2C_WRITE = 0x0C,
- 
- 	/*extend read ncommand */
- 	CMD_AUX_GET_KSV_LIST = 0x10,
-@@ -333,8 +356,11 @@ enum aux_cmd_type {
- 
- enum aux_cmd_reply {
- 	REPLY_ACK,
--	REPLY_NACK,
--	REPLY_DEFER,
-+	REPLY_NACK = 1,
-+	REPLY_DEFER = 2,
-+
-+	REPLY_I2C_NACK = 4,
-+	REPLY_I2C_DEFER = 8,
- };
- 
- enum link_train_status {
-@@ -1087,7 +1113,6 @@ static ssize_t it6505_aux_do_transfer(struct it6505 *it6505,
- 				      size_t size, enum aux_cmd_reply *reply)
- {
- 	int i, ret_size, ret = 0, request_size;
--	struct device *dev = &it6505->client->dev;
- 
- 	mutex_lock(&it6505->aux_lock);
- 	for (i = 0; i < size; ) {
-@@ -1114,6 +1139,168 @@ static ssize_t it6505_aux_do_transfer(struct it6505 *it6505,
- 	return ret;
- }
- 
-+
-+static int it6505_aux_i2c_wait(struct it6505 *it6505, u8 *reply)
-+{
-+	int err = 0;
-+	unsigned long timeout;
-+	struct device *dev = &it6505->client->dev;
-+
-+	timeout = jiffies + msecs_to_jiffies(AUX_WAIT_TIMEOUT_MS) + 1;
-+
-+	do {
-+		if (it6505_read(it6505, REG_AUX_USER_CTRL) & AUX_EVENT)
-+			break;
-+		if (time_after(jiffies, timeout)) {
-+			dev_err(dev, "Timed out waiting AUX I2C, BUSY = %X\n",
-+					it6505_aux_op_finished(it6505));
-+			err = -ETIMEDOUT;
-+			goto end_aux_i2c_wait;
-+		}
-+		usleep_range(300, 800);
-+
-+	} while (!it6505_aux_op_finished(it6505));
-+
-+	if (reply == NULL)
-+		goto end_aux_i2c_wait;
-+
-+	*reply = it6505_read(it6505, REG_AUX_USER_REPLY) >> 4;
-+
-+	if (*reply == 0)
-+		goto end_aux_i2c_wait;
-+
-+	if ((*reply == DP_AUX_NATIVE_REPLY_DEFER) ||
-+			(*reply == DP_AUX_I2C_REPLY_DEFER))
-+		err = -EBUSY;
-+	else if ((*reply == DP_AUX_NATIVE_REPLY_NACK) ||
-+			(*reply == DP_AUX_I2C_REPLY_NACK))
-+		err = -ENXIO;
-+
-+end_aux_i2c_wait:
-+	it6505_set_bits(it6505, REG_AUX_USER_CTRL, USER_AUX_DONE, USER_AUX_DONE);
-+	return err;
-+}
-+
-+static int it6505_aux_i2c_readb(struct it6505 *it6505, u8 *buf, size_t size, u8 *reply)
-+{
-+	int ret, i;
-+	int retry = 0;
-+
-+	for (retry = 0; retry < AUX_I2C_DEFER_RETRY; retry++) {
-+
-+		it6505_write(it6505, REG_AUX_CMD_REQ, CMD_AUX_GI2C_READ);
-+
-+		ret = it6505_aux_i2c_wait(it6505, reply);
-+
-+		if ((*reply == DP_AUX_NATIVE_REPLY_DEFER) ||
-+			(*reply == DP_AUX_I2C_REPLY_DEFER))
-+			continue;
-+
-+		if (ret >= 0)
-+			break;
-+	}
-+
-+	for (i = 0; i < size; i++)
-+		buf[i] =  (u8) it6505_read(it6505, REG_AUX_USER_RXB(0 + i));
-+
-+	return size;
-+}
-+
-+static int it6505_aux_i2c_writeb(struct it6505 *it6505, u8 *buf, size_t size, u8 *reply)
-+{
-+	int i, ret;
-+	int retry = 0;
-+
-+	for (i = 0; i < size; i++)
-+		it6505_write(it6505, REG_AUX_OUT_DATA0 + i, buf[i]);
-+
-+	for (retry = 0; retry < AUX_I2C_DEFER_RETRY; retry++) {
-+
-+		it6505_write(it6505, REG_AUX_CMD_REQ, CMD_AUX_GI2C_WRITE);
-+
-+		ret = it6505_aux_i2c_wait(it6505, reply);
-+
-+		if ((*reply == DP_AUX_NATIVE_REPLY_DEFER) ||
-+			(*reply == DP_AUX_I2C_REPLY_DEFER))
-+			continue;
-+
-+		if (ret >= 0)
-+			break;
-+	}
-+	return size;
-+}
-+
-+static ssize_t it6505_aux_i2c_operation(struct it6505 *it6505,
-+					struct drm_dp_aux_msg *msg)
-+{
-+	int ret;
-+	ssize_t request_size, data_cnt = 0;
-+	struct device *dev = &it6505->client->dev;
-+	u8 *buffer = msg->buffer;
-+
-+	/* set AUX user mode */
-+	it6505_set_bits(it6505, REG_AUX_CTRL,
-+			AUX_USER_MODE | AUX_NO_SEGMENT_WR, AUX_USER_MODE);
-+	it6505_set_bits(it6505, REG_AUX_USER_CTRL, EN_USER_AUX, EN_USER_AUX);
-+	/* clear AUX FIFO */
-+	it6505_set_bits(it6505, REG_AUX_CTRL,
-+			AUX_EN_FIFO_READ | CLR_EDID_FIFO,
-+			AUX_EN_FIFO_READ | CLR_EDID_FIFO);
-+
-+	it6505_set_bits(it6505, REG_AUX_CTRL,
-+			AUX_EN_FIFO_READ | CLR_EDID_FIFO, 0x00);
-+
-+	it6505_write(it6505, REG_AUX_ADR_0_7, 0x00);
-+	it6505_write(it6505, REG_AUX_I2C_ADR, msg->address << 1);
-+
-+	if (msg->size == 0) {
-+		/* IIC Start/STOP dummy write */
-+		it6505_write(it6505, REG_AUX_I2C_OP, msg->request);
-+		it6505_write(it6505, REG_AUX_CMD_REQ, CMD_AUX_GI2C_ADR);
-+		ret = it6505_aux_i2c_wait(it6505, &msg->reply);
-+		goto end_aux_i2c_transfer;
-+	}
-+
-+	/* IIC data transfer */
-+	for (data_cnt = 0; data_cnt < msg->size; ) {
-+		request_size = min(msg->size - data_cnt, AUX_I2C_MAX_SIZE);
-+		it6505_write(it6505, REG_AUX_I2C_OP,
-+					(msg->request) | ((request_size - 1) << 4));
-+
-+		if ((msg->request & DP_AUX_I2C_READ) == DP_AUX_I2C_READ)
-+			ret = it6505_aux_i2c_readb(it6505, &buffer[data_cnt],
-+							request_size, &msg->reply);
-+		else
-+			ret = it6505_aux_i2c_writeb(it6505, &buffer[data_cnt],
-+							request_size, &msg->reply);
-+
-+		if (ret < 0)
-+			goto end_aux_i2c_transfer;
-+
-+		data_cnt += request_size;
-+	}
-+	ret = data_cnt;
-+end_aux_i2c_transfer:
-+
-+	it6505_set_bits(it6505, REG_AUX_USER_CTRL, EN_USER_AUX, 0);
-+	it6505_set_bits(it6505, REG_AUX_CTRL, AUX_USER_MODE, 0);
-+	return ret;
-+}
-+
-+
-+static ssize_t it6505_aux_i2c_transfer(struct drm_dp_aux *aux,
-+				   struct drm_dp_aux_msg *msg)
-+{
-+	struct it6505 *it6505 = container_of(aux, struct it6505, aux);
-+	int ret;
-+
-+	mutex_lock(&it6505->aux_lock);
-+	ret = it6505_aux_i2c_operation(it6505, msg);
-+	mutex_unlock(&it6505->aux_lock);
-+	return ret;
-+}
-+
-+
- static ssize_t it6505_aux_transfer(struct drm_dp_aux *aux,
- 				   struct drm_dp_aux_msg *msg)
- {
-@@ -1125,7 +1312,7 @@ static ssize_t it6505_aux_transfer(struct drm_dp_aux *aux,
- 
- 	/* IT6505 doesn't support arbitrary I2C read / write. */
- 	if (is_i2c)
--		return -EINVAL;
-+		return it6505_aux_i2c_transfer(aux, msg);
- 
- 	switch (msg->request) {
- 	case DP_AUX_NATIVE_READ:
-@@ -1153,6 +1340,8 @@ static ssize_t it6505_aux_transfer(struct drm_dp_aux *aux,
- 	case REPLY_DEFER:
- 		msg->reply = DP_AUX_NATIVE_REPLY_DEFER;
- 		break;
-+	default:
-+		break;
- 	}
- 
- 	return ret;
-@@ -1180,7 +1369,7 @@ static int it6505_get_edid_block(void *data, u8 *buf, unsigned int block,
- 		switch (reply) {
- 		case REPLY_ACK:
- 			DRM_DEV_DEBUG_DRIVER(dev, "[0x%02x]: %8ph", offset,
--					     buf + offset);
-+								uf + offset);
- 			offset += 8;
- 			aux_retry = 100;
- 			break;
-@@ -1190,6 +1379,8 @@ static int it6505_get_edid_block(void *data, u8 *buf, unsigned int block,
- 			msleep(20);
- 			if (!(--aux_retry))
- 				return -EIO;
-+		default:
-+			break;
- 		}
- 	}
- 
-@@ -2031,8 +2222,8 @@ static int it6505_setup_sha1_input(struct it6505 *it6505, u8 *sha1_input)
- 
- 
- 	err =  it6505_get_ksvlist(it6505, sha1_input, down_stream_count * 5);
--	if (err < 0)
--		return err;
-+		if (err < 0)
-+			return err;
- 
- 	msg_count += down_stream_count * 5;
- 
-@@ -2075,7 +2266,7 @@ static bool it6505_hdcp_part2_ksvlist_check(struct it6505 *it6505)
- 	for (retry = 0; retry < 3; retry++) {
- 
- 		err = it6505_get_dpcd(it6505, DP_AUX_HDCP_V_PRIME(0), (u8 *)bv,
--					sizeof(bv));
-+			      sizeof(bv));
- 
- 		if (err < 0) {
- 			dev_err(dev, "Read V' value Fail %d", retry);
-@@ -2126,7 +2317,7 @@ static void it6505_hdcp_wait_ksv_list(struct work_struct *work)
- 
- 	ksv_list_check = it6505_hdcp_part2_ksvlist_check(it6505);
- 	DRM_DEV_DEBUG_DRIVER(dev, "ksv list ready, ksv list check %s",
--				ksv_list_check ? "pass" : "fail");
-+			     ksv_list_check ? "pass" : "fail");
- 
- 	if (ksv_list_check)
- 		return;
+url:    https://github.com/intel-lab-lkp/linux/commits/Micha-Winiarski/PCI-Add-support-for-VF-Resizable-Bar-extended-cap/20240920-064112
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git for-linus
+patch link:    https://lore.kernel.org/r/20240919223557.1897608-2-michal.winiarski%40intel.com
+patch subject: [PATCH v2 1/3] PCI: Add support for VF Resizable Bar extended cap
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20240920/202409201629.QlC0MRbn-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240920/202409201629.QlC0MRbn-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409201629.QlC0MRbn-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/pci/pci.c:1920:20: warning: variable 'res' set but not used [-Wunused-but-set-variable]
+    1920 |                 struct resource *res;
+         |                                  ^
+   1 warning generated.
+
+
+vim +/res +1920 drivers/pci/pci.c
+
+  1903	
+  1904	static void pci_restore_vf_rebar_state(struct pci_dev *pdev)
+  1905	{
+  1906		unsigned int pos, nbars, i;
+  1907		u32 ctrl;
+  1908	
+  1909		if (!pdev->is_physfn)
+  1910			return;
+  1911	
+  1912		pos = pci_find_ext_capability(pdev, PCI_EXT_CAP_ID_VF_REBAR);
+  1913		if (!pos)
+  1914			return;
+  1915	
+  1916		pci_read_config_dword(pdev, pos + PCI_REBAR_CTRL, &ctrl);
+  1917		nbars = FIELD_GET(PCI_REBAR_CTRL_NBAR_MASK, ctrl);
+  1918	
+  1919		for (i = 0; i < nbars; i++, pos += 8) {
+> 1920			struct resource *res;
+  1921			int bar_idx, size;
+  1922	
+  1923			pci_read_config_dword(pdev, pos + PCI_REBAR_CTRL, &ctrl);
+  1924			bar_idx = ctrl & PCI_REBAR_CTRL_BAR_IDX;
+  1925			res = pdev->resource + bar_idx;
+  1926			size = pci_rebar_bytes_to_size(pdev->sriov->barsz[bar_idx]);
+  1927			ctrl &= ~PCI_REBAR_CTRL_BAR_SIZE;
+  1928			ctrl |= FIELD_PREP(PCI_REBAR_CTRL_BAR_SIZE, size);
+  1929			pci_write_config_dword(pdev, pos + PCI_REBAR_CTRL, ctrl);
+  1930		}
+  1931	}
+  1932	
+
 -- 
-2.34.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
