@@ -2,78 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D48C97D539
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 14:08:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3825197D55C
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 14:28:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFEBD10E82D;
-	Fri, 20 Sep 2024 12:08:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8AD2310E82E;
+	Fri, 20 Sep 2024 12:28:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Hwzovlsu";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ZGvjFT3/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
- [209.85.221.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC00910E82C;
- Fri, 20 Sep 2024 12:08:43 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id
- ffacd0b85a97d-37a413085cbso610641f8f.1; 
- Fri, 20 Sep 2024 05:08:43 -0700 (PDT)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
+ [209.85.167.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB11310E835
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2024 12:28:43 +0000 (UTC)
+Received: by mail-lf1-f46.google.com with SMTP id
+ 2adb3069b0e04-5365c060f47so2614748e87.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2024 05:28:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1726834122; x=1727438922; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id:from
- :to:cc:subject:date:message-id:reply-to;
- bh=3Wt7KgVCQJmeR5T16ebNe2Gy/w1YxdyE1j+GK819n04=;
- b=Hwzovlsus6d+jpldmUbuzCmI1T/4alJP3+eKq7A+QeRsZsxhYh368mYigOFxpyRP2N
- mKSJuHEgcAVYU9ou1p68CtKISLxk4sQwrIzuTibupS7jN3trHNMdpENm5AUW941xAUKd
- Kdkh89dWXC2SLlGwrZyeEzz+UZLzXPXJDh1YiHvj+N4+GZJJZpafu/12jqKuQVT5DeiH
- p7SQZv/tx9Nn+T8l/nCxZuvRLjqZGlcVkmu6sQNqFPaq5Y8jjnA4KOhFjHRevzkWcPDz
- 04mhLd3cVl4wa7P7Sh8TSIw7K92viz8F4JbUCez7/r/2glHMbgEW5mFFp5J7EOxl1oPT
- uqJw==
+ d=linaro.org; s=google; t=1726835322; x=1727440122; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=KmyYTSzJGsL/YMovQsb/XKINA9qbOmIqA08DqAcjnQM=;
+ b=ZGvjFT3/8nnbZrNc8s+fYOSwPBqCA4zAZdxHzKuVU1DjEpkmTyA5sqdhiq/kVZ+ZMu
+ I9JwQv8HvNy0einWnX2dndpZgk8zDOhAgrUdj0XgnmxQoyVpQwUs2VN+xWPgsivqOw12
+ xCNX4YxBJKXJ1SlVtOsqnrL9rmznjwA6lLcu11kro4u5frNlRg5Mzj/10t8rWIp2Jm8l
+ YKhBfPwRr0QUNrajQitLPKBFHah8K4CT7EbBLNhITNfMz0pkpcKcPmwwxIemZUp1Jrik
+ qfnuU7725HXL3SeucEWtckl+hOswEd3NHvB4yMZg5L5tppHOBk/zI+fUpbrmj5l/R3So
+ B5fQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1726834122; x=1727438922;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20230601; t=1726835322; x=1727440122;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=3Wt7KgVCQJmeR5T16ebNe2Gy/w1YxdyE1j+GK819n04=;
- b=UcZ6/PpmrGYoGbn7H7fhw5clXTAcBLq+0ae699pOjGhKiPE66PseZz2lTLvFIDQWMS
- 2KDFBnqiKPgJUGEAQBfC9VttyNsP5ni3Bpq4PQAYhVI7bXLjNZ+22etaAjHjXPQx8vjq
- E4qw4p+SRWX++wQRfLUyrykHma9l5pVFqSN6BlKYHK/j0BJZO+Op8ZcnH8EdR6R+8QT4
- Z2fum5SYteb2chfd+2WupJeyTgoYRf3eRVoQd914ieef6oj2bTN9yFDQjt63kmvIZPgZ
- 9ld4KYBiSYMArkVJl5CnVKNjXFwYfH8mou40PxYKrYJsGZYIwsfFPinNhBKf5WhA9xRB
- y47g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUEZLEpxtTzvwXftgeC30EkUUUUkLEV8AcRsIVQqY5AEF7XEnV7dqRUN9yCM9kDj1TEYE5/DRiDNyTz@lists.freedesktop.org,
- AJvYcCX9bjqc4l0a+lpXqddFo46/Qm+hXIcKEuIQ6S4kdb/wVJRwCofTJC64BRQSlzaI8RpW4il85pph@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwwWpg5sij/wMg9Nzr9Hnd5LgqNBEp7NHNWR7C5VG4u42Xk4qm/
- rV1anL37DCFDubG7E02KQiD+kS7OUeOZ9HswirVBz8b7CQo5wfHB
-X-Google-Smtp-Source: AGHT+IE8tIivZSgPHcCkwCDudj37fP9WMbvaJbQ4VKhBL7a7M8hVUuKp6xAt0OYhYlddwKL4d/gkDQ==
-X-Received: by 2002:a5d:5f87:0:b0:374:c1ea:2d40 with SMTP id
- ffacd0b85a97d-3799a1c5440mr4744495f8f.1.1726834121963; 
- Fri, 20 Sep 2024 05:08:41 -0700 (PDT)
-Received: from [10.254.108.81] (munvpn.amd.com. [165.204.72.6])
+ bh=KmyYTSzJGsL/YMovQsb/XKINA9qbOmIqA08DqAcjnQM=;
+ b=W2Dmhqq+fUBp3j7Jb1qScy5zQ6e+PI6NG/lDqBOMQwngF2JQxrApRO9IcIdGQfkidC
+ zmhbb9qkigXEwYH8XtYufEPS8ce4y5efvjvfxwx7rTqdpftTjBvaq8ChYBubA5iA1C3N
+ dLnvTuQifHhSRXieB3UbmKcsK6wK/+/5oponLdNEmK8EynAlrLNiWD74SYfQZIgLuRgb
+ FVdzxPOMF+6bBl0DlzRgj+eoL7VEqwu4SlqJeIrrZtNVrs7Vh8SffrbFeeM+nQnwjNNZ
+ u+wFdiQImdXKg45L0df1Tjm2bTFR7vvgp4/UPE1PNHt7yGh1NAp1dr7IA+MTV63q2trM
+ nI1A==
+X-Gm-Message-State: AOJu0Yxjl6yLfX5u+dg4/dUNzyjMiDok0oRYx2LA1LjwrkyZXdBFBTYn
+ RjYvC76f6HvacGLdiQEXz4IptjpXVlxH2aHNSMdC+wFPPrA5Gz01eTIjoh9MprA=
+X-Google-Smtp-Source: AGHT+IHqUCZSjDBGtSw+A8NmpVy9eKMCzlJUf0BJqZSjg4++cq0bIVZpdwJeTY8vMubkrtJMtyGRdA==
+X-Received: by 2002:a05:6512:304d:b0:535:6a75:8ac8 with SMTP id
+ 2adb3069b0e04-536ac2e5e21mr1760442e87.23.1726835321653; 
+ Fri, 20 Sep 2024 05:28:41 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-42e6bc42fb8sm73185135e9.0.2024.09.20.05.08.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 20 Sep 2024 05:08:41 -0700 (PDT)
-Message-ID: <ad16c28e-fd4e-4bd6-9e4d-da6c52f486cb@gmail.com>
-Date: Fri, 20 Sep 2024 14:08:36 +0200
+ 2adb3069b0e04-53687096993sm2149440e87.140.2024.09.20.05.28.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 20 Sep 2024 05:28:40 -0700 (PDT)
+Date: Fri, 20 Sep 2024 15:28:38 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: =?utf-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, kernel-dev@igalia.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, Simon Ser <contact@emersion.fr>, 
+ Pekka Paalanen <ppaalanen@gmail.com>, daniel@ffwll.ch,
+ Daniel Stone <daniel@fooishbar.org>, 
+ 'Marek =?utf-8?B?T2zFocOhayc=?= <maraeo@gmail.com>,
+ Dave Airlie <airlied@gmail.com>, ville.syrjala@linux.intel.com, 
+ Xaver Hugl <xaver.hugl@gmail.com>, Joshua Ashton <joshua@froggi.es>, 
+ Michel =?utf-8?Q?D=C3=A4nzer?= <michel.daenzer@mailbox.org>
+Subject: Re: [PATCH RESEND v8 1/2] drm/atomic: Let drivers decide which
+ planes to async flip
+Message-ID: <h2nyiovf5ixbqjrmtqcofmj6uwigcps7yjwfu67j3xdewnoj5x@fyu6ee7qjgk4>
+References: <20240806135300.114469-1-andrealmeid@igalia.com>
+ <20240806135300.114469-2-andrealmeid@igalia.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 6/6] drm/amdgpu: use drm_file::name in
- task_info::process_desc
-To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
- tursulin@igalia.com, simona.vetter@ffwll.ch, robdclark@gmail.com,
- alexander.deucher@amd.com, amd-gfx@lists.freedesktop.org
-References: <20240920090920.1342694-1-pierre-eric.pelloux-prayer@amd.com>
- <20240920090920.1342694-7-pierre-eric.pelloux-prayer@amd.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <20240920090920.1342694-7-pierre-eric.pelloux-prayer@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240806135300.114469-2-andrealmeid@igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,173 +92,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 20.09.24 um 11:06 schrieb Pierre-Eric Pelloux-Prayer:
-> If a drm_file name is set append it to the process name.
->
-> This information is useful with the virtio/native-context driver: this
-> allows the guest applications identifier to visible in amdgpu's output.
->
-> The output in amdgpu_vm_info/amdgpu_gem_info looks like this:
->     pid:12255	Process:glxgears/test-set-fd-name ----------
->
-> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+On Tue, Aug 06, 2024 at 10:52:59AM GMT, André Almeida wrote:
+> Currently, DRM atomic uAPI allows only primary planes to be flipped
+> asynchronously. However, each driver might be able to perform async
+> flips in other different plane types. To enable drivers to set their own
+> restrictions on which type of plane they can or cannot flip, use the
+> existing atomic_async_check() from struct drm_plane_helper_funcs to
+> enhance this flexibility, thus allowing different plane types to be able
+> to do async flips as well.
+> 
+> In order to prevent regressions and such, we keep the current policy: we
+> skip the driver check for the primary plane, because it is always
+> allowed to do async flips on it.
+
+Unfortunately this needs to be rebased on top of 929725bd7eb4
+("drm/atomic: allow no-op FB_ID updates for async flips"), but the
+approach looks good to me and it fits the existing API.
+
+> 
+> Signed-off-by: André Almeida <andrealmeid@igalia.com>
 > ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h    |  1 +
->   .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  |  3 ++-
->   drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c        |  2 +-
->   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c        | 26 ++++++++++++++++---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h        |  2 +-
->   drivers/gpu/drm/amd/amdkfd/kfd_process.c      |  3 +++
->   6 files changed, 30 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
-> index f9d119448442..ad909173e419 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
-> @@ -299,6 +299,7 @@ int amdgpu_amdkfd_gpuvm_set_vm_pasid(struct amdgpu_device *adev,
->   				     struct amdgpu_vm *avm, u32 pasid);
->   int amdgpu_amdkfd_gpuvm_acquire_process_vm(struct amdgpu_device *adev,
->   					struct amdgpu_vm *avm,
-> +					struct drm_file *filp,
->   					void **process_info,
->   					struct dma_fence **ef);
->   void amdgpu_amdkfd_gpuvm_release_process_vm(struct amdgpu_device *adev,
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-> index 6d5fd371d5ce..172882af6705 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-> @@ -1558,6 +1558,7 @@ int amdgpu_amdkfd_gpuvm_set_vm_pasid(struct amdgpu_device *adev,
->   
->   int amdgpu_amdkfd_gpuvm_acquire_process_vm(struct amdgpu_device *adev,
->   					   struct amdgpu_vm *avm,
-> +					   struct drm_file *filp,
->   					   void **process_info,
->   					   struct dma_fence **ef)
->   {
-> @@ -1577,7 +1578,7 @@ int amdgpu_amdkfd_gpuvm_acquire_process_vm(struct amdgpu_device *adev,
->   	if (ret)
->   		return ret;
->   
-> -	amdgpu_vm_set_task_info(avm);
-> +	amdgpu_vm_set_task_info(avm, filp);
->   
->   	return 0;
->   }
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> index 891128ecee6d..5d43e24906d2 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> @@ -1178,7 +1178,7 @@ static int amdgpu_cs_vm_handling(struct amdgpu_cs_parser *p)
->   	}
->   
->   	/* Use this opportunity to fill in task info for the vm */
-> -	amdgpu_vm_set_task_info(vm);
-> +	amdgpu_vm_set_task_info(vm, p->filp);
->   
->   	if (adev->debug_vm) {
->   		/* Invalidate all BOs to test for userspace bugs */
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> index 7f852029d6e1..a2b12f0c3253 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> @@ -2355,14 +2355,20 @@ amdgpu_vm_get_task_info_pasid(struct amdgpu_device *adev, u32 pasid)
->   			amdgpu_vm_get_vm_from_pasid(adev, pasid));
->   }
->   
-> -static int amdgpu_vm_create_task_info(struct amdgpu_vm *vm)
-> +static int amdgpu_vm_create_task_info(struct amdgpu_vm *vm, struct drm_file *filp)
->   {
->   	char process_name[TASK_COMM_LEN];
-> -	int desc_len;
-> +	size_t desc_len;
->   
->   	get_task_comm(process_name, current->group_leader);
->   	desc_len = strlen(process_name);
->   
-> +	if (filp) {
-> +		mutex_lock(&filp->name_lock);
-> +		if (filp->name)
-> +			desc_len += 1 + strlen(filp->name);
-> +	}
+>  drivers/gpu/drm/drm_atomic_uapi.c | 23 +++++++++++++++++------
+>  1 file changed, 17 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+> index fc16fddee5c5..8568c2428670 100644
+> --- a/drivers/gpu/drm/drm_atomic_uapi.c
+> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
+> @@ -27,8 +27,9 @@
+>   * Daniel Vetter <daniel.vetter@ffwll.ch>
+>   */
+>  
+> -#include <drm/drm_atomic_uapi.h>
+>  #include <drm/drm_atomic.h>
+> +#include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_atomic_uapi.h>
+>  #include <drm/drm_framebuffer.h>
+>  #include <drm/drm_print.h>
+>  #include <drm/drm_drv.h>
+> @@ -1059,6 +1060,7 @@ int drm_atomic_set_property(struct drm_atomic_state *state,
+>  		struct drm_plane *plane = obj_to_plane(obj);
+>  		struct drm_plane_state *plane_state;
+>  		struct drm_mode_config *config = &plane->dev->mode_config;
+> +		const struct drm_plane_helper_funcs *plane_funcs = plane->helper_private;
+>  
+>  		plane_state = drm_atomic_get_plane_state(state, plane);
+>  		if (IS_ERR(plane_state)) {
+> @@ -1073,11 +1075,20 @@ int drm_atomic_set_property(struct drm_atomic_state *state,
+>  			break;
+>  		}
+>  
+> -		if (async_flip && plane_state->plane->type != DRM_PLANE_TYPE_PRIMARY) {
+> -			drm_dbg_atomic(prop->dev,
+> -				       "[OBJECT:%d] Only primary planes can be changed during async flip\n",
+> -				       obj->id);
+> -			ret = -EINVAL;
+> +		if (async_flip) {
+> +			/* we always allow primary planes */
+> +			if (plane->type != DRM_PLANE_TYPE_PRIMARY) {
+> +				ret = -EINVAL;
 > +
->   	vm->task_info = kzalloc(
->   		struct_size(vm->task_info, process_desc, desc_len + 1),
->   		GFP_KERNEL);
-> @@ -2371,6 +2377,17 @@ static int amdgpu_vm_create_task_info(struct amdgpu_vm *vm)
->   		return -ENOMEM;
->   
->   	strscpy(vm->task_info->process_desc, process_name, desc_len + 1);
-> +	if (filp) {
-
-I think we can drop those checks now, filp is now a mandatory argument.
-
-Apart from that the series looks good to me.
-
-Regards,
-Christian.
-
-> +		if (filp->name) {
-> +			size_t p_len = strlen(process_name);
+> +				if (plane_funcs && plane_funcs->atomic_async_check)
+> +					ret = plane_funcs->atomic_async_check(plane, state);
 > +
-> +			vm->task_info->process_desc[p_len] = '/';
-> +			strscpy(&vm->task_info->process_desc[p_len + 1],
-> +				filp->name, (desc_len + 1) - (p_len + 1));
-> +		}
-> +		mutex_unlock(&filp->name_lock);
-> +	}
-> +
->   
->   	kref_init(&vm->task_info->refcount);
->   	return 0;
-> @@ -2380,11 +2397,12 @@ static int amdgpu_vm_create_task_info(struct amdgpu_vm *vm)
->    * amdgpu_vm_set_task_info - Sets VMs task info.
->    *
->    * @vm: vm for which to set the info
-> + * @filp: drm_file instance
->    */
-> -void amdgpu_vm_set_task_info(struct amdgpu_vm *vm)
-> +void amdgpu_vm_set_task_info(struct amdgpu_vm *vm, struct drm_file *filp)
->   {
->   	if (!vm->task_info) {
-> -		if (amdgpu_vm_create_task_info(vm))
-> +		if (amdgpu_vm_create_task_info(vm, filp))
->   			return;
->   	}
->   
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
-> index 44da250217be..8df3dece54c2 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
-> @@ -561,7 +561,7 @@ bool amdgpu_vm_handle_fault(struct amdgpu_device *adev, u32 pasid,
->   			    u32 vmid, u32 node_id, uint64_t addr, uint64_t ts,
->   			    bool write_fault);
->   
-> -void amdgpu_vm_set_task_info(struct amdgpu_vm *vm);
-> +void amdgpu_vm_set_task_info(struct amdgpu_vm *vm, struct drm_file *filp);
->   
->   void amdgpu_vm_move_to_lru_tail(struct amdgpu_device *adev,
->   				struct amdgpu_vm *vm);
-> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process.c b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-> index a902950cc060..e473fe433d3f 100644
-> --- a/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-> @@ -1654,6 +1654,7 @@ int kfd_process_device_init_vm(struct kfd_process_device *pdd,
->   			       struct file *drm_file)
->   {
->   	struct amdgpu_fpriv *drv_priv;
-> +	struct drm_file *filp;
->   	struct amdgpu_vm *avm;
->   	struct kfd_process *p;
->   	struct dma_fence *ef;
-> @@ -1673,8 +1674,10 @@ int kfd_process_device_init_vm(struct kfd_process_device *pdd,
->   
->   	p = pdd->process;
->   	dev = pdd->dev;
-> +	filp = drm_file->private_data;
->   
->   	ret = amdgpu_amdkfd_gpuvm_acquire_process_vm(dev->adev, avm,
-> +						     filp,
->   						     &p->kgd_process_info,
->   						     &ef);
->   	if (ret) {
+> +				if (ret) {
+> +					drm_dbg_atomic(prop->dev,
+> +						       "[PLANE:%d] does not support async flips\n",
+> +							obj->id);
+> +				}
+> +			}
+>  			break;
+>  		}
+>  
+> -- 
+> 2.46.0
+> 
 
+-- 
+With best wishes
+Dmitry
