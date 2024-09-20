@@ -2,74 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1280297D822
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 18:16:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF8A597D83F
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 18:21:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9063810E844;
-	Fri, 20 Sep 2024 16:16:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E39F10E846;
+	Fri, 20 Sep 2024 16:21:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Ro//OBBn";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="LSIZNgMG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
- [209.85.208.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 284B310E844
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2024 16:16:32 +0000 (UTC)
-Received: by mail-lj1-f176.google.com with SMTP id
- 38308e7fff4ca-2f75aa08a96so25164161fa.1
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2024 09:16:32 -0700 (PDT)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
+ [209.85.167.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6942910E84B
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2024 16:21:23 +0000 (UTC)
+Received: by mail-lf1-f45.google.com with SMTP id
+ 2adb3069b0e04-5365c060f47so2981463e87.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2024 09:21:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1726848990; x=1727453790; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1726849281; x=1727454081; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=ojs9bHvGaP56hqKEftt/MxT/xOMPbuiutorXXfIZh6g=;
- b=Ro//OBBnGLg9ZUIjvE/7qVVmkKb8FbT3ExVWSuIrkdavm+4sxFE7e4u6D5HGuxm9xP
- mFss20xSQ7ZEpWvCdqeIOvDNWo9916cEM5KPcv/z0QO7wDiV4WA2Tqk9wwoCoL5BSeYQ
- laSoYRp4uH0m60hWX0B4FVuv3MqaFbL7seW0IKR15asgbVUCCc4cLkKed5fhyAXk0xbi
- 4+Zoh6UZDtgKGF+kH4w8Rb35emneowsbL09UC1GmNCHcnm0xQaBDykrZGBFYeNAQ5+ok
- ZspURyozWo1Nzbfv4qCUdSIZ3GlVjNJ5opUnCJfGn9RvkD+/qjV+DS/Eb2S325/GmUPW
- aEIw==
+ bh=2n+484yaUAM7Bqur487+xLmG9zEd0hBev6NunxbKIeA=;
+ b=LSIZNgMGhwy/OQU/UY+pZppovcDXNNbvWuwH7VKhRzS3xWsbBni9QENt9qxOjRlBFh
+ 2wbh3eWzO++7x+2Ab1NQHex76qkgmUmC0D+u93TWAzQgX3mGZIv3hrFKD/vlSSzbF9kx
+ Ij6XrpyNti3QUmW7DF6N7NTiUlqkCEMSZxkfS00ruyi+6GDZ5GcLyHmq0HyZdgPHJQsD
+ B6Bksm1gKN4qTesy9wD82GtZ4PZ74jiGYg3MFhTNRYim02t3lWVCbrDrxwGrCqLi3fjQ
+ qNTYHbWeZ0KVaB5n6e15k6qM5eXNflZmjczAshEJhSJPi1eEQ9BN7I3c+2FW541kLQoP
+ zCog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1726848990; x=1727453790;
+ d=1e100.net; s=20230601; t=1726849281; x=1727454081;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ojs9bHvGaP56hqKEftt/MxT/xOMPbuiutorXXfIZh6g=;
- b=OGMo8wC+bta5e0x+mihURvjK6xv2wu/oSKLQumSFGjxI6Rfv0afn5FQfv6bv7AL6Zj
- 6q5OSEaPKO4rTDUGr08hAFVYLePPMIUHuByRcOtRBqQP+ga0gbvSDKEvTx+w3i1zwFaX
- lsN2iQD0EYAL2h0taPYkE/Goj/v/9FeyHsYgS0Tl7zeM407oaz1X1m+lEXkQ0iFqU755
- sqWcuAinOKUFa0xD8O+1u7WpPFgLC0EJJYYHl+vmCD/7fXzA6cg4g+hD2Gg63P7kB6yf
- o0e83ebJxxhqY0fWFnH75AJ0haQJOqiTVLx4QcvA/3xqlH4nkPkIxasyYRFKtIp5eiqB
- N42w==
+ bh=2n+484yaUAM7Bqur487+xLmG9zEd0hBev6NunxbKIeA=;
+ b=hlkMdKQAgRaXIpPVy5UXe79WcmFI9HCPW0nSRL5Ff/R/b1B4eh17yN8NvXgvm2LESh
+ qfR08rcRk2UZKGEadc9axl20ibAacbSF7+MT78VAS0dVwvjDT1Cigit9aFREnfg2uvRn
+ 1xyhUDVAU9WOKXNl/SHoqVxClRWebbkXuxf8ISEZELEcfJLlvOf1erV1C7FNZIX8Hyk+
+ RHjHjB0zDbetWP9Gg5dgdDs2X8Rqkko36F79uFkZ8RchPygbBvfxCCkwQZI7v36skqFk
+ Wq14FLDkKldvtQgNQZ2tNyEDUHh/6gTLJfqnfxi63m9kHWW5QMThbc2dvCX1isDiCix5
+ C1Ow==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV4UJOP3hCUUJI5qxdoPSlGGLihxW/jzEVHLgIEnQ0qIwGbgU18WkF5YcArfKayOww49RD9jqxzCJM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzKgY2Kdd3vZ3XWaWF6wM8ExnKqbpIF8Y4G8KYPLsebPKiMbNsW
- KxztKWc6DV/uNCbyXNR82gjN6+9fhnJj5pqA7xr7me28MeXooEoFbviZlpv8x3g=
-X-Google-Smtp-Source: AGHT+IFjuJHBz3zyYZgiHeBiTX9aOszMyNS+dBaoStFCzARqh43splESYieVEXve8IE/eEpFlXFarA==
-X-Received: by 2002:a05:651c:4ca:b0:2f7:58bc:f49d with SMTP id
- 38308e7fff4ca-2f7cb238066mr19201831fa.0.1726848990184; 
- Fri, 20 Sep 2024 09:16:30 -0700 (PDT)
+ AJvYcCVOvG8utc/d0VFSbZ4Vox//InFyU76VbEZ70KWMrQAlUi9yUfhm5FIrEGDAPyuo85XCncfp5TxvheY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzjmtrByX249qIbjHZp0qmycjnFFXlL3/PrzBdZiyet31RGNkTx
+ af3QuIt9pxDJkcdip43ZIYYIORk53wIhdotAFlrmfEl1Bcc/PFdX0F6BO48BP+A=
+X-Google-Smtp-Source: AGHT+IG7LsDitpApvLyICxw9texFBC0bExcUWUKBd3AdgrIkrscJOpeviiSnfe3TSFgFifCYaGCNeQ==
+X-Received: by 2002:a05:6512:3b29:b0:536:55ae:7458 with SMTP id
+ 2adb3069b0e04-536ac32e514mr2367040e87.40.1726849281394; 
+ Fri, 20 Sep 2024 09:21:21 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2f79d2e1ca7sm19564801fa.24.2024.09.20.09.16.25
+ 2adb3069b0e04-5368704ddb2sm2236913e87.104.2024.09.20.09.21.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Sep 2024 09:16:26 -0700 (PDT)
-Date: Fri, 20 Sep 2024 19:16:24 +0300
+ Fri, 20 Sep 2024 09:21:19 -0700 (PDT)
+Date: Fri, 20 Sep 2024 19:21:16 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Chen Ni <nichen@iscas.ac.cn>
-Cc: stefan@agner.ch, alison.wang@nxp.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, 
- simona@ffwll.ch, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/fsl-dcu: Remove redundant dev_err()
-Message-ID: <2es6xy5o4j7kciop75lturl6n6k5yykcibgkv5r6tjf7ap3ek3@ia7a4dozi2kl>
-References: <20240918074841.2221210-1-nichen@iscas.ac.cn>
+To: Yang Li <yang.lee@linux.alibaba.com>
+Cc: quic_abhinavk@quicinc.com, robdclark@gmail.com, airlied@gmail.com, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Abaci Robot <abaci@linux.alibaba.com>
+Subject: Re: [PATCH -next v2] drm/msm: Remove unneeded semicolon
+Message-ID: <qmjo32urtf4ftcjggyr3z4dr2alwiiw5si52lwvwz5vxpr22bf@bkrnk6oafagz>
+References: <20240918023357.59399-1-yang.lee@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240918074841.2221210-1-nichen@iscas.ac.cn>
+In-Reply-To: <20240918023357.59399-1-yang.lee@linux.alibaba.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,16 +84,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 18, 2024 at 03:48:41PM GMT, Chen Ni wrote:
-> There is no need to call the dev_err() function directly to print a
-> custom message when handling an error from platform_get_irq() function
-> as it is going to display an appropriate error message in case of a
-> failure.
+On Wed, Sep 18, 2024 at 10:33:57AM GMT, Yang Li wrote:
+> ./drivers/gpu/drm/msm/hdmi/hdmi_phy_8998.c:282:2-3: Unneeded semicolon
 > 
-> Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
+> This patch removes an unneeded semicolon after a switch statement in the 
+> pll_get_post_div function. Adding a semicolon after a switch statement is 
+> unnecessary and can lead to confusion in the code structure.
+> 
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=9852
+> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
 > ---
->  drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
+>  drivers/gpu/drm/msm/hdmi/hdmi_phy_8998.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
