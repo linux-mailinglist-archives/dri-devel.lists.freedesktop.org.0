@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A63C97DADB
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Sep 2024 01:45:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B2C797DAD9
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Sep 2024 01:45:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3E7810E878;
-	Fri, 20 Sep 2024 23:45:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A471C10E877;
+	Fri, 20 Sep 2024 23:45:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="ffIKs4bh";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="V9Sy7vz/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D3A510E877
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2024 23:45:38 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1726875911; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D168310E877
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2024 23:45:37 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1726875915; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=dePRqgU8TFCq66r00PgPqQwV9t2v/GWcjcZJKgDDFPMedvCQuzATRz5PdsfPkD9mT/qA0S+As5NsBzkY7FEK1iiEYXlf02ihvholTEqd4t/m9GN6j3TqJoYpHFO3JhTuiDDPXW9aDp8NIQSZ2SMQ2bmlUoBiAXeeVOJQEcpZoEA=
+ b=e1/dIbEpuSrXisdOEYATHgPvOB2njN/mAyc4hX/e2Cd9hE+CoqRmuwCTRlRGdB0HGlqMW2qfFQmTFu8UIPwhDJfVRd/+i8nkdKfiqv7OZPrbGyc+9zT6wa0tNDgRkNC+A2Oh+zr8DCIh5X44mFiNOh5D+ubrGnqHeNWmj2gYcCY=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1726875911;
+ s=zohoarc; t=1726875915;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=h+CEnwN7RG4Q8rPu3tiFv71mEVaf/Ddp1giVyFfwYDU=; 
- b=OTzDQ5/36HNmpap/917MXM57/6oerrwY7Bk9cwBn0WoxnvmDuYJAbpO66Y4Pr9iq0098776bON3Cl0BqvCScZwLQcRw+Fu8HIMl2SSeuV2GFn4SDflxDFiHvUok16wsbKCqS8R+yN3RGkYl9241SuzUbFjR0QXogbFe/WYBuDAM=
+ bh=8Zx1uYvQJHEfMq1P3R7kwkjfLptnJ4BSs6hKaoa5xIA=; 
+ b=nhMXCZPOd5oZw7JVkE9hkmImcDxqUtuapi+R2y4rfcnuID28KGcxuSTgDiG0aJBWehu3K0Odj9PVKse5Xg1efUwfJdxgnL1u09p1mIVwkoCfeyQuxOVNTadh/cHmY3Brl034HZCfqkC9b2VjZmucbv3XOVscEA5aojY7ykaUBjY=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
  dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1726875911; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1726875915; 
  s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
  h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=h+CEnwN7RG4Q8rPu3tiFv71mEVaf/Ddp1giVyFfwYDU=;
- b=ffIKs4bh/glu1ixk3vdqGBc3zQ3UX/zZ/FuBLOZm1ZQsDmzaekCt9B56BYQ34hLW
- lTz5Li9jwLXwvorak6+4aXmp3a4NaQKFjUotIqkmRSxoXscYAfGEGQefRMoRbhGoM8r
- m2e0k6byGC55kgCfveNEJ9iq5NORrlkq4qQ2xdAs=
-Received: by mx.zohomail.com with SMTPS id 1726875910098460.9540402794174;
- Fri, 20 Sep 2024 16:45:10 -0700 (PDT)
+ bh=8Zx1uYvQJHEfMq1P3R7kwkjfLptnJ4BSs6hKaoa5xIA=;
+ b=V9Sy7vz/cA+J6VE1GZ8zZytHWoJDFtsQSojMrFXUIE32mR4TtGZ8LzFdMXYt4e1W
+ lcEshI1TSqmkeSwREGWoDXU1fsW4xdElqLZI4fsbdi6aN7FntA5DVgTqOdKm4jYYwYf
+ Cv1VHZ2eQVNSr8iKO0tlk7fvosov+AnIp9Xbh27o=
+Received: by mx.zohomail.com with SMTPS id 1726875913122877.4178254379121;
+ Fri, 20 Sep 2024 16:45:13 -0700 (PDT)
 From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
 To: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= Boris Brezillon <"adrian.larumbe@collabora.comboris.brezillon"@collabora.com>,
 	Steven Price <steven.price@arm.com>,
@@ -50,11 +50,10 @@ To: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= Boris Brezillon <"adrian.larumbe@collabora
 Cc: kernel@collabora.com,
  =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- Boris Brezillon <boris.brezillon@collabora.com>
-Subject: [PATCH v7 4/5] drm/panthor: enable fdinfo for memory stats
-Date: Sat, 21 Sep 2024 00:43:43 +0100
-Message-ID: <20240920234436.207563-5-adrian.larumbe@collabora.com>
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: [PATCH v7 5/5] drm/panthor: add sysfs knob for enabling job profiling
+Date: Sat, 21 Sep 2024 00:43:44 +0100
+Message-ID: <20240920234436.207563-6-adrian.larumbe@collabora.com>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20240920234436.207563-1-adrian.larumbe@collabora.com>
 References: <20240920234436.207563-1-adrian.larumbe@collabora.com>
@@ -76,50 +75,148 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Implement drm object's status callback.
+This commit introduces a DRM device sysfs attribute that lets UM control
+the job accounting status in the device. The knob variable had been brought
+in as part of a previous commit, but now we're able to fix it manually.
 
-Also, we consider a PRIME imported BO to be resident if its matching
-dma_buf has an open attachment, which means its backing storage had already
-been allocated.
+As sysfs files are part of a driver's uAPI, describe its legitimate input
+values and output format in a documentation file.
 
 Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
 Reviewed-by: Steven Price <steven.price@arm.com>
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 ---
- drivers/gpu/drm/panthor/panthor_gem.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ .../testing/sysfs-driver-panthor-profiling    | 10 ++++
+ Documentation/gpu/panthor.rst                 | 46 +++++++++++++++++++
+ drivers/gpu/drm/panthor/panthor_drv.c         | 39 ++++++++++++++++
+ 3 files changed, 95 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-driver-panthor-profiling
+ create mode 100644 Documentation/gpu/panthor.rst
 
-diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
-index 38f560864879..c60b599665d8 100644
---- a/drivers/gpu/drm/panthor/panthor_gem.c
-+++ b/drivers/gpu/drm/panthor/panthor_gem.c
-@@ -145,6 +145,17 @@ panthor_gem_prime_export(struct drm_gem_object *obj, int flags)
- 	return drm_gem_prime_export(obj, flags);
+diff --git a/Documentation/ABI/testing/sysfs-driver-panthor-profiling b/Documentation/ABI/testing/sysfs-driver-panthor-profiling
+new file mode 100644
+index 000000000000..af05fccedc15
+--- /dev/null
++++ b/Documentation/ABI/testing/sysfs-driver-panthor-profiling
+@@ -0,0 +1,10 @@
++What:		/sys/bus/platform/drivers/panthor/.../profiling
++Date:		September 2024
++KernelVersion:	6.11.0
++Contact:	Adrian Larumbe <adrian.larumbe@collabora.com>
++Description:
++		Bitmask to enable drm fdinfo's job profiling measurements.
++		Valid values are:
++		0: Don't enable fdinfo job profiling sources.
++		1: Enable GPU cycle measurements for running jobs.
++		2: Enable GPU timestamp sampling for running jobs.
+diff --git a/Documentation/gpu/panthor.rst b/Documentation/gpu/panthor.rst
+new file mode 100644
+index 000000000000..cbf5c4429a2d
+--- /dev/null
++++ b/Documentation/gpu/panthor.rst
+@@ -0,0 +1,46 @@
++.. SPDX-License-Identifier: GPL-2.0+
++
++=========================
++ drm/Panthor CSF driver
++=========================
++
++.. _panfrost-usage-stats:
++
++Panthor DRM client usage stats implementation
++==============================================
++
++The drm/Panthor driver implements the DRM client usage stats specification as
++documented in :ref:`drm-client-usage-stats`.
++
++Example of the output showing the implemented key value pairs and entirety of
++the currently possible format options:
++
++::
++     pos:    0
++     flags:  02400002
++     mnt_id: 29
++     ino:    491
++     drm-driver:     panthor
++     drm-client-id:  10
++     drm-engine-panthor:     111110952750 ns
++     drm-cycles-panthor:     94439687187
++     drm-maxfreq-panthor:    1000000000 Hz
++     drm-curfreq-panthor:    1000000000 Hz
++     drm-total-memory:       16480 KiB
++     drm-shared-memory:      0
++     drm-active-memory:      16200 KiB
++     drm-resident-memory:    16480 KiB
++     drm-purgeable-memory:   0
++
++Possible `drm-engine-` key names are: `panthor`.
++`drm-curfreq-` values convey the current operating frequency for that engine.
++
++Users must bear in mind that engine and cycle sampling are disabled by default,
++because of power saving concerns. `fdinfo` users and benchmark applications which
++query the fdinfo file must make sure to toggle the job profiling status of the
++driver by writing into the appropriate sysfs node::
++
++    echo <N> > /sys/bus/platform/drivers/panthor/[a-f0-9]*.gpu/profiling
++
++Where `N` is a bit mask where cycle and timestamp sampling are respectively
++enabled by the first and second bits.
+diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+index 233b265c0819..6f47d9d1d86a 100644
+--- a/drivers/gpu/drm/panthor/panthor_drv.c
++++ b/drivers/gpu/drm/panthor/panthor_drv.c
+@@ -1513,6 +1513,44 @@ static void panthor_remove(struct platform_device *pdev)
+ 	panthor_device_unplug(ptdev);
  }
  
-+static enum drm_gem_object_status panthor_gem_status(struct drm_gem_object *obj)
++static ssize_t profiling_show(struct device *dev,
++			      struct device_attribute *attr,
++			      char *buf)
 +{
-+	struct panthor_gem_object *bo = to_panthor_bo(obj);
-+	enum drm_gem_object_status res = 0;
++	struct panthor_device *ptdev = dev_get_drvdata(dev);
 +
-+	if (bo->base.base.import_attach || bo->base.pages)
-+		res |= DRM_GEM_OBJECT_RESIDENT;
-+
-+	return res;
++	return sysfs_emit(buf, "%d\n", ptdev->profile_mask);
 +}
 +
- static const struct drm_gem_object_funcs panthor_gem_funcs = {
- 	.free = panthor_gem_free_object,
- 	.print_info = drm_gem_shmem_object_print_info,
-@@ -154,6 +165,7 @@ static const struct drm_gem_object_funcs panthor_gem_funcs = {
- 	.vmap = drm_gem_shmem_object_vmap,
- 	.vunmap = drm_gem_shmem_object_vunmap,
- 	.mmap = panthor_gem_mmap,
-+	.status = panthor_gem_status,
- 	.export = panthor_gem_prime_export,
- 	.vm_ops = &drm_gem_shmem_vm_ops,
++static ssize_t profiling_store(struct device *dev,
++			       struct device_attribute *attr,
++			       const char *buf, size_t len)
++{
++	struct panthor_device *ptdev = dev_get_drvdata(dev);
++	u32 value;
++	int err;
++
++	err = kstrtou32(buf, 0, &value);
++	if (err)
++		return err;
++
++	if ((value & ~PANTHOR_DEVICE_PROFILING_ALL) != 0)
++		return -EINVAL;
++
++	ptdev->profile_mask = value;
++
++	return len;
++}
++
++static DEVICE_ATTR_RW(profiling);
++
++static struct attribute *panthor_attrs[] = {
++	&dev_attr_profiling.attr,
++	NULL,
++};
++
++ATTRIBUTE_GROUPS(panthor);
++
+ static const struct of_device_id dt_match[] = {
+ 	{ .compatible = "rockchip,rk3588-mali" },
+ 	{ .compatible = "arm,mali-valhall-csf" },
+@@ -1532,6 +1570,7 @@ static struct platform_driver panthor_driver = {
+ 		.name = "panthor",
+ 		.pm = pm_ptr(&panthor_pm_ops),
+ 		.of_match_table = dt_match,
++		.dev_groups = panthor_groups,
+ 	},
  };
+ 
 -- 
 2.46.0
 
