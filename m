@@ -2,158 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65C9997D127
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 08:29:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C281F97D168
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 09:00:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3046410E7A9;
-	Fri, 20 Sep 2024 06:29:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05B5C10E1B2;
+	Fri, 20 Sep 2024 07:00:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="5A7LsMpa";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="XWLawVfG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2082.outbound.protection.outlook.com [40.107.93.82])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AC6B10E7A9;
- Fri, 20 Sep 2024 06:29:01 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PGjbP/4mlrxS8y+ZDTmyPT+bGn6iWqSAk+EuvnQ/ITFTFRCf/b/1xyHbBVblFcOSHBpMW9jIOEv1FyG/EjKoxYQbsH2q47PhJTEbzHJhndINaFpzxMwX488v/geZEq1XVf6N6ijsUihRNXd0bAs4CMOPtc1lxFJUBoZzPAVaMmPpFlylwa2r91mQKdJHPTehrl2A/Qy+giQRD4m07lkVgQ134cLjGSG0mPyClkwk6nzkcS6pbmw8P2QWgW5uFkWZ+hELk0nvARNRYfKpI4+qgPvswqtLh9e/KQxSUQUyj8B/L5sHp1EpsAqMo5O1g1fAZQwjkSuJrX9SXVHJM377TA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=X8uKg4vlU0H8aSWLs1pc+GTfeuHutGPJJZ4zetagCY8=;
- b=FBSyMJylWHD5Lfa2cIOtxAl1voRBLC9KpOd17l5TVdcS6EDKX9kfWOV4gO2w75pTKwHZYc9fW1tbRr9POa/wTmnea/SPdUCAC77dIU98Y3XkpdQXmGEAK1ibpjJV6opJqME8uWIS0sxUvHFshdP/EruhN3j7InEqqDdakmAGqgq+cj1oDvRavbi+ibUBcxRPPvDTIhbYVSoSdg+g1M7NhP9L1z5JR59xtqvX4/YnTyF4wnGM4dUggLSx1PupQSUtE25Y8gXnGZX95HnTm6xMgJhvTjmtpX5UQ/aSI/zWk/ERfw5wQoww7cps4EVkKp2LeM8zsqZaSIj0b55Lgu+kkA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=X8uKg4vlU0H8aSWLs1pc+GTfeuHutGPJJZ4zetagCY8=;
- b=5A7LsMpacLJ/DeypSkr7tjTzw2MTWdBDxnHXkNTslFwjez5jV10ed6BaAk8wXcIkuiJfocwllDZomXW6nzUkhRNDAt933CcMi1ksPuQfBzKRHJins5hkNERzkByyg8jLeHfioYc+vKmcuZigSNURgCp+SKV1KMN/4+Yt8lsRKA8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by BL3PR12MB6378.namprd12.prod.outlook.com (2603:10b6:208:3b1::6)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.17; Fri, 20 Sep
- 2024 06:28:58 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%2]) with mapi id 15.20.7982.012; Fri, 20 Sep 2024
- 06:28:58 +0000
-Message-ID: <ade271e8-2f6e-494b-979a-e53942b6b9a7@amd.com>
-Date: Fri, 20 Sep 2024 08:28:49 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/amdgpu: Fix typo "acccess" and improve the comment
- style here
-To: WangYuli <wangyuli@uniontech.com>, alexander.deucher@amd.com,
- Xinhui.Pan@amd.com, airlied@gmail.com, simona@ffwll.ch,
- sunil.khatri@amd.com, yifan1.zhang@amd.com, vitaly.prosyak@amd.com,
- Tim.Huang@amd.com, Prike.Liang@amd.com, jesse.zhang@amd.com,
- lijo.lazar@amd.com, Hawking.Zhang@amd.com, kevinyang.wang@amd.com,
- srinivasan.shanmugam@amd.com, victorchengchi.lu@amd.com,
- Jiadong.Zhu@amd.com, tao.zhou1@amd.com
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, le.ma@amd.com, Wenhui.Sheng@amd.com,
- alexdeucher@gmail.com, Thomas Zimmermann <tzimmermann@suse.de>
-References: <F25A139789E87C3E+20240920022755.1162495-1-wangyuli@uniontech.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <F25A139789E87C3E+20240920022755.1162495-1-wangyuli@uniontech.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR0P281CA0168.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:b4::17) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com
+ [209.85.210.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9219210E1B2
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2024 07:00:31 +0000 (UTC)
+Received: by mail-ot1-f44.google.com with SMTP id
+ 46e09a7af769-7092dd03223so421334a34.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2024 00:00:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1726815631; x=1727420431;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=dKh8jp1mMqMC44NuYUrSIonMZomeZP474HQjy5D5RNU=;
+ b=XWLawVfGFFgUsAU2aFefPV+qkNR8Smw0FICCgjTQOUTOrwk5IQXKMnjDhlDbkUFeTi
+ +uuAVegCU4ZDgxQoMe+Yub3PaOZXi8WSGbn1LkA7A34qCTksm1WQrR3jm/+ap7Dq3ELj
+ +vGuakujcQukUvQOtyim+cnVYQrjMzREFerzc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1726815631; x=1727420431;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=dKh8jp1mMqMC44NuYUrSIonMZomeZP474HQjy5D5RNU=;
+ b=wVOy7yQBHEsouGNcUXn/tS4jV3pXQ0xm7SnjXTOgMV1bexmIKxtoZRbOh6CU4D+y3B
+ LrY1G/9m0G4zhXR1GfZOKAZ8MjzbUGw7/6XNfRnmI0sCIBEiXQktqhCwhoKbWAiBdd5P
+ 8jrDvOggMXl5pJhKhdI0MuZap+ralWShgVeBICQcJUpBzVRXGaLnDrjtrWTn2WGaG4jm
+ 6ZcQT6zJvR+kuHbuNtEYRviiNGTEY9cLiA5GQ0/B2s6a382rPGY57Z0itmN8ASwojRON
+ kHRbymrGMYKhDR6S8ZIuAUoZQhIkpFzzUnsR1TLDnNxSGI5AYnbkcT7+/y60nDsB0gch
+ WbLw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXEnnCLaGDhK1lPcwt/IuWOjwjcJt3toHgU+P1VdpKjF8XY9wtbP/PKJC1I0HGu5vA5JH93zwEU8Os=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwlCVHZEMA5Peofqd5K8Eoh2N+8oAtETlYiDVoR7BPnXGJrDQHL
+ byIFkqjx8z+/Q98EKCg/QQtd+YkjuiPmc6e4fJZ7Krx+3hbpFlZ298ic8nqq+LtD6Wd+Lfyo6gW
+ bhuHe79dbPhlTe7U/xQAnG+qp/55bJ0ySdRmx
+X-Google-Smtp-Source: AGHT+IEsTYGcuuUXnvPDwkMrHq210zYf5pcO0Ki2WJlh5mhv/fkHgu4HSUPRWVms56Bpzzfplk5t/rpEwDgFlajeOII=
+X-Received: by 2002:a05:6830:71a7:b0:711:1503:85a0 with SMTP id
+ 46e09a7af769-713923b0ecbmr1360535a34.5.1726815630555; Fri, 20 Sep 2024
+ 00:00:30 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|BL3PR12MB6378:EE_
-X-MS-Office365-Filtering-Correlation-Id: 32d710df-97f9-47aa-6510-08dcd93d8246
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|921020;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?ZzNDRjQ4WHdlL3N6dTNucm1TY3NEem5QTlVRV2laeUozRVhQOGdGV1FMTlc3?=
- =?utf-8?B?MFRIWUo2Yi9uMHE0Znl3T1FlbEdzZzE2N0U0dHBDYkRBME4vQXhybysrWDhm?=
- =?utf-8?B?NmFrb1ArOWw0alNTZEhvT0lZUEpTcDRhVmlIMUlGTC9FSHNKdVprQ1psQUtZ?=
- =?utf-8?B?K2hVSkF5aTNGY3JFWFB0aXkyZytjaytoMEZRSk5tcGNGKzBzTlA1UXVTZWVi?=
- =?utf-8?B?dkRsaXF4Q2ttVXRZVU8yZkp4blNrRzBnamVyellhdjZqa084WlYveWp2MWd4?=
- =?utf-8?B?N3FwRzFKVnBMNVd6Wm1KY3NGTHdaNDhMZ3RWdzI1SnhWRVFuM0w2UFIzdHVO?=
- =?utf-8?B?KzhKUjE1UktsazYwWDM0Sm11WFFUUmljUjllZ3hhSDJUZG1KRVF2bUp4c25w?=
- =?utf-8?B?Rjk3WFFLTUE4M2YraWZCKzJZNG1jR2pYa0hVRC9iMXFib1BXejBqWGVCeFlm?=
- =?utf-8?B?SnB3ZXAweXEzUU4xUFFJZEY3Tkd4WTNEQndqRk1HeW4zZXZnaUVDd3ZHQ3Ex?=
- =?utf-8?B?MllTTXJlMmlQM2ppUWVQZ2FKaXJVTEo4Y1g5a3RjaVlvWWYxNVV1YkFxNXJG?=
- =?utf-8?B?Nlp1dEFCbktqbDJTdjZMUXBLVG1rOHBJVnNpbm5BWmZUOWVJdzFMcTZvYUtB?=
- =?utf-8?B?ZmV6ajJXRi9jNmRabnlGdVQrT1pjWlFKNEkzYjRjYU92dEZQd3JRSjJEZ20w?=
- =?utf-8?B?RDY0aC82NlNmL3dFME0xK2lnWFpGU2JQN24wcXgvQTdyNWRyMmpSS1BSMnRU?=
- =?utf-8?B?R09tZFcxMXNKdlJodGl0TjU4THBQSzlTU0VZNUZJS1RPMkV1TjVDU2wxeG5l?=
- =?utf-8?B?ZFhsenFjWXpOcHgzVFpPTlFqcDE2MS8rUXROZnVDUHNHTzIxSllRckV3Lzdq?=
- =?utf-8?B?QW1OaGZJOExRSGdKejJvZVUxYzB3azg1TXNJQ3k1OEorMnhyN25OWlYyQzYw?=
- =?utf-8?B?aFQ3dnNRWHhTcWxhcGNHVkFRayt0M0tvMk55V09VQjY5eGxsMERna0VEUWll?=
- =?utf-8?B?SHdldjN3NStsazg4TS9Xc1RsSWwwYU5Ebi9sRjE3aHYzS08zbUphUGF2Nm45?=
- =?utf-8?B?bFkxSWkwbnJ6ZVJocVE5T1dRQjZQL3dTMWY3a2xJRmpZMDBNcWl6RmYwcnlL?=
- =?utf-8?B?SmZ1b1Y4NzV2T1pXRVloOXcyY2FRVFhucUFHMFpyQWpaSkZpZC91Q216Q2pB?=
- =?utf-8?B?VWtTVFhzaWR5ZnZTbDdELzBwMHlQSnRrUm9wcFkvbWgrVVFwc0FqcFBGMXZM?=
- =?utf-8?B?VGtLclUzVFJtd05LYW83UTZQNm5EZ21IbXJhNnAyUzlsZHdIS3BnczFVSThl?=
- =?utf-8?B?T29ITHZFUzhyQ1N1NkswRU9WaDhvSFVPZlUzUEh1WUxGWDBqdXlCRGJnQ0I4?=
- =?utf-8?B?QUNqMFN1SjlnNGVOT2hCSENuNGZaTlhrSkdhZ0o3WHpQdnF2NzJxWitrWHBG?=
- =?utf-8?B?eDZyR09TdGI2MHpVckg0OGNHVUgvYjdYNHlRelFFNDQxK1FSN3R0WUlnaTBX?=
- =?utf-8?B?T2NpWkZCeDdCZkVWOFUvZ0FxdHlHeXd6ZXcrZWhMSTVVVnVpVEFKL0h3Lzl0?=
- =?utf-8?B?UFR4b2Rma3oxaGRIV0s1VVlyZlBkMmJ1ckhvelNCS1E1ZENnRk5NU2c2MkxO?=
- =?utf-8?B?RHlqS1lVZWNVYkhtamNOU0M1eXlWOEtqV3RiV2g5V2tpRmxBRnNhY2F6Vk5O?=
- =?utf-8?B?VkNpd0NkRXlnRzdNZmxEVXBRZXZ1elVVWU5hUzM2MTAvcy94aFFwMzJuLzlW?=
- =?utf-8?B?eFBCVHJYaXIreGZ5dmt1RnlQWHI1MVA3bjdPMy9iMm5vN203cXdYazBtWENP?=
- =?utf-8?B?OVpHWExENytMSktwZWVQZFN3R2V3UkQyY3c3c3JTZEdpYjVXODZvOXNpQVVY?=
- =?utf-8?B?eXdJeWttSTdCRXJCTTJwRVF6bzhMR1pmcjk0Q2V2TlF5ZlE9PQ==?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014)(921020); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Y2QzbzNyZHU4bVRHdkY0S3VXRWtYS3VrNnFHMnBHYXIrUjN4TG9EMFkxRTFT?=
- =?utf-8?B?ZE9UMWJqUlBOa2k4QkludktVYUVYN25WZndhd2ZWVG9ueitSNzhBQXlSUHRS?=
- =?utf-8?B?cVBHUE1aWnZuWTBUUmloNmE0cVlVV0lidzZuaExYZ2t3QjVYdDBHc0p3Z1k5?=
- =?utf-8?B?VHAvbEV0RGJMYW5BOGdPNUtYME9xemJEcE1nbkZDTUpkUnVNMnc2OS96dDRF?=
- =?utf-8?B?U05zcHA0MlZtTTd3cVNRQjdkSzM0L3IrS1o5TEoyTjcvWmxrNS9tV2REZkJu?=
- =?utf-8?B?NW5OU1lwWVMvVitkczI4RXdRbit2VGlxdkRJdUNyUzIyVnRkVjhPVWY3dmpt?=
- =?utf-8?B?cmM1OU9MM0xpNWRRd253OG9QWHUyOVV2QlF1U3ZvVlVpNGRzTDR6dnhiYlhS?=
- =?utf-8?B?cUxBYm4zSVJsd2ZSZzhvcmNaMkUvT2lvWDIzZWs3YkxLbHR4SHRpZzBtUUN2?=
- =?utf-8?B?Q0RET1hiWXlQa2J6eGpRZ0VKd0hoWjhMc0cvNG0waGhQcEtNL0VHY0U3UEJi?=
- =?utf-8?B?QjEyaHdaSjQwZDB4TWt1NkFMM1l0UTZ5U05Pc0xxR1p5Q0s2eEdpNktCeEhS?=
- =?utf-8?B?djBYMDdrTU1FNE1KbVFZSHkwbVBTTm15cm9XMVpCRDh1QmthaUltcVlvUTJ6?=
- =?utf-8?B?U3JXV3AzUjltNzVlM0tlM1I5U2l5a2tpMEp6Tzcyb2E1UFlKeXBEK1g1em9y?=
- =?utf-8?B?SGF1V1REWmMrSERtK29RcTE5MXVxeHlIZGVuVDVBSHowdU53bnkySVFMZTlC?=
- =?utf-8?B?ZEd0YkpzQnJuUnRNNHd1dmY4RzNxRER4K3VxQndHb2E1VVRld1JsUjZIR0Zo?=
- =?utf-8?B?VzNzd1RGdElEWTArTW9RVy8vOXI2MVVOcmJ3VWxPbkNtejl0NEVqam5sYWxJ?=
- =?utf-8?B?ZndhNnI1MTByQlBRNU03Q1RJYU9CVHhQTm5DR1RnWENwZWxvUnRGdkhBUy9k?=
- =?utf-8?B?djJ2SmZZS2xpeTZCZXZydGZzVmo3YmpjalRQZ0NwSjU3UytOcUVlVFYxTGp1?=
- =?utf-8?B?Wi9kR3E3bkE2SUwyMXdNdVpiN1dTMThFekdDQXZFOGxuM2M2ZUpyWGhtcWlw?=
- =?utf-8?B?UlBSVCsxQ2FhcGxaMTZId3dTQURwWGFvWG80MTlBUUxjRUpkZjJnbFg0dlV4?=
- =?utf-8?B?L3EvNldoTW5TMjZxa3J0SVpDNVhreXdwcGg0TFRHcytqRTdqdDMwQ2Y2K202?=
- =?utf-8?B?TklvNnpLTmdWQzlHM0k1L0VrRTBUUmRSQlhvOEt5ZzJ2a3NjY0xUNWROb1B3?=
- =?utf-8?B?WVY1cjdmc0lUWlpoYjFNcjV2RU1MUXF6aXVoNTFRcGlOdExwMHdWVVhPbTZH?=
- =?utf-8?B?MTNWREczc0lUZEpzQk5MMDJtWkx3QnVWWXhNUWF1dythTVNSbkxMRW5BSFNu?=
- =?utf-8?B?MExaeGRaZEhUVWpaMWcraVVjVVBKTzFNaCtnUzAzM1dPL1YyejhuM0ZBbUh1?=
- =?utf-8?B?eWxXTHQrSGR3cGRDMHRlTk03MW41Q1VPM3M5S09heE1xRW1RVnF5SXJNOXIz?=
- =?utf-8?B?dFRMWTJ2Y05PKzRNMUtVY3NFa0JGcWx3NzkwMzVyRS9zaC9kYXAzVVE4YTk5?=
- =?utf-8?B?YlBwTHVmVFI0anhwL0xaZkIzNFpGNnRkK0VPak5WLzVOYk5EdElBYzVpU09i?=
- =?utf-8?B?aVVGYnFvbTJ3aFRmS1BSTDlTTWN0UGxEOXBrKzN1TTRQMHdFbm1VQTBBb3pI?=
- =?utf-8?B?cTlrdnBIUWtad0JpNlduMGtBUHgzZ0JieHZrTzNIb3hQbmdYMStCZDc5NWpi?=
- =?utf-8?B?OEsveWY5em45cWtMbTF6d0RuWCtXQXBGOWp2ZUVFSkRxbklwYlRYdGtTOUQx?=
- =?utf-8?B?RjNHU0Z5NFRXT3UzcVFLRmVxamgrWFZUdm9rRHlmaWxwdFZDTExLWDhXaWRW?=
- =?utf-8?B?eGY4eTl2eGlUYXhMNmNBWDkvZndFaGFsRmJ3cEFXRlVIOUxwK0lnUnB2L040?=
- =?utf-8?B?VkNxZzM4QkpoL2FtTTNLTjljdThONU1pKzhvUzhia3hqSEljNXhmSmhwcy9U?=
- =?utf-8?B?WDN3bUFxK3lNRWlWRWMzZlBjczdxVWdVeHhDRzZwNkVqbmtjaVFMT2NSakpM?=
- =?utf-8?B?MkhIUllQVWNmeWh3Sk5IVkZHZkxpWHRwQkZYaU55ekVsWm5JWU9TVjVmejRT?=
- =?utf-8?Q?JqG0=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 32d710df-97f9-47aa-6510-08dcd93d8246
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Sep 2024 06:28:58.4619 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OD8PwSCez8IFHvVL0JUEMp0qyRkuR/xdxR+wDXgXf6FQ+22bo6yIcwDGscdlRdWa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6378
+References: <20240919091916.1484-1-Hermes.Wu@ite.com.tw>
+ <20240919091916.1484-3-Hermes.Wu@ite.com.tw>
+In-Reply-To: <20240919091916.1484-3-Hermes.Wu@ite.com.tw>
+From: Pin-yen Lin <treapking@chromium.org>
+Date: Fri, 20 Sep 2024 15:00:19 +0800
+Message-ID: <CAEXTbpf8V3h0reTbsopY1ifCq4a4V44OJyhk=zRnwhBayMte1w@mail.gmail.com>
+Subject: Re: [PATCH v1 2/2] drm/bridge: it6505: Add MSSC suport
+To: Hermes Wu <Hermes.Wu@ite.com.tw>
+Cc: Andrzej Hajda <a.hajda@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, 
+ Robert Foss <robert.foss@linaro.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>, 
+ open list <linux-kernel@vger.kernel.org>,
+ Kenneth Hung <Kenneth.hung@ite.com.tw>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -169,61 +86,394 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 20.09.24 um 04:27 schrieb WangYuli:
-> There are some spelling mistakes of 'acccess' in comments which
-> should be instead of 'access'.
+On Thu, Sep 19, 2024 at 5:20=E2=80=AFPM Hermes Wu <Hermes.Wu@ite.com.tw> wr=
+ote:
 >
-> And the comment style should be like this:
->   /*
->    * Text
->    * Text
->    */
+> From: "Hermes.Wu" <Hermes.wu@ite.com.tw>
 >
-> Suggested-by: Christian König <christian.koenig@amd.com>
-> Link: https://lore.kernel.org/all/f75fbe30-528e-404f-97e4-854d27d7a401@amd.com/
-> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Link: https://lore.kernel.org/all/0c768bf6-bc19-43de-a30b-ff5e3ddfd0b3@suse.de/
-> Signed-off-by: WangYuli <wangyuli@uniontech.com>
+> add AUX-I2C functionality to support MCCS.
+>
+> Change-Id: I63e1a0e5da67526f89f35605a82944be67dee8ac
+Remove the Change-Id line. If you run scripts/checkpatch.pl, the
+script should catch this for you.
 
-Reviewed-by: Christian König <christian.koenig@amd.com>
-
+> Signed-off-by: Hermes Wu <Hermes.wu@ite.com.tw>
 > ---
->   drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c  | 6 ++++--
->   drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c | 6 ++++--
->   2 files changed, 8 insertions(+), 4 deletions(-)
+>  drivers/gpu/drm/bridge/ite-it6505.c | 209 ++++++++++++++++++++++++++--
+>  1 file changed, 200 insertions(+), 9 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c
-> index d3e8be82a172..33fd2da49a2a 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c
-> @@ -1893,8 +1893,10 @@ static void gfx_v11_0_init_compute_vmid(struct amdgpu_device *adev)
->   	soc21_grbm_select(adev, 0, 0, 0, 0);
->   	mutex_unlock(&adev->srbm_mutex);
->   
-> -	/* Initialize all compute VMIDs to have no GDS, GWS, or OA
-> -	   acccess. These should be enabled by FW for target VMIDs. */
-> +	/*
-> +	 * Initialize all compute VMIDs to have no GDS, GWS, or OA
-> +	 * access. These should be enabled by FW for target VMIDs.
-> +	 */
->   	for (i = adev->vm_manager.first_kfd_vmid; i < AMDGPU_NUM_VMID; i++) {
->   		WREG32_SOC15_OFFSET(GC, 0, regGDS_VMID0_BASE, 2 * i, 0);
->   		WREG32_SOC15_OFFSET(GC, 0, regGDS_VMID0_SIZE, 2 * i, 0);
-> diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c b/drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c
-> index 408e5600bb61..57b55b6d797d 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c
-> @@ -1247,8 +1247,10 @@ static void gfx_v9_4_3_xcc_init_compute_vmid(struct amdgpu_device *adev,
->   	soc15_grbm_select(adev, 0, 0, 0, 0, GET_INST(GC, xcc_id));
->   	mutex_unlock(&adev->srbm_mutex);
->   
-> -	/* Initialize all compute VMIDs to have no GDS, GWS, or OA
-> -	   acccess. These should be enabled by FW for target VMIDs. */
-> +	/*
-> +	 * Initialize all compute VMIDs to have no GDS, GWS, or OA
-> +	 * access. These should be enabled by FW for target VMIDs.
-> +	 */
->   	for (i = adev->vm_manager.first_kfd_vmid; i < AMDGPU_NUM_VMID; i++) {
->   		WREG32_SOC15_OFFSET(GC, GET_INST(GC, xcc_id), regGDS_VMID0_BASE, 2 * i, 0);
->   		WREG32_SOC15_OFFSET(GC, GET_INST(GC, xcc_id), regGDS_VMID0_SIZE, 2 * i, 0);
+> diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge=
+/ite-it6505.c
+> index cef02c8c363e..1a272c67e82b 100644
+> --- a/drivers/gpu/drm/bridge/ite-it6505.c
+> +++ b/drivers/gpu/drm/bridge/ite-it6505.c
+> @@ -127,6 +127,9 @@
+>  #define REG_AUX_ADR_16_19 0x26
+>  #define REG_AUX_OUT_DATA0 0x27
+>
+> +#define REG_AUX_I2C_ADR 0x25
+> +#define REG_AUX_I2C_OP 0x26
+> +
+>  #define REG_AUX_CMD_REQ 0x2B
+>  #define AUX_BUSY BIT(5)
+>
+> @@ -268,6 +271,19 @@
+>  #define REG_SSC_CTRL1 0x189
+>  #define REG_SSC_CTRL2 0x18A
+>
+> +#define REG_AUX_USER_CTRL 0x190
+> +#define EN_USER_AUX BIT(0)
+> +#define USER_AUX_DONE BIT(1)
+> +#define AUX_EVENT BIT(4)
+> +
+> +#define REG_AUX_USER_DATA_REC 0x191
+> +#define M_AUX_IN_REC   0xF0
+> +#define M_AUX_OUT_REC  0x0F
+> +
+> +#define REG_AUX_USER_TXB 0x190
+> +#define REG_AUX_USER_REPLY 0x19A
+> +#define REG_AUX_USER_RXB(n) (n + 0x19B)
+> +
+>  #define RBR DP_LINK_BW_1_62
+>  #define HBR DP_LINK_BW_2_7
+>  #define HBR2 DP_LINK_BW_5_4
+> @@ -303,6 +319,8 @@
+>  #define MAX_EQ_LEVEL 0x03
+>  #define AUX_WAIT_TIMEOUT_MS 15
+>  #define AUX_FIFO_MAX_SIZE 16
+> +#define AUX_I2C_MAX_SIZE 4
+> +#define AUX_I2C_DEFER_RETRY 4
+>  #define PIXEL_CLK_DELAY 1
+>  #define PIXEL_CLK_INVERSE 0
+>  #define ADJUST_PHASE_THRESHOLD 80000
+> @@ -325,7 +343,12 @@
+>  enum aux_cmd_type {
+>         CMD_AUX_NATIVE_READ =3D 0x0,
+>         CMD_AUX_NATIVE_WRITE =3D 0x5,
+> +       CMD_AUX_GI2C_ADR =3D 0x08,
+> +       CMD_AUX_GI2C_READ =3D 0x09,
+> +       CMD_AUX_GI2C_WRITE =3D 0x0A,
+>         CMD_AUX_I2C_EDID_READ =3D 0xB,
+> +       CMD_AUX_I2C_READ =3D 0x0D,
+> +       CMD_AUX_I2C_WRITE =3D 0x0C,
+>
+>         /*extend read ncommand */
+>         CMD_AUX_GET_KSV_LIST =3D 0x10,
+> @@ -333,8 +356,11 @@ enum aux_cmd_type {
+>
+>  enum aux_cmd_reply {
+>         REPLY_ACK,
+> -       REPLY_NACK,
+> -       REPLY_DEFER,
+> +       REPLY_NACK =3D 1,
+> +       REPLY_DEFER =3D 2,
+> +
+> +       REPLY_I2C_NACK =3D 4,
+> +       REPLY_I2C_DEFER =3D 8,
+>  };
+>
+>  enum link_train_status {
+> @@ -1087,7 +1113,6 @@ static ssize_t it6505_aux_do_transfer(struct it6505=
+ *it6505,
+>                                       size_t size, enum aux_cmd_reply *re=
+ply)
+>  {
+>         int i, ret_size, ret =3D 0, request_size;
+> -       struct device *dev =3D &it6505->client->dev;
+The drm-misc/drm-misc-next doesn't have it6505->client node. It's
+already removed at commit d65feac281ab ("drm/bridge: Remove redundant
+i2c_client in anx7625/it6505").
 
+Please rebase your patch.
+>
+>         mutex_lock(&it6505->aux_lock);
+>         for (i =3D 0; i < size; ) {
+> @@ -1114,6 +1139,168 @@ static ssize_t it6505_aux_do_transfer(struct it65=
+05 *it6505,
+>         return ret;
+>  }
+>
+> +
+> +static int it6505_aux_i2c_wait(struct it6505 *it6505, u8 *reply)
+> +{
+> +       int err =3D 0;
+> +       unsigned long timeout;
+> +       struct device *dev =3D &it6505->client->dev;
+> +
+> +       timeout =3D jiffies + msecs_to_jiffies(AUX_WAIT_TIMEOUT_MS) + 1;
+> +
+> +       do {
+> +               if (it6505_read(it6505, REG_AUX_USER_CTRL) & AUX_EVENT)
+Do we need to assign err if it6505_read returns error?
+> +                       break;
+> +               if (time_after(jiffies, timeout)) {
+> +                       dev_err(dev, "Timed out waiting AUX I2C, BUSY =3D=
+ %X\n",
+> +                                       it6505_aux_op_finished(it6505));
+> +                       err =3D -ETIMEDOUT;
+> +                       goto end_aux_i2c_wait;
+> +               }
+> +               usleep_range(300, 800);
+> +
+> +       } while (!it6505_aux_op_finished(it6505));
+Can this loop be changed to regmap_read_poll_timeout()?
+> +
+> +       if (reply =3D=3D NULL)
+> +               goto end_aux_i2c_wait;
+If reply is NULL, then there will be a NULL pointer dereference at
+it6505_aux_i2c_readb() anyway. From the usages in drm_dp_helper.c, I
+doubt if this pointer is possible to be NULL. Even if it could, you
+should have done this check earlier.
+> +
+> +       *reply =3D it6505_read(it6505, REG_AUX_USER_REPLY) >> 4;
+> +
+> +       if (*reply =3D=3D 0)
+> +               goto end_aux_i2c_wait;
+> +
+> +       if ((*reply =3D=3D DP_AUX_NATIVE_REPLY_DEFER) ||
+> +                       (*reply =3D=3D DP_AUX_I2C_REPLY_DEFER))
+> +               err =3D -EBUSY;
+> +       else if ((*reply =3D=3D DP_AUX_NATIVE_REPLY_NACK) ||
+> +                       (*reply =3D=3D DP_AUX_I2C_REPLY_NACK))
+> +               err =3D -ENXIO;
+> +
+> +end_aux_i2c_wait:
+> +       it6505_set_bits(it6505, REG_AUX_USER_CTRL, USER_AUX_DONE, USER_AU=
+X_DONE);
+> +       return err;
+> +}
+> +
+> +static int it6505_aux_i2c_readb(struct it6505 *it6505, u8 *buf, size_t s=
+ize, u8 *reply)
+> +{
+> +       int ret, i;
+> +       int retry =3D 0;
+> +
+> +       for (retry =3D 0; retry < AUX_I2C_DEFER_RETRY; retry++) {
+> +
+Remove the blank line here.
+> +               it6505_write(it6505, REG_AUX_CMD_REQ, CMD_AUX_GI2C_READ);
+> +
+> +               ret =3D it6505_aux_i2c_wait(it6505, reply);
+> +
+> +               if ((*reply =3D=3D DP_AUX_NATIVE_REPLY_DEFER) ||
+> +                       (*reply =3D=3D DP_AUX_I2C_REPLY_DEFER))
+> +                       continue;
+> +
+> +               if (ret >=3D 0)
+> +                       break;
+Should we check the return value before checking the reply?
+> +       }
+> +
+> +       for (i =3D 0; i < size; i++)
+> +               buf[i] =3D  (u8) it6505_read(it6505, REG_AUX_USER_RXB(0 +=
+ i));
+> +
+> +       return size;
+> +}
+> +
+> +static int it6505_aux_i2c_writeb(struct it6505 *it6505, u8 *buf, size_t =
+size, u8 *reply)
+> +{
+> +       int i, ret;
+> +       int retry =3D 0;
+> +
+> +       for (i =3D 0; i < size; i++)
+> +               it6505_write(it6505, REG_AUX_OUT_DATA0 + i, buf[i]);
+> +
+> +       for (retry =3D 0; retry < AUX_I2C_DEFER_RETRY; retry++) {
+> +
+ditto
+> +               it6505_write(it6505, REG_AUX_CMD_REQ, CMD_AUX_GI2C_WRITE)=
+;
+> +
+> +               ret =3D it6505_aux_i2c_wait(it6505, reply);
+> +
+> +               if ((*reply =3D=3D DP_AUX_NATIVE_REPLY_DEFER) ||
+> +                       (*reply =3D=3D DP_AUX_I2C_REPLY_DEFER))
+> +                       continue;
+> +
+> +               if (ret >=3D 0)
+> +                       break;
+ditto
+> +       }
+> +       return size;
+> +}
+> +
+> +static ssize_t it6505_aux_i2c_operation(struct it6505 *it6505,
+> +                                       struct drm_dp_aux_msg *msg)
+> +{
+> +       int ret;
+> +       ssize_t request_size, data_cnt =3D 0;
+> +       struct device *dev =3D &it6505->client->dev;
+> +       u8 *buffer =3D msg->buffer;
+> +
+> +       /* set AUX user mode */
+> +       it6505_set_bits(it6505, REG_AUX_CTRL,
+> +                       AUX_USER_MODE | AUX_NO_SEGMENT_WR, AUX_USER_MODE)=
+;
+> +       it6505_set_bits(it6505, REG_AUX_USER_CTRL, EN_USER_AUX, EN_USER_A=
+UX);
+> +       /* clear AUX FIFO */
+> +       it6505_set_bits(it6505, REG_AUX_CTRL,
+> +                       AUX_EN_FIFO_READ | CLR_EDID_FIFO,
+> +                       AUX_EN_FIFO_READ | CLR_EDID_FIFO);
+> +
+> +       it6505_set_bits(it6505, REG_AUX_CTRL,
+> +                       AUX_EN_FIFO_READ | CLR_EDID_FIFO, 0x00);
+> +
+> +       it6505_write(it6505, REG_AUX_ADR_0_7, 0x00);
+> +       it6505_write(it6505, REG_AUX_I2C_ADR, msg->address << 1);
+> +
+> +       if (msg->size =3D=3D 0) {
+> +               /* IIC Start/STOP dummy write */
+> +               it6505_write(it6505, REG_AUX_I2C_OP, msg->request);
+> +               it6505_write(it6505, REG_AUX_CMD_REQ, CMD_AUX_GI2C_ADR);
+> +               ret =3D it6505_aux_i2c_wait(it6505, &msg->reply);
+> +               goto end_aux_i2c_transfer;
+> +       }
+> +
+> +       /* IIC data transfer */
+> +       for (data_cnt =3D 0; data_cnt < msg->size; ) {
+> +               request_size =3D min(msg->size - data_cnt, AUX_I2C_MAX_SI=
+ZE);
+> +               it6505_write(it6505, REG_AUX_I2C_OP,
+> +                                       (msg->request) | ((request_size -=
+ 1) << 4));
+> +
+> +               if ((msg->request & DP_AUX_I2C_READ) =3D=3D DP_AUX_I2C_RE=
+AD)
+> +                       ret =3D it6505_aux_i2c_readb(it6505, &buffer[data=
+_cnt],
+> +                                                       request_size, &ms=
+g->reply);
+> +               else
+> +                       ret =3D it6505_aux_i2c_writeb(it6505, &buffer[dat=
+a_cnt],
+> +                                                       request_size, &ms=
+g->reply);
+> +
+Remove the blank line here. I don't think we need a blank line before
+the return value check.
+> +               if (ret < 0)
+> +                       goto end_aux_i2c_transfer;
+> +
+> +               data_cnt +=3D request_size;
+> +       }
+> +       ret =3D data_cnt;
+> +end_aux_i2c_transfer:
+> +
+Remove the blank line.
+> +       it6505_set_bits(it6505, REG_AUX_USER_CTRL, EN_USER_AUX, 0);
+> +       it6505_set_bits(it6505, REG_AUX_CTRL, AUX_USER_MODE, 0);
+> +       return ret;
+> +}
+> +
+> +
+Remove one blank line.
+> +static ssize_t it6505_aux_i2c_transfer(struct drm_dp_aux *aux,
+> +                                  struct drm_dp_aux_msg *msg)
+> +{
+> +       struct it6505 *it6505 =3D container_of(aux, struct it6505, aux);
+> +       int ret;
+> +
+> +       mutex_lock(&it6505->aux_lock);
+> +       ret =3D it6505_aux_i2c_operation(it6505, msg);
+> +       mutex_unlock(&it6505->aux_lock);
+> +       return ret;
+> +}
+> +
+> +
+ditto.
+>  static ssize_t it6505_aux_transfer(struct drm_dp_aux *aux,
+>                                    struct drm_dp_aux_msg *msg)
+>  {
+> @@ -1125,7 +1312,7 @@ static ssize_t it6505_aux_transfer(struct drm_dp_au=
+x *aux,
+>
+>         /* IT6505 doesn't support arbitrary I2C read / write. */
+Update the comment above.
+>         if (is_i2c)
+> -               return -EINVAL;
+> +               return it6505_aux_i2c_transfer(aux, msg);
+>
+>         switch (msg->request) {
+>         case DP_AUX_NATIVE_READ:
+> @@ -1153,6 +1340,8 @@ static ssize_t it6505_aux_transfer(struct drm_dp_au=
+x *aux,
+>         case REPLY_DEFER:
+>                 msg->reply =3D DP_AUX_NATIVE_REPLY_DEFER;
+>                 break;
+> +       default:
+> +               break;
+>         }
+>
+>         return ret;
+> @@ -1180,7 +1369,7 @@ static int it6505_get_edid_block(void *data, u8 *bu=
+f, unsigned int block,
+>                 switch (reply) {
+>                 case REPLY_ACK:
+>                         DRM_DEV_DEBUG_DRIVER(dev, "[0x%02x]: %8ph", offse=
+t,
+> -                                            buf + offset);
+> +                                                               uf + offs=
+et);
+This looks like a typo to me.
+>                         offset +=3D 8;
+>                         aux_retry =3D 100;
+>                         break;
+> @@ -1190,6 +1379,8 @@ static int it6505_get_edid_block(void *data, u8 *bu=
+f, unsigned int block,
+>                         msleep(20);
+>                         if (!(--aux_retry))
+>                                 return -EIO;
+> +               default:
+> +                       break;
+>                 }
+>         }
+>
+> @@ -2031,8 +2222,8 @@ static int it6505_setup_sha1_input(struct it6505 *i=
+t6505, u8 *sha1_input)
+>
+>
+>         err =3D  it6505_get_ksvlist(it6505, sha1_input, down_stream_count=
+ * 5);
+> -       if (err < 0)
+> -               return err;
+> +               if (err < 0)
+> +                       return err;
+Revert the indentation change here.
+>
+>         msg_count +=3D down_stream_count * 5;
+>
+> @@ -2075,7 +2266,7 @@ static bool it6505_hdcp_part2_ksvlist_check(struct =
+it6505 *it6505)
+>         for (retry =3D 0; retry < 3; retry++) {
+>
+>                 err =3D it6505_get_dpcd(it6505, DP_AUX_HDCP_V_PRIME(0), (=
+u8 *)bv,
+> -                                       sizeof(bv));
+> +                             sizeof(bv));
+Same here.
+>
+>                 if (err < 0) {
+>                         dev_err(dev, "Read V' value Fail %d", retry);
+> @@ -2126,7 +2317,7 @@ static void it6505_hdcp_wait_ksv_list(struct work_s=
+truct *work)
+>
+>         ksv_list_check =3D it6505_hdcp_part2_ksvlist_check(it6505);
+>         DRM_DEV_DEBUG_DRIVER(dev, "ksv list ready, ksv list check %s",
+> -                               ksv_list_check ? "pass" : "fail");
+> +                            ksv_list_check ? "pass" : "fail");
+The indentation here is correct on my drm-misc/drm-misc-next checkout.
+Please rebase your patch and revisit this.
+
+>
+>         if (ksv_list_check)
+>                 return;
+> --
+> 2.34.1
+>
+
+Regards,
+Pin-yen
