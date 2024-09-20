@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A76A97D372
+	by mail.lfdr.de (Postfix) with ESMTPS id 2265297D370
 	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 11:10:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF6F610E7F7;
-	Fri, 20 Sep 2024 09:10:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66ECF10E7F5;
+	Fri, 20 Sep 2024 09:10:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="MB8MJ03+";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="z5vW1CtY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2076.outbound.protection.outlook.com [40.107.223.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48DA510E7F5;
- Fri, 20 Sep 2024 09:10:12 +0000 (UTC)
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2050.outbound.protection.outlook.com [40.107.94.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CD4810E7F2;
+ Fri, 20 Sep 2024 09:10:09 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=D4iSBQvzJZnMTtmpoIS5VkbwWLmMOUll/gSdFIdiISq6t5yQw1Wugev+cSW45wCgxeBeCFDRRpRcKR7YhkrrZtPx1VZp4zvoq+cPRXVmu1XkuvzE9trebFh8Ufd5/jTZhuYB4vNDLPAbt3ViQfkudYJ7nVqwjA0QQ38CPE9gTenf9q3KrBlzQZHigryr49TYKGhk8Zlhp/RRH4Ncb/LtUgNYFBTKaIJOkWQsIsrvDEOGnMKbHUi0T9NsCsvuuUbQuEvcpkYrl0KpkgAyRNXXRz8X648pO7halODSEIUe/Cbd1AsdKPaoixARefbnxrlnMRRkQEywIs/IroSWM54myg==
+ b=yeVkYcn7brmBw2wjUltWV7dH7MlrblRqCGm35s+tpvh+qfOeTUxgnTDkO5JyaTfAOMk6SJRRgs0aOeIwHs5hPtM/tc+eHWwQnOiT+WrUkFWKsKbEzAHF71LprGSDnhli0CCDOJynC420nOkEpWWvCOqjNB9Y89xj5IdCjbdfjAn7/T+hXH1F8wYhSYSuvE8inJPqZ0bn5dSbK0ME2u265QEczERSIcQBmZby2BKS9BynKOJE3iRvp59fSjx9WlRSKkNpj56O8ndACgK16ZDWEQXWNh7BOqNDNJQrnYpjrRscgKBVFZRRxvKwH9XLsUjXpa5U2ElLzkCNa/dJwRPV6w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Rzq2PWwBF5hjtU43AMv1Dq7nuQPiVX+F4y1egAzNB1o=;
- b=ei89dILGs4DVm7hY8GY5gG7L7HYYXb9SZCpI4cN3QAp2qNzWXKlm3b7059T/NHwbfoDeY2hrxNL5s4x2UkRyK9e61a3eDjeOx4bP8hh5XIL2xVIG87qxwsGlMZ18J+7AIY5YV7uyDCrnxMfPDJgHfPjVP/8zWpI2Bch99a+ZEhGn80I0ueK8wBYVKze4V111gI2BjLJS3EH8fgvfrDDd/DjxKEkYuD+H9cjnsgIjmc74WRFyO5JTXdlVUMPAJbrYAAkas21Ez+mkFzImDDIuVaVLKYTUF8SaHMV3rvUMBDgE0PrhvvEveSaC6xEvGBC5FUBCV32w0b8LyZSWuXfQTA==
+ bh=Hq6yZZotLfHWb+83Pw0AhKPXvnCBuuddgKSNSPQ9/QY=;
+ b=Eyr15BNzxGZQAFFo8obeC5Dp4scFaQG+CDUUIEjT/NjIb0uxLjgh6HIcp708d3EWAEpnOzX9+9DwMlG2EVw3n7h9b2x6MhVhQF0d2c8DX/JcnPD61+lO94je/i5tvLdbMhwO8XJSJcyZiFQk9/lqORxJNP0if/nZQYIsc0Jjhip3hjWVUSuS7LHKOsJex6eKLuDZ2sNhPo/18RgfMavebCEjKdDlIAvu7dM3b9I+n6uik4g48diAVvS39oxKKWrtC34r6E9uOvQJtRq+Cr+OIpyBCDMC2JTiqRclibEHTqDRDvU6B1P9SQe6WXOkWYlSxhRznk8yqQPDTKH1QbPfNQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Rzq2PWwBF5hjtU43AMv1Dq7nuQPiVX+F4y1egAzNB1o=;
- b=MB8MJ03+TB7Ih76DC2l8sj8B183CzioqD1gTdLJ795y8DgLGEctmQy6OSpcUAnGSOLIIxGCcwljUb4btsd/XqXqg1uOKUaLZ8xsAjaBkbm6SgtT9FwxetzTDSEdlGYCxNW3/AEOa+YcXxKlwFVkBsR730ulMMb+ysWGcqKTUiiA=
-Received: from CH0PR13CA0039.namprd13.prod.outlook.com (2603:10b6:610:b2::14)
- by SJ2PR12MB9140.namprd12.prod.outlook.com (2603:10b6:a03:55f::10)
+ bh=Hq6yZZotLfHWb+83Pw0AhKPXvnCBuuddgKSNSPQ9/QY=;
+ b=z5vW1CtY9sJc2XAgj8vRAxRU4VvzOLBM0RHasXwTAApcwk9O63A2WwW2I/k5yVPMODJ+h6myH7WNNwH7nJ/QpXc0gPDo9OVvetdJKJUuf3UxHhTnhbWXeeY43W8sw5Z8iG8vrGE7oV2+z7QUoUXT6PeUIvXvzeIr3S89+Wn/6pI=
+Received: from CH0PR13CA0052.namprd13.prod.outlook.com (2603:10b6:610:b2::27)
+ by CH3PR12MB8852.namprd12.prod.outlook.com (2603:10b6:610:17d::14)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.22; Fri, 20 Sep
- 2024 09:10:04 +0000
+ 2024 09:10:05 +0000
 Received: from DS3PEPF000099D4.namprd04.prod.outlook.com
- (2603:10b6:610:b2:cafe::19) by CH0PR13CA0039.outlook.office365.com
- (2603:10b6:610:b2::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7939.24 via Frontend
- Transport; Fri, 20 Sep 2024 09:10:03 +0000
+ (2603:10b6:610:b2:cafe::76) by CH0PR13CA0052.outlook.office365.com
+ (2603:10b6:610:b2::27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.16 via Frontend
+ Transport; Fri, 20 Sep 2024 09:10:05 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -50,19 +50,20 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
  DS3PEPF000099D4.mail.protection.outlook.com (10.167.17.5) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7918.13 via Frontend Transport; Fri, 20 Sep 2024 09:10:03 +0000
+ 15.20.7918.13 via Frontend Transport; Fri, 20 Sep 2024 09:10:05 +0000
 Received: from patedamande.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 20 Sep
- 2024 04:10:01 -0500
+ 2024 04:10:03 -0500
 From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
 To: <dri-devel@lists.freedesktop.org>, <christian.koenig@amd.com>,
  <tursulin@igalia.com>, <simona.vetter@ffwll.ch>, <robdclark@gmail.com>,
  <alexander.deucher@amd.com>, <amd-gfx@lists.freedesktop.org>
 CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-Subject: [PATCH v3 5/6] drm/amdgpu: make process_name a flexible array
-Date: Fri, 20 Sep 2024 11:06:47 +0200
-Message-ID: <20240920090920.1342694-6-pierre-eric.pelloux-prayer@amd.com>
+Subject: [PATCH v3 6/6] drm/amdgpu: use drm_file::name in
+ task_info::process_desc
+Date: Fri, 20 Sep 2024 11:06:48 +0200
+Message-ID: <20240920090920.1342694-7-pierre-eric.pelloux-prayer@amd.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240920090920.1342694-1-pierre-eric.pelloux-prayer@amd.com>
 References: <20240920090920.1342694-1-pierre-eric.pelloux-prayer@amd.com>
@@ -74,51 +75,51 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS3PEPF000099D4:EE_|SJ2PR12MB9140:EE_
-X-MS-Office365-Filtering-Correlation-Id: e70fa6bb-7ffa-4443-7b82-08dcd954037a
+X-MS-TrafficTypeDiagnostic: DS3PEPF000099D4:EE_|CH3PR12MB8852:EE_
+X-MS-Office365-Filtering-Correlation-Id: a617ce2f-0f7e-445a-6f15-08dcd9540491
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|36860700013|376014|82310400026; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?jnyI0iGQQq+bMs0UZhMzyh1Ge5nHufo3K0ZogPF0cNf+8QhQm5ScXI+slBjY?=
- =?us-ascii?Q?GVDj41gQKWAklr0713Gxh6/byGPxiO91oaNpgqWzqZfngqVkph7fegKO533N?=
- =?us-ascii?Q?l8enfzyZG9NS5Q6IxdCKdX0MmZhf+1atxkxOzCilJbeC1cFEK7bMM4AklKVA?=
- =?us-ascii?Q?W7AhmW36s6DY2A+KYhmd2c8tudQuqQ7BhSSlaiBuj8PPrmw6wz6J1eHecRyT?=
- =?us-ascii?Q?ufkxaEnyGJ7b0T5i9htr31xJlETNmthxd5SoNLq8H0C4jASt2W2NjC8c9p0O?=
- =?us-ascii?Q?7zhbgGBY10BLPajJZEfs4MrrxP09OUIzreW4Pzkb65BIcl1E8Ek0wi9553c3?=
- =?us-ascii?Q?eZomfReemuYJ++OLSjbeDTvGfFqpWolmPZFOB/kZCdca3/63QMfWWRkq5UWr?=
- =?us-ascii?Q?9eZU5Bj1Z1uayCgNz2mFb0jzBHp7l45TcLBWZeLlHr9gGY9LKeLt1MlOca9E?=
- =?us-ascii?Q?k+NCQBzjZYa8fKM1eqyuhsxIlsA9HBQDZVcUpuboMy73zcRZwrTasXMTtJFT?=
- =?us-ascii?Q?v0P3Irv6rED/N87iryvsIiqnAj3pleOAJHX6PMRGVI/sdoGiZK43HmGz6NeX?=
- =?us-ascii?Q?+EbRKPmP6lMkhU+4CgwpOAdXpDoEe2MuGqA7vEP31x81b7ERAOnq3GSVEkK4?=
- =?us-ascii?Q?crhTMj/EcA13CGmm5bFlDqDO2IaeEtWqSUyPpPhUF0pSkDdVIaxDy5yZiXWU?=
- =?us-ascii?Q?uEzqtdxC0ZQeV90fjhvE09o18uB71WuRiDpEp1CWTaO5ORRo0+1A/+3MAruV?=
- =?us-ascii?Q?7UBPGCU64hmLYs4caL6GoZW5zmwXcf5wYZzuLQQUlE6nR4c1b3ALE6Uw7Kcx?=
- =?us-ascii?Q?st+kguUpZP7yIdRlQuXHNzBZl5qjuIq1k/CQEEgTxxSrvuGF6ZMrqW9J6d2M?=
- =?us-ascii?Q?DNU8WFPo+GdilG/+1GQiXYq5RazDl1GADeXnOu5CvqhtzGqP2j4mprT9CVwX?=
- =?us-ascii?Q?HN6XCHaWk1ZJ5loMOYLdjNLjVuWoYijb6nvq82O7l59TXT3Q+MII40zQrO+1?=
- =?us-ascii?Q?dmCfMg/kK/jF4jMi27TDh1W2zpYc1JEOsHEAuPcZDrfAJ6FaVGYC9of6upaA?=
- =?us-ascii?Q?fEbfh2x9YAg70NpkBUnH6pAjbhSpQFmXX0lQ5phqLIOrrkp16UFaLg8CvKnP?=
- =?us-ascii?Q?qkFhK1avnN8sb3n52GB3aSLrB40kKIuEQeeoagbWdZN0xbdeZYg3rfGoLpbh?=
- =?us-ascii?Q?QU6nfsLtoQB+lvZyWluA7bww8f3rmW0CQrQFqAJU70AgFVauJkLBwegmXcId?=
- =?us-ascii?Q?l9S+aSU16LqRmboyTTUr9l8NSckFSFQjT/m8q9Ay7mGMzriIRQRN/f1RfY0U?=
- =?us-ascii?Q?eoe367l692kFZR68iwAg3cBdL0ZFhqiiWyiDC3m94xDShZt2OVatRsN8xLy3?=
- =?us-ascii?Q?2S1DktH6+LUXc6TU/C4buvmUpFyxUEZmkv9S2upcdqSu86O9rdtZvOja76j6?=
- =?us-ascii?Q?//KQYdUql1c0hV8YMqUr2qzMtERufP0g?=
+ ARA:13230040|376014|82310400026|1800799024|36860700013; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?f1Mm0zvSfZcXWW49sLjkHJzOSBjoGVwRcdudp9g/wSn+PBVhAxK+53vAvJQz?=
+ =?us-ascii?Q?gmizgd8e8NLj9IRK3CGBMagYVQqfHalGeisCcHIu60LU2oPu3r4WFhy5YMCW?=
+ =?us-ascii?Q?pLNIM7VZGCvh5MefzXFM5LI+KJZgEjX26Fb6APyoJPsx0OG/vX5k5yZG1C9N?=
+ =?us-ascii?Q?W9BgUqKedB1v/L+ys+QLeEQr5d1DS8tDrqKSn3w1JlfLDKBzK0BRiBf0HSwd?=
+ =?us-ascii?Q?/UosPgDVZajDbiygf9QPTDPRASc3NVfV1pG7FBKkFsTrZJJKdzoeY7k0vZhH?=
+ =?us-ascii?Q?CfMlxX8Xzg/jI2jTijQeI1fAveEPviF8DtiVMcWGoyVv8F7RkgVFcyI6upil?=
+ =?us-ascii?Q?Ui7UmHjd5QYddc526gJCUSMZRUnN9xuKjBk887GLTSjKJs4ZnFN2aJB1fPLc?=
+ =?us-ascii?Q?ruPLR6qfHGQvM7fdKNnUYIKaeKyMiiJrEsuIvEG49NzGK5t4ski1p4WIUl/Y?=
+ =?us-ascii?Q?rPjC47m7DM7xH0zYGAewqujyXtK/vmXqt+N8eTRHM6pGnd2Dqplnet2Is0Ly?=
+ =?us-ascii?Q?hqb6uayppgq71dSWmqf25YcGlPJF08TsR0q05/AeeskAKgsdB11ybb+zpDjA?=
+ =?us-ascii?Q?C2q5V6oNmNXHiAPI29ufeGTRqUBFVcRoeOTYhinMHyMUJ+4fxGgMpbsLQ2HM?=
+ =?us-ascii?Q?CRNAkv22+ZyycUSbA542KFsUBUxoY8vDGQhWy66P9VBayMcaSmD/PYtcNDvb?=
+ =?us-ascii?Q?OIoF1IxhFYD9Ul3qa8LT3E2mX2hGIyLJ80ByGkk3hYp+0xJR1R4dqugea4QC?=
+ =?us-ascii?Q?Orpsk5bDs4l+325+T9Yo7pjxwpN08S2Ba03+D7UI5xg6Y5+8qMTo9tWtRghq?=
+ =?us-ascii?Q?QiA2/MegIZlhJKrbudUSAjCvR7FeBYhvz4cqJdywDi+pxvo0DRTCPEQrRbF+?=
+ =?us-ascii?Q?xgwtX+gc632/U1VXN/HfStFXELpZHt+Vx78Y6EeBiLJqX2Qocy6VSNXXVk8m?=
+ =?us-ascii?Q?9XZmkMFow6ZlHq1t+jheUCZkumf6YKaetaPtlk45U6hshH6QUF+70g3D3gB+?=
+ =?us-ascii?Q?Cd53l6OQYTQkASioxNxHfQtHCQ5s3E6Grx+gAgnHVlz4Uil351I5D3tqRvNj?=
+ =?us-ascii?Q?/B6EJnxg4/hu2dGr71wjQ59CCd3MijRunTJVQkKx0VBmGVo5ixCZm2qxfB5d?=
+ =?us-ascii?Q?TyL6qTokk+MlYHu40PK7LVfNtJ7Tlwe5cfivASyOGwIQnwm68OU+vCmjQE2q?=
+ =?us-ascii?Q?nYuKcCcM5c3b3Dc/hPgqi08Rar+ZUWR0nnYWkNcLWEPGGV1EWuHIjXA+2Oss?=
+ =?us-ascii?Q?/D41cSLT3+pL7T9olOlMQEKE2im9115d+QNYIxhH8JgrAGUARQROf6ovNkjS?=
+ =?us-ascii?Q?WDLRwjnPQytxfIiX+/Y7qRwJoRpWQVmDYdgS9aBhm5eF48sDNfj4MTw4Ewp8?=
+ =?us-ascii?Q?2Jml/gUpqRO0BeHt8OiolobIyU9M7mSva4qGvX6v3tw2Vr+RwjXAvT8ppCSf?=
+ =?us-ascii?Q?yO3dGA8JX090zBfxdnIXiACofJAz7RW/?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(1800799024)(36860700013)(376014)(82310400026); DIR:OUT;
+ SFS:(13230040)(376014)(82310400026)(1800799024)(36860700013); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Sep 2024 09:10:03.7512 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e70fa6bb-7ffa-4443-7b82-08dcd954037a
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Sep 2024 09:10:05.5638 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a617ce2f-0f7e-445a-6f15-08dcd9540491
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: DS3PEPF000099D4.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB9140
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8852
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -134,224 +135,166 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-And rename it process_desc, since it will soon contain more than
-just the process_name.
+If a drm_file name is set append it to the process name.
+
+This information is useful with the virtio/native-context driver: this
+allows the guest applications identifier to visible in amdgpu's output.
+
+The output in amdgpu_vm_info/amdgpu_gem_info looks like this:
+   pid:12255	Process:glxgears/test-set-fd-name ----------
 
 Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c      |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c |  4 ++--
- drivers/gpu/drm/amd/amdgpu/amdgpu_job.c          |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c           | 15 ++++++++++++---
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h           |  2 +-
- drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c           |  2 +-
- drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c           |  2 +-
- drivers/gpu/drm/amd/amdgpu/gmc_v12_0.c           |  2 +-
- drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c            |  2 +-
- drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c            |  2 +-
- drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c           |  2 +-
- drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c         |  2 +-
- drivers/gpu/drm/amd/amdkfd/kfd_events.c          |  2 +-
- 13 files changed, 25 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h    |  1 +
+ .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  |  3 ++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c        |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c        | 26 ++++++++++++++++---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h        |  2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_process.c      |  3 +++
+ 6 files changed, 30 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-index cbef720de779..c2185e43e38d 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-@@ -1786,7 +1786,7 @@ static int amdgpu_debugfs_vm_info_show(struct seq_file *m, void *unused)
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
+index f9d119448442..ad909173e419 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
+@@ -299,6 +299,7 @@ int amdgpu_amdkfd_gpuvm_set_vm_pasid(struct amdgpu_device *adev,
+ 				     struct amdgpu_vm *avm, u32 pasid);
+ int amdgpu_amdkfd_gpuvm_acquire_process_vm(struct amdgpu_device *adev,
+ 					struct amdgpu_vm *avm,
++					struct drm_file *filp,
+ 					void **process_info,
+ 					struct dma_fence **ef);
+ void amdgpu_amdkfd_gpuvm_release_process_vm(struct amdgpu_device *adev,
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+index 6d5fd371d5ce..172882af6705 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+@@ -1558,6 +1558,7 @@ int amdgpu_amdkfd_gpuvm_set_vm_pasid(struct amdgpu_device *adev,
  
- 		ti = amdgpu_vm_get_task_info_vm(vm);
- 		if (ti) {
--			seq_printf(m, "pid:%d\tProcess:%s ----------\n", ti->pid, ti->process_name);
-+			seq_printf(m, "pid:%d\tProcess:%s ----------\n", ti->pid, ti->process_desc);
- 			amdgpu_vm_put_task_info(ti);
- 		}
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
-index 5ac59b62020c..4ca0a372984b 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
-@@ -220,8 +220,8 @@ amdgpu_devcoredump_read(char *buffer, loff_t offset, size_t count,
- 		   coredump->reset_time.tv_nsec);
- 
- 	if (coredump->reset_task_info.pid)
--		drm_printf(&p, "process_name: %s PID: %d\n",
--			   coredump->reset_task_info.process_name,
-+		drm_printf(&p, "process: %s PID: %d\n",
-+			   coredump->reset_task_info.process_desc,
- 			   coredump->reset_task_info.pid);
- 
- 	/* SOC Information */
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-index ad6bf5d4e0a9..d1678eebbff3 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-@@ -125,7 +125,7 @@ static enum drm_gpu_sched_stat amdgpu_job_timedout(struct drm_sched_job *s_job)
- 	if (ti) {
- 		dev_err(adev->dev,
- 			"Process information: process %s pid %d thread %s pid %d\n",
--			ti->process_name, ti->tgid, ti->task_name, ti->pid);
-+			ti->process_desc, ti->tgid, ti->task_name, ti->pid);
- 		amdgpu_vm_put_task_info(ti);
- 	}
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-index 690676cab022..7f852029d6e1 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-@@ -2357,10 +2357,21 @@ amdgpu_vm_get_task_info_pasid(struct amdgpu_device *adev, u32 pasid)
- 
- static int amdgpu_vm_create_task_info(struct amdgpu_vm *vm)
+ int amdgpu_amdkfd_gpuvm_acquire_process_vm(struct amdgpu_device *adev,
+ 					   struct amdgpu_vm *avm,
++					   struct drm_file *filp,
+ 					   void **process_info,
+ 					   struct dma_fence **ef)
  {
--	vm->task_info = kzalloc(sizeof(struct amdgpu_task_info), GFP_KERNEL);
-+	char process_name[TASK_COMM_LEN];
-+	int desc_len;
-+
-+	get_task_comm(process_name, current->group_leader);
-+	desc_len = strlen(process_name);
-+
-+	vm->task_info = kzalloc(
-+		struct_size(vm->task_info, process_desc, desc_len + 1),
-+		GFP_KERNEL);
-+
- 	if (!vm->task_info)
- 		return -ENOMEM;
+@@ -1577,7 +1578,7 @@ int amdgpu_amdkfd_gpuvm_acquire_process_vm(struct amdgpu_device *adev,
+ 	if (ret)
+ 		return ret;
  
-+	strscpy(vm->task_info->process_desc, process_name, desc_len + 1);
-+
- 	kref_init(&vm->task_info->refcount);
+-	amdgpu_vm_set_task_info(avm);
++	amdgpu_vm_set_task_info(avm, filp);
+ 
  	return 0;
  }
-@@ -2375,8 +2386,6 @@ void amdgpu_vm_set_task_info(struct amdgpu_vm *vm)
- 	if (!vm->task_info) {
- 		if (amdgpu_vm_create_task_info(vm))
- 			return;
--
--		get_task_comm(vm->task_info->process_name, current->group_leader);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+index 891128ecee6d..5d43e24906d2 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+@@ -1178,7 +1178,7 @@ static int amdgpu_cs_vm_handling(struct amdgpu_cs_parser *p)
  	}
  
- 	if (vm->task_info->pid == current->pid)
+ 	/* Use this opportunity to fill in task info for the vm */
+-	amdgpu_vm_set_task_info(vm);
++	amdgpu_vm_set_task_info(vm, p->filp);
+ 
+ 	if (adev->debug_vm) {
+ 		/* Invalidate all BOs to test for userspace bugs */
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+index 7f852029d6e1..a2b12f0c3253 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+@@ -2355,14 +2355,20 @@ amdgpu_vm_get_task_info_pasid(struct amdgpu_device *adev, u32 pasid)
+ 			amdgpu_vm_get_vm_from_pasid(adev, pasid));
+ }
+ 
+-static int amdgpu_vm_create_task_info(struct amdgpu_vm *vm)
++static int amdgpu_vm_create_task_info(struct amdgpu_vm *vm, struct drm_file *filp)
+ {
+ 	char process_name[TASK_COMM_LEN];
+-	int desc_len;
++	size_t desc_len;
+ 
+ 	get_task_comm(process_name, current->group_leader);
+ 	desc_len = strlen(process_name);
+ 
++	if (filp) {
++		mutex_lock(&filp->name_lock);
++		if (filp->name)
++			desc_len += 1 + strlen(filp->name);
++	}
++
+ 	vm->task_info = kzalloc(
+ 		struct_size(vm->task_info, process_desc, desc_len + 1),
+ 		GFP_KERNEL);
+@@ -2371,6 +2377,17 @@ static int amdgpu_vm_create_task_info(struct amdgpu_vm *vm)
+ 		return -ENOMEM;
+ 
+ 	strscpy(vm->task_info->process_desc, process_name, desc_len + 1);
++	if (filp) {
++		if (filp->name) {
++			size_t p_len = strlen(process_name);
++
++			vm->task_info->process_desc[p_len] = '/';
++			strscpy(&vm->task_info->process_desc[p_len + 1],
++				filp->name, (desc_len + 1) - (p_len + 1));
++		}
++		mutex_unlock(&filp->name_lock);
++	}
++
+ 
+ 	kref_init(&vm->task_info->refcount);
+ 	return 0;
+@@ -2380,11 +2397,12 @@ static int amdgpu_vm_create_task_info(struct amdgpu_vm *vm)
+  * amdgpu_vm_set_task_info - Sets VMs task info.
+  *
+  * @vm: vm for which to set the info
++ * @filp: drm_file instance
+  */
+-void amdgpu_vm_set_task_info(struct amdgpu_vm *vm)
++void amdgpu_vm_set_task_info(struct amdgpu_vm *vm, struct drm_file *filp)
+ {
+ 	if (!vm->task_info) {
+-		if (amdgpu_vm_create_task_info(vm))
++		if (amdgpu_vm_create_task_info(vm, filp))
+ 			return;
+ 	}
+ 
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
-index d12d66dca8e9..44da250217be 100644
+index 44da250217be..8df3dece54c2 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
-@@ -232,11 +232,11 @@ struct amdgpu_vm_pte_funcs {
- };
+@@ -561,7 +561,7 @@ bool amdgpu_vm_handle_fault(struct amdgpu_device *adev, u32 pasid,
+ 			    u32 vmid, u32 node_id, uint64_t addr, uint64_t ts,
+ 			    bool write_fault);
  
- struct amdgpu_task_info {
--	char		process_name[TASK_COMM_LEN];
- 	char		task_name[TASK_COMM_LEN];
- 	pid_t		pid;
- 	pid_t		tgid;
- 	struct kref	refcount;
-+	char		process_desc[];
- };
+-void amdgpu_vm_set_task_info(struct amdgpu_vm *vm);
++void amdgpu_vm_set_task_info(struct amdgpu_vm *vm, struct drm_file *filp);
  
- /**
-diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
-index 9784a2892185..c82364e43a15 100644
---- a/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
-@@ -166,7 +166,7 @@ static int gmc_v10_0_process_interrupt(struct amdgpu_device *adev,
- 	if (task_info) {
- 		dev_err(adev->dev,
- 			" in process %s pid %d thread %s pid %d\n",
--			task_info->process_name, task_info->tgid,
-+			task_info->process_desc, task_info->tgid,
- 			task_info->task_name, task_info->pid);
- 		amdgpu_vm_put_task_info(task_info);
- 	}
-diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c
-index 2797fd84432b..4dace3de1def 100644
---- a/drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c
-@@ -136,7 +136,7 @@ static int gmc_v11_0_process_interrupt(struct amdgpu_device *adev,
- 		if (task_info) {
- 			dev_err(adev->dev,
- 				" in process %s pid %d thread %s pid %d)\n",
--				task_info->process_name, task_info->tgid,
-+				task_info->process_desc, task_info->tgid,
- 				task_info->task_name, task_info->pid);
- 			amdgpu_vm_put_task_info(task_info);
- 		}
-diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v12_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v12_0.c
-index edcb5351f8cc..e56d702fbfed 100644
---- a/drivers/gpu/drm/amd/amdgpu/gmc_v12_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gmc_v12_0.c
-@@ -129,7 +129,7 @@ static int gmc_v12_0_process_interrupt(struct amdgpu_device *adev,
- 		if (task_info) {
- 			dev_err(adev->dev,
- 				" in process %s pid %d thread %s pid %d)\n",
--				task_info->process_name, task_info->tgid,
-+				task_info->process_desc, task_info->tgid,
- 				task_info->task_name, task_info->pid);
- 			amdgpu_vm_put_task_info(task_info);
- 		}
-diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c
-index 86488c052f82..5fca64e71ada 100644
---- a/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c
-@@ -1451,7 +1451,7 @@ static int gmc_v8_0_process_interrupt(struct amdgpu_device *adev,
- 		task_info = amdgpu_vm_get_task_info_pasid(adev, entry->pasid);
- 		if (task_info) {
- 			dev_err(adev->dev, " for process %s pid %d thread %s pid %d\n",
--				task_info->process_name, task_info->tgid,
-+				task_info->process_desc, task_info->tgid,
- 				task_info->task_name, task_info->pid);
- 			amdgpu_vm_put_task_info(task_info);
- 		}
-diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
-index c76ac0dfe572..c54c86dac14f 100644
---- a/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
-@@ -635,7 +635,7 @@ static int gmc_v9_0_process_interrupt(struct amdgpu_device *adev,
- 	if (task_info) {
- 		dev_err(adev->dev,
- 			" for process %s pid %d thread %s pid %d)\n",
--			task_info->process_name, task_info->tgid,
-+			task_info->process_desc, task_info->tgid,
- 			task_info->task_name, task_info->pid);
- 		amdgpu_vm_put_task_info(task_info);
- 	}
-diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c b/drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c
-index 23ef4eb36b40..ea1990c19803 100644
---- a/drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c
-@@ -2186,7 +2186,7 @@ static int sdma_v4_0_print_iv_entry(struct amdgpu_device *adev,
- 	if (task_info) {
- 		dev_dbg_ratelimited(adev->dev,
- 				    " for process %s pid %d thread %s pid %d\n",
--				    task_info->process_name, task_info->tgid,
-+				    task_info->process_desc, task_info->tgid,
- 				    task_info->task_name, task_info->pid);
- 		amdgpu_vm_put_task_info(task_info);
- 	}
-diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c b/drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c
-index c77889040760..df00bf480dcf 100644
---- a/drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c
-+++ b/drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c
-@@ -1701,7 +1701,7 @@ static int sdma_v4_4_2_print_iv_entry(struct amdgpu_device *adev,
- 	task_info = amdgpu_vm_get_task_info_pasid(adev, entry->pasid);
- 	if (task_info) {
- 		dev_dbg_ratelimited(adev->dev, " for process %s pid %d thread %s pid %d\n",
--				    task_info->process_name, task_info->tgid,
-+				    task_info->process_desc, task_info->tgid,
- 				    task_info->task_name, task_info->pid);
- 		amdgpu_vm_put_task_info(task_info);
- 	}
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_events.c b/drivers/gpu/drm/amd/amdkfd/kfd_events.c
-index ea3792249209..95ba07ae3b89 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_events.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_events.c
-@@ -1267,7 +1267,7 @@ void kfd_signal_reset_event(struct kfd_node *dev)
- 			if (ti) {
- 				dev_err(dev->adev->dev,
- 					"Queues reset on process %s tid %d thread %s pid %d\n",
--					ti->process_name, ti->tgid, ti->task_name, ti->pid);
-+					ti->process_desc, ti->tgid, ti->task_name, ti->pid);
- 				amdgpu_vm_put_task_info(ti);
- 			}
- 		}
+ void amdgpu_vm_move_to_lru_tail(struct amdgpu_device *adev,
+ 				struct amdgpu_vm *vm);
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process.c b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
+index a902950cc060..e473fe433d3f 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_process.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
+@@ -1654,6 +1654,7 @@ int kfd_process_device_init_vm(struct kfd_process_device *pdd,
+ 			       struct file *drm_file)
+ {
+ 	struct amdgpu_fpriv *drv_priv;
++	struct drm_file *filp;
+ 	struct amdgpu_vm *avm;
+ 	struct kfd_process *p;
+ 	struct dma_fence *ef;
+@@ -1673,8 +1674,10 @@ int kfd_process_device_init_vm(struct kfd_process_device *pdd,
+ 
+ 	p = pdd->process;
+ 	dev = pdd->dev;
++	filp = drm_file->private_data;
+ 
+ 	ret = amdgpu_amdkfd_gpuvm_acquire_process_vm(dev->adev, avm,
++						     filp,
+ 						     &p->kgd_process_info,
+ 						     &ef);
+ 	if (ret) {
 -- 
 2.40.1
 
