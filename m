@@ -2,86 +2,158 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B968F97D3E7
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 11:52:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DB3697D3F1
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 11:58:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8DA710E7EF;
-	Fri, 20 Sep 2024 09:52:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28F3310E06C;
+	Fri, 20 Sep 2024 09:57:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="SV6zsi1q";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="s0ZPmlhe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 261AD10E06C
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2024 09:52:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1726825956;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7HX8u2zBRCYM4paozCCp3EeYVygSoVRU5xK8tdeNsBE=;
- b=SV6zsi1q7kUnXrPyngieYa9Mq4HrOuzyjr0AJvUVPaPS631k+ssL3K9Pn5QLqBWlm0TDGe
- 6s7fV2O3U7CPH+AB2ip0AAcXK6Gv/rEmTSPl5VD1rEunS419+Kbpxl6At9rL7LCcMZUeXB
- LiDLWARjX3ndolG9weds9yDed5GlR24=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-12-G2clAZ9mNCe-320agRhJ_Q-1; Fri, 20 Sep 2024 05:52:34 -0400
-X-MC-Unique: G2clAZ9mNCe-320agRhJ_Q-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-42cb6ed7f9dso16345425e9.3
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2024 02:52:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1726825952; x=1727430752;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=7HX8u2zBRCYM4paozCCp3EeYVygSoVRU5xK8tdeNsBE=;
- b=HKILdaIwPjFwyTF7QViqawVaZf7CoaB35beqkIGcz65hEnVhRxMIdX7BWq1wtj9CJN
- 6D80TclldPCNxqYPPhmkvtT+kDGalf8JsLl5uviQsF9aM1m+MYm9vkroQPKqJAhxg2ei
- FeGvpbh2rBdk/kgen2737ZGFnL8UG8lFBqAi+TFlqbAm6Inm9is1yuFIHy7XvE/g1AJI
- 78sgNJBq9yGz8zWPc+GaXIirXYQRA1wSfKbdJy7FQJlFmczcIS6fVeoLWGJOeLw+r3E9
- F+4j/gg9O5UfK5vOp3wBXFwPz9btKO6mAPmT1tnuisIOvycZ0ifzHROfHO1k5/3ibVfT
- CACg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXeP64BBz+xNoAveDJaha+08P2XDdKjAb4R4BcYs4BXx4+LpDS27uRQemD2wzHcTNi5zLWzz8k2Guw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy8DG91f9BTKTFf6u/9sj+xrue+IUxTkFQ/tE9XSmvD8zhX91JT
- DZkQkWQbFYSF0i00br9uKjSPi5NO1LOfb5A3tTCXwA1ecMPXJQ/g+QVPxB/HdZX3a5gnn8SDHBd
- aX1VA6ucm+x83XTqr15eUPx/m4MVU/doaYeK3pAoWLTv/CHhqYeQZ1V01j2G2EkzC+g==
-X-Received: by 2002:a05:600c:34c9:b0:42c:b187:bdd5 with SMTP id
- 5b1f17b1804b1-42e7adc1eedmr24466425e9.22.1726825952289; 
- Fri, 20 Sep 2024 02:52:32 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFGXa4YcRehopFY97Iczxq4Kz35injhgvYrb9MvqjpSRsIaupPvFZ0KCokY1JyKo/xZ+mEWKg==
-X-Received: by 2002:a05:600c:34c9:b0:42c:b187:bdd5 with SMTP id
- 5b1f17b1804b1-42e7adc1eedmr24466075e9.22.1726825951781; 
- Fri, 20 Sep 2024 02:52:31 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-378e7800067sm17286425f8f.77.2024.09.20.02.52.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 20 Sep 2024 02:52:30 -0700 (PDT)
-Message-ID: <43b05945-4ff9-4782-822f-659b6c22effa@redhat.com>
-Date: Fri, 20 Sep 2024 11:52:29 +0200
-MIME-Version: 1.0
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2086.outbound.protection.outlook.com [40.107.243.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDAFA10E06C;
+ Fri, 20 Sep 2024 09:57:46 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=y/lOk743h5Txm4fkKEv+vHBQQyBh+g40+7xKYzJN+haat6+UsCXxyKKJOqQuAw7cBCCUrpkj2fRnu8/fJtg9q0f4lGzaGC1Pnfz1QJxwnLuYudQ8PNHh0T7T52q+DVb/wjbiuOTLK0ld0cMe0cazl3ftP/uCWxEZzpG5OfJhOryOME7qmYPZYS5+LVE7hOOmtHn9rvwnYLO8gNKLSVCuqFYMET+rq9p0G0TYYRaX+k+p0CcGO78gW6Nuv1BkShHUoFF6p3S4okGfpf1Pj1jjQKUIFcZeJLGcOdMDMXdbbLWPbQtU91BeDwnGo+92/gHbCasVCscn5r5oSDXAjYXDvg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=61qMzP9iVslx33iMVTuXK1dCaibDXpSbQ7jDxA1/7mY=;
+ b=EGwjC2eUASXcabB8SGzan8w79Vg2YyA9KqIvmcZUDQ/gfECaCwNDMt/3JjxSgPIACgLD8Co7vUIxvbExYsgB26/qOOt+emcAcNYkGGgIzFY1CZDAW+CKvLc8UrT+DXChLTtKrXoqS5suH+wlzkT4Fxs3BMCh1wIYisUAjkoUNmholIAH3Fp7+hT87kHFb2D4eSF70CruydjFbexfql47p0gQXOuAyybzRKpJ15wm0DZ0S7foSMhtU+q/fEEpSXHZ8LLKhrC4TylnUZ/T37GhrEFmgoPGhAbDO+DRettAWH2Gf3FZ1N+5hnSUEgM/8NqPvTp+gtQNoF2yT2dISNb2MA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=61qMzP9iVslx33iMVTuXK1dCaibDXpSbQ7jDxA1/7mY=;
+ b=s0ZPmlhejf4vy6J0EAWSDk0c1T0vN0EFCcyA2JDn1+AZfqjmH1H6rgNcQ9MBdMhCcPAMkGMQtqzVCZTMcjsRHH9sihUsia9SIoVpmSpxABVAb6j2W680+huAdQ7RqyFMTqwiC3CiKHDmAHTj87E6xm1AiQDXiN6PLi9JFibUeds=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by PH7PR12MB7916.namprd12.prod.outlook.com (2603:10b6:510:26a::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.16; Fri, 20 Sep
+ 2024 09:57:42 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%2]) with mapi id 15.20.7982.012; Fri, 20 Sep 2024
+ 09:57:42 +0000
+Message-ID: <15a36075-2800-4274-a404-402ceafde5a0@amd.com>
+Date: Fri, 20 Sep 2024 11:57:34 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/qxl: Add drm_panic support
-To: Ryosuke Yasuoka <ryasuoka@redhat.com>, airlied@redhat.com,
- kraxel@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, daniel@ffwll.ch
-Cc: virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20240919071230.840994-1-ryasuoka@redhat.com>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20240919071230.840994-1-ryasuoka@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
+Subject: Re: [PATCH v2 1/3] PCI: Add support for VF Resizable Bar extended cap
+To: =?UTF-8?Q?Micha=C5=82_Winiarski?= <michal.winiarski@intel.com>,
+ linux-pci@vger.kernel.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Bjorn Helgaas <bhelgaas@google.com>, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?=
+ <kw@linux.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Michal Wajdeczko <michal.wajdeczko@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Matt Roper <matthew.d.roper@intel.com>
+References: <20240919223557.1897608-1-michal.winiarski@intel.com>
+ <20240919223557.1897608-2-michal.winiarski@intel.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20240919223557.1897608-2-michal.winiarski@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR3P281CA0017.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:1d::20) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH7PR12MB7916:EE_
+X-MS-Office365-Filtering-Correlation-Id: d2257a16-cbf8-4bc9-c2ae-08dcd95aaade
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?S0ZmOVdhUGZiQXRRWm9obFhLSEtJVWZDQWhXVU1MRHlHa1hpNUl0a3FXWTNr?=
+ =?utf-8?B?SU5LRUZwOGR5QjJZczlYZ2RxMXN0dS93U0lSZmxhVXV4elRQc3BRUnVxZE11?=
+ =?utf-8?B?NkJPclpsNUs1NDRWTkJGdnBVOUZBcjFqdmZFYTJUejV4QWw0MmYrNWd5YUhl?=
+ =?utf-8?B?TC9pWmpaSlpIUDZNQWpzbW43T1plS2VkaXZqWE5IeEJ2cnU3SGQ2N3UyTFhD?=
+ =?utf-8?B?S2FhblFYd0tsWC9MU0NEQTh6MHN2NUl4b3lsZGhsNE5Qc0xFVy9HMEJJRnQw?=
+ =?utf-8?B?NkNON3gveVN4aUt0VStncnE1ZXhianRBUkpFR1drbUlHZzhRQTlQNjVnQkNk?=
+ =?utf-8?B?L1J6aTEzbDlkTjJuKzN0Z0N4bzVDQ3Y2T2NBUHprd0srNzdZaDhRazN3SlBo?=
+ =?utf-8?B?Y0Zzbi9kaWRNNEwyMk1YM0JqR1dBSVlOdDMvTld3WGNnMGZ4TXZVTVRBVHIx?=
+ =?utf-8?B?TzQ4NlpoUkdLckNkVE9hZ3BtY2Z3ZXNFWUNrWWJlU0ZON2JGVnpuWDdlR2Vj?=
+ =?utf-8?B?SXQxTFBKWm5zOUdJblNWMW51NWZQOXJWTGlMRkJPOXUvemdFS1JvSjYzakxt?=
+ =?utf-8?B?ajV3T3RMdVJnOU5ES09nY3Z2T2dETWJ5RlpyR1pPRkpHZlh0emh1bVQzc25J?=
+ =?utf-8?B?Q3FwMTBvckhVTDV4aG9ldWE3Z3hsU0ZUdkJMNGJLdCtDdDNlakN3MDZMNnB3?=
+ =?utf-8?B?TTJLY2hScnJUOHF4ekpsb3hNaDUwZ1RyRnpqelorNGptTVVZWm83a0FuL3Ro?=
+ =?utf-8?B?dS83QjRGeVp1R3RBRVozNHNTczljaVdyeDhUR1I0NjJkV1NiZlBQbE5SSmF3?=
+ =?utf-8?B?UEdvQkt1QzdtU3pVQ09CZlVuY2Q1NC8vcjY4R1c3NStsMVJTTU1TYjZ3NFJT?=
+ =?utf-8?B?NE5jZ2NRSGs2NENneWh4S0JOTkx3a3p1bGdrK1JGZ3RnNHVKaWNhVEtEOTNC?=
+ =?utf-8?B?V2VpN3c2TFFGSDI4dnJ0K2QwNWwzQm5ZZmJVcVRhajJSYTFmSDd0Sm81K0lx?=
+ =?utf-8?B?QWhrZG1jZjBtVWRRR0JqUHFoMlIyNUZYTXQxSFFhVEd4Q21ibG9aZlEwZlVL?=
+ =?utf-8?B?VnF2d3ZiK2k1SUFuTlpzZXJKZkFjRXN5dy9ob2lLc0VtZHczUGVSOHZETHdY?=
+ =?utf-8?B?a3dPaDR1MGNiTlVwTjVxSVY0ekJTZE9rMW43TExqSXpzUThLZ0dwT25yMkxX?=
+ =?utf-8?B?bDJqZmNQRUJkTlFnQm4rSmVSQlVjTTMxMXR3ckNtY3RpM3JQdUVVcUtiaUNX?=
+ =?utf-8?B?aTFKK2JxL2toaUVXRzhqMGU1UmQyVTZqWDRCUTAzZFBzUG9mbzc4Q1NIYVMw?=
+ =?utf-8?B?OEsrOFJuMGhWWkVkWjBvcHY2VkFrczl5eWJjdlN4dTJjQ1lBRU1RZ2xBKzFF?=
+ =?utf-8?B?WHROR3o2ZXdQTFNGWXlvU2syMnpLZEZpZTlBeVFzRVJsNHZMTU1Eb0NFcEt0?=
+ =?utf-8?B?MDdWZjJTWkJxcnNFTGhjVHRCVERaamRWZVNEbzZxdUVaSThBZkR6M1RGYWx3?=
+ =?utf-8?B?RWFZZlM2SVJ0RE5nVlpuSFI4ZCsyeW9kaXFVMTM5TjBlZElyeEtYbWwwakNV?=
+ =?utf-8?B?Q1JMMk1LZXh0dEpFekx4VlgrZDhZTVY5ejhZMmtBZmxaNHQ4TE15dXVNb21S?=
+ =?utf-8?B?TG9sMi92dFVOc0plcnkvdHVFNlEvY1REYTlkdFNTTXRvZ1Fmc2FVVmxSMVhX?=
+ =?utf-8?B?cm1JZnZLQUs5Rzh1VWs2SVNHUitrK3E5NnBVRnVES2FDNTBaaytlS3NRPT0=?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MGp5MGR3cFdoTytmZFRVRHRBc2VWVlpjckl1amwvbHptQk5FVER1UUI3NGFt?=
+ =?utf-8?B?WFpDWVFBcUFUZWM0WU9SR2VjbDBlRVgxSklJVEJ1MUNXajlMVCtiUFU5YnJT?=
+ =?utf-8?B?dE84bzdSTjg0b0xxeUxrNTQyMmNZY3FSbXMvK09FR0oxK1RIUjFEN3JIZC9Y?=
+ =?utf-8?B?SnpRdjBHckd1bVU0QzQyaEcyY0xRWW9PeG05RW1scEltcWJBUkJJSVhuSDU1?=
+ =?utf-8?B?RFhpek8za3F3WGx5aWc5cmp1dWJJelJHUHNVSW9aSXFETnR0M1ZYRWM3cWY2?=
+ =?utf-8?B?M0dFckFEM2l0RnpkTnpHSFZOMU9Nb0tpSHlxYi9QcFR1Z3YyTnNPbFJxdCtn?=
+ =?utf-8?B?ZlhaV2NlL2U3UEJwNk9BS3pWMkJMNlVNVjhVVFRhN1JRZWM2aUJHdERSd3FG?=
+ =?utf-8?B?MVUvOFFnaXMwZGE1cEk2VlFoMWVaOFhYRFoyME9zYVJ4NklDM0c0N1lZMU4w?=
+ =?utf-8?B?M0xidEpYamZLM1BUMXRpZmhNWEpENDIxZThrRGRwSmxsa2JNY05rbnNOZ0RH?=
+ =?utf-8?B?aTBLa2wvdkVYZi90WklqWXlyRXRFNkxGaEJnVUY0eWhmQjgvWTJYeE0xdHky?=
+ =?utf-8?B?ZFRHZGR2V29NWHhzOEVMTEM4Z0ZBOUtzZFZ4cDJOUmgzYzBJdURJVzE5Ulp2?=
+ =?utf-8?B?MG9vaERMR29aZklwL1ZENTVwTFpHdis0MnJTQUVKdnpLOTQxVTg3ZzhMb0FV?=
+ =?utf-8?B?RTdTYkMzaGFSbjhXbTBOVFd5YkJoNUNqSGNTaFAxclBaTThZZ0JsSlNOODRz?=
+ =?utf-8?B?TkRFY3QxN2VQQXQwR3hUaEZYSFUzYmFlcVVLOVY0dG5SQm5ZeWQ0RE54TVNW?=
+ =?utf-8?B?ZStHMHkvdktIY25ZSmFZYUpzMkNKc3lFQTQ1Wi9sU3Y2cVM1bGNyRG01UlNC?=
+ =?utf-8?B?WUZmaWsxNmIyNGVFQjRFQzErbW1yMGl4dXlCRFpkakJvdmZNMHhEU2t6cW84?=
+ =?utf-8?B?NllWK1ZOTmFXVld6b1V4UUhWTTBESTJVTU1NQXBaVDdsVWFiS1ltb21Rd1Ba?=
+ =?utf-8?B?MzkxQ0c0Sm5aZnQxS21SbTE0VmV0VUFaQzlkOUF3N20rRmp3WCs2OXpJYloz?=
+ =?utf-8?B?U001TzVsaVV5cE9jRXQ4bE1RTVhlUjh6ajFWWE1xZnNSSDg5QUx1QnFIQ2Vl?=
+ =?utf-8?B?Ky9hVWZNSXE2MkkvOFFkc3I1UHZVZjRxNm1hejVabHMrdGlaQWlxUG1FUHE3?=
+ =?utf-8?B?RitINW81NnB1cUIzRDhOUDFLVUFvWlg3YXBVSW5LazVlSmhmZTNaZnBQRFBX?=
+ =?utf-8?B?MW9pMStqRkt5TUdjbURNR2I4ZUtKRENUbHNJMEcwc0xKLy9QeHRDMlhUeVlK?=
+ =?utf-8?B?cG9QcWhzK21sdGpLTU9MZ2xlUGFMWG1qTnVqQU05clQyeXpZSG9rVEV1MC9D?=
+ =?utf-8?B?Y00wQk05ekdaaCtQbWthMitoY3M3QXBEU0xUdGVsNVNCOUc1VGJZelhiK3l6?=
+ =?utf-8?B?STlhVnp0RkpPMDhoeHdYdEJkUm8raHZybyt0VjRVQVhESm5CRnZtSlR3WW1q?=
+ =?utf-8?B?ZVdNcjdrbGwvMGtWWmttQkJ0aGltY2lldG43RU0rbldzVFI1WDBlbnVVL3da?=
+ =?utf-8?B?ekNScHVudUphNWVYUk1hWlBmWDBmTXg4SjRYbjdlaisxZjVrRG9DVGFJMHpV?=
+ =?utf-8?B?Vi9ReUc1dTVTakQ5RysvNnQrYVRPT01VcnN3dG03eUNHdldOaStDZ1IzSThn?=
+ =?utf-8?B?b1hzeVA3WUpjaVYxTkZiRUh2VXYyakhWbi8zNm9tRFd3MmU5d2JQMnlDaDBH?=
+ =?utf-8?B?TDFqWEowNENxZWIxWlZVeTkxbDVCZlBWZXBrNmtpVk1HOXMwamZHMExSSzh1?=
+ =?utf-8?B?RXMwYU1qRDVETi9OYnBTbkVnR0pocEpidmVoSTVSalpRaWVqZFEvYVVTbmpz?=
+ =?utf-8?B?NWdsdDY0YVBnZUtOclBqeWVIbGJ5dUJmMFFUeUxjaXRQcG4va0xweHhqZDNy?=
+ =?utf-8?B?cjd4WUtWOHhBWDRCYkxQSHlRVkl0Yi9RN3NjU2lWdThOc05USWdPd0Mwelht?=
+ =?utf-8?B?d05SeFVxUjc0ZVNOSnFaSU0rWERkbktReDBtT3Y1cjM0azMyQjN3ZlBURmFy?=
+ =?utf-8?B?TTdJU3RRT3g5bW94bHhPTEVESkc4V3N2RDVSd0Y5dTNJa1dNUVZkNVFUaDYx?=
+ =?utf-8?Q?UYg4=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d2257a16-cbf8-4bc9-c2ae-08dcd95aaade
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Sep 2024 09:57:41.9344 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kNLPfDc20R3drrfv0jE6Zvru/Mj+YDgJO4LWurgP5KNi5Fe3Y0hEcDh4sGhxP1O7
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7916
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,479 +169,285 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19/09/2024 09:12, Ryosuke Yasuoka wrote:
-> QXL supports the drm_panic module, which displays a message to the
-> screen when a kernel panic occurs.
-
-It looks good to me. I think you just need to adjust some functions 
-argument indentation (tab size is 8), see below.
-
-Best regards,
-
--- 
-
-Jocelyn
-
-> 
-> Signed-off-by: Ryosuke Yasuoka <ryasuoka@redhat.com>
+Am 20.09.24 um 00:35 schrieb Michał Winiarski:
+> Similar to regular resizable BAR, VF BAR can also be resized.
+> The structures are very similar, which means we can reuse most of the
+> implementation. See PCIe r4.0, sec 9.3.7.4.
+>
+> Signed-off-by: Michał Winiarski <michal.winiarski@intel.com>
 > ---
-> v2
-> In [1], Jocelyn gives me feedbacks and fix them.
-> 1. Removing qxl_surface_evict(): It takes a mutex and it possibly
-> causes deadlock in panic handler. As the panic handler works
-> correctly without it and to make it simple, I remove it.
-> 2. Update qxl_panic_ttm_bo_destory(): It deleted bo->list with taking
-> mutex but it does not need to call because this list is not updated in
-> panic handler.
-> 3. Remove unnecessary args from panic functions: Some panic functions
-> always take same values as args (e.g. kernel, pinned, domain etc in
-> qxl_panic_bo_create()). So I remove them from panic functions and
-> define them in each function.
-> 
-> [1] https://lore.kernel.org/dri-devel/89b55f6f-f462-4e84-b2e2-7f2edc0f1cc4@redhat.com/T/#t
-> 
->   drivers/gpu/drm/qxl/qxl_cmd.c     | 29 ++++++++++
->   drivers/gpu/drm/qxl/qxl_display.c | 94 +++++++++++++++++++++++++++++++
->   drivers/gpu/drm/qxl/qxl_draw.c    | 57 ++++++++++++++++++-
->   drivers/gpu/drm/qxl/qxl_drv.h     | 22 ++++++++
->   drivers/gpu/drm/qxl/qxl_gem.c     |  9 +++
->   drivers/gpu/drm/qxl/qxl_image.c   | 25 ++++++++
->   drivers/gpu/drm/qxl/qxl_object.c  | 46 +++++++++++++++
->   drivers/gpu/drm/qxl/qxl_object.h  |  1 +
->   8 files changed, 282 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/qxl/qxl_cmd.c b/drivers/gpu/drm/qxl/qxl_cmd.c
-> index d6ea01f3797b..895e41c1a567 100644
-> --- a/drivers/gpu/drm/qxl/qxl_cmd.c
-> +++ b/drivers/gpu/drm/qxl/qxl_cmd.c
-> @@ -174,6 +174,35 @@ static bool qxl_ring_pop(struct qxl_ring *ring,
->   	return true;
+>   drivers/pci/iov.c             | 28 ++++++++++++++++++++++
+>   drivers/pci/pci.c             | 40 ++++++++++++++++++++++++++++++-
+>   drivers/pci/pci.h             | 14 ++++++++++-
+>   drivers/pci/setup-res.c       | 44 ++++++++++++++++++++++++++++++-----
+>   include/uapi/linux/pci_regs.h |  1 +
+>   5 files changed, 119 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/pci/iov.c b/drivers/pci/iov.c
+> index aaa33e8dc4c97..e8ccd2ae0f024 100644
+> --- a/drivers/pci/iov.c
+> +++ b/drivers/pci/iov.c
+> @@ -153,6 +153,34 @@ resource_size_t pci_iov_resource_size(struct pci_dev *dev, int resno)
+>   	return dev->sriov->barsz[resno - PCI_IOV_RESOURCES];
 >   }
 >   
-> +/* For drm panic */
-> +int
-> +qxl_push_command_ring_without_release(struct qxl_device *qdev,
-> +		struct qxl_bo *bo, uint32_t offset)
+> +bool pci_resource_is_iov(struct pci_dev *dev, int resno)
 > +{
-> +	struct qxl_command cmd;
-> +	struct qxl_ring *ring = qdev->command_ring;
-> +	struct qxl_ring_header *header = &(ring->ring->header);
-> +	uint8_t *elt;
-> +	int idx;
+> +	if (resno >= PCI_IOV_RESOURCES && resno <= PCI_IOV_RESOURCE_END)
+> +		return true;
 > +
-> +	cmd.type = QXL_CMD_DRAW;
-> +	cmd.data = qxl_bo_physical_address(qdev, bo, offset);
+> +	return false;
+> +}
+
+When you want to generalize that check you should probably but it in a 
+header and change the existing checks in pci.h and setup-res.c as well. 
+Otherwise I don't really see the value in having a separate function.
+
+Additional to that please code that something like "return resno >=...." 
+the extra if just increases the number of lines without adding any value.
+
 > +
-> +	idx = header->prod & (ring->n_elements - 1);
-> +	elt = ring->ring->elements + idx * ring->element_size;
+> +void pci_iov_resource_set_size(struct pci_dev *dev, int resno, resource_size_t size)
+> +{
+> +	if (!pci_resource_is_iov(dev, resno)) {
+> +		dev_WARN(&dev->dev, "%s is not an IOV resource\n",
+> +			 pci_resource_name(dev, resno));
+> +		return;
+> +	}
 > +
-> +	memcpy((void *)elt, &cmd, ring->element_size);
-> +
-> +	header->prod++;
-> +
-> +	mb();
-> +
-> +	if (header->prod == header->notify_on_prod)
-> +		outb(0, ring->prod_notify);
-> +
-> +	return 0;
+> +	dev->sriov->barsz[resno - PCI_IOV_RESOURCES] = size;
 > +}
 > +
->   int
->   qxl_push_command_ring_release(struct qxl_device *qdev, struct qxl_release *release,
->   			      uint32_t type, bool interruptible)
-> diff --git a/drivers/gpu/drm/qxl/qxl_display.c b/drivers/gpu/drm/qxl/qxl_display.c
-> index bc24af08dfcd..b80cb8879215 100644
-> --- a/drivers/gpu/drm/qxl/qxl_display.c
-> +++ b/drivers/gpu/drm/qxl/qxl_display.c
-> @@ -37,6 +37,7 @@
->   #include <drm/drm_probe_helper.h>
->   #include <drm/drm_simple_kms_helper.h>
->   #include <drm/drm_gem_atomic_helper.h>
-> +#include <drm/drm_panic.h>
->   
->   #include "qxl_drv.h"
->   #include "qxl_object.h"
-> @@ -889,6 +890,97 @@ static void qxl_plane_cleanup_fb(struct drm_plane *plane,
+> +bool pci_iov_memory_decoding_enabled(struct pci_dev *dev)
+> +{
+> +	u16 cmd;
+> +
+> +	pci_read_config_word(dev, dev->sriov->pos + PCI_SRIOV_CTRL, &cmd);
+> +
+> +	return cmd & PCI_SRIOV_CTRL_MSE;
+> +}
+> +
+>   static void pci_read_vf_config_common(struct pci_dev *virtfn)
+>   {
+>   	struct pci_dev *physfn = virtfn->physfn;
+> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+> index ffaaca0978cbc..d4522e365e7ba 100644
+> --- a/drivers/pci/pci.c
+> +++ b/drivers/pci/pci.c
+> @@ -1901,6 +1901,35 @@ static void pci_restore_rebar_state(struct pci_dev *pdev)
 >   	}
 >   }
 >   
-> +static int qxl_primary_plane_helper_get_scanout_buffer(struct drm_plane *plane,
-> +							struct drm_scanout_buffer *sb)
+> +static void pci_restore_vf_rebar_state(struct pci_dev *pdev)
 > +{
-> +	struct qxl_bo *bo;
+> +	unsigned int pos, nbars, i;
+> +	u32 ctrl;
 > +
-> +	if (!plane->state || !plane->state->fb)
-> +		return -ENODEV;
+> +	if (!pdev->is_physfn)
+> +		return;
 > +
-> +	bo = gem_to_qxl_bo(plane->state->fb->obj[0]);
+> +	pos = pci_find_ext_capability(pdev, PCI_EXT_CAP_ID_VF_REBAR);
+> +	if (!pos)
+> +		return;
 > +
-> +	if (!bo->map.vaddr) {
-> +		int ret;
+> +	pci_read_config_dword(pdev, pos + PCI_REBAR_CTRL, &ctrl);
+> +	nbars = FIELD_GET(PCI_REBAR_CTRL_NBAR_MASK, ctrl);
 > +
-> +		ret = qxl_bo_pin_and_vmap(bo, &sb->map[0]);
-> +		if (ret)
-> +			return ret;
-> +	} else {
-> +		iosys_map_set_vaddr(&sb->map[0], bo->map.vaddr);
+> +	for (i = 0; i < nbars; i++, pos += 8) {
+> +		struct resource *res;
+> +		int bar_idx, size;
+> +
+> +		pci_read_config_dword(pdev, pos + PCI_REBAR_CTRL, &ctrl);
+> +		bar_idx = ctrl & PCI_REBAR_CTRL_BAR_IDX;
+> +		res = pdev->resource + bar_idx;
+
+The variable res seems to be unused.
+
+In general I think you should split up the patch into restoring the VF 
+rebar state on resume and implementing the new resize API.
+
+> +		size = pci_rebar_bytes_to_size(pdev->sriov->barsz[bar_idx]);
+> +		ctrl &= ~PCI_REBAR_CTRL_BAR_SIZE;
+> +		ctrl |= FIELD_PREP(PCI_REBAR_CTRL_BAR_SIZE, size);
+> +		pci_write_config_dword(pdev, pos + PCI_REBAR_CTRL, ctrl);
 > +	}
-> +
-> +	sb->format = plane->state->fb->format;
-> +	sb->height = plane->state->fb->height;
-> +	sb->width = plane->state->fb->width;
-> +	sb->pitch[0] = plane->state->fb->pitches[0];
-> +	return 0;
 > +}
 > +
-> +static void qxl_panic_flush(struct drm_plane *plane)
-> +{
-> +	struct qxl_device *qdev = to_qxl(plane->dev);
-> +	struct qxl_bo *_bo = gem_to_qxl_bo(plane->state->fb->obj[0]);
-> +	uint8_t *surface_base = _bo->map.vaddr;
-> +	struct drm_clip_rect rect = {
-> +		.x1 = 0,
-> +		.y1 = 0,
-> +		.x2 = plane->state->fb->width,
-> +		.y2 = plane->state->fb->height
-> +	};
-> +	unsigned int num_clips = 1;
-> +	struct qxl_bo clips_bo = {};
-> +	struct qxl_bo image_bo = {};
-> +	struct qxl_bo chunk_bo = {};
-> +	struct qxl_drm_image dimage;
-> +	struct qxl_drm_chunk chunk;
-> +	int width = rect.x2;
-> +	int height = rect.y2;
-> +	int stride = plane->state->fb->pitches[0];
-> +	int depth = plane->state->fb->format->cpp[0] * 8;
-> +	struct qxl_rect *rects;
-> +	struct qxl_rect drawable_rect = {
-> +		.left = 0,
-> +		.right = width,
-> +		.top = 0,
-> +		.bottom = height,
-> +	};
-> +	int cur_idx = 0;
-> +	int size = 256;
-> +	struct qxl_bo *bo = qxl_bo_ref(qdev->current_release_bo[cur_idx]);
-> +	uint32_t offset = qdev->current_release_bo_offset[cur_idx] * size;
-> +	int ret;
-> +
-> +	qxl_panic_bo_create(qdev, sizeof(struct qxl_clip_rects) + sizeof(struct qxl_rect),
-> +			&clips_bo);
-> +
-> +	ret = qxl_image_alloc_objects_without_release(qdev, &dimage, &chunk, &image_bo, &chunk_bo,
-> +			surface_base, width, height, depth, stride);
-> +	if (ret)
-> +		return;
-> +
-> +	ret = make_drawable_without_release(qdev, &drawable_rect, bo, &clips_bo,
-> +			&dimage, offset, height, width);
-> +	if (ret)
-> +		return;
-> +
-> +	rects = drawable_set_clipping(qdev, num_clips, &clips_bo);
-> +	if (!rects)
-> +		return;
-> +	rects[0].left = 0;
-> +	rects[0].right = width;
-> +	rects[0].top = 0;
-> +	rects[0].bottom = height;
-> +
-> +	qxl_push_command_ring_without_release(qdev, bo, offset);
-> +
-> +	qxl_panic_gem_object_free(&chunk_bo.tbo.base);
-> +	qxl_panic_gem_object_free(&image_bo.tbo.base);
-> +
-> +	qxl_bo_vunmap_locked(&clips_bo);
-> +	qxl_panic_gem_object_free(&clips_bo.tbo.base);
-> +}
-> +
->   static const uint32_t qxl_cursor_plane_formats[] = {
->   	DRM_FORMAT_ARGB8888,
->   };
-> @@ -920,6 +1012,8 @@ static const struct drm_plane_helper_funcs primary_helper_funcs = {
->   	.atomic_disable = qxl_primary_atomic_disable,
->   	.prepare_fb = qxl_plane_prepare_fb,
->   	.cleanup_fb = qxl_plane_cleanup_fb,
-> +	.get_scanout_buffer = qxl_primary_plane_helper_get_scanout_buffer,
-> +	.panic_flush = qxl_panic_flush,
->   };
+>   /**
+>    * pci_restore_state - Restore the saved state of a PCI device
+>    * @dev: PCI device that we're dealing with
+> @@ -1916,6 +1945,7 @@ void pci_restore_state(struct pci_dev *dev)
+>   	pci_restore_ats_state(dev);
+>   	pci_restore_vc_state(dev);
+>   	pci_restore_rebar_state(dev);
+> +	pci_restore_vf_rebar_state(dev);
+>   	pci_restore_dpc_state(dev);
+>   	pci_restore_ptm_state(dev);
 >   
->   static const struct drm_plane_funcs qxl_primary_plane_funcs = {
-> diff --git a/drivers/gpu/drm/qxl/qxl_draw.c b/drivers/gpu/drm/qxl/qxl_draw.c
-> index 3a3e127ce297..49fdc0162377 100644
-> --- a/drivers/gpu/drm/qxl/qxl_draw.c
-> +++ b/drivers/gpu/drm/qxl/qxl_draw.c
-> @@ -41,7 +41,8 @@ static int alloc_clips(struct qxl_device *qdev,
->   /* returns a pointer to the already allocated qxl_rect array inside
->    * the qxl_clip_rects. This is *not* the same as the memory allocated
->    * on the device, it is offset to qxl_clip_rects.chunk.data */
-> -static struct qxl_rect *drawable_set_clipping(struct qxl_device *qdev,
-> +
-> +struct qxl_rect *drawable_set_clipping(struct qxl_device *qdev,
->   					      unsigned int num_clips,
->   					      struct qxl_bo *clips_bo)
-
-Function's arguments indentation should be adjusted here.
-
+> @@ -3703,10 +3733,18 @@ void pci_acs_init(struct pci_dev *dev)
+>    */
+>   static int pci_rebar_find_pos(struct pci_dev *pdev, int bar)
 >   {
-> @@ -74,6 +75,60 @@ free_drawable(struct qxl_device *qdev, struct qxl_release *release)
->   	qxl_release_free(qdev, release);
->   }
+> +	int cap = PCI_EXT_CAP_ID_REBAR;
+>   	unsigned int pos, nbars, i;
+>   	u32 ctrl;
 >   
-> +/* For drm panic */
-> +int
-> +make_drawable_without_release(struct qxl_device *qdev,
-> +		struct qxl_rect *drawable_rect,
-> +		struct qxl_bo *bo,
-> +		struct qxl_bo *clips_bo,
-> +		struct qxl_drm_image *dimage,
-> +		uint32_t offset, int height, int width)
-
-Here too, they don't match the open parenthesis, like the other function 
-in this file.
-
-> +{
-> +	struct qxl_drawable *drawable;
-> +	union qxl_release_info *info;
-> +	void *ptr;
-> +	int i;
+> -	pos = pci_find_ext_capability(pdev, PCI_EXT_CAP_ID_REBAR);
+> +#ifdef CONFIG_PCI_IOV
+> +	if (pci_resource_is_iov(pdev, bar)) {
+> +		cap = PCI_EXT_CAP_ID_VF_REBAR;
+> +		bar -= PCI_IOV_RESOURCES;
+> +	}
+> +#endif
 > +
-> +	ptr = qxl_bo_kmap_atomic_page(qdev, bo, offset & PAGE_MASK);
-> +	if (!ptr)
-> +		return -ENOMEM;
-> +	drawable = ptr + (offset & ~PAGE_MASK);
-> +
-> +	drawable->type = QXL_DRAW_COPY;
-> +	drawable->surface_id = 0;
-> +	drawable->effect = QXL_EFFECT_OPAQUE;
-> +	drawable->self_bitmap = 0;
-> +	drawable->self_bitmap_area.top = 0;
-> +	drawable->self_bitmap_area.left = 0;
-> +	drawable->self_bitmap_area.bottom = 0;
-> +	drawable->self_bitmap_area.right = 0;
-> +
-> +	for (i = 0; i < 3; ++i)
-> +		drawable->surfaces_dest[i] = -1;
-> +
-> +	drawable->bbox = *drawable_rect;
-> +	drawable->mm_time = qdev->rom->mm_clock;
-> +	drawable->clip.type = SPICE_CLIP_TYPE_RECTS;
-> +	drawable->clip.data = qxl_bo_physical_address(qdev, clips_bo, 0);
-> +	drawable->u.copy.src_area.top = 0;
-> +	drawable->u.copy.src_area.bottom = height;
-> +	drawable->u.copy.src_area.left = 0;
-> +	drawable->u.copy.src_area.right = width;
-> +	drawable->u.copy.rop_descriptor = SPICE_ROPD_OP_PUT;
-> +	drawable->u.copy.scale_mode = 0;
-> +	drawable->u.copy.mask.flags = 0;
-> +	drawable->u.copy.mask.pos.x = 0;
-> +	drawable->u.copy.mask.pos.y = 0;
-> +	drawable->u.copy.mask.bitmap = 0;
-> +	drawable->u.copy.src_bitmap = qxl_bo_physical_address(qdev, dimage->bo, 0);
-> +
-> +	info = &drawable->release_info;
-> +	ptr = ((void *)info) - (offset & ~PAGE_MASK);
-> +	qxl_bo_kunmap_atomic_page(qdev, bo, ptr);
-> +
-> +	return 0;
-> +}
-> +
->   /* release needs to be reserved at this point */
->   static int
->   make_drawable(struct qxl_device *qdev, int surface, uint8_t type,
-> diff --git a/drivers/gpu/drm/qxl/qxl_drv.h b/drivers/gpu/drm/qxl/qxl_drv.h
-> index 32069acd93f8..ffeafb5b73ef 100644
-> --- a/drivers/gpu/drm/qxl/qxl_drv.h
-> +++ b/drivers/gpu/drm/qxl/qxl_drv.h
-> @@ -309,6 +309,7 @@ int qxl_gem_object_create_with_handle(struct qxl_device *qdev,
->   				      struct qxl_surface *surf,
->   				      struct drm_gem_object **gobj,
->   				      uint32_t *handle);
-> +void qxl_panic_gem_object_free(struct drm_gem_object *gobj);
->   void qxl_gem_object_free(struct drm_gem_object *gobj);
->   int qxl_gem_object_open(struct drm_gem_object *obj, struct drm_file *file_priv);
->   void qxl_gem_object_close(struct drm_gem_object *obj,
-> @@ -334,6 +335,13 @@ int qxl_image_init(struct qxl_device *qdev,
->   		   const uint8_t *data,
->   		   int x, int y, int width, int height,
->   		   int depth, int stride);
-> +
-> +int qxl_image_alloc_objects_without_release(struct qxl_device *qdev,
-> +		struct qxl_drm_image *image, struct qxl_drm_chunk *chunk,
-> +		struct qxl_bo *image_bo, struct qxl_bo *chunk_bo,
-> +		uint8_t *surface_base, int width,
-> +		int height, int depth, int stride);
-> +
->   int
->   qxl_image_alloc_objects(struct qxl_device *qdev,
->   			struct qxl_release *release,
-> @@ -376,6 +384,9 @@ int qxl_alloc_release_reserved(struct qxl_device *qdev, unsigned long size,
->   			       int type, struct qxl_release **release,
->   			       struct qxl_bo **rbo);
+> +	pos = pci_find_ext_capability(pdev, cap);
+>   	if (!pos)
+>   		return -ENOTSUPP;
 >   
-> +int qxl_push_command_ring_without_release(struct qxl_device *qdev,
-> +		struct qxl_bo *bo, uint32_t offset);
-> +
->   int
->   qxl_push_command_ring_release(struct qxl_device *qdev, struct qxl_release *release,
->   			      uint32_t type, bool interruptible);
-> @@ -387,6 +398,9 @@ int qxl_alloc_bo_reserved(struct qxl_device *qdev,
->   			  unsigned long size,
->   			  struct qxl_bo **_bo);
->   /* qxl drawing commands */
-> +struct qxl_rect *drawable_set_clipping(struct qxl_device *qdev,
-> +					      unsigned int num_clips,
-> +					      struct qxl_bo *clips_bo);
->   
->   void qxl_draw_dirty_fb(struct qxl_device *qdev,
->   		       struct drm_framebuffer *fb,
-> @@ -399,6 +413,14 @@ void qxl_draw_dirty_fb(struct qxl_device *qdev,
->   void qxl_release_free(struct qxl_device *qdev,
->   		      struct qxl_release *release);
->   
-> +int
-> +make_drawable_without_release(struct qxl_device *qdev,
-> +		struct qxl_rect *drawable_rect,
-> +		struct qxl_bo *bo,
-> +		struct qxl_bo *clips_bo,
-> +		struct qxl_drm_image *dimage,
-> +		uint32_t offset, int height, int width);
-> +
->   /* used by qxl_debugfs_release */
->   struct qxl_release *qxl_release_from_id_locked(struct qxl_device *qdev,
->   						   uint64_t id);
-> diff --git a/drivers/gpu/drm/qxl/qxl_gem.c b/drivers/gpu/drm/qxl/qxl_gem.c
-> index fc5e3763c359..f140439c640a 100644
-> --- a/drivers/gpu/drm/qxl/qxl_gem.c
-> +++ b/drivers/gpu/drm/qxl/qxl_gem.c
-> @@ -28,6 +28,15 @@
->   #include "qxl_drv.h"
->   #include "qxl_object.h"
->   
-> +void qxl_panic_gem_object_free(struct drm_gem_object *gobj)
-> +{
-> +	struct qxl_bo *qobj = gem_to_qxl_bo(gobj);
-> +	struct ttm_buffer_object *tbo;
-> +
-> +	tbo = &qobj->tbo;
-> +	ttm_bo_put(tbo);
-> +}
-> +
->   void qxl_gem_object_free(struct drm_gem_object *gobj)
+> diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
+> index 79c8398f39384..e763b3fd4c7a2 100644
+> --- a/drivers/pci/pci.h
+> +++ b/drivers/pci/pci.h
+> @@ -556,6 +556,9 @@ void pci_restore_iov_state(struct pci_dev *dev);
+>   int pci_iov_bus_range(struct pci_bus *bus);
+>   extern const struct attribute_group sriov_pf_dev_attr_group;
+>   extern const struct attribute_group sriov_vf_dev_attr_group;
+> +bool pci_resource_is_iov(struct pci_dev *dev, int resno);
+> +bool pci_iov_memory_decoding_enabled(struct pci_dev *dev);
+> +void pci_iov_resource_set_size(struct pci_dev *dev, int resno, resource_size_t size);
+>   #else
+>   static inline int pci_iov_init(struct pci_dev *dev)
 >   {
->   	struct qxl_bo *qobj = gem_to_qxl_bo(gobj);
-> diff --git a/drivers/gpu/drm/qxl/qxl_image.c b/drivers/gpu/drm/qxl/qxl_image.c
-> index ffff54e5fb31..064dfdc3f722 100644
-> --- a/drivers/gpu/drm/qxl/qxl_image.c
-> +++ b/drivers/gpu/drm/qxl/qxl_image.c
-> @@ -52,6 +52,31 @@ qxl_allocate_chunk(struct qxl_device *qdev,
+> @@ -568,7 +571,16 @@ static inline int pci_iov_bus_range(struct pci_bus *bus)
+>   {
 >   	return 0;
 >   }
->   
-> +/* For drm panic */
-> +int
-> +qxl_image_alloc_objects_without_release(struct qxl_device *qdev,
-> +		struct qxl_drm_image *image, struct qxl_drm_chunk *chunk,
-> +		struct qxl_bo *image_bo, struct qxl_bo *chunk_bo,
-> +		uint8_t *surface_base, int width, int height,
-> +		int depth, int stride)
+> -
+> +static inline bool pci_iov_memory_decoding_enabled(struct pci_dev *dev)
 > +{
-> +	int ret;
-> +	unsigned int chunk_size = sizeof(struct qxl_data_chunk) + stride * height;
+> +	return false;
+> +}
+> +static inline bool pci_resource_is_iov(struct pci_dev *dev, int resno)
+> +{
+> +	return false;
+> +}
+> +static inline void pci_iov_resource_set_size(struct pci_dev *dev, int resno,
+> +					     resource_size_t size) { }
+>   #endif /* CONFIG_PCI_IOV */
+>   
+>   #ifdef CONFIG_PCIE_PTM
+> diff --git a/drivers/pci/setup-res.c b/drivers/pci/setup-res.c
+> index c6d933ddfd464..87a952a114f38 100644
+> --- a/drivers/pci/setup-res.c
+> +++ b/drivers/pci/setup-res.c
+> @@ -427,13 +427,44 @@ void pci_release_resource(struct pci_dev *dev, int resno)
+>   }
+>   EXPORT_SYMBOL(pci_release_resource);
+>   
+> +static bool pci_memory_decoding_enabled(struct pci_dev *dev)
+> +{
+
+I don't really see the value in making it a separate function, just keep 
+the check inside the only caller.
+
+> +	u16 cmd;
 > +
-> +	INIT_LIST_HEAD(&image->chunk_list);
-> +	qxl_panic_bo_create(qdev, sizeof(struct qxl_image), image_bo);
-> +	image->bo = image_bo;
+> +	pci_read_config_word(dev, PCI_COMMAND, &cmd);
 > +
-> +	qxl_panic_bo_create(qdev, chunk_size, chunk_bo);
-> +	chunk->bo = chunk_bo;
-> +	list_add_tail(&chunk->head, &image->chunk_list);
-> +
-> +	ret = qxl_image_init(qdev, NULL, image, surface_base,
-> +			     0, 0, width, height, depth, stride);
-> +	return ret;
-> +
+> +	return cmd & PCI_COMMAND_MEMORY;
 > +}
 > +
->   int
->   qxl_image_alloc_objects(struct qxl_device *qdev,
->   			struct qxl_release *release,
-> diff --git a/drivers/gpu/drm/qxl/qxl_object.c b/drivers/gpu/drm/qxl/qxl_object.c
-> index 66635c55cf85..22aa16ed0685 100644
-> --- a/drivers/gpu/drm/qxl/qxl_object.c
-> +++ b/drivers/gpu/drm/qxl/qxl_object.c
-> @@ -29,6 +29,16 @@
->   #include "qxl_drv.h"
->   #include "qxl_object.h"
->   
-> +/* for drm panic */
-> +static void qxl_panic_ttm_bo_destroy(struct ttm_buffer_object *tbo)
+> +static int pci_resize_check_memory_decoding(struct pci_dev *dev, int resno)
+
+Also doesn't look like much value in having that a separate function.
+
 > +{
-> +	struct qxl_bo *bo;
+> +	if (!pci_resource_is_iov(dev, resno) && pci_memory_decoding_enabled(dev))
+> +		return -EBUSY;
+> +	else if (pci_resource_is_iov(dev, resno) && pci_iov_memory_decoding_enabled(dev))
+> +		return -EBUSY;
+
+Well that is coded as ugly as it could be.
+
+I strongly suggest to not call pci_resource_is_iov() twice and to move 
+the -EBUSY return code outside of the function (if you really want a 
+separate function for that).
+
+E.g. something like "bool pci_resize_is_decoding_enabled(...)" and then 
+"if (pci_resize_is_decoding_enabled(...)) return -EBUSY;" in the caller.
+
+Regards,
+Christian.
+
 > +
-> +	bo = to_qxl_bo(tbo);
-> +	WARN_ON_ONCE(bo->map_count > 0);
-> +	drm_gem_object_release(&bo->tbo.base);
-> +}
-> +
->   static void qxl_ttm_bo_destroy(struct ttm_buffer_object *tbo)
->   {
->   	struct qxl_bo *bo;
-> @@ -101,6 +111,42 @@ static const struct drm_gem_object_funcs qxl_object_funcs = {
->   	.print_info = drm_gem_ttm_print_info,
->   };
->   
-> +/* for drm_panic */
-> +int qxl_panic_bo_create(struct qxl_device *qdev, unsigned long size, struct qxl_bo *bo)
-> +{
-> +	u32 domain = QXL_GEM_DOMAIN_VRAM;
-> +	struct ttm_operation_ctx ctx = { true, false };
-> +	enum ttm_bo_type type;
-> +	int r;
-> +
-> +	type = ttm_bo_type_device;
-> +
-> +	size = roundup(size, PAGE_SIZE);
-> +	r = drm_gem_object_init(&qdev->ddev, &bo->tbo.base, size);
-> +	if (unlikely(r))
-> +		return r;
-> +	bo->tbo.base.funcs = &qxl_object_funcs;
-> +	bo->type = domain;
-> +	bo->surface_id = 0;
-> +	INIT_LIST_HEAD(&bo->list);
-> +
-> +	qxl_ttm_placement_from_domain(bo, domain);
-> +
-> +	bo->tbo.priority = 0;
-> +	r = ttm_bo_init_reserved(&qdev->mman.bdev, &bo->tbo, type,
-> +				 &bo->placement, 0, &ctx, NULL, NULL,
-> +				 &qxl_panic_ttm_bo_destroy);
-> +	if (unlikely(r != 0)) {
-> +		if (r != -ERESTARTSYS)
-> +			dev_err(qdev->ddev.dev,
-> +				"object_init failed for (%lu, 0x%08X)\n",
-> +				size, domain);
-> +		return r;
-> +	}
-> +	ttm_bo_unreserve(&bo->tbo);
 > +	return 0;
 > +}
 > +
->   int qxl_bo_create(struct qxl_device *qdev, unsigned long size,
->   		  bool kernel, bool pinned, u32 domain, u32 priority,
->   		  struct qxl_surface *surf,
-> diff --git a/drivers/gpu/drm/qxl/qxl_object.h b/drivers/gpu/drm/qxl/qxl_object.h
-> index 875f63221074..d1dbf7a3dd5b 100644
-> --- a/drivers/gpu/drm/qxl/qxl_object.h
-> +++ b/drivers/gpu/drm/qxl/qxl_object.h
-> @@ -53,6 +53,7 @@ static inline unsigned long qxl_bo_size(struct qxl_bo *bo)
->   	return bo->tbo.base.size;
->   }
+> +static void pci_resize_resource_set_size(struct pci_dev *dev, int resno, int size)
+> +{
+> +	resource_size_t res_size = pci_rebar_size_to_bytes(size);
+> +	struct resource *res = dev->resource + resno;
+> +
+> +	if (!pci_resource_is_iov(dev, resno)) {
+> +		res->end = res->start + res_size - 1;
+> +	} else {
+> +		res->end = res->start + res_size * pci_sriov_get_totalvfs(dev) - 1;
+> +		pci_iov_resource_set_size(dev, resno, res_size);
+> +	}
+> +}
+> +
+>   int pci_resize_resource(struct pci_dev *dev, int resno, int size)
+>   {
+>   	struct resource *res = dev->resource + resno;
+>   	struct pci_host_bridge *host;
+>   	int old, ret;
+>   	u32 sizes;
+> -	u16 cmd;
 >   
-> +extern int qxl_panic_bo_create(struct qxl_device *qdev, unsigned long size, struct qxl_bo *bo);
->   extern int qxl_bo_create(struct qxl_device *qdev,
->   			 unsigned long size,
->   			 bool kernel, bool pinned, u32 domain,
+>   	/* Check if we must preserve the firmware's resource assignment */
+>   	host = pci_find_host_bridge(dev->bus);
+> @@ -444,9 +475,9 @@ int pci_resize_resource(struct pci_dev *dev, int resno, int size)
+>   	if (!(res->flags & IORESOURCE_UNSET))
+>   		return -EBUSY;
+>   
+> -	pci_read_config_word(dev, PCI_COMMAND, &cmd);
+> -	if (cmd & PCI_COMMAND_MEMORY)
+> -		return -EBUSY;
+> +	ret = pci_resize_check_memory_decoding(dev, resno);
+> +	if (ret)
+> +		return ret;
+>   
+>   	sizes = pci_rebar_get_possible_sizes(dev, resno);
+>   	if (!sizes)
+> @@ -463,7 +494,7 @@ int pci_resize_resource(struct pci_dev *dev, int resno, int size)
+>   	if (ret)
+>   		return ret;
+>   
+> -	res->end = res->start + pci_rebar_size_to_bytes(size) - 1;
+> +	pci_resize_resource_set_size(dev, resno, size);
+>   
+>   	/* Check if the new config works by trying to assign everything. */
+>   	if (dev->bus->self) {
+> @@ -475,7 +506,8 @@ int pci_resize_resource(struct pci_dev *dev, int resno, int size)
+>   
+>   error_resize:
+>   	pci_rebar_set_size(dev, resno, old);
+> -	res->end = res->start + pci_rebar_size_to_bytes(old) - 1;
+> +	pci_resize_resource_set_size(dev, resno, old);
+> +
+>   	return ret;
+>   }
+>   EXPORT_SYMBOL(pci_resize_resource);
+> diff --git a/include/uapi/linux/pci_regs.h b/include/uapi/linux/pci_regs.h
+> index 94c00996e633e..cb010008c6bb3 100644
+> --- a/include/uapi/linux/pci_regs.h
+> +++ b/include/uapi/linux/pci_regs.h
+> @@ -738,6 +738,7 @@
+>   #define PCI_EXT_CAP_ID_L1SS	0x1E	/* L1 PM Substates */
+>   #define PCI_EXT_CAP_ID_PTM	0x1F	/* Precision Time Measurement */
+>   #define PCI_EXT_CAP_ID_DVSEC	0x23	/* Designated Vendor-Specific */
+> +#define PCI_EXT_CAP_ID_VF_REBAR 0x24	/* VF Resizable BAR */
+>   #define PCI_EXT_CAP_ID_DLF	0x25	/* Data Link Feature */
+>   #define PCI_EXT_CAP_ID_PL_16GT	0x26	/* Physical Layer 16.0 GT/s */
+>   #define PCI_EXT_CAP_ID_PL_32GT  0x2A    /* Physical Layer 32.0 GT/s */
 
