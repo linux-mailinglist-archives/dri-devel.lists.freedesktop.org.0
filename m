@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C39A197D297
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 10:23:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D5EB97D29A
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 10:23:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F27BF10E7E0;
-	Fri, 20 Sep 2024 08:23:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3F8310E7F4;
+	Fri, 20 Sep 2024 08:23:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="cxlYDHHq";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="JBQy5fCd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
- by gabe.freedesktop.org (Postfix) with ESMTP id C190910E7E5
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2024 08:23:09 +0000 (UTC)
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
+ by gabe.freedesktop.org (Postfix) with ESMTP id EDAF710E7DB
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2024 08:23:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=pssPv
- On+4Ieo8JXCdj0k3N11a+VxA4LtocfM2lHt8OE=; b=cxlYDHHqN6gHPczPCrCzj
- EOIi95Ao05cvnzsQYNhve+gEUMZMrQrBsdIQb7+1b0mWTEA0m/FQba1Ss46vkR+d
- Olo5yinXYBr4FFCEgfsr9EZwAydjyXBUOQzHGt0amzjcPiTyjBrOuCzrAIZA414w
- g7YC6poKQ6BUPVoXiyT4UI=
+ s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=C7BXA
+ 3vRFQzypGqSRa+Pr7mmHTFBAcqnlbyhQTd3wVU=; b=JBQy5fCd8gJu1BMZYWjBt
+ WS1bMgTY2/jGGmacJ0zY+fPrPXMV6GON5OxK5L3649xLNlgpW5sMaWxWCpyPsHxF
+ jQ03uu82829tVXG7lj8xlKNvDlL6bQsZu0IFiMdCOAIzNGPRNgNqlcsIlJMVj6dt
+ jTdNj0dLTG9hrLj9W8uGQY=
 Received: from ProDesk.. (unknown [58.22.7.114])
- by gzga-smtp-mta-g3-2 (Coremail) with SMTP id _____wCXDpvcMO1mQpM6KA--.41288S2;
- Fri, 20 Sep 2024 16:22:56 +0800 (CST)
+ by gzsmtp4 (Coremail) with SMTP id sygvCgDHLl7rMO1mqCVvAw--.49823S2;
+ Fri, 20 Sep 2024 16:23:11 +0800 (CST)
 From: Andy Yan <andyshrk@163.com>
 To: heiko@sntech.de
 Cc: hjc@rock-chips.com, krzk+dt@kernel.org, robh@kernel.org,
@@ -32,21 +32,21 @@ Cc: hjc@rock-chips.com, krzk+dt@kernel.org, robh@kernel.org,
  linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
  derek.foreman@collabora.com, minhuadotchen@gmail.com,
  detlev.casanova@collabora.com, Andy Yan <andy.yan@rock-chips.com>
-Subject: [PATCH v3 13/15] drm/rockchip: vop2: Add uv swap for cluster window
-Date: Fri, 20 Sep 2024 16:22:40 +0800
-Message-ID: <20240920082251.6952-1-andyshrk@163.com>
+Subject: [PATCH v3 14/15] dt-bindings: display: vop2: Add rk3576 support
+Date: Fri, 20 Sep 2024 16:23:02 +0800
+Message-ID: <20240920082306.6982-1-andyshrk@163.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240920081626.6433-1-andyshrk@163.com>
 References: <20240920081626.6433-1-andyshrk@163.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wCXDpvcMO1mQpM6KA--.41288S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7tFW8Ww1kAF4UAw47JFy7ZFb_yoW8Gr4kpw
- 43ZrWqgrW5Kw4Iq34kJFZ8ZFWfCwnxKayxZws7tw109ry3KFyDK3ZIkFWUAr1qya12kF47
- tFn3A3y7Zr1jvrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j7fHUUUUUU=
+X-CM-TRANSID: sygvCgDHLl7rMO1mqCVvAw--.49823S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7WrWrKFW5tF18ZFWrKF4rXwb_yoW8Xw1rpa
+ 93CFyqqrW8GF17X34kGF1rCrs5XFykAF43GFs7tw1xtwsxKrsYgw4agrn8Zr45GFyxAaya
+ 9F4Sk348A392vrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UZo7NUUUUU=
 X-Originating-IP: [58.22.7.114]
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiqRhgXmVODBHm+gABsk
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbB0g9gXmWX0hs8xwAAsj
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,38 +64,54 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Andy Yan <andy.yan@rock-chips.com>
 
-The Cluster windows of upcoming VOP on rk3576 also support
-linear YUV support, we need to set uv swap bit for it.
-
-As the VOP2_WIN_UV_SWA register defined on rk3568/rk3588 is
-0xffffffff, so this register will not be touched on these
-two platforms.
+Add vop found on rk3576, the main difference between rk3576 and the
+previous vop is that each VP has its own interrupt line.
 
 Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+
 ---
 
-(no changes since v1)
+Changes in v3:
+- ordered by soc name
+- Add description for newly added interrupt
 
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+Changes in v2:
+- Add dt bindings
 
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-index 9603bd8491bc..84c67f5d267f 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-@@ -1284,10 +1284,8 @@ static void vop2_plane_atomic_update(struct drm_plane *plane,
+ .../bindings/display/rockchip/rockchip-vop2.yaml    | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
+index 2531726af306..a44964b6c36a 100644
+--- a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
++++ b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
+@@ -20,6 +20,7 @@ properties:
+     enum:
+       - rockchip,rk3566-vop
+       - rockchip,rk3568-vop
++      - rockchip,rk3576-vop
+       - rockchip,rk3588-vop
  
- 	rb_swap = vop2_win_rb_swap(fb->format->format);
- 	vop2_win_write(win, VOP2_WIN_RB_SWAP, rb_swap);
--	if (!vop2_cluster_window(win)) {
--		uv_swap = vop2_win_uv_swap(fb->format->format);
--		vop2_win_write(win, VOP2_WIN_UV_SWAP, uv_swap);
--	}
-+	uv_swap = vop2_win_uv_swap(fb->format->format);
-+	vop2_win_write(win, VOP2_WIN_UV_SWAP, uv_swap);
+   reg:
+@@ -37,10 +38,14 @@ properties:
+       - const: gamma-lut
  
- 	if (fb->format->is_yuv) {
- 		vop2_win_write(win, VOP2_WIN_UV_VIR, DIV_ROUND_UP(fb->pitches[1], 4));
+   interrupts:
+-    maxItems: 1
+-    description:
+-      The VOP interrupt is shared by several interrupt sources, such as
+-      frame start (VSYNC), line flag and other status interrupts.
++    minItems: 1
++    items:
++      - description:
++          vop system interrupt, such as bus error, and vsync for vop version under
++          rk3576.
++      - description:
++          independent interrupts for each video port, such as vsync and other video
++          port related error interrupts.
+ 
+   # See compatible-specific constraints below.
+   clocks:
 -- 
 2.34.1
 
