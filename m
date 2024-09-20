@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01E6397D279
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 10:21:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE18D97D27D
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 10:21:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EDF610E2FF;
-	Fri, 20 Sep 2024 08:21:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6084F10E7CD;
+	Fri, 20 Sep 2024 08:21:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="Pq7VX52/";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="TGGmPIpd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
- by gabe.freedesktop.org (Postfix) with ESMTP id 92AC510E7CD
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2024 08:21:07 +0000 (UTC)
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6C2B910E7CD
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2024 08:21:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=zdtnZ
- XQBgydk7bGZT06QonATEgeUXXTkYAaR5QACEzM=; b=Pq7VX52/XcUYMTCmb+EWy
- v3pUqQwk8yoVMRQJDieiRywKAsTFlnu1zbkCAec9q5GMOPaMO6IcMn1S4hNHtJvt
- V0P2KNt8q9zSpb4v1UTqQOj+zA2wCDh/HrrzzQn6m4qErMkHxtbv/vRNxu53z+uu
- Osny7jiV6SfekFa/Zj/MwU=
+ s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=0GYSG
+ +chUw6Ysv1qyoAIdKhyk6i2g6/WZX6U7MclNH0=; b=TGGmPIpdvvXtsugOEABzZ
+ /I8bOStNtgaFjjNuuYCoL2cRqbQXK2SMdQieRctHtlUT+WOIRXHwcNY+m/KYCoFD
+ 1OvtuQxSm1GCKCg6ZIzEUpzNXk5RSXv2np3aQbdG3bynpnZ8AwLfW6nEsd5XktS7
+ a50W+lLehX2fASanH1cXeU=
 Received: from ProDesk.. (unknown [58.22.7.114])
- by gzga-smtp-mta-g3-0 (Coremail) with SMTP id _____wD3P2phMO1mxSRQBg--.39474S2;
- Fri, 20 Sep 2024 16:20:53 +0800 (CST)
+ by gzga-smtp-mta-g3-1 (Coremail) with SMTP id _____wDX3_dtMO1mi4uaBQ--.13042S2;
+ Fri, 20 Sep 2024 16:21:05 +0800 (CST)
 From: Andy Yan <andyshrk@163.com>
 To: heiko@sntech.de
 Cc: hjc@rock-chips.com, krzk+dt@kernel.org, robh@kernel.org,
@@ -32,22 +32,22 @@ Cc: hjc@rock-chips.com, krzk+dt@kernel.org, robh@kernel.org,
  linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
  derek.foreman@collabora.com, minhuadotchen@gmail.com,
  detlev.casanova@collabora.com, Andy Yan <andy.yan@rock-chips.com>
-Subject: [PATCH v3 03/15] drm/rockchip: vop2: Fix cluster windows alpha ctrl
- regsiters offset
-Date: Fri, 20 Sep 2024 16:20:46 +0800
-Message-ID: <20240920082048.6654-1-andyshrk@163.com>
+Subject: [PATCH v3 04/15] drm/rockchip: vop2: Fix the mixer alpha setup for
+ layer 0
+Date: Fri, 20 Sep 2024 16:20:58 +0800
+Message-ID: <20240920082100.6683-1-andyshrk@163.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240920081626.6433-1-andyshrk@163.com>
 References: <20240920081626.6433-1-andyshrk@163.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wD3P2phMO1mxSRQBg--.39474S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7Ar4kZr1ktry3Xw1DJw18Krg_yoW8urWkpF
- y7Ar98Xr47KFs0gr4xJrWDuryfKws2kFWxAF97K3WYgry3Kr9rC3Wq93WDCry5JFy7Cr12
- ka9xGry7uF4jkF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jF7KsUUUUU=
+X-CM-TRANSID: _____wDX3_dtMO1mi4uaBQ--.13042S2
+X-Coremail-Antispam: 1Uf129KBjvdXoW7XF4rXr13WF4kZr45GFWfKrg_yoWkKFg_G3
+ 4fWrn3Grn7GFn8Jw1jka1fGFZ2yan2kF18Ga1DtF90yFykA3Wxta4rXryxX34UCF4rAr97
+ G3W8Xw1rCrnxWjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU8AWrJUUUUU==
 X-Originating-IP: [58.22.7.114]
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiMxJgXmbtL08ijAAAsa
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiMxJgXmbtL08ijAACsY
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,7 +65,11 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Andy Yan <andy.yan@rock-chips.com>
 
-The phy_id of cluster windws are not increase one for each window.
+The alpha setup should start from the second layer, the current calculation
+starts incorrectly from the first layer, a negative offset will be obtained
+in the following formula:
+
+offset = (mixer_id + zpos - 1) * 0x10
 
 Fixes: 604be85547ce ("drm/rockchip: Add VOP2 driver")
 Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
@@ -74,52 +78,26 @@ Tested-by: Derek Foreman <derek.foreman@collabora.com>
 
 (no changes since v1)
 
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-index cd861c022a66..bff190151ae8 100644
+index bff190151ae8..c50d93df8404 100644
 --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
 +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-@@ -2193,7 +2193,6 @@ static int vop2_find_start_mixer_id_for_vp(struct vop2 *vop2, u8 port_id)
+@@ -2282,6 +2282,12 @@ static void vop2_setup_alpha(struct vop2_video_port *vp)
+ 		struct vop2_win *win = to_vop2_win(plane);
+ 		int zpos = plane->state->normalized_zpos;
  
- static void vop2_setup_cluster_alpha(struct vop2 *vop2, struct vop2_win *main_win)
- {
--	u32 offset = (main_win->data->phys_id * 0x10);
- 	struct vop2_alpha_config alpha_config;
- 	struct vop2_alpha alpha;
- 	struct drm_plane_state *bottom_win_pstate;
-@@ -2201,6 +2200,7 @@ static void vop2_setup_cluster_alpha(struct vop2 *vop2, struct vop2_win *main_wi
- 	u16 src_glb_alpha_val, dst_glb_alpha_val;
- 	bool premulti_en = false;
- 	bool swap = false;
-+	u32 offset = 0;
- 
- 	/* At one win mode, win0 is dst/bottom win, and win1 is a all zero src/top win */
- 	bottom_win_pstate = main_win->base.state;
-@@ -2219,6 +2219,22 @@ static void vop2_setup_cluster_alpha(struct vop2 *vop2, struct vop2_win *main_wi
- 	vop2_parse_alpha(&alpha_config, &alpha);
- 
- 	alpha.src_color_ctrl.bits.src_dst_swap = swap;
++		/*
++		 * Need to configure alpha from second layer.
++		 */
++		if (zpos == 0)
++			continue;
 +
-+	switch (main_win->data->phys_id) {
-+	case ROCKCHIP_VOP2_CLUSTER0:
-+		offset = 0x0;
-+		break;
-+	case ROCKCHIP_VOP2_CLUSTER1:
-+		offset = 0x10;
-+		break;
-+	case ROCKCHIP_VOP2_CLUSTER2:
-+		offset = 0x20;
-+		break;
-+	case ROCKCHIP_VOP2_CLUSTER3:
-+		offset = 0x30;
-+		break;
-+	}
-+
- 	vop2_writel(vop2, RK3568_CLUSTER0_MIX_SRC_COLOR_CTRL + offset,
- 		    alpha.src_color_ctrl.val);
- 	vop2_writel(vop2, RK3568_CLUSTER0_MIX_DST_COLOR_CTRL + offset,
+ 		if (plane->state->pixel_blend_mode == DRM_MODE_BLEND_PREMULTI)
+ 			premulti_en = 1;
+ 		else
 -- 
 2.34.1
 
