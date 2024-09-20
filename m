@@ -2,124 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2265297D370
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 11:10:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A02A97D3C7
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 11:39:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66ECF10E7F5;
-	Fri, 20 Sep 2024 09:10:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C700C10E055;
+	Fri, 20 Sep 2024 09:38:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="z5vW1CtY";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="yvAbrP/4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2050.outbound.protection.outlook.com [40.107.94.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CD4810E7F2;
- Fri, 20 Sep 2024 09:10:09 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yeVkYcn7brmBw2wjUltWV7dH7MlrblRqCGm35s+tpvh+qfOeTUxgnTDkO5JyaTfAOMk6SJRRgs0aOeIwHs5hPtM/tc+eHWwQnOiT+WrUkFWKsKbEzAHF71LprGSDnhli0CCDOJynC420nOkEpWWvCOqjNB9Y89xj5IdCjbdfjAn7/T+hXH1F8wYhSYSuvE8inJPqZ0bn5dSbK0ME2u265QEczERSIcQBmZby2BKS9BynKOJE3iRvp59fSjx9WlRSKkNpj56O8ndACgK16ZDWEQXWNh7BOqNDNJQrnYpjrRscgKBVFZRRxvKwH9XLsUjXpa5U2ElLzkCNa/dJwRPV6w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Hq6yZZotLfHWb+83Pw0AhKPXvnCBuuddgKSNSPQ9/QY=;
- b=Eyr15BNzxGZQAFFo8obeC5Dp4scFaQG+CDUUIEjT/NjIb0uxLjgh6HIcp708d3EWAEpnOzX9+9DwMlG2EVw3n7h9b2x6MhVhQF0d2c8DX/JcnPD61+lO94je/i5tvLdbMhwO8XJSJcyZiFQk9/lqORxJNP0if/nZQYIsc0Jjhip3hjWVUSuS7LHKOsJex6eKLuDZ2sNhPo/18RgfMavebCEjKdDlIAvu7dM3b9I+n6uik4g48diAVvS39oxKKWrtC34r6E9uOvQJtRq+Cr+OIpyBCDMC2JTiqRclibEHTqDRDvU6B1P9SQe6WXOkWYlSxhRznk8yqQPDTKH1QbPfNQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Hq6yZZotLfHWb+83Pw0AhKPXvnCBuuddgKSNSPQ9/QY=;
- b=z5vW1CtY9sJc2XAgj8vRAxRU4VvzOLBM0RHasXwTAApcwk9O63A2WwW2I/k5yVPMODJ+h6myH7WNNwH7nJ/QpXc0gPDo9OVvetdJKJUuf3UxHhTnhbWXeeY43W8sw5Z8iG8vrGE7oV2+z7QUoUXT6PeUIvXvzeIr3S89+Wn/6pI=
-Received: from CH0PR13CA0052.namprd13.prod.outlook.com (2603:10b6:610:b2::27)
- by CH3PR12MB8852.namprd12.prod.outlook.com (2603:10b6:610:17d::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.22; Fri, 20 Sep
- 2024 09:10:05 +0000
-Received: from DS3PEPF000099D4.namprd04.prod.outlook.com
- (2603:10b6:610:b2:cafe::76) by CH0PR13CA0052.outlook.office365.com
- (2603:10b6:610:b2::27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.16 via Frontend
- Transport; Fri, 20 Sep 2024 09:10:05 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DS3PEPF000099D4.mail.protection.outlook.com (10.167.17.5) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7918.13 via Frontend Transport; Fri, 20 Sep 2024 09:10:05 +0000
-Received: from patedamande.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 20 Sep
- 2024 04:10:03 -0500
-From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-To: <dri-devel@lists.freedesktop.org>, <christian.koenig@amd.com>,
- <tursulin@igalia.com>, <simona.vetter@ffwll.ch>, <robdclark@gmail.com>,
- <alexander.deucher@amd.com>, <amd-gfx@lists.freedesktop.org>
-CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-Subject: [PATCH v3 6/6] drm/amdgpu: use drm_file::name in
- task_info::process_desc
-Date: Fri, 20 Sep 2024 11:06:48 +0200
-Message-ID: <20240920090920.1342694-7-pierre-eric.pelloux-prayer@amd.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240920090920.1342694-1-pierre-eric.pelloux-prayer@amd.com>
-References: <20240920090920.1342694-1-pierre-eric.pelloux-prayer@amd.com>
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
+ [209.85.167.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05A9410E055
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2024 09:38:59 +0000 (UTC)
+Received: by mail-lf1-f50.google.com with SMTP id
+ 2adb3069b0e04-536748c7e9aso2441987e87.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2024 02:38:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1726825137; x=1727429937; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=3Isga6WhNpBJPKKZLFSzZ37SuHnie4715ui4RDqxHIU=;
+ b=yvAbrP/4G8eG17aq7kQQl8M4F5dryjGgaYEG88gcb5Swd0Xtb9Ob0fupuLlDgKFECB
+ sINcqqXR2O5/h8k5JGAt8GNWh9xe/C56DAB+U9toIcqBvmy0wpTYv8RTU8vvqB0jtkRb
+ Tu84zkcoRrxtkO/Uh+JPE1qgLjPN9S5LCttxkTRVMIGMbTWTIv6tT7hxZP6n1WZ9fb7T
+ TGz/A939TqaDwkxbFX8DzdTeNwlXirpalxeiUHdMRzfDDi/xNLeNxykjYplR6h8H1R0k
+ umn6SrYAG/zAqBkg67WqvwzEpYFwVTrIosNwAYE8PGIG5iVbPH/i5OHHxaLr/nswk7+D
+ VK8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1726825137; x=1727429937;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=3Isga6WhNpBJPKKZLFSzZ37SuHnie4715ui4RDqxHIU=;
+ b=Or93zqMgF+cfJ2aPRkRfKgCVrR+q2tQBjiUnk3zFF+RF1DqZORP6DLcuzyMtcYW9TG
+ Ry2I3w4d3rtaxobo0T1sIirQBfqq2DZAj1PTJhSBkqY9Z3lBKjHrXqwLzB4G+qSqLrHb
+ n14IbVc0STMOBV1sU/TqD+qKeMXf66fUeZEV69ZdmsDVG7YBXn1Rmc5laK4Q0X0SF/NB
+ cIFH+RYGAutaU7KSdyAovyACKPZOJJB7m6twFev6/9c8ruox9DcIOZSP/oujnm00F3Ps
+ KF8p4iLLX68sEfh6CP+M0poSzGlEIjrfDpxfmdMrgj/VHj2+jjimNVVB8jjWI14bNpmv
+ kqtw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWFRM/KL0sPg2xlFLuIftDTvYk96t9Pjro9o6EQOC0DdBA73XDC3Wa0sq7kzgS+ApHgKy+ShCzEs58=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyy1T4phvzPCrLEizc2F3/J5OMOFeJhvKiZ3ph8LdGo1T6xVl7M
+ 6ajl5koSNIGwgAcpA/cELtUxDypVDjiefkyXAgzfi+2PEsatSkyZwpbHGXaqAjw=
+X-Google-Smtp-Source: AGHT+IEyf+L3alOBO+IDE5tXohIeKgqQE+M9l4Enih5DCS15gfbRAxlZH2hDf1Cm6A3BQnla8U5uuQ==
+X-Received: by 2002:a05:6512:3d91:b0:533:3268:b959 with SMTP id
+ 2adb3069b0e04-536ac33b3afmr1366248e87.53.1726825136859; 
+ Fri, 20 Sep 2024 02:38:56 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-53687096859sm2077814e87.176.2024.09.20.02.38.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 20 Sep 2024 02:38:56 -0700 (PDT)
+Date: Fri, 20 Sep 2024 12:38:53 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Stephen Boyd <swboyd@chromium.org>
+Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ patches@lists.linux.dev, devicetree@vger.kernel.org, 
+ Douglas Anderson <dianders@chromium.org>, Pin-yen Lin <treapking@chromium.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Benson Leung <bleung@chromium.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>, 
+ David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org, 
+ Guenter Roeck <groeck@chromium.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Lee Jones <lee@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Prashant Malani <pmalani@chromium.org>, 
+ Robert Foss <rfoss@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Daniel Scally <djrscally@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Ivan Orlov <ivan.orlov0322@gmail.com>, 
+ linux-acpi@vger.kernel.org, linux-usb@vger.kernel.org, 
+ Mika Westerberg <mika.westerberg@linux.intel.com>,
+ "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, Vinod Koul <vkoul@kernel.org>, 
+ "Rob Herring (Arm)" <robh@kernel.org>
+Subject: Re: [PATCH v4 15/18] dt-bindings: usb: Add ports to
+ google,cros-ec-typec for DP altmode
+Message-ID: <phdcjgqqpjpruxp7v2mw446q73xr3eg4wfgfbjw5tasgr2pgg2@77swbk47b2tg>
+References: <20240901040658.157425-1-swboyd@chromium.org>
+ <20240901040658.157425-16-swboyd@chromium.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS3PEPF000099D4:EE_|CH3PR12MB8852:EE_
-X-MS-Office365-Filtering-Correlation-Id: a617ce2f-0f7e-445a-6f15-08dcd9540491
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|82310400026|1800799024|36860700013; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?f1Mm0zvSfZcXWW49sLjkHJzOSBjoGVwRcdudp9g/wSn+PBVhAxK+53vAvJQz?=
- =?us-ascii?Q?gmizgd8e8NLj9IRK3CGBMagYVQqfHalGeisCcHIu60LU2oPu3r4WFhy5YMCW?=
- =?us-ascii?Q?pLNIM7VZGCvh5MefzXFM5LI+KJZgEjX26Fb6APyoJPsx0OG/vX5k5yZG1C9N?=
- =?us-ascii?Q?W9BgUqKedB1v/L+ys+QLeEQr5d1DS8tDrqKSn3w1JlfLDKBzK0BRiBf0HSwd?=
- =?us-ascii?Q?/UosPgDVZajDbiygf9QPTDPRASc3NVfV1pG7FBKkFsTrZJJKdzoeY7k0vZhH?=
- =?us-ascii?Q?CfMlxX8Xzg/jI2jTijQeI1fAveEPviF8DtiVMcWGoyVv8F7RkgVFcyI6upil?=
- =?us-ascii?Q?Ui7UmHjd5QYddc526gJCUSMZRUnN9xuKjBk887GLTSjKJs4ZnFN2aJB1fPLc?=
- =?us-ascii?Q?ruPLR6qfHGQvM7fdKNnUYIKaeKyMiiJrEsuIvEG49NzGK5t4ski1p4WIUl/Y?=
- =?us-ascii?Q?rPjC47m7DM7xH0zYGAewqujyXtK/vmXqt+N8eTRHM6pGnd2Dqplnet2Is0Ly?=
- =?us-ascii?Q?hqb6uayppgq71dSWmqf25YcGlPJF08TsR0q05/AeeskAKgsdB11ybb+zpDjA?=
- =?us-ascii?Q?C2q5V6oNmNXHiAPI29ufeGTRqUBFVcRoeOTYhinMHyMUJ+4fxGgMpbsLQ2HM?=
- =?us-ascii?Q?CRNAkv22+ZyycUSbA542KFsUBUxoY8vDGQhWy66P9VBayMcaSmD/PYtcNDvb?=
- =?us-ascii?Q?OIoF1IxhFYD9Ul3qa8LT3E2mX2hGIyLJ80ByGkk3hYp+0xJR1R4dqugea4QC?=
- =?us-ascii?Q?Orpsk5bDs4l+325+T9Yo7pjxwpN08S2Ba03+D7UI5xg6Y5+8qMTo9tWtRghq?=
- =?us-ascii?Q?QiA2/MegIZlhJKrbudUSAjCvR7FeBYhvz4cqJdywDi+pxvo0DRTCPEQrRbF+?=
- =?us-ascii?Q?xgwtX+gc632/U1VXN/HfStFXELpZHt+Vx78Y6EeBiLJqX2Qocy6VSNXXVk8m?=
- =?us-ascii?Q?9XZmkMFow6ZlHq1t+jheUCZkumf6YKaetaPtlk45U6hshH6QUF+70g3D3gB+?=
- =?us-ascii?Q?Cd53l6OQYTQkASioxNxHfQtHCQ5s3E6Grx+gAgnHVlz4Uil351I5D3tqRvNj?=
- =?us-ascii?Q?/B6EJnxg4/hu2dGr71wjQ59CCd3MijRunTJVQkKx0VBmGVo5ixCZm2qxfB5d?=
- =?us-ascii?Q?TyL6qTokk+MlYHu40PK7LVfNtJ7Tlwe5cfivASyOGwIQnwm68OU+vCmjQE2q?=
- =?us-ascii?Q?nYuKcCcM5c3b3Dc/hPgqi08Rar+ZUWR0nnYWkNcLWEPGGV1EWuHIjXA+2Oss?=
- =?us-ascii?Q?/D41cSLT3+pL7T9olOlMQEKE2im9115d+QNYIxhH8JgrAGUARQROf6ovNkjS?=
- =?us-ascii?Q?WDLRwjnPQytxfIiX+/Y7qRwJoRpWQVmDYdgS9aBhm5eF48sDNfj4MTw4Ewp8?=
- =?us-ascii?Q?2Jml/gUpqRO0BeHt8OiolobIyU9M7mSva4qGvX6v3tw2Vr+RwjXAvT8ppCSf?=
- =?us-ascii?Q?yO3dGA8JX090zBfxdnIXiACofJAz7RW/?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(376014)(82310400026)(1800799024)(36860700013); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Sep 2024 09:10:05.5638 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a617ce2f-0f7e-445a-6f15-08dcd9540491
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DS3PEPF000099D4.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8852
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240901040658.157425-16-swboyd@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,166 +111,498 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If a drm_file name is set append it to the process name.
+On Sat, Aug 31, 2024 at 09:06:53PM GMT, Stephen Boyd wrote:
+> Add a DT graph binding to google,cros-ec-typec so that it can combine
+> DisplayPort (DP) and USB SuperSpeed (SS) data into a USB type-c endpoint
+> that is connected to the usb-c-connector node's SS endpoint. This also
+> allows us to connect the DP and USB nodes in the graph to the USB type-c
+> connectors, providing the full picture of the USB type-c data flows in
+> the system.
+> 
+> Allow there to be multiple typec nodes underneath the EC node so that
+> one DT graph exists per DP bridge. The EC is actually controlling TCPCs
+> and redrivers that combine the DP and USB signals together so this more
+> accurately reflects the hardware design without introducing yet another
+> DT node underneath the EC for USB type-c.
+> 
+> If the type-c ports are being shared between a single DP controller then
+> the ports need to know about each other and determine a policy to drive
+> DP to one type-c port. If the type-c ports each have their own dedicated
+> DP controller then they're able to operate independently and enter/exit
+> DP altmode independently as well. We can't connect the DP controller's
+> endpoint to one usb-c-connector port@1 endpoint and the USB controller's
+> endpoint to another usb-c-connector port@1 endpoint either because the
+> DP muxing case would have DP connected to two usb-c-connector endpoints
+> which the graph binding doesn't support.
+> 
+> Therefore, one typec node is required per the capabilities of the type-c
+> port(s) being managed. This also lets us indicate which type-c ports the
+> DP controller is wired to. For example, if DP was connected to ports 0
+> and 2, while port 1 was connected to another DP controller we wouldn't
+> be able to implement that without having some other DT property to
+> indicate which output ports are connected to the DP endpoint.
 
-This information is useful with the virtio/native-context driver: this
-allows the guest applications identifier to visible in amdgpu's output.
+Based on our disccusions at LPC, here are several DT examples that seem
+sensible to implement this case and several related cases from other
+ChromeBooks.
 
-The output in amdgpu_vm_info/amdgpu_gem_info looks like this:
-   pid:12255	Process:glxgears/test-set-fd-name ----------
+typec {
+	compatible = "google,cros-ec-typec";
 
-Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h    |  1 +
- .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  |  3 ++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c        |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c        | 26 ++++++++++++++++---
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h        |  2 +-
- drivers/gpu/drm/amd/amdkfd/kfd_process.c      |  3 +++
- 6 files changed, 30 insertions(+), 7 deletions(-)
+	port {
+		typec_dp_in: endpoint {
+			remote-endpoint = <&usb_1_qmp_phy_out_dp>;
+		};
+	};
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
-index f9d119448442..ad909173e419 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
-@@ -299,6 +299,7 @@ int amdgpu_amdkfd_gpuvm_set_vm_pasid(struct amdgpu_device *adev,
- 				     struct amdgpu_vm *avm, u32 pasid);
- int amdgpu_amdkfd_gpuvm_acquire_process_vm(struct amdgpu_device *adev,
- 					struct amdgpu_vm *avm,
-+					struct drm_file *filp,
- 					void **process_info,
- 					struct dma_fence **ef);
- void amdgpu_amdkfd_gpuvm_release_process_vm(struct amdgpu_device *adev,
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-index 6d5fd371d5ce..172882af6705 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-@@ -1558,6 +1558,7 @@ int amdgpu_amdkfd_gpuvm_set_vm_pasid(struct amdgpu_device *adev,
- 
- int amdgpu_amdkfd_gpuvm_acquire_process_vm(struct amdgpu_device *adev,
- 					   struct amdgpu_vm *avm,
-+					   struct drm_file *filp,
- 					   void **process_info,
- 					   struct dma_fence **ef)
- {
-@@ -1577,7 +1578,7 @@ int amdgpu_amdkfd_gpuvm_acquire_process_vm(struct amdgpu_device *adev,
- 	if (ret)
- 		return ret;
- 
--	amdgpu_vm_set_task_info(avm);
-+	amdgpu_vm_set_task_info(avm, filp);
- 
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-index 891128ecee6d..5d43e24906d2 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-@@ -1178,7 +1178,7 @@ static int amdgpu_cs_vm_handling(struct amdgpu_cs_parser *p)
- 	}
- 
- 	/* Use this opportunity to fill in task info for the vm */
--	amdgpu_vm_set_task_info(vm);
-+	amdgpu_vm_set_task_info(vm, p->filp);
- 
- 	if (adev->debug_vm) {
- 		/* Invalidate all BOs to test for userspace bugs */
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-index 7f852029d6e1..a2b12f0c3253 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-@@ -2355,14 +2355,20 @@ amdgpu_vm_get_task_info_pasid(struct amdgpu_device *adev, u32 pasid)
- 			amdgpu_vm_get_vm_from_pasid(adev, pasid));
- }
- 
--static int amdgpu_vm_create_task_info(struct amdgpu_vm *vm)
-+static int amdgpu_vm_create_task_info(struct amdgpu_vm *vm, struct drm_file *filp)
- {
- 	char process_name[TASK_COMM_LEN];
--	int desc_len;
-+	size_t desc_len;
- 
- 	get_task_comm(process_name, current->group_leader);
- 	desc_len = strlen(process_name);
- 
-+	if (filp) {
-+		mutex_lock(&filp->name_lock);
-+		if (filp->name)
-+			desc_len += 1 + strlen(filp->name);
-+	}
-+
- 	vm->task_info = kzalloc(
- 		struct_size(vm->task_info, process_desc, desc_len + 1),
- 		GFP_KERNEL);
-@@ -2371,6 +2377,17 @@ static int amdgpu_vm_create_task_info(struct amdgpu_vm *vm)
- 		return -ENOMEM;
- 
- 	strscpy(vm->task_info->process_desc, process_name, desc_len + 1);
-+	if (filp) {
-+		if (filp->name) {
-+			size_t p_len = strlen(process_name);
-+
-+			vm->task_info->process_desc[p_len] = '/';
-+			strscpy(&vm->task_info->process_desc[p_len + 1],
-+				filp->name, (desc_len + 1) - (p_len + 1));
-+		}
-+		mutex_unlock(&filp->name_lock);
-+	}
-+
- 
- 	kref_init(&vm->task_info->refcount);
- 	return 0;
-@@ -2380,11 +2397,12 @@ static int amdgpu_vm_create_task_info(struct amdgpu_vm *vm)
-  * amdgpu_vm_set_task_info - Sets VMs task info.
-  *
-  * @vm: vm for which to set the info
-+ * @filp: drm_file instance
-  */
--void amdgpu_vm_set_task_info(struct amdgpu_vm *vm)
-+void amdgpu_vm_set_task_info(struct amdgpu_vm *vm, struct drm_file *filp)
- {
- 	if (!vm->task_info) {
--		if (amdgpu_vm_create_task_info(vm))
-+		if (amdgpu_vm_create_task_info(vm, filp))
- 			return;
- 	}
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
-index 44da250217be..8df3dece54c2 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
-@@ -561,7 +561,7 @@ bool amdgpu_vm_handle_fault(struct amdgpu_device *adev, u32 pasid,
- 			    u32 vmid, u32 node_id, uint64_t addr, uint64_t ts,
- 			    bool write_fault);
- 
--void amdgpu_vm_set_task_info(struct amdgpu_vm *vm);
-+void amdgpu_vm_set_task_info(struct amdgpu_vm *vm, struct drm_file *filp);
- 
- void amdgpu_vm_move_to_lru_tail(struct amdgpu_device *adev,
- 				struct amdgpu_vm *vm);
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process.c b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-index a902950cc060..e473fe433d3f 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-@@ -1654,6 +1654,7 @@ int kfd_process_device_init_vm(struct kfd_process_device *pdd,
- 			       struct file *drm_file)
- {
- 	struct amdgpu_fpriv *drv_priv;
-+	struct drm_file *filp;
- 	struct amdgpu_vm *avm;
- 	struct kfd_process *p;
- 	struct dma_fence *ef;
-@@ -1673,8 +1674,10 @@ int kfd_process_device_init_vm(struct kfd_process_device *pdd,
- 
- 	p = pdd->process;
- 	dev = pdd->dev;
-+	filp = drm_file->private_data;
- 
- 	ret = amdgpu_amdkfd_gpuvm_acquire_process_vm(dev->adev, avm,
-+						     filp,
- 						     &p->kgd_process_info,
- 						     &ef);
- 	if (ret) {
+	usb_c0: connector@0 {
+		compatible = "usb-c-connector";
+		reg = <0>;
+
+		ports {
+			port@0 {
+				reg = <0>;
+				usb_c0_hs_in: endpoint {
+					remote-endpoint = <&usb_hub_dfp1_hs>;
+				};
+			};
+
+			port@1 {
+				reg = <1>;
+				usb_c0_ss_in: endpoint {
+					remote-endpoint = <&usb_hub_dfp1_ss>;
+				};
+			};
+		};
+	};
+
+	usb_c1: connector@1 {
+		compatible = "usb-c-connector";
+		reg = <1>;
+
+		ports {
+			port@0 {
+				reg = <0>;
+				usb_c1_hs_in: endpoint {
+					remote-endpoint = <&usb_hub_dfp2_hs>;
+				};
+			};
+
+			port@1 {
+				reg = <1>;
+				usb_c1_ss_in: endpoint {
+					remote-endpoint = <&usb_hub_dfp2_ss>;
+				};
+			};
+		};
+	};
+};
+
+&usb_1_qmpphy {
+	ports {
+		port@0 {
+			endpoint@0 {
+				data-lanes = <0 1>;
+				// this might go to USB-3 hub
+			};
+
+			usb_1_qmp_phy_out_dp: endpoint@1 {
+				remote-endpoint = <&typec_dp_in>;
+				data-lanes = <2 3>;
+			};
+		}
+	};
+};
+
+-------
+
+typec {
+	connector@0 {
+		port@1 {
+			endpoint@0 {
+				remtoe = <&usb_hub_0>;
+			};
+
+			endpoint@1 {
+				remote = <&dp_bridge_out_0>;
+			};
+		};
+	};
+
+	connector@1 {
+		port@1 {
+			endpoint@0 {
+				remtoe = <&usb_hub_1>;
+			};
+
+			endpoint@1 {
+				remote = <&dp_bridge_out_1>;
+			};
+		};
+	};
+};
+
+dp_bridge {
+	ports {
+		port@1 {
+			dp_bridge_out_0: endpoint@0 {
+				remote = <usb_c0_ss_dp>;
+				data-lanes = <0 1>;
+			};
+
+			dp_bridge_out_1: endpoint@1 {
+				remote = <usb_c1_ss_dp>;
+				data-lanes = <2 3>;
+			};
+		};
+	};
+};
+
+-------
+
+This one is really tough example, we didn't reach a conclusion here.
+If the EC doesn't handle lane remapping, dp_bridge has to get
+orientation-switch and mode-switch properties (as in the end it is the
+dp_bridge that handles reshuffling of the lanes for the Type-C). Per the
+DisplayPort standard the lanes are fixed (e.g. DPCD 101h explicitly
+names lane 0, lanes 0-1, lanes 0-1-2-3).
+
+typec {
+	connector@0 {
+		port@1 {
+			endpoint@0 {
+				remtoe = <&usb_hub_0>;
+			};
+
+			endpoint@1 {
+				remote = <&dp_bridge_out_0>;
+			};
+		};
+	};
+};
+
+dp_bridge {
+	orientation-switch;
+	mode-switch;
+	ports {
+		port@1 {
+			dp_bridge_out_0: endpoint {
+				remote = <usb_c0_ss_dp>;
+				data-lanes = <0 1 2 3>;
+			};
+		};
+	};
+};
+
+-------
+
+> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+> Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+> Cc: Conor Dooley <conor+dt@kernel.org>
+> Acked-by: Lee Jones <lee@kernel.org>
+> Cc: Benson Leung <bleung@chromium.org>
+> Cc: Guenter Roeck <groeck@chromium.org>
+> Cc: Prashant Malani <pmalani@chromium.org>
+> Cc: Tzung-Bi Shih <tzungbi@kernel.org>
+> Cc: <devicetree@vger.kernel.org>
+> Cc: <chrome-platform@lists.linux.dev>
+> Cc: Pin-yen Lin <treapking@chromium.org>
+> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+> ---
+>  .../bindings/mfd/google,cros-ec.yaml	  |   7 +-
+>  .../bindings/usb/google,cros-ec-typec.yaml    | 229 ++++++++++++++++++
+>  2 files changed, 233 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml b/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
+> index c991626dc22b..bbe28047d0c0 100644
+> --- a/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
+> +++ b/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
+> @@ -98,9 +98,6 @@ properties:
+>  
+>    gpio-controller: true
+>  
+> -  typec:
+> -    $ref: /schemas/usb/google,cros-ec-typec.yaml#
+> -
+>    ec-pwm:
+>      $ref: /schemas/pwm/google,cros-ec-pwm.yaml#
+>      deprecated: true
+> @@ -166,6 +163,10 @@ patternProperties:
+>      type: object
+>      $ref: /schemas/extcon/extcon-usbc-cros-ec.yaml#
+>  
+> +  "^typec(-[0-9])*$":
+> +    type: object
+> +    $ref: /schemas/usb/google,cros-ec-typec.yaml#
+> +
+>  required:
+>    - compatible
+>  
+> diff --git a/Documentation/devicetree/bindings/usb/google,cros-ec-typec.yaml b/Documentation/devicetree/bindings/usb/google,cros-ec-typec.yaml
+> index 365523a63179..235b86da3cdd 100644
+> --- a/Documentation/devicetree/bindings/usb/google,cros-ec-typec.yaml
+> +++ b/Documentation/devicetree/bindings/usb/google,cros-ec-typec.yaml
+> @@ -26,6 +26,106 @@ properties:
+>    '#size-cells':
+>      const: 0
+>  
+> +  mux-gpios:
+> +    description: GPIOs indicating which way the DP mux is steered
+> +    maxItems: 1
+> +
+> +  no-hpd:
+> +    description: Indicates this endpoint doesn't signal HPD for DisplayPort
+> +    type: boolean
+> +
+> +  mode-switch:
+> +    $ref: usb-switch.yaml#properties/mode-switch
+> +
+> +  orientation-switch:
+> +    $ref: usb-switch.yaml#properties/orientation-switch
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +	$ref: /schemas/graph.yaml#/$defs/port-base
+> +	unevaluatedProperties: false
+> +	description: Output ports for combined DP and USB SS data
+> +	patternProperties:
+> +	  "^endpoint@([0-8])$":
+> +	    $ref: usb-switch.yaml#/$defs/usbc-out-endpoint
+> +	    unevaluatedProperties: false
+> +
+> +	anyOf:
+> +	  - required:
+> +	      - endpoint@0
+> +	  - required:
+> +	      - endpoint@1
+> +	  - required:
+> +	      - endpoint@2
+> +	  - required:
+> +	      - endpoint@3
+> +	  - required:
+> +	      - endpoint@4
+> +	  - required:
+> +	      - endpoint@5
+> +	  - required:
+> +	      - endpoint@6
+> +	  - required:
+> +	      - endpoint@7
+> +	  - required:
+> +	      - endpoint@8
+> +
+> +      port@1:
+> +	$ref: /schemas/graph.yaml#/$defs/port-base
+> +	unevaluatedProperties: false
+> +	description:
+> +	  Input port to receive USB SuperSpeed (SS) data
+> +	patternProperties:
+> +	  "^endpoint@([0-8])$":
+> +	    $ref: usb-switch.yaml#/$defs/usbc-in-endpoint
+> +	    unevaluatedProperties: false
+> +
+> +	anyOf:
+> +	  - required:
+> +	      - endpoint@0
+> +	  - required:
+> +	      - endpoint@1
+> +	  - required:
+> +	      - endpoint@2
+> +	  - required:
+> +	      - endpoint@3
+> +	  - required:
+> +	      - endpoint@4
+> +	  - required:
+> +	      - endpoint@5
+> +	  - required:
+> +	      - endpoint@6
+> +	  - required:
+> +	      - endpoint@7
+> +	  - required:
+> +	      - endpoint@8
+> +
+> +      port@2:
+> +	$ref: /schemas/graph.yaml#/$defs/port-base
+> +	description:
+> +	  Input port to receive DisplayPort (DP) data
+> +	unevaluatedProperties: false
+> +
+> +	properties:
+> +	  endpoint:
+> +	    $ref: usb-switch.yaml#/$defs/dp-endpoint
+> +	    unevaluatedProperties: false
+> +
+> +	required:
+> +	  - endpoint
+> +
+> +    required:
+> +      - port@0
+> +
+> +    anyOf:
+> +      - required:
+> +	  - port@1
+> +      - required:
+> +	  - port@2
+> +
+>  patternProperties:
+>    '^connector@[0-9a-f]+$':
+>      $ref: /schemas/connector/usb-connector.yaml#
+> @@ -35,6 +135,40 @@ patternProperties:
+>  required:
+>    - compatible
+>  
+> +allOf:
+> +  - if:
+> +      required:
+> +	- no-hpd
+> +    then:
+> +      properties:
+> +	ports:
+> +	  required:
+> +	    - port@2
+> +  - if:
+> +      required:
+> +	- mux-gpios
+> +    then:
+> +      properties:
+> +	ports:
+> +	  required:
+> +	    - port@2
+> +  - if:
+> +      required:
+> +	- orientation-switch
+> +    then:
+> +      properties:
+> +	ports:
+> +	  required:
+> +	    - port@2
+> +  - if:
+> +      required:
+> +	- mode-switch
+> +    then:
+> +      properties:
+> +	ports:
+> +	  required:
+> +	    - port@2
+> +
+>  additionalProperties: false
+>  
+>  examples:
+> @@ -50,6 +184,8 @@ examples:
+>  
+>	  typec {
+>	    compatible = "google,cros-ec-typec";
+> +	  orientation-switch;
+> +	  mode-switch;
+>  
+>	    #address-cells = <1>;
+>	    #size-cells = <0>;
+> @@ -60,6 +196,99 @@ examples:
+>	      power-role = "dual";
+>	      data-role = "dual";
+>	      try-power-role = "source";
+> +
+> +	    ports {
+> +	      #address-cells = <1>;
+> +	      #size-cells = <0>;
+> +
+> +	      port@0 {
+> +		reg = <0>;
+> +		usb_c0_hs: endpoint {
+> +		  remote-endpoint = <&usb_hub_dfp3_hs>;
+> +		};
+> +	      };
+> +
+> +	      port@1 {
+> +		reg = <1>;
+> +		usb_c0_ss: endpoint {
+> +		  remote-endpoint = <&cros_typec_c0_ss>;
+> +		};
+> +	      };
+> +	    };
+> +	  };
+> +
+> +	  connector@1 {
+> +	    compatible = "usb-c-connector";
+> +	    reg = <1>;
+> +	    power-role = "dual";
+> +	    data-role = "dual";
+> +	    try-power-role = "source";
+> +
+> +	    ports {
+> +	      #address-cells = <1>;
+> +	      #size-cells = <0>;
+> +
+> +	      port@0 {
+> +		reg = <0>;
+> +		usb_c1_hs: endpoint {
+> +		  remote-endpoint = <&usb_hub_dfp2_hs>;
+> +		};
+> +	      };
+> +
+> +	      port@1 {
+> +		reg = <1>;
+> +		usb_c1_ss: endpoint {
+> +		  remote-endpoint = <&cros_typec_c1_ss>;
+> +		};
+> +	      };
+> +	    };
+> +	  };
+> +
+> +	  ports {
+> +	    #address-cells = <1>;
+> +	    #size-cells = <0>;
+> +
+> +	    port@0 {
+> +	      reg = <0>;
+> +	      #address-cells = <1>;
+> +	      #size-cells = <0>;
+> +
+> +	      cros_typec_c0_ss: endpoint@0 {
+> +		reg = <0>;
+> +		remote-endpoint = <&usb_c0_ss>;
+> +		data-lanes = <0 1 2 3>;
+> +	      };
+> +
+> +	      cros_typec_c1_ss: endpoint@1 {
+> +		reg = <1>;
+> +		remote-endpoint = <&usb_c1_ss>;
+> +		data-lanes = <2 3 0 1>;
+> +	      };
+> +	    };
+> +
+> +	    port@1 {
+> +	      reg = <1>;
+> +	      #address-cells = <1>;
+> +	      #size-cells = <0>;
+> +
+> +	      usb_in_0: endpoint@0 {
+> +		reg = <0>;
+> +		remote-endpoint = <&usb_ss_0_out>;
+> +	      };
+> +
+> +	      usb_in_1: endpoint@1 {
+> +		reg = <1>;
+> +		remote-endpoint = <&usb_ss_1_out>;
+> +	      };
+> +	    };
+> +
+> +	    port@2 {
+> +	      reg = <2>;
+> +	      dp_in: endpoint {
+> +		remote-endpoint = <&dp_phy>;
+> +		data-lanes = <0 1>;
+> +	      };
+> +	    };
+>	    };
+>	  };
+>	};
+> -- 
+> https://chromeos.dev
+> 
+
 -- 
-2.40.1
-
+With best wishes
+Dmitry
