@@ -2,50 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E65997D571
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 14:40:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DD1097D575
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 14:40:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F251910E0D3;
-	Fri, 20 Sep 2024 12:40:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5944510E82F;
+	Fri, 20 Sep 2024 12:40:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fZB2rOvF";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="aVn1Ry9C";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CFED10E0D3
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2024 12:40:03 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C96110E82F
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2024 12:40:50 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 001BE5C580B;
- Fri, 20 Sep 2024 12:39:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA163C4CEC3;
- Fri, 20 Sep 2024 12:39:57 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 631FFA4320B;
+ Fri, 20 Sep 2024 12:40:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DED12C4CEC3;
+ Fri, 20 Sep 2024 12:40:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1726836002;
- bh=i4aFSN6dWz0hQZR6rK26wm7u+ZlA+VxyTcGU90KfME0=;
+ s=k20201202; t=1726836049;
+ bh=+jfR1XeRU+m7AtoWuJb16GMK+Un011ipJtUW+b5eEK0=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=fZB2rOvFr0DN6W8H2zkjOYMqjmFyaqVNOpeGjLoXWkbsmwAXAbKSu4I5LHLnoCMNk
- IE15PrFa6Rj2fdnMPWa2rTCttS8qjUwpiG0gQ9glUi96Z/ce+G10wQgWloTgz6p+zD
- pmIqSjoY7sjCjgG/FgZtVDxKPn1SmCuLM/hm/qjwrpIQp+1/4gwCjEveNcUIaFdUbm
- NnuJcnsPB7FTrWzR88QfDjK6AzHxlkCJ2qO++SrAst0U86jMYv0E8rr1kT3905Q9T/
- FZW9yxLJafx3tSmTcNjPNSDOGsjhDrenCmCaaSCOArB5O1HhwCXzZIVUaqX+Irm92n
- CEA2rCYM37Low==
-Message-ID: <32ae1188-196d-4fe8-8719-968e5149a771@kernel.org>
-Date: Fri, 20 Sep 2024 14:39:55 +0200
+ b=aVn1Ry9CamWpFP3xB9ltitw7mVRuE1p5tC+vG4aQ86XUkT4NCqLm/OlcjH36i9F3a
+ 6tfFyCin4KcO9Z+5UKhqNuvCv8zRUUC4zXkO9k0GgV6OQO5eGkG42As3Srgowv0MUT
+ m7f2JZfNw0poRGnbA35xge39KGxFpX6GV3SiguFs8IH1idKO3oDXG3Gz2jdifF43GW
+ V8CrRiGwRk1YkkecIiZggfJc/TKQ9yrToivRdAvWpjnz0Ckjga/6DHEU4Z/QlKteW6
+ Kps7Dn0JRGhHfSEc99i3LJxjCzfrl8nKGcgkt/Mrf2Esz2emGVPrOoBiRSbgOUuKLG
+ SEnfFBsWOfhKA==
+Message-ID: <f64c303e-8a88-4aee-9110-ee4a06a3d67f@kernel.org>
+Date: Fri, 20 Sep 2024 14:40:42 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/6] dt-bindings: display: samsung,exynos7-decon: add
- exynos7870 compatible
-To: Kaustabh Chakraborty <kauschluss@disroot.org>
-Cc: airlied@gmail.com, alim.akhtar@samsung.com, conor@kernel.org,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- inki.dae@samsung.com, kyungmin.park@samsung.com,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, robh@kernel.org, simona@ffwll.ch,
- sw0312.kim@samsung.com, tzimmermann@suse.de
+Subject: Re: [PATCH 2/6] drm/exynos: exynos7_drm_decon: fix suspended
+ condition in decon_commit()
+To: Kaustabh Chakraborty <kauschluss@disroot.org>,
+ Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Alim Akhtar <alim.akhtar@samsung.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Conor Dooley <conor@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org
 References: <20240919-exynosdrm-decon-v1-0-6c5861c1cb04@disroot.org>
- <20240919-exynosdrm-decon-v1-6-8c3e3ccffad5@disroot.org>
+ <20240919-exynosdrm-decon-v1-2-6c5861c1cb04@disroot.org>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -91,7 +93,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240919-exynosdrm-decon-v1-6-8c3e3ccffad5@disroot.org>
+In-Reply-To: <20240919-exynosdrm-decon-v1-2-6c5861c1cb04@disroot.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -109,15 +111,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19/09/2024 17:20, Kaustabh Chakraborty wrote:
-> Add the compatible string of Exynos7870 to the existing list.
+On 19/09/2024 17:11, Kaustabh Chakraborty wrote:
+> decon_commit() gets called during atomic_enable. At this stage, DECON is
+> suspended, and thus the function refuses to run. Fix the suspended
+> condition checking in decon_commit().
 > 
 > Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
+> ---
 
-... and the DTS is <please provide lore ink in changelog>?
-
-
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+If this is a fix, then you miss fixes tag and cc-stable. However the
+explanation seems just incomplete. This looked like a intentional code,
+so you should explain really why original approach was wrong.
 
 Best regards,
 Krzysztof
