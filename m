@@ -2,59 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 922E397D49E
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 13:15:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDCC297D4A5
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 13:18:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8DBB10E06F;
-	Fri, 20 Sep 2024 11:15:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 481EA10E811;
+	Fri, 20 Sep 2024 11:18:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="EQoslblg";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NqzB/4/O";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4D9C10E06F
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2024 11:15:30 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31D7C10E80B;
+ Fri, 20 Sep 2024 11:18:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1726830930; x=1758366930;
+ t=1726831108; x=1758367108;
  h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=PMJuszb6NEIe8aTmWmpq9SImQmbXDJNYCQ+VXXofyP4=;
- b=EQoslblgbKbk58PvvW9QafdF0kFaASEXp+jCorjqiUIeEfVAjJqHM84q
- YTHHTF3UOzne7SFtYNrzu63D7qNfDEYUENO/q2kUuTfxLVZDV49uWXx8d
- /YwP8YnIL8ZYzD/cPz+0LT5cAMlANgQ/kcTFIJEHTSy20wvJCcZxFLluS
- Y10ryx/+HJA8bWbTcm0GEzx8F73pMR0NV0foEegzmxwfcBzOdsux30K9h
- q1UqMyvF1lWRa8m2d6KS4jFKOX7YHwDg6f3FV8RkwcmilJAQR/1uK74Xn
- PDlO+JF7x+obPRpXgdWlsogsRMEYHEq1n9QTeyBS8HbGmymzXPPaxP8Hj A==;
-X-CSE-ConnectionGUID: CWfMJUo8Q8uHy0Nua8iWoQ==
-X-CSE-MsgGUID: mLi/9ucKSnm7UryawFjdKQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11200"; a="25311226"
-X-IronPort-AV: E=Sophos;i="6.10,244,1719903600"; d="scan'208";a="25311226"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Sep 2024 04:15:30 -0700
-X-CSE-ConnectionGUID: 0Mi517sFR7y6r4i2CgfIvg==
-X-CSE-MsgGUID: qRI4xGHKSbWHBN54th8Eig==
+ mime-version:in-reply-to;
+ bh=fhQVWSHHAHk/BjF/V13BQ+gW0rvINcPEWCfsLCr11J4=;
+ b=NqzB/4/OaLCEKrfiACAEbimTxoOGxWmMAyZ1UhlUS3mKKd3GsnugvrBs
+ PACRXtEWI7uEn06S9RSL0ltx7/nRxLvc5onqpZ0ttJcIkuXjsEU+S6j1Q
+ NJnOvl7sYVCnzDYqaqMdnDhblV6PRI7M7Mt3aOf2zZIzqZwLdZDo7zRBK
+ baFIw8YzmCZg7wLD7Qor9K0rT1EgexefsNw+ezKrKsAVOD00BeTeYLJ9s
+ oNHJVLtdCqrUmucAQtuT1wGR+t5d+gXM9+5lqws7tVUCseS611cNSjAsi
+ 52KvOalBg1n2GI1LEdBfxrGS1NNsauYfBrZeFuj7B8JZWQoTa0LKW3HBQ w==;
+X-CSE-ConnectionGUID: tBWpkajwShea702ibU977g==
+X-CSE-MsgGUID: yTH2KbLtR0+l4v+XHJVqYw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11200"; a="43301338"
+X-IronPort-AV: E=Sophos;i="6.10,244,1719903600"; d="scan'208";a="43301338"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Sep 2024 04:18:27 -0700
+X-CSE-ConnectionGUID: 5wc2R7eBRMiNjurcCqopyg==
+X-CSE-MsgGUID: VrrIALB+SfGJteI0EeObvg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,244,1719903600"; d="scan'208";a="70396646"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by fmviesa008.fm.intel.com with SMTP; 20 Sep 2024 04:15:28 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 20 Sep 2024 14:15:27 +0300
-Date: Fri, 20 Sep 2024 14:15:27 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Vidith Madhu <vmadhu@nvidia.com>
-Cc: dri-devel@lists.freedesktop.org
-Subject: Re: Changes to `vrr_enabled` property
-Message-ID: <Zu1ZTxVhjD3hmLHt@intel.com>
-References: <dd6a9d79-8a90-89c7-86de-47548a397a9@nvidia.com>
+X-IronPort-AV: E=Sophos;i="6.10,244,1719903600"; d="scan'208";a="71112583"
+Received: from black.fi.intel.com ([10.237.72.28])
+ by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Sep 2024 04:18:22 -0700
+Date: Fri, 20 Sep 2024 14:18:19 +0300
+From: Raag Jadav <raag.jadav@intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>, airlied@gmail.com,
+ simona@ffwll.ch, lucas.demarchi@intel.com,
+ thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
+ joonas.lahtinen@linux.intel.com, tursulin@ursulin.net,
+ lina@asahilina.net, intel-xe@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ himal.prasad.ghimiray@intel.com, francois.dugast@intel.com,
+ aravind.iddamsetty@linux.intel.com, anshuman.gupta@intel.com,
+ andi.shyti@linux.intel.com, matthew.d.roper@intel.com
+Subject: Re: [PATCH v5 2/4] drm: Expose wedge recovery methods
+Message-ID: <Zu1Z-xnjoEuUf8dt@black.fi.intel.com>
+References: <20240917040235.197019-1-raag.jadav@intel.com>
+ <20240917040235.197019-3-raag.jadav@intel.com>
+ <87msk6d8jw.fsf@intel.com> <ZuujCuVxFnOAKdgR@black.fi.intel.com>
+ <87r09g9jp0.fsf@intel.com> <ZuvjGpIdOgGpbBQu@black.fi.intel.com>
+ <Zuwq-NOtgr2E1R5S@smile.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <dd6a9d79-8a90-89c7-86de-47548a397a9@nvidia.com>
-X-Patchwork-Hint: comment
+In-Reply-To: <Zuwq-NOtgr2E1R5S@smile.fi.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,61 +79,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 19, 2024 at 01:14:03PM -0500, Vidith Madhu wrote:
-> Hi all,
-> I'd like to discuss a potential opportunity to enhance the `vrr_enabled` property of `drm_crtc_state`. Currently, this property is a Boolean flag, but this exposes some ambiguity and potential disconnect between client and driver/display behavior. Namely, it's unclear to the client whether it must allow a modeset for changes to `vrr_enabled`. I understand that the DP spec mandates seamless VRR transitions, but there is no such requirement for HDMI. Therefore, it is possible for clients to toggle `vrr_enabled` without setting `allow_modeset`, when in fact the display requires a modeset and/or display blanking. There are multiple ways this might be handled, each of which has flaws:
+On Thu, Sep 19, 2024 at 04:45:28PM +0300, Andy Shevchenko wrote:
+> On Thu, Sep 19, 2024 at 11:38:50AM +0300, Raag Jadav wrote:
+> > On Thu, Sep 19, 2024 at 10:38:51AM +0300, Jani Nikula wrote:
 > 
-> 1. The driver proceeds with a modeset/blanking transition anyways, if the display requires it. As I understand, this is how amdgpu and i915 work [1, 2]. This is a problem because any Wayland compositor that has the "Automatic" option for VRR may transition in and out at unexpected moments, causing disruptive blanking effects.
-
-i915 does not need a full modeset to toggle VRR. 
-Originally we did, but no more.
-
+> ...
 > 
-> 2. The driver initially forces all VRR-capable displays into VRR mode, and controls whether the refresh rate is fixed or variable on-the-fly. This is a problem because many displays have features like ULMB, motion interpolation, black frame insertion, etc.  that are unavailable when the display is in VRR mode. This is how the NVIDIA driver currently handles the situation; there have been user complaints about this [3].
-
-Currently i915 always puts the display into "VRR mode"
-(ie. just sets the "ignore MSA timings" bit in DPCD), but
-I think we could change that to be set only VRR is actually
-enabled (if displays are actually using that as an indication
-to disable random features, which might not even be what [3]
-is saying because it talks about g-sync and not vrr).
-
-Still shouldn't require a full modeset IIRC. Though I haven't
-checked what implications this would have for the adaptive sync
-SDP.
-
-No idea what HDMI VRR toggling would entail.
-
+> > Anyway, would you prefer strlcat instead?
 > 
-> 3. The driver rejects the request. This is a uAPI violation, as currently `allow_modeset` is not required for changes to `vrr_enabled`.
+> FYI: strl*() are subject to remove. They are bad, no-one should really prefer
+> them in the Linux kernel.
 
-The uapi does not specify that AFAIK.
+Not showing up on checkpatch (along with a few others from deprecated.rst).
 
-IIRC I told the kwin people that they shouldn't depend on being able
-to toggle VRR without a modeset but IIRC they said something along
-the lines of "it's too hard to enable VRR already when lighting up
-the display", hence you couldn't use i915+VRR+kwin until we
-eliminated the full modeset from the driver.
-
-> 
-> I would suggest the following approach: Make `vrr_enabled` an enum of {TRUE, INACTIVE, FALSE}. FALSE would shut off VRR on the display (potentially with a modeset), and TRUE/INACTIVE would turn it on (again, potentially with modeset). INACTIVE would have the driver lock a fixed refresh rate while keeping VRR enabled on display. Transitioning between (TRUE/INACTIVE) and (FALSE) on any CRTC would require `allow_modeset` in `drm_atomic_state` to be set, else the request will fail. In addition, it would be the driver's responsibility to implement the distinction between TRUE and INACTIVE. With this change, clients are forced to declare their intentions clearly, and driver-side ambiguity is eliminated.
-
-You would need to introduce a new property instead of breaking
-the old one. Dunno if this would help kwin at all though, if
-they couldn't set the current property at modeset time then
-not sure how they could set the new property either. Shrug.
-
->  
-> I would appreciate any feedback or discussion about this.
-> 
-> References:
-> 1. https://gitlab.freedesktop.org/drm/amd/-/issues/2200#note_2160244
-> 2. https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/7542#note_1643183
-> 3. https://forums.developer.nvidia.com/t/cant-enable-ulmb-2-on-wayland/277478
-> 
-> Thanks,
-> Vidith
-
--- 
-Ville Syrjälä
-Intel
+Raag
