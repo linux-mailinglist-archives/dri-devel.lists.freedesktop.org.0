@@ -2,69 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3360F97D040
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 05:22:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09A0D97D03F
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 05:21:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C43410E77A;
-	Fri, 20 Sep 2024 03:22:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 771F210E798;
+	Fri, 20 Sep 2024 03:21:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=uniontech.com header.i=@uniontech.com header.b="NQp8Q5b+";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Cpz+YESY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bg5.exmail.qq.com (bg5.exmail.qq.com [43.154.155.102])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98FF210E77A
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2024 03:22:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
- s=onoh2408; t=1726802474;
- bh=shxUc18DoBNRsdkk9C5y4x+v7snjoAnIdhKh0M5V5Zo=;
- h=Message-ID:Date:MIME-Version:Subject:To:From;
- b=NQp8Q5b+ZplpCltiEd7SebOVEINeS+Jy0FM/acn0Qw53ilGzByjJiFZAiTTNN7vGm
- nZ5iqleIUmB/YdPyRAREo8YxTwwos1C+CQT9ya2ursOLO2fZ7wrkSPst+ZeDJU4tEe
- +295dn+CwuPs8k7Jrw9GL+3TVmRXFomro959v7L4=
-X-QQ-mid: bizesmtp80t1726802464t2p7zzip
-X-QQ-Originating-IP: +QAnzIjD+lFPrmz2QT6gcaLhCxuM+Mtsn6KjiI+9+9w=
-Received: from [10.20.53.22] ( [113.57.152.160])
- by bizesmtp.qq.com (ESMTP) with 
- id ; Fri, 20 Sep 2024 11:21:01 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 2284525689725457276
-Message-ID: <1839F46EBABE4C15+d6a788fb-05ce-4281-a16f-d6ecb21da8e2@uniontech.com>
-Date: Fri, 20 Sep 2024 11:21:00 +0800
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0AD1A10E785;
+ Fri, 20 Sep 2024 03:21:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1726802471; x=1758338471;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=pE9rJGNQU6bQS1D6Z7/XELNdvYB1vUUF7MaKDUcK7KY=;
+ b=Cpz+YESYivTNh5IX4zysgMcGBqEaUchALCAVUNwoXB0zuSahCQyC4hsh
+ wv9EkytJaFNfLi9hTMTyBaq37+hvny5UWPFL3V9nzbeA65PBque6Cwf+U
+ Aldyjsv3JvKxHyNMpzu4NfKIxom9l7jqZuzLxTlEcN7hBJB/S+rWYPLtp
+ OLQdqwVe+/Ed73jqND8aoUlsrUer5BGHyBI4z6HmUh3rtIH+lB/MHYbDX
+ p6hFUb2eL0MGpT402FDUFBNql7w5+kkg6k/OwQmFDthJRDZrrdC0jYqNW
+ Geh2mEVWKwXHkSlXhjmbKYuuti3FX9bxzPD22LnYBVCvGrDCLHqDHzUzu g==;
+X-CSE-ConnectionGUID: A1fqAA0oSra9QqwB9xA1Xw==
+X-CSE-MsgGUID: i+OoBFdwTI2vbGmdNyPQrA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11200"; a="25983964"
+X-IronPort-AV: E=Sophos;i="6.10,243,1719903600"; d="scan'208";a="25983964"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Sep 2024 20:21:11 -0700
+X-CSE-ConnectionGUID: jggxG7e5R1msNQPpepwiIQ==
+X-CSE-MsgGUID: QsUxaPFxS7+RwF8KC2Q1VQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,243,1719903600"; d="scan'208";a="74504458"
+Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
+ by fmviesa005.fm.intel.com with ESMTP; 19 Sep 2024 20:21:10 -0700
+From: John.C.Harrison@Intel.com
+To: Intel-Xe@Lists.FreeDesktop.Org
+Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>,
+ Jani Nikula <jani.nikula@intel.com>,
+ John Harrison <John.C.Harrison@Intel.com>, dri-devel@lists.freedesktop.org
+Subject: [PATCH v8 07/11] drm/print: Introduce drm_line_printer
+Date: Thu, 19 Sep 2024 20:21:04 -0700
+Message-ID: <20240920032108.629796-8-John.C.Harrison@Intel.com>
+X-Mailer: git-send-email 2.46.0
+In-Reply-To: <20240920032108.629796-1-John.C.Harrison@Intel.com>
+References: <20240920032108.629796-1-John.C.Harrison@Intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] treewide: Correct the typo 'acccess'
-To: Thomas Zimmermann <tzimmermann@suse.de>, alexander.deucher@amd.com,
- christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- simona@ffwll.ch, sunil.khatri@amd.com, vitaly.prosyak@amd.com,
- yifan1.zhang@amd.com, Tim.Huang@amd.com, jesse.zhang@amd.com,
- Prike.Liang@amd.com, Hawking.Zhang@amd.com, kevinyang.wang@amd.com,
- srinivasan.shanmugam@amd.com, Jiadong.Zhu@amd.com, tao.zhou1@amd.com,
- pavel@ucw.cz, lee@kernel.org, aren@peacevolution.org
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org, le.ma@amd.com,
- Wenhui.Sheng@amd.com, jjhiblot@traphandler.com, guanwentao@uniontech.com,
- zhanjun@uniontech.com
-References: <4AB1F900B5D100C2+20240919182855.85840-1-wangyuli@uniontech.com>
- <0c768bf6-bc19-43de-a30b-ff5e3ddfd0b3@suse.de>
-Content-Language: en-US
-From: WangYuli <wangyuli@uniontech.com>
-Autocrypt: addr=wangyuli@uniontech.com; keydata=
- xjMEZoEsiBYJKwYBBAHaRw8BAQdAyDPzcbPnchbIhweThfNK1tg1imM+5kgDBJSKP+nX39DN
- IVdhbmdZdWxpIDx3YW5neXVsaUB1bmlvbnRlY2guY29tPsKJBBMWCAAxFiEEa1GMzYeuKPkg
- qDuvxdofMEb0C+4FAmaBLIgCGwMECwkIBwUVCAkKCwUWAgMBAAAKCRDF2h8wRvQL7g0UAQCH
- 3mrGM0HzOaARhBeA/Q3AIVfhS010a0MZmPTRGVfPbwD/SrncJwwPAL4GiLPEC4XssV6FPUAY
- 0rA68eNNI9cJLArOOARmgSyJEgorBgEEAZdVAQUBAQdA88W4CTLDD9fKwW9PB5yurCNdWNS7
- VTL0dvPDofBTjFYDAQgHwngEGBYIACAWIQRrUYzNh64o+SCoO6/F2h8wRvQL7gUCZoEsiQIb
- DAAKCRDF2h8wRvQL7sKvAP4mBvm7Zn1OUjFViwkma8IGRGosXAvMUFyOHVcl1RTgFQEAuJkU
- o9ERi7qS/hbUdUgtitI89efbY0TVetgDsyeQiwU=
-In-Reply-To: <0c768bf6-bc19-43de-a30b-ff5e3ddfd0b3@suse.de>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------Uun9fRmh4xSP0NYMUlTG7U73"
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:uniontech.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+ Swindon SN3 1RJ
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,92 +70,139 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------Uun9fRmh4xSP0NYMUlTG7U73
-Content-Type: multipart/mixed; boundary="------------xO8JoEoqvqfP97ZWoykpG3RW";
- protected-headers="v1"
-From: WangYuli <wangyuli@uniontech.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, alexander.deucher@amd.com,
- christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- simona@ffwll.ch, sunil.khatri@amd.com, vitaly.prosyak@amd.com,
- yifan1.zhang@amd.com, Tim.Huang@amd.com, jesse.zhang@amd.com,
- Prike.Liang@amd.com, Hawking.Zhang@amd.com, kevinyang.wang@amd.com,
- srinivasan.shanmugam@amd.com, Jiadong.Zhu@amd.com, tao.zhou1@amd.com,
- pavel@ucw.cz, lee@kernel.org, aren@peacevolution.org
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org, le.ma@amd.com,
- Wenhui.Sheng@amd.com, jjhiblot@traphandler.com, guanwentao@uniontech.com,
- zhanjun@uniontech.com
-Message-ID: <d6a788fb-05ce-4281-a16f-d6ecb21da8e2@uniontech.com>
-Subject: Re: [PATCH] treewide: Correct the typo 'acccess'
-References: <4AB1F900B5D100C2+20240919182855.85840-1-wangyuli@uniontech.com>
- <0c768bf6-bc19-43de-a30b-ff5e3ddfd0b3@suse.de>
-In-Reply-To: <0c768bf6-bc19-43de-a30b-ff5e3ddfd0b3@suse.de>
+From: Michal Wajdeczko <michal.wajdeczko@intel.com>
 
---------------xO8JoEoqvqfP97ZWoykpG3RW
-Content-Type: multipart/mixed; boundary="------------LNvD65nY6HiRo2dRWRoV2GUg"
+This drm printer wrapper can be used to increase the robustness of
+the captured output generated by any other drm_printer to make sure
+we didn't lost any intermediate lines of the output by adding line
+numbers to each output line. Helpful for capturing some crash data.
 
---------------LNvD65nY6HiRo2dRWRoV2GUg
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+v2: Extended short int counters to full int (JohnH)
 
-T24gMjAyNC85LzIwIDAyOjU4LCBUaG9tYXMgWmltbWVybWFubiB3cm90ZToNCg0KPiBIaQ0K
-Pg0KPiBBbSAxOS4wOS4yNCB1bSAyMDoyOCBzY2hyaWViIFdhbmdZdWxpOg0KPj4gVGhlcmUg
-YXJlIHNvbWUgc3BlbGxpbmcgbWlzdGFrZXMgb2YgJ2FjY2Nlc3MnIGluIGNvbW1lbnRzIHdo
-aWNoDQo+PiBzaG91bGQgYmUgaW5zdGVhZCBvZiAnYWNjZXNzJy4NCj4+DQo+PiBTaWduZWQt
-b2ZmLWJ5OiBXYW5nWXVsaSA8d2FuZ3l1bGlAdW5pb250ZWNoLmNvbT4NCj4+IC0tLQ0KPj4g
-wqAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvZ2Z4X3YxMV8wLmPCoMKgIHwgMiArLQ0K
-Pj4gwqAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvZ2Z4X3Y5XzRfMy5jwqAgfCAyICst
-DQo+PiDCoCBkcml2ZXJzL2xlZHMvcmdiL2xlZHMtZ3JvdXAtbXVsdGljb2xvci5jIHwgMiAr
-LQ0KPg0KPiBJIHRoaW5rIGl0J3MgYmV0dGVyIHRvIG1ha2UgMiBwYXRjaGVzOiBvbmUgZm9y
-IGFtZGdwdSBhbmQgb25lIGZvciANCj4gbGVkcy4gRWFjaCBwYXRjaCBjYW4gdGhlbiBnbyBp
-bnRvIHRoZSBjb3JyZWN0IHRyZWUuDQo+DQo+IElmIHlvdSBtYWtlIDIgcGF0Y2hlcywgeW91
-IGNhbiBhZGQNCj4NCj4gQWNrZWQtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFu
-bkBzdXNlLmRlPg0KPg0KPiB0byBlYWNoIG9mIHRoZW0uDQo+DQpEb25lLg0KDQpMaW5rOiAN
-Cmh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2FsbC9GMjVBMTM5Nzg5RTg3QzNFKzIwMjQwOTIw
-MDIyNzU1LjExNjI0OTUtMS13YW5neXVsaUB1bmlvbnRlY2guY29tLw0KDQpMaW5rOiANCmh0
-dHBzOi8vbG9yZS5rZXJuZWwub3JnL2FsbC9CNTg2QTFFNkVBNDc2QjY4KzIwMjQwOTIwMDI0
-NTE0LjExODIyOTItMS13YW5neXVsaUB1bmlvbnRlY2guY29tLw0KDQpBbmQgdGhlcmUgaXMg
-b25lIG1vcmUgImFjY2Nlc3MiIHR5cG8gZml4Og0KDQpMaW5rOiANCmh0dHBzOi8vbG9yZS5r
-ZXJuZWwub3JnL2FsbC83ODFDMTI3OTk0MjFEMzY2KzIwMjQwOTIwMDMxNjIwLjEyMTE3NTIt
-MS13YW5neXVsaUB1bmlvbnRlY2guY29tLw0KDQpBZnRlciB0aGF0LCB0aGVyZSBpcyBubyBt
-b3JlICJhY2NjZXNzIiB0eXBvIGluIGtlcm5lbCBzb3VyY2UuDQoNCj4gQmVzdCByZWdhcmRz
-DQo+IFRob21hcw0KPg0KPg0KQ2hlZXJzLA0KLS0gDQpXYW5nWXVsaQ0K
---------------LNvD65nY6HiRo2dRWRoV2GUg
-Content-Type: application/pgp-keys; name="OpenPGP_0xC5DA1F3046F40BEE.asc"
-Content-Disposition: attachment; filename="OpenPGP_0xC5DA1F3046F40BEE.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Cc: Jani Nikula <jani.nikula@intel.com>
+Cc: John Harrison <John.C.Harrison@Intel.com>
+Cc: dri-devel@lists.freedesktop.org
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+---
+ drivers/gpu/drm/drm_print.c | 14 ++++++++
+ include/drm/drm_print.h     | 64 +++++++++++++++++++++++++++++++++++++
+ 2 files changed, 78 insertions(+)
 
------BEGIN PGP PUBLIC KEY BLOCK-----
+diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
+index 0081190201a7..08cfea04e22b 100644
+--- a/drivers/gpu/drm/drm_print.c
++++ b/drivers/gpu/drm/drm_print.c
+@@ -235,6 +235,20 @@ void __drm_printfn_err(struct drm_printer *p, struct va_format *vaf)
+ }
+ EXPORT_SYMBOL(__drm_printfn_err);
+ 
++void __drm_printfn_line(struct drm_printer *p, struct va_format *vaf)
++{
++	unsigned int counter = ++p->line.counter;
++	const char *prefix = p->prefix ?: "";
++	const char *pad = p->prefix ? " " : "";
++
++	if (p->line.series)
++		drm_printf(p->arg, "%s%s%u.%u: %pV",
++			   prefix, pad, p->line.series, counter, vaf);
++	else
++		drm_printf(p->arg, "%s%s%u: %pV", prefix, pad, counter, vaf);
++}
++EXPORT_SYMBOL(__drm_printfn_line);
++
+ /**
+  * drm_puts - print a const string to a &drm_printer stream
+  * @p: the &drm printer
+diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
+index d2676831d765..b3906dc04388 100644
+--- a/include/drm/drm_print.h
++++ b/include/drm/drm_print.h
+@@ -177,6 +177,10 @@ struct drm_printer {
+ 	void *arg;
+ 	const void *origin;
+ 	const char *prefix;
++	struct {
++		unsigned int series;
++		unsigned int counter;
++	} line;
+ 	enum drm_debug_category category;
+ };
+ 
+@@ -187,6 +191,7 @@ void __drm_puts_seq_file(struct drm_printer *p, const char *str);
+ void __drm_printfn_info(struct drm_printer *p, struct va_format *vaf);
+ void __drm_printfn_dbg(struct drm_printer *p, struct va_format *vaf);
+ void __drm_printfn_err(struct drm_printer *p, struct va_format *vaf);
++void __drm_printfn_line(struct drm_printer *p, struct va_format *vaf);
+ 
+ __printf(2, 3)
+ void drm_printf(struct drm_printer *p, const char *f, ...);
+@@ -411,6 +416,65 @@ static inline struct drm_printer drm_err_printer(struct drm_device *drm,
+ 	return p;
+ }
+ 
++/**
++ * drm_line_printer - construct a &drm_printer that prefixes outputs with line numbers
++ * @p: the &struct drm_printer which actually generates the output
++ * @prefix: optional output prefix, or NULL for no prefix
++ * @series: optional unique series identifier, or 0 to omit identifier in the output
++ *
++ * This printer can be used to increase the robustness of the captured output
++ * to make sure we didn't lost any intermediate lines of the output. Helpful
++ * while capturing some crash data.
++ *
++ * Example 1::
++ *
++ *	void crash_dump(struct drm_device *drm)
++ *	{
++ *		static unsigned int id;
++ *		struct drm_printer p = drm_err_printer(drm, "crash");
++ *		struct drm_printer lp = drm_line_printer(&p, "dump", ++id);
++ *
++ *		drm_printf(&lp, "foo");
++ *		drm_printf(&lp, "bar");
++ *	}
++ *
++ * Above code will print into the dmesg something like::
++ *
++ *	[ ] 0000:00:00.0: [drm] *ERROR* crash dump 1.1: foo
++ *	[ ] 0000:00:00.0: [drm] *ERROR* crash dump 1.2: bar
++ *
++ * Example 2::
++ *
++ *	void line_dump(struct device *dev)
++ *	{
++ *		struct drm_printer p = drm_info_printer(dev);
++ *		struct drm_printer lp = drm_line_printer(&p, NULL, 0);
++ *
++ *		drm_printf(&lp, "foo");
++ *		drm_printf(&lp, "bar");
++ *	}
++ *
++ * Above code will print::
++ *
++ *	[ ] 0000:00:00.0: [drm] 1: foo
++ *	[ ] 0000:00:00.0: [drm] 2: bar
++ *
++ * RETURNS:
++ * The &drm_printer object
++ */
++static inline struct drm_printer drm_line_printer(struct drm_printer *p,
++						  const char *prefix,
++						  unsigned int series)
++{
++	struct drm_printer lp = {
++		.printfn = __drm_printfn_line,
++		.arg = p,
++		.prefix = prefix,
++		.line = { .series = series, },
++	};
++	return lp;
++}
++
+ /*
+  * struct device based logging
+  *
+-- 
+2.46.0
 
-xjMEZoEsiBYJKwYBBAHaRw8BAQdAyDPzcbPnchbIhweThfNK1tg1imM+5kgDBJSK
-P+nX39DNIVdhbmdZdWxpIDx3YW5neXVsaUB1bmlvbnRlY2guY29tPsKJBBMWCAAx
-FiEEa1GMzYeuKPkgqDuvxdofMEb0C+4FAmaBLIgCGwMECwkIBwUVCAkKCwUWAgMB
-AAAKCRDF2h8wRvQL7g0UAQCH3mrGM0HzOaARhBeA/Q3AIVfhS010a0MZmPTRGVfP
-bwD/SrncJwwPAL4GiLPEC4XssV6FPUAY0rA68eNNI9cJLArOOARmgSyJEgorBgEE
-AZdVAQUBAQdA88W4CTLDD9fKwW9PB5yurCNdWNS7VTL0dvPDofBTjFYDAQgHwngE
-GBYIACAWIQRrUYzNh64o+SCoO6/F2h8wRvQL7gUCZoEsiQIbDAAKCRDF2h8wRvQL
-7sKvAP4mBvm7Zn1OUjFViwkma8IGRGosXAvMUFyOHVcl1RTgFQEAuJkUo9ERi7qS
-/hbUdUgtitI89efbY0TVetgDsyeQiwU=3D
-=3DBlkq
------END PGP PUBLIC KEY BLOCK-----
-
---------------LNvD65nY6HiRo2dRWRoV2GUg--
-
---------------xO8JoEoqvqfP97ZWoykpG3RW--
-
---------------Uun9fRmh4xSP0NYMUlTG7U73
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wnsEABYIACMWIQRrUYzNh64o+SCoO6/F2h8wRvQL7gUCZuzqHQUDAAAAAAAKCRDF2h8wRvQL7pVK
-AP49ateMZvPmMrtIAGtl2B5sMSmigX8nowDUucjoVLIHsgEApmKMzxPJTdSx3QyF79iw7OmEPVwK
-nbMH0+Ox0wYgKwM=
-=lzHO
------END PGP SIGNATURE-----
-
---------------Uun9fRmh4xSP0NYMUlTG7U73--
