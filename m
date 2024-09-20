@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F30ED97D283
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 10:21:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B906D97D284
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 10:21:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62FAD10E7D5;
-	Fri, 20 Sep 2024 08:21:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3630810E7D8;
+	Fri, 20 Sep 2024 08:21:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="W2T7HbBL";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="Y/BKataO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
- by gabe.freedesktop.org (Postfix) with ESMTP id 343FE10E7D8
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2024 08:21:44 +0000 (UTC)
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4358410E7D8
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2024 08:21:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=bxwDJ
- AkXvK8AdSR7veh+eMKRy+rJ61dS+tkTSOb3PvE=; b=W2T7HbBLhfMxj+T45i8BB
- X+sfflFZsdpik4Yj/CfQu00Nz2Tu4GUIvPK0r+tOhvNoQwN6Q0P1ij/YUxoYX4wb
- /RXFhkoDvGwGvYQvLkTLZSiab1h/xa0jBrKaL11u/r+SFq4VWTmAdLzfJTAGM6CG
- NIYDfuyJHevDCwP5n8GVhY=
+ s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=x6qQR
+ zhQ+WwsX3+8y8fTI3CGANuJPV4QqizubWTDtQw=; b=Y/BKataO75IhJ5SZDZYzg
+ tE61C9BjjHanvFStHjRJXIFvH+hiAzA7aqCrxWlg8UUnLTiv/6HCE7b+V4Gf/OQg
+ mKFpZLLc1ec30TLhEw+lEx5ma20WlgFR19yRrvDFcMOtq89T+2JnHPmCzKt825dL
+ P8yJxUduwFPCNtY2XWKbv4=
 Received: from ProDesk.. (unknown [58.22.7.114])
- by gzga-smtp-mta-g3-4 (Coremail) with SMTP id _____wD3X7mDMO1m_7DTEw--.2482S2; 
- Fri, 20 Sep 2024 16:21:26 +0800 (CST)
+ by gzga-smtp-mta-g2-3 (Coremail) with SMTP id _____wDXJxiNMO1m7rcECA--.53890S2;
+ Fri, 20 Sep 2024 16:21:36 +0800 (CST)
 From: Andy Yan <andyshrk@163.com>
 To: heiko@sntech.de
 Cc: hjc@rock-chips.com, krzk+dt@kernel.org, robh@kernel.org,
@@ -32,21 +32,21 @@ Cc: hjc@rock-chips.com, krzk+dt@kernel.org, robh@kernel.org,
  linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
  derek.foreman@collabora.com, minhuadotchen@gmail.com,
  detlev.casanova@collabora.com, Andy Yan <andy.yan@rock-chips.com>
-Subject: [PATCH v3 06/15] drm/rockchip: vop2: include rockchip_drm_drv.h
-Date: Fri, 20 Sep 2024 16:21:21 +0800
-Message-ID: <20240920082122.6742-1-andyshrk@163.com>
+Subject: [PATCH v3 07/15] drm/rockchip: vop2: Support 32x8 superblock afbc
+Date: Fri, 20 Sep 2024 16:21:31 +0800
+Message-ID: <20240920082132.6771-1-andyshrk@163.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240920081626.6433-1-andyshrk@163.com>
 References: <20240920081626.6433-1-andyshrk@163.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wD3X7mDMO1m_7DTEw--.2482S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7Aw15AryUXr1xtry5JF43KFg_yoW8CF4UpF
- s8AFWUZrWxKFWjqr1DAF9xCr4Fy3ZrCayxGFn7G3ZxZF17KFyDGwnru3s8JrZrXr47ZF42
- krs3J34UAF42vr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UZIDcUUUUU=
+X-CM-TRANSID: _____wDXJxiNMO1m7rcECA--.53890S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7Cw17Cr13GF1UAF18Wry3Jwb_yoW5Jr18pr
+ W3ZrWqgr4DKF1jqa1DJFZ8ZF45Aan2k3y7XFnrKr1jgryYkrZrWa4qka4UZrWDtrWfGFW0
+ vFn7JrW7Zw1Fyr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UKksgUUUUU=
 X-Originating-IP: [58.22.7.114]
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiMw5gXmbtL08mhAAAsK
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiMxhgXmbtL08n3AAAsF
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,55 +64,72 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Andy Yan <andy.yan@rock-chips.com>
 
-Move rockchip_drm_drv.h in rockchip_drm_vop2.h to fix the follow
-sparse warning:
+This is the only afbc format supported by the upcoming
+VOP for rk3576.
 
-ARCH=arm64 LLVM=1 make C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__'
-mrproper defconfig all  -j12
+Add support for it.
 
-drivers/gpu/drm/rockchip/rockchip_vop2_reg.c:502:24: sparse:
-warning: symbol 'vop2_platform_driver' was not declared. Should it
-be static?
-
-It is also beneficial for the upcoming support for rk3576.
-
-Fixes: 604be85547ce ("drm/rockchip: Add VOP2 driver")
 Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
-Signed-off-by: Min-Hua Chen <minhuadotchen@gmail.com>
 
 ---
 
-Changes in v3:
-- Split it from 10/15, as it fix a exiting compile warning.
+(no changes since v2)
 
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 1 -
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.h | 1 +
- 2 files changed, 1 insertion(+), 1 deletion(-)
+Changes in v2:
+- split it from main patch add support for rk3576
+
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-index 4776a227e62c..a7f9f88869a6 100644
+index a7f9f88869a6..f6a030fd8e55 100644
 --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
 +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-@@ -35,7 +35,6 @@
- #include <uapi/linux/videodev2.h>
- #include <dt-bindings/soc/rockchip,vop2.h>
+@@ -1357,16 +1357,18 @@ static void vop2_plane_atomic_update(struct drm_plane *plane,
+ 		vop2_win_write(win, VOP2_WIN_AFBC_HALF_BLOCK_EN, half_block_en);
  
--#include "rockchip_drm_drv.h"
- #include "rockchip_drm_gem.h"
- #include "rockchip_drm_vop2.h"
- #include "rockchip_rgb.h"
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
-index 59cd6b933bfb..bc001f715847 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
-@@ -9,6 +9,7 @@
+ 	if (afbc_en) {
+-		u32 stride;
++		u32 stride, block_w;
++
++		/* the afbc superblock is 16 x 16 or 32 x 8 */
++		block_w = fb->modifier & AFBC_FORMAT_MOD_BLOCK_SIZE_32x8 ? 32 : 16;
  
- #include <linux/regmap.h>
- #include <drm/drm_modes.h>
-+#include "rockchip_drm_drv.h"
- #include "rockchip_drm_vop.h"
+-		/* the afbc superblock is 16 x 16 */
+ 		afbc_format = vop2_convert_afbc_format(fb->format->format);
  
- #define VOP2_VP_FEATURE_OUTPUT_10BIT        BIT(0)
+ 		/* Enable color transform for YTR */
+ 		if (fb->modifier & AFBC_FORMAT_MOD_YTR)
+ 			afbc_format |= (1 << 4);
+ 
+-		afbc_tile_num = ALIGN(actual_w, 16) >> 4;
++		afbc_tile_num = ALIGN(actual_w, block_w) / block_w;
+ 
+ 		/*
+ 		 * AFBC pic_vir_width is count by pixel, this is different
+@@ -1377,6 +1379,9 @@ static void vop2_plane_atomic_update(struct drm_plane *plane,
+ 			drm_err(vop2->drm, "vp%d %s stride[%d] not 64 pixel aligned\n",
+ 				vp->id, win->data->name, stride);
+ 
++		 /* It's for head stride, each head size is 16 byte */
++		stride = ALIGN(stride, block_w) / block_w * 16;
++
+ 		uv_swap = vop2_afbc_uv_swap(fb->format->format);
+ 		/*
+ 		 * This is a workaround for crazy IC design, Cluster
+@@ -1407,7 +1412,11 @@ static void vop2_plane_atomic_update(struct drm_plane *plane,
+ 		else
+ 			vop2_win_write(win, VOP2_WIN_AFBC_AUTO_GATING_EN, 1);
+ 
+-		vop2_win_write(win, VOP2_WIN_AFBC_BLOCK_SPLIT_EN, 0);
++		if (fb->modifier & AFBC_FORMAT_MOD_SPLIT)
++			vop2_win_write(win, VOP2_WIN_AFBC_BLOCK_SPLIT_EN, 1);
++		else
++			vop2_win_write(win, VOP2_WIN_AFBC_BLOCK_SPLIT_EN, 0);
++
+ 		transform_offset = vop2_afbc_transform_offset(pstate, half_block_en);
+ 		vop2_win_write(win, VOP2_WIN_AFBC_HDR_PTR, yrgb_mst);
+ 		vop2_win_write(win, VOP2_WIN_AFBC_PIC_SIZE, act_info);
 -- 
 2.34.1
 
