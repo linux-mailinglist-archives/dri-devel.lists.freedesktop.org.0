@@ -2,74 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D951C97D2D0
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 10:37:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03A1F97D31F
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 10:58:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E811810E2E0;
-	Fri, 20 Sep 2024 08:37:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95D9510E2D9;
+	Fri, 20 Sep 2024 08:58:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eCemhpwo";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="INczOze5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1A9F10E2E3;
- Fri, 20 Sep 2024 08:37:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1726821458; x=1758357458;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=FjYT2BKjGT6OchrotM7LjHr6S6Ni/aoPuOPvVS5kbqU=;
- b=eCemhpwoplWgliqNxRtvRZJWspE9EeLvYFhGczQz4dePwLsEY4NZz7jp
- gttH714tzax2oRISeAXKFEAiFSgC8pnfdwaKaBTEjdw9E9swwYK7unfXj
- 8kcUoP+JNbszLgXh9eofPbREYu8UyIuTpIXw/ibEyDTVGLhX+Z2U9dhfG
- mFjm7Xg3Sjm+WxDUtMGkWycsQxcEEy8TLRtR7xQdDTorYGlMIQuybGbV/
- wkzEtAn+zQLf6Nz+nlttOQjvf2rxeUFRmNspBdeYV4FEnPUmvVqV0DfXS
- UtezTIS6X16SFua60w1FyB7OIKjXoJ3i6ozdEm/el/ffalg2NtWTEFUAf Q==;
-X-CSE-ConnectionGUID: 95MOZ2JdT+qdRRyb1xwl5g==
-X-CSE-MsgGUID: VMebNUVoRV+qkUPbO0gJWg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11200"; a="29605462"
-X-IronPort-AV: E=Sophos;i="6.10,243,1719903600"; d="scan'208";a="29605462"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Sep 2024 01:37:38 -0700
-X-CSE-ConnectionGUID: Rm93kEgkS8SLlfUah43CXQ==
-X-CSE-MsgGUID: zz7eSZuWRdKWQL8YubJJjg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,243,1719903600"; d="scan'208";a="93540570"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
- by fmviesa002.fm.intel.com with ESMTP; 20 Sep 2024 01:37:33 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1srZ8s-000E8n-30;
- Fri, 20 Sep 2024 08:37:30 +0000
-Date: Fri, 20 Sep 2024 16:36:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>,
- linux-pci@vger.kernel.org, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Bjorn Helgaas <helgaas@kernel.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Michal Wajdeczko <michal.wajdeczko@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Matt Roper <matthew.d.roper@intel.com>,
- =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>
-Subject: Re: [PATCH v2 1/3] PCI: Add support for VF Resizable Bar extended cap
-Message-ID: <202409201629.QlC0MRbn-lkp@intel.com>
-References: <20240919223557.1897608-2-michal.winiarski@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC3D610E2D9
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2024 08:58:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1726822679;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UI5quEqnxLL+TkxGK66Qse8qW4R9pe7wF//SWeQt4gA=;
+ b=INczOze5AxKDepz+YslOi5b98tkqwslN0BKY0398lIJTD+MxBJXmUWjMPa075TZGidDJ9S
+ QGKOy91wCftf6+F0kAyCWLnWcawb6f7SFy/MnuNQBxYHJ+cS3uYsUUZ+K+oaDTzmtiSxQ1
+ Tf6zUUbi7k1EBs2OM1U+Th60/9kzP7s=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-554-MUKkN0scP_Cu_QMfiFovJA-1; Fri, 20 Sep 2024 04:57:57 -0400
+X-MC-Unique: MUKkN0scP_Cu_QMfiFovJA-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ a640c23a62f3a-a8a9094c973so126996866b.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2024 01:57:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1726822676; x=1727427476;
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=FpPq/TfoZdyCV6ExFG0fgQxCKnTz4at1pdecECx/aDM=;
+ b=bWOr0BUvOLmfMb8GqJbEdSa/RD6H5Z1D/JgEXi/cwwfi/8ioqgTnYRUbLT+xm//Nzg
+ QwGtP6AXoT9rPc7TINTM7Ft9IxdjQJVDXZlV5cLWXQnoXZ4nOGhrZwtMFLM3pO98h0Ci
+ aycN8HCCl5NgHWGwM0/KRiqBEaBApelgsV9Ok54hfanm/882qqbsE/ZMmHFjemclh8Gr
+ kNRWYIq9fAUP8Iuhhsx/NK3hS/RyfzdpVlZfw6pnSo2rPR9ZWcTB6NQfAbXq+MQ09Tru
+ ayZX4kseIbsl3oWTAd+0UsdFgTMha2h3YSYu5xmW1nOihvfbUSIzqnCXpfqgJ422Xco/
+ g4tw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWMz6VU3BhH3orS+M+2H/9eBHxmJkTRO3gXfDpppXibTexNSU0gGu9ZdIAHiEqjrbIiQV0d1IzQD7E=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy0uTMRN1eTN0N2Sovk1tdB8HUF/C3CPLggbAyL7eC/hECIspbp
+ zk57nolWzb+OZp9c3Lq6TY2vwki7JYn6/Xm3XtLCFptWyGLNoEPiZioKISZ2Nfdgdrpn0CCXpUo
+ p9Z9nheVN0ZD/H6GjBL1pFa5/PSLvBWHWm726zbkYLMcDMUQ6mzoDQdj3d2b1qdAwJw==
+X-Received: by 2002:a17:907:f1d1:b0:a8d:14e4:f94a with SMTP id
+ a640c23a62f3a-a90d508b54dmr162819866b.38.1726822676494; 
+ Fri, 20 Sep 2024 01:57:56 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGZrDIbt0QkjjAfALcvK5Mc1kmCMO5qjxIzbdo0JBCxpUEcDaHmTqscSitCP4KWeV+umlnc0w==
+X-Received: by 2002:a17:907:f1d1:b0:a8d:14e4:f94a with SMTP id
+ a640c23a62f3a-a90d508b54dmr162817466b.38.1726822676061; 
+ Fri, 20 Sep 2024 01:57:56 -0700 (PDT)
+Received: from [10.137.4.45] ([83.68.141.146])
+ by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a90610f4443sm813355866b.75.2024.09.20.01.57.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 20 Sep 2024 01:57:55 -0700 (PDT)
+Message-ID: <8a0e7e0b0d2ef05954240434759ca79f25328b73.camel@redhat.com>
+Subject: Re: [PATCH 1/2] drm/sched: add WARN_ON and BUG_ON to drm_sched_fini
+From: Philipp Stanner <pstanner@redhat.com>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, 
+ dakr@kernel.org, dri-devel@lists.freedesktop.org, ltuikov89@gmail.com
+Date: Fri, 20 Sep 2024 10:57:52 +0200
+In-Reply-To: <20240918133956.26557-1-christian.koenig@amd.com>
+References: <20240918133956.26557-1-christian.koenig@amd.com>
+User-Agent: Evolution 3.52.4 (3.52.4-1.fc40)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240919223557.1897608-2-michal.winiarski@intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,71 +92,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Michał,
+On Wed, 2024-09-18 at 15:39 +0200, Christian K=C3=B6nig wrote:
+> Tearing down the scheduler with jobs still on the pending list can
+> lead to use after free issues. Add a warning if drivers try to
+> destroy a scheduler which still has work pushed to the HW.
 
-kernel test robot noticed the following build warnings:
+Did you have time yet to look into my proposed waitque-solution?
 
-[auto build test WARNING on pci/for-linus]
-[also build test WARNING on drm-xe/drm-xe-next drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip linus/master v6.11 next-20240919]
-[cannot apply to pci/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>=20
+> When there are still entities with jobs the situation is even worse
+> since the dma_fences for those jobs can never signal we can just
+> choose between potentially locking up core memory management and
+> random memory corruption. When drivers really mess it up that well
+> let them run into a BUG_ON().
+>=20
+> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> ---
+> =C2=A0drivers/gpu/drm/scheduler/sched_main.c | 19 ++++++++++++++++++-
+> =C2=A01 file changed, 18 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
+> b/drivers/gpu/drm/scheduler/sched_main.c
+> index f093616fe53c..8a46fab5cdc8 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -1333,17 +1333,34 @@ void drm_sched_fini(struct drm_gpu_scheduler
+> *sched)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Micha-Winiarski/PCI-Add-support-for-VF-Resizable-Bar-extended-cap/20240920-064112
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git for-linus
-patch link:    https://lore.kernel.org/r/20240919223557.1897608-2-michal.winiarski%40intel.com
-patch subject: [PATCH v2 1/3] PCI: Add support for VF Resizable Bar extended cap
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20240920/202409201629.QlC0MRbn-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240920/202409201629.QlC0MRbn-lkp@intel.com/reproduce)
+I agree with Sima that it should first be documented in the function's
+docstring what the user is expected to have done before calling the
+function.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409201629.QlC0MRbn-lkp@intel.com/
+P.
 
-All warnings (new ones prefixed by >>):
+> =C2=A0
+> =C2=A0=09drm_sched_wqueue_stop(sched);
+> =C2=A0
+> +=09/*
+> +=09 * Tearing down the scheduler wile there are still
+> unprocessed jobs can
+> +=09 * lead to use after free issues in the scheduler fence.
+> +=09 */
+> +=09WARN_ON(!list_empty(&sched->pending_list));
+> +
+> =C2=A0=09for (i =3D DRM_SCHED_PRIORITY_KERNEL; i < sched->num_rqs; i++)
+> {
+> =C2=A0=09=09struct drm_sched_rq *rq =3D sched->sched_rq[i];
+> =C2=A0
+> =C2=A0=09=09spin_lock(&rq->lock);
+> -=09=09list_for_each_entry(s_entity, &rq->entities, list)
+> +=09=09list_for_each_entry(s_entity, &rq->entities, list) {
+> +=09=09=09/*
+> +=09=09=09 * The justification for this BUG_ON() is
+> that tearing
+> +=09=09=09 * down the scheduler while jobs are pending
+> leaves
+> +=09=09=09 * dma_fences unsignaled. Since we have
+> dependencies
+> +=09=09=09 * from the core memory management to
+> eventually signal
+> +=09=09=09 * dma_fences this can trivially lead to a
+> system wide
+> +=09=09=09 * stop because of a locked up memory
+> management.
+> +=09=09=09 */
+> +=09=09=09BUG_ON(spsc_queue_count(&s_entity-
+> >job_queue));
+> +
+> =C2=A0=09=09=09/*
+> =C2=A0=09=09=09 * Prevents reinsertion and marks job_queue
+> as idle,
+> =C2=A0=09=09=09 * it will removed from rq in
+> drm_sched_entity_fini
+> =C2=A0=09=09=09 * eventually
+> =C2=A0=09=09=09 */
+> =C2=A0=09=09=09s_entity->stopped =3D true;
+> +=09=09}
+> =C2=A0=09=09spin_unlock(&rq->lock);
+> =C2=A0=09=09kfree(sched->sched_rq[i]);
+> =C2=A0=09}
 
->> drivers/pci/pci.c:1920:20: warning: variable 'res' set but not used [-Wunused-but-set-variable]
-    1920 |                 struct resource *res;
-         |                                  ^
-   1 warning generated.
-
-
-vim +/res +1920 drivers/pci/pci.c
-
-  1903	
-  1904	static void pci_restore_vf_rebar_state(struct pci_dev *pdev)
-  1905	{
-  1906		unsigned int pos, nbars, i;
-  1907		u32 ctrl;
-  1908	
-  1909		if (!pdev->is_physfn)
-  1910			return;
-  1911	
-  1912		pos = pci_find_ext_capability(pdev, PCI_EXT_CAP_ID_VF_REBAR);
-  1913		if (!pos)
-  1914			return;
-  1915	
-  1916		pci_read_config_dword(pdev, pos + PCI_REBAR_CTRL, &ctrl);
-  1917		nbars = FIELD_GET(PCI_REBAR_CTRL_NBAR_MASK, ctrl);
-  1918	
-  1919		for (i = 0; i < nbars; i++, pos += 8) {
-> 1920			struct resource *res;
-  1921			int bar_idx, size;
-  1922	
-  1923			pci_read_config_dword(pdev, pos + PCI_REBAR_CTRL, &ctrl);
-  1924			bar_idx = ctrl & PCI_REBAR_CTRL_BAR_IDX;
-  1925			res = pdev->resource + bar_idx;
-  1926			size = pci_rebar_bytes_to_size(pdev->sriov->barsz[bar_idx]);
-  1927			ctrl &= ~PCI_REBAR_CTRL_BAR_SIZE;
-  1928			ctrl |= FIELD_PREP(PCI_REBAR_CTRL_BAR_SIZE, size);
-  1929			pci_write_config_dword(pdev, pos + PCI_REBAR_CTRL, ctrl);
-  1930		}
-  1931	}
-  1932	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
