@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF22E97D2E8
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 10:40:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECCCD97D2EC
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 10:40:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 970D110E7E4;
-	Fri, 20 Sep 2024 08:40:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B764B10E7E1;
+	Fri, 20 Sep 2024 08:40:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ite.com.tw header.i=@ite.com.tw header.b="lCdjeSIG";
+	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ite.com.tw header.i=@ite.com.tw header.b="i4beTXzH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ironport.ite.com.tw (60-251-196-230.hinet-ip.hinet.net
  [60.251.196.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D19210E7E2
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8CC510E7E3
  for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2024 08:25:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ite.com.tw; s=dkim;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=9z9UGdgk9MPxd1ynPoki1CPpX1B3DsdgFQ83VM+CmXk=;
- b=lCdjeSIGoJN1tPWv3PMdzg+6UcuD+XtNYoQxjBaoAKmljR6Mfm6Gfs0j
- 4FwAKpzv4xcLt2qmS/1cVKgpwV5zPpaIGDeDpv2RXUjZEnuSABJnkKQ0l
- cSwpTl9a/8vsxEKbhqkYW3Tfr3FQ/gGghpP+QyZ6er3eidoy+S4dFl3LG
- 065KiMZe+4qwkdykf8oFMVpFVlKh9jApFAd7WOWDv6pw0wekO6rvPMmiU
- Xq/nAjzCUJRqk6urEDUUGdA2BNklq+r9OMWqHf3CofuYs12QE1yG1E5wu
- LdCpuBj7ayuTNIrb5b03H4keayjSeNIvMv2hG0DRrgy9wvYg1TWDtRo/X Q==;
-X-CSE-ConnectionGUID: LcuEqNKkReGHpFOh6zpF8Q==
-X-CSE-MsgGUID: uCr+x7XfSJqIsspO+mJfFQ==
+ bh=m2FJTguNPM0THfwZyeppm7yUQmpKnPmqDkBNYjXFk08=;
+ b=i4beTXzHZPrysr6836nslFnuTU4MIPZFHs1NkBC/dDFAssezICe1e4vy
+ zX25oUeqb4ubgnDy0BQogQtaIqtHxKfW+oq2n1uzbwcUT4qL5zXxYN5FR
+ M8KX2kOAJhCYVE0h+uYJy6iNFF/MHk418HDEH9kyJs3JOJP4VcJuO/6Xl
+ 5W644oxETpluDYGFKbXVqCMdtofBSQrfJ709xDbPb+J7j+XmW3+dBn9TJ
+ Bu5dXw/EPJdeQU4h5EczN3c+/HBs8gKBmZ30wNg17fQoCnf3DfZuBhowm
+ S81matCcLfTFPuMe8ysR5gsHjETY3jnwlmTPMIQpQPXtTNV04XrHLmMTy A==;
+X-CSE-ConnectionGUID: 58PhIuTHTrOtM3xlhW6+aA==
+X-CSE-MsgGUID: ocB2NheZTeOGG9eH2YSvAA==
 Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
- by ironport.ite.com.tw with ESMTP; 20 Sep 2024 16:25:08 +0800
+ by ironport.ite.com.tw with ESMTP; 20 Sep 2024 16:25:09 +0800
 Received: from tpemail1.internal.ite.com.tw (TPEMAIL1.internal.ite.com.tw
- [192.168.15.58]) by mse.ite.com.tw with ESMTP id 48K8P3ib024272;
- Fri, 20 Sep 2024 16:25:03 +0800 (GMT-8)
+ [192.168.15.58]) by mse.ite.com.tw with ESMTP id 48K8P4iR024273;
+ Fri, 20 Sep 2024 16:25:04 +0800 (GMT-8)
  (envelope-from Hermes.Wu@ite.com.tw)
 Received: from LAPTOP-C4GM1L3U.localdomain (192.168.82.6) by
  TPEMAIL1.internal.ite.com.tw (192.168.15.58) with Microsoft SMTP Server
@@ -48,9 +48,9 @@ To: Pin-yen Lin <treapking@chromium.org>, Andrzej Hajda <a.hajda@samsung.com>,
  "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
  open list <linux-kernel@vger.kernel.org>
 CC: Kenneth Hung <Kenneth.hung@ite.com.tw>, "Hermes.Wu" <Hermes.wu@ite.com.tw>
-Subject: [PATCH v1 2/2] drm/bridge: it6505:  Add MSSC suport
-Date: Fri, 20 Sep 2024 16:24:47 +0800
-Message-ID: <20240920082451.9240-3-Hermes.Wu@ite.com.tw>
+Subject: [PATCH v2 2/2] drm/bridge: it6505:  Add MSSC suport
+Date: Fri, 20 Sep 2024 16:24:48 +0800
+Message-ID: <20240920082451.9240-4-Hermes.Wu@ite.com.tw>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240920082451.9240-1-Hermes.Wu@ite.com.tw>
 References: <20240920082451.9240-1-Hermes.Wu@ite.com.tw>
@@ -60,8 +60,8 @@ Content-Type: text/plain
 X-Originating-IP: [192.168.82.6]
 X-ClientProxiedBy: TPEMAIL1.internal.ite.com.tw (192.168.15.58) To
  TPEMAIL1.internal.ite.com.tw (192.168.15.58)
-X-TM-SNTS-SMTP: 388D328793418E230CC7EE2FD6ECDCBA220317C431FE6CACFE729420A1BDB04D2002:8
-X-MAIL: mse.ite.com.tw 48K8P3ib024272
+X-TM-SNTS-SMTP: B69D8071F0782D9708C9AAB0DB9B6309E3A7F78D96604FD3BB10CE79014CF0BD2002:8
+X-MAIL: mse.ite.com.tw 48K8P4iR024273
 X-Mailman-Approved-At: Fri, 20 Sep 2024 08:40:41 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,9 +80,9 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: "Hermes.Wu" <Hermes.wu@ite.com.tw>
 
-add AUX-I2C functionality to support MCCS. 
+Add AUX i2c funtion for MCCS
 
-Change-Id: I63e1a0e5da67526f89f35605a82944be67dee8ac
+Change-Id: Ia8952f3cde4d9610d6f8a0c3915fc6ffefc6da22
 Signed-off-by: Hermes Wu <Hermes.wu@ite.com.tw>
 ---
  drivers/gpu/drm/bridge/ite-it6505.c | 209 ++++++++++++++++++++++++++--
