@@ -2,100 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A02A97D3C7
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 11:39:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B968F97D3E7
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 11:52:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C700C10E055;
-	Fri, 20 Sep 2024 09:38:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8DA710E7EF;
+	Fri, 20 Sep 2024 09:52:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="yvAbrP/4";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="SV6zsi1q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
- [209.85.167.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05A9410E055
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2024 09:38:59 +0000 (UTC)
-Received: by mail-lf1-f50.google.com with SMTP id
- 2adb3069b0e04-536748c7e9aso2441987e87.0
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2024 02:38:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1726825137; x=1727429937; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=3Isga6WhNpBJPKKZLFSzZ37SuHnie4715ui4RDqxHIU=;
- b=yvAbrP/4G8eG17aq7kQQl8M4F5dryjGgaYEG88gcb5Swd0Xtb9Ob0fupuLlDgKFECB
- sINcqqXR2O5/h8k5JGAt8GNWh9xe/C56DAB+U9toIcqBvmy0wpTYv8RTU8vvqB0jtkRb
- Tu84zkcoRrxtkO/Uh+JPE1qgLjPN9S5LCttxkTRVMIGMbTWTIv6tT7hxZP6n1WZ9fb7T
- TGz/A939TqaDwkxbFX8DzdTeNwlXirpalxeiUHdMRzfDDi/xNLeNxykjYplR6h8H1R0k
- umn6SrYAG/zAqBkg67WqvwzEpYFwVTrIosNwAYE8PGIG5iVbPH/i5OHHxaLr/nswk7+D
- VK8g==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 261AD10E06C
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2024 09:52:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1726825956;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7HX8u2zBRCYM4paozCCp3EeYVygSoVRU5xK8tdeNsBE=;
+ b=SV6zsi1q7kUnXrPyngieYa9Mq4HrOuzyjr0AJvUVPaPS631k+ssL3K9Pn5QLqBWlm0TDGe
+ 6s7fV2O3U7CPH+AB2ip0AAcXK6Gv/rEmTSPl5VD1rEunS419+Kbpxl6At9rL7LCcMZUeXB
+ LiDLWARjX3ndolG9weds9yDed5GlR24=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-12-G2clAZ9mNCe-320agRhJ_Q-1; Fri, 20 Sep 2024 05:52:34 -0400
+X-MC-Unique: G2clAZ9mNCe-320agRhJ_Q-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-42cb6ed7f9dso16345425e9.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2024 02:52:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1726825137; x=1727429937;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=3Isga6WhNpBJPKKZLFSzZ37SuHnie4715ui4RDqxHIU=;
- b=Or93zqMgF+cfJ2aPRkRfKgCVrR+q2tQBjiUnk3zFF+RF1DqZORP6DLcuzyMtcYW9TG
- Ry2I3w4d3rtaxobo0T1sIirQBfqq2DZAj1PTJhSBkqY9Z3lBKjHrXqwLzB4G+qSqLrHb
- n14IbVc0STMOBV1sU/TqD+qKeMXf66fUeZEV69ZdmsDVG7YBXn1Rmc5laK4Q0X0SF/NB
- cIFH+RYGAutaU7KSdyAovyACKPZOJJB7m6twFev6/9c8ruox9DcIOZSP/oujnm00F3Ps
- KF8p4iLLX68sEfh6CP+M0poSzGlEIjrfDpxfmdMrgj/VHj2+jjimNVVB8jjWI14bNpmv
- kqtw==
+ d=1e100.net; s=20230601; t=1726825952; x=1727430752;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=7HX8u2zBRCYM4paozCCp3EeYVygSoVRU5xK8tdeNsBE=;
+ b=HKILdaIwPjFwyTF7QViqawVaZf7CoaB35beqkIGcz65hEnVhRxMIdX7BWq1wtj9CJN
+ 6D80TclldPCNxqYPPhmkvtT+kDGalf8JsLl5uviQsF9aM1m+MYm9vkroQPKqJAhxg2ei
+ FeGvpbh2rBdk/kgen2737ZGFnL8UG8lFBqAi+TFlqbAm6Inm9is1yuFIHy7XvE/g1AJI
+ 78sgNJBq9yGz8zWPc+GaXIirXYQRA1wSfKbdJy7FQJlFmczcIS6fVeoLWGJOeLw+r3E9
+ F+4j/gg9O5UfK5vOp3wBXFwPz9btKO6mAPmT1tnuisIOvycZ0ifzHROfHO1k5/3ibVfT
+ CACg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWFRM/KL0sPg2xlFLuIftDTvYk96t9Pjro9o6EQOC0DdBA73XDC3Wa0sq7kzgS+ApHgKy+ShCzEs58=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyy1T4phvzPCrLEizc2F3/J5OMOFeJhvKiZ3ph8LdGo1T6xVl7M
- 6ajl5koSNIGwgAcpA/cELtUxDypVDjiefkyXAgzfi+2PEsatSkyZwpbHGXaqAjw=
-X-Google-Smtp-Source: AGHT+IEyf+L3alOBO+IDE5tXohIeKgqQE+M9l4Enih5DCS15gfbRAxlZH2hDf1Cm6A3BQnla8U5uuQ==
-X-Received: by 2002:a05:6512:3d91:b0:533:3268:b959 with SMTP id
- 2adb3069b0e04-536ac33b3afmr1366248e87.53.1726825136859; 
- Fri, 20 Sep 2024 02:38:56 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ AJvYcCXeP64BBz+xNoAveDJaha+08P2XDdKjAb4R4BcYs4BXx4+LpDS27uRQemD2wzHcTNi5zLWzz8k2Guw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy8DG91f9BTKTFf6u/9sj+xrue+IUxTkFQ/tE9XSmvD8zhX91JT
+ DZkQkWQbFYSF0i00br9uKjSPi5NO1LOfb5A3tTCXwA1ecMPXJQ/g+QVPxB/HdZX3a5gnn8SDHBd
+ aX1VA6ucm+x83XTqr15eUPx/m4MVU/doaYeK3pAoWLTv/CHhqYeQZ1V01j2G2EkzC+g==
+X-Received: by 2002:a05:600c:34c9:b0:42c:b187:bdd5 with SMTP id
+ 5b1f17b1804b1-42e7adc1eedmr24466425e9.22.1726825952289; 
+ Fri, 20 Sep 2024 02:52:32 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFGXa4YcRehopFY97Iczxq4Kz35injhgvYrb9MvqjpSRsIaupPvFZ0KCokY1JyKo/xZ+mEWKg==
+X-Received: by 2002:a05:600c:34c9:b0:42c:b187:bdd5 with SMTP id
+ 5b1f17b1804b1-42e7adc1eedmr24466075e9.22.1726825951781; 
+ Fri, 20 Sep 2024 02:52:31 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53687096859sm2077814e87.176.2024.09.20.02.38.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Sep 2024 02:38:56 -0700 (PDT)
-Date: Fri, 20 Sep 2024 12:38:53 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Stephen Boyd <swboyd@chromium.org>
-Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
- patches@lists.linux.dev, devicetree@vger.kernel.org, 
- Douglas Anderson <dianders@chromium.org>, Pin-yen Lin <treapking@chromium.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Benson Leung <bleung@chromium.org>, 
- Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>, 
- David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org, 
- Guenter Roeck <groeck@chromium.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonas Karlman <jonas@kwiboo.se>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Lee Jones <lee@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Prashant Malani <pmalani@chromium.org>, 
- Robert Foss <rfoss@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Tzung-Bi Shih <tzungbi@kernel.org>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- Daniel Scally <djrscally@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Ivan Orlov <ivan.orlov0322@gmail.com>, 
- linux-acpi@vger.kernel.org, linux-usb@vger.kernel.org, 
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, Vinod Koul <vkoul@kernel.org>, 
- "Rob Herring (Arm)" <robh@kernel.org>
-Subject: Re: [PATCH v4 15/18] dt-bindings: usb: Add ports to
- google,cros-ec-typec for DP altmode
-Message-ID: <phdcjgqqpjpruxp7v2mw446q73xr3eg4wfgfbjw5tasgr2pgg2@77swbk47b2tg>
-References: <20240901040658.157425-1-swboyd@chromium.org>
- <20240901040658.157425-16-swboyd@chromium.org>
+ ffacd0b85a97d-378e7800067sm17286425f8f.77.2024.09.20.02.52.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 20 Sep 2024 02:52:30 -0700 (PDT)
+Message-ID: <43b05945-4ff9-4782-822f-659b6c22effa@redhat.com>
+Date: Fri, 20 Sep 2024 11:52:29 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240901040658.157425-16-swboyd@chromium.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/qxl: Add drm_panic support
+To: Ryosuke Yasuoka <ryasuoka@redhat.com>, airlied@redhat.com,
+ kraxel@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, daniel@ffwll.ch
+Cc: virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20240919071230.840994-1-ryasuoka@redhat.com>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <20240919071230.840994-1-ryasuoka@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,498 +97,479 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Aug 31, 2024 at 09:06:53PM GMT, Stephen Boyd wrote:
-> Add a DT graph binding to google,cros-ec-typec so that it can combine
-> DisplayPort (DP) and USB SuperSpeed (SS) data into a USB type-c endpoint
-> that is connected to the usb-c-connector node's SS endpoint. This also
-> allows us to connect the DP and USB nodes in the graph to the USB type-c
-> connectors, providing the full picture of the USB type-c data flows in
-> the system.
-> 
-> Allow there to be multiple typec nodes underneath the EC node so that
-> one DT graph exists per DP bridge. The EC is actually controlling TCPCs
-> and redrivers that combine the DP and USB signals together so this more
-> accurately reflects the hardware design without introducing yet another
-> DT node underneath the EC for USB type-c.
-> 
-> If the type-c ports are being shared between a single DP controller then
-> the ports need to know about each other and determine a policy to drive
-> DP to one type-c port. If the type-c ports each have their own dedicated
-> DP controller then they're able to operate independently and enter/exit
-> DP altmode independently as well. We can't connect the DP controller's
-> endpoint to one usb-c-connector port@1 endpoint and the USB controller's
-> endpoint to another usb-c-connector port@1 endpoint either because the
-> DP muxing case would have DP connected to two usb-c-connector endpoints
-> which the graph binding doesn't support.
-> 
-> Therefore, one typec node is required per the capabilities of the type-c
-> port(s) being managed. This also lets us indicate which type-c ports the
-> DP controller is wired to. For example, if DP was connected to ports 0
-> and 2, while port 1 was connected to another DP controller we wouldn't
-> be able to implement that without having some other DT property to
-> indicate which output ports are connected to the DP endpoint.
+On 19/09/2024 09:12, Ryosuke Yasuoka wrote:
+> QXL supports the drm_panic module, which displays a message to the
+> screen when a kernel panic occurs.
 
-Based on our disccusions at LPC, here are several DT examples that seem
-sensible to implement this case and several related cases from other
-ChromeBooks.
+It looks good to me. I think you just need to adjust some functions 
+argument indentation (tab size is 8), see below.
 
-typec {
-	compatible = "google,cros-ec-typec";
-
-	port {
-		typec_dp_in: endpoint {
-			remote-endpoint = <&usb_1_qmp_phy_out_dp>;
-		};
-	};
-
-	usb_c0: connector@0 {
-		compatible = "usb-c-connector";
-		reg = <0>;
-
-		ports {
-			port@0 {
-				reg = <0>;
-				usb_c0_hs_in: endpoint {
-					remote-endpoint = <&usb_hub_dfp1_hs>;
-				};
-			};
-
-			port@1 {
-				reg = <1>;
-				usb_c0_ss_in: endpoint {
-					remote-endpoint = <&usb_hub_dfp1_ss>;
-				};
-			};
-		};
-	};
-
-	usb_c1: connector@1 {
-		compatible = "usb-c-connector";
-		reg = <1>;
-
-		ports {
-			port@0 {
-				reg = <0>;
-				usb_c1_hs_in: endpoint {
-					remote-endpoint = <&usb_hub_dfp2_hs>;
-				};
-			};
-
-			port@1 {
-				reg = <1>;
-				usb_c1_ss_in: endpoint {
-					remote-endpoint = <&usb_hub_dfp2_ss>;
-				};
-			};
-		};
-	};
-};
-
-&usb_1_qmpphy {
-	ports {
-		port@0 {
-			endpoint@0 {
-				data-lanes = <0 1>;
-				// this might go to USB-3 hub
-			};
-
-			usb_1_qmp_phy_out_dp: endpoint@1 {
-				remote-endpoint = <&typec_dp_in>;
-				data-lanes = <2 3>;
-			};
-		}
-	};
-};
-
--------
-
-typec {
-	connector@0 {
-		port@1 {
-			endpoint@0 {
-				remtoe = <&usb_hub_0>;
-			};
-
-			endpoint@1 {
-				remote = <&dp_bridge_out_0>;
-			};
-		};
-	};
-
-	connector@1 {
-		port@1 {
-			endpoint@0 {
-				remtoe = <&usb_hub_1>;
-			};
-
-			endpoint@1 {
-				remote = <&dp_bridge_out_1>;
-			};
-		};
-	};
-};
-
-dp_bridge {
-	ports {
-		port@1 {
-			dp_bridge_out_0: endpoint@0 {
-				remote = <usb_c0_ss_dp>;
-				data-lanes = <0 1>;
-			};
-
-			dp_bridge_out_1: endpoint@1 {
-				remote = <usb_c1_ss_dp>;
-				data-lanes = <2 3>;
-			};
-		};
-	};
-};
-
--------
-
-This one is really tough example, we didn't reach a conclusion here.
-If the EC doesn't handle lane remapping, dp_bridge has to get
-orientation-switch and mode-switch properties (as in the end it is the
-dp_bridge that handles reshuffling of the lanes for the Type-C). Per the
-DisplayPort standard the lanes are fixed (e.g. DPCD 101h explicitly
-names lane 0, lanes 0-1, lanes 0-1-2-3).
-
-typec {
-	connector@0 {
-		port@1 {
-			endpoint@0 {
-				remtoe = <&usb_hub_0>;
-			};
-
-			endpoint@1 {
-				remote = <&dp_bridge_out_0>;
-			};
-		};
-	};
-};
-
-dp_bridge {
-	orientation-switch;
-	mode-switch;
-	ports {
-		port@1 {
-			dp_bridge_out_0: endpoint {
-				remote = <usb_c0_ss_dp>;
-				data-lanes = <0 1 2 3>;
-			};
-		};
-	};
-};
-
--------
-
-> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
-> Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-> Cc: Conor Dooley <conor+dt@kernel.org>
-> Acked-by: Lee Jones <lee@kernel.org>
-> Cc: Benson Leung <bleung@chromium.org>
-> Cc: Guenter Roeck <groeck@chromium.org>
-> Cc: Prashant Malani <pmalani@chromium.org>
-> Cc: Tzung-Bi Shih <tzungbi@kernel.org>
-> Cc: <devicetree@vger.kernel.org>
-> Cc: <chrome-platform@lists.linux.dev>
-> Cc: Pin-yen Lin <treapking@chromium.org>
-> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
-> ---
->  .../bindings/mfd/google,cros-ec.yaml	  |   7 +-
->  .../bindings/usb/google,cros-ec-typec.yaml    | 229 ++++++++++++++++++
->  2 files changed, 233 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml b/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
-> index c991626dc22b..bbe28047d0c0 100644
-> --- a/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
-> +++ b/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
-> @@ -98,9 +98,6 @@ properties:
->  
->    gpio-controller: true
->  
-> -  typec:
-> -    $ref: /schemas/usb/google,cros-ec-typec.yaml#
-> -
->    ec-pwm:
->      $ref: /schemas/pwm/google,cros-ec-pwm.yaml#
->      deprecated: true
-> @@ -166,6 +163,10 @@ patternProperties:
->      type: object
->      $ref: /schemas/extcon/extcon-usbc-cros-ec.yaml#
->  
-> +  "^typec(-[0-9])*$":
-> +    type: object
-> +    $ref: /schemas/usb/google,cros-ec-typec.yaml#
-> +
->  required:
->    - compatible
->  
-> diff --git a/Documentation/devicetree/bindings/usb/google,cros-ec-typec.yaml b/Documentation/devicetree/bindings/usb/google,cros-ec-typec.yaml
-> index 365523a63179..235b86da3cdd 100644
-> --- a/Documentation/devicetree/bindings/usb/google,cros-ec-typec.yaml
-> +++ b/Documentation/devicetree/bindings/usb/google,cros-ec-typec.yaml
-> @@ -26,6 +26,106 @@ properties:
->    '#size-cells':
->      const: 0
->  
-> +  mux-gpios:
-> +    description: GPIOs indicating which way the DP mux is steered
-> +    maxItems: 1
-> +
-> +  no-hpd:
-> +    description: Indicates this endpoint doesn't signal HPD for DisplayPort
-> +    type: boolean
-> +
-> +  mode-switch:
-> +    $ref: usb-switch.yaml#properties/mode-switch
-> +
-> +  orientation-switch:
-> +    $ref: usb-switch.yaml#properties/orientation-switch
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +	$ref: /schemas/graph.yaml#/$defs/port-base
-> +	unevaluatedProperties: false
-> +	description: Output ports for combined DP and USB SS data
-> +	patternProperties:
-> +	  "^endpoint@([0-8])$":
-> +	    $ref: usb-switch.yaml#/$defs/usbc-out-endpoint
-> +	    unevaluatedProperties: false
-> +
-> +	anyOf:
-> +	  - required:
-> +	      - endpoint@0
-> +	  - required:
-> +	      - endpoint@1
-> +	  - required:
-> +	      - endpoint@2
-> +	  - required:
-> +	      - endpoint@3
-> +	  - required:
-> +	      - endpoint@4
-> +	  - required:
-> +	      - endpoint@5
-> +	  - required:
-> +	      - endpoint@6
-> +	  - required:
-> +	      - endpoint@7
-> +	  - required:
-> +	      - endpoint@8
-> +
-> +      port@1:
-> +	$ref: /schemas/graph.yaml#/$defs/port-base
-> +	unevaluatedProperties: false
-> +	description:
-> +	  Input port to receive USB SuperSpeed (SS) data
-> +	patternProperties:
-> +	  "^endpoint@([0-8])$":
-> +	    $ref: usb-switch.yaml#/$defs/usbc-in-endpoint
-> +	    unevaluatedProperties: false
-> +
-> +	anyOf:
-> +	  - required:
-> +	      - endpoint@0
-> +	  - required:
-> +	      - endpoint@1
-> +	  - required:
-> +	      - endpoint@2
-> +	  - required:
-> +	      - endpoint@3
-> +	  - required:
-> +	      - endpoint@4
-> +	  - required:
-> +	      - endpoint@5
-> +	  - required:
-> +	      - endpoint@6
-> +	  - required:
-> +	      - endpoint@7
-> +	  - required:
-> +	      - endpoint@8
-> +
-> +      port@2:
-> +	$ref: /schemas/graph.yaml#/$defs/port-base
-> +	description:
-> +	  Input port to receive DisplayPort (DP) data
-> +	unevaluatedProperties: false
-> +
-> +	properties:
-> +	  endpoint:
-> +	    $ref: usb-switch.yaml#/$defs/dp-endpoint
-> +	    unevaluatedProperties: false
-> +
-> +	required:
-> +	  - endpoint
-> +
-> +    required:
-> +      - port@0
-> +
-> +    anyOf:
-> +      - required:
-> +	  - port@1
-> +      - required:
-> +	  - port@2
-> +
->  patternProperties:
->    '^connector@[0-9a-f]+$':
->      $ref: /schemas/connector/usb-connector.yaml#
-> @@ -35,6 +135,40 @@ patternProperties:
->  required:
->    - compatible
->  
-> +allOf:
-> +  - if:
-> +      required:
-> +	- no-hpd
-> +    then:
-> +      properties:
-> +	ports:
-> +	  required:
-> +	    - port@2
-> +  - if:
-> +      required:
-> +	- mux-gpios
-> +    then:
-> +      properties:
-> +	ports:
-> +	  required:
-> +	    - port@2
-> +  - if:
-> +      required:
-> +	- orientation-switch
-> +    then:
-> +      properties:
-> +	ports:
-> +	  required:
-> +	    - port@2
-> +  - if:
-> +      required:
-> +	- mode-switch
-> +    then:
-> +      properties:
-> +	ports:
-> +	  required:
-> +	    - port@2
-> +
->  additionalProperties: false
->  
->  examples:
-> @@ -50,6 +184,8 @@ examples:
->  
->	  typec {
->	    compatible = "google,cros-ec-typec";
-> +	  orientation-switch;
-> +	  mode-switch;
->  
->	    #address-cells = <1>;
->	    #size-cells = <0>;
-> @@ -60,6 +196,99 @@ examples:
->	      power-role = "dual";
->	      data-role = "dual";
->	      try-power-role = "source";
-> +
-> +	    ports {
-> +	      #address-cells = <1>;
-> +	      #size-cells = <0>;
-> +
-> +	      port@0 {
-> +		reg = <0>;
-> +		usb_c0_hs: endpoint {
-> +		  remote-endpoint = <&usb_hub_dfp3_hs>;
-> +		};
-> +	      };
-> +
-> +	      port@1 {
-> +		reg = <1>;
-> +		usb_c0_ss: endpoint {
-> +		  remote-endpoint = <&cros_typec_c0_ss>;
-> +		};
-> +	      };
-> +	    };
-> +	  };
-> +
-> +	  connector@1 {
-> +	    compatible = "usb-c-connector";
-> +	    reg = <1>;
-> +	    power-role = "dual";
-> +	    data-role = "dual";
-> +	    try-power-role = "source";
-> +
-> +	    ports {
-> +	      #address-cells = <1>;
-> +	      #size-cells = <0>;
-> +
-> +	      port@0 {
-> +		reg = <0>;
-> +		usb_c1_hs: endpoint {
-> +		  remote-endpoint = <&usb_hub_dfp2_hs>;
-> +		};
-> +	      };
-> +
-> +	      port@1 {
-> +		reg = <1>;
-> +		usb_c1_ss: endpoint {
-> +		  remote-endpoint = <&cros_typec_c1_ss>;
-> +		};
-> +	      };
-> +	    };
-> +	  };
-> +
-> +	  ports {
-> +	    #address-cells = <1>;
-> +	    #size-cells = <0>;
-> +
-> +	    port@0 {
-> +	      reg = <0>;
-> +	      #address-cells = <1>;
-> +	      #size-cells = <0>;
-> +
-> +	      cros_typec_c0_ss: endpoint@0 {
-> +		reg = <0>;
-> +		remote-endpoint = <&usb_c0_ss>;
-> +		data-lanes = <0 1 2 3>;
-> +	      };
-> +
-> +	      cros_typec_c1_ss: endpoint@1 {
-> +		reg = <1>;
-> +		remote-endpoint = <&usb_c1_ss>;
-> +		data-lanes = <2 3 0 1>;
-> +	      };
-> +	    };
-> +
-> +	    port@1 {
-> +	      reg = <1>;
-> +	      #address-cells = <1>;
-> +	      #size-cells = <0>;
-> +
-> +	      usb_in_0: endpoint@0 {
-> +		reg = <0>;
-> +		remote-endpoint = <&usb_ss_0_out>;
-> +	      };
-> +
-> +	      usb_in_1: endpoint@1 {
-> +		reg = <1>;
-> +		remote-endpoint = <&usb_ss_1_out>;
-> +	      };
-> +	    };
-> +
-> +	    port@2 {
-> +	      reg = <2>;
-> +	      dp_in: endpoint {
-> +		remote-endpoint = <&dp_phy>;
-> +		data-lanes = <0 1>;
-> +	      };
-> +	    };
->	    };
->	  };
->	};
-> -- 
-> https://chromeos.dev
-> 
+Best regards,
 
 -- 
-With best wishes
-Dmitry
+
+Jocelyn
+
+> 
+> Signed-off-by: Ryosuke Yasuoka <ryasuoka@redhat.com>
+> ---
+> v2
+> In [1], Jocelyn gives me feedbacks and fix them.
+> 1. Removing qxl_surface_evict(): It takes a mutex and it possibly
+> causes deadlock in panic handler. As the panic handler works
+> correctly without it and to make it simple, I remove it.
+> 2. Update qxl_panic_ttm_bo_destory(): It deleted bo->list with taking
+> mutex but it does not need to call because this list is not updated in
+> panic handler.
+> 3. Remove unnecessary args from panic functions: Some panic functions
+> always take same values as args (e.g. kernel, pinned, domain etc in
+> qxl_panic_bo_create()). So I remove them from panic functions and
+> define them in each function.
+> 
+> [1] https://lore.kernel.org/dri-devel/89b55f6f-f462-4e84-b2e2-7f2edc0f1cc4@redhat.com/T/#t
+> 
+>   drivers/gpu/drm/qxl/qxl_cmd.c     | 29 ++++++++++
+>   drivers/gpu/drm/qxl/qxl_display.c | 94 +++++++++++++++++++++++++++++++
+>   drivers/gpu/drm/qxl/qxl_draw.c    | 57 ++++++++++++++++++-
+>   drivers/gpu/drm/qxl/qxl_drv.h     | 22 ++++++++
+>   drivers/gpu/drm/qxl/qxl_gem.c     |  9 +++
+>   drivers/gpu/drm/qxl/qxl_image.c   | 25 ++++++++
+>   drivers/gpu/drm/qxl/qxl_object.c  | 46 +++++++++++++++
+>   drivers/gpu/drm/qxl/qxl_object.h  |  1 +
+>   8 files changed, 282 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/qxl/qxl_cmd.c b/drivers/gpu/drm/qxl/qxl_cmd.c
+> index d6ea01f3797b..895e41c1a567 100644
+> --- a/drivers/gpu/drm/qxl/qxl_cmd.c
+> +++ b/drivers/gpu/drm/qxl/qxl_cmd.c
+> @@ -174,6 +174,35 @@ static bool qxl_ring_pop(struct qxl_ring *ring,
+>   	return true;
+>   }
+>   
+> +/* For drm panic */
+> +int
+> +qxl_push_command_ring_without_release(struct qxl_device *qdev,
+> +		struct qxl_bo *bo, uint32_t offset)
+> +{
+> +	struct qxl_command cmd;
+> +	struct qxl_ring *ring = qdev->command_ring;
+> +	struct qxl_ring_header *header = &(ring->ring->header);
+> +	uint8_t *elt;
+> +	int idx;
+> +
+> +	cmd.type = QXL_CMD_DRAW;
+> +	cmd.data = qxl_bo_physical_address(qdev, bo, offset);
+> +
+> +	idx = header->prod & (ring->n_elements - 1);
+> +	elt = ring->ring->elements + idx * ring->element_size;
+> +
+> +	memcpy((void *)elt, &cmd, ring->element_size);
+> +
+> +	header->prod++;
+> +
+> +	mb();
+> +
+> +	if (header->prod == header->notify_on_prod)
+> +		outb(0, ring->prod_notify);
+> +
+> +	return 0;
+> +}
+> +
+>   int
+>   qxl_push_command_ring_release(struct qxl_device *qdev, struct qxl_release *release,
+>   			      uint32_t type, bool interruptible)
+> diff --git a/drivers/gpu/drm/qxl/qxl_display.c b/drivers/gpu/drm/qxl/qxl_display.c
+> index bc24af08dfcd..b80cb8879215 100644
+> --- a/drivers/gpu/drm/qxl/qxl_display.c
+> +++ b/drivers/gpu/drm/qxl/qxl_display.c
+> @@ -37,6 +37,7 @@
+>   #include <drm/drm_probe_helper.h>
+>   #include <drm/drm_simple_kms_helper.h>
+>   #include <drm/drm_gem_atomic_helper.h>
+> +#include <drm/drm_panic.h>
+>   
+>   #include "qxl_drv.h"
+>   #include "qxl_object.h"
+> @@ -889,6 +890,97 @@ static void qxl_plane_cleanup_fb(struct drm_plane *plane,
+>   	}
+>   }
+>   
+> +static int qxl_primary_plane_helper_get_scanout_buffer(struct drm_plane *plane,
+> +							struct drm_scanout_buffer *sb)
+> +{
+> +	struct qxl_bo *bo;
+> +
+> +	if (!plane->state || !plane->state->fb)
+> +		return -ENODEV;
+> +
+> +	bo = gem_to_qxl_bo(plane->state->fb->obj[0]);
+> +
+> +	if (!bo->map.vaddr) {
+> +		int ret;
+> +
+> +		ret = qxl_bo_pin_and_vmap(bo, &sb->map[0]);
+> +		if (ret)
+> +			return ret;
+> +	} else {
+> +		iosys_map_set_vaddr(&sb->map[0], bo->map.vaddr);
+> +	}
+> +
+> +	sb->format = plane->state->fb->format;
+> +	sb->height = plane->state->fb->height;
+> +	sb->width = plane->state->fb->width;
+> +	sb->pitch[0] = plane->state->fb->pitches[0];
+> +	return 0;
+> +}
+> +
+> +static void qxl_panic_flush(struct drm_plane *plane)
+> +{
+> +	struct qxl_device *qdev = to_qxl(plane->dev);
+> +	struct qxl_bo *_bo = gem_to_qxl_bo(plane->state->fb->obj[0]);
+> +	uint8_t *surface_base = _bo->map.vaddr;
+> +	struct drm_clip_rect rect = {
+> +		.x1 = 0,
+> +		.y1 = 0,
+> +		.x2 = plane->state->fb->width,
+> +		.y2 = plane->state->fb->height
+> +	};
+> +	unsigned int num_clips = 1;
+> +	struct qxl_bo clips_bo = {};
+> +	struct qxl_bo image_bo = {};
+> +	struct qxl_bo chunk_bo = {};
+> +	struct qxl_drm_image dimage;
+> +	struct qxl_drm_chunk chunk;
+> +	int width = rect.x2;
+> +	int height = rect.y2;
+> +	int stride = plane->state->fb->pitches[0];
+> +	int depth = plane->state->fb->format->cpp[0] * 8;
+> +	struct qxl_rect *rects;
+> +	struct qxl_rect drawable_rect = {
+> +		.left = 0,
+> +		.right = width,
+> +		.top = 0,
+> +		.bottom = height,
+> +	};
+> +	int cur_idx = 0;
+> +	int size = 256;
+> +	struct qxl_bo *bo = qxl_bo_ref(qdev->current_release_bo[cur_idx]);
+> +	uint32_t offset = qdev->current_release_bo_offset[cur_idx] * size;
+> +	int ret;
+> +
+> +	qxl_panic_bo_create(qdev, sizeof(struct qxl_clip_rects) + sizeof(struct qxl_rect),
+> +			&clips_bo);
+> +
+> +	ret = qxl_image_alloc_objects_without_release(qdev, &dimage, &chunk, &image_bo, &chunk_bo,
+> +			surface_base, width, height, depth, stride);
+> +	if (ret)
+> +		return;
+> +
+> +	ret = make_drawable_without_release(qdev, &drawable_rect, bo, &clips_bo,
+> +			&dimage, offset, height, width);
+> +	if (ret)
+> +		return;
+> +
+> +	rects = drawable_set_clipping(qdev, num_clips, &clips_bo);
+> +	if (!rects)
+> +		return;
+> +	rects[0].left = 0;
+> +	rects[0].right = width;
+> +	rects[0].top = 0;
+> +	rects[0].bottom = height;
+> +
+> +	qxl_push_command_ring_without_release(qdev, bo, offset);
+> +
+> +	qxl_panic_gem_object_free(&chunk_bo.tbo.base);
+> +	qxl_panic_gem_object_free(&image_bo.tbo.base);
+> +
+> +	qxl_bo_vunmap_locked(&clips_bo);
+> +	qxl_panic_gem_object_free(&clips_bo.tbo.base);
+> +}
+> +
+>   static const uint32_t qxl_cursor_plane_formats[] = {
+>   	DRM_FORMAT_ARGB8888,
+>   };
+> @@ -920,6 +1012,8 @@ static const struct drm_plane_helper_funcs primary_helper_funcs = {
+>   	.atomic_disable = qxl_primary_atomic_disable,
+>   	.prepare_fb = qxl_plane_prepare_fb,
+>   	.cleanup_fb = qxl_plane_cleanup_fb,
+> +	.get_scanout_buffer = qxl_primary_plane_helper_get_scanout_buffer,
+> +	.panic_flush = qxl_panic_flush,
+>   };
+>   
+>   static const struct drm_plane_funcs qxl_primary_plane_funcs = {
+> diff --git a/drivers/gpu/drm/qxl/qxl_draw.c b/drivers/gpu/drm/qxl/qxl_draw.c
+> index 3a3e127ce297..49fdc0162377 100644
+> --- a/drivers/gpu/drm/qxl/qxl_draw.c
+> +++ b/drivers/gpu/drm/qxl/qxl_draw.c
+> @@ -41,7 +41,8 @@ static int alloc_clips(struct qxl_device *qdev,
+>   /* returns a pointer to the already allocated qxl_rect array inside
+>    * the qxl_clip_rects. This is *not* the same as the memory allocated
+>    * on the device, it is offset to qxl_clip_rects.chunk.data */
+> -static struct qxl_rect *drawable_set_clipping(struct qxl_device *qdev,
+> +
+> +struct qxl_rect *drawable_set_clipping(struct qxl_device *qdev,
+>   					      unsigned int num_clips,
+>   					      struct qxl_bo *clips_bo)
+
+Function's arguments indentation should be adjusted here.
+
+>   {
+> @@ -74,6 +75,60 @@ free_drawable(struct qxl_device *qdev, struct qxl_release *release)
+>   	qxl_release_free(qdev, release);
+>   }
+>   
+> +/* For drm panic */
+> +int
+> +make_drawable_without_release(struct qxl_device *qdev,
+> +		struct qxl_rect *drawable_rect,
+> +		struct qxl_bo *bo,
+> +		struct qxl_bo *clips_bo,
+> +		struct qxl_drm_image *dimage,
+> +		uint32_t offset, int height, int width)
+
+Here too, they don't match the open parenthesis, like the other function 
+in this file.
+
+> +{
+> +	struct qxl_drawable *drawable;
+> +	union qxl_release_info *info;
+> +	void *ptr;
+> +	int i;
+> +
+> +	ptr = qxl_bo_kmap_atomic_page(qdev, bo, offset & PAGE_MASK);
+> +	if (!ptr)
+> +		return -ENOMEM;
+> +	drawable = ptr + (offset & ~PAGE_MASK);
+> +
+> +	drawable->type = QXL_DRAW_COPY;
+> +	drawable->surface_id = 0;
+> +	drawable->effect = QXL_EFFECT_OPAQUE;
+> +	drawable->self_bitmap = 0;
+> +	drawable->self_bitmap_area.top = 0;
+> +	drawable->self_bitmap_area.left = 0;
+> +	drawable->self_bitmap_area.bottom = 0;
+> +	drawable->self_bitmap_area.right = 0;
+> +
+> +	for (i = 0; i < 3; ++i)
+> +		drawable->surfaces_dest[i] = -1;
+> +
+> +	drawable->bbox = *drawable_rect;
+> +	drawable->mm_time = qdev->rom->mm_clock;
+> +	drawable->clip.type = SPICE_CLIP_TYPE_RECTS;
+> +	drawable->clip.data = qxl_bo_physical_address(qdev, clips_bo, 0);
+> +	drawable->u.copy.src_area.top = 0;
+> +	drawable->u.copy.src_area.bottom = height;
+> +	drawable->u.copy.src_area.left = 0;
+> +	drawable->u.copy.src_area.right = width;
+> +	drawable->u.copy.rop_descriptor = SPICE_ROPD_OP_PUT;
+> +	drawable->u.copy.scale_mode = 0;
+> +	drawable->u.copy.mask.flags = 0;
+> +	drawable->u.copy.mask.pos.x = 0;
+> +	drawable->u.copy.mask.pos.y = 0;
+> +	drawable->u.copy.mask.bitmap = 0;
+> +	drawable->u.copy.src_bitmap = qxl_bo_physical_address(qdev, dimage->bo, 0);
+> +
+> +	info = &drawable->release_info;
+> +	ptr = ((void *)info) - (offset & ~PAGE_MASK);
+> +	qxl_bo_kunmap_atomic_page(qdev, bo, ptr);
+> +
+> +	return 0;
+> +}
+> +
+>   /* release needs to be reserved at this point */
+>   static int
+>   make_drawable(struct qxl_device *qdev, int surface, uint8_t type,
+> diff --git a/drivers/gpu/drm/qxl/qxl_drv.h b/drivers/gpu/drm/qxl/qxl_drv.h
+> index 32069acd93f8..ffeafb5b73ef 100644
+> --- a/drivers/gpu/drm/qxl/qxl_drv.h
+> +++ b/drivers/gpu/drm/qxl/qxl_drv.h
+> @@ -309,6 +309,7 @@ int qxl_gem_object_create_with_handle(struct qxl_device *qdev,
+>   				      struct qxl_surface *surf,
+>   				      struct drm_gem_object **gobj,
+>   				      uint32_t *handle);
+> +void qxl_panic_gem_object_free(struct drm_gem_object *gobj);
+>   void qxl_gem_object_free(struct drm_gem_object *gobj);
+>   int qxl_gem_object_open(struct drm_gem_object *obj, struct drm_file *file_priv);
+>   void qxl_gem_object_close(struct drm_gem_object *obj,
+> @@ -334,6 +335,13 @@ int qxl_image_init(struct qxl_device *qdev,
+>   		   const uint8_t *data,
+>   		   int x, int y, int width, int height,
+>   		   int depth, int stride);
+> +
+> +int qxl_image_alloc_objects_without_release(struct qxl_device *qdev,
+> +		struct qxl_drm_image *image, struct qxl_drm_chunk *chunk,
+> +		struct qxl_bo *image_bo, struct qxl_bo *chunk_bo,
+> +		uint8_t *surface_base, int width,
+> +		int height, int depth, int stride);
+> +
+>   int
+>   qxl_image_alloc_objects(struct qxl_device *qdev,
+>   			struct qxl_release *release,
+> @@ -376,6 +384,9 @@ int qxl_alloc_release_reserved(struct qxl_device *qdev, unsigned long size,
+>   			       int type, struct qxl_release **release,
+>   			       struct qxl_bo **rbo);
+>   
+> +int qxl_push_command_ring_without_release(struct qxl_device *qdev,
+> +		struct qxl_bo *bo, uint32_t offset);
+> +
+>   int
+>   qxl_push_command_ring_release(struct qxl_device *qdev, struct qxl_release *release,
+>   			      uint32_t type, bool interruptible);
+> @@ -387,6 +398,9 @@ int qxl_alloc_bo_reserved(struct qxl_device *qdev,
+>   			  unsigned long size,
+>   			  struct qxl_bo **_bo);
+>   /* qxl drawing commands */
+> +struct qxl_rect *drawable_set_clipping(struct qxl_device *qdev,
+> +					      unsigned int num_clips,
+> +					      struct qxl_bo *clips_bo);
+>   
+>   void qxl_draw_dirty_fb(struct qxl_device *qdev,
+>   		       struct drm_framebuffer *fb,
+> @@ -399,6 +413,14 @@ void qxl_draw_dirty_fb(struct qxl_device *qdev,
+>   void qxl_release_free(struct qxl_device *qdev,
+>   		      struct qxl_release *release);
+>   
+> +int
+> +make_drawable_without_release(struct qxl_device *qdev,
+> +		struct qxl_rect *drawable_rect,
+> +		struct qxl_bo *bo,
+> +		struct qxl_bo *clips_bo,
+> +		struct qxl_drm_image *dimage,
+> +		uint32_t offset, int height, int width);
+> +
+>   /* used by qxl_debugfs_release */
+>   struct qxl_release *qxl_release_from_id_locked(struct qxl_device *qdev,
+>   						   uint64_t id);
+> diff --git a/drivers/gpu/drm/qxl/qxl_gem.c b/drivers/gpu/drm/qxl/qxl_gem.c
+> index fc5e3763c359..f140439c640a 100644
+> --- a/drivers/gpu/drm/qxl/qxl_gem.c
+> +++ b/drivers/gpu/drm/qxl/qxl_gem.c
+> @@ -28,6 +28,15 @@
+>   #include "qxl_drv.h"
+>   #include "qxl_object.h"
+>   
+> +void qxl_panic_gem_object_free(struct drm_gem_object *gobj)
+> +{
+> +	struct qxl_bo *qobj = gem_to_qxl_bo(gobj);
+> +	struct ttm_buffer_object *tbo;
+> +
+> +	tbo = &qobj->tbo;
+> +	ttm_bo_put(tbo);
+> +}
+> +
+>   void qxl_gem_object_free(struct drm_gem_object *gobj)
+>   {
+>   	struct qxl_bo *qobj = gem_to_qxl_bo(gobj);
+> diff --git a/drivers/gpu/drm/qxl/qxl_image.c b/drivers/gpu/drm/qxl/qxl_image.c
+> index ffff54e5fb31..064dfdc3f722 100644
+> --- a/drivers/gpu/drm/qxl/qxl_image.c
+> +++ b/drivers/gpu/drm/qxl/qxl_image.c
+> @@ -52,6 +52,31 @@ qxl_allocate_chunk(struct qxl_device *qdev,
+>   	return 0;
+>   }
+>   
+> +/* For drm panic */
+> +int
+> +qxl_image_alloc_objects_without_release(struct qxl_device *qdev,
+> +		struct qxl_drm_image *image, struct qxl_drm_chunk *chunk,
+> +		struct qxl_bo *image_bo, struct qxl_bo *chunk_bo,
+> +		uint8_t *surface_base, int width, int height,
+> +		int depth, int stride)
+> +{
+> +	int ret;
+> +	unsigned int chunk_size = sizeof(struct qxl_data_chunk) + stride * height;
+> +
+> +	INIT_LIST_HEAD(&image->chunk_list);
+> +	qxl_panic_bo_create(qdev, sizeof(struct qxl_image), image_bo);
+> +	image->bo = image_bo;
+> +
+> +	qxl_panic_bo_create(qdev, chunk_size, chunk_bo);
+> +	chunk->bo = chunk_bo;
+> +	list_add_tail(&chunk->head, &image->chunk_list);
+> +
+> +	ret = qxl_image_init(qdev, NULL, image, surface_base,
+> +			     0, 0, width, height, depth, stride);
+> +	return ret;
+> +
+> +}
+> +
+>   int
+>   qxl_image_alloc_objects(struct qxl_device *qdev,
+>   			struct qxl_release *release,
+> diff --git a/drivers/gpu/drm/qxl/qxl_object.c b/drivers/gpu/drm/qxl/qxl_object.c
+> index 66635c55cf85..22aa16ed0685 100644
+> --- a/drivers/gpu/drm/qxl/qxl_object.c
+> +++ b/drivers/gpu/drm/qxl/qxl_object.c
+> @@ -29,6 +29,16 @@
+>   #include "qxl_drv.h"
+>   #include "qxl_object.h"
+>   
+> +/* for drm panic */
+> +static void qxl_panic_ttm_bo_destroy(struct ttm_buffer_object *tbo)
+> +{
+> +	struct qxl_bo *bo;
+> +
+> +	bo = to_qxl_bo(tbo);
+> +	WARN_ON_ONCE(bo->map_count > 0);
+> +	drm_gem_object_release(&bo->tbo.base);
+> +}
+> +
+>   static void qxl_ttm_bo_destroy(struct ttm_buffer_object *tbo)
+>   {
+>   	struct qxl_bo *bo;
+> @@ -101,6 +111,42 @@ static const struct drm_gem_object_funcs qxl_object_funcs = {
+>   	.print_info = drm_gem_ttm_print_info,
+>   };
+>   
+> +/* for drm_panic */
+> +int qxl_panic_bo_create(struct qxl_device *qdev, unsigned long size, struct qxl_bo *bo)
+> +{
+> +	u32 domain = QXL_GEM_DOMAIN_VRAM;
+> +	struct ttm_operation_ctx ctx = { true, false };
+> +	enum ttm_bo_type type;
+> +	int r;
+> +
+> +	type = ttm_bo_type_device;
+> +
+> +	size = roundup(size, PAGE_SIZE);
+> +	r = drm_gem_object_init(&qdev->ddev, &bo->tbo.base, size);
+> +	if (unlikely(r))
+> +		return r;
+> +	bo->tbo.base.funcs = &qxl_object_funcs;
+> +	bo->type = domain;
+> +	bo->surface_id = 0;
+> +	INIT_LIST_HEAD(&bo->list);
+> +
+> +	qxl_ttm_placement_from_domain(bo, domain);
+> +
+> +	bo->tbo.priority = 0;
+> +	r = ttm_bo_init_reserved(&qdev->mman.bdev, &bo->tbo, type,
+> +				 &bo->placement, 0, &ctx, NULL, NULL,
+> +				 &qxl_panic_ttm_bo_destroy);
+> +	if (unlikely(r != 0)) {
+> +		if (r != -ERESTARTSYS)
+> +			dev_err(qdev->ddev.dev,
+> +				"object_init failed for (%lu, 0x%08X)\n",
+> +				size, domain);
+> +		return r;
+> +	}
+> +	ttm_bo_unreserve(&bo->tbo);
+> +	return 0;
+> +}
+> +
+>   int qxl_bo_create(struct qxl_device *qdev, unsigned long size,
+>   		  bool kernel, bool pinned, u32 domain, u32 priority,
+>   		  struct qxl_surface *surf,
+> diff --git a/drivers/gpu/drm/qxl/qxl_object.h b/drivers/gpu/drm/qxl/qxl_object.h
+> index 875f63221074..d1dbf7a3dd5b 100644
+> --- a/drivers/gpu/drm/qxl/qxl_object.h
+> +++ b/drivers/gpu/drm/qxl/qxl_object.h
+> @@ -53,6 +53,7 @@ static inline unsigned long qxl_bo_size(struct qxl_bo *bo)
+>   	return bo->tbo.base.size;
+>   }
+>   
+> +extern int qxl_panic_bo_create(struct qxl_device *qdev, unsigned long size, struct qxl_bo *bo);
+>   extern int qxl_bo_create(struct qxl_device *qdev,
+>   			 unsigned long size,
+>   			 bool kernel, bool pinned, u32 domain,
+
