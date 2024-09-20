@@ -2,100 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DD1097D575
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 14:40:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0214B97D579
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 14:41:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5944510E82F;
-	Fri, 20 Sep 2024 12:40:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E73A10E830;
+	Fri, 20 Sep 2024 12:41:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="aVn1Ry9C";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="L9xIfOZM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C96110E82F
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2024 12:40:50 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 631FFA4320B;
- Fri, 20 Sep 2024 12:40:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DED12C4CEC3;
- Fri, 20 Sep 2024 12:40:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1726836049;
- bh=+jfR1XeRU+m7AtoWuJb16GMK+Un011ipJtUW+b5eEK0=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=aVn1Ry9CamWpFP3xB9ltitw7mVRuE1p5tC+vG4aQ86XUkT4NCqLm/OlcjH36i9F3a
- 6tfFyCin4KcO9Z+5UKhqNuvCv8zRUUC4zXkO9k0GgV6OQO5eGkG42As3Srgowv0MUT
- m7f2JZfNw0poRGnbA35xge39KGxFpX6GV3SiguFs8IH1idKO3oDXG3Gz2jdifF43GW
- V8CrRiGwRk1YkkecIiZggfJc/TKQ9yrToivRdAvWpjnz0Ckjga/6DHEU4Z/QlKteW6
- Kps7Dn0JRGhHfSEc99i3LJxjCzfrl8nKGcgkt/Mrf2Esz2emGVPrOoBiRSbgOUuKLG
- SEnfFBsWOfhKA==
-Message-ID: <f64c303e-8a88-4aee-9110-ee4a06a3d67f@kernel.org>
-Date: Fri, 20 Sep 2024 14:40:42 +0200
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
+ [217.70.183.193])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59BD010E830
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2024 12:41:23 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 7C7A1240002;
+ Fri, 20 Sep 2024 12:41:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1726836081;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4z60SE2ViWubCiF9T9YXND4B8XSD+ZrhuspMHxaZeDA=;
+ b=L9xIfOZMdADxBU5tb7Y+HnSz29RSLs2C9Lcaf5/ZLpVdIcBRoZ78ytthsx7cliSyoCjcSP
+ noM3Xeey3TAexjLF9D65RjZGTvfkVdrfaROSn7Bc90b06kH5QzGRFDMfuz01ykzpm5dz14
+ POMpfTtzdX4geORYZTAs9AkwvIfzZwiLKdlSorhFAcDeRKsfQ183e51HmpS5Mlsq1jJB6C
+ lFPlPsiJFc3YawN6eFHFRAJDmH/prDVCJ46Y+ylMl8LOtWx+X3rPZ9EAM/RYlsNdVyKikG
+ kCBGcOQYZeT9IYwt+d5U+60OHXw9YuJeUFVbWfL5Ezs7IlutQCNKmQkIZ6mq9w==
+Date: Fri, 20 Sep 2024 14:41:13 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Daniel Thompson <daniel.thompson@linaro.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Derek Kiernan <derek.kiernan@amd.com>,
+ Dragan Cvetic <dragan.cvetic@amd.com>, Arnd Bergmann <arnd@arndb.de>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Saravana Kannan
+ <saravanak@google.com>, Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Lee Jones <lee@kernel.org>, Jingoo
+ Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>, Paul Kocialkowski
+ <contact@paulk.fr>, =?UTF-8?Q?Herv=C3=A9?= Codina
+ <herve.codina@bootlin.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-i2c@vger.kernel.org, linux-fbdev@vger.kernel.org, Paul Kocialkowski
+ <paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH v4 6/8] backlight: led-backlight: add devlink to
+ supplier LEDs
+Message-ID: <20240920144113.427606a7@booty>
+In-Reply-To: <20240919124323.GB28725@aspen.lan>
+References: <20240917-hotplug-drm-bridge-v4-0-bc4dfee61be6@bootlin.com>
+ <20240917-hotplug-drm-bridge-v4-6-bc4dfee61be6@bootlin.com>
+ <20240919124323.GB28725@aspen.lan>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/6] drm/exynos: exynos7_drm_decon: fix suspended
- condition in decon_commit()
-To: Kaustabh Chakraborty <kauschluss@disroot.org>,
- Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Alim Akhtar <alim.akhtar@samsung.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Conor Dooley <conor@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20240919-exynosdrm-decon-v1-0-6c5861c1cb04@disroot.org>
- <20240919-exynosdrm-decon-v1-2-6c5861c1cb04@disroot.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240919-exynosdrm-decon-v1-2-6c5861c1cb04@disroot.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,18 +81,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19/09/2024 17:11, Kaustabh Chakraborty wrote:
-> decon_commit() gets called during atomic_enable. At this stage, DECON is
-> suspended, and thus the function refuses to run. Fix the suspended
-> condition checking in decon_commit().
-> 
-> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
-> ---
+Hello Daniel,
 
-If this is a fix, then you miss fixes tag and cc-stable. However the
-explanation seems just incomplete. This looked like a intentional code,
-so you should explain really why original approach was wrong.
+On Thu, 19 Sep 2024 14:43:23 +0200
+Daniel Thompson <daniel.thompson@linaro.org> wrote:
 
-Best regards,
-Krzysztof
+> On Tue, Sep 17, 2024 at 10:53:10AM +0200, Luca Ceresoli wrote:
+> > led-backlight is a consumer of one or multiple LED class devices, but no
+> > devlink is created for such supplier-producer relationship. One consequ=
+ence
+> > is that removal ordered is not correctly enforced.
+> >
+> > Issues happen for example with the following sections in a device tree
+> > overlay:
+> >
+> >     // An LED driver chip
+> >     pca9632@62 {
+> >         compatible =3D "nxp,pca9632";
+> >         reg =3D <0x62>;
+> >
+> > 	// ...
+> >
+> >         addon_led_pwm: led-pwm@3 {
+> >             reg =3D <3>;
+> >             label =3D "addon:led:pwm";
+> >         };
+> >     };
+> >
+> >     backlight-addon {
+> >         compatible =3D "led-backlight";
+> >         leds =3D <&addon_led_pwm>;
+> >         brightness-levels =3D <255>;
+> >         default-brightness-level =3D <255>;
+> >     };
+> >
+> > On removal of the above overlay, the LED driver can be removed before t=
+he
+> > backlight device, resulting in:
+> >
+> >     Unable to handle kernel NULL pointer dereference at virtual address=
+ 0000000000000010
+> >     ...
+> >     Call trace:
+> >      led_put+0xe0/0x140
+> >      devm_led_release+0x6c/0x98 =20
+>=20
+> This looks like the object became invalid whilst we were holding a refere=
+nce
+> to it. Is that reasonable? Put another way, is using devlink here fixing a
+> bug or merely hiding one?
 
+Thanks for your comment.
+
+Herv=C3=A9 and I just had a look at the code and there actually might be a
+bug here, which we will be investigating (probably next week).
+
+Still I think the devlink needs to be added to describe the
+relationship between the supplier (LED) and consumer (backlight).
+
+Luca
+
+--=20
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
