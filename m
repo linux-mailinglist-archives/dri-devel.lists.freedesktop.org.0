@@ -2,173 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCEE297D059
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 05:43:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0981397D0EB
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 07:28:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC24610E79A;
-	Fri, 20 Sep 2024 03:43:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F211A10E10C;
+	Fri, 20 Sep 2024 05:28:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="G2aZzR8q";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="IZdaik37";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 582CD10E799;
- Fri, 20 Sep 2024 03:43:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1726803799; x=1758339799;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=57fyQU1+KsbmoeOalNo+qiJMKe4WK9OYCW+AAFMekuI=;
- b=G2aZzR8qhRnjOxe0ImLg4fMRJW0mWvL1iQTN5NiJYOxkDjYKJPbUgKm/
- p8cb7CaDXa2Dq5hohPiiISA6gGdCUHKih/5ypUOJZbSyNy4HGiJsJlx+I
- 3vWBLAWzldOkIsQ29Tu03QPvsZYT9TFGQCpuq6Q/aNspSybWNTBkF9mKw
- JNjdXva/vWvDnSrKtWyVL9cED7y1fBf7vkp0fdKy3PWlv+zawLqo6af/R
- ZM01hLtMQWw+nAvfOxxhdzHuahADgrG64TXC3/QHU7VnNMpmrPKM3R+lU
- LGhBNvruPCziR8mQf5chb9DlQhrg8JW4n5cl3zVmzqZ5ND4iOQr3KzZ3H Q==;
-X-CSE-ConnectionGUID: 0jDrmJUDSwSNp+l8kWGNfA==
-X-CSE-MsgGUID: fjQW3vasTzuShNwpGrzFfw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11200"; a="36367700"
-X-IronPort-AV: E=Sophos;i="6.10,243,1719903600"; d="scan'208";a="36367700"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Sep 2024 20:43:19 -0700
-X-CSE-ConnectionGUID: LIHsAvRSRoyKTuq7qPTysw==
-X-CSE-MsgGUID: 3yoyD8xDSjeGNO8b+3xStg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,243,1719903600"; d="scan'208";a="70593349"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by orviesa007.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 19 Sep 2024 20:43:19 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Thu, 19 Sep 2024 20:43:18 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Thu, 19 Sep 2024 20:43:18 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Thu, 19 Sep 2024 20:43:18 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.46) by
- edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Thu, 19 Sep 2024 20:43:17 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=YP1ZKuGZJsKY/uY4MCFIhNzrAd89YIKXKp0w3L9RJMJ6LOt6OlNEkCWAFsMErNlwCxK/pSZHfMZKqtat/ZqBq1uWJDA+rCP8jewNcvGh8ACL/zG1/pbotFuKJGyuIhT1H/txmzlxjKivdJGtUWcjcz/Z7qBBSOrrRe9fEv/waEgSh6YjU+7cCIUBY7lbbW5Br2BxObSY2wF46AWfwPsr+ZmeDH8Q2Vp9Yp0lfFlHPTC8HXTDl8SVMv1PuaCnv8RYt62C3MKnaBE98t189/cKvd8JDPtI3P/mf1pFheHd1F0rrvZ4osU0BcZ3jgJKNFgghW/W6Dl/qDmy3mzfAvcIxA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qm0J1ggnV+0MgLzwObMrvEyfAMF+CHfXZADFI0Pumxo=;
- b=gb8+oi/jrO/P0RA6BHtpuf09D1kYdICEPEiJGQR5w2RuJbISOxhLUu+7nXgh9E7wGHOsbjp+xYGYTT3T2zSwSLE1kP2Z7jPRimYs304gf0GvkwGuGEYbBAXcv0bfYXk4L1x6uazeU5AcVzRPfIqnz42zlqN9aBsYrVLpdRp0Ye9KssnA382wzp+QFAWW1P1o84I2DVafz6bIJK4cVGDFQEtLrucOi5a/Nzs35NnR9BlslqALxerGtAbEUJPX7P+7g6foAP88p1j56mLaGD1v1n+QVEYJVp7/EdyKLlheBus0y8mKYL9fKBpSm8XCJGyLHG8fK26aPRTJdyZ91DaGuQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
- by SJ0PR11MB5118.namprd11.prod.outlook.com (2603:10b6:a03:2dd::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.17; Fri, 20 Sep
- 2024 03:43:15 +0000
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::7141:316f:77a0:9c44]) by CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::7141:316f:77a0:9c44%5]) with mapi id 15.20.7982.016; Fri, 20 Sep 2024
- 03:43:15 +0000
-Date: Thu, 19 Sep 2024 22:43:11 -0500
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Stephen Rothwell <sfr@canb.auug.org.au>
-CC: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, Kees
- Cook <kees@kernel.org>, Riana Tauro <riana.tauro@intel.com>, "Rodrigo Vivi"
- <rodrigo.vivi@intel.com>, Michal Wajdeczko <michal.wajdeczko@intel.com>,
- DRM XE List <intel-xe@lists.freedesktop.org>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Next Mailing List
- <linux-next@vger.kernel.org>, Dave Airlie <airlied@redhat.com>, DRI
- <dri-devel@lists.freedesktop.org>
-Subject: Re: linux-next: build failure after merge of the kspp tree
-Message-ID: <owkmwjhxbhii6devx33npufv3pgrjygbjprba5lby2dq25wvce@nvm4ll6d42h2>
-References: <20240909195939.067c1c13@canb.auug.org.au>
- <20240919092752.5a832aaa@canb.auug.org.au>
-Content-Type: text/plain; charset="us-ascii"; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20240919092752.5a832aaa@canb.auug.org.au>
-X-ClientProxiedBy: MW4PR04CA0155.namprd04.prod.outlook.com
- (2603:10b6:303:85::10) To CY5PR11MB6139.namprd11.prod.outlook.com
- (2603:10b6:930:29::17)
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com
+ [209.85.210.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC7DC10E10C
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2024 05:28:06 +0000 (UTC)
+Received: by mail-ot1-f54.google.com with SMTP id
+ 46e09a7af769-710da8668b3so780069a34.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Sep 2024 22:28:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1726810086; x=1727414886;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=V6fqC9rQj7jwpokDmGsmnwBERMcOxTjNmQoEfD1uU/w=;
+ b=IZdaik37yYF8ImwUkaRfczpu/rpT2mLnaLWRYYTfLmr55Ed2fp5XV1ji58TNXp1pOA
+ 6gDLTs/1uyC3b5Tp0WUsy1ja+svmQ8O4smxgipuNn9gvSSk37gSX9vPVJOG2Ui0t+AhA
+ BE1n9mMG1Ff8WXGrWmuZYQZ7D+hDlBK0zE04I=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1726810086; x=1727414886;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=V6fqC9rQj7jwpokDmGsmnwBERMcOxTjNmQoEfD1uU/w=;
+ b=nMGC4pFKU0MsJRCRT+S0o9zDUipWLhECG4qd6HxHQNNC4mu0cM7E/3JXZsqOqOKUkI
+ WBIdJMMXntbKQgPOVuOGYpbdQPkqKuHUbLu2rV+W+zjx07bSi3zLM4dB8apHPRNHqWni
+ cJ3MpwRQRa4YJjGtA2mvU2vdPZcvmORsg2Z/riMTJDlBYzhtxB38EAdA66J+bcYpvjR2
+ cebHOadxcLlGb6QPzPOGAPPCPox811KQCc1D4SBaRNJWVA263Ae/ea76os6/OG+sqx9W
+ kRky1dSWMGnr4p+iBCwQo2s19kL8nfGt8suJUCGJNiysJiw3pqXWwa71WXykXnvocBoH
+ ZuNw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUSUIqodANM50wACack1EuKTD8cLGpYOeRS20ggaF5rCeAoenG94+3Su6bj0yjpPf4K5AswMARSLkY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzjMkVcT7T9qVq1I0GvNGy7nXY7e+h0oOT50hNRo/m1+kEzCh2U
+ i6kDFSrowhM2mS8HGCKzJ57mqtHln8F9gzvxXZwGXgBLKTk8BukrFY1HLWtOAR6vXa1IOZrRhM+
+ g3qmnbJwCK8h9vIH15eXXo4h/b9DldLhV3vwj
+X-Google-Smtp-Source: AGHT+IGnil3R2ySP2k3vdhAHQPCpfHA8iyYZCopn11iXgK1UBRz4F5VFMWx4r1HbgBghdkgGa3qF75StNTfhvN7dm/A=
+X-Received: by 2002:a05:6830:8d0:b0:710:f5bf:c4d8 with SMTP id
+ 46e09a7af769-713923ac405mr1223245a34.3.1726810085669; Thu, 19 Sep 2024
+ 22:28:05 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|SJ0PR11MB5118:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7d3e09c7-96a4-4915-3e7a-08dcd9265c05
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?7cJO9KJg3RKmPWC38gqbIunoqlY3rNFWdX+Z0UZSxfobRk43kcbIqhyYRf8v?=
- =?us-ascii?Q?KBP9nInxjy/rvb+1sDWvzjfdJu23rd6RZnxlSL+nA/oI8POjah/a5EkQyLsj?=
- =?us-ascii?Q?bGpxafL1GkT0jnyBV8QSD+0FQcwpr8RN9pBoFMZg8pQMLa+Yz8i3kE32v5LR?=
- =?us-ascii?Q?lir+TLm3wPs0fHmvSDNYcmdWOTwTJ63Xios4vDAaktnhifK9g5e3Pmds/UVw?=
- =?us-ascii?Q?6mb/ibyVpdaeHcSbAtyx/oknK4PkssBoZnhFRUifI4uxRa6lRjdF8+4Yd+El?=
- =?us-ascii?Q?k5P/eH/6nbr98kOPKMFiEhHmY/YyrCqP/EGIDJgnDnWjlfME+0mlUquGK8/w?=
- =?us-ascii?Q?YbOegHTq3Iv0Wc+eC09pckaiSbjdinYFGuuOI9mMWv1Iooe4HF/W57a91Sk2?=
- =?us-ascii?Q?N7cXH5ukqeOCxou6d3M61nrukg5Cghvy0p+/bb1z/ProgD8b6klllFyTGvp+?=
- =?us-ascii?Q?cATRursGwTH0iJqaW6YnqIz1MoMozO1+XTJHtUj+rb30WBJXJdIATQMqaGXO?=
- =?us-ascii?Q?3pSYSuVWjmFQBFYq68OVj/ls3/yRsUl3PzW88stZpYNPUyw/wWwAbDnftCXn?=
- =?us-ascii?Q?rL5b6eFHvA3I4LtQg1YaoDSaH0eV/7XE5Mvd2uHtrlto4qeqbJH1geHBoOYx?=
- =?us-ascii?Q?wsm6LX4vXa5Hyq5jMT+rZ+OeSSS//x3hemYvkusw32wTLCTeVSlJi4kYc16q?=
- =?us-ascii?Q?y/YAT2bJ40MRQF5faWja9CxfQZ/s4NKlz/oUpdQestr2gWe77/i9E6nQz730?=
- =?us-ascii?Q?StYgT2qQQO924tE8CNQo6Cwt3WCrckajZJmptfSQwsct1EIIfuHEs7zvKjTR?=
- =?us-ascii?Q?tE3oS7tnjcK/o1r7JhtDy8kH/LeL6taUE4EXnUmBk/JFCK55XPfmbc8AXrQb?=
- =?us-ascii?Q?CIU1ILCAoAkDD8bcSDREvMMUR24lEpvzpbwQHGzN2Ve1eDBVqZON6NBd1p6h?=
- =?us-ascii?Q?r3iRL/o+VFCJ3MqVFR993SMFvWd+mBiCy5CBPWQiXN456BB/rmElUNQmPY3q?=
- =?us-ascii?Q?/y92uCwQoolQz2264kRp+DZ6mBHFarCLxAaSeNGC9uYshQ3fqOhIvTnhtuQz?=
- =?us-ascii?Q?rIUmCEXKhld0yzE3msTy66oX1s5mFL3UGil1CDq8RHUbvgesbYKcjqYsB/Ke?=
- =?us-ascii?Q?tSKLBQ6c5OENDXGEHbkpcgShi34LHwSlCVR+clYws/icmX8YqWma34lYJHmf?=
- =?us-ascii?Q?I8ngfu6FrVozk+Nhj8Bbfv4XeOF7gZ0+TWkt4F6C1eVg6C+QgxnoDFzRnZcp?=
- =?us-ascii?Q?beSFgNza/J7Lkd6eG4gUS92+Saasp9/Cp15xf4b6Sw=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?VWvbhCIkbv486ZKwhSJVBTq+ftiyfIpILC8LLrPNM+Twa66FkYnPzILjMola?=
- =?us-ascii?Q?lr1aoaK3UCI/+ICv/+hiRYs32+z6bFF37UOyFEtm/FOl2bY/5uXoCm91lVpP?=
- =?us-ascii?Q?UgW7rmsGoJJ+dlT7X5lhWAwX1zt2MUM11j5SYfSzec+6XGutaPOt+kkWKFLn?=
- =?us-ascii?Q?v7/eWzR/3mHtHxxMt6Vfw2tZhT/spv5jX17op+0BWCm9xowj40+9xev6SzZe?=
- =?us-ascii?Q?4CG0GIe8XZp4YZbbuP1LRz1kuW6G3G2sF44WGgfu4ziVmi2G/zzC7bAwKUer?=
- =?us-ascii?Q?ddT+LzNQji3a3qyN1J0xaTFIw+8Evh/RuI9OoUulF/ci6DHn7Y9SNgIbH6LJ?=
- =?us-ascii?Q?GDbxqrAb68Llg0IPxEO4XqpBB8JHjVDcV77TOO75HZjs/0O3dBagVtyr+grh?=
- =?us-ascii?Q?pPwy581mtfF0VqMZaJL5Xl263W01ws3fXIwkY8bLzm8vXwtYwK64WSS6q7Bz?=
- =?us-ascii?Q?PBAMx+dBpydN4hkAGXSl0ghJsaJDiZ4hmlBvzhB/re722oCxQcP5V+6eYNGI?=
- =?us-ascii?Q?VGDMM3adhsNg2kkLjO8kSHUUE4orkOyKjM4KgLKobnhvwI3taNY79+xg8usG?=
- =?us-ascii?Q?/zZ4yimqYRd7ad4aqUJpMLLsJdYx42jfdth72T53Yx7YywpLoGE5TKBHHO/1?=
- =?us-ascii?Q?FS9xjsTnJaWmcKNK8ssGDFL552WNUT648KJhVRCOJMnKj767uOsFCz6sMURo?=
- =?us-ascii?Q?wpVJhfChMNM332rFEZHItpRgepZ1tsDM2h9+4gmdUtWChQv0OdgTAhlz224q?=
- =?us-ascii?Q?Akg8SymN0Tj4bfGQRCZNHiSYvtlOk0mzrhVJ9gfdX0NswsNqQqgPoflh9E5k?=
- =?us-ascii?Q?BtFDX8W5Tq+c5ekb1g7Xw/SMISXrgqVISRuHSK6oKgFRBD0Ja28NsXsTkwXL?=
- =?us-ascii?Q?a3xYmVhxEpJJBWkEX8Uah8IYhrTqH3H3+t7aAJIKgkwQuHO7a6asG8RXuLDM?=
- =?us-ascii?Q?6UN/fAsbMzU+M4f5kPKarHJN+K3VSDOqLVW+aBReHegxQ6o8TwpBOvCA6nVe?=
- =?us-ascii?Q?jUOFet91YoqBeE0MRtxvKvx6olcH7iUNdsxNyXdkrWcTxG2hduqjW0sHLu6+?=
- =?us-ascii?Q?hDsgXDefZromdX2NbH5t1kuCh21m3hjoWP0mQZQH+KydO2a9DU6dAHdfbmmu?=
- =?us-ascii?Q?exNPfiB+wb1BCHMm2bMqwDzB7HDFilIal/WX6PmP9/LoOuS+GGzejAbQBck/?=
- =?us-ascii?Q?/5mlgpf2jxSgK3ouJPBHrT+xDWnol8nXKeiNRm4di00p8nwhAe5Zrdc/eWiR?=
- =?us-ascii?Q?DYRw5e/7P6W8P9jaXiGgnaj+dZRL6/jUraM1FHJhtD1gua3ITk8Mc+FdHJaR?=
- =?us-ascii?Q?aGUSSeQ+efYLfBXbFr3DKOxfDGm44XID7POORNLRMPEdMnyZoSj9KBcEkZ+v?=
- =?us-ascii?Q?CJdIt3ErXdrN4fWha3IBxK5+g08dx2fqm2ZbMrR7+T18V2xmecIhX3morMcF?=
- =?us-ascii?Q?1nlY6DsDNFTer9k43bRzWnKdK+zTY01ZAncgE8I96M8kKKK85LKz28dIcVQW?=
- =?us-ascii?Q?MP5aU5MNVsrXO7sbWSptS2y9aWCOUUzZOBnxseJAS6j8HdSIKFg5XbKt1Ne0?=
- =?us-ascii?Q?AX8PFFFV/ls4Q3ztpUnGSfkfZyUeRP+y3ALfgQmE9hmU+feARhBzS60LD/Bn?=
- =?us-ascii?Q?jQ=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7d3e09c7-96a4-4915-3e7a-08dcd9265c05
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Sep 2024 03:43:15.7056 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Z8RP9IgZD2MQP23dhhXriLMO5jkAGqLk3JbgZZAu3rbFZFJKzfXPgN2E1JfxMt80+/r4xitlBucjG1sg83VtNe2I8ytJ/qXPI4mNZY/4IZ0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5118
-X-OriginatorOrg: intel.com
+References: <20240919025551.254-1-Hermes.Wu@ite.com.tw>
+In-Reply-To: <20240919025551.254-1-Hermes.Wu@ite.com.tw>
+From: Pin-yen Lin <treapking@chromium.org>
+Date: Fri, 20 Sep 2024 13:27:54 +0800
+Message-ID: <CAEXTbpc7N2v4LwoZ4wpHXi7ogyqGwYC3Gpt5sqfxtOpYrngPLg@mail.gmail.com>
+Subject: Re: [PATCH v1] drm/bridge: it6505: HDCP CTS fail on repeater items
+To: Hermes.Wu@ite.com.tw
+Cc: Andrzej Hajda <a.hajda@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, 
+ Robert Foss <robert.foss@linaro.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>, 
+ open list <linux-kernel@vger.kernel.org>,
+ Kenneth hung <kenneth.hung@ite.com.tw>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -184,78 +85,415 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 19, 2024 at 09:27:52AM GMT, Stephen Rothwell wrote:
->Hi all,
+On Thu, Sep 19, 2024 at 10:58=E2=80=AFAM <Hermes.Wu@ite.com.tw> wrote:
 >
->On Mon, 9 Sep 2024 19:59:39 +1000 Stephen Rothwell <sfr@canb.auug.org.au> wrote:
->>
->> After merging the kspp tree, today's linux-next build (x86_64
->> allmodconfig) failed like this:
->>
->> drivers/gpu/drm/xe/xe_gt_idle.c:56:27: error: redefinition of 'str_up_down'
->>    56 | static inline const char *str_up_down(bool v)
->>       |                           ^~~~~~~~~~~
->> In file included from include/linux/string_helpers.h:7,
->>                  from drivers/gpu/drm/xe/xe_assert.h:9,
->>                  from drivers/gpu/drm/xe/xe_force_wake.h:9,
->>                  from drivers/gpu/drm/xe/xe_gt_idle.c:8:
->> include/linux/string_choices.h:62:27: note: previous definition of 'str_up_down' with type 'const char *(bool)' {aka 'const char *(_Bool)'}
->>    62 | static inline const char *str_up_down(bool v)
->>       |                           ^~~~~~~~~~~
->>
->> Caused by commit
->>
->>   a98ae7f045b2 ("lib/string_choices: Add str_up_down() helper")
->>
->> interacting with commit
->>
->>   0914c1e45d3a ("drm/xe/xe_gt_idle: add debugfs entry for powergating info")
->>
->> from the drm-xe tree.
->>
->> I have applied the following patch for today.
->>
->> From: Stephen Rothwell <sfr@canb.auug.org.au>
->> Date: Mon, 9 Sep 2024 19:40:17 +1000
->> Subject: [PATCH] fix up for "lib/string_choices: Add str_up_down() helper"
->>
->> interacting wit commit "drm/xe/xe_gt_idle: add debugfs entry for
->> powergating info" from the drm-xe tree.
->>
->> Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
->> ---
->>  drivers/gpu/drm/xe/xe_gt_idle.c | 5 -----
->>  1 file changed, 5 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/xe/xe_gt_idle.c b/drivers/gpu/drm/xe/xe_gt_idle.c
->> index 85a35ed153a3..0f98c1539c64 100644
->> --- a/drivers/gpu/drm/xe/xe_gt_idle.c
->> +++ b/drivers/gpu/drm/xe/xe_gt_idle.c
->> @@ -53,11 +53,6 @@ pc_to_xe(struct xe_guc_pc *pc)
->>  	return gt_to_xe(gt);
->>  }
->>
->> -static inline const char *str_up_down(bool v)
->> -{
->> -	return v ? "up" : "down";
->> -}
->> -
->>  static const char *gt_idle_state_to_string(enum xe_gt_idle_state state)
->>  {
->>  	switch (state) {
->> --
->> 2.45.2
+> From: Hermes Wu <Hermes.Wu@ite.com.tw>
 >
->This is now needed in the merge between Linus' tree and the drm-xe tree.
-
-Thanks. This not going to 6.12. It's targeted to 6.13, so we should fix
-it when merging drm-next back to drm-xe-next.
-
-Lucas De Marchi
-
+> Fix HDCP CTS items on UNIGRAF DPR-100.
 >
->-- 
->Cheers,
->Stephen Rothwell
+> Signed-off-by: Hermes Wu <Hermes.Wu@ite.com.tw>
 
-
+Reviewed-by: Pin-yen Lin <treapking@chromium.org>
+> ---
+>  drivers/gpu/drm/bridge/ite-it6505.c | 152 ++++++++++++++++++----------
+>  1 file changed, 101 insertions(+), 51 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge=
+/ite-it6505.c
+> index 7a4608844de3..cef02c8c363e 100644
+> --- a/drivers/gpu/drm/bridge/ite-it6505.c
+> +++ b/drivers/gpu/drm/bridge/ite-it6505.c
+> @@ -298,11 +298,11 @@
+>  #define MAX_LANE_COUNT 4
+>  #define MAX_LINK_RATE HBR
+>  #define AUTO_TRAIN_RETRY 3
+> -#define MAX_HDCP_DOWN_STREAM_COUNT 10
+> +#define MAX_HDCP_DOWN_STREAM_COUNT 127
+>  #define MAX_CR_LEVEL 0x03
+>  #define MAX_EQ_LEVEL 0x03
+>  #define AUX_WAIT_TIMEOUT_MS 15
+> -#define AUX_FIFO_MAX_SIZE 32
+> +#define AUX_FIFO_MAX_SIZE 16
+>  #define PIXEL_CLK_DELAY 1
+>  #define PIXEL_CLK_INVERSE 0
+>  #define ADJUST_PHASE_THRESHOLD 80000
+> @@ -326,6 +326,9 @@ enum aux_cmd_type {
+>         CMD_AUX_NATIVE_READ =3D 0x0,
+>         CMD_AUX_NATIVE_WRITE =3D 0x5,
+>         CMD_AUX_I2C_EDID_READ =3D 0xB,
+> +
+> +       /*extend read ncommand */
+> +       CMD_AUX_GET_KSV_LIST =3D 0x10,
+>  };
+>
+>  enum aux_cmd_reply {
+> @@ -973,7 +976,7 @@ static ssize_t it6505_aux_operation(struct it6505 *it=
+6505,
+>         it6505_set_bits(it6505, REG_AUX_CTRL, AUX_USER_MODE, AUX_USER_MOD=
+E);
+>
+>  aux_op_start:
+> -       if (cmd =3D=3D CMD_AUX_I2C_EDID_READ) {
+> +       if (cmd =3D=3D CMD_AUX_I2C_EDID_READ || cmd =3D=3D CMD_AUX_GET_KS=
+V_LIST) {
+>                 /* AUX EDID FIFO has max length of AUX_FIFO_MAX_SIZE byte=
+s. */
+>                 size =3D min_t(size_t, size, AUX_FIFO_MAX_SIZE);
+>                 /* Enable AUX FIFO read back and clear FIFO */
+> @@ -1004,7 +1007,7 @@ static ssize_t it6505_aux_operation(struct it6505 *=
+it6505,
+>                                   size);
+>
+>         /* Aux Fire */
+> -       it6505_write(it6505, REG_AUX_CMD_REQ, cmd);
+> +       it6505_write(it6505, REG_AUX_CMD_REQ, (cmd & 0x0F));
+>
+>         ret =3D it6505_aux_wait(it6505);
+>         if (ret < 0)
+> @@ -1038,7 +1041,7 @@ static ssize_t it6505_aux_operation(struct it6505 *=
+it6505,
+>                 goto aux_op_start;
+>         }
+>
+> -       if (cmd =3D=3D CMD_AUX_I2C_EDID_READ) {
+> +       if (cmd =3D=3D CMD_AUX_I2C_EDID_READ || cmd =3D=3D CMD_AUX_GET_KS=
+V_LIST) {
+>                 for (i =3D 0; i < size; i++) {
+>                         ret =3D it6505_read(it6505, REG_AUX_DATA_FIFO);
+>                         if (ret < 0)
+> @@ -1063,7 +1066,7 @@ static ssize_t it6505_aux_operation(struct it6505 *=
+it6505,
+>         ret =3D i;
+>
+>  aux_op_err:
+> -       if (cmd =3D=3D CMD_AUX_I2C_EDID_READ) {
+> +       if (cmd =3D=3D CMD_AUX_I2C_EDID_READ || cmd =3D=3D CMD_AUX_GET_KS=
+V_LIST) {
+>                 /* clear AUX FIFO */
+>                 it6505_set_bits(it6505, REG_AUX_CTRL,
+>                                 AUX_EN_FIFO_READ | CLR_EDID_FIFO,
+> @@ -1084,18 +1087,25 @@ static ssize_t it6505_aux_do_transfer(struct it65=
+05 *it6505,
+>                                       size_t size, enum aux_cmd_reply *re=
+ply)
+>  {
+>         int i, ret_size, ret =3D 0, request_size;
+> +       struct device *dev =3D &it6505->client->dev;
+>
+>         mutex_lock(&it6505->aux_lock);
+> -       for (i =3D 0; i < size; i +=3D 4) {
+> -               request_size =3D min((int)size - i, 4);
+> +       for (i =3D 0; i < size; ) {
+> +               if (cmd =3D=3D CMD_AUX_I2C_EDID_READ || cmd =3D=3D CMD_AU=
+X_GET_KSV_LIST)
+> +                       request_size =3D min((int)size - i, AUX_FIFO_MAX_=
+SIZE);
+> +               else
+> +                       request_size =3D min((int)size - i, 4);
+> +
+>                 ret_size =3D it6505_aux_operation(it6505, cmd, address + =
+i,
+>                                                 buffer + i, request_size,
+>                                                 reply);
+> +
+>                 if (ret_size < 0) {
+>                         ret =3D ret_size;
+>                         goto aux_op_err;
+>                 }
+>
+> +               i +=3D request_size;
+>                 ret +=3D ret_size;
+>         }
+>
+> @@ -1186,6 +1196,35 @@ static int it6505_get_edid_block(void *data, u8 *b=
+uf, unsigned int block,
+>         return 0;
+>  }
+>
+> +static int it6505_get_ksvlist(struct it6505 *it6505, u8 *buf, size_t len=
+)
+> +{
+> +       int i, request_size, ret;
+> +       struct device *dev =3D &it6505->client->dev;
+> +       enum aux_cmd_reply reply;
+> +
+> +       for (i =3D 0; i < len; ) {
+> +               request_size =3D min((int)len - i, 15);
+> +
+> +               ret =3D it6505_aux_do_transfer(it6505, CMD_AUX_GET_KSV_LI=
+ST,
+> +                                            DP_AUX_HDCP_KSV_FIFO,
+> +                                            buf + i, request_size, &repl=
+y);
+> +
+> +               DRM_DEV_DEBUG_DRIVER(dev, "request_size =3D %d, ret =3D%d=
+", request_size, ret);
+> +               if (ret < 0)
+> +                       return ret;
+> +
+> +               i +=3D request_size;
+> +       }
+> +
+> +       DRM_DEV_DEBUG_DRIVER(dev, "ksv read cnt =3D %d down_stream_cnt=3D=
+%d ", i, i/5);
+> +
+> +       for (i =3D 0 ; i < len; i +=3D 5)
+> +               DRM_DEV_DEBUG_DRIVER(dev, "ksv[%d] =3D %02X%02X%02X%02X%0=
+2X",
+> +                               i/5, buf[i], buf[i + 1], buf[i + 2], buf[=
+i + 3], buf[i + 4]);
+> +
+> +       return len;
+> +}
+> +
+>  static void it6505_variable_config(struct it6505 *it6505)
+>  {
+>         it6505->link_rate_bw_code =3D HBR;
+> @@ -1927,6 +1966,7 @@ static void it6505_hdcp_part1_auth(struct it6505 *i=
+t6505)
+>         it6505_set_bits(it6505, REG_HDCP_TRIGGER, HDCP_TRIGGER_START,
+>                         HDCP_TRIGGER_START);
+>
+> +       it6505->is_repeater =3D (hdcp_bcaps & DP_BCAPS_REPEATER_PRESENT);
+>         it6505->hdcp_status =3D HDCP_AUTH_GOING;
+>  }
+>
+> @@ -1963,7 +2003,7 @@ static int it6505_setup_sha1_input(struct it6505 *i=
+t6505, u8 *sha1_input)
+>  {
+>         struct device *dev =3D &it6505->client->dev;
+>         u8 binfo[2];
+> -       int down_stream_count, i, err, msg_count =3D 0;
+> +       int down_stream_count, err, msg_count =3D 0;
+>
+>         err =3D it6505_get_dpcd(it6505, DP_AUX_HDCP_BINFO, binfo,
+>                               ARRAY_SIZE(binfo));
+> @@ -1989,17 +2029,12 @@ static int it6505_setup_sha1_input(struct it6505 =
+*it6505, u8 *sha1_input)
+>                 return 0;
+>         }
+>
+> -       for (i =3D 0; i < down_stream_count; i++) {
+> -               err =3D it6505_get_dpcd(it6505, DP_AUX_HDCP_KSV_FIFO +
+> -                                     (i % 3) * DRM_HDCP_KSV_LEN,
+> -                                     sha1_input + msg_count,
+> -                                     DRM_HDCP_KSV_LEN);
+>
+> -               if (err < 0)
+> -                       return err;
+> +       err =3D  it6505_get_ksvlist(it6505, sha1_input, down_stream_count=
+ * 5);
+> +       if (err < 0)
+> +               return err;
+>
+> -               msg_count +=3D 5;
+> -       }
+> +       msg_count +=3D down_stream_count * 5;
+>
+>         it6505->hdcp_down_stream_count =3D down_stream_count;
+>         sha1_input[msg_count++] =3D binfo[0];
+> @@ -2027,7 +2062,7 @@ static bool it6505_hdcp_part2_ksvlist_check(struct =
+it6505 *it6505)
+>  {
+>         struct device *dev =3D &it6505->client->dev;
+>         u8 av[5][4], bv[5][4];
+> -       int i, err;
+> +       int i, err, retry;
+>
+>         i =3D it6505_setup_sha1_input(it6505, it6505->sha1_input);
+>         if (i <=3D 0) {
+> @@ -2037,21 +2072,28 @@ static bool it6505_hdcp_part2_ksvlist_check(struc=
+t it6505 *it6505)
+>
+>         it6505_sha1_digest(it6505, it6505->sha1_input, i, (u8 *)av);
+>
+> -       err =3D it6505_get_dpcd(it6505, DP_AUX_HDCP_V_PRIME(0), (u8 *)bv,
+> -                             sizeof(bv));
+> +       for (retry =3D 0; retry < 3; retry++) {
+>
+> -       if (err < 0) {
+> -               dev_err(dev, "Read V' value Fail");
+> -               return false;
+> -       }
+> +               err =3D it6505_get_dpcd(it6505, DP_AUX_HDCP_V_PRIME(0), (=
+u8 *)bv,
+> +                                       sizeof(bv));
+>
+> -       for (i =3D 0; i < 5; i++)
+> -               if (bv[i][3] !=3D av[i][0] || bv[i][2] !=3D av[i][1] ||
+> -                   bv[i][1] !=3D av[i][2] || bv[i][0] !=3D av[i][3])
+> -                       return false;
+> +               if (err < 0) {
+> +                       dev_err(dev, "Read V' value Fail %d", retry);
+> +                       continue;
+> +               }
+>
+> -       DRM_DEV_DEBUG_DRIVER(dev, "V' all match!!");
+> -       return true;
+> +               for (i =3D 0; i < 5; i++) {
+> +                       if (bv[i][3] !=3D av[i][0] || bv[i][2] !=3D av[i]=
+[1] ||
+> +                               bv[i][1] !=3D av[i][2] || bv[i][0] !=3D a=
+v[i][3])
+> +                               break;
+> +
+> +                       DRM_DEV_DEBUG_DRIVER(dev, "V' all match!! %d, %d"=
+, retry, i);
+> +                       return true;
+> +               }
+> +       }
+> +
+> +       DRM_DEV_DEBUG_DRIVER(dev, "V' NOT match!! %d", retry);
+> +       return false;
+>  }
+>
+>  static void it6505_hdcp_wait_ksv_list(struct work_struct *work)
+> @@ -2059,7 +2101,7 @@ static void it6505_hdcp_wait_ksv_list(struct work_s=
+truct *work)
+>         struct it6505 *it6505 =3D container_of(work, struct it6505,
+>                                              hdcp_wait_ksv_list);
+>         struct device *dev =3D &it6505->client->dev;
+> -       unsigned int timeout =3D 5000;
+> +       unsigned int timeout =3D 2000;
+>         u8 bstatus =3D 0;
+>         bool ksv_list_check;
+>
+> @@ -2079,21 +2121,18 @@ static void it6505_hdcp_wait_ksv_list(struct work=
+_struct *work)
+>
+>         if (timeout =3D=3D 0) {
+>                 DRM_DEV_DEBUG_DRIVER(dev, "timeout and ksv list wait fail=
+ed");
+> -               goto timeout;
+> +               goto hdcp_ksvlist_fail;
+>         }
+>
+>         ksv_list_check =3D it6505_hdcp_part2_ksvlist_check(it6505);
+>         DRM_DEV_DEBUG_DRIVER(dev, "ksv list ready, ksv list check %s",
+> -                            ksv_list_check ? "pass" : "fail");
+> -       if (ksv_list_check) {
+> -               it6505_set_bits(it6505, REG_HDCP_TRIGGER,
+> -                               HDCP_TRIGGER_KSV_DONE, HDCP_TRIGGER_KSV_D=
+ONE);
+> +                               ksv_list_check ? "pass" : "fail");
+> +
+> +       if (ksv_list_check)
+>                 return;
+> -       }
+> -timeout:
+> -       it6505_set_bits(it6505, REG_HDCP_TRIGGER,
+> -                       HDCP_TRIGGER_KSV_DONE | HDCP_TRIGGER_KSV_FAIL,
+> -                       HDCP_TRIGGER_KSV_DONE | HDCP_TRIGGER_KSV_FAIL);
+> +
+> +hdcp_ksvlist_fail:
+> +       it6505_start_hdcp(it6505);
+>  }
+>
+>  static void it6505_hdcp_work(struct work_struct *work)
+> @@ -2139,7 +2178,7 @@ static void it6505_hdcp_work(struct work_struct *wo=
+rk)
+>         it6505_hdcp_part1_auth(it6505);
+>  }
+>
+> -static void it6505_show_hdcp_info(struct it6505 *it6505)
+> +static void it6505_show_hdcp_info(struct it6505 *it6505, bool repeater_i=
+nfo)
+>  {
+>         struct device *dev =3D &it6505->client->dev;
+>         int i;
+> @@ -2150,7 +2189,7 @@ static void it6505_show_hdcp_info(struct it6505 *it=
+6505)
+>         DRM_DEV_DEBUG_DRIVER(dev, "bksv =3D 0x%*ph",
+>                              (int)ARRAY_SIZE(it6505->bksvs), it6505->bksv=
+s);
+>
+> -       if (it6505->is_repeater) {
+> +       if ((repeater_info) && (it6505->is_repeater)) {
+>                 DRM_DEV_DEBUG_DRIVER(dev, "hdcp_down_stream_count: %d",
+>                                      it6505->hdcp_down_stream_count);
+>                 DRM_DEV_DEBUG_DRIVER(dev, "sha1_input: 0x%*ph",
+> @@ -2251,12 +2290,11 @@ static void it6505_link_training_work(struct work=
+_struct *work)
+>         if (ret) {
+>                 it6505->auto_train_retry =3D AUTO_TRAIN_RETRY;
+>                 it6505_link_train_ok(it6505);
+> -               return;
+>         } else {
+>                 it6505->auto_train_retry--;
+> +               it6505_dump(it6505);
+>         }
+>
+> -       it6505_dump(it6505);
+>  }
+>
+>  static void it6505_plugged_status_to_codec(struct it6505 *it6505)
+> @@ -2311,14 +2349,22 @@ static int it6505_process_hpd_irq(struct it6505 *=
+it6505)
+>         DRM_DEV_DEBUG_DRIVER(dev, "dp_irq_vector =3D 0x%02x", dp_irq_vect=
+or);
+>
+>         if (dp_irq_vector & DP_CP_IRQ) {
+> -               it6505_set_bits(it6505, REG_HDCP_TRIGGER, HDCP_TRIGGER_CP=
+IRQ,
+> -                               HDCP_TRIGGER_CPIRQ);
+>
+>                 bstatus =3D it6505_dpcd_read(it6505, DP_AUX_HDCP_BSTATUS)=
+;
+>                 if (bstatus < 0)
+>                         return bstatus;
+>
+>                 DRM_DEV_DEBUG_DRIVER(dev, "Bstatus =3D 0x%02x", bstatus);
+> +
+> +               /*1B-02 ignore when bstatus is 0 */
+> +               if ((bstatus & DP_BSTATUS_R0_PRIME_READY) &&
+> +                               (it6505->hdcp_status =3D=3D HDCP_AUTH_GOI=
+NG))
+> +                       it6505_set_bits(it6505, REG_HDCP_TRIGGER, HDCP_TR=
+IGGER_CPIRQ,
+> +                                       HDCP_TRIGGER_CPIRQ);
+> +               else if ((bstatus & (DP_BSTATUS_REAUTH_REQ | DP_BSTATUS_L=
+INK_FAILURE)) &&
+> +                               (it6505->hdcp_status =3D=3D HDCP_AUTH_DON=
+E))
+> +                       it6505_start_hdcp(it6505);
+> +
+>         }
+>
+>         ret =3D drm_dp_dpcd_read_link_status(&it6505->aux, link_status);
+> @@ -2431,7 +2477,7 @@ static void it6505_irq_hdcp_done(struct it6505 *it6=
+505)
+>
+>         DRM_DEV_DEBUG_DRIVER(dev, "hdcp done interrupt");
+>         it6505->hdcp_status =3D HDCP_AUTH_DONE;
+> -       it6505_show_hdcp_info(it6505);
+> +       it6505_show_hdcp_info(it6505, false);
+>  }
+>
+>  static void it6505_irq_hdcp_fail(struct it6505 *it6505)
+> @@ -2440,7 +2486,7 @@ static void it6505_irq_hdcp_fail(struct it6505 *it6=
+505)
+>
+>         DRM_DEV_DEBUG_DRIVER(dev, "hdcp fail interrupt");
+>         it6505->hdcp_status =3D HDCP_AUTH_IDLE;
+> -       it6505_show_hdcp_info(it6505);
+> +       it6505_show_hdcp_info(it6505, true);
+>         it6505_start_hdcp(it6505);
+>  }
+>
+> @@ -2455,7 +2501,11 @@ static void it6505_irq_hdcp_ksv_check(struct it650=
+5 *it6505)
+>  {
+>         struct device *dev =3D &it6505->client->dev;
+>
+> -       DRM_DEV_DEBUG_DRIVER(dev, "HDCP event Interrupt");
+> +       DRM_DEV_DEBUG_DRIVER(dev, "HDCP repeater R0 event Interrupt");
+> +
+> +       it6505_set_bits(it6505, REG_HDCP_TRIGGER,
+> +                       HDCP_TRIGGER_KSV_DONE, HDCP_TRIGGER_KSV_DONE);
+> +
+>         schedule_work(&it6505->hdcp_wait_ksv_list);
+>  }
+>
+> --
+> 2.34.1
+>
