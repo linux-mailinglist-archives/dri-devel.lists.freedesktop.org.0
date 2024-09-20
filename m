@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03EDC97D2E9
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 10:40:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF22E97D2E8
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Sep 2024 10:40:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4EAD10E7E6;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 970D110E7E4;
 	Fri, 20 Sep 2024 08:40:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ite.com.tw header.i=@ite.com.tw header.b="mxGh6bdd";
+	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ite.com.tw header.i=@ite.com.tw header.b="lCdjeSIG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ironport.ite.com.tw (60-251-196-230.hinet-ip.hinet.net
  [60.251.196.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E05AB10E7E3
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2024 08:25:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D19210E7E2
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Sep 2024 08:25:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ite.com.tw; s=dkim;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=bdZHu3fJZOTkEdz/Z/q678RDF08HxD3urzMMTex6bzs=;
- b=mxGh6bddRWrpeIfdPucd/mrf6kLf4nnQ1U+ruZYQMMFoo6SEnBLg6jpZ
- wSI6HMt/7Jbz6xMIpF9jy0khtfGqCx3f/68QLu981H/VIc8norXebojNM
- DLGtiLOhvy5OEYeg4kc3hAtfGvEU8yzqngREQwcrg346TT3W58d93lv8e
- MGiIEyAUCOantIfGxHa6c1thOKOSmuP4Hv6Tt8g4f4aYERP8cZy0WJeDV
- 2AoGoqxqPGOg61HuiQ7NVcIgNfhYHqaptTG0J4Dha88Z5aYIkDiXFFGah
- lE7wGFP3MTMq4EZMDVUZHxUKgV7/eLaP0fbxhvyF0+eSMoJJ+h/C7ErdL g==;
-X-CSE-ConnectionGUID: Zi4bjZ7BQv2JeOrpXR46aA==
-X-CSE-MsgGUID: NkXj8ooeSeO6l47fHX6cQQ==
+ bh=9z9UGdgk9MPxd1ynPoki1CPpX1B3DsdgFQ83VM+CmXk=;
+ b=lCdjeSIGoJN1tPWv3PMdzg+6UcuD+XtNYoQxjBaoAKmljR6Mfm6Gfs0j
+ 4FwAKpzv4xcLt2qmS/1cVKgpwV5zPpaIGDeDpv2RXUjZEnuSABJnkKQ0l
+ cSwpTl9a/8vsxEKbhqkYW3Tfr3FQ/gGghpP+QyZ6er3eidoy+S4dFl3LG
+ 065KiMZe+4qwkdykf8oFMVpFVlKh9jApFAd7WOWDv6pw0wekO6rvPMmiU
+ Xq/nAjzCUJRqk6urEDUUGdA2BNklq+r9OMWqHf3CofuYs12QE1yG1E5wu
+ LdCpuBj7ayuTNIrb5b03H4keayjSeNIvMv2hG0DRrgy9wvYg1TWDtRo/X Q==;
+X-CSE-ConnectionGUID: LcuEqNKkReGHpFOh6zpF8Q==
+X-CSE-MsgGUID: uCr+x7XfSJqIsspO+mJfFQ==
 Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
  by ironport.ite.com.tw with ESMTP; 20 Sep 2024 16:25:08 +0800
 Received: from tpemail1.internal.ite.com.tw (TPEMAIL1.internal.ite.com.tw
- [192.168.15.58]) by mse.ite.com.tw with ESMTP id 48K8P38W024271;
+ [192.168.15.58]) by mse.ite.com.tw with ESMTP id 48K8P3ib024272;
  Fri, 20 Sep 2024 16:25:03 +0800 (GMT-8)
  (envelope-from Hermes.Wu@ite.com.tw)
 Received: from LAPTOP-C4GM1L3U.localdomain (192.168.82.6) by
  TPEMAIL1.internal.ite.com.tw (192.168.15.58) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Fri, 20 Sep 2024 16:25:03 +0800
+ 15.1.2507.39; Fri, 20 Sep 2024 16:25:04 +0800
 From: Hermes Wu <Hermes.Wu@ite.com.tw>
 To: Pin-yen Lin <treapking@chromium.org>, Andrzej Hajda <a.hajda@samsung.com>, 
  Neil Armstrong <narmstrong@baylibre.com>, Robert Foss
@@ -47,11 +47,10 @@ To: Pin-yen Lin <treapking@chromium.org>, Andrzej Hajda <a.hajda@samsung.com>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
  open list <linux-kernel@vger.kernel.org>
-CC: Kenneth Hung <Kenneth.hung@ite.com.tw>, allen chen
- <allen.chen@ite.corp-partner.google.com>, Hermes Wu <Hermes.Wu@ite.com.tw>
-Subject: [PATCH v1 1/2] drm/bridge:  it6505: HDCP CTS fail on repeater items
-Date: Fri, 20 Sep 2024 16:24:46 +0800
-Message-ID: <20240920082451.9240-2-Hermes.Wu@ite.com.tw>
+CC: Kenneth Hung <Kenneth.hung@ite.com.tw>, "Hermes.Wu" <Hermes.wu@ite.com.tw>
+Subject: [PATCH v1 2/2] drm/bridge: it6505:  Add MSSC suport
+Date: Fri, 20 Sep 2024 16:24:47 +0800
+Message-ID: <20240920082451.9240-3-Hermes.Wu@ite.com.tw>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240920082451.9240-1-Hermes.Wu@ite.com.tw>
 References: <20240920082451.9240-1-Hermes.Wu@ite.com.tw>
@@ -61,8 +60,8 @@ Content-Type: text/plain
 X-Originating-IP: [192.168.82.6]
 X-ClientProxiedBy: TPEMAIL1.internal.ite.com.tw (192.168.15.58) To
  TPEMAIL1.internal.ite.com.tw (192.168.15.58)
-X-TM-SNTS-SMTP: 6A1D97EBAE6E06EA4FEE044141B53E20E90583D7A00CA3BA8C2A80893D2E5F5D2002:8
-X-MAIL: mse.ite.com.tw 48K8P38W024271
+X-TM-SNTS-SMTP: 388D328793418E230CC7EE2FD6ECDCBA220317C431FE6CACFE729420A1BDB04D2002:8
+X-MAIL: mse.ite.com.tw 48K8P3ib024272
 X-Mailman-Approved-At: Fri, 20 Sep 2024 08:40:41 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,361 +78,328 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: allen chen <allen.chen@ite.corp-partner.google.com>
+From: "Hermes.Wu" <Hermes.wu@ite.com.tw>
 
-Fix HDCP CTS items on UNIGRAF DPR-100.
+add AUX-I2C functionality to support MCCS. 
 
-Change-Id: I03f0758779f73164c8ae2fdf61e41dc693e27605
-
-Change-Id: Ib7a8fabaeccd56d3bd7c8adc7384a363b0f7b88d
-Signed-off-by: Hermes Wu <Hermes.Wu@ite.com.tw>
+Change-Id: I63e1a0e5da67526f89f35605a82944be67dee8ac
+Signed-off-by: Hermes Wu <Hermes.wu@ite.com.tw>
 ---
- drivers/gpu/drm/bridge/ite-it6505.c | 152 ++++++++++++++++++----------
- 1 file changed, 101 insertions(+), 51 deletions(-)
+ drivers/gpu/drm/bridge/ite-it6505.c | 209 ++++++++++++++++++++++++++--
+ 1 file changed, 200 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-index 7a4608844de3..cef02c8c363e 100644
+index cef02c8c363e..1a272c67e82b 100644
 --- a/drivers/gpu/drm/bridge/ite-it6505.c
 +++ b/drivers/gpu/drm/bridge/ite-it6505.c
-@@ -298,11 +298,11 @@
- #define MAX_LANE_COUNT 4
- #define MAX_LINK_RATE HBR
- #define AUTO_TRAIN_RETRY 3
--#define MAX_HDCP_DOWN_STREAM_COUNT 10
-+#define MAX_HDCP_DOWN_STREAM_COUNT 127
- #define MAX_CR_LEVEL 0x03
+@@ -127,6 +127,9 @@
+ #define REG_AUX_ADR_16_19 0x26
+ #define REG_AUX_OUT_DATA0 0x27
+ 
++#define REG_AUX_I2C_ADR 0x25
++#define REG_AUX_I2C_OP 0x26
++
+ #define REG_AUX_CMD_REQ 0x2B
+ #define AUX_BUSY BIT(5)
+ 
+@@ -268,6 +271,19 @@
+ #define REG_SSC_CTRL1 0x189
+ #define REG_SSC_CTRL2 0x18A
+ 
++#define REG_AUX_USER_CTRL 0x190
++#define EN_USER_AUX BIT(0)
++#define USER_AUX_DONE BIT(1)
++#define AUX_EVENT BIT(4)
++
++#define REG_AUX_USER_DATA_REC 0x191
++#define M_AUX_IN_REC   0xF0
++#define M_AUX_OUT_REC  0x0F
++
++#define REG_AUX_USER_TXB 0x190
++#define REG_AUX_USER_REPLY 0x19A
++#define REG_AUX_USER_RXB(n) (n + 0x19B)
++
+ #define RBR DP_LINK_BW_1_62
+ #define HBR DP_LINK_BW_2_7
+ #define HBR2 DP_LINK_BW_5_4
+@@ -303,6 +319,8 @@
  #define MAX_EQ_LEVEL 0x03
  #define AUX_WAIT_TIMEOUT_MS 15
--#define AUX_FIFO_MAX_SIZE 32
-+#define AUX_FIFO_MAX_SIZE 16
+ #define AUX_FIFO_MAX_SIZE 16
++#define AUX_I2C_MAX_SIZE 4
++#define AUX_I2C_DEFER_RETRY 4
  #define PIXEL_CLK_DELAY 1
  #define PIXEL_CLK_INVERSE 0
  #define ADJUST_PHASE_THRESHOLD 80000
-@@ -326,6 +326,9 @@ enum aux_cmd_type {
+@@ -325,7 +343,12 @@
+ enum aux_cmd_type {
  	CMD_AUX_NATIVE_READ = 0x0,
  	CMD_AUX_NATIVE_WRITE = 0x5,
++	CMD_AUX_GI2C_ADR = 0x08,
++	CMD_AUX_GI2C_READ = 0x09,
++	CMD_AUX_GI2C_WRITE = 0x0A,
  	CMD_AUX_I2C_EDID_READ = 0xB,
-+
-+	/*extend read ncommand */
-+	CMD_AUX_GET_KSV_LIST = 0x10,
- };
++	CMD_AUX_I2C_READ = 0x0D,
++	CMD_AUX_I2C_WRITE = 0x0C,
+ 
+ 	/*extend read ncommand */
+ 	CMD_AUX_GET_KSV_LIST = 0x10,
+@@ -333,8 +356,11 @@ enum aux_cmd_type {
  
  enum aux_cmd_reply {
-@@ -973,7 +976,7 @@ static ssize_t it6505_aux_operation(struct it6505 *it6505,
- 	it6505_set_bits(it6505, REG_AUX_CTRL, AUX_USER_MODE, AUX_USER_MODE);
+ 	REPLY_ACK,
+-	REPLY_NACK,
+-	REPLY_DEFER,
++	REPLY_NACK = 1,
++	REPLY_DEFER = 2,
++
++	REPLY_I2C_NACK = 4,
++	REPLY_I2C_DEFER = 8,
+ };
  
- aux_op_start:
--	if (cmd == CMD_AUX_I2C_EDID_READ) {
-+	if (cmd == CMD_AUX_I2C_EDID_READ || cmd == CMD_AUX_GET_KSV_LIST) {
- 		/* AUX EDID FIFO has max length of AUX_FIFO_MAX_SIZE bytes. */
- 		size = min_t(size_t, size, AUX_FIFO_MAX_SIZE);
- 		/* Enable AUX FIFO read back and clear FIFO */
-@@ -1004,7 +1007,7 @@ static ssize_t it6505_aux_operation(struct it6505 *it6505,
- 				  size);
- 
- 	/* Aux Fire */
--	it6505_write(it6505, REG_AUX_CMD_REQ, cmd);
-+	it6505_write(it6505, REG_AUX_CMD_REQ, (cmd & 0x0F));
- 
- 	ret = it6505_aux_wait(it6505);
- 	if (ret < 0)
-@@ -1038,7 +1041,7 @@ static ssize_t it6505_aux_operation(struct it6505 *it6505,
- 		goto aux_op_start;
- 	}
- 
--	if (cmd == CMD_AUX_I2C_EDID_READ) {
-+	if (cmd == CMD_AUX_I2C_EDID_READ || cmd == CMD_AUX_GET_KSV_LIST) {
- 		for (i = 0; i < size; i++) {
- 			ret = it6505_read(it6505, REG_AUX_DATA_FIFO);
- 			if (ret < 0)
-@@ -1063,7 +1066,7 @@ static ssize_t it6505_aux_operation(struct it6505 *it6505,
- 	ret = i;
- 
- aux_op_err:
--	if (cmd == CMD_AUX_I2C_EDID_READ) {
-+	if (cmd == CMD_AUX_I2C_EDID_READ || cmd == CMD_AUX_GET_KSV_LIST) {
- 		/* clear AUX FIFO */
- 		it6505_set_bits(it6505, REG_AUX_CTRL,
- 				AUX_EN_FIFO_READ | CLR_EDID_FIFO,
-@@ -1084,18 +1087,25 @@ static ssize_t it6505_aux_do_transfer(struct it6505 *it6505,
+ enum link_train_status {
+@@ -1087,7 +1113,6 @@ static ssize_t it6505_aux_do_transfer(struct it6505 *it6505,
  				      size_t size, enum aux_cmd_reply *reply)
  {
  	int i, ret_size, ret = 0, request_size;
-+	struct device *dev = &it6505->client->dev;
+-	struct device *dev = &it6505->client->dev;
  
  	mutex_lock(&it6505->aux_lock);
--	for (i = 0; i < size; i += 4) {
--		request_size = min((int)size - i, 4);
-+	for (i = 0; i < size; ) {
-+		if (cmd == CMD_AUX_I2C_EDID_READ || cmd == CMD_AUX_GET_KSV_LIST)
-+			request_size = min((int)size - i, AUX_FIFO_MAX_SIZE);
-+		else
-+			request_size = min((int)size - i, 4);
-+
- 		ret_size = it6505_aux_operation(it6505, cmd, address + i,
- 						buffer + i, request_size,
- 						reply);
-+
- 		if (ret_size < 0) {
- 			ret = ret_size;
- 			goto aux_op_err;
- 		}
- 
-+		i += request_size;
- 		ret += ret_size;
- 	}
- 
-@@ -1186,6 +1196,35 @@ static int it6505_get_edid_block(void *data, u8 *buf, unsigned int block,
- 	return 0;
+ 	for (i = 0; i < size; ) {
+@@ -1114,6 +1139,168 @@ static ssize_t it6505_aux_do_transfer(struct it6505 *it6505,
+ 	return ret;
  }
  
-+static int it6505_get_ksvlist(struct it6505 *it6505, u8 *buf, size_t len)
++
++static int it6505_aux_i2c_wait(struct it6505 *it6505, u8 *reply)
 +{
-+	int i, request_size, ret;
++	int err = 0;
++	unsigned long timeout;
 +	struct device *dev = &it6505->client->dev;
-+	enum aux_cmd_reply reply;
 +
-+	for (i = 0; i < len; ) {
-+		request_size = min((int)len - i, 15);
++	timeout = jiffies + msecs_to_jiffies(AUX_WAIT_TIMEOUT_MS) + 1;
 +
-+		ret = it6505_aux_do_transfer(it6505, CMD_AUX_GET_KSV_LIST,
-+					     DP_AUX_HDCP_KSV_FIFO,
-+					     buf + i, request_size, &reply);
++	do {
++		if (it6505_read(it6505, REG_AUX_USER_CTRL) & AUX_EVENT)
++			break;
++		if (time_after(jiffies, timeout)) {
++			dev_err(dev, "Timed out waiting AUX I2C, BUSY = %X\n",
++					it6505_aux_op_finished(it6505));
++			err = -ETIMEDOUT;
++			goto end_aux_i2c_wait;
++		}
++		usleep_range(300, 800);
 +
-+		DRM_DEV_DEBUG_DRIVER(dev, "request_size = %d, ret =%d", request_size, ret);
-+		if (ret < 0)
-+			return ret;
++	} while (!it6505_aux_op_finished(it6505));
 +
-+		i += request_size;
-+	}
++	if (reply == NULL)
++		goto end_aux_i2c_wait;
 +
-+	DRM_DEV_DEBUG_DRIVER(dev, "ksv read cnt = %d down_stream_cnt=%d ", i, i/5);
++	*reply = it6505_read(it6505, REG_AUX_USER_REPLY) >> 4;
 +
-+	for (i = 0 ; i < len; i += 5)
-+		DRM_DEV_DEBUG_DRIVER(dev, "ksv[%d] = %02X%02X%02X%02X%02X",
-+				i/5, buf[i], buf[i + 1], buf[i + 2], buf[i + 3], buf[i + 4]);
++	if (*reply == 0)
++		goto end_aux_i2c_wait;
 +
-+	return len;
++	if ((*reply == DP_AUX_NATIVE_REPLY_DEFER) ||
++			(*reply == DP_AUX_I2C_REPLY_DEFER))
++		err = -EBUSY;
++	else if ((*reply == DP_AUX_NATIVE_REPLY_NACK) ||
++			(*reply == DP_AUX_I2C_REPLY_NACK))
++		err = -ENXIO;
++
++end_aux_i2c_wait:
++	it6505_set_bits(it6505, REG_AUX_USER_CTRL, USER_AUX_DONE, USER_AUX_DONE);
++	return err;
 +}
 +
- static void it6505_variable_config(struct it6505 *it6505)
- {
- 	it6505->link_rate_bw_code = HBR;
-@@ -1927,6 +1966,7 @@ static void it6505_hdcp_part1_auth(struct it6505 *it6505)
- 	it6505_set_bits(it6505, REG_HDCP_TRIGGER, HDCP_TRIGGER_START,
- 			HDCP_TRIGGER_START);
- 
-+	it6505->is_repeater = (hdcp_bcaps & DP_BCAPS_REPEATER_PRESENT);
- 	it6505->hdcp_status = HDCP_AUTH_GOING;
- }
- 
-@@ -1963,7 +2003,7 @@ static int it6505_setup_sha1_input(struct it6505 *it6505, u8 *sha1_input)
- {
- 	struct device *dev = &it6505->client->dev;
- 	u8 binfo[2];
--	int down_stream_count, i, err, msg_count = 0;
-+	int down_stream_count, err, msg_count = 0;
- 
- 	err = it6505_get_dpcd(it6505, DP_AUX_HDCP_BINFO, binfo,
- 			      ARRAY_SIZE(binfo));
-@@ -1989,17 +2029,12 @@ static int it6505_setup_sha1_input(struct it6505 *it6505, u8 *sha1_input)
- 		return 0;
- 	}
- 
--	for (i = 0; i < down_stream_count; i++) {
--		err = it6505_get_dpcd(it6505, DP_AUX_HDCP_KSV_FIFO +
--				      (i % 3) * DRM_HDCP_KSV_LEN,
--				      sha1_input + msg_count,
--				      DRM_HDCP_KSV_LEN);
- 
--		if (err < 0)
--			return err;
-+	err =  it6505_get_ksvlist(it6505, sha1_input, down_stream_count * 5);
-+	if (err < 0)
-+		return err;
- 
--		msg_count += 5;
--	}
-+	msg_count += down_stream_count * 5;
- 
- 	it6505->hdcp_down_stream_count = down_stream_count;
- 	sha1_input[msg_count++] = binfo[0];
-@@ -2027,7 +2062,7 @@ static bool it6505_hdcp_part2_ksvlist_check(struct it6505 *it6505)
- {
- 	struct device *dev = &it6505->client->dev;
- 	u8 av[5][4], bv[5][4];
--	int i, err;
-+	int i, err, retry;
- 
- 	i = it6505_setup_sha1_input(it6505, it6505->sha1_input);
- 	if (i <= 0) {
-@@ -2037,21 +2072,28 @@ static bool it6505_hdcp_part2_ksvlist_check(struct it6505 *it6505)
- 
- 	it6505_sha1_digest(it6505, it6505->sha1_input, i, (u8 *)av);
- 
--	err = it6505_get_dpcd(it6505, DP_AUX_HDCP_V_PRIME(0), (u8 *)bv,
--			      sizeof(bv));
-+	for (retry = 0; retry < 3; retry++) {
- 
--	if (err < 0) {
--		dev_err(dev, "Read V' value Fail");
--		return false;
--	}
-+		err = it6505_get_dpcd(it6505, DP_AUX_HDCP_V_PRIME(0), (u8 *)bv,
-+					sizeof(bv));
- 
--	for (i = 0; i < 5; i++)
--		if (bv[i][3] != av[i][0] || bv[i][2] != av[i][1] ||
--		    bv[i][1] != av[i][2] || bv[i][0] != av[i][3])
--			return false;
-+		if (err < 0) {
-+			dev_err(dev, "Read V' value Fail %d", retry);
-+			continue;
-+		}
- 
--	DRM_DEV_DEBUG_DRIVER(dev, "V' all match!!");
--	return true;
-+		for (i = 0; i < 5; i++) {
-+			if (bv[i][3] != av[i][0] || bv[i][2] != av[i][1] ||
-+				bv[i][1] != av[i][2] || bv[i][0] != av[i][3])
-+				break;
++static int it6505_aux_i2c_readb(struct it6505 *it6505, u8 *buf, size_t size, u8 *reply)
++{
++	int ret, i;
++	int retry = 0;
 +
-+			DRM_DEV_DEBUG_DRIVER(dev, "V' all match!! %d, %d", retry, i);
-+			return true;
-+		}
++	for (retry = 0; retry < AUX_I2C_DEFER_RETRY; retry++) {
++
++		it6505_write(it6505, REG_AUX_CMD_REQ, CMD_AUX_GI2C_READ);
++
++		ret = it6505_aux_i2c_wait(it6505, reply);
++
++		if ((*reply == DP_AUX_NATIVE_REPLY_DEFER) ||
++			(*reply == DP_AUX_I2C_REPLY_DEFER))
++			continue;
++
++		if (ret >= 0)
++			break;
 +	}
 +
-+	DRM_DEV_DEBUG_DRIVER(dev, "V' NOT match!! %d", retry);
-+	return false;
- }
++	for (i = 0; i < size; i++)
++		buf[i] =  (u8) it6505_read(it6505, REG_AUX_USER_RXB(0 + i));
++
++	return size;
++}
++
++static int it6505_aux_i2c_writeb(struct it6505 *it6505, u8 *buf, size_t size, u8 *reply)
++{
++	int i, ret;
++	int retry = 0;
++
++	for (i = 0; i < size; i++)
++		it6505_write(it6505, REG_AUX_OUT_DATA0 + i, buf[i]);
++
++	for (retry = 0; retry < AUX_I2C_DEFER_RETRY; retry++) {
++
++		it6505_write(it6505, REG_AUX_CMD_REQ, CMD_AUX_GI2C_WRITE);
++
++		ret = it6505_aux_i2c_wait(it6505, reply);
++
++		if ((*reply == DP_AUX_NATIVE_REPLY_DEFER) ||
++			(*reply == DP_AUX_I2C_REPLY_DEFER))
++			continue;
++
++		if (ret >= 0)
++			break;
++	}
++	return size;
++}
++
++static ssize_t it6505_aux_i2c_operation(struct it6505 *it6505,
++					struct drm_dp_aux_msg *msg)
++{
++	int ret;
++	ssize_t request_size, data_cnt = 0;
++	struct device *dev = &it6505->client->dev;
++	u8 *buffer = msg->buffer;
++
++	/* set AUX user mode */
++	it6505_set_bits(it6505, REG_AUX_CTRL,
++			AUX_USER_MODE | AUX_NO_SEGMENT_WR, AUX_USER_MODE);
++	it6505_set_bits(it6505, REG_AUX_USER_CTRL, EN_USER_AUX, EN_USER_AUX);
++	/* clear AUX FIFO */
++	it6505_set_bits(it6505, REG_AUX_CTRL,
++			AUX_EN_FIFO_READ | CLR_EDID_FIFO,
++			AUX_EN_FIFO_READ | CLR_EDID_FIFO);
++
++	it6505_set_bits(it6505, REG_AUX_CTRL,
++			AUX_EN_FIFO_READ | CLR_EDID_FIFO, 0x00);
++
++	it6505_write(it6505, REG_AUX_ADR_0_7, 0x00);
++	it6505_write(it6505, REG_AUX_I2C_ADR, msg->address << 1);
++
++	if (msg->size == 0) {
++		/* IIC Start/STOP dummy write */
++		it6505_write(it6505, REG_AUX_I2C_OP, msg->request);
++		it6505_write(it6505, REG_AUX_CMD_REQ, CMD_AUX_GI2C_ADR);
++		ret = it6505_aux_i2c_wait(it6505, &msg->reply);
++		goto end_aux_i2c_transfer;
++	}
++
++	/* IIC data transfer */
++	for (data_cnt = 0; data_cnt < msg->size; ) {
++		request_size = min(msg->size - data_cnt, AUX_I2C_MAX_SIZE);
++		it6505_write(it6505, REG_AUX_I2C_OP,
++					(msg->request) | ((request_size - 1) << 4));
++
++		if ((msg->request & DP_AUX_I2C_READ) == DP_AUX_I2C_READ)
++			ret = it6505_aux_i2c_readb(it6505, &buffer[data_cnt],
++							request_size, &msg->reply);
++		else
++			ret = it6505_aux_i2c_writeb(it6505, &buffer[data_cnt],
++							request_size, &msg->reply);
++
++		if (ret < 0)
++			goto end_aux_i2c_transfer;
++
++		data_cnt += request_size;
++	}
++	ret = data_cnt;
++end_aux_i2c_transfer:
++
++	it6505_set_bits(it6505, REG_AUX_USER_CTRL, EN_USER_AUX, 0);
++	it6505_set_bits(it6505, REG_AUX_CTRL, AUX_USER_MODE, 0);
++	return ret;
++}
++
++
++static ssize_t it6505_aux_i2c_transfer(struct drm_dp_aux *aux,
++				   struct drm_dp_aux_msg *msg)
++{
++	struct it6505 *it6505 = container_of(aux, struct it6505, aux);
++	int ret;
++
++	mutex_lock(&it6505->aux_lock);
++	ret = it6505_aux_i2c_operation(it6505, msg);
++	mutex_unlock(&it6505->aux_lock);
++	return ret;
++}
++
++
+ static ssize_t it6505_aux_transfer(struct drm_dp_aux *aux,
+ 				   struct drm_dp_aux_msg *msg)
+ {
+@@ -1125,7 +1312,7 @@ static ssize_t it6505_aux_transfer(struct drm_dp_aux *aux,
  
- static void it6505_hdcp_wait_ksv_list(struct work_struct *work)
-@@ -2059,7 +2101,7 @@ static void it6505_hdcp_wait_ksv_list(struct work_struct *work)
- 	struct it6505 *it6505 = container_of(work, struct it6505,
- 					     hdcp_wait_ksv_list);
- 	struct device *dev = &it6505->client->dev;
--	unsigned int timeout = 5000;
-+	unsigned int timeout = 2000;
- 	u8 bstatus = 0;
- 	bool ksv_list_check;
+ 	/* IT6505 doesn't support arbitrary I2C read / write. */
+ 	if (is_i2c)
+-		return -EINVAL;
++		return it6505_aux_i2c_transfer(aux, msg);
  
-@@ -2079,21 +2121,18 @@ static void it6505_hdcp_wait_ksv_list(struct work_struct *work)
- 
- 	if (timeout == 0) {
- 		DRM_DEV_DEBUG_DRIVER(dev, "timeout and ksv list wait failed");
--		goto timeout;
-+		goto hdcp_ksvlist_fail;
+ 	switch (msg->request) {
+ 	case DP_AUX_NATIVE_READ:
+@@ -1153,6 +1340,8 @@ static ssize_t it6505_aux_transfer(struct drm_dp_aux *aux,
+ 	case REPLY_DEFER:
+ 		msg->reply = DP_AUX_NATIVE_REPLY_DEFER;
+ 		break;
++	default:
++		break;
  	}
+ 
+ 	return ret;
+@@ -1180,7 +1369,7 @@ static int it6505_get_edid_block(void *data, u8 *buf, unsigned int block,
+ 		switch (reply) {
+ 		case REPLY_ACK:
+ 			DRM_DEV_DEBUG_DRIVER(dev, "[0x%02x]: %8ph", offset,
+-					     buf + offset);
++								uf + offset);
+ 			offset += 8;
+ 			aux_retry = 100;
+ 			break;
+@@ -1190,6 +1379,8 @@ static int it6505_get_edid_block(void *data, u8 *buf, unsigned int block,
+ 			msleep(20);
+ 			if (!(--aux_retry))
+ 				return -EIO;
++		default:
++			break;
+ 		}
+ 	}
+ 
+@@ -2031,8 +2222,8 @@ static int it6505_setup_sha1_input(struct it6505 *it6505, u8 *sha1_input)
+ 
+ 
+ 	err =  it6505_get_ksvlist(it6505, sha1_input, down_stream_count * 5);
+-	if (err < 0)
+-		return err;
++		if (err < 0)
++			return err;
+ 
+ 	msg_count += down_stream_count * 5;
+ 
+@@ -2075,7 +2266,7 @@ static bool it6505_hdcp_part2_ksvlist_check(struct it6505 *it6505)
+ 	for (retry = 0; retry < 3; retry++) {
+ 
+ 		err = it6505_get_dpcd(it6505, DP_AUX_HDCP_V_PRIME(0), (u8 *)bv,
+-					sizeof(bv));
++			      sizeof(bv));
+ 
+ 		if (err < 0) {
+ 			dev_err(dev, "Read V' value Fail %d", retry);
+@@ -2126,7 +2317,7 @@ static void it6505_hdcp_wait_ksv_list(struct work_struct *work)
  
  	ksv_list_check = it6505_hdcp_part2_ksvlist_check(it6505);
  	DRM_DEV_DEBUG_DRIVER(dev, "ksv list ready, ksv list check %s",
--			     ksv_list_check ? "pass" : "fail");
--	if (ksv_list_check) {
--		it6505_set_bits(it6505, REG_HDCP_TRIGGER,
--				HDCP_TRIGGER_KSV_DONE, HDCP_TRIGGER_KSV_DONE);
-+				ksv_list_check ? "pass" : "fail");
-+
-+	if (ksv_list_check)
+-				ksv_list_check ? "pass" : "fail");
++			     ksv_list_check ? "pass" : "fail");
+ 
+ 	if (ksv_list_check)
  		return;
--	}
--timeout:
--	it6505_set_bits(it6505, REG_HDCP_TRIGGER,
--			HDCP_TRIGGER_KSV_DONE | HDCP_TRIGGER_KSV_FAIL,
--			HDCP_TRIGGER_KSV_DONE | HDCP_TRIGGER_KSV_FAIL);
-+
-+hdcp_ksvlist_fail:
-+	it6505_start_hdcp(it6505);
- }
- 
- static void it6505_hdcp_work(struct work_struct *work)
-@@ -2139,7 +2178,7 @@ static void it6505_hdcp_work(struct work_struct *work)
- 	it6505_hdcp_part1_auth(it6505);
- }
- 
--static void it6505_show_hdcp_info(struct it6505 *it6505)
-+static void it6505_show_hdcp_info(struct it6505 *it6505, bool repeater_info)
- {
- 	struct device *dev = &it6505->client->dev;
- 	int i;
-@@ -2150,7 +2189,7 @@ static void it6505_show_hdcp_info(struct it6505 *it6505)
- 	DRM_DEV_DEBUG_DRIVER(dev, "bksv = 0x%*ph",
- 			     (int)ARRAY_SIZE(it6505->bksvs), it6505->bksvs);
- 
--	if (it6505->is_repeater) {
-+	if ((repeater_info) && (it6505->is_repeater)) {
- 		DRM_DEV_DEBUG_DRIVER(dev, "hdcp_down_stream_count: %d",
- 				     it6505->hdcp_down_stream_count);
- 		DRM_DEV_DEBUG_DRIVER(dev, "sha1_input: 0x%*ph",
-@@ -2251,12 +2290,11 @@ static void it6505_link_training_work(struct work_struct *work)
- 	if (ret) {
- 		it6505->auto_train_retry = AUTO_TRAIN_RETRY;
- 		it6505_link_train_ok(it6505);
--		return;
- 	} else {
- 		it6505->auto_train_retry--;
-+		it6505_dump(it6505);
- 	}
- 
--	it6505_dump(it6505);
- }
- 
- static void it6505_plugged_status_to_codec(struct it6505 *it6505)
-@@ -2311,14 +2349,22 @@ static int it6505_process_hpd_irq(struct it6505 *it6505)
- 	DRM_DEV_DEBUG_DRIVER(dev, "dp_irq_vector = 0x%02x", dp_irq_vector);
- 
- 	if (dp_irq_vector & DP_CP_IRQ) {
--		it6505_set_bits(it6505, REG_HDCP_TRIGGER, HDCP_TRIGGER_CPIRQ,
--				HDCP_TRIGGER_CPIRQ);
- 
- 		bstatus = it6505_dpcd_read(it6505, DP_AUX_HDCP_BSTATUS);
- 		if (bstatus < 0)
- 			return bstatus;
- 
- 		DRM_DEV_DEBUG_DRIVER(dev, "Bstatus = 0x%02x", bstatus);
-+
-+		/*1B-02 ignore when bstatus is 0 */
-+		if ((bstatus & DP_BSTATUS_R0_PRIME_READY) &&
-+				(it6505->hdcp_status == HDCP_AUTH_GOING))
-+			it6505_set_bits(it6505, REG_HDCP_TRIGGER, HDCP_TRIGGER_CPIRQ,
-+					HDCP_TRIGGER_CPIRQ);
-+		else if ((bstatus & (DP_BSTATUS_REAUTH_REQ | DP_BSTATUS_LINK_FAILURE)) &&
-+				(it6505->hdcp_status == HDCP_AUTH_DONE))
-+			it6505_start_hdcp(it6505);
-+
- 	}
- 
- 	ret = drm_dp_dpcd_read_link_status(&it6505->aux, link_status);
-@@ -2431,7 +2477,7 @@ static void it6505_irq_hdcp_done(struct it6505 *it6505)
- 
- 	DRM_DEV_DEBUG_DRIVER(dev, "hdcp done interrupt");
- 	it6505->hdcp_status = HDCP_AUTH_DONE;
--	it6505_show_hdcp_info(it6505);
-+	it6505_show_hdcp_info(it6505, false);
- }
- 
- static void it6505_irq_hdcp_fail(struct it6505 *it6505)
-@@ -2440,7 +2486,7 @@ static void it6505_irq_hdcp_fail(struct it6505 *it6505)
- 
- 	DRM_DEV_DEBUG_DRIVER(dev, "hdcp fail interrupt");
- 	it6505->hdcp_status = HDCP_AUTH_IDLE;
--	it6505_show_hdcp_info(it6505);
-+	it6505_show_hdcp_info(it6505, true);
- 	it6505_start_hdcp(it6505);
- }
- 
-@@ -2455,7 +2501,11 @@ static void it6505_irq_hdcp_ksv_check(struct it6505 *it6505)
- {
- 	struct device *dev = &it6505->client->dev;
- 
--	DRM_DEV_DEBUG_DRIVER(dev, "HDCP event Interrupt");
-+	DRM_DEV_DEBUG_DRIVER(dev, "HDCP repeater R0 event Interrupt");
-+
-+	it6505_set_bits(it6505, REG_HDCP_TRIGGER,
-+			HDCP_TRIGGER_KSV_DONE, HDCP_TRIGGER_KSV_DONE);
-+
- 	schedule_work(&it6505->hdcp_wait_ksv_list);
- }
- 
 -- 
 2.34.1
 
