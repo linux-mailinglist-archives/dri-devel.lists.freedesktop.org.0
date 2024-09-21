@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9602397DF6A
-	for <lists+dri-devel@lfdr.de>; Sun, 22 Sep 2024 00:31:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3036997DF69
+	for <lists+dri-devel@lfdr.de>; Sun, 22 Sep 2024 00:31:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 873E310E33C;
-	Sat, 21 Sep 2024 22:31:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A79F10E2DF;
+	Sat, 21 Sep 2024 22:31:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=kwiboo.se header.i=@kwiboo.se header.b="0w4hDkC1";
+	dkim=pass (2048-bit key; secure) header.d=kwiboo.se header.i=@kwiboo.se header.b="bCWtFhum";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D1FE10E2DF
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B27810E33C
  for <dri-devel@lists.freedesktop.org>; Sat, 21 Sep 2024 22:31:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
- h=Content-Transfer-Encoding: MIME-Version: Message-ID: Date: Subject: Cc:
- To: From; q=dns/txt; s=fe-e1b5cab7be; t=1726957889;
- bh=vW3Ue0teLF7LHwhAhdpVjB9NkznQc9ED1YULlXDH87A=;
- b=0w4hDkC1ml5k1aFqqbX5G+KcOoBa93nj4zwUsLUPsmSYtIEK9FqjEhmBqnID7vobvCimpYlYM
- Owl1OSmWZHdri9xywJiqDkd9IiVOoyfmko+fyRXjyyQ7JCL4P5zuSmGZeTaXC6qKCeQZMU8lmKy
- 9W35MFZtBhN6nnwtlYM8TTyCF74Kr5zRiuZY47HI4xX93W1IHmLC+fSEeFDaWOw3whMOzVYLsyZ
- xyCyen5kuDA+xwEfGXvO0SxPmwSPtM/1TnLCWdTgroDh9GMLLE7JdSJWKpFpra6E2WcYTyalS76
- e2ud2tzXYqDn9jQnSlEOI5jFiLo82bKI9oTyxk2aJNHA==
+ h=Content-Transfer-Encoding: MIME-Version: References: In-Reply-To:
+ Message-ID: Date: Subject: Cc: To: From; q=dns/txt; s=fe-e1b5cab7be;
+ t=1726957889; bh=83YVW5OYUCMyv+K4hF+rZLCGivVi+6ztPahHaGSzq38=;
+ b=bCWtFhumC7q+63y3FfE+076MAkQBpsC9oGf+4cDoUht/qcPc1eMF3nUZGCCs10pKSMFBdDItI
+ 6TAw6pTkCYorH/2KS1U9nUtNzFaH9jhXqW3L2K0pEpPuEjHBTPd+++U1Iihdpy6SBeOPCo7slO+
+ LgLzzLtWR3kNQ+Q4FJ71iDu4e60wt+GvLrcVSFcJqSPizFDUjMGZo715lnYDFl34UoStTzpXFdX
+ vekgN1UFfwasYYi7xY69aUh7M+o+h0L89OPytZUyGuPXkIk34qyWJW5o01MIn3KgOtO7xGq4IDw
+ YFOqchrYfN8v+3y3QggCGSQShUBtHT/dUB2+5yjWp1KA==
 From: Jonas Karlman <jonas@kwiboo.se>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Sandy Huang <hjc@rock-chips.com>,
@@ -35,10 +35,13 @@ To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
 Cc: linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
  linux-kernel@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>
-Subject: [PATCH 0/3] rockchip: Split rk3288-vop compatible into big and lit
-Date: Sat, 21 Sep 2024 22:20:00 +0000
-Message-ID: <20240921222007.2301868-1-jonas@kwiboo.se>
+Subject: [PATCH 1/3] dt-bindings: display: rockchip-vop: Split rk3288-vop into
+ big and lit
+Date: Sat, 21 Sep 2024 22:20:01 +0000
+Message-ID: <20240921222007.2301868-2-jonas@kwiboo.se>
 X-Mailer: git-send-email 2.46.1
+In-Reply-To: <20240921222007.2301868-1-jonas@kwiboo.se>
+References: <20240921222007.2301868-1-jonas@kwiboo.se>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Report-Abuse-To: abuse@forwardemail.net
@@ -47,7 +50,7 @@ X-Complaints-To: abuse@forwardemail.net
 X-ForwardEmail-Version: 0.4.40
 X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
  149.28.215.223
-X-ForwardEmail-ID: 66ef46b118c10b4d4a165cf1
+X-ForwardEmail-ID: 66ef46b718c10b4d4a165d05
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,19 +70,60 @@ The Rockchip RK3288 SoC contain two different Visual Output Processor
 (VOP) blocks, VOP_BIG and VOP_LIT. The VOP blocks support different max
 output resolution, 3840x2160 and 2560x1600.
 
-This series add compatible to differentiate between the two VOP blocks,
-backward and forward compatibility is kept for older and newer DTs.
+Add compatible to differentiate between the two VOP blocks.
 
-Jonas Karlman (3):
-  dt-bindings: display: rockchip-vop: Split rk3288-vop into big and lit
-  ARM: dts: rockchip: Split rk3288-vop into big and lit
-  drm/rockchip: vop: Split rk3288-vop into big and lit
-
+Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+---
  .../display/rockchip/rockchip-vop.yaml        | 36 +++++++++++--------
- arch/arm/boot/dts/rockchip/rk3288.dtsi        |  4 +--
- drivers/gpu/drm/rockchip/rockchip_vop_reg.c   | 27 ++++++++++----
- 3 files changed, 43 insertions(+), 24 deletions(-)
+ 1 file changed, 21 insertions(+), 15 deletions(-)
 
+diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop.yaml
+index b339b7e708c6..ce4169b030af 100644
+--- a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop.yaml
++++ b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop.yaml
+@@ -17,21 +17,27 @@ maintainers:
+ 
+ properties:
+   compatible:
+-    enum:
+-      - rockchip,px30-vop-big
+-      - rockchip,px30-vop-lit
+-      - rockchip,rk3036-vop
+-      - rockchip,rk3066-vop
+-      - rockchip,rk3126-vop
+-      - rockchip,rk3188-vop
+-      - rockchip,rk3228-vop
+-      - rockchip,rk3288-vop
+-      - rockchip,rk3328-vop
+-      - rockchip,rk3366-vop
+-      - rockchip,rk3368-vop
+-      - rockchip,rk3399-vop-big
+-      - rockchip,rk3399-vop-lit
+-      - rockchip,rv1126-vop
++    oneOf:
++      - items:
++          - enum:
++              - rockchip,rk3288-vop-big
++              - rockchip,rk3288-vop-lit
++          - const: rockchip,rk3288-vop
++      - enum:
++          - rockchip,px30-vop-big
++          - rockchip,px30-vop-lit
++          - rockchip,rk3036-vop
++          - rockchip,rk3066-vop
++          - rockchip,rk3126-vop
++          - rockchip,rk3188-vop
++          - rockchip,rk3228-vop
++          - rockchip,rk3288-vop
++          - rockchip,rk3328-vop
++          - rockchip,rk3366-vop
++          - rockchip,rk3368-vop
++          - rockchip,rk3399-vop-big
++          - rockchip,rk3399-vop-lit
++          - rockchip,rv1126-vop
+ 
+   reg:
+     minItems: 1
 -- 
 2.46.1
 
