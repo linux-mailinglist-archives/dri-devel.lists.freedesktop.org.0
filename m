@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A444E97DF6B
-	for <lists+dri-devel@lfdr.de>; Sun, 22 Sep 2024 00:31:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB3FB97DF68
+	for <lists+dri-devel@lfdr.de>; Sun, 22 Sep 2024 00:31:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 884C610E33E;
-	Sat, 21 Sep 2024 22:31:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E1C710E03B;
+	Sat, 21 Sep 2024 22:31:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=kwiboo.se header.i=@kwiboo.se header.b="F+9VTGrI";
+	dkim=pass (2048-bit key; secure) header.d=kwiboo.se header.i=@kwiboo.se header.b="cwZKpVj6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3173710E03B
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50C1310E337
  for <dri-devel@lists.freedesktop.org>; Sat, 21 Sep 2024 22:31:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
  h=Content-Transfer-Encoding: MIME-Version: References: In-Reply-To:
  Message-ID: Date: Subject: Cc: To: From; q=dns/txt; s=fe-e1b5cab7be;
- t=1726957889; bh=q4HGnQgfycy2AHtw5GfrgdiaBd9jGsGqRiZpjBBUbHw=;
- b=F+9VTGrIgKsymdLVX+8Ejwdryt9k2nHNK5BmzS90VdTPRn/whv2/KaV0sK6TUDNM925Jm1rUy
- DHhW74I1yXE20JLEZ8ub6G7TXNFcQwVENtoTXfD8vficZxNHMaIN3eQys9SKDPqUJSIRsrHCkq7
- hpHn+II5o3TdQJBSts+Y0KJcpMj2poRaFRxyJCfSzWMdiHhp7jsNpbeSb2UOF9T/A3Dfkcmib6z
- 14aNNfMajbcKO5LTe/ToSthx53LPaS1anUdlkXKGPzzHSGSeZIAoPe+p08uKQ0B7JJcbraIfnac
- kUrfq3GmATjV1mFW6GVPQ2yuRRBZ5rdMmanl9XSRafCw==
+ t=1726957889; bh=8XVidTJxe1Ijnds0MNBHEWFnH2eEKvVTfDWt1cqAA5Q=;
+ b=cwZKpVj6ZHJnJw/S/gspYt31Uow+2xcQa4NC6NVPC5OncO8eKXT8ASUA9Uzm7Ky4MzG2QD1Fu
+ e3mWA6Qf0nBRnO06lFUohkSWNeSym6qyMhwNIydsomxKn1V301h3DWKNxqs7UNbdJj0Fl+PL0xE
+ aWY2/QX5zoiibrcEuDJjeIWAK65tZis3xc2/9PIg0swF45HVjSl4erESCABnIl5jpgDpvUIse1p
+ 06K1ZU6Gm7EpvztBrl69YI8+A3zo8XS4TTe0unb60k415JvX8Zz7D3LFm79MWw9HUYIC5JG74j4
+ TQsnhOhgQ1h6ve2Jt7ysNdSV/4ceUhEkcym1sLXNJg5A==
 From: Jonas Karlman <jonas@kwiboo.se>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Sandy Huang <hjc@rock-chips.com>,
@@ -35,9 +35,9 @@ To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
 Cc: linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
  linux-kernel@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>
-Subject: [PATCH 2/3] ARM: dts: rockchip: Split rk3288-vop into big and lit
-Date: Sat, 21 Sep 2024 22:20:02 +0000
-Message-ID: <20240921222007.2301868-3-jonas@kwiboo.se>
+Subject: [PATCH 3/3] drm/rockchip: vop: Split rk3288-vop into big and lit
+Date: Sat, 21 Sep 2024 22:20:03 +0000
+Message-ID: <20240921222007.2301868-4-jonas@kwiboo.se>
 X-Mailer: git-send-email 2.46.1
 In-Reply-To: <20240921222007.2301868-1-jonas@kwiboo.se>
 References: <20240921222007.2301868-1-jonas@kwiboo.se>
@@ -49,7 +49,7 @@ X-Complaints-To: abuse@forwardemail.net
 X-ForwardEmail-Version: 0.4.40
 X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
  149.28.215.223
-X-ForwardEmail-ID: 66ef46bd18c10b4d4a165d17
+X-ForwardEmail-ID: 66ef46c318c10b4d4a165d2b
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,36 +69,71 @@ The Rockchip RK3288 SoC contain two different Visual Output Processor
 (VOP) blocks, VOP_BIG and VOP_LIT. The VOP blocks support different max
 output resolution, 3840x2160 and 2560x1600.
 
-Change compatible to differentiate between VOP_BIG and VOP_LIT, the old
-compatible is kept for backward compatibility.
+Add support for the compatible used to differentiate between VOP_BIG and
+VOP_LIT, support for the old compatible is kept for compatibility with
+older device tree.
 
 Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
 ---
- arch/arm/boot/dts/rockchip/rk3288.dtsi | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/rockchip/rockchip_vop_reg.c | 27 +++++++++++++++------
+ 1 file changed, 20 insertions(+), 7 deletions(-)
 
-diff --git a/arch/arm/boot/dts/rockchip/rk3288.dtsi b/arch/arm/boot/dts/rockchip/rk3288.dtsi
-index 3f1d640afafa..db4a258551f4 100644
---- a/arch/arm/boot/dts/rockchip/rk3288.dtsi
-+++ b/arch/arm/boot/dts/rockchip/rk3288.dtsi
-@@ -1026,7 +1026,7 @@ rga: rga@ff920000 {
- 	};
+diff --git a/drivers/gpu/drm/rockchip/rockchip_vop_reg.c b/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
+index e2c6ba26f437..978db93cda33 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
++++ b/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
+@@ -762,7 +762,7 @@ static const struct vop_intr rk3288_vop_intr = {
+ 	.clear = VOP_REG(RK3288_INTR_CTRL0, 0xf, 8),
+ };
  
- 	vopb: vop@ff930000 {
--		compatible = "rockchip,rk3288-vop";
-+		compatible = "rockchip,rk3288-vop-big", "rockchip,rk3288-vop";
- 		reg = <0x0 0xff930000 0x0 0x19c>, <0x0 0xff931000 0x0 0x1000>;
- 		interrupts = <GIC_SPI 15 IRQ_TYPE_LEVEL_HIGH>;
- 		clocks = <&cru ACLK_VOP0>, <&cru DCLK_VOP0>, <&cru HCLK_VOP0>;
-@@ -1075,7 +1075,7 @@ vopb_mmu: iommu@ff930300 {
- 	};
+-static const struct vop_data rk3288_vop = {
++static const struct vop_data rk3288_vop_big = {
+ 	.version = VOP_VERSION(3, 1),
+ 	.feature = VOP_FEATURE_OUTPUT_RGB10,
+ 	.intr = &rk3288_vop_intr,
+@@ -772,14 +772,22 @@ static const struct vop_data rk3288_vop = {
+ 	.win = rk3288_vop_win_data,
+ 	.win_size = ARRAY_SIZE(rk3288_vop_win_data),
+ 	.lut_size = 1024,
+-	/*
+-	 * This is the maximum resolution for the VOPB, the VOPL can only do
+-	 * 2560x1600, but we can't distinguish them as they have the same
+-	 * compatible.
+-	 */
+ 	.max_output = { 3840, 2160 },
+ };
  
- 	vopl: vop@ff940000 {
--		compatible = "rockchip,rk3288-vop";
-+		compatible = "rockchip,rk3288-vop-lit", "rockchip,rk3288-vop";
- 		reg = <0x0 0xff940000 0x0 0x19c>, <0x0 0xff941000 0x0 0x1000>;
- 		interrupts = <GIC_SPI 16 IRQ_TYPE_LEVEL_HIGH>;
- 		clocks = <&cru ACLK_VOP1>, <&cru DCLK_VOP1>, <&cru HCLK_VOP1>;
++static const struct vop_data rk3288_vop_lit = {
++	.version = VOP_VERSION(3, 1),
++	.feature = VOP_FEATURE_OUTPUT_RGB10,
++	.intr = &rk3288_vop_intr,
++	.common = &rk3288_common,
++	.modeset = &rk3288_modeset,
++	.output = &rk3288_output,
++	.win = rk3288_vop_win_data,
++	.win_size = ARRAY_SIZE(rk3288_vop_win_data),
++	.lut_size = 1024,
++	.max_output = { 2560, 1600 },
++};
++
+ static const int rk3368_vop_intrs[] = {
+ 	FS_INTR,
+ 	0, 0,
+@@ -1245,8 +1253,13 @@ static const struct of_device_id vop_driver_dt_match[] = {
+ 	  .data = &rk3066_vop },
+ 	{ .compatible = "rockchip,rk3188-vop",
+ 	  .data = &rk3188_vop },
++	{ .compatible = "rockchip,rk3288-vop-big",
++	  .data = &rk3288_vop_big },
++	{ .compatible = "rockchip,rk3288-vop-lit",
++	  .data = &rk3288_vop_lit },
++	/* rockchip,rk3288-vop kept for backward compatibility */
+ 	{ .compatible = "rockchip,rk3288-vop",
+-	  .data = &rk3288_vop },
++	  .data = &rk3288_vop_big },
+ 	{ .compatible = "rockchip,rk3368-vop",
+ 	  .data = &rk3368_vop },
+ 	{ .compatible = "rockchip,rk3366-vop",
 -- 
 2.46.1
 
