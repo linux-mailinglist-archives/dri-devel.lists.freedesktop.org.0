@@ -2,76 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AC5597DEEB
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Sep 2024 22:56:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA08197DF04
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Sep 2024 23:14:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2AC710E322;
-	Sat, 21 Sep 2024 20:56:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D90E910E199;
+	Sat, 21 Sep 2024 21:14:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="QroQhoty";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="JzTQTI26";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
- [209.85.167.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1521010E322
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Sep 2024 20:56:10 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id
- 2adb3069b0e04-535dc4ec181so3119472e87.3
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Sep 2024 13:56:09 -0700 (PDT)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
+ [209.85.167.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4479E10E326
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Sep 2024 21:14:51 +0000 (UTC)
+Received: by mail-lf1-f48.google.com with SMTP id
+ 2adb3069b0e04-5365c512b00so3731653e87.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Sep 2024 14:14:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1726952168; x=1727556968; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=qNJ//WLJC+rT6bdE83w3ztydutKipFcS5oG1bOhNX34=;
- b=QroQhotyrJxQntlkiV/Z5TbxpHN2mToSTnT21YS8R7dKDdfP8ep2ib5SundEUpPqVH
- tpUyLHGOBh3DDyNq+QL47QhgpzvoX54ybt/MbLPhhTo3BIUUfYHzEHEwlSkDzyZUoFDa
- Y+iKRTSd1CE5SBhpVLAjYPdOYvdOe4/Q1CAYPqBet75LupALCzlL/lBlztlMvhxvix4y
- yMdQeaCXjCbiWckOIPUNZw3Un3Yhzp+B7YwLwHy74s5CNmSm93cwasNbJeBEeY9g8scq
- IaxV1ANlNJQzzF3gYsTbhHUN9s/U9QLJyIpfY5F3Cu77wNndA1msMDMw/l/WFq7TvKI9
- 09WQ==
+ d=linaro.org; s=google; t=1726953289; x=1727558089; darn=lists.freedesktop.org;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=sv1Xt51+REJ6qseUldVGpJwkDcR1DsT84Q0fO/g01zY=;
+ b=JzTQTI2623Aj3K0vI6SihnI9rKnxck6YcSOOzFLnJp+Vfa4zfea+0AkU1OxmR0Qmrt
+ p9n/icYi3OoIoPboD1D5D+103DWrRISQBiy1eq7WY/87PPkxwcZItgB3LGFznneyodS9
+ 3XoQ1lIGjtpWK518pYQ6tcwS2/7Cz//6tSWe92PxuF5CEMW31K4Pn2nWaiEWL2JusQve
+ LadgLyFLCfZUUHkGySXPIrr09Tb4Bcyh9Ie2otw860BToR/ZWzu2hvYbcfWhBBCPL6Qa
+ wNLTJF7l+NngZSTu6LtqyiWQpCTuKYUqpMBDl8pRjqI9aHFZEuE641GHwDkT019r0EFo
+ yNWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1726952168; x=1727556968;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=qNJ//WLJC+rT6bdE83w3ztydutKipFcS5oG1bOhNX34=;
- b=DPunjg7VgdCNN5NN+j1kveZbPp352cDHUebOtgr0C/924Ebr9FyXgMWnrGT90DbxCS
- GpjXNIPvwoeX+VdGt10+mDGM/pBeOnvWw5yekhQxGbVN7LKdmYXbg6VmOEYmY8KzMLxk
- QkOULI7bkg8YLBnNg0sZzMnxmE+gSxBLknKzuDhovfEgSAfALFKMqRi5o9yTV2lSKsAh
- sAo3B4pJhT5kz1LqM+mGzB0ozZ6eqHBh76xkAEypHMhLisxheAqxaIZ54M8i/CRGxJ/t
- EK3yurPAMPllzhED8pJaBV4RRhwydoff2Op4+DPLEdC5qyYTac/LfY3I3DAAQQg0gOhz
- 32YA==
+ d=1e100.net; s=20230601; t=1726953289; x=1727558089;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=sv1Xt51+REJ6qseUldVGpJwkDcR1DsT84Q0fO/g01zY=;
+ b=FmOZfkSaUw0UFzkHoPUnelyxNuYcArPLi0hhlhlc0vB9Pl5MjccbdpinUKGab6gk3R
+ 2ZAdmcXIazrOm2c4DVrSVv1B9vo5PBvKAxzZtttC97ChjzxyCv6IPWOSHltei1WveyeZ
+ dMkNhY6vDqgiXeYsaJGuyvjt5ZmE6TymiHgHMbqJ+hd/kTdlyYdFfbcdHbTpW4gFpPCU
+ WPINY+45P4lLQxqjzR0RTbdVwnbvkacDqj7l2idweSR3MOybOAfwsH+ouD1YerroT1+5
+ EjtEFOtMbFEoRgeE66AKPqsVBnvnsJ1XxUa+lIBLeoFI+koyJL99Cuwo/AQ5iJz/P1m5
+ 0PQg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX0+EEzPBAiZKz6F4bNvcSK7AdafymO5jIW2KiXWTv3D8pIQiXqNc5fUELLsf9o9gq3Kh4h4oUzkzg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxPTHvyjKXb5kQBd618R0EgaV5l9El68+txcih8xO2FVeE1ON24
- UAe+boTGm+raROQIaq5AUInN0a5kxTQTp36DzWYp56L2zRIPkqd1nhCOVlwtGDU=
-X-Google-Smtp-Source: AGHT+IESDgIIdZzD9EVFYuqv0g8rCf9M48QrMLDI+CZ/amjCPR8cCdnPNrSLBhZFmKmw90fs3mj+HQ==
-X-Received: by 2002:a05:6512:4025:b0:536:14a1:d660 with SMTP id
- 2adb3069b0e04-536acf6ace8mr3791045e87.6.1726952168086; 
- Sat, 21 Sep 2024 13:56:08 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5368704683csm2702411e87.23.2024.09.21.13.56.05
+ AJvYcCW0damOyE+py+aFMMeR9yoAiLgPj/aGRa2KPX8tds1mv6Mq7xpZtEBWpyexIdQIOSbdeHrzEa4kMLI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YysSSJWZnd3JTP65qDszmUjdX/Bv7QQswtObx1TPEt+T/wFf/ni
+ vKRHpQyq9OMXeobA4bCEacGSMUYjmY1OqD2//jGBzTLUUzJ5CP7W3x9+LgA57qc=
+X-Google-Smtp-Source: AGHT+IHTsq5saqDVm+y4PSRF+njyLcIJFFfoV4sIth84Hce11asUbga8hoCpD/yJPHbn+yr2huGaew==
+X-Received: by 2002:a05:6512:2353:b0:52c:e326:f4cf with SMTP id
+ 2adb3069b0e04-536ac2d64c1mr3971548e87.3.1726953289156; 
+ Sat, 21 Sep 2024 14:14:49 -0700 (PDT)
+Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-536870b4192sm2696645e87.253.2024.09.21.14.14.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 21 Sep 2024 13:56:06 -0700 (PDT)
-Date: Sat, 21 Sep 2024 23:56:04 +0300
+ Sat, 21 Sep 2024 14:14:48 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Shen Lichuan <shenlichuan@vivo.com>
-Cc: robdclark@gmail.com, quic_abhinavk@quicinc.com, airlied@gmail.com, 
- simona@ffwll.ch, sean@poorly.run, konradybcio@kernel.org, 
- marijn.suijten@somainline.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- opensource.kernel@vivo.com
-Subject: Re: [PATCH v2] drm/msm: Fix some typos in comment
-Message-ID: <uwmnsmeno3i5uzbbizq62ffsnuazhb6g7hcdkj4re4l2z54j27@jndvshalzuil>
-References: <20240912070420.2891-1-shenlichuan@vivo.com>
+Date: Sun, 22 Sep 2024 00:14:48 +0300
+Subject: [PATCH] drm/msm/hdmi: drop pll_cmp_to_fdata from hdmi_phy_8998
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240912070420.2891-1-shenlichuan@vivo.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240922-msm-drop-unused-func-v1-1-c5dc083415b8@linaro.org>
+X-B4-Tracking: v=1; b=H4sIAEc372YC/x3MQQqDMBBG4avIrDuQBmnVq5QuYvKnnYVRMkSE4
+ N0NLr/Fe5UUWaA0dZUydlFZU8Pz0ZH/u/QDS2gma2xvRmt50YVDXjcuqSgCx5I8zyPeLxcGGDh
+ q6ZYR5bi3n+95XrAJ32tmAAAA
+To: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Nathan Chancellor <nathan@kernel.org>, 
+ Nick Desaulniers <ndesaulniers@google.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ llvm@lists.linux.dev, Jani Nikula <jani.nikula@intel.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+X-Mailer: b4 0.14.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1333;
+ i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
+ bh=XCA9l6jIuwYih0fkmBs7/+esJ31azn4rphomjgMvutQ=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBm7zdIInNhl3riGlKSk1rgC8g02RdnnV5F20Fey
+ jMFqY4jSlOJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZu83SAAKCRCLPIo+Aiko
+ 1UxXCACSlqB+A6P1dzNuIExNPQMPdzpKyXpyMltim4fr71qV920qm+A/pRY94R64jtWm2Wa6r7L
+ Hxgo1o6qu+xUMNI5x6OEKefajGLyCUxWkcDxxWsHzL9MV5hXmtK1yvDe1m+kQy0lQoVV42W+3/y
+ RNxRSkvxHKSXW3eU39Y1WlPVoMtgIVynk8Tkdlx+ucG2WfTjGu8b3o8MAmRMJEC68KkYOmePU0s
+ QZ0k9pV2PpfQrl7+qA/WpBrssyTJgfHzSxdRKlg2lXgTCFF99ayfWgVzewc39xrN5LWou6Z58qf
+ xHwspIYPq/YsSXLuHOrl4ytByW1Z50WaBmI9Bfo5Hkum4oIt
+X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,27 +103,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 12, 2024 at 03:04:20PM GMT, Shen Lichuan wrote:
-> Fixed some spelling errors, the details are as follows:
-> 
-> -in the code comments:
-> 	collpase->collapse
-> 	firwmare->firmware
-> 	everwhere->everywhere
-> 
-> Fixes: 2401a0084614 ("drm/msm: gpu: Add support for the GPMU")
-> Fixes: 5a903a44a984 ("drm/msm/a6xx: Introduce GMU wrapper support")
-> Fixes: f97decac5f4c ("drm/msm: Support multiple ringbuffers")
-> Signed-off-by: Shen Lichuan <shenlichuan@vivo.com>
-> ---
-> v1 -> v2: 
-> * Changed subject prefix to "drm/msm: ".
-> * Added Fixes tag.
-> v1: https://lore.kernel.org/all/pd76zf55h3kjpmgiydiu4br35bwlzsey2losublklv4o4ta7ko@z3gzy2eec5qh/
-> 
+The pll_cmp_to_fdata() was never used by the working code. Drop it to
+prevent warnings with W=1 and clang.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Reported-by: Jani Nikula <jani.nikula@intel.com>
+Closes: https://lore.kernel.org/dri-devel/3553b1db35665e6ff08592e35eb438a574d1ad65.1725962479.git.jani.nikula@intel.com
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ drivers/gpu/drm/msm/hdmi/hdmi_phy_8998.c | 9 ---------
+ 1 file changed, 9 deletions(-)
 
+diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_phy_8998.c b/drivers/gpu/drm/msm/hdmi/hdmi_phy_8998.c
+index 0e3a2b16a2ce..e6ffaf92d26d 100644
+--- a/drivers/gpu/drm/msm/hdmi/hdmi_phy_8998.c
++++ b/drivers/gpu/drm/msm/hdmi/hdmi_phy_8998.c
+@@ -153,15 +153,6 @@ static inline u32 pll_get_pll_cmp(u64 fdata, unsigned long ref_clk)
+ 	return dividend - 1;
+ }
+ 
+-static inline u64 pll_cmp_to_fdata(u32 pll_cmp, unsigned long ref_clk)
+-{
+-	u64 fdata = ((u64)pll_cmp) * ref_clk * 10;
+-
+-	do_div(fdata, HDMI_PLL_CMP_CNT);
+-
+-	return fdata;
+-}
+-
+ #define HDMI_REF_CLOCK_HZ ((u64)19200000)
+ #define HDMI_MHZ_TO_HZ ((u64)1000000)
+ static int pll_get_post_div(struct hdmi_8998_post_divider *pd, u64 bclk)
+
+---
+base-commit: 32ffa5373540a8d1c06619f52d019c6cdc948bb4
+change-id: 20240922-msm-drop-unused-func-b9e76ad8e0ea
+
+Best regards,
 -- 
-With best wishes
-Dmitry
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
