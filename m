@@ -2,101 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D8C997E394
-	for <lists+dri-devel@lfdr.de>; Sun, 22 Sep 2024 23:03:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E115797DDEC
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Sep 2024 18:45:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3012010E179;
-	Sun, 22 Sep 2024 21:03:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F410710E0B4;
+	Sat, 21 Sep 2024 16:45:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=permerror (0-bit key) header.d=jannau.net header.i=@jannau.net header.b="SAnnsd0I";
-	dkim=permerror (0-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="gSyr5Saj";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="qVJ7t6C9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 481 seconds by postgrey-1.36 at gabe;
- Sat, 21 Sep 2024 14:26:12 UTC
-Received: from fout1-smtp.messagingengine.com (fout1-smtp.messagingengine.com
- [103.168.172.144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1DE910E192
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Sep 2024 14:26:12 +0000 (UTC)
-Received: from phl-compute-05.internal (phl-compute-05.phl.internal
- [10.202.2.45])
- by mailfout.phl.internal (Postfix) with ESMTP id 7359113801E6;
- Sat, 21 Sep 2024 10:18:10 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
- by phl-compute-05.internal (MEProxy); Sat, 21 Sep 2024 10:18:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
- :cc:content-type:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:subject
- :subject:to:to; s=fm3; t=1726928290; x=1727014690; bh=giKd9Yzx4/
- NYlFb8znG9bVy2N/ZlsJq164ObM2aoCA4=; b=SAnnsd0IXyV5YKnEP5FwJCPEb3
- JKdPI4GDgoJ5NgNnGruG9i9f2IjSArn3anee5E4T0gvHF+2q7K6kBjdXsaZMQxxp
- XNlLVdeTQMW+M09skvuEzJdq/nOP3vysUYpOwpRZvXnnVdMFeXkCyrD1K5eVknyH
- ws7Cp65BwrNY3TTFdjelPhIn45ChRFF5BRUCeUdP5ew4DaqrfTwabj3ognX0WgH0
- 4Wy6CnD4FZRwjfh4bHt5q9SOtB+bW+Wwr1b4j4rhni/JuykIcHvLJh94TKEiMK+6
- idoGLUriepuUHu+q7Vqq7p3lnscd0W0rZJJHLtKDp3mhycdbOouun2sgpDOg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:content-type:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:subject:subject:to
- :to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; t=1726928290; x=1727014690; bh=giKd9Yzx4/NYlFb8znG9bVy2N/Zl
- sJq164ObM2aoCA4=; b=gSyr5SajhClRmaNxcn2+uvFNX2HOt7aSv2/mOC6n6e1T
- WGd59AOf0As3qqhk+La4QofZa/XsR5nz9IJOfKHjWdIrZL0yl/6C84sHyPlPXip1
- W6NkBbwTC16dXdxO7l7NWt47ttLdaQF9by+jAM8ynXeVFNQeephdIr3yxcKLnwBk
- 8RxzNw1ksk84my/LPJRPvFfKeqnRx9CY/jI6QZsadZQq9ynaEYdUuRnZ0e+i2j5l
- 31XCna5xCZBKKwglJzCNgSjN6WkB5BZOjsNx7hZ0u9WzDvWGXEuybeOW3ehM+GL0
- FVPOXbNVwspbCyTp35QAue4XILjj/nyEsSTgC4956Q==
-X-ME-Sender: <xms:oNXuZiPsQRUSqIjX8wFL5r9wIQiKa2XuEYi3sSNBHJ85GA6GFP3eIg>
- <xme:oNXuZg8Zc5nw5LzA5bm5ln1O1PAF9Cg8Rugg0CzTEbRakfufRecAotrhYsOPX2_5T
- tuxDaRst8M79HSSou0>
-X-ME-Received: <xmr:oNXuZpR9udFjLxblGqqqk3UIHdEmduz3f790TzdnNmOIhr2MfDosOibxX_U1r7TqBgFlwix1TrFqeaZTjX7iEcKchjy0p9qEtYU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudelhedgjeeiucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
- rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
- htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtjeen
- ucfhrhhomheplfgrnhhnvgcuifhruhhnrghuuceojhgrnhhnvgesjhgrnhhnrghurdhnvg
- htqeenucggtffrrghtthgvrhhnpeetkeegfffhhfekhfdtveejueevtdefkeehgeekgeel
- teeluddugeeuvddukeeuffenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluh
- hsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhgrnhhnvgesjhgr
- nhhnrghurdhnvghtpdhnsggprhgtphhtthhopedugedpmhhouggvpehsmhhtphhouhhtpd
- hrtghpthhtoheprhhosggutghlrghrkhesghhmrghilhdrtghomhdprhgtphhtthhopegu
- rhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpth
- htoheprhhosggutghlrghrkhestghhrhhomhhiuhhmrdhorhhgpdhrtghpthhtoheplhhi
- nhgrsegrshgrhhhilhhinhgrrdhnvghtpdhrtghpthhtohepshhtrggslhgvsehvghgvrh
- drkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhtuhhikhhovhekleesghhmrghilhdr
- tghomhdprhgtphhtthhopehmrghtthhhvgifrdgsrhhoshhtsehinhhtvghlrdgtohhmpd
- hrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgv
- lhdrtghomhdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:oNXuZivcIFTAwJOCzln0lyQPizft33icJ8HXbwj4NUh4aLHDTp7AKw>
- <xmx:oNXuZqcktNUenXy6skZ0jnOfMsN5sQx_1fGB0VySoUh_d6Zdz72aLw>
- <xmx:oNXuZm1BfPOTZoh4DOTwAROW7JeIFST_6s609F2H7dfoMq4PkeQr1Q>
- <xmx:oNXuZu9ayZeaeoZrLWr3W1MVd-DC7vggeZxNpxcn1JfuUIs8cObUSQ>
- <xmx:otXuZl3oT0V2JP4j-_hwn19Pd6C7QOp9AtMrqEPC15IdupnXm0xtCDHg>
-Feedback-ID: i449149f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 21 Sep 2024 10:18:08 -0400 (EDT)
-Date: Sat, 21 Sep 2024 16:18:06 +0200
-From: Janne Grunau <janne@jannau.net>
-To: Rob Clark <robdclark@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, Rob Clark <robdclark@chromium.org>,
- Asahi Lina <lina@asahilina.net>, stable@vger.kernel.org,
- Luben Tuikov <ltuikov89@gmail.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Danilo Krummrich <dakr@redhat.com>,
- open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] drm/sched: Fix dynamic job-flow control race
-Message-ID: <Zu7Vnr7y4fS6KZaY@robin>
-References: <20240913202301.16772-1-robdclark@gmail.com>
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+ [209.85.221.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D9E410E0B4
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Sep 2024 16:45:42 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id
+ ffacd0b85a97d-37a413085cbso1298153f8f.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Sep 2024 09:45:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1726937140; x=1727541940; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=11BcDD5IihY8sHkWDN4bZKYEHZDz5Md3HLgNTNoCcv8=;
+ b=qVJ7t6C93R9u0ebxgndQj6fSSnTVxI0mCGy5Ri/FB6LXCtZcl+U4cbGCIl6cfq4KJ9
+ lS+7LwwXdLRzhBWeF9Rr5dqV6dpNaMyaUxmLspX9anqrRmGHvnXTI1SymhNsi4nlq0Al
+ /UrKEhlnpHkJNbVn8CyzbynViC+inI28UcShu05AjT2lvmggp3RzDPAzR6A2h7hD6jjn
+ 1z1dVcJ4dnXgZdtTry+ugACV0ROZTBnHTwYwVXNkX9QQVHxllUVwesI2pTQvyD/HEgef
+ oAQiazMTMC2Aj0033SXDikDHrT1n+RTGTNaRwQBU7DtRGaFb0RsgXo0IfCt3CB8Tjk1l
+ gELg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1726937140; x=1727541940;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=11BcDD5IihY8sHkWDN4bZKYEHZDz5Md3HLgNTNoCcv8=;
+ b=hNmNPjjxsVpl7nWz/7boO/HYeueaf26dm1s4UJ+5WoiA2TeruSkoPZ0HePRiQ66dH4
+ HUiBokRKRFeXZ+G+xqLv1+BzvkNwPEMH00h2WJFoCTbpse+GoK8hqvh0Yj2tRnKdG3cj
+ msGxylNQTlIManh5vVmihpcPysDC47L31DKot0ifjiYEQZZULmX5dn9g/S4TYeVvpIO5
+ dp2mW56WFYOVk8FkwCvwexEJySObJUKQobRtA4LFAC+bi66p2dYL7sBx/naXWu1dwT5O
+ WizQwMtsWnqlcO5kLKdUzRQnRxVuTcWMiUNW6t+Op+5vQEIsZ4EJuVqkhsZ9RlLBwLSU
+ wUCg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXsB4b6a6/rNvGKRwfgZoWPOswi3rKJLMF2n4X0dqZ+3nVOqM//xmFcYmXK8Yapiek03S31P7ydS0U=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyfg+8HGvZo6OUX6Ducv+nB5hr+JhuepvzUBjoEk2npCvtpQasT
+ PozWFXYSaHbpgD9tgdtWWEXrcMCXF4LdulotEh2l75j+pA+ZZLtueMdFHgkSbcg=
+X-Google-Smtp-Source: AGHT+IGJxFMVH30eOyDamIi8EJSOxXEIYis2TfZ8Ked9m32LuYuazdpkQsz44vOA8nV3YSdj2nd1Vw==
+X-Received: by 2002:adf:f6cd:0:b0:374:d2a3:d213 with SMTP id
+ ffacd0b85a97d-37a414f4b94mr3768151f8f.18.1726937140340; 
+ Sat, 21 Sep 2024 09:45:40 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:7001:d575:d71f:f3b?
+ ([2a01:e0a:982:cbb0:7001:d575:d71f:f3b])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-37a47b58bfdsm3004926f8f.14.2024.09.21.09.45.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 21 Sep 2024 09:45:39 -0700 (PDT)
+Message-ID: <11cdd74f-683c-458e-bb18-8a0d8f8904e8@linaro.org>
+Date: Sat, 21 Sep 2024 18:45:38 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240913202301.16772-1-robdclark@gmail.com>
-X-Mailman-Approved-At: Sun, 22 Sep 2024 21:03:01 +0000
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 00/11] Preemption support for A7XX
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Cc: Antonino Maniscalco <antomani103@gmail.com>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jonathan Corbet <corbet@lwn.net>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ Sharat Masetty <smasetty@codeaurora.org>
+References: <20240917-preemption-a750-t-v4-0-95d48012e0ac@gmail.com>
+ <c70392bb-bda1-48c7-824e-23d6f92f54ef@linaro.org>
+ <20240920170949.vp3642gghhey3pjb@hu-akhilpo-hyd.qualcomm.com>
+Content-Language: en-GB
+From: Neil Armstrong <neil.armstrong@linaro.org>
+In-Reply-To: <20240920170949.vp3642gghhey3pjb@hu-akhilpo-hyd.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,37 +99,163 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 13, 2024 at 01:23:01PM -0700, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
+Le 20/09/2024 à 19:09, Akhil P Oommen a écrit :
+> On Wed, Sep 18, 2024 at 09:46:33AM +0200, Neil Armstrong wrote:
+>> Hi,
+>>
+>> On 17/09/2024 13:14, Antonino Maniscalco wrote:
+>>> This series implements preemption for A7XX targets, which allows the GPU to
+>>> switch to an higher priority ring when work is pushed to it, reducing latency
+>>> for high priority submissions.
+>>>
+>>> This series enables L1 preemption with skip_save_restore which requires
+>>> the following userspace patches to function:
+>>>
+>>> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/30544
+>>>
+>>> A flag is added to `msm_submitqueue_create` to only allow submissions
+>>> from compatible userspace to be preempted, therefore maintaining
+>>> compatibility.
+>>>
+>>> Preemption is currently only enabled by default on A750, it can be
+>>> enabled on other targets through the `enable_preemption` module
+>>> parameter. This is because more testing is required on other targets.
+>>>
+>>> For testing on other HW it is sufficient to set that parameter to a
+>>> value of 1, then using the branch of mesa linked above, `TU_DEBUG=hiprio`
+>>> allows to run any application as high priority therefore preempting
+>>> submissions from other applications.
+>>>
+>>> The `msm_gpu_preemption_trigger` and `msm_gpu_preemption_irq` traces
+>>> added in this series can be used to observe preemption's behavior as
+>>> well as measuring preemption latency.
+>>>
+>>> Some commits from this series are based on a previous series to enable
+>>> preemption on A6XX targets:
+>>>
+>>> https://lkml.kernel.org/1520489185-21828-1-git-send-email-smasetty@codeaurora.org
+>>>
+>>> Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
+>>> ---
+>>> Changes in v4:
+>>> - Added missing register in pwrup list
+>>> - Removed and rearrange barriers
+>>> - Renamed `skip_inline_wptr` to `restore_wptr`
+>>> - Track ctx seqno per ring
+>>> - Removed secure preempt context
+>>> - NOP out postamble to disable it instantly
+>>> - Only emit pwrup reglist once
+>>> - Document bv_rptr_addr
+>>> - Removed unused A6XX_PREEMPT_USER_RECORD_SIZE
+>>> - Set name on preempt record buffer
+>>> - Link to v3: https://lore.kernel.org/r/20240905-preemption-a750-t-v3-0-fd947699f7bc@gmail.com
+>>>
+>>> Changes in v3:
+>>> - Added documentation about preemption
+>>> - Use quirks to determine which target supports preemption
+>>> - Add a module parameter to force disabling or enabling preemption
+>>> - Clear postamble when profiling
+>>> - Define A6XX_CP_CONTEXT_SWITCH_CNTL_LEVEL fields in a6xx.xml
+>>> - Make preemption records MAP_PRIV
+>>> - Removed user ctx record (NON_PRIV) and patch 2/9 as it's not needed
+>>>     anymore
+>>> - Link to v2: https://lore.kernel.org/r/20240830-preemption-a750-t-v2-0-86aeead2cd80@gmail.com
+>>>
+>>> Changes in v2:
+>>> - Added preept_record_size for X185 in PATCH 3/7
+>>> - Added patches to reset perf counters
+>>> - Dropped unused defines
+>>> - Dropped unused variable (fixes warning)
+>>> - Only enable preemption on a750
+>>> - Reject MSM_SUBMITQUEUE_ALLOW_PREEMPT for unsupported targets
+>>> - Added Akhil's Reviewed-By tags to patches 1/9,2/9,3/9
+>>> - Added Neil's Tested-By tags
+>>> - Added explanation for UAPI changes in commit message
+>>> - Link to v1: https://lore.kernel.org/r/20240815-preemption-a750-t-v1-0-7bda26c34037@gmail.com
+>>>
+>>> ---
+>>> Antonino Maniscalco (11):
+>>>         drm/msm: Fix bv_fence being used as bv_rptr
+>>>         drm/msm/A6XX: Track current_ctx_seqno per ring
+>>>         drm/msm: Add a `preempt_record_size` field
+>>>         drm/msm: Add CONTEXT_SWITCH_CNTL bitfields
+>>>         drm/msm/A6xx: Implement preemption for A7XX targets
+>>>         drm/msm/A6xx: Sync relevant adreno_pm4.xml changes
+>>>         drm/msm/A6xx: Use posamble to reset counters on preemption
+>>>         drm/msm/A6xx: Add traces for preemption
+>>>         drm/msm/A6XX: Add a flag to allow preemption to submitqueue_create
+>>>         drm/msm/A6xx: Enable preemption for A750
+>>>         Documentation: document adreno preemption
+>>>
+>>>    Documentation/gpu/msm-preemption.rst               |  98 +++++
+>>>    drivers/gpu/drm/msm/Makefile                       |   1 +
+>>>    drivers/gpu/drm/msm/adreno/a2xx_gpu.c              |   2 +-
+>>>    drivers/gpu/drm/msm/adreno/a3xx_gpu.c              |   2 +-
+>>>    drivers/gpu/drm/msm/adreno/a4xx_gpu.c              |   2 +-
+>>>    drivers/gpu/drm/msm/adreno/a5xx_gpu.c              |   6 +-
+>>>    drivers/gpu/drm/msm/adreno/a6xx_catalog.c          |   7 +-
+>>>    drivers/gpu/drm/msm/adreno/a6xx_gpu.c              | 325 ++++++++++++++-
+>>>    drivers/gpu/drm/msm/adreno/a6xx_gpu.h              | 174 ++++++++
+>>>    drivers/gpu/drm/msm/adreno/a6xx_preempt.c          | 440 +++++++++++++++++++++
+>>>    drivers/gpu/drm/msm/adreno/adreno_gpu.h            |   9 +-
+>>>    drivers/gpu/drm/msm/msm_drv.c                      |   4 +
+>>>    drivers/gpu/drm/msm/msm_gpu.c                      |   2 +-
+>>>    drivers/gpu/drm/msm/msm_gpu.h                      |  11 -
+>>>    drivers/gpu/drm/msm/msm_gpu_trace.h                |  28 ++
+>>>    drivers/gpu/drm/msm/msm_ringbuffer.h               |  18 +
+>>>    drivers/gpu/drm/msm/msm_submitqueue.c              |   3 +
+>>>    drivers/gpu/drm/msm/registers/adreno/a6xx.xml      |   7 +-
+>>>    .../gpu/drm/msm/registers/adreno/adreno_pm4.xml    |  39 +-
+>>>    include/uapi/drm/msm_drm.h                         |   5 +-
+>>>    20 files changed, 1117 insertions(+), 66 deletions(-)
+>>> ---
+>>> base-commit: 7c626ce4bae1ac14f60076d00eafe71af30450ba
+>>> change-id: 20240815-preemption-a750-t-fcee9a844b39
+>>>
+>>> Best regards,
+>>
+>> I've been running vulkan-cts (1.3.7.3-0-gd71a36db16d98313c431829432a136dbda692a08 from Yocto)
+>> on SM8650-QRD, SM8550-QRD & SM8450-HDK boards with enable_preemption in default value
+>> and forced to 1, and I've seen no regression so far
+>>
+>> On SM8550, I've seen a few:
+>> platform 3d6a000.gmu: [drm:a6xx_hfi_send_msg.constprop.0 [msm]] *ERROR* Message HFI_H2F_MSG_GX_BW_PERF_VOTE id 2743 timed out waiting for response
+>> platform 3d6a000.gmu: [drm:a6xx_hfi_send_msg.constprop.0 [msm]] *ERROR* Unexpected message id 2743 on the response queue
+>> but it's unrelated to preempt
+>>
+>> and on SM8450:
+>> platform 3d6a000.gmu: [drm:a6xx_gmu_set_oob [msm]] *ERROR* Timeout waiting for GMU OOB set GPU_SET: 0x0
+>> msm_dpu ae01000.display-controller: [drm:hangcheck_handler [msm]] *ERROR* 7.3.0.1: hangcheck detected gpu lockup rb 0!
+>> msm_dpu ae01000.display-controller: [drm:hangcheck_handler [msm]] *ERROR* 7.3.0.1:     completed fence: 331235
+>> msm_dpu ae01000.display-controller: [drm:hangcheck_handler [msm]] *ERROR* 7.3.0.1:     submitted fence: 331236
+>> adreno 3d00000.gpu: [drm:a6xx_irq [msm]] *ERROR* gpu fault ring 0 fence 50de4 status 00800005 rb 0000/0699 ib1 0000000000000000/0000 ib2 0000000000000000/0000
+>> msm_dpu ae01000.display-controller: [drm:recover_worker [msm]] *ERROR* 7.3.0.1: hangcheck recover!
+>> msm_dpu ae01000.display-controller: [drm:recover_worker [msm]] *ERROR* 7.3.0.1: offending task: deqp-vk (/usr/lib/vulkan-cts/deqp-vk)
+>> msm_dpu ae01000.display-controller: [drm:recover_worker [msm]] *ERROR* 7.3.0.1: hangcheck recover!
+>> leading to a VK_ERROR_DEVICE_LOST, but again unrelated to preempt support.
+>>
+>> So you can also add:
+>> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8550-QRD
+>> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8450-HDK
+>>
 > 
-> Fixes a race condition reported here: https://github.com/AsahiLinux/linux/issues/309#issuecomment-2238968609
+> Niel,
 > 
-> The whole premise of lockless access to a single-producer-single-
-> consumer queue is that there is just a single producer and single
-> consumer.  That means we can't call drm_sched_can_queue() (which is
-> about queueing more work to the hw, not to the spsc queue) from
-> anywhere other than the consumer (wq).
+> On my x1e device, all submissions were somehow going into only a single
+> ring, even the compositor's. Not sure why. So effectively preemption was
+> not really exercised. I had to force one of the two benchmark I ran
+> using the "highprio" mesa debug flag force submittions to ring 0.
 > 
-> This call in the producer is just an optimization to avoid scheduling
-> the consuming worker if it cannot yet queue more work to the hw.  It
-> is safe to drop this optimization to avoid the race condition.
-> 
-> Suggested-by: Asahi Lina <lina@asahilina.net>
-> Fixes: a78422e9dff3 ("drm/sched: implement dynamic job-flow control")
-> Closes: https://github.com/AsahiLinux/linux/issues/309
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
->  drivers/gpu/drm/scheduler/sched_entity.c | 4 ++--
->  drivers/gpu/drm/scheduler/sched_main.c   | 7 ++-----
->  include/drm/gpu_scheduler.h              | 2 +-
->  3 files changed, 5 insertions(+), 8 deletions(-)
+> If possible it is a good idea to check the new preemption traces to
+> ensure preemption kicks in.
 
-Tested for several hours with CONFIG_PREMPT=y and kasan with a similar
-workload as in the github issue without reports or oopses.
+Sure I'll run the test again on a750 and check if preemption kicks in.
 
-Feel free to add
-Tested-by: Janne Grunau <j@jannau.net>
+Neil
 
-thanks,
-Janne
+> 
+> -Akhil
+> 
+>> Thanks,
+>> Neil
+
