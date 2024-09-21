@@ -2,88 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E115797DDEC
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Sep 2024 18:45:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C93E797DE06
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Sep 2024 18:58:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F410710E0B4;
-	Sat, 21 Sep 2024 16:45:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0209010E09A;
+	Sat, 21 Sep 2024 16:58:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="qVJ7t6C9";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Ci5KRYMe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
- [209.85.221.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D9E410E0B4
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Sep 2024 16:45:42 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id
- ffacd0b85a97d-37a413085cbso1298153f8f.1
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Sep 2024 09:45:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1726937140; x=1727541940; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=11BcDD5IihY8sHkWDN4bZKYEHZDz5Md3HLgNTNoCcv8=;
- b=qVJ7t6C93R9u0ebxgndQj6fSSnTVxI0mCGy5Ri/FB6LXCtZcl+U4cbGCIl6cfq4KJ9
- lS+7LwwXdLRzhBWeF9Rr5dqV6dpNaMyaUxmLspX9anqrRmGHvnXTI1SymhNsi4nlq0Al
- /UrKEhlnpHkJNbVn8CyzbynViC+inI28UcShu05AjT2lvmggp3RzDPAzR6A2h7hD6jjn
- 1z1dVcJ4dnXgZdtTry+ugACV0ROZTBnHTwYwVXNkX9QQVHxllUVwesI2pTQvyD/HEgef
- oAQiazMTMC2Aj0033SXDikDHrT1n+RTGTNaRwQBU7DtRGaFb0RsgXo0IfCt3CB8Tjk1l
- gELg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1726937140; x=1727541940;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=11BcDD5IihY8sHkWDN4bZKYEHZDz5Md3HLgNTNoCcv8=;
- b=hNmNPjjxsVpl7nWz/7boO/HYeueaf26dm1s4UJ+5WoiA2TeruSkoPZ0HePRiQ66dH4
- HUiBokRKRFeXZ+G+xqLv1+BzvkNwPEMH00h2WJFoCTbpse+GoK8hqvh0Yj2tRnKdG3cj
- msGxylNQTlIManh5vVmihpcPysDC47L31DKot0ifjiYEQZZULmX5dn9g/S4TYeVvpIO5
- dp2mW56WFYOVk8FkwCvwexEJySObJUKQobRtA4LFAC+bi66p2dYL7sBx/naXWu1dwT5O
- WizQwMtsWnqlcO5kLKdUzRQnRxVuTcWMiUNW6t+Op+5vQEIsZ4EJuVqkhsZ9RlLBwLSU
- wUCg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXsB4b6a6/rNvGKRwfgZoWPOswi3rKJLMF2n4X0dqZ+3nVOqM//xmFcYmXK8Yapiek03S31P7ydS0U=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyfg+8HGvZo6OUX6Ducv+nB5hr+JhuepvzUBjoEk2npCvtpQasT
- PozWFXYSaHbpgD9tgdtWWEXrcMCXF4LdulotEh2l75j+pA+ZZLtueMdFHgkSbcg=
-X-Google-Smtp-Source: AGHT+IGJxFMVH30eOyDamIi8EJSOxXEIYis2TfZ8Ked9m32LuYuazdpkQsz44vOA8nV3YSdj2nd1Vw==
-X-Received: by 2002:adf:f6cd:0:b0:374:d2a3:d213 with SMTP id
- ffacd0b85a97d-37a414f4b94mr3768151f8f.18.1726937140340; 
- Sat, 21 Sep 2024 09:45:40 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:7001:d575:d71f:f3b?
- ([2a01:e0a:982:cbb0:7001:d575:d71f:f3b])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-37a47b58bfdsm3004926f8f.14.2024.09.21.09.45.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 21 Sep 2024 09:45:39 -0700 (PDT)
-Message-ID: <11cdd74f-683c-458e-bb18-8a0d8f8904e8@linaro.org>
-Date: Sat, 21 Sep 2024 18:45:38 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 00/11] Preemption support for A7XX
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Cc: Antonino Maniscalco <antomani103@gmail.com>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D008C10E09A
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Sep 2024 16:58:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1726937882; x=1758473882;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=i/nnjI0ViTimAwem0aVad0+BDc21UD4S2ik361G0iQg=;
+ b=Ci5KRYMeU6CsNksycP80YvQ/nmFR6ZovtAD+eU/zLhwyZtaQs5g9H4wT
+ lUbjFSiorBDCHO+LxMKzxUQTKgnSNF0laLHTrls7EVUfiD+VO5ss3g0co
+ QhZAJoLFcK462Jnz1BMWvGPs4hYFtTtAaE4wFHHAjSJ1u84lmCrRqOyqe
+ SeGrOudN6LpKTMACzdX6qkgmiuv4Gpm4RO2x1NI8jyDZi2ykDmvjxfoyo
+ 8wnLTWGkdP3Wdq56wJ/lsGhzmAVurHE/bAs9RKN+GatTO5Vo29dCvQKM1
+ CRyzKX396yVexnSb+yFiKULg8DeL3+z70Xj9dpSIAFg6TigtETN7rSS6l Q==;
+X-CSE-ConnectionGUID: 0y4DPj5zTdCT/mp4vYTrrQ==
+X-CSE-MsgGUID: IrC7RMI0Q56o2YD0HO73gA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="36592241"
+X-IronPort-AV: E=Sophos;i="6.10,247,1719903600"; d="scan'208";a="36592241"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Sep 2024 09:58:01 -0700
+X-CSE-ConnectionGUID: Q0Z8ZYNiSJSIQmHGIi5+eA==
+X-CSE-MsgGUID: J+XTM455TaOuDL+8hEif8w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,247,1719903600"; d="scan'208";a="75398057"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+ by orviesa003.jf.intel.com with ESMTP; 21 Sep 2024 09:57:57 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1ss3Qg-000FcB-2w;
+ Sat, 21 Sep 2024 16:57:54 +0000
+Date: Sun, 22 Sep 2024 00:57:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mary Guillemard <mary.guillemard@collabora.com>,
+ linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, Boris Brezillon <bbrezillon@kernel.org>,
+ Christopher Healy <healych@amazon.com>, kernel@collabora.com,
+ Mary Guillemard <mary.guillemard@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jonathan Corbet <corbet@lwn.net>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- Sharat Masetty <smasetty@codeaurora.org>
-References: <20240917-preemption-a750-t-v4-0-95d48012e0ac@gmail.com>
- <c70392bb-bda1-48c7-824e-23d6f92f54ef@linaro.org>
- <20240920170949.vp3642gghhey3pjb@hu-akhilpo-hyd.qualcomm.com>
-Content-Language: en-GB
-From: Neil Armstrong <neil.armstrong@linaro.org>
-In-Reply-To: <20240920170949.vp3642gghhey3pjb@hu-akhilpo-hyd.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH 1/2] drm/panthor: Add csg_priority to panthor_group
+Message-ID: <202409220025.v4cCQjaI-lkp@intel.com>
+References: <20240918085056.24422-3-mary.guillemard@collabora.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240918085056.24422-3-mary.guillemard@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,163 +78,223 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Le 20/09/2024 à 19:09, Akhil P Oommen a écrit :
-> On Wed, Sep 18, 2024 at 09:46:33AM +0200, Neil Armstrong wrote:
->> Hi,
->>
->> On 17/09/2024 13:14, Antonino Maniscalco wrote:
->>> This series implements preemption for A7XX targets, which allows the GPU to
->>> switch to an higher priority ring when work is pushed to it, reducing latency
->>> for high priority submissions.
->>>
->>> This series enables L1 preemption with skip_save_restore which requires
->>> the following userspace patches to function:
->>>
->>> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/30544
->>>
->>> A flag is added to `msm_submitqueue_create` to only allow submissions
->>> from compatible userspace to be preempted, therefore maintaining
->>> compatibility.
->>>
->>> Preemption is currently only enabled by default on A750, it can be
->>> enabled on other targets through the `enable_preemption` module
->>> parameter. This is because more testing is required on other targets.
->>>
->>> For testing on other HW it is sufficient to set that parameter to a
->>> value of 1, then using the branch of mesa linked above, `TU_DEBUG=hiprio`
->>> allows to run any application as high priority therefore preempting
->>> submissions from other applications.
->>>
->>> The `msm_gpu_preemption_trigger` and `msm_gpu_preemption_irq` traces
->>> added in this series can be used to observe preemption's behavior as
->>> well as measuring preemption latency.
->>>
->>> Some commits from this series are based on a previous series to enable
->>> preemption on A6XX targets:
->>>
->>> https://lkml.kernel.org/1520489185-21828-1-git-send-email-smasetty@codeaurora.org
->>>
->>> Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
->>> ---
->>> Changes in v4:
->>> - Added missing register in pwrup list
->>> - Removed and rearrange barriers
->>> - Renamed `skip_inline_wptr` to `restore_wptr`
->>> - Track ctx seqno per ring
->>> - Removed secure preempt context
->>> - NOP out postamble to disable it instantly
->>> - Only emit pwrup reglist once
->>> - Document bv_rptr_addr
->>> - Removed unused A6XX_PREEMPT_USER_RECORD_SIZE
->>> - Set name on preempt record buffer
->>> - Link to v3: https://lore.kernel.org/r/20240905-preemption-a750-t-v3-0-fd947699f7bc@gmail.com
->>>
->>> Changes in v3:
->>> - Added documentation about preemption
->>> - Use quirks to determine which target supports preemption
->>> - Add a module parameter to force disabling or enabling preemption
->>> - Clear postamble when profiling
->>> - Define A6XX_CP_CONTEXT_SWITCH_CNTL_LEVEL fields in a6xx.xml
->>> - Make preemption records MAP_PRIV
->>> - Removed user ctx record (NON_PRIV) and patch 2/9 as it's not needed
->>>     anymore
->>> - Link to v2: https://lore.kernel.org/r/20240830-preemption-a750-t-v2-0-86aeead2cd80@gmail.com
->>>
->>> Changes in v2:
->>> - Added preept_record_size for X185 in PATCH 3/7
->>> - Added patches to reset perf counters
->>> - Dropped unused defines
->>> - Dropped unused variable (fixes warning)
->>> - Only enable preemption on a750
->>> - Reject MSM_SUBMITQUEUE_ALLOW_PREEMPT for unsupported targets
->>> - Added Akhil's Reviewed-By tags to patches 1/9,2/9,3/9
->>> - Added Neil's Tested-By tags
->>> - Added explanation for UAPI changes in commit message
->>> - Link to v1: https://lore.kernel.org/r/20240815-preemption-a750-t-v1-0-7bda26c34037@gmail.com
->>>
->>> ---
->>> Antonino Maniscalco (11):
->>>         drm/msm: Fix bv_fence being used as bv_rptr
->>>         drm/msm/A6XX: Track current_ctx_seqno per ring
->>>         drm/msm: Add a `preempt_record_size` field
->>>         drm/msm: Add CONTEXT_SWITCH_CNTL bitfields
->>>         drm/msm/A6xx: Implement preemption for A7XX targets
->>>         drm/msm/A6xx: Sync relevant adreno_pm4.xml changes
->>>         drm/msm/A6xx: Use posamble to reset counters on preemption
->>>         drm/msm/A6xx: Add traces for preemption
->>>         drm/msm/A6XX: Add a flag to allow preemption to submitqueue_create
->>>         drm/msm/A6xx: Enable preemption for A750
->>>         Documentation: document adreno preemption
->>>
->>>    Documentation/gpu/msm-preemption.rst               |  98 +++++
->>>    drivers/gpu/drm/msm/Makefile                       |   1 +
->>>    drivers/gpu/drm/msm/adreno/a2xx_gpu.c              |   2 +-
->>>    drivers/gpu/drm/msm/adreno/a3xx_gpu.c              |   2 +-
->>>    drivers/gpu/drm/msm/adreno/a4xx_gpu.c              |   2 +-
->>>    drivers/gpu/drm/msm/adreno/a5xx_gpu.c              |   6 +-
->>>    drivers/gpu/drm/msm/adreno/a6xx_catalog.c          |   7 +-
->>>    drivers/gpu/drm/msm/adreno/a6xx_gpu.c              | 325 ++++++++++++++-
->>>    drivers/gpu/drm/msm/adreno/a6xx_gpu.h              | 174 ++++++++
->>>    drivers/gpu/drm/msm/adreno/a6xx_preempt.c          | 440 +++++++++++++++++++++
->>>    drivers/gpu/drm/msm/adreno/adreno_gpu.h            |   9 +-
->>>    drivers/gpu/drm/msm/msm_drv.c                      |   4 +
->>>    drivers/gpu/drm/msm/msm_gpu.c                      |   2 +-
->>>    drivers/gpu/drm/msm/msm_gpu.h                      |  11 -
->>>    drivers/gpu/drm/msm/msm_gpu_trace.h                |  28 ++
->>>    drivers/gpu/drm/msm/msm_ringbuffer.h               |  18 +
->>>    drivers/gpu/drm/msm/msm_submitqueue.c              |   3 +
->>>    drivers/gpu/drm/msm/registers/adreno/a6xx.xml      |   7 +-
->>>    .../gpu/drm/msm/registers/adreno/adreno_pm4.xml    |  39 +-
->>>    include/uapi/drm/msm_drm.h                         |   5 +-
->>>    20 files changed, 1117 insertions(+), 66 deletions(-)
->>> ---
->>> base-commit: 7c626ce4bae1ac14f60076d00eafe71af30450ba
->>> change-id: 20240815-preemption-a750-t-fcee9a844b39
->>>
->>> Best regards,
->>
->> I've been running vulkan-cts (1.3.7.3-0-gd71a36db16d98313c431829432a136dbda692a08 from Yocto)
->> on SM8650-QRD, SM8550-QRD & SM8450-HDK boards with enable_preemption in default value
->> and forced to 1, and I've seen no regression so far
->>
->> On SM8550, I've seen a few:
->> platform 3d6a000.gmu: [drm:a6xx_hfi_send_msg.constprop.0 [msm]] *ERROR* Message HFI_H2F_MSG_GX_BW_PERF_VOTE id 2743 timed out waiting for response
->> platform 3d6a000.gmu: [drm:a6xx_hfi_send_msg.constprop.0 [msm]] *ERROR* Unexpected message id 2743 on the response queue
->> but it's unrelated to preempt
->>
->> and on SM8450:
->> platform 3d6a000.gmu: [drm:a6xx_gmu_set_oob [msm]] *ERROR* Timeout waiting for GMU OOB set GPU_SET: 0x0
->> msm_dpu ae01000.display-controller: [drm:hangcheck_handler [msm]] *ERROR* 7.3.0.1: hangcheck detected gpu lockup rb 0!
->> msm_dpu ae01000.display-controller: [drm:hangcheck_handler [msm]] *ERROR* 7.3.0.1:     completed fence: 331235
->> msm_dpu ae01000.display-controller: [drm:hangcheck_handler [msm]] *ERROR* 7.3.0.1:     submitted fence: 331236
->> adreno 3d00000.gpu: [drm:a6xx_irq [msm]] *ERROR* gpu fault ring 0 fence 50de4 status 00800005 rb 0000/0699 ib1 0000000000000000/0000 ib2 0000000000000000/0000
->> msm_dpu ae01000.display-controller: [drm:recover_worker [msm]] *ERROR* 7.3.0.1: hangcheck recover!
->> msm_dpu ae01000.display-controller: [drm:recover_worker [msm]] *ERROR* 7.3.0.1: offending task: deqp-vk (/usr/lib/vulkan-cts/deqp-vk)
->> msm_dpu ae01000.display-controller: [drm:recover_worker [msm]] *ERROR* 7.3.0.1: hangcheck recover!
->> leading to a VK_ERROR_DEVICE_LOST, but again unrelated to preempt support.
->>
->> So you can also add:
->> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8550-QRD
->> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8450-HDK
->>
-> 
-> Niel,
-> 
-> On my x1e device, all submissions were somehow going into only a single
-> ring, even the compositor's. Not sure why. So effectively preemption was
-> not really exercised. I had to force one of the two benchmark I ran
-> using the "highprio" mesa debug flag force submittions to ring 0.
-> 
-> If possible it is a good idea to check the new preemption traces to
-> ensure preemption kicks in.
+Hi Mary,
 
-Sure I'll run the test again on a750 and check if preemption kicks in.
+kernel test robot noticed the following build warnings:
 
-Neil
+[auto build test WARNING on drm/drm-next]
+[also build test WARNING on drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip linus/master v6.11 next-20240920]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> 
-> -Akhil
-> 
->> Thanks,
->> Neil
+url:    https://github.com/intel-lab-lkp/linux/commits/Mary-Guillemard/drm-panthor-Add-csg_priority-to-panthor_group/20240918-165602
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+patch link:    https://lore.kernel.org/r/20240918085056.24422-3-mary.guillemard%40collabora.com
+patch subject: [PATCH 1/2] drm/panthor: Add csg_priority to panthor_group
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240922/202409220025.v4cCQjaI-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240922/202409220025.v4cCQjaI-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409220025.v4cCQjaI-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/gpu/drm/panthor/panthor_sched.c:319: warning: Excess struct member 'runnable' description in 'panthor_scheduler'
+   drivers/gpu/drm/panthor/panthor_sched.c:319: warning: Excess struct member 'idle' description in 'panthor_scheduler'
+   drivers/gpu/drm/panthor/panthor_sched.c:319: warning: Excess struct member 'waiting' description in 'panthor_scheduler'
+   drivers/gpu/drm/panthor/panthor_sched.c:319: warning: Excess struct member 'has_ref' description in 'panthor_scheduler'
+   drivers/gpu/drm/panthor/panthor_sched.c:319: warning: Excess struct member 'in_progress' description in 'panthor_scheduler'
+   drivers/gpu/drm/panthor/panthor_sched.c:319: warning: Excess struct member 'stopped_groups' description in 'panthor_scheduler'
+   drivers/gpu/drm/panthor/panthor_sched.c:479: warning: Excess struct member 'mem' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:479: warning: Excess struct member 'input' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:479: warning: Excess struct member 'output' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:479: warning: Excess struct member 'input_fw_va' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:479: warning: Excess struct member 'output_fw_va' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:479: warning: Excess struct member 'gpu_va' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:479: warning: Excess struct member 'ref' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:479: warning: Excess struct member 'gt' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:479: warning: Excess struct member 'sync64' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:479: warning: Excess struct member 'bo' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:479: warning: Excess struct member 'offset' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:479: warning: Excess struct member 'kmap' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:479: warning: Excess struct member 'lock' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:479: warning: Excess struct member 'id' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:479: warning: Excess struct member 'seqno' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:479: warning: Excess struct member 'last_fence' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:479: warning: Excess struct member 'in_flight_jobs' description in 'panthor_queue'
+>> drivers/gpu/drm/panthor/panthor_sched.c:669: warning: Function parameter or struct member 'csg_priority' not described in 'panthor_group'
+   drivers/gpu/drm/panthor/panthor_sched.c:784: warning: Excess struct member 'start' description in 'panthor_job'
+   drivers/gpu/drm/panthor/panthor_sched.c:784: warning: Excess struct member 'size' description in 'panthor_job'
+   drivers/gpu/drm/panthor/panthor_sched.c:784: warning: Excess struct member 'latest_flush' description in 'panthor_job'
+   drivers/gpu/drm/panthor/panthor_sched.c:784: warning: Excess struct member 'start' description in 'panthor_job'
+   drivers/gpu/drm/panthor/panthor_sched.c:784: warning: Excess struct member 'end' description in 'panthor_job'
+   drivers/gpu/drm/panthor/panthor_sched.c:1707: warning: Function parameter or struct member 'ptdev' not described in 'panthor_sched_report_fw_events'
+   drivers/gpu/drm/panthor/panthor_sched.c:1707: warning: Function parameter or struct member 'events' not described in 'panthor_sched_report_fw_events'
+   drivers/gpu/drm/panthor/panthor_sched.c:2602: warning: Function parameter or struct member 'ptdev' not described in 'panthor_sched_report_mmu_fault'
+
+
+vim +669 drivers/gpu/drm/panthor/panthor_sched.c
+
+de85488138247d Boris Brezillon 2024-02-29  516  
+de85488138247d Boris Brezillon 2024-02-29  517  /**
+de85488138247d Boris Brezillon 2024-02-29  518   * struct panthor_group - Scheduling group object
+de85488138247d Boris Brezillon 2024-02-29  519   */
+de85488138247d Boris Brezillon 2024-02-29  520  struct panthor_group {
+de85488138247d Boris Brezillon 2024-02-29  521  	/** @refcount: Reference count */
+de85488138247d Boris Brezillon 2024-02-29  522  	struct kref refcount;
+de85488138247d Boris Brezillon 2024-02-29  523  
+de85488138247d Boris Brezillon 2024-02-29  524  	/** @ptdev: Device. */
+de85488138247d Boris Brezillon 2024-02-29  525  	struct panthor_device *ptdev;
+de85488138247d Boris Brezillon 2024-02-29  526  
+de85488138247d Boris Brezillon 2024-02-29  527  	/** @vm: VM bound to the group. */
+de85488138247d Boris Brezillon 2024-02-29  528  	struct panthor_vm *vm;
+de85488138247d Boris Brezillon 2024-02-29  529  
+de85488138247d Boris Brezillon 2024-02-29  530  	/** @compute_core_mask: Mask of shader cores that can be used for compute jobs. */
+de85488138247d Boris Brezillon 2024-02-29  531  	u64 compute_core_mask;
+de85488138247d Boris Brezillon 2024-02-29  532  
+de85488138247d Boris Brezillon 2024-02-29  533  	/** @fragment_core_mask: Mask of shader cores that can be used for fragment jobs. */
+de85488138247d Boris Brezillon 2024-02-29  534  	u64 fragment_core_mask;
+de85488138247d Boris Brezillon 2024-02-29  535  
+de85488138247d Boris Brezillon 2024-02-29  536  	/** @tiler_core_mask: Mask of tiler cores that can be used for tiler jobs. */
+de85488138247d Boris Brezillon 2024-02-29  537  	u64 tiler_core_mask;
+de85488138247d Boris Brezillon 2024-02-29  538  
+de85488138247d Boris Brezillon 2024-02-29  539  	/** @max_compute_cores: Maximum number of shader cores used for compute jobs. */
+de85488138247d Boris Brezillon 2024-02-29  540  	u8 max_compute_cores;
+de85488138247d Boris Brezillon 2024-02-29  541  
+be7ffc821f5fc2 Liviu Dudau     2024-04-02  542  	/** @max_fragment_cores: Maximum number of shader cores used for fragment jobs. */
+de85488138247d Boris Brezillon 2024-02-29  543  	u8 max_fragment_cores;
+de85488138247d Boris Brezillon 2024-02-29  544  
+de85488138247d Boris Brezillon 2024-02-29  545  	/** @max_tiler_cores: Maximum number of tiler cores used for tiler jobs. */
+de85488138247d Boris Brezillon 2024-02-29  546  	u8 max_tiler_cores;
+de85488138247d Boris Brezillon 2024-02-29  547  
+de85488138247d Boris Brezillon 2024-02-29  548  	/** @priority: Group priority (check panthor_csg_priority). */
+de85488138247d Boris Brezillon 2024-02-29  549  	u8 priority;
+de85488138247d Boris Brezillon 2024-02-29  550  
+de85488138247d Boris Brezillon 2024-02-29  551  	/** @blocked_queues: Bitmask reflecting the blocked queues. */
+de85488138247d Boris Brezillon 2024-02-29  552  	u32 blocked_queues;
+de85488138247d Boris Brezillon 2024-02-29  553  
+de85488138247d Boris Brezillon 2024-02-29  554  	/** @idle_queues: Bitmask reflecting the idle queues. */
+de85488138247d Boris Brezillon 2024-02-29  555  	u32 idle_queues;
+de85488138247d Boris Brezillon 2024-02-29  556  
+de85488138247d Boris Brezillon 2024-02-29  557  	/** @fatal_lock: Lock used to protect access to fatal fields. */
+de85488138247d Boris Brezillon 2024-02-29  558  	spinlock_t fatal_lock;
+de85488138247d Boris Brezillon 2024-02-29  559  
+de85488138247d Boris Brezillon 2024-02-29  560  	/** @fatal_queues: Bitmask reflecting the queues that hit a fatal exception. */
+de85488138247d Boris Brezillon 2024-02-29  561  	u32 fatal_queues;
+de85488138247d Boris Brezillon 2024-02-29  562  
+de85488138247d Boris Brezillon 2024-02-29  563  	/** @tiler_oom: Mask of queues that have a tiler OOM event to process. */
+de85488138247d Boris Brezillon 2024-02-29  564  	atomic_t tiler_oom;
+de85488138247d Boris Brezillon 2024-02-29  565  
+de85488138247d Boris Brezillon 2024-02-29  566  	/** @queue_count: Number of queues in this group. */
+de85488138247d Boris Brezillon 2024-02-29  567  	u32 queue_count;
+de85488138247d Boris Brezillon 2024-02-29  568  
+de85488138247d Boris Brezillon 2024-02-29  569  	/** @queues: Queues owned by this group. */
+de85488138247d Boris Brezillon 2024-02-29  570  	struct panthor_queue *queues[MAX_CS_PER_CSG];
+de85488138247d Boris Brezillon 2024-02-29  571  
+de85488138247d Boris Brezillon 2024-02-29  572  	/**
+de85488138247d Boris Brezillon 2024-02-29  573  	 * @csg_id: ID of the FW group slot.
+de85488138247d Boris Brezillon 2024-02-29  574  	 *
+de85488138247d Boris Brezillon 2024-02-29  575  	 * -1 when the group is not scheduled/active.
+de85488138247d Boris Brezillon 2024-02-29  576  	 */
+de85488138247d Boris Brezillon 2024-02-29  577  	int csg_id;
+de85488138247d Boris Brezillon 2024-02-29  578  
+474e5b301372a6 Mary Guillemard 2024-09-18  579  	/**
+474e5b301372a6 Mary Guillemard 2024-09-18  580  	 * @csg_id: Priority of the FW group slot.
+474e5b301372a6 Mary Guillemard 2024-09-18  581  	 *
+474e5b301372a6 Mary Guillemard 2024-09-18  582  	 * -1 when the group is not scheduled/active.
+474e5b301372a6 Mary Guillemard 2024-09-18  583  	 */
+474e5b301372a6 Mary Guillemard 2024-09-18  584  	int csg_priority;
+474e5b301372a6 Mary Guillemard 2024-09-18  585  
+de85488138247d Boris Brezillon 2024-02-29  586  	/**
+de85488138247d Boris Brezillon 2024-02-29  587  	 * @destroyed: True when the group has been destroyed.
+de85488138247d Boris Brezillon 2024-02-29  588  	 *
+de85488138247d Boris Brezillon 2024-02-29  589  	 * If a group is destroyed it becomes useless: no further jobs can be submitted
+de85488138247d Boris Brezillon 2024-02-29  590  	 * to its queues. We simply wait for all references to be dropped so we can
+de85488138247d Boris Brezillon 2024-02-29  591  	 * release the group object.
+de85488138247d Boris Brezillon 2024-02-29  592  	 */
+de85488138247d Boris Brezillon 2024-02-29  593  	bool destroyed;
+de85488138247d Boris Brezillon 2024-02-29  594  
+de85488138247d Boris Brezillon 2024-02-29  595  	/**
+de85488138247d Boris Brezillon 2024-02-29  596  	 * @timedout: True when a timeout occurred on any of the queues owned by
+de85488138247d Boris Brezillon 2024-02-29  597  	 * this group.
+de85488138247d Boris Brezillon 2024-02-29  598  	 *
+de85488138247d Boris Brezillon 2024-02-29  599  	 * Timeouts can be reported by drm_sched or by the FW. In any case, any
+de85488138247d Boris Brezillon 2024-02-29  600  	 * timeout situation is unrecoverable, and the group becomes useless.
+de85488138247d Boris Brezillon 2024-02-29  601  	 * We simply wait for all references to be dropped so we can release the
+de85488138247d Boris Brezillon 2024-02-29  602  	 * group object.
+de85488138247d Boris Brezillon 2024-02-29  603  	 */
+de85488138247d Boris Brezillon 2024-02-29  604  	bool timedout;
+de85488138247d Boris Brezillon 2024-02-29  605  
+de85488138247d Boris Brezillon 2024-02-29  606  	/**
+de85488138247d Boris Brezillon 2024-02-29  607  	 * @syncobjs: Pool of per-queue synchronization objects.
+de85488138247d Boris Brezillon 2024-02-29  608  	 *
+de85488138247d Boris Brezillon 2024-02-29  609  	 * One sync object per queue. The position of the sync object is
+de85488138247d Boris Brezillon 2024-02-29  610  	 * determined by the queue index.
+de85488138247d Boris Brezillon 2024-02-29  611  	 */
+de85488138247d Boris Brezillon 2024-02-29  612  	struct panthor_kernel_bo *syncobjs;
+de85488138247d Boris Brezillon 2024-02-29  613  
+de85488138247d Boris Brezillon 2024-02-29  614  	/** @state: Group state. */
+de85488138247d Boris Brezillon 2024-02-29  615  	enum panthor_group_state state;
+de85488138247d Boris Brezillon 2024-02-29  616  
+de85488138247d Boris Brezillon 2024-02-29  617  	/**
+de85488138247d Boris Brezillon 2024-02-29  618  	 * @suspend_buf: Suspend buffer.
+de85488138247d Boris Brezillon 2024-02-29  619  	 *
+de85488138247d Boris Brezillon 2024-02-29  620  	 * Stores the state of the group and its queues when a group is suspended.
+de85488138247d Boris Brezillon 2024-02-29  621  	 * Used at resume time to restore the group in its previous state.
+de85488138247d Boris Brezillon 2024-02-29  622  	 *
+de85488138247d Boris Brezillon 2024-02-29  623  	 * The size of the suspend buffer is exposed through the FW interface.
+de85488138247d Boris Brezillon 2024-02-29  624  	 */
+de85488138247d Boris Brezillon 2024-02-29  625  	struct panthor_kernel_bo *suspend_buf;
+de85488138247d Boris Brezillon 2024-02-29  626  
+de85488138247d Boris Brezillon 2024-02-29  627  	/**
+de85488138247d Boris Brezillon 2024-02-29  628  	 * @protm_suspend_buf: Protection mode suspend buffer.
+de85488138247d Boris Brezillon 2024-02-29  629  	 *
+de85488138247d Boris Brezillon 2024-02-29  630  	 * Stores the state of the group and its queues when a group that's in
+de85488138247d Boris Brezillon 2024-02-29  631  	 * protection mode is suspended.
+de85488138247d Boris Brezillon 2024-02-29  632  	 *
+de85488138247d Boris Brezillon 2024-02-29  633  	 * Used at resume time to restore the group in its previous state.
+de85488138247d Boris Brezillon 2024-02-29  634  	 *
+de85488138247d Boris Brezillon 2024-02-29  635  	 * The size of the protection mode suspend buffer is exposed through the
+de85488138247d Boris Brezillon 2024-02-29  636  	 * FW interface.
+de85488138247d Boris Brezillon 2024-02-29  637  	 */
+de85488138247d Boris Brezillon 2024-02-29  638  	struct panthor_kernel_bo *protm_suspend_buf;
+de85488138247d Boris Brezillon 2024-02-29  639  
+de85488138247d Boris Brezillon 2024-02-29  640  	/** @sync_upd_work: Work used to check/signal job fences. */
+de85488138247d Boris Brezillon 2024-02-29  641  	struct work_struct sync_upd_work;
+de85488138247d Boris Brezillon 2024-02-29  642  
+de85488138247d Boris Brezillon 2024-02-29  643  	/** @tiler_oom_work: Work used to process tiler OOM events happening on this group. */
+de85488138247d Boris Brezillon 2024-02-29  644  	struct work_struct tiler_oom_work;
+de85488138247d Boris Brezillon 2024-02-29  645  
+de85488138247d Boris Brezillon 2024-02-29  646  	/** @term_work: Work used to finish the group termination procedure. */
+de85488138247d Boris Brezillon 2024-02-29  647  	struct work_struct term_work;
+de85488138247d Boris Brezillon 2024-02-29  648  
+de85488138247d Boris Brezillon 2024-02-29  649  	/**
+de85488138247d Boris Brezillon 2024-02-29  650  	 * @release_work: Work used to release group resources.
+de85488138247d Boris Brezillon 2024-02-29  651  	 *
+de85488138247d Boris Brezillon 2024-02-29  652  	 * We need to postpone the group release to avoid a deadlock when
+de85488138247d Boris Brezillon 2024-02-29  653  	 * the last ref is released in the tick work.
+de85488138247d Boris Brezillon 2024-02-29  654  	 */
+de85488138247d Boris Brezillon 2024-02-29  655  	struct work_struct release_work;
+de85488138247d Boris Brezillon 2024-02-29  656  
+de85488138247d Boris Brezillon 2024-02-29  657  	/**
+de85488138247d Boris Brezillon 2024-02-29  658  	 * @run_node: Node used to insert the group in the
+de85488138247d Boris Brezillon 2024-02-29  659  	 * panthor_group::groups::{runnable,idle} and
+de85488138247d Boris Brezillon 2024-02-29  660  	 * panthor_group::reset.stopped_groups lists.
+de85488138247d Boris Brezillon 2024-02-29  661  	 */
+de85488138247d Boris Brezillon 2024-02-29  662  	struct list_head run_node;
+de85488138247d Boris Brezillon 2024-02-29  663  
+de85488138247d Boris Brezillon 2024-02-29  664  	/**
+de85488138247d Boris Brezillon 2024-02-29  665  	 * @wait_node: Node used to insert the group in the
+de85488138247d Boris Brezillon 2024-02-29  666  	 * panthor_group::groups::waiting list.
+de85488138247d Boris Brezillon 2024-02-29  667  	 */
+de85488138247d Boris Brezillon 2024-02-29  668  	struct list_head wait_node;
+de85488138247d Boris Brezillon 2024-02-29 @669  };
+de85488138247d Boris Brezillon 2024-02-29  670  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
