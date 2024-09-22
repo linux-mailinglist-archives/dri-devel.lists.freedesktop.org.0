@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D3AB97E239
-	for <lists+dri-devel@lfdr.de>; Sun, 22 Sep 2024 17:12:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9DDF97E23E
+	for <lists+dri-devel@lfdr.de>; Sun, 22 Sep 2024 17:17:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FB9310E214;
-	Sun, 22 Sep 2024 15:12:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9570B10E215;
+	Sun, 22 Sep 2024 15:17:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="SjfRwwv+";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="a+GhEoXp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
- [209.85.167.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCB0510E214
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Sep 2024 15:12:34 +0000 (UTC)
-Received: by mail-lf1-f47.google.com with SMTP id
- 2adb3069b0e04-536562739baso3332572e87.1
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Sep 2024 08:12:34 -0700 (PDT)
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
+ [209.85.208.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E944310E215
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Sep 2024 15:17:17 +0000 (UTC)
+Received: by mail-lj1-f182.google.com with SMTP id
+ 38308e7fff4ca-2f75f116d11so33487181fa.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Sep 2024 08:17:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1727017953; x=1727622753; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1727018236; x=1727623036; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=lcPPFY9vbT2Fbs9mgXzsEFeJacgERLOnAlj1vSVNa4Y=;
- b=SjfRwwv+EP3ApE/wwG/Jv3YKYjZ9wk/ZFBQW/omW4ENBvHDutzlQnmwJq2DM2cP47x
- 77jshO/yhjkL8F/xyVXqXkI8pZMfp1E+fo8EyZGO2uO+aa6Gyua1IDzsAs5OS298Yv3h
- 81GqUBgjT/B9YKkqQOdxK99y0Dn9uBm34Ooav7IPHSUKMMmwoMOKuuzXNDX0pO7WtYAc
- v0Y89vVa94G18kP47Y8k6a6glAgCGKg6E25p6ZAlxFU6tp25k6RNtjbVaiJjfVUi0QP+
- cbGu2fFs7iOi0edFMIvnfSeZZcXM1jKixZxNGKXOYguCOpXeQNGrDMrgkqp5mgTcVrYA
- oEZA==
+ bh=TeCC5/9RmB0gTYUjRiZDCiusJhlFT0bcy4ZTn9uJ490=;
+ b=a+GhEoXplC5xXr8ztpEsV4+i38BtkfSNl6OvexopKRk/athHjo+qOaYMLAtvEC+3uV
+ qaKhM3Xav7LFGL+/rw/GxYfmTXmxaXdMGhrVGALf82TcdA7Wc7xWDeqy2hXFJKTEQxx0
+ lSbmwYoRMwzVXl9/InJVlnxr7uMCWbRDQZYvijdgJAADdqkIrDLLwWr/TGF7nUwTn0O5
+ LFALXpmH+UIugXvFuZYr5xYSWYuaeR1CKehUJFoP2rnLakcCEefEkruy+y/QVmpaOOrH
+ CVvLv6HnqBh9rq2a2FdcA+QzVbHjdy2EQ/KPH4hSLiXxYDbIY0h7ELlOBuqC6Dlw9Zp/
+ nEPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727017953; x=1727622753;
+ d=1e100.net; s=20230601; t=1727018236; x=1727623036;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=lcPPFY9vbT2Fbs9mgXzsEFeJacgERLOnAlj1vSVNa4Y=;
- b=Kg39Tt5ktC6hYm5APuPaxvLvy9NOIoOnHuaDBY60jVlowe3W9YLn+TdH52oMCMzNO2
- 2yAlO45F9TypFcZxmw8bZuEBEGw4+Bbeeuf8qAGGF4b2QMlWi6v9dnhG2PM/ZCUZi7MY
- IN31uPV80NHlqxt6SyY9KGyELTrifaodcaUoKfPLpsRi0xLRLhfqbSLdEUsWdaYLe8S8
- /xmfKCpiCha3RG3RiEaRTOzEtAYLYgI+ba16J1cNAUy30Xa1zCm8dxim3/sxZk57VYV4
- +AqcknNEQMT9PXU/RedAT8Z9LNrA9FwUFnlZPCUOgIxClQYaNe/n3hAmbFenkgv88cia
- H5GA==
+ bh=TeCC5/9RmB0gTYUjRiZDCiusJhlFT0bcy4ZTn9uJ490=;
+ b=vA3gaCmXlk6lxp7vBeU9zCUFtIMC4p7ASRuCfRRxxwqx2t53kxwGBhu3xgIlQFiCUm
+ KN/iviC8ewHd4DJzZOolAGH/k/A14lrLuJEbx1B8jyBnkOoPdHISc4zuZpMTfc66bLX0
+ aCbJmTcW8WYC9x3+AMHj4EipTsRYIt08vEjQigCwXlUUD5KOzg6mlkyviTpNkVT+uA88
+ nEiscNZBgG140Ok+AQU7cpCUQcKvVQEGE5PVckvKkoFS/AuIPq/XOhOk0KVyj0GG+0CQ
+ kxQWrD1m43GUmaTyaQwHdtsKOgmOA1m+qsmkkWsw2erYuSXFeTv79VSS3/9w+y+rJTER
+ rgzw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVjjdm6Q7XIGDu49nzsMEz1N9dNHDW4mFFJLRqX0AV2ns9KTmo7I4vAlGCh3ixJiia8R5TaxelODOE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxJPh2/urv7hDr6vhz1Uva1ddZ/n9ztqa/6nxdymm9yLXEcLswi
- Qfbqgcm3hoRxqN+smVCH5Dsv0gy/Xa4etQMidEbamJAtFUYVSUdZOEiKnBEh1/A=
-X-Google-Smtp-Source: AGHT+IHOfTztltB157PsB3Y01a+WA/S+Pri3qofNCEEh4iDryf+OozPgJjAfobhRXAzuczizsfsFlg==
-X-Received: by 2002:a05:6512:3d0c:b0:536:5522:3ca9 with SMTP id
- 2adb3069b0e04-536ac2d6524mr4461999e87.10.1727017952865; 
- Sun, 22 Sep 2024 08:12:32 -0700 (PDT)
+ AJvYcCU5ra2rkRJ+VrkqSqIcoulNgGEGqy3/WHK6LU9c2XBbDnk81b7SJQD09pclysVIXCf6DjOz1e23noI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyiHwXgC8+dg07ThScS9Z/8HZUxjXBAXiM4TZxpoyTnIp4pvgUL
+ YNz/+u75BLuKEHpeE5ZmabGT6+NSBPsMXRHNrW4mBR/PyzOt0A0jygd7GL+G/3U=
+X-Google-Smtp-Source: AGHT+IHAuK4UgGskL4u5XMMZ8JsOOoAhqtHiAO1+Qtjx0XeH5NZu9bnznsfA1ZHqJuJqI4R7g6zY3w==
+X-Received: by 2002:a2e:d02:0:b0:2f6:649e:bf70 with SMTP id
+ 38308e7fff4ca-2f7cb322e00mr35426531fa.26.1727018236049; 
+ Sun, 22 Sep 2024 08:17:16 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-536870966d4sm2985975e87.145.2024.09.22.08.12.31
+ 38308e7fff4ca-2f79d3012a5sm26536271fa.42.2024.09.22.08.17.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 22 Sep 2024 08:12:31 -0700 (PDT)
-Date: Sun, 22 Sep 2024 18:12:30 +0300
+ Sun, 22 Sep 2024 08:17:14 -0700 (PDT)
+Date: Sun, 22 Sep 2024 18:17:12 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Heiner Kallweit <hkallweit1@gmail.com>
 Cc: Oded Gabbay <ogabbay@kernel.org>, 
@@ -65,14 +65,14 @@ Cc: Oded Gabbay <ogabbay@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
  Daniel Vetter <daniel@ffwll.ch>, Hans de Goede <hdegoede@redhat.com>, 
  "open list:AMD KFD" <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH 5/6] drm: Add __init annotations
-Message-ID: <xqzmwvuzhojoobd3xtzacyyp6cxcggig5anjlcwhgcoagpcck5@dc57xkm4t6zt>
+Subject: Re: [PATCH 6/6] drm: drm/sysfs: Remove device type drm_minor
+Message-ID: <vak3kj4r75tt37jlsofowxjwlyfraihfqajrb3hjxeyblfachi@l3kicsmya27l>
 References: <499229fd-5344-4799-85bf-93e4b3b45eca@gmail.com>
- <8f5fe817-dfcf-4cda-9ca2-99648a48534e@gmail.com>
+ <9bf64023-cc27-435a-a1bf-f11816229d49@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8f5fe817-dfcf-4cda-9ca2-99648a48534e@gmail.com>
+In-Reply-To: <9bf64023-cc27-435a-a1bf-f11816229d49@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,21 +88,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Sep 08, 2024 at 02:12:32PM GMT, Heiner Kallweit wrote:
-> Annotate few more functions being called from drm_core_init() only
-> as __init.
+On Sun, Sep 08, 2024 at 02:14:43PM GMT, Heiner Kallweit wrote:
+> This device type is set but not used, so remove it.
 
-Why? Please describe the reason for the changes, not the changes
-themselves.
+Please describe how it was used and why you consider it to be unused
+now. Hint: d14d2a8453d6 ("drm: Remove dev_pm_ops from drm_class").
 
+> Whilst we're at it, constify device type drm_connector.
 > 
 > Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+
+Whilst we are at it => separate commits, please.
+
 > ---
->  drivers/gpu/drm/drm_cache.c     | 2 +-
->  drivers/gpu/drm/drm_connector.c | 2 +-
->  drivers/gpu/drm/drm_sysfs.c     | 4 ++--
->  3 files changed, 4 insertions(+), 4 deletions(-)
-> 
+>  drivers/gpu/drm/drm_sysfs.c | 7 +------
+>  1 file changed, 1 insertion(+), 6 deletions(-)
 
 -- 
 With best wishes
