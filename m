@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E38AA97E086
-	for <lists+dri-devel@lfdr.de>; Sun, 22 Sep 2024 10:13:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97AD497E08F
+	for <lists+dri-devel@lfdr.de>; Sun, 22 Sep 2024 10:15:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C38C10E0AD;
-	Sun, 22 Sep 2024 08:12:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6863D10E1EE;
+	Sun, 22 Sep 2024 08:15:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ASacI3/c";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="eyUqkYX1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09A2210E0AD
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Sep 2024 08:12:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7CAA10E1EE
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Sep 2024 08:15:11 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id A453DA40D06;
- Sun, 22 Sep 2024 08:12:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 393C4C4CEC3;
- Sun, 22 Sep 2024 08:12:49 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id E6B28A40D2E;
+ Sun, 22 Sep 2024 08:15:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4454EC4CEC3;
+ Sun, 22 Sep 2024 08:15:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1726992775;
- bh=u+gqaeFBc/xXWtTw8bAcjlVJ7TwL8P7TRF1D+jnozJ8=;
+ s=k20201202; t=1726992910;
+ bh=06MB9jXULjLdJBovrribICw9x2wLyvoI3aMPRTsxqNs=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=ASacI3/cMIAmIgKFgAqNXnA6GlgFpQ3KFHPhj2sF9oXSBAnYxNfQFTLcELWaHnubq
- not5fopLFJdbv5JcdCXktihKScLdF9T7li34eSNiddNCXs+xIQT5KGbjHDpY5UKpKW
- uUeKmdxkXtUvOj/9P1DowauF9ldKgZTafGc3/aH4zQkPM+MjdP793XTq3jcHmSc6HO
- vQ22LSxoMeuuW/IfbQJhShO0lif3sQwjOdMx3w2qehz2zC6T3LHoPOHlTU3VjCMW7+
- xgIV29cmne+QAq3p22bTu7j5M3w5UjXETTPtkEjcFfcAGzFttyuXcbmrK7YU3JRy/B
- 325L+pRg7Zisw==
-Message-ID: <f9b04df3-18f7-416e-a973-422bcf341d3a@kernel.org>
-Date: Sun, 22 Sep 2024 10:12:47 +0200
+ b=eyUqkYX1Fkmczz8O61XuUnU8gIMcwQ5yCETnVhXXvYWrGl2kIRDqeVUMLsRNSOC6u
+ Hf3qRCDaOBvwDLxucjJjaWVHdHqYaJoAEo3XL+gojteZStYgcYVhFXS1lk4OBwQ5JD
+ 6/k5Q7K323UJOw5rIWziUuYv6dLI3JD8Wm8lewqtQ2k1SpW8a1dUoFJs+nOGDNEchV
+ +hNmt15XyxQ0GbgY9R3sd5oetEPLC4wR1chdRHZsdvD9RxtcgBwH/ds2GHR61Ge8vc
+ nbEhxrdC3TDaQe9Fm1Xc95cJuWe6rVHUx0L30OASHNGnl8hS2N6YpZKVvRwFOPHZ8j
+ EU0qDLuun6btw==
+Message-ID: <c6821033-57be-4d10-9e37-935f7748570e@kernel.org>
+Date: Sun, 22 Sep 2024 10:15:01 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] dt-bindings: display: rockchip-vop: Split rk3288-vop
- into big and lit
+Subject: Re: [PATCH 3/3] drm/rockchip: vop: Split rk3288-vop into big and lit
 To: Jonas Karlman <jonas@kwiboo.se>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
  <conor+dt@kernel.org>, Sandy Huang <hjc@rock-chips.com>,
@@ -47,7 +46,7 @@ Cc: linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
  linux-kernel@vger.kernel.org
 References: <20240921222007.2301868-1-jonas@kwiboo.se>
- <20240921222007.2301868-2-jonas@kwiboo.se>
+ <20240921222007.2301868-4-jonas@kwiboo.se>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -93,7 +92,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240921222007.2301868-2-jonas@kwiboo.se>
+In-Reply-To: <20240921222007.2301868-4-jonas@kwiboo.se>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -116,54 +115,68 @@ On 22/09/2024 00:20, Jonas Karlman wrote:
 > (VOP) blocks, VOP_BIG and VOP_LIT. The VOP blocks support different max
 > output resolution, 3840x2160 and 2560x1600.
 > 
-> Add compatible to differentiate between the two VOP blocks.
+> Add support for the compatible used to differentiate between VOP_BIG and
+> VOP_LIT, support for the old compatible is kept for compatibility with
+> older device tree.
 > 
 > Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
 > ---
->  .../display/rockchip/rockchip-vop.yaml        | 36 +++++++++++--------
->  1 file changed, 21 insertions(+), 15 deletions(-)
+>  drivers/gpu/drm/rockchip/rockchip_vop_reg.c | 27 +++++++++++++++------
+>  1 file changed, 20 insertions(+), 7 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop.yaml
-> index b339b7e708c6..ce4169b030af 100644
-> --- a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop.yaml
-> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop.yaml
-> @@ -17,21 +17,27 @@ maintainers:
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_vop_reg.c b/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
+> index e2c6ba26f437..978db93cda33 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
+> @@ -762,7 +762,7 @@ static const struct vop_intr rk3288_vop_intr = {
+>  	.clear = VOP_REG(RK3288_INTR_CTRL0, 0xf, 8),
+>  };
 >  
->  properties:
->    compatible:
-> -    enum:
-> -      - rockchip,px30-vop-big
-> -      - rockchip,px30-vop-lit
-> -      - rockchip,rk3036-vop
-> -      - rockchip,rk3066-vop
-> -      - rockchip,rk3126-vop
-> -      - rockchip,rk3188-vop
-> -      - rockchip,rk3228-vop
-> -      - rockchip,rk3288-vop
-> -      - rockchip,rk3328-vop
-> -      - rockchip,rk3366-vop
-> -      - rockchip,rk3368-vop
-> -      - rockchip,rk3399-vop-big
-> -      - rockchip,rk3399-vop-lit
-> -      - rockchip,rv1126-vop
-> +    oneOf:
-> +      - items:
-> +          - enum:
-> +              - rockchip,rk3288-vop-big
-> +              - rockchip,rk3288-vop-lit
-> +          - const: rockchip,rk3288-vop
-> +      - enum:
-> +          - rockchip,px30-vop-big
-> +          - rockchip,px30-vop-lit
-> +          - rockchip,rk3036-vop
-> +          - rockchip,rk3066-vop
-> +          - rockchip,rk3126-vop
-> +          - rockchip,rk3188-vop
-> +          - rockchip,rk3228-vop
-> +          - rockchip,rk3288-vop
+> -static const struct vop_data rk3288_vop = {
+> +static const struct vop_data rk3288_vop_big = {
+>  	.version = VOP_VERSION(3, 1),
+>  	.feature = VOP_FEATURE_OUTPUT_RGB10,
+>  	.intr = &rk3288_vop_intr,
+> @@ -772,14 +772,22 @@ static const struct vop_data rk3288_vop = {
+>  	.win = rk3288_vop_win_data,
+>  	.win_size = ARRAY_SIZE(rk3288_vop_win_data),
+>  	.lut_size = 1024,
+> -	/*
+> -	 * This is the maximum resolution for the VOPB, the VOPL can only do
+> -	 * 2560x1600, but we can't distinguish them as they have the same
+> -	 * compatible.
+> -	 */
+>  	.max_output = { 3840, 2160 },
+>  };
+>  
+> +static const struct vop_data rk3288_vop_lit = {
+> +	.version = VOP_VERSION(3, 1),
+> +	.feature = VOP_FEATURE_OUTPUT_RGB10,
+> +	.intr = &rk3288_vop_intr,
+> +	.common = &rk3288_common,
+> +	.modeset = &rk3288_modeset,
+> +	.output = &rk3288_output,
+> +	.win = rk3288_vop_win_data,
+> +	.win_size = ARRAY_SIZE(rk3288_vop_win_data),
+> +	.lut_size = 1024,
+> +	.max_output = { 2560, 1600 },
+> +};
+> +
+>  static const int rk3368_vop_intrs[] = {
+>  	FS_INTR,
+>  	0, 0,
+> @@ -1245,8 +1253,13 @@ static const struct of_device_id vop_driver_dt_match[] = {
+>  	  .data = &rk3066_vop },
+>  	{ .compatible = "rockchip,rk3188-vop",
+>  	  .data = &rk3188_vop },
+> +	{ .compatible = "rockchip,rk3288-vop-big",
+> +	  .data = &rk3288_vop_big },
 
-I think this one should be dropped. You will update all in-kernel users,
-so it won't be needed here and all other projects should probably follow up.
+Hm... that's not really needed. Instead of having three compatibles, you
+could keep "rk3288-vop" as big and then my comment on bindings patch
+could be ignored (you keep the compatible).
+
+
 
 Best regards,
 Krzysztof
