@@ -2,76 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63E7797E0DD
-	for <lists+dri-devel@lfdr.de>; Sun, 22 Sep 2024 12:21:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74CB597E0E7
+	for <lists+dri-devel@lfdr.de>; Sun, 22 Sep 2024 12:33:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C6DE10E208;
-	Sun, 22 Sep 2024 10:20:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51E0710E209;
+	Sun, 22 Sep 2024 10:33:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="LOqSVS3F";
+	dkim=pass (2048-bit key; unprotected) header.d=cknow.org header.i=@cknow.org header.b="KhKdHH4O";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
- [209.85.214.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD7A910E208
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Sep 2024 10:20:58 +0000 (UTC)
-Received: by mail-pl1-f171.google.com with SMTP id
- d9443c01a7336-2057835395aso38684885ad.3
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Sep 2024 03:20:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1727000458; x=1727605258; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=RdphpHCR8aVbgwIQ4xKroiJuMuvQa/f/rPNkLNXJpng=;
- b=LOqSVS3Fs7TqZmIushMTaf2UEDJzvaYTEgH+NdAQqQF5hgdAWYsXascFI1b16vOu8I
- OQlJ1IwF5nHAtSPABjgKX3V2/YfLP0pcxDyJIgorU567IU33ri6QmILKSfaEzYBFAhbu
- EjH+S6h4WrNLri/7KoXDtywVLpoyxiitJriUHSDMrPg25TxyJ9faeYE3vQ1ZRFVic4Sy
- h1W6KPQcJ/YoB2KNcgyfxuQlmiYIDReqhIj7kI5+EogxkBxKHY0Y0QUwqW2ZZ02LTHpu
- q4WSon2cxHC5PcerxbL6Xl/0OjlXiPocQPHWp6qh6IEZHTrsL7fdRT/AniJ4yVdmXUqi
- 70eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727000458; x=1727605258;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=RdphpHCR8aVbgwIQ4xKroiJuMuvQa/f/rPNkLNXJpng=;
- b=K3//qdbmnZx2LLCNbPEpKDCLUAB4wuqlcTOZbYwzcAzKGp61IM8IK2KdkOj7UxYdR7
- A8yobFT1tpjBsRHpmjlXyZrf4ynlSXg/YxgcCl9twc7Kcq0A8tQXZkyDhGvuNikwPXuh
- 20wgVQIfQZQiqbMYFVFinw8fViKsg4OVP2mQnT33NgzHDUxUup5MdG5QprTA2PCfWIow
- uKeDiRY14TFftSjN45rusHDTKjGPIpk+Fue59GTpfsev2bbv6tCdZ6wd4Fth+oxwaH8K
- XPzHOeRKClHEv4FmzRv1VGfr7jOIKuoRsP6EJUvfRDr5e9HHYRqoblFijvo+T+smAH9A
- EZhQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWqXx/mQ2/thzQZa5SLhm0qF/Zb3G7JhC+C6/yECd+kqVMi1mJ2vsqVWIGLZmAQDmg1W9flWHryUSA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwGlJNWP/PU0cVXyZJQUfw8ts2WH6ef2JI8SdI+SaND79gjtAYL
- 5XG4fKEzgM+2/mO8Ld3U87slTTEYNgQ3UveyllHj51WQ/mfBHvsC6iPZOw==
-X-Google-Smtp-Source: AGHT+IHJFkRgYfEyGcG2xVh86zCa2dDUxlM9NiNctUcc86+jKhYpj9NQ0sCDUu7kuXl6CrzEV+ZQ+g==
-X-Received: by 2002:a17:902:cf05:b0:208:d857:1014 with SMTP id
- d9443c01a7336-208d8573fb1mr110231715ad.28.1727000458325; 
- Sun, 22 Sep 2024 03:20:58 -0700 (PDT)
-Received: from localhost.localdomain (111-240-85-119.dynamic-ip.hinet.net.
- [111.240.85.119]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-207946f3558sm118619615ad.183.2024.09.22.03.20.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 22 Sep 2024 03:20:58 -0700 (PDT)
-From: Min-Hua Chen <minhuadotchen@gmail.com>
-To: andyshrk@163.com
-Cc: andy.yan@rock-chips.com, conor+dt@kernel.org, derek.foreman@collabora.com,
- detlev.casanova@collabora.com, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, heiko@sntech.de, hjc@rock-chips.com,
- krzk+dt@kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
- minhuadotchen@gmail.com, robh@kernel.org, s.hauer@pengutronix.de
-Subject: [PATCH v3 06/15] drm/rockchip: vop2: include rockchip_drm_drv.h
-Date: Sun, 22 Sep 2024 18:20:32 +0800
-Message-ID: <20240922102032.564-1-minhuadotchen@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Received: from out-183.mta0.migadu.com (out-183.mta0.migadu.com
+ [91.218.175.183])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 957CF10E209
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Sep 2024 10:33:17 +0000 (UTC)
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
+ t=1727001195;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=rh5mxOysEWdlr7zB3dIq9Xe2btAHsCpup+ruaFZk4EM=;
+ b=KhKdHH4ObK+KAa3ylcl/wZq36CKLW9XGQbMTs3L/PVLTKtzN6mah6aJfCG38zpVnZ9+WWU
+ FN9Yu0Uj7sgJ7XXprTjbI6UVwNg5ynCR49Xon30JpoX3Pxd/H16jLNAZjzSA9ERIyqS5Qr
+ CledCoNU9+F591nNaaPK/hIx5LBdCDNLDxO/HLUEkmD4RTm6EOdcNuxs9Y2atEyUD1lIWx
+ BsooqPkyy/7oHJbcCdkfIJ4YWK+wlfinkjt7sOSXt22w1uRBqecWy0Mt9YeQHONeYEtB95
+ OGSa+w1znwU/9ks2KwjbP9CZgwfMUwuASQshHjGt3NgnA2w1dMNLr63HdNHLDQ==
+Content-Type: multipart/signed;
+ boundary=cf4d01d20a3b9d5a9a49968868fe9e6d1f0f8308e15edb5bdb79c6fb1446;
+ micalg=pgp-sha256; protocol="application/pgp-signature"
+Date: Sun, 22 Sep 2024 12:33:05 +0200
+Message-Id: <D4CQTRYUPQHL.1Y42CT0P8ZOWQ@cknow.org>
+To: "Andy Yan" <andyshrk@163.com>, <heiko@sntech.de>
+Cc: <hjc@rock-chips.com>, <krzk+dt@kernel.org>, <robh@kernel.org>,
+ <conor+dt@kernel.org>, <s.hauer@pengutronix.de>,
+ <devicetree@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+ <linux-rockchip@lists.infradead.org>, <derek.foreman@collabora.com>,
+ <minhuadotchen@gmail.com>, <detlev.casanova@collabora.com>, "Andy Yan"
+ <andy.yan@rock-chips.com>
+Subject: Re: [PATCH v3 06/15] drm/rockchip: vop2: include rockchip_drm_drv.h
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: "Diederik de Haas" <didi.debian@cknow.org>
+References: <20240920081626.6433-1-andyshrk@163.com>
+ <20240920082122.6742-1-andyshrk@163.com>
 In-Reply-To: <20240920082122.6742-1-andyshrk@163.com>
-References: <20240920082122.6742-1-andyshrk@163.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,21 +64,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
->Move rockchip_drm_drv.h in rockchip_drm_vop2.h to fix the follow
->sparse warning:
->
->ARCH=arm64 LLVM=1 make C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__'
->mrproper defconfig all  -j12
->
->drivers/gpu/drm/rockchip/rockchip_vop2_reg.c:502:24: sparse:
->warning: symbol 'vop2_platform_driver' was not declared. Should it
->be static?
->
->It is also beneficial for the upcoming support for rk3576.
->
->Fixes: 604be85547ce ("drm/rockchip: Add VOP2 driver")
->Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
->Signed-off-by: Min-Hua Chen <minhuadotchen@gmail.com>
+--cf4d01d20a3b9d5a9a49968868fe9e6d1f0f8308e15edb5bdb79c6fb1446
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-Reviewed-by: Min-Hua Chen <minhuadotchen@gmail.com>
+On Fri Sep 20, 2024 at 10:21 AM CEST, Andy Yan wrote:
+> From: Andy Yan <andy.yan@rock-chips.com>
 
+Maybe ``From: Min-Hua Chen <minhuadotchen@gmail.com>``?
+
+It's very minor and Min-Hua gave their 'Reviewed-by' tag to your patch,
+but they found the problem and I thought it was just for practical
+reasons you made it part of this patch set.
+
+> Move rockchip_drm_drv.h in rockchip_drm_vop2.h to fix the follow
+> sparse warning:
+>
+> ARCH=3Darm64 LLVM=3D1 make C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDI=
+AN__'
+> mrproper defconfig all  -j12
+>
+> drivers/gpu/drm/rockchip/rockchip_vop2_reg.c:502:24: sparse:
+> warning: symbol 'vop2_platform_driver' was not declared. Should it
+> be static?
+>
+> It is also beneficial for the upcoming support for rk3576.
+>
+> Fixes: 604be85547ce ("drm/rockchip: Add VOP2 driver")
+> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+> Signed-off-by: Min-Hua Chen <minhuadotchen@gmail.com>
+>
+> ---
+>
+> Changes in v3:
+> - Split it from 10/15, as it fix a exiting compile warning.
+>
+>  drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 1 -
+>  drivers/gpu/drm/rockchip/rockchip_drm_vop2.h | 1 +
+>  2 files changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/d=
+rm/rockchip/rockchip_drm_vop2.c
+> index 4776a227e62c..a7f9f88869a6 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+> @@ -35,7 +35,6 @@
+>  #include <uapi/linux/videodev2.h>
+>  #include <dt-bindings/soc/rockchip,vop2.h>
+> =20
+> -#include "rockchip_drm_drv.h"
+>  #include "rockchip_drm_gem.h"
+>  #include "rockchip_drm_vop2.h"
+>  #include "rockchip_rgb.h"
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h b/drivers/gpu/d=
+rm/rockchip/rockchip_drm_vop2.h
+> index 59cd6b933bfb..bc001f715847 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
+> @@ -9,6 +9,7 @@
+> =20
+>  #include <linux/regmap.h>
+>  #include <drm/drm_modes.h>
+> +#include "rockchip_drm_drv.h"
+>  #include "rockchip_drm_vop.h"
+> =20
+>  #define VOP2_VP_FEATURE_OUTPUT_10BIT        BIT(0)
+
+
+--cf4d01d20a3b9d5a9a49968868fe9e6d1f0f8308e15edb5bdb79c6fb1446
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCZu/yZAAKCRDXblvOeH7b
+bhyOAQCgfugbYkLTEQoVYnYjY2LIP0tmj3SFSFrsw3hSRtqOHwD/cMGxEu1QU1Nj
+DLQj4kuQxg314p3e5CtjLIAFUNlzLQI=
+=a3i5
+-----END PGP SIGNATURE-----
+
+--cf4d01d20a3b9d5a9a49968868fe9e6d1f0f8308e15edb5bdb79c6fb1446--
