@@ -2,79 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AAC097E201
-	for <lists+dri-devel@lfdr.de>; Sun, 22 Sep 2024 16:34:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 351E297E208
+	for <lists+dri-devel@lfdr.de>; Sun, 22 Sep 2024 16:45:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAC7710E00A;
-	Sun, 22 Sep 2024 14:34:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7263310E0BC;
+	Sun, 22 Sep 2024 14:45:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="eI/GBvGY";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="KlGHWloG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com
- [209.85.128.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8952E10E00A
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Sep 2024 14:34:01 +0000 (UTC)
-Received: by mail-yw1-f173.google.com with SMTP id
- 00721157ae682-6c49c9018ebso32778177b3.3
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Sep 2024 07:34:01 -0700 (PDT)
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
+ [209.85.167.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC0E710E0BC
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Sep 2024 14:45:11 +0000 (UTC)
+Received: by mail-lf1-f51.google.com with SMTP id
+ 2adb3069b0e04-5369f1c7cb8so4463460e87.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Sep 2024 07:45:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1727015640; x=1727620440; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=yHeGraYA3dGaR0TNSrhM0uA2RkFxJIHWUg3p/EO2nAk=;
- b=eI/GBvGYk5xWsQwnJLQ/e3Ui7XwQJz6eVa25giRzOc4id3CPPW782dzilg3UOr8UU5
- YT8wK9F+2Ksm6IsAfQHtxyZm3JXjZsidVodpeq8Nz4yDNk3cG0UELmpQkbhQVapVD6MD
- Aazr7LnANk6cZE4OW7cvFLhpl60Ueoz0X8vRYR4Fh/i4mAlaCUnHUhiyyihp1auCrAa/
- 5vUmSq2nWY02zgM99cPzmiOO82PZvQjNzGVlHHpJAIZ7F4QyJ+E10R8jP92dBicXvSod
- 0eB4P/0uIyZpf+7lV+LLZjC7ds+JBNmfm4T+uoGeeTvM6dtyaiPo+4USIOYJEgZzf3HG
- APgQ==
+ d=linaro.org; s=google; t=1727016310; x=1727621110; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=2cFIWlQEpg4yYKfKEiN8b4f9CB/NTT5qfc3eckbpNis=;
+ b=KlGHWloGQntQTWZ60/oKznTi653Y0FZOp1pz62M5zCIbWoWNfPtx8Py6CvIl4Cbp34
+ 4kpkdMWDxSZBwCAncYtDqSPOMroRXKKmXVGEBVrPsunAog11ATdoAPKIRTUSAth57cJF
+ lozBxJnBe/D8bSJlc2Sz06NvIx4Z6c2kJVSSeJ6bo/izkTRgK5VzSVsC5A7inwiGpG1y
+ 0zn9jWvwVGxBLbyIYQ+n0puB1W8rPUIhz/DHtVtIl/7dDtYicQZigbrTWDN/NoVQC3th
+ WIh5oiaIGTB6SPqKd4aLE34dxvpRsHnzKji5LWjOWdwGXiMhQWL9YeRdk7Ut5KU9/t5N
+ 0Ptg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727015640; x=1727620440;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=yHeGraYA3dGaR0TNSrhM0uA2RkFxJIHWUg3p/EO2nAk=;
- b=kaJtJWnZkjIlU7i4MOo3DH8IhuOJbG49e+vtC/25qs4ge+epyZ/KHswU+ojos0RSBx
- EbiyUFac5f02yTwtIbK7kfcKLDTQ7Xz5K649D6R0QZ+u7aj/joweA7BLKDOlfO2DGEIw
- P2n7hY4qcFZge/XhqnCH7WUpJpq5zLnuv57ES/J2EMIexZVXZ4ib5jkSPmiCpmQIaIiE
- lnl6U+SFrVkeQTpsLCxBM8SKLtkOIR1y8dwsmRwaN6PyqAP/W1Mbug4Px/j/KSTWTJvZ
- Doa8XxcUcIWmV6Y/73N1yi3joylFrXW6oNo1Dy+3otPdEzkmn4w9lEGsZANPBbwZf2sf
- OB8A==
+ d=1e100.net; s=20230601; t=1727016310; x=1727621110;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=2cFIWlQEpg4yYKfKEiN8b4f9CB/NTT5qfc3eckbpNis=;
+ b=drWMpaF2pGNhiraK3Pp6J8AT/am1YSW58E6/jxkDUIVaLTL5AB+2Ec2lx1R02pdOt0
+ w7gYv/UPEenmyQv3NJJxjgW4OwsvivnC2OJJ03dNn5zry+YPmZK2llN/m8qX3Tn1d50o
+ J+bbatwlhq4KFSzQzbGWVzqQIVY0Nd1MWfunFMx/dmxJdtayi4TL4y9q31y9jSwwuCTc
+ gsz9h7UdUnp4Jg+0E777WOipVzEWmc1yBVaziGtC3kYyswsw4s1nWLOrACFnNEXhHouU
+ cDLwHISrWYheJhpmoCX1Cx1wvQSelP12sAZEYLkAzoz/JgqmtXcPDV9Q3WhxQvem2wUC
+ uhvQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWcRrB08Cj4T4L02JIQBEsfAn+cjTi71sB2Yx70HGxWdqmLgE2TPY/IkzCLMvTh9c90xDqwJSm/yZY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz5WV7G0/kLLJOpZqTHO6M7ae5C7qoXMgJxip1ZV7LKwrYxk8AP
- xenUZX+jsEyUyNcb9XqwfpfUdau0EoxkzlQpvHDhZ923POMfZxdif2u9HC+tJ+Qg9HAWYsHhkni
- udqtWjmu5mWz48uKvlmQWdDgGHubno2SMrTASXQ==
-X-Google-Smtp-Source: AGHT+IHKzXLaRDGAOOJlN5ccsLLxF4TSLQsyK9kPJHcFIpOzEJDTsH5QrInR8hKs28oj8KV/TnrBU1qVlNXlaSk0TjE=
-X-Received: by 2002:a05:690c:1b:b0:6c9:9341:1ce1 with SMTP id
- 00721157ae682-6dff2903a2cmr59752777b3.32.1727015640248; Sun, 22 Sep 2024
- 07:34:00 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1726492131.git.tjakobi@math.uni-bielefeld.de>
- <2b35545b77a9fd8c9699b751ca282226dcecb1dd.1726492131.git.tjakobi@math.uni-bielefeld.de>
- <gnllphvuffajfbh3aczda5z7t3ytjexf5a6wuuzsz6pla6e2kz@m564uc2ogn4q>
- <a90d08d5-265a-4ba2-99f9-68fa18960b27@redhat.com>
-In-Reply-To: <a90d08d5-265a-4ba2-99f9-68fa18960b27@redhat.com>
+ AJvYcCXBrO7mlexXWQd3a424dK8UNLyuX16z7FMqgNbrFXKnULVRoSVuX6nLOEu4qlummDsFoRdVoNlg+r4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy39k8WBrAAvzyfzCToPhDlFwUrMOsJ7ZmKbhbMc0kN1bO4+ZEY
+ BWyjMZY+4YxNcvSzgVTz4sYpt12D5zhHPJKas5xfumhd7JeJjCDpGHbXMhTKbLg=
+X-Google-Smtp-Source: AGHT+IEmba5pmwDH7Fqb5k5mkZ6dxxmrmN0NkbYXp4vrViTWJAciliMjfjOzKCRWA+B3H8aCpS0VFQ==
+X-Received: by 2002:a05:6512:a91:b0:535:665f:cfc0 with SMTP id
+ 2adb3069b0e04-536ac2f2c26mr4272329e87.32.1727016309699; 
+ Sun, 22 Sep 2024 07:45:09 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-536870b8ccbsm2986578e87.279.2024.09.22.07.45.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 22 Sep 2024 07:45:09 -0700 (PDT)
+Date: Sun, 22 Sep 2024 17:45:07 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sun, 22 Sep 2024 16:33:50 +0200
-Message-ID: <CAA8EJprMy7H+-z2+OAC_F9m-3GQe28oWKJJ5GYFj61ss7gYBuQ@mail.gmail.com>
-Subject: Re: [PATCH 1/3] drm: panel-orientation-quirks: Add quirk for AYA NEO
- 2 model
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: tjakobi@math.uni-bielefeld.de, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- =?UTF-8?Q?Joaqu=C3=ADn_Ignacio_Aramend=C3=ADa?= <samsagax@gmail.com>, 
- "Derek J . Clark" <derekjohn.clark@gmail.com>,
- Denis Benato <benato.denis96@gmail.com>, 
+To: Tejas Vipin <tejasvipin76@gmail.com>
+Cc: neil.armstrong@linaro.org, maarten.lankhorst@linux.intel.com, 
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch, 
+ quic_jesszhan@quicinc.com, dianders@chromium.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] drm/panel: elida-kd35t133: transition to mipi_dsi
+ wrapped functions
+Message-ID: <pqzvhnrvtb4r3olxkkx2kyhsms3y3cki7cow52au3bug2hqzc6@h7wxgyruzd6n>
+References: <20240917071710.1254520-1-tejasvipin76@gmail.com>
+ <c3wv3r44cmua2hphyjqzb7pp2a32pvs6svcj6s2zohp77qn3cr@4iica7j5bx5l>
+ <d470e0ef-0193-478c-a858-d6498758aa9a@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d470e0ef-0193-478c-a858-d6498758aa9a@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,96 +88,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 22 Sept 2024 at 13:11, Hans de Goede <hdegoede@redhat.com> wrote:
->
-> Hi,
->
-> On 21-Sep-24 10:02 PM, Dmitry Baryshkov wrote:
-> > On Mon, Sep 16, 2024 at 03:18:51PM GMT, tjakobi@math.uni-bielefeld.de w=
-rote:
-> >> From: Joaqu=C3=ADn Ignacio Aramend=C3=ADa <samsagax@gmail.com>
+On Sun, Sep 22, 2024 at 11:49:49AM GMT, Tejas Vipin wrote:
+> 
+> 
+> On 9/20/24 9:59 PM, Dmitry Baryshkov wrote:
+> > On Tue, Sep 17, 2024 at 12:47:10PM GMT, Tejas Vipin wrote:
+> >> Changes the elida-kd35t133 panel to use multi style functions for
+> >> improved error handling.
 > >>
-> >> Add quirk orientation for AYA NEO 2. The name appears without spaces i=
-n
-> >> DMI strings. That made it difficult to reuse the 2021 match. Also the
-> >> display is larger in resolution.
-> >>
-> >> Tested by the JELOS team that has been patching their own kernel for a
-> >> while now and confirmed by users in the AYA NEO and ChimeraOS discord
-> >> servers.
-> >>
-> >> Signed-off-by: Joaqu=C3=ADn Ignacio Aramend=C3=ADa <samsagax@gmail.com=
->
-> >> Signed-off-by: Tobias Jakobi <tjakobi@math.uni-bielefeld.de>
+> >> Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
 > >> ---
-> >>  drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
-> >>  1 file changed, 6 insertions(+)
+> >>  drivers/gpu/drm/panel/panel-elida-kd35t133.c | 107 ++++++++-----------
+> >>  1 file changed, 45 insertions(+), 62 deletions(-)
 > >>
-> >> diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/=
-gpu/drm/drm_panel_orientation_quirks.c
-> >> index 2166208a961d..3044927c0c5c 100644
-> >> --- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> >> +++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> >> @@ -184,6 +184,12 @@ static const struct dmi_system_id orientation_dat=
-a[] =3D {
-> >>                DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "T103HAF"),
-> >>              },
-> >>              .driver_data =3D (void *)&lcd800x1280_rightside_up,
-> >> +    }, {    /* AYA NEO AYANEO 2 */
-> >> +            .matches =3D {
-> >> +              DMI_EXACT_MATCH(DMI_SYS_VENDOR, "AYANEO"),
-> >> +              DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "AYANEO 2"),
-> >> +            },
-> >> +            .driver_data =3D (void *)&lcd1200x1920_rightside_up,
-> >
-> > I thought that AYANEO should come after AYADEVICE, but the array doesn'=
-t
-> > seem really sorted
->
-> It is sorted but it is sorted by the Vendor - Model in the comments,
-> not by the DMI strings since sometimes those are e.g. "SYS_VENDOR",
-> "Default String" and stuff like that.
+> >> diff --git a/drivers/gpu/drm/panel/panel-elida-kd35t133.c b/drivers/gpu/drm/panel/panel-elida-kd35t133.c
+> >> index 00791ea81e90..62abda9559e7 100644
+> >> --- a/drivers/gpu/drm/panel/panel-elida-kd35t133.c
+> >> +++ b/drivers/gpu/drm/panel/panel-elida-kd35t133.c
+> >> @@ -135,25 +127,16 @@ static int kd35t133_prepare(struct drm_panel *panel)
+> >>  
+> >>  	msleep(20);
+> >>  
+> >> -	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
+> >> -	if (ret < 0) {
+> >> -		dev_err(ctx->dev, "Failed to exit sleep mode: %d\n", ret);
+> >> -		goto disable_iovcc;
+> >> -	}
+> >> +	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
+> >> +	mipi_dsi_msleep(&dsi_ctx, 250);
+> >>  
+> >> -	msleep(250);
+> >> +	kd35t133_init_sequence(&dsi_ctx);
+> >> +	if (!dsi_ctx.accum_err)
+> >> +		dev_dbg(ctx->dev, "Panel init sequence done\n");
+> >>  
+> >> -	ret = kd35t133_init_sequence(ctx);
+> >> -	if (ret < 0) {
+> >> -		dev_err(ctx->dev, "Panel init sequence failed: %d\n", ret);
+> >> +	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
+> >> +	if (dsi_ctx.accum_err)
+> >>  		goto disable_iovcc;
+> >> -	}
+> > 
+> > Move this after the last mipi_dsi_msleep(), merge with the error
+> > handling.
+> > 
+> >> -
+> >> -	ret = mipi_dsi_dcs_set_display_on(dsi);
+> >> -	if (ret < 0) {
+> >> -		dev_err(ctx->dev, "Failed to set display on: %d\n", ret);
+> >> -		goto disable_iovcc;
+> >> -	}
+> >>  
+> >>  	msleep(50);
+> > 
+> > mipi_dsi_msleep()
+> 
+> Is this necessary though? Converting this msleep to mipi_dsi_msleep and
+> moving the previous dsi_ctx.accum_err check to below this seems
+> redundant. If the check is placed above msleep, then we need to only
+> check for the error once. If its placed below mipi_dsi_msleep, we end up
+> checking for the error twice (once as written in the code, once in the
+> code generated by the macro) which is unnecessary.
 
-Ah, I didn't notice that.  I think it's still not fully sorted (e.g.
-KUN comes after NEXT), but that's probably fine.
+Yes, uniformity. And the compiler will most likely optimize things away.
 
->
-> The entire series looks good to me:
->
-> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
->
-> for the series.
->
-> > Thus:
-> >
-> > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> >
-> > If I hear no objections and if noone beats me, I'll apply the series
-> > within few days.
->
-> I'm currently travelling so if you can apply this series
-> to drm-misc-fixes that would be great.
+> 
+> -- 
+> Tejas Vipin
 
-Done.
-
->
-> Regards,
->
-> Hans
->
->
-> >
-> >
-> >>      }, {    /* AYA NEO 2021 */
-> >>              .matches =3D {
-> >>                DMI_EXACT_MATCH(DMI_SYS_VENDOR, "AYADEVICE"),
-> >> --
-> >> 2.44.2
-> >>
-> >
->
-
-
---=20
+-- 
 With best wishes
 Dmitry
