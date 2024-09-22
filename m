@@ -2,54 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB3FB97DF68
-	for <lists+dri-devel@lfdr.de>; Sun, 22 Sep 2024 00:31:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6249C97E048
+	for <lists+dri-devel@lfdr.de>; Sun, 22 Sep 2024 08:19:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E1C710E03B;
-	Sat, 21 Sep 2024 22:31:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D04E010E057;
+	Sun, 22 Sep 2024 06:19:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=kwiboo.se header.i=@kwiboo.se header.b="cwZKpVj6";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="VmTXftXd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50C1310E337
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Sep 2024 22:31:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
- h=Content-Transfer-Encoding: MIME-Version: References: In-Reply-To:
- Message-ID: Date: Subject: Cc: To: From; q=dns/txt; s=fe-e1b5cab7be;
- t=1726957889; bh=8XVidTJxe1Ijnds0MNBHEWFnH2eEKvVTfDWt1cqAA5Q=;
- b=cwZKpVj6ZHJnJw/S/gspYt31Uow+2xcQa4NC6NVPC5OncO8eKXT8ASUA9Uzm7Ky4MzG2QD1Fu
- e3mWA6Qf0nBRnO06lFUohkSWNeSym6qyMhwNIydsomxKn1V301h3DWKNxqs7UNbdJj0Fl+PL0xE
- aWY2/QX5zoiibrcEuDJjeIWAK65tZis3xc2/9PIg0swF45HVjSl4erESCABnIl5jpgDpvUIse1p
- 06K1ZU6Gm7EpvztBrl69YI8+A3zo8XS4TTe0unb60k415JvX8Zz7D3LFm79MWw9HUYIC5JG74j4
- TQsnhOhgQ1h6ve2Jt7ysNdSV/4ceUhEkcym1sLXNJg5A==
-From: Jonas Karlman <jonas@kwiboo.se>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Sandy Huang <hjc@rock-chips.com>,
- Heiko Stuebner <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>
-Subject: [PATCH 3/3] drm/rockchip: vop: Split rk3288-vop into big and lit
-Date: Sat, 21 Sep 2024 22:20:03 +0000
-Message-ID: <20240921222007.2301868-4-jonas@kwiboo.se>
-X-Mailer: git-send-email 2.46.1
-In-Reply-To: <20240921222007.2301868-1-jonas@kwiboo.se>
-References: <20240921222007.2301868-1-jonas@kwiboo.se>
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
+ [209.85.214.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBA1410E057
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Sep 2024 06:19:54 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id
+ d9443c01a7336-2068acc8b98so31631495ad.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Sep 2024 23:19:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1726985994; x=1727590794; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=3xQ9V6HSaf4CAgLfVMwdW/11tmA/ZODg6WnRklyW9P8=;
+ b=VmTXftXdBCAvbDAtmgD2T5YpiqzUjVHxrx/KXfzDYPX7jpoAM5VgPl61nQ5UfDJ2rS
+ U1KO7Ur274V7ESKnObQUtFtH0Iosy+uxDBBqtmq7hJmZ0NPm8+BEsFWidVzLYNBZ5F3Z
+ bans6Q4lNNwxgGLbPA6dsqgrrNFdIGXOLgcS6gFCaxFiJLgZ4SjcE662W5aNXpJlvev8
+ 511qKjfDDV6i4nc8sUwlGgCcrdRHa2+y2WyInKuFJBiYATb6XfWLVKdo/HWSdBQ+yv7k
+ RWj67Zww9xfWw8usw4i9C4QJ3yBPdlevB4kRBRhmkFn7PeXkaVwLrGbfuUuVWRL2JLje
+ IzNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1726985994; x=1727590794;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=3xQ9V6HSaf4CAgLfVMwdW/11tmA/ZODg6WnRklyW9P8=;
+ b=mmPixL931HLvXhFwV4K857jRQ6OQBVgv/CyO1vJJcBQRFMsQzYieKN/W3MwKXSpJ0b
+ KfQ5ZDRbZWgnQkoYMVKWoC9WUXNjvtPS02najcD2F34DSH5O0MK2e3uHZLhsbJa8eDfs
+ aVpkQaOvNWIpUGWCTL6OHOv+qgw9FZ7sV0wHdb1plCNPguoeESERzKGtCnT0OZ1wbgCI
+ lk5ZiV+9JTDWMfSI/P3IfPnrfhc9fqjWb609aXYLFvXnhPeP9NwL6XGgQj/7v8/b2H9N
+ SFnOgkYkdJu2ylU5ImiwajMItt1jot7y9eBwEQTiI5dUcWho3L2TNQUmCMVT0Au3Y7C2
+ yBMg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXDb0LVl6/Qgpi1zWt1a1950BOlXzLGWcjVJ1AE+vJsHkgJeeiWY46hIybweTOYdMF7zHIGnVzBxbU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwA6ES8K4eZdGW4hSC1ivaneR7i+R5wVpxPw6PrDVIaFz9GVLKt
+ /KDQa3ZkrJyVX9XGgumQKNR9eLDB18geoKycOVfvi4+yFkEX2KXw
+X-Google-Smtp-Source: AGHT+IHco0PIIsbh+MV6+539AZjban0BxjLXSZCarpWMLofXWVD3xMzTIYoyBh0YTzpmrUpdjtCTNg==
+X-Received: by 2002:a17:903:191:b0:207:1913:8bae with SMTP id
+ d9443c01a7336-208d8397c1amr90751845ad.14.1726985993913; 
+ Sat, 21 Sep 2024 23:19:53 -0700 (PDT)
+Received: from [10.3.80.76] ([59.152.80.69]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-20794730629sm116259225ad.247.2024.09.21.23.19.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 21 Sep 2024 23:19:53 -0700 (PDT)
+Message-ID: <d470e0ef-0193-478c-a858-d6498758aa9a@gmail.com>
+Date: Sun, 22 Sep 2024 11:49:49 +0530
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Report-Abuse-To: abuse@forwardemail.net
-X-Report-Abuse: abuse@forwardemail.net
-X-Complaints-To: abuse@forwardemail.net
-X-ForwardEmail-Version: 0.4.40
-X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
- 149.28.215.223
-X-ForwardEmail-ID: 66ef46c318c10b4d4a165d2b
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/panel: elida-kd35t133: transition to mipi_dsi wrapped
+ functions
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: neil.armstrong@linaro.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
+ quic_jesszhan@quicinc.com, dianders@chromium.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20240917071710.1254520-1-tejasvipin76@gmail.com>
+ <c3wv3r44cmua2hphyjqzb7pp2a32pvs6svcj6s2zohp77qn3cr@4iica7j5bx5l>
+Content-Language: en-US
+From: Tejas Vipin <tejasvipin76@gmail.com>
+In-Reply-To: <c3wv3r44cmua2hphyjqzb7pp2a32pvs6svcj6s2zohp77qn3cr@4iica7j5bx5l>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,75 +88,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Rockchip RK3288 SoC contain two different Visual Output Processor
-(VOP) blocks, VOP_BIG and VOP_LIT. The VOP blocks support different max
-output resolution, 3840x2160 and 2560x1600.
 
-Add support for the compatible used to differentiate between VOP_BIG and
-VOP_LIT, support for the old compatible is kept for compatibility with
-older device tree.
 
-Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
----
- drivers/gpu/drm/rockchip/rockchip_vop_reg.c | 27 +++++++++++++++------
- 1 file changed, 20 insertions(+), 7 deletions(-)
+On 9/20/24 9:59 PM, Dmitry Baryshkov wrote:
+> On Tue, Sep 17, 2024 at 12:47:10PM GMT, Tejas Vipin wrote:
+>> Changes the elida-kd35t133 panel to use multi style functions for
+>> improved error handling.
+>>
+>> Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
+>> ---
+>>  drivers/gpu/drm/panel/panel-elida-kd35t133.c | 107 ++++++++-----------
+>>  1 file changed, 45 insertions(+), 62 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/panel/panel-elida-kd35t133.c b/drivers/gpu/drm/panel/panel-elida-kd35t133.c
+>> index 00791ea81e90..62abda9559e7 100644
+>> --- a/drivers/gpu/drm/panel/panel-elida-kd35t133.c
+>> +++ b/drivers/gpu/drm/panel/panel-elida-kd35t133.c
+>> @@ -135,25 +127,16 @@ static int kd35t133_prepare(struct drm_panel *panel)
+>>  
+>>  	msleep(20);
+>>  
+>> -	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
+>> -	if (ret < 0) {
+>> -		dev_err(ctx->dev, "Failed to exit sleep mode: %d\n", ret);
+>> -		goto disable_iovcc;
+>> -	}
+>> +	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
+>> +	mipi_dsi_msleep(&dsi_ctx, 250);
+>>  
+>> -	msleep(250);
+>> +	kd35t133_init_sequence(&dsi_ctx);
+>> +	if (!dsi_ctx.accum_err)
+>> +		dev_dbg(ctx->dev, "Panel init sequence done\n");
+>>  
+>> -	ret = kd35t133_init_sequence(ctx);
+>> -	if (ret < 0) {
+>> -		dev_err(ctx->dev, "Panel init sequence failed: %d\n", ret);
+>> +	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
+>> +	if (dsi_ctx.accum_err)
+>>  		goto disable_iovcc;
+>> -	}
+> 
+> Move this after the last mipi_dsi_msleep(), merge with the error
+> handling.
+> 
+>> -
+>> -	ret = mipi_dsi_dcs_set_display_on(dsi);
+>> -	if (ret < 0) {
+>> -		dev_err(ctx->dev, "Failed to set display on: %d\n", ret);
+>> -		goto disable_iovcc;
+>> -	}
+>>  
+>>  	msleep(50);
+> 
+> mipi_dsi_msleep()
 
-diff --git a/drivers/gpu/drm/rockchip/rockchip_vop_reg.c b/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
-index e2c6ba26f437..978db93cda33 100644
---- a/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
-@@ -762,7 +762,7 @@ static const struct vop_intr rk3288_vop_intr = {
- 	.clear = VOP_REG(RK3288_INTR_CTRL0, 0xf, 8),
- };
- 
--static const struct vop_data rk3288_vop = {
-+static const struct vop_data rk3288_vop_big = {
- 	.version = VOP_VERSION(3, 1),
- 	.feature = VOP_FEATURE_OUTPUT_RGB10,
- 	.intr = &rk3288_vop_intr,
-@@ -772,14 +772,22 @@ static const struct vop_data rk3288_vop = {
- 	.win = rk3288_vop_win_data,
- 	.win_size = ARRAY_SIZE(rk3288_vop_win_data),
- 	.lut_size = 1024,
--	/*
--	 * This is the maximum resolution for the VOPB, the VOPL can only do
--	 * 2560x1600, but we can't distinguish them as they have the same
--	 * compatible.
--	 */
- 	.max_output = { 3840, 2160 },
- };
- 
-+static const struct vop_data rk3288_vop_lit = {
-+	.version = VOP_VERSION(3, 1),
-+	.feature = VOP_FEATURE_OUTPUT_RGB10,
-+	.intr = &rk3288_vop_intr,
-+	.common = &rk3288_common,
-+	.modeset = &rk3288_modeset,
-+	.output = &rk3288_output,
-+	.win = rk3288_vop_win_data,
-+	.win_size = ARRAY_SIZE(rk3288_vop_win_data),
-+	.lut_size = 1024,
-+	.max_output = { 2560, 1600 },
-+};
-+
- static const int rk3368_vop_intrs[] = {
- 	FS_INTR,
- 	0, 0,
-@@ -1245,8 +1253,13 @@ static const struct of_device_id vop_driver_dt_match[] = {
- 	  .data = &rk3066_vop },
- 	{ .compatible = "rockchip,rk3188-vop",
- 	  .data = &rk3188_vop },
-+	{ .compatible = "rockchip,rk3288-vop-big",
-+	  .data = &rk3288_vop_big },
-+	{ .compatible = "rockchip,rk3288-vop-lit",
-+	  .data = &rk3288_vop_lit },
-+	/* rockchip,rk3288-vop kept for backward compatibility */
- 	{ .compatible = "rockchip,rk3288-vop",
--	  .data = &rk3288_vop },
-+	  .data = &rk3288_vop_big },
- 	{ .compatible = "rockchip,rk3368-vop",
- 	  .data = &rk3368_vop },
- 	{ .compatible = "rockchip,rk3366-vop",
+Is this necessary though? Converting this msleep to mipi_dsi_msleep and
+moving the previous dsi_ctx.accum_err check to below this seems
+redundant. If the check is placed above msleep, then we need to only
+check for the error once. If its placed below mipi_dsi_msleep, we end up
+checking for the error twice (once as written in the code, once in the
+code generated by the macro) which is unnecessary.
+
 -- 
-2.46.1
-
+Tejas Vipin
