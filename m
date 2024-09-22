@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6C6D97E21A
-	for <lists+dri-devel@lfdr.de>; Sun, 22 Sep 2024 16:59:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C97A97E237
+	for <lists+dri-devel@lfdr.de>; Sun, 22 Sep 2024 17:11:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6164D10E20E;
-	Sun, 22 Sep 2024 14:59:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D39010E211;
+	Sun, 22 Sep 2024 15:11:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="BRLnHPgB";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="RNdu1YPR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
- [209.85.208.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16FAD10E20E
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Sep 2024 14:59:04 +0000 (UTC)
-Received: by mail-lj1-f170.google.com with SMTP id
- 38308e7fff4ca-2f753375394so24972551fa.0
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Sep 2024 07:59:03 -0700 (PDT)
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com
+ [209.85.208.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68C4310E211
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Sep 2024 15:11:26 +0000 (UTC)
+Received: by mail-lj1-f171.google.com with SMTP id
+ 38308e7fff4ca-2f75428b9f8so45911741fa.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Sep 2024 08:11:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1727017142; x=1727621942; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1727017884; x=1727622684; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=WRVlfVpLc9FHcHudJGyIqnlngyV5hDJr/NHL08wSPBk=;
- b=BRLnHPgBFRUaCqHOHfiBIQ65e88zrtFQcu9kry3byCUjZU5kjpyjGUizfeSi4A+V6S
- jcf+WJmN0pJOub1PWau9ii7q+Q4+5ZtEi+t2hmO4wCfObi/dQl6IgXkmzfQMcEBPdtd2
- KVp8XXTV4NXCgtRnUJr8ZTt/v/7STc9RcIj8DM5zFp8V6BAl6JdN/tNEMbQBFNQWOtvY
- qYydQImQaWdip7BrE7rmcUfvN5+2+7AJe4ZHVO16mh8Z9+TT9UNi+X78m31M6vvRWjxZ
- /x40z1/C30HOEQAiIBP6Zt8Ry0MJ/KwEZ/wA+cpk+N7F5nD7C+BFXBeVTAepjk8pC5IJ
- q3iw==
+ bh=3qYEWdyuyPD387BNY3ItgbS+E+pNExfegqaMbqgiH70=;
+ b=RNdu1YPRwyWuolvE1gNi28BvLvJvrcQnJ3F8qm6h9pGrRFiB3jxmWvYnHMz61ooa0X
+ yXdFQoOxc9wdJ3WY7G+QdjK4pROJm00ei6piU3ubBfs0udxMi9xjx+gLQo94Z/gcfhoi
+ FdKe7G8ddKG9mbY4at/TFpvWEOvey2utUXGmRwgAmP3/fBy3LfcNhkDBXHC7X/ZUre/1
+ uWCjkdS3ymZpNaem7QXkN4Qh+d8QdYk8rH4m8mI16wts7R7j3kqWtp34AWAz/dPyVCWp
+ C1PBeKPDU1ITKsZnZmm8+ZeX8QJsafFghPGt0DGLhWTBPHKdrAOsB+hf58iZ57h685cm
+ Q2Zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727017142; x=1727621942;
+ d=1e100.net; s=20230601; t=1727017884; x=1727622684;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=WRVlfVpLc9FHcHudJGyIqnlngyV5hDJr/NHL08wSPBk=;
- b=EUClIv1o0+CmjRVOI+K44JA48V7qLgFUeFWXx38khVMFWPyE21uquykN8o75/0GQlm
- mb5IQi/XXJbveLoolvp8CCwT6uf4W0AhqY8gK14Tx+80TtrZvGsVfqC4JhoT7HMNFX8j
- RAUPvxrCEXqR24L6hLgUmvV7gM57N+6x5KO7+vEUOCMzNqAa6r0OrbDyaiNFSHVLsgCw
- nxgSSIsthqhfavG4azE5QPSqTNACZtBcgIbD3PyHViKcDC0ltaT1GCZJ0YcicEVlcpyy
- CgpmLHSAgYFKHrWwU0qfymWtn1/ae6aqqCJTBkFRfwTj/xbHZXhp8cF/hN7CZIYWoDB6
- 2Ymw==
+ bh=3qYEWdyuyPD387BNY3ItgbS+E+pNExfegqaMbqgiH70=;
+ b=g/M2erdl4xWcW/ypkm1rzgKbkczIC+TLvuRdP1gwLUDtMu+IP6tnM3ID77p0aT0XGS
+ OcYvd7hgV/nJ2PjpQaRDoqU8e8nVVjVwvVZ6pnjIDoWSymm3uoRo0FyvjY1ISqjD800r
+ DoUFhTPJUBKBq4Nu3DAvzPBtdZ8wgVlLVss2ZA65G2XwIVjIGHn2RQMOX6hJEsWH+WDH
+ 8cOeb5yx5DM39c66Nbe/e760gTUIVmlhiGdVy3b6QLNo0s1nB16kTJH/HQAlb2k/jMPV
+ kJpDkp6bEe31uEMY/bSZZAzLxQPGFf9sDlbzOw517bY4tWVUHL7Tp1ipjgTYTNVnd7Fe
+ Usig==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXNvWHV6Nbk0l+BK3ZW9vxQyXNRk9Lk9ZsWx5Ku52PzmEVMOonIH8Am1hiuAPc93oTG7pq5VZiUFb0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwLtd9w37PbpDbLZCYlwo4dgE0ZX4fNZRmZFLbMpvs8pMAavWh7
- KHP77qGRdSaXJ/TMlVFrW7FXbQEfR+yC8s+3cj4+fEYxyI3rgsSlg9H54XlW63Y=
-X-Google-Smtp-Source: AGHT+IErJoYMwonx3RpdmyPmJ/Pzin44DRxgCZHy3unFD5W/PYZ8gZQ4NI6urV/Ow7+IvTz6Ylx5lw==
-X-Received: by 2002:a2e:751:0:b0:2f7:7cf7:474d with SMTP id
- 38308e7fff4ca-2f7cc388465mr33065701fa.27.1727017142080; 
- Sun, 22 Sep 2024 07:59:02 -0700 (PDT)
+ AJvYcCVWzIuZbewUhv0HW66QhNOBcLxA920H8b8BwUTzeJ1jpAh7nQEOJgwyKAMuvywORW/U5KpCaUT82Rc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxC2UntwzGrgSKRunxIQ3D0CDaX2F2mxKw6rbVijurRGXmB0SKE
+ fPj0uYo4zSIlSDpkyK9IXV7ECZqhn53uEcGZrzcM1JOudiQaSQzZcdF+3UhvU/A=
+X-Google-Smtp-Source: AGHT+IHHo31CqOXpn4SbWKggYqRdL9mScTmUZldIUgIsrVZTZzlvjOpcdiRZ0T1BWZ4Z9Wr8+Oh/1w==
+X-Received: by 2002:a05:6512:6d1:b0:52c:d628:c77c with SMTP id
+ 2adb3069b0e04-536ac32f044mr5619933e87.43.1727017884451; 
+ Sun, 22 Sep 2024 08:11:24 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2f79d37f949sm26072661fa.93.2024.09.22.07.59.00
+ 2adb3069b0e04-5368709695csm2947204e87.135.2024.09.22.08.11.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 22 Sep 2024 07:59:00 -0700 (PDT)
-Date: Sun, 22 Sep 2024 17:58:59 +0300
+ Sun, 22 Sep 2024 08:11:23 -0700 (PDT)
+Date: Sun, 22 Sep 2024 18:11:21 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Heiner Kallweit <hkallweit1@gmail.com>
 Cc: Oded Gabbay <ogabbay@kernel.org>, 
@@ -65,14 +65,15 @@ Cc: Oded Gabbay <ogabbay@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
  Daniel Vetter <daniel@ffwll.ch>, Hans de Goede <hdegoede@redhat.com>, 
  "open list:AMD KFD" <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH 3/6] drm: Refactor drm_core_init error path
-Message-ID: <q2xtugg4itg3nxdhuiyrewqq63rexl2femkdewbx7rmc6oi3nw@3tnsi6xfqg65>
+Subject: Re: [PATCH 4/6] drm: Change drm_class from pointer to const struct
+ class
+Message-ID: <56lilw7gkq4ggtxfoykxcd727llmdrc2wksoafhjktxwpxil4e@6kcfqgwtxcrj>
 References: <499229fd-5344-4799-85bf-93e4b3b45eca@gmail.com>
- <3a659ed0-4072-4f01-9676-65d6b1a42678@gmail.com>
+ <9e5567f6-c27e-4875-9db8-0435669a7d7c@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3a659ed0-4072-4f01-9676-65d6b1a42678@gmail.com>
+In-Reply-To: <9e5567f6-c27e-4875-9db8-0435669a7d7c@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,143 +89,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Sep 08, 2024 at 02:10:30PM GMT, Heiner Kallweit wrote:
-> These changes make the error path a little more robust, because exit
-> steps in drm_core_exit() don't have to ensure any longer that they
-> work properly even if the associated init step wasn't executed.
-
-Please use imperative style when describing changes. E.g. "Do this and
-that because of ABCDEF". See
-Documentation/process/submitting-patches.rst
-
-> In addition these changes allow to annotate a few functions as __exit,
-> saving some memory if drm is built-in.
-
-This should be a separate commit.
-
+On Sun, Sep 08, 2024 at 02:11:25PM GMT, Heiner Kallweit wrote:
+> Define class drm statically and constify it. This ensure that no user
+> of the exported struct class can tamper with it.
 > 
 > Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
 > ---
->  drivers/accel/drm_accel.c                |  2 +-
->  drivers/gpu/drm/drm_drv.c                | 18 ++++++++++++------
->  drivers/gpu/drm/drm_panic.c              |  4 ++--
->  drivers/gpu/drm/drm_privacy_screen_x86.c |  2 +-
->  drivers/gpu/drm/drm_sysfs.c              |  2 --
->  5 files changed, 16 insertions(+), 12 deletions(-)
+>  drivers/gpu/drm/drm_internal.h       |  2 +-
+>  drivers/gpu/drm/drm_privacy_screen.c |  2 +-
+>  drivers/gpu/drm/drm_sysfs.c          | 32 ++++++++++++++--------------
+>  3 files changed, 18 insertions(+), 18 deletions(-)
 > 
-> diff --git a/drivers/accel/drm_accel.c b/drivers/accel/drm_accel.c
-> index aa826033b..25fdbea36 100644
-> --- a/drivers/accel/drm_accel.c
-> +++ b/drivers/accel/drm_accel.c
-> @@ -191,7 +191,7 @@ static const struct file_operations accel_stub_fops = {
->  	.llseek = noop_llseek,
->  };
+> diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
+> index 1705bfc90..6e0df44b6 100644
+> --- a/drivers/gpu/drm/drm_internal.h
+> +++ b/drivers/gpu/drm/drm_internal.h
+> @@ -139,7 +139,7 @@ bool drm_master_internal_acquire(struct drm_device *dev);
+>  void drm_master_internal_release(struct drm_device *dev);
 >  
-> -void accel_core_exit(void)
-> +void __exit accel_core_exit(void)
->  {
->  	unregister_chrdev(ACCEL_MAJOR, "accel");
->  	debugfs_remove(accel_debugfs_root);
-> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-> index ac30b0ec9..ea59994e5 100644
-> --- a/drivers/gpu/drm/drm_drv.c
-> +++ b/drivers/gpu/drm/drm_drv.c
-> @@ -1062,7 +1062,7 @@ static const struct file_operations drm_stub_fops = {
->  	.llseek = noop_llseek,
->  };
+>  /* drm_sysfs.c */
+> -extern struct class *drm_class;
+> +extern const struct class drm_class;
 >  
-> -static void drm_core_exit(void)
-> +static void __exit drm_core_exit(void)
->  {
->  	drm_privacy_screen_lookup_exit();
->  	drm_panic_exit();
-> @@ -1084,18 +1084,18 @@ static int __init drm_core_init(void)
->  	ret = drm_sysfs_init();
->  	if (ret < 0) {
->  		DRM_ERROR("Cannot create DRM class: %d\n", ret);
-> -		goto error;
-> +		goto err_ida;
->  	}
+>  int drm_sysfs_init(void);
+>  void drm_sysfs_destroy(void);
+> diff --git a/drivers/gpu/drm/drm_privacy_screen.c b/drivers/gpu/drm/drm_privacy_screen.c
+> index 6cc39e307..2fbd24ba5 100644
+> --- a/drivers/gpu/drm/drm_privacy_screen.c
+> +++ b/drivers/gpu/drm/drm_privacy_screen.c
+> @@ -401,7 +401,7 @@ struct drm_privacy_screen *drm_privacy_screen_register(
+>  	mutex_init(&priv->lock);
+>  	BLOCKING_INIT_NOTIFIER_HEAD(&priv->notifier_head);
 >  
->  	drm_debugfs_root = debugfs_create_dir("dri", NULL);
->  
->  	ret = register_chrdev(DRM_MAJOR, "drm", &drm_stub_fops);
->  	if (ret < 0)
-> -		goto error;
-> +		goto err_debugfs;
->  
->  	ret = accel_core_init();
->  	if (ret < 0)
-> -		goto error;
-> +		goto err_chrdev;
->  
->  	drm_panic_init();
->  
-> @@ -1106,8 +1106,14 @@ static int __init drm_core_init(void)
->  	DRM_DEBUG("Initialized\n");
->  	return 0;
->  
-> -error:
-> -	drm_core_exit();
-> +err_chrdev:
-> +	unregister_chrdev(DRM_MAJOR, "drm");
-> +err_debugfs:
-> +	debugfs_remove(drm_debugfs_root);
-> +	drm_sysfs_destroy();
-> +err_ida:
-> +	WARN_ON(!xa_empty(&drm_minors_xa));
-> +	drm_connector_ida_destroy();
->  	return ret;
->  }
->  
-> diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
-> index 74412b7bf..d00fdb12d 100644
-> --- a/drivers/gpu/drm/drm_panic.c
-> +++ b/drivers/gpu/drm/drm_panic.c
-> @@ -679,7 +679,7 @@ static void __init drm_panic_qr_init(void)
->  				   GFP_KERNEL);
->  }
->  
-> -static void drm_panic_qr_exit(void)
-> +static void __exit drm_panic_qr_exit(void)
->  {
->  	kfree(qrbuf1);
->  	qrbuf1 = NULL;
-> @@ -1058,7 +1058,7 @@ void __init drm_panic_init(void)
->  /**
->   * drm_panic_exit() - Free the resources taken by drm_panic_exit()
->   */
-> -void drm_panic_exit(void)
-> +void __exit drm_panic_exit(void)
->  {
->  	drm_panic_qr_exit();
->  }
-> diff --git a/drivers/gpu/drm/drm_privacy_screen_x86.c b/drivers/gpu/drm/drm_privacy_screen_x86.c
-> index 72ed40e49..6be96a0cc 100644
-> --- a/drivers/gpu/drm/drm_privacy_screen_x86.c
-> +++ b/drivers/gpu/drm/drm_privacy_screen_x86.c
-> @@ -98,7 +98,7 @@ void __init drm_privacy_screen_lookup_init(void)
->  	}
->  }
->  
-> -void drm_privacy_screen_lookup_exit(void)
-> +void __exit drm_privacy_screen_lookup_exit(void)
->  {
->  	if (arch_lookup.provider)
->  		drm_privacy_screen_lookup_remove(&arch_lookup);
+> -	priv->dev.class = drm_class;
+> +	priv->dev.class = &drm_class;
+>  	priv->dev.type = &drm_privacy_screen_type;
+>  	priv->dev.parent = parent;
+>  	priv->dev.release = drm_privacy_screen_device_release;
 > diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
-> index a713f0500..f8577043e 100644
+> index f8577043e..f443f9a76 100644
 > --- a/drivers/gpu/drm/drm_sysfs.c
 > +++ b/drivers/gpu/drm/drm_sysfs.c
-> @@ -155,8 +155,6 @@ int drm_sysfs_init(void)
+> @@ -58,7 +58,15 @@ static struct device_type drm_sysfs_device_connector = {
+>  	.name = "drm_connector",
+>  };
+>  
+> -struct class *drm_class;
+> +static char *drm_devnode(const struct device *dev, umode_t *mode)
+> +{
+> +	return kasprintf(GFP_KERNEL, "dri/%s", dev_name(dev));
+> +}
+> +
+> +const struct class drm_class = {
+> +	.name = "drm",
+> +	.devnode = drm_devnode,
+> +};
+>  
+>  #ifdef CONFIG_ACPI
+>  static bool drm_connector_acpi_bus_match(struct device *dev)
+> @@ -93,11 +101,6 @@ static void drm_sysfs_acpi_register(void) { }
+>  static void drm_sysfs_acpi_unregister(void) { }
+>  #endif
+>  
+> -static char *drm_devnode(const struct device *dev, umode_t *mode)
+> -{
+> -	return kasprintf(GFP_KERNEL, "dri/%s", dev_name(dev));
+> -}
+> -
+
+Please keep this function in place and move drm_class declarattion next
+to it. It simplifies reviewing the code.
+
+>  static int typec_connector_bind(struct device *dev,
+>  				struct device *typec_connector, void *data)
+>  {
+> @@ -138,14 +141,12 @@ static const struct component_ops typec_connector_ops = {
 >   */
+>  int drm_sysfs_init(void)
+>  {
+> -	drm_class = class_create("drm");
+> -	if (IS_ERR(drm_class))
+> -		return PTR_ERR(drm_class);
+> +	int ret = class_register(&drm_class);
+>  
+> -	drm_class->devnode = drm_devnode;
+> +	if (!ret)
+> +		drm_sysfs_acpi_register();
+>  
+> -	drm_sysfs_acpi_register();
+> -	return 0;
+> +	return ret;
+>  }
+>  
+>  /**
+> @@ -156,8 +157,7 @@ int drm_sysfs_init(void)
 >  void drm_sysfs_destroy(void)
 >  {
-> -	if (IS_ERR_OR_NULL(drm_class))
-> -		return;
 >  	drm_sysfs_acpi_unregister();
->  	class_destroy(drm_class);
->  	drm_class = NULL;
+> -	class_destroy(drm_class);
+> -	drm_class = NULL;
+> +	class_unregister(&drm_class);
+
+This code makes me wonder: can we define static classes in unloadable
+modules? What happens if userspace holds the reference on the class in
+sysfs, while we remove the module ?
+
+>  }
+>  
+>  static void drm_sysfs_release(struct device *dev)
+> @@ -337,7 +337,7 @@ int drm_sysfs_connector_add(struct drm_connector *connector)
+>  		return -ENOMEM;
+>  
+>  	device_initialize(kdev);
+> -	kdev->class = drm_class;
+> +	kdev->class = &drm_class;
+>  	kdev->type = &drm_sysfs_device_connector;
+>  	kdev->parent = dev->primary->kdev;
+>  	kdev->groups = connector_dev_groups;
+> @@ -516,7 +516,7 @@ struct device *drm_sysfs_minor_alloc(struct drm_minor *minor)
+>  			minor_str = "card%d";
+>  
+>  		kdev->devt = MKDEV(DRM_MAJOR, minor->index);
+> -		kdev->class = drm_class;
+> +		kdev->class = &drm_class;
+>  		kdev->type = &drm_sysfs_device_minor;
+>  	}
+>  
 > -- 
 > 2.46.0
 > 
