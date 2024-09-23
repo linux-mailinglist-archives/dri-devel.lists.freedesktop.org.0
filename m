@@ -2,73 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FC7F97E884
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2024 11:22:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31CFC97E889
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2024 11:22:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B61710E3C0;
-	Mon, 23 Sep 2024 09:22:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A91DC10E3C2;
+	Mon, 23 Sep 2024 09:22:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="BSckRZ0O";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="PZTJaKtQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
- [209.85.208.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E3D810E3C0
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2024 09:22:33 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id
- 4fb4d7f45d1cf-5c42bad4eb9so666963a12.2
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2024 02:22:33 -0700 (PDT)
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
+ [209.85.160.196])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBFB310E3CF
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2024 09:22:51 +0000 (UTC)
+Received: by mail-qt1-f196.google.com with SMTP id
+ d75a77b69052e-4582a0b438aso32771391cf.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2024 02:22:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1727083352; x=1727688152;
+ d=chromium.org; s=google; t=1727083370; x=1727688170;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=n7cmHyBl9nc6KTcNNqA/aAzbevaaSNsmEu/DrICna2o=;
- b=BSckRZ0OY0r7ZNgPJ0/Ynjhw/Z53+X4XotUSb0fj8d4ZM4k76D4813ZTWglM2XTo8A
- ALNUcGXlltrNj9oZ4S6KpzSh6fmkCLmC0jBxtMxe+p/DRYYUWTHYDjdw4joHXs3zAKVm
- CPa+sS1xQAHE6L7WKbk1cNtVjBJL9vYYUou9/P9TT14dX4UzfktW7jsaR3VugyrSgHB8
- LQS7tIh2HSAUo/8Sxih/TQweBAwOEtkMDmWfP+mNl6p2vIFJ96phXDF5c0yYvdfwvXXN
- zAaZFVDMsIlzBPOLinaniVTePCIe5lcHYTqJwcs/4Sr5GwVWEbjdqijEYeQQcIoi023m
- lqig==
+ bh=rHR5/PqnEGvG2nKOK2RFe26k4BMP9Pm6Oaseg0KD65Q=;
+ b=PZTJaKtQfkapghpj8P9VmTbgDcaAOvIWmNvLFOAla+lFvMNz4tKTjfLYSMuSdGWFwR
+ 0FDGtOBXpKgSoSm9jl2T4zL5pm0ZpXIYcAT2iViR7LfH0PwRcTiq5wLv9QkjA6PF5mlk
+ nR788tFUYmTqzeOEQOzZeGSP0Gvvuk2rZ4NQQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727083352; x=1727688152;
+ d=1e100.net; s=20230601; t=1727083370; x=1727688170;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=n7cmHyBl9nc6KTcNNqA/aAzbevaaSNsmEu/DrICna2o=;
- b=H+9SAum8MKHHbEFIvq/og44CvK05TUTc1p2WoA1pC1gDJAQpPnMrHFK0fRQIfru2Ma
- 5mvy0Nw1/5jh03aat0vUh+e7ufUYBJuWBDMMd8j6XXwKq1hlI24CK+KRSJBPTiBCrwVv
- H4/2FKGiMsYfurqbD+CH/hNFpOouLCbmI5wfvxUJZ6IjEUrr0dGUoQCRW+biaT4QDyb+
- wW5SC2Z2Gso6XJ/5EzK9XD6frj/JxvMb5eigLrX+MSYgi2YPjpahDEEKpPsgFIRiztMI
- /qa5SUKHNq8mCwESHRuA8XREO5vf2dpXA0lHf/VvU+cphd0mDUalPhC/nYQcCoGyhUvV
- beLg==
+ bh=rHR5/PqnEGvG2nKOK2RFe26k4BMP9Pm6Oaseg0KD65Q=;
+ b=nMVrSCwyvuCRMD9KCIfE8G/ElI9B89FrjWJfQ6FFXswfOSd84yPwb3B8Z34oD9DVFN
+ Mx31LscKs/Sdh0jOaLNFKbmO1VmWcOqeAEw/S/lmxAdh+GgUZDpEwXX7lmGW9MwnwPVc
+ jGmxWg/t7Ajd6n/eaSDx39G8qlcWB0hVD021BDGTRS21jUAbqYs9MH5yDjJ6gsk5xSax
+ 3T/MYvA3NjSHJKhSzx+sDtM4oLvxFCTP9WmTVq7mmTOCvrWSjsbBa4FfyFrBEvNpnj2e
+ rKefGgUt78hwbX38XR6wf/pHfgWWoJFWCq+od4ecD3q/6LaUP5imIIPe2S6fQlVFa5jM
+ r4Ig==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX7MrYCmTzQj8gmwPWPYtkPHnXU8Dm1egqsz8lwk4haRIvyqLYWQCcpBeuP+m366fpGYWOuA/vjgC8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxZR5gnBwTUmN3op9+h/lZwN4VcYZAyZKcmVu07IKM+Ere+tRzb
- y9yfYBM015eiuKuBNh6UOkSLffHe+pWozSyhwzgBMIEy+TLRFV1D0VXxXh6KPtXavSnWFlqpaLW
- s7a0YpmJ9nmF9Nq5wYbzrhJXFh0hmzeYkVOzLtQ==
-X-Google-Smtp-Source: AGHT+IHhp17g5Fbe+7A2S2wLr+KiDdABA/q1DteOxMrJXmxR3bBqCME6Ga+w6RWL0BpYabZkxl8ORE3TkRZB3gZj4dU=
-X-Received: by 2002:a05:6402:268b:b0:5c5:c5fc:1aa6 with SMTP id
- 4fb4d7f45d1cf-5c5c5fc1b0amr152694a12.5.1727083351600; Mon, 23 Sep 2024
- 02:22:31 -0700 (PDT)
+ AJvYcCU2DXb6x7YKdfdKg4qAT0fNw4zuW4OP8jgIevBDrqTWUiU3SgoIRTA/1rHWLhI8LQ1L42S8c5YN5wA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzFMKtSyJl9VqZYJAe5T50NJyeK71CC2YrDo7z5jvwf/vqgChKg
+ Q0W5ATfW/jWJYGNYPnEIcyqwdcTwcF+K+uAC/vx53WVLKtKAMO9Ui3j8YbY/w4eo9XO9Aky0v+j
+ r4IdoiKfG4YSYcYlXXvTQ3M0KrD40juTLSISq
+X-Google-Smtp-Source: AGHT+IH2U8WBLfUNtvF0U7zgHJJecXFoNGuBJBPDQ5KlvHw1m5rB5qtsUrYjwY20aN5I76g0MS7qCKmMVYbcFU6lHf8=
+X-Received: by 2002:a05:622a:1893:b0:458:3233:8eea with SMTP id
+ d75a77b69052e-45b22694420mr173373311cf.12.1727083370617; Mon, 23 Sep 2024
+ 02:22:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240915080830.11318-1-lvzhaoxiong@huaqin.corp-partner.google.com>
- <20240915080830.11318-3-lvzhaoxiong@huaqin.corp-partner.google.com>
- <CAA8EJpqC5tQ45gj8-0bDutinCs7CoxiQVL1EAzwDK9RJTXYMcQ@mail.gmail.com>
-In-Reply-To: <CAA8EJpqC5tQ45gj8-0bDutinCs7CoxiQVL1EAzwDK9RJTXYMcQ@mail.gmail.com>
-From: zhaoxiong lv <lvzhaoxiong@huaqin.corp-partner.google.com>
-Date: Mon, 23 Sep 2024 17:22:20 +0800
-Message-ID: <CA+6=WdR6+nh9e2HCuCVdR6uw3vuJoWfKCG4gPjJMp9db+Quimw@mail.gmail.com>
-Subject: Re: [PATCH v1 2/2] drm/panel: boe-th101mb31ig002: Modify Starry panel
- timing
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com, sam@ravnborg.org, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- airlied@gmail.com, simona@ffwll.ch, dianders@chromium.org, hsinyi@google.com, 
- awarnecke002@hotmail.com, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240119033126.1802711-1-ototot@chromium.org>
+ <CAH2knV03g8_z8326yd=pQV11X3N1VFc_DqXzVjMgM4Q0C+8awg@mail.gmail.com>
+In-Reply-To: <CAH2knV03g8_z8326yd=pQV11X3N1VFc_DqXzVjMgM4Q0C+8awg@mail.gmail.com>
+From: Tommy Chiang <ototot@chromium.org>
+Date: Mon, 23 Sep 2024 09:22:39 +0000
+Message-ID: <CAH2knV3RZdnu36+dDQGU834G+82dOqtyHY4RhRow5tb0VXWpqg@mail.gmail.com>
+Subject: Re: [PATCH] dma-buf: Add syntax highlighting to code listings in the
+ document
+To: Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -86,96 +80,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 16, 2024 at 1:15=E2=80=AFPM Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
->
-> Same comment as the one that I've provided to the other patch, plus:
->
-> On Sun, 15 Sept 2024 at 10:11, Zhaoxiong Lv
-> <lvzhaoxiong@huaqin.corp-partner.google.com> wrote:
-> >
-> > In order to meet the timing, remove the delay between "backlight off"
-> > and "display off", and reduce the delay between "display_off" and
-> > "enter_sleep"
->
-> Separate commit, separate _justification_. Why, not what.
->
-> >
-> > Removing variables: display_off_to_enter_sleep_delay_ms
->
-> This phrase is useless.
->
-hi Dmitry
+Ping.
+Please let me know if I'm doing something wrong.
 
-As in another patch reply, in order to solve a black screen problem,
-the delay is reduced.
-The panel spec:
-1. https://github.com/Vme5o/power-on-off-sequential
-
-> >
-> > Signed-off-by: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com=
+On Mon, Feb 19, 2024 at 11:00=E2=80=AFAM Tommy Chiang <ototot@chromium.org>=
+ wrote:
 >
+> Kindly ping :)
+>
+> On Fri, Jan 19, 2024 at 11:33=E2=80=AFAM Tommy Chiang <ototot@chromium.or=
+g> wrote:
+> >
+> > This patch tries to improve the display of the code listing
+> > on The Linux Kernel documentation website for dma-buf [1] .
+> >
+> > Originally, it appears that it was attempting to escape
+> > the '*' character, but looks like it's not necessary (now),
+> > so we are seeing something like '\*' on the webite.
+> >
+> > This patch removes these unnecessary backslashes and adds syntax
+> > highlighting to improve the readability of the code listing.
+> >
+> > [1] https://docs.kernel.org/driver-api/dma-buf.html
+> >
+> > Signed-off-by: Tommy Chiang <ototot@chromium.org>
 > > ---
-> >  drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c | 11 +++++------
-> >  1 file changed, 5 insertions(+), 6 deletions(-)
+> >  drivers/dma-buf/dma-buf.c | 15 +++++++++------
+> >  1 file changed, 9 insertions(+), 6 deletions(-)
 > >
-> > diff --git a/drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c b/dri=
-vers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c
-> > index 0b87f1e6ecae..c2d0ec199829 100644
-> > --- a/drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c
-> > +++ b/drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c
-> > @@ -29,7 +29,7 @@ struct panel_desc {
-> >         bool lp11_before_reset;
-> >         unsigned int vcioo_to_lp11_delay_ms;
-> >         unsigned int lp11_to_reset_delay_ms;
-> > -       unsigned int backlight_off_to_display_off_delay_ms;
-> > +       unsigned int display_off_to_enter_sleep_delay_ms;
-> >         unsigned int enter_sleep_to_reset_down_delay_ms;
-> >         unsigned int power_off_delay_ms;
-> >  };
-> > @@ -184,12 +184,10 @@ static int boe_th101mb31ig002_disable(struct drm_=
-panel *panel)
-> >                                                       panel);
-> >         struct mipi_dsi_multi_context dsi_ctx =3D { .dsi =3D ctx->dsi }=
-;
-> >
-> > -       if (ctx->desc->backlight_off_to_display_off_delay_ms)
-> > -               mipi_dsi_msleep(&dsi_ctx, ctx->desc->backlight_off_to_d=
-isplay_off_delay_ms);
-> > -
-> >         mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
-> >
-> > -       mipi_dsi_msleep(&dsi_ctx, 120);
-> > +       if (ctx->desc->display_off_to_enter_sleep_delay_ms)
-> > +               mipi_dsi_msleep(&dsi_ctx, ctx->desc->display_off_to_ent=
-er_sleep_delay_ms);
-> >
-> >         mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
-> >
-> > @@ -275,6 +273,7 @@ static const struct panel_desc boe_th101mb31ig002_d=
-esc =3D {
-> >                           MIPI_DSI_MODE_NO_EOT_PACKET |
-> >                           MIPI_DSI_MODE_LPM,
-> >         .init =3D boe_th101mb31ig002_enable,
-> > +       .display_off_to_enter_sleep_delay_ms =3D 120,
-> >  };
-> >
-> >  static const struct drm_display_mode starry_er88577_default_mode =3D {
-> > @@ -302,7 +301,7 @@ static const struct panel_desc starry_er88577_desc =
-=3D {
-> >         .lp11_before_reset =3D true,
-> >         .vcioo_to_lp11_delay_ms =3D 5,
-> >         .lp11_to_reset_delay_ms =3D 50,
-> > -       .backlight_off_to_display_off_delay_ms =3D 100,
-> > +       .display_off_to_enter_sleep_delay_ms =3D 50,
-> >         .enter_sleep_to_reset_down_delay_ms =3D 100,
-> >         .power_off_delay_ms =3D 1000,
-> >  };
+> > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> > index 8fe5aa67b167..e083a0ab06d7 100644
+> > --- a/drivers/dma-buf/dma-buf.c
+> > +++ b/drivers/dma-buf/dma-buf.c
+> > @@ -1282,10 +1282,12 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_move_notify, DMA_B=
+UF);
+> >   *   vmap interface is introduced. Note that on very old 32-bit archit=
+ectures
+> >   *   vmalloc space might be limited and result in vmap calls failing.
+> >   *
+> > - *   Interfaces::
+> > + *   Interfaces:
+> >   *
+> > - *      void \*dma_buf_vmap(struct dma_buf \*dmabuf, struct iosys_map =
+\*map)
+> > - *      void dma_buf_vunmap(struct dma_buf \*dmabuf, struct iosys_map =
+\*map)
+> > + *   .. code-block:: c
+> > + *
+> > + *     void *dma_buf_vmap(struct dma_buf *dmabuf, struct iosys_map *ma=
+p)
+> > + *     void dma_buf_vunmap(struct dma_buf *dmabuf, struct iosys_map *m=
+ap)
+> >   *
+> >   *   The vmap call can fail if there is no vmap support in the exporte=
+r, or if
+> >   *   it runs out of vmalloc space. Note that the dma-buf layer keeps a=
+ reference
+> > @@ -1342,10 +1344,11 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_move_notify, DMA_B=
+UF);
+> >   *   enough, since adding interfaces to intercept pagefaults and allow=
+ pte
+> >   *   shootdowns would increase the complexity quite a bit.
+> >   *
+> > - *   Interface::
+> > + *   Interface:
+> > + *
+> > + *   .. code-block:: c
+> >   *
+> > - *      int dma_buf_mmap(struct dma_buf \*, struct vm_area_struct \*,
+> > - *                    unsigned long);
+> > + *     int dma_buf_mmap(struct dma_buf *, struct vm_area_struct *, uns=
+igned long);
+> >   *
+> >   *   If the importing subsystem simply provides a special-purpose mmap=
+ call to
+> >   *   set up a mapping in userspace, calling do_mmap with &dma_buf.file=
+ will
 > > --
-> > 2.17.1
+> > 2.43.0.381.gb435a96ce8-goog
 > >
->
->
-> --
-> With best wishes
-> Dmitry
