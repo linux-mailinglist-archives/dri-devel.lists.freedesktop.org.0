@@ -2,75 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BC2397EB94
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2024 14:38:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18F6097EBB5
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2024 14:49:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 601FD10E3E7;
-	Mon, 23 Sep 2024 12:38:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAF6110E3F2;
+	Mon, 23 Sep 2024 12:49:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="v4etilWZ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="sst8rmym";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
- [209.85.208.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04AB210E3E7
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2024 12:38:41 +0000 (UTC)
-Received: by mail-lj1-f182.google.com with SMTP id
- 38308e7fff4ca-2f7502f09fdso35054761fa.1
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2024 05:38:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1727095119; x=1727699919; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=yO+7OpIomOWl0iOTdvngOzd9ac0O1rZqsrTnwlfKJ3w=;
- b=v4etilWZrilUnH0kkN4ik5zwHrP/LnaKXE7lt387nRxcR2S2czQ1IYFpO5jyNjo8D8
- lxALleEX7pd9CtaZy4Q21W81Y+HX9Qry4E/o0LIv4zwPz2mQ1cdZDI7cM+Ifp3XlOVq5
- zxTrhIKbpi9CttF6uNAAA7Lsje8Yz99tfhcOivHfFRPenb+sEQXJR0+nrtaCn7VSYnuj
- lOniuTAUhxmlWhPr8BzJekRx5mIDhkXedj747aBsD+pWd1LA9b4aOvnsX8OkvIrG+Tq6
- ZxlUnEg7U55innGOCjtuBTnN5Wg6xwhGz4JP/+V+4fM+dBaAc8palKsKuBRvB5QGEQa9
- 6ivw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727095119; x=1727699919;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=yO+7OpIomOWl0iOTdvngOzd9ac0O1rZqsrTnwlfKJ3w=;
- b=JjPpAKLv/KcNMoH9Z6EFxDtvZq3zPGyteyuBYIjsMeyavKsVfHdgt0W9yQ2nnqj7PB
- TKMl7C6eEh2WbWAVWy6PJfnv2dMIoO1Fax23nBHJqtsR1PFzA9nUcqeLEp90apDG6KjU
- V5ZVQ4Dw2rNDRsz4v7OdQO9E1eX1UvxVDGOY7DrEk0J+1Dq1KAacAa6Qoyea5TS+psl2
- UCmWU47kgrgo+jeiAGJ8ur2vztAt1lv3eTZw7F7Z6W6h7MMmfNVe6t/TwSXeo5+t0lHV
- 702j4WrLSzSRmfhDFJu9woxs52LGZc6Lu9EHcCM3khwaiEnNTbVpgRWpN7nUYYtCbGwv
- kkQw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXgXQ734M7pe+cRs+DEmBTkaTXjf7lqBHfuHsSdXU7Ay/hgnyTzO1ZH5vb7gS9xH+3xSbCyotBZQ/0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy2ImFSk/6FUS/C0SiVF7srx4x5NnLwCFfeoh/eE/T5HuOTO6Ui
- aoM/hnvNq0G5H1iBJVy2XHWP0Mc1A56GxoQBrcgUtB4DQca2DcpEe8Zv0Jqu3mg=
-X-Google-Smtp-Source: AGHT+IFEfpLdWF67rNXJDjM6L650sxfmqOHP8oi42p0ZGCDagO7bwfQ0rGw+v0Zdf9oEWaOL9zCJVg==
-X-Received: by 2002:a2e:a90b:0:b0:2ef:21a6:7c82 with SMTP id
- 38308e7fff4ca-2f7c3de8567mr52052171fa.20.1727095119082; 
- Mon, 23 Sep 2024 05:38:39 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2f79d2e1eb5sm28269521fa.27.2024.09.23.05.38.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Sep 2024 05:38:37 -0700 (PDT)
-Date: Mon, 23 Sep 2024 15:38:35 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Tejas Vipin <tejasvipin76@gmail.com>
-Cc: neil.armstrong@linaro.org, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch, 
- quic_jesszhan@quicinc.com, dianders@chromium.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] drm/panel: elida-kd35t133: transition to mipi_dsi
- wrapped functions
-Message-ID: <wlz7n6cwldqiairefc27kku2gcbix2qcyx4xlzgwatfxweigta@2a5riplj64uk>
-References: <20240923122558.728516-1-tejasvipin76@gmail.com>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E88110E260;
+ Mon, 23 Sep 2024 12:49:35 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 53AFDA41B78;
+ Mon, 23 Sep 2024 12:49:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 287D7C4CEC4;
+ Mon, 23 Sep 2024 12:49:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1727095774;
+ bh=RN6cjzHoWo7KzeRWo61xbecp6Jcoh0ocYmVzmQxu00s=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=sst8rmym1KIpZMVpE922IY6DCc92c9SKEyh32z3FChhDrHzEjbGGx5ElG0aFTEoKO
+ aWxoys4vBUlsffvSINxEFrvXvAKlReionrFgc77eCTtR5kF13ybMuo7ISnDKUblHUa
+ YN8ZTvhQ+iySyZ8vd53HuK5YSKqMz/Ac2hHw1CDduijlWruv5UlEaXa1PtgQtkgnyn
+ xiFwLzEUI39EZSdaCeVJzRnJ8C4UuFlDos15YCBbzHgt3u0o6S/1RsrmU9i32MrK/9
+ AtT9PnO4qEhUk9K/SnB2vk0u33aX8TSv310RMdQ+IPxbjmJLQ98qDdTk0buLqGDzRp
+ C9T9J3TTfcb3Q==
+Date: Mon, 23 Sep 2024 14:49:27 +0200
+From: Mark Brown <broonie@kernel.org>
+To: "Winkler, Tomas" <tomas.winkler@intel.com>
+Cc: "Usyskin, Alexander" <alexander.usyskin@intel.com>,
+ "De Marchi, Lucas" <lucas.demarchi@intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ "Lubart, Vitaly" <vitaly.lubart@intel.com>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
+Subject: Re: [PATCH v6 01/12] spi: add driver for intel graphics on-die spi
+ device
+Message-ID: <ZvFj1zyzSYmbNwmH@finisterre.sirena.org.uk>
+References: <20240916134928.3654054-1-alexander.usyskin@intel.com>
+ <20240916134928.3654054-2-alexander.usyskin@intel.com>
+ <ZurWk_eXSQndgA4Y@finisterre.sirena.org.uk>
+ <PH7PR11MB76057D2326D436CA9749A113E5632@PH7PR11MB7605.namprd11.prod.outlook.com>
+ <Zuv9qsWJQhx7rbhJ@finisterre.sirena.org.uk>
+ <PH7PR11MB760505A11C7A41DAB0359184E56D2@PH7PR11MB7605.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="6k/Yl5pMjIb7rFw2"
 Content-Disposition: inline
-In-Reply-To: <20240923122558.728516-1-tejasvipin76@gmail.com>
+In-Reply-To: <PH7PR11MB760505A11C7A41DAB0359184E56D2@PH7PR11MB7605.namprd11.prod.outlook.com>
+X-Cookie: Editing is a rewording activity.
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,24 +80,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 23, 2024 at 05:55:58PM GMT, Tejas Vipin wrote:
-> Changes the elida-kd35t133 panel to use multi style functions for
-> improved error handling.
-> 
-> Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
-> ---
-> Changes in v2:
->     - Changed mipi_dsi_dcs_write to mipi_dsi_dcs_write_buffer_multi
->     - Cleaned up error handling
-> 
-> Link to v1: https://lore.kernel.org/all/20240917071710.1254520-1-tejasvipin76@gmail.com/
-> ---
->  drivers/gpu/drm/panel/panel-elida-kd35t133.c | 108 ++++++++-----------
->  1 file changed, 45 insertions(+), 63 deletions(-)
-> 
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+--6k/Yl5pMjIb7rFw2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- 
-With best wishes
-Dmitry
+On Sat, Sep 21, 2024 at 01:00:52PM +0000, Winkler, Tomas wrote:
+> > On Thu, Sep 19, 2024 at 09:54:24AM +0000, Winkler, Tomas wrote:
+> > > > On Mon, Sep 16, 2024 at 04:49:17PM +0300, Alexander Usyskin wrote:
+
+> > Just do normal open coded allocations, the reference counting is just
+> > obscure.
+
+> The kref here is for reason so we don't need to hunt the close open, I fr=
+ankly don't understand
+> what is wrong with it,=20
+
+It's locking/refcounting stuff that looks nothing like any other SPI
+controller driver.  Even if it works it's obviously fragile since the
+driver does surprising things which break assumptions that will be made
+by people not looking at this specific driver, and causes people to have
+to spend more effort figuring out what you're doing.  If there is any
+benefit to doing this then open coding it in one specific driver is
+clearly not the right place to do it.
+
+> > > > > +static void intel_dg_spi_remove(struct auxiliary_device *aux_dev=
+) {
+> > > > > +	struct intel_dg_spi *spi =3D dev_get_drvdata(&aux_dev->dev);
+
+> > > > > +	if (!spi)
+> > > > > +		return;
+
+> > > > > +	dev_set_drvdata(&aux_dev->dev, NULL);
+
+> > > > If the above is doing anything there's a problem...
+> > o
+> > > It makes sure the data is set to NULL.
+
+> > Which is needed because...?
+
+> This is a boilerplate part, the content is consequent patches.=20
+
+Which would come back to the issues created by the random splitting of
+the series were it not for the fact that if anything tries to look at
+the driver data of a removed device it's buggy, the reference is gone
+and the device may have been deallocated and it's certainly freed from
+the perspective of this user.  Notice how other drivers don't do this.
+The driver core will also overwrite the driver data of released
+devices...
+
+At a high level a lot of the issues with this series is that both in
+terms of how it's been sent and what it's doing there's a bunch of
+things that look nothing like how we normally handle things.  At best
+this means that problems are being solved at the wrong level, but it's
+hard to see that this is the case.
+
+--6k/Yl5pMjIb7rFw2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbxY9AACgkQJNaLcl1U
+h9BFsAf/ehMj/p+H4ADxV87IKVdY07z0di6q7euT4MTbH/WOB6XOKpN1Oj1FHsSB
+v1VhH+buYMk50UT6BKOTtL3naCweQGxZPGrbmwj8ny1ge1MGVMNyZDKuAIZciO+O
+M7fqs6fzTHSsxO97j7Rtw8FponO3u3rifubo1K2+zNiPfhqdJo2B+L5AcLkFbpyn
+ysP7QDcEC1Nljp5BwYr2iVPynGEHHU8ZI2Ql+F504yOcYLOAJZAm38FJogVct1x9
+z2kTT2na9/or4xAvarDW/4OnALdrV+Zrmq4wvQ5BqimyDz3UciBgIfxzyGxj7CUy
+1c5xIQ9lVIVLndjsAzj6oKcPNTBmqA==
+=OAaN
+-----END PGP SIGNATURE-----
+
+--6k/Yl5pMjIb7rFw2--
