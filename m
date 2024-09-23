@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E7B097EAC2
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2024 13:32:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30F0197EAC1
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2024 13:32:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3381110E3E2;
-	Mon, 23 Sep 2024 11:32:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF6EE10E3E1;
+	Mon, 23 Sep 2024 11:32:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="Lx+wtTWU";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="atJDRywS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C19B10E0E1;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C5D910E195;
  Mon, 23 Sep 2024 11:32:03 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48NAutSE016182;
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48NBLYeK029212;
  Mon, 23 Sep 2024 11:31:58 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
  cc:date:from:in-reply-to:message-id:references:subject:to; s=
- qcppdkim1; bh=Ud4Es1Z2rkMHVuCMuUjhwRnFlSnzU/qskUwM99ScD3U=; b=Lx
- +wtTWUMslee7ga1xJVZxsz+J5get/wZ2xObuARBBMpTDIrpROKKp4pHh2C0KMsTb
- KQJqp9/ccq3YWY8Tnajy2hKqvyk+QnWjeHoyqIz7AyfskrJALFlAd0IGP/alVDq+
- jCC8PqHRmuL6evU8UpOTARp9z4J281AgZ1aKOdKZQicwGZ+UyNm2IsYrsr8PLKmO
- LRS7MUwELwrhDIlq71kwrVYTXO/cK9HK6CDUQe4qgJUrmA85Rof+QBVp3nLe+z/O
- eT3mGnjuCelXkNZ8srD6k8JagZ+mXy5SSVI8o+Jrfa9CRPw0HZgFMUTVeSzGFiDk
- v0U1HyjnJ01CqzyH82JQ==
+ qcppdkim1; bh=rqwTpa97pgqxIE9vqhePFWWrYqXz8K9omN++BeHeWsg=; b=at
+ JDRywSeGWUMrMnTOoVdp4+JCjOWfqxH8MFXIt5VmaqTJ++oxNIlsILOxVffpzP5x
+ dyAhxllmQBWLiUqqghxvVYip79kZZqOiXDr6GKb2h9w/jgDt61CBEf0W7bxlyO1f
+ l9l5i5KK7yw9H9zZEaEPHJC5cxcDa3/I05iSmoog26X6QFb9I5WV2nxTDVvsdj1d
+ CG6VtuUmATXJ2zsLOdmffSAfG+knZjrpbG2WDDUMW7QU/9EVITu6Uh7hbb8k5t3c
+ V+x1bdnEHk8nvwbIFmhGuaQYwR7SsTCFySoUSWbMGC1JSrJ8bvjf4owKh4HVYOma
+ myYc9cL5MKcAU6/Dh5cA==
 Received: from apblrppmta02.qualcomm.com
  (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41sqakcavf-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41sqe94b6a-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Mon, 23 Sep 2024 11:31:57 +0000 (GMT)
 Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
- by APBLRPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 48NBVrZw028931; 
+ by APBLRPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 48NBVr9k028932; 
  Mon, 23 Sep 2024 11:31:53 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
- by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 41sq7kstdh-1
+ by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 41sq7kstdm-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
  Mon, 23 Sep 2024 11:31:53 +0000
 Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com
  [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 48NBVqgb028909;
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 48NBVqHN028908;
  Mon, 23 Sep 2024 11:31:52 GMT
 Received: from hu-maiyas-hyd.qualcomm.com (hu-mukhopad-hyd.qualcomm.com
  [10.147.244.250])
- by APBLRPPMTA02.qualcomm.com (PPS) with ESMTP id 48NBVqF8028900;
+ by APBLRPPMTA02.qualcomm.com (PPS) with ESMTP id 48NBVqOi028901;
  Mon, 23 Sep 2024 11:31:52 +0000
 Received: by hu-maiyas-hyd.qualcomm.com (Postfix, from userid 3978529)
- id 8BD1C5000AE; Mon, 23 Sep 2024 17:01:51 +0530 (+0530)
+ id 904825000B0; Mon, 23 Sep 2024 17:01:51 +0530 (+0530)
 From: Soutrik Mukhopadhyay <quic_mukhopad@quicinc.com>
 To: vkoul@kernel.org, kishon@kernel.org, konradybcio@kernel.org,
  andersson@kernel.org, simona@ffwll.ch, dmitry.baryshkov@linaro.org,
@@ -64,9 +64,10 @@ Cc: Soutrik Mukhopadhyay <quic_mukhopad@quicinc.com>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
  quic_riteshk@quicinc.com, quic_vproddut@quicinc.com
-Subject: [PATCH v3 1/5] dt-bindings: phy: Add eDP PHY compatible for sa8775p
-Date: Mon, 23 Sep 2024 17:01:46 +0530
-Message-Id: <20240923113150.24711-2-quic_mukhopad@quicinc.com>
+Subject: [PATCH v3 2/5] phy: qcom: edp: Introduce aux_cfg array for version
+ specific aux settings
+Date: Mon, 23 Sep 2024 17:01:47 +0530
+Message-Id: <20240923113150.24711-3-quic_mukhopad@quicinc.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20240923113150.24711-1-quic_mukhopad@quicinc.com>
 References: <20240923113150.24711-1-quic_mukhopad@quicinc.com>
@@ -76,16 +77,16 @@ X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-ORIG-GUID: CtHbFgp2WDweijvzqJNBbFf3g7HChVCM
-X-Proofpoint-GUID: CtHbFgp2WDweijvzqJNBbFf3g7HChVCM
+X-Proofpoint-ORIG-GUID: VHWY-o6FbUaMYNm7y9tkkFPypVOiY7Uy
+X-Proofpoint-GUID: VHWY-o6FbUaMYNm7y9tkkFPypVOiY7Uy
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
  definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 priorityscore=1501
- bulkscore=0 impostorscore=0 suspectscore=0 phishscore=0 adultscore=0
- clxscore=1015 malwarescore=0 lowpriorityscore=0 mlxlogscore=999
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ priorityscore=1501
+ mlxlogscore=999 spamscore=0 lowpriorityscore=0 adultscore=0 mlxscore=0
+ suspectscore=0 malwarescore=0 phishscore=0 impostorscore=0 clxscore=1011
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2408220000 definitions=main-2409230085
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -102,32 +103,133 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add compatible string for the supported eDP PHY on sa8775p platform.
+In order to support different HW versions, introduce aux_cfg array
+to move v4 specific aux configuration settings.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Acked-by: Krzysztof Kozlowski <krzk@kernel.org>
 Signed-off-by: Soutrik Mukhopadhyay <quic_mukhopad@quicinc.com>
 ---
-v2: No change
+v2: Fixed review comments from Bjorn and Dmitry
+	- Made aux_cfg array as const.
 
-v3: No change
+v3: Fixed review comments from Dmitry
+	- Used a for loop to write the dp_phy_aux_cfg registers.
+	- Pre-defined the aux_cfg size to prevent any magic numbers.
 
 ---
- Documentation/devicetree/bindings/phy/qcom,edp-phy.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/phy/qualcomm/phy-qcom-edp.c | 41 ++++++++++++-----------------
+ 1 file changed, 17 insertions(+), 24 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/phy/qcom,edp-phy.yaml b/Documentation/devicetree/bindings/phy/qcom,edp-phy.yaml
-index 4e15d90d08b0..293fb6a9b1c3 100644
---- a/Documentation/devicetree/bindings/phy/qcom,edp-phy.yaml
-+++ b/Documentation/devicetree/bindings/phy/qcom,edp-phy.yaml
-@@ -17,6 +17,7 @@ description:
- properties:
-   compatible:
-     enum:
-+      - qcom,sa8775p-edp-phy
-       - qcom,sc7280-edp-phy
-       - qcom,sc8180x-edp-phy
-       - qcom,sc8280xp-dp-phy
+diff --git a/drivers/phy/qualcomm/phy-qcom-edp.c b/drivers/phy/qualcomm/phy-qcom-edp.c
+index da2b32fb5b45..2ecff164ec44 100644
+--- a/drivers/phy/qualcomm/phy-qcom-edp.c
++++ b/drivers/phy/qualcomm/phy-qcom-edp.c
+@@ -32,16 +32,8 @@
+ #define DP_PHY_PD_CTL                           0x001c
+ #define DP_PHY_MODE                             0x0020
+ 
+-#define DP_PHY_AUX_CFG0				0x0024
+-#define DP_PHY_AUX_CFG1				0x0028
+-#define DP_PHY_AUX_CFG2				0x002C
+-#define DP_PHY_AUX_CFG3				0x0030
+-#define DP_PHY_AUX_CFG4				0x0034
+-#define DP_PHY_AUX_CFG5				0x0038
+-#define DP_PHY_AUX_CFG6				0x003C
+-#define DP_PHY_AUX_CFG7				0x0040
+-#define DP_PHY_AUX_CFG8				0x0044
+-#define DP_PHY_AUX_CFG9				0x0048
++#define DP_AUX_CFG_SIZE                         10
++#define DP_PHY_AUX_CFG(n)                       (0x24 + (0x04 * (n)))
+ 
+ #define DP_PHY_AUX_INTERRUPT_MASK		0x0058
+ 
+@@ -90,6 +82,7 @@ struct phy_ver_ops {
+ 
+ struct qcom_edp_phy_cfg {
+ 	bool is_edp;
++	const u8 *aux_cfg;
+ 	const struct qcom_edp_swing_pre_emph_cfg *swing_pre_emph_cfg;
+ 	const struct phy_ver_ops *ver_ops;
+ };
+@@ -186,11 +179,15 @@ static const struct qcom_edp_swing_pre_emph_cfg edp_phy_swing_pre_emph_cfg = {
+ 	.pre_emphasis_hbr3_hbr2 = &edp_pre_emp_hbr2_hbr3,
+ };
+ 
++static const u8 edp_phy_aux_cfg_v4[10] = {
++	0x00, 0x13, 0x24, 0x00, 0x0a, 0x26, 0x0a, 0x03, 0x37, 0x03
++};
++
+ static int qcom_edp_phy_init(struct phy *phy)
+ {
+ 	struct qcom_edp *edp = phy_get_drvdata(phy);
++	u8 aux_cfg[DP_AUX_CFG_SIZE];
+ 	int ret;
+-	u8 cfg8;
+ 
+ 	ret = regulator_bulk_enable(ARRAY_SIZE(edp->supplies), edp->supplies);
+ 	if (ret)
+@@ -200,6 +197,8 @@ static int qcom_edp_phy_init(struct phy *phy)
+ 	if (ret)
+ 		goto out_disable_supplies;
+ 
++	memcpy(aux_cfg, edp->cfg->aux_cfg, sizeof(aux_cfg));
++
+ 	writel(DP_PHY_PD_CTL_PWRDN | DP_PHY_PD_CTL_AUX_PWRDN |
+ 	       DP_PHY_PD_CTL_PLL_PWRDN | DP_PHY_PD_CTL_DP_CLAMP_EN,
+ 	       edp->edp + DP_PHY_PD_CTL);
+@@ -222,22 +221,12 @@ static int qcom_edp_phy_init(struct phy *phy)
+ 	 * even needed.
+ 	 */
+ 	if (edp->cfg->swing_pre_emph_cfg && !edp->is_edp)
+-		cfg8 = 0xb7;
+-	else
+-		cfg8 = 0x37;
++		aux_cfg[8] = 0xb7;
+ 
+ 	writel(0xfc, edp->edp + DP_PHY_MODE);
+ 
+-	writel(0x00, edp->edp + DP_PHY_AUX_CFG0);
+-	writel(0x13, edp->edp + DP_PHY_AUX_CFG1);
+-	writel(0x24, edp->edp + DP_PHY_AUX_CFG2);
+-	writel(0x00, edp->edp + DP_PHY_AUX_CFG3);
+-	writel(0x0a, edp->edp + DP_PHY_AUX_CFG4);
+-	writel(0x26, edp->edp + DP_PHY_AUX_CFG5);
+-	writel(0x0a, edp->edp + DP_PHY_AUX_CFG6);
+-	writel(0x03, edp->edp + DP_PHY_AUX_CFG7);
+-	writel(cfg8, edp->edp + DP_PHY_AUX_CFG8);
+-	writel(0x03, edp->edp + DP_PHY_AUX_CFG9);
++	for (int i = 0; i < DP_AUX_CFG_SIZE; i++)
++		writel(aux_cfg[i], edp->edp + DP_PHY_AUX_CFG(i));
+ 
+ 	writel(PHY_AUX_STOP_ERR_MASK | PHY_AUX_DEC_ERR_MASK |
+ 	       PHY_AUX_SYNC_ERR_MASK | PHY_AUX_ALIGN_ERR_MASK |
+@@ -519,16 +508,19 @@ static const struct phy_ver_ops qcom_edp_phy_ops_v4 = {
+ };
+ 
+ static const struct qcom_edp_phy_cfg sc7280_dp_phy_cfg = {
++	.aux_cfg = edp_phy_aux_cfg_v4,
+ 	.ver_ops = &qcom_edp_phy_ops_v4,
+ };
+ 
+ static const struct qcom_edp_phy_cfg sc8280xp_dp_phy_cfg = {
++	.aux_cfg = edp_phy_aux_cfg_v4,
+ 	.swing_pre_emph_cfg = &dp_phy_swing_pre_emph_cfg,
+ 	.ver_ops = &qcom_edp_phy_ops_v4,
+ };
+ 
+ static const struct qcom_edp_phy_cfg sc8280xp_edp_phy_cfg = {
+ 	.is_edp = true,
++	.aux_cfg = edp_phy_aux_cfg_v4,
+ 	.swing_pre_emph_cfg = &edp_phy_swing_pre_emph_cfg,
+ 	.ver_ops = &qcom_edp_phy_ops_v4,
+ };
+@@ -707,6 +699,7 @@ static const struct phy_ver_ops qcom_edp_phy_ops_v6 = {
+ };
+ 
+ static struct qcom_edp_phy_cfg x1e80100_phy_cfg = {
++	.aux_cfg = edp_phy_aux_cfg_v4,
+ 	.swing_pre_emph_cfg = &dp_phy_swing_pre_emph_cfg,
+ 	.ver_ops = &qcom_edp_phy_ops_v6,
+ };
 -- 
 2.17.1
 
