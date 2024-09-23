@@ -2,112 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2498497F14F
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2024 21:44:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2C7C97F159
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2024 21:45:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1DF110E295;
-	Mon, 23 Sep 2024 19:44:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B4BF10E483;
+	Mon, 23 Sep 2024 19:45:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="HzthYCsA";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="StLVWPcV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F72510E295
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2024 19:44:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1727120653; x=1727725453; i=deller@gmx.de;
- bh=X5Nj79J5TT7jLCEldh0sVMpe04Vf6k84rEkhYEtikG0=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
- References:From:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=HzthYCsAcjr5N5v2VYa/hOmJf6Tz9anzvjFV5gx3lHMH1qkZr64nhOAiC72LbmIC
- VhMhLWmbsA6CEU+eFHqOAlmtgivXodjYM+tN3z5qTwLFqC6iPoL6LKqudSWunFf18
- uIPldH3YMHvDnDWvIVjA9H9WZSTPvPmZKMPuj1YDRw4HpUps/6m3if37JJ4w//zHM
- W6DGoG98U2jVn3PPL/2LE8YxPxn8TrSbcZfLj5Gb5+6bXu+J0+qje/Xm70CvEcbeK
- UF2Gb4LFig1HJJyVw6mkYPzOe84IdSwI+RY44JHi52GAVYuPK9/qdusgC8lFgPG7h
- 2a2oYF1PTVUAw8yJXQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.55] ([109.250.63.79]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1M6Db0-1sqeBh1yDA-00DYo5; Mon, 23
- Sep 2024 21:44:13 +0200
-Message-ID: <6aee9b03-af5c-4aff-b4a3-4e7ba84954dc@gmx.de>
-Date: Mon, 23 Sep 2024 21:44:12 +0200
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A70110E482;
+ Mon, 23 Sep 2024 19:45:08 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48NBh8BC027530;
+ Mon, 23 Sep 2024 19:45:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ sSTCginR2ZY0/fIq656s3FWkCzlUlPSAZyfv6HPZPiI=; b=StLVWPcV4BGCg1wi
+ kTFWtb51vrGT8RbUB9Efm5H38iDIYWnVId5jxaz+LUSmNFkpPsIoL7YbMpazzqJt
+ e0IxUdXObQCElmbZkbDMMA7B9kNpXmUYeeA3ySfEQvR5pdRu7dQWEYCuvS3ynS6g
+ pKskExb5+OMY2zr1H8kFBY2b94HITN4CTWRrbTveIOkZqEx/uFu/mtZk4EZ8KGPx
+ A1cN6UyzAmcpgiQW730oLz+hPo92jj2zT1nbO3M6dONTazfXqDom5HnE5kAln8P0
+ c9Ob4m4wNGM1DEHIt0ArNkVxy7igKlN07eX0sQUg7a2TqaX3aKnJ7Y7CLmj7QIEl
+ LY1Xvg==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41snfgx9tc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 23 Sep 2024 19:45:00 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 48NJiwQi010816
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 23 Sep 2024 19:44:58 GMT
+Received: from hu-akhilpo-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Mon, 23 Sep 2024 12:44:53 -0700
+Date: Tue, 24 Sep 2024 01:14:49 +0530
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+To: Rob Clark <robdclark@gmail.com>
+CC: Antonino Maniscalco <antomani103@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Abhinav Kumar
+ <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Jonathan Corbet <corbet@lwn.net>, <linux-arm-msm@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v4 09/11] drm/msm/A6XX: Add a flag to allow preemption to
+ submitqueue_create
+Message-ID: <20240923194449.vffhq7ppkzxtx5bl@hu-akhilpo-hyd.qualcomm.com>
+References: <20240917-preemption-a750-t-v4-0-95d48012e0ac@gmail.com>
+ <20240917-preemption-a750-t-v4-9-95d48012e0ac@gmail.com>
+ <20240920165427.wikjsywhbcb2kz7h@hu-akhilpo-hyd.qualcomm.com>
+ <CAF6AEGv95t=ioPGYLi6CdEuQzx9GC9ehMaTyG03ucbdVHx3eEg@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/6] fbcon: Introduce get_{fg,bg}_color()
-To: Ville Syrjala <ville.syrjala@linux.intel.com>, linux-fbdev@vger.kernel.org
-Cc: Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org
-References: <20240923155749.30846-1-ville.syrjala@linux.intel.com>
- <20240923155749.30846-6-ville.syrjala@linux.intel.com>
-Content-Language: en-US
-From: Helge Deller <deller@gmx.de>
-Autocrypt: addr=deller@gmx.de; keydata=
- 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
-In-Reply-To: <20240923155749.30846-6-ville.syrjala@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:StLJjMKgWH5jwQwNNC64TDd6fbNtHSb0zgpyt1dshhnLVgOvqkh
- k9efkLHfMHGxPBKhk6A9HLxiSWJB+afjUKMDqPUnljGg/LgpLOTbs1QQHOkFysFGl1RdrJF
- fwd0lXm5S9FbqK2Nx1LW3Jij733FvpwM4pdMG4ktwqamqiKiGLsR8qBMb/swsgBKA8LFuWg
- +R+Ay/rBpNE98nB3aR+lA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:/x8pI6LUJ5o=;6/9WFJr2U+ULcqCTqi3xOD+s7Vp
- e9LJFLLjQMWBGir/zdouQuvYd7vWIr4kLt2cz212fEamHRyR5qKsPCG1a3WfaclH1ysfEiGDi
- 9aJyZWMS/jzIq+/EdNZAGkxFkoiMER9XZNkAcwxEiAXku9MfgZGlcVL2e1k0Hrc9Q7jOKdqS1
- 4vnC9CSMNebNCZ0eNokPY71lYeROD6OMLwMVCKKiTW2XZjEQnJGOiipIaLESRBh9kptBHmJMb
- cyvdljKyCkyGGE4WTwYKKOUH2O+1TWoflNUKIUxAVT/8mdfzcqKrh+HEqaVwPf/ArHNhg9WN3
- V/K84ZF4RHLSNxra8jAq5Cj45o4oWW5LdATyzuoDU6Ly5V+XzcRs+mwYbbHCdZLME9SHlHpvL
- q39a5NudM61c4H/lOYL+eAhX4eO0biQmTDoBt/l/xpeSVLC8JdJ85DJxMWUiDeq7UPv71ZCdy
- H/GbkYdpnXNu2mDp/ob03p4aYLgKa97gqHJSwC2//m7qmITfS/3t9I5CypejKegaNzGZ737F5
- vDSXUW1dGZYkISHWf+pIhh0vnR8eMnyaBOno97oCH7RFDn92rEi/u6yBX9PBEdzzClULUZdG8
- FOTz7juKfERq8wvwSFZbwMtVgvCkxUfE19QndzkfffJfc7BGAJHtOkK2tz8vI0A/p4iESPGF+
- fizRSCUtkAoTizuTCv4NvOJ52d+T/C8hlIHr/qqM3JFsrOjh5q6Nqz5ZdUU7mz3KxnzzV7jUB
- 9YFx8Es/5uyRQo4PTwdjF3tFmZny8PdDHLkX/uI/iB2AB0hjzZSxeU9UksHAk3x6/uKeJ9G44
- ATjm5vse2D7phDXUOHJn40Jw==
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAF6AEGv95t=ioPGYLi6CdEuQzx9GC9ehMaTyG03ucbdVHx3eEg@mail.gmail.com>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: 0D3usY9JzrmlcBBvk5tUK_zuVS1BsPmR
+X-Proofpoint-GUID: 0D3usY9JzrmlcBBvk5tUK_zuVS1BsPmR
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 adultscore=0
+ lowpriorityscore=0 priorityscore=1501 malwarescore=0 mlxscore=0
+ suspectscore=0 impostorscore=0 spamscore=0 phishscore=0 mlxlogscore=999
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2408220000 definitions=main-2409230143
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,84 +102,108 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/23/24 17:57, Ville Syrjala wrote:
-> From: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
->
-> Make the code more legible by adding get_{fg,bg}_color()
-> which hide the obscure 'is_fg' parameter of get_color()
-> from the caller.
->
-> Signed-off-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+On Fri, Sep 20, 2024 at 10:29:44AM -0700, Rob Clark wrote:
+> On Fri, Sep 20, 2024 at 9:54 AM Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
+> >
+> > On Tue, Sep 17, 2024 at 01:14:19PM +0200, Antonino Maniscalco wrote:
+> > > Some userspace changes are necessary so add a flag for userspace to
+> > > advertise support for preemption when creating the submitqueue.
+> > >
+> > > When this flag is not set preemption will not be allowed in the middle
+> > > of the submitted IBs therefore mantaining compatibility with older
+> > > userspace.
+> > >
+> > > The flag is rejected if preemption is not supported on the target, this
+> > > allows userspace to know whether preemption is supported.
+> >
+> > Just curious, what is the motivation behind informing userspace about
+> > preemption support?
+> 
+> I think I requested that, as a "just in case" (because it would
+> otherwise be awkward if we later needed to know the difference btwn
+> drm/sched "preemption" which can only happen before submit is written
+> to ring and "real" preemption)
 
-Nice cleanup.
-Acked-by: Helge Deller <deller@gmx.de>
+Thanks. That makes sense.
 
+-Akhil
 
-> ---
->   drivers/video/fbdev/core/fbcon.c | 24 ++++++++++++++++++------
->   1 file changed, 18 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core=
-/fbcon.c
-> index 2a78cca3e9de..17540cdf1edf 100644
-> --- a/drivers/video/fbdev/core/fbcon.c
-> +++ b/drivers/video/fbdev/core/fbcon.c
-> @@ -356,6 +356,16 @@ static int get_color(struct vc_data *vc, struct fb_=
-info *info,
->   	return color;
->   }
->
-> +static int get_fg_color(struct vc_data *vc, struct fb_info *info, u16 c=
-)
-> +{
-> +	return get_color(vc, info, c, 1);
-> +}
-> +
-> +static int get_bg_color(struct vc_data *vc, struct fb_info *info, u16 c=
-)
-> +{
-> +	return get_color(vc, info, c, 0);
-> +}
-> +
->   static void fb_flashcursor(struct work_struct *work)
->   {
->   	struct fbcon_ops *ops =3D container_of(work, struct fbcon_ops, cursor=
-_work.work);
-> @@ -387,8 +397,9 @@ static void fb_flashcursor(struct work_struct *work)
->
->   	c =3D scr_readw((u16 *) vc->vc_pos);
->   	enable =3D ops->cursor_flash && !ops->cursor_state.enable;
-> -	ops->cursor(vc, info, enable, get_color(vc, info, c, 1),
-> -		    get_color(vc, info, c, 0));
-> +	ops->cursor(vc, info, enable,
-> +		    get_fg_color(vc, info, c),
-> +		    get_bg_color(vc, info, c));
->   	console_unlock();
->
->   	queue_delayed_work(system_power_efficient_wq, &ops->cursor_work,
-> @@ -1297,8 +1308,8 @@ static void fbcon_putcs(struct vc_data *vc, const =
-u16 *s, unsigned int count,
->
->   	if (fbcon_is_active(vc, info))
->   		ops->putcs(vc, info, s, count, real_y(p, ypos), xpos,
-> -			   get_color(vc, info, scr_readw(s), 1),
-> -			   get_color(vc, info, scr_readw(s), 0));
-> +			   get_fg_color(vc, info, scr_readw(s)),
-> +			   get_bg_color(vc, info, scr_readw(s)));
->   }
->
->   static void fbcon_clear_margins(struct vc_data *vc, int bottom_only)
-> @@ -1331,8 +1342,9 @@ static void fbcon_cursor(struct vc_data *vc, bool =
-enable)
->   	if (!ops->cursor)
->   		return;
->
-> -	ops->cursor(vc, info, enable, get_color(vc, info, c, 1),
-> -		    get_color(vc, info, c, 0));
-> +	ops->cursor(vc, info, enable,
-> +		    get_fg_color(vc, info, c),
-> +		    get_bg_color(vc, info, c));
->   }
->
->   static int scrollback_phys_max =3D 0;
-
+> 
+> BR,
+> -R
+> 
+> > -Akhil
+> >
+> > >
+> > > Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
+> > > Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-QRD
+> > > ---
+> > >  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 12 ++++++++----
+> > >  drivers/gpu/drm/msm/msm_submitqueue.c |  3 +++
+> > >  include/uapi/drm/msm_drm.h            |  5 ++++-
+> > >  3 files changed, 15 insertions(+), 5 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> > > index 736f475d696f..edbcb6d229ba 100644
+> > > --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> > > +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> > > @@ -430,8 +430,10 @@ static void a7xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
+> > >       OUT_PKT7(ring, CP_SET_MARKER, 1);
+> > >       OUT_RING(ring, 0x101); /* IFPC disable */
+> > >
+> > > -     OUT_PKT7(ring, CP_SET_MARKER, 1);
+> > > -     OUT_RING(ring, 0x00d); /* IB1LIST start */
+> > > +     if (submit->queue->flags & MSM_SUBMITQUEUE_ALLOW_PREEMPT) {
+> > > +             OUT_PKT7(ring, CP_SET_MARKER, 1);
+> > > +             OUT_RING(ring, 0x00d); /* IB1LIST start */
+> > > +     }
+> > >
+> > >       /* Submit the commands */
+> > >       for (i = 0; i < submit->nr_cmds; i++) {
+> > > @@ -462,8 +464,10 @@ static void a7xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
+> > >                       update_shadow_rptr(gpu, ring);
+> > >       }
+> > >
+> > > -     OUT_PKT7(ring, CP_SET_MARKER, 1);
+> > > -     OUT_RING(ring, 0x00e); /* IB1LIST end */
+> > > +     if (submit->queue->flags & MSM_SUBMITQUEUE_ALLOW_PREEMPT) {
+> > > +             OUT_PKT7(ring, CP_SET_MARKER, 1);
+> > > +             OUT_RING(ring, 0x00e); /* IB1LIST end */
+> > > +     }
+> > >
+> > >       get_stats_counter(ring, REG_A7XX_RBBM_PERFCTR_CP(0),
+> > >               rbmemptr_stats(ring, index, cpcycles_end));
+> > > diff --git a/drivers/gpu/drm/msm/msm_submitqueue.c b/drivers/gpu/drm/msm/msm_submitqueue.c
+> > > index 0e803125a325..9b3ffca3f3b4 100644
+> > > --- a/drivers/gpu/drm/msm/msm_submitqueue.c
+> > > +++ b/drivers/gpu/drm/msm/msm_submitqueue.c
+> > > @@ -170,6 +170,9 @@ int msm_submitqueue_create(struct drm_device *drm, struct msm_file_private *ctx,
+> > >       if (!priv->gpu)
+> > >               return -ENODEV;
+> > >
+> > > +     if (flags & MSM_SUBMITQUEUE_ALLOW_PREEMPT && priv->gpu->nr_rings == 1)
+> > > +             return -EINVAL;
+> > > +
+> > >       ret = msm_gpu_convert_priority(priv->gpu, prio, &ring_nr, &sched_prio);
+> > >       if (ret)
+> > >               return ret;
+> > > diff --git a/include/uapi/drm/msm_drm.h b/include/uapi/drm/msm_drm.h
+> > > index 3fca72f73861..f37858db34e6 100644
+> > > --- a/include/uapi/drm/msm_drm.h
+> > > +++ b/include/uapi/drm/msm_drm.h
+> > > @@ -345,7 +345,10 @@ struct drm_msm_gem_madvise {
+> > >   * backwards compatibility as a "default" submitqueue
+> > >   */
+> > >
+> > > -#define MSM_SUBMITQUEUE_FLAGS (0)
+> > > +#define MSM_SUBMITQUEUE_ALLOW_PREEMPT        0x00000001
+> > > +#define MSM_SUBMITQUEUE_FLAGS                    ( \
+> > > +             MSM_SUBMITQUEUE_ALLOW_PREEMPT | \
+> > > +             0)
+> > >
+> > >  /*
+> > >   * The submitqueue priority should be between 0 and MSM_PARAM_PRIORITIES-1,
+> > >
+> > > --
+> > > 2.46.0
+> > >
