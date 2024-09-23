@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8A6597E7F3
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2024 10:55:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53E2297E7F7
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2024 10:56:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5285A10E3B0;
-	Mon, 23 Sep 2024 08:55:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB51D10E3B5;
+	Mon, 23 Sep 2024 08:56:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 56A3C10E3B0
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2024 08:55:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 147BD10E3B5
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2024 08:56:07 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 18CE1FEC;
- Mon, 23 Sep 2024 01:55:51 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2D680FEC;
+ Mon, 23 Sep 2024 01:56:36 -0700 (PDT)
 Received: from [10.57.79.18] (unknown [10.57.79.18])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CEA753F64C;
- Mon, 23 Sep 2024 01:55:18 -0700 (PDT)
-Message-ID: <ef799587-f7c2-472a-8550-9c40a395eccb@arm.com>
-Date: Mon, 23 Sep 2024 09:55:16 +0100
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7F5C63F64C;
+ Mon, 23 Sep 2024 01:56:03 -0700 (PDT)
+Message-ID: <0316b8a2-8199-41bb-ad0c-99404c896272@arm.com>
+Date: Mon, 23 Sep 2024 09:56:00 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 1/5] drm/panthor: introduce job cycle and timestamp
- accounting
-To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+Subject: Re: [PATCH v7 2/5] drm/panthor: record current and maximum device
+ clock frequencies
+To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
  Liviu Dudau <liviu.dudau@arm.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
  linaro-mm-sig@lists.linaro.org
-References: <5c4d1008-261f-4c47-ab73-c527675484a4@arm.com>
- <bq6lctwgpsxvrdaajmjo3xdjt32srmsxvjhtzyebdj6izjzoaw@6duby4axg3pf>
+References: <20240920234436.207563-1-adrian.larumbe@collabora.com>
+ <20240920234436.207563-3-adrian.larumbe@collabora.com>
 From: Steven Price <steven.price@arm.com>
 Content-Language: en-GB
-In-Reply-To: <bq6lctwgpsxvrdaajmjo3xdjt32srmsxvjhtzyebdj6izjzoaw@6duby4axg3pf>
+In-Reply-To: <20240920234436.207563-3-adrian.larumbe@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -57,170 +57,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 20/09/2024 23:36, Adrián Larumbe wrote:
-> Hi Steve, thanks for the review.
-
-Hi Adrián,
-
-> I've applied all of your suggestions for the next patch series revision, so I'll
-> only be answering to your question about the calc_profiling_ringbuf_num_slots
-> function further down below.
+On 21/09/2024 00:43, Adrián Larumbe wrote:
+> In order to support UM in calculating rates of GPU utilisation, the current
+> operating and maximum GPU clock frequencies must be recorded during device
+> initialisation, and also during OPP state transitions.
 > 
+> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
 
-[...]
+I thought I gave my r-b on v6 and I can't actually see any change:
 
->>> @@ -3003,6 +3190,34 @@ static const struct drm_sched_backend_ops panthor_queue_sched_ops = {
->>>  	.free_job = queue_free_job,
->>>  };
->>>  
->>> +static u32 calc_profiling_ringbuf_num_slots(struct panthor_device *ptdev,
->>> +				       u32 cs_ringbuf_size)
->>> +{
->>> +	u32 min_profiled_job_instrs = U32_MAX;
->>> +	u32 last_flag = fls(PANTHOR_DEVICE_PROFILING_ALL);
->>> +
->>> +	/*
->>> +	 * We want to calculate the minimum size of a profiled job's CS,
->>> +	 * because since they need additional instructions for the sampling
->>> +	 * of performance metrics, they might take up further slots in
->>> +	 * the queue's ringbuffer. This means we might not need as many job
->>> +	 * slots for keeping track of their profiling information. What we
->>> +	 * need is the maximum number of slots we should allocate to this end,
->>> +	 * which matches the maximum number of profiled jobs we can place
->>> +	 * simultaneously in the queue's ring buffer.
->>> +	 * That has to be calculated separately for every single job profiling
->>> +	 * flag, but not in the case job profiling is disabled, since unprofiled
->>> +	 * jobs don't need to keep track of this at all.
->>> +	 */
->>> +	for (u32 i = 0; i < last_flag; i++) {
->>> +		if (BIT(i) & PANTHOR_DEVICE_PROFILING_ALL)
->>> +			min_profiled_job_instrs =
->>> +				min(min_profiled_job_instrs, calc_job_credits(BIT(i)));
->>> +	}
->>> +
->>> +	return DIV_ROUND_UP(cs_ringbuf_size, min_profiled_job_instrs * sizeof(u64));
->>> +}
->>
->> I may be missing something, but is there a situation where this is
->> different to calc_job_credits(0)? AFAICT the infrastructure you've added
->> can only add extra instructions to the no-flags case - whereas this
->> implies you're thinking that instructions may also be removed (or replaced).
->>
->> Steve
-> 
-> Since we create a separate kernel BO to hold the profiling information slot, we
-> need one that would be able to accomodate as many slots as the maximum number of
-> profiled jobs we can insert simultaneously into the queue's ring buffer. Because
-> profiled jobs always take more instructions than unprofiled ones, then we would
-> usually need fewer slots than the number of unprofiled jobs we could insert at
-> once in the ring buffer.
-> 
-> Because we represent profiling metrics with a bit mask, then we need to test the
-> size of the CS for every single metric enabled in isolation, since enabling more
-> than one will always mean a bigger CS, and therefore fewer jobs tracked at once
-> in the queue's ring buffer.
-> 
-> In our case, calling calc_job_credits(0) would simply tell us the number of
-> instructions we need for a normal job with no profiled features enabled, which
-> would always requiere less instructions than profiled ones, and therefore more
-> slots in the profiling info kernel BO. But we don't need to keep track of
-> profiling numbers for unprofiled jobs, so there's no point in calculating this
-> number.
-> 
-> At first I was simply allocating a profiling info kernel BO as big as the number
-> of simultaneous unprofiled job slots in the ring queue, but Boris pointed out
-> that since queue ringbuffers can be as big as 2GiB, a lot of this memory would
-> be wasted, since profiled jobs always require more slots because they hold more
-> instructions, so fewer profiling slots in said kernel BO.
-> 
-> The value of this approach will eventually manifest if we decided to keep track of
-> more profiling metrics, since this code won't have to change at all, other than
-> adding new profiling flags in the panthor_device_profiling_flags enum.
+Reviewed-by: Steven Price <steven.price@arm.com>
 
-Thanks for the detailed explanation. I think what I was missing is that
-the loop is checking each bit flag independently and *not* checking
-calc_job_credits(0).
-
-The check for (BIT(i) & PANTHOR_DEVICE_PROFILING_ALL) is probably what
-confused me - that should be completely redundant. Or at least we need
-something more intelligent if we have profiling bits which are not
-mutually compatible.
-
-I'm also not entirely sure that the amount of RAM saved is significant,
-but you've already written the code so we might as well have the saving ;)
-
-Thanks,
-Steve
-
-> Regards,
-> Adrian
+> ---
+>  drivers/gpu/drm/panthor/panthor_devfreq.c | 18 +++++++++++++++++-
+>  drivers/gpu/drm/panthor/panthor_device.h  |  6 ++++++
+>  2 files changed, 23 insertions(+), 1 deletion(-)
 > 
->>> +
->>>  static struct panthor_queue *
->>>  group_create_queue(struct panthor_group *group,
->>>  		   const struct drm_panthor_queue_create *args)
->>> @@ -3056,9 +3271,35 @@ group_create_queue(struct panthor_group *group,
->>>  		goto err_free_queue;
->>>  	}
->>>  
->>> +	queue->profiling.slot_count =
->>> +		calc_profiling_ringbuf_num_slots(group->ptdev, args->ringbuf_size);
->>> +
->>> +	queue->profiling.slots =
->>> +		panthor_kernel_bo_create(group->ptdev, group->vm,
->>> +					 queue->profiling.slot_count *
->>> +					 sizeof(struct panthor_job_profiling_data),
->>> +					 DRM_PANTHOR_BO_NO_MMAP,
->>> +					 DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC |
->>> +					 DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED,
->>> +					 PANTHOR_VM_KERNEL_AUTO_VA);
->>> +
->>> +	if (IS_ERR(queue->profiling.slots)) {
->>> +		ret = PTR_ERR(queue->profiling.slots);
->>> +		goto err_free_queue;
->>> +	}
->>> +
->>> +	ret = panthor_kernel_bo_vmap(queue->profiling.slots);
->>> +	if (ret)
->>> +		goto err_free_queue;
->>> +
->>> +	/*
->>> +	 * Credit limit argument tells us the total number of instructions
->>> +	 * across all CS slots in the ringbuffer, with some jobs requiring
->>> +	 * twice as many as others, depending on their profiling status.
->>> +	 */
->>>  	ret = drm_sched_init(&queue->scheduler, &panthor_queue_sched_ops,
->>>  			     group->ptdev->scheduler->wq, 1,
->>> -			     args->ringbuf_size / (NUM_INSTRS_PER_SLOT * sizeof(u64)),
->>> +			     args->ringbuf_size / sizeof(u64),
->>>  			     0, msecs_to_jiffies(JOB_TIMEOUT_MS),
->>>  			     group->ptdev->reset.wq,
->>>  			     NULL, "panthor-queue", group->ptdev->base.dev);
->>> @@ -3354,6 +3595,7 @@ panthor_job_create(struct panthor_file *pfile,
->>>  {
->>>  	struct panthor_group_pool *gpool = pfile->groups;
->>>  	struct panthor_job *job;
->>> +	u32 credits;
->>>  	int ret;
->>>  
->>>  	if (qsubmit->pad)
->>> @@ -3407,9 +3649,16 @@ panthor_job_create(struct panthor_file *pfile,
->>>  		}
->>>  	}
->>>  
->>> +	job->profiling.mask = pfile->ptdev->profile_mask;
->>> +	credits = calc_job_credits(job->profiling.mask);
->>> +	if (credits == 0) {
->>> +		ret = -EINVAL;
->>> +		goto err_put_job;
->>> +	}
->>> +
->>>  	ret = drm_sched_job_init(&job->base,
->>>  				 &job->group->queues[job->queue_idx]->entity,
->>> -				 1, job->group);
->>> +				 credits, job->group);
->>>  	if (ret)
->>>  		goto err_put_job;
->>>  
-> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_devfreq.c b/drivers/gpu/drm/panthor/panthor_devfreq.c
+> index c6d3c327cc24..9d0f891b9b53 100644
+> --- a/drivers/gpu/drm/panthor/panthor_devfreq.c
+> +++ b/drivers/gpu/drm/panthor/panthor_devfreq.c
+> @@ -62,14 +62,20 @@ static void panthor_devfreq_update_utilization(struct panthor_devfreq *pdevfreq)
+>  static int panthor_devfreq_target(struct device *dev, unsigned long *freq,
+>  				  u32 flags)
+>  {
+> +	struct panthor_device *ptdev = dev_get_drvdata(dev);
+>  	struct dev_pm_opp *opp;
+> +	int err;
+>  
+>  	opp = devfreq_recommended_opp(dev, freq, flags);
+>  	if (IS_ERR(opp))
+>  		return PTR_ERR(opp);
+>  	dev_pm_opp_put(opp);
+>  
+> -	return dev_pm_opp_set_rate(dev, *freq);
+> +	err = dev_pm_opp_set_rate(dev, *freq);
+> +	if (!err)
+> +		ptdev->current_frequency = *freq;
+> +
+> +	return err;
+>  }
+>  
+>  static void panthor_devfreq_reset(struct panthor_devfreq *pdevfreq)
+> @@ -130,6 +136,7 @@ int panthor_devfreq_init(struct panthor_device *ptdev)
+>  	struct panthor_devfreq *pdevfreq;
+>  	struct dev_pm_opp *opp;
+>  	unsigned long cur_freq;
+> +	unsigned long freq = ULONG_MAX;
+>  	int ret;
+>  
+>  	pdevfreq = drmm_kzalloc(&ptdev->base, sizeof(*ptdev->devfreq), GFP_KERNEL);
+> @@ -161,6 +168,7 @@ int panthor_devfreq_init(struct panthor_device *ptdev)
+>  		return PTR_ERR(opp);
+>  
+>  	panthor_devfreq_profile.initial_freq = cur_freq;
+> +	ptdev->current_frequency = cur_freq;
+>  
+>  	/* Regulator coupling only takes care of synchronizing/balancing voltage
+>  	 * updates, but the coupled regulator needs to be enabled manually.
+> @@ -204,6 +212,14 @@ int panthor_devfreq_init(struct panthor_device *ptdev)
+>  
+>  	dev_pm_opp_put(opp);
+>  
+> +	/* Find the fastest defined rate  */
+> +	opp = dev_pm_opp_find_freq_floor(dev, &freq);
+> +	if (IS_ERR(opp))
+> +		return PTR_ERR(opp);
+> +	ptdev->fast_rate = freq;
+> +
+> +	dev_pm_opp_put(opp);
+> +
+>  	/*
+>  	 * Setup default thresholds for the simple_ondemand governor.
+>  	 * The values are chosen based on experiments.
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
+> index a48e30d0af30..2109905813e8 100644
+> --- a/drivers/gpu/drm/panthor/panthor_device.h
+> +++ b/drivers/gpu/drm/panthor/panthor_device.h
+> @@ -184,6 +184,12 @@ struct panthor_device {
+>  
+>  	/** @profile_mask: User-set profiling flags for job accounting. */
+>  	u32 profile_mask;
+> +
+> +	/** @current_frequency: Device clock frequency at present. Set by DVFS*/
+> +	unsigned long current_frequency;
+> +
+> +	/** @fast_rate: Maximum device clock frequency. Set by DVFS */
+> +	unsigned long fast_rate;
+>  };
+>  
+>  /**
 
