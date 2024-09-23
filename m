@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD7E297E52C
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2024 05:59:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35BE797E52E
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2024 05:59:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D447A10E36C;
-	Mon, 23 Sep 2024 03:59:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2AD910E36D;
+	Mon, 23 Sep 2024 03:59:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="N87iDxOV";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ez1gtRFK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56EEB10E36A;
- Mon, 23 Sep 2024 03:59:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AB0810E36D;
+ Mon, 23 Sep 2024 03:59:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1727063974; x=1758599974;
+ t=1727063980; x=1758599980;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=YRrOwSAxG99z4hcVsg7rqtAZxr7q7fvuHbElT7nv3T8=;
- b=N87iDxOVNQB6kJy/fF5WAssN1USnic/53gPmwzQwkhUivdyYphAF2iEc
- 3wAfY6UKtfVuei450xEKwolMrcy5k2jKLJb0n2YN8sZCEA2i13FHMSxRG
- Zci+wEpJJ+YVpIsWP97/snR3vPJW0EJz3H9vZeb/1MUt+ZQPxJw2DS3ky
- s/csLEYnyC1k38hjvRiu6SHGYZkQXV0o7SEQhJrVFYdtBesQ2ADISSrdz
- mnDA4rAF3GAJp+HV+aJK3GpTdNMg4AsqpsFPYNvLpTSB8eXhw88wVBVsh
- tEqIZ/aB2pKOAmq3tldrO0tnRAsfSNHDa70wTkzwRoZgIDcxUqmObeTb2 w==;
-X-CSE-ConnectionGUID: Xu/iApwLS/6zugwZK0c8tw==
-X-CSE-MsgGUID: UIabIh1PShSeSMrDuR4HXw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="29718240"
-X-IronPort-AV: E=Sophos;i="6.10,250,1719903600"; d="scan'208";a="29718240"
+ bh=tKbIYASP1CsvFDUuFBHMLMuWYnHOaHy/2dJpg4EAGPg=;
+ b=ez1gtRFK/S4mIlfHE/rUUBD+Q8YhTTbBKFVLFY6bbVYD+QE3xk3dQ1V/
+ /bZfM0Lvs7jrqq7qeEzOMQxndB/C5+jdKQ6fO0N8vofK9PL7/fhD6nbSI
+ mZiudBgw+71J2yuWDGuzbMv0TwTdTMQEZ3l3CgsDMilCthKqNgr0QTAml
+ mYKmU6AhA1Ih8doxtWtqKLQm7fvHSEcZF+mmGWBvjWtwy5PHb+sGNoqU5
+ qkDI/SUdCdg4eSXSLXYDoBIZk3zbG6+ByZHSEwoE3VB40I/rcjTxZoxCr
+ t/FYRkfx0sZIH9i/+u54Ct+qSO40pcfDWgYs/Wsg/ID9/0fETzJJb/YJF A==;
+X-CSE-ConnectionGUID: vbHB/i4VTbeCJYotqmYhAQ==
+X-CSE-MsgGUID: v0I8D9AwSDax6RoS8VZRsQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="29718244"
+X-IronPort-AV: E=Sophos;i="6.10,250,1719903600"; d="scan'208";a="29718244"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Sep 2024 20:59:34 -0700
-X-CSE-ConnectionGUID: PU9mv7TUQSm48Ze3brSBcQ==
-X-CSE-MsgGUID: XfTqgX24RUK1tfV/1PHyYg==
+ 22 Sep 2024 20:59:39 -0700
+X-CSE-ConnectionGUID: KIiWMSXfSPyXE2uA2DWKoA==
+X-CSE-MsgGUID: 5vNNpbThQIOzFpZOR9V3Xw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,250,1719903600"; d="scan'208";a="101667451"
+X-IronPort-AV: E=Sophos;i="6.10,250,1719903600"; d="scan'208";a="101667463"
 Received: from jraag-nuc8i7beh.iind.intel.com ([10.145.169.79])
- by orviesa002.jf.intel.com with ESMTP; 22 Sep 2024 20:59:27 -0700
+ by orviesa002.jf.intel.com with ESMTP; 22 Sep 2024 20:59:34 -0700
 From: Raag Jadav <raag.jadav@intel.com>
 To: airlied@gmail.com, simona@ffwll.ch, lucas.demarchi@intel.com,
  thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
@@ -51,9 +51,9 @@ Cc: intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  anshuman.gupta@intel.com, andi.shyti@linux.intel.com,
  andriy.shevchenko@linux.intel.com, matthew.d.roper@intel.com,
  Raag Jadav <raag.jadav@intel.com>
-Subject: [PATCH v6 1/4] drm: Introduce device wedged event
-Date: Mon, 23 Sep 2024 09:28:23 +0530
-Message-Id: <20240923035826.624196-2-raag.jadav@intel.com>
+Subject: [PATCH v6 2/4] drm: Expose wedge recovery methods
+Date: Mon, 23 Sep 2024 09:28:24 +0530
+Message-Id: <20240923035826.624196-3-raag.jadav@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240923035826.624196-1-raag.jadav@intel.com>
 References: <20240923035826.624196-1-raag.jadav@intel.com>
@@ -74,186 +74,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Introduce device wedged event, which will notify userspace of wedged
-(hanged/unusable) state of the DRM device through a uevent. This is
-useful especially in cases where the device is no longer operating as
-expected and has become unrecoverable from driver context.
+Now that we have device wedged event in place, add wedge_recovery sysfs
+attribute which will expose recovery methods supported by the DRM device.
+This is useful for userspace consumers in cases where the device supports
+multiple recovery methods which can be used as fallbacks.
 
-Purpose of this implementation is to provide drivers a way to recover
-through userspace intervention. Different drivers may have different
-ideas of a "wedged device" depending on their hardware implementation,
-and hence the vendor agnostic nature of the event. It is up to the drivers
-to decide when they see the need for recovery and how they want to recover
-from the available methods.
-
-Current implementation defines three recovery methods, out of which,
-drivers can choose to support any one or multiple of them. Preferred
-recovery method will be sent in the uevent environment as WEDGED=<method>.
-Userspace consumers (sysadmin) can define udev rules to parse this event
-and take respective action to recover the device.
-
- Method    | Consumer expectations
------------|-----------------------------------
- rebind    | unbind + rebind driver
- bus-reset | unbind + reset bus device + rebind
- reboot    | reboot system
-
-v4: s/drm_dev_wedged/drm_dev_wedged_event
-    Use drm_info() (Jani)
-    Kernel doc adjustment (Aravind)
-v5: Send recovery method with uevent (Lina)
-v6: Access wedge_recovery_opts[] using helper function (Jani)
-    Use snprintf() (Jani)
+$ cat /sys/class/drm/card0/wedge_recovery
+rebind
+bus-reset
+reboot
 
 Signed-off-by: Raag Jadav <raag.jadav@intel.com>
 ---
- drivers/gpu/drm/drm_drv.c | 41 +++++++++++++++++++++++++++++++++++++++
- include/drm/drm_device.h  | 24 +++++++++++++++++++++++
- include/drm/drm_drv.h     | 18 +++++++++++++++++
- 3 files changed, 83 insertions(+)
+ drivers/gpu/drm/drm_sysfs.c | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-index ac30b0ec9d93..03a5d9009689 100644
---- a/drivers/gpu/drm/drm_drv.c
-+++ b/drivers/gpu/drm/drm_drv.c
-@@ -70,6 +70,18 @@ static struct dentry *drm_debugfs_root;
- 
- DEFINE_STATIC_SRCU(drm_unplug_srcu);
- 
-+/*
-+ * Available recovery methods for wedged device. To be sent along with device
-+ * wedged uevent.
-+ */
-+#define WEDGE_LEN	32	/* Need 16+ */
-+
-+const char *const wedge_recovery_opts[] = {
-+	[DRM_WEDGE_RECOVERY_REBIND] = "rebind",
-+	[DRM_WEDGE_RECOVERY_BUS_RESET] = "bus-reset",
-+	[DRM_WEDGE_RECOVERY_REBOOT] = "reboot",
-+};
-+
- /*
-  * DRM Minors
-  * A DRM device can provide several char-dev interfaces on the DRM-Major. Each
-@@ -497,6 +509,35 @@ void drm_dev_unplug(struct drm_device *dev)
+diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
+index fb3bbb6adcd1..99767de9e685 100644
+--- a/drivers/gpu/drm/drm_sysfs.c
++++ b/drivers/gpu/drm/drm_sysfs.c
+@@ -24,6 +24,7 @@
+ #include <drm/drm_accel.h>
+ #include <drm/drm_connector.h>
+ #include <drm/drm_device.h>
++#include <drm/drm_drv.h>
+ #include <drm/drm_file.h>
+ #include <drm/drm_modes.h>
+ #include <drm/drm_print.h>
+@@ -508,6 +509,26 @@ void drm_sysfs_connector_property_event(struct drm_connector *connector,
  }
- EXPORT_SYMBOL(drm_dev_unplug);
+ EXPORT_SYMBOL(drm_sysfs_connector_property_event);
  
-+/**
-+ * drm_dev_wedged_event - generate a device wedged uevent
-+ * @dev: DRM device
-+ * @method: method to be used for recovery
-+ *
-+ * This generates a device wedged uevent for the DRM device specified by @dev.
-+ * Recovery @method from wedge_recovery_opts[] (if supprted by the device) is
-+ * sent in the uevent environment as WEDGED=<method>, on the basis of which,
-+ * userspace may take respective action to recover the device.
-+ *
-+ * Returns: 0 on success, or negative error code otherwise.
-+ */
-+int drm_dev_wedged_event(struct drm_device *dev, enum wedge_recovery_method method)
++static ssize_t wedge_recovery_show(struct device *device,
++				   struct device_attribute *attr, char *buf)
 +{
-+	char event_string[WEDGE_LEN] = {};
-+	char *envp[] = { event_string, NULL };
++	struct drm_minor *minor = to_drm_minor(device);
++	struct drm_device *dev = minor->dev;
++	int method, count = 0;
 +
-+	if (!test_bit(method, &dev->wedge_recovery)) {
-+		drm_err(dev, "device wedged, recovery method not supported\n");
-+		return -EOPNOTSUPP;
-+	}
++	for_each_set_bit(method, &dev->wedge_recovery, DRM_WEDGE_RECOVERY_MAX)
++		count += sysfs_emit_at(buf, count, "%s\n", recovery_method_name(method));
 +
-+	snprintf(event_string, sizeof(event_string), "WEDGED=%s", recovery_method_name(method));
-+
-+	drm_info(dev, "device wedged, generating uevent\n");
-+	return kobject_uevent_env(&dev->primary->kdev->kobj, KOBJ_CHANGE, envp);
++	return count;
 +}
-+EXPORT_SYMBOL(drm_dev_wedged_event);
++static DEVICE_ATTR_RO(wedge_recovery);
 +
- /*
-  * DRM internal mount
-  * We want to be able to allocate our own "struct address_space" to control
-diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
-index c91f87b5242d..f1a71763c22a 100644
---- a/include/drm/drm_device.h
-+++ b/include/drm/drm_device.h
-@@ -40,6 +40,27 @@ enum switch_power_state {
- 	DRM_SWITCH_POWER_DYNAMIC_OFF = 3,
- };
- 
-+/**
-+ * enum wedge_recovery_method - Recovery method for wedged device in order
-+ * of severity. To be set as bit fields in drm_device.wedge_recovery variable.
-+ * Drivers can choose to support any one or multiple of them depending on their
-+ * needs.
-+ */
-+
-+enum wedge_recovery_method {
-+	/** @DRM_WEDGE_RECOVERY_REBIND: unbind + rebind driver */
-+	DRM_WEDGE_RECOVERY_REBIND,
-+
-+	/** @DRM_WEDGE_RECOVERY_BUS_RESET: unbind + reset bus device + rebind */
-+	DRM_WEDGE_RECOVERY_BUS_RESET,
-+
-+	/** @DRM_WEDGE_RECOVERY_REBOOT: reboot system */
-+	DRM_WEDGE_RECOVERY_REBOOT,
-+
-+	/** @DRM_WEDGE_RECOVERY_MAX: for bounds checking, do not use */
-+	DRM_WEDGE_RECOVERY_MAX
++static struct attribute *minor_dev_attrs[] = {
++	&dev_attr_wedge_recovery.attr,
++	NULL
 +};
++ATTRIBUTE_GROUPS(minor_dev);
 +
- /**
-  * struct drm_device - DRM device structure
-  *
-@@ -317,6 +338,9 @@ struct drm_device {
- 	 * Root directory for debugfs files.
- 	 */
- 	struct dentry *debugfs_root;
-+
-+	/** @wedge_recovery: Supported recovery methods for wedged device */
-+	unsigned long wedge_recovery;
- };
+ struct device *drm_sysfs_minor_alloc(struct drm_minor *minor)
+ {
+ 	const char *minor_str;
+@@ -532,6 +553,7 @@ struct device *drm_sysfs_minor_alloc(struct drm_minor *minor)
+ 		kdev->devt = MKDEV(DRM_MAJOR, minor->index);
+ 		kdev->class = drm_class;
+ 		kdev->type = &drm_sysfs_device_minor;
++		kdev->groups = minor_dev_groups;
+ 	}
  
- #endif
-diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
-index 02ea4e3248fd..83d44e153557 100644
---- a/include/drm/drm_drv.h
-+++ b/include/drm/drm_drv.h
-@@ -45,6 +45,8 @@ struct drm_mode_create_dumb;
- struct drm_printer;
- struct sg_table;
- 
-+extern const char *const wedge_recovery_opts[];
-+
- /**
-  * enum drm_driver_feature - feature flags
-  *
-@@ -461,6 +463,7 @@ void drm_put_dev(struct drm_device *dev);
- bool drm_dev_enter(struct drm_device *dev, int *idx);
- void drm_dev_exit(int idx);
- void drm_dev_unplug(struct drm_device *dev);
-+int drm_dev_wedged_event(struct drm_device *dev, enum wedge_recovery_method method);
- 
- /**
-  * drm_dev_is_unplugged - is a DRM device unplugged
-@@ -551,4 +554,19 @@ static inline void drm_debugfs_dev_init(struct drm_device *dev, struct dentry *r
- }
- #endif
- 
-+static inline bool recovery_method_is_valid(enum wedge_recovery_method method)
-+{
-+	if (method >= DRM_WEDGE_RECOVERY_REBIND && method < DRM_WEDGE_RECOVERY_MAX)
-+		return true;
-+
-+	return false;
-+}
-+
-+static inline const char *recovery_method_name(enum wedge_recovery_method method)
-+{
-+	if (recovery_method_is_valid(method))
-+		return wedge_recovery_opts[method];
-+
-+	return NULL;
-+}
- #endif
+ 	kdev->parent = minor->dev->dev;
 -- 
 2.34.1
 
