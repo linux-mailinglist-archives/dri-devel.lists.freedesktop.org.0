@@ -2,112 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4D3697E82A
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2024 11:07:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3178A97E86A
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2024 11:19:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4562E10E3B9;
-	Mon, 23 Sep 2024 09:07:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A366A10E3BC;
+	Mon, 23 Sep 2024 09:19:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hQXn+BfH";
+	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ite.com.tw header.i=@ite.com.tw header.b="RBYCQZDR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EC0F10E3B9
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2024 09:07:57 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id ABFB8A418C2;
- Mon, 23 Sep 2024 09:07:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC97AC4CECE;
- Mon, 23 Sep 2024 09:07:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1727082476;
- bh=W6F+drqeVQY8anfgFzgcTsVi8eDl1gwiANr19rdOjAM=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=hQXn+BfH5rvpKN7zEHR88iCtdLgFZS/+sMhsY7ivsgmBdJhNp+hvtVJM/Z4qXuFIZ
- aI6FPy+rli4WWddaH/AIfZy4GWq/ygfNep16xk9Sx7/9XF+JzDDCzTCqYmk4ZaFbhk
- LOHnQQ6rFMzXFUNe4BLrVEF549kuUhTugha38aZnUdjC12zQsLsYji60EP0UNxJpCV
- OLQCE3nYmiaAi8zrpPLvhqnk/C0BcZ5Tua0ovve0jSJsvnevZmjMvx9yfIU5KZBTiI
- I6FLHThtt+XIe50kFRKrrNLT5cBXNsD6TbtxLUF3XSWnw6QKpLVUM6iE2fWOdgEMQT
- OTv+YZR2RL6Pg==
-Message-ID: <292aa90c-51da-4cc1-91a5-ad1cb4bd11bf@kernel.org>
-Date: Mon, 23 Sep 2024 11:07:43 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 15/27] regulator: add s2dos05 regulator support
-To: Dzmitry Sankouski <dsankouski@gmail.com>
-Cc: Sebastian Reichel <sre@kernel.org>, Bjorn Andersson
- <andersson@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+Received: from ironport.ite.com.tw (60-251-196-230.hinet-ip.hinet.net
+ [60.251.196.230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A20AD10E3BC
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2024 09:19:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ite.com.tw; s=dkim;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=P5fEn5an4hKFCvFdp5LcoYh8nytvrSjDeatXQxf7eDs=;
+ b=RBYCQZDRIg36QspMW9L/CzEx4CgsyH4ZNPVtR2CY6hWed/8ynmiXD618
+ QOkPrIsisYMex+2xiTheylDIXkYaNmlVxisxxNwyFmbX2D7lsaOHPD7aq
+ 7FRjOR9S/LMwLcEOLnSwfi64ZbK7JRr+2dK0fu51MI1TBWOrtBcq4vSW1
+ UGB0LFBsGkiIOKbDhUZyrNXGR/61yIr6WZfuDpwJCdIWZdG6akO52+u4t
+ EaG/qBLSjVnxOXPeDEQviqGs4XVyNKvwuC7MftBRbZ5qZUQXlve9O7az0
+ 79bc4mfsX76MrXv3VMMlfprzn3l+KqaQ683m9LXaDG5lJMXjCTO5RozlS w==;
+X-CSE-ConnectionGUID: V8gX226CSWKLG872PEsVOQ==
+X-CSE-MsgGUID: YrnLVi9MR/yfrtn7c+ZjsQ==
+Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
+ by ironport.ite.com.tw with ESMTP; 23 Sep 2024 17:19:09 +0800
+Received: from tpemail1.internal.ite.com.tw (TPEMAIL1.internal.ite.com.tw
+ [192.168.15.58]) by mse.ite.com.tw with ESMTP id 48N9J6GL092387;
+ Mon, 23 Sep 2024 17:19:06 +0800 (GMT-8)
+ (envelope-from Hermes.Wu@ite.com.tw)
+Received: from LAPTOP-C4GM1L3U.localdomain (192.168.82.6) by
+ TPEMAIL1.internal.ite.com.tw (192.168.15.58) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Mon, 23 Sep 2024 17:19:06 +0800
+From: Hermes Wu <Hermes.Wu@ite.com.tw>
+To: Pin-yen Lin <treapking@chromium.org>
+CC: Kenneth Hung <Kenneth.hung@ite.com.tw>, Hermes Wu <Hermes.wu@ite.com.tw>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
- Chanwoo Choi <cw00.choi@samsung.com>, Simona Vetter <simona@ffwll.ch>,
- cros-qcom-dts-watchers@chromium.org, Konrad Dybcio <konradybcio@kernel.org>,
- Simona Vetter <simona.vetter@ffwll.ch>, linux-pm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-input@vger.kernel.org,
- linux-leds@vger.kernel.org, linux-pwm@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org
-References: <20240913-starqltechn_integration_upstream-v4-0-2d2efd5c5877@gmail.com>
- <20240913-starqltechn_integration_upstream-v4-15-2d2efd5c5877@gmail.com>
- <35liocltjuxv3gjueuvpaytx44crebbc4c63atztakuq5dfpax@bquve7tkrvtx>
- <CABTCjFCNuMKTeF8YyqCHGQ2CCQ76C1djL_3rja7itLfBM5vogQ@mail.gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <CABTCjFCNuMKTeF8YyqCHGQ2CCQ76C1djL_3rja7itLfBM5vogQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>
+Subject: [PATCH 1/2] drm/bridge: it6505: fix AUX read use aux fifo
+Date: Mon, 23 Sep 2024 17:13:34 +0800
+Message-ID: <20240923091337.13183-1-Hermes.Wu@ite.com.tw>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [192.168.82.6]
+X-ClientProxiedBy: TPEMAIL1.internal.ite.com.tw (192.168.15.58) To
+ TPEMAIL1.internal.ite.com.tw (192.168.15.58)
+X-TM-SNTS-SMTP: 0A4CED03A66246B29512614DEE667410E6A449BB2FE2BB3AAADAF76EE9FD52ED2002:8
+X-MAIL: mse.ite.com.tw 48N9J6GL092387
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,27 +78,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19/09/2024 16:28, Dzmitry Sankouski wrote:
->>> diff --git a/include/linux/regulator/s2dos05.h b/include/linux/regulator/s2dos05.h
->>> new file mode 100644
->>> index 000000000000..2e89fcbce769
->>> --- /dev/null
->>> +++ b/include/linux/regulator/s2dos05.h
->>> @@ -0,0 +1,73 @@
->>> +/* SPDX-License-Identifier: GPL-2.0+ */
->>
->> Are you sure that here (and other places) you want any newer GPL? This
->> is quite odd. Does original code (from which you took 2016 copyrights)
->> have this as well?
->>
-> Original code permits redistribution under 2+ license [1].
-> Is 2+ preferable over 2 only?
-> 
-> [1]: https://github.com/klabit87/twrp_android_samsung_kernel_sdm845/blob/android-8.0/include/linux/regulator/s2dos05.h#L9
+From: Hermes Wu <Hermes.wu@ite.com.tw>
 
-For new code we usually suggest 2-only, but your work looks like
-derivative, so keeping 2+ is fine.
+Changes in v3:
+ -New in v3
 
-Best regards,
-Krzysztof
+it6505 AUX FIFO mode only 16 byte.
+AUX FIFO mode only supports EDID read and DPCD KSV FIFO area.
+
+
+Signed-off-by: Hermes Wu <Hermes.wu@ite.com.tw>
+---
+ drivers/gpu/drm/bridge/ite-it6505.c | 25 +++++++++++++++++--------
+ 1 file changed, 17 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
+index 87b8545fccc0..d8b40ad890bf 100644
+--- a/drivers/gpu/drm/bridge/ite-it6505.c
++++ b/drivers/gpu/drm/bridge/ite-it6505.c
+@@ -300,7 +300,7 @@
+ #define MAX_CR_LEVEL 0x03
+ #define MAX_EQ_LEVEL 0x03
+ #define AUX_WAIT_TIMEOUT_MS 15
+-#define AUX_FIFO_MAX_SIZE 32
++#define AUX_FIFO_MAX_SIZE 16
+ #define PIXEL_CLK_DELAY 1
+ #define PIXEL_CLK_INVERSE 0
+ #define ADJUST_PHASE_THRESHOLD 80000
+@@ -324,8 +324,13 @@ enum aux_cmd_type {
+ 	CMD_AUX_NATIVE_READ = 0x0,
+ 	CMD_AUX_NATIVE_WRITE = 0x5,
+ 	CMD_AUX_I2C_EDID_READ = 0xB,
++
++	/* KSV list read using AUX native read with FIFO */
++	CMD_AUX_GET_KSV_LIST = 0x10,
+ };
+ 
++#define GET_AUX_CONTROL_CODE(cmd) ((cmd) & 0x0F)
++
+ enum aux_cmd_reply {
+ 	REPLY_ACK,
+ 	REPLY_NACK,
+@@ -965,7 +970,8 @@ static ssize_t it6505_aux_operation(struct it6505 *it6505,
+ 	it6505_set_bits(it6505, REG_AUX_CTRL, AUX_USER_MODE, AUX_USER_MODE);
+ 
+ aux_op_start:
+-	if (cmd == CMD_AUX_I2C_EDID_READ) {
++	/* HW AUX FIFO supports only EDID and DCPD KSV FIFO aread */
++	if (cmd == CMD_AUX_I2C_EDID_READ || cmd == CMD_AUX_GET_KSV_LIST) {
+ 		/* AUX EDID FIFO has max length of AUX_FIFO_MAX_SIZE bytes. */
+ 		size = min_t(size_t, size, AUX_FIFO_MAX_SIZE);
+ 		/* Enable AUX FIFO read back and clear FIFO */
+@@ -996,7 +1002,7 @@ static ssize_t it6505_aux_operation(struct it6505 *it6505,
+ 				  size);
+ 
+ 	/* Aux Fire */
+-	it6505_write(it6505, REG_AUX_CMD_REQ, cmd);
++	it6505_write(it6505, REG_AUX_CMD_REQ, GET_AUX_CONTROL_CODE(cmd));
+ 
+ 	ret = it6505_aux_wait(it6505);
+ 	if (ret < 0)
+@@ -1030,7 +1036,7 @@ static ssize_t it6505_aux_operation(struct it6505 *it6505,
+ 		goto aux_op_start;
+ 	}
+ 
+-	if (cmd == CMD_AUX_I2C_EDID_READ) {
++	if (cmd == CMD_AUX_I2C_EDID_READ || cmd == CMD_AUX_GET_KSV_LIST) {
+ 		for (i = 0; i < size; i++) {
+ 			ret = it6505_read(it6505, REG_AUX_DATA_FIFO);
+ 			if (ret < 0)
+@@ -1055,7 +1061,7 @@ static ssize_t it6505_aux_operation(struct it6505 *it6505,
+ 	ret = i;
+ 
+ aux_op_err:
+-	if (cmd == CMD_AUX_I2C_EDID_READ) {
++	if (cmd == CMD_AUX_I2C_EDID_READ || cmd == CMD_AUX_GET_KSV_LIST) {
+ 		/* clear AUX FIFO */
+ 		it6505_set_bits(it6505, REG_AUX_CTRL,
+ 				AUX_EN_FIFO_READ | CLR_EDID_FIFO,
+@@ -1078,8 +1084,11 @@ static ssize_t it6505_aux_do_transfer(struct it6505 *it6505,
+ 	int i, ret_size, ret = 0, request_size;
+ 
+ 	mutex_lock(&it6505->aux_lock);
+-	for (i = 0; i < size; i += 4) {
+-		request_size = min((int)size - i, 4);
++	for (i = 0; i < size; ) {
++		if (cmd == CMD_AUX_I2C_EDID_READ || cmd == CMD_AUX_GET_KSV_LIST)
++			request_size = min_t(int, (int)size - i, AUX_FIFO_MAX_SIZE);
++		else
++			request_size = min_t(int, (int)size - i, 4);
+ 		ret_size = it6505_aux_operation(it6505, cmd, address + i,
+ 						buffer + i, request_size,
+ 						reply);
+@@ -1088,6 +1097,7 @@ static ssize_t it6505_aux_do_transfer(struct it6505 *it6505,
+ 			goto aux_op_err;
+ 		}
+ 
++		i += request_size;
+ 		ret += ret_size;
+ 	}
+ 
+@@ -2257,7 +2267,6 @@ static void it6505_link_training_work(struct work_struct *work)
+ 		it6505->auto_train_retry--;
+ 		it6505_dump(it6505);
+ 	}
+-
+ }
+ 
+ static void it6505_plugged_status_to_codec(struct it6505 *it6505)
+-- 
+2.34.1
 
