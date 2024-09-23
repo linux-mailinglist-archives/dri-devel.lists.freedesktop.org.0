@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BF6597F1BB
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2024 22:44:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEEF097F1C5
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2024 22:48:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A725810E18B;
-	Mon, 23 Sep 2024 20:44:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDCBC10E497;
+	Mon, 23 Sep 2024 20:48:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="SX65W5Er";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="b8jY6pSh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 982C410E18B
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2024 20:44:13 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1727124239; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7927E10E497
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2024 20:48:51 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1727124521; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=bbv/4jCMcBOF5HgaymPjh0y1vjUro6JqYjTkAQRqQmulsOJqeKs2Le0SIchOvB2Q0B6wfm3rde/YFsd67lsr0kxlYMtdBJ6/IrSelelLR0MQSg64yc25IZ5NevqC81riDRIC3vcBdtO/zooULdJBZGjjKCh0QCZFQuMhk4ZDZw8=
+ b=Dp0MSsKbpD9BxCqLAI6GOLE7wY3OFbRPOHRyPj3gydKWoeqrvuuwj9wm/+Q+YDbIfRVzmsrH8KcwJRbwO9+ieFUx0sO9R1zRxXYShQDsUj1+WUdclIKpRPX/Y21fpdm6wH8kZf41QUj1DQGUsq1Dy2GFaKkX7qVxFYTjH26X9O4=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1727124239;
+ s=zohoarc; t=1727124521;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=qO5/iZDqFuCKnKM9suqmYmujHR/uSc9bE+582ofPyHU=; 
- b=dXWcUoAY0djTkMhD/6I1p+uEpjFeMxow1puDsxg1Wzvw4z6EsrnkE98zv0gOApE8BQIWer+3R1N7LdDI0zFxfKK0qaFRFdewv7I8XVpWs32irJNLjM6hZ2YCQ3yEy5E6h8HwXr1aDodrdctE5p92SQBFQWuVfo5uVbSEP1ou+WA=
+ bh=MzYJfI/Krw9lfFu8kCgFHZL4FC5kQ3tGzyG8O+9H3mU=; 
+ b=oEoHP39F+STkiyjcUcjIreQq2ch7mPMx7XvHBbhNeTR22LQrboMbI4rBRO3r0wseXbeaPwJ4TYOGj71iVv0jc0JTFlnA60Q38TvJvTWqBncm2LmUlgqb5fbzS0ff5sBCPSaVLgKG0pe49a1uLkfI5Nly/qXGs6eZ3AP3V/KT9S4=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
  dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1727124239; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1727124521; 
  s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
  h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
- bh=qO5/iZDqFuCKnKM9suqmYmujHR/uSc9bE+582ofPyHU=;
- b=SX65W5ErjI0YyRfd7AIvRguc4ci8xer09iy9h4AJHDQtcTp+DUXALfXRh47rpEYU
- Bst49mOvfbOs8IBnkwS4FKAYuQfMupPxTUWd8+I3NWM9JtWlLBxBtGYcjaHsNLk9cFm
- 1srQaTuMeB9Q33XIypItRHAImFU+rSFxH6uXqkn0=
-Received: by mx.zohomail.com with SMTPS id 1727124238084594.9642189780285;
- Mon, 23 Sep 2024 13:43:58 -0700 (PDT)
-Date: Mon, 23 Sep 2024 21:43:53 +0100
+ bh=MzYJfI/Krw9lfFu8kCgFHZL4FC5kQ3tGzyG8O+9H3mU=;
+ b=b8jY6pShToTPA2941YbP5aMFTl6Qx8d7oOOkXRHqSmu3Pxy4r02VIzZsfqaW6s5G
+ l5gGoU2aQc5CA8ioy980PugMS3P/H9BWSCo1i7u5PiCpPyeeNmOmjMoaaa/4gBNQDYS
+ EypKaUD/N/Uxz6CMZx7k/fPOKKJBqRaBENqLyZxM=
+Received: by mx.zohomail.com with SMTPS id 1727124519728331.0997803749864;
+ Mon, 23 Sep 2024 13:48:39 -0700 (PDT)
+Date: Mon, 23 Sep 2024 21:48:35 +0100
 From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
 To: Steven Price <steven.price@arm.com>
 Cc: Boris Brezillon <boris.brezillon@collabora.com>, 
@@ -50,17 +50,17 @@ Cc: Boris Brezillon <boris.brezillon@collabora.com>,
  kernel@collabora.com, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, 
  linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v6 1/5] drm/panthor: introduce job cycle and timestamp
+Subject: Re: [PATCH v7 1/5] drm/panthor: introduce job cycle and timestamp
  accounting
-Message-ID: <jgdknf77n6vqanh4jv2yixe4n4hsbhqqhth4beued4topggwgz@wx7bumhrbpje>
-References: <5c4d1008-261f-4c47-ab73-c527675484a4@arm.com>
- <bq6lctwgpsxvrdaajmjo3xdjt32srmsxvjhtzyebdj6izjzoaw@6duby4axg3pf>
- <ef799587-f7c2-472a-8550-9c40a395eccb@arm.com>
+Message-ID: <whrhelv4cvh56ig34kh5pqecbs3yhrqy3qepuzzxnmqifshnsa@75emb2et2rqg>
+References: <20240920234436.207563-1-adrian.larumbe@collabora.com>
+ <20240920234436.207563-2-adrian.larumbe@collabora.com>
+ <07c8c715-4016-4963-8544-2e9cc1a8208b@arm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ef799587-f7c2-472a-8550-9c40a395eccb@arm.com>
+In-Reply-To: <07c8c715-4016-4963-8544-2e9cc1a8208b@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,216 +76,551 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Steve,
-
-On 23.09.2024 09:55, Steven Price wrote:
->On 20/09/2024 23:36, Adrián Larumbe wrote:
->> Hi Steve, thanks for the review.
->
->Hi Adrián,
->
->> I've applied all of your suggestions for the next patch series revision, so I'll
->> only be answering to your question about the calc_profiling_ringbuf_num_slots
->> function further down below.
+On 23.09.2024 10:07, Steven Price wrote:
+>On 21/09/2024 00:43, Adrián Larumbe wrote:
+>> Enable calculations of job submission times in clock cycles and wall
+>> time. This is done by expanding the boilerplate command stream when running
+>> a job to include instructions that compute said times right before and
+>> after a user CS.
 >> 
+>> A separate kernel BO is created per queue to store those values. Jobs can
+>> access their sampled data through an index different from that of the
+>> queue's ringbuffer. The reason for this is saving memory on the profiling
+>> information kernel BO, since the amount of simultaneous profiled jobs we
+>> can write into the queue's ringbuffer might be much smaller than for
+>> regular jobs, as the former take more CSF instructions.
+>> 
+>> This commit is done in preparation for enabling DRM fdinfo support in the
+>> Panthor driver, which depends on the numbers calculated herein.
+>> 
+>> A profile mode mask has been added that will in a future commit allow UM to
+>> toggle performance metric sampling behaviour, which is disabled by default
+>> to save power. When a ringbuffer CS is constructed, timestamp and cycling
+>> sampling instructions are added depending on the enabled flags in the
+>> profiling mask.
+>> 
+>> A helper was provided that calculates the number of instructions for a
+>> given set of enablement mask, and these are passed as the number of credits
+>> when initialising a DRM scheduler job.
+>> 
+>> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+>> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+>> Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
 >
->[...]
+>I think just one bug remaining - see below...
 >
->>>> @@ -3003,6 +3190,34 @@ static const struct drm_sched_backend_ops panthor_queue_sched_ops = {
->>>>  	.free_job = queue_free_job,
->>>>  };
->>>>  
->>>> +static u32 calc_profiling_ringbuf_num_slots(struct panthor_device *ptdev,
->>>> +				       u32 cs_ringbuf_size)
->>>> +{
->>>> +	u32 min_profiled_job_instrs = U32_MAX;
->>>> +	u32 last_flag = fls(PANTHOR_DEVICE_PROFILING_ALL);
->>>> +
->>>> +	/*
->>>> +	 * We want to calculate the minimum size of a profiled job's CS,
->>>> +	 * because since they need additional instructions for the sampling
->>>> +	 * of performance metrics, they might take up further slots in
->>>> +	 * the queue's ringbuffer. This means we might not need as many job
->>>> +	 * slots for keeping track of their profiling information. What we
->>>> +	 * need is the maximum number of slots we should allocate to this end,
->>>> +	 * which matches the maximum number of profiled jobs we can place
->>>> +	 * simultaneously in the queue's ring buffer.
->>>> +	 * That has to be calculated separately for every single job profiling
->>>> +	 * flag, but not in the case job profiling is disabled, since unprofiled
->>>> +	 * jobs don't need to keep track of this at all.
->>>> +	 */
->>>> +	for (u32 i = 0; i < last_flag; i++) {
->>>> +		if (BIT(i) & PANTHOR_DEVICE_PROFILING_ALL)
->>>> +			min_profiled_job_instrs =
->>>> +				min(min_profiled_job_instrs, calc_job_credits(BIT(i)));
->>>> +	}
->>>> +
->>>> +	return DIV_ROUND_UP(cs_ringbuf_size, min_profiled_job_instrs * sizeof(u64));
->>>> +}
->>>
->>> I may be missing something, but is there a situation where this is
->>> different to calc_job_credits(0)? AFAICT the infrastructure you've added
->>> can only add extra instructions to the no-flags case - whereas this
->>> implies you're thinking that instructions may also be removed (or replaced).
->>>
->>> Steve
+>> ---
+>>  drivers/gpu/drm/panthor/panthor_device.h |  22 ++
+>>  drivers/gpu/drm/panthor/panthor_sched.c  | 328 +++++++++++++++++++----
+>>  2 files changed, 301 insertions(+), 49 deletions(-)
 >> 
->> Since we create a separate kernel BO to hold the profiling information slot, we
->> need one that would be able to accomodate as many slots as the maximum number of
->> profiled jobs we can insert simultaneously into the queue's ring buffer. Because
->> profiled jobs always take more instructions than unprofiled ones, then we would
->> usually need fewer slots than the number of unprofiled jobs we could insert at
->> once in the ring buffer.
->> 
->> Because we represent profiling metrics with a bit mask, then we need to test the
->> size of the CS for every single metric enabled in isolation, since enabling more
->> than one will always mean a bigger CS, and therefore fewer jobs tracked at once
->> in the queue's ring buffer.
->> 
->> In our case, calling calc_job_credits(0) would simply tell us the number of
->> instructions we need for a normal job with no profiled features enabled, which
->> would always requiere less instructions than profiled ones, and therefore more
->> slots in the profiling info kernel BO. But we don't need to keep track of
->> profiling numbers for unprofiled jobs, so there's no point in calculating this
->> number.
->> 
->> At first I was simply allocating a profiling info kernel BO as big as the number
->> of simultaneous unprofiled job slots in the ring queue, but Boris pointed out
->> that since queue ringbuffers can be as big as 2GiB, a lot of this memory would
->> be wasted, since profiled jobs always require more slots because they hold more
->> instructions, so fewer profiling slots in said kernel BO.
->> 
->> The value of this approach will eventually manifest if we decided to keep track of
->> more profiling metrics, since this code won't have to change at all, other than
->> adding new profiling flags in the panthor_device_profiling_flags enum.
+>> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
+>> index e388c0472ba7..a48e30d0af30 100644
+>> --- a/drivers/gpu/drm/panthor/panthor_device.h
+>> +++ b/drivers/gpu/drm/panthor/panthor_device.h
+>> @@ -66,6 +66,25 @@ struct panthor_irq {
+>>  	atomic_t suspended;
+>>  };
+>>  
+>> +/**
+>> + * enum panthor_device_profiling_mode - Profiling state
+>> + */
+>> +enum panthor_device_profiling_flags {
+>> +	/** @PANTHOR_DEVICE_PROFILING_DISABLED: Profiling is disabled. */
+>> +	PANTHOR_DEVICE_PROFILING_DISABLED = 0,
+>> +
+>> +	/** @PANTHOR_DEVICE_PROFILING_CYCLES: Sampling job cycles. */
+>> +	PANTHOR_DEVICE_PROFILING_CYCLES = BIT(0),
+>> +
+>> +	/** @PANTHOR_DEVICE_PROFILING_TIMESTAMP: Sampling job timestamp. */
+>> +	PANTHOR_DEVICE_PROFILING_TIMESTAMP = BIT(1),
+>> +
+>> +	/** @PANTHOR_DEVICE_PROFILING_ALL: Sampling everything. */
+>> +	PANTHOR_DEVICE_PROFILING_ALL =
+>> +	PANTHOR_DEVICE_PROFILING_CYCLES |
+>> +	PANTHOR_DEVICE_PROFILING_TIMESTAMP,
+>> +};
+>> +
+>>  /**
+>>   * struct panthor_device - Panthor device
+>>   */
+>> @@ -162,6 +181,9 @@ struct panthor_device {
+>>  		 */
+>>  		struct page *dummy_latest_flush;
+>>  	} pm;
+>> +
+>> +	/** @profile_mask: User-set profiling flags for job accounting. */
+>> +	u32 profile_mask;
+>>  };
+>>  
+>>  /**
+>> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+>> index 42afdf0ddb7e..6da5c3d0015e 100644
+>> --- a/drivers/gpu/drm/panthor/panthor_sched.c
+>> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+>> @@ -93,6 +93,9 @@
+>>  #define MIN_CSGS				3
+>>  #define MAX_CSG_PRIO				0xf
+>>  
+>> +#define NUM_INSTRS_PER_CACHE_LINE		(64 / sizeof(u64))
+>> +#define MAX_INSTRS_PER_JOB			24
+>> +
+>>  struct panthor_group;
+>>  
+>>  /**
+>> @@ -476,6 +479,18 @@ struct panthor_queue {
+>>  		 */
+>>  		struct list_head in_flight_jobs;
+>>  	} fence_ctx;
+>> +
+>> +	/** @profiling: Job profiling data slots and access information. */
+>> +	struct {
+>> +		/** @slots: Kernel BO holding the slots. */
+>> +		struct panthor_kernel_bo *slots;
+>> +
+>> +		/** @slot_count: Number of jobs ringbuffer can hold at once. */
+>> +		u32 slot_count;
+>> +
+>> +		/** @seqno: Index of the next available profiling information slot. */
+>> +		u32 seqno;
+>> +	} profiling;
+>>  };
+>>  
+>>  /**
+>> @@ -661,6 +676,18 @@ struct panthor_group {
+>>  	struct list_head wait_node;
+>>  };
+>>  
+>> +struct panthor_job_profiling_data {
+>> +	struct {
+>> +		u64 before;
+>> +		u64 after;
+>> +	} cycles;
+>> +
+>> +	struct {
+>> +		u64 before;
+>> +		u64 after;
+>> +	} time;
+>> +};
+>> +
+>>  /**
+>>   * group_queue_work() - Queue a group work
+>>   * @group: Group to queue the work for.
+>> @@ -774,6 +801,15 @@ struct panthor_job {
+>>  
+>>  	/** @done_fence: Fence signaled when the job is finished or cancelled. */
+>>  	struct dma_fence *done_fence;
+>> +
+>> +	/** @profiling: Job profiling information. */
+>> +	struct {
+>> +		/** @mask: Current device job profiling enablement bitmask. */
+>> +		u32 mask;
+>> +
+>> +		/** @slot: Job index in the profiling slots BO. */
+>> +		u32 slot;
+>> +	} profiling;
+>>  };
+>>  
+>>  static void
+>> @@ -838,6 +874,7 @@ static void group_free_queue(struct panthor_group *group, struct panthor_queue *
+>>  
+>>  	panthor_kernel_bo_destroy(queue->ringbuf);
+>>  	panthor_kernel_bo_destroy(queue->iface.mem);
+>> +	panthor_kernel_bo_destroy(queue->profiling.slots);
+>>  
+>>  	/* Release the last_fence we were holding, if any. */
+>>  	dma_fence_put(queue->fence_ctx.last_fence);
+>> @@ -1982,8 +2019,6 @@ tick_ctx_init(struct panthor_scheduler *sched,
+>>  	}
+>>  }
+>>  
+>> -#define NUM_INSTRS_PER_SLOT		16
+>> -
+>>  static void
+>>  group_term_post_processing(struct panthor_group *group)
+>>  {
+>> @@ -2815,65 +2850,192 @@ static void group_sync_upd_work(struct work_struct *work)
+>>  	group_put(group);
+>>  }
+>>  
+>> -static struct dma_fence *
+>> -queue_run_job(struct drm_sched_job *sched_job)
+>> +struct panthor_job_ringbuf_instrs {
+>> +	u64 buffer[MAX_INSTRS_PER_JOB];
+>> +	u32 count;
+>> +};
+>> +
+>> +struct panthor_job_instr {
+>> +	u32 profile_mask;
+>> +	u64 instr;
+>> +};
+>> +
+>> +#define JOB_INSTR(__prof, __instr) \
+>> +	{ \
+>> +		.profile_mask = __prof, \
+>> +		.instr = __instr, \
+>> +	}
+>> +
+>> +static void
+>> +copy_instrs_to_ringbuf(struct panthor_queue *queue,
+>> +		       struct panthor_job *job,
+>> +		       struct panthor_job_ringbuf_instrs *instrs)
+>> +{
+>> +	u64 ringbuf_size = panthor_kernel_bo_size(queue->ringbuf);
+>> +	u64 start = job->ringbuf.start & (ringbuf_size - 1);
+>> +	u64 size, written;
+>> +
+>> +	/*
+>> +	 * We need to write a whole slot, including any trailing zeroes
+>> +	 * that may come at the end of it. Also, because instrs.buffer has
+>> +	 * been zero-initialised, there's no need to pad it with 0's
+>> +	 */
+>> +	instrs->count = ALIGN(instrs->count, NUM_INSTRS_PER_CACHE_LINE);
+>> +	size = instrs->count * sizeof(u64);
+>> +	WARN_ON(size > ringbuf_size);
+>> +	written = min(ringbuf_size - start, size);
+>> +
+>> +	memcpy(queue->ringbuf->kmap + start, instrs->buffer, written);
+>> +
+>> +	if (written < size)
+>> +		memcpy(queue->ringbuf->kmap,
+>> +		       &instrs->buffer[written/sizeof(u64)],
+>> +		       size - written);
+>> +}
+>> +
+>> +struct panthor_job_cs_params {
+>> +	u32 profile_mask;
+>> +	u64 addr_reg; u64 val_reg;
+>> +	u64 cycle_reg; u64 time_reg;
+>> +	u64 sync_addr; u64 times_addr;
+>> +	u64 cs_start; u64 cs_size;
+>> +	u32 last_flush; u32 waitall_mask;
+>> +};
+>> +
+>> +static void
+>> +get_job_cs_params(struct panthor_job *job, struct panthor_job_cs_params *params)
+>>  {
+>> -	struct panthor_job *job = container_of(sched_job, struct panthor_job, base);
+>>  	struct panthor_group *group = job->group;
+>>  	struct panthor_queue *queue = group->queues[job->queue_idx];
+>>  	struct panthor_device *ptdev = group->ptdev;
+>>  	struct panthor_scheduler *sched = ptdev->scheduler;
+>> -	u32 ringbuf_size = panthor_kernel_bo_size(queue->ringbuf);
+>> -	u32 ringbuf_insert = queue->iface.input->insert & (ringbuf_size - 1);
+>> -	u64 addr_reg = ptdev->csif_info.cs_reg_count -
+>> -		       ptdev->csif_info.unpreserved_cs_reg_count;
+>> -	u64 val_reg = addr_reg + 2;
+>> -	u64 sync_addr = panthor_kernel_bo_gpuva(group->syncobjs) +
+>> -			job->queue_idx * sizeof(struct panthor_syncobj_64b);
+>> -	u32 waitall_mask = GENMASK(sched->sb_slot_count - 1, 0);
+>> -	struct dma_fence *done_fence;
+>> -	int ret;
+>>  
+>> -	u64 call_instrs[NUM_INSTRS_PER_SLOT] = {
+>> -		/* MOV32 rX+2, cs.latest_flush */
+>> -		(2ull << 56) | (val_reg << 48) | job->call_info.latest_flush,
+>> +	params->addr_reg = ptdev->csif_info.cs_reg_count -
+>> +			   ptdev->csif_info.unpreserved_cs_reg_count;
+>> +	params->val_reg = params->addr_reg + 2;
+>> +	params->cycle_reg = params->addr_reg;
+>> +	params->time_reg = params->val_reg;
+>>  
+>> -		/* FLUSH_CACHE2.clean_inv_all.no_wait.signal(0) rX+2 */
+>> -		(36ull << 56) | (0ull << 48) | (val_reg << 40) | (0 << 16) | 0x233,
+>> +	params->sync_addr = panthor_kernel_bo_gpuva(group->syncobjs) +
+>> +			    job->queue_idx * sizeof(struct panthor_syncobj_64b);
+>> +	params->times_addr = panthor_kernel_bo_gpuva(queue->profiling.slots) +
+>> +			     (job->profiling.slot * sizeof(struct panthor_job_profiling_data));
+>> +	params->waitall_mask = GENMASK(sched->sb_slot_count - 1, 0);
+>>  
+>> -		/* MOV48 rX:rX+1, cs.start */
+>> -		(1ull << 56) | (addr_reg << 48) | job->call_info.start,
+>> +	params->cs_start = job->call_info.start;
+>> +	params->cs_size = job->call_info.size;
+>> +	params->last_flush = job->call_info.latest_flush;
+>>  
+>> -		/* MOV32 rX+2, cs.size */
+>> -		(2ull << 56) | (val_reg << 48) | job->call_info.size,
+>> +	params->profile_mask = job->profiling.mask;
+>> +}
+>>  
+>> -		/* WAIT(0) => waits for FLUSH_CACHE2 instruction */
+>> -		(3ull << 56) | (1 << 16),
+>> +#define JOB_INSTR_ALWAYS(instr) \
+>> +	JOB_INSTR(PANTHOR_DEVICE_PROFILING_DISABLED, (instr))
+>> +#define JOB_INSTR_TIMESTAMP(instr) \
+>> +	JOB_INSTR(PANTHOR_DEVICE_PROFILING_TIMESTAMP, (instr))
+>> +#define JOB_INSTR_CYCLES(instr) \
+>> +	JOB_INSTR(PANTHOR_DEVICE_PROFILING_CYCLES, (instr))
+>>  
+>> +static void
+>> +prepare_job_instrs(const struct panthor_job_cs_params *params,
+>> +		   struct panthor_job_ringbuf_instrs *instrs)
+>> +{
+>> +	const struct panthor_job_instr instr_seq[] = {
+>> +		/* MOV32 rX+2, cs.latest_flush */
+>> +		JOB_INSTR_ALWAYS((2ull << 56) | (params->val_reg << 48) | params->last_flush),
+>> +		/* FLUSH_CACHE2.clean_inv_all.no_wait.signal(0) rX+2 */
+>> +		JOB_INSTR_ALWAYS((36ull << 56) | (0ull << 48) | (params->val_reg << 40) | (0 << 16) | 0x233),
+>> +		/* MOV48 rX:rX+1, cycles_offset */
+>> +		JOB_INSTR_CYCLES((1ull << 56) | (params->cycle_reg << 48) |
+>> +				 (params->times_addr + offsetof(struct panthor_job_profiling_data, cycles.before))),
+>> +		/* STORE_STATE cycles */
+>> +		JOB_INSTR_CYCLES((40ull << 56) | (params->cycle_reg << 40) | (1ll << 32)),
+>> +		/* MOV48 rX:rX+1, time_offset */
+>> +		JOB_INSTR_TIMESTAMP((1ull << 56) | (params->time_reg << 48) | (params->times_addr +
+>> +			   offsetof(struct panthor_job_profiling_data, time.before))),
+>> +		/* STORE_STATE timer */
+>> +		JOB_INSTR_TIMESTAMP((40ull << 56) | (params->time_reg << 40) | (0ll << 32)),
+>> +		/* MOV48 rX:rX+1, cs.start */
+>> +		JOB_INSTR_ALWAYS((1ull << 56) | (params->addr_reg << 48) | params->cs_start),
+>> +		/* MOV32 rX+2, cs.size */
+>> +		JOB_INSTR_ALWAYS((2ull << 56) | (params->val_reg << 48) | params->cs_size),
+>> +		/* WAIT(0) => waits for FLUSH_CACHE2 instruction */
+>> +		JOB_INSTR_ALWAYS((3ull << 56) | (1 << 16)),
+>>  		/* CALL rX:rX+1, rX+2 */
+>> -		(32ull << 56) | (addr_reg << 40) | (val_reg << 32),
+>> -
+>> +		JOB_INSTR_ALWAYS((32ull << 56) | (params->addr_reg << 40) | (params->val_reg << 32)),
+>> +		/* MOV48 rX:rX+1, cycles_offset */
+>> +		JOB_INSTR_CYCLES((1ull << 56) | (params->cycle_reg << 48) |
+>> +				 (params->times_addr + offsetof(struct panthor_job_profiling_data, cycles.after))),
+>> +		/* STORE_STATE cycles */
+>> +		JOB_INSTR_CYCLES((40ull << 56) | (params->cycle_reg << 40) | (1ll << 32)),
+>> +		/* MOV48 rX:rX+1, time_offset */
+>> +		JOB_INSTR_TIMESTAMP((1ull << 56) | (params->time_reg << 48) |
+>> +			  (params->times_addr + offsetof(struct panthor_job_profiling_data, time.after))),
+>> +		/* STORE_STATE timer */
+>> +		JOB_INSTR_TIMESTAMP((40ull << 56) | (params->time_reg << 40) | (0ll << 32)),
+>>  		/* MOV48 rX:rX+1, sync_addr */
+>> -		(1ull << 56) | (addr_reg << 48) | sync_addr,
+>> -
+>> +		JOB_INSTR_ALWAYS((1ull << 56) | (params->addr_reg << 48) | params->sync_addr),
+>>  		/* MOV48 rX+2, #1 */
+>> -		(1ull << 56) | (val_reg << 48) | 1,
+>> -
+>> +		JOB_INSTR_ALWAYS((1ull << 56) | (params->val_reg << 48) | 1),
+>>  		/* WAIT(all) */
+>> -		(3ull << 56) | (waitall_mask << 16),
+>> -
+>> +		JOB_INSTR_ALWAYS((3ull << 56) | (params->waitall_mask << 16)),
+>>  		/* SYNC_ADD64.system_scope.propage_err.nowait rX:rX+1, rX+2*/
+>> -		(51ull << 56) | (0ull << 48) | (addr_reg << 40) | (val_reg << 32) | (0 << 16) | 1,
+>> +		JOB_INSTR_ALWAYS((51ull << 56) | (0ull << 48) | (params->addr_reg << 40) |
+>> +				 (params->val_reg << 32) | (0 << 16) | 1),
+>> +		/* ERROR_BARRIER, so we can recover from faults at job boundaries. */
+>> +		JOB_INSTR_ALWAYS((47ull << 56)),
+>> +	};
+>> +	u32 pad;
+>>  
+>> -		/* ERROR_BARRIER, so we can recover from faults at job
+>> -		 * boundaries.
+>> -		 */
+>> -		(47ull << 56),
+>> +	/* NEED to be cacheline aligned to please the prefetcher. */
+>> +	static_assert(sizeof(instrs->buffer) % 64 == 0,
+>> +		      "panthor_job_ringbuf_instrs::buffer is not aligned on a cacheline");
+>> +
+>> +	/* Make sure we have enough storage to store the whole sequence. */
+>> +	static_assert(ALIGN(ARRAY_SIZE(instr_seq), NUM_INSTRS_PER_CACHE_LINE) ==
+>> +		      ARRAY_SIZE(instrs->buffer),
+>> +		      "instr_seq vs panthor_job_ringbuf_instrs::buffer size mismatch");
+>> +
+>> +	for (u32 i = 0; i < ARRAY_SIZE(instr_seq); i++) {
+>> +		/* If the profile mask of this instruction is not enabled, skip it. */
+>> +		if (instr_seq[i].profile_mask &&
+>> +		    !(instr_seq[i].profile_mask & params->profile_mask))
+>> +			continue;
+>> +
+>> +		instrs->buffer[instrs->count++] = instr_seq[i].instr;
+>> +	}
+>> +
+>> +	pad = ALIGN(instrs->count, NUM_INSTRS_PER_CACHE_LINE);
+>> +	memset(&instrs->buffer[instrs->count], 0,
+>> +	       (pad - instrs->count) * sizeof(instrs->buffer[0]));
+>> +	instrs->count = pad;
+>> +}
+>> +
+>> +static u32 calc_job_credits(u32 profile_mask)
+>> +{
+>> +	struct panthor_job_ringbuf_instrs instrs = {
+>> +		.count = 0,
+>> +	};
+>> +	struct panthor_job_cs_params params = {
+>> +		.profile_mask = profile_mask,
+>>  	};
+>>  
+>> -	/* Need to be cacheline aligned to please the prefetcher. */
+>> -	static_assert(sizeof(call_instrs) % 64 == 0,
+>> -		      "call_instrs is not aligned on a cacheline");
+>> +	prepare_job_instrs(&params, &instrs);
+>> +	return instrs.count;
+>> +}
+>> +
+>> +static struct dma_fence *
+>> +queue_run_job(struct drm_sched_job *sched_job)
+>> +{
+>> +	struct panthor_job *job = container_of(sched_job, struct panthor_job, base);
+>> +	struct panthor_group *group = job->group;
+>> +	struct panthor_queue *queue = group->queues[job->queue_idx];
+>> +	struct panthor_device *ptdev = group->ptdev;
+>> +	struct panthor_scheduler *sched = ptdev->scheduler;
+>> +	struct panthor_job_ringbuf_instrs instrs;
 >
->Thanks for the detailed explanation. I think what I was missing is that
->the loop is checking each bit flag independently and *not* checking
->calc_job_credits(0).
+>instrs isn't initialised...
 >
->The check for (BIT(i) & PANTHOR_DEVICE_PROFILING_ALL) is probably what
->confused me - that should be completely redundant. Or at least we need
->something more intelligent if we have profiling bits which are not
->mutually compatible.
+>> +	struct panthor_job_cs_params cs_params;
+>> +	struct dma_fence *done_fence;
+>> +	int ret;
+>>  
+>>  	/* Stream size is zero, nothing to do except making sure all previously
+>>  	 * submitted jobs are done before we signal the
+>> @@ -2900,17 +3062,23 @@ queue_run_job(struct drm_sched_job *sched_job)
+>>  		       queue->fence_ctx.id,
+>>  		       atomic64_inc_return(&queue->fence_ctx.seqno));
+>>  
+>> -	memcpy(queue->ringbuf->kmap + ringbuf_insert,
+>> -	       call_instrs, sizeof(call_instrs));
+>> +	job->profiling.slot = queue->profiling.seqno++;
+>> +	if (queue->profiling.seqno == queue->profiling.slot_count)
+>> +		queue->profiling.seqno = 0;
+>> +
+>> +	job->ringbuf.start = queue->iface.input->insert;
+>> +
+>> +	get_job_cs_params(job, &cs_params);
+>> +	prepare_job_instrs(&cs_params, &instrs);
+>
+>...but it's passed into prepare_job_instrs() which depends on
+>instrs.count (same bug as was in calc_job_credits()) - sorry I didn't
+>spot it last review.
+>
+>Initializing instrs makes everything work for me.
+>
+>I'm not sure quite what kernel configuration you are using but I wonder
+>if you've got a 'hardening' option enabled which is causing the stack to
+>be zero-initialised. It's worth turning it off for testing purposes ;)
 
-I thought of an alternative that would only test bits that are actually part of
-the mask:
+Thanks for catching this, it went completely unnoticed to me. Delving into my kernel
+config, I found this option: CONFIG_INIT_STACK_ALL_ZERO. When I unset it, it triggers
+an invalid memory reference in the kernel, I guess because of uninitialised stack
+variables.
 
-static u32 calc_profiling_ringbuf_num_slots(struct panthor_device *ptdev,
-				       u32 cs_ringbuf_size)
-{
-	u32 min_profiled_job_instrs = U32_MAX;
-	u32 profiling_mask = PANTHOR_DEVICE_PROFILING_ALL;
+I don't know why I had this option enabled, but come to think of it seems like a
+terrible idea. Thanks for bringing this up.
 
-	while (profiling_mask) {
-		u32 i = ffs(profiling_mask) - 1;
-		profiling_mask &= ~BIT(i);
-		min_profiled_job_instrs =
-			min(min_profiled_job_instrs, calc_job_credits(BIT(i)));
-	}
-
-	return DIV_ROUND_UP(cs_ringbuf_size, min_profiled_job_instrs * sizeof(u64));
-}
-
-However, I don't think this would be more efficient, because ffs() is probably
-fetching the first set bit by performing register shifts, and I guess this would
-take somewhat longer than iterating over every single bit from the last one,
-even if also matching them against the whole mask, just in case in future
-additions of performance metrics we decide to leave some of the lower
-significance bits untouched.
-
-Regarding your question about mutual compatibility, I don't think that is an
-issue here, because we're testing bits in isolation. If in the future we find
-out that some of the values we're profiling cannot be sampled at once, we can
-add that logic to the sysfs knob handler, to make sure UM cannot set forbidden
-profiling masks.
-
->I'm also not entirely sure that the amount of RAM saved is significant,
->but you've already written the code so we might as well have the saving ;)
-
-I think this was more evident before Boris suggested we reduce the basic slot
-size to that of a single cache line, because then the minimum profiled job
-might've taken twice as many ringbuffer slots as a nonprofiled one. In that
-case, we would need a half as big BO for holding the sampled data (in case the
-least size profiled job CS would extend over the 16 instruction boundary).
-I still think this is a good idea so that in the future we don't need to worry
-about adjusting the code that deals with preparing the right boilerplate CS,
-since it'll only be a matter of adding new instructions inside prepare_job_instrs().
-
->Thanks,
 >Steve
 >
->> Regards,
->> Adrian
->> 
->>>> +
->>>>  static struct panthor_queue *
->>>>  group_create_queue(struct panthor_group *group,
->>>>  		   const struct drm_panthor_queue_create *args)
->>>> @@ -3056,9 +3271,35 @@ group_create_queue(struct panthor_group *group,
->>>>  		goto err_free_queue;
->>>>  	}
->>>>  
->>>> +	queue->profiling.slot_count =
->>>> +		calc_profiling_ringbuf_num_slots(group->ptdev, args->ringbuf_size);
->>>> +
->>>> +	queue->profiling.slots =
->>>> +		panthor_kernel_bo_create(group->ptdev, group->vm,
->>>> +					 queue->profiling.slot_count *
->>>> +					 sizeof(struct panthor_job_profiling_data),
->>>> +					 DRM_PANTHOR_BO_NO_MMAP,
->>>> +					 DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC |
->>>> +					 DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED,
->>>> +					 PANTHOR_VM_KERNEL_AUTO_VA);
->>>> +
->>>> +	if (IS_ERR(queue->profiling.slots)) {
->>>> +		ret = PTR_ERR(queue->profiling.slots);
->>>> +		goto err_free_queue;
->>>> +	}
->>>> +
->>>> +	ret = panthor_kernel_bo_vmap(queue->profiling.slots);
->>>> +	if (ret)
->>>> +		goto err_free_queue;
->>>> +
->>>> +	/*
->>>> +	 * Credit limit argument tells us the total number of instructions
->>>> +	 * across all CS slots in the ringbuffer, with some jobs requiring
->>>> +	 * twice as many as others, depending on their profiling status.
->>>> +	 */
->>>>  	ret = drm_sched_init(&queue->scheduler, &panthor_queue_sched_ops,
->>>>  			     group->ptdev->scheduler->wq, 1,
->>>> -			     args->ringbuf_size / (NUM_INSTRS_PER_SLOT * sizeof(u64)),
->>>> +			     args->ringbuf_size / sizeof(u64),
->>>>  			     0, msecs_to_jiffies(JOB_TIMEOUT_MS),
->>>>  			     group->ptdev->reset.wq,
->>>>  			     NULL, "panthor-queue", group->ptdev->base.dev);
->>>> @@ -3354,6 +3595,7 @@ panthor_job_create(struct panthor_file *pfile,
->>>>  {
->>>>  	struct panthor_group_pool *gpool = pfile->groups;
->>>>  	struct panthor_job *job;
->>>> +	u32 credits;
->>>>  	int ret;
->>>>  
->>>>  	if (qsubmit->pad)
->>>> @@ -3407,9 +3649,16 @@ panthor_job_create(struct panthor_file *pfile,
->>>>  		}
->>>>  	}
->>>>  
->>>> +	job->profiling.mask = pfile->ptdev->profile_mask;
->>>> +	credits = calc_job_credits(job->profiling.mask);
->>>> +	if (credits == 0) {
->>>> +		ret = -EINVAL;
->>>> +		goto err_put_job;
->>>> +	}
->>>> +
->>>>  	ret = drm_sched_job_init(&job->base,
->>>>  				 &job->group->queues[job->queue_idx]->entity,
->>>> -				 1, job->group);
->>>> +				 credits, job->group);
->>>>  	if (ret)
->>>>  		goto err_put_job;
->>>>  
->> 
+>> +	copy_instrs_to_ringbuf(queue, job, &instrs);
+>> +
+>> +	job->ringbuf.end = job->ringbuf.start + (instrs.count * sizeof(u64));
+>>  
+>>  	panthor_job_get(&job->base);
+>>  	spin_lock(&queue->fence_ctx.lock);
+>>  	list_add_tail(&job->node, &queue->fence_ctx.in_flight_jobs);
+>>  	spin_unlock(&queue->fence_ctx.lock);
+>>  
+>> -	job->ringbuf.start = queue->iface.input->insert;
+>> -	job->ringbuf.end = job->ringbuf.start + sizeof(call_instrs);
+>> -
+>>  	/* Make sure the ring buffer is updated before the INSERT
+>>  	 * register.
+>>  	 */
+>> @@ -3003,6 +3171,34 @@ static const struct drm_sched_backend_ops panthor_queue_sched_ops = {
+>>  	.free_job = queue_free_job,
+>>  };
+>>  
+>> +static u32 calc_profiling_ringbuf_num_slots(struct panthor_device *ptdev,
+>> +				       u32 cs_ringbuf_size)
+>> +{
+>> +	u32 min_profiled_job_instrs = U32_MAX;
+>> +	u32 last_flag = fls(PANTHOR_DEVICE_PROFILING_ALL);
+>> +
+>> +	/*
+>> +	 * We want to calculate the minimum size of a profiled job's CS,
+>> +	 * because since they need additional instructions for the sampling
+>> +	 * of performance metrics, they might take up further slots in
+>> +	 * the queue's ringbuffer. This means we might not need as many job
+>> +	 * slots for keeping track of their profiling information. What we
+>> +	 * need is the maximum number of slots we should allocate to this end,
+>> +	 * which matches the maximum number of profiled jobs we can place
+>> +	 * simultaneously in the queue's ring buffer.
+>> +	 * That has to be calculated separately for every single job profiling
+>> +	 * flag, but not in the case job profiling is disabled, since unprofiled
+>> +	 * jobs don't need to keep track of this at all.
+>> +	 */
+>> +	for (u32 i = 0; i < last_flag; i++) {
+>> +		if (BIT(i) & PANTHOR_DEVICE_PROFILING_ALL)
+>> +			min_profiled_job_instrs =
+>> +				min(min_profiled_job_instrs, calc_job_credits(BIT(i)));
+>> +	}
+>> +
+>> +	return DIV_ROUND_UP(cs_ringbuf_size, min_profiled_job_instrs * sizeof(u64));
+>> +}
+>> +
+>>  static struct panthor_queue *
+>>  group_create_queue(struct panthor_group *group,
+>>  		   const struct drm_panthor_queue_create *args)
+>> @@ -3056,9 +3252,35 @@ group_create_queue(struct panthor_group *group,
+>>  		goto err_free_queue;
+>>  	}
+>>  
+>> +	queue->profiling.slot_count =
+>> +		calc_profiling_ringbuf_num_slots(group->ptdev, args->ringbuf_size);
+>> +
+>> +	queue->profiling.slots =
+>> +		panthor_kernel_bo_create(group->ptdev, group->vm,
+>> +					 queue->profiling.slot_count *
+>> +					 sizeof(struct panthor_job_profiling_data),
+>> +					 DRM_PANTHOR_BO_NO_MMAP,
+>> +					 DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC |
+>> +					 DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED,
+>> +					 PANTHOR_VM_KERNEL_AUTO_VA);
+>> +
+>> +	if (IS_ERR(queue->profiling.slots)) {
+>> +		ret = PTR_ERR(queue->profiling.slots);
+>> +		goto err_free_queue;
+>> +	}
+>> +
+>> +	ret = panthor_kernel_bo_vmap(queue->profiling.slots);
+>> +	if (ret)
+>> +		goto err_free_queue;
+>> +
+>> +	/*
+>> +	 * Credit limit argument tells us the total number of instructions
+>> +	 * across all CS slots in the ringbuffer, with some jobs requiring
+>> +	 * twice as many as others, depending on their profiling status.
+>> +	 */
+>>  	ret = drm_sched_init(&queue->scheduler, &panthor_queue_sched_ops,
+>>  			     group->ptdev->scheduler->wq, 1,
+>> -			     args->ringbuf_size / (NUM_INSTRS_PER_SLOT * sizeof(u64)),
+>> +			     args->ringbuf_size / sizeof(u64),
+>>  			     0, msecs_to_jiffies(JOB_TIMEOUT_MS),
+>>  			     group->ptdev->reset.wq,
+>>  			     NULL, "panthor-queue", group->ptdev->base.dev);
+>> @@ -3354,6 +3576,7 @@ panthor_job_create(struct panthor_file *pfile,
+>>  {
+>>  	struct panthor_group_pool *gpool = pfile->groups;
+>>  	struct panthor_job *job;
+>> +	u32 credits;
+>>  	int ret;
+>>  
+>>  	if (qsubmit->pad)
+>> @@ -3407,9 +3630,16 @@ panthor_job_create(struct panthor_file *pfile,
+>>  		}
+>>  	}
+>>  
+>> +	job->profiling.mask = pfile->ptdev->profile_mask;
+>> +	credits = calc_job_credits(job->profiling.mask);
+>> +	if (credits == 0) {
+>> +		ret = -EINVAL;
+>> +		goto err_put_job;
+>> +	}
+>> +
+>>  	ret = drm_sched_job_init(&job->base,
+>>  				 &job->group->queues[job->queue_idx]->entity,
+>> -				 1, job->group);
+>> +				 credits, job->group);
+>>  	if (ret)
+>>  		goto err_put_job;
+>>  
 
-
-Adrian Larumbe
