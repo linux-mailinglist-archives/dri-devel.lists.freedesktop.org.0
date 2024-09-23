@@ -2,71 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5168397ED84
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2024 16:58:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97F0197EDFD
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2024 17:20:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1141710E410;
-	Mon, 23 Sep 2024 14:58:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 902B110E271;
+	Mon, 23 Sep 2024 15:20:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="A/DTcrE5";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="FymLBSFI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A269910E40A;
- Mon, 23 Sep 2024 14:58:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1727103484; x=1758639484;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=PU0vFzC82hKhIAq04uKdZpq6JNhw6xC+xtJcktgE9U4=;
- b=A/DTcrE5rp9WdToAgzVj+nVTWoClh5o6YXLzgQQLDfsPw6Mpu2a+2IOe
- Z1Riqvi/WnrFtDnkjkuTm5ufhERn2FbMAkEhpX3K5+M7woXkbQa4XoY9n
- 28cA9aJXcIZb5QX4DKWdFCb79JIhjMqUQJj5SezDLffIadGQ7N7D3WdL3
- SL12R9ocBGR23xkm0Gqcy7ufnqNNs87VCXtVV5h9EsOvt+HEpjMiJYPfa
- LutQ3I31IggfLXYBoP7aYNZEDsoo1q+DvJ2KHOmgXITAuUSm1duQ27GB1
- znwzGj2KQVrfxNgqNsLjjpFjatJW66iCF+32eQXy1h1X8tBbUTNEQhyYK A==;
-X-CSE-ConnectionGUID: x7AuDxUPQAyXcss+uBD8Dw==
-X-CSE-MsgGUID: vQaz529jTK+QGN4BmFkfgg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="29778489"
-X-IronPort-AV: E=Sophos;i="6.10,251,1719903600"; d="scan'208";a="29778489"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Sep 2024 07:58:04 -0700
-X-CSE-ConnectionGUID: Qo2gkV0/TxWGy2XaQmg/ew==
-X-CSE-MsgGUID: QpuZ9iq8TQaBdstW40/SAw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,251,1719903600"; d="scan'208";a="75205133"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Sep 2024 07:58:00 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1sskVh-0000000C2nl-0lfs; Mon, 23 Sep 2024 17:57:57 +0300
-Date: Mon, 23 Sep 2024 17:57:56 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Raag Jadav <raag.jadav@intel.com>
-Cc: airlied@gmail.com, simona@ffwll.ch, lucas.demarchi@intel.com,
- thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
- jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- tursulin@ursulin.net, lina@asahilina.net,
- intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com,
- francois.dugast@intel.com, aravind.iddamsetty@linux.intel.com,
- anshuman.gupta@intel.com, andi.shyti@linux.intel.com,
- matthew.d.roper@intel.com
-Subject: Re: [PATCH v6 1/4] drm: Introduce device wedged event
-Message-ID: <ZvGB9P_JdXcnTfW2@smile.fi.intel.com>
-References: <20240923035826.624196-1-raag.jadav@intel.com>
- <20240923035826.624196-2-raag.jadav@intel.com>
- <ZvEpH_po4bYmEISh@smile.fi.intel.com>
- <ZvF8q7xkbEegPzc9@black.fi.intel.com>
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
+ [209.85.218.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43CD310E271
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2024 15:20:35 +0000 (UTC)
+Received: by mail-ej1-f45.google.com with SMTP id
+ a640c23a62f3a-a8d13b83511so548463966b.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2024 08:20:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1727104833; x=1727709633; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=VAoybQCw+SSRlMGkzjtBvNGKOwn68kaOmQ5Cr4iAn7E=;
+ b=FymLBSFIiuu/0eIwtnj0GbONwm8ceKqolelpA5udGD8a9v8/Gl+afN8UWFuYq+wf2a
+ uTwe24kKJTzsXr6bV5aRRtFSmvpPxZlewyyQ4yo/ffLOAcoPWVuMZ3b3lv1GPPiWB10/
+ fMC/Y65xxFD+uCTQULs42wLWOh3LYuNUIftO3moeJBPoF6oPeGMeoV09n0JmIHqp5MMP
+ w7CuGmgOOjOkGU218F0GSCnQfw8U1T91HlWsemRBtVIqWfMppg4P1C0eXSTebuZP1g+B
+ VfOVPzingt4MwMMqUEu7Js+t7U1ob96OF6Oy/25O2VuP/CvOdP5nBPBlTFGflkT+YeqE
+ q/Cg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1727104833; x=1727709633;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=VAoybQCw+SSRlMGkzjtBvNGKOwn68kaOmQ5Cr4iAn7E=;
+ b=dKc45SPoGoX0Ru7WJWK7F5f0varw4rxq7M4CnBtLEqVoXu6K12yO6pQ+E+xESXdEfQ
+ BcxnW8JS6ouyW1ckDpFDkDCGc2F9iT9LExDNWy+UzGDa9Y9/aWJBzyNtGOytgrOr6Zly
+ naQwNiiAGNCTRQsuYmCBZqq6b0tN/JybygtYb8g5IOO5qtBv9GwD+rbdlXbyAbiAxjCg
+ qRNsv8EeM22/qjs7WgwlfYs3/ihafob+sYic7wwBUBRI6x/opMDqQpjiPRLJW+xKWlqX
+ YJM3FcptH0a+tKhE2Dbw+S3qzRHovBewsdJy3pxOHFtzFFW8DKW+90g5sc2jFD8gLyvv
+ ZMFQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUmc/8gmdpNIcqKmU/Bdfu6U6QkFCCYTvOkJR4RhjItKcFEHD208ljKGd7oxC1L/QQudReQvR3N+JM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzis6VHSEjCM3f5Zvin9QhZFLMUTCQ0BS1ByZY+/sbh1u5RhtKr
+ w4NvAtneTRF1whj2bZHySpJJHzl36MgRJuE+DAHhQT5i6zfQ1Rmu
+X-Google-Smtp-Source: AGHT+IEKHyP7+CWpuJe3pV9TPfqpvuYPi0TJx5uONwNak/pvlUj2NWuHdDJxFuhb1UuOhDoqj9ImYQ==
+X-Received: by 2002:a17:907:2ce6:b0:a7a:9ca6:527 with SMTP id
+ a640c23a62f3a-a90d5671b3cmr1377721866b.8.1727104833258; 
+ Mon, 23 Sep 2024 08:20:33 -0700 (PDT)
+Received: from localhost.localdomain (62-178-82-42.cable.dynamic.surfer.at.
+ [62.178.82.42]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a90610f151esm1242929866b.48.2024.09.23.08.20.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 23 Sep 2024 08:20:32 -0700 (PDT)
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+To: Melissa Wen <mwen@igalia.com>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: Christian Gmeiner <cgmeiner@igalia.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/v3d: Use v3d_perfmon_find(..)
+Date: Mon, 23 Sep 2024 17:19:59 +0200
+Message-ID: <20240923152000.185980-1-christian.gmeiner@gmail.com>
+X-Mailer: git-send-email 2.46.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZvF8q7xkbEegPzc9@black.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,25 +85,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 23, 2024 at 05:35:23PM +0300, Raag Jadav wrote:
-> On Mon, Sep 23, 2024 at 11:38:55AM +0300, Andy Shevchenko wrote:
-> > On Mon, Sep 23, 2024 at 09:28:23AM +0530, Raag Jadav wrote:
+From: Christian Gmeiner <cgmeiner@igalia.com>
 
-...
+Replace the open coded v3d_perfmon_find(..) with the real
+thing.
 
-> > > +extern const char *const wedge_recovery_opts[];
-> > 
-> > It's not NULL terminated. How users will know that they have an index valid?
-> 
-> It's expected to be accessed using recovery_*() helpers.
+Signed-off-by: Christian Gmeiner <cgmeiner@igalia.com>
+---
+ drivers/gpu/drm/v3d/v3d_perfmon.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-If so, this has to be static then.
-
-> > Either you NULL-terminate that, or export the size as well (personally I would
-> > go with the first approach).
-
+diff --git a/drivers/gpu/drm/v3d/v3d_perfmon.c b/drivers/gpu/drm/v3d/v3d_perfmon.c
+index cd7f1eedf17f..54a486a9b74c 100644
+--- a/drivers/gpu/drm/v3d/v3d_perfmon.c
++++ b/drivers/gpu/drm/v3d/v3d_perfmon.c
+@@ -402,11 +402,7 @@ int v3d_perfmon_get_values_ioctl(struct drm_device *dev, void *data,
+ 	if (req->pad != 0)
+ 		return -EINVAL;
+ 
+-	mutex_lock(&v3d_priv->perfmon.lock);
+-	perfmon = idr_find(&v3d_priv->perfmon.idr, req->id);
+-	v3d_perfmon_get(perfmon);
+-	mutex_unlock(&v3d_priv->perfmon.lock);
+-
++	perfmon = v3d_perfmon_find(v3d_priv, req->id);
+ 	if (!perfmon)
+ 		return -EINVAL;
+ 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.46.1
 
