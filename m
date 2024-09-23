@@ -2,52 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79F4D97E95C
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2024 12:06:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DF4997E971
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2024 12:07:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCE9A10E3CA;
-	Mon, 23 Sep 2024 10:06:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42B1910E3CC;
+	Mon, 23 Sep 2024 10:07:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="cdMSdOqD";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="nV/+Zwri";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5302610E3CA;
- Mon, 23 Sep 2024 10:06:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Cc:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=O5/5DrhLxwvmvKmOMPdDPa0215jKu6v2IEO6LOqiQts=; b=cdMSdOqD/SYZ4JWO18T+DtdZOQ
- zLk6dDor483QRedN5m3rAuqLmrcesfDyb/oPD3N8QZVl9ausbk2JPXwi4K0AuGoKECsgZgbh8S4sE
- 0z1BfvwVlfsXqrrQZhEaFtsWgthmo+LwK9KjA5ba4fXZvjJSUYe5IvlfUmtj2+erKMGqbaeTQDpwb
- YuT1OVplJWbYrCKbEDmtn5l9qBbttxijR+4uldLgcUVWev2FR1YbIlg/lAXv9myLg77dTMcN2xCUb
- yB3ZS2EsgtDLPiUSiVIRAJMdEu4bmfJk+6zicHT8bZG3p23zf4d+6zK3pksrWmt80HVMBmb5mzDwF
- U1a2wm8g==;
-Received: from [90.241.98.187] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1ssfxY-00HTRv-JS; Mon, 23 Sep 2024 12:06:24 +0200
-Message-ID: <7e33063e-7b5c-464a-a572-9a7817a9b9b3@igalia.com>
-Date: Mon, 23 Sep 2024 11:06:23 +0100
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
+ [209.85.167.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A50210E3CC
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2024 10:07:38 +0000 (UTC)
+Received: by mail-lf1-f43.google.com with SMTP id
+ 2adb3069b0e04-53567b4c3f4so4337624e87.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2024 03:07:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1727086057; x=1727690857; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=K7dtQZJAov3/a7TX9eVZXV4fMdnBS4uFPMH+c/TD/5g=;
+ b=nV/+ZwrigItRNnptcexR1ZAlykSiqU4PvbfQ/LPAlD37G9F4Lth8Whp9BLNDbnWttC
+ ErAw8wa+QrEnWGpJds1ennO5tphZ/o2HWlmRbMBC45s7SwH1KU2KqskEdW6YPihjTI76
+ aF8RRyE0uu6wfG5Mrb5K7UKUXwz1MFacINXkLzEVb1aL9uzFBg+C6GO5mgZjaiZQotAj
+ 4z3rjIlNY8JFmM+FLtLQj511Qj99jEuWjn7r+aD6wgFRF5tS9gmp/g7E5zeu20SfZCHc
+ sGOadY4Zm9NFdvox/5D3ewPNNs4zrPmu41MFDqK7dnXAo+x6WnRsUpDJYn+qef/eEOX7
+ wyDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1727086057; x=1727690857;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=K7dtQZJAov3/a7TX9eVZXV4fMdnBS4uFPMH+c/TD/5g=;
+ b=OZKwUAYkWZtlRWHqCUqaZFEHdngNw6I5f/5k8Rw9JErbYoVs+m0oMhs1VcPG6fVDDV
+ SaaAwdQny7bSJgB/Wf4KLivbKXu43IAP8U3f2Td0Dn6mxMZttUmk55QRKoP/LwB7Bpvg
+ GglfL/GtJkwbW+AVRo1jQQUTGG+ttk1Yf1EgvucqKgbhc7kFz4nWZlbWG9PjUhECItkq
+ qjb11alFTAfHWKRewi9x5Tdqac702tCFPqvLezOThlAeGnOSFNgmir3RtufV7i0aLeCY
+ IdkWW1cYnOr1yvAkUuGoWQoObcDCvJFsY4rEweHl5lz/9LCaF0K59GaRRLWp0SB6NA7M
+ xJzQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVmVFBeZwLCosb6sgyJLBQavWouUrBd7BPXnZu/iwSwuF8hqAHq+ZtbwwxIkfx8qnyC8NdFP/urO0M=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwNrl4k96yoV+EZ3mMj2WN7Y+tTO4Cs7xTJEaKGoZr7XZn7fS6f
+ p8Jfq64mbCB2l7gSbDZWLxkEU18eBYCcIHCCNdYn0INQ7Alnf7rhz93IPHzco04=
+X-Google-Smtp-Source: AGHT+IF59Nkw7itqeJpwOtNBEGRLjgAMfimJSIEXby1vuyjxkdHTTnZhlSiDpS5TrVBpejoMzMT7Ew==
+X-Received: by 2002:a05:6512:230b:b0:536:55a3:70ad with SMTP id
+ 2adb3069b0e04-536ac2e5c5dmr5190414e87.22.1727086056657; 
+ Mon, 23 Sep 2024 03:07:36 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-53687046847sm3262687e87.11.2024.09.23.03.07.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 23 Sep 2024 03:07:36 -0700 (PDT)
+Date: Mon, 23 Sep 2024 13:07:34 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Hermes Wu <Hermes.Wu@ite.com.tw>
+Cc: Pin-yen Lin <treapking@chromium.org>, 
+ Kenneth Hung <Kenneth.hung@ite.com.tw>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3 1/3] drm/bridge: it6505: fix AUX read use aux fifo
+Message-ID: <wub2lb7eeswh4ztvyyofb7sajcqv6fkgzjuv7fmo22ykv5jj54@locn6d4mldjs>
+References: <20240923094826.13471-1-Hermes.Wu@ite.com.tw>
+ <20240923094826.13471-2-Hermes.Wu@ite.com.tw>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/6] drm: add DRM_SET_NAME ioctl
-To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
- tursulin@igalia.com, simona.vetter@ffwll.ch, robdclark@gmail.com,
- alexander.deucher@amd.com, amd-gfx@lists.freedesktop.org
-References: <20240920090920.1342694-1-pierre-eric.pelloux-prayer@amd.com>
- <20240920090920.1342694-2-pierre-eric.pelloux-prayer@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <20240920090920.1342694-2-pierre-eric.pelloux-prayer@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240923094826.13471-2-Hermes.Wu@ite.com.tw>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,247 +93,141 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Sep 23, 2024 at 05:48:26PM GMT, Hermes Wu wrote:
+> From: Hermes Wu <Hermes.wu@ite.com.tw>
+> 
+> Changes in v3:
+>  -New in v3
+> 
+> 
+> it6505 AUX FIFO mode only 16 byte.
+> AUX FIFO mode only supports EDID read and DPCD KSV FIFO area.
 
-On 20/09/2024 10:06, Pierre-Eric Pelloux-Prayer wrote:
-> Giving the opportunity to userspace to associate a free-form
-> name with a drm_file struct is helpful for tracking and debugging.
+ENOTREADABLE. It should be a text, not a set of phrases.
+Also changelog comes afterwards.
+
 > 
-> This is similar to the existing DMA_BUF_SET_NAME ioctl.
-> 
-> Access to name is protected by a mutex, and the 'clients' debugfs
-> file has been updated to print it.
-> 
-> Userspace MR to use this ioctl:
->     https://gitlab.freedesktop.org/virgl/virglrenderer/-/merge_requests/1428
-> 
-> The string passed by userspace is filtered a bit, to avoid messing
-> output when it's going to be printed (in dmesg, fdinfo, etc):
->    * all chars failing isgraph() are replaced by '-'
->    * if a 0-length string is passed the name is cleared
-> 
-> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+> Signed-off-by: Hermes Wu <Hermes.wu@ite.com.tw>
 > ---
->   drivers/gpu/drm/drm_debugfs.c | 12 ++++++---
->   drivers/gpu/drm/drm_file.c    |  5 ++++
->   drivers/gpu/drm/drm_ioctl.c   | 48 +++++++++++++++++++++++++++++++++++
->   include/drm/drm_file.h        |  9 +++++++
->   include/uapi/drm/drm.h        | 17 +++++++++++++
->   5 files changed, 87 insertions(+), 4 deletions(-)
+>  drivers/gpu/drm/bridge/ite-it6505.c | 25 +++++++++++++++++--------
+>  1 file changed, 17 insertions(+), 8 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
-> index 6b239a24f1df..482e71160544 100644
-> --- a/drivers/gpu/drm/drm_debugfs.c
-> +++ b/drivers/gpu/drm/drm_debugfs.c
-> @@ -78,12 +78,13 @@ static int drm_clients_info(struct seq_file *m, void *data)
->   	kuid_t uid;
->   
->   	seq_printf(m,
-> -		   "%20s %5s %3s master a %5s %10s\n",
-> +		   "%20s %5s %3s master a %5s %10s %20s\n",
+> diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
+> index 87b8545fccc0..d8b40ad890bf 100644
+> --- a/drivers/gpu/drm/bridge/ite-it6505.c
+> +++ b/drivers/gpu/drm/bridge/ite-it6505.c
+> @@ -300,7 +300,7 @@
+>  #define MAX_CR_LEVEL 0x03
+>  #define MAX_EQ_LEVEL 0x03
+>  #define AUX_WAIT_TIMEOUT_MS 15
+> -#define AUX_FIFO_MAX_SIZE 32
+> +#define AUX_FIFO_MAX_SIZE 16
+>  #define PIXEL_CLK_DELAY 1
+>  #define PIXEL_CLK_INVERSE 0
+>  #define ADJUST_PHASE_THRESHOLD 80000
+> @@ -324,8 +324,13 @@ enum aux_cmd_type {
+>  	CMD_AUX_NATIVE_READ = 0x0,
+>  	CMD_AUX_NATIVE_WRITE = 0x5,
+>  	CMD_AUX_I2C_EDID_READ = 0xB,
+> +
+> +	/* KSV list read using AUX native read with FIFO */
+> +	CMD_AUX_GET_KSV_LIST = 0x10,
 
-Allow full DRM_NAME_MAX_LEN? Not sure, feels not very consequential 
-either way.
+Don't mix two changes in a single patch. There should be one patch
+fixing FIFO_MAX_SIDE (and then it should have Fixes tag) and another
+patch adding CMD_AUX_GET_KSV_LIST. I keep on pointing to
+Documenation/process/submitting-patches.rst, which you didn't seem to
+have read. Please do it first. Ask any questions if you don't understand
+something.
 
->   		   "command",
->   		   "tgid",
->   		   "dev",
->   		   "uid",
-> -		   "magic");
-> +		   "magic",
-> +		   "name");
->   
->   	/* dev->filelist is sorted youngest first, but we want to present
->   	 * oldest first (i.e. kernel, servers, clients), so walk backwardss.
-> @@ -94,19 +95,22 @@ static int drm_clients_info(struct seq_file *m, void *data)
->   		struct task_struct *task;
->   		struct pid *pid;
->   
-> +		mutex_lock(&priv->name_lock);
->   		rcu_read_lock(); /* Locks priv->pid and pid_task()->comm! */
->   		pid = rcu_dereference(priv->pid);
->   		task = pid_task(pid, PIDTYPE_TGID);
->   		uid = task ? __task_cred(task)->euid : GLOBAL_ROOT_UID;
-> -		seq_printf(m, "%20s %5d %3d   %c    %c %5d %10u\n",
-> +		seq_printf(m, "%20s %5d %3d   %c    %c %5d %10u %20s\n",
->   			   task ? task->comm : "<unknown>",
->   			   pid_vnr(pid),
->   			   priv->minor->index,
->   			   is_current_master ? 'y' : 'n',
->   			   priv->authenticated ? 'y' : 'n',
->   			   from_kuid_munged(seq_user_ns(m), uid),
-> -			   priv->magic);
-> +			   priv->magic,
-> +			   priv->name ?: "");
->   		rcu_read_unlock();
-> +		mutex_unlock(&priv->name_lock);
->   	}
->   	mutex_unlock(&dev->filelist_mutex);
->   	return 0;
-> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-> index 01fde94fe2a9..e9dd0e90a1f9 100644
-> --- a/drivers/gpu/drm/drm_file.c
-> +++ b/drivers/gpu/drm/drm_file.c
-> @@ -158,6 +158,7 @@ struct drm_file *drm_file_alloc(struct drm_minor *minor)
->   
->   	spin_lock_init(&file->master_lookup_lock);
->   	mutex_init(&file->event_read_lock);
-> +	mutex_init(&file->name_lock);
->   
->   	if (drm_core_check_feature(dev, DRIVER_GEM))
->   		drm_gem_open(dev, file);
-> @@ -259,6 +260,10 @@ void drm_file_free(struct drm_file *file)
->   	WARN_ON(!list_empty(&file->event_list));
->   
->   	put_pid(rcu_access_pointer(file->pid));
+>  };
+>  
+> +#define GET_AUX_CONTROL_CODE(cmd) ((cmd) & 0x0F)
 > +
-> +	mutex_destroy(&file->name_lock);
-> +	kfree(file->name);
-> +
->   	kfree(file);
->   }
->   
-> diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-> index 51f39912866f..46dadbd1bb35 100644
-> --- a/drivers/gpu/drm/drm_ioctl.c
-> +++ b/drivers/gpu/drm/drm_ioctl.c
-> @@ -540,6 +540,52 @@ int drm_version(struct drm_device *dev, void *data,
->   	return err;
->   }
->   
-> +static int drm_set_name(struct drm_device *dev, void *data,
-> +			struct drm_file *file_priv)
-> +{
-> +	struct drm_set_name *name = data;
-> +	void __user *user_ptr;
-> +	char *new_name;
-> +	size_t i, len;
-> +
-> +	if (name->name_len > DRM_NAME_MAX_LEN)
-> +		return -EINVAL;
-> +
-> +	user_ptr = u64_to_user_ptr(name->name);
-> +
-> +	new_name = memdup_user_nul(user_ptr, name->name_len);
-> +	if (IS_ERR(new_name))
-> +		return PTR_ERR(new_name);
-> +
-> +	len = strlen(new_name);
-> +
-> +	if (len != name->name_len) {
-> +		kfree(new_name);
-> +		return -EINVAL;
-> +	}
-> +
-> +	/*
-> +	 * Filter out control char / spaces / new lines etc in the name
-> +	 * since it's going to be used in dmesg or fdinfo's output.
-> +	 */
-> +	for (i = 0; i < len; i++) {
-> +		if (!isgraph(new_name[i]))
-> +			new_name[i] = '-';
-> +	}
-> +
-> +	mutex_lock(&file_priv->name_lock);
-> +	kfree(file_priv->name);
-> +	if (len > 0) {
-> +		file_priv->name = new_name;
-> +	} else {
-> +		kfree(new_name);
-> +		file_priv->name = NULL;
-> +	}
-> +	mutex_unlock(&file_priv->name_lock);
-> +
-> +	return 0;
-> +}
-> +
->   static int drm_ioctl_permit(u32 flags, struct drm_file *file_priv)
->   {
->   	/* ROOT_ONLY is only for CAP_SYS_ADMIN */
-> @@ -610,6 +656,8 @@ static const struct drm_ioctl_desc drm_ioctls[] = {
->   	DRM_IOCTL_DEF(DRM_IOCTL_PRIME_HANDLE_TO_FD, drm_prime_handle_to_fd_ioctl, DRM_RENDER_ALLOW),
->   	DRM_IOCTL_DEF(DRM_IOCTL_PRIME_FD_TO_HANDLE, drm_prime_fd_to_handle_ioctl, DRM_RENDER_ALLOW),
->   
-> +	DRM_IOCTL_DEF(DRM_IOCTL_SET_NAME, drm_set_name, DRM_RENDER_ALLOW),
-> +
->   	DRM_IOCTL_DEF(DRM_IOCTL_MODE_GETPLANERESOURCES, drm_mode_getplane_res, 0),
->   	DRM_IOCTL_DEF(DRM_IOCTL_MODE_GETCRTC, drm_mode_getcrtc, 0),
->   	DRM_IOCTL_DEF(DRM_IOCTL_MODE_SETCRTC, drm_mode_setcrtc, DRM_MASTER),
-> diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-> index 8c0030c77308..df26eee8f79c 100644
-> --- a/include/drm/drm_file.h
-> +++ b/include/drm/drm_file.h
-> @@ -388,6 +388,15 @@ struct drm_file {
->   	 * Per-file buffer caches used by the PRIME buffer sharing code.
->   	 */
->   	struct drm_prime_file_private prime;
-> +
-> +	/**
-> +	 * @name:
-> +	 *
-> +	 * Userspace-provided name; useful for accounting and debugging.
-> +	 */
-> +	const char *name;
-> +	/** @name_lock: Protects @name. */
-> +	struct mutex name_lock;
->   };
->   
->   /**
-> diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
-> index 16122819edfe..f5e92e4f909b 100644
-> --- a/include/uapi/drm/drm.h
-> +++ b/include/uapi/drm/drm.h
-> @@ -1024,6 +1024,13 @@ struct drm_crtc_queue_sequence {
->   	__u64 user_data;	/* user data passed to event */
->   };
->   
-> +#define DRM_NAME_MAX_LEN	64
-> +struct drm_set_name {
-> +	__u64 name_len;
-> +	__u64 name;
-> +};
-> +
-> +
->   #if defined(__cplusplus)
->   }
->   #endif
-> @@ -1288,6 +1295,16 @@ extern "C" {
->    */
->   #define DRM_IOCTL_MODE_CLOSEFB		DRM_IOWR(0xD0, struct drm_mode_closefb)
->   
-> +/**
-> + * DRM_IOCTL_SET_NAME - Attach a name to a drm_file
-> + *
-> + * This ioctl is similar to DMA_BUF_SET_NAME - it allows for easier tracking
-> + * and debugging.
-> + * The length of the name must <= DRM_NAME_MAX_LEN. All characters that are
-> + * non-printable or whitespaces will be replaced by -.
-> + */
-> +#define DRM_IOCTL_SET_NAME		DRM_IOWR(0xD1, struct drm_set_name)
-> +
+>  enum aux_cmd_reply {
+>  	REPLY_ACK,
+>  	REPLY_NACK,
+> @@ -965,7 +970,8 @@ static ssize_t it6505_aux_operation(struct it6505 *it6505,
+>  	it6505_set_bits(it6505, REG_AUX_CTRL, AUX_USER_MODE, AUX_USER_MODE);
+>  
+>  aux_op_start:
+> -	if (cmd == CMD_AUX_I2C_EDID_READ) {
+> +	/* HW AUX FIFO supports only EDID and DCPD KSV FIFO aread */
+> +	if (cmd == CMD_AUX_I2C_EDID_READ || cmd == CMD_AUX_GET_KSV_LIST) {
+>  		/* AUX EDID FIFO has max length of AUX_FIFO_MAX_SIZE bytes. */
+>  		size = min_t(size_t, size, AUX_FIFO_MAX_SIZE);
+>  		/* Enable AUX FIFO read back and clear FIFO */
+> @@ -996,7 +1002,7 @@ static ssize_t it6505_aux_operation(struct it6505 *it6505,
+>  				  size);
+>  
+>  	/* Aux Fire */
+> -	it6505_write(it6505, REG_AUX_CMD_REQ, cmd);
+> +	it6505_write(it6505, REG_AUX_CMD_REQ, GET_AUX_CONTROL_CODE(cmd));
 
-A comment, nice! :) Overal looks good to me.
+Looks like a separate fix.
 
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>  
+>  	ret = it6505_aux_wait(it6505);
+>  	if (ret < 0)
+> @@ -1030,7 +1036,7 @@ static ssize_t it6505_aux_operation(struct it6505 *it6505,
+>  		goto aux_op_start;
+>  	}
+>  
+> -	if (cmd == CMD_AUX_I2C_EDID_READ) {
+> +	if (cmd == CMD_AUX_I2C_EDID_READ || cmd == CMD_AUX_GET_KSV_LIST) {
+>  		for (i = 0; i < size; i++) {
+>  			ret = it6505_read(it6505, REG_AUX_DATA_FIFO);
+>  			if (ret < 0)
+> @@ -1055,7 +1061,7 @@ static ssize_t it6505_aux_operation(struct it6505 *it6505,
+>  	ret = i;
+>  
+>  aux_op_err:
+> -	if (cmd == CMD_AUX_I2C_EDID_READ) {
+> +	if (cmd == CMD_AUX_I2C_EDID_READ || cmd == CMD_AUX_GET_KSV_LIST) {
+>  		/* clear AUX FIFO */
+>  		it6505_set_bits(it6505, REG_AUX_CTRL,
+>  				AUX_EN_FIFO_READ | CLR_EDID_FIFO,
+> @@ -1078,8 +1084,11 @@ static ssize_t it6505_aux_do_transfer(struct it6505 *it6505,
+>  	int i, ret_size, ret = 0, request_size;
+>  
+>  	mutex_lock(&it6505->aux_lock);
+> -	for (i = 0; i < size; i += 4) {
+> -		request_size = min((int)size - i, 4);
+> +	for (i = 0; i < size; ) {
+> +		if (cmd == CMD_AUX_I2C_EDID_READ || cmd == CMD_AUX_GET_KSV_LIST)
+> +			request_size = min_t(int, (int)size - i, AUX_FIFO_MAX_SIZE);
+> +		else
+> +			request_size = min_t(int, (int)size - i, 4);
 
-I do however wish for more opinions (before merging) on whether strings 
-with invalid characters should perhaps instead be rejected. I don't 
-currently have a solid argument either way.
+And this one is also separate.
 
-Perhaps the only argument against silent transformation is if someone 
-sets some wild string, then greps for it somewhere, which would be a 
-false negative without the understanding of what kind of remapping 
-kernel does. It is weak but it is uapi so worth discussing every crazy 
-possibility I think.
+>  		ret_size = it6505_aux_operation(it6505, cmd, address + i,
+>  						buffer + i, request_size,
+>  						reply);
+> @@ -1088,6 +1097,7 @@ static ssize_t it6505_aux_do_transfer(struct it6505 *it6505,
+>  			goto aux_op_err;
+>  		}
+>  
+> +		i += request_size;
+>  		ret += ret_size;
+>  	}
+>  
+> @@ -2257,7 +2267,6 @@ static void it6505_link_training_work(struct work_struct *work)
+>  		it6505->auto_train_retry--;
+>  		it6505_dump(it6505);
+>  	}
+> -
 
-On the other hand it would create another annoying source of EINVAL. :shrug:
+And this is just a noise. Leave it as it is until somebody has to touch
+these lines.
 
-Also, how are with with testing the DRM core features? Add something for 
-the uapi in IGT/tests/drm_client_name, or some such?
+>  }
+>  
+>  static void it6505_plugged_status_to_codec(struct it6505 *it6505)
+> -- 
+> 2.34.1
+> 
 
-Regards,
-
-Tvrtko
-
->   /*
->    * Device specific ioctls should only be in their respective headers
->    * The device specific ioctl range is from 0x40 to 0x9f.
+-- 
+With best wishes
+Dmitry
