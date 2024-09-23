@@ -2,58 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F00C297EEAF
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2024 17:58:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED67797EF1A
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2024 18:22:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7829010E421;
-	Mon, 23 Sep 2024 15:58:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87FF110E445;
+	Mon, 23 Sep 2024 16:22:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Nj9kgCV1";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HZSmYWAh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F5EA10E421
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2024 15:58:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1727107094; x=1758643094;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=jQhqhShi45bE3F1tqDpD2eTLJXTwjUT+li1G1Ev3zCQ=;
- b=Nj9kgCV10esHZFUEBTcYk6N6mE/TGmClNceGkB7FFEayFB8YJ246zxKd
- BvjjZVIfB/iFfuLcK7/Yhb704CplbWLvzJK9CmKnNG6yJIqs3FZdG0K7S
- N8ZaoR9UJVd5oeNlTSr/+omu+RkoIDWGlP8mxrgHqMEWzN49tFjEBjgV0
- 0ZyYtKQB8Dkes74hZRewUqdPHophsFUddOxxUyyMScDTU13j215sufGc2
- sRId4JHzn/iI9Ew2LrfPhkzJ92u3Tt7wW6l8mGLNwVEcHexSTJawE2kft
- 3s4kOeAsvPLIhyq/P9+g0EWmDZcO7liSMLuMsA1FIGFMNCATuuiQsOq2W Q==;
-X-CSE-ConnectionGUID: iV1BlwqhSJKQ8tt8QQSXyg==
-X-CSE-MsgGUID: CWqrbaXvTkO/qrybTpOw+w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="28957255"
-X-IronPort-AV: E=Sophos;i="6.10,251,1719903600"; d="scan'208";a="28957255"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Sep 2024 08:58:14 -0700
-X-CSE-ConnectionGUID: Xp0mMn6aTJmrS1RKIK2Sfw==
-X-CSE-MsgGUID: iLkUdrEDSV6NVfy+IynrUQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,251,1719903600"; d="scan'208";a="71250804"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by fmviesa008.fm.intel.com with SMTP; 23 Sep 2024 08:58:11 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 23 Sep 2024 18:58:10 +0300
-From: Ville Syrjala <ville.syrjala@linux.intel.com>
-To: linux-fbdev@vger.kernel.org
-Cc: Helge Deller <deller@gmx.de>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH 6/6] fbcon: Use 'bool' where appopriate
-Date: Mon, 23 Sep 2024 18:57:49 +0300
-Message-ID: <20240923155749.30846-7-ville.syrjala@linux.intel.com>
-X-Mailer: git-send-email 2.44.2
-In-Reply-To: <20240923155749.30846-1-ville.syrjala@linux.intel.com>
-References: <20240923155749.30846-1-ville.syrjala@linux.intel.com>
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com
+ [209.85.160.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 081C510E436
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2024 16:22:37 +0000 (UTC)
+Received: by mail-qt1-f181.google.com with SMTP id
+ d75a77b69052e-4584a719ff5so36265411cf.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2024 09:22:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1727108556; x=1727713356; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=xMAjUDxOyknWcICNvHoeRR5xLaaisNjKFQiCg/h7w/8=;
+ b=HZSmYWAh3rD5bQxTe3LmLdoLO92fLGTjxqKTi14QzZ3zBrMTQAC0LpAqHLfw7ictGh
+ 85qdpCf8Vs78mdHRk9RqYYCuR7p7/ZpHRVEyf7fUJEQfO9td2cfySvOwjSpwuK9JNuDG
+ W8DRKXhgYcdO3Bz75AgJvDVPisLIIMW7aSFzfSL3jUMD8zV4uIcfW4msayAH7oFKS42W
+ aUh0mJ2H8Mh3YfKS+lF5uKv+ntWUOs+MUAPTqfbrDI+so9dwwdLdnif2alQ9PEoLVjoO
+ Px+PL2Vzo4Ak5cl9LUUgRY5OBuGx4DMAPGuV0EikhzigvamQl4ApgeidKN5e/NsUlkMG
+ AjRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1727108556; x=1727713356;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=xMAjUDxOyknWcICNvHoeRR5xLaaisNjKFQiCg/h7w/8=;
+ b=cLU9MFvk30vXXUSVUOPxov3a9VpGGG3JMaBwNscELWIWZVaRbdqbZg1pwHAX8vm5cO
+ oUgn7oD3JF4D25qICDG9nqji9yfj75WUk2W1xpIfRkq7/VPlML4XWo+8Ek2V+PxE8ePk
+ wN3OdbJ515C7XicFr+k5aY1lJwz7Jozi7DtH+60OKkqm6Z0HvcCF/7lVcsakrnCSpQ98
+ tduOrS3SZWRLxt88DVysUKl0flSKf2Q3vjWb8NF8I+zaCMgtbl2AE6zl/xpCsDcrAfop
+ DBNmFykdeeuB0GeLkzvI08/hUrUJytaVuZ3mxKqkda/b671khq6XJQSOTbEPB7svVmhE
+ Z2sA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUXOdjoA09maTsY/95nIp12+P99zphYa4E28widY+7X+5kBlFJ4DzSmW/jGbBqeW5yeQo44G4tL9o8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxRGXVUdktFsmZ7CZ9gJSiWIBFYzrn/dVnSNdIPJ27vxXId1Ct3
+ HkAOjB1e4G8gU29wqwlujsumsHQIPSvRHj0gzUt6HzFRt9XTG5L6
+X-Google-Smtp-Source: AGHT+IFCJxsI00ZrQnDdvugyIqeqvv9DQpGecgLpiot6gq0UD9k6CQSR8jxNdqQlbuJjiZbrcWW3uQ==
+X-Received: by 2002:ac8:5d4a:0:b0:456:61f0:810d with SMTP id
+ d75a77b69052e-45b226d1230mr220772381cf.10.1727108555440; 
+ Mon, 23 Sep 2024 09:22:35 -0700 (PDT)
+Received: from VM-Arch.gst.l3harris.com ([208.127.73.102])
+ by smtp.gmail.com with ESMTPSA id
+ d75a77b69052e-45b17867fb0sm48587901cf.1.2024.09.23.09.22.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 23 Sep 2024 09:22:34 -0700 (PDT)
+From: Alex Lanzano <lanzano.alex@gmail.com>
+To: dmitry.baryshkov@linaro.org, Alex Lanzano <lanzano.alex@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+ Mehdi Djait <mehdi.djait@bootlin.com>
+Cc: skhan@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ christophe.jaillet@wanadoo.fr, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-pwm@vger.kernel.org
+Subject: [PATCH v7 0/2] Add driver for Sharp Memory LCD
+Date: Mon, 23 Sep 2024 12:21:33 -0400
+Message-ID: <20240923162205.55658-1-lanzano.alex@gmail.com>
+X-Mailer: git-send-email 2.46.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,111 +90,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+This patch series add support for the monochrome Sharp Memory LCD
+panels. This series is based off of the work done by Mehdi Djait.
 
-Use 'bool' type where it makes more sense than 'int'.
+References:
+https://lore.kernel.org/dri-devel/71a9dbf4609dbba46026a31f60261830163a0b99.1701267411.git.mehdi.djait@bootlin.com/
+https://www.sharpsde.com/fileadmin/products/Displays/2016_SDE_App_Note_for_Memory_LCD_programming_V1.3.pdf
 
-Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Co-developed-by: Mehdi Djait <mehdi.djait@bootlin.com>
+Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
+Signed-off-by: Alex Lanzano <lanzano.alex@gmail.com>
 ---
- drivers/video/fbdev/core/fbcon.c | 23 ++++++++++++-----------
- 1 file changed, 12 insertions(+), 11 deletions(-)
+Changes in v7:
+- Add Reviewed-by tag back to dt-binding patch
 
-diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-index 17540cdf1edf..03d48e665bba 100644
---- a/drivers/video/fbdev/core/fbcon.c
-+++ b/drivers/video/fbdev/core/fbcon.c
-@@ -129,9 +129,9 @@ static int logo_shown = FBCON_LOGO_CANSHOW;
- /* console mappings */
- static unsigned int first_fb_vc;
- static unsigned int last_fb_vc = MAX_NR_CONSOLES - 1;
--static int fbcon_is_default = 1;
-+static bool fbcon_is_default = true;
- static int primary_device = -1;
--static int fbcon_has_console_bind;
-+static bool fbcon_has_console_bind;
- 
- #ifdef CONFIG_FRAMEBUFFER_CONSOLE_DETECT_PRIMARY
- static int map_override;
-@@ -166,7 +166,7 @@ static const struct consw fb_con;
- 
- #define advance_row(p, delta) (unsigned short *)((unsigned long)(p) + (delta) * vc->vc_size_row)
- 
--static int fbcon_cursor_blink;
-+static bool fbcon_cursor_blink;
- 
- #define divides(a, b)	((!(a) || (b)%(a)) ? 0 : 1)
- 
-@@ -281,7 +281,7 @@ static bool fbcon_skip_panic(struct fb_info *info)
- #endif
- }
- 
--static inline int fbcon_is_active(struct vc_data *vc, struct fb_info *info)
-+static inline bool fbcon_is_active(struct vc_data *vc, struct fb_info *info)
- {
- 	struct fbcon_ops *ops = info->fbcon_par;
- 
-@@ -290,7 +290,7 @@ static inline int fbcon_is_active(struct vc_data *vc, struct fb_info *info)
- }
- 
- static int get_color(struct vc_data *vc, struct fb_info *info,
--	      u16 c, int is_fg)
-+		     u16 c, bool is_fg)
- {
- 	int depth = fb_get_color_depth(&info->var, &info->fix);
- 	int color = 0;
-@@ -358,12 +358,12 @@ static int get_color(struct vc_data *vc, struct fb_info *info,
- 
- static int get_fg_color(struct vc_data *vc, struct fb_info *info, u16 c)
- {
--	return get_color(vc, info, c, 1);
-+	return get_color(vc, info, c, true);
- }
- 
- static int get_bg_color(struct vc_data *vc, struct fb_info *info, u16 c)
- {
--	return get_color(vc, info, c, 0);
-+	return get_color(vc, info, c, false);
- }
- 
- static void fb_flashcursor(struct work_struct *work)
-@@ -467,7 +467,7 @@ static int __init fb_console_setup(char *this_opt)
- 				last_fb_vc = simple_strtoul(options, &options, 10) - 1;
- 			if (last_fb_vc < first_fb_vc || last_fb_vc >= MAX_NR_CONSOLES)
- 				last_fb_vc = MAX_NR_CONSOLES - 1;
--			fbcon_is_default = 0;
-+			fbcon_is_default = false;
- 			continue;
- 		}
- 
-@@ -558,7 +558,7 @@ static int do_fbcon_takeover(int show_logo)
- 			con2fb_map[i] = -1;
- 		info_idx = -1;
- 	} else {
--		fbcon_has_console_bind = 1;
-+		fbcon_has_console_bind = true;
- 	}
- 
- 	return err;
-@@ -2802,7 +2802,7 @@ static void fbcon_unbind(void)
- 				fbcon_is_default);
- 
- 	if (!ret)
--		fbcon_has_console_bind = 0;
-+		fbcon_has_console_bind = false;
- }
- #else
- static inline void fbcon_unbind(void) {}
-@@ -3234,8 +3234,9 @@ static ssize_t cursor_blink_store(struct device *device,
- 				  const char *buf, size_t count)
- {
- 	struct fb_info *info;
--	int blink, idx;
- 	char **last = NULL;
-+	bool blink;
-+	int idx;
- 
- 	blink = simple_strtoul(buf, last, 0);
- 
+Changes in v6:
+- Rebase off latest drm-misc-next
+- Replace pwm_apply_state with pwm_apply_might_sleep
+
+Changes in v5:
+- Address minor style issues in sharp-memory.c
+
+Changes in v4:
+- Remove redundant dev_err
+
+Changes in v3:
+- Fix file path in MAINTAINERS file
+- Address review comments
+- Simplify mode selection based on match data instead of model
+
+Changes in v2:
+- Credited Mehdi Djait in commit messages
+- Renamed sharp,sharp-memory.yaml to sharp,ls010b7dh04.yaml
+- Using strings instead of int for vcom-mode in dt-binding
+- Fixed indentation of binding example
+- Removed binding header
+- Removed extra whitespace in sharp-memory.c
+- Fixed error handling in sharp-memory.c
+- Added match data to of_device_id table to be in-sync with spi_device_id table
+- Replaced redundant function with spi_get_device_match_data
+- Sorted header files in sharp-memory.c
+---
+
+Alex Lanzano (2):
+  dt-bindings: display: Add Sharp Memory LCD bindings
+  drm/tiny: Add driver for Sharp Memory LCD
+
+ .../bindings/display/sharp,ls010b7dh04.yaml   |  92 +++
+ MAINTAINERS                                   |   6 +
+ drivers/gpu/drm/tiny/Kconfig                  |  20 +
+ drivers/gpu/drm/tiny/Makefile                 |   1 +
+ drivers/gpu/drm/tiny/sharp-memory.c           | 682 ++++++++++++++++++
+ 5 files changed, 801 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/sharp,ls010b7dh04.yaml
+ create mode 100644 drivers/gpu/drm/tiny/sharp-memory.c
+
 -- 
-2.44.2
+2.46.0
 
