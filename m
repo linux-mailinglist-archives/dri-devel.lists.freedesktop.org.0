@@ -2,66 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF11897EC5E
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2024 15:36:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDA0397EC68
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2024 15:39:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32DD110E3F9;
-	Mon, 23 Sep 2024 13:36:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D32F10E264;
+	Mon, 23 Sep 2024 13:39:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="EPjRaj/6";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="dXXpyNm3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 056FC10E3F9
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2024 13:36:20 +0000 (UTC)
-X-UUID: ce27fb3479b011efb66947d174671e26-20240923
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From;
- bh=awc4i9nMPrTPIYiJ1Q5PrfLytY/PFn2fXwvwl1Rwcs4=; 
- b=EPjRaj/66gUq8kBfjkydiip+a4gjSZZF2DN7Dx8UJrtl0dsG/d89y+s5wy9NAhrVHvrCZT4aNnhP7knq7PLLtT21Mbir7ZgD9/FpsxQ7q4qOFfn5rAb0NYQU52mO+E52F0lkw+vaHhSW1RKZG67/yZytnw6wllCtqnOuGmJr8vE=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.41, REQID:4b0809a1-fda1-43e9-aee0-17e3e45ce3b8, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:0
-X-CID-META: VersionHash:6dc6a47, CLOUDID:764aa1d0-7921-4900-88a1-3aef019a55ce,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
- SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: ce27fb3479b011efb66947d174671e26-20240923
-Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by
- mailgw01.mediatek.com (envelope-from <liankun.yang@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 992786734; Mon, 23 Sep 2024 21:36:15 +0800
-Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Mon, 23 Sep 2024 21:36:13 +0800
-Received: from mszsdhlt06.gcn.mediatek.inc (10.16.6.206) by
- mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Mon, 23 Sep 2024 21:36:13 +0800
-From: Liankun Yang <liankun.yang@mediatek.com>
-To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@gmail.com>, 
- <simona@ffwll.ch>, <matthias.bgg@gmail.com>,
- <angelogioacchino.delregno@collabora.com>, <jitao.shi@mediatek.com>,
- <mac.shen@mediatek.com>, <peng.liu@mediatek.com>, <liankun.yang@mediatek.com>
-CC: <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
- <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
-Subject: [PATCH v1 1/1] drm/mediatek: dp: Add sdp path reset
-Date: Mon, 23 Sep 2024 21:35:44 +0800
-Message-ID: <20240923133610.23728-1-liankun.yang@mediatek.com>
-X-Mailer: git-send-email 2.45.2
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com
+ [209.85.208.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4007010E3F8
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2024 13:39:09 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id
+ 4fb4d7f45d1cf-5c5b640da9cso514599a12.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2024 06:39:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1727098747; x=1727703547;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=2jxxryawPG2WRoNsIiFqe8HMwXZCeIVaB5Utv67yYo8=;
+ b=dXXpyNm3OJculg26tfICZDsPxET1GGzeA4sbcRKTfqRFwMi+PgWy2K0gySPHau7dE0
+ w/uO+Pgt+nxQEp0+lMe/8TuX6nqkBHp1Z7qrLCwMuUBPiyS3DVK+bNAisHTR1jL+LJFS
+ uIQNgahAPaAGWbYwavxrsi1/AqjjhwrGcxbY6jsxvKFdGxkPTVVkKzoaptlI4T/DTIsJ
+ 1PFOza9cg8d5Tfg8IkVyJnvaft0ZqJpCe3k8SXI94H+lrY9uJF676q+S/ESznR+ox/7k
+ WHBoFR7+0zcZf2BNtagLOQ/7Fiy76Dz990PeFCgQe/g4adqWW4OIbGVlr74/rjtVtT5F
+ iLlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1727098747; x=1727703547;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=2jxxryawPG2WRoNsIiFqe8HMwXZCeIVaB5Utv67yYo8=;
+ b=jszeK/Z2MSyvXA8N8kCe+/FRR+ajYB2WblLWbuBYX6JjEh3m77jly4DRDC4/o6/Ryt
+ rTEZlrHw4dY+cgw116nJ4iEH6hrnS3AOxxsEBN9LN47FOuNEDlt6ZtbMYCcuf2W8xLFM
+ 5Qj1QPDw53dZl5UZxAXyFV9HN00Dhj3Ddw4Y7lYl+VAZGjiJDwHirG4sA8F+5nhsMuRQ
+ DlWtFYQtU0u3RlptrgwqwYcR01itP92aPdoZ27HajswuecOvJtunSQVA46CDrlOYQ/6t
+ 6aR1lAFIOecp/TduE/pbEOanR0A9ZO4auh6fjeZaxI/KwYJwuzO/9OxKUFrYWTt8WCqM
+ hS9g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXE6AhZ+mmQmsRp9ERGaj5kbIseyWY21ISRpbyqNly8oVlwDce5fF1GJd+zxSFgCLW/yTQcIUKHYkY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyKrbfuS6l9mtkc8UQWrTh0G91ZYIzsPS9LOmM0+KTZo3Zdbo17
+ SJ7dDued8BQKX1iHMPUkfiJWL8QiXGXvt3QRScnPiPiqJTRAWoghTpjj9A1AJ9YTdDRur/qsr58
+ FAV2obiVQ5f54/yf4kotwgnPnHioupXRUXohSig==
+X-Google-Smtp-Source: AGHT+IFHR0YPBI+WpC/SVDkzcygKoAsQ/r5jHC9ny5l74u+ns6g3j6y41m5RZ1x0P5p5ddW4+uHmw6zs3SYDLAByqeE=
+X-Received: by 2002:a05:6402:208a:b0:5c5:b9bb:c67d with SMTP id
+ 4fb4d7f45d1cf-5c5b9bbc766mr2935752a12.1.1727098747362; Mon, 23 Sep 2024
+ 06:39:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK: N
+References: <20240915080830.11318-1-lvzhaoxiong@huaqin.corp-partner.google.com>
+ <20240915080830.11318-2-lvzhaoxiong@huaqin.corp-partner.google.com>
+ <CAA8EJpp1ZHFFY9M3i47d658Q-m3ggJzhxSRUapX=tckgdAwcNg@mail.gmail.com>
+ <CA+6=WdS4i3tWei=zzfS_-OW8hs-tgnifOLbNCirGpTx61xEtCQ@mail.gmail.com>
+ <zqmpodwfmabxpjtyhbbuiqkkgaggv3sif7iidv4epjswfw7chp@jomwcvififxk>
+In-Reply-To: <zqmpodwfmabxpjtyhbbuiqkkgaggv3sif7iidv4epjswfw7chp@jomwcvififxk>
+From: zhaoxiong lv <lvzhaoxiong@huaqin.corp-partner.google.com>
+Date: Mon, 23 Sep 2024 21:38:56 +0800
+Message-ID: <CA+6=WdRaTpEeKJRRARD77fVVQVhn3dUo4XrAQZLjyhf+2RYWpQ@mail.gmail.com>
+Subject: Re: [PATCH v1 1/2] drm/panel: jd9365da: Modify Kingdisplay and Melfas
+ panel timing
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com, sam@ravnborg.org, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+ airlied@gmail.com, simona@ffwll.ch, dianders@chromium.org, hsinyi@google.com, 
+ awarnecke002@hotmail.com, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,54 +88,128 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When using type-c to type-c to connect to the monitor,
-the sound plays normally. If you unplug the type-c and
-connect the type-c to hdmi dongle to the monitor, there will be noise.
+On Mon, Sep 23, 2024 at 8:05=E2=80=AFPM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> On Mon, Sep 23, 2024 at 05:22:11PM GMT, zhaoxiong lv wrote:
+> > On Mon, Sep 16, 2024 at 1:11=E2=80=AFPM Dmitry Baryshkov
+> > <dmitry.baryshkov@linaro.org> wrote:
+> > >
+> > > On Sun, 15 Sept 2024 at 10:10, Zhaoxiong Lv
+> > > <lvzhaoxiong@huaqin.corp-partner.google.com> wrote:
+> > > >
+> > > > In order to meet the timing, remove the delay between "backlight of=
+f"
+> > > > and "display off"
+> > > >
+> > > > Removing variables: display_off_to_enter_sleep_delay_ms
+> > >
+> > > This is not enough. If this is a fix, then describe why the original
+> > > commit is incorrect, provide necessary explanation, details, etc.
+> > > Otherwise it looks as if you are removing the delay that was necessar=
+y
+> > > for other panels
+> > >
+> > > Also if this is a fix, it should be properly notated with the Fixes
+> > > tag, maybe cc:stable, etc.
+> > >
+> > > In its current state: NAK.
+> >
+> > hi Dmitry
+> >
+> > Our machine encountered an issue where, after entering S3 in the black
+> > screen state, there is a probability that the screen remains black
+> > after waking up. It seems that the DRM runtime resume has not yet
+> > completed, but the system has already started the suspend process.
+> > After reducing the delay for disable, this issue no longer occurs,
+> > Therefore, under the premise of meeting the timing requirements, we
+> > removed the delay between "backlight off" and "display off".
+> >
+> > Previously,  "backlight_off_to_display_off_delay_ms" was added between
+> > "backlight off" and "display off"  to prevent "display off" from being
+> > executed when the backlight is not fully powered off, which may cause
+> > a white screen. However, we removed this
+> > "backlight_off_to_display_off_delay_ms" and found that this situation
+> > did not occur. Therefore, in order to solve the problem mentioned
+> > above, we removed this delay.
+>
+> This should go to the commit message, rewritten to use imperative
+> language, with the appropriate Fixes tags.
 
-By capturing the audio data, it is found that
-the data position is messy, and there is no error in the data.
+hi Dmitry
+OK, thank you for your correction, we will fix it in the next patch.
 
-Through experiments, it can be restored by resetting the SDP path
-when unplugging it.
-
-Signed-off-by: Liankun Yang <liankun.yang@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_dp.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
-
-diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
-index d8796a904eca..4003bd83f64e 100644
---- a/drivers/gpu/drm/mediatek/mtk_dp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dp.c
-@@ -1052,6 +1052,18 @@ static void mtk_dp_digital_sw_reset(struct mtk_dp *mtk_dp)
- 			   0, DP_TX_TRANSMITTER_4P_RESET_SW_DP_TRANS_P0);
- }
- 
-+static void mtk_dp_sdp_path_reset(struct mtk_dp *mtk_dp)
-+{
-+	mtk_dp_update_bits(mtk_dp, MTK_DP_ENC0_P0_3004,
-+				SDP_RESET_SW_DP_ENC0_P0,
-+				SDP_RESET_SW_DP_ENC0_P0);
-+
-+	/* Wait for sdp path reset to complete */
-+	usleep_range(1000, 5000);
-+	mtk_dp_update_bits(mtk_dp, MTK_DP_ENC0_P0_3004,
-+				0, SDP_RESET_SW_DP_ENC0_P0);
-+}
-+
- static void mtk_dp_set_lanes(struct mtk_dp *mtk_dp, int lanes)
- {
- 	mtk_dp_update_bits(mtk_dp, MTK_DP_TRANS_P0_35F0,
-@@ -2314,6 +2326,9 @@ static void mtk_dp_bridge_atomic_disable(struct drm_bridge *bridge,
- 			   DP_PWR_STATE_BANDGAP_TPLL,
- 			   DP_PWR_STATE_MASK);
- 
-+	/* SDP path reset sw*/
-+	mtk_dp_sdp_path_reset(mtk_dp);
-+
- 	/* Ensure the sink is muted */
- 	msleep(20);
- }
--- 
-2.45.2
-
+>
+> >
+> > This is the timing specification for the two panels:
+> > 1.  Kingdisplay panel timing spec:
+> > https://github.com/KD54183/-JD9365DA_Power-On-Off-Sequence_V0120240923
+> > 2.  LMFBX101117480 timing spec: https://github.com/chiohsin-lo/TDY-JD_L=
+IB
+> >
+> > thanks
+> >
+> > >
+> > > >
+> > > > Signed-off-by: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google=
+.com>
+> > > > ---
+> > > >  drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c | 6 ------
+> > > >  1 file changed, 6 deletions(-)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c b/dri=
+vers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
+> > > > index 44897e5218a6..2f8af86bc2a0 100644
+> > > > --- a/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
+> > > > +++ b/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
+> > > > @@ -31,7 +31,6 @@ struct jadard_panel_desc {
+> > > >         bool reset_before_power_off_vcioo;
+> > > >         unsigned int vcioo_to_lp11_delay_ms;
+> > > >         unsigned int lp11_to_reset_delay_ms;
+> > > > -       unsigned int backlight_off_to_display_off_delay_ms;
+> > > >         unsigned int display_off_to_enter_sleep_delay_ms;
+> > > >         unsigned int enter_sleep_to_reset_down_delay_ms;
+> > > >  };
+> > > > @@ -69,9 +68,6 @@ static int jadard_disable(struct drm_panel *panel=
+)
+> > > >         struct jadard *jadard =3D panel_to_jadard(panel);
+> > > >         struct mipi_dsi_multi_context dsi_ctx =3D { .dsi =3D jadard=
+->dsi };
+> > > >
+> > > > -       if (jadard->desc->backlight_off_to_display_off_delay_ms)
+> > > > -               mipi_dsi_msleep(&dsi_ctx, jadard->desc->backlight_o=
+ff_to_display_off_delay_ms);
+> > > > -
+> > > >         mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
+> > > >
+> > > >         if (jadard->desc->display_off_to_enter_sleep_delay_ms)
+> > > > @@ -858,7 +854,6 @@ static const struct jadard_panel_desc kingdispl=
+ay_kd101ne3_40ti_desc =3D {
+> > > >         .reset_before_power_off_vcioo =3D true,
+> > > >         .vcioo_to_lp11_delay_ms =3D 5,
+> > > >         .lp11_to_reset_delay_ms =3D 10,
+> > > > -       .backlight_off_to_display_off_delay_ms =3D 100,
+> > > >         .display_off_to_enter_sleep_delay_ms =3D 50,
+> > > >         .enter_sleep_to_reset_down_delay_ms =3D 100,
+> > > >  };
+> > > > @@ -1109,7 +1104,6 @@ static const struct jadard_panel_desc melfas_=
+lmfbx101117480_desc =3D {
+> > > >         .reset_before_power_off_vcioo =3D true,
+> > > >         .vcioo_to_lp11_delay_ms =3D 5,
+> > > >         .lp11_to_reset_delay_ms =3D 10,
+> > > > -       .backlight_off_to_display_off_delay_ms =3D 100,
+> > > >         .display_off_to_enter_sleep_delay_ms =3D 50,
+> > > >         .enter_sleep_to_reset_down_delay_ms =3D 100,
+> > > >  };
+> > > > --
+> > > > 2.17.1
+> > > >
+> > >
+> > >
+> > > --
+> > > With best wishes
+> > > Dmitry
+>
+> --
+> With best wishes
+> Dmitry
