@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F2A697F15D
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2024 21:46:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32FF897F15F
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2024 21:47:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D006210E480;
-	Mon, 23 Sep 2024 19:46:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADCAD10E482;
+	Mon, 23 Sep 2024 19:47:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="lmYYY5yS";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="Em0R3xzj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD7CD10E480
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2024 19:46:10 +0000 (UTC)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C54710E482
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2024 19:47:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1727120764; x=1727725564; i=deller@gmx.de;
- bh=XE7hyPQ98AX4IY0oVlgATFeWrupENZZNXbiyhU4Mofs=;
+ s=s31663417; t=1727120835; x=1727725635; i=deller@gmx.de;
+ bh=rF+a0I9rBNuE3r58vBh/IFWzN5nMqdh6xC86iaOFvIo=;
  h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
  References:From:In-Reply-To:Content-Type:
  Content-Transfer-Encoding:cc:content-transfer-encoding:
  content-type:date:from:message-id:mime-version:reply-to:subject:
  to;
- b=lmYYY5ySIx8aVSEEOhyD6mWlymr31hWtNGMgBXjFx3UZp6PrmHXln4QJFOBF9/c6
- DUIhKBGsKl5PTiEqedahkjvZfepMNd3NV+NANEPsjYDnWM8fnoYIoBXupHL0I+5B8
- 5vrg2gmmEFiUj6oWTdlhOn5czJkjTvRyscWZDxt5J+h93dfl5XriiT+FaeuFCj+Dv
- n79NBxYbfpkNeuRI6WfRsB0f6+WnHuJvVDbc52vsZDn4leqYcJ0OOO5xcyQ6W/0vM
- QvEwdRDsOGlalQjV4e1/4G7Zwa9gQJSZfi3fB8x0GZ7OHRi4vw8+Z0cJQH6o07FcX
- KjchuD5D1b+hg9mI+A==
+ b=Em0R3xzjFKHJ3iwg7skcG+zKJWiWzuOWFaNdFkzYJm7LXz6W+Lva8TFs2f9BYShl
+ tia7tLnx1szBOZkZB9Ha3jOEgOjsFChP+L6uvu6r0X+WvDM8Z1rCt7wHfujisu2Lp
+ 34eyQbYxpuMZQZygkNWtt2Ynmj73xYm8zkw6Xu+UrPdSVbAh5yHTx9YayT79Ga4Rb
+ H/wPPD7+8yvbJGXqnfRcfN9JUBqlEaqiIad7wpdSUdZbJyUgwttGhavn5VGm4nwMN
+ l5114DCHRYxsAxkCpJCL942f9bLJwIajKaAxApDL1GAq4Idx/obiMNOiB0j3U3xZ0
+ 9pfkc0ES4yYLHYYPHA==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.55] ([109.250.63.79]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1N5VDE-1rrQpy1NF4-00sdzf; Mon, 23
- Sep 2024 21:46:04 +0200
-Message-ID: <89c4a5c6-d83d-4b7e-9a92-99e382e6061d@gmx.de>
-Date: Mon, 23 Sep 2024 21:46:03 +0200
+Received: from [192.168.20.55] ([109.250.63.79]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MDQiS-1slhlF0xXy-004FAU; Mon, 23
+ Sep 2024 21:47:15 +0200
+Message-ID: <4cbb3fc8-b164-4a29-bd9f-f05fcf534ff7@gmx.de>
+Date: Mon, 23 Sep 2024 21:47:14 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/6] fbcon: fbcon_cursor_noblink -> fbcon_cursor_blink
+Subject: Re: [PATCH 6/6] fbcon: Use 'bool' where appopriate
 To: Ville Syrjala <ville.syrjala@linux.intel.com>, linux-fbdev@vger.kernel.org
 Cc: Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org
 References: <20240923155749.30846-1-ville.syrjala@linux.intel.com>
- <20240923155749.30846-4-ville.syrjala@linux.intel.com>
+ <20240923155749.30846-7-ville.syrjala@linux.intel.com>
 Content-Language: en-US
 From: Helge Deller <deller@gmx.de>
 Autocrypt: addr=deller@gmx.de; keydata=
@@ -87,27 +87,27 @@ Autocrypt: addr=deller@gmx.de; keydata=
  FwRDcGV6nxanxZGKEkSHHOm8jHwvQWvPP73pvuPBEPtKGLzbgd7OOcGZWtq2hNC6cRtsRdDx
  4TAGMCz4j238m+2mdbdhRh3iBnWT5yPFfnv/2IjFAk+sdix1Mrr+LIDF++kiekeq0yUpDdc4
  ExBy2xf6dd+tuFFBp3/VDN4U0UfG4QJ2fg19zE5Z8dS4jGIbLg==
-In-Reply-To: <20240923155749.30846-4-ville.syrjala@linux.intel.com>
+In-Reply-To: <20240923155749.30846-7-ville.syrjala@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:514VykyFi//VkqO10DgrNjzFMAZTjtxsFbjSL8c2LF0zrfmjK+V
- bCUaZtw5JQ+VTazgMC5KSUGfffja3E/1WnfEOdbGCQ1JeipSVDZ/eLjU7uxnqLW3+tQdvFV
- gMQp0H0AYkiYL9360Hs3dnAcmxtd9vJhrb85hxaoDNxcPx/e90NiPfF2LwddiuMgnHVPojB
- MIGi2Wax6edE05wUzXmkA==
+X-Provags-ID: V03:K1:IMbevpbM/goG8JO/e5t/WRkQh9OvSf9Dqb8n+962DWnEMVr8r/U
+ WoDSjf4gERcXWGvMly4YJ+N5gPLntgkCn0XhdvQzNsl0bWWOSGUrl0Q6tuCTBVuLC5jDGSQ
+ ul8KZ51wPnyzJ+CHOIH1FCfL2Mgg6Xyua8r6+chltM7raY6XU0QorxZlm/4tU3fYDZSLWCJ
+ cT1dyOkGSc5eNDSfyruqg==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:vJhfuYm/nVA=;I79/TTuVEZFi33se62dwblsKXi+
- +YHaH5zsItXUKi0IWXC1bZ704i4XxYHL8ljgKdxnWIoJLAhOhlQVPLc4a4Nx1dSk9glX+ZmnS
- u1CLa6f0xAygtQGpRkj7ZYB2/IDmfdI71bVp83Dn5TwqhlpO8WphD8DvHpEIir/J8HyUToxbW
- jI4fAol6A3k41+uIdIwMNXIJTkXm/+RUVPIFZHD/eBXEkckDLU3NhXbiXWBSoAkV7yjTcW1ZT
- 7fL0xPTsDxnV6ebLSUY/wu5GF43uje4lSCStu7HY23CrostJ1yYoDGxzcXQ6vNHsaxCW0UvTm
- /r9x4hoHxhZD2bJ2RD7GvN3M6JrrJEERNfGit9wkH2ysDVItRxZ92rUpyYpelGakXoOInddve
- 7gJWUPiygwy7WVRKfVN7abUgyllAujIZpesgZKvwgaVLfNO02VNNPe/sHCWTynnfSGNvNjBn4
- axv3UQ+iv8DtZyQqjZfCpHvcw7mYr6bVSgFJEtzLwm1dd5g9lmjfe8WlHAScmVg1/8PoYgLpi
- 2Xvw79GA6q0oz+4cuNSLaEbLcpUEPzeQJ2E4TlH6MHShHzjeaR4Y89NFxFJV8gk+BCs+9SD7F
- LpQpzJerrQQo5iRw8HbaYziSyq2mKhxyOrK0wpIOmJXJE9tY3xXS0bcbyEfPLegtcOf+9ztiK
- /gwLlzHXtkoLEcxQvgcv4U9rKqxf8GUZpolO8p3J7PXTmu0RcVhhWtkjnsbYmlGSsqkztZgre
- xgu2iMDTORb/7++J7H21q2LM2b6yn/K9om0lSchUs1n+2ZhhWMv/lD3QFuL21xcgLQwSZBvVR
- 0ZlBBhxrdiOp1xnKrBxgSH3g==
+UI-OutboundReport: notjunk:1;M01:P0:G0EL9e/cZ8c=;5HEL3yvslbMhXwTvqytkAs2/66n
+ 8t3GTNj9JjyVnnNS2aJ2RtS3aRPSeCjjZT1icNkQEklczqnjBiQalZ33tipwdfXJIYIVHG1KM
+ u0mygIioeyaUsSsKJ3wF1v+qv64SdD2kZCEbNyvM7yg57lgJ5RbOY7ySLZq0+OSg093jfTnmN
+ 54O3JfIlh5Ye96dd5aSHnBhB2pLob8ehySuf7XxO/zT9LNHLJIjpGhw6jc5En7NxDhXqfZ4PK
+ uhjj0KEaCiSJm2NerGw5SjAPvuHehCGP7IWNfgeHJwG+cykBA9UfshHGU2gKND/NtC3upR+iA
+ +VyJAb/VZae0wf1vqH4UxGpVSJJJa0Lw1Ui9U3KAuEFMw4xdoFnyOuYBZLOqLq7P4cnI795O6
+ rchlDs/qu55ks6CHiPoo1x5IPVF8/ETuvatHCM+BiGeT6TWZ1ZD2RQw7Er+btOn+7qjwu57QT
+ beZ8mo96upnlSYXTUf/U55wxGBE6QgteGcUQd8GZiEMnsYaN95EzlgqmAmHXZC72SJtAX1rBa
+ isDUFZD/RQT2WKqaS3f9StNhaqojB1hqN/s8F0NfEr343HijuEAOCx5/6YzvM4BbDoiRKj+bN
+ hNeIyM+r9+I57aoNlCzg+T0xcSGCKGgWxkUppFWEJvAhL9//YwCzG9JapFcsiXXi4JFs12r/B
+ aAqN9o9vKnKpYSLT2RhLKxNLv36RAJrc0i4ZJzQn+KdtvshiQ8wiuYbLeE7aGj+RJ78vSi5xo
+ 5e/XgVg+XpZYW1RbIx7MVVd1Z1M6XO2H7qRDvnSCDe2fuOjXK0JoePBkxI+E1/iPkqQxIueHt
+ NZUO9iIObsv8TYhBrHRfMXTw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,65 +126,123 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On 9/23/24 17:57, Ville Syrjala wrote:
 > From: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
 >
-> Invert fbcon_cursor_noblink into fbcon_cursor_blink so that:
-> - it matches the sysfs attribute exactly
-> - avoids having to do these NOT operations all over the place
+> Use 'bool' type where it makes more sense than 'int'.
 >
 > Signed-off-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+
+Looks good.
+
+Acked-by: Helge Deller <deller@gmx.de>
+
+Helge
+
 > ---
->   drivers/video/fbdev/core/fbcon.c | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
+>   drivers/video/fbdev/core/fbcon.c | 23 ++++++++++++-----------
+>   1 file changed, 12 insertions(+), 11 deletions(-)
 >
 > diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core=
 /fbcon.c
-> index bbe332572ca7..eb30aa872371 100644
+> index 17540cdf1edf..03d48e665bba 100644
 > --- a/drivers/video/fbdev/core/fbcon.c
 > +++ b/drivers/video/fbdev/core/fbcon.c
+> @@ -129,9 +129,9 @@ static int logo_shown =3D FBCON_LOGO_CANSHOW;
+>   /* console mappings */
+>   static unsigned int first_fb_vc;
+>   static unsigned int last_fb_vc =3D MAX_NR_CONSOLES - 1;
+> -static int fbcon_is_default =3D 1;
+> +static bool fbcon_is_default =3D true;
+>   static int primary_device =3D -1;
+> -static int fbcon_has_console_bind;
+> +static bool fbcon_has_console_bind;
+>
+>   #ifdef CONFIG_FRAMEBUFFER_CONSOLE_DETECT_PRIMARY
+>   static int map_override;
 > @@ -166,7 +166,7 @@ static const struct consw fb_con;
 >
 >   #define advance_row(p, delta) (unsigned short *)((unsigned long)(p) + =
 (delta) * vc->vc_size_row)
 >
-> -static int fbcon_cursor_noblink;
-> +static int fbcon_cursor_blink;
-
-Shouldn't it default then to value 1, e.g.
-+static int fbcon_cursor_blink =3D 1;
-
-Looks good otherwise.
-
-Helge
-
+> -static int fbcon_cursor_blink;
+> +static bool fbcon_cursor_blink;
 >
 >   #define divides(a, b)	((!(a) || (b)%(a)) ? 0 : 1)
 >
-> @@ -399,7 +399,7 @@ static void fbcon_add_cursor_work(struct fb_info *in=
-fo)
+> @@ -281,7 +281,7 @@ static bool fbcon_skip_panic(struct fb_info *info)
+>   #endif
+>   }
+>
+> -static inline int fbcon_is_active(struct vc_data *vc, struct fb_info *i=
+nfo)
+> +static inline bool fbcon_is_active(struct vc_data *vc, struct fb_info *=
+info)
 >   {
 >   	struct fbcon_ops *ops =3D info->fbcon_par;
 >
-> -	if (!fbcon_cursor_noblink)
-> +	if (fbcon_cursor_blink)
->   		queue_delayed_work(system_power_efficient_wq, &ops->cursor_work,
->   				   ops->cur_blink_jiffies);
+> @@ -290,7 +290,7 @@ static inline int fbcon_is_active(struct vc_data *vc=
+, struct fb_info *info)
 >   }
-> @@ -3214,7 +3214,7 @@ static ssize_t rotate_show(struct device *device,
->   static ssize_t cursor_blink_show(struct device *device,
->   				 struct device_attribute *attr, char *buf)
+>
+>   static int get_color(struct vc_data *vc, struct fb_info *info,
+> -	      u16 c, int is_fg)
+> +		     u16 c, bool is_fg)
 >   {
-> -	return sysfs_emit(buf, "%d\n", !fbcon_cursor_noblink);
-> +	return sysfs_emit(buf, "%d\n", fbcon_cursor_blink);
+>   	int depth =3D fb_get_color_depth(&info->var, &info->fix);
+>   	int color =3D 0;
+> @@ -358,12 +358,12 @@ static int get_color(struct vc_data *vc, struct fb=
+_info *info,
+>
+>   static int get_fg_color(struct vc_data *vc, struct fb_info *info, u16 =
+c)
+>   {
+> -	return get_color(vc, info, c, 1);
+> +	return get_color(vc, info, c, true);
 >   }
 >
->   static ssize_t cursor_blink_store(struct device *device,
-> @@ -3230,7 +3230,7 @@ static ssize_t cursor_blink_store(struct device *d=
+>   static int get_bg_color(struct vc_data *vc, struct fb_info *info, u16 =
+c)
+>   {
+> -	return get_color(vc, info, c, 0);
+> +	return get_color(vc, info, c, false);
+>   }
+>
+>   static void fb_flashcursor(struct work_struct *work)
+> @@ -467,7 +467,7 @@ static int __init fb_console_setup(char *this_opt)
+>   				last_fb_vc =3D simple_strtoul(options, &options, 10) - 1;
+>   			if (last_fb_vc < first_fb_vc || last_fb_vc >=3D MAX_NR_CONSOLES)
+>   				last_fb_vc =3D MAX_NR_CONSOLES - 1;
+> -			fbcon_is_default =3D 0;
+> +			fbcon_is_default =3D false;
+>   			continue;
+>   		}
+>
+> @@ -558,7 +558,7 @@ static int do_fbcon_takeover(int show_logo)
+>   			con2fb_map[i] =3D -1;
+>   		info_idx =3D -1;
+>   	} else {
+> -		fbcon_has_console_bind =3D 1;
+> +		fbcon_has_console_bind =3D true;
+>   	}
+>
+>   	return err;
+> @@ -2802,7 +2802,7 @@ static void fbcon_unbind(void)
+>   				fbcon_is_default);
+>
+>   	if (!ret)
+> -		fbcon_has_console_bind =3D 0;
+> +		fbcon_has_console_bind =3D false;
+>   }
+>   #else
+>   static inline void fbcon_unbind(void) {}
+> @@ -3234,8 +3234,9 @@ static ssize_t cursor_blink_store(struct device *d=
 evice,
->   	console_lock();
->   	idx =3D con2fb_map[fg_console];
+>   				  const char *buf, size_t count)
+>   {
+>   	struct fb_info *info;
+> -	int blink, idx;
+>   	char **last =3D NULL;
+> +	bool blink;
+> +	int idx;
 >
-> -	fbcon_cursor_noblink =3D !blink;
-> +	fbcon_cursor_blink =3D blink;
+>   	blink =3D simple_strtoul(buf, last, 0);
 >
->   	if (idx =3D=3D -1 || fbcon_registered_fb[idx] =3D=3D NULL)
->   		goto err;
 
