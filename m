@@ -2,47 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6906397E9DF
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2024 12:24:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3209797E9E5
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2024 12:25:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDB7810E3D2;
-	Mon, 23 Sep 2024 10:24:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FAD410E3D1;
+	Mon, 23 Sep 2024 10:25:52 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="e2MWsnIg";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8D26310E3D2
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2024 10:24:21 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8EBCDFEC;
- Mon, 23 Sep 2024 03:24:50 -0700 (PDT)
-Received: from [10.57.79.18] (unknown [10.57.79.18])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 10BB23F71A;
- Mon, 23 Sep 2024 03:24:18 -0700 (PDT)
-Message-ID: <f639bacf-eba5-48d3-8385-7d185a030130@arm.com>
-Date: Mon, 23 Sep 2024 11:24:17 +0100
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99BFE10E3D1;
+ Mon, 23 Sep 2024 10:25:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Cc:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=ok86yRUgX5dTOfcHWAUmOJuUoiuMJWuhhaSOp4BDJQQ=; b=e2MWsnIgKmUvNvmJOlluAlfKWb
+ d5FVKhQ/VYW1rIANBtB3myU7mwfnKr8A0SPzxcPHtYU498uVN/8isWcC5D3QSpGAhfa4mJBWVoi/2
+ AQAJA+u/xP9AAVriflnMYaqO+HK3E1AUc0Z016p90kOByXYXGz431Uq5ooPXMl3UrrqlrAxZm6FrV
+ 2nFMOFpQju4Bs1HvgoYV/Ptmc4o4S2bu68dkYIW9fKRSSv2thJdU2rgvb5UzWYZuRBvHAdU1I71fL
+ jmKNCk5/5/z0s+XPGKYeDcqqa7OwfNTeeV/tRbdJskGT7UzX5ya5DHSeU1ktTWFL9RUUo2LaPvr2b
+ Yzv37yWA==;
+Received: from [90.241.98.187] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1ssgGJ-00HTqV-Um; Mon, 23 Sep 2024 12:25:47 +0200
+Message-ID: <121a41fe-6637-41ca-a21e-7bd01dc0f0bf@igalia.com>
+Date: Mon, 23 Sep 2024 11:25:47 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 1/5] drm/panthor: introduce job cycle and timestamp
- accounting
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- kernel@collabora.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org
-References: <20240920234436.207563-1-adrian.larumbe@collabora.com>
- <20240920234436.207563-2-adrian.larumbe@collabora.com>
- <07c8c715-4016-4963-8544-2e9cc1a8208b@arm.com>
- <20240923121850.38181059@collabora.com>
-From: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH v3 3/6] drm/amdgpu: delay the use of
+ amdgpu_vm_set_task_info
+To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
+ tursulin@igalia.com, simona.vetter@ffwll.ch, robdclark@gmail.com,
+ alexander.deucher@amd.com, amd-gfx@lists.freedesktop.org
+References: <20240920090920.1342694-1-pierre-eric.pelloux-prayer@amd.com>
+ <20240920090920.1342694-4-pierre-eric.pelloux-prayer@amd.com>
 Content-Language: en-GB
-In-Reply-To: <20240923121850.38181059@collabora.com>
-Content-Type: text/plain; charset=UTF-8
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <20240920090920.1342694-4-pierre-eric.pelloux-prayer@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,51 +64,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23/09/2024 11:18, Boris Brezillon wrote:
-> On Mon, 23 Sep 2024 10:07:14 +0100
-> Steven Price <steven.price@arm.com> wrote:
-> 
->>> +static struct dma_fence *
->>> +queue_run_job(struct drm_sched_job *sched_job)
->>> +{
->>> +	struct panthor_job *job = container_of(sched_job, struct panthor_job, base);
->>> +	struct panthor_group *group = job->group;
->>> +	struct panthor_queue *queue = group->queues[job->queue_idx];
->>> +	struct panthor_device *ptdev = group->ptdev;
->>> +	struct panthor_scheduler *sched = ptdev->scheduler;
->>> +	struct panthor_job_ringbuf_instrs instrs;  
->>
->> instrs isn't initialised...
->>
->>> +	struct panthor_job_cs_params cs_params;
->>> +	struct dma_fence *done_fence;
->>> +	int ret;
->>>  
->>>  	/* Stream size is zero, nothing to do except making sure all previously
->>>  	 * submitted jobs are done before we signal the
->>> @@ -2900,17 +3062,23 @@ queue_run_job(struct drm_sched_job *sched_job)
->>>  		       queue->fence_ctx.id,
->>>  		       atomic64_inc_return(&queue->fence_ctx.seqno));
->>>  
->>> -	memcpy(queue->ringbuf->kmap + ringbuf_insert,
->>> -	       call_instrs, sizeof(call_instrs));
->>> +	job->profiling.slot = queue->profiling.seqno++;
->>> +	if (queue->profiling.seqno == queue->profiling.slot_count)
->>> +		queue->profiling.seqno = 0;
->>> +
->>> +	job->ringbuf.start = queue->iface.input->insert;
->>> +
->>> +	get_job_cs_params(job, &cs_params);
->>> +	prepare_job_instrs(&cs_params, &instrs);  
->>
->> ...but it's passed into prepare_job_instrs() which depends on
->> instrs.count (same bug as was in calc_job_credits()) - sorry I didn't
->> spot it last review.
-> 
-> Hm, can't we initialize instr::count to zero in prepare_job_instrs()
-> instead?
 
-Indeed that would probably be better! I hadn't noticed there were two
-places in the previous review.
+On 20/09/2024 10:06, Pierre-Eric Pelloux-Prayer wrote:
+> At this point the vm is locked so we safely modify it without risk of
+> concurrent access.
 
-Steve
+To which particular lock this is referring to and does this imply 
+previous placement was unsafe?
+
+Regards,
+
+Tvrtko
+
+> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+> ---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+> index 1e475eb01417..891128ecee6d 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+> @@ -309,9 +309,6 @@ static int amdgpu_cs_pass1(struct amdgpu_cs_parser *p,
+>   		p->gang_leader->uf_addr = uf_offset;
+>   	kvfree(chunk_array);
+>   
+> -	/* Use this opportunity to fill in task info for the vm */
+> -	amdgpu_vm_set_task_info(vm);
+> -
+>   	return 0;
+>   
+>   free_all_kdata:
+> @@ -1180,6 +1177,9 @@ static int amdgpu_cs_vm_handling(struct amdgpu_cs_parser *p)
+>   		job->vm_pd_addr = amdgpu_gmc_pd_addr(vm->root.bo);
+>   	}
+>   
+> +	/* Use this opportunity to fill in task info for the vm */
+> +	amdgpu_vm_set_task_info(vm);
+> +
+>   	if (adev->debug_vm) {
+>   		/* Invalidate all BOs to test for userspace bugs */
+>   		amdgpu_bo_list_for_each_entry(e, p->bo_list) {
