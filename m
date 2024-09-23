@@ -2,67 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B441F97ED39
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2024 16:35:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7E4A97ED3A
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2024 16:35:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FD1010E409;
-	Mon, 23 Sep 2024 14:35:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 546B710E405;
+	Mon, 23 Sep 2024 14:35:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="TwOFHZYh";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="XNgCAatQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F6E810E26D;
- Mon, 23 Sep 2024 14:35:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1727102141; x=1758638141;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=VBUgLTShHn7RoGyOzmsltQFhRb+Mo7+Qxel6tPi+m20=;
- b=TwOFHZYhUe+N1+gcSRw/LSWNMtG7ryv8QjK/Gla7sESuFldxjaivZHBB
- 1W478yWa+2qEHicPNNs8gl2zK7NG1NZGuGqOel69wJieM9oZyy66RQQIL
- K2KDLum/PL6/xr5qIjtajObMndz2qybE5syWkv3yUxJXsrLRJHEyejQft
- I5kSOjon9aZGMck3fTCH7K+JdBJ1rYkN9SZ+LPwibaGh+xkpct14wn8MO
- Je1yReyjjsQN0KKUlnuFLUxC6/vRC/251A+umMTexMjRvyCYLEaGS/K6u
- 8jHn+G1MNLt1l5nQVS5jy4CHTz5uazfAw8O709QXY50tSmPKYuUCwVdsu Q==;
-X-CSE-ConnectionGUID: uueNYsuORpKgCw2wAseEBQ==
-X-CSE-MsgGUID: Ikd01jQpQCuMGCb0a1aBig==
-X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="43568371"
-X-IronPort-AV: E=Sophos;i="6.10,251,1719903600"; d="scan'208";a="43568371"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Sep 2024 07:35:31 -0700
-X-CSE-ConnectionGUID: lBJ1BNJgRLWGlR5Pr3zNbg==
-X-CSE-MsgGUID: YwEBrzmpQr+zZ75abnQdBw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,251,1719903600"; d="scan'208";a="108522524"
-Received: from black.fi.intel.com ([10.237.72.28])
- by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Sep 2024 07:35:26 -0700
-Date: Mon, 23 Sep 2024 17:35:23 +0300
-From: Raag Jadav <raag.jadav@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: airlied@gmail.com, simona@ffwll.ch, lucas.demarchi@intel.com,
- thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
- jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- tursulin@ursulin.net, lina@asahilina.net,
- intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com,
- francois.dugast@intel.com, aravind.iddamsetty@linux.intel.com,
- anshuman.gupta@intel.com, andi.shyti@linux.intel.com,
- matthew.d.roper@intel.com
-Subject: Re: [PATCH v6 1/4] drm: Introduce device wedged event
-Message-ID: <ZvF8q7xkbEegPzc9@black.fi.intel.com>
-References: <20240923035826.624196-1-raag.jadav@intel.com>
- <20240923035826.624196-2-raag.jadav@intel.com>
- <ZvEpH_po4bYmEISh@smile.fi.intel.com>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EDD710E40B;
+ Mon, 23 Sep 2024 14:35:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=63Hltl8D69AX977AXIjuweINg51YNNLoc83jPbYGVSI=; b=XNgCAatQO3F108V0ud3RUEcDjK
+ U5ooUZeCecaXqTTQFFTEGpLimA7eZ+bd1xBgktYiayBmYC8cRh/ChHNdtMMNYAcjwcpiKKaWsT+pD
+ Rz/uucXt8z5vaunEE1FzpQ5+/611RE485OmjnsOfZ7aHYUB2fdrL2/m3kyTEoHeh61N/Urig9FSTd
+ JQ01wo+dzv3o5k42vCWLNuw6BNBRKZDeUzdi7Qw1vG0GOAJr3lS1Q9OtMXB90BA9VuF8mpIDXl7Xr
+ B+tQubj9c+QtZwNavc4xYf2NzZwAwrSVNvIcaSD+YFlgVzZtgLrl/q3+ZVL/nO8SFZmd5yHU9ieZ3
+ tnmxljYg==;
+Received: from [90.241.98.187] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1sskAD-00HZNo-Eb; Mon, 23 Sep 2024 16:35:45 +0200
+Message-ID: <1650ecb9-ac8a-4199-8693-77c73a95bbbd@igalia.com>
+Date: Mon, 23 Sep 2024 15:35:44 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/sched: Further optimise drm_sched_entity_push_job
+To: Tvrtko Ursulin <tursulin@igalia.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Luben Tuikov <ltuikov89@gmail.com>, Matthew Brost <matthew.brost@intel.com>,
+ Philipp Stanner <pstanner@redhat.com>
+References: <20240913160559.49054-9-tursulin@igalia.com>
+ <20240916173007.118-1-tursulin@igalia.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <20240916173007.118-1-tursulin@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZvEpH_po4bYmEISh@smile.fi.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,72 +65,179 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 23, 2024 at 11:38:55AM +0300, Andy Shevchenko wrote:
-> On Mon, Sep 23, 2024 at 09:28:23AM +0530, Raag Jadav wrote:
-> > Introduce device wedged event, which will notify userspace of wedged
-> > (hanged/unusable) state of the DRM device through a uevent. This is
-> > useful especially in cases where the device is no longer operating as
-> > expected and has become unrecoverable from driver context.
-> > 
-> > Purpose of this implementation is to provide drivers a way to recover
-> > through userspace intervention. Different drivers may have different
-> > ideas of a "wedged device" depending on their hardware implementation,
-> > and hence the vendor agnostic nature of the event. It is up to the drivers
-> > to decide when they see the need for recovery and how they want to recover
-> > from the available methods.
-> > 
-> > Current implementation defines three recovery methods, out of which,
-> > drivers can choose to support any one or multiple of them. Preferred
-> > recovery method will be sent in the uevent environment as WEDGED=<method>.
-> > Userspace consumers (sysadmin) can define udev rules to parse this event
-> > and take respective action to recover the device.
-> > 
-> >  Method    | Consumer expectations
-> > -----------|-----------------------------------
-> >  rebind    | unbind + rebind driver
-> >  bus-reset | unbind + reset bus device + rebind
-> >  reboot    | reboot system
-> 
-> > v4: s/drm_dev_wedged/drm_dev_wedged_event
-> >     Use drm_info() (Jani)
-> >     Kernel doc adjustment (Aravind)
-> > v5: Send recovery method with uevent (Lina)
-> > v6: Access wedge_recovery_opts[] using helper function (Jani)
-> >     Use snprintf() (Jani)
-> 
-> Hmm... Isn't changelog in the cover letter is not enough?
 
-Which was initial thought but I'm told otherwise ¯\_(ツ)_/¯
+Ping Christian and Philipp - reasonably happy with v2? I think it's the 
+only unreviewed patch from the series.
 
-> ...
-> 
-> > +extern const char *const wedge_recovery_opts[];
-> 
-> It's not NULL terminated. How users will know that they have an index valid?
+Regards,
 
-It's expected to be accessed using recovery_*() helpers.
- 
-> Either you NULL-terminate that, or export the size as well (personally I would
-> go with the first approach).
-> 
-> ...
-> 
-> > +static inline bool recovery_method_is_valid(enum wedge_recovery_method method)
-> > +{
-> > +	if (method >= DRM_WEDGE_RECOVERY_REBIND && method < DRM_WEDGE_RECOVERY_MAX)
-> > +		return true;
-> > +
-> > +	return false;
-> 
-> Besides that this can be written as
-> 
-> 	return method >= DRM_WEDGE_RECOVERY_REBIND && method < DRM_WEDGE_RECOVERY_MAX;
-> 
-> > +}
-> 
-> this seems a runtime approach for what we have at compile-time, i.e. static_assert()
+Tvrtko
 
-My understanding is that we have runtime users that the compiler may not be
-able to resolve.
-
-Raag
+On 16/09/2024 18:30, Tvrtko Ursulin wrote:
+> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> 
+> Having removed one re-lock cycle on the entity->lock in a patch titled
+> "drm/sched: Optimise drm_sched_entity_push_job", with only a tiny bit
+> larger refactoring we can do the same optimisation on the rq->lock.
+> (Currently both drm_sched_rq_add_entity() and
+> drm_sched_rq_update_fifo_locked() take and release the same lock.)
+> 
+> To achieve this we make drm_sched_rq_update_fifo_locked() and
+> drm_sched_rq_add_entity() expect the rq->lock to be held.
+> 
+> We also align drm_sched_rq_update_fifo_locked(),
+> drm_sched_rq_add_entity() and
+> drm_sched_rq_remove_fifo_locked() function signatures, by adding rq as a
+> parameter to the latter.
+> 
+> v2:
+>   * Fix after rebase of the series.
+>   * Avoid naming incosistency between drm_sched_rq_add/remove. (Christian)
+> 
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> Cc: Christian König <christian.koenig@amd.com>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: Luben Tuikov <ltuikov89@gmail.com>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: Philipp Stanner <pstanner@redhat.com>
+> ---
+>   drivers/gpu/drm/scheduler/sched_entity.c | 12 ++++++++--
+>   drivers/gpu/drm/scheduler/sched_main.c   | 29 ++++++++++++------------
+>   include/drm/gpu_scheduler.h              |  3 ++-
+>   3 files changed, 26 insertions(+), 18 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+> index d982cebc6bee..8ace1f1ea66b 100644
+> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> @@ -515,9 +515,14 @@ struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
+>   
+>   		next = to_drm_sched_job(spsc_queue_peek(&entity->job_queue));
+>   		if (next) {
+> +			struct drm_sched_rq *rq;
+> +
+>   			spin_lock(&entity->lock);
+> -			drm_sched_rq_update_fifo_locked(entity,
+> +			rq = entity->rq;
+> +			spin_lock(&rq->lock);
+> +			drm_sched_rq_update_fifo_locked(entity, rq,
+>   							next->submit_ts);
+> +			spin_unlock(&rq->lock);
+>   			spin_unlock(&entity->lock);
+>   		}
+>   	}
+> @@ -618,11 +623,14 @@ void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
+>   		sched = rq->sched;
+>   
+>   		atomic_inc(sched->score);
+> +
+> +		spin_lock(&rq->lock);
+>   		drm_sched_rq_add_entity(rq, entity);
+>   
+>   		if (drm_sched_policy == DRM_SCHED_POLICY_FIFO)
+> -			drm_sched_rq_update_fifo_locked(entity, submit_ts);
+> +			drm_sched_rq_update_fifo_locked(entity, rq, submit_ts);
+>   
+> +		spin_unlock(&rq->lock);
+>   		spin_unlock(&entity->lock);
+>   
+>   		drm_sched_wakeup(sched, entity);
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index 18a952f73ecb..5c83fb92bb89 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -153,17 +153,18 @@ static __always_inline bool drm_sched_entity_compare_before(struct rb_node *a,
+>   	return ktime_before(ent_a->oldest_job_waiting, ent_b->oldest_job_waiting);
+>   }
+>   
+> -static inline void drm_sched_rq_remove_fifo_locked(struct drm_sched_entity *entity)
+> +static void drm_sched_rq_remove_fifo_locked(struct drm_sched_entity *entity,
+> +					    struct drm_sched_rq *rq)
+>   {
+> -	struct drm_sched_rq *rq = entity->rq;
+> -
+>   	if (!RB_EMPTY_NODE(&entity->rb_tree_node)) {
+>   		rb_erase_cached(&entity->rb_tree_node, &rq->rb_tree_root);
+>   		RB_CLEAR_NODE(&entity->rb_tree_node);
+>   	}
+>   }
+>   
+> -void drm_sched_rq_update_fifo_locked(struct drm_sched_entity *entity, ktime_t ts)
+> +void drm_sched_rq_update_fifo_locked(struct drm_sched_entity *entity,
+> +				     struct drm_sched_rq *rq,
+> +				     ktime_t ts)
+>   {
+>   	/*
+>   	 * Both locks need to be grabbed, one to protect from entity->rq change
+> @@ -171,17 +172,14 @@ void drm_sched_rq_update_fifo_locked(struct drm_sched_entity *entity, ktime_t ts
+>   	 * other to update the rb tree structure.
+>   	 */
+>   	lockdep_assert_held(&entity->lock);
+> +	lockdep_assert_held(&rq->lock);
+>   
+> -	spin_lock(&entity->rq->lock);
+> -
+> -	drm_sched_rq_remove_fifo_locked(entity);
+> +	drm_sched_rq_remove_fifo_locked(entity, rq);
+>   
+>   	entity->oldest_job_waiting = ts;
+>   
+> -	rb_add_cached(&entity->rb_tree_node, &entity->rq->rb_tree_root,
+> +	rb_add_cached(&entity->rb_tree_node, &rq->rb_tree_root,
+>   		      drm_sched_entity_compare_before);
+> -
+> -	spin_unlock(&entity->rq->lock);
+>   }
+>   
+>   /**
+> @@ -213,15 +211,14 @@ static void drm_sched_rq_init(struct drm_gpu_scheduler *sched,
+>   void drm_sched_rq_add_entity(struct drm_sched_rq *rq,
+>   			     struct drm_sched_entity *entity)
+>   {
+> +	lockdep_assert_held(&entity->lock);
+> +	lockdep_assert_held(&rq->lock);
+> +
+>   	if (!list_empty(&entity->list))
+>   		return;
+>   
+> -	spin_lock(&rq->lock);
+> -
+>   	atomic_inc(rq->sched->score);
+>   	list_add_tail(&entity->list, &rq->entities);
+> -
+> -	spin_unlock(&rq->lock);
+>   }
+>   
+>   /**
+> @@ -235,6 +232,8 @@ void drm_sched_rq_add_entity(struct drm_sched_rq *rq,
+>   void drm_sched_rq_remove_entity(struct drm_sched_rq *rq,
+>   				struct drm_sched_entity *entity)
+>   {
+> +	lockdep_assert_held(&entity->lock);
+> +
+>   	if (list_empty(&entity->list))
+>   		return;
+>   
+> @@ -247,7 +246,7 @@ void drm_sched_rq_remove_entity(struct drm_sched_rq *rq,
+>   		rq->current_entity = NULL;
+>   
+>   	if (drm_sched_policy == DRM_SCHED_POLICY_FIFO)
+> -		drm_sched_rq_remove_fifo_locked(entity);
+> +		drm_sched_rq_remove_fifo_locked(entity, rq);
+>   
+>   	spin_unlock(&rq->lock);
+>   }
+> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> index 80198e6cf537..b21806d5a8eb 100644
+> --- a/include/drm/gpu_scheduler.h
+> +++ b/include/drm/gpu_scheduler.h
+> @@ -596,7 +596,8 @@ void drm_sched_rq_add_entity(struct drm_sched_rq *rq,
+>   void drm_sched_rq_remove_entity(struct drm_sched_rq *rq,
+>   				struct drm_sched_entity *entity);
+>   
+> -void drm_sched_rq_update_fifo_locked(struct drm_sched_entity *entity, ktime_t ts);
+> +void drm_sched_rq_update_fifo_locked(struct drm_sched_entity *entity,
+> +				     struct drm_sched_rq *rq, ktime_t ts);
+>   
+>   int drm_sched_entity_init(struct drm_sched_entity *entity,
+>   			  enum drm_sched_priority priority,
