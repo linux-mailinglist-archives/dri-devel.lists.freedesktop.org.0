@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08DE297EEA3
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2024 17:58:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02E8997EEA6
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2024 17:58:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61D4910E289;
-	Mon, 23 Sep 2024 15:58:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BF9010E41F;
+	Mon, 23 Sep 2024 15:58:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dzy2FtBO";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bTwIBCXQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6303210E289
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2024 15:58:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3B0810E41F
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2024 15:58:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1727107080; x=1758643080;
+ t=1727107084; x=1758643084;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=O3g3L/+sKtCko1xwkExrYw48dPoMuF/ASAUzm/24awE=;
- b=dzy2FtBOTGgpNyrn73CD2zvhiI6kiaTIRrokBPLL1XA31pI6xJ+du3K4
- Qgi49Zbtk2748UiE3no/ruz7SE9Tn5/QFvd16BblyrFfCqyVYcoAL96jn
- 9UnV+TGsqCmajc1XMzxOueuv7HHVK4W5K7mbxWO72lsjw9ZgF8VeWKG4i
- Q2OEYenlhWqg6IXwsZWMbKt0DLOAPLc0XmE/fc6kPluzS03cij7aaYEoX
- ARQBcGXKwEFOXdt+cWF43Xdzx27PvkX4i3swmByiZHbkAce/HbTOK+ULq
- s7dHObQrTRxcjWE1fO7uTCxD+O+yAmezFwWKjp1nzS4Lky17lkVeG0VHx w==;
-X-CSE-ConnectionGUID: sqa/brV4QbmTCKti3pXWtw==
-X-CSE-MsgGUID: YrKwh0QVSIyyYJoCn+QQEw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="28957225"
-X-IronPort-AV: E=Sophos;i="6.10,251,1719903600"; d="scan'208";a="28957225"
+ bh=W5gtcbCYp4vJg4Flsqj3JabmZDfdkYxI+vhYsmZg/pU=;
+ b=bTwIBCXQbo+JQhmI+q6vLAOvo+qh8Yd6840IhRk14dwJltn+gNvTEkBl
+ 01f6uJLM7jTA/XOn8ZWqF+ctGWdz83/rIjc/GrZCT3ztURbrScc/FhfEy
+ kZexnyt9jwALLXc1kj2eUJkbJzVIrP1iW4DbB3EnXnsNBRs8zrwh4zxds
+ 3+UwL4/Bi/luEO+MnFPssZ8Vr2bXrSI06273uyrXHhHmHHBrYVdr48CK5
+ E3paJMm3fFr6shXA9/rqImv20VymcrI/qw8exNgIdsS4dedpaGdb+8oui
+ 3hM9v0wmml3NByAizPtIv32mORmuFkpc03WhrRINCu/a0plXC1VN0TPoU A==;
+X-CSE-ConnectionGUID: hzEG3tMWQ7mxETFZWat3BA==
+X-CSE-MsgGUID: Fu+QbjDRRzKD7U8sLh7Q3Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="28957235"
+X-IronPort-AV: E=Sophos;i="6.10,251,1719903600"; d="scan'208";a="28957235"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Sep 2024 08:58:00 -0700
-X-CSE-ConnectionGUID: VuxfrVICQsWiU7qbjIvxOQ==
-X-CSE-MsgGUID: Pkx6592wQjKTeVxgUJYhdw==
+ 23 Sep 2024 08:58:04 -0700
+X-CSE-ConnectionGUID: +1YXDUogTT+AIac5L1RowA==
+X-CSE-MsgGUID: e1tmV5n9QKGm46YWyYlpqw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,251,1719903600"; d="scan'208";a="71250774"
+X-IronPort-AV: E=Sophos;i="6.10,251,1719903600"; d="scan'208";a="71250782"
 Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by fmviesa008.fm.intel.com with SMTP; 23 Sep 2024 08:57:57 -0700
+ by fmviesa008.fm.intel.com with SMTP; 23 Sep 2024 08:58:01 -0700
 Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 23 Sep 2024 18:57:56 +0300
+ Mon, 23 Sep 2024 18:58:00 +0300
 From: Ville Syrjala <ville.syrjala@linux.intel.com>
 To: linux-fbdev@vger.kernel.org
 Cc: Helge Deller <deller@gmx.de>, Simona Vetter <simona@ffwll.ch>,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/6] fbcon: Add sysfs attributes before registering the device
-Date: Mon, 23 Sep 2024 18:57:45 +0300
-Message-ID: <20240923155749.30846-3-ville.syrjala@linux.intel.com>
+Subject: [PATCH 3/6] fbcon: fbcon_cursor_noblink -> fbcon_cursor_blink
+Date: Mon, 23 Sep 2024 18:57:46 +0300
+Message-ID: <20240923155749.30846-4-ville.syrjala@linux.intel.com>
 X-Mailer: git-send-email 2.44.2
 In-Reply-To: <20240923155749.30846-1-ville.syrjala@linux.intel.com>
 References: <20240923155749.30846-1-ville.syrjala@linux.intel.com>
@@ -72,181 +72,55 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-Currently fbcon adds the attributes after registering the device,
-which means the attributes may not be there by the time udev
-gets the ADD uevent. Fix the race by switching over to
-device_create_with_groups().
-
-With this one can reliably turn off the power wasting cursor
-blink with a udev rule such as:
-ACTION=="add", SUBSYSTEM=="graphics", TEST=="cursor_blink", ATTR{cursor_blink}="0"
+Invert fbcon_cursor_noblink into fbcon_cursor_blink so that:
+- it matches the sysfs attribute exactly
+- avoids having to do these NOT operations all over the place
 
 Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 ---
- drivers/video/fbdev/core/fbcon.c | 73 +++++++++-----------------------
- 1 file changed, 19 insertions(+), 54 deletions(-)
+ drivers/video/fbdev/core/fbcon.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-index 8936fa79b9e0..bbe332572ca7 100644
+index bbe332572ca7..eb30aa872371 100644
 --- a/drivers/video/fbdev/core/fbcon.c
 +++ b/drivers/video/fbdev/core/fbcon.c
-@@ -160,7 +160,6 @@ static int info_idx = -1;
+@@ -166,7 +166,7 @@ static const struct consw fb_con;
  
- /* console rotation */
- static int initial_rotation = -1;
--static int fbcon_has_sysfs;
- static int margin_color;
+ #define advance_row(p, delta) (unsigned short *)((unsigned long)(p) + (delta) * vc->vc_size_row)
  
- static const struct consw fb_con;
-@@ -188,8 +187,6 @@ static void fbcon_redraw_move(struct vc_data *vc, struct fbcon_display *p,
- static void fbcon_modechanged(struct fb_info *info);
- static void fbcon_set_all_vcs(struct fb_info *info);
+-static int fbcon_cursor_noblink;
++static int fbcon_cursor_blink;
  
--static struct device *fbcon_device;
--
- #ifdef CONFIG_FRAMEBUFFER_CONSOLE_ROTATION
- static inline void fbcon_set_rotation(struct fb_info *info)
+ #define divides(a, b)	((!(a) || (b)%(a)) ? 0 : 1)
+ 
+@@ -399,7 +399,7 @@ static void fbcon_add_cursor_work(struct fb_info *info)
  {
-@@ -3151,7 +3148,7 @@ static const struct consw fb_con = {
- 	.con_debug_leave	= fbcon_debug_leave,
- };
+ 	struct fbcon_ops *ops = info->fbcon_par;
  
--static ssize_t store_rotate(struct device *device,
-+static ssize_t rotate_store(struct device *device,
- 			    struct device_attribute *attr, const char *buf,
- 			    size_t count)
- {
-@@ -3173,7 +3170,7 @@ static ssize_t store_rotate(struct device *device,
- 	return count;
+-	if (!fbcon_cursor_noblink)
++	if (fbcon_cursor_blink)
+ 		queue_delayed_work(system_power_efficient_wq, &ops->cursor_work,
+ 				   ops->cur_blink_jiffies);
  }
- 
--static ssize_t store_rotate_all(struct device *device,
-+static ssize_t rotate_all_store(struct device *device,
- 				struct device_attribute *attr,const char *buf,
- 				size_t count)
- {
-@@ -3195,7 +3192,7 @@ static ssize_t store_rotate_all(struct device *device,
- 	return count;
- }
- 
--static ssize_t show_rotate(struct device *device,
-+static ssize_t rotate_show(struct device *device,
- 			   struct device_attribute *attr,char *buf)
- {
- 	struct fb_info *info;
-@@ -3214,13 +3211,13 @@ static ssize_t show_rotate(struct device *device,
- 	return sysfs_emit(buf, "%d\n", rotate);
- }
- 
--static ssize_t show_cursor_blink(struct device *device,
-+static ssize_t cursor_blink_show(struct device *device,
+@@ -3214,7 +3214,7 @@ static ssize_t rotate_show(struct device *device,
+ static ssize_t cursor_blink_show(struct device *device,
  				 struct device_attribute *attr, char *buf)
  {
- 	return sysfs_emit(buf, "%d\n", !fbcon_cursor_noblink);
+-	return sysfs_emit(buf, "%d\n", !fbcon_cursor_noblink);
++	return sysfs_emit(buf, "%d\n", fbcon_cursor_blink);
  }
  
--static ssize_t store_cursor_blink(struct device *device,
-+static ssize_t cursor_blink_store(struct device *device,
- 				  struct device_attribute *attr,
- 				  const char *buf, size_t count)
- {
-@@ -3253,35 +3250,17 @@ static ssize_t store_cursor_blink(struct device *device,
- 	return count;
- }
- 
--static struct device_attribute device_attrs[] = {
--	__ATTR(rotate, S_IRUGO|S_IWUSR, show_rotate, store_rotate),
--	__ATTR(rotate_all, S_IWUSR, NULL, store_rotate_all),
--	__ATTR(cursor_blink, S_IRUGO|S_IWUSR, show_cursor_blink,
--	       store_cursor_blink),
--};
--
--static int fbcon_init_device(void)
--{
--	int i, error = 0;
--
--	fbcon_has_sysfs = 1;
--
--	for (i = 0; i < ARRAY_SIZE(device_attrs); i++) {
--		error = device_create_file(fbcon_device, &device_attrs[i]);
--
--		if (error)
--			break;
--	}
--
--	if (error) {
--		while (--i >= 0)
--			device_remove_file(fbcon_device, &device_attrs[i]);
--
--		fbcon_has_sysfs = 0;
--	}
-+static DEVICE_ATTR_RW(rotate);
-+static DEVICE_ATTR_WO(rotate_all);
-+static DEVICE_ATTR_RW(cursor_blink);
- 
--	return 0;
--}
-+static struct attribute *device_attrs[] = {
-+	&dev_attr_rotate.attr,
-+	&dev_attr_rotate_all.attr,
-+	&dev_attr_cursor_blink.attr,
-+	NULL,
-+};
-+ATTRIBUTE_GROUPS(device);
- 
- #ifdef CONFIG_FRAMEBUFFER_CONSOLE_DEFERRED_TAKEOVER
- static void fbcon_register_existing_fbs(struct work_struct *work)
-@@ -3336,19 +3315,18 @@ static void fbcon_start(void)
- 
- void __init fb_console_init(void)
- {
-+	struct device *fbcon_device;
- 	int i;
- 
+ static ssize_t cursor_blink_store(struct device *device,
+@@ -3230,7 +3230,7 @@ static ssize_t cursor_blink_store(struct device *device,
  	console_lock();
--	fbcon_device = device_create(fb_class, NULL, MKDEV(0, 0), NULL,
--				     "fbcon");
+ 	idx = con2fb_map[fg_console];
  
-+	fbcon_device = device_create_with_groups(fb_class, NULL, MKDEV(0, 0),
-+						 NULL, device_groups, "fbcon");
- 	if (IS_ERR(fbcon_device)) {
- 		printk(KERN_WARNING "Unable to create device "
- 		       "for fbcon; errno = %ld\n",
- 		       PTR_ERR(fbcon_device));
--		fbcon_device = NULL;
--	} else
--		fbcon_init_device();
-+	}
+-	fbcon_cursor_noblink = !blink;
++	fbcon_cursor_blink = blink;
  
- 	for (i = 0; i < MAX_NR_CONSOLES; i++)
- 		con2fb_map[i] = -1;
-@@ -3359,18 +3337,6 @@ void __init fb_console_init(void)
- 
- #ifdef MODULE
- 
--static void __exit fbcon_deinit_device(void)
--{
--	int i;
--
--	if (fbcon_has_sysfs) {
--		for (i = 0; i < ARRAY_SIZE(device_attrs); i++)
--			device_remove_file(fbcon_device, &device_attrs[i]);
--
--		fbcon_has_sysfs = 0;
--	}
--}
--
- void __exit fb_console_exit(void)
- {
- #ifdef CONFIG_FRAMEBUFFER_CONSOLE_DEFERRED_TAKEOVER
-@@ -3383,7 +3349,6 @@ void __exit fb_console_exit(void)
- #endif
- 
- 	console_lock();
--	fbcon_deinit_device();
- 	device_destroy(fb_class, MKDEV(0, 0));
- 
- 	do_unregister_con_driver(&fb_con);
+ 	if (idx == -1 || fbcon_registered_fb[idx] == NULL)
+ 		goto err;
 -- 
 2.44.2
 
