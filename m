@@ -2,54 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED89A983A4D
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 01:17:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCA4C983A75
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 01:41:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E9F710E4B2;
-	Mon, 23 Sep 2024 23:17:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F7D610E4B6;
+	Mon, 23 Sep 2024 23:41:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rJK/PUQc";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZrltTDfM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A40D410E4B2
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2024 23:17:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1DA210E4B6;
+ Mon, 23 Sep 2024 23:41:35 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 2FFA05C5A64;
- Mon, 23 Sep 2024 23:17:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA2D6C4CEC4;
- Mon, 23 Sep 2024 23:17:03 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 617895C4CCC;
+ Mon, 23 Sep 2024 23:41:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF6BFC4CEC4;
+ Mon, 23 Sep 2024 23:41:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1727133426;
- bh=UG4UGsKvX+wo2WitQPf+2gQC75xr/D3jMlaQj0ZBjE8=;
+ s=k20201202; t=1727134895;
+ bh=UM2NgGDwtcdfCAtmpbmXSRYydqO0kQ6t2IqeO1HMfTQ=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=rJK/PUQcr11Ke/mGT5Csom2T1JI2blUSICf8algmmr8FoU/le19MjhPgrj5WwGGVq
- juI9bs5nAjIia4RBEv2noI0AdLx3I7zIsezLIGcYX2mb8nXZtG8E6HfN6Y2xdgUpBK
- 8Iphs1PMwNHVs6j7OFgjlIAdwPF+rfEcLtT79/ujx1Ms7vUNSRLXfvWA0Z5D1MuyMW
- /6QUswAdwf2Bit3Yi1Fr8PhpsNvTPB2v9dbOysL/nuVnX5P3Xbr6XcdESFs8LkpGr0
- GeQ6cSyiZoME+9fzVqQwpg/PyV42WLA/F0cdSBdYJ3BR0/hPLQwiw0GbIQbOslNHsg
- mhcXAJgmUuIGA==
-Date: Tue, 24 Sep 2024 01:17:01 +0200
+ b=ZrltTDfMIdK9chV+a27Kc6oD1k2oNPFhUR51eP9J/aLO15BZa/+funfnAGsO+FYHA
+ wUepj8z0fmISzl8G9gB2RBUIYCHAO1UTWDxtVEmuuGk5ujv2cWFhcEtJ0RrWB6FE1t
+ Gtoh8mA3fgl6bqKJ1vRBPjXKGJka/4NJ6GOFbyoRQmEgiqJhPxyjBtjsU+U6vDZcUY
+ xYRIv5FyQ/dw/BmiLv7zXhqM6NcDEootXF8Ytp5rDsq1X2mJUSkZtXDE0vPRtel1Z/
+ QOIp+kOM4gfwCN828sYwuEL0D2zNrPY223IY1FfKidPKOGhw2t/yn2Ldt4tEePtvUD
+ WoD4PHn6ve/Yg==
+Date: Tue, 24 Sep 2024 01:41:31 +0200
 From: Danilo Krummrich <dakr@kernel.org>
-To: Rob Clark <robdclark@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, Rob Clark <robdclark@chromium.org>,
- Asahi Lina <lina@asahilina.net>, stable@vger.kernel.org,
- Luben Tuikov <ltuikov89@gmail.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Danilo Krummrich <dakr@redhat.com>,
- open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] drm/sched: Fix dynamic job-flow control race
-Message-ID: <ZvH27TgYcJbHeiZn@pollux.localdomain>
-References: <20240913202301.16772-1-robdclark@gmail.com>
+To: "Zeng, Oak" <oak.zeng@intel.com>
+Cc: "Brost, Matthew" <matthew.brost@intel.com>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/gpuvm: merge adjacent gpuva range during a map
+ operation
+Message-ID: <ZvH8qyiMe9CzqkLm@pollux.localdomain>
+References: <20240918164740.3955915-1-oak.zeng@intel.com>
+ <ZuseA6s2nip+PbTC@DUT025-TGLU.fm.intel.com>
+ <BYAPR11MB315944FFB3DE254952FE298592632@BYAPR11MB3159.namprd11.prod.outlook.com>
+ <cbf61ca5-870f-4617-839f-3e7a66fe7f1a@kernel.org>
+ <BYAPR11MB3159CA7CBC2C4F53EFA8C046926F2@BYAPR11MB3159.namprd11.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240913202301.16772-1-robdclark@gmail.com>
+In-Reply-To: <BYAPR11MB3159CA7CBC2C4F53EFA8C046926F2@BYAPR11MB3159.namprd11.prod.outlook.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,92 +63,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 13, 2024 at 01:23:01PM -0700, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
-> 
-> Fixes a race condition reported here: https://github.com/AsahiLinux/linux/issues/309#issuecomment-2238968609
-> 
-> The whole premise of lockless access to a single-producer-single-
-> consumer queue is that there is just a single producer and single
-> consumer.  That means we can't call drm_sched_can_queue() (which is
-> about queueing more work to the hw, not to the spsc queue) from
-> anywhere other than the consumer (wq).
-> 
-> This call in the producer is just an optimization to avoid scheduling
-> the consuming worker if it cannot yet queue more work to the hw.  It
-> is safe to drop this optimization to avoid the race condition.
-> 
-> Suggested-by: Asahi Lina <lina@asahilina.net>
-> Fixes: a78422e9dff3 ("drm/sched: implement dynamic job-flow control")
-> Closes: https://github.com/AsahiLinux/linux/issues/309
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
+(adding dri-devel)
 
-Applied to drm-misc-fixes, thanks!
+On Mon, Sep 23, 2024 at 02:24:02PM +0000, Zeng, Oak wrote:
+> > > This patch is an old one in my back log. I roughly remember I ran into
+> > a situation where there were two duplicated VMAs covering
+> > > Same virtual address range are kept in gpuvm's RB-tree. One VMA
+> > was actually already destroyed. This further caused issues as
+> > > The destroyed VMA was found during a GPUVM RB-tree walk. This
+> > triggered me to look into the gpuvm merge split logic and end
+> > > Up with this patch. This patch did fix that issue.
+> > 
+> > That would indeed be a big issue. As Matt suggests, is there a
+> > reproducer?
+> > 
+> > Either way, adding merge support can't be the fix for this, we need a
+> > separate
+> > one, that's back-portable.
+> > 
+> 
+> The discussion went on when you were away. See https://patchwork.freedesktop.org/patch/614941/?series=138835&rev=1
 
-> ---
->  drivers/gpu/drm/scheduler/sched_entity.c | 4 ++--
->  drivers/gpu/drm/scheduler/sched_main.c   | 7 ++-----
->  include/drm/gpu_scheduler.h              | 2 +-
->  3 files changed, 5 insertions(+), 8 deletions(-)
+Yes, I'm aware. But I don't see how this is related to what I said above?
+
 > 
-> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-> index 58c8161289fe..567e5ace6d0c 100644
-> --- a/drivers/gpu/drm/scheduler/sched_entity.c
-> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
-> @@ -380,7 +380,7 @@ static void drm_sched_entity_wakeup(struct dma_fence *f,
->  		container_of(cb, struct drm_sched_entity, cb);
->  
->  	drm_sched_entity_clear_dep(f, cb);
-> -	drm_sched_wakeup(entity->rq->sched, entity);
-> +	drm_sched_wakeup(entity->rq->sched);
->  }
->  
->  /**
-> @@ -612,7 +612,7 @@ void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
->  		if (drm_sched_policy == DRM_SCHED_POLICY_FIFO)
->  			drm_sched_rq_update_fifo(entity, submit_ts);
->  
-> -		drm_sched_wakeup(entity->rq->sched, entity);
-> +		drm_sched_wakeup(entity->rq->sched);
->  	}
->  }
->  EXPORT_SYMBOL(drm_sched_entity_push_job);
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> index ab53ab486fe6..6f27cab0b76d 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -1013,15 +1013,12 @@ EXPORT_SYMBOL(drm_sched_job_cleanup);
->  /**
->   * drm_sched_wakeup - Wake up the scheduler if it is ready to queue
->   * @sched: scheduler instance
-> - * @entity: the scheduler entity
->   *
->   * Wake up the scheduler if we can queue jobs.
->   */
-> -void drm_sched_wakeup(struct drm_gpu_scheduler *sched,
-> -		      struct drm_sched_entity *entity)
-> +void drm_sched_wakeup(struct drm_gpu_scheduler *sched)
->  {
-> -	if (drm_sched_can_queue(sched, entity))
-> -		drm_sched_run_job_queue(sched);
-> +	drm_sched_run_job_queue(sched);
->  }
->  
->  /**
-> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> index fe8edb917360..9c437a057e5d 100644
-> --- a/include/drm/gpu_scheduler.h
-> +++ b/include/drm/gpu_scheduler.h
-> @@ -574,7 +574,7 @@ void drm_sched_entity_modify_sched(struct drm_sched_entity *entity,
->  
->  void drm_sched_tdr_queue_imm(struct drm_gpu_scheduler *sched);
->  void drm_sched_job_cleanup(struct drm_sched_job *job);
-> -void drm_sched_wakeup(struct drm_gpu_scheduler *sched, struct drm_sched_entity *entity);
-> +void drm_sched_wakeup(struct drm_gpu_scheduler *sched);
->  bool drm_sched_wqueue_ready(struct drm_gpu_scheduler *sched);
->  void drm_sched_wqueue_stop(struct drm_gpu_scheduler *sched);
->  void drm_sched_wqueue_start(struct drm_gpu_scheduler *sched);
-> -- 
-> 2.46.0
+> Matt and me agreed to implement a merge logic in gpuvm, but gpuvm need to check a driver cookie/callback to decide merge or not.
+> We reached this conclusion based on some requirement from system allocator design. See more details in above link.
 > 
+> Can you take a look and let us know whether you agree?
+
+Generally, I'm fine with that, one of my early versions of GPUVM had this. But I
+dropped it because I don't saw an immediate benefit.
+
+From my old change log:
+
+    "Remove merging of GPUVAs; the kernel has limited to none knowlege about
+    the semantics of mapping sequences. Hence, merging is purely speculative.
+    It seems that gaining a significant (or at least a measurable) performance
+    increase through merging is way more likely to happen when userspace is
+    responsible for merging mappings up to the next larger page size if
+    possible."
+
+If the pure number of GPUVA structures is a concern though, I think it's fair to
+add it. So, feel to send a patch.
+
+It's probably also a good idea to double check with my old merge implementation
+[1]. It's pretty easy to get this wrong. I'm not saying I got it right, but if
+we both ended up with the same logic, it's a good indicator. :)
+
+However, this should *not* be a solution for an existing bug. Above you mention
+a bug related to "duplicated VMAs covering the same virtual address range". This
+is unrelated and must be fixed separately. Do you have a way to reproduce this?
+
+[1] https://lore.kernel.org/dri-devel/20230217134422.14116-6-dakr@redhat.com/
+
+> 
+> > Also, can we move this on DRI-devel please?
+> 
+> Yes will do.
+> 
+> Oak
