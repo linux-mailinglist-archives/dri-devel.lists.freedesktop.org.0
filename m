@@ -2,94 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E563297E717
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2024 10:02:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 413EF97E76A
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2024 10:19:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E05C10E3A4;
-	Mon, 23 Sep 2024 08:02:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBF7C10E3A6;
+	Mon, 23 Sep 2024 08:19:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="KO3ZPs8Q";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LeYVMNc/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
- [209.85.128.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4964310E3A2
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2024 08:02:49 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id
- 5b1f17b1804b1-42cbface8d6so51954095e9.3
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2024 01:02:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1727078567; x=1727683367;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=fC3Bk5dw1/gGRftPXPJ3V4u4Vjqap92J4A7d7sdxGEM=;
- b=KO3ZPs8QfEBn0LAhjh5PXt4Ph7xghAUj8nMrY4e05To3ip7Eypis6xn2bCE2ER344U
- veGatJmr/PePkZI4fXphLLN2hvLp1JMKQG2Vb/hCtrnHYRv8hjTiAw/AFHrHQgimMtJi
- VT+aZCJjxADPDKZXVO4oj+3c0zJI+HVHuqDRXI9a3EK6zPBy7cIGk/GF8Q+Pu1JqVjkv
- 6reQEQfLzJDnNF1I3hQ5Whda/TGCeoOSyljaSNeguWKrROX62so2mKxxhnlTEbczISok
- ewy3j5ALM5MsWUb3twzRzVNqP/XNToHb9kch58LjWbREGilQXQtvk0MgoZ4aOhZWLN/z
- 77/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727078567; x=1727683367;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=fC3Bk5dw1/gGRftPXPJ3V4u4Vjqap92J4A7d7sdxGEM=;
- b=EVFVAXXlDOz70BuEh0aQsHcxHrihKPAs+8DqlAoc++Jl1aw1qe+PPpqFr8lKitURZC
- hjQtOkgAgc9aLlK6dhQVL0NfhAgXAW5l76KjT07rTFvX1pgBwhqn+oq4WIJrAoHQelfG
- FPq6CBJAjC7BWbGreUmM6hyJlPDVb0/HW+6dJz+T5fs2p8IoNptgeoHUvffCVkQ+cow4
- V7D/NtNYx0p2itvDbp5uZT8y0maeC2kBUoavc6zz7DPYT1E4MsNyAUYmfterdp9/cWXk
- ogd3WcXiLeQDyGe1cvoF7d1BKftOBn1Artl9c9HENIONOIdN7Tm+q7h4iIwxyaggx/O4
- peOg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX0d9zDu10Z2aZDkyFjQMUDfF6VAagHpucXr1wMkulZy6ynXy7+izuzJDtA2BwD2hoXmxzhTxwuqIo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyRP+P4YkvWvAV8YcgzjyU4EHlz1UNxckQZ7TponwHcsF20+Sc2
- EDW2boatIGiVliKJ6Jk9fOGUiwwCniwBU6Nmcrq0VaXHLzW+kigrhwlt5sMulyE=
-X-Google-Smtp-Source: AGHT+IFh8B1YgLhKe+4RstOPDzr4ZktChxPzie9lMCmzjGXOU/dpCtHs6ZgyG/jWqji4/p+lC75vhw==
-X-Received: by 2002:a05:600c:4ed2:b0:42c:bbd5:727b with SMTP id
- 5b1f17b1804b1-42e7adc01a5mr122382395e9.25.1727078567470; 
- Mon, 23 Sep 2024 01:02:47 -0700 (PDT)
-Received: from [192.168.0.101] ([90.241.98.187])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-378e780da68sm23800022f8f.111.2024.09.23.01.02.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Sep 2024 01:02:47 -0700 (PDT)
-Message-ID: <1b824cfe-2006-4f5f-a34e-3496c259cd90@ursulin.net>
-Date: Mon, 23 Sep 2024 09:02:45 +0100
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2E7910E3A7
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2024 08:19:50 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 4B5325C5816;
+ Mon, 23 Sep 2024 08:19:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CEB1C4CEC4;
+ Mon, 23 Sep 2024 08:19:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1727079589;
+ bh=gQ1xXXNFSQ0hMp/hqA4GAQ7kD/mpS6i/zp2Gmw3vPRw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=LeYVMNc/c1PpcDq/PGTNH8EeH683lhQ22/Ye7Wa4pPsxVuDDsLY7Q9JyzQS1As9ys
+ 1FxD65e/lBiV5VktoD0dv2pZ7FLgoeIFKJEwS9agXwshH7aqAKWq63ZP+UjytmPKLu
+ yAIQUsTNGCMG1aQpwo4+9E1W77uhKT3AXbPHR4683BNeokwEgHhRfR2eHDuZoIv+nH
+ WB483aJV+y58kgAC0/JTULv4RpA1WkJEg+q+q2T6+pLYIygf3JBmgW7xmVAplusijv
+ wrTGbbhIB55EzaYYVnuIWO5abH1Uweoc6XHXEdDjVa2BsDSfs8pb/9aWkxwrnz6+mn
+ A7DeNA4vO15LA==
+Date: Mon, 23 Sep 2024 10:19:46 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Sandy Huang <hjc@rock-chips.com>, 
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Mark Yao <markyao0591@gmail.com>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ devicetree@vger.kernel.org, 
+ kernel@collabora.com, Alexandre ARNOUD <aarnoud@me.com>, 
+ Luis de Arquer <ldearquer@gmail.com>, Algea Cao <algea.cao@rock-chips.com>
+Subject: Re: [PATCH v6 1/3] drm/bridge: synopsys: Add DW HDMI QP TX
+ Controller support library
+Message-ID: <20240923-spirited-wealthy-pelican-4e15dc@penduick>
+References: <20240906-b4-rk3588-bridge-upstream-v6-0-a3128fb103eb@collabora.com>
+ <20240906-b4-rk3588-bridge-upstream-v6-1-a3128fb103eb@collabora.com>
+ <20240909-horned-congenial-curassow-ebc5fa@houat>
+ <f8b17995-ce53-45ab-8e68-c7087dbc9786@collabora.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 01/12] spi: add driver for intel graphics on-die spi
- device
-To: "Winkler, Tomas" <tomas.winkler@intel.com>, Mark Brown <broonie@kernel.org>
-Cc: "Usyskin, Alexander" <alexander.usyskin@intel.com>,
- "De Marchi, Lucas" <lucas.demarchi@intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
- "Lubart, Vitaly" <vitaly.lubart@intel.com>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-References: <20240916134928.3654054-1-alexander.usyskin@intel.com>
- <20240916134928.3654054-2-alexander.usyskin@intel.com>
- <ZurWk_eXSQndgA4Y@finisterre.sirena.org.uk>
- <PH7PR11MB76057D2326D436CA9749A113E5632@PH7PR11MB7605.namprd11.prod.outlook.com>
- <Zuv9qsWJQhx7rbhJ@finisterre.sirena.org.uk>
- <PH7PR11MB760505A11C7A41DAB0359184E56D2@PH7PR11MB7605.namprd11.prod.outlook.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <PH7PR11MB760505A11C7A41DAB0359184E56D2@PH7PR11MB7605.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="bjmxjjuhmv2zdjhq"
+Content-Disposition: inline
+In-Reply-To: <f8b17995-ce53-45ab-8e68-c7087dbc9786@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,41 +79,74 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 21/09/2024 14:00, Winkler, Tomas wrote:
-> 
-> 
->>
->> On Thu, Sep 19, 2024 at 09:54:24AM +0000, Winkler, Tomas wrote:
->>>> On Mon, Sep 16, 2024 at 04:49:17PM +0300, Alexander Usyskin wrote:
->>
->>>>> @@ -0,0 +1,142 @@
->>>>> +// SPDX-License-Identifier: GPL-2.0
->>>>> +/*
->>>>> + * Copyright(c) 2019-2024, Intel Corporation. All rights reserved.
->>>>> + */
->>
->>>> Please make the entire comment a C++ one so things look more
->> intentional.
->>
->>> This is how it is required by Linux spdx checker,
->>
->> There is no incompatibility between SPDX and what I'm asking for...
->>
->>>>> +	size = sizeof(*spi) + sizeof(spi->regions[0]) * nregions;
->>>>> +	spi = kzalloc(size, GFP_KERNEL);
->>
->>>> Use at least array_size().
->>
->>> Regions is not fixed size array, it will not work.
->>
->> Yes, that's the wrong helper - there is a relevent one though which I'm not
->> remembering right now.
-> 
-> 
-> I don't think there is one, you can allocate arrays but this is not the case here.
+--bjmxjjuhmv2zdjhq
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-struct_size() probably.
+On Sat, Sep 14, 2024 at 10:12:29PM GMT, Cristian Ciocaltea wrote:
+> Hi Maxime,
+>=20
+> On 9/9/24 6:13 PM, Maxime Ripard wrote:
+> > Hi,
+> >=20
+> > On Fri, Sep 06, 2024 at 04:17:40AM GMT, Cristian Ciocaltea wrote:
+> >> +static enum drm_connector_status
+> >> +dw_hdmi_qp_bridge_detect(struct drm_bridge *bridge)
+> >> +{
+> >> +	struct dw_hdmi_qp *hdmi =3D bridge->driver_private;
+> >> +	enum drm_connector_status status;
+> >> +
+> >> +	status =3D hdmi->phy.ops->read_hpd(hdmi, hdmi->phy.data);
+> >> +
+> >> +	dev_dbg(hdmi->dev, "%s conn=3D%d scramb=3D%d\n", __func__,
+> >> +		status =3D=3D connector_status_connected, hdmi->scramb_enabled);
+> >> +
+> >> +	if (hdmi->scramb_enabled) {
+> >> +		cancel_delayed_work_sync(&hdmi->scramb_work);
+> >> +
+> >> +		if (status =3D=3D connector_status_connected)
+> >> +			dw_hdmi_qp_check_and_set_scramb(hdmi);
+> >> +	}
+> >> +
+> >> +	return status;
+> >> +}
+> >=20
+> > Unfortunately, that won't work. The HDMI Spec has (HDMI 2.0, Section
+> > 6.1.3.1 - Scrambling Control):
+> >=20
+> > The minimum time period between the write to the Scrambling_Enable bit,
+> > and the transmission of a scrambled video signal is not specified;
+> > however the Source shall not begin transmission of a scrambled video
+> > signal before writing a 1 to the Scrambling_Enable bit. The maximum time
+> > period between the write to the Scrambling_Enable bit and the
+> > transmission of a scrambled video signal shall be 100 ms.
+> >=20
+> > So you need to disable the output and enable it again.
+> >=20
+> > vc4 does just that, you can have a look here:
+> > https://elixir.bootlin.com/linux/v6.10.9/source/drivers/gpu/drm/vc4/vc4=
+_hdmi.c#L410
+>=20
+> Thanks for all the details and references!
+>=20
+> Unfortunately I had to drop the scrambling setup for now [1], as I
+> encountered some issues while attempting to get this implemented as
+> suggested.  Will get back to this and submit it separately when done.
 
-Regards,
+Yeah, I think that's the best way forward for now :)
 
-Tvrtko
+Maxime
+--bjmxjjuhmv2zdjhq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZvEkmgAKCRAnX84Zoj2+
+dtqIAYCEGRZltZdX05vOCUhg+bOJmCXtzlvHsgM0R0lqKkF47Ts4/UIXsS4SIBrh
+GzywXicBfA+E1AnqXzojQFvunTAvhnbNDmkORCYsD6W+6g1tpbLD2aeqkSlYNen/
+ghfb0s5gfA==
+=WJBj
+-----END PGP SIGNATURE-----
+
+--bjmxjjuhmv2zdjhq--
