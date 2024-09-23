@@ -2,68 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5553797E61C
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2024 08:38:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E52BA97E635
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2024 08:53:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA0B910E032;
-	Mon, 23 Sep 2024 06:38:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1C4C10E1F5;
+	Mon, 23 Sep 2024 06:53:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="k4PIGv6S";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ieITzHY4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EF9389D99;
- Mon, 23 Sep 2024 06:38:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1727073531; x=1758609531;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=kjHIinl4HqurhMpgWJRROF+5WBw8ydeWCDSQcXpsJIg=;
- b=k4PIGv6SwcGhuPAwGsoJPUHJzTozaLRV3A1qYEGDaZfSzRxwzYYseRY1
- ubgm44Mp+Ee1tn+YycTSemXI5l5C5Q5UQt3ev3L6TR/4G63/lZJwXo5ah
- svl4xAbK5H1YCPXfhFPSJQYwNKbUlppdVTtqBLH7U1V6WA3zdYlgGF9qh
- YDm+IiY7SQs+nh8citARRgXjF8hOHLIVvMpgJhkxCapcSlqmZNQrUFJJq
- wsFn8pOxsDd9zvU+hUQi/X65+ICXrglowQuKildqcA/rCo86okox/nQag
- vm1UfxUbJRdLUfBwEyslprp3WIORFKL83qEaJ9KPLrTTjWNScfV1qkJuK A==;
-X-CSE-ConnectionGUID: HY+aZ03DTqKJ8dFt79BIFQ==
-X-CSE-MsgGUID: Q78/Z6SqS6OSD8Sn6rz8Hg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="36590265"
-X-IronPort-AV: E=Sophos;i="6.10,250,1719903600"; d="scan'208";a="36590265"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Sep 2024 23:38:50 -0700
-X-CSE-ConnectionGUID: cvlIPSonTompqD9DMu4dpw==
-X-CSE-MsgGUID: Xhq3ahHKSp++y3A07Vp1dA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,250,1719903600"; d="scan'208";a="71277023"
-Received: from sschumil-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.245.246.65])
- by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Sep 2024 23:38:46 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Marc Gonzalez <mgonzalez@freebox.fr>, Arnaud Vrac <avrac@freebox.fr>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, Nathan Chancellor <nathan@kernel.org>, Rob
- Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH 7/8] drm/msmi: annotate pll_cmp_to_fdata() with
- __maybe_unused
-In-Reply-To: <n3w7pq364l5ugsnmenece73ke4f3msqmaqoxfrpnqssdo3znyc@psa4cbbmmbix>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1725962479.git.jani.nikula@intel.com>
- <3553b1db35665e6ff08592e35eb438a574d1ad65.1725962479.git.jani.nikula@intel.com>
- <4ag2efwiizn5bnskauekqwfhgl4gioafcvetpvsmbdgg37bdja@3g6tt4rlfwcb>
- <19ac4e25-7609-4d92-8687-585c6ea00c79@freebox.fr>
- <878qvyjxpg.fsf@intel.com>
- <n3w7pq364l5ugsnmenece73ke4f3msqmaqoxfrpnqssdo3znyc@psa4cbbmmbix>
-Date: Mon, 23 Sep 2024 09:38:43 +0300
-Message-ID: <871q1a98ng.fsf@intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7038A10E1F5
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2024 06:53:36 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id CD20B5C5594
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2024 06:53:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 63AABC4CECF
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2024 06:53:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1727074415;
+ bh=RQmm+8aqltJL6x34vzEmlq3NsH1t+9sIIZICl2SijU0=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=ieITzHY4JAaYaMMbAqiDJbKyBKFLX4krBUZTw6N/r2blPATuHE5QlJiiOjkyGYQ8K
+ bu97+3PkIohB79xALQWhMJ2JtuuVeCz4l8Cp8dh8EseHoyWU8LLTwSdIymkVaSQcCG
+ h0pcTDiuyrljPO/CFyl7T0Jd0oINIqYOEqhr/Lm1wIKe2o2bDFlABIt3IJtzdyn6Kf
+ Rv8oMGXqMFa6LTbP20iHpVHHCzjpv1vKTxda4WVkY58ir1Sahz5OQ0pYXmx04hYzYZ
+ rUE62QZbhLnPymgkurXoU38EfXMGphwsEpmGaP4OXvEzX4jlIb7pC3aHBmbDJyH1om
+ ENKTIpl3hAdTw==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 577A2C53BC7; Mon, 23 Sep 2024 06:53:35 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 209939] radeontop causes kernel panic
+Date: Mon, 23 Sep 2024 06:53:35 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: janpieter.sollie@edpnet.be
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: OBSOLETE
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-209939-2300-OfbGRErbqY@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-209939-2300@https.bugzilla.kernel.org/>
+References: <bug-209939-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,18 +74,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 22 Sep 2024, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
-> On Wed, Sep 11, 2024 at 01:23:23PM GMT, Jani Nikula wrote:
->> Thanks, I'll change this to drop the function.
->
-> Seeing no updated revisions here, I've posted a patch that drops the
-> offending function. If I missed an update, please exuse me.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D209939
 
-Thanks, I just didn't get around to it yet.
+Janpieter Sollie (janpieter.sollie@edpnet.be) changed:
 
-BR,
-Jani.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |OBSOLETE
 
+--=20
+You may reply to this email to add a comment.
 
--- 
-Jani Nikula, Intel
+You are receiving this mail because:
+You are watching the assignee of the bug.=
