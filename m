@@ -2,53 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B231E97EA47
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2024 12:58:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10C9E97EA6B
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2024 13:03:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C2BD10E19A;
-	Mon, 23 Sep 2024 10:58:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0ACA610E21E;
+	Mon, 23 Sep 2024 11:03:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="XigLid0y";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="TRKAyExS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56ACB10E19A;
- Mon, 23 Sep 2024 10:58:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Cc:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=LMNeHLJ+Rks5s9FN2C0xJWvcpgF5ao1dduFanqczOzE=; b=XigLid0ye/qZfFwiabIdfysUIX
- WervZloEdB/yKDIjmYSSrrlj0uSaq+aKgmpYynQTD+Wj7wl4lq+zn+hCcblcSUGkcShcycxEDxLT7
- GASsKfxsZFG9WK2UQpK+03folvnldV2L7nStbUb0FlUhCkePfELYeEuNEq4eGCcXlzeJiR/nu5QhU
- 3vSUM2EU8gsbCz1BOv+RLxmA/vDnKMMZf4Te6ddZPV/kxx3lRZgVhSBtaOp2nLKwJendIQQme2+of
- qIn4RFFpxAvGAN5hp+Uj0FRy+b3V6UstARpKrS/Oi9lhA1u9Um87TrBERYgtEEtZMWvB6UYJtWqag
- 0BjScEPw==;
-Received: from [90.241.98.187] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1ssglk-00HUMW-PR; Mon, 23 Sep 2024 12:58:16 +0200
-Message-ID: <fd9ed75f-a235-4675-8635-19c6ae92f619@igalia.com>
-Date: Mon, 23 Sep 2024 11:58:15 +0100
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1663610E21E;
+ Mon, 23 Sep 2024 11:03:19 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1727089394; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=kDXCxfw/hw6ew8efv8U7Lx97Kex37kmk8+TaliPh7NG6D/gajWv1RylFpdCx7ykjAY3lSqFciNM3hJOUNoiMMVNqPZ9KAAVksn74iQ5CZP0CoXCL4KYnIkPcX2eoorVPAg74UtmBg6eH7DOb42jQVnRy2YcyDnTZedz0j9GiqhI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1727089394;
+ h=Content-Type:Content-Transfer-Encoding:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To:Cc;
+ bh=fE2c7L7xGQoDbOzbpWh4pek0hqhe59oT/bYRFk2jxQA=; 
+ b=aOvw8vWWWSYnTRtQi3MCp5VAB9ClshCcwBey9nRo/xGyEL0GOpouufWSYfiZXpx+ns0Pjyk+tNDkyZPI8IiJqjSmyQSwcnfjhlIpxQMtz7Plp/duCABX2QljCVAxgWXzR/N+Y4SyMTzDQEtLpTSW4b/HKYXberaFusnxXa/Sszo=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
+ dmarc=pass header.from=<dmitry.osipenko@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1727089394; 
+ s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:From:From:To:To:References:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To:Cc;
+ bh=fE2c7L7xGQoDbOzbpWh4pek0hqhe59oT/bYRFk2jxQA=;
+ b=TRKAyExSfS6DmryGrf5sAZi8W/cJ9bxEwpISux+jYBM32mzjwP3lSnrVGutwKlgX
+ 3JheGFh8RhdQc33L/dlB5bmcpOF5HXV0IFVCN5aVajy9gwi+wvyG7nmLCN9Gie2V8sH
+ TkBOhOCrX24y+98LHCVG5LnYkjvrCKavmWZSaTuU=
+Received: by mx.zohomail.com with SMTPS id 1727089393042996.3802434794034;
+ Mon, 23 Sep 2024 04:03:13 -0700 (PDT)
+Message-ID: <39ffb244-5264-44ee-9bc9-128d73a87ff2@collabora.com>
+Date: Mon, 23 Sep 2024 14:03:09 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/6] drm/amdgpu: alloc and init vm::task_info from
- first submit
+Subject: Re: [PATCH v3 1/6] drm: add DRM_SET_NAME ioctl
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
  dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
  tursulin@igalia.com, simona.vetter@ffwll.ch, robdclark@gmail.com,
  alexander.deucher@amd.com, amd-gfx@lists.freedesktop.org
 References: <20240920090920.1342694-1-pierre-eric.pelloux-prayer@amd.com>
- <20240920090920.1342694-5-pierre-eric.pelloux-prayer@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <20240920090920.1342694-5-pierre-eric.pelloux-prayer@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ <20240920090920.1342694-2-pierre-eric.pelloux-prayer@amd.com>
+ <75f56ed0-206a-4e81-9972-38c29a3e20be@collabora.com>
+Content-Language: en-US
+In-Reply-To: <75f56ed0-206a-4e81-9972-38c29a3e20be@collabora.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,179 +70,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 20/09/2024 10:06, Pierre-Eric Pelloux-Prayer wrote:
-> This will allow to use flexible array to store the process name and
-> other information.
+On 9/23/24 13:28, Dmitry Osipenko wrote:
+...
+>>  /**
+>> diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
+>> index 16122819edfe..f5e92e4f909b 100644
+>> --- a/include/uapi/drm/drm.h
+>> +++ b/include/uapi/drm/drm.h
+>> @@ -1024,6 +1024,13 @@ struct drm_crtc_queue_sequence {
+>>  	__u64 user_data;	/* user data passed to event */
+>>  };
+>>  
+>> +#define DRM_NAME_MAX_LEN	64
 > 
-> This also means that process name will be determined once and for all,
-> instead of at each submit.
+> What about 63, to align data size to 64 bytes including the NULL byte.
 
-But the pid and others can still change? By design?
+On the other hand, the string is copied without NULL byte, so it doesn't
+matter.
 
-> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c | 15 +++++++++------
->   1 file changed, 9 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> index e20d19ae01b2..690676cab022 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> @@ -2331,7 +2331,7 @@ amdgpu_vm_get_task_info_vm(struct amdgpu_vm *vm)
->   {
->   	struct amdgpu_task_info *ti = NULL;
->   
-> -	if (vm) {
-> +	if (vm && vm->task_info) {
->   		ti = vm->task_info;
->   		kref_get(&vm->task_info->refcount);
->   	}
-> @@ -2372,8 +2372,12 @@ static int amdgpu_vm_create_task_info(struct amdgpu_vm *vm)
->    */
->   void amdgpu_vm_set_task_info(struct amdgpu_vm *vm)
->   {
-> -	if (!vm->task_info)
-> -		return;
-> +	if (!vm->task_info) {
-> +		if (amdgpu_vm_create_task_info(vm))
-> +			return;
-> +
-> +		get_task_comm(vm->task_info->process_name, current->group_leader);
-> +	}
->   
->   	if (vm->task_info->pid == current->pid)
+This leads to another question, why not using strndup_user like it's
+done for dma_buf_set_name?
 
-This ends up relying on vm->task_info->pid being zero due kzalloc right?
+-- 
+Best regards,
+Dmitry
 
->   		return;
-> @@ -2385,7 +2389,6 @@ void amdgpu_vm_set_task_info(struct amdgpu_vm *vm)
->   		return;
->   
->   	vm->task_info->tgid = current->group_leader->pid;
-> -	get_task_comm(vm->task_info->process_name, current->group_leader);
->   }
-
-I wonder how many of the task_info fields you want to set once instead 
-of per submission. Like a fully one shot like the below be what you want?
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c 
-b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-index a060c28f0877..da492223a8b5 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-@@ -2349,16 +2349,6 @@ amdgpu_vm_get_task_info_pasid(struct 
-amdgpu_device *adev, u32 pasid)
-  			amdgpu_vm_get_vm_from_pasid(adev, pasid));
-  }
-
--static int amdgpu_vm_create_task_info(struct amdgpu_vm *vm)
--{
--	vm->task_info = kzalloc(sizeof(struct amdgpu_task_info), GFP_KERNEL);
--	if (!vm->task_info)
--		return -ENOMEM;
--
--	kref_init(&vm->task_info->refcount);
--	return 0;
--}
--
-  /**
-   * amdgpu_vm_set_task_info - Sets VMs task info.
-   *
-@@ -2366,20 +2356,28 @@ static int amdgpu_vm_create_task_info(struct 
-amdgpu_vm *vm)
-   */
-  void amdgpu_vm_set_task_info(struct amdgpu_vm *vm)
-  {
--	if (!vm->task_info)
--		return;
-+	struct amdgpu_task_info *task_info = vm->task_info;
-+
-+	if (!task_info) {
-+		task_info = kzalloc(sizeof(struct amdgpu_task_info),
-+				    GFP_KERNEL);
-+		if (!task_info)
-+			return;
-
--	if (vm->task_info->pid == current->pid)
-+		kref_init(&task_info->refcount);
-+	} else {
-  		return;
-+	}
-
--	vm->task_info->pid = current->pid;
--	get_task_comm(vm->task_info->task_name, current);
-+	task_info->pid = current->pid;
-+	get_task_comm(task_info->task_name, current);
-
--	if (current->group_leader->mm != current->mm)
--		return;
-+	if (current->group_leader->mm == current->mm) {
-+		task_info->tgid = current->group_leader->pid;
-+		get_task_comm(task_info->process_name, current->group_leader);
-+	}
-
--	vm->task_info->tgid = current->group_leader->pid;
--	get_task_comm(vm->task_info->process_name, current->group_leader);
-+	vm->task_info = task_info;
-  }
-
-  /**
-
-End result is code like this:
-
-void amdgpu_vm_set_task_info(struct amdgpu_vm *vm)
-{
-	struct amdgpu_task_info *task_info = vm->task_info;
-
-	if (!task_info) {
-		task_info = kzalloc(sizeof(struct amdgpu_task_info),
-				    GFP_KERNEL);
-		if (!task_info)
-			return;
-
-		kref_init(&task_info->refcount);
-	} else {
-		return;
-	}
-
-	task_info->pid = current->pid;
-	get_task_comm(task_info->task_name, current);
-
-	if (current->group_leader->mm == current->mm) {
-		task_info->tgid = current->group_leader->pid;
-		get_task_comm(task_info->process_name, current->group_leader);
-	}
-
-	vm->task_info = task_info;
-}
-
-?
-
->   
->   /**
-> @@ -2482,7 +2485,6 @@ int amdgpu_vm_init(struct amdgpu_device *adev, struct amdgpu_vm *vm,
->   	if (r)
->   		goto error_free_root;
->   
-> -	r = amdgpu_vm_create_task_info(vm);
->   	if (r)
->   		DRM_DEBUG("Failed to create task info for VM\n");
-
-Two more lines to delete here.
-
-Regards,
-
-Tvrtko
-
->   
-> @@ -2608,7 +2610,8 @@ void amdgpu_vm_fini(struct amdgpu_device *adev, struct amdgpu_vm *vm)
->   
->   	root = amdgpu_bo_ref(vm->root.bo);
->   	amdgpu_bo_reserve(root, true);
-> -	amdgpu_vm_put_task_info(vm->task_info);
-> +	if (vm->task_info)
-> +		amdgpu_vm_put_task_info(vm->task_info);
->   	amdgpu_vm_set_pasid(adev, vm, 0);
->   	dma_fence_wait(vm->last_unlocked, false);
->   	dma_fence_put(vm->last_unlocked);
