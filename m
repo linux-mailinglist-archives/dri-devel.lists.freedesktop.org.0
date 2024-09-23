@@ -2,79 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37D3E97EB68
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2024 14:16:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB7D797EB88
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2024 14:33:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D5D610E24C;
-	Mon, 23 Sep 2024 12:16:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDD9810E237;
+	Mon, 23 Sep 2024 12:33:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="eCNKlYEk";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JQv1/uwn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
- [209.85.167.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC2EF10E24C
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2024 12:16:32 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id
- 2adb3069b0e04-5365aa568ceso4813142e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2024 05:16:32 -0700 (PDT)
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com
+ [209.85.215.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1171E10E237
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2024 12:33:26 +0000 (UTC)
+Received: by mail-pg1-f179.google.com with SMTP id
+ 41be03b00d2f7-7d666fb3fb9so2001114a12.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2024 05:33:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1727093791; x=1727698591; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=VsNBpuLZI/6vBi0+2mpLKJCoxD+TiNDtjW2xHsUYLc8=;
- b=eCNKlYEkMO3txeGMPc64gf0sGTycqwggkcOZIYVQVBOGfxrwVP3m0oC5OGO1ckBIi7
- wB9KbWtZdRJeq8V8rssvxW4J9PwhFJKN93GqHBFt0al+0rD6gVw9LFCKR/sfkPow67nt
- MRmDCiDfYBg6xLgeBhUtYmKCB5llHGGpKBc0jvyCevYbTS8Ljih7neSn/U5f/Kw3A/6+
- kfRhM8oQup+I4LueqkebuoN0tBzoHUBzCAukBM/mF9vOQkNj9F2cGYOO1ZZFTPRbOd/n
- kmSB5BFwnQQo+LqyJLQvxwUMcUPE8Q1N07rcT2sNJDo/SdVcM9ezX/L+LvdwE083E5TT
- 3+VQ==
+ d=gmail.com; s=20230601; t=1727094805; x=1727699605; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=WnZ1mJ0xSGz3MPNSmU/3w1WkSR43rfZNTvcNA1XQD6c=;
+ b=JQv1/uwnZL5GI2B629ykuY8hVld0uHLXuIxiPaJVPk1W4wK3ACaIBfp+Y/UguA9Rpn
+ 9m2Y73PWfRyo0ipM+I11YlzibyPN3lqwzIlZWYmzX266dmCAwnlZsFZFUvfRyM+OqPAx
+ X9AweaoE2szzVhMEI5/IUU4GgXPsqAuY2KGIVBl1UMApKC2242/Ia0Nyc+0Irlwm6C8t
+ jB39jVx3Y56sEY1hMvcAYk5HmAepu2uIX62Vq43gjMxTaDD6eDXnvV7izqiBjwNBmh5U
+ Xxp+Th9Tnq0bgvZ3VKqPZFZgB6iEDFay6vJvUZISNJJq3cV5+vbhoirbGhTcu86Xzn3B
+ knSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727093791; x=1727698591;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=VsNBpuLZI/6vBi0+2mpLKJCoxD+TiNDtjW2xHsUYLc8=;
- b=wGm0GLBa+HQe7JI4lNoerGAYrAPyd3syvfyijFKydAKwNssjqW0tFgfv3Jw9nUWx0h
- W6MQ0WTx6btkj1A3Bjj6xAvpzUlVMJAWv6tQO9mRT/bL3m3XAkavEKSbLFP6Tz47JCaN
- zneE3otF2KGSJh73a+KDN9z4AQ7FjvVGYZqelNR/m/NlkrJgYiMPP4bbQpd67x1T9KtG
- RMZShqqlavTD/g914locLSYeUAAHh/5gLVkAAypdfc/xwczEcxjOTRgY/ViRqGNCbyJc
- yJex+uIQVRVRGHArsVTxpkbNbqOADBpZmXV66EXLtVGVt+pxPsv7Ncz8d6l4dqBjSjjV
- caUw==
+ d=1e100.net; s=20230601; t=1727094805; x=1727699605;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=WnZ1mJ0xSGz3MPNSmU/3w1WkSR43rfZNTvcNA1XQD6c=;
+ b=pVMs2ldM0YcBRqvXaK6xNPdDMYfP70Q+2dwgZ/ENHRedUthAdHmWj4er06UtMuJNBG
+ 60LxdorRW5Z/a41J26cGGb/RqDtJE4qIr4QnR+2hLIEdWowzJxdg/TrDtL+iyWJ32n4E
+ ydAATW6A8Ue3MWFJu/aurutXuKVeAocHfUZfq8fdWGOvQ0+G5tR8gxyfAO3CZXJRdwT6
+ 8xk/KTlGz9ioXAlOzZ9D9A4WZNe/FHk92C/AnwEVz4OSQ2/f9YOSE3KhU4Ftm1MWDZnv
+ NjWesiN/59/y2nEnta2VGyO4d+gOGvrYJg/jh+VHdk8YbVIfIYIGLHUUI1l3lqyqEOv+
+ S5CA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVrKsgWGlxQS8ffereG2/F3qB/toxIDz4UJMIgC589XLJeHYLWJOM90HB0zW0NbrZpAA1bld+D6DWc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx0MnzYXjIz+LDpGfiabO41k6hdIzaQIQBbkZBrBEKI/C0SgtH+
- RVeXoCv0PShjgDUjp3JS5gDFmc9FpBjydlijC6SEdo+aQW06VPx89/f41PgmJ0s=
-X-Google-Smtp-Source: AGHT+IEll20m0+xUonHMNXt2UPq8NyfIxK3UGL/wK3GxwtrfstaIDlQYm8uP3dzRZ3/adfrLdF/6UQ==
-X-Received: by 2002:a05:6512:3d0e:b0:535:6baa:8c5d with SMTP id
- 2adb3069b0e04-536ac2e5a42mr7093911e87.20.1727093790835; 
- Mon, 23 Sep 2024 05:16:30 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ AJvYcCVR3sPY1XS77iXBh/Y2HXncoJAqrDV2O/fAlQV8oDXHsE48qL71psctitOwRNWCzCmJOeqOxv7hVxw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxItFsCUzYci4c5lYXN1uecKMch86TBgTwJFujmc9UFqtWu0b7y
+ walYOsgfQ4DJqnQEzrvHz5g0OXGU63cxl8OQ5UPFE3cHD1SN+L0k
+X-Google-Smtp-Source: AGHT+IH2aTee1fvftdnkbuuRP0h6QHYhefVJ/JHUJuhjgKucjhqYQClN/hlAUA8gbCCJ7KVBaejObA==
+X-Received: by 2002:a05:6a20:cf84:b0:1d2:e458:404b with SMTP id
+ adf61e73a8af0-1d30a91f380mr18066767637.14.1727094805325; 
+ Mon, 23 Sep 2024 05:33:25 -0700 (PDT)
+Received: from distilledx.srmu.edu.in ([59.152.80.69])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5368704660esm3269744e87.15.2024.09.23.05.16.28
+ d2e1a72fcca58-71944bc8b30sm13813347b3a.190.2024.09.23.05.33.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Sep 2024 05:16:29 -0700 (PDT)
-Date: Mon, 23 Sep 2024 15:16:27 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- jani.nikula@linux.intel.com, 
- thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm: writeback: Introduce drm managed helpers
-Message-ID: <5sufhgtqempg56b57ocg45ah4ip5ykhaz6thphctcupk5lortz@fmkxzzzdwd3i>
-References: <20240906-writeback-drmm-v1-1-01ede328182c@bootlin.com>
- <rz3xk3kwwsfstjrqffp4vfkm7mvn5sdviwjzb5dodmsnb5v2fz@vuamquxmvt4r>
- <ZvE68e95dwLqjVuW@2a02-8440-b157-69df-aafc-5046-a3b3-4ce9.rev.sfr.net>
+ Mon, 23 Sep 2024 05:33:24 -0700 (PDT)
+From: Tejas Vipin <tejasvipin76@gmail.com>
+To: neil.armstrong@linaro.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch
+Cc: quic_jesszhan@quicinc.com, dianders@chromium.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Tejas Vipin <tejasvipin76@gmail.com>
+Subject: [PATCH v2] drm/panel: elida-kd35t133: transition to mipi_dsi wrapped
+ functions
+Date: Mon, 23 Sep 2024 17:55:58 +0530
+Message-ID: <20240923122558.728516-1-tejasvipin76@gmail.com>
+X-Mailer: git-send-email 2.46.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZvE68e95dwLqjVuW@2a02-8440-b157-69df-aafc-5046-a3b3-4ce9.rev.sfr.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,89 +83,180 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 23, 2024 at 11:54:57AM GMT, Louis Chauvet wrote:
-> Le 22/09/24 - 18:31, Dmitry Baryshkov a écrit :
-> > On Fri, Sep 06, 2024 at 07:28:17PM GMT, Louis Chauvet wrote:
-> > > Currently drm_writeback_connector are created by
-> > > drm_writeback_connector_init or drm_writeback_connector_init_with_encoder.
-> > > Both of the function uses drm_connector_init and drm_encoder_init, but
-> > > there is no way to properly clean those structure from outside. By using
-> > > drm managed variants, we can ensure that the writeback connector is
-> > > properly cleaned.
-> > > 
-> > > This patch introduce drmm_writeback_connector_init, an helper to initialize
-> > > a writeback connector using drm managed helpers. This function allows the
-> > > caller to use its own encoder.
-> > 
-> > Also it introduces drm_writeback_connector_cleanup(). Ideally that
-> > should be a separate commit with a proper description.
-> 
-> Will do for the v2.
-> 
-> > You should also
-> > document that existing users should call that function (and maybe add a
-> > WARN_ON that can check if the function wasn't called).
-> 
-> It was my initial implementation [2] (usage in [3]), but Maxime suggested 
-> switching to drmm. If I make it non-static, this will be a new API with no 
-> user.
-> 
-> I don't know how to add a warning if this function is not called. Do you 
-> have an example somewhere where a warning is emitted after everything has 
-> been cleaned up?
+Changes the elida-kd35t133 panel to use multi style functions for
+improved error handling.
 
-Add boolean wariable to drm_connector, make
-drm_writeback_connector_cleanup set it, WARN_ON(!set &&
-connector->connctor_type == DRM_MODE_CONNECTOR_WRITEBACK).
+Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
+---
+Changes in v2:
+    - Changed mipi_dsi_dcs_write to mipi_dsi_dcs_write_buffer_multi
+    - Cleaned up error handling
 
-Or maybe even better, make this function being called from
-drm_connector_cleanup() if it is a writeback connector.
+Link to v1: https://lore.kernel.org/all/20240917071710.1254520-1-tejasvipin76@gmail.com/
+---
+ drivers/gpu/drm/panel/panel-elida-kd35t133.c | 108 ++++++++-----------
+ 1 file changed, 45 insertions(+), 63 deletions(-)
 
-> 
-> > Last, but not least, please don't add API without a user. Please switch
-> > at least one driver into using this API.
-> 
-> The user will be VKMS, see [1].
-
-Usage should come with the API in the same patchset. Otherwise it's
-impossible to judge whether the pieces fit together or not.
-
-> 
-> [1]:https://lore.kernel.org/all/20240912-google-vkms-managed-v3-4-7708d6ad262d@bootlin.com/
-> [2]:https://lore.kernel.org/all/20240814-google-remove-crtc-index-from-parameter-v1-11-6e179abf9fd4@bootlin.com/
-> [3]:https://lore.kernel.org/all/20240814-google-remove-crtc-index-from-parameter-v1-12-6e179abf9fd4@bootlin.com/
-> 
-> Thanks,
-> Louis Chauvet
-> 
-> > > 
-> > > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> > > ---
-> > > Hi Maxime, Jani,
-> > > 
-> > > I tried with this commit to implement the drm-managed version of writeback 
-> > > connector initialization. I tested with the current vkms driver, and it 
-> > > seems to works (at least no crash/warns).
-> > > 
-> > > As suggested by Jani, I only created one function, which takes a 
-> > > NULL-able pointer for encoder/encoder functions/possible_crtc. What do you 
-> > > think about it?
-> > > 
-> > > Regarding the documentation, I think I repeated too much, can I simply add 
-> > > comments like "see documentation of @... for the details / requirements"?
-> > > 
-> > > Good weekend,
-> > > Louis Chauvet
-> > > ---
-> > >  drivers/gpu/drm/drm_writeback.c | 224 ++++++++++++++++++++++++++++++++++------
-> > >  include/drm/drm_writeback.h     |   7 ++
-> > >  2 files changed, 201 insertions(+), 30 deletions(-)
-> > > 
-> > 
-> > -- 
-> > With best wishes
-> > Dmitry
-
+diff --git a/drivers/gpu/drm/panel/panel-elida-kd35t133.c b/drivers/gpu/drm/panel/panel-elida-kd35t133.c
+index 00791ea81e90..2c031301fdd2 100644
+--- a/drivers/gpu/drm/panel/panel-elida-kd35t133.c
++++ b/drivers/gpu/drm/panel/panel-elida-kd35t133.c
+@@ -50,55 +50,44 @@ static inline struct kd35t133 *panel_to_kd35t133(struct drm_panel *panel)
+ 	return container_of(panel, struct kd35t133, panel);
+ }
+ 
+-static int kd35t133_init_sequence(struct kd35t133 *ctx)
++static void kd35t133_init_sequence(struct mipi_dsi_multi_context *dsi_ctx)
+ {
+-	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
+-	struct device *dev = ctx->dev;
+-
+ 	/*
+ 	 * Init sequence was supplied by the panel vendor with minimal
+ 	 * documentation.
+ 	 */
+-	mipi_dsi_dcs_write_seq(dsi, KD35T133_CMD_POSITIVEGAMMA,
+-			       0x00, 0x13, 0x18, 0x04, 0x0f, 0x06, 0x3a, 0x56,
+-			       0x4d, 0x03, 0x0a, 0x06, 0x30, 0x3e, 0x0f);
+-	mipi_dsi_dcs_write_seq(dsi, KD35T133_CMD_NEGATIVEGAMMA,
+-			       0x00, 0x13, 0x18, 0x01, 0x11, 0x06, 0x38, 0x34,
+-			       0x4d, 0x06, 0x0d, 0x0b, 0x31, 0x37, 0x0f);
+-	mipi_dsi_dcs_write_seq(dsi, KD35T133_CMD_POWERCONTROL1, 0x18, 0x17);
+-	mipi_dsi_dcs_write_seq(dsi, KD35T133_CMD_POWERCONTROL2, 0x41);
+-	mipi_dsi_dcs_write_seq(dsi, KD35T133_CMD_VCOMCONTROL, 0x00, 0x1a, 0x80);
+-	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_ADDRESS_MODE, 0x48);
+-	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_PIXEL_FORMAT, 0x55);
+-	mipi_dsi_dcs_write_seq(dsi, KD35T133_CMD_INTERFACEMODECTRL, 0x00);
+-	mipi_dsi_dcs_write_seq(dsi, KD35T133_CMD_FRAMERATECTRL, 0xa0);
+-	mipi_dsi_dcs_write_seq(dsi, KD35T133_CMD_DISPLAYINVERSIONCTRL, 0x02);
+-	mipi_dsi_dcs_write_seq(dsi, KD35T133_CMD_DISPLAYFUNCTIONCTRL,
+-			       0x20, 0x02);
+-	mipi_dsi_dcs_write_seq(dsi, KD35T133_CMD_SETIMAGEFUNCTION, 0x00);
+-	mipi_dsi_dcs_write_seq(dsi, KD35T133_CMD_ADJUSTCONTROL3,
+-			       0xa9, 0x51, 0x2c, 0x82);
+-	mipi_dsi_dcs_write(dsi, MIPI_DCS_ENTER_INVERT_MODE, NULL, 0);
+-
+-	dev_dbg(dev, "Panel init sequence done\n");
+-	return 0;
++	mipi_dsi_dcs_write_seq_multi(dsi_ctx, KD35T133_CMD_POSITIVEGAMMA,
++				     0x00, 0x13, 0x18, 0x04, 0x0f, 0x06, 0x3a, 0x56,
++				     0x4d, 0x03, 0x0a, 0x06, 0x30, 0x3e, 0x0f);
++	mipi_dsi_dcs_write_seq_multi(dsi_ctx, KD35T133_CMD_NEGATIVEGAMMA,
++				     0x13, 0x18, 0x01, 0x11, 0x06, 0x38, 0x34,
++				     0x06, 0x0d, 0x0b, 0x31, 0x37, 0x0f);
++	mipi_dsi_dcs_write_seq_multi(dsi_ctx, KD35T133_CMD_POWERCONTROL1, 0x18, 0x17);
++	mipi_dsi_dcs_write_seq_multi(dsi_ctx, KD35T133_CMD_POWERCONTROL2, 0x41);
++	mipi_dsi_dcs_write_seq_multi(dsi_ctx, KD35T133_CMD_VCOMCONTROL, 0x00, 0x1a, 0x80);
++	mipi_dsi_dcs_write_seq_multi(dsi_ctx, MIPI_DCS_SET_ADDRESS_MODE, 0x48);
++	mipi_dsi_dcs_write_seq_multi(dsi_ctx, MIPI_DCS_SET_PIXEL_FORMAT, 0x55);
++	mipi_dsi_dcs_write_seq_multi(dsi_ctx, KD35T133_CMD_INTERFACEMODECTRL, 0x00);
++	mipi_dsi_dcs_write_seq_multi(dsi_ctx, KD35T133_CMD_FRAMERATECTRL, 0xa0);
++	mipi_dsi_dcs_write_seq_multi(dsi_ctx, KD35T133_CMD_DISPLAYINVERSIONCTRL, 0x02);
++	mipi_dsi_dcs_write_seq_multi(dsi_ctx, KD35T133_CMD_DISPLAYFUNCTIONCTRL,
++				     0x02);
++	mipi_dsi_dcs_write_seq_multi(dsi_ctx, KD35T133_CMD_SETIMAGEFUNCTION, 0x00);
++	mipi_dsi_dcs_write_seq_multi(dsi_ctx, KD35T133_CMD_ADJUSTCONTROL3,
++				     0x51, 0x2c, 0x82);
++	mipi_dsi_dcs_write_buffer_multi(dsi_ctx, NULL, 0);
+ }
+ 
+ static int kd35t133_unprepare(struct drm_panel *panel)
+ {
+ 	struct kd35t133 *ctx = panel_to_kd35t133(panel);
+ 	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
+-	int ret;
++	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
+ 
+-	ret = mipi_dsi_dcs_set_display_off(dsi);
+-	if (ret < 0)
+-		dev_err(ctx->dev, "failed to set display off: %d\n", ret);
+-
+-	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
+-	if (ret < 0) {
+-		dev_err(ctx->dev, "failed to enter sleep mode: %d\n", ret);
+-		return ret;
+-	}
++	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
++	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
++	if (dsi_ctx.accum_err)
++		return dsi_ctx.accum_err;
+ 
+ 	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+ 
+@@ -112,18 +101,20 @@ static int kd35t133_prepare(struct drm_panel *panel)
+ {
+ 	struct kd35t133 *ctx = panel_to_kd35t133(panel);
+ 	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
+-	int ret;
++	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
+ 
+ 	dev_dbg(ctx->dev, "Resetting the panel\n");
+-	ret = regulator_enable(ctx->vdd);
+-	if (ret < 0) {
+-		dev_err(ctx->dev, "Failed to enable vdd supply: %d\n", ret);
+-		return ret;
++	dsi_ctx.accum_err = regulator_enable(ctx->vdd);
++	if (dsi_ctx.accum_err) {
++		dev_err(ctx->dev, "Failed to enable vdd supply: %d\n",
++			dsi_ctx.accum_err);
++		return dsi_ctx.accum_err;
+ 	}
+ 
+-	ret = regulator_enable(ctx->iovcc);
+-	if (ret < 0) {
+-		dev_err(ctx->dev, "Failed to enable iovcc supply: %d\n", ret);
++	dsi_ctx.accum_err = regulator_enable(ctx->iovcc);
++	if (dsi_ctx.accum_err) {
++		dev_err(ctx->dev, "Failed to enable iovcc supply: %d\n",
++			dsi_ctx.accum_err);
+ 		goto disable_vdd;
+ 	}
+ 
+@@ -135,27 +126,18 @@ static int kd35t133_prepare(struct drm_panel *panel)
+ 
+ 	msleep(20);
+ 
+-	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
+-	if (ret < 0) {
+-		dev_err(ctx->dev, "Failed to exit sleep mode: %d\n", ret);
+-		goto disable_iovcc;
+-	}
++	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
++	mipi_dsi_msleep(&dsi_ctx, 250);
+ 
+-	msleep(250);
++	kd35t133_init_sequence(&dsi_ctx);
++	if (!dsi_ctx.accum_err)
++		dev_dbg(ctx->dev, "Panel init sequence done\n");
+ 
+-	ret = kd35t133_init_sequence(ctx);
+-	if (ret < 0) {
+-		dev_err(ctx->dev, "Panel init sequence failed: %d\n", ret);
+-		goto disable_iovcc;
+-	}
++	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
++	mipi_dsi_msleep(&dsi_ctx, 50);
+ 
+-	ret = mipi_dsi_dcs_set_display_on(dsi);
+-	if (ret < 0) {
+-		dev_err(ctx->dev, "Failed to set display on: %d\n", ret);
++	if (dsi_ctx.accum_err)
+ 		goto disable_iovcc;
+-	}
+-
+-	msleep(50);
+ 
+ 	return 0;
+ 
+@@ -163,7 +145,7 @@ static int kd35t133_prepare(struct drm_panel *panel)
+ 	regulator_disable(ctx->iovcc);
+ disable_vdd:
+ 	regulator_disable(ctx->vdd);
+-	return ret;
++	return dsi_ctx.accum_err;
+ }
+ 
+ static const struct drm_display_mode default_mode = {
 -- 
-With best wishes
-Dmitry
+2.46.1
+
