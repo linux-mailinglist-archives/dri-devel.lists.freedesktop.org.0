@@ -2,80 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08FD697E5E6
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2024 08:16:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB22897E606
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2024 08:33:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5747510E37F;
-	Mon, 23 Sep 2024 06:16:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 119A688284;
+	Mon, 23 Sep 2024 06:33:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="bE5msank";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="qNCAVtjS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
- [209.85.167.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E13010E37F
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2024 06:16:32 +0000 (UTC)
-Received: by mail-lf1-f52.google.com with SMTP id
- 2adb3069b0e04-53568ffc525so4461988e87.0
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Sep 2024 23:16:31 -0700 (PDT)
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
+ [209.85.208.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2366210E062
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2024 06:33:34 +0000 (UTC)
+Received: by mail-lj1-f175.google.com with SMTP id
+ 38308e7fff4ca-2f77be8ffecso37916111fa.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Sep 2024 23:33:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1727072190; x=1727676990; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=HsmFsHE7XzzhoDSXVK/Q5axcYBPq9FFiEYtiI/KoYqs=;
- b=bE5msankPoAJrM6E9ux5brI66iiOtcJSS79mwfcrBk9i2GXXpZWR2lNHUxqSgWFitb
- Mk8dgu3OJf3dAck1ZN6h7te5K243+LyUMbkWh4BerQa3Gv88KfLEm1zcROpDxee39xEt
- VfAkvN78LAZj7MesWciLKHusAXF7TVmcv0QJHqS+JL3H7p+2+5RI631rZX3V5i9JPfNh
- qBY4yWc4lt1wLOiZta2z4lQqOGxqVMv5WRVHEr9s6CA0JmKiuZ9n3SXDjEIgBDeQbT4c
- PYLTNLq7/J8oFEnbQCUxjHyrJPnscE6aBUSJhJiXRVUO9vk4ChE5EWywyJBdBbzfhDx6
- NO1A==
+ d=linaro.org; s=google; t=1727073212; x=1727678012; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=y5jTK+r41Ph8334euEi90MC38DwR8Kznsi20eXBe15E=;
+ b=qNCAVtjS51a53+9TRaLlEOYZJt8XOccNp8wu9Jom9+lyUKnQzY/LbV1R+3Kd3UxUuP
+ ZQuU7SaPA18I1/WAZZs5NpnW6a9DXi3L007Xxbs7NmrFrHF90n+bbcVG2OOJVsA7Pih+
+ KrOCMRbOOrWFgqghCto3ZbXTlxIvMklJH39kxy7BsnIc8Yn6JmXVTy1GX8IXE3rwWhMP
+ MqUdXz7mAdm9oX8LidZQzgkTmoh3tDWRFpTxcnyOW7U00+JIjIcyJl6B79DTxxhCYtNZ
+ inYEepPXcNXoRh6IeCWbPs6zXOj+WXOEoAGIo8nRc6k605+OPXfiIp6Frc42Y8vOA25P
+ O24w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727072190; x=1727676990;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=HsmFsHE7XzzhoDSXVK/Q5axcYBPq9FFiEYtiI/KoYqs=;
- b=KKYSAXKwSc1SLAOmpAoh+qIjxOrhme9uydS5ct32mdOfgVMob2dgQ84qJasjnTGd+X
- AQ6N7b/NPprbpl16KOiCJiGUvb/ql5+9kqdvjPmCfOytGTRndsEXNWKF5YdM9/ben5AW
- P65eCDN0iNt8T2sypmlOW/N9wxJNyLKwuqOQL0c8XhuU2djFq6FscGP94tEbjUnFme2m
- oUMXuLXgBlf2hIB3yKVDq3ZPDKjNrNE2zltLsTMT7BIKkZ8x8qUlDiHqwhUvNPXDjAr/
- JCWHJzOmLRiL0SLvVKOtwiQol/1jif3QiZXvBdllLTzJJmdM2vYtD1qPq6VUWGWqmV6E
- q1jQ==
+ d=1e100.net; s=20230601; t=1727073212; x=1727678012;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=y5jTK+r41Ph8334euEi90MC38DwR8Kznsi20eXBe15E=;
+ b=b54gNZyqmd/Jxqd69AFfq/Uuky4lq+kwTtNEdy571EUxKkJYkCChaSA9ZO433uvU5F
+ RPdmqlsUrUmuESLywhPGaQlEUNutaC3ljo7OB/+Ld+yjxZFO2q2xUecKDWTS1+0N9nMb
+ 4/SpHsl/XbTvifmUUgCfhFHlET+wVTWau9H41PzxoWLs1EUjpBQBZMe8eUafzr5zA4Fb
+ RYzIUP8ajmxf6NqJKyUPxpRs5hp04a3lsRqFMgnz7yTpiGWLeQUCPMNiUC4qm51pWDfb
+ JICcJoeJc6ptSpuBKLMkPwt/JhYm6OB2JgHLl0pVcZNA9P9SqIJ1KWutzeVTKRpNt+SQ
+ 9Sjw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWm578L/Mharv+EpgH9sbol/prR9ApNt5thZG7lQxIMahOAuZP2/lH+/VnZE5L1rKtMDp7JbNpR0VE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwvIY3eNLXdX4877pdPguun6Ta2Jl+GNzn4Swvr1E1COjO0RqzI
- ObsO9qkfKGa1aNOfo+/pA8d0/DPHphrtSsBfQHzqZENMcbxBZZsSQFDAG/vdz5U=
-X-Google-Smtp-Source: AGHT+IHmW7JOpyVhjNX4M0lOzlw3ScfVv0bo0OAeE/aiMXJ6/c/MkV8H7Thi9KSkuorm9g8St/aSDQ==
-X-Received: by 2002:a05:6512:695:b0:52e:a68a:6076 with SMTP id
- 2adb3069b0e04-536ac336d8emr4520518e87.49.1727072190066; 
- Sun, 22 Sep 2024 23:16:30 -0700 (PDT)
+ AJvYcCVoluA29q5gWeB8zKE6Xheqn7IkMsfsxznvTw4hhldlJHl0Oe55y2Rj0h24dNH3vXKBEoVJNK10i+0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwIsTKgUdNuwP+z9D238iZUYPGVCZ2ovfkakWy4SZfK+HCzM7qF
+ biPfuaaHSoSDYsFt1+Fjy1SG085muK9//993w9+8GarEkCgf+aduvdIkkOYgaA8=
+X-Google-Smtp-Source: AGHT+IF0SSg0hB/gqsdKj0/yr4GTl2yjAfBCnM5NlEWIac3bv4HTXek3j/tUDFkeNkN6x6DTtY/72Q==
+X-Received: by 2002:a05:6512:110c:b0:52e:be1f:bf7f with SMTP id
+ 2adb3069b0e04-536ad1808d1mr4286439e87.27.1727073212004; 
+ Sun, 22 Sep 2024 23:33:32 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-536870a86c7sm3192855e87.223.2024.09.22.23.16.28
+ 2adb3069b0e04-536870b4255sm3165429e87.259.2024.09.22.23.33.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 22 Sep 2024 23:16:29 -0700 (PDT)
-Date: Mon, 23 Sep 2024 09:16:26 +0300
+ Sun, 22 Sep 2024 23:33:31 -0700 (PDT)
+Date: Mon, 23 Sep 2024 09:33:29 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Hermes.Wu@ite.com.tw
-Cc: treapking@chromium.org, a.hajda@samsung.com, narmstrong@baylibre.com, 
- robert.foss@linaro.org, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, 
- jernej.skrabec@gmail.com, airlied@gmail.com, daniel@ffwll.ch, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Kenneth.Hung@ite.com.tw
-Subject: Re: [PATCH v1] drm/bridge: it6505: HDCP CTS fail on repeater items
-Message-ID: <kek5orlxcrejicq55mczj6gmjgq2pgynzxk2qup65iyuedcwdy@maird5uixbys>
-References: <20240919025551.254-1-Hermes.Wu@ite.com.tw>
- <CAEXTbpc7N2v4LwoZ4wpHXi7ogyqGwYC3Gpt5sqfxtOpYrngPLg@mail.gmail.com>
- <nczuje3ur7sf7uqkygtziwnz5p6b4b7bf5on5crljr2ijmblrv@ym3fkvqxbjq5>
- <467ea5d3380843a1ad1f2f2429bb2833@ite.com.tw>
+To: Jens Wiklander <jens.wiklander@linaro.org>
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, 
+ op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org, Olivier Masse <olivier.masse@nxp.com>, 
+ Thierry Reding <thierry.reding@gmail.com>, Yong Wu <yong.wu@mediatek.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
+ "T . J . Mercier" <tjmercier@google.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+ Sumit Garg <sumit.garg@linaro.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Subject: Re: [RFC PATCH 0/4] Linaro restricted heap
+Message-ID: <dhxvyshwi4qmcmwceokhqey2ww4azjcs6qrpnkgivdj7tv5cke@r36srvvbof6q>
+References: <20240830070351.2855919-1-jens.wiklander@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <467ea5d3380843a1ad1f2f2429bb2833@ite.com.tw>
+In-Reply-To: <20240830070351.2855919-1-jens.wiklander@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,74 +98,106 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Mon, Sep 23, 2024 at 05:21:41AM GMT, Hermes.Wu@ite.com.tw wrote:
-> Hi 
+On Fri, Aug 30, 2024 at 09:03:47AM GMT, Jens Wiklander wrote:
+> Hi,
 > 
-> Sorry for the confusion caused
+> This patch set is based on top of Yong Wu's restricted heap patch set [1].
+> It's also a continuation on Olivier's Add dma-buf secure-heap patch set [2].
+> 
+> The Linaro restricted heap uses genalloc in the kernel to manage the heap
+> carvout. This is a difference from the Mediatek restricted heap which
+> relies on the secure world to manage the carveout.
+> 
+> I've tried to adress the comments on [2], but [1] introduces changes so I'm
+> afraid I've had to skip some comments.
 
-Please don't top post. Answers should come below the original quoted
-text, not above it. Otherwise reading the email becomes really hard.
+I know I have raised the same question during LPC (in connection to
+Qualcomm's dma-heap implementation). Is there any reason why we are
+using generic heaps instead of allocating the dma-bufs on the device
+side?
+
+In your case you already have TEE device, you can use it to allocate and
+export dma-bufs, which then get imported by the V4L and DRM drivers.
+
+I have a feeling (I might be completely wrong here) that by using
+generic dma-buf heaps we can easily end up in a situation when the
+userspace depends heavily on the actual platform being used (to map the
+platform to heap names). I think we should instead depend on the
+existing devices (e.g. if there is a TEE device, use an IOCTL to
+allocate secured DMA BUF from it, otherwise check for QTEE device,
+otherwise check for some other vendor device).
+
+The mental experiment to check if the API is correct is really simple:
+Can you use exactly the same rootfs on several devices without
+any additional tuning (e.g. your QEMU, HiKey, a Mediatek board, Qualcomm
+laptop, etc)?
 
 > 
-> Last patches did not switch to drm-misc-nest. And I need re-create patches.
+> This can be tested on QEMU with the following steps:
+> repo init -u https://github.com/jenswi-linaro/manifest.git -m qemu_v8.xml \
+>         -b prototype/sdp-v1
+> repo sync -j8
+> cd build
+> make toolchains -j4
+> make all -j$(nproc)
+> make run-only
+> # login and at the prompt:
+> xtest --sdp-basic
 > 
-> The HDCP patches is now on tow threads.(This one and the one include MCCS patches with cover letter)
+> https://optee.readthedocs.io/en/latest/building/prerequisites.html
+> list dependencies needed to build the above.
+> 
+> The tests are pretty basic, mostly checking that a Trusted Application in
+> the secure world can access and manipulate the memory.
 
-Just make sure that when you send the next iteration of the HDCP + MCSS
-patches you provide the history of the changes in the changelog (either
-in the cover letter or in the individual patches). Also please don't
-send several patches using the same vN. I'd point out the 'b4' tool, it
-can automate a lot of such topics for you.
+- Can we test that the system doesn't crash badly if user provides
+  non-secured memory to the users which expect a secure buffer?
 
-> Should I keep on this thread or restart a new thread?
-
-Please always send new revisions as a new thread. Otherwise your patches
-can easily get lost.
-
-I suppose that [1] is the latest revision. Please review and implement
-the feedback that was provided to all iterations of your pachset, then
-send v3 as a separate new thread.
-
-[1] https://lore.kernel.org/dri-devel/vxs3eklfifsnaq5rn6kppegfv3plsviqaq5nvlzo3fgazwj6y7@od4atbvf5ep3/T/#u
+- At the same time corresponding entities shouldn't decode data to the
+  buffers accessible to the rest of the sytem.
 
 > 
+> Cheers,
+> Jens
 > 
-> BR,
-> Hermes
-> -----Original Message-----
-> From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org> 
-> Sent: Friday, September 20, 2024 11:50 PM
-> To: Pin-yen Lin <treapking@chromium.org>
-> Cc: Hermes Wu (吳佳宏) <Hermes.Wu@ite.com.tw>; Andrzej Hajda <a.hajda@samsung.com>; Neil Armstrong <narmstrong@baylibre.com>; Robert Foss <robert.foss@linaro.org>; Laurent Pinchart <Laurent.pinchart@ideasonboard.com>; Jonas Karlman <jonas@kwiboo.se>; Jernej Skrabec <jernej.skrabec@gmail.com>; David Airlie <airlied@gmail.com>; Daniel Vetter <daniel@ffwll.ch>; open list:DRM DRIVERS <dri-devel@lists.freedesktop.org>; open list <linux-kernel@vger.kernel.org>; Kenneth Hung (洪家倫) <Kenneth.Hung@ite.com.tw>
-> Subject: Re: [PATCH v1] drm/bridge: it6505: HDCP CTS fail on repeater items
+> [1] https://lore.kernel.org/dri-devel/20240515112308.10171-1-yong.wu@mediatek.com/
+> [2] https://lore.kernel.org/lkml/20220805135330.970-1-olivier.masse@nxp.com/
 > 
-> On Fri, Sep 20, 2024 at 01:27:54PM GMT, Pin-yen Lin wrote:
-> > On Thu, Sep 19, 2024 at 10:58 AM <Hermes.Wu@ite.com.tw> wrote:
-> > >
-> > > From: Hermes Wu <Hermes.Wu@ite.com.tw>
-> > >
-> > > Fix HDCP CTS items on UNIGRAF DPR-100.
-> > >
-> > > Signed-off-by: Hermes Wu <Hermes.Wu@ite.com.tw>
-> > 
-> > Reviewed-by: Pin-yen Lin <treapking@chromium.org>
+> Changes since Olivier's post [2]:
+> * Based on Yong Wu's post [1] where much of dma-buf handling is done in
+>   the generic restricted heap
+> * Simplifications and cleanup
+> * New commit message for "dma-buf: heaps: add Linaro restricted dmabuf heap
+>   support"
+> * Replaced the word "secure" with "restricted" where applicable
 > 
-> For the sake of somebody applying the patch because it was R-B'ed
+> Etienne Carriere (1):
+>   tee: new ioctl to a register tee_shm from a dmabuf file descriptor
 > 
-> Nacked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Jens Wiklander (2):
+>   dma-buf: heaps: restricted_heap: add no_map attribute
+>   dma-buf: heaps: add Linaro restricted dmabuf heap support
 > 
-> The commit message doesn't describe what is being done and why, it
-> doesn't have Fixes tags, etc.
+> Olivier Masse (1):
+>   dt-bindings: reserved-memory: add linaro,restricted-heap
 > 
-> Hermes, I'm not sure what's happening on your side. I have seen several
-> revisions of this patch with minimal modifications (and being a part of
-> different series). Some of them were marked as v1 (although you've sent
-> different patches as v1), other had v2 (but no changelog, etc). Please
-> adhere to the described process of sending patches.
+>  .../linaro,restricted-heap.yaml               |  56 ++++++
+>  drivers/dma-buf/heaps/Kconfig                 |  10 ++
+>  drivers/dma-buf/heaps/Makefile                |   1 +
+>  drivers/dma-buf/heaps/restricted_heap.c       |  17 +-
+>  drivers/dma-buf/heaps/restricted_heap.h       |   2 +
+>  .../dma-buf/heaps/restricted_heap_linaro.c    | 165 ++++++++++++++++++
+>  drivers/tee/tee_core.c                        |  38 ++++
+>  drivers/tee/tee_shm.c                         | 104 ++++++++++-
+>  include/linux/tee_drv.h                       |  11 ++
+>  include/uapi/linux/tee.h                      |  29 +++
+>  10 files changed, 426 insertions(+), 7 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/reserved-memory/linaro,restricted-heap.yaml
+>  create mode 100644 drivers/dma-buf/heaps/restricted_heap_linaro.c
 > 
 > -- 
-> With best wishes
-> Dmitry
+> 2.34.1
+> 
 
 -- 
 With best wishes
