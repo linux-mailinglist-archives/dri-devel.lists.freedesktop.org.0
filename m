@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B5AE97E492
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2024 03:25:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FE0B97E493
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2024 03:25:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0713510E178;
-	Mon, 23 Sep 2024 01:24:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 690DA10E222;
+	Mon, 23 Sep 2024 01:25:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="CWOpYmeQ";
+	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="XNREdPqP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C1F710E178;
- Mon, 23 Sep 2024 01:24:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4817510E222;
+ Mon, 23 Sep 2024 01:24:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
  ; s=bytemarkmx;
  h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
- :Subject; bh=Pt0WPR8fxCskuWATQR8jQ+bzmSIw/orFdDqhyOGiFD0=; b=CWOpYmeQmkYyShRe
- 7wR9xNcMxD/jEYYqTyCIoduT1/egBW3Rdwwxi8Qiia7zmKl3IuvY9/XzXv+pSkfSnbN7lN/uCXmjT
- jCfqyGtTo7LLMeUTjT1MLh1BxGWjQqU2quTGKZxsCdRqvvtA+5slcPbydmCHEopQs5lZsfffJCngx
- W6t3wesWpqhN2eiAAbxwIiQsdZyF/B5C1ZUraPnXaOVia3F8CqzV+gn0bbT5d7nVqUgomcPeshjyW
- 1Hd7liy4YErIJW0Irj9wCrEQbV/Mbgteg6kfljctfZ0K6Ok/7es89GNHl5sgneCSTd07zRT67KtM4
- Uu274Nfmk2JD5s9CXg==;
+ :Subject; bh=RbW0B7/5rNugvdLyZ+nrDMXy1OSjf8esLFsIFlk4SaA=; b=XNREdPqPg3t611FP
+ eWZ4S4Pe0jSM6ci+g1uS1gwecjVTVII66a/IZVPjTYYWGRvxJwU9PpzJF349zO73zQ0K66uGnV0nQ
+ jAlE7m+wXPpuf6X44guwJL5Zl8+Tg5N4g/Efm7402eQTd+3DPBl0XFsAn99uLgek4iiNR3myyyhUX
+ 2vm/UAaoTvlzDOeHLfpBBs/5izYWNvVEvSFoVd+Z1uwitX06DYysq9dIXXJiDsjQA7jGfgajzEPfZ
+ fPl1EyWT+1IM9UaXpDUhKJ97eECtZWef/0nZZSvKNJpPWByqRzHmWuuj05HvEJxod85nF7cTqAGvy
+ sVhtfh4WQdXosiaW9A==;
 Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
  by mx.treblig.org with esmtp (Exim 4.96)
- (envelope-from <linux@treblig.org>) id 1ssXoq-006k2k-0B;
- Mon, 23 Sep 2024 01:24:52 +0000
+ (envelope-from <linux@treblig.org>) id 1ssXou-006k2k-27;
+ Mon, 23 Sep 2024 01:24:56 +0000
 From: linux@treblig.org
 To: alexander.deucher@amd.com,
 	christian.koenig@amd.com,
@@ -35,10 +35,12 @@ To: alexander.deucher@amd.com,
 Cc: airlied@gmail.com, simona@ffwll.ch, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  "Dr. David Alan Gilbert" <linux@treblig.org>
-Subject: [PATCH 0/5] AMDGPU deadcode
-Date: Mon, 23 Sep 2024 02:24:41 +0100
-Message-ID: <20240923012446.4965-1-linux@treblig.org>
+Subject: [PATCH 1/5] drm/amdgpu: Remove unused amdgpu_device_ip_is_idle
+Date: Mon, 23 Sep 2024 02:24:42 +0100
+Message-ID: <20240923012446.4965-2-linux@treblig.org>
 X-Mailer: git-send-email 2.46.1
+In-Reply-To: <20240923012446.4965-1-linux@treblig.org>
+References: <20240923012446.4965-1-linux@treblig.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -58,48 +60,68 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: "Dr. David Alan Gilbert" <linux@treblig.org>
 
-Hi,
-  This is a bunch of deadcode removal in amdgpu;
-some of the functions are ones which were previously
-used but haven't been for a while, others are functions
-that were added a few years ago and haven't ever been used.
+amdgpu_device_ip_is_idle is unused.
+It was renamed from 'amdgpu_is_idle' which was originally added in
+commit 5dbbb60ba61e ("drm/amdgpu: add IP helpers for wait_for_idle and is_idle")
 
-  There are some others that I've not removed, which have
-been added in the last few years but not been used,
-I was worried maybe there are patches in someones tree
-about to use them (e.g. amdgpu_lsdma_copy_mem, amdgpu_mes_reg_wait,
-amdgpu_ras_unbind_aca, amdgpu_seq64_alloc, and
-amdgpu_xcp_prepare_resume) - I'd be happy to take those as
-well.
+but hasn't been used.
 
-  One other thing I wasn't sure of; I removed
-amdgpu_device_ip_is_idle
-which has been unused since about 2016, but does that make
-the 'is_idle' methods unused or is there something else that calls
-them?
+Remove it.
 
-(Sent from this kernel booted on my RX550 GPU)
+Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h        |  2 --
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 24 ----------------------
+ 2 files changed, 26 deletions(-)
 
-Dave
-
-Dr. David Alan Gilbert (5):
-  drm/amdgpu: Remove unused amdgpu_device_ip_is_idle
-  drm/amdgpu: Remove unused amdgpu_atpx functions
-  drm/amdgpu: Remove unused amdgpu_gmc_vram_cpu_pa
-  drm/amdgpu: Remove unused amdgpu_gfx_bit_to_me_queue
-  drm/amdgpu: Remove unused amdgpu_i2c functions
-
- drivers/gpu/drm/amd/amdgpu/amdgpu.h           | 10 --------
- .../gpu/drm/amd/amdgpu/amdgpu_atpx_handler.c  | 12 ---------
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c    | 24 ------------------
- drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c       | 10 --------
- drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.h       |  2 --
- drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c       | 12 ---------
- drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.h       |  1 -
- drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c       | 25 -------------------
- drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.h       |  4 ---
- 9 files changed, 100 deletions(-)
-
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+index dcd59040c449..c654668e2a56 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+@@ -365,8 +365,6 @@ void amdgpu_device_ip_get_clockgating_state(struct amdgpu_device *adev,
+ 					    u64 *flags);
+ int amdgpu_device_ip_wait_for_idle(struct amdgpu_device *adev,
+ 				   enum amd_ip_block_type block_type);
+-bool amdgpu_device_ip_is_idle(struct amdgpu_device *adev,
+-			      enum amd_ip_block_type block_type);
+ 
+ #define AMDGPU_MAX_IP_NUM 16
+ 
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+index f4628412dac4..dc4679e53463 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+@@ -2169,30 +2169,6 @@ int amdgpu_device_ip_wait_for_idle(struct amdgpu_device *adev,
+ 
+ }
+ 
+-/**
+- * amdgpu_device_ip_is_idle - is the hardware IP idle
+- *
+- * @adev: amdgpu_device pointer
+- * @block_type: Type of hardware IP (SMU, GFX, UVD, etc.)
+- *
+- * Check if the hardware IP is idle or not.
+- * Returns true if it the IP is idle, false if not.
+- */
+-bool amdgpu_device_ip_is_idle(struct amdgpu_device *adev,
+-			      enum amd_ip_block_type block_type)
+-{
+-	int i;
+-
+-	for (i = 0; i < adev->num_ip_blocks; i++) {
+-		if (!adev->ip_blocks[i].status.valid)
+-			continue;
+-		if (adev->ip_blocks[i].version->type == block_type)
+-			return adev->ip_blocks[i].version->funcs->is_idle((void *)adev);
+-	}
+-	return true;
+-
+-}
+-
+ /**
+  * amdgpu_device_ip_get_ip_block - get a hw IP pointer
+  *
 -- 
 2.46.1
 
