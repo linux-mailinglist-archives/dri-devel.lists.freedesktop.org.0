@@ -2,63 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B051497E8D9
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2024 11:36:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D24E597E909
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Sep 2024 11:49:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99E9C10E180;
-	Mon, 23 Sep 2024 09:36:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2ADAA10E18A;
+	Mon, 23 Sep 2024 09:49:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VME8RMWX";
+	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ite.com.tw header.i=@ite.com.tw header.b="mAX5y2UK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAE5710E180
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2024 09:36:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1727084190; x=1758620190;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=hxOOIcHxpn1k7+C+uO984/vXp2LIHB/TbDCDWpqrAvQ=;
- b=VME8RMWXgWPnOgRqooasxk0uzeWrqyISwhsRAa1xt4hApcKrC1X+D3Hy
- LJBAR9zD9KdqTnpulV1nAI7dqSuhj1UAymx+kHAnvkNES71nloU/39y8p
- d57PU3jE7rrFSFHN0Xt8HHozTjJ93M9smMoE4laW0REN6vyw5mtxmgFFs
- fFi/F43Y0Ax+HxjeVYNiTiqpRTi8wCt2qakYH+Hae4e9IDMQwI+xjFRzS
- TA9cGt6A0TZYYZPxVPVaz1EALM2MjIJnEvTPW3glNw2qEcenOYb4VIQxu
- iCY56MimxJmG7u9oNFlCHNH/e2HYN9opkWCZnmr60tZUjpGhrvWf3arSI w==;
-X-CSE-ConnectionGUID: ziGxWlIXQy6nVQeq0ZsN3A==
-X-CSE-MsgGUID: i0uv3kk2TKykswK+1hKrKg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="37158380"
-X-IronPort-AV: E=Sophos;i="6.10,251,1719903600"; d="scan'208";a="37158380"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Sep 2024 02:36:30 -0700
-X-CSE-ConnectionGUID: xSqErfLXSPy0NpRFbaE5Xw==
-X-CSE-MsgGUID: KAkOJ+AZTX2KjfaFW8d8WQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,251,1719903600"; d="scan'208";a="71032232"
-Received: from sschumil-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.245.246.65])
- by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Sep 2024 02:36:25 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Tejas Vipin <tejasvipin76@gmail.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, Laurent.pinchart@ideasonboard.com,
- patrik.r.jakobsson@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@gmail.com, daniel@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] drm/gma500: replace drm_detect_hdmi_monitor() with
- drm_display_info.is_hdmi
-In-Reply-To: <4c053d01-2f67-47c3-9f08-e20e8e6ef1dd@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240911180650.820598-1-tejasvipin76@gmail.com>
- <b0f77fcc-5d84-4727-9a17-9d1f1e2c5b76@suse.de>
- <4c053d01-2f67-47c3-9f08-e20e8e6ef1dd@gmail.com>
-Date: Mon, 23 Sep 2024 12:36:22 +0300
-Message-ID: <877cb27lux.fsf@intel.com>
+Received: from ironport.ite.com.tw (60-251-196-230.hinet-ip.hinet.net
+ [60.251.196.230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A37D10E18A
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2024 09:49:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ite.com.tw; s=dkim;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=frtGvz3cE/Zu60QvqPC121ABD9QJ1izKaHMhIg5KpHE=;
+ b=mAX5y2UKqzC3qtJnKGNztIST+iD6d4waIwi+pCqlPp6TmaR/Bv+OYI4D
+ XW/7piNPEr+xwszSNEIuRAePsiqZ+s09Y54428JsR3oxZxHz5wBzz63/g
+ E7lej/X3xA5buPXIp9RUjTBRRYOHJNIohrMi1XS3YayI7Cm8af6mrBQzA
+ 9z0E3EWHewj/gW/aEJRD0A0T+16aGfpJ3gohqV+p/RxelymWB1kfjKzKR
+ omet7YQXqA2C46fy/Tq3mjE02HUh2ZiDiBD+0lVjW7Mm8WPA9rSMLlVv5
+ CFVwi5QCXKBFmEO4UZkc7VATnz9nLW0zRMzS5HHinzMA0M3j/6nRqwEjD A==;
+X-CSE-ConnectionGUID: W/HX3Zl6QCunZwJp1FwmaQ==
+X-CSE-MsgGUID: 2Pw3udIpRYOHKCQWBrVoAA==
+Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
+ by ironport.ite.com.tw with ESMTP; 23 Sep 2024 17:49:00 +0800
+Received: from tpemail1.internal.ite.com.tw (TPEMAIL1.internal.ite.com.tw
+ [192.168.15.58]) by mse.ite.com.tw with ESMTP id 48N9mv71009793;
+ Mon, 23 Sep 2024 17:48:57 +0800 (GMT-8)
+ (envelope-from Hermes.Wu@ite.com.tw)
+Received: from LAPTOP-C4GM1L3U.localdomain (192.168.82.6) by
+ TPEMAIL1.internal.ite.com.tw (192.168.15.58) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Mon, 23 Sep 2024 17:48:57 +0800
+From: Hermes Wu <Hermes.Wu@ite.com.tw>
+To: Pin-yen Lin <treapking@chromium.org>
+CC: Kenneth Hung <Kenneth.hung@ite.com.tw>, Hermes Wu <Hermes.wu@ite.com.tw>, 
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ open list <linux-kernel@vger.kernel.org>
+Subject: [PATCH v3 0/3] drm/bridge: it6505: update dp aux funxtion
+Date: Mon, 23 Sep 2024 17:48:24 +0800
+Message-ID: <20240923094826.13471-1-Hermes.Wu@ite.com.tw>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
+X-Originating-IP: [192.168.82.6]
+X-ClientProxiedBy: TPEMAIL1.internal.ite.com.tw (192.168.15.58) To
+ TPEMAIL1.internal.ite.com.tw (192.168.15.58)
+X-TM-SNTS-SMTP: 3FF1979B2A64C846F3A1DBB708D4B8FC126E95E7C40430440C7CB331A4D395732002:8
+X-MAIL: mse.ite.com.tw 48N9mv71009793
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,35 +72,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 12 Sep 2024, Tejas Vipin <tejasvipin76@gmail.com> wrote:
-> On 9/12/24 12:49 PM, Thomas Zimmermann wrote:
->> Hi
->> 
->> Am 11.09.24 um 20:06 schrieb Tejas Vipin:
->>> Replace drm_detect_hdmi_monitor() with drm_display_info.is_hdmi since
->>> monitor HDMI information is available after EDID is parsed. Additionally
->>> rewrite the code the code to have fewer indentation levels.
->> 
->> The problem is that the entire logic is outdated. The content of cdv_hdmi_detect() should go into cdv_hdmi_get_modes(), the detect_ctx callback should be set to drm_connector_helper_detect_from_ddc() and cdv_hdmi_detect() should be deleted. The result is that ->detect_ctx will detect the presence of a display and ->get_modes will update EDID and other properties.
->> 
->> Do you have  a device for testing such a change?
->> 
->> Best regards
->> Thomas
->
-> I do not have a device to test this. Reading the rest of the series and
-> given my circumstances, I do not think I will be continuing with this
-> patch.
+From: Hermes Wu <Hermes.wu@ite.com.tw>
 
-*sad trombone*
+Changes in v3
+ -Seperate AUX fifo access to a commit
+ -Add discriptions about HDCP CTS
+ -remove non used aux i2c reply definitions
 
-I think we could've made concrete incremental positive changes here,
-without changing everything about detect and get_modes.
+Hermes Wu (3):
+  drm/bridge: it6505: fix AUX read use aux fifo
+  drm/bridge: it6505: HDCP CTS fail on repeater items
+  drm/bridge: it6505: Add MCCS support
 
-BR,
-Jani.
-
-
+ drivers/gpu/drm/bridge/ite-it6505.c | 311 +++++++++++++++++++++++-----
+ 1 file changed, 263 insertions(+), 48 deletions(-)
 
 -- 
-Jani Nikula, Intel
+2.34.1
+
