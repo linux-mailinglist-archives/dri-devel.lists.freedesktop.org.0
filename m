@@ -2,57 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA6E29842CA
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 11:58:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4ACC9842CD
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 11:59:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2ED3210E6A2;
-	Tue, 24 Sep 2024 09:58:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EF0A10E6A4;
+	Tue, 24 Sep 2024 09:59:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="ZmnCi8Cl";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="YmgOVGsg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AE2710E6A2;
- Tue, 24 Sep 2024 09:58:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:References:
- Cc:To:From:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=UyRVgi0sF2ngTDHFtL9RZotMSAn7l509mDDkAXRUuqw=; b=ZmnCi8ClzJSMeXrrpDuTph3ImR
- 4TmjFbhpqtIcOxzKHDVMxeo7EUHZfxNID8p4OIt4ZCkmfPVR7cVyEvXd6ca5dEjTarDBpsUiTTuRX
- KAFr+tnX4O62oSpUDgolFQBsGrww/In5mrY+nd/6T0nsDbieQFt2TxuJvJ7MY2FfXkwd2HZ9aMYwX
- KphXRHIBinR6oxccCNChKzgQFQATQ7f9owfxWMT9Xw3hsSe5fro9IA4bv0OUIvV46oGdQO65uFEFY
- 4eRV0yQDW1vx291gjFstseLnmsZsuPWh8EIGjSy7GU1AOjRdzzsCTOV1oj7Ij0foUoqCqg5E9M+ax
- llE8ajjQ==;
-Received: from [90.241.98.187] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1st2Jl-000KYE-MM; Tue, 24 Sep 2024 11:58:49 +0200
-Message-ID: <2ad66742-f572-4edc-957c-fcbd8c5a5917@igalia.com>
-Date: Tue, 24 Sep 2024 10:58:48 +0100
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com
+ [209.85.208.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BB8410E6A4
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 09:59:27 +0000 (UTC)
+Received: by mail-lj1-f180.google.com with SMTP id
+ 38308e7fff4ca-2f74e468baeso57206001fa.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 02:59:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1727171965; x=1727776765; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=Cue4W9TL93NwHbM6aNpd7v3/ibP9k+0QyUerPzS+jBk=;
+ b=YmgOVGsgMO64OpLM7d4LybPyF8BF3b+BNBEfCc1ShtPoWkZSzEmyU4fmlu3189RKsb
+ SZGJsSLqvDbj6djR8jouUJ9rmKHQ+5o6kXqq+rnK92jdZ7S+dRr92CalbWyQ1TNe+Usp
+ eG2Uu2uuY1YUCuriO4mC7vX5+VA280V4GVwgvITzoJZuVJtfrxxmMIUmQ7uFPSNYfJIu
+ Yh7ckY4ZPRwhTN693pXuPASCCNMeWRm/TKL0puRgUDAx6KZ3wu4SQI15Khz/+a3ayIii
+ YOeGxCk53mrBSQvLR9tWi+BrSf4tuom4k4RrMtGj4APThteQqBbckKAm65F96aLxLBEb
+ YbWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1727171965; x=1727776765;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Cue4W9TL93NwHbM6aNpd7v3/ibP9k+0QyUerPzS+jBk=;
+ b=cPHpinXr4NUUQwGiXOU2/zu8T6nFn5AI6UQDH38Hvok024x0VR/DNb7Jcrvu8fjKC5
+ CuPNoNlPNLtOCC4sPvaKXSQncvuPRhOBYYjnbRj5u3FUOQlIXepG2rIDC1vaEu+fEqZg
+ HnQeNlwPurLcNau1AdU/nnDH0GzTHuIvj1Zy9Oy4ILgQ+zMQBtL2SScw4+YGBQRRlwCQ
+ guj/kTmI0frx+1fK45ozPGFswOasle9f6IkkbfjyueX1ZprmKoTQf02HIafTTkeBPnk/
+ zPyDMD4rBvBBcCENM0C2W9Kkl8tz+4a76uGLahhGgq/yQFYd03dUgqNXX9v7a5eAGVMy
+ 8/dw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUJHuTm1gmsrZ/G4UECfIUdgu+5MlXjz1bjEmJY2k8IQQfEZKyRiBuPnAZ0BuKCYwHvpcaHhxCM1Yk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yymi+fKQhrgSBn8+RVZAs0G64Thp1aiI1QE5TeNI9z8YqMG8f5s
+ dRfjT2u7ZWw3OAvsRrxmshlHSUW11BGfjTOO0/uXi+SckNwi8W6XKEAXNnksBtQ=
+X-Google-Smtp-Source: AGHT+IGxXBr3ISMNgRfS1/EiFBTfON23QMpcYn/pHSiLqk0vW/L3gbH5rzPUZk7NUx4bYMaTwS6m/g==
+X-Received: by 2002:a05:651c:2206:b0:2f7:5914:c22e with SMTP id
+ 38308e7fff4ca-2f7cb2cfe6bmr79444711fa.6.1727171965324; 
+ Tue, 24 Sep 2024 02:59:25 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-2f8d289b533sm1714211fa.106.2024.09.24.02.59.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 24 Sep 2024 02:59:23 -0700 (PDT)
+Date: Tue, 24 Sep 2024 12:59:21 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Hermes.Wu@ite.com.tw
+Cc: treapking@chromium.org, Kenneth.Hung@ite.com.tw, 
+ andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org, 
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, 
+ simona@ffwll.ch, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 3/3] drm/bridge: it6505: Add MCCS support
+Message-ID: <lxh4anqlrrfqs5iljf5iughavosvqt6dzcff6flcoruimxgeq2@d5ig536voy5q>
+References: <20240923094826.13471-1-Hermes.Wu@ite.com.tw>
+ <20240923094826.13471-4-Hermes.Wu@ite.com.tw>
+ <x4eixnu3kta6u2xqf6mn7ons2pupr7oe5fzjur2pfhgppmozoq@lgmk7zwqhcqm>
+ <217c3d82f89040e7b29465ea71080cd2@ite.com.tw>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/sched: Further optimise drm_sched_entity_push_job
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Tvrtko Ursulin <tursulin@igalia.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- Luben Tuikov <ltuikov89@gmail.com>, Matthew Brost <matthew.brost@intel.com>,
- Philipp Stanner <pstanner@redhat.com>
-References: <20240913160559.49054-9-tursulin@igalia.com>
- <20240916173007.118-1-tursulin@igalia.com>
- <478b066b-af6c-43a2-9e0e-a19344893bc0@gmail.com>
- <dfec609d-bbf8-4b6e-ad26-84e869694acc@igalia.com>
-Content-Language: en-GB
-In-Reply-To: <dfec609d-bbf8-4b6e-ad26-84e869694acc@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <217c3d82f89040e7b29465ea71080cd2@ite.com.tw>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,198 +90,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 24/09/2024 10:45, Tvrtko Ursulin wrote:
+On Tue, Sep 24, 2024 at 03:52:34AM GMT, Hermes.Wu@ite.com.tw wrote:
+> >On Mon, Sep 23, 2024 at 05:48:29PM GMT, Hermes Wu wrote:
+> >> From: Hermes Wu <Hermes.wu@ite.com.tw>
+> >> 
+> >> Changes in v3:
+> >>  -remove non used definition for aux i2x cmd reply
+> >> 
+> >> Add Aux-I2C functionality to support MCCS.
+> >> 
+> >> Signed-off-by: Hermes Wu <Hermes.wu@ite.com.tw>
+> >> ---
+> >>  drivers/gpu/drm/bridge/ite-it6505.c | 174 
+> >> +++++++++++++++++++++++++++-
+> >>  1 file changed, 172 insertions(+), 2 deletions(-)
+> >> 
+> >> diff --git a/drivers/gpu/drm/bridge/ite-it6505.c 
+> >> b/drivers/gpu/drm/bridge/ite-it6505.c
+> >> index 156440c6517e..5aedc5570739 100644
+> >> --- a/drivers/gpu/drm/bridge/ite-it6505.c
+> >> +++ b/drivers/gpu/drm/bridge/ite-it6505.c
+> >> @@ -125,6 +125,9 @@
+> >>  #define REG_AUX_ADR_16_19 0x26
+> >>  #define REG_AUX_OUT_DATA0 0x27
+> >>  
+> >> +#define REG_AUX_I2C_ADR 0x25
+> >> +#define REG_AUX_I2C_OP 0x26
+> >> +
+> >
+> >Are these registers CMD-specific? Because I see that you already have defines for 0x25 and 0x26.
+> >
 > 
-> On 24/09/2024 09:20, Christian König wrote:
->> Am 16.09.24 um 19:30 schrieb Tvrtko Ursulin:
->>> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->>>
->>> Having removed one re-lock cycle on the entity->lock in a patch titled
->>> "drm/sched: Optimise drm_sched_entity_push_job", with only a tiny bit
->>> larger refactoring we can do the same optimisation on the rq->lock.
->>> (Currently both drm_sched_rq_add_entity() and
->>> drm_sched_rq_update_fifo_locked() take and release the same lock.)
->>>
->>> To achieve this we make drm_sched_rq_update_fifo_locked() and
->>> drm_sched_rq_add_entity() expect the rq->lock to be held.
->>>
->>> We also align drm_sched_rq_update_fifo_locked(),
->>> drm_sched_rq_add_entity() and
->>> drm_sched_rq_remove_fifo_locked() function signatures, by adding rq as a
->>> parameter to the latter.
->>>
->>> v2:
->>>   * Fix after rebase of the series.
->>>   * Avoid naming incosistency between drm_sched_rq_add/remove. 
->>> (Christian)
->>>
->>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->>> Cc: Christian König <christian.koenig@amd.com>
->>> Cc: Alex Deucher <alexander.deucher@amd.com>
->>> Cc: Luben Tuikov <ltuikov89@gmail.com>
->>> Cc: Matthew Brost <matthew.brost@intel.com>
->>> Cc: Philipp Stanner <pstanner@redhat.com>
->>
->> Reviewed-by: Christian König <christian.koenig@amd.com>
-> 
-> Thanks!
-> 
-> Are you okay to pull into drm-misc-next or we should do some more 
-> testing on this?
-> 
-> And/or should I resend the series once more in it's entirety so this v2 
-> is not a reply-to to the original?
+> The AUX packet i2c into aux transfer frames,
+> and I think it's easier to understand how it6505_aux_i2c_operation() packet i2c request into aux frame.
 
-I have to respin for the drm_sched_wakeup fix that landed.
-
-Regards,
-
-Tvrtko
+I'm really sorry, but I don't think I can parse this or how this answers
+my question. If for the user I2C a part of the register space gets
+repurposed, please comment that before the defines (and maybe separate
+such defines so that it's obvious to anybody reading the driver).
 
 > 
-> Regards,
-> 
-> Tvrtko
-> 
->>
->>> ---
->>>   drivers/gpu/drm/scheduler/sched_entity.c | 12 ++++++++--
->>>   drivers/gpu/drm/scheduler/sched_main.c   | 29 ++++++++++++------------
->>>   include/drm/gpu_scheduler.h              |  3 ++-
->>>   3 files changed, 26 insertions(+), 18 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c 
->>> b/drivers/gpu/drm/scheduler/sched_entity.c
->>> index d982cebc6bee..8ace1f1ea66b 100644
->>> --- a/drivers/gpu/drm/scheduler/sched_entity.c
->>> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
->>> @@ -515,9 +515,14 @@ struct drm_sched_job 
->>> *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
->>>           next = to_drm_sched_job(spsc_queue_peek(&entity->job_queue));
->>>           if (next) {
->>> +            struct drm_sched_rq *rq;
->>> +
->>>               spin_lock(&entity->lock);
->>> -            drm_sched_rq_update_fifo_locked(entity,
->>> +            rq = entity->rq;
->>> +            spin_lock(&rq->lock);
->>> +            drm_sched_rq_update_fifo_locked(entity, rq,
->>>                               next->submit_ts);
->>> +            spin_unlock(&rq->lock);
->>>               spin_unlock(&entity->lock);
->>>           }
->>>       }
->>> @@ -618,11 +623,14 @@ void drm_sched_entity_push_job(struct 
->>> drm_sched_job *sched_job)
->>>           sched = rq->sched;
->>>           atomic_inc(sched->score);
->>> +
->>> +        spin_lock(&rq->lock);
->>>           drm_sched_rq_add_entity(rq, entity);
->>>           if (drm_sched_policy == DRM_SCHED_POLICY_FIFO)
->>> -            drm_sched_rq_update_fifo_locked(entity, submit_ts);
->>> +            drm_sched_rq_update_fifo_locked(entity, rq, submit_ts);
->>> +        spin_unlock(&rq->lock);
->>>           spin_unlock(&entity->lock);
->>>           drm_sched_wakeup(sched, entity);
->>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c 
->>> b/drivers/gpu/drm/scheduler/sched_main.c
->>> index 18a952f73ecb..5c83fb92bb89 100644
->>> --- a/drivers/gpu/drm/scheduler/sched_main.c
->>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->>> @@ -153,17 +153,18 @@ static __always_inline bool 
->>> drm_sched_entity_compare_before(struct rb_node *a,
->>>       return ktime_before(ent_a->oldest_job_waiting, 
->>> ent_b->oldest_job_waiting);
->>>   }
->>> -static inline void drm_sched_rq_remove_fifo_locked(struct 
->>> drm_sched_entity *entity)
->>> +static void drm_sched_rq_remove_fifo_locked(struct drm_sched_entity 
->>> *entity,
->>> +                        struct drm_sched_rq *rq)
->>>   {
->>> -    struct drm_sched_rq *rq = entity->rq;
->>> -
->>>       if (!RB_EMPTY_NODE(&entity->rb_tree_node)) {
->>>           rb_erase_cached(&entity->rb_tree_node, &rq->rb_tree_root);
->>>           RB_CLEAR_NODE(&entity->rb_tree_node);
->>>       }
->>>   }
->>> -void drm_sched_rq_update_fifo_locked(struct drm_sched_entity 
->>> *entity, ktime_t ts)
->>> +void drm_sched_rq_update_fifo_locked(struct drm_sched_entity *entity,
->>> +                     struct drm_sched_rq *rq,
->>> +                     ktime_t ts)
->>>   {
->>>       /*
->>>        * Both locks need to be grabbed, one to protect from 
->>> entity->rq change
->>> @@ -171,17 +172,14 @@ void drm_sched_rq_update_fifo_locked(struct 
->>> drm_sched_entity *entity, ktime_t ts
->>>        * other to update the rb tree structure.
->>>        */
->>>       lockdep_assert_held(&entity->lock);
->>> +    lockdep_assert_held(&rq->lock);
->>> -    spin_lock(&entity->rq->lock);
->>> -
->>> -    drm_sched_rq_remove_fifo_locked(entity);
->>> +    drm_sched_rq_remove_fifo_locked(entity, rq);
->>>       entity->oldest_job_waiting = ts;
->>> -    rb_add_cached(&entity->rb_tree_node, &entity->rq->rb_tree_root,
->>> +    rb_add_cached(&entity->rb_tree_node, &rq->rb_tree_root,
->>>                 drm_sched_entity_compare_before);
->>> -
->>> -    spin_unlock(&entity->rq->lock);
->>>   }
->>>   /**
->>> @@ -213,15 +211,14 @@ static void drm_sched_rq_init(struct 
->>> drm_gpu_scheduler *sched,
->>>   void drm_sched_rq_add_entity(struct drm_sched_rq *rq,
->>>                    struct drm_sched_entity *entity)
->>>   {
->>> +    lockdep_assert_held(&entity->lock);
->>> +    lockdep_assert_held(&rq->lock);
->>> +
->>>       if (!list_empty(&entity->list))
->>>           return;
->>> -    spin_lock(&rq->lock);
->>> -
->>>       atomic_inc(rq->sched->score);
->>>       list_add_tail(&entity->list, &rq->entities);
->>> -
->>> -    spin_unlock(&rq->lock);
->>>   }
->>>   /**
->>> @@ -235,6 +232,8 @@ void drm_sched_rq_add_entity(struct drm_sched_rq 
->>> *rq,
->>>   void drm_sched_rq_remove_entity(struct drm_sched_rq *rq,
->>>                   struct drm_sched_entity *entity)
->>>   {
->>> +    lockdep_assert_held(&entity->lock);
->>> +
->>>       if (list_empty(&entity->list))
->>>           return;
->>> @@ -247,7 +246,7 @@ void drm_sched_rq_remove_entity(struct 
->>> drm_sched_rq *rq,
->>>           rq->current_entity = NULL;
->>>       if (drm_sched_policy == DRM_SCHED_POLICY_FIFO)
->>> -        drm_sched_rq_remove_fifo_locked(entity);
->>> +        drm_sched_rq_remove_fifo_locked(entity, rq);
->>>       spin_unlock(&rq->lock);
->>>   }
->>> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
->>> index 80198e6cf537..b21806d5a8eb 100644
->>> --- a/include/drm/gpu_scheduler.h
->>> +++ b/include/drm/gpu_scheduler.h
->>> @@ -596,7 +596,8 @@ void drm_sched_rq_add_entity(struct drm_sched_rq 
->>> *rq,
->>>   void drm_sched_rq_remove_entity(struct drm_sched_rq *rq,
->>>                   struct drm_sched_entity *entity);
->>> -void drm_sched_rq_update_fifo_locked(struct drm_sched_entity 
->>> *entity, ktime_t ts);
->>> +void drm_sched_rq_update_fifo_locked(struct drm_sched_entity *entity,
->>> +                     struct drm_sched_rq *rq, ktime_t ts);
->>>   int drm_sched_entity_init(struct drm_sched_entity *entity,
->>>                 enum drm_sched_priority priority,
->>
+> >>  #define REG_AUX_CMD_REQ 0x2B
+> >>  #define AUX_BUSY BIT(5)
+> >>  
+> >> @@ -266,6 +269,19 @@
+> >>  #define REG_SSC_CTRL1 0x189
+> >>  #define REG_SSC_CTRL2 0x18A
+> >>  
+> >> +#define REG_AUX_USER_CTRL 0x190
+> >> +#define EN_USER_AUX BIT(0)
+> >> +#define USER_AUX_DONE BIT(1)
+> >> +#define AUX_EVENT BIT(4)
+> >> +
+> >> +#define REG_AUX_USER_DATA_REC 0x191
+> >> +#define M_AUX_IN_REC   0xF0
+> >> +#define M_AUX_OUT_REC  0x0F
+> >> +
+> >> +#define REG_AUX_USER_TXB 0x190
+> >
+> >And two defines for 0x190 too.
+> >
+> >> +#define REG_AUX_USER_REPLY 0x19A
+> >> +#define REG_AUX_USER_RXB(n) (n + 0x19B)
+> >> +
+> >>  #define RBR DP_LINK_BW_1_62
+> >>  #define HBR DP_LINK_BW_2_7
+> >>  #define HBR2 DP_LINK_BW_5_4
+
+-- 
+With best wishes
+Dmitry
