@@ -2,106 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03E5F983EE3
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 09:21:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 557F1983DAB
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 09:17:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D930610E631;
-	Tue, 24 Sep 2024 07:18:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7240B10E4DE;
+	Tue, 24 Sep 2024 07:16:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="k4FHjlhE";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2wH/cPCV";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="k4FHjlhE";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2wH/cPCV";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="GADONGLG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72BD410E5C5;
- Tue, 24 Sep 2024 07:18:05 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 0D58A21BBD;
- Tue, 24 Sep 2024 07:18:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1727162284; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FyHHWWVuYHdIU1WoE0WdZYb90BViGauhV4BCXb79c0I=;
- b=k4FHjlhE6K7VbJyvBhTKqyP9pnFAxgw/zvd6b97Y7dZmoFSaH2XlY+Ps5zfG6q+7UBZh8u
- 3p8+6unQOkGLDU7wmsmMBlFiZWmfTNKYkPFEUb8sgHzHQOJ6z9DTmVDBjLwUWjypkO/GaE
- Nvj7TextIwXCEY3B4eh1JFBxy3XtKDQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1727162284;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FyHHWWVuYHdIU1WoE0WdZYb90BViGauhV4BCXb79c0I=;
- b=2wH/cPCVjSPM3KP0wChR1UpPOCXTIwn+DVrxbte24xa6BxxWGoGkmaqUFiv6ilizgUb7UG
- 3XI6i8Y2ZJebZOBw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1727162284; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FyHHWWVuYHdIU1WoE0WdZYb90BViGauhV4BCXb79c0I=;
- b=k4FHjlhE6K7VbJyvBhTKqyP9pnFAxgw/zvd6b97Y7dZmoFSaH2XlY+Ps5zfG6q+7UBZh8u
- 3p8+6unQOkGLDU7wmsmMBlFiZWmfTNKYkPFEUb8sgHzHQOJ6z9DTmVDBjLwUWjypkO/GaE
- Nvj7TextIwXCEY3B4eh1JFBxy3XtKDQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1727162284;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FyHHWWVuYHdIU1WoE0WdZYb90BViGauhV4BCXb79c0I=;
- b=2wH/cPCVjSPM3KP0wChR1UpPOCXTIwn+DVrxbte24xa6BxxWGoGkmaqUFiv6ilizgUb7UG
- 3XI6i8Y2ZJebZOBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BF1B31386E;
- Tue, 24 Sep 2024 07:18:03 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 0DZ2Latn8mb3YAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 24 Sep 2024 07:18:03 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: javierm@redhat.com, jfalempe@redhat.com, airlied@gmail.com, simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v5 80/80] drm/omapdrm: Run DRM default client setup
-Date: Tue, 24 Sep 2024 09:13:18 +0200
-Message-ID: <20240924071734.98201-81-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20240924071734.98201-1-tzimmermann@suse.de>
-References: <20240924071734.98201-1-tzimmermann@suse.de>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56FFD10E138;
+ Tue, 24 Sep 2024 07:16:57 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48NJWFU5021730;
+ Tue, 24 Sep 2024 07:16:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ KKyssr1uc6M3Edh6ydcV4gtcPR+09KpLfaDOx33Lq7U=; b=GADONGLGmYWOz0s+
+ ztrmq0L23Enkbmai+od+OWRJpvIYbWIm3ljPf8ogzpxwgx5Wjx9jmjUgYyCz47Sm
+ foP2DeomiDLzDuTBtYYN1nBwbdXUGDhvPH3WZ8C2O7s9W3m9zTHnjxc/T/TIgcdh
+ FF5efEzdi56ExxHjoqOXe8Cvq2W6T+f6dG8WImSUDDnuzqcvhGW4YsI3TFoqwPT5
+ bQfV2OvQzmllH8ajg/JjPxGhceol266E26iYZ5uq3HeDAJjyfJRz7IIx+/vEV1nm
+ M+/kAlbeFET8Nbsy4j3guueFMZ6T6Hnb0tdXX2TeqhnGvRpppGDFzm379HIR8x6U
+ nK5KUg==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41sqe97918-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 24 Sep 2024 07:16:46 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
+ [10.47.209.197])
+ by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 48O7Gj2w000900
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 24 Sep 2024 07:16:45 GMT
+Received: from [10.204.67.11] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 24 Sep
+ 2024 00:16:37 -0700
+Message-ID: <013459fd-fbb0-4225-90e3-a16115154646@quicinc.com>
+Date: Tue, 24 Sep 2024 12:46:34 +0530
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/5] Add display support for Qualcomm SA8775P platform
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: <robdclark@gmail.com>, <quic_abhinavk@quicinc.com>, <sean@poorly.run>,
+ <marijn.suijten@somainline.org>, <airlied@gmail.com>,
+ <daniel@ffwll.ch>, <maarten.lankhorst@linux.intel.com>,
+ <mripard@kernel.org>, <tzimmermann@suse.de>, <robh@kernel.org>,
+ <krzk+dt@kernel.org>, <conor+dt@kernel.org>, <swboyd@chromium.org>,
+ <konrad.dybcio@linaro.org>, <danila@jiaxyga.com>,
+ <bigfoot@classfun.cn>, <neil.armstrong@linaro.org>,
+ <mailingradian@gmail.com>, <quic_jesszhan@quicinc.com>,
+ <andersson@kernel.org>, <linux-arm-msm@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <quic_kalyant@quicinc.com>, <quic_jmadiset@quicinc.com>,
+ <quic_vpolimer@quicinc.com>
+References: <20240912071437.1708969-1-quic_mahap@quicinc.com>
+ <7fcbvouzb7gq6lclrkgs6pxondvj5wvutyw3swg55ugvzfpvd4@2ph7x7ulxoyv>
+From: Mahadevan P <quic_mahap@quicinc.com>
+In-Reply-To: <7fcbvouzb7gq6lclrkgs6pxondvj5wvutyw3swg55ugvzfpvd4@2ph7x7ulxoyv>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_MISSING_CHARSET(0.50)[]; NEURAL_HAM_SHORT(-0.20)[-1.000];
- MIME_GOOD(-0.10)[text/plain]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- ARC_NA(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; MIME_TRACE(0.00)[0:+];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo];
- FREEMAIL_TO(0.00)[redhat.com,gmail.com,ffwll.ch];
- RCVD_TLS_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- RCPT_COUNT_SEVEN(0.00)[10]; FUZZY_BLOCKED(0.00)[rspamd.com];
- R_RATELIMIT(0.00)[to_ip_from(RLqirfcw6gnbcr9a9yhi49fhi6),to(RLbwen1niosrcqbxsafh1)];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]
-X-Spam-Score: -2.80
-X-Spam-Flag: NO
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: KzVsAwP5PUX1tTjVWqWecZqXc7n3LxI8
+X-Proofpoint-GUID: KzVsAwP5PUX1tTjVWqWecZqXc7n3LxI8
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ mlxlogscore=627 spamscore=0 lowpriorityscore=0 adultscore=0 mlxscore=0
+ suspectscore=0 malwarescore=0 phishscore=0 impostorscore=0 clxscore=1015
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2408220000 definitions=main-2409240049
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,250 +101,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rework fbdev probing to support fbdev_probe in struct drm_driver
-and remove the old fb_probe callback. Provide an initializer macro
-for struct drm_driver that sets the callback according to the kernel
-configuration.
 
-Call drm_client_setup() to run the kernel's default client setup
-for DRM. Set fbdev_probe in struct drm_driver, so that the client
-setup can start the common fbdev client.
+On 9/12/2024 1:26 PM, Dmitry Baryshkov wrote:
+> On Thu, Sep 12, 2024 at 12:44:32PM GMT, Mahadevan wrote:
+>> Add support for mdss and dpu driver on Qualcomm SA8775P platform.
+>>
+>> ---
+>> This series depends on following series:
+>> https://lore.kernel.org/all/20240816-sa8775p-mm-v3-v1-0-77d53c3c0cef@quicinc.com/
+> As such, it probably can not be merged before 6.14 (the mentioned series
+> will go on 6.13, we usually don't do cross-tree merges into drm). Please
+> rework the bindings to drop the dependency (it is possible, use fake
+> nodes instead of using dispcc + ID). Then you can specify that only the
+> DTS patch depends on the dispcc support, allowing driver changes to go
+> in first.
 
-The omapdrm driver specifies a preferred color mode of 32. As this
-is the default if no format has been given, leave it out entirely.
 
-v5:
-- select DRM_CLIENT_SELECTION
+Can we use clocks = <&dummy_dispcc 0>, <&dummy_dispcc 1>,  
+<&dummy_dispcc 2>; instead of  clocks =  <&dispcc0 
+MDSS_DISP_CC_MDSS_AHB_CLK>, <&dispcc0 MDSS_DISP_CC_MDSS_MDP_LUT_CLK>, 
+<&dispcc0 MDSS_DISP_CC_MDSS_MDP_CLK>; in dt bindings?
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Acked-by: Javier Martinez Canillas <javierm@redhat.com>
----
- drivers/gpu/drm/omapdrm/Kconfig      |   1 +
- drivers/gpu/drm/omapdrm/omap_drv.c   |   1 +
- drivers/gpu/drm/omapdrm/omap_fbdev.c | 131 ++++++---------------------
- drivers/gpu/drm/omapdrm/omap_fbdev.h |   8 ++
- 4 files changed, 39 insertions(+), 102 deletions(-)
-
-diff --git a/drivers/gpu/drm/omapdrm/Kconfig b/drivers/gpu/drm/omapdrm/Kconfig
-index fbd9af758581..9d4016bd0f44 100644
---- a/drivers/gpu/drm/omapdrm/Kconfig
-+++ b/drivers/gpu/drm/omapdrm/Kconfig
-@@ -4,6 +4,7 @@ config DRM_OMAP
- 	depends on MMU
- 	depends on DRM && OF
- 	depends on ARCH_OMAP2PLUS || (COMPILE_TEST && PAGE_SIZE_LESS_THAN_64KB)
-+	select DRM_CLIENT_SELECTION
- 	select DRM_KMS_HELPER
- 	select DRM_DISPLAY_HELPER
- 	select DRM_BRIDGE_CONNECTOR
-diff --git a/drivers/gpu/drm/omapdrm/omap_drv.c b/drivers/gpu/drm/omapdrm/omap_drv.c
-index a982378aa141..1796cd20a877 100644
---- a/drivers/gpu/drm/omapdrm/omap_drv.c
-+++ b/drivers/gpu/drm/omapdrm/omap_drv.c
-@@ -647,6 +647,7 @@ static const struct drm_driver omap_drm_driver = {
- 	.gem_prime_import = omap_gem_prime_import,
- 	.dumb_create = omap_gem_dumb_create,
- 	.dumb_map_offset = omap_gem_dumb_map_offset,
-+	OMAP_FBDEV_DRIVER_OPS,
- 	.ioctls = ioctls,
- 	.num_ioctls = DRM_OMAP_NUM_IOCTLS,
- 	.fops = &omapdriver_fops,
-diff --git a/drivers/gpu/drm/omapdrm/omap_fbdev.c b/drivers/gpu/drm/omapdrm/omap_fbdev.c
-index 044e80403c3b..f4bd0c6e3f34 100644
---- a/drivers/gpu/drm/omapdrm/omap_fbdev.c
-+++ b/drivers/gpu/drm/omapdrm/omap_fbdev.c
-@@ -6,6 +6,7 @@
- 
- #include <linux/fb.h>
- 
-+#include <drm/drm_client_setup.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_crtc_helper.h>
- #include <drm/drm_fb_helper.h>
-@@ -124,8 +125,32 @@ static const struct fb_ops omap_fb_ops = {
- 	.fb_destroy	= omap_fbdev_fb_destroy,
- };
- 
--static int omap_fbdev_create(struct drm_fb_helper *helper,
--		struct drm_fb_helper_surface_size *sizes)
-+static int omap_fbdev_dirty(struct drm_fb_helper *helper, struct drm_clip_rect *clip)
-+{
-+	if (!(clip->x1 < clip->x2 && clip->y1 < clip->y2))
-+		return 0;
-+
-+	if (helper->fb->funcs->dirty)
-+		return helper->fb->funcs->dirty(helper->fb, NULL, 0, 0, clip, 1);
-+
-+	return 0;
-+}
-+
-+static const struct drm_fb_helper_funcs omap_fbdev_helper_funcs = {
-+	.fb_dirty = omap_fbdev_dirty,
-+};
-+
-+static struct drm_fb_helper *get_fb(struct fb_info *fbi)
-+{
-+	if (!fbi || strcmp(fbi->fix.id, MODULE_NAME)) {
-+		/* these are not the fb's you're looking for */
-+		return NULL;
-+	}
-+	return fbi->par;
-+}
-+
-+int omap_fbdev_driver_fbdev_probe(struct drm_fb_helper *helper,
-+				  struct drm_fb_helper_surface_size *sizes)
- {
- 	struct drm_device *dev = helper->dev;
- 	struct omap_drm_private *priv = dev->dev_private;
-@@ -207,6 +232,7 @@ static int omap_fbdev_create(struct drm_fb_helper *helper,
- 
- 	DBG("fbi=%p, dev=%p", fbi, dev);
- 
-+	helper->funcs = &omap_fbdev_helper_funcs;
- 	helper->fb = fb;
- 
- 	fbi->fbops = &omap_fb_ops;
-@@ -253,94 +279,10 @@ static int omap_fbdev_create(struct drm_fb_helper *helper,
- 	return ret;
- }
- 
--static int omap_fbdev_dirty(struct drm_fb_helper *helper, struct drm_clip_rect *clip)
--{
--	if (!(clip->x1 < clip->x2 && clip->y1 < clip->y2))
--		return 0;
--
--	if (helper->fb->funcs->dirty)
--		return helper->fb->funcs->dirty(helper->fb, NULL, 0, 0, clip, 1);
--
--	return 0;
--}
--
--static const struct drm_fb_helper_funcs omap_fb_helper_funcs = {
--	.fb_probe = omap_fbdev_create,
--	.fb_dirty = omap_fbdev_dirty,
--};
--
--static struct drm_fb_helper *get_fb(struct fb_info *fbi)
--{
--	if (!fbi || strcmp(fbi->fix.id, MODULE_NAME)) {
--		/* these are not the fb's you're looking for */
--		return NULL;
--	}
--	return fbi->par;
--}
--
--/*
-- * struct drm_client
-- */
--
--static void omap_fbdev_client_unregister(struct drm_client_dev *client)
--{
--	struct drm_fb_helper *fb_helper = drm_fb_helper_from_client(client);
--
--	if (fb_helper->info) {
--		drm_fb_helper_unregister_info(fb_helper);
--	} else {
--		drm_client_release(&fb_helper->client);
--		drm_fb_helper_unprepare(fb_helper);
--		kfree(fb_helper);
--	}
--}
--
--static int omap_fbdev_client_restore(struct drm_client_dev *client)
--{
--	drm_fb_helper_lastclose(client->dev);
--
--	return 0;
--}
--
--static int omap_fbdev_client_hotplug(struct drm_client_dev *client)
--{
--	struct drm_fb_helper *fb_helper = drm_fb_helper_from_client(client);
--	struct drm_device *dev = client->dev;
--	int ret;
--
--	if (dev->fb_helper)
--		return drm_fb_helper_hotplug_event(dev->fb_helper);
--
--	ret = drm_fb_helper_init(dev, fb_helper);
--	if (ret)
--		goto err_drm_err;
--
--	ret = drm_fb_helper_initial_config(fb_helper);
--	if (ret)
--		goto err_drm_fb_helper_fini;
--
--	return 0;
--
--err_drm_fb_helper_fini:
--	drm_fb_helper_fini(fb_helper);
--err_drm_err:
--	drm_err(dev, "Failed to setup fbdev emulation (ret=%d)\n", ret);
--	return ret;
--}
--
--static const struct drm_client_funcs omap_fbdev_client_funcs = {
--	.owner		= THIS_MODULE,
--	.unregister	= omap_fbdev_client_unregister,
--	.restore	= omap_fbdev_client_restore,
--	.hotplug	= omap_fbdev_client_hotplug,
--};
--
- void omap_fbdev_setup(struct drm_device *dev)
- {
- 	struct omap_drm_private *priv = dev->dev_private;
- 	struct omap_fbdev *fbdev;
--	struct drm_fb_helper *helper;
--	int ret;
- 
- 	drm_WARN(dev, !dev->registered, "Device has not been registered.\n");
- 	drm_WARN(dev, dev->fb_helper, "fb_helper is already set!\n");
-@@ -353,20 +295,5 @@ void omap_fbdev_setup(struct drm_device *dev)
- 
- 	priv->fbdev = fbdev;
- 
--	helper = kzalloc(sizeof(*helper), GFP_KERNEL);
--	if (!helper)
--		return;
--	drm_fb_helper_prepare(dev, helper, 32, &omap_fb_helper_funcs);
--
--	ret = drm_client_init(dev, &helper->client, "fbdev", &omap_fbdev_client_funcs);
--	if (ret)
--		goto err_drm_client_init;
--
--	drm_client_register(&helper->client);
--
--	return;
--
--err_drm_client_init:
--	drm_fb_helper_unprepare(helper);
--	kfree(helper);
-+	drm_client_setup(dev, NULL);
- }
-diff --git a/drivers/gpu/drm/omapdrm/omap_fbdev.h b/drivers/gpu/drm/omapdrm/omap_fbdev.h
-index 74c691a8d45f..283e35b42ada 100644
---- a/drivers/gpu/drm/omapdrm/omap_fbdev.h
-+++ b/drivers/gpu/drm/omapdrm/omap_fbdev.h
-@@ -10,10 +10,18 @@
- #define __OMAPDRM_FBDEV_H__
- 
- struct drm_device;
-+struct drm_fb_helper;
-+struct drm_fb_helper_surface_size;
- 
- #ifdef CONFIG_DRM_FBDEV_EMULATION
-+int omap_fbdev_driver_fbdev_probe(struct drm_fb_helper *helper,
-+				  struct drm_fb_helper_surface_size *sizes);
-+#define OMAP_FBDEV_DRIVER_OPS \
-+	.fbdev_probe = omap_fbdev_driver_fbdev_probe
- void omap_fbdev_setup(struct drm_device *dev);
- #else
-+#define OMAP_FBDEV_DRIVER_OPS \
-+	.fbdev_probe = NULL
- static inline void omap_fbdev_setup(struct drm_device *dev)
- {
- }
--- 
-2.46.0
-
+>
+>> ---
+>>
+>> Mahadevan (5):
+>>    dt-bindings: display/msm: Document MDSS on SA8775P
+>>    dt-bindings: display/msm: Document the DPU for SA8775P
+>>    drm/msm: mdss: Add SA8775P support
+>>    drm/msm/dpu: Add SA8775P support
+>>    arm64: dts: qcom: sa8775p: add display dt nodes
+>>
+>>   .../display/msm/qcom,sa8775p-dpu.yaml         | 120 +++++
+>>   .../display/msm/qcom,sa8775p-mdss.yaml        | 225 ++++++++
+>>   arch/arm64/boot/dts/qcom/sa8775p.dtsi         |  85 +++
+>>   .../msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h   | 485 ++++++++++++++++++
+>>   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    |   3 +-
+>>   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |   3 +-
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   3 +-
+>>   drivers/gpu/drm/msm/msm_mdss.c                |  10 +
+>>   8 files changed, 931 insertions(+), 3 deletions(-)
+>>   create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sa8775p-dpu.yaml
+>>   create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sa8775p-mdss.yaml
+>>   create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h
+>>
+>> -- 
+>> 2.34.1
+>>
