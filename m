@@ -2,81 +2,126 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22D069846D8
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 15:37:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E30489846DA
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 15:38:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21DD610E2B3;
-	Tue, 24 Sep 2024 13:37:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6115610E6E5;
+	Tue, 24 Sep 2024 13:38:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="c7AqGC7Y";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Ra8AyNpx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61E2A10E2B3
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 13:37:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1727185048;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=m3ZMnWSltBVqByR/5ym5WHRFLuJsdiXWp7fp/aKe+pg=;
- b=c7AqGC7Y7bjOsDGW+Rv6sKHEestkNaXyfZLpJlZszCYMbFd02IQBERJKAyUaqPNa8qDBjq
- aAOazIyKvc+UwI1vt1UOepLVJ8KO4WLVNrE3EJvMw1yD3g+CrOgDBK4gK+zkxd5zzcEuWp
- Mvbn901LuylsqrAsXnX+zpnwZCjmsHE=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-629-mOCq5XgwPaqrMCXvu55rQA-1; Tue, 24 Sep 2024 09:37:26 -0400
-X-MC-Unique: mOCq5XgwPaqrMCXvu55rQA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-42cceb06940so39177135e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 06:37:26 -0700 (PDT)
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
+ [209.85.210.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 660B710E6E5;
+ Tue, 24 Sep 2024 13:38:03 +0000 (UTC)
+Received: by mail-pf1-f175.google.com with SMTP id
+ d2e1a72fcca58-718d704704aso4871656b3a.3; 
+ Tue, 24 Sep 2024 06:38:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1727185083; x=1727789883; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+ bh=9wsi/EYErs3wSK6Qpj4Nu7hgB2ma1UwFapYWcWsDBWM=;
+ b=Ra8AyNpxIF4K4VSQ+G/HvNQlaGpYBqTQZ0d10Ych6XIrVqhnNGwgILjvEQMW4YaPQv
+ QgEqEcCZdLDeU/GBHAjPMdUdMPzRsfU3MMHYnuUCj6jBH2b8xMNjWBwRWJK43FYXEu4M
+ V2ZLlRHCgHd6ZdJoJvJ/lkjPH9D+wZMVWY69NyGp2pCPJMoQiUZQaNO5lGmBvV/rk/JN
+ ckEYZ0Q/Q3bRj8lqiV1owfyhPFkWRAE5w7IlsociLOHL+9HL3bcO9xeRqfsTivxB7ohF
+ eprLOCjEnV9cL50VUBk0tdYcwY4K3bk2glVvi/Ymwso/N2FyIVQcJDQzan2dvxO1CKPf
+ GZRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727185045; x=1727789845;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=m3ZMnWSltBVqByR/5ym5WHRFLuJsdiXWp7fp/aKe+pg=;
- b=Q59LV3T233sXZRKxANDXV1q4b/lFsZ/IehKA79CLcmkHIdCCYHXmrqM+1q0qK0sC9J
- WM1bS2lzhUVwvwoHZC6AuMlpSTLBi/TxthOs3awBq0B3wwhhukwcoMbMecHC45SST/fN
- NYgjKsJr+GXkp00MV7zUZnRNX/uW+8KhmOo7YiNn1fl/u9STLHJROAxpLfOCSWan/8sa
- 3fCwLJPWPFnzxablv6NZk3St/CdtZtGVXcC6LUe6MIdnlKMrHsApI+6mwIVY/+Vek8g7
- 9xxbA+6S/PoXtM8k10ULBMVZSVQzx5+NoPvxsOSScV0mK/5GpJjMFKyFOvrbRW+R/hQI
- WQ8w==
-X-Gm-Message-State: AOJu0YyGH0xV9xPR/gkFujdBZdrfIyG18TueCJCwjyBMkcWr+M1nHRZH
- emgbwaCGria/+tctMlKC7e1thGcHyTyiBm1c74lIe6csatP3QdydGV4k5vmFRTWTBKkeqRnmpn8
- GYMghU6jwyjqgSgUqqxOsF/4YR0Uubgdr+64Nfm2nVrU/ii9b2e230DL7ZkCvbPhRPQ==
-X-Received: by 2002:a05:600c:4ed2:b0:42c:b9dd:93ee with SMTP id
- 5b1f17b1804b1-42e7adbdf3fmr106404165e9.34.1727185045161; 
- Tue, 24 Sep 2024 06:37:25 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHAGSCJGChfO0p/dVmzD7aUd+YN0JjwCVik6wNggfJqRwa1bUk53dA48t1HKhd+ZLlCkGswjA==
-X-Received: by 2002:a05:600c:4ed2:b0:42c:b9dd:93ee with SMTP id
- 5b1f17b1804b1-42e7adbdf3fmr106403925e9.34.1727185044775; 
- Tue, 24 Sep 2024 06:37:24 -0700 (PDT)
-Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
+ d=1e100.net; s=20230601; t=1727185083; x=1727789883;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=9wsi/EYErs3wSK6Qpj4Nu7hgB2ma1UwFapYWcWsDBWM=;
+ b=CSapTqhZ4zMFLP4BJ4EjqBxjmsUUfPmjrykTHwNgZnTacvc5ypLZkn96jIUnnRGD4v
+ jbdJgqrKd7vM0GioQj/FVWHIPeyhBVRW5BACIhj1tTIKH6jbiJF90wIuoGOa/i8Jusjy
+ XN8TSiGp7uEYUv4r69cpsbymGBu4MUIxE/a7fk+YKztiS6CgISU+YAw3ehelGGlV4mmD
+ OK9ZZKYjGdlob+ShBb2GNH/8fG/MzO8LbqJuYklNBRoY2zGytlb5h5Qu1kzAw4rTFFJM
+ 2/11ryIHq+e+6k9ncNPpl4pexM+Eb91bZRIAyOdugp6c5DeEVM23w1wncAB2HYLbHSSr
+ tSBQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUtddHno72ywsw90tm9bwFOhBciuQMQ3QIYsTAGoofALXhIooFHnpRBMJ2f1E83LH2hLj1lR20gvTk=@lists.freedesktop.org,
+ AJvYcCVwdcye7XYHRB1acQXNnF5G4pPQwsTfkCUMDLI4dXp9uE9y7IMi50nvv15hMTiOvDo37pAhhqHoOY6h@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyTXMewuzltzO4jkUctCb6tuShH8PlPtsVZ91wRXs53RjRmj1vW
+ xoH22srU9qyFOFmaeTNKJ6m/nPbC+uyVO+4g1P0QSsBrZP60I4qc
+X-Google-Smtp-Source: AGHT+IErG+toQo3H9ixHw9tja9luKMML1dQa6uz2GYgsLd4KvFGpAndP91jNeELOYqFDYsVaQRRNXg==
+X-Received: by 2002:a05:6a00:a90:b0:718:dd80:c2bc with SMTP id
+ d2e1a72fcca58-7199c9df5c5mr24512742b3a.19.1727185082723; 
+ Tue, 24 Sep 2024 06:38:02 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c?
+ ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-37cbc2c139esm1614306f8f.27.2024.09.24.06.37.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Sep 2024 06:37:24 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, alexander.deucher@amd.com,
- chaitanya.kumar.borah@intel.com
-Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann
- <tzimmermann@suse.de>, Helge Deller <deller@gmx.de>, Sam Ravnborg
- <sam@ravnborg.org>, Daniel Vetter <daniel.vetter@ffwll.ch>, "Linux
- regression tracking (Thorsten Leemhuis)" <regressions@leemhuis.info>,
- stable@vger.kernel.org
-Subject: Re: [PATCH] firmware/sysfb: Disable sysfb for firmware buffers with
- unknown parent
-In-Reply-To: <20240924084227.262271-1-tzimmermann@suse.de>
-References: <20240924084227.262271-1-tzimmermann@suse.de>
-Date: Tue, 24 Sep 2024 15:37:23 +0200
-Message-ID: <87ldzh8964.fsf@minerva.mail-host-address-is-not-set>
+ d2e1a72fcca58-71afc835402sm1202366b3a.44.2024.09.24.06.38.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 24 Sep 2024 06:38:01 -0700 (PDT)
+Message-ID: <f3f8bec1-884b-46ac-82a6-6e5cb8840146@roeck-us.net>
+Date: Tue, 24 Sep 2024 06:37:59 -0700
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] drm: revert some framebuffer API tests
+To: Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org,
+ Carlos Eduardo Gallo Filho <gcarlos@disroot.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Jeff Johnson <quic_jjohnson@quicinc.com>
+References: <cover.1726594684.git.jani.nikula@intel.com>
+ <ZvKPJGQyZmdWNOmd@phenom.ffwll.local>
+ <20240924-refined-nocturnal-starfish-2947b8@houat>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <20240924-refined-nocturnal-starfish-2947b8@houat>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,60 +137,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+On 9/24/24 04:54, Maxime Ripard wrote:
+> +Guenter
+> 
+> On Tue, Sep 24, 2024 at 12:06:28PM GMT, Simona Vetter wrote:
+>> On Tue, Sep 17, 2024 at 08:43:50PM +0300, Jani Nikula wrote:
+>>> The tests consistently trigger WARNs in drm_framebuffer code. I'm not
+>>> sure what the point is with type of belts and suspenders tests. The
+>>> warnings *are* the way to flag erroneous API usage.
+>>>
+>>> Warnings in turn trigger failures in CI. Filtering the warnings are
+>>> error prone, and, crucially, would also filter actual errors in case the
+>>> kunit tests are not run.
+>>>
+>>> I acknowledge there may be complex test cases where you'd end up
+>>> triggering warnings somewhere deep, but these are not it. These are
+>>> simple.
+>>>
+>>> Revert the tests, back to the drawing board.
+>>
+>> Yeah I think long-term we might want a kunit framework so that we can
+>> catch dmesg warnings we expect and test for those, without those warnings
+>> actually going to dmesg. Similar to how the lockdep tests also reroute
+>> locking validation, so that the expected positive tests don't wreak
+>> lockdep for real.
+>>
+>> But until that exists, we can't have tests that splat in dmesg when they
+>> work as intended.
+> 
+> It should be pretty soon:
+> https://lore.kernel.org/dri-devel/20240403131936.787234-1-linux@roeck-us.net/
+> 
+> I'm not sure what happened to that series, but it looks like everybody
+> was mostly happy with it?
+> 
 
-Hello Thomas,
+Major subsystem maintainers did not provide any feedback at all, and then
+there came the "it is not perfect enough" feedback, so I gave up on it.
 
-> The sysfb framebuffer handling only operates on graphics devices
-> that provide the system's firmware framebuffer. If that device is
-> not known, assume that any graphics device has been initialized by
-> firmware.
->
-> Fixes a problem on i915 where sysfb does not release the firmware
-> framebuffer after the native graphics driver loaded.
->
-> Reported-by: Borah, Chaitanya Kumar <chaitanya.kumar.borah@intel.com>
-> Closes: https://lore.kernel.org/dri-devel/SJ1PR11MB6129EFB8CE63D1EF6D932F94B96F2@SJ1PR11MB6129.namprd11.prod.outlook.com/
-> Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/12160
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Fixes: b49420d6a1ae ("video/aperture: optionally match the device in sysfb_disable()")
-> Cc: Javier Martinez Canillas <javierm@redhat.com>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Helge Deller <deller@gmx.de>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: Linux regression tracking (Thorsten Leemhuis) <regressions@leemhuis.info>
-> Cc: <stable@vger.kernel.org> # v6.11+
-> ---
->  drivers/firmware/sysfb.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/firmware/sysfb.c b/drivers/firmware/sysfb.c
-> index 02a07d3d0d40..a3df782fa687 100644
-> --- a/drivers/firmware/sysfb.c
-> +++ b/drivers/firmware/sysfb.c
-> @@ -67,9 +67,11 @@ static bool sysfb_unregister(void)
->  void sysfb_disable(struct device *dev)
->  {
->  	struct screen_info *si = &screen_info;
-> +	struct device *parent;
->  
->  	mutex_lock(&disable_lock);
-> -	if (!dev || dev == sysfb_parent_dev(si)) {
-> +	parent = sysfb_parent_dev(si);
-> +	if (!dev || !parent || dev == parent) {
->  		sysfb_unregister();
->  		disabled = true;
->  	}
-
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+Guenter
 
