@@ -2,58 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B51698403A
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 10:19:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42047984028
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 10:18:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CCDF10E676;
-	Tue, 24 Sep 2024 08:19:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3F7710E65B;
+	Tue, 24 Sep 2024 08:18:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="arSPo0CL";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rE7JzeZI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A54E310E670
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 08:18:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1727165938; x=1758701938;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=JFLibCRzP5bEl9Tc4K9GLlzhIhX7hD25r7NbTMX6lp8=;
- b=arSPo0CL+KTLNeAc69K5ebGpX0g3SvcGbVyzLkGkHQ0tBpPAiO8mHUZX
- cG7uAXSAWNa3XG3XcumQdH+Hvq9rVgv35fzCVdcoYHg6QCQ4H+qOMZoa0
- XrN30Bp4YxQsbnc2sAhChZbU0NdMEBoSib/R4qR/kMGbKYpJ/2DBXXSVt
- c6973hVx6MyL79ro9Yj7HXvFWb7ECZOR09GBssrvfRHMj/FvPI5F1Qhuw
- XkYg80+XPTjwOyZES8bPwAPYCmVoPXp+K5femujx+ygGnItb7UonaD2Jm
- o9E4NxwpgIs7gLPcaFg6N0B3EJpa6J8oDxXRen1UtBlMLxKoOsqXm1QDY g==;
-X-CSE-ConnectionGUID: DEESdLy3RaWFuCEFQoIA/Q==
-X-CSE-MsgGUID: japyjq9FQIekvJMnWJhoCA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="37507038"
-X-IronPort-AV: E=Sophos;i="6.10,253,1719903600"; d="scan'208";a="37507038"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Sep 2024 01:18:58 -0700
-X-CSE-ConnectionGUID: 6LO/q8hkTOeihlqunUzmTQ==
-X-CSE-MsgGUID: cj2INkWoThymgiWETavRnw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,253,1719903600"; d="scan'208";a="102170789"
-Received: from jlawryno.igk.intel.com ([10.91.220.59])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Sep 2024 01:18:57 -0700
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- Karol Wachowski <karol.wachowski@intel.com>
-Subject: [PATCH 29/29] accel/ivpu: Fix typos in ivpu_pm.c
-Date: Tue, 24 Sep 2024 10:17:54 +0200
-Message-ID: <20240924081754.209728-30-jacek.lawrynowicz@linux.intel.com>
-X-Mailer: git-send-email 2.45.1
-In-Reply-To: <20240924081754.209728-1-jacek.lawrynowicz@linux.intel.com>
-References: <20240924081754.209728-1-jacek.lawrynowicz@linux.intel.com>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0C9610E656;
+ Tue, 24 Sep 2024 08:18:22 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id D7BDCA43596;
+ Tue, 24 Sep 2024 08:18:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B26B8C4CEC4;
+ Tue, 24 Sep 2024 08:18:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1727165901;
+ bh=71k19nXTK4VVFBoakaBb1kid4ielPiHfKS52/6eP+gY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=rE7JzeZIXW9kWQ/3E0EMx6AbqqDwhdczKPUleEJndoZ7M1poY7ANVSHJDkLKhEl4J
+ EzCEmJWnPCpP4MFvlDpJIqFMQOAq+g9gKNAo0DZhL5BU60DpY6FHPvLMhPibyHam6C
+ bSw1YvSzNX+awAYbp+q1dZW2MPMGtkI8owBLEJo7rnDOuKuJ2ohlruH87SMtGQLj7U
+ 2IV+fUljatlm1yrfND+ZesCfiH3hMrjkZMaNE03AVlySu3+ag+RgPJZB5qlGvRteZj
+ ROoQtRQdYR7cwVOpjZUfAIChXntyuGQ0Dlp36ogkIg4xgl1vZ1ZId+jEJgK1dn5xVm
+ 58V8dr9YC4/JQ==
+Date: Tue, 24 Sep 2024 10:18:17 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Soutrik Mukhopadhyay <quic_mukhopad@quicinc.com>
+Cc: vkoul@kernel.org, kishon@kernel.org, konradybcio@kernel.org, 
+ andersson@kernel.org, simona@ffwll.ch, dmitry.baryshkov@linaro.org, 
+ abel.vesa@linaro.org, robdclark@gmail.com, quic_abhinavk@quicinc.com,
+ sean@poorly.run, 
+ marijn.suijten@somainline.org, airlied@gmail.com, daniel@ffwll.ch, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ robh@kernel.org, 
+ krzk+dt@kernel.org, conor+dt@kernel.org, quic_khsieh@quicinc.com, 
+ konrad.dybcio@linaro.org, quic_parellan@quicinc.com, quic_bjorande@quicinc.com,
+ linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
+ linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org, 
+ quic_riteshk@quicinc.com, quic_vproddut@quicinc.com
+Subject: Re: [PATCH v3 1/5] dt-bindings: phy: Add eDP PHY compatible for
+ sa8775p
+Message-ID: <vxyvyfab3m3yp4s6lraympgukmpxo2zjmh4irxu3lwxzve7mrn@jykursrajsrd>
+References: <20240923113150.24711-1-quic_mukhopad@quicinc.com>
+ <20240923113150.24711-2-quic_mukhopad@quicinc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240923113150.24711-2-quic_mukhopad@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,36 +71,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace "Filed" with an actual word.
+On Mon, Sep 23, 2024 at 05:01:46PM +0530, Soutrik Mukhopadhyay wrote:
+> Add compatible string for the supported eDP PHY on sa8775p platform.
+> 
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Reviewed-by: Karol Wachowski <karol.wachowski@intel.com>
----
- drivers/accel/ivpu/ivpu_pm.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+As explained in reply to Konrad in v2, reviewed-by was given by mistake.
+Please drop on next submit.
 
-diff --git a/drivers/accel/ivpu/ivpu_pm.c b/drivers/accel/ivpu/ivpu_pm.c
-index 6d180c81e6df9..e567df79a6129 100644
---- a/drivers/accel/ivpu/ivpu_pm.c
-+++ b/drivers/accel/ivpu/ivpu_pm.c
-@@ -423,7 +423,7 @@ int ivpu_pm_dct_enable(struct ivpu_device *vdev, u8 active_percent)
- 
- 	ret = ivpu_jsm_dct_enable(vdev, active_us, inactive_us);
- 	if (ret) {
--		ivpu_err_ratelimited(vdev, "Filed to enable DCT: %d\n", ret);
-+		ivpu_err_ratelimited(vdev, "Failed to enable DCT: %d\n", ret);
- 		return ret;
- 	}
- 
-@@ -440,7 +440,7 @@ int ivpu_pm_dct_disable(struct ivpu_device *vdev)
- 
- 	ret = ivpu_jsm_dct_disable(vdev);
- 	if (ret) {
--		ivpu_err_ratelimited(vdev, "Filed to disable DCT: %d\n", ret);
-+		ivpu_err_ratelimited(vdev, "Failed to disable DCT: %d\n", ret);
- 		return ret;
- 	}
- 
--- 
-2.45.1
+> Acked-by: Krzysztof Kozlowski <krzk@kernel.org>
+> Signed-off-by: Soutrik Mukhopadhyay <quic_mukhopad@quicinc.com>
+> ---
+> v2: No change
+> 
+> v3: No change
+
+Best regards,
+Krzysztof
 
