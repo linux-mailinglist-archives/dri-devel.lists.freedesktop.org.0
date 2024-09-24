@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01F44984380
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 12:19:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FE9598437C
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 12:19:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB2B510E6C4;
-	Tue, 24 Sep 2024 10:19:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4AE710E6BA;
+	Tue, 24 Sep 2024 10:19:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Q7opBJxm";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="D9jxUNHg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92F6310E6B2;
- Tue, 24 Sep 2024 10:19:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4559C10E6B5;
+ Tue, 24 Sep 2024 10:19:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
@@ -22,16 +22,16 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=WRqPwnXMBUkDqEGYQNA46U59sn+HOzhBqExPSOI3zq0=; b=Q7opBJxmpDbHBV1kwrTE3vT+XY
- m6PFLDzBOI4kfxRd+hkkeA2GvHzTNjuTTM/b5IDyIzch28mHOYHqGSX0RJo0w71Cs9HX2Kb2w3Aj+
- UO6T2LdBG9Wly/1MNLDfGDpCwGDm8kWrAV98QuZauyUoMt2LTeqKmXfmPtE2zsirldct3JOHvmfUY
- 8XNUeXJ3SRToKeRXUfoi0Tn22LF8LOIHu7vitkZ2D1h4R7AHCpvE94x2MZnB9Xd8Bs4+dITd0ki2K
- v60sbv7RzxvaOHUHh8GUSt+HqWdsmwuZarmn0ug4t35dHKd3qTCCAlY1QeTeY2EIhrKaPtL00Jxma
- q3wz3DsA==;
+ bh=+iCZ5msbKgfMBaXASwXiD4bJaOrPgJhdcu6yxbyfnCY=; b=D9jxUNHgCa6LJXhe8WQSxZFDy5
+ A23DexjBvgCl3/mcSQ6T36iWxfWN7TaEYXNxbmgVDFhDUGHuZxa2EVwf7D7b0PHZdAK57OSU1Wbu6
+ d5vkztpKjyPoiLY3G6b138VEBcKw4J6DXDiOqzyn1kRIR0J7Q0SxYfS8BM9LWZpAEPhrpwsyarqZW
+ CZhfko3hS1V9X3+Fzgk2aPntd80ffTI2IdjOdZaKqDXA8kIQf7fEIYlURGceHoI0b+HSZzryfOUj3
+ 3/bXMWmEPCYXAQnkLwV82WqnyWKcsSggxeZzPKpkAFjtI3MHrL8/AIQo0EXDqX00zaJIzWuPtNbIg
+ HAuLHV6g==;
 Received: from [90.241.98.187] (helo=localhost)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1st2de-000L2b-Qx; Tue, 24 Sep 2024 12:19:22 +0200
+ id 1st2df-000L2h-HW; Tue, 24 Sep 2024 12:19:23 +0200
 From: Tvrtko Ursulin <tursulin@igalia.com>
 To: amd-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
@@ -41,9 +41,10 @@ Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
  Luben Tuikov <ltuikov89@gmail.com>,
  Matthew Brost <matthew.brost@intel.com>,
  Philipp Stanner <pstanner@redhat.com>
-Subject: [PATCH 5/8] drm/sched: Stop setting current entity in FIFO mode
-Date: Tue, 24 Sep 2024 11:19:11 +0100
-Message-ID: <20240924101914.2713-6-tursulin@igalia.com>
+Subject: [PATCH 6/8] drm/sched: Re-order struct drm_sched_rq members for
+ clarity
+Date: Tue, 24 Sep 2024 11:19:12 +0100
+Message-ID: <20240924101914.2713-7-tursulin@igalia.com>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20240924101914.2713-1-tursulin@igalia.com>
 References: <20240924101914.2713-1-tursulin@igalia.com>
@@ -67,11 +68,18 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 
-It does not seem there is a need to set the current entity in FIFO mode
-since ot only serves as being a "cursor" in round-robin mode. Even if
-scheduling mode is changed at runtime the change in behaviour is simply
-to restart from the first entity, instead of continuing in RR mode from
-where FIFO left it, and that sounds completely fine.
+Current kerneldoc for struct drm_sched_rq incompletely documents what
+fields are protected by the lock.
+
+This is not good because it is misleading.
+
+Lets fix it by listing all the elements which are protected by the lock.
+
+While at it, lets also re-order the members so all protected by the lock
+are in a single group.
+
+v2:
+ * Refer variables by kerneldoc syntax, more verbose commit text. (Philipp)
 
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 Cc: Christian König <christian.koenig@amd.com>
@@ -79,24 +87,44 @@ Cc: Alex Deucher <alexander.deucher@amd.com>
 Cc: Luben Tuikov <ltuikov89@gmail.com>
 Cc: Matthew Brost <matthew.brost@intel.com>
 Cc: Philipp Stanner <pstanner@redhat.com>
-Acked-by: Christian König <christian.koenig@amd.com>
+Reviewed-by: Christian König <christian.koenig@amd.com>
 Reviewed-by: Philipp Stanner <pstanner@redhat.com>
 ---
- drivers/gpu/drm/scheduler/sched_main.c | 1 -
- 1 file changed, 1 deletion(-)
+ include/drm/gpu_scheduler.h | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index e312eb6ac85a..130b53f02bbf 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -349,7 +349,6 @@ drm_sched_rq_select_entity_fifo(struct drm_gpu_scheduler *sched,
- 				return ERR_PTR(-ENOSPC);
- 			}
+diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+index f62cc31fea18..33c60889e0a3 100644
+--- a/include/drm/gpu_scheduler.h
++++ b/include/drm/gpu_scheduler.h
+@@ -243,10 +243,10 @@ struct drm_sched_entity {
+ /**
+  * struct drm_sched_rq - queue of entities to be scheduled.
+  *
+- * @lock: to modify the entities list.
+  * @sched: the scheduler to which this rq belongs to.
+- * @entities: list of the entities to be scheduled.
++ * @lock: protects @entities, @rb_tree_root and @current_entity.
+  * @current_entity: the entity which is to be scheduled.
++ * @entities: list of the entities to be scheduled.
+  * @rb_tree_root: root of time based priory queue of entities for FIFO scheduling
+  *
+  * Run queue is a set of entities scheduling command submissions for
+@@ -254,10 +254,12 @@ struct drm_sched_entity {
+  * the next entity to emit commands from.
+  */
+ struct drm_sched_rq {
+-	spinlock_t			lock;
+ 	struct drm_gpu_scheduler	*sched;
+-	struct list_head		entities;
++
++	spinlock_t			lock;
++	/* Following members are protected by the @lock: */
+ 	struct drm_sched_entity		*current_entity;
++	struct list_head		entities;
+ 	struct rb_root_cached		rb_tree_root;
+ };
  
--			rq->current_entity = entity;
- 			reinit_completion(&entity->entity_idle);
- 			break;
- 		}
 -- 
 2.46.0
 
