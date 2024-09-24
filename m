@@ -2,64 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E30898472B
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 16:02:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9746898472E
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 16:02:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD16110E6F0;
-	Tue, 24 Sep 2024 14:02:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00DE410E6F5;
+	Tue, 24 Sep 2024 14:02:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="m/Y6MAnA";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KPSmIfwc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F93310E6F0
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 14:02:33 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 412595C5B87;
- Tue, 24 Sep 2024 14:02:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4819BC4CEC4;
- Tue, 24 Sep 2024 14:02:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1727186551;
- bh=PW28/HOcoamPZBdK9HP7NqFe81dU96hQWV1/W5OFhZk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=m/Y6MAnAelEGvB5xP9m9pXG9C5b9Ir4siPj/ZpWSpaPqT822OBUSImRXObgJCwkee
- wBtjQFGWU+IVDX5VhmxSHZuGlJXOqqoshwAbG5N/eUbNd1RRem8iBQyrCM0DJFyzwt
- nZUNOjJfj955sVTfmPNX//b6FQZBnnRW6XJJ+RROPvQsyPckHbg+3D4LKRS8W5cIh3
- xvHuLW8FiOmZ+1hu3vYfPoDbKU30M58toV+tRppC3nbP4KCnws5Qu5Fgtx0HPncxPT
- UllyZJLNeBc8H7VMsRrk5UGNDNCJXyYNk8u+JBZzDWBnm5yZyk63fxGvS0GAfJDlcR
- qJ9simfhFPobA==
-Date: Tue, 24 Sep 2024 16:02:29 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Sandy Huang <hjc@rock-chips.com>,
- Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Mark Yao <markyao0591@gmail.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Simona Vetter <simona@ffwll.ch>, Simona Vetter <simona.vetter@ffwll.ch>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- devicetree@vger.kernel.org, 
- kernel@collabora.com, Alexandre ARNOUD <aarnoud@me.com>, 
- Luis de Arquer <ldearquer@gmail.com>, Algea Cao <algea.cao@rock-chips.com>
-Subject: Re: [PATCH v7 3/3] drm/rockchip: Add basic RK3588 HDMI output support
-Message-ID: <20240924-ubiquitous-festive-rabbit-55cdb0@houat>
-References: <20240914-b4-rk3588-bridge-upstream-v7-0-2b1348137123@collabora.com>
- <20240914-b4-rk3588-bridge-upstream-v7-3-2b1348137123@collabora.com>
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
+ [209.85.210.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DF0510E6F2;
+ Tue, 24 Sep 2024 14:02:47 +0000 (UTC)
+Received: by mail-pf1-f179.google.com with SMTP id
+ d2e1a72fcca58-718e0421143so1111175b3a.0; 
+ Tue, 24 Sep 2024 07:02:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1727186567; x=1727791367; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=4rjn9iKxlm6Sd+6XN6DcxEA/4SLhFIMgFLjUo0PYnDM=;
+ b=KPSmIfwcCpHoLCjNhgawE/V/m9JwrUE4lfZR/20+6b/ut21lZ2HohlxplLcYXbS9r2
+ pz568UQtd7QawZF32oXlMNkOKnctHGy8O5eD5ljj5gp5aQVLALCUlE/BH2prJEUdvm6F
+ jdOsM54faXQwTdgL7qzF9faNv2kJvyAKMZHyT1grd0JiA+akok2g73lcpWn13z9/KpAs
+ FJMKMErTLAY3+4zowE0AUi5Zfwlfzu/fwBkdOCxT1uB1hNr9ms9J0VMyFdvctqPolOLJ
+ CfGjFEc4gIHoFsWD89RXkZ73ngTG8fERVk/uja0VwlbBd8Hf9su4JlKMty9+LyfhCBfC
+ He/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1727186567; x=1727791367;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=4rjn9iKxlm6Sd+6XN6DcxEA/4SLhFIMgFLjUo0PYnDM=;
+ b=GSyQGaiqVohEuHPrDod1yRT+6p65HZO+1bVW4BGtxjumAXHOXdG3QKAQQyq+63oO6K
+ kRrkBWhErlpsJkx1xEtw+nGhCN/tyNPIY718FzpIqDSjItItnI0d3amuKF/iez2ubFsD
+ Cs81b/R59XQQRWjAW2J3Y8MXKXhmYNUZrgGPC+o3uNRa5GiB8U3b+iI0kKCldnjTxqbe
+ +sfsVgzoQfEK6fv4WwNc86uWfS9N52WQf59E9hAtAnYxdK6paNdu1Y5/3uz28UcL8RaN
+ 0j2VD6s3HUw2b9AdQzkk+10yG/sbPkGLF6+6t0GizoqCXH0VOM8uTx9m6vEvI73HDv7q
+ b4AQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV25cdiR3akRPVE9fiwJs2Ivy++Rnqi22z2dhTPEvejSmPTNhVTtWIPBNVn7BEcxbxntteMNAjF@lists.freedesktop.org,
+ AJvYcCVh+ttPmD4Neibn77iTr32uXHu2h6P4oRSWzj9orLYjSabK/xOYMd1Ixhaww1lT7KZ8RwtAkGUf1dbe@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyV6FBvXYMDaH3LL6Rrw3E5qmeaePcXocl/cbFROaqAkx2TZi6f
+ ahJAYHCPECsWo659cXLXC5pvZIXW/qeyvhwxVOgaGkewNt6N11UY7hzPgh1XrEFHXvkG63gSgZb
+ JIGu8L1qRihaCLckUrgFQHnxNsI4=
+X-Google-Smtp-Source: AGHT+IE1PcaGG5MlOA5G50BEYkhHdz226rGnVOaCdEzWbvwdrUSDzSOAA624Ed9ZJ832fNZwZpAC9edRNln7NeFRyio=
+X-Received: by 2002:a05:6a00:21d3:b0:718:e49f:246f with SMTP id
+ d2e1a72fcca58-71afb71496amr1767124b3a.7.1727186566728; Tue, 24 Sep 2024
+ 07:02:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="fpqtjrbd6xxegakm"
-Content-Disposition: inline
-In-Reply-To: <20240914-b4-rk3588-bridge-upstream-v7-3-2b1348137123@collabora.com>
+References: <20240802071752.116541-1-yaolu@kylinos.cn>
+ <20240812060914.102614-1-yaolu@kylinos.cn>
+ <CADnq5_OcUgV9dgAynDCQnm9NS+QCvhBiHvxWnhWqi2qqhh=zXg@mail.gmail.com>
+ <16352ae0-7e61-440d-8c04-7ec912f9bf9a@redhat.com>
+In-Reply-To: <16352ae0-7e61-440d-8c04-7ec912f9bf9a@redhat.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 24 Sep 2024 10:02:35 -0400
+Message-ID: <CADnq5_O7njHcvu0ejvVPPKF7szsbEQ8oFfHr9GTyD+zAe2EJ8g@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/amdgpu: add dce6 drm_panic support
+To: Jocelyn Falempe <jfalempe@redhat.com>
+Cc: Lu Yao <yaolu@kylinos.cn>, ckoenig.leichtzumerken@gmail.com,
+ daniel@ffwll.ch, 
+ Xinhui.Pan@amd.com, airlied@gmail.com, alexander.deucher@amd.com, 
+ amd-gfx@lists.freedesktop.org, christian.koenig@amd.com, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ srinivasan.shanmugam@amd.com, sunil.khatri@amd.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,173 +87,156 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Sep 20, 2024 at 11:36=E2=80=AFAM Jocelyn Falempe <jfalempe@redhat.c=
+om> wrote:
+>
+> On 17/09/2024 15:21, Alex Deucher wrote:
+> > On Mon, Aug 12, 2024 at 2:10=E2=80=AFAM Lu Yao <yaolu@kylinos.cn> wrote=
+:
+> >>
+> >> Add support for the drm_panic module, which displays a pretty user
+> >> friendly message on the screen when a Linux kernel panic occurs.
+> >>
+> >> Signed-off-by: Lu Yao <yaolu@kylinos.cn>
+> >
+> > Patch looks good to me.  Any chance you want to convert the other
+> > non-DC dce files (dce_v8_0.c, dce_v10_0.c, dce_v11_0.c) while you are
+> > at it?
+>
+> I've made a similar patch in amdgpu_dm_plane.c, and it works on a Radeon
+> pro w6400.
+> But it only works when I'm in a VT terminal (so the framebuffer is
+> linear and CPU accessible).
+> When under Gnome/Wayland, the flag AMDGPU_GEM_CREATE_NO_CPU_ACCESS is
+> set, so that means I can't vmap it ?
 
---fpqtjrbd6xxegakm
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+It just means that the application does not need CPU access.  Whether
+or not the CPU can access the buffer or not depends on the size of the
+PCI BAR.  E.g., if the driver or bios has resized the PCI BAR, then
+the CPU can access the entire BAR, but if not you are generally
+limited to the first 256M of framebuffer.
 
-Hi,
+>
+> Also I don't know if there is a similar way to disable
+> tiling/compression on this hardware.
 
-On Sat, Sep 14, 2024 at 09:56:53PM GMT, Cristian Ciocaltea wrote:
-> The RK3588 SoC family integrates the newer Synopsys DesignWare HDMI 2.1
-> Quad-Pixel (QP) TX controller IP and a HDMI/eDP TX Combo PHY based on a
-> Samsung IP block.
->=20
-> Add just the basic support for now, i.e. RGB output up to 4K@60Hz,
-> without audio, CEC or any of the HDMI 2.1 specific features.
->=20
-> Co-developed-by: Algea Cao <algea.cao@rock-chips.com>
-> Signed-off-by: Algea Cao <algea.cao@rock-chips.com>
-> Tested-by: Heiko Stuebner <heiko@sntech.de>
-> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-> ---
->  drivers/gpu/drm/rockchip/Kconfig               |   9 +
->  drivers/gpu/drm/rockchip/Makefile              |   1 +
->  drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c | 436 +++++++++++++++++++=
-++++++
->  drivers/gpu/drm/rockchip/rockchip_drm_drv.c    |   2 +
->  drivers/gpu/drm/rockchip/rockchip_drm_drv.h    |   1 +
->  5 files changed, 449 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/rockchip/Kconfig b/drivers/gpu/drm/rockchip/=
-Kconfig
-> index 23c49e91f1cc..448fadd4ba15 100644
-> --- a/drivers/gpu/drm/rockchip/Kconfig
-> +++ b/drivers/gpu/drm/rockchip/Kconfig
-> @@ -8,6 +8,7 @@ config DRM_ROCKCHIP
->  	select VIDEOMODE_HELPERS
->  	select DRM_ANALOGIX_DP if ROCKCHIP_ANALOGIX_DP
->  	select DRM_DW_HDMI if ROCKCHIP_DW_HDMI
-> +	select DRM_DW_HDMI_QP if ROCKCHIP_DW_HDMI_QP
->  	select DRM_DW_MIPI_DSI if ROCKCHIP_DW_MIPI_DSI
->  	select GENERIC_PHY if ROCKCHIP_DW_MIPI_DSI
->  	select GENERIC_PHY_MIPI_DPHY if ROCKCHIP_DW_MIPI_DSI
-> @@ -63,6 +64,14 @@ config ROCKCHIP_DW_HDMI
->  	  enable HDMI on RK3288 or RK3399 based SoC, you should select
->  	  this option.
-> =20
-> +config ROCKCHIP_DW_HDMI_QP
-> +	bool "Rockchip specific extensions for Synopsys DW HDMI QP"
-> +	select DRM_BRIDGE_CONNECTOR
-> +	help
-> +	  This selects support for Rockchip SoC specific extensions
-> +	  for the Synopsys DesignWare HDMI QP driver. If you want to
-> +	  enable HDMI on RK3588 based SoC, you should select this option.
-> +
->  config ROCKCHIP_DW_MIPI_DSI
->  	bool "Rockchip specific extensions for Synopsys DW MIPI DSI"
->  	select GENERIC_PHY_MIPI_DPHY
-> diff --git a/drivers/gpu/drm/rockchip/Makefile b/drivers/gpu/drm/rockchip=
-/Makefile
-> index 3ff7b21c0414..3eab662a5a1d 100644
-> --- a/drivers/gpu/drm/rockchip/Makefile
-> +++ b/drivers/gpu/drm/rockchip/Makefile
-> @@ -11,6 +11,7 @@ rockchipdrm-$(CONFIG_ROCKCHIP_VOP) +=3D rockchip_drm_vo=
-p.o rockchip_vop_reg.o
->  rockchipdrm-$(CONFIG_ROCKCHIP_ANALOGIX_DP) +=3D analogix_dp-rockchip.o
->  rockchipdrm-$(CONFIG_ROCKCHIP_CDN_DP) +=3D cdn-dp-core.o cdn-dp-reg.o
->  rockchipdrm-$(CONFIG_ROCKCHIP_DW_HDMI) +=3D dw_hdmi-rockchip.o
-> +rockchipdrm-$(CONFIG_ROCKCHIP_DW_HDMI_QP) +=3D dw_hdmi_qp-rockchip.o
->  rockchipdrm-$(CONFIG_ROCKCHIP_DW_MIPI_DSI) +=3D dw-mipi-dsi-rockchip.o
->  rockchipdrm-$(CONFIG_ROCKCHIP_INNO_HDMI) +=3D inno_hdmi.o
->  rockchipdrm-$(CONFIG_ROCKCHIP_LVDS) +=3D rockchip_lvds.o
-> diff --git a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c b/drivers/gpu=
-/drm/rockchip/dw_hdmi_qp-rockchip.c
-> new file mode 100644
-> index 000000000000..19d407c926bd
-> --- /dev/null
-> +++ b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-> @@ -0,0 +1,436 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +/*
-> + * Copyright (c) 2021-2022 Rockchip Electronics Co., Ltd.
-> + * Copyright (c) 2024 Collabora Ltd.
-> + *
-> + * Author: Algea Cao <algea.cao@rock-chips.com>
-> + * Author: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-> + */
-> +
-> +#include <linux/clk.h>
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/mfd/syscon.h>
-> +#include <linux/module.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/phy/phy.h>
-> +#include <linux/regmap.h>
-> +#include <linux/workqueue.h>
-> +
-> +#include <drm/bridge/dw_hdmi_qp.h>
-> +#include <drm/drm_bridge_connector.h>
-> +#include <drm/drm_of.h>
-> +#include <drm/drm_probe_helper.h>
-> +#include <drm/drm_simple_kms_helper.h>
-> +
-> +#include "rockchip_drm_drv.h"
-> +
-> +#define RK3588_GRF_SOC_CON2		0x0308
-> +#define RK3588_HDMI0_HPD_INT_MSK	BIT(13)
-> +#define RK3588_HDMI0_HPD_INT_CLR	BIT(12)
-> +#define RK3588_GRF_SOC_CON7		0x031c
-> +#define RK3588_SET_HPD_PATH_MASK	GENMASK(13, 12)
-> +#define RK3588_GRF_SOC_STATUS1		0x0384
-> +#define RK3588_HDMI0_LEVEL_INT		BIT(16)
-> +#define RK3588_GRF_VO1_CON3		0x000c
-> +#define RK3588_SCLIN_MASK		BIT(9)
-> +#define RK3588_SDAIN_MASK		BIT(10)
-> +#define RK3588_MODE_MASK		BIT(11)
-> +#define RK3588_I2S_SEL_MASK		BIT(13)
-> +#define RK3588_GRF_VO1_CON9		0x0024
-> +#define RK3588_HDMI0_GRANT_SEL		BIT(10)
-> +
-> +#define HIWORD_UPDATE(val, mask)	((val) | (mask) << 16)
-> +
-> +struct rockchip_hdmi_qp {
-> +	struct device *dev;
-> +	struct regmap *regmap;
-> +	struct regmap *vo_regmap;
-> +	struct rockchip_encoder encoder;
-> +	struct clk *ref_clk;
-> +	struct dw_hdmi_qp *hdmi;
-> +	struct phy *phy;
-> +	struct gpio_desc *enable_gpio;
-> +	struct delayed_work hpd_work;
-> +};
-> +
-> +static struct rockchip_hdmi_qp *to_rockchip_hdmi_qp(struct drm_encoder *=
-encoder)
-> +{
-> +	struct rockchip_encoder *rkencoder =3D to_rockchip_encoder(encoder);
-> +
-> +	return container_of(rkencoder, struct rockchip_hdmi_qp, encoder);
-> +}
-> +
-> +static void
-> +dw_hdmi_qp_rockchip_encoder_mode_set(struct drm_encoder *encoder,
-> +				     struct drm_display_mode *mode,
-> +				     struct drm_display_mode *adj_mode)
-> +{
-> +	struct rockchip_hdmi_qp *hdmi =3D to_rockchip_hdmi_qp(encoder);
-> +
-> +	clk_set_rate(hdmi->ref_clk, adj_mode->clock * 1000);
-> +}
+UNP_GRPH_CONTROL on chips with DCE display hardware and
+DCSURF_ADDR_CONFIG and DCSURF_TILING_CONFIG on DCN display hardware.
 
-I'm not sure you can do that. mode_set can be called multiple times
-while the connector is enabled. It would be better to drop the mode_set
-implementation, and just put it in the encoder enable.
+Alex
 
-Maxime
-
---fpqtjrbd6xxegakm
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZvLGdAAKCRAnX84Zoj2+
-drg5AX4+5T6M+km/p/2RBh+FbWARBrBDngsllHb1+sXL8YNsBg7J5+gTHGDeTMLd
-b0/HJDYBf26HM8iOSfpQdkcgs2QUMtHe3klRG6aEP+AeOM3ylEmPmpYzBAGp0tGs
-FRIjki7rDQ==
-=dq1q
------END PGP SIGNATURE-----
-
---fpqtjrbd6xxegakm--
+>
+> Best regards,
+>
+> --
+>
+> Jocelyn
+>
+>
+> >
+> > Alex
+> >
+> >
+> >> ---
+> >> Changes in v2:
+> >> 1. Drop include "drm_internal.h"
+> >> 2. Add disabling DC tiling ops.
+> >> Per suggestion from previous thread:
+> >> https://patchwork.freedesktop.org/patch/606879/?series=3D136832&rev=3D=
+1
+> >> ---
+> >>   drivers/gpu/drm/amd/amdgpu/dce_v6_0.c | 48 +++++++++++++++++++++++++=
+++
+> >>   1 file changed, 48 insertions(+)
+> >>
+> >> diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c b/drivers/gpu/drm/a=
+md/amdgpu/dce_v6_0.c
+> >> index 05c0df97f01d..ba1b7a36caa3 100644
+> >> --- a/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
+> >> +++ b/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
+> >> @@ -28,6 +28,7 @@
+> >>   #include <drm/drm_modeset_helper.h>
+> >>   #include <drm/drm_modeset_helper_vtables.h>
+> >>   #include <drm/drm_vblank.h>
+> >> +#include <drm/drm_panic.h>
+> >>
+> >>   #include "amdgpu.h"
+> >>   #include "amdgpu_pm.h"
+> >> @@ -2600,6 +2601,52 @@ static const struct drm_crtc_helper_funcs dce_v=
+6_0_crtc_helper_funcs =3D {
+> >>          .get_scanout_position =3D amdgpu_crtc_get_scanout_position,
+> >>   };
+> >>
+> >> +static int dce_v6_0_drm_primary_plane_get_scanout_buffer(struct drm_p=
+lane *plane,
+> >> +                                                        struct drm_sc=
+anout_buffer *sb)
+> >> +{
+> >> +       struct drm_framebuffer *fb;
+> >> +       struct amdgpu_bo *abo;
+> >> +       struct amdgpu_crtc *amdgpu_crtc;
+> >> +       struct amdgpu_device *adev;
+> >> +       uint32_t fb_format;
+> >> +
+> >> +       if (!plane->fb)
+> >> +               return -EINVAL;
+> >> +
+> >> +       fb =3D plane->fb;
+> >> +
+> >> +       abo =3D gem_to_amdgpu_bo(fb->obj[0]);
+> >> +       amdgpu_crtc =3D to_amdgpu_crtc(plane->crtc);
+> >> +       adev =3D drm_to_adev(fb->dev);
+> >> +
+> >> +       if (!abo->kmap.virtual &&
+> >> +           ttm_bo_kmap(&abo->tbo, 0, PFN_UP(abo->tbo.base.size), &abo=
+->kmap)) {
+> >> +               DRM_WARN("amdgpu bo map failed, panic won't be display=
+ed\n");
+> >> +               return -ENOMEM;
+> >> +       }
+> >> +
+> >> +       if (abo->kmap.bo_kmap_type & TTM_BO_MAP_IOMEM_MASK)
+> >> +               iosys_map_set_vaddr_iomem(&sb->map[0], abo->kmap.virtu=
+al);
+> >> +       else
+> >> +               iosys_map_set_vaddr(&sb->map[0], abo->kmap.virtual);
+> >> +
+> >> +       sb->width =3D fb->width;
+> >> +       sb->height =3D fb->height;
+> >> +       sb->format =3D fb->format;
+> >> +       sb->pitch[0] =3D fb->pitches[0];
+> >> +
+> >> +       /* Disable DC tiling */
+> >> +       fb_format =3D RREG32(mmGRPH_CONTROL + amdgpu_crtc->crtc_offset=
+);
+> >> +       fb_format &=3D ~GRPH_ARRAY_MODE(0x7);
+> >> +       WREG32(mmGRPH_CONTROL + amdgpu_crtc->crtc_offset, fb_format);
+> >> +
+> >> +       return 0;
+> >> +}
+> >> +
+> >> +static const struct drm_plane_helper_funcs dce_v6_0_drm_primary_plane=
+_helper_funcs =3D {
+> >> +       .get_scanout_buffer =3D dce_v6_0_drm_primary_plane_get_scanout=
+_buffer
+> >> +};
+> >> +
+> >>   static int dce_v6_0_crtc_init(struct amdgpu_device *adev, int index)
+> >>   {
+> >>          struct amdgpu_crtc *amdgpu_crtc;
+> >> @@ -2627,6 +2674,7 @@ static int dce_v6_0_crtc_init(struct amdgpu_devi=
+ce *adev, int index)
+> >>          amdgpu_crtc->encoder =3D NULL;
+> >>          amdgpu_crtc->connector =3D NULL;
+> >>          drm_crtc_helper_add(&amdgpu_crtc->base, &dce_v6_0_crtc_helper=
+_funcs);
+> >> +       drm_plane_helper_add(amdgpu_crtc->base.primary, &dce_v6_0_drm_=
+primary_plane_helper_funcs);
+> >>
+> >>          return 0;
+> >>   }
+> >> --
+> >> 2.25.1
+> >>
+> >
+>
