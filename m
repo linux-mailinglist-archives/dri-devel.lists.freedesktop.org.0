@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B61B983C5B
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 07:27:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3BB5983C5D
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 07:30:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8AF4D10E25E;
-	Tue, 24 Sep 2024 05:27:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1A1110E4E8;
+	Tue, 24 Sep 2024 05:30:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Eeg0Umq4";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="bM1AJCvO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D51B610E25E
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 05:27:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 346FE10E4C9
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 05:30:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
@@ -22,18 +22,18 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=YNS5Rbk1Y4WYnOQhxnJqnehTcjOaD+ieLEM5TbzBlWs=; b=Eeg0Umq4vitreexo9LeMuFiAIn
- 952G3gl/QrKrz2Bp4uJllpag+1oTUN4EAgAp3yMM+qXdzcp8uXuXaF43t40rcj95q+V1LIFYh8LSo
- jGwClahM6Y+MWyBFMtZiSSjn2HD/hDTOWSHetUGJrEL6M0aWBm3bUfdZEDYbmHKItg29M7V8v8OMT
- hlnl8MMO211ZnDAHtqnQTewMwLvqHTiw4zwFAY3HjcvxquadXzS4UVk6+gIib6XbZiIrY43e2j5xx
- sQprjllbLC1f/6mqlFwGHSPMIfyFDoINejdap3Lfmlr9SfN/lDri+7t7H6bUMZN7cjL+eeyXcrhEx
- Bk9CMqcg==;
+ bh=3W5iz06bXlmZUwS24EMstofkPye68S/8CIj9q/Tm7uU=; b=bM1AJCvOBwWqg2kUepSVkHgUJ5
+ LLlSX/gpBQ6T6rP5UBqhG8i/zo9rsBxfSZ0jRnkEeNguUf5F+OeTndxCNmIEoIvlrK3gGCDlODSKV
+ 4sPDb79qPhDoFiT2Si9yqMX3XwAL6uBnJ5GLh5vAUY0rpaNnyF8czKc0dhm6cB74pF5CVqXn/tREL
+ 7067ttdxzuj5/ORbNUXppL+yUVdGnsYRAwNgBZ48G2VQ/eB50DPcmppPpoTrqajjYIrs4yFcLVx5v
+ cDwcSV/RRwjSg4gb+TYF9wQNE5M/nHTEU9B4hHOEXPHvu59Md5u1Kh6MklX5z3h/emh/OUtwtxDkN
+ 35Xz5gdQ==;
 Received: from 62.83.47.18.dyn.user.ono.com ([62.83.47.18] helo=[192.168.0.17])
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1ssy5K-000FKR-Ie; Tue, 24 Sep 2024 07:27:38 +0200
-Message-ID: <98dfe801d45be91ea232012a0ce0304428a13353.camel@igalia.com>
-Subject: Re: [PATCH v6 01/11] drm/v3d: Address race-condition in MMU flush
+ id 1ssy8A-000FNN-LE; Tue, 24 Sep 2024 07:30:34 +0200
+Message-ID: <e90e4fd6c03d30e8b43ef8e492767977b1e99ad5.camel@igalia.com>
+Subject: Re: [PATCH v6 11/11] drm/v3d: Expose Super Pages capability
 From: Iago Toral <itoral@igalia.com>
 To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Melissa Wen
  <mwen@igalia.com>, Tvrtko Ursulin <tursulin@igalia.com>, Maarten Lankhorst
@@ -41,10 +41,10 @@ To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Melissa Wen
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>
 Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
-Date: Tue, 24 Sep 2024 07:27:27 +0200
-In-Reply-To: <20240923141348.2422499-2-mcanal@igalia.com>
+Date: Tue, 24 Sep 2024 07:30:24 +0200
+In-Reply-To: <20240923141348.2422499-12-mcanal@igalia.com>
 References: <20240923141348.2422499-1-mcanal@igalia.com>
- <20240923141348.2422499-2-mcanal@igalia.com>
+ <20240923141348.2422499-12-mcanal@igalia.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.52.3-0ubuntu1 
@@ -67,78 +67,43 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Reviewed-by: Iago Toral Quiroga <itoral@igalia.com>
 
 El lun, 23-09-2024 a las 10:55 -0300, Ma=C3=ADra Canal escribi=C3=B3:
-> We must first flush the MMU cache and then, flush the TLB, not the
-> other
-> way around. Currently, we can see a race condition between the MMU
-> cache
-> and the TLB when running multiple rendering processes at the same
-> time.
-> This is evidenced by MMU errors triggered by the IRQ.
+> Add a new V3D parameter to expose the support of Super Pages to
+> userspace. The userspace might want to know this information to
+> apply optimizations that are specific to kernels with Super Pages
+> enabled.
 >=20
-> Fix the MMU flush order by flushing the MMU cache and then the TLB.
-> Also, in order to address the race condition, wait for the MMU cache
-> flush
-> to finish before starting the TLB flush.
->=20
-> Fixes: 57692c94dcbe ("drm/v3d: Introduce a new DRM driver for
-> Broadcom V3D V3.x+")
 > Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
 > ---
-> =C2=A0drivers/gpu/drm/v3d/v3d_mmu.c | 29 ++++++++++-------------------
-> =C2=A01 file changed, 10 insertions(+), 19 deletions(-)
+> =C2=A0drivers/gpu/drm/v3d/v3d_drv.c | 3 +++
+> =C2=A0include/uapi/drm/v3d_drm.h=C2=A0=C2=A0=C2=A0 | 1 +
+> =C2=A02 files changed, 4 insertions(+)
 >=20
-> diff --git a/drivers/gpu/drm/v3d/v3d_mmu.c
-> b/drivers/gpu/drm/v3d/v3d_mmu.c
-> index 14f3af40d6f6..e36ec3343b06 100644
-> --- a/drivers/gpu/drm/v3d/v3d_mmu.c
-> +++ b/drivers/gpu/drm/v3d/v3d_mmu.c
-> @@ -32,32 +32,23 @@ static int v3d_mmu_flush_all(struct v3d_dev *v3d)
-> =C2=A0{
-> =C2=A0	int ret;
+> diff --git a/drivers/gpu/drm/v3d/v3d_drv.c
+> b/drivers/gpu/drm/v3d/v3d_drv.c
+> index 8be8c6dd9b35..fb35c5c3f1a7 100644
+> --- a/drivers/gpu/drm/v3d/v3d_drv.c
+> +++ b/drivers/gpu/drm/v3d/v3d_drv.c
+> @@ -104,6 +104,9 @@ static int v3d_get_param_ioctl(struct drm_device
+> *dev, void *data,
+> =C2=A0	case DRM_V3D_PARAM_MAX_PERF_COUNTERS:
+> =C2=A0		args->value =3D v3d->perfmon_info.max_counters;
+> =C2=A0		return 0;
+> +	case DRM_V3D_PARAM_SUPPORTS_SUPER_PAGES:
+> +		args->value =3D !!v3d->gemfs;
+> +		return 0;
+> =C2=A0	default:
+> =C2=A0		DRM_DEBUG("Unknown parameter %d\n", args->param);
+> =C2=A0		return -EINVAL;
+> diff --git a/include/uapi/drm/v3d_drm.h b/include/uapi/drm/v3d_drm.h
+> index 87fc5bb0a61e..2376c73abca1 100644
+> --- a/include/uapi/drm/v3d_drm.h
+> +++ b/include/uapi/drm/v3d_drm.h
+> @@ -290,6 +290,7 @@ enum drm_v3d_param {
+> =C2=A0	DRM_V3D_PARAM_SUPPORTS_MULTISYNC_EXT,
+> =C2=A0	DRM_V3D_PARAM_SUPPORTS_CPU_QUEUE,
+> =C2=A0	DRM_V3D_PARAM_MAX_PERF_COUNTERS,
+> +	DRM_V3D_PARAM_SUPPORTS_SUPER_PAGES,
+> =C2=A0};
 > =C2=A0
-> -	/* Make sure that another flush isn't already running when
-> we
-> -	 * start this one.
-> -	 */
-> -	ret =3D wait_for(!(V3D_READ(V3D_MMU_CTL) &
-> -			 V3D_MMU_CTL_TLB_CLEARING), 100);
-> -	if (ret)
-> -		dev_err(v3d->drm.dev, "TLB clear wait idle pre-wait
-> failed\n");
-> -
-> -	V3D_WRITE(V3D_MMU_CTL, V3D_READ(V3D_MMU_CTL) |
-> -		=C2=A0 V3D_MMU_CTL_TLB_CLEAR);
-> -
-> -	V3D_WRITE(V3D_MMUC_CONTROL,
-> -		=C2=A0 V3D_MMUC_CONTROL_FLUSH |
-> +	V3D_WRITE(V3D_MMUC_CONTROL, V3D_MMUC_CONTROL_FLUSH |
-> =C2=A0		=C2=A0 V3D_MMUC_CONTROL_ENABLE);
-> =C2=A0
-> -	ret =3D wait_for(!(V3D_READ(V3D_MMU_CTL) &
-> -			 V3D_MMU_CTL_TLB_CLEARING), 100);
-> +	ret =3D wait_for(!(V3D_READ(V3D_MMUC_CONTROL) &
-> +			 V3D_MMUC_CONTROL_FLUSHING), 100);
-> =C2=A0	if (ret) {
-> -		dev_err(v3d->drm.dev, "TLB clear wait idle
-> failed\n");
-> +		dev_err(v3d->drm.dev, "MMUC flush wait idle
-> failed\n");
-> =C2=A0		return ret;
-> =C2=A0	}
-> =C2=A0
-> -	ret =3D wait_for(!(V3D_READ(V3D_MMUC_CONTROL) &
-> -			 V3D_MMUC_CONTROL_FLUSHING), 100);
-> +	V3D_WRITE(V3D_MMU_CTL, V3D_READ(V3D_MMU_CTL) |
-> +		=C2=A0 V3D_MMU_CTL_TLB_CLEAR);
-> +
-> +	ret =3D wait_for(!(V3D_READ(V3D_MMU_CTL) &
-> +			 V3D_MMU_CTL_TLB_CLEARING), 100);
-> =C2=A0	if (ret)
-> -		dev_err(v3d->drm.dev, "MMUC flush wait idle
-> failed\n");
-> +		dev_err(v3d->drm.dev, "MMU TLB clear wait idle
-> failed\n");
-> =C2=A0
-> =C2=A0	return ret;
-> =C2=A0}
+> =C2=A0struct drm_v3d_get_param {
 
