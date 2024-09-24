@@ -2,131 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40223984A5A
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 19:37:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A9CD984A64
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 19:45:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB84910E8D5;
-	Tue, 24 Sep 2024 17:37:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CD9010E8D8;
+	Tue, 24 Sep 2024 17:45:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cd0q+tbP";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="QfmOr+dc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com
- [209.85.210.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AE8E10E8D5;
- Tue, 24 Sep 2024 17:37:48 +0000 (UTC)
-Received: by mail-pf1-f173.google.com with SMTP id
- d2e1a72fcca58-718d6ad6050so4294845b3a.0; 
- Tue, 24 Sep 2024 10:37:48 -0700 (PDT)
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
+ [209.85.218.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD19E10E0CE;
+ Tue, 24 Sep 2024 17:45:38 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id
+ a640c23a62f3a-a8d0d0aea3cso779164566b.3; 
+ Tue, 24 Sep 2024 10:45:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1727199468; x=1727804268; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
- bh=2vxiwZd6Og4nl7VC1WFt6mi2lwrWjqLb69xrh7f+fQU=;
- b=cd0q+tbPUFIERSFSA734GqkOne+JRNbZ4k1qq+bGLw0jCBm4eXkAqr/LF1iTSQVOX+
- hajfV/WPfetiEDWegajRVdt0faURvTOet6TxbSJH95WlqlMfLVb25xD9MhWXAbnvXDYO
- QPUNylJmNr9sKKkd2/2pYgrbTjWYMhXqt4It4w85itZYTHo1dVPDbFGmjgL/wXqEl5ge
- zzjpSV9sFTco6gLujMfy3DdFsVNjl8EGv1zP6FnX6LbC78NoeEAHhRP4G7tXltAsYfw8
- 0eJjratKdMx4RH/utcJOKbaCyIcPuo7iKQqCORYpeZfIx1GSLoBQCNbhx14rqlhTDNJm
- /O2Q==
+ d=gmail.com; s=20230601; t=1727199937; x=1727804737; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=jFTMbvwqkXfCKoN6CJkJQivONhwDVspFsQyNZtPka9Y=;
+ b=QfmOr+dcrjZURvWly1SJgE6x0BshKbwmDHmMevS1IigNQxfWH/zCZfxW950byBujKu
+ qbZ6XYftfLGZ+KUWA/vx1Wg5sd89WLMwIL2JityIfpPLbDGVu/Y/KGiU0ncQ6zX8PNaY
+ xhOxFpdWmlKi1dF/1rNZCSVnSaR0gUV8GNrZn7ll69sHalhmew9SWj6TCteGl+c/IZm/
+ HDEUi3/KqCBglKoARZdlkwlHvJNPtQLMX2QBKMsBfJQsNHCAuqIjBP6eIFSjZhRbgm0d
+ gIu6zag2d+4RiLI+1nmUo+ttrrbbnPOCe/QxQB3EyBTDy5RwHdplOTnB8oiS92Jrl9BC
+ Lj2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727199468; x=1727804268;
- h=content-transfer-encoding:in-reply-to:autocrypt:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=2vxiwZd6Og4nl7VC1WFt6mi2lwrWjqLb69xrh7f+fQU=;
- b=i9GIQ3ye7Wy2M+oC1VKMCI7xZwRsH4uj/1cPHKVewmjd9zfXm+7Pny2wIT/Z+msmSR
- +bb3rSSBhFbl0EHamWilkm/rjiQ95ACFtY6ykOQJW7TvyVPe/PeKVSoYxqJQGYNZv6bz
- KPOfEZTRGqGuiHSPzWGtOI5QjUhy4O3SBFj5GfWsJXYznbBcLP4qD2sVVxs/lsBjiTQD
- vhxBFh5EQBHToPZgYMZVW6QnPsLtar7/IKs5cW7+EAgTG9xLVI+nNU2bzM6ZW0Aagey4
- E50TI8f7wsSHDTE0Dpi4lMa1hFm9spcYghvfxkt4pUvPBMeMQG3+KfBryaiNBuEH6iEW
- L0ag==
+ d=1e100.net; s=20230601; t=1727199937; x=1727804737;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=jFTMbvwqkXfCKoN6CJkJQivONhwDVspFsQyNZtPka9Y=;
+ b=c5KLSBtZcTmX/QoCJJe3UNh+zoeOKCjJI+Op8QcH6VfZNPk3UPgXdchWaw/lGf8E+7
+ 3eJcJGWkmTgORDVY0E7CgK63ydBl9lrIdSfhkJNkw1xK+OmiWdJrPeECMvTrJ19InFNC
+ VOL8Qj2SgJTKizQAviVdOn79JFeDNY4yGoxveV1Uf1PmU9/FvmDvArTc7NAPwEnqvIvk
+ izMDWWkOUSfWdA7M+E2gKdYKgkwa8LmAC1T0MOhUtOQwtsGGUg94YqBQIsTjn4WQt04y
+ v5qfVwzsL4W+yCkjp9PfoILfP1FVsFgkE6VOPCaINWN/+I1l75SvgCTA56Pcce9ddVbU
+ fGCA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVR4QGgQ2o0OMiC+NXYNibmCQQzPnyZ8SV3/guRENAeIeTCuHi9MPJDks6s+KbKc3MQ1dbOA7p6cdo=@lists.freedesktop.org,
- AJvYcCX2bggHTC2c4KxGFKPZkoU4lmmVJWLpB1EAPd3YX2wO6khTKFelqmcZ0A8s+aT2NgCnp5T71nTAqoAj@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxo+4WDaPWVmVnoJlNrnE8LXaNS28jEEEZQChs8jWkOo2QOtk9c
- wBCV6UmQz3eUm2q8rtgmQs3007n0M7r+DhQMSOI0yFfHo+BY7HeJ
-X-Google-Smtp-Source: AGHT+IEouqxjCZkwk0UsLQKQctVi/fkNQRSIf1YWXxmsM/KFkqYqAUAbEW7ZnQ+F0s4QETogSnIAKw==
-X-Received: by 2002:a05:6a21:3a96:b0:1d2:e807:b940 with SMTP id
- adf61e73a8af0-1d30a9d1f90mr21533765637.50.1727199467990; 
- Tue, 24 Sep 2024 10:37:47 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c?
- ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-71afc84447csm1438485b3a.55.2024.09.24.10.37.45
+ AJvYcCUB/y7Lvq2jZHc9lP2j4iV7pzpO28oE7N2Idgv9jDSr7Y7BNmR5PCXLlpFI8nwyCo9ZCUm6nIpx5VJX@lists.freedesktop.org,
+ AJvYcCX8oNVACQBJWNMcvpIlEitVC3qt3yJZzGVd+Z2eojuE/BXjckQCzZmTW1TSG46LwJFF8G3WpkBQWO0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxENHK7CPLGZStj02Kff7YwfXSloJ17AY3a3NhoWGYGQ52AORiB
+ nd0W4f/g+onuVPE0xS8Jy6PmrSJhDmV1raFK85pmpbib6delQGy1
+X-Google-Smtp-Source: AGHT+IGypefzVFX3UnGgvsumvXyslCs2eeWVuwHkrW0noMGxmYgBZcJdzgaaitXTAILsE2D5Fvc0dA==
+X-Received: by 2002:a17:907:eaa:b0:a8a:9054:8399 with SMTP id
+ a640c23a62f3a-a93a03adfe1mr5989266b.27.1727199936647; 
+ Tue, 24 Sep 2024 10:45:36 -0700 (PDT)
+Received: from [192.168.1.17] (host-87-7-171-42.retail.telecomitalia.it.
+ [87.7.171.42]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a9393134a4fsm109084266b.209.2024.09.24.10.45.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 24 Sep 2024 10:37:46 -0700 (PDT)
-Message-ID: <4f8b3725-7c4a-484c-b9fc-e84ecd78ff75@roeck-us.net>
-Date: Tue, 24 Sep 2024 10:37:44 -0700
+ Tue, 24 Sep 2024 10:45:36 -0700 (PDT)
+Message-ID: <907673d0-5cad-45fd-8ecc-e9ae4438bd0e@gmail.com>
+Date: Tue, 24 Sep 2024 19:45:34 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] drm: revert some framebuffer API tests
-To: Maxime Ripard <mripard@kernel.org>, Jani Nikula <jani.nikula@intel.com>
-Cc: Simona Vetter <simona.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org,
- Carlos Eduardo Gallo Filho <gcarlos@disroot.org>,
+Subject: Re: [PATCH v4 00/11] Preemption support for A7XX
+To: Rob Clark <robdclark@gmail.com>
+Cc: Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Jeff Johnson <quic_jjohnson@quicinc.com>
-References: <cover.1726594684.git.jani.nikula@intel.com>
- <ZvKPJGQyZmdWNOmd@phenom.ffwll.local>
- <20240924-refined-nocturnal-starfish-2947b8@houat>
- <f3f8bec1-884b-46ac-82a6-6e5cb8840146@roeck-us.net>
- <20240924-handsome-labrador-of-shopping-b1dce5@houat>
- <4accd038-9624-43de-96ad-7ecd0876b607@roeck-us.net>
- <87ed593v11.fsf@intel.com>
- <20240924-impressive-coua-from-hyperborea-bfff8b@houat>
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jonathan Corbet <corbet@lwn.net>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ Sharat Masetty <smasetty@codeaurora.org>
+References: <20240917-preemption-a750-t-v4-0-95d48012e0ac@gmail.com>
+ <c70392bb-bda1-48c7-824e-23d6f92f54ef@linaro.org>
+ <20240920170949.vp3642gghhey3pjb@hu-akhilpo-hyd.qualcomm.com>
+ <29fee642-440a-4b68-909b-a7c391d5a842@gmail.com>
+ <CAF6AEGsuduEZDAg3nMpEiaA8nMO4fR8cH8j3k+K160+CvzaO6Q@mail.gmail.com>
 Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <20240924-impressive-coua-from-hyperborea-bfff8b@houat>
+From: Antonino Maniscalco <antomani103@gmail.com>
+In-Reply-To: <CAF6AEGsuduEZDAg3nMpEiaA8nMO4fR8cH8j3k+K160+CvzaO6Q@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,43 +101,203 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/24/24 09:57, Maxime Ripard wrote:
-> On Tue, Sep 24, 2024 at 06:56:26PM GMT, Jani Nikula wrote:
->> On Tue, 24 Sep 2024, Guenter Roeck <linux@roeck-us.net> wrote:
->>>>>> On Tue, Sep 24, 2024 at 12:06:28PM GMT, Simona Vetter wrote:
->>>>>>> Yeah I think long-term we might want a kunit framework so that we can
->>>>>>> catch dmesg warnings we expect and test for those, without those warnings
->>>>>>> actually going to dmesg. Similar to how the lockdep tests also reroute
->>>>>>> locking validation, so that the expected positive tests don't wreak
->>>>>>> lockdep for real.
->>>>>>>
->>>>>>> But until that exists, we can't have tests that splat in dmesg when they
->>>>>>> work as intended.
->>>
->>> FWIW, that is arguable. More and more tests are added which do add such splats,
->>> and I don't see any hesitance by developers to adding more. So far I counted
->>> two alone in this commit window, and that does not include new splats from
->>> tests which I had already disabled. I simply disable those tests or don't
->>> enable them in the first place if they are new. I did the same with the drm
->>> unit tests due to the splats generated by the scaling unit tests, so any
->>> additional drm unit test splats don't make a difference for me since the
->>> tests are already disabled.
+On 9/24/24 4:47 PM, Rob Clark wrote:
+> On Tue, Sep 24, 2024 at 4:54 AM Antonino Maniscalco
+> <antomani103@gmail.com> wrote:
 >>
->> What's the point of having unit tests that CI systems routinely have to
->> filter out of test runs? Or filter warnings generated by the tests,
->> potentially missing new warnings. Who is going to run the tests if the
->> existing CI systems choose to ignore them?
+>> On 9/20/24 7:09 PM, Akhil P Oommen wrote:
+>>> On Wed, Sep 18, 2024 at 09:46:33AM +0200, Neil Armstrong wrote:
+>>>> Hi,
+>>>>
+>>>> On 17/09/2024 13:14, Antonino Maniscalco wrote:
+>>>>> This series implements preemption for A7XX targets, which allows the GPU to
+>>>>> switch to an higher priority ring when work is pushed to it, reducing latency
+>>>>> for high priority submissions.
+>>>>>
+>>>>> This series enables L1 preemption with skip_save_restore which requires
+>>>>> the following userspace patches to function:
+>>>>>
+>>>>> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/30544
+>>>>>
+>>>>> A flag is added to `msm_submitqueue_create` to only allow submissions
+>>>>> from compatible userspace to be preempted, therefore maintaining
+>>>>> compatibility.
+>>>>>
+>>>>> Preemption is currently only enabled by default on A750, it can be
+>>>>> enabled on other targets through the `enable_preemption` module
+>>>>> parameter. This is because more testing is required on other targets.
+>>>>>
+>>>>> For testing on other HW it is sufficient to set that parameter to a
+>>>>> value of 1, then using the branch of mesa linked above, `TU_DEBUG=hiprio`
+>>>>> allows to run any application as high priority therefore preempting
+>>>>> submissions from other applications.
+>>>>>
+>>>>> The `msm_gpu_preemption_trigger` and `msm_gpu_preemption_irq` traces
+>>>>> added in this series can be used to observe preemption's behavior as
+>>>>> well as measuring preemption latency.
+>>>>>
+>>>>> Some commits from this series are based on a previous series to enable
+>>>>> preemption on A6XX targets:
+>>>>>
+>>>>> https://lkml.kernel.org/1520489185-21828-1-git-send-email-smasetty@codeaurora.org
+>>>>>
+>>>>> Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
+>>>>> ---
+>>>>> Changes in v4:
+>>>>> - Added missing register in pwrup list
+>>>>> - Removed and rearrange barriers
+>>>>> - Renamed `skip_inline_wptr` to `restore_wptr`
+>>>>> - Track ctx seqno per ring
+>>>>> - Removed secure preempt context
+>>>>> - NOP out postamble to disable it instantly
+>>>>> - Only emit pwrup reglist once
+>>>>> - Document bv_rptr_addr
+>>>>> - Removed unused A6XX_PREEMPT_USER_RECORD_SIZE
+>>>>> - Set name on preempt record buffer
+>>>>> - Link to v3: https://lore.kernel.org/r/20240905-preemption-a750-t-v3-0-fd947699f7bc@gmail.com
+>>>>>
+>>>>> Changes in v3:
+>>>>> - Added documentation about preemption
+>>>>> - Use quirks to determine which target supports preemption
+>>>>> - Add a module parameter to force disabling or enabling preemption
+>>>>> - Clear postamble when profiling
+>>>>> - Define A6XX_CP_CONTEXT_SWITCH_CNTL_LEVEL fields in a6xx.xml
+>>>>> - Make preemption records MAP_PRIV
+>>>>> - Removed user ctx record (NON_PRIV) and patch 2/9 as it's not needed
+>>>>>      anymore
+>>>>> - Link to v2: https://lore.kernel.org/r/20240830-preemption-a750-t-v2-0-86aeead2cd80@gmail.com
+>>>>>
+>>>>> Changes in v2:
+>>>>> - Added preept_record_size for X185 in PATCH 3/7
+>>>>> - Added patches to reset perf counters
+>>>>> - Dropped unused defines
+>>>>> - Dropped unused variable (fixes warning)
+>>>>> - Only enable preemption on a750
+>>>>> - Reject MSM_SUBMITQUEUE_ALLOW_PREEMPT for unsupported targets
+>>>>> - Added Akhil's Reviewed-By tags to patches 1/9,2/9,3/9
+>>>>> - Added Neil's Tested-By tags
+>>>>> - Added explanation for UAPI changes in commit message
+>>>>> - Link to v1: https://lore.kernel.org/r/20240815-preemption-a750-t-v1-0-7bda26c34037@gmail.com
+>>>>>
+>>>>> ---
+>>>>> Antonino Maniscalco (11):
+>>>>>          drm/msm: Fix bv_fence being used as bv_rptr
+>>>>>          drm/msm/A6XX: Track current_ctx_seqno per ring
+>>>>>          drm/msm: Add a `preempt_record_size` field
+>>>>>          drm/msm: Add CONTEXT_SWITCH_CNTL bitfields
+>>>>>          drm/msm/A6xx: Implement preemption for A7XX targets
+>>>>>          drm/msm/A6xx: Sync relevant adreno_pm4.xml changes
+>>>>>          drm/msm/A6xx: Use posamble to reset counters on preemption
+>>>>>          drm/msm/A6xx: Add traces for preemption
+>>>>>          drm/msm/A6XX: Add a flag to allow preemption to submitqueue_create
+>>>>>          drm/msm/A6xx: Enable preemption for A750
+>>>>>          Documentation: document adreno preemption
+>>>>>
+>>>>>     Documentation/gpu/msm-preemption.rst               |  98 +++++
+>>>>>     drivers/gpu/drm/msm/Makefile                       |   1 +
+>>>>>     drivers/gpu/drm/msm/adreno/a2xx_gpu.c              |   2 +-
+>>>>>     drivers/gpu/drm/msm/adreno/a3xx_gpu.c              |   2 +-
+>>>>>     drivers/gpu/drm/msm/adreno/a4xx_gpu.c              |   2 +-
+>>>>>     drivers/gpu/drm/msm/adreno/a5xx_gpu.c              |   6 +-
+>>>>>     drivers/gpu/drm/msm/adreno/a6xx_catalog.c          |   7 +-
+>>>>>     drivers/gpu/drm/msm/adreno/a6xx_gpu.c              | 325 ++++++++++++++-
+>>>>>     drivers/gpu/drm/msm/adreno/a6xx_gpu.h              | 174 ++++++++
+>>>>>     drivers/gpu/drm/msm/adreno/a6xx_preempt.c          | 440 +++++++++++++++++++++
+>>>>>     drivers/gpu/drm/msm/adreno/adreno_gpu.h            |   9 +-
+>>>>>     drivers/gpu/drm/msm/msm_drv.c                      |   4 +
+>>>>>     drivers/gpu/drm/msm/msm_gpu.c                      |   2 +-
+>>>>>     drivers/gpu/drm/msm/msm_gpu.h                      |  11 -
+>>>>>     drivers/gpu/drm/msm/msm_gpu_trace.h                |  28 ++
+>>>>>     drivers/gpu/drm/msm/msm_ringbuffer.h               |  18 +
+>>>>>     drivers/gpu/drm/msm/msm_submitqueue.c              |   3 +
+>>>>>     drivers/gpu/drm/msm/registers/adreno/a6xx.xml      |   7 +-
+>>>>>     .../gpu/drm/msm/registers/adreno/adreno_pm4.xml    |  39 +-
+>>>>>     include/uapi/drm/msm_drm.h                         |   5 +-
+>>>>>     20 files changed, 1117 insertions(+), 66 deletions(-)
+>>>>> ---
+>>>>> base-commit: 7c626ce4bae1ac14f60076d00eafe71af30450ba
+>>>>> change-id: 20240815-preemption-a750-t-fcee9a844b39
+>>>>>
+>>>>> Best regards,
+>>>>
+>>>> I've been running vulkan-cts (1.3.7.3-0-gd71a36db16d98313c431829432a136dbda692a08 from Yocto)
+>>>> on SM8650-QRD, SM8550-QRD & SM8450-HDK boards with enable_preemption in default value
+>>>> and forced to 1, and I've seen no regression so far
+>>>>
+>>>> On SM8550, I've seen a few:
+>>>> platform 3d6a000.gmu: [drm:a6xx_hfi_send_msg.constprop.0 [msm]] *ERROR* Message HFI_H2F_MSG_GX_BW_PERF_VOTE id 2743 timed out waiting for response
+>>>> platform 3d6a000.gmu: [drm:a6xx_hfi_send_msg.constprop.0 [msm]] *ERROR* Unexpected message id 2743 on the response queue
+>>>> but it's unrelated to preempt
+>>>>
+>>>> and on SM8450:
+>>>> platform 3d6a000.gmu: [drm:a6xx_gmu_set_oob [msm]] *ERROR* Timeout waiting for GMU OOB set GPU_SET: 0x0
+>>>> msm_dpu ae01000.display-controller: [drm:hangcheck_handler [msm]] *ERROR* 7.3.0.1: hangcheck detected gpu lockup rb 0!
+>>>> msm_dpu ae01000.display-controller: [drm:hangcheck_handler [msm]] *ERROR* 7.3.0.1:     completed fence: 331235
+>>>> msm_dpu ae01000.display-controller: [drm:hangcheck_handler [msm]] *ERROR* 7.3.0.1:     submitted fence: 331236
+>>>> adreno 3d00000.gpu: [drm:a6xx_irq [msm]] *ERROR* gpu fault ring 0 fence 50de4 status 00800005 rb 0000/0699 ib1 0000000000000000/0000 ib2 0000000000000000/0000
+>>>> msm_dpu ae01000.display-controller: [drm:recover_worker [msm]] *ERROR* 7.3.0.1: hangcheck recover!
+>>>> msm_dpu ae01000.display-controller: [drm:recover_worker [msm]] *ERROR* 7.3.0.1: offending task: deqp-vk (/usr/lib/vulkan-cts/deqp-vk)
+>>>> msm_dpu ae01000.display-controller: [drm:recover_worker [msm]] *ERROR* 7.3.0.1: hangcheck recover!
+>>>> leading to a VK_ERROR_DEVICE_LOST, but again unrelated to preempt support.
+>>>>
+>>>> So you can also add:
+>>>> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8550-QRD
+>>>> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8450-HDK
+>>>>
+>>>
+>>> Niel,
+>>>
+>>> On my x1e device, all submissions were somehow going into only a single
+>>> ring, even the compositor's. Not sure why. So effectively preemption was
+>>> not really exercised. I had to force one of the two benchmark I ran
+>>> using the "highprio" mesa debug flag force submittions to ring 0.
+>>
+>> I think that is because GL applications (so most compositors) run
+>> through zink which does not forward GL preemption to vulkan so yeah, for
+>> GL applications the only way of getting preemption is the debug flag.
 > 
-> If we turn this argument around, that means we can't write unit test for
-> code that will create a warning.
+> I guess if it is mesa 24.2.x or newer it would be using the gallium
+> driver.  Which I guess would need xAMBLE stuff wired up.  Outside of
+> fd6_emit_restore() and fd6_gmem.cc there isn't really any state emit
+> in IB1, so I guess it probably wouldn't be too hard to get preemption
+> support wired up.
+
+I hadn't realized a7xx supportd had landed for the gallium driver. 
+That's good news! This is definitely a shorter path towards getting 
+compositors to use preemption.
+
 > 
-> IMO, this creates a bad incentive, and saying that any capable CI system
-> should reject them is certainly opiniated.
+> BR,
+> -R
 > 
+>> Unfortunately this is not easy to fix in Zink because it creates one
+>> VkDevice at screen creation and uses it for all GL contexts. Since GL
+>> priority is provided per context and at context creation time Zink has
+>> no way of handling this.
+>>
+>> Once TU will support more than one queue it will be possible for Zink to
+>> create one queue per priority then pick one at context creation time.
+>> Doing so would require a new vulkan extension for per queue global
+>> priority. I had started working on this some time ago
+>> https://gitlab.freedesktop.org/antonino/mesa/-/tree/priority_ext?ref_type=heads
+>> but this solution will only be viable once TU can expose more than one
+>> queue.
+>>
+>>>
+>>> If possible it is a good idea to check the new preemption traces to
+>>> ensure preemption kicks in.
+>>>
+>>> -Akhil
+>>>
+>>>> Thanks,
+>>>> Neil
+>>
+>>
+>> Best regards,
+>> --
+>> Antonino Maniscalco <antomani103@gmail.com>
 
-Agreed. All I am saying is that _I_ am rejecting them, but it is up to each
-individual testbed (or, rather, testbed maintainer) to decide how to handle
-the situation.
 
-Guenter
-
+Best regards,
+-- 
+Antonino Maniscalco <antomani103@gmail.com>
