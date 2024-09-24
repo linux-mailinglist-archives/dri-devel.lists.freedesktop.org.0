@@ -2,68 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DB999844A3
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 13:31:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC20D9844A2
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 13:31:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E0F110E884;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4516E10E6D9;
 	Tue, 24 Sep 2024 11:31:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ASsH3cXe";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="E/l5z4FM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com
- [209.85.208.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D60A10E883;
- Tue, 24 Sep 2024 11:30:56 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id
- 4fb4d7f45d1cf-5c46680a71bso4634119a12.2; 
- Tue, 24 Sep 2024 04:30:56 -0700 (PDT)
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com
+ [209.85.218.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F3FD10E882;
+ Tue, 24 Sep 2024 11:30:58 +0000 (UTC)
+Received: by mail-ej1-f51.google.com with SMTP id
+ a640c23a62f3a-a8d0d0aea3cso729806666b.3; 
+ Tue, 24 Sep 2024 04:30:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1727177455; x=1727782255; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1727177456; x=1727782256; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=3lXuDq8mG8Oox8ReUlOYfBHI57TTAdm6VM/42FD3opk=;
- b=ASsH3cXeP3sDNI9gXXsmWd468O4+aPltAwom1tIq1mpX01VMx5NvwXfJoCdj/jR/CF
- Vx0bzpF8pLVdDlwq/StkC7H3cSV3uFmX6qV58azoY8aYeJeJpaYuDsdhrtfn5v+IJO2p
- rBKyJYimw83jeLwPSYeRZBsOlfYIasILpbbEMjnIZcscnXhaMhvayz4ylesJYddai7AA
- GVu06AbM9Y0l/Wczkg/D8/nBHVrxHd4qx3M2oJwjL+OKgDjFbWRDrhURXNCE5SA84rpm
- OktC3X7Q2DAiJl3DRSV3LrTfIYNbawJg7r2H7p67R7V3YfVwuHMiCYVwP40kcQNJ0Xts
- +Qbw==
+ :reply-to; bh=T83s0xZ77l7YiPJQjU4R2cbGSxzbmPdpWc03YQ0vP9s=;
+ b=E/l5z4FMuC47gqbw6xzJlsPkBgufCqNsfrnEFYAly0e5HWGtxpfjzB36s28E8xgRyE
+ tnjXEoVqAmxzkzMrni/If0PFpP4C7/0UhCglCgxbIOLRWI3iGzKfoOd/Cx9niUuvk8To
+ 4ooT0zcknH/WU9lKEDNDvvC9y7QWWvcD+k6tQzXgGBSxOAhacQaU3ONqACUQnMxkmiVu
+ gflKkfQe3jr7PaYz3rWQ5zMLVFAhOWRSnN/KPUiBm1E6emlqMhK4yO6846ajQCxgjU4Y
+ MaFhlhsFst9R9b41529kVm60aRnBBvXL8yv5XCdEwWvYOhHEOs0q4M+CCg9wXc2DvQud
+ aUJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727177455; x=1727782255;
+ d=1e100.net; s=20230601; t=1727177456; x=1727782256;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=3lXuDq8mG8Oox8ReUlOYfBHI57TTAdm6VM/42FD3opk=;
- b=t9nMouopNRQclyrMMjCxyWAIGgj/3rYTaTlSnjJmPtzZiEM5Feq1hdw+EUuCXFDQT7
- euXTS7O0+f4AW+UiillS9YFNbbCqfX1kBSyCIIoNBoRYxOtZgNu+cGpLwU5HdRlacd2A
- bYGGhxQK2a6/BfAqRZ4kvycXFQPjxxW8HE91avvncxzwx0F6XjcMhZNACFLWowdAx/w6
- MkEescxtv5CELsE9Lz8lgUFIb5A3+DFxSOcE/NxoLAjxsWZwlhXqOQ4ELNQvpRokuv2m
- TmXVu+Gj0DQ1tuujLOLVzcnKtD4HLvTW9xnZ24R5VBPOWzjB6kFzbC/S/EbawNoSfzRG
- 463w==
+ bh=T83s0xZ77l7YiPJQjU4R2cbGSxzbmPdpWc03YQ0vP9s=;
+ b=qxeYASTktsMRXjb1PhV7tj2SeW0TQQFZvrrFolJEhzEve4QMUkriEvCvl98V0Pphnz
+ QWuIYdv2YJjvbF20tp33ycxts85EW17qSgnVd1asGa82zO/ERS+a9/O6mxCaY09egTo8
+ cm4t6ILQhgEuhNgO9zS2/iR9XbMaspl0V38UMplQ9fnSlG32v4nJJEmjFiLldVkBg17U
+ n7L5B8RLajRxgUFEmyQ/MFvuaNOD+chClIhLukcnu6vGts3ZDavqBIgdrTqlg6k3l0+b
+ pq/CzflzGTe2alkLmlfWgz6/G/N22FBkqelD1ylxLCxsKSmKNB36mDx09J5ovmGRs5R9
+ HSYw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV+I+f6rCOCa6VNUOs/mpbMRM0oCu0nRTxIPhC7C/+uTDRRN1f2IL5WDaRpfnorrvwYTvO2RUbkV77r@lists.freedesktop.org,
- AJvYcCVKbq15VOFDIPAfdvCBFMvs/jShgBo/9YZ7y8COCBK0xLshnCICw0oM1mmTOIrAxTAEcsv8MQZ5rAo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw9/QdyT3tWwDCzH/hcjhdtduBw0gODKWFRvRlyNJ73AiDDij4F
- 7Ep4omzEYCy4O0qk5wzoOM4YUiaf9jTI2AWjkBngNLDNbSc7Rvvj
-X-Google-Smtp-Source: AGHT+IGu8AttCAIBHfv1YZLNJdKkGKNVsZjY6wH+lgr+bfXwxH+gFnbtz84q2ql3MMebddfRAKG26g==
-X-Received: by 2002:a17:907:d3e7:b0:a8d:250a:52a8 with SMTP id
- a640c23a62f3a-a90d4fdef2dmr1569419366b.3.1727177454688; 
- Tue, 24 Sep 2024 04:30:54 -0700 (PDT)
+ AJvYcCVzqxoYeOMMGw1fdliD7BNaWl5hLxV1MiYYSrvnZba435bc55d2Ezn771yThNMvksvwlIeDO0OitKkJ@lists.freedesktop.org,
+ AJvYcCWt38s5cTOP/Op8Vz7Qp2U0jPKO7mPmpM60NRgJTOx9J2jWXthevYXgNrRgeLhcg5H13oorbCEc+VI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwpXAO0XXjL5+gHQk7DyfRbTMJxo6x6bAAtGMcBLxI211ISuCv/
+ /bE6a5BfPd1l2zU1zqKGcaJhiGemr3qq6yX7WG+pOFDYLwF09OAj
+X-Google-Smtp-Source: AGHT+IHzITFJBQBOI6Od6A8yXGnuggjC4ofP7uNdX7aHomBgU3s1nRHgaOTt/jI/hvsoBLh0+MUDjw==
+X-Received: by 2002:a17:907:f74e:b0:a86:9c41:cfc1 with SMTP id
+ a640c23a62f3a-a90d4fe01e1mr1426129666b.8.1727177456317; 
+ Tue, 24 Sep 2024 04:30:56 -0700 (PDT)
 Received: from [192.168.1.17] (host-87-7-171-42.retail.telecomitalia.it.
  [87.7.171.42]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a93930cae0fsm72612766b.120.2024.09.24.04.30.53
+ a640c23a62f3a-a93930cae0fsm72612766b.120.2024.09.24.04.30.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Sep 2024 04:30:54 -0700 (PDT)
+ Tue, 24 Sep 2024 04:30:56 -0700 (PDT)
 From: Antonino Maniscalco <antomani103@gmail.com>
-Date: Tue, 24 Sep 2024 13:30:44 +0200
-Subject: [PATCH v5 09/11] drm/msm/A6XX: Add a flag to allow preemption to
- submitqueue_create
+Date: Tue, 24 Sep 2024 13:30:45 +0200
+Subject: [PATCH v5 10/11] drm/msm/A6xx: Enable preemption for A750
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240924-preemption-a750-t-v5-9-0be2bf81c187@gmail.com>
+Message-Id: <20240924-preemption-a750-t-v5-10-0be2bf81c187@gmail.com>
 References: <20240924-preemption-a750-t-v5-0-0be2bf81c187@gmail.com>
 In-Reply-To: <20240924-preemption-a750-t-v5-0-0be2bf81c187@gmail.com>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
@@ -80,11 +79,11 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-doc@vger.kernel.org, Antonino Maniscalco <antomani103@gmail.com>, 
  Neil Armstrong <neil.armstrong@linaro.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1727177437; l=3416;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1727177437; l=3953;
  i=antomani103@gmail.com; s=20240815; h=from:subject:message-id;
- bh=hkIxVGWeKmryC2eLYVINRVq4p3WNWoRnKE3ce5L9CRg=;
- b=Vi0qPyqWGnrGlNn+hFPyJvdZHwCxpOKUhTamx90KhXi066loDgG9kVNR4wqG1ZaEzkxQBEsg0
- FL7cRelkg/hCed0Zzokcufmgj6lKbaQMN0/+7JfuNwQ1GVMAy4c7e3L
+ bh=sm9hanaGRS16RZfX1ly7ITrlxWebFBdSbkyJsPoWlBc=;
+ b=5jfqYFhN2eShGqsYyYpOlxaTj84UM3HppgBbzgf3lt8IUti4AVbDgN7q71k7ecpT0AeYM81n0
+ 7XPW2ONeBHJCF+NeEn+fg5T6o6TysRAytAwMTgegbVVPq8JuxZfx/aj
 X-Developer-Key: i=antomani103@gmail.com; a=ed25519;
  pk=0zicFb38tVla+iHRo4kWpOMsmtUrpGBEa7LkFF81lyY=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -102,86 +101,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some userspace changes are necessary so add a flag for userspace to
-advertise support for preemption when creating the submitqueue.
+Initialize with 4 rings to enable preemption.
 
-When this flag is not set preemption will not be allowed in the middle
-of the submitted IBs therefore mantaining compatibility with older
-userspace.
+For now only on A750 as other targets require testing.
 
-The flag is rejected if preemption is not supported on the target, this
-allows userspace to know whether preemption is supported.
+Add the "preemption_enabled" module parameter to override this for other
+A7xx targets.
 
 Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-QRD
 Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8550-QRD
 Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8450-HDK
 Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
 ---
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 12 ++++++++----
- drivers/gpu/drm/msm/msm_submitqueue.c |  3 +++
- include/uapi/drm/msm_drm.h            |  5 ++++-
- 3 files changed, 15 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/msm/adreno/a6xx_catalog.c  | 3 ++-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c      | 6 +++++-
+ drivers/gpu/drm/msm/adreno/adreno_device.c | 4 ++++
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h    | 1 +
+ 4 files changed, 12 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+index 316f23ca91671d973797f2a5b69344f376707325..0e3041b2941905f1acdc9e571e0549a960a7edfa 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+@@ -1240,7 +1240,8 @@ static const struct adreno_info a7xx_gpus[] = {
+ 		.gmem = 3 * SZ_1M,
+ 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+ 		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
+-			  ADRENO_QUIRK_HAS_HW_APRIV,
++			  ADRENO_QUIRK_HAS_HW_APRIV |
++			  ADRENO_QUIRK_PREEMPTION,
+ 		.init = a6xx_gpu_init,
+ 		.zapfw = "gen70900_zap.mbn",
+ 		.a6xx = &(const struct a6xx_info) {
 diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index 736f475d696f1133c9e55d16aa80e73fd46cb835..edbcb6d229ba614be910ee70e75731538116e4a4 100644
+index edbcb6d229ba614be910ee70e75731538116e4a4..4760f9469613c0bf208f56be9608747b5aa75606 100644
 --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
 +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -430,8 +430,10 @@ static void a7xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
- 	OUT_PKT7(ring, CP_SET_MARKER, 1);
- 	OUT_RING(ring, 0x101); /* IFPC disable */
+@@ -2529,6 +2529,7 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
+ 	struct a6xx_gpu *a6xx_gpu;
+ 	struct adreno_gpu *adreno_gpu;
+ 	struct msm_gpu *gpu;
++	extern int enable_preemption;
+ 	bool is_a7xx;
+ 	int ret;
  
--	OUT_PKT7(ring, CP_SET_MARKER, 1);
--	OUT_RING(ring, 0x00d); /* IB1LIST start */
-+	if (submit->queue->flags & MSM_SUBMITQUEUE_ALLOW_PREEMPT) {
-+		OUT_PKT7(ring, CP_SET_MARKER, 1);
-+		OUT_RING(ring, 0x00d); /* IB1LIST start */
-+	}
- 
- 	/* Submit the commands */
- 	for (i = 0; i < submit->nr_cmds; i++) {
-@@ -462,8 +464,10 @@ static void a7xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
- 			update_shadow_rptr(gpu, ring);
+@@ -2567,7 +2568,10 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
+ 		return ERR_PTR(ret);
  	}
  
--	OUT_PKT7(ring, CP_SET_MARKER, 1);
--	OUT_RING(ring, 0x00e); /* IB1LIST end */
-+	if (submit->queue->flags & MSM_SUBMITQUEUE_ALLOW_PREEMPT) {
-+		OUT_PKT7(ring, CP_SET_MARKER, 1);
-+		OUT_RING(ring, 0x00e); /* IB1LIST end */
-+	}
+-	if (is_a7xx)
++	if ((enable_preemption == 1) || (enable_preemption == -1 &&
++	    (config->info->quirks & ADRENO_QUIRK_PREEMPTION)))
++		ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs_a7xx, 4);
++	else if (is_a7xx)
+ 		ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs_a7xx, 1);
+ 	else if (adreno_has_gmu_wrapper(adreno_gpu))
+ 		ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs_gmuwrapper, 1);
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
+index cfc74a9e2646d3de76a06bd67457d69afa49e309..9ffe91920fbfb4841b28aabec9fbde94539fdd83 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_device.c
++++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
+@@ -20,6 +20,10 @@ bool allow_vram_carveout = false;
+ MODULE_PARM_DESC(allow_vram_carveout, "Allow using VRAM Carveout, in place of IOMMU");
+ module_param_named(allow_vram_carveout, allow_vram_carveout, bool, 0600);
  
- 	get_stats_counter(ring, REG_A7XX_RBBM_PERFCTR_CP(0),
- 		rbmemptr_stats(ring, index, cpcycles_end));
-diff --git a/drivers/gpu/drm/msm/msm_submitqueue.c b/drivers/gpu/drm/msm/msm_submitqueue.c
-index 0e803125a325aa67639406ef413aaeb6a9f08cee..9b3ffca3f3b471f509918edd4a2fdb0f80dfeb06 100644
---- a/drivers/gpu/drm/msm/msm_submitqueue.c
-+++ b/drivers/gpu/drm/msm/msm_submitqueue.c
-@@ -170,6 +170,9 @@ int msm_submitqueue_create(struct drm_device *drm, struct msm_file_private *ctx,
- 	if (!priv->gpu)
- 		return -ENODEV;
- 
-+	if (flags & MSM_SUBMITQUEUE_ALLOW_PREEMPT && priv->gpu->nr_rings == 1)
-+		return -EINVAL;
++int enable_preemption = -1;
++MODULE_PARM_DESC(enable_preemption, "Enable preemption (A7xx only) (1=on , 0=disable, -1=auto (default))");
++module_param(enable_preemption, int, 0600);
 +
- 	ret = msm_gpu_convert_priority(priv->gpu, prio, &ring_nr, &sched_prio);
- 	if (ret)
- 		return ret;
-diff --git a/include/uapi/drm/msm_drm.h b/include/uapi/drm/msm_drm.h
-index 3fca72f738614a3e229e1017fe4f2ab61cd98bdf..f37858db34e602ce8b92dceccb60d4b6bdcda877 100644
---- a/include/uapi/drm/msm_drm.h
-+++ b/include/uapi/drm/msm_drm.h
-@@ -345,7 +345,10 @@ struct drm_msm_gem_madvise {
-  * backwards compatibility as a "default" submitqueue
-  */
+ extern const struct adreno_gpulist a2xx_gpulist;
+ extern const struct adreno_gpulist a3xx_gpulist;
+ extern const struct adreno_gpulist a4xx_gpulist;
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+index 87098567483b69c21025b80f356e0a68f0e7f172..d1cd53f05de68b3873f35520655e09e82fc40449 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
++++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+@@ -56,6 +56,7 @@ enum adreno_family {
+ #define ADRENO_QUIRK_LMLOADKILL_DISABLE		BIT(2)
+ #define ADRENO_QUIRK_HAS_HW_APRIV		BIT(3)
+ #define ADRENO_QUIRK_HAS_CACHED_COHERENT	BIT(4)
++#define ADRENO_QUIRK_PREEMPTION			BIT(5)
  
--#define MSM_SUBMITQUEUE_FLAGS (0)
-+#define MSM_SUBMITQUEUE_ALLOW_PREEMPT	0x00000001
-+#define MSM_SUBMITQUEUE_FLAGS		    ( \
-+		MSM_SUBMITQUEUE_ALLOW_PREEMPT | \
-+		0)
- 
- /*
-  * The submitqueue priority should be between 0 and MSM_PARAM_PRIORITIES-1,
+ /* Helper for formating the chip_id in the way that userspace tools like
+  * crashdec expect.
 
 -- 
 2.46.1
