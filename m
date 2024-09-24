@@ -2,66 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DE0E9848E6
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 17:56:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D7609848FC
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 18:01:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D49E410E2BA;
-	Tue, 24 Sep 2024 15:56:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECE8910E714;
+	Tue, 24 Sep 2024 16:00:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Bnz1SJdl";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GvK37+mp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BD8510E060;
- Tue, 24 Sep 2024 15:56:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1727193409; x=1758729409;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=lrEd6i6i7xgPntzRbEX0QK0P0YV1nArIBR9sQYZmzeo=;
- b=Bnz1SJdlnW63ZhHkJiU94zhwtwUJG99IjfvtgOQyETfKuVd4YGyDVcub
- IsXl8vDuuJnyDh0aPgpukmalJteKG7ji6NUW07640z8uivvD2ITrUJCpV
- DSajizF/dX6P1wZ1Ob/XEXo/yV6gLf4BJ5kJSXb2a79MYmaMAPKwV6sC9
- aU44P8FB4d1XYJKeylvXh6l7fKlWOynAo5i2quVGmeFdHhH+61OahkoaF
- mnC93I1vFS0Z22iK4kAx45F5HHdEBc1iTjV1P88FARnLSioDA4cT3C/sK
- +HH7hGps3/75h6/DU/vB6Bfq8xPQe96SFlHeSfcPV93dHjo1xKV5AXvVt w==;
-X-CSE-ConnectionGUID: tljmpSzBRZGdV88YNUI1kw==
-X-CSE-MsgGUID: 7WkvNlq4Q3e1V2M21Ry0cA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11205"; a="51612160"
-X-IronPort-AV: E=Sophos;i="6.10,255,1719903600"; d="scan'208";a="51612160"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Sep 2024 08:56:33 -0700
-X-CSE-ConnectionGUID: dZ4aipcrTwCN1P7GFqMi7w==
-X-CSE-MsgGUID: +L+2VjvvRruUgDl8uf3dFA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,255,1719903600"; d="scan'208";a="75852164"
-Received: from sschumil-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.245.246.183])
- by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Sep 2024 08:56:30 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Guenter Roeck <linux@roeck-us.net>, Maxime Ripard <mripard@kernel.org>
-Cc: Simona Vetter <simona.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, Carlos Eduardo Gallo Filho
- <gcarlos@disroot.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, Jeff Johnson <quic_jjohnson@quicinc.com>
-Subject: Re: [PATCH 0/2] drm: revert some framebuffer API tests
-In-Reply-To: <4accd038-9624-43de-96ad-7ecd0876b607@roeck-us.net>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1726594684.git.jani.nikula@intel.com>
- <ZvKPJGQyZmdWNOmd@phenom.ffwll.local>
- <20240924-refined-nocturnal-starfish-2947b8@houat>
- <f3f8bec1-884b-46ac-82a6-6e5cb8840146@roeck-us.net>
- <20240924-handsome-labrador-of-shopping-b1dce5@houat>
- <4accd038-9624-43de-96ad-7ecd0876b607@roeck-us.net>
-Date: Tue, 24 Sep 2024 18:56:26 +0300
-Message-ID: <87ed593v11.fsf@intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C75D10E714
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 16:00:44 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id E11475C57B0;
+ Tue, 24 Sep 2024 16:00:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2AE1C4CEC4;
+ Tue, 24 Sep 2024 16:00:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1727193642;
+ bh=RMVPLW4fWUk9yS+HMDAfSQbd+gQJXHQViB5tLV8d35M=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=GvK37+mp+LghOmr6eoGoJcX94ZEdvjXe7wWGvJCkmU96Jfz4t9wQAMCcHrj456VMu
+ CTvjH6AQSibawNgM6pXkiRUbDkbpb5OB2u6GHKkU3OdPWYRsMb7NsThJQgay3GxhP5
+ Oof/N2yNvyvOKMabXyy38g7l3rPmArWwRrHFImcMLmP34qUsZxYMlYO/z5HZ4P0Tlj
+ 1ukf9n15+s9ktGDKRonsgiNiCoFNvXmAw7OCRlWWHp1KQxcofuJX8494GiYt5I/sbF
+ IQTyI/Kf+rr/XySGhmQGVFj6Xz+1gwU2CDrVff0GanXwhe+9jxkxPT92QrSGMZJLsG
+ hAPsxiBHsx+3w==
+Date: Tue, 24 Sep 2024 17:00:34 +0100
+From: Conor Dooley <conor@kernel.org>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Macpaul Lin <macpaul.lin@mediatek.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Yong Wu <yong.wu@mediatek.com>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ Alexandre Mergnat <amergnat@baylibre.com>,
+ Bear Wang <bear.wang@mediatek.com>,
+ Pablo Sun <pablo.sun@mediatek.com>, Macpaul Lin <macpaul@gmail.com>,
+ Sen Chu <sen.chu@mediatek.com>, Chris-qj chen <chris-qj.chen@mediatek.com>,
+ MediaTek Chromebook Upstream
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>, 
+ Chen-Yu Tsai <wenst@chromium.org>
+Subject: Re: [PATCH 3/6] dt-bindings: display: mediatek: Fix clocks count
+ constraint for new SoCs
+Message-ID: <20240924-commute-collision-13ad39717d31@spud>
+References: <20240924103156.13119-1-macpaul.lin@mediatek.com>
+ <20240924103156.13119-3-macpaul.lin@mediatek.com>
+ <ffc1900b-3921-48ca-a2b2-1b798c57e572@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="sWezDfs+NRZqmEro"
+Content-Disposition: inline
+In-Reply-To: <ffc1900b-3921-48ca-a2b2-1b798c57e572@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,38 +81,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 24 Sep 2024, Guenter Roeck <linux@roeck-us.net> wrote:
->>>> On Tue, Sep 24, 2024 at 12:06:28PM GMT, Simona Vetter wrote:
->>>>> Yeah I think long-term we might want a kunit framework so that we can
->>>>> catch dmesg warnings we expect and test for those, without those warnings
->>>>> actually going to dmesg. Similar to how the lockdep tests also reroute
->>>>> locking validation, so that the expected positive tests don't wreak
->>>>> lockdep for real.
->>>>>
->>>>> But until that exists, we can't have tests that splat in dmesg when they
->>>>> work as intended.
->
-> FWIW, that is arguable. More and more tests are added which do add such splats,
-> and I don't see any hesitance by developers to adding more. So far I counted
-> two alone in this commit window, and that does not include new splats from
-> tests which I had already disabled. I simply disable those tests or don't
-> enable them in the first place if they are new. I did the same with the drm
-> unit tests due to the splats generated by the scaling unit tests, so any
-> additional drm unit test splats don't make a difference for me since the
-> tests are already disabled.
 
-What's the point of having unit tests that CI systems routinely have to
-filter out of test runs? Or filter warnings generated by the tests,
-potentially missing new warnings. Who is going to run the tests if the
-existing CI systems choose to ignore them?
+--sWezDfs+NRZqmEro
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Automation on a massive scale is key here, and making that harder is
-counter-productive.
+On Tue, Sep 24, 2024 at 01:42:01PM +0200, AngeloGioacchino Del Regno wrote:
+> Il 24/09/24 12:31, Macpaul Lin ha scritto:
+> > The display node in mt8195.dtsi was triggering a CHECK_DTBS error due
+> > to an excessively long 'clocks' property:
+> >    display@14f06000: clocks: [[31, 14], [31, 43], [31, 44]] is too long
+> >=20
+> > To resolve this issue, add "maxItems: 3" to the 'clocks' property in
+> > the DT schema.
+> >=20
+> > Fixes: 4ed545e7d100 ("dt-bindings: display: mediatek: disp: split each =
+block to individual yaml")
+> > Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
+> > ---
+> >   .../devicetree/bindings/display/mediatek/mediatek,split.yaml     | 1 +
+> >   1 file changed, 1 insertion(+)
+> >=20
+> > diff --git a/Documentation/devicetree/bindings/display/mediatek/mediate=
+k,split.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,=
+split.yaml
+> > index e4affc854f3d..42d2d483cc29 100644
+> > --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,split=
+=2Eyaml
+> > +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,split=
+=2Eyaml
+> > @@ -57,6 +57,7 @@ properties:
+> >     clocks:
+> >       items:
+> >         - description: SPLIT Clock
+>=20
+> That's at least confusing (granted that it works) - either add a descript=
+ion for
+> each clock and then set `minItems: 1` (preferred), or remove this "SPLIT =
+Clock"
+> description and allow a maximum of 3 clocks.
+>=20
+> Removing the description can be done - IMO - because "SPLIT Clock" is, we=
+ll,
+> saying that the SPLIT block gets a SPLIT clock ... stating the obvious, a=
+nyway.
 
+Right, but what are the other two new clocks? Are they as obvious?
+There's no clock-names here to give any more information as to what the
+other clocks are supposed to be.
 
-BR,
-Jani.
+Kinda unrelated, but I think that "SPLIT Clock" probably isn't what the
+name of the clock in the IP block is anyway, sounds more like the name
+for it on the provider end..
 
+--sWezDfs+NRZqmEro
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- 
-Jani Nikula, Intel
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZvLiIgAKCRB4tDGHoIJi
+0jIKAP9UDveIts01lao6hVilWP0TMQRAzvdTTL1WDikEbViR4AD/fS4SyEZ73ptb
+5bNB6iILTufZlc7BaAK6cEiNDImPLAw=
+=ms3M
+-----END PGP SIGNATURE-----
+
+--sWezDfs+NRZqmEro--
