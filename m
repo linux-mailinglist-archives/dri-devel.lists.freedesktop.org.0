@@ -2,74 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D48449843F8
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 12:47:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CC0298441A
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 13:02:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BA9E10E6C9;
-	Tue, 24 Sep 2024 10:47:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2679F10E6D6;
+	Tue, 24 Sep 2024 11:02:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="lPWR98Qs";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OtNFncII";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
- [209.85.208.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E838E10E6C9
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 10:47:21 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id
- 4fb4d7f45d1cf-5c43003a667so7525373a12.3
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 03:47:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1727174840; x=1727779640; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=b9AAZawLb6FaRJnOrXyKiH/jOlbBCezL8WJNXf16Qig=;
- b=lPWR98QsVkRrezPElH8/aMqZAg+EQU1OuCfVeZ4N94y8K5XwDV+LHldu7myxmGmCxl
- 36cs0UUV25ydm2lPdrx6Na5xjqvdc55yTi32XSXz9vhKRVjSqXzYajN+AnK4DcRNudeD
- E7a6pWHb3tR+c38wS31+LkQcnixCTW8hYyCk0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727174840; x=1727779640;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=b9AAZawLb6FaRJnOrXyKiH/jOlbBCezL8WJNXf16Qig=;
- b=h2wjrLTHjTPZoVf6SXIVuQQpdFT8CLeL1isAG6mgr+12fFZPc9ZoFXGpAtQVsFRKZd
- ZaOn4Rn9SxMCOIpov7LJs0t3HUI2dzZmEEqiVOr8JwNNIXta15TaM/LaLMDbP8RKPXdz
- levALpF5hiIqw/rCQsSo7io2grry6rrbU+tRhXPlSUurwOWCsafH7yNodUYAlMZo6d5B
- 1Tnrqd7JhVXistKsfPoYdPo7DYi2vVKIn+CqcFSvScA9RcppS5W+vd8o4uw8GIMe1KnM
- XR0wyuv7PS8Rd6FFcXCp5M/K8WkYCP22aQwcWh++0ZQdbLdqtZCrAR3j3EzKMgCKY+ym
- 0MGA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUHsXWZ2CcQNPANNc76GqKzqGqsGeij635QozhHECbRX8IFRt4pys+Ar2gYD8zRvfEhyRVZRAVV+8w=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YztsaQRJ9hHpBomvYrRObj4JVDq4hrsEbmTB549p4F6wAhaAuCz
- tb2/kBUhZFv+m1sPFNcqt5L4pfgEMgpjHB//oAFRcPABwkuaslIxVTefYSd6uOY=
-X-Google-Smtp-Source: AGHT+IF0W+3rb+Ngl+ZJbRG42J4AQJXxigROwpY5FCSbwoWAG3Z/e/Carit9idFj1WPL1j8KnzOx5A==
-X-Received: by 2002:a17:907:7e8b:b0:a86:789f:c756 with SMTP id
- a640c23a62f3a-a90d50fd4aamr1610614066b.53.1727174840220; 
- Tue, 24 Sep 2024 03:47:20 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a93930f8440sm68735266b.182.2024.09.24.03.47.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Sep 2024 03:47:19 -0700 (PDT)
-Date: Tue, 24 Sep 2024 12:47:18 +0200
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc: sumit.semwal@linaro.org, daniel@ffwll.ch, tursulin@ursulin.net,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH 2/2] dma-buf/dma-fence: add wrappers for driver and
- timeline name
-Message-ID: <ZvKYtr9G12F6QNV0@phenom.ffwll.local>
-References: <20240918115513.2716-1-christian.koenig@amd.com>
- <20240918115513.2716-2-christian.koenig@amd.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8556C10E6D6
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 11:02:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1727175738; x=1758711738;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=r+j1MXTxZz2fTAivtAhGK1Hjd2mJcNatuBZE7WbDSz4=;
+ b=OtNFncIIhB0rh8e6xlWW9o9MGsxocyb6vc+9HC01LxY0V8peEjyIV+CJ
+ pXslMzKXPztuGPEZQSioJe/vE+p+sxnxWVUQRG1ympjU5SxKM20zNn1Bm
+ rs7VmJFc/smO7guMt9nEI7txkDooz0oArJHCiZim/Cx6aooUdk8Q+w+oZ
+ VAXCPlvlQ4WeEyk8slUFjqLLzw14EKTjdVdMkzSK5dmydFerBO6eB4dcb
+ J1o4RY6w2vXqwxcuCSYbvB/wgiYeGmhoyWmxAghPJoURq03XgHklqNnnh
+ /4hb7TMF//zxsMf6HIWOtgSRnhotRDiNFs+BeVz1bsVPOTqO1vPAJI7kJ A==;
+X-CSE-ConnectionGUID: PHbcrIrmQ6aXqHaVob5abw==
+X-CSE-MsgGUID: taXf4hYhQ7SjSACHcQSVxQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="36748461"
+X-IronPort-AV: E=Sophos;i="6.10,254,1719903600"; d="scan'208";a="36748461"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Sep 2024 04:02:18 -0700
+X-CSE-ConnectionGUID: WUmtV44ERIC2jdJW6RHO8Q==
+X-CSE-MsgGUID: TF58PbtjRFeBD/sXxqz0lg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,254,1719903600"; d="scan'208";a="71823482"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+ by orviesa007.jf.intel.com with ESMTP; 24 Sep 2024 04:02:13 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1st3J5-000IFv-12;
+ Tue, 24 Sep 2024 11:02:11 +0000
+Date: Tue, 24 Sep 2024 19:01:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hermes Wu <Hermes.Wu@ite.com.tw>, Pin-yen Lin <treapking@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev, Kenneth Hung <Kenneth.hung@ite.com.tw>,
+ Hermes Wu <Hermes.wu@ite.com.tw>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3 2/3] drm/bridge: it6505: HDCP CTS fail on repeater items
+Message-ID: <202409241856.OWgR1x3Y-lkp@intel.com>
+References: <20240923094826.13471-3-Hermes.Wu@ite.com.tw>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240918115513.2716-2-christian.koenig@amd.com>
-X-Operating-System: Linux phenom 6.10.6-amd64 
+In-Reply-To: <20240923094826.13471-3-Hermes.Wu@ite.com.tw>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,216 +79,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 18, 2024 at 01:55:13PM +0200, Christian König wrote:
-> As discussed with Sima we want dma_fence objects to be able to outlive
-> their backend ops. Because of this timeline and driver name shouldn't
-> be queried any more after the fence has signaled.
-> 
-> Add wrappers around the two queries and only return an empty string
-> if the fence was already signaled. There is still an obvious race
-> between signaling and querying the values, but that can only be
-> closed if we rework the locking as well.
-> 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> ---
->  drivers/dma-buf/dma-fence.c                 | 39 ++++++++++++++++++---
->  drivers/dma-buf/sync_file.c                 |  8 ++---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h   |  2 +-
->  drivers/gpu/drm/i915/gt/intel_gt_requests.c |  4 +--
->  drivers/gpu/drm/i915/i915_request.c         |  2 +-
->  drivers/gpu/drm/i915/i915_sw_fence.c        |  4 +--
->  include/linux/dma-fence.h                   |  2 ++
->  include/trace/events/dma_fence.h            |  4 +--
->  8 files changed, 49 insertions(+), 16 deletions(-)
-> 
-> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-> index 0393a9bba3a8..d82f6c9ac018 100644
-> --- a/drivers/dma-buf/dma-fence.c
-> +++ b/drivers/dma-buf/dma-fence.c
-> @@ -538,8 +538,8 @@ void dma_fence_release(struct kref *kref)
->  	if (WARN(!list_empty(&fence->cb_list) &&
->  		 !test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags),
->  		 "Fence %s:%s:%llx:%llx released with pending signals!\n",
-> -		 fence->ops->get_driver_name(fence),
-> -		 fence->ops->get_timeline_name(fence),
-> +		 dma_fence_driver_name(fence),
-> +		 dma_fence_timeline_name(fence),
->  		 fence->context, fence->seqno)) {
->  		unsigned long flags;
->  
-> @@ -973,6 +973,37 @@ void dma_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
->  }
->  EXPORT_SYMBOL(dma_fence_set_deadline);
->  
-> +/**
-> + * dma_fence_driver_name - return the driver name for a fence
-> + * @fence:	the fence to query the driver name on
-> + *
-> + * Returns the driver name or empty string if the fence is already signaled.
-> + */
-> +const char *dma_fence_driver_name(struct dma_fence *fence)
-> +{
+Hi Hermes,
 
-I think a /* FIXME: blatantly racy, but better than nothig */ here and
-below would be good, just to make sure we don't forget. With that:
+kernel test robot noticed the following build warnings:
 
-Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
+[auto build test WARNING on drm/drm-next]
+[also build test WARNING on drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip linus/master v6.11 next-20240923]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Hermes-Wu/drm-bridge-it6505-fix-AUX-read-use-aux-fifo/20240923-175041
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+patch link:    https://lore.kernel.org/r/20240923094826.13471-3-Hermes.Wu%40ite.com.tw
+patch subject: [PATCH v3 2/3] drm/bridge: it6505: HDCP CTS fail on repeater items
+config: nios2-randconfig-r073-20240924 (https://download.01.org/0day-ci/archive/20240924/202409241856.OWgR1x3Y-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 14.1.0
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409241856.OWgR1x3Y-lkp@intel.com/
 
-> +	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
-> +		return "";
-> +
-> +	return fence->ops->get_driver_name(fence);
-> +}
-> +EXPORT_SYMBOL(dma_fence_driver_name);
-> +
-> +/**
-> + * dma_fence_timeline_name - return the name of the fence context
-> + * @fence:	the fence to query the context on
-> + *
-> + * Returns the name of the context this fence belongs to or empty string if the
-> + * fence is already signaled.
-> + */
-> +const char *dma_fence_timeline_name(struct dma_fence *fence)
-> +{
-> +	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
-> +		return "";
-> +
-> +	return fence->ops->get_timeline_name(fence);
-> +}
-> +EXPORT_SYMBOL(dma_fence_timeline_name);
-> +
->  /**
->   * dma_fence_describe - Dump fence description into seq_file
->   * @fence: the fence to describe
-> @@ -983,8 +1014,8 @@ EXPORT_SYMBOL(dma_fence_set_deadline);
->  void dma_fence_describe(struct dma_fence *fence, struct seq_file *seq)
->  {
->  	seq_printf(seq, "%s %s seq %llu %ssignalled\n",
-> -		   fence->ops->get_driver_name(fence),
-> -		   fence->ops->get_timeline_name(fence), fence->seqno,
-> +		   dma_fence_driver_name(fence),
-> +		   dma_fence_timeline_name(fence), fence->seqno,
->  		   dma_fence_is_signaled(fence) ? "" : "un");
->  }
->  EXPORT_SYMBOL(dma_fence_describe);
-> diff --git a/drivers/dma-buf/sync_file.c b/drivers/dma-buf/sync_file.c
-> index d9b1c1b2a72b..212df4b849fe 100644
-> --- a/drivers/dma-buf/sync_file.c
-> +++ b/drivers/dma-buf/sync_file.c
-> @@ -137,8 +137,8 @@ char *sync_file_get_name(struct sync_file *sync_file, char *buf, int len)
->  		struct dma_fence *fence = sync_file->fence;
->  
->  		snprintf(buf, len, "%s-%s%llu-%lld",
-> -			 fence->ops->get_driver_name(fence),
-> -			 fence->ops->get_timeline_name(fence),
-> +			 dma_fence_driver_name(fence),
-> +			 dma_fence_timeline_name(fence),
->  			 fence->context,
->  			 fence->seqno);
->  	}
-> @@ -262,9 +262,9 @@ static long sync_file_ioctl_merge(struct sync_file *sync_file,
->  static int sync_fill_fence_info(struct dma_fence *fence,
->  				 struct sync_fence_info *info)
->  {
-> -	strscpy(info->obj_name, fence->ops->get_timeline_name(fence),
-> +	strscpy(info->obj_name, dma_fence_timeline_name(fence),
->  		sizeof(info->obj_name));
-> -	strscpy(info->driver_name, fence->ops->get_driver_name(fence),
-> +	strscpy(info->driver_name, dma_fence_driver_name(fence),
->  		sizeof(info->driver_name));
->  
->  	info->status = dma_fence_get_status(fence);
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h
-> index 383fce40d4dd..224a40e03b36 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h
-> @@ -33,7 +33,7 @@
->  #define TRACE_INCLUDE_FILE amdgpu_trace
->  
->  #define AMDGPU_JOB_GET_TIMELINE_NAME(job) \
-> -	 job->base.s_fence->finished.ops->get_timeline_name(&job->base.s_fence->finished)
-> +	dma_fence_timeline_name(&job->base.s_fence->finished)
->  
->  TRACE_EVENT(amdgpu_device_rreg,
->  	    TP_PROTO(unsigned did, uint32_t reg, uint32_t value),
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_requests.c b/drivers/gpu/drm/i915/gt/intel_gt_requests.c
-> index d1a382dfaa1d..ae3557ed6c1e 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt_requests.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt_requests.c
-> @@ -252,8 +252,8 @@ void intel_gt_watchdog_work(struct work_struct *work)
->  			struct dma_fence *f = &rq->fence;
->  
->  			pr_notice("Fence expiration time out i915-%s:%s:%llx!\n",
-> -				  f->ops->get_driver_name(f),
-> -				  f->ops->get_timeline_name(f),
-> +				  dma_fence_driver_name(f),
-> +				  dma_fence_timeline_name(f),
->  				  f->seqno);
->  			i915_request_cancel(rq, -EINTR);
->  		}
-> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-> index 519e096c607c..aaec28fd4864 100644
-> --- a/drivers/gpu/drm/i915/i915_request.c
-> +++ b/drivers/gpu/drm/i915/i915_request.c
-> @@ -2184,7 +2184,7 @@ void i915_request_show(struct drm_printer *m,
->  		       const char *prefix,
->  		       int indent)
->  {
-> -	const char *name = rq->fence.ops->get_timeline_name((struct dma_fence *)&rq->fence);
-> +	const char *name = dma_fence_timeline_name((struct dma_fence *)&rq->fence);
->  	char buf[80] = "";
->  	int x = 0;
->  
-> diff --git a/drivers/gpu/drm/i915/i915_sw_fence.c b/drivers/gpu/drm/i915/i915_sw_fence.c
-> index 8a9aad523eec..b805ce8b8ab8 100644
-> --- a/drivers/gpu/drm/i915/i915_sw_fence.c
-> +++ b/drivers/gpu/drm/i915/i915_sw_fence.c
-> @@ -435,8 +435,8 @@ static void timer_i915_sw_fence_wake(struct timer_list *t)
->  		return;
->  
->  	pr_notice("Asynchronous wait on fence %s:%s:%llx timed out (hint:%ps)\n",
-> -		  cb->dma->ops->get_driver_name(cb->dma),
-> -		  cb->dma->ops->get_timeline_name(cb->dma),
-> +		  dma_fence_driver_name(cb->dma),
-> +		  dma_fence_timeline_name(cb->dma),
->  		  cb->dma->seqno,
->  		  i915_sw_fence_debug_hint(fence));
->  
-> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-> index cf91cae6e30f..4b0634e42a36 100644
-> --- a/include/linux/dma-fence.h
-> +++ b/include/linux/dma-fence.h
-> @@ -264,6 +264,8 @@ void dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
->  
->  void dma_fence_release(struct kref *kref);
->  void dma_fence_free(struct dma_fence *fence);
-> +const char *dma_fence_driver_name(struct dma_fence *fence);
-> +const char *dma_fence_timeline_name(struct dma_fence *fence);
->  void dma_fence_describe(struct dma_fence *fence, struct seq_file *seq);
->  
->  /**
-> diff --git a/include/trace/events/dma_fence.h b/include/trace/events/dma_fence.h
-> index a4de3df8500b..84c83074ee81 100644
-> --- a/include/trace/events/dma_fence.h
-> +++ b/include/trace/events/dma_fence.h
-> @@ -16,8 +16,8 @@ DECLARE_EVENT_CLASS(dma_fence,
->  	TP_ARGS(fence),
->  
->  	TP_STRUCT__entry(
-> -		__string(driver, fence->ops->get_driver_name(fence))
-> -		__string(timeline, fence->ops->get_timeline_name(fence))
-> +		__string(driver, dma_fence_driver_name(fence))
-> +		__string(timeline, dma_fence_timeline_name(fence))
->  		__field(unsigned int, context)
->  		__field(unsigned int, seqno)
->  	),
-> -- 
-> 2.34.1
-> 
+smatch warnings:
+drivers/gpu/drm/bridge/ite-it6505.c:2027 it6505_setup_sha1_input() warn: inconsistent indenting
+
+vim +2027 drivers/gpu/drm/bridge/ite-it6505.c
+
+b5c84a9edcd418 Allen Chen  2022-01-14  1996  
+b5c84a9edcd418 Allen Chen  2022-01-14  1997  static int it6505_setup_sha1_input(struct it6505 *it6505, u8 *sha1_input)
+b5c84a9edcd418 Allen Chen  2022-01-14  1998  {
+d65feac281ab47 Pin-yen Lin 2023-07-18  1999  	struct device *dev = it6505->dev;
+b5c84a9edcd418 Allen Chen  2022-01-14  2000  	u8 binfo[2];
+9665163df60e16 Hermes Wu   2024-09-23  2001  	int down_stream_count, err, msg_count = 0;
+b5c84a9edcd418 Allen Chen  2022-01-14  2002  
+b5c84a9edcd418 Allen Chen  2022-01-14  2003  	err = it6505_get_dpcd(it6505, DP_AUX_HDCP_BINFO, binfo,
+b5c84a9edcd418 Allen Chen  2022-01-14  2004  			      ARRAY_SIZE(binfo));
+b5c84a9edcd418 Allen Chen  2022-01-14  2005  
+b5c84a9edcd418 Allen Chen  2022-01-14  2006  	if (err < 0) {
+b5c84a9edcd418 Allen Chen  2022-01-14  2007  		dev_err(dev, "Read binfo value Fail");
+b5c84a9edcd418 Allen Chen  2022-01-14  2008  		return err;
+b5c84a9edcd418 Allen Chen  2022-01-14  2009  	}
+b5c84a9edcd418 Allen Chen  2022-01-14  2010  
+b5c84a9edcd418 Allen Chen  2022-01-14  2011  	down_stream_count = binfo[0] & 0x7F;
+b5c84a9edcd418 Allen Chen  2022-01-14  2012  	DRM_DEV_DEBUG_DRIVER(dev, "binfo:0x%*ph", (int)ARRAY_SIZE(binfo),
+b5c84a9edcd418 Allen Chen  2022-01-14  2013  			     binfo);
+b5c84a9edcd418 Allen Chen  2022-01-14  2014  
+b5c84a9edcd418 Allen Chen  2022-01-14  2015  	if ((binfo[0] & BIT(7)) || (binfo[1] & BIT(3))) {
+b5c84a9edcd418 Allen Chen  2022-01-14  2016  		dev_err(dev, "HDCP max cascade device exceed");
+b5c84a9edcd418 Allen Chen  2022-01-14  2017  		return 0;
+b5c84a9edcd418 Allen Chen  2022-01-14  2018  	}
+b5c84a9edcd418 Allen Chen  2022-01-14  2019  
+b5c84a9edcd418 Allen Chen  2022-01-14  2020  	if (!down_stream_count ||
+b5c84a9edcd418 Allen Chen  2022-01-14  2021  	    down_stream_count > MAX_HDCP_DOWN_STREAM_COUNT) {
+b5c84a9edcd418 Allen Chen  2022-01-14  2022  		dev_err(dev, "HDCP down stream count Error %d",
+b5c84a9edcd418 Allen Chen  2022-01-14  2023  			down_stream_count);
+b5c84a9edcd418 Allen Chen  2022-01-14  2024  		return 0;
+b5c84a9edcd418 Allen Chen  2022-01-14  2025  	}
+9665163df60e16 Hermes Wu   2024-09-23  2026  	err =  it6505_get_ksvlist(it6505, sha1_input, down_stream_count * 5);
+b5c84a9edcd418 Allen Chen  2022-01-14 @2027  		if (err < 0)
+b5c84a9edcd418 Allen Chen  2022-01-14  2028  			return err;
+b5c84a9edcd418 Allen Chen  2022-01-14  2029  
+9665163df60e16 Hermes Wu   2024-09-23  2030  	msg_count += down_stream_count * 5;
+b5c84a9edcd418 Allen Chen  2022-01-14  2031  
+b5c84a9edcd418 Allen Chen  2022-01-14  2032  	it6505->hdcp_down_stream_count = down_stream_count;
+b5c84a9edcd418 Allen Chen  2022-01-14  2033  	sha1_input[msg_count++] = binfo[0];
+b5c84a9edcd418 Allen Chen  2022-01-14  2034  	sha1_input[msg_count++] = binfo[1];
+b5c84a9edcd418 Allen Chen  2022-01-14  2035  
+b5c84a9edcd418 Allen Chen  2022-01-14  2036  	it6505_set_bits(it6505, REG_HDCP_CTRL2, HDCP_EN_M0_READ,
+b5c84a9edcd418 Allen Chen  2022-01-14  2037  			HDCP_EN_M0_READ);
+b5c84a9edcd418 Allen Chen  2022-01-14  2038  
+b5c84a9edcd418 Allen Chen  2022-01-14  2039  	err = regmap_bulk_read(it6505->regmap, REG_M0_0_7,
+b5c84a9edcd418 Allen Chen  2022-01-14  2040  			       sha1_input + msg_count, 8);
+b5c84a9edcd418 Allen Chen  2022-01-14  2041  
+b5c84a9edcd418 Allen Chen  2022-01-14  2042  	it6505_set_bits(it6505, REG_HDCP_CTRL2, HDCP_EN_M0_READ, 0x00);
+b5c84a9edcd418 Allen Chen  2022-01-14  2043  
+b5c84a9edcd418 Allen Chen  2022-01-14  2044  	if (err < 0) {
+b5c84a9edcd418 Allen Chen  2022-01-14  2045  		dev_err(dev, " Warning, Read M value Fail");
+b5c84a9edcd418 Allen Chen  2022-01-14  2046  		return err;
+b5c84a9edcd418 Allen Chen  2022-01-14  2047  	}
+b5c84a9edcd418 Allen Chen  2022-01-14  2048  
+b5c84a9edcd418 Allen Chen  2022-01-14  2049  	msg_count += 8;
+b5c84a9edcd418 Allen Chen  2022-01-14  2050  
+b5c84a9edcd418 Allen Chen  2022-01-14  2051  	return msg_count;
+b5c84a9edcd418 Allen Chen  2022-01-14  2052  }
+b5c84a9edcd418 Allen Chen  2022-01-14  2053  
 
 -- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
