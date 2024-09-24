@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCE5C984510
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 13:43:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53FDB984519
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 13:48:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B63A10E889;
-	Tue, 24 Sep 2024 11:43:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0752C10E88B;
+	Tue, 24 Sep 2024 11:48:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Wi77O6rq";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="I4IKKd5H";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F56010E88D
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 11:43:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F36C710E88B
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 11:48:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1727178195;
- bh=SU5MDVugN9wq2UPurRQrLx+qX4c0j5tAS7Phiv68XM0=;
+ s=mail; t=1727178501;
+ bh=hbs0QfvrCF5e6YpC+UbZ6TJfsmRJxVnWq7hDZ1/K6Ks=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Wi77O6rqSD6tSZk8btni0aIKEOC6piGPVcqP1Heu5337fwpUGa50wSEojpHyHu87I
- atAAuVDZFLKRV3Nud4DRyR7k7HryJuTUsY5sP8urmJXVzk4M0KE+C4PYEJG7CGalHW
- aEi701FKGVKOOKWrqwg3RSkkW3OaVOWX3u9TmDhQ735c68De37y5Cy4UYyVsqkrcXm
- 4njlzguOP3/pRQCtKNk9TbjkqwZq/vLFKjqXe63ZuchL/jCQaawX0z3WDCfKLdypzs
- rdFAywR+ocmuqagsyGYhs8cHnTKNn1azKASnWgt4rD1gg+SglTyfnTIB0O2yCXz0kj
- oUtc6ybxbechQ==
+ b=I4IKKd5H3566701rXcsWtf+cZdAG0lkh+4wD0qQKkxBgWEHwR5Mxvgx/LCeOuzN3N
+ GHSO0cieZrRzaX83JAamBT8rHuNeEdFTENuf9OpBT4f15sXRMIzgD+wVOYKpoF3fTu
+ NMkqqthmzC8Jq9BbhjTG3boBZKd7hNM8oSbdZhkPpIu1iZtD4hqeDp3FyxVWP3v+kM
+ WDkJ/td9ArfFdeJ0mOZHUHK0Ys1WrZGxceXB0bmp1PwumaN5uZf89EI0OmJ3FIMoN5
+ 5oCoxuvorVJobi5dn5pLv3fv62Z+70EOC73ka6MnHqzT6p4rmfla1GkiyjR+gZL6K+
+ EtTtBLAHHVfdg==
 Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
  (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 2505217E1250;
- Tue, 24 Sep 2024 13:43:14 +0200 (CEST)
-Message-ID: <0b573e20-e08b-42e3-bc45-7db07fc6cf57@collabora.com>
-Date: Tue, 24 Sep 2024 13:43:13 +0200
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id AA93E17E125E;
+ Tue, 24 Sep 2024 13:48:18 +0200 (CEST)
+Message-ID: <ed0c25ba-2816-4d4b-9023-2e07976f4341@collabora.com>
+Date: Tue, 24 Sep 2024 13:48:18 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/6] arm64: dts: mt8195: Fix dtbs_check error for mutex
- node
+Subject: Re: [PATCH 6/6] dt-bindings: display: mediatek: dpi: Add mt8195
+ support in power domains
 To: Macpaul Lin <macpaul.lin@mediatek.com>,
  Chun-Kuang Hu <chunkuang.hu@kernel.org>,
  Philipp Zabel <p.zabel@pengutronix.de>,
@@ -60,10 +60,10 @@ Cc: Bear Wang <bear.wang@mediatek.com>, Pablo Sun <pablo.sun@mediatek.com>,
  <Project_Global_Chrome_Upstream_Group@mediatek.com>,
  Chen-Yu Tsai <wenst@chromium.org>
 References: <20240924103156.13119-1-macpaul.lin@mediatek.com>
- <20240924103156.13119-5-macpaul.lin@mediatek.com>
+ <20240924103156.13119-6-macpaul.lin@mediatek.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Content-Language: en-US
-In-Reply-To: <20240924103156.13119-5-macpaul.lin@mediatek.com>
+In-Reply-To: <20240924103156.13119-6-macpaul.lin@mediatek.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -82,16 +82,40 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Il 24/09/24 12:31, Macpaul Lin ha scritto:
-> The mutex node in mt8195.dtsi was triggering a dtbs_check error:
->    mutex@1c101000: 'clock-names', 'reg-names' do not match any of the
->                    regexes: 'pinctrl-[0-9]+'
+> Add power domain binding to the mediatek DPI controller for MT8185.
 > 
-> This seems no need by inspecting the DT schemas and other reference boards,
-> so drop 'clock-names' and 'reg-names' in mt8195.dtsi.
+> The dpi node in mt8195.dtsi was triggering a dtbs_check error:
+>    dp-intf@1c113000: power-domains: False schema does not allow [[44, 18]]
 > 
-> Fixes: 92d2c23dc269 ("arm64: dts: mt8195: add display node for vdosys1")
+> Fixes: 5474d49b2f79 ("dt-bindings: display: mediatek: dpi: Add power domains")
 > Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
+> ---
+>   .../devicetree/bindings/display/mediatek/mediatek,dpi.yaml       | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
+> index 3a82aec9021c..07acc8a76bfc 100644
+> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
+> @@ -89,6 +89,7 @@ allOf:
+>                   - mediatek,mt6795-dpi
+>                   - mediatek,mt8173-dpi
+>                   - mediatek,mt8186-dpi
+> +                - mediatek,mt8195-dp-intf
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+The dp_intf1 block has a power domain (VDOSYS1)... so that will break the check
+for the other one.
+
+Besides, I'm fairly sure that the right fix is to actually add the missing VDOSYS0
+power domain to dp_intf0 instead, as that block is indeed in VDO0.
+
+So.. for this patch: nak.
+
+Cheers,
+Angelo
+
+>       then:
+>         properties:
+>           power-domains: false
 
 
