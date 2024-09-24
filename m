@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39AA598402E
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 10:18:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8272984030
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 10:18:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9613710E65E;
-	Tue, 24 Sep 2024 08:18:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2653410E663;
+	Tue, 24 Sep 2024 08:18:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bsd1gN6a";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QbRN+5MK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BF7E10E65E
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 08:18:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EE4210E65E
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 08:18:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1727165912; x=1758701912;
+ t=1727165914; x=1758701914;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=xiNlq2LtLYe6v7vliwTawBUH2IQOJa3G0LrAQ0q+LY4=;
- b=bsd1gN6aw9Cmzz9tL3WSmPrEhZ4IoZD2+t1FtS3C5lJRa20NR4XozXtb
- TenhvKLr+GsFBHSLSNLOANG38WlBf+rqbNi/YkZ98lRqLU+6x/QxdUIR2
- UtBuOTRBTlQqs8QIIGT2AJH7P7JhNP692GjVgfpCy8eEtlB5dI1G4iNv5
- 8Q9lL/UeNZ5UAb45AlUCg6BajdUVLuVaDTZtR5d3wGxuVeUtnm9GiClts
- PBy99eIu1IAc0rRDavUSOJ153NzUWfX1WeNKb2aZtKWUEXaal07lNqg96
- H6+K0rNbwiNaVmdpm6LyqsN9M/ag7Ez5nvq6Fd8NBpMhZuYNGN/owu+vT A==;
-X-CSE-ConnectionGUID: yGR30/iiS3mfTKAcI5IdVw==
-X-CSE-MsgGUID: U6jVXoT8T6yCXlGlQLEAww==
-X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="37506939"
-X-IronPort-AV: E=Sophos;i="6.10,253,1719903600"; d="scan'208";a="37506939"
+ bh=TnvsmJcPiXuRyZW1h74XjR37Iz6G6vVbwTQESFZ0rHI=;
+ b=QbRN+5MKjcbu5hVqIs9EDJ97Col/xFvzhBr96VsIAdGz/Yd/wEwc/TJH
+ lRZ+Srse5B5F28XRlH0fCugKH4sawL/d26ygdbbgb6H0l+asCIkTDvxN6
+ L1h00LaGqp21F7z6XYfTFqNTnIIZ+kVsNV2Y4VWEOdlzB1YdFqgpnDENw
+ kobGbIN/WppjviAAG/MaNQRJ8Kx3tD3XlgfN6MmFPnZ1RJGidYNPKAZpE
+ m7hfbBlCQY3jFGchJDR7vxoldd+zEVGZt8SRfirpPliRR5QFztRF+Bidg
+ si0ow/CanbiXd2h1V7ZjDl587TnFZjDRW6WG4aVLcHJ9PJZhnrXk8nPjd g==;
+X-CSE-ConnectionGUID: TvMumvJxRKKUpFI4IXtFfw==
+X-CSE-MsgGUID: iO84EGrrRz2vvy9dHSoGzw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="37506954"
+X-IronPort-AV: E=Sophos;i="6.10,253,1719903600"; d="scan'208";a="37506954"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Sep 2024 01:18:32 -0700
-X-CSE-ConnectionGUID: 0ycdbieTSCakmDx9VkfFPA==
-X-CSE-MsgGUID: eXuOx0SoSCaawP3t8oLCoA==
+ 24 Sep 2024 01:18:33 -0700
+X-CSE-ConnectionGUID: OtcZmgXaSv+nEFL6Wq5uXg==
+X-CSE-MsgGUID: DXfQajAORgCZVTj8sMDcOA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,253,1719903600"; d="scan'208";a="102170697"
+X-IronPort-AV: E=Sophos;i="6.10,253,1719903600"; d="scan'208";a="102170704"
 Received: from jlawryno.igk.intel.com ([10.91.220.59])
  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Sep 2024 01:18:30 -0700
+ 24 Sep 2024 01:18:32 -0700
 From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com,
- Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>,
+ Karol Wachowski <karol.wachowski@intel.com>,
  Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Subject: [PATCH 12/29] accel/ivpu: Allow reading dvfs_mode debugfs file
-Date: Tue, 24 Sep 2024 10:17:37 +0200
-Message-ID: <20240924081754.209728-13-jacek.lawrynowicz@linux.intel.com>
+Subject: [PATCH 13/29] accel/ivpu: Add one jiffy to bo_wait_ioctl timeout value
+Date: Tue, 24 Sep 2024 10:17:38 +0200
+Message-ID: <20240924081754.209728-14-jacek.lawrynowicz@linux.intel.com>
 X-Mailer: git-send-email 2.45.1
 In-Reply-To: <20240924081754.209728-1-jacek.lawrynowicz@linux.intel.com>
 References: <20240924081754.209728-1-jacek.lawrynowicz@linux.intel.com>
@@ -69,75 +69,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
+From: Karol Wachowski <karol.wachowski@intel.com>
 
-Make the dvfs_mode read-write to allow checking current mode.
-Simplify the dvfs_mode implementation with the DEFINE_DEBUGFS_ATTRIBUTE.
+Add one jiffy to ensure wait function never times out before
+intended timeout value, which could happen if absolute timeout value
+is less than (1s / CONFIG_HZ) in the future.
 
-Signed-off-by: Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
+Signed-off-by: Karol Wachowski <karol.wachowski@intel.com>
 Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 ---
- drivers/accel/ivpu/ivpu_debugfs.c | 33 +++++++++++--------------------
- 1 file changed, 12 insertions(+), 21 deletions(-)
+ drivers/accel/ivpu/ivpu_gem.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/accel/ivpu/ivpu_debugfs.c b/drivers/accel/ivpu/ivpu_debugfs.c
-index 65245f45cc701..f788ace8f318f 100644
---- a/drivers/accel/ivpu/ivpu_debugfs.c
-+++ b/drivers/accel/ivpu/ivpu_debugfs.c
-@@ -130,32 +130,23 @@ static const struct drm_debugfs_info vdev_debugfs_list[] = {
- 	{"reset_pending", reset_pending_show, 0},
- };
+diff --git a/drivers/accel/ivpu/ivpu_gem.c b/drivers/accel/ivpu/ivpu_gem.c
+index 1b409dbd332d8..d8e97a760fbc0 100644
+--- a/drivers/accel/ivpu/ivpu_gem.c
++++ b/drivers/accel/ivpu/ivpu_gem.c
+@@ -384,6 +384,9 @@ int ivpu_bo_wait_ioctl(struct drm_device *dev, void *data, struct drm_file *file
  
--static ssize_t
--dvfs_mode_fops_write(struct file *file, const char __user *user_buf, size_t size, loff_t *pos)
-+static int dvfs_mode_get(void *data, u64 *dvfs_mode)
- {
--	struct ivpu_device *vdev = file->private_data;
--	struct ivpu_fw_info *fw = vdev->fw;
--	u32 dvfs_mode;
--	int ret;
-+	struct ivpu_device *vdev = (struct ivpu_device *)data;
+ 	timeout = drm_timeout_abs_to_jiffies(args->timeout_ns);
  
--	ret = kstrtou32_from_user(user_buf, size, 0, &dvfs_mode);
--	if (ret < 0)
--		return ret;
--
--	fw->dvfs_mode = dvfs_mode;
-+	*dvfs_mode = vdev->fw->dvfs_mode;
-+	return 0;
-+}
- 
--	ret = pci_try_reset_function(to_pci_dev(vdev->drm.dev));
--	if (ret)
--		return ret;
-+static int dvfs_mode_set(void *data, u64 dvfs_mode)
-+{
-+	struct ivpu_device *vdev = (struct ivpu_device *)data;
- 
--	return size;
-+	vdev->fw->dvfs_mode = (u32)dvfs_mode;
-+	return pci_try_reset_function(to_pci_dev(vdev->drm.dev));
- }
- 
--static const struct file_operations dvfs_mode_fops = {
--	.owner = THIS_MODULE,
--	.open = simple_open,
--	.write = dvfs_mode_fops_write,
--};
-+DEFINE_DEBUGFS_ATTRIBUTE(dvfs_mode_fops, dvfs_mode_get, dvfs_mode_set, "%llu\n");
- 
- static ssize_t
- fw_dyndbg_fops_write(struct file *file, const char __user *user_buf, size_t size, loff_t *pos)
-@@ -435,7 +426,7 @@ void ivpu_debugfs_init(struct ivpu_device *vdev)
- 	debugfs_create_file("force_recovery", 0200, debugfs_root, vdev,
- 			    &ivpu_force_recovery_fops);
- 
--	debugfs_create_file("dvfs_mode", 0200, debugfs_root, vdev,
-+	debugfs_create_file("dvfs_mode", 0644, debugfs_root, vdev,
- 			    &dvfs_mode_fops);
- 
- 	debugfs_create_file("fw_dyndbg", 0200, debugfs_root, vdev,
++	/* Add 1 jiffy to ensure the wait function never times out before intended timeout_ns */
++	timeout += 1;
++
+ 	obj = drm_gem_object_lookup(file, args->handle);
+ 	if (!obj)
+ 		return -EINVAL;
 -- 
 2.45.1
 
