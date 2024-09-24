@@ -2,73 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A379A983BB5
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 05:52:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B61B983C5B
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 07:27:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6EDFC10E246;
-	Tue, 24 Sep 2024 03:52:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8AF4D10E25E;
+	Tue, 24 Sep 2024 05:27:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ite.com.tw header.i=@ite.com.tw header.b="EIZfEE/C";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Eeg0Umq4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ironport.ite.com.tw (60-251-196-230.hinet-ip.hinet.net
- [60.251.196.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A29410E246
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 03:52:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ite.com.tw; s=dkim;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=Afynzj3+zCU9an94sBbsOfdmCG/TxoLg3UVK3QGTn9E=;
- b=EIZfEE/C/WnJuLh1uqmySpMTOHi3pe69Ih4QU+lhmi8wK0t7AHKHUikJ
- 0KmCNqORVNOPVzbyKf56+Yiacnc6VtX08Ub8bEFUut6YFQP6kGZcAXn55
- q1PkYQ69JkBMG3W8tLdW10fIP346QtlekTggmw1xZIi3fqhXAWZNLCHut
- LTGJgp8LvwkvBqpKbowYGe2wPAY+iuEC+fLBIdJmJ5wQAlYPOSHj6/F0L
- ZjzAmP0N02WyxYaNLB4csNTYy2+5+NNd1KD4mYe5f1J+IijA/8onxxnb+
- foP3YLoIC/TgchFM66Ml9HVD/BxrMBK2mjOF66CpTRQn9cl9HDo22bFcy Q==;
-X-CSE-ConnectionGUID: st5SnQkbRByohfHJ625OcA==
-X-CSE-MsgGUID: DDO2aWOdTTqlriHVhaMKKA==
-Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
- by ironport.ite.com.tw with ESMTP; 24 Sep 2024 11:52:37 +0800
-Received: from tpemail1.internal.ite.com.tw (TPEMAIL1.internal.ite.com.tw
- [192.168.15.58]) by mse.ite.com.tw with ESMTP id 48O3qYJo095925;
- Tue, 24 Sep 2024 11:52:34 +0800 (GMT-8)
- (envelope-from Hermes.Wu@ite.com.tw)
-Received: from TPEMAIL1.internal.ite.com.tw (192.168.15.58) by
- TPEMAIL1.internal.ite.com.tw (192.168.15.58) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Tue, 24 Sep 2024 11:52:34 +0800
-Received: from TPEMAIL1.internal.ite.com.tw ([fe80::dd6d:92:8773:b68]) by
- TPEMAIL1.internal.ite.com.tw ([fe80::dd6d:92:8773:b68%6]) with mapi id
- 15.01.2507.039; Tue, 24 Sep 2024 11:52:34 +0800
-From: <Hermes.Wu@ite.com.tw>
-To: <dmitry.baryshkov@linaro.org>
-CC: <treapking@chromium.org>, <Kenneth.Hung@ite.com.tw>,
- <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>,
- <rfoss@kernel.org>, <Laurent.pinchart@ideasonboard.com>,
- <jonas@kwiboo.se>, <jernej.skrabec@gmail.com>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v3 3/3] drm/bridge: it6505: Add MCCS support
-Thread-Topic: [PATCH v3 3/3] drm/bridge: it6505: Add MCCS support
-Thread-Index: AQHbDbA1+PJ5/N6Hb0iX7NKOpFpPoLJmToIg
-Date: Tue, 24 Sep 2024 03:52:34 +0000
-Message-ID: <217c3d82f89040e7b29465ea71080cd2@ite.com.tw>
-References: <20240923094826.13471-1-Hermes.Wu@ite.com.tw>
- <20240923094826.13471-4-Hermes.Wu@ite.com.tw>
- <x4eixnu3kta6u2xqf6mn7ons2pupr7oe5fzjur2pfhgppmozoq@lgmk7zwqhcqm>
-In-Reply-To: <x4eixnu3kta6u2xqf6mn7ons2pupr7oe5fzjur2pfhgppmozoq@lgmk7zwqhcqm>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [192.168.20.82]
-x-tm-snts-smtp: D0C8F0FC3BDA73B5F04243FC1A148BA6EC44D8C13C83A87CC0B12E6628657F332002:8
-Content-Type: text/plain; charset="big5"
-Content-Transfer-Encoding: base64
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D51B610E25E
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 05:27:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
+ In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=YNS5Rbk1Y4WYnOQhxnJqnehTcjOaD+ieLEM5TbzBlWs=; b=Eeg0Umq4vitreexo9LeMuFiAIn
+ 952G3gl/QrKrz2Bp4uJllpag+1oTUN4EAgAp3yMM+qXdzcp8uXuXaF43t40rcj95q+V1LIFYh8LSo
+ jGwClahM6Y+MWyBFMtZiSSjn2HD/hDTOWSHetUGJrEL6M0aWBm3bUfdZEDYbmHKItg29M7V8v8OMT
+ hlnl8MMO211ZnDAHtqnQTewMwLvqHTiw4zwFAY3HjcvxquadXzS4UVk6+gIib6XbZiIrY43e2j5xx
+ sQprjllbLC1f/6mqlFwGHSPMIfyFDoINejdap3Lfmlr9SfN/lDri+7t7H6bUMZN7cjL+eeyXcrhEx
+ Bk9CMqcg==;
+Received: from 62.83.47.18.dyn.user.ono.com ([62.83.47.18] helo=[192.168.0.17])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1ssy5K-000FKR-Ie; Tue, 24 Sep 2024 07:27:38 +0200
+Message-ID: <98dfe801d45be91ea232012a0ce0304428a13353.camel@igalia.com>
+Subject: Re: [PATCH v6 01/11] drm/v3d: Address race-condition in MMU flush
+From: Iago Toral <itoral@igalia.com>
+To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Melissa Wen
+ <mwen@igalia.com>, Tvrtko Ursulin <tursulin@igalia.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
+Date: Tue, 24 Sep 2024 07:27:27 +0200
+In-Reply-To: <20240923141348.2422499-2-mcanal@igalia.com>
+References: <20240923141348.2422499-1-mcanal@igalia.com>
+ <20240923141348.2422499-2-mcanal@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1 
 MIME-Version: 1.0
-X-MAIL: mse.ite.com.tw 48O3qYJo095925
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,151 +64,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Pk9uIE1vbiwgU2VwIDIzLCAyMDI0IGF0IDA1OjQ4OjI5UE0gR01ULCBIZXJtZXMgV3Ugd3JvdGU6
-DQo+PiBGcm9tOiBIZXJtZXMgV3UgPEhlcm1lcy53dUBpdGUuY29tLnR3Pg0KPj4gDQo+PiBDaGFu
-Z2VzIGluIHYzOg0KPj4gIC1yZW1vdmUgbm9uIHVzZWQgZGVmaW5pdGlvbiBmb3IgYXV4IGkyeCBj
-bWQgcmVwbHkNCj4+IA0KPj4gQWRkIEF1eC1JMkMgZnVuY3Rpb25hbGl0eSB0byBzdXBwb3J0IE1D
-Q1MuDQo+PiANCj4+IFNpZ25lZC1vZmYtYnk6IEhlcm1lcyBXdSA8SGVybWVzLnd1QGl0ZS5jb20u
-dHc+DQo+PiAtLS0NCj4+ICBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2l0ZS1pdDY1MDUuYyB8IDE3
-NCANCj4+ICsrKysrKysrKysrKysrKysrKysrKysrKysrKy0NCj4+ICAxIGZpbGUgY2hhbmdlZCwg
-MTcyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pDQo+PiANCj4+IGRpZmYgLS1naXQgYS9k
-cml2ZXJzL2dwdS9kcm0vYnJpZGdlL2l0ZS1pdDY1MDUuYyANCj4+IGIvZHJpdmVycy9ncHUvZHJt
-L2JyaWRnZS9pdGUtaXQ2NTA1LmMNCj4+IGluZGV4IDE1NjQ0MGM2NTE3ZS4uNWFlZGM1NTcwNzM5
-IDEwMDY0NA0KPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9pdGUtaXQ2NTA1LmMNCj4+
-ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvaXRlLWl0NjUwNS5jDQo+PiBAQCAtMTI1LDYg
-KzEyNSw5IEBADQo+PiAgI2RlZmluZSBSRUdfQVVYX0FEUl8xNl8xOSAweDI2DQo+PiAgI2RlZmlu
-ZSBSRUdfQVVYX09VVF9EQVRBMCAweDI3DQo+PiAgDQo+PiArI2RlZmluZSBSRUdfQVVYX0kyQ19B
-RFIgMHgyNQ0KPj4gKyNkZWZpbmUgUkVHX0FVWF9JMkNfT1AgMHgyNg0KPj4gKw0KPg0KPkFyZSB0
-aGVzZSByZWdpc3RlcnMgQ01ELXNwZWNpZmljPyBCZWNhdXNlIEkgc2VlIHRoYXQgeW91IGFscmVh
-ZHkgaGF2ZSBkZWZpbmVzIGZvciAweDI1IGFuZCAweDI2Lg0KPg0KDQpUaGUgQVVYIHBhY2tldCBp
-MmMgaW50byBhdXggdHJhbnNmZXIgZnJhbWVzLA0KYW5kIEkgdGhpbmsgaXQncyBlYXNpZXIgdG8g
-dW5kZXJzdGFuZCBob3cgaXQ2NTA1X2F1eF9pMmNfb3BlcmF0aW9uKCkgcGFja2V0IGkyYyByZXF1
-ZXN0IGludG8gYXV4IGZyYW1lLg0KDQo+PiAgI2RlZmluZSBSRUdfQVVYX0NNRF9SRVEgMHgyQg0K
-Pj4gICNkZWZpbmUgQVVYX0JVU1kgQklUKDUpDQo+PiAgDQo+PiBAQCAtMjY2LDYgKzI2OSwxOSBA
-QA0KPj4gICNkZWZpbmUgUkVHX1NTQ19DVFJMMSAweDE4OQ0KPj4gICNkZWZpbmUgUkVHX1NTQ19D
-VFJMMiAweDE4QQ0KPj4gIA0KPj4gKyNkZWZpbmUgUkVHX0FVWF9VU0VSX0NUUkwgMHgxOTANCj4+
-ICsjZGVmaW5lIEVOX1VTRVJfQVVYIEJJVCgwKQ0KPj4gKyNkZWZpbmUgVVNFUl9BVVhfRE9ORSBC
-SVQoMSkNCj4+ICsjZGVmaW5lIEFVWF9FVkVOVCBCSVQoNCkNCj4+ICsNCj4+ICsjZGVmaW5lIFJF
-R19BVVhfVVNFUl9EQVRBX1JFQyAweDE5MQ0KPj4gKyNkZWZpbmUgTV9BVVhfSU5fUkVDICAgMHhG
-MA0KPj4gKyNkZWZpbmUgTV9BVVhfT1VUX1JFQyAgMHgwRg0KPj4gKw0KPj4gKyNkZWZpbmUgUkVH
-X0FVWF9VU0VSX1RYQiAweDE5MA0KPg0KPkFuZCB0d28gZGVmaW5lcyBmb3IgMHgxOTAgdG9vLg0K
-Pg0KPj4gKyNkZWZpbmUgUkVHX0FVWF9VU0VSX1JFUExZIDB4MTlBDQo+PiArI2RlZmluZSBSRUdf
-QVVYX1VTRVJfUlhCKG4pIChuICsgMHgxOUIpDQo+PiArDQo+PiAgI2RlZmluZSBSQlIgRFBfTElO
-S19CV18xXzYyDQo+PiAgI2RlZmluZSBIQlIgRFBfTElOS19CV18yXzcNCj4+ICAjZGVmaW5lIEhC
-UjIgRFBfTElOS19CV181XzQNCj4+IEBAIC0zMDEsNiArMzE3LDggQEANCj4+ICAjZGVmaW5lIE1B
-WF9FUV9MRVZFTCAweDAzDQo+PiAgI2RlZmluZSBBVVhfV0FJVF9USU1FT1VUX01TIDE1DQo+PiAg
-I2RlZmluZSBBVVhfRklGT19NQVhfU0laRSAxNg0KPj4gKyNkZWZpbmUgQVVYX0kyQ19NQVhfU0la
-RSA0DQo+PiArI2RlZmluZSBBVVhfSTJDX0RFRkVSX1JFVFJZIDQNCj4+ICAjZGVmaW5lIFBJWEVM
-X0NMS19ERUxBWSAxDQo+PiAgI2RlZmluZSBQSVhFTF9DTEtfSU5WRVJTRSAwDQo+PiAgI2RlZmlu
-ZSBBREpVU1RfUEhBU0VfVEhSRVNIT0xEIDgwMDAwDQo+PiBAQCAtMzIzLDcgKzM0MSwxMiBAQA0K
-Pj4gIGVudW0gYXV4X2NtZF90eXBlIHsNCj4+ICAJQ01EX0FVWF9OQVRJVkVfUkVBRCA9IDB4MCwN
-Cj4+ICAJQ01EX0FVWF9OQVRJVkVfV1JJVEUgPSAweDUsDQo+PiArCUNNRF9BVVhfR0kyQ19BRFIg
-PSAweDA4LA0KPj4gKwlDTURfQVVYX0dJMkNfUkVBRCA9IDB4MDksDQo+PiArCUNNRF9BVVhfR0ky
-Q19XUklURSA9IDB4MEEsDQo+PiAgCUNNRF9BVVhfSTJDX0VESURfUkVBRCA9IDB4QiwNCj4+ICsJ
-Q01EX0FVWF9JMkNfUkVBRCA9IDB4MEQsDQo+PiArCUNNRF9BVVhfSTJDX1dSSVRFID0gMHgwQywN
-Cj4+ICANCj4+ICAJLyogS1NWIGxpc3QgcmVhZCB1c2luZyBBVVggbmF0aXZlIHJlYWQgd2l0aCBG
-SUZPICovDQo+PiAgCUNNRF9BVVhfR0VUX0tTVl9MSVNUID0gMHgxMCwNCj4+IEBAIC0xMTA2LDYg
-KzExMjksMTU0IEBAIHN0YXRpYyBzc2l6ZV90IGl0NjUwNV9hdXhfZG9fdHJhbnNmZXIoc3RydWN0
-IGl0NjUwNSAqaXQ2NTA1LA0KPj4gIAlyZXR1cm4gcmV0Ow0KPj4gIH0NCj4+ICANCj4+ICtzdGF0
-aWMgaW50IGl0NjUwNV9hdXhfaTJjX3dhaXQoc3RydWN0IGl0NjUwNSAqaXQ2NTA1LCB1OCAqcmVw
-bHkpIHsNCj4+ICsJaW50IGVyciA9IDA7DQo+DQo+U2tpcCBhc3NpZ25tZW50IGhlcmUuDQo+DQo+
-PiArCXVuc2lnbmVkIGxvbmcgdGltZW91dDsNCj4+ICsJc3RydWN0IGRldmljZSAqZGV2ID0gaXQ2
-NTA1LT5kZXY7DQo+PiArDQo+PiArCXRpbWVvdXQgPSBqaWZmaWVzICsgbXNlY3NfdG9famlmZmll
-cyhBVVhfV0FJVF9USU1FT1VUX01TKSArIDE7DQo+PiArDQo+PiArCWRvIHsNCj4+ICsJCWlmIChp
-dDY1MDVfcmVhZChpdDY1MDUsIFJFR19BVVhfVVNFUl9DVFJMKSAmIEFVWF9FVkVOVCkNCj4+ICsJ
-CQlicmVhazsNCj4+ICsJCWlmICh0aW1lX2FmdGVyKGppZmZpZXMsIHRpbWVvdXQpKSB7DQo+PiAr
-CQkJZGV2X2VycihkZXYsICJUaW1lZCBvdXQgd2FpdGluZyBBVVggSTJDLCBCVVNZID0gJVhcbiIs
-DQo+PiArCQkJCWl0NjUwNV9hdXhfb3BfZmluaXNoZWQoaXQ2NTA1KSk7DQo+PiArCQkJZXJyID0g
-LUVUSU1FRE9VVDsNCj4+ICsJCQlnb3RvIGVuZF9hdXhfaTJjX3dhaXQ7DQo+PiArCQl9DQo+PiAr
-CQl1c2xlZXBfcmFuZ2UoMzAwLCA4MDApOw0KPj4gKwl9IHdoaWxlICghaXQ2NTA1X2F1eF9vcF9m
-aW5pc2hlZChpdDY1MDUpKTsNCj4+ICsNCj4+ICsJaWYgKCFyZXBseSkNCj4+ICsJCWdvdG8gZW5k
-X2F1eF9pMmNfd2FpdDsNCj4+ICsNCj4+ICsJKnJlcGx5ID0gaXQ2NTA1X3JlYWQoaXQ2NTA1LCBS
-RUdfQVVYX1VTRVJfUkVQTFkpID4+IDQ7DQo+PiArDQo+PiArCWlmICgqcmVwbHkgPT0gMCkNCj4+
-ICsJCWdvdG8gZW5kX2F1eF9pMmNfd2FpdDsNCj4NCj5hc3NpZ24gZXJyID0gMCBoZXJlLCBzbyB0
-aGF0IGl0J3Mgb2J2aW91cyB0aGF0IGl0J3MgYSBzdWNjZXNzZnVsbCBjYXNlLg0KPg0KPj4gKw0K
-Pj4gKwlpZiAoKCpyZXBseSA9PSBEUF9BVVhfTkFUSVZFX1JFUExZX0RFRkVSKSB8fA0KPj4gKwkg
-ICAgKCpyZXBseSA9PSBEUF9BVVhfSTJDX1JFUExZX0RFRkVSKSkNCj4+ICsJCWVyciA9IC1FQlVT
-WTsNCj4+ICsJZWxzZSBpZiAoKCpyZXBseSA9PSBEUF9BVVhfTkFUSVZFX1JFUExZX05BQ0spIHx8
-DQo+PiArCQkgKCpyZXBseSA9PSBEUF9BVVhfSTJDX1JFUExZX05BQ0spKQ0KPj4gKwkJZXJyID0g
-LUVOWElPOw0KPj4gKw0KPj4gK2VuZF9hdXhfaTJjX3dhaXQ6DQo+PiArCWl0NjUwNV9zZXRfYml0
-cyhpdDY1MDUsIFJFR19BVVhfVVNFUl9DVFJMLCBVU0VSX0FVWF9ET05FLCBVU0VSX0FVWF9ET05F
-KTsNCj4+ICsJcmV0dXJuIGVycjsNCj4+ICt9DQo+PiArDQo+PiArc3RhdGljIGludCBpdDY1MDVf
-YXV4X2kyY19yZWFkYihzdHJ1Y3QgaXQ2NTA1ICppdDY1MDUsIHU4ICpidWYsIA0KPj4gK3NpemVf
-dCBzaXplLCB1OCAqcmVwbHkpIHsNCj4+ICsJaW50IHJldCwgaTsNCj4+ICsJaW50IHJldHJ5ID0g
-MDsNCj4NCj5Ta2lwIHRoZSBpbml0DQo+DQo+PiArDQo+PiArCWZvciAocmV0cnkgPSAwOyByZXRy
-eSA8IEFVWF9JMkNfREVGRVJfUkVUUlk7IHJldHJ5KyspIHsNCj4+ICsJCWl0NjUwNV93cml0ZShp
-dDY1MDUsIFJFR19BVVhfQ01EX1JFUSwgQ01EX0FVWF9HSTJDX1JFQUQpOw0KPg0KPmVtcHR5IGxp
-bmUNCj4NCj4+ICsJCXJldCA9IGl0NjUwNV9hdXhfaTJjX3dhaXQoaXQ2NTA1LCByZXBseSk7DQo+
-PiArCQlpZiAoKCpyZXBseSA9PSBEUF9BVVhfTkFUSVZFX1JFUExZX0RFRkVSKSB8fA0KPj4gKwkJ
-ICAgICgqcmVwbHkgPT0gRFBfQVVYX0kyQ19SRVBMWV9ERUZFUikpDQo+DQo+VGhlc2UgdHdvIGxp
-bmVzIGtlZXAgb24gYmVpbmcgcmVwZWF0ZWQgb3ZlciBhbmQgb3Zlci4gUGxlYXNlIGNvbnNpZGVy
-IGRlZmluaW5nIGEgaGVscGVyIGZ1bmN0aW9uLg0KPg0KPj4gKwkJCWNvbnRpbnVlOw0KPj4gKwkJ
-aWYgKHJldCA+PSAwKQ0KPj4gKwkJCWJyZWFrOw0KPj4gKwl9DQo+PiArDQo+PiArCWZvciAoaSA9
-IDA7IGkgPCBzaXplOyBpKyspDQo+PiArCQlidWZbaV0gPSAgKHU4KWl0NjUwNV9yZWFkKGl0NjUw
-NSwgUkVHX0FVWF9VU0VSX1JYQigwICsgaSkpOw0KPg0KPlNpbmdsZSBzcGFjZSwgZHJvcCB0eXBl
-IGNvbnZlcnNpb24uDQo+DQo+PiArDQo+PiArCXJldHVybiBzaXplOw0KPj4gK30NCj4+ICsNCj4+
-ICtzdGF0aWMgaW50IGl0NjUwNV9hdXhfaTJjX3dyaXRlYihzdHJ1Y3QgaXQ2NTA1ICppdDY1MDUs
-IHU4ICpidWYsIA0KPj4gK3NpemVfdCBzaXplLCB1OCAqcmVwbHkpIHsNCj4+ICsJaW50IGksIHJl
-dDsNCj4+ICsJaW50IHJldHJ5ID0gMDsNCj4+ICsNCj4+ICsJZm9yIChpID0gMDsgaSA8IHNpemU7
-IGkrKykNCj4+ICsJCWl0NjUwNV93cml0ZShpdDY1MDUsIFJFR19BVVhfT1VUX0RBVEEwICsgaSwg
-YnVmW2ldKTsNCj4+ICsNCj4+ICsJZm9yIChyZXRyeSA9IDA7IHJldHJ5IDwgQVVYX0kyQ19ERUZF
-Ul9SRVRSWTsgcmV0cnkrKykgew0KPj4gKwkJaXQ2NTA1X3dyaXRlKGl0NjUwNSwgUkVHX0FVWF9D
-TURfUkVRLCBDTURfQVVYX0dJMkNfV1JJVEUpOw0KPg0KPmVtcHR5IGxpbmUNCj4NCj4+ICsJCXJl
-dCA9IGl0NjUwNV9hdXhfaTJjX3dhaXQoaXQ2NTA1LCByZXBseSk7DQo+PiArCQlpZiAoKCpyZXBs
-eSA9PSBEUF9BVVhfTkFUSVZFX1JFUExZX0RFRkVSKSB8fA0KPj4gKwkJICAgICgqcmVwbHkgPT0g
-RFBfQVVYX0kyQ19SRVBMWV9ERUZFUikpDQo+PiArCQkJY29udGludWU7DQo+PiArCQlpZiAocmV0
-ID49IDApDQo+PiArCQkJYnJlYWs7DQo+PiArCX0NCj4+ICsJcmV0dXJuIHNpemU7DQo+PiArfQ0K
-Pj4gKw0KPj4gK3N0YXRpYyBzc2l6ZV90IGl0NjUwNV9hdXhfaTJjX29wZXJhdGlvbihzdHJ1Y3Qg
-aXQ2NTA1ICppdDY1MDUsDQo+PiArCQkJCQlzdHJ1Y3QgZHJtX2RwX2F1eF9tc2cgKm1zZykNCj4+
-ICt7DQo+PiArCWludCByZXQ7DQo+PiArCXNzaXplX3QgcmVxdWVzdF9zaXplLCBkYXRhX2NudCA9
-IDA7DQo+PiArCXU4ICpidWZmZXIgPSBtc2ctPmJ1ZmZlcjsNCj4+ICsNCj4+ICsJLyogc2V0IEFV
-WCB1c2VyIG1vZGUgKi8NCj4+ICsJaXQ2NTA1X3NldF9iaXRzKGl0NjUwNSwgUkVHX0FVWF9DVFJM
-LA0KPj4gKwkJCUFVWF9VU0VSX01PREUgfCBBVVhfTk9fU0VHTUVOVF9XUiwgQVVYX1VTRVJfTU9E
-RSk7DQo+PiArCWl0NjUwNV9zZXRfYml0cyhpdDY1MDUsIFJFR19BVVhfVVNFUl9DVFJMLCBFTl9V
-U0VSX0FVWCwgRU5fVVNFUl9BVVgpOw0KPj4gKwkvKiBjbGVhciBBVVggRklGTyAqLw0KPj4gKwlp
-dDY1MDVfc2V0X2JpdHMoaXQ2NTA1LCBSRUdfQVVYX0NUUkwsDQo+PiArCQkJQVVYX0VOX0ZJRk9f
-UkVBRCB8IENMUl9FRElEX0ZJRk8sDQo+PiArCQkJQVVYX0VOX0ZJRk9fUkVBRCB8IENMUl9FRElE
-X0ZJRk8pOw0KPj4gKw0KPj4gKwlpdDY1MDVfc2V0X2JpdHMoaXQ2NTA1LCBSRUdfQVVYX0NUUkws
-DQo+PiArCQkJQVVYX0VOX0ZJRk9fUkVBRCB8IENMUl9FRElEX0ZJRk8sIDB4MDApOw0KPj4gKw0K
-Pj4gKwlpdDY1MDVfd3JpdGUoaXQ2NTA1LCBSRUdfQVVYX0FEUl8wXzcsIDB4MDApOw0KPj4gKwlp
-dDY1MDVfd3JpdGUoaXQ2NTA1LCBSRUdfQVVYX0kyQ19BRFIsIG1zZy0+YWRkcmVzcyA8PCAxKTsN
-Cj4+ICsNCj4+ICsJaWYgKG1zZy0+c2l6ZSA9PSAwKSB7DQo+PiArCQkvKiBJSUMgU3RhcnQvU1RP
-UCBkdW1teSB3cml0ZSAqLw0KPj4gKwkJaXQ2NTA1X3dyaXRlKGl0NjUwNSwgUkVHX0FVWF9JMkNf
-T1AsIG1zZy0+cmVxdWVzdCk7DQo+PiArCQlpdDY1MDVfd3JpdGUoaXQ2NTA1LCBSRUdfQVVYX0NN
-RF9SRVEsIENNRF9BVVhfR0kyQ19BRFIpOw0KPj4gKwkJcmV0ID0gaXQ2NTA1X2F1eF9pMmNfd2Fp
-dChpdDY1MDUsICZtc2ctPnJlcGx5KTsNCj4+ICsJCWdvdG8gZW5kX2F1eF9pMmNfdHJhbnNmZXI7
-DQo+PiArCX0NCj4+ICsNCj4+ICsJLyogSUlDIGRhdGEgdHJhbnNmZXIgKi8NCj4+ICsJZm9yIChk
-YXRhX2NudCA9IDA7IGRhdGFfY250IDwgbXNnLT5zaXplOyApIHsNCj4+ICsJCXJlcXVlc3Rfc2l6
-ZSA9IG1pbl90KHNzaXplX3QsIG1zZy0+c2l6ZSAtIGRhdGFfY250LCBBVVhfSTJDX01BWF9TSVpF
-KTsNCj4+ICsJCWl0NjUwNV93cml0ZShpdDY1MDUsIFJFR19BVVhfSTJDX09QLA0KPj4gKwkJCSAg
-ICAgbXNnLT5yZXF1ZXN0IHwgKChyZXF1ZXN0X3NpemUgLSAxKSA8PCA0KSk7DQo+PiArCQlpZiAo
-KG1zZy0+cmVxdWVzdCAmIERQX0FVWF9JMkNfUkVBRCkgPT0gRFBfQVVYX0kyQ19SRUFEKQ0KPj4g
-KwkJCXJldCA9IGl0NjUwNV9hdXhfaTJjX3JlYWRiKGl0NjUwNSwgJmJ1ZmZlcltkYXRhX2NudF0s
-DQo+PiArCQkJCQkJICAgcmVxdWVzdF9zaXplLCAmbXNnLT5yZXBseSk7DQo+PiArCQllbHNlDQo+
-PiArCQkJcmV0ID0gaXQ2NTA1X2F1eF9pMmNfd3JpdGViKGl0NjUwNSwgJmJ1ZmZlcltkYXRhX2Nu
-dF0sDQo+PiArCQkJCQkJICAgIHJlcXVlc3Rfc2l6ZSwgJm1zZy0+cmVwbHkpOw0KPj4gKw0KPj4g
-KwkJaWYgKHJldCA8IDApDQo+PiArCQkJZ290byBlbmRfYXV4X2kyY190cmFuc2ZlcjsNCj4+ICsN
-Cj4+ICsJCWRhdGFfY250ICs9IHJlcXVlc3Rfc2l6ZTsNCj4+ICsJfQ0KPj4gKwlyZXQgPSBkYXRh
-X2NudDsNCj4+ICtlbmRfYXV4X2kyY190cmFuc2ZlcjoNCj4+ICsNCj4+ICsJaXQ2NTA1X3NldF9i
-aXRzKGl0NjUwNSwgUkVHX0FVWF9VU0VSX0NUUkwsIEVOX1VTRVJfQVVYLCAwKTsNCj4+ICsJaXQ2
-NTA1X3NldF9iaXRzKGl0NjUwNSwgUkVHX0FVWF9DVFJMLCBBVVhfVVNFUl9NT0RFLCAwKTsNCj4+
-ICsJcmV0dXJuIHJldDsNCj4+ICt9DQo+PiArDQo+PiArc3RhdGljIHNzaXplX3QgaXQ2NTA1X2F1
-eF9pMmNfdHJhbnNmZXIoc3RydWN0IGRybV9kcF9hdXggKmF1eCwNCj4+ICsJCQkJICAgICAgIHN0
-cnVjdCBkcm1fZHBfYXV4X21zZyAqbXNnKSB7DQo+PiArCXN0cnVjdCBpdDY1MDUgKml0NjUwNSA9
-IGNvbnRhaW5lcl9vZihhdXgsIHN0cnVjdCBpdDY1MDUsIGF1eCk7DQo+PiArCWludCByZXQ7DQo+
-PiArDQo+PiArCW11dGV4X2xvY2soJml0NjUwNS0+YXV4X2xvY2spOw0KPj4gKwlyZXQgPSBpdDY1
-MDVfYXV4X2kyY19vcGVyYXRpb24oaXQ2NTA1LCBtc2cpOw0KPj4gKwltdXRleF91bmxvY2soJml0
-NjUwNS0+YXV4X2xvY2spOw0KPg0KPklzIGl0IGVub3VnaCB0byBwcm90ZWN0IGZyb20gb3RoZXIg
-Y29tbWFuZHMgc2VuZGluZyBkYXRhIGluIHBhcmFsbGVsPw0KPkFsc28gYXMgbXVjaCBhcyBJIGRv
-bid0IGxpa2UgaXQsIGluIHRoaXMgY2FzZSB1c2luZyBndWFyZCgpIGZyb20gY2xlYW51cC5oIHdp
-bGwgcmVtb3ZlIGEgbmVlZCBmb3IgYSBzZXBhcnRlIGZ1bmN0aW9uLg0KPg0KPj4gKwlyZXR1cm4g
-cmV0Ow0KPj4gK30NCj4+ICsNCj4+ICBzdGF0aWMgc3NpemVfdCBpdDY1MDVfYXV4X3RyYW5zZmVy
-KHN0cnVjdCBkcm1fZHBfYXV4ICphdXgsDQo+PiAgCQkJCSAgIHN0cnVjdCBkcm1fZHBfYXV4X21z
-ZyAqbXNnKQ0KPj4gIHsNCj4+IEBAIC0xMTE1LDkgKzEyODYsOCBAQCBzdGF0aWMgc3NpemVfdCBp
-dDY1MDVfYXV4X3RyYW5zZmVyKHN0cnVjdCBkcm1fZHBfYXV4ICphdXgsDQo+PiAgCWludCByZXQ7
-DQo+PiAgCWVudW0gYXV4X2NtZF9yZXBseSByZXBseTsNCj4+ICANCj4+IC0JLyogSVQ2NTA1IGRv
-ZXNuJ3Qgc3VwcG9ydCBhcmJpdHJhcnkgSTJDIHJlYWQgLyB3cml0ZS4gKi8NCj4+ICAJaWYgKGlz
-X2kyYykNCj4+IC0JCXJldHVybiAtRUlOVkFMOw0KPj4gKwkJcmV0dXJuIGl0NjUwNV9hdXhfaTJj
-X3RyYW5zZmVyKGF1eCwgbXNnKTsNCj4+ICANCj4+ICAJc3dpdGNoIChtc2ctPnJlcXVlc3QpIHsN
-Cj4+ICAJY2FzZSBEUF9BVVhfTkFUSVZFX1JFQUQ6DQo+PiAtLQ0KPj4gMi4zNC4xDQo+PiANCj4N
-Cj4tLSANCj5XaXRoIGJlc3Qgd2lzaGVzDQo+RG1pdHJ5DQo+DQoNCkJSLA0KSGVybWVzDQo=
+Reviewed-by: Iago Toral Quiroga <itoral@igalia.com>
+
+El lun, 23-09-2024 a las 10:55 -0300, Ma=C3=ADra Canal escribi=C3=B3:
+> We must first flush the MMU cache and then, flush the TLB, not the
+> other
+> way around. Currently, we can see a race condition between the MMU
+> cache
+> and the TLB when running multiple rendering processes at the same
+> time.
+> This is evidenced by MMU errors triggered by the IRQ.
+>=20
+> Fix the MMU flush order by flushing the MMU cache and then the TLB.
+> Also, in order to address the race condition, wait for the MMU cache
+> flush
+> to finish before starting the TLB flush.
+>=20
+> Fixes: 57692c94dcbe ("drm/v3d: Introduce a new DRM driver for
+> Broadcom V3D V3.x+")
+> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
+> ---
+> =C2=A0drivers/gpu/drm/v3d/v3d_mmu.c | 29 ++++++++++-------------------
+> =C2=A01 file changed, 10 insertions(+), 19 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/v3d/v3d_mmu.c
+> b/drivers/gpu/drm/v3d/v3d_mmu.c
+> index 14f3af40d6f6..e36ec3343b06 100644
+> --- a/drivers/gpu/drm/v3d/v3d_mmu.c
+> +++ b/drivers/gpu/drm/v3d/v3d_mmu.c
+> @@ -32,32 +32,23 @@ static int v3d_mmu_flush_all(struct v3d_dev *v3d)
+> =C2=A0{
+> =C2=A0	int ret;
+> =C2=A0
+> -	/* Make sure that another flush isn't already running when
+> we
+> -	 * start this one.
+> -	 */
+> -	ret =3D wait_for(!(V3D_READ(V3D_MMU_CTL) &
+> -			 V3D_MMU_CTL_TLB_CLEARING), 100);
+> -	if (ret)
+> -		dev_err(v3d->drm.dev, "TLB clear wait idle pre-wait
+> failed\n");
+> -
+> -	V3D_WRITE(V3D_MMU_CTL, V3D_READ(V3D_MMU_CTL) |
+> -		=C2=A0 V3D_MMU_CTL_TLB_CLEAR);
+> -
+> -	V3D_WRITE(V3D_MMUC_CONTROL,
+> -		=C2=A0 V3D_MMUC_CONTROL_FLUSH |
+> +	V3D_WRITE(V3D_MMUC_CONTROL, V3D_MMUC_CONTROL_FLUSH |
+> =C2=A0		=C2=A0 V3D_MMUC_CONTROL_ENABLE);
+> =C2=A0
+> -	ret =3D wait_for(!(V3D_READ(V3D_MMU_CTL) &
+> -			 V3D_MMU_CTL_TLB_CLEARING), 100);
+> +	ret =3D wait_for(!(V3D_READ(V3D_MMUC_CONTROL) &
+> +			 V3D_MMUC_CONTROL_FLUSHING), 100);
+> =C2=A0	if (ret) {
+> -		dev_err(v3d->drm.dev, "TLB clear wait idle
+> failed\n");
+> +		dev_err(v3d->drm.dev, "MMUC flush wait idle
+> failed\n");
+> =C2=A0		return ret;
+> =C2=A0	}
+> =C2=A0
+> -	ret =3D wait_for(!(V3D_READ(V3D_MMUC_CONTROL) &
+> -			 V3D_MMUC_CONTROL_FLUSHING), 100);
+> +	V3D_WRITE(V3D_MMU_CTL, V3D_READ(V3D_MMU_CTL) |
+> +		=C2=A0 V3D_MMU_CTL_TLB_CLEAR);
+> +
+> +	ret =3D wait_for(!(V3D_READ(V3D_MMU_CTL) &
+> +			 V3D_MMU_CTL_TLB_CLEARING), 100);
+> =C2=A0	if (ret)
+> -		dev_err(v3d->drm.dev, "MMUC flush wait idle
+> failed\n");
+> +		dev_err(v3d->drm.dev, "MMU TLB clear wait idle
+> failed\n");
+> =C2=A0
+> =C2=A0	return ret;
+> =C2=A0}
+
