@@ -2,143 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37E6F983F7C
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 09:42:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D72A983FA8
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 09:49:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34A0710E632;
-	Tue, 24 Sep 2024 07:42:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06F8410E52D;
+	Tue, 24 Sep 2024 07:48:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="mg8JiQq/";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="M9VhJik7";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="mg8JiQq/";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="M9VhJik7";
+	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="R0UG6jyM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD83110E64D
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 07:42:22 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 13E761F786;
- Tue, 24 Sep 2024 07:42:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1727163741; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=T9i8rGBB2bQ7Yxg9mDLUTIM2+Y59fAcOJWWc55qt5gk=;
- b=mg8JiQq/fVpyc5kFVxlYgeDMGcILteiGx30j3zzLN3EMdUO3dbs3vEAFW3wA7e4oLIH1uX
- mqNkEjNT2lCiQElds1sAGX8KJQcewtWK1wgi/DuA6sGOq1iwPquoqtj/0KX2fvX4aCAj3O
- iA806D4Lgtmh66NzXPx+HV/rVlmyoeU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1727163741;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=T9i8rGBB2bQ7Yxg9mDLUTIM2+Y59fAcOJWWc55qt5gk=;
- b=M9VhJik7IR6wMb19UUk5oYIlP4krkxno+SE9hSLUzaTxwSanpZK+peSdepN3531voTVJ5b
- 0HUvRVCu1QFmhBAQ==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b="mg8JiQq/";
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=M9VhJik7
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1727163741; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=T9i8rGBB2bQ7Yxg9mDLUTIM2+Y59fAcOJWWc55qt5gk=;
- b=mg8JiQq/fVpyc5kFVxlYgeDMGcILteiGx30j3zzLN3EMdUO3dbs3vEAFW3wA7e4oLIH1uX
- mqNkEjNT2lCiQElds1sAGX8KJQcewtWK1wgi/DuA6sGOq1iwPquoqtj/0KX2fvX4aCAj3O
- iA806D4Lgtmh66NzXPx+HV/rVlmyoeU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1727163741;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=T9i8rGBB2bQ7Yxg9mDLUTIM2+Y59fAcOJWWc55qt5gk=;
- b=M9VhJik7IR6wMb19UUk5oYIlP4krkxno+SE9hSLUzaTxwSanpZK+peSdepN3531voTVJ5b
- 0HUvRVCu1QFmhBAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E223313AA8;
- Tue, 24 Sep 2024 07:42:20 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id jxjzNVxt8mYyaAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 24 Sep 2024 07:42:20 +0000
-Message-ID: <281b9b6b-8a58-420a-be5f-6a1ff7988990@suse.de>
-Date: Tue, 24 Sep 2024 09:42:20 +0200
+Received: from mx08-00178001.pphosted.com (mx08-00178001.pphosted.com
+ [91.207.212.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BF7010E52D
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 07:48:57 +0000 (UTC)
+Received: from pps.filterd (m0369457.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48O0TmRD031635;
+ Tue, 24 Sep 2024 09:48:32 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=selector1; bh=6sf8+ZK2uL9hpIXwXOaJNk4X
+ lwi0uROM4AHYO0w9Jro=; b=R0UG6jyMeMn3J6WOqkQgZ8fh9QhkYqMCsUOEpEgI
+ ghAWxHZoIUcT6dj6Xr9b6d7rMhv8WS3iLERiwBTAYFyU7MP4m5KzRJRHktNol7GN
+ BnesbvMXbNi7mfwtzODRMKNMaP8wOg29F7wk06nn55/im9VDhhhkkSW0mGxdCTxh
+ /vt61kxrQQrm0wRpPoED60Tc8rKwmRd228WO3a2TY7l5vUNcFRHaA2sj0KfdNYq/
+ TIYdgqewf0mxVz8FpCi3yb2rFUcycUKTmRA7Yp+g4WiEzal7lkPgfHpp4G0IGKbb
+ MdTbn5N+UhokRLaI74bV0IU1T8BQrdRHWVaOGdmgtdlEAQ==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 41t93j9yev-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 24 Sep 2024 09:48:32 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 6DB1F4002D;
+ Tue, 24 Sep 2024 09:47:09 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 263BC25C94C;
+ Tue, 24 Sep 2024 09:46:21 +0200 (CEST)
+Received: from gnbcxd0016.gnb.st.com (10.129.178.213) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Tue, 24 Sep
+ 2024 09:46:20 +0200
+Date: Tue, 24 Sep 2024 09:46:15 +0200
+From: Alain Volmat <alain.volmat@foss.st.com>
+To: Ma Ke <make24@iscas.ac.cn>
+CC: <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <benjamin.gaignard@linaro.org>, <vincent.abriou@st.com>,
+ <akpm@linux-foundation.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>,
+ <alain.volmat@foss.st.com>
+Subject: Re: [PATCH RESEND] drm/sti: avoid potential dereference of error
+ pointers in sti_gdp_atomic_check
+Message-ID: <20240924074615.GA463025@gnbcxd0016.gnb.st.com>
+References: <20240909063359.1197065-1-make24@iscas.ac.cn>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/6] fbcon: Introduce get_{fg,bg}_color()
-To: Ville Syrjala <ville.syrjala@linux.intel.com>, linux-fbdev@vger.kernel.org
-Cc: Helge Deller <deller@gmx.de>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org
-References: <20240923155749.30846-1-ville.syrjala@linux.intel.com>
- <20240923155749.30846-6-ville.syrjala@linux.intel.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20240923155749.30846-6-ville.syrjala@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 13E761F786
-X-Spam-Level: 
-X-Spamd-Result: default: False [-6.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- DWL_DNSWL_MED(-2.00)[suse.de:dkim];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_BLOCKED(0.00)[rspamd.com]; ARC_NA(0.00)[];
- MIME_TRACE(0.00)[0:+];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- TO_DN_SOME(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmx.de];
- FREEMAIL_CC(0.00)[gmx.de,ffwll.ch,lists.freedesktop.org];
- RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[]; RCPT_COUNT_FIVE(0.00)[5];
- MID_RHS_MATCH_FROM(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email, suse.de:dkim, suse.de:mid,
- intel.com:email]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -6.51
-X-Spam-Flag: NO
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20240909063359.1197065-1-make24@iscas.ac.cn>
+X-Disclaimer: ce message est personnel / this message is private
+X-Originating-IP: [10.129.178.213]
+X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -154,86 +81,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
-
-Am 23.09.24 um 17:57 schrieb Ville Syrjala:
-> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
->
-> Make the code more legible by adding get_{fg,bg}_color()
-> which hide the obscure 'is_fg' parameter of get_color()
-> from the caller.
->
-> Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-
+On Mon, Sep 09, 2024 at 02:33:59PM +0800, Ma Ke wrote:
+> The return value of drm_atomic_get_crtc_state() needs to be
+> checked. To avoid use of error pointer 'crtc_state' in case
+> of the failure.
+> 
+> Cc: stable@vger.kernel.org
+> Fixes: dd86dc2f9ae1 ("drm/sti: implement atomic_check for the planes")
+> Signed-off-by: Ma Ke <make24@iscas.ac.cn>
 > ---
->   drivers/video/fbdev/core/fbcon.c | 24 ++++++++++++++++++------
->   1 file changed, 18 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-> index 2a78cca3e9de..17540cdf1edf 100644
-> --- a/drivers/video/fbdev/core/fbcon.c
-> +++ b/drivers/video/fbdev/core/fbcon.c
-> @@ -356,6 +356,16 @@ static int get_color(struct vc_data *vc, struct fb_info *info,
->   	return color;
->   }
->   
-> +static int get_fg_color(struct vc_data *vc, struct fb_info *info, u16 c)
-> +{
-> +	return get_color(vc, info, c, 1);
-> +}
+>  drivers/gpu/drm/sti/sti_gdp.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/sti/sti_gdp.c b/drivers/gpu/drm/sti/sti_gdp.c
+> index 43c72c2604a0..f046f5f7ad25 100644
+> --- a/drivers/gpu/drm/sti/sti_gdp.c
+> +++ b/drivers/gpu/drm/sti/sti_gdp.c
+> @@ -638,6 +638,9 @@ static int sti_gdp_atomic_check(struct drm_plane *drm_plane,
+>  
+>  	mixer = to_sti_mixer(crtc);
+>  	crtc_state = drm_atomic_get_crtc_state(state, crtc);
+> +	if (IS_ERR(crtc_state))
+> +		return PTR_ERR(crtc_state);
 > +
-> +static int get_bg_color(struct vc_data *vc, struct fb_info *info, u16 c)
-> +{
-> +	return get_color(vc, info, c, 0);
-> +}
-> +
->   static void fb_flashcursor(struct work_struct *work)
->   {
->   	struct fbcon_ops *ops = container_of(work, struct fbcon_ops, cursor_work.work);
-> @@ -387,8 +397,9 @@ static void fb_flashcursor(struct work_struct *work)
->   
->   	c = scr_readw((u16 *) vc->vc_pos);
->   	enable = ops->cursor_flash && !ops->cursor_state.enable;
-> -	ops->cursor(vc, info, enable, get_color(vc, info, c, 1),
-> -		    get_color(vc, info, c, 0));
-> +	ops->cursor(vc, info, enable,
-> +		    get_fg_color(vc, info, c),
-> +		    get_bg_color(vc, info, c));
->   	console_unlock();
->   
->   	queue_delayed_work(system_power_efficient_wq, &ops->cursor_work,
-> @@ -1297,8 +1308,8 @@ static void fbcon_putcs(struct vc_data *vc, const u16 *s, unsigned int count,
->   
->   	if (fbcon_is_active(vc, info))
->   		ops->putcs(vc, info, s, count, real_y(p, ypos), xpos,
-> -			   get_color(vc, info, scr_readw(s), 1),
-> -			   get_color(vc, info, scr_readw(s), 0));
-> +			   get_fg_color(vc, info, scr_readw(s)),
-> +			   get_bg_color(vc, info, scr_readw(s)));
->   }
->   
->   static void fbcon_clear_margins(struct vc_data *vc, int bottom_only)
-> @@ -1331,8 +1342,9 @@ static void fbcon_cursor(struct vc_data *vc, bool enable)
->   	if (!ops->cursor)
->   		return;
->   
-> -	ops->cursor(vc, info, enable, get_color(vc, info, c, 1),
-> -		    get_color(vc, info, c, 0));
-> +	ops->cursor(vc, info, enable,
-> +		    get_fg_color(vc, info, c),
-> +		    get_bg_color(vc, info, c));
->   }
->   
->   static int scrollback_phys_max = 0;
+>  	mode = &crtc_state->mode;
+>  	dst_x = new_plane_state->crtc_x;
+>  	dst_y = new_plane_state->crtc_y;
+> -- 
+> 2.25.1
+> 
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+Thanks, patch applied.
 
+Regards,
+Alain
