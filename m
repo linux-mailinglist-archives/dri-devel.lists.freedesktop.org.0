@@ -2,79 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87FB598409F
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 10:37:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 110AA9840A4
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 10:38:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 989C510E250;
-	Tue, 24 Sep 2024 08:37:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44B6B10E62E;
+	Tue, 24 Sep 2024 08:38:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="Ww8nzr5N";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="VqXBJy8z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B4C010E250
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 08:37:27 +0000 (UTC)
-X-UUID: 37da9c867a5011ef8b96093e013ec31c-20240924
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From;
- bh=RFKse33bVyj6tr/j2FmmM+PywrwloeXvcVJpsb1oyjI=; 
- b=Ww8nzr5NEwSPb1Spl+Vfctlxu4sxNV9+n3GwMZNChOetZjodMz4e4KlsZwDzR/NoRw/TxRC69Wi6S9SNq3sp7hW/KtWtFccBw/7q/9vEKitL0VitG9+OFCeFwqZ83y16u6DTfBFFA2E5BgDDWhwlIkAl1tplX1ysU5CYH5iNGN4=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.41, REQID:c5ac257f-48f2-4de5-879f-0172a461e47e, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:0
-X-CID-META: VersionHash:6dc6a47, CLOUDID:99cc799e-8e9a-4ac1-b510-390a86b53c0a,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
- SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-UUID: 37da9c867a5011ef8b96093e013ec31c-20240924
-Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by
- mailgw02.mediatek.com (envelope-from <liankun.yang@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1191929754; Tue, 24 Sep 2024 16:37:22 +0800
-Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Tue, 24 Sep 2024 16:37:19 +0800
-Received: from mszsdhlt06.gcn.mediatek.inc (10.16.6.206) by
- mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Tue, 24 Sep 2024 16:37:18 +0800
-From: Liankun Yang <liankun.yang@mediatek.com>
-To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@gmail.com>, 
- <simona@ffwll.ch>, <matthias.bgg@gmail.com>,
- <angelogioacchino.delregno@collabora.com>, <jitao.shi@mediatek.com>,
- <mac.shen@mediatek.com>, <peng.liu@mediatek.com>, <liankun.yang@mediatek.com>
-CC: <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
- <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
-Subject: [PATCH v2 1/1] drm/mediatek: dp: Add sdp path reset
-Date: Tue, 24 Sep 2024 16:36:54 +0800
-Message-ID: <20240924083715.18620-1-liankun.yang@mediatek.com>
-X-Mailer: git-send-email 2.45.2
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A70810E62E;
+ Tue, 24 Sep 2024 08:38:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Cc:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=Aok2d8Cr6mKErfZ7sZ9lpI+sAV5vYouqb97K+KM9AcA=; b=VqXBJy8zc3mwLqtzykdiiuTAas
+ aNAZ5niS5QrCWwPA9G9Hb9K50lLZ80d6ns0Kw4OX4jdqjsZl+iXFC6d5pEzqKSJu7M0MSJsjFVKA1
+ H60OATa0u6eivqsvw+RjL493xYSsk3LAn8hv2H66l0aUEEL3q0t+wDsV0Lwn7kcb13KUDUNZZm0ON
+ XxMso8gQI9nylTXNRLL03myzOZDOpOzvsUPVqZzG52zp+3i5Id3Pu7AOIODYlFC3APoFrP4WV/9AF
+ E2OCuR4Fs9pF3IBSTBXDrmBwxRztd5druvQ1Aif1XGepRLJmYN3hR1d8JlGmABSJClm2mPyCuDmkM
+ cxcPgw/Q==;
+Received: from [90.241.98.187] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1st13l-000J3u-Ky; Tue, 24 Sep 2024 10:38:13 +0200
+Message-ID: <973e2119-2a6c-4b38-9041-9910ff13a399@igalia.com>
+Date: Tue, 24 Sep 2024 09:38:12 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/6] drm: add DRM_SET_NAME ioctl
+To: Pierre-Eric Pelloux-Prayer <pierre-eric@damsy.net>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
+ tursulin@igalia.com, simona.vetter@ffwll.ch, robdclark@gmail.com,
+ alexander.deucher@amd.com, amd-gfx@lists.freedesktop.org
+References: <20240920090920.1342694-1-pierre-eric.pelloux-prayer@amd.com>
+ <20240920090920.1342694-2-pierre-eric.pelloux-prayer@amd.com>
+ <7e33063e-7b5c-464a-a572-9a7817a9b9b3@igalia.com>
+ <f1eb34cd-353c-4d70-975d-e2f691f73a8e@damsy.net>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <f1eb34cd-353c-4d70-975d-e2f691f73a8e@damsy.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--4.384900-8.000000
-X-TMASE-MatchedRID: WY68sLfT96+vhOOX3csmVw0QY5VnQyAN9Nx/wC/5BIBo5YsPsbyLXXXd
- 7xOm1pHBYANd3JpXt1kfa5XD5KFxZiQVVteP90CtA9lly13c/gH0O7M3lSnTWxhaPDHak0t0SiQ
- Px3glce+z5IDnlmXN1tGOOjWlEJnP5VtV90uxxtevnWBILruGlb8+q17GFLKRmyiLZetSf8mfop
- 0ytGwvXiq2rl3dzGQ1TrlEol4h4lC3oCWJhxIRfcXeCu11IsYu6FPo4fJ/22M2UV6B6JBSbQwuN
- BCUbKSDoIyPQP1QgCU+ezTX+dvNJYf5V4Hq5oCJIy3mhHtdzn7zYaPZALfIbSyZdUr8fx4fMbuy
- vvGhtIDNwMS8lpRKBQ==
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--4.384900-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP: 02FFDA97D622B77700B36D1EABF147460371935D6AA372804DCA03058C13B0F02000:8
-X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,72 +66,321 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When using type-c to type-c to connect to the monitor,
-the sound plays normally. If you unplug the type-c and
-connect the type-c to hdmi dongle to the monitor, there will be noise.
 
-By capturing the audio data, it is found that
-the data position is messy, and there is no error in the data.
+On 24/09/2024 09:22, Pierre-Eric Pelloux-Prayer wrote:
+> 
+> 
+> Le 23/09/2024 à 12:06, Tvrtko Ursulin a écrit :
+>>
+>> On 20/09/2024 10:06, Pierre-Eric Pelloux-Prayer wrote:
+>>> Giving the opportunity to userspace to associate a free-form
+>>> name with a drm_file struct is helpful for tracking and debugging.
+>>>
+>>> This is similar to the existing DMA_BUF_SET_NAME ioctl.
+>>>
+>>> Access to name is protected by a mutex, and the 'clients' debugfs
+>>> file has been updated to print it.
+>>>
+>>> Userspace MR to use this ioctl:
+>>>     
+>>> https://gitlab.freedesktop.org/virgl/virglrenderer/-/merge_requests/1428
+>>>
+>>> The string passed by userspace is filtered a bit, to avoid messing
+>>> output when it's going to be printed (in dmesg, fdinfo, etc):
+>>>    * all chars failing isgraph() are replaced by '-'
+>>>    * if a 0-length string is passed the name is cleared
+>>>
+>>> Signed-off-by: Pierre-Eric Pelloux-Prayer 
+>>> <pierre-eric.pelloux-prayer@amd.com>
+>>> ---
+>>>   drivers/gpu/drm/drm_debugfs.c | 12 ++++++---
+>>>   drivers/gpu/drm/drm_file.c    |  5 ++++
+>>>   drivers/gpu/drm/drm_ioctl.c   | 48 +++++++++++++++++++++++++++++++++++
+>>>   include/drm/drm_file.h        |  9 +++++++
+>>>   include/uapi/drm/drm.h        | 17 +++++++++++++
+>>>   5 files changed, 87 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/drm_debugfs.c 
+>>> b/drivers/gpu/drm/drm_debugfs.c
+>>> index 6b239a24f1df..482e71160544 100644
+>>> --- a/drivers/gpu/drm/drm_debugfs.c
+>>> +++ b/drivers/gpu/drm/drm_debugfs.c
+>>> @@ -78,12 +78,13 @@ static int drm_clients_info(struct seq_file *m, 
+>>> void *data)
+>>>       kuid_t uid;
+>>>       seq_printf(m,
+>>> -           "%20s %5s %3s master a %5s %10s\n",
+>>> +           "%20s %5s %3s master a %5s %10s %20s\n",
+>>
+>> Allow full DRM_NAME_MAX_LEN? Not sure, feels not very consequential 
+>> either way.
+> 
+> I'll switch to:
+> 
+>          seq_printf(m,
+>                     "%20s %5s %3s master a %5s %10s %*s\n",
+>                     "command",
+>                     "tgid",
+>                     "dev",
+>                     "uid",
+>                     "magic",
+>                     DRM_CLIENT_NAME_MAX_LEN,
+>                     "name");
+> 
 
-Through experiments, it can be restored by resetting the SDP path
-when unplugging it.
+That works.
 
-Signed-off-by: Liankun Yang <liankun.yang@mediatek.com>
----
-Changes in V2:
-- Fix build error.
-Per suggestion from the previous thread:
-https://patchwork.kernel.org/project/linux-mediatek/patch/20240923133610.23728-1-liankun.yang@mediatek.com/
----
- drivers/gpu/drm/mediatek/mtk_dp.c     | 15 +++++++++++++++
- drivers/gpu/drm/mediatek/mtk_dp_reg.h |  1 +
- 2 files changed, 16 insertions(+)
+> And:
+> 
+>                  seq_printf(m, "%20s %5d %3d   %c    %c %5d %10u %*s\n",
+>                             task ? task->comm : "<unknown>",
+>                             pid_vnr(pid),
+>                             priv->minor->index,
+>                             is_current_master ? 'y' : 'n',
+>                             priv->authenticated ? 'y' : 'n',
+>                             from_kuid_munged(seq_user_ns(m), uid),
+>                             priv->magic,
+>                             DRM_CLIENT_NAME_MAX_LEN,
+>                             priv->client_name ? priv->client_name : 
+> "<unset>");
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
-index d8796a904eca..4003bd83f64e 100644
---- a/drivers/gpu/drm/mediatek/mtk_dp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dp.c
-@@ -1052,6 +1052,18 @@ static void mtk_dp_digital_sw_reset(struct mtk_dp *mtk_dp)
- 			   0, DP_TX_TRANSMITTER_4P_RESET_SW_DP_TRANS_P0);
- }
- 
-+static void mtk_dp_sdp_path_reset(struct mtk_dp *mtk_dp)
-+{
-+	mtk_dp_update_bits(mtk_dp, MTK_DP_ENC0_P0_3004,
-+				SDP_RESET_SW_DP_ENC0_P0,
-+				SDP_RESET_SW_DP_ENC0_P0);
-+
-+	/* Wait for sdp path reset to complete */
-+	usleep_range(1000, 5000);
-+	mtk_dp_update_bits(mtk_dp, MTK_DP_ENC0_P0_3004,
-+				0, SDP_RESET_SW_DP_ENC0_P0);
-+}
-+
- static void mtk_dp_set_lanes(struct mtk_dp *mtk_dp, int lanes)
- {
- 	mtk_dp_update_bits(mtk_dp, MTK_DP_TRANS_P0_35F0,
-@@ -2314,6 +2326,9 @@ static void mtk_dp_bridge_atomic_disable(struct drm_bridge *bridge,
- 			   DP_PWR_STATE_BANDGAP_TPLL,
- 			   DP_PWR_STATE_MASK);
- 
-+	/* SDP path reset sw*/
-+	mtk_dp_sdp_path_reset(mtk_dp);
-+
- 	/* Ensure the sink is muted */
- 	msleep(20);
- }
-diff --git a/drivers/gpu/drm/mediatek/mtk_dp_reg.h b/drivers/gpu/drm/mediatek/mtk_dp_reg.h
-index 709b79480693..47b283fcb341 100644
---- a/drivers/gpu/drm/mediatek/mtk_dp_reg.h
-+++ b/drivers/gpu/drm/mediatek/mtk_dp_reg.h
-@@ -86,6 +86,7 @@
- #define MTK_DP_ENC0_P0_3004			0x3004
- #define VIDEO_M_CODE_SEL_DP_ENC0_P0_MASK		BIT(8)
- #define DP_TX_ENCODER_4P_RESET_SW_DP_ENC0_P0		BIT(9)
-+#define SDP_RESET_SW_DP_ENC0_P0			BIT(13)
- #define MTK_DP_ENC0_P0_3010			0x3010
- #define HTOTAL_SW_DP_ENC0_P0_MASK			GENMASK(15, 0)
- #define MTK_DP_ENC0_P0_3014			0x3014
--- 
-2.45.2
+Also works for me although it will look a bit busy by default since 
+every line will contain it.
 
+I don't immediately see "parseability" is a concern (what Dmitry raised) 
+because new code can detect if there is something there or not. For old 
+code, or future changes, we do not care in debugfs.
+
+Equally we don't care that much if it looks busy, hence why I said 
+"<unset>" works for me.
+
+I'd also be okay with repeating task->comm, but that perhaps complicates 
+things too much when task is not available.
+
+>>
+>>>              "command",
+>>>              "tgid",
+>>>              "dev",
+>>>              "uid",
+>>> -           "magic");
+>>> +           "magic",
+>>> +           "name");
+>>>       /* dev->filelist is sorted youngest first, but we want to present
+>>>        * oldest first (i.e. kernel, servers, clients), so walk 
+>>> backwardss.
+>>> @@ -94,19 +95,22 @@ static int drm_clients_info(struct seq_file *m, 
+>>> void *data)
+>>>           struct task_struct *task;
+>>>           struct pid *pid;
+>>> +        mutex_lock(&priv->name_lock);
+>>>           rcu_read_lock(); /* Locks priv->pid and pid_task()->comm! */
+>>>           pid = rcu_dereference(priv->pid);
+>>>           task = pid_task(pid, PIDTYPE_TGID);
+>>>           uid = task ? __task_cred(task)->euid : GLOBAL_ROOT_UID;
+>>> -        seq_printf(m, "%20s %5d %3d   %c    %c %5d %10u\n",
+>>> +        seq_printf(m, "%20s %5d %3d   %c    %c %5d %10u %20s\n",
+>>>                  task ? task->comm : "<unknown>",
+>>>                  pid_vnr(pid),
+>>>                  priv->minor->index,
+>>>                  is_current_master ? 'y' : 'n',
+>>>                  priv->authenticated ? 'y' : 'n',
+>>>                  from_kuid_munged(seq_user_ns(m), uid),
+>>> -               priv->magic);
+>>> +               priv->magic,
+>>> +               priv->name ?: "");
+>>>           rcu_read_unlock();
+>>> +        mutex_unlock(&priv->name_lock);
+>>>       }
+>>>       mutex_unlock(&dev->filelist_mutex);
+>>>       return 0;
+>>> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
+>>> index 01fde94fe2a9..e9dd0e90a1f9 100644
+>>> --- a/drivers/gpu/drm/drm_file.c
+>>> +++ b/drivers/gpu/drm/drm_file.c
+>>> @@ -158,6 +158,7 @@ struct drm_file *drm_file_alloc(struct drm_minor 
+>>> *minor)
+>>>       spin_lock_init(&file->master_lookup_lock);
+>>>       mutex_init(&file->event_read_lock);
+>>> +    mutex_init(&file->name_lock);
+>>>       if (drm_core_check_feature(dev, DRIVER_GEM))
+>>>           drm_gem_open(dev, file);
+>>> @@ -259,6 +260,10 @@ void drm_file_free(struct drm_file *file)
+>>>       WARN_ON(!list_empty(&file->event_list));
+>>>       put_pid(rcu_access_pointer(file->pid));
+>>> +
+>>> +    mutex_destroy(&file->name_lock);
+>>> +    kfree(file->name);
+>>> +
+>>>       kfree(file);
+>>>   }
+>>> diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
+>>> index 51f39912866f..46dadbd1bb35 100644
+>>> --- a/drivers/gpu/drm/drm_ioctl.c
+>>> +++ b/drivers/gpu/drm/drm_ioctl.c
+>>> @@ -540,6 +540,52 @@ int drm_version(struct drm_device *dev, void *data,
+>>>       return err;
+>>>   }
+>>> +static int drm_set_name(struct drm_device *dev, void *data,
+>>> +            struct drm_file *file_priv)
+>>> +{
+>>> +    struct drm_set_name *name = data;
+>>> +    void __user *user_ptr;
+>>> +    char *new_name;
+>>> +    size_t i, len;
+>>> +
+>>> +    if (name->name_len > DRM_NAME_MAX_LEN)
+>>> +        return -EINVAL;
+>>> +
+>>> +    user_ptr = u64_to_user_ptr(name->name);
+>>> +
+>>> +    new_name = memdup_user_nul(user_ptr, name->name_len);
+>>> +    if (IS_ERR(new_name))
+>>> +        return PTR_ERR(new_name);
+>>> +
+>>> +    len = strlen(new_name);
+>>> +
+>>> +    if (len != name->name_len) {
+>>> +        kfree(new_name);
+>>> +        return -EINVAL;
+>>> +    }
+>>> +
+>>> +    /*
+>>> +     * Filter out control char / spaces / new lines etc in the name
+>>> +     * since it's going to be used in dmesg or fdinfo's output.
+>>> +     */
+>>> +    for (i = 0; i < len; i++) {
+>>> +        if (!isgraph(new_name[i]))
+>>> +            new_name[i] = '-';
+>>> +    }
+>>> +
+>>> +    mutex_lock(&file_priv->name_lock);
+>>> +    kfree(file_priv->name);
+>>> +    if (len > 0) {
+>>> +        file_priv->name = new_name;
+>>> +    } else {
+>>> +        kfree(new_name);
+>>> +        file_priv->name = NULL;
+>>> +    }
+>>> +    mutex_unlock(&file_priv->name_lock);
+>>> +
+>>> +    return 0;
+>>> +}
+>>> +
+>>>   static int drm_ioctl_permit(u32 flags, struct drm_file *file_priv)
+>>>   {
+>>>       /* ROOT_ONLY is only for CAP_SYS_ADMIN */
+>>> @@ -610,6 +656,8 @@ static const struct drm_ioctl_desc drm_ioctls[] = {
+>>>       DRM_IOCTL_DEF(DRM_IOCTL_PRIME_HANDLE_TO_FD, 
+>>> drm_prime_handle_to_fd_ioctl, DRM_RENDER_ALLOW),
+>>>       DRM_IOCTL_DEF(DRM_IOCTL_PRIME_FD_TO_HANDLE, 
+>>> drm_prime_fd_to_handle_ioctl, DRM_RENDER_ALLOW),
+>>> +    DRM_IOCTL_DEF(DRM_IOCTL_SET_NAME, drm_set_name, DRM_RENDER_ALLOW),
+>>> +
+>>>       DRM_IOCTL_DEF(DRM_IOCTL_MODE_GETPLANERESOURCES, 
+>>> drm_mode_getplane_res, 0),
+>>>       DRM_IOCTL_DEF(DRM_IOCTL_MODE_GETCRTC, drm_mode_getcrtc, 0),
+>>>       DRM_IOCTL_DEF(DRM_IOCTL_MODE_SETCRTC, drm_mode_setcrtc, 
+>>> DRM_MASTER),
+>>> diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
+>>> index 8c0030c77308..df26eee8f79c 100644
+>>> --- a/include/drm/drm_file.h
+>>> +++ b/include/drm/drm_file.h
+>>> @@ -388,6 +388,15 @@ struct drm_file {
+>>>        * Per-file buffer caches used by the PRIME buffer sharing code.
+>>>        */
+>>>       struct drm_prime_file_private prime;
+>>> +
+>>> +    /**
+>>> +     * @name:
+>>> +     *
+>>> +     * Userspace-provided name; useful for accounting and debugging.
+>>> +     */
+>>> +    const char *name;
+>>> +    /** @name_lock: Protects @name. */
+>>> +    struct mutex name_lock;
+>>>   };
+>>>   /**
+>>> diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
+>>> index 16122819edfe..f5e92e4f909b 100644
+>>> --- a/include/uapi/drm/drm.h
+>>> +++ b/include/uapi/drm/drm.h
+>>> @@ -1024,6 +1024,13 @@ struct drm_crtc_queue_sequence {
+>>>       __u64 user_data;    /* user data passed to event */
+>>>   };
+>>> +#define DRM_NAME_MAX_LEN    64
+>>> +struct drm_set_name {
+>>> +    __u64 name_len;
+>>> +    __u64 name;
+>>> +};
+>>> +
+>>> +
+>>>   #if defined(__cplusplus)
+>>>   }
+>>>   #endif
+>>> @@ -1288,6 +1295,16 @@ extern "C" {
+>>>    */
+>>>   #define DRM_IOCTL_MODE_CLOSEFB        DRM_IOWR(0xD0, struct 
+>>> drm_mode_closefb)
+>>> +/**
+>>> + * DRM_IOCTL_SET_NAME - Attach a name to a drm_file
+>>> + *
+>>> + * This ioctl is similar to DMA_BUF_SET_NAME - it allows for easier 
+>>> tracking
+>>> + * and debugging.
+>>> + * The length of the name must <= DRM_NAME_MAX_LEN. All characters 
+>>> that are
+>>> + * non-printable or whitespaces will be replaced by -.
+>>> + */
+>>> +#define DRM_IOCTL_SET_NAME        DRM_IOWR(0xD1, struct drm_set_name)
+>>> +
+>>
+>> A comment, nice! :) Overal looks good to me.
+>>
+>> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>>
+>> I do however wish for more opinions (before merging) on whether 
+>> strings with invalid characters should perhaps instead be rejected. I 
+>> don't currently have a solid argument either way.
+>>
+>> Perhaps the only argument against silent transformation is if someone 
+>> sets some wild string, then greps for it somewhere, which would be a 
+>> false negative without the understanding of what kind of remapping 
+>> kernel does. It is weak but it is uapi so worth discussing every crazy 
+>> possibility I think.
+>>
+>> On the other hand it would create another annoying source of EINVAL. 
+>> :shrug:
+> 
+> No strong feelings either, but I agree that gathering more opinions 
+> before merging would be useful.
+
+Right.
+
+>>
+>> Also, how are with with testing the DRM core features? Add something 
+>> for the uapi in IGT/tests/drm_client_name, or some such?
+> 
+> Something like using the ioctl and then reading back the name using 
+> /sys/kernel/debug/dri/0/clients?
+> I can do that if it's required / useful.
+
+That and making sure various invalid and evil inputs are 
+rejected/handled. Would be nice, but looking at what's currently in IGT 
+I don't see that it is a requirement.
+
+Regards,
+
+Tvrtko
+
+> 
+> Thanks,
+> Pierre-Eric
+> 
+>>
+>> Regards,
+>>
+>> Tvrtko
+>>
+>>>   /*
+>>>    * Device specific ioctls should only be in their respective headers
+>>>    * The device specific ioctl range is from 0x40 to 0x9f.
