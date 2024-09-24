@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11B0C98403F
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 10:19:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C3B898403C
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 10:19:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A46810E67A;
-	Tue, 24 Sep 2024 08:19:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E94A710E678;
+	Tue, 24 Sep 2024 08:19:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="JgApC46I";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hvgRDKA/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E19B710E669
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0E9110E668
  for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 08:18:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1727165928; x=1758701928;
+ t=1727165927; x=1758701927;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=fexwg3VeLbb1YrrBx3Za5ENyFHeIsFn65yRVcI6m8Uk=;
- b=JgApC46IF2LTY6TNcXQ0TPTuXFnVCSrRY6K01sdauzFWXYQBWeXtKZk6
- +RmrDZ8/ZRvmrnVERjwulopzO8fgh4VVpDUAEDY0mbWjQEC9L78rXh5zo
- 5IEoyOlPa6W+rFvRYTM1nnNuaI8YS/iqcCExDJvlPY05r1VH79Bj1maDf
- 9PdbjT7W5IR318JJeKYB9PV4n4w1gzASQm4bXGRfxwWgy0AwXK8Dx1FEX
- Zgb0FLvhGCHPQPawXCXoaNxnR3WfaMs56jy8GBYrDamSFatGZWL25l3Sx
- rb6BNfMHdeM+z4fp+0yKLa+V5k63ikENVZ5a0Y7xQ8yquKcNdI2Ks07pq Q==;
-X-CSE-ConnectionGUID: Ghl5kwvbS4aYNFv4XE2ZiQ==
-X-CSE-MsgGUID: npZNvqp9TTyuKLasFw7T7w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="37506995"
-X-IronPort-AV: E=Sophos;i="6.10,253,1719903600"; d="scan'208";a="37506995"
+ bh=9Gw7br5qQa3d+gUsZRv3A/3XPdb5pZWwadaT51uw4sM=;
+ b=hvgRDKA/Fe9xSRrFJPzj9zBdcT0AoJ2kOKBlszkcWqijeblp3tUwq1ox
+ M4AExU0+FaoSobAd3ViqWY66Iq0LxRBEBOTHdh20+9JXlbEYShnhlj+4r
+ nW04Qx+6jBOYLh0qGDLm8GU7G3NnJnGNNY4L2/tA/4XcJYk4ExPFVgGlG
+ UqBp73vDfdumZQCCRHs9wYbOgJjOTprD/5W9/7yD9Z1ultWsi02o3euku
+ gWJ4+EKIWSq3Xh1qb923s1z/zPeWWK8cAhZsTk+SGd69N1TA/Yd8pWbSf
+ Vdk6LnfNZFFDIYTh7yC5WQNSGiSVQCdHq5d30Lo4QIUuPocuiVe9wbQU7 g==;
+X-CSE-ConnectionGUID: PaablCBuRhyGj7METPqsKw==
+X-CSE-MsgGUID: V+JjwXneT3uMytZSZTXzjw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="37507001"
+X-IronPort-AV: E=Sophos;i="6.10,253,1719903600"; d="scan'208";a="37507001"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Sep 2024 01:18:46 -0700
-X-CSE-ConnectionGUID: Q38iRnJGREmkNhwKnYYfGA==
-X-CSE-MsgGUID: d43wYpk+R3WJ8tnkuIZW/A==
+ 24 Sep 2024 01:18:47 -0700
+X-CSE-ConnectionGUID: YOkEna/lTom0/0y3nNdJQQ==
+X-CSE-MsgGUID: lMMmqSjkTH+E2GK8vwgEEQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,253,1719903600"; d="scan'208";a="102170746"
+X-IronPort-AV: E=Sophos;i="6.10,253,1719903600"; d="scan'208";a="102170751"
 Received: from jlawryno.igk.intel.com ([10.91.220.59])
  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Sep 2024 01:18:44 -0700
+ 24 Sep 2024 01:18:46 -0700
 From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com,
- Karol Wachowski <karol.wachowski@intel.com>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Subject: [PATCH 21/29] accel/ivpu: Refactor failure diagnostics during boot
-Date: Tue, 24 Sep 2024 10:17:46 +0200
-Message-ID: <20240924081754.209728-22-jacek.lawrynowicz@linux.intel.com>
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ Karol Wachowski <karol.wachowski@intel.com>
+Subject: [PATCH 22/29] accel/ivpu: Remove invalid warnings
+Date: Tue, 24 Sep 2024 10:17:47 +0200
+Message-ID: <20240924081754.209728-23-jacek.lawrynowicz@linux.intel.com>
 X-Mailer: git-send-email 2.45.1
 In-Reply-To: <20240924081754.209728-1-jacek.lawrynowicz@linux.intel.com>
 References: <20240924081754.209728-1-jacek.lawrynowicz@linux.intel.com>
@@ -69,58 +69,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Karol Wachowski <karol.wachowski@intel.com>
+Warn in ivpu_file_priv_put() checks a pointer that is previously
+accessed. Warn in ivpu_ipc_fini() can be triggered even in valid cases
+where IPC is disabled upon closing the device.
 
-Move diagnostic functions to common error handling within ivpu_boot()
-function to ensure diagnostics are gathered even in cases where NPU
-fails after successful boot (DCT and HWS init failures).
-
-Signed-off-by: Karol Wachowski <karol.wachowski@intel.com>
-Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Reviewed-by: Karol Wachowski <karol.wachowski@intel.com>
 ---
- drivers/accel/ivpu/ivpu_drv.c | 17 +++++++++++------
- 1 file changed, 11 insertions(+), 6 deletions(-)
+ drivers/accel/ivpu/ivpu_drv.c | 2 --
+ drivers/accel/ivpu/ivpu_ipc.c | 1 -
+ 2 files changed, 3 deletions(-)
 
 diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
-index ffb8309a4f657..14c2412c6f8e6 100644
+index 14c2412c6f8e6..dc983140128b4 100644
 --- a/drivers/accel/ivpu/ivpu_drv.c
 +++ b/drivers/accel/ivpu/ivpu_drv.c
-@@ -386,10 +386,7 @@ int ivpu_boot(struct ivpu_device *vdev)
- 	ret = ivpu_wait_for_ready(vdev);
- 	if (ret) {
- 		ivpu_err(vdev, "Failed to boot the firmware: %d\n", ret);
--		ivpu_hw_diagnose_failure(vdev);
--		ivpu_mmu_evtq_dump(vdev);
--		ivpu_dev_coredump(vdev);
--		return ret;
-+		goto err_diagnose_failure;
- 	}
+@@ -117,8 +117,6 @@ void ivpu_file_priv_put(struct ivpu_file_priv **link)
+ 	struct ivpu_file_priv *file_priv = *link;
+ 	struct ivpu_device *vdev = file_priv->vdev;
  
- 	ivpu_hw_irq_clear(vdev);
-@@ -400,12 +397,20 @@ int ivpu_boot(struct ivpu_device *vdev)
- 	if (ivpu_fw_is_cold_boot(vdev)) {
- 		ret = ivpu_pm_dct_init(vdev);
- 		if (ret)
--			return ret;
-+			goto err_diagnose_failure;
+-	drm_WARN_ON(&vdev->drm, !file_priv);
+-
+ 	ivpu_dbg(vdev, KREF, "file_priv put: ctx %u refcount %u\n",
+ 		 file_priv->ctx.id, kref_read(&file_priv->ref));
  
--		return ivpu_hw_sched_init(vdev);
-+		ret = ivpu_hw_sched_init(vdev);
-+		if (ret)
-+			goto err_diagnose_failure;
- 	}
+diff --git a/drivers/accel/ivpu/ivpu_ipc.c b/drivers/accel/ivpu/ivpu_ipc.c
+index a4ebb761354c3..c8ae69a529c0d 100644
+--- a/drivers/accel/ivpu/ivpu_ipc.c
++++ b/drivers/accel/ivpu/ivpu_ipc.c
+@@ -533,7 +533,6 @@ void ivpu_ipc_fini(struct ivpu_device *vdev)
+ {
+ 	struct ivpu_ipc_info *ipc = vdev->ipc;
  
- 	return 0;
-+
-+err_diagnose_failure:
-+	ivpu_hw_diagnose_failure(vdev);
-+	ivpu_mmu_evtq_dump(vdev);
-+	ivpu_dev_coredump(vdev);
-+	return ret;
- }
- 
- void ivpu_prepare_for_reset(struct ivpu_device *vdev)
+-	drm_WARN_ON(&vdev->drm, ipc->on);
+ 	drm_WARN_ON(&vdev->drm, !list_empty(&ipc->cons_list));
+ 	drm_WARN_ON(&vdev->drm, !list_empty(&ipc->cb_msg_list));
+ 	drm_WARN_ON(&vdev->drm, atomic_read(&ipc->rx_msg_count) > 0);
 -- 
 2.45.1
 
