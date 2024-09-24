@@ -2,90 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 557F1983DAB
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 09:17:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 688D1983F00
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 09:23:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7240B10E4DE;
-	Tue, 24 Sep 2024 07:16:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC4F110E512;
+	Tue, 24 Sep 2024 07:23:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="GADONGLG";
+	dkim=pass (2048-bit key; secure) header.d=damsy.net header.i=@damsy.net header.b="wju51L12";
+	dkim=permerror (0-bit key) header.d=damsy.net header.i=@damsy.net header.b="KNm2fH+O";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56FFD10E138;
- Tue, 24 Sep 2024 07:16:57 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48NJWFU5021730;
- Tue, 24 Sep 2024 07:16:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- KKyssr1uc6M3Edh6ydcV4gtcPR+09KpLfaDOx33Lq7U=; b=GADONGLGmYWOz0s+
- ztrmq0L23Enkbmai+od+OWRJpvIYbWIm3ljPf8ogzpxwgx5Wjx9jmjUgYyCz47Sm
- foP2DeomiDLzDuTBtYYN1nBwbdXUGDhvPH3WZ8C2O7s9W3m9zTHnjxc/T/TIgcdh
- FF5efEzdi56ExxHjoqOXe8Cvq2W6T+f6dG8WImSUDDnuzqcvhGW4YsI3TFoqwPT5
- bQfV2OvQzmllH8ajg/JjPxGhceol266E26iYZ5uq3HeDAJjyfJRz7IIx+/vEV1nm
- M+/kAlbeFET8Nbsy4j3guueFMZ6T6Hnb0tdXX2TeqhnGvRpppGDFzm379HIR8x6U
- nK5KUg==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41sqe97918-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 24 Sep 2024 07:16:46 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
- [10.47.209.197])
- by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 48O7Gj2w000900
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 24 Sep 2024 07:16:45 GMT
-Received: from [10.204.67.11] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 24 Sep
- 2024 00:16:37 -0700
-Message-ID: <013459fd-fbb0-4225-90e3-a16115154646@quicinc.com>
-Date: Tue, 24 Sep 2024 12:46:34 +0530
+Received: from jeth.damsy.net (jeth.damsy.net [51.159.152.102])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F90310E512;
+ Tue, 24 Sep 2024 07:23:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; s=202408r; d=damsy.net; c=relaxed/relaxed; 
+ h=From:To:Subject:Date:Message-ID; t=1727162516;
+ bh=vzIaG3hTqalerPz4ZwHieTQ
+ CNNZ6cWVtsw49zXQb3ps=; b=wju51L12TgxnDQCF3MqeuW0XzaiuTO4LTFvAeYKe44QgUoCeUt
+ OGzD5Ch6MELgybjQIWoBNzeUjkXy/GvbXzQucATBLt0dAHCCTuCQFMVh1ouZlePYIYNVAMRgWJP
+ szVRqz6SwlXxL+iPce8CPP9xBHH1rmWEkg9TMdB4vikurgseMtHLoTMOVpo59L/RuRYusxCjVc2
+ kuwplmFzOg3rP6hqmzFHfMpmDSe0a9Oxq0ctwMSKh+BP1Af3cEG9Ww8wty7gUQt1M8XX6XafZ/z
+ XctNbF23I0ovXXIWAK3bbyyCceGs0x1wFsBmaq6RV6qJH2QyVO3Ai8vMFIGOUkgFl2g==;
+DKIM-Signature: v=1; a=ed25519-sha256; s=202408e; d=damsy.net;
+ c=relaxed/relaxed; 
+ h=From:To:Subject:Date:Message-ID; t=1727162516; bh=vzIaG3hTqalerPz4ZwHieTQ
+ CNNZ6cWVtsw49zXQb3ps=; b=KNm2fH+OuM146QaTv9QT6kkWRIixSqTqmQ/EXzHCkQqa2IshNK
+ cb1S6n8nRFJe0QPFn3fn1qgZtUYe22XNjuCg==;
+Message-ID: <bbb89613-a895-4c69-a1a6-dd27a5d5e4d0@damsy.net>
+Date: Tue, 24 Sep 2024 09:21:56 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/5] Add display support for Qualcomm SA8775P platform
+Subject: Re: [PATCH v3 4/6] drm/amdgpu: alloc and init vm::task_info from
+ first submit
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
+ tursulin@igalia.com, simona.vetter@ffwll.ch, robdclark@gmail.com,
+ alexander.deucher@amd.com, amd-gfx@lists.freedesktop.org
+References: <20240920090920.1342694-1-pierre-eric.pelloux-prayer@amd.com>
+ <20240920090920.1342694-5-pierre-eric.pelloux-prayer@amd.com>
+ <fd9ed75f-a235-4675-8635-19c6ae92f619@igalia.com>
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: <robdclark@gmail.com>, <quic_abhinavk@quicinc.com>, <sean@poorly.run>,
- <marijn.suijten@somainline.org>, <airlied@gmail.com>,
- <daniel@ffwll.ch>, <maarten.lankhorst@linux.intel.com>,
- <mripard@kernel.org>, <tzimmermann@suse.de>, <robh@kernel.org>,
- <krzk+dt@kernel.org>, <conor+dt@kernel.org>, <swboyd@chromium.org>,
- <konrad.dybcio@linaro.org>, <danila@jiaxyga.com>,
- <bigfoot@classfun.cn>, <neil.armstrong@linaro.org>,
- <mailingradian@gmail.com>, <quic_jesszhan@quicinc.com>,
- <andersson@kernel.org>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <quic_kalyant@quicinc.com>, <quic_jmadiset@quicinc.com>,
- <quic_vpolimer@quicinc.com>
-References: <20240912071437.1708969-1-quic_mahap@quicinc.com>
- <7fcbvouzb7gq6lclrkgs6pxondvj5wvutyw3swg55ugvzfpvd4@2ph7x7ulxoyv>
-From: Mahadevan P <quic_mahap@quicinc.com>
-In-Reply-To: <7fcbvouzb7gq6lclrkgs6pxondvj5wvutyw3swg55ugvzfpvd4@2ph7x7ulxoyv>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+From: Pierre-Eric Pelloux-Prayer <pierre-eric@damsy.net>
+In-Reply-To: <fd9ed75f-a235-4675-8635-19c6ae92f619@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: KzVsAwP5PUX1tTjVWqWecZqXc7n3LxI8
-X-Proofpoint-GUID: KzVsAwP5PUX1tTjVWqWecZqXc7n3LxI8
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- mlxlogscore=627 spamscore=0 lowpriorityscore=0 adultscore=0 mlxscore=0
- suspectscore=0 malwarescore=0 phishscore=0 impostorscore=0 clxscore=1015
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2408220000 definitions=main-2409240049
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,49 +64,188 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 9/12/2024 1:26 PM, Dmitry Baryshkov wrote:
-> On Thu, Sep 12, 2024 at 12:44:32PM GMT, Mahadevan wrote:
->> Add support for mdss and dpu driver on Qualcomm SA8775P platform.
+
+Le 23/09/2024 à 12:58, Tvrtko Ursulin a écrit :
+> 
+> On 20/09/2024 10:06, Pierre-Eric Pelloux-Prayer wrote:
+>> This will allow to use flexible array to store the process name and
+>> other information.
 >>
+>> This also means that process name will be determined once and for all,
+>> instead of at each submit.
+> 
+> But the pid and others can still change? By design?
+
+pid and task_name can change, yes.
+tgid could be set once and for all I think.
+
+> 
+>> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
 >> ---
->> This series depends on following series:
->> https://lore.kernel.org/all/20240816-sa8775p-mm-v3-v1-0-77d53c3c0cef@quicinc.com/
-> As such, it probably can not be merged before 6.14 (the mentioned series
-> will go on 6.13, we usually don't do cross-tree merges into drm). Please
-> rework the bindings to drop the dependency (it is possible, use fake
-> nodes instead of using dispcc + ID). Then you can specify that only the
-> DTS patch depends on the dispcc support, allowing driver changes to go
-> in first.
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c | 15 +++++++++------
+>>   1 file changed, 9 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+>> index e20d19ae01b2..690676cab022 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+>> @@ -2331,7 +2331,7 @@ amdgpu_vm_get_task_info_vm(struct amdgpu_vm *vm)
+>>   {
+>>       struct amdgpu_task_info *ti = NULL;
+>> -    if (vm) {
+>> +    if (vm && vm->task_info) {
+>>           ti = vm->task_info;
+>>           kref_get(&vm->task_info->refcount);
+>>       }
+>> @@ -2372,8 +2372,12 @@ static int amdgpu_vm_create_task_info(struct amdgpu_vm *vm)
+>>    */
+>>   void amdgpu_vm_set_task_info(struct amdgpu_vm *vm)
+>>   {
+>> -    if (!vm->task_info)
+>> -        return;
+>> +    if (!vm->task_info) {
+>> +        if (amdgpu_vm_create_task_info(vm))
+>> +            return;
+>> +
+>> +        get_task_comm(vm->task_info->process_name, current->group_leader);
+>> +    }
+>>       if (vm->task_info->pid == current->pid)
+> 
+> This ends up relying on vm->task_info->pid being zero due kzalloc right?
 
+Yes.
 
-Can we use clocks = <&dummy_dispcc 0>, <&dummy_dispcc 1>,  
-<&dummy_dispcc 2>; instead of  clocks =  <&dispcc0 
-MDSS_DISP_CC_MDSS_AHB_CLK>, <&dispcc0 MDSS_DISP_CC_MDSS_MDP_LUT_CLK>, 
-<&dispcc0 MDSS_DISP_CC_MDSS_MDP_CLK>; in dt bindings?
+> 
+>>           return;
+>> @@ -2385,7 +2389,6 @@ void amdgpu_vm_set_task_info(struct amdgpu_vm *vm)
+>>           return;
+>>       vm->task_info->tgid = current->group_leader->pid;
+>> -    get_task_comm(vm->task_info->process_name, current->group_leader);
+>>   }
+> 
+> I wonder how many of the task_info fields you want to set once instead of per submission. Like a 
+> fully one shot like the below be what you want?
 
->
->> ---
->>
->> Mahadevan (5):
->>    dt-bindings: display/msm: Document MDSS on SA8775P
->>    dt-bindings: display/msm: Document the DPU for SA8775P
->>    drm/msm: mdss: Add SA8775P support
->>    drm/msm/dpu: Add SA8775P support
->>    arm64: dts: qcom: sa8775p: add display dt nodes
->>
->>   .../display/msm/qcom,sa8775p-dpu.yaml         | 120 +++++
->>   .../display/msm/qcom,sa8775p-mdss.yaml        | 225 ++++++++
->>   arch/arm64/boot/dts/qcom/sa8775p.dtsi         |  85 +++
->>   .../msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h   | 485 ++++++++++++++++++
->>   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    |   3 +-
->>   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |   3 +-
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   3 +-
->>   drivers/gpu/drm/msm/msm_mdss.c                |  10 +
->>   8 files changed, 931 insertions(+), 3 deletions(-)
->>   create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sa8775p-dpu.yaml
->>   create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sa8775p-mdss.yaml
->>   create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h
->>
->> -- 
->> 2.34.1
->>
+As written above, process name, drm client name and pid (tgid) can be set once.
+Task name + tid are updated on submit.
+I've updated slightly this part, so v4 should hopefully be clearer.
+
+> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+> index a060c28f0877..da492223a8b5 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+> @@ -2349,16 +2349,6 @@ amdgpu_vm_get_task_info_pasid(struct amdgpu_device *adev, u32 pasid)
+>               amdgpu_vm_get_vm_from_pasid(adev, pasid));
+>   }
+> 
+> -static int amdgpu_vm_create_task_info(struct amdgpu_vm *vm)
+> -{
+> -    vm->task_info = kzalloc(sizeof(struct amdgpu_task_info), GFP_KERNEL);
+> -    if (!vm->task_info)
+> -        return -ENOMEM;
+> -
+> -    kref_init(&vm->task_info->refcount);
+> -    return 0;
+> -}
+> -
+>   /**
+>    * amdgpu_vm_set_task_info - Sets VMs task info.
+>    *
+> @@ -2366,20 +2356,28 @@ static int amdgpu_vm_create_task_info(struct amdgpu_vm *vm)
+>    */
+>   void amdgpu_vm_set_task_info(struct amdgpu_vm *vm)
+>   {
+> -    if (!vm->task_info)
+> -        return;
+> +    struct amdgpu_task_info *task_info = vm->task_info;
+> +
+> +    if (!task_info) {
+> +        task_info = kzalloc(sizeof(struct amdgpu_task_info),
+> +                    GFP_KERNEL);
+> +        if (!task_info)
+> +            return;
+> 
+> -    if (vm->task_info->pid == current->pid)
+> +        kref_init(&task_info->refcount);
+> +    } else {
+>           return;
+> +    }
+> 
+> -    vm->task_info->pid = current->pid;
+> -    get_task_comm(vm->task_info->task_name, current);
+> +    task_info->pid = current->pid;
+> +    get_task_comm(task_info->task_name, current);
+> 
+> -    if (current->group_leader->mm != current->mm)
+> -        return;
+> +    if (current->group_leader->mm == current->mm) {
+> +        task_info->tgid = current->group_leader->pid;
+> +        get_task_comm(task_info->process_name, current->group_leader);
+> +    }
+> 
+> -    vm->task_info->tgid = current->group_leader->pid;
+> -    get_task_comm(vm->task_info->process_name, current->group_leader);
+> +    vm->task_info = task_info;
+>   }
+> 
+>   /**
+> 
+> End result is code like this:
+> 
+> void amdgpu_vm_set_task_info(struct amdgpu_vm *vm)
+> {
+>      struct amdgpu_task_info *task_info = vm->task_info;
+> 
+>      if (!task_info) {
+>          task_info = kzalloc(sizeof(struct amdgpu_task_info),
+>                      GFP_KERNEL);
+>          if (!task_info)
+>              return;
+> 
+>          kref_init(&task_info->refcount);
+>      } else {
+>          return;
+>      }
+> 
+>      task_info->pid = current->pid;
+>      get_task_comm(task_info->task_name, current);
+> 
+>      if (current->group_leader->mm == current->mm) {
+>          task_info->tgid = current->group_leader->pid;
+>          get_task_comm(task_info->process_name, current->group_leader);
+>      }
+> 
+>      vm->task_info = task_info;
+> }
+> 
+> ?
+> 
+>>   /**
+>> @@ -2482,7 +2485,6 @@ int amdgpu_vm_init(struct amdgpu_device *adev, struct amdgpu_vm *vm,
+>>       if (r)
+>>           goto error_free_root;
+>> -    r = amdgpu_vm_create_task_info(vm);
+>>       if (r)
+>>           DRM_DEBUG("Failed to create task info for VM\n");
+> 
+> Two more lines to delete here.
+
+Done, thanks.
+
+Pierre-Eric
+
+> 
+> Regards,
+> 
+> Tvrtko
+> 
+>> @@ -2608,7 +2610,8 @@ void amdgpu_vm_fini(struct amdgpu_device *adev, struct amdgpu_vm *vm)
+>>       root = amdgpu_bo_ref(vm->root.bo);
+>>       amdgpu_bo_reserve(root, true);
+>> -    amdgpu_vm_put_task_info(vm->task_info);
+>> +    if (vm->task_info)
+>> +        amdgpu_vm_put_task_info(vm->task_info);
+>>       amdgpu_vm_set_pasid(adev, vm, 0);
+>>       dma_fence_wait(vm->last_unlocked, false);
+>>       dma_fence_put(vm->last_unlocked);
