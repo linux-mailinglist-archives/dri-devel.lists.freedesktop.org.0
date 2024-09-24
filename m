@@ -2,45 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 704B7984763
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 16:13:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B91F1984779
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 16:18:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE35B10E6F8;
-	Tue, 24 Sep 2024 14:13:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48A4410E705;
+	Tue, 24 Sep 2024 14:17:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="f1cCaQfz";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="akDQbk2L";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05D0810E6F6
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 14:13:12 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6F2710E705
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 14:17:56 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 8C2F35C5C84;
- Tue, 24 Sep 2024 14:13:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEF6AC4CECD;
- Tue, 24 Sep 2024 14:13:10 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id C9360A425E7;
+ Tue, 24 Sep 2024 14:17:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F8D0C4CEC4;
+ Tue, 24 Sep 2024 14:17:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1727187191;
- bh=Ove6qA9Uz/Pwc/8UDs6UkdWbzk3LrAkv03HZ9MpURmg=;
+ s=k20201202; t=1727187475;
+ bh=vBpZMPQ9rsXhtFubNr31yUMNqsCHeYd7iWTspMzanFY=;
  h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=f1cCaQfzj9yf9Jls9lys+/W835C5/lgW/6mB3B8XUeucAH1QG1QnwuJXqdDXOQAt2
- X01T00TkkFpL6HWFwgCCpx9tc0pHMOFMbNGuLm2EJAF73sord2VNArloQ+VexeGxtQ
- bjNRuNv/F7YR8O4AlyZ6zb+I+GZsYEYbekDBqyRyvzvdpgS+j2iWxZzh/HD/48fWCI
- pNzOAIrknk6a9yh6oudEvRkur8PakTWwMO1Vo2f9iED/mzGPaRUBAhnt5tNk4UTIvW
- REOxQXeyu+91/qUCfzlh0HMlWFeRwvFIbh9sNWv3U/m4Id97AprvZgXIxdtb/Z8dis
- 9O2ep7fy6KLeg==
+ b=akDQbk2LK7KbJFECMGV3gptY7Spz+NyihBjXTscYNXR0ZDGHLF9Hw3rN9ACFyV85u
+ GDIwWOIAIcqoAFtzC44WJtW51ulknFrYxpq6FoUvOWsclSC+ESROlk+7QrCMgbnQsY
+ eYDwycxGzdnbO5frLY9q8b8ASW2Tr2al2rRBTSPZtsWGFFG5XxBkM5BsKTiBBw2UZL
+ fVNu5oCKclOJe1CHBBpjQNlVrN2bzBgideQbiDkEJDpOKoPiTg7s8H0K+sUG7zuwDq
+ rbnO1V4xD/Jakfo4i9iMgpN4h8hSKuwAeegrdW7qAxHSM8ngP7BcvYn9m6LI7zTfNN
+ QAWV44HJHMgmw==
 From: Maxime Ripard <mripard@kernel.org>
-To: dri-devel@lists.freedesktop.org, 
- Derek Foreman <derek.foreman@collabora.com>
-Cc: kernel@collabora.com, Jani Nikula <jani.nikula@linux.intel.com>, 
- Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org
-In-Reply-To: <20240827163918.48160-1-derek.foreman@collabora.com>
-References: <20240827163918.48160-1-derek.foreman@collabora.com>
-Subject: Re: [PATCH v4] drm/connector: hdmi: Fix writing Dynamic Range
- Mastering infoframes
-Message-Id: <172718718877.90582.18381097503447839347.b4-ty@kernel.org>
-Date: Tue, 24 Sep 2024 16:13:08 +0200
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Jocelyn Falempe <jfalempe@redhat.com>, 
+ Simona Vetter <simona.vetter@ffwll.ch>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+In-Reply-To: <292638fde9aef8b00e984245f43dc02a818cf322.1716816827.git.geert+renesas@glider.be>
+References: <292638fde9aef8b00e984245f43dc02a818cf322.1716816827.git.geert+renesas@glider.be>
+Subject: Re: [PATCH] drm: renesas: shmobile: Add drm_panic support
+Message-Id: <172718747303.94652.4109324297463223522.b4-ty@kernel.org>
+Date: Tue, 24 Sep 2024 16:17:53 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
@@ -60,20 +62,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 27 Aug 2024 11:39:04 -0500, Derek Foreman wrote:
-> The largest infoframe we create is the DRM (Dynamic Range Mastering)
-> infoframe which is 26 bytes + a 4 byte header, for a total of 30
-> bytes.
+On Mon, 27 May 2024 15:34:48 +0200, Geert Uytterhoeven wrote:
+> Add support for the drm_panic module, which displays a message on
+> the screen when a kernel panic occurs.
 > 
-> With HDMI_MAX_INFOFRAME_SIZE set to 29 bytes, as it is now, we
-> allocate too little space to pack a DRM infoframe in
-> write_device_infoframe(), leading to an ENOSPC return from
-> hdmi_infoframe_pack(), and never calling the connector's
-> write_infoframe() vfunc.
 > 
-> [...]
 
-Applied to misc/kernel.git (drm-misc-fixes).
+Applied to misc/kernel.git (drm-misc-next).
 
 Thanks!
 Maxime
