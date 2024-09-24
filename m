@@ -2,63 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AD83984D08
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 23:50:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87E25984D46
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 00:03:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43A3610E13C;
-	Tue, 24 Sep 2024 21:50:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DE2510E75D;
+	Tue, 24 Sep 2024 22:03:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IL/UkPIV";
+	dkim=pass (2048-bit key; unprotected) header.d=fooishbar.org header.i=@fooishbar.org header.b="D74qUPzt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F290D10E13C
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 21:50:36 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 2E22C5C5843
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 21:50:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id DE393C4CED4
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 21:50:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1727214635;
- bh=APF5WGRqXT0Y388XA3BvHX0x//QczJeMz89/dGbVESY=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=IL/UkPIVNA+BX7R7MFJlEls+4C8De3QB9T8GsvWnmN4n1KWheO2PNSLSgDJnjlUxF
- x2F6Unqoukiacr43jw4oWbtA39lyQ+NVbdHvX3VbmBLXHjsfApAkbmxJ5px6bnJh1t
- bEzCcDCSdMYnSWnbAlwV3ZK6gZmeqXF9QUkf9fiSJqcAr0Wm3PDjZKpZJ9djm0NLHO
- mTkqGc6zCHob3yB4tbJIamvkMNsd1foF7WC6WpLQT7UOQM/REfkPmwrVA2VWp36Dnt
- SvFLTOkRsO/+hIiS+ShPZ+dr9AD+bv9+6X2mZkJY3z3YSq/aXkU/hLR4OHXTy9SNk8
- kTVaSv0675k9w==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id D89ACC53BC1; Tue, 24 Sep 2024 21:50:35 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 204241] amdgpu fails to resume from suspend
-Date: Tue, 24 Sep 2024 21:50:34 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: aros@gmx.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: ANSWERED
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-204241-2300-LIxhnSdB5j@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-204241-2300@https.bugzilla.kernel.org/>
-References: <bug-204241-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com
+ [209.85.222.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FDFA10E75D
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 22:03:07 +0000 (UTC)
+Received: by mail-qk1-f178.google.com with SMTP id
+ af79cd13be357-7a99e8d5df1so604053685a.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 15:03:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar.org; s=google; t=1727215386; x=1727820186;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=NsZrdsG+uwrLVvS5FWIhBRuHHog4+l/Yf5EAxQLtzhs=;
+ b=D74qUPztdDeOcl9ePRLyhfn6bAbVtU7LRI2le4/za213TL2JtsQ3A3pF8jujc9tzKH
+ GAEEfW332LFKWlDswl4X/tyfFkYCbFtcYttHZL6xubTJE6g1SmLgCRYF+DKwcvVmdzZ1
+ m8BEiEoHXEQVR8+x3mhiujtFbQUNBXdtAEL2zG+/6stiL0rC7EM6ze79La6xvNbp543/
+ wSnWRIYnCmdiig37DLkhtHN8DEXTzz/9R8Fom6/3KCK9vfkdZ3D8LWMgp942rKSiTP0K
+ RJmzCQHHeT4VCPjwZDM3+RWMMVt/XLGjYjCobpN8yrOBNHD+w4Vu6ME9IaBJygyqLJLl
+ XMVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1727215386; x=1727820186;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=NsZrdsG+uwrLVvS5FWIhBRuHHog4+l/Yf5EAxQLtzhs=;
+ b=YouOXHzwTmJmPKLqYa/61FlmX6n/EF74CwV/KS408aEMpjJkxR7K8B4ppWI/hz7fyi
+ l1gnjRKu2yhcwufYA/hW6FqAr+df93syOy6TT8F21DUUNc1aY+0GFShOopz2oYq9DvH2
+ dKSZnbGeFddHwXFLqgu+Cm8vArkFCXGNSeROc/Sz6avo6ANb3vdolGzEP1f7BIgAVG+H
+ h/iVCJMF96EU85j2mdxBAsuDaJXeQhhmy4jwCTQMr1nEAbISuKbPAoQVwHA1PgtPs32u
+ tkfnDM4rvyMJGofj3VVMN+RTicj7/24mOyx8Lmv+L74o0ty6f/u3ijGUsolVAqJg7q6g
+ WsPg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXqd6G4aVqAZJFhAIYCJHbhMwufWKqPTHIEgRve8EupQT0lRrY4YF+NHgVDx8URizSFWlX/M6pdnqw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzlUpWDPOkeIq1Xeev/AqEDoT57b4RRmqvUiGCYRUVVEOs0+OHX
+ keEv62rIe9S0iqNPCKJnpsqgqK254V6ALLYbAKJ5Xzhd8Aam1c7Wuz2jdfeNa14QkUGrbnrKZPt
+ nd1FuOfJXAnWKJeoL0jiYQYXl4e+NXp8W1K8TvA==
+X-Google-Smtp-Source: AGHT+IElqfXPuPng8AojlDDF2C6GLMgjgq9uYfkfDW9uAzUUN373GhIZBRXCnSZ4eftp7Scr+RM/AU3bO+2aPn4itIQ=
+X-Received: by 2002:a05:620a:179e:b0:7a9:be7a:9220 with SMTP id
+ af79cd13be357-7ace745d94emr87761585a.60.1727215386507; Tue, 24 Sep 2024
+ 15:03:06 -0700 (PDT)
 MIME-Version: 1.0
+References: <20240830070351.2855919-1-jens.wiklander@linaro.org>
+In-Reply-To: <20240830070351.2855919-1-jens.wiklander@linaro.org>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Tue, 24 Sep 2024 23:02:54 +0100
+Message-ID: <CAPj87rM5LSBEdMECyh0WTkjWWySDv2_eyqj7ew_qU7xQ5LEdgA@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/4] Linaro restricted heap
+To: Jens Wiklander <jens.wiklander@linaro.org>
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, op-tee@lists.trustedfirmware.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ Olivier Masse <olivier.masse@nxp.com>,
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, 
+ John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Sumit Garg <sumit.garg@linaro.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,23 +91,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D204241
+Hi Jens,
 
-Artem S. Tashkinov (aros@gmx.com) changed:
+On Fri, 30 Aug 2024 at 08:04, Jens Wiklander <jens.wiklander@linaro.org> wrote:
+> This patch set is based on top of Yong Wu's restricted heap patch set [1].
+> It's also a continuation on Olivier's Add dma-buf secure-heap patch set [2].
+>
+> The Linaro restricted heap uses genalloc in the kernel to manage the heap
+> carvout. This is a difference from the Mediatek restricted heap which
+> relies on the secure world to manage the carveout.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |ANSWERED
+Calling this the 'genalloc heap' would be much more clear.
 
---- Comment #80 from Artem S. Tashkinov (aros@gmx.com) ---
-If you're still affected, please try kernels 6.10.11 or 6.11.
-
-If the bug is reproducible, please file a new one here:
-https://gitlab.freedesktop.org/drm/amd/-/issues
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Cheers,
+Daniel
