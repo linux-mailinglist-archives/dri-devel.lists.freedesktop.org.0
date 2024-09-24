@@ -2,92 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60235984E6B
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 01:00:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65383984E94
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 01:03:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B94AA10E8F4;
-	Tue, 24 Sep 2024 23:00:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B88410E774;
+	Tue, 24 Sep 2024 23:03:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="LKAt4oaO";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="PtCfff1R";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F63E10E8DE;
- Tue, 24 Sep 2024 23:00:07 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48OHFC8h006815;
- Tue, 24 Sep 2024 23:00:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- He68YJDpw5yUYF6XnGNc1QYX+t+XB31twuJW0wUJVIw=; b=LKAt4oaO+Xc7hWc2
- 1vrE1pIsrvhnQvFffSP1t0ogL+pZwiBVU/wfdAMbkJJsNxGiL9gWiB6fS2jt7aKb
- i2FgdFna97Jv9/1pbf53JzSKTw3/MfhPEXKGH8Sipx0NEZRbsJ3Mmfkm+DwileFG
- D2NCr1hImPshkOJdtwHgIpR11yAYIRHw7SgzRrF8E0l9xmLrseOGLNBm93rTqVw3
- yp1ML3PJboEm3fhOrgxyvo13goFNM+vSyuwxWasARHWxxU+l3LfYdOF0nYy9naWC
- gl/RQJJRFaayGfMScI+8Uc2VBa1aNm5RNATlIwhteICQl2FXD1V5tzWoBjCVFjuP
- 3ceOfQ==
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41sn3sa394-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 24 Sep 2024 23:00:00 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 48OMxxUI025002
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 24 Sep 2024 22:59:59 GMT
-Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
- nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Tue, 24 Sep 2024 15:59:59 -0700
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-Date: Tue, 24 Sep 2024 15:59:38 -0700
-Subject: [PATCH v2 22/22] drm/msm/dpu: Set possible clones for all encoders
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7223610E774
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 23:03:32 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 8E56CA43953;
+ Tue, 24 Sep 2024 23:03:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23EEDC4CEC4;
+ Tue, 24 Sep 2024 23:03:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1727219011;
+ bh=gYYRhZD3rvvtpnrdcL4upxJCTxcxrqykk7cJXG94c74=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=PtCfff1RO6YZh019eDvWMs7A2ST59pNEh7OgksLQonGnY/lqjFhr+za1Vkuhz/M10
+ VSnjXlpsbw+qMWzrSO7inHzf4jhbf50hkVF8wCGMrE/Ld1tE6qbxrL9r1GcBT4l4TE
+ OBgVQdFrORhmBMFcNaC51WgYOZYruTL9Z6HnNwCvgtDiSOZpj9Zjv2X+dJR3zXqEZV
+ NwBdtpxqfYxtpPz3WG7a2AyMDtuABcN7Y5uSeHAU6ufxzYCm/NuMFsGAUbKKx3oyon
+ SfEYUMMbk2PrDSoXXcUuEjSku/aaIrXDQ25FJZJkk4YonlZHy1AcAOC+KCulU3oYvh
+ O42LuoJvm+qMA==
+Date: Tue, 24 Sep 2024 18:03:30 -0500
+From: Rob Herring <robh@kernel.org>
+To: Lukasz Majewski <lukma@denx.de>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Marek Vasut <marex@denx.de>,
+ Stefan Agner <stefan@agner.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Fabio Estevam <festevam@gmail.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: lcdif: Add support for specifying display
+ with timings
+Message-ID: <20240924230330.GB441530-robh@kernel.org>
+References: <20240923135744.2813712-1-lukma@denx.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20240924-concurrent-wb-v2-22-7849f900e863@quicinc.com>
-References: <20240924-concurrent-wb-v2-0-7849f900e863@quicinc.com>
-In-Reply-To: <20240924-concurrent-wb-v2-0-7849f900e863@quicinc.com>
-To: Rob Clark <robdclark@gmail.com>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, <quic_abhinavk@quicinc.com>, Sean Paul
- <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, "David
- Airlie" <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, "Maarten
- Lankhorst" <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-CC: <quic_ebharadw@quicinc.com>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, Rob Clark <robdclark@chromium.org>,
- =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
- "Jessica Zhang" <quic_jesszhan@quicinc.com>
-X-Mailer: b4 0.15-dev-99b12
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1727218793; l=3426;
- i=quic_jesszhan@quicinc.com; s=20230329; h=from:subject:message-id;
- bh=8IAtMYxCxwxiWSmt4I0D67ietcZUo0uVuIYNUDlq5uk=;
- b=QgZ9cR/XJTRb75vEgRwzu+HqD5uYD9NjjN0C+A5twD8G4brX0pfjij+JTYMbLYjv1qhuWYxqF
- zAvJnouEXKZC7N2dcJSEewft9PBFPeyi4E4Jshg6/BrvIYyRVPy9gze
-X-Developer-Key: i=quic_jesszhan@quicinc.com; a=ed25519;
- pk=gAUCgHZ6wTJOzQa3U0GfeCDH7iZLlqIEPo4rrjfDpWE=
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: sDIWvi45xwtFhZ33z9QwuwFMudIPyCIC
-X-Proofpoint-ORIG-GUID: sDIWvi45xwtFhZ33z9QwuwFMudIPyCIC
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 phishscore=0
- mlxscore=0 impostorscore=0 spamscore=0 malwarescore=0 suspectscore=0
- priorityscore=1501 lowpriorityscore=0 mlxlogscore=999 clxscore=1015
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2408220000 definitions=main-2409240160
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240923135744.2813712-1-lukma@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,99 +65,115 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Set writeback encoders as possible clones for non-writeback encoders and
-vice versa.
+On Mon, Sep 23, 2024 at 03:57:44PM +0200, Lukasz Majewski wrote:
+> Up till now the fsl,lcdif.yaml was requiring the "port" property as a
+> must have to specify the display interface on iMX devices.
+> 
+> However, it shall also be possible to specify the display only with
+> passing its timing parameters (h* and v* ones) via "display" property:
+> (as in
+> Documentation/devicetree/bindings/display/panel/display-timings.yaml).
+> 
+> Such approach has already been used (also in the mainline) with several
+> imx28, imx5x and imx6q devices.
+> 
+> This change allows them to pass the DT_SCHEMA check without issues.
+> 
+> Signed-off-by: Lukasz Majewski <lukma@denx.de>
+> ---
+>  .../bindings/display/fsl,lcdif.yaml           | 51 ++++++++++++++++++-
+>  1 file changed, 49 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+> index 8e3a98aeec32..14bb64b5b72d 100644
+> --- a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+> +++ b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+> @@ -50,6 +50,10 @@ properties:
+>        - const: disp_axi
+>      minItems: 1
+>  
+> +  display:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description: The phandle for display timing information
+> +
+>    dmas:
+>      items:
+>        - description: DMA specifier for the RX DMA channel.
+> @@ -64,6 +68,9 @@ properties:
+>        - description: LCDIF Error interrupt
+>      minItems: 1
+>  
+> +  lcd-supply:
+> +    description: Regulator for LCD supply voltage.
+> +
+>    power-domains:
+>      maxItems: 1
+>  
+> @@ -76,7 +83,10 @@ required:
+>    - reg
+>    - clocks
+>    - interrupts
+> -  - port
+> +
+> +patternProperties:
+> +  'display([0-9])':
 
-Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 32 +++++++++++++++++++++++++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  2 ++
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     |  7 +++++--
- 3 files changed, 39 insertions(+), 2 deletions(-)
+This allows for 'foodisplay0bar'. You need start and end anchors.
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 87eaaf1196c2..39dabb9eb39a 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -2409,6 +2409,38 @@ static int dpu_encoder_virt_add_phys_encs(
- 	return 0;
- }
- 
-+/**
-+ * dpu_encoder_get_clones - Calculate the possible_clones for DPU encoder
-+ * @drm_enc:        DRM encoder pointer
-+ * Returns:         possible_clones mask
-+ */
-+uint32_t dpu_encoder_get_clones(struct drm_encoder *drm_enc)
-+{
-+	struct drm_encoder *curr;
-+	int type = drm_enc->encoder_type;
-+	uint32_t clone_mask = drm_encoder_mask(drm_enc);
-+
-+	/*
-+	 * Set writeback as possible clones of real-time encoders and real-time
-+	 * encoders as clones of writeback.
-+	 *
-+	 * Writeback encoders can't be clones of each other and real-time
-+	 * encoders can't be clones of each other.
-+	 */
-+	drm_for_each_encoder(curr, drm_enc->dev) {
-+		if (type == DRM_MODE_ENCODER_VIRTUAL &&
-+		    curr->encoder_type == DRM_MODE_ENCODER_VIRTUAL)
-+			continue;
-+		if (type != DRM_MODE_ENCODER_VIRTUAL &&
-+		    curr->encoder_type != DRM_MODE_ENCODER_VIRTUAL)
-+			continue;
-+
-+		clone_mask |= drm_encoder_mask(curr);
-+	}
-+
-+	return clone_mask;
-+}
-+
- static int dpu_encoder_setup_display(struct dpu_encoder_virt *dpu_enc,
- 				 struct dpu_kms *dpu_kms,
- 				 struct msm_display_info *disp_info)
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-index deaa0463b289..1692e7de079d 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-@@ -98,6 +98,8 @@ enum dpu_intf_mode dpu_encoder_get_intf_mode(struct drm_encoder *encoder);
-  */
- void dpu_encoder_virt_runtime_resume(struct drm_encoder *encoder);
- 
-+uint32_t dpu_encoder_get_clones(struct drm_encoder *drm_enc);
-+
- /**
-  * dpu_encoder_init - initialize virtual encoder object
-  * @dev:        Pointer to drm device structure
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index 47e304b357e8..5effa108f328 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -2,7 +2,7 @@
- /*
-  * Copyright (C) 2013 Red Hat
-  * Copyright (c) 2014-2018, The Linux Foundation. All rights reserved.
-- * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
-+ * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
-  *
-  * Author: Rob Clark <robdclark@gmail.com>
-  */
-@@ -793,8 +793,11 @@ static int _dpu_kms_drm_obj_init(struct dpu_kms *dpu_kms)
- 		return ret;
- 
- 	num_encoders = 0;
--	drm_for_each_encoder(encoder, dev)
-+	drm_for_each_encoder(encoder, dev) {
- 		num_encoders++;
-+		if (catalog->cwb_count > 0)
-+			encoder->possible_clones = dpu_encoder_get_clones(encoder);
-+	}
- 
- 	max_crtc_count = min(catalog->mixer_count, num_encoders);
- 
+And it doesn't even have to be a node because there are no contraints 
+here. You need 'type: object' and then to define what's in the node.
 
--- 
-2.34.1
 
+> +    description: Node with display timing parameters
+>  
+>  additionalProperties: false
+>  
+> @@ -197,5 +207,42 @@ examples:
+>              };
+>          };
+>      };
+> -
+> +  - |
+> +    lcdif: lcdif@80030000 {
+> +        compatible = "fsl,imx28-lcdif";
+> +        reg = <0x80030000 0x2000>;
+> +        interrupts = <38>;
+> +        clocks = <&clks 55>;
+> +        dmas = <&dma_apbh 13>;
+> +        dma-names = "rx";
+> +        pinctrl-names = "default";
+> +        pinctrl-0 = <&lcdif_24bit_pins_a>, <&lcdif_sync_pins_bttc>,
+> +                 <&lcdif_reset_pins_bttc>;
+> +        lcd-supply = <&reg_3v3>;
+> +        display = <&display0>;
+> +        status = "okay";
+
+Don't need status in the examples.
+
+> +
+> +                bits-per-pixel = <32>;
+> +                bus-width = <24>;
+> +                display-timings {
+> +                        native-mode = <&timing0>;
+> +                        timing0: timing0 {
+> +                                clock-frequency = <6500000>;
+> +                                hactive = <320>;
+> +                                vactive = <240>;
+> +                                hfront-porch = <20>;
+> +                                hback-porch = <38>;
+> +                                hsync-len = <30>;
+> +                                vfront-porch = <4>;
+> +                                vback-porch = <14>;
+> +                                vsync-len = <4>;
+> +                                hsync-active = <0>;
+> +                                vsync-active = <0>;
+> +                                de-active = <0>;
+> +                                pixelclk-active = <1>;
+> +                        };
+> +                };
+> +        };
+> +    };
+>  ...
+> -- 
+> 2.39.2
+> 
