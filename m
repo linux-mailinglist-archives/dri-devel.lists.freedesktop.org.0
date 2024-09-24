@@ -2,75 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AF90984468
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 13:21:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AE69984471
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 13:23:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABFA210E6BE;
-	Tue, 24 Sep 2024 11:21:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96D5710E6CA;
+	Tue, 24 Sep 2024 11:23:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="Az3uF+8J";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="SxcIYGkW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
- [209.85.208.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0B2210E6BE
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 11:21:11 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id
- 4fb4d7f45d1cf-5c2561e8041so7454821a12.2
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 04:21:11 -0700 (PDT)
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
+ [209.85.218.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D154E10E6CD
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 11:23:17 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id
+ a640c23a62f3a-a8a7596b7dfso214772066b.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 04:23:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1727176870; x=1727781670; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=gYQ/IDmT9gcN7gYfq5hChxVJK5hUzJ0xEOoEvIgK6x0=;
- b=Az3uF+8J/jjmxOuDZMFSnKUabc32TsCL9G9TtPVCVoqWcvizvtOVE3c70UXBDB7BNk
- QYvbmAQwRuhpuckUoCddRDTJheo1pZHBmkcqyuty9AYKibUuFlvOEXBCZfjkPM6bh7Hx
- iaNYpwwUkbPzGFghkMLGHQbTKlYGZjZ66zLFI=
+ d=ffwll.ch; s=google; t=1727176996; x=1727781796; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=PWF4jgAjAqYALGiQR7ccrKly/48F752VryNGutLVGB4=;
+ b=SxcIYGkW29F0kMLgydKGn7+IEEz8iPZTDN/I3P74OwETRche4dU5mnI6Fp60tnoBD+
+ 5Z8jwh2Jshd8JfJKuSHu0KYOejVK6GA7CGVj4bq0dqBH3VAYcAPSTHWs/tdUOH9pf2zc
+ xw7/hLrk2Lx5a3MxajhEqTaBq+CIWqgCBnQWU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727176870; x=1727781670;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=gYQ/IDmT9gcN7gYfq5hChxVJK5hUzJ0xEOoEvIgK6x0=;
- b=YpCnmMm99MV6BpgpyO7BMB07eRGfcSLEfu3Yx6VtDCtB5582+po0Pc/OYcH0br+GiS
- nl0RctdzRDoKI8YIrUgNa1ChCXfIFd6MeUnl6tdQuSABZDSGENUGX56BBDdemy1tbCoV
- CtsNYlN7We31oQ9jpfL6JiOYxnjd2YpZUXsc7A0TfSRIx31RoaFSi6ow3NTfTDJg6AXs
- djQpBGvy5n9ClYB1P9C1j5xmV04NMLQtjLp55L6oEWmuLCtixzIo4KNNxbVPVPLkuJPm
- 2iAgsdwobPjEz2x2e5AAEh8K3+krxshxTSUroYr1jc4SR7owJCLMcF1vWwgNNu7OkwDf
- FIpg==
+ d=1e100.net; s=20230601; t=1727176996; x=1727781796;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=PWF4jgAjAqYALGiQR7ccrKly/48F752VryNGutLVGB4=;
+ b=BYad+4puXI0yfOsnoUz3he7cDjx4NjQKhUYKg/BemBtXPQq3jZWzitf7Ug/u/6DB+n
+ N7J3kwpRkaJ6inSGdnF6NMmNsmnbutsQOclsf7HUsuFWgeg2Sbh5NUyd6KS6luB5Z1OH
+ rqWupXCY+svoclEANewGYEMxN3RMYKaq0xIPURdWtM48avuHHrtOpA4Jv2Kic49OnzZ0
+ 3Wq+4qBt5ngYEYG85Qw6uMHMhej8GHYwQPByLB49RZzTh7ueqDjeEmNf+RdqHwFjz3K3
+ gFxvHbkRI9tIoUSJhKHpi2X4ig+BNxDxp6qTO8/pHX4O2xynS+lWXs/u1mplBiyKDh1K
+ 88TA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVzMDMGd6BGUkpPyW3NU9dc/nwTekTB6wJPIUhYHKVImJXo0Nb0vEA9Qp19S22+bSSz2+F79S1PjKo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwgS8vPhSlzrniK8Mq9jH9GYBKdeVGTVHJZqHPT2xpbqpApqXYj
- f8HvqPN0g3qr2K8lvOxJN5OKhwJOV9CPj6v+ZjFkZ99pWCZotVfdxhhOTq+L7f6w6OaHepQ9kme
- t
-X-Google-Smtp-Source: AGHT+IG+0CZhC8lhSSWIeyvYwrLQI4O0OQvh1Pjvq9SkGlKqyG/ISsZIxeuv8w2ijkNznz0YfWr6pw==
-X-Received: by 2002:a17:906:794c:b0:a86:7199:af37 with SMTP id
- a640c23a62f3a-a90d51601d9mr1727612666b.58.1727176869474; 
- Tue, 24 Sep 2024 04:21:09 -0700 (PDT)
+ AJvYcCWcIdOkbUoVnPlEadnZRgpIXizAtnxwsU4pe8lFf2Kvh7h+o3nzRzC8VWH1W6HCTn0ppImMyhzfgHM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwnrmA+3aXdfCYOhdH12ixyg/h8wuqGHECtmtPniHn7FInfTbww
+ yuDUE83eRB4hUXVLiwPcubhTHFZKNBFwvi07/74J/WhcXui/6TKptueMqI8zrt4=
+X-Google-Smtp-Source: AGHT+IEidRMre7ErKs8tgKvaFc7lsybDIIF3WlBFvN5M+ui2jWlwdMQmZuKbfKBVmcI4C/7UazzmMQ==
+X-Received: by 2002:a17:907:1b85:b0:a86:8f9b:ef6e with SMTP id
+ a640c23a62f3a-a92c482d251mr229795766b.13.1727176996011; 
+ Tue, 24 Sep 2024 04:23:16 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
  by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a93930f7b90sm72287366b.175.2024.09.24.04.21.08
+ a640c23a62f3a-a93930fae7csm71585866b.169.2024.09.24.04.23.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Sep 2024 04:21:09 -0700 (PDT)
-Date: Tue, 24 Sep 2024 13:21:07 +0200
+ Tue, 24 Sep 2024 04:23:15 -0700 (PDT)
+Date: Tue, 24 Sep 2024 13:23:13 +0200
 From: Simona Vetter <simona.vetter@ffwll.ch>
-To: linux@treblig.org
-Cc: lee@kernel.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
- hdegoede@redhat.com, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] backlight: Remove notifier
-Message-ID: <ZvKgo8RUImafDRPE@phenom.ffwll.local>
-Mail-Followup-To: linux@treblig.org, lee@kernel.org,
- daniel.thompson@linaro.org, jingoohan1@gmail.com,
- hdegoede@redhat.com, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240919232758.639925-1-linux@treblig.org>
+To: Raag Jadav <raag.jadav@intel.com>
+Cc: airlied@gmail.com, simona@ffwll.ch, lucas.demarchi@intel.com,
+ thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
+ jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+ tursulin@ursulin.net, lina@asahilina.net,
+ intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com,
+ francois.dugast@intel.com, aravind.iddamsetty@linux.intel.com,
+ anshuman.gupta@intel.com, andi.shyti@linux.intel.com,
+ andriy.shevchenko@linux.intel.com, matthew.d.roper@intel.com
+Subject: Re: [PATCH v6 1/4] drm: Introduce device wedged event
+Message-ID: <ZvKhIQGnGrcPURhD@phenom.ffwll.local>
+References: <20240923035826.624196-1-raag.jadav@intel.com>
+ <20240923035826.624196-2-raag.jadav@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240919232758.639925-1-linux@treblig.org>
+In-Reply-To: <20240923035826.624196-2-raag.jadav@intel.com>
 X-Operating-System: Linux phenom 6.10.6-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -87,153 +88,200 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 20, 2024 at 12:27:58AM +0100, linux@treblig.org wrote:
-> From: "Dr. David Alan Gilbert" <linux@treblig.org>
+On Mon, Sep 23, 2024 at 09:28:23AM +0530, Raag Jadav wrote:
+> Introduce device wedged event, which will notify userspace of wedged
+> (hanged/unusable) state of the DRM device through a uevent. This is
+> useful especially in cases where the device is no longer operating as
+> expected and has become unrecoverable from driver context.
 > 
-> backlight_register_notifier and backlight_unregister_notifier have
-> been unused since
->   commit 6cb634d0dc85 ("ACPI: video: Remove code to unregister acpi_video
-> backlight when a native backlight registers")
+> Purpose of this implementation is to provide drivers a way to recover
+> through userspace intervention. Different drivers may have different
+> ideas of a "wedged device" depending on their hardware implementation,
+> and hence the vendor agnostic nature of the event. It is up to the drivers
+> to decide when they see the need for recovery and how they want to recover
+> from the available methods.
 > 
-> With those not being called, it means that the backlight_notifier
-> list is always empty.
+> Current implementation defines three recovery methods, out of which,
+> drivers can choose to support any one or multiple of them. Preferred
+> recovery method will be sent in the uevent environment as WEDGED=<method>.
+> Userspace consumers (sysadmin) can define udev rules to parse this event
+> and take respective action to recover the device.
 > 
-> Remove the functions, the list itself and the enum used in the
-> notifications.
+>  Method    | Consumer expectations
+> -----------|-----------------------------------
+>  rebind    | unbind + rebind driver
+>  bus-reset | unbind + reset bus device + rebind
+>  reboot    | reboot system
 > 
-> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+> v4: s/drm_dev_wedged/drm_dev_wedged_event
+>     Use drm_info() (Jani)
+>     Kernel doc adjustment (Aravind)
+> v5: Send recovery method with uevent (Lina)
+> v6: Access wedge_recovery_opts[] using helper function (Jani)
+>     Use snprintf() (Jani)
+> 
+> Signed-off-by: Raag Jadav <raag.jadav@intel.com>
 
-Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
+Finally caught up on mail, so dropping this here again: Please also add a
+small section to drm-uapi.rst, pointing at these functions. Just the
+kerneldoc for developers is kinda not enough I think.
 
-I think Lee Jones or Daniel Thompson will pick this up.
--Sima
+Also maybe link to an example udev script which handles this would be
+neat.
+
+Cheers, Sima
+
 
 > ---
->  drivers/video/backlight/backlight.c | 42 -----------------------------
->  include/linux/backlight.h           | 20 --------------
->  2 files changed, 62 deletions(-)
+>  drivers/gpu/drm/drm_drv.c | 41 +++++++++++++++++++++++++++++++++++++++
+>  include/drm/drm_device.h  | 24 +++++++++++++++++++++++
+>  include/drm/drm_drv.h     | 18 +++++++++++++++++
+>  3 files changed, 83 insertions(+)
 > 
-> diff --git a/drivers/video/backlight/backlight.c b/drivers/video/backlight/backlight.c
-> index a82934694d05..f699e5827ccb 100644
-> --- a/drivers/video/backlight/backlight.c
-> +++ b/drivers/video/backlight/backlight.c
-> @@ -65,7 +65,6 @@
+> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+> index ac30b0ec9d93..03a5d9009689 100644
+> --- a/drivers/gpu/drm/drm_drv.c
+> +++ b/drivers/gpu/drm/drm_drv.c
+> @@ -70,6 +70,18 @@ static struct dentry *drm_debugfs_root;
 >  
->  static struct list_head backlight_dev_list;
->  static struct mutex backlight_dev_list_mutex;
-> -static struct blocking_notifier_head backlight_notifier;
+>  DEFINE_STATIC_SRCU(drm_unplug_srcu);
 >  
->  static const char *const backlight_types[] = {
->  	[BACKLIGHT_RAW] = "raw",
-> @@ -467,9 +466,6 @@ struct backlight_device *backlight_device_register(const char *name,
->  	list_add(&new_bd->entry, &backlight_dev_list);
->  	mutex_unlock(&backlight_dev_list_mutex);
->  
-> -	blocking_notifier_call_chain(&backlight_notifier,
-> -				     BACKLIGHT_REGISTERED, new_bd);
-> -
->  	return new_bd;
+> +/*
+> + * Available recovery methods for wedged device. To be sent along with device
+> + * wedged uevent.
+> + */
+> +#define WEDGE_LEN	32	/* Need 16+ */
+> +
+> +const char *const wedge_recovery_opts[] = {
+> +	[DRM_WEDGE_RECOVERY_REBIND] = "rebind",
+> +	[DRM_WEDGE_RECOVERY_BUS_RESET] = "bus-reset",
+> +	[DRM_WEDGE_RECOVERY_REBOOT] = "reboot",
+> +};
+> +
+>  /*
+>   * DRM Minors
+>   * A DRM device can provide several char-dev interfaces on the DRM-Major. Each
+> @@ -497,6 +509,35 @@ void drm_dev_unplug(struct drm_device *dev)
 >  }
->  EXPORT_SYMBOL(backlight_device_register);
-> @@ -539,9 +535,6 @@ void backlight_device_unregister(struct backlight_device *bd)
->  	mutex_unlock(&pmac_backlight_mutex);
->  #endif
+>  EXPORT_SYMBOL(drm_dev_unplug);
 >  
-> -	blocking_notifier_call_chain(&backlight_notifier,
-> -				     BACKLIGHT_UNREGISTERED, bd);
-> -
->  	mutex_lock(&bd->ops_lock);
->  	bd->ops = NULL;
->  	mutex_unlock(&bd->ops_lock);
-> @@ -566,40 +559,6 @@ static int devm_backlight_device_match(struct device *dev, void *res,
->  	return *r == data;
->  }
->  
-> -/**
-> - * backlight_register_notifier - get notified of backlight (un)registration
-> - * @nb: notifier block with the notifier to call on backlight (un)registration
-> - *
-> - * Register a notifier to get notified when backlight devices get registered
-> - * or unregistered.
-> - *
-> - * RETURNS:
-> - *
-> - * 0 on success, otherwise a negative error code
-> - */
-> -int backlight_register_notifier(struct notifier_block *nb)
-> -{
-> -	return blocking_notifier_chain_register(&backlight_notifier, nb);
-> -}
-> -EXPORT_SYMBOL(backlight_register_notifier);
-> -
-> -/**
-> - * backlight_unregister_notifier - unregister a backlight notifier
-> - * @nb: notifier block to unregister
-> - *
-> - * Register a notifier to get notified when backlight devices get registered
-> - * or unregistered.
-> - *
-> - * RETURNS:
-> - *
-> - * 0 on success, otherwise a negative error code
-> - */
-> -int backlight_unregister_notifier(struct notifier_block *nb)
-> -{
-> -	return blocking_notifier_chain_unregister(&backlight_notifier, nb);
-> -}
-> -EXPORT_SYMBOL(backlight_unregister_notifier);
-> -
->  /**
->   * devm_backlight_device_register - register a new backlight device
->   * @dev: the device to register
-> @@ -767,7 +726,6 @@ static int __init backlight_class_init(void)
->  
->  	INIT_LIST_HEAD(&backlight_dev_list);
->  	mutex_init(&backlight_dev_list_mutex);
-> -	BLOCKING_INIT_NOTIFIER_HEAD(&backlight_notifier);
->  
->  	return 0;
->  }
-> diff --git a/include/linux/backlight.h b/include/linux/backlight.h
-> index ea9c1bc8148e..f5652e5a9060 100644
-> --- a/include/linux/backlight.h
-> +++ b/include/linux/backlight.h
-> @@ -66,24 +66,6 @@ enum backlight_type {
->  	BACKLIGHT_TYPE_MAX,
+> +/**
+> + * drm_dev_wedged_event - generate a device wedged uevent
+> + * @dev: DRM device
+> + * @method: method to be used for recovery
+> + *
+> + * This generates a device wedged uevent for the DRM device specified by @dev.
+> + * Recovery @method from wedge_recovery_opts[] (if supprted by the device) is
+> + * sent in the uevent environment as WEDGED=<method>, on the basis of which,
+> + * userspace may take respective action to recover the device.
+> + *
+> + * Returns: 0 on success, or negative error code otherwise.
+> + */
+> +int drm_dev_wedged_event(struct drm_device *dev, enum wedge_recovery_method method)
+> +{
+> +	char event_string[WEDGE_LEN] = {};
+> +	char *envp[] = { event_string, NULL };
+> +
+> +	if (!test_bit(method, &dev->wedge_recovery)) {
+> +		drm_err(dev, "device wedged, recovery method not supported\n");
+> +		return -EOPNOTSUPP;
+> +	}
+> +
+> +	snprintf(event_string, sizeof(event_string), "WEDGED=%s", recovery_method_name(method));
+> +
+> +	drm_info(dev, "device wedged, generating uevent\n");
+> +	return kobject_uevent_env(&dev->primary->kdev->kobj, KOBJ_CHANGE, envp);
+> +}
+> +EXPORT_SYMBOL(drm_dev_wedged_event);
+> +
+>  /*
+>   * DRM internal mount
+>   * We want to be able to allocate our own "struct address_space" to control
+> diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
+> index c91f87b5242d..f1a71763c22a 100644
+> --- a/include/drm/drm_device.h
+> +++ b/include/drm/drm_device.h
+> @@ -40,6 +40,27 @@ enum switch_power_state {
+>  	DRM_SWITCH_POWER_DYNAMIC_OFF = 3,
 >  };
 >  
-> -/**
-> - * enum backlight_notification - the type of notification
-> - *
-> - * The notifications that is used for notification sent to the receiver
-> - * that registered notifications using backlight_register_notifier().
-> - */
-> -enum backlight_notification {
-> -	/**
-> -	 * @BACKLIGHT_REGISTERED: The backlight device is registered.
-> -	 */
-> -	BACKLIGHT_REGISTERED,
-> -
-> -	/**
-> -	 * @BACKLIGHT_UNREGISTERED: The backlight revice is unregistered.
-> -	 */
-> -	BACKLIGHT_UNREGISTERED,
-> -};
-> -
->  /** enum backlight_scale - the type of scale used for brightness values
+> +/**
+> + * enum wedge_recovery_method - Recovery method for wedged device in order
+> + * of severity. To be set as bit fields in drm_device.wedge_recovery variable.
+> + * Drivers can choose to support any one or multiple of them depending on their
+> + * needs.
+> + */
+> +
+> +enum wedge_recovery_method {
+> +	/** @DRM_WEDGE_RECOVERY_REBIND: unbind + rebind driver */
+> +	DRM_WEDGE_RECOVERY_REBIND,
+> +
+> +	/** @DRM_WEDGE_RECOVERY_BUS_RESET: unbind + reset bus device + rebind */
+> +	DRM_WEDGE_RECOVERY_BUS_RESET,
+> +
+> +	/** @DRM_WEDGE_RECOVERY_REBOOT: reboot system */
+> +	DRM_WEDGE_RECOVERY_REBOOT,
+> +
+> +	/** @DRM_WEDGE_RECOVERY_MAX: for bounds checking, do not use */
+> +	DRM_WEDGE_RECOVERY_MAX
+> +};
+> +
+>  /**
+>   * struct drm_device - DRM device structure
 >   *
->   * The type of scale used for brightness values.
-> @@ -421,8 +403,6 @@ void devm_backlight_device_unregister(struct device *dev,
->  				      struct backlight_device *bd);
->  void backlight_force_update(struct backlight_device *bd,
->  			    enum backlight_update_reason reason);
-> -int backlight_register_notifier(struct notifier_block *nb);
-> -int backlight_unregister_notifier(struct notifier_block *nb);
->  struct backlight_device *backlight_device_get_by_name(const char *name);
->  struct backlight_device *backlight_device_get_by_type(enum backlight_type type);
->  int backlight_device_set_brightness(struct backlight_device *bd,
+> @@ -317,6 +338,9 @@ struct drm_device {
+>  	 * Root directory for debugfs files.
+>  	 */
+>  	struct dentry *debugfs_root;
+> +
+> +	/** @wedge_recovery: Supported recovery methods for wedged device */
+> +	unsigned long wedge_recovery;
+>  };
+>  
+>  #endif
+> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
+> index 02ea4e3248fd..83d44e153557 100644
+> --- a/include/drm/drm_drv.h
+> +++ b/include/drm/drm_drv.h
+> @@ -45,6 +45,8 @@ struct drm_mode_create_dumb;
+>  struct drm_printer;
+>  struct sg_table;
+>  
+> +extern const char *const wedge_recovery_opts[];
+> +
+>  /**
+>   * enum drm_driver_feature - feature flags
+>   *
+> @@ -461,6 +463,7 @@ void drm_put_dev(struct drm_device *dev);
+>  bool drm_dev_enter(struct drm_device *dev, int *idx);
+>  void drm_dev_exit(int idx);
+>  void drm_dev_unplug(struct drm_device *dev);
+> +int drm_dev_wedged_event(struct drm_device *dev, enum wedge_recovery_method method);
+>  
+>  /**
+>   * drm_dev_is_unplugged - is a DRM device unplugged
+> @@ -551,4 +554,19 @@ static inline void drm_debugfs_dev_init(struct drm_device *dev, struct dentry *r
+>  }
+>  #endif
+>  
+> +static inline bool recovery_method_is_valid(enum wedge_recovery_method method)
+> +{
+> +	if (method >= DRM_WEDGE_RECOVERY_REBIND && method < DRM_WEDGE_RECOVERY_MAX)
+> +		return true;
+> +
+> +	return false;
+> +}
+> +
+> +static inline const char *recovery_method_name(enum wedge_recovery_method method)
+> +{
+> +	if (recovery_method_is_valid(method))
+> +		return wedge_recovery_opts[method];
+> +
+> +	return NULL;
+> +}
+>  #endif
 > -- 
-> 2.46.1
+> 2.34.1
 > 
 
 -- 
