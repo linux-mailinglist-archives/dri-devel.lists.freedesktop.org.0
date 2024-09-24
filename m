@@ -2,73 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F5DA9846AD
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 15:24:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22D069846D8
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 15:37:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DED7910E1E0;
-	Tue, 24 Sep 2024 13:24:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21DD610E2B3;
+	Tue, 24 Sep 2024 13:37:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="b40w3xBe";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="c7AqGC7Y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
- [209.85.210.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF5C410E1E0
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 13:24:36 +0000 (UTC)
-Received: by mail-pf1-f177.google.com with SMTP id
- d2e1a72fcca58-718ebb01fd2so1063805b3a.2
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 06:24:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1727184276; x=1727789076; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=XvnaZJqFfXFaafjuo2tTI/OT9A98V7mgCkYmS2wx5+4=;
- b=b40w3xBe5zNnq7cowGsHel2Ei3+j3uxD8SiEKyNpxks2EsbPvMO5kOKKmV7QGoh4LI
- 17X6lrracBsanzx6HWcPY6TIzjIf0+zv1YoISGEIEuU44bz3EeoGLMglrl6CbDLGMGrp
- xCMTwUbSkUXz6Fj1+8O8H/zCN5E9G9MH/gLjW3JJpTnoXAnhtNn2SU1eBlWJbTsekjxO
- BWUgi4fXRTLQqwUQOjRLt4lebCxP/FVEce6Tc7K6lUNs17aGorW6r++9V0p6oJbBf6Sc
- YO3RNgsAjujSW6tuRV2wjA2/5mZMb8nI7lyHELl3bIWsWxxRAIE8JPm6D38pJEmf3qmo
- v4Sg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61E2A10E2B3
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 13:37:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1727185048;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=m3ZMnWSltBVqByR/5ym5WHRFLuJsdiXWp7fp/aKe+pg=;
+ b=c7AqGC7Y7bjOsDGW+Rv6sKHEestkNaXyfZLpJlZszCYMbFd02IQBERJKAyUaqPNa8qDBjq
+ aAOazIyKvc+UwI1vt1UOepLVJ8KO4WLVNrE3EJvMw1yD3g+CrOgDBK4gK+zkxd5zzcEuWp
+ Mvbn901LuylsqrAsXnX+zpnwZCjmsHE=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-629-mOCq5XgwPaqrMCXvu55rQA-1; Tue, 24 Sep 2024 09:37:26 -0400
+X-MC-Unique: mOCq5XgwPaqrMCXvu55rQA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-42cceb06940so39177135e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 06:37:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727184276; x=1727789076;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=XvnaZJqFfXFaafjuo2tTI/OT9A98V7mgCkYmS2wx5+4=;
- b=I1zAGo2H/rJs3L/VjRlrNczPEq9574qCa1qACp6DsnIKx9DS4L3ejh8/51YXAhyDPG
- HcSFvvDkoXV/6XcADlY+FB6jlvjb7OjYuTDIYxsqK/HRtRFPDLK/gKgT171jQrBxFaAP
- A8KSE09P+bMT/LKktHic4wLxIdckC7fET5cuvg3PpriaTqYWZTEfQRNtbb0LP+2krAyT
- gfAIX96SQoGTB4TqDzNDhKqHFuvhVqyfzUugHz/KiM4B/39NLbcBFIjegXBfnr8bNyD/
- yIoyHQ4qUpURk1G34OFDJzCe7p7AqRgT1Tu5ZWN37bVJzH0bw19OXJA5/RGeescPfwbr
- jBDw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV0oAcZ0lBI5MSL2P7GMqFoCdvKCtL2I/7lw10gtvdN/C3b3ILn2S2Vt4fNNPq9nuyb+ZgW3A6Pd9E=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz/4V3bdtKGrVJmZC3AJPdwi94VQ+6eO5u6j+jnvLpL9rspfjlk
- 3QjBKVwOSPq/yCYwZOXmuxA38Cmo2HSmqGycS90SkJ6i2LMrBugNWDfYG95gr8FLz5NKvhExL99
- vAQX42LZxY6MiWxgkIr37DvfEeXI=
-X-Google-Smtp-Source: AGHT+IFuZIUC3y21iSVZyR2o5dKIJPPbtSxgaCOWhFfp4Hu9OWkaFu33ak//uRyXzS840sm5f+bSYekO0V5yaVv15Ng=
-X-Received: by 2002:a05:6a20:2449:b0:1cf:4c3a:162a with SMTP id
- adf61e73a8af0-1d344eb8a2cmr2105535637.5.1727184276111; Tue, 24 Sep 2024
- 06:24:36 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240924084227.262271-1-tzimmermann@suse.de>
-In-Reply-To: <20240924084227.262271-1-tzimmermann@suse.de>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 24 Sep 2024 09:24:23 -0400
-Message-ID: <CADnq5_Prj5Ldi4v2md1bxZsA4_hXDk6q679Sqd43rMx7d-LgCA@mail.gmail.com>
+ d=1e100.net; s=20230601; t=1727185045; x=1727789845;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=m3ZMnWSltBVqByR/5ym5WHRFLuJsdiXWp7fp/aKe+pg=;
+ b=Q59LV3T233sXZRKxANDXV1q4b/lFsZ/IehKA79CLcmkHIdCCYHXmrqM+1q0qK0sC9J
+ WM1bS2lzhUVwvwoHZC6AuMlpSTLBi/TxthOs3awBq0B3wwhhukwcoMbMecHC45SST/fN
+ NYgjKsJr+GXkp00MV7zUZnRNX/uW+8KhmOo7YiNn1fl/u9STLHJROAxpLfOCSWan/8sa
+ 3fCwLJPWPFnzxablv6NZk3St/CdtZtGVXcC6LUe6MIdnlKMrHsApI+6mwIVY/+Vek8g7
+ 9xxbA+6S/PoXtM8k10ULBMVZSVQzx5+NoPvxsOSScV0mK/5GpJjMFKyFOvrbRW+R/hQI
+ WQ8w==
+X-Gm-Message-State: AOJu0YyGH0xV9xPR/gkFujdBZdrfIyG18TueCJCwjyBMkcWr+M1nHRZH
+ emgbwaCGria/+tctMlKC7e1thGcHyTyiBm1c74lIe6csatP3QdydGV4k5vmFRTWTBKkeqRnmpn8
+ GYMghU6jwyjqgSgUqqxOsF/4YR0Uubgdr+64Nfm2nVrU/ii9b2e230DL7ZkCvbPhRPQ==
+X-Received: by 2002:a05:600c:4ed2:b0:42c:b9dd:93ee with SMTP id
+ 5b1f17b1804b1-42e7adbdf3fmr106404165e9.34.1727185045161; 
+ Tue, 24 Sep 2024 06:37:25 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHAGSCJGChfO0p/dVmzD7aUd+YN0JjwCVik6wNggfJqRwa1bUk53dA48t1HKhd+ZLlCkGswjA==
+X-Received: by 2002:a05:600c:4ed2:b0:42c:b9dd:93ee with SMTP id
+ 5b1f17b1804b1-42e7adbdf3fmr106403925e9.34.1727185044775; 
+ Tue, 24 Sep 2024 06:37:24 -0700 (PDT)
+Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-37cbc2c139esm1614306f8f.27.2024.09.24.06.37.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 24 Sep 2024 06:37:24 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, alexander.deucher@amd.com,
+ chaitanya.kumar.borah@intel.com
+Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann
+ <tzimmermann@suse.de>, Helge Deller <deller@gmx.de>, Sam Ravnborg
+ <sam@ravnborg.org>, Daniel Vetter <daniel.vetter@ffwll.ch>, "Linux
+ regression tracking (Thorsten Leemhuis)" <regressions@leemhuis.info>,
+ stable@vger.kernel.org
 Subject: Re: [PATCH] firmware/sysfb: Disable sysfb for firmware buffers with
  unknown parent
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: javierm@redhat.com, alexander.deucher@amd.com, 
- chaitanya.kumar.borah@intel.com, dri-devel@lists.freedesktop.org, 
- Helge Deller <deller@gmx.de>, Sam Ravnborg <sam@ravnborg.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, 
- "Linux regression tracking (Thorsten Leemhuis)" <regressions@leemhuis.info>,
- stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240924084227.262271-1-tzimmermann@suse.de>
+References: <20240924084227.262271-1-tzimmermann@suse.de>
+Date: Tue, 24 Sep 2024 15:37:23 +0200
+Message-ID: <87ldzh8964.fsf@minerva.mail-host-address-is-not-set>
+MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,9 +92,10 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 24, 2024 at 4:58=E2=80=AFAM Thomas Zimmermann <tzimmermann@suse=
-.de> wrote:
->
+Thomas Zimmermann <tzimmermann@suse.de> writes:
+
+Hello Thomas,
+
 > The sysfb framebuffer handling only operates on graphics devices
 > that provide the system's firmware framebuffer. If that device is
 > not known, assume that any graphics device has been initialized by
@@ -96,12 +105,10 @@ On Tue, Sep 24, 2024 at 4:58=E2=80=AFAM Thomas Zimmermann <tzimmermann@suse=
 > framebuffer after the native graphics driver loaded.
 >
 > Reported-by: Borah, Chaitanya Kumar <chaitanya.kumar.borah@intel.com>
-> Closes: https://lore.kernel.org/dri-devel/SJ1PR11MB6129EFB8CE63D1EF6D932F=
-94B96F2@SJ1PR11MB6129.namprd11.prod.outlook.com/
+> Closes: https://lore.kernel.org/dri-devel/SJ1PR11MB6129EFB8CE63D1EF6D932F94B96F2@SJ1PR11MB6129.namprd11.prod.outlook.com/
 > Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/12160
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Fixes: b49420d6a1ae ("video/aperture: optionally match the device in sysf=
-b_disable()")
+> Fixes: b49420d6a1ae ("video/aperture: optionally match the device in sysfb_disable()")
 > Cc: Javier Martinez Canillas <javierm@redhat.com>
 > Cc: Thomas Zimmermann <tzimmermann@suse.de>
 > Cc: Helge Deller <deller@gmx.de>
@@ -109,14 +116,8 @@ b_disable()")
 > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 > Cc: Alex Deucher <alexander.deucher@amd.com>
 > Cc: dri-devel@lists.freedesktop.org
-> Cc: Linux regression tracking (Thorsten Leemhuis) <regressions@leemhuis.i=
-nfo>
+> Cc: Linux regression tracking (Thorsten Leemhuis) <regressions@leemhuis.info>
 > Cc: <stable@vger.kernel.org> # v6.11+
-
-Thanks for fixing this.
-
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
-
 > ---
 >  drivers/firmware/sysfb.c | 4 +++-
 >  1 file changed, 3 insertions(+), 1 deletion(-)
@@ -128,16 +129,23 @@ Acked-by: Alex Deucher <alexander.deucher@amd.com>
 > @@ -67,9 +67,11 @@ static bool sysfb_unregister(void)
 >  void sysfb_disable(struct device *dev)
 >  {
->         struct screen_info *si =3D &screen_info;
-> +       struct device *parent;
->
->         mutex_lock(&disable_lock);
-> -       if (!dev || dev =3D=3D sysfb_parent_dev(si)) {
-> +       parent =3D sysfb_parent_dev(si);
-> +       if (!dev || !parent || dev =3D=3D parent) {
->                 sysfb_unregister();
->                 disabled =3D true;
->         }
-> --
-> 2.46.0
->
+>  	struct screen_info *si = &screen_info;
+> +	struct device *parent;
+>  
+>  	mutex_lock(&disable_lock);
+> -	if (!dev || dev == sysfb_parent_dev(si)) {
+> +	parent = sysfb_parent_dev(si);
+> +	if (!dev || !parent || dev == parent) {
+>  		sysfb_unregister();
+>  		disabled = true;
+>  	}
+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
