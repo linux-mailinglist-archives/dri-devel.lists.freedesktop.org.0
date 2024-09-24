@@ -2,52 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C89F983B2E
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 04:26:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB71C983B67
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 04:57:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7617110E4C1;
-	Tue, 24 Sep 2024 02:26:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8ACA10E004;
+	Tue, 24 Sep 2024 02:57:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="I6FlfQQJ";
+	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ite.com.tw header.i=@ite.com.tw header.b="bkSV6P5W";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95CF210E1F1;
- Tue, 24 Sep 2024 02:26:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1727144777;
- bh=bVBlh+fY6Ig9uXlKnweewNbRdJcBCdmmmBM3MYgyfkc=;
- h=From:To:Cc:Subject:Date:From;
- b=I6FlfQQJLJgS0B4GYHreTcgkphmT0mtS/izy2z6fKSS7SM/YLiUDuQFlVGy/mj+BV
- LAJ5Z6OzVK7XlKTu8ty7d5B8lKWjrOvTfhYxuS2lGgxDMgwRhHeUh7zm+vBW/smVbC
- Lh9cVPMXsPLsFyyrDTIyHDkgs2vabkhVEfSxOnu4vKWN/Wk5xbz+iG7hP43duNJhhq
- RDxF4v0iGL0s4K00QMKKfxunJksIA+2M8LnIE854C+pIIKC3EfPWYcizvciDBHaP69
- s0b33b7a0NOtNEuAz5lPT4Chepeo/Zztl/y2h8GLSNs+QJry4OgRR2BW0VhQ/VipCC
- MEAHSNEfkemDA==
-Received: from localhost.localdomain (unknown [171.76.80.125])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: vignesh)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 1187A17E0EC1;
- Tue, 24 Sep 2024 04:26:13 +0200 (CEST)
-From: Vignesh Raman <vignesh.raman@collabora.com>
-To: dri-devel@lists.freedesktop.org
-Cc: daniels@collabora.com, helen.koike@collabora.com, airlied@gmail.com,
- daniel@ffwll.ch, robdclark@gmail.com, guilherme.gallo@collabora.com,
- sergi.blanch.torne@collabora.com, deborah.brouwer@collabora.com,
- dmitry.baryshkov@linaro.org, mripard@kernel.org, rodrigo.vivi@intel.com,
- linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org,
- linux-rockchip@lists.infradead.org, amd-gfx@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- virtualization@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v1] docs/gpu: ci: update flake tests requirements
-Date: Tue, 24 Sep 2024 07:55:58 +0530
-Message-ID: <20240924022600.1441969-1-vignesh.raman@collabora.com>
-X-Mailer: git-send-email 2.43.0
+Received: from ironport.ite.com.tw (60-251-196-230.hinet-ip.hinet.net
+ [60.251.196.230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B52D010E004
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 02:57:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ite.com.tw; s=dkim;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=Pez01GVTI+nAGe+V0h/GEhDzn9cAbuhuFih04e9gyZg=;
+ b=bkSV6P5WH8MtzHUbwFejbkvodV2vsiKPVcwG57eX0HEs0w/VpoWX01oy
+ lfM0G77K/erZKT8VI9QcBJEJ5cQhp+BBIebeSMJRaCA7SPZSuaYvJR+tA
+ Uu1HOcG+tD+8z2IXzmy/2AbfdPndEjWPmfnMkhNNiM0RdQKZ2/+cyA5V/
+ NoUqfaf3Xu93ZXD6SgxzrgScyeszH4ofr2o5Kc7tV45cPg9ZLM5xmGYQp
+ GztSThc6n62sW9qDfUeNo00rLeIUVzLm0tCCPneHcIDBoEJdqhDUbHiAq
+ o6ee/57YvaIxt98eNo0wlLbaSfAUQV5acRWRr7lq+i7QlOlJnnuhfilb0 w==;
+X-CSE-ConnectionGUID: hfp7j/ybSnG3IkO9gu66Sw==
+X-CSE-MsgGUID: sTBYZWO7Q0uIwBMJBz/iww==
+Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
+ by ironport.ite.com.tw with ESMTP; 24 Sep 2024 10:57:15 +0800
+Received: from tpemail1.internal.ite.com.tw (TPEMAIL1.internal.ite.com.tw
+ [192.168.15.58]) by mse.ite.com.tw with ESMTP id 48O2vBOJ047817;
+ Tue, 24 Sep 2024 10:57:11 +0800 (GMT-8)
+ (envelope-from Hermes.Wu@ite.com.tw)
+Received: from TPEMAIL1.internal.ite.com.tw (192.168.15.58) by
+ TPEMAIL1.internal.ite.com.tw (192.168.15.58) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Tue, 24 Sep 2024 10:57:10 +0800
+Received: from TPEMAIL1.internal.ite.com.tw ([fe80::dd6d:92:8773:b68]) by
+ TPEMAIL1.internal.ite.com.tw ([fe80::dd6d:92:8773:b68%6]) with mapi id
+ 15.01.2507.039; Tue, 24 Sep 2024 10:57:10 +0800
+From: <Hermes.Wu@ite.com.tw>
+To: <dmitry.baryshkov@linaro.org>
+CC: <treapking@chromium.org>, <Kenneth.Hung@ite.com.tw>,
+ <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>,
+ <rfoss@kernel.org>, <Laurent.pinchart@ideasonboard.com>,
+ <jonas@kwiboo.se>, <jernej.skrabec@gmail.com>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v3 2/3] drm/bridge: it6505: HDCP CTS fail on repeater items
+Thread-Topic: [PATCH v3 2/3] drm/bridge: it6505: HDCP CTS fail on repeater
+ items
+Thread-Index: AQHbDaFxMxnMHj2GkEGHdgKCDl4eaLJlMDIw//+LvQCAAYOEgA==
+Date: Tue, 24 Sep 2024 02:57:10 +0000
+Message-ID: <169c171660ac4897903aef5befc780db@ite.com.tw>
+References: <20240923094826.13471-1-Hermes.Wu@ite.com.tw>
+ <20240923094826.13471-3-Hermes.Wu@ite.com.tw>
+ <4viir5prnuvpp76npblwmdrwlttm5daumvdnocipdsn6geyxvf@2yfcytjb3ono>
+ <a0a8f862018b4c9aa689672551e7a492@ite.com.tw>
+ <mkx63gnb2fobxxc5jc2f326d2oviix7dahyoh4sfeuiyypucln@hnklvrtv4q2u>
+In-Reply-To: <mkx63gnb2fobxxc5jc2f326d2oviix7dahyoh4sfeuiyypucln@hnklvrtv4q2u>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [192.168.20.82]
+x-tm-snts-smtp: 349B6BE6289B44C8306504438E8113A17A71BD20F204424E7C03870435E6C8B52002:8
+Content-Type: text/plain; charset="big5"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MAIL: mse.ite.com.tw 48O2vBOJ047817
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,50 +87,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Update the documentation to require linking to a relevant GitLab
-issue for each new flake entry instead of an email report. Added
-specific GitLab issue URLs for i915, xe and other drivers.
-
-Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
----
- Documentation/gpu/automated_testing.rst | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/gpu/automated_testing.rst b/Documentation/gpu/automated_testing.rst
-index 2d5a28866afe..f73b8939dc3a 100644
---- a/Documentation/gpu/automated_testing.rst
-+++ b/Documentation/gpu/automated_testing.rst
-@@ -67,20 +67,25 @@ Lists the tests that for a given driver on a specific hardware revision are
- known to behave unreliably. These tests won't cause a job to fail regardless of
- the result. They will still be run.
- 
--Each new flake entry must be associated with a link to the email reporting the
--bug to the author of the affected driver, the board name or Device Tree name of
--the board, the first kernel version affected, the IGT version used for tests,
--and an approximation of the failure rate.
-+Each new flake entry must include a link to the relevant GitLab issue, the board
-+name or Device Tree name, the first kernel version affected, the IGT version used
-+for tests and an approximation of the failure rate.
- 
- They should be provided under the following format::
- 
--  # Bug Report: $LORE_OR_PATCHWORK_URL
-+  # Bug Report: $GITLAB_ISSUE
-   # Board Name: broken-board.dtb
-   # Linux Version: 6.6-rc1
-   # IGT Version: 1.28-gd2af13d9f
-   # Failure Rate: 100
-   flaky-test
- 
-+The GitLab issue must include the logs and the pipeline link. Use the appropriate
-+link below to create an issue.
-+https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/ for i915 drivers
-+https://gitlab.freedesktop.org/drm/xe/kernel/-/issues/ for xe drivers
-+https://gitlab.freedesktop.org/drm/misc/kernel/-/issues for other drivers
-+
- drivers/gpu/drm/ci/${DRIVER_NAME}-${HW_REVISION}-skips.txt
- -----------------------------------------------------------
- 
--- 
-2.43.0
-
+Pk9uIE1vbiwgU2VwIDIzLCAyMDI0IGF0IDEwOjQ1OjQ5QU0gR01ULCBIZXJtZXMuV3VAaXRlLmNv
+bS50dyB3cm90ZToNCj4+ID5PbiBNb24sIFNlcCAyMywgMjAyNCBhdCAwNTo0ODoyOFBNIEdNVCwg
+SGVybWVzIFd1IHdyb3RlOg0KPj4gPj4gRnJvbTogSGVybWVzIFd1IDxIZXJtZXMud3VAaXRlLmNv
+bS50dz4NCj4+ID4+IA0KPj4gPj4gQ2hhbmdlcyBpbiB2MzoNCj4+ID4+ICAtYWRkIGRldGlhbHMg
+YWJvdXQgZmFpbCBpdGVtIGFuZCBjaGFuZ2VzLg0KPj4gPj4gDQo+PiA+PiANCj4+ID4+IEZpeCBI
+RENQIENUUyBmYWlsIGl0ZW1zIG9uIFVOSUdSQUYgRFJQLTEwMA0KPj4gPj4gDQo+PiA+PiBEVVQg
+bXVzdCBTdXBwb3J0IDEyNyBkZXZpY2VzLg0KPj4gPj4gRFVUIG11c3QgY2hlY2sgQlNUQVRVUyB3
+aGVuIHJlY2VpdmUgQ1BfSVJRLg0KPj4gPj4gRFVUIG11c3QgZW5hYmxlIGVuY3J5cHRpb24gd2hl
+biBSMCcgaXMgcmVhZHkuDQo+PiA+PiBEVVQgbXVzdCByZXRyeSBWJyBjaGVjayAzIHRpbWVzLg0K
+Pj4gPj4gaXQ2NTA1IG11c3QgcmVhZCBEUlAtMTAwIEtTViBGSUZPIGJ5IEZJRk8gbW9kZS4NCj4+
+ID4+IGl0NjUwNSBzaG91bGQgcmVzdGFydCBIRENQIHdpdGhpbiA1cyBpZiBLU1Ygbm90IHJlYWR5
+Lg0KPj4gPg0KPj4gPlN0aWxsIG5vdCByZWFkYWJsZS4NCj4+ID4NCj4+ID5FbmdsaXNoIHRleHQs
+IHBsZWFzZS4gU3BsaXQgdGhlIHBhdGNoIHRvIGZpeCBvbmUgaXNzdWUgYXQgYSB0aW1lLg0KPj4g
+PkRlc2NyaWJlIHRoZSBfcmVhc29uXyBmb3IgdGhlIGNoYW5nZS4gQW5ub3RhdGUgZml4ZXMgd2l0
+aCBGaXhlcyB0YWdzLg0KPj4gPg0KPj4gDQo+PiB3aXRoIGZpeGVzIHRhZyBpbmNsdWRlIGRybS9i
+cmlkZ2UgbGlrZSB0aGlzID8gID0+ICJGaXhlczogZHJtL2JyaWRnZTogaXQ2NTA1OiBIRENQIENU
+UyBmYWlsIDFCLXh4Ig0KPg0KPk5vLiBQbGVhc2UgcmVhZCB0aGUgZG9jdW1lbnQgdGhhdCBJIGhh
+dmUgYmVlbiBwb2ludGluZyB5b3UgdG8uIEl0IGRlc2NyaWJlcyBhbGwgdGhlIHRhZ3MgYW5kIHBy
+b2NlZHVyZXMuDQo+DQo+PiANCj4+IEFib3V0IHRoZSByZWFzb24gYWJvdXQgYnVnIGZpeGVzLiAN
+Cj4+IA0KPj4gZm9yIGV4YW1wbGUsIHRoZSAxQi0wMSBkZXZpY2UgY291bnQuDQo+PiB3aWxsIHRo
+aXMgcmVhZGFibGU/DQo+PiANCj4+ICIgV2hlbiBjb25uZWN0IHRvIEhEQ1AgcmVwZWF0ZXIsIGl0
+NjUwNSBtdXN0IHN1cHBvcnQgMTI3IGRvd25zdHJlYW0gZGV2aWNlcy4gIg0KPj4gDQo+PiBBbmQg
+dGhpcyB3aWxsIGJlIG9ubHkgb25lIGNoYW5nZSBpbiBhIHBhdGNoPw0KPg0KPkxldCBtZSByZXBl
+YXQgdGhlIHBocmFzZSB0aGF0IHlvdSBoYXZlIHF1b3RlZCBmZXcgbGluZXMgYWJvdmUuICJTcGxp
+dCB0aGUgcGF0Y2ggdG8gZml4IG9uZSBpc3N1ZSBhdCBhIHRpbWUuIiBTbywgbm8sIHRoaXMgd2ls
+bCBub3QgYmUgdGhlIG9ubHkgY2hhbmdlIGluIHRoZSBwYXRjaC4NCj4NCg0KVGhlIEhEQ1AgQ1RT
+IGluY2x1ZGUgc2VydmFsIGl0ZW1zLCBJIHNob3VsZCBzcGxpdCBlYWNoIGZhaWx1cmUgaXRlbSBm
+aXhlcyBpbnRvIGRpZmZlcmVudCBwYXRjaD8NCg0KDQo+PiANCj4+ID4+IA0KPj4gPj4gU2lnbmVk
+LW9mZi1ieTogSGVybWVzIFd1IDxIZXJtZXMud3VAaXRlLmNvbS50dz4NCj4+ID4+IC0tLQ0KPj4g
+Pj4gIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvaXRlLWl0NjUwNS5jIHwgMTEyIA0KPj4gPj4gKysr
+KysrKysrKysrKysrKysrLS0tLS0tLS0tLQ0KPj4gPj4gIDEgZmlsZSBjaGFuZ2VkLCA3NCBpbnNl
+cnRpb25zKCspLCAzOCBkZWxldGlvbnMoLSkNCj4+ID4NCj4+ID4tLQ0KPj4gPldpdGggYmVzdCB3
+aXNoZXMNCj4+ID5EbWl0cnkNCj4+IA0KPj4gQlIsDQo+PiBIZXJtZXMNCj4NCj4tLQ0KPldpdGgg
+YmVzdCB3aXNoZXMNCj5EbWl0cnkNCg==
