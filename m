@@ -2,86 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 658A7983F20
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 09:34:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D735983F22
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 09:35:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4679E10E551;
-	Tue, 24 Sep 2024 07:34:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C64FE10E4F7;
+	Tue, 24 Sep 2024 07:35:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="HaBeY5iP";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Nu6x+ME3";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HaBeY5iP";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Nu6x+ME3";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="I+xO0AxP";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hBG2tNHa";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vDUpoOW2";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xZF8QoBU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 840F310E4F7
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 07:34:05 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC6FB10E4F7
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 07:35:11 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 235241F788;
- Tue, 24 Sep 2024 07:34:04 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 711A91F789;
+ Tue, 24 Sep 2024 07:35:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1727163244; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1727163310; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=BuUgM+nSj2ieY/juDfmjRkUs/UL49RufP58jQn43z10=;
- b=HaBeY5iPe4mSdA8srycBshjAUArQ/ChUm3/bCkoxmcj2LapyMRfJF6tEHAUy4W8oMdg+Jb
- o43YFRbA3/mp05Ads/AXQzpsymR/gMu0rj0ejepaGKwUTjQrFDENEgGCMd96CqXdXeUcQ9
- iv6N64tvDGzRmyit4+D1hHaCnrPeoU4=
+ bh=emSzkVE3ny3S5Bqlvy79XovihPgtpi/FUGWuf+0XqGo=;
+ b=I+xO0AxPhvKHhhOBBQ2v7vFgXurKh0i1Z7IzdwnI174NnDnpai4YifcJS4c0PZ/J4SxRuG
+ s9oTTVV2HH6cqxRLS2l8Jt9A0P2M9xzWAJl5T1IzHDAyVICrWW9vj+ozX1tMkqgwh28ZPA
+ 1nVneQClb6qJ8gc52nABQRfH3IaKvgs=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1727163244;
+ s=susede2_ed25519; t=1727163310;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=BuUgM+nSj2ieY/juDfmjRkUs/UL49RufP58jQn43z10=;
- b=Nu6x+ME3qGF4xCtrPbVAKqx8ON9TeJDq/R3T3qx946G9Ud2cFC4YqyZtEggq4Mv82uSfT0
- W5BworQ5FzB5hMDg==
+ bh=emSzkVE3ny3S5Bqlvy79XovihPgtpi/FUGWuf+0XqGo=;
+ b=hBG2tNHa8NI4ZdozcGct4R4tMCERxMSxCoSy7wtcnhH/XEtpqXA8lX4FC2VGkipnZS6vqF
+ AvcQK9wxso7zLPAg==
 Authentication-Results: smtp-out2.suse.de;
-	none
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=vDUpoOW2;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=xZF8QoBU
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1727163244; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1727163309; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=BuUgM+nSj2ieY/juDfmjRkUs/UL49RufP58jQn43z10=;
- b=HaBeY5iPe4mSdA8srycBshjAUArQ/ChUm3/bCkoxmcj2LapyMRfJF6tEHAUy4W8oMdg+Jb
- o43YFRbA3/mp05Ads/AXQzpsymR/gMu0rj0ejepaGKwUTjQrFDENEgGCMd96CqXdXeUcQ9
- iv6N64tvDGzRmyit4+D1hHaCnrPeoU4=
+ bh=emSzkVE3ny3S5Bqlvy79XovihPgtpi/FUGWuf+0XqGo=;
+ b=vDUpoOW2WnyYNwB+xxefAIBUI+G+Wl8tEh5BdbBFiJ2TmMbS57LsN+8rkb+WlCUTthsA4d
+ zZDCGj8MrcRGiRkbCRtaru9pqFsdXWF88TxE8IyLHSPulefwWIjoHc7AdY86fJEKuKwuoR
+ KeosPu7sMPjNmthNNJcixkNnhOQbDIg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1727163244;
+ s=susede2_ed25519; t=1727163309;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=BuUgM+nSj2ieY/juDfmjRkUs/UL49RufP58jQn43z10=;
- b=Nu6x+ME3qGF4xCtrPbVAKqx8ON9TeJDq/R3T3qx946G9Ud2cFC4YqyZtEggq4Mv82uSfT0
- W5BworQ5FzB5hMDg==
+ bh=emSzkVE3ny3S5Bqlvy79XovihPgtpi/FUGWuf+0XqGo=;
+ b=xZF8QoBUGOpWaEwF6oOflubf/It7Q91rlynTNbKUCxpZ4KpBcFA+u1mea7jLOUo7KOaycj
+ YrRmbSNzEZRgQLAQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EDF4713AA8;
- Tue, 24 Sep 2024 07:34:03 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 481B113AA8;
+ Tue, 24 Sep 2024 07:35:09 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id TjhEOGtr8mbbZQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 24 Sep 2024 07:34:03 +0000
-Message-ID: <17ba01d7-d3f6-4204-b4b2-215f6e2e15a2@suse.de>
-Date: Tue, 24 Sep 2024 09:34:03 +0200
+ by imap1.dmz-prg2.suse.org with ESMTPSA id OupWEK1r8mYkZgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 24 Sep 2024 07:35:09 +0000
+Message-ID: <31d28b78-7dc5-4917-998c-ca36a93534f2@suse.de>
+Date: Tue, 24 Sep 2024 09:35:08 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/6] fbcon: Add sysfs attributes before registering the
- device
+Subject: Re: [PATCH 3/6] fbcon: fbcon_cursor_noblink -> fbcon_cursor_blink
 To: Ville Syrjala <ville.syrjala@linux.intel.com>, linux-fbdev@vger.kernel.org
 Cc: Helge Deller <deller@gmx.de>, Simona Vetter <simona@ffwll.ch>,
  dri-devel@lists.freedesktop.org
 References: <20240923155749.30846-1-ville.syrjala@linux.intel.com>
- <20240923155749.30846-3-ville.syrjala@linux.intel.com>
+ <20240923155749.30846-4-ville.syrjala@linux.intel.com>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -108,25 +109,35 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20240923155749.30846-3-ville.syrjala@linux.intel.com>
+In-Reply-To: <20240923155749.30846-4-ville.syrjala@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -4.30
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+X-Rspamd-Queue-Id: 711A91F789
+X-Spam-Score: -6.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-6.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ DWL_DNSWL_MED(-2.00)[suse.de:dkim];
  NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
  NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
- MIME_TRACE(0.00)[0:+]; RCVD_TLS_ALL(0.00)[];
- TO_DN_SOME(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmx.de];
+ MX_GOOD(-0.01)[];
  DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_HAS_DN(0.00)[];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; ARC_NA(0.00)[];
+ MIME_TRACE(0.00)[0:+];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ TO_DN_SOME(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmx.de];
  FREEMAIL_CC(0.00)[gmx.de,ffwll.ch,lists.freedesktop.org];
- RCPT_COUNT_FIVE(0.00)[5]; FROM_EQ_ENVFROM(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email, imap1.dmz-prg2.suse.org:helo,
- suse.de:mid, suse.de:email]
+ RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; RCPT_COUNT_FIVE(0.00)[5];
+ MID_RHS_MATCH_FROM(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,
+ imap1.dmz-prg2.suse.org:helo, intel.com:email, suse.de:dkim, suse.de:mid,
+ suse.de:email]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Flag: NO
 X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -149,184 +160,60 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Am 23.09.24 um 17:57 schrieb Ville Syrjala:
 > From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 >
-> Currently fbcon adds the attributes after registering the device,
-> which means the attributes may not be there by the time udev
-> gets the ADD uevent. Fix the race by switching over to
-> device_create_with_groups().
->
-> With this one can reliably turn off the power wasting cursor
-> blink with a udev rule such as:
-> ACTION=="add", SUBSYSTEM=="graphics", TEST=="cursor_blink", ATTR{cursor_blink}="0"
+> Invert fbcon_cursor_noblink into fbcon_cursor_blink so that:
+> - it matches the sysfs attribute exactly
+> - avoids having to do these NOT operations all over the place
 >
 > Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+
+With the inversion of the default fixed:
 
 Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
 > ---
->   drivers/video/fbdev/core/fbcon.c | 73 +++++++++-----------------------
->   1 file changed, 19 insertions(+), 54 deletions(-)
+>   drivers/video/fbdev/core/fbcon.c | 8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
 >
 > diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-> index 8936fa79b9e0..bbe332572ca7 100644
+> index bbe332572ca7..eb30aa872371 100644
 > --- a/drivers/video/fbdev/core/fbcon.c
 > +++ b/drivers/video/fbdev/core/fbcon.c
-> @@ -160,7 +160,6 @@ static int info_idx = -1;
+> @@ -166,7 +166,7 @@ static const struct consw fb_con;
 >   
->   /* console rotation */
->   static int initial_rotation = -1;
-> -static int fbcon_has_sysfs;
->   static int margin_color;
+>   #define advance_row(p, delta) (unsigned short *)((unsigned long)(p) + (delta) * vc->vc_size_row)
 >   
->   static const struct consw fb_con;
-> @@ -188,8 +187,6 @@ static void fbcon_redraw_move(struct vc_data *vc, struct fbcon_display *p,
->   static void fbcon_modechanged(struct fb_info *info);
->   static void fbcon_set_all_vcs(struct fb_info *info);
+> -static int fbcon_cursor_noblink;
+> +static int fbcon_cursor_blink;
 >   
-> -static struct device *fbcon_device;
-> -
->   #ifdef CONFIG_FRAMEBUFFER_CONSOLE_ROTATION
->   static inline void fbcon_set_rotation(struct fb_info *info)
+>   #define divides(a, b)	((!(a) || (b)%(a)) ? 0 : 1)
+>   
+> @@ -399,7 +399,7 @@ static void fbcon_add_cursor_work(struct fb_info *info)
 >   {
-> @@ -3151,7 +3148,7 @@ static const struct consw fb_con = {
->   	.con_debug_leave	= fbcon_debug_leave,
->   };
+>   	struct fbcon_ops *ops = info->fbcon_par;
 >   
-> -static ssize_t store_rotate(struct device *device,
-> +static ssize_t rotate_store(struct device *device,
->   			    struct device_attribute *attr, const char *buf,
->   			    size_t count)
->   {
-> @@ -3173,7 +3170,7 @@ static ssize_t store_rotate(struct device *device,
->   	return count;
+> -	if (!fbcon_cursor_noblink)
+> +	if (fbcon_cursor_blink)
+>   		queue_delayed_work(system_power_efficient_wq, &ops->cursor_work,
+>   				   ops->cur_blink_jiffies);
 >   }
->   
-> -static ssize_t store_rotate_all(struct device *device,
-> +static ssize_t rotate_all_store(struct device *device,
->   				struct device_attribute *attr,const char *buf,
->   				size_t count)
->   {
-> @@ -3195,7 +3192,7 @@ static ssize_t store_rotate_all(struct device *device,
->   	return count;
->   }
->   
-> -static ssize_t show_rotate(struct device *device,
-> +static ssize_t rotate_show(struct device *device,
->   			   struct device_attribute *attr,char *buf)
->   {
->   	struct fb_info *info;
-> @@ -3214,13 +3211,13 @@ static ssize_t show_rotate(struct device *device,
->   	return sysfs_emit(buf, "%d\n", rotate);
->   }
->   
-> -static ssize_t show_cursor_blink(struct device *device,
-> +static ssize_t cursor_blink_show(struct device *device,
+> @@ -3214,7 +3214,7 @@ static ssize_t rotate_show(struct device *device,
+>   static ssize_t cursor_blink_show(struct device *device,
 >   				 struct device_attribute *attr, char *buf)
 >   {
->   	return sysfs_emit(buf, "%d\n", !fbcon_cursor_noblink);
+> -	return sysfs_emit(buf, "%d\n", !fbcon_cursor_noblink);
+> +	return sysfs_emit(buf, "%d\n", fbcon_cursor_blink);
 >   }
 >   
-> -static ssize_t store_cursor_blink(struct device *device,
-> +static ssize_t cursor_blink_store(struct device *device,
->   				  struct device_attribute *attr,
->   				  const char *buf, size_t count)
->   {
-> @@ -3253,35 +3250,17 @@ static ssize_t store_cursor_blink(struct device *device,
->   	return count;
->   }
->   
-> -static struct device_attribute device_attrs[] = {
-> -	__ATTR(rotate, S_IRUGO|S_IWUSR, show_rotate, store_rotate),
-> -	__ATTR(rotate_all, S_IWUSR, NULL, store_rotate_all),
-> -	__ATTR(cursor_blink, S_IRUGO|S_IWUSR, show_cursor_blink,
-> -	       store_cursor_blink),
-> -};
-> -
-> -static int fbcon_init_device(void)
-> -{
-> -	int i, error = 0;
-> -
-> -	fbcon_has_sysfs = 1;
-> -
-> -	for (i = 0; i < ARRAY_SIZE(device_attrs); i++) {
-> -		error = device_create_file(fbcon_device, &device_attrs[i]);
-> -
-> -		if (error)
-> -			break;
-> -	}
-> -
-> -	if (error) {
-> -		while (--i >= 0)
-> -			device_remove_file(fbcon_device, &device_attrs[i]);
-> -
-> -		fbcon_has_sysfs = 0;
-> -	}
-> +static DEVICE_ATTR_RW(rotate);
-> +static DEVICE_ATTR_WO(rotate_all);
-> +static DEVICE_ATTR_RW(cursor_blink);
->   
-> -	return 0;
-> -}
-> +static struct attribute *device_attrs[] = {
-> +	&dev_attr_rotate.attr,
-> +	&dev_attr_rotate_all.attr,
-> +	&dev_attr_cursor_blink.attr,
-> +	NULL,
-> +};
-> +ATTRIBUTE_GROUPS(device);
->   
->   #ifdef CONFIG_FRAMEBUFFER_CONSOLE_DEFERRED_TAKEOVER
->   static void fbcon_register_existing_fbs(struct work_struct *work)
-> @@ -3336,19 +3315,18 @@ static void fbcon_start(void)
->   
->   void __init fb_console_init(void)
->   {
-> +	struct device *fbcon_device;
->   	int i;
->   
+>   static ssize_t cursor_blink_store(struct device *device,
+> @@ -3230,7 +3230,7 @@ static ssize_t cursor_blink_store(struct device *device,
 >   	console_lock();
-> -	fbcon_device = device_create(fb_class, NULL, MKDEV(0, 0), NULL,
-> -				     "fbcon");
+>   	idx = con2fb_map[fg_console];
 >   
-> +	fbcon_device = device_create_with_groups(fb_class, NULL, MKDEV(0, 0),
-> +						 NULL, device_groups, "fbcon");
->   	if (IS_ERR(fbcon_device)) {
->   		printk(KERN_WARNING "Unable to create device "
->   		       "for fbcon; errno = %ld\n",
->   		       PTR_ERR(fbcon_device));
-> -		fbcon_device = NULL;
-> -	} else
-> -		fbcon_init_device();
-> +	}
+> -	fbcon_cursor_noblink = !blink;
+> +	fbcon_cursor_blink = blink;
 >   
->   	for (i = 0; i < MAX_NR_CONSOLES; i++)
->   		con2fb_map[i] = -1;
-> @@ -3359,18 +3337,6 @@ void __init fb_console_init(void)
->   
->   #ifdef MODULE
->   
-> -static void __exit fbcon_deinit_device(void)
-> -{
-> -	int i;
-> -
-> -	if (fbcon_has_sysfs) {
-> -		for (i = 0; i < ARRAY_SIZE(device_attrs); i++)
-> -			device_remove_file(fbcon_device, &device_attrs[i]);
-> -
-> -		fbcon_has_sysfs = 0;
-> -	}
-> -}
-> -
->   void __exit fb_console_exit(void)
->   {
->   #ifdef CONFIG_FRAMEBUFFER_CONSOLE_DEFERRED_TAKEOVER
-> @@ -3383,7 +3349,6 @@ void __exit fb_console_exit(void)
->   #endif
->   
->   	console_lock();
-> -	fbcon_deinit_device();
->   	device_destroy(fb_class, MKDEV(0, 0));
->   
->   	do_unregister_con_driver(&fb_con);
+>   	if (idx == -1 || fbcon_registered_fb[idx] == NULL)
+>   		goto err;
 
 -- 
 --
