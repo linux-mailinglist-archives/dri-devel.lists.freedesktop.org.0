@@ -2,59 +2,129 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69F91984812
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 16:54:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CEEF98484B
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 17:09:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D462110E1D3;
-	Tue, 24 Sep 2024 14:54:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B22BE10E702;
+	Tue, 24 Sep 2024 15:09:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="l4kqvdIv";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RfjBpiIQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E23F510E1D3;
- Tue, 24 Sep 2024 14:54:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=hqzfFKfOE83r0mhtOzr5x9iCJ5vFyFw8LoLOO1OI6j0=; b=l4kqvdIv4hP1vkGEi3d3HQfJvy
- 9a6NuxdX38Gnql9YzaIkNrgrnXp6PIIfwXCm5RAI8Pm/e7GWX4ss6XYhI7PsTTZxsFAZxefHiMa3q
- 6RgGVmQM4gpfiBhkofXn4kcSfGASRK/tuRo6m1S5akL7ufCCubK7A51pygdsy3dKZEI2rZUvmDShR
- AuVvm2lVT505oQWDtGeoLstZ/tierNeLM/Hu5TWvZRjlYfgWsno5Jl0HCalONG/lTq6gP2nZaL3WE
- QOoTXE11XAjIj/DF4dqWHRSn0MSZWrMHboRuy5TWLonu3HDC357o004WMBGx+xICYvi7hVzik9qPZ
- CrT3XlbA==;
-Received: from [90.241.98.187] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1st6w8-000Vby-S3; Tue, 24 Sep 2024 16:54:44 +0200
-Message-ID: <1a58293a-3406-4424-9617-0572e7b65e83@igalia.com>
-Date: Tue, 24 Sep 2024 15:54:43 +0100
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
+ [209.85.210.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71CCF10E8CD;
+ Tue, 24 Sep 2024 15:09:42 +0000 (UTC)
+Received: by mail-pf1-f170.google.com with SMTP id
+ d2e1a72fcca58-71b08405187so183191b3a.3; 
+ Tue, 24 Sep 2024 08:09:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1727190582; x=1727795382; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+ bh=cfo3ogkNwrEgRrC3RoYf+bQfdrr67MP1w0PEcE3Sh3c=;
+ b=RfjBpiIQvIxPihR9k6CFGS3HHOiev6nLY+06vlT+UiRCfYnNlAylmqmxkSV4EmLpYI
+ JOnMu8gevmF4BYuVofDxZyVVPx3SQHCxlli1u1r862DMnpcaLwNnEuJ2v72d1glDrOdd
+ 6I7ICQmkiNP+l9aSdYO3x7Fo/xFghpXS/r48vx/uQNxy+wbPrTxlPisNwajR+VGQCrO2
+ 74d6WJBNGCm4YviubHS7nfeXmR3JPvLSbv0t2tWV+tDp5Mfhy+Ehq2nXsS2tHZNi4KeZ
+ v1oYk9zLuS9Mp0OmWftfA8AKeujzxqizBaC4HXMOwnSdqR9nk6234P31Wo+CVkxbFYTo
+ Iv+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1727190582; x=1727795382;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=cfo3ogkNwrEgRrC3RoYf+bQfdrr67MP1w0PEcE3Sh3c=;
+ b=N3qRDIY1SaKj4ZkkB4Yr8q0eFgmZds9Vm+YaRwl0Ni/yP8Evpy7+7zPoEUcuOaN2gq
+ Pvnp947by4laPBQHBXgadX8L9NhiVIFW1cgFp94tM2PU9+wZMJUiLWzkIfnCBAGPx6N5
+ KpJhnPLzENzVyUGc4wALPKfC+xau5hp2u7P8VaNLMV1HzbELEzGUSuDuvY1x0pN98BQL
+ mxC61Cpxu0P7t6zEKGgoe2BfQACy3Y+DHU303hlN67+5uC/tEHQytdWdnSu1U/+9Pq53
+ rkfIrg3SEoUSFIxS350ZTcDJb2huygyqc4It9hpQqmVAAYEap2ysvFp/XL3mnVZ9W0ro
+ rr4g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU/YyjMVjrNZlpN4ps0s7/V6iWquZ5+h/ETz1QdC2/cKWUiNvekzPEC77i7g6nV+zT04nxt/wMfeyk=@lists.freedesktop.org,
+ AJvYcCXKSUEEjRVTF8cnauso6gm4WUAhyTREUpxgR0dNrXOKC23TrEw1ErI6YpYaZv5O9WBpnlJZRx0e7ET8@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzodIbfYT0XgaqKrfwPcDFT0mCKfKQa7uMgVLpmDC0GpK20WWLm
+ KvMD6+9vNqZUxPhN/YigoZNlf2JYavbpxh9WpamxoNz9EdLZBF3Q
+X-Google-Smtp-Source: AGHT+IGLrdslVWPxF1WbVckJaFqp46yKiM9TtPJOqkoG6UKwzb6lU1/L5YoKbupOJxva0LTjKiz3Ow==
+X-Received: by 2002:a05:6a00:3cd3:b0:710:591e:b52f with SMTP id
+ d2e1a72fcca58-7199cc45827mr22140121b3a.5.1727190581743; 
+ Tue, 24 Sep 2024 08:09:41 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c?
+ ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-71afc9c6a67sm1310291b3a.190.2024.09.24.08.09.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 24 Sep 2024 08:09:40 -0700 (PDT)
+Message-ID: <4accd038-9624-43de-96ad-7ecd0876b607@roeck-us.net>
+Date: Tue, 24 Sep 2024 08:09:38 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/8] drm/sched: Always wake up correct scheduler in
- drm_sched_entity_push_job
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Tvrtko Ursulin <tursulin@igalia.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Alex Deucher <alexander.deucher@amd.com>,
- Luben Tuikov <ltuikov89@gmail.com>, Matthew Brost <matthew.brost@intel.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Philipp Stanner <pstanner@redhat.com>, stable@vger.kernel.org
-References: <20240924101914.2713-1-tursulin@igalia.com>
- <20240924101914.2713-3-tursulin@igalia.com>
- <4dcce6db-cdb1-4378-8fea-8540ec7539ef@amd.com>
- <1b56854b-5357-4efa-b31b-950eb85ee277@igalia.com>
- <2df3ce7d-9f3e-4530-88ad-d7376f1336d2@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <2df3ce7d-9f3e-4530-88ad-d7376f1336d2@amd.com>
+Subject: Re: [PATCH 0/2] drm: revert some framebuffer API tests
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Simona Vetter <simona.vetter@ffwll.ch>,
+ Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org,
+ Carlos Eduardo Gallo Filho <gcarlos@disroot.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Jeff Johnson <quic_jjohnson@quicinc.com>
+References: <cover.1726594684.git.jani.nikula@intel.com>
+ <ZvKPJGQyZmdWNOmd@phenom.ffwll.local>
+ <20240924-refined-nocturnal-starfish-2947b8@houat>
+ <f3f8bec1-884b-46ac-82a6-6e5cb8840146@roeck-us.net>
+ <20240924-handsome-labrador-of-shopping-b1dce5@houat>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <20240924-handsome-labrador-of-shopping-b1dce5@houat>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,118 +140,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 24/09/2024 15:20, Christian König wrote:
-> Am 24.09.24 um 16:12 schrieb Tvrtko Ursulin:
->>
->> On 24/09/2024 14:55, Christian König wrote:
->>> I've pushed the first to drm-misc-next, but that one here fails to 
->>> apply cleanly.
->>
->> This appears due 440d52b370b0 ("drm/sched: Fix dynamic job-flow 
->> control race") in drm-misc-fixes.
->>
->> In theory 1-3 from my series are fixes. Should they also go to 
->> drm-misc-fixes? I am not too familiar with the drm-misc flow.
-> 
-> Ah shit, in that case you should have spitted the patches up into fixes 
-> and next. Going to push the first 3 to fixes.
-
-Sorry my drm-intel ways of thinking (cherry picked fixes) are hard to 
-get rid of. Hence the series was structured as 1-3 fixes, 4-8 refactors etc.
-
-Now appears it is too late to pull out the first one from drm-misc-next.
->> Or the series now needs to wait for some backmerge?
-> 
-> Are the remaining 3 patches independent? If not then we need to wait for 
-> a backmerge.
-
-These are independent:
-
-Fixes:
-
-  1/8 "drm/sched: Add locking to drm_sched_entity_modify_sched"
-
-Not fixes:
-
-  5/8 "drm/sched: Stop setting current entity in FIFO mode"
-  6/8 "drm/sched: Re-order struct drm_sched_rq members for clarity"
-
-While the rest touch at least some common areas.
-
-2/8 and 3/8 are also fixes.
-
-4/8, 7/8 and 8/8 not fixes but depend on 2/8 and 3/8.
-
-Regards,
-
-Tvrtko
-
->>> Am 24.09.24 um 12:19 schrieb Tvrtko Ursulin:
->>>> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->>>>
->>>> Since drm_sched_entity_modify_sched() can modify the entities run 
->>>> queue,
->>>> lets make sure to only dereference the pointer once so both adding and
->>>> waking up are guaranteed to be consistent.
->>>>
->>>> Alternative of moving the spin_unlock to after the wake up would for 
->>>> now
->>>> be more problematic since the same lock is taken inside
->>>> drm_sched_rq_update_fifo().
->>>>
->>>> v2:
->>>>   * Improve commit message. (Philipp)
->>>>   * Cache the scheduler pointer directly. (Christian)
->>>>
->>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->>>> Fixes: b37aced31eb0 ("drm/scheduler: implement a function to modify 
->>>> sched list")
->>>> Cc: Christian König <christian.koenig@amd.com>
->>>> Cc: Alex Deucher <alexander.deucher@amd.com>
->>>> Cc: Luben Tuikov <ltuikov89@gmail.com>
->>>> Cc: Matthew Brost <matthew.brost@intel.com>
->>>> Cc: David Airlie <airlied@gmail.com>
->>>> Cc: Daniel Vetter <daniel@ffwll.ch>
->>>> Cc: Philipp Stanner <pstanner@redhat.com>
->>>> Cc: dri-devel@lists.freedesktop.org
->>>> Cc: <stable@vger.kernel.org> # v5.7+
->>>> Reviewed-by: Christian König <christian.koenig@amd.com>
->>>> ---
->>>>   drivers/gpu/drm/scheduler/sched_entity.c | 10 ++++++++--
->>>>   1 file changed, 8 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c 
->>>> b/drivers/gpu/drm/scheduler/sched_entity.c
->>>> index 0e002c17fcb6..a75eede8bf8d 100644
->>>> --- a/drivers/gpu/drm/scheduler/sched_entity.c
->>>> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
->>>> @@ -599,6 +599,9 @@ void drm_sched_entity_push_job(struct 
->>>> drm_sched_job *sched_job)
->>>>       /* first job wakes up scheduler */
->>>>       if (first) {
->>>> +        struct drm_gpu_scheduler *sched;
->>>> +        struct drm_sched_rq *rq;
->>>> +
->>>>           /* Add the entity to the run queue */
->>>>           spin_lock(&entity->rq_lock);
->>>>           if (entity->stopped) {
->>>> @@ -608,13 +611,16 @@ void drm_sched_entity_push_job(struct 
->>>> drm_sched_job *sched_job)
->>>>               return;
->>>>           }
->>>> -        drm_sched_rq_add_entity(entity->rq, entity);
->>>> +        rq = entity->rq;
->>>> +        sched = rq->sched;
->>>> +
->>>> +        drm_sched_rq_add_entity(rq, entity);
->>>>           spin_unlock(&entity->rq_lock);
->>>>           if (drm_sched_policy == DRM_SCHED_POLICY_FIFO)
->>>>               drm_sched_rq_update_fifo(entity, submit_ts);
->>>> -        drm_sched_wakeup(entity->rq->sched);
->>>> +        drm_sched_wakeup(sched);
->>>>       }
->>>>   }
->>>>   EXPORT_SYMBOL(drm_sched_entity_push_job);
+On 9/24/24 06:56, Maxime Ripard wrote:
+> On Tue, Sep 24, 2024 at 06:37:59AM GMT, Guenter Roeck wrote:
+>> On 9/24/24 04:54, Maxime Ripard wrote:
+>>> +Guenter
 >>>
+>>> On Tue, Sep 24, 2024 at 12:06:28PM GMT, Simona Vetter wrote:
+>>>> On Tue, Sep 17, 2024 at 08:43:50PM +0300, Jani Nikula wrote:
+>>>>> The tests consistently trigger WARNs in drm_framebuffer code. I'm not
+>>>>> sure what the point is with type of belts and suspenders tests. The
+>>>>> warnings *are* the way to flag erroneous API usage.
+>>>>>
+>>>>> Warnings in turn trigger failures in CI. Filtering the warnings are
+>>>>> error prone, and, crucially, would also filter actual errors in case the
+>>>>> kunit tests are not run.
+>>>>>
+>>>>> I acknowledge there may be complex test cases where you'd end up
+>>>>> triggering warnings somewhere deep, but these are not it. These are
+>>>>> simple.
+>>>>>
+>>>>> Revert the tests, back to the drawing board.
+>>>>
+>>>> Yeah I think long-term we might want a kunit framework so that we can
+>>>> catch dmesg warnings we expect and test for those, without those warnings
+>>>> actually going to dmesg. Similar to how the lockdep tests also reroute
+>>>> locking validation, so that the expected positive tests don't wreak
+>>>> lockdep for real.
+>>>>
+>>>> But until that exists, we can't have tests that splat in dmesg when they
+>>>> work as intended.
+>>>
+
+FWIW, that is arguable. More and more tests are added which do add such splats,
+and I don't see any hesitance by developers to adding more. So far I counted
+two alone in this commit window, and that does not include new splats from
+tests which I had already disabled. I simply disable those tests or don't
+enable them in the first place if they are new. I did the same with the drm
+unit tests due to the splats generated by the scaling unit tests, so any
+additional drm unit test splats don't make a difference for me since the
+tests are already disabled.
+
+>>> It should be pretty soon:
+>>> https://lore.kernel.org/dri-devel/20240403131936.787234-1-linux@roeck-us.net/
+>>>
+>>> I'm not sure what happened to that series, but it looks like everybody
+>>> was mostly happy with it?
+>>>
+>>
+>> Major subsystem maintainers did not provide any feedback at all, and then
+>> there came the "it is not perfect enough" feedback, so I gave up on it.
 > 
+> Well, if that means anything, we're interested even in something
+> imperfect if it solves the above case :)
+> 
+
+Maybe someone else is interested picking it up (and no need for credits).
+I am buried in work and don't have the time (nor, frankly, much interest)
+to revive it. Also, just for reference: The patch series touches a total
+of 8 architectures, and unless I missed some I only got feedback from two
+architecture maintainers. That doesn't include arm - I don't recall if it
+doesn't need changes or if I never got there.
+
+Guenter
+
