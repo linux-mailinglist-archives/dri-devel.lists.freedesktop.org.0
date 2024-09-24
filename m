@@ -2,75 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D5B8983B6A
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 04:59:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 377D1983BB7
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 05:53:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D27E10E4C3;
-	Tue, 24 Sep 2024 02:59:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC72110E4C4;
+	Tue, 24 Sep 2024 03:53:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="lcOe1yxN";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="fJt8ekz4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com
- [209.85.161.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 708EC10E4C3
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 02:59:48 +0000 (UTC)
-Received: by mail-oo1-f48.google.com with SMTP id
- 006d021491bc7-5d5eec95a74so2326248eaf.1
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2024 19:59:48 -0700 (PDT)
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
+ [209.85.214.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0802310E4C4
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 03:53:17 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id
+ d9443c01a7336-20570b42f24so55065915ad.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2024 20:53:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1727146787; x=1727751587;
+ d=chromium.org; s=google; t=1727149996; x=1727754796;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=2A7oN5W7TNsx8rj73OuWfnvUP/XBNcMIaAb16FR0c0o=;
- b=lcOe1yxNMrL2/zE2o6QBF75c+ur1gnwvcPFZZb9yiXEMr3QL7ZqcgI4cYwgiox6d6a
- NQ/5+oTHf/0rXf6yYA+2VAGAzS7Ta9z9qA5z6HW5hRjjv00F+AGzalzujwaTZydNvfQ5
- beJ7Qiw7Kqb2WGqhgxYx4m/509imoXKoDbn94=
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=itAoP6z6vkUpMR5lw63h40cd1DW9tcScRk+uvBsAU8g=;
+ b=fJt8ekz4TIMxNkG0yV2D/TKchP39li/DCm7nUUFBpmDE8b49F+VxYRKGyZpD7SoDrf
+ y8lCWqf9siwTMKeORO+NoCVnELwepWf6IvxdtInZeJ6SWNguZAaPJ6q1R3/8zJLytisy
+ h84ZP5rrc/R8ZF4N14vU3sIRL7GTRvnPpD5k4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727146787; x=1727751587;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=2A7oN5W7TNsx8rj73OuWfnvUP/XBNcMIaAb16FR0c0o=;
- b=f3kfJwzmtlHt23VNW6edZyNHCax+oCzT4vhQEhCZg5PeNDsgeVFSxL508Kdy0D+XMe
- V9qvkiZAkycVlEFdlbKSnSPVTrLaIwB/v6HMC1ATDj9KZI7rC+1KM6wK19EHPM25ngNt
- BxpDnp5EJdyGn2Dyi/i4aucWgZQPWegmZrytNhXkTQotJjNPu3GqJ/k8TvJc3bURjQ29
- XrJ32JshrFmPv0T0hYIfjn3nbFz9E0iu85KO2vUbRaeL5xek9Ctogb6YS61vNsCPbRgk
- 1+ESNvQwiWFJIOd8A0bJfCmaU+qoSp4nqpUTDsJF9L53xrSHmm2ifaj0KfZ2asbcnNAP
- et8A==
+ d=1e100.net; s=20230601; t=1727149996; x=1727754796;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=itAoP6z6vkUpMR5lw63h40cd1DW9tcScRk+uvBsAU8g=;
+ b=hiHcDckPsUESXomLyDYOFGFQGDyDcqWQxC4ngLEDutMNIPf+64j9rtIzW/k0Gfxypq
+ r3qwRai+8D+e4osnHpgPX72Tu2dhWCi3GoS/1dCIc2/tcuVXMk70OtK6DmBu4NNf1tSV
+ h+dkahfj4gRIQL4kHXyp7c2FhJgJwOmrZMW6VRGrYYSBJPDNFGuTQAjw4pN1rC0pYexM
+ mo+D1sEsVIpgMSswDkY/35eT+se7pSY2wVkVKtzIZy91EtJI4ocaToExHUZm2oF0tVl/
+ suEf1ZEfnyvXw2swy7TXchSSpuQoDweaCqToPl19KtUyLX3ph8B+cgQsRh7A09SMQeKn
+ HnYA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXssiBebSPnBz0R5Un+CKKhOoQ8d8KywmgCBV+o5MKjgHqnFx54mo+tefcIAPHLUi7V2jEvGWeuKVQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxOFHKuDxQ+IDhO1C946SfUMqAigf34htpskgZHw30wW2Eny56B
- M3nc9FzmoXFG6+yY1OflK2WGHMZjo8MIvyEAr0OZD5s3tuCSelaeBFwqJM0NFHe9nvjZgT5ECob
- W5IYGZZifFsKe5wtI3UVyQtSnYv8AZvjtoHzg
-X-Google-Smtp-Source: AGHT+IH1+SRKIPyBrUHidz4n4WMU3uFmkshuiWHBHVzYm97HXJx86PuKF5H9wpxkMmLpJwYwyoIA2gmVbOkzzmyWgkM=
-X-Received: by 2002:a05:6830:6588:b0:710:ec5f:45b9 with SMTP id
- 46e09a7af769-713923caea2mr10257229a34.13.1727146787532; Mon, 23 Sep 2024
- 19:59:47 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240923094826.13471-1-Hermes.Wu@ite.com.tw>
- <20240923094826.13471-3-Hermes.Wu@ite.com.tw>
- <4viir5prnuvpp76npblwmdrwlttm5daumvdnocipdsn6geyxvf@2yfcytjb3ono>
- <a0a8f862018b4c9aa689672551e7a492@ite.com.tw>
- <mkx63gnb2fobxxc5jc2f326d2oviix7dahyoh4sfeuiyypucln@hnklvrtv4q2u>
- <169c171660ac4897903aef5befc780db@ite.com.tw>
-In-Reply-To: <169c171660ac4897903aef5befc780db@ite.com.tw>
+ AJvYcCUK9d4DQ2HZlHF/eCCcX9W0a9fZmjUhefG2ytSnNzOLmBnki3822Nu2mUEFrSEmuq5PyvrSrWM+anU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywn+qilNEEe+fzRwE0lf7V3J141896dvqKKL9olLf64EXiEiRIN
+ kU/2aKHfWsvTX4LmkQob8XihnzbVGMSEuFKTg221bAmQV/s0Si378yTtCCEK8w==
+X-Google-Smtp-Source: AGHT+IFky1LfGemAY/Su4SnOb/kwNfm+jkQA/oFjvASbwaAUL1I1hsKEb4eZXTg0Szlx4LIwBXJAJw==
+X-Received: by 2002:a17:902:ce82:b0:205:7b04:ddf2 with SMTP id
+ d9443c01a7336-208d839ac4amr227572735ad.29.1727149996583; 
+ Mon, 23 Sep 2024 20:53:16 -0700 (PDT)
+Received: from treapking.tpe.corp.google.com
+ ([2401:fa00:1:10:727c:308e:bfa8:9ccb])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-20af1869000sm2555335ad.307.2024.09.23.20.53.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 23 Sep 2024 20:53:16 -0700 (PDT)
 From: Pin-yen Lin <treapking@chromium.org>
-Date: Tue, 24 Sep 2024 10:59:36 +0800
-Message-ID: <CAEXTbpeSvpoHpo95wNznGYmJLaG9hTAJ5hVb1URRkkUddsOuAw@mail.gmail.com>
-Subject: Re: [PATCH v3 2/3] drm/bridge: it6505: HDCP CTS fail on repeater items
-To: Hermes.Wu@ite.com.tw
-Cc: dmitry.baryshkov@linaro.org, Kenneth.Hung@ite.com.tw, 
- andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org, 
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: Xin Ji <xji@analogixsemi.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: linux-kernel@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+ dri-devel@lists.freedesktop.org, Pin-yen Lin <treapking@chromium.org>,
+ Douglas Anderson <dianders@chromium.org>
+Subject: [PATCH 0/2] Drop EDID cache for it6505/anx7625 when the bridge is
+ powered off
+Date: Tue, 24 Sep 2024 11:51:45 +0800
+Message-ID: <20240924035231.1163670-1-treapking@chromium.org>
+X-Mailer: git-send-email 2.46.0.792.g87dc391469-goog
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,79 +84,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 24, 2024 at 10:57=E2=80=AFAM <Hermes.Wu@ite.com.tw> wrote:
->
-> >On Mon, Sep 23, 2024 at 10:45:49AM GMT, Hermes.Wu@ite.com.tw wrote:
-> >> >On Mon, Sep 23, 2024 at 05:48:28PM GMT, Hermes Wu wrote:
-> >> >> From: Hermes Wu <Hermes.wu@ite.com.tw>
-> >> >>
-> >> >> Changes in v3:
-> >> >>  -add detials about fail item and changes.
-> >> >>
-> >> >>
-> >> >> Fix HDCP CTS fail items on UNIGRAF DRP-100
-> >> >>
-> >> >> DUT must Support 127 devices.
-> >> >> DUT must check BSTATUS when receive CP_IRQ.
-> >> >> DUT must enable encryption when R0' is ready.
-> >> >> DUT must retry V' check 3 times.
-> >> >> it6505 must read DRP-100 KSV FIFO by FIFO mode.
-> >> >> it6505 should restart HDCP within 5s if KSV not ready.
-> >> >
-> >> >Still not readable.
-> >> >
-> >> >English text, please. Split the patch to fix one issue at a time.
-> >> >Describe the _reason_ for the change. Annotate fixes with Fixes tags.
-> >> >
-> >>
-> >> with fixes tag include drm/bridge like this ?  =3D> "Fixes: drm/bridge=
-: it6505: HDCP CTS fail 1B-xx"
-> >
-> >No. Please read the document that I have been pointing you to. It descri=
-bes all the tags and procedures.
-> >
-> >>
-> >> About the reason about bug fixes.
-> >>
-> >> for example, the 1B-01 device count.
-> >> will this readable?
-> >>
-> >> " When connect to HDCP repeater, it6505 must support 127 downstream de=
-vices. "
-> >>
-> >> And this will be only one change in a patch?
-> >
-> >Let me repeat the phrase that you have quoted few lines above. "Split th=
-e patch to fix one issue at a time." So, no, this will not be the only chan=
-ge in the patch.
-> >
->
-> The HDCP CTS include serval items, I should split each failure item fixes=
- into different patch?
+This mainly fixes the use case when the user changes the external monitor
+when the system is suspended. Without this series, both of the bridges
+will skip the EDID read and returned the cached one after resume.
 
-Yes, please. You can mention in the cover letter that those patches
-are fixing HDCP CTS failures, but please fix one issue at a time and
-explain what it fixes in the commit message.
->
->
-> >>
-> >> >>
-> >> >> Signed-off-by: Hermes Wu <Hermes.wu@ite.com.tw>
-> >> >> ---
-> >> >>  drivers/gpu/drm/bridge/ite-it6505.c | 112
-> >> >> ++++++++++++++++++----------
-> >> >>  1 file changed, 74 insertions(+), 38 deletions(-)
-> >> >
-> >> >--
-> >> >With best wishes
-> >> >Dmitry
-> >>
-> >> BR,
-> >> Hermes
-> >
-> >--
-> >With best wishes
-> >Dmitry
+Apart from that, we also observed a DP-to-HDMI bridge expects an EDID read
+after it's powered on. This patch also works around the problem by always
+triggering the EDID read after the system resume.
 
-Regards,
-Pin-yen
+
+Pin-yen Lin (2):
+  drm/bridge: anx7625: Drop EDID cache on bridge power off
+  drm/bridge: it6505: Drop EDID cache on bridge power off
+
+ drivers/gpu/drm/bridge/analogix/anx7625.c | 1 +
+ drivers/gpu/drm/bridge/ite-it6505.c       | 2 ++
+ 2 files changed, 3 insertions(+)
+
+-- 
+2.46.0.792.g87dc391469-goog
+
