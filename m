@@ -2,76 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB71C983B67
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 04:57:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D5B8983B6A
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 04:59:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8ACA10E004;
-	Tue, 24 Sep 2024 02:57:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D27E10E4C3;
+	Tue, 24 Sep 2024 02:59:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ite.com.tw header.i=@ite.com.tw header.b="bkSV6P5W";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="lcOe1yxN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ironport.ite.com.tw (60-251-196-230.hinet-ip.hinet.net
- [60.251.196.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B52D010E004
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 02:57:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ite.com.tw; s=dkim;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=Pez01GVTI+nAGe+V0h/GEhDzn9cAbuhuFih04e9gyZg=;
- b=bkSV6P5WH8MtzHUbwFejbkvodV2vsiKPVcwG57eX0HEs0w/VpoWX01oy
- lfM0G77K/erZKT8VI9QcBJEJ5cQhp+BBIebeSMJRaCA7SPZSuaYvJR+tA
- Uu1HOcG+tD+8z2IXzmy/2AbfdPndEjWPmfnMkhNNiM0RdQKZ2/+cyA5V/
- NoUqfaf3Xu93ZXD6SgxzrgScyeszH4ofr2o5Kc7tV45cPg9ZLM5xmGYQp
- GztSThc6n62sW9qDfUeNo00rLeIUVzLm0tCCPneHcIDBoEJdqhDUbHiAq
- o6ee/57YvaIxt98eNo0wlLbaSfAUQV5acRWRr7lq+i7QlOlJnnuhfilb0 w==;
-X-CSE-ConnectionGUID: hfp7j/ybSnG3IkO9gu66Sw==
-X-CSE-MsgGUID: sTBYZWO7Q0uIwBMJBz/iww==
-Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
- by ironport.ite.com.tw with ESMTP; 24 Sep 2024 10:57:15 +0800
-Received: from tpemail1.internal.ite.com.tw (TPEMAIL1.internal.ite.com.tw
- [192.168.15.58]) by mse.ite.com.tw with ESMTP id 48O2vBOJ047817;
- Tue, 24 Sep 2024 10:57:11 +0800 (GMT-8)
- (envelope-from Hermes.Wu@ite.com.tw)
-Received: from TPEMAIL1.internal.ite.com.tw (192.168.15.58) by
- TPEMAIL1.internal.ite.com.tw (192.168.15.58) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Tue, 24 Sep 2024 10:57:10 +0800
-Received: from TPEMAIL1.internal.ite.com.tw ([fe80::dd6d:92:8773:b68]) by
- TPEMAIL1.internal.ite.com.tw ([fe80::dd6d:92:8773:b68%6]) with mapi id
- 15.01.2507.039; Tue, 24 Sep 2024 10:57:10 +0800
-From: <Hermes.Wu@ite.com.tw>
-To: <dmitry.baryshkov@linaro.org>
-CC: <treapking@chromium.org>, <Kenneth.Hung@ite.com.tw>,
- <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>,
- <rfoss@kernel.org>, <Laurent.pinchart@ideasonboard.com>,
- <jonas@kwiboo.se>, <jernej.skrabec@gmail.com>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v3 2/3] drm/bridge: it6505: HDCP CTS fail on repeater items
-Thread-Topic: [PATCH v3 2/3] drm/bridge: it6505: HDCP CTS fail on repeater
- items
-Thread-Index: AQHbDaFxMxnMHj2GkEGHdgKCDl4eaLJlMDIw//+LvQCAAYOEgA==
-Date: Tue, 24 Sep 2024 02:57:10 +0000
-Message-ID: <169c171660ac4897903aef5befc780db@ite.com.tw>
+Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com
+ [209.85.161.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 708EC10E4C3
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 02:59:48 +0000 (UTC)
+Received: by mail-oo1-f48.google.com with SMTP id
+ 006d021491bc7-5d5eec95a74so2326248eaf.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Sep 2024 19:59:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1727146787; x=1727751587;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=2A7oN5W7TNsx8rj73OuWfnvUP/XBNcMIaAb16FR0c0o=;
+ b=lcOe1yxNMrL2/zE2o6QBF75c+ur1gnwvcPFZZb9yiXEMr3QL7ZqcgI4cYwgiox6d6a
+ NQ/5+oTHf/0rXf6yYA+2VAGAzS7Ta9z9qA5z6HW5hRjjv00F+AGzalzujwaTZydNvfQ5
+ beJ7Qiw7Kqb2WGqhgxYx4m/509imoXKoDbn94=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1727146787; x=1727751587;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=2A7oN5W7TNsx8rj73OuWfnvUP/XBNcMIaAb16FR0c0o=;
+ b=f3kfJwzmtlHt23VNW6edZyNHCax+oCzT4vhQEhCZg5PeNDsgeVFSxL508Kdy0D+XMe
+ V9qvkiZAkycVlEFdlbKSnSPVTrLaIwB/v6HMC1ATDj9KZI7rC+1KM6wK19EHPM25ngNt
+ BxpDnp5EJdyGn2Dyi/i4aucWgZQPWegmZrytNhXkTQotJjNPu3GqJ/k8TvJc3bURjQ29
+ XrJ32JshrFmPv0T0hYIfjn3nbFz9E0iu85KO2vUbRaeL5xek9Ctogb6YS61vNsCPbRgk
+ 1+ESNvQwiWFJIOd8A0bJfCmaU+qoSp4nqpUTDsJF9L53xrSHmm2ifaj0KfZ2asbcnNAP
+ et8A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXssiBebSPnBz0R5Un+CKKhOoQ8d8KywmgCBV+o5MKjgHqnFx54mo+tefcIAPHLUi7V2jEvGWeuKVQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxOFHKuDxQ+IDhO1C946SfUMqAigf34htpskgZHw30wW2Eny56B
+ M3nc9FzmoXFG6+yY1OflK2WGHMZjo8MIvyEAr0OZD5s3tuCSelaeBFwqJM0NFHe9nvjZgT5ECob
+ W5IYGZZifFsKe5wtI3UVyQtSnYv8AZvjtoHzg
+X-Google-Smtp-Source: AGHT+IH1+SRKIPyBrUHidz4n4WMU3uFmkshuiWHBHVzYm97HXJx86PuKF5H9wpxkMmLpJwYwyoIA2gmVbOkzzmyWgkM=
+X-Received: by 2002:a05:6830:6588:b0:710:ec5f:45b9 with SMTP id
+ 46e09a7af769-713923caea2mr10257229a34.13.1727146787532; Mon, 23 Sep 2024
+ 19:59:47 -0700 (PDT)
+MIME-Version: 1.0
 References: <20240923094826.13471-1-Hermes.Wu@ite.com.tw>
  <20240923094826.13471-3-Hermes.Wu@ite.com.tw>
  <4viir5prnuvpp76npblwmdrwlttm5daumvdnocipdsn6geyxvf@2yfcytjb3ono>
  <a0a8f862018b4c9aa689672551e7a492@ite.com.tw>
  <mkx63gnb2fobxxc5jc2f326d2oviix7dahyoh4sfeuiyypucln@hnklvrtv4q2u>
-In-Reply-To: <mkx63gnb2fobxxc5jc2f326d2oviix7dahyoh4sfeuiyypucln@hnklvrtv4q2u>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [192.168.20.82]
-x-tm-snts-smtp: 349B6BE6289B44C8306504438E8113A17A71BD20F204424E7C03870435E6C8B52002:8
-Content-Type: text/plain; charset="big5"
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-MAIL: mse.ite.com.tw 48O2vBOJ047817
+ <169c171660ac4897903aef5befc780db@ite.com.tw>
+In-Reply-To: <169c171660ac4897903aef5befc780db@ite.com.tw>
+From: Pin-yen Lin <treapking@chromium.org>
+Date: Tue, 24 Sep 2024 10:59:36 +0800
+Message-ID: <CAEXTbpeSvpoHpo95wNznGYmJLaG9hTAJ5hVb1URRkkUddsOuAw@mail.gmail.com>
+Subject: Re: [PATCH v3 2/3] drm/bridge: it6505: HDCP CTS fail on repeater items
+To: Hermes.Wu@ite.com.tw
+Cc: dmitry.baryshkov@linaro.org, Kenneth.Hung@ite.com.tw, 
+ andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org, 
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+ airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,37 +86,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Pk9uIE1vbiwgU2VwIDIzLCAyMDI0IGF0IDEwOjQ1OjQ5QU0gR01ULCBIZXJtZXMuV3VAaXRlLmNv
-bS50dyB3cm90ZToNCj4+ID5PbiBNb24sIFNlcCAyMywgMjAyNCBhdCAwNTo0ODoyOFBNIEdNVCwg
-SGVybWVzIFd1IHdyb3RlOg0KPj4gPj4gRnJvbTogSGVybWVzIFd1IDxIZXJtZXMud3VAaXRlLmNv
-bS50dz4NCj4+ID4+IA0KPj4gPj4gQ2hhbmdlcyBpbiB2MzoNCj4+ID4+ICAtYWRkIGRldGlhbHMg
-YWJvdXQgZmFpbCBpdGVtIGFuZCBjaGFuZ2VzLg0KPj4gPj4gDQo+PiA+PiANCj4+ID4+IEZpeCBI
-RENQIENUUyBmYWlsIGl0ZW1zIG9uIFVOSUdSQUYgRFJQLTEwMA0KPj4gPj4gDQo+PiA+PiBEVVQg
-bXVzdCBTdXBwb3J0IDEyNyBkZXZpY2VzLg0KPj4gPj4gRFVUIG11c3QgY2hlY2sgQlNUQVRVUyB3
-aGVuIHJlY2VpdmUgQ1BfSVJRLg0KPj4gPj4gRFVUIG11c3QgZW5hYmxlIGVuY3J5cHRpb24gd2hl
-biBSMCcgaXMgcmVhZHkuDQo+PiA+PiBEVVQgbXVzdCByZXRyeSBWJyBjaGVjayAzIHRpbWVzLg0K
-Pj4gPj4gaXQ2NTA1IG11c3QgcmVhZCBEUlAtMTAwIEtTViBGSUZPIGJ5IEZJRk8gbW9kZS4NCj4+
-ID4+IGl0NjUwNSBzaG91bGQgcmVzdGFydCBIRENQIHdpdGhpbiA1cyBpZiBLU1Ygbm90IHJlYWR5
-Lg0KPj4gPg0KPj4gPlN0aWxsIG5vdCByZWFkYWJsZS4NCj4+ID4NCj4+ID5FbmdsaXNoIHRleHQs
-IHBsZWFzZS4gU3BsaXQgdGhlIHBhdGNoIHRvIGZpeCBvbmUgaXNzdWUgYXQgYSB0aW1lLg0KPj4g
-PkRlc2NyaWJlIHRoZSBfcmVhc29uXyBmb3IgdGhlIGNoYW5nZS4gQW5ub3RhdGUgZml4ZXMgd2l0
-aCBGaXhlcyB0YWdzLg0KPj4gPg0KPj4gDQo+PiB3aXRoIGZpeGVzIHRhZyBpbmNsdWRlIGRybS9i
-cmlkZ2UgbGlrZSB0aGlzID8gID0+ICJGaXhlczogZHJtL2JyaWRnZTogaXQ2NTA1OiBIRENQIENU
-UyBmYWlsIDFCLXh4Ig0KPg0KPk5vLiBQbGVhc2UgcmVhZCB0aGUgZG9jdW1lbnQgdGhhdCBJIGhh
-dmUgYmVlbiBwb2ludGluZyB5b3UgdG8uIEl0IGRlc2NyaWJlcyBhbGwgdGhlIHRhZ3MgYW5kIHBy
-b2NlZHVyZXMuDQo+DQo+PiANCj4+IEFib3V0IHRoZSByZWFzb24gYWJvdXQgYnVnIGZpeGVzLiAN
-Cj4+IA0KPj4gZm9yIGV4YW1wbGUsIHRoZSAxQi0wMSBkZXZpY2UgY291bnQuDQo+PiB3aWxsIHRo
-aXMgcmVhZGFibGU/DQo+PiANCj4+ICIgV2hlbiBjb25uZWN0IHRvIEhEQ1AgcmVwZWF0ZXIsIGl0
-NjUwNSBtdXN0IHN1cHBvcnQgMTI3IGRvd25zdHJlYW0gZGV2aWNlcy4gIg0KPj4gDQo+PiBBbmQg
-dGhpcyB3aWxsIGJlIG9ubHkgb25lIGNoYW5nZSBpbiBhIHBhdGNoPw0KPg0KPkxldCBtZSByZXBl
-YXQgdGhlIHBocmFzZSB0aGF0IHlvdSBoYXZlIHF1b3RlZCBmZXcgbGluZXMgYWJvdmUuICJTcGxp
-dCB0aGUgcGF0Y2ggdG8gZml4IG9uZSBpc3N1ZSBhdCBhIHRpbWUuIiBTbywgbm8sIHRoaXMgd2ls
-bCBub3QgYmUgdGhlIG9ubHkgY2hhbmdlIGluIHRoZSBwYXRjaC4NCj4NCg0KVGhlIEhEQ1AgQ1RT
-IGluY2x1ZGUgc2VydmFsIGl0ZW1zLCBJIHNob3VsZCBzcGxpdCBlYWNoIGZhaWx1cmUgaXRlbSBm
-aXhlcyBpbnRvIGRpZmZlcmVudCBwYXRjaD8NCg0KDQo+PiANCj4+ID4+IA0KPj4gPj4gU2lnbmVk
-LW9mZi1ieTogSGVybWVzIFd1IDxIZXJtZXMud3VAaXRlLmNvbS50dz4NCj4+ID4+IC0tLQ0KPj4g
-Pj4gIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvaXRlLWl0NjUwNS5jIHwgMTEyIA0KPj4gPj4gKysr
-KysrKysrKysrKysrKysrLS0tLS0tLS0tLQ0KPj4gPj4gIDEgZmlsZSBjaGFuZ2VkLCA3NCBpbnNl
-cnRpb25zKCspLCAzOCBkZWxldGlvbnMoLSkNCj4+ID4NCj4+ID4tLQ0KPj4gPldpdGggYmVzdCB3
-aXNoZXMNCj4+ID5EbWl0cnkNCj4+IA0KPj4gQlIsDQo+PiBIZXJtZXMNCj4NCj4tLQ0KPldpdGgg
-YmVzdCB3aXNoZXMNCj5EbWl0cnkNCg==
+On Tue, Sep 24, 2024 at 10:57=E2=80=AFAM <Hermes.Wu@ite.com.tw> wrote:
+>
+> >On Mon, Sep 23, 2024 at 10:45:49AM GMT, Hermes.Wu@ite.com.tw wrote:
+> >> >On Mon, Sep 23, 2024 at 05:48:28PM GMT, Hermes Wu wrote:
+> >> >> From: Hermes Wu <Hermes.wu@ite.com.tw>
+> >> >>
+> >> >> Changes in v3:
+> >> >>  -add detials about fail item and changes.
+> >> >>
+> >> >>
+> >> >> Fix HDCP CTS fail items on UNIGRAF DRP-100
+> >> >>
+> >> >> DUT must Support 127 devices.
+> >> >> DUT must check BSTATUS when receive CP_IRQ.
+> >> >> DUT must enable encryption when R0' is ready.
+> >> >> DUT must retry V' check 3 times.
+> >> >> it6505 must read DRP-100 KSV FIFO by FIFO mode.
+> >> >> it6505 should restart HDCP within 5s if KSV not ready.
+> >> >
+> >> >Still not readable.
+> >> >
+> >> >English text, please. Split the patch to fix one issue at a time.
+> >> >Describe the _reason_ for the change. Annotate fixes with Fixes tags.
+> >> >
+> >>
+> >> with fixes tag include drm/bridge like this ?  =3D> "Fixes: drm/bridge=
+: it6505: HDCP CTS fail 1B-xx"
+> >
+> >No. Please read the document that I have been pointing you to. It descri=
+bes all the tags and procedures.
+> >
+> >>
+> >> About the reason about bug fixes.
+> >>
+> >> for example, the 1B-01 device count.
+> >> will this readable?
+> >>
+> >> " When connect to HDCP repeater, it6505 must support 127 downstream de=
+vices. "
+> >>
+> >> And this will be only one change in a patch?
+> >
+> >Let me repeat the phrase that you have quoted few lines above. "Split th=
+e patch to fix one issue at a time." So, no, this will not be the only chan=
+ge in the patch.
+> >
+>
+> The HDCP CTS include serval items, I should split each failure item fixes=
+ into different patch?
+
+Yes, please. You can mention in the cover letter that those patches
+are fixing HDCP CTS failures, but please fix one issue at a time and
+explain what it fixes in the commit message.
+>
+>
+> >>
+> >> >>
+> >> >> Signed-off-by: Hermes Wu <Hermes.wu@ite.com.tw>
+> >> >> ---
+> >> >>  drivers/gpu/drm/bridge/ite-it6505.c | 112
+> >> >> ++++++++++++++++++----------
+> >> >>  1 file changed, 74 insertions(+), 38 deletions(-)
+> >> >
+> >> >--
+> >> >With best wishes
+> >> >Dmitry
+> >>
+> >> BR,
+> >> Hermes
+> >
+> >--
+> >With best wishes
+> >Dmitry
+
+Regards,
+Pin-yen
