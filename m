@@ -2,79 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BDFE984934
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 18:09:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB93C98494A
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 18:12:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCCDA10E71A;
-	Tue, 24 Sep 2024 16:09:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A80910E8CA;
+	Tue, 24 Sep 2024 16:12:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UIcVYpXm";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="bL3MJ5VW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
- [209.85.210.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7229210E719;
- Tue, 24 Sep 2024 16:09:00 +0000 (UTC)
-Received: by mail-pf1-f171.google.com with SMTP id
- d2e1a72fcca58-718ebb01fd2so1086278b3a.2; 
- Tue, 24 Sep 2024 09:09:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1727194140; x=1727798940; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=wWsuC1k58rgBxgEKQ95dKaFfehaSkHrV3qM3cnflsPg=;
- b=UIcVYpXmFcpXBJQfIArW3VirlZPmPZEL+C+Etoh4w9rLTpU0hkqwtXZFHbs6iIwkoq
- v1q/2t6p5YaMWErFxCaaB8PMP/N9BS14syBlx1of69E0/TkV/sc1XXNvSn1moZW1UCX4
- ZraZfrPiD/FVihtjN1DcBIYdGLW5HK32ZRfFQr/u34NnjfNlSCcXlUS/tBqEWNVts1lF
- +gAiCO3PGabbsv7lFsi20LmJaxWSki0zV9UPf8k7hcEqVZTgLAEAWwLyilXPmVz+a5Ox
- ILQYul9c+BzMw1ALdqesjj7tXZdbxD6F5inxUONRNqyQQcxCqd6FPZJ0jf9EQCIackJr
- ZITg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727194140; x=1727798940;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=wWsuC1k58rgBxgEKQ95dKaFfehaSkHrV3qM3cnflsPg=;
- b=r/hNwWebXRb+D/Culob+0vxOOVFOqJcSyaDyW10Q3CNvkrqIQfHhBuepWPm/eJyXAB
- GKQK3yja8yh7Pe047PJR7vsbUq1Gct0clqucdkf2Pv9q4JDsiY/ZFllN676Hz878Cfkt
- gYRIjilYJ6bTAbtYPyKMMwBbJyWLe8p8NAJQPFPlTM1hLCz4//2yIipPClYGUzuk9bgu
- +S9EHczvRX/1b7Di1bOPJFjyNpmo1JNTJXZlgiQjcLyXJ3dDZTfQyXx4POBeee18B3tm
- 8gXTeRRKgz/A3ao3UqoQFOwGmctHEArnXbFJtcqRmx0eG02t+IPwa2tzct0Uio8cnW7S
- JD5g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVYijz/TKkvFpAgJfbCkyMhr5fKH43szJk61L9PXb1Afl8hJuqdHxO5H7HxSjb/DCYWNDENfxQSUxzt@lists.freedesktop.org,
- AJvYcCVxQ+0N5rwnT7tRS9joQJFzxhOIfIRMZUrhj1q6yA2YlIff94NhaA7CFPQW4A/VBO80sIgMxhAH@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxjm1XSZZVBGRpw0VUMlUdSRBA7rpS8bGf1qB0GSJ6aj4aF8pCq
- EPJJfpZaNB/0DpQyTUJOyjB0txR2VtbV+9BV4Dh65uoxupqlqGya9OTBA2FruFuPg+8nKxfikA5
- 6t7A3StCTDKUgrXL61RR+xyxRvUY=
-X-Google-Smtp-Source: AGHT+IHOExPAGZCXFGmdvFYllAvrAWe+T33mgW0ydNW0IhFfuAjbsci12Zvgz4GCqe7jF+3muMjRPm97OHwCLHCD8KY=
-X-Received: by 2002:a05:6a00:1889:b0:714:2051:89ea with SMTP id
- d2e1a72fcca58-71afb5c86bcmr2053630b3a.1.1727194139706; Tue, 24 Sep 2024
- 09:08:59 -0700 (PDT)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CC8110E8DA
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 16:12:02 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48O9iJQ9009964;
+ Tue, 24 Sep 2024 16:11:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ D8AwI5MZI4AYyLv+Gd8AN7IdOtZ48DTrQ7yEYYQrd/0=; b=bL3MJ5VWMUBxnAJn
+ X3rC3AQ5Q0okb3+evJaGSX0FsK1wjWoivLFxGfx/JPXBXz55b++jTo429KEUMEuC
+ SN4MON5fVJysrtBhWnuVsige4DSBiNNTqH4nV7I8G15vQJB/LJJNn1w+uqZPz7Al
+ lCeLEDAhtr/xqn+uzMk6XAH88Q21z8CsNFUMg+6BpC5coErqmd4JO0z52uU2DH97
+ J+3PLXMrFcxnk2kuOOpsT0mc+YLhEnrKRvGSgg7Bd18fCisqR8W25zCShh/Vc9gt
+ x5flL+Gf/rIRk8BXxzxU8cBG1VmZ23AcKFPpE4qRwINtYwE/FmT8mSuOHAj137Tm
+ GnFS0A==
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41snqyh9kv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 24 Sep 2024 16:11:49 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 48OGBSJ6008045
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 24 Sep 2024 16:11:28 GMT
+Received: from [10.134.70.212] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 24 Sep
+ 2024 09:11:28 -0700
+Message-ID: <c5f575d9-ea47-4f08-883d-36f01f304d75@quicinc.com>
+Date: Tue, 24 Sep 2024 09:11:27 -0700
 MIME-Version: 1.0
-References: <F25A139789E87C3E+20240920022755.1162495-1-wangyuli@uniontech.com>
- <ade271e8-2f6e-494b-979a-e53942b6b9a7@amd.com>
-In-Reply-To: <ade271e8-2f6e-494b-979a-e53942b6b9a7@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 24 Sep 2024 12:08:47 -0400
-Message-ID: <CADnq5_Pvq=W69KM08O4TOhG1fcQTO-KEE31KVqfsuOwJL9vv7w@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: Fix typo "acccess" and improve the comment
- style here
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: WangYuli <wangyuli@uniontech.com>, alexander.deucher@amd.com,
- Xinhui.Pan@amd.com, 
- airlied@gmail.com, simona@ffwll.ch, sunil.khatri@amd.com, 
- yifan1.zhang@amd.com, vitaly.prosyak@amd.com, Tim.Huang@amd.com, 
- Prike.Liang@amd.com, jesse.zhang@amd.com, lijo.lazar@amd.com, 
- Hawking.Zhang@amd.com, kevinyang.wang@amd.com, srinivasan.shanmugam@amd.com, 
- victorchengchi.lu@amd.com, Jiadong.Zhu@amd.com, tao.zhou1@amd.com, 
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, le.ma@amd.com, Wenhui.Sheng@amd.com, 
- Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] drm/panel: jd9365da: Modify Kingdisplay and Melfas
+ panel timing
+To: zhaoxiong lv <lvzhaoxiong@huaqin.corp-partner.google.com>
+CC: <neil.armstrong@linaro.org>, <sam@ravnborg.org>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
+ <dianders@chromium.org>, <hsinyi@google.com>,
+ <awarnecke002@hotmail.com>, <dmitry.baryshkov@linaro.org>,
+ <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+References: <20240923134227.11383-1-lvzhaoxiong@huaqin.corp-partner.google.com>
+ <20240923134227.11383-2-lvzhaoxiong@huaqin.corp-partner.google.com>
+ <42f0b4b1-87c7-4ebe-94a1-e2ad1a759dd7@quicinc.com>
+ <CA+6=WdTTwXSyqGFGM6mqG3djDBH28mAzBUxUEUdr6z7W2g-A7A@mail.gmail.com>
+Content-Language: en-US
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <CA+6=WdTTwXSyqGFGM6mqG3djDBH28mAzBUxUEUdr6z7W2g-A7A@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: hEnsDmT1Z1kYu6hjRfrpE6obNy8cT9So
+X-Proofpoint-ORIG-GUID: hEnsDmT1Z1kYu6hjRfrpE6obNy8cT9So
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ impostorscore=0 adultscore=0 bulkscore=0 phishscore=0 mlxlogscore=999
+ spamscore=0 lowpriorityscore=0 clxscore=1015 mlxscore=0 malwarescore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2408220000 definitions=main-2409240116
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,78 +98,115 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
 
-Alex
 
-On Fri, Sep 20, 2024 at 2:29=E2=80=AFAM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Am 20.09.24 um 04:27 schrieb WangYuli:
-> > There are some spelling mistakes of 'acccess' in comments which
-> > should be instead of 'access'.
-> >
-> > And the comment style should be like this:
-> >   /*
-> >    * Text
-> >    * Text
-> >    */
-> >
-> > Suggested-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > Link: https://lore.kernel.org/all/f75fbe30-528e-404f-97e4-854d27d7a401@=
-amd.com/
-> > Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-> > Link: https://lore.kernel.org/all/0c768bf6-bc19-43de-a30b-ff5e3ddfd0b3@=
-suse.de/
-> > Signed-off-by: WangYuli <wangyuli@uniontech.com>
->
-> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
->
-> > ---
-> >   drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c  | 6 ++++--
-> >   drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c | 6 ++++--
-> >   2 files changed, 8 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c b/drivers/gpu/drm/a=
-md/amdgpu/gfx_v11_0.c
-> > index d3e8be82a172..33fd2da49a2a 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c
-> > @@ -1893,8 +1893,10 @@ static void gfx_v11_0_init_compute_vmid(struct a=
-mdgpu_device *adev)
-> >       soc21_grbm_select(adev, 0, 0, 0, 0);
-> >       mutex_unlock(&adev->srbm_mutex);
-> >
-> > -     /* Initialize all compute VMIDs to have no GDS, GWS, or OA
-> > -        acccess. These should be enabled by FW for target VMIDs. */
-> > +     /*
-> > +      * Initialize all compute VMIDs to have no GDS, GWS, or OA
-> > +      * access. These should be enabled by FW for target VMIDs.
-> > +      */
-> >       for (i =3D adev->vm_manager.first_kfd_vmid; i < AMDGPU_NUM_VMID; =
-i++) {
-> >               WREG32_SOC15_OFFSET(GC, 0, regGDS_VMID0_BASE, 2 * i, 0);
-> >               WREG32_SOC15_OFFSET(GC, 0, regGDS_VMID0_SIZE, 2 * i, 0);
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c b/drivers/gpu/drm/=
-amd/amdgpu/gfx_v9_4_3.c
-> > index 408e5600bb61..57b55b6d797d 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c
-> > @@ -1247,8 +1247,10 @@ static void gfx_v9_4_3_xcc_init_compute_vmid(str=
-uct amdgpu_device *adev,
-> >       soc15_grbm_select(adev, 0, 0, 0, 0, GET_INST(GC, xcc_id));
-> >       mutex_unlock(&adev->srbm_mutex);
-> >
-> > -     /* Initialize all compute VMIDs to have no GDS, GWS, or OA
-> > -        acccess. These should be enabled by FW for target VMIDs. */
-> > +     /*
-> > +      * Initialize all compute VMIDs to have no GDS, GWS, or OA
-> > +      * access. These should be enabled by FW for target VMIDs.
-> > +      */
-> >       for (i =3D adev->vm_manager.first_kfd_vmid; i < AMDGPU_NUM_VMID; =
-i++) {
-> >               WREG32_SOC15_OFFSET(GC, GET_INST(GC, xcc_id), regGDS_VMID=
-0_BASE, 2 * i, 0);
-> >               WREG32_SOC15_OFFSET(GC, GET_INST(GC, xcc_id), regGDS_VMID=
-0_SIZE, 2 * i, 0);
->
+On 9/23/2024 7:13 PM, zhaoxiong lv wrote:
+> On Tue, Sep 24, 2024 at 5:14 AM Jessica Zhang <quic_jesszhan@quicinc.com> wrote:
+>>
+>>
+>>
+>> On 9/23/2024 6:42 AM, Zhaoxiong Lv wrote:
+>>> In MTK chips, if the system starts suspending before the DRM runtime
+>>> resume has not completed, there is a possibility of a black screen
+>>> after waking the machine. Reduce the disable delay resolves this issue,
+>>
+>> Hi Zhaoxiong,
+>>
+>> Do you mean "if the system starts suspending before the DRM runtime
+>> resume *has* completed" here?
+> 
+> Hi Jessica
+> 
+> Sorry, my description may not be clear enough. It should be when the
+> DRM runtime resume has not yet completed and the system enters sleep
+> mode at the same time.
+
+Got it, yes I think the reworded explanation in your reply is much clearer.
+
+> 
+> 
+>>
+>>>
+>>> The "backlight_off_to_display_off_delay_ms" was added between
+>>> "backlight off" and "display off"  to prevent "display off" from being
+>>> executed when the backlight is not fully powered off, which may cause
+>>> a white screen. However, we removed this
+>>> "backlight_off_to_display_off_delay_ms" and found that this situation
+>>> did not occur. Therefore, in order to solve the problem mentioned
+>>> above, we We reduced it from 100ms to 3ms (tCMD_OFF >= 1ms).
+>>
+>> So from my understanding of this paragraph,
+>> `backlight_off_to_display_off_delay_ms` was added to prevent the display
+>> powering off before backlight is fully powered off. You recently tested
+>> dropping this completely and saw no issue with this.
+>>
+>> If that's the case, why not drop this delay completely?
+>>
+>> Thanks,
+>>
+>> Jessica Zhang
+> 
+> Yes, there are currently no other issue after removing this delay.
+> The reason why I didn't completely remove this delay is because the
+> panel spec states that a delay of more than 1ms  (tCMD_OFF >= 1ms) is
+> required when entering diaplay_off (0x28H), so I reserved 3ms.
+
+Thanks for the clarification -- I see why you included the "(tCMD_OFF >= 
+1ms)" part now. Can you please specify in the commit message that the 
+tCMD_OFF delay requirement is from the spec?
+
+Also can you remove the extra "We" in "we We reduced it from 100ms to 3ms"?
+
+Thanks,
+
+Jessica Zhang
+
+> 
+>>
+>>>
+>>> This is the timing specification for the two panels:
+>>> 1. Kingdisplay panel timing spec:
+>>> https://github.com/KD54183/-JD9365DA_Power-On-Off-Sequence_V0120240923
+>>> 2. LMFBX101117480 timing spec: https://github.com/chiohsin-lo/TDY-JD_LIB
+>>>
+>>>
+>>> Fixes: 2b976ad760dc ("drm/panel: jd9365da: Support for kd101ne3-40ti MIPI-DSI panel")
+>>> Fixes: c4ce398cf18a ("drm/panel: jd9365da: Support for Melfas lmfbx101117480 MIPI-DSI panel")
+>>>
+>>> Signed-off-by: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
+>>> ---
+>>> Changes between V2 and V1:
+>>> -  1. Modify the commit message
+>>> -  2. Modify the value of backlight_off_to_display_off_delay_ms.
+>>> v1: https://lore.kernel.org/all/20240915080830.11318-2-lvzhaoxiong@huaqin.corp-partner.google.com/
+>>> ---
+>>>    drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c | 4 ++--
+>>>    1 file changed, 2 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c b/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
+>>> index 44897e5218a6..486aa20e5518 100644
+>>> --- a/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
+>>> +++ b/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
+>>> @@ -858,7 +858,7 @@ static const struct jadard_panel_desc kingdisplay_kd101ne3_40ti_desc = {
+>>>        .reset_before_power_off_vcioo = true,
+>>>        .vcioo_to_lp11_delay_ms = 5,
+>>>        .lp11_to_reset_delay_ms = 10,
+>>> -     .backlight_off_to_display_off_delay_ms = 100,
+>>> +     .backlight_off_to_display_off_delay_ms = 3,
+>>>        .display_off_to_enter_sleep_delay_ms = 50,
+>>>        .enter_sleep_to_reset_down_delay_ms = 100,
+>>>    };
+>>> @@ -1109,7 +1109,7 @@ static const struct jadard_panel_desc melfas_lmfbx101117480_desc = {
+>>>        .reset_before_power_off_vcioo = true,
+>>>        .vcioo_to_lp11_delay_ms = 5,
+>>>        .lp11_to_reset_delay_ms = 10,
+>>> -     .backlight_off_to_display_off_delay_ms = 100,
+>>> +     .backlight_off_to_display_off_delay_ms = 3,
+>>>        .display_off_to_enter_sleep_delay_ms = 50,
+>>>        .enter_sleep_to_reset_down_delay_ms = 100,
+>>>    };
+>>> --
+>>> 2.17.1
+>>>
+>>
+
