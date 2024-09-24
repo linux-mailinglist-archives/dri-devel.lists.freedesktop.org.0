@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAABF98402B
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 10:18:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92C24984037
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 10:18:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2995910E653;
-	Tue, 24 Sep 2024 08:18:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA39410E66D;
+	Tue, 24 Sep 2024 08:18:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ItpB4ICd";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fTA8e1oH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1328010E653
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 08:18:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B814310E65E
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 08:18:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1727165909; x=1758701909;
+ t=1727165911; x=1758701911;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=ZRGC/1OpusJdvpdAZk46NQ7+uD6xcKOCq4QKN19jOSo=;
- b=ItpB4ICdXdi0Hrj2Hf8ZB6cAyXU/d1g6uDruXV8wCSWGz20pq0u/8V9/
- CCuCfZ0J1jgPcjUUW76nzPZYQKbwQMn/5olCWvy1rlTK8hJzmfX3agTNQ
- 8rwSaIv7eZSLnfK9S8KhjBM3+r4UZjUm07DnuFxT65ILFGD2I0HGTt3zn
- 8Hg3b9lrb+vFkHe7zzfjmGjPg3/Im9aqCX2TbPhbHRYFVQXcScnZzKeDC
- K3wrMBiTidD+z6qtOBrnIj67rSFPMocqjyj1L1f8wsViJCkV+kAxeYI+z
- /adO0Xx38VDt2AMBi1ntwH48QH4J+mkYavu7f7Va6xZWwS6yEz/4lVQNk w==;
-X-CSE-ConnectionGUID: cHqWXOOkRgmvnHKLEBPE+A==
-X-CSE-MsgGUID: +jsSvdgWRvWy0Q2aTtW+yw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="37506922"
-X-IronPort-AV: E=Sophos;i="6.10,253,1719903600"; d="scan'208";a="37506922"
+ bh=S+3SYu8ttPbWQhoheMPV5iIpMNFZilPlIfkrLc1G5O4=;
+ b=fTA8e1oHH+d3CMz/wvcbg5ZMrOsMnzHP/Y8Qd+fl5jMk85vzeO2mk53T
+ 8b0CNClxG8fLo/4x7G3N5mxlCTGDv1gWG6djcfbbgBM6ehMARPdNppswe
+ husV2IyrMX7pP0DbQ4ooWKgetCP2qy5KgG3KIpP9zrco9DYrH09mo/cVE
+ oDG85mBE6Qi/xFnhwJBcEsYRtY39CwqGnLI4Tj5iq8qCFlrxvzaTuQa8z
+ oACI1FFL+otuAM2k/YYg0XeeBvazLmocuSWNEF1Vrg8aIH2gCw3L170Ld
+ zSymQygj3HE7zDTo3Zbm8kRrwEtH3G/bvKyPxXj3VeMwBonxqAhzXx08k w==;
+X-CSE-ConnectionGUID: kPgrFFTgQCaUo88x5hTFvw==
+X-CSE-MsgGUID: LDYKapT8Q6GKDOFhM2PYlw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="37506932"
+X-IronPort-AV: E=Sophos;i="6.10,253,1719903600"; d="scan'208";a="37506932"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Sep 2024 01:18:29 -0700
-X-CSE-ConnectionGUID: xFfg7+mfRuG+HOEF1yJIsw==
-X-CSE-MsgGUID: z4sgtX37TWugwywyJOmBNw==
+ 24 Sep 2024 01:18:30 -0700
+X-CSE-ConnectionGUID: 6XWNnl4pQCuXznww0eIPFA==
+X-CSE-MsgGUID: QsodjQAfSFOONFthVwbsBw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,253,1719903600"; d="scan'208";a="102170680"
+X-IronPort-AV: E=Sophos;i="6.10,253,1719903600"; d="scan'208";a="102170690"
 Received: from jlawryno.igk.intel.com ([10.91.220.59])
  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Sep 2024 01:18:27 -0700
+ 24 Sep 2024 01:18:29 -0700
 From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com,
-	Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
-	Wludzik@freedesktop.org, Jozef <jozef.wludzik@intel.com>
-Subject: [PATCH 10/29] accel/ivpu: Stop using hardcoded DRIVER_DATE
-Date: Tue, 24 Sep 2024 10:17:35 +0200
-Message-ID: <20240924081754.209728-11-jacek.lawrynowicz@linux.intel.com>
+ Karol Wachowski <karol.wachowski@intel.com>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Subject: [PATCH 11/29] accel/ivpu: Remove 1-tile power up Simics workaround
+Date: Tue, 24 Sep 2024 10:17:36 +0200
+Message-ID: <20240924081754.209728-12-jacek.lawrynowicz@linux.intel.com>
 X-Mailer: git-send-email 2.45.1
 In-Reply-To: <20240924081754.209728-1-jacek.lawrynowicz@linux.intel.com>
 References: <20240924081754.209728-1-jacek.lawrynowicz@linux.intel.com>
@@ -69,86 +69,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hardcoded driver date is useless, so use kernel version as a driver date
-to make identifying .ko file easier. Also allow to pass DRIVER_DATE
-on build time to allow versioning the driver in case it is built out
-of the tree.
+From: Karol Wachowski <karol.wachowski@intel.com>
 
+Previously Simics was not providing workpoint for configurations
+with 0 tiles enabled, that had to be worked around in the KMD.
+This got fixed in Simics and workaround is no longer needed.
+
+Signed-off-by: Karol Wachowski <karol.wachowski@intel.com>
+Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Reviewed-by: Wludzik, Jozef <jozef.wludzik@intel.com>
 ---
- drivers/accel/ivpu/ivpu_drv.c | 15 +++++++++++----
- drivers/accel/ivpu/ivpu_drv.h |  1 -
- include/uapi/drm/ivpu_accel.h |  3 ---
- 3 files changed, 11 insertions(+), 8 deletions(-)
+ drivers/accel/ivpu/ivpu_hw_btrs.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
-index 38b4158f52784..9fd371af5814c 100644
---- a/drivers/accel/ivpu/ivpu_drv.c
-+++ b/drivers/accel/ivpu/ivpu_drv.c
-@@ -7,6 +7,7 @@
- #include <linux/module.h>
- #include <linux/pci.h>
- #include <linux/pm_runtime.h>
-+#include <generated/utsrelease.h>
- 
- #include <drm/drm_accel.h>
- #include <drm/drm_file.h>
-@@ -32,8 +33,7 @@
- #include "vpu_boot_api.h"
- 
- #ifndef DRIVER_VERSION_STR
--#define DRIVER_VERSION_STR __stringify(DRM_IVPU_DRIVER_MAJOR) "." \
--			   __stringify(DRM_IVPU_DRIVER_MINOR) "."
-+#define DRIVER_VERSION_STR "1.0.0 " UTS_RELEASE
- #endif
- 
- static struct lock_class_key submitted_jobs_xa_lock_class_key;
-@@ -447,9 +447,16 @@ static const struct drm_driver driver = {
- 
- 	.name = DRIVER_NAME,
- 	.desc = DRIVER_DESC,
-+
-+#ifdef DRIVER_DATE
- 	.date = DRIVER_DATE,
--	.major = DRM_IVPU_DRIVER_MAJOR,
--	.minor = DRM_IVPU_DRIVER_MINOR,
-+	.major = DRIVER_MAJOR,
-+	.minor = DRIVER_MINOR,
-+	.patchlevel = DRIVER_PATCHLEVEL,
-+#else
-+	.date = UTS_RELEASE,
-+	.major = 1,
-+#endif
- };
- 
- static void ivpu_context_abort_invalid(struct ivpu_device *vdev)
-diff --git a/drivers/accel/ivpu/ivpu_drv.h b/drivers/accel/ivpu/ivpu_drv.h
-index 2b30cc2e9272e..471478281021d 100644
---- a/drivers/accel/ivpu/ivpu_drv.h
-+++ b/drivers/accel/ivpu/ivpu_drv.h
-@@ -21,7 +21,6 @@
- 
- #define DRIVER_NAME "intel_vpu"
- #define DRIVER_DESC "Driver for Intel NPU (Neural Processing Unit)"
--#define DRIVER_DATE "20230117"
- 
- #define PCI_DEVICE_ID_MTL   0x7d1d
- #define PCI_DEVICE_ID_ARL   0xad1d
-diff --git a/include/uapi/drm/ivpu_accel.h b/include/uapi/drm/ivpu_accel.h
-index 084fb529e1e96..234664d352507 100644
---- a/include/uapi/drm/ivpu_accel.h
-+++ b/include/uapi/drm/ivpu_accel.h
-@@ -12,9 +12,6 @@
- extern "C" {
- #endif
- 
--#define DRM_IVPU_DRIVER_MAJOR 1
--#define DRM_IVPU_DRIVER_MINOR 0
+diff --git a/drivers/accel/ivpu/ivpu_hw_btrs.c b/drivers/accel/ivpu/ivpu_hw_btrs.c
+index 745e5248803da..cad2ce7f2e244 100644
+--- a/drivers/accel/ivpu/ivpu_hw_btrs.c
++++ b/drivers/accel/ivpu/ivpu_hw_btrs.c
+@@ -315,10 +315,6 @@ static void prepare_wp_request(struct ivpu_device *vdev, struct wp_request *wp,
+ 		wp->cdyn = enable ? PLL_CDYN_DEFAULT : 0;
+ 		wp->epp = enable ? PLL_EPP_DEFAULT : 0;
+ 	}
 -
- #define DRM_IVPU_GET_PARAM		  0x00
- #define DRM_IVPU_SET_PARAM		  0x01
- #define DRM_IVPU_BO_CREATE		  0x02
+-	/* Simics cannot start without at least one tile */
+-	if (enable && ivpu_is_simics(vdev))
+-		wp->cfg = 1;
+ }
+ 
+ static int wait_for_pll_lock(struct ivpu_device *vdev, bool enable)
 -- 
 2.45.1
 
