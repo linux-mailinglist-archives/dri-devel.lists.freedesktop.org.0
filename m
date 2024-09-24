@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EE53984ECC
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 01:17:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4529984ED1
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 01:19:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81C5A10E900;
-	Tue, 24 Sep 2024 23:17:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AFB310E909;
+	Tue, 24 Sep 2024 23:19:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="DKk+z7OW";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="m13HKBcc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
- [209.85.208.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC66110E900
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 23:17:34 +0000 (UTC)
-Received: by mail-lj1-f179.google.com with SMTP id
- 38308e7fff4ca-2f7529203ddso3578481fa.0
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 16:17:34 -0700 (PDT)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
+ [209.85.208.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3FA210E909
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 23:19:26 +0000 (UTC)
+Received: by mail-lj1-f172.google.com with SMTP id
+ 38308e7fff4ca-2f761461150so73586861fa.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 16:19:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1727219853; x=1727824653; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1727219965; x=1727824765; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Kbz0tfiyQQErgbHsvyLtv8eq56ZM6ZrFXgSGtiFWYMA=;
- b=DKk+z7OWeK1/E2sEEuPbviYnMdcUGV3t99dwsUHbdJTM1tPtz9haWcMh8TNVuZp601
- 7DQbpfI6YGOjUvmg1JmYGCvdNCfkHTkfYCBaXxBcvrWzrpmNxz/6aKz4XYaqSyf9EIqR
- ZOxEw4a7lzPXxszfO2Mxatp/SpDtQ3lDX17bZquDIQNiJSKq0PufviC/x1XPYZujzqiB
- mtbdNfCXPt14Wu1ueYkGHJizTKC8cd0Vp0rRBNraeJslRcJ53+nvy2qUJ1P3lNF80XBI
- O5snjntvn5oYN21oyFlzbhWjN+NDC3dIOGA3gs3qDOESNfWGKFNyJEjc/UbGuM0asDtg
- Rg/g==
+ bh=SvU7Vx/LdaZKtGEV8daIjq0EBTdyjFTk7utGpIyOftg=;
+ b=m13HKBccThpv6L70wdeBWEgLG6hOAMPbGj9GxNe49AjLGylctUvetxrQjxgSdeatqT
+ 90EFZNdKuYA1AP7Nxwr34YBRabN013qmszE0jDnhqhav1AfQqzKYsR56Qdeg6KhY7Zhu
+ PIKe2nqmZdBr+MBLEVyst3O+ub/VOMJuz0iXuxqS1baOEgmXU3alGrrlTBBvOphYUC7U
+ U+IFGw++KB0/BSM3+jEmtFhxcRkBi6XarhSVHPfcsB9SJJ5rIh0X9ugDJhQaOaK4eWNQ
+ 2gWKlYP+gonra/9e1uL3U2++WGKrHgK0WCXvFeRO91nuS1MzC+b3iIbSiVcFU+MFJ6Td
+ oWhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727219853; x=1727824653;
+ d=1e100.net; s=20230601; t=1727219965; x=1727824765;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Kbz0tfiyQQErgbHsvyLtv8eq56ZM6ZrFXgSGtiFWYMA=;
- b=lSssu9gGem+KEZIe9rW4RRCAG7n675HUyzaQGyBCyMTW4JCbfEUDQ9rRgO5gFEkGl6
- zDBbnMEpst8UUcabMc8whzsgwUAUtAqEBIXEh3bvCEMf6/U08BtMg3Gyx9chAeZWmAuW
- GkKaiJTJc0vah1Smr56/q2zpOC3dIc5pz1xSmG94vescpgzM6iqgRcOXCy2y0FtiE4AH
- KDf3qRg8iWew0DTbZWPpFfv4Xb9MdCzrB0qsOajaDz98KNY6kSOj8+pyeJYOjstEZq1x
- Afu6RAKuaB/Whn6S70pqNqX9RD+MV/Fz109AMEyOSj614tDPHi+kDJ9tuyYw0CJbHIbh
- XRHg==
+ bh=SvU7Vx/LdaZKtGEV8daIjq0EBTdyjFTk7utGpIyOftg=;
+ b=ZN9jB86GEhzZExuY1bfcQKiQMFVW46xaS32RWPNcd2MxHTTr7W4jayprHmnfKHrPOe
+ U/g6PJIp+dWXDbYKfVhlkGT717b7fPrhzFCFY0ccgBYsLwlSPohjiVPcqigAftqCuwRv
+ zY0AdKY2IKjl3FA2Zh9TsNzdmzrKCR/yFygz4IBQ6VVSVo64XJ//g/qFmNgVqd7HsToF
+ Q0DuBraM+M77zQkcRiymU16ZqC9LLlWrcKGd05lhQ1jrS+skaHPaRwG7J3rSWXkfeRD7
+ wDFRbWI8Iw+lHc79Ba7NnJdDrZux/NaJSKAxF4OVoxZ9mfSRTxOWlTtzTNuHPHOz/utw
+ zHkQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUKgRTWJzVPUwmg895a+0dMoo2uYb6lFjkNx6+xYkskCCEGRZbrm4B5PV7EZhFzDdoiL5MGAXm1wrY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwvHEcgqOmQmWAI2cpOrkkhinsLY288ndBY5CypMok4yddukrnN
- yjGxOxFadh/im4jitzm3Lp2dRKUhLXSvOmIf/upybwYysFPKK8W2EI2gnVIXrSY=
-X-Google-Smtp-Source: AGHT+IEsDQBs1xHo+RHBnCa4F/NIYf+HbT4i9F6SK/oR1mhFSOVGTHMoA9OotkQDZtlvONDTI/XaLA==
-X-Received: by 2002:a2e:f11:0:b0:2f3:f1cf:5314 with SMTP id
- 38308e7fff4ca-2f94d763343mr2025561fa.10.1727219852780; 
- Tue, 24 Sep 2024 16:17:32 -0700 (PDT)
+ AJvYcCWgMAM2wOpgWsrplAXez3yHkSaPKH0ZTFwp/iyHlzvFFNvN7FK3rFNYFZH+XWDhFLf5Zx7TcZb7RJE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxB2xj6hpj7VNEpJIlMpAWPChnmGnSwULwiwXtE+U3JvpGSHblw
+ psiR60M9WpeCKOMMwUU2Wnj3nXl/KkvFBzFSN5Zsuz1a+/NGNFfyr3KUUK0/15U=
+X-Google-Smtp-Source: AGHT+IH0klG/CcfMRjXMdFbReF7bhlWRSCeWv4kqKqNH0sL3opOyR4yRKdhF285Ci/EQb6g7QrSjmQ==
+X-Received: by 2002:a05:651c:1991:b0:2f7:562d:cb6c with SMTP id
+ 38308e7fff4ca-2f915fc0a2dmr8141701fa.2.1727219964875; 
+ Tue, 24 Sep 2024 16:19:24 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2f8d289ef2dsm3436881fa.124.2024.09.24.16.17.30
+ 38308e7fff4ca-2f8d283b86fsm3519751fa.30.2024.09.24.16.19.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Sep 2024 16:17:31 -0700 (PDT)
-Date: Wed, 25 Sep 2024 02:17:29 +0300
+ Tue, 24 Sep 2024 16:19:24 -0700 (PDT)
+Date: Wed, 25 Sep 2024 02:19:22 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Jessica Zhang <quic_jesszhan@quicinc.com>
 Cc: Rob Clark <robdclark@gmail.com>, quic_abhinavk@quicinc.com, 
@@ -69,15 +69,15 @@ Cc: Rob Clark <robdclark@gmail.com>, quic_abhinavk@quicinc.com,
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, Rob Clark <robdclark@chromium.org>,
  Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH v2 08/22] drm/msm/dpu: Specify dedicated CWB pingpong
- blocks
-Message-ID: <l5lfx7psxi3xmkgu3woea55txan4ib7kmvaix3h5b7q3fz43nl@r7umftxolsgq>
+Subject: Re: [PATCH v2 10/22] drm/msm/dpu: Add dpu_hw_cwb abstraction for CWB
+ block
+Message-ID: <sm7uvwkkir4oj3n3wdaadcfoufh3cktn7gvax6grqma2amhxxc@w3ahhlj3x3jt>
 References: <20240924-concurrent-wb-v2-0-7849f900e863@quicinc.com>
- <20240924-concurrent-wb-v2-8-7849f900e863@quicinc.com>
+ <20240924-concurrent-wb-v2-10-7849f900e863@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240924-concurrent-wb-v2-8-7849f900e863@quicinc.com>
+In-Reply-To: <20240924-concurrent-wb-v2-10-7849f900e863@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,19 +93,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 24, 2024 at 03:59:24PM GMT, Jessica Zhang wrote:
-> Change pingpong index and names to distinguish between general use
-> pingpong blocks and pingpong blocks dedicated for concurrent writeback
+On Tue, Sep 24, 2024 at 03:59:26PM GMT, Jessica Zhang wrote:
+> The CWB mux has its own registers and set of operations. Add dpu_hw_cwb
+> abstraction to allow driver to configure the CWB mux.
 > 
 > Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
 > ---
->  drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_10_0_sm8650.h  | 8 ++++----
->  drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h   | 4 ++--
->  drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h   | 4 ++--
->  drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h | 4 ++--
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h              | 8 ++++----
->  5 files changed, 14 insertions(+), 14 deletions(-)
-> 
+>  drivers/gpu/drm/msm/Makefile                |  1 +
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cwb.c  | 73 +++++++++++++++++++++++++++++
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cwb.h  | 70 +++++++++++++++++++++++++++
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h |  5 +-
+>  4 files changed, 148 insertions(+), 1 deletion(-)
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
