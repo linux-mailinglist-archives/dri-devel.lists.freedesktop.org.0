@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FF19984EF8
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 01:28:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8F52984EFA
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 01:28:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33C1310E02F;
-	Tue, 24 Sep 2024 23:28:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 530C310E912;
+	Tue, 24 Sep 2024 23:28:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="RZfbnLFF";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="AzcHixUF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E68A10E02F
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 23:28:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=lVGrogRJ5/ibcpWwrkJ/fDzsxfjOA/jAdbQFGrsRUhY=; b=RZfbnLFFxJseapl1lA5GOGuQeS
- 4tCdJlwJj9QF4RA7OpSV4wQvP/Nz4ZhBAujIm6eEf4Ces5PlkFsVetY66Oz18Aj4CfI2lDY9vBTAb
- B7xo34nyZ65URY5P6pt4vjUiSpwJnBxR3oFd7S7H/o95+FCXEwx2BB97QPHndrmN0GKJhexBzrhg3
- PRgQ42zCNXknhCNvkaBqiBGvh0tUJDxq4tokkf9/fNSkUne5JSlIqzD7/vij5viULc81dvMUZu5W7
- pA8VXoxUvWz9SawJn9jvIRKnXzPs9E0xbMnhRajkqhGxczBD16eFN+x7HBTadF7eo/nfx7aFezBsL
- lJ0jzO5w==;
-Received: from [187.36.213.55] (helo=[192.168.1.212])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1stEwt-000eWD-P6; Wed, 25 Sep 2024 01:28:04 +0200
-Message-ID: <5fc3e586-cc8d-4ee5-ad1a-23740d1075a1@igalia.com>
-Date: Tue, 24 Sep 2024 20:27:55 -0300
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5351F10E912;
+ Tue, 24 Sep 2024 23:28:34 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1727220512; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=dSi5KxkRF8EDPsj9U7tcO6MiXT4GxAVBtU1OybjgEg5Vs33dwIy26Kjz69kO8sr5a0DPnu3B0pr6+JrpL8ErGnQzmg2eKsTA3bhAp/21QEc5ckK/pBF/RXnetNfRX/UNnXznR/IuFZTTUeySFutI2HQamilA2iNcuSo7ClYLx+g=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1727220512;
+ h=Content-Type:Content-Transfer-Encoding:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To:Cc;
+ bh=MCo3sAaNrLcndbHw0Qs7XvwC1EAx/5fkuDus4Feiap4=; 
+ b=OGvvwvYmvsrgLRqzqgn43rf9w45jD+h1Rs/Ew2pGoGWhTHbHM8sSWxTisUr+1Z7QJtfQJI2fGSKd0ApIXTaphxEaZWU9XN2/2FKX9AhIOIhZaltDgnswrm6EDwXIWhE8qjXc9aIfWMFvjr70cKnv7/UsZwK/6imuYhVnUmnWFXA=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
+ dmarc=pass header.from=<dmitry.osipenko@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1727220512; 
+ s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:From:From:To:To:References:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To:Cc;
+ bh=MCo3sAaNrLcndbHw0Qs7XvwC1EAx/5fkuDus4Feiap4=;
+ b=AzcHixUFvnFliH2lV4sMIdKpcEd6aw1vVDvw3YTWjBmYbMjkL7S3KEYauVWfSaka
+ pGnZvIhkAdJgID/jrW2BB6LsMfLzEnBDt2r/IXJlAAcQq3f+8j34c9GgFyfwjSHz4Yc
+ Ud6rYpRokbEXMwe+KQZ1AM8I/cYS7lOAKn2GqWHI=
+Received: by mx.zohomail.com with SMTPS id 1727220511136996.1369344638829;
+ Tue, 24 Sep 2024 16:28:31 -0700 (PDT)
+Message-ID: <ce271c12-f5ab-44eb-9d95-e87441212395@collabora.com>
+Date: Wed, 25 Sep 2024 02:28:26 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/v3d: Use v3d_perfmon_find(..)
-To: Christian Gmeiner <christian.gmeiner@gmail.com>,
- Melissa Wen <mwen@igalia.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: Christian Gmeiner <cgmeiner@igalia.com>, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-References: <20240923152000.185980-1-christian.gmeiner@gmail.com>
+Subject: Re: [PATCH v3 1/6] drm: add DRM_SET_NAME ioctl
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+To: Pierre-Eric Pelloux-Prayer <pierre-eric@damsy.net>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
+ tursulin@igalia.com, simona.vetter@ffwll.ch, robdclark@gmail.com,
+ alexander.deucher@amd.com, amd-gfx@lists.freedesktop.org
+References: <20240920090920.1342694-1-pierre-eric.pelloux-prayer@amd.com>
+ <20240920090920.1342694-2-pierre-eric.pelloux-prayer@amd.com>
+ <75f56ed0-206a-4e81-9972-38c29a3e20be@collabora.com>
+ <d27cdff0-0432-4813-9948-752f6145bef7@damsy.net>
+ <b1544f77-17c3-40ca-a0a5-c061d6528435@collabora.com>
+ <be392c92-5fa9-40a3-83cc-d3589314ebb9@collabora.com>
 Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Autocrypt: addr=mcanal@igalia.com; keydata=
- xjMEZIsaeRYJKwYBBAHaRw8BAQdAGU6aY8oojw61KS5rGGMrlcilFqR6p6ID45IZ6ovX0h3N
- H01haXJhIENhbmFsIDxtY2FuYWxAaWdhbGlhLmNvbT7CjwQTFggANxYhBDMCqFtIvFKVRJZQ
- hDSPnHLaGFVuBQJkixp5BQkFo5qAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQNI+cctoYVW5u
- GAEAwpaC5rI3wD8zqETKwGVoXd6+AbmGfZuVD40xepy7z/8BAM5w95/oyPsHUqOsg/xUTlNp
- rlbhA+WWoaOXA3XgR+wCzjgEZIsaeRIKKwYBBAGXVQEFAQEHQGoOK0jgh0IorMAacx6WUUWb
- s3RLiJYWUU6iNrk5wWUbAwEIB8J+BBgWCAAmFiEEMwKoW0i8UpVEllCENI+cctoYVW4FAmSL
- GnkFCQWjmoACGwwACgkQNI+cctoYVW6cqwD/Q9R98msvkhgRvi18fzUPFDwwogn+F+gQJJ6o
- pwpgFkAA/R2zOfla3IT6G3SBoV5ucdpdCpnIXFpQLbmfHK7dXsAC
-In-Reply-To: <20240923152000.185980-1-christian.gmeiner@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <be392c92-5fa9-40a3-83cc-d3589314ebb9@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,43 +74,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian,
-
-On 9/23/24 12:19, Christian Gmeiner wrote:
-> From: Christian Gmeiner <cgmeiner@igalia.com>
+On 9/23/24 21:18, Dmitry Osipenko wrote:
+> On 9/23/24 21:09, Dmitry Osipenko wrote:
+>>> Sure, I can do that if others prefer this way too.
+>> Note that in the other email I suggested to use strndup_user(), that
+>> will remove the name-length limitation, but then the name var will
+>> remain to be a string pointer. To me best option would be to replicate
+>> how dma_buf_set_name works.
 > 
-> Replace the open coded v3d_perfmon_find(..) with the real
-> thing.
-> 
-> Signed-off-by: Christian Gmeiner <cgmeiner@igalia.com>
+> My bad, strndup_user() is also size-limited. Then the point about static
+> string remains.
 
-Thanks for your patch!
+To clarify a bit further, I'm fine with both variants. Having a
+consistent solution across kernel is also good if it's good enough. I.e.
+replicating the whole dma_buf_set_name using the name pointer is okay to
+me, though not having string pointers is more robust in general. Choose
+what you like more.
 
-Reviewed-by: Maíra Canal <mcanal@igalia.com>
+-- 
+Best regards,
+Dmitry
 
-Applied to misc/kernel.git (drm-misc-next).
-
-Best Regards,
-- Maíra
-
-> ---
->   drivers/gpu/drm/v3d/v3d_perfmon.c | 6 +-----
->   1 file changed, 1 insertion(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/v3d/v3d_perfmon.c b/drivers/gpu/drm/v3d/v3d_perfmon.c
-> index cd7f1eedf17f..54a486a9b74c 100644
-> --- a/drivers/gpu/drm/v3d/v3d_perfmon.c
-> +++ b/drivers/gpu/drm/v3d/v3d_perfmon.c
-> @@ -402,11 +402,7 @@ int v3d_perfmon_get_values_ioctl(struct drm_device *dev, void *data,
->   	if (req->pad != 0)
->   		return -EINVAL;
->   
-> -	mutex_lock(&v3d_priv->perfmon.lock);
-> -	perfmon = idr_find(&v3d_priv->perfmon.idr, req->id);
-> -	v3d_perfmon_get(perfmon);
-> -	mutex_unlock(&v3d_priv->perfmon.lock);
-> -
-> +	perfmon = v3d_perfmon_find(v3d_priv, req->id);
->   	if (!perfmon)
->   		return -EINVAL;
->   
