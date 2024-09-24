@@ -2,39 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D7609848FC
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 18:01:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07D3B984903
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Sep 2024 18:03:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECE8910E714;
-	Tue, 24 Sep 2024 16:00:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2C6910E8CD;
+	Tue, 24 Sep 2024 16:03:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GvK37+mp";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EAqVdc6A";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C75D10E714
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 16:00:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C998710E71C
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 16:03:01 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id E11475C57B0;
- Tue, 24 Sep 2024 16:00:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2AE1C4CEC4;
- Tue, 24 Sep 2024 16:00:36 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 45A4E5C5821;
+ Tue, 24 Sep 2024 16:02:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D8BFC4CEC4;
+ Tue, 24 Sep 2024 16:02:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1727193642;
- bh=RMVPLW4fWUk9yS+HMDAfSQbd+gQJXHQViB5tLV8d35M=;
+ s=k20201202; t=1727193780;
+ bh=gNBST40WMUJwlZASY6q+rRAwgxHXwJRFWLXq+ARmaaw=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=GvK37+mp+LghOmr6eoGoJcX94ZEdvjXe7wWGvJCkmU96Jfz4t9wQAMCcHrj456VMu
- CTvjH6AQSibawNgM6pXkiRUbDkbpb5OB2u6GHKkU3OdPWYRsMb7NsThJQgay3GxhP5
- Oof/N2yNvyvOKMabXyy38g7l3rPmArWwRrHFImcMLmP34qUsZxYMlYO/z5HZ4P0Tlj
- 1ukf9n15+s9ktGDKRonsgiNiCoFNvXmAw7OCRlWWHp1KQxcofuJX8494GiYt5I/sbF
- IQTyI/Kf+rr/XySGhmQGVFj6Xz+1gwU2CDrVff0GanXwhe+9jxkxPT92QrSGMZJLsG
- hAPsxiBHsx+3w==
-Date: Tue, 24 Sep 2024 17:00:34 +0100
+ b=EAqVdc6A0KBeMrsaRZ8EFB352zM4hbWTUfu7glhXJLZNlIOlSI4F1w+ysHKilo3Su
+ bN8S7HbO1pzZL3ScTi4wdq7HmDp4fM2HSUthPyqxrYspktSaYAdACu6Qy3FgP23t6b
+ UvwL81EYw7a/iTTHVq1gOGeUWOagk02BLiDEDVEqQIZOSfDGMjQU3Uan1EdPchwWuC
+ tQRyHHAu8jm7dExE60yfxEORrzap1lUje9jCK9+Z5Nd1wG6lACrn8W39EOI1yAw+af
+ 4u7VMvsHxRqUY1KJZ6SJbSNgH6itI1Ohf0UJI8ObRPJvrKy+QJP2LfhLQXhdruwOnp
+ 6C4oW7nkxlJlA==
+Date: Tue, 24 Sep 2024 17:02:53 +0100
 From: Conor Dooley <conor@kernel.org>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: Macpaul Lin <macpaul.lin@mediatek.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+To: Macpaul Lin <macpaul.lin@mediatek.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
  Philipp Zabel <p.zabel@pengutronix.de>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
@@ -45,6 +44,7 @@ Cc: Macpaul Lin <macpaul.lin@mediatek.com>,
  Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
  Robin Murphy <robin.murphy@arm.com>,
  Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  iommu@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
@@ -55,17 +55,16 @@ Cc: Macpaul Lin <macpaul.lin@mediatek.com>,
  MediaTek Chromebook Upstream
  <Project_Global_Chrome_Upstream_Group@mediatek.com>, 
  Chen-Yu Tsai <wenst@chromium.org>
-Subject: Re: [PATCH 3/6] dt-bindings: display: mediatek: Fix clocks count
+Subject: Re: [PATCH 2/6] dt-bindings: iommu: mediatek: Fix interrupt count
  constraint for new SoCs
-Message-ID: <20240924-commute-collision-13ad39717d31@spud>
+Message-ID: <20240924-haiku-drudge-79e5824d4b6f@spud>
 References: <20240924103156.13119-1-macpaul.lin@mediatek.com>
- <20240924103156.13119-3-macpaul.lin@mediatek.com>
- <ffc1900b-3921-48ca-a2b2-1b798c57e572@collabora.com>
+ <20240924103156.13119-2-macpaul.lin@mediatek.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="sWezDfs+NRZqmEro"
+ protocol="application/pgp-signature"; boundary="jUN0h7erQf3dJLyh"
 Content-Disposition: inline
-In-Reply-To: <ffc1900b-3921-48ca-a2b2-1b798c57e572@collabora.com>
+In-Reply-To: <20240924103156.13119-2-macpaul.lin@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,68 +81,66 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---sWezDfs+NRZqmEro
+--jUN0h7erQf3dJLyh
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 24, 2024 at 01:42:01PM +0200, AngeloGioacchino Del Regno wrote:
-> Il 24/09/24 12:31, Macpaul Lin ha scritto:
-> > The display node in mt8195.dtsi was triggering a CHECK_DTBS error due
-> > to an excessively long 'clocks' property:
-> >    display@14f06000: clocks: [[31, 14], [31, 43], [31, 44]] is too long
-> >=20
-> > To resolve this issue, add "maxItems: 3" to the 'clocks' property in
-> > the DT schema.
-> >=20
-> > Fixes: 4ed545e7d100 ("dt-bindings: display: mediatek: disp: split each =
-block to individual yaml")
-> > Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
-> > ---
-> >   .../devicetree/bindings/display/mediatek/mediatek,split.yaml     | 1 +
-> >   1 file changed, 1 insertion(+)
-> >=20
-> > diff --git a/Documentation/devicetree/bindings/display/mediatek/mediate=
-k,split.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,=
-split.yaml
-> > index e4affc854f3d..42d2d483cc29 100644
-> > --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,split=
-=2Eyaml
-> > +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,split=
-=2Eyaml
-> > @@ -57,6 +57,7 @@ properties:
-> >     clocks:
-> >       items:
-> >         - description: SPLIT Clock
+On Tue, Sep 24, 2024 at 06:31:52PM +0800, Macpaul Lin wrote:
+> The infra-iommu node in mt8195.dtsi was triggering a CHECK_DTBS error due
+> to an excessively long 'interrupts' property. The error message was:
 >=20
-> That's at least confusing (granted that it works) - either add a descript=
-ion for
-> each clock and then set `minItems: 1` (preferred), or remove this "SPLIT =
-Clock"
-> description and allow a maximum of 3 clocks.
+>   infra-iommu@10315000: interrupts: [[0, 795, 4, 0], [0, 796, 4, 0],
+>                      [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]]
+>                      is too long
 >=20
-> Removing the description can be done - IMO - because "SPLIT Clock" is, we=
-ll,
-> saying that the SPLIT block gets a SPLIT clock ... stating the obvious, a=
-nyway.
+> To address this issue, add "minItems: 1" and "maxItems: 5" constraints to
+> the 'interrupts' property in the DT binding schema. This change allows for
+> flexibility in the number of interrupts for new SoCs
+>=20
+> Fixes: bca28426805d ("dt-bindings: iommu: mediatek: Convert IOMMU to DT s=
+chema")
+>=20
 
-Right, but what are the other two new clocks? Are they as obvious?
-There's no clock-names here to give any more information as to what the
-other clocks are supposed to be.
+This space should be removed.
 
-Kinda unrelated, but I think that "SPLIT Clock" probably isn't what the
-name of the clock in the IP block is anyway, sounds more like the name
-for it on the provider end..
+> Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
+> ---
+>  Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml =
+b/Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
+> index ea6b0f5f24de..a00f1f0045b1 100644
+> --- a/Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
+> +++ b/Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
+> @@ -96,7 +96,8 @@ properties:
+>      maxItems: 1
+> =20
+>    interrupts:
+> -    maxItems: 1
+> +    minItems: 1
+> +    maxItems: 5
 
---sWezDfs+NRZqmEro
+You need to add an items list here, and probably some per compatible
+constraints. What are each of the itnerrupts for?
+
+> =20
+>    clocks:
+>      items:
+> --=20
+> 2.45.2
+>=20
+
+--jUN0h7erQf3dJLyh
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZvLiIgAKCRB4tDGHoIJi
-0jIKAP9UDveIts01lao6hVilWP0TMQRAzvdTTL1WDikEbViR4AD/fS4SyEZ73ptb
-5bNB6iILTufZlc7BaAK6cEiNDImPLAw=
-=ms3M
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZvLirAAKCRB4tDGHoIJi
+0qsPAP99nNo/hdDREunSkJ59dRVvVSRDmf4UoBpnLL9JFTwMHgD/SjkR4sBd/XO9
+MrEk/KC97quNhDCBzV3CTBvOk8laPww=
+=PT+k
 -----END PGP SIGNATURE-----
 
---sWezDfs+NRZqmEro--
+--jUN0h7erQf3dJLyh--
