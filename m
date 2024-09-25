@@ -2,88 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 085959867B6
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 22:39:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B7A09867CE
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 22:50:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DACEF10E2FE;
-	Wed, 25 Sep 2024 20:39:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8463910EA42;
+	Wed, 25 Sep 2024 20:50:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="VCqPid5m";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="e/RCyGLt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A90B10E2FE;
- Wed, 25 Sep 2024 20:39:06 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48PH5JRg021397;
- Wed, 25 Sep 2024 20:38:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- P6P7lwm0vmj3CCAHkpq3SqDjbGrXo0A50h7s/zhPceM=; b=VCqPid5mj+qJiAnG
- 6WW3Oxr5GviTCmApAL3UwZSl7EIlwRW36jzxYz+iHBewIkIViWbDIgqbR1nviCpc
- 2OPy0X0+UphoSzXYB023+lVkCBuAv1isXpVPgpeYB6FaMlJr8FHDNXAlsTPJyIvN
- +jdMjNP774aYHnHRIEBqRCcENbLNHfvK4r1NQUSmerCbmSTLRRDEotJv7YZj1Eet
- auCV2PFGEoz5vnTJupa1K1twp+LbEYHoRBjn50VArZMCDeIWjqzDii+dzN4DmAU9
- A3NfMvuUZ1rEQIff9BKzBjcMITFCVPYS/9vUzne02VcrRI1plSrgiEi+0Y1uu1sF
- W9erng==
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41sqakn0mm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 25 Sep 2024 20:38:59 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 48PKcwdb025853
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 25 Sep 2024 20:38:58 GMT
-Received: from [10.134.70.212] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 25 Sep
- 2024 13:38:55 -0700
-Message-ID: <24a11f4c-d848-4f1b-afbd-35b135fa3105@quicinc.com>
-Date: Wed, 25 Sep 2024 13:38:51 -0700
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C90610EA25
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 20:49:56 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 951F5880D8;
+ Wed, 25 Sep 2024 22:49:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1727297394;
+ bh=zA1bPjKVCQ+/q7twBKcSEpbo5NaODKvE4JaFQ6OIdVw=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=e/RCyGLt56Lh9eqd34kRP2AkX068h1mcx5tSe4QSLDQBgqrKPM2maVcwVvySK7/1R
+ FNUr7lyDoVjiGBZG3ay+SxuYuXZYoSUFNLBTT9dIPcOaSreoTzsi7Q6gXGvqKF4IAa
+ 9dth2JxHn+vzjBZMRZBozDlc3PcPDz3DOr8MauwIjwDMinXWUl3AmS+lnA+DifJkK/
+ q8HC2Zgzd/FAH3CnFJPND8B+IRBccHr9wOuVTZICrZWlbsIDEMVKNXE7552jjyw1Qp
+ /sqVgZwl0pP728ksqV3kiOlyFX1IUACGzDKkUVZJIGxgzzOkPw77hOrNpnTXWAKEmn
+ v+KUJHQgLblew==
+Message-ID: <6b45e30c-b215-4f7a-91a4-fde05d78f737@denx.de>
+Date: Wed, 25 Sep 2024 22:45:20 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 05/22] drm/msm/dpu: move resource allocation to CRTC
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Rob Clark <robdclark@gmail.com>, <quic_abhinavk@quicinc.com>, Sean Paul
- <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, "David
- Airlie" <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, "Maarten
- Lankhorst" <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, <quic_ebharadw@quicinc.com>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- Rob Clark <robdclark@chromium.org>,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-References: <20240924-concurrent-wb-v2-0-7849f900e863@quicinc.com>
- <20240924-concurrent-wb-v2-5-7849f900e863@quicinc.com>
- <dv5iij6v76ieprfckdjo4yksrjrgqw73v2lh7u4xffpu7rdrf3@zgjcp3a2hlxo>
+Subject: Re: [PATCH v2 2/2] media: imx: vdic: Introduce mem2mem VDI
+ deinterlacer driver
+To: Nicolas Dufresne <nicolas@ndufresne.ca>, linux-media@vger.kernel.org
+Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Fabio Estevam <festevam@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller
+ <deller@gmx.de>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Steve Longerbeam <slongerbeam@gmail.com>, dri-devel@lists.freedesktop.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev
+References: <20240724002044.112544-1-marex@denx.de>
+ <20240724002044.112544-2-marex@denx.de>
+ <85a5a42667e5867bc45da31baf045d4c9557f5f1.camel@ndufresne.ca>
 Content-Language: en-US
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <dv5iij6v76ieprfckdjo4yksrjrgqw73v2lh7u4xffpu7rdrf3@zgjcp3a2hlxo>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <85a5a42667e5867bc45da31baf045d4c9557f5f1.camel@ndufresne.ca>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: HQfy6X8dyIuenG609UO1FYSJh9K-t1tf
-X-Proofpoint-GUID: HQfy6X8dyIuenG609UO1FYSJh9K-t1tf
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 priorityscore=1501
- bulkscore=0 impostorscore=0 suspectscore=0 phishscore=0 adultscore=0
- clxscore=1015 malwarescore=0 lowpriorityscore=0 mlxlogscore=999
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2408220000 definitions=main-2409250147
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,115 +73,296 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 9/25/24 7:58 PM, Nicolas Dufresne wrote:
 
+Hi,
 
-On 9/24/2024 4:13 PM, Dmitry Baryshkov wrote:
-> On Tue, Sep 24, 2024 at 03:59:21PM GMT, Jessica Zhang wrote:
->> From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>
->> All resource allocation is centered around the LMs. Then other blocks
->> (except DSCs) are allocated basing on the LMs that was selected, and LM
->> powers up the CRTC rather than the encoder.
->>
->> Moreover if at some point the driver supports encoder cloning,
->> allocating resources from the encoder will be incorrect, as all clones
->> will have different encoder IDs, while LMs are to be shared by these
->> encoders.
->>
->> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->> [quic_abhinavk@quicinc.com: Refactored resource allocation for CDM]
->> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
->> [quic_jesszhan@quicinc.com: Changed to grabbing exising global state]
->> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
->> ---
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    |  86 ++++++++++++
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 201 +++++++++++-----------------
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  19 +++
->>   3 files changed, 183 insertions(+), 123 deletions(-)
->>
->> @@ -544,159 +542,117 @@ void dpu_encoder_helper_split_config(
->>   	}
->>   }
->>   
->> -bool dpu_encoder_use_dsc_merge(struct drm_encoder *drm_enc)
->> +void dpu_encoder_update_topology(struct drm_encoder *drm_enc,
->> +				 struct msm_display_topology *topology,
->> +				 struct drm_atomic_state *state,
->> +				 const struct drm_display_mode *adj_mode)
->>   {
->>   	struct dpu_encoder_virt *dpu_enc = to_dpu_encoder_virt(drm_enc);
->> -	int i, intf_count = 0, num_dsc = 0;
->> +	struct drm_connector *connector;
->> +	struct drm_connector_state *conn_state;
->> +	struct msm_display_info *disp_info;
->> +	struct drm_framebuffer *fb;
->> +	struct msm_drm_private *priv;
->> +	int i;
->>   
->>   	for (i = 0; i < MAX_PHYS_ENCODERS_PER_VIRTUAL; i++)
->>   		if (dpu_enc->phys_encs[i])
->> -			intf_count++;
->> +			topology->num_intf++;
->>   
->> -	/* See dpu_encoder_get_topology, we only support 2:2:1 topology */
->> +	/* We only support 2 DSC mode (with 2 LM and 1 INTF) */
->>   	if (dpu_enc->dsc)
->> -		num_dsc = 2;
->> +		topology->num_dsc += 2;
->>   
->> -	return (num_dsc > 0) && (num_dsc > intf_count);
->> -}
->> +	connector = drm_atomic_get_new_connector_for_encoder(state, drm_enc);
->> +	if (!connector)
->> +		return;
->> +	conn_state = drm_atomic_get_new_connector_state(state, connector);
->> +	if (!conn_state)
->> +		return;
->>   
->> -struct drm_dsc_config *dpu_encoder_get_dsc_config(struct drm_encoder *drm_enc)
->> -{
->> -	struct msm_drm_private *priv = drm_enc->dev->dev_private;
->> -	struct dpu_encoder_virt *dpu_enc = to_dpu_encoder_virt(drm_enc);
->> -	int index = dpu_enc->disp_info.h_tile_instance[0];
->> +	disp_info = &dpu_enc->disp_info;
->>   
->> -	if (dpu_enc->disp_info.intf_type == INTF_DSI)
->> -		return msm_dsi_get_dsc_config(priv->dsi[index]);
->> +	priv = drm_enc->dev->dev_private;
->>   
->> -	return NULL;
->> +	/*
->> +	 * Use CDM only for writeback or DP at the moment as other interfaces cannot handle it.
->> +	 * If writeback itself cannot handle cdm for some reason it will fail in its atomic_check()
->> +	 * earlier.
->> +	 */
->> +	if (disp_info->intf_type == INTF_WB && conn_state->writeback_job) {
->> +		fb = conn_state->writeback_job->fb;
+[...]
+
+>> +static struct v4l2_pix_format *
+>> +ipu_mem2mem_vdic_get_format(struct ipu_mem2mem_vdic_priv *priv,
+>> +			    enum v4l2_buf_type type)
+>> +{
+>> +	return &priv->fmt[V4L2_TYPE_IS_OUTPUT(type) ? V4L2_M2M_SRC : V4L2_M2M_DST];
+>> +}
+> 
+>  From here ...
+> 
 >> +
->> +		if (fb && MSM_FORMAT_IS_YUV(msm_framebuffer_format(fb)))
->> +			topology->needs_cdm = true;
->> +	} else if (disp_info->intf_type == INTF_DP) {
->> +		if (msm_dp_is_yuv_420_enabled(priv->dp[disp_info->h_tile_instance[0]], adj_mode))
->> +			topology->needs_cdm = true;
+>> +static bool ipu_mem2mem_vdic_format_is_yuv420(const u32 pixelformat)
+>> +{
+>> +	/* All 4:2:0 subsampled formats supported by this hardware */
+>> +	return pixelformat == V4L2_PIX_FMT_YUV420 ||
+>> +	       pixelformat == V4L2_PIX_FMT_YVU420 ||
+>> +	       pixelformat == V4L2_PIX_FMT_NV12;
+>> +}
+>> +
+>> +static bool ipu_mem2mem_vdic_format_is_yuv422(const u32 pixelformat)
+>> +{
+>> +	/* All 4:2:2 subsampled formats supported by this hardware */
+>> +	return pixelformat == V4L2_PIX_FMT_UYVY ||
+>> +	       pixelformat == V4L2_PIX_FMT_YUYV ||
+>> +	       pixelformat == V4L2_PIX_FMT_YUV422P ||
+>> +	       pixelformat == V4L2_PIX_FMT_NV16;
+>> +}
+>> +
+>> +static bool ipu_mem2mem_vdic_format_is_yuv(const u32 pixelformat)
+>> +{
+>> +	return ipu_mem2mem_vdic_format_is_yuv420(pixelformat) ||
+>> +	       ipu_mem2mem_vdic_format_is_yuv422(pixelformat);
+>> +}
+>> +
+>> +static bool ipu_mem2mem_vdic_format_is_rgb16(const u32 pixelformat)
+>> +{
+>> +	/* All 16-bit RGB formats supported by this hardware */
+>> +	return pixelformat == V4L2_PIX_FMT_RGB565;
+>> +}
+>> +
+>> +static bool ipu_mem2mem_vdic_format_is_rgb24(const u32 pixelformat)
+>> +{
+>> +	/* All 24-bit RGB formats supported by this hardware */
+>> +	return pixelformat == V4L2_PIX_FMT_RGB24 ||
+>> +	       pixelformat == V4L2_PIX_FMT_BGR24;
+>> +}
+>> +
+>> +static bool ipu_mem2mem_vdic_format_is_rgb32(const u32 pixelformat)
+>> +{
+>> +	/* All 32-bit RGB formats supported by this hardware */
+>> +	return pixelformat == V4L2_PIX_FMT_XRGB32 ||
+>> +	       pixelformat == V4L2_PIX_FMT_XBGR32 ||
+>> +	       pixelformat == V4L2_PIX_FMT_BGRX32 ||
+>> +	       pixelformat == V4L2_PIX_FMT_RGBX32;
+>> +}
+> 
+> To here, these days, all this information can be derived from v4l2_format_info
+> in v4l2-common in a way you don't have to create a big barrier to adding more
+> formats in the future.
+
+I am not sure I quite understand this suggestion, what should I change here?
+
+Note that the IPUv3 seems to be done, it does not seem like there will 
+be new SoCs with this block, so the list of formats here is likely final.
+
+[...]
+
+>> +static irqreturn_t ipu_mem2mem_vdic_nfb4eof_interrupt(int irq, void *dev_id)
+>> +{
+>> +	struct ipu_mem2mem_vdic_priv *priv = dev_id;
+>> +
+>> +	/* That is about all we can do about it, report it. */
+>> +	dev_warn_ratelimited(priv->dev, "NFB4EOF error interrupt occurred\n");
+> 
+> Not sure this is right. If that means ipu_mem2mem_vdic_eof_interrupt won't fire,
+> then it means streamoff/close after that will hang forever, leaving a zombie
+> process behind.
+> 
+> Perhaps mark the buffers as ERROR, and finish the job.
+
+The NFB4EOF interrupt is generated when the VDIC didn't write (all of) 
+output frame . I think it stands for "New Frame Before EOF" or some 
+such. Basically the currently written frame will be corrupted and the 
+next frame(s) are likely going to be OK again.
+
+>> +
+>> +	return IRQ_HANDLED;
+>> +}
+>> +
+>> +static void ipu_mem2mem_vdic_device_run(void *_ctx)
+>> +{
+>> +	struct ipu_mem2mem_vdic_ctx *ctx = _ctx;
+>> +	struct ipu_mem2mem_vdic_priv *priv = ctx->priv;
+>> +	struct vb2_v4l2_buffer *curr_buf, *dst_buf;
+>> +	dma_addr_t prev_phys, curr_phys, out_phys;
+>> +	struct v4l2_pix_format *infmt;
+>> +	u32 phys_offset = 0;
+>> +	unsigned long flags;
+>> +
+>> +	infmt = ipu_mem2mem_vdic_get_format(priv, V4L2_BUF_TYPE_VIDEO_OUTPUT);
+>> +	if (V4L2_FIELD_IS_SEQUENTIAL(infmt->field))
+>> +		phys_offset = infmt->sizeimage / 2;
+>> +	else if (V4L2_FIELD_IS_INTERLACED(infmt->field))
+>> +		phys_offset = infmt->bytesperline;
+>> +	else
+>> +		dev_err(priv->dev, "Invalid field %d\n", infmt->field);
+>> +
+>> +	dst_buf = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
+>> +	out_phys = vb2_dma_contig_plane_dma_addr(&dst_buf->vb2_buf, 0);
+>> +
+>> +	curr_buf = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
+>> +	if (!curr_buf) {
+>> +		dev_err(priv->dev, "Not enough buffers\n");
+>> +		return;
+> 
+> Impossible branch, has been checked by __v4l2_m2m_try_queue().
+
+Fixed in V3
+
+>> +	}
+>> +
+>> +	spin_lock_irqsave(&priv->irqlock, flags);
+>> +
+>> +	if (ctx->curr_buf) {
+>> +		ctx->prev_buf = ctx->curr_buf;
+>> +		ctx->curr_buf = curr_buf;
+>> +	} else {
+>> +		ctx->prev_buf = curr_buf;
+>> +		ctx->curr_buf = curr_buf;
+>> +		dev_warn(priv->dev, "Single-buffer mode, fix your userspace\n");
 >> +	}
 > 
-> Just to note, the needs_cdm is not enough once you introduce CWB
-> support. E.g. DP/YUV420 + WB/YUV case requires two CDM blocks (which we
-> don't have), but this doesn't get reflected in the topology.
+> The driver is not taking ownership of prev_buf, only curr_buf is guaranteed to
+> exist until v4l2_m2m_job_finish() is called. Usespace could streamoff, allocate
+> new buffers, and then an old freed buffer may endup being used.
 
-Hi Dmitry,
+So, what should I do about this ? Is there some way to ref the buffer to 
+keep it around ?
 
-Ack. I can add something to make atomic_check fail if the input FB is 
-YUV format and CWB is enabled.
+> Its also unclear to me how userspace can avoid this ugly warning, how can you
+> have curr_buf set the first time ? (I might be missing something you this one
+> though).
 
-Thanks,
+The warning happens when streaming starts and there is only one input 
+frame available for the VDIC, which needs three fields to work 
+correctly. So, if there in only one input frame, VDI uses the input 
+frame bottom field as PREV field for the prediction, and input frame top 
+and bottom fields as CURR and NEXT fields for the prediction, the result 
+may be one sub-optimal deinterlaced output frame (the first one). Once 
+another input frame gets enqueued, the VDIC uses the previous frame 
+bottom field as PREV and the newly enqueued frame top and bottom fields 
+as CURR and NEXT and the prediction works correctly from that point on.
 
-Jessica Zhang
+> Perhaps what you want is a custom job_ready() callback, that ensure you have 2
+> buffers in the OUTPUT queue ? You also need to ajust the CID
+> MIN_BUFFERS_FOR_OUTPUT accordingly.
 
+I had that before, but gstreamer didn't enqueue the two frames for me, 
+so I got back to this variant for maximum compatibility.
+
+>> +	prev_phys = vb2_dma_contig_plane_dma_addr(&ctx->prev_buf->vb2_buf, 0);
+>> +	curr_phys = vb2_dma_contig_plane_dma_addr(&ctx->curr_buf->vb2_buf, 0);
+>> +
+>> +	priv->curr_ctx = ctx;
+>> +	spin_unlock_irqrestore(&priv->irqlock, flags);
+>> +
+>> +	ipu_cpmem_set_buffer(priv->vdi_out_ch,  0, out_phys);
+>> +	ipu_cpmem_set_buffer(priv->vdi_in_ch_p, 0, prev_phys + phys_offset);
+>> +	ipu_cpmem_set_buffer(priv->vdi_in_ch,   0, curr_phys);
+>> +	ipu_cpmem_set_buffer(priv->vdi_in_ch_n, 0, curr_phys + phys_offset);
+>> +
+>> +	/* No double buffering, always pick buffer 0 */
+>> +	ipu_idmac_select_buffer(priv->vdi_out_ch, 0);
+>> +	ipu_idmac_select_buffer(priv->vdi_in_ch_p, 0);
+>> +	ipu_idmac_select_buffer(priv->vdi_in_ch, 0);
+>> +	ipu_idmac_select_buffer(priv->vdi_in_ch_n, 0);
+>> +
+>> +	/* Enable the channels */
+>> +	ipu_idmac_enable_channel(priv->vdi_out_ch);
+>> +	ipu_idmac_enable_channel(priv->vdi_in_ch_p);
+>> +	ipu_idmac_enable_channel(priv->vdi_in_ch);
+>> +	ipu_idmac_enable_channel(priv->vdi_in_ch_n);
+>> +}
+
+[...]
+
+>> +static int ipu_mem2mem_vdic_try_fmt(struct file *file, void *fh,
+>> +				    struct v4l2_format *f)
+>> +{
+>> +	const struct imx_media_pixfmt *cc;
+>> +	enum imx_pixfmt_sel cs;
+>> +	u32 fourcc;
+>> +
+>> +	if (f->type == V4L2_BUF_TYPE_VIDEO_CAPTURE) {	/* Output */
+>> +		cs = PIXFMT_SEL_YUV_RGB;	/* YUV direct / RGB via IC */
+>> +
+>> +		f->fmt.pix.field = V4L2_FIELD_NONE;
+>> +	} else {
+>> +		cs = PIXFMT_SEL_YUV;		/* YUV input only */
+>> +
+>> +		/*
+>> +		 * Input must be interlaced with frame order.
+>> +		 * Fall back to SEQ_TB otherwise.
+>> +		 */
+>> +		if (!V4L2_FIELD_HAS_BOTH(f->fmt.pix.field) ||
+>> +		    f->fmt.pix.field == V4L2_FIELD_INTERLACED)
+>> +			f->fmt.pix.field = V4L2_FIELD_SEQ_TB;
+>> +	}
+>> +
+>> +	fourcc = f->fmt.pix.pixelformat;
+>> +	cc = imx_media_find_pixel_format(fourcc, cs);
+>> +	if (!cc) {
+>> +		imx_media_enum_pixel_formats(&fourcc, 0, cs, 0);
+>> +		cc = imx_media_find_pixel_format(fourcc, cs);
+>> +	}
+>> +
+>> +	f->fmt.pix.pixelformat = cc->fourcc;
+>> +
+>> +	v4l_bound_align_image(&f->fmt.pix.width,
+>> +			      1, 968, 1,
+>> +			      &f->fmt.pix.height,
+>> +			      1, 1024, 1, 1);
 > 
->>   }
->>   
-> -- 
-> With best wishes
-> Dmitry
+> Perhaps use defines for the magic numbers ?
 
+Fixed in V3, thanks
+
+>> +
+>> +	if (ipu_mem2mem_vdic_format_is_yuv420(f->fmt.pix.pixelformat))
+>> +		f->fmt.pix.bytesperline = f->fmt.pix.width * 3 / 2;
+>> +	else if (ipu_mem2mem_vdic_format_is_yuv422(f->fmt.pix.pixelformat))
+>> +		f->fmt.pix.bytesperline = f->fmt.pix.width * 2;
+>> +	else if (ipu_mem2mem_vdic_format_is_rgb16(f->fmt.pix.pixelformat))
+>> +		f->fmt.pix.bytesperline = f->fmt.pix.width * 2;
+>> +	else if (ipu_mem2mem_vdic_format_is_rgb24(f->fmt.pix.pixelformat))
+>> +		f->fmt.pix.bytesperline = f->fmt.pix.width * 3;
+>> +	else if (ipu_mem2mem_vdic_format_is_rgb32(f->fmt.pix.pixelformat))
+>> +		f->fmt.pix.bytesperline = f->fmt.pix.width * 4;
+>> +	else
+>> +		f->fmt.pix.bytesperline = f->fmt.pix.width;
+>> +
+>> +	f->fmt.pix.sizeimage = f->fmt.pix.height * f->fmt.pix.bytesperline;
+> 
+> And use v4l2-common ?
+
+I don't really understand, there is nothing in v4l2-common.c that would 
+be really useful replacement for this ?
+
+>> +	return 0;
+>> +}
+>> +
+>> +static int ipu_mem2mem_vdic_s_fmt(struct file *file, void *fh, struct v4l2_format *f)
+>> +{
+>> +	struct ipu_mem2mem_vdic_ctx *ctx = fh_to_ctx(fh);
+>> +	struct ipu_mem2mem_vdic_priv *priv = ctx->priv;
+>> +	struct v4l2_pix_format *fmt, *infmt, *outfmt;
+>> +	struct vb2_queue *vq;
+>> +	int ret;
+>> +
+>> +	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
+>> +	if (vb2_is_busy(vq)) {
+>> +		dev_err(priv->dev, "%s queue busy\n",  __func__);
+>> +		return -EBUSY;
+>> +	}
+>> +
+>> +	ret = ipu_mem2mem_vdic_try_fmt(file, fh, f);
+>> +	if (ret < 0)
+>> +		return ret;
+>> +
+>> +	fmt = ipu_mem2mem_vdic_get_format(priv, f->type);
+>> +	*fmt = f->fmt.pix;
+>> +
+>> +	/* Propagate colorimetry to the capture queue */
+>> +	infmt = ipu_mem2mem_vdic_get_format(priv, V4L2_BUF_TYPE_VIDEO_OUTPUT);
+>> +	outfmt = ipu_mem2mem_vdic_get_format(priv, V4L2_BUF_TYPE_VIDEO_CAPTURE);
+>> +	outfmt->colorspace = infmt->colorspace;
+>> +	outfmt->ycbcr_enc = infmt->ycbcr_enc;
+>> +	outfmt->xfer_func = infmt->xfer_func;
+>> +	outfmt->quantization = infmt->quantization;
+> 
+> So you can do CSC conversion but not colorimetry ? We have
+> V4L2_PIX_FMT_FLAG_SET_CSC if you can do colorimetry transforms too. I have
+> patches that I'll send for the csc-scaler driver.
+
+See ipu_ic_calc_csc() , that's what does the colorspace conversion in 
+this driver (on output from VDI).
+
+[...]
