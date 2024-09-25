@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85B7C9858B6
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 13:46:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BA9C9858BA
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 13:46:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0421810E906;
-	Wed, 25 Sep 2024 11:46:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7654410E907;
+	Wed, 25 Sep 2024 11:46:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="sylUrtW5";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qUnlj7LE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D431C10E8F5;
- Wed, 25 Sep 2024 11:46:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33CEB10E907;
+ Wed, 25 Sep 2024 11:46:41 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 368875C57BD;
- Wed, 25 Sep 2024 11:46:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B24FC4CEC3;
- Wed, 25 Sep 2024 11:46:26 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 9FBFE5C5967;
+ Wed, 25 Sep 2024 11:46:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FBA9C4CEC3;
+ Wed, 25 Sep 2024 11:46:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1727264788;
- bh=9C2xkiI+pCr/7yO623HUR+Ghmvk1ezZcoUu8B2wi6tw=;
+ s=k20201202; t=1727264800;
+ bh=htlTeJszNSBr+txgmM6ukJitel0z8NzZi/OUCseFMHc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=sylUrtW53phzFJB+sGyKuvNoC8R86uDZNrS4MkVxtp7c6wKLvSMndopZfhdmaWvmR
- h2JPzxLNY4b3j7UTXwUCoA2YhxHHPzBvwT3GuXcq7CRFKEbKMcEKWpEJpy7UlIDwnP
- kXi6gEF26g5fXGtWhYNF0D3BQ+N5rrnckDruj+7i6+rKW4FFqTTGt0IGa+VtH7j15X
- r2qte3+IQyusxLi0TcfVTk+/sgcxCzgwm9A9gIiOV5X4Wkeg2cJ5aAQUKdFE/+lUjj
- 0rWH8gEXIuyb9uEHF1tEjszstXACszRr0CFsmu/ivGi6p89MEpjrOQIcZ8v8YthaWc
- tg1uM1baVEQKQ==
+ b=qUnlj7LE84VP8tm2LCtTzKNOa68Es1j5wvZ42EnZIlNtFsSh9PnEWu7WDXkrkIJNY
+ 81VHFQv2a+wcSGMuh3xn+x99D4hP26Askmd6PT14H69Rvk6E2opVT+QrY3ItkDD1ig
+ dotCo6zR43TaEAeo4Msy6lcvdSyFlKKNgzMZkbFG1u2AQY7Zo073zokqTOZIELBUBC
+ QUi8t6T/yOLpoCHWOle6OoiiVr8F5DaQtu8YTnJiFb7n7MyJKM2PVmioi55ydTqZFC
+ rPQ5JZ5CF70wBu/BueqbcG3Afpl8xuN2c2m/+1b5dp+CCX5ieg0hIJ0T7IaeetfiMd
+ 2AI+2LsZ5Q4Vg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -41,13 +41,13 @@ Cc: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
  Hamza Mahfooz <hamza.mahfooz@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
  sunpeng.li@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch, alvin.lee2@amd.com, wayne.lin@amd.com,
- wenjing.liu@amd.com, george.shen@amd.com, dillon.varone@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.11 152/244] drm/amd/display: Add NULL check for
- function pointer in dcn20_set_output_transfer_func
-Date: Wed, 25 Sep 2024 07:26:13 -0400
-Message-ID: <20240925113641.1297102-152-sashal@kernel.org>
+ airlied@gmail.com, daniel@ffwll.ch, sarvinde@amd.com, wenjing.liu@amd.com,
+ nevenko.stupar@amd.com, alvin.lee2@amd.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.11 153/244] drm/amd/display: Add NULL check for
+ function pointer in dcn401_set_output_transfer_func
+Date: Wed, 25 Sep 2024 07:26:14 -0400
+Message-ID: <20240925113641.1297102-153-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240925113641.1297102-1-sashal@kernel.org>
 References: <20240925113641.1297102-1-sashal@kernel.org>
@@ -73,18 +73,17 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
 
-[ Upstream commit 62ed6f0f198da04e884062264df308277628004f ]
+[ Upstream commit dd340acd42c24a3f28dd22fae6bf38662334264c ]
 
 This commit adds a null check for the set_output_gamma function pointer
-in the dcn20_set_output_transfer_func function. Previously,
-set_output_gamma was being checked for null at line 1030, but then it
-was being dereferenced without any null check at line 1048. This could
-potentially lead to a null pointer dereference error if set_output_gamma
-is null.
+in the dcn401_set_output_transfer_func function. Previously,
+set_output_gamma was being checked for null, but then it was being
+dereferenced without any null check. This could lead to a null pointer
+dereference if set_output_gamma is null.
 
 To fix this, we now ensure that set_output_gamma is not null before
 dereferencing it. We do this by adding a null check for set_output_gamma
-before the call to set_output_gamma at line 1048.
+before the call to set_output_gamma.
 
 Cc: Tom Chung <chiahsuan.chung@amd.com>
 Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
@@ -98,23 +97,24 @@ Reviewed-by: Tom Chung <chiahsuan.chung@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/display/dc/hwss/dcn401/dcn401_hwseq.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c
-index 17d1c195663a0..7ca0da88290af 100644
---- a/drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c
-+++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c
-@@ -1044,7 +1044,8 @@ bool dcn20_set_output_transfer_func(struct dc *dc, struct pipe_ctx *pipe_ctx,
- 	/*
- 	 * if above if is not executed then 'params' equal to 0 and set in bypass
- 	 */
+diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn401/dcn401_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn401/dcn401_hwseq.c
+index 537a24ec74c85..7c724cf682840 100644
+--- a/drivers/gpu/drm/amd/display/dc/hwss/dcn401/dcn401_hwseq.c
++++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn401/dcn401_hwseq.c
+@@ -748,7 +748,9 @@ bool dcn401_set_output_transfer_func(struct dc *dc,
+ 		}
+ 	}
+ 
 -	mpc->funcs->set_output_gamma(mpc, mpcc_id, params);
 +	if (mpc->funcs->set_output_gamma)
 +		mpc->funcs->set_output_gamma(mpc, mpcc_id, params);
- 
- 	return true;
++
+ 	return ret;
  }
+ 
 -- 
 2.43.0
 
