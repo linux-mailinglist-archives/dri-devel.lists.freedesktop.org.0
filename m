@@ -2,84 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55F36985CC0
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 14:53:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1919C985CFE
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 14:58:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FC8710E812;
-	Wed, 25 Sep 2024 12:53:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3713B10E0CA;
+	Wed, 25 Sep 2024 12:58:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="hcekmbhV";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="AZVJDMmD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com
- [209.85.160.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD7B710E0CA
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 12:53:47 +0000 (UTC)
-Received: by mail-oa1-f41.google.com with SMTP id
- 586e51a60fabf-277df202ca9so3254935fac.0
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 05:53:47 -0700 (PDT)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+ [209.85.221.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 996DD10E0CA
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 12:58:54 +0000 (UTC)
+Received: by mail-wr1-f44.google.com with SMTP id
+ ffacd0b85a97d-374ba78f192so4746791f8f.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 05:58:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1727268827; x=1727873627; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=j3P64Nuj8GlT9wDKZ+1u3zuMiJRKJGP8MnD/jd+llEk=;
- b=hcekmbhVM/137pICnxzrWd8cuNGsYO4uChky+vUBLrVD0hHzROD7JmdTG/YdMx9MMc
- dW0djeKxSOroKfdolje8wLUDLEbTNHGaEyAfgRBlqnA2YQmEFrizIPRedF6i+flbfosz
- teqCIw3jMgw2LVw8nds31BYEe1RW3Q1bytHCCaPyKargSxyrzkoUyaljfSvFR/ZjiRtt
- uNNN98ux94AzKL8Bd5ossPUtH0owB9StoQS2qhrkCeSF7Kdr76vh/HPQsH+f14c89csy
- 0K47yGEPgPANoMNlbwD7zxaXPbW1JA1ThpcxyliwmF+5FSf0YK1FwNdrzwpTppjeaIYc
- 6qyQ==
+ d=gmail.com; s=20230601; t=1727269133; x=1727873933; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=J1XJnhqq2OIsxXJzV7ym7OJSz2cacK1ZAV5wGYiQpu0=;
+ b=AZVJDMmDVjXZEVUk2RclKbxW3mk/Wg0BXkEkiANkTLTWLcMTv1Bl+exHuXRIrQn+sb
+ i8UwAB0Zd1eUVq9Ix5DCkMTQ9YzFFKBpNMIzYIGrP/KkB1kB6f3lE+siV2yfla4Ns40J
+ MMoymRsL8jE7KK/JS/58e35SmIfykCibzwA7VmktRwYEJsazTDxVaoZ0mVJntA5/wRNU
+ gIS0ZQmqRid0X0qvZt1+MfeqVX4QtxTv41RAJauFaQxfEZ+Ijm8vSwVt64v5J44voPLw
+ gQtOE7RyHzrsVP9OTSMljrqmCB2p50I1Ik0T/6iExHmLuhs5hTrvOH6g5jUDnPt0o73h
+ 3swQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727268827; x=1727873627;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=j3P64Nuj8GlT9wDKZ+1u3zuMiJRKJGP8MnD/jd+llEk=;
- b=M+80M0CsEO8YbPAqqqH3+TuLVkm4SOxYb0dhabMAapRhdnZRE58qMbZ/o4khXTcrS4
- 3dir3Qp4uT/HMT3SCAxYcdyiCaWxhs7eRobRUOv2vFV9O46bs8jn9UqdxNqttSTybJLV
- /RbEVhw8CmxEg2cx3f+doWgwsO/HzasiYsmMlcDWOdUfJpLF7wM4+w9H1jvyOjGuezGf
- UvBHq1QdtaxgA0on8n0V8UPWBJMbpFwBBlGptflPiHldJCI6GgSwfI4rrBFyvaDAisB1
- kZFPcEpxyPHdLRsCg7AnO/CdpNc8b5AgTqbrbmrfhnitnTKyObwlfDShT/97Mp7z46gT
- wZEQ==
+ d=1e100.net; s=20230601; t=1727269133; x=1727873933;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=J1XJnhqq2OIsxXJzV7ym7OJSz2cacK1ZAV5wGYiQpu0=;
+ b=nYSTcUPiPc3RJ1enQMyDSk1sHroQmTWwPRzuiACgilc1O6NoVa5g1vfQE4+aPzdD0b
+ fvnKmCSH2FOPGtwNwW+TobmaSamYrbNEYo/y6LB8bP05c3vg6gUTehJjJO7qQ8XlnQyK
+ 9vZYaioCSQUZaK5Dggfq2ZXCMCfYOQO3rAp4DeyQDPKbvHHGgv+eA75r3y3m4+9B5vMq
+ NVH4tnkbLwgvqzMFR5dNo2JaWrjPZQyoMc/FftQhtsgFmqfIQy2OXqcl+6dYR4EoLqLI
+ 6AnBLHW7osWo/xWs/WGt1vPvYtYxgshtr4qwx9lu+k97iuWzHyYdaX1K0/dsa2mSDMNe
+ oN+w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWkxKIXWM4PL+eM+hZNtbaefah9lhfrHVjnjCfdiyDz/WRE89B34EU7HGGTgEBate5rYBjZItzCSTE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzg4VhRcahidgWyqL/HDlCNZjGFYxxT5xs1UUS7EwwJTGo4HC1w
- NEazIqOWPJW6flbBZb81f9AtiXa80qiYFkSfkv1OD9fdGvlgnRiY1zpyUOJMzGLn1bgi04fODK5
- ujIpH7DuCKj1TmNbaEsGXl+Fq/bSbFO2rs/i5qw==
-X-Google-Smtp-Source: AGHT+IHSJDI5zJNXgia6m+wvn3Z88Lm1Gqvx0KTAh7NQ/EUXrFKHeoOj7pRQGL8LyhcvQBz8DCABmsPEnqj7Sd60oPU=
-X-Received: by 2002:a05:6870:5487:b0:277:f329:f111 with SMTP id
- 586e51a60fabf-286e141f056mr1950128fac.22.1727268826783; Wed, 25 Sep 2024
- 05:53:46 -0700 (PDT)
+ AJvYcCXCxqSNeO2RUYrIHFBCErGNG/P5X0J+pol7+rNY3i2iZQIMJei6qsTcm3gRglH/vpJTouL2LwuHCIc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy3IxNwDecKZw5MuHkudbv0ycJPHMNfOowZzZmRMndJzegptrIW
+ jBG3VL2D2IYIYw8RUtLcNOW3e+GTh3ueSbGVXfGFSAPsrAYs2tg95P9U/A==
+X-Google-Smtp-Source: AGHT+IHRHm8+liHKXUKRB0InXsm5LIUqNcGUyVFyJw6CMr61V79XcSVCKGwlzWTJOGOgcMO7kThCKQ==
+X-Received: by 2002:a5d:5f85:0:b0:374:c92e:f69f with SMTP id
+ ffacd0b85a97d-37cc2468e66mr2384982f8f.16.1727269132552; 
+ Wed, 25 Sep 2024 05:58:52 -0700 (PDT)
+Received: from orome (p200300e41f147300f22f74fffe1f3a53.dip0.t-ipconnect.de.
+ [2003:e4:1f14:7300:f22f:74ff:fe1f:3a53])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-37cbc2a8c1csm3998501f8f.11.2024.09.25.05.58.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 25 Sep 2024 05:58:51 -0700 (PDT)
+Date: Wed, 25 Sep 2024 14:58:50 +0200
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Jon Hunter <jonathanh@nvidia.com>
+Cc: Mikko Perttunen <cyndis@kapsi.fi>, 
+ Mikko Perttunen <mperttunen@nvidia.com>, dri-devel@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org
+Subject: Re: [PATCH] gpu: host1x: Request syncpoint IRQs only during probe
+Message-ID: <tsq6hbbeyxu5uqasx6jijijvxfomnxj4c2qakf7lmd2eut2zbk@z72tkzlzlfu6>
+References: <20240531070719.2138-1-cyndis@kapsi.fi>
+ <f0720898-aadc-4e98-9369-05ec5821414f@nvidia.com>
+ <18b6c018-618d-42e6-81f4-48bfb4eba206@nvidia.com>
 MIME-Version: 1.0
-References: <20240830070351.2855919-1-jens.wiklander@linaro.org>
- <dhxvyshwi4qmcmwceokhqey2ww4azjcs6qrpnkgivdj7tv5cke@r36srvvbof6q>
- <20240925071504.GA3519798@rayden>
- <bktt4yanmfn4gjljy2wxmigj6mncpga237oxyf4g4h2vxu2a3q@asnsn7smi4u2>
-In-Reply-To: <bktt4yanmfn4gjljy2wxmigj6mncpga237oxyf4g4h2vxu2a3q@asnsn7smi4u2>
-From: Jens Wiklander <jens.wiklander@linaro.org>
-Date: Wed, 25 Sep 2024 14:53:34 +0200
-Message-ID: <CAHUa44EvgcUg0QFvwsgU6BSs_BtZg6bO_5rx3CJbyCUPbiQZXQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/4] Linaro restricted heap
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, op-tee@lists.trustedfirmware.org, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
- Olivier Masse <olivier.masse@nxp.com>,
- Thierry Reding <thierry.reding@gmail.com>, 
- Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, 
- John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Sumit Garg <sumit.garg@linaro.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="4vblk4xct4vaq62s"
+Content-Disposition: inline
+In-Reply-To: <18b6c018-618d-42e6-81f4-48bfb4eba206@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,187 +87,122 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 25, 2024 at 1:41=E2=80=AFPM Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
->
-> On Wed, Sep 25, 2024 at 09:15:04AM GMT, Jens Wiklander wrote:
-> > On Mon, Sep 23, 2024 at 09:33:29AM +0300, Dmitry Baryshkov wrote:
-> > > Hi,
-> > >
-> > > On Fri, Aug 30, 2024 at 09:03:47AM GMT, Jens Wiklander wrote:
-> > > > Hi,
-> > > >
-> > > > This patch set is based on top of Yong Wu's restricted heap patch s=
-et [1].
-> > > > It's also a continuation on Olivier's Add dma-buf secure-heap patch=
- set [2].
-> > > >
-> > > > The Linaro restricted heap uses genalloc in the kernel to manage th=
-e heap
-> > > > carvout. This is a difference from the Mediatek restricted heap whi=
-ch
-> > > > relies on the secure world to manage the carveout.
-> > > >
-> > > > I've tried to adress the comments on [2], but [1] introduces change=
-s so I'm
-> > > > afraid I've had to skip some comments.
-> > >
-> > > I know I have raised the same question during LPC (in connection to
-> > > Qualcomm's dma-heap implementation). Is there any reason why we are
-> > > using generic heaps instead of allocating the dma-bufs on the device
-> > > side?
-> > >
-> > > In your case you already have TEE device, you can use it to allocate =
-and
-> > > export dma-bufs, which then get imported by the V4L and DRM drivers.
-> > >
-> > > I have a feeling (I might be completely wrong here) that by using
-> > > generic dma-buf heaps we can easily end up in a situation when the
-> > > userspace depends heavily on the actual platform being used (to map t=
-he
-> > > platform to heap names). I think we should instead depend on the
-> > > existing devices (e.g. if there is a TEE device, use an IOCTL to
-> > > allocate secured DMA BUF from it, otherwise check for QTEE device,
-> > > otherwise check for some other vendor device).
-> >
-> > That makes sense, it's similar to what we do with TEE_IOC_SHM_ALLOC
-> > where we allocate from a carveout reserverd for shared memory with the
-> > secure world. It was even based on dma-buf until commit dfd0743f1d9e
-> > ("tee: handle lookup of shm with reference count 0").
-> >
-> > We should use a new TEE_IOC_*_ALLOC for these new dma-bufs to avoid
-> > confusion and to have more freedom when designing the interface.
-> >
-> > >
-> > > The mental experiment to check if the API is correct is really simple=
-:
-> > > Can you use exactly the same rootfs on several devices without
-> > > any additional tuning (e.g. your QEMU, HiKey, a Mediatek board, Qualc=
-omm
-> > > laptop, etc)?
-> >
-> > No, I don't think so.
->
-> Then the API needs to be modified.
 
-I don't think that is enough. I would have answered no even without
-the secure data path in mind. Communication with the secure world is
-still too fragmented.
+--4vblk4xct4vaq62s
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->
-> Or the userspace needs to be modified in the way similar to Vulkan /
-> OpenCL / glvnd / VA / VDPU: platform-specific backends, coexisting on a
-> single rootfs.
+On Tue, Sep 24, 2024 at 07:33:05PM GMT, Jon Hunter wrote:
+>=20
+> On 06/09/2024 09:38, Jon Hunter wrote:
+> > Hi Mikko,
+> >=20
+> > On 31/05/2024 08:07, Mikko Perttunen wrote:
+> > > From: Mikko Perttunen <mperttunen@nvidia.com>
+> > >=20
+> > > Syncpoint IRQs are currently requested in a code path that runs
+> > > during resume. Due to this, we get multiple overlapping registered
+> > > interrupt handlers as host1x is suspended and resumed.
+> > >=20
+> > > Rearrange interrupt code to only request IRQs during initialization.
+> > >=20
+> > > Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
+>=20
+> ...
+>=20
+> > This change is causing a boot regression on Tegra186 with the latest
+> > -next. I have reverted this to confirm that this fixes the problem. I
+> > don't see any crash log but the board appears to just hang.
+>=20
+>=20
+> I had a look at this and I was able to fix this by moving where
+> we initialise the interrupts to after the PM runtime enable ...
+>=20
+> diff --git a/drivers/gpu/host1x/dev.c b/drivers/gpu/host1x/dev.c
+> index b62e4f0e8130..ff98d4903cac 100644
+> --- a/drivers/gpu/host1x/dev.c
+> +++ b/drivers/gpu/host1x/dev.c
+> @@ -625,12 +625,6 @@ static int host1x_probe(struct platform_device *pdev)
+>                 goto free_contexts;
+>         }
+> -       err =3D host1x_intr_init(host);
+> -       if (err) {
+> -               dev_err(&pdev->dev, "failed to initialize interrupts\n");
+> -               goto deinit_syncpt;
+> -       }
+> -
+>         pm_runtime_enable(&pdev->dev);
+>         err =3D devm_tegra_core_dev_init_opp_table_common(&pdev->dev);
+> @@ -642,6 +636,12 @@ static int host1x_probe(struct platform_device *pdev)
+>         if (err)
+>                 goto pm_disable;
+> +       err =3D host1x_intr_init(host);
+> +       if (err) {
+> +               dev_err(&pdev->dev, "failed to initialize interrupts\n");
+> +               goto pm_put;
+> +       }
+> +
 
-Yes, that's likely a needed step. But the first step is to have
-something to relate to upstream, without that there's only an
-ever-changing downstream ABI.
+I think the reason why this might fail now is because host1x_intr_init()
+ends up writing some registers during the call to the
+host1x_hw_intr_disable_all_syncpt_intrs() function, which would hang or
+crash if the device isn't on (which in turn happens during
+pm_runtime_resume_and_get()).
 
->
-> It is more or less fine to have platform-specific rootfs when we are
-> talking about the embedded, resource-limited devices. But for the
-> end-user devices we must be able to install a generic distro with no
-> device-specific packages being selected.
+Not sure exactly why this used to work because prior to Mikko's patch
+because the sequence was the same before.
 
-I'm not sure we can solve that problem here. But we should of course
-not make matters worse. In the restricted heap patch set which this
-patchset builds on we define a way to allocate memory from a
-restricted heap, but we leave the problem of finding the right heap to
-userspace.
+>         host1x_debug_init(host);
+>         err =3D host1x_register(host);
+> @@ -658,14 +658,11 @@ static int host1x_probe(struct platform_device *pde=
+v)
+>         host1x_unregister(host);
+>  deinit_debugfs:
+>         host1x_debug_deinit(host);
+> -
+> +       host1x_intr_deinit(host);
+> +pm_put:
+>         pm_runtime_put_sync_suspend(&pdev->dev);
+>  pm_disable:
+>         pm_runtime_disable(&pdev->dev);
+> -
+> -       host1x_intr_deinit(host);
+> -deinit_syncpt:
+> -       host1x_syncpt_deinit(host);
+>  free_contexts:
+>         host1x_memory_context_list_free(&host->context_list);
+>  free_channels:
+>=20
+>=20
+> Thierry, do you want to me to send a fix for the above or do you
+> want to squash with the original (assuming that OK with Mikko)?
+
+In any case, this looks like a good fix, so please send a proper patch.
+This is merged through drm-misc, so squashing this into the original
+patch is not an option any longer.
 
 Thanks,
-Jens
+Thierry
 
->
-> >
-> > >
-> > > >
-> > > > This can be tested on QEMU with the following steps:
-> > > > repo init -u https://github.com/jenswi-linaro/manifest.git -m qemu_=
-v8.xml \
-> > > >         -b prototype/sdp-v1
-> > > > repo sync -j8
-> > > > cd build
-> > > > make toolchains -j4
-> > > > make all -j$(nproc)
-> > > > make run-only
-> > > > # login and at the prompt:
-> > > > xtest --sdp-basic
-> > > >
-> > > > https://optee.readthedocs.io/en/latest/building/prerequisites.html
-> > > > list dependencies needed to build the above.
-> > > >
-> > > > The tests are pretty basic, mostly checking that a Trusted Applicat=
-ion in
-> > > > the secure world can access and manipulate the memory.
-> > >
-> > > - Can we test that the system doesn't crash badly if user provides
-> > >   non-secured memory to the users which expect a secure buffer?
-> > >
-> > > - At the same time corresponding entities shouldn't decode data to th=
-e
-> > >   buffers accessible to the rest of the sytem.
-> >
-> > I'll a few tests along that.
-> >
-> > Thanks,
-> > Jens
-> >
-> > >
-> > > >
-> > > > Cheers,
-> > > > Jens
-> > > >
-> > > > [1] https://lore.kernel.org/dri-devel/20240515112308.10171-1-yong.w=
-u@mediatek.com/
-> > > > [2] https://lore.kernel.org/lkml/20220805135330.970-1-olivier.masse=
-@nxp.com/
-> > > >
-> > > > Changes since Olivier's post [2]:
-> > > > * Based on Yong Wu's post [1] where much of dma-buf handling is don=
-e in
-> > > >   the generic restricted heap
-> > > > * Simplifications and cleanup
-> > > > * New commit message for "dma-buf: heaps: add Linaro restricted dma=
-buf heap
-> > > >   support"
-> > > > * Replaced the word "secure" with "restricted" where applicable
-> > > >
-> > > > Etienne Carriere (1):
-> > > >   tee: new ioctl to a register tee_shm from a dmabuf file descripto=
-r
-> > > >
-> > > > Jens Wiklander (2):
-> > > >   dma-buf: heaps: restricted_heap: add no_map attribute
-> > > >   dma-buf: heaps: add Linaro restricted dmabuf heap support
-> > > >
-> > > > Olivier Masse (1):
-> > > >   dt-bindings: reserved-memory: add linaro,restricted-heap
-> > > >
-> > > >  .../linaro,restricted-heap.yaml               |  56 ++++++
-> > > >  drivers/dma-buf/heaps/Kconfig                 |  10 ++
-> > > >  drivers/dma-buf/heaps/Makefile                |   1 +
-> > > >  drivers/dma-buf/heaps/restricted_heap.c       |  17 +-
-> > > >  drivers/dma-buf/heaps/restricted_heap.h       |   2 +
-> > > >  .../dma-buf/heaps/restricted_heap_linaro.c    | 165 ++++++++++++++=
-++++
-> > > >  drivers/tee/tee_core.c                        |  38 ++++
-> > > >  drivers/tee/tee_shm.c                         | 104 ++++++++++-
-> > > >  include/linux/tee_drv.h                       |  11 ++
-> > > >  include/uapi/linux/tee.h                      |  29 +++
-> > > >  10 files changed, 426 insertions(+), 7 deletions(-)
-> > > >  create mode 100644 Documentation/devicetree/bindings/reserved-memo=
-ry/linaro,restricted-heap.yaml
-> > > >  create mode 100644 drivers/dma-buf/heaps/restricted_heap_linaro.c
-> > > >
-> > > > --
-> > > > 2.34.1
-> > > >
-> > >
-> > > --
-> > > With best wishes
-> > > Dmitry
->
-> --
-> With best wishes
-> Dmitry
+--4vblk4xct4vaq62s
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmb0CQcACgkQ3SOs138+
+s6F4kw/8CFaMLKgI88knlMkHLGoEl3VY7lPbJEDoeHEsS2AIvBdDxtmoAMqGpc6A
+/Ezs//MV/In2c/Ri5XF6WnK2+axWL2SypmiuGEypul4fD7LToyYtcllRFIpQ+Hnz
+jbuD8UIPvLf/Um78X6uqmQQUm6R2O7mgMfheVdhv6bR5IxCn3r2iGRMxeukn3kbo
+htBrnraFNtcEZ8V+qIi3WMZdgFb+QndL6RL9MvDXWNMog5TwBl4nvanS+gfgv93u
+CxJkZMaecM67kPxmE4/T1bc2VZ8WijI0D7UyANV+jH3NCmZJtr0mNOFaChkXzY/e
+gfzoraIp01qXSluOz3oilwZ/B4A/21X3J/9XKw7zQMOb0Dv72hgCR1Z5qbOKXHoe
+bE7kt2Zmcx+cqNvmE7zJ/jaBPld1kP1grE7lW1/tztKyl/NHnOBTe4Cr/ilgzseI
+cqR74D9AOLvtaDPbTsmPTS6GxNH/iTJwvHzAJvnaqUNYGh2hzcf+Pj/hNveUMPKQ
+eZ4Au8RhRNYfq9v48IjpFF422mpc5lNGIyj0yaFjLj4aAoPiqZiYMMfThGOebd+y
+jnh2gFp/vI++TAiaY6IxcrmMOALQTx03t3mmQIFVMlNwBb4u4BKEIXJdncT32Yuq
+CqBChZv5ktN2IE7SScebB54ElUc+ieh+97hjWMeNJYay+9vmKuw=
+=drRG
+-----END PGP SIGNATURE-----
+
+--4vblk4xct4vaq62s--
