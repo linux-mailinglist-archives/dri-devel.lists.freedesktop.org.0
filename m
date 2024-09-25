@@ -2,88 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9056F984F5D
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 02:15:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76121984F70
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 02:22:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84BD310E26B;
-	Wed, 25 Sep 2024 00:15:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 524D610E920;
+	Wed, 25 Sep 2024 00:22:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="SC8XcN0A";
+	dkim=pass (2048-bit key; unprotected) header.d=internode.on.net header.i=@internode.on.net header.b="IbKFpcLF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4409A10E26B;
- Wed, 25 Sep 2024 00:15:02 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48OHiVZg015563;
- Wed, 25 Sep 2024 00:14:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 5JBiJ4m1eTCCViILBfeZuxHxJQ3g7nrbtUeAMf+jVjE=; b=SC8XcN0ANo/Pxb1R
- 0WoIxXBd2TyOPxVH2f512pL5DTCJ5o1+TOeDsA5/34CZ9VRmAcosx0aXDI9uA0MQ
- wuyeUobV2vRCPvY9RzniiRv1visuumJ7F7KhI49JlsnWVxaFL9MzQ408LeiJezvt
- aj2DW5AgdoY7dFgq53N5QnGe0EEhsK6I4qvcXp7Cr6vNUPzgn1UQzFmg+qeVclF/
- R7vm+MV2iQeb0qDVErWcshFORcDZSlNa3nSRoYX5ozt02djxxd0E8uC3q+DGbBZg
- u8v0R9VZXlAwresukBZCamVJcb2P4yZ7N+HTEcSpgR48/l8VOSzQg0yMW87ZBm0a
- 78mwUw==
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41snfh2hh1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 25 Sep 2024 00:14:51 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 48P0EomH013326
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 25 Sep 2024 00:14:50 GMT
-Received: from [10.134.70.212] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 24 Sep
- 2024 17:14:49 -0700
-Message-ID: <fcc4fa17-910c-4c3f-8cfd-5bedad772b49@quicinc.com>
-Date: Tue, 24 Sep 2024 17:14:49 -0700
+Received: from omr002.pc5.atmailcloud.com (omr002.pc5.atmailcloud.com
+ [103.150.252.2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB94410E920;
+ Wed, 25 Sep 2024 00:22:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=internode.on.net; s=202309; h=MIME-Version:Message-ID:Date:Subject:To:From:
+ content-type; bh=VO+pqWj1yIOcgZrNglPcMFYl+7rjqsSaJWWxgX9+s1I=; b=IbKFpcLFCqe3
+ 1GkQoNAmvochWFH3S779x5Dgyaaj2L14KJIe63zzF4xX0hkx7dD9Z0tRMiHR7egxpLUd5iR3sTfiQ
+ 94eybGtwbUfgSp4rthoFuE6l3Lkmn+YTySxEO2EpBkHtA0tMI5iEJChQU5CmbnwYfeyS+3IfUWXu+
+ tNx5qox4nr4jSJB917PFIdKyG+2abs3qKjZb6MNsl0hY+hg1GvVV8op/IeDS5NO8vq93idqJ5WY7o
+ 96B3Ed+F+MjwB7vAQM+N1vIDaWKPHTTgzsz54vP85A7rThkdwHXRiHq/DDuTSdWIiE1v9rEP5Agc/
+ yRpGdpDhQ1Xo9iNfF77Ixg==;
+Received: from CMR-KAKADU01.i-02175a00542f9bb7e
+ by OMR.i-06efc5390fb1e2455 with esmtps
+ (envelope-from <arthur.marsh@internode.on.net>)
+ id 1stFnF-000000001LH-3zIl; Wed, 25 Sep 2024 00:22:09 +0000
+Received: from [118.210.167.213] (helo=localhost)
+ by CMR-KAKADU01.i-02175a00542f9bb7e with esmtpsa
+ (envelope-from <arthur.marsh@internode.on.net>)
+ id 1stFnF-000000001WC-0xQ7; Wed, 25 Sep 2024 00:22:09 +0000
+Received: from amarsh04 by localhost with local (Exim 4.98)
+ (envelope-from <arthur.marsh@internode.on.net>)
+ id 1stFnB-0000000013i-2r9I; Wed, 25 Sep 2024 09:52:05 +0930
+From: Arthur Marsh <arthur.marsh@internode.on.net>
+To: alexdeucher@gmail.com
+Cc: Xinhui.Pan@amd.com, airlied@gmail.com, alexander.deucher@amd.com,
+ amd-gfx@lists.freedesktop.org, arthur.marsh@internode.on.net,
+ christian.koenig@amd.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ iommu@lists.linux.dev, linux-kernel@vger.kernel.org, tzimmermann@suse.de,
+ wuhoipok@gmail.com, x86@kernel.org
+Subject: NULL pointer dereference after ib test on ring 7 succeeded
+Date: Wed, 25 Sep 2024 09:52:04 +0930
+Message-ID: <20240925002205.4065-1-user@am64>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <CADnq5_OtdUvOUPpq1aUoxtgpt6a4h598019SNhe+9ZWUaANYqg@mail.gmail.com>
+References: <CADnq5_OtdUvOUPpq1aUoxtgpt6a4h598019SNhe+9ZWUaANYqg@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 16/22] drm/msm/dpu: Configure CWB in writeback encoder
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Rob Clark <robdclark@gmail.com>, <quic_abhinavk@quicinc.com>, Sean Paul
- <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, "David
- Airlie" <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, "Maarten
- Lankhorst" <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, <quic_ebharadw@quicinc.com>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- Rob Clark <robdclark@chromium.org>,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-References: <20240924-concurrent-wb-v2-0-7849f900e863@quicinc.com>
- <20240924-concurrent-wb-v2-16-7849f900e863@quicinc.com>
- <qfqvtbc2o2xrv35caonsvhykmq6bvjpc5plnknjgkodrsoez6d@rpobkvdyqeb2>
-Content-Language: en-US
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <qfqvtbc2o2xrv35caonsvhykmq6bvjpc5plnknjgkodrsoez6d@rpobkvdyqeb2>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: W5ytX0QWdgPuHpu5Fi-iBPCsO46s1XB6
-X-Proofpoint-GUID: W5ytX0QWdgPuHpu5Fi-iBPCsO46s1XB6
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 adultscore=0
- lowpriorityscore=0 priorityscore=1501 malwarescore=0 mlxscore=0
- suspectscore=0 impostorscore=0 spamscore=0 phishscore=0 mlxlogscore=999
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2408220000 definitions=main-2409250000
+Content-Transfer-Encoding: quoted-printable
+X-Atmail-Id: arthur.marsh@internode.on.net
+X-atmailcloud-spam-action: no action
+X-Cm-Analysis: v=2.4 cv=A4dqPbWG c=1 sm=1 tr=0 ts=66f357b1
+ a=Kh1sbcNhzywcxpuRN39Emg==:117 a=Kh1sbcNhzywcxpuRN39Emg==:17
+ a=EaEq8P2WXUwA:10 a=x7bEGLp0ZPQA:10 a=-3lUenqOrSg5RfNWSYcA:9
+X-Cm-Envelope: MS4xfETnA6LXsDoIbHo78TzFnuLKdTbuh6Xc81j3uKGCfrG+02BZA76KXSzIgCsUX8DRfw2SxVgzHNbtz7GWtsVJcLgIxgPxKnk8frFYdV5liTMecmR9J7tN
+ airCbemFwH3XFB5XOQha/VWWEu2R/lcwZw7ASx5Ua4HSBkxt7lOx2esCacjsRflwPoGIn/hcu2nrjvHlgjSQ7SenLIwKOn8QRtY=
+X-atmailcloud-route: unknown
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,270 +73,186 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+After rebuilding current Linus git head with:
 
+dma-mapping: report unlimited DMA addressing in IOMMU DMA path
+b348b6d17fd1d5d89b86db602f02bea54a754bd8
 
-On 9/24/2024 4:41 PM, Dmitry Baryshkov wrote:
-> On Tue, Sep 24, 2024 at 03:59:32PM GMT, Jessica Zhang wrote:
->> Cache the CWB block mask in the DPU virtual encoder and configure CWB
->> according to the CWB block mask within the writeback phys encoder
->>
->> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
->> ---
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        | 83 +++++++++++++++++++++-
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h   | 16 ++++-
->>   .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c    |  4 +-
->>   3 files changed, 100 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->> index b2f0bf412451..2628f2d55cb3 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->> @@ -24,6 +24,7 @@
->>   #include "dpu_hw_catalog.h"
->>   #include "dpu_hw_intf.h"
->>   #include "dpu_hw_ctl.h"
->> +#include "dpu_hw_cwb.h"
->>   #include "dpu_hw_dspp.h"
->>   #include "dpu_hw_dsc.h"
->>   #include "dpu_hw_merge3d.h"
->> @@ -139,6 +140,7 @@ enum dpu_enc_rc_states {
->>    *			num_phys_encs.
->>    * @hw_dsc:		Handle to the DSC blocks used for the display.
->>    * @dsc_mask:		Bitmask of used DSC blocks.
->> + * @cwb_mask		Bitmask of used CWB muxes
->>    * @intfs_swapped:	Whether or not the phys_enc interfaces have been swapped
->>    *			for partial update right-only cases, such as pingpong
->>    *			split where virtual pingpong does not generate IRQs
->> @@ -185,6 +187,7 @@ struct dpu_encoder_virt {
->>   	struct dpu_hw_dsc *hw_dsc[MAX_CHANNELS_PER_ENC];
->>   
->>   	unsigned int dsc_mask;
->> +	unsigned int cwb_mask;
->>   
->>   	bool intfs_swapped;
->>   
->> @@ -1063,6 +1066,7 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
->>   	int num_cwb = 0;
->>   	bool is_cwb_encoder;
->>   	unsigned int dsc_mask = 0;
->> +	unsigned int cwb_mask = 0;
->>   	int i;
->>   
->>   	if (!drm_enc) {
->> @@ -1103,8 +1107,12 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
->>   						       ARRAY_SIZE(hw_pp));
->>   	}
->>   
->> -	for (i = 0; i < num_cwb; i++)
->> +	for (i = 0; i < num_cwb; i++) {
->>   		dpu_enc->hw_cwb[i] = to_dpu_hw_cwb(hw_cwb[i]);
->> +		cwb_mask |= BIT(dpu_enc->hw_cwb[i]->idx - CWB_0);
->> +	}
->> +
->> +	dpu_enc->cwb_mask = cwb_mask;
->>   
->>   	dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
->>   			drm_enc->crtc, DPU_HW_BLK_CTL, hw_ctl, ARRAY_SIZE(hw_ctl));
->> @@ -2071,6 +2079,9 @@ void dpu_encoder_helper_phys_cleanup(struct dpu_encoder_phys *phys_enc)
->>   		}
->>   	}
->>   
->> +	if (dpu_enc->cwb_mask)
->> +		dpu_encoder_helper_phys_setup_cwb(phys_enc, false);
->> +
->>   	/* reset the merge 3D HW block */
->>   	if (phys_enc->hw_pp && phys_enc->hw_pp->merge_3d) {
->>   		phys_enc->hw_pp->merge_3d->ops.setup_3d_mode(phys_enc->hw_pp->merge_3d,
->> @@ -2114,6 +2125,68 @@ void dpu_encoder_helper_phys_cleanup(struct dpu_encoder_phys *phys_enc)
->>   	ctl->ops.clear_pending_flush(ctl);
->>   }
->>   
->> +void dpu_encoder_helper_phys_setup_cwb(struct dpu_encoder_phys *phys_enc,
->> +				       bool enable)
->> +{
->> +	struct dpu_encoder_virt *dpu_enc = to_dpu_encoder_virt(phys_enc->parent);
->> +	struct dpu_hw_cwb *hw_cwb;
->> +	struct dpu_hw_cwb_setup_cfg cwb_cfg;
->> +
->> +	struct dpu_kms *dpu_kms;
->> +	struct dpu_global_state *global_state;
->> +	struct dpu_hw_blk *rt_pp_list[MAX_CHANNELS_PER_ENC];
->> +	int num_pp, rt_pp_idx[MAX_CHANNELS_PER_ENC];
->> +
->> +	if (!phys_enc || !phys_enc->hw_wb || !dpu_enc->cwb_mask)
->> +		return;
-> 
-> We have already dereferened phys_enc, so checking that it's not NULL is
-> futile. Also we know that the function is only called if cwb_mask is not
-> zero, so the last check is also useless.
+applied, the radeon module load gets further before hitting another
+NULL pointer dereference:
 
-Hi Dmitry,
+[   17.777472] [drm] radeon kernel modesetting enabled.
+[   17.777536] radeon 0000:00:01.0: vgaarb: deactivate vga console
+[   17.778276] Console: switching to colour dummy device 80x25
+[   17.778519] [drm] initializing kernel modesetting (ARUBA 0x1002:0x990C 0=
+x1002:0x0123 0x00).
+[   17.778600] ATOM BIOS: 113
+[   17.778658] radeon 0000:00:01.0: VRAM: 768M 0x0000000000000000 - 0x00000=
+0002FFFFFFF (768M used)
+[   17.778661] radeon 0000:00:01.0: GTT: 1024M 0x0000000030000000 - 0x00000=
+0006FFFFFFF
+[   17.778665] [drm] Detected VRAM RAM=3D768M, BAR=3D256M
+[   17.778665] [drm] RAM width 64bits DDR
+[   17.778764] [drm] radeon: 768M of VRAM memory ready
+[   17.778766] [drm] radeon: 1024M of GTT memory ready.
+[   17.778777] [drm] Loading ARUBA Microcode
+[   18.038084] [drm] Internal thermal controller without fan control
+[   18.038425] [drm] radeon: dpm initialized
+[   18.333508] [drm] Found VCE firmware/feedback version 50.0.1 / 17!
+[   18.333548] [drm] GART: num cpu pages 262144, num gpu pages 262144
+[   18.353624] [drm] PCIE GART of 1024M enabled (table at 0x00000000001D600=
+0).
+[   18.353755] radeon 0000:00:01.0: WB enabled
+[   18.353758] radeon 0000:00:01.0: fence driver on ring 0 use gpu addr 0x0=
+000000030000c00
+[   18.354136] radeon 0000:00:01.0: fence driver on ring 5 use gpu addr 0x0=
+000000000075a18
+[   18.374206] radeon 0000:00:01.0: fence driver on ring 6 use gpu addr 0x0=
+000000030000c18
+[   18.374208] radeon 0000:00:01.0: fence driver on ring 7 use gpu addr 0x0=
+000000030000c1c
+[   18.374210] radeon 0000:00:01.0: fence driver on ring 1 use gpu addr 0x0=
+000000030000c04
+[   18.374212] radeon 0000:00:01.0: fence driver on ring 2 use gpu addr 0x0=
+000000030000c08
+[   18.374213] radeon 0000:00:01.0: fence driver on ring 3 use gpu addr 0x0=
+000000030000c0c
+[   18.374214] radeon 0000:00:01.0: fence driver on ring 4 use gpu addr 0x0=
+000000030000c10
+[   18.374469] radeon 0000:00:01.0: radeon: MSI limited to 32-bit
+[   18.374525] radeon 0000:00:01.0: radeon: using MSI.
+[   18.374604] [drm] radeon: irq initialized.
+[   18.392823] [drm] ring test on 0 succeeded in 3 usecs
+[   18.392831] [drm] ring test on 3 succeeded in 4 usecs
+[   18.392836] [drm] ring test on 4 succeeded in 3 usecs
+[   18.438526] [drm] ring test on 5 succeeded in 2 usecs
+[   18.458380] [drm] UVD initialized successfully.
+[   18.567616] [drm] ring test on 6 succeeded in 18 usecs
+[   18.567626] [drm] ring test on 7 succeeded in 3 usecs
+[   18.567627] [drm] VCE initialized successfully.
+[   18.567686] snd_hda_intel 0000:00:01.1: bound 0000:00:01.0 (ops radeon_a=
+udio_component_bind_ops [radeon])
+[   18.567925] [drm] ib test on ring 0 succeeded in 0 usecs
+[   18.567968] [drm] ib test on ring 3 succeeded in 0 usecs
+[   18.568008] [drm] ib test on ring 4 succeeded in 0 usecs
+[   19.094527] [drm] ib test on ring 5 succeeded
+[   19.257713] mc: Linux media interface: v0.10
+[   19.638235] [drm] ib test on ring 6 succeeded
+[   20.017069] usb 1-3: dvb_usb_v2: found a 'Realtek RTL2832U reference des=
+ign' in warm state
+[   20.048473] usb 1-3: dvb_usb_v2: will pass the complete MPEG2 transport =
+stream to the software demuxer
+[   20.048493] dvbdev: DVB: registering new adapter (Realtek RTL2832U refer=
+ence design)
+[   20.048497] usb 1-3: media controller created
+[   20.049487] dvbdev: dvb_create_media_entity: media entity 'dvb-demux' re=
+gistered.
+[   20.150361] [drm] ib test on ring 7 succeeded
+[   20.150700] BUG: kernel NULL pointer dereference, address: 0000000000000=
+050
+[   20.150702] #PF: supervisor read access in kernel mode
+[   20.150704] #PF: error_code(0x0000) - not-present page
+[   20.150705] PGD 0 P4D 0=20
+[   20.150707] Oops: Oops: 0000 [#1] PREEMPT_RT SMP NOPTI
+[   20.150710] CPU: 0 UID: 0 PID: 446 Comm: udevd Not tainted 6.11.0+ #6122
+[   20.150713] Hardware name: Gigabyte Technology Co., Ltd. To be filled by=
+ O.E.M./F2A78M-HD2, BIOS F2 05/28/2014
+[   20.150714] RIP: 0010:drm_dp_aux_register+0x59/0x110 [drm_display_helper]
+[   20.150732] Code: a1 c0 48 85 f6 48 89 83 b8 00 00 00 74 1c 48 8d bb b4 =
+03 00 00 ba 30 00 00 00 e8 52 e5 60 db 48 8d 7b 08 5b 5d e9 b7 ea 37 db <48=
+> 8b 70 50 48 85 f6 75 db 48 8b 30 eb d6 48 8d ab 88 04 00 00 48
+[   20.150734] RSP: 0018:ffff9eb8013cb960 EFLAGS: 00010246
+[   20.150736] RAX: 0000000000000000 RBX: ffff8f1983bfc508 RCX: ffffffffc0b=
+d1bc0
+[   20.150737] RDX: ffffffffc0a1de40 RSI: 0000000000000000 RDI: ffff8f1983b=
+fc9f0
+[   20.150738] RBP: ffff8f1983bfc9f0 R08: ffff8f199ca70008 R09: 00000000c0c=
+0c0c0
+[   20.150739] R10: 0000000000000000 R11: 0000000000000001 R12: ffff8f199da=
+9af50
+[   20.150740] R13: ffff8f199da9b092 R14: ffff8f199da9af2e R15: 00000000000=
+00018
+[   20.150741] FS:  00007ff9b9e6a840(0000) GS:ffff8f1caf800000(0000) knlGS:=
+0000000000000000
+[   20.150743] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   20.150744] CR2: 0000000000000050 CR3: 00000001033e4000 CR4: 00000000000=
+406f0
+[   20.150745] Call Trace:
+[   20.150747]  <TASK>
+[   20.150748]  ? __die_body.cold+0x19/0x1e
+[   20.150753]  ? page_fault_oops+0xa8/0x230
+[   20.150757]  ? drm_dp_aux_register+0x59/0x110 [drm_display_helper]
+[   20.150767]  ? search_module_extables+0x4f/0x90
+[   20.150771]  ? fixup_exception+0x36/0x2f0
+[   20.150773]  ? exc_page_fault+0x88/0x1b0
+[   20.150776]  ? asm_exc_page_fault+0x22/0x30
+[   20.150779]  ? __pfx_radeon_dp_aux_transfer_atom+0x10/0x10 [radeon]
+[   20.150888]  ? drm_dp_aux_register+0x59/0x110 [drm_display_helper]
+[   20.150900]  radeon_dp_aux_init+0x91/0xc0 [radeon]
+[   20.150984]  radeon_get_atom_connector_info_from_object_table+0x58e/0x88=
+0 [radeon]
+[   20.151047]  ? radeon_get_atom_connector_info_from_supported_devices_tab=
+le+0x5cf/0x600 [radeon]
+[   20.151111]  ? kstrdup+0x4c/0x70
+[   20.151115]  ? __kmalloc_noprof+0x24d/0x340
+[   20.151118]  radeon_modeset_init+0x375/0x470 [radeon]
+[   20.151187]  ? radeon_device_init+0x667/0xb40 [radeon]
+[   20.151250]  radeon_driver_load_kms+0xc2/0x260 [radeon]
+[   20.151312]  radeon_pci_probe+0xff/0x170 [radeon]
+[   20.151374]  pci_device_probe+0xbe/0x1a0
+[   20.151377]  really_probe+0xde/0x350
+[   20.151380]  ? pm_runtime_barrier+0x61/0xb0
+[   20.151383]  ? __pfx___driver_attach+0x10/0x10
+[   20.151386]  __driver_probe_device+0x78/0x110
+[   20.151388]  driver_probe_device+0x2d/0xc0
+[   20.151390]  __driver_attach+0xc9/0x1c0
+[   20.151393]  bus_for_each_dev+0x6a/0xb0
+[   20.151395]  ? migrate_enable+0xbf/0xf0
+[   20.151397]  bus_add_driver+0x139/0x220
+[   20.151400]  driver_register+0x6e/0xc0
+[   20.151402]  ? __pfx_radeon_module_init+0x10/0x10 [radeon]
+[   20.151463]  do_one_initcall+0x42/0x210
+[   20.151467]  ? __kmalloc_cache_noprof+0x89/0x230
+[   20.151469]  do_init_module+0x60/0x210
+[   20.151472]  init_module_from_file+0x89/0xc0
+[   20.151475]  __x64_sys_finit_module+0x142/0x390
+[   20.151477]  do_syscall_64+0x47/0x110
+[   20.151480]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+[   20.151483] RIP: 0033:0x7ff9b9d82279
+[   20.151485] Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 =
+89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48=
+> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 77 6b 0d 00 f7 d8 64 89 01 48
+[   20.151486] RSP: 002b:00007fffc5f84708 EFLAGS: 00000246 ORIG_RAX: 000000=
+0000000139
+[   20.151488] RAX: ffffffffffffffda RBX: 000055d02068d9b0 RCX: 00007ff9b9d=
+82279
+[   20.151489] RDX: 0000000000000000 RSI: 000055d0206807f0 RDI: 00000000000=
+00012
+[   20.151490] RBP: 0000000000000000 R08: 0000000000000001 R09: 000055d0206=
+6d540
+[   20.151491] R10: 0000000000000040 R11: 0000000000000246 R12: 000055d0206=
+807f0
+[   20.151492] R13: 0000000000020000 R14: 000055d02067e510 R15: 00000000000=
+00000
+[   20.151494]  </TASK>
+[   20.151494] Modules linked in: i2c_mux dvb_usb_rtl28xxu(+) dvb_usb_v2 dv=
+b_core mc snd_emu10k1_synth radeon(+) snd_emux_synth snd_seq_midi_emul snd_=
+seq_virmidi drm_ttm_helper snd_seq_midi snd_seq_midi_event ttm snd_seq edac=
+_mce_amd snd_hda_codec_hdmi sha512_ssse3 sha512_generic sha256_ssse3 sha1_s=
+sse3 snd_emu10k1 aesni_intel drm_suballoc_helper snd_hda_intel drm_display_=
+helper snd_intel_dspcfg snd_hda_codec snd_util_mem gf128mul snd_ac97_codec =
+snd_hda_core drm_kms_helper crypto_simd cryptd ac97_bus snd_rawmidi k10temp=
+ snd_seq_device snd_hwdep snd_pcm drm acpi_cpufreq evdev serio_raw pcspkr a=
+t24 emu10k1_gp gameport regmap_i2c i2c_algo_bit snd_timer video snd sp5100_=
+tco soundcore wmi button ext4 crc32c_generic crc16 mbcache jbd2 uas usb_sto=
+rage hid_generic usbhid hid sg sr_mod cdrom sd_mod ata_generic firewire_ohc=
+i crc32_pclmul crc32c_intel ahci i2c_piix4 firewire_core crc_itu_t pata_ati=
+ixp libahci i2c_smbus ohci_pci xhci_pci libata xhci_hcd ehci_pci ohci_hcd r=
+8169 ehci_hcd realtek scsi_mod mdio_devres usbcore
+[   20.151550]  scsi_common libphy usb_common
+[   20.151553] CR2: 0000000000000050
+[   20.151555] ---[ end trace 0000000000000000 ]---
 
-Ack.
+Regards,
 
-> 
->> +
->> +	dpu_kms = phys_enc->dpu_kms;
->> +	global_state = dpu_kms_get_existing_global_state(dpu_kms);
->> +	num_pp = dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
->> +					       phys_enc->parent->crtc,
->> +					       DPU_HW_BLK_PINGPONG, rt_pp_list,
->> +					       ARRAY_SIZE(rt_pp_list));
->> +
->> +	if (num_pp == 0 || num_pp > MAX_CHANNELS_PER_ENC) {
->> +		DPU_DEBUG_ENC(dpu_enc, "invalid num_pp %d\n", num_pp);
->> +		return;
->> +	}
->> +
->> +	for (int i = 0; i < num_pp; i++) {
->> +		struct dpu_hw_pingpong *hw_pp = to_dpu_hw_pingpong(rt_pp_list[i]);
->> +
->> +		for (int j = 0; j < ARRAY_SIZE(dpu_enc->hw_cwb); j++) {
->> +			hw_cwb = dpu_enc->hw_cwb[i];
->> +
->> +			/*
->> +			 * Even CWB muxes must take input from even real-time
->> +			 * pingpongs and odd CWB muxes must take input from odd
->> +			 * pingpongs
->> +			 */
->> +			if (hw_pp->idx % 2 == hw_cwb->idx % 2) {
-> 
-> What about `if (a != b) continue;`?
-> 
->> +				rt_pp_idx[i] = enable ? hw_pp->idx : PINGPONG_NONE;
-> 
-> Can we call config_cwb() here directly with no intermediate arrays?
-
-Yes -- I should drop this for loop (and the associated array) as RM 
-should reserve the CWB muxes and real-time pingpongs in the correct order.
-
-> 
->> +				break;
->> +			}
->> +		}
->> +	}
->> +
->> +	/*
->> +	 * The CWB mux supports using LM or DSPP as tap points. For now,
->> +	 * always use LM tap point
->> +	 */
->> +	cwb_cfg.input = INPUT_MODE_LM_OUT;
->> +
->> +	for (int i = 0; i < MAX_CHANNELS_PER_ENC; i++) {
->> +		hw_cwb = dpu_enc->hw_cwb[i];
->> +		if (!hw_cwb)
->> +			continue;
->> +
->> +		cwb_cfg.pp_idx = rt_pp_idx[i];
->> +
->> +		hw_cwb->ops.config_cwb(hw_cwb, &cwb_cfg);
->> +	}
->> +}
->> +
->>   void dpu_encoder_helper_phys_setup_cdm(struct dpu_encoder_phys *phys_enc,
->>   				       const struct msm_format *dpu_fmt,
->>   				       u32 output_type)
->> @@ -2557,6 +2630,14 @@ enum dpu_intf_mode dpu_encoder_get_intf_mode(struct drm_encoder *encoder)
->>   	return INTF_MODE_NONE;
->>   }
->>   
->> +unsigned int dpu_encoder_helper_get_cwb(struct dpu_encoder_phys *phys_enc)
-> 
-> it's called get_cwb, but it returns a mask?
-
-I'd based this function off of dpu_encoder_helper_get_dsc(), but I can 
-rename this to *_get_cwb_mask() instead
-
-> 
->> +{
->> +	struct drm_encoder *encoder = phys_enc->parent;
->> +	struct dpu_encoder_virt *dpu_enc = to_dpu_encoder_virt(encoder);
->> +
->> +	return dpu_enc->cwb_mask;
->> +}
->> +
->>   unsigned int dpu_encoder_helper_get_dsc(struct dpu_encoder_phys *phys_enc)
->>   {
->>   	struct drm_encoder *encoder = phys_enc->parent;
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
->> index e77ebe3a68da..d7a02d1f8053 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
->> @@ -1,6 +1,6 @@
->>   /* SPDX-License-Identifier: GPL-2.0-only */
->>   /*
->> - * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
->> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
->>    * Copyright (c) 2015-2018 The Linux Foundation. All rights reserved.
->>    */
->>   
->> @@ -331,6 +331,12 @@ static inline enum dpu_3d_blend_mode dpu_encoder_helper_get_3d_blend_mode(
->>   	return BLEND_3D_NONE;
->>   }
->>   
->> +/**
->> + * dpu_encoder_helper_get_cwb - get CWB blocks mask for the DPU encoder
->> + * @phys_enc: Pointer to physical encoder structure
->> + */
-> 
-> All kerneldoc at the function definition, please. I plan to go through
-> the existing codebase and move existing docs. It seems to be the only
-> way to get kerneldoc-related warnings.
-
-Ack.
-
-Thanks,
-
-Jessica Zhang
-
-> 
->> +unsigned int dpu_encoder_helper_get_cwb(struct dpu_encoder_phys *phys_enc);
->> +
->>   /**
->>    * dpu_encoder_helper_get_dsc - get DSC blocks mask for the DPU encoder
->>    *   This helper function is used by physical encoder to get DSC blocks mask
->> @@ -400,6 +406,14 @@ int dpu_encoder_helper_wait_for_irq(struct dpu_encoder_phys *phys_enc,
->>    */
->>   void dpu_encoder_helper_phys_cleanup(struct dpu_encoder_phys *phys_enc);
->>   
->> +/**
->> + * dpu_encoder_helper_phys_setup_cwb - helper to configure CWB muxes
->> + * @phys_enc: Pointer to physical encoder structure
->> + * @enable: Enable CWB mux
->> + */
->> +void dpu_encoder_helper_phys_setup_cwb(struct dpu_encoder_phys *phys_enc,
->> +				       bool enable);
->> +
->>   /**
->>    * dpu_encoder_helper_phys_setup_cdm - setup chroma down sampling block
->>    * @phys_enc: Pointer to physical encoder
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
->> index 882c717859ce..e88c4d91041f 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
->> @@ -1,6 +1,6 @@
->>   // SPDX-License-Identifier: GPL-2.0-only
->>   /*
->> - * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
->> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
->>    */
->>   
->>   #define pr_fmt(fmt)	"[drm:%s:%d] " fmt, __func__, __LINE__
->> @@ -342,6 +342,8 @@ static void dpu_encoder_phys_wb_setup(
->>   
->>   	dpu_encoder_helper_phys_setup_cdm(phys_enc, dpu_fmt, CDM_CDWN_OUTPUT_WB);
->>   
->> +	dpu_encoder_helper_phys_setup_cwb(phys_enc, true);
->> +
->>   	dpu_encoder_phys_wb_setup_ctl(phys_enc);
->>   }
->>   
->>
->> -- 
->> 2.34.1
->>
-> 
-> -- 
-> With best wishes
-> Dmitry
-
+Arthur.
