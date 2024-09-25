@@ -2,50 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F95A9858B0
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 13:46:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BA829858B1
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 13:46:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCEBD10E8EE;
-	Wed, 25 Sep 2024 11:46:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1860310E8FA;
+	Wed, 25 Sep 2024 11:46:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fbcXC1Kw";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZzHp9P5h";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DB8410E827;
- Wed, 25 Sep 2024 11:46:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AABFD10E8FA;
+ Wed, 25 Sep 2024 11:46:19 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 144475C5846;
- Wed, 25 Sep 2024 11:46:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E44FC4CEC3;
- Wed, 25 Sep 2024 11:46:11 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 2B2F35C5985;
+ Wed, 25 Sep 2024 11:46:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 188B0C4CECD;
+ Wed, 25 Sep 2024 11:46:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1727264773;
- bh=hlE0qSYSzfewwyMkimkKOWLgsjezbHjR0is1R05Wqvs=;
+ s=k20201202; t=1727264778;
+ bh=JytCpwE5SrfXmnVBZL4CFtCh/V2KHj1wRYRjKSzfJQg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=fbcXC1Kwd9kN/70/WyUOlM6MxWtp+w8Y/r8knktmO35TiYFg14JsKaUBx59vX025k
- dePjY3vCqvh4Y1knICBtjy/th1mBYQuDcnMFH41uW8W0bB85mX1aZ0n8aIESqjlA6I
- gezDDSHevdyjWrtXuM7QQRhE5eETd0ME7gIUpVWgPnus3zVOc9WTIqeDSHUXGTP7lS
- RIGryMjCDnekr7xtF8fXdKHZX0jseEFHZG38gQbHxjTCLhNUA7UUgVwgWt2y9swyEG
- YGw/PihFR9aHfGnWWF6ya5aMea1TSGOE8bBx5hf6R937jLUZEr+Lth6nDsmZ90iZmD
- a5zYvwlrWL//g==
+ b=ZzHp9P5hAM0c/++OlIhD16nEZO0qhI0Ry1ubzTgcd6YwFGsp7G3/vJBAxV6vPcbvy
+ dOt32ewnNfbWA8QtyOIIx95xIpZhEFKNUQZ/zWqHbU3ME1rDTvte5Q6TsyJyOX0X3N
+ IC0N7wWARXfquWwj7NNr4WG/OTxSS9HhXyPc7Q1r2bOo+1KjKlNlAWMlFfR8jE1miv
+ Uuiu3FiYKvBnYkpqAAImYbIga4PzKOyahqOqWMrw9qnpsiuCky/xTz3Gj4bx8SX81h
+ s1cbLtVUIvCmqKHXXFIl3af0zLXEn3ldiowy9dPGMQ5gF7/91oAJrG93Ljf/OkZ7/6
+ cx3biL61FUbyw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Daniel Sa <Daniel.Sa@amd.com>, Alvin Lee <alvin.lee2@amd.com>,
- Daniel Wheeler <daniel.wheeler@amd.com>,
- Rodrigo Siqueira <rodrigo.siqueira@amd.com>,
+Cc: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
+ Tom Chung <chiahsuan.chung@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Roman Li <roman.li@amd.com>,
+ Alex Hung <alex.hung@amd.com>, Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ Harry Wentland <harry.wentland@amd.com>,
+ Hamza Mahfooz <hamza.mahfooz@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
- christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch, alex.hung@amd.com, sarvinde@amd.com,
- nevenko.stupar@amd.com, wenjing.liu@amd.com, aurabindo.pillai@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.11 150/244] drm/amd/display: Underflow Seen on
- DCN401 eGPU
-Date: Wed, 25 Sep 2024 07:26:11 -0400
-Message-ID: <20240925113641.1297102-150-sashal@kernel.org>
+ sunpeng.li@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, daniel@ffwll.ch, wenjing.liu@amd.com,
+ alvin.lee2@amd.com, george.shen@amd.com, dillon.varone@amd.com,
+ gabe.teeger@amd.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.11 151/244] drm/amd/display: Handle null
+ 'stream_status' in 'planes_changed_for_existing_stream'
+Date: Wed, 25 Sep 2024 07:26:12 -0400
+Message-ID: <20240925113641.1297102-151-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240925113641.1297102-1-sashal@kernel.org>
 References: <20240925113641.1297102-1-sashal@kernel.org>
@@ -69,63 +72,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Daniel Sa <Daniel.Sa@amd.com>
+From: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
 
-[ Upstream commit ca0fb243c3bb53dbbd71d16c76f319bf923ee3d4 ]
+[ Upstream commit 8141f21b941710ecebe49220b69822cab3abd23d ]
 
-[WHY]
-In dcn401 we read clock values before FW is loaded. These incorrect
-values cause the driver to believe that we are running higher clocks
-than what we actually have. This then causes corruption/underflow for
-the eGPU.
+This commit adds a null check for 'stream_status' in the function
+'planes_changed_for_existing_stream'. Previously, the code assumed
+'stream_status' could be null, but did not handle the case where it was
+actually null. This could lead to a null pointer dereference.
 
-[HOW]
-When new values are read from HW, update internal structures to
-propagate the new/correct value. Fixes issue
+Reported by smatch:
+drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_resource.c:3784 planes_changed_for_existing_stream() error: we previously assumed 'stream_status' could be null (see line 3774)
 
-Signed-off-by: Daniel Sa <Daniel.Sa@amd.com>
-Reviewed-by: Alvin Lee <alvin.lee2@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Signed-off-by: Rodrigo Siqueira <rodrigo.siqueira@amd.com>
+Cc: Tom Chung <chiahsuan.chung@amd.com>
+Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Cc: Roman Li <roman.li@amd.com>
+Cc: Alex Hung <alex.hung@amd.com>
+Cc: Aurabindo Pillai <aurabindo.pillai@amd.com>
+Cc: Harry Wentland <harry.wentland@amd.com>
+Cc: Hamza Mahfooz <hamza.mahfooz@amd.com>
+Signed-off-by: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
+Reviewed-by: Tom Chung <chiahsuan.chung@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/hwss/dcn401/dcn401_hwseq.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/display/dc/core/dc_resource.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn401/dcn401_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn401/dcn401_hwseq.c
-index 324e77ceaf1cf..537a24ec74c85 100644
---- a/drivers/gpu/drm/amd/display/dc/hwss/dcn401/dcn401_hwseq.c
-+++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn401/dcn401_hwseq.c
-@@ -221,6 +221,7 @@ void dcn401_init_hw(struct dc *dc)
- 	int edp_num;
- 	uint32_t backlight = MAX_BACKLIGHT_LEVEL;
- 	uint32_t user_level = MAX_BACKLIGHT_LEVEL;
-+	int current_dchub_ref_freq = 0;
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
+index bcb5267b5a6bc..67794497457d3 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
+@@ -3771,8 +3771,10 @@ static bool planes_changed_for_existing_stream(struct dc_state *context,
+ 		}
+ 	}
  
- 	if (dc->clk_mgr && dc->clk_mgr->funcs && dc->clk_mgr->funcs->init_clocks) {
- 		dc->clk_mgr->funcs->init_clocks(dc->clk_mgr);
-@@ -264,6 +265,8 @@ void dcn401_init_hw(struct dc *dc)
- 					dc->ctx->dc_bios->fw_info.pll_info.crystal_frequency,
- 					&res_pool->ref_clocks.dccg_ref_clock_inKhz);
+-	if (!stream_status)
++	if (!stream_status) {
+ 		ASSERT(0);
++		return false;
++	}
  
-+			current_dchub_ref_freq = res_pool->ref_clocks.dchub_ref_clock_inKhz / 1000;
-+
- 			(res_pool->hubbub->funcs->get_dchub_ref_freq)(res_pool->hubbub,
- 					res_pool->ref_clocks.dccg_ref_clock_inKhz,
- 					&res_pool->ref_clocks.dchub_ref_clock_inKhz);
-@@ -436,8 +439,9 @@ void dcn401_init_hw(struct dc *dc)
- 		dc->caps.dmub_caps.mclk_sw = dc->ctx->dmub_srv->dmub->feature_caps.fw_assisted_mclk_switch_ver > 0;
- 		dc->caps.dmub_caps.fams_ver = dc->ctx->dmub_srv->dmub->feature_caps.fw_assisted_mclk_switch_ver;
- 		dc->debug.fams2_config.bits.enable &= dc->ctx->dmub_srv->dmub->feature_caps.fw_assisted_mclk_switch_ver == 2;
--		if (!dc->debug.fams2_config.bits.enable && dc->res_pool->funcs->update_bw_bounding_box) {
--			/* update bounding box if FAMS2 disabled */
-+		if ((!dc->debug.fams2_config.bits.enable && dc->res_pool->funcs->update_bw_bounding_box)
-+			|| res_pool->ref_clocks.dchub_ref_clock_inKhz / 1000 != current_dchub_ref_freq) {
-+			/* update bounding box if FAMS2 disabled, or if dchub clk has changed */
- 			if (dc->clk_mgr)
- 				dc->res_pool->funcs->update_bw_bounding_box(dc,
- 									    dc->clk_mgr->bw_params);
+ 	for (i = 0; i < set_count; i++)
+ 		if (set[i].stream == stream)
 -- 
 2.43.0
 
