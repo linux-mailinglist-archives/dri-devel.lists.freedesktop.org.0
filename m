@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 302AC985901
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 13:49:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84E03985905
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 13:49:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A259F10E953;
-	Wed, 25 Sep 2024 11:49:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8BF810E955;
+	Wed, 25 Sep 2024 11:49:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FcfGbuv9";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XKnpdKct";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDA1E10E953;
- Wed, 25 Sep 2024 11:49:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E878710E955;
+ Wed, 25 Sep 2024 11:49:14 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 5C3F75C5B36;
- Wed, 25 Sep 2024 11:49:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08BABC4CEC7;
- Wed, 25 Sep 2024 11:49:01 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 693485C5C64;
+ Wed, 25 Sep 2024 11:49:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D21B6C4CEC7;
+ Wed, 25 Sep 2024 11:49:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1727264944;
- bh=RAGSkXWuKFUFwcxyIZ3t1x8TvDIpRJx22tAg6NSoFUM=;
+ s=k20201202; t=1727264954;
+ bh=gjTH1Eu975+Nj/evwLe8wgP6Kq0WnfEk+LdENP6QqEQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=FcfGbuv96UtJiglTi3rhI9RVY64MBsQF5kZIKJLTSygnicctjHtVcyAB7c19C7x7d
- 8IMhMaa5zye0OutDDwG2NEl1QIQMbP7v4ZUFHO8DeoNYWsIWi95GrCmdJDvhWUH5L9
- sDbyebXWH20OSVndDAHCqXikF+YDBqRcihUhhgoe9oh1DDnqVqQoe4R+Ecbfstbt1m
- BFyQvgftKTSbo1ACvRRcvmVW73dWZQenR81OFGOWnE7HDRIut0n+OGxe6q9ZF1bbOL
- i39x/VaRuatPgX7V1QYYYHPH3lIiQqUqPXyPy/RZVZjnc28mHZtZkUeDbGojh8xx3s
- /nqhJ43oAgU7A==
+ b=XKnpdKcts00dQzFdtM3aOVtWlTKC3qXQUBII6Z9dNPWJ++oUmw9LtDj/K7SjHywfG
+ 67IMu+dg6jxbF83vR0ysKTiySu6KjrnwHiF35V1W470nNtICkPtTc/HvBnX0JBfRPC
+ jrh474oTLQ2MYc/WnPDOZStKYRlNvbpf8sGbdxcyNmGCLBdDbaDm2LJLhlOIiIOoXB
+ KkTYOq6xtlOrhbYPBraX9v5gKyKhyXtqoBWntgnYdSJ5PyyrXoAJifqD2c5GWKqbw8
+ BxqDHxEqQMV5psnFbUVOa4dYAcjQHGy2ejM9ksaYSBUHJ12zSd9xgdbgDpQy/BIlgG
+ hJdqidji5qTuw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -38,12 +38,12 @@ Cc: Alex Hung <alex.hung@amd.com>, Rodrigo Siqueira <rodrigo.siqueira@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
  harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
  christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.11 184/244] drm/amd/display: Check
- link_res->hpo_dp_link_enc before using it
-Date: Wed, 25 Sep 2024 07:26:45 -0400
-Message-ID: <20240925113641.1297102-184-sashal@kernel.org>
+ daniel@ffwll.ch, aurabindo.pillai@amd.com, hersenxs.wu@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.11 185/244] drm/amd/display: Increase array size of
+ dummy_boolean
+Date: Wed, 25 Sep 2024 07:26:46 -0400
+Message-ID: <20240925113641.1297102-185-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240925113641.1297102-1-sashal@kernel.org>
 References: <20240925113641.1297102-1-sashal@kernel.org>
@@ -69,14 +69,18 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Alex Hung <alex.hung@amd.com>
 
-[ Upstream commit 0beca868cde8742240cd0038141c30482d2b7eb8 ]
+[ Upstream commit 6d64d39486197083497a01b39e23f2f8474b35d3 ]
 
-[WHAT & HOW]
-Functions dp_enable_link_phy and dp_disable_link_phy can pass link_res
-without initializing hpo_dp_link_enc and it is necessary to check for
-null before dereferencing.
+[WHY]
+dml2_core_shared_mode_support and dml_core_mode_support access the third
+element of dummy_boolean, i.e. hw_debug5 = &s->dummy_boolean[2], when
+dummy_boolean has size of 2. Any assignment to hw_debug5 causes an
+OVERRUN.
 
-This fixes 2 FORWARD_NULL issues reported by Coverity.
+[HOW]
+Increase dummy_boolean's array size to 3.
+
+This fixes 2 OVERRUN issues reported by Coverity.
 
 Reviewed-by: Rodrigo Siqueira <rodrigo.siqueira@amd.com>
 Signed-off-by: Jerry Zuo <jerry.zuo@amd.com>
@@ -85,34 +89,22 @@ Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../gpu/drm/amd/display/dc/link/hwss/link_hwss_hpo_dp.c    | 7 +++++++
- 1 file changed, 7 insertions(+)
+ .../dc/dml2/dml21/src/dml2_core/dml2_core_shared_types.h        | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/link/hwss/link_hwss_hpo_dp.c b/drivers/gpu/drm/amd/display/dc/link/hwss/link_hwss_hpo_dp.c
-index e1257404357b1..d0148f10dfc0a 100644
---- a/drivers/gpu/drm/amd/display/dc/link/hwss/link_hwss_hpo_dp.c
-+++ b/drivers/gpu/drm/amd/display/dc/link/hwss/link_hwss_hpo_dp.c
-@@ -28,6 +28,8 @@
- #include "dccg.h"
- #include "clk_mgr.h"
+diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_shared_types.h b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_shared_types.h
+index 1343b744eeb31..67e32a4ab0114 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_shared_types.h
++++ b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_shared_types.h
+@@ -865,7 +865,7 @@ struct dml2_core_calcs_mode_support_locals {
+ 	unsigned int dpte_row_bytes_per_row_l[DML2_MAX_PLANES];
+ 	unsigned int dpte_row_bytes_per_row_c[DML2_MAX_PLANES];
  
-+#define DC_LOGGER link->ctx->logger
-+
- void set_hpo_dp_throttled_vcp_size(struct pipe_ctx *pipe_ctx,
- 		struct fixed31_32 throttled_vcp_size)
- {
-@@ -124,6 +126,11 @@ void disable_hpo_dp_link_output(struct dc_link *link,
- 		const struct link_resource *link_res,
- 		enum signal_type signal)
- {
-+	if (!link_res->hpo_dp_link_enc) {
-+		DC_LOG_ERROR("%s: invalid hpo_dp_link_enc\n", __func__);
-+		return;
-+	}
-+
- 		link_res->hpo_dp_link_enc->funcs->link_disable(link_res->hpo_dp_link_enc);
- 		link_res->hpo_dp_link_enc->funcs->disable_link_phy(
- 				link_res->hpo_dp_link_enc, signal);
+-	bool dummy_boolean[2];
++	bool dummy_boolean[3];
+ 	unsigned int dummy_integer[3];
+ 	unsigned int dummy_integer_array[36][DML2_MAX_PLANES];
+ 	enum dml2_odm_mode dummy_odm_mode[DML2_MAX_PLANES];
 -- 
 2.43.0
 
