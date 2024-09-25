@@ -2,66 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7183F9863E6
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 17:43:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D66C09863E7
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 17:43:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A68FE10EA54;
-	Wed, 25 Sep 2024 15:42:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CAFD10EA47;
+	Wed, 25 Sep 2024 15:43:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ANQc5dmB";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZsFMD/VF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com
- [209.85.218.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAFB810EA4E
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 15:42:58 +0000 (UTC)
-Received: by mail-ej1-f47.google.com with SMTP id
- a640c23a62f3a-a8d4093722bso594766b.0
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 08:42:58 -0700 (PDT)
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
+ [209.85.218.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4D1F10EA47
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 15:43:01 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id
+ a640c23a62f3a-a83562f9be9so392866b.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 08:43:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1727278977; x=1727883777; darn=lists.freedesktop.org;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=tgLjgsBATCSWM6XL4qorkL1lHK3PtUuXoapmBEAcGck=;
- b=ANQc5dmBqXQYP+EdEtuFuhSpx0HZMPVPdAPVlL6At3s/CsI7m4bweoBBquhaa2awwE
- TEa5bvIjIGhjjC86a/o3Q0wjcr9SVHnuj4Ue3UGr+XJJiHX9uE0jJ+WrgDtrjBosxaoM
- mqLgQnPkgKscpd941k+woGvEFtrUiHTwDxIYZUSGUzFwYIwjDEqXtEi5LBGBY8QL1+jm
- DLCVmAXWbBHDnL8iaHVLbZpGQDab/R1RfhHzlBfDtSwipyHMEuDQBLGdgCuXaCaPnyCf
- 9wk/4ikoM9JIUkH1fR3joN7sUeoFuZ65usvNXDBM5Hn2Xz8RhUi6CrfxlkxSCFhWuoYj
- nqsQ==
+ d=gmail.com; s=20230601; t=1727278980; x=1727883780; darn=lists.freedesktop.org;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=XWbh6GTwX/Nur9rLh4dOxd0uol8CDj0VjkbwHekxRn0=;
+ b=ZsFMD/VFD07TGUEQDNgXKxsp4mD4DVj0oaLtCTsthN8odZQfy8MM0+vEQX5qhGpkq+
+ t7YcavWiA8VfuSBpgppEcecJulYv7ihre/cnssZ7oHoLVFbqzpEPC5g7jsB+hmUgzI0H
+ CuDeLe1jr/dF1NbAA/vfedsctlXYdR8EfxTkKcoCNEbTYlP0mi9azZUSslPgIBeoOb+J
+ vTkasmAmkzo1A0jS+mUOBbDE7Rr8kwwzvraG2mPg/C4zrtsZbJLWP5JOQ16KOHIvjbtE
+ OCth9VJ9gUcXCtlx4sPcaHmybi3Gp+i5iK/lAZ0RPyNKbHtWW9WFoGJYUM73dPvLxeAb
+ jawg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727278977; x=1727883777;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=tgLjgsBATCSWM6XL4qorkL1lHK3PtUuXoapmBEAcGck=;
- b=maUxDt49+rLmt+pvtEzrsPFWTvJRBG1cbgMf2mnnLqy7XQsCSoqN2yWcUTeepbs8MJ
- +beXj1NGOtyVCx72qXumFQN6R4oZBV8edx0w2JKl6lvgosm8bfaJn8CahYKKbxOIxqyJ
- K8+4u63JWGGP5Fr1IdldOArd+YmCcd/38FrLTQuNmQrC9itSCZ7zAwnq8OMOpdX6s6mG
- epI2vbbkEEqIT1Vku7nDbOpxvnuYYAsK91l3w1qPS6+opqm70JEg98uavsPnEZgxzHLJ
- eLRwKIIuvqvqUX2aOkpDlgUVR59MPYiTdqL2Guf3DJHOiVkEqJ/SHd0M90MOLS+7hyYc
- L+QQ==
-X-Gm-Message-State: AOJu0YxLZZWjgo4pQKJAzGPBnTvh5CaU/+hagdndeTxn/lYgYOOb5fmv
- /3KyGsFG0phCajaeLkhg3phxXjkzJHs7rZyHfNh2NarFdJvoM/ic
-X-Google-Smtp-Source: AGHT+IFkZ1n37tP3Rc2/BMb8UIyY4klrs21gwIaq2A7G/dBjrAoB3ccE5EDVcggDj2gmdvtj2kWRUg==
-X-Received: by 2002:a17:907:7da7:b0:a8c:d6a3:d038 with SMTP id
- a640c23a62f3a-a93a03e3095mr316176266b.37.1727278976983; 
- Wed, 25 Sep 2024 08:42:56 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1727278980; x=1727883780;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=XWbh6GTwX/Nur9rLh4dOxd0uol8CDj0VjkbwHekxRn0=;
+ b=aOXgo/i35fOtdztjnrqE4n8Jyg3DA1a0saIcXHk3bRfgKp3nuXw3zMi90rg6X9fy9K
+ 0kRG7ssvuO5sW8kR9RbwcuFu7C2CLwVEVaCLiPwxV5JGO0MRcwG+Sp8y0iywocO++ozk
+ 4T3UuqRriL+knq+h3ISIsWg7JKcQU+P8BqzURyHsul+Fe9oPN17kdIDWZ72AaIXtkp7h
+ EUwTJr1sqqDpQXwCX9xpK3zitzNr1NrKAbdXGqPWzZy5RS3M15kcoQgV2pYVUOgcu1vF
+ 4HZy4+Qg7ar3mcT52oVhBlX8VPZBMW/HZq5IARULatnjWivf3p/ZSa9i6UfOXmDIbMxl
+ vYWA==
+X-Gm-Message-State: AOJu0YwKyu+utHzJqZw9u4V0GxPM5yQ+WhzS6mCpKbTI96EAgZ8zsy1l
+ Am2GpYcpXPBwQey5dfJQDPeso2hBuNaOmaU4kVAlDZl5oSgc06cH
+X-Google-Smtp-Source: AGHT+IFOGCZlm7hxWZEDil/VHBukKjDMSy3xe8mZT1I0E9J+s+NIqup/Xj8x8pzeHvNlSTbRH1jJ6w==
+X-Received: by 2002:a17:907:742:b0:a8b:6ee7:ba28 with SMTP id
+ a640c23a62f3a-a93a0341396mr287138266b.1.1727278979968; 
+ Wed, 25 Sep 2024 08:42:59 -0700 (PDT)
 Received: from [127.0.1.1] ([213.208.157.67]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a9392f3420esm221803466b.40.2024.09.25.08.42.51
+ a640c23a62f3a-a9392f3420esm221803466b.40.2024.09.25.08.42.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Sep 2024 08:42:56 -0700 (PDT)
+ Wed, 25 Sep 2024 08:42:59 -0700 (PDT)
 From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Subject: [PATCH 0/6] drm: constify read-only regmap structs
-Date: Wed, 25 Sep 2024 17:42:39 +0200
-Message-Id: <20240925-drm-const-regmap-v1-0-e609d502401b@gmail.com>
+Date: Wed, 25 Sep 2024 17:42:40 +0200
+Subject: [PATCH 1/6] drm/bridge: dpc3433: Constify struct regmap_config
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAG8v9GYC/x3MTQqAIBBA4avIrBswK/q5SrQInWoWmowRgXT3p
- OW3eC9DImFKMKkMQjcnPkNBXSmwxxp2QnbFYLRp9Wg6dOLRniFdKLT7NWKj+83YphtcraFkUWj
- j51/Oy/t+aWaESWIAAAA=
+Message-Id: <20240925-drm-const-regmap-v1-1-e609d502401b@gmail.com>
+References: <20240925-drm-const-regmap-v1-0-e609d502401b@gmail.com>
+In-Reply-To: <20240925-drm-const-regmap-v1-0-e609d502401b@gmail.com>
 To: Jagan Teki <jagan@amarulasolutions.com>, 
  Andrzej Hajda <andrzej.hajda@intel.com>, 
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
@@ -85,11 +84,11 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-amlogic@lists.infradead.org, 
  Javier Carrasco <javier.carrasco.cruz@gmail.com>
 X-Mailer: b4 0.14-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1727278971; l=1173;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1727278971; l=841;
  i=javier.carrasco.cruz@gmail.com; s=20240312; h=from:subject:message-id;
- bh=mV011lLjGh5QUEeOXJ02JFFzg3GXgCu8+SSQahiHbas=;
- b=myNkjRQ3PFvNNvW6MYUDscCs4qRnSff9r34U0SADdEuPuz6/EHK14GRk3jXV4EQhRuDrFFBYk
- q/5VY5I1EZoCwxtXU4F47W872f6MFmFLNx3SrzjZfC9qmsxNSZ5SlmM
+ bh=7sxYHbFVUy82VPtxBTafFtyJ4V/px/ZO0hSTzcua6/s=;
+ b=a1oRJ13BKg+sndE24RLHGwgqk3PJapTy3e06yyGNw7SE3ROWSvYabdohlrCbkn9bjP2TpGvpw
+ SI97afI/Lq2DamjammUDr/YLmCMfIJxNhTzop91yyMyj7KjM74Q+KXg
 X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
  pk=lzSIvIzMz0JhJrzLXI0HAdPwsNPSSmEn6RbS+PTS9aQ=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -107,32 +106,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series adds the const modifier to the remaining regmap_bus and
-regmap_config structs under drm/ that are effectively used as const
-(i.e., only read after their declaration), but kept ad writtable data.
+`dlpc_regmap_config` is not modified and can be declared as const to
+move its data to a read-only section.
 
 Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
 ---
-Javier Carrasco (6):
-      drm/bridge: dpc3433: Constify struct regmap_config
-      drm/fsl-dcu: Constify struct regmap_config
-      drm/mediatek: dp: Constify struct regmap_config
-      drm/meson: Constify struct regmap_config
-      drm/panel: ili9322: Constify struct regmap_bus
-      drm/sprd: Constify struct regmap_bus
+ drivers/gpu/drm/bridge/ti-dlpc3433.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- drivers/gpu/drm/bridge/ti-dlpc3433.c         | 2 +-
- drivers/gpu/drm/fsl-dcu/fsl_tcon.c           | 2 +-
- drivers/gpu/drm/mediatek/mtk_dp.c            | 2 +-
- drivers/gpu/drm/meson/meson_drv.c            | 2 +-
- drivers/gpu/drm/panel/panel-ilitek-ili9322.c | 2 +-
- drivers/gpu/drm/sprd/sprd_dsi.c              | 2 +-
- 6 files changed, 6 insertions(+), 6 deletions(-)
----
-base-commit: 2b7275670032a98cba266bd1b8905f755b3e650f
-change-id: 20240925-drm-const-regmap-307f2c358d10
+diff --git a/drivers/gpu/drm/bridge/ti-dlpc3433.c b/drivers/gpu/drm/bridge/ti-dlpc3433.c
+index 6b559e071301..a0a1b5dd794e 100644
+--- a/drivers/gpu/drm/bridge/ti-dlpc3433.c
++++ b/drivers/gpu/drm/bridge/ti-dlpc3433.c
+@@ -94,7 +94,7 @@ static const struct regmap_access_table dlpc_volatile_table = {
+ 	.n_yes_ranges = ARRAY_SIZE(dlpc_volatile_ranges),
+ };
+ 
+-static struct regmap_config dlpc_regmap_config = {
++static const struct regmap_config dlpc_regmap_config = {
+ 	.reg_bits		= 8,
+ 	.val_bits		= 8,
+ 	.max_register		= WR_DSI_PORT_EN,
 
-Best regards,
 -- 
-Javier Carrasco <javier.carrasco.cruz@gmail.com>
+2.43.0
 
