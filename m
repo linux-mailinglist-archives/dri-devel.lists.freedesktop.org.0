@@ -2,48 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34690985959
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 13:52:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CADD98595E
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 13:52:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E24F10E989;
-	Wed, 25 Sep 2024 11:52:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5B2D10E98D;
+	Wed, 25 Sep 2024 11:52:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="PnzxXBtx";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lYKTZhpx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A712710E989;
- Wed, 25 Sep 2024 11:52:29 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3A4510E98C;
+ Wed, 25 Sep 2024 11:52:35 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id D3FD3A43FEE;
- Wed, 25 Sep 2024 11:52:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B535AC4CECF;
- Wed, 25 Sep 2024 11:52:26 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 4E6505C0E74;
+ Wed, 25 Sep 2024 11:52:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 193D1C4CECE;
+ Wed, 25 Sep 2024 11:52:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1727265148;
- bh=1wf2WDGiH5QE7gMwpHD8l7o5wijPCUgUy0SkWKGpZUo=;
+ s=k20201202; t=1727265154;
+ bh=nkBzYac0mtkWjR1R5qQ4U2a+voJyzBdEXgbdpDg+cEc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=PnzxXBtxEloEzA5BkisMpj39YMkfZK1fZYArWCfaOPzgWhoRSdj4/ZLF9k1ot+04B
- r/OY15YhUwulpqtb3OxQBx8w33K4YnKPhbZKE0JYj9bP8I3cJKRO2qtKwCk3TLP32o
- Qp2wCPidorGSLhvldRef8ZLCH4qhYrhDYvNfNkVLbJY1BtAG52pio2PpfIoozDc4mb
- ZYHdukWEZsZ8MSShClGxwoe581OFilvD39VIaF+mPPu/07CRZv7YRsFWuwVBpueUA0
- C6IgjgmAK0d3RualMUJekY8gGwKNsIVH7PoRU8xq87N2xGQzqRrCiXpVCEI+WsHPEK
- 8hD5zMCUVx3DA==
+ b=lYKTZhpxhmBm56ObhOz67uvUv0cdKp/u2X6cvApjT/8Ox9hn3LqVKpbzRAcpZ12pF
+ gc7PcCvHq6ukqtY9R8dky10B8lSSlrQCXetPcml1aObdFOJRnb7RCfGK8T/rpJ5cjD
+ kAwre2FBdK6//nGFw0fO+rmgbxVpbFQSDpm+xuofsMgOFPiVaUNPNTeHCBftVS7VxK
+ 6LmEij3+t0xveq7DSs/RGo8oxTKwp+2y61grCu4f4VAe8eGiCdO/Iuqdf7wKbG433W
+ sfu0qbuYK3L6KEdcKJfjmIbxQj5JqDw66nHtuK6+2Nu2MCy1UbSMJrxPZqALk1nNMP
+ zPoKCHBBs7eEA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Matthew Brost <matthew.brost@intel.com>,
- Jagmeet Randhawa <jagmeet.randhawa@intel.com>,
- Sasha Levin <sashal@kernel.org>, lucas.demarchi@intel.com,
- thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, daniel@ffwll.ch, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.11 218/244] drm/xe: Drop warn on
- xe_guc_pc_gucrc_disable in guc pc fini
-Date: Wed, 25 Sep 2024 07:27:19 -0400
-Message-ID: <20240925113641.1297102-218-sashal@kernel.org>
+Cc: "Ahmed, Muhammad" <Ahmed.Ahmed@amd.com>,
+	Charlene Liu <charlene.liu@amd.com>, Ahmed@freedesktop.org,
+	Zaeem Mohamed <zaeem.mohamed@amd.com>,
+	Daniel Wheeler <daniel.wheeler@amd.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Sasha Levin <sashal@kernel.org>, harry.wentland@amd.com,
+	sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+	christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+	daniel@ffwll.ch, daniel.miess@amd.com, wayne.lin@amd.com,
+	nicholas.kazlauskas@amd.com, yi-lchen@amd.com, alex.hung@amd.com,
+	ilya.bakoulin@amd.com, harikrishna.revalla@amd.com,
+	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.11 220/244] drm/amd/display: guard write a 0
+ post_divider value to HW
+Date: Wed, 25 Sep 2024 07:27:21 -0400
+Message-ID: <20240925113641.1297102-220-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240925113641.1297102-1-sashal@kernel.org>
 References: <20240925113641.1297102-1-sashal@kernel.org>
@@ -67,33 +72,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Matthew Brost <matthew.brost@intel.com>
+From: "Ahmed, Muhammad" <Ahmed.Ahmed@amd.com>
 
-[ Upstream commit a323782567812ee925e9b7926445532c7afe331b ]
+[ Upstream commit 5d666496c24129edeb2bcb500498b87cc64e7f07 ]
 
-Not a big deal if CT is down as driver is unloading, no need to warn.
+[why]
+post_divider_value should not be 0.
 
-Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-Reviewed-by: Jagmeet Randhawa <jagmeet.randhawa@intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240820172958.1095143-4-matthew.brost@intel.com
+Reviewed-by: Charlene Liu <charlene.liu@amd.com>
+Signed-off-by: Ahmed, Muhammad <Ahmed.Ahmed@amd.com>
+Signed-off-by: Zaeem Mohamed <zaeem.mohamed@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/xe/xe_guc_pc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/display/dc/dccg/dcn35/dcn35_dccg.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/xe/xe_guc_pc.c b/drivers/gpu/drm/xe/xe_guc_pc.c
-index ccd574e948aa3..034b29984d5ed 100644
---- a/drivers/gpu/drm/xe/xe_guc_pc.c
-+++ b/drivers/gpu/drm/xe/xe_guc_pc.c
-@@ -1042,7 +1042,7 @@ static void xe_guc_pc_fini_hw(void *arg)
- 		return;
+diff --git a/drivers/gpu/drm/amd/display/dc/dccg/dcn35/dcn35_dccg.c b/drivers/gpu/drm/amd/display/dc/dccg/dcn35/dcn35_dccg.c
+index 68cd3258f4a97..a64d8f3ec93a3 100644
+--- a/drivers/gpu/drm/amd/display/dc/dccg/dcn35/dcn35_dccg.c
++++ b/drivers/gpu/drm/amd/display/dc/dccg/dcn35/dcn35_dccg.c
+@@ -47,7 +47,8 @@ static void dccg35_trigger_dio_fifo_resync(struct dccg *dccg)
+ 	uint32_t dispclk_rdivider_value = 0;
  
- 	XE_WARN_ON(xe_force_wake_get(gt_to_fw(pc_to_gt(pc)), XE_FORCEWAKE_ALL));
--	XE_WARN_ON(xe_guc_pc_gucrc_disable(pc));
-+	xe_guc_pc_gucrc_disable(pc);
- 	XE_WARN_ON(xe_guc_pc_stop(pc));
+ 	REG_GET(DENTIST_DISPCLK_CNTL, DENTIST_DISPCLK_RDIVIDER, &dispclk_rdivider_value);
+-	REG_UPDATE(DENTIST_DISPCLK_CNTL, DENTIST_DISPCLK_WDIVIDER, dispclk_rdivider_value);
++	if (dispclk_rdivider_value != 0)
++		REG_UPDATE(DENTIST_DISPCLK_CNTL, DENTIST_DISPCLK_WDIVIDER, dispclk_rdivider_value);
+ }
  
- 	/* Bind requested freq to mert_freq_cap before unload */
+ static void dcn35_set_dppclk_enable(struct dccg *dccg,
 -- 
 2.43.0
 
