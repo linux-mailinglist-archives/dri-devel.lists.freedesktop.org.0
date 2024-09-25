@@ -2,78 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D233B985596
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 10:36:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA2579855B4
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 10:41:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44E1610E7CB;
-	Wed, 25 Sep 2024 08:36:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F250110E7B8;
+	Wed, 25 Sep 2024 08:41:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="YmtNw4N1";
+	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="r0iPZGwZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
- [209.85.167.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FD3810E7C8
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 08:36:52 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id
- 2adb3069b0e04-5365d3f9d34so6666581e87.3
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 01:36:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1727253410; x=1727858210; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=4LFFK30ORGOB8opISAVi2/AjiV23wsDk5moHBmYPz9c=;
- b=YmtNw4N1FdFZj2qQT5A+m8urYcPOnG2NJuaxe5OKJAfrh8LAl9d9Kk6zwwxi3WiR5b
- 4PshFYFG5PHP1nt5SHZmAtcVMpmxqJ7Aj1+4Sm5iXoUJm6PcapznNcjORg7j6+H4oqN3
- kg9rbHfT8Yvmvw0c5OWlgr0jYzSpfbOzYl3Wsv1L2k3AFZQ0X34aKaFIh1DfSjtY1y1Z
- u+hZfB+YDRQu+eLpLsDwjI3PHmXYwaCzvBdyPAPCQAVxPKcekGyEHgWw0MhckfI2jSq8
- 3WjEPd9Cz2PJVGEJf8mocMDgavhR5lwa4KpJuhB8VyBAX0aGBiVO9XVHZrHvz2IAPkL4
- nlEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727253410; x=1727858210;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=4LFFK30ORGOB8opISAVi2/AjiV23wsDk5moHBmYPz9c=;
- b=exgcu624K7/e0Cjh8N0MRIFxVAYmYIIBFrDTWxXlZ8WK0gIoJ9oBU+oPVaZOmoSUw5
- aJVv0xOF4P8L00UYmHdS99OQeNg2TRH9q2HKacTzrD0RLw9n3FZ3kNLhg9+QLf7Ao5i6
- 1+UiAKvpjNj0dg/Qvh8rmnWd4/VsL7b4eUSbrKGQ96fi8a1+kG9XQoINSLjmfkTc9mpP
- NsFh6gXRlEDSxLCYbzum2atGUiAEOiGWDeBAbTbrj5MqnFRaC54l3S2kjbX4t+qNjewB
- 1mWeYVAOipZfeSy2W/oWLPc45uVFv3onBZ1hEwhNwfQsfKUoasyFpGMQp2Ij3hYejs8V
- XyGw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWOOurAqislLmYxrmkIOHDgXuHw0tv9sPV5UMptLfDnQnOIAti5E8u4hx9SrcTDN8Unn/4GVK2a1YA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzWQy9Din0nkloMQbzEIcxs88e1oqr8Qe67Wcf2Ky+zdmhyBL1s
- uuhTbso1JBpXA8/pKY6xTwbRkgcU06N1CPO8XVcy3ni2Ky1RyHiFc40Dtaocp9o=
-X-Google-Smtp-Source: AGHT+IFzrCK0VcF5jVceh0qZQhYC3c4kXM0RNJ7sHMGDqRBw1Dr0li2TBcCq7sjXdcDnOzH2DHlX+w==
-X-Received: by 2002:a05:6512:110e:b0:52c:e3ad:3fbf with SMTP id
- 2adb3069b0e04-5387755cb9cmr1098457e87.42.1727253410148; 
- Wed, 25 Sep 2024 01:36:50 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-537a85e0ba7sm457699e87.52.2024.09.25.01.36.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Sep 2024 01:36:48 -0700 (PDT)
-Date: Wed, 25 Sep 2024 11:36:47 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Liankun Yang <liankun.yang@mediatek.com>
-Cc: chunkuang.hu@kernel.org, p.zabel@pengutronix.de, airlied@gmail.com, 
- simona@ffwll.ch, matthias.bgg@gmail.com,
- angelogioacchino.delregno@collabora.com, 
- jitao.shi@mediatek.com, mac.shen@mediatek.com, peng.liu@mediatek.com, 
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- dri-devel@lists.freedesktop.org, 
- linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v3 1/1] drm/mediatek: dp: Add sdp path reset
-Message-ID: <ybnnqysm2ptvclaal3kw26ttqkgbicn45cwxkkchl72vuzwtt2@el7c34zqxmjl>
-References: <20240925064854.23065-1-liankun.yang@mediatek.com>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 745B910E7B8
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 08:41:27 +0000 (UTC)
+X-UUID: f02495a27b1911ef8b96093e013ec31c-20240925
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=r7DM1OmTlAwvtjukMDEk3ahsIfChXG9XjEPCHP7QFb8=; 
+ b=r0iPZGwZFUbGpu8UKobqoePl7TIAvPreNeKEbZ1K+Xs24qHrWm3YvIeTKb5DtrowUsIrRSN2lkBt5yAPjK5zKNVVN4lzcDmn5hHZl7Yrz8/svdsGfp9eQ/j2YuMtk+QctE16SjX+IJdE0tRcWPcJk8BYx/NCpNgorKgI5fMT1HQ=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.41, REQID:0d84a92a-5af0-442e-98bd-1e54c5d8d2d7, IP:0,
+ U
+ RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+ :release,TS:-5
+X-CID-META: VersionHash:6dc6a47, CLOUDID:fc343a18-b42d-49a6-94d2-a75fa0df01d2,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
+ SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: f02495a27b1911ef8b96093e013ec31c-20240925
+Received: from mtkmbs09n1.mediatek.inc [(172.21.101.35)] by
+ mailgw02.mediatek.com (envelope-from <liankun.yang@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1374822066; Wed, 25 Sep 2024 16:41:20 +0800
+Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Wed, 25 Sep 2024 16:41:17 +0800
+Received: from mszsdhlt06.gcn.mediatek.inc (10.16.6.206) by
+ mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Wed, 25 Sep 2024 16:41:17 +0800
+From: Liankun Yang <liankun.yang@mediatek.com>
+To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@gmail.com>, 
+ <simona@ffwll.ch>, <matthias.bgg@gmail.com>,
+ <angelogioacchino.delregno@collabora.com>, <rex-bc.chen@mediatek.com>,
+ <msp@baylibre.com>, <granquet@baylibre.com>, <dmitry.osipenko@collabora.com>, 
+ <jitao.shi@mediatek.com>, <mac.shen@mediatek.com>, <peng.liu@mediatek.com>,
+ <liankun.yang@mediatek.com>
+CC: <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
+ <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
+Subject: [PATCH v1 1/1] drm/mediatek: Fix wrong check of nvmem_cell_read
+Date: Wed, 25 Sep 2024 16:40:24 +0800
+Message-ID: <20240925084116.28848-1-liankun.yang@mediatek.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240925064854.23065-1-liankun.yang@mediatek.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-AS-Result: No-10--5.492400-8.000000
+X-TMASE-MatchedRID: SuWkWSV/ibcryFHbNnBLG0KcYi5Qw/RVsEf8CpnIYtnfc2Xd6VJ+ynOQ
+ FTxg7zBiief1bXK4Giqi5055Kxg7KbBAQLqGlKiv4pdq9sdj8LUFHCcDXik5Rpsoi2XrUn/Js98
+ n9dYnJNNQSFbL1bvQASAHAopEd76vrTCa7ZKhhkhBggx/bFjh7r0Dqq+NSXuwaGjbsK/Gvmg8gV
+ 7uQwboPw==
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--5.492400-8.000000
+X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-SNTS-SMTP: 13CCA0BB40EB3E96C6F46EEAE16D8E08228DAD574439DD1B6B754A5BEAC8938E2000:8
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,42 +90,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 25, 2024 at 02:48:22PM GMT, Liankun Yang wrote:
-> When using type-c to type-c to connect to the monitor,
-> the sound plays normally. If you unplug the type-c and
-> connect the type-c to hdmi dongle to the monitor, there will be noise.
-> 
-> By capturing the audio data, it is found that
-> the data position is messy, and there is no error in the data.
-> 
-> Through experiments, it can be restored by resetting the SDP path
-> when unplugging it.
-> 
-> Signed-off-by: Liankun Yang <liankun.yang@mediatek.com>
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> ---
-> Changes in V3:
-> - No change.
+If the len is 0, kernel crash will occur when performing operations.
+Add the len check conditions to prevent kernel crash.
 
-If there are no changes, why did you increase the revision?
+Fixes: f70ac097a2cf ("drm/mediatek: Add MT8195 Embedded DisplayPort driver")
 
-> Per suggestion from the previous thread:
-> https://patchwork.kernel.org/project/linux-mediatek/patch/20240923132521.22785-1-liankun.yang@mediatek.com/
+Signed-off-by: Liankun Yang <liankun.yang@mediatek.com>
+---
+ drivers/gpu/drm/mediatek/mtk_dp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The link points to some other patch. Please consider using b4 tool, it
-will manage changelogs and links for you.
-
-> 
-> Changes in V2:
-> - Fix build error.
-> Per suggestion from the previous thread:
-> https://patchwork.kernel.org/project/linux-mediatek/patch/20240923133610.23728-1-liankun.yang@mediatek.com/
-> ---
->  drivers/gpu/drm/mediatek/mtk_dp.c     | 15 +++++++++++++++
->  drivers/gpu/drm/mediatek/mtk_dp_reg.h |  1 +
->  2 files changed, 16 insertions(+)
-> 
-
+diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
+index d8796a904eca..0cc75ba96b98 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dp.c
++++ b/drivers/gpu/drm/mediatek/mtk_dp.c
+@@ -1082,7 +1082,7 @@ static void mtk_dp_get_calibration_data(struct mtk_dp *mtk_dp)
+ 	buf = (u32 *)nvmem_cell_read(cell, &len);
+ 	nvmem_cell_put(cell);
+ 
+-	if (IS_ERR(buf) || ((len / sizeof(u32)) != 4)) {
++	if (IS_ERR(buf) || (len == 0) || ((len / sizeof(u32)) != 4)) {
+ 		dev_warn(dev, "Failed to read nvmem_cell_read\n");
+ 
+ 		if (!IS_ERR(buf))
 -- 
-With best wishes
-Dmitry
+2.45.2
+
