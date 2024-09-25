@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AE3A985A0E
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 14:04:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6342985A11
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 14:05:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C68410E817;
-	Wed, 25 Sep 2024 12:04:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B76610E9A5;
+	Wed, 25 Sep 2024 12:05:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kg6VJB8J";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ha7ma3XU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9602310E817;
- Wed, 25 Sep 2024 12:04:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7C8910E9A3;
+ Wed, 25 Sep 2024 12:05:01 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 23F565C57CA;
- Wed, 25 Sep 2024 12:04:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CB0DC4CEC3;
- Wed, 25 Sep 2024 12:04:47 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 6592E5C5B1F;
+ Wed, 25 Sep 2024 12:04:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4118BC4CEC3;
+ Wed, 25 Sep 2024 12:04:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1727265889;
- bh=0BJP31CFh9sabb3zMJFok1j++lOYUZlh7qRAywB2rJs=;
+ s=k20201202; t=1727265901;
+ bh=c//5nxdTaX2TjLFHUwfqNFlchniex8lG7yZz3ZDyeKw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=kg6VJB8JqTKxRSIRns+jy6jRgB3vCfcQVCay0svhPdbqZjwjD/8RmeNgOFVGEyzD9
- mAIvLyvk6TWQNIrbxCI5m+Q4MTBb5aUdjrY5tQITLKQpxd9LpSJhTk9HljacVOvceR
- RRVSb4t9WLiCDAkGOx80Ytskn2WvmUZ+QTsgjMO6p4VC8eMqwbKmlQNiZURiNKrkM/
- 1pBtwxhjWiUtPGEGoK602dVFy6p+e/V69u+pYwTJq8grMSGIUV//BfXbT4pKgUCHww
- 74Y3jbPckdOFOeBvXC1ytkN9HxGJCZ224eX0RCX1JnrMzXNt8X7gp8Mm8ltdYNPtKP
- WBSD6NueOP4Zw==
+ b=ha7ma3XUekciqRBkXnxR6KZrxh4U7Hp8KGts6gaA1ADIaNd2tF8+rLJU0woOLRRfU
+ TcmxUP55A5rP/L2Yccbbeqfew4xi8FK2Wve+d0QfgiW/zSTJhbPCBJwlQdaSw4cIBV
+ zBZKIBBJUvEMaQH+sKnGpt4Knhk+ir8l61FArKWnTjAZXO6oUauf3OwD/oiCDahqWP
+ Py0s47i9y6BLLLlw2t4ZvU6eBI6dZstQ6Nw3Lk/2TQIch7rvKJJqOsIkPzIA/+jI5C
+ iVPjNnT1WiIfqhxN+2dvPz/8YNETkeMw6J/l9aMHnl55zpD3snojEKgELIwlzH14MM
+ Y5OJYzV0ShTqA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -41,13 +41,13 @@ Cc: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
  Hamza Mahfooz <hamza.mahfooz@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
  sunpeng.li@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch, mwen@igalia.com, hanghong.ma@amd.com,
- dillon.varone@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.10 119/197] drm/amd/display: Add NULL check for
- clk_mgr and clk_mgr->funcs in dcn30_init_hw
-Date: Wed, 25 Sep 2024 07:52:18 -0400
-Message-ID: <20240925115823.1303019-119-sashal@kernel.org>
+ airlied@gmail.com, daniel@ffwll.ch, alvin.lee2@amd.com, samson.tam@amd.com,
+ dillon.varone@amd.com, wenjing.liu@amd.com, ilya.bakoulin@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.10 120/197] drm/amd/display: Add NULL check for
+ clk_mgr in dcn32_init_hw
+Date: Wed, 25 Sep 2024 07:52:19 -0400
+Message-ID: <20240925115823.1303019-120-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240925115823.1303019-1-sashal@kernel.org>
 References: <20240925115823.1303019-1-sashal@kernel.org>
@@ -73,18 +73,18 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
 
-[ Upstream commit cba7fec864172dadd953daefdd26e01742b71a6a ]
+[ Upstream commit c395fd47d1565bd67671f45cca281b3acc2c31ef ]
 
 This commit addresses a potential null pointer dereference issue in the
-`dcn30_init_hw` function. The issue could occur when `dc->clk_mgr` or
-`dc->clk_mgr->funcs` is null.
+`dcn32_init_hw` function. The issue could occur when `dc->clk_mgr` is
+null.
 
-The fix adds a check to ensure `dc->clk_mgr` and `dc->clk_mgr->funcs` is
-not null before accessing its functions. This prevents a potential null
-pointer dereference.
+The fix adds a check to ensure `dc->clk_mgr` is not null before
+accessing its functions. This prevents a potential null pointer
+dereference.
 
 Reported by smatch:
-drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dcn30/dcn30_hwseq.c:789 dcn30_init_hw() error: we previously assumed 'dc->clk_mgr' could be null (see line 628)
+drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dcn32/dcn32_hwseq.c:961 dcn32_init_hw() error: we previously assumed 'dc->clk_mgr' could be null (see line 782)
 
 Cc: Tom Chung <chiahsuan.chung@amd.com>
 Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
@@ -98,14 +98,14 @@ Reviewed-by: Alex Hung <alex.hung@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/hwss/dcn30/dcn30_hwseq.c | 7 ++++---
+ drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c | 7 ++++---
  1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn30/dcn30_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn30/dcn30_hwseq.c
-index 4c47061533050..f3422a323b71a 100644
---- a/drivers/gpu/drm/amd/display/dc/hwss/dcn30/dcn30_hwseq.c
-+++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn30/dcn30_hwseq.c
-@@ -622,7 +622,7 @@ void dcn30_init_hw(struct dc *dc)
+diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c
+index b8e884368dc6e..8759c14a63226 100644
+--- a/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c
++++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c
+@@ -752,7 +752,7 @@ void dcn32_init_hw(struct dc *dc)
  	uint32_t backlight = MAX_BACKLIGHT_LEVEL;
  	uint32_t user_level = MAX_BACKLIGHT_LEVEL;
  
@@ -114,7 +114,7 @@ index 4c47061533050..f3422a323b71a 100644
  		dc->clk_mgr->funcs->init_clocks(dc->clk_mgr);
  
  	// Initialize the dccg
-@@ -783,11 +783,12 @@ void dcn30_init_hw(struct dc *dc)
+@@ -931,10 +931,11 @@ void dcn32_init_hw(struct dc *dc)
  	if (!dcb->funcs->is_accelerated_mode(dcb) && dc->res_pool->hubbub->funcs->init_watermarks)
  		dc->res_pool->hubbub->funcs->init_watermarks(dc->res_pool->hubbub);
  
@@ -122,7 +122,6 @@ index 4c47061533050..f3422a323b71a 100644
 +	if (dc->clk_mgr && dc->clk_mgr->funcs && dc->clk_mgr->funcs->notify_wm_ranges)
  		dc->clk_mgr->funcs->notify_wm_ranges(dc->clk_mgr);
  
- 	//if softmax is enabled then hardmax will be set by a different call
 -	if (dc->clk_mgr->funcs->set_hard_max_memclk && !dc->clk_mgr->dc_mode_softmax_enabled)
 +	if (dc->clk_mgr && dc->clk_mgr->funcs && dc->clk_mgr->funcs->set_hard_max_memclk &&
 +	    !dc->clk_mgr->dc_mode_softmax_enabled)
