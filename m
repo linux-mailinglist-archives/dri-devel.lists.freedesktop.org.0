@@ -2,88 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7B2C9867C4
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 22:47:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCED19867FE
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 23:07:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3477610E71F;
-	Wed, 25 Sep 2024 20:47:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44AEE10EA69;
+	Wed, 25 Sep 2024 21:07:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="pvlEHb9X";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="pHG4hJ1t";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E31B10E161;
- Wed, 25 Sep 2024 20:47:19 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48PH5Mdb021527;
- Wed, 25 Sep 2024 20:47:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- Ilg5tfgVnEPmPCjHj4egV6TXzDXzT2qIKba21pN5eZU=; b=pvlEHb9XNTAnKW8D
- Fy+9+TNGHv8Zapn/YcB7/1YX9qC/dlPEezBZ+1CahoTkfk+QOi/2ot729qRpXp0L
- TAdozfw8ZtLg/VrpvUmuFMgqNfRVYx0JaBYK8IqSVTwp6MTLWm0qBJlSegM4Ei7n
- foCWwuTtl5DUJfhlUgXU4eRVGRZXE1u3dPdEeKJsErhBRsHrMbDDIhSTirt1PtEj
- BuD71uQxbia2z67yeiq3S2WIsxFNucZ+7lJ24HWJCecsxsHxhX2eA1s6HoO4fpy3
- NfHQjHEn/r6xIrSqqFzAO4Sf7A+rW4/NoafHt+xw6RyfS/vU7GZRcLJ+9SmJ6ZoF
- z6RCVg==
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41sqakn11f-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 25 Sep 2024 20:47:13 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 48PKlCWd030319
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 25 Sep 2024 20:47:12 GMT
-Received: from [10.134.70.212] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 25 Sep
- 2024 13:47:11 -0700
-Message-ID: <5a0be97f-a8a5-40dc-a2fa-b3c79c104915@quicinc.com>
-Date: Wed, 25 Sep 2024 13:47:11 -0700
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+ [209.85.128.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A60710EA6A
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 21:07:05 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id
+ 5b1f17b1804b1-42e5e758093so2153165e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 14:07:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1727298424; x=1727903224;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=1eUf1b5sBeEa+R24gGQ9aEEgDksXQ+YlPL6/W/duLKU=;
+ b=pHG4hJ1taoRiuvkcPTmtC269qM9axUs4b51uRgevZYksFlnehg6+iOloMQ20bGZ2PX
+ f9f6RCx0dN7UQGoacUPB33V337lj8NYEq7gftOWIBBRZYLEhbVemR61VLod7ZQL+sQBf
+ 0+m9Znq+BwQ3WiDtq2xI5uLYUDrhL/zmDl+4uZlHms4iz4ZLIzvY+KjS5U1iCDpwNGfy
+ 7oZKnoDmp/bb11AM3skiXRpGd5Gcq1qpvNoygcsKiPh8uOzemsnVJM8HzrAQurp7ikJh
+ 3HJxcbfVxRB0OvpBttMwd535X4LeHfRUQNH9nBavohGEg/dDSxzoDJELrztaSvivCGth
+ 4xQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1727298424; x=1727903224;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=1eUf1b5sBeEa+R24gGQ9aEEgDksXQ+YlPL6/W/duLKU=;
+ b=LMPL5VtsUOoH0ExuRE5z4SJS5oQ3By7WCGUkb/PmnZlNV+NfgJxLZXqqFPYaOyieYQ
+ +116szY6+ljRcwpyUvzNv3Gq1uYk99TktmjhzcyWTpVzr6oXvBZmZaCBoW4/owO1Vk9K
+ S8DSiiQdpVDZ+J5M3SuRdKdm99iTK7S6zq50UCYqyvmUy8yzi9rdFEEQidJ0vVRQH4k1
+ HiCLzSaCcbI92iJ+VwBBUNBUOI0h1SLeiGEFZ7Tl62gasc28AQbIzmwccx3iAPP5Md3b
+ yj37tkj+e/KQnQqR0zGISpYZ7aRhy3z4c3s2/f430xN4YXbTD5zEQp2KDfzMmKh/uwiQ
+ 8TdQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW0LJ3sROWkyQ1fEiCaMomuC93S3mSRHQJ57arD86kDWAC4SpJEXuyL2mrccgnPDBJZ2W9ehtNdhmU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwJWaa68jmj+NvugQ3I0ZAmEL4TtJWO2il2gkTY4O1vU8WcOvEy
+ b82G+g0XoTgaGulfNMDhKN4tF8/XBaTAd39HguiXxWViEn3PIJO8quRJr/lHjkw=
+X-Google-Smtp-Source: AGHT+IHDoFkGKB1bUmLWhLANh/i/kng9W0x9TR8bISvn6Efb45zS2dgcqducbkWBM86Lea49/HxWBA==
+X-Received: by 2002:a5d:6c61:0:b0:371:9360:c4a8 with SMTP id
+ ffacd0b85a97d-37cc246702cmr3213015f8f.6.1727298423544; 
+ Wed, 25 Sep 2024 14:07:03 -0700 (PDT)
+Received: from localhost (lfbn-nic-1-357-249.w90-116.abo.wanadoo.fr.
+ [90.116.189.249]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-37cbc2cec21sm4796837f8f.52.2024.09.25.14.07.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 25 Sep 2024 14:07:02 -0700 (PDT)
+Date: Wed, 25 Sep 2024 23:07:00 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Alex Lanzano <lanzano.alex@gmail.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Mehdi Djait <mehdi.djait@bootlin.com>, christophe.jaillet@wanadoo.fr,
+ dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-pwm@vger.kernel.org
+Subject: Re: [PATCH v6 2/2] drm/tiny: Add driver for Sharp Memory LCD
+Message-ID: <q2njnpzpkd3xrrv6icr5wq6uztja3wfmy2x2ldreqemzbwkedv@ixywmn7qy34q>
+References: <20240905124432.834831-1-lanzano.alex@gmail.com>
+ <20240905124432.834831-3-lanzano.alex@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 01/22] drm: add clone mode check for CRTC
-To: Jani Nikula <jani.nikula@linux.intel.com>, Rob Clark <robdclark@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Daniel
- Vetter" <daniel@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
-CC: <quic_ebharadw@quicinc.com>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, Rob Clark <robdclark@chromium.org>,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-References: <20240924-concurrent-wb-v2-0-7849f900e863@quicinc.com>
- <20240924-concurrent-wb-v2-1-7849f900e863@quicinc.com>
- <87bk0c40f1.fsf@intel.com>
-Content-Language: en-US
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <87bk0c40f1.fsf@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: 9LRX0bmY2EJ0EHZhzSF9BBTzRPmaP3wO
-X-Proofpoint-GUID: 9LRX0bmY2EJ0EHZhzSF9BBTzRPmaP3wO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 priorityscore=1501
- bulkscore=0 impostorscore=0 suspectscore=0 phishscore=0 adultscore=0
- clxscore=1015 malwarescore=0 lowpriorityscore=0 mlxlogscore=999
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2408220000 definitions=main-2409250147
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="gufllnff6auc6cvc"
+Content-Disposition: inline
+In-Reply-To: <20240905124432.834831-3-lanzano.alex@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,54 +93,130 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+--gufllnff6auc6cvc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 9/25/2024 1:12 AM, Jani Nikula wrote:
-> On Tue, 24 Sep 2024, Jessica Zhang <quic_jesszhan@quicinc.com> wrote:
->> Add helper to check if the given CRTC state is in clone mode
->>
->> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
->> ---
->>   include/drm/drm_crtc.h | 7 +++++++
->>   1 file changed, 7 insertions(+)
->>
->> diff --git a/include/drm/drm_crtc.h b/include/drm/drm_crtc.h
->> index 8b48a1974da3..ecb93e2c4afc 100644
->> --- a/include/drm/drm_crtc.h
->> +++ b/include/drm/drm_crtc.h
->> @@ -1323,5 +1323,12 @@ static inline struct drm_crtc *drm_crtc_find(struct drm_device *dev,
->>   
->>   int drm_crtc_create_scaling_filter_property(struct drm_crtc *crtc,
->>   					    unsigned int supported_filters);
->> +static inline bool drm_crtc_in_clone_mode(struct drm_crtc_state *crtc_state)
->> +{
->> +	if (!crtc_state)
->> +		return false;
->> +
->> +	return hweight32(crtc_state->encoder_mask) > 1;
->> +}
-> 
-> What's the benefit of this being static inline?
-> 
-> You're implicitly depending on hweight32() being available, basically
-> <linux/bitops.h> being included. Maybe it already is, but it's the
-> accumulation of small and innocent looking things like this that then
-> explode the header dependencies, and make them harder to reduce.
+Hello,
 
-Hi Jani,
+On Thu, Sep 05, 2024 at 08:44:00AM -0400, Alex Lanzano wrote:
+> +static void sharp_memory_crtc_enable(struct drm_crtc *crtc,
+> +				     struct drm_atomic_state *state)
+> +{
+> +	struct pwm_state pwm_state;
+> +	struct sharp_memory_device *smd = drm_to_sharp_memory_device(crtc->dev);
+> +
+> +	sharp_memory_clear_display(smd);
+> +
+> +	if (smd->enable_gpio)
+> +		gpiod_set_value(smd->enable_gpio, 1);
+> +
+> +	switch (smd->vcom_mode) {
+> +	case SHARP_MEMORY_SOFTWARE_VCOM:
+> +		smd->sw_vcom_signal = kthread_run(sharp_memory_sw_vcom_signal_thread,
+> +						  smd, "sw_vcom_signal");
+> +		break;
+> +
+> +	case SHARP_MEMORY_EXTERNAL_VCOM:
+> +		break;
+> +
+> +	case SHARP_MEMORY_PWM_VCOM:
+> +		pwm_get_state(smd->pwm_vcom_signal, &pwm_state);
 
-Good point, I'll move the implementation to drm_crtc.c.
+I'd prefer using pwm_init_state() here instead of pwm_get_state(), The
+former only depends on machine description (probably device tree), the
+latter depends on what happend before to the PWM. While it probably
+doesn't make a difference in practise, the former is more deterministic.
 
-Thanks,
+> +		pwm_state.period =    1000000000;
+> +		pwm_state.duty_cycle = 100000000;
 
-Jessica Zhang
+Unusual indention.
 
-> 
-> BR,
-> Jani.
-> 
->>   
->>   #endif /* __DRM_CRTC_H__ */
-> 
-> -- 
-> Jani Nikula, Intel
+The device tree (and also ACPI) defines a default period for a PWM. If
+you used pwm_init_state() -- as suggested above -- you could just use
+pwm_set_relative_duty_cycle(smd->pwm_vcom_signal, 1, 10); here.
 
+> +		pwm_state.enabled = true;
+> +		pwm_apply_might_sleep(smd->pwm_vcom_signal, &pwm_state);
+> +		break;
+> +	}
+> +}
+> +
+> +static void sharp_memory_crtc_disable(struct drm_crtc *crtc,
+> +				      struct drm_atomic_state *state)
+> +{
+> +	struct sharp_memory_device *smd = drm_to_sharp_memory_device(crtc->dev);
+> +
+> +	sharp_memory_clear_display(smd);
+> +
+> +	if (smd->enable_gpio)
+> +		gpiod_set_value(smd->enable_gpio, 0);
+> +
+> +	switch (smd->vcom_mode) {
+> +	case SHARP_MEMORY_SOFTWARE_VCOM:
+> +		kthread_stop(smd->sw_vcom_signal);
+> +		break;
+> +
+> +	case SHARP_MEMORY_EXTERNAL_VCOM:
+> +		break;
+> +
+> +	case SHARP_MEMORY_PWM_VCOM:
+> +		pwm_disable(smd->pwm_vcom_signal);
+
+What is the objective here? Do you want to save energy and don't care
+about the output? Or do you want the PWM to emit the inactive level?
+Note that for the second case, pwm_disable() is wrong, as depending on
+the underlying hardware the PWM might continue to toggle or emit a
+constant active level.
+
+> +		break;
+> +	}
+> +}
+> +
+> [...]
+> +
+> +static int sharp_memory_init_pwm_vcom_signal(struct sharp_memory_device *smd)
+> +{
+> +	struct pwm_state state;
+> +	struct device *dev = &smd->spi->dev;
+> +
+> +	smd->pwm_vcom_signal = devm_pwm_get(dev, NULL);
+> +	if (IS_ERR(smd->pwm_vcom_signal))
+> +		return dev_err_probe(dev, -EINVAL, "Could not get pwm device\n");
+> +
+> +	pwm_init_state(smd->pwm_vcom_signal, &state);
+> +	state.enabled = false;
+> +	pwm_apply_might_sleep(smd->pwm_vcom_signal, &state);
+
+Same question as above. If you care about the output level, use
+
+	{
+		.period = ...,
+		.duty_cycle = 0,
+		.enabled = true,
+	}
+
+> +
+> +	return 0;
+> +}
+
+Best regards
+Uwe
+
+--gufllnff6auc6cvc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmb0e1oACgkQj4D7WH0S
+/k68sgf+KYIiaD1KzjAI6h4LyzOtgTo4g9sAIrf/9XEfC8Ym5WDznk4zxlf18J2J
+jfvTI4VtUF6UvCcEQASWeyHcRnhLnWFa0ZL+qGcMNb+vkXkQcFtToUPA8urOSGM7
+KeXUFqbrZ9S3u3TKtBJ5NJRbyu+AtU7W/VQn2FVf8AUPuzuJpltmw7YfWdbHgG6H
+QZUlQzzAIqtD+MVMp2r3zWFQXiIdoBVtahQMv672eU10Fx+wRiwgL10swYM6MWKd
+uNK998JsuZV24+I8w/2gNAprjRl+0cI5k4v0oS4hoV97m3+7+3KBQsWZW8sp+oSY
+lZPkNJXisBhHLM+yBvp5M3FJWULTaQ==
+=MZIJ
+-----END PGP SIGNATURE-----
+
+--gufllnff6auc6cvc--
