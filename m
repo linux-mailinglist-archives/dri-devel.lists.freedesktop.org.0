@@ -2,51 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE203985B10
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 14:17:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8A2C985B15
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 14:17:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADFF110EA00;
-	Wed, 25 Sep 2024 12:16:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 626CB10EA01;
+	Wed, 25 Sep 2024 12:17:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MFNAg2fo";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KpxOPavB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F30C210EA00;
- Wed, 25 Sep 2024 12:16:51 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A579810EA01;
+ Wed, 25 Sep 2024 12:17:00 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 74ADD5C57FD;
- Wed, 25 Sep 2024 12:16:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6EF2C4CEC3;
- Wed, 25 Sep 2024 12:16:48 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id B63ECA441D6;
+ Wed, 25 Sep 2024 12:16:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98A9CC4CEC7;
+ Wed, 25 Sep 2024 12:16:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1727266611;
- bh=Uy1Plm4K9z7O0PXAD+IApIUVjM/AH3eBwvMopFjKA2g=;
+ s=k20201202; t=1727266619;
+ bh=gDqMv+RioLF7PDcEFu36rH47/gmJ0ZtLAKnGu6CwhvA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=MFNAg2foONQkh/4MDZIoyOqszG5kvbRFBqxqiXUgv23mPoE7Lk39mAr+T5weYRP7V
- 53FZYO50PCXzxNURE3r9kO2gThNeH6px6Q+0XkITvX3uxQoDzY/KEpWyftxi2/TvUE
- 1xlOZAqonrmIss1ozHHknxw3wK/EkMCKACbz0xT2Uwhg/tKsAs2p6Bm6zFx/Ipusz5
- xorpo42oLfUYzIkjbFf2x4rs+ttmYmRg5gcjuUpwbNXmGAcb7Gp5AEnSav4GWL0dVQ
- Ntcv6RIGMqBvwQnAOqXrx1GTcDL81pHYESn0YB4+X9BeK01F0P9SHsEoT6WcORkVwb
- hxf1XQSpxO3KQ==
+ b=KpxOPavBD3032/7CXTcrcX0Kh1W4nm4DoewNlRJqIhNN0kirJfQ1v6cgaS/r5ycu5
+ jwjKMaIVmykSo2GOk3BTi8VufKe6SBLilGqyrRFo5pfBEmDFkPyWW2GlWgILqitf+o
+ mJo1JvhtTQXrD1qtZqD/E+LAUYaP83iJKmt+XcLGGdDTMa73uGZ4hOO3IIR8IJAQEM
+ PXXmpqLke61s3DuiIL9jB1JcrTNk8Zf5vk+Mg9l8hfoQnFpxNcTU+If8jncngVU5k6
+ CprQkH/ZfBJdeKbuV/PN3g+vu7dtYHqT8xeuPAtOLNTXWEN7cvp4rH74DkRiFd9Hc2
+ gT30L5ZxWDQjw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
- Tom Chung <chiahsuan.chung@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Roman Li <roman.li@amd.com>,
- Alex Hung <alex.hung@amd.com>, Aurabindo Pillai <aurabindo.pillai@amd.com>,
- Harry Wentland <harry.wentland@amd.com>,
- Hamza Mahfooz <hamza.mahfooz@amd.com>,
+Cc: Alex Hung <alex.hung@amd.com>, Wenjing Liu <wenjing.liu@amd.com>,
+ Daniel Wheeler <daniel.wheeler@amd.com>,
+ Rodrigo Siqueira <rodrigo.siqueira@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- sunpeng.li@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch, harikrishna.revalla@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.6 111/139] drm/amd/display: Fix index out of bounds
- in DCN30 color transformation
-Date: Wed, 25 Sep 2024 08:08:51 -0400
-Message-ID: <20240925121137.1307574-111-sashal@kernel.org>
+ harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch, roman.li@amd.com, hersenxs.wu@amd.com,
+ george.shen@amd.com, allen.pan@amd.com,
+ meenakshikumar.somasundaram@amd.com, stylon.wang@amd.com,
+ michael.strauss@amd.com, aric.cyr@amd.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.6 112/139] drm/amd/display: Avoid overflow
+ assignment in link_dp_cts
+Date: Wed, 25 Sep 2024 08:08:52 -0400
+Message-ID: <20240925121137.1307574-112-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240925121137.1307574-1-sashal@kernel.org>
 References: <20240925121137.1307574-1-sashal@kernel.org>
@@ -70,51 +71,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
+From: Alex Hung <alex.hung@amd.com>
 
-[ Upstream commit d81873f9e715b72d4f8d391c8eb243946f784dfc ]
+[ Upstream commit a15268787b79fd183dd526cc16bec9af4f4e49a1 ]
 
-This commit addresses a potential index out of bounds issue in the
-`cm3_helper_translate_curve_to_hw_format` function in the DCN30 color
-management module. The issue could occur when the index 'i' exceeds the
-number of transfer function points (TRANSFER_FUNC_POINTS).
+sampling_rate is an uint8_t but is assigned an unsigned int, and thus it
+can overflow. As a result, sampling_rate is changed to uint32_t.
 
-The fix adds a check to ensure 'i' is within bounds before accessing the
-transfer function points. If 'i' is out of bounds, the function returns
-false to indicate an error.
+Similarly, LINK_QUAL_PATTERN_SET has a size of 2 bits, and it should
+only be assigned to a value less or equal than 4.
 
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn30/dcn30_cm_common.c:180 cm3_helper_translate_curve_to_hw_format() error: buffer overflow 'output_tf->tf_pts.red' 1025 <= s32max
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn30/dcn30_cm_common.c:181 cm3_helper_translate_curve_to_hw_format() error: buffer overflow 'output_tf->tf_pts.green' 1025 <= s32max
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn30/dcn30_cm_common.c:182 cm3_helper_translate_curve_to_hw_format() error: buffer overflow 'output_tf->tf_pts.blue' 1025 <= s32max
+This fixes 2 INTEGER_OVERFLOW issues reported by Coverity.
 
-Cc: Tom Chung <chiahsuan.chung@amd.com>
-Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-Cc: Roman Li <roman.li@amd.com>
-Cc: Alex Hung <alex.hung@amd.com>
-Cc: Aurabindo Pillai <aurabindo.pillai@amd.com>
-Cc: Harry Wentland <harry.wentland@amd.com>
-Cc: Hamza Mahfooz <hamza.mahfooz@amd.com>
-Signed-off-by: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
-Reviewed-by: Tom Chung <chiahsuan.chung@amd.com>
+Signed-off-by: Alex Hung <alex.hung@amd.com>
+Reviewed-by: Wenjing Liu <wenjing.liu@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Rodrigo Siqueira <rodrigo.siqueira@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/dcn30/dcn30_cm_common.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/amd/display/dc/dc_dp_types.h                  | 2 +-
+ drivers/gpu/drm/amd/display/dc/link/accessories/link_dp_cts.c | 3 ++-
+ drivers/gpu/drm/amd/display/include/dpcd_defs.h               | 1 +
+ 3 files changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_cm_common.c b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_cm_common.c
-index e0b1fc92ed186..62c02adae7e76 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_cm_common.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_cm_common.c
-@@ -178,6 +178,8 @@ bool cm3_helper_translate_curve_to_hw_format(
- 				i += increment) {
- 			if (j == hw_points - 1)
- 				break;
-+			if (i >= TRANSFER_FUNC_POINTS)
-+				return false;
- 			rgb_resulted[j].red = output_tf->tf_pts.red[i];
- 			rgb_resulted[j].green = output_tf->tf_pts.green[i];
- 			rgb_resulted[j].blue = output_tf->tf_pts.blue[i];
+diff --git a/drivers/gpu/drm/amd/display/dc/dc_dp_types.h b/drivers/gpu/drm/amd/display/dc/dc_dp_types.h
+index 83719f5bea495..8df52f9ba0b7c 100644
+--- a/drivers/gpu/drm/amd/display/dc/dc_dp_types.h
++++ b/drivers/gpu/drm/amd/display/dc/dc_dp_types.h
+@@ -721,7 +721,7 @@ struct dp_audio_test_data_flags {
+ struct dp_audio_test_data {
+ 
+ 	struct dp_audio_test_data_flags flags;
+-	uint8_t sampling_rate;
++	uint32_t sampling_rate;
+ 	uint8_t channel_count;
+ 	uint8_t pattern_type;
+ 	uint8_t pattern_period[8];
+diff --git a/drivers/gpu/drm/amd/display/dc/link/accessories/link_dp_cts.c b/drivers/gpu/drm/amd/display/dc/link/accessories/link_dp_cts.c
+index fe4282771cd07..8a97d96f7d8bb 100644
+--- a/drivers/gpu/drm/amd/display/dc/link/accessories/link_dp_cts.c
++++ b/drivers/gpu/drm/amd/display/dc/link/accessories/link_dp_cts.c
+@@ -849,7 +849,8 @@ bool dp_set_test_pattern(
+ 			core_link_read_dpcd(link, DP_TRAINING_PATTERN_SET,
+ 					    &training_pattern.raw,
+ 					    sizeof(training_pattern));
+-			training_pattern.v1_3.LINK_QUAL_PATTERN_SET = pattern;
++			if (pattern <= PHY_TEST_PATTERN_END_DP11)
++				training_pattern.v1_3.LINK_QUAL_PATTERN_SET = pattern;
+ 			core_link_write_dpcd(link, DP_TRAINING_PATTERN_SET,
+ 					     &training_pattern.raw,
+ 					     sizeof(training_pattern));
+diff --git a/drivers/gpu/drm/amd/display/include/dpcd_defs.h b/drivers/gpu/drm/amd/display/include/dpcd_defs.h
+index aee5170f5fb23..c246235e4afec 100644
+--- a/drivers/gpu/drm/amd/display/include/dpcd_defs.h
++++ b/drivers/gpu/drm/amd/display/include/dpcd_defs.h
+@@ -76,6 +76,7 @@ enum dpcd_phy_test_patterns {
+ 	PHY_TEST_PATTERN_D10_2,
+ 	PHY_TEST_PATTERN_SYMBOL_ERROR,
+ 	PHY_TEST_PATTERN_PRBS7,
++	PHY_TEST_PATTERN_END_DP11 = PHY_TEST_PATTERN_PRBS7,
+ 	PHY_TEST_PATTERN_80BIT_CUSTOM,/* For DP1.2 only */
+ 	PHY_TEST_PATTERN_CP2520_1,
+ 	PHY_TEST_PATTERN_CP2520_2,
 -- 
 2.43.0
 
