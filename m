@@ -2,79 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1F86985334
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 08:49:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E278B98537E
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 09:15:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4DD810E067;
-	Wed, 25 Sep 2024 06:49:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 565C310E7AC;
+	Wed, 25 Sep 2024 07:15:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="h4NHbUVk";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="LNhgNgHL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C56910E067
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 06:49:10 +0000 (UTC)
-X-UUID: 40d8525a7b0a11efb66947d174671e26-20240925
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From;
- bh=GIXtBLCtXr6MqBqJlnp57Xa9ytuceXIA441Kk55rrF4=; 
- b=h4NHbUVkb04ybPSWFtztF6K7iNELGQ5AtIBX7yYhcCKSlOmHpsE2tSvSZ+aAXVGLZrXv3hdkzTFsXxZAjA12AAjj4mJbm3VXtUDq/8ZanClT6gCl42eo5tDO6/QYVh7yzSyZN1m8/ZfJwvfF3/fM8koj+0lUtuaQXDtD3BcFY/c=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.41, REQID:3e4ffd7b-20be-4055-a54e-3fd010bf9823, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:0
-X-CID-META: VersionHash:6dc6a47, CLOUDID:da9abbd0-7921-4900-88a1-3aef019a55ce,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
- SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-UUID: 40d8525a7b0a11efb66947d174671e26-20240925
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
- mailgw01.mediatek.com (envelope-from <liankun.yang@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1926389267; Wed, 25 Sep 2024 14:49:03 +0800
-Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- MTKMBS14N2.mediatek.inc (172.21.101.76) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Wed, 25 Sep 2024 14:49:00 +0800
-Received: from mszsdhlt06.gcn.mediatek.inc (10.16.6.206) by
- mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Wed, 25 Sep 2024 14:49:00 +0800
-From: Liankun Yang <liankun.yang@mediatek.com>
-To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@gmail.com>, 
- <simona@ffwll.ch>, <matthias.bgg@gmail.com>,
- <angelogioacchino.delregno@collabora.com>, <jitao.shi@mediatek.com>,
- <mac.shen@mediatek.com>, <peng.liu@mediatek.com>, <liankun.yang@mediatek.com>
-CC: <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
- <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
-Subject: [PATCH v3 1/1] drm/mediatek: dp: Add sdp path reset
-Date: Wed, 25 Sep 2024 14:48:22 +0800
-Message-ID: <20240925064854.23065-1-liankun.yang@mediatek.com>
-X-Mailer: git-send-email 2.45.2
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
+ [209.85.218.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34A2E10E7A9
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 07:15:10 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id
+ a640c23a62f3a-a910860e4dcso435225466b.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 00:15:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1727248508; x=1727853308; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=TDaNdhjF6czZwZ8GYJQ+xlqUWHjP+ROLSrQsWDOJZts=;
+ b=LNhgNgHLvWdsG/b8V4FgDb/0SFOB2tqKSYxBqzjFG/INxUJJRcUwrd1tbHnCTPVv+k
+ J3FhuycKhG4iUAFAI/zKHtAxzlR+mZjZgJMKMhKZgxbrG+GqQnTnOs8zgs7MT5n0cFnt
+ u5i0hVhZjlQp76yxuW35J/VZO6Hu9u+qXVc/42DoLCCt2EcLVy46R8ZbYJX1ATmd3ALG
+ VMS/I8O0pxZI68OZ3SUawhWq9QLrZ/K2bJota4MfDYtq/IxTrNeRoHG7GCzkk2XjAGbF
+ AU+Zp9d2pwGLYDaLiLIGzEcifatZF860Zdnz4SkgjBVYQsvbWO3EbYt+wCy8hEi0MI2p
+ st4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1727248508; x=1727853308;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=TDaNdhjF6czZwZ8GYJQ+xlqUWHjP+ROLSrQsWDOJZts=;
+ b=EW1WMwAYgMW7VEXzcyZd04XALqbBnvuZ1Gcv/3KS/jRTit4ry2j5dCPwu26Js8c1XQ
+ 2WlVyS2HI9c/nYBz3W6jd6E9B2cd1Jzg1luAtDa25yN7R1kefyN0kQVQIYxl04SDDrjz
+ Re/a06Dmu6SrPeSBiLMujIo65rPZAyWQOBzmtKZxF5gWaDE0LZcNA74+fvgrpu37jT2M
+ 2JRnfWbMCIKGFkR4lN9ayGy3ldm6CmSp1DMIn3Jp47dvV7LwaEZPLdL0aXCQdO7ShAGF
+ yiHedcnEqUV1JZyVAIuXSIldBNBsR/ZqMlUtvjFEKFPRCDTRiih+tXtrS7ljJp0S4DPv
+ buaQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWOn9cJ3/cBSxjwZtWhb4CtejZeIDuI2cQSP2xC+Rq3ZcCKCn+qOKgSCQ20S40TzTGHhVPCr6Q40AA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyviy+PP9t3PJ/WaE+ZK/TvuBQ1xH5xJW/xH1LRQMJpNL9jZ4IH
+ DWgOr3iFsiCYcg8mYHhipdnfToCXOVL7GSgo080cEqbLTKzvo48La3loLDX52mE=
+X-Google-Smtp-Source: AGHT+IHv93X+9j84xZuTxFkaqtse2mqrU5kPecB2WQv7iIqPArSVbHN4jb/WWw/ItxeQzBtjVNzB3Q==
+X-Received: by 2002:a17:907:e656:b0:a86:9644:2a60 with SMTP id
+ a640c23a62f3a-a93a03200d0mr161368666b.6.1727248508395; 
+ Wed, 25 Sep 2024 00:15:08 -0700 (PDT)
+Received: from rayden (h-217-31-164-171.A175.priv.bahnhof.se. [217.31.164.171])
+ by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a9393138bd5sm174570466b.205.2024.09.25.00.15.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 25 Sep 2024 00:15:06 -0700 (PDT)
+Date: Wed, 25 Sep 2024 09:15:04 +0200
+From: Jens Wiklander <jens.wiklander@linaro.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, op-tee@lists.trustedfirmware.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ Olivier Masse <olivier.masse@nxp.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Yong Wu <yong.wu@mediatek.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T . J . Mercier" <tjmercier@google.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Sumit Garg <sumit.garg@linaro.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Subject: Re: [RFC PATCH 0/4] Linaro restricted heap
+Message-ID: <20240925071504.GA3519798@rayden>
+References: <20240830070351.2855919-1-jens.wiklander@linaro.org>
+ <dhxvyshwi4qmcmwceokhqey2ww4azjcs6qrpnkgivdj7tv5cke@r36srvvbof6q>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--3.788000-8.000000
-X-TMASE-MatchedRID: sCy2GwBQH7yvhOOX3csmVw0QY5VnQyAN6SXuwUgGH0iyrCkM9r1bWojW
- iMxtXqDIzP/fGiNMYHU3LXzHrryidfA5M+x5Rjkcl1zsjZ1/6ayeEP0DdJruliz+5QCTrE/s+Vi
- hXqn9xLF1Xu18Rs/cG0cr8zPjxcDfEJHpQ2Y9lURCxKB9Mp7mVU9nxZsOR/FT1MUvXa3LfbejNb
- S0t/0QSUHNY7W6Yix9gDLqnrRlXrZ8nn9tnqel2MZW5ai5WKlyZ/VrItWeJXv016YqZfAT5G4MD
- qojiLaNlLcFj/78QgopdIrrqkKoT7TTdbRCVjfgjo5opvXOhw94O3plWBIsE0JYdnh79GXHbVGO
- i6nZUJxa9755XPg+nlWTm62ZDVWUZUXf532uejGkjwQURlVuKA==
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--3.788000-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP: B195F4980861ED25D8E68E8EB5B3E84150ECCA730C5C97F8B4AD11662FEE14EF2000:8
-X-MTK: N
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <dhxvyshwi4qmcmwceokhqey2ww4azjcs6qrpnkgivdj7tv5cke@r36srvvbof6q>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,78 +97,128 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When using type-c to type-c to connect to the monitor,
-the sound plays normally. If you unplug the type-c and
-connect the type-c to hdmi dongle to the monitor, there will be noise.
+On Mon, Sep 23, 2024 at 09:33:29AM +0300, Dmitry Baryshkov wrote:
+> Hi,
+> 
+> On Fri, Aug 30, 2024 at 09:03:47AM GMT, Jens Wiklander wrote:
+> > Hi,
+> > 
+> > This patch set is based on top of Yong Wu's restricted heap patch set [1].
+> > It's also a continuation on Olivier's Add dma-buf secure-heap patch set [2].
+> > 
+> > The Linaro restricted heap uses genalloc in the kernel to manage the heap
+> > carvout. This is a difference from the Mediatek restricted heap which
+> > relies on the secure world to manage the carveout.
+> > 
+> > I've tried to adress the comments on [2], but [1] introduces changes so I'm
+> > afraid I've had to skip some comments.
+> 
+> I know I have raised the same question during LPC (in connection to
+> Qualcomm's dma-heap implementation). Is there any reason why we are
+> using generic heaps instead of allocating the dma-bufs on the device
+> side?
+> 
+> In your case you already have TEE device, you can use it to allocate and
+> export dma-bufs, which then get imported by the V4L and DRM drivers.
+> 
+> I have a feeling (I might be completely wrong here) that by using
+> generic dma-buf heaps we can easily end up in a situation when the
+> userspace depends heavily on the actual platform being used (to map the
+> platform to heap names). I think we should instead depend on the
+> existing devices (e.g. if there is a TEE device, use an IOCTL to
+> allocate secured DMA BUF from it, otherwise check for QTEE device,
+> otherwise check for some other vendor device).
 
-By capturing the audio data, it is found that
-the data position is messy, and there is no error in the data.
+That makes sense, it's similar to what we do with TEE_IOC_SHM_ALLOC
+where we allocate from a carveout reserverd for shared memory with the
+secure world. It was even based on dma-buf until commit dfd0743f1d9e
+("tee: handle lookup of shm with reference count 0").
 
-Through experiments, it can be restored by resetting the SDP path
-when unplugging it.
+We should use a new TEE_IOC_*_ALLOC for these new dma-bufs to avoid
+confusion and to have more freedom when designing the interface.
 
-Signed-off-by: Liankun Yang <liankun.yang@mediatek.com>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
----
-Changes in V3:
-- No change.
-Per suggestion from the previous thread:
-https://patchwork.kernel.org/project/linux-mediatek/patch/20240923132521.22785-1-liankun.yang@mediatek.com/
+> 
+> The mental experiment to check if the API is correct is really simple:
+> Can you use exactly the same rootfs on several devices without
+> any additional tuning (e.g. your QEMU, HiKey, a Mediatek board, Qualcomm
+> laptop, etc)?
 
-Changes in V2:
-- Fix build error.
-Per suggestion from the previous thread:
-https://patchwork.kernel.org/project/linux-mediatek/patch/20240923133610.23728-1-liankun.yang@mediatek.com/
----
- drivers/gpu/drm/mediatek/mtk_dp.c     | 15 +++++++++++++++
- drivers/gpu/drm/mediatek/mtk_dp_reg.h |  1 +
- 2 files changed, 16 insertions(+)
+No, I don't think so.
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
-index d8796a904eca..4003bd83f64e 100644
---- a/drivers/gpu/drm/mediatek/mtk_dp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dp.c
-@@ -1052,6 +1052,18 @@ static void mtk_dp_digital_sw_reset(struct mtk_dp *mtk_dp)
- 			   0, DP_TX_TRANSMITTER_4P_RESET_SW_DP_TRANS_P0);
- }
- 
-+static void mtk_dp_sdp_path_reset(struct mtk_dp *mtk_dp)
-+{
-+	mtk_dp_update_bits(mtk_dp, MTK_DP_ENC0_P0_3004,
-+				SDP_RESET_SW_DP_ENC0_P0,
-+				SDP_RESET_SW_DP_ENC0_P0);
-+
-+	/* Wait for sdp path reset to complete */
-+	usleep_range(1000, 5000);
-+	mtk_dp_update_bits(mtk_dp, MTK_DP_ENC0_P0_3004,
-+				0, SDP_RESET_SW_DP_ENC0_P0);
-+}
-+
- static void mtk_dp_set_lanes(struct mtk_dp *mtk_dp, int lanes)
- {
- 	mtk_dp_update_bits(mtk_dp, MTK_DP_TRANS_P0_35F0,
-@@ -2314,6 +2326,9 @@ static void mtk_dp_bridge_atomic_disable(struct drm_bridge *bridge,
- 			   DP_PWR_STATE_BANDGAP_TPLL,
- 			   DP_PWR_STATE_MASK);
- 
-+	/* SDP path reset sw*/
-+	mtk_dp_sdp_path_reset(mtk_dp);
-+
- 	/* Ensure the sink is muted */
- 	msleep(20);
- }
-diff --git a/drivers/gpu/drm/mediatek/mtk_dp_reg.h b/drivers/gpu/drm/mediatek/mtk_dp_reg.h
-index 709b79480693..8ad7a9cc259e 100644
---- a/drivers/gpu/drm/mediatek/mtk_dp_reg.h
-+++ b/drivers/gpu/drm/mediatek/mtk_dp_reg.h
-@@ -86,6 +86,7 @@
- #define MTK_DP_ENC0_P0_3004			0x3004
- #define VIDEO_M_CODE_SEL_DP_ENC0_P0_MASK		BIT(8)
- #define DP_TX_ENCODER_4P_RESET_SW_DP_ENC0_P0		BIT(9)
-+#define SDP_RESET_SW_DP_ENC0_P0				BIT(13)
- #define MTK_DP_ENC0_P0_3010			0x3010
- #define HTOTAL_SW_DP_ENC0_P0_MASK			GENMASK(15, 0)
- #define MTK_DP_ENC0_P0_3014			0x3014
--- 
-2.45.2
+> 
+> > 
+> > This can be tested on QEMU with the following steps:
+> > repo init -u https://github.com/jenswi-linaro/manifest.git -m qemu_v8.xml \
+> >         -b prototype/sdp-v1
+> > repo sync -j8
+> > cd build
+> > make toolchains -j4
+> > make all -j$(nproc)
+> > make run-only
+> > # login and at the prompt:
+> > xtest --sdp-basic
+> > 
+> > https://optee.readthedocs.io/en/latest/building/prerequisites.html
+> > list dependencies needed to build the above.
+> > 
+> > The tests are pretty basic, mostly checking that a Trusted Application in
+> > the secure world can access and manipulate the memory.
+> 
+> - Can we test that the system doesn't crash badly if user provides
+>   non-secured memory to the users which expect a secure buffer?
+> 
+> - At the same time corresponding entities shouldn't decode data to the
+>   buffers accessible to the rest of the sytem.
 
+I'll a few tests along that.
+
+Thanks,
+Jens
+
+> 
+> > 
+> > Cheers,
+> > Jens
+> > 
+> > [1] https://lore.kernel.org/dri-devel/20240515112308.10171-1-yong.wu@mediatek.com/
+> > [2] https://lore.kernel.org/lkml/20220805135330.970-1-olivier.masse@nxp.com/
+> > 
+> > Changes since Olivier's post [2]:
+> > * Based on Yong Wu's post [1] where much of dma-buf handling is done in
+> >   the generic restricted heap
+> > * Simplifications and cleanup
+> > * New commit message for "dma-buf: heaps: add Linaro restricted dmabuf heap
+> >   support"
+> > * Replaced the word "secure" with "restricted" where applicable
+> > 
+> > Etienne Carriere (1):
+> >   tee: new ioctl to a register tee_shm from a dmabuf file descriptor
+> > 
+> > Jens Wiklander (2):
+> >   dma-buf: heaps: restricted_heap: add no_map attribute
+> >   dma-buf: heaps: add Linaro restricted dmabuf heap support
+> > 
+> > Olivier Masse (1):
+> >   dt-bindings: reserved-memory: add linaro,restricted-heap
+> > 
+> >  .../linaro,restricted-heap.yaml               |  56 ++++++
+> >  drivers/dma-buf/heaps/Kconfig                 |  10 ++
+> >  drivers/dma-buf/heaps/Makefile                |   1 +
+> >  drivers/dma-buf/heaps/restricted_heap.c       |  17 +-
+> >  drivers/dma-buf/heaps/restricted_heap.h       |   2 +
+> >  .../dma-buf/heaps/restricted_heap_linaro.c    | 165 ++++++++++++++++++
+> >  drivers/tee/tee_core.c                        |  38 ++++
+> >  drivers/tee/tee_shm.c                         | 104 ++++++++++-
+> >  include/linux/tee_drv.h                       |  11 ++
+> >  include/uapi/linux/tee.h                      |  29 +++
+> >  10 files changed, 426 insertions(+), 7 deletions(-)
+> >  create mode 100644 Documentation/devicetree/bindings/reserved-memory/linaro,restricted-heap.yaml
+> >  create mode 100644 drivers/dma-buf/heaps/restricted_heap_linaro.c
+> > 
+> > -- 
+> > 2.34.1
+> > 
+> 
+> -- 
+> With best wishes
+> Dmitry
