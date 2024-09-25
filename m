@@ -2,83 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFC6B985561
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 10:23:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7869098557B
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 10:29:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DE4810E7B1;
-	Wed, 25 Sep 2024 08:23:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1873510E7BD;
+	Wed, 25 Sep 2024 08:29:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="pmDHUe1P";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="xc/mEwir";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
- [209.85.221.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DB3F10E7B1
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 08:23:12 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id
- ffacd0b85a97d-374c1e5fe79so4574029f8f.1
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 01:23:12 -0700 (PDT)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+ [209.85.167.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7307E10E7BD
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 08:29:02 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id
+ 2adb3069b0e04-5356ab89665so7697782e87.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 01:29:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1727252590; x=1727857390; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
- :to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Wzg7D4oKky5+3kPOwN3vVZTGu28S/XV+QD50k2fkJd8=;
- b=pmDHUe1P/u4egw2V21IhKZnRu9CwIQPeD9eWoLAAfMcF0Ft4Lcg0D9MaWvQ33OOMP9
- 7tajj1GuqZoAnnne/vsPm50IxuqTOmSY2wP1v7q8ZqVWs4ZcTXrVM4Zk5/9EVC4IhHGk
- xuBbU/x2iI1zM6NRTZDWpKvlbgVZem62M0lgjgGdsK1epCUDO/eSINtpjWNy5zUYLL9T
- t+MtmQNA3KQBs9WSqXFzpsNhoLQQQ87h1H1uDub+RrKHvuDf76mua7t2Om6EGR5gpNYn
- OvB7EAoMbkHdfddZKeXoHfhy9sm6YdvdbXyBL0Dy5QmuU/LhsV8ZtyuEXIkkz4/CusA+
- OGzg==
+ d=linaro.org; s=google; t=1727252940; x=1727857740; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=fJc/ZEonsSpvQx65a5f325f6xswc665KOha+qhiv8i8=;
+ b=xc/mEwir3cVnpPTqEC9ZCBUadI4yeSq3DqsPdO2Mipz8vILIo2Mn6rdyRcr4uIyQCn
+ bm4cAYXLMhwav7WaKzjviM2gSiLaAnDDP8AdsdXzFMSY9qXVaM1kPtkPQyFQjx4FVzv+
+ Sj+8aOxdosO+nM/kD2mORQi+E8ntu7BBxp8igz96UivNtKyqj4vqRCwUe2P6w1C7AGSo
+ 9btRID48025jALw21GsSavhnuaw5WI2zZ9jMeL8PloswbXeJ/i4zX1gxJgaR1xpCk209
+ tFyM66kewMtxsnE7DayBD5n2Pul9TMac3Q4fBfk/IVQqv9FfunBzNrWq6RllWepiQ/Ls
+ M2dA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727252590; x=1727857390;
- h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
- :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Wzg7D4oKky5+3kPOwN3vVZTGu28S/XV+QD50k2fkJd8=;
- b=J3neqGSNeByD3hWXG8VqyuZ//b/Mwd+L7u6+gKQAz9ZtqS/wkgndJJdiYfUq1tpBe4
- b3zFbREhOS4/kjR845gXuMzdotrNCMIoLwFS0ZwXIJLzGpR/Y3FybQl8z5Ss7jqygt/x
- qJnMh0tvO+0I+IloP5rJR9Ez0mW3n6MZtw2qNjL+Q/dgLCqxi4Cn/E97jbPBamoChr5x
- DPRcs5uf3diAGemTycBcwU1f3hIqbKPf+WK0QS32f+nnIx4Ckx/yfjcPRfU9QPJ5/Q8D
- 13gJ4o4C0sE5Q+vSqmrYFULfog9ve+X6KPiOcpvjPu2t9h19LJb8/vTSaASKyOcYY1an
- Y4WQ==
+ d=1e100.net; s=20230601; t=1727252940; x=1727857740;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=fJc/ZEonsSpvQx65a5f325f6xswc665KOha+qhiv8i8=;
+ b=V6wv20+blm0tl7Nvb37RaYWtroFy2TEIM7VQ1yhey6MeZ1uv/Dv4J2JW+/gsm8ErsU
+ prWDVaHCKF7P7HvjA6IHWkXgTXeCksrQ3uHKckSpkEQjhnxGnA5rEwH25qOPTEaRR1Ul
+ otw0zynR6I8ot4kMZuvYwGM5hkREjoTBaoRgySxb82z2IUKNWhSrqi0829xYInKwON61
+ rzk9CyHASVtavfdGHuNtul+/o8tH+MC/dT0Sx9gdX7+T+X5QoDnaEl24ncNwdwgFsbwm
+ qh+XW275mQJIBosDXvITDb72dPAOiCIx9YVqAeRFGzYuwwJ0BWUYlHTzXF4sSxZUbTpO
+ EwLg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVEgX2kukPO+kwYCPTznEM7Tm1hr1sPDmLNu5tNJlojPoHx/cDNbqs0mZMUyfQHIUvIZ/Ml6PwlIfw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxVUf8yd+y5oXDrz/sPE8Ko8qFwg2DADMLY+rin1csJzmUBc51j
- pGZ2Qqr4qOvbb8DGDjSs8BJxB089knAJ+RAiC5l+K9IoAY/Uu5oGtwancxyUuhY=
-X-Google-Smtp-Source: AGHT+IGETHE/X4esE42miSDoeNFaK9g9vbG+kkIWo8WUvpwJ3K+Mdg5qaJEHKAV4EV3TkiFYuWA+mw==
-X-Received: by 2002:adf:fa90:0:b0:374:bf1b:1c20 with SMTP id
- ffacd0b85a97d-37cc24760dcmr1190372f8f.23.1727252590318; 
- Wed, 25 Sep 2024 01:23:10 -0700 (PDT)
-Received: from localhost ([196.207.164.177]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-42e969ddfc9sm10949145e9.5.2024.09.25.01.23.09
+ AJvYcCXRUXDYKj4mGkLwAl1oZEzVCmZi6bU6MrQ+zE0kHO82YVquELqRRQ+JEXzbAbA3I7kBWxog5nIRGaE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx0yqvn2sb3ao5+spkTZ9y9oWMrDB25aXCK/9IPmYSp3r4IiD6e
+ YNa5ktIpSvNMgrmlB8i55wimmxwJaKZN9d2W7SlGoC7mPVhXa3PHyXqkJdGB32g=
+X-Google-Smtp-Source: AGHT+IFWtR5Spi/hxHDKmyK+yEjL67FVSC0HLJLKUPO8bW2hzqf39SxWRho/7uZXgcWIoMTcw6ko+w==
+X-Received: by 2002:a05:6512:3f07:b0:535:6ba7:7725 with SMTP id
+ 2adb3069b0e04-5387048a6d7mr1170484e87.3.1727252940511; 
+ Wed, 25 Sep 2024 01:29:00 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-537a8648d41sm454852e87.224.2024.09.25.01.28.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Sep 2024 01:23:09 -0700 (PDT)
-Date: Wed, 25 Sep 2024 11:23:05 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Ryan Walklin <ryan@testtoast.com>,
- Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
+ Wed, 25 Sep 2024 01:28:59 -0700 (PDT)
+Date: Wed, 25 Sep 2024 11:28:57 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
- Andre Przywara <andre.przywara@arm.com>,
- Chris Morgan <macroalpha82@gmail.com>,
- John Watts <contact@jookia.org>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
- Ryan Walklin <ryan@testtoast.com>
-Subject: Re: [PATCH v4 18/26] drm: sun4i: de3: Implement AFBC support
-Message-ID: <cfb1d4c6-9414-4880-9edb-31e5af9f951b@stanley.mountain>
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ quic_ebharadw@quicinc.com, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Rob Clark <robdclark@chromium.org>, 
+ Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH v2 14/22] drm/msm/dpu: Require modeset if clone mode
+ status changes
+Message-ID: <zwxgml3qi3t253y2yhmi5lcpxg5odugrncfgh74y36kwubd4xv@oem2vicytu5i>
+References: <20240924-concurrent-wb-v2-0-7849f900e863@quicinc.com>
+ <20240924-concurrent-wb-v2-14-7849f900e863@quicinc.com>
+ <yjfe5wajajeqmcp65kbvcttzgkrsfv5rhkbvqvioqx3rwdn6g6@2h2byk2l2imy>
+ <75297d0d-528a-4152-b35f-ba41fbf914dc@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240921095153.213568-19-ryan@testtoast.com>
+In-Reply-To: <75297d0d-528a-4152-b35f-ba41fbf914dc@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,49 +96,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Ryan,
+On Tue, Sep 24, 2024 at 05:05:43PM GMT, Abhinav Kumar wrote:
+> 
+> 
+> On 9/24/2024 4:25 PM, Dmitry Baryshkov wrote:
+> > On Tue, Sep 24, 2024 at 03:59:30PM GMT, Jessica Zhang wrote:
+> > > If the clone mode enabled status is changing, a modeset needs to happen
+> > > so that the resources can be reassigned
+> > 
+> > Sima's comment regarding crtc_state->mode_changed seems to be ignored...
+> > 
+> 
+> Not ignored. One of us has to take that up. There is a broader cleanup
+> required for that.
 
-kernel test robot noticed the following build warnings:
+At least then it should be mentioned in the commit message or under the
+commit message.
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> We can sync up on how to tackle this : whether it needs to be in this series
+> or push another one cleaning up all the instances.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ryan-Walklin/drm-sun4i-de2-de3-Change-CSC-argument/20240921-175532
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git sunxi/for-next
-patch link:    https://lore.kernel.org/r/20240921095153.213568-19-ryan%40testtoast.com
-patch subject: [PATCH v4 18/26] drm: sun4i: de3: Implement AFBC support
-config: microblaze-randconfig-r071-20240922 (https://download.01.org/0day-ci/archive/20240923/202409230531.ZMb79p9h-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 14.1.0
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202409230531.ZMb79p9h-lkp@intel.com/
+Yes, let's sync separately.
 
-smatch warnings:
-drivers/gpu/drm/sun4i/sun50i_afbc.c:236 sun50i_afbc_atomic_update() warn: right shifting more than type allows 16 vs 16
-
-vim +236 drivers/gpu/drm/sun4i/sun50i_afbc.c
-
-757b2767d5472c Jernej Skrabec 2024-09-21  230  
-757b2767d5472c Jernej Skrabec 2024-09-21  231  	regmap_write(regs, SUN50I_FBD_OVL_BG_COLOR(base),
-757b2767d5472c Jernej Skrabec 2024-09-21  232  		     SUN8I_MIXER_BLEND_COLOR_BLACK);
-757b2767d5472c Jernej Skrabec 2024-09-21  233  	regmap_write(regs, SUN50I_FBD_DEFAULT_COLOR0(base), def_color0);
-757b2767d5472c Jernej Skrabec 2024-09-21  234  	regmap_write(regs, SUN50I_FBD_DEFAULT_COLOR1(base), def_color1);
-757b2767d5472c Jernej Skrabec 2024-09-21  235  
-757b2767d5472c Jernej Skrabec 2024-09-21 @236  	val = SUN50I_FBD_CTL_GLB_ALPHA(state->alpha >> 16);
-                                                                               ^^^^^^^^^^^^^^^^^^
-This shifts it to zero
-
-757b2767d5472c Jernej Skrabec 2024-09-21  237  	val |= SUN50I_FBD_CTL_CLK_GATE;
-757b2767d5472c Jernej Skrabec 2024-09-21  238  	val |= (state->alpha == DRM_BLEND_ALPHA_OPAQUE) ?
-757b2767d5472c Jernej Skrabec 2024-09-21  239  		SUN50I_FBD_CTL_ALPHA_MODE_PIXEL :
-757b2767d5472c Jernej Skrabec 2024-09-21  240  		SUN50I_FBD_CTL_ALPHA_MODE_COMBINED;
-757b2767d5472c Jernej Skrabec 2024-09-21  241  	val |= SUN50I_FBD_CTL_FBD_EN;
-757b2767d5472c Jernej Skrabec 2024-09-21  242  	regmap_write(regs, SUN50I_FBD_CTL(base), val);
-757b2767d5472c Jernej Skrabec 2024-09-21  243  }
+> 
+> > > 
+> > > Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+> > > ---
+> > >   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 8 ++++++++
+> > >   1 file changed, 8 insertions(+)
+> > > 
+> > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> > > index a7850bf844db..f20e44e9fc05 100644
+> > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> > > @@ -1268,6 +1268,8 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
+> > >   {
+> > >   	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state,
+> > >   									  crtc);
+> > > +	struct drm_crtc_state *old_crtc_state = drm_atomic_get_old_crtc_state(state,
+> > > +									      crtc);
+> > >   	struct dpu_crtc *dpu_crtc = to_dpu_crtc(crtc);
+> > >   	struct dpu_crtc_state *cstate = to_dpu_crtc_state(crtc_state);
+> > > @@ -1279,6 +1281,8 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
+> > >   	int rc = 0;
+> > >   	bool needs_dirtyfb = dpu_crtc_needs_dirtyfb(crtc_state);
+> > > +	bool clone_mode_requested = drm_crtc_in_clone_mode(old_crtc_state);
+> > > +	bool clone_mode_enabled = drm_crtc_in_clone_mode(crtc_state);
+> > >   	/* there might be cases where encoder needs a modeset too */
+> > >   	drm_for_each_encoder_mask(drm_enc, crtc->dev, crtc_state->encoder_mask) {
+> > > @@ -1286,6 +1290,10 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
+> > >   			crtc_state->mode_changed = true;
+> > >   	}
+> > > +	if ((clone_mode_requested && !clone_mode_enabled) ||
+> > > +	    (!clone_mode_requested && clone_mode_enabled))
+> > > +		crtc_state->mode_changed = true;
+> > > +
+> > >   	if (drm_atomic_crtc_needs_modeset(crtc_state)) {
+> > >   		rc = dpu_crtc_assign_resources(crtc, crtc_state);
+> > >   		if (rc < 0)
+> > > 
+> > > -- 
+> > > 2.34.1
+> > > 
+> > 
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+With best wishes
+Dmitry
