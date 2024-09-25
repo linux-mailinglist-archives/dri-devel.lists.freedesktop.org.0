@@ -2,52 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE3299864EE
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 18:36:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5813598650E
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 18:43:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1684E10E713;
-	Wed, 25 Sep 2024 16:36:14 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="p1BvZ1VZ";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB16610E0FD;
+	Wed, 25 Sep 2024 16:43:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 694C510E713
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 16:36:13 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
- [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 375C77E2;
- Wed, 25 Sep 2024 18:34:44 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1727282084;
- bh=w8SJ75PMeCgEFuEGe+d801zRh1FiK0RxpW5UvU9+MMY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=p1BvZ1VZU8NqNvU4usiN0aUF0oWWNqsE/HUYKw+oINfkcwWDuPYJo/XVySWlz4lNN
- MmR+tDYjMazIuUVgltKcW5gCKH4zq7BVExqxHdlM5tIDhMRFgSW3ReEjP7iqb4EwbB
- dFn7qKR2uWG7q7solOzlcCDPjRfIqn0pMe+0Vv34=
-Date: Wed, 25 Sep 2024 19:36:09 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Steffen Dirkwinkel <lists@steffen.cc>
-Cc: dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Michal Simek <michal.simek@amd.com>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm: xlnx: zynqmp_dpsub: also call
- drm_helper_hpd_irq_event
-Message-ID: <20240925163609.GD27666@pendragon.ideasonboard.com>
-References: <20240923074803.10306-1-lists@steffen.cc>
- <20240924184335.GJ30551@pendragon.ideasonboard.com>
- <e4626c1d3b28613d1d219c735bcd8525be0f0d9e.camel@dirkwinkel.cc>
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A62210E0FD
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 16:43:45 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1stV71-0004pf-N8; Wed, 25 Sep 2024 18:43:35 +0200
+Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
+ by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1stV71-001UVL-6C; Wed, 25 Sep 2024 18:43:35 +0200
+Received: from pza by lupine with local (Exim 4.96)
+ (envelope-from <p.zabel@pengutronix.de>) id 1stV71-000PFR-0K;
+ Wed, 25 Sep 2024 18:43:35 +0200
+Message-ID: <75edf945c98a68bf85b13efd1c13549288f56488.camel@pengutronix.de>
+Subject: Re: [PATCH v2 1/2] gpu: ipu-v3: vdic: Simplify ipu_vdi_setup()
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Marek Vasut <marex@denx.de>, linux-media@vger.kernel.org
+Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, Fabio
+ Estevam <festevam@gmail.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>, Mauro Carvalho
+ Chehab <mchehab@kernel.org>, Pengutronix Kernel Team
+ <kernel@pengutronix.de>, Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo
+ <shawnguo@kernel.org>,  Steve Longerbeam <slongerbeam@gmail.com>,
+ dri-devel@lists.freedesktop.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org, 
+ linux-staging@lists.linux.dev
+Date: Wed, 25 Sep 2024 18:43:34 +0200
+In-Reply-To: <546c9dac-39ab-4abe-a495-ab54d6ee925d@denx.de>
+References: <20240724002044.112544-1-marex@denx.de>
+ <95efd6b6491069d04b4bfae6616d9a43ba8467a6.camel@pengutronix.de>
+ <546c9dac-39ab-4abe-a495-ab54d6ee925d@denx.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <e4626c1d3b28613d1d219c735bcd8525be0f0d9e.camel@dirkwinkel.cc>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,61 +68,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Steffen,
+On Di, 2024-09-24 at 12:47 +0200, Marek Vasut wrote:
+> On 9/4/24 11:05 AM, Philipp Zabel wrote:
+> > On Mi, 2024-07-24 at 02:19 +0200, Marek Vasut wrote:
+> > > The 'code' parameter only ever selects between YUV 4:2:0 and 4:2:2
+> > > subsampling, turn it into boolean to select exactly that and update
+> > > related code accordingly.
+> > >=20
+> > > Signed-off-by: Marek Vasut <marex@denx.de>
+> >=20
+> > I'd prefer this to be an enum ipu_chroma_subsampling or similar,
+> > instead of a boolean. Otherwise,
+>=20
+> I'm afraid this introduces unnecessary back and forth conversions=20
+> between the boolean and either of the two enum ipu_chroma_subsampling=20
+> values in the code.
 
-On Wed, Sep 25, 2024 at 09:54:18AM +0200, Steffen Dirkwinkel wrote:
-> On Tue, 2024-09-24 at 21:43 +0300, Laurent Pinchart wrote:
-> > On Mon, Sep 23, 2024 at 09:48:03AM +0200, lists@steffen.cc wrote:
-> > > From: Steffen Dirkwinkel <s.dirkwinkel@beckhoff.com>
-> > > 
-> > > With hpd going through the bridge as of commit eb2d64bfcc17
-> > > ("drm: xlnx: zynqmp_dpsub: Report HPD through the bridge")
-> > > we don't get hotplug events in userspace on zynqmp hardware.
-> > > Also sending hotplug events with drm_helper_hpd_irq_event works.
-> > 
-> > Why does the driver need to call both drm_helper_hpd_irq_event() and
-> > drm_bridge_hpd_notify() ? The latter should end up calling
-> > drm_kms_helper_connector_hotplug_event(), which is the same function
-> > that drm_helper_hpd_irq_event() calls.
-> 
-> I don't know why we need drm_helper_hpd_irq_event.
-> I'll try to trace what happens on hotplug.
+Fair enough. I dislike the opaque usage in vdic_start() a bit, but with
+the in422 variable in ipu_mem2mem_vdic_setup_hardware() it is clear
+enough.
 
-Thank you. Let's try to find the best solution based on your findings.
-
-> > > Fixes: eb2d64bfcc17 ("drm: xlnx: zynqmp_dpsub: Report HPD through
-> > > the bridge")
-> > > Signed-off-by: Steffen Dirkwinkel <s.dirkwinkel@beckhoff.com>
-> > > ---
-> > >  drivers/gpu/drm/xlnx/zynqmp_dp.c | 4 ++++
-> > >  1 file changed, 4 insertions(+)
-> > > 
-> > > diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> > > b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> > > index 1846c4971fd8..cb823540a412 100644
-> > > --- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> > > +++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> > > @@ -17,6 +17,7 @@
-> > >  #include <drm/drm_fourcc.h>
-> > >  #include <drm/drm_modes.h>
-> > >  #include <drm/drm_of.h>
-> > > +#include <drm/drm_probe_helper.h>
-> > >  
-> > >  #include <linux/clk.h>
-> > >  #include <linux/delay.h>
-> > > @@ -1614,6 +1615,9 @@ static void zynqmp_dp_hpd_work_func(struct
-> > > work_struct *work)
-> > >  					    hpd_work.work);
-> > >  	enum drm_connector_status status;
-> > >  
-> > > +	if (dp->bridge.dev)
-> > > +		drm_helper_hpd_irq_event(dp->bridge.dev);
-> > > +
-> > >  	status = zynqmp_dp_bridge_detect(&dp->bridge);
-> > >  	drm_bridge_hpd_notify(&dp->bridge, status);
-> > >  }
-
--- 
-Regards,
-
-Laurent Pinchart
+regards
+Philipp
