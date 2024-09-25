@@ -2,48 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5872B985915
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 13:49:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01C6498591A
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 13:50:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2CA110E95E;
-	Wed, 25 Sep 2024 11:49:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3AAEF10E95C;
+	Wed, 25 Sep 2024 11:50:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nlXSLtDU";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Cc3DUeMl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A0B410E95E;
- Wed, 25 Sep 2024 11:49:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9350F10E95C;
+ Wed, 25 Sep 2024 11:49:59 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id D29A45C01D3;
- Wed, 25 Sep 2024 11:49:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BA58C4CECD;
- Wed, 25 Sep 2024 11:49:50 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 0B1995C05D5;
+ Wed, 25 Sep 2024 11:49:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FC39C4CECD;
+ Wed, 25 Sep 2024 11:49:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1727264992;
- bh=QJj7Jesy+yRq/5TmzXUbkRp9kCZ82p1tV9oK8/QdhnM=;
+ s=k20201202; t=1727264998;
+ bh=lPibLbkagehAdvgsooMIpVd2FK62BwRWgTYpAj12wDQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=nlXSLtDURBhR2P+sk1LqvGRKi4Smu3PQY+KQ0FXVErVWu02DGv3jbhz40aUvdBlHw
- wOVRKYvg54YjctcyBRQVkxbv2lqe3dwxDBPc/bwcjLUEuNu5r28ainiuiS4AjINN1V
- UgvrX8lEi956uoNGA+17ysXM5DcWU8m8sLCXjwV61twuveWX33gJN7pNrvC8nJ1pDa
- zLQ1bmDkXycixSxTdC4d/KLdrtkZtybDTY3zSnSs28rLaUaaWJgqJGCPb9Voac9Bbk
- XGX95ZCe8bqjr3TX9t1Xa8o4VtxcPMjF+ea8DoAFJCKe8fMWqufj1xQoWsjieOXSQ0
- XCp/wJ4HAySPA==
+ b=Cc3DUeMloL0DMeEbmKjxgsLqbhdzQoJNsyvvxXqMhcPqHkIh/OYvpLm9d4JhpcvSk
+ ul5Zg4wLQArC3pgT/GSKsNAUPv5ogzMk6/6+0ZOtSouF1aYiPhlQjsN1OXpPZSKcEh
+ 5a1eBj1B3EntGAgW3yOpdYElUUuPZRU9u064tUGtZXrJEraQxdlSbXmzOHZorbFAE4
+ u9K/UquuRMHTJQJ0tBiWUNL2/ijripCSlsYxL3rkuZ4ElQwDgGbKpgazaHttDZ2akq
+ an6VhrW9p2Rzrd/6W2UVetWSLoINHh7tD76jTWe/D+r0l5EJP7wBlINZLYplBBLpGX
+ WvZ91Bf5/Yw8g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
 Cc: Alex Deucher <alexander.deucher@amd.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  Sasha Levin <sashal@kernel.org>, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch, Hawking.Zhang@amd.com, Likun.Gao@amd.com,
- kenneth.feng@amd.com, sunil.khatri@amd.com, Jack.Xiao@amd.com,
- marek.olsak@amd.com, Frank.Min@amd.com, amd-gfx@lists.freedesktop.org,
+ daniel@ffwll.ch, sunil.khatri@amd.com, Prike.Liang@amd.com,
+ liupeng01@kylinos.cn, Tim.Huang@amd.com, kevinyang.wang@amd.com,
+ pierre-eric.pelloux-prayer@amd.com, Hawking.Zhang@amd.com,
+ lijo.lazar@amd.com, victorchengchi.lu@amd.com, tao.zhou1@amd.com,
+ Jane.Jian@amd.com, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.11 190/244] drm/amdgpu/gfx12: properly handle error
+Subject: [PATCH AUTOSEL 6.11 191/244] drm/amdgpu/gfx9: properly handle error
  ints on all pipes
-Date: Wed, 25 Sep 2024 07:26:51 -0400
-Message-ID: <20240925113641.1297102-190-sashal@kernel.org>
+Date: Wed, 25 Sep 2024 07:26:52 -0400
+Message-ID: <20240925113641.1297102-191-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240925113641.1297102-1-sashal@kernel.org>
 References: <20240925113641.1297102-1-sashal@kernel.org>
@@ -70,43 +72,37 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Alex Deucher <alexander.deucher@amd.com>
 
-[ Upstream commit 39879321769cc2d9a690725959ef76af92a38ac1 ]
+[ Upstream commit 48695573d2feaf42812c1ad54e01caff0d1c2d71 ]
 
 Need to handle the interrupt enables for all pipes.
-
-v2: fix indexing (Jessie)
 
 Acked-by: Christian König <christian.koenig@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/gfx_v12_0.c | 130 ++++++++++++++++++++-----
- 1 file changed, 106 insertions(+), 24 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c   | 44 +++++++++++++++++++++-
+ drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c | 50 +++++++++++++++++++++++--
+ 2 files changed, 89 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v12_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v12_0.c
-index e45d23e828788..1a84163182689 100644
---- a/drivers/gpu/drm/amd/amdgpu/gfx_v12_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gfx_v12_0.c
-@@ -1686,26 +1686,68 @@ static void gfx_v12_0_constants_init(struct amdgpu_device *adev)
- 	gfx_v12_0_init_compute_vmid(adev);
+diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
+index fc4153a87f947..7d517c94c3efb 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
+@@ -2638,7 +2638,7 @@ static void gfx_v9_0_enable_gui_idle_interrupt(struct amdgpu_device *adev,
+ 	tmp = REG_SET_FIELD(tmp, CP_INT_CNTL_RING0, CNTX_BUSY_INT_ENABLE, enable ? 1 : 0);
+ 	tmp = REG_SET_FIELD(tmp, CP_INT_CNTL_RING0, CNTX_EMPTY_INT_ENABLE, enable ? 1 : 0);
+ 	tmp = REG_SET_FIELD(tmp, CP_INT_CNTL_RING0, CMP_BUSY_INT_ENABLE, enable ? 1 : 0);
+-	if(adev->gfx.num_gfx_rings)
++	if (adev->gfx.num_gfx_rings)
+ 		tmp = REG_SET_FIELD(tmp, CP_INT_CNTL_RING0, GFX_IDLE_INT_ENABLE, enable ? 1 : 0);
+ 
+ 	WREG32_SOC15(GC, 0, mmCP_INT_CNTL_RING0, tmp);
+@@ -5933,17 +5933,59 @@ static void gfx_v9_0_set_compute_eop_interrupt_state(struct amdgpu_device *adev,
+ 	}
  }
  
-+static u32 gfx_v12_0_get_cpg_int_cntl(struct amdgpu_device *adev,
-+				      int me, int pipe)
-+{
-+	if (me != 0)
-+		return 0;
-+
-+	switch (pipe) {
-+	case 0:
-+		return SOC15_REG_OFFSET(GC, 0, regCP_INT_CNTL_RING0);
-+	default:
-+		return 0;
-+	}
-+}
-+
-+static u32 gfx_v12_0_get_cpc_int_cntl(struct amdgpu_device *adev,
-+				      int me, int pipe)
++static u32 gfx_v9_0_get_cpc_int_cntl(struct amdgpu_device *adev,
++				     int me, int pipe)
 +{
 +	/*
 +	 * amdgpu controls only the first MEC. That's why this function only
@@ -118,65 +114,22 @@ index e45d23e828788..1a84163182689 100644
 +
 +	switch (pipe) {
 +	case 0:
-+		return SOC15_REG_OFFSET(GC, 0, regCP_ME1_PIPE0_INT_CNTL);
++		return SOC15_REG_OFFSET(GC, 0, mmCP_ME1_PIPE0_INT_CNTL);
 +	case 1:
-+		return SOC15_REG_OFFSET(GC, 0, regCP_ME1_PIPE1_INT_CNTL);
++		return SOC15_REG_OFFSET(GC, 0, mmCP_ME1_PIPE1_INT_CNTL);
++	case 2:
++		return SOC15_REG_OFFSET(GC, 0, mmCP_ME1_PIPE2_INT_CNTL);
++	case 3:
++		return SOC15_REG_OFFSET(GC, 0, mmCP_ME1_PIPE3_INT_CNTL);
 +	default:
 +		return 0;
 +	}
 +}
 +
- static void gfx_v12_0_enable_gui_idle_interrupt(struct amdgpu_device *adev,
--						bool enable)
-+					       bool enable)
- {
--	u32 tmp;
-+	u32 tmp, cp_int_cntl_reg;
-+	int i, j;
- 
- 	if (amdgpu_sriov_vf(adev))
- 		return;
- 
--	tmp = RREG32_SOC15(GC, 0, regCP_INT_CNTL_RING0);
--
--	tmp = REG_SET_FIELD(tmp, CP_INT_CNTL_RING0, CNTX_BUSY_INT_ENABLE,
--			    enable ? 1 : 0);
--	tmp = REG_SET_FIELD(tmp, CP_INT_CNTL_RING0, CNTX_EMPTY_INT_ENABLE,
--			    enable ? 1 : 0);
--	tmp = REG_SET_FIELD(tmp, CP_INT_CNTL_RING0, CMP_BUSY_INT_ENABLE,
--			    enable ? 1 : 0);
--	tmp = REG_SET_FIELD(tmp, CP_INT_CNTL_RING0, GFX_IDLE_INT_ENABLE,
--			    enable ? 1 : 0);
--
--	WREG32_SOC15(GC, 0, regCP_INT_CNTL_RING0, tmp);
-+	for (i = 0; i < adev->gfx.me.num_me; i++) {
-+		for (j = 0; j < adev->gfx.me.num_pipe_per_me; j++) {
-+			cp_int_cntl_reg = gfx_v12_0_get_cpg_int_cntl(adev, i, j);
-+
-+			if (cp_int_cntl_reg) {
-+				tmp = RREG32_SOC15_IP(GC, cp_int_cntl_reg);
-+				tmp = REG_SET_FIELD(tmp, CP_INT_CNTL_RING0, CNTX_BUSY_INT_ENABLE,
-+						    enable ? 1 : 0);
-+				tmp = REG_SET_FIELD(tmp, CP_INT_CNTL_RING0, CNTX_EMPTY_INT_ENABLE,
-+						    enable ? 1 : 0);
-+				tmp = REG_SET_FIELD(tmp, CP_INT_CNTL_RING0, CMP_BUSY_INT_ENABLE,
-+						    enable ? 1 : 0);
-+				tmp = REG_SET_FIELD(tmp, CP_INT_CNTL_RING0, GFX_IDLE_INT_ENABLE,
-+						    enable ? 1 : 0);
-+				WREG32_SOC15_IP(GC, cp_int_cntl_reg, tmp);
-+			}
-+		}
-+	}
- }
- 
- static int gfx_v12_0_init_csb(struct amdgpu_device *adev)
-@@ -4747,15 +4789,42 @@ static int gfx_v12_0_eop_irq(struct amdgpu_device *adev,
- 
- static int gfx_v12_0_set_priv_reg_fault_state(struct amdgpu_device *adev,
- 					      struct amdgpu_irq_src *source,
--					      unsigned type,
-+					      unsigned int type,
- 					      enum amdgpu_interrupt_state state)
+ static int gfx_v9_0_set_priv_reg_fault_state(struct amdgpu_device *adev,
+ 					     struct amdgpu_irq_src *source,
+ 					     unsigned type,
+ 					     enum amdgpu_interrupt_state state)
  {
 +	u32 cp_int_cntl_reg, cp_int_cntl;
 +	int i, j;
@@ -184,26 +137,13 @@ index e45d23e828788..1a84163182689 100644
  	switch (state) {
  	case AMDGPU_IRQ_STATE_DISABLE:
  	case AMDGPU_IRQ_STATE_ENABLE:
--		WREG32_FIELD15_PREREG(GC, 0, CP_INT_CNTL_RING0,
--				      PRIV_REG_INT_ENABLE,
--				      state == AMDGPU_IRQ_STATE_ENABLE ? 1 : 0);
-+		for (i = 0; i < adev->gfx.me.num_me; i++) {
-+			for (j = 0; j < adev->gfx.me.num_pipe_per_me; j++) {
-+				cp_int_cntl_reg = gfx_v12_0_get_cpg_int_cntl(adev, i, j);
-+
-+				if (cp_int_cntl_reg) {
-+					cp_int_cntl = RREG32_SOC15_IP(GC, cp_int_cntl_reg);
-+					cp_int_cntl = REG_SET_FIELD(cp_int_cntl, CP_INT_CNTL_RING0,
-+								    PRIV_REG_INT_ENABLE,
-+								    state == AMDGPU_IRQ_STATE_ENABLE ? 1 : 0);
-+					WREG32_SOC15_IP(GC, cp_int_cntl_reg, cp_int_cntl);
-+				}
-+			}
-+		}
+ 		WREG32_FIELD15(GC, 0, CP_INT_CNTL_RING0,
+ 			       PRIV_REG_INT_ENABLE,
+ 			       state == AMDGPU_IRQ_STATE_ENABLE ? 1 : 0);
 +		for (i = 0; i < adev->gfx.mec.num_mec; i++) {
 +			for (j = 0; j < adev->gfx.mec.num_pipe_per_mec; j++) {
 +				/* MECs start at 1 */
-+				cp_int_cntl_reg = gfx_v12_0_get_cpc_int_cntl(adev, i + 1, j);
++				cp_int_cntl_reg = gfx_v9_0_get_cpc_int_cntl(adev, i + 1, j);
 +
 +				if (cp_int_cntl_reg) {
 +					cp_int_cntl = RREG32_SOC15_IP(GC, cp_int_cntl_reg);
@@ -217,49 +157,77 @@ index e45d23e828788..1a84163182689 100644
  		break;
  	default:
  		break;
-@@ -4766,15 +4835,28 @@ static int gfx_v12_0_set_priv_reg_fault_state(struct amdgpu_device *adev,
+diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c b/drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c
+index 20ea6cb01edfd..d95f9a84f97b4 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c
++++ b/drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c
+@@ -2886,21 +2886,63 @@ static void gfx_v9_4_3_xcc_set_compute_eop_interrupt_state(
+ 	}
+ }
  
- static int gfx_v12_0_set_priv_inst_fault_state(struct amdgpu_device *adev,
- 					       struct amdgpu_irq_src *source,
--					       unsigned type,
-+					       unsigned int type,
- 					       enum amdgpu_interrupt_state state)
- {
-+	u32 cp_int_cntl_reg, cp_int_cntl;
-+	int i, j;
++static u32 gfx_v9_4_3_get_cpc_int_cntl(struct amdgpu_device *adev,
++				     int xcc_id, int me, int pipe)
++{
++	/*
++	 * amdgpu controls only the first MEC. That's why this function only
++	 * handles the setting of interrupts for this specific MEC. All other
++	 * pipes' interrupts are set by amdkfd.
++	 */
++	if (me != 1)
++		return 0;
 +
++	switch (pipe) {
++	case 0:
++		return SOC15_REG_OFFSET(GC, GET_INST(GC, xcc_id), regCP_ME1_PIPE0_INT_CNTL);
++	case 1:
++		return SOC15_REG_OFFSET(GC, GET_INST(GC, xcc_id), regCP_ME1_PIPE1_INT_CNTL);
++	case 2:
++		return SOC15_REG_OFFSET(GC, GET_INST(GC, xcc_id), regCP_ME1_PIPE2_INT_CNTL);
++	case 3:
++		return SOC15_REG_OFFSET(GC, GET_INST(GC, xcc_id), regCP_ME1_PIPE3_INT_CNTL);
++	default:
++		return 0;
++	}
++}
++
+ static int gfx_v9_4_3_set_priv_reg_fault_state(struct amdgpu_device *adev,
+ 					     struct amdgpu_irq_src *source,
+ 					     unsigned type,
+ 					     enum amdgpu_interrupt_state state)
+ {
+-	int i, num_xcc;
++	u32 mec_int_cntl_reg, mec_int_cntl;
++	int i, j, k, num_xcc;
+ 
+ 	num_xcc = NUM_XCC(adev->gfx.xcc_mask);
  	switch (state) {
  	case AMDGPU_IRQ_STATE_DISABLE:
  	case AMDGPU_IRQ_STATE_ENABLE:
--		WREG32_FIELD15_PREREG(GC, 0, CP_INT_CNTL_RING0,
--			       PRIV_INSTR_INT_ENABLE,
--			       state == AMDGPU_IRQ_STATE_ENABLE ? 1 : 0);
-+		for (i = 0; i < adev->gfx.me.num_me; i++) {
-+			for (j = 0; j < adev->gfx.me.num_pipe_per_me; j++) {
-+				cp_int_cntl_reg = gfx_v12_0_get_cpg_int_cntl(adev, i, j);
+-		for (i = 0; i < num_xcc; i++)
++		for (i = 0; i < num_xcc; i++) {
+ 			WREG32_FIELD15_PREREG(GC, GET_INST(GC, i), CP_INT_CNTL_RING0,
+-				PRIV_REG_INT_ENABLE,
+-				state == AMDGPU_IRQ_STATE_ENABLE ? 1 : 0);
++					      PRIV_REG_INT_ENABLE,
++					      state == AMDGPU_IRQ_STATE_ENABLE ? 1 : 0);
++			for (j = 0; j < adev->gfx.mec.num_mec; j++) {
++				for (k = 0; k < adev->gfx.mec.num_pipe_per_mec; k++) {
++					/* MECs start at 1 */
++					mec_int_cntl_reg = gfx_v9_4_3_get_cpc_int_cntl(adev, i, j + 1, k);
 +
-+				if (cp_int_cntl_reg) {
-+					cp_int_cntl = RREG32_SOC15_IP(GC, cp_int_cntl_reg);
-+					cp_int_cntl = REG_SET_FIELD(cp_int_cntl, CP_INT_CNTL_RING0,
-+								    PRIV_INSTR_INT_ENABLE,
-+								    state == AMDGPU_IRQ_STATE_ENABLE ? 1 : 0);
-+					WREG32_SOC15_IP(GC, cp_int_cntl_reg, cp_int_cntl);
++					if (mec_int_cntl_reg) {
++						mec_int_cntl = RREG32_XCC(mec_int_cntl_reg, i);
++						mec_int_cntl = REG_SET_FIELD(mec_int_cntl, CP_ME1_PIPE0_INT_CNTL,
++									     PRIV_REG_INT_ENABLE,
++									     state == AMDGPU_IRQ_STATE_ENABLE ?
++									     1 : 0);
++						WREG32_XCC(mec_int_cntl_reg, mec_int_cntl, i);
++					}
 +				}
 +			}
 +		}
  		break;
  	default:
- 		break;
-@@ -4798,8 +4880,8 @@ static void gfx_v12_0_handle_priv_fault(struct amdgpu_device *adev,
- 	case 0:
- 		for (i = 0; i < adev->gfx.num_gfx_rings; i++) {
- 			ring = &adev->gfx.gfx_ring[i];
--			/* we only enabled 1 gfx queue per pipe for now */
--			if (ring->me == me_id && ring->pipe == pipe_id)
-+			if (ring->me == me_id && ring->pipe == pipe_id &&
-+			    ring->queue == queue_id)
- 				drm_sched_fault(&ring->sched);
- 		}
  		break;
 -- 
 2.43.0
