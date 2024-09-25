@@ -2,99 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CA469855B8
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 10:43:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E63249855CF
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 10:46:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6448A10E7C8;
-	Wed, 25 Sep 2024 08:43:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 406E910E2DB;
+	Wed, 25 Sep 2024 08:46:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="Mo1xlRuh";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="rgBuQSq9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3070C10E7C8
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 08:43:11 +0000 (UTC)
-X-UUID: 2e3b99f87b1a11ef8b96093e013ec31c-20240925
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:CC:To:Subject:MIME-Version:Date:Message-ID;
- bh=JrbVtDLJwECuyvPhK0BEV+KwQsj0q8fI1QSWfwxU1nE=; 
- b=Mo1xlRuhAzQobwoV5qygzF6o/nRQm+uZy6LeTFM2p3IOe2WmHz6dsVeJDNQbeqrZu2gPYXicr/MSNhpy55dcIABLvsLL23jFUDrnZdl2OYLehbx+lg+ZudLnvhKEw0lxcgDzu71I3eNwWoyKf2q/faCnTKGXIBth+2ei7hBHJKw=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.41, REQID:664a495c-7254-4e32-b0a8-7a062548c705, IP:0,
- U
- RL:0,TC:0,Content:8,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:8
-X-CID-META: VersionHash:6dc6a47, CLOUDID:7490899e-8e9a-4ac1-b510-390a86b53c0a,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:4|-5,EDM:-3,IP:ni
- l,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
- :1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 2e3b99f87b1a11ef8b96093e013ec31c-20240925
-Received: from mtkmbs09n2.mediatek.inc [(172.21.101.94)] by
- mailgw02.mediatek.com (envelope-from <macpaul.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 2138599595; Wed, 25 Sep 2024 16:43:04 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Wed, 25 Sep 2024 16:43:02 +0800
-Received: from [172.21.84.99] (172.21.84.99) by mtkmbs11n1.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.1118.26 via Frontend
- Transport; Wed, 25 Sep 2024 16:43:01 +0800
-Message-ID: <2821ef09-1b32-082d-69d1-e09a3a302447@mediatek.com>
-Date: Wed, 25 Sep 2024 16:42:59 +0800
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com
+ [209.85.208.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AA2E10E2DB
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 08:46:45 +0000 (UTC)
+Received: by mail-lj1-f178.google.com with SMTP id
+ 38308e7fff4ca-2f75aaaade6so68653331fa.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 01:46:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1727254003; x=1727858803; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=8yRGp5lskF2mbtcxmoFpyzKd/BqPva/CreLYlU+Osqs=;
+ b=rgBuQSq9NyLml8TQOI7wTD3SGhmdZaU7Z5v/DUPcdF2yNk/1LGI1fAftsvioQe+DYV
+ dSfFnWuoN6/+nCx1yrpatdgKqoURkw2YNYjS+op7gqFJ3SFlPcPimAv0jIIGqpvyqDaK
+ hfUeyPjn1gxhGFEP1Xwe2BpjfcgoEKT0yCXYK9Avha2zT9yveEJVpslontO1wEe/Rygw
+ oSRZ7ZxKkuyX5b4J5zD4/NSt4XjKpJWKNYX/ORvOGN9CPAFiu1X3twouOhrW1F1eypmV
+ BA7XfeYvDcOUKzY+uC5NiT84siNBUJ/ka5mk/ky5mbweTxlzRySaETGB42tN2e5g5jXq
+ BRdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1727254003; x=1727858803;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8yRGp5lskF2mbtcxmoFpyzKd/BqPva/CreLYlU+Osqs=;
+ b=rzT/RxZrIjPE66BUGXg9aNDOLMukwXXR7Ip4mVw9hAK+wClLsEcTtfFpBUJVNxhNO1
+ hG4COJoUnVLA73ZT+WmeZP8TD066lRUieOp8tDBYQ2KfXBy5mImU4ctX7oaX5wnw3XDH
+ 4HQSPin3FfHzNDPkXDR7eFL6OuP/+kkzBSP8wFNnX1dc/uMzIRR21GbDdM9Agno9W9f3
+ 4mhF/AMR11/BqNNRshNZ1CzHcg0nWwrz7myhCuLs2NiqSonhQg771pBHPOoM10On7oX+
+ DJ9VZDIaVAyxHiIgRV676/YunZerHhlPS0kY+EqwHFDkNH2sXs81KFevomvIKVIfvibw
+ neUQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWGRgn2f9TL3WFTJbsdF30Vj7gcQA2OZLeZM2C3iWf4BSatDHdAThBOdVYcpikzyS/RY0eTBr69ZUo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyTRsmStSpuoOYCFBqaeGABnD8PmXqWatBjFH8fXCWArCeq1MNw
+ Zz+TjD80zqtISacEOsRjCJX7/FH8ANM3a4wk2xn3Jgum9LYOleHPP5jt9630oGY=
+X-Google-Smtp-Source: AGHT+IHGGuuc5DgIEE8huO5Nf+QqWz4aKGNfwoBxKPNxJBNkF8LnAA0IjcwCRgwvkpbCrrQ5J09w3A==
+X-Received: by 2002:a05:651c:2128:b0:2f8:d537:2846 with SMTP id
+ 38308e7fff4ca-2f915fdf844mr12642871fa.13.1727254003253; 
+ Wed, 25 Sep 2024 01:46:43 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-2f8d282fd34sm4517451fa.28.2024.09.25.01.46.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 25 Sep 2024 01:46:41 -0700 (PDT)
+Date: Wed, 25 Sep 2024 11:46:39 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: kraxel@redhat.com, daniel@ffwll.ch, airlied@gmail.com, 
+ mripard@kernel.org, maarten.lankhorst@linux.intel.com, 
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev
+Subject: Re: [PATCH v2 02/10] drm/bochs: Use helpers for struct drm_edid
+Message-ID: <hvf7ws4x3uemp6o5ucwfvmrv6wbtgl2xfb7vvut4qrop4j7b6y@ncqluxhfsd7f>
+References: <20240902105546.792625-1-tzimmermann@suse.de>
+ <20240902105546.792625-3-tzimmermann@suse.de>
+ <2fuwrqk4aeuflsxjr73zj6nyvvmpmiupam4oemw7oxfia22ila@5hehupmjzkhh>
+ <c5c1b947-bf7a-46c6-be8e-ddd52d90b707@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 3/6] dt-bindings: display: mediatek: Fix clocks count
- constraint for new SoCs
-Content-Language: en-US
-To: Conor Dooley <conor@kernel.org>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, <moudy.ho@mediatek.com>,
- <macross.chen@mediatek.com>
-CC: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, "Krzysztof
- Kozlowski" <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Yong Wu
- <yong.wu@mediatek.com>, Joerg Roedel <joro@8bytes.org>, Will Deacon
- <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, Matthias Brugger
- <matthias.bgg@gmail.com>, <dri-devel@lists.freedesktop.org>,
- <linux-mediatek@lists.infradead.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <iommu@lists.linux.dev>,
- <linux-arm-kernel@lists.infradead.org>, Alexandre Mergnat
- <amergnat@baylibre.com>, Bear Wang <bear.wang@mediatek.com>, Pablo Sun
- <pablo.sun@mediatek.com>, Macpaul Lin <macpaul@gmail.com>, Sen Chu
- <sen.chu@mediatek.com>, Chris-qj chen <chris-qj.chen@mediatek.com>, "MediaTek
- Chromebook Upstream" <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- Chen-Yu Tsai <wenst@chromium.org>
-References: <20240924103156.13119-1-macpaul.lin@mediatek.com>
- <20240924103156.13119-3-macpaul.lin@mediatek.com>
- <ffc1900b-3921-48ca-a2b2-1b798c57e572@collabora.com>
- <20240924-commute-collision-13ad39717d31@spud>
-From: Macpaul Lin <macpaul.lin@mediatek.com>
-In-Reply-To: <20240924-commute-collision-13ad39717d31@spud>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--11.313000-8.000000
-X-TMASE-MatchedRID: QfHZjzml1E8OwH4pD14DsPHkpkyUphL9Wot5Z16+u76+UkTh6A/DwT8f
- ilvi6fr90mFsFMx0VZMOYgThO+DmXx2P280ZiGmRdARARTk4h59bAoaK+wS4jRSX1u8BLtZAFRE
- 6l+a4SRTiTN0gJqFURMzVnE1oQDqoavi5Lq9+Ha1s7yIvC2pwGtF9F+XaXgXeZ5yuplze9ptTyk
- OINBDQU+cQv6iXuAzrwVMUpfyfKUIAwWnlblYdAsxmTzofEWOOazzS+36ix9ybKItl61J/ycnjL
- TA/UDoAA6QGdvwfwZZWRVlrjsKO8N0H8LFZNFG7bkV4e2xSge75AqQykow+yePbmdtfeypRXtRV
- FLwJOwOr2TwTTCELzrAUyUg9ogFt
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--11.313000-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP: 972967CB0576905A235A1CA79982300AA079E3A940A8E8B2F8C6AB1ADA60F2932000:8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c5c1b947-bf7a-46c6-be8e-ddd52d90b707@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,50 +87,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 9/25/24 00:00, Conor Dooley wrote:
-> On Tue, Sep 24, 2024 at 01:42:01PM +0200, AngeloGioacchino Del Regno wrote:
->> Il 24/09/24 12:31, Macpaul Lin ha scritto:
->>> The display node in mt8195.dtsi was triggering a CHECK_DTBS error due
->>> to an excessively long 'clocks' property:
->>>     display@14f06000: clocks: [[31, 14], [31, 43], [31, 44]] is too long
->>>
->>> To resolve this issue, add "maxItems: 3" to the 'clocks' property in
->>> the DT schema.
->>>
->>> Fixes: 4ed545e7d100 ("dt-bindings: display: mediatek: disp: split each block to individual yaml")
->>> Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
->>> ---
->>>    .../devicetree/bindings/display/mediatek/mediatek,split.yaml     | 1 +
->>>    1 file changed, 1 insertion(+)
->>>
->>> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,split.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,split.yaml
->>> index e4affc854f3d..42d2d483cc29 100644
->>> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,split.yaml
->>> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,split.yaml
->>> @@ -57,6 +57,7 @@ properties:
->>>      clocks:
->>>        items:
->>>          - description: SPLIT Clock
->>
->> That's at least confusing (granted that it works) - either add a description for
->> each clock and then set `minItems: 1` (preferred), or remove this "SPLIT Clock"
->> description and allow a maximum of 3 clocks.
->>
->> Removing the description can be done - IMO - because "SPLIT Clock" is, well,
->> saying that the SPLIT block gets a SPLIT clock ... stating the obvious, anyway.
+On Wed, Sep 25, 2024 at 10:15:49AM GMT, Thomas Zimmermann wrote:
+> Hi
 > 
-> Right, but what are the other two new clocks? Are they as obvious?
-> There's no clock-names here to give any more information as to what the
-> other clocks are supposed to be.
+> Am 23.09.24 um 06:35 schrieb Dmitry Baryshkov:
+> > On Mon, Sep 02, 2024 at 12:53:40PM GMT, Thomas Zimmermann wrote:
+> > > Implement a read function for struct drm_edid and read the EDID data
+> > > with drm_edit_read_custom(). Update the connector data accordingly.
+> > > 
+> > > The EDID data comes from the emulator itself and the connector stores
+> > > a copy in its EDID property. The drm_edid field in struct bochs_device
+> > > is therefore not required. Remove it.
+> > > 
+> > > If qemu provides no EDID data, install default display modes as before.
+> > > 
+> > > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> > > Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+> > > ---
+> > >   drivers/gpu/drm/tiny/bochs.c | 48 +++++++++++++++++-------------------
+> > >   1 file changed, 22 insertions(+), 26 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/tiny/bochs.c b/drivers/gpu/drm/tiny/bochs.c
+> > > index 47a45a14306c..197fc00b373f 100644
+> > > --- a/drivers/gpu/drm/tiny/bochs.c
+> > > +++ b/drivers/gpu/drm/tiny/bochs.c
+> > > @@ -85,7 +85,6 @@ struct bochs_device {
+> > >   	u16 yres_virtual;
+> > >   	u32 stride;
+> > >   	u32 bpp;
+> > > -	const struct drm_edid *drm_edid;
+> > >   	/* drm */
+> > >   	struct drm_device *dev;
+> > > @@ -172,12 +171,14 @@ static void bochs_hw_set_little_endian(struct bochs_device *bochs)
+> > >   #define bochs_hw_set_native_endian(_b) bochs_hw_set_little_endian(_b)
+> > >   #endif
+> > > -static int bochs_get_edid_block(void *data, u8 *buf,
+> > > -				unsigned int block, size_t len)
+> > > +static int bochs_get_edid_block(void *data, u8 *buf, unsigned int block, size_t len)
+> > >   {
+> > >   	struct bochs_device *bochs = data;
+> > >   	size_t i, start = block * EDID_LENGTH;
+> > > +	if (!bochs->mmio)
+> > > +		return -1;
+> > > +
+> > >   	if (start + len > 0x400 /* vga register offset */)
+> > >   		return -1;
+> > > @@ -187,25 +188,20 @@ static int bochs_get_edid_block(void *data, u8 *buf,
+> > >   	return 0;
+> > >   }
+> > > -static int bochs_hw_load_edid(struct bochs_device *bochs)
+> > > +static const struct drm_edid *bochs_hw_read_edid(struct drm_connector *connector)
+> > >   {
+> > > +	struct drm_device *dev = connector->dev;
+> > > +	struct bochs_device *bochs = dev->dev_private;
+> > >   	u8 header[8];
+> > > -	if (!bochs->mmio)
+> > > -		return -1;
+> > > -
+> > >   	/* check header to detect whenever edid support is enabled in qemu */
+> > >   	bochs_get_edid_block(bochs, header, 0, ARRAY_SIZE(header));
+> > >   	if (drm_edid_header_is_valid(header) != 8)
+> > I understand that you probably don't want to change the behaviour of the
+> > driver, but maybe it's better to check drm_edid_read_custom return
+> > value? Bochs, amdgpu and radeon are the only drivers that call
+> > drm_edid_header_is_valid().
 > 
-> Kinda unrelated, but I think that "SPLIT Clock" probably isn't what the
-> name of the clock in the IP block is anyway, sounds more like the name
-> for it on the provider end..
+> The nearby comment indicates that EDID support might not be present in qemu.
+> But drm_edid_read_custom() warns in this case, even though it's a legal
+> state. Hence the test.
 
-Thanks for the suggestions. I think Moudy could help on the new fixes
-for both DT schem and mt8195.dtsi. This patch could be separated from
-origin patch set.
+Ack, thanks for the explanation.
 
-Thanks
-Macpaul Lin
+> 
+> Best regards
+> Thomas
+> 
+> > 
+> > > -		return -1;
+> > > +		return NULL;
+> 
+> -- 
+> --
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Frankenstrasse 146, 90461 Nuernberg, Germany
+> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+> HRB 36809 (AG Nuernberg)
+> 
+
+-- 
+With best wishes
+Dmitry
