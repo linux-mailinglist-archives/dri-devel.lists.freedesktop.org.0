@@ -2,50 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02EB79863F9
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 17:43:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7183F9863E6
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 17:43:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6641910E121;
-	Wed, 25 Sep 2024 15:43:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A68FE10EA54;
+	Wed, 25 Sep 2024 15:42:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="rDKkAfhN";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ANQc5dmB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54EDB10E122;
- Wed, 25 Sep 2024 15:43:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
- Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=1gZCCExOJ8BLuVIACQp6NZYsnDxOnwhLvgUxXVihlYE=; b=rDKkAfhNx83p4ILiehc8uXAq4C
- AaESzC7uqmsOlQJq4J4UiuU1KuQ4MpTRBRc5NIUL3jL9d0+xpCTJZIb2uW7T+GCh9xOKkuGTuJfrW
- y3XhHxy8mUpEqfaMI4TuD8wIzsHoy59VWEoCYMnSN9U4LwxV8d2BATRMOitRfF4WVMBxld7ngTJm7
- u+Y6mrgkA0BuFkVEE3N6oTv2/zC4p+ijZdsQL3kRFrQr0bqB39ZIbIJlgc8/TpaizWjC6Yz3cwX+b
- uLSln+aWj7Hq9DTrqUTJ1yJb/do5AHRxl2Oo21tO+ux5ZbtvN3l3HLazgh/w8OMXoMK6ZfU5sKEoH
- JcGHAjog==;
-Received: from [189.6.17.125] (helo=killbill.home)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1stUB0-000y8P-R1; Wed, 25 Sep 2024 17:43:39 +0200
-From: Melissa Wen <mwen@igalia.com>
-To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
- alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch
-Cc: amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/amd/display: add warnings for MAX_SURFACES mismatch
-Date: Wed, 25 Sep 2024 12:37:19 -0300
-Message-ID: <20240925154324.348774-3-mwen@igalia.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240925154324.348774-1-mwen@igalia.com>
-References: <20240925154324.348774-1-mwen@igalia.com>
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com
+ [209.85.218.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAFB810EA4E
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 15:42:58 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id
+ a640c23a62f3a-a8d4093722bso594766b.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 08:42:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1727278977; x=1727883777; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=tgLjgsBATCSWM6XL4qorkL1lHK3PtUuXoapmBEAcGck=;
+ b=ANQc5dmBqXQYP+EdEtuFuhSpx0HZMPVPdAPVlL6At3s/CsI7m4bweoBBquhaa2awwE
+ TEa5bvIjIGhjjC86a/o3Q0wjcr9SVHnuj4Ue3UGr+XJJiHX9uE0jJ+WrgDtrjBosxaoM
+ mqLgQnPkgKscpd941k+woGvEFtrUiHTwDxIYZUSGUzFwYIwjDEqXtEi5LBGBY8QL1+jm
+ DLCVmAXWbBHDnL8iaHVLbZpGQDab/R1RfhHzlBfDtSwipyHMEuDQBLGdgCuXaCaPnyCf
+ 9wk/4ikoM9JIUkH1fR3joN7sUeoFuZ65usvNXDBM5Hn2Xz8RhUi6CrfxlkxSCFhWuoYj
+ nqsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1727278977; x=1727883777;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=tgLjgsBATCSWM6XL4qorkL1lHK3PtUuXoapmBEAcGck=;
+ b=maUxDt49+rLmt+pvtEzrsPFWTvJRBG1cbgMf2mnnLqy7XQsCSoqN2yWcUTeepbs8MJ
+ +beXj1NGOtyVCx72qXumFQN6R4oZBV8edx0w2JKl6lvgosm8bfaJn8CahYKKbxOIxqyJ
+ K8+4u63JWGGP5Fr1IdldOArd+YmCcd/38FrLTQuNmQrC9itSCZ7zAwnq8OMOpdX6s6mG
+ epI2vbbkEEqIT1Vku7nDbOpxvnuYYAsK91l3w1qPS6+opqm70JEg98uavsPnEZgxzHLJ
+ eLRwKIIuvqvqUX2aOkpDlgUVR59MPYiTdqL2Guf3DJHOiVkEqJ/SHd0M90MOLS+7hyYc
+ L+QQ==
+X-Gm-Message-State: AOJu0YxLZZWjgo4pQKJAzGPBnTvh5CaU/+hagdndeTxn/lYgYOOb5fmv
+ /3KyGsFG0phCajaeLkhg3phxXjkzJHs7rZyHfNh2NarFdJvoM/ic
+X-Google-Smtp-Source: AGHT+IFkZ1n37tP3Rc2/BMb8UIyY4klrs21gwIaq2A7G/dBjrAoB3ccE5EDVcggDj2gmdvtj2kWRUg==
+X-Received: by 2002:a17:907:7da7:b0:a8c:d6a3:d038 with SMTP id
+ a640c23a62f3a-a93a03e3095mr316176266b.37.1727278976983; 
+ Wed, 25 Sep 2024 08:42:56 -0700 (PDT)
+Received: from [127.0.1.1] ([213.208.157.67]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a9392f3420esm221803466b.40.2024.09.25.08.42.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 25 Sep 2024 08:42:56 -0700 (PDT)
+From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Subject: [PATCH 0/6] drm: constify read-only regmap structs
+Date: Wed, 25 Sep 2024 17:42:39 +0200
+Message-Id: <20240925-drm-const-regmap-v1-0-e609d502401b@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAG8v9GYC/x3MTQqAIBBA4avIrBswK/q5SrQInWoWmowRgXT3p
+ OW3eC9DImFKMKkMQjcnPkNBXSmwxxp2QnbFYLRp9Wg6dOLRniFdKLT7NWKj+83YphtcraFkUWj
+ j51/Oy/t+aWaESWIAAAA=
+To: Jagan Teki <jagan@amarulasolutions.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>, 
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Orson Zhai <orsonzhai@gmail.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Chunyan Zhang <zhang.lyra@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ linux-amlogic@lists.infradead.org, 
+ Javier Carrasco <javier.carrasco.cruz@gmail.com>
+X-Mailer: b4 0.14-dev
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1727278971; l=1173;
+ i=javier.carrasco.cruz@gmail.com; s=20240312; h=from:subject:message-id;
+ bh=mV011lLjGh5QUEeOXJ02JFFzg3GXgCu8+SSQahiHbas=;
+ b=myNkjRQ3PFvNNvW6MYUDscCs4qRnSff9r34U0SADdEuPuz6/EHK14GRk3jXV4EQhRuDrFFBYk
+ q/5VY5I1EZoCwxtXU4F47W872f6MFmFLNx3SrzjZfC9qmsxNSZ5SlmM
+X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
+ pk=lzSIvIzMz0JhJrzLXI0HAdPwsNPSSmEn6RbS+PTS9aQ=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,60 +107,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-So that, in the future, when the max number of planes and streams
-increases, they might be synced with the number of surfaces to prevent
-array-index-out-of-bounds issues.
+This series adds the const modifier to the remaining regmap_bus and
+regmap_config structs under drm/ that are effectively used as const
+(i.e., only read after their declaration), but kept ad writtable data.
 
-Signed-off-by: Melissa Wen <mwen@igalia.com>
+Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
 ---
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 20 +++++++++++++++++++
- 1 file changed, 20 insertions(+)
+Javier Carrasco (6):
+      drm/bridge: dpc3433: Constify struct regmap_config
+      drm/fsl-dcu: Constify struct regmap_config
+      drm/mediatek: dp: Constify struct regmap_config
+      drm/meson: Constify struct regmap_config
+      drm/panel: ili9322: Constify struct regmap_bus
+      drm/sprd: Constify struct regmap_bus
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 6d12def3e8b3..95db2b1cc91a 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -3098,6 +3098,13 @@ static void dm_gpureset_commit_state(struct dc_state *dc_state,
- 	for (k = 0; k < dc_state->stream_count; k++) {
- 		bundle->stream_update.stream = dc_state->streams[k];
- 
-+		if (MAX_SURFACES < dc_state->stream_status->plane_count) {
-+			drm_warn(dm->ddev, "Not enough dc_surface_update for the "
-+					   "number of planes. Please increase "
-+					   "MAX_SURFACES inline to MAX_PLANES.\n");
-+			continue;
-+		}
-+
- 		for (m = 0; m < dc_state->stream_status->plane_count; m++) {
- 			bundle->surface_updates[m].surface =
- 				dc_state->stream_status->plane_states[m];
-@@ -8923,6 +8930,13 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
- 		if (!dc_plane)
- 			continue;
- 
-+		if (MAX_SURFACES < planes_count) {
-+			drm_warn(dev, "Not enough dc_surface_update for the "
-+				      "number of planes. Please increase "
-+				      "MAX_SURFACES inline to MAX_PLANES.\n");
-+			continue;
-+		}
-+
- 		bundle->surface_updates[planes_count].surface = dc_plane;
- 		if (new_pcrtc_state->color_mgmt_changed) {
- 			bundle->surface_updates[planes_count].gamma = &dc_plane->gamma_correction;
-@@ -9874,6 +9888,12 @@ static void amdgpu_dm_atomic_commit_tail(struct drm_atomic_state *state)
- 
- 		WARN_ON(!status->plane_count);
- 
-+		if (MAX_SURFACES < status->plane_count) {
-+			drm_warn(dev, "Not enough dc_surface_update for the "
-+				      "number of planes. Please increase "
-+				      "MAX_SURFACES inline to MAX_PLANES.\n");
-+			continue;
-+		}
- 		/*
- 		 * TODO: DC refuses to perform stream updates without a dc_surface_update.
- 		 * Here we create an empty update on each plane.
+ drivers/gpu/drm/bridge/ti-dlpc3433.c         | 2 +-
+ drivers/gpu/drm/fsl-dcu/fsl_tcon.c           | 2 +-
+ drivers/gpu/drm/mediatek/mtk_dp.c            | 2 +-
+ drivers/gpu/drm/meson/meson_drv.c            | 2 +-
+ drivers/gpu/drm/panel/panel-ilitek-ili9322.c | 2 +-
+ drivers/gpu/drm/sprd/sprd_dsi.c              | 2 +-
+ 6 files changed, 6 insertions(+), 6 deletions(-)
+---
+base-commit: 2b7275670032a98cba266bd1b8905f755b3e650f
+change-id: 20240925-drm-const-regmap-307f2c358d10
+
+Best regards,
 -- 
-2.45.2
+Javier Carrasco <javier.carrasco.cruz@gmail.com>
 
