@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37BA6985AE3
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 14:15:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C12D7985AE6
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 14:15:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D68D10E81A;
-	Wed, 25 Sep 2024 12:15:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19CFE10E822;
+	Wed, 25 Sep 2024 12:15:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rCo/Fn2R";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RLPHCyDH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73C5410E811;
- Wed, 25 Sep 2024 12:15:34 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BD4610E821;
+ Wed, 25 Sep 2024 12:15:44 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 8F101A4418B;
- Wed, 25 Sep 2024 12:15:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 523BDC4CEC3;
- Wed, 25 Sep 2024 12:15:30 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 922F15C00AD;
+ Wed, 25 Sep 2024 12:15:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E128C4CEC7;
+ Wed, 25 Sep 2024 12:15:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1727266533;
- bh=Em0jT0qWs/MOpa/lMUkIpxzfmUGuBUwRUER9vlnIhpo=;
+ s=k20201202; t=1727266543;
+ bh=+xT6rDDVtNf1Vv0lcTbElWaZT4Ymn1b56abe/VjLz5w=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=rCo/Fn2Rg/IINNOCjkIQhQseSHGiGuURw5RMaUy0a12ueKnGs1X/0E+A/p1itS259
- 4dIQd6Ur8VFz3JYIzgrh605xWv4EKMiuIzpZmtjYMsiV1Eei4RIAc8DSvx/uMzZxIz
- oMezIDr3piCwZqm3IXLLdV9e6NtarabTmBXVQg3pKLdsqVDD0BKGsN2+0AcSb0komq
- NatVQTqqI5DEU6hD8WbNXjSwdZSJ0lfKEmQbII4m/pdJloMJel/4SuZxYV0TctMPoV
- 2/RJUq2Q2y0RJdR2PPq1gzkjB8cRiL0W+1J2uyocRXUbT2lBihSmSRI2aHAjtnOvNX
- TFwd/gJ3ivBUA==
+ b=RLPHCyDH6KWypDMvRqZzk0L0ss3LOeDWpH9dysl/zz1XPDHuz/d3F2ivIlioYWXiN
+ 3N+QeNXo3JDI6pghqiCioYb26H+464DcIC7TYkEeuZm1ABHM3b8+EH5pT7hH3ZDg+u
+ J++a2EcPILKLxgbabyqG9p4xL8EsfIL736HEqnDKAIul4ufItWzcM4nSgQnn5CgPkO
+ awLbE8L0G5CN1nXExf4vuTke5VCEBWZoMdeD7px1NPDq6nEtseewPaJRxTqWgAAMyZ
+ IoJo7rcJxARt5ok/WcOGa3smCq7+aSeePpBKa11c7pBTA3g3iO6MLh0u4FDJ8ElP/U
+ eGSLM/gee+1jw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -41,13 +41,14 @@ Cc: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
  Hamza Mahfooz <hamza.mahfooz@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
  sunpeng.li@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch, alvin.lee2@amd.com,
- wenjing.liu@amd.com, sungjoon.kim@amd.com, dillon.varone@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.6 087/139] drm/amd/display: Add null check for
- top_pipe_to_program in commit_planes_for_stream
-Date: Wed, 25 Sep 2024 08:08:27 -0400
-Message-ID: <20240925121137.1307574-87-sashal@kernel.org>
+ airlied@gmail.com, daniel@ffwll.ch, wenjing.liu@amd.com,
+ alvin.lee2@amd.com, george.shen@amd.com, dillon.varone@amd.com,
+ gabe.teeger@amd.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.6 091/139] drm/amd/display: Handle null
+ 'stream_status' in 'planes_changed_for_existing_stream'
+Date: Wed, 25 Sep 2024 08:08:31 -0400
+Message-ID: <20240925121137.1307574-91-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240925121137.1307574-1-sashal@kernel.org>
 References: <20240925121137.1307574-1-sashal@kernel.org>
@@ -73,17 +74,15 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
 
-[ Upstream commit 66d71a72539e173a9b00ca0b1852cbaa5f5bf1ad ]
+[ Upstream commit 8141f21b941710ecebe49220b69822cab3abd23d ]
 
-This commit addresses a null pointer dereference issue in the
-`commit_planes_for_stream` function at line 4140. The issue could occur
-when `top_pipe_to_program` is null.
-
-The fix adds a check to ensure `top_pipe_to_program` is not null before
-accessing its stream_res. This prevents a null pointer dereference.
+This commit adds a null check for 'stream_status' in the function
+'planes_changed_for_existing_stream'. Previously, the code assumed
+'stream_status' could be null, but did not handle the case where it was
+actually null. This could lead to a null pointer dereference.
 
 Reported by smatch:
-drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c:4140 commit_planes_for_stream() error: we previously assumed 'top_pipe_to_program' could be null (see line 3906)
+drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_resource.c:3784 planes_changed_for_existing_stream() error: we previously assumed 'stream_status' could be null (see line 3774)
 
 Cc: Tom Chung <chiahsuan.chung@amd.com>
 Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
@@ -97,23 +96,25 @@ Reviewed-by: Tom Chung <chiahsuan.chung@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/core/dc.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/display/dc/core/dc_resource.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
-index 50e643bfdfbad..0b2eb2a6c8e14 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
-@@ -3797,7 +3797,8 @@ static void commit_planes_for_stream(struct dc *dc,
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
+index 733e445331ea5..4b34bc9d4e4be 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
+@@ -2877,8 +2877,10 @@ static bool planes_changed_for_existing_stream(struct dc_state *context,
+ 		}
  	}
  
- 	if ((update_type != UPDATE_TYPE_FAST) && stream->update_flags.bits.dsc_changed)
--		if (top_pipe_to_program->stream_res.tg->funcs->lock_doublebuffer_enable) {
-+		if (top_pipe_to_program &&
-+		    top_pipe_to_program->stream_res.tg->funcs->lock_doublebuffer_enable) {
- 			top_pipe_to_program->stream_res.tg->funcs->wait_for_state(
- 				top_pipe_to_program->stream_res.tg,
- 				CRTC_STATE_VACTIVE);
+-	if (!stream_status)
++	if (!stream_status) {
+ 		ASSERT(0);
++		return false;
++	}
+ 
+ 	for (i = 0; i < set_count; i++)
+ 		if (set[i].stream == stream)
 -- 
 2.43.0
 
