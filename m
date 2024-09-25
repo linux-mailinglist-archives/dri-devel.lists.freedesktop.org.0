@@ -2,48 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EE139858EC
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 13:48:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 783239858ED
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 13:48:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0437F10E94A;
-	Wed, 25 Sep 2024 11:48:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3E4B10E948;
+	Wed, 25 Sep 2024 11:48:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rwerk5/6";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="G4o2ShcG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1830B10E947;
- Wed, 25 Sep 2024 11:48:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6535C10E94B
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 11:48:21 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 807B55C5B57;
- Wed, 25 Sep 2024 11:48:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B1B1C4CEC3;
+ by dfw.source.kernel.org (Postfix) with ESMTP id D7EB15C5B9F;
  Wed, 25 Sep 2024 11:48:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2A3EC4CECD;
+ Wed, 25 Sep 2024 11:48:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1727264898;
- bh=n90fJc+OXdT4oVyDP1R+/rKw9pp9dmoKGuJpxpmeC4k=;
+ s=k20201202; t=1727264900;
+ bh=BxcwbgJ/CnH0K4cDKwkcguF41kZNgM81f4D/TFs+Ny4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=rwerk5/643WdtttLWJYNQl3od1D8KyZOIu4L83to9YUz0WjUXSdcpeIwYnuUPJr4T
- nkl160njbTsM8OS9BJEIPlp1QfypBOTERKr8GwlYOJs6vwcFS54rhQBDw/HRxstEQy
- aJHuNW1znsbTw0EtiF6wZQHdRrV5dE2rjarLoLjqAu3PJYdmCpOzTERaNcoy4PJQ3Y
- Y23ZIME82mnkk2ntfzFVOexQipI6gtjxc2BQJjWkhRQ1dTiLnV/jzZdFJWs/VKnWdq
- 6ZcM++R4lCq39sGwqr6+QOQXyKr2sVKlwNEq5Jsq+pJyG/jGRphvr0Xs1Pyd8LWa9B
- rDqL9Euu5kCtw==
+ b=G4o2ShcGfqpiLHncUXbHg580cnA0g25odb2nIGR7+bbdR7+XHN/NZhQ/G7Li9aoKD
+ TjX/CfRDNFlQ5G+9Kmyr69G7lUDoaoHICMGn3RxTGNFQ+YM8TQ9UZ2iR7MClD2+D5s
+ IIUjcBHQt3BfV4cFDdn1f8RTNeKVVL+LMMeuzx5J38HXOl92jqAs1pPCT/nd7Jj5my
+ NF9qgdJ0jWAOabUCPdIvmK8VtRYAl4YMCP+DMk0gjhHZ1HndNFYeVPRbwznr20VaBk
+ tSQuZb5y1Fo93ymA96yYiOVR8hfEiTT7djXLXLp0bbXRjYXH3xBP5v35UtbRxi//PF
+ X04CXJDwRJy8Q==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Uma Shankar <uma.shankar@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Sasha Levin <sashal@kernel.org>, jani.nikula@linux.intel.com,
- rodrigo.vivi@intel.com, thomas.hellstrom@linux.intel.com,
+Cc: Yannick Fertre <yannick.fertre@foss.st.com>,
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+ Sasha Levin <sashal@kernel.org>, philippe.cornu@foss.st.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, daniel@ffwll.ch, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.11 177/244] drm/xe/fbdev: Limit the usage of stolen
- for LNL+
-Date: Wed, 25 Sep 2024 07:26:38 -0400
-Message-ID: <20240925113641.1297102-177-sashal@kernel.org>
+ airlied@gmail.com, daniel@ffwll.ch, mcoquelin.stm32@gmail.com,
+ alexandre.torgue@foss.st.com, dri-devel@lists.freedesktop.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org
+Subject: [PATCH AUTOSEL 6.11 178/244] drm/stm: ltdc: reset plane transparency
+ after plane disable
+Date: Wed, 25 Sep 2024 07:26:39 -0400
+Message-ID: <20240925113641.1297102-178-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240925113641.1297102-1-sashal@kernel.org>
 References: <20240925113641.1297102-1-sashal@kernel.org>
@@ -67,104 +68,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Uma Shankar <uma.shankar@intel.com>
+From: Yannick Fertre <yannick.fertre@foss.st.com>
 
-[ Upstream commit 775d0adc01a55fe0458139330415d86bb3533efe ]
+[ Upstream commit 02fa62d41c8abff945bae5bfc3ddcf4721496aca ]
 
-As per recommendation in the workarounds:
-WA_22019338487
+The plane's opacity should be reseted while the plane
+is disabled. It prevents from seeing a possible global
+or layer background color set earlier.
 
-There is an issue with accessing Stolen memory pages due a
-hardware limitation. Limit the usage of stolen memory for
-fbdev for LNL+. Don't use BIOS FB from stolen on LNL+ and
-assign the same from system memory.
-
-v2: Corrected the WA Number, limited WA to LNL and
-    Adopted XE_WA framework as suggested by Lucas and Matt.
-
-v3: Introduced the waxxx_display to implement display side
-    of WA changes on Lunarlake. Used xe_root_mmio_gt and
-    avoid the for loop (Suggested by Lucas)
-
-v4: Fixed some nits (Luca)
-
-Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
-Signed-off-by: Uma Shankar <uma.shankar@intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240717082252.3875909-1-uma.shankar@intel.com
+Signed-off-by: Yannick Fertre <yannick.fertre@foss.st.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20240712131344.98113-1-yannick.fertre@foss.st.com
+Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/xe/display/intel_fbdev_fb.c   | 6 +++++-
- drivers/gpu/drm/xe/display/xe_plane_initial.c | 6 ++++++
- drivers/gpu/drm/xe/xe_wa_oob.rules            | 1 +
- 3 files changed, 12 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/stm/ltdc.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/xe/display/intel_fbdev_fb.c b/drivers/gpu/drm/xe/display/intel_fbdev_fb.c
-index 816ad13821a83..cd8948c08661b 100644
---- a/drivers/gpu/drm/xe/display/intel_fbdev_fb.c
-+++ b/drivers/gpu/drm/xe/display/intel_fbdev_fb.c
-@@ -10,6 +10,9 @@
- #include "xe_bo.h"
- #include "xe_gt.h"
- #include "xe_ttm_stolen_mgr.h"
-+#include "xe_wa.h"
-+
-+#include <generated/xe_wa_oob.h>
+diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
+index eeaabb4e10d3e..9e76785cb2691 100644
+--- a/drivers/gpu/drm/stm/ltdc.c
++++ b/drivers/gpu/drm/stm/ltdc.c
+@@ -1513,6 +1513,9 @@ static void ltdc_plane_atomic_disable(struct drm_plane *plane,
+ 	/* Disable layer */
+ 	regmap_write_bits(ldev->regmap, LTDC_L1CR + lofs, LXCR_LEN | LXCR_CLUTEN |  LXCR_HMEN, 0);
  
- struct intel_framebuffer *intel_fbdev_fb_alloc(struct drm_fb_helper *helper,
- 					       struct drm_fb_helper_surface_size *sizes)
-@@ -37,7 +40,7 @@ struct intel_framebuffer *intel_fbdev_fb_alloc(struct drm_fb_helper *helper,
- 	size = PAGE_ALIGN(size);
- 	obj = ERR_PTR(-ENODEV);
- 
--	if (!IS_DGFX(xe)) {
-+	if (!IS_DGFX(xe) && !XE_WA(xe_root_mmio_gt(xe), 22019338487_display)) {
- 		obj = xe_bo_create_pin_map(xe, xe_device_get_root_tile(xe),
- 					   NULL, size,
- 					   ttm_bo_type_kernel, XE_BO_FLAG_SCANOUT |
-@@ -48,6 +51,7 @@ struct intel_framebuffer *intel_fbdev_fb_alloc(struct drm_fb_helper *helper,
- 		else
- 			drm_info(&xe->drm, "Allocated fbdev into stolen failed: %li\n", PTR_ERR(obj));
- 	}
++	/* Reset the layer transparency to hide any related background color */
++	regmap_write_bits(ldev->regmap, LTDC_L1CACR + lofs, LXCACR_CONSTA, 0x00);
 +
- 	if (IS_ERR(obj)) {
- 		obj = xe_bo_create_pin_map(xe, xe_device_get_root_tile(xe), NULL, size,
- 					   ttm_bo_type_kernel, XE_BO_FLAG_SCANOUT |
-diff --git a/drivers/gpu/drm/xe/display/xe_plane_initial.c b/drivers/gpu/drm/xe/display/xe_plane_initial.c
-index 5eccd6abb3ef5..a50ab9eae40ae 100644
---- a/drivers/gpu/drm/xe/display/xe_plane_initial.c
-+++ b/drivers/gpu/drm/xe/display/xe_plane_initial.c
-@@ -18,6 +18,9 @@
- #include "intel_frontbuffer.h"
- #include "intel_plane_initial.h"
- #include "xe_bo.h"
-+#include "xe_wa.h"
-+
-+#include <generated/xe_wa_oob.h>
- 
- static bool
- intel_reuse_initial_plane_obj(struct intel_crtc *this,
-@@ -104,6 +107,9 @@ initial_plane_bo(struct xe_device *xe,
- 		phys_base = base;
- 		flags |= XE_BO_FLAG_STOLEN;
- 
-+		if (XE_WA(xe_root_mmio_gt(xe), 22019338487_display))
-+			return NULL;
-+
- 		/*
- 		 * If the FB is too big, just don't use it since fbdev is not very
- 		 * important and we should probably use that space with FBC or other
-diff --git a/drivers/gpu/drm/xe/xe_wa_oob.rules b/drivers/gpu/drm/xe/xe_wa_oob.rules
-index d4c33dbc14c7a..24a5b7d7cdcc1 100644
---- a/drivers/gpu/drm/xe/xe_wa_oob.rules
-+++ b/drivers/gpu/drm/xe/xe_wa_oob.rules
-@@ -29,6 +29,7 @@
- 13011645652	GRAPHICS_VERSION(2004)
- 22019338487	MEDIA_VERSION(2000)
- 		GRAPHICS_VERSION(2001)
-+22019338487_display	PLATFORM(LUNARLAKE)
- 16023588340	GRAPHICS_VERSION(2001)
- 14019789679	GRAPHICS_VERSION(1255)
- 		GRAPHICS_VERSION_RANGE(1270, 2004)
+ 	/* Commit shadow registers = update plane at next vblank */
+ 	if (ldev->caps.plane_reg_shadow)
+ 		regmap_write_bits(ldev->regmap, LTDC_L1RCR + lofs,
 -- 
 2.43.0
 
