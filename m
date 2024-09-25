@@ -2,48 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62302985A13
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 14:05:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C52C985A17
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 14:05:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC5BA10E9A7;
-	Wed, 25 Sep 2024 12:05:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2021610E9AA;
+	Wed, 25 Sep 2024 12:05:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AmY7EVoe";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HWdK5nJR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C6BA10E9A6;
- Wed, 25 Sep 2024 12:05:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B12C10E9A9;
+ Wed, 25 Sep 2024 12:05:10 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id C5AE1A440ED;
- Wed, 25 Sep 2024 12:04:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87E9EC4CEC3;
+ by nyc.source.kernel.org (Postfix) with ESMTP id 28F5FA440EC;
  Wed, 25 Sep 2024 12:05:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B383C4CECE;
+ Wed, 25 Sep 2024 12:05:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1727265903;
- bh=PIrSWSe1p/OzEoLjFK1fW3I3p/lUQ7HiMkPO+JrSeR0=;
+ s=k20201202; t=1727265908;
+ bh=+wDXTxHikvoawVP0k03++IlOfhH0N07O8DRw4idg+r8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=AmY7EVoeHaTWEPHgResZXTfPDdqJqzo83H9heT9qGbEFdSusL5d603ahHOniANjIf
- WLYrAl/ezmabFUfZOkZ/UX9WW3Ph4H1rC5t6dp1S9MLEfZjLqGtNrcnQByf1/iaZMp
- tLdbonFMenFGl9fwS8CygAMNEEOOUcovefwj1YRKoGhGiYPLacqnXODl9hBDynNRki
- NcLkMiaW1gLGWjTYN4Qt1AeWZO21N/pozsUeav/AMw7SX3xDMEPg12zeGOsMgKzJ3U
- MwVuibbinH4J/D8whftxBQHhKHMwyaFY6DZfDo6dOP35/IVWpoVjBjsx7tYT42KZEz
- aUrXKKXFJQeWg==
+ b=HWdK5nJRuzXARqDIwungjkhD2Tx+s8RGCU0G6F9lhX68Z/qDFyChwnvu4nSlO0elu
+ +4q2sQoc/uTiL6OEYLfBMgEiWY+yiAD66TCKn9hXKmAcNeqOMhPYXEz4Jr5TLpPPZu
+ ET6gOctI2k0ywtKWUTCWJl/CV1rp1K4vJDrov4dKIzxVYwthpxbzxlRbezcc69VD1P
+ i+1zURfD2cugIwn1LGMuasnB6J7BiBSwlUAwXEBGcLmGEQgNdh7fTbZ96zoWe626fI
+ WX/+Eir2UYJKAfhhadVr0nX93J6huhL9wbNqqyzlbJzD8kYY6Br5fYKzxFWsZWzmIt
+ Q1CGzjanWq7xw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Suraj Kandpal <suraj.kandpal@intel.com>,
- Dnyaneshwar Bhadane <dnyaneshwar.bhadane@intel.com>,
- Sasha Levin <sashal@kernel.org>, jani.nikula@linux.intel.com,
- rodrigo.vivi@intel.com, lucas.demarchi@intel.com,
- thomas.hellstrom@linux.intel.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- daniel@ffwll.ch, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.10 121/197] drm/xe/hdcp: Check GSC structure validity
-Date: Wed, 25 Sep 2024 07:52:20 -0400
-Message-ID: <20240925115823.1303019-121-sashal@kernel.org>
+Cc: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
+ Tom Chung <chiahsuan.chung@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Roman Li <roman.li@amd.com>,
+ Alex Hung <alex.hung@amd.com>, Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ Harry Wentland <harry.wentland@amd.com>,
+ Hamza Mahfooz <hamza.mahfooz@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ sunpeng.li@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, daniel@ffwll.ch, alvin.lee2@amd.com, wayne.lin@amd.com,
+ wenjing.liu@amd.com, sungjoon.kim@amd.com, dillon.varone@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.10 122/197] drm/amd/display: Add null check for
+ top_pipe_to_program in commit_planes_for_stream
+Date: Wed, 25 Sep 2024 07:52:21 -0400
+Message-ID: <20240925115823.1303019-122-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240925115823.1303019-1-sashal@kernel.org>
 References: <20240925115823.1303019-1-sashal@kernel.org>
@@ -67,50 +71,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Suraj Kandpal <suraj.kandpal@intel.com>
+From: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
 
-[ Upstream commit b4224f6bae3801d589f815672ec62800a1501b0d ]
+[ Upstream commit 66d71a72539e173a9b00ca0b1852cbaa5f5bf1ad ]
 
-Sometimes xe_gsc is not initialized when checked at HDCP capability
-check. Add gsc structure check to avoid null pointer error.
+This commit addresses a null pointer dereference issue in the
+`commit_planes_for_stream` function at line 4140. The issue could occur
+when `top_pipe_to_program` is null.
 
-Signed-off-by: Suraj Kandpal <suraj.kandpal@intel.com>
-Reviewed-by: Dnyaneshwar Bhadane <dnyaneshwar.bhadane@intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240722064451.3610512-4-suraj.kandpal@intel.com
+The fix adds a check to ensure `top_pipe_to_program` is not null before
+accessing its stream_res. This prevents a null pointer dereference.
+
+Reported by smatch:
+drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c:4140 commit_planes_for_stream() error: we previously assumed 'top_pipe_to_program' could be null (see line 3906)
+
+Cc: Tom Chung <chiahsuan.chung@amd.com>
+Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Cc: Roman Li <roman.li@amd.com>
+Cc: Alex Hung <alex.hung@amd.com>
+Cc: Aurabindo Pillai <aurabindo.pillai@amd.com>
+Cc: Harry Wentland <harry.wentland@amd.com>
+Cc: Hamza Mahfooz <hamza.mahfooz@amd.com>
+Signed-off-by: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
+Reviewed-by: Tom Chung <chiahsuan.chung@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/xe/display/xe_hdcp_gsc.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/display/dc/core/dc.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/xe/display/xe_hdcp_gsc.c b/drivers/gpu/drm/xe/display/xe_hdcp_gsc.c
-index b3d3c065dd9d8..2f935771658e6 100644
---- a/drivers/gpu/drm/xe/display/xe_hdcp_gsc.c
-+++ b/drivers/gpu/drm/xe/display/xe_hdcp_gsc.c
-@@ -39,10 +39,14 @@ bool intel_hdcp_gsc_check_status(struct xe_device *xe)
- {
- 	struct xe_tile *tile = xe_device_get_root_tile(xe);
- 	struct xe_gt *gt = tile->media_gt;
-+	struct xe_gsc *gsc = &gt->uc.gsc;
- 	bool ret = true;
- 
--	if (!xe_uc_fw_is_enabled(&gt->uc.gsc.fw))
-+	if (!gsc && !xe_uc_fw_is_enabled(&gsc->fw)) {
-+		drm_dbg_kms(&xe->drm,
-+			    "GSC Components not ready for HDCP2.x\n");
- 		return false;
-+	}
- 
- 	xe_pm_runtime_get(xe);
- 	if (xe_force_wake_get(gt_to_fw(gt), XE_FW_GSC)) {
-@@ -52,7 +56,7 @@ bool intel_hdcp_gsc_check_status(struct xe_device *xe)
- 		goto out;
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
+index da237f718dbdd..3bd18e862945f 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
+@@ -3970,7 +3970,8 @@ static void commit_planes_for_stream(struct dc *dc,
  	}
  
--	if (!xe_gsc_proxy_init_done(&gt->uc.gsc))
-+	if (!xe_gsc_proxy_init_done(gsc))
- 		ret = false;
- 
- 	xe_force_wake_put(gt_to_fw(gt), XE_FW_GSC);
+ 	if ((update_type != UPDATE_TYPE_FAST) && stream->update_flags.bits.dsc_changed)
+-		if (top_pipe_to_program->stream_res.tg->funcs->lock_doublebuffer_enable) {
++		if (top_pipe_to_program &&
++		    top_pipe_to_program->stream_res.tg->funcs->lock_doublebuffer_enable) {
+ 			top_pipe_to_program->stream_res.tg->funcs->wait_for_state(
+ 				top_pipe_to_program->stream_res.tg,
+ 				CRTC_STATE_VACTIVE);
 -- 
 2.43.0
 
