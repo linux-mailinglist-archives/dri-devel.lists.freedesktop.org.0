@@ -2,66 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C69D98512E
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 05:05:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C2C29851B4
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 06:01:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E33110E128;
-	Wed, 25 Sep 2024 03:04:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A80310E779;
+	Wed, 25 Sep 2024 04:01:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Fp5EHASl";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="KaLlC5Yq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02D8010E128;
- Wed, 25 Sep 2024 03:04:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1727233496; x=1758769496;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=U6xk5S9p06NkLyiZ381kdyNXkjsHk/mkRAUSZhnbqEA=;
- b=Fp5EHASlSIGsF768iUgsBjKxAdSDbE9qQ5LnaHz2YUdm3v0PEGPQsE13
- Og76bEnkMiJWOx8qlDZXNHFTCI7O9VnksMk0Sv3O8rDEAIutQlkn8stoN
- YWLo2av0mgG6SorsDW6EMZXyZcP5mdLUj7kz4SGeCdlgTRdlsmDlwHdsW
- alHpNrhrB9CyjTakroaRFyYoZtEF7I2vTsdOHLoxEstaPNsNNJ+BDaTtW
- vQq5wsgYLLQP6UcGVQzWg7kS3fMtNroYG1koqnObWvn6gV818vwbNr8s3
- +Va+tDcfDGIoIUOgLWkBv7eCbXep5t6fn1t0kNeQIdr77gNLRFZXYybQg Q==;
-X-CSE-ConnectionGUID: BonIcugIRyqoNM0057wx2A==
-X-CSE-MsgGUID: FebXmvLkSBig7Zc3wf6arg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11205"; a="29150160"
-X-IronPort-AV: E=Sophos;i="6.10,256,1719903600"; d="scan'208";a="29150160"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Sep 2024 20:04:55 -0700
-X-CSE-ConnectionGUID: qCa+3aFTTa6G0+uEJ0k+AA==
-X-CSE-MsgGUID: EnDJRUkkTly9Azaj8w6/zw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,256,1719903600"; d="scan'208";a="102391754"
-Received: from black.fi.intel.com ([10.237.72.28])
- by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Sep 2024 20:04:47 -0700
-Date: Wed, 25 Sep 2024 06:04:43 +0300
-From: Raag Jadav <raag.jadav@intel.com>
-To: Simona Vetter <simona.vetter@ffwll.ch>
-Cc: airlied@gmail.com, simona@ffwll.ch, lucas.demarchi@intel.com,
- thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
- jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- tursulin@ursulin.net, lina@asahilina.net,
- intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com,
- francois.dugast@intel.com, aravind.iddamsetty@linux.intel.com,
- anshuman.gupta@intel.com, andi.shyti@linux.intel.com,
- andriy.shevchenko@linux.intel.com, matthew.d.roper@intel.com
-Subject: Re: [PATCH v6 1/4] drm: Introduce device wedged event
-Message-ID: <ZvN9yw5AYtxudNne@black.fi.intel.com>
-References: <20240923035826.624196-1-raag.jadav@intel.com>
- <20240923035826.624196-2-raag.jadav@intel.com>
- <ZvKhIQGnGrcPURhD@phenom.ffwll.local>
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com
+ [209.85.210.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37F4810E2CA
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 04:01:21 +0000 (UTC)
+Received: by mail-ot1-f41.google.com with SMTP id
+ 46e09a7af769-710daaadd9bso3353829a34.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 21:01:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1727236880; x=1727841680;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=wv0LNQbODtscukyro5hUsz/iAMlBwMMkYBgi7p9HDmY=;
+ b=KaLlC5Yq0Pck2PGWxreciOEZid3LI9VZZcftqgvVLl2LnrWGpgQARTNTot/DF4YNLk
+ IJQVpN7h1ELbLEEHkmbLxQeGJKxY3qZEFRHz2tBlKTm70a6A0AhnWW+XlChqjOtLQ3O6
+ bh6zbmeJnDo7JGC7SeC5Azy8Jb714+PNeinSc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1727236880; x=1727841680;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=wv0LNQbODtscukyro5hUsz/iAMlBwMMkYBgi7p9HDmY=;
+ b=jvZrsAcq/EYURjYXDPbGGV4Tou3DDxZtT8Lybu5PGsQMm3iGPJ4Mbyrz4z6f0HY3V6
+ PMGV5h9eMvV/2QCfPys3c2wxdkjChiwY6dhxrZXX93+tOzAfqQKe+oMxGZxBc8cJ3RCm
+ frJnJZJ3vkhq4QdRdeBr9szeVAKvDOcvW+oK3l1hmnacs7GqrCCRqSGsBLZXDowRCqVc
+ eWbmGZXelJ64CLNXE2Mmrb7gvLjRpCMxVGoKQ3isbCVoOfhRC4XGK9Bw9uC7PpJjW3Fd
+ 0pyUtTiMPYAp+4O+DbgCp70GmiGvQVF2GMVyhN4pfTI5EO14IgjyyHEve3YZkWq4Wlxh
+ eGgA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV44FHAKfVmIPXJC07rIUu3n/CRmiWmMLWPNtNpUmZULzyfnjVkzL/xx1M3XIlvq/sJBtEfgeH308g=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx6kHj1ypnletgGHggk19EX23IpE1AwpyvegY1EFRZ+MoIAq/xZ
+ 0/gw8AtICIV+s2wUEr+gaq7Uy318MOPx9uMri3sYY7R5OQcCId9NxpST6AGZ66YVnBNbY3Ro+fY
+ jt7ShStwEmn7F8FIQrg7MX6xNk10KL5RhZrW4
+X-Google-Smtp-Source: AGHT+IGgau4syMiJqpfiz+BN973InPoO24YNAxRH9R43N/ngNivhfxeEELeM5iRFh9PG59Y1/XRvme2ovOJhUwuCj+M=
+X-Received: by 2002:a05:6830:2d88:b0:710:f76b:350b with SMTP id
+ 46e09a7af769-713c7d942c7mr1549438a34.5.1727236880259; Tue, 24 Sep 2024
+ 21:01:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZvKhIQGnGrcPURhD@phenom.ffwll.local>
+References: <20240924035231.1163670-1-treapking@chromium.org>
+ <20240924035231.1163670-2-treapking@chromium.org>
+ <CAD=FV=VEMkociw5gyVOtVCPmCyf1b0G7owsAm=o-LxB33YUnjg@mail.gmail.com>
+In-Reply-To: <CAD=FV=VEMkociw5gyVOtVCPmCyf1b0G7owsAm=o-LxB33YUnjg@mail.gmail.com>
+From: Pin-yen Lin <treapking@chromium.org>
+Date: Wed, 25 Sep 2024 12:01:09 +0800
+Message-ID: <CAEXTbpe4R8rXHn1+e55RxzryNW-0YexQfr7M5CBz2hP9qneTQA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/bridge: anx7625: Drop EDID cache on bridge power
+ off
+To: Doug Anderson <dianders@chromium.org>
+Cc: Xin Ji <xji@analogixsemi.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-kernel@vger.kernel.org, 
+ Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,46 +84,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 24, 2024 at 01:23:13PM +0200, Simona Vetter wrote:
-> On Mon, Sep 23, 2024 at 09:28:23AM +0530, Raag Jadav wrote:
-> > Introduce device wedged event, which will notify userspace of wedged
-> > (hanged/unusable) state of the DRM device through a uevent. This is
-> > useful especially in cases where the device is no longer operating as
-> > expected and has become unrecoverable from driver context.
-> > 
-> > Purpose of this implementation is to provide drivers a way to recover
-> > through userspace intervention. Different drivers may have different
-> > ideas of a "wedged device" depending on their hardware implementation,
-> > and hence the vendor agnostic nature of the event. It is up to the drivers
-> > to decide when they see the need for recovery and how they want to recover
-> > from the available methods.
-> > 
-> > Current implementation defines three recovery methods, out of which,
-> > drivers can choose to support any one or multiple of them. Preferred
-> > recovery method will be sent in the uevent environment as WEDGED=<method>.
-> > Userspace consumers (sysadmin) can define udev rules to parse this event
-> > and take respective action to recover the device.
-> > 
-> >  Method    | Consumer expectations
-> > -----------|-----------------------------------
-> >  rebind    | unbind + rebind driver
-> >  bus-reset | unbind + reset bus device + rebind
-> >  reboot    | reboot system
-> > 
-> > v4: s/drm_dev_wedged/drm_dev_wedged_event
-> >     Use drm_info() (Jani)
-> >     Kernel doc adjustment (Aravind)
-> > v5: Send recovery method with uevent (Lina)
-> > v6: Access wedge_recovery_opts[] using helper function (Jani)
-> >     Use snprintf() (Jani)
-> > 
-> > Signed-off-by: Raag Jadav <raag.jadav@intel.com>
-> 
-> Finally caught up on mail, so dropping this here again: Please also add a
-> small section to drm-uapi.rst, pointing at these functions. Just the
-> kerneldoc for developers is kinda not enough I think.
+Hi,
 
-Would you prefer a new section or have the existing one (Device reset which
-looks somewhat similar but not entirely) modified?
+On Wed, Sep 25, 2024 at 12:43=E2=80=AFAM Doug Anderson <dianders@chromium.o=
+rg> wrote:
+>
+> Hi,
+>
+> On Mon, Sep 23, 2024 at 8:53=E2=80=AFPM Pin-yen Lin <treapking@chromium.o=
+rg> wrote:
+> >
+> > The bridge might miss the display change events when it's powered off.
+> > This happens when a user changes the external monitor when the system
+> > is suspended and the embedded controller doesn't not wake AP up.
+> >
+> > It's also observed that one DP-to-HDMI bridge doesn't work correctly
+> > when there is no EDID read after it is powered on.
+> >
+> > Drop the cache to force an EDID read after system resume to fix this.
+> >
+> > Fixes: 8bdfc5dae4e3 ("drm/bridge: anx7625: Add anx7625 MIPI DSI/DPI to =
+DP")
+> > Signed-off-by: Pin-yen Lin <treapking@chromium.org>
+> > ---
+> >
+> >  drivers/gpu/drm/bridge/analogix/anx7625.c | 1 +
+> >  1 file changed, 1 insertion(+)
+>
+> I'm not totally sure if it matters, but I wonder if you should change
+> this to only delete the EDID cache if you're in DP mode and not eDP
+> mode? For eDP mode the panel is not allowed to change and re-reading
+> it needlessly seems like it would slow down things like
+> suspend/resume. I think this would only matter if someone were using
+> eDP panels in the "old" way (not under the aux-bus) because we don't
+> set the "DRM_BRIDGE_OP_EDID" when we see "aux-bus", so maybe we don't
+> care that much but still...
 
-Raag
+I'll update this in v2.
+>
+> Other than that, I know that there have been discussions in the past
+> about EDID caches but I can't quite remember all the details. I know
+> that panel-edp.c still caches it, so we must have concluded that it's
+> at least fine/reasonable for panels. I don't remember whether caching
+> is encouraged / suggested for external displays, though. Do you happen
+> to know if it even makes a difference there (in other words, do you
+> actually see multiple calls to read the EDID when you plug in a DP
+> display)?
+
+At least on ChromeOS, Chrome triggers two EDID reads when I plug in an
+external monitor. I'm not sure if this is common for other DRM masters
+though.
+>
+> -Doug
+
+Regards,
+Pin-yen
