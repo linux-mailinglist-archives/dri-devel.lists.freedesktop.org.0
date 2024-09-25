@@ -2,104 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EE949867AF
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 22:34:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 085959867B6
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 22:39:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8072E10E71E;
-	Wed, 25 Sep 2024 20:34:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DACEF10E2FE;
+	Wed, 25 Sep 2024 20:39:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Vor6ORfe";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="VCqPid5m";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDDF810E71E
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 20:34:27 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id AE696A4481A;
- Wed, 25 Sep 2024 20:34:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94419C4CEC3;
- Wed, 25 Sep 2024 20:34:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1727296466;
- bh=m5R3GPQSy0bIi+Po10NtET+RQXjn0TLy6x7dDFzvlRY=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Vor6ORfefnzPPs91Iul7OTslbva5DV5b26gdWDhUQtr2jcwa5zvdcAOBIjv0s4iYB
- NV6J4KD+SwPnu1m82IHr9NUYh/tSoV5RqA9T2RB0C5bogOSUvVJhhtxV4AzkhxE6HU
- z6UgEhpYzGT7jwIIPeL5ITrndG+lIBzkkrzN41Tu+y2l2mFAXqN+DT/lLEypmOf2pF
- WRG5Yy9ZC94sR8RjYqUdOAIjGDBLbNnV4xIxPFBLowQ3DxiwrHQmq5aXMXZSz4he/Y
- 1tb9TcFhxudeH0/iOxpVjY8onVXQx0fJcxUumIZ57DV9eR6aKw/54Z2YwgKosOgrv+
- fxWcPtTYbtEAg==
-Message-ID: <ca92d19a-716e-4737-8e2b-99de25658869@kernel.org>
-Date: Wed, 25 Sep 2024 22:34:20 +0200
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A90B10E2FE;
+ Wed, 25 Sep 2024 20:39:06 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48PH5JRg021397;
+ Wed, 25 Sep 2024 20:38:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ P6P7lwm0vmj3CCAHkpq3SqDjbGrXo0A50h7s/zhPceM=; b=VCqPid5mj+qJiAnG
+ 6WW3Oxr5GviTCmApAL3UwZSl7EIlwRW36jzxYz+iHBewIkIViWbDIgqbR1nviCpc
+ 2OPy0X0+UphoSzXYB023+lVkCBuAv1isXpVPgpeYB6FaMlJr8FHDNXAlsTPJyIvN
+ +jdMjNP774aYHnHRIEBqRCcENbLNHfvK4r1NQUSmerCbmSTLRRDEotJv7YZj1Eet
+ auCV2PFGEoz5vnTJupa1K1twp+LbEYHoRBjn50VArZMCDeIWjqzDii+dzN4DmAU9
+ A3NfMvuUZ1rEQIff9BKzBjcMITFCVPYS/9vUzne02VcrRI1plSrgiEi+0Y1uu1sF
+ W9erng==
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41sqakn0mm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 25 Sep 2024 20:38:59 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 48PKcwdb025853
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 25 Sep 2024 20:38:58 GMT
+Received: from [10.134.70.212] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 25 Sep
+ 2024 13:38:55 -0700
+Message-ID: <24a11f4c-d848-4f1b-afbd-35b135fa3105@quicinc.com>
+Date: Wed, 25 Sep 2024 13:38:51 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/6] dt-bindings: display: samsung,exynos7-decon: add
- exynos7870 compatible
-To: Kaustabh Chakraborty <kauschluss@disroot.org>
-Cc: airlied@gmail.com, alim.akhtar@samsung.com, conor@kernel.org,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- inki.dae@samsung.com, kyungmin.park@samsung.com,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, robh@kernel.org, simona@ffwll.ch,
- sw0312.kim@samsung.com, tzimmermann@suse.de
-References: <20240919-exynosdrm-decon-v1-0-6c5861c1cb04@disroot.org>
- <20240919-exynosdrm-decon-v1-6-8c3e3ccffad5@disroot.org>
- <32ae1188-196d-4fe8-8719-968e5149a771@kernel.org>
- <7e5caaea80390e8cf87ba0a74d9719f0@disroot.org>
- <1bc0ad48-03c0-4cf6-afb1-2296d1c259b9@kernel.org>
- <8e0672ad3fd72f69d2bdb5687e778c86@disroot.org>
- <ef786b8b-32c0-457a-9e14-ed7bd9f04172@kernel.org>
- <d8f5999921a31d7723e0aa9b12bb9eaf@disroot.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH v2 05/22] drm/msm/dpu: move resource allocation to CRTC
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: Rob Clark <robdclark@gmail.com>, <quic_abhinavk@quicinc.com>, Sean Paul
+ <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, "David
+ Airlie" <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, "Maarten
+ Lankhorst" <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, <quic_ebharadw@quicinc.com>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ Rob Clark <robdclark@chromium.org>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+References: <20240924-concurrent-wb-v2-0-7849f900e863@quicinc.com>
+ <20240924-concurrent-wb-v2-5-7849f900e863@quicinc.com>
+ <dv5iij6v76ieprfckdjo4yksrjrgqw73v2lh7u4xffpu7rdrf3@zgjcp3a2hlxo>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <d8f5999921a31d7723e0aa9b12bb9eaf@disroot.org>
-Content-Type: text/plain; charset=UTF-8
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <dv5iij6v76ieprfckdjo4yksrjrgqw73v2lh7u4xffpu7rdrf3@zgjcp3a2hlxo>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: HQfy6X8dyIuenG609UO1FYSJh9K-t1tf
+X-Proofpoint-GUID: HQfy6X8dyIuenG609UO1FYSJh9K-t1tf
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 priorityscore=1501
+ bulkscore=0 impostorscore=0 suspectscore=0 phishscore=0 adultscore=0
+ clxscore=1015 malwarescore=0 lowpriorityscore=0 mlxlogscore=999
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2408220000 definitions=main-2409250147
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,49 +99,115 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25/09/2024 22:05, Kaustabh Chakraborty wrote:
-> On 2024-09-25 19:56, Krzysztof Kozlowski wrote:
->> On 25/09/2024 21:36, Kaustabh Chakraborty wrote:
->>> On 2024-09-25 19:25, Krzysztof Kozlowski wrote:
->>>> On 25/09/2024 20:42, Kaustabh Chakraborty wrote:
->>>>> On 2024-09-20 12:39, Krzysztof Kozlowski wrote:
->>>>>> On 19/09/2024 17:20, Kaustabh Chakraborty wrote:
->>>>>>> Add the compatible string of Exynos7870 to the existing list.
->>>>>>>
->>>>>>> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
->>>>>>
->>>>>> ... and the DTS is <please provide lore ink in changelog>?
->>>>>
->>>>> Didn't quite understand. The patch adds the compatible string
->>>>> for Exynos7870 DECON in documentation. There's no DTS involved
->>>>> in here, right?
->>>>
->>>> Provide lore link to the DTS submission.
->>>
->>> There aren't any DTS submissions *yet* which use the compatible.
->>> Is that an issue?
->>>
+
+
+On 9/24/2024 4:13 PM, Dmitry Baryshkov wrote:
+> On Tue, Sep 24, 2024 at 03:59:21PM GMT, Jessica Zhang wrote:
+>> From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 >>
->> Yeah, users are supposed to be upstream. Not downstream.
+>> All resource allocation is centered around the LMs. Then other blocks
+>> (except DSCs) are allocated basing on the LMs that was selected, and LM
+>> powers up the CRTC rather than the encoder.
+>>
+>> Moreover if at some point the driver supports encoder cloning,
+>> allocating resources from the encoder will be incorrect, as all clones
+>> will have different encoder IDs, while LMs are to be shared by these
+>> encoders.
+>>
+>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> [quic_abhinavk@quicinc.com: Refactored resource allocation for CDM]
+>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>> [quic_jesszhan@quicinc.com: Changed to grabbing exising global state]
+>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+>> ---
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    |  86 ++++++++++++
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 201 +++++++++++-----------------
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  19 +++
+>>   3 files changed, 183 insertions(+), 123 deletions(-)
+>>
+>> @@ -544,159 +542,117 @@ void dpu_encoder_helper_split_config(
+>>   	}
+>>   }
+>>   
+>> -bool dpu_encoder_use_dsc_merge(struct drm_encoder *drm_enc)
+>> +void dpu_encoder_update_topology(struct drm_encoder *drm_enc,
+>> +				 struct msm_display_topology *topology,
+>> +				 struct drm_atomic_state *state,
+>> +				 const struct drm_display_mode *adj_mode)
+>>   {
+>>   	struct dpu_encoder_virt *dpu_enc = to_dpu_encoder_virt(drm_enc);
+>> -	int i, intf_count = 0, num_dsc = 0;
+>> +	struct drm_connector *connector;
+>> +	struct drm_connector_state *conn_state;
+>> +	struct msm_display_info *disp_info;
+>> +	struct drm_framebuffer *fb;
+>> +	struct msm_drm_private *priv;
+>> +	int i;
+>>   
+>>   	for (i = 0; i < MAX_PHYS_ENCODERS_PER_VIRTUAL; i++)
+>>   		if (dpu_enc->phys_encs[i])
+>> -			intf_count++;
+>> +			topology->num_intf++;
+>>   
+>> -	/* See dpu_encoder_get_topology, we only support 2:2:1 topology */
+>> +	/* We only support 2 DSC mode (with 2 LM and 1 INTF) */
+>>   	if (dpu_enc->dsc)
+>> -		num_dsc = 2;
+>> +		topology->num_dsc += 2;
+>>   
+>> -	return (num_dsc > 0) && (num_dsc > intf_count);
+>> -}
+>> +	connector = drm_atomic_get_new_connector_for_encoder(state, drm_enc);
+>> +	if (!connector)
+>> +		return;
+>> +	conn_state = drm_atomic_get_new_connector_state(state, connector);
+>> +	if (!conn_state)
+>> +		return;
+>>   
+>> -struct drm_dsc_config *dpu_encoder_get_dsc_config(struct drm_encoder *drm_enc)
+>> -{
+>> -	struct msm_drm_private *priv = drm_enc->dev->dev_private;
+>> -	struct dpu_encoder_virt *dpu_enc = to_dpu_encoder_virt(drm_enc);
+>> -	int index = dpu_enc->disp_info.h_tile_instance[0];
+>> +	disp_info = &dpu_enc->disp_info;
+>>   
+>> -	if (dpu_enc->disp_info.intf_type == INTF_DSI)
+>> -		return msm_dsi_get_dsc_config(priv->dsi[index]);
+>> +	priv = drm_enc->dev->dev_private;
+>>   
+>> -	return NULL;
+>> +	/*
+>> +	 * Use CDM only for writeback or DP at the moment as other interfaces cannot handle it.
+>> +	 * If writeback itself cannot handle cdm for some reason it will fail in its atomic_check()
+>> +	 * earlier.
+>> +	 */
+>> +	if (disp_info->intf_type == INTF_WB && conn_state->writeback_job) {
+>> +		fb = conn_state->writeback_job->fb;
+>> +
+>> +		if (fb && MSM_FORMAT_IS_YUV(msm_framebuffer_format(fb)))
+>> +			topology->needs_cdm = true;
+>> +	} else if (disp_info->intf_type == INTF_DP) {
+>> +		if (msm_dp_is_yuv_420_enabled(priv->dp[disp_info->h_tile_instance[0]], adj_mode))
+>> +			topology->needs_cdm = true;
+>> +	}
 > 
-> I understand that. I had plans to submit it in the future.
-> If that's how it's meant to be done, I'll have to revisit this
-> submission at a later date then.
+> Just to note, the needs_cdm is not enough once you introduce CWB
+> support. E.g. DP/YUV420 + WB/YUV case requires two CDM blocks (which we
+> don't have), but this doesn't get reflected in the topology.
+
+Hi Dmitry,
+
+Ack. I can add something to make atomic_check fail if the input FB is 
+YUV format and CWB is enabled.
+
+Thanks,
+
+Jessica Zhang
+
 > 
-
-Partial, asynchronous bringup of a device is fine, so if the basic
-support is there, I understand that drivers come in different pace.
-Although I don't understand why DTS for this piece of hardware would
-come in different pace, considering you cannot test it without DTS. You
-have there DTS, so it should be sent.
-
-But even without the DTS for DECON, the problem is earlier - lack of
-basic support for this device. There is nothing for this chip.
-
-This means it cannot be tested and is trickier to verify. That's not the
-usual upstreaming way we expect, especially that you did not provide
-rationale for such way.
-
-Best regards,
-Krzysztof
+>>   }
+>>   
+> -- 
+> With best wishes
+> Dmitry
 
