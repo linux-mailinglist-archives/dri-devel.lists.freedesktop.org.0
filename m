@@ -2,54 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D138298696F
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 01:22:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3AED98696E
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 01:22:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B1F910E21F;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3245910E86D;
 	Wed, 25 Sep 2024 23:21:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=steffen.cc header.i=@steffen.cc header.b="m5qm48j9";
+	dkim=pass (2048-bit key; secure) header.d=disroot.org header.i=@disroot.org header.b="EYVjzcmT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAF9410E08D
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 07:54:27 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4XD8Bm35cZz9v4R;
- Wed, 25 Sep 2024 09:54:24 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=steffen.cc; s=MBO0001; 
- t=1727250864;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ssNsTClmvzZGt7dAiZekgw2sOzzp7SvRTXHsAhVGRrA=;
- b=m5qm48j9NVXvUlqcaEFs1InzyvnLErovyyiYxbLOJMvGrhSi+Ygblqlpzo+flUkc1qaD4N
- O5hPCIPNN2DZJl86hgyWD85IIWtRn5vGbI11Fst2wK+CDFQCD+MDz5iRfoDaYBTfjrcbTF
- aZ6+IV31xFHYV/qT5tCD5gM7DnE/WQ6zB7FQ9xuscjBVpumfzhiJgb1ESidwnl2m7NBQmA
- pRlgWpywZi0EfdSAfxYoR+5+r32bG+R2xnpTLwLtEVwdDZwVmfJ63mITK9obBQ+4/9KmHP
- IFAGHcxINj1MkpH0keea3NMDUtaGg7ZJuKCvNx61YJh/0k0N2bfp6UhR7VM2Wg==
-Message-ID: <e4626c1d3b28613d1d219c735bcd8525be0f0d9e.camel@dirkwinkel.cc>
-Subject: Re: [PATCH] drm: xlnx: zynqmp_dpsub: also call
- drm_helper_hpd_irq_event
-From: Steffen Dirkwinkel <lists@steffen.cc>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: dri-devel@lists.freedesktop.org, Maarten Lankhorst	
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Michal Simek <michal.simek@amd.com>,
- linux-arm-kernel@lists.infradead.org, 	linux-kernel@vger.kernel.org
-Date: Wed, 25 Sep 2024 09:54:18 +0200
-In-Reply-To: <20240924184335.GJ30551@pendragon.ideasonboard.com>
-References: <20240923074803.10306-1-lists@steffen.cc>
- <20240924184335.GJ30551@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAE4310E069
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 18:42:57 +0000 (UTC)
+Received: from mail01.disroot.lan (localhost [127.0.0.1])
+ by disroot.org (Postfix) with ESMTP id 55A9523D1B;
+ Wed, 25 Sep 2024 20:42:56 +0200 (CEST)
+X-Virus-Scanned: SPAM Filter at disroot.org
+Received: from layka.disroot.org ([127.0.0.1])
+ by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 66obs_xSAmAR; Wed, 25 Sep 2024 20:42:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
+ t=1727289775; bh=iH3kv/Fhc3qp7AndKlRXmww1+0hDdkL2ol8oXq9fdgw=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References;
+ b=EYVjzcmTrWkOV3fPFDqE6lG0O8exqtCr6cEZ40KYnLYm8mx9ZzSwSrSnwWHXf5JM9
+ YxCjWJkBHSCySmZVbKPakgV7+0FCyylObZH9LsY5Qj3sQYS2ivDkFsvc+hnguzPbGx
+ gVG/L2KambHRNn13IJktK5RidJffO+z5g+5grdbmfpsU7u4PA4HDhmwts+F7YEtbxw
+ hvJUyoQJJcP+sMq5RzuP7y00iU9IdJLwK/5AS3rg0cingNR4G/JrMAoAuZ48/7hz6C
+ amWZNfoz/7tNQiv8CTqvL+Dn0tgIjbjg0ppmZx/HBCXW7plYFpK4K6jLfM8dxH28ta
+ G1vbnv8g7fang==
 MIME-Version: 1.0
+Date: Wed, 25 Sep 2024 18:42:55 +0000
+From: Kaustabh Chakraborty <kauschluss@disroot.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: airlied@gmail.com, alim.akhtar@samsung.com, conor@kernel.org,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ inki.dae@samsung.com, kyungmin.park@samsung.com,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, robh@kernel.org, simona@ffwll.ch,
+ sw0312.kim@samsung.com, tzimmermann@suse.de, kauschluss@disroot.org
+Subject: Re: [PATCH 6/6] dt-bindings: display: samsung,exynos7-decon: add
+ exynos7870 compatible
+In-Reply-To: <32ae1188-196d-4fe8-8719-968e5149a771@kernel.org>
+References: <20240919-exynosdrm-decon-v1-0-6c5861c1cb04@disroot.org>
+ <20240919-exynosdrm-decon-v1-6-8c3e3ccffad5@disroot.org>
+ <32ae1188-196d-4fe8-8719-968e5149a771@kernel.org>
+Message-ID: <7e5caaea80390e8cf87ba0a74d9719f0@disroot.org>
+X-Sender: kauschluss@disroot.org
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-Mailman-Approved-At: Wed, 25 Sep 2024 23:21:53 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,60 +68,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent,
+On 2024-09-20 12:39, Krzysztof Kozlowski wrote:
+> On 19/09/2024 17:20, Kaustabh Chakraborty wrote:
+>> Add the compatible string of Exynos7870 to the existing list.
+>> 
+>> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
+> 
+> ... and the DTS is <please provide lore ink in changelog>?
 
-On Tue, 2024-09-24 at 21:43 +0300, Laurent Pinchart wrote:
-> Hi Steffen,
->=20
-> Thank you for the patch.
->=20
-> On Mon, Sep 23, 2024 at 09:48:03AM +0200, lists@steffen.cc=C2=A0wrote:
-> > From: Steffen Dirkwinkel <s.dirkwinkel@beckhoff.com>
-> >=20
-> > With hpd going through the bridge as of commit eb2d64bfcc17
-> > ("drm: xlnx: zynqmp_dpsub: Report HPD through the bridge")
-> > we don't get hotplug events in userspace on zynqmp hardware.
-> > Also sending hotplug events with drm_helper_hpd_irq_event works.
->=20
-> Why does the driver need to call both drm_helper_hpd_irq_event() and
-> drm_bridge_hpd_notify() ? The latter should end up calling
-> drm_kms_helper_connector_hotplug_event(), which is the same function
-> that drm_helper_hpd_irq_event() calls.
+Didn't quite understand. The patch adds the compatible string
+for Exynos7870 DECON in documentation. There's no DTS involved
+in here, right?
 
-I don't know why we need drm_helper_hpd_irq_event.
-I'll try to trace what happens on hotplug.
-
->=20
-> > Fixes: eb2d64bfcc17 ("drm: xlnx: zynqmp_dpsub: Report HPD through
-> > the bridge")
-> > Signed-off-by: Steffen Dirkwinkel <s.dirkwinkel@beckhoff.com>
-> > ---
-> > =C2=A0drivers/gpu/drm/xlnx/zynqmp_dp.c | 4 ++++
-> > =C2=A01 file changed, 4 insertions(+)
-> >=20
-> > diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> > b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> > index 1846c4971fd8..cb823540a412 100644
-> > --- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> > +++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> > @@ -17,6 +17,7 @@
-> > =C2=A0#include <drm/drm_fourcc.h>
-> > =C2=A0#include <drm/drm_modes.h>
-> > =C2=A0#include <drm/drm_of.h>
-> > +#include <drm/drm_probe_helper.h>
-> > =C2=A0
-> > =C2=A0#include <linux/clk.h>
-> > =C2=A0#include <linux/delay.h>
-> > @@ -1614,6 +1615,9 @@ static void zynqmp_dp_hpd_work_func(struct
-> > work_struct *work)
-> > =C2=A0					=C2=A0=C2=A0=C2=A0 hpd_work.work);
-> > =C2=A0	enum drm_connector_status status;
-> > =C2=A0
-> > +	if (dp->bridge.dev)
-> > +		drm_helper_hpd_irq_event(dp->bridge.dev);
-> > +
-> > =C2=A0	status =3D zynqmp_dp_bridge_detect(&dp->bridge);
-> > =C2=A0	drm_bridge_hpd_notify(&dp->bridge, status);
-> > =C2=A0}
->=20
-
+> 
+> 
+> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> 
+> Best regards,
+> Krzysztof
