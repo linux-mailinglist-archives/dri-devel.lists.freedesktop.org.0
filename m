@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D66C09863E7
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 17:43:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB8C09863E9
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 17:43:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CAFD10EA47;
-	Wed, 25 Sep 2024 15:43:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 674DB10EA4E;
+	Wed, 25 Sep 2024 15:43:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZsFMD/VF";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="aqa/9ssF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
- [209.85.218.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4D1F10EA47
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 15:43:01 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id
- a640c23a62f3a-a83562f9be9so392866b.0
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 08:43:01 -0700 (PDT)
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
+ [209.85.208.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA79D10EA3C
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 15:43:04 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id
+ 4fb4d7f45d1cf-5c42384c517so8372924a12.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 08:43:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1727278980; x=1727883780; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1727278983; x=1727883783; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=XWbh6GTwX/Nur9rLh4dOxd0uol8CDj0VjkbwHekxRn0=;
- b=ZsFMD/VFD07TGUEQDNgXKxsp4mD4DVj0oaLtCTsthN8odZQfy8MM0+vEQX5qhGpkq+
- t7YcavWiA8VfuSBpgppEcecJulYv7ihre/cnssZ7oHoLVFbqzpEPC5g7jsB+hmUgzI0H
- CuDeLe1jr/dF1NbAA/vfedsctlXYdR8EfxTkKcoCNEbTYlP0mi9azZUSslPgIBeoOb+J
- vTkasmAmkzo1A0jS+mUOBbDE7Rr8kwwzvraG2mPg/C4zrtsZbJLWP5JOQ16KOHIvjbtE
- OCth9VJ9gUcXCtlx4sPcaHmybi3Gp+i5iK/lAZ0RPyNKbHtWW9WFoGJYUM73dPvLxeAb
- jawg==
+ :reply-to; bh=3dpOZ/ioTVT/5il6ou2oxhriDCIeCxURBP+dRZuK6nM=;
+ b=aqa/9ssFZ0/haprlbi0RfgzyLU/qKZGG5PNenujqzjA9Pib1CmjRZFcvKWuWkjyngv
+ DFA4cq8+GwgIfK2emrTOKPVuB5x6TYIQQJ7AnUux5RuNpjR63xKh2SxmtueGD4+3msyF
+ sVqOZ1kfrZP56cH/Oskxx+mDH+96kb02aarVcsUMD6pFgMq2Y4SAwjOpCTr/IE2i+kdC
+ mWVAm69QqUJxoQxBjfiYNbkzjddhm1McH/VzsCXmq8UqZ5bONOe3qbk3ufbeywfcMgII
+ kOFG8D6UBX6Yf2hcFI1QD4MgwKWY15a49Ry03RplwvwwNKHGWw95lNBxGW0P402kcxF7
+ hXVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727278980; x=1727883780;
+ d=1e100.net; s=20230601; t=1727278983; x=1727883783;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=XWbh6GTwX/Nur9rLh4dOxd0uol8CDj0VjkbwHekxRn0=;
- b=aOXgo/i35fOtdztjnrqE4n8Jyg3DA1a0saIcXHk3bRfgKp3nuXw3zMi90rg6X9fy9K
- 0kRG7ssvuO5sW8kR9RbwcuFu7C2CLwVEVaCLiPwxV5JGO0MRcwG+Sp8y0iywocO++ozk
- 4T3UuqRriL+knq+h3ISIsWg7JKcQU+P8BqzURyHsul+Fe9oPN17kdIDWZ72AaIXtkp7h
- EUwTJr1sqqDpQXwCX9xpK3zitzNr1NrKAbdXGqPWzZy5RS3M15kcoQgV2pYVUOgcu1vF
- 4HZy4+Qg7ar3mcT52oVhBlX8VPZBMW/HZq5IARULatnjWivf3p/ZSa9i6UfOXmDIbMxl
- vYWA==
-X-Gm-Message-State: AOJu0YwKyu+utHzJqZw9u4V0GxPM5yQ+WhzS6mCpKbTI96EAgZ8zsy1l
- Am2GpYcpXPBwQey5dfJQDPeso2hBuNaOmaU4kVAlDZl5oSgc06cH
-X-Google-Smtp-Source: AGHT+IFOGCZlm7hxWZEDil/VHBukKjDMSy3xe8mZT1I0E9J+s+NIqup/Xj8x8pzeHvNlSTbRH1jJ6w==
-X-Received: by 2002:a17:907:742:b0:a8b:6ee7:ba28 with SMTP id
- a640c23a62f3a-a93a0341396mr287138266b.1.1727278979968; 
- Wed, 25 Sep 2024 08:42:59 -0700 (PDT)
+ bh=3dpOZ/ioTVT/5il6ou2oxhriDCIeCxURBP+dRZuK6nM=;
+ b=npPHwLyVbt9Lg5eJY0ncHd8J8Bq2SCt9urY5eMihY8CUp/0fkf2fOwuJzlajXLe2eo
+ N4qAQHTboy2VXjZKTKFvCndC6Bm3L77hWYFvp2SI+ynXTjz7kOrWNLEkYk+ILjvc2iP6
+ ypzcHEBXoueEUgm9C5LAyZS5AZSXgCQy9cnSnoRrl8V1z7TPYZGi6HsGjxn1gNGjsvdr
+ MXk6hUq3v8NBF+BWlaGOzD5BTLmHkNh//OGa+QYPIz9XEECcVwjyJMW5N4LDcm1SGh9d
+ QI5sTkv82xImNdzzD+0WlGvlYYWpADSWNODtBg/reVxrKD2qvM2WY65zbXs1PJJMJr5f
+ Dbfg==
+X-Gm-Message-State: AOJu0YzMrToc8vSsG8fP55QmpnfgjCx7zqZbIUslCTbubTm6meToXokC
+ kNnbE/Kw7cY/wV7IyAcO3EmhxlidFM9Lfa/RMiEsqGadorxVf0zL
+X-Google-Smtp-Source: AGHT+IGKuNv7lE0u67hJ2OAhIVHl0bYdcTWRyaXR7IlGUKMo0Hm1JsihuqtBmJ8apswZAkFgkwRFnw==
+X-Received: by 2002:a17:907:1ca1:b0:a8c:78a5:8fc4 with SMTP id
+ a640c23a62f3a-a93a036a36bmr248782566b.19.1727278982930; 
+ Wed, 25 Sep 2024 08:43:02 -0700 (PDT)
 Received: from [127.0.1.1] ([213.208.157.67]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a9392f3420esm221803466b.40.2024.09.25.08.42.57
+ a640c23a62f3a-a9392f3420esm221803466b.40.2024.09.25.08.43.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Sep 2024 08:42:59 -0700 (PDT)
+ Wed, 25 Sep 2024 08:43:02 -0700 (PDT)
 From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Date: Wed, 25 Sep 2024 17:42:40 +0200
-Subject: [PATCH 1/6] drm/bridge: dpc3433: Constify struct regmap_config
+Date: Wed, 25 Sep 2024 17:42:41 +0200
+Subject: [PATCH 2/6] drm/fsl-dcu: Constify struct regmap_config
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240925-drm-const-regmap-v1-1-e609d502401b@gmail.com>
+Message-Id: <20240925-drm-const-regmap-v1-2-e609d502401b@gmail.com>
 References: <20240925-drm-const-regmap-v1-0-e609d502401b@gmail.com>
 In-Reply-To: <20240925-drm-const-regmap-v1-0-e609d502401b@gmail.com>
 To: Jagan Teki <jagan@amarulasolutions.com>, 
@@ -84,11 +84,11 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-amlogic@lists.infradead.org, 
  Javier Carrasco <javier.carrasco.cruz@gmail.com>
 X-Mailer: b4 0.14-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1727278971; l=841;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1727278971; l=797;
  i=javier.carrasco.cruz@gmail.com; s=20240312; h=from:subject:message-id;
- bh=7sxYHbFVUy82VPtxBTafFtyJ4V/px/ZO0hSTzcua6/s=;
- b=a1oRJ13BKg+sndE24RLHGwgqk3PJapTy3e06yyGNw7SE3ROWSvYabdohlrCbkn9bjP2TpGvpw
- SI97afI/Lq2DamjammUDr/YLmCMfIJxNhTzop91yyMyj7KjM74Q+KXg
+ bh=j5IVdz0beAjnl/rD8q67jV1CX8MClFwEzj++cGsQuD0=;
+ b=4dMgS2dx5TyC8IP1MnInm+QJtBRuPpVnV4hoTf094WArm4pWhlF0Mhj9oO7SjZ12DXIAB3adY
+ 5WH2uozmSnrD87oiirTQsU5nwiuxGKcfiISjPQfFww1GYXuUT2164v3
 X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
  pk=lzSIvIzMz0JhJrzLXI0HAdPwsNPSSmEn6RbS+PTS9aQ=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -106,27 +106,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-`dlpc_regmap_config` is not modified and can be declared as const to
+`fsl_tcon_regmap_config` is not modified and can be declared as const to
 move its data to a read-only section.
 
 Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
 ---
- drivers/gpu/drm/bridge/ti-dlpc3433.c | 2 +-
+ drivers/gpu/drm/fsl-dcu/fsl_tcon.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/bridge/ti-dlpc3433.c b/drivers/gpu/drm/bridge/ti-dlpc3433.c
-index 6b559e071301..a0a1b5dd794e 100644
---- a/drivers/gpu/drm/bridge/ti-dlpc3433.c
-+++ b/drivers/gpu/drm/bridge/ti-dlpc3433.c
-@@ -94,7 +94,7 @@ static const struct regmap_access_table dlpc_volatile_table = {
- 	.n_yes_ranges = ARRAY_SIZE(dlpc_volatile_ranges),
- };
+diff --git a/drivers/gpu/drm/fsl-dcu/fsl_tcon.c b/drivers/gpu/drm/fsl-dcu/fsl_tcon.c
+index 9eb5abaf7d66..49bbd00c77ae 100644
+--- a/drivers/gpu/drm/fsl-dcu/fsl_tcon.c
++++ b/drivers/gpu/drm/fsl-dcu/fsl_tcon.c
+@@ -29,7 +29,7 @@ void fsl_tcon_bypass_enable(struct fsl_tcon *tcon)
+ 			   FSL_TCON_CTRL1_TCON_BYPASS);
+ }
  
--static struct regmap_config dlpc_regmap_config = {
-+static const struct regmap_config dlpc_regmap_config = {
- 	.reg_bits		= 8,
- 	.val_bits		= 8,
- 	.max_register		= WR_DSI_PORT_EN,
+-static struct regmap_config fsl_tcon_regmap_config = {
++static const struct regmap_config fsl_tcon_regmap_config = {
+ 	.reg_bits = 32,
+ 	.reg_stride = 4,
+ 	.val_bits = 32,
 
 -- 
 2.43.0
