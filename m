@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7B3C985A80
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 14:08:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9936B985A83
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 14:08:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E41710E9E8;
-	Wed, 25 Sep 2024 12:08:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8310610E9EA;
+	Wed, 25 Sep 2024 12:08:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NajnH/+J";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VI22SQww";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B200710E9E7;
- Wed, 25 Sep 2024 12:08:28 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D28D10E9E7;
+ Wed, 25 Sep 2024 12:08:31 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 33E065C5BAD;
- Wed, 25 Sep 2024 12:08:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DEFCC4CECE;
- Wed, 25 Sep 2024 12:08:25 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 39739A44160;
+ Wed, 25 Sep 2024 12:08:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A4DFC4CEC3;
+ Wed, 25 Sep 2024 12:08:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1727266107;
- bh=OB6NENlvZSwTU8nlAMQ/WpdGI0kcmwA0lqhEFOvXgMo=;
+ s=k20201202; t=1727266110;
+ bh=DIhr0J1rmpdOZj57I74FlI06C9ruFqKjd5Nk6Bk903k=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=NajnH/+JmiBMy5VAgdgw6FXMxUQOkc11CxvDTp0KpPrQbtzIFPNO7i4E5mhaCIlnf
- 8G6Ky593bWXciP1lknTZy8P4g5cbe0myym7NmrPIvhhTVlbloE8L7RQ9CukW8Xp3KR
- /oZ+PHFDGa1DTgrYvTp/qLuf1xKus0IOP7kzuCgPf4m5oRYCU5H5wpBotaDhFiI652
- F/38t+9NPMjJEC4PHed+AYn3Rdeo7LUnc4rCquH7TqWRAzexK9v7cue9SpBFyyFIcQ
- etxIZfBIZVjvgoVGAGTRQDVEVm9Hu3GHtQNBuacovhG3B2uk4eSCUR918rJi/q5jyx
- 2q6hFRK3B+Zlg==
+ b=VI22SQwwlE6mhrsS6EUKW/BFyth8ASZmQhIxeW8QTrHuoEVKha/nuVzd7i6i10dU6
+ Pt52qUsjJQ/GLZHYss8Wio17lVMAGBUra1C51U548Fxu+RPJpPRLWcsNcKvIGTEw9K
+ GetcPi6Na1mrUJ0i3l0GHGBtWf5RnuKmzx/2s8ADH4mx+GTKLeHUo+qCauytSfdlZ4
+ Xg8+O/mrwm79epATu8zz/prkUHmXeKdq2wWfP0tlx9hEP2AUTtLHvt8/NohgRriE9F
+ +e1e0o1/gXw/4aMx0fmyxJs6D56kGWGJsRa59vgEn0vpDDK4jubw4LoFiiSCGnHzFe
+ YFuz/HuDgZdiA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Tim Huang <tim.huang@amd.com>, Jesse Zhang <jesse.zhang@amd.com>,
+Cc: Hawking Zhang <Hawking.Zhang@amd.com>, Tao Zhou <tao.zhou1@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- kenneth.feng@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch, kevinyang.wang@amd.com,
- Jun.Ma2@amd.com, amd-gfx@lists.freedesktop.org,
+ Felix.Kuehling@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, daniel@ffwll.ch, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.10 174/197] drm/amd/pm: ensure the fw_info is not
- null before using it
-Date: Wed, 25 Sep 2024 07:53:13 -0400
-Message-ID: <20240925115823.1303019-174-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.10 175/197] drm/amdkfd: Check int source id for
+ utcl2 poison event
+Date: Wed, 25 Sep 2024 07:53:14 -0400
+Message-ID: <20240925115823.1303019-175-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240925115823.1303019-1-sashal@kernel.org>
 References: <20240925115823.1303019-1-sashal@kernel.org>
@@ -66,34 +65,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tim Huang <tim.huang@amd.com>
+From: Hawking Zhang <Hawking.Zhang@amd.com>
 
-[ Upstream commit 186fb12e7a7b038c2710ceb2fb74068f1b5d55a4 ]
+[ Upstream commit db6341a9168d2a24ded526277eeab29724d76e9d ]
 
-This resolves the dereference null return value warning
-reported by Coverity.
+Traditional utcl2 fault_status polling does not
+work in SRIOV environment. The polling of fault
+status register from guest side will be dropped
+by hardware.
 
-Signed-off-by: Tim Huang <tim.huang@amd.com>
-Reviewed-by: Jesse Zhang <jesse.zhang@amd.com>
+Driver should switch to check utcl2 interrupt
+source id to identify utcl2 poison event. It is
+set to 1 when poisoned data interrupts are
+signaled.
+
+v2: drop the unused local variable (Tao)
+
+Signed-off-by: Hawking Zhang <Hawking.Zhang@amd.com>
+Reviewed-by: Tao Zhou <tao.zhou1@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/pm/powerplay/hwmgr/processpptables.c | 2 ++
- 1 file changed, 2 insertions(+)
+ .../gpu/drm/amd/amdkfd/kfd_int_process_v9.c    | 18 +-----------------
+ drivers/gpu/drm/amd/amdkfd/soc15_int.h         |  1 +
+ 2 files changed, 2 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/processpptables.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/processpptables.c
-index 5794b64507bf9..56a2257525806 100644
---- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/processpptables.c
-+++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/processpptables.c
-@@ -1185,6 +1185,8 @@ static int init_overdrive_limits(struct pp_hwmgr *hwmgr,
- 	fw_info = smu_atom_get_data_table(hwmgr->adev,
- 			 GetIndexIntoMasterTable(DATA, FirmwareInfo),
- 			 &size, &frev, &crev);
-+	PP_ASSERT_WITH_CODE(fw_info != NULL,
-+			    "Missing firmware info!", return -EINVAL);
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_int_process_v9.c b/drivers/gpu/drm/amd/amdkfd/kfd_int_process_v9.c
+index 78dde62fb04ad..c282f5253c445 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_int_process_v9.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_int_process_v9.c
+@@ -414,25 +414,9 @@ static void event_interrupt_wq_v9(struct kfd_node *dev,
+ 		   client_id == SOC15_IH_CLIENTID_UTCL2) {
+ 		struct kfd_vm_fault_info info = {0};
+ 		uint16_t ring_id = SOC15_RING_ID_FROM_IH_ENTRY(ih_ring_entry);
+-		uint32_t node_id = SOC15_NODEID_FROM_IH_ENTRY(ih_ring_entry);
+-		uint32_t vmid_type = SOC15_VMID_TYPE_FROM_IH_ENTRY(ih_ring_entry);
+-		int hub_inst = 0;
+ 		struct kfd_hsa_memory_exception_data exception_data;
  
- 	if ((fw_info->ucTableFormatRevision == 1)
- 	    && (le16_to_cpu(fw_info->usStructureSize) >= sizeof(ATOM_FIRMWARE_INFO_V1_4)))
+-		/* gfxhub */
+-		if (!vmid_type && dev->adev->gfx.funcs->ih_node_to_logical_xcc) {
+-			hub_inst = dev->adev->gfx.funcs->ih_node_to_logical_xcc(dev->adev,
+-				node_id);
+-			if (hub_inst < 0)
+-				hub_inst = 0;
+-		}
+-
+-		/* mmhub */
+-		if (vmid_type && client_id == SOC15_IH_CLIENTID_VMC)
+-			hub_inst = node_id / 4;
+-
+-		if (amdgpu_amdkfd_ras_query_utcl2_poison_status(dev->adev,
+-					hub_inst, vmid_type)) {
++		if (source_id == SOC15_INTSRC_VMC_UTCL2_POISON) {
+ 			event_interrupt_poison_consumption_v9(dev, pasid, client_id);
+ 			return;
+ 		}
+diff --git a/drivers/gpu/drm/amd/amdkfd/soc15_int.h b/drivers/gpu/drm/amd/amdkfd/soc15_int.h
+index 10138676f27fd..e5c0205f26181 100644
+--- a/drivers/gpu/drm/amd/amdkfd/soc15_int.h
++++ b/drivers/gpu/drm/amd/amdkfd/soc15_int.h
+@@ -29,6 +29,7 @@
+ #define SOC15_INTSRC_CP_BAD_OPCODE	183
+ #define SOC15_INTSRC_SQ_INTERRUPT_MSG	239
+ #define SOC15_INTSRC_VMC_FAULT		0
++#define SOC15_INTSRC_VMC_UTCL2_POISON	1
+ #define SOC15_INTSRC_SDMA_TRAP		224
+ #define SOC15_INTSRC_SDMA_ECC		220
+ #define SOC21_INTSRC_SDMA_TRAP		49
 -- 
 2.43.0
 
