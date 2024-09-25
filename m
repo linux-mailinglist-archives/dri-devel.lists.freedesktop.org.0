@@ -2,70 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C26C98644C
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 17:58:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 942E098646B
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 18:04:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBE7310EA57;
-	Wed, 25 Sep 2024 15:58:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAA7D10E2F2;
+	Wed, 25 Sep 2024 16:04:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EoaPma+h";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BmZYy6mh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com
- [209.85.215.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1746610E129;
- Wed, 25 Sep 2024 15:58:00 +0000 (UTC)
-Received: by mail-pg1-f180.google.com with SMTP id
- 41be03b00d2f7-7db637d1e4eso5065005a12.2; 
- Wed, 25 Sep 2024 08:58:00 -0700 (PDT)
+Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com
+ [209.85.160.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5988810E2F2;
+ Wed, 25 Sep 2024 16:04:43 +0000 (UTC)
+Received: by mail-oa1-f43.google.com with SMTP id
+ 586e51a60fabf-27b7a1480bdso38966fac.2; 
+ Wed, 25 Sep 2024 09:04:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1727279879; x=1727884679; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1727280282; x=1727885082; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from
  :content-language:references:cc:to:subject:user-agent:mime-version
  :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
- bh=xG6Lw3maI63K1aRdF6sbTXLasyiyJWOTvcy+KvXCbbU=;
- b=EoaPma+hudTOTTET1xzUp57MsOn+zeVZs4UV13c1c518KqpnoMIyyFFt9lwX2FyPgH
- 6qbZopqxqXYVQtKWWC0hJDHeYi5Zn5tbw0Xuc9Nn1VtJbKESLhL3p5ViuSGli6XBT6Bg
- iGW3V9e5seXbW8up86rVuG3s6xbosUjRdMI0AJNB5ZYmYkhKnFtszQ58nQJ5UDXmrqt4
- QPNODChXdmyAmLcwQM3ITczqLyisfdXEbInkKqGhusoUpUPoT8q2zK7wKGfEtiMN2pKF
- OKCvUxO+xUk5my29eAWT9X1fvwi6c6XsAjxa3RGcYJ0v1KA+SeLA2o2vQ/NFAMQlLKuu
- mnRw==
+ bh=u1Gr80ro8+ummkN/WH/W07Tsla30e6APnC3O5egIj90=;
+ b=BmZYy6mhqqCjOY4nnLaeiEFR8dwgJubCBm6qYm1BMRdqIPt2/AIsQDGIm6/nNu/akZ
+ ii0moeU498Lu9OeJBndieqExs6FC2Pf4weKWYZKvveR7EuZOxrnUAk0rgD/W+3xJAlqC
+ aRMtUS4tCGBldC7dVFe8bQ1MBRinSWRGnI6+nrGmD4IP60iDCZQOlG93kyW9duTCoDjw
+ fBtx+Y0uQxMuN7WX+pHnTB9jR0A2uTTR8i2ilc3MUec2SWv9qH5+gjIh5n8lYMHq8Eeb
+ tPXHaVEQxW37eidP46KN7F3KpAfDEIaMoMULd0CTTjl5BgdAREMCYMMihGVYaww+nMy5
+ e16A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727279879; x=1727884679;
+ d=1e100.net; s=20230601; t=1727280282; x=1727885082;
  h=content-transfer-encoding:in-reply-to:autocrypt:from
  :content-language:references:cc:to:subject:user-agent:mime-version
  :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=xG6Lw3maI63K1aRdF6sbTXLasyiyJWOTvcy+KvXCbbU=;
- b=O1apYg5fXr0jW9wdjqivMtnp/rlUr83OnWLL6g96WyRodSojR1Xt9h9gaC5UHWwntI
- 9R34N0rbEdj5B6FMC4HRgXltUEPXFAc5uSbjdElHNljBkM26vbdSP26CKeSxhcgJEPpG
- O2n89X/aZTtqTYKCt1Cu3zUOEKu1Mii7iGvi6+qR8IN8dkgjrqj2MBRmEZ4mzQ8/hLVj
- 3arSWdisQl5WwC5i1MMgBiDIV22btroC3yxpzDiSGh7o0dpyZtrpD5++xD/Qr+UsagGG
- 6YKp/vYD1rDaIxN4OGZjnsJqDhMOj5Wh3QXPfOB0Yu6STPrj7MZpz7Ux9dSSsmihzzd8
- k+Zw==
+ bh=u1Gr80ro8+ummkN/WH/W07Tsla30e6APnC3O5egIj90=;
+ b=fHc2w34uQmeD1XJZHyAq/jLrk+f5mSXM91pXiM2Oqiy0meISNDD7cOKbrCJvhaAuOx
+ f8oUhOm0c5dtwWCCUl4vErhSICXLa8ZVyN7bYXUurX5H3q7dn1FbBvYewyUmAYyxVQuD
+ SXUvZXWQD3clL+fIYvWqgNq20LdhS4qn6I03KjiHOTHSKWqhVskPqDxiG9mhloVwsok4
+ OJsVzZFV5bQdAZt8khHvRD6D6VZDG9yzrT6tC6jLt70t6e8gSCz/2nmRGOYnYK86lO1w
+ G+KbAZWO5rhqEp6w5BXGfQn0ynx2li69vRIzAaYmvpabcx+ldB7rT/syBp5C9QkYa5m/
+ ohdw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVY61Vi8zYgZAPYUgh4e1uKnSC5fGeUfoSkuysimTTvPPKnwVDdXYCO8qJKFQ16nVdw+3cmoG5f5Hk=@lists.freedesktop.org,
- AJvYcCWCKRynx2D1+dUv/VVlIuNSUM5lVaRZfwizj6vLwPPjIA8xO/oL5ak46XJMZTN1yH1KRFlmqZjfZV9d@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwTaroXlvfksck202AN4p0GbIVkkhHvUBdkv2kGDiLZtnXj0KnP
- DBcTFCQ6Mq+IC+Pa2kPyfihCuF4pTmqTcEk3AjBHTrWfuRz3Vlnp
-X-Google-Smtp-Source: AGHT+IE7ev2LgV47R91P8StT+ZbsONjq85JCt7eIsIWOIRMKUMHGLCjSHHxof4SGY6Bw+FZWSILJXg==
-X-Received: by 2002:a05:6a20:43a2:b0:1cf:4d21:f4c1 with SMTP id
- adf61e73a8af0-1d4d4ab8f3amr3653503637.19.1727279879463; 
- Wed, 25 Sep 2024 08:57:59 -0700 (PDT)
+ AJvYcCVx3iJgAIO5y1a0Bjsr2NKSe276B/A5l/fJnQ8jPHTwKIAygblwQ418Qb4Pwr6ZyBcSx/JkBDN9HoQ=@lists.freedesktop.org,
+ AJvYcCWsik2VGgwM4qsxBIghf0V5+BvURF7Do8AMnJqoETzEW8DeiNGplL+JsMLQmUR+IFRXguLVm8utUJH0@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzJD7gy9i1P5sAZ3aAiVw6IcBX0oKwp6YQWp05uf5FURwK5rG+a
+ h/OVbpn/wThcMGhZN488UadhFGzdI4ZnybDfWspJVU9G64JPn2cW
+X-Google-Smtp-Source: AGHT+IEBlGMu5XYMIvL9xSi+QvVIbwSnkNmQXzCFFdhX9xqF56epbD0jcIeG7sx1lzqsvn8nMFw8gg==
+X-Received: by 2002:a05:6870:330a:b0:277:e5a5:3362 with SMTP id
+ 586e51a60fabf-286e15f3febmr2714234fac.30.1727280281491; 
+ Wed, 25 Sep 2024 09:04:41 -0700 (PDT)
 Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c?
  ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
  by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-71afc8341a1sm3021061b3a.19.2024.09.25.08.57.57
+ 41be03b00d2f7-7e6befcdb83sm1646037a12.15.2024.09.25.09.04.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 25 Sep 2024 08:57:58 -0700 (PDT)
-Message-ID: <33bc782f-f712-4356-aacf-174425d340ba@roeck-us.net>
-Date: Wed, 25 Sep 2024 08:57:56 -0700
+ Wed, 25 Sep 2024 09:04:40 -0700 (PDT)
+Message-ID: <25673888-cb27-4e03-98c0-66020aae5631@roeck-us.net>
+Date: Wed, 25 Sep 2024 09:04:39 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 0/2] drm: revert some framebuffer API tests
-To: Maxime Ripard <mripard@kernel.org>, Jani Nikula <jani.nikula@intel.com>
-Cc: Simona Vetter <simona.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+To: Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org,
  Carlos Eduardo Gallo Filho <gcarlos@disroot.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -77,9 +77,8 @@ References: <cover.1726594684.git.jani.nikula@intel.com>
  <f3f8bec1-884b-46ac-82a6-6e5cb8840146@roeck-us.net>
  <20240924-handsome-labrador-of-shopping-b1dce5@houat>
  <4accd038-9624-43de-96ad-7ecd0876b607@roeck-us.net>
- <87ed593v11.fsf@intel.com>
- <20240924-impressive-coua-from-hyperborea-bfff8b@houat>
- <87o74c2hpn.fsf@intel.com> <20240925-angelic-spaniel-of-acumen-33a39a@houat>
+ <ZvP5YhON49Z5TMI7@phenom.ffwll.local>
+ <20240925-fresh-artichoke-boa-1a673f@houat>
 Content-Language: en-US
 From: Guenter Roeck <linux@roeck-us.net>
 Autocrypt: addr=linux@roeck-us.net; keydata=
@@ -125,7 +124,7 @@ Autocrypt: addr=linux@roeck-us.net; keydata=
  WkRwrSuCn7UG+qVWZeKEsFKFOkynOs3pVbcbq1pxbhk3TRWCGRU5JolI4ohy/7JV1TVbjiDI
  HP/aVnm6NC8of26P40Pg8EdAhajZnHHjA7FrJXsy3cyIGqvg9os4rNkUWmrCfLLsZDHD8FnU
  mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <20240925-angelic-spaniel-of-acumen-33a39a@houat>
+In-Reply-To: <20240925-fresh-artichoke-boa-1a673f@houat>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -143,27 +142,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/25/24 05:59, Maxime Ripard wrote:
-...
+On 9/25/24 06:05, Maxime Ripard wrote:
+[ ... ]
 
->> All I'm saying it generates an extra burden for current real world CI
->> systems that run tests on a massive scale and even have paid
->> maintainers. It's not trivial to sort out expected and unexpected
->> warnings, and keep the filters updated every time the warnings
->> change. It's not without a cost. And the end result might just be that
->> the unit tests won't get run at all. Or warnings just get completely
->> ignored for kunit tests.
+>> We've had similar discussions in the past around unit tests that wasted
+>> too much cpu time with randomized combinatorial testing, and we've thrown
+>> those out too from drm. Test hygiene matters.
 > 
-> I realise it must take a significant amount of resources, but it's also
-> self inflicted. You could also stop looking for warnings when running
-> kunit.
+> We had that discussion because those tests could run for up to around a
+> minute on certain platforms. It's not the same issue at all?
 > 
 
-FWIW, that doesn't work if kunit tests are built into the kernel and
-run when booting the system. It also doesn't work well if kunit tests
-trigger a WARN_ONCE() because that causes any real subsequent warning to be
-dropped. Also, ignoring warnings while running a kunit test means that _real_
-unexpected warnings triggered by those tests will be ignored as well.
+I added "kunit.stats_enabled=2 kunit.filter=speed>slow" to the kernel command
+line in my tests to avoid long-running tests. That works as long as slow tests
+are marked accordingly using KUNIT_CASE_SLOW(), KUNIT_SPEED_SLOW, or
+KUNIT_SPEED_VERY_SLOW.
 
 Guenter
 
