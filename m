@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CC82985AF4
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 14:16:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C820985AF7
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 14:16:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B24E10EA07;
-	Wed, 25 Sep 2024 12:16:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EBD010E9F6;
+	Wed, 25 Sep 2024 12:16:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="n7FX6loS";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XXjouGJL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45DF810E9F4;
- Wed, 25 Sep 2024 12:16:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5571010EA05;
+ Wed, 25 Sep 2024 12:16:18 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 681CDA44197;
- Wed, 25 Sep 2024 12:16:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91F33C4CEC7;
- Wed, 25 Sep 2024 12:16:08 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 8595DA4419C;
+ Wed, 25 Sep 2024 12:16:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5ACBEC4CEC3;
+ Wed, 25 Sep 2024 12:16:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1727266570;
- bh=le/DKIW6llk9bNh5zKIyofSVB4oPnhRMvEKtZyeqgaY=;
+ s=k20201202; t=1727266577;
+ bh=QR3qXIAiA8bTXbySF8/3erA7jA6YWIXgBvAIy6m3HTs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=n7FX6loSHnXRDD65FXGHJlGdFofD0VQ6T4a9M5risR42iWRt/StYJp5ZeUdh6U4be
- siPRd3YQxIxzQzvBs41a+E+wZz7zAebdoBosDVt3Uk2L9/NrGvYpmWADjAjf/tnJP/
- SKGfXyTK64vZNxLSxnlGnjJ1DYIW016Cexrk7Pmf/vNEaZh26PCENwp4WWZ0o0mbIi
- l3t+2U/vgxLTfrlFmnphFIknasUDZlwt9debklgl49zkgWBZY3FK5EHB5nG3N7/N3W
- Geyc7eJTPtzscckn311qjACCo8p1Eh+DLMPvzA+evBsPO2trB5pR6qH3xy4+MiH+ux
- BixC2y66Kz5qg==
+ b=XXjouGJLfH2oNTfFCmtzmI2cCRhyN6IPY90IaMlxDW8HS+GPEcqHYFWz1R7p3m3pG
+ fmIn/SwL2yPPXVpIR32gU0HwiDouTCeBnb7Zf7xIv+e2g4LxvqI6QcvGszO8q2/ChY
+ ahZe2y3SuknXLlNphDIiCs7TlMkmU7EwGrYiP9VI2qnHrEItQNyzr61RzXZwWPDcRJ
+ sAF/g+os0ftk/e6ttDQ65PVHxe4ibYxzi9Ph2l8RByKoLWmdtoNGOrvplFDe+E5PaS
+ yzeNUVXIpy5Ad+GL56yzaCnP+MqI0Vl3smFgIJchbNNTcCJLrgzkaKxKgz3mAqwW9V
+ 5cMk8xAYh+fxA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Konrad Dybcio <konrad.dybcio@linaro.org>,
- Rob Clark <robdclark@chromium.org>, Sasha Levin <sashal@kernel.org>,
- robdclark@gmail.com, quic_abhinavk@quicinc.com,
- dmitry.baryshkov@linaro.org, airlied@gmail.com, daniel@ffwll.ch,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.6 099/139] drm/msm/adreno: Assign msm_gpu->pdev
- earlier to avoid nullptrs
-Date: Wed, 25 Sep 2024 08:08:39 -0400
-Message-ID: <20240925121137.1307574-99-sashal@kernel.org>
+Cc: Peng Liu <liupeng01@kylinos.cn>, Alex Deucher <alexander.deucher@amd.com>,
+ Sasha Levin <sashal@kernel.org>, christian.koenig@amd.com,
+ Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
+ sunil.khatri@amd.com, Prike.Liang@amd.com, Tim.Huang@amd.com,
+ kevinyang.wang@amd.com, pierre-eric.pelloux-prayer@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.6 101/139] drm/amdgpu: add raven1 gfxoff quirk
+Date: Wed, 25 Sep 2024 08:08:41 -0400
+Message-ID: <20240925121137.1307574-101-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240925121137.1307574-1-sashal@kernel.org>
 References: <20240925121137.1307574-1-sashal@kernel.org>
@@ -66,59 +65,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
+From: Peng Liu <liupeng01@kylinos.cn>
 
-[ Upstream commit 16007768551d5bfe53426645401435ca8d2ef54f ]
+[ Upstream commit 0126c0ae11e8b52ecfde9d1b174ee2f32d6c3a5d ]
 
-There are some cases, such as the one uncovered by Commit 46d4efcccc68
-("drm/msm/a6xx: Avoid a nullptr dereference when speedbin setting fails")
-where
+Fix screen corruption with openkylin.
 
-msm_gpu_cleanup() : platform_set_drvdata(gpu->pdev, NULL);
-
-is called on gpu->pdev == NULL, as the GPU device has not been fully
-initialized yet.
-
-Turns out that there's more than just the aforementioned path that
-causes this to happen (e.g. the case when there's speedbin data in the
-catalog, but opp-supported-hw is missing in DT).
-
-Assigning msm_gpu->pdev earlier seems like the least painful solution
-to this, therefore do so.
-
-Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-Patchwork: https://patchwork.freedesktop.org/patch/602742/
-Signed-off-by: Rob Clark <robdclark@chromium.org>
+Link: https://bbs.openkylin.top/t/topic/171497
+Signed-off-by: Peng Liu <liupeng01@kylinos.cn>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/msm/adreno/adreno_gpu.c | 1 +
- drivers/gpu/drm/msm/msm_gpu.c           | 1 -
- 2 files changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-index 8090dde032808..00419e0693419 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-@@ -1071,6 +1071,7 @@ int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
- 	adreno_gpu->chip_id = config->chip_id;
+diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
+index 8168836a08d2e..c28e7ff6ede26 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
+@@ -1172,6 +1172,8 @@ static const struct amdgpu_gfxoff_quirk amdgpu_gfxoff_quirk_list[] = {
+ 	{ 0x1002, 0x15dd, 0x1002, 0x15dd, 0xc6 },
+ 	/* Apple MacBook Pro (15-inch, 2019) Radeon Pro Vega 20 4 GB */
+ 	{ 0x1002, 0x69af, 0x106b, 0x019a, 0xc0 },
++	/* https://bbs.openkylin.top/t/topic/171497 */
++	{ 0x1002, 0x15d8, 0x19e5, 0x3e14, 0xc2 },
+ 	{ 0, 0, 0, 0, 0 },
+ };
  
- 	gpu->allow_relocs = config->info->family < ADRENO_6XX_GEN1;
-+	gpu->pdev = pdev;
- 
- 	/* Only handle the core clock when GMU is not in use (or is absent). */
- 	if (adreno_has_gmu_wrapper(adreno_gpu) ||
-diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-index 5c10b559a5957..5a7541597d0ce 100644
---- a/drivers/gpu/drm/msm/msm_gpu.c
-+++ b/drivers/gpu/drm/msm/msm_gpu.c
-@@ -927,7 +927,6 @@ int msm_gpu_init(struct drm_device *drm, struct platform_device *pdev,
- 	if (IS_ERR(gpu->gpu_cx))
- 		gpu->gpu_cx = NULL;
- 
--	gpu->pdev = pdev;
- 	platform_set_drvdata(pdev, &gpu->adreno_smmu);
- 
- 	msm_devfreq_init(gpu);
 -- 
 2.43.0
 
