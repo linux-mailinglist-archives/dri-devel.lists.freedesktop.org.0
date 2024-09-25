@@ -2,72 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8544E985857
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 13:41:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B41FD98588E
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 13:44:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5B9310E7E8;
-	Wed, 25 Sep 2024 11:41:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30F9510E800;
+	Wed, 25 Sep 2024 11:44:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="ltwwJQqH";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="ZaW41mwc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com
- [209.85.218.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5ACB110E7E8
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 11:41:46 +0000 (UTC)
-Received: by mail-ej1-f43.google.com with SMTP id
- a640c23a62f3a-a8d446adf6eso1013432666b.2
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 04:41:46 -0700 (PDT)
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
+ [209.85.208.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFD6110E800
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 11:44:41 +0000 (UTC)
+Received: by mail-ed1-f49.google.com with SMTP id
+ 4fb4d7f45d1cf-5c43003a667so9234581a12.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 04:44:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1727264505; x=1727869305; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=i9ff9XMFKPX/jx3fqY4EMZVFriUnoClzLhAQaLL8JHM=;
- b=ltwwJQqHugP2gahzAUiqjckzZEs6stQDugk9dr6UYVeWWa+xTLoerdhd+fdz4Wc6wg
- g+LXv3aoD/4lRpdXgCLdlSVYGPLYsHQzLnPOKZimX6WF9ry7qP2tw/xYOSBnomqk6mJw
- HGCEMdYt2kXsNmuTRj+G8PuhTFUpAacWqdHXc=
+ d=ffwll.ch; s=google; t=1727264680; x=1727869480; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=jW5wRAQT/NW2ZEXTAe4H57yFnYDEvXMtsJrvDGoCnp8=;
+ b=ZaW41mwcivvPWa/jkEIlEH9xGWW2LQ3TFlbOzKJOVIIXdICkXNiz//ASp11ELbOHX2
+ PyUOqU2m511d/QJ3WhmhMJ0si2nAsG8TN0mBhLYsqW35rbixoF0Kr1xkLcHqIugs/Akc
+ ovbsDTfZpBERlE2HLt7Lels3OGqzIeUTW0eHw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727264505; x=1727869305;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=i9ff9XMFKPX/jx3fqY4EMZVFriUnoClzLhAQaLL8JHM=;
- b=pl2weLGbr5NfJfbwzq6nhCzVTb/Hbljqdl0TgQlSEryDn1ZdQ1+W9mgg7oJgHqmMuz
- bTlmLx5cob4RiUDoaNmDGF0dt2KLeYAqV9iP2vTnQXADnW11RSh36pHrPRe4tMGzyk09
- HXhfRZEL3y6HnrSa8GtejLxuLlHZTj2R1N43v9Ozj/oFjbVKbTAvnAL2FMhD31EFbz/B
- CqQzaU135qujvrgzACQpRACdcop6Y26jxy/jeVf7g9pZ5/lhUGF5wQ5jzezM0+f31mU6
- vFN73af3XqHSafySwruecm9ZySE8IKtueQnee/CIqHXl6tzBgDSwiXfyIC67g5gNvSIY
- I0Ng==
+ d=1e100.net; s=20230601; t=1727264680; x=1727869480;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=jW5wRAQT/NW2ZEXTAe4H57yFnYDEvXMtsJrvDGoCnp8=;
+ b=gXHbbZ4tN184cHWNjT/Da13tGJEQvl2XdD1ZKgrqpWo+TDqDPtbtxF5YlOopzJbMdq
+ 3DNqjUD8TkBnDFhYgpI2++R4p/ZWa1CLWgplDhTwgrpWrvJakHbNIg81HewZPIw6NrQG
+ OryPasj0VgOtpkdhdQcpj6fdGpkCNwyjgmlvBD5bHrDHi3cqt9vp1Mmr/ogauWo68Fxh
+ cUrRmDQIq1SXGH6x5UFacmOtaXNtzw3xH/PCA9tENHYv0Lv9wovHGHmqQyRzFp0DG3V+
+ tVuH9R5NVBgbQ0eY2n6rgHcSkXBSXDXSHUQovtmZ+u+K7rhV/JFKO1XrvL4XAOo+3hix
+ bp2g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVBzIakzjqhlPIJgp6BPykNqV238u9DrjPBg/DDMkYmFbZTnswTXJ7jdv3yrWWjtzx5HwW4sNBeh00=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzL120VbHDZ0nwHFO9+SZbxapuUawrxjUyaF/fJmup0869iZhev
- o5d2gyXyL6knLvqXEqVMJDEpZxqFjdVjJu9oaI3Mp9ypICJpK4HkWq4P9Z0qkHg=
-X-Google-Smtp-Source: AGHT+IHT5ASzADjuFW8XhdvLaWUa4CsUc5SXB/Eo7UQTF/pRyM5Bb/nRID44pJj84V7aRzEGmPQSBA==
-X-Received: by 2002:a17:907:36cb:b0:a86:7e7f:69ab with SMTP id
- a640c23a62f3a-a93a0384070mr231277466b.15.1727264504403; 
- Wed, 25 Sep 2024 04:41:44 -0700 (PDT)
+ AJvYcCVq04MUSRtLrG3yu7N86CM/jdSLT71t5fpZWpjeCzB86INcCkI5mDMOEemIdBiPSqHuttJUdDp7FoA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz5NghOD+DX4ZkBoX8DJSTckJkGezA7On5RRT8K+dHg9tXaXBxv
+ Nsa9uqGKFSh7lbSgHJq/cKjSoqRc+PbMdXpltBTI4oXil0ZH265S1l4o3oao4qs=
+X-Google-Smtp-Source: AGHT+IHIOa4EFOAn8IjNL5rc8fy+kLCGjgZ8YGFMbVmN6haJU3wmeWL4hRmQsHPilAlf3Yhl96Z3OA==
+X-Received: by 2002:a05:6402:27d2:b0:5bf:50:266b with SMTP id
+ 4fb4d7f45d1cf-5c7206298b7mr1862094a12.19.1727264679937; 
+ Wed, 25 Sep 2024 04:44:39 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
  by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a939313463bsm199047366b.196.2024.09.25.04.41.43
+ 4fb4d7f45d1cf-5c5cf4d7a28sm1751162a12.85.2024.09.25.04.44.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Sep 2024 04:41:43 -0700 (PDT)
-Date: Wed, 25 Sep 2024 13:41:41 +0200
+ Wed, 25 Sep 2024 04:44:39 -0700 (PDT)
+Date: Wed, 25 Sep 2024 13:44:37 +0200
 From: Simona Vetter <simona.vetter@ffwll.ch>
 To: Matthew Brost <matthew.brost@intel.com>
-Cc: Simona Vetter <simona.vetter@ffwll.ch>, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, airlied@gmail.com,
- christian.koenig@amd.com, thomas.hellstrom@linux.intel.com,
- matthew.auld@intel.com, daniel@ffwll.ch
-Subject: Re: [RFC PATCH 00/28] Introduce GPU SVM and Xe SVM implementation
-Message-ID: <ZvP29bOKrJTWDmeC@phenom.ffwll.local>
-References: <20240828024901.2582335-1-matthew.brost@intel.com>
- <ZvKDUR3mSMEnQYeM@phenom.ffwll.local>
- <ZvMUtdUcsJEDBsbu@DUT025-TGLU.fm.intel.com>
+Cc: Simona Vetter <simona.vetter@ffwll.ch>,
+ Felix Kuehling <felix.kuehling@amd.com>,
+ Alistair Popple <apopple@nvidia.com>,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ Philip.Yang@amd.com, akpm@linux-foundation.org, christian.koenig@amd.com
+Subject: Re: [PATCH 1/1] mm/migrate: Trylock device page in do_swap_page
+Message-ID: <ZvP3pWjVviMdezuy@phenom.ffwll.local>
+Mail-Followup-To: Matthew Brost <matthew.brost@intel.com>,
+ Felix Kuehling <felix.kuehling@amd.com>,
+ Alistair Popple <apopple@nvidia.com>,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ Philip.Yang@amd.com, akpm@linux-foundation.org,
+ christian.koenig@amd.com
+References: <20240911030337.870160-2-matthew.brost@intel.com>
+ <87mskehjtc.fsf@nvdebian.thelocal>
+ <ZuS/NH/P8Fl+qptx@DUT025-TGLU.fm.intel.com>
+ <87msk5our1.fsf@nvdebian.thelocal>
+ <ece41917-2ea7-4571-83a5-a50c776c6587@amd.com>
+ <Zu3n3MmtdlEDaXnF@DUT025-TGLU.fm.intel.com>
+ <9a3e62e0-cb62-4d73-9694-7be8893f7206@amd.com>
+ <Zu3wV9FJSTs1E5Vx@DUT025-TGLU.fm.intel.com>
+ <ZvKnDT_bdx_PhAcG@phenom.ffwll.local>
+ <ZvLr66F3VqpMyLlS@DUT025-TGLU.fm.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <ZvMUtdUcsJEDBsbu@DUT025-TGLU.fm.intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZvLr66F3VqpMyLlS@DUT025-TGLU.fm.intel.com>
 X-Operating-System: Linux phenom 6.10.6-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -84,354 +103,320 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 24, 2024 at 07:36:21PM +0000, Matthew Brost wrote:
-> On Tue, Sep 24, 2024 at 11:16:01AM +0200, Simona Vetter wrote:
-> > On Tue, Aug 27, 2024 at 07:48:33PM -0700, Matthew Brost wrote:
-> > > Continuation of SVM work by Oak Zeng [1][2] based on community feedback.
-> > > Introduces GPU SVM layer and new Xe uAPI. Supports GPU page faults for
-> > > system allocations (e.g., malloc), runtime allocations (e.g., binding a
-> > > BO), migration to and from VRAM, and unified eviction (BO and SVM VRAM
-> > > allocations can evict each other). Fully tested; more on this below.
+On Tue, Sep 24, 2024 at 04:42:19PM +0000, Matthew Brost wrote:
+> On Tue, Sep 24, 2024 at 01:48:29PM +0200, Simona Vetter wrote:
+> > On Fri, Sep 20, 2024 at 09:59:51PM +0000, Matthew Brost wrote:
+> > > On Fri, Sep 20, 2024 at 05:50:10PM -0400, Felix Kuehling wrote:
+> > > > 
+> > > > On 2024-09-20 17:23, Matthew Brost wrote:
+> > > > > On Fri, Sep 20, 2024 at 04:26:50PM -0400, Felix Kuehling wrote:
+> > > > > > On 2024-09-18 11:10, Alistair Popple wrote:
+> > > > > > > Matthew Brost <matthew.brost@intel.com> writes:
+> > > > > > > 
+> > > > > > > > On Wed, Sep 11, 2024 at 02:53:31PM +1000, Alistair Popple wrote:
+> > > > > > > > > Matthew Brost <matthew.brost@intel.com> writes:
+> > > > > > > > > 
+> > > > > > > > > I haven't seen the same in the NVIDIA UVM driver (out-of-tree, I know)
+> > > > > > > > Still a driver.
+> > > > > > > Indeed, and I'm happy to answer any questions about our implementation.
+> > > > > > > 
+> > > > > > > > > but theoretically it seems like it should be possible. However we
+> > > > > > > > > serialize migrations of the same virtual address range to avoid these
+> > > > > > > > > kind of issues as they can happen the other way too (ie. multiple
+> > > > > > > > > threads trying to migrate to GPU).
+> > > > > > > > > 
+> > > > > > > > > So I suspect what happens in UVM is that one thread wins and installs
+> > > > > > > > > the migration entry while the others fail to get the driver migration
+> > > > > > > > > lock and bail out sufficiently early in the fault path to avoid the
+> > > > > > > > > live-lock.
+> > > > > > > > > 
+> > > > > > > > I had to try hard to show this, doubt an actual user could trigger this.
+> > > > > > > > 
+> > > > > > > > I wrote a test which kicked 8 threads, each thread did a pthread join,
+> > > > > > > > and then tried to read the same page. This repeats in loop for like 512
+> > > > > > > > pages or something. I needed an exclusive lock in migrate_to_ram vfunc
+> > > > > > > > for it to livelock. Without an exclusive lock I think on average I saw
+> > > > > > > > about 32k retries (i.e. migrate_to_ram calls on the same page) before a
+> > > > > > > > thread won this race.
+> > > > > > > > 
+> > > > > > > >   From reading UVM, pretty sure if you tried hard enough you could trigger
+> > > > > > > > a livelock given it appears you take excluvise locks in migrate_to_ram.
+> > > > > > > Yes, I suspect you're correct here and that we just haven't tried hard
+> > > > > > > enough to trigger it.
+> > > > > > > 
+> > > > > > > > > > Cc: Philip Yang <Philip.Yang@amd.com>
+> > > > > > > > > > Cc: Felix Kuehling <felix.kuehling@amd.com>
+> > > > > > > > > > Cc: Christian König <christian.koenig@amd.com>
+> > > > > > > > > > Cc: Andrew Morton <akpm@linux-foundation.org>
+> > > > > > > > > > Suggessted-by: Simona Vetter <simona.vetter@ffwll.ch>
+> > > > > > > > > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > > > > > > > > > ---
+> > > > > > > > > >    mm/memory.c         | 13 +++++++---
+> > > > > > > > > >    mm/migrate_device.c | 60 +++++++++++++++++++++++++++++++--------------
+> > > > > > > > > >    2 files changed, 50 insertions(+), 23 deletions(-)
+> > > > > > > > > > 
+> > > > > > > > > > diff --git a/mm/memory.c b/mm/memory.c
+> > > > > > > > > > index 3c01d68065be..bbd97d16a96a 100644
+> > > > > > > > > > --- a/mm/memory.c
+> > > > > > > > > > +++ b/mm/memory.c
+> > > > > > > > > > @@ -4046,10 +4046,15 @@ vm_fault_t do_swap_page(struct vm_fault *vmf)
+> > > > > > > > > >    			 * Get a page reference while we know the page can't be
+> > > > > > > > > >    			 * freed.
+> > > > > > > > > >    			 */
+> > > > > > > > > > -			get_page(vmf->page);
+> > > > > > > > > > -			pte_unmap_unlock(vmf->pte, vmf->ptl);
+> > > > > > > > > > -			ret = vmf->page->pgmap->ops->migrate_to_ram(vmf);
+> > > > > > > > > > -			put_page(vmf->page);
+> > > > > > > > > > +			if (trylock_page(vmf->page)) {
+> > > > > > > > > > +				get_page(vmf->page);
+> > > > > > > > > > +				pte_unmap_unlock(vmf->pte, vmf->ptl);
+> > > > > > > > > This is all beginning to look a lot like migrate_vma_collect_pmd(). So
+> > > > > > > > > rather than do this and then have to pass all this context
+> > > > > > > > > (ie. fault_page) down to the migrate_vma_* functions could we instead
+> > > > > > > > > just do what migrate_vma_collect_pmd() does here? Ie. we already have
+> > > > > > > > > the PTL and the page lock so there's no reason we couldn't just setup
+> > > > > > > > > the migration entry prior to calling migrate_to_ram().
+> > > > > > > > > 
+> > > > > > > > > Obviously calling migrate_vma_setup() would show the page as not
+> > > > > > > > > migrating, but drivers could easily just fill in the src_pfn info after
+> > > > > > > > > calling migrate_vma_setup().
+> > > > > > > > > 
+> > > > > > > > > This would eliminate the whole fault_page ugliness.
+> > > > > > > > > 
+> > > > > > > > This seems like it would work and agree it likely be cleaner. Let me
+> > > > > > > > play around with this and see what I come up with. Multi-tasking a bit
+> > > > > > > > so expect a bit of delay here.
+> > > > > > > > 
+> > > > > > > > Thanks for the input,
+> > > > > > > > Matt
+> > > > > > Thanks! Sorry, I'm late catching up after a vacation. Please keep Philip,
+> > > > > > Christian and myself in the loop with future patches in this area.
+> > > > > > 
+> > > > > Will do. Already have another local patch set which helps drivers dma
+> > > > > map 2M pages for migrations if SRAM is physically contiguous. Seems
+> > > > > helpful for performance on Intel hardware. Probably post that soon for
+> > > > > early feedack.
+> > > > 
+> > > > OK.
+> > > > 
+> > > > 
+> > > > > 
+> > > > > Longer term I thinking 2M migration entries, 2M device pages, and being
+> > > > > able to install 2M THP on VRAM -> SRAM could be really helpful. I'm
+> > > > > finding migrate_vma_* functions take up like 80-90% of the time in the
+> > > > > CPU / GPU fault handlers on a fault (or prefetch) which doesn't seem
+> > > > > ideal. Seems like 2M entries for everything would really help here. No
+> > > > > idea how feasible this is as the core MM stuff gets confusing fast. Any
+> > > > > input on this idea?
+> > > > 
+> > > > I agree with your observations. We found that the migrate_vma_* code was the
+> > > > bottle neck for migration performance as well, and not breaking 2M pages
+> > > > could reduce that overhead a lot. I don't have any specific ideas. I'm not
+> > > > familiar with the details of that code myself. Philip has looked at this
+> > > > (and some old NVidia patches from a few years ago) in the past but never had
+> > > > enough uninterrupted time to make it past prototyping.
+> > > > 
 > > > 
-> > > The patch breakdown is as follows:
-> > > 
-> > > 1. Preparation patches already on the list [3].
-> > > 	- Patches 1-3.
-> > > 	- Please refrain from reviewing these here.	
-> > > 2. New migrate layer functionality
-> > > 	- Patch 4.
-> > > 	- Required for eviction to avoid locking inversion between
-> > > 	  dma-resv and mmap lock.
-> > > 3. GPU SVM.
-> > > 	- Patch 5.
-> > > 	- This is what needs community review.
-> > > 	- Inspired by GPUVM.
-> > > 	- Kernel doc should explain design principles.
-> > > 	- There is certainly room for optimization of the implementation
-> > > 	  and improvements with existing core MM interaction. Pulling in
-> > > 	  pending DMA mapping work [4] and additional core MM support
-> > > 	  for SVM is also likely desired. However, this serves as a good
-> > > 	  starting point for any SVM discussions and could be used as a
-> > > 	  stepping stone to future core MM work.
-> > > 3. Basic SVM support in Xe (i.e., SRAM backing only).
-> > > 	- Patches 6-15.
-> > > 	- The uAPI in the patch could benefit from community input.
-> > > 4. SVM VRAM migration support in Xe.
-> > > 	- Patches 16-23.
-> > > 	- Using TMM BOs for SVM VRAM allocations could use community
-> > > 	  input. Patch 23 has a detailed explaination of this design
-> > > 	  choice in the commit message.
-> > > 5. SVM eviction support in Xe.
-> > > 	- Patch 24.
-> > > 	- Should work with exhaustive eviction [5] when it merges.
-> > > 6. Xe SVM debug / tuning.
-> > > 	- Patch 25-28.
-> > > 
-> > > Kernel documentation and commit messages are relatively light, aside
-> > > from GPU SVM and uAPI patches as this is an RFC.
-> > > 
-> > > Testing has been conducted quite thoroughly with new IGT [6]. Various
-> > > system allocation types (malloc, mmap, mmap flags, huge pages, different
-> > > sizes, different alignments), mixing runtime allocations, unmapping
-> > > corners, invalid faults, and eviction have been tested. Testing scales
-> > > from single thread to multiple threads and multiple processes. Tests
-> > > pass on LNL, BMG, PVC 1 tile, and PVC 2 tile.
-> > > 
-> > > 1. Multiple GPU support.
-> > > 	- This is likely to follow or occur in parallel to this work.
-> > > 2. Userptr unification with GPU SVM.
-> > > 	- This is essentially designed in my head (likely involving a
-> > > 	  few new GPU SVM layer functions) but would require some fairly
-> > > 	  invasive changes to Xe KMD to test out. Therefore, I would
-> > > 	  like GPU SVM to be reviewed first before proceeding with these
-> > > 	  changes.
-> > > 3. Madvise and prefetch IOCTLs
-> > > 	- This is likely to follow or occur in parallel to this work.
-> > > 
-> > > Given the size of the series, I have pushed a GitLab branch for
-> > > reference [7].
+> > > Cool good to know this isn't some crazy idea. Doubt it happen anytime
+> > > soon as I need to get a working baseline in before anything then start
+> > > applying optimizations and help in get other features to get the design
+> > > complete. But eventually will probably try to look at this. May ping
+> > > Philip and Nvidia when I have time to dig in here.
+> > 
+> > I think the big step will be moving hmm.c and migrate.c apis over from
+> > struct page to folios. That should also give us some nice benefits on the
+> > gpu side, since instead of 4k pages to track we could allocate 2m gpu
+> > pages.
+> > 
+> 
+> I think was thinking just encode the order in the migration PFN like HMM
+> does. Really only Nth order entry in the page array needs to be
+> populated then - HMM populates every entry though which doesn't seem
+> like that is required. Maybe having a folio API makes more sense?
+
+Both I'd say, as a first attempt at least. An array of folios, but only
+populate the ones we need and jump over empty entries. A bit wasteful, but
+eh it's just allocations.
+
+> > Once we have folios at the driver/core mm api level doing all the fancy
+> > thp stuff should be at least a well-contained problem. But I might be
+> > dellusionally optimistic here :-)
+> 
+> I think it contained in the sense is the DRM SVM layer just allocates a
+> THP or large continous device memory and hands it off to migrate layer
+> and that layer does the right thing. The 'right thing' here I believe is
+> a decent amount of core MM work though.
+
+Yeah that's what I meant, once we have switched the interfaces to be
+arrays of folios, where for larger folios we leave the entries in between
+NULL and have some appropriate iterators, then the driver side is done
+mostly.  The core mm side to actually make use of that will be fairly
+gnarly though.
+-Sima
+
+> 
+> Matt
+> 
+> > -Sima
+> > 
 > > > 
 > > > Matt
 > > > 
-> > > [1] https://patchwork.freedesktop.org/series/128910/
-> > > [2] https://patchwork.freedesktop.org/series/132229/
-> > > [3] https://patchwork.freedesktop.org/series/137805/
-> > > [4] https://lore.kernel.org/linux-rdma/cover.1709635535.git.leon@kernel.org/
-> > > [5] https://patchwork.freedesktop.org/series/133643/
-> > > [6] https://patchwork.freedesktop.org/patch/610942/?series=137545&rev=2
-> > > [7] https://gitlab.freedesktop.org/mbrost/xe-kernel-driver-svm-post-8-27-24/-/tree/post?ref_type=heads
-> > 
-> > Ok rather late, I wanted to type this up 2 weeks ago or so, but alas here
-> > it is finally. I think with all the experiments and discussions I have
-> 
-> Thanks for putting this together and all the initial reviews.
-> 
-> > fairly clear understanding of the really tricky parts of svm (thanks a lot
-> > to Matt for all the work done). From my side the key points, sorted
-> > roughly in how important I think they are:
-> > 
-> 
-> I've read this through and pretty much agree with everything here 
-> so won't have a detailed response to everything as there isn't much to
-> say aside from I agree. A few minor comments below.
-> 
-> > 1. migrate_to_ram path
-> > 
-> > I think this is the absolute center piece of making sure we're aligned
-> > with core mm and don't suffer from deadlocks or livelocks fundamental to
-> > the gpusvm library design. So this part imo needs to be solid for the
-> > first version we merge. But of course any core mm changes Matt prototyped
-> > shouldn't gate merging the drm side since they're nicely decoupled, we
-> > only need those to validate the design in testing.
-> > 
-> > I think the key points are:
-> > 
-> > - we rely on the migration pte, temporary page references and page lock
-> >   only, which with the core mm changes Matt worked on gives us guaranteed
-> >   reliable migration back to system memory. And we need that, or svm
-> >   essentially becomes unusable as a concept.
-> > 
-> > - we need to support partial migration, including the worst case fallback
-> >   of only migrating that single page core mm managed to trylock for us
-> >   while holding the pagetable lock.
-> > 
-> >   Since we have guaranteed migration back to system memory we can make the
-> >   assumption on the gpu fault handling side that we will only ever handle
-> >   ranges that are entirely in vram (by throwing any partial migrations
-> >   out). Needs a retry loop for that in the gpu fault side, but I no logner
-> >   see an issue with that assumption on the gpu fault side otherwise, so
-> >   not needed for merging or even later until we have a driver that
-> >   requires partial vram support.
-> > 
-> 
-> I think pretty quickly we will add partial vram support / mixed mappings
-> but likely will not be in initial merge.
-> 
-> > - no other driver locks related to that memory range in any way are
-> >   allowed, and ideally we also test with the forced fallback to mmap_read
-> >   lock in do_swap_page removed, i.e. calling migrate_to_ram with only
-> >   holding the read vma lock. Of course driver locks for blitting are
-> >   allowed, it's only locks related to managing physical memory which are
-> >   problematic and could result in deadlocks.
-> > 
-> > - the drm side must uphold the guarantee of not having elevated page
-> >   references whithout holding the page lock. Otherwise there's a race and
-> >   we cannot guarantee migratione to sram.
-> > 
-> > - also through the try_to_migrate maze we'll hit our own gpu pte
-> >   invalidate paths, so there's some requirements there too. But I've put
-> >   the discussion for that at the very bottom, since most of the gpu pte
-> >   locking questions are imo not that important, and definitely not
-> >   important for the first version we merge.
-> > 
-> > Everything else below I think we can sort out post merge and just need
-> > rough alignment on the design.
-> > 
-> > 2. eviction
-> > 
-> > Requirements much like migrate_to_ram, because otherwise we break the
-> > migration gurantee:
-> > 
-> > - Only looking at physical memory datastructures and locks, no looking at
-> >   mm/vma structs or relying on those being locked. We rely entirely on
-> >   reverse maps from try_to_migrate to find all the mappings on both cpu
-> >   and gpu side (cpu only zone device swap or migration pte entries ofc).
-> > 
-> > - Partial migration needs to work to make sure we can get out of any
-> >   low memory bind.
-> > 
-> > 3. gpu fault side
-> > 
-> > - We can only rely on mmap_read for hmm_range_fault. And ideally should
-> >   assume that's not held anywhere else since with per-vma locking I'd
-> >   expect the mm/vma locking will move into hmm_range_fault. This also
-> >   means no looking at vma beyond just passing it around as currently
-> >   needed by core mm functions.
-> > 
-> > - Big retry loop to handle all races with the mmu notifier under the gpu
-> >   pagetable locks/mmu notifier range lock/whatever we end up calling
-> >   those. Races (especially against concurrent eviction/migrate_to_ram)
-> >   should _not_ be handled on the fault side by trying to hold locks
-> >   instead.
-> > 
-> > - Long term I think we need to be able to handle concurrent faults, even
-> >   on hw where there's only one gpu fault handling queue. For performance
-> >   we absolutely want to prefault aggressively, and that likely happens
-> >   through cpu ioctls that are entirely independent from the gpu fault
-> >   handling.
-> > 
-> 
-> I agree the long term goal is handle concurrent GPU faults and with a
-> bit of finer grained locking in Xe I have already made this work. The
-> biggest part which needs to be parallel is migration code which is
-> taking up roughly 98% of time in the GPU fault handler for a 2M fault
-> with a split of 90% in migrate_vma_* function and 8% in the copy job.
-> I've seen tests which mirrors multiple EUs from the same process taking
-> concurrent GPU faults have large gains in perf. Also the CPU fault
-> handler is concurrent so it makes a bit of sense that GPU faults are
-> concurrent too.
-> 
-> GPU faults being concurrent should also enable concurrent prefetches
-> from CPU IOCTLs which also is likely desired.
-> 
-> I'm not going to include this or any of the other optimizations I have
-> worked on in what I try to merge initially though as I want to keep this
-> as simple as possible and also don't want to throw more code at the list
-> until a working baseline is in.
-> 
-> >   Short term enough (driver-side) locking to make sure this doesn't go
-> >   boom is enough, I think just some design goal documentation here on how
-> >   to achieve that is all we need.
-> > 
-> > 4. physical memory to virtual backpointer
-> > 
-> > No. Doesn't work :-) Also it's only used in in the eviction/migrate_to_ram
-> > path and I think Matt already fixed this all anyway.
-> > 
-> > 5. gpu pagetable locking
-> > 
-> > Or mmu notifier range locking or whatever you want to call it. Like on the
-> > cpu side this should _only_ protect the pagetable entries and additional
-> > for us mmu notifier seqno tracking, nothing else.
-> > 
-> > Any races due to concurrent eviction/migrate_to_ram/gpu fault/prefault
-> > need to be handled by retrying outside of holding the pagetable locks. If
-> > we try to impose additional consistency guarantees we'll fall over and
-> > have a livelock/deadlock fight with core mm in migrate_to_ram. This part
-> > is required I think for the first version, but we already need that anyway
-> > to make migrate_to_ram work properly.
-> > 
-> > For the actual data structure/locking design I think anything on the
-> > design line between a single global lock and the radix tree over-the-top
-> > scalable per-pagetable (spin)lock design of the core mm is fine.
-> > 
-> 
-> I've seen the bind step in servicing GPU faults take barely any amount
-> of time so having the GPU page tables protected by the VM's dma-resv
-> lock seems fine in Xe. This really is up to each driver how it wants to
-> handle this too.
-
-I think if we go to a more fine-grained approach it'd make sense to have
-this common, especially if we go with something more radix-tree based.
-It's quick tricky to get right in the more extreme cases (*shudders
-looking at cpu pgtable walking code), and with mmu notifier seqno handling
-there's some additional complexity. And for drivers which don't need that
-fine-grained approach it shouldn't hurt.
-
-Also with pagetable lock here I meant the one you're also taking from the
-mmu notifier invalidate callback, so unless I'm completely lost that's not
-the dma_resv lock of the vm. That is iirc what you call "driver lock" and
-I think for initial merging your current approach is entirely fine. It
-would also need some changes for concurrent gpu pte (pre-)fault handling,
-but that's not what I'm talking about here directly.
-
-> > The design here with 3 levels (mmu notifer, range, struct page) wouldn't
-> > be my first choice, but clearly fits on that line so imo is fine for
-> > initial merging. We might want to make sure that the range locking (I
-> > guess mostly relevant for the invalidate side, drivers don't see much
-> > else) is somewhat abstracted so we can easily change that post-merge, but
-> > not required imo at all.
-> > 
-> > For consensus documentation I'd recommend a todo or design documentation
-> > patch, where we put down both the current design and why it's like that,
-> > and some of the longer term goals. Then get that acked (imo needs at least
-> > one other driver that's seriously interested in this, plus I think an ack
-> > from Danilo for gpuvm interactions), then merge that. SVM is tricky enough
-> > that I think this would be really useful to make sure we're not
-> > unecessarily stuck in limbo.
-> >
-> 
-> I'll include a TODO or design documentation in the next rev.
->  
-> > From my side again I think the only part we really have to get right from
-> > the start is migrate_to_ram. And I'm confident we've got that now really
-> > solid.
-> > 
-> 
-> I think most of all 5 points will be addressed in my next rev. Anything
-> that isn't falls into an 'optimization we can do later' category which
-> the design should be coded in a way these optimizations can easily be
-> added.
-
-Just quickly read through your comments and aside from the pagetable
-locking one (which I think is just a bit unclarity, not disagrement) I all
-agree on all of them.
--Sima
-
-> Matt
-> 
-> > Oh also you need userspace ofc :-)
-> > 
-> > Cheers, Sima
-> > 
-> > > Matthew Brost (28):
-> > >   dma-buf: Split out dma fence array create into alloc and arm functions
-> > >   drm/xe: Invalidate media_gt TLBs in PT code
-> > >   drm/xe: Retry BO allocation
-> > >   mm/migrate: Add migrate_device_vma_range
-> > >   drm/gpusvm: Add support for GPU Shared Virtual Memory
-> > >   drm/xe/uapi: Add DRM_XE_VM_BIND_FLAG_SYSTEM_ALLOCATON flag
-> > >   drm/xe: Add SVM init / fini to faulting VMs
-> > >   drm/xe: Add dma_addr res cursor
-> > >   drm/xe: Add SVM range invalidation
-> > >   drm/gpuvm: Add DRM_GPUVA_OP_USER
-> > >   drm/xe: Add (re)bind to SVM page fault handler
-> > >   drm/xe: Add SVM garbage collector
-> > >   drm/xe: Add unbind to SVM garbage collector
-> > >   drm/xe: Do not allow system allocator VMA unbind if the GPU has
-> > >     bindings
-> > >   drm/xe: Enable system allocator uAPI
-> > >   drm/xe: Add migrate layer functions for SVM support
-> > >   drm/xe: Add SVM device memory mirroring
-> > >   drm/xe: Add GPUSVM copy SRAM / VRAM vfunc functions
-> > >   drm/xe: Update PT layer to understand ranges in VRAM
-> > >   drm/xe: Add Xe SVM populate_vram_pfn vfunc
-> > >   drm/xe: Add Xe SVM vram_release vfunc
-> > >   drm/xe: Add BO flags required for SVM
-> > >   drm/xe: Add SVM VRAM migration
-> > >   drm/xe: Basic SVM BO eviction
-> > >   drm/xe: Add SVM debug
-> > >   drm/xe: Add modparam for SVM notifier size
-> > >   drm/xe: Add modparam for SVM prefault
-> > >   drm/gpusvm: Ensure all pages migrated upon eviction
-> > > 
-> > >  drivers/dma-buf/dma-fence-array.c    |   78 +-
-> > >  drivers/gpu/drm/xe/Makefile          |    4 +-
-> > >  drivers/gpu/drm/xe/drm_gpusvm.c      | 2213 ++++++++++++++++++++++++++
-> > >  drivers/gpu/drm/xe/drm_gpusvm.h      |  415 +++++
-> > >  drivers/gpu/drm/xe/xe_bo.c           |   54 +-
-> > >  drivers/gpu/drm/xe/xe_bo.h           |    2 +
-> > >  drivers/gpu/drm/xe/xe_bo_types.h     |    3 +
-> > >  drivers/gpu/drm/xe/xe_device_types.h |    8 +
-> > >  drivers/gpu/drm/xe/xe_gt_pagefault.c |   17 +-
-> > >  drivers/gpu/drm/xe/xe_migrate.c      |  150 ++
-> > >  drivers/gpu/drm/xe/xe_migrate.h      |   10 +
-> > >  drivers/gpu/drm/xe/xe_module.c       |    7 +
-> > >  drivers/gpu/drm/xe/xe_module.h       |    2 +
-> > >  drivers/gpu/drm/xe/xe_pt.c           |  456 +++++-
-> > >  drivers/gpu/drm/xe/xe_pt.h           |    3 +
-> > >  drivers/gpu/drm/xe/xe_pt_types.h     |    2 +
-> > >  drivers/gpu/drm/xe/xe_res_cursor.h   |   50 +-
-> > >  drivers/gpu/drm/xe/xe_svm.c          |  775 +++++++++
-> > >  drivers/gpu/drm/xe/xe_svm.h          |   70 +
-> > >  drivers/gpu/drm/xe/xe_tile.c         |    5 +
-> > >  drivers/gpu/drm/xe/xe_vm.c           |  286 +++-
-> > >  drivers/gpu/drm/xe/xe_vm.h           |   15 +-
-> > >  drivers/gpu/drm/xe/xe_vm_types.h     |   44 +
-> > >  include/drm/drm_gpuvm.h              |    5 +
-> > >  include/linux/dma-fence-array.h      |    6 +
-> > >  include/linux/migrate.h              |    3 +
-> > >  include/uapi/drm/xe_drm.h            |   19 +-
-> > >  mm/migrate_device.c                  |   53 +
-> > >  28 files changed, 4615 insertions(+), 140 deletions(-)
-> > >  create mode 100644 drivers/gpu/drm/xe/drm_gpusvm.c
-> > >  create mode 100644 drivers/gpu/drm/xe/drm_gpusvm.h
-> > >  create mode 100644 drivers/gpu/drm/xe/xe_svm.c
-> > >  create mode 100644 drivers/gpu/drm/xe/xe_svm.h
-> > > 
-> > > -- 
-> > > 2.34.1
-> > > 
+> > > > Regards,
+> > > >   Felix
+> > > > 
+> > > > 
+> > > > > 
+> > > > > Matt
+> > > > > 
+> > > > > > Regards,
+> > > > > >    Felix
+> > > > > > 
+> > > > > > 
+> > > > > > > > > > +				ret = vmf->page->pgmap->ops->migrate_to_ram(vmf);
+> > > > > > > > > > +				put_page(vmf->page);
+> > > > > > > > > > +				unlock_page(vmf->page);
+> > > > > > > > > > +			} else {
+> > > > > > > > > > +				pte_unmap_unlock(vmf->pte, vmf->ptl);
+> > > > > > > > > > +			}
+> > > > > > > > > >    		} else if (is_hwpoison_entry(entry)) {
+> > > > > > > > > >    			ret = VM_FAULT_HWPOISON;
+> > > > > > > > > >    		} else if (is_pte_marker_entry(entry)) {
+> > > > > > > > > > diff --git a/mm/migrate_device.c b/mm/migrate_device.c
+> > > > > > > > > > index 6d66dc1c6ffa..049893a5a179 100644
+> > > > > > > > > > --- a/mm/migrate_device.c
+> > > > > > > > > > +++ b/mm/migrate_device.c
+> > > > > > > > > > @@ -60,6 +60,8 @@ static int migrate_vma_collect_pmd(pmd_t *pmdp,
+> > > > > > > > > >    				   struct mm_walk *walk)
+> > > > > > > > > >    {
+> > > > > > > > > >    	struct migrate_vma *migrate = walk->private;
+> > > > > > > > > > +	struct folio *fault_folio = migrate->fault_page ?
+> > > > > > > > > > +		page_folio(migrate->fault_page) : NULL;
+> > > > > > > > > >    	struct vm_area_struct *vma = walk->vma;
+> > > > > > > > > >    	struct mm_struct *mm = vma->vm_mm;
+> > > > > > > > > >    	unsigned long addr = start, unmapped = 0;
+> > > > > > > > > > @@ -88,11 +90,13 @@ static int migrate_vma_collect_pmd(pmd_t *pmdp,
+> > > > > > > > > >    			folio_get(folio);
+> > > > > > > > > >    			spin_unlock(ptl);
+> > > > > > > > > > -			if (unlikely(!folio_trylock(folio)))
+> > > > > > > > > > +			if (unlikely(fault_folio != folio &&
+> > > > > > > > > > +				     !folio_trylock(folio)))
+> > > > > > > > > >    				return migrate_vma_collect_skip(start, end,
+> > > > > > > > > >    								walk);
+> > > > > > > > > >    			ret = split_folio(folio);
+> > > > > > > > > > -			folio_unlock(folio);
+> > > > > > > > > > +			if (fault_folio != folio)
+> > > > > > > > > > +				folio_unlock(folio);
+> > > > > > > > > >    			folio_put(folio);
+> > > > > > > > > >    			if (ret)
+> > > > > > > > > >    				return migrate_vma_collect_skip(start, end,
+> > > > > > > > > > @@ -192,7 +196,7 @@ static int migrate_vma_collect_pmd(pmd_t *pmdp,
+> > > > > > > > > >    		 * optimisation to avoid walking the rmap later with
+> > > > > > > > > >    		 * try_to_migrate().
+> > > > > > > > > >    		 */
+> > > > > > > > > > -		if (folio_trylock(folio)) {
+> > > > > > > > > > +		if (fault_folio == folio || folio_trylock(folio)) {
+> > > > > > > > > >    			bool anon_exclusive;
+> > > > > > > > > >    			pte_t swp_pte;
+> > > > > > > > > > @@ -204,7 +208,8 @@ static int migrate_vma_collect_pmd(pmd_t *pmdp,
+> > > > > > > > > >    				if (folio_try_share_anon_rmap_pte(folio, page)) {
+> > > > > > > > > >    					set_pte_at(mm, addr, ptep, pte);
+> > > > > > > > > > -					folio_unlock(folio);
+> > > > > > > > > > +					if (fault_folio != folio)
+> > > > > > > > > > +						folio_unlock(folio);
+> > > > > > > > > >    					folio_put(folio);
+> > > > > > > > > >    					mpfn = 0;
+> > > > > > > > > >    					goto next;
+> > > > > > > > > > @@ -363,6 +368,8 @@ static unsigned long migrate_device_unmap(unsigned long *src_pfns,
+> > > > > > > > > >    					  unsigned long npages,
+> > > > > > > > > >    					  struct page *fault_page)
+> > > > > > > > > >    {
+> > > > > > > > > > +	struct folio *fault_folio = fault_page ?
+> > > > > > > > > > +		page_folio(fault_page) : NULL;
+> > > > > > > > > >    	unsigned long i, restore = 0;
+> > > > > > > > > >    	bool allow_drain = true;
+> > > > > > > > > >    	unsigned long unmapped = 0;
+> > > > > > > > > > @@ -427,7 +434,8 @@ static unsigned long migrate_device_unmap(unsigned long *src_pfns,
+> > > > > > > > > >    		remove_migration_ptes(folio, folio, false);
+> > > > > > > > > >    		src_pfns[i] = 0;
+> > > > > > > > > > -		folio_unlock(folio);
+> > > > > > > > > > +		if (fault_folio != folio)
+> > > > > > > > > > +			folio_unlock(folio);
+> > > > > > > > > >    		folio_put(folio);
+> > > > > > > > > >    		restore--;
+> > > > > > > > > >    	}
+> > > > > > > > > > @@ -536,6 +544,8 @@ int migrate_vma_setup(struct migrate_vma *args)
+> > > > > > > > > >    		return -EINVAL;
+> > > > > > > > > >    	if (args->fault_page && !is_device_private_page(args->fault_page))
+> > > > > > > > > >    		return -EINVAL;
+> > > > > > > > > > +	if (args->fault_page && !PageLocked(args->fault_page))
+> > > > > > > > > > +		return -EINVAL;
+> > > > > > > > > >    	memset(args->src, 0, sizeof(*args->src) * nr_pages);
+> > > > > > > > > >    	args->cpages = 0;
+> > > > > > > > > > @@ -799,19 +809,13 @@ void migrate_vma_pages(struct migrate_vma *migrate)
+> > > > > > > > > >    }
+> > > > > > > > > >    EXPORT_SYMBOL(migrate_vma_pages);
+> > > > > > > > > > -/*
+> > > > > > > > > > - * migrate_device_finalize() - complete page migration
+> > > > > > > > > > - * @src_pfns: src_pfns returned from migrate_device_range()
+> > > > > > > > > > - * @dst_pfns: array of pfns allocated by the driver to migrate memory to
+> > > > > > > > > > - * @npages: number of pages in the range
+> > > > > > > > > > - *
+> > > > > > > > > > - * Completes migration of the page by removing special migration entries.
+> > > > > > > > > > - * Drivers must ensure copying of page data is complete and visible to the CPU
+> > > > > > > > > > - * before calling this.
+> > > > > > > > > > - */
+> > > > > > > > > > -void migrate_device_finalize(unsigned long *src_pfns,
+> > > > > > > > > > -			unsigned long *dst_pfns, unsigned long npages)
+> > > > > > > > > > +static void __migrate_device_finalize(unsigned long *src_pfns,
+> > > > > > > > > > +				      unsigned long *dst_pfns,
+> > > > > > > > > > +				      unsigned long npages,
+> > > > > > > > > > +				      struct page *fault_page)
+> > > > > > > > > >    {
+> > > > > > > > > > +	struct folio *fault_folio = fault_page ?
+> > > > > > > > > > +		page_folio(fault_page) : NULL;
+> > > > > > > > > >    	unsigned long i;
+> > > > > > > > > >    	for (i = 0; i < npages; i++) {
+> > > > > > > > > > @@ -838,7 +842,8 @@ void migrate_device_finalize(unsigned long *src_pfns,
+> > > > > > > > > >    		src = page_folio(page);
+> > > > > > > > > >    		dst = page_folio(newpage);
+> > > > > > > > > >    		remove_migration_ptes(src, dst, false);
+> > > > > > > > > > -		folio_unlock(src);
+> > > > > > > > > > +		if (fault_folio != src)
+> > > > > > > > > > +			folio_unlock(src);
+> > > > > > > > > >    		if (is_zone_device_page(page))
+> > > > > > > > > >    			put_page(page);
+> > > > > > > > > > @@ -854,6 +859,22 @@ void migrate_device_finalize(unsigned long *src_pfns,
+> > > > > > > > > >    		}
+> > > > > > > > > >    	}
+> > > > > > > > > >    }
+> > > > > > > > > > +
+> > > > > > > > > > +/*
+> > > > > > > > > > + * migrate_device_finalize() - complete page migration
+> > > > > > > > > > + * @src_pfns: src_pfns returned from migrate_device_range()
+> > > > > > > > > > + * @dst_pfns: array of pfns allocated by the driver to migrate memory to
+> > > > > > > > > > + * @npages: number of pages in the range
+> > > > > > > > > > + *
+> > > > > > > > > > + * Completes migration of the page by removing special migration entries.
+> > > > > > > > > > + * Drivers must ensure copying of page data is complete and visible to the CPU
+> > > > > > > > > > + * before calling this.
+> > > > > > > > > > + */
+> > > > > > > > > > +void migrate_device_finalize(unsigned long *src_pfns,
+> > > > > > > > > > +			unsigned long *dst_pfns, unsigned long npages)
+> > > > > > > > > > +{
+> > > > > > > > > > +	return __migrate_device_finalize(src_pfns, dst_pfns, npages, NULL);
+> > > > > > > > > > +}
+> > > > > > > > > >    EXPORT_SYMBOL(migrate_device_finalize);
+> > > > > > > > > >    /**
+> > > > > > > > > > @@ -869,7 +890,8 @@ EXPORT_SYMBOL(migrate_device_finalize);
+> > > > > > > > > >     */
+> > > > > > > > > >    void migrate_vma_finalize(struct migrate_vma *migrate)
+> > > > > > > > > >    {
+> > > > > > > > > > -	migrate_device_finalize(migrate->src, migrate->dst, migrate->npages);
+> > > > > > > > > > +	__migrate_device_finalize(migrate->src, migrate->dst, migrate->npages,
+> > > > > > > > > > +				  migrate->fault_page);
+> > > > > > > > > >    }
+> > > > > > > > > >    EXPORT_SYMBOL(migrate_vma_finalize);
 > > 
 > > -- 
 > > Simona Vetter
