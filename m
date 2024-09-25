@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DF44985B0C
+	by mail.lfdr.de (Postfix) with ESMTPS id 91DFA985B0E
 	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 14:16:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CB0F10E9FD;
-	Wed, 25 Sep 2024 12:16:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02FA710E9FE;
+	Wed, 25 Sep 2024 12:16:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kI86EZg2";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="seOsetwo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 754BD10E9FB;
- Wed, 25 Sep 2024 12:16:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E479910E9FB;
+ Wed, 25 Sep 2024 12:16:47 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 9235FA4419C;
- Wed, 25 Sep 2024 12:16:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F071BC4CEC3;
- Wed, 25 Sep 2024 12:16:39 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id D7D6DA4419C;
+ Wed, 25 Sep 2024 12:16:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48997C4CEC3;
+ Wed, 25 Sep 2024 12:16:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1727266602;
- bh=peHk8h0T3fxLfih88GsIUkonWqor2Z6+OiL9ftVYVlw=;
+ s=k20201202; t=1727266606;
+ bh=G67GbTF+iTgJVA86LDwk7DMSITrG5Q5tEDvNNktzFh4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=kI86EZg2wh1/6VdD5uPjQwuCxCaIngT/jYOagmt9d/SUyzMfyNMHLnLAFeRv+unU1
- +TDynSJV1ltyu18ZEmiFQCFDjTPrqNFiGpYj97wQwecmVZm+wVxXdRxdjlmE+vgD8g
- XjJgPAXimuYy9G/gF1ZjB/HuM6mnhfwsaEwOp5IxjwLVYCcYSmDImFVNZK+Km3QW4q
- Cg0+5I8xCVcrFk/m/+JOfRZpUTpz4H2EtWnQLzA55iwIo7jc32VOjipBK0M7U6DsAW
- Xc+rltM+myZwk3kCvpVwj9Lk5WwjmdcbjiHRNInBU+/kpdvdQPyVbCOge6TuXXN/gE
- Yr9Fea/+RVfgQ==
+ b=seOsetwo3bKiieH1BOsDSzTif0V4ooFI8dveo8jnZZs68VROSnvs6sGu3/ok1yIEq
+ VfRGgKRMSbBhGIZcaKv0I/Rc5iI71o1xT77DYOO3n8pYbrRIbhyC1Rnmuurh6PXZ7b
+ d3Q1FV46C+FeWIzoLcg8xwVxdfpy1Zt9CtEBOdE3cd0i2Wi3PxAAkqPLaN1oVNx1Ay
+ acd3eeTmle+8qelWYZnEmstXYEXQO/oZ+eNLLEzyvWmvNRtyraArZT9kwrmH9ehZ81
+ eFWfM01c0yqJ9orPFlBuLovrDUkK/Ukc+fldu1RhbDRaGIzlfvw8g3yRt8Hs32yw4Q
+ f9sitHZNypsrA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -43,10 +43,10 @@ Cc: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
  sunpeng.li@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
  airlied@gmail.com, daniel@ffwll.ch, harikrishna.revalla@amd.com,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.6 109/139] drm/amd/display: Fix index out of bounds
- in DCN30 degamma hardware format translation
-Date: Wed, 25 Sep 2024 08:08:49 -0400
-Message-ID: <20240925121137.1307574-109-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 110/139] drm/amd/display: Fix index out of bounds
+ in degamma hardware format translation
+Date: Wed, 25 Sep 2024 08:08:50 -0400
+Message-ID: <20240925121137.1307574-110-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240925121137.1307574-1-sashal@kernel.org>
 References: <20240925121137.1307574-1-sashal@kernel.org>
@@ -72,21 +72,21 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
 
-[ Upstream commit bc50b614d59990747dd5aeced9ec22f9258991ff ]
+[ Upstream commit b7e99058eb2e86aabd7a10761e76cae33d22b49f ]
 
-This commit addresses a potential index out of bounds issue in the
-`cm3_helper_translate_curve_to_degamma_hw_format` function in the DCN30
-color  management module. The issue could occur when the index 'i'
-exceeds the  number of transfer function points (TRANSFER_FUNC_POINTS).
+Fixes index out of bounds issue in
+`cm_helper_translate_curve_to_degamma_hw_format` function. The issue
+could occur when the index 'i' exceeds the number of transfer function
+points (TRANSFER_FUNC_POINTS).
 
 The fix adds a check to ensure 'i' is within bounds before accessing the
-transfer function points. If 'i' is out of bounds, the function returns
+transfer function points. If 'i' is out of bounds the function returns
 false to indicate an error.
 
 Reported by smatch:
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn30/dcn30_cm_common.c:338 cm3_helper_translate_curve_to_degamma_hw_format() error: buffer overflow 'output_tf->tf_pts.red' 1025 <= s32max
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn30/dcn30_cm_common.c:339 cm3_helper_translate_curve_to_degamma_hw_format() error: buffer overflow 'output_tf->tf_pts.green' 1025 <= s32max
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn30/dcn30_cm_common.c:340 cm3_helper_translate_curve_to_degamma_hw_format() error: buffer overflow 'output_tf->tf_pts.blue' 1025 <= s32max
+drivers/gpu/drm/amd/amdgpu/../display/dc/dcn10/dcn10_cm_common.c:594 cm_helper_translate_curve_to_degamma_hw_format() error: buffer overflow 'output_tf->tf_pts.red' 1025 <= s32max
+drivers/gpu/drm/amd/amdgpu/../display/dc/dcn10/dcn10_cm_common.c:595 cm_helper_translate_curve_to_degamma_hw_format() error: buffer overflow 'output_tf->tf_pts.green' 1025 <= s32max
+drivers/gpu/drm/amd/amdgpu/../display/dc/dcn10/dcn10_cm_common.c:596 cm_helper_translate_curve_to_degamma_hw_format() error: buffer overflow 'output_tf->tf_pts.blue' 1025 <= s32max
 
 Cc: Tom Chung <chiahsuan.chung@amd.com>
 Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
@@ -100,14 +100,14 @@ Reviewed-by: Tom Chung <chiahsuan.chung@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/dcn30/dcn30_cm_common.c | 2 ++
+ drivers/gpu/drm/amd/display/dc/dcn10/dcn10_cm_common.c | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_cm_common.c b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_cm_common.c
-index e0df9b0065f9c..e0b1fc92ed186 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_cm_common.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_cm_common.c
-@@ -355,6 +355,8 @@ bool cm3_helper_translate_curve_to_degamma_hw_format(
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_cm_common.c b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_cm_common.c
+index c0372aa4ec838..684e30f9cf898 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_cm_common.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_cm_common.c
+@@ -571,6 +571,8 @@ bool cm_helper_translate_curve_to_degamma_hw_format(
  				i += increment) {
  			if (j == hw_points - 1)
  				break;
