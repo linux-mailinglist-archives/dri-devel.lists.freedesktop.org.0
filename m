@@ -2,59 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 636F6986218
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 17:07:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A557C9862EE
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 17:18:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CA9F10E83E;
-	Wed, 25 Sep 2024 15:07:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5460610EA31;
+	Wed, 25 Sep 2024 15:18:06 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HGTALtUZ";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09C9510EA28
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 15:07:37 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1stTbx-0005WS-Gp; Wed, 25 Sep 2024 17:07:25 +0200
-Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
- by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1stTbw-001Tgc-Qq; Wed, 25 Sep 2024 17:07:24 +0200
-Received: from pza by lupine with local (Exim 4.96)
- (envelope-from <p.zabel@pengutronix.de>) id 1stTbw-000MKv-2P;
- Wed, 25 Sep 2024 17:07:24 +0200
-Message-ID: <f894eb3fd132a214ddbf2fa3ed405d065e629398.camel@pengutronix.de>
-Subject: Re: [PATCH v2 2/2] media: imx: vdic: Introduce mem2mem VDI
- deinterlacer driver
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Marek Vasut <marex@denx.de>, linux-media@vger.kernel.org
-Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, Fabio
- Estevam <festevam@gmail.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>, Mauro Carvalho
- Chehab <mchehab@kernel.org>, Pengutronix Kernel Team
- <kernel@pengutronix.de>, Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo
- <shawnguo@kernel.org>,  Steve Longerbeam <slongerbeam@gmail.com>,
- dri-devel@lists.freedesktop.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org, 
- linux-staging@lists.linux.dev
-Date: Wed, 25 Sep 2024 17:07:24 +0200
-In-Reply-To: <3e850259-9349-4215-947a-ce192fa95f14@denx.de>
-References: <20240724002044.112544-1-marex@denx.de>
- <20240724002044.112544-2-marex@denx.de>
- <a66a2eaf30e21ff7c87f140e97ed4639640121ba.camel@pengutronix.de>
- <3e850259-9349-4215-947a-ce192fa95f14@denx.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A467910E14D;
+ Wed, 25 Sep 2024 15:18:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1727277485; x=1758813485;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=I0suoG7GHmfD73CrkUDPKjvZhFICcm/G9SkkiX/7+F0=;
+ b=HGTALtUZ7WB7B+76WMXvx5W3yTTFR4q6fqBHeiEC4pWBmjUZM33vsPm8
+ Djtix+v3fYr151JeQ95ISNTJGTl4NF/sfoVolV/SJbCWqg4VAGCTL/047
+ Rm98WDahgmi5pE8XOkEVTJLha1g/DvbsFwWmoFwzt1mJinis9w7WeLnPK
+ txiduiGb5DbWfgXBcSCGMRSc0Z0cFsBWCR7teNK10ylkj4QFLohR55MPu
+ Wl8GjG0AKVHBvhEtipHRlEXYSiGG1p8XAA9ZoqsRIAVOPsa4g3dCTUYtF
+ zM1zPrC05cRuojnj+zGMLFk5+jKiQMfyIhFo9Gu70Oykagl6G+J1iIJsh Q==;
+X-CSE-ConnectionGUID: LxVd0eLBR46Pm+lcMMlPrw==
+X-CSE-MsgGUID: X1+2vKUzSg+bmsKJgD+dKw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11206"; a="48866834"
+X-IronPort-AV: E=Sophos;i="6.10,257,1719903600"; d="scan'208";a="48866834"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Sep 2024 08:17:47 -0700
+X-CSE-ConnectionGUID: qMS2JHUfSuGtYHRf6gc3bw==
+X-CSE-MsgGUID: ZeNS2yKoTBeMD+USkhYlNA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,257,1719903600"; d="scan'208";a="76612928"
+Received: from srr4-3-linux-106-armuthy.iind.intel.com ([10.190.238.56])
+ by orviesa003.jf.intel.com with ESMTP; 25 Sep 2024 08:17:45 -0700
+From: Arun R Murthy <arun.r.murthy@intel.com>
+To: intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: Arun R Murthy <arun.r.murthy@intel.com>
+Subject: [PATCHv4 0/7] Display Global Histogram
+Date: Wed, 25 Sep 2024 20:37:47 +0530
+Message-Id: <20240925150754.1876893-1-arun.r.murthy@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,194 +65,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Display histogram is a hardware functionality where a statistics for 'x'
+number of frames is generated to form a histogram data. This is notified
+to the user via histogram event. Compositor will then upon sensing the
+histogram event will read the histogram data from KMD via crtc property.
+A library can be developed to take this generated histogram as an
+input and apply some algorithm to generate an Image EnhancemenT(IET).
+This is further fed back to the KMD via crtc property. KMD will use this
+IET as a multiplicand factor to multiply with the incoming pixels at the
+end of the pipe which is then pushed onto the display.
 
-On Di, 2024-09-24 at 17:28 +0200, Marek Vasut wrote:
-> On 9/6/24 11:01 AM, Philipp Zabel wrote:
-[...]
-> > Instead of presenting two devices to userspace, it would be better to
-> > have a single video device that can distribute work to both IPUs.
->=20
-> Why do you think so ?
+One such library Global Histogram Enhancement(GHE) will take the histogram
+as input and applied the algorithm to enhance the density and then
+return the enhanced factor. This library can be located @
+https://github.com/intel/ghe
 
-The scaler/colorspace converter supports frames larger than the
-1024x1024 hardware by splitting each frame into multiple tiles. It
-currently does so sequentially on a single IC. Speed could be improved
-by distributing the tiles to both ICs. This is not an option anymore if
-there are two video devices that are fixed to one IC each.
+The corresponding mutter changes to enable/disable histogram, read the
+histogram data, communicate with the library and write the enhanced data
+back to the KMD is also pushed for review at https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/3873
+The IGT changes for validating the histogram event and reading the
+histogram is also pushed for review at https://patchwork.freedesktop.org/series/135789/
 
-The same would be possible for the deinterlacer, e.g. to support 720i
-frames split into two tiles each sent to one of the two VDICs.
+Test-with: 20240705091333.328322-1-mohammed.thasleem@intel.com
 
-> I think it is better to keep the kernel code as simple as possible, i.e.=
-=20
-> provide the device node for each m2m device to userspace and handle the=
-=20
-> m2m device hardware interaction in the kernel driver, but let userspace=
-=20
-> take care of policy like job scheduling, access permissions assignment=
-=20
-> to each device (e.g. if different user accounts should have access to=20
-> different VDICs), or other such topics.
+Arun R Murthy (7):
+  drm/i915/histogram: Define registers for histogram
+  drm/i915/histogram: Add support for histogram
+  drm/xe: Add histogram support to Xe builds
+  drm/i915/histogram: histogram interrupt handling
+  drm/i915/histogram: Add crtc properties for global histogram
+  drm/i915/histogram: histogram delay counter doesnt reset
+  drm/i915/histogram: Histogram changes for Display 20+
 
-I both agree and disagree with you at the same time.
+ drivers/gpu/drm/i915/Makefile                 |   1 +
+ drivers/gpu/drm/i915/display/intel_atomic.c   |   5 +
+ drivers/gpu/drm/i915/display/intel_crtc.c     | 169 ++++++++-
+ drivers/gpu/drm/i915/display/intel_crtc.h     |   5 +
+ drivers/gpu/drm/i915/display/intel_display.c  |  13 +
+ .../gpu/drm/i915/display/intel_display_irq.c  |   6 +-
+ .../drm/i915/display/intel_display_types.h    |  15 +
+ .../gpu/drm/i915/display/intel_histogram.c    | 352 ++++++++++++++++++
+ .../gpu/drm/i915/display/intel_histogram.h    |  38 ++
+ .../drm/i915/display/intel_histogram_reg.h    |  80 ++++
+ drivers/gpu/drm/i915/i915_reg.h               |   5 +-
+ drivers/gpu/drm/xe/Makefile                   |   1 +
+ 12 files changed, 686 insertions(+), 4 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/display/intel_histogram.c
+ create mode 100644 drivers/gpu/drm/i915/display/intel_histogram.h
+ create mode 100644 drivers/gpu/drm/i915/display/intel_histogram_reg.h
 
-If the programming model were more similar to DRM, I'd agree in a
-heartbeat. If the kernel driver just had to do memory/fence handling
-and command submission (and parameter sanitization, because there is no
-MMU), and there was some userspace API on top, it would make sense to
-me to handle parameter calculation and job scheduling in a hardware
-specific userspace driver that can just open one device for each IPU.
+-- 
+2.25.1
 
-With the rigid V4L2 model though, where memory handling, parameter
-calculation, and job scheduling of tiles in a single frame all have to
-be hidden behind the V4L2 API, I don't think requiring userspace to
-combine multiple mem2mem video devices to work together on a single
-frame is feasible.
-
-Is limiting different users to the different deinterlacer hardware
-units a real usecase? I saw the two ICs, when used as mem2mem devices,
-as interchangeable resources.
-
-> > To be fair, we never implemented that for the CSC/scaler mem2mem device
-> > either.
->=20
-> I don't think that is actually a good idea. Instead, it would be better=
-=20
-> to have two scaler nodes in userspace.
-
-See above, that would make it impossible (or rather unreasonably
-complicated) to distribute work on a single frame to both IPUs.
-
-[...]
-> > > +	ipu_cpmem_set_buffer(priv->vdi_out_ch,  0, out_phys);
-> > > +	ipu_cpmem_set_buffer(priv->vdi_in_ch_p, 0, prev_phys + phys_offset)=
-;
-> > > +	ipu_cpmem_set_buffer(priv->vdi_in_ch,   0, curr_phys);
-> > > +	ipu_cpmem_set_buffer(priv->vdi_in_ch_n, 0, curr_phys + phys_offset)=
-;
-> >=20
-> > This always outputs at a frame rate of half the field rate, and only
-> > top fields are ever used as current field, and bottom fields as
-> > previous/next fields, right?
->=20
-> Yes, currently the driver extracts 1 frame from two consecutive incoming=
-=20
-> fields (previous Bottom, and current Top and Bottom):
->=20
-> (frame 1 and 3 below is omitted)
->=20
->      1  2  3  4
-> ...|T |T |T |T |...
-> ...| B| B| B| B|...
->       | ||  | ||
->       '-''  '-''
->        ||    ||
->        ||    \/
->        \/  Frame#4
->      Frame#2
->=20
-> As far as I understand it, this is how the current VDI implementation=20
-> behaves too, right ?
-
-Yes, that is a hardware limitation when using the direct CSI->VDIC
-direct path. As far as I understand, for each frame (two fields) the
-CSI only sends the first ("PREV") field directly to the VDIC, which
-therefor can only be run in full motion mode (use the filter to add in
-the missing lines).
-The second ("CUR") field is just ignored. It could be written to RAM
-via IDMAC output channel 13 (IPUV3_CHANNEL_VDI_MEM_RECENT), which can
-not be used by the VDIC in direct mode. So this is not implemented.
-
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/d=
-rivers/staging/media/imx/imx-media-vdic.c#n207
-
-That code is unused. The direct hardware path doesn't use
-IPUV3_CHANNEL_MEM_VDI_PREV/CUR/NEXT, but is has a similar effect, half
-of the incoming fields are dropped. The setup is vdic_setup_direct().
-
-> > I think it would be good to add a mode that doesn't drop the
-> >=20
-> > 	ipu_cpmem_set_buffer(priv->vdi_in_ch_p, 0, prev_phys);
-> > 	ipu_cpmem_set_buffer(priv->vdi_in_ch,   0, prev_phys + phys_offset);
-> > 	ipu_cpmem_set_buffer(priv->vdi_in_ch_n, 0, curr_phys);
-> >=20
-> > output frames, right from the start.
->=20
-> This would make the VDI act as a frame-rate doubler, which would spend a=
-=20
-> lot more memory bandwidth, which is limited on MX6, so I would also like=
-=20
-> to have a frame-drop mode (i.e. current behavior).
->
-> Can we make that behavior configurable ? Since this is a mem2mem device,=
-=20
-> we do not really have any notion of input and output frame-rate, so I=20
-> suspect this would need some VIDIOC_* ioctl ?
-
-That would be good. The situation I'd like to avoid is that this device
-becomes available without the full frame-rate mode, userspace then
-assumes this is a 1:1 frame converter device, and then we can't add the
-full frame-rate later without breaking userspace.
-
-> > If we don't start with that supported, I fear userspace will make
-> > assumptions and be surprised when a full rate mode is added later.
->=20
-> I'm afraid that since the current VDI already does retain input frame=20
-> rate instead of doubling it, the userspace already makes an assumption,=
-=20
-> so that ship has sailed.
-
-No, this is about the deinterlacer mem2mem device, which doesn't exist
-before this series.
-
-The CSI capture path already has configurable framedrops (in the CSI).
-
-> But I think we can make the frame doubling configurable ?
-
-That would be good. Specifically, there must be no guarantee that one
-input frame with two fields only produces one deinterlaced output
-frame, and userspace should somehow be able to understand this.
-
-This would be an argument against Nicolas' suggestion of including this
-in the csc/scaler device, which always must produce one output frame
-per input frame.
-
-[...]
-> > This maps to VDI_C_MOT_SEL_FULL aka VDI_MOT_SEL=3D2, which is documente=
-d
-> > as "full motion, only vertical filter is used". Doesn't this completely
-> > ignore the previous/next fields and only use the output of the di_vfilt
-> > four tap vertical filter block to fill in missing lines from the
-> > surrounding pixels (above and below) of the current field?
->=20
-> Is there a suitable knob for this or shall I introduce a device specific=
-=20
-> one, like the vdic_ctrl_motion_menu for the current VDIC direct driver ?
->=20
-> If we introduce such a knob, then it is all the more reason to provide=
-=20
-> one device node per one VDIC hardware instance, since each can be=20
-> configured for different motion settings.
-
-As far as I know, there is no such control yet. I don't think this
-should be per-device, but per-stream (or even per-frame).
-
-> > I think this should at least be configurable, and probably default to
-> > MED_MOTION.
->=20
-> I think to be compatible with the current VDI behavior and to reduce=20
-> memory bandwidth usage, let's default to the HIGH/full mode. That one=20
-> produces reasonably good results without spending too much memory=20
-> bandwidth which is constrained already on the MX6, and if the user needs=
-=20
-> better image quality, they can configure another mode using the V4L2=20
-> control.
-
-I'd rather not default to the setting that throws away half of the
-input data. Not using frame doubling by default is sensible, but now
-that using all three input fields to calculate the output frame is
-possible, why not make that the default.
-
-regards
-Philipp
