@@ -2,52 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39C52985A1B
+	by mail.lfdr.de (Postfix) with ESMTPS id 65F38985A1E
 	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 14:05:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFF6D10E9A8;
-	Wed, 25 Sep 2024 12:05:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3546B10E9AC;
+	Wed, 25 Sep 2024 12:05:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kiYhqIOz";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WV1MlJZx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F70010E9A8;
- Wed, 25 Sep 2024 12:05:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F0B510E9AC;
+ Wed, 25 Sep 2024 12:05:32 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 61E79A440F4;
- Wed, 25 Sep 2024 12:05:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13351C4CEC3;
- Wed, 25 Sep 2024 12:05:16 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id CFDCAA440EE;
+ Wed, 25 Sep 2024 12:05:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB68BC4CECD;
+ Wed, 25 Sep 2024 12:05:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1727265920;
- bh=dEWieiNRBN1d/i9S6rZiNLB/n7c03VwMh0kldbTtT0s=;
+ s=k20201202; t=1727265931;
+ bh=XVabsCaCrABStV1BWTRUpEMJT3/7Ga5YyME1c1So2I8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=kiYhqIOzP4Bjwzkxy2uhLcxrFYnxzKZzZTj7G2lO8LpIXRYTC6dqC2KVonyThxxIJ
- 46ZiByOx2dgp7Fq9iEs40rGHYT8+aA8IiAWjb94898lC6oxUdi5DqbGWL8xPZeaTDU
- nrCf0lvn5zfQsdqhcqc6XDpoO/uCFidPAJeYD65gNNJjn1bK5ecg3dFwT1tNSs/ozG
- j4lE3+JVNQAhPomCGKzcdNFC2jl/W0D4GO00sl4uUkQqotiM7Sl1tKTSdCbdfuxYNp
- haX4ArvK0Me2R47bDmiUoR76xLKR/XjGy/P1iX4LGGxDU6kYWErdcsvpy5Lv0+jjVl
- OWsem9517Jdeg==
+ b=WV1MlJZxzwfxYvaxfDPytMBgGYTJ5BktEs+JZVQszcpp4mgmiDvm7WBjSrsuM9Huk
+ 803nrJqr/V6epXcpBiS18j5uKj+XP8fjff1iLr3zDpcwSjeYtLTIZvEVkqEJWvTYdx
+ obxSDfrclYa0amOOyHXx00nzv2+l9A1gYHYKCbQs19fTa7ep3xEagTGYLeXCbpZRe3
+ 0TOVTa4+ht093S0tA1vAu0hKKBCeOcLoKZWpKQcmoHauMESYJ2mf/T1Qy+M73AiVfZ
+ nLkh34EX1lGg1Q3dJZ/IkmjBlr9pnKVsaOpf9NqJNOm3EYvDLdpeS5bgslLsqhcMJH
+ kuPNCioXh429Q==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- Jun Lei <jun.lei@amd.com>, Daniel Wheeler <daniel.wheeler@amd.com>,
- Rodrigo Siqueira <rodrigo.siqueira@amd.com>,
+Cc: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
+ Tom Chung <chiahsuan.chung@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Roman Li <roman.li@amd.com>,
+ Alex Hung <alex.hung@amd.com>, Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ Harry Wentland <harry.wentland@amd.com>,
+ Hamza Mahfooz <hamza.mahfooz@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
- christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch, charlene.liu@amd.com, hamza.mahfooz@amd.com,
- sungjoon.kim@amd.com, Jerry.Zuo@amd.com, syed.hassan@amd.com,
- swapnil.patel@amd.com, Qingqing.Zhuo@amd.com, aurabindo.pillai@amd.com,
- arnd@arndb.de, xi.liu@amd.com, amd-gfx@lists.freedesktop.org,
+ sunpeng.li@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, daniel@ffwll.ch, wenjing.liu@amd.com,
+ alvin.lee2@amd.com, george.shen@amd.com, dillon.varone@amd.com,
+ gabe.teeger@amd.com, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.10 123/197] drm/amd/display: Use
- gpuvm_min_page_size_kbytes for DML2 surfaces
-Date: Wed, 25 Sep 2024 07:52:22 -0400
-Message-ID: <20240925115823.1303019-123-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.10 128/197] drm/amd/display: Handle null
+ 'stream_status' in 'planes_changed_for_existing_stream'
+Date: Wed, 25 Sep 2024 07:52:27 -0400
+Message-ID: <20240925115823.1303019-128-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240925115823.1303019-1-sashal@kernel.org>
 References: <20240925115823.1303019-1-sashal@kernel.org>
@@ -71,94 +72,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+From: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
 
-[ Upstream commit 31663521ede2edb622ee1b397ae3ac666d6351c5 ]
+[ Upstream commit 8141f21b941710ecebe49220b69822cab3abd23d ]
 
-[Why]
-It's currently hard coded to 256 when it should be using the SOC
-provided values. This can result in corruption with linear surfaces
-where we prefetch more PTE than the buffer can hold.
+This commit adds a null check for 'stream_status' in the function
+'planes_changed_for_existing_stream'. Previously, the code assumed
+'stream_status' could be null, but did not handle the case where it was
+actually null. This could lead to a null pointer dereference.
 
-[How]
-Update the min page size correctly for the plane.
+Reported by smatch:
+drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_resource.c:3784 planes_changed_for_existing_stream() error: we previously assumed 'stream_status' could be null (see line 3774)
 
-Signed-off-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-Reviewed-by: Jun Lei <jun.lei@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Signed-off-by: Rodrigo Siqueira <rodrigo.siqueira@amd.com>
+Cc: Tom Chung <chiahsuan.chung@amd.com>
+Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Cc: Roman Li <roman.li@amd.com>
+Cc: Alex Hung <alex.hung@amd.com>
+Cc: Aurabindo Pillai <aurabindo.pillai@amd.com>
+Cc: Harry Wentland <harry.wentland@amd.com>
+Cc: Hamza Mahfooz <hamza.mahfooz@amd.com>
+Signed-off-by: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
+Reviewed-by: Tom Chung <chiahsuan.chung@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../display/dc/dml2/dml2_translation_helper.c | 20 +++++++++++++------
- 1 file changed, 14 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/amd/display/dc/core/dc_resource.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml2_translation_helper.c b/drivers/gpu/drm/amd/display/dc/dml2/dml2_translation_helper.c
-index edff6b447680c..d5dbfb33f93dc 100644
---- a/drivers/gpu/drm/amd/display/dc/dml2/dml2_translation_helper.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml2/dml2_translation_helper.c
-@@ -828,7 +828,9 @@ static void get_scaler_data_for_plane(const struct dc_plane_state *in, struct dc
- 	memcpy(out, &temp_pipe->plane_res.scl_data, sizeof(*out));
- }
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
+index 786b56e96a816..7462c34793799 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
+@@ -3662,8 +3662,10 @@ static bool planes_changed_for_existing_stream(struct dc_state *context,
+ 		}
+ 	}
  
--static void populate_dummy_dml_plane_cfg(struct dml_plane_cfg_st *out, unsigned int location, const struct dc_stream_state *in)
-+static void populate_dummy_dml_plane_cfg(struct dml_plane_cfg_st *out, unsigned int location,
-+					 const struct dc_stream_state *in,
-+					 const struct soc_bounding_box_st *soc)
- {
- 	dml_uint_t width, height;
+-	if (!stream_status)
++	if (!stream_status) {
+ 		ASSERT(0);
++		return false;
++	}
  
-@@ -845,7 +847,7 @@ static void populate_dummy_dml_plane_cfg(struct dml_plane_cfg_st *out, unsigned
- 	out->CursorBPP[location] = dml_cur_32bit;
- 	out->CursorWidth[location] = 256;
- 
--	out->GPUVMMinPageSizeKBytes[location] = 256;
-+	out->GPUVMMinPageSizeKBytes[location] = soc->gpuvm_min_page_size_kbytes;
- 
- 	out->ViewportWidth[location] = width;
- 	out->ViewportHeight[location] = height;
-@@ -882,7 +884,9 @@ static void populate_dummy_dml_plane_cfg(struct dml_plane_cfg_st *out, unsigned
- 	out->ScalerEnabled[location] = false;
- }
- 
--static void populate_dml_plane_cfg_from_plane_state(struct dml_plane_cfg_st *out, unsigned int location, const struct dc_plane_state *in, struct dc_state *context)
-+static void populate_dml_plane_cfg_from_plane_state(struct dml_plane_cfg_st *out, unsigned int location,
-+						    const struct dc_plane_state *in, struct dc_state *context,
-+						    const struct soc_bounding_box_st *soc)
- {
- 	struct scaler_data *scaler_data = kzalloc(sizeof(*scaler_data), GFP_KERNEL);
- 	if (!scaler_data)
-@@ -893,7 +897,7 @@ static void populate_dml_plane_cfg_from_plane_state(struct dml_plane_cfg_st *out
- 	out->CursorBPP[location] = dml_cur_32bit;
- 	out->CursorWidth[location] = 256;
- 
--	out->GPUVMMinPageSizeKBytes[location] = 256;
-+	out->GPUVMMinPageSizeKBytes[location] = soc->gpuvm_min_page_size_kbytes;
- 
- 	out->ViewportWidth[location] = scaler_data->viewport.width;
- 	out->ViewportHeight[location] = scaler_data->viewport.height;
-@@ -1174,7 +1178,8 @@ void map_dc_state_into_dml_display_cfg(struct dml2_context *dml2, struct dc_stat
- 			disp_cfg_plane_location = dml_dispcfg->num_surfaces++;
- 
- 			populate_dummy_dml_surface_cfg(&dml_dispcfg->surface, disp_cfg_plane_location, context->streams[i]);
--			populate_dummy_dml_plane_cfg(&dml_dispcfg->plane, disp_cfg_plane_location, context->streams[i]);
-+			populate_dummy_dml_plane_cfg(&dml_dispcfg->plane, disp_cfg_plane_location,
-+						     context->streams[i], &dml2->v20.dml_core_ctx.soc);
- 
- 			dml_dispcfg->plane.BlendingAndTiming[disp_cfg_plane_location] = disp_cfg_stream_location;
- 
-@@ -1190,7 +1195,10 @@ void map_dc_state_into_dml_display_cfg(struct dml2_context *dml2, struct dc_stat
- 				ASSERT(disp_cfg_plane_location >= 0 && disp_cfg_plane_location <= __DML2_WRAPPER_MAX_STREAMS_PLANES__);
- 
- 				populate_dml_surface_cfg_from_plane_state(dml2->v20.dml_core_ctx.project, &dml_dispcfg->surface, disp_cfg_plane_location, context->stream_status[i].plane_states[j]);
--				populate_dml_plane_cfg_from_plane_state(&dml_dispcfg->plane, disp_cfg_plane_location, context->stream_status[i].plane_states[j], context);
-+				populate_dml_plane_cfg_from_plane_state(
-+					&dml_dispcfg->plane, disp_cfg_plane_location,
-+					context->stream_status[i].plane_states[j], context,
-+					&dml2->v20.dml_core_ctx.soc);
- 
- 				if (stream_mall_type == SUBVP_MAIN) {
- 					dml_dispcfg->plane.UseMALLForPStateChange[disp_cfg_plane_location] = dml_use_mall_pstate_change_sub_viewport;
+ 	for (i = 0; i < set_count; i++)
+ 		if (set[i].stream == stream)
 -- 
 2.43.0
 
