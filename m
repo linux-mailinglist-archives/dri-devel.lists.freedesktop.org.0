@@ -2,52 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D112985923
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 13:50:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA535985926
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 13:50:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAFD410E96A;
-	Wed, 25 Sep 2024 11:50:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D7CC10E967;
+	Wed, 25 Sep 2024 11:50:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KyUZdst3";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="p8xV0SMZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05BAE10E969;
- Wed, 25 Sep 2024 11:50:16 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97F5410E967;
+ Wed, 25 Sep 2024 11:50:21 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id E4B21A43FD3;
- Wed, 25 Sep 2024 11:50:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4726C4CEC3;
- Wed, 25 Sep 2024 11:50:11 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 273865C1082;
+ Wed, 25 Sep 2024 11:50:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E665C4CEC7;
+ Wed, 25 Sep 2024 11:50:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1727265014;
- bh=lw4Lfqx1k+k9pvCiV4drdU+7jyHe71CV9Nn//3wN524=;
+ s=k20201202; t=1727265020;
+ bh=ORA76I4VbywASKgwmUaT2DVqaDGu/gExIJzUOFwg13g=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=KyUZdst3q49QeF7uhuCh5MQygSpfbZpnEDXmoiGdZm/Qwcbqvd5kVBGx6aCQAXQE3
- 3GNBsrmnWHJydvr72C0/7l9YulZ9h30XpWXyxyHV3hZ3xm4Kd2znqzDhlkzFdvVvPe
- GB7kekZOrMGJWFZ8wGgaqNtWNK0tVkIYdbb13rCAfZxXsUezHkN1jFNz2AY3vmR5ap
- qbdhL5l0svFkqa6zg3ocWp3HGvzRVgcL41XEthzzU+xIUO/BDI9WryS8dq9+RLIJR6
- u+pTvQgaej1gzZpSfwNysrukDg/N79Pft2TyUCp5YMYp0Y8xk5l6B/j8iAlzn0VURz
- 8XJbOGbVDb3wQ==
+ b=p8xV0SMZYtoAnnWvfIcoomzPRtmkpN4AeJnstQqV/yn8+widRLnKrmirlA5XafdWm
+ O+Nf4p41SNT8ttG/nBkCAzcCLjeSB6ziPPR2jsRciyOx8CpQQwL9aF4tXy6XdKtu0k
+ jjW1V33iZpF7xfINcp9d59wZTBbhyYhnkoEC63YgjTmt+R6NuytVGzxZeXTqigi5Tz
+ nkCepwgC1H00y1jTaghiAE8YA4CcUWI6uUiXNQml95m/cfKkqrqZ4Rc4O6s6+ipakd
+ V78V7z9YiNJvuQ++2K/HiaHFNGIpmRwaCWq1s+Mm06hpKJjAGwEK0KeIYFLErOm5NM
+ 5vHa9JF+jJckA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Alex Hung <alex.hung@amd.com>, Wenjing Liu <wenjing.liu@amd.com>,
+Cc: Alex Hung <alex.hung@amd.com>, Aurabindo Pillai <aurabindo.pillai@amd.com>,
  Daniel Wheeler <daniel.wheeler@amd.com>,
  Rodrigo Siqueira <rodrigo.siqueira@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
  harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
  christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch, roman.li@amd.com, hersenxs.wu@amd.com,
- george.shen@amd.com, stylon.wang@amd.com, allen.pan@amd.com,
- meenakshikumar.somasundaram@amd.com, michael.strauss@amd.com,
- aric.cyr@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.11 194/244] drm/amd/display: Avoid overflow
- assignment in link_dp_cts
-Date: Wed, 25 Sep 2024 07:26:55 -0400
-Message-ID: <20240925113641.1297102-194-sashal@kernel.org>
+ daniel@ffwll.ch, ivlipski@amd.com, hamza.mahfooz@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.11 195/244] drm/amd/display: Initialize
+ get_bytes_per_element's default to 1
+Date: Wed, 25 Sep 2024 07:26:56 -0400
+Message-ID: <20240925113641.1297102-195-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240925113641.1297102-1-sashal@kernel.org>
 References: <20240925113641.1297102-1-sashal@kernel.org>
@@ -73,67 +70,51 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Alex Hung <alex.hung@amd.com>
 
-[ Upstream commit a15268787b79fd183dd526cc16bec9af4f4e49a1 ]
+[ Upstream commit 4067f4fa0423a89fb19a30b57231b384d77d2610 ]
 
-sampling_rate is an uint8_t but is assigned an unsigned int, and thus it
-can overflow. As a result, sampling_rate is changed to uint32_t.
+Variables, used as denominators and maybe not assigned to other values,
+should not be 0. bytes_per_element_y & bytes_per_element_c are
+initialized by get_bytes_per_element() which should never return 0.
 
-Similarly, LINK_QUAL_PATTERN_SET has a size of 2 bits, and it should
-only be assigned to a value less or equal than 4.
-
-This fixes 2 INTEGER_OVERFLOW issues reported by Coverity.
+This fixes 10 DIVIDE_BY_ZERO issues reported by Coverity.
 
 Signed-off-by: Alex Hung <alex.hung@amd.com>
-Reviewed-by: Wenjing Liu <wenjing.liu@amd.com>
+Reviewed-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Rodrigo Siqueira <rodrigo.siqueira@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/dc_dp_types.h                  | 2 +-
- drivers/gpu/drm/amd/display/dc/link/accessories/link_dp_cts.c | 3 ++-
- drivers/gpu/drm/amd/display/include/dpcd_defs.h               | 1 +
- 3 files changed, 4 insertions(+), 2 deletions(-)
+ .../gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20v2.c | 2 +-
+ .../gpu/drm/amd/display/dc/dml/dcn21/display_rq_dlg_calc_21.c   | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dc_dp_types.h b/drivers/gpu/drm/amd/display/dc/dc_dp_types.h
-index 519c3df78ee5b..95c275bf649bd 100644
---- a/drivers/gpu/drm/amd/display/dc/dc_dp_types.h
-+++ b/drivers/gpu/drm/amd/display/dc/dc_dp_types.h
-@@ -727,7 +727,7 @@ struct dp_audio_test_data_flags {
- struct dp_audio_test_data {
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20v2.c b/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20v2.c
+index 3d95bfa5aca23..ae52510417280 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20v2.c
++++ b/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20v2.c
+@@ -78,7 +78,7 @@ static void calculate_ttu_cursor(struct display_mode_lib *mode_lib,
  
- 	struct dp_audio_test_data_flags flags;
--	uint8_t sampling_rate;
-+	uint32_t sampling_rate;
- 	uint8_t channel_count;
- 	uint8_t pattern_type;
- 	uint8_t pattern_period[8];
-diff --git a/drivers/gpu/drm/amd/display/dc/link/accessories/link_dp_cts.c b/drivers/gpu/drm/amd/display/dc/link/accessories/link_dp_cts.c
-index df3781081da7a..32d5a4b143333 100644
---- a/drivers/gpu/drm/amd/display/dc/link/accessories/link_dp_cts.c
-+++ b/drivers/gpu/drm/amd/display/dc/link/accessories/link_dp_cts.c
-@@ -775,7 +775,8 @@ bool dp_set_test_pattern(
- 			core_link_read_dpcd(link, DP_TRAINING_PATTERN_SET,
- 					    &training_pattern.raw,
- 					    sizeof(training_pattern));
--			training_pattern.v1_3.LINK_QUAL_PATTERN_SET = pattern;
-+			if (pattern <= PHY_TEST_PATTERN_END_DP11)
-+				training_pattern.v1_3.LINK_QUAL_PATTERN_SET = pattern;
- 			core_link_write_dpcd(link, DP_TRAINING_PATTERN_SET,
- 					     &training_pattern.raw,
- 					     sizeof(training_pattern));
-diff --git a/drivers/gpu/drm/amd/display/include/dpcd_defs.h b/drivers/gpu/drm/amd/display/include/dpcd_defs.h
-index aee5170f5fb23..c246235e4afec 100644
---- a/drivers/gpu/drm/amd/display/include/dpcd_defs.h
-+++ b/drivers/gpu/drm/amd/display/include/dpcd_defs.h
-@@ -76,6 +76,7 @@ enum dpcd_phy_test_patterns {
- 	PHY_TEST_PATTERN_D10_2,
- 	PHY_TEST_PATTERN_SYMBOL_ERROR,
- 	PHY_TEST_PATTERN_PRBS7,
-+	PHY_TEST_PATTERN_END_DP11 = PHY_TEST_PATTERN_PRBS7,
- 	PHY_TEST_PATTERN_80BIT_CUSTOM,/* For DP1.2 only */
- 	PHY_TEST_PATTERN_CP2520_1,
- 	PHY_TEST_PATTERN_CP2520_2,
+ static unsigned int get_bytes_per_element(enum source_format_class source_format, bool is_chroma)
+ {
+-	unsigned int ret_val = 0;
++	unsigned int ret_val = 1;
+ 
+ 	if (source_format == dm_444_16) {
+ 		if (!is_chroma)
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn21/display_rq_dlg_calc_21.c b/drivers/gpu/drm/amd/display/dc/dml/dcn21/display_rq_dlg_calc_21.c
+index 98502a4f05672..9e1c18b90805d 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dcn21/display_rq_dlg_calc_21.c
++++ b/drivers/gpu/drm/amd/display/dc/dml/dcn21/display_rq_dlg_calc_21.c
+@@ -53,7 +53,7 @@ static void calculate_ttu_cursor(
+ 
+ static unsigned int get_bytes_per_element(enum source_format_class source_format, bool is_chroma)
+ {
+-	unsigned int ret_val = 0;
++	unsigned int ret_val = 1;
+ 
+ 	if (source_format == dm_444_16) {
+ 		if (!is_chroma)
 -- 
 2.43.0
 
