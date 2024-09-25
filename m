@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7828498586D
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 13:43:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D7E5985871
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 13:43:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB6B010E7ED;
-	Wed, 25 Sep 2024 11:43:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF62D10E7F1;
+	Wed, 25 Sep 2024 11:43:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YJpJ6nX1";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pCeqrKvJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BA5210E7ED;
- Wed, 25 Sep 2024 11:43:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A96C110E7F1;
+ Wed, 25 Sep 2024 11:43:16 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 6B8BD5C56D8;
- Wed, 25 Sep 2024 11:43:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B8B0C4CEC3;
- Wed, 25 Sep 2024 11:43:07 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 1F50C5C5694;
+ Wed, 25 Sep 2024 11:43:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30469C4CEC7;
+ Wed, 25 Sep 2024 11:43:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1727264590;
- bh=9Zv+1G7marrz5gAVlyrNED3DvmZTx+UVPq0V6Q2L8Vg=;
+ s=k20201202; t=1727264595;
+ bh=aBQiBthAoXHyRIMwm3pPcJ3Kdf2+qtQ0LlM6Qg/Ow+Y=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=YJpJ6nX1BmQ8fM4tA/UrSq9soSU39McKGgPgIDDb78CvSN1b87SVNMVYKnJEWPFIG
- 269CTcUdKJnHvAuW1JybN0sMwoyuzk7fFOc3zwxnTVMoawkYSotYrGfzF/Mmx87yqW
- g4kqg5QPYIAK71/rCc4gOB2vVGG8RTKvMtl92YZkAuZe0RvDcuuEddbH6XQyJ58Xdq
- v3cLDBbQ9K1bpRGm3zOvzCxnwCmm9jKcEzOr/4bG1O4UM/he+pCnJCG3jusrfYXum+
- TlVNoyRn3j/XOr+SwZLtfdnkEkLssG72RXuwoxouxlzb5LssGIF1Ws4EnuAZclVz3K
- MENwPWKE7GMgQ==
+ b=pCeqrKvJAHIKsqN6MaIH2tRZrSgRAuI2K0RGPlDlSne/r3eQTSPPSwZg7JmWneHJR
+ u8p83MN7ezneGiULQg3Su/wGMNJzBdsPekaDkEqlT8f9Luo+Fj5Sb+1R/jHxgfUxeC
+ J7R4QeEz9sgms6UBw78i/h2ZWep4e42nWPiUcJMFSEYdb6FEAH5AZI6Pfnqsh8aMV9
+ ZTKrsDCv+0UrIOz2UCdPFjJJap11OQDf4w+sIycgYbcTtH4caPznYHHhekENy39tlN
+ 7rNOKm4Lvr0tuXtp01bGCZyKnThS8OtrMQ/leyXIN746c+9EDOG1Z2L3hx8Zk5utdp
+ OLCcj+8t5Qwcg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -38,14 +38,13 @@ Cc: Alex Hung <alex.hung@amd.com>, Rodrigo Siqueira <rodrigo.siqueira@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
  harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
  christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch, aurabindo.pillai@amd.com, hamza.mahfooz@amd.com,
- ivlipski@amd.com, moadhuri@amd.com, dillon.varone@amd.com,
- bigeasy@linutronix.de, u202112078@hust.edu.cn,
+ daniel@ffwll.ch, hamza.mahfooz@amd.com, roman.li@amd.com,
+ mario.limonciello@amd.com, aurabindo.pillai@amd.com, Wayne.Lin@amd.com,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.11 130/244] drm/amd/display: Pass non-null to
- dcn20_validate_apply_pipe_split_flags
-Date: Wed, 25 Sep 2024 07:25:51 -0400
-Message-ID: <20240925113641.1297102-130-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.11 131/244] drm/amd/display: Check null pointers
+ before using them
+Date: Wed, 25 Sep 2024 07:25:52 -0400
+Message-ID: <20240925113641.1297102-131-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240925113641.1297102-1-sashal@kernel.org>
 References: <20240925113641.1297102-1-sashal@kernel.org>
@@ -71,14 +70,14 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Alex Hung <alex.hung@amd.com>
 
-[ Upstream commit 5559598742fb4538e4c51c48ef70563c49c2af23 ]
+[ Upstream commit 1ff12bcd7deaeed25efb5120433c6a45dd5504a8 ]
 
 [WHAT & HOW]
-"dcn20_validate_apply_pipe_split_flags" dereferences merge, and thus it
-cannot be a null pointer. Let's pass a valid pointer to avoid null
-dereference.
+These pointers are null checked previously in the same function,
+indicating they might be null as reported by Coverity. As a result,
+they need to be checked when used again.
 
-This fixes 2 FORWARD_NULL issues reported by Coverity.
+This fixes 3 FORWARD_NULL issue reported by Coverity.
 
 Reviewed-by: Rodrigo Siqueira <rodrigo.siqueira@amd.com>
 Signed-off-by: Jerry Zuo <jerry.zuo@amd.com>
@@ -87,52 +86,46 @@ Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/resource/dcn20/dcn20_resource.c | 3 ++-
- drivers/gpu/drm/amd/display/dc/resource/dcn21/dcn21_resource.c | 3 ++-
- 2 files changed, 4 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/resource/dcn20/dcn20_resource.c b/drivers/gpu/drm/amd/display/dc/resource/dcn20/dcn20_resource.c
-index 5e7cfa8e8ec93..eea2b3b307cd5 100644
---- a/drivers/gpu/drm/amd/display/dc/resource/dcn20/dcn20_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/resource/dcn20/dcn20_resource.c
-@@ -2040,6 +2040,7 @@ bool dcn20_fast_validate_bw(
- {
- 	bool out = false;
- 	int split[MAX_PIPES] = { 0 };
-+	bool merge[MAX_PIPES] = { false };
- 	int pipe_cnt, i, pipe_idx, vlevel;
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 1e069fa5211ee..264e67634dcdc 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -7233,6 +7233,9 @@ create_validate_stream_for_sink(struct amdgpu_dm_connector *aconnector,
+ 	int requested_bpc = drm_state ? drm_state->max_requested_bpc : 8;
+ 	enum dc_status dc_result = DC_OK;
  
- 	ASSERT(pipes);
-@@ -2064,7 +2065,7 @@ bool dcn20_fast_validate_bw(
- 	if (vlevel > context->bw_ctx.dml.soc.num_states)
- 		goto validate_fail;
++	if (!dm_state)
++		return NULL;
++
+ 	do {
+ 		stream = create_stream_for_sink(connector, drm_mode,
+ 						dm_state, old_stream,
+@@ -9340,7 +9343,7 @@ static void amdgpu_dm_commit_streams(struct drm_atomic_state *state,
+ 		if (acrtc)
+ 			old_crtc_state = drm_atomic_get_old_crtc_state(state, &acrtc->base);
  
--	vlevel = dcn20_validate_apply_pipe_split_flags(dc, context, vlevel, split, NULL);
-+	vlevel = dcn20_validate_apply_pipe_split_flags(dc, context, vlevel, split, merge);
+-		if (!acrtc->wb_enabled)
++		if (!acrtc || !acrtc->wb_enabled)
+ 			continue;
  
- 	/*initialize pipe_just_split_from to invalid idx*/
- 	for (i = 0; i < MAX_PIPES; i++)
-diff --git a/drivers/gpu/drm/amd/display/dc/resource/dcn21/dcn21_resource.c b/drivers/gpu/drm/amd/display/dc/resource/dcn21/dcn21_resource.c
-index 8663cbc3d1cf5..347e6aaea582f 100644
---- a/drivers/gpu/drm/amd/display/dc/resource/dcn21/dcn21_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/resource/dcn21/dcn21_resource.c
-@@ -774,6 +774,7 @@ bool dcn21_fast_validate_bw(struct dc *dc,
- {
- 	bool out = false;
- 	int split[MAX_PIPES] = { 0 };
-+	bool merge[MAX_PIPES] = { false };
- 	int pipe_cnt, i, pipe_idx, vlevel;
+ 		dm_old_crtc_state = to_dm_crtc_state(old_crtc_state);
+@@ -9744,9 +9747,10 @@ static void amdgpu_dm_atomic_commit_tail(struct drm_atomic_state *state)
  
- 	ASSERT(pipes);
-@@ -816,7 +817,7 @@ bool dcn21_fast_validate_bw(struct dc *dc,
- 			goto validate_fail;
+ 			DRM_INFO("[HDCP_DM] hdcp_update_display enable_encryption = %x\n", enable_encryption);
+ 
+-			hdcp_update_display(
+-				adev->dm.hdcp_workqueue, aconnector->dc_link->link_index, aconnector,
+-				new_con_state->hdcp_content_type, enable_encryption);
++			if (aconnector->dc_link)
++				hdcp_update_display(
++					adev->dm.hdcp_workqueue, aconnector->dc_link->link_index, aconnector,
++					new_con_state->hdcp_content_type, enable_encryption);
+ 		}
  	}
  
--	vlevel = dcn20_validate_apply_pipe_split_flags(dc, context, vlevel, split, NULL);
-+	vlevel = dcn20_validate_apply_pipe_split_flags(dc, context, vlevel, split, merge);
- 
- 	for (i = 0, pipe_idx = 0; i < dc->res_pool->pipe_count; i++) {
- 		struct pipe_ctx *pipe = &context->res_ctx.pipe_ctx[i];
 -- 
 2.43.0
 
