@@ -2,73 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3363C9851EE
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 06:12:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 821039851FE
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 06:26:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09B3D10E05C;
-	Wed, 25 Sep 2024 04:12:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92F8910E2CD;
+	Wed, 25 Sep 2024 04:26:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="kErm4Sqk";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="H3Bl/3CL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com
- [209.85.210.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A611F10E05C
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 04:12:16 +0000 (UTC)
-Received: by mail-ot1-f42.google.com with SMTP id
- 46e09a7af769-710e01dd554so3611733a34.3
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 21:12:16 -0700 (PDT)
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
+ [209.85.214.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D10AC10E2CD
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 04:26:06 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id
+ d9443c01a7336-207115e3056so47728785ad.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Sep 2024 21:26:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1727237536; x=1727842336;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=MCCHOcW6PDYekuFAKP/cXwDkj9QRVyrD+2nvry9Ki8c=;
- b=kErm4Sqk34xXOa0U2Gt5uPc9FfEBIJB6I6ptPTEUpzpImBr/dY7iis1T58FiVzRbxU
- 7yxfyjV8I67Ut4Ux//fFL3CDobuIstrRjrXKwRvF/Xh080FvkRNi9o8suuqEPCyQ9mBx
- Pu+DUDig+4gho2i1vesGQQ9Z3QrnIEZ8e455M=
+ d=gmail.com; s=20230601; t=1727238366; x=1727843166; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=phoYo00B6ZRIpjfRG/81GcMspTNk0jh/acvNetZig2s=;
+ b=H3Bl/3CLFUP6kaS32ft+GGadZcfOOkzsnoQ0xU6lJguU2lK/5adD3EI7XbtL5c4vdf
+ CGxlKXU2iG29HwB/YMz2e4neiXf/8olttenLB0UheOda7H7cv1OGadA73I3/RT9LIeSF
+ FFm5jHhS2I2YZVlFsCTt+FGzmaozzUQYOf4WIBmadbv8Xkyz8HMXUUjSLRrzAUWmJ/h6
+ WRL8GAIUTjTWdgnZIXlreItsCo6fy55qoVOxVlA5sJnOi+BalHyl/w4cdK0cJEF6bVs0
+ VOeF429FwsFNrwi4zYgdj366TOWaf3+XtIgqx1VJzX/DzY7R2tZZoPk1ry6xP+T3H/S8
+ RLNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727237536; x=1727842336;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=MCCHOcW6PDYekuFAKP/cXwDkj9QRVyrD+2nvry9Ki8c=;
- b=TQpeguDdJjK25v0lqAqqEa51qqDeobQnuwY+kbeje5qGGhu7BVwIfMpSsxz/FaJV+9
- DHjRWPvPhetvmitadVzHw2QEfGFpha+vGc5FJQ9eEGgWt19AXfV5+xZaXGz9bEBCTtN3
- fsZXheOHJUuVYV9+O1YL6ebm8hPw88PZNw1xsacOqdQzqYep/F55c3hOGWUqWSVEqiQy
- LB3YonpBDdUn494rf86wGCbohSp6yfBcqIpzo9ZLgwhoONy03EnCBd7CTYCzddrJTaqD
- 6KiByKAnxxZ34/ZEVG6zQom6UEAuEHFhAQ3I0OoHQzsO10syB/zEmo+ylTzhGfjn+Hfl
- 0ajQ==
+ d=1e100.net; s=20230601; t=1727238366; x=1727843166;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=phoYo00B6ZRIpjfRG/81GcMspTNk0jh/acvNetZig2s=;
+ b=Mc6PGHOYttMZKCiEq4VoHPWx82aFtaKeUl6A34bCTEI9QCkAEpGux/U3Jbbt7rfpLH
+ wyW7i1bxXag/r9OM5pJJNj7CAYiY/qVsxO9bSPGRpU2KDRfIMKjVYGCwiBigisO3PryX
+ JHTUe5n8+ww2BYTiEdWXIXFGIkpv5zItPziavw43+j0vaXdh37yZO4HnPMGIT0I3hxY/
+ GuPlpRsOiuu8bX6P8kxFa0Gt6l/B3ydYNJDfK6EnAO2J+1owMAsusuZ5wFry8Psld3Se
+ Gtek5llgTUgNJewpXyreJWiicnT7XnTFwZfvbdZkkTpI2hiN8/rb5TlsUyZX4wXcWOfN
+ Wdlw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWvwFNXNR1dFkMhQ0CMCedM843kisdG5HEiqfPfK/E9j7+Zz+jXhGg/TxIFfSLT/Ebzcar+9QrgvpY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzN5I3QqN6jtTPZiLmXQm1Bi5s+NAQSYS8KNOaYmRl0zg/u8rLk
- mStHWzsVMN8VRFqPagAn9lucvNVuX4Z/TYxkDhFiCRrJH/Oa4N39O6rLW/1LzXQzRb9N4AFufmu
- nAohDjg5Mhx2d3LaVGtR6YuTM2GhOP/sac39CdpyIeBjt3yIejQ==
-X-Google-Smtp-Source: AGHT+IEen4KEwECA8Pn5n5uArtwXa5aiPy709MZmXOWELSNauMqF45DgHEuB+OYeDI80hjN84eq4La4V59Sb/VriRfA=
-X-Received: by 2002:a05:6830:310f:b0:711:3ed:4226 with SMTP id
- 46e09a7af769-713c7d96e0dmr1136133a34.7.1727237535820; Tue, 24 Sep 2024
- 21:12:15 -0700 (PDT)
+ AJvYcCV3OBWu42huLYiTakgn3Kp2ZxsojZ2+392JcoH9VX5UN/LS/cmaRbp4x1HPnzMEe9gTU3UbEPaguUo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yypd6ZvKsqXnbsotinuY+71FCnpQn4H9P5hACw1Io9Zy+2TReea
+ ULSJxEyIgPGLXLT61kJ7R23nM9Bk4wOvss9EU9G8bGQgEXw38tiH
+X-Google-Smtp-Source: AGHT+IGKxgpD7biIYq4dyOkPpfiLme60hVAhSy3SkRA7HVSfGbct0bidQMhuGF/r7xrAdvHEu1ZB+g==
+X-Received: by 2002:a17:902:c94a:b0:202:26d:146c with SMTP id
+ d9443c01a7336-20afc42d838mr19087135ad.5.1727238366183; 
+ Tue, 24 Sep 2024 21:26:06 -0700 (PDT)
+Received: from [10.3.80.76] ([103.4.222.252]) by smtp.gmail.com with ESMTPSA id
+ 41be03b00d2f7-7e6b7c73120sm1899603a12.68.2024.09.24.21.26.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 24 Sep 2024 21:26:05 -0700 (PDT)
+Message-ID: <22d4aada-da3f-45d6-b2a9-b2f9a7ac7d10@gmail.com>
+Date: Wed, 25 Sep 2024 09:56:01 +0530
 MIME-Version: 1.0
-References: <20240924035231.1163670-1-treapking@chromium.org>
- <20240924035231.1163670-3-treapking@chromium.org>
- <CAD=FV=X2V+LQ1XOo_eJ1Vv3Pn+E309kvyY9FOzaZP_j8ToXM2g@mail.gmail.com>
-In-Reply-To: <CAD=FV=X2V+LQ1XOo_eJ1Vv3Pn+E309kvyY9FOzaZP_j8ToXM2g@mail.gmail.com>
-From: Pin-yen Lin <treapking@chromium.org>
-Date: Wed, 25 Sep 2024 12:12:05 +0800
-Message-ID: <CAEXTbpfHUfq6rmSZkXdAYZ-W03t7vMcACUmyco6xL5A4T_Ok=g@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drm/bridge: it6505: Drop EDID cache on bridge power
- off
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/panel: elida-kd35t133: transition to mipi_dsi
+ wrapped functions
 To: Doug Anderson <dianders@chromium.org>
-Cc: Xin Ji <xji@analogixsemi.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-kernel@vger.kernel.org, 
- Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Cc: neil.armstrong@linaro.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
+ quic_jesszhan@quicinc.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20240923122558.728516-1-tejasvipin76@gmail.com>
+ <CAD=FV=WmcyAbzU_M25rCzc3JmNGZ9T0wzMJAfxi-LmdZ6389OQ@mail.gmail.com>
+Content-Language: en-US
+From: Tejas Vipin <tejasvipin76@gmail.com>
+In-Reply-To: <CAD=FV=WmcyAbzU_M25rCzc3JmNGZ9T0wzMJAfxi-LmdZ6389OQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,47 +88,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On Wed, Sep 25, 2024 at 1:48=E2=80=AFAM Doug Anderson <dianders@chromium.or=
-g> wrote:
->
+
+On 9/25/24 1:25 AM, Doug Anderson wrote:
 > Hi,
+> 
+> On Mon, Sep 23, 2024 at 5:33 AM Tejas Vipin <tejasvipin76@gmail.com> wrote:
+>>
+>> -static int kd35t133_init_sequence(struct kd35t133 *ctx)
+>> +static void kd35t133_init_sequence(struct mipi_dsi_multi_context *dsi_ctx)
+>>  {
+>> -       struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
+>> -       struct device *dev = ctx->dev;
+>> -
+>>         /*
+>>          * Init sequence was supplied by the panel vendor with minimal
+>>          * documentation.
+>>          */
+>> -       mipi_dsi_dcs_write_seq(dsi, KD35T133_CMD_POSITIVEGAMMA,
+>> -                              0x00, 0x13, 0x18, 0x04, 0x0f, 0x06, 0x3a, 0x56,
+>> -                              0x4d, 0x03, 0x0a, 0x06, 0x30, 0x3e, 0x0f);
+>> -       mipi_dsi_dcs_write_seq(dsi, KD35T133_CMD_NEGATIVEGAMMA,
+>> -                              0x00, 0x13, 0x18, 0x01, 0x11, 0x06, 0x38, 0x34,
+>> -                              0x4d, 0x06, 0x0d, 0x0b, 0x31, 0x37, 0x0f);
+>> -       mipi_dsi_dcs_write_seq(dsi, KD35T133_CMD_POWERCONTROL1, 0x18, 0x17);
+>> -       mipi_dsi_dcs_write_seq(dsi, KD35T133_CMD_POWERCONTROL2, 0x41);
+>> -       mipi_dsi_dcs_write_seq(dsi, KD35T133_CMD_VCOMCONTROL, 0x00, 0x1a, 0x80);
+>> -       mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_ADDRESS_MODE, 0x48);
+>> -       mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_PIXEL_FORMAT, 0x55);
+>> -       mipi_dsi_dcs_write_seq(dsi, KD35T133_CMD_INTERFACEMODECTRL, 0x00);
+>> -       mipi_dsi_dcs_write_seq(dsi, KD35T133_CMD_FRAMERATECTRL, 0xa0);
+>> -       mipi_dsi_dcs_write_seq(dsi, KD35T133_CMD_DISPLAYINVERSIONCTRL, 0x02);
+>> -       mipi_dsi_dcs_write_seq(dsi, KD35T133_CMD_DISPLAYFUNCTIONCTRL,
+>> -                              0x20, 0x02);
+>> -       mipi_dsi_dcs_write_seq(dsi, KD35T133_CMD_SETIMAGEFUNCTION, 0x00);
+>> -       mipi_dsi_dcs_write_seq(dsi, KD35T133_CMD_ADJUSTCONTROL3,
+>> -                              0xa9, 0x51, 0x2c, 0x82);
+>> -       mipi_dsi_dcs_write(dsi, MIPI_DCS_ENTER_INVERT_MODE, NULL, 0);
+>> -
+>> -       dev_dbg(dev, "Panel init sequence done\n");
+>> -       return 0;
+>> +       mipi_dsi_dcs_write_seq_multi(dsi_ctx, KD35T133_CMD_POSITIVEGAMMA,
+>> +                                    0x00, 0x13, 0x18, 0x04, 0x0f, 0x06, 0x3a, 0x56,
+>> +                                    0x4d, 0x03, 0x0a, 0x06, 0x30, 0x3e, 0x0f);
+>> +       mipi_dsi_dcs_write_seq_multi(dsi_ctx, KD35T133_CMD_NEGATIVEGAMMA,
+>> +                                    0x13, 0x18, 0x01, 0x11, 0x06, 0x38, 0x34,
+>> +                                    0x06, 0x0d, 0x0b, 0x31, 0x37, 0x0f);
+> 
+> It seems like you dropped a few bytes in the above. Was this
+> intentional? You seem to have dropped the first byte from both of the
+> continuation lines (0x00 from the first, 0x4d from the second).
+> 
+> 
+>> +       mipi_dsi_dcs_write_seq_multi(dsi_ctx, KD35T133_CMD_POWERCONTROL1, 0x18, 0x17);
+>> +       mipi_dsi_dcs_write_seq_multi(dsi_ctx, KD35T133_CMD_POWERCONTROL2, 0x41);
+>> +       mipi_dsi_dcs_write_seq_multi(dsi_ctx, KD35T133_CMD_VCOMCONTROL, 0x00, 0x1a, 0x80);
+>> +       mipi_dsi_dcs_write_seq_multi(dsi_ctx, MIPI_DCS_SET_ADDRESS_MODE, 0x48);
+>> +       mipi_dsi_dcs_write_seq_multi(dsi_ctx, MIPI_DCS_SET_PIXEL_FORMAT, 0x55);
+>> +       mipi_dsi_dcs_write_seq_multi(dsi_ctx, KD35T133_CMD_INTERFACEMODECTRL, 0x00);
+>> +       mipi_dsi_dcs_write_seq_multi(dsi_ctx, KD35T133_CMD_FRAMERATECTRL, 0xa0);
+>> +       mipi_dsi_dcs_write_seq_multi(dsi_ctx, KD35T133_CMD_DISPLAYINVERSIONCTRL, 0x02);
+>> +       mipi_dsi_dcs_write_seq_multi(dsi_ctx, KD35T133_CMD_DISPLAYFUNCTIONCTRL,
+>> +                                    0x02);
+> 
+> This used to be the bytes 0x20, 0x02. Now it's just 0x02?
+> 
+> 
+>> +       mipi_dsi_dcs_write_seq_multi(dsi_ctx, KD35T133_CMD_SETIMAGEFUNCTION, 0x00);
+>> +       mipi_dsi_dcs_write_seq_multi(dsi_ctx, KD35T133_CMD_ADJUSTCONTROL3,
+>> +                                    0x51, 0x2c, 0x82);
+> 
+> This used to be the bytes 0xa9, 0x51, 0x2c, 0x82. Now it's just 0x51,
+> 0x2c, 0x82?
 >
-> On Mon, Sep 23, 2024 at 8:53=E2=80=AFPM Pin-yen Lin <treapking@chromium.o=
-rg> wrote:
-> >
-> > The bridge might miss the display change events when it's powered off.
-> > This happens when a user changes the external monitor when the system
-> > is suspended and the embedded controller doesn't not wake AP up.
-> >
-> > It's also observed that one DP-to-HDMI bridge doesn't work correctly
-> > when there is no EDID read after it is powered on.
-> >
-> > Drop the cache to force an EDID read after system resume to fix this.
-> >
-> > Fixes: 11feaef69d0c ("drm/bridge: it6505: Add caching for EDID")
-> > Signed-off-by: Pin-yen Lin <treapking@chromium.org>
->
-> Ah, I guess this answers my question in the previous patch about
-> whether caching was important even for external displays since this
-> driver only supports external DP and the commit you mention in "Fixes"
-> says that caching was important.
->
-> So this looks reasonable. One thing I wonder is if you're totally
-> guaranteed to get a PM Runtime suspend whenever you get an unplug /
-> replug of a display. I tried to dig a little bit but I'm not super
-> familiar with this bridge and it looks complicated enough that I guess
-> I'll have to trust that it's fine. So...
 
-it6505_remove_edid() is also called when the bridge reads HPD low in
-the IRQ handler or the DPCD sink count changes to 0 after a HPD_IRQ
-signal. The assumption here is that if the bridge is still powered on,
-then it should be aware of the monitor change events and drop the EDID
-cache when needed. This patch addresses the scenario where monitor
-changes are not communicated to the bridge when it is powered off.
->
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+Oh dear. No, this was not intentional. Most likely I think I wrote a vim
+macro poorly.
 
-Regards,
-Pin-yen
+> 
+>> +       mipi_dsi_dcs_write_buffer_multi(dsi_ctx, NULL, 0);
+> 
+> Are you certain that the above is equivalent to the old
+> "mipi_dsi_dcs_write(dsi, MIPI_DCS_ENTER_INVERT_MODE, NULL, 0);" ?
+> Where is the "MIPI_DCS_ENTER_INVERT_MODE" constant?
+> 
+> I think the above needs to be:
+> 
+>   mipi_dsi_dcs_write_seq_multi(dsi_ctx, MIPI_DCS_ENTER_INVERT_MODE);
+> 
+> I've confirmed that this compiles OK and that there's no need to
+> actually have any bytes in the sequence.
+>
+
+I'll do a v3 addressing all of this.
+
+> 
+> -Doug
+
+-- 
+Tejas Vipin
