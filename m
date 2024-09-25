@@ -2,65 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66723984F46
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 02:02:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9662984F4C
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 02:05:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30B9610E918;
-	Wed, 25 Sep 2024 00:02:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7F4810E919;
+	Wed, 25 Sep 2024 00:05:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="gjGtXHew";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="Hvl+sjDY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D368210E918
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 00:02:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=0SnQ0AA3+TqSu/zwzB/OCIRlY7aAjCpZm794hil5pX0=; b=gjGtXHewnsAindT82Y8j38zsBA
- abKX8s35HB3+3TV1DbbXeg6NEz/4HU5TBTv4GNedDJ2vLMSH0mWAmMg9925pdibQ1pHv9EISyxXHX
- 0RGhs6qMBqczGqOcnCCkoTfRQ7EisYspW93037oN2eKRZPu55FPILbxdhg3hh0o1KGrgdC9IqrpiK
- Bm2drqLhZ0reI2TnjoftPCPlHkqTZsbLJzjzVra0cBj0/RRon4IKZXReFbV3UztlsHTt8XTY9uM5y
- JIDeMMvec8ms++SomzoQmcXj0zAd4t33meCo4bcJg1/G/jAreq7E00GE9S3mXQA0w128ZWZjSqOIb
- wESZp8rg==;
-Received: from [187.36.213.55] (helo=[192.168.1.212])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1stFU7-000f2q-Ou; Wed, 25 Sep 2024 02:02:24 +0200
-Message-ID: <7514151e-a8dc-4725-b05f-6ffe12ea3658@igalia.com>
-Date: Tue, 24 Sep 2024 21:02:18 -0300
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BB1710E919;
+ Wed, 25 Sep 2024 00:05:55 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48OGs4ch017527;
+ Wed, 25 Sep 2024 00:05:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ zPJxe2OPadzaV17xl7gIFMYVBq8ss1vsUuTpAX3apgs=; b=Hvl+sjDYNJty06s7
+ TvBeK9Pwo6LkwxtYKP+ewSBYDwjEcGRg8TXRQjvFlybhKC+T4ofjKoBHo8YgJS6U
+ HWd0Q7oEYLzFZkXcbWNZrbznppLMdaKF0yi1bj4G+tm5nTC8JV/d+E7ZWC84b58T
+ 2xFQxJQrMLL/QqnejBfF3rH8fkSTtJae2lYuHrQZdOMBvPf0FzTxMUuKm0AB95DG
+ PGhOizsHi7TlS9G6Hk71L8jHa/xR6K580+8ew38YrsfkwwAvmx/NUHdACvfHrmFu
+ hQU5lTr/A50VFT4ULodpOhrEuJedTfJOd9kbUaXyGAbQvNgJnH3IugLQKOq2uVTi
+ elsb7A==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41spc2t5rc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 25 Sep 2024 00:05:45 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 48P05jR1009999
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 25 Sep 2024 00:05:45 GMT
+Received: from [10.110.96.155] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 24 Sep
+ 2024 17:05:44 -0700
+Message-ID: <75297d0d-528a-4152-b35f-ba41fbf914dc@quicinc.com>
+Date: Tue, 24 Sep 2024 17:05:43 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/vkms: Add missing check for CRTC initialization
-To: Louis Chauvet <louis.chauvet@bootlin.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Melissa Wen <melissa.srw@gmail.com>,
+Subject: Re: [PATCH v2 14/22] drm/msm/dpu: Require modeset if clone mode
+ status changes
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Jessica Zhang
+ <quic_jesszhan@quicinc.com>
+CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, "Marijn
+ Suijten" <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- thomas.petazzoni@bootlin.com
-References: <20240906-vkms-add-missing-check-v1-1-1afb3bf3d0a6@bootlin.com>
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, <quic_ebharadw@quicinc.com>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ Rob Clark <robdclark@chromium.org>, =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?=
+ <ville.syrjala@linux.intel.com>
+References: <20240924-concurrent-wb-v2-0-7849f900e863@quicinc.com>
+ <20240924-concurrent-wb-v2-14-7849f900e863@quicinc.com>
+ <yjfe5wajajeqmcp65kbvcttzgkrsfv5rhkbvqvioqx3rwdn6g6@2h2byk2l2imy>
 Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Autocrypt: addr=mcanal@igalia.com; keydata=
- xjMEZIsaeRYJKwYBBAHaRw8BAQdAGU6aY8oojw61KS5rGGMrlcilFqR6p6ID45IZ6ovX0h3N
- H01haXJhIENhbmFsIDxtY2FuYWxAaWdhbGlhLmNvbT7CjwQTFggANxYhBDMCqFtIvFKVRJZQ
- hDSPnHLaGFVuBQJkixp5BQkFo5qAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQNI+cctoYVW5u
- GAEAwpaC5rI3wD8zqETKwGVoXd6+AbmGfZuVD40xepy7z/8BAM5w95/oyPsHUqOsg/xUTlNp
- rlbhA+WWoaOXA3XgR+wCzjgEZIsaeRIKKwYBBAGXVQEFAQEHQGoOK0jgh0IorMAacx6WUUWb
- s3RLiJYWUU6iNrk5wWUbAwEIB8J+BBgWCAAmFiEEMwKoW0i8UpVEllCENI+cctoYVW4FAmSL
- GnkFCQWjmoACGwwACgkQNI+cctoYVW6cqwD/Q9R98msvkhgRvi18fzUPFDwwogn+F+gQJJ6o
- pwpgFkAA/R2zOfla3IT6G3SBoV5ucdpdCpnIXFpQLbmfHK7dXsAC
-In-Reply-To: <20240906-vkms-add-missing-check-v1-1-1afb3bf3d0a6@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <yjfe5wajajeqmcp65kbvcttzgkrsfv5rhkbvqvioqx3rwdn6g6@2h2byk2l2imy>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: 7bq2vPeCBsdLzf9SQFioK2W3MFlo4xFA
+X-Proofpoint-ORIG-GUID: 7bq2vPeCBsdLzf9SQFioK2W3MFlo4xFA
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011
+ priorityscore=1501 suspectscore=0 lowpriorityscore=0 spamscore=0
+ impostorscore=0 malwarescore=0 adultscore=0 phishscore=0 mlxlogscore=999
+ bulkscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2408220000 definitions=main-2409240168
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,44 +101,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Louis,
 
-On 9/6/24 13:15, Louis Chauvet wrote:
-> CRTC initialization call drm_mode_crtc_set_gamma_size without the proper
-> checks, introduce this check to avoid issues.
-> 
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 
-Applied to misc/kernel.git (drm-misc-next).
+On 9/24/2024 4:25 PM, Dmitry Baryshkov wrote:
+> On Tue, Sep 24, 2024 at 03:59:30PM GMT, Jessica Zhang wrote:
+>> If the clone mode enabled status is changing, a modeset needs to happen
+>> so that the resources can be reassigned
+> 
+> Sima's comment regarding crtc_state->mode_changed seems to be ignored...
+> 
 
-Best Regards,
-- Maíra
+Not ignored. One of us has to take that up. There is a broader cleanup 
+required for that.
 
-> ---
->   drivers/gpu/drm/vkms/vkms_crtc.c | 7 ++++++-
->   1 file changed, 6 insertions(+), 1 deletion(-)
+We can sync up on how to tackle this : whether it needs to be in this 
+series or push another one cleaning up all the instances.
+
+>>
+>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+>> ---
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 8 ++++++++
+>>   1 file changed, 8 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+>> index a7850bf844db..f20e44e9fc05 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+>> @@ -1268,6 +1268,8 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
+>>   {
+>>   	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state,
+>>   									  crtc);
+>> +	struct drm_crtc_state *old_crtc_state = drm_atomic_get_old_crtc_state(state,
+>> +									      crtc);
+>>   	struct dpu_crtc *dpu_crtc = to_dpu_crtc(crtc);
+>>   	struct dpu_crtc_state *cstate = to_dpu_crtc_state(crtc_state);
+>>   
+>> @@ -1279,6 +1281,8 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
+>>   	int rc = 0;
+>>   
+>>   	bool needs_dirtyfb = dpu_crtc_needs_dirtyfb(crtc_state);
+>> +	bool clone_mode_requested = drm_crtc_in_clone_mode(old_crtc_state);
+>> +	bool clone_mode_enabled = drm_crtc_in_clone_mode(crtc_state);
+>>   
+>>   	/* there might be cases where encoder needs a modeset too */
+>>   	drm_for_each_encoder_mask(drm_enc, crtc->dev, crtc_state->encoder_mask) {
+>> @@ -1286,6 +1290,10 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
+>>   			crtc_state->mode_changed = true;
+>>   	}
+>>   
+>> +	if ((clone_mode_requested && !clone_mode_enabled) ||
+>> +	    (!clone_mode_requested && clone_mode_enabled))
+>> +		crtc_state->mode_changed = true;
+>> +
+>>   	if (drm_atomic_crtc_needs_modeset(crtc_state)) {
+>>   		rc = dpu_crtc_assign_resources(crtc, crtc_state);
+>>   		if (rc < 0)
+>>
+>> -- 
+>> 2.34.1
+>>
 > 
-> diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
-> index 40b4d084e3ce..e4f93dfbd071 100644
-> --- a/drivers/gpu/drm/vkms/vkms_crtc.c
-> +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-> @@ -287,7 +287,12 @@ int vkms_crtc_init(struct drm_device *dev, struct drm_crtc *crtc,
->   
->   	drm_crtc_helper_add(crtc, &vkms_crtc_helper_funcs);
->   
-> -	drm_mode_crtc_set_gamma_size(crtc, VKMS_LUT_SIZE);
-> +	ret = drm_mode_crtc_set_gamma_size(crtc, VKMS_LUT_SIZE);
-> +	if (ret) {
-> +		DRM_ERROR("Failed to set gamma size\n");
-> +		return ret;
-> +	}
-> +
->   	drm_crtc_enable_color_mgmt(crtc, 0, false, VKMS_LUT_SIZE);
->   
->   	spin_lock_init(&vkms_out->lock);
-> 
-> ---
-> base-commit: a6bb1f77a94335de67dba12e7f52651c115b82d2
-> change-id: 20240906-vkms-add-missing-check-e1b6ee8d1b39
-> 
-> Best regards,
