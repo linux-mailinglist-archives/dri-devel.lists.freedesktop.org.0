@@ -2,47 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22F4F98530D
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 08:41:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1F86985334
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 08:49:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB17410E79D;
-	Wed, 25 Sep 2024 06:40:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4DD810E067;
+	Wed, 25 Sep 2024 06:49:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=uniontech.com header.i=@uniontech.com header.b="ZT++pvLU";
+	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="h4NHbUVk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bg5.exmail.qq.com (bg5.exmail.qq.com [43.154.155.102])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B71610E79D
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 06:40:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
- s=onoh2408; t=1727246431;
- bh=UTJhJTscM+t6U5GnoFSYUuy/5g8tx6VkUsTc9uWi84A=;
- h=From:To:Subject:Date:Message-ID:MIME-Version;
- b=ZT++pvLUXgVW0mj9bPrC4hKdM3e7BbMjoOIDhruD6mN8UnyFfamubW7CMj3SHK5ji
- 1ys9v8WgGVzpKhdgK81fQ5UTyBF8OVekQdfPsf9VozZM8C16hRDcqkvxG7SopCLnfw
- NxptfVHIO9vCpHzKN2RJMf3UyqilWks31wStKA4Q=
-X-QQ-mid: bizesmtp79t1727246424tnvnearq
-X-QQ-Originating-IP: XTQsvV6tBVMuHHZWf4vJwK3h4A3lUdytk0jPCrCjuPM=
-Received: from localhost.localdomain ( [113.57.152.160])
- by bizesmtp.qq.com (ESMTP) with 
- id ; Wed, 25 Sep 2024 14:40:18 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 12219604728852299466
-From: He Lugang <helugang@uniontech.com>
-To: jani.nikula@linux.intel.com,
-	rodrigo.vivi@intel.com
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- He Lugang <helugang@uniontech.com>
-Subject: [RESEND PATCH] drm/i915:Remove unused parameter in marco
-Date: Wed, 25 Sep 2024 14:40:16 +0800
-Message-ID: <6C2E07E089F0CB73+20240925064016.733173-1-helugang@uniontech.com>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C56910E067
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 06:49:10 +0000 (UTC)
+X-UUID: 40d8525a7b0a11efb66947d174671e26-20240925
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=GIXtBLCtXr6MqBqJlnp57Xa9ytuceXIA441Kk55rrF4=; 
+ b=h4NHbUVkb04ybPSWFtztF6K7iNELGQ5AtIBX7yYhcCKSlOmHpsE2tSvSZ+aAXVGLZrXv3hdkzTFsXxZAjA12AAjj4mJbm3VXtUDq/8ZanClT6gCl42eo5tDO6/QYVh7yzSyZN1m8/ZfJwvfF3/fM8koj+0lUtuaQXDtD3BcFY/c=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.41, REQID:3e4ffd7b-20be-4055-a54e-3fd010bf9823, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:6dc6a47, CLOUDID:da9abbd0-7921-4900-88a1-3aef019a55ce,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
+ SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-UUID: 40d8525a7b0a11efb66947d174671e26-20240925
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+ mailgw01.mediatek.com (envelope-from <liankun.yang@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1926389267; Wed, 25 Sep 2024 14:49:03 +0800
+Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
+ MTKMBS14N2.mediatek.inc (172.21.101.76) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Wed, 25 Sep 2024 14:49:00 +0800
+Received: from mszsdhlt06.gcn.mediatek.inc (10.16.6.206) by
+ mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Wed, 25 Sep 2024 14:49:00 +0800
+From: Liankun Yang <liankun.yang@mediatek.com>
+To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@gmail.com>, 
+ <simona@ffwll.ch>, <matthias.bgg@gmail.com>,
+ <angelogioacchino.delregno@collabora.com>, <jitao.shi@mediatek.com>,
+ <mac.shen@mediatek.com>, <peng.liu@mediatek.com>, <liankun.yang@mediatek.com>
+CC: <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
+ <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
+Subject: [PATCH v3 1/1] drm/mediatek: dp: Add sdp path reset
+Date: Wed, 25 Sep 2024 14:48:22 +0800
+Message-ID: <20240925064854.23065-1-liankun.yang@mediatek.com>
 X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:uniontech.com:qybglogicsvrgz:qybglogicsvrgz7a-0
+Content-Type: text/plain
+X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-AS-Result: No-10--3.788000-8.000000
+X-TMASE-MatchedRID: sCy2GwBQH7yvhOOX3csmVw0QY5VnQyAN6SXuwUgGH0iyrCkM9r1bWojW
+ iMxtXqDIzP/fGiNMYHU3LXzHrryidfA5M+x5Rjkcl1zsjZ1/6ayeEP0DdJruliz+5QCTrE/s+Vi
+ hXqn9xLF1Xu18Rs/cG0cr8zPjxcDfEJHpQ2Y9lURCxKB9Mp7mVU9nxZsOR/FT1MUvXa3LfbejNb
+ S0t/0QSUHNY7W6Yix9gDLqnrRlXrZ8nn9tnqel2MZW5ai5WKlyZ/VrItWeJXv016YqZfAT5G4MD
+ qojiLaNlLcFj/78QgopdIrrqkKoT7TTdbRCVjfgjo5opvXOhw94O3plWBIsE0JYdnh79GXHbVGO
+ i6nZUJxa9755XPg+nlWTm62ZDVWUZUXf532uejGkjwQURlVuKA==
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--3.788000-8.000000
+X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-SNTS-SMTP: B195F4980861ED25D8E68E8EB5B3E84150ECCA730C5C97F8B4AD11662FEE14EF2000:8
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,74 +90,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The parameter dev_priv is actually not used in macro PORT_ALPM_CTL
-and PORT_ALPM_LFPS_CTL,so remove it to simplify the code.
+When using type-c to type-c to connect to the monitor,
+the sound plays normally. If you unplug the type-c and
+connect the type-c to hdmi dongle to the monitor, there will be noise.
 
-Reviewed-by: Jani Nikula <jani.nikula@linux.intel.com>
-Signed-off-by: He Lugang <helugang@uniontech.com>
+By capturing the audio data, it is found that
+the data position is messy, and there is no error in the data.
+
+Through experiments, it can be restored by resetting the SDP path
+when unplugging it.
+
+Signed-off-by: Liankun Yang <liankun.yang@mediatek.com>
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- drivers/gpu/drm/i915/display/intel_alpm.c     | 4 ++--
- drivers/gpu/drm/i915/display/intel_psr.c      | 2 +-
- drivers/gpu/drm/i915/display/intel_psr_regs.h | 4 ++--
- 3 files changed, 5 insertions(+), 5 deletions(-)
+Changes in V3:
+- No change.
+Per suggestion from the previous thread:
+https://patchwork.kernel.org/project/linux-mediatek/patch/20240923132521.22785-1-liankun.yang@mediatek.com/
 
-diff --git a/drivers/gpu/drm/i915/display/intel_alpm.c b/drivers/gpu/drm/i915/display/intel_alpm.c
-index 186cf4833f71..57afb25191bd 100644
---- a/drivers/gpu/drm/i915/display/intel_alpm.c
-+++ b/drivers/gpu/drm/i915/display/intel_alpm.c
-@@ -330,7 +330,7 @@ static void lnl_alpm_configure(struct intel_dp *intel_dp,
- 			ALPM_CTL_AUX_LESS_WAKE_TIME(intel_dp->alpm_parameters.aux_less_wake_lines);
+Changes in V2:
+- Fix build error.
+Per suggestion from the previous thread:
+https://patchwork.kernel.org/project/linux-mediatek/patch/20240923133610.23728-1-liankun.yang@mediatek.com/
+---
+ drivers/gpu/drm/mediatek/mtk_dp.c     | 15 +++++++++++++++
+ drivers/gpu/drm/mediatek/mtk_dp_reg.h |  1 +
+ 2 files changed, 16 insertions(+)
+
+diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
+index d8796a904eca..4003bd83f64e 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dp.c
++++ b/drivers/gpu/drm/mediatek/mtk_dp.c
+@@ -1052,6 +1052,18 @@ static void mtk_dp_digital_sw_reset(struct mtk_dp *mtk_dp)
+ 			   0, DP_TX_TRANSMITTER_4P_RESET_SW_DP_TRANS_P0);
+ }
  
- 		intel_de_write(display,
--			       PORT_ALPM_CTL(display, port),
-+			       PORT_ALPM_CTL(port),
- 			       PORT_ALPM_CTL_ALPM_AUX_LESS_ENABLE |
- 			       PORT_ALPM_CTL_MAX_PHY_SWING_SETUP(15) |
- 			       PORT_ALPM_CTL_MAX_PHY_SWING_HOLD(0) |
-@@ -338,7 +338,7 @@ static void lnl_alpm_configure(struct intel_dp *intel_dp,
- 				       intel_dp->alpm_parameters.silence_period_sym_clocks));
++static void mtk_dp_sdp_path_reset(struct mtk_dp *mtk_dp)
++{
++	mtk_dp_update_bits(mtk_dp, MTK_DP_ENC0_P0_3004,
++				SDP_RESET_SW_DP_ENC0_P0,
++				SDP_RESET_SW_DP_ENC0_P0);
++
++	/* Wait for sdp path reset to complete */
++	usleep_range(1000, 5000);
++	mtk_dp_update_bits(mtk_dp, MTK_DP_ENC0_P0_3004,
++				0, SDP_RESET_SW_DP_ENC0_P0);
++}
++
+ static void mtk_dp_set_lanes(struct mtk_dp *mtk_dp, int lanes)
+ {
+ 	mtk_dp_update_bits(mtk_dp, MTK_DP_TRANS_P0_35F0,
+@@ -2314,6 +2326,9 @@ static void mtk_dp_bridge_atomic_disable(struct drm_bridge *bridge,
+ 			   DP_PWR_STATE_BANDGAP_TPLL,
+ 			   DP_PWR_STATE_MASK);
  
- 		intel_de_write(display,
--			       PORT_ALPM_LFPS_CTL(display, port),
-+			       PORT_ALPM_LFPS_CTL(port),
- 			       PORT_ALPM_LFPS_CTL_LFPS_CYCLE_COUNT(10) |
- 			       PORT_ALPM_LFPS_CTL_LFPS_HALF_CYCLE_DURATION(
- 				       intel_dp->alpm_parameters.lfps_half_cycle_num_of_syms) |
-diff --git a/drivers/gpu/drm/i915/display/intel_psr.c b/drivers/gpu/drm/i915/display/intel_psr.c
-index 136a0d6ca970..3468a8b55e2b 100644
---- a/drivers/gpu/drm/i915/display/intel_psr.c
-+++ b/drivers/gpu/drm/i915/display/intel_psr.c
-@@ -2114,7 +2114,7 @@ static void intel_psr_disable_locked(struct intel_dp *intel_dp)
- 			     ALPM_CTL_ALPM_AUX_LESS_ENABLE, 0);
- 
- 		intel_de_rmw(display,
--			     PORT_ALPM_CTL(display, cpu_transcoder),
-+			     PORT_ALPM_CTL(cpu_transcoder),
- 			     PORT_ALPM_CTL_ALPM_AUX_LESS_ENABLE, 0);
- 	}
- 
-diff --git a/drivers/gpu/drm/i915/display/intel_psr_regs.h b/drivers/gpu/drm/i915/display/intel_psr_regs.h
-index 642bb15fb547..98814868d26c 100644
---- a/drivers/gpu/drm/i915/display/intel_psr_regs.h
-+++ b/drivers/gpu/drm/i915/display/intel_psr_regs.h
-@@ -295,7 +295,7 @@
- 
- #define _PORT_ALPM_CTL_A			0x16fa2c
- #define _PORT_ALPM_CTL_B			0x16fc2c
--#define PORT_ALPM_CTL(dev_priv, port)		_MMIO_PORT(port, _PORT_ALPM_CTL_A, _PORT_ALPM_CTL_B)
-+#define  PORT_ALPM_CTL(port)		_MMIO_PORT(port, _PORT_ALPM_CTL_A, _PORT_ALPM_CTL_B)
- #define  PORT_ALPM_CTL_ALPM_AUX_LESS_ENABLE	REG_BIT(31)
- #define  PORT_ALPM_CTL_MAX_PHY_SWING_SETUP_MASK	REG_GENMASK(23, 20)
- #define  PORT_ALPM_CTL_MAX_PHY_SWING_SETUP(val)	REG_FIELD_PREP(PORT_ALPM_CTL_MAX_PHY_SWING_SETUP_MASK, val)
-@@ -306,7 +306,7 @@
- 
- #define _PORT_ALPM_LFPS_CTL_A					0x16fa30
- #define _PORT_ALPM_LFPS_CTL_B					0x16fc30
--#define PORT_ALPM_LFPS_CTL(dev_priv, port)			_MMIO_PORT(port, _PORT_ALPM_LFPS_CTL_A, _PORT_ALPM_LFPS_CTL_B)
-+#define  PORT_ALPM_LFPS_CTL(port) _MMIO_PORT(port, _PORT_ALPM_LFPS_CTL_A, _PORT_ALPM_LFPS_CTL_B)
- #define  PORT_ALPM_LFPS_CTL_LFPS_START_POLARITY			REG_BIT(31)
- #define  PORT_ALPM_LFPS_CTL_LFPS_CYCLE_COUNT_MASK		REG_GENMASK(27, 24)
- #define  PORT_ALPM_LFPS_CTL_LFPS_CYCLE_COUNT_MIN		7
++	/* SDP path reset sw*/
++	mtk_dp_sdp_path_reset(mtk_dp);
++
+ 	/* Ensure the sink is muted */
+ 	msleep(20);
+ }
+diff --git a/drivers/gpu/drm/mediatek/mtk_dp_reg.h b/drivers/gpu/drm/mediatek/mtk_dp_reg.h
+index 709b79480693..8ad7a9cc259e 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dp_reg.h
++++ b/drivers/gpu/drm/mediatek/mtk_dp_reg.h
+@@ -86,6 +86,7 @@
+ #define MTK_DP_ENC0_P0_3004			0x3004
+ #define VIDEO_M_CODE_SEL_DP_ENC0_P0_MASK		BIT(8)
+ #define DP_TX_ENCODER_4P_RESET_SW_DP_ENC0_P0		BIT(9)
++#define SDP_RESET_SW_DP_ENC0_P0				BIT(13)
+ #define MTK_DP_ENC0_P0_3010			0x3010
+ #define HTOTAL_SW_DP_ENC0_P0_MASK			GENMASK(15, 0)
+ #define MTK_DP_ENC0_P0_3014			0x3014
 -- 
 2.45.2
 
