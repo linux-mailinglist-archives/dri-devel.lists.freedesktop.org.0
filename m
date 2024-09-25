@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D726898696D
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 01:22:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 706AF986969
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 01:21:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25D1010E868;
-	Wed, 25 Sep 2024 23:21:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 219F910E0D5;
+	Wed, 25 Sep 2024 23:21:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=disroot.org header.i=@disroot.org header.b="jab1XArA";
+	dkim=pass (2048-bit key; secure) header.d=disroot.org header.i=@disroot.org header.b="SMz/6Jmf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D46710E1B5
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 19:22:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9426710E28F
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 19:37:00 +0000 (UTC)
 Received: from mail01.disroot.lan (localhost [127.0.0.1])
- by disroot.org (Postfix) with ESMTP id D18612040C;
- Wed, 25 Sep 2024 21:22:27 +0200 (CEST)
+ by disroot.org (Postfix) with ESMTP id 7B06D23CAD;
+ Wed, 25 Sep 2024 21:36:59 +0200 (CEST)
 X-Virus-Scanned: SPAM Filter at disroot.org
 Received: from layka.disroot.org ([127.0.0.1])
  by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id JwJVTPf963ii; Wed, 25 Sep 2024 21:22:27 +0200 (CEST)
+ id P5kuwsCfjDHF; Wed, 25 Sep 2024 21:36:59 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
- t=1727292147; bh=4AOBEWDi+wIT+2mWhnODD4oRA7Jy5g1vOfK1zL2v2jw=;
+ t=1727293018; bh=jNzpilK7Bz1MMyp6+o0M9jtoagRvfncD3J5qPsARZag=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References;
- b=jab1XArAQCpMpUifYMzULpPmP4mLFDH14YqPBFrPOIbDkP1YvzUpHR8cLQFlWFHjJ
- IXzqI7sENWvoev0+LlTtCV/W5T1+zpD6pEbQlpRriQUd9p4HAzyq40COGMb+XnvhqZ
- yqx7mvOYY33lpBpQOVkykPVy9H6u2X6KJ1/RTJepHwN/mppKOxWpcNEoZ52hu8m0Mn
- bEuD9jWZNBdoHYhfePEfbImFaUOFdOqPal0eniAaMKW25CbNsNBa7bqmAi6FS3nI/h
- n8vvUUHHhWnXg20R0LPdhIVoKHvhG2XM6UqYAM3tLYuxV+tW1+E+deClkZJlPdUnNn
- xMOqG17lNUX4w==
+ b=SMz/6Jmfw9gQX5uIGhphwfp3u4kcXpKBhhW3jAtLVZWI40+EW2AwSw0wl5rEAnvbp
+ oz8bmAdL5pjSeYwyEWqbRslIBz8VEwKYz1lJwrbPx6E8tm68ap4M8DNbAyJpZMv7hA
+ y1klG79b/1YN9DZ85tAeAM8jOyJZf8MOgxXWPnBdGvsy+mcCcZuS+l4GxVLYXmiVY3
+ 28AFZLlUL3MBsusG3vgImJvuUmmnUqLgRJEESil72uScxH/2QlkSCkhAuTNQroKTWy
+ DCq/cnyvhZl5E/S4bjKogoONGsTbhWt+7P3SAn+W9/RZRWbfilvGhhaVK34JTqd0RB
+ PLO48DZ+Mz66w==
 MIME-Version: 1.0
-Date: Wed, 25 Sep 2024 19:22:26 +0000
+Date: Wed, 25 Sep 2024 19:36:58 +0000
 From: Kaustabh Chakraborty <kauschluss@disroot.org>
 To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Alim Akhtar <alim.akhtar@samsung.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring
- <robh@kernel.org>, Conor Dooley <conor@kernel.org>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, kauschluss@disroot.org
-Subject: Re: [PATCH 2/6] drm/exynos: exynos7_drm_decon: fix suspended
- condition in decon_commit()
-In-Reply-To: <f64c303e-8a88-4aee-9110-ee4a06a3d67f@kernel.org>
+Cc: airlied@gmail.com, alim.akhtar@samsung.com, conor@kernel.org,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ inki.dae@samsung.com, kyungmin.park@samsung.com,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, robh@kernel.org, simona@ffwll.ch,
+ sw0312.kim@samsung.com, tzimmermann@suse.de, kauschluss@disroot.org
+Subject: Re: [PATCH 6/6] dt-bindings: display: samsung,exynos7-decon: add
+ exynos7870 compatible
+In-Reply-To: <1bc0ad48-03c0-4cf6-afb1-2296d1c259b9@kernel.org>
 References: <20240919-exynosdrm-decon-v1-0-6c5861c1cb04@disroot.org>
- <20240919-exynosdrm-decon-v1-2-6c5861c1cb04@disroot.org>
- <f64c303e-8a88-4aee-9110-ee4a06a3d67f@kernel.org>
-Message-ID: <206c17ac8f79bbd51bf94b8f1f72fbb9@disroot.org>
+ <20240919-exynosdrm-decon-v1-6-8c3e3ccffad5@disroot.org>
+ <32ae1188-196d-4fe8-8719-968e5149a771@kernel.org>
+ <7e5caaea80390e8cf87ba0a74d9719f0@disroot.org>
+ <1bc0ad48-03c0-4cf6-afb1-2296d1c259b9@kernel.org>
+Message-ID: <8e0672ad3fd72f69d2bdb5687e778c86@disroot.org>
 X-Sender: kauschluss@disroot.org
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
@@ -70,43 +70,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2024-09-20 12:40, Krzysztof Kozlowski wrote:
-> On 19/09/2024 17:11, Kaustabh Chakraborty wrote:
->> decon_commit() gets called during atomic_enable. At this stage, DECON is
->> suspended, and thus the function refuses to run. Fix the suspended
->> condition checking in decon_commit().
+On 2024-09-25 19:25, Krzysztof Kozlowski wrote:
+> On 25/09/2024 20:42, Kaustabh Chakraborty wrote:
+>> On 2024-09-20 12:39, Krzysztof Kozlowski wrote:
+>>> On 19/09/2024 17:20, Kaustabh Chakraborty wrote:
+>>>> Add the compatible string of Exynos7870 to the existing list.
+>>>>
+>>>> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
+>>>
+>>> ... and the DTS is <please provide lore ink in changelog>?
 >> 
->> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
->> ---
+>> Didn't quite understand. The patch adds the compatible string
+>> for Exynos7870 DECON in documentation. There's no DTS involved
+>> in here, right?
 > 
-> If this is a fix, then you miss fixes tag and cc-stable. However the
-> explanation seems just incomplete. This looked like a intentional code,
-> so you should explain really why original approach was wrong.
+> Provide lore link to the DTS submission.
 
-Fixes: 96976c3d9aff ("drm/exynos: Add DECON driver")
-
-Now that I read the commit description of the above commit, which mentions
-that the DECON driver is based on the FIMD driver, I think it makes more
-sense to rewrite the suspend logic exactly as done in the FIMD driver.
-Will do it in v2.
-
-Here's a commit description which may be better suited, let me know:
-
-A flag variable in struct decon_context, called 'suspended' is set to false
-at the end of decon_atomic_enable() and is set back to true at the end of
-decon_atomic_disable().
-
-Functions called in decon_atomic_enable(), such as decon_enable_vblank()
-and decon_commit() are guarded by suspend condition checking, where it
-refuses to proceed if 'suspended' is set to true. Since 'suspended' isn't
-set to true until the end of the calling function, the called functions
-aren't even executed.
-
-The original commit, 96976c3d9aff ("drm/exynos: Add DECON driver")
-implementing the DECON driver, is based on the FIMD driver, but changes
-the suspend flag logic which causes this issue. Implement the suspend
-logic present in FIMD, which changes the flag at the beginning of
-atomic_enable and atomic_disable instead.
+There aren't any DTS submissions *yet* which use the compatible.
+Is that an issue?
 
 > 
 > Best regards,
