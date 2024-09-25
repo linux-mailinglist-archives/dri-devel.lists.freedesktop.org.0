@@ -2,79 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A862898594A
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 13:52:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CDD59859F4
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 14:03:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 477D710E97D;
-	Wed, 25 Sep 2024 11:52:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67BE010E81F;
+	Wed, 25 Sep 2024 12:03:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="liZeqAsL";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QmJqpAXb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
- [209.85.218.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 670F210E977
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 11:52:06 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id
- a640c23a62f3a-a8d29b7edc2so969487966b.1
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 04:52:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1727265125; x=1727869925; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=4lwbM1moqSYfv+5qScl5Wq7j7UG25Y0knsJfD+SsF5g=;
- b=liZeqAsLCNAlAQ7ptCzECWqQOhcgGwDvBZQx/2IhzwSFMb8FJZcLzms7dSTw7VXKUf
- b+j0mAqJ05elRKfm/CS7jNToiAv5Xi5BBs5/YFnPG1jdqZ7dX7+lN3DvujS1EcBkfjOy
- UeAimZvltaq6J4HvJK8B9u+Kq4Ss57jVKNaWE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727265125; x=1727869925;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=4lwbM1moqSYfv+5qScl5Wq7j7UG25Y0knsJfD+SsF5g=;
- b=X7JKVrA71T+EVvpSIsJkxwXGaOlScvzjDHXMFFCE/M26Ajas7kHW7cF/xLudRu/Mbw
- abypX4vQpTfVPWLuf1TP8/UaGhkXZU1H9Gy/vZcSkQ2D+bM3q0Z+DFkwRDy8lWOJHy0m
- So+Bm/CXqkRpBd4dLdzrItxtyCkCpgLkwxcR0xW7wE0n0APeOwJlCr5uSYCqiDMkQwJ1
- mYxMCvC1oXD2z/GMLz7FFt7DG77cjko+slu5XkelSan5jrMgD6IcssKtw2yWU+cIbdBd
- pgwYXpEm33OggrlHPTl7hT+AYe1esXIdFs7DB3F1SvFcX6y3YFE4tsYJQY4TU0wmaZfE
- uj5A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWrzGqJRCcfl8gGdOsEpSdxRdoiX82n6TUb5vNoEfqyK8XtWR2YwY2CU/zWCrJ+gPAnh0QMN3PjPvc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy/h4JBBudce/BXjzOyd2AnzZrht5OdiD8ouMzJF2y/UAId22OF
- pcB2q6bgD7V+lLTN9ttan5kiU1bAsKQ0U2jXANNL3ENRQEeiuxuU15J2/bqFmKM=
-X-Google-Smtp-Source: AGHT+IGY+tCYKuqC9/Gzg84POK/qJtUX7MhFgwGDzkBxp7Yr3Ux1fiFQ7y+XNjpJFjR0QduqUeYGSw==
-X-Received: by 2002:a17:907:d581:b0:a8d:2d2e:90e6 with SMTP id
- a640c23a62f3a-a93a066fdccmr191317366b.60.1727265124707; 
- Wed, 25 Sep 2024 04:52:04 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a93930f7911sm204828866b.172.2024.09.25.04.52.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Sep 2024 04:52:04 -0700 (PDT)
-Date: Wed, 25 Sep 2024 13:52:02 +0200
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona.vetter@ffwll.ch>,
- Jani Nikula <jani.nikula@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- Carlos Eduardo Gallo Filho <gcarlos@disroot.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Jeff Johnson <quic_jjohnson@quicinc.com>
-Subject: Re: [PATCH 0/2] drm: revert some framebuffer API tests
-Message-ID: <ZvP5YhON49Z5TMI7@phenom.ffwll.local>
-References: <cover.1726594684.git.jani.nikula@intel.com>
- <ZvKPJGQyZmdWNOmd@phenom.ffwll.local>
- <20240924-refined-nocturnal-starfish-2947b8@houat>
- <f3f8bec1-884b-46ac-82a6-6e5cb8840146@roeck-us.net>
- <20240924-handsome-labrador-of-shopping-b1dce5@houat>
- <4accd038-9624-43de-96ad-7ecd0876b607@roeck-us.net>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D30910E81F
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 12:03:49 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 8F6D5A440BF;
+ Wed, 25 Sep 2024 12:03:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 543A4C4CEC3;
+ Wed, 25 Sep 2024 12:03:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1727265828;
+ bh=87LRPNhJ7JCbcWne8xhLvjpZMk3kUth7gjKHHeBbdf4=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=QmJqpAXbSkNN5o61u2zQUChdtyU9MBhrGfVj5EHDKHqePoLFb+D/H5ZDOmfh8mRdB
+ dLxJqXPtS7bOq4VWDuokn8yYmMDR06dfd0zG1z8WloO9RT8yRjkHZ4fFxguzbBrgkk
+ EPX4eVb2rFSElNRBxM/tRFC6fIIE6Bq+TSJb85S60aEZUlubLDv2v0KN/stc4yMy8p
+ kLC2U+Phl2kbh03szDd6aebRihxANfaLknFQSxQdm+ZaXRlciFrLPtFKipbbL4isGK
+ iTh0J+2pntdfxtUg53nX2PAisdq0Ckf7aeWZ4uSc6fw3Okh1wjp0UtYef8dv/Y75jZ
+ KTtU/9CQ5KyYQ==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Katya Orlova <e.orlova@ispras.ru>,
+ =?UTF-8?q?Rapha=C3=ABl=20Gallais-Pou?= <raphael.gallais-pou@foss.st.com>,
+ Sasha Levin <sashal@kernel.org>, yannick.fertre@foss.st.com,
+ philippe.cornu@foss.st.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ daniel@ffwll.ch, mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
+ dri-devel@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org
+Subject: [PATCH AUTOSEL 6.10 112/197] drm/stm: Avoid use-after-free issues
+ with crtc and plane
+Date: Wed, 25 Sep 2024 07:52:11 -0400
+Message-ID: <20240925115823.1303019-112-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240925115823.1303019-1-sashal@kernel.org>
+References: <20240925115823.1303019-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4accd038-9624-43de-96ad-7ecd0876b607@roeck-us.net>
-X-Operating-System: Linux phenom 6.10.6-amd64 
+Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.10.11
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,89 +69,249 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 24, 2024 at 08:09:38AM -0700, Guenter Roeck wrote:
-> On 9/24/24 06:56, Maxime Ripard wrote:
-> > On Tue, Sep 24, 2024 at 06:37:59AM GMT, Guenter Roeck wrote:
-> > > On 9/24/24 04:54, Maxime Ripard wrote:
-> > > > +Guenter
-> > > > 
-> > > > On Tue, Sep 24, 2024 at 12:06:28PM GMT, Simona Vetter wrote:
-> > > > > On Tue, Sep 17, 2024 at 08:43:50PM +0300, Jani Nikula wrote:
-> > > > > > The tests consistently trigger WARNs in drm_framebuffer code. I'm not
-> > > > > > sure what the point is with type of belts and suspenders tests. The
-> > > > > > warnings *are* the way to flag erroneous API usage.
-> > > > > > 
-> > > > > > Warnings in turn trigger failures in CI. Filtering the warnings are
-> > > > > > error prone, and, crucially, would also filter actual errors in case the
-> > > > > > kunit tests are not run.
-> > > > > > 
-> > > > > > I acknowledge there may be complex test cases where you'd end up
-> > > > > > triggering warnings somewhere deep, but these are not it. These are
-> > > > > > simple.
-> > > > > > 
-> > > > > > Revert the tests, back to the drawing board.
-> > > > > 
-> > > > > Yeah I think long-term we might want a kunit framework so that we can
-> > > > > catch dmesg warnings we expect and test for those, without those warnings
-> > > > > actually going to dmesg. Similar to how the lockdep tests also reroute
-> > > > > locking validation, so that the expected positive tests don't wreak
-> > > > > lockdep for real.
-> > > > > 
-> > > > > But until that exists, we can't have tests that splat in dmesg when they
-> > > > > work as intended.
-> > > > 
-> 
-> FWIW, that is arguable. More and more tests are added which do add such splats,
-> and I don't see any hesitance by developers to adding more. So far I counted
-> two alone in this commit window, and that does not include new splats from
-> tests which I had already disabled. I simply disable those tests or don't
-> enable them in the first place if they are new. I did the same with the drm
-> unit tests due to the splats generated by the scaling unit tests, so any
-> additional drm unit test splats don't make a difference for me since the
-> tests are already disabled.
+From: Katya Orlova <e.orlova@ispras.ru>
 
-I think for at least drm the consensus is clear, we won't have kunit tests
-that splat. Personally I really don't see the point of unit tests that are
-somewhere between unecessarily hard or outright too much pain to deploy in
-a test rig: Either you don't run them (not great), or you filter splats
-and might filter too much (not great either) or you filter as little as
-possible and fight false positives (also kinda suboptimal). Especially for
-unit tests this stuff must be totally rock solid.
+[ Upstream commit 19dd9780b7ac673be95bf6fd6892a184c9db611f ]
 
-We've had similar discussions in the past around unit tests that wasted
-too much cpu time with randomized combinatorial testing, and we've thrown
-those out too from drm. Test hygiene matters.
+ltdc_load() calls functions drm_crtc_init_with_planes(),
+drm_universal_plane_init() and drm_encoder_init(). These functions
+should not be called with parameters allocated with devm_kzalloc()
+to avoid use-after-free issues [1].
 
-Also this means if you see this stuff in drm unit tests (or related things
-like dma-buf/fence), please report or send revert.
+Use allocations managed by the DRM framework.
 
-> > > > It should be pretty soon:
-> > > > https://lore.kernel.org/dri-devel/20240403131936.787234-1-linux@roeck-us.net/
-> > > > 
-> > > > I'm not sure what happened to that series, but it looks like everybody
-> > > > was mostly happy with it?
-> > > > 
-> > > 
-> > > Major subsystem maintainers did not provide any feedback at all, and then
-> > > there came the "it is not perfect enough" feedback, so I gave up on it.
-> > 
-> > Well, if that means anything, we're interested even in something
-> > imperfect if it solves the above case :)
-> > 
-> 
-> Maybe someone else is interested picking it up (and no need for credits).
-> I am buried in work and don't have the time (nor, frankly, much interest)
-> to revive it. Also, just for reference: The patch series touches a total
-> of 8 architectures, and unless I missed some I only got feedback from two
-> architecture maintainers. That doesn't include arm - I don't recall if it
-> doesn't need changes or if I never got there.
+Found by Linux Verification Center (linuxtesting.org).
 
-This is great, somehow I missed it and much appreciated for the initial
-version even if you can't push it further. Hopefully one of the folks
-working on drm kunit tests will pick it up, it will be needed here.
+[1]
+https://lore.kernel.org/lkml/u366i76e3qhh3ra5oxrtngjtm2u5lterkekcz6y2jkndhuxzli@diujon4h7qwb/
 
-Cheers, Sima
+Signed-off-by: Katya Orlova <e.orlova@ispras.ru>
+Acked-by: Raphaël Gallais-Pou <raphael.gallais-pou@foss.st.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20240216125040.8968-1-e.orlova@ispras.ru
+Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/stm/drv.c  |  3 +-
+ drivers/gpu/drm/stm/ltdc.c | 73 ++++++++++----------------------------
+ 2 files changed, 20 insertions(+), 56 deletions(-)
+
+diff --git a/drivers/gpu/drm/stm/drv.c b/drivers/gpu/drm/stm/drv.c
+index e8523abef27a5..152bec2c02385 100644
+--- a/drivers/gpu/drm/stm/drv.c
++++ b/drivers/gpu/drm/stm/drv.c
+@@ -25,6 +25,7 @@
+ #include <drm/drm_module.h>
+ #include <drm/drm_probe_helper.h>
+ #include <drm/drm_vblank.h>
++#include <drm/drm_managed.h>
+ 
+ #include "ltdc.h"
+ 
+@@ -75,7 +76,7 @@ static int drv_load(struct drm_device *ddev)
+ 
+ 	DRM_DEBUG("%s\n", __func__);
+ 
+-	ldev = devm_kzalloc(ddev->dev, sizeof(*ldev), GFP_KERNEL);
++	ldev = drmm_kzalloc(ddev, sizeof(*ldev), GFP_KERNEL);
+ 	if (!ldev)
+ 		return -ENOMEM;
+ 
+diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
+index 5576fdae49623..eeaabb4e10d3e 100644
+--- a/drivers/gpu/drm/stm/ltdc.c
++++ b/drivers/gpu/drm/stm/ltdc.c
+@@ -36,6 +36,7 @@
+ #include <drm/drm_probe_helper.h>
+ #include <drm/drm_simple_kms_helper.h>
+ #include <drm/drm_vblank.h>
++#include <drm/drm_managed.h>
+ 
+ #include <video/videomode.h>
+ 
+@@ -1199,7 +1200,6 @@ static void ltdc_crtc_atomic_print_state(struct drm_printer *p,
+ }
+ 
+ static const struct drm_crtc_funcs ltdc_crtc_funcs = {
+-	.destroy = drm_crtc_cleanup,
+ 	.set_config = drm_atomic_helper_set_config,
+ 	.page_flip = drm_atomic_helper_page_flip,
+ 	.reset = drm_atomic_helper_crtc_reset,
+@@ -1212,7 +1212,6 @@ static const struct drm_crtc_funcs ltdc_crtc_funcs = {
+ };
+ 
+ static const struct drm_crtc_funcs ltdc_crtc_with_crc_support_funcs = {
+-	.destroy = drm_crtc_cleanup,
+ 	.set_config = drm_atomic_helper_set_config,
+ 	.page_flip = drm_atomic_helper_page_flip,
+ 	.reset = drm_atomic_helper_crtc_reset,
+@@ -1545,7 +1544,6 @@ static void ltdc_plane_atomic_print_state(struct drm_printer *p,
+ static const struct drm_plane_funcs ltdc_plane_funcs = {
+ 	.update_plane = drm_atomic_helper_update_plane,
+ 	.disable_plane = drm_atomic_helper_disable_plane,
+-	.destroy = drm_plane_cleanup,
+ 	.reset = drm_atomic_helper_plane_reset,
+ 	.atomic_duplicate_state = drm_atomic_helper_plane_duplicate_state,
+ 	.atomic_destroy_state = drm_atomic_helper_plane_destroy_state,
+@@ -1572,7 +1570,6 @@ static struct drm_plane *ltdc_plane_create(struct drm_device *ddev,
+ 	const u64 *modifiers = ltdc_format_modifiers;
+ 	u32 lofs = index * LAY_OFS;
+ 	u32 val;
+-	int ret;
+ 
+ 	/* Allocate the biggest size according to supported color formats */
+ 	formats = devm_kzalloc(dev, (ldev->caps.pix_fmt_nb +
+@@ -1613,14 +1610,10 @@ static struct drm_plane *ltdc_plane_create(struct drm_device *ddev,
+ 		}
+ 	}
+ 
+-	plane = devm_kzalloc(dev, sizeof(*plane), GFP_KERNEL);
+-	if (!plane)
+-		return NULL;
+-
+-	ret = drm_universal_plane_init(ddev, plane, possible_crtcs,
+-				       &ltdc_plane_funcs, formats, nb_fmt,
+-				       modifiers, type, NULL);
+-	if (ret < 0)
++	plane = drmm_universal_plane_alloc(ddev, struct drm_plane, dev,
++					   possible_crtcs, &ltdc_plane_funcs, formats,
++					   nb_fmt, modifiers, type, NULL);
++	if (IS_ERR(plane))
+ 		return NULL;
+ 
+ 	if (ldev->caps.ycbcr_input) {
+@@ -1643,15 +1636,6 @@ static struct drm_plane *ltdc_plane_create(struct drm_device *ddev,
+ 	return plane;
+ }
+ 
+-static void ltdc_plane_destroy_all(struct drm_device *ddev)
+-{
+-	struct drm_plane *plane, *plane_temp;
+-
+-	list_for_each_entry_safe(plane, plane_temp,
+-				 &ddev->mode_config.plane_list, head)
+-		drm_plane_cleanup(plane);
+-}
+-
+ static int ltdc_crtc_init(struct drm_device *ddev, struct drm_crtc *crtc)
+ {
+ 	struct ltdc_device *ldev = ddev->dev_private;
+@@ -1677,14 +1661,14 @@ static int ltdc_crtc_init(struct drm_device *ddev, struct drm_crtc *crtc)
+ 
+ 	/* Init CRTC according to its hardware features */
+ 	if (ldev->caps.crc)
+-		ret = drm_crtc_init_with_planes(ddev, crtc, primary, NULL,
+-						&ltdc_crtc_with_crc_support_funcs, NULL);
++		ret = drmm_crtc_init_with_planes(ddev, crtc, primary, NULL,
++						 &ltdc_crtc_with_crc_support_funcs, NULL);
+ 	else
+-		ret = drm_crtc_init_with_planes(ddev, crtc, primary, NULL,
+-						&ltdc_crtc_funcs, NULL);
++		ret = drmm_crtc_init_with_planes(ddev, crtc, primary, NULL,
++						 &ltdc_crtc_funcs, NULL);
+ 	if (ret) {
+ 		DRM_ERROR("Can not initialize CRTC\n");
+-		goto cleanup;
++		return ret;
+ 	}
+ 
+ 	drm_crtc_helper_add(crtc, &ltdc_crtc_helper_funcs);
+@@ -1698,9 +1682,8 @@ static int ltdc_crtc_init(struct drm_device *ddev, struct drm_crtc *crtc)
+ 	for (i = 1; i < ldev->caps.nb_layers; i++) {
+ 		overlay = ltdc_plane_create(ddev, DRM_PLANE_TYPE_OVERLAY, i);
+ 		if (!overlay) {
+-			ret = -ENOMEM;
+ 			DRM_ERROR("Can not create overlay plane %d\n", i);
+-			goto cleanup;
++			return -ENOMEM;
+ 		}
+ 		if (ldev->caps.dynamic_zorder)
+ 			drm_plane_create_zpos_property(overlay, i, 0, ldev->caps.nb_layers - 1);
+@@ -1713,10 +1696,6 @@ static int ltdc_crtc_init(struct drm_device *ddev, struct drm_crtc *crtc)
+ 	}
+ 
+ 	return 0;
+-
+-cleanup:
+-	ltdc_plane_destroy_all(ddev);
+-	return ret;
+ }
+ 
+ static void ltdc_encoder_disable(struct drm_encoder *encoder)
+@@ -1776,23 +1755,19 @@ static int ltdc_encoder_init(struct drm_device *ddev, struct drm_bridge *bridge)
+ 	struct drm_encoder *encoder;
+ 	int ret;
+ 
+-	encoder = devm_kzalloc(ddev->dev, sizeof(*encoder), GFP_KERNEL);
+-	if (!encoder)
+-		return -ENOMEM;
++	encoder = drmm_simple_encoder_alloc(ddev, struct drm_encoder, dev,
++					    DRM_MODE_ENCODER_DPI);
++	if (IS_ERR(encoder))
++		return PTR_ERR(encoder);
+ 
+ 	encoder->possible_crtcs = CRTC_MASK;
+ 	encoder->possible_clones = 0;	/* No cloning support */
+ 
+-	drm_simple_encoder_init(ddev, encoder, DRM_MODE_ENCODER_DPI);
+-
+ 	drm_encoder_helper_add(encoder, &ltdc_encoder_helper_funcs);
+ 
+ 	ret = drm_bridge_attach(encoder, bridge, NULL, 0);
+-	if (ret) {
+-		if (ret != -EPROBE_DEFER)
+-			drm_encoder_cleanup(encoder);
++	if (ret)
+ 		return ret;
+-	}
+ 
+ 	DRM_DEBUG_DRIVER("Bridge encoder:%d created\n", encoder->base.id);
+ 
+@@ -1962,8 +1937,7 @@ int ltdc_load(struct drm_device *ddev)
+ 			goto err;
+ 
+ 		if (panel) {
+-			bridge = drm_panel_bridge_add_typed(panel,
+-							    DRM_MODE_CONNECTOR_DPI);
++			bridge = drmm_panel_bridge_add(ddev, panel);
+ 			if (IS_ERR(bridge)) {
+ 				DRM_ERROR("panel-bridge endpoint %d\n", i);
+ 				ret = PTR_ERR(bridge);
+@@ -2045,7 +2019,7 @@ int ltdc_load(struct drm_device *ddev)
+ 		}
+ 	}
+ 
+-	crtc = devm_kzalloc(dev, sizeof(*crtc), GFP_KERNEL);
++	crtc = drmm_kzalloc(ddev, sizeof(*crtc), GFP_KERNEL);
+ 	if (!crtc) {
+ 		DRM_ERROR("Failed to allocate crtc\n");
+ 		ret = -ENOMEM;
+@@ -2072,9 +2046,6 @@ int ltdc_load(struct drm_device *ddev)
+ 
+ 	return 0;
+ err:
+-	for (i = 0; i < nb_endpoints; i++)
+-		drm_of_panel_bridge_remove(ddev->dev->of_node, 0, i);
+-
+ 	clk_disable_unprepare(ldev->pixel_clk);
+ 
+ 	return ret;
+@@ -2082,16 +2053,8 @@ int ltdc_load(struct drm_device *ddev)
+ 
+ void ltdc_unload(struct drm_device *ddev)
+ {
+-	struct device *dev = ddev->dev;
+-	int nb_endpoints, i;
+-
+ 	DRM_DEBUG_DRIVER("\n");
+ 
+-	nb_endpoints = of_graph_get_endpoint_count(dev->of_node);
+-
+-	for (i = 0; i < nb_endpoints; i++)
+-		drm_of_panel_bridge_remove(ddev->dev->of_node, 0, i);
+-
+ 	pm_runtime_disable(ddev->dev);
+ }
+ 
 -- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.43.0
+
