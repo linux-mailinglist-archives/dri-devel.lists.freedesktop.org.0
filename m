@@ -2,47 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 882EB9858D1
+	by mail.lfdr.de (Postfix) with ESMTPS id B359D9858D2
 	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 13:47:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E42DE10E939;
-	Wed, 25 Sep 2024 11:47:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92D1510E93C;
+	Wed, 25 Sep 2024 11:47:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uWjcd1q6";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WZlPoFOA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93D5910E939;
- Wed, 25 Sep 2024 11:47:26 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5632C10E93B;
+ Wed, 25 Sep 2024 11:47:31 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 15D1C5C5846;
+ by nyc.source.kernel.org (Postfix) with ESMTP id 72CEDA43FA0;
  Wed, 25 Sep 2024 11:47:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3B0DC4CEC3;
- Wed, 25 Sep 2024 11:47:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C59B2C4CEC3;
+ Wed, 25 Sep 2024 11:47:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1727264845;
- bh=rzK5O95JgbjDpL/AA5VaWdPSBZInlDNs7nukUFJRlWs=;
+ s=k20201202; t=1727264850;
+ bh=4LllO1JjgVzJWoG/yX+JZ67+N6H0gVgYZGkiW2uUwJQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=uWjcd1q6MFAyf6Qs88iQs06wqP0+Fg9ojK/ETBmVmI7yaBCmo68Er6A3jySWkdcAg
- MeNlWbagJqR2SrcZV80mB6VcPmh9BtzAar9P4WV9jqWBHquFbNBTOIojZZr34/52z7
- YmQkAyln/fiqYbOIoN/7WMw4rNnH40E+ZdMotL6kGAjQI9aTFxctVF/Q174DvHAf5p
- x1qIQMOAf4U9iyljNwV9An3O/HNjTbd0c3sXclTw3yIDW8mc9fOO62Z543+1pBVw90
- Zqe23c0u4dz62dIoQzvDR52h3Jl5zeapLtJ3RSDWnRk71KYyctubeWlVnI50i+3vHr
- HOfZDF2sGL67w==
+ b=WZlPoFOATn/SIHDW07fSucoDY5yp9PpqkBv2mOOyw8qOYUM0q+PmMdVsWiixzzaIY
+ qrSaY7iiWcm8hCJbOUDirZZLafH0x+g6G2NLN5eb38mVKK+fKlzOfbI/2CzuEJ8Uqo
+ SFX0RLip2lVDrUYwZwowwDBB2vxGF3Q+rPuge5GMBmyydlG6hfVV1Rn+GLVwgnHduV
+ M036idNouwSw65/cLAnVRm7dPMe204ge+1CTs65B1/SNDIaYjSfw0fXP2hUDn2IGW7
+ SGJ5fmvXAaUyepPZspaihtyo1H9B2DB41D6KK9FugEE1XgM9aXteFPIlNAXcnSYb89
+ RsYVdB2O4zGKQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Matt Roper <matthew.d.roper@intel.com>,
- Jonathan Cavitt <jonathan.cavitt@intel.com>,
- Sasha Levin <sashal@kernel.org>, lucas.demarchi@intel.com,
- thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, daniel@ffwll.ch, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.11 160/244] drm/xe: Name and document Wa_14019789679
-Date: Wed, 25 Sep 2024 07:26:21 -0400
-Message-ID: <20240925113641.1297102-160-sashal@kernel.org>
+Cc: Tim Huang <tim.huang@amd.com>, Rodrigo Siqueira <rodrigo.siqueira@amd.com>,
+ Roman Li <roman.li@amd.com>, Daniel Wheeler <daniel.wheeler@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch, lewis.huang@amd.com, alex.hung@amd.com,
+ hamza.mahfooz@amd.com, srinivasan.shanmugam@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.11 161/244] drm/amd/display: fix double free issue
+ during amdgpu module unload
+Date: Wed, 25 Sep 2024 07:26:22 -0400
+Message-ID: <20240925113641.1297102-161-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240925113641.1297102-1-sashal@kernel.org>
 References: <20240925113641.1297102-1-sashal@kernel.org>
@@ -66,109 +68,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Matt Roper <matthew.d.roper@intel.com>
+From: Tim Huang <tim.huang@amd.com>
 
-[ Upstream commit 1d734a3e5d6bb266f52eaf2b1400c5d3f1875a54 ]
+[ Upstream commit 20b5a8f9f4670a8503aa9fa95ca632e77c6bf55d ]
 
-Early in the development of Xe we identified an issue with SVG state
-handling on DG2 and MTL (and later on Xe2 as well).  In
-commit 72ac304769dd ("drm/xe: Emit SVG state on RCS during driver load
-on DG2 and MTL") and commit fb24b858a20d ("drm/xe/xe2: Update SVG state
-handling") we implemented our own workaround to prevent SVG state from
-leaking from context A to context B in cases where context B never
-issues a specific state setting.
+Flexible endpoints use DIGs from available inflexible endpoints,
+so only the encoders of inflexible links need to be freed.
+Otherwise, a double free issue may occur when unloading the
+amdgpu module.
 
-The hardware teams have now created official workaround Wa_14019789679
-to cover this issue.  The workaround description only requires emitting
-3DSTATE_MESH_CONTROL, since they believe that's the only SVG instruction
-that would potentially remain unset by a context B, but still cause
-notable issues if unwanted values were inherited from context A.
-However since we already have a more extensive implementation that emits
-the entire SVG state and prevents _any_ SVG state from unintentionally
-leaking, we'll stick with our existing implementation just to be safe.
+[  279.190523] RIP: 0010:__slab_free+0x152/0x2f0
+[  279.190577] Call Trace:
+[  279.190580]  <TASK>
+[  279.190582]  ? show_regs+0x69/0x80
+[  279.190590]  ? die+0x3b/0x90
+[  279.190595]  ? do_trap+0xc8/0xe0
+[  279.190601]  ? do_error_trap+0x73/0xa0
+[  279.190605]  ? __slab_free+0x152/0x2f0
+[  279.190609]  ? exc_invalid_op+0x56/0x70
+[  279.190616]  ? __slab_free+0x152/0x2f0
+[  279.190642]  ? asm_exc_invalid_op+0x1f/0x30
+[  279.190648]  ? dcn10_link_encoder_destroy+0x19/0x30 [amdgpu]
+[  279.191096]  ? __slab_free+0x152/0x2f0
+[  279.191102]  ? dcn10_link_encoder_destroy+0x19/0x30 [amdgpu]
+[  279.191469]  kfree+0x260/0x2b0
+[  279.191474]  dcn10_link_encoder_destroy+0x19/0x30 [amdgpu]
+[  279.191821]  link_destroy+0xd7/0x130 [amdgpu]
+[  279.192248]  dc_destruct+0x90/0x270 [amdgpu]
+[  279.192666]  dc_destroy+0x19/0x40 [amdgpu]
+[  279.193020]  amdgpu_dm_fini+0x16e/0x200 [amdgpu]
+[  279.193432]  dm_hw_fini+0x26/0x40 [amdgpu]
+[  279.193795]  amdgpu_device_fini_hw+0x24c/0x400 [amdgpu]
+[  279.194108]  amdgpu_driver_unload_kms+0x4f/0x70 [amdgpu]
+[  279.194436]  amdgpu_pci_remove+0x40/0x80 [amdgpu]
+[  279.194632]  pci_device_remove+0x3a/0xa0
+[  279.194638]  device_remove+0x40/0x70
+[  279.194642]  device_release_driver_internal+0x1ad/0x210
+[  279.194647]  driver_detach+0x4e/0xa0
+[  279.194650]  bus_remove_driver+0x6f/0xf0
+[  279.194653]  driver_unregister+0x33/0x60
+[  279.194657]  pci_unregister_driver+0x44/0x90
+[  279.194662]  amdgpu_exit+0x19/0x1f0 [amdgpu]
+[  279.194939]  __do_sys_delete_module.isra.0+0x198/0x2f0
+[  279.194946]  __x64_sys_delete_module+0x16/0x20
+[  279.194950]  do_syscall_64+0x58/0x120
+[  279.194954]  entry_SYSCALL_64_after_hwframe+0x6e/0x76
+[  279.194980]  </TASK>
 
-Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
-Reviewed-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240812181042.2013508-2-matthew.d.roper@intel.com
+Reviewed-by: Rodrigo Siqueira <rodrigo.siqueira@amd.com>
+Signed-off-by: Tim Huang <tim.huang@amd.com>
+Reviewed-by: Roman Li <roman.li@amd.com>
+Signed-off-by: Roman Li <roman.li@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/xe/xe_lrc.c        | 35 +++++++++++++++++++++---------
- drivers/gpu/drm/xe/xe_wa_oob.rules |  2 ++
- 2 files changed, 27 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/amd/display/dc/link/link_factory.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/xe/xe_lrc.c b/drivers/gpu/drm/xe/xe_lrc.c
-index 58121821f0814..974a9cd8c3795 100644
---- a/drivers/gpu/drm/xe/xe_lrc.c
-+++ b/drivers/gpu/drm/xe/xe_lrc.c
-@@ -5,6 +5,8 @@
+diff --git a/drivers/gpu/drm/amd/display/dc/link/link_factory.c b/drivers/gpu/drm/amd/display/dc/link/link_factory.c
+index 8246006857b30..49d069dae29bf 100644
+--- a/drivers/gpu/drm/amd/display/dc/link/link_factory.c
++++ b/drivers/gpu/drm/amd/display/dc/link/link_factory.c
+@@ -385,7 +385,7 @@ static void link_destruct(struct dc_link *link)
+ 	if (link->panel_cntl)
+ 		link->panel_cntl->funcs->destroy(&link->panel_cntl);
  
- #include "xe_lrc.h"
- 
-+#include <generated/xe_wa_oob.h>
-+
- #include <linux/ascii85.h>
- 
- #include "instructions/xe_mi_commands.h"
-@@ -24,6 +26,7 @@
- #include "xe_memirq.h"
- #include "xe_sriov.h"
- #include "xe_vm.h"
-+#include "xe_wa.h"
- 
- #define LRC_VALID				BIT_ULL(0)
- #define LRC_PRIVILEGE				BIT_ULL(8)
-@@ -1581,19 +1584,31 @@ void xe_lrc_emit_hwe_state_instructions(struct xe_exec_queue *q, struct xe_bb *b
- 	int state_table_size = 0;
- 
- 	/*
--	 * At the moment we only need to emit non-register state for the RCS
--	 * engine.
-+	 * Wa_14019789679
-+	 *
-+	 * If the driver doesn't explicitly emit the SVG instructions while
-+	 * setting up the default LRC, the context switch will write 0's
-+	 * (noops) into the LRC memory rather than the expected instruction
-+	 * headers.  Application contexts start out as a copy of the default
-+	 * LRC, and if they also do not emit specific settings for some SVG
-+	 * state, then on context restore they'll unintentionally inherit
-+	 * whatever state setting the previous context had programmed into the
-+	 * hardware (i.e., the lack of a 3DSTATE_* instruction in the LRC will
-+	 * prevent the hardware from resetting that state back to any specific
-+	 * value).
-+	 *
-+	 * The official workaround only requires emitting 3DSTATE_MESH_CONTROL
-+	 * since that's a specific state setting that can easily cause GPU
-+	 * hangs if unintentionally inherited.  However to be safe we'll
-+	 * continue to emit all of the SVG state since it's best not to leak
-+	 * any of the state between contexts, even if that leakage is harmless.
- 	 */
--	if (q->hwe->class != XE_ENGINE_CLASS_RENDER)
--		return;
--
--	switch (GRAPHICS_VERx100(xe)) {
--	case 1255:
--	case 1270 ... 2004:
-+	if (XE_WA(gt, 14019789679) && q->hwe->class == XE_ENGINE_CLASS_RENDER) {
- 		state_table = xe_hpg_svg_state;
- 		state_table_size = ARRAY_SIZE(xe_hpg_svg_state);
--		break;
--	default:
-+	}
-+
-+	if (!state_table) {
- 		xe_gt_dbg(gt, "No non-register state to emit on graphics ver %d.%02d\n",
- 			  GRAPHICS_VER(xe), GRAPHICS_VERx100(xe) % 100);
- 		return;
-diff --git a/drivers/gpu/drm/xe/xe_wa_oob.rules b/drivers/gpu/drm/xe/xe_wa_oob.rules
-index 08f7336881e32..d4c33dbc14c7a 100644
---- a/drivers/gpu/drm/xe/xe_wa_oob.rules
-+++ b/drivers/gpu/drm/xe/xe_wa_oob.rules
-@@ -30,3 +30,5 @@
- 22019338487	MEDIA_VERSION(2000)
- 		GRAPHICS_VERSION(2001)
- 16023588340	GRAPHICS_VERSION(2001)
-+14019789679	GRAPHICS_VERSION(1255)
-+		GRAPHICS_VERSION_RANGE(1270, 2004)
+-	if (link->link_enc) {
++	if (link->link_enc && !link->is_dig_mapping_flexible) {
+ 		/* Update link encoder resource tracking variables. These are used for
+ 		 * the dynamic assignment of link encoders to streams. Virtual links
+ 		 * are not assigned encoder resources on creation.
 -- 
 2.43.0
 
