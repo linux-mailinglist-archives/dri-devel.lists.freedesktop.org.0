@@ -2,85 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7869098557B
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 10:29:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F7BE985580
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 10:30:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1873510E7BD;
-	Wed, 25 Sep 2024 08:29:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25F9410E7BF;
+	Wed, 25 Sep 2024 08:30:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="xc/mEwir";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="nzrnnUYj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
- [209.85.167.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7307E10E7BD
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 08:29:02 +0000 (UTC)
-Received: by mail-lf1-f42.google.com with SMTP id
- 2adb3069b0e04-5356ab89665so7697782e87.1
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 01:29:02 -0700 (PDT)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
+ [209.85.167.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF2F210E7C1
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 08:30:24 +0000 (UTC)
+Received: by mail-lf1-f46.google.com with SMTP id
+ 2adb3069b0e04-5356bb5522bso7648929e87.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 01:30:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1727252940; x=1727857740; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1727253023; x=1727857823; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=fJc/ZEonsSpvQx65a5f325f6xswc665KOha+qhiv8i8=;
- b=xc/mEwir3cVnpPTqEC9ZCBUadI4yeSq3DqsPdO2Mipz8vILIo2Mn6rdyRcr4uIyQCn
- bm4cAYXLMhwav7WaKzjviM2gSiLaAnDDP8AdsdXzFMSY9qXVaM1kPtkPQyFQjx4FVzv+
- Sj+8aOxdosO+nM/kD2mORQi+E8ntu7BBxp8igz96UivNtKyqj4vqRCwUe2P6w1C7AGSo
- 9btRID48025jALw21GsSavhnuaw5WI2zZ9jMeL8PloswbXeJ/i4zX1gxJgaR1xpCk209
- tFyM66kewMtxsnE7DayBD5n2Pul9TMac3Q4fBfk/IVQqv9FfunBzNrWq6RllWepiQ/Ls
- M2dA==
+ bh=6o6MU6ixdvNUZArkc6QNXbMB1zwtLntaWdMADJeROBs=;
+ b=nzrnnUYjmaBAOtGSgymAzONtCnuvY6Pl2Mf1LTk9Ai5Xt2YNjraBVInE4+JNwTlV5l
+ OtZeOMx4bD9cpugjcnYL8DBfgsr8Nq3/ovn4lm9qv32a4djkLKCtrzuk8bbrBA+Q0RmP
+ rNQP3d3Ri0MG9w3BxfV3+FkZ8TlqutdhXQftJyyGh+iQp2uRopgnr3ojb/xj1VRyUu8l
+ /m+Ry73MaeEoL2hn0x6RlZVWGHHEhkGYqOKlCa8Z0GGILgNOGAO5qmApg7q2F94sfw6G
+ ohzQpi7HBNhpejAPj+pD+j1r7F8SQJ3mmdQEOguZ4LfaLP1FBVIVJnoPUlghfyvy7GL2
+ MQ7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727252940; x=1727857740;
+ d=1e100.net; s=20230601; t=1727253023; x=1727857823;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=fJc/ZEonsSpvQx65a5f325f6xswc665KOha+qhiv8i8=;
- b=V6wv20+blm0tl7Nvb37RaYWtroFy2TEIM7VQ1yhey6MeZ1uv/Dv4J2JW+/gsm8ErsU
- prWDVaHCKF7P7HvjA6IHWkXgTXeCksrQ3uHKckSpkEQjhnxGnA5rEwH25qOPTEaRR1Ul
- otw0zynR6I8ot4kMZuvYwGM5hkREjoTBaoRgySxb82z2IUKNWhSrqi0829xYInKwON61
- rzk9CyHASVtavfdGHuNtul+/o8tH+MC/dT0Sx9gdX7+T+X5QoDnaEl24ncNwdwgFsbwm
- qh+XW275mQJIBosDXvITDb72dPAOiCIx9YVqAeRFGzYuwwJ0BWUYlHTzXF4sSxZUbTpO
- EwLg==
+ bh=6o6MU6ixdvNUZArkc6QNXbMB1zwtLntaWdMADJeROBs=;
+ b=oOW4wgcGfkzmSDDZoHrZtBunPf1QBMY/lZXZDASfeTGOAWaMmTv0sn+h+3QuWAKk1Q
+ rYzRQRed5OX2jQTC1LiQxh7W8Li/Aw9T0ZahwZQ8uOXeobvqUemqCLe4+4jtOHYwmvnh
+ 6RkYshULi8YBV3P11CS2LFFQWnXVKQG9H9YuT5DIZ5pJBXjDRpiqLWxXTJzYCQuYC/cz
+ hUMx6HXRCKc3kvrWyovy2q1i2+CxSAZE6DtrA8Jg6aIF9hewiZ/F8WJ7Nzuv7WjbL6ot
+ N07ajAt/8OxRvwYyDmrcly9exVTHAKP4KfmO8Vec+Ask6oAeZ9xWjJZkYPiFgWSxP8Jl
+ JgKg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXRUXDYKj4mGkLwAl1oZEzVCmZi6bU6MrQ+zE0kHO82YVquELqRRQ+JEXzbAbA3I7kBWxog5nIRGaE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx0yqvn2sb3ao5+spkTZ9y9oWMrDB25aXCK/9IPmYSp3r4IiD6e
- YNa5ktIpSvNMgrmlB8i55wimmxwJaKZN9d2W7SlGoC7mPVhXa3PHyXqkJdGB32g=
-X-Google-Smtp-Source: AGHT+IFWtR5Spi/hxHDKmyK+yEjL67FVSC0HLJLKUPO8bW2hzqf39SxWRho/7uZXgcWIoMTcw6ko+w==
-X-Received: by 2002:a05:6512:3f07:b0:535:6ba7:7725 with SMTP id
- 2adb3069b0e04-5387048a6d7mr1170484e87.3.1727252940511; 
- Wed, 25 Sep 2024 01:29:00 -0700 (PDT)
+ AJvYcCWblIobyy/y0mMU2WxlfN3WSPMTxL+zCr1XsU8KIn471j2RM+ozS4wtzcH4nknLg4x8bdxbIDUS3u8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwQiUBjx35Mi7j7wB7grmJkCUa2swHkOenSApfcQ6QiYwbNDw+0
+ p6KjRKY6c2wJb3VLakZMfSN5nvLXGUJKT8JOkxT6ImPadurCZseqRAEHvS777Tw=
+X-Google-Smtp-Source: AGHT+IFvMcEx7oBAVp0S3NPQ6xpw/MxKwhCGJtPZwcS5OitwFqPn3wedxom5YNYIQKZtYLZ34wO+Hw==
+X-Received: by 2002:a05:6512:1188:b0:52c:df6f:a66 with SMTP id
+ 2adb3069b0e04-538775666f8mr1042296e87.58.1727253022943; 
+ Wed, 25 Sep 2024 01:30:22 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-537a8648d41sm454852e87.224.2024.09.25.01.28.58
+ 2adb3069b0e04-537a85f0d6bsm457500e87.106.2024.09.25.01.30.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Sep 2024 01:28:59 -0700 (PDT)
-Date: Wed, 25 Sep 2024 11:28:57 +0300
+ Wed, 25 Sep 2024 01:30:22 -0700 (PDT)
+Date: Wed, 25 Sep 2024 11:30:20 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- quic_ebharadw@quicinc.com, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Rob Clark <robdclark@chromium.org>, 
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, quic_abhinavk@quicinc.com, 
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, quic_ebharadw@quicinc.com,
+ linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Rob Clark <robdclark@chromium.org>,
  Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH v2 14/22] drm/msm/dpu: Require modeset if clone mode
- status changes
-Message-ID: <zwxgml3qi3t253y2yhmi5lcpxg5odugrncfgh74y36kwubd4xv@oem2vicytu5i>
+Subject: Re: [PATCH v2 16/22] drm/msm/dpu: Configure CWB in writeback encoder
+Message-ID: <mk7syagvawspcns3tv6eh2u2fwvhoczp2fpklopwdyhltgg3l4@nsikd77xm4be>
 References: <20240924-concurrent-wb-v2-0-7849f900e863@quicinc.com>
- <20240924-concurrent-wb-v2-14-7849f900e863@quicinc.com>
- <yjfe5wajajeqmcp65kbvcttzgkrsfv5rhkbvqvioqx3rwdn6g6@2h2byk2l2imy>
- <75297d0d-528a-4152-b35f-ba41fbf914dc@quicinc.com>
+ <20240924-concurrent-wb-v2-16-7849f900e863@quicinc.com>
+ <qfqvtbc2o2xrv35caonsvhykmq6bvjpc5plnknjgkodrsoez6d@rpobkvdyqeb2>
+ <fcc4fa17-910c-4c3f-8cfd-5bedad772b49@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <75297d0d-528a-4152-b35f-ba41fbf914dc@quicinc.com>
+In-Reply-To: <fcc4fa17-910c-4c3f-8cfd-5bedad772b49@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,71 +94,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 24, 2024 at 05:05:43PM GMT, Abhinav Kumar wrote:
+On Tue, Sep 24, 2024 at 05:14:49PM GMT, Jessica Zhang wrote:
 > 
 > 
-> On 9/24/2024 4:25 PM, Dmitry Baryshkov wrote:
-> > On Tue, Sep 24, 2024 at 03:59:30PM GMT, Jessica Zhang wrote:
-> > > If the clone mode enabled status is changing, a modeset needs to happen
-> > > so that the resources can be reassigned
-> > 
-> > Sima's comment regarding crtc_state->mode_changed seems to be ignored...
-> > 
-> 
-> Not ignored. One of us has to take that up. There is a broader cleanup
-> required for that.
-
-At least then it should be mentioned in the commit message or under the
-commit message.
-
-> 
-> We can sync up on how to tackle this : whether it needs to be in this series
-> or push another one cleaning up all the instances.
-
-
-Yes, let's sync separately.
-
-> 
+> On 9/24/2024 4:41 PM, Dmitry Baryshkov wrote:
+> > On Tue, Sep 24, 2024 at 03:59:32PM GMT, Jessica Zhang wrote:
+> > > Cache the CWB block mask in the DPU virtual encoder and configure CWB
+> > > according to the CWB block mask within the writeback phys encoder
 > > > 
 > > > Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
 > > > ---
-> > >   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 8 ++++++++
-> > >   1 file changed, 8 insertions(+)
+> > >   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        | 83 +++++++++++++++++++++-
+> > >   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h   | 16 ++++-
+> > >   .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c    |  4 +-
+> > >   3 files changed, 100 insertions(+), 3 deletions(-)
 > > > 
-> > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> > > index a7850bf844db..f20e44e9fc05 100644
-> > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> > > @@ -1268,6 +1268,8 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
-> > >   {
-> > >   	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state,
-> > >   									  crtc);
-> > > +	struct drm_crtc_state *old_crtc_state = drm_atomic_get_old_crtc_state(state,
-> > > +									      crtc);
-> > >   	struct dpu_crtc *dpu_crtc = to_dpu_crtc(crtc);
-> > >   	struct dpu_crtc_state *cstate = to_dpu_crtc_state(crtc_state);
-> > > @@ -1279,6 +1281,8 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
-> > >   	int rc = 0;
-> > >   	bool needs_dirtyfb = dpu_crtc_needs_dirtyfb(crtc_state);
-> > > +	bool clone_mode_requested = drm_crtc_in_clone_mode(old_crtc_state);
-> > > +	bool clone_mode_enabled = drm_crtc_in_clone_mode(crtc_state);
-> > >   	/* there might be cases where encoder needs a modeset too */
-> > >   	drm_for_each_encoder_mask(drm_enc, crtc->dev, crtc_state->encoder_mask) {
-> > > @@ -1286,6 +1290,10 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
-> > >   			crtc_state->mode_changed = true;
-> > >   	}
-> > > +	if ((clone_mode_requested && !clone_mode_enabled) ||
-> > > +	    (!clone_mode_requested && clone_mode_enabled))
-> > > +		crtc_state->mode_changed = true;
-> > > +
-> > >   	if (drm_atomic_crtc_needs_modeset(crtc_state)) {
-> > >   		rc = dpu_crtc_assign_resources(crtc, crtc_state);
-> > >   		if (rc < 0)
-> > > 
-> > > -- 
-> > > 2.34.1
-> > > 
+> > > @@ -2557,6 +2630,14 @@ enum dpu_intf_mode dpu_encoder_get_intf_mode(struct drm_encoder *encoder)
+> > >   	return INTF_MODE_NONE;
+> > >   }
+> > > +unsigned int dpu_encoder_helper_get_cwb(struct dpu_encoder_phys *phys_enc)
 > > 
+> > it's called get_cwb, but it returns a mask?
+> 
+> I'd based this function off of dpu_encoder_helper_get_dsc(), but I can
+> rename this to *_get_cwb_mask() instead
+
+Yes, please.
+
+> 
+> > 
+> > > +{
+> > > +	struct drm_encoder *encoder = phys_enc->parent;
+> > > +	struct dpu_encoder_virt *dpu_enc = to_dpu_encoder_virt(encoder);
+> > > +
+> > > +	return dpu_enc->cwb_mask;
+> > > +}
+> > > +
+> > >   unsigned int dpu_encoder_helper_get_dsc(struct dpu_encoder_phys *phys_enc)
+> > >   {
+> > >   	struct drm_encoder *encoder = phys_enc->parent;
 
 -- 
 With best wishes
