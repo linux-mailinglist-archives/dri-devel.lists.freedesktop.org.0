@@ -2,52 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D949B98589B
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 13:45:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C047F9858A0
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 13:45:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4643A10E804;
-	Wed, 25 Sep 2024 11:45:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4023010E80E;
+	Wed, 25 Sep 2024 11:45:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SYVEVt2W";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="epD2qNIc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 234F810E804;
- Wed, 25 Sep 2024 11:45:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D67E10E80B;
+ Wed, 25 Sep 2024 11:45:25 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id A5C2B5C5820;
- Wed, 25 Sep 2024 11:45:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83A72C4CEC3;
- Wed, 25 Sep 2024 11:45:19 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 272EF5C580D;
+ Wed, 25 Sep 2024 11:45:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8330C4CEC3;
+ Wed, 25 Sep 2024 11:45:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1727264722;
- bh=ew1h9cN6vpzPHipXs8JejMfS/NjBHhTL7DFknsIRqyk=;
+ s=k20201202; t=1727264724;
+ bh=4n+/Pf9FVTBvA2R2Ja+tTFoE5Fy8ivlNmeSWvPigQAQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=SYVEVt2W+5qg3cKQbXgHE+QqpJhCwCkAuf7iIUo78SJxIwOBGFzjsO+DlYoVp5bM9
- CFKXr8DfLnPWY+7QWxZyy0O9DUw3VtchNEuAP6bjRMlR/rZCfTdq3o9AZ+Fv8hCPz7
- tHu0t5/RzQDFrSkX+2GihYM9sdcuvudOHmagsKvjP7pAdKgXi6Z8KY/ufA+oSCYRov
- KR0ML7ZbJBTornQqIC/zNImEQCic8d1Z46m3I7M7G1hcbuxwzgkTqqZyrIa0WdHsZk
- 2WVER3Hg7dtSJxI09zfSI4r9xrikbZiAnocotO7PUjwlSzzduWbhaSlpt5QT7xcANV
- 64t39/e1UAOmQ==
+ b=epD2qNIciWGCN4xfdanRjcV4ROoLu8Ks73N4f6J10SOqns56NSj1abGOy3apQflZN
+ 7qui8yGQTW2nvnVhz/vR7GT+fXO/de/sdUnxt8sS+JO2NlREIu/+gQ2nErssW2SdwM
+ 8legmP/naWmFOI3IbjkuzGK1l8oW7HKShaaGfGWqEsxFybBVk7mCPWsjQ4bCb3PTfh
+ QagjKSqVELTD1y+BZfxpdkfH67DtYQiNp01fkHvgw0tdLxdyVPSif4iKxxPV3oAwUS
+ uN+b3nZ2obqkO9Q47rRO7Q8FTCUN+89LLBc5NAP8Ip4ZOJtdjbL8anBWO2s7SqW5nr
+ jffHTSxzQO+NA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
- Tom Chung <chiahsuan.chung@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Roman Li <roman.li@amd.com>,
- Alex Hung <alex.hung@amd.com>, Aurabindo Pillai <aurabindo.pillai@amd.com>,
- Harry Wentland <harry.wentland@amd.com>,
- Hamza Mahfooz <hamza.mahfooz@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- sunpeng.li@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch, alvin.lee2@amd.com, samson.tam@amd.com,
- wenjing.liu@amd.com, dillon.varone@amd.com, yi-lchen@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.11 140/244] drm/amd/display: Add NULL check for
- clk_mgr in dcn32_init_hw
-Date: Wed, 25 Sep 2024 07:26:01 -0400
-Message-ID: <20240925113641.1297102-140-sashal@kernel.org>
+Cc: Suraj Kandpal <suraj.kandpal@intel.com>,
+ Dnyaneshwar Bhadane <dnyaneshwar.bhadane@intel.com>,
+ Sasha Levin <sashal@kernel.org>, jani.nikula@linux.intel.com,
+ rodrigo.vivi@intel.com, lucas.demarchi@intel.com,
+ thomas.hellstrom@linux.intel.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ daniel@ffwll.ch, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.11 141/244] drm/xe/hdcp: Check GSC structure validity
+Date: Wed, 25 Sep 2024 07:26:02 -0400
+Message-ID: <20240925113641.1297102-141-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240925113641.1297102-1-sashal@kernel.org>
 References: <20240925113641.1297102-1-sashal@kernel.org>
@@ -71,63 +67,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
+From: Suraj Kandpal <suraj.kandpal@intel.com>
 
-[ Upstream commit c395fd47d1565bd67671f45cca281b3acc2c31ef ]
+[ Upstream commit b4224f6bae3801d589f815672ec62800a1501b0d ]
 
-This commit addresses a potential null pointer dereference issue in the
-`dcn32_init_hw` function. The issue could occur when `dc->clk_mgr` is
-null.
+Sometimes xe_gsc is not initialized when checked at HDCP capability
+check. Add gsc structure check to avoid null pointer error.
 
-The fix adds a check to ensure `dc->clk_mgr` is not null before
-accessing its functions. This prevents a potential null pointer
-dereference.
-
-Reported by smatch:
-drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dcn32/dcn32_hwseq.c:961 dcn32_init_hw() error: we previously assumed 'dc->clk_mgr' could be null (see line 782)
-
-Cc: Tom Chung <chiahsuan.chung@amd.com>
-Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-Cc: Roman Li <roman.li@amd.com>
-Cc: Alex Hung <alex.hung@amd.com>
-Cc: Aurabindo Pillai <aurabindo.pillai@amd.com>
-Cc: Harry Wentland <harry.wentland@amd.com>
-Cc: Hamza Mahfooz <hamza.mahfooz@amd.com>
-Signed-off-by: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
-Reviewed-by: Alex Hung <alex.hung@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Suraj Kandpal <suraj.kandpal@intel.com>
+Reviewed-by: Dnyaneshwar Bhadane <dnyaneshwar.bhadane@intel.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20240722064451.3610512-4-suraj.kandpal@intel.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/xe/display/xe_hdcp_gsc.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c
-index 05d8f81daa064..39fd3f58886c5 100644
---- a/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c
-+++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c
-@@ -779,7 +779,7 @@ void dcn32_init_hw(struct dc *dc)
- 	uint32_t backlight = MAX_BACKLIGHT_LEVEL;
- 	uint32_t user_level = MAX_BACKLIGHT_LEVEL;
+diff --git a/drivers/gpu/drm/xe/display/xe_hdcp_gsc.c b/drivers/gpu/drm/xe/display/xe_hdcp_gsc.c
+index 990285aa9b261..0af667ebebf98 100644
+--- a/drivers/gpu/drm/xe/display/xe_hdcp_gsc.c
++++ b/drivers/gpu/drm/xe/display/xe_hdcp_gsc.c
+@@ -40,10 +40,14 @@ bool intel_hdcp_gsc_check_status(struct xe_device *xe)
+ {
+ 	struct xe_tile *tile = xe_device_get_root_tile(xe);
+ 	struct xe_gt *gt = tile->media_gt;
++	struct xe_gsc *gsc = &gt->uc.gsc;
+ 	bool ret = true;
  
--	if (dc->clk_mgr && dc->clk_mgr->funcs->init_clocks)
-+	if (dc->clk_mgr && dc->clk_mgr->funcs && dc->clk_mgr->funcs->init_clocks)
- 		dc->clk_mgr->funcs->init_clocks(dc->clk_mgr);
+-	if (!xe_uc_fw_is_enabled(&gt->uc.gsc.fw))
++	if (!gsc && !xe_uc_fw_is_enabled(&gsc->fw)) {
++		drm_dbg_kms(&xe->drm,
++			    "GSC Components not ready for HDCP2.x\n");
+ 		return false;
++	}
  
- 	// Initialize the dccg
-@@ -958,10 +958,11 @@ void dcn32_init_hw(struct dc *dc)
- 	if (!dcb->funcs->is_accelerated_mode(dcb) && dc->res_pool->hubbub->funcs->init_watermarks)
- 		dc->res_pool->hubbub->funcs->init_watermarks(dc->res_pool->hubbub);
+ 	xe_pm_runtime_get(xe);
+ 	if (xe_force_wake_get(gt_to_fw(gt), XE_FW_GSC)) {
+@@ -53,7 +57,7 @@ bool intel_hdcp_gsc_check_status(struct xe_device *xe)
+ 		goto out;
+ 	}
  
--	if (dc->clk_mgr->funcs->notify_wm_ranges)
-+	if (dc->clk_mgr && dc->clk_mgr->funcs && dc->clk_mgr->funcs->notify_wm_ranges)
- 		dc->clk_mgr->funcs->notify_wm_ranges(dc->clk_mgr);
+-	if (!xe_gsc_proxy_init_done(&gt->uc.gsc))
++	if (!xe_gsc_proxy_init_done(gsc))
+ 		ret = false;
  
--	if (dc->clk_mgr->funcs->set_hard_max_memclk && !dc->clk_mgr->dc_mode_softmax_enabled)
-+	if (dc->clk_mgr && dc->clk_mgr->funcs && dc->clk_mgr->funcs->set_hard_max_memclk &&
-+	    !dc->clk_mgr->dc_mode_softmax_enabled)
- 		dc->clk_mgr->funcs->set_hard_max_memclk(dc->clk_mgr);
- 
- 	if (dc->res_pool->hubbub->funcs->force_pstate_change_control)
+ 	xe_force_wake_put(gt_to_fw(gt), XE_FW_GSC);
 -- 
 2.43.0
 
