@@ -2,63 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 403699867CB
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 22:49:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EE949867AF
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 22:34:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2B5E10E879;
-	Wed, 25 Sep 2024 20:49:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8072E10E71E;
+	Wed, 25 Sep 2024 20:34:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="Mob5/Ijo";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Vor6ORfe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8639010E879
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 20:49:54 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 3F5CA87179;
- Wed, 25 Sep 2024 22:49:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1727297393;
- bh=00qhpUSbPwX7l/uw3vpiF1kyNQLTvs1CqaV2gPPJTQM=;
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDDF810E71E
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 20:34:27 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id AE696A4481A;
+ Wed, 25 Sep 2024 20:34:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94419C4CEC3;
+ Wed, 25 Sep 2024 20:34:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1727296466;
+ bh=m5R3GPQSy0bIi+Po10NtET+RQXjn0TLy6x7dDFzvlRY=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Mob5/IjohpnRjUMrReUNnbsdSPwU92aY7GdjtJLxkMWJRlWGJJYV6UAGQRRlNpcZa
- bvTwxP1sXipZPza/BIqwHVn3ssHLkpWDv1yNYgVfOoRLWvzP2WFSwQKODRiQLuUPwe
- LtJHWlRP7nMW2+sutH+CtKMvjWxoItJH7TwL59xGnc9TtgYL0o8OcXFvrjBsxtGyNC
- huGurmrDFM77jHYuYRN8xLMnPetqhz3QCi5klSkmzs1eSvVPvgi3jeB+XnNMFR5f3r
- NuhMADkwgsOti+00+vg/3IwJRRpLGAfAS7t+RakdJPjbsi2hdqZbhP65/uN7UVFZ6U
- V2pTdrQuC8rAQ==
-Message-ID: <a7b7acff-e710-4c50-97b8-1bce557eadde@denx.de>
-Date: Wed, 25 Sep 2024 22:14:39 +0200
+ b=Vor6ORfefnzPPs91Iul7OTslbva5DV5b26gdWDhUQtr2jcwa5zvdcAOBIjv0s4iYB
+ NV6J4KD+SwPnu1m82IHr9NUYh/tSoV5RqA9T2RB0C5bogOSUvVJhhtxV4AzkhxE6HU
+ z6UgEhpYzGT7jwIIPeL5ITrndG+lIBzkkrzN41Tu+y2l2mFAXqN+DT/lLEypmOf2pF
+ WRG5Yy9ZC94sR8RjYqUdOAIjGDBLbNnV4xIxPFBLowQ3DxiwrHQmq5aXMXZSz4he/Y
+ 1tb9TcFhxudeH0/iOxpVjY8onVXQx0fJcxUumIZ57DV9eR6aKw/54Z2YwgKosOgrv+
+ fxWcPtTYbtEAg==
+Message-ID: <ca92d19a-716e-4737-8e2b-99de25658869@kernel.org>
+Date: Wed, 25 Sep 2024 22:34:20 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] media: imx: vdic: Introduce mem2mem VDI
- deinterlacer driver
-To: Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org
-Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Fabio Estevam <festevam@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller
- <deller@gmx.de>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Steve Longerbeam <slongerbeam@gmail.com>, dri-devel@lists.freedesktop.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev
-References: <20240724002044.112544-1-marex@denx.de>
- <20240724002044.112544-2-marex@denx.de>
- <a66a2eaf30e21ff7c87f140e97ed4639640121ba.camel@pengutronix.de>
- <3e850259-9349-4215-947a-ce192fa95f14@denx.de>
- <f894eb3fd132a214ddbf2fa3ed405d065e629398.camel@pengutronix.de>
+Subject: Re: [PATCH 6/6] dt-bindings: display: samsung,exynos7-decon: add
+ exynos7870 compatible
+To: Kaustabh Chakraborty <kauschluss@disroot.org>
+Cc: airlied@gmail.com, alim.akhtar@samsung.com, conor@kernel.org,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ inki.dae@samsung.com, kyungmin.park@samsung.com,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, robh@kernel.org, simona@ffwll.ch,
+ sw0312.kim@samsung.com, tzimmermann@suse.de
+References: <20240919-exynosdrm-decon-v1-0-6c5861c1cb04@disroot.org>
+ <20240919-exynosdrm-decon-v1-6-8c3e3ccffad5@disroot.org>
+ <32ae1188-196d-4fe8-8719-968e5149a771@kernel.org>
+ <7e5caaea80390e8cf87ba0a74d9719f0@disroot.org>
+ <1bc0ad48-03c0-4cf6-afb1-2296d1c259b9@kernel.org>
+ <8e0672ad3fd72f69d2bdb5687e778c86@disroot.org>
+ <ef786b8b-32c0-457a-9e14-ed7bd9f04172@kernel.org>
+ <d8f5999921a31d7723e0aa9b12bb9eaf@disroot.org>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <f894eb3fd132a214ddbf2fa3ed405d065e629398.camel@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <d8f5999921a31d7723e0aa9b12bb9eaf@disroot.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,225 +115,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/25/24 5:07 PM, Philipp Zabel wrote:
-
-Hi,
-
-> On Di, 2024-09-24 at 17:28 +0200, Marek Vasut wrote:
->> On 9/6/24 11:01 AM, Philipp Zabel wrote:
-> [...]
->>> Instead of presenting two devices to userspace, it would be better to
->>> have a single video device that can distribute work to both IPUs.
->>
->> Why do you think so ?
-> 
-> The scaler/colorspace converter supports frames larger than the
-> 1024x1024 hardware by splitting each frame into multiple tiles. It
-> currently does so sequentially on a single IC. Speed could be improved
-> by distributing the tiles to both ICs. This is not an option anymore if
-> there are two video devices that are fixed to one IC each.
-
-The userspace could distribute the frames between the two devices in an 
-alternating manner, can it not ?
-
-> The same would be possible for the deinterlacer, e.g. to support 720i
-> frames split into two tiles each sent to one of the two VDICs.
-
-Would the 1280x360 field be split into two tiles vertically and each 
-tile (newly 1280/2 x 360) be enqueued on each VDIC ? I don't think that 
-works, because you wouldn't be able to stitch those tiles back together 
-nicely after the deinterlacing, would you? I would expect to see some 
-sort of an artifact exactly where the two tiles got stitched back 
-together, because the VDICs are unaware of each other and how each 
-deinterlaced the tile.
-
->> I think it is better to keep the kernel code as simple as possible, i.e.
->> provide the device node for each m2m device to userspace and handle the
->> m2m device hardware interaction in the kernel driver, but let userspace
->> take care of policy like job scheduling, access permissions assignment
->> to each device (e.g. if different user accounts should have access to
->> different VDICs), or other such topics.
-> 
-> I both agree and disagree with you at the same time.
-> 
-> If the programming model were more similar to DRM, I'd agree in a
-> heartbeat. If the kernel driver just had to do memory/fence handling
-> and command submission (and parameter sanitization, because there is no
-> MMU), and there was some userspace API on top, it would make sense to
-> me to handle parameter calculation and job scheduling in a hardware
-> specific userspace driver that can just open one device for each IPU.
-> 
-> With the rigid V4L2 model though, where memory handling, parameter
-> calculation, and job scheduling of tiles in a single frame all have to
-> be hidden behind the V4L2 API, I don't think requiring userspace to
-> combine multiple mem2mem video devices to work together on a single
-> frame is feasible.
-
-If your concern is throughput (from what I gathered from the text 
-above), userspace could schedule frames on either VDIC in alternating 
-manner.
-
-I think this is much better and actually generic approach than trying to 
-combine two independent devices on kernel level and introduce some sort 
-of scheduler into kernel driver to distribute jobs between the two 
-devices. Generic, because this approach works even if either of the two 
-devices is not VDIC. Independent devices, because yes, the MX6Q IPUs are 
-two independent blocks, it is only the current design of the IPUv3 
-driver that makes them look kind-of like they are one single big device, 
-I am not happy about that design, but rewriting the IPUv3 driver is way 
-out of scope here. (*)
-
-> Is limiting different users to the different deinterlacer hardware
-> units a real usecase? I saw the two ICs, when used as mem2mem devices,
-> as interchangeable resources.
-
-I do not have that use case, but I can imagine it could come up.
-In my case, I schedule different cameras to different VDICs from 
-userspace as needed.
-
->>> To be fair, we never implemented that for the CSC/scaler mem2mem device
->>> either.
->>
->> I don't think that is actually a good idea. Instead, it would be better
->> to have two scaler nodes in userspace.
-> 
-> See above, that would make it impossible (or rather unreasonably
-> complicated) to distribute work on a single frame to both IPUs.
-
-Is your concern latency instead of throughput ? See my comment in 
-paragraph (*) .
-
-> 
-> [...]
->>>> +	ipu_cpmem_set_buffer(priv->vdi_out_ch,  0, out_phys);
->>>> +	ipu_cpmem_set_buffer(priv->vdi_in_ch_p, 0, prev_phys + phys_offset);
->>>> +	ipu_cpmem_set_buffer(priv->vdi_in_ch,   0, curr_phys);
->>>> +	ipu_cpmem_set_buffer(priv->vdi_in_ch_n, 0, curr_phys + phys_offset);
+On 25/09/2024 22:05, Kaustabh Chakraborty wrote:
+> On 2024-09-25 19:56, Krzysztof Kozlowski wrote:
+>> On 25/09/2024 21:36, Kaustabh Chakraborty wrote:
+>>> On 2024-09-25 19:25, Krzysztof Kozlowski wrote:
+>>>> On 25/09/2024 20:42, Kaustabh Chakraborty wrote:
+>>>>> On 2024-09-20 12:39, Krzysztof Kozlowski wrote:
+>>>>>> On 19/09/2024 17:20, Kaustabh Chakraborty wrote:
+>>>>>>> Add the compatible string of Exynos7870 to the existing list.
+>>>>>>>
+>>>>>>> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
+>>>>>>
+>>>>>> ... and the DTS is <please provide lore ink in changelog>?
+>>>>>
+>>>>> Didn't quite understand. The patch adds the compatible string
+>>>>> for Exynos7870 DECON in documentation. There's no DTS involved
+>>>>> in here, right?
+>>>>
+>>>> Provide lore link to the DTS submission.
 >>>
->>> This always outputs at a frame rate of half the field rate, and only
->>> top fields are ever used as current field, and bottom fields as
->>> previous/next fields, right?
->>
->> Yes, currently the driver extracts 1 frame from two consecutive incoming
->> fields (previous Bottom, and current Top and Bottom):
->>
->> (frame 1 and 3 below is omitted)
->>
->>       1  2  3  4
->> ...|T |T |T |T |...
->> ...| B| B| B| B|...
->>        | ||  | ||
->>        '-''  '-''
->>         ||    ||
->>         ||    \/
->>         \/  Frame#4
->>       Frame#2
->>
->> As far as I understand it, this is how the current VDI implementation
->> behaves too, right ?
-> 
-> Yes, that is a hardware limitation when using the direct CSI->VDIC
-> direct path. As far as I understand, for each frame (two fields) the
-> CSI only sends the first ("PREV") field directly to the VDIC, which
-> therefor can only be run in full motion mode (use the filter to add in
-> the missing lines).
-> The second ("CUR") field is just ignored. It could be written to RAM
-> via IDMAC output channel 13 (IPUV3_CHANNEL_VDI_MEM_RECENT), which can
-> not be used by the VDIC in direct mode. So this is not implemented.
-> 
->> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/staging/media/imx/imx-media-vdic.c#n207
-> 
-> That code is unused. The direct hardware path doesn't use
-> IPUV3_CHANNEL_MEM_VDI_PREV/CUR/NEXT, but is has a similar effect, half
-> of the incoming fields are dropped. The setup is vdic_setup_direct().
-
-All right, let's drop that unused code then, I'll prepare a patch.
-
-But it seems the bottom line is, the VDI direct mode does not act as a 
-frame-rate doubler ?
-
->>> I think it would be good to add a mode that doesn't drop the
+>>> There aren't any DTS submissions *yet* which use the compatible.
+>>> Is that an issue?
 >>>
->>> 	ipu_cpmem_set_buffer(priv->vdi_in_ch_p, 0, prev_phys);
->>> 	ipu_cpmem_set_buffer(priv->vdi_in_ch,   0, prev_phys + phys_offset);
->>> 	ipu_cpmem_set_buffer(priv->vdi_in_ch_n, 0, curr_phys);
->>>
->>> output frames, right from the start.
 >>
->> This would make the VDI act as a frame-rate doubler, which would spend a
->> lot more memory bandwidth, which is limited on MX6, so I would also like
->> to have a frame-drop mode (i.e. current behavior).
->>
->> Can we make that behavior configurable ? Since this is a mem2mem device,
->> we do not really have any notion of input and output frame-rate, so I
->> suspect this would need some VIDIOC_* ioctl ?
+>> Yeah, users are supposed to be upstream. Not downstream.
 > 
-> That would be good. The situation I'd like to avoid is that this device
-> becomes available without the full frame-rate mode, userspace then
-> assumes this is a 1:1 frame converter device, and then we can't add the
-> full frame-rate later without breaking userspace.
-
-Why would adding the (configurable) frame-rate doubling mode break 
-userspace if this is not the default ?
-
->>> If we don't start with that supported, I fear userspace will make
->>> assumptions and be surprised when a full rate mode is added later.
->>
->> I'm afraid that since the current VDI already does retain input frame
->> rate instead of doubling it, the userspace already makes an assumption,
->> so that ship has sailed.
+> I understand that. I had plans to submit it in the future.
+> If that's how it's meant to be done, I'll have to revisit this
+> submission at a later date then.
 > 
-> No, this is about the deinterlacer mem2mem device, which doesn't exist
-> before this series.
 
-I am not convinced it is OK if the direct VDI path and mem2mem VDI 
-behave differently, that would be surprising to me as a user ?
+Partial, asynchronous bringup of a device is fine, so if the basic
+support is there, I understand that drivers come in different pace.
+Although I don't understand why DTS for this piece of hardware would
+come in different pace, considering you cannot test it without DTS. You
+have there DTS, so it should be sent.
 
-> The CSI capture path already has configurable framedrops (in the CSI).
+But even without the DTS for DECON, the problem is earlier - lack of
+basic support for this device. There is nothing for this chip.
 
-What am I looking for ? git grep doesn't give me any hits ? (**)
+This means it cannot be tested and is trickier to verify. That's not the
+usual upstreaming way we expect, especially that you did not provide
+rationale for such way.
 
->> But I think we can make the frame doubling configurable ?
-> 
-> That would be good. Specifically, there must be no guarantee that one
-> input frame with two fields only produces one deinterlaced output
-> frame, and userspace should somehow be able to understand this.
+Best regards,
+Krzysztof
 
-See my question (**) , where is this configurable framedrops thing ?
-
-> This would be an argument against Nicolas' suggestion of including this
-> in the csc/scaler device, which always must produce one output frame
-> per input frame.
-> 
-> [...]
->>> This maps to VDI_C_MOT_SEL_FULL aka VDI_MOT_SEL=2, which is documented
->>> as "full motion, only vertical filter is used". Doesn't this completely
->>> ignore the previous/next fields and only use the output of the di_vfilt
->>> four tap vertical filter block to fill in missing lines from the
->>> surrounding pixels (above and below) of the current field?
->>
->> Is there a suitable knob for this or shall I introduce a device specific
->> one, like the vdic_ctrl_motion_menu for the current VDIC direct driver ?
->>
->> If we introduce such a knob, then it is all the more reason to provide
->> one device node per one VDIC hardware instance, since each can be
->> configured for different motion settings.
-> 
-> As far as I know, there is no such control yet. I don't think this
-> should be per-device, but per-stream (or even per-frame).
-> 
->>> I think this should at least be configurable, and probably default to
->>> MED_MOTION.
->>
->> I think to be compatible with the current VDI behavior and to reduce
->> memory bandwidth usage, let's default to the HIGH/full mode. That one
->> produces reasonably good results without spending too much memory
->> bandwidth which is constrained already on the MX6, and if the user needs
->> better image quality, they can configure another mode using the V4L2
->> control.
-> 
-> I'd rather not default to the setting that throws away half of the
-> input data. Not using frame doubling by default is sensible, but now
-> that using all three input fields to calculate the output frame is
-> possible, why not make that the default.
-To save memory bandwidth on the MX6, that's my main concern.
