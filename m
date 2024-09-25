@@ -2,80 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0467A985ED8
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 15:45:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4DC1985F11
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 15:49:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF64A10E09B;
-	Wed, 25 Sep 2024 13:45:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C8B510E0D9;
+	Wed, 25 Sep 2024 13:49:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="LePPNrmS";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Qyjoblw9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
- [209.85.167.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8293710E09B
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 13:45:05 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id
- 2adb3069b0e04-53653ff0251so7751663e87.0
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 06:45:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1727271903; x=1727876703; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=7nmcWlKoFTNATwfWOn0UALVMJO3SjuirbjxhHbXLIAU=;
- b=LePPNrmSln15/WwiW5MCJB2hC9L8OJtMR9HutfckzSBz93LA2mCxWo3BHpfg6287I6
- ApwhmkiMncefK9bJrhUvvbo+AtF+YpW3V8cZ+YmFv9TR1C7qRoFCH8iYLDiWaQPHCbXP
- VqOhLA28CrpE17yA2E8jFofRhUVsvn4KEjVmi0Xk7FtzLALrKm3i9J8CYd4q8flkR1It
- LS1b44vIiwNb3jqn95NId6sSBFy5XAywIIimurKrlS6SumTMyz+RtMs6TNgCqGWp6Ax7
- /VSBUk9Uu0YENtR9l5Rz4olJhVMjMUnzLLK3LnrbTg7u3xslbI3g6jVGS9/s+Q7HP6bq
- E97A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727271903; x=1727876703;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=7nmcWlKoFTNATwfWOn0UALVMJO3SjuirbjxhHbXLIAU=;
- b=VXkD8wB8qAAnoGXED1NItSTYnhJkj3KAD4SA9xborZ9KZYUlWxbvPDogcRNU0zy/Mn
- kfxzCLpj28pgk0HacWvsVD76mHdUSSo2XIvSdW3IOvZ7c5OdGdIbjh1v7YN2ThEP4FZP
- HJPFxCGW2L099I0HAlPyctZZa+XlA4qP71I2h5DF6Qukulparepw15M8E5oKCstY01tm
- k05M1DdtrTjlNrEZI5LjqEquVvBvf+ZeOFCTE4YZc5H+XG/VLLKce9ZZbwjygwT3dwbW
- /LxViNOQK9KtQ32FngHflTRfUQkz1GpNwbJ4DFczu8ceA6t4k8Ehg/da7VZavZw2DLUw
- PwIg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV2vebtxseZV0+u7HohUdKe4/nMCSj75JlBaEjTy//4cGHqKqG1Qad7ij93j3gFT2ETvEkjYIozOEg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwOAr5zGRlCWTKvWBNyF/QAZeDd9bKzwurHhfYZb9yQHvMyk7n4
- I+UPTMEPtVpgBJSI82BTXZSfpbRnt9F4GAKMYk4atBkUjFkfXoot
-X-Google-Smtp-Source: AGHT+IEzMxdjhz1ppV735VD0V6py6Nlw4kQc29/A2thQmfr+trRK/o13J4rcG1IMACMG4yHcu+/a8g==
-X-Received: by 2002:a05:6512:e89:b0:535:665f:cfc0 with SMTP id
- 2adb3069b0e04-53877533876mr1821591e87.32.1727271903253; 
- Wed, 25 Sep 2024 06:45:03 -0700 (PDT)
-Received: from orome (p200300e41f147300f22f74fffe1f3a53.dip0.t-ipconnect.de.
- [2003:e4:1f14:7300:f22f:74ff:fe1f:3a53])
- by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-5c5cf4d79a8sm1853694a12.86.2024.09.25.06.45.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Sep 2024 06:45:02 -0700 (PDT)
-Date: Wed, 25 Sep 2024 15:45:01 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Liao Chen <liaochen4@huawei.com>, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
- andrzej.hajda@intel.com, 
- neil.armstrong@linaro.org, rfoss@kernel.org, Laurent.pinchart@ideasonboard.com,
- jonas@kwiboo.se, jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch, 
- linus.walleij@linaro.org, mperttunen@nvidia.com, jonathanh@nvidia.com
-Subject: Re: [PATCH -next 2/3] drm/tegra: Enable module autoloading
-Message-ID: <n3ydihjvwboq2dlby7sknpccbah6jape4c3y7gvuyt72yb4ame@xvejzzaxtyqe>
-References: <20240902113320.903147-1-liaochen4@huawei.com>
- <20240902113320.903147-3-liaochen4@huawei.com>
- <3ttycjomydslmaqtwnhjehrj7pa7m2i2daqd46kwd2tsxynr2t@jo24br66tz7b>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1118C10E0D7;
+ Wed, 25 Sep 2024 13:49:41 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 926985C56C2;
+ Wed, 25 Sep 2024 13:49:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5010C4CEC3;
+ Wed, 25 Sep 2024 13:49:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1727272180;
+ bh=ycCGXL/uRHjA4Pfa6QMo/gCbhY65nmP/6lsczsGQbxE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Qyjoblw9mJC40BA64nQ1Ef/hb5PmYECWjhyCWm3k3j3LzuQztz7CPvXd0chslbboL
+ ZQXtrZGgSMzfXC2vaLGttHeJLQkz3UgQlQcv8/zBxNQXX8yChCDfkDrlzzSqSOvHcR
+ bu4cd0pcLoIqeXZrLVJi3kJ3gJWuyvBkLxZQ9euRdqIusyZ6hugN8pQvAP1apidhjz
+ Qc8KB4cIszj4r+LO5DVE1ob9W9119M8N/uCWaDT0ckWpzc4MnOdkF/08Bc6Y5Tnoem
+ XTa/heuE8jvi8leKUgqJ6Xq8tJMc0rQZa2B0toHR/mTLccFD6VelbHhH64wkakAu9y
+ fB3Dyac+apMcQ==
+Date: Wed, 25 Sep 2024 15:49:37 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: dri-devel@lists.freedesktop.org, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ linux-arm-msm@vger.kernel.org, 
+ freedreno@lists.freedesktop.org, robdclark@gmail.com,
+ dmitry.baryshkov@linaro.org, 
+ quic_jesszhan@quicinc.com, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH] drm: allow encoder mode_set even when connectors
+ change for crtc
+Message-ID: <20240925-glaring-squid-of-opportunity-5ddce2@houat>
+References: <20240905221124.2587271-1-quic_abhinavk@quicinc.com>
+ <20240909-neat-stoic-hamster-cbbe42@houat>
+ <33f29f1c-157a-424e-89c6-c1549a2d6403@quicinc.com>
+ <20240910-liberal-platinum-scorpion-d43cff@houat>
+ <34dad274-a048-4a1f-8acb-894d264ebe80@quicinc.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="kzp52tnoqabifusm"
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="fjwrgalcvxjtvi5d"
 Content-Disposition: inline
-In-Reply-To: <3ttycjomydslmaqtwnhjehrj7pa7m2i2daqd46kwd2tsxynr2t@jo24br66tz7b>
+In-Reply-To: <34dad274-a048-4a1f-8acb-894d264ebe80@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,59 +70,129 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---kzp52tnoqabifusm
+--fjwrgalcvxjtvi5d
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 23, 2024 at 07:21:21AM GMT, Dmitry Baryshkov wrote:
-> On Mon, Sep 02, 2024 at 11:33:19AM GMT, Liao Chen wrote:
-> > Add MODULE_DEVICE_TABLE(), so modules could be properly autoloaded based
-> > on the alias from of_device_id table.
+Hi,
+
+On Wed, Sep 11, 2024 at 05:54:44PM GMT, Abhinav Kumar wrote:
+> On 9/10/2024 1:40 AM, Maxime Ripard wrote:
+> > Hi,
 > >=20
-> > Signed-off-by: Liao Chen <liaochen4@huawei.com>
-> > ---
-> >  drivers/gpu/drm/tegra/drm.c | 1 +
-> >  1 file changed, 1 insertion(+)
+> > On Mon, Sep 09, 2024 at 12:59:47PM GMT, Abhinav Kumar wrote:
+> > > On 9/9/2024 6:37 AM, Maxime Ripard wrote:
+> > > > Hi,
+> > > >=20
+> > > > On Thu, Sep 05, 2024 at 03:11:24PM GMT, Abhinav Kumar wrote:
+> > > > > In certain use-cases, a CRTC could switch between two encoders
+> > > > > and because the mode being programmed on the CRTC remains
+> > > > > the same during this switch, the CRTC's mode_changed remains fals=
+e.
+> > > > > In such cases, the encoder's mode_set also gets skipped.
+> > > > >=20
+> > > > > Skipping mode_set on the encoder for such cases could cause an is=
+sue
+> > > > > because even though the same CRTC mode was being used, the encoder
+> > > > > type could have changed like the CRTC could have switched from a
+> > > > > real time encoder to a writeback encoder OR vice-versa.
+> > > > >=20
+> > > > > Allow encoder's mode_set to happen even when connectors changed o=
+n a
+> > > > > CRTC and not just when the mode changed.
+> > > > >=20
+> > > > > Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> > > >=20
+> > > > The patch and rationale looks sane to me, but we should really add =
+kunit
+> > > > tests for that scenarii.
+> > > >=20
+> > >=20
+> > > Thanks for the review.
+> > >=20
+> > > We have a IGT for recreating this scenario and thats how this issue w=
+as
+> > > captured
+> > >=20
+> > > kms_writeback --run-subtest writeback-check-output -c <primary displa=
+y mode>
+> > >=20
+> > > We had added an option ( 'c' - custom mode) a couple of yrs ago to al=
+low
+> > > writeback to be tested using any mode the user passes in (https://lor=
+e.kernel.org/r/all/YuJhGkkxah9U6FGx@platvala-desk.ger.corp.intel.com/T/)
+> > >=20
+> > > If we pass in the same resolution as the primary RT display, this sce=
+nario
+> > > always happens as the CRTC switches between RT encoder and WB encoder=
+=2E Hope
+> > > that addresses some of the concern.
 > >=20
-> > diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
-> > index 03d1c76aec2d..1a12f2eaad86 100644
-> > --- a/drivers/gpu/drm/tegra/drm.c
-> > +++ b/drivers/gpu/drm/tegra/drm.c
-> > @@ -1390,6 +1390,7 @@ static const struct of_device_id host1x_drm_subde=
-vs[] =3D {
-> >  	{ .compatible =3D "nvidia,tegra234-nvdec", },
-> >  	{ /* sentinel */ }
-> >  };
-> > +MODULE_DEVICE_TABLE(of, host1x_drm_subdevs);
+> > Unless it can easily be run in some sort of CI loop by anyone
+> > contributing to that part of the kernel, it doesn't.
+> >=20
+> > Don't get me wrong, it's a great feature, but it doesn't help making
+> > sure that issue never creeps back in.
+> >=20
 >=20
-> I don't think it is correct. See how subdevs are handled in
-> host1x_device_parse_dt(). I'll pick up two other patches though.
+> Ack, I understand.
+>=20
+> > > Regarding KUnit tests, I have a couple of questions:
+> > >=20
+> > > 1) This is more of a run-time scenario where CRTC switch happens, doe=
+s this
+> > > qualify for a KUnit or perhaps I am missing something.
+> >=20
+> > We've been using kunit to perform integration tests in the kernel too,
+> > so I would say that it definitely qualifies.
+> >=20
+> > > 2) Is there any existing KUnit test file under drm/tests for validati=
+ng
+> > > drm_atomic_helper_commit_modeset_disables() /
+> > > drm_atomic_helper_commit_modeset_enables() path because this will fal=
+l under
+> > > that bucket. I didnt find any matching case where we can extend this.
+> >=20
+> > We don't have that at the moment, but we shouldn't be too far off. The
+> > HDMI framework I contributed some months ago for example has all the
+> > mode checking infrastructure in kunit. So you already have some way to
+> > create a driver, a new state, modify that state and check it.
+> >=20
+> > The only thing missing in your case is being able to commit it and check
+> > that it has run, which shouldn't be too hard
+>
+> Alright. Yes I reviewed the hdmi infrastructure tests and you seem to have
+> most of the pieces. I just need to find some cycles to work on this :) so
+> you can have my name down for it and either me one of our team members or
+> perhaps with some help from other msm developers we can get it added.
+>=20
+> The reason I was hoping to get this reviewed and added as a "fix" was we =
+had
+> already run into this scenario with kms_writeback test case and the same
+> scenario was seen in another msm bug
+> https://gitlab.freedesktop.org/drm/msm/-/issues/59 leading to a null ptr
+> crash but we ended up fixing that within msm because that was a better fix
+> anyway so I was thinking this change would help to resolve these types of
+> issues for us once for all.
+>=20
+> But if this needs to wait for the KUnit to be added, thats fine, we will
+> resend this one along with the KUnit once we work on it.
 
-Agreed. This shouldn't be needed since all of these compatible strings
-should show up in the OF device ID table of their corresponding drivers,
-which is where the export should happen.
+Yeah, if it's not urgent I'd rather have the kunit test at the same time.
 
-Thierry
+Maxime
 
---kzp52tnoqabifusm
+--fjwrgalcvxjtvi5d
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmb0E90ACgkQ3SOs138+
-s6HM6hAAslMbf3A5fl+jfDpdUqk/FK5nGyc1hHza2bcFNWadYg45qtAl5trpka38
-4hHeOi/6iOYr+KwPXjfd0o/deduoOaKdmXWiuwScqh5dKqMbCUktMqw+VWYsjZRe
-BvqfEnqJQnB6kStu8JswuRCUGqXs06Sm5MRDY/pVL7Uvbbh5m+DdlwTI6IjjY5BX
-3TTnrBCEjzwYVeB6WYODbRmsfZ2xemtKqX11Llp8yGkkngSwGGPK+tU8veFMET6Y
-Xegc48CFR2U52GqLBhbdFK+nb85SSXeMBMBNSi4KKlTaP+sb9WTcl9G1TpdxrE57
-OH++4wBoVnzPakLkmm7dDgIIoCC+SVhGi15y8RBqZ0LvduIyzjaOnkJow1Hc+67Z
-87qqUQVdqCck+VNaaD+K339bPNVgA8ioyZ2Uy79vnGemazmSc+DLMUDvnOk8DSzD
-JYat/dsCVnU1ZaJRKYQHHNZQGbA32tur3V0Z7WhHuwk+VJ31JcSiMgQnhL+UOTQM
-/qRRBa/oXqeezeH+ny45p9RT0q2+S7XSMta4kSENX/EKxd1Taez0Z7WhSpoGU0Y4
-l/Xw0wwj/C2LEaVfE6ZyT9aEd5xkWC8TE/0MnznVINJYWgOxftvEuG07QUbj+GxV
-0WLBNT0FhMZiknSqoO+UTiEYGluifadLN7Po+vT/71CUNq31cc0=
-=cv60
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZvQU8AAKCRAnX84Zoj2+
+dqX4AX9LT2pHKxp0NnUAFfbov3SwgZhSXxLTHHhFh5TTk7zZhTNNp7KIrLcciFAE
+AFOuCEwBf0fhKVN+VRjoqPUAZACADK38KjT+hNnrom9CQg+vlyIo4rsrox/+wBZn
+JfajcT/qMA==
+=cQZr
 -----END PGP SIGNATURE-----
 
---kzp52tnoqabifusm--
+--fjwrgalcvxjtvi5d--
