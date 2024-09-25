@@ -2,81 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCED19867FE
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 23:07:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0C0D986826
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 23:11:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44AEE10EA69;
-	Wed, 25 Sep 2024 21:07:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5117D10EA73;
+	Wed, 25 Sep 2024 21:11:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="pHG4hJ1t";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="lzEtLyVw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
- [209.85.128.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A60710EA6A
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 21:07:05 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id
- 5b1f17b1804b1-42e5e758093so2153165e9.1
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 14:07:05 -0700 (PDT)
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com
+ [209.85.128.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0047F10EA73
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 21:11:37 +0000 (UTC)
+Received: by mail-yw1-f176.google.com with SMTP id
+ 00721157ae682-6e1f48e7c18so3444507b3.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 14:11:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1727298424; x=1727903224;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=1eUf1b5sBeEa+R24gGQ9aEEgDksXQ+YlPL6/W/duLKU=;
- b=pHG4hJ1taoRiuvkcPTmtC269qM9axUs4b51uRgevZYksFlnehg6+iOloMQ20bGZ2PX
- f9f6RCx0dN7UQGoacUPB33V337lj8NYEq7gftOWIBBRZYLEhbVemR61VLod7ZQL+sQBf
- 0+m9Znq+BwQ3WiDtq2xI5uLYUDrhL/zmDl+4uZlHms4iz4ZLIzvY+KjS5U1iCDpwNGfy
- 7oZKnoDmp/bb11AM3skiXRpGd5Gcq1qpvNoygcsKiPh8uOzemsnVJM8HzrAQurp7ikJh
- 3HJxcbfVxRB0OvpBttMwd535X4LeHfRUQNH9nBavohGEg/dDSxzoDJELrztaSvivCGth
- 4xQw==
+ d=linaro.org; s=google; t=1727298697; x=1727903497; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=+9TIU+9hxJV2zxmNs4d032rUDDVyJj1j83Li4zDnFvc=;
+ b=lzEtLyVwIlhDP+n05ZtU51qY4wLkjKJkNxUi4/8a7aghCeNknpT+8y0rI/XHHy4B+f
+ mtxrN2M9iMMHuF5YYNK9slCzqIMZ5zHWcKeqtbvTvvAd9CpZpoCB8i+dbyjbUhURpLXl
+ SByGVkL2kul5DoIMWNWRS9eqNt8MOrXL4vIxjWLf8efbJG7f9E0D1P9xHAxl5EdeEKYy
+ eLGuuibYbWER/pqK5rvnUJ3Ufpaj6SompTwcEM70RGRa6KJGpmcUD1multp7VR63SjXK
+ OrALtuIuCY63+dmmD5QP3XcRPSo5+6tINC2YmgR2O/ZzutAlOgDVPfI11Q4BosltMqix
+ /Ywg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727298424; x=1727903224;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=1eUf1b5sBeEa+R24gGQ9aEEgDksXQ+YlPL6/W/duLKU=;
- b=LMPL5VtsUOoH0ExuRE5z4SJS5oQ3By7WCGUkb/PmnZlNV+NfgJxLZXqqFPYaOyieYQ
- +116szY6+ljRcwpyUvzNv3Gq1uYk99TktmjhzcyWTpVzr6oXvBZmZaCBoW4/owO1Vk9K
- S8DSiiQdpVDZ+J5M3SuRdKdm99iTK7S6zq50UCYqyvmUy8yzi9rdFEEQidJ0vVRQH4k1
- HiCLzSaCcbI92iJ+VwBBUNBUOI0h1SLeiGEFZ7Tl62gasc28AQbIzmwccx3iAPP5Md3b
- yj37tkj+e/KQnQqR0zGISpYZ7aRhy3z4c3s2/f430xN4YXbTD5zEQp2KDfzMmKh/uwiQ
- 8TdQ==
+ d=1e100.net; s=20230601; t=1727298697; x=1727903497;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=+9TIU+9hxJV2zxmNs4d032rUDDVyJj1j83Li4zDnFvc=;
+ b=sju7rqjsbN+flSbatkADZ6jPcVERQUpltq0qsd/nhg0gMEBZs5Fk37bwpbB8ilTHqj
+ 5VezOgs5fVdjqam6v7IpIAUyCxf19pHUNSHUq6ZUF6IH1z0DP+wi5iHs21IOAjJ2QC66
+ qPYdtpNFW7p9ZSvBT0YbLNFB5fGqCBrpFFnOv+MugmHhEJZ8/9v+sLrwzd+q56nFNNKe
+ oJCYaX7JnRY5XB/zVc0sqpiyRj0NSmNNY1Tc33X5uWWozBWu0/pwFDwxnECW4vYG98xY
+ nmHYomf4gVmjM84wNmQUlHsVzwCJa2hAwhZj3SHD5GsJKOZvahmq/Fv0Zpx/+WjUKDT0
+ SPuA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW0LJ3sROWkyQ1fEiCaMomuC93S3mSRHQJ57arD86kDWAC4SpJEXuyL2mrccgnPDBJZ2W9ehtNdhmU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwJWaa68jmj+NvugQ3I0ZAmEL4TtJWO2il2gkTY4O1vU8WcOvEy
- b82G+g0XoTgaGulfNMDhKN4tF8/XBaTAd39HguiXxWViEn3PIJO8quRJr/lHjkw=
-X-Google-Smtp-Source: AGHT+IHDoFkGKB1bUmLWhLANh/i/kng9W0x9TR8bISvn6Efb45zS2dgcqducbkWBM86Lea49/HxWBA==
-X-Received: by 2002:a5d:6c61:0:b0:371:9360:c4a8 with SMTP id
- ffacd0b85a97d-37cc246702cmr3213015f8f.6.1727298423544; 
- Wed, 25 Sep 2024 14:07:03 -0700 (PDT)
-Received: from localhost (lfbn-nic-1-357-249.w90-116.abo.wanadoo.fr.
- [90.116.189.249]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-37cbc2cec21sm4796837f8f.52.2024.09.25.14.07.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Sep 2024 14:07:02 -0700 (PDT)
-Date: Wed, 25 Sep 2024 23:07:00 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Alex Lanzano <lanzano.alex@gmail.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Mehdi Djait <mehdi.djait@bootlin.com>, christophe.jaillet@wanadoo.fr,
- dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-pwm@vger.kernel.org
-Subject: Re: [PATCH v6 2/2] drm/tiny: Add driver for Sharp Memory LCD
-Message-ID: <q2njnpzpkd3xrrv6icr5wq6uztja3wfmy2x2ldreqemzbwkedv@ixywmn7qy34q>
-References: <20240905124432.834831-1-lanzano.alex@gmail.com>
- <20240905124432.834831-3-lanzano.alex@gmail.com>
+ AJvYcCW3vP3iM7lS4hUkouBfZwg8/Ig684TTakSt4lPToEMKUj/tArMgTAsbDDsHW3irH5u+DpMyUsDLlv8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwrYmA+9HTqur81xBdtIynA64DauX+I/U6CXTiQA6ZyADtGXkwb
+ G2z96YPqHYsGbe7a4LHLRJpNLYtsCiZ1r+GZtblKUc7R5OL5wDk8IUs+5O7dWyL6E/nol9twpkT
+ 5s1Qg9joVCXR/zWtsg/oUpQcVC2f2S/7Gag/Zcw==
+X-Google-Smtp-Source: AGHT+IEp+mxvGkg3YqT/1KJufgJQB/xXWcnPMsUafm3tUlKhN15iL95oyO8K6Op3Y8xSE5IQjn21aX/7DyU72/mq1E4=
+X-Received: by 2002:a05:690c:660f:b0:6de:b23:f2c3 with SMTP id
+ 00721157ae682-6e21d6ec709mr41328167b3.7.1727298696928; Wed, 25 Sep 2024
+ 14:11:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="gufllnff6auc6cvc"
-Content-Disposition: inline
-In-Reply-To: <20240905124432.834831-3-lanzano.alex@gmail.com>
+References: <20240924-concurrent-wb-v2-0-7849f900e863@quicinc.com>
+ <20240924-concurrent-wb-v2-5-7849f900e863@quicinc.com>
+ <dv5iij6v76ieprfckdjo4yksrjrgqw73v2lh7u4xffpu7rdrf3@zgjcp3a2hlxo>
+ <24a11f4c-d848-4f1b-afbd-35b135fa3105@quicinc.com>
+In-Reply-To: <24a11f4c-d848-4f1b-afbd-35b135fa3105@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Wed, 25 Sep 2024 23:11:25 +0200
+Message-ID: <CAA8EJpraspHpgGvJxe7dXx-hN+yirs_+AacjkrHvPWuEvrLJ-w@mail.gmail.com>
+Subject: Re: [PATCH v2 05/22] drm/msm/dpu: move resource allocation to CRTC
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, quic_abhinavk@quicinc.com, 
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, quic_ebharadw@quicinc.com, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Rob Clark <robdclark@chromium.org>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,131 +88,140 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, 25 Sept 2024 at 22:39, Jessica Zhang <quic_jesszhan@quicinc.com> wrote:
+>
+>
+>
+> On 9/24/2024 4:13 PM, Dmitry Baryshkov wrote:
+> > On Tue, Sep 24, 2024 at 03:59:21PM GMT, Jessica Zhang wrote:
+> >> From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> >>
+> >> All resource allocation is centered around the LMs. Then other blocks
+> >> (except DSCs) are allocated basing on the LMs that was selected, and LM
+> >> powers up the CRTC rather than the encoder.
+> >>
+> >> Moreover if at some point the driver supports encoder cloning,
+> >> allocating resources from the encoder will be incorrect, as all clones
+> >> will have different encoder IDs, while LMs are to be shared by these
+> >> encoders.
+> >>
+> >> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> >> [quic_abhinavk@quicinc.com: Refactored resource allocation for CDM]
+> >> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> >> [quic_jesszhan@quicinc.com: Changed to grabbing exising global state]
+> >> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+> >> ---
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    |  86 ++++++++++++
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 201 +++++++++++-----------------
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  19 +++
+> >>   3 files changed, 183 insertions(+), 123 deletions(-)
+> >>
+> >> @@ -544,159 +542,117 @@ void dpu_encoder_helper_split_config(
+> >>      }
+> >>   }
+> >>
+> >> -bool dpu_encoder_use_dsc_merge(struct drm_encoder *drm_enc)
+> >> +void dpu_encoder_update_topology(struct drm_encoder *drm_enc,
+> >> +                             struct msm_display_topology *topology,
+> >> +                             struct drm_atomic_state *state,
+> >> +                             const struct drm_display_mode *adj_mode)
+> >>   {
+> >>      struct dpu_encoder_virt *dpu_enc = to_dpu_encoder_virt(drm_enc);
+> >> -    int i, intf_count = 0, num_dsc = 0;
+> >> +    struct drm_connector *connector;
+> >> +    struct drm_connector_state *conn_state;
+> >> +    struct msm_display_info *disp_info;
+> >> +    struct drm_framebuffer *fb;
+> >> +    struct msm_drm_private *priv;
+> >> +    int i;
+> >>
+> >>      for (i = 0; i < MAX_PHYS_ENCODERS_PER_VIRTUAL; i++)
+> >>              if (dpu_enc->phys_encs[i])
+> >> -                    intf_count++;
+> >> +                    topology->num_intf++;
+> >>
+> >> -    /* See dpu_encoder_get_topology, we only support 2:2:1 topology */
+> >> +    /* We only support 2 DSC mode (with 2 LM and 1 INTF) */
+> >>      if (dpu_enc->dsc)
+> >> -            num_dsc = 2;
+> >> +            topology->num_dsc += 2;
+> >>
+> >> -    return (num_dsc > 0) && (num_dsc > intf_count);
+> >> -}
+> >> +    connector = drm_atomic_get_new_connector_for_encoder(state, drm_enc);
+> >> +    if (!connector)
+> >> +            return;
+> >> +    conn_state = drm_atomic_get_new_connector_state(state, connector);
+> >> +    if (!conn_state)
+> >> +            return;
+> >>
+> >> -struct drm_dsc_config *dpu_encoder_get_dsc_config(struct drm_encoder *drm_enc)
+> >> -{
+> >> -    struct msm_drm_private *priv = drm_enc->dev->dev_private;
+> >> -    struct dpu_encoder_virt *dpu_enc = to_dpu_encoder_virt(drm_enc);
+> >> -    int index = dpu_enc->disp_info.h_tile_instance[0];
+> >> +    disp_info = &dpu_enc->disp_info;
+> >>
+> >> -    if (dpu_enc->disp_info.intf_type == INTF_DSI)
+> >> -            return msm_dsi_get_dsc_config(priv->dsi[index]);
+> >> +    priv = drm_enc->dev->dev_private;
+> >>
+> >> -    return NULL;
+> >> +    /*
+> >> +     * Use CDM only for writeback or DP at the moment as other interfaces cannot handle it.
+> >> +     * If writeback itself cannot handle cdm for some reason it will fail in its atomic_check()
+> >> +     * earlier.
+> >> +     */
+> >> +    if (disp_info->intf_type == INTF_WB && conn_state->writeback_job) {
+> >> +            fb = conn_state->writeback_job->fb;
+> >> +
+> >> +            if (fb && MSM_FORMAT_IS_YUV(msm_framebuffer_format(fb)))
+> >> +                    topology->needs_cdm = true;
+> >> +    } else if (disp_info->intf_type == INTF_DP) {
+> >> +            if (msm_dp_is_yuv_420_enabled(priv->dp[disp_info->h_tile_instance[0]], adj_mode))
+> >> +                    topology->needs_cdm = true;
+> >> +    }
+> >
+> > Just to note, the needs_cdm is not enough once you introduce CWB
+> > support. E.g. DP/YUV420 + WB/YUV case requires two CDM blocks (which we
+> > don't have), but this doesn't get reflected in the topology.
+>
+> Hi Dmitry,
+>
+> Ack. I can add something to make atomic_check fail if the input FB is
+> YUV format and CWB is enabled.
 
---gufllnff6auc6cvc
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+I'd prefer for this to be more natural rather than just checking for
+the DP && DP_YUV420 && WB && WB_FMT_YUV. In the worst case, count CDM
+requests and then in RM check them against the catalog. But I had a
+more logical (although more intrusive) implementation on my mind:
 
-Hello,
+struct msm_display_topology {
+    struct {
+      u32 num_intf;
+      u32 num_wb;
+      u32 num_dsc;
+      bool needs_cdm;
+    } outputs[MAX_OUTPUTS];
+    u32 num_lm;
+};
 
-On Thu, Sep 05, 2024 at 08:44:00AM -0400, Alex Lanzano wrote:
-> +static void sharp_memory_crtc_enable(struct drm_crtc *crtc,
-> +				     struct drm_atomic_state *state)
-> +{
-> +	struct pwm_state pwm_state;
-> +	struct sharp_memory_device *smd = drm_to_sharp_memory_device(crtc->dev);
-> +
-> +	sharp_memory_clear_display(smd);
-> +
-> +	if (smd->enable_gpio)
-> +		gpiod_set_value(smd->enable_gpio, 1);
-> +
-> +	switch (smd->vcom_mode) {
-> +	case SHARP_MEMORY_SOFTWARE_VCOM:
-> +		smd->sw_vcom_signal = kthread_run(sharp_memory_sw_vcom_signal_thread,
-> +						  smd, "sw_vcom_signal");
-> +		break;
-> +
-> +	case SHARP_MEMORY_EXTERNAL_VCOM:
-> +		break;
-> +
-> +	case SHARP_MEMORY_PWM_VCOM:
-> +		pwm_get_state(smd->pwm_vcom_signal, &pwm_state);
+WDYT?
 
-I'd prefer using pwm_init_state() here instead of pwm_get_state(), The
-former only depends on machine description (probably device tree), the
-latter depends on what happend before to the PWM. While it probably
-doesn't make a difference in practise, the former is more deterministic.
+>
+> Thanks,
+>
+> Jessica Zhang
+>
+> >
+> >>   }
+> >>
+> > --
+> > With best wishes
+> > Dmitry
+>
 
-> +		pwm_state.period =    1000000000;
-> +		pwm_state.duty_cycle = 100000000;
 
-Unusual indention.
-
-The device tree (and also ACPI) defines a default period for a PWM. If
-you used pwm_init_state() -- as suggested above -- you could just use
-pwm_set_relative_duty_cycle(smd->pwm_vcom_signal, 1, 10); here.
-
-> +		pwm_state.enabled = true;
-> +		pwm_apply_might_sleep(smd->pwm_vcom_signal, &pwm_state);
-> +		break;
-> +	}
-> +}
-> +
-> +static void sharp_memory_crtc_disable(struct drm_crtc *crtc,
-> +				      struct drm_atomic_state *state)
-> +{
-> +	struct sharp_memory_device *smd = drm_to_sharp_memory_device(crtc->dev);
-> +
-> +	sharp_memory_clear_display(smd);
-> +
-> +	if (smd->enable_gpio)
-> +		gpiod_set_value(smd->enable_gpio, 0);
-> +
-> +	switch (smd->vcom_mode) {
-> +	case SHARP_MEMORY_SOFTWARE_VCOM:
-> +		kthread_stop(smd->sw_vcom_signal);
-> +		break;
-> +
-> +	case SHARP_MEMORY_EXTERNAL_VCOM:
-> +		break;
-> +
-> +	case SHARP_MEMORY_PWM_VCOM:
-> +		pwm_disable(smd->pwm_vcom_signal);
-
-What is the objective here? Do you want to save energy and don't care
-about the output? Or do you want the PWM to emit the inactive level?
-Note that for the second case, pwm_disable() is wrong, as depending on
-the underlying hardware the PWM might continue to toggle or emit a
-constant active level.
-
-> +		break;
-> +	}
-> +}
-> +
-> [...]
-> +
-> +static int sharp_memory_init_pwm_vcom_signal(struct sharp_memory_device *smd)
-> +{
-> +	struct pwm_state state;
-> +	struct device *dev = &smd->spi->dev;
-> +
-> +	smd->pwm_vcom_signal = devm_pwm_get(dev, NULL);
-> +	if (IS_ERR(smd->pwm_vcom_signal))
-> +		return dev_err_probe(dev, -EINVAL, "Could not get pwm device\n");
-> +
-> +	pwm_init_state(smd->pwm_vcom_signal, &state);
-> +	state.enabled = false;
-> +	pwm_apply_might_sleep(smd->pwm_vcom_signal, &state);
-
-Same question as above. If you care about the output level, use
-
-	{
-		.period = ...,
-		.duty_cycle = 0,
-		.enabled = true,
-	}
-
-> +
-> +	return 0;
-> +}
-
-Best regards
-Uwe
-
---gufllnff6auc6cvc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmb0e1oACgkQj4D7WH0S
-/k68sgf+KYIiaD1KzjAI6h4LyzOtgTo4g9sAIrf/9XEfC8Ym5WDznk4zxlf18J2J
-jfvTI4VtUF6UvCcEQASWeyHcRnhLnWFa0ZL+qGcMNb+vkXkQcFtToUPA8urOSGM7
-KeXUFqbrZ9S3u3TKtBJ5NJRbyu+AtU7W/VQn2FVf8AUPuzuJpltmw7YfWdbHgG6H
-QZUlQzzAIqtD+MVMp2r3zWFQXiIdoBVtahQMv672eU10Fx+wRiwgL10swYM6MWKd
-uNK998JsuZV24+I8w/2gNAprjRl+0cI5k4v0oS4hoV97m3+7+3KBQsWZW8sp+oSY
-lZPkNJXisBhHLM+yBvp5M3FJWULTaQ==
-=MZIJ
------END PGP SIGNATURE-----
-
---gufllnff6auc6cvc--
+-- 
+With best wishes
+Dmitry
