@@ -2,155 +2,166 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67F5F985F36
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 15:52:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86CB3985F97
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Sep 2024 16:01:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 784CD10E0D7;
-	Wed, 25 Sep 2024 13:52:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEB6210E0E3;
+	Wed, 25 Sep 2024 14:01:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="M/pcgM8S";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="a9aSFuxU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2081.outbound.protection.outlook.com [40.107.236.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9274410E0E3
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 13:52:51 +0000 (UTC)
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2068.outbound.protection.outlook.com [40.107.223.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3865D10E0E3
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 14:01:20 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RFUxdIzwLDaubw2MKvNK38PWLB5eWJZKstqWzhrdndHhEyVLE8Puepmdsj4ZwBhIC9jVbkR0CCsCkP1eyFxjIFqewA2Lgvd1itO/w5jtJ4o2PJgJAlGSCOy9fYSxRWKvNZ7p0Pw5V84TPOtERoCYxBA7SEtW/tUBnULrrj3Q7PTNXmj1BSaYTgqe5xocxWJmwmuxTuDmeFi/jvzL9u+l5wDOwoqJ/hd3cT0GZvALjwXSJLkjl00ZpkGUT03P8p91yzoCGGiZ9i0bDA+1u6NvJc2TSvqMXIt58bvkcBeuJcG9TFdV2Ja0tGcjHh8TQXGyeF7Qul48hgatnS6l/AoilQ==
+ b=tzDRP2m3dqCxd7MD+GsZkC6l5osAWkoYimsHeY9op+cNAgfD7je57Cw2ocrxixQ+MwO/Uf1ZxHA4hWTxVPXlrio5VWehfDfEY4ZCByT9YKWShvOS6F6KJKKLTnj8YiysAV8seBLBsuVws7CkFLlpwaR82lHkWWgfr8UWw6nFvciLv+ZO63MnKdf6ER8Ay5u6PoKMK4SnnHi5s/mWcqAjexcEMCkBiiifw0Cmkd/6CtPzEoOVHxVXP0pFKOyD1bJZfKHe3on6GEyYQrcuXNKSJg7HwaHISY6wYV8Lxctv4qsX0DptZ9Gae2kDqI9XMKTWeBmPzoXSHJm0dCHp3eVvaw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=L8pz+FVSBrup+VEm83dyfiBImmKM8zwCQP7fWfYh1YU=;
- b=OxXn9HyAOjuual1MTc1StVMiK0+igysvuTYd3NpKmQs33zBLM2K7sGXFFPmP0Kiy6Vhvh7pt9lHPwH2aA4T+6yCLLoJ1drGaK3HEBrWo9Yk5E//mdIW6YAHtnQkCEYKCEk8manOw2Vo01qCSNPk3q8wmf5ALHo8bgufpIPOC4ppFGYrn06rgsC+nBFJH3pxtxS8EiMYervQtsqsL9gtR0FXpry7nYfVJ5rsY9oLb/EgftbEF+Kj3v11edKWy3F037Ln6OoLzO0ANywlCYGq5jlXfgy/tORCvSY/l/AiFNfk8ngJkvVsL/vCGaQ6iY+LofQ+agOjezEeMYgaOkDOs/Q==
+ bh=vmuXmRpRuH4oJYMpKsSqgbjubRXCwOGnZt0tQMTWR7A=;
+ b=zV5CpB1S5rPpOZe+jVIUFWOei5ErjIU/UsflX1F1yFHlp9wO330Y+x3P2lSxx68/kRNAJFStdwV7Rrmlndm19STAi1hVJiHgFQqaja/WbPkkRrMrFSFnEzxQsTnGPCyJnMCdYQFcIdY2mVFOVf1jELAl2N8A0j00svkG28xCL5/bggO65FqOYH2/7M7wGFkpI/5vNl1wxSXM55H0B6+S99f90vfgtJ1HbudSikrcOOtf3C+NqtchOGa+phY3ZVBfkhM/PxMVOvSC5z6pIEscRLjNpk3N5J5/B6alXxU1FLGdBB2aveAdldbBwY8+T+7tRY1CwMHtSc7GTl5mdTtX3w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=L8pz+FVSBrup+VEm83dyfiBImmKM8zwCQP7fWfYh1YU=;
- b=M/pcgM8ScpWjbXEduWhOrrb8GmYPDrp+qdUFh94PiTmQEJ5tHJ5dlszY2/sXuk7ZU+iyHcj+ToPJzhJ3zOeZ33m7CwPjolupQAFC919y6FnW2tWX3Ed3mvaWLajv0ayQCeGPMtDU8oeJZ6uOXw+Vcca/k9dn3VyxDa+5O4nRKeEnGdNFFd4k+fQrKMce0hr0nZZSfBrwXRBPRVThdfXwjVLnfbS0g2FxA701iwhOohnSeKZDHv6xvn861Lcgwq5An7jRpFVHonFIe7/8rlHJBJz7Wtxrq25wL1/ij1YrRzArzQL0edYI80/Ar9yMFcACGOMw4UZJzz+8h3GTtGzdGg==
+ bh=vmuXmRpRuH4oJYMpKsSqgbjubRXCwOGnZt0tQMTWR7A=;
+ b=a9aSFuxU5TlOPqskDDN4WkLJ/THde1P3cuZTjAiErxNZS5+BwRaVjcPnMTo+4J/U2JdSsrR7XFFG2lHZWiEKAAIPYBLJJmCEx0TPB/yJGJiQHUV/xxugf7QVyrSxTny+GqLYjyhSGjd3jHNwqGqy+Df/g7+qDfb4KJF2EW/eWTQ=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM8PR12MB5447.namprd12.prod.outlook.com (2603:10b6:8:36::7) by
- MW4PR12MB7312.namprd12.prod.outlook.com (2603:10b6:303:21a::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.25; Wed, 25 Sep
- 2024 13:52:47 +0000
-Received: from DM8PR12MB5447.namprd12.prod.outlook.com
- ([fe80::5f8:82ee:7da9:219b]) by DM8PR12MB5447.namprd12.prod.outlook.com
- ([fe80::5f8:82ee:7da9:219b%4]) with mapi id 15.20.7982.022; Wed, 25 Sep 2024
- 13:52:46 +0000
-Message-ID: <69683d5a-e2f7-4603-be44-7a6009e8fdcc@nvidia.com>
-Date: Wed, 25 Sep 2024 14:52:43 +0100
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by SN7PR12MB8148.namprd12.prod.outlook.com (2603:10b6:806:351::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.29; Wed, 25 Sep
+ 2024 14:01:17 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%2]) with mapi id 15.20.7982.012; Wed, 25 Sep 2024
+ 14:01:17 +0000
+Content-Type: multipart/alternative;
+ boundary="------------HQQUdO8cZe0QSVOFB8ZQ2Jw0"
+Message-ID: <04caa788-19a6-4336-985c-4eb191c24438@amd.com>
+Date: Wed, 25 Sep 2024 16:01:09 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] gpu: host1x: Request syncpoint IRQs only during probe
-To: Thierry Reding <thierry.reding@gmail.com>
-Cc: Mikko Perttunen <cyndis@kapsi.fi>, Mikko Perttunen
- <mperttunen@nvidia.com>, dri-devel@lists.freedesktop.org,
- linux-tegra@vger.kernel.org
-References: <20240531070719.2138-1-cyndis@kapsi.fi>
- <f0720898-aadc-4e98-9369-05ec5821414f@nvidia.com>
- <18b6c018-618d-42e6-81f4-48bfb4eba206@nvidia.com>
- <tsq6hbbeyxu5uqasx6jijijvxfomnxj4c2qakf7lmd2eut2zbk@z72tkzlzlfu6>
-From: Jon Hunter <jonathanh@nvidia.com>
+Subject: Re: [Linaro-mm-sig] Re: [RFC PATCH 0/4] Linaro restricted heap
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Cc: Andrew Davis <afd@ti.com>, Jens Wiklander <jens.wiklander@linaro.org>,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, op-tee@lists.trustedfirmware.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ Olivier Masse <olivier.masse@nxp.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Yong Wu <yong.wu@mediatek.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T . J . Mercier" <tjmercier@google.com>, Sumit Garg
+ <sumit.garg@linaro.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+References: <20240830070351.2855919-1-jens.wiklander@linaro.org>
+ <dhxvyshwi4qmcmwceokhqey2ww4azjcs6qrpnkgivdj7tv5cke@r36srvvbof6q>
+ <d8e0cb78-7cfb-42bf-b3a5-f765592e8dd4@ti.com>
+ <mzur3odofwwrdqnystozjgf3qtvb73wqjm6g2vf5dfsqiehaxk@u67fcarhm6ge>
+ <e967e382-6cca-4dee-8333-39892d532f71@gmail.com>
+ <lk7a2xuqrctyywuanjwseh5lkcz3soatc2zf3kn3uwc43pdyic@edm3hcd2koas>
 Content-Language: en-US
-In-Reply-To: <tsq6hbbeyxu5uqasx6jijijvxfomnxj4c2qakf7lmd2eut2zbk@z72tkzlzlfu6>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO4P123CA0247.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:1a7::18) To DM8PR12MB5447.namprd12.prod.outlook.com
- (2603:10b6:8:36::7)
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <lk7a2xuqrctyywuanjwseh5lkcz3soatc2zf3kn3uwc43pdyic@edm3hcd2koas>
+X-ClientProxiedBy: FR3P281CA0180.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a0::13) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM8PR12MB5447:EE_|MW4PR12MB7312:EE_
-X-MS-Office365-Filtering-Correlation-Id: c5192cd0-c70f-476a-7a87-08dcdd695628
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SN7PR12MB8148:EE_
+X-MS-Office365-Filtering-Correlation-Id: 46565238-d676-4b66-0c29-08dcdd6a8656
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0; ARA:13230040|376014|1800799024|10070799003|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?RU1Ua0pwTFM5RHdQQ3liTU1xS1Frb3RwNXczNmZxNlltYU42T1htWUVBTTYx?=
- =?utf-8?B?ajIxU3poUjlRdldhcTNSOXp1VStaUW5QM2N2Y0t1cW1ZZ1gxby94ZTQxcmRV?=
- =?utf-8?B?bUtxK2FWU3RYeHNuT1NPZVpMNHJsbzZDWm9STnd4L09kamZRNE1FcHZ5T0tB?=
- =?utf-8?B?Z2FCV2hya3dPSUhhYXFJYWlXd2N1dHRyTHBQV05pSVl4Tm94T00yVEoveC85?=
- =?utf-8?B?enlYZEtEQ2ZoWWY1QTVDbkc5Wi9BOUQvenlaQWI3TFZ1QUR0ZW5IekQ1VGU5?=
- =?utf-8?B?TlNXL1J6aFRNWnZQcExkZ3pnMExaSlZIcmxFUW9kd00xS2xWZmFVd1F0dzhQ?=
- =?utf-8?B?Uk9YdVFxU21ONGQrTUdzMmV3MGs0Q1JPRVVTWGZmNUoyQ2VEc1NtRThxRFVh?=
- =?utf-8?B?QldudjFFN01MdUllRzBncHh2UjFDRmpiOEtRMXdvSWFkM0t6OWlGYjBGYUla?=
- =?utf-8?B?REhubWlYUGRwSWRaT2tLYlE4NDNqcXlYandWbHNhUktEYWN0OCtKRTRYY1Ar?=
- =?utf-8?B?cXVGcFRaM2ZaU1oxS2NIZjFjdmJYZWsyU1VsdUpwRUYxVCtXVTVzU1p3d0U1?=
- =?utf-8?B?VVJQWEdlUG5maEIzY2l0MkFmNkk0NEhkV3RORHVHUTRTcS91eWxIVEVsWFF4?=
- =?utf-8?B?NzNJTHB4aWxpSGdFclVjdHMyWWRHTWs4cDR4bllqeFpsYng5YlVnKythaDNn?=
- =?utf-8?B?MFhReitGdEVaNm5pbXBma3FRT2pmblZLQWZvTWJJMjV2OTVLZkdYRmlIRXA0?=
- =?utf-8?B?Q21lZUM5K3RFbmh2V2YxeEk2NE4xTGFMbklMb095U0g0OTFad1JXTHYvVEpk?=
- =?utf-8?B?V09UTkVObEVSbHRpQWRwSEF2aWV5aXFVbVJtYnpRZFd3NzVrNHNxdjJPL1JD?=
- =?utf-8?B?dEFCQmplRklxYlk0NXc0anRoNzBGOG5Ub2ZoOHBPQnJQN1B3dmdPd2trSElm?=
- =?utf-8?B?bzVQOFU1VlF1ZllKU0djZi9haDI5c3AzQ0cvY1dudkd6bGlEamJFMmhYR01l?=
- =?utf-8?B?NHB2TFVxS0dFK2ZCRklQL2xpZHQrZnArd0ltNDJXajdwZHJyeE9MLy96SGta?=
- =?utf-8?B?SUVZMm13WHRBV292THA0M1hmQjN4MEx2aEJPVjJtekIyY2k1NnFHUFI3RnFC?=
- =?utf-8?B?YkwwQjNFZ1ZjQ2ZFOUtoajZxQU5RalRBOXhqUHE2elM4Z1pjMmtaeTJpcEY4?=
- =?utf-8?B?VUErdS9yTmVVQUpIOEhKendmRWJhK0hnK3NiZC9ZamVUTmF0czVjcWE3Y2NR?=
- =?utf-8?B?SGdsQ0k5eHF3aFBpdU1waGZxSHNDNEpmaWt5QnFrRmxsZm12VytkUEVUaWl3?=
- =?utf-8?B?dkRtZ010WFQwMTQybHFPbk15T1lpSDRFdExnNjBRbU1QSTYrOFpKUC9oMVZG?=
- =?utf-8?B?eFlVZU12OUhPam1mSy9VeU5OWnZ2QXRCSERxWWtNRE1lNzd6YTU5WHRiZmhj?=
- =?utf-8?B?YTBULzhPbFZxaUozeW56YVZqQWdmYk1wUG1pMGFTM0dtV2NndVFoKzRqNDZh?=
- =?utf-8?B?bkh1NWxwNmhGVFE2MGVlMFNhSUo1WVV4YmdDVnFad0szM3FXQWRDdkc2SVRj?=
- =?utf-8?B?bHY3VFo4MVhyUDBMQXhpdTJaN2tmMnJLUmw5UHRsNGZQQlgyTlZPM0ZHVUdz?=
- =?utf-8?B?TWtuU01uVWFYSDVtM09RWDZ6V2pHMW1LVUwzL05Hb1ovakNCOUk1Qllrd01W?=
- =?utf-8?B?ZEt3OU94VWo3bW1EQU1xVEhZSmNhY216RHlWTWdSR09NaU4yV2lXWEwzRFp4?=
- =?utf-8?B?MWxxcktUbWZNM0VNRjF6TUtNQmlOaDYwRXRzTjEzSncxTWlwakNqdzloTmJB?=
- =?utf-8?B?eFA5SGE0UlJ0czV6Y0NOUT09?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?SEFaVUxGNU5aZWd2N1gvOG5XVzN6c0tYNG9yb05wYW1aejViQlN2aStHSE1a?=
+ =?utf-8?B?RXlISXVJWmVYK2kvSlBwcGFqTUdqZU9YMFZCRlFSeTI0QUFhR0VDOHdWYmNM?=
+ =?utf-8?B?M0NFQzQwYXNQNlc2U0dTbzdMUTI2T25zQlY2MzJJakMvTXQvLzF5MTZ3UE1I?=
+ =?utf-8?B?d09neXhZNXBocFRWWkQ5cERhYU43RUFKZ1NNSXFENGhyNS9ZRW9KYmdFTld4?=
+ =?utf-8?B?NCtkQnFzNzNlRnpnaXlaUStsY1k2Z1lWL0p3ZEhKS1Z5YWx5WSsxdkw0V3RY?=
+ =?utf-8?B?YklBZFQvQy9GYS9lVk1RUFdtb0FrbHJWZGg2c2ptc1NxVnZlTVdrTXRWK3lj?=
+ =?utf-8?B?YWYyQjN3WERmNXloOXZTQ2szVXVBR2JFbDFEQ3JhVmJHekFwQTRMcWFtcUZR?=
+ =?utf-8?B?eTRnZU1HK0VsL29ZamVxc0prMGdQRlkyVENIcGdPVVJadDhvckMyRGgrZUU0?=
+ =?utf-8?B?cE4wV2JmVTlPV1duMmc4MTRsM2hJcDByaEwvZmpkQS9FeHd3cUNlRjYxQits?=
+ =?utf-8?B?b2FJYzRlQWUzbUJwWXRwaVdaT2l5UWN1R3h2RFRBVDB0bzlWVGx1S0ovZmt5?=
+ =?utf-8?B?V0FkZXdVSmFBenllaVM2M3kzdWM3VHhYZ0pyVXZRMWxuM2t5dlBlRjVBN0w2?=
+ =?utf-8?B?Z3c3dTEvcVNCUDcwaDNoMmJIZnN0VklSQ1BRU1ZPdmsweFJOMzhkZVVndEVJ?=
+ =?utf-8?B?Vk5NMW5pbUZNajN3OW5UdVB3S0NOdnBNZjFkNE5oK01yN0hPellEN1FhcFVD?=
+ =?utf-8?B?Z1JCMnJBeS8rUStpb2FVVjNmUWV5enY0RFEvR3h0N2NIWHVWN0Y3K0Fhbml1?=
+ =?utf-8?B?eThQdXI4KzJtRVhLSURNQW1jdmJCRGtKS3FEeGxhM2VrYXl0Sm55MzQzWHFM?=
+ =?utf-8?B?Q0NaeDRPYWUwbkxQQThQd2w5MXduZlpadkljUVVtQ0N2ckE5QkUrRi9tS3Y5?=
+ =?utf-8?B?T256TFFLL2MxbjhMUzVxWnJQMmZLTGRQN3JWNnpMck5BV3ZoN0FPRjhnTk10?=
+ =?utf-8?B?eUloeWZMbndvM3pXQ1htN094ZERKaGl3OGExaXIweEF1U0F0SFFmWGk3d1pF?=
+ =?utf-8?B?RG9IS2xFV3VmZzJDcDVSWklEOWhxSGRvaWVNb2dHSFhQSXF2ZjNEV3Zzc2xS?=
+ =?utf-8?B?T2V0YnBPN0VWM2lwUmgxekF6S0ZEUnZnNzRzeDk4NmliVFNBdUlCZ3VpVkVN?=
+ =?utf-8?B?MGY1S0pBSDNyeFdLZFVXRDR6WWxneEc3WVVNRG1GeXpxbko3dldJZzQwanlH?=
+ =?utf-8?B?b0hpNTZranBOcVlUNDVXcGVnMzlucGhQc1RzY1RMVTFidXExVktCUW9zWFNO?=
+ =?utf-8?B?a3pzSGVqY3VmaGNPUEE5YnhzOTFPcWpxWnJ2ZnpQUTBlaVpoMjNNZWZrQ3RZ?=
+ =?utf-8?B?Y2RMaUlKU1RtVDBSZVJFYWhBN2pBRVJaN3Z4SVc2Y0pIanVtdDJJaXdpTTcw?=
+ =?utf-8?B?RTlBamFROVRMWWwzYXhqMFhRbFlvMFdud2JXT3A3MyszWDJQR2pSVVRrNWxJ?=
+ =?utf-8?B?dGxvTVN6cWU2RE13U3kvSmFoM0VQTHEzU080QmtwV01nSExSVW52dXI1cHJM?=
+ =?utf-8?B?aFo2UUZQODI0ZjUwWFZLb0xEY2NCa3RycnpoaFI1Z244clhrN3ZkMFBrMHJz?=
+ =?utf-8?B?RmVjWi80RHVsMWNOWHVieFRORDF4Qi8zbVpSL1NWeXN5aHhmWm9MN1Fyd1Jh?=
+ =?utf-8?B?Qk5rakNDR21TSnJaeUsvVjVKWm52QkJ0c3BqZU16VUFYdERwd3V0aXBRPT0=?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM8PR12MB5447.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(10070799003)(366016); DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(7416014)(376014); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dW5xS1JHSXJCVHRGc1dwZXBzaTBlMGw1ZC9ycVRTZmtNNFJhREY0Mjg4dUdQ?=
- =?utf-8?B?VzB5MCsydDJlSmtoSmY5cDlHNGZNaWVzTE02M3ZiRzVPbGo3d1RiNE1hUEEv?=
- =?utf-8?B?U1lreUdZRTFJWGhqRHY0WHlUdkdzTEg5elNvUjZZK1Q5UldmVGg2WnB5bFNm?=
- =?utf-8?B?OTh0WlJKc2Y2ZWNwN2VqMkxia3hzVEdCNGhGWjNKd3JtMTJRMkpzRDdoVkc5?=
- =?utf-8?B?K2RRS1dHYVZURnpqSFNVMjZjRGtDbU82TW5kRXBKQ0ZRTjMyL0ZsdWh5Yjkw?=
- =?utf-8?B?ZDFyT3B4RXgwRDQ0UWk1bXMzS0RjSEhLVUNJQzJQckdaYitjeEs2ZDBTYnd3?=
- =?utf-8?B?QkFKSFFyd1RiTEZqbWM5U1VOd2IzMnhKMW0xaFQrbmVHMHlqd1hBeWE5Nzk1?=
- =?utf-8?B?WmVWNko1UWRaM0VGaG14M3F1MlBrMmY2clFaZ2tBVW92emQyOWpVM3kzTjBH?=
- =?utf-8?B?eEJPSll3dkJRR3VXcWM3ZUdtRHh6VHNOSVlHOW5hd3lBanZ1ZUVCM28xaDN1?=
- =?utf-8?B?THJEbExCNld1bGF2UnYwdEhFZVRrWmU1Y0V1VDdnUURVZHlDUm5hd1UydGwr?=
- =?utf-8?B?ZE4zUEJoYzBQYlZGSDFpc3l1SDBzOXd6eGdWZG5SVkVhVXN0WnZSazk4NFQ1?=
- =?utf-8?B?TXZ3WGdpaFN4RFFOdmRPVjJLaUVQYzZRVnNwMng0bUdzcTNJNHdxbHdkMlFr?=
- =?utf-8?B?OGZoVGVRWGFlS0F3clNuanZDT0JiSjZGeklPbWxTK3l1Zlk4RHQybmVqdHJ3?=
- =?utf-8?B?OThpRU9yZldrTGsxUCthN3RaOXpRSFIxQVNTdzg2WkNCU2FoZEg5ZDFBRDl5?=
- =?utf-8?B?WHVpWENnOEJZMm5HYXhqaHY4a1BqTko5cUVabVFIOHIxeGsxTUtCZUhQckZC?=
- =?utf-8?B?Ymw1S3Q4Ym5pbGtySVhWZExkRHhlZEloN0tmdlNpN05GZzFsd0l3a0JHSGtY?=
- =?utf-8?B?MW9LSXUxQ1VlSUlUbzE3Q2xDSUc3aldnb2pKVUJHditFUGxheU1yaG5oc3BD?=
- =?utf-8?B?Nk1zN2wzcCtsRCtaWnpuRnN5N0NHMEd1RW5KTm9TNUd1bDB6OHVuRXVNdzN0?=
- =?utf-8?B?YVZLcnBBbWZlbFNKdzl2QXB3cUxFVWE3SFJhWjhNbjlndGpLQm55YzFvQ3NQ?=
- =?utf-8?B?OGdmbGw2TnZlOVdzTXRUbkFVNnN2ZVFsQzE0T0daT0lWK0t4V0Q3SHV0Nm5a?=
- =?utf-8?B?cnVnVFNmRXlWM04vNHgwTWdwU3M3YXpkY0NZUTd3Y25NVml4c1Y3cTArQWZS?=
- =?utf-8?B?TjBnc3BpRjNlVVV6TU5tczZLZ25BdTUrSENQV1RPbXUvd0VRYWpzNy9YYWJ6?=
- =?utf-8?B?T1RCSDhFNVZsMGxpSzN3V2hZOGJCWmpMdkRCa0FvdDlyMUJEbWI0TFZnOFAw?=
- =?utf-8?B?Q3ZQa1RSU21zZm5ITko1SG85YXdEdzRMbzBoMUsxQlFkbDJMRms3UnZlckNy?=
- =?utf-8?B?anJ3R082M2JSVXdqeFM1bzIxdCt5bUdxT3U5TUJHYVhHL2RtaWNjdnpDVW1D?=
- =?utf-8?B?R1NtdG1iQzRGeGp1NXpqc3hCMXcyT3U2dU1YMmZFM29WOXUzY3JLRFgvVnF6?=
- =?utf-8?B?NmQxZzN3Q2ZGZTllL3hycjY1QVh5czZSN3JYdW45M0FWeGtpMUZzQ1NKVExy?=
- =?utf-8?B?dEJrZ1k0Wm9Wd2ZnRDV6R0Y1QUhUMVNqa2MyZW8xV2ROQXJMbnhVK2N3YWFQ?=
- =?utf-8?B?cG9zNDNYeGN5K1ZpaDBka09xS2hVbXpUUHhZdExpZDFBZXZkTmRIK24zQWlE?=
- =?utf-8?B?YzJUaEQ4SmVCMElCTTdVazdYMXc3T2VVKzFpb214S0FjeWxoL1gvSmRUOGRu?=
- =?utf-8?B?dEozZ1NCd0tzKzAyUlhJL25VL0xoZ2k4b2hZNGN5UGFWeXBZaHpRWWN0ZHl6?=
- =?utf-8?B?aHNlQXB6eDlPU3liaG1NdUt2bUsvZHp3bThsbVBpVXBEU3puYmFCcUh3NHZU?=
- =?utf-8?B?dko2dCs2SE1WVUZwTjJOZHh6QlQ5SUFZTzVwVklWS0hJMThZYkl5M2VIQUQ1?=
- =?utf-8?B?bTlUZ0pxUFJ4dVR1RmhmNWhpS0VKcEhKcXp2TkdHTVk0UnlLenhtSTdLbTY3?=
- =?utf-8?B?MSsxYUxUbGZPcWFQV2lKZzE3ZjVBU3N6UHE5bXFsMVBXTGR1ZFR4ZnNwZFor?=
- =?utf-8?B?akhJNlZvcGtyc3FhZEVHeFRDUWsyK0NnMnpZc05waGhnTlRDTFY3YzB2ZjNK?=
- =?utf-8?Q?Yys1wWGqnadcB77iQjHlL9HOlLsSKomXB5cEfeyoaS8K?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c5192cd0-c70f-476a-7a87-08dcdd695628
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR12MB5447.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QmFqS29oV0plSEkwdm82c1VFYmlDTGNZV3FWSmlXTXV5NEVUNURZZ3dHazhz?=
+ =?utf-8?B?MUwrazFyWVlCZW95L2RPZHdkV0lhYU1naWFOSnV4U0EyTkRram9hUzJ2OVhE?=
+ =?utf-8?B?UTh3eXlqOWZGTU9SekN4QmhnczFkQWNLVVVvK0p6T2Z1dXZEcXNXdjJTeDQy?=
+ =?utf-8?B?M1dOWk9TcytCbmxEZ1BoeFhFMjdkZ0lGUkZFZStIWHdvSE5HbEhtY2NMRHpi?=
+ =?utf-8?B?L3NtNTUvdVhtU2xOcjh3Ym5VNXI2bFVQdzRpUDU1ODVzSHV4TjVRWDRiamFL?=
+ =?utf-8?B?eFZRbUtxZVVLMmtqR01QbklKejdZNWo4SmcwaDFBVkhBazBIZ05TVG5FOWJH?=
+ =?utf-8?B?d2VKS3N5VU5PT1RTWDFWTEIwMVFqMEFQLzlFZy9ibHA2UUFrYUxpMzU4dUlT?=
+ =?utf-8?B?WEM0a3pBMXZsZ3hBZEo0NXBEbjQzeUtEbnFnd3FDL0NBeGozL3FZM1BQK0VF?=
+ =?utf-8?B?Y0cweU5UcVVLa09jU29WcVQ0S2lpSW1nVEhxWTJwSGovUm5rOUZ6ekdoeFI2?=
+ =?utf-8?B?K2xtK0xGOStCMER6dXRZUXhhQXQxTmdSclFYVmkrWTdRam55NWZxb2VUaUFh?=
+ =?utf-8?B?UWNXQXdiUi9aWDdMcHl5bkpFSEZUWllkb1l2TDNCKzQrRWs1Tlg0STVNMHQy?=
+ =?utf-8?B?ZzhOdnlMMGpaU01aZzBXS2JwN1pyTVZNTEluN1R3YzdFZGdDSzlPUEJTSmJ6?=
+ =?utf-8?B?Rm5nRy9uUEdPcmJHMGN6TXgxejQ0QWEyL011ZFdLaWZKTWJRT3pZTExpVXA5?=
+ =?utf-8?B?WWZHQXFWZ0lXUklxQmc2Q3h5SzUrdStBSVl1eDNpczBwZEh3T3N2Q1dPS1g5?=
+ =?utf-8?B?ZHdrVURzWjFNMml0OGFEa1Q5dlUyOUQycjRqVUVONGI1MzVBb3dKd2REbWVW?=
+ =?utf-8?B?WlJwSW5mNzJPMDcrWXc0cW9DdFgrK1pFM2t2Nk45Y3UrTURtSHBVMmpEWHhz?=
+ =?utf-8?B?WTgxTGtJUWVaQ0ZHUWFCWG8zY3hrcVNQMnFoTG5rRW1vS09DNE9IVFVaWVFt?=
+ =?utf-8?B?YURqZFpqdjZvSnVibCtLOUFDbVN3bjdxM3NyQjdrN0xwVXI2T3BSYk00K1Uz?=
+ =?utf-8?B?MUJHVk1jL3lramZMdmhHdlkxNmdxSGp3VnA5WGc2b0UyQXRteEdacGlRQWVF?=
+ =?utf-8?B?TllDUUpZaHBSTXM1cnk3MFF6WE1wV1dHeGhqbVJrOWJrb01ub2oybE5qeWRx?=
+ =?utf-8?B?NGZmdmNQOGJYT0hyTEU5ZzhTczJ0RHJRL0NmK3NVUG90OGNremxYVDRNRlVT?=
+ =?utf-8?B?bjYrNys0ZEdoRHorM3pHc1QzYkRyZHNoQ2NLdWVjL29NaGMyU2NZalBsdGFU?=
+ =?utf-8?B?K3JVaGkxcE5ZRkh6Uk4zaE1aem9QQk9Dcm5WWGFmaE9DSGlyUm0yUGRZUURD?=
+ =?utf-8?B?QktmN3N2eTJMOUU1N2pHanRpZGM3MkNITDZpOHJRazRLLzBrQ0hqTTdaK2ZC?=
+ =?utf-8?B?azFZZnR0T1ZDSGNkL3RNNVljNXFsOVpjTjFERkZPOTROS1hiYnVaTHFUT3ZK?=
+ =?utf-8?B?M1cxeVNZNzRoYmkwYlRFM3hEcXIyQ3h0NVpBN3U3QmRENHgyQ1pUNTlTRDE2?=
+ =?utf-8?B?NW9wbDNLc2ZCUk8rMURDTGF6MUJoRU5rWWlZZUcyVFBVUXVkbzVjNVJkc0Rp?=
+ =?utf-8?B?R3hZTVJmSEdwK3JrWmpuTy9QZHZNdlZQM0sxdWRvZ1BacGVtL3FBSlhxQVJQ?=
+ =?utf-8?B?cEtRVGkvMlJvQjVNSlY0ZGFnRXFqVDVNL2lheGZVRG5BUUQ3VHJmbzFpOTlw?=
+ =?utf-8?B?RUhBb082UXNOOTBJR0s5ZHE4RjBlRUVwYlJETTlNOVpUODI5dEE1eGtsRkpB?=
+ =?utf-8?B?TnlPUjdDaGFoTW5xZUNBKzBWRkNuM2laTFhnZmZrWlJoekQ3ZUdoTnFER3FU?=
+ =?utf-8?B?ZVdxMUlvQlVjVEluVmFlZ3gya3hOQnM5N29GcVpDV05hdlNkaHdDVkxHV3JU?=
+ =?utf-8?B?TEdmMk0rV1hLVXVibGtHc2VCNDMxeU5lODdaM0kvYzZyeXpHYU90Tkd1aWxY?=
+ =?utf-8?B?MnYySFZIemd4eTVVeXYyOGkvVVgrcjhMd3RxS0hwRnYra3FQSURUanF5ZUNO?=
+ =?utf-8?B?RjZCSlBwSm05eDlUTXVkbHozNUV2bUY3R1gxMUpXWHFOWkJJMFRhYzUzKzR1?=
+ =?utf-8?Q?i6Pw=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 46565238-d676-4b66-0c29-08dcdd6a8656
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2024 13:52:46.8653 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2024 14:01:17.2600 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: K16VxgC4RUaZtAOWeSogdkEzNYXKF6UpklJ2eXpNAHUs+R4B0Xyva19Gfpofn9qCJurlQrM/4JtHaUfFlAKj3Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7312
+X-MS-Exchange-CrossTenant-UserPrincipalName: eLvqUMO7ALwJmK8iovwH4nsd9XtrGML1YvKr7e/CzXa3gREk9GjvUwMKKuDrd7PR
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB8148
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -166,105 +177,276 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--------------HQQUdO8cZe0QSVOFB8ZQ2Jw0
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 25/09/2024 13:58, Thierry Reding wrote:
-> On Tue, Sep 24, 2024 at 07:33:05PM GMT, Jon Hunter wrote:
+Am 25.09.24 um 14:51 schrieb Dmitry Baryshkov:
+> On Wed, Sep 25, 2024 at 10:51:15AM GMT, Christian König wrote:
+>> Am 25.09.24 um 01:05 schrieb Dmitry Baryshkov:
+>>> On Tue, Sep 24, 2024 at 01:13:18PM GMT, Andrew Davis wrote:
+>>>> On 9/23/24 1:33 AM, Dmitry Baryshkov wrote:
+>>>>> Hi,
+>>>>>
+>>>>> On Fri, Aug 30, 2024 at 09:03:47AM GMT, Jens Wiklander wrote:
+>>>>>> Hi,
+>>>>>>
+>>>>>> This patch set is based on top of Yong Wu's restricted heap patch set [1].
+>>>>>> It's also a continuation on Olivier's Add dma-buf secure-heap patch set [2].
+>>>>>>
+>>>>>> The Linaro restricted heap uses genalloc in the kernel to manage the heap
+>>>>>> carvout. This is a difference from the Mediatek restricted heap which
+>>>>>> relies on the secure world to manage the carveout.
+>>>>>>
+>>>>>> I've tried to adress the comments on [2], but [1] introduces changes so I'm
+>>>>>> afraid I've had to skip some comments.
+>>>>> I know I have raised the same question during LPC (in connection to
+>>>>> Qualcomm's dma-heap implementation). Is there any reason why we are
+>>>>> using generic heaps instead of allocating the dma-bufs on the device
+>>>>> side?
+>>>>>
+>>>>> In your case you already have TEE device, you can use it to allocate and
+>>>>> export dma-bufs, which then get imported by the V4L and DRM drivers.
+>>>>>
+>>>> This goes to the heart of why we have dma-heaps in the first place.
+>>>> We don't want to burden userspace with having to figure out the right
+>>>> place to get a dma-buf for a given use-case on a given hardware.
+>>>> That would be very non-portable, and fail at the core purpose of
+>>>> a kernel: to abstract hardware specifics away.
+>>> Unfortunately all proposals to use dma-buf heaps were moving in the
+>>> described direction: let app select (somehow) from a platform- and
+>>> vendor- specific list of dma-buf heaps. In the kernel we at least know
+>>> the platform on which the system is running. Userspace generally doesn't
+>>> (and shouldn't). As such, it seems better to me to keep the knowledge in
+>>> the kernel and allow userspace do its job by calling into existing
+>>> device drivers.
+>> The idea of letting the kernel fully abstract away the complexity of inter
+>> device data exchange is a completely failed design. There has been plenty of
+>> evidence for that over the years.
 >>
->> On 06/09/2024 09:38, Jon Hunter wrote:
->>> Hi Mikko,
->>>
->>> On 31/05/2024 08:07, Mikko Perttunen wrote:
->>>> From: Mikko Perttunen <mperttunen@nvidia.com>
->>>>
->>>> Syncpoint IRQs are currently requested in a code path that runs
->>>> during resume. Due to this, we get multiple overlapping registered
->>>> interrupt handlers as host1x is suspended and resumed.
->>>>
->>>> Rearrange interrupt code to only request IRQs during initialization.
->>>>
->>>> Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
+>> Because of this in DMA-buf it's an intentional design decision that
+>> userspace and *not* the kernel decides where and what to allocate from.
+> Hmm, ok.
+>
+>> What the kernel should provide are the necessary information what type of
+>> memory a device can work with and if certain memory is accessible or not.
+>> This is the part which is unfortunately still not well defined nor
+>> implemented at the moment.
 >>
->> ...
+>> Apart from that there are a whole bunch of intentional design decision which
+>> should prevent developers to move allocation decision inside the kernel. For
+>> example DMA-buf doesn't know what the content of the buffer is (except for
+>> it's total size) and which use cases a buffer will be used with.
 >>
->>> This change is causing a boot regression on Tegra186 with the latest
->>> -next. I have reverted this to confirm that this fixes the problem. I
->>> don't see any crash log but the board appears to just hang.
+>> So the question if memory should be exposed through DMA-heaps or a driver
+>> specific allocator is not a question of abstraction, but rather one of the
+>> physical location and accessibility of the memory.
 >>
->>
->> I had a look at this and I was able to fix this by moving where
->> we initialise the interrupts to after the PM runtime enable ...
->>
->> diff --git a/drivers/gpu/host1x/dev.c b/drivers/gpu/host1x/dev.c
->> index b62e4f0e8130..ff98d4903cac 100644
->> --- a/drivers/gpu/host1x/dev.c
->> +++ b/drivers/gpu/host1x/dev.c
->> @@ -625,12 +625,6 @@ static int host1x_probe(struct platform_device *pdev)
->>                  goto free_contexts;
->>          }
->> -       err = host1x_intr_init(host);
->> -       if (err) {
->> -               dev_err(&pdev->dev, "failed to initialize interrupts\n");
->> -               goto deinit_syncpt;
->> -       }
->> -
->>          pm_runtime_enable(&pdev->dev);
->>          err = devm_tegra_core_dev_init_opp_table_common(&pdev->dev);
->> @@ -642,6 +636,12 @@ static int host1x_probe(struct platform_device *pdev)
->>          if (err)
->>                  goto pm_disable;
->> +       err = host1x_intr_init(host);
->> +       if (err) {
->> +               dev_err(&pdev->dev, "failed to initialize interrupts\n");
->> +               goto pm_put;
->> +       }
->> +
-> 
-> I think the reason why this might fail now is because host1x_intr_init()
-> ends up writing some registers during the call to the
-> host1x_hw_intr_disable_all_syncpt_intrs() function, which would hang or
-> crash if the device isn't on (which in turn happens during
-> pm_runtime_resume_and_get()).
+>> If the memory is attached to any physical device, e.g. local memory on a
+>> dGPU, FPGA PCIe BAR, RDMA, camera internal memory etc, then expose the
+>> memory as device specific allocator.
+> So, for embedded systems with unified memory all buffers (maybe except
+> PCIe BARs) should come from DMA-BUF heaps, correct?
 
-Yes that is exactly where it hung!
+ From what I know that is correct, yes. Question is really if that will 
+stay this way.
 
-> Not sure exactly why this used to work because prior to Mikko's patch
-> because the sequence was the same before.
+Neural accelerators look a lot stripped down FPGAs these days and the 
+benefit of local memory for GPUs is known for decades.
 
-Previously host1x_intr_init() did not call 
-host1x_hw_intr_disable_all_syncpt_intrs().
+Could be that designs with local specialized memory see a revival any 
+time, who knows.
 
-> 
->>          host1x_debug_init(host);
->>          err = host1x_register(host);
->> @@ -658,14 +658,11 @@ static int host1x_probe(struct platform_device *pdev)
->>          host1x_unregister(host);
->>   deinit_debugfs:
->>          host1x_debug_deinit(host);
->> -
->> +       host1x_intr_deinit(host);
->> +pm_put:
->>          pm_runtime_put_sync_suspend(&pdev->dev);
->>   pm_disable:
->>          pm_runtime_disable(&pdev->dev);
->> -
->> -       host1x_intr_deinit(host);
->> -deinit_syncpt:
->> -       host1x_syncpt_deinit(host);
->>   free_contexts:
->>          host1x_memory_context_list_free(&host->context_list);
->>   free_channels:
->>
->>
->> Thierry, do you want to me to send a fix for the above or do you
->> want to squash with the original (assuming that OK with Mikko)?
-> 
-> In any case, this looks like a good fix, so please send a proper patch.
-> This is merged through drm-misc, so squashing this into the original
-> patch is not an option any longer.
+>> If the memory is not physically attached to any device, but rather just
+>> memory attached to the CPU or a system wide memory controller then expose
+>> the memory as DMA-heap with specific requirements (e.g. certain sized pages,
+>> contiguous, restricted, encrypted, ...).
+> Is encrypted / protected a part of the allocation contract or should it
+> be enforced separately via a call to TEE / SCM / anything else?
 
-Yes will do!
+Well that is a really good question I can't fully answer either. From 
+what I know now I would say it depends on the design.
 
-Jon
+For the content encryption used by AMD and some other vendors it's 
+clearly a data property which isn't related in any way to something the 
+kernel deals with.
 
--- 
-nvpublic
+When it's not encryption but rather some special protected area of 
+memory which only certain devices have DMA access to then having a 
+separate heap might make sense for that.
+
+As rule of thump I would say it's the kernels responsibility to manage 
+the physical interconnection between two devices, e.g. come up with DMA 
+addresses which work. And it's the userspace responsibility to negotiate 
+the actual data format of the bytes transferred, e.g. things like width, 
+height, stride, pixel format, tiling, encryption etc....
+
+The tricky part is all those special cases, e.g. that GPU can only 
+scanout from local memory, that atomic operations work only on system 
+memory, that a devices might have different coherency constrains, etc.. 
+Nobody has figured out really all the requirements and we basically just 
+go from use case to another use use case.
+
+Regards,
+Christian.
+--------------HQQUdO8cZe0QSVOFB8ZQ2Jw0
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<!DOCTYPE html><html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    Am 25.09.24 um 14:51 schrieb Dmitry Baryshkov:<br>
+    <blockquote type="cite" cite="mid:lk7a2xuqrctyywuanjwseh5lkcz3soatc2zf3kn3uwc43pdyic@edm3hcd2koas">
+      <pre class="moz-quote-pre" wrap="">On Wed, Sep 25, 2024 at 10:51:15AM GMT, Christian König wrote:
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">Am 25.09.24 um 01:05 schrieb Dmitry Baryshkov:
+</pre>
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">On Tue, Sep 24, 2024 at 01:13:18PM GMT, Andrew Davis wrote:
+</pre>
+          <blockquote type="cite">
+            <pre class="moz-quote-pre" wrap="">On 9/23/24 1:33 AM, Dmitry Baryshkov wrote:
+</pre>
+            <blockquote type="cite">
+              <pre class="moz-quote-pre" wrap="">Hi,
+
+On Fri, Aug 30, 2024 at 09:03:47AM GMT, Jens Wiklander wrote:
+</pre>
+              <blockquote type="cite">
+                <pre class="moz-quote-pre" wrap="">Hi,
+
+This patch set is based on top of Yong Wu's restricted heap patch set [1].
+It's also a continuation on Olivier's Add dma-buf secure-heap patch set [2].
+
+The Linaro restricted heap uses genalloc in the kernel to manage the heap
+carvout. This is a difference from the Mediatek restricted heap which
+relies on the secure world to manage the carveout.
+
+I've tried to adress the comments on [2], but [1] introduces changes so I'm
+afraid I've had to skip some comments.
+</pre>
+              </blockquote>
+              <pre class="moz-quote-pre" wrap="">I know I have raised the same question during LPC (in connection to
+Qualcomm's dma-heap implementation). Is there any reason why we are
+using generic heaps instead of allocating the dma-bufs on the device
+side?
+
+In your case you already have TEE device, you can use it to allocate and
+export dma-bufs, which then get imported by the V4L and DRM drivers.
+
+</pre>
+            </blockquote>
+            <pre class="moz-quote-pre" wrap="">This goes to the heart of why we have dma-heaps in the first place.
+We don't want to burden userspace with having to figure out the right
+place to get a dma-buf for a given use-case on a given hardware.
+That would be very non-portable, and fail at the core purpose of
+a kernel: to abstract hardware specifics away.
+</pre>
+          </blockquote>
+          <pre class="moz-quote-pre" wrap="">Unfortunately all proposals to use dma-buf heaps were moving in the
+described direction: let app select (somehow) from a platform- and
+vendor- specific list of dma-buf heaps. In the kernel we at least know
+the platform on which the system is running. Userspace generally doesn't
+(and shouldn't). As such, it seems better to me to keep the knowledge in
+the kernel and allow userspace do its job by calling into existing
+device drivers.
+</pre>
+        </blockquote>
+        <pre class="moz-quote-pre" wrap="">
+The idea of letting the kernel fully abstract away the complexity of inter
+device data exchange is a completely failed design. There has been plenty of
+evidence for that over the years.
+
+Because of this in DMA-buf it's an intentional design decision that
+userspace and *not* the kernel decides where and what to allocate from.
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+Hmm, ok.
+
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">
+What the kernel should provide are the necessary information what type of
+memory a device can work with and if certain memory is accessible or not.
+This is the part which is unfortunately still not well defined nor
+implemented at the moment.
+
+Apart from that there are a whole bunch of intentional design decision which
+should prevent developers to move allocation decision inside the kernel. For
+example DMA-buf doesn't know what the content of the buffer is (except for
+it's total size) and which use cases a buffer will be used with.
+
+So the question if memory should be exposed through DMA-heaps or a driver
+specific allocator is not a question of abstraction, but rather one of the
+physical location and accessibility of the memory.
+
+If the memory is attached to any physical device, e.g. local memory on a
+dGPU, FPGA PCIe BAR, RDMA, camera internal memory etc, then expose the
+memory as device specific allocator.
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+So, for embedded systems with unified memory all buffers (maybe except
+PCIe BARs) should come from DMA-BUF heaps, correct?</pre>
+    </blockquote>
+    <br>
+    From what I know that is correct, yes. Question is really if that
+    will stay this way.<br>
+    <br>
+    Neural accelerators look a lot stripped down FPGAs these days and
+    the benefit of local memory for GPUs is known for decades.<br>
+    <br>
+    Could be that designs with local specialized memory see a revival
+    any time, who knows.<br>
+    <br>
+    <span style="white-space: pre-wrap">
+</span>
+    <blockquote type="cite" cite="mid:lk7a2xuqrctyywuanjwseh5lkcz3soatc2zf3kn3uwc43pdyic@edm3hcd2koas">
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">
+If the memory is not physically attached to any device, but rather just
+memory attached to the CPU or a system wide memory controller then expose
+the memory as DMA-heap with specific requirements (e.g. certain sized pages,
+contiguous, restricted, encrypted, ...).
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+Is encrypted / protected a part of the allocation contract or should it
+be enforced separately via a call to TEE / SCM / anything else?
+</pre>
+    </blockquote>
+    <br>
+    Well that is a really good question I can't fully answer either.
+    From what I know now I would say it depends on the design.<br>
+    <br>
+    For the content encryption used by AMD and some other vendors it's
+    clearly a data property which isn't related in any way to something
+    the kernel deals with.<br>
+    <br>
+    When it's not encryption but rather some special protected area of
+    memory which only certain devices have DMA access to then having a
+    separate heap might make sense for that.<br>
+    <br>
+    As rule of thump I would say it's the kernels responsibility to
+    manage the physical interconnection between two devices, e.g. come
+    up with DMA addresses which work. And it's the userspace
+    responsibility to negotiate the actual data format of the bytes
+    transferred, e.g. things like width, height, stride, pixel format,
+    tiling, encryption etc....<br>
+    <br>
+    The tricky part is all those special cases, e.g. that GPU can only
+    scanout from local memory, that atomic operations work only on
+    system memory, that a devices might have different coherency
+    constrains, etc.. Nobody has figured out really all the requirements
+    and we basically just go from use case to another use use case.<br>
+    <br>
+    Regards,<br>
+    Christian.<br>
+  </body>
+</html>
+
+--------------HQQUdO8cZe0QSVOFB8ZQ2Jw0--
