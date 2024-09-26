@@ -2,93 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52489987243
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 13:03:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDB82987293
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 13:14:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACF3E10E16B;
-	Thu, 26 Sep 2024 11:03:28 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="bQX/RnkK";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB37510E2E5;
+	Thu, 26 Sep 2024 11:14:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E24A10E16B;
- Thu, 26 Sep 2024 11:03:28 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48Q7nETs007842;
- Thu, 26 Sep 2024 11:03:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:date:from:message-id:mime-version
- :subject:to; s=qcppdkim1; bh=QFlKmRY6ufpuU3OIhekqn0mKR1IMfWPajb9
- clKzK1Sw=; b=bQX/RnkKF/QFWPQk4qY4Mk2u9dQ844MGjIvqjHf8ZSkDf943r5r
- 5LkjjBmre7f6vds+IgRegWdcNd+NpLGx7He8n+D2AVlXrbzp6qsVaOQM0KriK3RS
- GC489tVp5I1GfuMEs63pnFA7/m8mZaT3GtaGRK/lfF9yujP1HKFt4VKUz3KPEZQg
- 9IYwkMgIKanSD0b06a0T5FMii6UcUofk01+cSUNmoHq4uRpaEeaDy1M7xxJHbIa6
- QnJ//5spJ+QaPZxawbLRks764CKAxm0hsgsLD6m8sQ4KAayoy7Al+TBZDkXKvyQC
- AUJ2OSkBlCvPZjwDm4iv7dIOS/nTfNg1CMQ==
-Received: from apblrppmta02.qualcomm.com
- (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41sn3sf4x2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 26 Sep 2024 11:03:16 +0000 (GMT)
-Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
- by APBLRPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 48QB3Dp7026259; 
- Thu, 26 Sep 2024 11:03:13 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 41sq7mg08p-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 26 Sep 2024 11:03:13 +0000
-Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com
- [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 48QB3CmG026253;
- Thu, 26 Sep 2024 11:03:12 GMT
-Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-mahap-hyd.qualcomm.com
- [10.213.96.84])
- by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 48QB3CJL026252
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 26 Sep 2024 11:03:12 +0000
-Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 2365311)
- id 80719AEA; Thu, 26 Sep 2024 16:33:11 +0530 (+0530)
-From: Mahadevan <quic_mahap@quicinc.com>
-To: robdclark@gmail.com, quic_abhinavk@quicinc.com,
- dmitry.baryshkov@linaro.org, sean@poorly.run,
- marijn.suijten@somainline.org, airlied@gmail.com, daniel@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, swboyd@chromium.org, konrad.dybcio@linaro.org,
- danila@jiaxyga.com, bigfoot@classfun.cn, neil.armstrong@linaro.org,
- mailingradian@gmail.com, quic_jesszhan@quicinc.com, andersson@kernel.org
-Cc: Mahadevan <quic_mahap@quicinc.com>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- quic_kalyant@quicinc.com, quic_jmadiset@quicinc.com,
- quic_vpolimer@quicinc.com
-Subject: [PATCH v2 0/5] Display enablement changes for Qualcomm SA8775P
- platform
-Date: Thu, 26 Sep 2024 16:33:08 +0530
-Message-Id: <20240926110308.2201577-1-quic_mahap@quicinc.com>
-X-Mailer: git-send-email 2.34.1
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C48F10E2E5
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 11:14:32 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1stmRt-00051o-Lh; Thu, 26 Sep 2024 13:14:17 +0200
+Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
+ by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1stmRs-001fjT-Te; Thu, 26 Sep 2024 13:14:16 +0200
+Received: from pza by lupine with local (Exim 4.96)
+ (envelope-from <p.zabel@pengutronix.de>) id 1stmRs-0005As-2h;
+ Thu, 26 Sep 2024 13:14:16 +0200
+Message-ID: <c09a325a5166cf31b9a7fd09ed8266a2b19afcd2.camel@pengutronix.de>
+Subject: Re: [PATCH v2 2/2] media: imx: vdic: Introduce mem2mem VDI
+ deinterlacer driver
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Marek Vasut <marex@denx.de>, linux-media@vger.kernel.org
+Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, Fabio
+ Estevam <festevam@gmail.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>, Mauro Carvalho
+ Chehab <mchehab@kernel.org>, Pengutronix Kernel Team
+ <kernel@pengutronix.de>, Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo
+ <shawnguo@kernel.org>,  Steve Longerbeam <slongerbeam@gmail.com>,
+ dri-devel@lists.freedesktop.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org, 
+ linux-staging@lists.linux.dev
+Date: Thu, 26 Sep 2024 13:14:16 +0200
+In-Reply-To: <a7b7acff-e710-4c50-97b8-1bce557eadde@denx.de>
+References: <20240724002044.112544-1-marex@denx.de>
+ <20240724002044.112544-2-marex@denx.de>
+ <a66a2eaf30e21ff7c87f140e97ed4639640121ba.camel@pengutronix.de>
+ <3e850259-9349-4215-947a-ce192fa95f14@denx.de>
+ <f894eb3fd132a214ddbf2fa3ed405d065e629398.camel@pengutronix.de>
+ <a7b7acff-e710-4c50-97b8-1bce557eadde@denx.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: BCh9ryn1nsJtPX4BdMAeYTJ1SONQlSRu
-X-Proofpoint-ORIG-GUID: BCh9ryn1nsJtPX4BdMAeYTJ1SONQlSRu
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 phishscore=0
- mlxscore=0 impostorscore=0 spamscore=0 malwarescore=0 suspectscore=0
- priorityscore=1501 lowpriorityscore=0 mlxlogscore=923 clxscore=1015
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2408220000 definitions=main-2409260073
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,51 +72,182 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series introduces support to enable the Mobile Display Subsystem (MDSS)
-and Display Processing Unit (DPU) for the Qualcomm SA8775P target. It
-includes the addition of the hardware catalog, compatible string,
-relevant device tree changes, and their YAML bindings.
+Hi,
 
----
+On Mi, 2024-09-25 at 22:14 +0200, Marek Vasut wrote:
+> The userspace could distribute the frames between the two devices in an=
+=20
+> alternating manner, can it not ?
 
-In this series PATCH 5: "arm64: dts: qcom: sa8775p: add display dt nodes"
-depends on the clock enablement change:
-https://lore.kernel.org/all/20240816-sa8775p-mm-v3-v1-0-77d53c3c0cef@quicinc.com/
+This doesn't help with latency, or when converting a single large
+frame.
 
----
+For the deinterlacer, this can't be done with the motion-aware
+temporally filtering modes. Those need a field from the previous frame.
 
-[v2]
-- Updated cover letter subject and message. [Dmitry]
-- Use fake DISPCC nodes to avoid clock dependencies in dt-bindings. [Dmitry]
-- Update bindings by fixing dt_binding_check tool errors (update includes in example),
-  adding proper spacing and indentation in the binding example, droping unused labels,
-  droping status disable, adding reset node. [Dmitry, Rob, Krzysztof]
-- Reorder compatible string of MDSS and DPU based on alphabetical order.[Dmitry]
-- add reg_bus_bw in msm_mdss_data. [Dmitry]
-- Fix indentation in the devicetree. [Dmitry]
+>=20
+> Would the 1280x360 field be split into two tiles vertically and each=20
+> tile (newly 1280/2 x 360) be enqueued on each VDIC ? I don't think that=
+=20
+> works, because you wouldn't be able to stitch those tiles back together=
+=20
+> nicely after the deinterlacing, would you? I would expect to see some=20
+> sort of an artifact exactly where the two tiles got stitched back=20
+> together, because the VDICs are unaware of each other and how each=20
+> deinterlaced the tile.
 
----
+I was thinking horizontally, two 640x720 tiles side by side. 1280 is
+larger than the 968 pixel maximum horizontal resolution of the VDIC.
 
-Mahadevan (5):
-  dt-bindings: display/msm: Document MDSS on SA8775P
-  dt-bindings: display/msm: Document the DPU for SA8775P
-  drm/msm: mdss: Add SA8775P support
-  drm/msm/dpu: Add SA8775P support
-  arm64: dts: qcom: sa8775p: add display dt nodes
+As you say, splitting vertically (which would be required for 1080i)
+should cause artifacts at the seam due to the 4-tap vertical filter.
 
- .../display/msm/qcom,sa8775p-dpu.yaml         | 122 +++++
- .../display/msm/qcom,sa8775p-mdss.yaml        | 239 +++++++++
- arch/arm64/boot/dts/qcom/sa8775p.dtsi         |  87 ++++
- .../msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h   | 485 ++++++++++++++++++
- .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    |   3 +-
- .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |   3 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   3 +-
- drivers/gpu/drm/msm/msm_mdss.c                |  11 +
- 8 files changed, 950 insertions(+), 3 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sa8775p-dpu.yaml
- create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sa8775p-mdss.yaml
- create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h
+[...]
+> >=20
+> > With the rigid V4L2 model though, where memory handling, parameter
+> > calculation, and job scheduling of tiles in a single frame all have to
+> > be hidden behind the V4L2 API, I don't think requiring userspace to
+> > combine multiple mem2mem video devices to work together on a single
+> > frame is feasible.
+>=20
+> If your concern is throughput (from what I gathered from the text=20
+> above), userspace could schedule frames on either VDIC in alternating=20
+> manner.
 
--- 
-2.34.1
+Both throughput and latency.
 
+Yes, alternating to different devices would help with throughput where
+possible, but it's worse for frame pacing, a hassle to implement
+generically in userspace, and it's straight up impossible with temporal
+filtering.
+
+> I think this is much better and actually generic approach than trying to=
+=20
+> combine two independent devices on kernel level and introduce some sort=
+=20
+> of scheduler into kernel driver to distribute jobs between the two=20
+> devices. Generic, because this approach works even if either of the two=
+=20
+> devices is not VDIC. Independent devices, because yes, the MX6Q IPUs are=
+=20
+> two independent blocks, it is only the current design of the IPUv3=20
+> driver that makes them look kind-of like they are one single big device,=
+=20
+> I am not happy about that design, but rewriting the IPUv3 driver is way=
+=20
+> out of scope here. (*)
+
+The IPUs are glued together at the capture and output paths, so yes,
+they are independent blocks, but also work together as a big device.
+
+> > Is limiting different users to the different deinterlacer hardware
+> > units a real usecase? I saw the two ICs, when used as mem2mem devices,
+> > as interchangeable resources.
+>=20
+> I do not have that use case, but I can imagine it could come up.
+> In my case, I schedule different cameras to different VDICs from=20
+> userspace as needed.
+
+Is this just because a single VDIC does not have enough throughput to
+serve all cameras, or is there some reason for a fixed assignment
+between cameras and VDICs?
+
+> > > > To be fair, we never implemented that for the CSC/scaler mem2mem de=
+vice
+> > > > either.
+> > >=20
+> > > I don't think that is actually a good idea. Instead, it would be bett=
+er
+> > > to have two scaler nodes in userspace.
+> >=20
+> > See above, that would make it impossible (or rather unreasonably
+> > complicated) to distribute work on a single frame to both IPUs.
+>=20
+> Is your concern latency instead of throughput ? See my comment in=20
+> paragraph (*) .
+
+Either, depending on the use case.
+
+[...]
+> > > >=20
+> > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tr=
+ee/drivers/staging/media/imx/imx-media-vdic.c#n207
+> >=20
+> > That code is unused. The direct hardware path doesn't use
+> > IPUV3_CHANNEL_MEM_VDI_PREV/CUR/NEXT, but is has a similar effect, half
+> > of the incoming fields are dropped. The setup is vdic_setup_direct().
+>=20
+> All right, let's drop that unused code then, I'll prepare a patch.
+
+Thanks!
+
+> But it seems the bottom line is, the VDI direct mode does not act as a=
+=20
+> frame-rate doubler ?
+
+Yes, it can't. In direct mode, VDIC only receives half of the fields.
+
+[...]
+> > >=20
+> Why would adding the (configurable) frame-rate doubling mode break=20
+> userspace if this is not the default ?
+
+I'm not sure it would. Maybe there should be a deinterlacer control to
+choose between full and half field rate output (aka frame doubling and
+1:1 input to output frame rate).
+
+Also, my initial assumption was that currently there is 1:1 input
+frames to output frames. But with temporal filtering enabled there's
+already one input frame (the first one) that doesn't produce any
+output.
+
+> > > > If we don't start with that supported, I fear userspace will make
+> > > > assumptions and be surprised when a full rate mode is added later.
+> > >=20
+> > > I'm afraid that since the current VDI already does retain input frame
+> > > rate instead of doubling it, the userspace already makes an assumptio=
+n,
+> > > so that ship has sailed.
+> >=20
+> > No, this is about the deinterlacer mem2mem device, which doesn't exist
+> > before this series.
+>=20
+> I am not convinced it is OK if the direct VDI path and mem2mem VDI=20
+> behave differently, that would be surprising to me as a user ?
+
+Is this still about the frame rate doubling? Surely supporting it in
+the mem2mem device and not in the capture path is ok. I'm not arguing
+that frame doubling should be enabled by default.
+
+> > The CSI capture path already has configurable framedrops (in the CSI).
+>=20
+> What am I looking for ? git grep doesn't give me any hits ? (**)
+
+That's configured by the set_frame_interval pad op of the CSI subdevice
+- on the IDMAC output pad. See csi_find_best_skip().
+
+> > > But I think we can make the frame doubling configurable ?
+> >=20
+> > That would be good. Specifically, there must be no guarantee that one
+> > input frame with two fields only produces one deinterlaced output
+> > frame, and userspace should somehow be able to understand this.
+>=20
+> See my question (**) , where is this configurable framedrops thing ?
+
+This would have to be done differently, though. Here we don't have
+subdev set_frame_interval configuration, and while VIDIOC_S_PARM /
+v4l2_captureparm were used to configure frame dropping on capture
+devices, that's not really applicable to mem2mem deinterlacers.
+
+> > I'd rather not default to the setting that throws away half of the
+> > input data. Not using frame doubling by default is sensible, but now
+> > that using all three input fields to calculate the output frame is
+> > possible, why not make that the default.
+>
+> To save memory bandwidth on the MX6, that's my main concern.
+
+What userspace are you using to exercise this driver? Maybe we can back
+this concern with a few numbers (or mine with pictures).
+
+regards
+Philipp
