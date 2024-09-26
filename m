@@ -2,68 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 847FD9876E8
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 17:50:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECB1B98770F
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 17:56:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B72BB10E192;
-	Thu, 26 Sep 2024 15:50:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB25610EB80;
+	Thu, 26 Sep 2024 15:56:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="i+bqMJdz";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="L8eY9ljI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
- [209.85.214.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A666F10E192
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 15:50:13 +0000 (UTC)
-Received: by mail-pl1-f174.google.com with SMTP id
- d9443c01a7336-206b9ab5717so871095ad.2
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 08:50:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1727365813; x=1727970613; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=+hz1pRYvAdYf3uaHNcOJRfXb7RPzl6a7JO5wKzDv1+Y=;
- b=i+bqMJdzHUayDmBc0JKzMQ29AmTvffi8kj2m0y1p/NTBD9lTfBuAkRJtFs/B349vPx
- +xuhLQlPHP+MJaRUAfqPX6e05CKf1LgVXzxVgQG2mSd7t/tcvvtuY2sVhD8bgUjt5rG/
- PTGs1cG57zOtU/OXoH7aB0cY6FOw352xg1+Cjx8IAB/1gtOTkShcw2UFMEJpNB8rakAx
- kPyxK9U9T9hXpcXa4eSB+TWnn7VK5S47aTqFIIV85sY9Ejj804IyGuBprrQQk4idT9su
- kinuJObqZ/J1PZ9EyrH6VipKQy5uHMq6XGSjtId9E97y93VU5e7BVOPIn8JhPWN0yiN4
- ab4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727365813; x=1727970613;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=+hz1pRYvAdYf3uaHNcOJRfXb7RPzl6a7JO5wKzDv1+Y=;
- b=HxNf5MrAJXhA6jUP/qjBe0ppHqnbMUi8aX0h87avkeEUi8DqcPPKFHFGDgUAPHNgic
- f2a+78qZhAsrelLMVOIytxzPJYig11t/onx20zTFW6Q1y6P8bl3Rrn8RZyXlC6xX9/03
- s/BxNAYsh5E5Eukkk4zJv6PL/oO1+SROLMXde3o6Ka9fxC0e8jXAg+mztimff5UOeMDd
- /UiMagLBsXqoK+QVKHcfjSqDxffnuMVYimgpavAgac2BQK+vDFf+DHgoZ2swZGPtQK73
- 48B/UuyiJJtsTs1/w5eZ/cQQSOGVHMitZOioHFtfKeQx9KCA0GR4EPZO36j3FKZwrNMH
- AP+g==
-X-Gm-Message-State: AOJu0YxzXfNMP5I2KdKrBF6NJTYdnfpBJP4iK0zAyxel8dYZt5zJK79N
- 8TWC+hd311IgC+UcKzSLjlwgBw/zod3eT+1eU90JpkAF3doglABLMOiweZykq3sASz/KN+ko7iJ
- DqD8kfpwfwU0M3dd549BMualO7O84lDBn
-X-Google-Smtp-Source: AGHT+IF3XfDTy4lHhQwXS2eunEni0t1BgyfzZ0WRgjJy2jNlthN9xPIER4+F7QAV9uk/QwNgb0bqIZ/uo9mTsRCS0vA=
-X-Received: by 2002:a17:902:c405:b0:206:8f25:a3d with SMTP id
- d9443c01a7336-20b367d7cdamr1234895ad.4.1727365813047; Thu, 26 Sep 2024
- 08:50:13 -0700 (PDT)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C48E310EB78;
+ Thu, 26 Sep 2024 15:56:30 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48Q9fJH0021497;
+ Thu, 26 Sep 2024 15:56:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=r0Y0efsoMElBDcZQJXlIL64S
+ UPCW9t0wz/gYXRupPgc=; b=L8eY9ljIVSSqoZrIiN+DyY1qg34PvsZBZZXZfwyH
+ JczP8rh9H/8CWl7w1oJox0Xx1IM+R0GwLt2nMjn70FS5IZnwpAyHU/P+e7i67E7o
+ eC8bRvCHq5wPvQCEpRMExm5D74h+/1HXnIlt3jX+6Lgknhn4smsv5/HnuUQz+ekZ
+ 5ihw2Mc/1CImA7nVMTH/EtPorqyuz5/JHSCP6PNUYoH3KGZd+/8kF8qJAjWMS6/x
+ YUgeIWQZ1UddePFxsqT3FGeMALTTWA85hppQOtpB917PwhxVjo6OmRDaORK4bNZp
+ GWVG4z1d1l5S8v0LbnvDli9h7Vm9UV52d6ww75kYyO/BSA==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41sqe9fw3n-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 26 Sep 2024 15:56:24 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 48QFuN93002570
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 26 Sep 2024 15:56:23 GMT
+Received: from hu-akhilpo-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Thu, 26 Sep 2024 08:56:19 -0700
+Date: Thu, 26 Sep 2024 21:26:15 +0530
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+To: Rob Clark <robdclark@gmail.com>
+CC: <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
+ <freedreno@lists.freedesktop.org>, Connor Abbott <cwabbott0@gmail.com>,
+ "Rob Clark" <robdclark@chromium.org>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, "Dmitry
+ Baryshkov" <dmitry.baryshkov@linaro.org>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Daniel
+ Vetter" <daniel@ffwll.ch>, open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] drm/msm/a6xx+: Insert a fence wait before SMMU table
+ update
+Message-ID: <20240926155615.y33wehbowzg57c32@hu-akhilpo-hyd.qualcomm.com>
+References: <20240913195132.8282-1-robdclark@gmail.com>
 MIME-Version: 1.0
-References: <f163bcec-e5b1-4aef-91dd-431736fd6d11@xenosoft.de>
-In-Reply-To: <f163bcec-e5b1-4aef-91dd-431736fd6d11@xenosoft.de>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 26 Sep 2024 11:50:01 -0400
-Message-ID: <CADnq5_MM6UYOwFSPkZRauAyckFaUjCRGT97cVhsK=xZ9CzuXVw@mail.gmail.com>
-Subject: Re: Kernel doesn't boot after DRM updates (drm-next-2024-09-19)
-To: Christian Zigotzky <chzigotzky@xenosoft.de>
-Cc: Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- mad skateman <madskateman@gmail.com>, 
- "R.T.Dickinson" <rtd2@xtra.co.nz>, Darren Stevens <darren@stevens-zone.net>,
- hypexed@yahoo.com.au
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20240913195132.8282-1-robdclark@gmail.com>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: es8GdKCSvMSM_g_AwFDUC2KyHS-qFbTW
+X-Proofpoint-GUID: es8GdKCSvMSM_g_AwFDUC2KyHS-qFbTW
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ mlxlogscore=999 spamscore=0 lowpriorityscore=0 adultscore=0 mlxscore=0
+ suspectscore=0 malwarescore=0 phishscore=0 impostorscore=0 clxscore=1015
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2408220000 definitions=main-2409260111
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,47 +93,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Sep 22, 2024 at 12:28=E2=80=AFAM Christian Zigotzky
-<chzigotzky@xenosoft.de> wrote:
->
-> Hi All,
->
-> The lastest Git kernel doesn't boot anymore after the latest DRM updates
-> (drm-next-2024-09-19). [1]
->
-> I tested it with an AMD Radeon HD 6970 (Cayman XT) and with an AMD
-> Radeon HD 5870 (Cypress XT).
->
-> I reverted the DRM updates and after that the kernel boots without any
-> problems.
->
-> Please note: Due to a lack of time, I can't do a bisect.
->
-> Please check the latest DRM updates.
+On Fri, Sep 13, 2024 at 12:51:31PM -0700, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
+> 
+> The CP_SMMU_TABLE_UPDATE _should_ be waiting for idle, but on some
+> devices (x1-85, possibly others), it seems to pass that barrier while
+> there are still things in the event completion FIFO waiting to be
+> written back to memory.
+> 
+> Work around that by adding a fence wait before context switch.  The
+> CP_EVENT_WRITE that writes the fence is the last write from a submit,
+> so seeing this value hit memory is a reliable indication that it is
+> safe to proceed with the context switch.
+> 
+> Closes: https://gitlab.freedesktop.org/drm/msm/-/issues/63
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
 
-Can you attach your dmesg output?  There was a regression in the dma
-subsystem what was fixed by this commit:
+Reviewed-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
 
-commit b348b6d17fd1d5d89b86db602f02be
-a54a754bd8
-Author: Leon Romanovsky <leon@kernel.org>
-Date:   Sun Sep 22 21:09:48 2024 +0300
+-Akhil
 
-    dma-mapping: report unlimited DMA addressing in IOMMU DMA path
-
-Alex
-
-
-
-
->
-> Thanks,
-> Christian
->
->
-> [1]
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
-/?id=3Dde848da12f752170c2ebe114804a985314fd5a6a
->
->
->
+> ---
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 14 +++++++++++---
+>  1 file changed, 11 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> index bcaec86ac67a..ba5b35502e6d 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> @@ -101,9 +101,10 @@ static void get_stats_counter(struct msm_ringbuffer *ring, u32 counter,
+>  }
+>  
+>  static void a6xx_set_pagetable(struct a6xx_gpu *a6xx_gpu,
+> -		struct msm_ringbuffer *ring, struct msm_file_private *ctx)
+> +		struct msm_ringbuffer *ring, struct msm_gem_submit *submit)
+>  {
+>  	bool sysprof = refcount_read(&a6xx_gpu->base.base.sysprof_active) > 1;
+> +	struct msm_file_private *ctx = submit->queue->ctx;
+>  	struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
+>  	phys_addr_t ttbr;
+>  	u32 asid;
+> @@ -115,6 +116,13 @@ static void a6xx_set_pagetable(struct a6xx_gpu *a6xx_gpu,
+>  	if (msm_iommu_pagetable_params(ctx->aspace->mmu, &ttbr, &asid))
+>  		return;
+>  
+> +	/* Wait for previous submit to complete before continuing: */
+> +	OUT_PKT7(ring, CP_WAIT_TIMESTAMP, 4);
+> +	OUT_RING(ring, 0);
+> +	OUT_RING(ring, lower_32_bits(rbmemptr(ring, fence)));
+> +	OUT_RING(ring, upper_32_bits(rbmemptr(ring, fence)));
+> +	OUT_RING(ring, submit->seqno - 1);
+> +
+>  	if (!sysprof) {
+>  		if (!adreno_is_a7xx(adreno_gpu)) {
+>  			/* Turn off protected mode to write to special registers */
+> @@ -193,7 +201,7 @@ static void a6xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
+>  	struct msm_ringbuffer *ring = submit->ring;
+>  	unsigned int i, ibs = 0;
+>  
+> -	a6xx_set_pagetable(a6xx_gpu, ring, submit->queue->ctx);
+> +	a6xx_set_pagetable(a6xx_gpu, ring, submit);
+>  
+>  	get_stats_counter(ring, REG_A6XX_RBBM_PERFCTR_CP(0),
+>  		rbmemptr_stats(ring, index, cpcycles_start));
+> @@ -283,7 +291,7 @@ static void a7xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
+>  	OUT_PKT7(ring, CP_THREAD_CONTROL, 1);
+>  	OUT_RING(ring, CP_THREAD_CONTROL_0_SYNC_THREADS | CP_SET_THREAD_BR);
+>  
+> -	a6xx_set_pagetable(a6xx_gpu, ring, submit->queue->ctx);
+> +	a6xx_set_pagetable(a6xx_gpu, ring, submit);
+>  
+>  	get_stats_counter(ring, REG_A7XX_RBBM_PERFCTR_CP(0),
+>  		rbmemptr_stats(ring, index, cpcycles_start));
+> -- 
+> 2.46.0
+> 
