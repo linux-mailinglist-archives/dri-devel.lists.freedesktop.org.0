@@ -2,96 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AB409874B2
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 15:47:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07E369874B1
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 15:47:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E56E010EB5D;
-	Thu, 26 Sep 2024 13:47:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3757710EB52;
+	Thu, 26 Sep 2024 13:47:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="CYM2T3F7";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="c78g9rRl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
- [209.85.214.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5B7210EB57
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 13:47:19 +0000 (UTC)
-Received: by mail-pl1-f180.google.com with SMTP id
- d9443c01a7336-20aff65aa37so8995055ad.1
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 06:47:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1727358439; x=1727963239; darn=lists.freedesktop.org;
- h=in-reply-to:from:content-language:references:cc:to:subject
- :user-agent:mime-version:date:message-id:from:to:cc:subject:date
- :message-id:reply-to;
- bh=WKuvzZ1iHkE+4JD+m+TAwEuUR4+8h0slt2R/Vn8nR+o=;
- b=CYM2T3F7UqCIXd4lBei408eDA9X10164n5JnMd8H/1BV9Nz6MKiE+wF4KwUBhIlDIU
- XSTxl4rNoki0V0RtxQPKCSUiVsfrGEWUbppobYIqc5qxjJqrmxZu7H6o9tuyggLioDpx
- rijEhKHmHwUdJqTws/Wq/EyDrL7rjPWH+PARNGuzjhzCwrxarNcFm6TJ/+BuoeCrpwIq
- p6CBVBuPN37NFgQuVY8LLe1Ie4PK1Zalsba6c9bF0yQsvHY/pOWpg6eFnWWjDp72+3Il
- bWMn8bQX7GRGgljm2zBrOtszU5YSQSKG6ro323WYTHrsGtU81hEfjygBgumSeC+SV5ii
- gxfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727358439; x=1727963239;
- h=in-reply-to:from:content-language:references:cc:to:subject
- :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=WKuvzZ1iHkE+4JD+m+TAwEuUR4+8h0slt2R/Vn8nR+o=;
- b=biRjU9bXinorjeRecUVLJU5sgCtOnTKifQXzIJWkrb5Xr6fuwQOHN68UOZVdzn/KOH
- o4yNgbPXBHP7y2TDNhYRs4LESVsomz85yCBy0Y53etapo3H/MB+7VqazQrAdxxKAqdkx
- oPXsPlf/ISZoK/eBKfdkbWMLU1E0z+y/GfY1Hu+ks086R+dvnRxBrtqhMhEciJMCRhHV
- 6i5wcCGO/NRoglPwOKQASeubeNSu0Gv51tpEg66zvvMDhz/f0VRDIblQtDM4gQ5+t9/p
- 1n0P48KJGAj8Fwmwh3fYT41TF6cPBcFQCZy4ieEI7w11TxsCldAhe4/u1V8fb3ax63sy
- 4jcQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWK8QFL+OmvQ03uYofoCFfOpbtqJhMmGlkIlUuW+SHm5PDbQ2le6wG//xebCDpwI8w5e45RTlYXKME=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxPSoBWhKwYzRt3FOksBdne0Cxn/IXa4Adr5ixmrXNKBxlg67px
- 7dt31b2iQ17OxUJayU6kqdvydTocSR52TphhUv/mGSRttFHpQyZ3noGy0EQPKu3L79dLAtjVONZ
- /
-X-Google-Smtp-Source: AGHT+IG0CsqHQgL3rtm32aloek7Evh4y754mbQBvDVIsKtxJMZiHCnjxRQreL1LcO1E/1QzfRr0cLA==
-X-Received: by 2002:a17:902:dac1:b0:206:b250:1e1 with SMTP id
- d9443c01a7336-20afc4cd9bamr91910405ad.45.1727358439002; 
- Thu, 26 Sep 2024 06:47:19 -0700 (PDT)
-Received: from [192.168.1.36] ([223.178.210.45])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-20af1869000sm38970055ad.307.2024.09.26.06.47.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 26 Sep 2024 06:47:18 -0700 (PDT)
-Content-Type: multipart/alternative;
- boundary="------------2JiO4mqoAz3Ss811mB0lEctH"
-Message-ID: <2f9a4abe-b2fc-4bc7-9926-1da2d38f5080@linaro.org>
-Date: Thu, 26 Sep 2024 19:17:05 +0530
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA61310EB54;
+ Thu, 26 Sep 2024 13:47:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=9HfsQLk2e7WRVLH89AxiE7id9QffjB/l/nsauErf5bQ=; b=c78g9rRlXUhK9UsVUzwA9NqX9L
+ o+nReP0r2c1dKdY1YotSlpaWuzj8UHsew9LBmoedZqHejh+KsJxYWWQnttrtuoaHqVhvnwnklgTQ1
+ mn20VZJrkw/Ah/eC5gqU2Y47Kkq020DqknrFR8Xjqbm3S7vrIiooFFYEAavLNabecYFbeRomLpFte
+ qg7bpN/p06UVUxOHPMKAg1OK78nvGftzyFhpfSmrBgLSpVwxdLuo/vvcXxfF6uq5AJTC0zQQDl9+v
+ cO0FVhRPTLycWesYxKFMjAsO9rqdYr9aS+eKDpcZRClm8KWEdcaf92UqnIPWHIg/6P+kMNTYewoGN
+ ZFVJhxRA==;
+Received: from [90.241.98.187] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1stopr-001LKr-F1; Thu, 26 Sep 2024 15:47:11 +0200
+Message-ID: <ebdbf13b-8c3a-48b5-b142-8712e62d01d3@igalia.com>
+Date: Thu, 26 Sep 2024 14:47:10 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [Linaro-mm-sig] Re: [RFC PATCH 0/4] Linaro restricted heap
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc: Andrew Davis <afd@ti.com>, Jens Wiklander <jens.wiklander@linaro.org>,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, op-tee@lists.trustedfirmware.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- Olivier Masse <olivier.masse@nxp.com>,
- Thierry Reding <thierry.reding@gmail.com>, Yong Wu <yong.wu@mediatek.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- "T . J . Mercier" <tjmercier@google.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-References: <20240830070351.2855919-1-jens.wiklander@linaro.org>
- <dhxvyshwi4qmcmwceokhqey2ww4azjcs6qrpnkgivdj7tv5cke@r36srvvbof6q>
- <d8e0cb78-7cfb-42bf-b3a5-f765592e8dd4@ti.com>
- <mzur3odofwwrdqnystozjgf3qtvb73wqjm6g2vf5dfsqiehaxk@u67fcarhm6ge>
- <e967e382-6cca-4dee-8333-39892d532f71@gmail.com>
- <lk7a2xuqrctyywuanjwseh5lkcz3soatc2zf3kn3uwc43pdyic@edm3hcd2koas>
- <04caa788-19a6-4336-985c-4eb191c24438@amd.com>
-Content-Language: en-US
-From: Sumit Garg <sumit.garg@linaro.org>
-In-Reply-To: <04caa788-19a6-4336-985c-4eb191c24438@amd.com>
+Subject: Re: [PATCH v2] drm/sched: Further optimise drm_sched_entity_push_job
+To: Philipp Stanner <pstanner@redhat.com>,
+ Tvrtko Ursulin <tursulin@igalia.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Luben Tuikov <ltuikov89@gmail.com>, Matthew Brost <matthew.brost@intel.com>
+References: <20240913160559.49054-9-tursulin@igalia.com>
+ <20240916173007.118-1-tursulin@igalia.com>
+ <1650ecb9-ac8a-4199-8693-77c73a95bbbd@igalia.com>
+ <a5dd98b71891ea0392d61e24cde8b35051035780.camel@redhat.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <a5dd98b71891ea0392d61e24cde8b35051035780.camel@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,285 +67,269 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---------------2JiO4mqoAz3Ss811mB0lEctH
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
-On 9/25/24 19:31, Christian König wrote:
-> Am 25.09.24 um 14:51 schrieb Dmitry Baryshkov:
->> On Wed, Sep 25, 2024 at 10:51:15AM GMT, Christian König wrote:
->>> Am 25.09.24 um 01:05 schrieb Dmitry Baryshkov:
->>>> On Tue, Sep 24, 2024 at 01:13:18PM GMT, Andrew Davis wrote:
->>>>> On 9/23/24 1:33 AM, Dmitry Baryshkov wrote:
->>>>>> Hi,
->>>>>>
->>>>>> On Fri, Aug 30, 2024 at 09:03:47AM GMT, Jens Wiklander wrote:
->>>>>>> Hi,
->>>>>>>
->>>>>>> This patch set is based on top of Yong Wu's restricted heap patch set [1].
->>>>>>> It's also a continuation on Olivier's Add dma-buf secure-heap patch set [2].
->>>>>>>
->>>>>>> The Linaro restricted heap uses genalloc in the kernel to manage the heap
->>>>>>> carvout. This is a difference from the Mediatek restricted heap which
->>>>>>> relies on the secure world to manage the carveout.
->>>>>>>
->>>>>>> I've tried to adress the comments on [2], but [1] introduces changes so I'm
->>>>>>> afraid I've had to skip some comments.
->>>>>> I know I have raised the same question during LPC (in connection to
->>>>>> Qualcomm's dma-heap implementation). Is there any reason why we are
->>>>>> using generic heaps instead of allocating the dma-bufs on the device
->>>>>> side?
->>>>>>
->>>>>> In your case you already have TEE device, you can use it to allocate and
->>>>>> export dma-bufs, which then get imported by the V4L and DRM drivers.
->>>>>>
->>>>> This goes to the heart of why we have dma-heaps in the first place.
->>>>> We don't want to burden userspace with having to figure out the right
->>>>> place to get a dma-buf for a given use-case on a given hardware.
->>>>> That would be very non-portable, and fail at the core purpose of
->>>>> a kernel: to abstract hardware specifics away.
->>>> Unfortunately all proposals to use dma-buf heaps were moving in the
->>>> described direction: let app select (somehow) from a platform- and
->>>> vendor- specific list of dma-buf heaps. In the kernel we at least know
->>>> the platform on which the system is running. Userspace generally doesn't
->>>> (and shouldn't). As such, it seems better to me to keep the knowledge in
->>>> the kernel and allow userspace do its job by calling into existing
->>>> device drivers.
->>> The idea of letting the kernel fully abstract away the complexity of inter
->>> device data exchange is a completely failed design. There has been plenty of
->>> evidence for that over the years.
->>>
->>> Because of this in DMA-buf it's an intentional design decision that
->>> userspace and *not* the kernel decides where and what to allocate from.
->> Hmm, ok.
+On 26/09/2024 09:15, Philipp Stanner wrote:
+> On Mon, 2024-09-23 at 15:35 +0100, Tvrtko Ursulin wrote:
 >>
->>> What the kernel should provide are the necessary information what type of
->>> memory a device can work with and if certain memory is accessible or not.
->>> This is the part which is unfortunately still not well defined nor
->>> implemented at the moment.
+>> Ping Christian and Philipp - reasonably happy with v2? I think it's
+>> the
+>> only unreviewed patch from the series.
+> 
+> Howdy,
+> 
+> sry for the delay, I had been traveling.
+> 
+> I have a few nits below regarding the commit message. Besides, I'm OK
+> with that, thx for your work :)
+
+No worries.
+
+>> On 16/09/2024 18:30, Tvrtko Ursulin wrote:
+>>> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 >>>
->>> Apart from that there are a whole bunch of intentional design decision which
->>> should prevent developers to move allocation decision inside the kernel. For
->>> example DMA-buf doesn't know what the content of the buffer is (except for
->>> it's total size) and which use cases a buffer will be used with.
+>>> Having removed one re-lock cycle on the entity->lock in a patch
+>>> titled
+>>> "drm/sched: Optimise drm_sched_entity_push_job",
+>>> with only a tiny bit
+>>> larger refactoring we can do the same optimisation
+> 
+> Well, the commit message does not state which optimization that is. One
+> would have to look for the previous patch, which you apparently cannot
+> provide a commit ID for yet because it's not in Big Boss's branch.
+
+With added emphasis:
+
+"Having _removed one re-lock cycle_ on the entity-lock..."
+
+"...do the same optimisation on the rq->lock."
+
+How it is not clear?
+
+> In this case I am for including a sentence about what is being
+> optimized also because
+> 
+>>> on the rq->lock.
+>>> (Currently both drm_sched_rq_add_entity() and
+>>> drm_sched_rq_update_fifo_locked() take and release the same lock.)
 >>>
->>> So the question if memory should be exposed through DMA-heaps or a driver
->>> specific allocator is not a question of abstraction, but rather one of the
->>> physical location and accessibility of the memory.
+>>> To achieve this we make drm_sched_rq_update_fifo_locked() and
+> 
+> it's not clear what the "this" that's being achieved is.
+
+"This" is the optimisation previous paragraph talks about.
+
+What/why followed by how.
+
+I honestly think this part of the commit text is good enough.
+
+>>> drm_sched_rq_add_entity() expect the rq->lock to be held.
 >>>
->>> If the memory is attached to any physical device, e.g. local memory on a
->>> dGPU, FPGA PCIe BAR, RDMA, camera internal memory etc, then expose the
->>> memory as device specific allocator.
->> So, for embedded systems with unified memory all buffers (maybe except
->> PCIe BARs) should come from DMA-BUF heaps, correct?
->
-> From what I know that is correct, yes. Question is really if that will 
-> stay this way.
->
-> Neural accelerators look a lot stripped down FPGAs these days and the 
-> benefit of local memory for GPUs is known for decades.
->
-> Could be that designs with local specialized memory see a revival any 
-> time, who knows.
->
->>> If the memory is not physically attached to any device, but rather just
->>> memory attached to the CPU or a system wide memory controller then expose
->>> the memory as DMA-heap with specific requirements (e.g. certain sized pages,
->>> contiguous, restricted, encrypted, ...).
->> Is encrypted / protected a part of the allocation contract or should it
->> be enforced separately via a call to TEE / SCM / anything else?
->
-> Well that is a really good question I can't fully answer either. From 
-> what I know now I would say it depends on the design.
->
-IMHO, I think Dmitry's proposal to rather allow TEE device being 
-allocator and exporter of DMA-bufs related to restricted memory makes 
-sense to me. Since it's really the TEE implementation (OP-TEE, AMD-TEE, 
-TS-TEE or future QTEE) which sets up the restrictions on a particular 
-piece of allocated memory. AFAIK, that happens after the DMA-buf gets 
-allocated and then user-space calls into TEE to setup which media 
-pipeline is going to access that particular DMA-buf. It can also be a 
-static contract depending on a particular platform design.
+>>> We also align drm_sched_rq_update_fifo_locked(),
+>>> drm_sched_rq_add_entity() and
+>>> drm_sched_rq_remove_fifo_locked() function signatures, by adding rq
+>>> as a
+>>> parameter to the latter.
+>>>
+>>> v2:
+>>>    * Fix after rebase of the series.
+>>>    * Avoid naming incosistency between drm_sched_rq_add/remove.
+>>> (Christian)
+>>>
+>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> 
+> Reviewed-by: Philipp Stanner <pstanner@redhat.com>
 
-As Jens noted in the other thread, we already manage shared memory 
-allocations (from a static carve-out or dynamically mapped) for 
-communications among Linux and TEE that were based on DMA-bufs earlier 
-but since we didn't required them to be shared with other devices, so we 
-rather switched to anonymous memory.
+Thank you!
 
- From user-space perspective, it's cleaner to use TEE device IOCTLs for 
-DMA-buf allocations since it already know to which underlying TEE 
-implementation it's communicating with rather than first figuring out 
-which DMA heap to use for allocation and then communicating with TEE 
-implementation.
+>>> Cc: Christian König <christian.koenig@amd.com>
+>>> Cc: Alex Deucher <alexander.deucher@amd.com>
+>>> Cc: Luben Tuikov <ltuikov89@gmail.com>
+>>> Cc: Matthew Brost <matthew.brost@intel.com>
+>>> Cc: Philipp Stanner <pstanner@redhat.com>
+>>> ---
+>>>    drivers/gpu/drm/scheduler/sched_entity.c | 12 ++++++++--
+>>>    drivers/gpu/drm/scheduler/sched_main.c   | 29 ++++++++++++-------
+>>> -----
+>>>    include/drm/gpu_scheduler.h              |  3 ++-
+>>>    3 files changed, 26 insertions(+), 18 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c
+>>> b/drivers/gpu/drm/scheduler/sched_entity.c
+>>> index d982cebc6bee..8ace1f1ea66b 100644
+>>> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+>>> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+>>> @@ -515,9 +515,14 @@ struct drm_sched_job
+>>> *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
+>>>    
+>>>    		next = to_drm_sched_job(spsc_queue_peek(&entity-
+>>>> job_queue));
+>>>    		if (next) {
+>>> +			struct drm_sched_rq *rq;
+>>> +
+>>>    			spin_lock(&entity->lock);
+>>> -			drm_sched_rq_update_fifo_locked(entity,
+>>> +			rq = entity->rq;
+>>> +			spin_lock(&rq->lock);
+>>> +			drm_sched_rq_update_fifo_locked(entity,
+>>> rq,
+>>>    							next-
+>>>> submit_ts);
+>>> +			spin_unlock(&rq->lock);
+>>>    			spin_unlock(&entity->lock);
+>>>    		}
+>>>    	}
+>>> @@ -618,11 +623,14 @@ void drm_sched_entity_push_job(struct
+>>> drm_sched_job *sched_job)
+>>>    		sched = rq->sched;
+>>>    
+>>>    		atomic_inc(sched->score);
+>>> +
+>>> +		spin_lock(&rq->lock);
+>>>    		drm_sched_rq_add_entity(rq, entity);
+>>>    
+>>>    		if (drm_sched_policy == DRM_SCHED_POLICY_FIFO)
+>>> -			drm_sched_rq_update_fifo_locked(entity,
+>>> submit_ts);
+>>> +			drm_sched_rq_update_fifo_locked(entity,
+>>> rq, submit_ts);
+>>>    
+>>> +		spin_unlock(&rq->lock);
+>>>    		spin_unlock(&entity->lock);
+>>>    
+>>>    		drm_sched_wakeup(sched, entity);
+>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
+>>> b/drivers/gpu/drm/scheduler/sched_main.c
+>>> index 18a952f73ecb..5c83fb92bb89 100644
+>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>>> @@ -153,17 +153,18 @@ static __always_inline bool
+>>> drm_sched_entity_compare_before(struct rb_node *a,
+>>>    	return ktime_before(ent_a->oldest_job_waiting, ent_b-
+>>>> oldest_job_waiting);
+>>>    }
+>>>    
+>>> -static inline void drm_sched_rq_remove_fifo_locked(struct
+>>> drm_sched_entity *entity)
+>>> +static void drm_sched_rq_remove_fifo_locked(struct
+> 
+> I think the commit message should contain a short sentence about why
+> you removed the inline.
+> 
+> AKA "As we're at it, remove the inline function specifier from
+> drm_sched_rq_remove_fifo_locked() because XYZ"
 
--Sumit
+Fair play on this one, should have mentioned it. Probably just removed 
+the inline by habit while touching the function signature. Under the 
+"compiler knows better" mantra.
 
---------------2JiO4mqoAz3Ss811mB0lEctH
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Regards,
 
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <div class="moz-cite-prefix">On 9/25/24 19:31, Christian König
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:04caa788-19a6-4336-985c-4eb191c24438@amd.com">
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      Am 25.09.24 um 14:51 schrieb Dmitry Baryshkov:<br>
-      <blockquote type="cite"
-cite="mid:lk7a2xuqrctyywuanjwseh5lkcz3soatc2zf3kn3uwc43pdyic@edm3hcd2koas">
-        <pre class="moz-quote-pre" wrap="">On Wed, Sep 25, 2024 at 10:51:15AM GMT, Christian König wrote:
-</pre>
-        <blockquote type="cite">
-          <pre class="moz-quote-pre" wrap="">Am 25.09.24 um 01:05 schrieb Dmitry Baryshkov:
-</pre>
-          <blockquote type="cite">
-            <pre class="moz-quote-pre" wrap="">On Tue, Sep 24, 2024 at 01:13:18PM GMT, Andrew Davis wrote:
-</pre>
-            <blockquote type="cite">
-              <pre class="moz-quote-pre" wrap="">On 9/23/24 1:33 AM, Dmitry Baryshkov wrote:
-</pre>
-              <blockquote type="cite">
-                <pre class="moz-quote-pre" wrap="">Hi,
+Tvrtko
 
-On Fri, Aug 30, 2024 at 09:03:47AM GMT, Jens Wiklander wrote:
-</pre>
-                <blockquote type="cite">
-                  <pre class="moz-quote-pre" wrap="">Hi,
-
-This patch set is based on top of Yong Wu's restricted heap patch set [1].
-It's also a continuation on Olivier's Add dma-buf secure-heap patch set [2].
-
-The Linaro restricted heap uses genalloc in the kernel to manage the heap
-carvout. This is a difference from the Mediatek restricted heap which
-relies on the secure world to manage the carveout.
-
-I've tried to adress the comments on [2], but [1] introduces changes so I'm
-afraid I've had to skip some comments.
-</pre>
-                </blockquote>
-                <pre class="moz-quote-pre" wrap="">I know I have raised the same question during LPC (in connection to
-Qualcomm's dma-heap implementation). Is there any reason why we are
-using generic heaps instead of allocating the dma-bufs on the device
-side?
-
-In your case you already have TEE device, you can use it to allocate and
-export dma-bufs, which then get imported by the V4L and DRM drivers.
-
-</pre>
-              </blockquote>
-              <pre class="moz-quote-pre" wrap="">This goes to the heart of why we have dma-heaps in the first place.
-We don't want to burden userspace with having to figure out the right
-place to get a dma-buf for a given use-case on a given hardware.
-That would be very non-portable, and fail at the core purpose of
-a kernel: to abstract hardware specifics away.
-</pre>
-            </blockquote>
-            <pre class="moz-quote-pre" wrap="">Unfortunately all proposals to use dma-buf heaps were moving in the
-described direction: let app select (somehow) from a platform- and
-vendor- specific list of dma-buf heaps. In the kernel we at least know
-the platform on which the system is running. Userspace generally doesn't
-(and shouldn't). As such, it seems better to me to keep the knowledge in
-the kernel and allow userspace do its job by calling into existing
-device drivers.
-</pre>
-          </blockquote>
-          <pre class="moz-quote-pre" wrap="">The idea of letting the kernel fully abstract away the complexity of inter
-device data exchange is a completely failed design. There has been plenty of
-evidence for that over the years.
-
-Because of this in DMA-buf it's an intentional design decision that
-userspace and *not* the kernel decides where and what to allocate from.
-</pre>
-        </blockquote>
-        <pre class="moz-quote-pre" wrap="">Hmm, ok.
-
-</pre>
-        <blockquote type="cite">
-          <pre class="moz-quote-pre" wrap="">What the kernel should provide are the necessary information what type of
-memory a device can work with and if certain memory is accessible or not.
-This is the part which is unfortunately still not well defined nor
-implemented at the moment.
-
-Apart from that there are a whole bunch of intentional design decision which
-should prevent developers to move allocation decision inside the kernel. For
-example DMA-buf doesn't know what the content of the buffer is (except for
-it's total size) and which use cases a buffer will be used with.
-
-So the question if memory should be exposed through DMA-heaps or a driver
-specific allocator is not a question of abstraction, but rather one of the
-physical location and accessibility of the memory.
-
-If the memory is attached to any physical device, e.g. local memory on a
-dGPU, FPGA PCIe BAR, RDMA, camera internal memory etc, then expose the
-memory as device specific allocator.
-</pre>
-        </blockquote>
-        <pre class="moz-quote-pre" wrap="">So, for embedded systems with unified memory all buffers (maybe except
-PCIe BARs) should come from DMA-BUF heaps, correct?</pre>
-      </blockquote>
-      <br>
-      From what I know that is correct, yes. Question is really if that
-      will stay this way.<br>
-      <br>
-      Neural accelerators look a lot stripped down FPGAs these days and
-      the benefit of local memory for GPUs is known for decades.<br>
-      <br>
-      Could be that designs with local specialized memory see a revival
-      any time, who knows.<br>
-      <br>
-      <span style="white-space: pre-wrap">
-</span>
-      <blockquote type="cite"
-cite="mid:lk7a2xuqrctyywuanjwseh5lkcz3soatc2zf3kn3uwc43pdyic@edm3hcd2koas">
-        <blockquote type="cite">
-          <pre class="moz-quote-pre" wrap="">If the memory is not physically attached to any device, but rather just
-memory attached to the CPU or a system wide memory controller then expose
-the memory as DMA-heap with specific requirements (e.g. certain sized pages,
-contiguous, restricted, encrypted, ...).
-</pre>
-        </blockquote>
-        <pre class="moz-quote-pre" wrap="">Is encrypted / protected a part of the allocation contract or should it
-be enforced separately via a call to TEE / SCM / anything else?
-</pre>
-      </blockquote>
-      <br>
-      Well that is a really good question I can't fully answer either.
-      From what I know now I would say it depends on the design.<br>
-      <br>
-    </blockquote>
-    <p>IMHO, I think Dmitry's proposal to rather allow TEE device being
-      allocator and exporter of DMA-bufs related to restricted memory
-      makes sense to me. Since it's really the TEE implementation
-      (OP-TEE, AMD-TEE, TS-TEE or future QTEE) which sets up the
-      restrictions on a particular piece of allocated memory. AFAIK,
-      that happens after the DMA-buf gets allocated and then user-space
-      calls into TEE to setup which media pipeline is going to access
-      that particular DMA-buf. It can also be a static contract
-      depending on a particular platform design.<br>
-    </p>
-    <p>As Jens noted in the other thread, we already manage shared
-      memory allocations (from a static carve-out or dynamically mapped)
-      for communications among Linux and TEE that were based on DMA-bufs
-      earlier but since we didn't required them to be shared with other
-      devices, so we rather switched to anonymous memory.<br>
-    </p>
-    <p>From user-space perspective, it's cleaner to use TEE device
-      IOCTLs for DMA-buf allocations since it already know to which
-      underlying TEE implementation it's communicating with rather than
-      first figuring out which DMA heap to use for allocation and then
-      communicating with TEE implementation.<br>
-    </p>
-    <p>-Sumit<br>
-    </p>
-  </body>
-</html>
-
---------------2JiO4mqoAz3Ss811mB0lEctH--
+>>> drm_sched_entity *entity,
+>>> +					    struct drm_sched_rq
+>>> *rq)
+>>>    {
+>>> -	struct drm_sched_rq *rq = entity->rq;
+>>> -
+>>>    	if (!RB_EMPTY_NODE(&entity->rb_tree_node)) {
+>>>    		rb_erase_cached(&entity->rb_tree_node, &rq-
+>>>> rb_tree_root);
+>>>    		RB_CLEAR_NODE(&entity->rb_tree_node);
+>>>    	}
+>>>    }
+>>>    
+>>> -void drm_sched_rq_update_fifo_locked(struct drm_sched_entity
+>>> *entity, ktime_t ts)
+>>> +void drm_sched_rq_update_fifo_locked(struct drm_sched_entity
+>>> *entity,
+>>> +				     struct drm_sched_rq *rq,
+>>> +				     ktime_t ts)
+>>>    {
+>>>    	/*
+>>>    	 * Both locks need to be grabbed, one to protect from
+>>> entity->rq change
+>>> @@ -171,17 +172,14 @@ void drm_sched_rq_update_fifo_locked(struct
+>>> drm_sched_entity *entity, ktime_t ts
+>>>    	 * other to update the rb tree structure.
+>>>    	 */
+>>>    	lockdep_assert_held(&entity->lock);
+>>> +	lockdep_assert_held(&rq->lock);
+>>>    
+>>> -	spin_lock(&entity->rq->lock);
+>>> -
+>>> -	drm_sched_rq_remove_fifo_locked(entity);
+>>> +	drm_sched_rq_remove_fifo_locked(entity, rq);
+>>>    
+>>>    	entity->oldest_job_waiting = ts;
+>>>    
+>>> -	rb_add_cached(&entity->rb_tree_node, &entity->rq-
+>>>> rb_tree_root,
+>>> +	rb_add_cached(&entity->rb_tree_node, &rq->rb_tree_root,
+>>>    		      drm_sched_entity_compare_before);
+>>> -
+>>> -	spin_unlock(&entity->rq->lock);
+>>>    }
+>>>    
+>>>    /**
+>>> @@ -213,15 +211,14 @@ static void drm_sched_rq_init(struct
+>>> drm_gpu_scheduler *sched,
+>>>    void drm_sched_rq_add_entity(struct drm_sched_rq *rq,
+>>>    			     struct drm_sched_entity *entity)
+>>>    {
+>>> +	lockdep_assert_held(&entity->lock);
+>>> +	lockdep_assert_held(&rq->lock);
+>>> +
+>>>    	if (!list_empty(&entity->list))
+>>>    		return;
+>>>    
+>>> -	spin_lock(&rq->lock);
+>>> -
+>>>    	atomic_inc(rq->sched->score);
+>>>    	list_add_tail(&entity->list, &rq->entities);
+>>> -
+>>> -	spin_unlock(&rq->lock);
+>>>    }
+>>>    
+>>>    /**
+>>> @@ -235,6 +232,8 @@ void drm_sched_rq_add_entity(struct
+>>> drm_sched_rq *rq,
+>>>    void drm_sched_rq_remove_entity(struct drm_sched_rq *rq,
+>>>    				struct drm_sched_entity *entity)
+>>>    {
+>>> +	lockdep_assert_held(&entity->lock);
+>>> +
+>>>    	if (list_empty(&entity->list))
+>>>    		return;
+>>>    
+>>> @@ -247,7 +246,7 @@ void drm_sched_rq_remove_entity(struct
+>>> drm_sched_rq *rq,
+>>>    		rq->current_entity = NULL;
+>>>    
+>>>    	if (drm_sched_policy == DRM_SCHED_POLICY_FIFO)
+>>> -		drm_sched_rq_remove_fifo_locked(entity);
+>>> +		drm_sched_rq_remove_fifo_locked(entity, rq);
+>>>    
+>>>    	spin_unlock(&rq->lock);
+>>>    }
+>>> diff --git a/include/drm/gpu_scheduler.h
+>>> b/include/drm/gpu_scheduler.h
+>>> index 80198e6cf537..b21806d5a8eb 100644
+>>> --- a/include/drm/gpu_scheduler.h
+>>> +++ b/include/drm/gpu_scheduler.h
+>>> @@ -596,7 +596,8 @@ void drm_sched_rq_add_entity(struct
+>>> drm_sched_rq *rq,
+>>>    void drm_sched_rq_remove_entity(struct drm_sched_rq *rq,
+>>>    				struct drm_sched_entity *entity);
+>>>    
+>>> -void drm_sched_rq_update_fifo_locked(struct drm_sched_entity
+>>> *entity, ktime_t ts);
+>>> +void drm_sched_rq_update_fifo_locked(struct drm_sched_entity
+>>> *entity,
+>>> +				     struct drm_sched_rq *rq,
+>>> ktime_t ts);
+>>>    
+>>>    int drm_sched_entity_init(struct drm_sched_entity *entity,
+>>>    			  enum drm_sched_priority priority,
+>>
+> 
