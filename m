@@ -2,85 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45A21987B99
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Sep 2024 01:21:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0381987BC7
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Sep 2024 01:26:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E2F010E0D1;
-	Thu, 26 Sep 2024 23:21:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B370410EBE9;
+	Thu, 26 Sep 2024 23:26:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="LtVY8vmN";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="SGEPnkPh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
- [209.85.208.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21E5C10E0D1
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 23:21:25 +0000 (UTC)
-Received: by mail-lj1-f172.google.com with SMTP id
- 38308e7fff4ca-2f75f116d11so18191711fa.1
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 16:21:25 -0700 (PDT)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
+ [209.85.167.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1420210EBE9
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 23:26:06 +0000 (UTC)
+Received: by mail-lf1-f52.google.com with SMTP id
+ 2adb3069b0e04-536a2759f0eso2475608e87.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 16:26:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1727392883; x=1727997683; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1727393164; x=1727997964; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Hj1ddZeOtN7zDwMwktNYFtzm3Gh7Tekdeg6sieYs35g=;
- b=LtVY8vmNgqtrQeHH18H7O4B7kTTvufv9XqGBwEKfjzQJq4WePngxc8/mKTTsV1udci
- DH+wyhjAmKygEXJ61AixRuh1vNlSun0o7x1ufKvSMQ5cokHM9D26eivcDFbFqt6/peEN
- 9X2ptEj4mVzCc3/ntrd7+SHCTn/sci+OYEQSMGAFM24nD9C7dCgLbmWT43SwucVxh262
- sCw7JyxHozREr3kUwoSvhIxyJOe2RMs8l6CAlExlUrF1mBgYjAKapacZPCcRZW4H0+sr
- 2v4xwsIfu6SYFE2fYtzrFE/5j/wbJ6xGr/wIJ5I3ro30EyZ6TeN3pGVEr6qxPROX6Rz8
- u9HA==
+ bh=t5pseCPO6jN8nR6Udzs4lC47qwj/lhZ7DuKsdijaTSc=;
+ b=SGEPnkPhG5aqDqk2nhlIDSFrGPqwa9QF1n/3Iw35tV1Y1TA2OfbVT4QX7BcEjgROIj
+ R8X+UFKdsDoXfj3nDzLb3v6doeBsrt7HwPjpYOGlr9auk3U1gSJRSVv+H+8qpsysB+2f
+ 3OTFCLjYjrjh3i52WeTwu2Ld5JVLMUla/8/jokLrSFTSxDH/TI7Ms6hATtrclBImUl9u
+ IWmGYVOtEqwWy5AMuHKG06QX/4/w+A5GzM2+vEAqMaj3UdFxUj54Fio2TstgC5+Y9NnW
+ 2yY4ozTDEXdHiXM072CpiCmmgS02vjRouIPH5KUUaSGXLedNjRdd8yLGyXmt+HKDHHXd
+ RNhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727392883; x=1727997683;
+ d=1e100.net; s=20230601; t=1727393164; x=1727997964;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Hj1ddZeOtN7zDwMwktNYFtzm3Gh7Tekdeg6sieYs35g=;
- b=an8P7QnQZJ3VhICM134zj5Ul2O8NeXOdI/fQM1+Jg98+ay7hDbIBNmQ/hJLZHzpzuJ
- JFPgclwBmcCts6P31xGPfM6hsUvTwIAVYAbtEQtMLjC/9Fbbat3yp2JA3f8pvtAY5R7H
- NY98POkpl9I2E8M/rRGF43dUQcXezHH0hDonCjY7SRXkLLtzHmVjOFJJwRbY9Pi0g+JL
- r6VQJOpeGVVyGmJCSrht2FceADN8lqxmGjI5Bgb66UBVFvOnxf18PCtUAsw0IJ8yo7Ls
- Ws4f93IO5pI+1a355wibG/VUSGfr/7IP7Xp/+pjiJZARmdgiifXqKptFDs6HhSkaK/j1
- HAKg==
+ bh=t5pseCPO6jN8nR6Udzs4lC47qwj/lhZ7DuKsdijaTSc=;
+ b=JTH5Roqz+Q1/k0pFKqCfLyIXod/MoRAhgXoeScljslCC8omRiV7eifvbFXYIR0enRM
+ gCXIc+2vH88iJWciavG/P8aXbzjakBAyLTSQ/RzS6kPguRz38xRE/Xlly8Uvhc0PsFzP
+ cBqO1T8n1T+xOjj6r7JSegQbpTzr5NL3thZ7ElDLeNU3nLaWTf8aAj+fgrE/PVCXdNyG
+ NltrzstEv/sO5mYkisgnefnSjORIJ5Roc37XPsUOEmBjjAcmG6eFUuf7r3Ot28QSgTH0
+ Opgcdp1DZmvUnMt4+ij08bk63Q9O7zyLQMwz1vfBbTE+ofeoBBmUxyW4HIAPlIWqYRoU
+ +TuQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX+n9nkXnCjRLQhqXRj2nhwcjgUibEZUZIcChAh0eZfnvqrImJTjkq0ZsGGpHAZ2uH/udzlASuC3X4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw/byre1orUkZWUPkQvNPdDABd1G4+FWNwgHCflv5rMu6vhZSCc
- AH26gccGTGb4qPFgUKKQSzg30emNkzhW507MfmCnfM9D9xht9FWDvmU8ezcxffE=
-X-Google-Smtp-Source: AGHT+IELK0Z3Oj9K6pV3soLuC1gTs0dfJ9rdKZI8pDVBtLZN2FDIDBgtVuAsJBZb02BkKfXRyruufA==
-X-Received: by 2002:a05:6512:3a96:b0:52e:9e70:d068 with SMTP id
- 2adb3069b0e04-5389fc29c84mr797475e87.4.1727392882552; 
- Thu, 26 Sep 2024 16:21:22 -0700 (PDT)
+ AJvYcCXucDqscMotF92Es+ZUxcNIn5vxkA/ONB8drOrwq3OPsPtkAZxsp8mc8wSGp1bnEtKtuVoKwZ9L2Mo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwTjK8bDA9vmZh2JctpbVRzDmeHBktOuFx8BRdNXzgQS//jtwPa
+ UX3S9H8/R4SF/dFluWDsFw6ZMWLrOxdugqRw0+m8Gi07+aSsZLu/ZERFfv5LDxA=
+X-Google-Smtp-Source: AGHT+IFAmKWsef3dkLsjCXYV9pQHrb5CqKf+GuRXpmYITGvw+mF5uEPHe1Fq1aNMJshg42Udh6y/6A==
+X-Received: by 2002:a05:6512:3b9b:b0:530:aea3:4659 with SMTP id
+ 2adb3069b0e04-5389fc330ecmr749547e87.9.1727393164048; 
+ Thu, 26 Sep 2024 16:26:04 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-538a044159csm100729e87.263.2024.09.26.16.21.20
+ 2adb3069b0e04-538a04399f4sm101721e87.190.2024.09.26.16.26.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Sep 2024 16:21:22 -0700 (PDT)
-Date: Fri, 27 Sep 2024 02:21:19 +0300
+ Thu, 26 Sep 2024 16:26:03 -0700 (PDT)
+Date: Fri, 27 Sep 2024 02:26:00 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Manikandan.M@microchip.com, neil.armstrong@linaro.org, 
- quic_jesszhan@quicinc.com, airlied@gmail.com, simona@ffwll.ch, 
- maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, robh@kernel.org,
- krzk+dt@kernel.org, 
- conor+dt@kernel.org, thierry.reding@gmail.com, sam@ravnborg.org, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Dharma.B@microchip.com
-Subject: Re: [PATCH v2 2/2] drm/panel: simple: Add Microchip AC69T88A LVDS
- Display panel
-Message-ID: <aehcvf55b52p6u5ai3uri7jzo2dywdhv6mxo4pxz3lhajjoxqe@izk23gt2yvdn>
-References: <20240919091548.430285-1-manikandan.m@microchip.com>
- <20240919091548.430285-2-manikandan.m@microchip.com>
- <zognzunciriytm3uvoolxjsvu43v3m2lnctsz5swusnmm3aj2z@ag7zkncccdmf>
- <83e9d20d-f294-4303-b570-816ebc989bcf@microchip.com>
- <f4z2egmrcoh7kih2pyr3mq7fzuwtvod6vxlzzim2iw3ly7jcr3@2uxiyzlfixhp>
- <17b5a11c-b9a8-4172-831e-d52f1a4270e9@microchip.com>
- <quxjqmx5yc27cxmjvnq6irltr36josag4yltxbiweh4femqbqo@j34pxmfxglc5>
- <20240926-foamy-oarfish-of-passion-ec6fa2@houat>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Linux Kernel List <linux-kernel@vger.kernel.org>, 
+ Saravana Kannan <saravanak@google.com>,
+ Aradhya Bhatia <aradhya.bhatia@linux.dev>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Devarsh Thakkar <devarsht@ti.com>
+Subject: Re: fw_devlinks preventing a panel driver from probing
+Message-ID: <il3s26owmtyf3knniv7klkmw3uuz4dffrump7jo47dk6hxdsya@v5plmtjcbukf>
+References: <1a1ab663-d068-40fb-8c94-f0715403d276@ideasonboard.com>
+ <34mewzvfyjsvyud3lzy6swxs7sr64xkgrbkxtvyw3czvoerct7@7guo32ehwa52>
+ <5a540bdb-e3ca-494a-b68d-8f81f4d1cc1a@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240926-foamy-oarfish-of-passion-ec6fa2@houat>
+In-Reply-To: <5a540bdb-e3ca-494a-b68d-8f81f4d1cc1a@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,49 +90,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 26, 2024 at 03:58:11PM GMT, Maxime Ripard wrote:
-> On Thu, Sep 26, 2024 at 04:32:59PM GMT, Dmitry Baryshkov wrote:
-> > On Thu, Sep 26, 2024 at 08:17:09AM GMT, Manikandan.M@microchip.com wrote:
-> > > On 23/09/24 11:37 am, Dmitry Baryshkov wrote:
-> > > > EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
-> > > > 
-> > > > On Mon, Sep 23, 2024 at 05:50:22AM GMT, Manikandan.M@microchip.com wrote:
-> > > >> On 20/09/24 9:13 pm, Dmitry Baryshkov wrote:
-> > > >>> EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
-> > > >>>
-> > > >>> On Thu, Sep 19, 2024 at 02:45:48PM GMT, Manikandan Muralidharan wrote:
-> > > >>>> Add support for Microchip AC69T88A 5 inch TFT LCD 800x480
-> > > >>>> Display module with LVDS interface.The panel uses the Sitronix
-> > > >>>> ST7262 800x480 Display driver
-> > > >>>
-> > > >>> AC69T88A seems to be a module name, rather than a panel name. What is
-> > > >>> the actual panel name present on this module?
-> > > >> Both names, "Microchip AC69T88A" and "MPU32-LVDS-DISPLAY-WVGA" are
-> > > >> present on the display module
-> > > > 
-> > > > Which panel was used for the module? I don't think that Microchip
-> > > > produces LVDS panels.
-> > > Its a new LVDS display from Microchip that uses Sitronix ST7262 TFT LCD 
-> > > driver
+On Thu, Sep 26, 2024 at 02:52:35PM GMT, Tomi Valkeinen wrote:
+> Hi,
+> 
+> On 21/09/2024 23:15, Dmitry Baryshkov wrote:
+> > On Mon, Sep 16, 2024 at 02:51:57PM GMT, Tomi Valkeinen wrote:
+> > > Hi,
 > > > 
-> > > https://www.crystalfontz.com/controllers/datasheet-viewer.php?id=486
+> > > We have an issue where two devices have dependencies to each other,
+> > > according to drivers/base/core.c's fw_devlinks, and this prevents them from
+> > > probing. I've been adding debugging to the core.c, but so far I don't quite
+> > > grasp the issue, so I thought to ask. Maybe someone can instantly say that
+> > > this just won't work...
 > > 
-> > Ok. Anyway if somebody ends up looking for the panel, they'll probably
-> > find the module and vice versa.
+> > Well, just 2c from my side. I consider that fw_devlink adds devlinks for
+> > of-graph nodes to be a bug. It doesn't know about the actual direction
+> > of dependencies between corresponding devices or about the actual
+> > relationship between drivers. It results in a loop which is then broken
+> > in some way. Sometimes this works. Sometimes it doesn't. Sometimes this
+> > hides actual dependencies between devices. I tried reverting offending
+> > parts of devlink, but this attempt failed.
+> 
+> I was also wondering about this. The of-graphs are always two-way links, so
+> the system must always mark them as a cycle. But perhaps there are other
+> benefits in the devlinks than dependency handling?
+> 
+> > > If I understand the fw_devlink code correctly, in a normal case the links
+> > > formed with media graphs are marked as a cycle (FWLINK_FLAG_CYCLE), and then
+> > > ignored as far as probing goes.
+> > > 
+> > > What we see here is that when using a single-link OLDI panel, the panel
+> > > driver's probe never gets called, as it depends on the OLDI, and the link
+> > > between the panel and the OLDI is not a cycle.
 > > 
-> > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > I think in your case you should be able to fix the issue by using the
+> > FWNODE_FLAG_NOT_DEVICE, which is intented to be used in such cases. You
 > 
-> Given that aside from that mail, the module name isn't mentionned
-> anywhere, I'm not sure they would.
-> 
-> The way we usually deal with controllers is to have a separate driver
-> for panels based on that controller, even more so since that controller
-> seems to be able to affect the display.
+> How would I go using FWNODE_FLAG_NOT_DEVICE? Won't this only make a
+> difference if the flag is there at early stage when the linux devices are
+> being created? I think it's too late if I set the flag when the dss driver
+> is being probed.
 
-But in this case it's panel-simple, no special driver for the
-controller. From my understanding the AC69T88A is the module name (at
-least the datasheet uses that name). The on-board EEPROM also carries
-that name and the name of the controller.
+I think you have the NOT_DEVICE case as the DSS device corresponds to
+the parent of your OLDI nodes. There is no device which corresponds to
+the oldi@0 / oldi@1 device nodes (which contain corresponding port
+nodes).
+
+> 
+> > have a dependency on DT node which doesn't have backing device.
+> 
+> Well, there is a backing device, the DSS. But if you mean that the system at
+> the moment cannot figure out that there is a backing device, then true.
 
 -- 
 With best wishes
