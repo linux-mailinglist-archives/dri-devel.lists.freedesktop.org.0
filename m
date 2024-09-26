@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38628987A74
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 23:17:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6FFA987A66
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 23:17:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B2CE10EBE8;
-	Thu, 26 Sep 2024 21:17:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35D5B10EBDB;
+	Thu, 26 Sep 2024 21:17:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="PN1a+pnB";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="eKSKdiNH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
- [209.85.218.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08BBB10EBDB;
- Thu, 26 Sep 2024 21:17:02 +0000 (UTC)
-Received: by mail-ej1-f44.google.com with SMTP id
- a640c23a62f3a-a910860e4dcso203084566b.3; 
- Thu, 26 Sep 2024 14:17:01 -0700 (PDT)
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com
+ [209.85.218.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E37AB10EBDB;
+ Thu, 26 Sep 2024 21:17:03 +0000 (UTC)
+Received: by mail-ej1-f51.google.com with SMTP id
+ a640c23a62f3a-a8a7b1c2f2bso209582366b.0; 
+ Thu, 26 Sep 2024 14:17:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1727385420; x=1727990220; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1727385422; x=1727990222; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=DOKXSutIlfOVDg0zXz9VdQ+hEZL/0dYJxHmN2LSZob8=;
- b=PN1a+pnB9W0X/lWllLiU7wyLN4b+/5sqeDzmFwdlJUAJC59pPo/xKRjs1DDpfjGB1i
- KXNW5Dn4x+qmc6yCKEzg8cq6o2tLNGGZjtI6N85WRXp8dLMwSt1SlDHhW+myHAooFfbn
- F2g8ncv8hLpPollOIqAubpmv/VS4w4mMG4XRr6IyRg9lNhi/TUy3Pxq54zt5nnCxmog/
- Yq/fzvdY2F7jAVyRELQhCkuMwGBU0vmwwp4mn53iFPvOfee6UVyuBKbWg7t6DbQ6zFRW
- ktKGMm5VZQQ3IKTrn8sP+qmAcqRglTefeKan1rhY+VuUOX58pLNZ6TWolNiQfTZDu3uG
- gUzQ==
+ :reply-to; bh=DtlKt6idkJAcSVx+NWk8duOZfO6okh0MSeZqXt1n944=;
+ b=eKSKdiNH6Iwnhwj0GiBcCl+3ikswnHFHv3T9IH66z2wE9BgWCN36m/iw7CCUWv4R1E
+ 9tJITObh89kD6Ph4s3hxKr+beddUXfcp9TGohhPvBcapxrzUizDPvlHJv/LtdS0zWtKH
+ rYev7adZvkErR9tB7cuNX1WpJ+zDQdHTUasp088atbLX0/d5oMyl/SI9k6nMRcyt63jq
+ exQXV3PDPS6vrPpc5DskO2dPShbDpiP1ceIWFvvQXrA+LA0oCSYPoKIQOGwA/AX7Eo1V
+ Fry0+MmlqtSB4N60A2ioVmVyE424zpPyyvm88mzEiAnquqxgi/RNQUWpa2O8IuBeIh7P
+ Os8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727385420; x=1727990220;
+ d=1e100.net; s=20230601; t=1727385422; x=1727990222;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=DOKXSutIlfOVDg0zXz9VdQ+hEZL/0dYJxHmN2LSZob8=;
- b=ExQZMz/SsTKwWzre/ipXRY9JJWnxmPh6IAD+ZarmjPy1pelcOkW13RfDYK5EDmFevP
- GW2er8eiD+2O56TldiZWyeaZW/7ZCNpYJ8g2SzxMeY0eemYFpKGIsY0NLRsH8Yf/iLLZ
- Xz/cOWjqPRv+Uzsg3QvcvVv9+ciOkwDCQKhfM4RWI8V36cyUF1qWbMbqC4bzP+QuEFpP
- +4BmxquPCXpy78/uqWT5tzGGH2Wya+rkYCSRYLRtDI8wq4jNnG4x4ZcPiu75e35H1WnJ
- LaWUGxabOkUJq++uLGxxuUncIvo6tEdkc5uDO07UNC1o/t8x4A4fB/KnP0m+kKEPqabJ
- 3x8w==
+ bh=DtlKt6idkJAcSVx+NWk8duOZfO6okh0MSeZqXt1n944=;
+ b=bJSIFcGbtaoI1aYCa7hFJINC6mt96FstzezFz/MIQEHOXviMb5R3E1HIUBmaxip/7j
+ n/Hk7xlG8U4j1ErGixrqIjVxoSzDwEWP4xhYrk1y2PH8rt+kZKCJgTIEjDlJQnEJjnQm
+ kS4+F9MhxBflxCUxGFAPC7MI/7rZ6eR5kvdtRzxhUyr/ByNVZfXDZtcO5LHjlrrJiU3v
+ mqf4oV6R9t8BpM98XLUpFp0GEEkDvXJnc3V+CbWnxbbpLNVOy5rEfaFlqLTTEF+82kzg
+ 7yJY48sPbBCmzY7wWkJ28QpzjOWikWFkUyp0rZRGbxG4YP2TNrRyNeaTQqZyr21Bz2uH
+ oifw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUljOEY7CZ+xML383RnHZ9GS638Rz93wt2G+SID2Ou540RJmnw2KD+N+nNPQSpvAMtDq4nGaxKif54=@lists.freedesktop.org,
- AJvYcCWNCXJ78RPziasa+oLhJg5h/o+U8D++U4H5rhmCs+dAuM+zyObigNK1U+YOcQcIReIPmfVEVpZtZ4wg@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwSrFVnsODPNzMsfOKl79G+mrfFadKf6Ka7pxFHxvNgzZdtj5S/
- 7v18qe+wHWfFfDSg3xf2PMeQEjf0zQYj4tt8ya7ametJMxCSLisa
-X-Google-Smtp-Source: AGHT+IFpKhDuZfYNy68feNhUvFGsTiD9A1E0EjHrjHTO56CLgr9u2M7q7/m2r0kwzAX4pNRGTFBuPA==
-X-Received: by 2002:a17:907:318d:b0:a8d:7210:e28c with SMTP id
- a640c23a62f3a-a93c490e44bmr65654266b.20.1727385420244; 
- Thu, 26 Sep 2024 14:17:00 -0700 (PDT)
+ AJvYcCVko2rv/vUNbqp1Nboo/crBZP3ujqKbPavSpAL5Mi0mytVs/hROMx50+3Vot2K9xampWEDCH5PlXQQt@lists.freedesktop.org,
+ AJvYcCXsRzzX2hVUQ7k7A33zbn6/RL4poKetmokLoz8ObXVcqpQsIbZqF9yVImFQorUFaqlJYsq918Raqho=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwI4TlXZP6GjBthRHBYbR5FG+IplrLG8ZL346ODnkWkwQsvaXSp
+ DL7Lto2y9nEFqXylN+orUc1F+ZOjimUqAD9HkBymTo60dqrLAq5E
+X-Google-Smtp-Source: AGHT+IFeG3xQe2NUPb0TWY2IpSWyUWxXtqMEEggeGF8jV+8iSTppPXNsjqibA2NC+C8f+F4+2Kaaqg==
+X-Received: by 2002:a17:906:4788:b0:a8d:2ab2:c99e with SMTP id
+ a640c23a62f3a-a93c4aa6a5bmr61656266b.55.1727385421887; 
+ Thu, 26 Sep 2024 14:17:01 -0700 (PDT)
 Received: from [192.168.1.17] (a-lu6-5.tin.it. [212.216.221.196])
  by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a93c297b7d6sm38862166b.162.2024.09.26.14.16.58
+ a640c23a62f3a-a93c297b7d6sm38862166b.162.2024.09.26.14.17.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Sep 2024 14:16:59 -0700 (PDT)
+ Thu, 26 Sep 2024 14:17:01 -0700 (PDT)
 From: Antonino Maniscalco <antomani103@gmail.com>
-Date: Thu, 26 Sep 2024 23:16:45 +0200
-Subject: [PATCH v6 03/11] drm/msm: Add a `preempt_record_size` field
+Date: Thu, 26 Sep 2024 23:16:46 +0200
+Subject: [PATCH v6 04/11] drm/msm: Add CONTEXT_SWITCH_CNTL bitfields
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240926-preemption-a750-t-v6-3-7b6e1ef3648f@gmail.com>
+Message-Id: <20240926-preemption-a750-t-v6-4-7b6e1ef3648f@gmail.com>
 References: <20240926-preemption-a750-t-v6-0-7b6e1ef3648f@gmail.com>
 In-Reply-To: <20240926-preemption-a750-t-v6-0-7b6e1ef3648f@gmail.com>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
@@ -77,14 +77,13 @@ To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
 Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  linux-doc@vger.kernel.org, Antonino Maniscalco <antomani103@gmail.com>, 
- Akhil P Oommen <quic_akhilpo@quicinc.com>, 
  Neil Armstrong <neil.armstrong@linaro.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1727385413; l=2436;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1727385413; l=1479;
  i=antomani103@gmail.com; s=20240815; h=from:subject:message-id;
- bh=jU1AlYtknaCE51ZnM/HBAvqUX6+tTJwfzHBOTp368BQ=;
- b=yJILcxKA4G5tYzDD0/u1d3UwGStbNN+/zKQr32KmtRB9+8cDUucVoMKaSentxlvR0akuxpVKH
- fAhHl/J0BOzBbrX1eDNL6GnK8K7ero/qKTz84/h+m0uY5z77PxqAfOd
+ bh=HrcVfm6GphW+dkH2/eI9roTkaCaCbkN7M4JC5UFjlfM=;
+ b=ec7LoUmEJAjOmebgibx3u60S+UsCHv4BwpHYl/Nc/7q9K7NGp9GiEBLqx/gvyNu6Wv+J7Suz2
+ nQnm9jESmN5Cejmax/JV9YxHfosajsFLUgzIOl368HKPOvv+/ryayTH
 X-Developer-Key: i=antomani103@gmail.com; a=ed25519;
  pk=0zicFb38tVla+iHRo4kWpOMsmtUrpGBEa7LkFF81lyY=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -102,67 +101,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Adds a field to `adreno_info` to store the GPU specific preempt record
-size.
+Add missing bitfields to CONTEXT_SWITCH_CNTL in a6xx.xml.
 
-Reviewed-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
 Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-QRD
 Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8550-QRD
 Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8450-HDK
 Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
 ---
- drivers/gpu/drm/msm/adreno/a6xx_catalog.c | 4 ++++
- drivers/gpu/drm/msm/adreno/adreno_gpu.h   | 1 +
- 2 files changed, 5 insertions(+)
+ drivers/gpu/drm/msm/registers/adreno/a6xx.xml | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-index 68ba9aed5506ea2f367ff0282a73fdd1122f2526..316f23ca91671d973797f2a5b69344f376707325 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-@@ -1190,6 +1190,7 @@ static const struct adreno_info a7xx_gpus[] = {
- 			.protect = &a730_protect,
- 		},
- 		.address_space_size = SZ_16G,
-+		.preempt_record_size = 2860 * SZ_1K,
- 	}, {
- 		.chip_ids = ADRENO_CHIP_IDS(0x43050a01), /* "C510v2" */
- 		.family = ADRENO_7XX_GEN2,
-@@ -1209,6 +1210,7 @@ static const struct adreno_info a7xx_gpus[] = {
- 			.gmu_chipid = 0x7020100,
- 		},
- 		.address_space_size = SZ_16G,
-+		.preempt_record_size = 4192 * SZ_1K,
- 	}, {
- 		.chip_ids = ADRENO_CHIP_IDS(0x43050c01), /* "C512v2" */
- 		.family = ADRENO_7XX_GEN2,
-@@ -1227,6 +1229,7 @@ static const struct adreno_info a7xx_gpus[] = {
- 			.gmu_chipid = 0x7050001,
- 		},
- 		.address_space_size = SZ_256G,
-+		.preempt_record_size = 4192 * SZ_1K,
- 	}, {
- 		.chip_ids = ADRENO_CHIP_IDS(0x43051401), /* "C520v2" */
- 		.family = ADRENO_7XX_GEN3,
-@@ -1245,6 +1248,7 @@ static const struct adreno_info a7xx_gpus[] = {
- 			.gmu_chipid = 0x7090100,
- 		},
- 		.address_space_size = SZ_16G,
-+		.preempt_record_size = 3572 * SZ_1K,
- 	}
- };
- DECLARE_ADRENO_GPULIST(a7xx);
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-index 1ab523a163a00b333a85b099e9eb9209e6a2e646..6b1888280a83e6288c4b071733d5d6097afe3a99 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-@@ -111,6 +111,7 @@ struct adreno_info {
- 	 * {SHRT_MAX, 0} sentinal.
- 	 */
- 	struct adreno_speedbin *speedbins;
-+	u64 preempt_record_size;
- };
+diff --git a/drivers/gpu/drm/msm/registers/adreno/a6xx.xml b/drivers/gpu/drm/msm/registers/adreno/a6xx.xml
+index 2dfe6913ab4f52449b76c2f75b2d101c08115d16..fd31d1d7a11eef7f38dcc2975dc1034f6b7a2e41 100644
+--- a/drivers/gpu/drm/msm/registers/adreno/a6xx.xml
++++ b/drivers/gpu/drm/msm/registers/adreno/a6xx.xml
+@@ -1337,7 +1337,12 @@ to upconvert to 32b float internally?
+ 		<reg32 offset="0x0" name="REG" type="a6x_cp_protect"/>
+ 	</array>
  
- #define ADRENO_CHIP_IDS(tbl...) (uint32_t[]) { tbl, 0 }
+-	<reg32 offset="0x08A0" name="CP_CONTEXT_SWITCH_CNTL"/>
++	<reg32 offset="0x08A0" name="CP_CONTEXT_SWITCH_CNTL">
++		<bitfield name="STOP" pos="0" type="boolean"/>
++		<bitfield name="LEVEL" low="6" high="7"/>
++		<bitfield name="USES_GMEM" pos="8" type="boolean"/>
++		<bitfield name="SKIP_SAVE_RESTORE" pos="9" type="boolean"/>
++	</reg32>
+ 	<reg64 offset="0x08A1" name="CP_CONTEXT_SWITCH_SMMU_INFO"/>
+ 	<reg64 offset="0x08A3" name="CP_CONTEXT_SWITCH_PRIV_NON_SECURE_RESTORE_ADDR"/>
+ 	<reg64 offset="0x08A5" name="CP_CONTEXT_SWITCH_PRIV_SECURE_RESTORE_ADDR"/>
 
 -- 
 2.46.1
