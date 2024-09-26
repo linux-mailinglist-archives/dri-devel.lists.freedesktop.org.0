@@ -2,56 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F1E49878CE
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 20:02:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B42DA9878CF
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 20:03:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0481F10EBC1;
-	Thu, 26 Sep 2024 18:02:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D7D410EBC4;
+	Thu, 26 Sep 2024 18:03:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BqVJJMMa";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kqzgGSDj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77D8710EBC1
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 18:01:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1727373719; x=1758909719;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=G15Bzbc2IbU/19Bo1RvHEHBdILuhpAjUc3+YKl+hS6Q=;
- b=BqVJJMMa1Y9JqQmwQCl7zjP+r4nIQqIgDPVH8hfF2iquf25502J4MNSW
- 1WJ5KB+pTKN/ZeS+YMkrDHJ/SUfHOLbKnVGQflB7ueCG06fzCiyO6m4Aq
- LO1laLzL0nQQ63quv/NIx/GriLssGHYiQQKZuEkRz51qJ7wPw44syhPgw
- bXguoxB6PBoqsEwFncFqcTOKl8gqzuoQ11RpV+S+kDbDvkmbj6Pm9GRf/
- o3KXWavVpXYzAognevvv2CwxCRD8Rkv+al3ynJF9Rd5D/cXMt9TQhofvY
- zi9SimqCKwgyu2O2oJ4+BRFHMnxlAVjmf3AOVe/tjiabgMi66Ob0RIwcO A==;
-X-CSE-ConnectionGUID: 5+f4QdttRN+FELJsoHV19g==
-X-CSE-MsgGUID: AdGZUUB6StymtDqP9LYqtw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="37077403"
-X-IronPort-AV: E=Sophos;i="6.11,156,1725346800"; d="scan'208";a="37077403"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2024 11:01:55 -0700
-X-CSE-ConnectionGUID: hlMHMxX6SFa+AoGQzWQyHw==
-X-CSE-MsgGUID: Q+IGMVN0SbeAwKJRn33Fjw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,156,1725346800"; d="scan'208";a="72335188"
-Received: from tassilo.jf.intel.com ([10.54.38.190])
- by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2024 11:01:56 -0700
-From: Andi Kleen <ak@linux.intel.com>
-To: maarten.lankhorst@linux.intel.com
-Cc: mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, dri-devel@lists.freedesktop.org,
- Andi Kleen <ak@linux.intel.com>
-Subject: [PATCH v3] drm: Print bad EDID notices less often
-Date: Thu, 26 Sep 2024 11:01:50 -0700
-Message-ID: <20240926180150.2674763-1-ak@linux.intel.com>
-X-Mailer: git-send-email 2.46.1
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1D9410EBC4
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 18:03:21 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id C3CE4A43695;
+ Thu, 26 Sep 2024 18:03:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 144FBC4CEC5;
+ Thu, 26 Sep 2024 18:03:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1727373800;
+ bh=3228WUQ9vmLAriBD/5+dhgd2dxqg90jLNlv96f6hosU=;
+ h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+ b=kqzgGSDjhP9snOiX20gWrwtkbxJ4FT5Wr4UnFIvZITpLLNwtGuCrqFBd3IakG6See
+ nDxbBih8Zn1IIAloR6eyav9COsM5dOW0otLgXHbz1I0kgI0h7pXBI7nQkGUJ771AbJ
+ HjP4mn+U1A2UzFj0LV0U9h2Z75VZ+adbkvvH3RXcrZJt0ccu1m9ytnk4WA0ELaZE3H
+ Zovmdk2HacZO/U/zLomD9FiYCGGjQiHVswcr++7/Ps7IkTyJ4KGDj+3Z+ISkdC1CEW
+ 2NE7OmEu7oJ6sqhhsUNsqNzc791js6xBjDOTP8hJBr+YvXxLAx009ER3uOt+dCnAYh
+ wbM9oX/tY68kQ==
+Date: Thu, 26 Sep 2024 20:03:18 +0200 (CEST)
+From: Jiri Kosina <jikos@kernel.org>
+To: Aditya Garg <gargaditya08@live.com>, 
+ "airlied@gmail.com" <airlied@gmail.com>
+cc: "tzimmermann@suse.de" <tzimmermann@suse.de>, 
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>, 
+ "mripard@kernel.org" <mripard@kernel.org>, 
+ "daniel@ffwll.ch" <daniel@ffwll.ch>, 
+ "bentiss@kernel.org" <bentiss@kernel.org>, 
+ =?ISO-8859-15?Q?Thomas_Wei=DFschuh?= <thomas@t-8ch.de>, 
+ Orlando Chamberlain <orlandoch.dev@gmail.com>, 
+ Kerem Karabay <kekrby@gmail.com>, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+ "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+ "torvalds@linux-foundation.org" <torvalds@linux-foundation.org>
+Subject: Re: [WHY SUCH DELAY!] Touch Bar support for T2 Macs
+In-Reply-To: <MA0P287MB0217A06CA89D6A7D0631466EB86A2@MA0P287MB0217.INDP287.PROD.OUTLOOK.COM>
+Message-ID: <nycvar.YFH.7.76.2409262001520.31206@cbobk.fhfr.pm>
+References: <DD9C41AD-6543-47CE-8504-69E4992229B2@live.com>
+ <MA0P287MB02176175318B96135BE3E320B8902@MA0P287MB0217.INDP287.PROD.OUTLOOK.COM>
+ <nycvar.YFH.7.76.2409111420040.31206@cbobk.fhfr.pm>
+ <MA0P287MB0217A06CA89D6A7D0631466EB86A2@MA0P287MB0217.INDP287.PROD.OUTLOOK.COM>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,65 +71,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I have an old monitor that reports a zero EDID block, which results in a
-warning message. This happens on every screen save cycle, and maybe in
-some other situations, and over time the whole kernel log gets filled
-with these redundant messages.
+On Thu, 26 Sep 2024, Aditya Garg wrote:
 
-Make most of these prints conditional on bad_edid_count like other verbose EDID
-messages.
+> It has been more than a month since I've sent this patch set and I 
+> haven't got a clear yes or not for the same. I understand maintainers 
+> are busy people, but I'd really appreciate if I get some response for 
+> this series of patches from the HID and DRM maintainers.
 
-Signed-off-by: Andi Kleen <ak@linux.intel.com>
+Just to reiterate -- I am waiting for Ack from the DRM people and will 
+then take it through hid.git.
 
----
+Dave, who'd be the best person to do this from the DRM side please?
 
-v2: Use bad_edid_count instead of _once.
-v3: Move rate limit logic into dedicated wrapper.
----
- drivers/gpu/drm/drm_edid.c | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
+Thanks,
 
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 855beafb76ff..64d41dd605f1 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -1949,6 +1949,18 @@ static void edid_block_status_print(enum edid_block_status status,
- 	}
- }
- 
-+static void edid_block_status_print_rl(struct drm_connector *connector,
-+				    enum edid_block_status status,
-+				    const struct edid *block,
-+				    int block_num)
-+{
-+	if (status != EDID_BLOCK_OK &&
-+		!connector->bad_edid_counter++ &&
-+		!drm_debug_enabled(DRM_UT_KMS))
-+		return;
-+	edid_block_status_print(status, block, block_num);
-+}
-+
- static void edid_block_dump(const char *level, const void *block, int block_num)
- {
- 	enum edid_block_status status;
-@@ -2375,7 +2387,7 @@ static struct edid *_drm_do_get_edid(struct drm_connector *connector,
- 
- 	status = edid_block_read(edid, 0, read_block, context);
- 
--	edid_block_status_print(status, edid, 0);
-+	edid_block_status_print_rl(connector, status, edid, 0);
- 
- 	if (status == EDID_BLOCK_READ_FAIL)
- 		goto fail;
-@@ -2409,7 +2421,7 @@ static struct edid *_drm_do_get_edid(struct drm_connector *connector,
- 
- 		status = edid_block_read(block, i, read_block, context);
- 
--		edid_block_status_print(status, block, i);
-+		edid_block_status_print_rl(connector, status, block, i);
- 
- 		if (!edid_block_status_valid(status, edid_block_tag(block))) {
- 			if (status == EDID_BLOCK_READ_FAIL)
 -- 
-2.46.1
+Jiri Kosina
+SUSE Labs
 
