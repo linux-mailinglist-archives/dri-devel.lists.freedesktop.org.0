@@ -2,67 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23222986DED
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 09:45:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1138F986E0E
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 09:48:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D3E010EAD3;
-	Thu, 26 Sep 2024 07:45:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 859C910EADB;
+	Thu, 26 Sep 2024 07:48:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="WJMg9bzX";
+	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ite.com.tw header.i=@ite.com.tw header.b="jaZUDkiI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D88D310E0A3;
- Thu, 26 Sep 2024 07:45:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1727336749; x=1758872749;
- h=date:from:to:cc:subject:message-id:mime-version:
+Received: from ironport.ite.com.tw (60-251-196-230.hinet-ip.hinet.net
+ [60.251.196.230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED6E410EADB
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 07:48:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ite.com.tw; s=dkim;
+ h=from:to:cc:subject:date:message-id:mime-version:
  content-transfer-encoding;
- bh=gTVkOpoGqWyu8FIyK3go/K4ZeY5u/y4JMRNx8+D2Ot8=;
- b=WJMg9bzXKE+OM6y4CAcceKmF/dQ/ttgHSMtE8EBT7qSXaDBEkxcozIX4
- 7WgPK8SnLGINhmnSsGHIinYXIsba0qc1X+6QCTF/EIOAkf2AJIdzdTf8b
- UvQHH9pOWFBwy1cxeMr0Et2QGaxmJcPdpB7bDyLLo0RYPH0kMEa1FRL7o
- fo8YUIXOREkxDNO2NgKJAylcqEiGh0zuNMjav17uOBsNWG8kHsVktb7ny
- rvkBQQCgzXdtfx82ueaNqjpn3GqHL/7Rs/jQCt7NtfZs6C0Be8aoMjTk9
- Z3hfLxbV/F4D9jbxIVvQHnmXDUaQc7aDNLEbS9uJoyG0jwoOQOpAQUVqk A==;
-X-CSE-ConnectionGUID: 7BAyOU2hRxS2/ie46m2SqQ==
-X-CSE-MsgGUID: RGzqotVvT+KGoVQHd1XBZQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11206"; a="36981347"
-X-IronPort-AV: E=Sophos;i="6.10,259,1719903600"; d="scan'208";a="36981347"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2024 00:45:48 -0700
-X-CSE-ConnectionGUID: sy6OxKxDTLuKP86vjVy8xw==
-X-CSE-MsgGUID: eflbc7DsSp+RAZUIJOQ1Nw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,259,1719903600"; d="scan'208";a="76141438"
-Received: from dalessan-mobl3.ger.corp.intel.com (HELO localhost)
- ([10.245.245.143])
- by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2024 00:45:44 -0700
-Date: Thu, 26 Sep 2024 10:45:41 +0300
-From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-intel-next-fixes
-Message-ID: <ZvURJYm5lo-XIzbY@jlahtine-mobl.ger.corp.intel.com>
+ bh=Qn2e91U5L9ArAt10Dz9K7b2XtrVbPYlrhxZjNwk91Q8=;
+ b=jaZUDkiImfxAzsI4Cotex/yRlyaZV+g/V+TC6Ndr6NsUz1aTCDqNXZrB
+ xcBEzQ0H2pUed6Dw5I1ewma8nvFe2+PjLieCUsnCX0r2OfEZmJGo3ZlZD
+ tRYUjB741N6aDOtPjilBFUurW5xmQ8I6kwpDLdrl0R2AvlFEeGhr/nKyV
+ zyQf2I85TvJXU6wwQ17macw64siOO3DftnPiX7pwdxYXHJ6UC4nIsXEEr
+ uW17X/W3Jrn4Le0Ar2872fF+kXpd+xKLML6mqVsS9SqncGw7PceClHvPm
+ lCnNnGp3AHnK7yjICwye+g+JY0b3x2rMzqXP7JNhlHlzkVxbEP7qdUcTQ A==;
+X-CSE-ConnectionGUID: y6cvHJLeT3GMSkQ4G9dt1Q==
+X-CSE-MsgGUID: /X5EexboTiaTRYh2NW4szQ==
+Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
+ by ironport.ite.com.tw with ESMTP; 26 Sep 2024 15:48:16 +0800
+Received: from tpemail1.internal.ite.com.tw (TPEMAIL1.internal.ite.com.tw
+ [192.168.15.58]) by mse.ite.com.tw with ESMTP id 48Q7mCPD042909;
+ Thu, 26 Sep 2024 15:48:12 +0800 (GMT-8)
+ (envelope-from Hermes.Wu@ite.com.tw)
+Received: from LAPTOP-C4GM1L3U.localdomain (192.168.82.6) by
+ TPEMAIL1.internal.ite.com.tw (192.168.15.58) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Thu, 26 Sep 2024 15:48:11 +0800
+From: Hermes Wu <Hermes.Wu@ite.com.tw>
+To: hermes wu <Hermes.wu@ite.com.tw>
+CC: Kenneth Hung <Kenneth.hung@ite.com.tw>, Allen Chen <allen.chen@ite.com.tw>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Hermes Wu <hermes.wu@ite.com.tw>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, open list
+ <linux-kernel@vger.kernel.org>, Robert Foss <rfoss@kernel.org>
+Subject: [PATCH v4 00/11] fix HDCP CTS fail items and add MCCS support
+Date: Thu, 26 Sep 2024 15:47:50 +0800
+Message-ID: <20240926074755.22176-1-Hermes.Wu@ite.com.tw>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [192.168.82.6]
+X-ClientProxiedBy: TPEMAIL1.internal.ite.com.tw (192.168.15.58) To
+ TPEMAIL1.internal.ite.com.tw (192.168.15.58)
+X-TM-SNTS-SMTP: 55296E61051678383A5EF0D02B3D425FF7C28377B5C4CA101971D598E0A691A72002:8
+X-MAIL: mse.ite.com.tw 48Q7mCPD042909
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,38 +74,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave & Sima,
+From: Hermes Wu <Hermes.wu@ite.com.tw>
 
-Here goes final drm-intel-next-fixes towards v6.12.
+This is a v4 patch-set.
 
-Just one fix for DP colorimetry detection.
+There are lots of failure items while running HDCP CTS using UNIGRAF
+DPR-100.
+In Order to fix those failures, HDCP flow needs to be changed.
 
-Regards, Joonas
+The DisplayPort AUX protocol supports I2C transport.
+In Order to support MCCS via the aux channel, the aux-i2c operation is
+added.
 
-***
+v3 ->v4:
+	-split changes into patches.
 
-drm-intel-next-fixes-2024-09-26:
+v2- > v3:
+	-split aux read  KSV function to a patch.
+	-[1/3] new in v3
+	-[2/3] add description of patch
 
-- Fix colorimetry detection for DP
+v1 -> v2 :
+	- ignored.
 
-The following changes since commit d7126c0cfc137a580eba92bd82b6d288bd43961d:
+Link: https://lore.kernel.org/all/20240923094826.13471-2-Hermes.Wu@ite.com.tw/
+Link: https://lore.kernel.org/all/20240923094826.13471-3-Hermes.Wu@ite.com.tw/
+Link: https://lore.kernel.org/all/20240923094826.13471-4-Hermes.Wu@ite.com.tw/
 
-  Merge tag 'drm-xe-next-fixes-2024-09-19' of https://gitlab.freedesktop.org/drm/xe/kernel into drm-next (2024-09-25 12:11:10 +1000)
 
-are available in the Git repository at:
+Hermes Wu (11):
+  drm/bridge: it6505: change aux max fifo size
+  drm/bridge: it6505: improve aux operation for edid read
+  drm/bridge: it6505: add aux operation for HDCP ksv list read
+  drm/bridge: it6505: fix aux command write to aux operaction register
+  drm/bridge: it6505: increase supports of HDCP repeater ksv devices
+  drm/bridge: it6505: fix HDCP Bstatus check.
+  drm/bridge: it6505: fix HDCP encription not enable when R0 ready
+  drm/bridge: it6505: fix HDCP KSV list did not read correctly.
+  drm/bridge: it6505: fix HDCP CTS compare V matching without retry
+  drm/bridge: it6505: fix HDCP CTS ksv wait timer
+  drm/bridge: it6505: Add aux i2c functionality
 
-  https://gitlab.freedesktop.org/drm/i915/kernel.git tags/drm-intel-next-fixes-2024-09-26
+ drivers/gpu/drm/bridge/ite-it6505.c | 313 +++++++++++++++++++++++-----
+ 1 file changed, 266 insertions(+), 47 deletions(-)
 
-for you to fetch changes up to e860513f56d8428fcb2bd0282ac8ab691a53fc6c:
+-- 
+2.34.1
 
-  drm/i915/dp: Fix colorimetry detection (2024-09-25 11:56:23 +0300)
-
-----------------------------------------------------------------
-- Fix colorimetry detection for DP
-
-----------------------------------------------------------------
-Ville Syrjälä (1):
-      drm/i915/dp: Fix colorimetry detection
-
- drivers/gpu/drm/i915/display/intel_dp.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
