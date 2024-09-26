@@ -2,90 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C7519872C4
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 13:25:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 614D69872CB
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 13:29:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A42F210E318;
-	Thu, 26 Sep 2024 11:25:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D99BF10EAAA;
+	Thu, 26 Sep 2024 11:29:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="fy/K3EZv";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="VwrzH62K";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59CD610E318;
- Thu, 26 Sep 2024 11:25:26 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48Q7EqDs008306;
- Thu, 26 Sep 2024 11:25:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- u4A5clw8rWfBOMmmKrbBe5gQe1QAgockRUeNjkNYMwg=; b=fy/K3EZvKhmXSf7s
- dlb9mQOyup92d2jQxmNSGDw5kii6d2wZotDLWhytuEyvlimmAaDqJqK6av0lv+Fl
- 42YLXZNoRuBZg12b4Bf3cSALkNv9U2v1ZIwEf6+F8YHwHeWWi3bvCqP56LoApbqj
- 5KAcmh8QSoQXwaFdB1jhwXYfah+CjU+6kVScXr41EGEDlUC9sCAoXpb0TVjztwpa
- R2+oj1cE4n39DkndslKha6hfGtoBvbmUI01xDrRg9Vcmn1wbkgxdc/RGd+f5Zupw
- FxnZc3aXrbnV29oRDILg9QLlRuSzdqR7iN8HdZNFCeuXgjDx9nJB9/a7WfeUC8TV
- Wenkgw==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41skueyb3b-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 26 Sep 2024 11:25:15 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
- [10.47.209.197])
- by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 48QBPDLi024987
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 26 Sep 2024 11:25:13 GMT
-Received: from [10.204.67.11] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 26 Sep
- 2024 04:25:05 -0700
-Message-ID: <46cd6c25-0a82-46c6-9382-167a44a689ba@quicinc.com>
-Date: Thu, 26 Sep 2024 16:55:02 +0530
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
+ [209.85.167.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D75310EAAA
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 11:29:46 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id
+ 2adb3069b0e04-53653ff0251so1141869e87.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 04:29:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1727350184; x=1727954984; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=rnLiEF0tTzux1Tq9ZDOIhqIZJG6KKmpYuSlxKSzCAJI=;
+ b=VwrzH62KJOqriccI+YxzsDcXZlmyTWnxYvOGaZ3mTHTscQnUvCnundJ8pTpp3KWU2s
+ qVDbGmFRUD9imUnqzH73U/Uaskx74eHj1Ytn1h40U0zUJ9rfFPoook8hDkOonWqrQDDE
+ C1pyEj97/RAJUsuI0uEQrLGY2Uv8RpMCzW838D0DDcWujEQLSCQ5V9ZnvFTHi1A51WxF
+ tyU1f0dmDIsKA8zZ0izsKHYsncszw1rO0hp85MwlAnzjTAMjBJMcN5/Gv6VuXNgN5xx/
+ 7q55h2QIY3ijk+74+qmUZiSeLDwr6jlYkFol0YqQ7+Re9v1CzBMV9O6QV5YMkZ3nGKXI
+ 0r8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1727350184; x=1727954984;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=rnLiEF0tTzux1Tq9ZDOIhqIZJG6KKmpYuSlxKSzCAJI=;
+ b=cBCUc9gLcGqTaAxZPB0oEA11abFEr0vpvexwSbpYsVUENgdm2ndJ2UaQrfi/jhPtk/
+ QyVxBSdVK7AVj0/QNp2cxQnxKCrl2+EjTsX9s3h/CcAqE/qjzCxn1lzG9CWrzL/sSrCN
+ +7grEIwjsgI6Xt6yu8hW4z98kGrD5eyqyz6RpNLdGWOYzdY2l4QolhzA9qIkmMxZpunb
+ wx4cNgI/8oFL2llkZ3tUDUEcJBI/d9cpRTv4xnokpy5ZSy4nbabOvPn5/ntKpPMHdS8j
+ 7dsl3BzEGu2m5ch6Ns7v08iQ16tZIyp85W75bq0QVQD6ZTWrQT6Uh3TWGsnriTcQpjRk
+ Wjsw==
+X-Gm-Message-State: AOJu0Yyx8z880pQGkvik76qUhlfjqzAwsJVkqGTo2ZY3lvQJjNRt4UkR
+ 7knv6h7QWjn4uvK1zN5vnS1wUMQcRQ+80RIOkTjD2ArBqVAytMy5
+X-Google-Smtp-Source: AGHT+IFa60QpaRuVDkPl1B1Ca5ZW+L3INLkEdB4Ea1cxVSe9xhECC6bwAgHKgZ/tnAKPMSiPqDvqgA==
+X-Received: by 2002:a05:6512:3995:b0:536:a695:942c with SMTP id
+ 2adb3069b0e04-5387048ce9dmr4147664e87.7.1727350183740; 
+ Thu, 26 Sep 2024 04:29:43 -0700 (PDT)
+Received: from [127.0.1.1] (mm-20-1-84-93.mgts.dynamic.pppoe.byfly.by.
+ [93.84.1.20]) by smtp.googlemail.com with ESMTPSA id
+ 2adb3069b0e04-537a85ee5fbsm786495e87.74.2024.09.26.04.29.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 26 Sep 2024 04:29:43 -0700 (PDT)
+From: Dzmitry Sankouski <dsankouski@gmail.com>
+Subject: [PATCH v5 0/2] Add Samsung S6E3HA8 panel driver
+Date: Thu, 26 Sep 2024 14:29:25 +0300
+Message-Id: <20240926-starqltechn_integration_upstream-v5-0-1cb0e43e623f@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/5] Display enablement changes for Qualcomm SA8775P
- platform
-Content-Language: en-US
-To: <robdclark@gmail.com>, <quic_abhinavk@quicinc.com>,
- <dmitry.baryshkov@linaro.org>, <sean@poorly.run>,
- <marijn.suijten@somainline.org>, <airlied@gmail.com>,
- <daniel@ffwll.ch>, <maarten.lankhorst@linux.intel.com>,
- <mripard@kernel.org>, <tzimmermann@suse.de>, <robh@kernel.org>,
- <krzk+dt@kernel.org>, <conor+dt@kernel.org>, <swboyd@chromium.org>,
- <konrad.dybcio@linaro.org>, <danila@jiaxyga.com>,
- <bigfoot@classfun.cn>, <neil.armstrong@linaro.org>,
- <mailingradian@gmail.com>, <quic_jesszhan@quicinc.com>,
- <andersson@kernel.org>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <quic_kalyant@quicinc.com>,
- <quic_jmadiset@quicinc.com>, <quic_vpolimer@quicinc.com>
-References: <20240926110308.2201577-1-quic_mahap@quicinc.com>
-From: Mahadevan P <quic_mahap@quicinc.com>
-In-Reply-To: <20240926110308.2201577-1-quic_mahap@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: F_ctQFztPoh0Bqw2DLrJYcMOzd0SOZ6Q
-X-Proofpoint-ORIG-GUID: F_ctQFztPoh0Bqw2DLrJYcMOzd0SOZ6Q
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 spamscore=0
- adultscore=0 clxscore=1015 lowpriorityscore=0 suspectscore=0
- malwarescore=0 impostorscore=0 mlxlogscore=999 bulkscore=0 mlxscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2408220000 definitions=main-2409260077
+X-B4-Tracking: v=1; b=H4sIAJVF9WYC/43O0Q6CIBQG4FdxXEdDULCueo/WHOJR2RQNkNWc7
+ x66tbqry//fzvefBTmwGhw6JwuyELTTo4khPyRIddK0gHUdM6KEZoSnAjsv7b33oDpTauOhtdL
+ Hm3KenLcgB1ypghc5qWgDDEWmkg5wZaVRXYTM3PexnCw0+rHvXm8xd9r50T73NwLb2vdi8XsxM
+ EwwsIZzTkkqpLq0g9T9UY0D2vCQfcBTyv4AswjSmkJT5yovhPgG13V9Ad5rAaM2AQAA
+To: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Dzmitry Sankouski <dsankouski@gmail.com>
+X-Mailer: b4 0.14.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1727350181; l=1141;
+ i=dsankouski@gmail.com; s=20240619; h=from:subject:message-id;
+ bh=zUo6dL4FkvKfEQbRtfTjRGBerEKQpvR45DHVdVIcmmo=;
+ b=hNdLzZPZh4isMed8mlnrr7+NXpFNDPqkUhKauPPfc+muT48QklkJNtTqyQvYYy4/brtiQTXlv
+ mejn92cF9yXBbVsm8uU4I97MmZESB9dP/MIW5RcBHv0cA+BdkXy3lia
+X-Developer-Key: i=dsankouski@gmail.com; a=ed25519;
+ pk=YJcXFcN1EWrzBYuiE2yi5Mn6WLn6L1H71J+f7X8fMag=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,51 +96,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Sorry, Please ignore this thread/coverletter
+The s6e3ha8 is a 1440x2960 DPI AMOLED display panel from Samsung Mobile
+  Displays (SMD)
 
-On 9/26/2024 4:33 PM, Mahadevan wrote:
-> This series introduces support to enable the Mobile Display Subsystem (MDSS)
-> and Display Processing Unit (DPU) for the Qualcomm SA8775P target. It
-> includes the addition of the hardware catalog, compatible string,
-> relevant device tree changes, and their YAML bindings.
->
-> ---
->
-> In this series PATCH 5: "arm64: dts: qcom: sa8775p: add display dt nodes"
-> depends on the clock enablement change:
-> https://lore.kernel.org/all/20240816-sa8775p-mm-v3-v1-0-77d53c3c0cef@quicinc.com/
->
-> ---
->
-> [v2]
-> - Updated cover letter subject and message. [Dmitry]
-> - Use fake DISPCC nodes to avoid clock dependencies in dt-bindings. [Dmitry]
-> - Update bindings by fixing dt_binding_check tool errors (update includes in example),
->    adding proper spacing and indentation in the binding example, droping unused labels,
->    droping status disable, adding reset node. [Dmitry, Rob, Krzysztof]
-> - Reorder compatible string of MDSS and DPU based on alphabetical order.[Dmitry]
-> - add reg_bus_bw in msm_mdss_data. [Dmitry]
-> - Fix indentation in the devicetree. [Dmitry]
->
-> ---
->
-> Mahadevan (5):
->    dt-bindings: display/msm: Document MDSS on SA8775P
->    dt-bindings: display/msm: Document the DPU for SA8775P
->    drm/msm: mdss: Add SA8775P support
->    drm/msm/dpu: Add SA8775P support
->    arm64: dts: qcom: sa8775p: add display dt nodes
->
->   .../display/msm/qcom,sa8775p-dpu.yaml         | 122 +++++
->   .../display/msm/qcom,sa8775p-mdss.yaml        | 239 +++++++++
->   arch/arm64/boot/dts/qcom/sa8775p.dtsi         |  87 ++++
->   .../msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h   | 485 ++++++++++++++++++
->   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    |   3 +-
->   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |   3 +-
->   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   3 +-
->   drivers/gpu/drm/msm/msm_mdss.c                |  11 +
->   8 files changed, 950 insertions(+), 3 deletions(-)
->   create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sa8775p-dpu.yaml
->   create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sa8775p-mdss.yaml
->   create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h
->
+Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
+---
+Changes in v5:
+- Split patchset per subsystem
+- Link to v4: https://lore.kernel.org/r/20240913-starqltechn_integration_upstream-v4-0-2d2efd5c5877@gmail.com
+
+---
+Dzmitry Sankouski (2):
+      dt-bindings: panel: add Samsung s6e3ha8
+      drm/panel: Add support for S6E3HA8 panel driver
+
+ Documentation/devicetree/bindings/display/panel/samsung,s6e3ha8.yaml |  75 +++++++++++++
+ MAINTAINERS                                                          |   6 +
+ drivers/gpu/drm/panel/Kconfig                                        |   7 ++
+ drivers/gpu/drm/panel/Makefile                                       |   1 +
+ drivers/gpu/drm/panel/panel-samsung-s6e3ha8.c                        | 344 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 5 files changed, 433 insertions(+)
+---
+base-commit: 3469b89bd13f10d679d1b1f5b47fb71953e96349
+change-id: 20240617-starqltechn_integration_upstream-bc86850b2fe3
+
+Best regards,
+-- 
+Dzmitry Sankouski <dsankouski@gmail.com>
+
