@@ -2,78 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53F02986D98
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 09:29:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6B99986DC6
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 09:32:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8645110EAB7;
-	Thu, 26 Sep 2024 07:29:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70F3910EAD2;
+	Thu, 26 Sep 2024 07:32:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="cyaTfnQS";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="OhkcjUDm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
- [209.85.167.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 524A610EACB
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 07:29:30 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id
- 2adb3069b0e04-5356ab89665so789405e87.1
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 00:29:30 -0700 (PDT)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
+ [209.85.167.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77E8E10EAD0
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 07:32:47 +0000 (UTC)
+Received: by mail-lf1-f48.google.com with SMTP id
+ 2adb3069b0e04-535694d67eeso722970e87.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 00:32:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1727335768; x=1727940568; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1727335965; x=1727940765; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=qDfxbQPwiokVDYdYi9MFG3A73Xy2Dn6HJeQAftMAmZo=;
- b=cyaTfnQSFf6ddmHIcL/dYLh9JLKQnNWcr3lcTgrjoEsSo2NpgyaAV0Egqq/bxM94pA
- IY0MoGYkxnWZctELdO8DbkbJF7dOtaKhdOe+IyRJbrdEjY8oG9aSsbvOTVB5+M8TVyeV
- eECK6/CkULRn3aMTp1rVzvQoLGkKds0YOu10lUGR60htY1c+WhFCavzpndE08uQvyIV4
- PBqMPDE+uvRz4wW0Nk1VpmckdzNt6sZsH/qWmyDhhdUsGvHihJPVZhS8duTH0h4FS4mP
- y+hySODT0SUvFX3qzcU3Z/6YtNgDBcOZi/eMIhoj1JcoypJGHCQUCHhHenRizuFpMhqK
- C7Hg==
+ bh=8aonqfZhxhzRCigtKU2JDf5og9fZlc9KKVh/g2kla2I=;
+ b=OhkcjUDmQ12h68NfYGc5S1b4waTKLi9F+GndRdjgWpgkKvNOO0Qa0EIxvG89yiqwhN
+ HuwRD0yYs/6CSmTNENZ1j+bSwmBrDm5/Z4RI9vHodFaQt3OEPXhe7xLrDAqrtNW26o1+
+ YqaKcYie1fasNGUGjiqkvsg3/cancCf3McjtapayvvwK2HYEpTRe7zbNQuy445v6SGHS
+ fz06zZNBXkE1rSLrwMJEAOUH8xPq+q3mxki13Rsep4PKgt/e5jPnx513Cobmf946mscZ
+ 5l7teACHYuzFLWa2MIavoADiFu2Tfzk5OvOxihxjGMEN69q6cEBqfJFlpxd1oICahvkJ
+ dDOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727335768; x=1727940568;
+ d=1e100.net; s=20230601; t=1727335965; x=1727940765;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=qDfxbQPwiokVDYdYi9MFG3A73Xy2Dn6HJeQAftMAmZo=;
- b=fdK8/O6kNTnylBNFdMd1WKaYlh1Dj9+Oz1ImGMfjI/11PvUWe8wyLeomKH3BC9vbn3
- rLkuULRjmFvNp8CN/T/dFF4GaEdR0iRZuODvmXoh1NQWhfU9qhZm0GQlx/NQL7WwBLjd
- OOD7fcI34NUht6hMFcBxMPPJMSsNYZQh+1hzxVOU56IV5yogM3gM2bl8Fp1sO9eaM0lP
- llFVQhKHDlEs7+Vdl5f3QBgHUoY2C7uM0H7k9rf/1TYhohRSjcGzSP0pZvC5BxWLP6Cd
- cfRbURluIfz2h4RjnfwwBtTve2gKM5u1YMu2Tsiw/uvBZioennq9xN3kNuMczdcZSqbR
- y9Gw==
-X-Gm-Message-State: AOJu0YxITB59rImBdtoM72ayzemPbLfefnR8JtQtTRgmZzHSmOIvo7/8
- danYNDIVOQ0KNi76MsvG2g8pox4jcKqosji1TvxP3Sjgr6EO4XtnEH9aqmMoBzw=
-X-Google-Smtp-Source: AGHT+IE8t/WEuR6wLLC+FMdDPRvo5sy/HJiTMb2ns4dr6CTbA9nkOna0DOKv3ZWAngvCWp8t9wgrZg==
-X-Received: by 2002:a05:6512:2243:b0:52c:8c4d:f8d6 with SMTP id
- 2adb3069b0e04-5387755ba36mr3075446e87.45.1727335768286; 
- Thu, 26 Sep 2024 00:29:28 -0700 (PDT)
+ bh=8aonqfZhxhzRCigtKU2JDf5og9fZlc9KKVh/g2kla2I=;
+ b=bV0yb3r47egii1RnpVvTCF0gAWA6XjC92gexg3Dus7s+Cy/rAn1xJThwCVfaXVMVhH
+ JS8+X8+q9pVch61lLLwahtIrE1GVvqJ8jSdeBQJyPDMh6V1X0tf3EzdDdBRF728Yyu4v
+ svsOFBzpecMLJluAv7y3az2NOjpgwmzbdksiwKJUbumUl/M5yCQZWsQAO2E1vgUnjOH9
+ iRxaECuB2uJlNrdtdm8PBlzURfs9bXgLKSUotOsO7ra32oDOWxXyiLXNTyVEeBwyHQUn
+ Zwi+s9Zc+fjBJX6Qt7Wkjt3bodInth4SeRNPuI2R1gfq5Al7/9okxKQJvPxMPCt15Lwr
+ 2s2A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWUiOHo9CXJiTyxWpa5Ttm1p46PPRPwXFoCMwigqDuYjs93uIQHoHA1mjPFYAgm7t6GGEZVzsy8V/I=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxDXDImvCFpDgJ57OV6spWaBv7dFa4/dqrWSwffimaQIaB+mgET
+ Snwf/LxD3bD0UBQuDFV0Wk7vsSobfz83dUaY/b5DQHS4233YXbCxyiHpzUSl6r4=
+X-Google-Smtp-Source: AGHT+IFEJ3mGtjqHYi8+hQZO+ABBsYaf7BGxMD8HjL57H5h34gv/88G8VtZ+ToUkoIv8MyINwNfCgw==
+X-Received: by 2002:a05:6512:304d:b0:52f:228:cf91 with SMTP id
+ 2adb3069b0e04-53896bdeadamr669409e87.1.1727335965407; 
+ Thu, 26 Sep 2024 00:32:45 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-537a85e061dsm737595e87.44.2024.09.26.00.29.26
+ 2adb3069b0e04-537a85e13edsm730901e87.10.2024.09.26.00.32.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Sep 2024 00:29:27 -0700 (PDT)
-Date: Thu, 26 Sep 2024 10:29:24 +0300
+ Thu, 26 Sep 2024 00:32:43 -0700 (PDT)
+Date: Thu, 26 Sep 2024 10:32:41 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Vignesh Raman <vignesh.raman@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, daniels@collabora.com, 
- helen.koike@collabora.com, airlied@gmail.com, daniel@ffwll.ch,
- robdclark@gmail.com, 
- guilherme.gallo@collabora.com, sergi.blanch.torne@collabora.com,
- deborah.brouwer@collabora.com, 
- mripard@kernel.org, rodrigo.vivi@intel.com, linux-mediatek@lists.infradead.org,
- linux-amlogic@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- amd-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, 
- virtualization@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] docs/gpu: ci: update flake tests requirements
-Message-ID: <llzzzcfbb5gpdcldobqsl5yqgac6cpgcs4r5jh7sbbsuwhchua@avub3pj2by4z>
-References: <20240926070653.1773597-1-vignesh.raman@collabora.com>
+To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Cc: Jagan Teki <jagan@amarulasolutions.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Stefan Agner <stefan@agner.ch>, 
+ Alison Wang <alison.wang@nxp.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Orson Zhai <orsonzhai@gmail.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Chunyan Zhang <zhang.lyra@gmail.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, 
+ linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org
+Subject: Re: [PATCH 0/6] drm: constify read-only regmap structs
+Message-ID: <3i46wd7hqr5u3oxqlgyff4i27vxpg3spewkhby336hxmgbvmon@wijkq64pluzg>
+References: <20240925-drm-const-regmap-v1-0-e609d502401b@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240926070653.1773597-1-vignesh.raman@collabora.com>
+In-Reply-To: <20240925-drm-const-regmap-v1-0-e609d502401b@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,56 +103,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 26, 2024 at 12:36:49PM GMT, Vignesh Raman wrote:
-> Update the documentation to require linking to a relevant GitLab
-> issue for each new flake entry instead of an email report. Added
-> specific GitLab issue URLs for i915, xe and other drivers.
+On Wed, Sep 25, 2024 at 05:42:39PM GMT, Javier Carrasco wrote:
+> This series adds the const modifier to the remaining regmap_bus and
+> regmap_config structs under drm/ that are effectively used as const
+> (i.e., only read after their declaration), but kept ad writtable data.
 > 
-> Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
+> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
 > ---
+> Javier Carrasco (6):
+>       drm/bridge: dpc3433: Constify struct regmap_config
+>       drm/fsl-dcu: Constify struct regmap_config
+>       drm/mediatek: dp: Constify struct regmap_config
+>       drm/meson: Constify struct regmap_config
+>       drm/panel: ili9322: Constify struct regmap_bus
+>       drm/sprd: Constify struct regmap_bus
 > 
-> v2:
-> - Add gitlab issue link for msm driver.
-> 
-> ---
->  Documentation/gpu/automated_testing.rst | 16 +++++++++++-----
->  1 file changed, 11 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/gpu/automated_testing.rst b/Documentation/gpu/automated_testing.rst
-> index 2d5a28866afe..f918fe56f2b0 100644
-> --- a/Documentation/gpu/automated_testing.rst
-> +++ b/Documentation/gpu/automated_testing.rst
-> @@ -67,20 +67,26 @@ Lists the tests that for a given driver on a specific hardware revision are
->  known to behave unreliably. These tests won't cause a job to fail regardless of
->  the result. They will still be run.
->  
-> -Each new flake entry must be associated with a link to the email reporting the
-> -bug to the author of the affected driver, the board name or Device Tree name of
-> -the board, the first kernel version affected, the IGT version used for tests,
-> -and an approximation of the failure rate.
-> +Each new flake entry must include a link to the relevant GitLab issue, the board
-> +name or Device Tree name, the first kernel version affected, the IGT version used
-> +for tests and an approximation of the failure rate.
->  
->  They should be provided under the following format::
->  
-> -  # Bug Report: $LORE_OR_PATCHWORK_URL
-> +  # Bug Report: $GITLAB_ISSUE
->    # Board Name: broken-board.dtb
->    # Linux Version: 6.6-rc1
->    # IGT Version: 1.28-gd2af13d9f
->    # Failure Rate: 100
->    flaky-test
->  
-> +The GitLab issue must include the logs and the pipeline link. Use the appropriate
-> +link below to create an issue.
-> +https://gitlab.freedesktop.org/drm/i915/kernel/-/issues for i915 driver
-> +https://gitlab.freedesktop.org/drm/xe/kernel/-/issues for xe driver
-> +https://gitlab.freedesktop.org/drm/msm/-/issues for msm driver
 
-Ack for the MSM part.
+For the series:
 
-> +https://gitlab.freedesktop.org/drm/misc/kernel/-/issues for other drivers
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
 
 -- 
 With best wishes
