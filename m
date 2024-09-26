@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E9CE986A01
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 02:00:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7737F986A06
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 02:00:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1FC710E873;
-	Thu, 26 Sep 2024 00:00:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E094B10E86E;
+	Thu, 26 Sep 2024 00:00:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=renesas.com header.i=@renesas.com header.b="YmlCQTvb";
+	dkim=pass (1024-bit key; unprotected) header.d=renesas.com header.i=@renesas.com header.b="hsghpLOk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from OS0P286CU010.outbound.protection.outlook.com
- (mail-japanwestazon11011004.outbound.protection.outlook.com [40.107.74.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8963410E872
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 00:00:22 +0000 (UTC)
+Received: from TYVP286CU001.outbound.protection.outlook.com
+ (mail-japaneastazon11011047.outbound.protection.outlook.com [52.101.125.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D894B10E874
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 00:00:27 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=brbwy7RPs4knDGlYOlg9yWUXhSfPncFu7gLFvoiiUAK2fY7gDNKkykL6WoYqYoWA/juTOfPC4PROzoVrSh5Ca++2USSWbt+3MyLFSpF0woP0v1k8sPnXCRGg1zUdzjt24do3+CzVwxN3kBQbhSaUE62GSp5WmzncuY/oYQsuBjrDAEaDYAUkE+0HhmaDypmwlJ0po4mSDb6TccsvMiQCIKA9/5l1hsR2MIe7u9hZo5RNznTrTUepnwMi7Vew4Q6J2ptFQuTubTD7vT1u3+o7nGQ8CsakIk+1JN0F1F+yvUXQ022+gP2tvLUB/Yzs1oMKP83IrbzST0ioMajJQbhvVQ==
+ b=s0GHFku29GKZEt70Fd0UeytMSaI5sqyevtVFLOGRfCdlYbIWdcBpflvXLuUVGfbliG5jDal7+sJbxLX/i53j0O59IE/oueBq+e6og7LKfxCyZ6coym3xth/w0vqsdS54TntxRDvIUWpoC8xm6OLQY3MWE47W2JtYNX92UW2n88nPYFxYEWURDsKV1iPKxaIzymY8gZXwqxQD5BQ/21CwNLz1NkMLx03ulIlQRwvGAhOxGqCHirDpI+UAFrRcGqxaADwRTRmHt3fGph5sGoUM8xSujiHjB4AfoaACMwDLmMVb7WxYiOR5xNnSE220emApPyJdQeygQ+UG+GKudEiTgg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Of7vL0yjGsQed1yS6pcLnFbV59IKDDtbehs+KXCSEzg=;
- b=BRMPPEYIzS73TNrdaJna2owWgghX0W/jS5WDY7lQeB6U1p9FGjJ6bbD6SEAgSW+pRfN+KBNtIknDuBx5SGb5QuYNcPZ4Lklsu1zIqiKuBeKVojjp4bHIQBtSEMegXzEVw7aW1DHbKnArPWSHDkA8IkeLxCgiJRysQqgr19fY0AAWSomoNPBTkSG6Ju8Zc6pzF5OtfM64TeyTJ69xWcrBXm9TjRg6VucEDgHXlrXe426Cgt3hPmEPem2dEdwNBSKU8uVRj120Zy2mdDXSJTzHm9VxG228CfIkrb49SH0J9qMJOTYrkvBwdFVcyItvHQ1aiWiEpHLPqBPO03wvgIXVtg==
+ bh=xpSOSQwE6xBjXGtk1rjvHMS/ZUIDZaLCckkMWn2G0zs=;
+ b=FLb99AeBraDOXyyTde5WsdArDKYGSa4FTYxJzkzDM7EjFUHitFioPpDKKdVo1nduPao+jk5vnh5U10kR03YozMrO0h/BBjJAMGiJ2KRAphX4PJ9BIsnL5r51D2XmMB8yfXBSwzslTyY8ORAgIlUhv5UueEnjxofcKnSIClZpRF5GMjVGFpkX9uW2CfcKwnIpVbzemY0QF8/Ovgz+aNLYQ4qQlqhhUxU1AZl2t94xVz+/xcjArGyv04MDVb3xLZ3rsm+yiLq3DfKrtjfD8z0udW5Wn7WiP+E3BcHZC54MREJ6sF26Q8kSglojuNJxkyry7jBqVm0DoetC7gsUa8wRHg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
  dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Of7vL0yjGsQed1yS6pcLnFbV59IKDDtbehs+KXCSEzg=;
- b=YmlCQTvbbfUctpW3y8UK7/zh5+9f/sX4dd96QQq/4EJvafj2Dj3VkzOjwvB6K2jQZPJwevRBMQBH//Emxc/IhmvH2/LBK32GKwsXAKoVMnbJC0AxGl6Cg6ArPa9otuCesUc88hERqqWORryTb1WIMT/NmUPY8319Or9k39iTlTM=
+ bh=xpSOSQwE6xBjXGtk1rjvHMS/ZUIDZaLCckkMWn2G0zs=;
+ b=hsghpLOksoFDm53Mnr4ovN0J8cvQYAYnTM5ztQ6zhf9p52NRRrlDzcQT6Ow8T7C/oEzntigNfuMJkR5M7tn0BxPqHv6so+29o5gstWRjK7kJOySvuBau+aL83fXbG3cqtEK1G39cEP2WMuJlgb5zHgVU+KOy+Slr/564CG/fONw=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=renesas.com;
 Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
  (2603:1096:400:3a9::11) by TYWPR01MB7353.jpnprd01.prod.outlook.com
  (2603:1096:400:c6::6) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8005.20; Thu, 26 Sep
- 2024 00:00:19 +0000
+ 2024 00:00:25 +0000
 Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
  ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
  ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.8005.017; Thu, 26 Sep 2024
- 00:00:18 +0000
-Message-ID: <874j639td9.wl-kuninori.morimoto.gx@renesas.com>
+ 00:00:25 +0000
+Message-ID: <8734ln9td3.wl-kuninori.morimoto.gx@renesas.com>
 From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH v6 2/9] of: property: add of_graph_get_next_port_endpoint()
+Subject: [PATCH v6 3/9] ASoC: test-component: use new of_graph functions
 User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
 To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
  Helge Deller <deller@gmx.de>, Jaroslav Kysela <perex@perex.cz>,
@@ -64,86 +64,86 @@ To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
 In-Reply-To: <877caz9tdw.wl-kuninori.morimoto.gx@renesas.com>
 References: <877caz9tdw.wl-kuninori.morimoto.gx@renesas.com>
 Content-Type: text/plain; charset=US-ASCII
-Date: Thu, 26 Sep 2024 00:00:18 +0000
-X-ClientProxiedBy: TYCP286CA0021.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:263::11) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+Date: Thu, 26 Sep 2024 00:00:24 +0000
+X-ClientProxiedBy: TYCP286CA0204.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:385::8) To TYCPR01MB10914.jpnprd01.prod.outlook.com
  (2603:1096:400:3a9::11)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYWPR01MB7353:EE_
-X-MS-Office365-Filtering-Correlation-Id: f66c20df-05d8-4bfc-05af-08dcddbe353b
+X-MS-Office365-Filtering-Correlation-Id: fe479a25-c96a-484b-0f52-08dcddbe3901
 X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
  ARA:13230040|1800799024|7416014|52116014|376014|366016|921020|38350700014; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?SfmFNcJ8yaKA1WdwfE/OI54aMUzr7UvZo+23H9E7LMAPmPZevblci6Tro4ev?=
- =?us-ascii?Q?Q3Ot2pqU1Q6nepPjCSXYhFO0oj0ieceDBibSEnpRS7TiTjqs9WEbMsDsJOvw?=
- =?us-ascii?Q?hl0oCK68iX3nVpfhFwEB4RKfcyilmTHlilQRs5f5nNmw5as5iZHMaPsKvJiD?=
- =?us-ascii?Q?sMMcBLy7JhQ0AwxYpNmtrrpqpOiEYkvDfNhhT26o2o1LQlXl525HryeQT0Uu?=
- =?us-ascii?Q?Vx6WrEmu5UjgcJtrpdkziHznlA67mUeL2mvVP++FIYRDP4svqJDeZDyc4tr0?=
- =?us-ascii?Q?gcu3V60QEVc0odQLzChIxwgNaXtWxX8OXk7m/fNw5QOFARMfkrVhEOkBfKtK?=
- =?us-ascii?Q?0OIkJEtavq2t6qMnedh6AXqc1Eo9wivKpuz4nmGkxE1r1SjlMxXwVrtt7Ut7?=
- =?us-ascii?Q?bE72fNjKWBmyhncSt6Xi18vsgS6UwaWzegSIlvkn+3b1TaOYfRIORZk6mx/a?=
- =?us-ascii?Q?eNA/g2hAKnYrO3bRlVtIHTvAZUdBj++4QBzDPybZwpzyIMAQKQgzEhOBc5V5?=
- =?us-ascii?Q?Q6rbTDNq0jNilL7WGP9XGpK2a8coDofdZ8g7Iln6ThxdVi7hOJwfCLxZ+7ph?=
- =?us-ascii?Q?YxaJ7qVU/6jw0kRE8K2Uqp3hKZpRZUBBl63+0yGcddDRwVPezCBEZ3KIB/YN?=
- =?us-ascii?Q?subsChf/J9/vVQRFU+E45Olu6GNIC5ZmiD6KyylMgqnuGwORhOIDz0VE6y1t?=
- =?us-ascii?Q?cbEDwY2SrgP1Pet4H8DH5yYaMyhdCv8MbiytIb+gA6s6Tp9wVHU/AmT2GFiM?=
- =?us-ascii?Q?F8UORcvKcLt0IBiKx8OU37DEBldfKTv94hdKaAY8NKkch88LRYkF4On2ziXU?=
- =?us-ascii?Q?NntqCfhxYCCimh8MCXgTNllytdUUggd2gcepRingqGpBlvXZujkTTLZXeE/z?=
- =?us-ascii?Q?YEkNMKfj/IO9e84t++UYy0wffDBVm+mb0Aoy2bpRdJT4fDl7Bs1THm0Zs4g+?=
- =?us-ascii?Q?VkDOMsD5iXHOMX5Z5hnWP7PupmZAHSSkLQooOC8JnQ3rUyBX6mXcsicPduD3?=
- =?us-ascii?Q?sZLpgF+FJEXas1OFF1LpKTRJM31hWpXQbVOZe9x/VOFz5b9K1i85fZ1fvufM?=
- =?us-ascii?Q?LSCANCgc2CeCD89ifYeFvhe3Ku3t7vZuZQX96o72H4O2i/xVBgn3yEel7Q9+?=
- =?us-ascii?Q?TxPO5pTmaNb8ZVkFiaDdhNx3gszK4GshPmnqkLNTTeLr6xPYt4F/LqKIRE3b?=
- =?us-ascii?Q?tbI0g7lTT2lJHEK+GqAPKBHsMJunYHZ0mEy0w6eekV7E+ECHhRsTdkY3hB0f?=
- =?us-ascii?Q?Cx+h4epQnY98YZ66JkNIdQiCI9Rasw8tE/AFX7yFs6hsomE932KssMFPL94f?=
- =?us-ascii?Q?dGV1tZg2p/Kv8fi/Z6H8ld1pG8Lifsl0sp1hYyAk6EF1yhndmlUwTN/vNZWI?=
- =?us-ascii?Q?OWHU7OckUtvvNbipeLKaCXt4vcu53BG3vd1fSc99qYUo15L9VEr//vayhvRk?=
- =?us-ascii?Q?AFKOTGzHQi8=3D?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Sc9rrNI2TQLjJbNHYZ4+edDaDX4BFkUIzWDAWXxTc4nGbo7NE8MHVv6jskeo?=
+ =?us-ascii?Q?by08lxsUwcvEyVZXXW+ZaAD10v2x7YaYjQ+UKybz5J2nmGOtE4KLP9Jn7nj/?=
+ =?us-ascii?Q?e7M724y4UgTlqUqQc3xnSBPbF3MTMq0H8ikh5x+8oWGdnhXxOr5VWWUIN2ng?=
+ =?us-ascii?Q?t0Okfe55IP1kNosaaiqskeFpbuBXF8oXcqDUuZXZDJaD61VaEjy5BLocwbtX?=
+ =?us-ascii?Q?aLGyRtVptBw/7IB2ar2FHhyiNNfIFh6vxCRluI4yDZWxP8ifGYLj6JJNveCM?=
+ =?us-ascii?Q?gV+1r03of4/LKRi7bng4DFVf559QWqj0yovrUk8xdR/IUsDSpZIR6g+Qo8SR?=
+ =?us-ascii?Q?jD3owekEh62JJ/SqitGs0KVK4nABHy6BfYFs4lotsl5UwvnON9Btx/u2q99i?=
+ =?us-ascii?Q?5qEJtwHxOjw5N4XW1RovrJljcMPwaLpYmDR4uYskE12/KXcFhDtPg7IDaT9W?=
+ =?us-ascii?Q?3lKlX5+jDF2VQDkvsOubgRDO/BnJtWtn9nKC4DKOXCDZsHCtJuY5uDsRT+HI?=
+ =?us-ascii?Q?6+3WTNhh0lPfqu5JdPsfCny8U1oAKzfYkrStyJdSCA/l+3VMN1V+RGFqCX53?=
+ =?us-ascii?Q?+0lu5zj8aNejOmNR1OlZG3UeW//ao6c3BCARVaVtNUsQTxr3uOKJXDMyJDad?=
+ =?us-ascii?Q?G3CwePiGpkGylqUmtlD9m9wnyqbxuhA8MLeO1Yaly78eseug+j82o23ia8by?=
+ =?us-ascii?Q?ygxv3RiS3SRWu5W/qliAtV55hf0wpjtzvXQytLb0iRtoXA3IWvbfXhBSoje6?=
+ =?us-ascii?Q?/b3WGQ7lMsj9Hly7kay0JkS7NlX74it0jpX7QgaG7c78aBpyCO50FBrmDof6?=
+ =?us-ascii?Q?jujApXoXx2+xjOIuN5ogyQ4fUoCzA/CK7QDS5NfvkJOYiQn39mikQaREcTQC?=
+ =?us-ascii?Q?Cr9ZUM/+0wmOaIR3kfQ4OEBr2lr0KIwjlV3Bfy7a287DwYgEM3qkxyhyBmHD?=
+ =?us-ascii?Q?WWQqVnP2K93yGvORgLJ2BmvI2kAZRntW7U18Yvrz13h5ZLNQBopp7ts/C0sL?=
+ =?us-ascii?Q?k26frtRzzAFiuYj9y0uOa4LBeT1Is7ZgQoLjSaRyoF1uOZ+6RELMNj/9DdLk?=
+ =?us-ascii?Q?gAFdpZfSAbDu7PAU2p8MyV4RpMqku7yI4LYuv3+uwIe5U9/GRWRfBAIxKufl?=
+ =?us-ascii?Q?+noH9OL37fCIwT/9QVGFLI+SH4iWjxUCR47NAobiSKnFtSReAOO8Xx3/Fgb1?=
+ =?us-ascii?Q?hjjAzuVnl7f2WHZKMgEfS5Rc1n05Fqy8cKuY9bK7Xltj09EDepwMSpGKxR0b?=
+ =?us-ascii?Q?iI8RLrNFnfO7XqJf6bmWNQJP0mLr6Ypuespt9qSAi4fBkbJiuqN0KyqUlP1s?=
+ =?us-ascii?Q?7KDGgbDe18j0J/C1qB9OwI/wqNDM5RlL6hkVEB1P5axhOS4MNM7olsn1iw/0?=
+ =?us-ascii?Q?sHmOYdOfbv7xFc27LCl20qF0C4AwMxO4OfUup/AQjCiSRnSDskWz63/Lwa1X?=
+ =?us-ascii?Q?ccZ52L6wbHE=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:TYCPR01MB10914.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(1800799024)(7416014)(52116014)(376014)(366016)(921020)(38350700014);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?E7ArFshsGcM47hD8Xc3tm4VSU8Jk+r2v5AaU/dIWgymrZxlQH4lhd1TqFFMe?=
- =?us-ascii?Q?I7WPPHcT8iXrHifrUj9iuqc67akh+r+NQwRpkv7T4KUgwbMzQfwxU2op5GUJ?=
- =?us-ascii?Q?0AGc/9TiNHbJa8mxzKKptu6Z4RxK4F8/LpDo7D9iRN2DaWelokGrIsEgmQki?=
- =?us-ascii?Q?pHEefZn3lUACrGUtEmkslwSdcM+0TGNsNXVfGWG0VxaQMeB1ptbuNWyprtNy?=
- =?us-ascii?Q?tH3sVQngC/mqmjvXWgz4/0576ivXv/u1eXMSII1Rd7sVXXIDbhQA0gn6SrHb?=
- =?us-ascii?Q?5Kl+CvYQnDyIhwaenqdGTN//24YQUo5mf0HEmgsUgtNsDuJ5ZIEvsc4A1DZD?=
- =?us-ascii?Q?JTIl9yof78Aj3ZfDQUkDsw6f4/C6S87K1phUQKkxz+V7qUNBN4tRj4+1LTjl?=
- =?us-ascii?Q?KAJvYY9TQgJIv6HKgV0aPaum+ULXZ/Jdfhry4sF/gMbfDaymL0pWQkK/UR/5?=
- =?us-ascii?Q?dJPr8H8F5SBsSngNnpeWIy9m20Ytc9+nagy/EwUid2Hhsqwgnz4apFZ4ffqr?=
- =?us-ascii?Q?T96mCao+G0Qp5AHfsoUD/TYtE9L3Uq1WdKrDWw1vhzMUwNFFtDnofTjfDRcP?=
- =?us-ascii?Q?qmAb4m52zHkJepeFd5QR08WmcepVviYTwlCvc6hyogpu/5YoNYFgTZqalVGy?=
- =?us-ascii?Q?8IxiGlsPE1YnqZDGn1nvOOWccS1EvXmkemKTH4Poy4ZWmW1pAlxOsCg+sEtS?=
- =?us-ascii?Q?xaIsg2AaMT/5478Zil22x+qAieIf1qKuMm4wXsjYOjClLqHZth/fR7MwiCA9?=
- =?us-ascii?Q?oGZxAokaHZYXxUsSBWqCTYoy9uPKKqJpLfM59otDdVNCeqPLFFHdN9Qh6lGe?=
- =?us-ascii?Q?/TdDWrdhRVL0y0Q0iIFneagMykVbYls+zqegcdfU37c6Jpf5DH5HxW1CfR8I?=
- =?us-ascii?Q?FyPKucB3fcDiakK9JQmw6fBPQI1O85Ltt+1p8tXufNcyAbDKsbPiXb9w+2Et?=
- =?us-ascii?Q?4/QZE4jjPHBgmOvP6Xm/51UJLurHbf214r61QXVZbNgedpXXH7v/Q38t7T2s?=
- =?us-ascii?Q?Luvm5QicJ0pu7ViWiYx4ePopzmSSPQJAb5c7jUWZF9POYFqo3LYa0oBIj51h?=
- =?us-ascii?Q?Z6or06DKBTnQ3Wdtn1VQf6mzPf9m8Y3ektVLikqK74KSXhHPKiw6qyRcmsDQ?=
- =?us-ascii?Q?waecuCqHChTqrgTDmWgwd8SUiAPP/9EZ4SRKEVNIaTXgRBMpT79LYvCxkM4w?=
- =?us-ascii?Q?aKlzEfAgiYGGgij3Z+mXzmI31p83BOPp8xZotzuPrbIQgBcjlmTLcTJEdbzu?=
- =?us-ascii?Q?RHzsE1edjWfeSZBJ0iPQ62gVYROBPhdVcdKNOkMn5Kujkh1MRDPlwJRTft9L?=
- =?us-ascii?Q?M468PwneGvjyqGGRjWhdpCb7+mkD5AiTBDYSg4Mo1l0WWN21i/YdOVDg5oIa?=
- =?us-ascii?Q?r6quJ1cpRXtdN1Vo7f7IdXdBE17wgBuAy1Mgkraujvk0sYgEGgVATQp1EM1y?=
- =?us-ascii?Q?pgMBgMk7VSdDczDdYaesEI7w+dUCW2nLhGeTlS5aemcrGhmHaaW41jeiy0PG?=
- =?us-ascii?Q?N7ls/kkKJco7ZRD6DOCwQadG/7wPFas37RBdpwq/sIWIWDgU0pS319jIBrFR?=
- =?us-ascii?Q?JOAJ1VOkRVxR++beKC0NLz9zVPN1TeaQY6Tsd57uKfQky5mpvdT4WfBtEDDc?=
- =?us-ascii?Q?k54RaAhU1tIjDbJSKhPxATs=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?HclE7BtUnNoOLqZCQRFTRn0nN7/UUE9sUPEVJM/k41KPPdkZyXsNV85ii9rx?=
+ =?us-ascii?Q?Dbk+gH5MOXG8Me4fDojlWy7aJQV+P47JOW4ElthSmgZIKI5j31YFqbxT8qjt?=
+ =?us-ascii?Q?gpWIbuRJXnJLMOI8FOx3oJJEUQuyvHiQV01jtDRTnOyJq61I3NxHpi2qraEu?=
+ =?us-ascii?Q?wkubEDXyFIVeZfIyLac6F9nY72sHHg5wpWbK2TqVC04HaG6sx4lxM/c46mTZ?=
+ =?us-ascii?Q?2Rdw+goyVtVhTa4Fo9tlCQ546mmNTvEcA5Vmnz05R6okFecg+NNtrl+b4Igx?=
+ =?us-ascii?Q?snfSNDalTHllMi3ezZ9QVdru97eh0Uzkh7wFQgarfoy5VB+GTqfxBvxmEM7X?=
+ =?us-ascii?Q?OuK0Osqm4IMGK46gGOh0Onw2EGIso/0+8x6+A6yPjZG4CwLRUEGVnj5oiyvE?=
+ =?us-ascii?Q?co+AhSM25SVoBKxbMXF1XtGbihZksZtTk2KMcNQQSVIGrn+TkFJv1MfmnphJ?=
+ =?us-ascii?Q?VW9HfTRHth9sUv6cUWARKRMc1Wxwa9kKpxdd9vLaeNEE5xlBhIQIaIhunJom?=
+ =?us-ascii?Q?gbRarNaMsNnvO/79NcVQaNbA1U42+yQhNsBAozVPu+y6XTsmYTr+AuUnr77s?=
+ =?us-ascii?Q?So1J3JWpqJZBA0inKhCvBfKsA1q93FJSHgL1TFQ92/UJuiUBizamQmERQN2X?=
+ =?us-ascii?Q?YelNNBAmyQWxmY80yDapttqY8LYH7JgrovzXXmXcwQvXQDCWcgagkxYdUfOg?=
+ =?us-ascii?Q?xnUnDai4TBxGDRAQZQ6ZdJeeOnSZofSI+oq91Oq7OObPEUSFtEE+qoEl/6Fy?=
+ =?us-ascii?Q?t5iYz69HvIa3uBfGvpzFjcTQUjq9HAGnP4AdTfWCIuwYpe2YRDcgMN4sn0Is?=
+ =?us-ascii?Q?d3SIXSyZt5n7V3cngfE1xXgBTHyyhjw8WBxMbnHjVQo2hmEIcjdPmRZw4JHu?=
+ =?us-ascii?Q?o+PZnEayFUWxhVNcpt4hiF/6Uw/fyGtdSOHJw4L5hZx4oTtTcgR4VbIXTM1q?=
+ =?us-ascii?Q?a006+68OyR4ZrT0Chv2gb4Qq+5o2J7VJcQNgla8u7ZGmMcyAYUMu0opqFgth?=
+ =?us-ascii?Q?Y82zL1H7CzWHnvLkRMTjUvoxDHFq02xEbVkfrk16f6AuW3e/h0BMk0BxYAsk?=
+ =?us-ascii?Q?LCU5E4h+zLPJ8mz3aKr2hSwSVEhlNfWEZ5YF/ZRch8dMU/9bSaCKfk9UZnVU?=
+ =?us-ascii?Q?wWsRlEsIAXUCPaNjMDglJQLMNVfvYZr1jk1WliOoxDktEcqi7D1HiN+scQnW?=
+ =?us-ascii?Q?G9aLMw61kdM9sK4JcKsp6LPN1tVN2rxZZ54sxCnOkmJpAs2GGGmyyF6R9PiH?=
+ =?us-ascii?Q?5XmT18FTDjfFUWmX5tLK0s/MhR0hZRslGPxGjvLmeoNJMMd6vZ4grqLsW5pV?=
+ =?us-ascii?Q?XkNIp4Li3chnO7NaHwYxzBx3TyDw7DSnsfZJRpXF4zSdiBT8ph/xSzYrlbYy?=
+ =?us-ascii?Q?vNCUWx6q0nW8u/8zlH0OzJBB3sIEj1rQ7K3E7HDEv+dE3TmXxyInnUMmieYA?=
+ =?us-ascii?Q?hEp3YlXHs2DlTdfu1/zrPlvgN98cZCSafGNKSSfAWMptYKAK/ag/VsfLeXHO?=
+ =?us-ascii?Q?lDv/i2DddbjLsKNQwIx0/oFIsb2bCI3nyPbchMKgoZi0yP0ZqLL3AKTJFGOi?=
+ =?us-ascii?Q?Ceuw6VvSzoVDzKffgso/I87Z6mTwbKwaA00WwY5yCTGoMOdxQDU+7JLEiaMM?=
+ =?us-ascii?Q?SbTDEBpNkIXqT0shYuee7c0=3D?=
 X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f66c20df-05d8-4bfc-05af-08dcddbe353b
+X-MS-Exchange-CrossTenant-Network-Message-Id: fe479a25-c96a-484b-0f52-08dcddbe3901
 X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Sep 2024 00:00:18.8129 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Sep 2024 00:00:25.1359 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TjOeZnGHTtQdPjrfvSaJubeOKUrHJyK21hJd4uxUqleS/O368k28DumEbjykZcp/snsVAPRQ/tPd/2TShM/nXOWOYG3PhhNvJMjSTh02nZkAXhBaHlQ4OFx3jX6WBiA+
+X-MS-Exchange-CrossTenant-UserPrincipalName: tz9ofmXQwx6xp88qB9aAXF4FyHnf5xv2kZrKA7dTmofILElZWjWrM8ukNSFn8srPwbiwrQsdmGIVhYoEKNDPaF+xOKTcUYcR//SBeJMGVv97RwOyOmDYsl2cGmivVJZV
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB7353
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -160,151 +160,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We already have of_graph_get_next_endpoint(), but it is not
-intuitive to use in some case.
+Current test-component.c is using for_each_endpoint_of_node()
+for parsing "port", because there was no "port" base loop before.
+It has been assuming 1 port has 1 endpoint here.
 
-(X)	node {
-(Y)		ports {
-(P0)			port@0 { endpoint { remote-endpoint = ...; };};
-(P10)			port@1 { endpoint { remote-endpoint = ...; };
-(P11)				 endpoint { remote-endpoint = ...; };};
-(P2)			port@2 { endpoint { remote-endpoint = ...; };};
-		};
-	};
-
-For example, if I want to handle port@1's 2 endpoints (= P10, P11),
-I want to use like below
-
-	P10 = of_graph_get_next_endpoint(port1, NULL);
-	P11 = of_graph_get_next_endpoint(port1, P10);
-
-But 1st one will be error, because of_graph_get_next_endpoint()
-requested 1st parameter is "node" (X) or "ports" (Y), not but "port".
-Below works well, but it will get P0
-
-	P0 = of_graph_get_next_endpoint(node,  NULL);
-	P0 = of_graph_get_next_endpoint(ports, NULL);
-
-In other words, we can't handle P10/P11 directly via
-of_graph_get_next_endpoint().
-
-There is another non intuitive behavior on of_graph_get_next_endpoint().
-In case of if I could get P10 pointer for some way, and if I want to
-handle port@1 things by loop, I would like use it like below
-
-	/*
-	 * "ep" is now P10, and handle port1 things here,
-	 * but we don't know how many endpoints port1 have.
-	 *
-	 * Because "ep" is non NULL now, we can use port1
-	 * as of_graph_get_next_endpoint(port1, xxx)
-	 */
-	do {
-		/* do something for port1 specific things here */
-	} while (ep = of_graph_get_next_endpoint(port1, ep))
-
-But it also not worked as I expected.
-I expect it will be P10 -> P11 -> NULL,
-but      it will be P10 -> P11 -> P2,    because
-of_graph_get_next_endpoint() will fetch "endpoint" beyond the "port".
-It is not useful for generic driver.
-
-To handle endpoint more intuitive, create of_graph_get_next_port_endpoint()
-
-	of_graph_get_next_port_endpoint(port1, NULL); // P10
-	of_graph_get_next_port_endpoint(port1, P10);  // P11
-	of_graph_get_next_port_endpoint(port1, P11);  // NULL
+But now we can use "port" base loop (= for_each_of_graph_port()).
+Let's replace for_each function from "endpoint" base to "port" base.
 
 Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Acked-by: Mark Brown <broonie@kernel.org>
 ---
- drivers/of/property.c    | 27 +++++++++++++++++++++++++++
- include/linux/of_graph.h | 21 +++++++++++++++++++++
- 2 files changed, 48 insertions(+)
+ sound/soc/generic/test-component.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/of/property.c b/drivers/of/property.c
-index f6cd614637181..9814414a781f2 100644
---- a/drivers/of/property.c
-+++ b/drivers/of/property.c
-@@ -721,6 +721,33 @@ struct device_node *of_graph_get_next_port(struct device_node *parent,
- }
- EXPORT_SYMBOL(of_graph_get_next_port);
- 
-+/**
-+ * of_graph_get_next_port_endpoint() - get next endpoint node in port.
-+ * If it reached to end of the port, it will return NULL.
-+ * @port: pointer to the target port node
-+ * @prev: previous endpoint node, or NULL to get first
-+ *
-+ * Return: An 'endpoint' node pointer with refcount incremented. Refcount
-+ * of the passed @prev node is decremented.
-+ */
-+struct device_node *of_graph_get_next_port_endpoint(const struct device_node *port,
-+						    struct device_node *prev)
-+{
-+	while (1) {
-+		prev = of_get_next_child(port, prev);
-+		if (!prev)
-+			break;
-+		if (WARN(!of_node_name_eq(prev, "endpoint"),
-+			 "non endpoint node is used (%pOF)", prev))
-+			continue;
-+
-+		break;
-+	}
-+
-+	return prev;
-+}
-+EXPORT_SYMBOL(of_graph_get_next_port_endpoint);
-+
- /**
-  * of_graph_get_next_endpoint() - get next endpoint node
-  * @parent: pointer to the parent device node
-diff --git a/include/linux/of_graph.h b/include/linux/of_graph.h
-index 6fbd2c8696fd9..4a91de147604b 100644
---- a/include/linux/of_graph.h
-+++ b/include/linux/of_graph.h
-@@ -62,6 +62,18 @@ struct of_endpoint {
- 	for (struct device_node *child __free(device_node) = of_graph_get_next_port(parent, NULL);\
- 	     child != NULL; child = of_graph_get_next_port(parent, child))
- 
-+/**
-+ * for_each_of_graph_port_endpoint - iterate over every endpoint in a port node
-+ * @parent: parent port node
-+ * @child: loop variable pointing to the current endpoint node
-+ *
-+ * When breaking out of the loop, and continue to use the @child, you need to
-+ * use return_ptr(@child) or no_free_ptr(@child) not to call __free() for it.
-+ */
-+#define for_each_of_graph_port_endpoint(parent, child)			\
-+	for (struct device_node *child __free(device_node) = of_graph_get_next_port_endpoint(parent, NULL);\
-+	     child != NULL; child = of_graph_get_next_port_endpoint(parent, child))
-+
- #ifdef CONFIG_OF
- bool of_graph_is_present(const struct device_node *node);
- int of_graph_parse_endpoint(const struct device_node *node,
-@@ -76,6 +88,8 @@ struct device_node *of_graph_get_next_ports(struct device_node *parent,
- 					    struct device_node *ports);
- struct device_node *of_graph_get_next_port(struct device_node *parent,
- 					   struct device_node *port);
-+struct device_node *of_graph_get_next_port_endpoint(const struct device_node *port,
-+						    struct device_node *prev);
- struct device_node *of_graph_get_endpoint_by_regs(
- 		const struct device_node *parent, int port_reg, int reg);
- struct device_node *of_graph_get_remote_endpoint(
-@@ -136,6 +150,13 @@ static inline struct device_node *of_graph_get_next_port(
- 	return NULL;
- }
- 
-+static inline struct device_node *of_graph_get_next_port_endpoint(
-+					const struct device_node *parent,
-+					struct device_node *previous)
-+{
-+	return NULL;
-+}
-+
- static inline struct device_node *of_graph_get_endpoint_by_regs(
- 		const struct device_node *parent, int port_reg, int reg)
+diff --git a/sound/soc/generic/test-component.c b/sound/soc/generic/test-component.c
+index 407288055741a..85ce3ebeec056 100644
+--- a/sound/soc/generic/test-component.c
++++ b/sound/soc/generic/test-component.c
+@@ -521,7 +521,6 @@ static int test_driver_probe(struct platform_device *pdev)
  {
+ 	struct device *dev = &pdev->dev;
+ 	struct device_node *node = dev->of_node;
+-	struct device_node *ep;
+ 	const struct test_adata *adata = of_device_get_match_data(&pdev->dev);
+ 	struct snd_soc_component_driver *cdriv;
+ 	struct snd_soc_dai_driver *ddriv;
+@@ -591,7 +590,7 @@ static int test_driver_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	i = 0;
+-	for_each_endpoint_of_node(node, ep) {
++	for_each_of_graph_port(node, port) {
+ 		snprintf(dname[i].name, TEST_NAME_LEN, "%s.%d", node->name, i);
+ 		ddriv[i].name = dname[i].name;
+ 
 -- 
 2.43.0
 
