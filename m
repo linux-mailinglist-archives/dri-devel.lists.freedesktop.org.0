@@ -2,82 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECB1B98770F
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 17:56:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C2F7987725
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 18:00:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB25610EB80;
-	Thu, 26 Sep 2024 15:56:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95D4410EB86;
+	Thu, 26 Sep 2024 15:59:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="L8eY9ljI";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GEauHDz/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C48E310EB78;
- Thu, 26 Sep 2024 15:56:30 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48Q9fJH0021497;
- Thu, 26 Sep 2024 15:56:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=r0Y0efsoMElBDcZQJXlIL64S
- UPCW9t0wz/gYXRupPgc=; b=L8eY9ljIVSSqoZrIiN+DyY1qg34PvsZBZZXZfwyH
- JczP8rh9H/8CWl7w1oJox0Xx1IM+R0GwLt2nMjn70FS5IZnwpAyHU/P+e7i67E7o
- eC8bRvCHq5wPvQCEpRMExm5D74h+/1HXnIlt3jX+6Lgknhn4smsv5/HnuUQz+ekZ
- 5ihw2Mc/1CImA7nVMTH/EtPorqyuz5/JHSCP6PNUYoH3KGZd+/8kF8qJAjWMS6/x
- YUgeIWQZ1UddePFxsqT3FGeMALTTWA85hppQOtpB917PwhxVjo6OmRDaORK4bNZp
- GWVG4z1d1l5S8v0LbnvDli9h7Vm9UV52d6ww75kYyO/BSA==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41sqe9fw3n-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 26 Sep 2024 15:56:24 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 48QFuN93002570
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 26 Sep 2024 15:56:23 GMT
-Received: from hu-akhilpo-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Thu, 26 Sep 2024 08:56:19 -0700
-Date: Thu, 26 Sep 2024 21:26:15 +0530
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-To: Rob Clark <robdclark@gmail.com>
-CC: <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
- <freedreno@lists.freedesktop.org>, Connor Abbott <cwabbott0@gmail.com>,
- "Rob Clark" <robdclark@chromium.org>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, "Dmitry
- Baryshkov" <dmitry.baryshkov@linaro.org>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Daniel
- Vetter" <daniel@ffwll.ch>, open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] drm/msm/a6xx+: Insert a fence wait before SMMU table
- update
-Message-ID: <20240926155615.y33wehbowzg57c32@hu-akhilpo-hyd.qualcomm.com>
-References: <20240913195132.8282-1-robdclark@gmail.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08EF810EB78
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 15:59:49 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 3288E5C04AC;
+ Thu, 26 Sep 2024 15:59:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2596DC4CEC5;
+ Thu, 26 Sep 2024 15:59:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1727366387;
+ bh=5WPiZotTJNjDA/yWMHXdhILtKuuGmQdF3mrjZNA821k=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=GEauHDz/vBRh7M8Li+EvWJ4ck1kr2Is+EqOj9sPiez6/KYucxWXoVT1x40jwiRhef
+ SkdDhc63WWETfh82y06j5gywdfdpE/K9C3RqdiqfFy2XNhHdvLIL5UIK0v31NpxkgD
+ 63H9Amiwokhi7Jzk9BjiyrwgFxN+pLHppfNyqQYbo6SxWX4hTF/MppGveN3p6sBhYN
+ SXT87+siB6j3SV8VUh8tI6EHMfqREe4POKBt7P8DiPFH/UQscKZQ1rMtvFClXK0Y5l
+ eDjQLnMqfHLOBN4kwc/I4slu0Mp5Ry9f4NWAtugJWqYY3f9foMZph03OeDmBUGrxxD
+ y7kr8m7kRvbMQ==
+Date: Thu, 26 Sep 2024 16:59:39 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Macpaul Lin <macpaul.lin@mediatek.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Yong Wu <yong.wu@mediatek.com>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ CK Hu <ck.hu@mediatek.com>, Jitao shi <jitao.shi@mediatek.com>,
+ Tinghan Shen <tinghan.shen@mediatek.com>,
+ Seiya Wang <seiya.wang@mediatek.com>, Ben Lok <ben.lok@mediatek.com>,
+ "Nancy . Lin" <nancy.lin@mediatek.com>,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ Alexandre Mergnat <amergnat@baylibre.com>,
+ Bear Wang <bear.wang@mediatek.com>,
+ Pablo Sun <pablo.sun@mediatek.com>, Macpaul Lin <macpaul@gmail.com>,
+ Sen Chu <sen.chu@mediatek.com>, Chris-qj chen <chris-qj.chen@mediatek.com>,
+ MediaTek Chromebook Upstream
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>, 
+ Chen-Yu Tsai <wenst@chromium.org>
+Subject: Re: [PATCH v2 5/5] dt-bindings: display: mediatek: dpi: Add mt8195
+ support in power domains
+Message-ID: <20240926-visible-harmonica-a7cda103ff70@spud>
+References: <20240926111449.9245-1-macpaul.lin@mediatek.com>
+ <20240926111449.9245-5-macpaul.lin@mediatek.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="IMup/vqcFMn6Sn9a"
 Content-Disposition: inline
-In-Reply-To: <20240913195132.8282-1-robdclark@gmail.com>
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: es8GdKCSvMSM_g_AwFDUC2KyHS-qFbTW
-X-Proofpoint-GUID: es8GdKCSvMSM_g_AwFDUC2KyHS-qFbTW
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- mlxlogscore=999 spamscore=0 lowpriorityscore=0 adultscore=0 mlxscore=0
- suspectscore=0 malwarescore=0 phishscore=0 impostorscore=0 clxscore=1015
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2408220000 definitions=main-2409260111
+In-Reply-To: <20240926111449.9245-5-macpaul.lin@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,78 +84,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 13, 2024 at 12:51:31PM -0700, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
-> 
-> The CP_SMMU_TABLE_UPDATE _should_ be waiting for idle, but on some
-> devices (x1-85, possibly others), it seems to pass that barrier while
-> there are still things in the event completion FIFO waiting to be
-> written back to memory.
-> 
-> Work around that by adding a fence wait before context switch.  The
-> CP_EVENT_WRITE that writes the fence is the last write from a submit,
-> so seeing this value hit memory is a reliable indication that it is
-> safe to proceed with the context switch.
-> 
-> Closes: https://gitlab.freedesktop.org/drm/msm/-/issues/63
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
 
-Reviewed-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+--IMup/vqcFMn6Sn9a
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--Akhil
+On Thu, Sep 26, 2024 at 07:14:49PM +0800, Macpaul Lin wrote:
+> Add power domain binding to the mediatek DPI controller for MT8185.
 
+This wording is confusing, no binding is being added here, you're just
+allowing one property.
+
+> The dpi node in mt8195.dtsi was triggering a dtbs_check error:
+>   dp-intf@1c113000: power-domains: False schema does not allow [[44, 18]]
+
+And while it is good to have the warning, it would be better to explain
+here that there are actually power domains, since the dts could be wrong
+here also.
+
+Otherwise,
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+
+> Fixes: 5474d49b2f79 ("dt-bindings: display: mediatek: dpi: Add power doma=
+ins")
+> Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
 > ---
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 14 +++++++++++---
->  1 file changed, 11 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> index bcaec86ac67a..ba5b35502e6d 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> @@ -101,9 +101,10 @@ static void get_stats_counter(struct msm_ringbuffer *ring, u32 counter,
->  }
->  
->  static void a6xx_set_pagetable(struct a6xx_gpu *a6xx_gpu,
-> -		struct msm_ringbuffer *ring, struct msm_file_private *ctx)
-> +		struct msm_ringbuffer *ring, struct msm_gem_submit *submit)
->  {
->  	bool sysprof = refcount_read(&a6xx_gpu->base.base.sysprof_active) > 1;
-> +	struct msm_file_private *ctx = submit->queue->ctx;
->  	struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
->  	phys_addr_t ttbr;
->  	u32 asid;
-> @@ -115,6 +116,13 @@ static void a6xx_set_pagetable(struct a6xx_gpu *a6xx_gpu,
->  	if (msm_iommu_pagetable_params(ctx->aspace->mmu, &ttbr, &asid))
->  		return;
->  
-> +	/* Wait for previous submit to complete before continuing: */
-> +	OUT_PKT7(ring, CP_WAIT_TIMESTAMP, 4);
-> +	OUT_RING(ring, 0);
-> +	OUT_RING(ring, lower_32_bits(rbmemptr(ring, fence)));
-> +	OUT_RING(ring, upper_32_bits(rbmemptr(ring, fence)));
-> +	OUT_RING(ring, submit->seqno - 1);
-> +
->  	if (!sysprof) {
->  		if (!adreno_is_a7xx(adreno_gpu)) {
->  			/* Turn off protected mode to write to special registers */
-> @@ -193,7 +201,7 @@ static void a6xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
->  	struct msm_ringbuffer *ring = submit->ring;
->  	unsigned int i, ibs = 0;
->  
-> -	a6xx_set_pagetable(a6xx_gpu, ring, submit->queue->ctx);
-> +	a6xx_set_pagetable(a6xx_gpu, ring, submit);
->  
->  	get_stats_counter(ring, REG_A6XX_RBBM_PERFCTR_CP(0),
->  		rbmemptr_stats(ring, index, cpcycles_start));
-> @@ -283,7 +291,7 @@ static void a7xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
->  	OUT_PKT7(ring, CP_THREAD_CONTROL, 1);
->  	OUT_RING(ring, CP_THREAD_CONTROL_0_SYNC_THREADS | CP_SET_THREAD_BR);
->  
-> -	a6xx_set_pagetable(a6xx_gpu, ring, submit->queue->ctx);
-> +	a6xx_set_pagetable(a6xx_gpu, ring, submit);
->  
->  	get_stats_counter(ring, REG_A7XX_RBBM_PERFCTR_CP(0),
->  		rbmemptr_stats(ring, index, cpcycles_start));
-> -- 
-> 2.46.0
-> 
+>  .../devicetree/bindings/display/mediatek/mediatek,dpi.yaml       | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> Changes for v2:
+>  - Because of the corresponding dts fix has been reviewed with a Reviewed=
+-by: tag.
+>    [1] https://lore.kernel.org/all/20240925080515.16377-1-macpaul.lin@med=
+iatek.com/
+>    We still need this change to fix the 2 dtbs_check errors.
+>    So keeps no change here.
+>=20
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,=
+dpi.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.=
+yaml
+> index 3a82aec9021c..07acc8a76bfc 100644
+> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
+> @@ -89,6 +89,7 @@ allOf:
+>                  - mediatek,mt6795-dpi
+>                  - mediatek,mt8173-dpi
+>                  - mediatek,mt8186-dpi
+> +                - mediatek,mt8195-dp-intf
+>      then:
+>        properties:
+>          power-domains: false
+> --=20
+> 2.45.2
+>=20
+
+--IMup/vqcFMn6Sn9a
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZvWE6gAKCRB4tDGHoIJi
+0o8/AQDZGYmuC7hP+2xaTqwKXghh85TysD+qSjWhvV4FfeR+gQD8DbK1R1oHhLRL
+a08ypff9VkE92E4iJH4I3W5M8tHjQQc=
+=C4PU
+-----END PGP SIGNATURE-----
+
+--IMup/vqcFMn6Sn9a--
