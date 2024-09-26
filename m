@@ -2,82 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC569987B87
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Sep 2024 01:14:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45A21987B99
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Sep 2024 01:21:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C5AA10E0DA;
-	Thu, 26 Sep 2024 23:14:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E2F010E0D1;
+	Thu, 26 Sep 2024 23:21:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="UCMblwVo";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="LtVY8vmN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
- [209.85.208.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5664D10E0DA
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 23:14:04 +0000 (UTC)
-Received: by mail-lj1-f174.google.com with SMTP id
- 38308e7fff4ca-2f75e5f3debso14116881fa.1
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 16:14:04 -0700 (PDT)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
+ [209.85.208.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21E5C10E0D1
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 23:21:25 +0000 (UTC)
+Received: by mail-lj1-f172.google.com with SMTP id
+ 38308e7fff4ca-2f75f116d11so18191711fa.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 16:21:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1727392442; x=1727997242; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=RKCPXT2SnF217fYCBqO7kVOCMlyaVhnwZH7kFGVlu+A=;
- b=UCMblwVo8wRZQz46zhXMegQPzVUMkRX43iu9mmrBR7OPhGaGXxe32V6tSMfjYqfz4y
- JIo94sL1Mg8C21tQNJCwZLmAFTI0r/VswyjaNPkvJE/mC+7MTtzoWOfQEG1K7K3vSbL/
- AjcyhGWV6opqBsdBOGbtkQO7oTT9DESwZpo8D0zIFrKb0gYI2D2kLgDFwWNDiazVQa1p
- aWMZc/RTnqlkllR5qSMzfht0qHB2DQiig1Lznbl2bupQ1eTVNcfWl8wQIwcqTGYOHjTJ
- JLjIBPcrALgk9bdzNwziHTHoPk9M+y1GZF9r5JbqPPuDPi3eomP5Wcw/ZvxaptnB8FmL
- n7Fg==
+ d=linaro.org; s=google; t=1727392883; x=1727997683; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=Hj1ddZeOtN7zDwMwktNYFtzm3Gh7Tekdeg6sieYs35g=;
+ b=LtVY8vmNgqtrQeHH18H7O4B7kTTvufv9XqGBwEKfjzQJq4WePngxc8/mKTTsV1udci
+ DH+wyhjAmKygEXJ61AixRuh1vNlSun0o7x1ufKvSMQ5cokHM9D26eivcDFbFqt6/peEN
+ 9X2ptEj4mVzCc3/ntrd7+SHCTn/sci+OYEQSMGAFM24nD9C7dCgLbmWT43SwucVxh262
+ sCw7JyxHozREr3kUwoSvhIxyJOe2RMs8l6CAlExlUrF1mBgYjAKapacZPCcRZW4H0+sr
+ 2v4xwsIfu6SYFE2fYtzrFE/5j/wbJ6xGr/wIJ5I3ro30EyZ6TeN3pGVEr6qxPROX6Rz8
+ u9HA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727392442; x=1727997242;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=RKCPXT2SnF217fYCBqO7kVOCMlyaVhnwZH7kFGVlu+A=;
- b=XYoOsxdKnzmebvmyIPX5Hszzl/rd1j3jyyIKpGCgpceYQA4lVgSWaVHwiW0HMGgcTG
- aGuDWat5QEBPpgUt5bfEFZDvuy3N+X2VcoHaw+Ig1i7hsrqVq09QAhquCHMQUY5tJ6/Y
- pVkO0GjCy/gD6Q5kwrPAtidhaLLq8KXoU8iFnqH+S/Pzh0oGEXW3oOiZ22ZVfBa7h4+c
- 255ako57z8qpt8IH8pZMLUlknAnfdzaa3d97FNMZe+w85ha3MONLN06/ZujPOX3gPnY4
- 4LlcJVpy/0kgzUiSqlxU5VBrjL/JxeWMNana7c62QQ2MDb45eA9mfvp2lRkceuql3+zE
- 75LA==
+ d=1e100.net; s=20230601; t=1727392883; x=1727997683;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Hj1ddZeOtN7zDwMwktNYFtzm3Gh7Tekdeg6sieYs35g=;
+ b=an8P7QnQZJ3VhICM134zj5Ul2O8NeXOdI/fQM1+Jg98+ay7hDbIBNmQ/hJLZHzpzuJ
+ JFPgclwBmcCts6P31xGPfM6hsUvTwIAVYAbtEQtMLjC/9Fbbat3yp2JA3f8pvtAY5R7H
+ NY98POkpl9I2E8M/rRGF43dUQcXezHH0hDonCjY7SRXkLLtzHmVjOFJJwRbY9Pi0g+JL
+ r6VQJOpeGVVyGmJCSrht2FceADN8lqxmGjI5Bgb66UBVFvOnxf18PCtUAsw0IJ8yo7Ls
+ Ws4f93IO5pI+1a355wibG/VUSGfr/7IP7Xp/+pjiJZARmdgiifXqKptFDs6HhSkaK/j1
+ HAKg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVX+9YjWNiDd6u6yCLccIeoa8x64VQT3RQth5f3lZkp2YUpZBaA+4SY/xppLyBKLZGh+rBpEMhKNkQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxbpRbl19HklIrcDavnllv/Ok7PlzEffe+SbjGn7Hhbwc5OTgj5
- MaM8VYzh17aaRelxP1xLVDYX70fAoEVVERCCk5Ndb2WN/r0aniJfA6GjmBaY4cI=
-X-Google-Smtp-Source: AGHT+IFwhlaM9nlI09IsLi+bYAjxYj9r1eOayb5QFxDr4jeBDHgkFOZ8axxQRpGJIerqpsmZEWNF+A==
-X-Received: by 2002:a05:651c:b28:b0:2f7:5914:c22e with SMTP id
- 38308e7fff4ca-2f9d3e3a30fmr8055681fa.6.1727392441976; 
- Thu, 26 Sep 2024 16:14:01 -0700 (PDT)
+ AJvYcCX+n9nkXnCjRLQhqXRj2nhwcjgUibEZUZIcChAh0eZfnvqrImJTjkq0ZsGGpHAZ2uH/udzlASuC3X4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw/byre1orUkZWUPkQvNPdDABd1G4+FWNwgHCflv5rMu6vhZSCc
+ AH26gccGTGb4qPFgUKKQSzg30emNkzhW507MfmCnfM9D9xht9FWDvmU8ezcxffE=
+X-Google-Smtp-Source: AGHT+IELK0Z3Oj9K6pV3soLuC1gTs0dfJ9rdKZI8pDVBtLZN2FDIDBgtVuAsJBZb02BkKfXRyruufA==
+X-Received: by 2002:a05:6512:3a96:b0:52e:9e70:d068 with SMTP id
+ 2adb3069b0e04-5389fc29c84mr797475e87.4.1727392882552; 
+ Thu, 26 Sep 2024 16:21:22 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2f9d4618a80sm949261fa.107.2024.09.26.16.13.59
+ 2adb3069b0e04-538a044159csm100729e87.263.2024.09.26.16.21.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Sep 2024 16:14:00 -0700 (PDT)
-Date: Fri, 27 Sep 2024 02:13:57 +0300
+ Thu, 26 Sep 2024 16:21:22 -0700 (PDT)
+Date: Fri, 27 Sep 2024 02:21:19 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Matthias Schiffer <matthias.schiffer@tq-group.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] drm: fsl-dcu: enable PIXCLK on LS1021A
-Message-ID: <ovzeljss5uv6rymlbdfjolnjox3dklcv3v2km73gqnh6vejxvg@afhyhfwmt3nf>
-References: <20240926055552.1632448-1-alexander.stein@ew.tq-group.com>
- <20240926055552.1632448-2-alexander.stein@ew.tq-group.com>
- <tosilxaxfg6hejtqs2fslf6ez5pdg5yxj776pohmodja3bn5jp@4jbdprx52fqx>
- <2754373.mvXUDI8C0e@steina-w>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Manikandan.M@microchip.com, neil.armstrong@linaro.org, 
+ quic_jesszhan@quicinc.com, airlied@gmail.com, simona@ffwll.ch, 
+ maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, robh@kernel.org,
+ krzk+dt@kernel.org, 
+ conor+dt@kernel.org, thierry.reding@gmail.com, sam@ravnborg.org, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Dharma.B@microchip.com
+Subject: Re: [PATCH v2 2/2] drm/panel: simple: Add Microchip AC69T88A LVDS
+ Display panel
+Message-ID: <aehcvf55b52p6u5ai3uri7jzo2dywdhv6mxo4pxz3lhajjoxqe@izk23gt2yvdn>
+References: <20240919091548.430285-1-manikandan.m@microchip.com>
+ <20240919091548.430285-2-manikandan.m@microchip.com>
+ <zognzunciriytm3uvoolxjsvu43v3m2lnctsz5swusnmm3aj2z@ag7zkncccdmf>
+ <83e9d20d-f294-4303-b570-816ebc989bcf@microchip.com>
+ <f4z2egmrcoh7kih2pyr3mq7fzuwtvod6vxlzzim2iw3ly7jcr3@2uxiyzlfixhp>
+ <17b5a11c-b9a8-4172-831e-d52f1a4270e9@microchip.com>
+ <quxjqmx5yc27cxmjvnq6irltr36josag4yltxbiweh4femqbqo@j34pxmfxglc5>
+ <20240926-foamy-oarfish-of-passion-ec6fa2@houat>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2754373.mvXUDI8C0e@steina-w>
+In-Reply-To: <20240926-foamy-oarfish-of-passion-ec6fa2@houat>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,55 +96,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 26, 2024 at 04:09:03PM GMT, Alexander Stein wrote:
-> Hi Dmitry,
-> 
-> Am Donnerstag, 26. September 2024, 08:05:56 CEST schrieb Dmitry Baryshkov:
-> > On Thu, Sep 26, 2024 at 07:55:51AM GMT, Alexander Stein wrote:
-> > > From: Matthias Schiffer <matthias.schiffer@tq-group.com>
+On Thu, Sep 26, 2024 at 03:58:11PM GMT, Maxime Ripard wrote:
+> On Thu, Sep 26, 2024 at 04:32:59PM GMT, Dmitry Baryshkov wrote:
+> > On Thu, Sep 26, 2024 at 08:17:09AM GMT, Manikandan.M@microchip.com wrote:
+> > > On 23/09/24 11:37 am, Dmitry Baryshkov wrote:
+> > > > EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
+> > > > 
+> > > > On Mon, Sep 23, 2024 at 05:50:22AM GMT, Manikandan.M@microchip.com wrote:
+> > > >> On 20/09/24 9:13 pm, Dmitry Baryshkov wrote:
+> > > >>> EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
+> > > >>>
+> > > >>> On Thu, Sep 19, 2024 at 02:45:48PM GMT, Manikandan Muralidharan wrote:
+> > > >>>> Add support for Microchip AC69T88A 5 inch TFT LCD 800x480
+> > > >>>> Display module with LVDS interface.The panel uses the Sitronix
+> > > >>>> ST7262 800x480 Display driver
+> > > >>>
+> > > >>> AC69T88A seems to be a module name, rather than a panel name. What is
+> > > >>> the actual panel name present on this module?
+> > > >> Both names, "Microchip AC69T88A" and "MPU32-LVDS-DISPLAY-WVGA" are
+> > > >> present on the display module
+> > > > 
+> > > > Which panel was used for the module? I don't think that Microchip
+> > > > produces LVDS panels.
+> > > Its a new LVDS display from Microchip that uses Sitronix ST7262 TFT LCD 
+> > > driver
 > > > 
-> > > The PIXCLK needs to be enabled in SCFG before accessing certain DCU
-> > > registers, or the access will hang. For simplicity, the PIXCLK is enabled
-> > > unconditionally, resulting in increased power consumption.
+> > > https://www.crystalfontz.com/controllers/datasheet-viewer.php?id=486
 > > 
-> > By this description it looks like a fix. What is the first broken
-> > commit? It needs to be mentioned in the Fixes: tag. Or is it hat
-> > existing devices have been enabling SCFG in some other way?
-> 
-> We discussed this internally and it seems this never worked, unless PIXCLK
-> was already enabled in SCFG by a different way, e.g. firmware, etc.
-
-My bet was on the firmware, but I never touched Layerscape platforms.
-Anyway,
-
-Fixes: 109eee2f2a18 ("drm/layerscape: Add Freescale DCU DRM driver")
-Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
-
-> 
-> Best regards,
-> Alexander
-> 
-> > > 
-> > > Signed-off-by: Matthias Schiffer <matthias.schiffer@tq-group.com>
-> > > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> > > ---
-> > > Changes in v2:
-> > > * Add note about power consumption in commit message
-> > > * Add note about power consumption in comment
-> > > * Fix alignment
-> > > 
+> > Ok. Anyway if somebody ends up looking for the panel, they'll probably
+> > find the module and vice versa.
 > > 
-> > 
+> > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > 
+> Given that aside from that mail, the module name isn't mentionned
+> anywhere, I'm not sure they would.
 > 
-> -- 
-> TQ-Systems GmbH | Mühlstraße 2, Gut Delling | 82229 Seefeld, Germany
-> Amtsgericht München, HRB 105018
-> Geschäftsführer: Detlef Schneider, Rüdiger Stahl, Stefan Schneider
-> http://www.tq-group.com/
-> 
-> 
+> The way we usually deal with controllers is to have a separate driver
+> for panels based on that controller, even more so since that controller
+> seems to be able to affect the display.
+
+But in this case it's panel-simple, no special driver for the
+controller. From my understanding the AC69T88A is the module name (at
+least the datasheet uses that name). The on-board EEPROM also carries
+that name and the name of the controller.
 
 -- 
 With best wishes
