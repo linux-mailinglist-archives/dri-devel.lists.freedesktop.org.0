@@ -2,83 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AE5B9877B0
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 18:39:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF8E69877BC
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 18:42:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3235C10E07B;
-	Thu, 26 Sep 2024 16:38:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C922610EBA1;
+	Thu, 26 Sep 2024 16:42:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=xenosoft.de header.i=@xenosoft.de header.b="qBT3MSKZ";
-	dkim=permerror (0-bit key) header.d=xenosoft.de header.i=@xenosoft.de header.b="oG8IJdF1";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="E4kiX8Ly";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo4-p00-ob.smtp.rzone.de (mo4-p00-ob.smtp.rzone.de
- [81.169.146.161])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54F2010E07B
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 16:38:47 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1727368722; cv=none;
- d=strato.com; s=strato-dkim-0002;
- b=HeLMFYRphIDQlLQy6w2FvAApBjHkLUZ7+12c9rb2mecFbtVDDPXJ0+9/wqCqSut0xk
- Vp7sOKlOrfPIu0BGSrwjhnfEW0C6zcHVOQN3Jh3HFLy8wh186Lc616QAaB+dNC6hPkbT
- QikhNkqNTkpoKtg8RidcUDyq0pQuGol0AXm7RIWGV4RUdtwKb1hXPgKl9LHdV5p/EB/A
- nhu3FFVrzgZMmYHYWyPFMnR9wzKPOAcPjJUZ3+qoHgiyRTYAbYa3dVUBqFFbDW3YR+yZ
- aL2HK9dLy1bDqy3L6c1g1Hb4yPS53leiux1pmePOZ0V+c6u0hbDxkUiDnLKmnvN5c5L9
- OY6Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1727368722;
- s=strato-dkim-0002; d=strato.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
- From:Subject:Sender;
- bh=t11H1dkaMkjymrzmv5CzFdAP4jjnNkRjUxD6o2bN2D4=;
- b=Mhqbae7yylHoDbReJ5fEAjSC5z7FXzG9solm8qFu/RVx9OzepbgdStTaJXjD+aD9Jk
- nnR3/27PxzW8/FqewUaahjXfl3dLnUHwZc5/7xVPbM5p+31t66cDD0BkwtRAcCO0GJwe
- ChH8FgMWAVQn5Y3UrNChH3oMQkK9qsmTnkvzEpX9vTx+zdNB1MRBEroaXFKlU0DTWLvG
- CN5SKjr7NSiOGP2dvySHysT3Qm+6sAv/DBFOkh2sx+uSeWkWRLqV7NFB2+LOH1eATmoQ
- e6d2zYl8XQMa9ye3gwg5dCHRYcooBvtgbHQvLuv26xYXywCja5GZCwKMNSoSTyOUVIwU
- NgaQ==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo00
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1727368722;
- s=strato-dkim-0002; d=xenosoft.de;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
- From:Subject:Sender;
- bh=t11H1dkaMkjymrzmv5CzFdAP4jjnNkRjUxD6o2bN2D4=;
- b=qBT3MSKZWabggzMwT1V2H9bF8c/4DddjMeulrWPaUGyo1f2/brP9aVRccBbZjrFiau
- reQQGGu9GyWo3/wrg/nJDkqOO/2lQnemwSZcoe50iWkvGASBd2eUH5QWJxlszVWRsk4X
- 0uU1PA0cfiPdPan+3x4W9z1/9/6hNijmRT0y82pYdDy2Qh1baUIVN+UMSuVUggQ8XhzH
- XG8guuJmbMRbBwauF48T9I0oO8FjVZJch0JpLxovb9/d7pleHLagfGG3j9R8xROYcEIS
- 6broYoUDaZ36fAx8neauw+MwY9b4O0sl0h5EPbVgp8OyLcD7yGJUgeNfEA/U3IwXxrRu
- Hw7w==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1727368722;
- s=strato-dkim-0003; d=xenosoft.de;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
- From:Subject:Sender;
- bh=t11H1dkaMkjymrzmv5CzFdAP4jjnNkRjUxD6o2bN2D4=;
- b=oG8IJdF119/bV762tYvvggF7NOADrr9JklNpmjpzq7te/FMfJYRqpgo4YUxz6K+Gyv
- +4NSzo2g64q6CCTsdFBw==
-X-RZG-AUTH: ":L2QefEenb+UdBJSdRCXu93KJ1bmSGnhMdmOod1DhGN0rBVhd9dFr6KxrfO5Oh7V7Vpizs3/MAXVWJADp16jJvHbemLv1Yx3Y4xLa/so="
-Received: from smtpclient.apple by smtp.strato.de (RZmta 51.2.8 AUTH)
- with ESMTPSA id e0da1a08QGcgJn1
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
- (Client did not present a certificate);
- Thu, 26 Sep 2024 18:38:42 +0200 (CEST)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Mime-Version: 1.0 (1.0)
-Subject: Re: Kernel doesn't boot after DRM updates (drm-next-2024-09-19)
-From: Christian Zigotzky <chzigotzky@xenosoft.de>
-In-Reply-To: <CADnq5_MM6UYOwFSPkZRauAyckFaUjCRGT97cVhsK=xZ9CzuXVw@mail.gmail.com>
-Date: Thu, 26 Sep 2024 18:38:31 +0200
-Cc: Maling list DRI developers <dri-devel@lists.freedesktop.org>,
- mad skateman <madskateman@gmail.com>, "R.T.Dickinson" <rtd2@xtra.co.nz>,
- Darren Stevens <darren@stevens-zone.net>, hypexed@yahoo.com.au,
- hypexed@yahoo.com.au
-Message-Id: <396DA24A-85A6-419B-8E90-9A05EF608C41@xenosoft.de>
-References: <CADnq5_MM6UYOwFSPkZRauAyckFaUjCRGT97cVhsK=xZ9CzuXVw@mail.gmail.com>
-To: Alex Deucher <alexdeucher@gmail.com>
-X-Mailer: iPhone Mail (22A3354)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69BDD10EBA1
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 16:42:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1727368929; x=1758904929;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=I+opJ+sKzyWHL0fLfeTbq/94GDwV8C4jq/Mltr9UjB4=;
+ b=E4kiX8LyZaZjjIw61kR9K4MYw7qz1ib/G7Z5EfSMS4WqxZY0IMovndgh
+ 5LXhpqBRe6f18VSE407PYXn6xLA6xynnrINTuY43oWMostHwkWfZY/0l+
+ QoffgF5hj3h78BV+zDimAbfaWyeWR59tDVyg6mdyOjCUn+4eNOpfwWoWq
+ +owQPk37tIxuBP47f6lpcGem5BWUn0HIoxA7rg/nS1AtZm28Q1/lsyS+f
+ 9yAHWrzI3f++Y4FxWtWg6jU1T61/AfA0pakMc/0/eszU5YIGUHdoM/x4l
+ IQg78cOB1WHKNig/exq2ZAPwMGGconUYDUlD8gqy4Hk7iKgzQKwALPuAV Q==;
+X-CSE-ConnectionGUID: kI9W6XqAS8ieWx8zk6UsZg==
+X-CSE-MsgGUID: t8RhBr7FSpiAj5d96jtIHA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="25992226"
+X-IronPort-AV: E=Sophos;i="6.11,156,1725346800"; d="scan'208";a="25992226"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Sep 2024 09:42:09 -0700
+X-CSE-ConnectionGUID: 9jJPo6l5QyScncqYgxnl2w==
+X-CSE-MsgGUID: UAiQK2irRleXDOtUAEQunQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,156,1725346800"; d="scan'208";a="76304028"
+Received: from tassilo.jf.intel.com ([10.54.38.190])
+ by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Sep 2024 09:42:08 -0700
+From: Andi Kleen <ak@linux.intel.com>
+To: maarten.lankhorst@linux.intel.com
+Cc: mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, dri-devel@lists.freedesktop.org,
+ Andi Kleen <ak@linux.intel.com>
+Subject: [PATCH v2] drm: Print bad EDID notices less often
+Date: Thu, 26 Sep 2024 09:42:02 -0700
+Message-ID: <20240926164202.2668922-1-ak@linux.intel.com>
+X-Mailer: git-send-email 2.46.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,27 +67,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26 September 2024 at 5:50pm, Alex Deucher wrote:
+I have an old monitor that reports a zero EDID block, which results in a
+warning message. This happens on every screen save cycle, and maybe in
+some other situations, and over time the whole kernel log gets filled
+with these redundant messages.
 
-Can you attach your dmesg output?  There was a regression in the dma
-subsystem what was fixed by this commit:
+Make most of these prints conditional on bad_edid_count like other verbose EDID
+messages.
 
-commit b348b6d17fd1d5d89b86db602f02be
-a54a754bd8
-Author: Leon Romanovsky <leon@kernel.org>
-Date:   Sun Sep 22 21:09:48 2024 +0300
+Signed-off-by: Andi Kleen <ak@linux.intel.com>
 
-   dma-mapping: report unlimited DMA addressing in IOMMU DMA path
+---
 
-Alex
+v2: Use bad_edid_count instead of _once.
+---
+ drivers/gpu/drm/drm_edid.c | 17 ++++++++++++-----
+ 1 file changed, 12 insertions(+), 5 deletions(-)
 
-=E2=80=94=E2=80=94=E2=80=94-
-
-Hello Alex,
-
-This issue is gone.=20
-
-Thanks for the information,
-
-Christian=
+diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+index 855beafb76ff..52c8f08152fd 100644
+--- a/drivers/gpu/drm/drm_edid.c
++++ b/drivers/gpu/drm/drm_edid.c
+@@ -1902,10 +1902,17 @@ static bool edid_block_valid(const void *block, bool base)
+ 				       edid_block_tag(block));
+ }
+ 
+-static void edid_block_status_print(enum edid_block_status status,
++static void edid_block_status_print(struct drm_connector *connector,
++				    enum edid_block_status status,
+ 				    const struct edid *block,
+ 				    int block_num)
+ {
++	if (status != EDID_BLOCK_OK &&
++		connector &&
++		!connector->bad_edid_counter++ &&
++		!drm_debug_enabled(DRM_UT_KMS))
++		return;
++
+ 	switch (status) {
+ 	case EDID_BLOCK_OK:
+ 		break;
+@@ -2004,7 +2011,7 @@ static bool drm_edid_block_valid(void *_block, int block_num, bool print_bad_edi
+ 			*edid_corrupt = true;
+ 	}
+ 
+-	edid_block_status_print(status, block, block_num);
++	edid_block_status_print(NULL, status, block, block_num);
+ 
+ 	/* Determine whether we can use this block with this status. */
+ 	valid = edid_block_status_valid(status, edid_block_tag(block));
+@@ -2375,7 +2382,7 @@ static struct edid *_drm_do_get_edid(struct drm_connector *connector,
+ 
+ 	status = edid_block_read(edid, 0, read_block, context);
+ 
+-	edid_block_status_print(status, edid, 0);
++	edid_block_status_print(connector, status, edid, 0);
+ 
+ 	if (status == EDID_BLOCK_READ_FAIL)
+ 		goto fail;
+@@ -2409,7 +2416,7 @@ static struct edid *_drm_do_get_edid(struct drm_connector *connector,
+ 
+ 		status = edid_block_read(block, i, read_block, context);
+ 
+-		edid_block_status_print(status, block, i);
++		edid_block_status_print(connector, status, block, i);
+ 
+ 		if (!edid_block_status_valid(status, edid_block_tag(block))) {
+ 			if (status == EDID_BLOCK_READ_FAIL)
+@@ -2842,7 +2849,7 @@ const struct drm_edid *drm_edid_read_base_block(struct i2c_adapter *adapter)
+ 
+ 	status = edid_block_read(base_block, 0, drm_do_probe_ddc_edid, adapter);
+ 
+-	edid_block_status_print(status, base_block, 0);
++	edid_block_status_print(NULL, status, base_block, 0);
+ 
+ 	if (!edid_block_status_valid(status, edid_block_tag(base_block))) {
+ 		edid_block_dump(KERN_NOTICE, base_block, 0);
+-- 
+2.46.1
 
