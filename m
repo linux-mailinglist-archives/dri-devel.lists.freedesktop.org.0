@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48346986E44
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 09:54:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3A53986E45
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 09:54:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CE9B10EABE;
-	Thu, 26 Sep 2024 07:54:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0625A10EAD4;
+	Thu, 26 Sep 2024 07:54:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="PWHf/2pB";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="FBX1fpb3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
- [209.85.221.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3536C10EA9F
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 06:56:45 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id
- ffacd0b85a97d-37ccfbbd467so193710f8f.0
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Sep 2024 23:56:45 -0700 (PDT)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+ [209.85.221.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C85F10EA9E
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 07:01:21 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id
+ ffacd0b85a97d-3770320574aso347572f8f.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 00:01:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1727333803; x=1727938603; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1727334080; x=1727938880; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
  bh=fs8vGQj6gBPYGtja4mFfGqlu9i7HD+/rnYLvYM98k+w=;
- b=PWHf/2pBvxJdHRMQ0GymWO0zxPkwfe/sQfjP83G6s7n7CAJajbY177Uq0eAAXsdxMA
- GEqXIWhoHa3vLF9+K2rhN3h4KQUOeM4Na69LQwRlp/8SQKJdwT+2BZSbEtYV6WkuIjRy
- mWXYqYTV8vko09zP7epJ8uAY8FS1r/Y+M/lPT7CqHw/y3f8JmLkURRsfNhaJNWSZaY1C
- aiKKcF5keiIFzVgt0QFtDAztAD7CuJS6gTyzsAZ8cU8vsFqtJJufIzj+CG+EteGL8mBq
- C6XaaiS6LIhYSiGVd+WJ1RPpRhlguk8c+zaXJSQjnFZZPhoHlkJ+2UJZGs+g901XK/PY
- nFOg==
+ b=FBX1fpb38ofyUcRF1YAX/Uc02Zw2Dgs6e7AVOb7offZymv0J2u1DprzKw+d6zCf/NK
+ nPFD/r6yX4eVeKFcm59omKCDvRFm1wYQAgqEPI8mKmBmyIkbqCa/ThnhJNZxwRE7rmE7
+ JwylVp9MMkKYjncf+Z+xfoRbsp4w4mos5IGXT0zCz+22uWeWm4m59PtGx1fKSzheysSw
+ YSdgpZ0PXRXz3Si76j7MDXQU4fxp47CKsNMgRJInTRXAV9V61Lihq8QdJJH89jIUBZL1
+ R30CF0wsWkjn3r87WK7d2jcmiFJN9mkIdUyv1JVHa5DGIahR/7rAl8OnL93AkqO2Z4ZI
+ /82w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727333803; x=1727938603;
+ d=1e100.net; s=20230601; t=1727334080; x=1727938880;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
  bh=fs8vGQj6gBPYGtja4mFfGqlu9i7HD+/rnYLvYM98k+w=;
- b=dvnd14AfXXGqPLWVvvYuEglBU3yk6Sh7yrvtasDAkdXX/oBMe74K7Cxu8SOK/sxi2/
- VgGEC0Y8wAmmNleXTWdsjl17TtVoBi0Le2kRfGNHvpcacJ1IY8IzQ+NXDLBcHWtZtRHV
- 7cXPR1BywOgpmaEkYJ6T8zomgsbtruxx56AkGl+nPzkkdWeAtSmTV6hQFICjW5RzNnlq
- HAzNG1qY1ULYbP2bkDzJliAFpBcPvlhrBqYPX/YhB11cIaqvW22GNLrNzYXqoeYXEjd0
- L4G4SFZXjn1fWlXdtLBtUp08EbV6dEowxELYe9YMIo6mZDqhZul3MZixWXNPzE8lSM3k
- sGZg==
-X-Gm-Message-State: AOJu0Yw9vsq7b2yRsO+JuLakmvjMrs/6FtR8fAByDuiQWidAEGym5Cfw
- fzRdYQXHK1WsPgDIpFFkpL13estZVNsb7yJhFhio8qkkF9sDMZR6gRLWBw==
-X-Google-Smtp-Source: AGHT+IGeqpSc7SghOfr2orKEDcvEdA3sTDt7gazYGRdUm9GKsnA3jxGlhQVt8/wfxsd6LjNvnM9C4g==
-X-Received: by 2002:a5d:4582:0:b0:37c:cdcd:68ac with SMTP id
- ffacd0b85a97d-37ccdcd6aa9mr1001590f8f.52.1727333802852; 
- Wed, 25 Sep 2024 23:56:42 -0700 (PDT)
+ b=IxzWOF+DSsC/IODU9lhcbpbwHuPpLiie78kPyvF3S5h+wUcJvnqRHf73MhmBPqG8is
+ FhbbNGewlG3NUAR/IFjHyMnxnw/n+bb7MEa13zDv8R8Vd9cmKzCg0OYoAo7o3ReOtZNG
+ tJtwkgQWKDiBBr54R9E2SiSIM3AgSMinUmB442wduJqA8bXwsSR1Ki8gfpFfAz/ww5/G
+ MtIstmXxeP4eVJfwi7EjvHo6hryBAfvzhCAUlJxkietNMiAh/vqp+/d+ND0FKpV93W8+
+ odHA3bPBLrl0TMHfitKdvKEnyn/GHW1hy1fpQszjo6xQeTrWb3LxiDYz7x1RMHa1eObc
+ ODmw==
+X-Gm-Message-State: AOJu0Yw5OlP0Dm+mRQbWW6LAgSUGarLDuDjL1OG/zqBAA80uOnMaiqlo
+ qpyTzurtlucwS/VDOAS5GpT0koCcUjd9RpMrd+wT5Kq29cUgsnQOIWLA5A==
+X-Google-Smtp-Source: AGHT+IFeVrfUbnlrIDKjJyVaR8iGPPmzPzTvbX7kFpQaA91rvYRac7K9b0Rhoeh1c+HkmnKMjHKffQ==
+X-Received: by 2002:adf:cf09:0:b0:368:445e:91cc with SMTP id
+ ffacd0b85a97d-37cc24739ddmr3746253f8f.21.1727334079391; 
+ Thu, 26 Sep 2024 00:01:19 -0700 (PDT)
 Received: from localhost.localdomain (2-230-196-213.ip203.fastwebnet.it.
  [2.230.196.213]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-37cbc2a8c2csm5656533f8f.20.2024.09.25.23.56.42
+ ffacd0b85a97d-37ccea4b9cdsm1053467f8f.72.2024.09.26.00.01.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Sep 2024 23:56:42 -0700 (PDT)
+ Thu, 26 Sep 2024 00:01:18 -0700 (PDT)
 From: Marco Rodolfi <marco.rodolfi.1992@gmail.com>
 X-Google-Original-From: Marco Rodolfi <marco.rodolfi@tuta.io>
 To: dri-devel@lists.freedesktop.org
 Cc: Marco Rodolfi <marco.rodolfi@tuta.io>
-Subject: [PATCH] [v3] drm: panel-orientation-quirks: Correctly handle rotation
- for DeckHD equipped LCDs units
-Date: Thu, 26 Sep 2024 08:56:29 +0200
-Message-ID: <20240926065629.206839-1-marco.rodolfi@tuta.io>
+Subject: [PATCH] [v3] drm: panel-orientation-quirks: Also handle rotation for
+ DeckHD equipped LCDs units
+Date: Thu, 26 Sep 2024 09:01:06 +0200
+Message-ID: <20240926070106.208328-1-marco.rodolfi@tuta.io>
 X-Mailer: git-send-email 2.46.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
