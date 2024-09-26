@@ -2,68 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 614D69872CB
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 13:29:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA0EC9872CC
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 13:29:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D99BF10EAAA;
-	Thu, 26 Sep 2024 11:29:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4563610EAB8;
+	Thu, 26 Sep 2024 11:29:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="VwrzH62K";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="QUkixut7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
- [209.85.167.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D75310EAAA
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 11:29:46 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id
- 2adb3069b0e04-53653ff0251so1141869e87.0
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 04:29:45 -0700 (PDT)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
+ [209.85.167.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1787F10EAB8
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 11:29:49 +0000 (UTC)
+Received: by mail-lf1-f46.google.com with SMTP id
+ 2adb3069b0e04-53567b4c3f4so942751e87.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 04:29:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1727350184; x=1727954984; darn=lists.freedesktop.org;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=rnLiEF0tTzux1Tq9ZDOIhqIZJG6KKmpYuSlxKSzCAJI=;
- b=VwrzH62KJOqriccI+YxzsDcXZlmyTWnxYvOGaZ3mTHTscQnUvCnundJ8pTpp3KWU2s
- qVDbGmFRUD9imUnqzH73U/Uaskx74eHj1Ytn1h40U0zUJ9rfFPoook8hDkOonWqrQDDE
- C1pyEj97/RAJUsuI0uEQrLGY2Uv8RpMCzW838D0DDcWujEQLSCQ5V9ZnvFTHi1A51WxF
- tyU1f0dmDIsKA8zZ0izsKHYsncszw1rO0hp85MwlAnzjTAMjBJMcN5/Gv6VuXNgN5xx/
- 7q55h2QIY3ijk+74+qmUZiSeLDwr6jlYkFol0YqQ7+Re9v1CzBMV9O6QV5YMkZ3nGKXI
- 0r8w==
+ d=gmail.com; s=20230601; t=1727350187; x=1727954987; darn=lists.freedesktop.org;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=boaDu+sIvPRzC9VmvUSv9+Z+sYmRNTEiwnvZOuYQtbo=;
+ b=QUkixut7aKrlwaMitjhlOFEuEKeUb6ph2v8PkTbYIVosgfghRVQxlOR8V7TDta1Utr
+ wX6Xowfl+eBZIweJL5/oLwPkIBwpLDkiEA+ZQjjHIqsmplCGjG9aROEPoRDBzCwxFhnW
+ WeE0NyJtwhCErRICADjro9qGhqPeWn4I3kO7a7n9Iu8Uk1idF/QWAh/JDmkuezxer6SO
+ UcWP/eeRdfGFeHzO2JHrwI8sK+pBwEBwntRvLNDcp8Iu8P+7oeXQEcXsxPM3OIerzUmG
+ /XgJ2OBf8Qw1OCB1Wu63ffUFFRUtME/xxjorGzYLag/Tg2rDVsBd3bwGk18qPh4q+bT+
+ 2uLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727350184; x=1727954984;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=rnLiEF0tTzux1Tq9ZDOIhqIZJG6KKmpYuSlxKSzCAJI=;
- b=cBCUc9gLcGqTaAxZPB0oEA11abFEr0vpvexwSbpYsVUENgdm2ndJ2UaQrfi/jhPtk/
- QyVxBSdVK7AVj0/QNp2cxQnxKCrl2+EjTsX9s3h/CcAqE/qjzCxn1lzG9CWrzL/sSrCN
- +7grEIwjsgI6Xt6yu8hW4z98kGrD5eyqyz6RpNLdGWOYzdY2l4QolhzA9qIkmMxZpunb
- wx4cNgI/8oFL2llkZ3tUDUEcJBI/d9cpRTv4xnokpy5ZSy4nbabOvPn5/ntKpPMHdS8j
- 7dsl3BzEGu2m5ch6Ns7v08iQ16tZIyp85W75bq0QVQD6ZTWrQT6Uh3TWGsnriTcQpjRk
- Wjsw==
-X-Gm-Message-State: AOJu0Yyx8z880pQGkvik76qUhlfjqzAwsJVkqGTo2ZY3lvQJjNRt4UkR
- 7knv6h7QWjn4uvK1zN5vnS1wUMQcRQ+80RIOkTjD2ArBqVAytMy5
-X-Google-Smtp-Source: AGHT+IFa60QpaRuVDkPl1B1Ca5ZW+L3INLkEdB4Ea1cxVSe9xhECC6bwAgHKgZ/tnAKPMSiPqDvqgA==
-X-Received: by 2002:a05:6512:3995:b0:536:a695:942c with SMTP id
- 2adb3069b0e04-5387048ce9dmr4147664e87.7.1727350183740; 
- Thu, 26 Sep 2024 04:29:43 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1727350187; x=1727954987;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=boaDu+sIvPRzC9VmvUSv9+Z+sYmRNTEiwnvZOuYQtbo=;
+ b=a7wiIHQJkSi4zoXDlSJ40gv2YxLSukQ8BxN9ZOoHVc5eSSmMSKkYmD5pPNDXNqmQz3
+ /Zq1fNsudBnY8uX6klHY2N3Y3DOpHI+CG9xTZ9Xg2FnM6Aql6YU1wsCgCDcJ08o+xsfC
+ iYqiI4FYZTFuTUvDux1W/WJyMKF2E9gNn4GfhldDO4hfKzxFlDf8y6w18cMTO80Vzeps
+ QkrQ7Fvty9HtgP237Ww4MwbVkEPwUaE1V0AHv4ptBQ5+oDMzY56jvmXFX7LhlPxKq0dt
+ HAOhkUlKrBrvz+ySJ7wsuDBpb7kIyXHDLOEMNj4BbmQyuzRpp5tO13uD+e/X3GcBJ6AW
+ xANQ==
+X-Gm-Message-State: AOJu0Yw7zaFnDhF0ryweq9R9NaO7q/zz8OEZZicWm92c8aO9ccdUBXY7
+ C8QyrK8kYJSeAA0WqRwIoUP5lK2+lYgDOCzb5077ceeG0jStlmfi
+X-Google-Smtp-Source: AGHT+IH7NtcptdudFNHvQHv/I95ecxrJ8vUbqQTeyGxEIpSlBHSoND+sfqjjs4KC5nLsrrREVEy+XA==
+X-Received: by 2002:a05:6512:683:b0:52c:de29:9ff with SMTP id
+ 2adb3069b0e04-538760347eamr4252359e87.2.1727350187073; 
+ Thu, 26 Sep 2024 04:29:47 -0700 (PDT)
 Received: from [127.0.1.1] (mm-20-1-84-93.mgts.dynamic.pppoe.byfly.by.
  [93.84.1.20]) by smtp.googlemail.com with ESMTPSA id
- 2adb3069b0e04-537a85ee5fbsm786495e87.74.2024.09.26.04.29.41
+ 2adb3069b0e04-537a85ee5fbsm786495e87.74.2024.09.26.04.29.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Sep 2024 04:29:43 -0700 (PDT)
+ Thu, 26 Sep 2024 04:29:45 -0700 (PDT)
 From: Dzmitry Sankouski <dsankouski@gmail.com>
-Subject: [PATCH v5 0/2] Add Samsung S6E3HA8 panel driver
-Date: Thu, 26 Sep 2024 14:29:25 +0300
-Message-Id: <20240926-starqltechn_integration_upstream-v5-0-1cb0e43e623f@gmail.com>
+Date: Thu, 26 Sep 2024 14:29:26 +0300
+Subject: [PATCH v5 1/2] dt-bindings: panel: add Samsung s6e3ha8
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAJVF9WYC/43O0Q6CIBQG4FdxXEdDULCueo/WHOJR2RQNkNWc7
- x66tbqry//fzvefBTmwGhw6JwuyELTTo4khPyRIddK0gHUdM6KEZoSnAjsv7b33oDpTauOhtdL
- Hm3KenLcgB1ypghc5qWgDDEWmkg5wZaVRXYTM3PexnCw0+rHvXm8xd9r50T73NwLb2vdi8XsxM
- EwwsIZzTkkqpLq0g9T9UY0D2vCQfcBTyv4AswjSmkJT5yovhPgG13V9Ad5rAaM2AQAA
+Message-Id: <20240926-starqltechn_integration_upstream-v5-1-1cb0e43e623f@gmail.com>
+References: <20240926-starqltechn_integration_upstream-v5-0-1cb0e43e623f@gmail.com>
+In-Reply-To: <20240926-starqltechn_integration_upstream-v5-0-1cb0e43e623f@gmail.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
  Jessica Zhang <quic_jesszhan@quicinc.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -74,11 +72,11 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org, Dzmitry Sankouski <dsankouski@gmail.com>
 X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1727350181; l=1141;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1727350181; l=3219;
  i=dsankouski@gmail.com; s=20240619; h=from:subject:message-id;
- bh=zUo6dL4FkvKfEQbRtfTjRGBerEKQpvR45DHVdVIcmmo=;
- b=hNdLzZPZh4isMed8mlnrr7+NXpFNDPqkUhKauPPfc+muT48QklkJNtTqyQvYYy4/brtiQTXlv
- mejn92cF9yXBbVsm8uU4I97MmZESB9dP/MIW5RcBHv0cA+BdkXy3lia
+ bh=Ci6AW2+uGhWivjbsiMWz6624aSP6GwHomOszXTHHdxU=;
+ b=e57xduEVaMpMZpUC6BlWAkyQ5zR2rl//2MWRHwIaVC9nEgtxDykPwRHnZCz3Pi0sD9qa7VqX/
+ yByoq1hs2VCCbK9NIwx3mn2SxZ+v7pfEsL37iuA6j6OOziYlaw75Tcr
 X-Developer-Key: i=dsankouski@gmail.com; a=ed25519;
  pk=YJcXFcN1EWrzBYuiE2yi5Mn6WLn6L1H71J+f7X8fMag=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -96,31 +94,122 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The s6e3ha8 is a 1440x2960 DPI AMOLED display panel from Samsung Mobile
-  Displays (SMD)
+Add binding for the Samsung s6e3ha8 panel found in the Samsung S9.
 
 Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
----
-Changes in v5:
-- Split patchset per subsystem
-- Link to v4: https://lore.kernel.org/r/20240913-starqltechn_integration_upstream-v4-0-2d2efd5c5877@gmail.com
 
 ---
-Dzmitry Sankouski (2):
-      dt-bindings: panel: add Samsung s6e3ha8
-      drm/panel: Add support for S6E3HA8 panel driver
+Changes for v5:
+- fix required properties order
+- fix example indentation
 
- Documentation/devicetree/bindings/display/panel/samsung,s6e3ha8.yaml |  75 +++++++++++++
- MAINTAINERS                                                          |   6 +
- drivers/gpu/drm/panel/Kconfig                                        |   7 ++
- drivers/gpu/drm/panel/Makefile                                       |   1 +
- drivers/gpu/drm/panel/panel-samsung-s6e3ha8.c                        | 344 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 5 files changed, 433 insertions(+)
+Changes in v4:
+- change dts example intendation from tabs
+ to spaces
+- remove reset-gpios description
 ---
-base-commit: 3469b89bd13f10d679d1b1f5b47fb71953e96349
-change-id: 20240617-starqltechn_integration_upstream-bc86850b2fe3
+ Documentation/devicetree/bindings/display/panel/samsung,s6e3ha8.yaml | 75 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ MAINTAINERS                                                          |  5 ++++
+ 2 files changed, 80 insertions(+)
 
-Best regards,
+diff --git a/Documentation/devicetree/bindings/display/panel/samsung,s6e3ha8.yaml b/Documentation/devicetree/bindings/display/panel/samsung,s6e3ha8.yaml
+new file mode 100644
+index 000000000000..05a78429aaea
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/samsung,s6e3ha8.yaml
+@@ -0,0 +1,75 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/samsung,s6e3ha8.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Samsung s6e3ha8 AMOLED DSI panel
++
++description: The s6e3ha8 is a 1440x2960 DPI display panel from Samsung Mobile
++  Displays (SMD).
++
++maintainers:
++  - Dzmitry Sankouski <dsankouski@gmail.com>
++
++allOf:
++  - $ref: panel-common.yaml#
++
++properties:
++  compatible:
++    const: samsung,s6e3ha8
++
++  reg:
++    maxItems: 1
++
++  reset-gpios: true
++
++  port: true
++
++  vdd3-supply:
++    description: VDD regulator
++
++  vci-supply:
++    description: VCI regulator
++
++  vddr-supply:
++    description: VDDR regulator
++
++required:
++  - compatible
++  - reset-gpios
++  - vdd3-supply
++  - vci-supply
++  - vddr-supply
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    dsi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        panel@0 {
++            compatible = "samsung,s6e3ha8";
++            reg = <0>;
++            vci-supply = <&s2dos05_ldo4>;
++            vddr-supply = <&s2dos05_buck1>;
++            vdd3-supply = <&s2dos05_ldo1>;
++            te-gpios = <&tlmm 10 GPIO_ACTIVE_HIGH>;
++            reset-gpios = <&tlmm 6 GPIO_ACTIVE_HIGH>;
++            pinctrl-0 = <&sde_dsi_active &sde_te_active_sleep>;
++            pinctrl-1 = <&sde_dsi_suspend &sde_te_active_sleep>;
++            pinctrl-names = "default", "sleep";
++
++            port {
++                panel_in: endpoint {
++                    remote-endpoint = <&mdss_dsi0_out>;
++                };
++            };
++        };
++    };
++
++...
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5e467ba71e3b..cc876e3653e7 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7388,6 +7388,11 @@ S:	Maintained
+ F:	Documentation/devicetree/bindings/display/panel/samsung,s6d7aa0.yaml
+ F:	drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
+ 
++DRM DRIVER FOR SAMSUNG S6E3HA8 PANELS
++M:	Dzmitry Sankouski <dsankouski@gmail.com>
++S:	Maintained
++F:	Documentation/devicetree/bindings/display/panel/samsung,s6e3ha8.yaml
++
+ DRM DRIVER FOR SITRONIX ST7586 PANELS
+ M:	David Lechner <david@lechnology.com>
+ S:	Maintained
+
 -- 
-Dzmitry Sankouski <dsankouski@gmail.com>
+2.39.2
 
