@@ -2,60 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C13E89872A8
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 13:16:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C7519872C4
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 13:25:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2946910E30D;
-	Thu, 26 Sep 2024 11:16:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A42F210E318;
+	Thu, 26 Sep 2024 11:25:27 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="fy/K3EZv";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E027B10E30F
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 11:16:52 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1stmUI-0006bC-4t; Thu, 26 Sep 2024 13:16:46 +0200
-Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
- by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1stmUH-001fje-Eu; Thu, 26 Sep 2024 13:16:45 +0200
-Received: from pza by lupine with local (Exim 4.96)
- (envelope-from <p.zabel@pengutronix.de>) id 1stmUH-0005Ig-1D;
- Thu, 26 Sep 2024 13:16:45 +0200
-Message-ID: <b1c5fb155c77355ef2889b6e054a5c0696481ebd.camel@pengutronix.de>
-Subject: Re: [PATCH v2 2/2] media: imx: vdic: Introduce mem2mem VDI
- deinterlacer driver
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Marek Vasut <marex@denx.de>, Nicolas Dufresne <nicolas@ndufresne.ca>, 
- linux-media@vger.kernel.org
-Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, Fabio
- Estevam <festevam@gmail.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>, Mauro Carvalho
- Chehab <mchehab@kernel.org>, Pengutronix Kernel Team
- <kernel@pengutronix.de>, Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo
- <shawnguo@kernel.org>,  Steve Longerbeam <slongerbeam@gmail.com>,
- dri-devel@lists.freedesktop.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org, 
- linux-staging@lists.linux.dev
-Date: Thu, 26 Sep 2024 13:16:45 +0200
-In-Reply-To: <6b45e30c-b215-4f7a-91a4-fde05d78f737@denx.de>
-References: <20240724002044.112544-1-marex@denx.de>
- <20240724002044.112544-2-marex@denx.de>
- <85a5a42667e5867bc45da31baf045d4c9557f5f1.camel@ndufresne.ca>
- <6b45e30c-b215-4f7a-91a4-fde05d78f737@denx.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59CD610E318;
+ Thu, 26 Sep 2024 11:25:26 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48Q7EqDs008306;
+ Thu, 26 Sep 2024 11:25:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ u4A5clw8rWfBOMmmKrbBe5gQe1QAgockRUeNjkNYMwg=; b=fy/K3EZvKhmXSf7s
+ dlb9mQOyup92d2jQxmNSGDw5kii6d2wZotDLWhytuEyvlimmAaDqJqK6av0lv+Fl
+ 42YLXZNoRuBZg12b4Bf3cSALkNv9U2v1ZIwEf6+F8YHwHeWWi3bvCqP56LoApbqj
+ 5KAcmh8QSoQXwaFdB1jhwXYfah+CjU+6kVScXr41EGEDlUC9sCAoXpb0TVjztwpa
+ R2+oj1cE4n39DkndslKha6hfGtoBvbmUI01xDrRg9Vcmn1wbkgxdc/RGd+f5Zupw
+ FxnZc3aXrbnV29oRDILg9QLlRuSzdqR7iN8HdZNFCeuXgjDx9nJB9/a7WfeUC8TV
+ Wenkgw==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41skueyb3b-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 26 Sep 2024 11:25:15 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
+ [10.47.209.197])
+ by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 48QBPDLi024987
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 26 Sep 2024 11:25:13 GMT
+Received: from [10.204.67.11] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 26 Sep
+ 2024 04:25:05 -0700
+Message-ID: <46cd6c25-0a82-46c6-9382-167a44a689ba@quicinc.com>
+Date: Thu, 26 Sep 2024 16:55:02 +0530
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/5] Display enablement changes for Qualcomm SA8775P
+ platform
+Content-Language: en-US
+To: <robdclark@gmail.com>, <quic_abhinavk@quicinc.com>,
+ <dmitry.baryshkov@linaro.org>, <sean@poorly.run>,
+ <marijn.suijten@somainline.org>, <airlied@gmail.com>,
+ <daniel@ffwll.ch>, <maarten.lankhorst@linux.intel.com>,
+ <mripard@kernel.org>, <tzimmermann@suse.de>, <robh@kernel.org>,
+ <krzk+dt@kernel.org>, <conor+dt@kernel.org>, <swboyd@chromium.org>,
+ <konrad.dybcio@linaro.org>, <danila@jiaxyga.com>,
+ <bigfoot@classfun.cn>, <neil.armstrong@linaro.org>,
+ <mailingradian@gmail.com>, <quic_jesszhan@quicinc.com>,
+ <andersson@kernel.org>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <quic_kalyant@quicinc.com>,
+ <quic_jmadiset@quicinc.com>, <quic_vpolimer@quicinc.com>
+References: <20240926110308.2201577-1-quic_mahap@quicinc.com>
+From: Mahadevan P <quic_mahap@quicinc.com>
+In-Reply-To: <20240926110308.2201577-1-quic_mahap@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: F_ctQFztPoh0Bqw2DLrJYcMOzd0SOZ6Q
+X-Proofpoint-ORIG-GUID: F_ctQFztPoh0Bqw2DLrJYcMOzd0SOZ6Q
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 spamscore=0
+ adultscore=0 clxscore=1015 lowpriorityscore=0 suspectscore=0
+ malwarescore=0 impostorscore=0 mlxlogscore=999 bulkscore=0 mlxscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2408220000 definitions=main-2409260077
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,22 +101,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mi, 2024-09-25 at 22:45 +0200, Marek Vasut wrote:
-[...]
-> > The driver is not taking ownership of prev_buf, only curr_buf is guaran=
-teed to
-> > exist until v4l2_m2m_job_finish() is called. Usespace could streamoff, =
-allocate
-> > new buffers, and then an old freed buffer may endup being used.
->=20
-> So, what should I do about this ? Is there some way to ref the buffer to=
-=20
-> keep it around ?
+Sorry, Please ignore this thread/coverletter
 
-Have a look how other deinterlacers with temporal filtering do it.
-sunxi/sun8i-di or ti/vpe look like candidates.
-
->=20
-> >=20
-regards
-Phlipp
+On 9/26/2024 4:33 PM, Mahadevan wrote:
+> This series introduces support to enable the Mobile Display Subsystem (MDSS)
+> and Display Processing Unit (DPU) for the Qualcomm SA8775P target. It
+> includes the addition of the hardware catalog, compatible string,
+> relevant device tree changes, and their YAML bindings.
+>
+> ---
+>
+> In this series PATCH 5: "arm64: dts: qcom: sa8775p: add display dt nodes"
+> depends on the clock enablement change:
+> https://lore.kernel.org/all/20240816-sa8775p-mm-v3-v1-0-77d53c3c0cef@quicinc.com/
+>
+> ---
+>
+> [v2]
+> - Updated cover letter subject and message. [Dmitry]
+> - Use fake DISPCC nodes to avoid clock dependencies in dt-bindings. [Dmitry]
+> - Update bindings by fixing dt_binding_check tool errors (update includes in example),
+>    adding proper spacing and indentation in the binding example, droping unused labels,
+>    droping status disable, adding reset node. [Dmitry, Rob, Krzysztof]
+> - Reorder compatible string of MDSS and DPU based on alphabetical order.[Dmitry]
+> - add reg_bus_bw in msm_mdss_data. [Dmitry]
+> - Fix indentation in the devicetree. [Dmitry]
+>
+> ---
+>
+> Mahadevan (5):
+>    dt-bindings: display/msm: Document MDSS on SA8775P
+>    dt-bindings: display/msm: Document the DPU for SA8775P
+>    drm/msm: mdss: Add SA8775P support
+>    drm/msm/dpu: Add SA8775P support
+>    arm64: dts: qcom: sa8775p: add display dt nodes
+>
+>   .../display/msm/qcom,sa8775p-dpu.yaml         | 122 +++++
+>   .../display/msm/qcom,sa8775p-mdss.yaml        | 239 +++++++++
+>   arch/arm64/boot/dts/qcom/sa8775p.dtsi         |  87 ++++
+>   .../msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h   | 485 ++++++++++++++++++
+>   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    |   3 +-
+>   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |   3 +-
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   3 +-
+>   drivers/gpu/drm/msm/msm_mdss.c                |  11 +
+>   8 files changed, 950 insertions(+), 3 deletions(-)
+>   create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sa8775p-dpu.yaml
+>   create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sa8775p-mdss.yaml
+>   create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h
+>
