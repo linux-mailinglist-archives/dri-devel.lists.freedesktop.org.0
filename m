@@ -2,62 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AE6298751C
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 16:08:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F25F987520
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 16:09:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 194D310EB62;
-	Thu, 26 Sep 2024 14:08:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD1D610EB60;
+	Thu, 26 Sep 2024 14:09:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZNaVn85Z";
+	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="ELCI9Ljg";
+	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="OPWxx9X4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CD1010EB62
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 14:07:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1727359679; x=1758895679;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=KRoG0iFBLdyPThaKqWkm6NmM1UG4LeXqmclwLssef+g=;
- b=ZNaVn85ZerZyyu98LBo6S83qMD2gjeE6A9Ll6NoxeT5LLK7GxXALUj20
- KQiJRTQtGbsNuOS6+DprIYmimUGGacOCGDumwKjYiknQ4qb0dyb30ArU6
- dH3i50zpzjpHfJTll2IJDOR42D7zZjolf76VxM3i0CVbig6HfJLsg7kFa
- P/QDqo3hLO199idcqND/vmFmBltAxgMxnFspQf2CbyAN+BCNnoGQRHJSb
- fDzbUGR+FSdM8Js7fTLP+ACjvrkufWncOXDrcoYiivaA0HjrVfPs8E/yW
- oDhmkf3w9HpD3HbTmh3yxiWwkQD1QyJ5LmzSMD3MTRsg3WkjgVIq8lsa7 w==;
-X-CSE-ConnectionGUID: ijaacsGaTg+J5Q4wTPp1fg==
-X-CSE-MsgGUID: d9qmrpaeScCJdQPzb+Xh8g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="26548840"
-X-IronPort-AV: E=Sophos;i="6.11,155,1725346800"; d="scan'208";a="26548840"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2024 07:07:56 -0700
-X-CSE-ConnectionGUID: GWqWtUJMQ4ydRb1+WVwxiA==
-X-CSE-MsgGUID: gz4yNwDaT8iVRjE1v5nShQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,155,1725346800"; d="scan'208";a="72313870"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by fmviesa008.fm.intel.com with SMTP; 26 Sep 2024 07:07:52 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 26 Sep 2024 17:07:51 +0300
-Date: Thu, 26 Sep 2024 17:07:51 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Andi Kleen <ak@linux.intel.com>, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm: Print bad EDID notices only once
-Message-ID: <ZvVqtwEkI1AhmUx6@intel.com>
-References: <20240926133253.2623342-1-ak@linux.intel.com>
- <878qve1pp7.fsf@intel.com>
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3ABC10EB60
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 14:09:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1727359754; x=1758895754;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=aU7DhuM0MRl/oleJUgNjJ5QLB7b0wpiBWF3UI3tBfO8=;
+ b=ELCI9Ljg9tROS/b7AKj4VWhZZEXDTG6zoxJFPXxMqyNAFy9e4VZ15fez
+ hfPvXwEMGjOSdU7NhmwfbhkPFYjXRCgoAIAYNfVz0T2LP5CxvZb9EQy/s
+ ixvbk2A1qQBaVl9lqLx052I1VPeYKhoNs41LWTAOBo3ftZbOyGT9CXaDc
+ PLjIIRFb9AXh18CP8YpdxYgiwh1lHzjPApfWABqXMiFFq1y3qT75EknNY
+ vLhcvQ/om/VTnn22rOXA4pUKPZzZ7Swc5PcLBsz1YyhHJ/DLUfq98HVV0
+ h1dqbVmgVIdwYTGeMbEshgbSR0WL5bSbC/bEZaTxdXa2Hg5Gg7+SL+wvI Q==;
+X-CSE-ConnectionGUID: WesfB8g6TUKNOiDFyfVYYQ==
+X-CSE-MsgGUID: oLILoqlWRbGX4q8dhpshqw==
+X-IronPort-AV: E=Sophos;i="6.11,155,1725314400"; d="scan'208";a="39145675"
+Received: from vmailcow01.tq-net.de ([10.150.86.48])
+ by mx1.tq-group.com with ESMTP; 26 Sep 2024 16:09:11 +0200
+X-CheckPoint: {66F56B07-1-B62731C4-FB8D8F8A}
+X-MAIL-CPID: 52217610F519004650615E3A9DFC3094_3
+X-Control-Analysis: str=0001.0A682F20.66F56B07.00CA, ss=1, re=0.000, recu=0.000,
+ reip=0.000, cl=1, cld=1, fgs=0
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 965B4163464; Thu, 26 Sep 2024 16:09:04 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
+ s=dkim; t=1727359746;
+ h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:in-reply-to:references;
+ bh=aU7DhuM0MRl/oleJUgNjJ5QLB7b0wpiBWF3UI3tBfO8=;
+ b=OPWxx9X4ANG+tfcreBmeS7UkQnvUB8Tdyb3lXfCasPbyVNlo51xaTvZixvroKUOUzmSLZt
+ Nm7+NU9S8+iOyDJlYY5c9MWNMr+aB9kcNGz+szuokdlhPEg9e+fJz/NyVlZcysPfnTAxCG
+ vJ8A/goAltjeIWEB5wUW8hAZLK0BNpTGlS+SErUZcIa+6WMiBKNgDcwdl5hGoyOPK1VvHb
+ yVwwrnz3tfNIcdfvv98iPWHJQw8E46dip1xZRbKUCnwZHmhqoHEFyimeIN6azYSLxPTMtz
+ DVZvlFI+hrz5tGHoTSVQ9LstuT+rS7979zREacLyehfrn0HJYWU+RmQq2LuV3Q==
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Matthias Schiffer <matthias.schiffer@tq-group.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] drm: fsl-dcu: enable PIXCLK on LS1021A
+Date: Thu, 26 Sep 2024 16:09:03 +0200
+Message-ID: <2754373.mvXUDI8C0e@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <tosilxaxfg6hejtqs2fslf6ez5pdg5yxj776pohmodja3bn5jp@4jbdprx52fqx>
+References: <20240926055552.1632448-1-alexander.stein@ew.tq-group.com>
+ <20240926055552.1632448-2-alexander.stein@ew.tq-group.com>
+ <tosilxaxfg6hejtqs2fslf6ez5pdg5yxj776pohmodja3bn5jp@4jbdprx52fqx>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <878qve1pp7.fsf@intel.com>
-X-Patchwork-Hint: comment
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,77 +85,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 26, 2024 at 04:59:00PM +0300, Jani Nikula wrote:
-> On Thu, 26 Sep 2024, Andi Kleen <ak@linux.intel.com> wrote:
-> > I have an old monitor that reports a zero EDID block, which results in a
-> > warning message. This happens on every screen save cycle, and maybe in
-> > some other situations, and over time the whole kernel log gets filled
-> > with these redundant messages. Printing it only once should be
-> > sufficient.
-> >
-> > Mark all the bad EDID notices as _once.
-> 
-> I'm afraid this is too big of a hammer. If it was possible to make this
-> once per display, fine, but this silences all same type warnings for all
-> EDID blocks for all subsequently plugged in displays.
-> 
-> For example, you try to plug in a display, get errors, try another
-> display because of that, and you no longer see warnings for the other
-> display.
-> 
-> But I hear you. I'll try to think of alternatives.
+Hi Dmitry,
 
-We already have a bad_edid_counter on the connector. Presumable using
-that, or adding something similar to handle other cases should be doable.
+Am Donnerstag, 26. September 2024, 08:05:56 CEST schrieb Dmitry Baryshkov:
+> On Thu, Sep 26, 2024 at 07:55:51AM GMT, Alexander Stein wrote:
+> > From: Matthias Schiffer <matthias.schiffer@tq-group.com>
+> >=20
+> > The PIXCLK needs to be enabled in SCFG before accessing certain DCU
+> > registers, or the access will hang. For simplicity, the PIXCLK is enabl=
+ed
+> > unconditionally, resulting in increased power consumption.
+>=20
+> By this description it looks like a fix. What is the first broken
+> commit? It needs to be mentioned in the Fixes: tag. Or is it hat
+> existing devices have been enabling SCFG in some other way?
 
-> 
-> BR,
-> Jani.
-> 
-> 
-> >
-> > Signed-off-by: Andi Kleen <ak@linux.intel.com>
+We discussed this internally and it seems this never worked, unless PIXCLK
+was already enabled in SCFG by a different way, e.g. firmware, etc.
+
+Best regards,
+Alexander
+
+> >=20
+> > Signed-off-by: Matthias Schiffer <matthias.schiffer@tq-group.com>
+> > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 > > ---
-> >  drivers/gpu/drm/drm_edid.c | 8 ++++----
-> >  1 file changed, 4 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> > index 855beafb76ff..d6b47bdcd5d7 100644
-> > --- a/drivers/gpu/drm/drm_edid.c
-> > +++ b/drivers/gpu/drm/drm_edid.c
-> > @@ -1916,10 +1916,10 @@ static void edid_block_status_print(enum edid_block_status status,
-> >  		pr_debug("EDID block %d pointer is NULL\n", block_num);
-> >  		break;
-> >  	case EDID_BLOCK_ZERO:
-> > -		pr_notice("EDID block %d is all zeroes\n", block_num);
-> > +		pr_notice_once("EDID block %d is all zeroes\n", block_num);
-> >  		break;
-> >  	case EDID_BLOCK_HEADER_CORRUPT:
-> > -		pr_notice("EDID has corrupt header\n");
-> > +		pr_notice_once("EDID has corrupt header\n");
-> >  		break;
-> >  	case EDID_BLOCK_HEADER_REPAIR:
-> >  		pr_debug("EDID corrupt header needs repair\n");
-> > @@ -1933,13 +1933,13 @@ static void edid_block_status_print(enum edid_block_status status,
-> >  				 block_num, edid_block_tag(block),
-> >  				 edid_block_compute_checksum(block));
-> >  		} else {
-> > -			pr_notice("EDID block %d (tag 0x%02x) checksum is invalid, remainder is %d\n",
-> > +			pr_notice_once("EDID block %d (tag 0x%02x) checksum is invalid, remainder is %d\n",
-> >  				  block_num, edid_block_tag(block),
-> >  				  edid_block_compute_checksum(block));
-> >  		}
-> >  		break;
-> >  	case EDID_BLOCK_VERSION:
-> > -		pr_notice("EDID has major version %d, instead of 1\n",
-> > +		pr_notice_once("EDID has major version %d, instead of 1\n",
-> >  			  block->version);
-> >  		break;
-> >  	default:
-> 
-> -- 
-> Jani Nikula, Intel
+> > Changes in v2:
+> > * Add note about power consumption in commit message
+> > * Add note about power consumption in comment
+> > * Fix alignment
+> >=20
+>=20
+>=20
 
--- 
-Ville Syrjälä
-Intel
+
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
+
+
