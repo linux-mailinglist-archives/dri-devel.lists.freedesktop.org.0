@@ -2,61 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC3969872E7
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 13:36:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31FFB987319
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 13:52:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E167610EABB;
-	Thu, 26 Sep 2024 11:36:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0577010EAF4;
+	Thu, 26 Sep 2024 11:52:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XgQIh1yu";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="GR3rdi7Y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C44D10EABB;
- Thu, 26 Sep 2024 11:36:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1727350603; x=1758886603;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=fHmYhOAmYa508Jm4yd6j89kvwHkQ+TbtMfwycE9dsHw=;
- b=XgQIh1yu63Kuumq6KcAgRNuTKizzDFZTvQB6pTtvRZAPjHzC/NhQaA46
- kD/2Nt7DSdy1cyT4bCMAt2a+WLd3e/dQEQFpsMvvAOrrkwUQEIwfwx+Zd
- OFORTG1rrdE2XrRC5BRHm1KnC7nAwxYulVW71Rexz8wOSr1mubY9L5cs7
- peVfzv0Cm3hD+fDZgjHJDgHAPrAPMZza72aBVkxTsr5+bUoc8fLEVfpZF
- wirAiN9H3ahR3DFSMgs0Rw5ZcOXZXtdxbTV4EH09QNTZEVs8E5ClFqEGt
- qfVmjxwTUwXL8tMT6JsMz4H9EMnwYrHlqf852IPANGRVkWxopZXKiA0fd g==;
-X-CSE-ConnectionGUID: 21h68YPcRgOjxn48e/DPnw==
-X-CSE-MsgGUID: h7wNLuWVQbKd0imCBry9NQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11206"; a="25909217"
-X-IronPort-AV: E=Sophos;i="6.10,155,1719903600"; d="scan'208";a="25909217"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2024 04:36:37 -0700
-X-CSE-ConnectionGUID: OF0SFb4CTNeLg+IWLALe1Q==
-X-CSE-MsgGUID: vHqYSLSyT86pLvfGX93fFA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,155,1725346800"; d="scan'208";a="76485613"
-Received: from ideak-desk.fi.intel.com ([10.237.72.78])
- by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2024 04:36:34 -0700
-Date: Thu, 26 Sep 2024 14:37:01 +0300
-From: Imre Deak <imre.deak@intel.com>
-To: Benjamin Hoefs <bendhoefs@gmail.com>
-Cc: jani.nikula@linux.intel.com, rodrigo.vivi@intel.com,
- joonas.lahtinen@linux.intel.com, tursulin@ursulin.net,
- airlied@gmail.com, simona@ffwll.ch, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] i915: Fix HBLANK Expansion Quirk Causing Modeset Failure
- on Dell WD19TB Dock at 3440x1440@100Hz
-Message-ID: <ZvVHXbK2Swxpjehy@ideak-desk.fi.intel.com>
-References: <20240926002533.10153-2-bendhoefs@gmail.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 260F010EAF4
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 11:52:40 +0000 (UTC)
+Received: from [192.168.88.20] (91-156-87-48.elisa-laajakaista.fi
+ [91.156.87.48])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5EAC08D4;
+ Thu, 26 Sep 2024 13:51:10 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1727351470;
+ bh=4Z7MWmtSq4rFp2dyBVA0WZG/AytSGMpXW49uqCNdSoU=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=GR3rdi7YF+zJp+Cmyhsmxb0yOpprI2NmitXg8tLdwIlGzs4yrO9LSYhIYoOKQUNur
+ 9gTAH5bZwKpUV+5JGRtkyzd0xEeU7kh+B+P9DSOfpHua4oTv1ro/g6lpZ0EOdlYdW4
+ 3qH1VBS5YNo1ppjZ/cmR7qoss9Z55dmvJJx/i+rg=
+Message-ID: <5a540bdb-e3ca-494a-b68d-8f81f4d1cc1a@ideasonboard.com>
+Date: Thu, 26 Sep 2024 14:52:35 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240926002533.10153-2-bendhoefs@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: fw_devlinks preventing a panel driver from probing
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Linux Kernel List <linux-kernel@vger.kernel.org>,
+ Saravana Kannan <saravanak@google.com>,
+ Aradhya Bhatia <aradhya.bhatia@linux.dev>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Devarsh Thakkar <devarsht@ti.com>
+References: <1a1ab663-d068-40fb-8c94-f0715403d276@ideasonboard.com>
+ <34mewzvfyjsvyud3lzy6swxs7sr64xkgrbkxtvyw3czvoerct7@7guo32ehwa52>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <34mewzvfyjsvyud3lzy6swxs7sr64xkgrbkxtvyw3czvoerct7@7guo32ehwa52>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,77 +102,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: imre.deak@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 25, 2024 at 07:25:34PM -0500, Benjamin Hoefs wrote:
-> Hello,
-> 
-> I am using a Dell WD19TB dock with a 3440x1440 monitor. Using it at
-> 100Hz used to work but recently I tried it again and discovered it no longer
-> did, specifically the modeset seems to silently fail with no error message in
-> userspace utilities like kscreen-doctor and xrandr and no output in dmesg.
-> I found the problematic commit using git bisect to be
-> 55eaef164174480df6827edeac15620f3cbcd52b "Handle the Synaptics HBlank
-> expansion quirk".
-> 
-> I found the issue to be the hblank_expasion_quirk_needs_dsc function which uses
-> the following comparison in the current kernel tree:
-> 
-> if (mode_hblank_period_ns(adjusted_mode) > hblank_limit)
-> 	return false;
-> 
-> with hblank_limit being earlier set as
-> 
-> int hblank_limit = is_uhbr_sink ? 500 : 300;
-> 
-> However, my monitor's HBLANK period in the 3440x1440@100Hz mode is
-> exactly 300 ns as verified by this printk immediately before the
-> problematic comparison.
-> 
-> printk(KERN_INFO "Hello, kernel world! %i\n",
-> 	mode_hblank_period_ns(adjusted_mode));
-> [   38.429839] Hello, kernel world! 300
-> 
-> With the attached change the modeset works as expected at 100Hz. Would it be
-> acceptable to modify the comparison from > to >= here?
-> 
-> I'll do my best to provide any additional details you may need although
-> that printk and '=' sign is the only kernel code I've written, so my best may
-> not be great :).
-> 
-> Signed-off-by: Benjamin D. Hoefs <bendhoefs@gmail.com>
-> ---
->  drivers/gpu/drm/i915/display/intel_dp_mst.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> index 15541932b809..052c5a67df93 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> @@ -446,7 +446,7 @@ hblank_expansion_quirk_needs_dsc(const struct intel_connector *connector,
->  	if (is_uhbr_sink && !drm_dp_is_uhbr_rate(limits->max_rate))
->  		return false;
->  
-> -	if (mode_hblank_period_ns(adjusted_mode) > hblank_limit)
-> +	if (mode_hblank_period_ns(adjusted_mode) >= hblank_limit)
->  		return false;
+Hi,
 
-Disabling DSC this way could make another mode with the same hblank
-period not work. This mode would require DSC in any case if there is a
-link BW limitation, so would need to check why DSC is failing. Could you
-open a ticket at:
-
-https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/new
-
-attaching a dmesg log booting with drm.debug=0x15e?
-
-Thanks,
-Imre
-
->  
->  	return true;
-> -- 
-> 2.46.2
+On 21/09/2024 23:15, Dmitry Baryshkov wrote:
+> On Mon, Sep 16, 2024 at 02:51:57PM GMT, Tomi Valkeinen wrote:
+>> Hi,
+>>
+>> We have an issue where two devices have dependencies to each other,
+>> according to drivers/base/core.c's fw_devlinks, and this prevents them from
+>> probing. I've been adding debugging to the core.c, but so far I don't quite
+>> grasp the issue, so I thought to ask. Maybe someone can instantly say that
+>> this just won't work...
 > 
+> Well, just 2c from my side. I consider that fw_devlink adds devlinks for
+> of-graph nodes to be a bug. It doesn't know about the actual direction
+> of dependencies between corresponding devices or about the actual
+> relationship between drivers. It results in a loop which is then broken
+> in some way. Sometimes this works. Sometimes it doesn't. Sometimes this
+> hides actual dependencies between devices. I tried reverting offending
+> parts of devlink, but this attempt failed.
+
+I was also wondering about this. The of-graphs are always two-way links, 
+so the system must always mark them as a cycle. But perhaps there are 
+other benefits in the devlinks than dependency handling?
+
+>> If I understand the fw_devlink code correctly, in a normal case the links
+>> formed with media graphs are marked as a cycle (FWLINK_FLAG_CYCLE), and then
+>> ignored as far as probing goes.
+>>
+>> What we see here is that when using a single-link OLDI panel, the panel
+>> driver's probe never gets called, as it depends on the OLDI, and the link
+>> between the panel and the OLDI is not a cycle.
+> 
+> I think in your case you should be able to fix the issue by using the
+> FWNODE_FLAG_NOT_DEVICE, which is intented to be used in such cases. You
+
+How would I go using FWNODE_FLAG_NOT_DEVICE? Won't this only make a 
+difference if the flag is there at early stage when the linux devices 
+are being created? I think it's too late if I set the flag when the dss 
+driver is being probed.
+
+> have a dependency on DT node which doesn't have backing device.
+
+Well, there is a backing device, the DSS. But if you mean that the 
+system at the moment cannot figure out that there is a backing device, 
+then true.
+
+  Tomi
+
