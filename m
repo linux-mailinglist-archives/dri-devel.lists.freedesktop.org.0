@@ -2,45 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D333F98746B
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 15:28:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCC79987471
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 15:29:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF0D110EB41;
-	Thu, 26 Sep 2024 13:28:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 238DE10EB43;
+	Thu, 26 Sep 2024 13:29:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="DhKI+3Ix";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="VDgdeWpf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA6FB10EB41;
- Thu, 26 Sep 2024 13:28:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 676DC10EB47;
+ Thu, 26 Sep 2024 13:29:07 +0000 (UTC)
 Received: from [192.168.88.20] (91-156-87-48.elisa-laajakaista.fi
  [91.156.87.48])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id C9AA2169;
- Thu, 26 Sep 2024 15:26:48 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id E047D169;
+ Thu, 26 Sep 2024 15:27:37 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1727357209;
- bh=VyvCCdwoCQ4Lzb7ohJQPcoY0VfQjDbrkwtkur0zexOc=;
+ s=mail; t=1727357258;
+ bh=E3uGkDNgVtNEq8rXaF4WDT0BvNJJScfqLRaphWSdWcg=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=DhKI+3IxWChNSev/1/JEyv7qhpEdl+JQq29YIjAeXszy2UeSVOWzeAPmQ+/GKlt0Y
- 3QzHRaBEhPwBK8Nu8wYGDuTNKOwx9YNC/3B2SOCGvC8fgJen4b0XnlDUA/JLONFQZo
- GXWFvkLCxTWJh20RpLAvY3CfGSwRtqT72Cv2gEls=
-Message-ID: <890a574e-caa0-47af-af09-ab2a1f695bbf@ideasonboard.com>
-Date: Thu, 26 Sep 2024 16:28:13 +0300
+ b=VDgdeWpfilv/B60q2MafEy9R0e+E8Bi8+ps5TcPAEBKdrwheb2BdDuh/XXgb5kIJQ
+ WKVK9ZmszfEprtzK9uO5CWoARKrHc+t5YtH66SEin8SvmrerNd2Y6JnoksV0p6uRAh
+ 0JJjUF9WtlAOI+KyvplenW+/uwbBndMeo8viPziw=
+Message-ID: <1a4cb111-53ad-41a8-8e03-ffc5107bcc34@ideasonboard.com>
+Date: Thu, 26 Sep 2024 16:29:03 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 47/80] drm/xlnx: Run DRM default client setup
+Subject: Re: [PATCH v5 42/80] drm/tilcdc: Run DRM default client setup
 To: Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com,
  jfalempe@redhat.com, airlied@gmail.com, simona@ffwll.ch
 Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Michal Simek <michal.simek@amd.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+ Jyri Sarha <jyri.sarha@iki.fi>
 References: <20240924071734.98201-1-tzimmermann@suse.de>
- <20240924071734.98201-48-tzimmermann@suse.de>
+ <20240924071734.98201-43-tzimmermann@suse.de>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -86,7 +84,7 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20240924071734.98201-48-tzimmermann@suse.de>
+In-Reply-To: <20240924071734.98201-43-tzimmermann@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -105,71 +103,68 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 24/09/2024 10:12, Thomas Zimmermann wrote:
-> Call drm_client_setup_with_fourcc() to run the kernel's default client
-> setup for DRM. Set fbdev_probe in struct drm_driver, so that the client
-> setup can start the common fbdev client.
+> Call drm_client_setup_with_color_mode() to run the kernel's default
+> client setup for DRM. Set fbdev_probe in struct drm_driver, so that
+> the client setup can start the common fbdev client.
 > 
 > v5:
 > - select DRM_CLIENT_SELECTION
-> v2:
-> - use drm_client_setup_with_fourcc()
+> v3:
+> - add DRM_FBDEV_DMA_DRIVER_OPS macro
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Jyri Sarha <jyri.sarha@iki.fi>
 > Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> Cc: Michal Simek <michal.simek@amd.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Acked-by: Javier Martinez Canillas <javierm@redhat.com>
 > ---
->   drivers/gpu/drm/xlnx/Kconfig      | 1 +
->   drivers/gpu/drm/xlnx/zynqmp_kms.c | 4 +++-
->   2 files changed, 4 insertions(+), 1 deletion(-)
-> 
-
-Tested on zynqmp zcu106.
+>   drivers/gpu/drm/tilcdc/Kconfig      | 1 +
+>   drivers/gpu/drm/tilcdc/tilcdc_drv.c | 5 ++++-
+>   2 files changed, 5 insertions(+), 1 deletion(-)
 
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
   Tomi
 
-> diff --git a/drivers/gpu/drm/xlnx/Kconfig b/drivers/gpu/drm/xlnx/Kconfig
-> index 626e5ac4c33d..4197f44e202f 100644
-> --- a/drivers/gpu/drm/xlnx/Kconfig
-> +++ b/drivers/gpu/drm/xlnx/Kconfig
-> @@ -6,6 +6,7 @@ config DRM_ZYNQMP_DPSUB
->   	depends on PHY_XILINX_ZYNQMP
->   	depends on XILINX_ZYNQMP_DPDMA
->   	select DMA_ENGINE
+> diff --git a/drivers/gpu/drm/tilcdc/Kconfig b/drivers/gpu/drm/tilcdc/Kconfig
+> index d3bd2d7a181e..24f9a245ba59 100644
+> --- a/drivers/gpu/drm/tilcdc/Kconfig
+> +++ b/drivers/gpu/drm/tilcdc/Kconfig
+> @@ -2,6 +2,7 @@
+>   config DRM_TILCDC
+>   	tristate "DRM Support for TI LCDC Display Controller"
+>   	depends on DRM && OF && ARM
 > +	select DRM_CLIENT_SELECTION
->   	select DRM_DISPLAY_DP_HELPER
->   	select DRM_DISPLAY_HELPER
->   	select DRM_BRIDGE_CONNECTOR
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_kms.c b/drivers/gpu/drm/xlnx/zynqmp_kms.c
-> index bd1368df7870..2452c2f09161 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_kms.c
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_kms.c
+>   	select DRM_KMS_HELPER
+>   	select DRM_GEM_DMA_HELPER
+>   	select DRM_BRIDGE
+> diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.c b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
+> index cd5eefa06060..8c9f3705aa6c 100644
+> --- a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
+> +++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
 > @@ -14,6 +14,7 @@
->   #include <drm/drm_blend.h>
->   #include <drm/drm_bridge.h>
->   #include <drm/drm_bridge_connector.h>
+>   #include <linux/pm_runtime.h>
+>   
+>   #include <drm/drm_atomic_helper.h>
 > +#include <drm/drm_client_setup.h>
->   #include <drm/drm_connector.h>
->   #include <drm/drm_crtc.h>
->   #include <drm/drm_device.h>
-> @@ -402,6 +403,7 @@ static const struct drm_driver zynqmp_dpsub_drm_driver = {
->   					  DRIVER_ATOMIC,
+>   #include <drm/drm_debugfs.h>
+>   #include <drm/drm_drv.h>
+>   #include <drm/drm_fbdev_dma.h>
+> @@ -374,7 +375,8 @@ static int tilcdc_init(const struct drm_driver *ddrv, struct device *dev)
+>   		goto init_failed;
+>   	priv->is_registered = true;
 >   
->   	DRM_GEM_DMA_DRIVER_OPS_WITH_DUMB_CREATE(zynqmp_dpsub_dumb_create),
-> +	DRM_FBDEV_DMA_DRIVER_OPS,
->   
->   	.fops				= &zynqmp_dpsub_drm_fops,
->   
-> @@ -523,7 +525,7 @@ int zynqmp_dpsub_drm_init(struct zynqmp_dpsub *dpsub)
->   		goto err_poll_fini;
->   
->   	/* Initialize fbdev generic emulation. */
-> -	drm_fbdev_dma_setup(drm, 24);
-> +	drm_client_setup_with_fourcc(drm, DRM_FORMAT_RGB888);
->   
+> -	drm_fbdev_dma_setup(ddev, bpp);
+> +	drm_client_setup_with_color_mode(ddev, bpp);
+> +
 >   	return 0;
 >   
+>   init_failed:
+> @@ -472,6 +474,7 @@ DEFINE_DRM_GEM_DMA_FOPS(fops);
+>   static const struct drm_driver tilcdc_driver = {
+>   	.driver_features    = DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
+>   	DRM_GEM_DMA_DRIVER_OPS,
+> +	DRM_FBDEV_DMA_DRIVER_OPS,
+>   #ifdef CONFIG_DEBUG_FS
+>   	.debugfs_init       = tilcdc_debugfs_init,
+>   #endif
 
