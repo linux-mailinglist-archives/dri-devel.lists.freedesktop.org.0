@@ -2,82 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6F8F98715E
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 12:22:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44A4A9871F7
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 12:48:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8485210EB9E;
-	Thu, 26 Sep 2024 10:22:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6C8110E15F;
+	Thu, 26 Sep 2024 10:48:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="XpukGwrK";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="pcshl02z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE86810EB96
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 10:22:48 +0000 (UTC)
-X-UUID: 4372d0487bf111efb66947d174671e26-20240926
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=+nBRMeHrqpisBv7SezYCJmoN36meD3f3bMKJ7yKvV3A=; 
- b=XpukGwrKlSNicihlE58rbzM91rp1sNgbJKD6xziInAnUBg8uxNYiju9NF1e+8wBVMYucQ7UH1A6FPP4yh6MXHEJ8o/loo9nHrEQITjW3kRQNoCuF4TZUx6Z3lqSvUwZ3jLJvZp0PYyBf4DRo8kUu/SEX82LYUoQuuO6CsYl1r0Y=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.41, REQID:978e27cc-45b6-4fb1-8f0b-6153baa79ffe, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:0
-X-CID-META: VersionHash:6dc6a47, CLOUDID:9f6bced0-7921-4900-88a1-3aef019a55ce,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:11|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
- :1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_ULN,TF_CID_SPAM_SNR
-X-UUID: 4372d0487bf111efb66947d174671e26-20240926
-Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
- mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 995541842; Thu, 26 Sep 2024 18:22:42 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- MTKMBS14N2.mediatek.inc (172.21.101.76) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Thu, 26 Sep 2024 18:22:39 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Thu, 26 Sep 2024 18:22:39 +0800
-From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-To: Alper Nebi Yasak <alpernebiyasak@gmail.com>, Chun-Kuang Hu
- <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>
-CC: Shawn Sung <shawn.sung@mediatek.com>, <dri-devel@lists.freedesktop.org>,
- <linux-mediatek@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, "Jason-JH . Lin"
- <jason-jh.lin@mediatek.com>, Singo Chang <singo.chang@mediatek.com>, "Nancy
- Lin" <nancy.lin@mediatek.com>,
- <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH v7 3/3] drm/mediatek: Add blend_modes to mtk_plane_init() for
- different SoCs
-Date: Thu, 26 Sep 2024 18:22:38 +0800
-Message-ID: <20240926102238.24303-4-jason-jh.lin@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20240926102238.24303-1-jason-jh.lin@mediatek.com>
-References: <20240926102238.24303-1-jason-jh.lin@mediatek.com>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 339D110E02D;
+ Thu, 26 Sep 2024 10:48:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=AbgU+rlUVl4u4E+b3tRAQ+gcbi8/sA49xnExKiVBBYo=; b=pcshl02zWba28YeGJyz7xY+iAR
+ 1xPRTK2iRIozqzY5vZBVzDSpeynoATVSW8Dd7fHUjnMtDjGvGYBG8LdTDfUpWmHP6AFXIHRA66TZc
+ RawBBm5WTRw0ZlnPb9rkgICFr3+FKIUphgxsvrNFHvUS8A0LUUL4WXatdyDfKK0jcJdArnm/wNJB6
+ e6vvz5kN45yIGejjP6F8j0m0KQ+jVDnIwwcLkGgSfwr9TNkDKLFH0bic8mlXz2cvuDLjBvFPVUtXh
+ slyl9IIH+DvJ60Tn2p/2zOrWM2cIu/gfslRyraEXvJ2UsmpAWFP/g6ty+RdlNEXToXWNduouyDlPg
+ xo2znbOA==;
+Received: from [189.6.17.125] (helo=[192.168.0.55])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1stm3B-001HtO-0w; Thu, 26 Sep 2024 12:48:45 +0200
+Message-ID: <cde9d9c6-8da3-4629-8363-fc4c4f6a622c@igalia.com>
+Date: Thu, 26 Sep 2024 07:48:37 -0300
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--11.160200-8.000000
-X-TMASE-MatchedRID: 6n1zk+md1nVe0FYiuVD/cPSZ/2axrnPBqQzUsXJNLuEGW3hFnC9N1dpn
- hpe4D1hOFzjo+TNgpJdApkCDZ8Q62p4dOTBCL+zXY1bQMCMvmn5ai3lnXr67vo5RXzY0MfgCcHj
- giTON9jJOFu8ssjxG8/FjRYaB9JwD8Jz+t9Z3vumQOktEo73GFLBH/AqZyGLZVI7KaIl9NhepxN
- 4rruuBUzbBFkyI1h9EASo1XNPhrPpUaz8ayo4K5t8tWTI1R8epfS0Ip2eEHnz3IzXlXlpamPoLR
- 4+zsDTtw1tMVU7ONTxZdXVSzJ2FUTDV2YxaJ/uB9SLGo0PDTfvZ2NYIRBdBWQ==
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--11.160200-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP: 215D95A5CEA8326A093FD183F4D987BFFC96E49DAE22675422A21A3E88935F9D2000:8
-X-MTK: N
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 09/10] drm/amd/display: remove dc_edid handler from
+ dm_helpers_parse_edid_caps
+To: Mario Limonciello <mario.limonciello@amd.com>,
+ Alex Hung <alex.hung@amd.com>, Alexander Deucher <alexander.deucher@amd.com>
+Cc: kernel-dev@igalia.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, harry.wentland@amd.com, sunpeng.li@amd.com,
+ Mark Pearson <mpearson-lenovo@squebb.ca>,
+ "Wheeler, Daniel" <Daniel.Wheeler@amd.com>
+References: <20240918213845.158293-1-mario.limonciello@amd.com>
+ <20240918213845.158293-10-mario.limonciello@amd.com>
+ <5bbaeac3-7916-4e75-9c92-b93e2cd78ff5@amd.com>
+ <4bc60bb2-3c67-4418-ad79-316ea1ac0dc1@amd.com>
+Content-Language: en-US
+From: Melissa Wen <mwen@igalia.com>
+In-Reply-To: <4bc60bb2-3c67-4418-ad79-316ea1ac0dc1@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,222 +68,181 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since some SoCs support premultiplied pixel formats but some do not,
-the blend_modes parameter is added to mtk_plane_init(), which is
-obtained from the mtk_ddp_comp_get_blend_modes function implemented
-in different blending supported components.
 
-The blending supported components can use driver data to set the
-blend mode capabilities for different SoCs.
 
-Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Reviewed-by: CK Hu <ck.hu@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_crtc.c             |  1 +
- drivers/gpu/drm/mediatek/mtk_ddp_comp.c         |  2 ++
- drivers/gpu/drm/mediatek/mtk_ddp_comp.h         | 10 ++++++++++
- drivers/gpu/drm/mediatek/mtk_disp_drv.h         |  2 ++
- drivers/gpu/drm/mediatek/mtk_disp_ovl.c         |  7 +++++++
- drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c |  7 +++++++
- drivers/gpu/drm/mediatek/mtk_ethdr.c            |  7 +++++++
- drivers/gpu/drm/mediatek/mtk_ethdr.h            |  1 +
- drivers/gpu/drm/mediatek/mtk_plane.c            | 15 +++++++--------
- drivers/gpu/drm/mediatek/mtk_plane.h            |  4 ++--
- 10 files changed, 46 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_crtc.c b/drivers/gpu/drm/mediatek/mtk_crtc.c
-index 175b00e5a253..b65f196f2015 100644
---- a/drivers/gpu/drm/mediatek/mtk_crtc.c
-+++ b/drivers/gpu/drm/mediatek/mtk_crtc.c
-@@ -913,6 +913,7 @@ static int mtk_crtc_init_comp_planes(struct drm_device *drm_dev,
- 				BIT(pipe),
- 				mtk_crtc_plane_type(mtk_crtc->layer_nr, num_planes),
- 				mtk_ddp_comp_supported_rotations(comp),
-+				mtk_ddp_comp_get_blend_modes(comp),
- 				mtk_ddp_comp_get_formats(comp),
- 				mtk_ddp_comp_get_num_formats(comp), i);
- 		if (ret)
-diff --git a/drivers/gpu/drm/mediatek/mtk_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
-index be66d94be361..edc6417639e6 100644
---- a/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
-@@ -363,6 +363,7 @@ static const struct mtk_ddp_comp_funcs ddp_ovl = {
- 	.layer_config = mtk_ovl_layer_config,
- 	.bgclr_in_on = mtk_ovl_bgclr_in_on,
- 	.bgclr_in_off = mtk_ovl_bgclr_in_off,
-+	.get_blend_modes = mtk_ovl_get_blend_modes,
- 	.get_formats = mtk_ovl_get_formats,
- 	.get_num_formats = mtk_ovl_get_num_formats,
- };
-@@ -416,6 +417,7 @@ static const struct mtk_ddp_comp_funcs ddp_ovl_adaptor = {
- 	.disconnect = mtk_ovl_adaptor_disconnect,
- 	.add = mtk_ovl_adaptor_add_comp,
- 	.remove = mtk_ovl_adaptor_remove_comp,
-+	.get_blend_modes = mtk_ovl_adaptor_get_blend_modes,
- 	.get_formats = mtk_ovl_adaptor_get_formats,
- 	.get_num_formats = mtk_ovl_adaptor_get_num_formats,
- 	.mode_valid = mtk_ovl_adaptor_mode_valid,
-diff --git a/drivers/gpu/drm/mediatek/mtk_ddp_comp.h b/drivers/gpu/drm/mediatek/mtk_ddp_comp.h
-index ecf6dc283cd7..39720b27f4e9 100644
---- a/drivers/gpu/drm/mediatek/mtk_ddp_comp.h
-+++ b/drivers/gpu/drm/mediatek/mtk_ddp_comp.h
-@@ -80,6 +80,7 @@ struct mtk_ddp_comp_funcs {
- 	void (*ctm_set)(struct device *dev,
- 			struct drm_crtc_state *state);
- 	struct device * (*dma_dev_get)(struct device *dev);
-+	u32 (*get_blend_modes)(struct device *dev);
- 	const u32 *(*get_formats)(struct device *dev);
- 	size_t (*get_num_formats)(struct device *dev);
- 	void (*connect)(struct device *dev, struct device *mmsys_dev, unsigned int next);
-@@ -266,6 +267,15 @@ static inline struct device *mtk_ddp_comp_dma_dev_get(struct mtk_ddp_comp *comp)
- 	return comp->dev;
- }
- 
-+static inline
-+u32 mtk_ddp_comp_get_blend_modes(struct mtk_ddp_comp *comp)
-+{
-+	if (comp->funcs && comp->funcs->get_blend_modes)
-+		return comp->funcs->get_blend_modes(comp->dev);
-+
-+	return 0;
-+}
-+
- static inline
- const u32 *mtk_ddp_comp_get_formats(struct mtk_ddp_comp *comp)
- {
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-index 082ac18fe04a..04154db9085c 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-@@ -103,6 +103,7 @@ void mtk_ovl_register_vblank_cb(struct device *dev,
- void mtk_ovl_unregister_vblank_cb(struct device *dev);
- void mtk_ovl_enable_vblank(struct device *dev);
- void mtk_ovl_disable_vblank(struct device *dev);
-+u32 mtk_ovl_get_blend_modes(struct device *dev);
- const u32 *mtk_ovl_get_formats(struct device *dev);
- size_t mtk_ovl_get_num_formats(struct device *dev);
- 
-@@ -131,6 +132,7 @@ void mtk_ovl_adaptor_start(struct device *dev);
- void mtk_ovl_adaptor_stop(struct device *dev);
- unsigned int mtk_ovl_adaptor_layer_nr(struct device *dev);
- struct device *mtk_ovl_adaptor_dma_dev_get(struct device *dev);
-+u32 mtk_ovl_adaptor_get_blend_modes(struct device *dev);
- const u32 *mtk_ovl_adaptor_get_formats(struct device *dev);
- size_t mtk_ovl_adaptor_get_num_formats(struct device *dev);
- enum drm_mode_status mtk_ovl_adaptor_mode_valid(struct device *dev,
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-index 0cf7b80f612e..1d3b25d768f9 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-@@ -215,6 +215,13 @@ void mtk_ovl_disable_vblank(struct device *dev)
- 	writel_relaxed(0x0, ovl->regs + DISP_REG_OVL_INTEN);
- }
- 
-+u32 mtk_ovl_get_blend_modes(struct device *dev)
-+{
-+	struct mtk_disp_ovl *ovl = dev_get_drvdata(dev);
-+
-+	return ovl->data->blend_modes;
-+}
-+
- const u32 *mtk_ovl_get_formats(struct device *dev)
- {
- 	struct mtk_disp_ovl *ovl = dev_get_drvdata(dev);
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
-index c6768210b08b..bf2546c4681a 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
-@@ -400,6 +400,13 @@ void mtk_ovl_adaptor_disable_vblank(struct device *dev)
- 	mtk_ethdr_disable_vblank(ovl_adaptor->ovl_adaptor_comp[OVL_ADAPTOR_ETHDR0]);
- }
- 
-+u32 mtk_ovl_adaptor_get_blend_modes(struct device *dev)
-+{
-+	struct mtk_disp_ovl_adaptor *ovl_adaptor = dev_get_drvdata(dev);
-+
-+	return mtk_ethdr_get_blend_modes(ovl_adaptor->ovl_adaptor_comp[OVL_ADAPTOR_ETHDR0]);
-+}
-+
- const u32 *mtk_ovl_adaptor_get_formats(struct device *dev)
- {
- 	struct mtk_disp_ovl_adaptor *ovl_adaptor = dev_get_drvdata(dev);
-diff --git a/drivers/gpu/drm/mediatek/mtk_ethdr.c b/drivers/gpu/drm/mediatek/mtk_ethdr.c
-index d1d9cf8b10e1..0f22e7d337cb 100644
---- a/drivers/gpu/drm/mediatek/mtk_ethdr.c
-+++ b/drivers/gpu/drm/mediatek/mtk_ethdr.c
-@@ -145,6 +145,13 @@ static irqreturn_t mtk_ethdr_irq_handler(int irq, void *dev_id)
- 	return IRQ_HANDLED;
- }
- 
-+u32 mtk_ethdr_get_blend_modes(struct device *dev)
-+{
-+	return BIT(DRM_MODE_BLEND_PREMULTI) |
-+	       BIT(DRM_MODE_BLEND_COVERAGE) |
-+	       BIT(DRM_MODE_BLEND_PIXEL_NONE);
-+}
-+
- void mtk_ethdr_layer_config(struct device *dev, unsigned int idx,
- 			    struct mtk_plane_state *state,
- 			    struct cmdq_pkt *cmdq_pkt)
-diff --git a/drivers/gpu/drm/mediatek/mtk_ethdr.h b/drivers/gpu/drm/mediatek/mtk_ethdr.h
-index 81af9edea3f7..a72aeee46829 100644
---- a/drivers/gpu/drm/mediatek/mtk_ethdr.h
-+++ b/drivers/gpu/drm/mediatek/mtk_ethdr.h
-@@ -13,6 +13,7 @@ void mtk_ethdr_clk_disable(struct device *dev);
- void mtk_ethdr_config(struct device *dev, unsigned int w,
- 		      unsigned int h, unsigned int vrefresh,
- 		      unsigned int bpc, struct cmdq_pkt *cmdq_pkt);
-+u32 mtk_ethdr_get_blend_modes(struct device *dev);
- void mtk_ethdr_layer_config(struct device *dev, unsigned int idx,
- 			    struct mtk_plane_state *state,
- 			    struct cmdq_pkt *cmdq_pkt);
-diff --git a/drivers/gpu/drm/mediatek/mtk_plane.c b/drivers/gpu/drm/mediatek/mtk_plane.c
-index 7d2cb4e0fafa..8a48b3b0a956 100644
---- a/drivers/gpu/drm/mediatek/mtk_plane.c
-+++ b/drivers/gpu/drm/mediatek/mtk_plane.c
-@@ -320,8 +320,8 @@ static const struct drm_plane_helper_funcs mtk_plane_helper_funcs = {
- 
- int mtk_plane_init(struct drm_device *dev, struct drm_plane *plane,
- 		   unsigned long possible_crtcs, enum drm_plane_type type,
--		   unsigned int supported_rotations, const u32 *formats,
--		   size_t num_formats, unsigned int plane_idx)
-+		   unsigned int supported_rotations, const u32 blend_modes,
-+		   const u32 *formats, size_t num_formats, unsigned int plane_idx)
- {
- 	int err;
- 
-@@ -366,12 +366,11 @@ int mtk_plane_init(struct drm_device *dev, struct drm_plane *plane,
- 	if (err)
- 		DRM_ERROR("failed to create property: alpha\n");
- 
--	err = drm_plane_create_blend_mode_property(plane,
--						   BIT(DRM_MODE_BLEND_PREMULTI) |
--						   BIT(DRM_MODE_BLEND_COVERAGE) |
--						   BIT(DRM_MODE_BLEND_PIXEL_NONE));
--	if (err)
--		DRM_ERROR("failed to create property: blend_mode\n");
-+	if (blend_modes) {
-+		err = drm_plane_create_blend_mode_property(plane, blend_modes);
-+		if (err)
-+			DRM_ERROR("failed to create property: blend_mode\n");
-+	}
- 
- 	drm_plane_helper_add(plane, &mtk_plane_helper_funcs);
- 
-diff --git a/drivers/gpu/drm/mediatek/mtk_plane.h b/drivers/gpu/drm/mediatek/mtk_plane.h
-index 5b177eac67b7..3b13b89989c7 100644
---- a/drivers/gpu/drm/mediatek/mtk_plane.h
-+++ b/drivers/gpu/drm/mediatek/mtk_plane.h
-@@ -48,6 +48,6 @@ to_mtk_plane_state(struct drm_plane_state *state)
- 
- int mtk_plane_init(struct drm_device *dev, struct drm_plane *plane,
- 		   unsigned long possible_crtcs, enum drm_plane_type type,
--		   unsigned int supported_rotations, const u32 *formats,
--		   size_t num_formats, unsigned int plane_idx);
-+		   unsigned int supported_rotations, const u32 blend_modes,
-+		   const u32 *formats, size_t num_formats, unsigned int plane_idx);
- #endif
--- 
-2.43.0
+On 25/09/2024 14:55, Mario Limonciello wrote:
+> Alex,
+>
+> Unfortunately I can't reproduce the regression on the APU I tried. 
+> However I do have a suspicion on a fix.
+>
+> Can you see if this helps?  If it does, we can squash it in.
+>
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c 
+> b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index bf847ac55475..e75cd527d753 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -7008,6 +7008,7 @@ static void amdgpu_dm_connector_destroy(struct 
+> drm_connector *connector)
+>                 kfree(aconnector->i2c);
+>         }
+>         kfree(aconnector->dm_dp_aux.aux.name);
+> +       drm_edid_free(aconnector->drm_edid);
+>
+>         kfree(connector);
+>  }
+>
+> If that doesn't help, I did test dropping this patch and it doesn't 
+> affect the last patch in the series, that one still works so I'm fine 
+> with dropping it and we can follow up later.
+yes, I agree with Mario's proposal.
+>
+> On 9/25/2024 12:06, Alex Hung wrote:
+>> Mario and Melissa,
+>>
+>> This patch causes a regrerssion on 7900 XTX in an IGT test: 
+>> amd_mem_leak's connector-suspend-resume.
+>>
+>> Is this patch necessary on this series or is it independent from 
+>> other patches, i.e. can it be dropped from this series until fixed??
+>>
+>> Cheers,
+>> Alex Hung
+>>
+>> On 9/18/24 15:38, Mario Limonciello wrote:
+>>> From: Melissa Wen <mwen@igalia.com>
+>>>
+>>> We can parse edid caps from drm_edid and drm_eld and any calls of
+>>> dm_helpers_parse_edid_caps is made in a state that we have drm_edid set
+>>> to amdgpu connector.
+>>>
+>>> Signed-off-by: Melissa Wen <mwen@igalia.com>
+>>> Co-developed-by: Mario Limonciello <mario.limonciello@amd.com>
+>>> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+>>> ---
+>>>   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  5 +---
+>>>   .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 30 
+>>> ++++++++-----------
+>>>   drivers/gpu/drm/amd/display/dc/dm_helpers.h   |  1 -
+>>>   .../drm/amd/display/dc/link/link_detection.c  |  6 ++--
+>>>   4 files changed, 16 insertions(+), 26 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/ 
+>>> drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+>>> index bd8fb9968c7c..bf847ac55475 100644
+>>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+>>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+>>> @@ -7123,10 +7123,7 @@ static void 
+>>> amdgpu_dm_connector_funcs_force(struct drm_connector *connector)
+>>>           memset(&dc_em_sink->edid_caps, 0, sizeof(struct 
+>>> dc_edid_caps));
+>>>           memmove(dc_em_sink->dc_edid.raw_edid, edid,
+>>>               (edid->extensions + 1) * EDID_LENGTH);
+>>> -        dm_helpers_parse_edid_caps(
+>>> -            dc_link,
+>>> -            &dc_em_sink->dc_edid,
+>>> -            &dc_em_sink->edid_caps);
+>>> +        dm_helpers_parse_edid_caps(dc_link, &dc_em_sink->edid_caps);
+>>>       }
+>>>   }
+>>> diff --git 
+>>> a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c 
+>>> b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+>>> index d43ed3ea000b..8f4be7a1ec45 100644
+>>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+>>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+>>> @@ -83,32 +83,24 @@ static void apply_edid_quirks(struct 
+>>> drm_edid_product_id *product_id,
+>>>    * dm_helpers_parse_edid_caps() - Parse edid caps
+>>>    *
+>>>    * @link: current detected link
+>>> - * @edid:    [in] pointer to edid
+>>>    * @edid_caps:    [in] pointer to edid caps
+>>>    *
+>>>    * Return: void
+>>>    */
+>>> -enum dc_edid_status dm_helpers_parse_edid_caps(
+>>> -        struct dc_link *link,
+>>> -        const struct dc_edid *edid,
+>>> -        struct dc_edid_caps *edid_caps)
+>>> +enum dc_edid_status dm_helpers_parse_edid_caps(struct dc_link *link,
+>>> +                           struct dc_edid_caps *edid_caps)
+>>>   {
+>>>       struct amdgpu_dm_connector *aconnector = link->priv;
+>>>       struct drm_connector *connector = &aconnector->base;
+>>>       const struct drm_edid *drm_edid = aconnector->drm_edid;
+>>>       struct drm_edid_product_id product_id;
+>>> -    struct edid *edid_buf = edid ? (struct edid *) edid->raw_edid : 
+>>> NULL;
+>>>       int sad_count;
+>>>       int i = 0;
+>>> -
+>>>       enum dc_edid_status result = EDID_OK;
+>>> -    if (!edid_caps || !edid)
+>>> +    if (!edid_caps || !drm_edid)
+>>>           return EDID_BAD_INPUT;
+>>> -    if (!drm_edid_is_valid(edid_buf))
+>>> -        result = EDID_BAD_CHECKSUM;
+>>> -
+>>>       drm_edid_get_product_id(drm_edid, &product_id);
+>>>       edid_caps->manufacturer_id = 
+>>> le16_to_cpu(product_id.manufacturer_name);
+>>> @@ -920,19 +912,23 @@ enum dc_edid_status dm_helpers_read_local_edid(
+>>>           if (!drm_edid)
+>>>               return EDID_NO_RESPONSE;
+>>> -        edid = drm_edid_raw(drm_edid); // FIXME: Get rid of 
+>>> drm_edid_raw()
+>>> +        /* FIXME: Get rid of drm_edid_raw()
+>>> +         * Raw edid is still needed for dm_helpers_dp_write_dpcd()
+>>> +         */
+>>> +        edid = drm_edid_raw(drm_edid);
+>>>           sink->dc_edid.length = EDID_LENGTH * (edid->extensions + 1);
+>>>           memmove(sink->dc_edid.raw_edid, (uint8_t *)edid, sink- 
+>>> >dc_edid.length);
+>>>           edid_status = dm_helpers_parse_edid_caps(
+>>>                           link,
+>>> -                        &sink->dc_edid,
+>>>                           &sink->edid_caps);
+>>> -        /* We don't need the original edid anymore */
+>>> -        drm_edid_free(drm_edid);
+>>> -
+>>> -    } while (edid_status == EDID_BAD_CHECKSUM && --retry > 0);
+>>> +        if (edid_status != EDID_OK) {
+>>> +            /* We can discard the drm_edid and retry */
+>>> +            drm_edid_free(drm_edid);
+>>> +            drm_edid_connector_update(connector, drm_edid);
+>>> +        }
+>>> +    } while (edid_status != EDID_OK && --retry > 0);
+>>>       if (edid_status != EDID_OK)
+>>>           DRM_ERROR("EDID err: %d, on connector: %s",
+>>> diff --git a/drivers/gpu/drm/amd/display/dc/dm_helpers.h b/drivers/ 
+>>> gpu/drm/amd/display/dc/dm_helpers.h
+>>> index 2e4a46f1b499..4e1776b5f0d4 100644
+>>> --- a/drivers/gpu/drm/amd/display/dc/dm_helpers.h
+>>> +++ b/drivers/gpu/drm/amd/display/dc/dm_helpers.h
+>>> @@ -61,7 +61,6 @@ void dm_helpers_free_gpu_mem(
+>>>   enum dc_edid_status dm_helpers_parse_edid_caps(
+>>>       struct dc_link *link,
+>>> -    const struct dc_edid *edid,
+>>>       struct dc_edid_caps *edid_caps);
+>>> diff --git a/drivers/gpu/drm/amd/display/dc/link/link_detection.c b/ 
+>>> drivers/gpu/drm/amd/display/dc/link/link_detection.c
+>>> index d21ee9d12d26..94c911742dd3 100644
+>>> --- a/drivers/gpu/drm/amd/display/dc/link/link_detection.c
+>>> +++ b/drivers/gpu/drm/amd/display/dc/link/link_detection.c
+>>> @@ -1413,10 +1413,8 @@ struct dc_sink *link_add_remote_sink(
+>>>               dc_sink))
+>>>           goto fail_add_sink;
+>>> -    edid_status = dm_helpers_parse_edid_caps(
+>>> -            link,
+>>> -            &dc_sink->dc_edid,
+>>> -            &dc_sink->edid_caps);
+>>> +    edid_status = dm_helpers_parse_edid_caps(link,
+>>> +                         &dc_sink->edid_caps);
+>>>       /*
+>>>        * Treat device as no EDID device if EDID
+>>
+>
 
