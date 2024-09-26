@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F76E987020
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 11:29:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10FB6987022
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 11:29:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57DAF10E2EB;
-	Thu, 26 Sep 2024 09:29:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 703E510EB36;
+	Thu, 26 Sep 2024 09:29:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="oCP5R1u2";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="bmjZOuLd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
- [209.85.214.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AB3F10E2EB
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 09:29:41 +0000 (UTC)
-Received: by mail-pl1-f174.google.com with SMTP id
- d9443c01a7336-2055136b612so8973855ad.0
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 02:29:41 -0700 (PDT)
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
+ [209.85.214.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAFFA10EB36
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 09:29:43 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id
+ d9443c01a7336-208ccde82e6so6057475ad.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 02:29:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1727342981; x=1727947781;
+ d=chromium.org; s=google; t=1727342983; x=1727947783;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=4nTlJ8reywH+UC/jgM6J/PkAv8gFWsekGW6wrV9sFl8=;
- b=oCP5R1u2zKWpnlPDGVLNFjE+Bp7LIBVfhAW4b6lWxHwnskeAyTG3pgIggJUAplxAHc
- d658jy5ehS1NwrjWu4wej0PEFiTvOXIm/Yk7uBrExc9t3DKNXyYefXF1iVbST9SBiopT
- pxFiIcxGbWJ4oLROSDGhdgJaKwY1IcZmEJe6w=
+ bh=LhqiIDQ5Jqu/fSndHOna+E70YcD1T5+jR0brWu5czp4=;
+ b=bmjZOuLdlSu59lI5J7Q096swP0HpDTru8o5//UwY3F26O2Nc2QDJH5QGulbnKgEdQ+
+ +5NmBzvNAJq523jVWhDXgLzgjy80SMBYm6o/Yv+opkMuoxaaNoSvWKx+BtLCoukv1Zar
+ oPVRATUhTFAbCKI44rO94dKKvL80Oq34dYu/A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727342981; x=1727947781;
+ d=1e100.net; s=20230601; t=1727342983; x=1727947783;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=4nTlJ8reywH+UC/jgM6J/PkAv8gFWsekGW6wrV9sFl8=;
- b=D39FHDbSvLJoYIdRo1QpnXDf8DHMvLcOsaC/B6LW/yAaqleDVHYqDwjXL+X2zK2f95
- rBZUvCnG2f5XStLPhntAYDdp3O8VPzb8mGwUBzg8A//r9L6ryC3ZccsDajnnTpTxNy1K
- RWa8YjJ5nY3jW/REVWHUAjXz3dyjuSqhLyMc57P6cs0fDEGFWFAPI8S65RIz6q2yKxZN
- jI24eKuJz59gBn+gHaC+etcMZXmDXcY4upLhjf66NO4Y6KIQ9NP+FIU3Z27bqgbygk58
- XqVBEKgNPSCriJjJ0n7Cb5MMb+Q4YyVitr/z0e6El54HVKYgtjzw7JKljL2sJjmbrrhl
- bLIQ==
+ bh=LhqiIDQ5Jqu/fSndHOna+E70YcD1T5+jR0brWu5czp4=;
+ b=kAHvugSCv3LzzBmkatiEFRBVp2V/p0t6az0AFIjbIobeGQ0jE2mlQzuycPsNKCa5Ch
+ A5x8fxKoHnMnlQRCFzk7oeSL4uAf+Y2GYZ1RWDhrvYUX+Bg6GNESu/eNDALOH+QbWZKH
+ UjHP/Bh0klshZm8pD1EkYEF9ryHt0ACaWMhkJjG1GSTqT2IQ7bJlUHTOBmCFzrzli83e
+ skcUfWhAOwNkrSCFxAAic0qOjrOILzKCIR2b4o7MzZrTi4plydsGnmdYVBXOR+hcwCT1
+ bFocbMUT6thLk3e/rIB9X4VqhIpQfl9XQECml+MOxWqv0VZqzcNtGNhQlVKyX9M1TJy/
+ HrgQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUpKK1lupW3xHXdQFC2Kzjnp2USwQVRudqaWjLjh/6AW8AJzlA77FZNDg/6hA2tVuLjLVk2kLIUIgM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzWR6grEiaoe68NO0/2GLwcSVU2P42cNaPxHD5c3T6QwURw/fHr
- 3n8jR6peR2kgdARdb32w+EvD1DI48SuQ6CTUUx24W6QsBsn0hNJt48NMdVvdaA==
-X-Google-Smtp-Source: AGHT+IEJGdzaJvD2oLJXYm0GdTv7+DhwanIXJf+yHPiigY6DhQrpoz5uhLKvyVCzsX1nrFaQy7M1XA==
-X-Received: by 2002:a17:903:2bce:b0:206:a239:de67 with SMTP id
- d9443c01a7336-20afc435afamr79921955ad.18.1727342980725; 
- Thu, 26 Sep 2024 02:29:40 -0700 (PDT)
+ AJvYcCUn22ng0aFOeSRjbYZZzZEOENm1rDvYp954Ul7dwgex9UMvxbwBnObewV1sPwgfZuihL7mYKJIq5Qw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzZTk1x+Ws2vxgp18EyuADzzKixXcFJqDxJBtjJl7iVckdX40DE
+ 0tFOaTBvncfkJEZBjOB8Cef5NofMUMVlG/4JVYfD3u7suinfxIF3pPHwW64Esw==
+X-Google-Smtp-Source: AGHT+IEdG39v0Vfwfch9vcjFuBKfPvx9YOlmD0blQWme8C0zQJMHMM2ZuXN87DCP03QyVmgMacA7Sw==
+X-Received: by 2002:a17:903:110f:b0:207:1737:2c66 with SMTP id
+ d9443c01a7336-20afc4c127fmr79900895ad.35.1727342983478; 
+ Thu, 26 Sep 2024 02:29:43 -0700 (PDT)
 Received: from treapking.tpe.corp.google.com
  ([2401:fa00:1:10:4234:cfaa:3b83:d75a])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-20af1720b00sm34819105ad.64.2024.09.26.02.29.38
+ d9443c01a7336-20af1720b00sm34819105ad.64.2024.09.26.02.29.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Sep 2024 02:29:40 -0700 (PDT)
+ Thu, 26 Sep 2024 02:29:43 -0700 (PDT)
 From: Pin-yen Lin <treapking@chromium.org>
 To: Xin Ji <xji@analogixsemi.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
@@ -64,10 +64,9 @@ Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Douglas Anderson <dianders@chromium.org>,
  Pin-yen Lin <treapking@chromium.org>, Sam Ravnborg <sam@ravnborg.org>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [PATCH v2 1/2] drm/bridge: anx7625: Drop EDID cache on bridge power
- off
-Date: Thu, 26 Sep 2024 17:29:08 +0800
-Message-ID: <20240926092931.3870342-2-treapking@chromium.org>
+Subject: [PATCH v2 2/2] drm/bridge: it6505: Drop EDID cache on bridge power off
+Date: Thu, 26 Sep 2024 17:29:09 +0800
+Message-ID: <20240926092931.3870342-3-treapking@chromium.org>
 X-Mailer: git-send-email 2.46.0.792.g87dc391469-goog
 In-Reply-To: <20240926092931.3870342-1-treapking@chromium.org>
 References: <20240926092931.3870342-1-treapking@chromium.org>
@@ -97,32 +96,32 @@ when there is no EDID read after it is powered on.
 
 Drop the cache to force an EDID read after system resume to fix this.
 
-Fixes: 8bdfc5dae4e3 ("drm/bridge: anx7625: Add anx7625 MIPI DSI/DPI to DP")
+Fixes: 11feaef69d0c ("drm/bridge: it6505: Add caching for EDID")
 Signed-off-by: Pin-yen Lin <treapking@chromium.org>
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
 ---
 
 Changes in v2:
-- Only drop the EDID cache for anx7625 when it's not in eDP mode
-- Collect review tag
+- Collect review tags
 
- drivers/gpu/drm/bridge/analogix/anx7625.c | 2 ++
+ drivers/gpu/drm/bridge/ite-it6505.c | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-index 88e4aa5830f3..5c6bd7be25c0 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-@@ -2561,6 +2561,8 @@ static int __maybe_unused anx7625_runtime_pm_suspend(struct device *dev)
- 	mutex_lock(&ctx->lock);
+diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
+index 1e1c06fdf206..bb449efac2f4 100644
+--- a/drivers/gpu/drm/bridge/ite-it6505.c
++++ b/drivers/gpu/drm/bridge/ite-it6505.c
+@@ -3101,6 +3101,8 @@ static __maybe_unused int it6505_bridge_suspend(struct device *dev)
+ {
+ 	struct it6505 *it6505 = dev_get_drvdata(dev);
  
- 	anx7625_stop_dp_work(ctx);
-+	if (!ctx->pdata.panel_bridge)
-+		anx7625_remove_edid(ctx);
- 	anx7625_power_standby(ctx);
++	it6505_remove_edid(it6505);
++
+ 	return it6505_poweroff(it6505);
+ }
  
- 	mutex_unlock(&ctx->lock);
 -- 
 2.46.0.792.g87dc391469-goog
 
