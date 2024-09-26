@@ -2,112 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 205D598734E
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 14:10:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B283987353
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 14:12:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9026410EAA9;
-	Thu, 26 Sep 2024 12:10:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D16F10EAD5;
+	Thu, 26 Sep 2024 12:12:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="jyXYjfot";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Y/kf8SuE";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jyXYjfot";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Y/kf8SuE";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="tua5LlFg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C579C10E315;
- Thu, 26 Sep 2024 12:10:48 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 2DC021F871;
- Thu, 26 Sep 2024 12:10:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1727352647; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=PysjdaUu0eBc4U+fMis6mSY9oLD35SSyBV7Sfu7nJYs=;
- b=jyXYjfotKpAPY5aJC5tpdz6EuJ+SNBHskVIBaqjvnwOnoenniiWIB7pxkkRvXFcCFsNtUl
- NWxRikEP3MnE1ZR9Qv/F6swCtduphpNrtHz17REM0gsc4l4K183XoCS9gtZLuascOmieF/
- uFAtP+wwpQL6zFbW7QjSc0n3oumLpxI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1727352647;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=PysjdaUu0eBc4U+fMis6mSY9oLD35SSyBV7Sfu7nJYs=;
- b=Y/kf8SuE0GQomCwv9+w+tEcEiDuLIP+nQZq/cfoeG9FTGFiLwk1ENqCv5YQ7yHKlegtZ9n
- q3BsxKK36nqFGLBA==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=jyXYjfot;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="Y/kf8SuE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1727352647; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=PysjdaUu0eBc4U+fMis6mSY9oLD35SSyBV7Sfu7nJYs=;
- b=jyXYjfotKpAPY5aJC5tpdz6EuJ+SNBHskVIBaqjvnwOnoenniiWIB7pxkkRvXFcCFsNtUl
- NWxRikEP3MnE1ZR9Qv/F6swCtduphpNrtHz17REM0gsc4l4K183XoCS9gtZLuascOmieF/
- uFAtP+wwpQL6zFbW7QjSc0n3oumLpxI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1727352647;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=PysjdaUu0eBc4U+fMis6mSY9oLD35SSyBV7Sfu7nJYs=;
- b=Y/kf8SuE0GQomCwv9+w+tEcEiDuLIP+nQZq/cfoeG9FTGFiLwk1ENqCv5YQ7yHKlegtZ9n
- q3BsxKK36nqFGLBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9238613318;
- Thu, 26 Sep 2024 12:10:46 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id MZI2IEZP9Wa3TQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 26 Sep 2024 12:10:46 +0000
-Date: Thu, 26 Sep 2024 14:10:45 +0200
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-misc-fixes
-Message-ID: <20240926121045.GA561653@localhost.localdomain>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A8C410E321;
+ Thu, 26 Sep 2024 12:12:02 +0000 (UTC)
+Received: from [192.168.88.20] (91-156-87-48.elisa-laajakaista.fi
+ [91.156.87.48])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 60C94169;
+ Thu, 26 Sep 2024 14:10:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1727352632;
+ bh=ty/0EEPC1HNSViP1lPC3UwHwPR61YYvHhV7K8pEYIzQ=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=tua5LlFgxkHqh4iJv12/XIrHTo5cnc+bbtYq/DBm62SlinWiJW4+JkBJqunE3Zt9+
+ +RVA+rs3OgteZBAE9Bd4q4RA8gPlGMlRn5Lh9PgiQiOizj3BXYLASpCb+1vKluwGHc
+ TUMQJ6SfFudglcZ5uVtK5hOlGKsWCPI13OH5B6Lo=
+Message-ID: <eb5b4f6e-88dd-4322-a10c-608db6abfe14@ideasonboard.com>
+Date: Thu, 26 Sep 2024 15:11:56 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Rspamd-Queue-Id: 2DC021F871
-X-Spam-Level: 
-X-Spamd-Result: default: False [-6.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- DWL_DNSWL_MED(-2.00)[suse.de:dkim];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- MIME_GOOD(-0.10)[text/plain]; MX_GOOD(-0.01)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
- ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+]; MISSING_XM_UA(0.00)[];
- RCPT_COUNT_TWELVE(0.00)[16];
- FREEMAIL_TO(0.00)[gmail.com,ffwll.ch];
- FUZZY_BLOCKED(0.00)[rspamd.com]; TO_DN_SOME(0.00)[];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
- RCVD_TLS_ALL(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- RCVD_COUNT_TWO(0.00)[2];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -6.51
-X-Spam-Flag: NO
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 41/80] drm/tidss: Run DRM default client setup
+To: Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com,
+ jfalempe@redhat.com, airlied@gmail.com, simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ Jyri Sarha <jyri.sarha@iki.fi>
+References: <20240924071734.98201-1-tzimmermann@suse.de>
+ <20240924071734.98201-42-tzimmermann@suse.de>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20240924071734.98201-42-tzimmermann@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,128 +102,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Sima,
+On 24/09/2024 10:12, Thomas Zimmermann wrote:
+> Call drm_client_setup() to run the kernel's default client setup
+> for DRM. Set fbdev_probe in struct drm_driver, so that the client
+> setup can start the common fbdev client.
+> 
+> The tidss driver specifies a preferred color mode of 32. As this
+> is the default if no format has been given, leave it out entirely.
+> 
+> v5:
+> - select DRM_CLIENT_SELECTION
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Jyri Sarha <jyri.sarha@iki.fi>
+> Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> Acked-by: Javier Martinez Canillas <javierm@redhat.com>
+> ---
+>   drivers/gpu/drm/tidss/Kconfig     | 1 +
+>   drivers/gpu/drm/tidss/tidss_drv.c | 4 +++-
+>   2 files changed, 4 insertions(+), 1 deletion(-)
 
-this is the PR for drm-misc-fixes for this week. Mostly the usual small
-changes. That fix in the atomic-modesetting code touches UAPI code, but
-does not change the UAPI itself.
+Tested on AM62 SK.
 
-Best regards
-Thomas
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-drm-misc-fixes-2024-09-26:
-Short summary of fixes pull:
+  Tomi
 
-atomic:
-- Use correct type when reading damage rectangles
+> diff --git a/drivers/gpu/drm/tidss/Kconfig b/drivers/gpu/drm/tidss/Kconfig
+> index 2385c56493b9..31ad582b7602 100644
+> --- a/drivers/gpu/drm/tidss/Kconfig
+> +++ b/drivers/gpu/drm/tidss/Kconfig
+> @@ -2,6 +2,7 @@ config DRM_TIDSS
+>   	tristate "DRM Support for TI Keystone"
+>   	depends on DRM && OF
+>   	depends on ARM || ARM64 || COMPILE_TEST
+> +	select DRM_CLIENT_SELECTION
+>   	select DRM_KMS_HELPER
+>   	select DRM_DISPLAY_HELPER
+>   	select DRM_BRIDGE_CONNECTOR
+> diff --git a/drivers/gpu/drm/tidss/tidss_drv.c b/drivers/gpu/drm/tidss/tidss_drv.c
+> index d15f836dca95..2428b9aaa003 100644
+> --- a/drivers/gpu/drm/tidss/tidss_drv.c
+> +++ b/drivers/gpu/drm/tidss/tidss_drv.c
+> @@ -11,6 +11,7 @@
+>   
+>   #include <drm/drm_atomic.h>
+>   #include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_client_setup.h>
+>   #include <drm/drm_crtc.h>
+>   #include <drm/drm_drv.h>
+>   #include <drm/drm_fbdev_dma.h>
+> @@ -109,6 +110,7 @@ static const struct drm_driver tidss_driver = {
+>   	.fops			= &tidss_fops,
+>   	.release		= tidss_release,
+>   	DRM_GEM_DMA_DRIVER_OPS_VMAP,
+> +	DRM_FBDEV_DMA_DRIVER_OPS,
+>   	.name			= "tidss",
+>   	.desc			= "TI Keystone DSS",
+>   	.date			= "20180215",
+> @@ -186,7 +188,7 @@ static int tidss_probe(struct platform_device *pdev)
+>   		goto err_irq_uninstall;
+>   	}
+>   
+> -	drm_fbdev_dma_setup(ddev, 32);
+> +	drm_client_setup(ddev, NULL);
+>   
+>   	dev_dbg(dev, "%s done\n", __func__);
+>   
 
-display:
-- Fix kernel docs
-
-dp-mst:
-- Fix DSC decompression detection
-
-hdmi:
-- Fix infoframe size
-
-panthor:
-- Fix locking
-
-sched:
-- Update maintainers
-- Fix race condition whne queueing up jobs
-
-sysfb:
-- Disable sysfb if framebuffer parent device is unknown
-
-vbox:
-- Fix VLA handling
-The following changes since commit 45c690aea8ee5b7d012cd593bd288540a4bfdbf0:
-
-  drm/tegra: Use iommu_paging_domain_alloc() (2024-09-10 15:40:27 -0400)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-fixes-2024-09-26
-
-for you to fetch changes up to ad604f0a4c040dcb8faf44dc72db25e457c28076:
-
-  firmware/sysfb: Disable sysfb for firmware buffers with unknown parent (2024-09-26 08:22:20 +0200)
-
-----------------------------------------------------------------
-Short summary of fixes pull:
-
-atomic:
-- Use correct type when reading damage rectangles
-
-display:
-- Fix kernel docs
-
-dp-mst:
-- Fix DSC decompression detection
-
-hdmi:
-- Fix infoframe size
-
-panthor:
-- Fix locking
-
-sched:
-- Update maintainers
-- Fix race condition whne queueing up jobs
-
-sysfb:
-- Disable sysfb if framebuffer parent device is unknown
-
-vbox:
-- Fix VLA handling
-
-----------------------------------------------------------------
-Derek Foreman (1):
-      drm/connector: hdmi: Fix writing Dynamic Range Mastering infoframes
-
-Dmitry Baryshkov (1):
-      drm/display: fix kerneldocs references
-
-Hans de Goede (1):
-      drm/vboxvideo: Replace fake VLA at end of vbva_mouse_pointer_shape with real VLA
-
-Imre Deak (1):
-      drm/dp_mst: Fix DSC decompression detection in Synaptics branch devices
-
-Philipp Stanner (1):
-      MAINTAINERS: drm/sched: Add new maintainers
-
-Rob Clark (1):
-      drm/sched: Fix dynamic job-flow control race
-
-Steven Price (1):
-      drm/panthor: Fix race when converting group handle to group object
-
-Thomas Zimmermann (2):
-      drm: Consistently use struct drm_mode_rect for FB_DAMAGE_CLIPS
-      firmware/sysfb: Disable sysfb for firmware buffers with unknown parent
-
- Documentation/gpu/drm-kms-helpers.rst           |  4 ++--
- MAINTAINERS                                     |  2 ++
- drivers/firmware/sysfb.c                        |  4 +++-
- drivers/gpu/drm/display/drm_dp_mst_topology.c   | 10 ++++++++--
- drivers/gpu/drm/display/drm_hdmi_state_helper.c |  4 +---
- drivers/gpu/drm/drm_atomic_uapi.c               |  2 +-
- drivers/gpu/drm/drm_debugfs.c                   |  4 +---
- drivers/gpu/drm/panthor/panthor_sched.c         | 16 ++++++++++++++--
- drivers/gpu/drm/scheduler/sched_entity.c        |  4 ++--
- drivers/gpu/drm/scheduler/sched_main.c          |  7 ++-----
- drivers/gpu/drm/vboxvideo/hgsmi_base.c          | 10 +++++++++-
- drivers/gpu/drm/vboxvideo/vboxvideo.h           |  4 +---
- include/drm/gpu_scheduler.h                     |  2 +-
- include/linux/hdmi.h                            |  9 +++++++++
- 14 files changed, 56 insertions(+), 26 deletions(-)
-
--- 
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
