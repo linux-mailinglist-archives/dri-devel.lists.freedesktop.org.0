@@ -2,60 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FFAA98710E
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 12:14:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 736AE987159
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 12:22:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09B9F10E30E;
-	Thu, 26 Sep 2024 10:14:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1638710EB9A;
+	Thu, 26 Sep 2024 10:22:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jcA+fKz+";
+	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="MN6i4avh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F0F110E097;
- Thu, 26 Sep 2024 10:14:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1727345642; x=1758881642;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=fNa/A38DWkGMUP2hyy5uy10YSKBJ52bKN1PXHzOycNY=;
- b=jcA+fKz+LEjk/7hDnYzx/bpjLj7tIxj0wNK/9XbfaeaCmSpkPvtXBshl
- cnj/RDKisKHLcVok11GG8vMYuhfrJWpbrip8AIPLK7rwQx8xN8g9rKgm3
- yAliDXlvDFv1IpkNg18W7bTvcKBzfLXXzPq8u0nfA4VGu1nPFqoIxsSE2
- mUqNP+/KB61TnHlidXWFDfsONAUKE/m5UmDAYZXA9/prIJA4LxYk8k6ek
- 9TrJaplbltjmVU/ebJNCVT8lyHawg9ugosoqBLZwyN+g/QbVhVMJ5uaRL
- dl9+aLVefWQVfxRZV1y3W1yCt+VrzIlLXndMmw2seiQMquAKkH3SYrDbO w==;
-X-CSE-ConnectionGUID: 1bZUPNQpS6qjUZokZo3b1A==
-X-CSE-MsgGUID: 8Bw1lWt1QnaqEx14n/okIA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11206"; a="26526593"
-X-IronPort-AV: E=Sophos;i="6.10,155,1719903600"; d="scan'208";a="26526593"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2024 03:14:02 -0700
-X-CSE-ConnectionGUID: SFfUd833TW+vSPH4fUAtgw==
-X-CSE-MsgGUID: vUVrWtTxSqyWfItU/7y+0g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,155,1719903600"; d="scan'208";a="72899503"
-Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost)
- ([10.245.246.124])
- by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2024 03:14:00 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Arun R Murthy <arun.r.murthy@intel.com>, intel-xe@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Cc: Arun R Murthy <arun.r.murthy@intel.com>
-Subject: Re: [PATCH 1/7] drm/i915/histogram: Define registers for histogram
-In-Reply-To: <20240925150754.1876893-2-arun.r.murthy@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240925150754.1876893-1-arun.r.murthy@intel.com>
- <20240925150754.1876893-2-arun.r.murthy@intel.com>
-Date: Thu, 26 Sep 2024 13:13:56 +0300
-Message-ID: <87h6a2204b.fsf@intel.com>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFC6B10EB96
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 10:22:44 +0000 (UTC)
+X-UUID: 426867f87bf111ef8b96093e013ec31c-20240926
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=HctIQDtkz6Ud2Af+uAgMN2PLk36xuevWjGwItFwmGYU=; 
+ b=MN6i4avha5AVt25F7nHgaRLQZucvFduUYbI4e3LcluiE1GEh5MyACLWD8r0WOuJFKordE5vkn3YzwFkcc6Lt93B8bECACljQ3h9cBA8O4fnmJRoScScVoKM5vHilRFWNC8Y4jABn6s4Ny0hkVgCT5lmgpVDVVHqSARO8BCI2z0U=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.41, REQID:151b2525-2726-4c21-9a3f-5c6669c61608, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:6dc6a47, CLOUDID:1a144b18-b42d-49a6-94d2-a75fa0df01d2,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
+ SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 426867f87bf111ef8b96093e013ec31c-20240926
+Received: from mtkmbs09n2.mediatek.inc [(172.21.101.94)] by
+ mailgw02.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1465076808; Thu, 26 Sep 2024 18:22:40 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Thu, 26 Sep 2024 18:22:38 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Thu, 26 Sep 2024 18:22:38 +0800
+From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+To: Alper Nebi Yasak <alpernebiyasak@gmail.com>, Chun-Kuang Hu
+ <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>
+CC: Shawn Sung <shawn.sung@mediatek.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-mediatek@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, "Jason-JH . Lin"
+ <jason-jh.lin@mediatek.com>, Singo Chang <singo.chang@mediatek.com>, Nancy
+ Lin <nancy.lin@mediatek.com>,
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>
+Subject: [PATCH v7 0/3] Fix degradation problem of alpha blending series
+Date: Thu, 26 Sep 2024 18:22:35 +0800
+Message-ID: <20240926102238.24303-1-jason-jh.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,110 +78,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 25 Sep 2024, Arun R Murthy <arun.r.murthy@intel.com> wrote:
-> Add the register/bit definitions for global histogram.
->
-> Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
-> ---
->  .../drm/i915/display/intel_histogram_reg.h    | 54 +++++++++++++++++++
+Some SoCs not support pre-multiplied pixel formats and extending
+configuration of OVL pre-multiplied color formats, such as MT8173.
 
-We have 36 files named *_regs.h under display/, and 0 files named
-*_reg.h. We should follow the pattern.
+Fix the SoC degradation problem by this sreies.
 
->  1 file changed, 54 insertions(+)
->  create mode 100644 drivers/gpu/drm/i915/display/intel_histogram_reg.h
->
-> diff --git a/drivers/gpu/drm/i915/display/intel_histogram_reg.h b/drivers=
-/gpu/drm/i915/display/intel_histogram_reg.h
-> new file mode 100644
-> index 000000000000..ed8f22aa8e75
-> --- /dev/null
-> +++ b/drivers/gpu/drm/i915/display/intel_histogram_reg.h
-> @@ -0,0 +1,54 @@
-> +// SPDX-License-Identifier: MIT
-> +/*
-> + * Copyright =C2=A9 2024 Intel Corporation
-> + */
-> +
-> +#ifndef __INTEL_HISTOGRAM_REG_H__
-> +#define __INTEL_HISTOGRAM_REG_H__
-> +
-> +#include <linux/types.h>
+---
 
-I don't see this used.
+Change in v7:
+1. Add the remove color format comment patch for OVL
+2. Fix warning: 'const' type qualifier on return type has no effect
 
-But it's probably prudent to #include "intel_display_reg_defs.h" for
-_MMIO_PIPE() etc. like almost all the other _regs.h files do.
+Chnage in v6:
+1. Use blend_modes instead of function pointer in OVL
+2. Use ethdr instead of mdp_rdma to get blend_modes
+3. Add 0 checking for adding blend_mode property for mtk_plane
 
-> +
-> +/* GLOBAL_HIST related registers */
-> +#define _DPST_CTL_A					0x490C0
-> +#define _DPST_CTL_B					0x491C0
-> +#define DPST_CTL(pipe)					_MMIO_PIPE(pipe, _DPST_CTL_A, _DPST_CTL_B)
-> +#define DPST_CTL_IE_HIST_EN				REG_BIT(31)
-> +#define DPST_CTL_RESTORE				REG_BIT(28)
-> +#define DPST_CTL_IE_MODI_TABLE_EN			REG_BIT(27)
-> +#define DPST_CTL_HIST_MODE				REG_BIT(24)
-> +#define DPST_CTL_ENHANCEMENT_MODE_MASK			REG_GENMASK(14, 13)
-> +#define DPST_CTL_EN_MULTIPLICATIVE			REG_FIELD_PREP(DPST_CTL_ENHANCEMENT=
-_MODE_MASK, 2)
-> +#define DPST_CTL_IE_TABLE_VALUE_FORMAT			REG_BIT(15)
-> +#define DPST_CTL_BIN_REG_FUNC_SEL			REG_BIT(11)
-> +#define DPST_CTL_BIN_REG_FUNC_TC			REG_FIELD_PREP(DPST_CTL_BIN_REG_FUNC_=
-SEL, 0)
-> +#define DPST_CTL_BIN_REG_FUNC_IE			REG_FIELD_PREP(DPST_CTL_BIN_REG_FUNC_=
-SEL, 1)
-> +#define DPST_CTL_BIN_REG_MASK				REG_GENMASK(6, 0)
-> +#define DPST_CTL_BIN_REG_CLEAR				REG_FIELD_PREP(DPST_CTL_BIN_REG_MASK, =
-0)
-> +#define DPST_CTL_IE_TABLE_VALUE_FORMAT_2INT_8FRAC	REG_FIELD_PREP(DPST_CT=
-L_IE_TABLE_VALUE_FORMAT, 1)
-> +#define DPST_CTL_IE_TABLE_VALUE_FORMAT_1INT_9FRAC	REG_FIELD_PREP(DPST_CT=
-L_IE_TABLE_VALUE_FORMAT, 0)
-> +#define DPST_CTL_HIST_MODE_YUV				REG_FIELD_PREP(DPST_CTL_HIST_MODE, 0)
-> +#define DPST_CTL_HIST_MODE_HSV				REG_FIELD_PREP(DPST_CTL_HIST_MODE, 1)
+Change in v5:
+Add fix patch for mtk_plane
 
-We've tried to establish a uniform style for defining register macros
-since 2017. Just so they're easier for everyone to read. It's documented
-in i915_reg.h. Please indent the register *content* macros so they are
-easier to distinguish from the actual register.
+Change in v4:
+Add lost cases of mtk_ovl_fmt_convert_with_blend
 
-Ditto below.
+Change in v3:
+Change MACRO approach to function pointer in driver data
 
-> +
-> +#define _DPST_GUARD_A					0x490C8
-> +#define _DPST_GUARD_B					0x491C8
-> +#define DPST_GUARD(pipe)				_MMIO_PIPE(pipe, _DPST_GUARD_A, _DPST_GUARD_=
-B)
-> +#define DPST_GUARD_HIST_INT_EN				REG_BIT(31)
-> +#define DPST_GUARD_HIST_EVENT_STATUS			REG_BIT(30)
-> +#define DPST_GUARD_INTERRUPT_DELAY_MASK			REG_GENMASK(29, 22)
-> +#define DPST_GUARD_INTERRUPT_DELAY(val)			REG_FIELD_PREP(DPST_GUARD_INTE=
-RRUPT_DELAY_MASK, val)
-> +#define DPST_GUARD_THRESHOLD_GB_MASK			REG_GENMASK(21, 0)
-> +#define DPST_GUARD_THRESHOLD_GB(val)			REG_FIELD_PREP(DPST_GUARD_THRESHO=
-LD_GB_MASK, val)
-> +
-> +#define _DPST_BIN_A					0x490C4
-> +#define _DPST_BIN_B					0x491C4
-> +#define DPST_BIN(pipe)					_MMIO_PIPE(pipe, _DPST_BIN_A, _DPST_BIN_B)
-> +#define DPST_BIN_DATA_MASK				REG_GENMASK(23, 0)
-> +#define DPST_BIN_BUSY					REG_BIT(31)
-> +
-> +#define INTEL_HISTOGRAM_PIPEA			0x90000000
-> +#define INTEL_HISTOGRAM_PIPEB			0x90000002
-> +#define INTEL_HISTOGRAM_EVENT(pipe)		PIPE(pipe, \
-> +						     INTEL_HISTOGRAM_PIPEA, \
-> +						     INTEL_HISTOGRAM_PIPEB)
+Change in v2:
+Fix build error and typo
 
-This can't be right, but it's unused so wasn't caught.
+Change in v1:
+Add fix patch for OVL unsupport color format settings by driver data
 
-BR,
-Jani.
+---
 
+Jason-JH.Lin (3):
+  drm/mediatek: ovl: Remove the color format comment for
+    ovl_fmt_convert()
+  drm/mediatek: ovl: Add blend_modes to driver data
+  drm/mediatek: Add blend_modes to mtk_plane_init() for different SoCs
 
-> +
-> +#endif /* __INTEL_HISTOGRAM_REG_H__ */
+ drivers/gpu/drm/mediatek/mtk_crtc.c           |  1 +
+ drivers/gpu/drm/mediatek/mtk_ddp_comp.c       |  2 +
+ drivers/gpu/drm/mediatek/mtk_ddp_comp.h       | 10 ++++
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h       |  2 +
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c       | 48 ++++++++++++++++---
+ .../gpu/drm/mediatek/mtk_disp_ovl_adaptor.c   |  7 +++
+ drivers/gpu/drm/mediatek/mtk_ethdr.c          |  7 +++
+ drivers/gpu/drm/mediatek/mtk_ethdr.h          |  1 +
+ drivers/gpu/drm/mediatek/mtk_plane.c          | 15 +++---
+ drivers/gpu/drm/mediatek/mtk_plane.h          |  4 +-
+ 10 files changed, 80 insertions(+), 17 deletions(-)
 
---=20
-Jani Nikula, Intel
+-- 
+2.43.0
+
