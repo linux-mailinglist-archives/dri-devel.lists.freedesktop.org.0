@@ -2,70 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B530A987450
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 15:17:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A05E3987453
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 15:18:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D42E10E17A;
-	Thu, 26 Sep 2024 13:17:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6811B10EB3C;
+	Thu, 26 Sep 2024 13:18:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="QWm0BYOk";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="JJe+jNtr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com
- [209.85.208.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB79110E17A
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 13:17:08 +0000 (UTC)
-Received: by mail-lj1-f171.google.com with SMTP id
- 38308e7fff4ca-2f759688444so9171031fa.1
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 06:17:08 -0700 (PDT)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
+ [209.85.167.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A17910EB3C
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 13:18:00 +0000 (UTC)
+Received: by mail-lf1-f52.google.com with SMTP id
+ 2adb3069b0e04-53653682246so1247569e87.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 06:18:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1727356627; x=1727961427; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1727356678; x=1727961478; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=GM3RKm/IiEU4R2YOL22+MAC/pegYQ57jlvEwwzPJmcA=;
- b=QWm0BYOkZvH1S9O1fqd4GoT8Y7LmDG9o3sNNaZDxpF+vrxDFmh3/GM0OAjpU4nSYpu
- 0K9lM4IXXG6eMW9C8nRND5dOvsNrxxRpSomlRclchPDMGfMgneKoCtIORKVajGpmhI3D
- +BmTSDxCbeyZE4FGx2zjpvXZwgq4H/nl5cJueTlXHDmDfsRSH8ycj6C69Swml7hAr5j3
- ABGouQjCogq6YhCDIK3K+MrAdCmv8fdgVFJWuwtv3WsmT+T/auwnvEY21dgiKSF0dEmF
- UP5ul6ftQtMFqzqsxqEFUnK6YCQnx/rp4kV1r617Ktdv2ExYaav7WM7i9v70EX6NS6ZR
- zgSg==
+ bh=6F9ROkrOgLwAEiiMBw5UKjMmbtjSJsYbLK3BwJz59BY=;
+ b=JJe+jNtrYO8Dh7QL+uA0fTheoCJ0S2fe18Cq3GUECwjp4Ys+BttO5/3Zyo1A7PdtFH
+ XlPBuMqBaTY1XnJAlmZZJwKQ3zOYUaUVtkIpJDQanY7Sy0bV0F9U3sHDjs3d6nxZVACZ
+ ZwvKEtuwxRVCvpdKHHyHbPf5ebyOXZjJHIiJIq9gJSsu+4TtovlxdFDjIRkVobLq0d9e
+ xzgZaIVySPpTcUVZumrxEA4cqy3dtV/bV1en2wiKlteGuXGSCQS9o8JlaA+7wqftW5nj
+ iQelrEZt8wxBgHSNE+0A1dU3mEcWhDoJgF1B0o9JZqYIAnURv1Okj3fupQ7PKILcnWNp
+ 79Hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727356627; x=1727961427;
+ d=1e100.net; s=20230601; t=1727356678; x=1727961478;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=GM3RKm/IiEU4R2YOL22+MAC/pegYQ57jlvEwwzPJmcA=;
- b=IKnAcgWmGnf9370wy6DlQY7YcVrFU7AgPiVrWZQ66MEYdGq6YH/DHEXEWzv+1JbJ5O
- bOR1nEyaLBeLgFRcTvF+MfXK0TGVgGpgVoEI81rJ3upP4ylxheDJv14WVE+KjSPYajH/
- nduTHx5ef0sVJaPNo8TfJrV41e0pKS0vMWR8vzYzg2IT0hUka+DJhaLrFqP1PlMYPfjl
- MQ+L3jUdihyz14o2Jnpy6g2D3IE2XfOicoLcLZ47kIRDhWUSTTmdKSQOji4IwGSLbodk
- TJVvX4QZPgN03PDdIrch6JNEFzOi0Am3hrSElpRfpN57n89Mxzb8PHq70wJTPutCWkuq
- Se2Q==
-X-Gm-Message-State: AOJu0YzJ0RM4uVq/sv0HAZoSGVmKmR3ggGZch3SEvO/SdulynttQuYt1
- pxRBrW0hvGKNR1m6doPoOFMG44my42nLxPV0xQ/cvAec+Gfib839kpSL4vvtZtw=
-X-Google-Smtp-Source: AGHT+IGPdz6Zq39ZcMHQuEFEhpswvaMhP9fdfa65d/2tYFo2kAqZeFweAnUeXc/K7/bvrZkkLbeHIg==
-X-Received: by 2002:a2e:bc1a:0:b0:2f7:9d1b:da58 with SMTP id
- 38308e7fff4ca-2f915fdb765mr39058931fa.10.1727356626699; 
- Thu, 26 Sep 2024 06:17:06 -0700 (PDT)
+ bh=6F9ROkrOgLwAEiiMBw5UKjMmbtjSJsYbLK3BwJz59BY=;
+ b=C4pdy5GpxY/+3EPiSgY6tpUAxTQUOCz2iFi9NgJjkORdwYUp42oD4RnTs3oGmqKDLn
+ Vpk++CKnSgeUl7E2T66Zhpx+6p8CVHTg3WFGXX6UZzq0EcVfjSWDaiOBl+j++3oHJIvZ
+ cH70mfA3UHznSrdNKjt/NzyL7eb8TBRJ7HeDM/weXYqrcmAQ2DbBCQakx2VKhf/px1ad
+ BBK7bGmnsK8Y6Rv0brQEdj+GPIZU8pGz7EopHBoFKMRDV0ZYBFRnTfRbCO3Mgoifpk+P
+ pc5SH2tquyuQH7R/hQ4SllmKJA7SAPTTPpM7Mz1gtwXZXdv0NHkHw04MvhfFr8awiniC
+ t8WA==
+X-Gm-Message-State: AOJu0YyJlfMDj1Fm6sM7tqiULrZQMq2EbuGL3YZfrZ39tAEDaiBLoin6
+ /nXYcxNqOSdTaZXv3lcxvWFRub6ckaD+71O3447EJKSczBm8CusI+1OW6hILuD0=
+X-Google-Smtp-Source: AGHT+IGwsKLuFlQNfCazagq4cx04nrYn9gcVWfkrYXRM+DVR4pNB1kJbY+0ExKGDNDYOSrGsJuswdg==
+X-Received: by 2002:ac2:4e01:0:b0:536:562d:dd11 with SMTP id
+ 2adb3069b0e04-53873b02f2cmr4208275e87.11.1727356678349; 
+ Thu, 26 Sep 2024 06:17:58 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2f8d284cc21sm8395241fa.58.2024.09.26.06.17.05
+ 2adb3069b0e04-537a86489aesm800888e87.184.2024.09.26.06.17.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Sep 2024 06:17:06 -0700 (PDT)
-Date: Thu, 26 Sep 2024 16:17:03 +0300
+ Thu, 26 Sep 2024 06:17:57 -0700 (PDT)
+Date: Thu, 26 Sep 2024 16:17:56 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Marco Rodolfi <marco.rodolfi.1992@gmail.com>
 Cc: dri-devel@lists.freedesktop.org, Marco Rodolfi <marco.rodolfi@tuta.io>
-Subject: Re: [PATCH] [v3] drm: panel-orientation-quirks: Also handle rotation
- for DeckHD equipped LCDs units
-Message-ID: <hcypfd2xs6koqgoc2oxq4mg6q5eaddymivr27rb6owqz5iybfv@xxc3t2fsyk3v>
-References: <20240926070106.208328-1-marco.rodolfi@tuta.io>
+Subject: Re: [PATCH] [v3] drm: panel-orientation-quirks: Correctly handle
+ rotation for DeckHD equipped LCDs units
+Message-ID: <ndvfmcfe3bzxoirhboavj2lwtaqabhbq63uuzk6fok7jpjkymc@prexx6y5leqa>
+References: <20240926065629.206839-1-marco.rodolfi@tuta.io>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240926070106.208328-1-marco.rodolfi@tuta.io>
+In-Reply-To: <20240926065629.206839-1-marco.rodolfi@tuta.io>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,7 +81,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 26, 2024 at 09:01:06AM GMT, Marco Rodolfi wrote:
+On Thu, Sep 26, 2024 at 08:56:29AM GMT, Marco Rodolfi wrote:
 > Orientation quirk code take panel resolution into account when
 > determining panel orientation. Add orientation configuration for the
 > popular aftermarket DeckHD panel, which resolution (1200x1920) differs
@@ -89,13 +89,44 @@ On Thu, Sep 26, 2024 at 09:01:06AM GMT, Marco Rodolfi wrote:
 > 
 > Signed-off-by: Marco Rodolfi <marco.rodolfi@tuta.io>
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Hmm, two identical patches?
 
-Thanks!
+Let's leave it to the comitter discretion.
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 > ---
 >  drivers/gpu/drm/drm_panel_orientation_quirks.c | 9 ++++++++-
 >  1 file changed, 8 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+> index 3860a8ce1e2d..32582dbdc184 100644
+> --- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
+> +++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+> @@ -420,13 +420,20 @@ static const struct dmi_system_id orientation_data[] = {
+>  		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Galaxy Book 10.6"),
+>  		},
+>  		.driver_data = (void *)&lcd1280x1920_rightside_up,
+> -	}, {	/* Valve Steam Deck (Jupiter) */
+> +	}, {	/* Valve Steam Deck (Jupiter) Stock Display */
+>  		.matches = {
+>  		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Valve"),
+>  		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Jupiter"),
+>  		  DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "1"),
+>  		},
+>  		.driver_data = (void *)&lcd800x1280_rightside_up,
+> +	}, {	/* Valve Steam Deck (Jupiter) DeckHD Display */
+> +		.matches = {
+> +		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Valve"),
+> +		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Jupiter"),
+> +		  DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "1"),
+> +		},
+> +		.driver_data = (void *)&lcd1080x1920_rightside_up,
+>  	}, {	/* Valve Steam Deck (Galileo) */
+>  		.matches = {
+>  		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Valve"),
+> -- 
+> 2.46.2
 > 
 
 -- 
