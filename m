@@ -2,114 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2417598710B
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 12:13:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FFAA98710E
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 12:14:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53DC410EB95;
-	Thu, 26 Sep 2024 10:13:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09B9F10E30E;
+	Thu, 26 Sep 2024 10:14:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="astbiMQM";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jcA+fKz+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 352F410EB95
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 10:13:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1727345586; x=1727950386; i=deller@gmx.de;
- bh=NAO3q60prU3UxFVJOuVmRq7T7yWwvmWgwxqsl4a3IiY=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
- References:From:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=astbiMQMLlJfyAEdm7MbXokAymRxdNB0dulZKJ1yfZmjhcrp1Rg1mqY8pvbOSkN2
- hBlP8j2kwGUppeqCqQZYL/B+nizE9ASeRkdOibff0pWiRpR6lrWS1Y0qe5x7LZiYr
- GUCNAZ/mfKpByXcvhzmcbNfCnPxgcWv4WEtu6fCx1B8sYBn9cIqSbhkev9pLu/ROJ
- T4tplNYm7wFSa4ANuaxrd/F4xPiOo1W6K82x0JJJoQrEcUwtjpt3g6hKGFkpGTNrB
- nvBb4DbI9oV6Lkg2dJMP43gSl54v2L+sYPse/OspiVcxWW4i148kIPdX/J7rXN/TT
- 24OXG4zoo0IdKK76Nw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [10.8.0.6] ([78.94.87.245]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MTRR0-1sUVw63C5U-00YrCC; Thu, 26
- Sep 2024 12:13:06 +0200
-Message-ID: <34a7d276-ee26-4a8d-b996-87faa5b224c4@gmx.de>
-Date: Thu, 26 Sep 2024 12:13:04 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F0F110E097;
+ Thu, 26 Sep 2024 10:14:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1727345642; x=1758881642;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=fNa/A38DWkGMUP2hyy5uy10YSKBJ52bKN1PXHzOycNY=;
+ b=jcA+fKz+LEjk/7hDnYzx/bpjLj7tIxj0wNK/9XbfaeaCmSpkPvtXBshl
+ cnj/RDKisKHLcVok11GG8vMYuhfrJWpbrip8AIPLK7rwQx8xN8g9rKgm3
+ yAliDXlvDFv1IpkNg18W7bTvcKBzfLXXzPq8u0nfA4VGu1nPFqoIxsSE2
+ mUqNP+/KB61TnHlidXWFDfsONAUKE/m5UmDAYZXA9/prIJA4LxYk8k6ek
+ 9TrJaplbltjmVU/ebJNCVT8lyHawg9ugosoqBLZwyN+g/QbVhVMJ5uaRL
+ dl9+aLVefWQVfxRZV1y3W1yCt+VrzIlLXndMmw2seiQMquAKkH3SYrDbO w==;
+X-CSE-ConnectionGUID: 1bZUPNQpS6qjUZokZo3b1A==
+X-CSE-MsgGUID: 8Bw1lWt1QnaqEx14n/okIA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11206"; a="26526593"
+X-IronPort-AV: E=Sophos;i="6.10,155,1719903600"; d="scan'208";a="26526593"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Sep 2024 03:14:02 -0700
+X-CSE-ConnectionGUID: SFfUd833TW+vSPH4fUAtgw==
+X-CSE-MsgGUID: vUVrWtTxSqyWfItU/7y+0g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,155,1719903600"; d="scan'208";a="72899503"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.124])
+ by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Sep 2024 03:14:00 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Arun R Murthy <arun.r.murthy@intel.com>, intel-xe@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Arun R Murthy <arun.r.murthy@intel.com>
+Subject: Re: [PATCH 1/7] drm/i915/histogram: Define registers for histogram
+In-Reply-To: <20240925150754.1876893-2-arun.r.murthy@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240925150754.1876893-1-arun.r.murthy@intel.com>
+ <20240925150754.1876893-2-arun.r.murthy@intel.com>
+Date: Thu, 26 Sep 2024 13:13:56 +0300
+Message-ID: <87h6a2204b.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/6] fbcon: Make cursor_blink=0 work when configured
- before fb devices appear
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20240923155749.30846-1-ville.syrjala@linux.intel.com>
- <20240923155749.30846-2-ville.syrjala@linux.intel.com>
- <92ed9455-b175-46ef-b0c6-7c79e2b78371@gmx.de> <ZvUwCVNPzp1UGY6h@intel.com>
-Content-Language: en-US
-From: Helge Deller <deller@gmx.de>
-Autocrypt: addr=deller@gmx.de; keydata=
- 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
-In-Reply-To: <ZvUwCVNPzp1UGY6h@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:88zWRIVm6GH/U9lSAFXeVhyG8AOQdPdb8FOKz7/XzO+YSQ+lzBy
- G8MMX0ZOkirwy8VX+qLc8osZBm8yiC5A9JxZdJ4HCj5GDbVXYCqz6278xo7SFt9F9eNNTyJ
- Fw/rOPgodyaz0LxSUPOjZmEHdyC8+AYhpReWa7p0dY972/inrfovQU2J0P92x9uciSzgCaC
- iQqQH4Gm2YTvWI5pTNW7A==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:pyE3dNdhv+U=;HcdszWpQK3549sYFiVmVhIRSmr5
- xDzpcWqxeQ5OArzwMi+NmWhCTcniCCzbWGC15bS0lzF1t2/QqdSy4Ltrb+lQHtGlap482nCwT
- eOnPmfu3sxz7oRrArUEKAJyFsjrUKtO8g+af/h6do0dhp3VGaGaxOC0BJFe0la7XYDLopprku
- IERhRNqpN5j3uKi5NjoGQMuxvcGTojwL8F5sBotdnpw7F6+TzdTe3KHl/RoCuRiYSE90OfA/Z
- 66s1fABb0XMPe6gPpnUR8hbOchRePRFPDIsBK9+KcRvC3wEfKaLdX8+wOGnf9Fx09jwO2tLdC
- bwzeVi0a4HM9jjgwlA9BM+yZCo18daanny+6T4i1QnyHDMsbp+uLSsHc7OqFz8jB2btVXOagL
- uYaT/1Uzpu1vdhbkKMrXOA5YjWQ1UM4vgI0UNJOLYYbhkF/mZVQiRkHdM/zp1o6oEzyRWYibU
- 2QPXnyyI8MvjQNV2pVwQXaI6/S9sfdbqcWz/+p08kTV2JJ2n0miTu6njWyybd8uAMHYuGrOMQ
- BOy3KdGhrohNyDxkU1ZnOOBL3XocH5vUf0B3Dpq5SipKb7FQfxOnjoFlIPn3h27V0xJyqe/tH
- KoC5Au2s4ZOABF4JzoWoeKRaHp3OGUI0TwXW17PwLH3iqlRz3zAOJiyEDFTJEmL4hUOApv5bm
- UJeSUOndKJT7qO03vrxyzFTWscIRSUfZIXpMFH5ez6a0QY6atzWyZ78AETQIGMHTmcr5e6kkx
- csdzyXx8AgQ5ZgY3c0bJ8Tc+ptR0OldprTOQy/wYRBBcVwUQKuk2pbgtsI0ys2u79jb5eOhb/
- wVvsUahgC852lfvvQU99/QoA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,39 +71,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/26/24 11:57, Ville Syrj=C3=A4l=C3=A4 wrote:
-> On Thu, Sep 26, 2024 at 08:08:07AM +0200, Helge Deller wrote:
->> Hi Ville,
->>
->> On 9/23/24 17:57, Ville Syrjala wrote:
->>> Currently setting cursor_blink attribute to 0 before any fb
->>> devices are around does absolutely nothing. When fb devices appear
->>> and fbcon becomes active the cursor starts blinking. Fix the problem
->>> by recoding the desired state of the attribute even if no fb devices
->>> are present at the time.
->>>
->>> Also adjust the show() method such that it shows the current
->>> state of the attribute even when no fb devices are in use.
->>>
->>> Note that store_cursor_blink() is still a bit dodgy:
->>> - seems to be missing some of the other checks that we do
->>>     elsewhere when deciding whether the cursor should be
->>>     blinking or not
->>> - when set to 0 when the cursor is currently invisible due
->>>     to blinking, the cursor will remains invisible. We should
->>>     either explicitly make it visible here, or wait until the
->>>     full blink cycle has finished.
->>
->> are you planning to send follow-up patches to address those shortcoming=
-s?
+On Wed, 25 Sep 2024, Arun R Murthy <arun.r.murthy@intel.com> wrote:
+> Add the register/bit definitions for global histogram.
 >
-> Nope. I don't really care about those as I never plan to
-> turn the cursor blinking back on after turning it off via
-> udev.
+> Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
+> ---
+>  .../drm/i915/display/intel_histogram_reg.h    | 54 +++++++++++++++++++
 
-Sad, but OK. I will look into this when I find time.
-I'd hoped to push those patches upstream during this merge window,
-but then I think I have to delay them at least until kernel 6.13.
+We have 36 files named *_regs.h under display/, and 0 files named
+*_reg.h. We should follow the pattern.
 
-Thanks!
-Helge
+>  1 file changed, 54 insertions(+)
+>  create mode 100644 drivers/gpu/drm/i915/display/intel_histogram_reg.h
+>
+> diff --git a/drivers/gpu/drm/i915/display/intel_histogram_reg.h b/drivers=
+/gpu/drm/i915/display/intel_histogram_reg.h
+> new file mode 100644
+> index 000000000000..ed8f22aa8e75
+> --- /dev/null
+> +++ b/drivers/gpu/drm/i915/display/intel_histogram_reg.h
+> @@ -0,0 +1,54 @@
+> +// SPDX-License-Identifier: MIT
+> +/*
+> + * Copyright =C2=A9 2024 Intel Corporation
+> + */
+> +
+> +#ifndef __INTEL_HISTOGRAM_REG_H__
+> +#define __INTEL_HISTOGRAM_REG_H__
+> +
+> +#include <linux/types.h>
+
+I don't see this used.
+
+But it's probably prudent to #include "intel_display_reg_defs.h" for
+_MMIO_PIPE() etc. like almost all the other _regs.h files do.
+
+> +
+> +/* GLOBAL_HIST related registers */
+> +#define _DPST_CTL_A					0x490C0
+> +#define _DPST_CTL_B					0x491C0
+> +#define DPST_CTL(pipe)					_MMIO_PIPE(pipe, _DPST_CTL_A, _DPST_CTL_B)
+> +#define DPST_CTL_IE_HIST_EN				REG_BIT(31)
+> +#define DPST_CTL_RESTORE				REG_BIT(28)
+> +#define DPST_CTL_IE_MODI_TABLE_EN			REG_BIT(27)
+> +#define DPST_CTL_HIST_MODE				REG_BIT(24)
+> +#define DPST_CTL_ENHANCEMENT_MODE_MASK			REG_GENMASK(14, 13)
+> +#define DPST_CTL_EN_MULTIPLICATIVE			REG_FIELD_PREP(DPST_CTL_ENHANCEMENT=
+_MODE_MASK, 2)
+> +#define DPST_CTL_IE_TABLE_VALUE_FORMAT			REG_BIT(15)
+> +#define DPST_CTL_BIN_REG_FUNC_SEL			REG_BIT(11)
+> +#define DPST_CTL_BIN_REG_FUNC_TC			REG_FIELD_PREP(DPST_CTL_BIN_REG_FUNC_=
+SEL, 0)
+> +#define DPST_CTL_BIN_REG_FUNC_IE			REG_FIELD_PREP(DPST_CTL_BIN_REG_FUNC_=
+SEL, 1)
+> +#define DPST_CTL_BIN_REG_MASK				REG_GENMASK(6, 0)
+> +#define DPST_CTL_BIN_REG_CLEAR				REG_FIELD_PREP(DPST_CTL_BIN_REG_MASK, =
+0)
+> +#define DPST_CTL_IE_TABLE_VALUE_FORMAT_2INT_8FRAC	REG_FIELD_PREP(DPST_CT=
+L_IE_TABLE_VALUE_FORMAT, 1)
+> +#define DPST_CTL_IE_TABLE_VALUE_FORMAT_1INT_9FRAC	REG_FIELD_PREP(DPST_CT=
+L_IE_TABLE_VALUE_FORMAT, 0)
+> +#define DPST_CTL_HIST_MODE_YUV				REG_FIELD_PREP(DPST_CTL_HIST_MODE, 0)
+> +#define DPST_CTL_HIST_MODE_HSV				REG_FIELD_PREP(DPST_CTL_HIST_MODE, 1)
+
+We've tried to establish a uniform style for defining register macros
+since 2017. Just so they're easier for everyone to read. It's documented
+in i915_reg.h. Please indent the register *content* macros so they are
+easier to distinguish from the actual register.
+
+Ditto below.
+
+> +
+> +#define _DPST_GUARD_A					0x490C8
+> +#define _DPST_GUARD_B					0x491C8
+> +#define DPST_GUARD(pipe)				_MMIO_PIPE(pipe, _DPST_GUARD_A, _DPST_GUARD_=
+B)
+> +#define DPST_GUARD_HIST_INT_EN				REG_BIT(31)
+> +#define DPST_GUARD_HIST_EVENT_STATUS			REG_BIT(30)
+> +#define DPST_GUARD_INTERRUPT_DELAY_MASK			REG_GENMASK(29, 22)
+> +#define DPST_GUARD_INTERRUPT_DELAY(val)			REG_FIELD_PREP(DPST_GUARD_INTE=
+RRUPT_DELAY_MASK, val)
+> +#define DPST_GUARD_THRESHOLD_GB_MASK			REG_GENMASK(21, 0)
+> +#define DPST_GUARD_THRESHOLD_GB(val)			REG_FIELD_PREP(DPST_GUARD_THRESHO=
+LD_GB_MASK, val)
+> +
+> +#define _DPST_BIN_A					0x490C4
+> +#define _DPST_BIN_B					0x491C4
+> +#define DPST_BIN(pipe)					_MMIO_PIPE(pipe, _DPST_BIN_A, _DPST_BIN_B)
+> +#define DPST_BIN_DATA_MASK				REG_GENMASK(23, 0)
+> +#define DPST_BIN_BUSY					REG_BIT(31)
+> +
+> +#define INTEL_HISTOGRAM_PIPEA			0x90000000
+> +#define INTEL_HISTOGRAM_PIPEB			0x90000002
+> +#define INTEL_HISTOGRAM_EVENT(pipe)		PIPE(pipe, \
+> +						     INTEL_HISTOGRAM_PIPEA, \
+> +						     INTEL_HISTOGRAM_PIPEB)
+
+This can't be right, but it's unused so wasn't caught.
+
+BR,
+Jani.
+
+
+> +
+> +#endif /* __INTEL_HISTOGRAM_REG_H__ */
+
+--=20
+Jani Nikula, Intel
