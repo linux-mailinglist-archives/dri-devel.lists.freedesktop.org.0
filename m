@@ -2,59 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3520C987878
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 19:40:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36BB29878A7
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 19:52:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5197D10EBC0;
-	Thu, 26 Sep 2024 17:40:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C82E10EBC8;
+	Thu, 26 Sep 2024 17:51:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NFpVW3Xz";
+	dkim=pass (1024-bit key; unprotected) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="pHjOHqES";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9236510EBC0
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 17:40:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1727372419; x=1758908419;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=5+tRCSCx+zYL3XG5Ci53X7WaHH+/mHH7H6Qm2hWmWiI=;
- b=NFpVW3XzH73ulJnmWClNVYTOW/UxoZqXpgFhx1GxwJaPLgd3Vxt87s3R
- i04R97igVHdQ4oZYwaAUiYfzIA9t/PhRsMgEYE3hZL17RiQDldalfh8oB
- 7uExUmQmxlwSWriBsTCacpBz+GNxuzeSxxmzi6M32PuOVTtvEFWC+UC3v
- L1imx2OIu8357FkLePe4Tv1gZQcuNl59x+B5pSpN2kwwrm8BtPilwqsdB
- +zgKG3m3F/UJQU/BcjVsG7jYUYWIPs854RskRreeGDXj/d6pZYbK1RPYs
- zDEq8564HDyhlZZp87kWymwb56RoGzWplqNl0lo2j3YEuaiDYP17QRRQn g==;
-X-CSE-ConnectionGUID: z4M7zVQtQ8+jKMKtEM+hrQ==
-X-CSE-MsgGUID: VIXqe1fvSuml7/jFKTKW6Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="26001065"
-X-IronPort-AV: E=Sophos;i="6.11,156,1725346800"; d="scan'208";a="26001065"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2024 10:40:19 -0700
-X-CSE-ConnectionGUID: N/5HlwNfRm6AH0laOgdcNw==
-X-CSE-MsgGUID: zwBDOUFwSbWZnAvuRkkeoQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,156,1725346800"; d="scan'208";a="72682152"
-Received: from tassilo.jf.intel.com (HELO tassilo) ([10.54.38.190])
- by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2024 10:40:19 -0700
-Date: Thu, 26 Sep 2024 10:40:18 -0700
-From: Andi Kleen <ak@linux.intel.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2] drm: Print bad EDID notices less often
-Message-ID: <ZvWcghjXLntdsNAn@tassilo>
-References: <20240926164202.2668922-1-ak@linux.intel.com>
- <871q161gu5.fsf@intel.com>
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com
+ [157.90.84.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC29C10EBC1
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 17:51:36 +0000 (UTC)
+Received: from wse.fritz.box (pd9e59da1.dip0.t-ipconnect.de [217.229.157.161])
+ (Authenticated sender: wse@tuxedocomputers.com)
+ by mail.tuxedocomputers.com (Postfix) with ESMTPA id 0B05B2FC004A;
+ Thu, 26 Sep 2024 19:44:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+ s=default; t=1727372666;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=H9x97eDU1PbyOXF3v/R8RWr8/PHzoFtqdxlXc7gdyN4=;
+ b=pHjOHqESqmMGfH/HwRdNXvirvmdk0Cb7VAux7obRQqlQrN8ldcFalwCDXAseP/ViksCopa
+ Nthj70LPG8L6X15wGqIz4laUGuViBeAdK2DvXIkSaBG1M+O/KueagrF2YnhNTs+azowVaE
+ /6sax7iDYHuF7It/ipL3XcY9FW4kAzg=
+Authentication-Results: mail.tuxedocomputers.com;
+ auth=pass smtp.auth=wse@tuxedocomputers.com
+ smtp.mailfrom=wse@tuxedocomputers.com
+From: Werner Sembach <wse@tuxedocomputers.com>
+To: 
+Cc: bentiss@kernel.org, dri-devel@lists.freedesktop.org, hdegoede@redhat.com,
+ jelle@vdwaa.nl, jikos@kernel.org, lee@kernel.org,
+ linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-leds@vger.kernel.org, miguel.ojeda.sandonis@gmail.com,
+ ojeda@kernel.org, onitake@gmail.com, pavel@ucw.cz
+Subject: [PATCH 0/1] platform/x86/tuxedo: Add virtual LampArray for TUXEDO NB04
+Date: Thu, 26 Sep 2024 19:44:04 +0200
+Message-Id: <20240926174405.110748-1-wse@tuxedocomputers.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <871q161gu5.fsf@intel.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,34 +60,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> > -static void edid_block_status_print(enum edid_block_status status,
-> > +static void edid_block_status_print(struct drm_connector *connector,
-> > +				    enum edid_block_status status,
-> >  				    const struct edid *block,
-> >  				    int block_num)
-> >  {
-> > +	if (status != EDID_BLOCK_OK &&
-> > +		connector &&
-> > +		!connector->bad_edid_counter++ &&
-> 
-> The status print has no business changing anything. Besides, this
-> function gets called per EDID block, not per EDID.
+Hi,
+took some time but now a first working draft of the suggested new way of
+handling per-key RGB keyboard backlights is finished. See:
+https://lore.kernel.org/all/1fb08a74-62c7-4d0c-ba5d-648e23082dcb@tuxedocomputers.com/
+First time for me sending a whole new driver to the LKML, so please excuse
+mistakes I might have made.
 
-In this case it doesn't matter because the counter only
-prints once per life time of a connector structure, 
-or if it wraps.
+Known bugs:
+- The device has a lightbar which is currently not implemented and
+  therefore stuck to blue once the first backlight control command is send.
 
-I suppose this can be moved into a wrapper.
+What is still missing:
+- The leds fallback
+- Lightbar control
 
-> 
-> > +		!drm_debug_enabled(DRM_UT_KMS))
-> 
-> If we did that, we might just as well change the pr_* prints to
-> drm_dbg_kms() and be done with it.
+Some general noob questions:
 
-But that would prevent it always unless debug is set?
+Initially I though it would be nice to have 2 modules, one jsut being the
+wmi initialization and utility stuff and one just being the backlight logic
+stuff, being loaded automatically via module_alias, but that would still
+require me to create the virtual hid device during the wmi_ab probe, and
+that already needs the ll_driver, so i guess I have to do it statically
+like i did now?
+Or in other words: I would have liked to have a module dependency graph
+like this:
+    tuxedo_nb04_lamp_array depends on tuxedo_nb04_platform (combining *_wmi_init and *_wmi_utility)
+but if i currently split it into modules i would get this:
+    tuxedo_nb04_wmi_ab_init dpends on tuxedo_nb04_wmi_ab_lamp_array depends on tuxedo_nb04_wmi_utility
 
-I was trying to print it according to counter first. This matches
-the existing usage.
+Currently after creating the virtual hdev in the wmi init probe function I
+have to keep track of it and manually destroy it during the wmi init
+remove. Can this be automated devm_kzalloc-style?
 
--Andi
+Kind regards,
+Werner Sembach
+
+
