@@ -2,89 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B83B987A7D
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Sep 2024 23:17:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACC89987B71
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Sep 2024 01:01:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 415D910EBE4;
-	Thu, 26 Sep 2024 21:17:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 181D210E34A;
+	Thu, 26 Sep 2024 23:01:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="a7Gf0edE";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="L1VGlq0y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com
- [209.85.208.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C8B310EBEC;
- Thu, 26 Sep 2024 21:17:14 +0000 (UTC)
-Received: by mail-ed1-f48.google.com with SMTP id
- 4fb4d7f45d1cf-5c87853df28so1506397a12.3; 
- Thu, 26 Sep 2024 14:17:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1727385433; x=1727990233; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=t1y38+8CPxsqSfGk+vokQebE6afY4tdr6oHCYyS40ak=;
- b=a7Gf0edE7DEfTfFo5XAw7W9UTPi28MRnTc/P+KkdD8MLPEgpMaDz5KyZfTEQgOhkfe
- oTjbpXRqWfSkzfV2dMjK0wcGElB9bO07ohGClIm1wQc1Xa5vDRdNqQ1x8+8xVo58fGEJ
- KlOshySdjU9JfGaiGWDlxEQaxfDNi9KSAh8ODKmpu3rspjOrrDH07Uw4OKudHHuccYTN
- ahCAShAmi1XVw7BeBHCnTbTLNnz8ZRi1lfXueULkEFUsNcCslCi1heU/IwtNA7nCPJE1
- K1++Revk8yS6ftw4JK0bBwBHjmv6Fea9KUCDSL0Rf9DgerwQYe6MaF/MeLU/3vdEO2OP
- nL8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727385433; x=1727990233;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=t1y38+8CPxsqSfGk+vokQebE6afY4tdr6oHCYyS40ak=;
- b=aQ/mQ+m+Y9r+IUDPTZz//KvlxJQMTooXAlf044uQ5/HFHQxUOpx7azu3em6eM3dF8S
- Jq9T8Sj5FNweXreysn//yFkQpeGCf6SUcof6OgNWl7Jqxw2vaf6+XIFsm2Y6VaMb22rt
- ygRIdthEvIwsbJoFmHQovbevUZgYcvPs4OLq5ClgCx33EQYGXLCs2hlgJzTw6Lx9ZxVP
- P7VUqfT9K52d11WzVG2orFDG7svGxhvHJZ8IZL/30mD/0ydR/uaT9Bc6+QM5k/XZ9ZFF
- Y64xo6szrFfdfANj1Va07u5Hvre6KVYL21wzutbwkTIQ+9pdUsBb/MSe9OvJiytEGN6P
- CPrg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU+qVO8rGg4/iOKPcWeKdSa3qkwXn+F+j/rs68G1SaWhSNPPR/P/1p0sTCdrfKkIu/FSKKQXhAiL40=@lists.freedesktop.org,
- AJvYcCUJyp9ziHUoxTaPMaCJyvvjcUWiGUnNwjR8UBV7zdMEjRpstDS1So7G2ILlYdCAx7uJvzvX4Q7G2Aqe@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwpitdAto+B4fsRTwwHnH0Cgcb8bSwZLQPeSTTezUXyQnJp6bii
- ep2XosEBjALhd9dEZBxWV/SBJoeZwnHI5f0ZBV+6N/Mtr2o/POBn
-X-Google-Smtp-Source: AGHT+IHd3Rvcn5XVmBayRlLA8FCQvjfZTAZhWhCfmTZTb+A9RlB5zCUxujku9Gaium5iHJuqqqLnaQ==
-X-Received: by 2002:a17:907:3f1c:b0:a8a:8d81:97b1 with SMTP id
- a640c23a62f3a-a93c4929876mr63235566b.27.1727385432800; 
- Thu, 26 Sep 2024 14:17:12 -0700 (PDT)
-Received: from [192.168.1.17] (a-lu6-5.tin.it. [212.216.221.196])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a93c297b7d6sm38862166b.162.2024.09.26.14.17.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Sep 2024 14:17:12 -0700 (PDT)
-From: Antonino Maniscalco <antomani103@gmail.com>
-Date: Thu, 26 Sep 2024 23:16:53 +0200
-Subject: [PATCH v6 11/11] Documentation: document adreno preemption
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E7B610E34A;
+ Thu, 26 Sep 2024 23:01:46 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48QG9mG7026541;
+ Thu, 26 Sep 2024 23:01:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ bDhnhxaLSsQjl7xe4xa9yaUsNXJSZfAHaDNanf+MtVA=; b=L1VGlq0yeiNIwbWD
+ rauKzq2Npx92dXPG2lryye+al+tOxfhhN9iKJfacVJR0/J9ZOC2Ca7DN7ICbUYt1
+ fd4qRogLR3EGLww/vfyLSqOejT9EajrE2A4iisWpTarlDlidDX0maKIrT5eDLFVz
+ EHFs9NRc8SDF9/aJpM/CMuI2RRDpbY+x/l8hBLB0nNXc2BZR04bDnvfaknKCBwIL
+ RTt//+k6m9HJrAjlWIWNfwSTRTNP5kig2z1sIvdnOBZ5IYeHPKhgBbRgtouVydox
+ jyH5jDY0utWXZKkcxK+lhUtyxGRpLtfKMn8Mqb16HuZ5klrQkfH5H3FPgK/g6reY
+ 2ac6hg==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41sn5c151y-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 26 Sep 2024 23:01:30 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 48QN1TuF007471
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 26 Sep 2024 23:01:29 GMT
+Received: from [10.134.71.247] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 26 Sep
+ 2024 16:01:27 -0700
+Message-ID: <e9f38fe1-10fb-49ad-b209-0e2786ec6f94@quicinc.com>
+Date: Thu, 26 Sep 2024 16:01:27 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] docs/gpu: ci: update flake tests requirements
+To: Vignesh Raman <vignesh.raman@collabora.com>,
+ <dri-devel@lists.freedesktop.org>
+CC: <daniels@collabora.com>, <helen.koike@collabora.com>, <airlied@gmail.com>, 
+ <daniel@ffwll.ch>, <robdclark@gmail.com>,
+ <guilherme.gallo@collabora.com>, <sergi.blanch.torne@collabora.com>,
+ <deborah.brouwer@collabora.com>, <dmitry.baryshkov@linaro.org>,
+ <mripard@kernel.org>, <rodrigo.vivi@intel.com>,
+ <linux-mediatek@lists.infradead.org>, <linux-amlogic@lists.infradead.org>,
+ <linux-rockchip@lists.infradead.org>, <amd-gfx@lists.freedesktop.org>,
+ <linux-arm-msm@vger.kernel.org>, <intel-gfx@lists.freedesktop.org>,
+ <virtualization@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+References: <20240926070653.1773597-1-vignesh.raman@collabora.com>
+Content-Language: en-US
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20240926070653.1773597-1-vignesh.raman@collabora.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240926-preemption-a750-t-v6-11-7b6e1ef3648f@gmail.com>
-References: <20240926-preemption-a750-t-v6-0-7b6e1ef3648f@gmail.com>
-In-Reply-To: <20240926-preemption-a750-t-v6-0-7b6e1ef3648f@gmail.com>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, Antonino Maniscalco <antomani103@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1727385413; l=5024;
- i=antomani103@gmail.com; s=20240815; h=from:subject:message-id;
- bh=8km0caqw4X9w5WLWDqoPcdYkk+OV9Jah8JF02dHf5Ug=;
- b=Lt2D7NHqjRDyEdo8cQYMMSdZw3NNs6XhtsGwMu+y81ZG16C559zs/+HXTnCCjsmP6akW8ICaO
- 2JBwnxnNJqBD77nH1dnuqrL5TKfPf6S0VoDbO2IpfUNbGlLFVsxox1S
-X-Developer-Key: i=antomani103@gmail.com; a=ed25519;
- pk=0zicFb38tVla+iHRo4kWpOMsmtUrpGBEa7LkFF81lyY=
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: pSkChFDu4ef4NamDTDMy0qtaNpRfUdmK
+X-Proofpoint-GUID: pSkChFDu4ef4NamDTDMy0qtaNpRfUdmK
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ suspectscore=0 adultscore=0 impostorscore=0 malwarescore=0 mlxlogscore=999
+ spamscore=0 mlxscore=0 priorityscore=1501 bulkscore=0 phishscore=0
+ clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2408220000 definitions=main-2409260160
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,120 +97,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add documentation about the preemption feature supported by the msm
-driver.
 
-Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
----
- Documentation/gpu/msm-preemption.rst | 99 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 99 insertions(+)
 
-diff --git a/Documentation/gpu/msm-preemption.rst b/Documentation/gpu/msm-preemption.rst
-new file mode 100644
-index 0000000000000000000000000000000000000000..e9b5d7bc7dc6c7740a0e8ba75d3a74e9ad267b90
---- /dev/null
-+++ b/Documentation/gpu/msm-preemption.rst
-@@ -0,0 +1,99 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+:orphan:
-+
-+=============
-+MSM Preemtion
-+=============
-+
-+Preemption allows Adreno GPUs to switch to an higher priority ring when work is
-+pushed to it, reducing latency for high priority submissions.
-+
-+When preemption is enabled 4 rings are initialized, corresponding to different
-+priority levels. Having multiple rings is purely a software concept as the GPU
-+only has registers to keep track of one graphics ring.
-+The kernel is able to switch which ring is currently being processed by
-+requesting preemption. When certain conditions are met, depending on the
-+priority level, the GPU will save its current state in a series of buffers,
-+then restores state from a similar set of buffers specified by the kernel. It
-+then resumes execution and fires an IRQ to let the kernel know the context
-+switch has completed.
-+
-+This mechanism can be used by the kernel to switch between rings. Whenever a
-+submission occurs the kernel finds the highest priority ring which isn't empty
-+and preempts to it if said ring is not the one being currently executed. This is
-+also done whenever a submission completes to make sure execution resumes on a
-+lower priority ring when a higher priority ring is done.
-+
-+Preemption levels
-+-----------------
-+
-+Preemption can only occur at certain boundaries. The exact conditions can be
-+configured by changing the preemption level, this allows to compromise between
-+latency (ie. the time that passes between when the kernel requests preemption
-+and when the SQE begins saving state) and overhead (the amount of state that
-+needs to be saved).
-+
-+The GPU offers 3 levels:
-+
-+Level 0
-+  Preemption only occurs at the submission level. This requires the least amount
-+  of state to be saved as the execution of userspace submitted IBs is never
-+  interrupted, however it offers very little benefit compared to not enabling
-+  preemption of any kind.
-+
-+Level 1
-+  Preemption occurs at either bin level, if using GMEM rendering, or draw level
-+  in the sysmem rendering case.
-+
-+Level 2
-+  Preemption occurs at draw level.
-+
-+Level 1 is the mode that is used by the msm driver.
-+
-+Additionally the GPU allows to specify a `skip_save_restore` option. This
-+disables the saving and restoring of all registers except those relating to the
-+operation of the SQE itself, reducing overhead. Saving and restoring is only
-+skipped when using GMEM with Level 1 preemption. When enabling this userspace is
-+expected to set the state that isn't preserved whenever preemption occurs which
-+is done by specifying preamble and postambles. Those are IBs that are executed
-+before and after preemption.
-+
-+Preemption buffers
-+------------------
-+
-+A series of buffers are necessary to store the state of rings while they are not
-+being executed. There are different kinds of preemption records and most of
-+those require one buffer per ring. This is because preemption never occurs
-+between submissions on the same ring, which always run in sequence when the ring
-+is active. This means that only one context per ring is effectively active.
-+
-+SMMU_INFO
-+  This buffer contains info about the current SMMU configuration such as the
-+  ttbr0 register. The SQE firmware isn't actually able to save this record.
-+  As a result SMMU info must be saved manually from the CP to a buffer and the
-+  SMMU record updated with info from said buffer before triggering
-+  preemption.
-+
-+NON_SECURE
-+  This is the main preemption record where most state is saved. It is mostly
-+  opaque to the kernel except for the first few words that must be initialized
-+  by the kernel.
-+
-+SECURE
-+  This saves state related to the GPU's secure mode.
-+
-+NON_PRIV
-+  The intended purpose of this record is unknown. The SQE firmware actually
-+  ignores it and therefore msm doesn't handle it.
-+
-+COUNTER
-+  This record is used to save and restore performance counters.
-+
-+Handling the permissions of those buffers is critical for security. All but the
-+NON_PRIV records need to be inaccessible from userspace, so they must be mapped
-+in the kernel address space with the MSM_BO_MAP_PRIV flag.
-+For example, making the NON_SECURE record accessible from userspace would allow
-+any process to manipulate a saved ring's RPTR which can be used to skip the
-+execution of some packets in a ring and execute user commands with higher
-+privileges.
+On 9/26/2024 12:06 AM, Vignesh Raman wrote:
+> Update the documentation to require linking to a relevant GitLab
+> issue for each new flake entry instead of an email report. Added
+> specific GitLab issue URLs for i915, xe and other drivers.
+> 
+> Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
+> ---
+> 
+> v2:
+> - Add gitlab issue link for msm driver.
+> 
+> ---
+>   Documentation/gpu/automated_testing.rst | 16 +++++++++++-----
+>   1 file changed, 11 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/gpu/automated_testing.rst b/Documentation/gpu/automated_testing.rst
+> index 2d5a28866afe..f918fe56f2b0 100644
+> --- a/Documentation/gpu/automated_testing.rst
+> +++ b/Documentation/gpu/automated_testing.rst
+> @@ -67,20 +67,26 @@ Lists the tests that for a given driver on a specific hardware revision are
+>   known to behave unreliably. These tests won't cause a job to fail regardless of
+>   the result. They will still be run.
+>   
+> -Each new flake entry must be associated with a link to the email reporting the
+> -bug to the author of the affected driver, the board name or Device Tree name of
+> -the board, the first kernel version affected, the IGT version used for tests,
+> -and an approximation of the failure rate.
+> +Each new flake entry must include a link to the relevant GitLab issue, the board
+> +name or Device Tree name, the first kernel version affected, the IGT version used
+> +for tests and an approximation of the failure rate.
+>   
+>   They should be provided under the following format::
+>   
+> -  # Bug Report: $LORE_OR_PATCHWORK_URL
+> +  # Bug Report: $GITLAB_ISSUE
+>     # Board Name: broken-board.dtb
+>     # Linux Version: 6.6-rc1
+>     # IGT Version: 1.28-gd2af13d9f
+>     # Failure Rate: 100
+>     flaky-test
+>   
+> +The GitLab issue must include the logs and the pipeline link. Use the appropriate
+> +link below to create an issue.
+> +https://gitlab.freedesktop.org/drm/i915/kernel/-/issues for i915 driver
+> +https://gitlab.freedesktop.org/drm/xe/kernel/-/issues for xe driver
+> +https://gitlab.freedesktop.org/drm/msm/-/issues for msm driver
+> +https://gitlab.freedesktop.org/drm/misc/kernel/-/issues for other drivers
+> +
 
--- 
-2.46.1
+Acked for MSM.
 
+Thanks
+
+Abhinav
+>   drivers/gpu/drm/ci/${DRIVER_NAME}-${HW_REVISION}-skips.txt
+>   -----------------------------------------------------------
+>   
