@@ -2,60 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36121988B54
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Sep 2024 22:40:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A08A988B64
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Sep 2024 22:44:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 164B910ED1A;
-	Fri, 27 Sep 2024 20:40:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 436E210E355;
+	Fri, 27 Sep 2024 20:44:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="cgrUPueo";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="D0Zht2J1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 82B2610ED1A
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Sep 2024 20:40:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1727469611;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=yRSI0RXAYJUqZWDNqYmjtNLAHKeav7N5jvF/NFDhhMM=;
- b=cgrUPueoWa+qsXH5jNRo3U8f0tKX5yD29TmmAGTnE6aiqmJY0FE/GLLJhyXumnwrUpDKU4
- xbjTOdSmi+yZJNJ9MQbR2IMPvdCXPF8D3ATguZxrh319Nf1MyuTALoAYwgiYSo2DKIe4uV
- X65LboOCKX4ODyC2HvJtg8PNREbMg60=
-Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-265-IDD_XYF6N_OKUqGWhIqPIw-1; Fri,
- 27 Sep 2024 16:40:10 -0400
-X-MC-Unique: IDD_XYF6N_OKUqGWhIqPIw-1
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (unknown
- [10.30.177.17])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 9D83C1934C81; Fri, 27 Sep 2024 20:40:08 +0000 (UTC)
-Received: from chopper.redhat.com (unknown [10.22.32.36])
- by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 6C21219560A3; Fri, 27 Sep 2024 20:40:05 +0000 (UTC)
-From: Lyude Paul <lyude@redhat.com>
-To: dri-devel@lists.freedesktop.org
-Cc: Stefan Agner <stefan@agner.ch>, Daniel Vetter <daniel.vetter@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, stable@vger.kernel.org,
- linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] drm/vblank: Require a driver register vblank support for 0 or
- all CRTCs
-Date: Fri, 27 Sep 2024 16:39:47 -0400
-Message-ID: <20240927203946.695934-2-lyude@redhat.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EC2D10E355
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Sep 2024 20:44:38 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48RFCU8B026493;
+ Fri, 27 Sep 2024 20:44:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ sr31WZFyEgHiuymLc8h5lpq5eYIFj5GygsUYPRdugSo=; b=D0Zht2J1051Lowet
+ ldQFLEs0C8yxmRCNyj/Su05XXHxdiABxPXt3hK/1hPvtw21HV2soczvJ/mfcdhBl
+ +IbI+0jzC2Ga2WNKbTXjx+ENPzwBx+5BqpYobNEE/izRbxpL4Mz4PZtOJWnTgO6/
+ LRCXEBr4oNBIbYCvrfsHQQxq6xSjS5ICgcX8Hu8n2w13juj7WaHzkedZ5Hdk5ZgG
+ wghqr/4KXSbkinswvpicP8QMlq6hzRcvfr+obRHbLRsEzTFKoQMwkszH8x/Zfu87
+ B29FXBgc4c9zwdUXTUj9Z5f7bsTdxZNB+DGt+jd+DeS/6GauHicBwoR9HzF90mM7
+ zAQHBw==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41sn5c46vh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 27 Sep 2024 20:44:34 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 48RKiX8D022779
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 27 Sep 2024 20:44:33 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 27 Sep
+ 2024 13:44:32 -0700
+Message-ID: <8a11b370-531e-91e3-40d8-d65c96065e30@quicinc.com>
+Date: Fri, 27 Sep 2024 14:44:31 -0600
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH 06/29] accel/ivpu: Fix JSM state dump message warnings
+Content-Language: en-US
+To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ <dri-devel@lists.freedesktop.org>
+CC: <oded.gabbay@gmail.com>, Tomasz Rusinowicz <tomasz.rusinowicz@intel.com>
+References: <20240924081754.209728-1-jacek.lawrynowicz@linux.intel.com>
+ <20240924081754.209728-7-jacek.lawrynowicz@linux.intel.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20240924081754.209728-7-jacek.lawrynowicz@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: -gC_IVh9HQetcZMI9MI6boXrxHEWCLQR
+X-Proofpoint-GUID: -gC_IVh9HQetcZMI9MI6boXrxHEWCLQR
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ suspectscore=0 adultscore=0 impostorscore=0 malwarescore=0 mlxlogscore=861
+ spamscore=0 mlxscore=0 priorityscore=1501 bulkscore=0 phishscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2408220000 definitions=main-2409270152
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,56 +91,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, there's nothing actually stopping a driver from only registering
-vblank support for some of it's CRTCs and not for others. As far as I can
-tell, this isn't really defined behavior on the C side of things - as the
-documentation explicitly mentions to not use drm_vblank_init() if you don't
-have vblank support - since DRM then steps in and adds its own vblank
-emulation implementation.
+On 9/24/2024 2:17 AM, Jacek Lawrynowicz wrote:
+> From: Tomasz Rusinowicz <tomasz.rusinowicz@intel.com>
+> 
+> We are disabling IRQs prior to queuing recovery work, so state dump
+> messages always timed out with a warning. Use simple msleep() to prevent
+> IPC warnings.
 
-So, let's fix this edge case and check to make sure it's all or none.
+It looks to me like this patch is adding state dump messages, but this 
+commit text reads like they already exist, but there is a logic flaw.
 
-Signed-off-by: Lyude Paul <lyude@redhat.com>
-Fixes: 3ed4351a83ca ("drm: Extract drm_vblank.[hc]")
-Cc: Stefan Agner <stefan@agner.ch>
-Cc: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v4.13+
----
- drivers/gpu/drm/drm_vblank.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+Did you perhaps copy the commit text for some internal fix that added 
+the msleep line, but implement the entire feature?
 
-diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
-index 94e45ed6869d0..4d00937e8ca2e 100644
---- a/drivers/gpu/drm/drm_vblank.c
-+++ b/drivers/gpu/drm/drm_vblank.c
-@@ -525,9 +525,19 @@ static void drm_vblank_init_release(struct drm_device *dev, void *ptr)
-  */
- int drm_vblank_init(struct drm_device *dev, unsigned int num_crtcs)
- {
-+	struct drm_crtc *crtc;
- 	int ret;
- 	unsigned int i;
- 
-+	// Confirm that the required vblank functions have been filled out for all CRTCS
-+	drm_for_each_crtc(crtc, dev) {
-+		if (!crtc->funcs->enable_vblank || !crtc->funcs->disable_vblank) {
-+			drm_err(dev, "CRTC vblank functions not initialized for %s, abort\n",
-+				crtc->name);
-+			return -EINVAL;
-+		}
-+	}
-+
- 	spin_lock_init(&dev->vbl_lock);
- 	spin_lock_init(&dev->vblank_time_lock);
- 
-
-base-commit: 22512c3ee0f47faab5def71c4453638923c62522
--- 
-2.46.1
-
+-Jeff
