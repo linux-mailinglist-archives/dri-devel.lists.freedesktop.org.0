@@ -2,49 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77E3F988BBC
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Sep 2024 23:13:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43FA1988BB0
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Sep 2024 23:07:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A9FF10ED26;
-	Fri, 27 Sep 2024 21:13:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C2B210E28D;
+	Fri, 27 Sep 2024 21:07:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ucw.cz header.i=@ucw.cz header.b="kAuFu+HO";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="pRJw/Afb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A9A010ED26
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Sep 2024 21:13:05 +0000 (UTC)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
- id DB0A41C00B3; Fri, 27 Sep 2024 23:03:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
- t=1727470995;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=SDyrJfOzttkCBWAPJJENDhELp/mHPzDrymXHNYlDyd0=;
- b=kAuFu+HO2SGrke+T3SD9lIoFQTaLsBFA29Qft2q5QnPTKWu1hhQd6pUo0XNcwRej/Y+8Qg
- 15G/kZT5ylTIcwJscQ2g5aLTHBNv9zjaXJQnNvzkADK3p5YfuAUhF2qZ3O8IXrqsBZuA7e
- YDhk0rfYqlCb06k9Ff4q3ppQ4fnq5WI=
-Date: Fri, 27 Sep 2024 23:03:14 +0200
-From: Pavel Machek <pavel@ucw.cz>
-To: Benjamin Tissoires <bentiss@kernel.org>
-Cc: Werner Sembach <wse@tuxedocomputers.com>,
- dri-devel@lists.freedesktop.org, hdegoede@redhat.com,
- jelle@vdwaa.nl, jikos@kernel.org, lee@kernel.org,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-leds@vger.kernel.org, miguel.ojeda.sandonis@gmail.com,
- ojeda@kernel.org, onitake@gmail.com
-Subject: Re: [PATCH 0/1] platform/x86/tuxedo: Add virtual LampArray for
- TUXEDO NB04
-Message-ID: <ZvcdknJWzaLbhgyE@amd.ucw.cz>
-References: <20240926174405.110748-1-wse@tuxedocomputers.com>
- <et3cv7i2lhsjoq26toweh4uv72yo34u3wqrj3q2urfnx2bhiq3@fdtkag4bcekh>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C73610E28D
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Sep 2024 21:07:33 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48RFopx5023001;
+ Fri, 27 Sep 2024 21:07:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ ZI6gvPJ/L/6YYOL/reLAbvCG7kOoUXImavGPAzuu8Vc=; b=pRJw/Afb+Iflisvj
+ j+9EBSDhholo5qy5Oge5I7KayGGvXmvrIdQ3M7XrvabGp+Q1QHczxIgYmzoLvmpZ
+ aOxPusXIcrACLFP2GIwtcULGfyR4UEOM+voIs8cR0g5TsCYWiDPQcywzuPVHgmlR
+ 5q5dpo+/m2A/qOXncF+6ALF6+QygG22StECBAqSoU43ilZfLZl/1EFllJND7bHYp
+ fJmxHqA7E+TSz7fzMKaQsYcnAa4x9GK2zrNUkUzVpcQDIAeIDGYCy5t3IAt/hyxR
+ HBRbIXtlbVgQJ3evjRisV3loE2BETuI2ACKAmWqZlA4RdMFZoDDlDwwyvjsn8zt4
+ f9msVA==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41spwf3ucc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 27 Sep 2024 21:07:30 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 48RL7UXB007598
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 27 Sep 2024 21:07:30 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 27 Sep
+ 2024 14:07:29 -0700
+Message-ID: <c8038ba3-db7e-5314-4bba-8d0a2521c862@quicinc.com>
+Date: Fri, 27 Sep 2024 15:07:29 -0600
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
- protocol="application/pgp-signature"; boundary="8et7i8b3htfBrpbi"
-Content-Disposition: inline
-In-Reply-To: <et3cv7i2lhsjoq26toweh4uv72yo34u3wqrj3q2urfnx2bhiq3@fdtkag4bcekh>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH 11/29] accel/ivpu: Remove 1-tile power up Simics workaround
+Content-Language: en-US
+To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ <dri-devel@lists.freedesktop.org>
+CC: <oded.gabbay@gmail.com>, Karol Wachowski <karol.wachowski@intel.com>
+References: <20240924081754.209728-1-jacek.lawrynowicz@linux.intel.com>
+ <20240924081754.209728-12-jacek.lawrynowicz@linux.intel.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20240924081754.209728-12-jacek.lawrynowicz@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: w-N7ki8Ub1q6cOaF6unxbV_PQhLRmqnK
+X-Proofpoint-ORIG-GUID: w-N7ki8Ub1q6cOaF6unxbV_PQhLRmqnK
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ suspectscore=0 adultscore=0 priorityscore=1501 clxscore=1015
+ malwarescore=0 mlxscore=0 mlxlogscore=726 impostorscore=0 phishscore=0
+ spamscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2408220000 definitions=main-2409270154
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,83 +91,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 9/24/2024 2:17 AM, Jacek Lawrynowicz wrote:
+> From: Karol Wachowski <karol.wachowski@intel.com>
+> 
+> Previously Simics was not providing workpoint for configurations
+> with 0 tiles enabled, that had to be worked around in the KMD.
+> This got fixed in Simics and workaround is no longer needed.
+> 
+> Signed-off-by: Karol Wachowski <karol.wachowski@intel.com>
+> Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 
---8et7i8b3htfBrpbi
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Fri 2024-09-27 18:08:52, Benjamin Tissoires wrote:
-> On Sep 26 2024, Werner Sembach wrote:
-> > Hi,
-> > took some time but now a first working draft of the suggested new way of
-> > handling per-key RGB keyboard backlights is finished. See:
-> > https://lore.kernel.org/all/1fb08a74-62c7-4d0c-ba5d-648e23082dcb@tuxedo=
-computers.com/
-> > First time for me sending a whole new driver to the LKML, so please exc=
-use
-> > mistakes I might have made.
-> >=20
-> > Known bugs:
-> > - The device has a lightbar which is currently not implemented and
-> >   therefore stuck to blue once the first backlight control command is s=
-end.
-> >=20
-> > What is still missing:
-> > - The leds fallback
-> > - Lightbar control
-> >=20
-> > Some general noob questions:
-> >=20
-> > Initially I though it would be nice to have 2 modules, one jsut being t=
-he
-> > wmi initialization and utility stuff and one just being the backlight l=
-ogic
-> > stuff, being loaded automatically via module_alias, but that would still
-> > require me to create the virtual hid device during the wmi_ab probe, and
-> > that already needs the ll_driver, so i guess I have to do it statically
-> > like i did now?
-> > Or in other words: I would have liked to have a module dependency graph
-> > like this:
-> >     tuxedo_nb04_lamp_array depends on tuxedo_nb04_platform (combining *=
-_wmi_init and *_wmi_utility)
-> > but if i currently split it into modules i would get this:
-> >     tuxedo_nb04_wmi_ab_init dpends on tuxedo_nb04_wmi_ab_lamp_array dep=
-ends on tuxedo_nb04_wmi_utility
->=20
-> On more general question to you: how much confident are you about your
-> LampArray implementation?
->=20
-> If you still need to add/fix stuff in it, I would advise you to have a
-> simple HID device, with bare minimum functionality, and then add the
-> LampArray functionality on top through HID-BPF. This way you can fix
-> LampArray out of band with the kernel, while having a more stable kernel
-> module. This should be possible with v6.11+.
->=20
-> Another solution is to still have your wmi-to-hid module, and then a
-> HID kernel module in drivers/hid that supports LampArray.
->=20
-> But I would strongly suggest while you are figuring out the userspace
-> part to stick to HID-BPF, and then once you are happy we can move to a
-> full kernel module.
-
-What about creating real kernel driver with real interface to
-userland, instead? My preference would be treating this as a display,
-but nearly anything is better than _this_.
-
-Best regards,
-								Pavel
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
-
---8et7i8b3htfBrpbi
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZvcdkgAKCRAw5/Bqldv6
-8rBlAKCfdrgp9aTsCLmDnhs2OYYXhvpJUgCglw2O3Bhu87qBixOdtRPMx4XXxIk=
-=fk2l
------END PGP SIGNATURE-----
-
---8et7i8b3htfBrpbi--
+Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
