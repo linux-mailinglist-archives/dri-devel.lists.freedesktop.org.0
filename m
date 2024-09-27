@@ -2,64 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9806E988029
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Sep 2024 10:20:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D342298805D
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Sep 2024 10:35:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4298D10E19E;
-	Fri, 27 Sep 2024 08:20:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B12010EC4D;
+	Fri, 27 Sep 2024 08:35:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="j6rL3U7y";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="VxwCa7ya";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8374310E145;
- Fri, 27 Sep 2024 08:20:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1727425244; x=1758961244;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=ciKZ7fyG7EQCIIC1pnDqm3+FhRp/aFH6oclRu+SsR4s=;
- b=j6rL3U7yehIPIp1k4g3iCIf+POKDSM6HrRTACfTYhOKOnT2VQtvt8ACU
- uPfOaNbNjcBdRmx3X67AyMvoEmQGhOwvw+nXmb3c7uQ4B3Gn4x1h3nxDy
- 4VYGDiIwLx3Wapk5XJcr1axnG2RxVuWt+c2Ylm4+FXdnM1a7XUJAFj8Gu
- l0EO/lU289YA189BYZyvu6iW37iYA5JSB6Vo9eGnkXQ3r8fWhMOAudETb
- le/KrcD17nKRCo0m012ZZ7e+qOBfbpSQYPKnQbU/3mRFCiKBNX+I9CpsZ
- 2vaje3WQATie1poli1UGGNOFwHU3/8VJvo3OSvUQm2l6T6/NMC/kvHNQC w==;
-X-CSE-ConnectionGUID: WRfmd6VqTIWdMyk3wPChSA==
-X-CSE-MsgGUID: MUmUUhwuRnatWx9rLLeVZg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="44030167"
-X-IronPort-AV: E=Sophos;i="6.11,158,1725346800"; d="scan'208";a="44030167"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Sep 2024 01:20:43 -0700
-X-CSE-ConnectionGUID: dPic5LqbQs2pNBTZTNz8sg==
-X-CSE-MsgGUID: El3NEdyzRgua84QjVM1kkg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,158,1725346800"; d="scan'208";a="103248182"
-Received: from bergbenj-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.246.211])
- by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Sep 2024 01:20:38 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Alessandro Zanni <alessandro.zanni87@gmail.com>, rodrigo.vivi@intel.com,
- joonas.lahtinen@linux.intel.com, tursulin@ursulin.net, airlied@gmail.com,
- simona@ffwll.ch
-Cc: Alessandro Zanni <alessandro.zanni87@gmail.com>,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- skhan@linuxfoundation.org, anupnewsmail@gmail.com, Ville Syrjala
- <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH] gpu: drm: i915: display: Avoid null values
- intel_plane_atomic_check_with_state
-In-Reply-To: <20240927000146.50830-1-alessandro.zanni87@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240927000146.50830-1-alessandro.zanni87@gmail.com>
-Date: Fri, 27 Sep 2024 11:20:32 +0300
-Message-ID: <87tte1zewf.fsf@intel.com>
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com
+ [209.85.128.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92D6310EC4D
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Sep 2024 08:35:35 +0000 (UTC)
+Received: by mail-yw1-f176.google.com with SMTP id
+ 00721157ae682-6d6a3ab427aso15387407b3.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Sep 2024 01:35:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1727426134; x=1728030934; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=5XUd7Nnduy5xO4AHIf3r18vL5fGi0trQPBiW3OSmV8o=;
+ b=VxwCa7yawjT1FPkxuWrCL0WOSrmY8en6UBw4OdLQVYkhMy1B4ypFJJngCvcSJpGcZi
+ wg7bQgixjdWSU5KMhB4K7Jes93yHyVOc8z1oyTcBkLt0tcrHWIG22DTXCH7Wy1XB2Ixo
+ PjfQrgyUZM9ItefQ9jzadoG7H4Cwct+hXH8/99XEVUDkvAjHGh/XLtBVOjB7ZLMqRER4
+ ELIjVdAkCyd2cqsFKdE2O2vFf+DNElW9x/jsGAvDZ50pnUvlODtotnXnZcG9wBbKTXcp
+ D/hXBaD/lszyid/pHiH+anVsuesc5eQ4gV6s5W9J80NvsRcIEK3HHuASlfDJj3suUJRr
+ s8nA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1727426134; x=1728030934;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=5XUd7Nnduy5xO4AHIf3r18vL5fGi0trQPBiW3OSmV8o=;
+ b=uyRvnQBQruWC3leKHQtq4utnGIavAU2oq1eyU0Phym8xGa+fgRHFcYkccbPFpsM/PV
+ 4KMljD3ikAyk0dHmqSHO98Cn8O/U6sXHkTf0hX+G9phtTJSDKNqu/7/D4lk2LWaKkS8A
+ yo8Zl7t68rQ2/v/UefQk5M2XZoiYcA5B09mFYIh+EdPVfZWX2q0/arVQEJz1NX6+QoH1
+ Qjcc+6CikOt8IRdy5pkB1Q6NwZg4Kqi03uOg/I4nxZ8p/bTERO17S2aoTP1BERj9NXIa
+ Bm6ey0if/jZ1yduz+/LMgl4AtvoRNqwBkUcQEm/G8u0a8JACyNEScV/gq2JpgQgDS6LV
+ nZEQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVV/JpIidR5fDynfW/sveRH+qhghPrHnGhL71E2cjIco9H3PtwqIWXUknezDb32IIB6Bs/4n+Ia06I=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YymbCKfyJMgYiRqiReMSEDtEn69RiPd6dlSpAGrzgWhplYkQtu2
+ irdvACcIhoBH/8XIgWnVY3HxOY1vj0zFJuFKuF4gES+zIIw5UwIemIa5Ym23f6XdXj2j0zzVkBk
+ Uhg9jCJ2+SqagwGgQEItNWCvJrNrEMRNOFlvwNw==
+X-Google-Smtp-Source: AGHT+IEzctUgceHZg4s1ya4eisdGWijfQ2geGrfzjwHBvsz5NThuPVpdViA25Blq+a4ULU8aoTtsMQvkxd9ludS0ckU=
+X-Received: by 2002:a05:690c:660b:b0:6e2:1467:17c0 with SMTP id
+ 00721157ae682-6e24751a2d1mr19773607b3.8.1727426134592; Fri, 27 Sep 2024
+ 01:35:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <1a1ab663-d068-40fb-8c94-f0715403d276@ideasonboard.com>
+ <34mewzvfyjsvyud3lzy6swxs7sr64xkgrbkxtvyw3czvoerct7@7guo32ehwa52>
+ <5a540bdb-e3ca-494a-b68d-8f81f4d1cc1a@ideasonboard.com>
+ <il3s26owmtyf3knniv7klkmw3uuz4dffrump7jo47dk6hxdsya@v5plmtjcbukf>
+ <bed619c7-1a82-4328-825c-117c2ee3639d@ideasonboard.com>
+In-Reply-To: <bed619c7-1a82-4328-825c-117c2ee3639d@ideasonboard.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Fri, 27 Sep 2024 10:35:25 +0200
+Message-ID: <CAA8EJprDdst-mcwMsWs=0AHGCNa_5Ng90tubSJ7VAHamx2T93g@mail.gmail.com>
+Subject: Re: fw_devlinks preventing a panel driver from probing
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Linux Kernel List <linux-kernel@vger.kernel.org>,
+ Saravana Kannan <saravanak@google.com>, 
+ Aradhya Bhatia <aradhya.bhatia@linux.dev>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Devarsh Thakkar <devarsht@ti.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,84 +86,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 27 Sep 2024, Alessandro Zanni <alessandro.zanni87@gmail.com> wrote:
-> This fix solves multiple Smatch errors:
+On Fri, 27 Sept 2024 at 08:41, Tomi Valkeinen
+<tomi.valkeinen@ideasonboard.com> wrote:
 >
-> drivers/gpu/drm/i915/display/intel_atomic_plane.c:660
-> intel_plane_atomic_check_with_state() error:
-> we previously assumed 'fb' could be null (see line 648)
+> On 27/09/2024 02:26, Dmitry Baryshkov wrote:
+> > On Thu, Sep 26, 2024 at 02:52:35PM GMT, Tomi Valkeinen wrote:
+> >> Hi,
+> >>
+> >> On 21/09/2024 23:15, Dmitry Baryshkov wrote:
+> >>> On Mon, Sep 16, 2024 at 02:51:57PM GMT, Tomi Valkeinen wrote:
+> >>>> Hi,
+> >>>>
+> >>>> We have an issue where two devices have dependencies to each other,
+> >>>> according to drivers/base/core.c's fw_devlinks, and this prevents them from
+> >>>> probing. I've been adding debugging to the core.c, but so far I don't quite
+> >>>> grasp the issue, so I thought to ask. Maybe someone can instantly say that
+> >>>> this just won't work...
+> >>>
+> >>> Well, just 2c from my side. I consider that fw_devlink adds devlinks for
+> >>> of-graph nodes to be a bug. It doesn't know about the actual direction
+> >>> of dependencies between corresponding devices or about the actual
+> >>> relationship between drivers. It results in a loop which is then broken
+> >>> in some way. Sometimes this works. Sometimes it doesn't. Sometimes this
+> >>> hides actual dependencies between devices. I tried reverting offending
+> >>> parts of devlink, but this attempt failed.
+> >>
+> >> I was also wondering about this. The of-graphs are always two-way links, so
+> >> the system must always mark them as a cycle. But perhaps there are other
+> >> benefits in the devlinks than dependency handling?
+> >>
+> >>>> If I understand the fw_devlink code correctly, in a normal case the links
+> >>>> formed with media graphs are marked as a cycle (FWLINK_FLAG_CYCLE), and then
+> >>>> ignored as far as probing goes.
+> >>>>
+> >>>> What we see here is that when using a single-link OLDI panel, the panel
+> >>>> driver's probe never gets called, as it depends on the OLDI, and the link
+> >>>> between the panel and the OLDI is not a cycle.
+> >>>
+> >>> I think in your case you should be able to fix the issue by using the
+> >>> FWNODE_FLAG_NOT_DEVICE, which is intented to be used in such cases. You
+> >>
+> >> How would I go using FWNODE_FLAG_NOT_DEVICE? Won't this only make a
+> >> difference if the flag is there at early stage when the linux devices are
+> >> being created? I think it's too late if I set the flag when the dss driver
+> >> is being probed.
+> >
+> > I think you have the NOT_DEVICE case as the DSS device corresponds to
+> > the parent of your OLDI nodes. There is no device which corresponds to
+> > the oldi@0 / oldi@1 device nodes (which contain corresponding port
+> > nodes).
 >
-> drivers/gpu/drm/i915/display/intel_atomic_plane.c:664
-> intel_plane_atomic_check_with_state()
-> error: we previously assumed 'fb' could be null (see line 659)
->
-> drivers/gpu/drm/i915/display/intel_atomic_plane.c:671
-> intel_plane_atomic_check_with_state()
-> error: we previously assumed 'fb' could be null (see line 663)
->
-> We should check first if fb is not null before to access its properties.
+> Do you mean that I should already see FWNODE_FLAG_NOT_DEVICE set in the
+> fwnode?
 
-new_plane_state->uapi.visible && !fb should not be possible, but it's
-probably too hard for smatch to figure out. It's not exactly trivial for
-humans to figure out either.
-
-I'm thinking something like below to help both.
-
-Ville, thoughts?
-
-
-BR,
-Jani.
-
-
-diff --git a/drivers/gpu/drm/i915/display/intel_atomic_plane.c b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-index 3505a5b52eb9..d9da47aed55d 100644
---- a/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-+++ b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-@@ -629,6 +629,9 @@ int intel_plane_atomic_check_with_state(const struct intel_crtc_state *old_crtc_
- 	if (ret)
- 		return ret;
- 
-+	if (drm_WARN_ON(display->drm, new_plane_state->uapi.visible && !fb))
-+		return -EINVAL;
-+
- 	if (fb)
- 		new_crtc_state->enabled_planes |= BIT(plane->id);
- 
-
+No, I think you should set it for you DSS links. If I understand
+correctly, this should prevent fwdevlink from waiting on the OLDI to
+materialize as a device.
+Note: my understanding is based on a quick roaming through the code
+some time ago.
 
 >
-> Signed-off-by: Alessandro Zanni <alessandro.zanni87@gmail.com>
-> ---
->  drivers/gpu/drm/i915/display/intel_atomic_plane.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+> If I print information about the relevant fwnodes (from dss up to the
+> oldi endpoints) in the DSS driver's probe, I see that none have
+> FWNODE_FLAG_NOT_DEVICE set, all have FWNODE_FLAG_LINKS_ADDED set, and
+> only the main DSS node has the fwnode->dev set (to 30200000.dss).
 >
-> diff --git a/drivers/gpu/drm/i915/display/intel_atomic_plane.c b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-> index e979786aa5cf..1606f79b39e6 100644
-> --- a/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-> +++ b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-> @@ -656,18 +656,18 @@ int intel_plane_atomic_check_with_state(const struct intel_crtc_state *old_crtc_
->  	    intel_plane_is_scaled(new_plane_state))
->  		new_crtc_state->scaled_planes |= BIT(plane->id);
->  
-> -	if (new_plane_state->uapi.visible &&
-> +	if (new_plane_state->uapi.visible && fb &&
->  	    intel_format_info_is_yuv_semiplanar(fb->format, fb->modifier))
->  		new_crtc_state->nv12_planes |= BIT(plane->id);
->  
-> -	if (new_plane_state->uapi.visible &&
-> +	if (new_plane_state->uapi.visible && fb &&
->  	    fb->format->format == DRM_FORMAT_C8)
->  		new_crtc_state->c8_planes |= BIT(plane->id);
->  
->  	if (new_plane_state->uapi.visible || old_plane_state->uapi.visible)
->  		new_crtc_state->update_planes |= BIT(plane->id);
->  
-> -	if (new_plane_state->uapi.visible &&
-> +	if (new_plane_state->uapi.visible && fb &&
->  	    intel_format_info_is_yuv_semiplanar(fb->format, fb->modifier)) {
->  		new_crtc_state->data_rate_y[plane->id] =
->  			intel_plane_data_rate(new_crtc_state, new_plane_state, 0);
+>   Tomi
+>
+> >>
+> >>> have a dependency on DT node which doesn't have backing device.
+> >>
+> >> Well, there is a backing device, the DSS. But if you mean that the system at
+> >> the moment cannot figure out that there is a backing device, then true.
+> >
+>
+
 
 -- 
-Jani Nikula, Intel
+With best wishes
+Dmitry
