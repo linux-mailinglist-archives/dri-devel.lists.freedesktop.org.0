@@ -2,77 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18E1B9888BE
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Sep 2024 18:07:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 362709888C4
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Sep 2024 18:09:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B48F10ECE6;
-	Fri, 27 Sep 2024 16:07:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8BF410ECF1;
+	Fri, 27 Sep 2024 16:09:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="shlQdyXk";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qMLLcB0C";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com
- [209.85.128.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8FF310ECEC
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Sep 2024 16:07:41 +0000 (UTC)
-Received: by mail-yw1-f173.google.com with SMTP id
- 00721157ae682-6dbbe7e51bbso19577937b3.3
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Sep 2024 09:07:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1727453261; x=1728058061; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=EHFkGhEsQhdZACKa6pRYflE/XTK6NMY4RSG4EsLdttE=;
- b=shlQdyXkTFUVkVVdOHz79neMdHeSrmsXmPCr/NE0DD6Dg+EyN8KD420MqPhu9QF5KF
- SusKLLkAaUdFJHHQeuNmLkUmP4bybNwgc1iZij9Mo0ypJvYBvNj4zsd6Uo5la3t2As14
- qtBo2jlYsuX2PN9G1BMFXGbH5JoY5PoD7wDCDFHZUDAG39U82/lZM7PEzisP9DMGK8ny
- ZcP4Rh1zL8jEAF7z9pfGs9oJlhcDcxqR84dY4rHr6JjegBSeALSdNrFOxL5vtBqdSrPr
- LMeGw3c8N/X9wnIs5ZfpcxS/xwEggdadyy+aZGtblkzK+++xYB/+nLFLy5fHbT754Ld4
- XelA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727453261; x=1728058061;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=EHFkGhEsQhdZACKa6pRYflE/XTK6NMY4RSG4EsLdttE=;
- b=M4PcAKmMWODlX22B2EwVCDCnpN2ZUOCIhO0JPQJ0RKHOAUUDCa59gwgi3Yj2c3RLv5
- lCvruSumZfy3j2BJ/aF6Ue2BZBmDte0mWWgsEEo4rPl6d00pSt6J90HtnkMqbl7ji1yV
- aQE2E3XFg5pWCggc+mMVSd8OZvfbAk5+MjteGYgpKGUxnlUesl/1HaHMCs+WLv3WKID/
- NRAxezR21KxWcD1UfWBP6EN4XY7lFlCwUgvEAjg3cxnV4yVBUsK4hoFulfyM9q1+zYVk
- E3v1q2gqtOMQ8SPUpysGudeUUDoOXaRPX3Vp+krsYLCefRQ1cK7WNwXE+ty1z36nyNiO
- C0rw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXzMpREE9UDFCreBGXdq4aj8Z7tj1cSgmWt0MxmLb2cIiBozrnBwRkT2wajqlqUpJ282LqADn/4ox4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwCRi2f8oHWylERwXZezajP0LpmZgO/KYqOkOg2eVkGJdLgHP0w
- eYXHfQWnmQlIh1CXpXkAk77KnG77pLS1VqQmMl5DzqoM7dOLllEPTIdbcACwt8wB/3U9i+MRXV9
- ySD69EMBI+Hkos0GAGWXRHi6V1AcKoZB7O6qdCA==
-X-Google-Smtp-Source: AGHT+IGzx/qK9UYxRzV3lT0jsfbrNXpOxjZ3LgmKAoBZnS1e/5cYjHGIXlrJ/VoSeio0nf1YAgFk8rGuS3JdImONTdg=
-X-Received: by 2002:a05:690c:60c5:b0:6de:1e2:d66a with SMTP id
- 00721157ae682-6e2474f4adamr30196557b3.2.1727453260762; Fri, 27 Sep 2024
- 09:07:40 -0700 (PDT)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5321C10E211
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Sep 2024 16:08:59 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 6ACB9A43173;
+ Fri, 27 Sep 2024 16:08:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EA5CC4CEC6;
+ Fri, 27 Sep 2024 16:08:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1727453338;
+ bh=Jgeva35jung0HLChJS3oHaOxrwYCVGeyPtkdlN1SI6Y=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=qMLLcB0CPeYXnWoJ+M+VV6LO8BtP0Cc8lJPeDm249puTHgDZ2cRWWBj2u4QGF0qF4
+ CQOnXklJBdNnkBCLkUroki95BnrC/3VpkQ58i8CRHt+AibtwysDxxvLiwbvXEEvwjT
+ YGRGTDvheXGgWQFGoOcv/HXC+UeSDVdR/MxIwiAiaiNr1JszVkKfavLxg3pyfVDWiC
+ jYSW7hNFoJARle0f+oQD6Ne1DW1jyWVgmspfSZ/YE+TiiJU6645ZbJ7bgJONwC9lrx
+ 8ODbH5pVVga89H6WV//VxeNDSfi+6smL5YcYSjGNjSnCensPmQw/kgIlAkn3dfG5lm
+ b/BlSxiTm0f9w==
+Date: Fri, 27 Sep 2024 18:08:52 +0200
+From: Benjamin Tissoires <bentiss@kernel.org>
+To: Werner Sembach <wse@tuxedocomputers.com>
+Cc: dri-devel@lists.freedesktop.org, hdegoede@redhat.com, jelle@vdwaa.nl, 
+ jikos@kernel.org, lee@kernel.org, linux-input@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+ miguel.ojeda.sandonis@gmail.com, 
+ ojeda@kernel.org, onitake@gmail.com, pavel@ucw.cz
+Subject: Re: [PATCH 0/1] platform/x86/tuxedo: Add virtual LampArray for
+ TUXEDO NB04
+Message-ID: <et3cv7i2lhsjoq26toweh4uv72yo34u3wqrj3q2urfnx2bhiq3@fdtkag4bcekh>
+References: <20240926174405.110748-1-wse@tuxedocomputers.com>
 MIME-Version: 1.0
-References: <20240628-dpu-msm8953-msm8996-v1-0-a31c77248db7@mainlining.org>
- <20240628-dpu-msm8953-msm8996-v1-1-a31c77248db7@mainlining.org>
- <540ce2add6b1975502e898cc332275a6248aa1bc.camel@icenowy.me>
- <dd94e7fb72cf85800fbd46758010ea64@mainlining.org>
-In-Reply-To: <dd94e7fb72cf85800fbd46758010ea64@mainlining.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 27 Sep 2024 18:07:30 +0200
-Message-ID: <CAA8EJppHXUE=zhw=h7qM1iP3oLK6K9=Rqte5hKHtRGmT-5SWhA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/msm/dpu: Add MSM8996 support
-To: barnabas.czeman@mainlining.org
-Cc: Icenowy Zheng <uwu@icenowy.me>, Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, linux-kernel@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, Konrad Dybcio <konrad.dybcio@linaro.org>, 
- Konrad Dybcio <konrad.dybcio@somainline.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240926174405.110748-1-wse@tuxedocomputers.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,40 +61,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 27 Sept 2024 at 17:44, <barnabas.czeman@mainlining.org> wrote:
->
-> On 2024-08-18 09:16, Icenowy Zheng wrote:
-> > =E5=9C=A8 2024-06-28=E6=98=9F=E6=9C=9F=E4=BA=94=E7=9A=84 16:39 +0200=EF=
-=BC=8CBarnab=C3=A1s Cz=C3=A9m=C3=A1n=E5=86=99=E9=81=93=EF=BC=9A
-> >> From: Konrad Dybcio <konrad.dybcio@linaro.org>
-> >>
-> >> Add support for MSM8996, which - fun fact - was the SoC that this
-> >> driver
-> >> (or rather SDE, its downstream origin) was meant for and first tested
-> >> on.
-> >>
-> >> It has some hardware that differs from the modern SoCs, so not a lot
-> >> of
-> >> current structs could have been reused. It's also seemingly the only
-> >> SoC
-> >> supported by DPU that uses RGB pipes.
-> >>
-> >> Note, by default this platform is still handled by the MDP5 driver
-> >> unless the `msm.prefer_mdp5=3Dfalse' parameter is provided.
-> >
-> > For curiosity, will this driver makes DSC possible on MSM8996?
-> As far as i know yes, but if i know correctly there are some DSC
-> support also in MDP5.
+On Sep 26 2024, Werner Sembach wrote:
+> Hi,
+> took some time but now a first working draft of the suggested new way of
+> handling per-key RGB keyboard backlights is finished. See:
+> https://lore.kernel.org/all/1fb08a74-62c7-4d0c-ba5d-648e23082dcb@tuxedocomputers.com/
+> First time for me sending a whole new driver to the LKML, so please excuse
+> mistakes I might have made.
+> 
+> Known bugs:
+> - The device has a lightbar which is currently not implemented and
+>   therefore stuck to blue once the first backlight control command is send.
+> 
+> What is still missing:
+> - The leds fallback
+> - Lightbar control
+> 
+> Some general noob questions:
+> 
+> Initially I though it would be nice to have 2 modules, one jsut being the
+> wmi initialization and utility stuff and one just being the backlight logic
+> stuff, being loaded automatically via module_alias, but that would still
+> require me to create the virtual hid device during the wmi_ab probe, and
+> that already needs the ll_driver, so i guess I have to do it statically
+> like i did now?
+> Or in other words: I would have liked to have a module dependency graph
+> like this:
+>     tuxedo_nb04_lamp_array depends on tuxedo_nb04_platform (combining *_wmi_init and *_wmi_utility)
+> but if i currently split it into modules i would get this:
+>     tuxedo_nb04_wmi_ab_init dpends on tuxedo_nb04_wmi_ab_lamp_array depends on tuxedo_nb04_wmi_utility
 
-No, MDP5 doesn't support DSC. mdp5_cfg.c defines corresponding
-capabilities, but there is no actual support.
+On more general question to you: how much confident are you about your
+LampArray implementation?
 
-> > I think the Google Pixel device uses a panel that needs DSC, which
-> > makes mainlining it currently impossible.
+If you still need to add/fix stuff in it, I would advise you to have a
+simple HID device, with bare minimum functionality, and then add the
+LampArray functionality on top through HID-BPF. This way you can fix
+LampArray out of band with the kernel, while having a more stable kernel
+module. This should be possible with v6.11+.
 
-I hope we can look at the DSC support for those platforms at some
-point. No particular dates and/or plans yet.
+Another solution is to still have your wmi-to-hid module, and then a
+HID kernel module in drivers/hid that supports LampArray.
 
---=20
-With best wishes
-Dmitry
+But I would strongly suggest while you are figuring out the userspace
+part to stick to HID-BPF, and then once you are happy we can move to a
+full kernel module.
+
+Cheers,
+Benjamin
+
+> 
+> Currently after creating the virtual hdev in the wmi init probe function I
+> have to keep track of it and manually destroy it during the wmi init
+> remove. Can this be automated devm_kzalloc-style?
+> 
+> Kind regards,
+> Werner Sembach
+> 
+> 
