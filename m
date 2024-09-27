@@ -2,72 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04D01987DFC
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Sep 2024 07:51:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AF4B987E3F
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Sep 2024 08:16:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3688D10EC16;
-	Fri, 27 Sep 2024 05:51:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34FBC10EC1B;
+	Fri, 27 Sep 2024 06:16:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="F13NfxBv";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="eMC7vp/p";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61D9710EC16
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Sep 2024 05:51:50 +0000 (UTC)
-X-UUID: 93721f067c9411ef8b96093e013ec31c-20240927
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
- bh=FZu0ZPTLpZWjX8yCbYqdxdHinvG8NnXZbGPHD2DiMCg=; 
- b=F13NfxBvUXOLvVc5TZ35BA+kQkDddvFPEHO72FuhfZ2r9qUkxtJAcdXAkXAy+pE38r+deuVs6ak0F0Jg8WYCcvWCgb0466JXBdz+BD0t8gx1jZ4SB+XmzYPwmm1MwDKoDE39xa4o+vSVaADO7waKey0vWQHqF5r5OhLPw1gYEaY=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.41, REQID:f377f6a7-e040-4a52-8584-01eeb4d7394c, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:0
-X-CID-META: VersionHash:6dc6a47, CLOUDID:62cda59e-8e9a-4ac1-b510-390a86b53c0a,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
- SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-UUID: 93721f067c9411ef8b96093e013ec31c-20240927
-Received: from mtkmbs09n1.mediatek.inc [(172.21.101.35)] by
- mailgw02.mediatek.com (envelope-from <moudy.ho@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1090322006; Fri, 27 Sep 2024 13:51:44 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Fri, 27 Sep 2024 13:51:43 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Fri, 27 Sep 2024 13:51:43 +0800
-From: Moudy Ho <moudy.ho@mediatek.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, "jason-jh . lin"
- <jason-jh.lin@mediatek.com>, Macpaul Lin <macpaul.lin@mediatek.com>
-CC: <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, Moudy Ho
- <moudy.ho@mediatek.corp-partner.google.com>, Moudy Ho <moudy.ho@mediatek.com>
-Subject: [PATCH v2] dt-bindings: display: mediatek: split: add clocks count
- constraint for MT8195
-Date: Fri, 27 Sep 2024 13:51:40 +0800
-Message-ID: <20240927055140.19688-1-moudy.ho@mediatek.com>
-X-Mailer: git-send-email 2.18.0
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com
+ [209.85.167.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC68610EC1B
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Sep 2024 06:16:54 +0000 (UTC)
+Received: by mail-oi1-f178.google.com with SMTP id
+ 5614622812f47-3e03974b6a5so1023262b6e.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Sep 2024 23:16:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1727417814; x=1728022614; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ozF4LqzPuN76+eJ5lZ+Te5WdJCv5iNC/lHSX5fH2wo8=;
+ b=eMC7vp/py/WZaNciB/5plBLe1bbiRrdaSt6bAh5OM+lxygydGy6RiQuc/iIFjiszCt
+ xVLOnn+rhMqz4UNsuFgv/Nu1oCEc6aZRIfOxGBfWveIGtmK71lPgEbsWAUFRT0X6N98/
+ u+61S787ot6N4ZXDmZlRvf1eu5ZlkHSDkk30rmMFUJW8jtX7CUmkh0UweTR9RVlKhL4Z
+ JQ38BXv8qDzmnWQDWU91Cra/NgSpq3Y8DMy6PCKcZIAbG2EtszExYV/hpLGuu3jMdrgU
+ R8ImFvBVYstFCH16yMWXp4fJUzA2HTNkXVXEy1bve/hC/tKyoFEOj6HWweJ1D9bsbGTW
+ WZXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1727417814; x=1728022614;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ozF4LqzPuN76+eJ5lZ+Te5WdJCv5iNC/lHSX5fH2wo8=;
+ b=JZDY9GBYsKHrXDWSVvYKD3f/YZ7G1Qj37U3wjpoKi5zHuooProyUdKQZ3D2lHFwFKB
+ VkieyIs7ZTvdbwUjSqWlJvFtkO3SWzvKy+gW9JlN6HaEpgZ0GO7m1pgl+MvUpO8yDXXK
+ 5tIq8RBpsc0fvDI+M1Zn2etNJo/JgE+k5CZr3/G6QA72vNO/pkgkCldTeUPWZJhbEReG
+ QUh3o27NPF0/akKcLBgyq14cjHevVgEQIh/pFV/rFQ4Sti4YCrM2Z8WekQUypTxXdmEr
+ e9flpILf71KW8lYrGkt76JsGRFyd3Aez0dDp5MUuWVRk2ILmcxs2lzy5rud/3k3dC+pk
+ 2VCA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW9xhQJccS6t5o33ZALi+fk5M/gltuccHplcsQgleihDxH3RKFYrSj/loTMzPmFkgjzWjfD8JTx7NE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzwNqX4edXiLkXPDNl1KLk/+fJ4zwadSPS35h2+DLVTrQlNil8s
+ +6Lxv1sl79Ly4x0pIweeiifLJxjFjtUgUBZDCv73zPo9Q4OSugeZe1LIcspSgYzrXM+a0+7YgXa
+ KhNJtZoasrVgGDZSegz1yIbgfY0N+U+nwNxp43A==
+X-Google-Smtp-Source: AGHT+IE7a9V7g499bPCEexIc6gQX3B//P8N+eSHKwz0TbP7BEFlO4EoSql2AgMnBjmJ12sfgT8sHqNMG3B3iulzPgZA=
+X-Received: by 2002:a05:6808:331a:b0:3e3:91a5:d8bf with SMTP id
+ 5614622812f47-3e39395c60emr1379976b6e.8.1727417813829; Thu, 26 Sep 2024
+ 23:16:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+References: <20240830070351.2855919-1-jens.wiklander@linaro.org>
+ <dhxvyshwi4qmcmwceokhqey2ww4azjcs6qrpnkgivdj7tv5cke@r36srvvbof6q>
+ <d8e0cb78-7cfb-42bf-b3a5-f765592e8dd4@ti.com>
+ <mzur3odofwwrdqnystozjgf3qtvb73wqjm6g2vf5dfsqiehaxk@u67fcarhm6ge>
+ <e967e382-6cca-4dee-8333-39892d532f71@gmail.com>
+ <lk7a2xuqrctyywuanjwseh5lkcz3soatc2zf3kn3uwc43pdyic@edm3hcd2koas>
+ <04caa788-19a6-4336-985c-4eb191c24438@amd.com>
+ <2f9a4abe-b2fc-4bc7-9926-1da2d38f5080@linaro.org>
+ <CAFA6WYMd46quafJoGXjkCiPOKpYoDZdXwrNbG3QekyjB3_2FTA@mail.gmail.com>
+ <2ab11399-ffa0-4940-a965-fb95a5f3b20e@amd.com>
+In-Reply-To: <2ab11399-ffa0-4940-a965-fb95a5f3b20e@amd.com>
+From: Jens Wiklander <jens.wiklander@linaro.org>
+Date: Fri, 27 Sep 2024 08:16:42 +0200
+Message-ID: <CAHUa44GfsSjE9w4vPcbcESNoDj3exA+tfSxzbJh844CzyBVFtg@mail.gmail.com>
+Subject: Re: [Linaro-mm-sig] Re: [RFC PATCH 0/4] Linaro restricted heap
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Sumit Garg <sumit.garg@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, 
+ Andrew Davis <afd@ti.com>, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, 
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, op-tee@lists.trustedfirmware.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ Olivier Masse <olivier.masse@nxp.com>,
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, 
+ John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,54 +104,175 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Moudy Ho <moudy.ho@mediatek.corp-partner.google.com>
+Hi,
 
-The display node in mt8195.dtsi was triggering a CHECK_DTBS error due
-to an excessively long 'clocks' property:
-  display@14f06000: clocks: [[31, 14], [31, 43], [31, 44]] is too long
+On Thu, Sep 26, 2024 at 4:03=E2=80=AFPM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
+>
+> Am 26.09.24 um 15:52 schrieb Sumit Garg:
+> > [Resend in plain text format as my earlier message was rejected by
+> > some mailing lists]
+> >
+> > On Thu, 26 Sept 2024 at 19:17, Sumit Garg <sumit.garg@linaro.org> wrote=
+:
+> >> On 9/25/24 19:31, Christian K=C3=B6nig wrote:
+> >>
+> >> Am 25.09.24 um 14:51 schrieb Dmitry Baryshkov:
+> >>
+> >> On Wed, Sep 25, 2024 at 10:51:15AM GMT, Christian K=C3=B6nig wrote:
+> >>
+> >> Am 25.09.24 um 01:05 schrieb Dmitry Baryshkov:
+> >>
+> >> On Tue, Sep 24, 2024 at 01:13:18PM GMT, Andrew Davis wrote:
+> >>
+> >> On 9/23/24 1:33 AM, Dmitry Baryshkov wrote:
+> >>
+> >> Hi,
+> >>
+> >> On Fri, Aug 30, 2024 at 09:03:47AM GMT, Jens Wiklander wrote:
+> >>
+> >> Hi,
+> >>
+> >> This patch set is based on top of Yong Wu's restricted heap patch set =
+[1].
+> >> It's also a continuation on Olivier's Add dma-buf secure-heap patch se=
+t [2].
+> >>
+> >> The Linaro restricted heap uses genalloc in the kernel to manage the h=
+eap
+> >> carvout. This is a difference from the Mediatek restricted heap which
+> >> relies on the secure world to manage the carveout.
+> >>
+> >> I've tried to adress the comments on [2], but [1] introduces changes s=
+o I'm
+> >> afraid I've had to skip some comments.
+> >>
+> >> I know I have raised the same question during LPC (in connection to
+> >> Qualcomm's dma-heap implementation). Is there any reason why we are
+> >> using generic heaps instead of allocating the dma-bufs on the device
+> >> side?
+> >>
+> >> In your case you already have TEE device, you can use it to allocate a=
+nd
+> >> export dma-bufs, which then get imported by the V4L and DRM drivers.
+> >>
+> >> This goes to the heart of why we have dma-heaps in the first place.
+> >> We don't want to burden userspace with having to figure out the right
+> >> place to get a dma-buf for a given use-case on a given hardware.
+> >> That would be very non-portable, and fail at the core purpose of
+> >> a kernel: to abstract hardware specifics away.
+> >>
+> >> Unfortunately all proposals to use dma-buf heaps were moving in the
+> >> described direction: let app select (somehow) from a platform- and
+> >> vendor- specific list of dma-buf heaps. In the kernel we at least know
+> >> the platform on which the system is running. Userspace generally doesn=
+'t
+> >> (and shouldn't). As such, it seems better to me to keep the knowledge =
+in
+> >> the kernel and allow userspace do its job by calling into existing
+> >> device drivers.
+> >>
+> >> The idea of letting the kernel fully abstract away the complexity of i=
+nter
+> >> device data exchange is a completely failed design. There has been ple=
+nty of
+> >> evidence for that over the years.
+> >>
+> >> Because of this in DMA-buf it's an intentional design decision that
+> >> userspace and *not* the kernel decides where and what to allocate from=
+.
+> >>
+> >> Hmm, ok.
+> >>
+> >> What the kernel should provide are the necessary information what type=
+ of
+> >> memory a device can work with and if certain memory is accessible or n=
+ot.
+> >> This is the part which is unfortunately still not well defined nor
+> >> implemented at the moment.
+> >>
+> >> Apart from that there are a whole bunch of intentional design decision=
+ which
+> >> should prevent developers to move allocation decision inside the kerne=
+l. For
+> >> example DMA-buf doesn't know what the content of the buffer is (except=
+ for
+> >> it's total size) and which use cases a buffer will be used with.
+> >>
+> >> So the question if memory should be exposed through DMA-heaps or a dri=
+ver
+> >> specific allocator is not a question of abstraction, but rather one of=
+ the
+> >> physical location and accessibility of the memory.
+> >>
+> >> If the memory is attached to any physical device, e.g. local memory on=
+ a
+> >> dGPU, FPGA PCIe BAR, RDMA, camera internal memory etc, then expose the
+> >> memory as device specific allocator.
+> >>
+> >> So, for embedded systems with unified memory all buffers (maybe except
+> >> PCIe BARs) should come from DMA-BUF heaps, correct?
+> >>
+> >>
+> >>  From what I know that is correct, yes. Question is really if that wil=
+l stay this way.
+> >>
+> >> Neural accelerators look a lot stripped down FPGAs these days and the =
+benefit of local memory for GPUs is known for decades.
+> >>
+> >> Could be that designs with local specialized memory see a revival any =
+time, who knows.
+> >>
+> >> If the memory is not physically attached to any device, but rather jus=
+t
+> >> memory attached to the CPU or a system wide memory controller then exp=
+ose
+> >> the memory as DMA-heap with specific requirements (e.g. certain sized =
+pages,
+> >> contiguous, restricted, encrypted, ...).
+> >>
+> >> Is encrypted / protected a part of the allocation contract or should i=
+t
+> >> be enforced separately via a call to TEE / SCM / anything else?
+> >>
+> >>
+> >> Well that is a really good question I can't fully answer either. From =
+what I know now I would say it depends on the design.
+> >>
+> > IMHO, I think Dmitry's proposal to rather allow the TEE device to be
+> > the allocator and exporter of DMA-bufs related to restricted memory
+> > makes sense to me. Since it's really the TEE implementation (OP-TEE,
+> > AMD-TEE, TS-TEE or future QTEE) which sets up the restrictions on a
+> > particular piece of allocated memory. AFAIK, that happens after the
+> > DMA-buf gets allocated and then user-space calls into TEE to set up
+> > which media pipeline is going to access that particular DMA-buf. It
+> > can also be a static contract depending on a particular platform
+> > design.
+> >
+> > As Jens noted in the other thread, we already manage shared memory
+> > allocations (from a static carve-out or dynamically mapped) for
+> > communications among Linux and TEE that were based on DMA-bufs earlier
+> > but since we didn't required them to be shared with other devices, so
+> > we rather switched to anonymous memory.
+> >
+> >  From user-space perspective, it's cleaner to use TEE device IOCTLs for
+> > DMA-buf allocations since it already knows which underlying TEE
+> > implementation it's communicating with rather than first figuring out
+> > which DMA heap to use for allocation and then communicating with TEE
+> > implementation.
+>
+> +1
+>
+> I'm not that deeply into the functionality the TEE device IOCTLs expose,
+> so can't judge if what's said above is correct or not.
+>
+> But in general building on top of existing infrastructure and
+> information is a really strong argument for a design.
+>
+> So from my 10 mile high point of view that sounds like the way to go.
 
-To resolve this issue, apply the limit by setting 'maxItems: 3' in MT8195
-additional condition.
+That sounds good, I'll prepare another patch set based on that
+approach so we can see all the details.
 
-Fixes: 4ed545e7d100 ("dt-bindings: display: mediatek: disp: split each block to individual yaml")
-Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
-Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
---
-The purpose of this patch is to separate the corrections for
-MediaTek SPLIT CHECK_DTBS error from the original mailing list
-mentioned below:
-https://lore.kernel.org/all/20240924103156.13119-2-macpaul.lin@mediatek.com/
-
-Changes since v1:
-  - Adding functional descriptions and quantity restrictions.
----
- .../bindings/display/mediatek/mediatek,split.yaml           | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,split.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,split.yaml
-index e4affc854f3d..bce1b8b866ce 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,split.yaml
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,split.yaml
-@@ -57,6 +57,9 @@ properties:
-   clocks:
-     items:
-       - description: SPLIT Clock
-+      - description: HDMI RX Clock
-+      - description: HDMI Metadata Clock
-+    minItems: 1
- 
- required:
-   - compatible
-@@ -72,6 +75,9 @@ allOf:
-             const: mediatek,mt8195-mdp3-split
- 
-     then:
-+      properties:
-+        clocks:
-+          maxItems: 3
-       required:
-         - mediatek,gce-client-reg
- 
--- 
-2.34.1
-
+Thanks,
+Jens
