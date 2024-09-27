@@ -2,74 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0F3E988092
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Sep 2024 10:42:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13057988093
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Sep 2024 10:42:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB74B10EC7B;
-	Fri, 27 Sep 2024 08:42:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 904FC10EC7C;
+	Fri, 27 Sep 2024 08:42:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="i30ypwcy";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="qmMT+Orc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com
- [209.85.208.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A8BB10EC7A
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Sep 2024 08:42:00 +0000 (UTC)
-Received: by mail-lj1-f178.google.com with SMTP id
- 38308e7fff4ca-2f762de00fbso22243851fa.2
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Sep 2024 01:42:00 -0700 (PDT)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+ [209.85.167.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7423B10EC7D
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Sep 2024 08:42:20 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id
+ 2adb3069b0e04-5367ae52a01so2311081e87.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Sep 2024 01:42:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1727426519; x=1728031319; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=mDMgyKKew/IZsYrrEs1u6/IPCFvw+mgWRq2aYRNTWOU=;
- b=i30ypwcycACNTlif8odwFmQzjq+PTvLsCcnkQuKrSA18smKmSlfhAFDUq4PbSn1fWN
- cfXhSddaA3Zts8RA8hkPoxV+URBKahwcNRU4apy7qKLSd6p3JsMMw20YBPfs3WO9iVyD
- OgDHrwkncZ20y/i0D7c0gjBAw8s2Vp3IZhEr1P0u/IRY+DOIUp+LAAzOgioOMWcAq8x+
- kLwBhWPkWr1dhaxfzXCL/Oa4cuOpLu0DWVlV4rZHntLm8khBzEe6gGaVuVaJRqOp5XFX
- jaWcf9sYEl+GDHCW0KNYA7ROf1ey7iUQfCPoHdbegQ4lv8xCBORMWverLSASGU01yFP9
- 1Hyw==
+ d=linaro.org; s=google; t=1727426538; x=1728031338; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=wORqZqv9cUGC80DSKYgE6tfqrN9lDUHFj2CIW1jLYmc=;
+ b=qmMT+OrcdMgpQQ2yE3BpK/TAkn3H5ndqD6AqsuUn2uprYCJJTo2SyF3zLlt5q7QZpr
+ WRpmGtAvrPWkBvK44txwSPspDRN8C4dGl4TQPm/bIt0HrSl2NeiKeBiv+SnwKCYU+guP
+ AqKto4d9pOQWZKF31LRbIcjUIy6SRn5NjcseXPphPg23XqeuBAc3LYDpAjRbZbwYls4j
+ TN1/Di3ppnNILU7HL03HobYznzKzj2w9Foeri+6jPX2AyWJIjTvwcpCx94lF4fuQoITV
+ JwPv+fyioIcfVG/KpYHlE3/QPFAKbLwsimSaHyESStcdPboA5WJmXpDTuHzeiuYrPah3
+ HzjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727426519; x=1728031319;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=mDMgyKKew/IZsYrrEs1u6/IPCFvw+mgWRq2aYRNTWOU=;
- b=QTIbn3GN1/c9BBW4O3Hb2QYsoq8fJWtmGVhHTXI7/Mne6HFpYEH2NyZj2W9bbnli9S
- 915VSqJcgWfXTDjIKLX7/DLUIqXqVUAGh0Q5OHMLZBv7vXih0SgVrNTpuNO+XHM3tGod
- lmplGNaRG+h5IcA6IdNSW5cB11zuLmYpV9Cr5c8b6kLWbojrsMuIR7KCYaGx8kIKzyqU
- WdOD57m0BlvOv/2WeFi9ki/jO3ftgjY7i9mznIEEyB1be1BdEkmkqb5np97xG5Z/BcTi
- 3b7OOEte0LEwqgEBUOiW5JuVJBFukV4BU9Vdw3ZXR2wWfkQ24n8Xzs6OWK+05IN9LQta
- H51A==
+ d=1e100.net; s=20230601; t=1727426538; x=1728031338;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=wORqZqv9cUGC80DSKYgE6tfqrN9lDUHFj2CIW1jLYmc=;
+ b=eP+J8rmkJFwT3B47pqCysPPGzJpW52hdz/+5ZeNpckizpB/9YpQJ27oWgX5L55G965
+ tfhFKpdOh9w83TtDT0Ig4942MGf5j4CKLQNHDSWorpGD7WC/7k/aHjnC8GNmVCFdwunR
+ 8l4+Atrkj6of1qQT1rj/g/RSEAMjz4YdMcIWkZMmu0Gm9d5XTPz+9bP2d19znDu/WhTy
+ LnrQr+KX/kuy1Re/kaSnA0NCPY/L8e2c5y3s8Ki4jYQFGfORyIo6oNHxh3uJspzrWTVA
+ PyjXb+kavBB2g21+D2VnNqUCcspQxjG9NpeONzXO9bZVp5ohB031tXy1tH9yRkGGujw1
+ Rp9Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUjYx7d/QVszuGSGWYmMCAAXApON6Fgm7hxzMHNYqGTvJuR3m6lCzOvkoVRLreO/dyOjtkcWpMNEbs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyNVWX13t7wzlQn2G/a/dx9gQpWXC1fW14/Z36D1s/7wFofTBsu
- uFNSxoD4r5iVBuwPd2GgHIt88iGj08YNgHSeIJdZXl2sSJZ+wbtL
-X-Google-Smtp-Source: AGHT+IGZnZaQEdYuGQz5WHQTYA/v0g5kbvBONwZQM8n7Ehcx9ws/3Lls3We0mmno089vomnZrNVgtA==
-X-Received: by 2002:a05:651c:2104:b0:2f6:5492:dcaa with SMTP id
- 38308e7fff4ca-2f9d41ca8b1mr15839771fa.41.1727426518371; 
- Fri, 27 Sep 2024 01:41:58 -0700 (PDT)
-Received: from able.fritz.box ([2a00:e180:1515:2900:6181:3f3e:a0cc:be1a])
+ AJvYcCUvypjK6OcuvI+56Oa1SNKq/3loE+IoZGQc8NSYFGYmN2cWeY6Xp8p6WdFnGsvLbJJl+YgOIRmpH0w=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwUVaCfnFoaPB9s4NDEztG3Fqqw7weMxMMIPD6MAPG+/Z0HiVqv
+ YrEIqNl6xZXiY2dsu62oPoeQ/vNkQxIeStrDe+begUEFJBFHAPyXaxUYHdGeMms=
+X-Google-Smtp-Source: AGHT+IGKld9rtmGQC3DBnDTbpXbiuKQNjTBpR+lYTXMLGlZV+jtXEFJDHRP8wtIhf6Y6NwwWQqYIMg==
+X-Received: by 2002:a05:6512:3052:b0:52e:941d:7039 with SMTP id
+ 2adb3069b0e04-5389fc70ef7mr1616146e87.59.1727426538329; 
+ Fri, 27 Sep 2024 01:42:18 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-42f57de2e46sm19363415e9.19.2024.09.27.01.41.57
+ 2adb3069b0e04-5389fd54752sm226998e87.19.2024.09.27.01.42.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Sep 2024 01:41:57 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: pstanner@redhat.com, dakr@kernel.org, ltuikov89@gmail.com,
- simona.vetter@ffwll.ch, dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/sched: clarify the documentation on
- drm_sched_entity_error
-Date: Fri, 27 Sep 2024 10:41:53 +0200
-Message-Id: <20240927084153.18583-2-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240927084153.18583-1-christian.koenig@amd.com>
-References: <20240927084153.18583-1-christian.koenig@amd.com>
+ Fri, 27 Sep 2024 01:42:17 -0700 (PDT)
+Date: Fri, 27 Sep 2024 11:42:15 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Mahadevan P <quic_mahap@quicinc.com>
+Cc: robdclark@gmail.com, quic_abhinavk@quicinc.com, sean@poorly.run, 
+ marijn.suijten@somainline.org, airlied@gmail.com, daniel@ffwll.ch, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ robh@kernel.org, 
+ krzk+dt@kernel.org, conor+dt@kernel.org, swboyd@chromium.org, 
+ konrad.dybcio@linaro.org, danila@jiaxyga.com, bigfoot@classfun.cn, 
+ neil.armstrong@linaro.org, mailingradian@gmail.com, quic_jesszhan@quicinc.com, 
+ andersson@kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 
+ quic_kalyant@quicinc.com, quic_jmadiset@quicinc.com, quic_vpolimer@quicinc.com
+Subject: Re: [PATCH v2 3/5] drm/msm: mdss: Add SA8775P support
+Message-ID: <lpxx7xa4j2ghsj4klcbmribpvl3dzksy6zblbdo4zt2huarzmv@zz4yomzsdwli>
+References: <20240926110137.2200158-1-quic_mahap@quicinc.com>
+ <20240926110137.2200158-4-quic_mahap@quicinc.com>
+ <35e6yleiy6wkja3ojlfjddifxv7kr7x6tyn5pszas2chouuvql@trpeb7b4eop2>
+ <2414cba4-53f2-4aec-b87b-9f8d92035bad@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2414cba4-53f2-4aec-b87b-9f8d92035bad@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,42 +96,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Sima requested that in a discussion, just copy&paste my explanation from
-the mail.
+On Fri, Sep 27, 2024 at 12:14:16PM GMT, Mahadevan P wrote:
+> 
+> On 9/26/2024 6:32 PM, Dmitry Baryshkov wrote:
+> > On Thu, Sep 26, 2024 at 04:31:35PM GMT, Mahadevan wrote:
+> > > Add Mobile Display Subsystem (MDSS) support for the SA8775P platform.
+> > > 
+> > > Signed-off-by: Mahadevan <quic_mahap@quicinc.com>
+> > > ---
+> > > 
+> > > [v2]
+> > > - Update commit message. [Dmitry]
+> > > - Reorder compatible string of MDSS based on alphabetical order. [Dmitry]
+> > > - add reg_bus_bw in msm_mdss_data. [Dmitry]
+> > > 
+> > > ---
+> > >   drivers/gpu/drm/msm/msm_mdss.c | 11 +++++++++++
+> > >   1 file changed, 11 insertions(+)
+> > > 
+> > > diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
+> > > index faa88fd6eb4d..8f1d42a43bd0 100644
+> > > --- a/drivers/gpu/drm/msm/msm_mdss.c
+> > > +++ b/drivers/gpu/drm/msm/msm_mdss.c
+> > > @@ -573,6 +573,16 @@ static const struct msm_mdss_data qcm2290_data = {
+> > >   	.reg_bus_bw = 76800,
+> > >   };
+> > > +static const struct msm_mdss_data sa8775p_data = {
+> > > +	.ubwc_enc_version = UBWC_4_0,
+> > > +	.ubwc_dec_version = UBWC_4_0,
+> > Just 4.0 or 4.3?
+> 
+> 
+> UBWC version has to be 4.0 as per UBWC reference document of sa8775p.
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
----
- drivers/gpu/drm/scheduler/sched_entity.c | 17 +++++++++++++++--
- 1 file changed, 15 insertions(+), 2 deletions(-)
+Thanks for the confirmation.
 
-diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-index b06c0696f970..90eba2ee3875 100644
---- a/drivers/gpu/drm/scheduler/sched_entity.c
-+++ b/drivers/gpu/drm/scheduler/sched_entity.c
-@@ -168,8 +168,21 @@ bool drm_sched_entity_is_ready(struct drm_sched_entity *entity)
-  * drm_sched_entity_error - return error of last scheduled job
-  * @entity: scheduler entity to check
-  *
-- * Opportunistically return the error of the last scheduled job. Result can
-- * change any time when new jobs are pushed to the hw.
-+ * Drivers should use this function in two ways:
-+ *
-+ * 1. In it's prepare callback so that when one submission fails all following
-+ * from the same ctx are marked with an error number as well.
-+ *
-+ * This is intentionally done in a driver callback so that driver decides if
-+ * they want subsequent submissions to fail or not. That can be helpful for
-+ * example for in kernel paging queues where submissions don't depend on each
-+ * other and a failed submission shouldn't cancel all following.
-+ *
-+ * 2. In it's submission IOCTL to reject new submissions and inform userspace
-+ * that it needs to kick of some error handling.
-+ *
-+ * Returns the error of the last scheduled job. Result can change any time when
-+ * new jobs are pushed to the hw.
-  */
- int drm_sched_entity_error(struct drm_sched_entity *entity)
- {
 -- 
-2.34.1
-
+With best wishes
+Dmitry
