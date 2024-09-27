@@ -2,67 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 005359886AC
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Sep 2024 16:07:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0485D9886B0
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Sep 2024 16:08:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03CEE10EC60;
-	Fri, 27 Sep 2024 14:07:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A07010EC49;
+	Fri, 27 Sep 2024 14:08:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="CqE19rP8";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="n3MFVKqo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9158D10EC53;
- Fri, 27 Sep 2024 14:07:20 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A7B310EC49
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Sep 2024 14:08:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1727446040; x=1758982040;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=CLo9OzVwUZsZ0uIWth/rFORlhVysacKJrF8TOBj8qI0=;
- b=CqE19rP8CrOA9YPjaYR3O37aV7RKg3nBMHh0l1Zc8wVjOi5q8OGleZie
- 3yf7lIkF/4LqVaR37DI7Kwv6l7LgQaQNIFz8t10QkiNTSidbL9rpe3CHl
- ew87t12ue6GpPNkWVp66WDtmEHvJ6C9yzvrXPevNCHFLpC7dDogzJM6on
- F1i3lOX0oax2rdCM1Pd3ubULi00qnmmxpkzfK6YcbTZX5mVL8rmm05gKI
- Ta9WI/v5ADzK0MWZ1rRr/NDV2CS0z+GueHRGmuzCnkUSKC82tPIkB+BSe
- dNEehlZk6waiKiStYVp/rwQ1HXi1l6DoeKqeeIH+sn3mL8EcGlFq5Sl6s w==;
-X-CSE-ConnectionGUID: tGchfyAlRG29jki65VaO2Q==
-X-CSE-MsgGUID: UtgDstvUT4KGiBzzzNCQog==
-X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="37262393"
-X-IronPort-AV: E=Sophos;i="6.11,158,1725346800"; d="scan'208";a="37262393"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Sep 2024 07:07:20 -0700
-X-CSE-ConnectionGUID: pYcf9pL4QQyGlpwN2L8OuQ==
-X-CSE-MsgGUID: xIrr8pHUQhedg+DyPQcs/g==
+ t=1727446106; x=1758982106;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=KXzIM6EQQ+TLc2CdJItum9iXhDE2IvWQTXMDLhI1RN0=;
+ b=n3MFVKqoHn9RsI0p420qYPDLn9dk+b3cgiIxMOVtN0wOBVJaeKVt9Mvq
+ 8lVyLgsTTUayN2T/GxDR1+t4Vma/257BbnhUuJQk56YmGUT3CCyLauuVx
+ ZIoZPYi1ea8zFD/2HjrLnLa6CN5DeRplibReQUKfjvlJnlCZCbvFLQanF
+ PXxDCNCPM4+8pMnBBJzyny2Nl/vz9ym00vugn/bidtr8dDNjs1G265+fI
+ zxvoFXCMuJKmhUtOjdg4hTettPYmWqPDTxMjtUcdUTgTecLDfOJA8wr1I
+ XCaYLYNcEACcw1OjeErRH+rD2NeUzvHypfiDe1Iq0SL80KZn+XvJT/GSw A==;
+X-CSE-ConnectionGUID: 8Mk37rStQh6WwJIH+OIpow==
+X-CSE-MsgGUID: N+r/h3p5R4CYtns08yAVrA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="14210565"
+X-IronPort-AV: E=Sophos;i="6.11,158,1725346800"; d="scan'208";a="14210565"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Sep 2024 07:08:25 -0700
+X-CSE-ConnectionGUID: z+8TlRe1T5yn7gbPva5pQQ==
+X-CSE-MsgGUID: jF1Ot04WReG324rjr+N3yw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,158,1725346800"; d="scan'208";a="72706953"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by fmviesa008.fm.intel.com with SMTP; 27 Sep 2024 07:07:16 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 27 Sep 2024 17:07:15 +0300
-Date: Fri, 27 Sep 2024 17:07:15 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Alessandro Zanni <alessandro.zanni87@gmail.com>, rodrigo.vivi@intel.com,
- joonas.lahtinen@linux.intel.com, tursulin@ursulin.net,
- airlied@gmail.com, simona@ffwll.ch, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
- anupnewsmail@gmail.com
-Subject: Re: [PATCH] gpu: drm: i915: display: Avoid null values
- intel_plane_atomic_check_with_state
-Message-ID: <Zva8E_L9yUN6IWlW@intel.com>
-References: <20240927000146.50830-1-alessandro.zanni87@gmail.com>
- <87tte1zewf.fsf@intel.com> <ZvaduhDERL-zvED3@intel.com>
- <87tte1xmqe.fsf@intel.com> <Zva3CAewBl8NBL91@intel.com>
+X-IronPort-AV: E=Sophos;i="6.11,158,1725346800"; d="scan'208";a="77375865"
+Received: from bergbenj-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.211])
+ by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Sep 2024 07:08:22 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, jfalempe@redhat.com,
+ airlied@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ airlied@gmail.com, daniel@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 2/5] drm/mgag200: vga-bmc: Transparently handle BMC
+In-Reply-To: <20240805130622.63458-3-tzimmermann@suse.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240805130622.63458-1-tzimmermann@suse.de>
+ <20240805130622.63458-3-tzimmermann@suse.de>
+Date: Fri, 27 Sep 2024 17:08:16 +0300
+Message-ID: <87msjtxk8f.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Zva3CAewBl8NBL91@intel.com>
-X-Patchwork-Hint: comment
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,113 +71,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 27, 2024 at 04:45:44PM +0300, Ville Syrjälä wrote:
-> On Fri, Sep 27, 2024 at 04:14:17PM +0300, Jani Nikula wrote:
-> > On Fri, 27 Sep 2024, Ville Syrjälä <ville.syrjala@linux.intel.com> wrote:
-> > > On Fri, Sep 27, 2024 at 11:20:32AM +0300, Jani Nikula wrote:
-> > >> On Fri, 27 Sep 2024, Alessandro Zanni <alessandro.zanni87@gmail.com> wrote:
-> > >> > This fix solves multiple Smatch errors:
-> > >> >
-> > >> > drivers/gpu/drm/i915/display/intel_atomic_plane.c:660
-> > >> > intel_plane_atomic_check_with_state() error:
-> > >> > we previously assumed 'fb' could be null (see line 648)
-> > >> >
-> > >> > drivers/gpu/drm/i915/display/intel_atomic_plane.c:664
-> > >> > intel_plane_atomic_check_with_state()
-> > >> > error: we previously assumed 'fb' could be null (see line 659)
-> > >> >
-> > >> > drivers/gpu/drm/i915/display/intel_atomic_plane.c:671
-> > >> > intel_plane_atomic_check_with_state()
-> > >> > error: we previously assumed 'fb' could be null (see line 663)
-> > >> >
-> > >> > We should check first if fb is not null before to access its properties.
-> > >> 
-> > >> new_plane_state->uapi.visible && !fb should not be possible, but it's
-> > >> probably too hard for smatch to figure out. It's not exactly trivial for
-> > >> humans to figure out either.
-> > >> 
-> > >> I'm thinking something like below to help both.
-> > >> 
-> > >> Ville, thoughts?
-> > >> 
-> > >> 
-> > >> BR,
-> > >> Jani.
-> > >> 
-> > >> 
-> > >> diff --git a/drivers/gpu/drm/i915/display/intel_atomic_plane.c b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-> > >> index 3505a5b52eb9..d9da47aed55d 100644
-> > >> --- a/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-> > >> +++ b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-> > >> @@ -629,6 +629,9 @@ int intel_plane_atomic_check_with_state(const struct intel_crtc_state *old_crtc_
-> > >>  	if (ret)
-> > >>  		return ret;
-> > >>  
-> > >> +	if (drm_WARN_ON(display->drm, new_plane_state->uapi.visible && !fb))
-> > >> +		return -EINVAL;
-> > >> +
-> > >
-> > > We have probably 100 places that would need this. So it's going
-> > > to be extremely ugly.
-> > >
-> > > One approach I could maybe tolerate is something like
-> > > intel_plane_is_visible(plane_state) 
-> > > {
-> > > 	if (drm_WARN_ON(visible && !fb))
-> > > 		return false;
-> > >
-> > > 	return plane_state->visible;
-> > > }
-> > >
-> > > + s/plane_state->visible/intel_plane_is_visible(plane_state)/
-> > >
-> > > But is that going to help these obtuse tools?
-> > 
-> > That does help people, which is more important. :)
-> > 
-> > I think the problem is first checking if fb is NULL, and then
-> > dereferencing it anyway.
-> > 
-> > visible always means fb != NULL, but I forget, is the reverse true? Can
-> > we have fb != NULL and !visible? I mean could we change the fb check to
-> > visible check?
-> 
-> No, the reverse does not hold. A plane can be invisible
-> while still having a valid fb. Eg. the plane could be
-> positioned completely offscreen, or the entire crtc may
-> be inactive (DPMS off).
-> 
-> And whenever we have an fb we want to do all the check to make sure
-> it satisfies all the requirements, whether the plane is visible or
-> not. Otherwise we could end up confusing userspace with something
-> like this:
-> 
-> 1. Usespace assigns some unsupported fb to the plane
->    but positions the plane offscreen -> success
-> 2. Userspace moves the plane to somewhere onscreen -> fail
+On Mon, 05 Aug 2024, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> The VGA-BMC connector selects the VGA output if a display has been
+> attached to the physical connector. Otherwise it selects the BMC
+> output. In any case, the connector status is set to 'detected', so
+> that the userspace compositor displays to it.
+>
+> Depending on the setting, the connector's display modes either come
+> from the VGA monitor's EDID or from an internal list of BMC-compatible
+> modes.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/mgag200/mgag200_vga_bmc.c | 50 ++++++++++++++++++++++-
+>  1 file changed, 48 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/mgag200/mgag200_vga_bmc.c b/drivers/gpu/drm/mgag200/mgag200_vga_bmc.c
+> index b6b90632b3c6..3a958c3587ac 100644
+> --- a/drivers/gpu/drm/mgag200/mgag200_vga_bmc.c
+> +++ b/drivers/gpu/drm/mgag200/mgag200_vga_bmc.c
+> @@ -1,6 +1,7 @@
+>  // SPDX-License-Identifier: GPL-2.0-only
+>  
+>  #include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_edid.h>
+>  #include <drm/drm_modeset_helper_vtables.h>
+>  #include <drm/drm_probe_helper.h>
+>  
+> @@ -11,9 +12,54 @@ static const struct drm_encoder_funcs mgag200_dac_encoder_funcs = {
+>  	.destroy = drm_encoder_cleanup
+>  };
+>  
+> +static int mgag200_vga_bmc_connector_helper_get_modes(struct drm_connector *connector)
+> +{
+> +	struct mga_device *mdev = to_mga_device(connector->dev);
+> +	const struct mgag200_device_info *minfo = mdev->info;
+> +	int count;
+> +
+> +	count = drm_connector_helper_get_modes(connector);
+> +
+> +	if (!count) {
+> +		/*
+> +		 * There's no EDID data without a connected monitor. Set BMC-
+> +		 * compatible modes in this case. The XGA default resolution
+> +		 * should work well for all BMCs.
+> +		 */
+> +		count = drm_add_modes_noedid(connector, minfo->max_hdisplay, minfo->max_vdisplay);
+> +		if (count)
+> +			drm_set_preferred_mode(connector, 1024, 768);
+> +	}
+> +
+> +	return count;
+> +}
+> +
+> +/*
+> + * There's no monitor connected if the DDC did not return an EDID. Still
+> + * return 'connected' as there's always a BMC. Incrementing the connector's
+> + * epoch counter triggers an update of the related properties.
+> + */
+> +static int mgag200_vga_bmc_connector_helper_detect_ctx(struct drm_connector *connector,
+> +						       struct drm_modeset_acquire_ctx *ctx,
+> +						       bool force)
+> +{
+> +	enum drm_connector_status old_status, status;
+> +
+> +	if (connector->edid_blob_ptr)
+
+This is now the only place outside of drm_edid.c that uses edid_blob_ptr
+for anything.
+
+Seems like you're using it as a proxy for "had a display connected".
+
+I wish it could be kept private to the EDID code.
 
 
-Basically planes should have three different "enabled" states:
+BR,
+Jani.
 
-logically_enabled: fb!=NULL (also the crtc must be logically enabled,
-                             but drm_atomic_plane_check() guarantees
-			     this for us)
-visible: logically_enabled && dst rectangle is at least
-         partially within pipe_src rectangle
-active: visible && crtc_is_active
 
-Currently we try to make the proper distinction between
-logically_enabled vs. invisible, but we do not properly
-handle the visible vs. active case. That is, we currently
-mark the plane as invisible if the crtc is inactive.
-
-That means we eg. calculate watermarks as if the plane was
-invisible. That may cause a subsequent "DPMS on" operation
-to fail unexpectedly because all of a sudden we realize 
-that we don't have enough FIFO space for this particular
-plane configuration. There's a FIXME somewhere in the plane
-code about this.
+> +		old_status = connector_status_connected;
+> +	else
+> +		old_status = connector_status_disconnected;
+> +
+> +	status = drm_connector_helper_detect_from_ddc(connector, ctx, force);
+> +
+> +	if (status != old_status)
+> +		++connector->epoch_counter;
+> +	return connector_status_connected;
+> +}
+> +
+>  static const struct drm_connector_helper_funcs mgag200_vga_connector_helper_funcs = {
+> -	.get_modes = drm_connector_helper_get_modes,
+> -	.detect_ctx = drm_connector_helper_detect_from_ddc
+> +	.get_modes = mgag200_vga_bmc_connector_helper_get_modes,
+> +	.detect_ctx = mgag200_vga_bmc_connector_helper_detect_ctx,
+>  };
+>  
+>  static const struct drm_connector_funcs mgag200_vga_connector_funcs = {
 
 -- 
-Ville Syrjälä
-Intel
+Jani Nikula, Intel
