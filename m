@@ -2,91 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DFFA987E98
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Sep 2024 08:44:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55108987EAA
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Sep 2024 08:50:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A09E510EC24;
-	Fri, 27 Sep 2024 06:44:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB84A10EC25;
+	Fri, 27 Sep 2024 06:50:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="CXmCGkvJ";
+	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="az1WeokD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 244C810E1D6;
- Fri, 27 Sep 2024 06:44:41 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48R6d6Fx001947;
- Fri, 27 Sep 2024 06:44:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- ON3zv317POrum9p0WhSwvi3GjOkzBVaoI7HUYQhGUbM=; b=CXmCGkvJSJ2TWpC6
- qrFHGrqXcGO7oOVQe9HgBAMudU5CJBUxud5TAyU7oOZpEcFzFhvoPyudjR4QNTAx
- u3jlzig60FHhDbAIlNmfQE1Iz/68u9XmU40sHsj0rPqUodjkGnZtylj0dz6Rd2w8
- AyZCYcQYd7P+1L6m4+5lyXK96X75Ren/2sDBpNUvrB680Rvm3p064kc9QezeqOqh
- KegoROlbPXvTyBWuoXVNVsrWEXsy1emAYAQO96f7n20qzoGIuFYriCmAEg0FGoZy
- j27OemQYGzA6yQkSds9jOh2NrXEj90s/cFGffd0EK8wGn+drZuXzWqKAa/84msm/
- UUYy9A==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41skgnjg94-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 27 Sep 2024 06:44:29 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
- [10.47.209.197])
- by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 48R6iRVA014330
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 27 Sep 2024 06:44:27 GMT
-Received: from [10.204.67.11] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 26 Sep
- 2024 23:44:19 -0700
-Message-ID: <2414cba4-53f2-4aec-b87b-9f8d92035bad@quicinc.com>
-Date: Fri, 27 Sep 2024 12:14:16 +0530
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7178B10EC25
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Sep 2024 06:50:52 +0000 (UTC)
+X-UUID: d16b3db27c9c11efb66947d174671e26-20240927
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=GoF6SJc6wFMZEyc0BXdDEMxFE4JRik1GAvCk+nHZpN4=; 
+ b=az1WeokDZGRi82UL/o/mNmP75tNjN5oaRjOKcgXvVlM0fLk/6rF7lgEm/Cy8dPKv2k9qSaZuYyX7bq7K5D+ysDL93Qhxgpt0x0RAUjfYmaLIg+m3JsCtsPb83Pp/E668N1/eK0XaxVVnZdHFbtvDUaUuXoRj6FNFC3lsznF5HPQ=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.41, REQID:7a126580-f70f-4747-b9ab-559b40f02486, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:6dc6a47, CLOUDID:c3bbdad0-7921-4900-88a1-3aef019a55ce,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
+ SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: d16b3db27c9c11efb66947d174671e26-20240927
+Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
+ mailgw01.mediatek.com (envelope-from <macpaul.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1291877166; Fri, 27 Sep 2024 14:50:44 +0800
+Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Fri, 27 Sep 2024 14:50:42 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Fri, 27 Sep 2024 14:50:42 +0800
+From: Macpaul Lin <macpaul.lin@mediatek.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Yong Wu <yong.wu@mediatek.com>, Joerg
+ Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, Robin Murphy
+ <robin.murphy@arm.com>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, CK Hu
+ <ck.hu@mediatek.com>, Jitao shi <jitao.shi@mediatek.com>, Tinghan Shen
+ <tinghan.shen@mediatek.com>, Seiya Wang <seiya.wang@mediatek.com>, Ben Lok
+ <ben.lok@mediatek.com>, Macpaul Lin <macpaul.lin@mediatek.com>, "Nancy . Lin"
+ <nancy.lin@mediatek.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-mediatek@lists.infradead.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <iommu@lists.linux.dev>,
+ <linux-arm-kernel@lists.infradead.org>, Alexandre Mergnat
+ <amergnat@baylibre.com>
+CC: Bear Wang <bear.wang@mediatek.com>, Pablo Sun <pablo.sun@mediatek.com>,
+ Macpaul Lin <macpaul@gmail.com>, Sen Chu <sen.chu@mediatek.com>, Chris-qj
+ chen <chris-qj.chen@mediatek.com>, MediaTek Chromebook Upstream
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>, Chen-Yu Tsai
+ <wenst@chromium.org>
+Subject: [PATCH v3 1/5] arm64: dts: mt8195: Fix dtbs_check error for
+ infracfg_ao node
+Date: Fri, 27 Sep 2024 14:50:37 +0800
+Message-ID: <20240927065041.15247-1-macpaul.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/5] drm/msm: mdss: Add SA8775P support
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: <robdclark@gmail.com>, <quic_abhinavk@quicinc.com>, <sean@poorly.run>,
- <marijn.suijten@somainline.org>, <airlied@gmail.com>,
- <daniel@ffwll.ch>, <maarten.lankhorst@linux.intel.com>,
- <mripard@kernel.org>, <tzimmermann@suse.de>, <robh@kernel.org>,
- <krzk+dt@kernel.org>, <conor+dt@kernel.org>, <swboyd@chromium.org>,
- <konrad.dybcio@linaro.org>, <danila@jiaxyga.com>,
- <bigfoot@classfun.cn>, <neil.armstrong@linaro.org>,
- <mailingradian@gmail.com>, <quic_jesszhan@quicinc.com>,
- <andersson@kernel.org>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <quic_kalyant@quicinc.com>, <quic_jmadiset@quicinc.com>,
- <quic_vpolimer@quicinc.com>
-References: <20240926110137.2200158-1-quic_mahap@quicinc.com>
- <20240926110137.2200158-4-quic_mahap@quicinc.com>
- <35e6yleiy6wkja3ojlfjddifxv7kr7x6tyn5pszas2chouuvql@trpeb7b4eop2>
-Content-Language: en-US
-From: Mahadevan P <quic_mahap@quicinc.com>
-In-Reply-To: <35e6yleiy6wkja3ojlfjddifxv7kr7x6tyn5pszas2chouuvql@trpeb7b4eop2>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: 24P3xGPppakOwre31esyCz8hqkm2HohV
-X-Proofpoint-GUID: 24P3xGPppakOwre31esyCz8hqkm2HohV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 bulkscore=0
- mlxlogscore=999 adultscore=0 suspectscore=0 phishscore=0 impostorscore=0
- spamscore=0 mlxscore=0 priorityscore=1501 lowpriorityscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2408220000 definitions=main-2409270044
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,59 +93,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The infracfg_ao node in mt8195.dtsi was causing a dtbs_check error.
+The error message was:
 
-On 9/26/2024 6:32 PM, Dmitry Baryshkov wrote:
-> On Thu, Sep 26, 2024 at 04:31:35PM GMT, Mahadevan wrote:
->> Add Mobile Display Subsystem (MDSS) support for the SA8775P platform.
->>
->> Signed-off-by: Mahadevan <quic_mahap@quicinc.com>
->> ---
->>
->> [v2]
->> - Update commit message. [Dmitry]
->> - Reorder compatible string of MDSS based on alphabetical order. [Dmitry]
->> - add reg_bus_bw in msm_mdss_data. [Dmitry]
->>
->> ---
->>   drivers/gpu/drm/msm/msm_mdss.c | 11 +++++++++++
->>   1 file changed, 11 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
->> index faa88fd6eb4d..8f1d42a43bd0 100644
->> --- a/drivers/gpu/drm/msm/msm_mdss.c
->> +++ b/drivers/gpu/drm/msm/msm_mdss.c
->> @@ -573,6 +573,16 @@ static const struct msm_mdss_data qcm2290_data = {
->>   	.reg_bus_bw = 76800,
->>   };
->>   
->> +static const struct msm_mdss_data sa8775p_data = {
->> +	.ubwc_enc_version = UBWC_4_0,
->> +	.ubwc_dec_version = UBWC_4_0,
-> Just 4.0 or 4.3?
+syscon@10001000: compatible: ['mediatek,mt8195-infracfg_ao', 'syscon',
+                 'simple-mfd'] is too long
 
+To resolve this, remove 'simple-mfd' from the 'compatible' property of the
+infracfg_ao node.
 
-UBWC version has to be 4.0 as per UBWC reference document of sa8775p.
+Fixes: 37f2582883be ("arm64: dts: Add mediatek SoC mt8195 and evaluation board")
+Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+---
+ arch/arm64/boot/dts/mediatek/mt8195.dtsi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+Changes for v2 and v3:
+ - no change.
 
->
->> +	.ubwc_swizzle = 4,
->> +	.ubwc_static = 1,
->> +	.highest_bank_bit = 0,
->> +	.macrotile_mode = 1,
->> +	.reg_bus_bw = 74000,
->> +};
->> +
->>   static const struct msm_mdss_data sc7180_data = {
->>   	.ubwc_enc_version = UBWC_2_0,
->>   	.ubwc_dec_version = UBWC_2_0,
->> @@ -710,6 +720,7 @@ static const struct of_device_id mdss_dt_match[] = {
->>   	{ .compatible = "qcom,mdss" },
->>   	{ .compatible = "qcom,msm8998-mdss", .data = &msm8998_data },
->>   	{ .compatible = "qcom,qcm2290-mdss", .data = &qcm2290_data },
->> +	{ .compatible = "qcom,sa8775p-mdss", .data = &sa8775p_data },
->>   	{ .compatible = "qcom,sdm670-mdss", .data = &sdm670_data },
->>   	{ .compatible = "qcom,sdm845-mdss", .data = &sdm845_data },
->>   	{ .compatible = "qcom,sc7180-mdss", .data = &sc7180_data },
->> -- 
->> 2.34.1
->>
+diff --git a/arch/arm64/boot/dts/mediatek/mt8195.dtsi b/arch/arm64/boot/dts/mediatek/mt8195.dtsi
+index e89ba384c4aa..2e1b41359b43 100644
+--- a/arch/arm64/boot/dts/mediatek/mt8195.dtsi
++++ b/arch/arm64/boot/dts/mediatek/mt8195.dtsi
+@@ -487,7 +487,7 @@ topckgen: syscon@10000000 {
+ 		};
+ 
+ 		infracfg_ao: syscon@10001000 {
+-			compatible = "mediatek,mt8195-infracfg_ao", "syscon", "simple-mfd";
++			compatible = "mediatek,mt8195-infracfg_ao", "syscon";
+ 			reg = <0 0x10001000 0 0x1000>;
+ 			#clock-cells = <1>;
+ 			#reset-cells = <1>;
+-- 
+2.45.2
+
