@@ -2,79 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43FA1988BB0
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Sep 2024 23:07:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEAE5988BB2
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Sep 2024 23:09:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C2B210E28D;
-	Fri, 27 Sep 2024 21:07:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71C2710ED25;
+	Fri, 27 Sep 2024 21:09:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="pRJw/Afb";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="dODxIc79";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C73610E28D
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Sep 2024 21:07:33 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48RFopx5023001;
- Fri, 27 Sep 2024 21:07:31 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18B7810ED25
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Sep 2024 21:09:34 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48RFOtgo014835;
+ Fri, 27 Sep 2024 21:09:31 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- ZI6gvPJ/L/6YYOL/reLAbvCG7kOoUXImavGPAzuu8Vc=; b=pRJw/Afb+Iflisvj
- j+9EBSDhholo5qy5Oge5I7KayGGvXmvrIdQ3M7XrvabGp+Q1QHczxIgYmzoLvmpZ
- aOxPusXIcrACLFP2GIwtcULGfyR4UEOM+voIs8cR0g5TsCYWiDPQcywzuPVHgmlR
- 5q5dpo+/m2A/qOXncF+6ALF6+QygG22StECBAqSoU43ilZfLZl/1EFllJND7bHYp
- fJmxHqA7E+TSz7fzMKaQsYcnAa4x9GK2zrNUkUzVpcQDIAeIDGYCy5t3IAt/hyxR
- HBRbIXtlbVgQJ3evjRisV3loE2BETuI2ACKAmWqZlA4RdMFZoDDlDwwyvjsn8zt4
- f9msVA==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ V7fBvDIbvH+w1/qY69rhKbrFAXZDilI4vbsJilSLKz0=; b=dODxIc79iy6bVq3u
+ SgQJJJDII/vLY977P1BYXGXqJgHYVz8Z0OeDUc/NehTBkRKMXLxL9/l78158tyKb
+ 2AMc2lqiGTlV/6bnQbEvt0VCrtru5NbOI6Ek4LlB6wY3atv4TNOvg/qByvOq8Ikx
+ o+OppolWwiIjWdwmmOJZJy6Oc0NkKGwNCMI+q2MgnIgSwg4JmFwPok9z/8tGMO+a
+ 3OgC0GjNO7SV/UfAylo507j7hfkTS/SJKy87sEKanaEaTuJmeXHkwBXKfpt8RPKR
+ fOfDi+YUFGk2h4aVcBuxbMdqLeTw9noQxmNxSeMhjDBu6V0jIUwJgs0wYnYneYVo
+ Yam0Ug==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41spwf3ucc-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41spc341de-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 27 Sep 2024 21:07:30 +0000 (GMT)
+ Fri, 27 Sep 2024 21:09:30 +0000 (GMT)
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 48RL7UXB007598
+ by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 48RL9UJg030805
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 27 Sep 2024 21:07:30 GMT
+ Fri, 27 Sep 2024 21:09:30 GMT
 Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 27 Sep
- 2024 14:07:29 -0700
-Message-ID: <c8038ba3-db7e-5314-4bba-8d0a2521c862@quicinc.com>
-Date: Fri, 27 Sep 2024 15:07:29 -0600
+ 2024 14:09:29 -0700
+Message-ID: <f2d41115-12ce-c9f4-4d52-ea0c8f94c45e@quicinc.com>
+Date: Fri, 27 Sep 2024 15:09:28 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.6.0
-Subject: Re: [PATCH 11/29] accel/ivpu: Remove 1-tile power up Simics workaround
+Subject: Re: [PATCH 12/29] accel/ivpu: Allow reading dvfs_mode debugfs file
 Content-Language: en-US
 To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
  <dri-devel@lists.freedesktop.org>
-CC: <oded.gabbay@gmail.com>, Karol Wachowski <karol.wachowski@intel.com>
+CC: <oded.gabbay@gmail.com>, Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
 References: <20240924081754.209728-1-jacek.lawrynowicz@linux.intel.com>
- <20240924081754.209728-12-jacek.lawrynowicz@linux.intel.com>
+ <20240924081754.209728-13-jacek.lawrynowicz@linux.intel.com>
 From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20240924081754.209728-12-jacek.lawrynowicz@linux.intel.com>
+In-Reply-To: <20240924081754.209728-13-jacek.lawrynowicz@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: w-N7ki8Ub1q6cOaF6unxbV_PQhLRmqnK
-X-Proofpoint-ORIG-GUID: w-N7ki8Ub1q6cOaF6unxbV_PQhLRmqnK
+X-Proofpoint-GUID: kFnF2s1_zEIawrw0WRmokvNiB-iyJK6F
+X-Proofpoint-ORIG-GUID: kFnF2s1_zEIawrw0WRmokvNiB-iyJK6F
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
  definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- suspectscore=0 adultscore=0 priorityscore=1501 clxscore=1015
- malwarescore=0 mlxscore=0 mlxlogscore=726 impostorscore=0 phishscore=0
- spamscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ clxscore=1015
+ priorityscore=1501 suspectscore=0 lowpriorityscore=0 spamscore=0
+ impostorscore=0 malwarescore=0 adultscore=0 phishscore=0 mlxlogscore=839
+ bulkscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2408220000 definitions=main-2409270154
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -92,13 +92,12 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 9/24/2024 2:17 AM, Jacek Lawrynowicz wrote:
-> From: Karol Wachowski <karol.wachowski@intel.com>
+> From: Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
 > 
-> Previously Simics was not providing workpoint for configurations
-> with 0 tiles enabled, that had to be worked around in the KMD.
-> This got fixed in Simics and workaround is no longer needed.
+> Make the dvfs_mode read-write to allow checking current mode.
+> Simplify the dvfs_mode implementation with the DEFINE_DEBUGFS_ATTRIBUTE.
 > 
-> Signed-off-by: Karol Wachowski <karol.wachowski@intel.com>
+> Signed-off-by: Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
 > Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 > Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 
