@@ -2,77 +2,116 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68942988C5F
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Sep 2024 00:21:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03244988C94
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Sep 2024 00:46:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3362F10E0E9;
-	Fri, 27 Sep 2024 22:21:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 047ED10E356;
+	Fri, 27 Sep 2024 22:45:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=w_armin@gmx.de header.b="q8rVNGCq";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="uUu0uLje";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A174D10E0E9
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Sep 2024 22:21:30 +0000 (UTC)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EEF710E356
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Sep 2024 22:45:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1727475676; x=1728080476; i=w_armin@gmx.de;
- bh=Lr9bkzMHZ7vu8Jv9YPZDV8hXf1hkjHqLpMl6rgDSv2A=;
+ s=s31663417; t=1727477128; x=1728081928; i=deller@gmx.de;
+ bh=+dHwecBIGg3Joh9idb0HFBnwx/TWcgxtGlnTZgL1Fb8=;
  h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
  References:From:In-Reply-To:Content-Type:
  Content-Transfer-Encoding:cc:content-transfer-encoding:
  content-type:date:from:message-id:mime-version:reply-to:subject:
  to;
- b=q8rVNGCqzvssvaSIKdhkEkqleXTLF/scoDCLC5H+UEJ2S1xybyZGs0l+ngO5Ogje
- lRLa8MDu3xeQ+w/tcgWgrKu3TdQ5fbRtAuu0xb13ureSfVJtsSiH2sDqM2FfJpfso
- KB/DEHLMhmOyJD+VP29gOjlEjr+IAejqwQ70ZzWWdpFnfkiOtBjLXM3g6C1AQAAqh
- VMtynoA+yxPITB2i2HrWl/Yw3nhzV9E8THnrllxV3GL1OwNQtQoEljBVeXIbLYAI7
- 45+n1Mf1oHgQvmIjyIBzEZp4fbfuJZn/GBBM+ShOjiXvabWYv7GKoIUDLYxsUgqWe
- xnIOBMNqK98g9lpTbA==
+ b=uUu0uLjeGZn/g6y6YSPbR6YB6qaRe3pNhJCnt+RdL78RZxB24OSvtZWLvxBeDpws
+ pNx/1gYztAFPkvfzIMmR7fr1oQmZqyA3u2Eg4jSrA8+gepeDhqP9bWV3Pp46/eRQq
+ jEG/p4Qd8xVMkKHfZjR1Q8chWfU7vA6KNbZstQYtsIrP744mS5lAoD0ucOJADVuV1
+ Ve2Y81NJWD6pc/N9yeZR0KzXwbJpvraPxQvdH6i83E6/5nKKpVqThPPRhwk+amAI1
+ cw46M7wqVJl8u8zdjvrzIZlgKIdku8yW+pqpVU3Omu7HZhtz9hSAo/AEamOubL7fJ
+ NIw4Ar1s9o9+Jlf9SA==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [141.30.226.129] ([141.30.226.129]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MUGe1-1sT7Pz2r6h-00VJ5G; Sat, 28
- Sep 2024 00:21:16 +0200
-Message-ID: <bea39077-6104-4b59-8757-9cbe0e703e5c@gmx.de>
-Date: Sat, 28 Sep 2024 00:21:10 +0200
+Received: from [192.168.20.55] ([109.250.63.79]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MzhnH-1rz28P23qz-00zF2I; Sat, 28
+ Sep 2024 00:45:28 +0200
+Message-ID: <db1de78a-8846-4fbf-9923-98614f60e73a@gmx.de>
+Date: Sat, 28 Sep 2024 00:45:25 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] platform/x86/tuxedo: Add virtual LampArray for TUXEDO
- NB04 devices
-To: Pavel Machek <pavel@ucw.cz>, Werner Sembach <wse@tuxedocomputers.com>
-Cc: Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- bentiss@kernel.org, dri-devel@lists.freedesktop.org, jelle@vdwaa.nl,
- jikos@kernel.org, lee@kernel.org, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
- miguel.ojeda.sandonis@gmail.com, ojeda@kernel.org, onitake@gmail.com,
- platform-driver-x86@vger.kernel.org
-References: <20240926174405.110748-1-wse@tuxedocomputers.com>
- <20240926174405.110748-2-wse@tuxedocomputers.com>
- <ZvcdNXQJmc8cjifw@amd.ucw.cz>
+Subject: Re: [PATCH 2/2] sis_main: Fix strbuf array overflow
+To: Andrey Shumilin <shum.sdl@nppct.ru>,
+ Thomas Winischhofer <thomas@winischhofer.net>
+Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org,
+ khoroshilov@ispras.ru, ykarpov@ispras.ru, vmerzlyakov@ispras.ru,
+ vefanov@ispras.ru
+References: <20240927193424.3934247-1-shum.sdl@nppct.ru>
 Content-Language: en-US
-From: Armin Wolf <W_Armin@gmx.de>
-In-Reply-To: <ZvcdNXQJmc8cjifw@amd.ucw.cz>
+From: Helge Deller <deller@gmx.de>
+Autocrypt: addr=deller@gmx.de; keydata=
+ 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
+In-Reply-To: <20240927193424.3934247-1-shum.sdl@nppct.ru>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:e/9HngdBT12On4ZBEBK+f2m94BBPYdIqKfeBet3QjyCtYjtiQer
- gR1Mief0/5E3yGGRg6BYLUsJQnL+Y/lTA8U2lhmjcYLW6S04Ay2ZDixGogx9TnEb/ghPZkQ
- /A3o+kOTvO+bJy0ypIlmaDK5usV7Nb84gLnKRnETzkLsxzNmo+D5xUYvnxDdyoshdLDc4TR
- O5ZmLBtE51dFuUwrFNVEQ==
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:pCmyMRGPD3DNsO2nzlobMSmzVIrYYCtn1A9wdCNAy67CwSNyqQq
+ Nm1uJ8D46LF+iRZuFKHLdSFdJ4x/HBP4iDeXMkyLSDwYCQfHmldajgAqXZ64i1p1QPPivqY
+ 7g4/b11rcg9wEta2+27eshdGv6UAHQM6U0ndpz77RIZRVZ6So82IivgWf8vR9TeSiWnJcFo
+ jwFKtLXf4lti8nhpPgO0A==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:wGown/gsguY=;SvrpYKfftdGZhdbi/V9R3Or71EC
- tg3Jmbj2OpafRxaWWHp8to6XX+BpokIxHz32nUUzwbZUFzop+vEgNINnJPpQQozNEtTkNhRuS
- nNLQrKM74wIX0eWsPBZWnw/c+0pSkJMPaDl5SgMD7d+9c6wJRw7SY8nO9ICewLYlqqQ2jlcYd
- PM5cUNShyWPpBCfnSiznhgbd/7RRBp4nAXyaZSUWs7cgdTlTytb0QOmWVVTjSFmKtE20UY2nE
- Rgs/feFONHF8WmSqyzq0bkCg3lRqLYR1TjCN8tUPTTHSxxXphom1tFDBMLUtgOdYYnC8FGcrA
- LBz7RF/pEavy5BS6RAj64gkGiN8GW+1gBHGCzrjZo8FrJgQc2JgapWGX/CRKmUZ//Ymc2nBHp
- muHjWi9sz67TJtBtNB6BbptBLUko0zdzNgmUVSO3PwexLGen6WP8T/QdK6BOa7UwqPFI9Xlhd
- CcySXAQLtxh/Vr754X45TmQAWq8ExJKUJdtYzLA9uC3Vm+U8O7nKt3nnQRuvOe190E4lR8QM1
- iR1vOXj7NhQ6/ax8Xf2CA6hZb9E3J3erAvdVmH3e6FZrR2TeVvHqNH8qYUOsIs/q9/AWIE4Bh
- MTXyMif0hf8etBiFD1EHsaEB8kvUfWcRwGHct/3/QWq5MAHnOXVNvRSMnC8aZfaLyEECnt73M
- PJGBD/7nrFDA2kAhWiqkFKVkaijSeuHVBXTGpEYRexJWHAltIekHzNOVntasLs3wZptS32MVz
- gq2eUg3i2lI3O4ENHdrLOhJp1OeEJSMK1L44gId6uPXO922ryN65DmQjeA3mEcvmOk1GF2TDP
- FdSUzyBUXoqKTTX/PYFvsBoFYyWNdyyCJY+lWRSNJIJGw=
+UI-OutboundReport: notjunk:1;M01:P0:PfPZZ7CPJSQ=;kK6miyz9JF2cGTm/FkqmnGcVfTo
+ b9zhUAkjw4ubBKhWoJERYCdcwwmB9OoqQXUgv5CWj/XKzbIgyjOkNO+TUTWSz1J1degPxwrQ8
+ DmC4phatYmN/B+HLIqpPkpUoUc/7EdTy5XaG7weJoEIUBlWSaHjNhJ9fxKys5mQhDcgECYmuU
+ 3Zcq9xbPzfIUcrJC9qBvg2Rwhu0wMkl0Ggka2I2+GeT60AbSBRk//7vpN1q6Vnka1m/kirYqx
+ S/lsWRUupPdwzTXyIFMU1LDX1gdbeyfZAyEeankdX/L61XrzpyLMTexrDLU31BS9LuhbQDl7t
+ wFdVKa0QZUVIIFRxdFQor7gyDFTBnq0mAjtyTPp0IKDQt+ukE8Jq6t+MFSgzipDQj5B0bwCkZ
+ TSeYgtBAWUoMe9qDtz+51gJklSgLEMSJ+EIMm6h6qLcjjaNH7Jqrsk3bhWKtAbc4MANZgkwrp
+ IinAxMP8vowvQLB6FcyaGtx4eBqjqLAqgeq1LIjD6OjYSBXFaFihFDrRkx24WpTvljUGZSqSa
+ 73zzO8j11dvd0Xj7jJhf4WnbH1/xPZCkA9KFYbLaxeZZvTsJa6cOvPwe0B1RIcom+8LFbfsD8
+ jtkRoIsIAbdMVGEE6+YQZSHjiCTiycygbnFAmQAdvoG/BLvNg2oMGg/KMgNqfLNNQDTRiX/xv
+ CllqQLkzIDJpoqbXZK+0pEXGfv7baha2WwTGoSuA3MufcXiHrBxHqbdBlcgH8eHVsZauIJal8
+ rsyHhFKA7tfV3qI+A2ONR1Z5KzrPZC8fS2JCCBo1prZ1RM5oKd7zh5Ua2zS25x1HBOCZjzS6s
+ Jwph/O3sV+YTluCT+oWIhuTg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,337 +127,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 27.09.24 um 23:01 schrieb Pavel Machek:
+On 9/27/24 21:34, Andrey Shumilin wrote:
+> The values of the variables xres and yres are placed in strbuf.
+> These variables are obtained from strbuf1.
+> The strbuf1 array contains digit characters
+> and a space if the array contains non-digit characters.
+> Then, when executing sprintf(strbuf, "%ux%ux8", xres, yres);
+> more than 16 bytes will be written to strbuf.
+> It is suggested to increase the size of the strbuf array to 24.
+>
+> Found by Linux Verification Center (linuxtesting.org) with SVACE.
+>
+> Signed-off-by: Andrey Shumilin <shum.sdl@nppct.ru>
 
-> Hi!
->
->> The TUXEDO Sirius 16 Gen1 and TUXEDO Sirius 16 Gen2 devices have a per-key
->> controllable RGB keyboard backlight. The firmware API for it is implemented
->> via WMI.
-> Ok.
->
->> To make the backlight userspace configurable this driver emulates a
->> LampArray HID device and translates the input from hidraw to the
->> corresponding WMI calls. This is a new approach as the leds subsystem lacks
->> a suitable UAPI for per-key keyboard backlights, and like this no new UAPI
->> needs to be established.
-> Please don't.
->
-> a) I don't believe emulating crazy HID interface si right thing to
-> do. (Ton of magic constants. IIRC it stores key positions with
-> micrometer accuracy or something that crazy. How is userland going to
-> use this? Will we update micrometers for every single machine?)
->
-> Even if it is,
->
-> b) The emulation should go to generic layer, it is not specific to
-> your hardware.
->
-Maybe introducing a misc-device which provides an ioctl-based API similar
-to the HID LampArray would be a solution?
+applied to fbdev git tree.
 
-Basically we would need:
-- ioctl for querying the supported LEDs and their properties
-- ioctl for enabling/disabling autonomous mode
-- ioctl for updating a range of LEDs
-- ioctl for updating multiple LEDs at once
+Thanks!
+Helge
 
-If we implement this as a separate subsystem ("illumination subsystem"), then different
-drivers could use this. This would also allow us to add additional ioctl calls later
-for more features.
+> ---
+>   drivers/video/fbdev/sis/sis_main.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/video/fbdev/sis/sis_main.c b/drivers/video/fbdev/si=
+s/sis_main.c
+> index 03c736f6f3d0..e907fde96ff4 100644
+> --- a/drivers/video/fbdev/sis/sis_main.c
+> +++ b/drivers/video/fbdev/sis/sis_main.c
+> @@ -183,7 +183,7 @@ static void sisfb_search_mode(char *name, bool quiet=
+)
+>   {
+>   	unsigned int j =3D 0, xres =3D 0, yres =3D 0, depth =3D 0, rate =3D 0=
+;
+>   	int i =3D 0;
+> -	char strbuf[16], strbuf1[20];
+> +	char strbuf[24], strbuf1[20];
+>   	char *nameptr =3D name;
+>
+>   	/* We don't know the hardware specs yet and there is no ivideo */
 
-Thanks,
-Armin Wolf
-
->> +
->> +// We don't know if the WMI API is stable and how unique the GUID is for this ODM. To be on the safe
->> +// side we therefore only run this driver on tested devices defined by this list.
-> 80 columns, /* */ is usual comment style.
->
-> To illustrate my point... this is crazy:
->
-> (and would require equally crazy par in openrgb to parse).
->
-> Best regards,
-> 								Pavel
->
->> +
->> +static const uint8_t sirius_16_ansii_kbl_mapping[] = {
->> +	0x29, 0x3a, 0x3b, 0x3c, 0x3d, 0x3e, 0x3f, 0x40, 0x41, 0x42,
->> +	0x43, 0x44, 0x45, 0xf1, 0x46, 0x4c,   0x4a, 0x4d, 0x4b, 0x4e,
->> +	0x35, 0x1e, 0x1f, 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26,
->> +	0x27, 0x2d, 0x2e, 0x2a,               0x53, 0x55, 0x54, 0x56,
->> +	0x2b, 0x14, 0x1a, 0x08, 0x15, 0x17, 0x1c, 0x18, 0x0c, 0x12,
->> +	0x13, 0x2f, 0x30, 0x31,               0x5f, 0x60, 0x61,
->> +	0x39, 0x04, 0x16, 0x07, 0x09, 0x0a, 0x0b, 0x0d, 0x0e, 0x0f,
->> +	0x33, 0x34, 0x28,                     0x5c, 0x5d, 0x5e, 0x57,
->> +	0xe1, 0x1d, 0x1b, 0x06, 0x19, 0x05, 0x11, 0x10, 0x36, 0x37,
->> +	0x38, 0xe5, 0x52,                     0x59, 0x5a, 0x5b,
->> +	0xe0, 0xfe, 0xe3, 0xe2, 0x2c, 0xe6, 0x65, 0xe4, 0x50, 0x51,
->> +	0x4f,                                 0x62, 0x63, 0x58
->> +};
->> +
->> +static const uint32_t sirius_16_ansii_kbl_mapping_pos_x[] = {
->> +	 25000,  41700,  58400,  75100,  91800, 108500, 125200, 141900, 158600, 175300,
->> +	192000, 208700, 225400, 242100, 258800, 275500,   294500, 311200, 327900, 344600,
->> +	 24500,  42500,  61000,  79500,  98000, 116500, 135000, 153500, 172000, 190500,
->> +	209000, 227500, 246000, 269500,                   294500, 311200, 327900, 344600,
->> +	 31000,  51500,  70000,  88500, 107000, 125500, 144000, 162500, 181000, 199500,
->> +	218000, 236500, 255000, 273500,                   294500, 311200, 327900,
->> +	 33000,  57000,  75500,  94000, 112500, 131000, 149500, 168000, 186500, 205000,
->> +	223500, 242000, 267500,                           294500, 311200, 327900, 344600,
->> +	 37000,  66000,  84500, 103000, 121500, 140000, 158500, 177000, 195500, 214000,
->> +	232500, 251500, 273500,                           294500, 311200, 327900,
->> +	 28000,  47500,  66000,  84500, 140000, 195500, 214000, 234000, 255000, 273500,
->> +	292000,                                           311200, 327900, 344600
->> +};
->> +
->> +static const uint32_t sirius_16_ansii_kbl_mapping_pos_y[] = {
->> +	 53000,  53000,  53000,  53000,  53000,  53000,  53000,  53000,  53000,  53000,
->> +	 53000,  53000,  53000,  53000,  53000,  53000,    53000,  53000,  53000,  53000,
->> +	 67500,  67500,  67500,  67500,  67500,  67500,  67500,  67500,  67500,  67500,
->> +	 67500,  67500,  67500,  67500,                    67500,  67500,  67500,  67500,
->> +	 85500,  85500,  85500,  85500,  85500,  85500,  85500,  85500,  85500,  85500,
->> +	 85500,  85500,  85500,  85500,                    85500,  85500,  85500,
->> +	103500, 103500, 103500, 103500, 103500, 103500, 103500, 103500, 103500, 103500,
->> +	103500, 103500, 103500,                           103500, 103500, 103500,  94500,
->> +	121500, 121500, 121500, 121500, 121500, 121500, 121500, 121500, 121500, 121500,
->> +	121500, 121500, 129000,                           121500, 121500, 121500,
->> +	139500, 139500, 139500, 139500, 139500, 139500, 139500, 139500, 147000, 147000,
->> +	147000,                                           139500, 139500, 130500
->> +};
->> +
->> +static const uint32_t sirius_16_ansii_kbl_mapping_pos_z[] = {
->> +	  5000,   5000,   5000,   5000,   5000,   5000,   5000,   5000,   5000,   5000,
->> +	  5000,   5000,   5000,   5000,   5000,   5000,     5000,   5000,   5000,   5000,
->> +	  5250,   5250,   5250,   5250,   5250,   5250,   5250,   5250,   5250,   5250,
->> +	  5250,   5250,   5250,   5250,                     5250,   5250,   5250,   5250,
->> +	  5500,   5500,   5500,   5500,   5500,   5500,   5500,   5500,   5500,   5500,
->> +	  5500,   5500,   5500,   5500,                     5500,   5500,   5500,
->> +	  5750,   5750,   5750,   5750,   5750,   5750,   5750,   5750,   5750,   5750,
->> +	  5750,   5750,   5750,                             5750,   5750,   5750,   5625,
->> +	  6000,   6000,   6000,   6000,   6000,   6000,   6000,   6000,   6000,   6000,
->> +	  6000,   6000,   6125,                             6000,   6000,   6000,
->> +	  6250,   6250,   6250,   6250,   6250,   6250,   6250,   6250,   6375,   6375,
->> +	  6375,                                             6250,   6250,   6125
->> +};
->> +
->> +static const uint8_t sirius_16_iso_kbl_mapping[] = {
->> +	0x29, 0x3a, 0x3b, 0x3c, 0x3d, 0x3e, 0x3f, 0x40, 0x41, 0x42,
->> +	0x43, 0x44, 0x45, 0xf1, 0x46, 0x4c,   0x4a, 0x4d, 0x4b, 0x4e,
->> +	0x35, 0x1e, 0x1f, 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26,
->> +	0x27, 0x2d, 0x2e, 0x2a,               0x53, 0x55, 0x54, 0x56,
->> +	0x2b, 0x14, 0x1a, 0x08, 0x15, 0x17, 0x1c, 0x18, 0x0c, 0x12,
->> +	0x13, 0x2f, 0x30,                     0x5f, 0x60, 0x61,
->> +	0x39, 0x04, 0x16, 0x07, 0x09, 0x0a, 0x0b, 0x0d, 0x0e, 0x0f,
->> +	0x33, 0x34, 0x32, 0x28,               0x5c, 0x5d, 0x5e, 0x57,
->> +	0xe1, 0x64, 0x1d, 0x1b, 0x06, 0x19, 0x05, 0x11, 0x10, 0x36,
->> +	0x37, 0x38, 0xe5, 0x52,               0x59, 0x5a, 0x5b,
->> +	0xe0, 0xfe, 0xe3, 0xe2, 0x2c, 0xe6, 0x65, 0xe4, 0x50, 0x51,
->> +	0x4f,                                 0x62, 0x63, 0x58
->> +};
->> +
->> +static const uint32_t sirius_16_iso_kbl_mapping_pos_x[] = {
->> +	 25000,  41700,  58400,  75100,  91800, 108500, 125200, 141900, 158600, 175300,
->> +	192000, 208700, 225400, 242100, 258800, 275500,   294500, 311200, 327900, 344600,
->> +	 24500,  42500,  61000,  79500,  98000, 116500, 135000, 153500, 172000, 190500,
->> +	209000, 227500, 246000, 269500,                   294500, 311200, 327900, 344600,
->> +	 31000,  51500,  70000,  88500, 107000, 125500, 144000, 162500, 181000, 199500,
->> +	218000, 234500, 251000,                           294500, 311200, 327900,
->> +	 33000,  57000,  75500,  94000, 112500, 131000, 149500, 168000, 186500, 205000,
->> +	223500, 240000, 256500, 271500,                   294500, 311200, 327900, 344600,
->> +	 28000,  47500,  66000,  84500, 103000, 121500, 140000, 158500, 177000, 195500,
->> +	214000, 232500, 251500, 273500,                   294500, 311200, 327900,
->> +	 28000,  47500,  66000,  84500, 140000, 195500, 214000, 234000, 255000, 273500,
->> +	292000,                                           311200, 327900, 344600
->> +};
->> +
->> +static const uint32_t sirius_16_iso_kbl_mapping_pos_y[] = {
->> +	 53000,  53000,  53000,  53000,  53000,  53000,  53000,  53000,  53000,  53000,
->> +	 53000,  53000,  53000,  53000,  53000,  53000,    53000,  53000,  53000,  53000,
->> +	 67500,  67500,  67500,  67500,  67500,  67500,  67500,  67500,  67500,  67500,
->> +	 67500,  67500,  67500,  67500,                    67500,  67500,  67500,  67500,
->> +	 85500,  85500,  85500,  85500,  85500,  85500,  85500,  85500,  85500,  85500,
->> +	 85500,  85500,  85500,                            85500,  85500,  85500,
->> +	103500, 103500, 103500, 103500, 103500, 103500, 103500, 103500, 103500, 103500,
->> +	103500, 103500, 103500,  94500,                   103500, 103500, 103500,  94500,
->> +	121500, 121500, 121500, 121500, 121500, 121500, 121500, 121500, 121500, 121500,
->> +	121500, 121500, 121500, 129000,                   121500, 121500, 121500,
->> +	139500, 139500, 139500, 139500, 139500, 139500, 139500, 139500, 147000, 147000,
->> +	147000,                                           139500, 139500, 130500
->> +};
->> +
->> +static const uint32_t sirius_16_iso_kbl_mapping_pos_z[] = {
->> +	  5000,   5000,   5000,   5000,   5000,   5000,   5000,   5000,   5000,   5000,
->> +	  5000,   5000,   5000,   5000, 5000, 5000,         5000,   5000,   5000,   5000,
->> +	  5250,   5250,   5250,   5250,   5250,   5250,   5250,   5250,   5250,   5250,
->> +	  5250,   5250,   5250,   5250,                     5250,   5250,   5250,   5250,
->> +	  5500,   5500,   5500,   5500,   5500,   5500,   5500,   5500,   5500,   5500,
->> +	  5500,   5500,   5500,                             5500,   5500,   5500,
->> +	  5750,   5750,   5750,   5750,   5750,   5750,   5750,   5750,   5750,   5750,
->> +	  5750,   5750,   5750,   5750,                     5750,   5750,   5750,   5625,
->> +	  6000,   6000,   6000,   6000,   6000,   6000,   6000,   6000,   6000,   6000,
->> +	  6000,   6000,   6000,   6125,                     6000,   6000,   6000,
->> +	  6250,   6250,   6250,   6250,   6250,   6250,   6250,   6250,   6375,   6375,
->> +	  6375,                                             6250,   6250,   6125
->> +};
-> ...
->> +
->> +static uint8_t report_descriptor[327] = {
->> +	0x05, 0x59,			// Usage Page (Lighting and Illumination)
->> +	0x09, 0x01,			// Usage (Lamp Array)
->> +	0xa1, 0x01,			// Collection (Application)
->> +	0x85, LAMP_ARRAY_ATTRIBUTES_REPORT_ID, //  Report ID (1)
->> +	0x09, 0x02,			//  Usage (Lamp Array Attributes Report)
->> +	0xa1, 0x02,			//  Collection (Logical)
->> +	0x09, 0x03,			//   Usage (Lamp Count)
->> +	0x15, 0x00,			//   Logical Minimum (0)
->> +	0x27, 0xff, 0xff, 0x00, 0x00,	//   Logical Maximum (65535)
->> +	0x75, 0x10,			//   Report Size (16)
->> +	0x95, 0x01,			//   Report Count (1)
->> +	0xb1, 0x03,			//   Feature (Cnst,Var,Abs)
->> +	0x09, 0x04,			//   Usage (Bounding Box Width In Micrometers)
->> +	0x09, 0x05,			//   Usage (Bounding Box Height In Micrometers)
->> +	0x09, 0x06,			//   Usage (Bounding Box Depth In Micrometers)
->> +	0x09, 0x07,			//   Usage (Lamp Array Kind)
->> +	0x09, 0x08,			//   Usage (Min Update Interval In Microseconds)
->> +	0x15, 0x00,			//   Logical Minimum (0)
->> +	0x27, 0xff, 0xff, 0xff, 0x7f,	//   Logical Maximum (2147483647)
->> +	0x75, 0x20,			//   Report Size (32)
->> +	0x95, 0x05,			//   Report Count (5)
->> +	0xb1, 0x03,			//   Feature (Cnst,Var,Abs)
->> +	0xc0,				//  End Collection
->> +	0x85, LAMP_ATTRIBUTES_REQUEST_REPORT_ID, //  Report ID (2)
->> +	0x09, 0x20,			//  Usage (Lamp Attributes Request Report)
->> +	0xa1, 0x02,			//  Collection (Logical)
->> +	0x09, 0x21,			//   Usage (Lamp Id)
->> +	0x15, 0x00,			//   Logical Minimum (0)
->> +	0x27, 0xff, 0xff, 0x00, 0x00,	//   Logical Maximum (65535)
->> +	0x75, 0x10,			//   Report Size (16)
->> +	0x95, 0x01,			//   Report Count (1)
->> +	0xb1, 0x02,			//   Feature (Data,Var,Abs)
->> +	0xc0,				//  End Collection
->> +	0x85, LAMP_ATTRIBUTES_RESPONSE_REPORT_ID, //  Report ID (3)
->> +	0x09, 0x22,			//  Usage (Lamp Attributes Response Report)
->> +	0xa1, 0x02,			//  Collection (Logical)
->> +	0x09, 0x21,			//   Usage (Lamp Id)
->> +	0x15, 0x00,			//   Logical Minimum (0)
->> +	0x27, 0xff, 0xff, 0x00, 0x00,	//   Logical Maximum (65535)
->> +	0x75, 0x10,			//   Report Size (16)
->> +	0x95, 0x01,			//   Report Count (1)
->> +	0xb1, 0x02,			//   Feature (Data,Var,Abs)
->> +	0x09, 0x23,			//   Usage (Position X In Micrometers)
->> +	0x09, 0x24,			//   Usage (Position Y In Micrometers)
->> +	0x09, 0x25,			//   Usage (Position Z In Micrometers)
->> +	0x09, 0x27,			//   Usage (Update Latency In Microseconds)
->> +	0x09, 0x26,			//   Usage (Lamp Purposes)
->> +	0x15, 0x00,			//   Logical Minimum (0)
->> +	0x27, 0xff, 0xff, 0xff, 0x7f,	//   Logical Maximum (2147483647)
->> +	0x75, 0x20,			//   Report Size (32)
->> +	0x95, 0x05,			//   Report Count (5)
->> +	0xb1, 0x02,			//   Feature (Data,Var,Abs)
->> +	0x09, 0x28,			//   Usage (Red Level Count)
->> +	0x09, 0x29,			//   Usage (Green Level Count)
->> +	0x09, 0x2a,			//   Usage (Blue Level Count)
->> +	0x09, 0x2b,			//   Usage (Intensity Level Count)
->> +	0x09, 0x2c,			//   Usage (Is Programmable)
->> +	0x09, 0x2d,			//   Usage (Input Binding)
->> +	0x15, 0x00,			//   Logical Minimum (0)
->> +	0x26, 0xff, 0x00,		//   Logical Maximum (255)
->> +	0x75, 0x08,			//   Report Size (8)
->> +	0x95, 0x06,			//   Report Count (6)
->> +	0xb1, 0x02,			//   Feature (Data,Var,Abs)
->> +	0xc0,				//  End Collection
->> +	0x85, LAMP_MULTI_UPDATE_REPORT_ID, //  Report ID (4)
->> +	0x09, 0x50,			//  Usage (Lamp Multi Update Report)
->> +	0xa1, 0x02,			//  Collection (Logical)
->> +	0x09, 0x03,			//   Usage (Lamp Count)
->> +	0x09, 0x55,			//   Usage (Lamp Update Flags)
->> +	0x15, 0x00,			//   Logical Minimum (0)
->> +	0x25, 0x08,			//   Logical Maximum (8)
->> +	0x75, 0x08,			//   Report Size (8)
->> +	0x95, 0x02,			//   Report Count (2)
->> +	0xb1, 0x02,			//   Feature (Data,Var,Abs)
->> +	0x09, 0x21,			//   Usage (Lamp Id)
->> +	0x15, 0x00,			//   Logical Minimum (0)
->> +	0x27, 0xff, 0xff, 0x00, 0x00,	//   Logical Maximum (65535)
->> +	0x75, 0x10,			//   Report Size (16)
->> +	0x95, 0x08,			//   Report Count (8)
->> +	0xb1, 0x02,			//   Feature (Data,Var,Abs)
->> +	0x09, 0x51,			//   Usage (Red Update Channel)
->> +	0x09, 0x52,			//   Usage (Green Update Channel)
->> +	0x09, 0x53,			//   Usage (Blue Update Channel)
->> +	0x09, 0x54,			//   Usage (Intensity Update Channel)
->> +	0x09, 0x51,			//   Usage (Red Update Channel)
->> +	0x09, 0x52,			//   Usage (Green Update Channel)
->> +	0x09, 0x53,			//   Usage (Blue Update Channel)
->> +	0x09, 0x54,			//   Usage (Intensity Update Channel)
->> +	0x09, 0x51,			//   Usage (Red Update Channel)
->> +	0x09, 0x52,			//   Usage (Green Update Channel)
->> +	0x09, 0x53,			//   Usage (Blue Update Channel)
->> +	0x09, 0x54,			//   Usage (Intensity Update Channel)
->> +	0x09, 0x51,			//   Usage (Red Update Channel)
->> +	0x09, 0x52,			//   Usage (Green Update Channel)
->> +	0x09, 0x53,			//   Usage (Blue Update Channel)
->> +	0x09, 0x54,			//   Usage (Intensity Update Channel)
->> +	0x09, 0x51,			//   Usage (Red Update Channel)
->> +	0x09, 0x52,			//   Usage (Green Update Channel)
->> +	0x09, 0x53,			//   Usage (Blue Update Channel)
->> +	0x09, 0x54,			//   Usage (Intensity Update Channel)
->> +	0x09, 0x51,			//   Usage (Red Update Channel)
->> +	0x09, 0x52,			//   Usage (Green Update Channel)
->> +	0x09, 0x53,			//   Usage (Blue Update Channel)
->> +	0x09, 0x54,			//   Usage (Intensity Update Channel)
->> +	0x09, 0x51,			//   Usage (Red Update Channel)
->> +	0x09, 0x52,			//   Usage (Green Update Channel)
->> +	0x09, 0x53,			//   Usage (Blue Update Channel)
->> +	0x09, 0x54,			//   Usage (Intensity Update Channel)
->> +	0x09, 0x51,			//   Usage (Red Update Channel)
->> +	0x09, 0x52,			//   Usage (Green Update Channel)
->> +	0x09, 0x53,			//   Usage (Blue Update Channel)
->> +	0x09, 0x54,			//   Usage (Intensity Update Channel)
->> +	0x15, 0x00,			//   Logical Minimum (0)
->> +	0x26, 0xff, 0x00,		//   Logical Maximum (255)
->> +	0x75, 0x08,			//   Report Size (8)
->> +	0x95, 0x20,			//   Report Count (32)
->> +	0xb1, 0x02,			//   Feature (Data,Var,Abs)
->> +	0xc0,				//  End Collection
->> +	0x85, LAMP_RANGE_UPDATE_REPORT_ID, //  Report ID (5)
->> +	0x09, 0x60,			//  Usage (Lamp Range Update Report)
->> +	0xa1, 0x02,			//  Collection (Logical)
->> +	0x09, 0x55,			//   Usage (Lamp Update Flags)
->> +	0x15, 0x00,			//   Logical Minimum (0)
->> +	0x25, 0x08,			//   Logical Maximum (8)
->> +	0x75, 0x08,			//   Report Size (8)
->> +	0x95, 0x01,			//   Report Count (1)
->> +	0xb1, 0x02,			//   Feature (Data,Var,Abs)
->> +	0x09, 0x61,			//   Usage (Lamp Id Start)
->> +	0x09, 0x62,			//   Usage (Lamp Id End)
->> +	0x15, 0x00,			//   Logical Minimum (0)
->> +	0x27, 0xff, 0xff, 0x00, 0x00,	//   Logical Maximum (65535)
->> +	0x75, 0x10,			//   Report Size (16)
->> +	0x95, 0x02,			//   Report Count (2)
->> +	0xb1, 0x02,			//   Feature (Data,Var,Abs)
->> +	0x09, 0x51,			//   Usage (Red Update Channel)
->> +	0x09, 0x52,			//   Usage (Green Update Channel)
->> +	0x09, 0x53,			//   Usage (Blue Update Channel)
->> +	0x09, 0x54,			//   Usage (Intensity Update Channel)
->> +	0x15, 0x00,			//   Logical Minimum (0)
->> +	0x26, 0xff, 0x00,		//   Logical Maximum (255)
->> +	0x75, 0x08,			//   Report Size (8)
->> +	0x95, 0x04,			//   Report Count (4)
->> +	0xb1, 0x02,			//   Feature (Data,Var,Abs)
->> +	0xc0,				//  End Collection
->> +	0x85, LAMP_ARRAY_CONTROL_REPORT_ID, //  Report ID (6)
->> +	0x09, 0x70,			//  Usage (Lamp Array Control Report)
->> +	0xa1, 0x02,			//  Collection (Logical)
->> +	0x09, 0x71,			//   Usage (Autonomous Mode)
->> +	0x15, 0x00,			//   Logical Minimum (0)
->> +	0x25, 0x01,			//   Logical Maximum (1)
->> +	0x75, 0x08,			//   Report Size (8)
->> +	0x95, 0x01,			//   Report Count (1)
->> +	0xb1, 0x02,			//   Feature (Data,Var,Abs)
->> +	0xc0,				//  End Collection
->> +	0xc0				// End Collection
->> +};
->> +
