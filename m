@@ -2,85 +2,129 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13057988093
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Sep 2024 10:42:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E16F9880B3
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Sep 2024 10:50:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 904FC10EC7C;
-	Fri, 27 Sep 2024 08:42:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C9DC10EC89;
+	Fri, 27 Sep 2024 08:49:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="qmMT+Orc";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="OHvuZm56";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
- [209.85.167.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7423B10EC7D
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Sep 2024 08:42:20 +0000 (UTC)
-Received: by mail-lf1-f42.google.com with SMTP id
- 2adb3069b0e04-5367ae52a01so2311081e87.3
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Sep 2024 01:42:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1727426538; x=1728031338; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=wORqZqv9cUGC80DSKYgE6tfqrN9lDUHFj2CIW1jLYmc=;
- b=qmMT+OrcdMgpQQ2yE3BpK/TAkn3H5ndqD6AqsuUn2uprYCJJTo2SyF3zLlt5q7QZpr
- WRpmGtAvrPWkBvK44txwSPspDRN8C4dGl4TQPm/bIt0HrSl2NeiKeBiv+SnwKCYU+guP
- AqKto4d9pOQWZKF31LRbIcjUIy6SRn5NjcseXPphPg23XqeuBAc3LYDpAjRbZbwYls4j
- TN1/Di3ppnNILU7HL03HobYznzKzj2w9Foeri+6jPX2AyWJIjTvwcpCx94lF4fuQoITV
- JwPv+fyioIcfVG/KpYHlE3/QPFAKbLwsimSaHyESStcdPboA5WJmXpDTuHzeiuYrPah3
- HzjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727426538; x=1728031338;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=wORqZqv9cUGC80DSKYgE6tfqrN9lDUHFj2CIW1jLYmc=;
- b=eP+J8rmkJFwT3B47pqCysPPGzJpW52hdz/+5ZeNpckizpB/9YpQJ27oWgX5L55G965
- tfhFKpdOh9w83TtDT0Ig4942MGf5j4CKLQNHDSWorpGD7WC/7k/aHjnC8GNmVCFdwunR
- 8l4+Atrkj6of1qQT1rj/g/RSEAMjz4YdMcIWkZMmu0Gm9d5XTPz+9bP2d19znDu/WhTy
- LnrQr+KX/kuy1Re/kaSnA0NCPY/L8e2c5y3s8Ki4jYQFGfORyIo6oNHxh3uJspzrWTVA
- PyjXb+kavBB2g21+D2VnNqUCcspQxjG9NpeONzXO9bZVp5ohB031tXy1tH9yRkGGujw1
- Rp9Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUvypjK6OcuvI+56Oa1SNKq/3loE+IoZGQc8NSYFGYmN2cWeY6Xp8p6WdFnGsvLbJJl+YgOIRmpH0w=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwUVaCfnFoaPB9s4NDEztG3Fqqw7weMxMMIPD6MAPG+/Z0HiVqv
- YrEIqNl6xZXiY2dsu62oPoeQ/vNkQxIeStrDe+begUEFJBFHAPyXaxUYHdGeMms=
-X-Google-Smtp-Source: AGHT+IGKld9rtmGQC3DBnDTbpXbiuKQNjTBpR+lYTXMLGlZV+jtXEFJDHRP8wtIhf6Y6NwwWQqYIMg==
-X-Received: by 2002:a05:6512:3052:b0:52e:941d:7039 with SMTP id
- 2adb3069b0e04-5389fc70ef7mr1616146e87.59.1727426538329; 
- Fri, 27 Sep 2024 01:42:18 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5389fd54752sm226998e87.19.2024.09.27.01.42.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Sep 2024 01:42:17 -0700 (PDT)
-Date: Fri, 27 Sep 2024 11:42:15 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Mahadevan P <quic_mahap@quicinc.com>
-Cc: robdclark@gmail.com, quic_abhinavk@quicinc.com, sean@poorly.run, 
- marijn.suijten@somainline.org, airlied@gmail.com, daniel@ffwll.ch, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- robh@kernel.org, 
- krzk+dt@kernel.org, conor+dt@kernel.org, swboyd@chromium.org, 
- konrad.dybcio@linaro.org, danila@jiaxyga.com, bigfoot@classfun.cn, 
- neil.armstrong@linaro.org, mailingradian@gmail.com, quic_jesszhan@quicinc.com, 
- andersson@kernel.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, 
- quic_kalyant@quicinc.com, quic_jmadiset@quicinc.com, quic_vpolimer@quicinc.com
-Subject: Re: [PATCH v2 3/5] drm/msm: mdss: Add SA8775P support
-Message-ID: <lpxx7xa4j2ghsj4klcbmribpvl3dzksy6zblbdo4zt2huarzmv@zz4yomzsdwli>
-References: <20240926110137.2200158-1-quic_mahap@quicinc.com>
- <20240926110137.2200158-4-quic_mahap@quicinc.com>
- <35e6yleiy6wkja3ojlfjddifxv7kr7x6tyn5pszas2chouuvql@trpeb7b4eop2>
- <2414cba4-53f2-4aec-b87b-9f8d92035bad@quicinc.com>
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2079.outbound.protection.outlook.com [40.107.237.79])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BCF910EC85;
+ Fri, 27 Sep 2024 08:49:37 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=s93YhI9IIzFtAM9l343HzdxZXbjQFvAew9+gNJQrh2YGSxFa7Y/FzKGujriHZ0pdQOEXITZE9cOz//PXpmbI34o9XR4p6tHYOm9D2jIL7hpmF2gEbJ2Xsgi6YpwcvnWqH3qOcNDcCgH+FvoW8BHQUjX2wP0eI2iK6V8BRWrtyKocxTkWwU3Voq9SHmQRzFS+w1e22qZBNriIgJYr85LrSc+EaErtyoNOpgS3/xJlbDUCtqcW5uSGKrKkMogZPtjl0JoYJhx8rEjaxLdlnVujwx944adjzI9yIPXEiBIw9doQFExw2HVrSnRiwstEgIQQLfs3LB0/RwFihzzgmYETyg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3S4zsYoCD8TZh/MYx20NQt1gNoxKnrhby8jT4Rdz91s=;
+ b=fCroL1mmFyzFxbQe9OLDPUS0q7MTSP1KPM0P7OwDUBr91vefnUkbjutWD/aii4z0GzmibO1jjD+t0IBkwUVSJzyGXeKw2RGUEGx+Oy2KFkno5V9+vHNCggSKpvqUIw9vliUzIClb9DJWKX169DIi58Bebx89w5k3RRwJuWO6FFuB810vQF3vUTAGMnIWiUk5n20y5j1npUz8OrGQbqjGK8F/BRJjo+NaGdbCke2MQMWz5qnRdYbe4wltrmvMA5Hbo6UAdizAoZFPcanTlb9j/tBZUAnzR8LBuEP22J1D4bmdoLytC+NUrdmCYT7fLuZFyArLlqirGNFr9+dvBdKfWA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3S4zsYoCD8TZh/MYx20NQt1gNoxKnrhby8jT4Rdz91s=;
+ b=OHvuZm56+6Xeo7k9pZG/k5uItv7W2ZAMPf1qNNYUxpdQSoU2UhPn1SJbZRzJfdksSorDiNlXsEI7Q88+INt8GPhWM/wqW+3LHtDnAXRB/WbW0TGPz5tsMsocrUhjN7Nvjl7c7lTdzDHgxiyGmrxpt4S52KAc1aIYhIZ/0HgaqQY=
+Received: from BL1PR13CA0143.namprd13.prod.outlook.com (2603:10b6:208:2bb::28)
+ by SJ2PR12MB8941.namprd12.prod.outlook.com (2603:10b6:a03:542::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8005.21; Fri, 27 Sep
+ 2024 08:49:30 +0000
+Received: from BL6PEPF0001AB56.namprd02.prod.outlook.com
+ (2603:10b6:208:2bb:cafe::d2) by BL1PR13CA0143.outlook.office365.com
+ (2603:10b6:208:2bb::28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8005.17 via Frontend
+ Transport; Fri, 27 Sep 2024 08:49:30 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BL6PEPF0001AB56.mail.protection.outlook.com (10.167.241.8) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8005.15 via Frontend Transport; Fri, 27 Sep 2024 08:49:29 +0000
+Received: from patedamande.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 27 Sep
+ 2024 03:49:27 -0500
+From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+To: <dri-devel@lists.freedesktop.org>, <christian.koenig@amd.com>,
+ <tursulin@igalia.com>, <simona.vetter@ffwll.ch>, <robdclark@gmail.com>,
+ <alexander.deucher@amd.com>, <amd-gfx@lists.freedesktop.org>,
+ <dmitry.osipenko@collabora.com>
+CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+Subject: [PATCH v4 0/6] DRM_SET_CLIENT_NAME ioctl
+Date: Fri, 27 Sep 2024 10:48:36 +0200
+Message-ID: <20240927084848.263718-1-pierre-eric.pelloux-prayer@amd.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2414cba4-53f2-4aec-b87b-9f8d92035bad@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB56:EE_|SJ2PR12MB8941:EE_
+X-MS-Office365-Filtering-Correlation-Id: 646cf9d9-ee65-40ab-0e64-08dcded14ce0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|1800799024|36860700013|82310400026; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?ejlOZ3dMSmNDdkloN1Z6dmc4UE5RU1VaNWpmVTQ0aU12cHU1S2pZOWhWM1ov?=
+ =?utf-8?B?V1RMbkI1cFdIaUhXYWdBaDFiZk52S1dqbDN0TFJPeitnUm1GVUo1S25mak1T?=
+ =?utf-8?B?YWdEMEFCZVRQTlNLeWordmZScE04YnQyaE9lM0tHdFNmVVN3MUlybXRFbG13?=
+ =?utf-8?B?QVZIb0dYc3ZyY0YvaTkyM0hlbGVaZlhLcTdCZ0d6MGltdlpNWEFjaFRWUzNx?=
+ =?utf-8?B?Tkp6cWkyeGovczF6NG8rUHVGVlF6YThVUzhlKzZ1anF6VGxZa3lFUDlpQWM1?=
+ =?utf-8?B?M0NYcXNKLzJFeDR0c1p6dWRIMUpNUlBZd0l4V0VjU1NISU9oQVNNZW9tVlM4?=
+ =?utf-8?B?WGwzWGZDMXYxYmtJVG5OV3NDNjVEb3M1OGlad3R3OFpXM3d3VGl2QUtSU3BK?=
+ =?utf-8?B?MFg0azk4c3ZxN2VQVXY3MTBBMEtiTWdmTDFLQytZSU1qVE53OWw0NEdVU3lL?=
+ =?utf-8?B?VVVPcHlST1oxK3M4Zms2SWFKK0lPaW1LdDRlbW1uN3dRRVNSektpenhqRkgr?=
+ =?utf-8?B?MXY0ZTFDWDQ3OHdIeTdrZkkwbFZCN0FEMmNlUkdmcWZWaXhjM09BRFdXcmtT?=
+ =?utf-8?B?ZC9pdHlTOVEwTXI0dUFnQ3djVVlDU0V4MUo4aElsaElRLzFXUXgxVzl5NVVx?=
+ =?utf-8?B?bGxRQXlodVRZWVNVVFFqVDVVVFRRNW41Q2xFdER1c2loZmR6TVNPb3ZwZWg3?=
+ =?utf-8?B?MFIzR1BIK3lpUFd1QVJjSHk0Z21WOXhXWFBTdCtITzVuVlAzMllzWWY4Njcx?=
+ =?utf-8?B?RFF1bGVFUXk0OWphVkxFY00yRlN3cUprS0t4cmM0ZEJjMGloWGlMZUV0S2pw?=
+ =?utf-8?B?ejRERmsrblVJb0lFQ3BvNkNzL2tRUEZxZ09DRStzT1ppaCtucWFBaStWL1U4?=
+ =?utf-8?B?cG5NWHlXa0FqYW1UQ0M4YklpM21hZm5KZ0NrUkNTSHBnK1FBUW1kTUhSbUgy?=
+ =?utf-8?B?RVZnYkRRSlUxZFFaYXJKamxnV1U2SEVoRnQ5M3Aydy9NeityU2U0bndkZjQ3?=
+ =?utf-8?B?YkJEWUdkMnJsTkZBNVZXWWhrNDNBcktFbVlxZnYyanFkZGg4a0RUZVk3RUcv?=
+ =?utf-8?B?QTczTWJCNWZQdnpyQXAvTXBjdmJ4RVhWSlpCN2tyMkRUKzZIcC9WTTNZNUJs?=
+ =?utf-8?B?OXlYK0tGWEM3UjJQMEswVWVRVFNmSnN2UVVncTgxRjc0ejMwQmp0cSttMFh3?=
+ =?utf-8?B?MWtIdGNWTzg1RmxGemcrd0lZeGc4Yk1EV3pyOENtNmxSVklKQXJnNEM3cDBv?=
+ =?utf-8?B?S3Nkc2xmUzBvY2lOazlISVA5S1cvOE85V24yNVJRSHdkbytJY3F2MUcyU25R?=
+ =?utf-8?B?enhBcTlpaWgvOHdxVmhxbkNXYjB0Mlp6UHZqK01qVHh2dzhwN3k1VXRSM21k?=
+ =?utf-8?B?NjIyc1c4eU9KVlFQT2x6a0thendvaDZ6bVpGcVIvTnlVT2EwMkpWUEZUZ2pI?=
+ =?utf-8?B?d25ZZmhWYnVzUy96U0swTkVZT1Vmdjc3aVJmdjNDOVY4WXNPcjVtakdHMm5K?=
+ =?utf-8?B?aXlpUkRLZmVYRmxKNTZRalFodDlpYXowOEFKV2taUHVVSFNKdWxPNC9iUTNR?=
+ =?utf-8?B?RU0wZTZqRnlyR3h0aGlkZ3E0b2Y4ME5sZk42SUVhdWkyU1BvemNodkhJOFlr?=
+ =?utf-8?B?WUh1OFRlOUJXUkNMd2F3NElqQzFMVlFrWG9SRmk2K3ZGOXFyVHd5QW1ydzlo?=
+ =?utf-8?B?bmRzOVk5eStHSlh0N0ZHczNTdkoya005Z1pBTFF3UUJzYkh0MlFVTFJBZVJN?=
+ =?utf-8?B?bWEyNGwvdytyT2YrS2lnWnBhQnBTMVFuaGNSQkxQdW1VVTJrMVdmSFhJU21X?=
+ =?utf-8?B?UXloQk9zeVlrRUVIeGpjSU9zbnh0Uys0UEd0czJ0b1VCTGQwaE4xYnU1MEJh?=
+ =?utf-8?Q?idZY8R4h3WD1J?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(36860700013)(82310400026); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Sep 2024 08:49:29.8269 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 646cf9d9-ee65-40ab-0e64-08dcded14ce0
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BL6PEPF0001AB56.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8941
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,41 +140,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 27, 2024 at 12:14:16PM GMT, Mahadevan P wrote:
-> 
-> On 9/26/2024 6:32 PM, Dmitry Baryshkov wrote:
-> > On Thu, Sep 26, 2024 at 04:31:35PM GMT, Mahadevan wrote:
-> > > Add Mobile Display Subsystem (MDSS) support for the SA8775P platform.
-> > > 
-> > > Signed-off-by: Mahadevan <quic_mahap@quicinc.com>
-> > > ---
-> > > 
-> > > [v2]
-> > > - Update commit message. [Dmitry]
-> > > - Reorder compatible string of MDSS based on alphabetical order. [Dmitry]
-> > > - add reg_bus_bw in msm_mdss_data. [Dmitry]
-> > > 
-> > > ---
-> > >   drivers/gpu/drm/msm/msm_mdss.c | 11 +++++++++++
-> > >   1 file changed, 11 insertions(+)
-> > > 
-> > > diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
-> > > index faa88fd6eb4d..8f1d42a43bd0 100644
-> > > --- a/drivers/gpu/drm/msm/msm_mdss.c
-> > > +++ b/drivers/gpu/drm/msm/msm_mdss.c
-> > > @@ -573,6 +573,16 @@ static const struct msm_mdss_data qcm2290_data = {
-> > >   	.reg_bus_bw = 76800,
-> > >   };
-> > > +static const struct msm_mdss_data sa8775p_data = {
-> > > +	.ubwc_enc_version = UBWC_4_0,
-> > > +	.ubwc_dec_version = UBWC_4_0,
-> > Just 4.0 or 4.3?
-> 
-> 
-> UBWC version has to be 4.0 as per UBWC reference document of sa8775p.
+v4 changelog:
+* DRM_SET_NAME -> DRM_SET_CLIENT_NAME (Dmitry)
+* reject names that would mess up with formatting (Sima),
+  and use a stricter filter (isgraph allowed extended ASCII
+  which weren't looking great)
+* documentation edits, minor fixups (Dmitry, Trvtko)
+* clarified commit message of commit 3/6 (Trvtko)
+* reworked amdgpu_vm_set_task_info a bit in 4/6 (Trvtko)
 
-Thanks for the confirmation.
+v3: https://lists.freedesktop.org/archives/dri-devel/2024-September/470488.html
+
+Pierre-Eric Pelloux-Prayer (6):
+  drm: add DRM_SET_CLIENT_NAME ioctl
+  drm: use drm_file client_name in fdinfo
+  drm/amdgpu: delay the use of amdgpu_vm_set_task_info
+  drm/amdgpu: alloc and init vm::task_info from first submit
+  drm/amdgpu: make process_name a flexible array
+  drm/amdgpu: use drm_file::name in task_info::process_desc
+
+ Documentation/gpu/drm-usage-stats.rst         |  5 ++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h    |  1 +
+ .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  |  3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c        |  6 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c   |  2 +-
+ .../gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c  |  4 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.c       |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c        | 62 +++++++++++++------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h        |  4 +-
+ drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c        |  2 +-
+ drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c        |  2 +-
+ drivers/gpu/drm/amd/amdgpu/gmc_v12_0.c        |  2 +-
+ drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c         |  2 +-
+ drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c         |  2 +-
+ drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c        |  2 +-
+ drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c      |  2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_events.c       |  2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_process.c      |  3 +
+ drivers/gpu/drm/drm_debugfs.c                 | 14 +++--
+ drivers/gpu/drm/drm_file.c                    | 10 +++
+ drivers/gpu/drm/drm_ioctl.c                   | 55 ++++++++++++++++
+ include/drm/drm_file.h                        |  9 +++
+ include/uapi/drm/drm.h                        | 17 +++++
+ 23 files changed, 171 insertions(+), 42 deletions(-)
 
 -- 
-With best wishes
-Dmitry
+2.40.1
+
