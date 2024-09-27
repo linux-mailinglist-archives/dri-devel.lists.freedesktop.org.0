@@ -2,150 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F1CF988ABC
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Sep 2024 21:27:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 915C0988AC2
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Sep 2024 21:33:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78D6D10E279;
-	Fri, 27 Sep 2024 19:27:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0D9110ED02;
+	Fri, 27 Sep 2024 19:33:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="FPHv5nhL";
+	dkim=pass (2048-bit key; unprotected) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="ogsOBjEz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2086.outbound.protection.outlook.com [40.107.243.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C820910E031;
- Fri, 27 Sep 2024 19:27:47 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=S7agm+Z1643w+OATFQ8oVjc8KD8rvHaBxpzMbg/iA87B2uXP7Z4gKbhAJXVEudl2kq7hZ/1cNYaA49kbLD8aeNIkdm+YA9D82UPUjLsY4QJz/3ZHeNokGEK4eb96yYV/H2g9fsCdi5uZisLmk9VCsg0ekr4+J6XmtIDfjg8hEvKJacl7Bro5dHU1ifTjzpC+FL7Q6bLX1xvoKqaNSc5vT9x3UgnwOQtMJ8wvFPEFoBn52r10ahPrKdxqWgODbhT3tXOqO7xdgIxKjifi+GSxMsWAeHvqzfe/DFq3GC/55/uIUuHlExdi8p+zD5ZL6tss+PYpTAwa8m7dCgBhfIftjg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KxyE72l74IqyAJfOeHDHgUShRmZZi3Xg/e8E2rO3yiI=;
- b=Xlq7JbQ1YeTtQLtLiptv2d2XEIxLsJSLF0EhAz3KgMcuPlquhuhdiFB1sHjy+7urJU57yrrxKIzhjUygJd0OYYd1ryyT+vuItH2M7cjNv5aNen9ofBlwIeBJkCNeqLH1EEJPy/k4SNKfiMEh6YSMGcViV//hVSbn+AyENCHFVRVPusKVaLYGkgdvmEQRrhzj9R8m6R28R0r5DjfyxknbgF1iAvJXj1hGIVl69V2CI20fssLyrfDWcAc9vzLs0oxoGKVVNTYf8qZHBAdyf/AvbAqVKt2lsu97LpJtVtYQi3sdQqV2xv8RmyvYiPJ+BOKK1yC591Fur6qy0Aqokdft9w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KxyE72l74IqyAJfOeHDHgUShRmZZi3Xg/e8E2rO3yiI=;
- b=FPHv5nhLJO4VsUx6dktG6kdfuDujrwUk59iNfeqlChMFYWFodm7ZjqzVg3lpEn9g//2TE4fJnIgSGrRlDCPLhnD9gRUWI0GEgrZtGZaaCeQaS70pUk5KstPOdG6KKtb7bAGl8cS/CKQFIvod/wGWKRvlEwZqyr9ufSUW4loR2r0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
- by DM4PR12MB8449.namprd12.prod.outlook.com (2603:10b6:8:17f::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.28; Fri, 27 Sep
- 2024 19:27:45 +0000
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::9269:317f:e85:cf81]) by BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::9269:317f:e85:cf81%2]) with mapi id 15.20.8005.024; Fri, 27 Sep 2024
- 19:27:44 +0000
-Message-ID: <53d17411-f906-4a83-a44c-d8de22f11cbc@amd.com>
-Date: Fri, 27 Sep 2024 15:27:42 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/5] drm: Introduce DRM client library
-To: Thomas Zimmermann <tzimmermann@suse.de>, simona@ffwll.ch,
- airlied@gmail.com, javierm@redhat.com, jfalempe@redhat.com
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-References: <20240927144252.31813-1-tzimmermann@suse.de>
-Content-Language: en-US
-From: Felix Kuehling <felix.kuehling@amd.com>
-Organization: AMD Inc.
-In-Reply-To: <20240927144252.31813-1-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YQBPR0101CA0102.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:4::35) To BN9PR12MB5115.namprd12.prod.outlook.com
- (2603:10b6:408:118::14)
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com
+ [209.85.219.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DB6D10ED02
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Sep 2024 19:33:20 +0000 (UTC)
+Received: by mail-qv1-f42.google.com with SMTP id
+ 6a1803df08f44-6cb2d2a7d48so16890106d6.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Sep 2024 12:33:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1727465599; x=1728070399;
+ darn=lists.freedesktop.org; 
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=VKladj2sFJjdiWtfrOuq4uA29WlsH18GzOxyRfbvkm8=;
+ b=ogsOBjEzjTKsNiMLWVoAD22YihrR8HyM2I0AJI8Wp9icKDKwpYSe0DVgX7PjKZ9Jng
+ Y5/kJfmrgMOonNVD8A99FkLNsQZZ7spAQgsX7QHMih8nE2JCzAuEi50d+joLoOf9fwT9
+ XotCqOXf7se2JJBs17vXrNvIIxmyrjSAseL1uU4aV5c+JNJfSYgwEKuDiaRD9lvKnwX4
+ 9efBEV6CqCnWRIQapKxwPtdzSzeHhGlkWzXSRqknqrEOWkg+qFYvNGakPmZ/nypr2Kzy
+ Wm6/c0xX2mpBb3rIU8b8hiEur4Y2u9h9XaXrge3Qy1L4DfVjn7MFKR9/Z+/qtsKaIRf/
+ YWbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1727465599; x=1728070399;
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=VKladj2sFJjdiWtfrOuq4uA29WlsH18GzOxyRfbvkm8=;
+ b=UBo/I+MzoIpCYYiC4LvVSh5kJEHboofG9PNYzqoWKu9WSVdKYkB/D4K77JYzOxmrXP
+ //NbIbrYYePnX7h1Qy1gZ2KhDDAifFbQ3bpBE/g+pC0HMifc+CwC8lZ/VWW9yAZt4XwF
+ loTIAigzpbdZh9DvAipBx+iQMOcEBAhGzvZSpEJ7tapHJ+bsz4z52zTlpqJLZW78lPzK
+ XCZAuPfh2Cn+xkA5XwCJogYaMbKPyKFoVE4Y8bvp3fgoNI1jYb/uDTbmIBgyTZ5lz45k
+ MYfCnHsDueaKjmRmMftRDHSIqTOGW19qGYVRP0DNl79rUdgUh40Sy9T0bza1Kon6IFXN
+ +SFg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVTvLclRn20A5Rw60Wi5nGGKipjS6JG7T9UHyuC15I9SJGijZTSxIQL3wXQdj7QsCVLe87ZOtD2lcE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxAbox25fgTfcLqGVlVii4u5lIIB+hXz24tVzXbZ5sqxBpTdyft
+ G3k2JjXD5WXkB1Pf11NEliQ3R9fz9RoHwdQtukFo+to0Po4u1MWv7MSuskFve6Y=
+X-Google-Smtp-Source: AGHT+IEhDe5EE9y0RFQCZTtCNmMq10z4RbPVeb2m5iqTjmA1e9FxI+tgYD6oSZc2Z9WqFDJgdWHibA==
+X-Received: by 2002:a05:6214:3bc7:b0:6cb:4e39:1a93 with SMTP id
+ 6a1803df08f44-6cb4e395f0cmr619406d6.38.1727465599241; 
+ Fri, 27 Sep 2024 12:33:19 -0700 (PDT)
+Received: from nicolas-tpx395.lan ([2606:6d00:15:862e::580])
+ by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-6cb3b680045sm11835946d6.104.2024.09.27.12.33.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 27 Sep 2024 12:33:18 -0700 (PDT)
+Message-ID: <386f4e12fd835b18c3f618f2c94cbd426bd6cf28.camel@ndufresne.ca>
+Subject: Re: [PATCH v2 2/2] media: imx: vdic: Introduce mem2mem VDI
+ deinterlacer driver
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Marek Vasut <marex@denx.de>, linux-media@vger.kernel.org
+Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, Fabio
+ Estevam <festevam@gmail.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>, Mauro Carvalho
+ Chehab <mchehab@kernel.org>, Pengutronix Kernel Team
+ <kernel@pengutronix.de>, Philipp Zabel <p.zabel@pengutronix.de>, Sascha
+ Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, Steve
+ Longerbeam <slongerbeam@gmail.com>, dri-devel@lists.freedesktop.org,
+ imx@lists.linux.dev,  linux-arm-kernel@lists.infradead.org,
+ linux-fbdev@vger.kernel.org,  linux-staging@lists.linux.dev
+Date: Fri, 27 Sep 2024 15:33:17 -0400
+In-Reply-To: <6b45e30c-b215-4f7a-91a4-fde05d78f737@denx.de>
+References: <20240724002044.112544-1-marex@denx.de>
+ <20240724002044.112544-2-marex@denx.de>
+ <85a5a42667e5867bc45da31baf045d4c9557f5f1.camel@ndufresne.ca>
+ <6b45e30c-b215-4f7a-91a4-fde05d78f737@denx.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 (3.52.4-1.fc40) 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5115:EE_|DM4PR12MB8449:EE_
-X-MS-Office365-Filtering-Correlation-Id: 654f958e-888f-457a-1c62-08dcdf2a7603
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?VFRqdHpDRVBnejZmbUFrV0swcEFMVnpTLzRtc0pocmNYcE9tYVlxUjN2Z2Zq?=
- =?utf-8?B?SHV1UGppK0lQRXJLVHBnVER3NWFNZHRTQTRCTWI2a21pMC9zcmtXSGp3cVBX?=
- =?utf-8?B?U3R5N3NEVGo2eHdDZHB5bmk4cHBoU0JtRDBjSmorVU5Ma1hvK0xaWG1iZGtH?=
- =?utf-8?B?cHFBOENqTWFWQTN5eHZ2R3hHeFBpREFMSHlJNWNhaWU3cFVua1NCVEpPR3lO?=
- =?utf-8?B?cm5aTnlwaXVUdE9GdHA1Z0RpNFQ4VzhGTXIyb1MrVzNXMGd2RU1iNEJRNEVY?=
- =?utf-8?B?Tkh6MENEVE5lU0RhVTlPbFpSTEErVFU5bW5jR2IxWGExNlpjVHowZmlaM1Fk?=
- =?utf-8?B?TENkeCsvRlJLNjg2MDFMUTVnTXgxNzZFLzh4eXpYR3M5UGVhT1g0RmE0QjN4?=
- =?utf-8?B?RWJIOTNlQTBkbFNnelBBd2tJUGRZUWpkWEd6K3Z0cVpVTEFCNkJGRTVmWlB0?=
- =?utf-8?B?S0ZsZ2U5ajd2QWRTQ1gxZ3lYbFZTejdCazdwZGVFR2xnU2N3NVZkOFFjcmxU?=
- =?utf-8?B?dHFOdmpKb1pXTTRjZkY3ZHlvQ1c0aG1GRFh5YUR5NnJaa2grY1RJRVN1VDJC?=
- =?utf-8?B?L3VHSzRGRjhvbFhTZ0dPM2tQSlVrTlZ5Q09vaitneWw2eU1uQm9vY0JDUlZI?=
- =?utf-8?B?OTQ0R3hOMElpdFNUVHVSQlVSRSt0TXFxK201dmVBenZoZCtlcEJTVGxoVk5w?=
- =?utf-8?B?RVp6YklQK1JqbDdCamNtUnlrOUdUNmowYjhYZ2VKMGVGK3gvQ1pLaUMyNGFJ?=
- =?utf-8?B?QXVyU2h5LzQ4aHZhWU5Jbis3cm9JeHVIeEtCSlpIelQwSDBwOEFkcGJrcXg5?=
- =?utf-8?B?RTIzeXIwYXBkTzl6SHFVellzNXBaSHNwMC9RNmM3a2p2RmdkNlhqVENGNW16?=
- =?utf-8?B?VnJKcDdWWndLblQ2akNWTzRjU3ZXb3hIWTZqTW5MVktUZGNrNmNpMEhNWHNi?=
- =?utf-8?B?bTV5TlVBMkhDMVdFbzlDNjZIeW1xSlFtL3Z0VXM1MDIyUVBldjk4QXJ2QVlM?=
- =?utf-8?B?UXh6cUlRakVLbDZwRCtmQ0gvbXhTazd2cEVBM2k1K25ZTTRKbDJxYTl5dndX?=
- =?utf-8?B?UTlPT2NJY2doS0VTS2lKMlA4VitSVDg2a1k4MDFiSEM1aTZabWdkQU9uRi9m?=
- =?utf-8?B?dG5SVXA1aEowVnRhUlFQeTZQY2FIWGk2QXZyd2lGVXNidDdLN2RVbHd1QXpi?=
- =?utf-8?B?VEFJdlB0bGJtam9WbG4wZkJnamVYbUpMcFpEMGcyd0lFYjBHajJ0RldpZU5z?=
- =?utf-8?B?UDFEYXg1TWVFQlFjMzMwUFRuSGFCcHVDSkl4QlFkMWZ4S3VKeWhTZ3FzU3RK?=
- =?utf-8?B?bjZMbURyakxDTzJFbVlhWXdXb3hidnIxYVVVRy8wZW9MLysyMTRyMWFlelJC?=
- =?utf-8?B?bC9BNmc0NzBoN2ZoZVlsU0hZN20vZk5JcVB1V29XbkJyZThxT29uT2ZiSHVu?=
- =?utf-8?B?NVV6Y2tEOVY2Z1NmZDNTRFhZUjYxOG0zVnp6ZXkzeDlHOEg1SDBqazR0TzJi?=
- =?utf-8?B?NW8wL0xQV1hFWXFSckpFbXEwZ0xNekNjV2poQzgwYkJhMWZ2bGdvOUFNNkNx?=
- =?utf-8?B?RkRMRllzRzg4eitIVWVxdFlLTmN0QmRiSFNKMkI1emNkZGhHc2ZQSEM0TWE1?=
- =?utf-8?B?c0NuSEtneEpsWWlUVUxDc29sQ09sOHY1VlVHaDVIOG9mSllqdWkzTEh3a3Rl?=
- =?utf-8?B?T0VmSVFVck1MZmMwU2pkVkhSaXNDeGkrbUo0cUI5VDlDRWpDOWJRSnE3MGNR?=
- =?utf-8?Q?TGsvzXCCENawz2G69I=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?S20rU1E3WFRYRS9CWXdqTTRkQ1ErYnowZnRQUkpQM0NZbks5Um1LZDZDZ0JZ?=
- =?utf-8?B?bUNJemdvQmJCbHBTOUp6NmdFd0xYMVNIMGJzenk0YWlYV054VW1ieDVaMlhT?=
- =?utf-8?B?c2NZT1ZwWmZoWkpXRFJma0IxWkN4cVFPaUFKV1pCdDJ1djZmVEpyVEFlWEhB?=
- =?utf-8?B?aytEbi95WkMveUdVcVRtdmxYV21oVytGRk1Wa3NZMm9WRlMveHZ5NzdRMlhk?=
- =?utf-8?B?Q1QyL2ZhdExaVmpjdC9XQ242M29MMk1yM1VqNHpsckY4djcvb1daZjRKeVBY?=
- =?utf-8?B?RnJ4YTgzcTZyMlZnY1FIK2xybVJVZytkaThLN1E2VTFrNEoxaG5tbWw1RUtq?=
- =?utf-8?B?aVRDSzREZHRxYkllMXQ3MWFDaVh1SU1zbGdtM29uVjhBdFJDN3lyamtKeldE?=
- =?utf-8?B?QkRESXhISmxIeVA3UHZVNy92RkN4YzdxNi9WSHAyNXlWTk9mZDREakhTNFpp?=
- =?utf-8?B?OXArNDU3ZVR3Wk5NYVRIY2NIYW9rN3p4Rkg3S0FZMXFvRjczcCtOZTFxNVl2?=
- =?utf-8?B?aTJHcmtWcXNxcE0ycTlYM1U1V3BPVTdBcUdNNDZUU1JPOVQwWWtBeG5ndXZr?=
- =?utf-8?B?aHpZUDhQbHlJSGw4bllNcmtodlJnK3A0cTJ6NVNDZGE2emc1bDk1NHV5V0ZS?=
- =?utf-8?B?TTcxWkxBRW9BaHcvSFE2RWVUZVFLZk9STi9oMnNnU1dIUlIxSk5XTUJHYXFw?=
- =?utf-8?B?OXR4STVjS0l3TUtiWTJHcVA3dUdRbCtFZHp1SUpvcUJuWVBDaUo0YVhVUEd6?=
- =?utf-8?B?S1lMM2hDRFJsb3JQcEV3N2phMXRyR2tnSXkwSHRQbmZDZDBCNjJ2UmxyRS82?=
- =?utf-8?B?UWJPT0xFcmptdkJuMXUxTXhCYVJqYXIzZHlnbHM0cDdiNlEzTHZzbzBCVGlh?=
- =?utf-8?B?NlY0MDM4WTBmSEx3Zy9qNHV0QVFjMlc3QlZObWRvYkk3eTFQb3l5Q1ZhcERS?=
- =?utf-8?B?U2dRL0QrSjdqcUh2clpKUDc3TWZSVVBTVFVFdzl6ZTk0NXZjcUlCeHVRTTdL?=
- =?utf-8?B?TGErVUZYTlFiUjFFSzAvTnFHWnhFZlRndUc4SlpVaUNHeUo1QThXUTF3dHpl?=
- =?utf-8?B?NlhpTDFNVU5Pb1ZyOVhCaFdSdkVGQjBFNHRheHBzdU1hWU9iNE9yMUdZd3NT?=
- =?utf-8?B?WW54NnlheDdkOHVMTDR2UUtXcTV6QW82NFoyNVZUQUFEYmVJK05rMmhKbm5K?=
- =?utf-8?B?QTY2NVBzNXcyQm4vQWNLakJsNlVRTkJJbDQ5MG9jMmRMZG9DMmloaFlhdTdw?=
- =?utf-8?B?WWxuUjdTM3VteDJ0Uk1hV0lkaDlveEJLcElYNFh4Tm45OFlVZ01xMWVWVVlH?=
- =?utf-8?B?akpQY0d5TldsSERDTEVzeWlhWDNmREJ4WnVLSGY3cWl3TjRSUGJJRVAwb2tS?=
- =?utf-8?B?a05rOW9RNVBzWWtqNm5XTkljbWhOeTByYkxpTmJmdTl1RHRsUGFlSzJ0QTVo?=
- =?utf-8?B?WHBSTDlFdDVZaFZFakl5NmhKampxQnp5cVo4bWxDTGRCR0xvZ1ovNFp0V21O?=
- =?utf-8?B?QWxGU0h2WXBCTGE1ZXNKR2NsOXlqRENoM0ZDZkxqSThlekRDbk1sZmNVRmcx?=
- =?utf-8?B?T2h1dnlKTTVINkJqWXMyWUVOeUJhMjhETGwyQnY2eWRBTlowZU5QVjlxd2xa?=
- =?utf-8?B?SzBWMk9pZ3ExNFA4d2owZ0dwd2dZZ0wrYk5zejUyRXR4NC85eW1JMzQyZVJ5?=
- =?utf-8?B?UU1LZ3NxVHlKMWhaQXhmRGZvUG44N21PR2duU3BsczBpOTByTzF3WGFrOFJ3?=
- =?utf-8?B?dXhqYkFreDdhU1ZVRmEvOEE3TlRVMGVsT2JKaWVjVEVadGxSOHZwdlBsdlBp?=
- =?utf-8?B?Rk1ZcnJDMnZaUFlIRFZPb3diT3pocWh3eGhnRGZURWVhOThXeW8zNENGSTBW?=
- =?utf-8?B?cXJPVzBjRnJuejE2dHQvL3d4RXBtcnBmc1E0VFRwU2JjUVRuY0NjclBENHpm?=
- =?utf-8?B?RnFLQmZtVVJ6YVpYSTBzZ010N3FLa1dMd3QybjEwNUtKTm5SbElOWm5GdWh4?=
- =?utf-8?B?azNsWVBqZFBMa2ZWZFhFZ0RzMW0rK3pxMm1MR09oaU8wUG5LL2lpcjYrLzA1?=
- =?utf-8?B?Qk16UUd2ZlhlY2JVK1c0blkzWDJyQUZhSTFtSzBSN2tRRyt3TnNPMm5XMFRl?=
- =?utf-8?Q?vKFc24A4AC6e0SrX/3l3Vfix6?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 654f958e-888f-457a-1c62-08dcdf2a7603
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Sep 2024 19:27:44.5486 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gA/zteJ7zkTOv51PKNHnGrsgB2RTTTqvplBURLLNLpYj/JOynGHc6L9vnyNXKRqvPXdfDBYhubcbFATrkiOiFQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB8449
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -161,45 +96,191 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Le mercredi 25 septembre 2024 =C3=A0 22:45 +0200, Marek Vasut a =C3=A9crit=
+=C2=A0:
+> On 9/25/24 7:58 PM, Nicolas Dufresne wrote:
+>=20
+>=20
 
-On 2024-09-27 10:37, Thomas Zimmermann wrote:
-> With the next DRM client coming soon (drm_log) and most of DRM's
-> fbdev emulation consolidated in a few places, it's time to provide
-> a single place for the clients.
->
-> The new module drm_client_lib.ko stores most of the common client
-> code. It's designed such that drivers can opt into client support,
-> but the presence of the client module depends on the user's kernel
-> configuration. Without selected clients, no client module will be
-> build.
->
-> Thomas Zimmermann (5):
->    drm/i915: Select DRM_CLIENT_SELECTION
->    drm/xe: Select DRM_CLIENT_SELECTION
+[...]
 
-BTW, we are using drm_client in amdgpu, as well: 
-https://elixir.bootlin.com/linux/v6.11/source/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c#L155
+>=20
+> > > +static irqreturn_t ipu_mem2mem_vdic_nfb4eof_interrupt(int irq, void =
+*dev_id)
+> > > +{
+> > > +	struct ipu_mem2mem_vdic_priv *priv =3D dev_id;
+> > > +
+> > > +	/* That is about all we can do about it, report it. */
+> > > +	dev_warn_ratelimited(priv->dev, "NFB4EOF error interrupt occurred\n=
+");
+> >=20
+> > Not sure this is right. If that means ipu_mem2mem_vdic_eof_interrupt wo=
+n't fire,
+> > then it means streamoff/close after that will hang forever, leaving a z=
+ombie
+> > process behind.
+> >=20
+> > Perhaps mark the buffers as ERROR, and finish the job.
+>=20
+> The NFB4EOF interrupt is generated when the VDIC didn't write (all of)=
+=20
+> output frame . I think it stands for "New Frame Before EOF" or some=20
+> such. Basically the currently written frame will be corrupted and the=20
+> next frame(s) are likely going to be OK again.
 
-Regards,
-   Felix
+So the other IRQ will be triggered ? After this one ? Is so, perhaps take a
+moment to mark the frames as ERROR (which means corrupted).
 
+[...]
 
->    drm: Move client-device functions in to drm_client_dev.c
->    drm: Select fbdev helpers for modules that require them
->    drm: Add client-lib module
->
->   Documentation/gpu/drm-client.rst   |   3 +
->   drivers/gpu/drm/Kconfig            |  34 +++++--
->   drivers/gpu/drm/Makefile           |  20 +++--
->   drivers/gpu/drm/amd/amdgpu/Kconfig |   1 +
->   drivers/gpu/drm/drm_client.c       | 122 +------------------------
->   drivers/gpu/drm/drm_client_dev.c   | 138 +++++++++++++++++++++++++++++
->   drivers/gpu/drm/drm_dumb_buffers.c |   2 +
->   drivers/gpu/drm/drm_file.c         |   2 +
->   drivers/gpu/drm/drm_framebuffer.c  |   2 +
->   drivers/gpu/drm/drm_gem.c          |   2 +
->   drivers/gpu/drm/i915/Kconfig       |   1 +
->   drivers/gpu/drm/xe/Kconfig         |   1 +
->   12 files changed, 196 insertions(+), 132 deletions(-)
->   create mode 100644 drivers/gpu/drm/drm_client_dev.c
->
+> >=20
+> > The driver is not taking ownership of prev_buf, only curr_buf is guaran=
+teed to
+> > exist until v4l2_m2m_job_finish() is called. Usespace could streamoff, =
+allocate
+> > new buffers, and then an old freed buffer may endup being used.
+>=20
+> So, what should I do about this ? Is there some way to ref the buffer to=
+=20
+> keep it around ?
+>=20
+> > Its also unclear to me how userspace can avoid this ugly warning, how c=
+an you
+> > have curr_buf set the first time ? (I might be missing something you th=
+is one
+> > though).
+>=20
+> The warning happens when streaming starts and there is only one input=20
+> frame available for the VDIC, which needs three fields to work=20
+> correctly. So, if there in only one input frame, VDI uses the input=20
+> frame bottom field as PREV field for the prediction, and input frame top=
+=20
+> and bottom fields as CURR and NEXT fields for the prediction, the result=
+=20
+> may be one sub-optimal deinterlaced output frame (the first one). Once=
+=20
+> another input frame gets enqueued, the VDIC uses the previous frame=20
+> bottom field as PREV and the newly enqueued frame top and bottom fields=
+=20
+> as CURR and NEXT and the prediction works correctly from that point on.
+
+Warnings by default are not acceptable.
+
+>=20
+> > Perhaps what you want is a custom job_ready() callback, that ensure you=
+ have 2
+> > buffers in the OUTPUT queue ? You also need to ajust the CID
+> > MIN_BUFFERS_FOR_OUTPUT accordingly.
+>=20
+> I had that before, but gstreamer didn't enqueue the two frames for me,=
+=20
+> so I got back to this variant for maximum compatibility.
+
+Its well known that GStreamer v4l2convert element have no support for
+detinterlacing and need to be improved to support any deinterlace drivers o=
+ut
+there.
+
+Other drivers will simply holds on output buffers until it has enough to pr=
+oduce
+the first valid picture. Holding meaning not marking them done, which keeps=
+ then
+in the ACTIVE state, which is being tracked by the core for your.
+
+[...]
+
+> > > +
+> > > +	if (ipu_mem2mem_vdic_format_is_yuv420(f->fmt.pix.pixelformat))
+> > > +		f->fmt.pix.bytesperline =3D f->fmt.pix.width * 3 / 2;
+> > > +	else if (ipu_mem2mem_vdic_format_is_yuv422(f->fmt.pix.pixelformat))
+> > > +		f->fmt.pix.bytesperline =3D f->fmt.pix.width * 2;
+> > > +	else if (ipu_mem2mem_vdic_format_is_rgb16(f->fmt.pix.pixelformat))
+> > > +		f->fmt.pix.bytesperline =3D f->fmt.pix.width * 2;
+> > > +	else if (ipu_mem2mem_vdic_format_is_rgb24(f->fmt.pix.pixelformat))
+> > > +		f->fmt.pix.bytesperline =3D f->fmt.pix.width * 3;
+> > > +	else if (ipu_mem2mem_vdic_format_is_rgb32(f->fmt.pix.pixelformat))
+> > > +		f->fmt.pix.bytesperline =3D f->fmt.pix.width * 4;
+> > > +	else
+> > > +		f->fmt.pix.bytesperline =3D f->fmt.pix.width;
+> > > +
+> > > +	f->fmt.pix.sizeimage =3D f->fmt.pix.height * f->fmt.pix.bytesperlin=
+e;
+> >=20
+> > And use v4l2-common ?
+>=20
+> I don't really understand, there is nothing in v4l2-common.c that would=
+=20
+> be really useful replacement for this ?
+
+Not sure I get your response, v4l2-common is used in many drivers already, =
+and
+we intent to keep improving it so that all driver uses it in the long term.=
+ It
+been created because folks believed they can calculate bytesperline and
+sizeimage, but as the number of format grows, it always endup wrong, causin=
+g the
+HW to overflow and break the system at a larger scale.
+
+>=20
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static int ipu_mem2mem_vdic_s_fmt(struct file *file, void *fh, struc=
+t v4l2_format *f)
+> > > +{
+> > > +	struct ipu_mem2mem_vdic_ctx *ctx =3D fh_to_ctx(fh);
+> > > +	struct ipu_mem2mem_vdic_priv *priv =3D ctx->priv;
+> > > +	struct v4l2_pix_format *fmt, *infmt, *outfmt;
+> > > +	struct vb2_queue *vq;
+> > > +	int ret;
+> > > +
+> > > +	vq =3D v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
+> > > +	if (vb2_is_busy(vq)) {
+> > > +		dev_err(priv->dev, "%s queue busy\n",  __func__);
+> > > +		return -EBUSY;
+> > > +	}
+> > > +
+> > > +	ret =3D ipu_mem2mem_vdic_try_fmt(file, fh, f);
+> > > +	if (ret < 0)
+> > > +		return ret;
+> > > +
+> > > +	fmt =3D ipu_mem2mem_vdic_get_format(priv, f->type);
+> > > +	*fmt =3D f->fmt.pix;
+> > > +
+> > > +	/* Propagate colorimetry to the capture queue */
+> > > +	infmt =3D ipu_mem2mem_vdic_get_format(priv, V4L2_BUF_TYPE_VIDEO_OUT=
+PUT);
+> > > +	outfmt =3D ipu_mem2mem_vdic_get_format(priv, V4L2_BUF_TYPE_VIDEO_CA=
+PTURE);
+> > > +	outfmt->colorspace =3D infmt->colorspace;
+> > > +	outfmt->ycbcr_enc =3D infmt->ycbcr_enc;
+> > > +	outfmt->xfer_func =3D infmt->xfer_func;
+> > > +	outfmt->quantization =3D infmt->quantization;
+> >=20
+> > So you can do CSC conversion but not colorimetry ? We have
+> > V4L2_PIX_FMT_FLAG_SET_CSC if you can do colorimetry transforms too. I h=
+ave
+> > patches that I'll send for the csc-scaler driver.
+>=20
+> See ipu_ic_calc_csc() , that's what does the colorspace conversion in=20
+> this driver (on output from VDI).
+
+int ipu_ic_calc_csc(struct ipu_ic_csc *csc,
+                    enum v4l2_ycbcr_encoding in_enc,
+                    enum v4l2_quantization in_quant,
+                    enum ipu_color_space in_cs,
+                    enum v4l2_ycbcr_encoding out_enc,
+                    enum v4l2_quantization out_quant,
+                    enum ipu_color_space out_cs)
+
+So instead of simply overriding CSC like you do, let userspace set differen=
+t CSC
+in and out, so that IPU can handle the conversion properly with correct col=
+ors.
+That requires to flag these in the fmt_desc structure during enum format, a=
+nd to
+only read acknowledge the CSC if userspace have set V4L2_PIX_FMT_FLAG_SET_C=
+SC,
+in other condition, the information must be ignored (which you don't).
+
+Nicolas
