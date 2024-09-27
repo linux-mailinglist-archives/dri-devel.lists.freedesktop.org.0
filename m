@@ -2,81 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 865E59880C4
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Sep 2024 10:50:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D3C69880EA
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Sep 2024 10:58:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2C1910EC81;
-	Fri, 27 Sep 2024 08:50:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6E6910EC86;
+	Fri, 27 Sep 2024 08:58:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="bvhbce1P";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="A9d2dLx9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
- [209.85.167.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1FAC10EC81
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Sep 2024 08:50:46 +0000 (UTC)
-Received: by mail-lf1-f42.google.com with SMTP id
- 2adb3069b0e04-539885dd4bcso463400e87.0
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Sep 2024 01:50:46 -0700 (PDT)
+Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com
+ [209.85.217.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C329F10EC86
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Sep 2024 08:58:03 +0000 (UTC)
+Received: by mail-vs1-f52.google.com with SMTP id
+ ada2fe7eead31-49bdc6e2e2cso734118137.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Sep 2024 01:58:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1727427045; x=1728031845; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=oSbb6GyqIU91E3tpBz1h87UeS05X7HA+7wteUPe++Bk=;
- b=bvhbce1P2lVujV6Jj8jyNYclw5kTUGu5AMO79o8PydH4K2dCyd/cOEjRVPtyg2EeDr
- kKnGOw0q10TzT8TVBme8SCJaWWzgYYuSKYZTXGhlbGQ1dgqDjWEpwd/RzAvY9xtdSlaN
- mAnoFb5uFswl+dEGmvbrZZSYoe9hm1Vjb2xQk4bPZSQluhHT0O/YUCGF+qa2WPj+lDWe
- 2wVgokiOJXy27mzePZiwaQTkIpIkqgWEnrbEMQWOPcrbNG9FKBL39xb8/8yJkE54E3KQ
- 5z+m6JcQHU8TPoRG6ZJqhlB84lRBv7SFoUqXMWaduEJLQj0KMTUZFe492iE7gymGyJZ5
- Rp4w==
+ d=gmail.com; s=20230601; t=1727427483; x=1728032283; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Eg8VUnCWU6xpmCG+ce1Tu7r95og6PEk5nWNUF8PLnD0=;
+ b=A9d2dLx91wrnB82/wvuB0u8kXPtObMZ/puu8CJ5vB/Je7KMpyNP0YYCKbmt1h5aEvI
+ 8tl6nrG+KYyomMarDd7iTlzAlYhihRiFJqCp1k8NSdcgfa3guD7NZYXHWozJdUdSlaPA
+ vlZ41VpRyIyO7jNeh81Or/Qqy2MARfakwJpAQlxp4HdJg8MkreIJ84iJQMGfU0KxMdLM
+ UBMDs6k+U0pIrfKZTGE7wDEvYswBTA/Tmghv1WQF094AHoMUHT9d8AiDDUYTagzVU3LV
+ iDJXSuxkRKanPSVVBL0TLukQQKQvyuyQAn/TYx744Cg6d33sQnhC+c9IOHJrdvRDw8ED
+ +3zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727427045; x=1728031845;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=oSbb6GyqIU91E3tpBz1h87UeS05X7HA+7wteUPe++Bk=;
- b=pDSbAhYmKHUoq/zI5FOa6EIPrOl0wap/WeL7DH9gXjQM+u7usWcV61Fh1d/IOg9eSk
- eKxQksr2ev4oSgN4x36aCGH5bLLg5Ch3k9sEKLyewFhL4QxNtSoY9R84sUoyNDn5DjH4
- RvLLNeanY94UjPmPWJkrnDWcKHn1oa+pP15QjlBMyayiHuNFH0Z0L3dsP8uI7Oat/IlG
- f10tPBhBk9V7ebLW+VbleuxrObCj8qL/Bl5k06giGLteU0qeUQMK7xzkWbjhD1t4KnKb
- KNrT84Ycs4/hDMU9CHwCl04s2V0fQo0mcdx9NxTxUBbAEP3FDQF4MzD2MYhrXWjvArs8
- 5nhQ==
+ d=1e100.net; s=20230601; t=1727427483; x=1728032283;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Eg8VUnCWU6xpmCG+ce1Tu7r95og6PEk5nWNUF8PLnD0=;
+ b=WlLkGu+snLNedFzuFUqcXmZG2dajXTo1Do3BIQG6NL1CeLZF8MPh91PkWPwUXVsVEf
+ juqTLlQYu0eRx+el41fyFjfZRJFgfxrKNVtaNfYK3lGv+8ztN6Miz3KJv0vUOJjNDla9
+ rBZ6Bfi4xGXHDMJDkod9+m9K/QBgRRJ22eb63sQpyUtnWy/IeWqEtNj27hgVCQUM/tED
+ Q9R5//jKFklVmzlX7rrSUvW3J7mi95ZblR9BOs73OvoS0s05osWaXBfVAqqHQ3IRY/pi
+ 1APGAskJM1K2F/dn6TF+L1xVEvsTvQxVUWikqC0UggXfC9spV+6b7lc6p5tC3v85ak4s
+ zeJA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW5JIyDpir6O6YynEkFlJ6l/7GNgUephRYdlVB9VsHPenhIMZZm4APUcYvaSdnxqqpPp3W1rQIsvZo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwabHLCCDJdbtyoHWdJKG6dT35iXs9I8f3yZTC6nhjLbEHuXFsr
- W5xIGDlaDliqHFDWKECwkdALS+gOtYoUiacUOxvfVY+e0RPMUJS2mF1Z5rlgMDw=
-X-Google-Smtp-Source: AGHT+IHm9fx8bb+DamCga+fbsS/5uI9hmB42O72j7rISNL/17Jx88bpWAxOp7qLf5bQkAJzDG+1krA==
-X-Received: by 2002:a05:6512:1307:b0:536:545c:bbfa with SMTP id
- 2adb3069b0e04-5389fc3c77bmr1626228e87.20.1727427044919; 
- Fri, 27 Sep 2024 01:50:44 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-538a0442d9fsm229532e87.281.2024.09.27.01.50.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Sep 2024 01:50:43 -0700 (PDT)
-Date: Fri, 27 Sep 2024 11:50:41 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Hermes.Wu@ite.com.tw
-Cc: Kenneth.Hung@ite.com.tw, andrzej.hajda@intel.com, 
- neil.armstrong@linaro.org, rfoss@kernel.org, Laurent.pinchart@ideasonboard.com,
- jonas@kwiboo.se, jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
- angelogioacchino.delregno@collabora.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 05/11] drm/bridge: it6505: increase supports of HDCP
- repeater ksv devices
-Message-ID: <pf3ehmjz2nx4gea5ioucftpinha3rzbitonmvmspaccdhirblt@wz6yybzethox>
-References: <20240926075018.22328-1-Hermes.Wu@ite.com.tw>
- <xyi4czye2dwqmh6iaschacduwxm52oaipbt5ulvlmalamkzwbc@6gt5endjo6gl>
- <79e5e8479b2b4563b2ce4f4a252b2586@ite.com.tw>
+ AJvYcCVFBEvmSx+5QGqUKkCPt+pWVYHGqqw4zs9IGyshG1eFj9WApfO5Bj92eCHQB6Ndyu6eGtU6Ke0URCg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw3STMYLWt8G3UB5Wm/OpsENyw2DwhJ2dhAXrUyyzkesRZoDwst
+ WU23Coobg7H3CZCvLjjglw2M4fFHAUo6D0UmmcX0I3THUKZ3BcBxYPjOvGMlEL+VtTA+2gERqu6
+ EL6nKZH685uf3zuwz/tRddkUGp2U=
+X-Google-Smtp-Source: AGHT+IHlhccJP6o8YVDcpGsoOKh73nleQWjN6gMlntdM8azrnOLgCbN569DWouWNGBJF/Vf+8gknJS6h6du5PlKNbYc=
+X-Received: by 2002:a05:6102:2ac4:b0:49b:e9fc:14d2 with SMTP id
+ ada2fe7eead31-4a2d7ff9815mr2856108137.23.1727427482685; Fri, 27 Sep 2024
+ 01:58:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <79e5e8479b2b4563b2ce4f4a252b2586@ite.com.tw>
+References: <20240817025624.13157-1-laoar.shao@gmail.com>
+ <20240817025624.13157-6-laoar.shao@gmail.com>
+ <CAHp75VdpG=yQVaJLR3J5puwj4FYWtXzaHkC1TdmiqfJu1s9PpA@mail.gmail.com>
+In-Reply-To: <CAHp75VdpG=yQVaJLR3J5puwj4FYWtXzaHkC1TdmiqfJu1s9PpA@mail.gmail.com>
+From: Yafang Shao <laoar.shao@gmail.com>
+Date: Fri, 27 Sep 2024 16:57:26 +0800
+Message-ID: <CALOAHbBHV_xB88AD8azVXZQzdowLtU6EHewFGUtPHQE9K6GQ_Q@mail.gmail.com>
+Subject: Re: [PATCH v7 5/8] mm/util: Fix possible race condition in kstrdup()
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: akpm@linux-foundation.org, torvalds@linux-foundation.org, alx@kernel.org, 
+ justinstitt@google.com, ebiederm@xmission.com, alexei.starovoitov@gmail.com,
+ rostedt@goodmis.org, catalin.marinas@arm.com, 
+ penguin-kernel@i-love.sakura.ne.jp, linux-mm@kvack.org, 
+ linux-fsdevel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+ audit@vger.kernel.org, linux-security-module@vger.kernel.org, 
+ selinux@vger.kernel.org, bpf@vger.kernel.org, netdev@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,68 +87,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 27, 2024 at 02:18:54AM GMT, Hermes.Wu@ite.com.tw wrote:
+On Fri, Sep 27, 2024 at 1:35=E2=80=AFAM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
+>
+> On Thu, Sep 26, 2024 at 7:44=E2=80=AFPM Yafang Shao <laoar.shao@gmail.com=
+> wrote:
 > >
-> >-----Original Message-----
-> >From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org> 
-> >Sent: Thursday, September 26, 2024 4:07 PM
-> >To: Hermes Wu (吳佳宏) <Hermes.Wu@ite.com.tw>
-> >Cc: Kenneth Hung (洪家倫) <Kenneth.Hung@ite.com.tw>; Andrzej Hajda <andrzej.hajda@intel.com>; Neil Armstrong <neil.armstrong@linaro.org>; Robert Foss <rfoss@kernel.org>; Laurent Pinchart <Laurent.pinchart@ideasonboard.com>; Jonas Karlman <jonas@kwiboo.se>; Jernej Skrabec <jernej.skrabec@gmail.com>; Maarten Lankhorst <maarten.lankhorst@linux.intel.com>; Maxime Ripard <mripard@kernel.org>; Thomas Zimmermann <tzimmermann@suse.de>; David Airlie <airlied@gmail.com>; Simona Vetter <simona@ffwll.ch>; Allen Chen <allen.chen@ite.com.tw>; AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>; open list:DRM DRIVERS <dri-devel@lists.freedesktop.org>; open list <linux-kernel@vger.kernel.org>
-> >Subject: Re: [PATCH v4 05/11] drm/bridge: it6505: increase supports of HDCP repeater ksv devices
+> > In kstrdup(), it is critical to ensure that the dest string is always
+> > NUL-terminated. However, potential race condidtion can occur between a
+>
+> condition
+>
+> > writer and a reader.
 > >
-> >On Thu, Sep 26, 2024 at 03:50:14PM GMT, Hermes Wu wrote:
-> >> From: Hermes Wu <Hermes.wu@ite.com.tw>
-> >> 
-> >> A HDCP source shall support max downstream device to 127.
-> >> 
-> >> Change definition of MAX_HDCP_DOWN_STREAM_COUNT to 127
+> > Consider the following scenario involving task->comm:
 > >
-> >This results in struct it6505 growth by ~0.5 KiB. Please mention it in the commit message.
+> >     reader                    writer
 > >
-> >Is it really required to have sha1_input in the constantly allocated structure? I think it's a temporary data, which isn't necessary after processing.
-> 
-> Change sha1_input with dynamic memory into one commit or 
-> 
-> change to use temporary data in one and change definition of MAX_HDCP_DOWN_STREAM_COUN in another?
+> >   len =3D strlen(s) + 1;
+> >                              strlcpy(tsk->comm, buf, sizeof(tsk->comm))=
+;
+> >   memcpy(buf, s, len);
+> >
+> > In this case, there is a race condition between the reader and the
+> > writer. The reader calculate the length of the string `s` based on the
+>
+> calculates
+>
+> > old value of task->comm. However, during the memcpy(), the string `s`
+> > might be updated by the writer to a new value of task->comm.
+> >
+> > If the new task->comm is larger than the old one, the `buf` might not b=
+e
+> > NUL-terminated. This can lead to undefined behavior and potential
+> > security vulnerabilities.
+> >
+> > Let's fix it by explicitly adding a NUL-terminator.
+>
+> memcpy() is not atomic AFAIK, meaning that the new string can be also
+> shorter and when memcpy() already copied past the new NUL. I would
+> amend the explanation to include this as well.
+>
+> ...
+>
+> > +               /* During memcpy(), the string might be updated to a ne=
+w value,
+> > +                * which could be longer than the string when strlen() =
+is
+> > +                * called. Therefore, we need to add a null termimator.
+>
+> /*
+>  * The wrong comment style. Besides that a typo
+>  * in the word 'terminator'. Please, run codespell on your changes.
+>  * Also use the same form: NUL-terminator when you are talking
+>  * about '\0' and not NULL.
+>  */
 
-If it's needed during the lifetime, it's fine. Just explain the
-necessity to grow the structure in the commit message.
+Thank you for pointing out these errors and for recommending the use
+of codespell.
+Will fix them in the next version.
 
-> 
-> >> 
-> >> Fixes: b5c84a9edcd4 ("drm/bridge: add it6505 driver")
-> >> Signed-off-by: Hermes Wu <Hermes.wu@ite.com.tw>
-> >> ---
-> >>  drivers/gpu/drm/bridge/ite-it6505.c | 2 +-
-> >>  1 file changed, 1 insertion(+), 1 deletion(-)
-> >> 
-> >> diff --git a/drivers/gpu/drm/bridge/ite-it6505.c 
-> >> b/drivers/gpu/drm/bridge/ite-it6505.c
-> >> index d1f5220e04a6..5d5ce12cd054 100644
-> >> --- a/drivers/gpu/drm/bridge/ite-it6505.c
-> >> +++ b/drivers/gpu/drm/bridge/ite-it6505.c
-> >> @@ -296,7 +296,7 @@
-> >>  #define MAX_LANE_COUNT 4
-> >>  #define MAX_LINK_RATE HBR
-> >>  #define AUTO_TRAIN_RETRY 3
-> >> -#define MAX_HDCP_DOWN_STREAM_COUNT 10
-> >> +#define MAX_HDCP_DOWN_STREAM_COUNT 127
-> >>  #define MAX_CR_LEVEL 0x03
-> >>  #define MAX_EQ_LEVEL 0x03
-> >>  #define AUX_WAIT_TIMEOUT_MS 15
-> >> --
-> >> 2.34.1
-> >> 
-> >
-> >-- 
-> >With best wishes
-> >Dmitry
-> >
-> 
-> BR,
-> Hermes
-> 
-
--- 
-With best wishes
-Dmitry
+--=20
+Regards
+Yafang
