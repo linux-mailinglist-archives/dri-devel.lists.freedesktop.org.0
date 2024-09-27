@@ -2,74 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9C24988721
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Sep 2024 16:28:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0057D988853
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Sep 2024 17:33:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AA0310EC72;
-	Fri, 27 Sep 2024 14:28:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7283310ECD4;
+	Fri, 27 Sep 2024 15:33:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cGOOuHBT";
+	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="d4t1rLkS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F54A10EC67
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Sep 2024 14:28:02 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id
- 5b1f17b1804b1-42cae6bb895so20348195e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Sep 2024 07:28:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1727447280; x=1728052080; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=F67HKGJS01CpRs61gIMCLFbQnFdt6OhKu+DWzbIPnBU=;
- b=cGOOuHBTzFEK7phBOw+REQPoIVgJ/v6g72+ncQA8oN6f+xSYVjMYB8L0l++wUwbMMh
- o1k1KGvuW6sGJViyVMzlwM85nGLrQ3/KyJRNYcKx+jF1Z4i8rhApO4cck25nbL2JxyHj
- MQyuloKwb5DYOzvepfsT+kWqKIom81tX2K1O0ROCw/K1yAZ7ZOC1T/KdGceyTsJqbY9D
- BkTusH4XBQLBYVex0zTQzsQeIze0Aw07l1R3OmDgHFxtIUcBD5WRuM8z/uQvrGAwhJEq
- vP247rO/X5AnvZRvC6jB7SYpb0MqIFDWAwoO1CtFuzByDc/6TQtzWTS4bZhwkBwI5g5w
- Isjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727447280; x=1728052080;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=F67HKGJS01CpRs61gIMCLFbQnFdt6OhKu+DWzbIPnBU=;
- b=YtFoAO6PfRKeUnBuVJfrFD0FTInvUzgYnzaa5n+xUZuCUjhqCa3fIRJlG2O6Wc51WC
- GjqPivnlalUQNEdOqwBgtD92nC03hXDwMa9jgb1pVximRzjEh1Vt+Ys7fQxGVWicRFK/
- kd/3K/Kt3ODqhpfPZfS5krjEGPDJfakbPQp69MNwBWAduwXUvpHVG94I2wdSOgdCWZ64
- d65CNFZCVtwx6tWSNEqaTRiX3fInRJkSWXfk6fX6010aN7+Zuq2BEfd+cE4xrTWL8EpJ
- Zr9Elnfv7J0ysC3der+6wKG2BL8LbyJ2DSoFMwPyvfCcK0D7XcUVxwR2iNz9nDwBNBOw
- ckZw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUJpuq48eBaXpxYC0uVkCS+Uxm82Tzs21OO3DueCWyek5g1yDAg/A56LeTxgazk4pQJ/GZSsutKZco=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyd8LnkJTFtj8dzOX/T5j1+Q6P66XenvIr2MAhcxjBPexo0MYSs
- plsNbnikSr0/Y48++xjbRC6+a16qOGhs/HNqGNNs/rSD2at7EbGK
-X-Google-Smtp-Source: AGHT+IGqMUeQTNMvVGjzppJTM4qR8JTQ3Wd7JMpDIOlQgOflfafr+/HEu+rk4iWn6/Tu/i2H7Umxfw==
-X-Received: by 2002:a05:600c:3783:b0:42c:b942:1bba with SMTP id
- 5b1f17b1804b1-42f58488360mr24405295e9.27.1727447280261; 
- Fri, 27 Sep 2024 07:28:00 -0700 (PDT)
-Received: from able.fritz.box ([2a00:e180:1515:2900:6181:3f3e:a0cc:be1a])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-42e96a36705sm76944445e9.33.2024.09.27.07.27.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Sep 2024 07:27:59 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: pstanner@redhat.com, dakr@kernel.org, ltuikov89@gmail.com,
- simona.vetter@ffwll.ch, dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/sched: clarify the documentation on
- drm_sched_entity_error
-Date: Fri, 27 Sep 2024 16:27:55 +0200
-Message-Id: <20240927142755.103076-3-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240927142755.103076-1-christian.koenig@amd.com>
-References: <20240927142755.103076-1-christian.koenig@amd.com>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0350410ECD4
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Sep 2024 15:33:15 +0000 (UTC)
+X-UUID: cc76bfea7ce511ef8b96093e013ec31c-20240927
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=bk+WPej06o0GmUbd729GsyTvJB3WqS3qmd6xEFCIjm8=; 
+ b=d4t1rLkSszEMTKsmVVsBdAl4csJ0foe15icdHmpVx1iXB8+UqudMlsKmSVGd+5FEvxLIxj7wRJTkaJQ6+lfqjkJJg4dzH6sZAbdMWY2yr6pBOLaNGiKr0d9KPJWgdzf8V1tqTrCyVzh6vfSzF2k2BUboOlknlhkMiX1a5miNGT4=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.41, REQID:1fa39423-7fd6-40ad-9898-9f5d536b09c5, IP:0,
+ U
+ RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+ N:release,TS:-25
+X-CID-META: VersionHash:6dc6a47, CLOUDID:d299ac9e-8e9a-4ac1-b510-390a86b53c0a,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
+ SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_ULS,TF_CID_SPAM_SNR
+X-UUID: cc76bfea7ce511ef8b96093e013ec31c-20240927
+Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
+ mailgw02.mediatek.com (envelope-from <liankun.yang@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1269715970; Fri, 27 Sep 2024 23:33:09 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Fri, 27 Sep 2024 23:33:07 +0800
+Received: from mszsdhlt06.gcn.mediatek.inc (10.16.6.206) by
+ mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Fri, 27 Sep 2024 23:33:07 +0800
+From: Liankun Yang <liankun.yang@mediatek.com>
+To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@gmail.com>, 
+ <simona@ffwll.ch>, <matthias.bgg@gmail.com>,
+ <angelogioacchino.delregno@collabora.com>, <rex-bc.chen@mediatek.com>,
+ <msp@baylibre.com>, <granquet@baylibre.com>, <ck.hu@mediatek.com>,
+ <jitao.shi@mediatek.com>, <mac.shen@mediatek.com>, <peng.liu@mediatek.com>,
+ <liankun.yang@mediatek.com>
+CC: <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
+ <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
+Subject: [PATCH v2 1/1] drm/mediatek: Fix potential KP on 0 bytes nvmem cell
+ read
+Date: Fri, 27 Sep 2024 17:03:29 +0800
+Message-ID: <20240927153305.27642-1-liankun.yang@mediatek.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,42 +80,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Sima requested that in a discussion, just copy&paste my explanation from
-the mail.
+If the len is 0, kernel crash will occur when performing operations.
+Add the len check conditions to prevent kernel crash.
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
+Fixes: f70ac097a2cf ("drm/mediatek: Add MT8195 Embedded DisplayPort driver")
+Signed-off-by: Liankun Yang <liankun.yang@mediatek.com>
 ---
- drivers/gpu/drm/scheduler/sched_entity.c | 17 +++++++++++++++--
- 1 file changed, 15 insertions(+), 2 deletions(-)
+Changes in V2:
+- Fix the commit title.
+- Remove blank line between the Fixes and Signe-off-by.
+- Modify the judgment writing method.
+Per suggestion from the previous thread:
+https://patchwork.kernel.org/project/linux-mediatek/patch/20240925084116.28848-1-liankun.yang@mediatek.com/
+---
+ drivers/gpu/drm/mediatek/mtk_dp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-index 58c8161289fe..571e2f2365a1 100644
---- a/drivers/gpu/drm/scheduler/sched_entity.c
-+++ b/drivers/gpu/drm/scheduler/sched_entity.c
-@@ -166,8 +166,21 @@ bool drm_sched_entity_is_ready(struct drm_sched_entity *entity)
-  * drm_sched_entity_error - return error of last scheduled job
-  * @entity: scheduler entity to check
-  *
-- * Opportunistically return the error of the last scheduled job. Result can
-- * change any time when new jobs are pushed to the hw.
-+ * Drivers should use this function in two ways:
-+ *
-+ * 1. In it's prepare callback so that when one submission fails all following
-+ * from the same ctx are marked with an error number as well.
-+ *
-+ * This is intentionally done in a driver callback so that driver decides if
-+ * they want subsequent submissions to fail or not. That can be helpful for
-+ * example for in kernel paging queues where submissions don't depend on each
-+ * other and a failed submission shouldn't cancel all following.
-+ *
-+ * 2. In it's submission IOCTL to reject new submissions and inform userspace
-+ * that it needs to kick of some error handling.
-+ *
-+ * Returns the error of the last scheduled job. Result can change any time when
-+ * new jobs are pushed to the hw.
-  */
- int drm_sched_entity_error(struct drm_sched_entity *entity)
- {
+diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
+index d8796a904eca..9ecdf62398ee 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dp.c
++++ b/drivers/gpu/drm/mediatek/mtk_dp.c
+@@ -1082,7 +1082,7 @@ static void mtk_dp_get_calibration_data(struct mtk_dp *mtk_dp)
+ 	buf = (u32 *)nvmem_cell_read(cell, &len);
+ 	nvmem_cell_put(cell);
+ 
+-	if (IS_ERR(buf) || ((len / sizeof(u32)) != 4)) {
++	if (IS_ERR(buf) || !len || ((len / sizeof(u32)) != 4)) {
+ 		dev_warn(dev, "Failed to read nvmem_cell_read\n");
+ 
+ 		if (!IS_ERR(buf))
 -- 
-2.34.1
+2.45.2
 
