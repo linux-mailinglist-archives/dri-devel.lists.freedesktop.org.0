@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC0B0989087
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Sep 2024 18:45:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65573989088
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Sep 2024 18:45:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3422E10E219;
-	Sat, 28 Sep 2024 16:45:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2861910E23A;
+	Sat, 28 Sep 2024 16:45:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FGTqli07";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZRONPYY2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 733FB10E219
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Sep 2024 16:45:10 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BF7A10E23A
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Sep 2024 16:45:13 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 27399A4083A;
- Sat, 28 Sep 2024 16:45:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33AE4C4CEC7;
- Sat, 28 Sep 2024 16:45:09 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 698615C5678;
+ Sat, 28 Sep 2024 16:45:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B944C4CEC7;
+ Sat, 28 Sep 2024 16:45:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1727541909;
- bh=x3/7eRtcjfaX1v6knyhjD77xA6AShBFl/LoZXlJgSmI=;
+ s=k20201202; t=1727541912;
+ bh=KeVe+PMFx3Hc/WeSruzNM5szsYAxL/6EfsQiRJE5kfA=;
  h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=FGTqli07lZ7bLOq4T2AUQnwWi813nEtvpSSvCnkfK4wP8Hx7Wyl1jJkcKNJyyYIwA
- nIEGSsVKFkVvoZAyQLPouQEbVRufAArNkvs46058v6oi6lfy8IqEOZIciY6chAUPNn
- KuvH8xshUZyPJQ0D+Q3jTVR7fOHo4dFgzC5CQ0M27c5W923aZYcV2I2+B/dnqfiYZV
- noJrjaEtrmyRFUlo1/SydUW1sNkUIzWqa+/O8IdbGvRIwCCA1G4EHrrjRKytkljxXi
- EIdz5Tc7ajwGjhTAJykh3Z7E5ynb/VPCoP09QArE2322HaGQSKnQJ/OR6RluySk6k1
- 7ik4nbKMX2BqA==
+ b=ZRONPYY2K3LZxq5N5MzxRudoGl2cmqfU9NM1G2DRpu4XXMHsiA8q7CVdy2l//3H8V
+ SYAG1lyefSN6Y5RObZTMv08IMGpXray2bzAMWiKe/FhnYs8sGM42Awcpl8Bpf8FOKn
+ 5EbzDT1Q/971XPn/Gk6xMB62JVT1KUxEVIa/RUcSEfQjOAZUyb9yjTWWZSixibXs++
+ kclzByGRw/QJikiUfY6kCRN8bj33edJvmaWqRnejHXmOCKYlLM6pwTt1dqHlq8KKnD
+ tchQ03DIdrokFRgWY5lXtQRFXIVarludCA5XWbIXN0/W4Hd+0RaKrwW3SG0C50b8Rq
+ Pob0p+44Qkwmw==
 Received: from [10.30.226.235] (localhost [IPv6:::1])
  by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id
- 33FD43809A80; Sat, 28 Sep 2024 16:45:13 +0000 (UTC)
-Subject: Re: [git pull] drm fixes for 6.12-rc1
+ 33EBC3809A80; Sat, 28 Sep 2024 16:45:16 +0000 (UTC)
+Subject: Re: [GIT PULL] additional fbdev fixes for v6.12-rc1
 From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAPM=9tyzGT9vTmFUBK51bJAT-fEsKMkfScQZCCEcHCX7Lq553w@mail.gmail.com>
-References: <CAPM=9tyzGT9vTmFUBK51bJAT-fEsKMkfScQZCCEcHCX7Lq553w@mail.gmail.com>
+In-Reply-To: <ZvfoRGNbTUOzLL9X@carbonx1>
+References: <ZvfoRGNbTUOzLL9X@carbonx1>
 X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <CAPM=9tyzGT9vTmFUBK51bJAT-fEsKMkfScQZCCEcHCX7Lq553w@mail.gmail.com>
-X-PR-Tracked-Remote: https://gitlab.freedesktop.org/drm/kernel.git
- tags/drm-next-2024-09-28
-X-PR-Tracked-Commit-Id: e7268dd9bb9953a9eb0df9948abf5195bf474538
+X-PR-Tracked-Message-Id: <ZvfoRGNbTUOzLL9X@carbonx1>
+X-PR-Tracked-Remote: http://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git
+ tags/fbdev-for-6.12-rc1-2
+X-PR-Tracked-Commit-Id: 9cf14f5a2746c19455ce9cb44341b5527b5e19c3
 X-PR-Merge-Tree: torvalds/linux.git
 X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 994aeacbb3c039b4f3e02e76e6d39407920e76c6
-Message-Id: <172754191163.2302262.7896837503794633461.pr-tracker-bot@kernel.org>
-Date: Sat, 28 Sep 2024 16:45:11 +0000
-To: Dave Airlie <airlied@gmail.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Sima Vetter <sima@ffwll.ch>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
+X-PR-Merge-Commit-Id: f95c139099f8dad235191caec9e9268ca717beb9
+Message-Id: <172754191479.2302262.4145148096064377606.pr-tracker-bot@kernel.org>
+Date: Sat, 28 Sep 2024 16:45:14 +0000
+To: Helge Deller <deller@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+ linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,12 +66,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Sat, 28 Sep 2024 09:39:41 +1000:
+The pull request you sent on Sat, 28 Sep 2024 13:28:04 +0200:
 
-> https://gitlab.freedesktop.org/drm/kernel.git tags/drm-next-2024-09-28
+> http://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git tags/fbdev-for-6.12-rc1-2
 
 has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/994aeacbb3c039b4f3e02e76e6d39407920e76c6
+https://git.kernel.org/torvalds/c/f95c139099f8dad235191caec9e9268ca717beb9
 
 Thank you!
 
