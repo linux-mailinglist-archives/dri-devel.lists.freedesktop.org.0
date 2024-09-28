@@ -2,64 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73B20989069
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Sep 2024 18:25:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC0B0989087
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Sep 2024 18:45:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3916310E238;
-	Sat, 28 Sep 2024 16:25:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3422E10E219;
+	Sat, 28 Sep 2024 16:45:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=disroot.org header.i=@disroot.org header.b="mkaMcpZY";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FGTqli07";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E6A110E238
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Sep 2024 16:25:45 +0000 (UTC)
-Received: from mail01.disroot.lan (localhost [127.0.0.1])
- by disroot.org (Postfix) with ESMTP id 6A7F523CA1;
- Sat, 28 Sep 2024 18:25:43 +0200 (CEST)
-X-Virus-Scanned: SPAM Filter at disroot.org
-Received: from layka.disroot.org ([127.0.0.1])
- by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id srQnTbUPZUl5; Sat, 28 Sep 2024 18:25:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
- t=1727540742; bh=V5mT+wVYjQpoHBouSd/nQpnt5/+4LDMm5lqddyF74tk=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References;
- b=mkaMcpZYJIz+xBxoWJGqd0rIqHSd0s2VEQxFWmfpn97RgDQH+fRMlM3BFEW/C3kcX
- ifY0AtfwLRrLX51ObBThq0YbPMdrSI1UHG5YFYKt+jI3Nw6THBWNMtuZAMyeBlKX4f
- 5soS39s708vXjvon9WsGEBPan0orpu3HEHgryvb1t2Ve7OnAxaLxVpTd9OwvJFP4NA
- tO+NmZinLmsbx6tauEXHDsIO9Jxv3DwyN3DkiRwQO3kKv6D1jMG29P+MEBICwGYw20
- Wqqk7z5eqAjTJR4o0/IdzDYwnDCP1Av4tUXyZ2dPGQauDtMdIYnfE2TFEwZFkAlDsK
- fyAlSOANWAAcQ==
-MIME-Version: 1.0
-Date: Sat, 28 Sep 2024 16:25:42 +0000
-From: Kaustabh Chakraborty <kauschluss@disroot.org>
-To: Kwanghoon Son <k.son@samsung.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, airlied@gmail.com,
- alim.akhtar@samsung.com, conor@kernel.org, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, inki.dae@samsung.com,
- kyungmin.park@samsung.com, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, robh@kernel.org,
- simona@ffwll.ch, sw0312.kim@samsung.com, tzimmermann@suse.de, kauschluss
- <kauschluss@disroot.org>
-Subject: Re: [PATCH 6/6] dt-bindings: display: samsung,exynos7-decon: add
- exynos7870 compatible
-In-Reply-To: <d2a6b8d16b001b72fd01cfc5b4895e6fee0b7032.camel@samsung.com>
-References: <20240919-exynosdrm-decon-v1-0-6c5861c1cb04@disroot.org>
- <20240919-exynosdrm-decon-v1-6-8c3e3ccffad5@disroot.org>
- <32ae1188-196d-4fe8-8719-968e5149a771@kernel.org>
- <7e5caaea80390e8cf87ba0a74d9719f0@disroot.org>
- <1bc0ad48-03c0-4cf6-afb1-2296d1c259b9@kernel.org>
- <8e0672ad3fd72f69d2bdb5687e778c86@disroot.org>
- <ef786b8b-32c0-457a-9e14-ed7bd9f04172@kernel.org>
- <d8f5999921a31d7723e0aa9b12bb9eaf@disroot.org>
- <CGME20240926053449epcas1p2e8596f64b7ee5d3b8cdf565bacdc6510@epcas1p2.samsung.com>
- <d2a6b8d16b001b72fd01cfc5b4895e6fee0b7032.camel@samsung.com>
-Message-ID: <91447671a12d04e177a7a54e7facc5df@disroot.org>
-X-Sender: kauschluss@disroot.org
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 733FB10E219
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Sep 2024 16:45:10 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 27399A4083A;
+ Sat, 28 Sep 2024 16:45:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33AE4C4CEC7;
+ Sat, 28 Sep 2024 16:45:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1727541909;
+ bh=x3/7eRtcjfaX1v6knyhjD77xA6AShBFl/LoZXlJgSmI=;
+ h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+ b=FGTqli07lZ7bLOq4T2AUQnwWi813nEtvpSSvCnkfK4wP8Hx7Wyl1jJkcKNJyyYIwA
+ nIEGSsVKFkVvoZAyQLPouQEbVRufAArNkvs46058v6oi6lfy8IqEOZIciY6chAUPNn
+ KuvH8xshUZyPJQ0D+Q3jTVR7fOHo4dFgzC5CQ0M27c5W923aZYcV2I2+B/dnqfiYZV
+ noJrjaEtrmyRFUlo1/SydUW1sNkUIzWqa+/O8IdbGvRIwCCA1G4EHrrjRKytkljxXi
+ EIdz5Tc7ajwGjhTAJykh3Z7E5ynb/VPCoP09QArE2322HaGQSKnQJ/OR6RluySk6k1
+ 7ik4nbKMX2BqA==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+ by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id
+ 33FD43809A80; Sat, 28 Sep 2024 16:45:13 +0000 (UTC)
+Subject: Re: [git pull] drm fixes for 6.12-rc1
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <CAPM=9tyzGT9vTmFUBK51bJAT-fEsKMkfScQZCCEcHCX7Lq553w@mail.gmail.com>
+References: <CAPM=9tyzGT9vTmFUBK51bJAT-fEsKMkfScQZCCEcHCX7Lq553w@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAPM=9tyzGT9vTmFUBK51bJAT-fEsKMkfScQZCCEcHCX7Lq553w@mail.gmail.com>
+X-PR-Tracked-Remote: https://gitlab.freedesktop.org/drm/kernel.git
+ tags/drm-next-2024-09-28
+X-PR-Tracked-Commit-Id: e7268dd9bb9953a9eb0df9948abf5195bf474538
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 994aeacbb3c039b4f3e02e76e6d39407920e76c6
+Message-Id: <172754191163.2302262.7896837503794633461.pr-tracker-bot@kernel.org>
+Date: Sat, 28 Sep 2024 16:45:11 +0000
+To: Dave Airlie <airlied@gmail.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Sima Vetter <sima@ffwll.ch>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,54 +66,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2024-09-26 05:34, Kwanghoon Son wrote:
-> On Wed, 2024-09-25 at 20:05 +0000, Kaustabh Chakraborty wrote:
->> On 2024-09-25 19:56, Krzysztof Kozlowski wrote:
->> > On 25/09/2024 21:36, Kaustabh Chakraborty wrote:
->> > > On 2024-09-25 19:25, Krzysztof Kozlowski wrote:
->> > > > On 25/09/2024 20:42, Kaustabh Chakraborty wrote:
->> > > > > On 2024-09-20 12:39, Krzysztof Kozlowski wrote:
->> > > > > > On 19/09/2024 17:20, Kaustabh Chakraborty wrote:
->> > > > > > > Add the compatible string of Exynos7870 to the existing list.
->> > > > > > > 
->> > > > > > > Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
->> > > > > > 
->> > > > > > ... and the DTS is <please provide lore ink in changelog>?
->> > > > > 
->> > > > > Didn't quite understand. The patch adds the compatible string
->> > > > > for Exynos7870 DECON in documentation. There's no DTS involved
->> > > > > in here, right?
->> > > > 
->> > > > Provide lore link to the DTS submission.
->> > > 
->> > > There aren't any DTS submissions *yet* which use the compatible.
->> > > Is that an issue?
->> > > 
->> > 
->> > Yeah, users are supposed to be upstream. Not downstream.
->> 
->> I understand that. I had plans to submit it in the future.
->> If that's how it's meant to be done, I'll have to revisit this
->> submission at a later date then.
-> 
-> Hi, may I ask for reason that you don't submit dts?
+The pull request you sent on Sat, 28 Sep 2024 09:39:41 +1000:
 
-It's not that I don't want, I have nowhere to submit it to yet. As
-pointed out by Krzysztof, support for exynos7870 doesn't exist in
-upstream. I'll get back to this after I get that finished.
+> https://gitlab.freedesktop.org/drm/kernel.git tags/drm-next-2024-09-28
 
-> I am asking because I wonder if there is an issue related to DPP.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/994aeacbb3c039b4f3e02e76e6d39407920e76c6
 
-Exynos7870 doesn't have DPP blocks as far as I could tell. Let me
-know if I misunderstood anything.
+Thank you!
 
-> 
-> https://lore.kernel.org/linux-samsung-soc/2e4d3d180f535e57d9cb98e7bac1d14b51ffc5d4.camel@gmail.com/#t
-> 
-> Best regards,
-> kwang.
-> 
->> 
->> > 
->> > Best regards,
->> > Krzysztof
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
