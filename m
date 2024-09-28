@@ -2,67 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 687C2988E7B
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Sep 2024 10:25:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05186988E99
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Sep 2024 10:50:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9708810E160;
-	Sat, 28 Sep 2024 08:25:09 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mrp4Eeml";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03F2010E090;
+	Sat, 28 Sep 2024 08:50:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E63D510E160
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Sep 2024 08:25:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1727511909; x=1759047909;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=eP/TnfqxHVi8bnCA6ntB7xSf069JnDxMZXL23L7xJIs=;
- b=mrp4EemlYlTjVdVAr6+dKGtsiVUhu5LD0+h0EcVMXT9VvzQiKgL7tFFH
- ouWprkVwNE9REySokM6VKn7HerWe8UHQhf5CVZFf+kY+L/xc7nvFQzqgl
- byEAGTv6dpllcCdYhMYldzV1/dSyvkqPOMdVbYz6OLG4UQLs8Fjc5wzYI
- NR+RlQZ9dsvn7rk2jPju/pWD8N2oYhCJmboB7pHb64dbYcE5tlMHCCgMh
- 6me7lDq6B+XlaU8CBDEV+5u/nn58/yFlyLVmYla5OV+bWNth+UH1+Epy8
- nMtyLp4oSj2IUMHdTpfG6lBsPnJQQPfjTBJMacYuce8oP5YTabRftpSTA w==;
-X-CSE-ConnectionGUID: BBSFI5e7TuWEWMjLfNzZgw==
-X-CSE-MsgGUID: GVMlrQVCRKCZGgq0yfvuWw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11208"; a="30547205"
-X-IronPort-AV: E=Sophos;i="6.11,160,1725346800"; d="scan'208";a="30547205"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Sep 2024 01:25:08 -0700
-X-CSE-ConnectionGUID: D1KuRM6aQeKBN7hDKSOj6w==
-X-CSE-MsgGUID: EuvC2xSqR02LyuujdFQCxQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,160,1725346800"; d="scan'208";a="103578910"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
- by fmviesa001.fm.intel.com with ESMTP; 28 Sep 2024 01:25:05 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1suSlC-000N27-0K;
- Sat, 28 Sep 2024 08:25:02 +0000
-Date: Sat, 28 Sep 2024 16:24:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: Werner Sembach <wse@tuxedocomputers.com>,
- Hans de Goede <hdegoede@redhat.com>,
- Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, bentiss@kernel.org,
- dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
- lee@kernel.org, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
- miguel.ojeda.sandonis@gmail.com, ojeda@kernel.org,
- onitake@gmail.com, pavel@ucw.cz, cs@tuxedo.de,
- platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH v3] platform/x86/tuxedo: Add virtual LampArray for TUXEDO
- NB04 devices
-Message-ID: <202409281630.xJUVwU5V-lkp@intel.com>
-References: <20240927141745.145176-1-wse@tuxedocomputers.com>
+X-Greylist: delayed 473 seconds by postgrey-1.36 at gabe;
+ Sat, 28 Sep 2024 08:50:03 UTC
+Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2E6F10E090
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Sep 2024 08:50:03 +0000 (UTC)
+Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
+ by localhost (Postfix) with ESMTP id 4XG16R4Jbxz9sSK;
+ Sat, 28 Sep 2024 10:42:07 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from pegase2.c-s.fr ([172.26.127.65])
+ by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id pcEHH360jGYl; Sat, 28 Sep 2024 10:42:07 +0200 (CEST)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+ by pegase2.c-s.fr (Postfix) with ESMTP id 4XG16R3Wyhz9sRy;
+ Sat, 28 Sep 2024 10:42:07 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by messagerie.si.c-s.fr (Postfix) with ESMTP id 66F6A8B766;
+ Sat, 28 Sep 2024 10:42:07 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+ by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+ with ESMTP id yxf-oHR6bVmE; Sat, 28 Sep 2024 10:42:07 +0200 (CEST)
+Received: from [192.168.232.146] (unknown [192.168.232.146])
+ by messagerie.si.c-s.fr (Postfix) with ESMTP id 0804E8B765;
+ Sat, 28 Sep 2024 10:42:06 +0200 (CEST)
+Message-ID: <14b64e90-2e3b-4bee-a8c9-2f8d6eed5d68@csgroup.eu>
+Date: Sat, 28 Sep 2024 10:42:05 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240927141745.145176-1-wse@tuxedocomputers.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: FSL P5040 board doesn't boot after DRM updates
+ (drm-next-2024-09-19)
+To: Christian Zigotzky <chzigotzky@xenosoft.de>
+Cc: DRI developers <dri-devel@lists.freedesktop.org>,
+ mad skateman <madskateman@gmail.com>, "R.T.Dickinson" <rtd2@xtra.co.nz>,
+ Darren Stevens <darren@stevens-zone.net>, hypexed@yahoo.com.au,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+ Alex Deucher <alexander.deucher@amd.com>
+References: <CADnq5_MM6UYOwFSPkZRauAyckFaUjCRGT97cVhsK=xZ9CzuXVw@mail.gmail.com>
+ <20EA4BE5-B349-4406-89EA-3D442717EC03@xenosoft.de>
+ <48f59b5b-b26e-49c5-9b58-1c877bea394d@xenosoft.de>
+Content-Language: fr-FR
+From: Christophe Leroy <christophe.leroy@csgroup.eu>
+In-Reply-To: <48f59b5b-b26e-49c5-9b58-1c877bea394d@xenosoft.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,76 +69,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Werner,
+Hi Christian,
 
-kernel test robot noticed the following build errors:
+Le 28/09/2024 à 09:40, Christian Zigotzky a écrit :
+> On 28 September 2024 at 09:21am, Christian Zigotzky wrote:
+>  >
+>  >> ﻿On Sun, Sep 22, 2024 at 12:28 AM Christian Zigotzky
+>  >> <chzigotzky@xenosoft.de> wrote:
+>  >>>
+>  >>> Hi All,
+>  >>>
+>  >>> The lastest Git kernel doesn't boot anymore after the latest DRM 
+> updates
+>  >>> (drm-next-2024-09-19). [1]
+>  >>>
+>  >>> I tested it with an AMD Radeon HD 6970 (Cayman XT) and with an AMD
+>  >>> Radeon HD 5870 (Cypress XT).
+>  >>>
+>  >>> I reverted the DRM updates and after that the kernel boots without any
+>  >>> problems.
+>  >>>
+>  >>> Please note: Due to a lack of time, I can't do a bisect.
+>  >>>
+>  >>> Please check the latest DRM updates.
+> ------------
+>  >>
+>  >> Can you attach your dmesg output?  There was a regression in the dma
+>  >> subsystem what was fixed by this commit:
+>  >>
+>  >> commit b348b6d17fd1d5d89b86db602f02be
+>  >> a54a754bd8
+>  >> Author: Leon Romanovsky <leon@kernel.org>
+>  >> Date:   Sun Sep 22 21:09:48 2024 +0300
+>  >>
+>  >>    dma-mapping: report unlimited DMA addressing in IOMMU DMA path
+>  >>
+>  >> Alex
+>  >>
+> 
+> ------------
+> Hi Alex,
+> 
+> I tested the latest Git kernel on my FSL P5040 board today and it 
+> doesn't boot. Our FSL P5020 boards boot without any problems.
+> 
+> I connected my FSL P5040 board with a serial cable to my PC for getting 
+> error messages. Unfortunately there aren't any error messages after the 
+> loading of the uImage.
+> 
+> This means, that the dma-mapping patch doesn't solve the boot issue.
+> 
+> Please check the latest DRM updates.
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm-tip/drm-tip linus/master v6.11 next-20240927]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Can you bisect the problem ?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Werner-Sembach/platform-x86-tuxedo-Add-virtual-LampArray-for-TUXEDO-NB04-devices/20240927-221932
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240927141745.145176-1-wse%40tuxedocomputers.com
-patch subject: [PATCH v3] platform/x86/tuxedo: Add virtual LampArray for TUXEDO NB04 devices
-config: x86_64-buildonly-randconfig-002-20240928 (https://download.01.org/0day-ci/archive/20240928/202409281630.xJUVwU5V-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240928/202409281630.xJUVwU5V-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409281630.xJUVwU5V-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   ld: vmlinux.o: in function `remove':
->> drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_ab_init.c:67: undefined reference to `hid_destroy_device'
-   ld: vmlinux.o: in function `__wmi_method_acpi_object_out':
->> drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_util.c:26: undefined reference to `wmidev_evaluate_method'
-   ld: vmlinux.o: in function `ll_parse':
->> drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_ab_virtual_lamp_array.c:355: undefined reference to `hid_parse_report'
-   ld: vmlinux.o: in function `tuxedo_nb04_virtual_lamp_array_add_device':
->> drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_ab_virtual_lamp_array.c:721: undefined reference to `hid_allocate_device'
->> ld: drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_ab_virtual_lamp_array.c:734: undefined reference to `hid_add_device'
->> ld: drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_ab_virtual_lamp_array.c:736: undefined reference to `hid_destroy_device'
-   ld: vmlinux.o: in function `tuxedo_nb04_wmi_ab_driver_init':
->> drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_ab_init.c:86: undefined reference to `__wmi_driver_register'
-   ld: vmlinux.o: in function `tuxedo_nb04_wmi_ab_driver_exit':
->> drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_ab_init.c:86: undefined reference to `wmi_driver_unregister'
-
-
-vim +67 drivers/platform/x86/tuxedo/tuxedo_nb04_wmi_ab_init.c
-
-    62	
-    63	static void remove(struct wmi_device *wdev)
-    64	{
-    65		struct tuxedo_nb04_wmi_driver_data_t *driver_data = dev_get_drvdata(&wdev->dev);
-    66	
-  > 67		hid_destroy_device(driver_data->virtual_lamp_array_hdev);
-    68	}
-    69	
-    70	static const struct wmi_device_id tuxedo_nb04_wmi_ab_device_ids[] = {
-    71		{ .guid_string = "80C9BAA6-AC48-4538-9234-9F81A55E7C85" },
-    72		{ }
-    73	};
-    74	MODULE_DEVICE_TABLE(wmi, tuxedo_nb04_wmi_ab_device_ids);
-    75	
-    76	static struct wmi_driver tuxedo_nb04_wmi_ab_driver = {
-    77		.driver = {
-    78			.name = "tuxedo_nb04_wmi_ab",
-    79			.probe_type = PROBE_PREFER_ASYNCHRONOUS,
-    80		},
-    81		.id_table = tuxedo_nb04_wmi_ab_device_ids,
-    82		.probe = probe,
-    83		.remove = remove,
-    84		.no_singleton = true,
-    85	};
-  > 86	module_wmi_driver(tuxedo_nb04_wmi_ab_driver);
-    87	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Christophe
