@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2E87989430
-	for <lists+dri-devel@lfdr.de>; Sun, 29 Sep 2024 11:12:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47715989432
+	for <lists+dri-devel@lfdr.de>; Sun, 29 Sep 2024 11:12:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B4B010E292;
-	Sun, 29 Sep 2024 09:12:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 716ED10E293;
+	Sun, 29 Sep 2024 09:12:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=testtoast.com header.i=@testtoast.com header.b="dl7hY1XM";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="C/A5A9q6";
+	dkim=pass (2048-bit key; unprotected) header.d=testtoast.com header.i=@testtoast.com header.b="Z6wFCLiz";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="EbX+FxW/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fhigh-a2-smtp.messagingengine.com
- (fhigh-a2-smtp.messagingengine.com [103.168.172.153])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4822410E292
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Sep 2024 09:12:37 +0000 (UTC)
-Received: from phl-compute-10.internal (phl-compute-10.phl.internal
- [10.202.2.50])
- by mailfhigh.phl.internal (Postfix) with ESMTP id AA74711401FA;
- Sun, 29 Sep 2024 05:12:36 -0400 (EDT)
+Received: from fout-a3-smtp.messagingengine.com
+ (fout-a3-smtp.messagingengine.com [103.168.172.146])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DB9810E293
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Sep 2024 09:12:43 +0000 (UTC)
+Received: from phl-compute-04.internal (phl-compute-04.phl.internal
+ [10.202.2.44])
+ by mailfout.phl.internal (Postfix) with ESMTP id E0E9913802B6;
+ Sun, 29 Sep 2024 05:12:42 -0400 (EDT)
 Received: from phl-mailfrontend-01 ([10.202.2.162])
- by phl-compute-10.internal (MEProxy); Sun, 29 Sep 2024 05:12:36 -0400
+ by phl-compute-04.internal (MEProxy); Sun, 29 Sep 2024 05:12:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
  h=cc:cc:content-transfer-encoding:content-type:date:date:from
  :from:in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:subject:subject:to:to; s=fm2; t=1727601156; x=
- 1727687556; bh=4U49VSdH02cprq0wkAp0Cx95pxHA2zFJM654XzxwqHk=; b=d
- l7hY1XMYhdKWW3y/1IybKheBz1TrFKna1od3DpeMBtGOftYp3ykCjV49pOFMRJVG
- y3PlSQTNsfgRSCLzCbACuoJkkF720gO2Y3PhlOJF0c/ueTWX5iOfMX70zC6thDWP
- UoOdNkg9p/txQjaP4Bl4eQ3JSQiXCKVOK65Y68B3xqGsV+BNu0EiE5pu/JrLE4zD
- Bhxu1balIcZ5VbZTrrMVl+DBiP8tJqeOh9BfmlaOhDrZzT4NL7esfnr7GLDncvoH
- JsRMuCP6StY9MyFsuFk3Yp1gYYAV4+Zo3aVUJoJnlUZ/gtdR4GBaaJo7IbrHg3IZ
- 3nT5EF+Gc3V1yh3sFG1pg==
+ :reply-to:subject:subject:to:to; s=fm2; t=1727601162; x=
+ 1727687562; bh=UTbgAlZPg7kKDXmpb3ox4DzabVzCpQwm62KnqwRU5w0=; b=Z
+ 6wFCLizFTJQjFKlVKsySyQAhr8KsoogIZas7g+Y5l87p9+14PfqgZjKaNIaAxTwu
+ 0U4VxZxdWKEYWsGJLiGttDbjcgwlrj7eh9qovzcIWkUsz6+V9wzDScYlgSBlIX2p
+ 3rFt3Nfh6Mfg1smkeDVWOpDpTKSsOukYfD/hh9h1aWPnGgJAvxnt3wJfm0cOZ6Wc
+ lNL9D3cicl7aRQcI6Khj4u57O5EKITglEou0WijIZdk7n4sY2x/t8DyeJhuYgpV1
+ EK39wa7ElAzxSZ1KHeZ3g2TgcvtFGPzRH62Q/Ob0QAyotFrli+KwuvCFiHfon4xh
+ rZC8CTVyWi2Ou3l/ipkoA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1727601156; x=
- 1727687556; bh=4U49VSdH02cprq0wkAp0Cx95pxHA2zFJM654XzxwqHk=; b=C
- /A5A9q6eopku3zASLninuloGnmt9fl9e+6ndGshu88uiSsKcBhtVEaZi6tBPX3Rc
- 5sge997WiTwKYYlXeDrbSoaIwKUxKvCXe3nyHh8sm8cfp02A7etDVYUu2bRIKKkT
- 0e2jVHeduPxlleBqFe5fSOs7P2HAyDCNDJZw8ijE4IZIudEtV7iw3sB1q1gCjJ6U
- FDzS1LTv27Roz/zb/W7wGAZf6OoJzLm7zm/RfIKERvxTBNfhZxg7iOM1XMV4NVLi
- X1A3H/CxMscg10lmNTx6N2qycuTLhcak6rkLHM/2pPS+Xgvm6sK3mVjVNioDV/Ey
- tPJKeEtvm+0agXHYGcxRA==
-X-ME-Sender: <xms:BBr5Zo3f0UHYLAk_eBPM33bcAjRBANf4ojk2jKbz3-pwlYxrbTlk9Q>
- <xme:BBr5ZjH5Jjk0HslYtG4lLs3XD-2OP4v03yH2E_OlUZxHnkYn-tswUix0Gjf5EH1oW
- _2pt_SU8AP4IpXUCw>
-X-ME-Received: <xmr:BBr5Zg54Boimf5RxdbUNHXA4vg4UvnKvAxDns8bye-ydtIkrx52AVh9iW625gVJxqYQkDc6syzbw1u6z1fuB1IGwHdLOs3aorESncubkiiHdyyNa>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1727601162; x=
+ 1727687562; bh=UTbgAlZPg7kKDXmpb3ox4DzabVzCpQwm62KnqwRU5w0=; b=E
+ bX+FxW/h1D10L/Sd/j0pZfgM46ltGCyEysVSZfNGR6VL2wpv8qzP+4ryoJgQVcaA
+ mKoKnh5+EMIAR8NaR6D8eT1isDspd7fFNJopzOLPpvwDayyx4cqFemiOsLDxuUh3
+ KwLh6OAuMXUcudXsAxJtqchyFvm4TBKxFzgJxi9gGjma0wQ8zFHqhpT0IMSXobbF
+ 3c1jCKpeg/2bev7BeGLaeuDzvRb5NfxoIeJNkF5aKuE1MWgWhqIv9NNYI1qvz4uJ
+ CAT3MPbxk3auUgZliEVuL660E+ZG+tUMSaeW4UZ8mRNPa5DSKZJN4mkWBW9slcKV
+ JxEPfCA49GrOiDXtfPWnw==
+X-ME-Sender: <xms:Chr5Zv8bvuPg-adU2uLYuk0inxgJ7gLilg14Y0YknQn1K66bF0ZoIA>
+ <xme:Chr5ZrshI_6JpYn8VyxTdZ8E5lc6xYz8RYGXGmhaOU1OwCTiRJOTwIhsq8p5M18qw
+ NhoBHPtemfqlJvgfw>
+X-ME-Received: <xmr:Chr5ZtC2B__3rEhVew7SmfDU_BVaRZRHukhFvZY6KeSaS90bCIOc5OIF6OKuuL6h08qrwV1POAZr7RsbKJ3IJi1V9wSqpEndQfevvobop4g6SenU>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvddufedgudegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
  rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
@@ -67,14 +67,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvddufedgudegucetufdoteggod
  hffihllhdrtghhpdhrtghpthhtohepjhgvrhhnvghjrdhskhhrrggsvggtsehgmhgrihhl
  rdgtohhmpdhrtghpthhtohepshgrmhhuvghlsehshhholhhlrghnugdrohhrghdprhgtph
  htthhopehrohgshheskhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:BBr5Zh0eadAi_wZWIEuB5DGjpR3ComdajFR7ujGtiXQtWd5pjCJM_A>
- <xmx:BBr5ZrGkz1Kwz25g7ncSl1JgIenOn8bGFOdJoSjy3b0-6P05cLc8AA>
- <xmx:BBr5Zq_BcqK7c7CkWJfXup4ojYhT-oucSljAExSoDREf1Gfz0B5q9g>
- <xmx:BBr5ZglD0Qac3Au0gks62n4BDXSdxXzoRqFWybcaUoDxAxJdjJvL3w>
- <xmx:BBr5ZjMO9maZXdYgZe-Nz5aUiI7spxRciPbmJ4jbiPiGN_0yeSHPB1aa>
+X-ME-Proxy: <xmx:Chr5ZrciK7Ghb76ngzhBsBvRM27pm5tR0iH0ZsbVqrojto5dbU37uA>
+ <xmx:Chr5ZkP2hR87aljYHAfVmuIVs1B9CpkjRtP0373EYHpEg4zmjG2XtQ>
+ <xmx:Chr5Ztmo9GcZOVBlUkXdjSDc7VXAa_KuJbmYZxHlLl8X8BnpVDvbbA>
+ <xmx:Chr5ZutriFvtDE_xDTJKel6XMzFqFYZMEIB1_jmSUoQuLqhaOiZMkg>
+ <xmx:Chr5Zi1i0fDIHaaNXHd9yS5xr6d24hqhGx5VoNEwTb2QpHFpxWbRveCS>
 Feedback-ID: idc0145fc:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 29 Sep 2024 05:12:30 -0400 (EDT)
+ 29 Sep 2024 05:12:36 -0400 (EDT)
 From: Ryan Walklin <ryan@testtoast.com>
 To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -90,9 +90,9 @@ Cc: Andre Przywara <andre.przywara@arm.com>,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
  devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
  Ryan Walklin <ryan@testtoast.com>
-Subject: [PATCH v5 11/26] drm: sun4i: de3: add YUV support to the TCON
-Date: Sun, 29 Sep 2024 22:04:43 +1300
-Message-ID: <20240929091107.838023-12-ryan@testtoast.com>
+Subject: [PATCH v5 12/26] drm: sun4i: support YUV formats in VI scaler
+Date: Sun, 29 Sep 2024 22:04:44 +1300
+Message-ID: <20240929091107.838023-13-ryan@testtoast.com>
 X-Mailer: git-send-email 2.46.1
 In-Reply-To: <20240929091107.838023-1-ryan@testtoast.com>
 References: <20240929091107.838023-1-ryan@testtoast.com>
@@ -115,81 +115,138 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Account for U/V channel subsampling by reducing the dot clock and
-resolution with a divider in the DE3 timing controller if a YUV format
-is selected.
+Now that YUV formats are available, enable support in the VI scaler.
 
 Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 Signed-off-by: Ryan Walklin <ryan@testtoast.com>
----
- drivers/gpu/drm/sun4i/sun4i_tcon.c | 26 +++++++++++++++++++-------
- 1 file changed, 19 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-index a1a2c845ade0c..e39926e9f0b5d 100644
---- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-@@ -598,14 +598,26 @@ static void sun4i_tcon0_mode_set_rgb(struct sun4i_tcon *tcon,
- static void sun4i_tcon1_mode_set(struct sun4i_tcon *tcon,
- 				 const struct drm_display_mode *mode)
- {
--	unsigned int bp, hsync, vsync, vtotal;
-+	unsigned int bp, hsync, vsync, vtotal, div;
-+	struct sun4i_crtc *scrtc = tcon->crtc;
-+	struct sunxi_engine *engine = scrtc->engine;
- 	u8 clk_delay;
- 	u32 val;
+Changelog v4..v5:
+- Add commit description
+---
+ drivers/gpu/drm/sun4i/sun8i_vi_scaler.c | 85 +++++++++++++++++--------
+ 1 file changed, 58 insertions(+), 27 deletions(-)
+
+diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_scaler.c b/drivers/gpu/drm/sun4i/sun8i_vi_scaler.c
+index 7ba75011adf9f..2e49a6e5f1f1c 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_vi_scaler.c
++++ b/drivers/gpu/drm/sun4i/sun8i_vi_scaler.c
+@@ -843,6 +843,11 @@ static u32 sun8i_vi_scaler_base(struct sun8i_mixer *mixer, int channel)
+ 		       DE2_VI_SCALER_UNIT_SIZE * channel;
+ }
  
- 	WARN_ON(!tcon->quirks->has_channel_1);
- 
-+	switch (engine->format) {
-+	case MEDIA_BUS_FMT_UYYVYY8_0_5X24:
-+	case MEDIA_BUS_FMT_UYYVYY10_0_5X30:
-+		div = 2;
-+		break;
-+	default:
-+		div = 1;
-+		break;
-+	}
++static bool sun8i_vi_scaler_is_vi_plane(struct sun8i_mixer *mixer, int channel)
++{
++	return true;
++}
 +
- 	/* Configure the dot clock */
--	clk_set_rate(tcon->sclk1, mode->crtc_clock * 1000);
-+	clk_set_rate(tcon->sclk1, mode->crtc_clock * 1000 / div);
+ static int sun8i_vi_scaler_coef_index(unsigned int step)
+ {
+ 	unsigned int scale, int_part, float_part;
+@@ -867,44 +872,65 @@ static int sun8i_vi_scaler_coef_index(unsigned int step)
+ 	}
+ }
  
- 	/* Adjust clock delay */
- 	clk_delay = sun4i_tcon_get_clk_delay(mode, 1);
-@@ -624,17 +636,17 @@ static void sun4i_tcon1_mode_set(struct sun4i_tcon *tcon,
+-static void sun8i_vi_scaler_set_coeff(struct regmap *map, u32 base,
+-				      u32 hstep, u32 vstep,
+-				      const struct drm_format_info *format)
++static void sun8i_vi_scaler_set_coeff_vi(struct regmap *map, u32 base,
++					 u32 hstep, u32 vstep,
++					 const struct drm_format_info *format)
+ {
+ 	const u32 *ch_left, *ch_right, *cy;
+-	int offset, i;
++	int offset;
  
- 	/* Set the input resolution */
- 	regmap_write(tcon->regs, SUN4I_TCON1_BASIC0_REG,
--		     SUN4I_TCON1_BASIC0_X(mode->crtc_hdisplay) |
-+		     SUN4I_TCON1_BASIC0_X(mode->crtc_hdisplay / div) |
- 		     SUN4I_TCON1_BASIC0_Y(mode->crtc_vdisplay));
+-	if (format->hsub == 1 && format->vsub == 1) {
+-		ch_left = lan3coefftab32_left;
+-		ch_right = lan3coefftab32_right;
+-		cy = lan2coefftab32;
+-	} else {
++	if (format->is_yuv) {
+ 		ch_left = bicubic8coefftab32_left;
+ 		ch_right = bicubic8coefftab32_right;
+ 		cy = bicubic4coefftab32;
++	} else {
++		ch_left = lan3coefftab32_left;
++		ch_right = lan3coefftab32_right;
++		cy = lan2coefftab32;
+ 	}
  
- 	/* Set the upscaling resolution */
- 	regmap_write(tcon->regs, SUN4I_TCON1_BASIC1_REG,
--		     SUN4I_TCON1_BASIC1_X(mode->crtc_hdisplay) |
-+		     SUN4I_TCON1_BASIC1_X(mode->crtc_hdisplay / div) |
- 		     SUN4I_TCON1_BASIC1_Y(mode->crtc_vdisplay));
+ 	offset = sun8i_vi_scaler_coef_index(hstep) *
+ 			SUN8I_VI_SCALER_COEFF_COUNT;
+-	for (i = 0; i < SUN8I_VI_SCALER_COEFF_COUNT; i++) {
+-		regmap_write(map, SUN8I_SCALER_VSU_YHCOEFF0(base, i),
+-			     lan3coefftab32_left[offset + i]);
+-		regmap_write(map, SUN8I_SCALER_VSU_YHCOEFF1(base, i),
+-			     lan3coefftab32_right[offset + i]);
+-		regmap_write(map, SUN8I_SCALER_VSU_CHCOEFF0(base, i),
+-			     ch_left[offset + i]);
+-		regmap_write(map, SUN8I_SCALER_VSU_CHCOEFF1(base, i),
+-			     ch_right[offset + i]);
+-	}
++	regmap_bulk_write(map, SUN8I_SCALER_VSU_YHCOEFF0(base, 0),
++			  &lan3coefftab32_left[offset],
++			  SUN8I_VI_SCALER_COEFF_COUNT);
++	regmap_bulk_write(map, SUN8I_SCALER_VSU_YHCOEFF1(base, 0),
++			  &lan3coefftab32_right[offset],
++			  SUN8I_VI_SCALER_COEFF_COUNT);
++	regmap_bulk_write(map, SUN8I_SCALER_VSU_CHCOEFF0(base, 0),
++			  &ch_left[offset], SUN8I_VI_SCALER_COEFF_COUNT);
++	regmap_bulk_write(map, SUN8I_SCALER_VSU_CHCOEFF1(base, 0),
++			  &ch_right[offset], SUN8I_VI_SCALER_COEFF_COUNT);
  
- 	/* Set the output resolution */
- 	regmap_write(tcon->regs, SUN4I_TCON1_BASIC2_REG,
--		     SUN4I_TCON1_BASIC2_X(mode->crtc_hdisplay) |
-+		     SUN4I_TCON1_BASIC2_X(mode->crtc_hdisplay / div) |
- 		     SUN4I_TCON1_BASIC2_Y(mode->crtc_vdisplay));
+ 	offset = sun8i_vi_scaler_coef_index(hstep) *
+ 			SUN8I_VI_SCALER_COEFF_COUNT;
+-	for (i = 0; i < SUN8I_VI_SCALER_COEFF_COUNT; i++) {
+-		regmap_write(map, SUN8I_SCALER_VSU_YVCOEFF(base, i),
+-			     lan2coefftab32[offset + i]);
+-		regmap_write(map, SUN8I_SCALER_VSU_CVCOEFF(base, i),
+-			     cy[offset + i]);
+-	}
++	regmap_bulk_write(map, SUN8I_SCALER_VSU_YVCOEFF(base, 0),
++			  &lan2coefftab32[offset], SUN8I_VI_SCALER_COEFF_COUNT);
++	regmap_bulk_write(map, SUN8I_SCALER_VSU_CVCOEFF(base, 0),
++			  &cy[offset], SUN8I_VI_SCALER_COEFF_COUNT);
++}
++
++static void sun8i_vi_scaler_set_coeff_ui(struct regmap *map, u32 base,
++					 u32 hstep, u32 vstep,
++					 const struct drm_format_info *format)
++{
++	const u32 *table;
++	int offset;
++
++	offset = sun8i_vi_scaler_coef_index(hstep) *
++			SUN8I_VI_SCALER_COEFF_COUNT;
++	regmap_bulk_write(map, SUN8I_SCALER_VSU_YHCOEFF0(base, 0),
++			  &lan2coefftab32[offset], SUN8I_VI_SCALER_COEFF_COUNT);
++	offset = sun8i_vi_scaler_coef_index(vstep) *
++			SUN8I_VI_SCALER_COEFF_COUNT;
++	regmap_bulk_write(map, SUN8I_SCALER_VSU_YVCOEFF(base, 0),
++			  &lan2coefftab32[offset], SUN8I_VI_SCALER_COEFF_COUNT);
++
++	table = format->is_yuv ? bicubic4coefftab32 : lan2coefftab32;
++	offset = sun8i_vi_scaler_coef_index(hstep) *
++			SUN8I_VI_SCALER_COEFF_COUNT;
++	regmap_bulk_write(map, SUN8I_SCALER_VSU_CHCOEFF0(base, 0),
++			  &table[offset], SUN8I_VI_SCALER_COEFF_COUNT);
+ }
  
- 	/* Set horizontal display timings */
-@@ -642,8 +654,8 @@ static void sun4i_tcon1_mode_set(struct sun4i_tcon *tcon,
- 	DRM_DEBUG_DRIVER("Setting horizontal total %d, backporch %d\n",
- 			 mode->htotal, bp);
- 	regmap_write(tcon->regs, SUN4I_TCON1_BASIC3_REG,
--		     SUN4I_TCON1_BASIC3_H_TOTAL(mode->crtc_htotal) |
--		     SUN4I_TCON1_BASIC3_H_BACKPORCH(bp));
-+		     SUN4I_TCON1_BASIC3_H_TOTAL(mode->crtc_htotal / div) |
-+		     SUN4I_TCON1_BASIC3_H_BACKPORCH(bp / div));
- 
- 	bp = mode->crtc_vtotal - mode->crtc_vsync_start;
- 	DRM_DEBUG_DRIVER("Setting vertical total %d, backporch %d\n",
+ void sun8i_vi_scaler_enable(struct sun8i_mixer *mixer, int layer, bool enable)
+@@ -994,6 +1020,11 @@ void sun8i_vi_scaler_setup(struct sun8i_mixer *mixer, int layer,
+ 		     SUN8I_SCALER_VSU_CHPHASE(base), chphase);
+ 	regmap_write(mixer->engine.regs,
+ 		     SUN8I_SCALER_VSU_CVPHASE(base), cvphase);
+-	sun8i_vi_scaler_set_coeff(mixer->engine.regs, base,
+-				  hscale, vscale, format);
++
++	if (sun8i_vi_scaler_is_vi_plane(mixer, layer))
++		sun8i_vi_scaler_set_coeff_vi(mixer->engine.regs, base,
++					     hscale, vscale, format);
++	else
++		sun8i_vi_scaler_set_coeff_ui(mixer->engine.regs, base,
++					     hscale, vscale, format);
+ }
 -- 
 2.46.1
 
