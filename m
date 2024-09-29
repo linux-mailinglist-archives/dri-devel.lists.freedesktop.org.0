@@ -2,96 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4EBE9893B8
-	for <lists+dri-devel@lfdr.de>; Sun, 29 Sep 2024 10:20:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1808B9893E2
+	for <lists+dri-devel@lfdr.de>; Sun, 29 Sep 2024 10:53:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F193710E05E;
-	Sun, 29 Sep 2024 08:19:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98BA110E25E;
+	Sun, 29 Sep 2024 08:53:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=testtoast.com header.i=@testtoast.com header.b="qS+hvdcP";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="N4Lu/5lR";
+	dkim=pass (2048-bit key; unprotected) header.d=testtoast.com header.i=@testtoast.com header.b="5NmgZ0Fw";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="EK0RqoEs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fhigh-a1-smtp.messagingengine.com
- (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A97A910E05E
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Sep 2024 08:19:55 +0000 (UTC)
-Received: from phl-compute-10.internal (phl-compute-10.phl.internal
- [10.202.2.50])
- by mailfhigh.phl.internal (Postfix) with ESMTP id D7C3411402B8;
- Sun, 29 Sep 2024 04:19:54 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
- by phl-compute-10.internal (MEProxy); Sun, 29 Sep 2024 04:19:54 -0400
+Received: from fout-a3-smtp.messagingengine.com
+ (fout-a3-smtp.messagingengine.com [103.168.172.146])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F056410E25E
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Sep 2024 08:53:04 +0000 (UTC)
+Received: from phl-compute-04.internal (phl-compute-04.phl.internal
+ [10.202.2.44])
+ by mailfout.phl.internal (Postfix) with ESMTP id 3BAA2138039C;
+ Sun, 29 Sep 2024 04:53:04 -0400 (EDT)
+Received: from phl-imap-07 ([10.202.2.97])
+ by phl-compute-04.internal (MEProxy); Sun, 29 Sep 2024 04:53:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
- h=cc:cc:content-transfer-encoding:content-type:date:date:from
- :from:in-reply-to:message-id:mime-version:reply-to:subject
- :subject:to:to; s=fm2; t=1727597994; x=1727684394; bh=RaombYwqlv
- gTulaKHCH08DnQGGYc80B2ooKfYIwwmQ0=; b=qS+hvdcPnX1dbOFo/Ztak/2TL8
- MNiKm0YXAqF6wg5XByb3wNQNXTH7KyWxWP2wjwufhLaukYKDxtatP+kr6ywpAgsW
- SMk4FyFzIZ8IATl83uUni/+iaFxdIFMmL6YtozoJYE7M34mQNZe+bIWYNT+cBUFJ
- Rcus3YUSGI0za9d1s3X54Thpf14xavzXkpsfaq5b+jl0075rq58x2PhkXGs8If9K
- 2271pFP3YbYtOCd93xKlQ9IrZKE6mh+w4217kmDHCbLqB1n1tacIwbx75VEMglJm
- y3zYZrGtg+XbcwRECiflbscGdJFCz8hL4w2Dm+G4GUX4jH/p0bwNdNeL6aSw==
+ h=cc:cc:content-transfer-encoding:content-type:content-type
+ :date:date:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:subject:subject:to:to; s=fm2;
+ t=1727599984; x=1727686384; bh=T9BxQePmRdxHseNE/o37i5dBpNMdSdlc
+ UT0o+FQkSSM=; b=5NmgZ0Fwe/2D0fLrp+ZDnXqSCpxO3GTeMtgO3vyltBG5fp9t
+ li4MDj2bKH5KotZPJalgcvRDCuc8kiCMdN/Apz/8PRKVf+Xd1LkcFLQdwM8Vj0lB
+ fY/3EiAQHWx32466qAYXhAvfhO7EfHnpd3KZd7UsbjFXUbOc2/NIpmN0HHxaMd/K
+ F/DUGXSPxPJllS/axJecXxeSLxb0lks3akAQqfiQ9PxqaM2+dlkGTJ9H7vfKC/tF
+ ooylDyaR1ZGtQkCCy16G/sbxm6tUHH9pxeNyJqNqxhjHVYvqHnn/gRFMDa9kaijs
+ yKp/LsEFNUBu82TUfnK+r4xfr2jMM8SAY8iUXg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:message-id:mime-version:reply-to:subject:subject:to
- :to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; t=1727597994; x=1727684394; bh=RaombYwqlvgTulaKHCH08DnQGGYc
- 80B2ooKfYIwwmQ0=; b=N4Lu/5lRpkisN7XAmUSiSBHIztx2jT/FF8udt0GROY9G
- YikP8jotgYfiPGMGvXJiYDLU3MC/0hpezX/1hiH9wlzXvm6nVhfQG6u2enBj8T/q
- 2qg8i8MYmxis7a/1NCPxj1Q7l2ETahCDAdrAnR9U5zL5ujpf8uS+vRlAKS8paHvH
- zPPFssLSA59UhfLu7xI037xQT57Fl+7/OxThgy1bUjLp4wg9lTG9Iu/JXv/hUw7u
- WxFUe70rFeYCoMGm+d5LTSAjBudIyxG6I6U054q/O3+bIDxZci1vuVdaDMtxsyUK
- bu6hyE2yShZd30Wb035Kc01AMNP7/T/uqCQAEbRu2A==
-X-ME-Sender: <xms:qQ35Zns0uVxMpqv3xlBSPm1zL3uWPbYsC2qKFqg2BUGknEzgSrSeig>
- <xme:qQ35Zof2WzOfD9nVzXFVNw6LNjqFdGX7fF5nMbC313RoRGFlBIwHQx_D8837zvdgR
- PGblGQ-FYLmEO5ceg>
-X-ME-Received: <xmr:qQ35ZqyZecsHEb83WCe0uaB3uUqzLFmmm2tUCf6PAhDnjOtaupahW10_S0t6rQiyjLJD5tLBcNk2Tux2EHA9scTTNAzerNP-_M0QjJ1wsajhddqf>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvddufedgtdefucetufdoteggodetrfdotf
+ :content-type:content-type:date:date:feedback-id:feedback-id
+ :from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1727599984; x=
+ 1727686384; bh=T9BxQePmRdxHseNE/o37i5dBpNMdSdlcUT0o+FQkSSM=; b=E
+ K0RqoEs825ywx7OQoWGXKtnPjTViCiPPUEiTKAYoV+nqWf+vK/DQVmR54PYIPGgN
+ L/f7VONJWDeDkwljnjqBcN8h4tYrMNAWieqSfH40CaGT0cznG3rmFnDC4ukuRBiv
+ CO+T90bClNywG07qSI4wslql6fseVcA3YzhVwrAenu6iOMXm38dGfyrHYlV6T9NH
+ 7SOslbNPZTzmwxwvsIytUSOuU9CVavEBj3s3IRaVnoaYEDs0Jj5qxIwdDWRiO8wl
+ AWziSwJQED9cUPbwnjtt6uuSCteZFs5r/Yg5h3PFI9kSsRBBelNwdA70mcoUIaAh
+ jYpJSL28nXDtx8/EgdI1A==
+X-ME-Sender: <xms:bhX5Zo1fSJo930oekBINbZYPTPhH50-G9qG718n5q8l_O3vJzB55oQ>
+ <xme:bhX5ZjF5m1qz7fehUqGebzukhvGazaWqzVpU1UCcN9S76al3Whh1RrkLSYdV5q4I-
+ CO05eRh_gxYDBauGA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvddufedguddtucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
  rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
- htshculddquddttddmnecujfgurhephffvvefufffkofgggfestdekredtredttdenucfh
- rhhomheptfihrghnucghrghlkhhlihhnuceorhihrghnsehtvghsthhtohgrshhtrdgtoh
- hmqeenucggtffrrghtthgvrhhnpeduvdeuudeugedtueffteevveegheehvdfhfeduudev
- kefggfeftdehgeethffhffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmh
- grihhlfhhrohhmpehrhigrnhesthgvshhtthhorghsthdrtghomhdpnhgspghrtghpthht
- ohepudehpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegurhhiqdguvghvvghlse
- hlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepnhgvihhlrdgr
- rhhmshhtrhhonhhgsehlihhnrghrohdrohhrghdprhgtphhtthhopehquhhitggpjhgvsh
- hsiihhrghnsehquhhitghinhgtrdgtohhmpdhrtghpthhtohepshgrmhesrhgrvhhnsgho
- rhhgrdhorhhgpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtph
- htthhopegurghnihgvlhesfhhffihllhdrtghhpdhrtghpthhtohepmhgrrghrthgvnhdr
- lhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmrh
- hiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehtiihimhhmvghrmhgrnhhn
- sehsuhhsvgdruggv
-X-ME-Proxy: <xmx:qQ35ZmNiSvo-Y8hff1jkwQ_pD-ShFU88c3vq7Ef6m4LBlsirsVm7Sg>
- <xmx:qQ35Zn-amC9N8p6lfDrolHa2Lpkns2VnAG8XV6W5UONS8QTe1xBDbw>
- <xmx:qQ35ZmV-wm6TqE3Er4Ji9nnKGTFPNme6zH72nbCfVgEaVr0ujqpBtw>
- <xmx:qQ35ZocgGHSXPTlsq8LZj3dY7HHl_pQ91-VNIFZx7zCDzzoWn8UtZg>
- <xmx:qg35ZuepUG8LWPUT2N89THSOfjERrETKXJ0MScZOkzhg_FJjzZ-6786M>
+ htshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddt
+ necuhfhrohhmpedftfihrghnucghrghlkhhlihhnfdcuoehrhigrnhesthgvshhtthhorg
+ hsthdrtghomheqnecuggftrfgrthhtvghrnhepjefhueekjeejgfduvdffheevveejhfdt
+ uddthfduuddvveefjeffgfdvleefuefgnecuvehluhhsthgvrhfuihiivgeptdenucfrrg
+ hrrghmpehmrghilhhfrhhomheprhihrghnsehtvghsthhtohgrshhtrdgtohhmpdhnsggp
+ rhgtphhtthhopedvfedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheprghnughrvg
+ drphhriiihfigrrhgrsegrrhhmrdgtohhmpdhrtghpthhtohepmhhtuhhrqhhuvghtthgv
+ segsrgihlhhisghrvgdrtghomhdprhgtphhtthhopeifvghnshestghsihgvrdhorhhgpd
+ hrtghpthhtohepuggrnhhivghlsehffhiflhhlrdgthhdprhgtphhtthhopegrihhrlhhi
+ vggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepjhgvrhhnvghjrdhskhhrrggsvggtse
+ hgmhgrihhlrdgtohhmpdhrtghpthhtohepmhgrtghrohgrlhhphhgrkedvsehgmhgrihhl
+ rdgtohhmpdhrtghpthhtoheptghonhhtrggtthesjhhoohhkihgrrdhorhhgpdhrtghpth
+ htoheptghonhhorhdoughtsehkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:bhX5Zg74oHGh8ke1_LfKqmQS9XBdBYO2tbJ2sLr-e233TamBeVRvSg>
+ <xmx:bhX5Zh2eMRaNI3Od9S8dVkFKCZ_9BZmJrbu5TbDt_0gHMai76_Tv5w>
+ <xmx:bhX5ZrEkLiz-_kjy3kGwjPqTT_zUPeAQywZdiob6HdXiS1xEgjv0iA>
+ <xmx:bhX5Zq9BrxaSSfWWjoSzdAsyG-WifU8CTmP3bjCtpE1gK5r0uU1EWw>
+ <xmx:cBX5Zk1Ebam-cqKHpAufa2lsI7HhQd4eMFLh0vAfjJQTO0iKHSMyueq5>
 Feedback-ID: idc0145fc:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 29 Sep 2024 04:19:49 -0400 (EDT)
-From: Ryan Walklin <ryan@testtoast.com>
-To: dri-devel@lists.freedesktop.org
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Hironori KIKUCHI <kikuchan98@gmail.com>,
- Chris Morgan <macroalpha82@gmail.com>, Ryan Walklin <ryan@testtoast.com>
-Subject: [PATCH] drm: panel: nv3052c: correct spi_device_id for RG35XX panel
-Date: Sun, 29 Sep 2024 21:19:38 +1300
-Message-ID: <20240929081940.823995-1-ryan@testtoast.com>
-X-Mailer: git-send-email 2.46.1
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+ id 96816BA006E; Sun, 29 Sep 2024 04:53:02 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Date: Sun, 29 Sep 2024 21:52:41 +1300
+From: "Ryan Walklin" <ryan@testtoast.com>
+To: "Krzysztof Kozlowski" <krzk@kernel.org>
+Cc: "Maxime Ripard" <mripard@kernel.org>, "Chen-Yu Tsai" <wens@csie.org>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>,
+ "David Airlie" <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>,
+ "Jernej Skrabec" <jernej.skrabec@gmail.com>,
+ "Samuel Holland" <samuel@sholland.org>, "Rob Herring" <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ "Conor Dooley" <conor+dt@kernel.org>,
+ "Michael Turquette" <mturquette@baylibre.com>,
+ "Stephen Boyd" <sboyd@kernel.org>, "Andre Przywara" <andre.przywara@arm.com>, 
+ "Chris Morgan" <macroalpha82@gmail.com>, "John Watts" <contact@jookia.org>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
+ linux-clk@vger.kernel.org, "Conor Dooley" <conor.dooley@microchip.com>
+Message-Id: <4a8c7dcd-d5be-41c4-9735-bf6810a076e9@app.fastmail.com>
+In-Reply-To: <wma4hpidn353lsika3a5t7qf3ochmtbowhp4g4vuqrvgzthltc@yfwp5qastn7f>
+References: <20240921095153.213568-1-ryan@testtoast.com>
+ <20240921095153.213568-22-ryan@testtoast.com>
+ <wma4hpidn353lsika3a5t7qf3ochmtbowhp4g4vuqrvgzthltc@yfwp5qastn7f>
+Subject: Re: [PATCH v4 21/26] dt-bindings: allwinner: add H616 DE33 mixer
+ binding
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,35 +117,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Anbernic RG35XX devices use an SPI LCD panel from an unknown OEM,
-with an NV3052C driver chip.
 
-As discussed previously, the integrating vendor and device name are
-preferred instead of the OEM serial. A previous patch corrected the
-device tree binding and of_device_id in the NV3052C driver, however the
-spi_device_id also needs correction.
+On Mon, 23 Sep 2024, at 8:52 AM, Krzysztof Kozlowski wrote:
+> On Sat, Sep 21, 2024 at 09:46:10PM +1200, Ryan Walklin wrote:
+>> --
+>
+> That's not a delimiter and you would see checkpatch warning (because it
+> is quite confused).
+>
+Thanks, will correct these for v5.
 
-Correct the spi_device_id for the RG35XX panel.
+> Please run scripts/checkpatch.pl and fix reported warnings. Then please
+> run  and (probably) fix more warnings.
+> Some warnings can be ignored, especially from --strict run, but the code
+> here looks like it needs a fix. Feel free to get in touch if the warning
+> is not clear.
+>
+> Best regards,
+> Krzysztof
 
-Signed-off-by: Ryan Walklin <ryan@testtoast.com>
-Fixes: 76dce2a9 ("drm: panel: nv3052c: Correct WL-355608-A8 panel compatible")
----
- drivers/gpu/drm/panel/panel-newvision-nv3052c.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Regards,
 
-diff --git a/drivers/gpu/drm/panel/panel-newvision-nv3052c.c b/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
-index d3baccfe6286b..06e16a7c14a75 100644
---- a/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
-+++ b/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
-@@ -917,7 +917,7 @@ static const struct nv3052c_panel_info wl_355608_a8_panel_info = {
- static const struct spi_device_id nv3052c_ids[] = {
- 	{ "ltk035c5444t", },
- 	{ "fs035vg158", },
--	{ "wl-355608-a8", },
-+	{ "rg35xx-plus-panel", },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(spi, nv3052c_ids);
--- 
-2.46.1
-
+Ryan
