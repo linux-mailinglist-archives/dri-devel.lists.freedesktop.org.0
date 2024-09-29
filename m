@@ -2,175 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D38F9892B3
-	for <lists+dri-devel@lfdr.de>; Sun, 29 Sep 2024 04:37:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16AC8989353
+	for <lists+dri-devel@lfdr.de>; Sun, 29 Sep 2024 08:58:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 419D010E273;
-	Sun, 29 Sep 2024 02:37:03 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="TVQX1myo";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C34410E004;
+	Sun, 29 Sep 2024 06:58:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from DB3PR0202CU003.outbound.protection.outlook.com
- (mail-northeuropeazon11011061.outbound.protection.outlook.com [52.101.65.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E27FA10E273
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Sep 2024 02:37:00 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ws2jUQHIFun9/3EgUymRebogxWvfxdN5EeTNi6fCZdezv3oieElhqIZCVPNFOJ8QlZ1kzfUi+eND1oxoTA+cw9dZCd2AdHCiJUbdTorupRSOtAp1Ms3InYhvGw6Mr85DdG5337blg9IbXmqg6ECsJWSruzrt8i2U7V81oFXveNrQuPxFWDUwfjaHSiAHmaL98JsE4x78bfCKLO0wpMpjJY9RLxzqm8hbxVaxFPLo3jleFN2eTS2aaKoL8oocwftzPQwOJk5mTTaomRsZWGOgTAu3JP0VKfZhWxBgaNLFgW7rQE//VHzn7pYqKH//feF4muU1hY5UWDpD2iIhxJwkvQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SvmlGQcB6bLoSEgaQ5yKErnlOA8jiqggA1jwRa8uvyY=;
- b=jx78UhXE2uwZbsKk3HJb8H8RJenRgkNYvhGlxzj4SjhAKD53aT6ikOAUiIG1is2A9rIp9hwb7ZNyD14XQwAk7zdpWml6J/vKkTf7QQVR1vlBiAqhRoQf8xW4OstwLoZiqlhsReJOfRY9UwUxK3Zc8FqgffQSFLPTRZj/sEQcgrP1pdGdVXIcVqd1RB59SpDr05nhO2HlwvOIOWEgPRbNDdAXYI7ZsDpbAyMMDT1FdKP8j2kpYgdl6rzxPtQDsh5OlQLL3EjFEzcEM6Kv+vjm+yX2SSY8QZSF4gpGLvgAOX4O9rmPJoQrnPveHQblVJe4iVpUrG/tNvWxb0uInI/UWg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SvmlGQcB6bLoSEgaQ5yKErnlOA8jiqggA1jwRa8uvyY=;
- b=TVQX1myoZ6fI/W62sczy1h/pBmCsleMyzD4CBYmYqlcJ7w4CCdIL1l5/8pZ6SxF4RRwopS+oUIzKQ/vqW10vympmjoqz99MNMpE1cv3wzFP2xouI0x58+nJlCP4c/ErAbkdZSldFwcHzbZ/7pAR7Z9m3nNw+sJnLW007liiKGhj6p2HnTebRHTNDvFHmYroN67WFnolOxo0xz2URaSE1DoybuQJr8sjFPCdAmXyzDwIRN4U7Wa/cLjhCOMYT7bRdHbPX0smCd6Ohp82fx6QXpRhEih9TeVh+Nt2mm33sXD3x8zQUC12JuI4PvSOY3Fp9rtTl5J+mCQXFR5nvVHZHBg==
-Received: from DB9PR04MB9452.eurprd04.prod.outlook.com (2603:10a6:10:367::13)
- by AM8PR04MB7812.eurprd04.prod.outlook.com (2603:10a6:20b:245::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8005.25; Sun, 29 Sep
- 2024 02:36:55 +0000
-Received: from DB9PR04MB9452.eurprd04.prod.outlook.com
- ([fe80::4c69:3f0c:6701:a1cd]) by DB9PR04MB9452.eurprd04.prod.outlook.com
- ([fe80::4c69:3f0c:6701:a1cd%3]) with mapi id 15.20.8005.024; Sun, 29 Sep 2024
- 02:36:55 +0000
-From: Sandor Yu <sandor.yu@nxp.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-CC: "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
- "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>,
- "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, "jonas@kwiboo.se" <jonas@kwiboo.se>,
- "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>, "airlied@gmail.com"
- <airlied@gmail.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
- "shawnguo@kernel.org" <shawnguo@kernel.org>, "s.hauer@pengutronix.de"
- <s.hauer@pengutronix.de>, "festevam@gmail.com" <festevam@gmail.com>,
- "vkoul@kernel.org" <vkoul@kernel.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "devicetree@vger.kernel.org"
- <devicetree@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "linux-phy@lists.infradead.org"
- <linux-phy@lists.infradead.org>, "mripard@kernel.org" <mripard@kernel.org>,
- "kernel@pengutronix.de" <kernel@pengutronix.de>, dl-linux-imx
- <linux-imx@nxp.com>, Oliver Brown <oliver.brown@nxp.com>,
- "alexander.stein@ew.tq-group.com" <alexander.stein@ew.tq-group.com>,
- "sam@ravnborg.org" <sam@ravnborg.org>
-Subject: Re: [PATCH v17 3/8] dt-bindings: display: bridge: Add Cadence MHDP8501
-Thread-Topic: [PATCH v17 3/8] dt-bindings: display: bridge: Add Cadence
- MHDP8501
-Thread-Index: AQHbEhhyLpZFpmXKlUec4pLwCRhlGw==
-Date: Sun, 29 Sep 2024 02:36:54 +0000
-Message-ID: <DB9PR04MB94529379E1947D66848B7BE2F4752@DB9PR04MB9452.eurprd04.prod.outlook.com>
-References: <cover.1727159906.git.Sandor.yu@nxp.com>
- <b2e1d26f964a03163ec7a1ba6ac8d7c88d6cb111.1727159906.git.Sandor.yu@nxp.com>
- <wfdanj6ibwybx2puqvi6xjy6h5t4yagnb2mod7ln3zca4dl5wz@4mvbe6wjavb6>
-In-Reply-To: <wfdanj6ibwybx2puqvi6xjy6h5t4yagnb2mod7ln3zca4dl5wz@4mvbe6wjavb6>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DB9PR04MB9452:EE_|AM8PR04MB7812:EE_
-x-ms-office365-filtering-correlation-id: 025fa1b4-3766-41d4-6dba-08dce02f9519
-x-ld-processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|1800799024|366016|7416014|376014|38070700018; 
-x-microsoft-antispam-message-info: =?gb2312?B?VkthdU92UnJmQTRTWkVSN29IUkpscW1yZVlpd2M2WFhwQlAxWExoRDdycDN3?=
- =?gb2312?B?RDhOQnlJaW5WeGdUNURwVjRvRDNHRmgyZ1dHcnhjMUhvdFJiTkVXUXJKZTl5?=
- =?gb2312?B?YXZrS2k4L0N0ZWpGcmR6WkNyamhmejloSUdCcU9IL3d6OHl0RGl0Yy9tMDRa?=
- =?gb2312?B?blZldHpMeU1sdEtVbGZYL3BOQmh0aUtaMGhnallxVkNOS1Q5b2pXb1JnbUh2?=
- =?gb2312?B?VEdFOEZzWHpFL1hZdS9EdHBBWFRXTGZvay9KVnRWeEhRRFdiKzdJVkpBUDZW?=
- =?gb2312?B?R3orUXRVM3NjamxkRm9tcmVzem56MXptdGY5U2orRDcrT1JKVXNWMFVyQ3E2?=
- =?gb2312?B?WHhxTzFGVlYrWFBFYzlFOFduM3NtQWdPR0VUbnNGb2k2cmFKMEFNT21zMTZR?=
- =?gb2312?B?VWRieHhQSGVzbU1CYWcydlBkSUJtYkIvM2JQMy9paklOQTFCSzZpaDd2UWNR?=
- =?gb2312?B?d29JZVUwNkhBdXhIeUVTVU9nVUltbXNxams5QjV6Tjh0aVVIYUg4UzdPUm9u?=
- =?gb2312?B?MU5RSWpPYTl3QUZYSGxWSlJiZkxwZ0FhUlFSaGJzOVRuM2Jsd2ZUdk12aXdx?=
- =?gb2312?B?dnpFUFVEckNmdVNGeXJNS1VEamNWZU1FMGs4bVhHZ25BcGJYSVBaUjlNVG5z?=
- =?gb2312?B?VjZWeWl3WFpCbHB0Y2hjemMwYzlKbjdkSjZpRTBXSmJQdlpWKzlaTzZxMWJy?=
- =?gb2312?B?N0tBM2lHekgzTTdJU09iVEwwaFV4amt2eitMR2orZDEyVHAwaDdNZUdCdFov?=
- =?gb2312?B?NkNVU1ErcnA5dmo0Y0kyM1FhTWNGRHJ1Nk5COFpHRjhZdld1RWtlQzlNYm8w?=
- =?gb2312?B?YWMzY2VUN2xzL3ZkVXVjcW43dDNBNHNoc0d4WjNZUlJHU2E3NnlFalJhM0Mv?=
- =?gb2312?B?UWxmcGRKcG1sMUU5c3p5SENYSDlLMko3Yy9FVGZUZHBQUWwrUGNiOGVFV29u?=
- =?gb2312?B?alg3b2lhWlY1VDNQR2dyU3JRa0Zhayt3T1pHamU1YTc1NUFrbmhsb29CRkV3?=
- =?gb2312?B?TS9EOEdpZnBrL2xvaGV0TGMwMXAyMTV5d0p6a3JpdWR4K3BZVFNXaEdsZVF0?=
- =?gb2312?B?NW01eWRleGxvNVNVTGJYRUhKYXNLdGdsZ21KcGU1Z2Z2dXBnYTFsVmc5TWlH?=
- =?gb2312?B?SFlHSUZTdHVXcnlROHowbjd0QUlQZndEL1hIV1hrQUM4UmxWVCtOWmFPU0hN?=
- =?gb2312?B?cnVpTG5ZcHRzVzZsT1N0OGNWbmg5ODBIaS9YK0U5UzdHZGlEWGgydWZCdVUr?=
- =?gb2312?B?NXpSeCtYcWVjdlpiMmFSNFRDaVd0SVU4MllockhWZUxiYVhWSm9QNzBlVEll?=
- =?gb2312?B?YkZvNkpVeE9XeHBjMXF4Z1BlNytudmh2T3RjTzdSNmVPaW9lcmpvZEN0ZDk2?=
- =?gb2312?B?L1FPVXc4NVBkZDVlVmNPM2pkbjY2Rzg5ZDVvOE9FQWdRUmppN2piSnI2WFpm?=
- =?gb2312?B?bitMbkhucm4wSlhnbnd4UzRMbXdRZjVHZk8zZ2FITFpPTnl1UnRSZVkxSk51?=
- =?gb2312?B?ZDhWeFJJZUJIc0JRVlJTYUpKVHBxNGtFZjBIaTBDMU5nSWIvcEpNWFc0Mlg2?=
- =?gb2312?B?SGRDZi93cFdheVVCcldCOVdLSHBXc2JQUHZTMzVITjU5M01zdGxXelFWVXlv?=
- =?gb2312?B?NnFmNGF6NitTUkIvQmU0N1RxZlpRUEdpQWYyYnk4TE9XS0NHeGh5bEgrYVJQ?=
- =?gb2312?B?VWFma2NUMGVNV2lRc3ZDRy8wMVZQNXhOWS9yM1NXM0QxeGpXT3hPMHVEUnlu?=
- =?gb2312?B?ellud09yOTQwcHlsdTFydDA3MVZ2RFQyV3E2alZPZmt4S3ZkUjJtRVhXMWFR?=
- =?gb2312?B?WE12eXBRRU0zZ1hURUFHVWxYYTBVeGtrQ2t3TGJuaDErRWxraVBvcDF3WnRk?=
- =?gb2312?B?T1EvNnZXTjFibkMrYnlJM3JCZzdhUlhCblVGR3FyeCtwenc9PQ==?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:zh-cn; SCL:1;
- SRV:; IPV:NLI; SFV:NSPM; H:DB9PR04MB9452.eurprd04.prod.outlook.com; PTR:;
- CAT:NONE; SFS:(13230040)(1800799024)(366016)(7416014)(376014)(38070700018);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?gb2312?B?ZTZnc2dlUXdlN05TcTN5NVJQUkYzbVJrUjlxejQzZ2s3SHpMWi9zUnhmVU1q?=
- =?gb2312?B?RTF2YWk4WUEwSHVhZWRsd0p5cFdVRU82RGtvOUYzK21yMlo2QkF6MlZ3d08w?=
- =?gb2312?B?NG44c2gvVEViZENBbWhISU5Nd1FsRlF2dlN4WG1aMnA4QnFkTWg1ZVI4ZjN6?=
- =?gb2312?B?ZEZGVTNnTCsvMmEwSERZdTdIVVZTWG11WjBQYkxZekUzNEM2enRIWHA2QVR3?=
- =?gb2312?B?YzQwWnIxdVFUVDdWRnhyQmNzSWlMUFRubU9ybDB1V2VMYjJHRUpRc01lV0hK?=
- =?gb2312?B?QmNQRlFFd0hpb0RoNk5tTTk2NDRaZEU0Y3dqQ1ZIcWt3MnN3SHQxUjUyRGZ0?=
- =?gb2312?B?Z01hWjRCRE53cHdlb01iTG5ZdlRsbnZwMEhiM1pyMk5qd05OY0ZVdlR4NHRL?=
- =?gb2312?B?WTk5RjRubXNqZExuSEtpaVZ6Q0JoVTAxc1NTSUVjTENBdUs3Tm4xYnlrRkRS?=
- =?gb2312?B?Y2dRQzUxSkhCZTZNUE5EWnJtTldLRTNNdVRvSjY4VEtJa1ZqS2twSTZ4Ukw0?=
- =?gb2312?B?WGxIb05HeDdEdVBhSFdWOGh0RGdzRy9YVXFnZXh3NFY5ZDU3S1EyaXYyT3N4?=
- =?gb2312?B?VDZ3TnEyaXFwTFVram1qV3d0aE9hYmk3ZHZ6U1BVeXJpcCtVaDR0aTRxVVFS?=
- =?gb2312?B?b25XN3NQWjJOOGNFMUxlZFRuRFpxbEg5MysyWTQvZkkzMXVodHNyTGo5MEZ1?=
- =?gb2312?B?c3RnQ0g4MUxXeG8yalRhd2ptVFgxYzlrYnBqcHJlejJKMmsvTUFIODMyK01G?=
- =?gb2312?B?R3MzMDBYSWNMYzlPL093RW55anVSb3hUOUFOWmhFVmhPajhwTkM5WE1ucWhp?=
- =?gb2312?B?TUxpTkludnlCTGJZWjRFeWM2UElEUXFIMHFHUm9MQlVvUFFhQk5mUHpGeHZy?=
- =?gb2312?B?ZzhHdVBSb1V3dms5VmwwNHA2aFIyRk0rSmdMSDJERGhSemR0OXNnZklxZWx1?=
- =?gb2312?B?d0k2Vlh0SnRkbTFpdkhhYTNnN1JzM0tIVFJvZHdxYVBKSS9FdHdFbzlUOXFG?=
- =?gb2312?B?NDNaRVhUNHErcXRhdkpTa3dhRXRBNU9yaC9rc3BCMnk0L1F5bkhzVFZOU3Ir?=
- =?gb2312?B?MUZ6QVZ0N1lwUVp5WEtLZnlkSzBNZDdCTFBROUZXN282djRKbU5NM3lCeEpS?=
- =?gb2312?B?ZjdSZEdlMjlSeTk4ZktXOUJUY3NmNTV0eTMyemRtUFVJMDJPQk5CM0hsb3dF?=
- =?gb2312?B?TzlNUjlXWS9Sa1BYRHZvWnowcmNBSWFIaUU0OGZRVzUydlg4cmxRRzBsdzBl?=
- =?gb2312?B?ZlY1TStKU2ZyZVJvSmlTRHhncXhIM2NmVG9aaENNVE1jT1FYamZmYlB1ZTZZ?=
- =?gb2312?B?aElvTVJwYjFSenI2SGFDT0hWWnpkKzJFR3ppVnVENFl4ZFMrUHZtb1VaQkl2?=
- =?gb2312?B?OW9kQVBrcDJBY3hsU1NIV3FYREt3dXFtSHRyNXJ0OVNnUkhLQ0VIVHpyUy91?=
- =?gb2312?B?NGdyNCtVTXBWVXIrTnFGZktkK0FqSjg3b1pya3pnVnFzQlkvYkZ4azRhZnha?=
- =?gb2312?B?ekZaKy9zT3k2L0d3N2s0U1lsOTRUUUV4c05MOVBCWEZiazJaU2hCNW0wd0V5?=
- =?gb2312?B?b3ZOdnVnbkptcHNMUG4ySURlTEw0ZmlGUFJpRHVLUUpzaHd0d0FoTGpxVFZW?=
- =?gb2312?B?ZHRQUExWSGRUSU0zTUM3cEVsdnl2QXpSb2ZIZis2QUVSb2UvcXE3dTR3ZEFr?=
- =?gb2312?B?ckVPM1BrWDZaanVFWHZxY1BYdUtCdHdpNEdqS2pXYTNSWHIzNDVJY2ZvbXFx?=
- =?gb2312?B?ZUVVVmdqZ1NsT1NXSG1vbE52WDJvOW9hT0R2RkVpL1N5Mjk5aTV6QS9zYXlF?=
- =?gb2312?B?bWIra0hudzYzbGl4UUJTNFA1bGVXSjdyWEVUN2k0Q2taK2FJbFlmZ3prYXA2?=
- =?gb2312?B?bW12eXBmMEtuUXZkQUZ1TVgvbThFZ3dPNmIrVHg0bk5TTFdwS1lNK0dqYVhj?=
- =?gb2312?B?L1dWdEx0VmZFdmN5VkFQT2VKeTVmRE5RNExBRW9PQVhCbWNXS2FhZlhpdjZ5?=
- =?gb2312?B?T0xjSnYyL3JFdThjUFc4U2xaSXJRNU85WHlpWnp5T3Nxc3VTUVMyaHg5ZmZ6?=
- =?gb2312?B?ZVEvYWdXcWgvbktLSmROTkVwV2hGOEdiWWcxbm9xVTd3NVJ2K3JuYk00RmdO?=
- =?gb2312?Q?iYGc=3D?=
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
+ [209.85.166.200])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B816B10E004
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Sep 2024 06:58:19 +0000 (UTC)
+Received: by mail-il1-f200.google.com with SMTP id
+ e9e14a558f8ab-3a345a02c23so20416375ab.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Sep 2024 23:58:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1727593099; x=1728197899;
+ h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=ZwOalX9tsr3Q9s5orYX4Of7wTcGuw81q+exWjKmQ40M=;
+ b=gO8TeWd6dEi93510TC5OEIBaqhuQBybEg/Oexy7l5KQvV3ztLvPXuxSboAI0/c5dIs
+ bBYqIrS+u/MVzlOk5OjpDXJDzyUQoCgMJNh60dFhZrUTrLmMKsAvUR8iEFgD4gnd1DVu
+ Vf1ZFIeen7SHYoLTa/PMf31iKpXCdPWL2CyJkcDRzaFnzRfa9E07Tedt04EEwO6CITNO
+ Nz/l7+LKmIju+iDO4KPtmW8DskWfRCm61UIvtmGuPq2X71qAA+X5hlW3jUCvDZ1bcH83
+ RZoq4pitv2HMLjKE5oV606TMDuXwUFO9w7VTpVa6vpwo3bhM/zP72ULpt4wWXj1gx1hq
+ t9Ug==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVFEi8+vRqoRWA13XRTxyoUFl/QBByzxCt5dFOqez/wVf+0hGBW8GEhf7U/Tj0XWHuuNQ5N+2dpWIY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YycX8N+QpADlCKX9IQRt1R4EhFDZY05Kg8SEsYwurRb39tMdL+5
+ dz5HlO226EQz/R9gHYS6tjjwGwIKtLRD0SMSgE5JYw83khns9gZHyW3CLIaCTYaZMmaWXueXFVd
+ /oZVe8v/grhb9lRh6lrIdnp8bV2GflYnZExOAWCIZVO/tk8QlkpbgCpU=
+X-Google-Smtp-Source: AGHT+IErh+5cETbUGyGKBCbOF9ralNA3s01s80VuyiX69ihYbVk8J/5hitJjjkGO+uu0Nn8djqLQwbIu2VS3yJvk9ULKm0nvw593
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB9PR04MB9452.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 025fa1b4-3766-41d4-6dba-08dce02f9519
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Sep 2024 02:36:54.8927 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 68FTJNwWX4kwrjiKb8gYiRy0GdUWvEAr/5+6aAW3T3ZCh/um9wEDl+lsd5bKUpnevF1fVqZif0wPpjgefSLncQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR04MB7812
+X-Received: by 2002:a92:ca0c:0:b0:3a0:a0a1:650c with SMTP id
+ e9e14a558f8ab-3a3451b6ca7mr71959665ab.22.1727593098823; Sat, 28 Sep 2024
+ 23:58:18 -0700 (PDT)
+Date: Sat, 28 Sep 2024 23:58:18 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <66f8fa8a.050a0220.aab67.000e.GAE@google.com>
+Subject: [syzbot] [dri?] [virt?] INFO: task hung in drm_atomic_get_plane_state
+From: syzbot <syzbot+eee643fdccb7c015b3a6@syzkaller.appspotmail.com>
+To: airlied@redhat.com, dri-devel@lists.freedesktop.org, 
+ gurchetansingh@chromium.org, kraxel@redhat.com, linux-kernel@vger.kernel.org, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, olvaffe@gmail.com, 
+ simona@ffwll.ch, syzkaller-bugs@googlegroups.com, tzimmermann@suse.de, 
+ virtualization@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -186,62 +64,194 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgS3J6eXN6dG9mo6wNCg0KVGhhbmtzIGZvciB5b3VyIGNvbW1lbnRzLA0KDQo+IA0KPiANCj4g
-T24gVHVlLCBTZXAgMjQsIDIwMjQgYXQgMDM6MzY6NDhQTSArMDgwMCwgU2FuZG9yIFl1IHdyb3Rl
-Og0KPiA+IEFkZCBiaW5kaW5ncyBmb3IgQ2FkZW5jZSBNSERQODUwMSBEaXNwbGF5UG9ydC9IRE1J
-IGJyaWRnZS4NCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IFNhbmRvciBZdSA8U2FuZG9yLnl1QG54
-cC5jb20+DQo+ID4gUmV2aWV3ZWQtYnk6IEtyenlzenRvZiBLb3psb3dza2kgPGtyenlzenRvZi5r
-b3psb3dza2lAbGluYXJvLm9yZz4NCj4gDQo+IERyb3ANCk9LLCBJIHdpbGwgcmVtb3ZlIGl0IGlu
-IHRoZSBuZXh0IHZlcnNpb24uDQoNCj4gDQo+ID4gLS0tDQo+ID4gdjE2LT52MTc6DQo+ID4gLSBB
-ZGQgbGFuZS1tYXBwaW5nIHByb3BlcnR5DQo+IA0KPiBUaGF0J3MgYSBzaWduaWZpY2FudCBjaGFu
-Z2UuDQpPSy4NCg0KPiANCj4gPg0KPiA+IHY5LT52MTY6DQo+ID4gICpObyBjaGFuZ2UNCj4gPg0K
-PiA+IC4uLi9kaXNwbGF5L2JyaWRnZS9jZG5zLG1oZHA4NTAxLnlhbWwgICAgICAgICB8IDEwOQ0K
-PiArKysrKysrKysrKysrKysrKysNCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDEwOSBpbnNlcnRpb25z
-KCspDQo+ID4gIGNyZWF0ZSBtb2RlIDEwMDY0NA0KPiA+IERvY3VtZW50YXRpb24vZGV2aWNldHJl
-ZS9iaW5kaW5ncy9kaXNwbGF5L2JyaWRnZS9jZG5zLG1oZHA4NTAxLnlhbWwNCj4gPg0KPiA+IGRp
-ZmYgLS1naXQNCj4gPiBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5
-L2JyaWRnZS9jZG5zLG1oZHA4NTAxLnlhbWwNCj4gPiBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJl
-ZS9iaW5kaW5ncy9kaXNwbGF5L2JyaWRnZS9jZG5zLG1oZHA4NTAxLnlhbWwNCj4gPiBuZXcgZmls
-ZSBtb2RlIDEwMDY0NA0KPiA+IGluZGV4IDAwMDAwMDAwMDAwMDAuLjNmNzlmMzI4Yzc0MjUNCj4g
-PiAtLS0gL2Rldi9udWxsDQo+ID4gKysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRp
-bmdzL2Rpc3BsYXkvYnJpZGdlL2NkbnMsbWhkcDg1MDEueQ0KPiA+ICsrKyBhbWwNCj4gDQo+ID4g
-QEAgLTAsMCArMSwxMDkgQEANCj4gPiArIyBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogKEdQTC0y
-LjAgT1IgQlNELTItQ2xhdXNlKSAlWUFNTCAxLjINCj4gPiArLS0tDQo+ID4gKyRpZDoNCj4gPiAr
-aHR0cHM6Ly9ldXIwMS5zYWZlbGlua3MucHJvdGVjdGlvbi5vdXRsb29rLmNvbS8/dXJsPWh0dHAl
-M0ElMkYlMkZkZXZpDQo+ID4NCj4gK2NldHJlZS5vcmclMkZzY2hlbWFzJTJGZGlzcGxheSUyRmJy
-aWRnZSUyRmNkbnMlMkNtaGRwODUwMS55YW1sJTINCj4gMyZkYXQNCj4gPg0KPiArYT0wNSU3QzAy
-JTdDU2FuZG9yLnl1JTQwbnhwLmNvbSU3QzQwYTZiZDRmZjFjZDRkOTM0ZGEwMDhkY2RjNzINCj4g
-OWZkMCU3Qw0KPiA+DQo+ICs2ODZlYTFkM2JjMmI0YzZmYTkyY2Q5OWM1YzMwMTYzNSU3QzAlN0Mw
-JTdDNjM4NjI3NjMyMDc5OTg2NjANCj4gOCU3Q1Vua25vDQo+ID4NCj4gK3duJTdDVFdGcGJHWnNi
-M2Q4ZXlKV0lqb2lNQzR3TGpBd01EQWlMQ0pRSWpvaVYybHVNeklpTENKQlRpSTZJazFoDQo+IGFX
-d2kNCj4gPg0KPiArTENKWFZDSTZNbjAlM0QlN0MwJTdDJTdDJTdDJnNkYXRhPVV3JTJGUVEwUWcz
-Nlk4UTZ3RlBDN1pnDQo+IEx6TEh2T2o4R2pIMQ0KPiA+ICtrOE1jZ2NqcnFJJTNEJnJlc2VydmVk
-PTANCj4gPiArJHNjaGVtYToNCj4gPiAraHR0cHM6Ly9ldXIwMS5zYWZlbGlua3MucHJvdGVjdGlv
-bi5vdXRsb29rLmNvbS8/dXJsPWh0dHAlM0ElMkYlMkZkZXZpDQo+ID4NCj4gK2NldHJlZS5vcmcl
-MkZtZXRhLXNjaGVtYXMlMkZjb3JlLnlhbWwlMjMmZGF0YT0wNSU3QzAyJTdDU2FuZG9yLnkNCj4g
-dSU0MG4NCj4gPg0KPiAreHAuY29tJTdDNDBhNmJkNGZmMWNkNGQ5MzRkYTAwOGRjZGM3MjlmZDAl
-N0M2ODZlYTFkM2JjMmI0YzZmYTkyDQo+IGNkOTljNQ0KPiA+DQo+ICtjMzAxNjM1JTdDMCU3QzAl
-N0M2Mzg2Mjc2MzIwODAwMzExMjQlN0NVbmtub3duJTdDVFdGcGJHWnMNCj4gYjNkOGV5SldJam9p
-DQo+ID4NCj4gK01DNHdMakF3TURBaUxDSlFJam9pVjJsdU16SWlMQ0pCVGlJNklrMWhhV3dpTENK
-WFZDSTZNbjAlM0QlN0MwJQ0KPiA3QyU3QyUNCj4gPg0KPiArN0Mmc2RhdGE9SUc5RW0zQVdPd3ps
-cFIxV2swVnclMkZGMTYxWWNPeHVNSGJBNFklMkZ6ZnRnWUElM0QNCj4gJnJlc2VydmVkPQ0KPiA+
-ICswDQo+ID4gKw0KPiA+ICt0aXRsZTogQ2FkZW5jZSBNSERQODUwMSBEUC9IRE1JIGJyaWRnZQ0K
-PiA+ICsNCj4gPiArbWFpbnRhaW5lcnM6DQo+ID4gKyAgLSBTYW5kb3IgWXUgPFNhbmRvci55dUBu
-eHAuY29tPg0KPiA+ICsNCj4gPiArZGVzY3JpcHRpb246DQo+ID4gKyAgQ2FkZW5jZSBNSERQODUw
-MSBEaXNwbGF5UG9ydC9IRE1JIGludGVyZmFjZS4NCj4gPiArDQo+ID4gK3Byb3BlcnRpZXM6DQo+
-ID4gKyAgY29tcGF0aWJsZToNCj4gPiArICAgIGVudW06DQo+ID4gKyAgICAgIC0gZnNsLGlteDht
-cS1taGRwODUwMQ0KPiA+ICsNCj4gPiArICByZWc6DQo+ID4gKyAgICBtYXhJdGVtczogMQ0KPiA+
-ICsNCj4gPiArICBjbG9ja3M6DQo+ID4gKyAgICBtYXhJdGVtczogMQ0KPiA+ICsgICAgZGVzY3Jp
-cHRpb246IE1IRFA4NTAxIERQL0hETUkgQVBCIGNsb2NrLg0KPiA+ICsNCj4gPiArICBwaHlzOg0K
-PiA+ICsgICAgbWF4SXRlbXM6IDENCj4gPiArICAgIGRlc2NyaXB0aW9uOg0KPiA+ICsgICAgICBw
-aGFuZGxlIHRvIHRoZSBEUC9IRE1JIFBIWQ0KPiA+ICsNCj4gPiArICBpbnRlcnJ1cHRzOg0KPiA+
-ICsgICAgaXRlbXM6DQo+ID4gKyAgICAgIC0gZGVzY3JpcHRpb246IEhvdHBsdWcgY2FibGUgcGx1
-Z2luLg0KPiA+ICsgICAgICAtIGRlc2NyaXB0aW9uOiBIb3RwbHVnIGNhYmxlIHBsdWdvdXQuDQo+
-ID4gKw0KPiA+ICsgIGludGVycnVwdC1uYW1lczoNCj4gPiArICAgIGl0ZW1zOg0KPiA+ICsgICAg
-ICAtIGNvbnN0OiBwbHVnX2luDQo+ID4gKyAgICAgIC0gY29uc3Q6IHBsdWdfb3V0DQo+ID4gKw0K
-PiA+ICsgIGxhbmUtbWFwcGluZzoNCj4gPiArICAgIGRlc2NyaXB0aW9uOiBsYW5lIG1hcHBpbmcg
-Zm9yIEhETUkgb3IgRGlzcGxheVBvcnQgaW50ZXJmYWNlLg0KPiANCj4gV2hlcmUgaXMgdGhlIGRl
-ZmluaXRpb24gb2YgdGhpcyBwcm9wZXJ0eT8gSSBkbyBub3Qgc2VlIGFueSAkcmVmIGhlcmUsIHNv
-IGRpZCB5b3UNCj4gYWRkIGl0IHRvIGR0c2NoZW1hPw0KDQpNeSBhcG9sb2dpZXMsIHRoZSAkcmVm
-IGlzIG1pc3NpbmcsIHdpbGwgYWRkIGl0IGluIHRoZSBuZXh0IHZlcnNpb24uLg0KDQpCLlINClNh
-bmRvcg0KDQo+IA0KPiBCZXN0IHJlZ2FyZHMsDQo+IEtyenlzenRvZg0KDQo=
+Hello,
+
+syzbot found the following issue on:
+
+HEAD commit:    3efc57369a0c Merge tag 'for-linus' of git://git.kernel.org..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=12964d9f980000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=a4fcb065287cdb84
+dashboard link: https://syzkaller.appspot.com/bug?extid=eee643fdccb7c015b3a6
+compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
+
+Unfortunately, I don't have any reproducer for this issue yet.
+
+Downloadable assets:
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/7feb34a89c2a/non_bootable_disk-3efc5736.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/d0988c372a39/vmlinux-3efc5736.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/8547f30d7e9d/bzImage-3efc5736.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+eee643fdccb7c015b3a6@syzkaller.appspotmail.com
+
+INFO: task swapper/0:1 blocked for more than 143 seconds.
+      Not tainted 6.11.0-syzkaller-11993-g3efc57369a0c #0
+"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+task:swapper/0       state:D stack:17904 pid:1     tgid:1     ppid:0      flags:0x00004000
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5315 [inline]
+ __schedule+0x1895/0x4b30 kernel/sched/core.c:6675
+ __schedule_loop kernel/sched/core.c:6752 [inline]
+ schedule+0x14b/0x320 kernel/sched/core.c:6767
+ schedule_preempt_disabled+0x13/0x30 kernel/sched/core.c:6824
+ __mutex_lock_common kernel/locking/mutex.c:684 [inline]
+ __ww_mutex_lock+0xec5/0x2790 kernel/locking/mutex.c:759
+ ww_mutex_lock+0x40/0x1f0 kernel/locking/mutex.c:876
+ modeset_lock+0x2bf/0x650 drivers/gpu/drm/drm_modeset_lock.c:314
+ drm_atomic_get_plane_state+0x1c1/0x500 drivers/gpu/drm/drm_atomic.c:541
+ drm_client_modeset_commit_atomic+0x1a1/0x7e0 drivers/gpu/drm/drm_client_modeset.c:1020
+ drm_client_modeset_commit_locked+0xe0/0x520 drivers/gpu/drm/drm_client_modeset.c:1171
+ pan_display_atomic drivers/gpu/drm/drm_fb_helper.c:1371 [inline]
+ drm_fb_helper_pan_display+0x379/0xc10 drivers/gpu/drm/drm_fb_helper.c:1431
+ fb_pan_display+0x3a3/0x680 drivers/video/fbdev/core/fbmem.c:191
+ bit_update_start+0x4d/0x1c0 drivers/video/fbdev/core/bitblit.c:381
+ fbcon_switch+0x144b/0x2250 drivers/video/fbdev/core/fbcon.c:2186
+ redraw_screen+0x546/0xe90 drivers/tty/vt/vt.c:957
+ fbcon_prepare_logo+0x9ba/0xd20 drivers/video/fbdev/core/fbcon.c:633
+ con2fb_init_display drivers/video/fbdev/core/fbcon.c:819 [inline]
+ set_con2fb_map+0xc24/0x11e0 drivers/video/fbdev/core/fbcon.c:885
+ do_fb_registered drivers/video/fbdev/core/fbcon.c:2992 [inline]
+ fbcon_fb_registered+0x251/0x620 drivers/video/fbdev/core/fbcon.c:3008
+ do_register_framebuffer drivers/video/fbdev/core/fbmem.c:449 [inline]
+ register_framebuffer+0x654/0x810 drivers/video/fbdev/core/fbmem.c:515
+ __drm_fb_helper_initial_config_and_unlock+0x1716/0x1df0 drivers/gpu/drm/drm_fb_helper.c:1869
+ drm_fbdev_shmem_client_hotplug+0x16e/0x230 drivers/gpu/drm/drm_fbdev_shmem.c:250
+ drm_client_register+0x17f/0x210 drivers/gpu/drm/drm_client.c:141
+ virtio_gpu_probe+0x22e/0x3c0 drivers/gpu/drm/virtio/virtgpu_drv.c:106
+ virtio_dev_probe+0x931/0xc80 drivers/virtio/virtio.c:341
+ really_probe+0x2b8/0xad0 drivers/base/dd.c:658
+ __driver_probe_device+0x1a2/0x390 drivers/base/dd.c:800
+ driver_probe_device+0x50/0x430 drivers/base/dd.c:830
+ __driver_attach+0x45f/0x710 drivers/base/dd.c:1216
+ bus_for_each_dev+0x239/0x2b0 drivers/base/bus.c:370
+ bus_add_driver+0x346/0x670 drivers/base/bus.c:675
+ driver_register+0x23a/0x320 drivers/base/driver.c:246
+ do_one_initcall+0x248/0x880 init/main.c:1269
+ do_initcall_level+0x157/0x210 init/main.c:1331
+ do_initcalls+0x3f/0x80 init/main.c:1347
+ kernel_init_freeable+0x435/0x5d0 init/main.c:1580
+ kernel_init+0x1d/0x2b0 init/main.c:1469
+ ret_from_fork+0x4b/0x80 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+INFO: task kworker/0:1:9 blocked for more than 143 seconds.
+      Not tainted 6.11.0-syzkaller-11993-g3efc57369a0c #0
+"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+task:kworker/0:1     state:D stack:26192 pid:9     tgid:9     ppid:2      flags:0x00004000
+Workqueue: events virtio_gpu_dequeue_ctrl_func
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5315 [inline]
+ __schedule+0x1895/0x4b30 kernel/sched/core.c:6675
+ __schedule_loop kernel/sched/core.c:6752 [inline]
+ schedule+0x14b/0x320 kernel/sched/core.c:6767
+ schedule_preempt_disabled+0x13/0x30 kernel/sched/core.c:6824
+ __mutex_lock_common kernel/locking/mutex.c:684 [inline]
+ __mutex_lock+0x6a7/0xd70 kernel/locking/mutex.c:752
+ drm_client_dev_hotplug+0xd0/0x3c0 drivers/gpu/drm/drm_client.c:230
+ virtio_gpu_dequeue_ctrl_func+0x605/0xa50 drivers/gpu/drm/virtio/virtgpu_vq.c:235
+ process_one_work kernel/workqueue.c:3229 [inline]
+ process_scheduled_works+0xa63/0x1850 kernel/workqueue.c:3310
+ worker_thread+0x870/0xd30 kernel/workqueue.c:3391
+ kthread+0x2f0/0x390 kernel/kthread.c:389
+ ret_from_fork+0x4b/0x80 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+INFO: task kworker/0:2:783 blocked for more than 143 seconds.
+      Not tainted 6.11.0-syzkaller-11993-g3efc57369a0c #0
+"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+task:kworker/0:2     state:D stack:24368 pid:783   tgid:783   ppid:2      flags:0x00004000
+Workqueue: events drm_fb_helper_damage_work
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5315 [inline]
+ __schedule+0x1895/0x4b30 kernel/sched/core.c:6675
+ __schedule_loop kernel/sched/core.c:6752 [inline]
+ schedule+0x14b/0x320 kernel/sched/core.c:6767
+ virtio_gpu_queue_ctrl_sgs drivers/gpu/drm/virtio/virtgpu_vq.c:341 [inline]
+ virtio_gpu_queue_fenced_ctrl_buffer+0x720/0xff0 drivers/gpu/drm/virtio/virtgpu_vq.c:415
+ virtio_gpu_resource_flush drivers/gpu/drm/virtio/virtgpu_plane.c:162 [inline]
+ virtio_gpu_primary_plane_update+0xd39/0x1590 drivers/gpu/drm/virtio/virtgpu_plane.c:237
+ drm_atomic_helper_commit_planes+0x5ee/0xe00 drivers/gpu/drm/drm_atomic_helper.c:2800
+ drm_atomic_helper_commit_tail+0x5e/0x500 drivers/gpu/drm/drm_atomic_helper.c:1750
+ commit_tail+0x2c1/0x3c0 drivers/gpu/drm/drm_atomic_helper.c:1835
+ drm_atomic_helper_commit+0x953/0x9f0 drivers/gpu/drm/drm_atomic_helper.c:2073
+ drm_atomic_commit+0x296/0x2f0 drivers/gpu/drm/drm_atomic.c:1516
+ drm_atomic_helper_dirtyfb+0xd10/0xe70 drivers/gpu/drm/drm_damage_helper.c:181
+ drm_fbdev_shmem_helper_fb_dirty+0x151/0x2c0 drivers/gpu/drm/drm_fbdev_shmem.c:197
+ drm_fb_helper_fb_dirty drivers/gpu/drm/drm_fb_helper.c:376 [inline]
+ drm_fb_helper_damage_work+0x275/0x880 drivers/gpu/drm/drm_fb_helper.c:399
+ process_one_work kernel/workqueue.c:3229 [inline]
+ process_scheduled_works+0xa63/0x1850 kernel/workqueue.c:3310
+ worker_thread+0x870/0xd30 kernel/workqueue.c:3391
+ kthread+0x2f0/0x390 kernel/kthread.c:389
+ ret_from_fork+0x4b/0x80 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+
+Showing all locks held in the system:
+9 locks held by swapper/0/1:
+ #0: ffff88801fb62170 (&dev->mutex){....}-{3:3}, at: device_lock include/linux/device.h:1014 [inline]
+ #0: ffff88801fb62170 (&dev->mutex){....}-{3:3}, at: __device_driver_lock drivers/base/dd.c:1095 [inline]
+ #0: ffff88801fb62170 (&dev->mutex){....}-{3:3}, at: __driver_attach+0x454/0x710 drivers/base/dd.c:1215
+ #1: ffff8880331942f8 (&dev->clientlist_mutex){+.+.}-{3:3}, at: drm_client_register+0x4e/0x210 drivers/gpu/drm/drm_client.c:127
+ #2: ffffffff8f0eb208 (registration_lock){+.+.}-{3:3}, at: register_framebuffer+0x87/0x810 drivers/video/fbdev/core/fbmem.c:514
+ #3: ffffffff8e813380 (console_lock){+.+.}-{0:0}, at: fbcon_fb_registered+0x54/0x620 drivers/video/fbdev/core/fbcon.c:3004
+ #4: ffff8880004cf280 (&helper->lock){+.+.}-{3:3}, at: drm_fb_helper_pan_display+0xbc/0xc10 drivers/gpu/drm/drm_fb_helper.c:1424
+ #5: ffff8880331941b0 (&dev->master_mutex){+.+.}-{3:3}, at: drm_master_internal_acquire+0x20/0x70 drivers/gpu/drm/drm_auth.c:452
+ #6: ffff8880004cf098 (&client->modeset_mutex){+.+.}-{3:3}, at: drm_client_modeset_commit_locked+0x50/0x520 drivers/gpu/drm/drm_client_modeset.c:1169
+ #7: ffffc90000336bf0 (crtc_ww_class_acquire){+.+.}-{0:0}, at: drm_client_modeset_commit_atomic+0xd5/0x7e0 drivers/gpu/drm/drm_client_modeset.c:1007
+ #8: ffff8880004d20b0 (crtc_ww_class_mutex){+.+.}-{3:3}, at: modeset_lock+0x2bf/0x650 drivers/gpu/drm/drm_modeset_lock.c:314
+3 locks held by kworker/0:1/9:
+ #0: ffff88801ac74948 ((wq_completion)events){+.+.}-{0:0}, at: process_one_work kernel/workqueue.c:3204 [inline]
+ #0: ffff88801ac74948 ((wq_completion)events){+.+.}-{0:0}, at: process_scheduled_works+0x93b/0x1850 kernel/workqueue.c:3310
+ #1: ffffc900003b7d00 ((work_completion)(&vgvq->dequeue_work)){+.+.}-{0:0}, at: process_one_work kernel/workqueue.c:3205 [inline]
+ #1: ffffc900003b7d00 ((work_completion)(&vgvq->dequeue_work)){+.+.}-{0:0}, at: process_scheduled_works+0x976/0x1850 kernel/workqueue.c:3310
+ #2: ffff8880331942f8 (&dev->clientlist_mutex){+.+.}-{3:3}, at: drm_client_dev_hotplug+0xd0/0x3c0 drivers/gpu/drm/drm_client.c:230
+1 lock held by khungtaskd/25:
+ #0: ffffffff8e937da0 (rcu_read_lock){....}-{1:2}, at: rcu_lock_acquire include/linux/rcupdate.h:337 [inline]
+ #0: ffffffff8e937da0 (rcu_read_lock){....}-{1:2}, at: rcu_read_lock include/linux/rcupdate.h:849 [inline]
+ #0: ffffffff8e937da0 (rcu_read_lock){....}-{1:2}, at: debug_show_all_locks+0x55/0x2a0 kernel/locking/lockdep.c:6701
+2 locks held by kworker/u4:3/46:
+ #0: ffff88801ac79148 ((wq_completion)events_unbound){+.+.}-{0:0}, at: process_one_work kernel/workqueue.c:3204 [inline]
+ #0: ffff88801ac79148 ((wq_completion)events_unbound){+.+.}-{0:0}, at: process_scheduled_works+0x93b/0x1850 kernel/workqueue.c:3310
+ #1: ffffc9000060fd00 ((work_completion)(&(&kfence_timer)->work)){+.+.}-{0:0}, at: process_one_work kernel/workqueue.c:3205 [inline]
+ #1: ffffc9000060fd00 ((work_completion)(&(&kfence_timer)->work)){+.+.}-{0:0}, at: process_scheduled_works+0x976/0x1850 kernel/workqueue.c:3310
+2 locks held by kswapd0/75:
+5 locks held by kworker/0:2/783:
+ #0: ffff88801ac74948 ((wq_completion)events){+.+.}-{0:0}, at: process_one_work kernel/workqueue.c:3204 [inline]
+ #0: ffff88801ac74948 ((wq_completion)events){+.+.}-{0:0}, at: process_scheduled_works+0x93b/0x1850 kernel/workqueue.c:3310
+ #1: ffffc9000179fd00 ((work_completion)(&helper->damage_work)){+.+.}-{0:0}, at: process_one_work kernel/workqueue.c:3205 [inline]
+ #1: ffffc9000179fd00 ((work_completion)(&helper->damage_work)){+.+.}-{0:0}, at: process_scheduled_works+0x976/0x1850 kernel/workqueue.c:3310
+ #2: ffffc9000179f970 (crtc_ww_class_acquire){+.+.}-{0:0}, at: drm_atomic_helper_dirtyfb+0xce/0xe70 drivers/gpu/drm/drm_damage_helper.c:123
+ #3: ffff8880004d20b0 (crtc_ww_class_mutex){+.+.}-{3:3}, at: modeset_lock+0x2bf/0x650 drivers/gpu/drm/drm_modeset_lock.c:314
+ #4: ffffffff8f1c5730 (drm_unplug_srcu){.+.+}-{0:0}, at: srcu_lock_acquire include/linux/srcu.h:151 [inline]
+ #4: ffffffff8f1c5730 (drm_unplug_srcu){.+.+}-{0:0}, at: srcu_read_lock include/linux/srcu.h:250 [inline]
+ #4: ffffffff8f1c5730 (drm_unplug_srcu){.+.+}-{0:0}, at: drm_dev_enter+0x45/0x150 drivers/gpu/drm/drm_drv.c:448
+
+=============================================
+
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
