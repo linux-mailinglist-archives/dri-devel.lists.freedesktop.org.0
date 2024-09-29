@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D08E989444
-	for <lists+dri-devel@lfdr.de>; Sun, 29 Sep 2024 11:13:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A38E7989447
+	for <lists+dri-devel@lfdr.de>; Sun, 29 Sep 2024 11:13:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84EDC10E29C;
-	Sun, 29 Sep 2024 09:13:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE56A10E29F;
+	Sun, 29 Sep 2024 09:13:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=testtoast.com header.i=@testtoast.com header.b="lzP4tUWN";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="l7wY80rE";
+	dkim=pass (2048-bit key; unprotected) header.d=testtoast.com header.i=@testtoast.com header.b="w4yaxGMQ";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="cqHmvjlK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fhigh-a2-smtp.messagingengine.com
  (fhigh-a2-smtp.messagingengine.com [103.168.172.153])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DBB410E29C
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Sep 2024 09:13:28 +0000 (UTC)
-Received: from phl-compute-06.internal (phl-compute-06.phl.internal
- [10.202.2.46])
- by mailfhigh.phl.internal (Postfix) with ESMTP id 6F74411401FB;
- Sun, 29 Sep 2024 05:13:27 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F36610E29F
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Sep 2024 09:13:34 +0000 (UTC)
+Received: from phl-compute-01.internal (phl-compute-01.phl.internal
+ [10.202.2.41])
+ by mailfhigh.phl.internal (Postfix) with ESMTP id F0A6111401F9;
+ Sun, 29 Sep 2024 05:13:33 -0400 (EDT)
 Received: from phl-mailfrontend-01 ([10.202.2.162])
- by phl-compute-06.internal (MEProxy); Sun, 29 Sep 2024 05:13:27 -0400
+ by phl-compute-01.internal (MEProxy); Sun, 29 Sep 2024 05:13:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
  h=cc:cc:content-transfer-encoding:content-type:date:date:from
  :from:in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:subject:subject:to:to; s=fm2; t=1727601207; x=
- 1727687607; bh=HUZkB4BTaGl4+olIKxefdYNCC1xPzS2oUWDhSekCT3I=; b=l
- zP4tUWNK64LLx9+bwrpPZYIgHmdnQo7essQ8FMwr8wkFv0y/Z3KpKF7n3JzDj65h
- EyX1dLK4Mcfd6bShN6+mzAegiAHup3STFvqLDdNzbHIzP27uASKQmCu9hbcq+ZMl
- ETWHzeVBu5gLcN5iosz2HqBw/IzKCgQUZv0R7QxfEL0ejI6kp7H0rMpKc6N7qgEZ
- 2J0fTipUxO/UTa7CELfpJazNcLZUp1hH+xStMBQSfzLTOCxEXXJmiLAenDFwu9H+
- vzd21DiJ//OZPip6ymvHBqZi26dc1pMQek8Cwwo0tHgjR9zkoyEhvjepgojHEi9Z
- fXWZxxH3cO4IPRQ2o6N2w==
+ :reply-to:subject:subject:to:to; s=fm2; t=1727601213; x=
+ 1727687613; bh=ABgqTd7uObbDYR1wm8fD08OQQ8fryUdjNqzFp1bmI3g=; b=w
+ 4yaxGMQ5of1GigN3ues6TlAE3BD8XYyEvxk+gi3Lc/J4Y2KPna0XF5hV/rWKFLKJ
+ oT9jTjNUL9TfDYiSTHgqbAb+zgTei+eYeH4cs+EWEV3BObc96FEt8dC8EU/mvsbU
+ BQrnmQ7oYvQJdymxDRSYFOgNsVfKhvJ9enrzgmYs3/dKL/dP3KsOrrrEqcTq0Evv
+ lk5dzd3ThAJ9/GHBhcbkkHaBVhDeNmoitpCBkzGuqdGeYuQ6IC0nXjaDUNGEhFPm
+ 5Jg7xDUAeftAOoZhuHUkM6zK9Yeo1nQrmewAebYc7wpMSNbNVbsBI0Kww4xNCmPP
+ cyAT4buuKrJ3zTkHgIDMQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1727601207; x=
- 1727687607; bh=HUZkB4BTaGl4+olIKxefdYNCC1xPzS2oUWDhSekCT3I=; b=l
- 7wY80rELUxSt7qLqc5BQY740J9P8w8fi9o++q7s6LU/xTR6/BM57et2CDNvwBp85
- tvQg7RkH3I/czPONBS6AVXObaXC5SCTFOFnBdJC0egRvbEobfqf9e3IeorOWTVt5
- xZDPWCvdl56FEx/2nDVv21wRNVaa6Q+5BI5uToZG9AfR2BeKH1CLvFinVfkL9rar
- M/fK768m8sIug3hwxkZFYKgER0zRUK+lenZcgoa58gJfyTQxtBF7ceLyE+hbvML8
- TvDApzdeIHW9e+1RHsGhdgSH44KK/kMMCOCsismFSv4j7RB4zekEZ3zRO5mf1vvZ
- x3AGf1kym2VLaZ/frflXg==
-X-ME-Sender: <xms:Nxr5ZuQwR7z0HLQ3GWEURhSI8bLQmxZ2WN0vxYL-eFMSN-7yNAmGBQ>
- <xme:Nxr5ZjzFYjJ_Mm1L1xuVxQ2B_Z7OCigT-JYz2D1eYHFJywUsh92QBUAbl4ESqrw1i
- QJXMOVheU7iT6IdYg>
-X-ME-Received: <xmr:Nxr5Zr068gN2v9RneHrmSW_WuD5qb-b-nRWjpovKsBkVQtoO1H1D-6k30psI4TZvL0K9GdueHNPw9aiAng3WjhRE6EKr69PPJgGhoXX5yikBkxF7>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvddufedgudehucetufdoteggodetrfdotf
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1727601213; x=
+ 1727687613; bh=ABgqTd7uObbDYR1wm8fD08OQQ8fryUdjNqzFp1bmI3g=; b=c
+ qHmvjlKfOJXQbKfGYflcJ692s+O2uWf9jJz5odql8Y3RXcPLNevGXFKLVA3UQ0a3
+ m9T2nNKtKMjABXijsFxMRaHFIE1eX5KppvxCHI0CITScKnZLnvGI9+RwbCfsIRK5
+ LzdNFtK0tIy4kzOVt2VqKFwMSFGNLsxAoeLC1CpefjtBLAvTEilawlV4P+pdGjPH
+ qyw9S6UjvY7xNmdRu8DuodoOIF4VulbJFhKV8ti9HNksqIZTdaVpwh5fah3YFkGU
+ GfKnfcId78TBeEUg1j4CtskRnhMalyc3Fk+ZhAkS5Pyp+72oQ1nk9Ylxe6b0ieLu
+ rlBmm6y0LTH/OZHu0d6TA==
+X-ME-Sender: <xms:PRr5ZiCJpEehNN0pUHu8N5cRwCO6HVt3oMnyh1FFndgdxqB4O-ZVew>
+ <xme:PRr5Zsg-t8VuJRfCTJi-RElbbMbqHl7VGHEB65hOPQGPRGjNi3QwdE52bz5gOe2hC
+ cfUcVXnluwb7nzqqw>
+X-ME-Received: <xmr:PRr5ZlnDLRkm0EcVtIUd53QPZ6o1dTI7lz1eiQVgvtBVSHswpp4Jm3qn3q2PmcLLx8pLtEJEtoXPBjn90hBpDiZ0ggvzzeZoRmwKY6uKZndQ3rDv>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvddufedgudegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
  rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
  htshculddquddttddmnecujfgurhephffvvefufffkofgjfhgggfestdekredtredttden
  ucfhrhhomheptfihrghnucghrghlkhhlihhnuceorhihrghnsehtvghsthhtohgrshhtrd
  gtohhmqeenucggtffrrghtthgvrhhnpeffheeiffegtdfgffejteevgeefkeelieelkeev
- ueetffetteduffevgeeiieehteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
+ ueetffetteduffevgeeiieehteenucevlhhushhtvghrufhiiigvpeefnecurfgrrhgrmh
  epmhgrihhlfhhrohhmpehrhigrnhesthgvshhtthhorghsthdrtghomhdpnhgspghrtghp
  thhtohepvddvpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehmrhhiphgrrhguse
  hkvghrnhgvlhdrohhrghdprhgtphhtthhopeifvghnshestghsihgvrdhorhhgpdhrtghp
@@ -67,14 +67,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvddufedgudehucetufdoteggod
  hffihllhdrtghhpdhrtghpthhtohepjhgvrhhnvghjrdhskhhrrggsvggtsehgmhgrihhl
  rdgtohhmpdhrtghpthhtohepshgrmhhuvghlsehshhholhhlrghnugdrohhrghdprhgtph
  htthhopehrohgshheskhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:Nxr5ZqA8CKBgjAkjNmpS1AbZb2N8mbuN8afm82Z4ZR7hWRDctu8jfA>
- <xmx:Nxr5ZnhUvWmzf4yBMAihrWzoKG5zYCLkMdZ5iEQVqtH08y_cHE0ekQ>
- <xmx:Nxr5ZmpjB4-uAMwBkasJgRCbwMWUKHpdcMVjQLGG9SDsILa_tQuHew>
- <xmx:Nxr5ZqghzI38WoAzjhnkK0tE3qp0YFFhSaicV1M5jsZNZcGGFFHe3Q>
- <xmx:Nxr5ZiSNuibOBLlVtV_xeZi9uGuOoTrbOAAndsTAobuf534rdAIFuXlv>
+X-ME-Proxy: <xmx:PRr5ZgyP7V50h9zGNI8UpiwGxQ29g__1BT5VdPNljv3vVmN8Enne5A>
+ <xmx:PRr5ZnR0_lxVMZDxiPxkUiiIY1MDqm3_5MRGjWa3-KcL4HNbHnNc3A>
+ <xmx:PRr5ZrZpzqi_4YgY_MKyDhzku-2lgwOFpJ-QfIQUnFUAcdnAhave4A>
+ <xmx:PRr5ZgQYQg0c_zGZJveMnzDrPXNcenBb5jsXSrfa2D_24Hkhg0HT-A>
+ <xmx:PRr5ZmCzNLN8znZ1G6WwQRojLjBdn6AfDN4lK28vJmvys3DCNEu4hkh7>
 Feedback-ID: idc0145fc:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 29 Sep 2024 05:13:21 -0400 (EDT)
+ 29 Sep 2024 05:13:27 -0400 (EDT)
 From: Ryan Walklin <ryan@testtoast.com>
 To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -91,9 +91,9 @@ Cc: Andre Przywara <andre.przywara@arm.com>,
  devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
  Ryan Walklin <ryan@testtoast.com>,
  Conor Dooley <conor.dooley@microchip.com>
-Subject: [PATCH v5 19/26] dt-bindings: allwinner: add H616 DE33 bus binding
-Date: Sun, 29 Sep 2024 22:04:51 +1300
-Message-ID: <20240929091107.838023-20-ryan@testtoast.com>
+Subject: [PATCH v5 20/26] dt-bindings: allwinner: add H616 DE33 clock binding
+Date: Sun, 29 Sep 2024 22:04:52 +1300
+Message-ID: <20240929091107.838023-21-ryan@testtoast.com>
 X-Mailer: git-send-email 2.46.1
 In-Reply-To: <20240929091107.838023-1-ryan@testtoast.com>
 References: <20240929091107.838023-1-ryan@testtoast.com>
@@ -117,37 +117,31 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 The Allwinner H616 and variants have a new display engine revision
 (DE33).
 
-Add a display engine bus binding for the DE33.
+Add a clock binding for the DE33.
 
 Signed-off-by: Ryan Walklin <ryan@testtoast.com>
 Acked-by: Conor Dooley <conor.dooley@microchip.com>
 Reviewed-by: Chen-Yu Tsai <wens@csie.org>
 
 ---
-Changelog v1..v2:
-- Correct DE2 bus enum to reflect fallback devices accurately.
-
 Changelog v2..v3:
 - Separate content into three patches for three separate subsystems
 ---
- .../devicetree/bindings/bus/allwinner,sun50i-a64-de2.yaml     | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ .../devicetree/bindings/clock/allwinner,sun8i-a83t-de2-clk.yaml  | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/bus/allwinner,sun50i-a64-de2.yaml b/Documentation/devicetree/bindings/bus/allwinner,sun50i-a64-de2.yaml
-index 9845a187bdf65..ea7ee89158c61 100644
---- a/Documentation/devicetree/bindings/bus/allwinner,sun50i-a64-de2.yaml
-+++ b/Documentation/devicetree/bindings/bus/allwinner,sun50i-a64-de2.yaml
-@@ -24,7 +24,9 @@ properties:
-     oneOf:
-       - const: allwinner,sun50i-a64-de2
+diff --git a/Documentation/devicetree/bindings/clock/allwinner,sun8i-a83t-de2-clk.yaml b/Documentation/devicetree/bindings/clock/allwinner,sun8i-a83t-de2-clk.yaml
+index 70369bd633e40..7fcd55d468d49 100644
+--- a/Documentation/devicetree/bindings/clock/allwinner,sun8i-a83t-de2-clk.yaml
++++ b/Documentation/devicetree/bindings/clock/allwinner,sun8i-a83t-de2-clk.yaml
+@@ -25,6 +25,7 @@ properties:
+       - const: allwinner,sun50i-a64-de2-clk
+       - const: allwinner,sun50i-h5-de2-clk
+       - const: allwinner,sun50i-h6-de3-clk
++      - const: allwinner,sun50i-h616-de33-clk
        - items:
--          - const: allwinner,sun50i-h6-de3
-+          - enum:
-+              - allwinner,sun50i-h6-de3
-+              - allwinner,sun50i-h616-de33
-           - const: allwinner,sun50i-a64-de2
- 
-   reg:
+           - const: allwinner,sun8i-r40-de2-clk
+           - const: allwinner,sun8i-h3-de2-clk
 -- 
 2.46.1
 
