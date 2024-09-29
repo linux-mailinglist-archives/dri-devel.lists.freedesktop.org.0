@@ -2,36 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6AD4989397
-	for <lists+dri-devel@lfdr.de>; Sun, 29 Sep 2024 09:51:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D90B98939D
+	for <lists+dri-devel@lfdr.de>; Sun, 29 Sep 2024 09:58:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFD7110E138;
-	Sun, 29 Sep 2024 07:51:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F276A10E1BE;
+	Sun, 29 Sep 2024 07:58:33 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="na/tpird";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 869CD10E138;
- Sun, 29 Sep 2024 07:51:22 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F58210E1BE
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Sep 2024 07:58:32 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 966185C1045;
- Sun, 29 Sep 2024 07:51:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09DD6C4CEC5;
- Sun, 29 Sep 2024 07:51:18 +0000 (UTC)
-From: Huacai Chen <chenhuacai@loongson.cn>
-To: David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Pan@freedesktop.org, Xinhui <Xinhui.Pan@amd.com>,
-	Huacai Chen <chenhuacai@kernel.org>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Huacai Chen <chenhuacai@loongson.cn>
-Subject: [PATCH] Revert "drm/radeon: use GEM references instead of TTMs"
-Date: Sun, 29 Sep 2024 15:50:58 +0800
-Message-ID: <20240929075058.3542013-1-chenhuacai@loongson.cn>
-X-Mailer: git-send-email 2.43.5
+ by nyc.source.kernel.org (Postfix) with ESMTP id 9F698A40170;
+ Sun, 29 Sep 2024 07:58:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC4E7C4CEC5;
+ Sun, 29 Sep 2024 07:58:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1727596710;
+ bh=3xHAO/1nMaKipfHebjoHo1sKkeBUhtCQGPDbex00eno=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=na/tpird1bl9uvUKD9qDM4ARwhFA8PdpOm4dQQ7LxTWB/c33ja9fLlbqblYaKveqp
+ Dd1mL5wLQhBBHY5REMFl7wDVk2vg5in81Z/qrjqgroWrMr3iBR0QeIK9xo2g+fID1W
+ fZItj8cABW/yqR2e/9FCQSn2af9tg6wehIBneqHIGm7ROS54HNnV/IcC74/wYenXJj
+ tccFdIJcBXl3O9NWHn38NKksr88Yq2jp0vqBFnpjaGrdNMZbnTJOOK8iAiy+HshUZi
+ 5744M39jfLtZQvSe3QV3UBHhc4ZP6RD/28eA0H8XD1lcVIHekhInDLtSvj5jVVewoi
+ 1xkMVvPzd8Ktg==
+Date: Sun, 29 Sep 2024 09:58:24 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: Kees Cook <kees@kernel.org>
+Cc: Yafang Shao <laoar.shao@gmail.com>, akpm@linux-foundation.org, 
+ torvalds@linux-foundation.org, justinstitt@google.com, ebiederm@xmission.com, 
+ alexei.starovoitov@gmail.com, rostedt@goodmis.org, catalin.marinas@arm.com, 
+ penguin-kernel@i-love.sakura.ne.jp, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, 
+ linux-trace-kernel@vger.kernel.org, audit@vger.kernel.org,
+ linux-security-module@vger.kernel.org, 
+ selinux@vger.kernel.org, bpf@vger.kernel.org, netdev@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, Andy Shevchenko <andy.shevchenko@gmail.com>, 
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Subject: Re: [PATCH v7 5/8] mm/util: Fix possible race condition in kstrdup()
+Message-ID: <xzhijtnrz57jxrqoumamxfs3vl7nrsu5qamcjcm4mgtdhruy5r@4az7dbngmfdn>
+References: <20240817025624.13157-1-laoar.shao@gmail.com>
+ <20240817025624.13157-6-laoar.shao@gmail.com>
+ <w6fx3gozq73slfpge4xucpezffrdioauzvoscdw2is5xf7viea@a4doumg264s4>
+ <202409281414.487BFDAB@keescook>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="sc2ag33lzzfktmx5"
+Content-Disposition: inline
+In-Reply-To: <202409281414.487BFDAB@keescook>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,105 +69,144 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This reverts commit fd69ef05029f9beb7b031ef96e7a36970806a670.
 
-The original patch causes NULL pointer references:
+--sc2ag33lzzfktmx5
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: Kees Cook <kees@kernel.org>
+Cc: Yafang Shao <laoar.shao@gmail.com>, akpm@linux-foundation.org, 
+	torvalds@linux-foundation.org, justinstitt@google.com, ebiederm@xmission.com, 
+	alexei.starovoitov@gmail.com, rostedt@goodmis.org, catalin.marinas@arm.com, 
+	penguin-kernel@i-love.sakura.ne.jp, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, audit@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	selinux@vger.kernel.org, bpf@vger.kernel.org, netdev@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, Andy Shevchenko <andy.shevchenko@gmail.com>, 
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>
+Subject: Re: [PATCH v7 5/8] mm/util: Fix possible race condition in kstrdup()
+References: <20240817025624.13157-1-laoar.shao@gmail.com>
+ <20240817025624.13157-6-laoar.shao@gmail.com>
+ <w6fx3gozq73slfpge4xucpezffrdioauzvoscdw2is5xf7viea@a4doumg264s4>
+ <202409281414.487BFDAB@keescook>
+MIME-Version: 1.0
+In-Reply-To: <202409281414.487BFDAB@keescook>
 
-[   21.620856] CPU 3 Unable to handle kernel paging request at virtual address 0000000000000000, era == 9000000004bf61d8, ra == 9000000004bf61d4
-[   21.717958] Oops[#1]:
-[   21.803205] CPU: 3 UID: 0 PID: 706 Comm: Xorg Not tainted 6.11.0+ #1708
-[   21.894451] Hardware name: Loongson Loongson-3A5000-7A1000-1w-CRB/Loongson-LS3A5000-7A1000-1w-CRB, BIOS vUDK2018-LoongArch-V2.0.0-prebeta9 10/21/2022
-[   21.996576] pc 9000000004bf61d8 ra 9000000004bf61d4 tp 9000000110560000 sp 9000000110563d40
-[   22.094731] a0 000000000000002d a1 9000000000580788 a2 9000000000584d78 a3 9000000005678f40
-[   22.193513] a4 9000000005678f38 a5 9000000110563b70 a6 0000000000000001 a7 0000000000000001
-[   22.291993] t0 0000000000000000 t1 78315f0d31fceafb t2 0000000000000000 t3 00000000000003c4
-[   22.389868] t4 9000000101d65840 t5 0000000000000003 t6 0000000000000003 t7 ffffffffffffffff
-[   22.488326] t8 0000000000000001 u0 9000000120c31e20 s9 9000000110563ec0 s0 90000001107e0868
-[   22.587345] s1 ffff80000230c000 s2 9000000120c31e48 s3 9000000120c31e00 s4 90000001063b0000
-[   22.685908] s5 9000000120c31e20 s6 0000000000000122 s7 0000000000000100 s8 000055555c079570
-[   22.785169]    ra: 9000000004bf61d4 drm_gem_object_free+0x24/0x70
-[   22.881896]   ERA: 9000000004bf61d8 drm_gem_object_free+0x28/0x70
-[   22.978212]  CRMD: 000000b0 (PLV0 -IE -DA +PG DACF=CC DACM=CC -WE)
-[   23.076423]  PRMD: 00000004 (PPLV0 +PIE -PWE)
-[   23.153679] [drm] amdgpu kernel modesetting enabled.
-[   23.173074]  EUEN: 00000000 (-FPE -SXE -ASXE -BTE)
-[   23.365633]  ECFG: 00071c1d (LIE=0,2-4,10-12 VS=7)
-[   23.459680] ESTAT: 00010000 [PIL] (IS= ECode=1 EsubCode=0)
-[   23.554473]  BADV: 0000000000000000
-[   23.646222]  PRID: 0014c010 (Loongson-64bit, Loongson-3A5000)
-[   23.740356] Modules linked in: amdgpu rfkill nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib nft_reject_inet nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_ct drm_exec amdxcps
-[   23.973584] Process Xorg (pid: 706, threadinfo=000000005fc343eb, task=000000007bdfdf49)
-[   24.080528] Stack : 9000000120d86000 ffff8000021bb1c0 0000000000000000 ffff8000022a6bcc
-[   24.188191]         0000000000000122 9000000120c31d08 900000010e04a400 9000000120c31e00
-[   24.295420]         90000001063b0008 9000000120c31c00 90000001063b0000 ffff80000219c54c
-[   24.402622]         00000000000000b4 90000001063b0170 90000001063b0008 9000000120c31c00
-[   24.509242]         9000000120c31ce0 90000000043966f8 000055555c0922c0 000055555c082ac0
-[   24.615887]         000055555597b000 0000000000000000 90000001034af840 90000001063f7928
-[   24.723086]         90000001063b00d0 9000000120c31c00 90000001063b0008 9000000004396844
-[   24.830582]         90000001017901a0 90000001017901a0 900000010e7e6718 00000000000a001b
-[   24.937455]         90000001228b86c0 9000000003ad5904 000055555c082da0 0000000000000000
-[   25.043806]         000055555c082ac0 90000001228b86c0 0000000000000000 9000000003acfb58
-[   25.149701]         ...
-[   25.248708] Call Trace:
-[   25.248710] [<9000000004bf61d8>] drm_gem_object_free+0x28/0x70
-[   25.447554] [<ffff8000021bb1bc>] radeon_bo_unref+0x3c/0x60 [radeon]
-[   25.549201] [<ffff8000022a6bc8>] radeon_vm_fini+0x188/0x2c0 [radeon]
-[   25.650751] [<ffff80000219c548>] radeon_driver_postclose_kms+0x188/0x1e0 [radeon]
-[   25.753856] [<90000000043966f4>] drm_file_free+0x214/0x2a0
-[   25.854893] [<9000000004396840>] drm_release+0xc0/0x160
-[   25.954337] [<9000000003ad5900>] __fput+0x100/0x340
-[   26.052437] [<9000000003acfb54>] sys_close+0x34/0xa0
-[   26.148701] [<9000000004c04170>] do_syscall+0xb0/0x160
+[CC +=3D Andy, Gustavo]
 
-The root cause is obj->funcs is NULL in drm_gem_object_free(). Only
-fbdev bo is created by radeon_gem_object_create() and has valid 'funcs'.
+On Sat, Sep 28, 2024 at 02:17:30PM GMT, Kees Cook wrote:
+> > > diff --git a/mm/util.c b/mm/util.c
+> > > index 983baf2bd675..4542d8a800d9 100644
+> > > --- a/mm/util.c
+> > > +++ b/mm/util.c
+> > > @@ -62,8 +62,14 @@ char *kstrdup(const char *s, gfp_t gfp)
+> > > =20
+> > >  	len =3D strlen(s) + 1;
+> > >  	buf =3D kmalloc_track_caller(len, gfp);
+> > > -	if (buf)
+> > > +	if (buf) {
+> > >  		memcpy(buf, s, len);
+> > > +		/* During memcpy(), the string might be updated to a new value,
+> > > +		 * which could be longer than the string when strlen() is
+> > > +		 * called. Therefore, we need to add a null termimator.
+> > > +		 */
+> > > +		buf[len - 1] =3D '\0';
+> > > +	}
+> >=20
+> > I would compact the above to:
+> >=20
+> > 	len =3D strlen(s);
+> > 	buf =3D kmalloc_track_caller(len + 1, gfp);
+> > 	if (buf)
+> > 		strcpy(mempcpy(buf, s, len), "");
+> >=20
+> > It allows _FORTIFY_SOURCE to track the copy of the NUL, and also uses
+> > less screen.  It also has less moving parts.  (You'd need to write a
+> > mempcpy() for the kernel, but that's as easy as the following:)
+> >=20
+> > 	#define mempcpy(d, s, n)  (memcpy(d, s, n) + n)
+> >=20
+> > In shadow utils, I did a global replacement of all buf[...] =3D '\0'; by
+> > strcpy(..., "");.  It ends up being optimized by the compiler to the
+> > same code (at least in the experiments I did).
+>=20
+> Just to repeat what's already been said: no, please, don't complicate
+> this with yet more wrappers. And I really don't want to add more str/mem
+> variants -- we're working really hard to _remove_ them. :P
 
-Maybe there is a better way to fix this bug, but since amdgpu driver
-also use ttm helpers in amdgpu_bo_ref()/amdgpu_bo_unref() now, I think
-it is also reasonable to just revert the original commit.
----
- drivers/gpu/drm/radeon/radeon_gem.c    | 2 +-
- drivers/gpu/drm/radeon/radeon_object.c | 7 +++++--
- 2 files changed, 6 insertions(+), 3 deletions(-)
+Hi Kees,
 
-diff --git a/drivers/gpu/drm/radeon/radeon_gem.c b/drivers/gpu/drm/radeon/radeon_gem.c
-index 9735f4968b86..210e8d43bb23 100644
---- a/drivers/gpu/drm/radeon/radeon_gem.c
-+++ b/drivers/gpu/drm/radeon/radeon_gem.c
-@@ -88,7 +88,7 @@ static void radeon_gem_object_free(struct drm_gem_object *gobj)
- 
- 	if (robj) {
- 		radeon_mn_unregister(robj);
--		ttm_bo_put(&robj->tbo);
-+		radeon_bo_unref(&robj);
- 	}
- }
- 
-diff --git a/drivers/gpu/drm/radeon/radeon_object.c b/drivers/gpu/drm/radeon/radeon_object.c
-index d0e4b43d155c..450ff7daa46c 100644
---- a/drivers/gpu/drm/radeon/radeon_object.c
-+++ b/drivers/gpu/drm/radeon/radeon_object.c
-@@ -256,15 +256,18 @@ struct radeon_bo *radeon_bo_ref(struct radeon_bo *bo)
- 	if (bo == NULL)
- 		return NULL;
- 
--	drm_gem_object_get(&bo->tbo.base);
-+	ttm_bo_get(&bo->tbo);
- 	return bo;
- }
- 
- void radeon_bo_unref(struct radeon_bo **bo)
- {
-+	struct ttm_buffer_object *tbo;
-+
- 	if ((*bo) == NULL)
- 		return;
--	drm_gem_object_put(&(*bo)->tbo.base);
-+	tbo = &((*bo)->tbo);
-+	ttm_bo_put(tbo);
- 	*bo = NULL;
- }
- 
--- 
-2.43.5
+I assume by "[no] more str/mem variants" you're referring to mempcpy(3).
 
+mempcpy(3) is a libc function available in several systems (at least
+glibc, musl, FreeBSD, and NetBSD).  It's not in POSIX nor in OpenBSD,
+but it's relatively widely available.  Availability is probably
+pointless to the kernel, but I mention it because it's not something
+random I came up with, but rather something that several projects have
+found useful.  I find it quite useful to copy the non-zero part of a
+string.  See string_copying(7).
+<https://www.man7.org/linux/man-pages/man7/string_copying.7.html>
+
+Regarding "we're working really hard to remove them [mem/str wrappers]",
+I think it's more like removing those that are prone to misuse, not just
+blinly reducing the amount of wrappers.  Some of them are really useful.
+
+I've done a randomized search of kernel code, and found several places
+where mempcpy(3) would be useful for simplifying code:
+
+=2E/drivers/staging/rtl8723bs/core/rtw_ap.c:		memcpy(pwps_ie, pwps_ie_src, =
+wps_ielen + 2);
+=2E/drivers/staging/rtl8723bs/core/rtw_ap.c-		pwps_ie +=3D (wps_ielen+2);
+
+equivalent to:
+
+	pwps_ie =3D mempcpy(pwps_ie, pwps_ie_src, wps_ielen + 2);
+
+=2E/drivers/staging/rtl8723bs/core/rtw_ap.c:		memcpy(supportRate + supportR=
+ateNum, p + 2, ie_len);
+=2E/drivers/staging/rtl8723bs/core/rtw_ap.c-		supportRateNum +=3D ie_len;
+
+equivalent to:
+
+	supportRateNum =3D mempcpy(supportRate + supportRateNum, p + 2, ie_len);
+
+=2E/drivers/staging/rtl8723bs/core/rtw_ap.c:		memcpy(dst_ie, &tim_bitmap_le=
+, 2);
+=2E/drivers/staging/rtl8723bs/core/rtw_ap.c-		dst_ie +=3D 2;
+
+equivalent to:
+
+	dst_ie =3D mempcpy(dst_ie, &tim_bitmap_le, 2);
+
+
+And there are many cases like this.  Using mempcpy(3) would make this
+pattern less repetitive.
+
+
+Have a lovely day!
+Alex
+
+--=20
+<https://www.alejandro-colomar.es/>
+
+--sc2ag33lzzfktmx5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmb5CJoACgkQnowa+77/
+2zLfmw/9FsLN/M7ZkpM7L+8hpOThHHZDCRD40jrK8GQ9Ao1lmIKMASXMncuGw7Qn
+BoGLg+9glMCF47rsNtrqU5iSAoXuXOhIbi6iJUxF6WbK/Y0h4un0vjBoBZuoINnP
+fnGIPzVp2pNx70EaOw1Af3zUpXpbdzJYFpI++i7OJ4dnH8uQ5sbZMs2HioBKiWRT
+arfK0OD+HhJHE7GRtZMMCPeq1JvaELpBPp2exwe6j29Js6cD0EX4T9cLf7zTzU2n
+4enMj6OY04Hq78bmLv2Ej13DHYSrQCQdcbYu5auFN/dF3oq5AuB8XAk6L/gnuXdH
+bxIsS3yRvZL3JRYRU/n9RJzzAlrUX7wFo1/EVQFQvw/tbhmizOL3UM4IW8AXTxX+
+b4UuHBu+U3bGx1xCREqqWdq0Kl7CaGR2y8HipW5BXRa+58CaqZd3KPiyCvxsFxkN
+mMHgXRagtAo/RAjPapyBy++yBNFAy1QiXs4C+WOyONP3x+AA0e+tZiNvZOgFSrHC
+82An0a78d7f+1EXhpuE8X+LpVqwR7EFQVnPG1ox9B3B4380hphULOEa9HqstIvvt
+WGCtOL6T/Jb7SVoYesDuu26eQFoiK4JmDJht/K/z7NEhJsop3qzKnEnKl81GeX4K
+sNCQWo2X1SFnUZcxvQKNzGVMsOlNdjjTO4pOoSEFgurln1kI+BY=
+=4tYC
+-----END PGP SIGNATURE-----
+
+--sc2ag33lzzfktmx5--
