@@ -2,78 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0D1698A4CE
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2024 15:26:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CABF98A4DA
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2024 15:27:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 432E610E4B5;
-	Mon, 30 Sep 2024 13:26:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00BF210E4B9;
+	Mon, 30 Sep 2024 13:27:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="UMKb9bj0";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dxUF1aX9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E899C10E4AD
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2024 13:26:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1727702771;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=iU6oHSTtkrHoG6AEjnDSNeGcEonnUQr+lho5LZwZCqk=;
- b=UMKb9bj0nG6LoZuxMPNa9E13DkZFo01rWYxB8kWGqTJxeNpXbmfLG8AusASUzz1u/EHx7w
- Kcv1JDOFlqf7199QAiDVfeSXUhGsRZdUIT6blhTRwAWP+8JQymWW6RxnqsrkC1P7oRB9El
- qtn0YmLs4ywgsM9E3WYJit5KrubXdsQ=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-664-kEibeW0BNsGg9MDN5Dm-oA-1; Mon, 30 Sep 2024 09:26:09 -0400
-X-MC-Unique: kEibeW0BNsGg9MDN5Dm-oA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-37cc9b5e533so1670593f8f.3
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2024 06:26:08 -0700 (PDT)
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
+ [209.85.216.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA84010E4CA
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2024 13:27:11 +0000 (UTC)
+Received: by mail-pj1-f42.google.com with SMTP id
+ 98e67ed59e1d1-2e084dc44bcso733043a91.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2024 06:27:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1727702831; x=1728307631; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=TIo2EVmaU3JV8w7AaTi/2KQOMC+Cl9QGe3PeB8CxDUM=;
+ b=dxUF1aX9nj4YBE2UqyQvL0cyMmbBCw9D6TkWqIFKG8fyqKRAW4dUTYuwlnXk5nIr7G
+ rIv2L0ggkxrjoT2qQ3FvwszgqhcyYVYdd1ctkYqtHYwtxjKiSvuaxCVXjBkNOBsD3/MJ
+ slW1SLbpurEwt8LAFj8HxMDol+inbZXm2XoOkWA6snhS6YWATiLAKC4O6znAzMWsNzeb
+ Indpx+gK4o7x0f+BOlqqz1XlkbqbUjsvCLPRXDmlFvXceNOPwHnFxlz1WCAsUG8J/ql+
+ 0WVmnwkSsJ7TxQalWcrz8MApGZXrT3mkWWaQSifKYrtyOSuANw1E2dB3KNbD2sTrfNeH
+ gZVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727702767; x=1728307567;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=iU6oHSTtkrHoG6AEjnDSNeGcEonnUQr+lho5LZwZCqk=;
- b=D914lbPh3hNs7y3j03sGwwCHeiiIwObtMPEMsBAJFzfX2KRBkAXewDNQiA8onvxS1Y
- 4RAkHz4nDHp/7jJmHBann9/X+eRB3oabdhSof7+13UlnUAmyXHCKqLoBqEK5ESLNWlD5
- nqRmTCc87JpzJLty/HB67I0mkkNKnVD8uusOI6rcXeFamr7JZQ2dT+beURUCi9yhQtNh
- R1jmxHq7Sd6CFhCjtiAjJwjUHJpbRUGlHylYBY3NlsKcR1loS8gBcwAFaf38tkCFrKUi
- CYySnWUf29CRMYaRu40jgEDYxIQSPHCHLDqtYsuhXChhhYi/HmxMgUygymnQu+iuGmXd
- A9gQ==
-X-Gm-Message-State: AOJu0YyOwyYJo4qDbQpbJNzfvt57GQ+98QVlzzq3Sw4Jru3+uNCdKULY
- p+rnDJIn9PAuMCcQiVmtwpHX7h5LwSYb6AAQSd+zpfLfodamfGE3rOYl8rnIvqa5Mg6lLBbD80H
- zyx/Eg16ZlDezFwJ4lxx8yq5SwNMbvYd/8J3GBvHTwhaybn1YIm4ACFN5CmDev4qMvA==
-X-Received: by 2002:a5d:5548:0:b0:37c:cfbb:d356 with SMTP id
- ffacd0b85a97d-37cd5aebe7bmr5906738f8f.28.1727702767555; 
- Mon, 30 Sep 2024 06:26:07 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGC2V0F7vlRZz80HkueMTZBFg2rvllHK+Q0YOx0BGeDwQemdMjl0P56KLvckcpsgdHBb03bCA==
-X-Received: by 2002:a5d:5548:0:b0:37c:cfbb:d356 with SMTP id
- ffacd0b85a97d-37cd5aebe7bmr5906722f8f.28.1727702767137; 
- Mon, 30 Sep 2024 06:26:07 -0700 (PDT)
-Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-42f57dec19bsm104420285e9.26.2024.09.30.06.26.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Sep 2024 06:26:06 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@gmail.com,
- simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, Thomas
- Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 00/28] drm: Remove DRM aperture helpers
-In-Reply-To: <20240930130921.689876-1-tzimmermann@suse.de>
-References: <20240930130921.689876-1-tzimmermann@suse.de>
-Date: Mon, 30 Sep 2024 15:26:05 +0200
-Message-ID: <87ed518e8i.fsf@minerva.mail-host-address-is-not-set>
+ d=1e100.net; s=20230601; t=1727702831; x=1728307631;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=TIo2EVmaU3JV8w7AaTi/2KQOMC+Cl9QGe3PeB8CxDUM=;
+ b=vGZlIxdjaHo8p5c1z7JsxqYnC+AfDNze1VEpJNbtT169w3ozuPXQZdJ43ZROp85UMo
+ AAtD9wbmlgJBqj/5on81IF3kRYBoSn88z16U3o4u2Bii2gBonnaGEa8sF3smdaulkXQr
+ YF8sXXJwZ/x8GdzEC7Swmid3FseDOeV2GYNcRnTnQLsV2AVgZtsmNGAVi5dxAe/ZOtK1
+ Z2hqtGC/0+TsFrV3GZqPDX7jykBYAfGj0nTxAy70QNDFliSAdVW3r9PCK/9ITp/kwdC8
+ SwcKGFNuD9zZfChdV56lwRdd8xmtg3YSgjJ8iWaEXWGGkKYDeri6rZnHzabhrkKlN95B
+ XfVw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW+iVhCWPU3JUZohj34pAJ1k9gPXwRd5Qe2BGaWyXAdQ4EdSOf7TuOZX0wF5Y276UwLbk89rrhLM5o=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy1bleJ+wCyJpV5LEn6/fpg/lwtsTS3CNofHGbQkBcdFLulpG2b
+ /IZ7y6FmdFU5hI9XEQ6bH2BM7HQyluedvo38fbks0XnEc9EU8HIbbrLQqn2U862LXO6vc9RTlcF
+ zaNJyla9QFXckY6KGaQH6xZeSokw=
+X-Google-Smtp-Source: AGHT+IETAvZExG+ZPhYX1kIVzzMlQnafA3k2Y/saw7HytqtbGnbbr73zHZVCDZ5DCA3CFTqgB0AkONsC72G4WnUZmrg=
+X-Received: by 2002:a17:90b:1d0d:b0:2e0:8305:5c53 with SMTP id
+ 98e67ed59e1d1-2e0e70dc9f9mr4338072a91.7.1727702831302; Mon, 30 Sep 2024
+ 06:27:11 -0700 (PDT)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+References: <14b64e90-2e3b-4bee-a8c9-2f8d6eed5d68@csgroup.eu>
+ <37D93804-DC55-4B2D-A82F-85BD45D9E131@xenosoft.de>
+In-Reply-To: <37D93804-DC55-4B2D-A82F-85BD45D9E131@xenosoft.de>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 30 Sep 2024 09:26:59 -0400
+Message-ID: <CADnq5_PB8zUfCN-NcNpgHqzAv8A55o2hsYHAdnSBhEy525NLfA@mail.gmail.com>
+Subject: Re: FSL P5040 board doesn't boot after DRM updates
+ (drm-next-2024-09-19)
+To: Christian Zigotzky <chzigotzky@xenosoft.de>,
+ Wu Hoi Pok <wuhoipok@gmail.com>
+Cc: Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Alex Deucher <alexander.deucher@amd.com>, 
+ developers DRI <dri-devel@lists.freedesktop.org>,
+ mad skateman <madskateman@gmail.com>, 
+ "R.T.Dickinson" <rtd2@xtra.co.nz>, Darren Stevens <darren@stevens-zone.net>,
+ hypexed@yahoo.com.au, linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+ Christian Zigotzky <info@xenosoft.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,31 +87,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
++ Wu Hoi Pok
 
-Hello Thomas,
+This is likely related to the drm device rework.
 
-> DRM's aperture helpers are merely wrappers around the respective
-> helpers in drivers/video/. The DRM interface existed first, but was
-> later generalized for use with fbdev and a few other graphics-related
-> places in the kernel. It is time to remove the DRM wrappers and call
-> the video helpers directly.
+Alex
+
+On Sun, Sep 29, 2024 at 11:33=E2=80=AFAM Christian Zigotzky
+<chzigotzky@xenosoft.de> wrote:
 >
-> No functional changes intended. This series should replace one interface
-> with another. Individual patches could go into the various trees and the
-> DRM wrappers can be removed when all driver changes have been merged.
+> Hello,
 >
-
-Thanks for doing this cleanup. Makes a lot of sense for me to drop it.
-
-For the whole series:
-
-Acked-by: Javier Martinez Canillas <javierm@redhat.com>
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+> I tested the latest Git kernel with my VAPOR-X Radeon HD5870 1GB GDDR5 PC=
+I-E DUAL DVI-I/HDMI/DP on my PASEMI Nemo board today.
+> Unfortunately it has the same issue like my FSL P5040 board.
+>
+> I think it depends on which graphics card is used.
+>
+> It could be, that FSL P5020 boards are also affected.
+>
+> dmesg (via null modem RS-232 serial cable): https://www.xenosoft.de/PuTTY=
+_P5040_U-Boot.log
+>
+> Please check the drm-next-2024-09-19 updates: https://git.kernel.org/pub/=
+scm/linux/kernel/git/torvalds/linux.git/commit/?id=3Dde848da12f752170c2ebe1=
+14804a985314fd5a6a
+>
+> Thanks,
+> Christian
