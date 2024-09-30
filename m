@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F91698AD82
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2024 21:54:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD94B98AD7A
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2024 21:54:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA0DC10E595;
-	Mon, 30 Sep 2024 19:54:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84CAA10E58E;
+	Mon, 30 Sep 2024 19:54:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZfXZo/3W";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dLJhNfPT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7ABDB10E582
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2024 19:54:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA0D310E582
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2024 19:54:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1727726045; x=1759262045;
+ t=1727726046; x=1759262046;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=UBRUfi1q0QBc4LhPf9C1HnEozrIZOLZUxbL3mkzAZqc=;
- b=ZfXZo/3WzLUR+WwCNDn3swwmChiyIbr7GN+01ai099zR1NYxc9FyaT31
- rkCpAPS/7VkXQWtbZ8dsRIy+CZI+sAEYuN0nEx9JOnzMPALSGMBMGNzx7
- H7fwUpEZ9WFpY7lO95cn1IOEjVjhfS7nouZ+toDRreb2IDh2y4KSJ1GOF
- bBNxpKL5CHII5hqU4soRn9BwK4kg2KMem1UGBNFvfclOn83ZExYvJMK1b
- ZSKQSEf7w7ShfjbEsTI4Q7ytk5RNNDoD+MALQFh+bmm5PDEMuKl0ltZpS
- 62rwR3KQErjG2p6kGbALZB3mMuWtoat/wyHlqQ1SRLFSn6GfgtqAsUD7i A==;
-X-CSE-ConnectionGUID: ISYmmM8TTmyBYoJKEMk9wA==
-X-CSE-MsgGUID: +JxGhEWCRpmKoMcshixiVQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11211"; a="26962374"
-X-IronPort-AV: E=Sophos;i="6.11,166,1725346800"; d="scan'208";a="26962374"
+ bh=xs7q6rEvnbcbMeeaUSlO9zXSEJo7w+EXsVdD5ofN4TY=;
+ b=dLJhNfPTNry64+h+u6dAqKbfbOWyLlsrGuQ2OqMw32cRRuETm3r48ZZu
+ SZY1E+C21dgjKD2OfTeJKkoiplHDAG95VlKkaGC9WuA+fzF1jH+85obKc
+ Q4oOFEZPLF9NzRU13XFD9B3kBbpqV9rhTNi4v1UjGb9l2/pc6TeB/5dqI
+ u8XbIAfjgZlQfuZGJJLGZSA5RWMOfe1QYWiGWIoclGQY4ZdSsfTvVKv0G
+ hByiIVtbvU8McxgQeuoebaNShAiA1Z/TyX7q87JUpfXHRl60SBbVCyDrP
+ N0HfczmxM4bN/Z7j5XD7ykOEuo2MSyiLV6/fhTmVOEgh+/Wi6ukeB0Zo2 g==;
+X-CSE-ConnectionGUID: He1QwpP7Toa0rsiy3gGD/Q==
+X-CSE-MsgGUID: pAfygPtFR+SXIccm2sF/aA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11211"; a="26962377"
+X-IronPort-AV: E=Sophos;i="6.11,166,1725346800"; d="scan'208";a="26962377"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Sep 2024 12:54:04 -0700
-X-CSE-ConnectionGUID: Al0QKB9jTqWNq/e8P7n6/Q==
-X-CSE-MsgGUID: UcLTKEKPSHm6nnFYuyxWyA==
+ 30 Sep 2024 12:54:06 -0700
+X-CSE-ConnectionGUID: jP1SmKowSgGGN9lGd+Qr5A==
+X-CSE-MsgGUID: Ox0P5W//Rqy4tP8LB3u06A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,166,1725346800"; d="scan'208";a="73370229"
+X-IronPort-AV: E=Sophos;i="6.11,166,1725346800"; d="scan'208";a="73370235"
 Received: from jlawryno.igk.intel.com ([10.91.220.59])
  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Sep 2024 12:54:03 -0700
+ 30 Sep 2024 12:54:04 -0700
 From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com,
  Karol Wachowski <karol.wachowski@intel.com>,
  Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Subject: [PATCH v2 25/31] accel/ivpu: Do not fail on cmdq if failed to
- allocate preemption buffers
-Date: Mon, 30 Sep 2024 21:53:16 +0200
-Message-ID: <20240930195322.461209-26-jacek.lawrynowicz@linux.intel.com>
+Subject: [PATCH v2 26/31] accel/ivpu: Use whole user and shave ranges for
+ preemption buffers
+Date: Mon, 30 Sep 2024 21:53:17 +0200
+Message-ID: <20240930195322.461209-27-jacek.lawrynowicz@linux.intel.com>
 X-Mailer: git-send-email 2.45.1
 In-Reply-To: <20240930195322.461209-1-jacek.lawrynowicz@linux.intel.com>
 References: <20240930195322.461209-1-jacek.lawrynowicz@linux.intel.com>
@@ -72,80 +72,52 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Karol Wachowski <karol.wachowski@intel.com>
 
-Allow to proceed with job command queue creation even if preemption
-buffers failed to be allocated, print warning that preemption on such
-command queue will be disabled.
+Do not restrict range for preemption buffers allocation just to the end
+of user and shave ranges, use them whole instead to avoid situation
+where end of range might be already allocated causing preemption buffers
+allocation to fail.
 
 Signed-off-by: Karol Wachowski <karol.wachowski@intel.com>
 Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 ---
- drivers/accel/ivpu/ivpu_job.c | 27 ++++++++++++++++-----------
- 1 file changed, 16 insertions(+), 11 deletions(-)
+ drivers/accel/ivpu/ivpu_job.c | 13 ++++---------
+ 1 file changed, 4 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/accel/ivpu/ivpu_job.c b/drivers/accel/ivpu/ivpu_job.c
-index dc5cf7ded9439..48272bc853e0c 100644
+index 48272bc853e0c..cd41b87715056 100644
 --- a/drivers/accel/ivpu/ivpu_job.c
 +++ b/drivers/accel/ivpu/ivpu_job.c
-@@ -60,6 +60,7 @@ static int ivpu_preemption_buffers_create(struct ivpu_device *vdev,
+@@ -33,24 +33,19 @@ static int ivpu_preemption_buffers_create(struct ivpu_device *vdev,
+ {
+ 	u64 primary_size = ALIGN(vdev->fw->primary_preempt_buf_size, PAGE_SIZE);
+ 	u64 secondary_size = ALIGN(vdev->fw->secondary_preempt_buf_size, PAGE_SIZE);
+-	struct ivpu_addr_range range;
  
- err_free_primary:
- 	ivpu_bo_free(cmdq->primary_preempt_buf);
-+	cmdq->primary_preempt_buf = NULL;
- 	return -ENOMEM;
- }
- 
-@@ -69,10 +70,10 @@ static void ivpu_preemption_buffers_free(struct ivpu_device *vdev,
  	if (vdev->fw->sched_mode != VPU_SCHEDULING_MODE_HW)
- 		return;
+ 		return 0;
  
--	drm_WARN_ON(&vdev->drm, !cmdq->primary_preempt_buf);
--	drm_WARN_ON(&vdev->drm, !cmdq->secondary_preempt_buf);
--	ivpu_bo_free(cmdq->primary_preempt_buf);
--	ivpu_bo_free(cmdq->secondary_preempt_buf);
-+	if (cmdq->primary_preempt_buf)
-+		ivpu_bo_free(cmdq->primary_preempt_buf);
-+	if (cmdq->secondary_preempt_buf)
-+		ivpu_bo_free(cmdq->secondary_preempt_buf);
- }
- 
- static int ivpu_id_alloc(struct xarray *xa, u32 *id, void *entry, struct xa_limit *limit,
-@@ -120,12 +121,10 @@ static struct ivpu_cmdq *ivpu_cmdq_alloc(struct ivpu_file_priv *file_priv)
- 
- 	ret = ivpu_preemption_buffers_create(vdev, file_priv, cmdq);
- 	if (ret)
--		goto err_free_cmdq_mem;
-+		ivpu_warn(vdev, "Failed to allocate preemption buffers, preemption limited\n");
- 
- 	return cmdq;
- 
--err_free_cmdq_mem:
--	ivpu_bo_free(cmdq->mem);
- err_erase_xa:
- 	xa_erase(&vdev->db_xa, cmdq->db_id);
- err_free_cmdq:
-@@ -388,10 +387,16 @@ static int ivpu_cmdq_push_job(struct ivpu_cmdq *cmdq, struct ivpu_job *job)
- 
- 	if (vdev->fw->sched_mode == VPU_SCHEDULING_MODE_HW &&
- 	    (unlikely(!(ivpu_test_mode & IVPU_TEST_MODE_PREEMPTION_DISABLE)))) {
--		entry->primary_preempt_buf_addr = cmdq->primary_preempt_buf->vpu_addr;
--		entry->primary_preempt_buf_size = ivpu_bo_size(cmdq->primary_preempt_buf);
--		entry->secondary_preempt_buf_addr = cmdq->secondary_preempt_buf->vpu_addr;
--		entry->secondary_preempt_buf_size = ivpu_bo_size(cmdq->secondary_preempt_buf);
-+		if (cmdq->primary_preempt_buf) {
-+			entry->primary_preempt_buf_addr = cmdq->primary_preempt_buf->vpu_addr;
-+			entry->primary_preempt_buf_size = ivpu_bo_size(cmdq->primary_preempt_buf);
-+		}
-+
-+		if (cmdq->secondary_preempt_buf) {
-+			entry->secondary_preempt_buf_addr = cmdq->secondary_preempt_buf->vpu_addr;
-+			entry->secondary_preempt_buf_size =
-+				ivpu_bo_size(cmdq->secondary_preempt_buf);
-+		}
+-	range.start = vdev->hw->ranges.user.end - (primary_size * IVPU_NUM_CMDQS_PER_CTX);
+-	range.end = vdev->hw->ranges.user.end;
+-	cmdq->primary_preempt_buf = ivpu_bo_create(vdev, &file_priv->ctx, &range, primary_size,
+-						   DRM_IVPU_BO_WC);
++	cmdq->primary_preempt_buf = ivpu_bo_create(vdev, &file_priv->ctx, &vdev->hw->ranges.user,
++						   primary_size, DRM_IVPU_BO_WC);
+ 	if (!cmdq->primary_preempt_buf) {
+ 		ivpu_err(vdev, "Failed to create primary preemption buffer\n");
+ 		return -ENOMEM;
  	}
  
- 	wmb(); /* Ensure that tail is updated after filling entry */
+-	range.start = vdev->hw->ranges.shave.end - (secondary_size * IVPU_NUM_CMDQS_PER_CTX);
+-	range.end = vdev->hw->ranges.shave.end;
+-	cmdq->secondary_preempt_buf = ivpu_bo_create(vdev, &file_priv->ctx, &range, secondary_size,
+-						     DRM_IVPU_BO_WC);
++	cmdq->secondary_preempt_buf = ivpu_bo_create(vdev, &file_priv->ctx, &vdev->hw->ranges.shave,
++						     secondary_size, DRM_IVPU_BO_WC);
+ 	if (!cmdq->secondary_preempt_buf) {
+ 		ivpu_err(vdev, "Failed to create secondary preemption buffer\n");
+ 		goto err_free_primary;
 -- 
 2.45.1
 
