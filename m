@@ -2,51 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E2EA98A9F8
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2024 18:37:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3F7198AAA1
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2024 19:06:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 554EA10E54C;
-	Mon, 30 Sep 2024 16:37:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61E6610E56B;
+	Mon, 30 Sep 2024 17:06:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="qrUkw/Ee";
+	dkim=pass (1024-bit key; unprotected) header.d=hugovil.com header.i=@hugovil.com header.b="GCdcUvOE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF02410E54C
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2024 16:37:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1727714264;
- bh=DGTEqWT59b4xewI8tbF2K62XtAnt9luFRH8leH+xhAY=;
- h=From:To:Cc:Subject:Date:From;
- b=qrUkw/EeNToGGqEunZuQjU/k84z8qn8RM+FfQvwDMpkcfLszalEv4BPJbUGIc7hD7
- NxV4XptFAcodG3oHlDnR/LXvCOrGuwciBVUE2BgRg49OlXcR2B71trdxPj8anMWzhT
- TF66BrlQcAMv1FMM8mPzIguDsN2oZUcY+AK3uOQ4LEUw1Jp3X2ZTF02ugP+V5GoQv8
- MzOlmOfv8Tlt/mQ3pKH4qoz8xLjU12xdxmg9IQr/PaeXo54sEq/Ul/bJ7dMFajaO3X
- AjSSese99l4ONUbKsZOUVtQzIAlgwSQlJndGnrtptXDvvyAUhSRzpcd5jdvuhsyfkH
- 740QKQrFdg7Jw==
-Received: from localhost.localdomain (unknown
- [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 3CB5C17E360D;
- Mon, 30 Sep 2024 18:37:44 +0200 (CEST)
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, Julia Lawall <julia.lawall@inria.fr>,
- kernel@collabora.com, stable@vger.kernel.org,
- kernel test robot <lkp@intel.com>
-Subject: [PATCH v2] drm/panthor: Fix access to uninitialized variable in
- tick_ctx_cleanup()
-Date: Mon, 30 Sep 2024 18:37:42 +0200
-Message-ID: <20240930163742.87036-1-boris.brezillon@collabora.com>
-X-Mailer: git-send-email 2.46.0
+Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6278C10E56B
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2024 17:06:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
+ ; s=x;
+ h=Subject:Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Cc:To
+ :From:subject:date:message-id:reply-to;
+ bh=UMnrG8ZjcGLecpo1O8GBztCjlOrIx408++7rYA1x43w=; b=GCdcUvOEP3uZQTKQdx8T3txvIf
+ MiZCxOMr/8tm/pnPXMG+VrVXIgZS/ABmJSfE3EW9Hdm64aTGn7okpP+WbAK2JS3VzCfoLYWU0L+4h
+ 4lVxut9nopH6Ak+DX9GPamfgAKXlxla6olsXhtm4ZX6RcS1h3Mor7dZj6bTw7ISHVI0Q=;
+Received: from modemcable168.174-80-70.mc.videotron.ca ([70.80.174.168]:40922
+ helo=pettiford.lan) by mail.hugovil.com with esmtpa (Exim 4.92)
+ (envelope-from <hugo@hugovil.com>)
+ id 1svJql-0000XQ-Vv; Mon, 30 Sep 2024 13:06:20 -0400
+From: Hugo Villeneuve <hugo@hugovil.com>
+To: Jagan Teki <jagan@edgeble.ai>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: hugo@hugovil.com, Hugo Villeneuve <hvilleneuve@dimonoff.com>,
+ stable@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Date: Mon, 30 Sep 2024 13:05:03 -0400
+Message-Id: <20240930170503.1324560-1-hugo@hugovil.com>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 70.80.174.168
+X-SA-Exim-Mail-From: hugo@hugovil.com
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.hugovil.com
+X-Spam-Level: 
+X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+X-Spam-Status: No, score=-1.0 required=5.0 tests=ALL_TRUSTED autolearn=ham
+ autolearn_force=no version=3.4.2
+Subject: [PATCH] drm: panel: jd9365da-h3: Remove unused num_init_cmds
+ structure member
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,50 +69,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The group variable can't be used to retrieve ptdev in our second loop,
-because it points to the previously iterated list_head, not a valid
-group. Get the ptdev object from the scheduler instead.
+From: Hugo Villeneuve <hvilleneuve@dimonoff.com>
 
+Now that the driver has been converted to use wrapped MIPI DCS functions,
+the num_init_cmds structure member is no longer needed, so remove it.
+
+Fixes: 35583e129995 ("drm/panel: panel-jadard-jd9365da-h3: use wrapped MIPI DCS functions")
 Cc: <stable@vger.kernel.org>
-Fixes: d72f049087d4 ("drm/panthor: Allow driver compilation")
-Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Julia Lawall <julia.lawall@inria.fr>
-Closes: https://lore.kernel.org/r/202409302306.UDikqa03-lkp@intel.com/
-Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+Signed-off-by: Hugo Villeneuve <hvilleneuve@dimonoff.com>
 ---
- drivers/gpu/drm/panthor/panthor_sched.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-index 201d5e7a921e..24ff91c084e4 100644
---- a/drivers/gpu/drm/panthor/panthor_sched.c
-+++ b/drivers/gpu/drm/panthor/panthor_sched.c
-@@ -2052,6 +2052,7 @@ static void
- tick_ctx_cleanup(struct panthor_scheduler *sched,
- 		 struct panthor_sched_tick_ctx *ctx)
- {
-+	struct panthor_device *ptdev = sched->ptdev;
- 	struct panthor_group *group, *tmp;
- 	u32 i;
- 
-@@ -2060,7 +2061,7 @@ tick_ctx_cleanup(struct panthor_scheduler *sched,
- 			/* If everything went fine, we should only have groups
- 			 * to be terminated in the old_groups lists.
- 			 */
--			drm_WARN_ON(&group->ptdev->base, !ctx->csg_upd_failed_mask &&
-+			drm_WARN_ON(&ptdev->base, !ctx->csg_upd_failed_mask &&
- 				    group_can_run(group));
- 
- 			if (!group_can_run(group)) {
-@@ -2083,7 +2084,7 @@ tick_ctx_cleanup(struct panthor_scheduler *sched,
- 		/* If everything went fine, the groups to schedule lists should
- 		 * be empty.
- 		 */
--		drm_WARN_ON(&group->ptdev->base,
-+		drm_WARN_ON(&ptdev->base,
- 			    !ctx->csg_upd_failed_mask && !list_empty(&ctx->groups[i]));
- 
- 		list_for_each_entry_safe(group, tmp, &ctx->groups[i], run_node) {
+diff --git a/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c b/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
+index 44897e5218a6..45d09e6fa667 100644
+--- a/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
++++ b/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
+@@ -26,7 +26,6 @@ struct jadard_panel_desc {
+ 	unsigned int lanes;
+ 	enum mipi_dsi_pixel_format format;
+ 	int (*init)(struct jadard *jadard);
+-	u32 num_init_cmds;
+ 	bool lp11_before_reset;
+ 	bool reset_before_power_off_vcioo;
+ 	unsigned int vcioo_to_lp11_delay_ms;
+
+base-commit: 9852d85ec9d492ebef56dc5f229416c925758edc
 -- 
-2.46.0
+2.39.5
 
