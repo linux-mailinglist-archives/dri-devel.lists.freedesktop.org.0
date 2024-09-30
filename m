@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 563BA98B0E4
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2024 01:38:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7374798B0E6
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2024 01:38:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C58E310E302;
-	Mon, 30 Sep 2024 23:38:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD44310E305;
+	Mon, 30 Sep 2024 23:38:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="MNnujE+H";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="I7evTY6Q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01B4E10E302
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2024 23:38:02 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4169410E46F
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2024 23:38:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1727739482;
+ s=mimecast20190719; t=1727739491;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=I+9wfJ/uruhUx/dSaxcJTr6CZ1x1jlWlTi1id3rLICQ=;
- b=MNnujE+H6a2XukpVtNQAxcSBRBAgBHeTtb3xlt5xR3MhnipakRU74WgqrPGkDqUwN4Zeii
- T46RjFm6/mBYdfbo8G1q8GkGKF8ya4f9p+qruvypU/OHN08iEriUk5udo8eJRjH/HLE3+f
- QqtMW9sjuAuB6XlAgbIIVQdtXOwQZOU=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ bh=010Ls1W8y6QITg3CHwheGXq/I8nr5NOipHNCDl02V5w=;
+ b=I7evTY6QybCXpwGkYt0WOZWJyYO+h/lx1Qjj6SzLkBs8bd6qWC4YTV5sDEOKYjfYtQDspi
+ 6tlVfWJXCgf5jvIC/P6+w/GQAB7RHJy+CsJrS/A3lIoYS/R8k044obtJFrV6WiiXxepPkm
+ l33uLtcYYbRwL6jrag/LUmSROwW6CEE=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-608-8oUkX7nGM3ewj14vrOCuNA-1; Mon,
- 30 Sep 2024 19:37:58 -0400
-X-MC-Unique: 8oUkX7nGM3ewj14vrOCuNA-1
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-345-ychX1yp_NsSGqMKAUBcSag-1; Mon,
+ 30 Sep 2024 19:38:07 -0400
+X-MC-Unique: ychX1yp_NsSGqMKAUBcSag-1
 Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (unknown
  [10.30.177.4])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 2282B193EB0E; Mon, 30 Sep 2024 23:37:56 +0000 (UTC)
+ by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 890E5196A119; Mon, 30 Sep 2024 23:38:05 +0000 (UTC)
 Received: from chopper.redhat.com (unknown [10.22.32.36])
  by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 6FE5E3003FD1; Mon, 30 Sep 2024 23:37:52 +0000 (UTC)
+ id B05E53003DEC; Mon, 30 Sep 2024 23:38:01 +0000 (UTC)
 From: Lyude Paul <lyude@redhat.com>
 To: dri-devel@lists.freedesktop.org,
 	rust-for-linux@vger.kernel.org
@@ -56,9 +56,9 @@ Cc: Asahi Lina <lina@asahilina.net>, Danilo Krummrich <dakr@kernel.org>,
  Andreas Hindborg <a.hindborg@samsung.com>,
  Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
  linux-kernel@vger.kernel.org (open list)
-Subject: [WIP RFC v2 05/35] rust: drm/kms: Add bindings for drm_connector
-Date: Mon, 30 Sep 2024 19:09:48 -0400
-Message-ID: <20240930233257.1189730-6-lyude@redhat.com>
+Subject: [WIP RFC v2 06/35] rust: drm/kms: Add drm_plane bindings
+Date: Mon, 30 Sep 2024 19:09:49 -0400
+Message-ID: <20240930233257.1189730-7-lyude@redhat.com>
 In-Reply-To: <20240930233257.1189730-1-lyude@redhat.com>
 References: <20240930233257.1189730-1-lyude@redhat.com>
 MIME-Version: 1.0
@@ -79,229 +79,145 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We start off by introducing wrappers for the first important type of mode
-object: a DRM display connector. This introduces Connector<T:
-DriverConnector> and ConnectorState<T: DriverConnectorState>. Both
-DriverConnector and DriverConnectorState must be implemented by KMS
-drivers, and a driver may have as many implementations of these two traits
-as it needs. This also introduces the general data pattern we'll be using
-for all of the core mode objects that can be used in atomic commits.
+The next step is adding a set of basic bindings to create a plane, which
+has to happen before we can create a CRTC (since we need to be able to at
+least specify a primary plane for a CRTC upon creation). This mostly
+follows the same general pattern as connectors (AsRawPlane,
+AsRawPlaneState, etc.).
 
-It's important to note that both Connector<T> and ConnectorState<T> are
-intended to be "subclassable". To explain what this means, we need to look
-at how a DRM driver normally uses objects like DRM connectors.
+There is one major difference with planes vs. other types of atomic mode
+objects: drm_plane_state isn't the only base plane struct used in DRM
+drivers, as some drivers will use helpers like drm_shadow_plane_state which
+have a drm_plane_state embedded within them.
 
-Typically, a driver in C will define its connectors like so:
+Since we'll eventually be adding bindings for shadow planes, we introduce a
+PlaneStateHelper trait - which represents any data type which can be used
+as the main wrapping structure around a drm_plane_state - and we implement
+this trait for PlaneState<T>. This trait can be used in our C callbacks to
+allow for drivers to use different wrapping structures without needing to
+implement a separate set of FFI callbacks for each type. Currently planes
+are the only type I'm aware of which do this.
 
-struct foo_connector {
-  struct drm_connector base;
-  int bar;
-}
+Signed-off-by: Lyude Paul <lyude@redhat.com>
 
-Note that we have a drm_connector struct embedded in foo_connector, but we
-have data which comes after it which is defined by the driver. This is
-important for a number of reasons: connectors can have their own mutexes
-and various other hardware-specific information that a driver may want
-access to at any time. The same goes for drm_connector_state, where drivers
-will subclass this struct in the same way. It's worth noting as well that
-it isn't uncommon for a driver to have multiple types of connectors, but
-we'll handle in a later commit.
+---
 
-As a result, we've designed Connector<T> and ConnectorState<T> so that for
-both types: a DRM driver can add custom data into the T. As well, there's
-some basic limitations on how this data may be accessed:
-
-* Data within the `DriverConnector` struct is pinned in order to allow
-  mutexes and other structs which need pinning to be stored within it. As
-  well, it is impossible to get a direct mutable reference to the data
-  within DriverConnector - as there's no locks for doing so which would
-  cause a race condition.
-* Data within the `DriverConnectorState` struct is currently not pinned.
-  While it's not unheard of for a driver to put something like a mutex in
-  its atomic states, (VKMS actually does this in some spots) this quickly
-  complicates things especially with nonblocking modesets - and doesn't
-  really fit into the philosophy of an atomic state anyway. We may add
-  support for this in the future later if this does end up being needed,
-  but for now we hold back in order to make it much easier for drivers to
-  access private data within the atomic state.
-  As well, the functions we provide for converting to/from raw connector
-  state pointers are notably different from many other rust types in the
-  kernel. Instead of converting raw state pointers to raw ConnectorState<T>
-  pointers, we allow for direct immutable and mutable references. The
-  reason for this is that it makes accessing private driver data in the
-  state much easier, and unlike Connector<T> - we can actually uphold
-  all of the required data aliasing rules thanks to states only being
-  mutable by a single thread before they've been swapped in.
-  Note that currently, we don't provide a way to access said private data
-  for ConnectorState<T> since allowing direct access to a &mut
-  ConnectorState<T> could allow a caller to modify portions of
-  drm_connector_state which are meant to be invariant throughout the
-  lifetime of the connector state. We'll address this in the next few
-  commits when we introduce the global atomic state type.
-
-And finally - we introduce the following internal traits for the crate side
-of things:
-
-  * AsRawConnector - any type which can spit out a *mut
-    bindings::drm_connector or be recovered from one
-  * AsRawConnectorState - any type which can return a reference to a
-    bindings::drm_connector_state
-  * private::AsRawConnectorState - just methods for AsRawConnectorState
-    that we don't want to be accessible to our users (since they could be
-    used to introduce UB)
-  * FromRawConnectorState - any type which can be recovered from a raw
-    pointer to a bindings::drm_connector_state
-
-The reason for having AsRawConnectorState and FromRawConnectorState as
-separate traits unlike AsRawConnector is due to the fact that we'll
-introduce objects later on which can be used as DRM connector states, but
-cannot be directly derived from a *mut bindings::drm_connector_state
-because they hold additional state or have additional side-effects.
-
-Likewise, we'll also have other objects which can be used as raw DRM
-connectors - hence AsRawConnector.
+V2:
+* Start using Gerry Guo's updated #[vtable] function so that our driver
+  operations table has a static location in memory
 
 Signed-off-by: Lyude Paul <lyude@redhat.com>
 ---
- rust/kernel/drm/kms.rs           |   1 +
- rust/kernel/drm/kms/connector.rs | 531 +++++++++++++++++++++++++++++++
- 2 files changed, 532 insertions(+)
- create mode 100644 rust/kernel/drm/kms/connector.rs
+ rust/kernel/drm/kms.rs       |   1 +
+ rust/kernel/drm/kms/plane.rs | 504 +++++++++++++++++++++++++++++++++++
+ 2 files changed, 505 insertions(+)
+ create mode 100644 rust/kernel/drm/kms/plane.rs
 
 diff --git a/rust/kernel/drm/kms.rs b/rust/kernel/drm/kms.rs
-index f1a8ba4b7e296..0138e6830b48c 100644
+index 0138e6830b48c..5b075794a1155 100644
 --- a/rust/kernel/drm/kms.rs
 +++ b/rust/kernel/drm/kms.rs
-@@ -2,6 +2,7 @@
+@@ -4,6 +4,7 @@
  
- //! KMS driver abstractions for rust.
- 
-+pub mod connector;
+ pub mod connector;
  pub mod fbdev;
++pub mod plane;
  
  use crate::{
-diff --git a/rust/kernel/drm/kms/connector.rs b/rust/kernel/drm/kms/connector.rs
+     drm::{
+diff --git a/rust/kernel/drm/kms/plane.rs b/rust/kernel/drm/kms/plane.rs
 new file mode 100644
-index 0000000000000..0fa927a3743b2
+index 0000000000000..3040c4546b121
 --- /dev/null
-+++ b/rust/kernel/drm/kms/connector.rs
-@@ -0,0 +1,531 @@
++++ b/rust/kernel/drm/kms/plane.rs
+@@ -0,0 +1,504 @@
 +// SPDX-License-Identifier: GPL-2.0 OR MIT
 +
-+//! Rust bindings for DRM connectors
++//! Bindings for [`struct drm_plane`] and friends.
++//!
++//! [`struct drm_plane`]: srctree/include/drm/drm_plane.h
 +
++use alloc::boxed::Box;
 +use crate::{
 +    bindings,
-+    sync::ArcBorrow,
-+    drm::{
-+        drv::{Driver, FEAT_MODESET},
-+        device::Device,
-+    },
-+    types::{AlwaysRefCounted, Opaque, ARef},
-+    prelude::*,
++    drm::{device::Device, drv::Driver, fourcc::*},
++    error::{to_result, from_result, Error},
 +    init::Zeroable,
-+    error::{to_result, from_result},
-+    build_error,
++    prelude::*,
++    types::{ARef, Opaque},
 +    private::Sealed,
 +};
 +use core::{
-+    marker::*,
-+    ptr::null_mut,
-+    mem,
-+    ptr::{self, NonNull, addr_of_mut},
-+    ffi::*,
-+    ops::*,
 +    cell::Cell,
-+};
-+use super::{
-+    ModeObject,
-+    RcModeObject,
-+    KmsDriver,
++    pin::Pin,
++    slice,
++    mem::{self, size_of, ManuallyDrop},
++    ptr::{self, null, null_mut, NonNull},
++    marker::*,
++    ops::*,
 +};
 +use macros::pin_data;
-+
-+// XXX: This is :\, figure out a better way at some point?
-+pub use bindings::{
-+    DRM_MODE_CONNECTOR_Unknown,
-+    DRM_MODE_CONNECTOR_VGA,
-+    DRM_MODE_CONNECTOR_DVII,
-+    DRM_MODE_CONNECTOR_DVID,
-+    DRM_MODE_CONNECTOR_DVIA,
-+    DRM_MODE_CONNECTOR_Composite,
-+    DRM_MODE_CONNECTOR_SVIDEO,
-+    DRM_MODE_CONNECTOR_LVDS,
-+    DRM_MODE_CONNECTOR_Component,
-+    DRM_MODE_CONNECTOR_9PinDIN,
-+    DRM_MODE_CONNECTOR_DisplayPort,
-+    DRM_MODE_CONNECTOR_HDMIA,
-+    DRM_MODE_CONNECTOR_HDMIB,
-+    DRM_MODE_CONNECTOR_TV,
-+    DRM_MODE_CONNECTOR_eDP,
-+    DRM_MODE_CONNECTOR_VIRTUAL,
-+    DRM_MODE_CONNECTOR_DSI,
-+    DRM_MODE_CONNECTOR_DPI,
-+    DRM_MODE_CONNECTOR_WRITEBACK,
-+    DRM_MODE_CONNECTOR_SPI,
-+    DRM_MODE_CONNECTOR_USB,
++use super::{
++    KmsDriver,
++    UnregisteredKmsDevice,
++    ModeObject,
++    StaticModeObject,
 +};
 +
-+/// The main trait for implementing the [`struct drm_connector`] API for [`Connector`].
++/// The main trait for implementing the [`struct drm_plane`] API for [`Plane`]
 +///
 +/// Any KMS driver should have at least one implementation of this type, which allows them to create
-+/// [`Connector`] objects. Additionally, a driver may store driver-private data within the type that
-+/// implements [`DriverConnector`] - and it will be made available when using a fully typed
-+/// [`Connector`] object.
++/// [`Plane`] objects. Additionally, a driver may store driver-private data within the type that
++/// implements [`DriverPlane`] - and it will be made available when using a fully typed [`Plane`]
++/// object.
 +///
 +/// # Invariants
 +///
 +/// - Any C FFI callbacks generated using this trait are guaranteed that passed-in
-+///   [`struct drm_connector`] pointers are contained within a [`Connector<Self>`].
++///   [`struct drm_plane`] pointers are contained within a [`Plane<Self>`].
 +/// - Any C FFI callbacks generated using this trait are guaranteed that passed-in
-+///   [`struct drm_connector_state`] pointers are contained within a
-+///   [`ConnectorState<Self::State>`].
++///   [`struct drm_plane_state`] pointers are contained within a [`PlaneState<Self::State>`].
 +///
-+/// [`struct drm_connector`]: srctree/include/drm/drm_connector.h
-+/// [`struct drm_connector_state`]: srctree/include/drm/drm_connector.h
++/// [`struct drm_plane`]: srctree/include/drm/drm_plane.h
++/// [`struct drm_plane_state`]: srctree/include/drm/drm_plane.h
 +#[vtable]
-+pub trait DriverConnector: Send + Sync + Sized {
-+    /// The generated C vtable for this [`DriverConnector`] implementation
++pub trait DriverPlane: Send + Sync + Sized {
++    /// The generated C vtable for this [`DriverPlane`] implementation.
 +    #[unique]
-+    const OPS: &'static DriverConnectorOps = &DriverConnectorOps {
-+        funcs: bindings::drm_connector_funcs {
-+            dpms: None,
-+            atomic_get_property: None,
-+            atomic_set_property: None,
-+            early_unregister: None,
-+            late_register: None,
++    const OPS: &'static DriverPlaneOps = &DriverPlaneOps {
++        funcs: bindings::drm_plane_funcs {
++            update_plane: Some(bindings::drm_atomic_helper_update_plane),
++            disable_plane: Some(bindings::drm_atomic_helper_disable_plane),
++            destroy: Some(plane_destroy_callback::<Self>),
++            reset: Some(plane_reset_callback::<Self>),
 +            set_property: None,
-+            reset: Some(connector_reset_callback::<Self::State>),
-+            atomic_print_state: None,
-+            atomic_destroy_state: Some(atomic_destroy_state_callback::<Self::State>),
-+            destroy: Some(connector_destroy_callback::<Self>),
-+            force: None,
-+            detect: None,
-+            fill_modes: None,
-+            debugfs_init: None,
-+            oob_hotplug_event: None,
 +            atomic_duplicate_state: Some(atomic_duplicate_state_callback::<Self::State>),
++            atomic_destroy_state: Some(atomic_destroy_state_callback::<Self::State>),
++            atomic_set_property: None, // TODO someday
++            atomic_get_property: None, // TODO someday
++            late_register: None, // TODO someday
++            early_unregister: None, // TODO someday
++            atomic_print_state: None, // TODO: Display someday???
++            format_mod_supported: None // TODO someday
 +        },
-+        helper_funcs: bindings::drm_connector_helper_funcs {
-+            mode_valid: None,
++
++        helper_funcs: bindings::drm_plane_helper_funcs {
++            prepare_fb: None,
++            cleanup_fb: None,
++            begin_fb_access: None, // TODO: someday?
++            end_fb_access: None, // TODO: someday?
 +            atomic_check: None,
-+            get_modes: None,
-+            detect_ctx: None,
-+            enable_hpd: None,
-+            disable_hpd: None,
-+            best_encoder: None,
-+            atomic_commit: None,
-+            mode_valid_ctx: None,
-+            atomic_best_encoder: None,
-+            prepare_writeback_job: None,
-+            cleanup_writeback_job: None,
++            atomic_update: None,
++            atomic_enable: None, // TODO
++            atomic_disable: None, // TODO
++            atomic_async_check: None, // TODO
++            atomic_async_update: None, // TODO
++            panic_flush: None,
++            get_scanout_buffer: None
 +        }
 +    };
 +
-+    /// The type to pass to the `args` field of [`Connector::new`].
++    /// The type to pass to the `args` field of [`Plane::new`].
 +    ///
 +    /// This type will be made available in in the `args` argument of [`Self::new`]. Drivers which
 +    /// don't need this can simply pass [`()`] here.
@@ -310,59 +226,76 @@ index 0000000000000..0fa927a3743b2
 +    /// The parent [`Driver`] implementation.
 +    type Driver: KmsDriver;
 +
-+    /// The [`DriverConnectorState`] implementation for this [`DriverConnector`].
++    /// The [`DriverPlaneState`] implementation for this [`DriverPlane`].
 +    ///
-+    /// See [`DriverConnectorState`] for more info.
-+    type State: DriverConnectorState;
++    /// See [`DriverPlaneState`] for more info.
++    type State: DriverPlaneState;
 +
-+    /// The constructor for creating a [`Connector`] using this [`DriverConnector`] implementation.
++    /// The constructor for creating a [`Plane`] using this [`DriverPlane`] implementation.
 +    ///
-+    /// Drivers may use this to instantiate their [`DriverConnector`] object.
++    /// Drivers may use this to instantiate their [`DriverPlane`] object.
 +    fn new(device: &Device<Self::Driver>, args: Self::Args) -> impl PinInit<Self, Error>;
 +}
 +
-+/// The generated C vtable for a [`DriverConnector`].
++/// The generated C vtable for a [`DriverPlane`].
 +///
 +/// This type is created internally by DRM.
-+pub struct DriverConnectorOps {
-+    funcs: bindings::drm_connector_funcs,
-+    helper_funcs: bindings::drm_connector_helper_funcs,
++pub struct DriverPlaneOps {
++    funcs: bindings::drm_plane_funcs,
++    helper_funcs: bindings::drm_plane_helper_funcs,
 +}
 +
-+/// The main interface for a [`struct drm_connector`].
++#[derive(Copy, Clone, Debug, PartialEq, Eq)]
++#[repr(u32)]
++/// An enumerator describing a type of [`Plane`].
 +///
-+/// This type is the main interface for dealing with DRM connectors. In addition, it also allows
-+/// immutable access to whatever private data is contained within an implementor's
-+/// [`DriverConnector`] type.
++/// This is mainly just relevant for DRM legacy drivers.
++pub enum PlaneType {
++    /// Overlay planes represent all non-primary, non-cursor planes. Some drivers refer to these
++    /// types of planes as "sprites" internally.
++    OVERLAY = bindings::drm_plane_type_DRM_PLANE_TYPE_OVERLAY,
++
++    /// A primary plane attached to a CRTC that is the most likely to be able to light up the CRTC
++    /// when no scaling/cropping is used, and the plane covers the whole CRTC.
++    PRIMARY = bindings::drm_plane_type_DRM_PLANE_TYPE_PRIMARY,
++
++    /// A cursor plane attached to a CRTC that is more likely to be enabled when no scaling/cropping
++    /// is used, and the framebuffer has the size indicated by [`ModeConfigInfo::max_cursor`].
++    ///
++    /// [`ModeConfigInfo::max_cursor`]: crate::drm::kms::ModeConfigInfo
++    CURSOR = bindings::drm_plane_type_DRM_PLANE_TYPE_CURSOR,
++}
++
++/// The main interface for a [`struct drm_plane`].
++///
++/// This type is the main interface for dealing with DRM planes. In addition, it also allows
++/// immutable access to whatever private data is contained within an implementor's [`DriverPlane`]
++/// type.
 +///
 +/// # Invariants
 +///
-+/// - The DRM C API and our interface guarantees that only the user has mutable access to `state`,
-+///   up until [`drm_atomic_helper_commit_hw_done`] is called. Therefore, `plane` follows rust's
-+///   data aliasing rules and does not need to be behind an [`Opaque`] type.
-+/// - `connector` and `inner` are initialized for as long as this object is made available to users.
-+/// - The data layout of this structure begins with [`struct drm_connector`].
-+/// - The atomic state for this type can always be assumed to be of type
-+///   [`ConnectorState<T::State>`].
++/// - `plane` and `inner` are initialized for as long as this object is made available to users.
++/// - The data layout of this structure begins with [`struct drm_plane`].
++/// - The atomic state for this type can always be assumed to be of type [`PlaneState<T::State>`].
 +///
-+/// [`struct drm_connector`]: srctree/include/drm/drm_connector.h
-+/// [`drm_atomic_helper_commit_hw_done`]: srctree/include/drm/drm_atomic_helper.h
++/// [`struct drm_plane`]: srctree/include/drm/drm_plane.h
 +#[repr(C)]
 +#[pin_data]
-+pub struct Connector<T: DriverConnector> {
-+    connector: Opaque<bindings::drm_connector>,
++pub struct Plane<T: DriverPlane> {
++    /// The FFI drm_plane object
++    plane: Opaque<bindings::drm_plane>,
++    /// The driver's private inner data
 +    #[pin]
 +    inner: T,
 +    #[pin]
-+    _p: PhantomPinned
++    _p: PhantomPinned,
 +}
 +
-+impl<T: DriverConnector> Sealed for Connector<T> { }
++unsafe impl Zeroable for bindings::drm_plane {}
 +
-+// SAFETY: DRM expects this struct to be zero-initialized
-+unsafe impl Zeroable for bindings::drm_connector { }
++impl<T: DriverPlane> Sealed for Plane<T> {}
 +
-+impl<T: DriverConnector> Deref for Connector<T> {
++impl<T: DriverPlane> Deref for Plane<T> {
 +    type Target = T;
 +
 +    fn deref(&self) -> &Self::Target {
@@ -370,23 +303,25 @@ index 0000000000000..0fa927a3743b2
 +    }
 +}
 +
-+impl<T: DriverConnector> Connector<T> {
-+    /// Construct a new [`Connector`].
++impl<T: DriverPlane> Plane<T> {
++    /// Construct a new [`Plane`].
 +    ///
-+    /// A driver may use this to create new [`Connector`] objects.
-+    ///
-+    /// TODO: Add a way to handle creating connectors after device registration. Also, that's why we
-+    /// don't ask for a UnregisteredKms device here.
++    /// A driver may use this from their [`Kms::create_objects`] callback in order to construct new
++    /// [`Plane`] objects.
 +    ///
 +    /// [`Kms::create_objects`]: kernel::drm::kms::Kms::create_objects
-+    pub fn new(
-+        dev: &Device<T::Driver>,
-+        type_: u32,
++    pub fn new<'a, 'b: 'a, const FMT_COUNT: usize, const MOD_COUNT: usize>(
++        dev: &'a UnregisteredKmsDevice<'a, T::Driver>,
++        possible_crtcs: u32,
++        formats: &'static FormatList<FMT_COUNT>,
++        format_modifiers: Option<&'static ModifierList<MOD_COUNT>>,
++        type_: PlaneType,
++        name: Option<&CStr>,
 +        args: T::Args,
-+    ) -> Result<ARef<Self>> {
-+        let new: Pin<Box<Self>> = Box::try_pin_init(
++    ) -> Result<&'b Self> {
++        let this: Pin<Box<Self>> = Box::try_pin_init(
 +            try_pin_init!(Self {
-+                connector: Opaque::new(bindings::drm_connector {
++                plane: Opaque::new(bindings::drm_plane {
 +                    helper_private: &T::OPS.helper_funcs,
 +                    ..Default::default()
 +                }),
@@ -396,270 +331,254 @@ index 0000000000000..0fa927a3743b2
 +            GFP_KERNEL
 +        )?;
 +
-+        // SAFETY: FFI call with no special safety requirements
++        // SAFETY: FFI call with no special requirements
 +        to_result(unsafe {
-+            bindings::drm_connector_init(
++            bindings::drm_universal_plane_init(
 +                dev.as_raw(),
-+                new.as_raw(),
++                this.as_raw(),
++                possible_crtcs,
 +                &T::OPS.funcs,
-+                type_ as i32
++                formats.as_ptr(),
++                formats.raw_len() as _,
++                format_modifiers.map_or(null(), |f| f.as_ptr()),
++                type_ as _,
++                name.map_or(null(), |n| n.as_char_ptr())
 +            )
 +        })?;
 +
-+        // Convert the connector into an ARef so the caller has proper ownership over a refcount to
-+        // it. Also, the Box we consume here will be reconstructed in connector_destroy_callback()
-+        // once the connector's refcount drops to zero.
-+        // SAFETY: We currently hold ownership of the Box containing the connector and it's
-+        // refcount. As well, this operation will not move the contents of the Box.
-+        Ok(unsafe {
-+            ARef::from_raw(NonNull::new_unchecked(Box::into_raw(Pin::into_inner_unchecked(new))))
-+        })
++        // Convert the box into a raw pointer, we'll re-assemble it in plane_destroy_callback()
++        // SAFETY: We don't move anything
++        Ok(unsafe { &*Box::into_raw(Pin::into_inner_unchecked(this)) })
 +    }
 +}
 +
-+/// A trait implemented by any type that acts as a [`struct drm_connector`] interface.
++/// A trait implemented by any type that acts as a [`struct drm_plane`] interface.
 +///
 +/// This is implemented internally by DRM.
 +///
-+/// [`struct drm_connector`]: srctree/include/drm/drm_connector.h
-+pub trait AsRawConnector: RcModeObject {
-+    /// The parent [`Driver`] for this [`Connector`] interface
-+    ///
-+    /// TODO: get rid of this
-+    type Driver: KmsDriver;
++/// [`struct drm_plane`]: srctree/include/drm/drm_plane.h
++pub trait AsRawPlane: StaticModeObject {
++    /// The type that should be used to represent an atomic state for this plane interface.
++    type State: FromRawPlaneState;
 +
-+    /// The type this connector interface returns for its atomic state
-+    type State: FromRawConnectorState;
++    /// Return the raw `bindings::drm_plane` for this DRM plane.
++    ///
++    /// Drivers should never use this directly.
++    fn as_raw(&self) -> *mut bindings::drm_plane;
 +
-+    /// Return the raw [`struct drm_connector`] for this DRM connector.
++    /// Convert a raw `bindings::drm_plane` pointer into an object of this type.
 +    ///
-+    /// Drivers should never use this directly
-+    ///
-+    /// [`struct drm_Connector`]: srctree/include/drm/drm_connector.h
-+    fn as_raw(&self) -> *mut bindings::drm_connector;
-+
-+    /// Convert a raw `bindings::drm_connector` pointer into an object of this type.
-+    ///
-+    /// # Safety
-+    ///
-+    /// Callers promise that `ptr` points to a valid instance of this type.
-+    unsafe fn from_raw<'a>(ptr: *mut bindings::drm_connector) -> &'a Self;
++    /// SAFETY: Callers promise that `ptr` points to a valid instance of this type
++    unsafe fn from_raw<'a>(ptr: *mut bindings::drm_plane) -> &'a Self;
 +}
 +
-+// SAFETY: Our connector interfaces are guaranteed to be thread-safe
-+unsafe impl<T: DriverConnector> Send for Connector<T> {}
++impl<T: DriverPlane> AsRawPlane for Plane<T> {
++    type State = PlaneState<T::State>;
 +
-+// SAFETY: Our connector interfaces are guaranteed to be thread-safe
-+unsafe impl<T: DriverConnector> Sync for Connector<T> {}
-+
-+impl<T: DriverConnector> ModeObject for Connector<T> {
-+    type Driver = T::Driver;
-+
-+    fn drm_dev(&self) -> &Device<Self::Driver> {
-+        // SAFETY: The parent device for a DRM connector will never outlive the connector, and this
-+        // pointer is invariant through the lifetime of the connector
-+        unsafe { Device::borrow((*self.as_raw()).dev) }
++    fn as_raw(&self) -> *mut bindings::drm_plane {
++        self.plane.get()
 +    }
 +
-+    fn raw_mode_obj(&self) -> *mut bindings::drm_mode_object {
-+        // SAFETY: We don't expose DRM connectors to users before `base` is initialized
-+        unsafe { &mut (*self.as_raw()).base }
-+    }
-+}
-+
-+// SAFETY: DRM connectors are refcounted mode objects
-+unsafe impl<T: DriverConnector> RcModeObject for Connector<T> {}
-+
-+impl<T: DriverConnector> AsRawConnector for Connector<T> {
-+    type Driver = T::Driver;
-+    type State = ConnectorState<T::State>;
-+
-+    fn as_raw(&self) -> *mut bindings::drm_connector {
-+        self.connector.get()
-+    }
-+
-+    unsafe fn from_raw<'a>(ptr: *mut bindings::drm_connector) -> &'a Self {
-+        // SAFETY: Our data layout starts with `bindings::drm_connector`
++    unsafe fn from_raw<'a>(ptr: *mut bindings::drm_plane) -> &'a Self {
++        // SAFETY: Our data layout starts with `bindings::drm_plane`
 +        unsafe { &*ptr.cast() }
 +    }
 +}
 +
-+unsafe extern "C" fn connector_destroy_callback<T: DriverConnector>(
-+    connector: *mut bindings::drm_connector,
-+) {
-+    // SAFETY: DRM guarantees that `connector` points to a valid initialized `drm_connector`.
-+    unsafe {
-+        bindings::drm_connector_unregister(connector);
-+        bindings::drm_connector_cleanup(connector);
-+    };
++impl<T: DriverPlane> ModeObject for Plane<T> {
++    type Driver = T::Driver;
 +
-+    // SAFETY:
-+    // * We originally created the connector in a `Box`
-+    // * We are guaranteed to hold the last remaining reference to this connector
-+    // * This cast is safe via `DriverConnector`s type invariants.
-+    drop(unsafe { Box::from_raw(connector as *mut Connector<T>) });
++    fn drm_dev(&self) -> &Device<Self::Driver> {
++        // SAFETY: DRM planes exist for as long as the device does, so this pointer is always valid
++        unsafe { Device::borrow((*self.as_raw()).dev) }
++    }
++
++    fn raw_mode_obj(&self) -> *mut bindings::drm_mode_object {
++        // SAFETY: We don't expose DRM planes to users before `base` is initialized
++        unsafe { &mut ((*self.as_raw()).base) }
++    }
 +}
 +
-+// SAFETY: DRM expects this struct to be zero-initialized
-+unsafe impl Zeroable for bindings::drm_connector_state {}
++// SAFETY: Planes do not have a refcount
++unsafe impl<T: DriverPlane> StaticModeObject for Plane<T> {}
 +
-+/// A trait implemented by any type which can produce a reference to a [`struct drm_connector_state`].
++// SAFETY: Our interface is thread-safe.
++unsafe impl<T: DriverPlane> Send for Plane<T> {}
++
++// SAFETY: Our interface is thread-safe.
++unsafe impl<T: DriverPlane> Sync for Plane<T> {}
++
++/// A trait implemented by any type which can produce a reference to a [`struct drm_plane_state`].
 +///
 +/// This is implemented internally by DRM.
 +///
-+/// [`struct drm_connector_state`]: srctree/include/drm/drm_connector.h
-+pub trait AsRawConnectorState: private::AsRawConnectorState {
-+    /// The type that represents this connector state's DRM connector.
-+    type Connector: AsRawConnector;
++/// [`struct drm_plane_state`]: srctree/include/drm/drm_plane.h
++pub trait AsRawPlaneState: private::AsRawPlaneState {
++    /// The type that this plane state interface returns to represent the parent DRM plane
++    type Plane: AsRawPlane;
 +}
 +
-+pub(super) mod private {
-+    use super::*;
-+
-+    /// Trait for retrieving references to the base connector state contained within any connector
-+    /// state compatible type
++pub(crate) mod private {
++    /// Trait for retrieving references to the base plane state contained within any plane state
++    /// compatible type
 +    #[doc(hidden)]
-+    pub trait AsRawConnectorState {
-+        /// Return an immutable reference to the raw connector state.
-+        fn as_raw(&self) -> &bindings::drm_connector_state;
++    pub trait AsRawPlaneState {
++        /// Return an immutable reference to the raw plane state
++        fn as_raw(&self) -> &bindings::drm_plane_state;
 +
-+        /// Get a mutable reference to the raw [`struct drm_connector_state`] contained within this
++        /// Get a mutable reference to the raw `bindings::drm_plane_state` contained within this
 +        /// type.
-+        ///
 +        ///
 +        /// # Safety
 +        ///
 +        /// The caller promises this mutable reference will not be used to modify any contents of
-+        /// [`struct drm_connector_state`] which DRM would consider to be static - like the
-+        /// backpointer to the DRM connector that owns this state. This also means the mutable
-+        /// reference should never be exposed outside of this crate.
-+        ///
-+        /// [`struct drm_connector_state`]: srctree/include/drm/drm_connector.h
-+        unsafe fn as_raw_mut(&mut self) -> &mut bindings::drm_connector_state;
++        /// `bindings::drm_plane_state` which DRM would consider to be static - like the backpointer
++        /// to the DRM plane that owns this state. This also means the mutable reference should
++        /// never be exposed outside of this crate.
++        unsafe fn as_raw_mut(&mut self) -> &mut bindings::drm_plane_state;
 +    }
 +}
 +
-+pub(super) use private::AsRawConnectorState as AsRawConnectorStatePrivate;
++pub(crate) use private::AsRawPlaneState as AsRawPlaneStatePrivate;
 +
 +/// A trait implemented for any type which can be constructed directly from a
-+/// [`struct drm_connector_state`] pointer.
++/// [`struct drm_plane_state`] pointer.
 +///
 +/// This is implemented internally by DRM.
 +///
-+/// [`struct drm_connector_state`]: srctree/include/drm/drm_connector.h
-+pub trait FromRawConnectorState: AsRawConnectorState {
-+    /// Get an immutable reference to this type from the given raw [`struct drm_connector_state`]
++/// [`struct drm_plane_state`]: srctree/include/drm/drm_plane.h
++pub trait FromRawPlaneState: AsRawPlaneState {
++    /// Get an immutable reference to this type from the given raw `bindings::drm_plane_state`
 +    /// pointer
 +    ///
 +    /// # Safety
 +    ///
 +    /// The caller guarantees `ptr` is contained within a valid instance of `Self`
-+    ///
-+    /// [`struct drm_connector_state`]: srctree/include/drm/drm_connector.h
-+    unsafe fn from_raw<'a>(ptr: *const bindings::drm_connector_state) -> &'a Self;
++    unsafe fn from_raw<'a>(ptr: *const bindings::drm_plane_state) -> &'a Self;
 +
-+    /// Get a mutable reference to this type from the given raw [`struct drm_connector_state`]
-+    /// pointer
++    /// Get a mutable reference to this type from the given raw `bindings::drm_plane_state` pointer
 +    ///
 +    /// # Safety
 +    ///
 +    /// The caller guarantees `ptr` is contained within a valid instance of `Self`, and that no
 +    /// other references (mutable or immutable) to `ptr` exist.
-+    ///
-+    /// [`struct drm_connector_state`]: srctree/include/drm/drm_connector.h
-+    unsafe fn from_raw_mut<'a>(ptr: *mut bindings::drm_connector_state) -> &'a mut Self;
++    unsafe fn from_raw_mut<'a>(ptr: *mut bindings::drm_plane_state) -> &'a mut Self;
 +}
 +
-+/// The main interface for a [`struct drm_connector_state`].
++/// The main interface for a [`struct drm_plane_state`].
 +///
-+/// This type is the main interface for dealing with the atomic state of DRM connectors. In
-+/// addition, it allows access to whatever private data is contained within an implementor's
-+/// [`DriverConnectorState`] type.
++/// This type is the main interface for dealing with the atomic state of DRM planes. In addition, it
++/// allows access to whatever private data is contained within an implementor's [`DriverPlaneState`]
++/// type.
 +///
 +/// # Invariants
 +///
 +/// - The DRM C API and our interface guarantees that only the user has mutable access to `state`,
-+///   up until [`drm_atomic_helper_commit_hw_done`] is called. Therefore, `connector` follows rust's
++///   up until [`drm_atomic_helper_commit_hw_done`] is called. Therefore, `plane` follows rust's
 +///   data aliasing rules and does not need to be behind an [`Opaque`] type.
 +/// - `state` and `inner` initialized for as long as this object is exposed to users.
-+/// - The data layout of this structure begins with [`struct drm_connector_state`].
-+/// - The connector for this atomic state can always be assumed to be of type
-+///   [`Connector<T::Connector>`].
++/// - The data layout of this structure begins with [`struct drm_plane_state`].
++/// - The plane for this atomic state can always be assumed to be of type [`Plane<T::Plane>`].
 +///
-+/// [`struct drm_connector_state`]: srctree/include/drm/drm_connector.h
++/// [`struct drm_plane_state`]: srctree/include/drm/drm_plane.h
 +/// [`drm_atomic_helper_commit_hw_done`]: srctree/include/drm/drm_atomic_helper.h
 +#[derive(Default)]
 +#[repr(C)]
-+pub struct ConnectorState<T: DriverConnectorState> {
-+    state: bindings::drm_connector_state,
++pub struct PlaneState<T: DriverPlaneState> {
++    state: bindings::drm_plane_state,
 +    inner: T,
 +}
 +
-+/// The main trait for implementing the [`struct drm_connector_state`] API for a [`Connector`].
++/// The main trait for implementing the [`struct drm_plane_state`] API for a [`Plane`].
 +///
 +/// A driver may store driver-private data within the implementor's type, which will be available
-+/// when using a full typed [`ConnectorState`] object.
++/// when using a full typed [`PlaneState`] object.
 +///
 +/// # Invariants
 +///
 +/// - Any C FFI callbacks generated using this trait are guaranteed that passed-in
-+///   [`struct drm_connector`] pointers are contained within a [`Connector<Self::Connector>`].
++///   [`struct drm_plane`] pointers are contained within a [`Plane<Self::Plane>`].
 +/// - Any C FFI callbacks generated using this trait are guaranteed that passed-in
-+///   [`struct drm_connector_state`] pointers are contained within a [`ConnectorState<Self>`].
++///   [`struct drm_plane_state`] pointers are contained within a [`PlaneState<Self>`].
 +///
-+/// [`struct drm_connector`]: srctree/include/drm_connector.h
-+/// [`struct drm_connector_state`]: srctree/include/drm_connector.h
-+pub trait DriverConnectorState: Clone + Default + Sized {
-+    /// The parent [`DriverConnector`].
-+    type Connector: DriverConnector;
++/// [`struct drm_plane`]: srctree/include/drm_plane.h
++/// [`struct drm_plane_state`]: srctree/include/drm_plane.h
++pub trait DriverPlaneState: Clone + Default + Sized {
++    /// The type for this driver's drm_plane implementation
++    type Plane: DriverPlane;
 +}
 +
-+impl<T: DriverConnectorState> Sealed for ConnectorState<T> {}
++impl<T: DriverPlaneState> Sealed for PlaneState<T> {}
 +
-+impl<T: DriverConnectorState> AsRawConnectorState for ConnectorState<T> {
-+    type Connector = Connector<T::Connector>;
++impl<T: DriverPlaneState> AsRawPlaneState for PlaneState<T> {
++    type Plane = Plane<T::Plane>;
 +}
 +
-+impl<T: DriverConnectorState> private::AsRawConnectorState for ConnectorState<T> {
-+    fn as_raw(&self) -> &bindings::drm_connector_state {
++impl<T: DriverPlaneState> private::AsRawPlaneState for PlaneState<T> {
++    fn as_raw(&self) -> &bindings::drm_plane_state {
 +        &self.state
 +    }
 +
-+    unsafe fn as_raw_mut(&mut self) -> &mut bindings::drm_connector_state {
++    unsafe fn as_raw_mut(&mut self) -> &mut bindings::drm_plane_state {
 +        &mut self.state
 +    }
 +}
 +
-+impl<T: DriverConnectorState> FromRawConnectorState for ConnectorState<T> {
-+    unsafe fn from_raw<'a>(ptr: *const bindings::drm_connector_state) -> &'a Self {
-+        // SAFETY: Our data layout starts with `bindings::drm_connector_state`
++impl<T: DriverPlaneState> FromRawPlaneState for PlaneState<T> {
++    unsafe fn from_raw<'a>(ptr: *const bindings::drm_plane_state) -> &'a Self {
++        // SAFETY: Our data layout starts with `bindings::drm_plane_state`
 +        unsafe { &*ptr.cast() }
 +    }
 +
-+    unsafe fn from_raw_mut<'a>(ptr: *mut bindings::drm_connector_state) -> &'a mut Self {
-+        // SAFETY: Our data layout starts with `bindings::drm_connector_state`
++    unsafe fn from_raw_mut<'a>(ptr: *mut bindings::drm_plane_state) -> &'a mut Self {
++        // SAFETY: Our data layout starts with `bindings::drm_plane_state`
 +        unsafe { &mut *ptr.cast() }
 +    }
 +}
 +
-+unsafe extern "C" fn atomic_duplicate_state_callback<T: DriverConnectorState>(
-+    connector: *mut bindings::drm_connector
-+) -> *mut bindings::drm_connector_state
-+{
-+    // SAFETY: DRM guarantees that `connector` points to a valid initialized `drm_connector`.
-+    let state = unsafe { (*connector).state };
++unsafe impl Zeroable for bindings::drm_plane_state {}
++
++impl<T: DriverPlaneState> Deref for PlaneState<T> {
++    type Target = T;
++
++    fn deref(&self) -> &Self::Target {
++        &self.inner
++    }
++}
++
++impl<T: DriverPlaneState> DerefMut for PlaneState<T> {
++    fn deref_mut(&mut self) -> &mut Self::Target {
++        &mut self.inner
++    }
++}
++
++unsafe extern "C" fn plane_destroy_callback<T: DriverPlane>(
++    plane: *mut bindings::drm_plane
++) {
++    // SAFETY: DRM guarantees that `plane` points to a valid initialized `drm_plane`.
++    unsafe { bindings::drm_plane_cleanup(plane) };
++
++    // SAFETY:
++    // - DRM guarantees we are now the only one with access to this [`drm_plane`].
++    // - This cast is safe via `DriverPlane`s type invariants.
++    drop(unsafe { Box::from_raw(plane as *mut Plane<T>) });
++}
++
++unsafe extern "C" fn atomic_duplicate_state_callback<T: DriverPlaneState>(
++    plane: *mut bindings::drm_plane
++) -> *mut bindings::drm_plane_state {
++    // SAFETY: DRM guarantees that `plane` points to a valid initialized `drm_plane`.
++    let state = unsafe { (*plane).state };
 +    if state.is_null() {
 +        return null_mut();
 +    }
 +
-+    // SAFETY:
-+    // - We just verified that `state` is non-null
-+    // * This cast is guaranteed to be safe via our type invariants.
-+    let state = unsafe { ConnectorState::<T>::from_raw(state) };
++    // SAFETY: This cast is safe via `DriverPlaneState`s type invariants.
++    let state = unsafe { PlaneState::<T>::from_raw(state) };
 +
 +    let new = Box::try_init(
-+        try_init!(ConnectorState::<T> {
-+            state: bindings::drm_connector_state { ..Default::default() },
++        try_init!(PlaneState::<T> {
++            state: bindings::drm_plane_state { ..Default::default() },
 +            inner: state.inner.clone()
 +        }),
 +        GFP_KERNEL
@@ -668,7 +587,7 @@ index 0000000000000..0fa927a3743b2
 +    if let Ok(mut new) = new {
 +        // SAFETY: Just a lil' FFI call, nothing special here
 +        unsafe {
-+            bindings::__drm_atomic_helper_connector_duplicate_state(connector, new.as_raw_mut())
++            bindings::__drm_atomic_helper_plane_duplicate_state(plane, new.as_raw_mut())
 +        };
 +
 +        Box::into_raw(new).cast()
@@ -677,45 +596,44 @@ index 0000000000000..0fa927a3743b2
 +    }
 +}
 +
-+unsafe extern "C" fn atomic_destroy_state_callback<T: DriverConnectorState>(
-+    _connector: *mut bindings::drm_connector,
-+    connector_state: *mut bindings::drm_connector_state
++unsafe extern "C" fn atomic_destroy_state_callback<T: DriverPlaneState>(
++    _plane: *mut bindings::drm_plane,
++    state: *mut bindings::drm_plane_state
 +) {
-+    // SAFETY: DRM guarantees that `state` points to a valid instance of `drm_connector_state`
-+    unsafe { bindings::__drm_atomic_helper_connector_destroy_state(connector_state) };
++    // SAFETY: DRM guarantees that `state` points to a valid instance of `drm_plane_state`
++    unsafe { bindings::__drm_atomic_helper_plane_destroy_state(state) };
 +
 +    // SAFETY:
-+    // * DRM guarantees we are the only one with access to this `drm_connector_state`
++    // * DRM guarantees we are the only one with access to this `drm_plane_state`
 +    // * This cast is safe via our type invariants.
-+    drop(unsafe { Box::from_raw(connector_state.cast::<ConnectorState<T>>()) });
++    drop(unsafe { Box::from_raw(state.cast::<PlaneState<T>>()) });
 +}
 +
-+unsafe extern "C" fn connector_reset_callback<T: DriverConnectorState>(
-+    connector: *mut bindings::drm_connector,
++unsafe extern "C" fn plane_reset_callback<T: DriverPlane>(
++    plane: *mut bindings::drm_plane,
 +) {
-+    // SAFETY: DRM guarantees that `state` points to a valid instance of `drm_connector_state`
-+    let state = unsafe { (*connector).state };
++    // SAFETY: DRM guarantees that `state` points to a valid instance of `drm_plane_state`
++    let state = unsafe { (*plane).state };
 +    if !state.is_null() {
 +        // SAFETY:
-+        // * We're guaranteed `connector` is `Connector<T>` via type invariants
-+        // * We're guaranteed `state` is `ConnectorState<T>` via type invariants.
-+        unsafe { atomic_destroy_state_callback::<T>(connector, state) }
++        // * We're guaranteed `plane` is `Plane<T>` via type invariants
++        // * We're guaranteed `state` is `PlaneState<T>` via type invariants.
++        unsafe { atomic_destroy_state_callback::<T::State>(plane, state) }
 +
 +        // SAFETY: No special requirements here, DRM expects this to be NULL
-+        unsafe { (*connector).state = null_mut(); }
++        unsafe { (*plane).state = null_mut(); }
 +    }
 +
 +    // Unfortunately, this is the best we can do at the moment as this FFI callback was mistakenly
 +    // presumed to be infallible :(
-+    let new = Box::new(ConnectorState::<T>::default(), GFP_KERNEL).expect("Blame the API, sorry!");
++    let new = Box::new(PlaneState::<T::State>::default(), GFP_KERNEL)
++        .expect("Blame the API, sorry!");
 +
-+    // DRM takes ownership of the state from here, resets it, and then assigns it to the connector
++    // DRM takes ownership of the state from here, resets it, and then assigns it to the plane
 +    // SAFETY:
-+    // - DRM guarantees that `connector` points to a valid instance of `drm_connector`.
-+    // - The cast to `drm_connector_state` is safe via `ConnectorState`s type invariants.
-+    unsafe {
-+        bindings::__drm_atomic_helper_connector_reset(connector, Box::into_raw(new).cast())
-+    };
++    // - DRM guarantees that `plane` points to a valid instance of `drm_plane`.
++    // - The cast to `drm_plane_state` is safe via `PlaneState`s type invariants.
++    unsafe { bindings::__drm_atomic_helper_plane_reset(plane, Box::into_raw(new).cast()) };
 +}
 -- 
 2.46.1
