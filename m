@@ -2,53 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0529989D6D
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2024 10:57:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35E6A989D8D
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2024 11:02:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2EF7C10E3CD;
-	Mon, 30 Sep 2024 08:57:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B02DD10E1B2;
+	Mon, 30 Sep 2024 09:02:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="a+jwIjbg";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="JsZUd5fX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFFE010E3CD;
- Mon, 30 Sep 2024 08:57:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Cc:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=ksW1PaBLtCGSwLe9j0gLvai8oxFCvyaUi2E0QliHXBg=; b=a+jwIjbg4SAd3qP6VqRSAFC5ig
- AweUmlZ3eOBsbalYQFll2j3ZHqETDVZ+T4AAefYXt3cMIYoZa8Wn5TzHVxmOjn3woz+9lRhuovwUL
- QGYsJI5kayYqke2amJ/D28c7GBgDH4tbQdbtZ84+hcCgvqAai7lzJMCI2jnGQWkpr6wiDfU5JQbGd
- fKrJiVptLE6lavV9C1BJaXxEgVSkjIH+Ydo66G3zW0VyriBgKl4IdpBZpsesMKnabuVAzWKdNBoyi
- ORWASJNFMP0v3W6UWaVjbQZPrsGYgpwf8tpJzLXRfDEh60Q+NX0lA0sxP17lL0E3VgWXKEg812k0B
- qUesBylQ==;
-Received: from [90.241.98.187] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1svCDJ-002lzL-Q0; Mon, 30 Sep 2024 10:57:05 +0200
-Message-ID: <a169226b-c171-4a6d-88f6-d59214cb7b5d@igalia.com>
-Date: Mon, 30 Sep 2024 09:57:04 +0100
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A75F10E1B2;
+ Mon, 30 Sep 2024 09:02:25 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48TLv5fF031959;
+ Mon, 30 Sep 2024 09:02:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ FNX5YhowYy+eVjnzuyMs3w2HI0xLolYtOn4aoWW1iOY=; b=JsZUd5fXATgwLzn+
+ mTwWUtQS30MjJNZmzDWLxS+C6dwZsGWElRBv7Dc7Fa64f1DcGp3wf1ifxi9rAGMs
+ Vs5MNLQ6+LUnQ3rUxyRzB/LmyTqhuxD68RdP/mPjPytFxFosvxy/i+L08ySVPUX8
+ W1BIkk822lSuAbU9iuZ4ksRn8RQjb6f/iq7EVLmP43+gKDDtWC9zGriD3VXpew/t
+ MqCD4/fm9uFnHtv4zu0VUObPnM0n8AwC8tIBbBla5s0tGqWUUjVVbYZDS600ZRm4
+ bPSAFnr+sZIiPzv77WkPaMVYUBup47RagmRy83NfXPMMdzw+/a+HpOYJHP4myqSg
+ 4rHudg==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41xaymc4k7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 30 Sep 2024 09:02:10 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
+ [10.47.209.197])
+ by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 48U9291M017417
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 30 Sep 2024 09:02:09 GMT
+Received: from [10.204.67.11] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 30 Sep
+ 2024 02:02:01 -0700
+Message-ID: <6bd73b6e-dde7-4bbf-b367-3479bbedf483@quicinc.com>
+Date: Mon, 30 Sep 2024 14:31:58 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/6] drm: add DRM_SET_CLIENT_NAME ioctl
-To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
- tursulin@igalia.com, simona.vetter@ffwll.ch, robdclark@gmail.com,
- alexander.deucher@amd.com, amd-gfx@lists.freedesktop.org,
- dmitry.osipenko@collabora.com
-References: <20240927084848.263718-1-pierre-eric.pelloux-prayer@amd.com>
- <20240927084848.263718-2-pierre-eric.pelloux-prayer@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <20240927084848.263718-2-pierre-eric.pelloux-prayer@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v2 1/5] dt-bindings: display/msm: Document MDSS on SA8775P
+To: Bjorn Andersson <quic_bjorande@quicinc.com>
+CC: <robdclark@gmail.com>, <quic_abhinavk@quicinc.com>,
+ <dmitry.baryshkov@linaro.org>, <sean@poorly.run>,
+ <marijn.suijten@somainline.org>, <airlied@gmail.com>,
+ <daniel@ffwll.ch>, <maarten.lankhorst@linux.intel.com>,
+ <mripard@kernel.org>, <tzimmermann@suse.de>, <robh@kernel.org>,
+ <krzk+dt@kernel.org>, <conor+dt@kernel.org>, <swboyd@chromium.org>,
+ <konrad.dybcio@linaro.org>, <danila@jiaxyga.com>,
+ <bigfoot@classfun.cn>, <neil.armstrong@linaro.org>,
+ <mailingradian@gmail.com>, <quic_jesszhan@quicinc.com>,
+ <andersson@kernel.org>, <linux-arm-msm@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <quic_kalyant@quicinc.com>, <quic_jmadiset@quicinc.com>,
+ <quic_vpolimer@quicinc.com>
+References: <20240926110137.2200158-1-quic_mahap@quicinc.com>
+ <20240926110137.2200158-2-quic_mahap@quicinc.com>
+ <ZvVgmFUs2bwfEoWD@hu-bjorande-lv.qualcomm.com>
+Content-Language: en-US
+From: Mahadevan P <quic_mahap@quicinc.com>
+In-Reply-To: <ZvVgmFUs2bwfEoWD@hu-bjorande-lv.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: YpPzTDr9dkWwX9yJvwLbswVE89-G7XaX
+X-Proofpoint-GUID: YpPzTDr9dkWwX9yJvwLbswVE89-G7XaX
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 phishscore=0
+ mlxscore=0 adultscore=0 malwarescore=0 priorityscore=1501 impostorscore=0
+ clxscore=1015 bulkscore=0 lowpriorityscore=0 mlxlogscore=999
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2408220000 definitions=main-2409300065
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,270 +104,102 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 27/09/2024 09:48, Pierre-Eric Pelloux-Prayer wrote:
-> Giving the opportunity to userspace to associate a free-form
-> name with a drm_file struct is helpful for tracking and debugging.
-> 
-> This is similar to the existing DMA_BUF_SET_NAME ioctl.
-> 
-> Access to client_name is protected by a mutex, and the 'clients' debugfs
-> file has been updated to print it.
-> 
-> Userspace MR to use this ioctl:
->     https://gitlab.freedesktop.org/virgl/virglrenderer/-/merge_requests/1428
-> 
-> If the string passed by userspace contains chars that would mess up output
-> when it's going to be printed (in dmesg, fdinfo, etc), -EINVAL is returned.
-> 
-> A 0-length string is a valid use, and clears the existing name.
-> 
-> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-> ---
->   drivers/gpu/drm/drm_debugfs.c | 14 ++++++---
->   drivers/gpu/drm/drm_file.c    |  5 ++++
->   drivers/gpu/drm/drm_ioctl.c   | 55 +++++++++++++++++++++++++++++++++++
->   include/drm/drm_file.h        |  9 ++++++
->   include/uapi/drm/drm.h        | 17 +++++++++++
->   5 files changed, 96 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
-> index 6b239a24f1df..5c99322a4c6f 100644
-> --- a/drivers/gpu/drm/drm_debugfs.c
-> +++ b/drivers/gpu/drm/drm_debugfs.c
-> @@ -78,12 +78,14 @@ static int drm_clients_info(struct seq_file *m, void *data)
->   	kuid_t uid;
->   
->   	seq_printf(m,
-> -		   "%20s %5s %3s master a %5s %10s\n",
-> +		   "%20s %5s %3s master a %5s %10s %*s\n",
->   		   "command",
->   		   "tgid",
->   		   "dev",
->   		   "uid",
-> -		   "magic");
-> +		   "magic",
-> +		   DRM_CLIENT_NAME_MAX_LEN,
-> +		   "name");
->   
->   	/* dev->filelist is sorted youngest first, but we want to present
->   	 * oldest first (i.e. kernel, servers, clients), so walk backwardss.
-> @@ -94,19 +96,23 @@ static int drm_clients_info(struct seq_file *m, void *data)
->   		struct task_struct *task;
->   		struct pid *pid;
->   
-> +		mutex_lock(&priv->client_name_lock);
->   		rcu_read_lock(); /* Locks priv->pid and pid_task()->comm! */
->   		pid = rcu_dereference(priv->pid);
->   		task = pid_task(pid, PIDTYPE_TGID);
->   		uid = task ? __task_cred(task)->euid : GLOBAL_ROOT_UID;
-> -		seq_printf(m, "%20s %5d %3d   %c    %c %5d %10u\n",
-> +		seq_printf(m, "%20s %5d %3d   %c    %c %5d %10u %*s\n",
->   			   task ? task->comm : "<unknown>",
->   			   pid_vnr(pid),
->   			   priv->minor->index,
->   			   is_current_master ? 'y' : 'n',
->   			   priv->authenticated ? 'y' : 'n',
->   			   from_kuid_munged(seq_user_ns(m), uid),
-> -			   priv->magic);
-> +			   priv->magic,
-> +			   DRM_CLIENT_NAME_MAX_LEN,
-> +			   priv->client_name ? priv->client_name : "<unset>");
->   		rcu_read_unlock();
-> +		mutex_unlock(&priv->client_name_lock);
->   	}
->   	mutex_unlock(&dev->filelist_mutex);
->   	return 0;
-> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-> index 01fde94fe2a9..64f5e15304e7 100644
-> --- a/drivers/gpu/drm/drm_file.c
-> +++ b/drivers/gpu/drm/drm_file.c
-> @@ -158,6 +158,7 @@ struct drm_file *drm_file_alloc(struct drm_minor *minor)
->   
->   	spin_lock_init(&file->master_lookup_lock);
->   	mutex_init(&file->event_read_lock);
-> +	mutex_init(&file->client_name_lock);
->   
->   	if (drm_core_check_feature(dev, DRIVER_GEM))
->   		drm_gem_open(dev, file);
-> @@ -259,6 +260,10 @@ void drm_file_free(struct drm_file *file)
->   	WARN_ON(!list_empty(&file->event_list));
->   
->   	put_pid(rcu_access_pointer(file->pid));
-> +
-> +	mutex_destroy(&file->client_name_lock);
-> +	kfree(file->client_name);
-> +
->   	kfree(file);
->   }
->   
-> diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-> index 51f39912866f..df8d59bd5241 100644
-> --- a/drivers/gpu/drm/drm_ioctl.c
-> +++ b/drivers/gpu/drm/drm_ioctl.c
-> @@ -540,6 +540,59 @@ int drm_version(struct drm_device *dev, void *data,
->   	return err;
->   }
->   
-> +/*
-> + * Check if the passed string contains control char or spaces or
-> + * anything that would mess up a formatted output.
-> + */
-> +static int drm_validate_value_string(const char *value, size_t len)
-> +{
-> +	int i;
-> +
-> +	for (i = 0; i < len; i++) {
-> +		if (value[i] <= 32 || value[i] >= 127)
+On 9/26/2024 6:54 PM, Bjorn Andersson wrote:
+> On Thu, Sep 26, 2024 at 04:31:33PM +0530, Mahadevan wrote:
+>> Document the MDSS hardware found on the Qualcomm SA8775P platform.
+>>
+>> Signed-off-by: Mahadevan <quic_mahap@quicinc.com>
+>> ---
+>>
+>> [v2]
+>> - Use fake DISPCC nodes to avoid clock dependencies in dt-bindings. [Dmitry]
+>> - Update bindings by fixing dt_binding_check tool errors (update includes in example),
+>>    adding proper spacing and indentation in binding example, dropping unused labels,
+>>    dropping status disable, adding reset node. [Dmitry, Rob, Krzysztof]
+> No concerns with the changelog, but please adopt b4 (go/upstream has
+> instructions) for sending patches upstream.
 
-Would !isascii() || isgraph() work for what you have in mind here, 
-considering the comment from the cover letter about the extended ASCII?
 
-> +			return -EINVAL;
-> +	}
-> +	return 0;
-> +}
-> +
-> +static int drm_set_client_name(struct drm_device *dev, void *data,
-> +			       struct drm_file *file_priv)
-> +{
-> +	struct drm_set_client_name *name = data;
-> +	void __user *user_ptr;
-> +	char *new_name;
-> +	size_t len;
-> +
-> +	if (name->name_len > DRM_CLIENT_NAME_MAX_LEN)
-> +		return -EINVAL;
-> +
-> +	user_ptr = u64_to_user_ptr(name->name);
-> +
-> +	new_name = memdup_user_nul(user_ptr, name->name_len);
-> +	if (IS_ERR(new_name))
-> +		return PTR_ERR(new_name);
-> +
-> +	len = strlen(new_name);
-> +
-> +	if (len != name->name_len ||
-> +	    drm_validate_value_string(new_name, len) < 0) {
-> +		kfree(new_name);
-> +		return -EINVAL;
-> +	}
-> +
-> +	mutex_lock(&file_priv->client_name_lock);
-> +	kfree(file_priv->client_name);
-> +	if (len > 0) {
-> +		file_priv->client_name = new_name;
-> +	} else {
-> +		kfree(new_name);
-> +		file_priv->client_name = NULL;
-> +	}
-> +	mutex_unlock(&file_priv->client_name_lock);
+Sure, will follow while posting next patch.
 
-FWIW I still find it hard to look at needlessly allocating a string when 
-userspace has passed name->name_len == 0.
 
-I would have done it something like this:
+>
+>> ---
+>>   .../display/msm/qcom,sa8775p-mdss.yaml        | 239 ++++++++++++++++++
+>>   1 file changed, 239 insertions(+)
+>>   create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sa8775p-mdss.yaml
+>>
+>> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sa8775p-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sa8775p-mdss.yaml
+>> new file mode 100644
+>> index 000000000000..e610b66ffa9f
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sa8775p-mdss.yaml
+>> @@ -0,0 +1,239 @@
+>> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/display/msm/qcom,sa8775p-mdss.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Qualcomm Technologies, Inc. SA87755P Display MDSS
+>> +
+>> +maintainers:
+>> +  - Mahadevan <quic_mahap@quicinc.com>
+> Please use Firstname Lastname, if possible
 
-{
-	struct drm_set_client_name *name = data;
-	size_t len = name->len;
-	char *new_name;
 
-	if (len > DRM_CLIENT_NAME_MAX_LEN) {
-		return -EINVAL;
-	} else if (len) {
-		new_name = memdup_user_nul(u64_to_user_ptr(name->name), len);
-		if (IS_ERR(new_name))
-			return PTR_ERR(new_name);
+My name has only First name,  can I please go ahead with this.
 
-		if (strlen(new_name) != len ||
-		    drm_validate_value_string(new_name, len) < 0) {
-			kfree(new_name);
-			return -EINVAL;
-		}
-	} else {
-		new_name = NULL;
-	}
 
-	mutex_lock(&file_priv->client_name_lock);
-	kfree(file_priv->client_name);
-	file_priv->client_name = new_name;
-	mutex_unlock(&file_priv->client_name_lock);
+>
+>> +
+>> +description:
+>> +  SA8775P MSM Mobile Display Subsystem(MDSS), which encapsulates sub-blocks like
+>> +  DPU display controller, DP interfaces and EDP etc.
+>> +
+>> +$ref: /schemas/display/msm/mdss-common.yaml#
+>> +
+> [..]
+>> +
+>> +examples:
+>> +  - |
+>> +    #include <dt-bindings/interconnect/qcom,icc.h>
+>> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+>> +    #include <dt-bindings/clock/qcom,sa8775p-gcc.h>
+>> +    #include <dt-bindings/interconnect/qcom,sa8775p-rpmh.h>
+>> +    #include <dt-bindings/power/qcom,rpmhpd.h>
+>> +    #include <dt-bindings/power/qcom-rpmpd.h>
+>> +
+>> +    display-subsystem@ae00000 {
+>> +        compatible = "qcom,sa8775p-mdss";
+>> +        reg = <0 0x0ae00000 0 0x1000>;
+> #address-cells and #size-cells are 1 in the example root node, so drop
+> the two 0 entries.
+>
+>> +        reg-names = "mdss";
+>> +
+>> +        /* same path used twice */
+> What do you mean? All three paths below are unique.
 
-But whatever, you can keep the r-b regardless.
 
-Regards,
+Yes all three are paths are unique, its same sm8450-mdss.
+Will remove the comment /* same path used twice */.
 
-Tvrtko
 
-> +
-> +	return 0;
-> +}
-> +
->   static int drm_ioctl_permit(u32 flags, struct drm_file *file_priv)
->   {
->   	/* ROOT_ONLY is only for CAP_SYS_ADMIN */
-> @@ -610,6 +663,8 @@ static const struct drm_ioctl_desc drm_ioctls[] = {
->   	DRM_IOCTL_DEF(DRM_IOCTL_PRIME_HANDLE_TO_FD, drm_prime_handle_to_fd_ioctl, DRM_RENDER_ALLOW),
->   	DRM_IOCTL_DEF(DRM_IOCTL_PRIME_FD_TO_HANDLE, drm_prime_fd_to_handle_ioctl, DRM_RENDER_ALLOW),
->   
-> +	DRM_IOCTL_DEF(DRM_IOCTL_SET_CLIENT_NAME, drm_set_client_name, DRM_RENDER_ALLOW),
-> +
->   	DRM_IOCTL_DEF(DRM_IOCTL_MODE_GETPLANERESOURCES, drm_mode_getplane_res, 0),
->   	DRM_IOCTL_DEF(DRM_IOCTL_MODE_GETCRTC, drm_mode_getcrtc, 0),
->   	DRM_IOCTL_DEF(DRM_IOCTL_MODE_SETCRTC, drm_mode_setcrtc, DRM_MASTER),
-> diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-> index 8c0030c77308..d4f1c115ea0f 100644
-> --- a/include/drm/drm_file.h
-> +++ b/include/drm/drm_file.h
-> @@ -388,6 +388,15 @@ struct drm_file {
->   	 * Per-file buffer caches used by the PRIME buffer sharing code.
->   	 */
->   	struct drm_prime_file_private prime;
-> +
-> +	/**
-> +	 * @client_name:
-> +	 *
-> +	 * Userspace-provided name; useful for accounting and debugging.
-> +	 */
-> +	const char *client_name;
-> +	/** @name_lock: Protects @client_name. */
-> +	struct mutex client_name_lock;
->   };
->   
->   /**
-> diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
-> index 16122819edfe..7fba37b94401 100644
-> --- a/include/uapi/drm/drm.h
-> +++ b/include/uapi/drm/drm.h
-> @@ -1024,6 +1024,13 @@ struct drm_crtc_queue_sequence {
->   	__u64 user_data;	/* user data passed to event */
->   };
->   
-> +#define DRM_CLIENT_NAME_MAX_LEN		64
-> +struct drm_set_client_name {
-> +	__u64 name_len;
-> +	__u64 name;
-> +};
-> +
-> +
->   #if defined(__cplusplus)
->   }
->   #endif
-> @@ -1288,6 +1295,16 @@ extern "C" {
->    */
->   #define DRM_IOCTL_MODE_CLOSEFB		DRM_IOWR(0xD0, struct drm_mode_closefb)
->   
-> +/**
-> + * DRM_IOCTL_SET_CLIENT_NAME - Attach a name to a drm_file
-> + *
-> + * Having a name allows for easier tracking and debugging.
-> + * The length of the name (without null ending char) must be
-> + * <= DRM_CLIENT_NAME_MAX_LEN.
-> + * The call will fail if the name contains whitespaces or non-printable chars.
-> + */
-> +#define DRM_IOCTL_SET_CLIENT_NAME	DRM_IOWR(0xD1, struct drm_set_client_name)
-> +
->   /*
->    * Device specific ioctls should only be in their respective headers
->    * The device specific ioctl range is from 0x40 to 0x9f.
+>
+>> +        interconnects = <&mmss_noc MASTER_MDP0 0 &mc_virt SLAVE_EBI1 0>,
+>> +                        <&mmss_noc MASTER_MDP1 0 &mc_virt SLAVE_EBI1 0>,
+>> +                        <&gem_noc MASTER_APPSS_PROC QCOM_ICC_TAG_ACTIVE_ONLY
+>> +                        &config_noc SLAVE_DISPLAY_CFG QCOM_ICC_TAG_ACTIVE_ONLY>;
+>> +        interconnect-names = "mdp0-mem",
+>> +                             "mdp1-mem",
+>> +                             "cpu-cfg";
+>> +
+>> +
+> Regards,
+> Bjorn
+
+
+Thanks,
+Mahadevan
+
