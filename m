@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC45998B0EF
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2024 01:39:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E41B398B0F0
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2024 01:39:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4793410E597;
-	Mon, 30 Sep 2024 23:39:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60E8110E598;
+	Mon, 30 Sep 2024 23:39:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="TKEcwO0R";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="AtrJZ9xb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A71D410E597
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2024 23:39:04 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 830EF10E598
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2024 23:39:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1727739543;
+ s=mimecast20190719; t=1727739546;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xibrkd8yzwA0Iqd6dDSkdoojf7lApu96rDOOBdAdKcQ=;
- b=TKEcwO0RQ9F2Wun6B+ITbJPt4b6AZ94SLj4MJFB+JLP8qNVObnJL7ftDvu7MGxI7d1Hi68
- pJ2RCsK2qbsfqM+VyO79luA/oD7DdveO6kgIDpDLUteEZOZEdqS8hJIedXJTmCxS9guY2p
- XLHnMIrcQRyzJMakEUaYen8mzSoQ58g=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ bh=j6rI5OuJT5Uhwr5YsNsmFqxJRozJhSEgscnGrLzTJHQ=;
+ b=AtrJZ9xb7t4DElm5VkHqkW+K9yIcTDPWmPdcOoqQQbSM3rSZv6WqHlkc8E8DYjF1sCogQE
+ lHriig8jURirmrhU5XBJMpOT1P8hZ2kiXQNXLIUJoeQaWMNyJPcqTYAenPOtqbLjztWnGJ
+ DaNgZxmNWBlmWJILfYXpWfj5NRIgZkE=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-83-bjN3m5KvN1iMrZyVKWqy7w-1; Mon,
- 30 Sep 2024 19:38:58 -0400
-X-MC-Unique: bjN3m5KvN1iMrZyVKWqy7w-1
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-54-T22mXw6dOM2PCD_MgYanjg-1; Mon,
+ 30 Sep 2024 19:39:05 -0400
+X-MC-Unique: T22mXw6dOM2PCD_MgYanjg-1
 Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (unknown
  [10.30.177.4])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 37682193EF57; Mon, 30 Sep 2024 23:38:56 +0000 (UTC)
+ by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id E91D6196A122; Mon, 30 Sep 2024 23:39:02 +0000 (UTC)
 Received: from chopper.redhat.com (unknown [10.22.32.36])
  by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 140803003DEC; Mon, 30 Sep 2024 23:38:50 +0000 (UTC)
+ id 25EDD3003DEC; Mon, 30 Sep 2024 23:38:58 +0000 (UTC)
 From: Lyude Paul <lyude@redhat.com>
 To: dri-devel@lists.freedesktop.org,
 	rust-for-linux@vger.kernel.org
@@ -56,10 +56,10 @@ Cc: Asahi Lina <lina@asahilina.net>, Danilo Krummrich <dakr@kernel.org>,
  Andreas Hindborg <a.hindborg@samsung.com>,
  Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
  linux-kernel@vger.kernel.org (open list)
-Subject: [WIP RFC v2 12/35] rust: drm/kms: Add
- ConnectorGuard::set_preferred_mode
-Date: Mon, 30 Sep 2024 19:09:55 -0400
-Message-ID: <20240930233257.1189730-13-lyude@redhat.com>
+Subject: [WIP RFC v2 13/35] WIP: rust: drm/kms: Add OpaqueConnector and
+ OpaqueConnectorState
+Date: Mon, 30 Sep 2024 19:09:56 -0400
+Message-ID: <20240930233257.1189730-14-lyude@redhat.com>
 In-Reply-To: <20240930233257.1189730-1-lyude@redhat.com>
 References: <20240930233257.1189730-1-lyude@redhat.com>
 MIME-Version: 1.0
@@ -80,32 +80,156 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a wrapper for `drm_set_preferred_mode()` for our new
-`ConnectorGuard` type so we can set the preferred mode for RVKMS
-connectors.
+Since we allow drivers to have multiple implementations of DriverConnector
+and DriverConnectorState (in C, the equivalent of this is having multiple
+structs which embed drm_connector) - there are some situations we will run
+into where it's not possible for us to know the corresponding
+DriverConnector or DriverConnectorState for a given connector. The most
+obvious one is iterating through all connectors on a KMS device.
+
+So, take advantage of the various connector traits we added to introduce
+OpaqueConnector<> and OpaqueConnectorState<> which both can be used as a
+DRM connector and connector state respectively without needing to know the
+corresponding traits.
+
+Signed-off-by: Lyude Paul <lyude@redhat.com>
+
+---
+
+TODO:
+* Add upcast functions for these types
 
 Signed-off-by: Lyude Paul <lyude@redhat.com>
 ---
- rust/kernel/drm/kms/connector.rs | 6 ++++++
- 1 file changed, 6 insertions(+)
+ rust/kernel/drm/kms/connector.rs | 108 +++++++++++++++++++++++++++++++
+ 1 file changed, 108 insertions(+)
 
 diff --git a/rust/kernel/drm/kms/connector.rs b/rust/kernel/drm/kms/connector.rs
-index 7d0f67c3bdaf8..ec842ebc111ae 100644
+index ec842ebc111ae..98ac7fb781d4e 100644
 --- a/rust/kernel/drm/kms/connector.rs
 +++ b/rust/kernel/drm/kms/connector.rs
-@@ -387,6 +387,12 @@ pub fn add_modes_noedid(&self, (max_h, max_v): (i32, i32)) -> i32 {
-         // SAFETY: We hold the locks required to call this via our type invariants.
-         unsafe { bindings::drm_add_modes_noedid(self.as_raw(), max_h, max_v) }
-     }
-+
-+    /// Set the preferred display mode for the underlying [`Connector`].
-+    pub fn set_preferred_mode(&self, (h_pref, w_pref): (i32, i32)) {
-+        // SAFETY: We hold the locks required to call this via our type invariants.
-+        unsafe { bindings::drm_set_preferred_mode(self.as_raw(), h_pref, w_pref) }
-+    }
+@@ -359,6 +359,64 @@ unsafe fn from_raw<'a>(ptr: *mut bindings::drm_connector) -> &'a Self {
+     T::get_modes(connector.guard(&guard), &guard)
  }
  
- // SAFETY: DRM expects this struct to be zero-initialized
++/// A [`struct drm_connector`] without a known [`DriverConnector`] implementation.
++///
++/// This is mainly for situations where our bindings can't infer the [`DriverConnector`]
++/// implementation for a [`struct drm_connector`] automatically. It is identical to [`Connector`],
++/// except that it does not provide access to the driver's private data.
++///
++/// TODO: Add upcast methods for this
++///
++/// # Invariants
++///
++/// - `connector` is initialized for as long as this object is exposed to users.
++/// - The data layout of this type is equivalent to [`struct drm_connector`].
++///
++/// [`struct drm_connector`]: srctree/include/drm/drm_connector.h
++#[repr(transparent)]
++pub struct OpaqueConnector<T: KmsDriver> {
++    connector: Opaque<bindings::drm_connector>,
++    _p: PhantomData<T>
++}
++
++impl<T: KmsDriver> Sealed for OpaqueConnector<T> {}
++
++impl<T: KmsDriver> AsRawConnector for OpaqueConnector<T> {
++    type Driver = T;
++    type State = OpaqueConnectorState<T>;
++
++    fn as_raw(&self) -> *mut bindings::drm_connector {
++        self.connector.get()
++    }
++
++    unsafe fn from_raw<'a>(ptr: *mut bindings::drm_connector) -> &'a Self {
++        // SAFETY: Our data layout is identical to `bindings::drm_connector`
++        unsafe { &*ptr.cast() }
++    }
++}
++
++impl<T: KmsDriver> ModeObject for OpaqueConnector<T> {
++    type Driver = T;
++
++    fn drm_dev(&self) -> &Device<Self::Driver> {
++        // SAFETY: The parent device for a DRM connector will never outlive the connector, and this
++        // pointer is invariant through the lifetime of the connector
++        unsafe { Device::borrow((*self.as_raw()).dev) }
++    }
++
++    fn raw_mode_obj(&self) -> *mut bindings::drm_mode_object {
++        // SAFETY: We don't expose DRM connectors to users before `base` is initialized
++        unsafe { &mut (*self.as_raw()).base }
++    }
++}
++
++// SAFETY: Connectors are reference counted mode objects
++unsafe impl<T: KmsDriver> RcModeObject for OpaqueConnector<T> {}
++
++// SAFETY: Our connector interfaces are guaranteed to be thread-safe
++unsafe impl<T: KmsDriver> Send for OpaqueConnector<T> {}
++unsafe impl<T: KmsDriver> Sync for OpaqueConnector<T> {}
++
+ /// A privileged [`Connector`] obtained while holding a [`ModeConfigGuard`].
+ ///
+ /// This provides access to various methods for [`Connector`] that must happen under lock, such as
+@@ -537,6 +595,56 @@ unsafe fn from_raw_mut<'a>(ptr: *mut bindings::drm_connector_state) -> &'a mut S
+     }
+ }
+ 
++/// A [`struct drm_connector_state`] without a known [`DriverConnectorState`] implementation.
++///
++/// This is mainly for situations where our bindings can't infer the [`DriverConnectorState`]
++/// implementation for a [`struct drm_connector_state`] automatically. It is identical to
++/// [`Connector`], except that it does not provide access to the driver's private data.
++///
++/// TODO: Add upcast functions
++///
++/// # Invariants
++///
++/// - `state` is initialized for as long as this object is exposed to users.
++/// - The data layout of this type is identical to [`struct drm_connector_state`].
++/// - The DRM C API and our interface guarantees that only the user has mutable access to `state`,
++///   up until [`drm_atomic_helper_commit_hw_done`] is called. Therefore, `connector` follows rust's
++///   data aliasing rules and does not need to be behind an [`Opaque`] type.
++///
++/// [`struct drm_connector_state`]: srctree/include/drm/drm_connector.h
++/// [`drm_atomic_helper_commit_hw_done`]: srctree/include/drm/drm_atomic_helper.h
++#[repr(transparent)]
++pub struct OpaqueConnectorState<T: KmsDriver> {
++    state: bindings::drm_connector_state,
++    _p: PhantomData<T>
++}
++
++impl<T: KmsDriver> AsRawConnectorState for OpaqueConnectorState<T> {
++    type Connector = OpaqueConnector<T>;
++}
++
++impl<T: KmsDriver> private::AsRawConnectorState for OpaqueConnectorState<T> {
++    fn as_raw(&self) -> &bindings::drm_connector_state {
++        &self.state
++    }
++
++    unsafe fn as_raw_mut(&mut self) -> &mut bindings::drm_connector_state {
++        &mut self.state
++    }
++}
++
++impl<T: KmsDriver> FromRawConnectorState for OpaqueConnectorState<T> {
++    unsafe fn from_raw<'a>(ptr: *const bindings::drm_connector_state) -> &'a Self {
++        // SAFETY: Our data layout is identical to `bindings::drm_connector_state`
++        unsafe { &*ptr.cast() }
++    }
++
++    unsafe fn from_raw_mut<'a>(ptr: *mut bindings::drm_connector_state) -> &'a mut Self {
++        // SAFETY: Our data layout is identical to `bindings::drm_connector_state`
++        unsafe { &mut *ptr.cast() }
++    }
++}
++
+ unsafe extern "C" fn atomic_duplicate_state_callback<T: DriverConnectorState>(
+     connector: *mut bindings::drm_connector
+ ) -> *mut bindings::drm_connector_state
 -- 
 2.46.1
 
