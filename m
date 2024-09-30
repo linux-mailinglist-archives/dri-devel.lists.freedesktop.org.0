@@ -2,59 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97A59989B77
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2024 09:31:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D564989B7F
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2024 09:32:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A400C10E3A7;
-	Mon, 30 Sep 2024 07:31:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC56A10E3A9;
+	Mon, 30 Sep 2024 07:32:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JBg+Dviw";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Oz0MJoD/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58F6110E10C
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2024 07:31:35 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id EAF01A4138D;
- Mon, 30 Sep 2024 07:31:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E221C4CEC7;
- Mon, 30 Sep 2024 07:31:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1727681493;
- bh=YhK9MVnb7j5WhBPB70Arr1HFN2nVENw6PFRu6sWoH+U=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=JBg+DviwW4KZcSt4aw3rXm+Xi4JK474zqH69w6oxMsVCLNjm42/r14WKQFe3Ke6wB
- swzRJhCvBNrVANQiXr+l3Z/ovAc6I+DzHdNH4hzkNgxFNXLpa1GatKAMQhuiUZal2c
- NTiapZ5l49utnCZgdGVENzTSGbH8uDm/PRdmLy+85atr+e/5H1913ZtBrjeI6rUGNq
- HIHSEWP0D7W6xEF+bKZmoM8ZaFR09FxjczqCybTzvLkd3+mG5YrWRR20UQbfcDE8lT
- ZabrgWaFOLYs5SVbovTxbBRnvPAjA7FfXx2putvJMP2mtjMPoKPFP/3Jo08nmi/tsy
- 20iFthhHwkTRw==
-Date: Mon, 30 Sep 2024 09:31:31 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Liu Ying <victor.liu@nxp.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, 
- andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org, 
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com, 
- maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, 
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, shawnguo@kernel.org, 
- s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com, 
- catalin.marinas@arm.com, will@kernel.org, quic_bjorande@quicinc.com, 
- geert+renesas@glider.be, dmitry.baryshkov@linaro.org, arnd@arndb.de, 
- nfraprado@collabora.com, o.rempel@pengutronix.de, y.moog@phytec.de
-Subject: Re: [PATCH 4/8] drm/bridge: fsl-ldb: Use clk_round_rate() to
- validate "ldb" clock rate
-Message-ID: <2on4bu5jsxvaxckqz3wouwrf2z6nwbtv34ek4xda2dvobqhbsf@g7z7kxq5xrxi>
-References: <20240930052903.168881-1-victor.liu@nxp.com>
- <20240930052903.168881-5-victor.liu@nxp.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED1C510E10C;
+ Mon, 30 Sep 2024 07:32:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1727681531;
+ bh=M3ZGR3m5dE/OcpAuJgNW07sMzVd9xcG6hbRIN3GQi5s=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=Oz0MJoD/WjoceXAqgBvUNpAstd9dV0jBR191CXDs3DaHEQv8fB6tEEkb3khrgiisE
+ nh7tdsJ05/IcW/muYpcMYD2UbZ59bvLNKjDb7A7RsthSIIYy9ISk7EtNcjZZJJ/j4b
+ 46HY0ZSLujeCZ2Euue+8cxgFYaU/00AGdTSqrFGu+tvTdK4XrGCbrxAmA25H//DWD1
+ gnBnOgQkZjyB3Rxtdykg0mDYBmcB8VRkDHDSZOdUCxlY8BYcGNoed0Ur7HnpY3zSJe
+ +ONzA6kcS7zMAeoKr1mZ7/oMykf0KM1jTOBErKvVlvh8ykoNrOxERefW/OQ7/gJea/
+ VGMkeeuORJQXg==
+Received: from [192.168.50.250] (unknown [171.76.80.165])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: vignesh)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 9E73717E1047;
+ Mon, 30 Sep 2024 09:32:07 +0200 (CEST)
+Message-ID: <5fd48673-571a-4750-9704-e172f7ea372f@collabora.com>
+Date: Mon, 30 Sep 2024 13:01:55 +0530
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="rtzanz6gpbkemxsz"
-Content-Disposition: inline
-In-Reply-To: <20240930052903.168881-5-victor.liu@nxp.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] docs/gpu: ci: update flake tests requirements
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: dri-devel@lists.freedesktop.org, daniels@collabora.com,
+ helen.koike@collabora.com, airlied@gmail.com, daniel@ffwll.ch,
+ robdclark@gmail.com, guilherme.gallo@collabora.com,
+ sergi.blanch.torne@collabora.com, deborah.brouwer@collabora.com,
+ dmitry.baryshkov@linaro.org, mripard@kernel.org, quic_abhinavk@quicinc.com,
+ linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, amd-gfx@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ virtualization@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20240927052416.1833889-1-vignesh.raman@collabora.com>
+ <ZvbCzqvyeTI_j2cD@intel.com>
+Content-Language: en-US
+From: Vignesh Raman <vignesh.raman@collabora.com>
+In-Reply-To: <ZvbCzqvyeTI_j2cD@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,110 +69,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Rodrigo,
 
---rtzanz6gpbkemxsz
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 27/09/24 20:05, Rodrigo Vivi wrote:
+> On Fri, Sep 27, 2024 at 10:54:14AM +0530, Vignesh Raman wrote:
+>> Update the documentation to specify linking to a relevant GitLab
+>> issue or email report for each new flake entry. Added specific
+>> GitLab issue urls for i915, msm and amdgpu driver.
+>>
+>> Acked-by: Abhinav Kumar <quic_abhinavk@quicinc.com> # msm
+>> Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org> # msm
+>> Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
+>> ---
+>>
+>> v2:
+>> - Add gitlab issue link for msm driver.
+>>
+>> v3:
+>> - Update docs to specify we use email reporting or GitLab issues for flake entries.
+>>
+>> ---
+>>   Documentation/gpu/automated_testing.rst | 13 +++++++++----
+>>   1 file changed, 9 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/Documentation/gpu/automated_testing.rst b/Documentation/gpu/automated_testing.rst
+>> index 2d5a28866afe..03769b4a17cf 100644
+>> --- a/Documentation/gpu/automated_testing.rst
+>> +++ b/Documentation/gpu/automated_testing.rst
+>> @@ -68,19 +68,24 @@ known to behave unreliably. These tests won't cause a job to fail regardless of
+>>   the result. They will still be run.
+>>   
+>>   Each new flake entry must be associated with a link to the email reporting the
+>> -bug to the author of the affected driver, the board name or Device Tree name of
+>> -the board, the first kernel version affected, the IGT version used for tests,
+>> -and an approximation of the failure rate.
+>> +bug to the author of the affected driver or the relevant GitLab issue. The entry
+>> +must also include the board name or Device Tree name, the first kernel version
+>> +affected, the IGT version used for tests, and an approximation of the failure rate.
+>>   
+>>   They should be provided under the following format::
+>>   
+>> -  # Bug Report: $LORE_OR_PATCHWORK_URL
+>> +  # Bug Report: $LORE_URL_OR_GITLAB_ISSUE
+>>     # Board Name: broken-board.dtb
+>>     # Linux Version: 6.6-rc1
+>>     # IGT Version: 1.28-gd2af13d9f
+>>     # Failure Rate: 100
+>>     flaky-test
+>>   
+>> +Use the appropriate link below to create a GitLab issue:
+>> +amdgpu driver: https://gitlab.freedesktop.org/drm/amd/-/issues
+>> +i915 driver: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues
+> 
+> Probably good to add:
+> 
+> xe driver: https://gitlab.freedesktop.org/drm/xe/kernel/-/issues
 
-On Mon, Sep 30, 2024 at 01:28:59PM GMT, Liu Ying wrote:
-> Multiple display modes could be read from a display device's EDID.
-> Use clk_round_rate() to validate the "ldb" clock rate for each mode
-> in drm_bridge_funcs::mode_valid() to filter unsupported modes out.
->=20
-> Also, if the "ldb" clock and the pixel clock are sibling in clock
-> tree, use clk_round_rate() to validate the pixel clock rate against
-> the "ldb" clock.  This is not done in display controller driver
-> because drm_crtc_helper_funcs::mode_valid() may not decide to do
-> the validation or not if multiple encoders are connected to the CRTC,
-> e.g., i.MX93 LCDIF may connect with MIPI DSI controller, LDB and
-> parallel display output simultaneously.
->=20
-> Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> ---
->  drivers/gpu/drm/bridge/fsl-ldb.c | 22 ++++++++++++++++++++++
->  1 file changed, 22 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/bridge/fsl-ldb.c b/drivers/gpu/drm/bridge/fs=
-l-ldb.c
-> index b559f3e0bef6..ee8471c86617 100644
-> --- a/drivers/gpu/drm/bridge/fsl-ldb.c
-> +++ b/drivers/gpu/drm/bridge/fsl-ldb.c
-> @@ -11,6 +11,7 @@
->  #include <linux/of_graph.h>
->  #include <linux/platform_device.h>
->  #include <linux/regmap.h>
-> +#include <linux/units.h>
-> =20
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_bridge.h>
-> @@ -64,6 +65,7 @@ struct fsl_ldb_devdata {
->  	u32 lvds_ctrl;
->  	bool lvds_en_bit;
->  	bool single_ctrl_reg;
-> +	bool ldb_clk_pixel_clk_sibling;
->  };
-> =20
->  static const struct fsl_ldb_devdata fsl_ldb_devdata[] =3D {
-> @@ -74,11 +76,13 @@ static const struct fsl_ldb_devdata fsl_ldb_devdata[]=
- =3D {
->  	[IMX8MP_LDB] =3D {
->  		.ldb_ctrl =3D 0x5c,
->  		.lvds_ctrl =3D 0x128,
-> +		.ldb_clk_pixel_clk_sibling =3D true,
->  	},
->  	[IMX93_LDB] =3D {
->  		.ldb_ctrl =3D 0x20,
->  		.lvds_ctrl =3D 0x24,
->  		.lvds_en_bit =3D true,
-> +		.ldb_clk_pixel_clk_sibling =3D true,
->  	},
->  };
-> =20
-> @@ -269,11 +273,29 @@ fsl_ldb_mode_valid(struct drm_bridge *bridge,
->  		   const struct drm_display_info *info,
->  		   const struct drm_display_mode *mode)
->  {
-> +	unsigned long link_freq, pclk_rate, rounded_pclk_rate;
->  	struct fsl_ldb *fsl_ldb =3D to_fsl_ldb(bridge);
-> =20
->  	if (mode->clock > (fsl_ldb_is_dual(fsl_ldb) ? 160000 : 80000))
->  		return MODE_CLOCK_HIGH;
-> =20
-> +	/* Validate "ldb" clock rate. */
-> +	link_freq =3D fsl_ldb_link_frequency(fsl_ldb, mode->clock);
-> +	if (link_freq !=3D clk_round_rate(fsl_ldb->clk, link_freq))
-> +		return MODE_NOCLOCK;
-> +
-> +	/*
-> +	 * Use "ldb" clock to validate pixel clock rate,
-> +	 * if the two clocks are sibling.
-> +	 */
-> +	if (fsl_ldb->devdata->ldb_clk_pixel_clk_sibling) {
-> +		pclk_rate =3D mode->clock * HZ_PER_KHZ;
-> +
-> +		rounded_pclk_rate =3D clk_round_rate(fsl_ldb->clk, pclk_rate);
-> +		if (rounded_pclk_rate !=3D pclk_rate)
-> +			return MODE_NOCLOCK;
-> +	}
-> +
+Sure, will add it.
 
-I guess this is to workaround the fact that the parent rate would be
-changed, and thus the sibling rate as well? This should be documented in
-a comment if so.
+> 
+> Acked-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
-Maxime
+Thanks.
 
---rtzanz6gpbkemxsz
-Content-Type: application/pgp-signature; name="signature.asc"
+> 
+>> +msm driver: https://gitlab.freedesktop.org/drm/msm/-/issues
+>> +
+>>   drivers/gpu/drm/ci/${DRIVER_NAME}-${HW_REVISION}-skips.txt
+>>   -----------------------------------------------------------
+>>   
+>> -- 
+>> 2.43.0
+>>
 
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZvpT0gAKCRAnX84Zoj2+
-dk4PAX9RKdbNYUzaKe3hmulCJ0qwP1+vLwkjQr20vGEfXsXUQeRrnNzmkVHGe4H9
-omV9KkYBgIQacO4mH9ISmfZ+XEpZN1H2pkJIWcQR9cCfeift9Lumau2cxnoRTW6V
-VOwv91h/Wg==
-=xndf
------END PGP SIGNATURE-----
-
---rtzanz6gpbkemxsz--
+Regards,
+Vignesh
