@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6A0998A2AB
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2024 14:37:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEB5798A2AC
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2024 14:37:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5748F10E42F;
+	by gabe.freedesktop.org (Postfix) with ESMTP id B76D010E430;
 	Mon, 30 Sep 2024 12:37:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fmHpal07";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="du2iaEOe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FFA410E431;
- Mon, 30 Sep 2024 12:37:16 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id
- 5b1f17b1804b1-42cb1e623d1so40073435e9.0; 
- Mon, 30 Sep 2024 05:37:16 -0700 (PDT)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+ [209.85.128.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98E6010E431;
+ Mon, 30 Sep 2024 12:37:17 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id
+ 5b1f17b1804b1-42cde6b5094so38075035e9.3; 
+ Mon, 30 Sep 2024 05:37:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1727699834; x=1728304634; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1727699836; x=1728304636; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=iIz4XxD/MXWvSuHKaNsZDh3MppYU6Ey9Ren8dN/1Nnw=;
- b=fmHpal07DOMQRT2xAEzEP6v0bFRzV9zALy7wzCzoNRLq02WNrJoApgGRuWWkr3dTxN
- 2RleyCmxmCKhRhXZsHZUgtGFKFIPTRwtV8CQlQgxrb9TnCSYJQvYBcqM9uCb7qdFS3Hv
- m6Amdk4EBw7jM7uueO5ls1nIoj5Tn2mCsJWqcYUKvQnrquY+6auxIxqM/aQ5ao/RBC4+
- 2d2MIE0OGOfHQZGTGLonqzSGigMGE3kG11CtezMrsAdfnDv4cEsopnGQYbdidlxmsYO5
- nVQBO/0t6x/M/V2vbk/LVRqHMH9l/QxbNDub8EGCL0w54BpYDP/UtxJUIDMRPSp+lrTy
- 38NA==
+ bh=NOB1xBCChyVodl1AKBCRn0/gjY8Cy4B28eaNVB3ngoA=;
+ b=du2iaEOeBHChvnaA75+ncmekVt9gL0efh1b2xTFmLIAhYgW7El09NhnbL+mnfMXfD/
+ imBB4/j/uOS5A9qGvWAEAVfjlze+t6B7ndW5B7PXib9Hvksw3T0moILzYmvbqYimoHhQ
+ up4+JE3Ee839BrxCINcSf4aTtCSYF7gPOa4iKWOPgPM4+SF03f9byLyOmtAMtL1BPXpp
+ deAqvU8A+BjemeZXkIWjVtB/W8oXPL+GAh0FTJqDXN2RgQmmmKoehT+zvQMoLeRu7njC
+ OGHQQwrWMKe5p9zREz59/EvjWJhbftsDU+JCSqjcf+w17ODv44PaLOZRbwWpmDlEWCn/
+ TCzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727699834; x=1728304634;
+ d=1e100.net; s=20230601; t=1727699836; x=1728304636;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=iIz4XxD/MXWvSuHKaNsZDh3MppYU6Ey9Ren8dN/1Nnw=;
- b=E06ZY1Ur5mDcQZtEzT4VmCzJB8kjx9YsWRR2GHWcAUqz2V26UhoP2JKdVOeH1Arj8Y
- OsS51BUrWzIHFQInyyDgJxxb5MN4ZcCvsldYDhyoV7BIMgBYsa3t/3VSpLsD7SJX0q4j
- uRglwnvo5KsKKtlYH5gf71nYyIbvjpWm3LVHj36q/6k5+d1+8oY7yWfDeCQMs93iHq5W
- E3I+Kv6d4yzB7Znrw8Otf7q8PBnCbgRh/AA8RycrrcVPA/GvW70i2ofmhLSTbHakUrKE
- eEZ5sozWqQIKJB13dhkn1h9AhzqNjuu74ySOk2F8Ev5KqQnMIr5Jd4tQqKiHkkbwXkVI
- Sndw==
+ bh=NOB1xBCChyVodl1AKBCRn0/gjY8Cy4B28eaNVB3ngoA=;
+ b=X6KP2xkCBpmIblxqMeJOmARhmCiyo6LgKAeBaUp+2/xovA3ivwCsmSxddnM+YbOpVx
+ o6cXux3fFknpagwmiAat0CYsJJ35n/FGrTBa1Dno68TQPuzNt/yfRi9hQEql+bLLxMwv
+ PgvbPW3ReOJtccMX2nqnGnlV+p4a9aJBjK16Gd3pyA0hQY0O47ZzIiHwzzaq2sw374ux
+ 3lFfSwzG36v5+8QuPTegj4otneyvrvFzDhxQZXBn9/PQmbVxGyAQcq7V/nHEpAkdHn6y
+ 3jiqVVsFCSsPXUKET7R6+OhGk/TEUH18eqdnTsgeWxgLrWUYwIST/XpUuyeV67YgQF9k
+ eO0Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWlijcM5bCODhRppzWYEIdodVKcj7z6S+R+efIffIbqvMj2KB4Ymfu2vhfiA52IoIaqz1S6p3Cxc9Qg@lists.freedesktop.org,
- AJvYcCWzX8O0htvmHRF8pku1ZD/kO8iF4B3E6NrS+Pn5HhuVqqZR5cmwmWylCQP/wR3d8fbwBqWGwoRzSQE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzE6E/r3nk2Y8LrSFVbxYcHN24PMwtmWOeOidqY41hTAgmwQx3l
- c2VEbb4nG3YajYHP2a/CzyMp0FFIloNUULygyTV+7ucDQbrBBhNH
-X-Google-Smtp-Source: AGHT+IHLebdUj03VIWRmjVk+jZmmDpfIAH8/fQg7ILqXr2avcVfhMeGRYFMjONtxE6BzkKSMTbFFfw==
-X-Received: by 2002:a05:600c:1549:b0:42c:a574:6360 with SMTP id
- 5b1f17b1804b1-42f584a1d5cmr91192685e9.29.1727699834409; 
- Mon, 30 Sep 2024 05:37:14 -0700 (PDT)
+ AJvYcCVk/MQdWLNYWa7YqdpE6bb82YgPO4/wJSEX3wWfFETuLywVV6lpPjoFFACNB4uWqha5xG2KOGl53hTf@lists.freedesktop.org,
+ AJvYcCWF414HDXfKKMn9hCX+gWv6KVGdqWxWSzSJRgscQheyKuWmLQ4I9LE+BNkCHOPLBRt/hqhWrvvRG1c=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxCE3LsMr4SemUtL9+dRLjLnJ+Xh3JdqyNUBQGVXAeGfsRrXwma
+ Yduz7bEp9M3AY7QTdRuD0ERnEmhWPjz2ndnDIa34CNUemGEzy/aI
+X-Google-Smtp-Source: AGHT+IFX7UFFJ9mFBZg+bn1buBc9cHhJrMVxmqzrsXfLIQStfn4WgdL6i0BO6HCbDChBmeLhRHv16g==
+X-Received: by 2002:a05:600c:1c85:b0:42c:c073:412b with SMTP id
+ 5b1f17b1804b1-42f58490786mr95354705e9.30.1727699835819; 
+ Mon, 30 Sep 2024 05:37:15 -0700 (PDT)
 Received: from fedora.iskraemeco.si ([193.77.86.250])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-42e96a52308sm149011355e9.43.2024.09.30.05.37.13
+ 5b1f17b1804b1-42e96a52308sm149011355e9.43.2024.09.30.05.37.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Sep 2024 05:37:13 -0700 (PDT)
+ Mon, 30 Sep 2024 05:37:15 -0700 (PDT)
 From: Uros Bizjak <ubizjak@gmail.com>
 To: x86@kernel.org, linux-crypto@vger.kernel.org,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
@@ -64,15 +64,12 @@ To: x86@kernel.org, linux-crypto@vger.kernel.org,
  linux-fscrypt@vger.kernel.org, linux-scsi@vger.kernel.org,
  bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
  kunit-dev@googlegroups.com, linux-kernel@vger.kernel.org
-Cc: Uros Bizjak <ubizjak@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v3 04/19] drm/lib: Include <linux/prandom.h> instead of
- <linux/random.h>
-Date: Mon, 30 Sep 2024 14:33:15 +0200
-Message-ID: <20240930123702.803617-5-ubizjak@gmail.com>
+Cc: Uros Bizjak <ubizjak@gmail.com>, Hans Verkuil <hverkuil@xs4all.nl>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: [PATCH v3 05/19] media: vivid: Include <linux/prandom.h> in
+ vivid-vid-cap.c
+Date: Mon, 30 Sep 2024 14:33:16 +0200
+Message-ID: <20240930123702.803617-6-ubizjak@gmail.com>
 X-Mailer: git-send-email 2.46.2
 In-Reply-To: <20240930123702.803617-1-ubizjak@gmail.com>
 References: <20240930123702.803617-1-ubizjak@gmail.com>
@@ -93,33 +90,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Substitute the inclusion of <linux/random.h> header with
-<linux/prandom.h> to allow the removal of legacy inclusion
-of <linux/prandom.h> from <linux/random.h>.
+Include <linux/prandom.h> to allow the removal of legacy
+inclusion of <linux/prandom.h> from <linux/random.h>.
 
 Signed-off-by: Uros Bizjak <ubizjak@gmail.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
+Acked-by: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org
 ---
- drivers/gpu/drm/lib/drm_random.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/test-drivers/vivid/vivid-vid-cap.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/lib/drm_random.h b/drivers/gpu/drm/lib/drm_random.h
-index 5543bf0474bc..9f827260a89d 100644
---- a/drivers/gpu/drm/lib/drm_random.h
-+++ b/drivers/gpu/drm/lib/drm_random.h
-@@ -6,7 +6,7 @@
-  * be transposed to lib/ at the earliest convenience.
-  */
- 
--#include <linux/random.h>
+diff --git a/drivers/media/test-drivers/vivid/vivid-vid-cap.c b/drivers/media/test-drivers/vivid/vivid-vid-cap.c
+index 69620e0a35a0..184460eb356e 100644
+--- a/drivers/media/test-drivers/vivid/vivid-vid-cap.c
++++ b/drivers/media/test-drivers/vivid/vivid-vid-cap.c
+@@ -10,6 +10,7 @@
+ #include <linux/sched.h>
+ #include <linux/vmalloc.h>
+ #include <linux/videodev2.h>
 +#include <linux/prandom.h>
- 
- #define DRM_RND_STATE_INITIALIZER(seed__) ({				\
- 	struct rnd_state state__;					\
+ #include <linux/v4l2-dv-timings.h>
+ #include <media/v4l2-common.h>
+ #include <media/v4l2-event.h>
 -- 
 2.46.2
 
