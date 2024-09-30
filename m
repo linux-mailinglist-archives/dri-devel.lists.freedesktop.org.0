@@ -2,66 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42F4E98B391
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2024 07:23:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76A2098B577
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2024 09:26:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E06B10E5D2;
-	Tue,  1 Oct 2024 05:23:29 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ez0fU4kF";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B13710E5FE;
+	Tue,  1 Oct 2024 07:26:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A37A010E0C9;
- Tue,  1 Oct 2024 05:23:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1727760209; x=1759296209;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=h+o36KzyQNytM2F5BZUn0/c6DP/8OiOTMixT5bmM0v4=;
- b=ez0fU4kFLM7PEnt79kRjJC8cj09YTZd9HnEUqUaJG/rCpPSfWRoTsys2
- Nin/tahHIq8PguLVatafKlKpoObnVQSVlMhTPiyijUYy4/O7lYuHkQuKM
- vxRhuRBx7B/xQMZwAwuduf6IAqiyWq5/zSL3W/Iyeax9ihyfkwVU/NQks
- GJezW0t3luAWV4TCfznbsJ2Dbn3ISnZVdd9O2Przyby/imT3qt5VpgxBn
- r/PYAJdgxPm4d9C+2KuR4VspsfAoj7FvIvSLCR1FZzzqkyFEavmikwmcN
- AY4pankDxeOCOTm5DGBgqmVCVF2QUbIzQl8WuCGNdv0rHfDmRZLzLVPI7 Q==;
-X-CSE-ConnectionGUID: uiTf6M5kTSap6kNFLVKwZQ==
-X-CSE-MsgGUID: TTyQivYFQjiAT5nkAof5+A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11211"; a="30667312"
-X-IronPort-AV: E=Sophos;i="6.11,167,1725346800"; d="scan'208";a="30667312"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Sep 2024 22:23:28 -0700
-X-CSE-ConnectionGUID: 4WgSV8DbQ5y2x1R4o8wOZA==
-X-CSE-MsgGUID: EKfumJPpQiCe6hLIaj+NvA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,167,1725346800"; d="scan'208";a="104314705"
-Received: from black.fi.intel.com ([10.237.72.28])
- by fmviesa001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Sep 2024 22:23:24 -0700
-Date: Tue, 1 Oct 2024 08:23:21 +0300
-From: Raag Jadav <raag.jadav@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: airlied@gmail.com, simona@ffwll.ch, lucas.demarchi@intel.com,
- thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
- jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- tursulin@ursulin.net, lina@asahilina.net,
- intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com,
- francois.dugast@intel.com, aravind.iddamsetty@linux.intel.com,
- anshuman.gupta@intel.com, andi.shyti@linux.intel.com,
- matthew.d.roper@intel.com
-Subject: Re: [PATCH v7 2/5] drm: Expose wedge recovery methods
-Message-ID: <ZvuHSapK96Uf6Nho@black.fi.intel.com>
-References: <20240930073845.347326-1-raag.jadav@intel.com>
- <20240930073845.347326-3-raag.jadav@intel.com>
- <ZvqhMt14GKju1B0X@smile.fi.intel.com>
+X-Greylist: delayed 1098 seconds by postgrey-1.36 at gabe;
+ Mon, 30 Sep 2024 10:30:33 UTC
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F372410E2DD
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2024 10:30:33 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.163.252])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4XHH0t6kFqzFqxh;
+ Mon, 30 Sep 2024 18:11:42 +0800 (CST)
+Received: from kwepemd500013.china.huawei.com (unknown [7.221.188.12])
+ by mail.maildlp.com (Postfix) with ESMTPS id D8FBB180AE8;
+ Mon, 30 Sep 2024 18:12:09 +0800 (CST)
+Received: from localhost.huawei.com (10.169.71.169) by
+ kwepemd500013.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.34; Mon, 30 Sep 2024 18:12:08 +0800
+From: shiyongbang <shiyongbang@huawei.com>
+To: <xinliang.liu@linaro.org>, <tiantao6@hisilicon.com>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <kong.kongxinwei@hisilicon.com>
+CC: <liangjian010@huawei.com>, <chenjianmin@huawei.com>,
+ <lidongming5@huawei.com>, <shiyongbang@huawei.com>, <libaihan@huawei.com>,
+ <shenjian15@huawei.com>, <shaojijie@huawei.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH drm-dp 0/4] Add dp module in hibmc driver
+Date: Mon, 30 Sep 2024 18:06:06 +0800
+Message-ID: <20240930100610.782363-1-shiyongbang@huawei.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZvqhMt14GKju1B0X@smile.fi.intel.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.169.71.169]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ kwepemd500013.china.huawei.com (7.221.188.12)
+X-Mailman-Approved-At: Tue, 01 Oct 2024 07:26:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,26 +59,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 30, 2024 at 04:01:38PM +0300, Andy Shevchenko wrote:
-> On Mon, Sep 30, 2024 at 01:08:42PM +0530, Raag Jadav wrote:
-> > Now that we have device wedged event in place, add wedge_recovery sysfs
-> > attribute which will expose recovery methods supported by the DRM device.
-> > This is useful for userspace consumers in cases where the device supports
-> > multiple recovery methods which can be used as fallbacks.
-> > 
-> >   $ cat /sys/class/drm/card<N>/wedge_recovery
-> >   rebind
-> >   bus-reset
-> >   reboot
-> 
-> ...
-> 
-> > +static ssize_t wedge_recovery_show(struct device *device,
-> > +				   struct device_attribute *attr, char *buf)
-> 
-> Looking at the below line it seems you are fine with 100 limit, so, why two
-> lines above if they perfectly fit 100?
+From: baihan li <libaihan@huawei.com>
 
-Just trying to avoid another bikeshed about conventions ;)
+    Realizing the basic display function of DP cable for DP connector
+    displaying. Add DP module in hibmc drm driver, which is for Hisilicon
+    Hibmc SoC which used for Out-of-band management. Blow is the general
+    hardware connection, both the Hibmc and the host CPU are on the same
+    mother board.
 
-Raag
+    +----------+       +----------+      +----- ----+      +----------------+
+    |          | PCIe  |  Hibmc   |      |          |      |                |
+    |host CPU( |<----->| display  |<---->| dp kapi  |<---->| dp aux moduel  |
+    |arm64,x86)|       |subsystem |      |  moduel  |<---->| dp link moduel |
+    +----------+       +----------+      +----------+      +----------------+
+
+baihan li (4):
+  drm/hisilicon/hibmc: add dp aux in hibmc drivers
+  drm/hisilicon/hibmc: add dp link moduel in hibmc drivers
+  drm/hisilicon/hibmc: add dp kapi moduel in hibmc drivers
+  drm/hisilicon/hibmc: add dp module in hibmc
+
+ drivers/gpu/drm/hisilicon/hibmc/Makefile      |   3 +-
+ drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c   | 227 ++++++++++
+ drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.h   |  80 ++++
+ drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h  |  88 ++++
+ .../gpu/drm/hisilicon/hibmc/dp/dp_config.h    |  20 +
+ drivers/gpu/drm/hisilicon/hibmc/dp/dp_kapi.c  | 258 ++++++++++++
+ drivers/gpu/drm/hisilicon/hibmc/dp/dp_kapi.h  |  48 +++
+ drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c  | 390 ++++++++++++++++++
+ drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.h  |  24 ++
+ drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h   |  76 ++++
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c    | 195 +++++++++
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c   |  17 +-
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h   |   5 +
+ 13 files changed, 1429 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c
+ create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.h
+ create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h
+ create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_config.h
+ create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_kapi.c
+ create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_kapi.h
+ create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c
+ create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.h
+ create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h
+ create mode 100644 drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
+
+-- 
+2.33.0
+
