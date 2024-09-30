@@ -2,74 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A301198A903
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2024 17:49:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6BF898A908
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2024 17:50:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F61610E53C;
-	Mon, 30 Sep 2024 15:49:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B7C210E2E9;
+	Mon, 30 Sep 2024 15:50:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kk0/lXMN";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="e2bLsCBx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
- [209.85.214.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C99EB10E53C;
- Mon, 30 Sep 2024 15:49:34 +0000 (UTC)
-Received: by mail-pl1-f174.google.com with SMTP id
- d9443c01a7336-20b3e1a27f7so2146185ad.1; 
- Mon, 30 Sep 2024 08:49:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1727711374; x=1728316174; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=+q8VOr+aRJdcUf16Ay//IQ3TQ8L8t3ZXCDFmufxzXSc=;
- b=kk0/lXMNgwwBjdcFyb3UNYr4qHH1GbR8CtzqaPGJakGX1QPUtbKBo9uqXYE+g75egV
- mCVFSKxHA2x+ZTet/ggKOVcHiKtZO9Bl+HyXU3Gs4Hem7OruiC4qjHLbBj055RZPN+wL
- w9jV4Mj4MmrEo8TPaUJzBDa+dX9ewPq7qFr6g5cC4cQEYbn4ppFl36Fs8fBu/4wkHHc7
- 4hcLl8nzCjV8vwPGyXqF1RxVVoCl9WGkctAdbWGCBIid5gc/RAQuiMmGPCoBnMYxXcLA
- KqHyJGIfqFsTXVp8EQgPunqZnuLLlmPdbS+5Z7sNGWh9JKbEYjZo7LZbtwMznw3Ey+6K
- HKdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727711374; x=1728316174;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=+q8VOr+aRJdcUf16Ay//IQ3TQ8L8t3ZXCDFmufxzXSc=;
- b=iQL07DP80kjlmMqve7zenXymSWLGoCo5mAbWLaPiT69dzfwyw84mhENpRGSOMm4Eqh
- k6iHwGjCxQJLtxAanDJ4HA5iiu8UDjPPr1yfDKlmlJz1RUNGdti9blq2e2OkDE47uHMP
- /14NYyE7vV/48hZM7TxhfgBV9ROfX4aXQoHoup+/c7JO33SV2faimhlOn6tvHwcgdYDP
- xxs5BbS1yjUQvvLkaQCWmpn5M+3z07WUzdPMkzJTc9pp/ftyMSb/EBX4CuMzTcu781ku
- gxkf/L58xO5u7TLTzNynxkBNOJ3sn8Kmnq3nlOP6A86nvw/9Sd/nTVCYP+/A6tR+GGyy
- et8Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUESNwU6++0X8F95YMC/SEPl50Z6CwbcAa3YidIJnnt15qKXXRNcyPTPCRG7sEaOhizSTClRbOrXs7x@lists.freedesktop.org,
- AJvYcCXmMRAgcoA2tANXdsNgXgDg8rIgC0J+0da+vw9r6dnuZ9lg94vodh83W5lKt2ksZvGqMJLBqd2y@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzC0IVXjdGTAuT9iUZx50PoXhBl6Zju/SrPBLDCzDLn3phGx3e1
- MiCv0GM9HCT6/laIcr+HoRuu6bTaBRzYvg2zHazzMgSvc4kvA+mZA0aedM/pVegIKXm4B7XoYUQ
- tEFsucBILTnWy867l9vDCjI7XzSU=
-X-Google-Smtp-Source: AGHT+IFq/iE3aElnPOuCP9DKQvEjbGBpk613KgJlE7+aVGD1RqPXBUEW0GIQXjPQCIYKQU5+51L2ka5tsPpXb6apOLQ=
-X-Received: by 2002:a05:6a21:78a0:b0:1cf:4e49:bc74 with SMTP id
- adf61e73a8af0-1d509b8a3d1mr6134049637.9.1727711374087; Mon, 30 Sep 2024
- 08:49:34 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DE2510E2E9
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2024 15:50:42 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 6E0525C4D92;
+ Mon, 30 Sep 2024 15:50:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8ED50C4CEC7;
+ Mon, 30 Sep 2024 15:50:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1727711439;
+ bh=ES7/cNL+8F5BG1CtVymfGnbcn65kDxPtYwD9CbnCd5c=;
+ h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+ b=e2bLsCBxW1jEHWd5+44XmJUD3AHQ2zOEAsLgA9A6LskxEMOowGESItyh8VYJPmu9d
+ 4jtB8gDUOQhNudfCQcCI15lTPrZATkdkNPcc4HlIexn5wLnqb4XDsEfkUXN4Du/ku+
+ 1iefp1ReVfxyYVwFsZHa7IIP1FnLmghOG5VTf7KLYOphI/vUx9abGstjIY2bbDhk5o
+ 6LHop8I9uh6QrW5R+pncVm+qEQ/aCPSBfmLUL4zCUYs9gvh/5Iuz6jAplMsJqfvr66
+ R8BUpjwOdlznoWtukNYQkEW+ghfypUeEn4MGVwmDgk/jqmKAeGrt+ScoPNSAQKUlp5
+ ghkLdpR3nWuaA==
+From: Lee Jones <lee@kernel.org>
+To: lee@kernel.org, daniel.thompson@linaro.org, jingoohan1@gmail.com, 
+ deller@gmx.de, bonbons@linux-vserver.org, jikos@kernel.org, 
+ bentiss@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de, 
+ shawnguo@kernel.org, festevam@gmail.com, 
+ Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
+ linux-omap@vger.kernel.org
+In-Reply-To: <20240906075439.98476-1-tzimmermann@suse.de>
+References: <20240906075439.98476-1-tzimmermann@suse.de>
+Subject: Re: [PATCH v2 00/28] backlight: lcd: Remove fbdev dependencies
+Message-Id: <172771143528.575091.11206670761762692386.b4-ty@kernel.org>
+Date: Mon, 30 Sep 2024 16:50:35 +0100
 MIME-Version: 1.0
-References: <20240927150719.1432625-1-Igor.A.Artemiev@mcst.ru>
-In-Reply-To: <20240927150719.1432625-1-Igor.A.Artemiev@mcst.ru>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 30 Sep 2024 11:49:22 -0400
-Message-ID: <CADnq5_P6UT+sbR_4g9cmZ0fHZ4CgU5WLr-NZJ_uqnfEsJdZD_w@mail.gmail.com>
-Subject: Re: [PATCH] drm/radeon/r600_cs: Fix possible int overflow in
- r600_packet3_check()
-To: Igor Artemiev <Igor.A.Artemiev@mcst.ru>
-Cc: Alex Deucher <alexander.deucher@amd.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.13.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,48 +62,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Sep 29, 2024 at 8:08=E2=80=AFPM Igor Artemiev <Igor.A.Artemiev@mcst=
-.ru> wrote:
->
-> It is possible, although unlikely, that an integer overflow will occur
-> when the result of radeon_get_ib_value() is shifted to the left.
->
-> Avoid it by casting one of the operands to larger data type (u64).
->
-> Found by Linux Verification Center (linuxtesting.org) with static
-> analysis tool SVACE.
->
-> Signed-off-by: Igor Artemiev <Igor.A.Artemiev@mcst.ru>
+On Fri, 06 Sep 2024 09:52:14 +0200, Thomas Zimmermann wrote:
+> This series removes most dependencies on fbdev from the lcd subsystem
+> and its drivers.
+> 
+> Patches 1 to 3 rework the fbdev notifier, the fbdev's fb_info can
+> now refer to a dedicated lcd device, and lcd defines constants for
+> power states. These changes resemble similar changes to the backlight
+> code.
+> 
+> [...]
 
-The chips supported by this code only support a 32 bit internal GPU
-address space, so it should never overflow.  That said, I've applied
-the patch.  We already cast other similar code in that file.
+Applied, thanks!
 
-Alex
+[01/28] backlight: lcd: Rearrange code in fb_notifier_callback()
+        commit: d36870367c187daaa8a2c487d5ff1d57141eb039
+[02/28] backlight: lcd: Test against struct fb_info.lcd_dev
+        commit: 26228256b796eb0145bdfb2ae34ec8c4c0ef1319
+[03/28] backlight: lcd: Add LCD_POWER_ constants for power states
+        commit: 48ffe2074c2864ab64ee2004e7ebf3d6a6730fbf
+[04/28] backlight: corgi_lcd: Use lcd power constants
+        commit: 20929e3691599f9cb3e3a0a7b81718c7a5b716b9
+[05/28] backlight: hx8357: Use lcd power constants
+        commit: 7629628d610658f9cc210b9e969f34d07f2c85bd
+[06/28] backlight: ili922x: Use lcd power constants
+        commit: 4364900b128801d62f9c42b2486bceda82f95b17
+[07/28] backlight: ili9320: Use lcd power constants
+        commit: e844452282f7dba399b86bf9847294c226c8d466
+[08/28] backlight: jornada720_lcd: Include <linux/io.h> for IOMEM() macro
+        commit: a412a18709fd40356a1768c7522db97cb05062d1
+[09/28] backlight: jornada720_lcd: Use lcd power constants
+        commit: 992f5c43fcf26001c1f5a11146be3c4c1533bbcf
+[10/28] backlight: l4f00242t03: Use lcd power constants
+        commit: 4be0de90b7f8816e4a310ec6b2183eee66d54290
+[11/28] backlight: lms283gf05: Use lcd power constants
+        commit: 3b53bf14d4eef8293bf0f826f3345090f4557516
+[12/28] backlight: lms501kf03: Remove unnecessary include of <linux/backlight.h>
+        commit: 2576e64bc8a59838e74ba081a3d05ea6ab30678c
+[13/28] backlight: lms501kf03: Use lcd power constants
+        commit: 7c323fb26465ed294cd34bff77a68a40499148a7
+[14/28] backlight: ltv350qv: Use lcd power constants
+        commit: a42a215d4d4d5ab32af4dee860e964764ed89f65
+[15/28] backlight: otm3225a: Use lcd power constants
+        commit: 7c14e7a3fda5bd7323dcee60c69a47773f1fd6c6
+[16/28] backlight: platform_lcd: Remove include statement for <linux/backlight.h>
+        commit: 516f3251429068a963d498a35441c0afaea6d1a4
+[17/28] backlight: platform_lcd: Remove match_fb from struct plat_lcd_data
+        commit: c38a7db56d18b3ec07f3ad52c1e3f1f05c375011
+[18/28] backlight: platform_lcd: Use lcd power constants
+        commit: 86c0826a7eebf476e46fea81ca3a85f355213a9a
+[19/28] backlight: tdo24m: Use lcd power constants
+        commit: e5dfbbd39ee839ad3d6c1df7b3ec92800ceb4984
+[20/28] fbdev: clps711x-fb: Replace check_fb in favor of struct fb_info.lcd_dev
+        commit: 36462ac193088db17823b592cb2c08fff6898b23
+[21/28] fbdev: clps711x-fb: Use lcd power constants
+        commit: c11de820785fc2f1b58a764ac5529ab3670ce8c4
+[22/28] fbdev: imxfb: Replace check_fb in favor of struct fb_info.lcd_dev
+        commit: 488d807101c208d057c429dd6f9ce00041eda094
+[23/28] fbdev: imxfb: Use lcd power constants
+        commit: 32c913d82ec70af3103608996dbd32aa92004347
+[24/28] fbdev: omap: Use lcd power constants
+        commit: 16d6110e5257bb3718c53186765fa04bc8d53000
+[25/28] HID: picoLCD: Replace check_fb in favor of struct fb_info.lcd_dev
+        commit: 05deb1ce96cda46a1ddc82f82a4645ef14cbe680
+[26/28] backlight: lcd: Replace check_fb with controls_device
+        commit: 43e1120deb3768c86aa3875c7073658e44a30ea5
+[27/28] backlight: lcd: Remove struct fb_videomode from set_mode callback
+        commit: 02e224d096ef58fe59e96609de6018e133f33512
+[28/28] backlight: lcd: Do not include <linux/fb.h> in lcd header
+        commit: 0d580d99749e759b62dc8e28f511310e9235da7a
 
-> ---
->  drivers/gpu/drm/radeon/r600_cs.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/radeon/r600_cs.c b/drivers/gpu/drm/radeon/r6=
-00_cs.c
-> index 1b2d31c4d77c..ac77d1246b94 100644
-> --- a/drivers/gpu/drm/radeon/r600_cs.c
-> +++ b/drivers/gpu/drm/radeon/r600_cs.c
-> @@ -2104,7 +2104,7 @@ static int r600_packet3_check(struct radeon_cs_pars=
-er *p,
->                                 return -EINVAL;
->                         }
->
-> -                       offset =3D radeon_get_ib_value(p, idx+1) << 8;
-> +                       offset =3D (u64)radeon_get_ib_value(p, idx+1) << =
-8;
->                         if (offset !=3D track->vgt_strmout_bo_offset[idx_=
-value]) {
->                                 DRM_ERROR("bad STRMOUT_BASE_UPDATE, bo of=
-fset does not match: 0x%llx, 0x%x\n",
->                                           offset, track->vgt_strmout_bo_o=
-ffset[idx_value]);
-> --
-> 2.39.2
->
+--
+Lee Jones [李琼斯]
+
