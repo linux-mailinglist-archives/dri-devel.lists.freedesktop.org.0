@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6A9498AD64
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2024 21:53:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DDD198AD6D
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2024 21:53:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 273DE10E576;
-	Mon, 30 Sep 2024 19:53:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEF9B10E584;
+	Mon, 30 Sep 2024 19:53:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="PJRiMfQg";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="f5Q7aBHJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E778210E57C
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2024 19:53:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D51010E2FB
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2024 19:53:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1727726017; x=1759262017;
+ t=1727726019; x=1759262019;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=y6lv7dBQv2DtQ4tNG2ar89CNCUCvxYWaO8DHd9xWTJE=;
- b=PJRiMfQgDb2emnPrVmbpOY4t4dAyn6GNAtzmdssKUF62h4Iv10c6Ejuz
- jDxX4I2NX8HCVA0vVkCEjI1FegS1k0Z4OaIJPiGIpbsGI7hkdbq6ptXBx
- A622/lxcYRTa86w/KoQBvUGk0WhcA4yLsjzv3vek7JfuHRVmA4674qm/a
- vU9fry2A2w1GIF8WlTYBU+XZ7ot6RIV7xbIs382VEgamLgMGn9h6vRI2j
- GAFBHO2h2lkMt9MXXuEj9Fks4ZUf47445B83zo8v+F5WeuNC9LZ0T3Vro
- 6Ui6fPQXda9pR0TIgD6mS/CnuhQ8wQ8MvwEy1FxN15Buz5nL6A4iDpdHA w==;
-X-CSE-ConnectionGUID: 0Hc7NVZ1Tsec/KSSST/enA==
-X-CSE-MsgGUID: bYQzasnPT9Whuuf3yZStOw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11211"; a="26962305"
-X-IronPort-AV: E=Sophos;i="6.11,166,1725346800"; d="scan'208";a="26962305"
+ bh=r5d62YKxzAE4g8hV0D8J2CCj6cyyprF7md7jATV1Lkc=;
+ b=f5Q7aBHJQknHoeCJeGSzFFjJwMs6A/taZeiEIMPI0jtPwlHeqd6H706y
+ 2ngFm8s46tqwSzBy7Ap/4V/ALSyMghjvySzHCChChP0y8GLeqH9QNMMFd
+ eA6EnniDJgxxsqC0fzf/xKt34YCYOSrVQ7l++ddzLyRB3g89libe4bnJD
+ vr3PobEeY731OrvxocX/Fmh4ZRFBKHxresVTBEuUakJ8VjDT2R8NWIapj
+ 6cm3QvrvWMjz/DVZztJZS69H6T/waQHz+aetIKuxzEA5SpXGQGwP2ysgE
+ UnRdGPcPBL8cX+P5TxI5D2XwfCPUglouRuHQflTW6SW82EYCPMzJlANJR w==;
+X-CSE-ConnectionGUID: wELKGC3KR0KsCaNJC2QN1Q==
+X-CSE-MsgGUID: ZvB43P6vRJmjqU7Dn7lMfw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11211"; a="26962308"
+X-IronPort-AV: E=Sophos;i="6.11,166,1725346800"; d="scan'208";a="26962308"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Sep 2024 12:53:37 -0700
-X-CSE-ConnectionGUID: F1z5+kHJQDaiZnxjYW4t9Q==
-X-CSE-MsgGUID: h2NCSYtKRw+noLk1tWIK5g==
+ 30 Sep 2024 12:53:38 -0700
+X-CSE-ConnectionGUID: ytErJZlGR8mF3047EVPOcw==
+X-CSE-MsgGUID: YMdzoshqTJWPtAt3e+zp/g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,166,1725346800"; d="scan'208";a="73370001"
+X-IronPort-AV: E=Sophos;i="6.11,166,1725346800"; d="scan'208";a="73370010"
 Received: from jlawryno.igk.intel.com ([10.91.220.59])
  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Sep 2024 12:53:35 -0700
+ 30 Sep 2024 12:53:37 -0700
 From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com,
- Karol Wachowski <karol.wachowski@intel.com>,
+ Tomasz Rusinowicz <tomasz.rusinowicz@intel.com>,
  Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Subject: [PATCH v2 07/31] accel/ivpu: Add coredump support
-Date: Mon, 30 Sep 2024 21:52:58 +0200
-Message-ID: <20240930195322.461209-8-jacek.lawrynowicz@linux.intel.com>
+Subject: [PATCH v2 08/31] accel/ivpu: Add FW state dump on TDR
+Date: Mon, 30 Sep 2024 21:52:59 +0200
+Message-ID: <20240930195322.461209-9-jacek.lawrynowicz@linux.intel.com>
 X-Mailer: git-send-email 2.45.1
 In-Reply-To: <20240930195322.461209-1-jacek.lawrynowicz@linux.intel.com>
 References: <20240930195322.461209-1-jacek.lawrynowicz@linux.intel.com>
@@ -69,224 +69,156 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Karol Wachowski <karol.wachowski@intel.com>
+From: Tomasz Rusinowicz <tomasz.rusinowicz@intel.com>
 
-Use coredump (if available) to collect FW logs in case of a FW crash.
-This makes dmesg more readable and allows to collect more log data.
+Send JSM state dump message at the beginning of TDR handler. This allows
+FW to collect debug info in the FW log before the state of the NPU is
+lost allowing to analyze the cause of a TDR.
 
-Signed-off-by: Karol Wachowski <karol.wachowski@intel.com>
+Wait a predefined timeout (10 ms) so the FW has a chance to write debug
+logs. We cannot wait for JSM response at this point because IRQs are
+already disabled before TDR handler is invoked.
+
+Signed-off-by: Tomasz Rusinowicz <tomasz.rusinowicz@intel.com>
 Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 ---
- drivers/accel/ivpu/Kconfig         |  1 +
- drivers/accel/ivpu/Makefile        |  1 +
- drivers/accel/ivpu/ivpu_coredump.c | 39 ++++++++++++++++++++++++++++++
- drivers/accel/ivpu/ivpu_coredump.h | 25 +++++++++++++++++++
- drivers/accel/ivpu/ivpu_drv.c      |  5 ++--
- drivers/accel/ivpu/ivpu_fw_log.h   |  8 ------
- drivers/accel/ivpu/ivpu_pm.c       |  9 ++++---
- 7 files changed, 74 insertions(+), 14 deletions(-)
- create mode 100644 drivers/accel/ivpu/ivpu_coredump.c
- create mode 100644 drivers/accel/ivpu/ivpu_coredump.h
+ drivers/accel/ivpu/ivpu_drv.h     |  1 +
+ drivers/accel/ivpu/ivpu_hw.c      |  3 +++
+ drivers/accel/ivpu/ivpu_ipc.c     | 26 ++++++++++++++++++++++++++
+ drivers/accel/ivpu/ivpu_ipc.h     |  2 ++
+ drivers/accel/ivpu/ivpu_jsm_msg.c |  8 ++++++++
+ drivers/accel/ivpu/ivpu_jsm_msg.h |  2 ++
+ drivers/accel/ivpu/ivpu_pm.c      |  1 +
+ 7 files changed, 43 insertions(+)
 
-diff --git a/drivers/accel/ivpu/Kconfig b/drivers/accel/ivpu/Kconfig
-index 682c532452863..e4d418b44626e 100644
---- a/drivers/accel/ivpu/Kconfig
-+++ b/drivers/accel/ivpu/Kconfig
-@@ -8,6 +8,7 @@ config DRM_ACCEL_IVPU
- 	select FW_LOADER
- 	select DRM_GEM_SHMEM_HELPER
- 	select GENERIC_ALLOCATOR
-+	select WANT_DEV_COREDUMP
- 	help
- 	  Choose this option if you have a system with an 14th generation
- 	  Intel CPU (Meteor Lake) or newer. Intel NPU (formerly called Intel VPU)
-diff --git a/drivers/accel/ivpu/Makefile b/drivers/accel/ivpu/Makefile
-index ebd682a42eb12..232ea6d28c6e2 100644
---- a/drivers/accel/ivpu/Makefile
-+++ b/drivers/accel/ivpu/Makefile
-@@ -19,5 +19,6 @@ intel_vpu-y := \
- 	ivpu_sysfs.o
+diff --git a/drivers/accel/ivpu/ivpu_drv.h b/drivers/accel/ivpu/ivpu_drv.h
+index 63f13b697eed7..2b30cc2e9272e 100644
+--- a/drivers/accel/ivpu/ivpu_drv.h
++++ b/drivers/accel/ivpu/ivpu_drv.h
+@@ -152,6 +152,7 @@ struct ivpu_device {
+ 		int tdr;
+ 		int autosuspend;
+ 		int d0i3_entry_msg;
++		int state_dump_msg;
+ 	} timeout;
+ };
  
- intel_vpu-$(CONFIG_DEBUG_FS) += ivpu_debugfs.o
-+intel_vpu-$(CONFIG_DEV_COREDUMP) += ivpu_coredump.o
- 
- obj-$(CONFIG_DRM_ACCEL_IVPU) += intel_vpu.o
-diff --git a/drivers/accel/ivpu/ivpu_coredump.c b/drivers/accel/ivpu/ivpu_coredump.c
-new file mode 100644
-index 0000000000000..16ad0c30818cc
---- /dev/null
-+++ b/drivers/accel/ivpu/ivpu_coredump.c
-@@ -0,0 +1,39 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (C) 2020-2024 Intel Corporation
-+ */
-+
-+#include <linux/devcoredump.h>
-+#include <linux/firmware.h>
-+
-+#include "ivpu_coredump.h"
-+#include "ivpu_fw.h"
-+#include "ivpu_gem.h"
-+#include "vpu_boot_api.h"
-+
-+#define CRASH_DUMP_HEADER "Intel NPU crash dump"
-+#define CRASH_DUMP_HEADERS_SIZE SZ_4K
-+
-+void ivpu_dev_coredump(struct ivpu_device *vdev)
-+{
-+	struct drm_print_iterator pi = {};
-+	struct drm_printer p;
-+	size_t coredump_size;
-+	char *coredump;
-+
-+	coredump_size = CRASH_DUMP_HEADERS_SIZE + FW_VERSION_HEADER_SIZE +
-+			ivpu_bo_size(vdev->fw->mem_log_crit) + ivpu_bo_size(vdev->fw->mem_log_verb);
-+	coredump = vmalloc(coredump_size);
-+	if (!coredump)
-+		return;
-+
-+	pi.data = coredump;
-+	pi.remain = coredump_size;
-+	p = drm_coredump_printer(&pi);
-+
-+	drm_printf(&p, "%s\n", CRASH_DUMP_HEADER);
-+	drm_printf(&p, "FW version: %s\n", vdev->fw->version);
-+	ivpu_fw_log_print(vdev, false, &p);
-+
-+	dev_coredumpv(vdev->drm.dev, coredump, pi.offset, GFP_KERNEL);
-+}
-diff --git a/drivers/accel/ivpu/ivpu_coredump.h b/drivers/accel/ivpu/ivpu_coredump.h
-new file mode 100644
-index 0000000000000..8efb09d024411
---- /dev/null
-+++ b/drivers/accel/ivpu/ivpu_coredump.h
-@@ -0,0 +1,25 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (C) 2020-2024 Intel Corporation
-+ */
-+
-+#ifndef __IVPU_COREDUMP_H__
-+#define __IVPU_COREDUMP_H__
-+
-+#include <drm/drm_print.h>
-+
-+#include "ivpu_drv.h"
-+#include "ivpu_fw_log.h"
-+
-+#ifdef CONFIG_DEV_COREDUMP
-+void ivpu_dev_coredump(struct ivpu_device *vdev);
-+#else
-+static inline void ivpu_dev_coredump(struct ivpu_device *vdev)
-+{
-+	struct drm_printer p = drm_info_printer(vdev->drm.dev);
-+
-+	ivpu_fw_log_print(vdev, false, &p);
-+}
-+#endif
-+
-+#endif /* __IVPU_COREDUMP_H__ */
-diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
-index c91400ecf9265..38b4158f52784 100644
---- a/drivers/accel/ivpu/ivpu_drv.c
-+++ b/drivers/accel/ivpu/ivpu_drv.c
-@@ -14,7 +14,7 @@
- #include <drm/drm_ioctl.h>
- #include <drm/drm_prime.h>
- 
--#include "vpu_boot_api.h"
-+#include "ivpu_coredump.h"
- #include "ivpu_debugfs.h"
- #include "ivpu_drv.h"
- #include "ivpu_fw.h"
-@@ -29,6 +29,7 @@
- #include "ivpu_ms.h"
- #include "ivpu_pm.h"
- #include "ivpu_sysfs.h"
-+#include "vpu_boot_api.h"
- 
- #ifndef DRIVER_VERSION_STR
- #define DRIVER_VERSION_STR __stringify(DRM_IVPU_DRIVER_MAJOR) "." \
-@@ -382,7 +383,7 @@ int ivpu_boot(struct ivpu_device *vdev)
- 		ivpu_err(vdev, "Failed to boot the firmware: %d\n", ret);
- 		ivpu_hw_diagnose_failure(vdev);
- 		ivpu_mmu_evtq_dump(vdev);
--		ivpu_fw_log_dump(vdev);
-+		ivpu_dev_coredump(vdev);
- 		return ret;
+diff --git a/drivers/accel/ivpu/ivpu_hw.c b/drivers/accel/ivpu/ivpu_hw.c
+index 27f0fe4d54e00..85219e9596215 100644
+--- a/drivers/accel/ivpu/ivpu_hw.c
++++ b/drivers/accel/ivpu/ivpu_hw.c
+@@ -89,12 +89,14 @@ static void timeouts_init(struct ivpu_device *vdev)
+ 		vdev->timeout.tdr = 2000000;
+ 		vdev->timeout.autosuspend = -1;
+ 		vdev->timeout.d0i3_entry_msg = 500;
++		vdev->timeout.state_dump_msg = 10;
+ 	} else if (ivpu_is_simics(vdev)) {
+ 		vdev->timeout.boot = 50;
+ 		vdev->timeout.jsm = 500;
+ 		vdev->timeout.tdr = 10000;
+ 		vdev->timeout.autosuspend = -1;
+ 		vdev->timeout.d0i3_entry_msg = 100;
++		vdev->timeout.state_dump_msg = 10;
+ 	} else {
+ 		vdev->timeout.boot = 1000;
+ 		vdev->timeout.jsm = 500;
+@@ -104,6 +106,7 @@ static void timeouts_init(struct ivpu_device *vdev)
+ 		else
+ 			vdev->timeout.autosuspend = 100;
+ 		vdev->timeout.d0i3_entry_msg = 5;
++		vdev->timeout.state_dump_msg = 10;
  	}
+ }
  
-diff --git a/drivers/accel/ivpu/ivpu_fw_log.h b/drivers/accel/ivpu/ivpu_fw_log.h
-index 41c85b74cc7fd..8bb528a73cb7e 100644
---- a/drivers/accel/ivpu/ivpu_fw_log.h
-+++ b/drivers/accel/ivpu/ivpu_fw_log.h
-@@ -8,8 +8,6 @@
+diff --git a/drivers/accel/ivpu/ivpu_ipc.c b/drivers/accel/ivpu/ivpu_ipc.c
+index 78b32a8232419..83b4ba4f3e20a 100644
+--- a/drivers/accel/ivpu/ivpu_ipc.c
++++ b/drivers/accel/ivpu/ivpu_ipc.c
+@@ -364,6 +364,32 @@ int ivpu_ipc_send_receive(struct ivpu_device *vdev, struct vpu_jsm_msg *req,
+ 	return ret;
+ }
  
- #include <linux/types.h>
++int ivpu_ipc_send_and_wait(struct ivpu_device *vdev, struct vpu_jsm_msg *req,
++			   u32 channel, unsigned long timeout_ms)
++{
++	struct ivpu_ipc_consumer cons;
++	int ret;
++
++	ret = ivpu_rpm_get(vdev);
++	if (ret < 0)
++		return ret;
++
++	ivpu_ipc_consumer_add(vdev, &cons, channel, NULL);
++
++	ret = ivpu_ipc_send(vdev, &cons, req);
++	if (ret) {
++		ivpu_warn_ratelimited(vdev, "IPC send failed: %d\n", ret);
++		goto consumer_del;
++	}
++
++	msleep(timeout_ms);
++
++consumer_del:
++	ivpu_ipc_consumer_del(vdev, &cons);
++	ivpu_rpm_put(vdev);
++	return ret;
++}
++
+ static bool
+ ivpu_ipc_match_consumer(struct ivpu_device *vdev, struct ivpu_ipc_consumer *cons,
+ 			struct ivpu_ipc_hdr *ipc_hdr, struct vpu_jsm_msg *jsm_msg)
+diff --git a/drivers/accel/ivpu/ivpu_ipc.h b/drivers/accel/ivpu/ivpu_ipc.h
+index 4fe38141045ea..6bbe6e32c8749 100644
+--- a/drivers/accel/ivpu/ivpu_ipc.h
++++ b/drivers/accel/ivpu/ivpu_ipc.h
+@@ -108,5 +108,7 @@ int ivpu_ipc_send_receive_active(struct ivpu_device *vdev, struct vpu_jsm_msg *r
+ int ivpu_ipc_send_receive(struct ivpu_device *vdev, struct vpu_jsm_msg *req,
+ 			  enum vpu_ipc_msg_type expected_resp, struct vpu_jsm_msg *resp,
+ 			  u32 channel, unsigned long timeout_ms);
++int ivpu_ipc_send_and_wait(struct ivpu_device *vdev, struct vpu_jsm_msg *req,
++			   u32 channel, unsigned long timeout_ms);
  
--#include <drm/drm_print.h>
--
- #include "ivpu_drv.h"
- 
- #define IVPU_FW_LOG_DEFAULT 0
-@@ -29,11 +27,5 @@ void ivpu_fw_log_print(struct ivpu_device *vdev, bool only_new_msgs, struct drm_
- void ivpu_fw_log_mark_read(struct ivpu_device *vdev);
- void ivpu_fw_log_reset(struct ivpu_device *vdev);
- 
--static inline void ivpu_fw_log_dump(struct ivpu_device *vdev)
--{
--	struct drm_printer p = drm_info_printer(vdev->drm.dev);
--
--	ivpu_fw_log_print(vdev, false, &p);
--}
- 
- #endif /* __IVPU_FW_LOG_H__ */
+ #endif /* __IVPU_IPC_H__ */
+diff --git a/drivers/accel/ivpu/ivpu_jsm_msg.c b/drivers/accel/ivpu/ivpu_jsm_msg.c
+index b06da8f50fd39..cd33964d292bc 100644
+--- a/drivers/accel/ivpu/ivpu_jsm_msg.c
++++ b/drivers/accel/ivpu/ivpu_jsm_msg.c
+@@ -559,3 +559,11 @@ int ivpu_jsm_dct_disable(struct ivpu_device *vdev)
+ 					    &resp, VPU_IPC_CHAN_ASYNC_CMD,
+ 					    vdev->timeout.jsm);
+ }
++
++int ivpu_jsm_state_dump(struct ivpu_device *vdev)
++{
++	struct vpu_jsm_msg req = { .type = VPU_JSM_MSG_STATE_DUMP };
++
++	return ivpu_ipc_send_and_wait(vdev, &req, VPU_IPC_CHAN_ASYNC_CMD,
++				      vdev->timeout.state_dump_msg);
++}
+diff --git a/drivers/accel/ivpu/ivpu_jsm_msg.h b/drivers/accel/ivpu/ivpu_jsm_msg.h
+index e4e42c0ff6e65..9e84d3526a146 100644
+--- a/drivers/accel/ivpu/ivpu_jsm_msg.h
++++ b/drivers/accel/ivpu/ivpu_jsm_msg.h
+@@ -43,4 +43,6 @@ int ivpu_jsm_metric_streamer_info(struct ivpu_device *vdev, u64 metric_group_mas
+ 				  u64 buffer_size, u32 *sample_size, u64 *info_size);
+ int ivpu_jsm_dct_enable(struct ivpu_device *vdev, u32 active_us, u32 inactive_us);
+ int ivpu_jsm_dct_disable(struct ivpu_device *vdev);
++int ivpu_jsm_state_dump(struct ivpu_device *vdev);
++
+ #endif
 diff --git a/drivers/accel/ivpu/ivpu_pm.c b/drivers/accel/ivpu/ivpu_pm.c
-index 3c36b55c01d51..bf77395ffcb7c 100644
+index bf77395ffcb7c..b5a69941e6e0a 100644
 --- a/drivers/accel/ivpu/ivpu_pm.c
 +++ b/drivers/accel/ivpu/ivpu_pm.c
-@@ -9,17 +9,18 @@
- #include <linux/pm_runtime.h>
- #include <linux/reboot.h>
- 
--#include "vpu_boot_api.h"
-+#include "ivpu_coredump.h"
- #include "ivpu_drv.h"
--#include "ivpu_hw.h"
- #include "ivpu_fw.h"
- #include "ivpu_fw_log.h"
-+#include "ivpu_hw.h"
- #include "ivpu_ipc.h"
- #include "ivpu_job.h"
- #include "ivpu_jsm_msg.h"
- #include "ivpu_mmu.h"
- #include "ivpu_ms.h"
- #include "ivpu_pm.h"
-+#include "vpu_boot_api.h"
- 
- static bool ivpu_disable_recovery;
- module_param_named_unsafe(disable_recovery, ivpu_disable_recovery, bool, 0644);
-@@ -124,7 +125,7 @@ static void ivpu_pm_recovery_work(struct work_struct *work)
+@@ -125,6 +125,7 @@ static void ivpu_pm_recovery_work(struct work_struct *work)
  	if (ret)
  		ivpu_err(vdev, "Failed to resume NPU: %d\n", ret);
  
--	ivpu_fw_log_dump(vdev);
-+	ivpu_dev_coredump(vdev);
++	ivpu_jsm_state_dump(vdev);
+ 	ivpu_dev_coredump(vdev);
  
  	atomic_inc(&vdev->pm->reset_counter);
- 	atomic_set(&vdev->pm->reset_pending, 1);
-@@ -263,7 +264,7 @@ int ivpu_pm_runtime_suspend_cb(struct device *dev)
- 	if (!is_idle || ret_d0i3) {
- 		ivpu_err(vdev, "Forcing cold boot due to previous errors\n");
- 		atomic_inc(&vdev->pm->reset_counter);
--		ivpu_fw_log_dump(vdev);
-+		ivpu_dev_coredump(vdev);
- 		ivpu_pm_prepare_cold_boot(vdev);
- 	} else {
- 		ivpu_pm_prepare_warm_boot(vdev);
 -- 
 2.45.1
 
