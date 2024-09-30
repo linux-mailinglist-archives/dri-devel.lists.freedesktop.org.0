@@ -2,61 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9AD798AC2E
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2024 20:36:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32B7E98ACB1
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2024 21:20:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 485BF10E2F0;
-	Mon, 30 Sep 2024 18:36:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A86B10E131;
+	Mon, 30 Sep 2024 19:20:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=mainlining.org header.i=@mainlining.org header.b="hT+ZPoCT";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="YY0Z09gX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8313110E131;
- Mon, 30 Sep 2024 18:36:03 +0000 (UTC)
-Received: from [192.168.1.130] (51B6DC6E.dsl.pool.telekom.hu [81.182.220.110])
- by mail.mainlining.org (Postfix) with ESMTPSA id E4021E4525;
- Mon, 30 Sep 2024 18:36:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mainlining.org;
- s=psm; t=1727721362;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=O1o48v598RdAX8uBq3dEDUciaP1L2dPMwSXvDgPr/0g=;
- b=hT+ZPoCT5xhFiRxeTOkTfXc2pqTMIEDdAxYDWQh7lBQwcolVA8k3b+bDE0WHFuYQkPJ4Rf
- hrWcsd6ewcNuIpAtTAdgzY0lrNsUmc4a+TB8pEw/TIZ3jaFDjgttBqf5bWlpkXwsAxNvuQ
- wAO+sQNwxzqoBhUC8s95MBt2/jQlQ2KSd3bTMv4vE53NXjdpKDw0pAY+Oya+0z/XvNNS1L
- jPuBZUxTbJMjbjQVynwsO55nNrxyyfKNg701yaVwffwhSAnBuZBfXW/j6Gw+2YbFFK31A5
- VUShdhdBi+4Yke8C3RhDtr5q9+/6O74BcUYGJrgy+yQJvFz3BYKb5whuAXynHA==
-From: =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?=
- <barnabas.czeman@mainlining.org>
-Date: Mon, 30 Sep 2024 20:35:59 +0200
-Subject: [PATCH v2 4/4] drm/msm/dpu: Add support for MSM8917
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4FCE10E131;
+ Mon, 30 Sep 2024 19:20:12 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48UBZIMo029830;
+ Mon, 30 Sep 2024 19:20:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ kIHIsrxB1VgJf5Jm4xx4QA3REGo2kmyAQcw/MfVXEyc=; b=YY0Z09gXJf2/QXdn
+ I9ICjTXXvG543e17PKRw4tTq/CEuvCvAvT3RYz6ln7nYnXbHNIXSd0oe8b22c3Pf
+ nEvjEhiDUg0sg3bo69sWXhYH6biSkAtQgWwYdS1yLNPJdaH4BZRDojz1T293J3qh
+ RdC8lMLZfDdLn1+ugEqVheqvk7cBaO+HA6ZvrtBbFxCHHDikM1Xbg5GqTkvaJOVM
+ zNVq7uiIQagWIGruBkz5gCi+IqGIRNRBw4EhYsQTNI1tYscmAGGvbeosQKbTUghE
+ IxiybV0ePK6wo39PmaXj0Ne8e0fz6fLljQOlfK4Lu8yU6lwSL5d4wbfTULRBYW/9
+ 5BIk2w==
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41xb38wspe-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 30 Sep 2024 19:20:03 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 48UJK1YN030822
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 30 Sep 2024 19:20:01 GMT
+Received: from [10.110.71.134] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 30 Sep
+ 2024 12:20:01 -0700
+Message-ID: <866ef212-a00e-48c4-9cf1-d1d4ee78d0ae@quicinc.com>
+Date: Mon, 30 Sep 2024 12:19:44 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 16/22] drm/msm/dpu: Configure CWB in writeback encoder
+To: <neil.armstrong@linaro.org>, Rob Clark <robdclark@gmail.com>, "Dmitry
+ Baryshkov" <dmitry.baryshkov@linaro.org>,
+ <quic_abhinavk@quicinc.com>, "Sean Paul" <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ "David Airlie" <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+CC: <quic_ebharadw@quicinc.com>, <linux-arm-msm@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, Rob Clark <robdclark@chromium.org>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+References: <20240924-concurrent-wb-v2-0-7849f900e863@quicinc.com>
+ <20240924-concurrent-wb-v2-16-7849f900e863@quicinc.com>
+ <b9e50652-4556-4eed-a013-8e417eccdb69@linaro.org>
+Content-Language: en-US
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <b9e50652-4556-4eed-a013-8e417eccdb69@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Message-Id: <20240930-dpu-msm8953-msm8996-v2-4-594c3e3190b4@mainlining.org>
-References: <20240930-dpu-msm8953-msm8996-v2-0-594c3e3190b4@mainlining.org>
-In-Reply-To: <20240930-dpu-msm8953-msm8996-v2-0-594c3e3190b4@mainlining.org>
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Simona Vetter <simona.vetter@ffwll.ch>
-Cc: linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?= <barnabas.czeman@mainlining.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1727721359; l=8688;
- i=barnabas.czeman@mainlining.org; s=20240730; h=from:subject:message-id;
- bh=F2jqljH4/t6/YDSegE+tlioH0EQ6ekV53AbWjz1E41g=;
- b=t4asC6FtLq8RnAekUKGRLFiWf0A3277AWqbOOa1Z4TuYEeDGkNq/RpsKrnSTpArUcbR/AjFd2
- kYagvoOQAt3D+EKcOHZro0oAfTCB7r1eqzMS1Kmmfbex3YFg/0UCT/W
-X-Developer-Key: i=barnabas.czeman@mainlining.org; a=ed25519;
- pk=TWUSIGgwW/Sn4xnX25nw+lszj1AT/A3bzkahn7EhOFc=
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: n3-Ce93zgnkRoy9WHyXn-TxGMgEhznT3
+X-Proofpoint-ORIG-GUID: n3-Ce93zgnkRoy9WHyXn-TxGMgEhznT3
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015
+ lowpriorityscore=0 spamscore=0 suspectscore=0 mlxscore=0 phishscore=0
+ mlxlogscore=999 impostorscore=0 adultscore=0 malwarescore=0
+ priorityscore=1501 bulkscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2408220000 definitions=main-2409300140
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,264 +99,368 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Add support for MSM8917, which has MDP5 v1.15. It looks like
-trimmed down version of MSM8937. Even fewer PP, LM and no DSI1.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-[Remove intr_start from CTLs config, reword the commit]
-Signed-off-by: Barnabás Czémán <barnabas.czeman@mainlining.org>
----
- .../drm/msm/disp/dpu1/catalog/dpu_1_15_msm8917.h   | 187 +++++++++++++++++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |   1 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   1 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   1 +
- drivers/gpu/drm/msm/msm_drv.c                      |   1 +
- 5 files changed, 191 insertions(+)
+On 9/30/2024 7:17 AM, neil.armstrong@linaro.org wrote:
+> On 25/09/2024 00:59, Jessica Zhang wrote:
+>> Cache the CWB block mask in the DPU virtual encoder and configure CWB
+>> according to the CWB block mask within the writeback phys encoder
+>>
+>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+>> ---
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        | 83 ++++++++++++ 
+>> +++++++++-
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h   | 16 ++++-
+>>   .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c    |  4 +-
+>>   3 files changed, 100 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/ 
+>> gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>> index b2f0bf412451..2628f2d55cb3 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>> @@ -24,6 +24,7 @@
+>>   #include "dpu_hw_catalog.h"
+>>   #include "dpu_hw_intf.h"
+>>   #include "dpu_hw_ctl.h"
+>> +#include "dpu_hw_cwb.h"
+>>   #include "dpu_hw_dspp.h"
+>>   #include "dpu_hw_dsc.h"
+>>   #include "dpu_hw_merge3d.h"
+>> @@ -139,6 +140,7 @@ enum dpu_enc_rc_states {
+>>    *            num_phys_encs.
+>>    * @hw_dsc:        Handle to the DSC blocks used for the display.
+>>    * @dsc_mask:        Bitmask of used DSC blocks.
+>> + * @cwb_mask        Bitmask of used CWB muxes
+>>    * @intfs_swapped:    Whether or not the phys_enc interfaces have 
+>> been swapped
+>>    *            for partial update right-only cases, such as pingpong
+>>    *            split where virtual pingpong does not generate IRQs
+>> @@ -185,6 +187,7 @@ struct dpu_encoder_virt {
+>>       struct dpu_hw_dsc *hw_dsc[MAX_CHANNELS_PER_ENC];
+>>       unsigned int dsc_mask;
+>> +    unsigned int cwb_mask;
+>>       bool intfs_swapped;
+>> @@ -1063,6 +1066,7 @@ static void 
+>> dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
+>>       int num_cwb = 0;
+>>       bool is_cwb_encoder;
+>>       unsigned int dsc_mask = 0;
+>> +    unsigned int cwb_mask = 0;
+>>       int i;
+>>       if (!drm_enc) {
+>> @@ -1103,8 +1107,12 @@ static void 
+>> dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
+>>                                  ARRAY_SIZE(hw_pp));
+>>       }
+>> -    for (i = 0; i < num_cwb; i++)
+>> +    for (i = 0; i < num_cwb; i++) {
+>>           dpu_enc->hw_cwb[i] = to_dpu_hw_cwb(hw_cwb[i]);
+>> +        cwb_mask |= BIT(dpu_enc->hw_cwb[i]->idx - CWB_0);
+>> +    }
+>> +
+>> +    dpu_enc->cwb_mask = cwb_mask;
+>>       dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
+>>               drm_enc->crtc, DPU_HW_BLK_CTL, hw_ctl, ARRAY_SIZE(hw_ctl));
+>> @@ -2071,6 +2079,9 @@ void dpu_encoder_helper_phys_cleanup(struct 
+>> dpu_encoder_phys *phys_enc)
+>>           }
+>>       }
+>> +    if (dpu_enc->cwb_mask)
+>> +        dpu_encoder_helper_phys_setup_cwb(phys_enc, false);
+>> +
+>>       /* reset the merge 3D HW block */
+>>       if (phys_enc->hw_pp && phys_enc->hw_pp->merge_3d) {
+>>           phys_enc->hw_pp->merge_3d->ops.setup_3d_mode(phys_enc- 
+>> >hw_pp->merge_3d,
+>> @@ -2114,6 +2125,68 @@ void dpu_encoder_helper_phys_cleanup(struct 
+>> dpu_encoder_phys *phys_enc)
+>>       ctl->ops.clear_pending_flush(ctl);
+>>   }
+>> +void dpu_encoder_helper_phys_setup_cwb(struct dpu_encoder_phys 
+>> *phys_enc,
+>> +                       bool enable)
+>> +{
+>> +    struct dpu_encoder_virt *dpu_enc = to_dpu_encoder_virt(phys_enc- 
+>> >parent);
+>> +    struct dpu_hw_cwb *hw_cwb;
+>> +    struct dpu_hw_cwb_setup_cfg cwb_cfg;
+>> +
+>> +    struct dpu_kms *dpu_kms;
+>> +    struct dpu_global_state *global_state;
+>> +    struct dpu_hw_blk *rt_pp_list[MAX_CHANNELS_PER_ENC];
+>> +    int num_pp, rt_pp_idx[MAX_CHANNELS_PER_ENC];
+>> +
+>> +    if (!phys_enc || !phys_enc->hw_wb || !dpu_enc->cwb_mask)
+>> +        return;
+>> +
+>> +    dpu_kms = phys_enc->dpu_kms;
+>> +    global_state = dpu_kms_get_existing_global_state(dpu_kms);
+>> +    num_pp = dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
+>> +                           phys_enc->parent->crtc,
+>> +                           DPU_HW_BLK_PINGPONG, rt_pp_list,
+>> +                           ARRAY_SIZE(rt_pp_list));
+>> +
+>> +    if (num_pp == 0 || num_pp > MAX_CHANNELS_PER_ENC) {
+>> +        DPU_DEBUG_ENC(dpu_enc, "invalid num_pp %d\n", num_pp);
+>> +        return;
+>> +    }
+>> +
+>> +    for (int i = 0; i < num_pp; i++) {
+>> +        struct dpu_hw_pingpong *hw_pp = 
+>> to_dpu_hw_pingpong(rt_pp_list[i]);
+>> +
+>> +        for (int j = 0; j < ARRAY_SIZE(dpu_enc->hw_cwb); j++) {
+>> +            hw_cwb = dpu_enc->hw_cwb[i];
+>> +
+>> +            /*
+>> +             * Even CWB muxes must take input from even real-time
+>> +             * pingpongs and odd CWB muxes must take input from odd
+>> +             * pingpongs
+>> +             */
+>> +            if (hw_pp->idx % 2 == hw_cwb->idx % 2) {
+> 
+> When running igt-test on QRD8650, I get:
+> # IGT_FRAME_DUMP_PATH=$PWD FRAME_PNG_FILE_NAME=pwet /usr/libexec/igt- 
+> gpu-tools/kms_writeback -d
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_15_msm8917.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_15_msm8917.h
-new file mode 100644
-index 0000000000000000000000000000000000000000..6bdaecca676144f9162ab1839d99f3e2e3386dc7
---- /dev/null
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_15_msm8917.h
-@@ -0,0 +1,187 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (c) 2023, Linaro Limited
-+ */
-+
-+#ifndef _DPU_1_14_MSM8917_H
-+#define _DPU_1_14_MSM8917_H
-+
-+static const struct dpu_caps msm8917_dpu_caps = {
-+	.max_mixer_width = DEFAULT_DPU_LINE_WIDTH,
-+	.max_mixer_blendstages = 0x4,
-+	.max_linewidth = DEFAULT_DPU_LINE_WIDTH,
-+	.pixel_ram_size = 16 * 1024,
-+	.max_hdeci_exp = MAX_HORZ_DECIMATION,
-+	.max_vdeci_exp = MAX_VERT_DECIMATION,
-+};
-+
-+static const struct dpu_mdp_cfg msm8917_mdp[] = {
-+	{
-+		.name = "top_0",
-+		.base = 0x0, .len = 0x454,
-+		.features = BIT(DPU_MDP_VSYNC_SEL),
-+		.clk_ctrls = {
-+			[DPU_CLK_CTRL_VIG0] = { .reg_off = 0x2ac, .bit_off = 0 },
-+			[DPU_CLK_CTRL_RGB0] = { .reg_off = 0x2ac, .bit_off = 4 },
-+			[DPU_CLK_CTRL_RGB1] = { .reg_off = 0x2b4, .bit_off = 4 },
-+			[DPU_CLK_CTRL_DMA0] = { .reg_off = 0x2ac, .bit_off = 8 },
-+			[DPU_CLK_CTRL_CURSOR0] = { .reg_off = 0x3a8, .bit_off = 16 },
-+		},
-+	},
-+};
-+
-+static const struct dpu_ctl_cfg msm8917_ctl[] = {
-+	{
-+		.name = "ctl_0", .id = CTL_0,
-+		.base = 0x1000, .len = 0x64,
-+	}, {
-+		.name = "ctl_1", .id = CTL_1,
-+		.base = 0x1200, .len = 0x64,
-+	}, {
-+		.name = "ctl_2", .id = CTL_2,
-+		.base = 0x1400, .len = 0x64,
-+	},
-+};
-+
-+static const struct dpu_sspp_cfg msm8917_sspp[] = {
-+	{
-+		.name = "sspp_0", .id = SSPP_VIG0,
-+		.base = 0x4000, .len = 0x150,
-+		.features = VIG_MSM8953_MASK,
-+		.sblk = &dpu_vig_sblk_qseed2,
-+		.xin_id = 0,
-+		.type = SSPP_TYPE_VIG,
-+		.clk_ctrl = DPU_CLK_CTRL_VIG0,
-+	}, {
-+		.name = "sspp_4", .id = SSPP_RGB0,
-+		.base = 0x14000, .len = 0x150,
-+		.features = RGB_MSM8953_MASK,
-+		.sblk = &dpu_rgb_sblk,
-+		.xin_id = 1,
-+		.type = SSPP_TYPE_RGB,
-+		.clk_ctrl = DPU_CLK_CTRL_RGB0,
-+	}, {
-+		.name = "sspp_5", .id = SSPP_RGB1,
-+		.base = 0x16000, .len = 0x150,
-+		.features = RGB_MSM8953_MASK,
-+		.sblk = &dpu_rgb_sblk,
-+		.xin_id = 5,
-+		.type = SSPP_TYPE_RGB,
-+		.clk_ctrl = DPU_CLK_CTRL_RGB1,
-+	}, {
-+		.name = "sspp_8", .id = SSPP_DMA0,
-+		.base = 0x24000, .len = 0x150,
-+		.features = DMA_MSM8953_MASK | BIT(DPU_SSPP_CURSOR),
-+		.sblk = &dpu_dma_sblk,
-+		.xin_id = 2,
-+		.type = SSPP_TYPE_DMA,
-+		.clk_ctrl = DPU_CLK_CTRL_DMA0,
-+	},
-+};
-+
-+static const struct dpu_lm_cfg msm8917_lm[] = {
-+	{
-+		.name = "lm_0", .id = LM_0,
-+		.base = 0x44000, .len = 0x320,
-+		.sblk = &msm8998_lm_sblk,
-+		.pingpong = PINGPONG_0,
-+		.dspp = DSPP_0,
-+	},
-+};
-+
-+static const struct dpu_pingpong_cfg msm8917_pp[] = {
-+	{
-+		.name = "pingpong_0", .id = PINGPONG_0,
-+		.base = 0x70000, .len = 0xd4,
-+		.features = PINGPONG_MSM8996_MASK,
-+		.sblk = &msm8996_pp_sblk,
-+		.intr_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 8),
-+		.intr_rdptr = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 12),
-+	},
-+};
-+
-+static const struct dpu_dspp_cfg msm8917_dspp[] = {
-+	{
-+		.name = "dspp_0", .id = DSPP_0,
-+		.base = 0x54000, .len = 0x1800,
-+		.features = DSPP_SC7180_MASK,
-+		.sblk = &msm8998_dspp_sblk,
-+	},
-+};
-+
-+static const struct dpu_intf_cfg msm8917_intf[] = {
-+	{
-+		.name = "intf_1", .id = INTF_1,
-+		.base = 0x6a800, .len = 0x268,
-+		.type = INTF_DSI,
-+		.controller_id = MSM_DSI_CONTROLLER_0,
-+		.prog_fetch_lines_worst_case = 14,
-+		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 26),
-+		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 27),
-+		.intr_tear_rd_ptr = -1,
-+	},
-+};
-+
-+static const struct dpu_perf_cfg msm8917_perf_data = {
-+	.max_bw_low = 1800000,
-+	.max_bw_high = 1800000,
-+	.min_core_ib = 2400000,
-+	.min_llcc_ib = 0, /* No LLCC on this SoC */
-+	.min_dram_ib = 800000,
-+	.undersized_prefill_lines = 2,
-+	.xtra_prefill_lines = 2,
-+	.dest_scale_prefill_lines = 3,
-+	.macrotile_prefill_lines = 4,
-+	.yuv_nv12_prefill_lines = 8,
-+	.linear_prefill_lines = 1,
-+	.downscaling_prefill_lines = 1,
-+	.amortizable_threshold = 25,
-+	.min_prefill_lines = 21,
-+	.danger_lut_tbl = {0xf, 0xffff, 0x0},
-+	.safe_lut_tbl = {0xfffc, 0xff00, 0xffff},
-+	.qos_lut_tbl = {
-+		{.nentry = ARRAY_SIZE(msm8998_qos_linear),
-+		.entries = msm8998_qos_linear
-+		},
-+		{.nentry = ARRAY_SIZE(msm8998_qos_macrotile),
-+		.entries = msm8998_qos_macrotile
-+		},
-+		{.nentry = ARRAY_SIZE(msm8998_qos_nrt),
-+		.entries = msm8998_qos_nrt
-+		},
-+	},
-+	.cdp_cfg = {
-+		{.rd_enable = 1, .wr_enable = 1},
-+		{.rd_enable = 1, .wr_enable = 0}
-+	},
-+	.clk_inefficiency_factor = 105,
-+	.bw_inefficiency_factor = 120,
-+};
-+
-+static const struct dpu_mdss_version msm8917_mdss_ver = {
-+	.core_major_ver = 1,
-+	.core_minor_ver = 15,
-+};
-+
-+const struct dpu_mdss_cfg dpu_msm8917_cfg = {
-+	.mdss_ver = &msm8917_mdss_ver,
-+	.caps = &msm8917_dpu_caps,
-+	.mdp = msm8917_mdp,
-+	.ctl_count = ARRAY_SIZE(msm8917_ctl),
-+	.ctl = msm8917_ctl,
-+	.sspp_count = ARRAY_SIZE(msm8917_sspp),
-+	.sspp = msm8917_sspp,
-+	.mixer_count = ARRAY_SIZE(msm8917_lm),
-+	.mixer = msm8917_lm,
-+	.dspp_count = ARRAY_SIZE(msm8917_dspp),
-+	.dspp = msm8917_dspp,
-+	.pingpong_count = ARRAY_SIZE(msm8917_pp),
-+	.pingpong = msm8917_pp,
-+	.intf_count = ARRAY_SIZE(msm8917_intf),
-+	.intf = msm8917_intf,
-+	.vbif_count = ARRAY_SIZE(msm8996_vbif),
-+	.vbif = msm8996_vbif,
-+	.perf = &msm8917_perf_data,
-+};
-+
-+#endif
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-index 374d478faec4a08138f3e6cf2b396996eb082baa..431754b1187b455a69ecd0b3e513f793087e2869 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-@@ -780,6 +780,7 @@ static const struct dpu_qos_lut_entry sc7180_qos_nrt[] = {
- 
- #include "catalog/dpu_1_7_msm8996.h"
- #include "catalog/dpu_1_14_msm8937.h"
-+#include "catalog/dpu_1_15_msm8917.h"
- #include "catalog/dpu_1_16_msm8953.h"
- 
- #include "catalog/dpu_3_0_msm8998.h"
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-index cd9cd27f816969cf95ecdc46d0f5821ba851294c..3dab1e1b8f72e3112f00c782527335af9a1d77c8 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-@@ -831,6 +831,7 @@ struct dpu_mdss_cfg {
- 	const struct dpu_format_extended *vig_formats;
- };
- 
-+extern const struct dpu_mdss_cfg dpu_msm8917_cfg;
- extern const struct dpu_mdss_cfg dpu_msm8937_cfg;
- extern const struct dpu_mdss_cfg dpu_msm8953_cfg;
- extern const struct dpu_mdss_cfg dpu_msm8996_cfg;
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index 778d11d6cb63235456451bec83f0b1d9127861b8..ecd66146d5e14a6b114d08e0fa4f8fe7a13ada66 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -1445,6 +1445,7 @@ static const struct dev_pm_ops dpu_pm_ops = {
- };
- 
- static const struct of_device_id dpu_dt_match[] = {
-+	{ .compatible = "qcom,msm8917-mdp5", .data = &dpu_msm8917_cfg, },
- 	{ .compatible = "qcom,msm8937-mdp5", .data = &dpu_msm8937_cfg, },
- 	{ .compatible = "qcom,msm8953-mdp5", .data = &dpu_msm8953_cfg, },
- 	{ .compatible = "qcom,msm8996-mdp5", .data = &dpu_msm8996_cfg, },
-diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index d7e51a7c25aad10629aee5166cd501693e8ec4fd..3557cf7af303fd8c744f60d49815aebc7da41841 100644
---- a/drivers/gpu/drm/msm/msm_drv.c
-+++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -983,6 +983,7 @@ module_param(prefer_mdp5, bool, 0444);
- 
- /* list all platforms supported by both mdp5 and dpu drivers */
- static const char *const msm_mdp5_dpu_migration[] = {
-+	"qcom,msm8917-mdp5",
- 	"qcom,msm8937-mdp5",
- 	"qcom,msm8953-mdp5",
- 	"qcom,msm8996-mdp5",
+Hi Neil,
 
--- 
-2.46.2
+Thanks for reporting this. Unfortunately, I'm not able to recreate this 
+on the MTP8650.
+
+How many/which non-WB outputs are you testing with?
+
+Also, can you share the IGT debug logs?
+
+FWIW, I haven't had the chance to test with DP yet so that might be why 
+you're hitting this issue and I'm not.
+
+Thanks,
+
+Jessica Zhang
+
+> [ 2566.668998] Console: switching to colour dummy device 80x25
+> IGT-Version: 1.29-1.28 (aarch64) (Linux: 6.12.0-rc1-00022-ge581f752bf79 
+> aarch64)
+> [ 2566.674859] [IGT] kms_writeback: executing
+> Using IGT_SRANDOM=1709057323 for randomisation
+> Opened device: /dev/dri/card0
+> [ 2566.741375] [IGT] kms_writeback: starting subtest dump-writeback
+> Starting subtest: dump-writeback
+> Subtest dump-writeback: SUCCESS (0.305s)[ 2567.053189] [IGT] 
+> kms_writeback: finished subtest dump-writeback, SUCCESS
+> 
+> [ 2567.064505] [IGT] kms_writeback: starting subtest dump-valid-clones
+> Starting subtest: dump-valid-clones
+> [ 2567.762793] Unable to handle kernel NULL pointer dereference at 
+> virtual address 0000000000000010
+> [ 2567.771919] Mem abort info:
+> [ 2567.774888]   ESR = 0x0000000096000006
+> [ 2567.778831]   EC = 0x25: DABT (current EL), IL = 32 bits
+> [ 2567.784371]   SET = 0, FnV = 0
+> [ 2567.787601]   EA = 0, S1PTW = 0
+> [ 2567.790942]   FSC = 0x06: level 2 translation fault
+> [ 2567.796044] Data abort info:
+> [ 2567.799083]   ISV = 0, ISS = 0x00000006, ISS2 = 0x00000000
+> [ 2567.804793]   CM = 0, WnR = 0, TnD = 0, TagAccess = 0
+> [ 2567.810057]   GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
+> [ 2567.815600] user pgtable: 4k pages, 48-bit VAs, pgdp=00000008d60cf000
+> [ 2567.822290] [0000000000000010] pgd=08000008d6049003, 
+> p4d=08000008d6049003, pud=080000089397e003, pmd=0000000000000000
+> [ 2567.833254] Internal error: Oops: 0000000096000006 [#1] PREEMPT SMP
+> [ 2567.839747] Modules linked in: snd_soc_wsa884x q6prm_clocks 
+> q6apm_lpass_dais snd_q6dsp_common q6apm_dai q6prm 8021q garp mrp stp llc 
+> usb_f_fs libcomposite qrtr_mhi snd_soc_hdmi_codec ath12k mac80211 
+> libarc4 mhi panel_visionox_vtdr6130 snd_q6apm pci_pwrctl_pwrseq 
+> pci_pwrctl_core rpmsg_ctrl apr fastrpc qrtr_smd rpmsg_char wcd939x_usbss 
+> nb7vpq904m qcom_pd_mapper goodix_berlin_spi goodix_berlin_core 
+> ucsi_glink typec_ucsi pmic_glink_altmode aux_hpd_bridge qcom_battmgr 
+> leds_qcom_lpg msm ocmem drm_exec hci_uart qcom_pbs gpu_sched 
+> led_class_multicolor btqca phy_qcom_eusb2_repeater btbcm 
+> qcom_spmi_temp_alarm drm_dp_aux_bus phy_qcom_qmp_combo crct10dif_ce 
+> bluetooth drm_display_helper sm3_ce ecdh_generic aux_bridge sm3 
+> snd_soc_sc8280xp pwrseq_qcom_wcn sha3_ce snd_soc_qcom_sdw rtc_pm8xxx 
+> qcom_pon ecc nvmem_qcom_spmi_sdam sha512_ce qcom_stats spi_geni_qcom 
+> snd_soc_qcom_common sha512_arm64 pwrseq_core i2c_qcom_geni cfg80211 
+> drm_kms_helper dispcc_sm8550 gpi ipa snd_soc_lpass_va_macro 
+> snd_soc_lpass_tx_macro soundwire_qcom
+> [ 2567.839860]  pinctrl_sm8650_lpass_lpi snd_soc_lpass_wsa_macro 
+> snd_soc_lpass_rx_macro rfkill slimbus phy_qcom_snps_eusb2 
+> pinctrl_lpass_lpi gpucc_sm8650 snd_soc_lpass_macro_common qcom_q6v5_pas 
+> qcom_pil_info qcom_q6v5 qcrypto authenc icc_bwmon qcom_sysmon 
+> qcom_common qrtr qcom_glink_smem phy_qcom_qmp_pcie mdt_loader libdes 
+> llcc_qcom ufs_qcom phy_qcom_qmp_ufs pmic_glink snd_soc_wcd939x rmtfs_mem 
+> pdr_interface snd_soc_wcd939x_sdw regmap_sdw qcom_pdr_msg 
+> snd_soc_wcd_mbhc qmi_helpers snd_soc_wcd_classh soundwire_bus typec 
+> nvmem_reboot_mode qcom_rng socinfo fuse drm backlight ipv6
+> [ 2567.983445] CPU: 5 UID: 0 PID: 554 Comm: kms_writeback Tainted: G 
+> S                 6.12.0-rc1-00022-ge581f752bf79 #2
+> [ 2567.994390] Tainted: [S]=CPU_OUT_OF_SPEC
+> [ 2567.998483] Hardware name: Qualcomm Technologies, Inc. SM8650 QRD (DT)
+> [ 2568.005244] pstate: 81400005 (Nzcv daif +PAN -UAO -TCO +DIT -SSBS 
+> BTYPE=--)
+> [ 2568.012455] pc : dpu_encoder_helper_phys_setup_cwb+0xb8/0x1ec [msm]
+> [ 2568.019009] lr : dpu_encoder_helper_phys_setup_cwb+0x88/0x1ec [msm]
+> [ 2568.025532] sp : ffff80008939b7e0
+> [ 2568.028999] x29: ffff80008939b810 x28: ffffcbcb66f26068 x27: 
+> ffff37ad962cb080
+> [ 2568.036388] x26: ffff37ad9887ed80 x25: ffff80008939b878 x24: 
+> ffff37ad43642a80
+> [ 2568.043775] x23: 0000000000000000 x22: ffff37ad42812080 x21: 
+> ffff37ad43642a80
+> [ 2568.051163] x20: ffff37ad962cb080 x19: ffff37ad962c8080 x18: 
+> 0000000000000001
+> [ 2568.058552] x17: 000000040044ffff x16: ffffcbcbb0fc8c64 x15: 
+> 00003d08ffff9c00
+> [ 2568.065939] x14: 00000013519b2832 x13: ffff37ad9d392200 x12: 
+> 000000000000000b
+> [ 2568.073325] x11: ffff37ad40dc56c0 x10: ffff37ad9d392200 x9 : 
+> ffff37afbe7bba80
+> [ 2568.080712] x8 : ffff37ad42812718 x7 : 0000000000000004 x6 : 
+> ffff37ad989ac798
+> [ 2568.088098] x5 : 0000000000000002 x4 : ffff80008939b7f8 x3 : 
+> ffff37ad962cb150
+> [ 2568.095480] x2 : 0000000000000002 x1 : 0000000000000000 x0 : 
+> 0000000000000001
+> [ 2568.102868] Call trace:
+> [ 2568.105446]  dpu_encoder_helper_phys_setup_cwb+0xb8/0x1ec [msm]
+> [ 2568.111608]  dpu_encoder_helper_phys_cleanup+0x328/0x3c4 [msm]
+> [ 2568.117692]  dpu_encoder_phys_wb_disable+0x80/0xac [msm]
+> [ 2568.123233]  dpu_encoder_virt_atomic_disable+0xb4/0x160 [msm]
+> [ 2568.129224]  disable_outputs+0x108/0x32c [drm_kms_helper]
+> [ 2568.134858]  drm_atomic_helper_commit_modeset_disables+0x1c/0x4c 
+> [drm_kms_helper]
+> [ 2568.142614]  msm_atomic_commit_tail+0x188/0x514 [msm]
+> [ 2568.147894]  commit_tail+0xa4/0x18c [drm_kms_helper]
+> [ 2568.153065]  drm_atomic_helper_commit+0x17c/0x194 [drm_kms_helper]
+> [ 2568.159482]  drm_atomic_commit+0xb8/0xf4 [drm]
+> [ 2568.164176]  drm_mode_atomic_ioctl+0xad4/0xd88 [drm]
+> [ 2568.169369]  drm_ioctl_kernel+0xc0/0x128 [drm]
+> [ 2568.174039]  drm_ioctl+0x218/0x49c [drm]
+> [ 2568.178165]  __arm64_sys_ioctl+0xac/0xf0
+> [ 2568.182271]  invoke_syscall+0x48/0x10c
+> [ 2568.186217]  el0_svc_common.constprop.0+0xc0/0xe0
+> [ 2568.191109]  do_el0_svc+0x1c/0x28
+> [ 2568.194576]  el0_svc+0x34/0xd8
+> [ 2568.197788]  el0t_64_sync_handler+0x120/0x12c
+> [ 2568.202321]  el0t_64_sync+0x190/0x194
+> [ 2568.206157] Code: 910063e1 f8607822 f8607861 b9401042 (b9401021)
+> [ 2568.212484] ---[ end trace 0000000000000000 ]---
+> 
+> Neil
+> 
+>> +                rt_pp_idx[i] = enable ? hw_pp->idx : PINGPONG_NONE;
+>> +                break;
+>> +            }
+>> +        }
+>> +    }
+>> +
+>> +    /*
+>> +     * The CWB mux supports using LM or DSPP as tap points. For now,
+>> +     * always use LM tap point
+>> +     */
+>> +    cwb_cfg.input = INPUT_MODE_LM_OUT;
+>> +
+>> +    for (int i = 0; i < MAX_CHANNELS_PER_ENC; i++) {
+>> +        hw_cwb = dpu_enc->hw_cwb[i];
+>> +        if (!hw_cwb)
+>> +            continue;
+>> +
+>> +        cwb_cfg.pp_idx = rt_pp_idx[i];
+>> +
+>> +        hw_cwb->ops.config_cwb(hw_cwb, &cwb_cfg);
+>> +    }
+>> +}
+>> +
+>>   void dpu_encoder_helper_phys_setup_cdm(struct dpu_encoder_phys 
+>> *phys_enc,
+>>                          const struct msm_format *dpu_fmt,
+>>                          u32 output_type)
+>> @@ -2557,6 +2630,14 @@ enum dpu_intf_mode 
+>> dpu_encoder_get_intf_mode(struct drm_encoder *encoder)
+>>       return INTF_MODE_NONE;
+>>   }
+>> +unsigned int dpu_encoder_helper_get_cwb(struct dpu_encoder_phys 
+>> *phys_enc)
+>> +{
+>> +    struct drm_encoder *encoder = phys_enc->parent;
+>> +    struct dpu_encoder_virt *dpu_enc = to_dpu_encoder_virt(encoder);
+>> +
+>> +    return dpu_enc->cwb_mask;
+>> +}
+>> +
+>>   unsigned int dpu_encoder_helper_get_dsc(struct dpu_encoder_phys 
+>> *phys_enc)
+>>   {
+>>       struct drm_encoder *encoder = phys_enc->parent;
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/ 
+>> drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+>> index e77ebe3a68da..d7a02d1f8053 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+>> @@ -1,6 +1,6 @@
+>>   /* SPDX-License-Identifier: GPL-2.0-only */
+>>   /*
+>> - * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights 
+>> reserved.
+>> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All 
+>> rights reserved.
+>>    * Copyright (c) 2015-2018 The Linux Foundation. All rights reserved.
+>>    */
+>> @@ -331,6 +331,12 @@ static inline enum dpu_3d_blend_mode 
+>> dpu_encoder_helper_get_3d_blend_mode(
+>>       return BLEND_3D_NONE;
+>>   }
+>> +/**
+>> + * dpu_encoder_helper_get_cwb - get CWB blocks mask for the DPU encoder
+>> + * @phys_enc: Pointer to physical encoder structure
+>> + */
+>> +unsigned int dpu_encoder_helper_get_cwb(struct dpu_encoder_phys 
+>> *phys_enc);
+>> +
+>>   /**
+>>    * dpu_encoder_helper_get_dsc - get DSC blocks mask for the DPU encoder
+>>    *   This helper function is used by physical encoder to get DSC 
+>> blocks mask
+>> @@ -400,6 +406,14 @@ int dpu_encoder_helper_wait_for_irq(struct 
+>> dpu_encoder_phys *phys_enc,
+>>    */
+>>   void dpu_encoder_helper_phys_cleanup(struct dpu_encoder_phys 
+>> *phys_enc);
+>> +/**
+>> + * dpu_encoder_helper_phys_setup_cwb - helper to configure CWB muxes
+>> + * @phys_enc: Pointer to physical encoder structure
+>> + * @enable: Enable CWB mux
+>> + */
+>> +void dpu_encoder_helper_phys_setup_cwb(struct dpu_encoder_phys 
+>> *phys_enc,
+>> +                       bool enable);
+>> +
+>>   /**
+>>    * dpu_encoder_helper_phys_setup_cdm - setup chroma down sampling block
+>>    * @phys_enc: Pointer to physical encoder
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c b/ 
+>> drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+>> index 882c717859ce..e88c4d91041f 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+>> @@ -1,6 +1,6 @@
+>>   // SPDX-License-Identifier: GPL-2.0-only
+>>   /*
+>> - * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights 
+>> reserved.
+>> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All 
+>> rights reserved.
+>>    */
+>>   #define pr_fmt(fmt)    "[drm:%s:%d] " fmt, __func__, __LINE__
+>> @@ -342,6 +342,8 @@ static void dpu_encoder_phys_wb_setup(
+>>       dpu_encoder_helper_phys_setup_cdm(phys_enc, dpu_fmt, 
+>> CDM_CDWN_OUTPUT_WB);
+>> +    dpu_encoder_helper_phys_setup_cwb(phys_enc, true);
+>> +
+>>       dpu_encoder_phys_wb_setup_ctl(phys_enc);
+>>   }
+>>
+> 
 
