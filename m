@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 170EE98B103
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2024 01:40:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C848598B104
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2024 01:40:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D30710E5A2;
-	Mon, 30 Sep 2024 23:40:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A25F10E5A4;
+	Mon, 30 Sep 2024 23:40:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="hsWXC2TC";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ZAJPtupn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F218710E5A2
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2024 23:40:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B40F10E5A3
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2024 23:40:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1727739644;
+ s=mimecast20190719; t=1727739651;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OPpcmKbNeNbUSddRK0GJ79bGRqnGtk4IaTVQGxA5MmY=;
- b=hsWXC2TCaqMA9IhHR6pY97ISeMuNqJZhcImQwKqdiaysJ0wGdDEdSNpuKdAzE+pHbPOoQp
- 2MZSVW3wdMdvzecRZ6J2l13ihYaDGq2ZF6xcEYl/moHm3OSdfg5ojQWUDEP9QWwKBlOL8k
- kOZqCAw28W3TUoNnkaTjkGX7GJ9yjvc=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ bh=r65mS9fGP6QHa8ZJthkFLot5TCFWUe3W7tgNCeGtS+Y=;
+ b=ZAJPtupnGZIRn6kFb/hSnqk6BaDeDJx0PWg2dwPEzWAx1FWjI+Wx3ZJQIMknSvS+GUFA7Z
+ h5+n3biRPbbwZ6JVYrwFbsOZQba1Qquk1Con8O1nNJqSOJYz2FlcClvSBDA+FoYg1hi2Mo
+ DvkKCRx96m811MaDY9YaUE4uC0fjh5U=
+Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-477-f4W_Q1TUOOinP8t2E5kuOw-1; Mon,
- 30 Sep 2024 19:40:40 -0400
-X-MC-Unique: f4W_Q1TUOOinP8t2E5kuOw-1
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-375-YGuzUkxzNLKTlLsoR2qN7w-1; Mon,
+ 30 Sep 2024 19:40:47 -0400
+X-MC-Unique: YGuzUkxzNLKTlLsoR2qN7w-1
 Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (unknown
  [10.30.177.4])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id DC66F191961D; Mon, 30 Sep 2024 23:40:37 +0000 (UTC)
+ by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id EC143196A433; Mon, 30 Sep 2024 23:40:44 +0000 (UTC)
 Received: from chopper.redhat.com (unknown [10.22.32.36])
  by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id A11393004AB3; Mon, 30 Sep 2024 23:40:29 +0000 (UTC)
+ id C03833003DEC; Mon, 30 Sep 2024 23:40:40 +0000 (UTC)
 From: Lyude Paul <lyude@redhat.com>
 To: dri-devel@lists.freedesktop.org,
 	rust-for-linux@vger.kernel.org
@@ -56,9 +56,10 @@ Cc: Asahi Lina <lina@asahilina.net>, Danilo Krummrich <dakr@kernel.org>,
  Andreas Hindborg <a.hindborg@samsung.com>,
  Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
  linux-kernel@vger.kernel.org (open list)
-Subject: [WIP RFC v2 25/35] rust: drm/kms: Add RawPlaneState::crtc()
-Date: Mon, 30 Sep 2024 19:10:08 -0400
-Message-ID: <20240930233257.1189730-26-lyude@redhat.com>
+Subject: [WIP RFC v2 26/35] WIP: rust: drm/kms: Add
+ RawPlaneState::atomic_helper_check()
+Date: Mon, 30 Sep 2024 19:10:09 -0400
+Message-ID: <20240930233257.1189730-27-lyude@redhat.com>
 In-Reply-To: <20240930233257.1189730-1-lyude@redhat.com>
 References: <20240930233257.1189730-1-lyude@redhat.com>
 MIME-Version: 1.0
@@ -79,37 +80,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a binding for checking drm_plane_state.crtc. Note that we don't have a
-way of knowing what DriverCrtc implementation would be used here (and want
-to make this function also available on OpaquePlaneState types), so we
-return an OpaqueCrtc.
+Add a binding for drm_atomic_helper_check_plane_state(). Since we want to
+make sure that the user is passing in the new state for a Crtc instead of
+an old state, we explicitly ask for a reference to a BorrowedCrtcState.
+
+Signed-off-by: Lyude Paul <lyude@redhat.com>
+
+---
+
+TODO:
+* Add support for scaling options
 
 Signed-off-by: Lyude Paul <lyude@redhat.com>
 ---
- rust/kernel/drm/kms/plane.rs | 7 +++++++
- 1 file changed, 7 insertions(+)
+ rust/kernel/drm/kms/plane.rs | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
 diff --git a/rust/kernel/drm/kms/plane.rs b/rust/kernel/drm/kms/plane.rs
-index 04f1bdfbb1ea2..4d16d53179fca 100644
+index 4d16d53179fca..cd5167e6441f1 100644
 --- a/rust/kernel/drm/kms/plane.rs
 +++ b/rust/kernel/drm/kms/plane.rs
-@@ -30,6 +30,7 @@
-     ModeObject,
-     StaticModeObject,
-     atomic::*,
-+    crtc::*,
- };
- 
- /// The main trait for implementing the [`struct drm_plane`] API for [`Plane`]
-@@ -489,6 +490,12 @@ fn plane(&self) -> &Self::Plane {
-         // invariant throughout the lifetime of the Plane
-         unsafe { Self::Plane::from_raw(self.as_raw().plane) }
+@@ -496,6 +496,31 @@ fn crtc<'a, 'b: 'a>(&'a self) -> Option<&'b OpaqueCrtc<<Self::Plane as ModeObjec
+         // SAFETY: This cast is guaranteed safe by `OpaqueCrtc`s invariants.
+         NonNull::new(self.as_raw().crtc).map(|c| unsafe { OpaqueCrtc::from_raw(c.as_ptr()) })
      }
 +
-+    /// Return the current [`OpaqueCrtc`] assigned to this plane, if there is one.
-+    fn crtc<'a, 'b: 'a>(&'a self) -> Option<&'b OpaqueCrtc<<Self::Plane as ModeObject>::Driver>> {
-+        // SAFETY: This cast is guaranteed safe by `OpaqueCrtc`s invariants.
-+        NonNull::new(self.as_raw().crtc).map(|c| unsafe { OpaqueCrtc::from_raw(c.as_ptr()) })
++    /// Run the atomic check helper for this plane and the given CRTC state
++    fn atomic_helper_check<S>(
++        &mut self,
++        crtc_state: &BorrowedCrtcState<'_, S>,
++        can_position: bool,
++        can_update_disabled: bool
++    ) -> Result
++    where
++        S: FromRawCrtcState,
++        S::Crtc: AsRawCrtc<Driver = <Self::Plane as ModeObject>::Driver>
++    {
++        // SAFETY: We're passing the mutable reference from `self.as_raw_mut()` directly to DRM,
++        // which is safe.
++        to_result(unsafe {
++            bindings::drm_atomic_helper_check_plane_state(
++                self.as_raw_mut(),
++                crtc_state.as_raw(),
++                bindings::DRM_PLANE_NO_SCALING as _, // TODO: add parameters for scaling
++                bindings::DRM_PLANE_NO_SCALING as _,
++                can_position,
++                can_update_disabled
++            )
++        })
 +    }
  }
  impl<T: AsRawPlaneState + ?Sized> RawPlaneState for T {}
