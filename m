@@ -2,49 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB17898A98C
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2024 18:16:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E31F398A9A3
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2024 18:22:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2826210E14D;
-	Mon, 30 Sep 2024 16:16:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FCB910E0CD;
+	Mon, 30 Sep 2024 16:22:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=inria.fr header.i=@inria.fr header.b="YZNTC2AR";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UIv80iqB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail2-relais-roc.national.inria.fr
- (mail2-relais-roc.national.inria.fr [192.134.164.83])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F2F610E54F
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2024 16:16:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inria.fr; s=dc;
- h=date:from:to:cc:subject:in-reply-to:message-id:
- references:mime-version;
- bh=//r3l2kjhSUf4yo3Q52lyhUjO91/QnV8mWbG0E2aJgM=;
- b=YZNTC2ARWSuCh9x8+M60xp0S9fRGkHHUPmdbrlSvu3NLBDkaAs/zFkkW
- 3LYdQ6XU6bvskLgd2mKwPQA2BijaanOlkntF7MMDcEjK9+xylM8Q46v6r
- Y+/yPOBR6ogeocF+kozl2m9K+pQutWh5FpW7y1nNR6dTBOZYEM0VLixBj A=;
-Authentication-Results: mail2-relais-roc.national.inria.fr;
- dkim=none (message not signed) header.i=none;
- spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr;
- dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.11,166,1725314400"; d="scan'208";a="186040209"
-Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
- by mail2-relais-roc.national.inria.fr with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2024 18:16:05 +0200
-Date: Mon, 30 Sep 2024 18:16:04 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
- =?ISO-8859-15?Q?Adri=E1n_Larumbe?= <adrian.larumbe@collabora.com>, 
- dri-devel@lists.freedesktop.org, kernel@collabora.com, 
- kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] drm/panthor: Fix access to uninitialized variable in
- tick_ctx_cleanup()
-In-Reply-To: <20240930161101.67366-1-boris.brezillon@collabora.com>
-Message-ID: <c96f2fd-db5b-5593-1c10-7893724e554e@inria.fr>
-References: <20240930161101.67366-1-boris.brezillon@collabora.com>
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com
+ [209.85.128.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61B9A10E0CD;
+ Mon, 30 Sep 2024 16:22:11 +0000 (UTC)
+Received: by mail-yw1-f175.google.com with SMTP id
+ 00721157ae682-6e2346f164cso33923037b3.3; 
+ Mon, 30 Sep 2024 09:22:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1727713330; x=1728318130; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=uERoXlKgvrIzow4kr39O2y7mJ6EyY4bi7R1vZimkEKo=;
+ b=UIv80iqB8p/00gh4dUfosW5Zswi8eHEYYVksB/nsmXux89jsr06veFxWDFlfgTrKdH
+ sHIxVNs6qZBP2r4QQHti+kv19pr6XPrLMr3QL5dd16NeR9F8ZZV35t1dQwGMvrD9bFuX
+ +DNC0nxfCJYQNs3cNHgI7fJujYO+6Ql+b5EtRHl4eS3b3TKWQc0HbVxWbGdmizQJnSf4
+ K3hlAdckfiXtvjVXR/D1A+rJvloMccCoQB8jNuIBqCpfMOWd8wBW9NbeJZoVffx2rVsV
+ IpRcfmbm06XXZZBQpEFTubG4EF9WS8Sittyy1t51rUZf5LBPy7AT0zcdKG1TJufsg6Zl
+ nP5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1727713330; x=1728318130;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=uERoXlKgvrIzow4kr39O2y7mJ6EyY4bi7R1vZimkEKo=;
+ b=o4YLSWZKsPnltd3jb2/TcxJspP0t7vYahZJTkZ5WacbewGQSb9tQiuJP3qMOuAQGgI
+ Q8PeBiU/t0qSTRtidCm12YqWnsG+BM80+w94laYs32a+fyM60K/oiAcphOBMAsjuLKm6
+ 2jT9QWBZh1WjG11+5gUAA/X9BpUfK/V4GKt0XloqRfVyHmjiEI2BckLg4qwLFu0lgtll
+ 8PTSpJxzx5aOH6KivZxuM2i8obLaSXsaAEiZWh4/OerYwqWG75Qu51q1cREDnlMA0YWX
+ UoWdmQ9I1jnCMA4G3ZPQqJpBaFUfaMRLy0EL7GCL6inkoCEhn0AS2cqUukMPxG1pHdAf
+ 5VIA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVhacqlRaiwYqxJ8bKZXOmou1sixQcAUXCzdraDEpHt/RMYTWeEsm51qhjIgrsIPId1QU97dEOS6BLE@lists.freedesktop.org,
+ AJvYcCWVI1TH3vnCQsrv8l3EgNz1fRX8ihX/dAhdLY+3pEwuseZHIpMfv/47OCaAUaVGabVw6F98+T8/5CUt@lists.freedesktop.org,
+ AJvYcCWyP92iGPnEV6k4vwP8KaqnRR4jAeAXKE1gYtVkSfDovaKIO5MS41Yz9ecaVx/Y9NQLInVhh6eX@lists.freedesktop.org,
+ AJvYcCX/5IfquGtvjyMp+oV/XnrrDTmp7l6e0yntb/gq0KvMwb6bs3yFZ5nEDFl/OvrQhCqhLiXv2NCCKVE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxQ/coJAgzC4elF4RwoqLxpPHgYAu12yCM3zbLdPvBXoVZBVGXi
+ 5d+a3a0hpldOboMpkrJ2+j2/mRiJ+EE5dh73s+fNHBbAez9fWQqVy+21QEScycrnZa+GBg7Vh7n
+ zFOZeBULc8O492B2k/ePbOkSmV20=
+X-Google-Smtp-Source: AGHT+IH6LGQfRVLoHTpEHgoURLnMbGsh/FhCxNdlE2uAdXWKaqJ3XT+orFnkiDAnokgolLQak1eShauNoxWdW6nGLQM=
+X-Received: by 2002:a05:690c:6612:b0:6e0:447:f257 with SMTP id
+ 00721157ae682-6e24757caf8mr95415027b3.22.1727713330446; Mon, 30 Sep 2024
+ 09:22:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+References: <20240930130921.689876-1-tzimmermann@suse.de>
+ <20240930130921.689876-7-tzimmermann@suse.de>
+In-Reply-To: <20240930130921.689876-7-tzimmermann@suse.de>
+From: Deepak Rawat <drawat.floss@gmail.com>
+Date: Mon, 30 Sep 2024 09:22:00 -0700
+Message-ID: <CAHFnvW0TqYDzbay_wtvC5QK7SMgXxC3sKfWQ3z7Q3eXYN9VPZA@mail.gmail.com>
+Subject: Re: [PATCH 06/28] drm/hyperv-drm: Use video aperture helpers
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: javierm@redhat.com, airlied@gmail.com, simona@ffwll.ch, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,60 +85,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On Mon, 30 Sep 2024, Boris Brezillon wrote:
-
-> The group variable can't be used to retrieve ptdev in our second loop,
-> because it might be uninitialized or point to a group that's already
-> gone. Get the ptdev object from the scheduler instead.
-
-Won't it always be pointing to some random place above the list_head at
-the start of the list in the last element of the array?
-
-julia
-
+On Mon, Sep 30, 2024 at 6:09=E2=80=AFAM Thomas Zimmermann <tzimmermann@suse=
+.de> wrote:
 >
-> Fixes: d72f049087d4 ("drm/panthor: Allow driver compilation")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Reported-by: Julia Lawall <julia.lawall@inria.fr>
-> Closes: https://lore.kernel.org/r/202409302306.UDikqa03-lkp@intel.com/
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> DRM's aperture functions have long been implemented as helpers
+> under drivers/video/ for use with fbdev. Avoid the DRM wrappers by
+> calling the video functions directly.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Deepak Rawat <drawat.floss@gmail.com>
 > ---
->  drivers/gpu/drm/panthor/panthor_sched.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/hyperv/hyperv_drm_drv.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-> index 201d5e7a921e..24ff91c084e4 100644
-> --- a/drivers/gpu/drm/panthor/panthor_sched.c
-> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
-> @@ -2052,6 +2052,7 @@ static void
->  tick_ctx_cleanup(struct panthor_scheduler *sched,
->  		 struct panthor_sched_tick_ctx *ctx)
->  {
-> +	struct panthor_device *ptdev = sched->ptdev;
->  	struct panthor_group *group, *tmp;
->  	u32 i;
+> diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c b/drivers/gpu/drm/hy=
+perv/hyperv_drm_drv.c
+> index 3077ce5470f6..e0953777a206 100644
+> --- a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
+> +++ b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
+> @@ -3,12 +3,12 @@
+>   * Copyright 2021 Microsoft
+>   */
 >
-> @@ -2060,7 +2061,7 @@ tick_ctx_cleanup(struct panthor_scheduler *sched,
->  			/* If everything went fine, we should only have groups
->  			 * to be terminated in the old_groups lists.
->  			 */
-> -			drm_WARN_ON(&group->ptdev->base, !ctx->csg_upd_failed_mask &&
-> +			drm_WARN_ON(&ptdev->base, !ctx->csg_upd_failed_mask &&
->  				    group_can_run(group));
+> +#include <linux/aperture.h>
+>  #include <linux/efi.h>
+>  #include <linux/hyperv.h>
+>  #include <linux/module.h>
+>  #include <linux/pci.h>
 >
->  			if (!group_can_run(group)) {
-> @@ -2083,7 +2084,7 @@ tick_ctx_cleanup(struct panthor_scheduler *sched,
->  		/* If everything went fine, the groups to schedule lists should
->  		 * be empty.
->  		 */
-> -		drm_WARN_ON(&group->ptdev->base,
-> +		drm_WARN_ON(&ptdev->base,
->  			    !ctx->csg_upd_failed_mask && !list_empty(&ctx->groups[i]));
+> -#include <drm/drm_aperture.h>
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_client_setup.h>
+>  #include <drm/drm_drv.h>
+> @@ -126,7 +126,7 @@ static int hyperv_vmbus_probe(struct hv_device *hdev,
+>                 goto err_hv_set_drv_data;
+>         }
 >
->  		list_for_each_entry_safe(group, tmp, &ctx->groups[i], run_node) {
+> -       drm_aperture_remove_framebuffers(&hyperv_driver);
+> +       aperture_remove_all_conflicting_devices(hyperv_driver.name);
+>
+>         ret =3D hyperv_setup_vram(hv, hdev);
+>         if (ret)
 > --
 > 2.46.0
 >
->
+
+Reviewed-by: Deepak Rawat <drawat.floss@gmail.com>
