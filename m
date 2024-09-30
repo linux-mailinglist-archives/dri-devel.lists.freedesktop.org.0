@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64171989BB3
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2024 09:39:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 346C4989BB6
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2024 09:39:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D741710E3AA;
-	Mon, 30 Sep 2024 07:39:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B13910E3B7;
+	Mon, 30 Sep 2024 07:39:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ad6woCvv";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="b6gcz2mX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6839710E3B1;
- Mon, 30 Sep 2024 07:39:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45B0A10E3B5;
+ Mon, 30 Sep 2024 07:39:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1727681982; x=1759217982;
+ t=1727681988; x=1759217988;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=zBfj6l/LDRVXnzgkyVxes51ZF+Xrnbm5dhhr663CIvs=;
- b=ad6woCvvuHwwIN23FIwhqyZ0OxA9Jcw5orVhCFyjGmBkoDmHJiMvOSVC
- 027KjKWUh5YW6tkJyESfQS9rk1XC755fSyF6tpyYUKFcwqqsZO9+j5REB
- jg425afxyOjjBEQ7vBdghBcm4DPMMqR54T+zD1z2B28bBAWw8M3aAtKFY
- NycIQbYo70fd7IzVsN/KReGXojKih9YziST0J4L2WMc/Z58T7as9PO4Oa
- n37+lvSII/xNcMWwDY/yeyDt5xQPGfh4+dLeLz2fwQdTXabWh2mbhUtet
- bCWq6od4rwFIf/2svrSNQMrHECdNCdoo8Le+1jcrVWS2z68RHklNF18Qq w==;
-X-CSE-ConnectionGUID: URG+Xx4MQX+5i6up3i/NoQ==
-X-CSE-MsgGUID: eRMA4fJ9S7mDTnFLSwyUlw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11210"; a="37315477"
-X-IronPort-AV: E=Sophos;i="6.11,165,1725346800"; d="scan'208";a="37315477"
+ bh=Ot8CwKy9aFzh2XqNcy0XgW2wiUIEEhhDu8b4OvvgZBk=;
+ b=b6gcz2mXxB054qp3N3/4kp0d12ZDLY8WZgaB3xbNpktLRKdFAO8bQ6kA
+ NyUETvtHI9gDusbEvqONyup023crbPHkCcm3G7UiOJv143eAHdxOFI7Zo
+ zbisflLITH0sSosuEEJZShRk5IDUxN5FVS1Ufe9bJM65R2emlYMKxAZeQ
+ EJaw9f35X5P8shiOVl+uC2Nf7AOndESqqZ+GroPeQqg91Zcl3nU1Jm2ST
+ HnrbF+DBHQGSs80O9ycZMFzS/Vxov5LS/OQHPzIgdw1DZ2pI/ywEqaKKz
+ zWQ/zhanlJvSdxVQ6vK2xE9D4u319FQxGMkrbekdr3rO0t/UqObsxYKew A==;
+X-CSE-ConnectionGUID: UPzi2pLlR5uwjgkSbQp+/A==
+X-CSE-MsgGUID: zZjmMFj+THyEKQH03veAoQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11210"; a="37315493"
+X-IronPort-AV: E=Sophos;i="6.11,165,1725346800"; d="scan'208";a="37315493"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Sep 2024 00:39:42 -0700
-X-CSE-ConnectionGUID: xIGQS4jqTZu+c19v925Fgg==
-X-CSE-MsgGUID: vFFskLctSZaS9zFwN/49Ug==
+ 30 Sep 2024 00:39:48 -0700
+X-CSE-ConnectionGUID: Ax07ZjdkQgeqzgCqfeWq+w==
+X-CSE-MsgGUID: 7fRadhUZSXOf62vRIilCNw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,165,1725346800"; d="scan'208";a="72797435"
+X-IronPort-AV: E=Sophos;i="6.11,165,1725346800"; d="scan'208";a="72797453"
 Received: from jraag-nuc8i7beh.iind.intel.com ([10.145.169.79])
- by fmviesa006.fm.intel.com with ESMTP; 30 Sep 2024 00:39:36 -0700
+ by fmviesa006.fm.intel.com with ESMTP; 30 Sep 2024 00:39:42 -0700
 From: Raag Jadav <raag.jadav@intel.com>
 To: airlied@gmail.com, simona@ffwll.ch, lucas.demarchi@intel.com,
  thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
@@ -50,9 +50,9 @@ Cc: intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  francois.dugast@intel.com, aravind.iddamsetty@linux.intel.com,
  anshuman.gupta@intel.com, andi.shyti@linux.intel.com,
  matthew.d.roper@intel.com, Raag Jadav <raag.jadav@intel.com>
-Subject: [PATCH v7 2/5] drm: Expose wedge recovery methods
-Date: Mon, 30 Sep 2024 13:08:42 +0530
-Message-Id: <20240930073845.347326-3-raag.jadav@intel.com>
+Subject: [PATCH v7 3/5] drm/doc: Document device wedged event
+Date: Mon, 30 Sep 2024 13:08:43 +0530
+Message-Id: <20240930073845.347326-4-raag.jadav@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240930073845.347326-1-raag.jadav@intel.com>
 References: <20240930073845.347326-1-raag.jadav@intel.com>
@@ -73,68 +73,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that we have device wedged event in place, add wedge_recovery sysfs
-attribute which will expose recovery methods supported by the DRM device.
-This is useful for userspace consumers in cases where the device supports
-multiple recovery methods which can be used as fallbacks.
-
-  $ cat /sys/class/drm/card<N>/wedge_recovery
-  rebind
-  bus-reset
-  reboot
+Add documentation for device wedged event along with its consumer
+expectations. For now it is amended to 'Device reset' chapter, but
+with extended functionality in the future it can be refactored into
+its own chapter.
 
 Signed-off-by: Raag Jadav <raag.jadav@intel.com>
 ---
- drivers/gpu/drm/drm_sysfs.c | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ Documentation/gpu/drm-uapi.rst | 42 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 42 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
-index fb3bbb6adcd1..bd77b35ceb8a 100644
---- a/drivers/gpu/drm/drm_sysfs.c
-+++ b/drivers/gpu/drm/drm_sysfs.c
-@@ -24,6 +24,7 @@
- #include <drm/drm_accel.h>
- #include <drm/drm_connector.h>
- #include <drm/drm_device.h>
-+#include <drm/drm_drv.h>
- #include <drm/drm_file.h>
- #include <drm/drm_modes.h>
- #include <drm/drm_print.h>
-@@ -508,6 +509,26 @@ void drm_sysfs_connector_property_event(struct drm_connector *connector,
- }
- EXPORT_SYMBOL(drm_sysfs_connector_property_event);
+diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
+index 370d820be248..c1186dfd283d 100644
+--- a/Documentation/gpu/drm-uapi.rst
++++ b/Documentation/gpu/drm-uapi.rst
+@@ -313,6 +313,22 @@ driver separately, with no common DRM interface. Ideally this should be properly
+ integrated at DRM scheduler to provide a common ground for all drivers. After a
+ reset, KMD should reject new command submissions for affected contexts.
  
-+static ssize_t wedge_recovery_show(struct device *device,
-+				   struct device_attribute *attr, char *buf)
-+{
-+	struct drm_minor *minor = to_drm_minor(device);
-+	struct drm_device *dev = minor->dev;
-+	unsigned int method, count = DRM_WEDGE_RECOVERY_REBIND;
++Drivers can optionally make use of device wedged event (implemented as
++drm_dev_wedged_event() in DRM subsystem) which notifies userspace of wedged
++(hanged/unusable) state of the DRM device through a uevent. This is useful
++especially in cases where the device is no longer operating as expected even
++after a hardware reset and has become unrecoverable from driver context.
++Purpose of this implementation is to provide drivers a generic way to recover
++with the help of userspace intervention, and hence the vendor agnostic nature
++of the event.
 +
-+	for_each_set_bit(method, &dev->wedge_recovery, DRM_WEDGE_RECOVERY_MAX)
-+		count += sysfs_emit_at(buf, count, "%s\n", drm_wedge_recovery_name(method));
++Different drivers may have different ideas of a "wedged device" depending on
++their hardware implementation. It is up to the drivers to decide when they see
++the need for recovery and how they want to recover from the available methods.
++Current implementation defines three recovery methods, out of which, drivers
++can choose to support any one or multiple of them. Preferred recovery method
++will be sent in the uevent environment as WEDGED=<method>.
 +
-+	return count;
-+}
-+static DEVICE_ATTR_RO(wedge_recovery);
-+
-+static struct attribute *minor_dev_attrs[] = {
-+	&dev_attr_wedge_recovery.attr,
-+	NULL
-+};
-+ATTRIBUTE_GROUPS(minor_dev);
-+
- struct device *drm_sysfs_minor_alloc(struct drm_minor *minor)
- {
- 	const char *minor_str;
-@@ -532,6 +553,7 @@ struct device *drm_sysfs_minor_alloc(struct drm_minor *minor)
- 		kdev->devt = MKDEV(DRM_MAJOR, minor->index);
- 		kdev->class = drm_class;
- 		kdev->type = &drm_sysfs_device_minor;
-+		kdev->groups = minor_dev_groups;
- 	}
+ User Mode Driver
+ ----------------
  
- 	kdev->parent = minor->dev->dev;
+@@ -323,6 +339,32 @@ if the UMD requires it. After detecting a reset, UMD will then proceed to report
+ it to the application using the appropriate API error code, as explained in the
+ section below about robustness.
+ 
++On device wedged scenario, userspace will receive a uevent from KMD with
++its preferred recovery method in the uevent environment as WEDGED=<method>.
++Userspace consumers (sysadmin) can define udev rules to parse this event
++and take respective action to recover the device.
++
++.. table:: Wedged Device Recovery
++
++    =============== ==================================
++    Recovery method Consumer expectations
++    =============== ==================================
++    rebind          unbind + rebind driver
++    bus-reset       unbind + reset bus device + rebind
++    reboot          reboot system
++    =============== ==================================
++
++Userspace consumers can optionally read the recovery methods supported by the
++device via ``wedge_recovery`` sysfs attribute::
++
++  $ cat /sys/class/drm/card<N>/wedge_recovery
++  rebind
++  bus-reset
++  reboot
++
++This is useful in cases where the device supports multiple recovery methods
++which can be used as fallbacks.
++
+ Robustness
+ ----------
+ 
 -- 
 2.34.1
 
