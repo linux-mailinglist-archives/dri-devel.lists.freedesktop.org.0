@@ -2,71 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF667989D39
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2024 10:49:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0529989D6D
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2024 10:57:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6385210E0D2;
-	Mon, 30 Sep 2024 08:49:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2EF7C10E3CD;
+	Mon, 30 Sep 2024 08:57:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="PEZEQAo4";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="a+jwIjbg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 435C610E0D2
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2024 08:49:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1727686147;
- bh=VJzCGMMRci/BiZjulnBSG77pRU6y2deSbKtvy/pU2pY=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=PEZEQAo4oB0HrZ6hyP//YB/w7n6xJyG5PinuwSHzdOx8AOmj5Ixfq89MPhXWSxLjH
- KEi+/4bQzhnDIybedEyuX/RZBdi7K8UmoiaXn2zHwV4nJFYdlPrA1AQlUVIEjBMKOm
- UHx623s1TF8BknFyk1paXHosCBPSeYgwLrIC5b+D9DMlPRCWVXDH24ixypfyzzCLyy
- EQcIcVE0GLjGByWkc7qohQpkONmrKnrc9nPPDH1iJi/2XuSWVxbgYUl9ANpMGPvYe7
- 1skqXCgezJWh+s/+N3XhNKLqRLmKJhmHh7OtBnB7BywKpUWNuxu7j4Q6lMPCXeOAz4
- kdQ8HOqp53crQ==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 98BEC17E10AB;
- Mon, 30 Sep 2024 10:49:06 +0200 (CEST)
-Message-ID: <8883c84d-8333-4b04-83b5-022be5b6153c@collabora.com>
-Date: Mon, 30 Sep 2024 10:49:06 +0200
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFFE010E3CD;
+ Mon, 30 Sep 2024 08:57:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Cc:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=ksW1PaBLtCGSwLe9j0gLvai8oxFCvyaUi2E0QliHXBg=; b=a+jwIjbg4SAd3qP6VqRSAFC5ig
+ AweUmlZ3eOBsbalYQFll2j3ZHqETDVZ+T4AAefYXt3cMIYoZa8Wn5TzHVxmOjn3woz+9lRhuovwUL
+ QGYsJI5kayYqke2amJ/D28c7GBgDH4tbQdbtZ84+hcCgvqAai7lzJMCI2jnGQWkpr6wiDfU5JQbGd
+ fKrJiVptLE6lavV9C1BJaXxEgVSkjIH+Ydo66G3zW0VyriBgKl4IdpBZpsesMKnabuVAzWKdNBoyi
+ ORWASJNFMP0v3W6UWaVjbQZPrsGYgpwf8tpJzLXRfDEh60Q+NX0lA0sxP17lL0E3VgWXKEg812k0B
+ qUesBylQ==;
+Received: from [90.241.98.187] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1svCDJ-002lzL-Q0; Mon, 30 Sep 2024 10:57:05 +0200
+Message-ID: <a169226b-c171-4a6d-88f6-d59214cb7b5d@igalia.com>
+Date: Mon, 30 Sep 2024 09:57:04 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/5] dt-bindings: iommu: mediatek: Fix interrupt count
- constraint for new SoCs
-To: Macpaul Lin <macpaul.lin@mediatek.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Yong Wu <yong.wu@mediatek.com>,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, CK Hu <ck.hu@mediatek.com>,
- Jitao shi <jitao.shi@mediatek.com>, Tinghan Shen
- <tinghan.shen@mediatek.com>, Seiya Wang <seiya.wang@mediatek.com>,
- Ben Lok <ben.lok@mediatek.com>, "Nancy . Lin" <nancy.lin@mediatek.com>,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- iommu@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- Alexandre Mergnat <amergnat@baylibre.com>
-Cc: Bear Wang <bear.wang@mediatek.com>, Pablo Sun <pablo.sun@mediatek.com>,
- Macpaul Lin <macpaul@gmail.com>, Sen Chu <sen.chu@mediatek.com>,
- Chris-qj chen <chris-qj.chen@mediatek.com>, MediaTek Chromebook Upstream
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- Chen-Yu Tsai <wenst@chromium.org>
-References: <20240926111449.9245-1-macpaul.lin@mediatek.com>
- <20240926111449.9245-2-macpaul.lin@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20240926111449.9245-2-macpaul.lin@mediatek.com>
+Subject: Re: [PATCH v4 1/6] drm: add DRM_SET_CLIENT_NAME ioctl
+To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
+ tursulin@igalia.com, simona.vetter@ffwll.ch, robdclark@gmail.com,
+ alexander.deucher@amd.com, amd-gfx@lists.freedesktop.org,
+ dmitry.osipenko@collabora.com
+References: <20240927084848.263718-1-pierre-eric.pelloux-prayer@amd.com>
+ <20240927084848.263718-2-pierre-eric.pelloux-prayer@amd.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <20240927084848.263718-2-pierre-eric.pelloux-prayer@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -84,81 +64,271 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 26/09/24 13:14, Macpaul Lin ha scritto:
-> The infra-iommu node in mt8195.dtsi was triggering a CHECK_DTBS error due
-> to an excessively long 'interrupts' property. The error message was:
+
+On 27/09/2024 09:48, Pierre-Eric Pelloux-Prayer wrote:
+> Giving the opportunity to userspace to associate a free-form
+> name with a drm_file struct is helpful for tracking and debugging.
 > 
->    infra-iommu@10315000: interrupts: [[0, 795, 4, 0], [0, 796, 4, 0],
->                       [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]]
->                       is too long
+> This is similar to the existing DMA_BUF_SET_NAME ioctl.
 > 
-> To address this issue, add "minItems: 1" and "maxItems: 5" constraints to
-> the 'interrupts' property in the DT binding schema. This change allows for
-> flexibility in the number of interrupts for new SoCs.
-> The purpose of these 5 interrupts is also added.
+> Access to client_name is protected by a mutex, and the 'clients' debugfs
+> file has been updated to print it.
 > 
-> Fixes: bca28426805d ("dt-bindings: iommu: mediatek: Convert IOMMU to DT schema")
-> Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
+> Userspace MR to use this ioctl:
+>     https://gitlab.freedesktop.org/virgl/virglrenderer/-/merge_requests/1428
+> 
+> If the string passed by userspace contains chars that would mess up output
+> when it's going to be printed (in dmesg, fdinfo, etc), -EINVAL is returned.
+> 
+> A 0-length string is a valid use, and clears the existing name.
+> 
+> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
 > ---
->   .../bindings/iommu/mediatek,iommu.yaml        | 25 ++++++++++++++++++-
->   1 file changed, 24 insertions(+), 1 deletion(-)
+>   drivers/gpu/drm/drm_debugfs.c | 14 ++++++---
+>   drivers/gpu/drm/drm_file.c    |  5 ++++
+>   drivers/gpu/drm/drm_ioctl.c   | 55 +++++++++++++++++++++++++++++++++++
+>   include/drm/drm_file.h        |  9 ++++++
+>   include/uapi/drm/drm.h        | 17 +++++++++++
+>   5 files changed, 96 insertions(+), 4 deletions(-)
 > 
-> Changes for v2:
->   - commit message: re-formatting and add a description of adding 5 interrupts.
->   - add 'description' and 'maxItems: 5' for 'interrupt' property of
->     'mt8195-iommu-infra'
->   - others keeps 'maxItems: 1'
-> 
-> diff --git a/Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml b/Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
-> index ea6b0f5f24de..fdd2996d2a31 100644
-> --- a/Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
-> +++ b/Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
-> @@ -96,7 +96,8 @@ properties:
->       maxItems: 1
+> diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
+> index 6b239a24f1df..5c99322a4c6f 100644
+> --- a/drivers/gpu/drm/drm_debugfs.c
+> +++ b/drivers/gpu/drm/drm_debugfs.c
+> @@ -78,12 +78,14 @@ static int drm_clients_info(struct seq_file *m, void *data)
+>   	kuid_t uid;
 >   
->     interrupts:
-> -    maxItems: 1
-> +    minItems: 1
-> +    maxItems: 5
+>   	seq_printf(m,
+> -		   "%20s %5s %3s master a %5s %10s\n",
+> +		   "%20s %5s %3s master a %5s %10s %*s\n",
+>   		   "command",
+>   		   "tgid",
+>   		   "dev",
+>   		   "uid",
+> -		   "magic");
+> +		   "magic",
+> +		   DRM_CLIENT_NAME_MAX_LEN,
+> +		   "name");
 >   
->     clocks:
->       items:
-> @@ -210,6 +211,28 @@ allOf:
->         required:
->           - mediatek,larbs
+>   	/* dev->filelist is sorted youngest first, but we want to present
+>   	 * oldest first (i.e. kernel, servers, clients), so walk backwardss.
+> @@ -94,19 +96,23 @@ static int drm_clients_info(struct seq_file *m, void *data)
+>   		struct task_struct *task;
+>   		struct pid *pid;
 >   
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - mediatek,mt8195-iommu-infra
+> +		mutex_lock(&priv->client_name_lock);
+>   		rcu_read_lock(); /* Locks priv->pid and pid_task()->comm! */
+>   		pid = rcu_dereference(priv->pid);
+>   		task = pid_task(pid, PIDTYPE_TGID);
+>   		uid = task ? __task_cred(task)->euid : GLOBAL_ROOT_UID;
+> -		seq_printf(m, "%20s %5d %3d   %c    %c %5d %10u\n",
+> +		seq_printf(m, "%20s %5d %3d   %c    %c %5d %10u %*s\n",
+>   			   task ? task->comm : "<unknown>",
+>   			   pid_vnr(pid),
+>   			   priv->minor->index,
+>   			   is_current_master ? 'y' : 'n',
+>   			   priv->authenticated ? 'y' : 'n',
+>   			   from_kuid_munged(seq_user_ns(m), uid),
+> -			   priv->magic);
+> +			   priv->magic,
+> +			   DRM_CLIENT_NAME_MAX_LEN,
+> +			   priv->client_name ? priv->client_name : "<unset>");
+>   		rcu_read_unlock();
+> +		mutex_unlock(&priv->client_name_lock);
+>   	}
+>   	mutex_unlock(&dev->filelist_mutex);
+>   	return 0;
+> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
+> index 01fde94fe2a9..64f5e15304e7 100644
+> --- a/drivers/gpu/drm/drm_file.c
+> +++ b/drivers/gpu/drm/drm_file.c
+> @@ -158,6 +158,7 @@ struct drm_file *drm_file_alloc(struct drm_minor *minor)
+>   
+>   	spin_lock_init(&file->master_lookup_lock);
+>   	mutex_init(&file->event_read_lock);
+> +	mutex_init(&file->client_name_lock);
+>   
+>   	if (drm_core_check_feature(dev, DRIVER_GEM))
+>   		drm_gem_open(dev, file);
+> @@ -259,6 +260,10 @@ void drm_file_free(struct drm_file *file)
+>   	WARN_ON(!list_empty(&file->event_list));
+>   
+>   	put_pid(rcu_access_pointer(file->pid));
 > +
-> +    then:
-> +      properties:
-> +        interrupts:
-> +          description: |
+> +	mutex_destroy(&file->client_name_lock);
+> +	kfree(file->client_name);
+> +
+>   	kfree(file);
+>   }
+>   
+> diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
+> index 51f39912866f..df8d59bd5241 100644
+> --- a/drivers/gpu/drm/drm_ioctl.c
+> +++ b/drivers/gpu/drm/drm_ioctl.c
+> @@ -540,6 +540,59 @@ int drm_version(struct drm_device *dev, void *data,
+>   	return err;
+>   }
+>   
+> +/*
+> + * Check if the passed string contains control char or spaces or
+> + * anything that would mess up a formatted output.
+> + */
+> +static int drm_validate_value_string(const char *value, size_t len)
+> +{
+> +	int i;
+> +
+> +	for (i = 0; i < len; i++) {
+> +		if (value[i] <= 32 || value[i] >= 127)
 
-Do you really need to keep the formatting?
+Would !isascii() || isgraph() work for what you have in mind here, 
+considering the comment from the cover letter about the extended ASCII?
 
-If you rephrase that as:
+> +			return -EINVAL;
+> +	}
+> +	return 0;
+> +}
+> +
+> +static int drm_set_client_name(struct drm_device *dev, void *data,
+> +			       struct drm_file *file_priv)
+> +{
+> +	struct drm_set_client_name *name = data;
+> +	void __user *user_ptr;
+> +	char *new_name;
+> +	size_t len;
+> +
+> +	if (name->name_len > DRM_CLIENT_NAME_MAX_LEN)
+> +		return -EINVAL;
+> +
+> +	user_ptr = u64_to_user_ptr(name->name);
+> +
+> +	new_name = memdup_user_nul(user_ptr, name->name_len);
+> +	if (IS_ERR(new_name))
+> +		return PTR_ERR(new_name);
+> +
+> +	len = strlen(new_name);
+> +
+> +	if (len != name->name_len ||
+> +	    drm_validate_value_string(new_name, len) < 0) {
+> +		kfree(new_name);
+> +		return -EINVAL;
+> +	}
+> +
+> +	mutex_lock(&file_priv->client_name_lock);
+> +	kfree(file_priv->client_name);
+> +	if (len > 0) {
+> +		file_priv->client_name = new_name;
+> +	} else {
+> +		kfree(new_name);
+> +		file_priv->client_name = NULL;
+> +	}
+> +	mutex_unlock(&file_priv->client_name_lock);
 
-The infra IOMMU in MT8195 has five banks: each features one set
-of APB registers for the normal world (set 0), one for the protected
-world (sets 1-3) and one for the secure world (set 4), and each set
-has its own interrupt. Therefore, five interrupts are needed.
+FWIW I still find it hard to look at needlessly allocating a string when 
+userspace has passed name->name_len == 0.
 
-...you won't need the bar :-)
+I would have done it something like this:
 
-> +            The IOMMU of MT8195 has 5 banks: 0/1/2/3/4.
-> +            Each bank has a set of APB registers corresponding to the
-> +            normal world, protected world 1/2/3, and secure world, respectively.
-> +            Therefore, 5 interrupt numbers are needed.
-> +          maxItems: 5
+{
+	struct drm_set_client_name *name = data;
+	size_t len = name->len;
+	char *new_name;
 
-minItems: 5
+	if (len > DRM_CLIENT_NAME_MAX_LEN) {
+		return -EINVAL;
+	} else if (len) {
+		new_name = memdup_user_nul(u64_to_user_ptr(name->name), len);
+		if (IS_ERR(new_name))
+			return PTR_ERR(new_name);
 
-Cheers,
-Angelo
+		if (strlen(new_name) != len ||
+		    drm_validate_value_string(new_name, len) < 0) {
+			kfree(new_name);
+			return -EINVAL;
+		}
+	} else {
+		new_name = NULL;
+	}
 
+	mutex_lock(&file_priv->client_name_lock);
+	kfree(file_priv->client_name);
+	file_priv->client_name = new_name;
+	mutex_unlock(&file_priv->client_name_lock);
 
+But whatever, you can keep the r-b regardless.
+
+Regards,
+
+Tvrtko
+
+> +
+> +	return 0;
+> +}
+> +
+>   static int drm_ioctl_permit(u32 flags, struct drm_file *file_priv)
+>   {
+>   	/* ROOT_ONLY is only for CAP_SYS_ADMIN */
+> @@ -610,6 +663,8 @@ static const struct drm_ioctl_desc drm_ioctls[] = {
+>   	DRM_IOCTL_DEF(DRM_IOCTL_PRIME_HANDLE_TO_FD, drm_prime_handle_to_fd_ioctl, DRM_RENDER_ALLOW),
+>   	DRM_IOCTL_DEF(DRM_IOCTL_PRIME_FD_TO_HANDLE, drm_prime_fd_to_handle_ioctl, DRM_RENDER_ALLOW),
+>   
+> +	DRM_IOCTL_DEF(DRM_IOCTL_SET_CLIENT_NAME, drm_set_client_name, DRM_RENDER_ALLOW),
+> +
+>   	DRM_IOCTL_DEF(DRM_IOCTL_MODE_GETPLANERESOURCES, drm_mode_getplane_res, 0),
+>   	DRM_IOCTL_DEF(DRM_IOCTL_MODE_GETCRTC, drm_mode_getcrtc, 0),
+>   	DRM_IOCTL_DEF(DRM_IOCTL_MODE_SETCRTC, drm_mode_setcrtc, DRM_MASTER),
+> diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
+> index 8c0030c77308..d4f1c115ea0f 100644
+> --- a/include/drm/drm_file.h
+> +++ b/include/drm/drm_file.h
+> @@ -388,6 +388,15 @@ struct drm_file {
+>   	 * Per-file buffer caches used by the PRIME buffer sharing code.
+>   	 */
+>   	struct drm_prime_file_private prime;
+> +
+> +	/**
+> +	 * @client_name:
+> +	 *
+> +	 * Userspace-provided name; useful for accounting and debugging.
+> +	 */
+> +	const char *client_name;
+> +	/** @name_lock: Protects @client_name. */
+> +	struct mutex client_name_lock;
+>   };
+>   
+>   /**
+> diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
+> index 16122819edfe..7fba37b94401 100644
+> --- a/include/uapi/drm/drm.h
+> +++ b/include/uapi/drm/drm.h
+> @@ -1024,6 +1024,13 @@ struct drm_crtc_queue_sequence {
+>   	__u64 user_data;	/* user data passed to event */
+>   };
+>   
+> +#define DRM_CLIENT_NAME_MAX_LEN		64
+> +struct drm_set_client_name {
+> +	__u64 name_len;
+> +	__u64 name;
+> +};
+> +
+> +
+>   #if defined(__cplusplus)
+>   }
+>   #endif
+> @@ -1288,6 +1295,16 @@ extern "C" {
+>    */
+>   #define DRM_IOCTL_MODE_CLOSEFB		DRM_IOWR(0xD0, struct drm_mode_closefb)
+>   
+> +/**
+> + * DRM_IOCTL_SET_CLIENT_NAME - Attach a name to a drm_file
+> + *
+> + * Having a name allows for easier tracking and debugging.
+> + * The length of the name (without null ending char) must be
+> + * <= DRM_CLIENT_NAME_MAX_LEN.
+> + * The call will fail if the name contains whitespaces or non-printable chars.
+> + */
+> +#define DRM_IOCTL_SET_CLIENT_NAME	DRM_IOWR(0xD1, struct drm_set_client_name)
+> +
+>   /*
+>    * Device specific ioctls should only be in their respective headers
+>    * The device specific ioctl range is from 0x40 to 0x9f.
