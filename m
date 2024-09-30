@@ -2,121 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32E5498A417
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2024 15:09:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA54498A411
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2024 15:09:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE4F710E480;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0478C10E479;
 	Mon, 30 Sep 2024 13:09:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="rfccJBO7";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RsG2rnmL";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="mcZm4QxO";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="q0THeNxd";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Bo3j8HHs";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fIU83mO/";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Bo3j8HHs";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fIU83mO/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E999B10E46D;
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35ACF10E464;
  Mon, 30 Sep 2024 13:09:28 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 60F7D21A3C;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id B3C091FBA3;
  Mon, 30 Sep 2024 13:09:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1727701767; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gaQIekaoDRqnVG2A5/X+QLxi0dMJNTY6ddaotQt2IXs=;
- b=rfccJBO7vCIxx3hIhGuoLSUeTJLQTciQul6mH9+oaFPsveBEBICbJ+Er6v5dA12KD18RjS
- uLJZanqlNpQ6HTsnXXRUZQbDQad/QdkSdSzRcdEyTrVqlXXECrVKVs6An/5y6xXD/2uXJv
- 1+AmjEB+hwhMGTFSRGOHFJ2BbDwcR7k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1727701767;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gaQIekaoDRqnVG2A5/X+QLxi0dMJNTY6ddaotQt2IXs=;
- b=RsG2rnmLZBfJm6jxU+MvsHxNyIP3IZbw0jv3OhQbQSUevJQSWeLB2L4tDHHMjxrGZ1/FYq
- YvG4dezo+PJtDHAA==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=mcZm4QxO;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=q0THeNxd
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1727701766; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gaQIekaoDRqnVG2A5/X+QLxi0dMJNTY6ddaotQt2IXs=;
- b=mcZm4QxOMn+fZn+1rufeufsY4MXmD5SAzbEYk5Xir6gfPJmoKLFQEkaUblSVzDjITd7nIR
- 2oZzo0AxigTv78Kq0kh52rRMwdMwzA3+SoM1g+gSTgOYKVIC93a0HykuU1QD7YCPxNNBC2
- 5dfCXa+hYYkiJ4qyYiv8FsmZDsWIHUo=
+ bh=/C+qcFu8iSIpqIrSYsNQ9RmjgJydb3N6Q8+szHAr7zs=;
+ b=Bo3j8HHsvB5UtG4Mes17awRO5+DhCrhY51Uu9U1um0S67bPuFzrBM62xYBHTnzds4EOkrB
+ WqKqz11fVPFM4YWS6/zoeyjpGENWcUCmqLkMsEgG3prUnn8rcf1mQn+K+y72jL10HxrbIf
+ B/j6bQ9dSvf/KEIG89gzND9OQ1IDm8Q=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1727701766;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gaQIekaoDRqnVG2A5/X+QLxi0dMJNTY6ddaotQt2IXs=;
- b=q0THeNxdxaJef5Fs9pMVlMxspY0R3mUfQldDu/SDdzZ2wSK54Ysk6pLztJiTYhasv/otPJ
- Jmi4X1aKrpFT7pBQ==
+ bh=/C+qcFu8iSIpqIrSYsNQ9RmjgJydb3N6Q8+szHAr7zs=;
+ b=fIU83mO/idwg0KV8TVN0kefecjUhuSSwo4BO4rxI7T1/aTM+xvWsUmL17ToP3d3gJLhr8Y
+ fQPvCH5Ses/ENPCQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1727701766; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/C+qcFu8iSIpqIrSYsNQ9RmjgJydb3N6Q8+szHAr7zs=;
+ b=Bo3j8HHsvB5UtG4Mes17awRO5+DhCrhY51Uu9U1um0S67bPuFzrBM62xYBHTnzds4EOkrB
+ WqKqz11fVPFM4YWS6/zoeyjpGENWcUCmqLkMsEgG3prUnn8rcf1mQn+K+y72jL10HxrbIf
+ B/j6bQ9dSvf/KEIG89gzND9OQ1IDm8Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1727701766;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/C+qcFu8iSIpqIrSYsNQ9RmjgJydb3N6Q8+szHAr7zs=;
+ b=fIU83mO/idwg0KV8TVN0kefecjUhuSSwo4BO4rxI7T1/aTM+xvWsUmL17ToP3d3gJLhr8Y
+ fQPvCH5Ses/ENPCQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id ECF3213A97;
- Mon, 30 Sep 2024 13:09:25 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 66412136CB;
+ Mon, 30 Sep 2024 13:09:26 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id +BOTOAWj+mb2dQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 30 Sep 2024 13:09:25 +0000
+ by imap1.dmz-prg2.suse.org with ESMTPSA id AOuxFwaj+mb2dQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 30 Sep 2024 13:09:26 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: javierm@redhat.com, airlied@gmail.com, simona@ffwll.ch,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org
 Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  Thomas Zimmermann <tzimmermann@suse.de>,
- Xinliang Liu <xinliang.liu@linaro.org>, Tian Tao <tiantao6@hisilicon.com>,
- Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Yongqin Liu <yongqin.liu@linaro.org>, John Stultz <jstultz@google.com>
-Subject: [PATCH 05/28] drm/hisilicon/hibmc: Use video aperture helpers
-Date: Mon, 30 Sep 2024 15:03:03 +0200
-Message-ID: <20240930130921.689876-6-tzimmermann@suse.de>
+ Deepak Rawat <drawat.floss@gmail.com>
+Subject: [PATCH 06/28] drm/hyperv-drm: Use video aperture helpers
+Date: Mon, 30 Sep 2024 15:03:04 +0200
+Message-ID: <20240930130921.689876-7-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20240930130921.689876-1-tzimmermann@suse.de>
 References: <20240930130921.689876-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 60F7D21A3C
 X-Spam-Level: 
-X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_MISSING_CHARSET(0.50)[];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+X-Spamd-Result: default: False [-1.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ SUSPICIOUS_RECIPS(1.50)[]; MID_CONTAINS_FROM(1.00)[];
+ NEURAL_HAM_LONG(-1.00)[-1.000]; R_MISSING_CHARSET(0.50)[];
  NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[];
- FREEMAIL_TO(0.00)[redhat.com,gmail.com,ffwll.ch,linux.intel.com,kernel.org];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid];
+ RCVD_TLS_ALL(0.00)[];
+ FREEMAIL_CC(0.00)[lists.freedesktop.org,suse.de,gmail.com];
  ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- RCPT_COUNT_TWELVE(0.00)[16]; RCVD_COUNT_TWO(0.00)[2];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; FROM_HAS_DN(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,linaro.org:email];
- FROM_EQ_ENVFROM(0.00)[];
- R_RATELIMIT(0.00)[to_ip_from(RLqtkr6cif1ebgurukgmwdm7xc)];
- RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
- TO_DN_SOME(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.01
+ RCVD_VIA_SMTP_AUTH(0.00)[]; TO_DN_SOME(0.00)[];
+ TAGGED_RCPT(0.00)[]; FROM_HAS_DN(0.00)[];
+ FREEMAIL_TO(0.00)[redhat.com,gmail.com,ffwll.ch,linux.intel.com,kernel.org];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FROM_EQ_ENVFROM(0.00)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ RCPT_COUNT_SEVEN(0.00)[11];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]
+X-Spam-Score: -1.30
 X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -138,25 +125,22 @@ under drivers/video/ for use with fbdev. Avoid the DRM wrappers by
 calling the video functions directly.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Xinliang Liu <xinliang.liu@linaro.org>
-Cc: Tian Tao <tiantao6@hisilicon.com>
-Cc: Xinwei Kong <kong.kongxinwei@hisilicon.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Yongqin Liu <yongqin.liu@linaro.org>
-Cc: John Stultz <jstultz@google.com>
+Cc: Deepak Rawat <drawat.floss@gmail.com>
 ---
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 4 ++--
+ drivers/gpu/drm/hyperv/hyperv_drm_drv.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-index 866a9ecaf8b9..8c488c98ac97 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-@@ -11,10 +11,10 @@
-  *	Jianhua Li <lijianhua@huawei.com>
+diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
+index 3077ce5470f6..e0953777a206 100644
+--- a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
++++ b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
+@@ -3,12 +3,12 @@
+  * Copyright 2021 Microsoft
   */
  
 +#include <linux/aperture.h>
+ #include <linux/efi.h>
+ #include <linux/hyperv.h>
  #include <linux/module.h>
  #include <linux/pci.h>
  
@@ -164,15 +148,15 @@ index 866a9ecaf8b9..8c488c98ac97 100644
  #include <drm/drm_atomic_helper.h>
  #include <drm/drm_client_setup.h>
  #include <drm/drm_drv.h>
-@@ -308,7 +308,7 @@ static int hibmc_pci_probe(struct pci_dev *pdev,
- 	struct drm_device *dev;
- 	int ret;
+@@ -126,7 +126,7 @@ static int hyperv_vmbus_probe(struct hv_device *hdev,
+ 		goto err_hv_set_drv_data;
+ 	}
  
--	ret = drm_aperture_remove_conflicting_pci_framebuffers(pdev, &hibmc_driver);
-+	ret = aperture_remove_conflicting_pci_devices(pdev, hibmc_driver.name);
+-	drm_aperture_remove_framebuffers(&hyperv_driver);
++	aperture_remove_all_conflicting_devices(hyperv_driver.name);
+ 
+ 	ret = hyperv_setup_vram(hv, hdev);
  	if (ret)
- 		return ret;
- 
 -- 
 2.46.0
 
