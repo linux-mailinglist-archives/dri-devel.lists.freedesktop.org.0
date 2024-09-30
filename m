@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44B0998AC29
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2024 20:36:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82D7098AC2A
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2024 20:36:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4270210E57B;
-	Mon, 30 Sep 2024 18:36:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C24F10E57A;
+	Mon, 30 Sep 2024 18:36:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=mainlining.org header.i=@mainlining.org header.b="L2nCHvmP";
+	dkim=pass (2048-bit key; unprotected) header.d=mainlining.org header.i=@mainlining.org header.b="aHv9tg9M";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 995CE10E131;
- Mon, 30 Sep 2024 18:36:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 121C910E131;
+ Mon, 30 Sep 2024 18:36:03 +0000 (UTC)
 Received: from [192.168.1.130] (51B6DC6E.dsl.pool.telekom.hu [81.182.220.110])
- by mail.mainlining.org (Postfix) with ESMTPSA id EE826E4522;
- Mon, 30 Sep 2024 18:36:00 +0000 (UTC)
+ by mail.mainlining.org (Postfix) with ESMTPSA id 7627BE4524;
+ Mon, 30 Sep 2024 18:36:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mainlining.org;
  s=psm; t=1727721361;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=urc6GkK9dcjV8MMNvdQkUUgBm8puVe1DPV5os8NVWCU=;
- b=L2nCHvmP3G9SaGjlsDC3DcXCUDVlQjKZLxXuvy2YbyUXYAJLmoyzAT7gUAj9VvAUom+D8X
- uYJMPA0XHjPDw9Db980JZc/KGxHOuKN2szv0C7tHm/03ZtWHfc7W1J2KcSKj4EiXxh0Kyw
- d8MIruTGcVtXxlRPHZHjd+YA3riWJ4k3u0HSlMjjB8K0SHGz+DRDiSXyjCRRHV9epY56ZU
- riz6VDIzG5TWaNdepjmNeogP6Tj6afSQrsYWUcF2BG9wIU1p+SByICJl5EJ/CxNNnRRCAT
- mggd+AMNHzzPvGHmCHp/4/SFP0apbAgeguQdFZG2IWw6UliH0nv+95ZM+zcgog==
+ bh=QdjOmboCzzxr+wO0FSFKNI0m2TFQvcd1auTusDJIIMk=;
+ b=aHv9tg9MPuMq6Uqm+qT451hTxZRzU3IiTbVvncGfLsK1RwrT/RTajy/ZrcYrh4mRKUDaeu
+ Ik0ssrFURPImF5zPvHApkuKCP+5xjS0nL0Raj4pK2usDpNpi3WSEevpgx2zTil9aC8tkAV
+ GVJZg0foP0L06So1lPvMbNPKfTdDgTZTZ42ZjHFaVFDP7rk9II0/qFM3ECkR1ALrOmrjeA
+ TxegEJG1YBdMBN1EcnhxqhlHWkbnRuil/19TMeTwqEghEQ6aGzXFCBUkmlpdULM+egXo4L
+ 6YRhXDxw+i/1zBOUibGKgzLj/oNsUSyhTgtaS58y0MKr7I8cRI6eb56uXKRGnw==
 From: =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?=
  <barnabas.czeman@mainlining.org>
-Date: Mon, 30 Sep 2024 20:35:57 +0200
-Subject: [PATCH v2 2/4] drm/msm/dpu: Add support for MSM8953
+Date: Mon, 30 Sep 2024 20:35:58 +0200
+Subject: [PATCH v2 3/4] drm/msm/dpu: Add support for MSM8937
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20240930-dpu-msm8953-msm8996-v2-2-594c3e3190b4@mainlining.org>
+Message-Id: <20240930-dpu-msm8953-msm8996-v2-3-594c3e3190b4@mainlining.org>
 References: <20240930-dpu-msm8953-msm8996-v2-0-594c3e3190b4@mainlining.org>
 In-Reply-To: <20240930-dpu-msm8953-msm8996-v2-0-594c3e3190b4@mainlining.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -50,11 +50,11 @@ Cc: linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
  =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?= <barnabas.czeman@mainlining.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1727721359; l=10627;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1727721359; l=9486;
  i=barnabas.czeman@mainlining.org; s=20240730; h=from:subject:message-id;
- bh=Rg0i3zYCdEQcwk/fXALW5C+HsqOqnoY3QymVng8p/Ps=;
- b=HKNYOzQqDY8zls4Dx4cXzTERZWb9mfzQjlJOadIFLJlnshhlr4Fw9juFtPmmObmLohyL79HHP
- DyH5CRX51n6BJCe0PgCmAWpS8vq/l/A+Z+Ejk5Fcm+ifylneWu3BKgj
+ bh=okZgb4+yWJwwh7RgmIFm2ZMiFghdKsHJEbDfV6kHm8M=;
+ b=eAs1TSgkJdWGvBW2bitoABQyu65WMFx3TbQLnV4PMSbm99aJRmz9YImeOqESq7I6fpZds32O5
+ yxhBiMTpPTTAYwdVbhTn/bzLFah5kahxFKocoDLjdBLm/TVSuBmnsVm
 X-Developer-Key: i=barnabas.czeman@mainlining.org; a=ed25519;
  pk=TWUSIGgwW/Sn4xnX25nw+lszj1AT/A3bzkahn7EhOFc=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,7 +74,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Add support for MSM8953, which has MDP5 v1.16. It looks like
+Add support for MSM8937, which has MDP5 v1.14. It looks like
 trimmed down version of MSM8996. Less SSPP, LM and PP blocks. No DSC,
 etc.
 
@@ -82,28 +82,28 @@ Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 [Remove intr_start from CTLs config, reword the commit]
 Signed-off-by: Barnabás Czémán <barnabas.czeman@mainlining.org>
 ---
- .../drm/msm/disp/dpu1/catalog/dpu_1_16_msm8953.h   | 218 +++++++++++++++++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |  12 ++
+ .../drm/msm/disp/dpu1/catalog/dpu_1_14_msm8937.h   | 210 +++++++++++++++++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |   1 +
  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   1 +
  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   1 +
  drivers/gpu/drm/msm/msm_drv.c                      |   1 +
- 5 files changed, 233 insertions(+)
+ 5 files changed, 214 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_16_msm8953.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_16_msm8953.h
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_14_msm8937.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_14_msm8937.h
 new file mode 100644
-index 0000000000000000000000000000000000000000..14f36ea6ad0eb61e87f043437a8cd78bb1bde49c
+index 0000000000000000000000000000000000000000..ab3dfb0b374ead36c7f07b0a77c703fb2c09ff8a
 --- /dev/null
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_16_msm8953.h
-@@ -0,0 +1,218 @@
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_14_msm8937.h
+@@ -0,0 +1,210 @@
 +/* SPDX-License-Identifier: GPL-2.0-only */
 +/*
 + * Copyright (c) 2023, Linaro Limited
 + */
 +
-+#ifndef _DPU_1_16_MSM8953_H
-+#define _DPU_1_16_MSM8953_H
++#ifndef _DPU_1_14_MSM8937_H
++#define _DPU_1_14_MSM8937_H
 +
-+static const struct dpu_caps msm8953_dpu_caps = {
++static const struct dpu_caps msm8937_dpu_caps = {
 +	.max_mixer_width = DEFAULT_DPU_LINE_WIDTH,
 +	.max_mixer_blendstages = 0x4,
 +	.max_linewidth = DEFAULT_DPU_LINE_WIDTH,
@@ -112,7 +112,7 @@ index 0000000000000000000000000000000000000000..14f36ea6ad0eb61e87f043437a8cd78b
 +	.max_vdeci_exp = MAX_VERT_DECIMATION,
 +};
 +
-+static const struct dpu_mdp_cfg msm8953_mdp[] = {
++static const struct dpu_mdp_cfg msm8937_mdp[] = {
 +	{
 +		.name = "top_0",
 +		.base = 0x0, .len = 0x454,
@@ -127,7 +127,7 @@ index 0000000000000000000000000000000000000000..14f36ea6ad0eb61e87f043437a8cd78b
 +	},
 +};
 +
-+static const struct dpu_ctl_cfg msm8953_ctl[] = {
++static const struct dpu_ctl_cfg msm8937_ctl[] = {
 +	{
 +		.name = "ctl_0", .id = CTL_0,
 +		.base = 0x1000, .len = 0x64,
@@ -140,7 +140,7 @@ index 0000000000000000000000000000000000000000..14f36ea6ad0eb61e87f043437a8cd78b
 +	},
 +};
 +
-+static const struct dpu_sspp_cfg msm8953_sspp[] = {
++static const struct dpu_sspp_cfg msm8937_sspp[] = {
 +	{
 +		.name = "sspp_0", .id = SSPP_VIG0,
 +		.base = 0x4000, .len = 0x150,
@@ -176,7 +176,7 @@ index 0000000000000000000000000000000000000000..14f36ea6ad0eb61e87f043437a8cd78b
 +	},
 +};
 +
-+static const struct dpu_lm_cfg msm8953_lm[] = {
++static const struct dpu_lm_cfg msm8937_lm[] = {
 +	{
 +		.name = "lm_0", .id = LM_0,
 +		.base = 0x44000, .len = 0x320,
@@ -193,7 +193,7 @@ index 0000000000000000000000000000000000000000..14f36ea6ad0eb61e87f043437a8cd78b
 +	},
 +};
 +
-+static const struct dpu_pingpong_cfg msm8953_pp[] = {
++static const struct dpu_pingpong_cfg msm8937_pp[] = {
 +	{
 +		.name = "pingpong_0", .id = PINGPONG_0,
 +		.base = 0x70000, .len = 0xd4,
@@ -211,7 +211,7 @@ index 0000000000000000000000000000000000000000..14f36ea6ad0eb61e87f043437a8cd78b
 +	},
 +};
 +
-+static const struct dpu_dspp_cfg msm8953_dspp[] = {
++static const struct dpu_dspp_cfg msm8937_dspp[] = {
 +	{
 +		.name = "dspp_0", .id = DSPP_0,
 +		.base = 0x54000, .len = 0x1800,
@@ -220,16 +220,8 @@ index 0000000000000000000000000000000000000000..14f36ea6ad0eb61e87f043437a8cd78b
 +	},
 +};
 +
-+static const struct dpu_intf_cfg msm8953_intf[] = {
++static const struct dpu_intf_cfg msm8937_intf[] = {
 +	{
-+		.name = "intf_0", .id = INTF_0,
-+		.base = 0x6a000, .len = 0x268,
-+		.type = INTF_NONE,
-+		.prog_fetch_lines_worst_case = 14,
-+		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 24),
-+		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 25),
-+		.intr_tear_rd_ptr = -1,
-+	}, {
 +		.name = "intf_1", .id = INTF_1,
 +		.base = 0x6a800, .len = 0x268,
 +		.type = INTF_DSI,
@@ -250,9 +242,9 @@ index 0000000000000000000000000000000000000000..14f36ea6ad0eb61e87f043437a8cd78b
 +	},
 +};
 +
-+static const struct dpu_perf_cfg msm8953_perf_data = {
-+	.max_bw_low = 3400000,
-+	.max_bw_high = 3400000,
++static const struct dpu_perf_cfg msm8937_perf_data = {
++	.max_bw_low = 3100000,
++	.max_bw_high = 3100000,
 +	.min_core_ib = 2400000,
 +	.min_llcc_ib = 0, /* No LLCC on this SoC */
 +	.min_dram_ib = 800000,
@@ -286,113 +278,81 @@ index 0000000000000000000000000000000000000000..14f36ea6ad0eb61e87f043437a8cd78b
 +	.bw_inefficiency_factor = 120,
 +};
 +
-+static const struct dpu_mdss_version msm8953_mdss_ver = {
++static const struct dpu_mdss_version msm8937_mdss_ver = {
 +	.core_major_ver = 1,
-+	.core_minor_ver = 16,
++	.core_minor_ver = 14,
 +};
 +
-+const struct dpu_mdss_cfg dpu_msm8953_cfg = {
-+	.mdss_ver = &msm8953_mdss_ver,
-+	.caps = &msm8953_dpu_caps,
-+	.mdp = msm8953_mdp,
-+	.ctl_count = ARRAY_SIZE(msm8953_ctl),
-+	.ctl = msm8953_ctl,
-+	.sspp_count = ARRAY_SIZE(msm8953_sspp),
-+	.sspp = msm8953_sspp,
-+	.mixer_count = ARRAY_SIZE(msm8953_lm),
-+	.mixer = msm8953_lm,
-+	.dspp_count = ARRAY_SIZE(msm8953_dspp),
-+	.dspp = msm8953_dspp,
-+	.pingpong_count = ARRAY_SIZE(msm8953_pp),
-+	.pingpong = msm8953_pp,
-+	.intf_count = ARRAY_SIZE(msm8953_intf),
-+	.intf = msm8953_intf,
++const struct dpu_mdss_cfg dpu_msm8937_cfg = {
++	.mdss_ver = &msm8937_mdss_ver,
++	.caps = &msm8937_dpu_caps,
++	.mdp = msm8937_mdp,
++	.ctl_count = ARRAY_SIZE(msm8937_ctl),
++	.ctl = msm8937_ctl,
++	.sspp_count = ARRAY_SIZE(msm8937_sspp),
++	.sspp = msm8937_sspp,
++	.mixer_count = ARRAY_SIZE(msm8937_lm),
++	.mixer = msm8937_lm,
++	.dspp_count = ARRAY_SIZE(msm8937_dspp),
++	.dspp = msm8937_dspp,
++	.pingpong_count = ARRAY_SIZE(msm8937_pp),
++	.pingpong = msm8937_pp,
++	.intf_count = ARRAY_SIZE(msm8937_intf),
++	.intf = msm8937_intf,
 +	.vbif_count = ARRAY_SIZE(msm8996_vbif),
 +	.vbif = msm8996_vbif,
-+	.perf = &msm8953_perf_data,
++	.perf = &msm8937_perf_data,
 +};
 +
 +#endif
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-index 03274c8fcd9fda3167bd2daad796157a1a496b2c..3049d7d15a34605455ad5f0db2cc118315c64bee 100644
+index 3049d7d15a34605455ad5f0db2cc118315c64bee..374d478faec4a08138f3e6cf2b396996eb082baa 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-@@ -21,6 +21,11 @@
- 	(VIG_BASE_MASK | \
- 	BIT(DPU_SSPP_CSC_10BIT))
- 
-+#define VIG_MSM8953_MASK \
-+	(BIT(DPU_SSPP_QOS) |\
-+	 BIT(DPU_SSPP_SCALER_QSEED2) |\
-+	 BIT(DPU_SSPP_CSC))
-+
- #define VIG_MSM8996_MASK \
- 	(BIT(DPU_SSPP_QOS) | BIT(DPU_SSPP_CDP) |\
- 	 BIT(DPU_SSPP_TS_PREFILL) | BIT(DPU_SSPP_SCALER_QSEED2) |\
-@@ -37,6 +42,9 @@
- 
- #define VIG_QCM2290_MASK (VIG_BASE_MASK | BIT(DPU_SSPP_QOS_8LVL))
- 
-+#define DMA_MSM8953_MASK \
-+	(BIT(DPU_SSPP_QOS))
-+
- #define DMA_MSM8996_MASK \
- 	(BIT(DPU_SSPP_QOS) | BIT(DPU_SSPP_TS_PREFILL) | BIT(DPU_SSPP_CDP))
- 
-@@ -71,6 +79,9 @@
- #define DMA_CURSOR_MSM8998_MASK \
- 	(DMA_MSM8998_MASK | BIT(DPU_SSPP_CURSOR))
- 
-+#define RGB_MSM8953_MASK \
-+	(BIT(DPU_SSPP_QOS))
-+
- #define RGB_MSM8996_MASK \
- 	(BIT(DPU_SSPP_QOS) | BIT(DPU_SSPP_CDP) |\
- 	 BIT(DPU_SSPP_TS_PREFILL) | BIT(DPU_SSPP_SCALER_RGB))
-@@ -768,6 +779,7 @@ static const struct dpu_qos_lut_entry sc7180_qos_nrt[] = {
+@@ -779,6 +779,7 @@ static const struct dpu_qos_lut_entry sc7180_qos_nrt[] = {
   *************************************************************/
  
  #include "catalog/dpu_1_7_msm8996.h"
-+#include "catalog/dpu_1_16_msm8953.h"
++#include "catalog/dpu_1_14_msm8937.h"
+ #include "catalog/dpu_1_16_msm8953.h"
  
  #include "catalog/dpu_3_0_msm8998.h"
- #include "catalog/dpu_3_2_sdm660.h"
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-index 69f089431901b020e7766f6628c0fca35c3703ce..68c1364c3ffe10ddf784079006ece2d73e62a4bf 100644
+index 68c1364c3ffe10ddf784079006ece2d73e62a4bf..cd9cd27f816969cf95ecdc46d0f5821ba851294c 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
 @@ -831,6 +831,7 @@ struct dpu_mdss_cfg {
  	const struct dpu_format_extended *vig_formats;
  };
  
-+extern const struct dpu_mdss_cfg dpu_msm8953_cfg;
++extern const struct dpu_mdss_cfg dpu_msm8937_cfg;
+ extern const struct dpu_mdss_cfg dpu_msm8953_cfg;
  extern const struct dpu_mdss_cfg dpu_msm8996_cfg;
  extern const struct dpu_mdss_cfg dpu_msm8998_cfg;
- extern const struct dpu_mdss_cfg dpu_sdm630_cfg;
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index b3e53de6a82acd191eb7c3524eb1e0e2216e8885..33f6a854461eb63b4b14b6525e88799342a7df54 100644
+index 33f6a854461eb63b4b14b6525e88799342a7df54..778d11d6cb63235456451bec83f0b1d9127861b8 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
 @@ -1445,6 +1445,7 @@ static const struct dev_pm_ops dpu_pm_ops = {
  };
  
  static const struct of_device_id dpu_dt_match[] = {
-+	{ .compatible = "qcom,msm8953-mdp5", .data = &dpu_msm8953_cfg, },
++	{ .compatible = "qcom,msm8937-mdp5", .data = &dpu_msm8937_cfg, },
+ 	{ .compatible = "qcom,msm8953-mdp5", .data = &dpu_msm8953_cfg, },
  	{ .compatible = "qcom,msm8996-mdp5", .data = &dpu_msm8996_cfg, },
  	{ .compatible = "qcom,msm8998-dpu", .data = &dpu_msm8998_cfg, },
- 	{ .compatible = "qcom,qcm2290-dpu", .data = &dpu_qcm2290_cfg, },
 diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index 93944ebc08718ec1387ff9e2945b332786d7acf8..ea2e39f002f2aa7871efcb0a3983069077a094b1 100644
+index ea2e39f002f2aa7871efcb0a3983069077a094b1..d7e51a7c25aad10629aee5166cd501693e8ec4fd 100644
 --- a/drivers/gpu/drm/msm/msm_drv.c
 +++ b/drivers/gpu/drm/msm/msm_drv.c
 @@ -983,6 +983,7 @@ module_param(prefer_mdp5, bool, 0444);
  
  /* list all platforms supported by both mdp5 and dpu drivers */
  static const char *const msm_mdp5_dpu_migration[] = {
-+	"qcom,msm8953-mdp5",
++	"qcom,msm8937-mdp5",
+ 	"qcom,msm8953-mdp5",
  	"qcom,msm8996-mdp5",
  	"qcom,sdm630-mdp5",
- 	"qcom,sdm660-mdp5",
 
 -- 
 2.46.2
