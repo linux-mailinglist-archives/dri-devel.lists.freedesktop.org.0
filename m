@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C444898B10C
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2024 01:41:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB45698B10F
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2024 01:41:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38A3B10E5A9;
-	Mon, 30 Sep 2024 23:41:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4940110E5AB;
+	Mon, 30 Sep 2024 23:41:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="d5RkNiXC";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="PTowA6Wa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 098E710E5A9
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2024 23:41:26 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0482E10E5AB
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2024 23:41:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1727739686;
+ s=mimecast20190719; t=1727739697;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xhLeLvV27GzVDMIsND1hL5s5tE+smtYvQODvZdGLp1k=;
- b=d5RkNiXCjA6yEhZI6EmQCcKs05346j94IThos2kAb0a5fsl46/EhiVVITRLdn48EvVxSCe
- SI5fiWTtkEAkm/PgJLie6jLzVRXvK9eQq8zDvot7dBxc9FNVEgSN/GCFJRgqyvaUl5GLrR
- FqhmQX/98vnbV4VUowi4p0vBwd1sgas=
-Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
+ bh=7t/iPh52Or/uRW+fztwWU5+XnAVyTy6rcl2tUGiZv4A=;
+ b=PTowA6Wav4fccU0ARyTItRjaNdPNH+N4nqzl1oHcMunuidCbuK0kVWlIN80EqrDr36OIEP
+ 0Syr+eLak5VshFODQYpl95zoFqybvduUvBi0XMKKwZ0BbEOdLV+YN6H2ZwJbde3E3C8dqd
+ MfH5WqPa6qlHbmjnHpDSNBsKnr11yzU=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-450-JvvOGLywPfqNFpiwe3YSlg-1; Mon,
- 30 Sep 2024 19:41:22 -0400
-X-MC-Unique: JvvOGLywPfqNFpiwe3YSlg-1
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-3-OWGYhbbOPTi0_jOaBzYfLg-1; Mon,
+ 30 Sep 2024 19:41:35 -0400
+X-MC-Unique: OWGYhbbOPTi0_jOaBzYfLg-1
 Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (unknown
  [10.30.177.4])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 800D1194511A; Mon, 30 Sep 2024 23:41:20 +0000 (UTC)
+ by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 3A46919192AC; Mon, 30 Sep 2024 23:41:27 +0000 (UTC)
 Received: from chopper.redhat.com (unknown [10.22.32.36])
  by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id AA03A3003DEC; Mon, 30 Sep 2024 23:41:16 +0000 (UTC)
+ id E539D3003DEC; Mon, 30 Sep 2024 23:41:22 +0000 (UTC)
 From: Lyude Paul <lyude@redhat.com>
 To: dri-devel@lists.freedesktop.org,
 	rust-for-linux@vger.kernel.org
@@ -55,11 +55,10 @@ Cc: Asahi Lina <lina@asahilina.net>, Danilo Krummrich <dakr@kernel.org>,
  Benno Lossin <benno.lossin@proton.me>,
  Andreas Hindborg <a.hindborg@samsung.com>,
  Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@redhat.com>,
  linux-kernel@vger.kernel.org (open list)
-Subject: [WIP RFC v2 31/35] rust: drm: Add Device::event_lock()
-Date: Mon, 30 Sep 2024 19:10:14 -0400
-Message-ID: <20240930233257.1189730-32-lyude@redhat.com>
+Subject: [WIP RFC v2 32/35] rust: drm/kms: Add Device::num_crtcs()
+Date: Mon, 30 Sep 2024 19:10:15 -0400
+Message-ID: <20240930233257.1189730-33-lyude@redhat.com>
 In-Reply-To: <20240930233257.1189730-1-lyude@redhat.com>
 References: <20240930233257.1189730-1-lyude@redhat.com>
 MIME-Version: 1.0
@@ -80,40 +79,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is just a crate-private helper to use Lock::from_raw() to provide an
-immutable reference to the DRM event_lock, so that it can be used like a
-normal rust spinlock. We'll need this for adding vblank related bindings.
+A binding for checking drm_device.num_crtcs. We'll need this in a moment
+for vblank support, since setting it up requires knowing the number of
+CRTCs that a driver has initialized.
 
 Signed-off-by: Lyude Paul <lyude@redhat.com>
 ---
- rust/kernel/drm/device.rs | 7 +++++++
- 1 file changed, 7 insertions(+)
+ rust/kernel/drm/kms.rs | 25 +++++++++++++++++++++----
+ 1 file changed, 21 insertions(+), 4 deletions(-)
 
-diff --git a/rust/kernel/drm/device.rs b/rust/kernel/drm/device.rs
-index d4d6b1185f6a6..207e7ea87cf8f 100644
---- a/rust/kernel/drm/device.rs
-+++ b/rust/kernel/drm/device.rs
-@@ -15,6 +15,7 @@
-     error::from_err_ptr,
-     error::Result,
-     types::{ARef, AlwaysRefCounted, ForeignOwnable, Opaque},
-+    sync::*,
- };
- use core::{
-     ffi::c_void,
-@@ -159,6 +160,12 @@ pub fn data(&self) -> <T::Data as ForeignOwnable>::Borrowed<'_> {
-         unsafe { <T::Data as ForeignOwnable>::from_foreign(drm.raw_data()) };
-     }
+diff --git a/rust/kernel/drm/kms.rs b/rust/kernel/drm/kms.rs
+index 3edd90bc0025a..d0745b44ba9b6 100644
+--- a/rust/kernel/drm/kms.rs
++++ b/rust/kernel/drm/kms.rs
+@@ -253,10 +253,27 @@ pub fn mode_config_lock(&self) -> ModeConfigGuard<'_, T> {
  
-+    /// Returns a reference to the `event` spinlock
-+    pub(crate) fn event_lock(&self) -> &SpinLockIrq<()> {
-+        // SAFETY: `event_lock` is initialized for as long as `self` is exposed to users
-+        unsafe { SpinLockIrq::from_raw(&mut (*self.as_raw()).event_lock) }
+     /// Return the number of registered [`Plane`](plane::Plane) objects on this [`Device`].
+     #[inline]
+-    pub fn num_plane(&self) -> i32 {
+-        // SAFETY: The only context which this could change is before registration, which must be
+-        // single-threaded anyway - so it's safe to just read this value
+-        unsafe { (*self.as_raw()).mode_config.num_total_plane }
++    pub fn num_plane(&self) -> u32 {
++        // SAFETY:
++        // * This can only be modified during the single-threaded context before registration, so
++        //   this is safe
++        // * num_total_plane could be >= 0, but no less - so casting to u32 is fine (and better to
++        //   prevent errors)
++        unsafe { (*self.as_raw()).mode_config.num_total_plane as u32 }
 +    }
 +
-     pub(crate) const fn has_kms() -> bool {
-         <T::Kms as KmsImplPrivate>::MODE_CONFIG_OPS.is_some()
++    /// Return the number of registered CRTCs
++    /// TODO: while `num_crtc` is of i32, that type actually makes literally no sense here and just
++    /// causes problems and unecessary casts. Same for num_plane(). So, fix that at some point (we
++    /// will never get n < 0 anyway)
++    #[inline]
++    pub fn num_crtcs(&self) -> u32 {
++        // SAFETY:
++        // * This can only be modified during the single-threaded context before registration, so
++        //   this is safe
++        // * num_crtc could be >= 0, but no less - so casting to u32 is fine (and better to prevent
++        //   errors)
++        unsafe { (*self.as_raw()).mode_config.num_crtc as u32 }
      }
+ }
+ 
 -- 
 2.46.1
 
