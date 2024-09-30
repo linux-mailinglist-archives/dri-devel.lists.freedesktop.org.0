@@ -2,154 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F69498A04C
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2024 13:23:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F353498A08B
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2024 13:28:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5794110E034;
-	Mon, 30 Sep 2024 11:23:02 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="jDEkddyq";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AB2210E3EC;
+	Mon, 30 Sep 2024 11:28:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2075.outbound.protection.outlook.com [40.107.93.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9716810E034;
- Mon, 30 Sep 2024 11:23:00 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cY4NvUvSqEhyYYodEarD14yJzcxVcWygPJ8U048sIrMyl20Kt3bGMicaTAHOKMLTOighR0JT2BSLnBsRfdM+/M4+p2S3d+gXIvGzoIgS3IJAFKlvHa56BC62v4tI9kLxRYZT+aUZwqxzSavXzxtvegkgewhom4rxqYRWrttc4RgBXYH149rV692gMrEWOOI6sUHXwhfRIhlG9lfoIusXwkfOY3RB9V+PINgwF6kP57pkXdIHhvBw4hUkwKd1/WzeCAO4h4iWYUHmdW4zRw+DLMDATKbpJ6V6igDqE0G0AV12uzEevHv/EhFS1oKJP1rFMX1WVqyURQ9fy59vKucOgQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ofXuHOkIyyRkwpwyu+/fd4c9p3xLi4Nhn6lHp+ukhYs=;
- b=SzRCOaexuKKiRAwp1R4vXLVRtZ2mdoLob/ZF5Nq9educAgnSrc5edGfIocavjGRQ+pWC1qv4ZNvq+NVny4KP60UiVfXZ1EZRbu2Ca89gq4j25tLE2HOlGNsv/rJsSD/wP+F0GDjgijSoVg0hi8jyei3TXqqRxtOGysyiZDjQ0wne3N+AMIguHZ3zHACtfjv2rUrg/GDbphUDPW9KWQtkxveo1SvbXnNhhfLuTS6Rj1SEFOSJmvBRqyDgJfT/lZxVDqyj8CYkgzmz5dkDFnxJnLDoriOBqQ07sgf8d4Rlr0wcNQKVyDfcXvk9dGMYNkdemd4EKKlNeesa++SHyNS01A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ofXuHOkIyyRkwpwyu+/fd4c9p3xLi4Nhn6lHp+ukhYs=;
- b=jDEkddyqtCLDBvFgD89aLJCc8v9mn/VbMFOe2fp/Tjw3w64VqsVYBzWnmtc+XQ3piMAj1Wf8zcdmMIBYTQ38EzIc/coQZOaSHuR7Lmf53VdrTwczZWr/gIWHynLn2V5KQHvLSpBc0qd8niihjYPl8RmJjYaBZAlefLN8vRF6DW0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by IA1PR12MB8311.namprd12.prod.outlook.com (2603:10b6:208:3fa::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8005.26; Mon, 30 Sep
- 2024 11:22:57 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%2]) with mapi id 15.20.8005.024; Mon, 30 Sep 2024
- 11:22:57 +0000
-Message-ID: <ea6868b2-ea0e-42ad-8351-c02553691b74@amd.com>
-Date: Mon, 30 Sep 2024 13:22:52 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 29/35] drivers/gpu/drm: Reorganize kerneldoc parameter
- names
-To: Julia Lawall <Julia.Lawall@inria.fr>,
- Alex Deucher <alexander.deucher@amd.com>
-Cc: kernel-janitors@vger.kernel.org, Xinhui Pan <Xinhui.Pan@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20240930112121.95324-1-Julia.Lawall@inria.fr>
- <20240930112121.95324-30-Julia.Lawall@inria.fr>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20240930112121.95324-30-Julia.Lawall@inria.fr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR3P281CA0159.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a2::19) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 87BE110E3EC
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2024 11:28:32 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 67F22DA7;
+ Mon, 30 Sep 2024 04:29:01 -0700 (PDT)
+Received: from [10.57.76.28] (unknown [10.57.76.28])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6E3C73F58B;
+ Mon, 30 Sep 2024 04:28:28 -0700 (PDT)
+Message-ID: <43d92e28-1fef-4408-b4a4-efede6bed263@arm.com>
+Date: Mon, 30 Sep 2024 12:28:26 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|IA1PR12MB8311:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5835edfe-217b-4818-c338-08dce1423c4e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?UTVrVW9jMFVZYVpveXJpdjd5ck9idk83MnhGMlZMM3hqekgrQkdCUFBiVWV6?=
- =?utf-8?B?ZXVZaGc3RkVpNlFwcFVXOFVtVzZIcVh2SjJWdmJXS0lOS1hzb0MvVEFGWEFm?=
- =?utf-8?B?NTgwSU5zcldnUmZGb0JjOElNYktLRjZ0bGUwY3VQSFRBRWZwd2QxcExUT05M?=
- =?utf-8?B?Q1lKVEVIMStzbVlPSisvQ2tiMFJ1MTZlM1dSOHFTdlRibzQxbkN2MnRkaEtY?=
- =?utf-8?B?UW5RNml5dFIxN0hsK0FqSlpGRG5waklHQ28zV2o5Y1lOQ2FITGdoaEljTXZB?=
- =?utf-8?B?anBjbTl3OHdSQ1ZPS1NQenBVMi9teWliTnJqS1FWYlZZajRhNjJ4UHNDTXZN?=
- =?utf-8?B?aEJTOGcwSVQya1lGdFYwcW1NK05NdTFjVlBkdXR6UXhQWVBPSmh3dFlUeFZS?=
- =?utf-8?B?bDJzMlFzQmxzY01MM0c5WjZkeUw5dHhzbW5rTkJONjg4ZGM1cVEwSGU5RStS?=
- =?utf-8?B?MWY5Wlc4ejNROWV1YjNqNk82eGRRbVY1U1I4VHRiVWZMbXF5a1ZBUnpxVEpK?=
- =?utf-8?B?bXNjM1JodGJ6RFRuR0RkVisvSjRqMlZwSnltVktEUEUwSzZPYTFnNzdoYjBp?=
- =?utf-8?B?VTNweStKZHU1M0trVEM1TWZ5TklBM1pKci9aeUdzRkFPZ0ExYldRYnhXTUZB?=
- =?utf-8?B?VlpOMzVFNTlHVTVRMXdZMTJWb3BhRVl1UWNLQngrOXJXMC9yQm1VN3BXZE5t?=
- =?utf-8?B?cDVsTC8vanBOZkpqU3ZOTHZTZW9xV3djRy8xVGs4aTE2QTlNbWxWR2p4ekY1?=
- =?utf-8?B?V0tJTTBLdWV4dkJwazRONEZNNW1DbGNOMjhMTDNkd0NGeHpSeXFFN25jL21J?=
- =?utf-8?B?Y2lCb05QZE5XQXpoUFlPdTNWSmVkNFhTM2pWOG9kNFZPZWI2WnlmK05Nb3Rn?=
- =?utf-8?B?Um0renkwYmtLMzhIZFRRQXc2TFpOT3B0dWFFVGIzTTducWZQU0MrZjZXVFdo?=
- =?utf-8?B?T05Udms2Y3I2c0tmT0QvME9NOThGQll0b20rOWY4enY3cHpXNm4wR0RaV25l?=
- =?utf-8?B?bjROajdSb2J3N0lTUDNpcW5PVVh2S2Q2MTFUUFpCMHBab29rT1pieWxHd3d1?=
- =?utf-8?B?RHh6ODhOSWJYSUNML04yOXhtNTh2Q2F2S1B6SG4xY211dVNaODJIRytXMnVZ?=
- =?utf-8?B?NWhBd1RxRGhlSENzUmR2UjhpV0Q5T3RtMTFyMVUzcEMwd09KSEs3SlJqR3hu?=
- =?utf-8?B?Q3haSkZ3QkxHSk5pLzVIeEQ2c2FhSUtMalJ6ZFI5K3dOVTk3aHV4djYwNHlH?=
- =?utf-8?B?VzY5MnB0YW9uMjd4TXVWZE44RzNVSXdWMGtYWXlHTU4zTitrSW1QaWlKaUJ1?=
- =?utf-8?B?cCtIZmFGS1FpaTVGTFpSV3Z5SkdBazFVSkFKN1RYZzYxMml6dlhESVhUdUxl?=
- =?utf-8?B?N29Qc05EZlhDMWNITnE3QU1VYm10ZFJIWWlIRFlyVFVtbVpnWi9WNVFJei9n?=
- =?utf-8?B?Z3Y0ODFRemQvVG1RUDdWRVN2MU8yUjFwQkpwQzB2ZEVOVDVpb0RUL1RibXJG?=
- =?utf-8?B?MmtCTTF4dEc1eHFhR3IvZDVXY3pUR2dHdFJSdWx6RlVERk1hR09CNlY3eFBP?=
- =?utf-8?B?WFAvMDNxRGhVUTRwVXV3UHJKZjVxenEvY2hBbDRObTNTT3c2TVBSUlExYW8x?=
- =?utf-8?B?dDZjaUtZaHVJTHZaUnR1bS9CYmFycDJIcmdTYXNZTzRDVVVHSnhtdzdYZEcx?=
- =?utf-8?B?UjZPcXl1UnZjUG9seVJabHNWbk1MUldpaDNsQnlEZDhpQzZmdFRDM2k0YWNN?=
- =?utf-8?B?ZGpvVVNMdDhXdXY5MkNlTU9LOWd0TGxCZXFWTnUyb1R3Y0ZiY2w3bkxkbjcx?=
- =?utf-8?B?WEt3Z3F6YXZJM3JHK3NRdz09?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aE10UWhPajJnQVcwZ2hMQjRUczNuWlYxQ1E5ZnVCQ1FOVVVvRE1Ta1IwWCsx?=
- =?utf-8?B?dUwyR3ZiMW1ha2VMSnZRUy9jeEtPTG94SVhoNllJeFFqeE1rMW44QXBVN0J4?=
- =?utf-8?B?V3RYWG4yOWZnNldxcjZMeHJmU2JYQTcrVDNBbW5DS3k1MEJEc2sxZ2FMRTNR?=
- =?utf-8?B?c3JLT3N3YUxERzhyZldsL1dGQTZiUjZWTFpVTXJrdzd6M0dCQ1FMZC82a08w?=
- =?utf-8?B?QkNlaVBocU40ejhQR2tyd3AxeSs3Y0pjQ1d1WUpEUzVPbEpLZWI0a3RJVzlU?=
- =?utf-8?B?eVlTVTlUTzRjNU1wTzJrSUN4NHNVMGxYcHBZVkpCQk5lT0xTU2VBTWljMnpB?=
- =?utf-8?B?aHJVdkdvTFJUOWZrdXVya0pNNTBaSHQyWjEyTXVWVTJMRFNWbkM5dzdtR2dS?=
- =?utf-8?B?d1cvUW5iZEJUdEQ4dXVXWWRwc3krR1lYVFRaenVUMDFaZUVLdHFzL2I1NC9u?=
- =?utf-8?B?ZkZVU0lxS21heDBuQVlUbDVZMlJpM3JhRjFDeFc0RXVFWkN0eFkrUURmLzl6?=
- =?utf-8?B?NWV6bWFUQ2txZExxSDZJeEJQelhpVFAveDBoSVZFZDN4Z0Zmb1RrZDYyZVR3?=
- =?utf-8?B?eGRFQ1BxdXVPc2pXd09KU1hlY0g0RG5VNW1JcjlsNlU5WkdLeVNqZ05kaW5L?=
- =?utf-8?B?SmI3QTR3NnVjOGUzYy9FU0ZPZE1rN3JWZzhSb2dMQWI0K3J1aDBQMk9qZFpN?=
- =?utf-8?B?Q0NualU4T3FEa05iT1h3dEx6V3BkcUZMUUdnaTMwQ3U2Ny81Uis5L1ZOODdU?=
- =?utf-8?B?NjY1YmJlelliMnFEeTlFSCsxeGdkOEhld3JmK0FhMFhJcHpEem9LRFRJOGJO?=
- =?utf-8?B?emk1K2Vwcm15TTkzcEgxd2V2bW0yT0dGOWJSemlDb2o5d3F4blpuOTI2STd5?=
- =?utf-8?B?QTB0MzcvaWw2ZnQxVnNsc0RwOUZodkZ4OURMaWJxNnlXUnBYTjdua3lTRlpF?=
- =?utf-8?B?VXp5eTM1ZlZ4NGdhZzBoMlloa3h6MDZwUnNxWDRvcmxCSFZBWjFuRkFiQ1Zp?=
- =?utf-8?B?V3FMMmFjL0wvd1NNVTJzb0RuaXBGTkk5WjNTRDh5ZzRQYXJOOWthb0RLSURJ?=
- =?utf-8?B?cjNhWGJEWlcwdFNKQUtXaEVwQTlicnNUb2grN0xNeTlKa1ltZHlZNUtZOVJ6?=
- =?utf-8?B?Q3hRY3pLc290TW5OeW55b3h5azhkaVNzVmp1aDBIa2RLVS9LcE5xRVUxRVJB?=
- =?utf-8?B?SXdndzZTc1lPNGk3anNaUWJLbWJxdmE4azZMOWQ0cUE3TThYUHZWamQyenBJ?=
- =?utf-8?B?RS8zaGJZSUdoVWEvUGZyYUgwQUIyM2NLMmpxMUlmdVg1SXpLemRIdHV5K0RI?=
- =?utf-8?B?NGliV29JV282OTkrM0JvbWdpQzA1Y2tESlNuM1RrNm1PdkVyU3FpMngxeXB5?=
- =?utf-8?B?dldiSGV1a3h2SDhzMWxMVE5NN24yNDFPRHVVNUczdHNCbCtleTdLU3dJSG9Z?=
- =?utf-8?B?NUxpdy9MTXkyd1RoV3FsY0FsbEdmZlhpY2tCcTlVVzVmOVRUV0R0T0FsOXZ4?=
- =?utf-8?B?UGVwMFR6QWJqZUM1alhiOW9YZmNaRzF5bm5IaUNKemtPNWhuTFdtb1dTaHk1?=
- =?utf-8?B?aHVTNXdpM0prNnhmVW44Smgwa0RDVGNCVDlaeGdFM1liVHJSK1pXbkIvRUhp?=
- =?utf-8?B?NjhiaTd0eUJqa2M3ZjNiWUdZb2FQR2t1SFB0RDFrUndlM1hMWmljbE05N3dM?=
- =?utf-8?B?MXpsRHNJNzFlTHhZZ3dBejJveXYvU1VUdnAyRnBBcjRyMFhaUnZkc3VaZFpl?=
- =?utf-8?B?cEEvek5WTGFHNHdXUmdkb0pDakMrQ1BiSVpWZGRWcEhBUmduN21zSHF6WFg3?=
- =?utf-8?B?MldkSG5DM3BPTmdBN2xOL2Y0THlNRVcwV2tTTUg4clFnb0xsMlZ2MVlPNFJM?=
- =?utf-8?B?bklKWnJpVjVmQXlEUnlpMGtVRUd4Nml0dEZmN1ZxRE1uOXdZWHk2eWNnb1R2?=
- =?utf-8?B?ZEdZZTU4dzNTZVBwNzljWWU4YUI1UmlBeTdxU0xWbTI0a2hOcVovNVB4WW1F?=
- =?utf-8?B?YVlqZGxYd3JLOHlZdEpoTEwxdHZ1UndaOTZCVTFHV0diVXVDa24wM3BsUXlC?=
- =?utf-8?B?c2pqeTF5K3VNUEpuaUM2bGJMRStuRmNGT0xVbmVqVERITU0zYllCOXNKY3h6?=
- =?utf-8?Q?D3W4=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5835edfe-217b-4818-c338-08dce1423c4e
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Sep 2024 11:22:57.6622 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: duy2J8xJLsUC7cC1N6s5nB4Si/h5VEVXDCscBrHU+zKCNFr8IledAHQlwb3VH65X
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB8311
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 1/5] drm/panthor: introduce job cycle and timestamp
+ accounting
+To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org
+References: <5c4d1008-261f-4c47-ab73-c527675484a4@arm.com>
+ <bq6lctwgpsxvrdaajmjo3xdjt32srmsxvjhtzyebdj6izjzoaw@6duby4axg3pf>
+ <ef799587-f7c2-472a-8550-9c40a395eccb@arm.com>
+ <jgdknf77n6vqanh4jv2yixe4n4hsbhqqhth4beued4topggwgz@wx7bumhrbpje>
+ <033f8885-9c0e-4c5a-a272-baf48807dc5d@arm.com>
+ <gxtbgvg6dihcbcwm7sihnfl7cqnfx72ekr7mgvgykeukpltwak@b3pdwok2n5p6>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <gxtbgvg6dihcbcwm7sihnfl7cqnfx72ekr7mgvgykeukpltwak@b3pdwok2n5p6>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -165,54 +61,252 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 30.09.24 um 13:21 schrieb Julia Lawall:
-> Reorganize kerneldoc parameter names to match the parameter
-> order in the function header.
+On 27/09/2024 15:53, Adrián Larumbe wrote:
+> On 25.09.2024 10:56, Steven Price wrote:
+>> On 23/09/2024 21:43, Adrián Larumbe wrote:
+>>> Hi Steve,
+>>>
+>>> On 23.09.2024 09:55, Steven Price wrote:
+>>>> On 20/09/2024 23:36, Adrián Larumbe wrote:
+>>>>> Hi Steve, thanks for the review.
+>>>>
+>>>> Hi Adrián,
+>>>>
+>>>>> I've applied all of your suggestions for the next patch series revision, so I'll
+>>>>> only be answering to your question about the calc_profiling_ringbuf_num_slots
+>>>>> function further down below.
+>>>>>
+>>>>
+>>>> [...]
+>>>>
+>>>>>>> @@ -3003,6 +3190,34 @@ static const struct drm_sched_backend_ops panthor_queue_sched_ops = {
+>>>>>>>  	.free_job = queue_free_job,
+>>>>>>>  };
+>>>>>>>  
+>>>>>>> +static u32 calc_profiling_ringbuf_num_slots(struct panthor_device *ptdev,
+>>>>>>> +				       u32 cs_ringbuf_size)
+>>>>>>> +{
+>>>>>>> +	u32 min_profiled_job_instrs = U32_MAX;
+>>>>>>> +	u32 last_flag = fls(PANTHOR_DEVICE_PROFILING_ALL);
+>>>>>>> +
+>>>>>>> +	/*
+>>>>>>> +	 * We want to calculate the minimum size of a profiled job's CS,
+>>>>>>> +	 * because since they need additional instructions for the sampling
+>>>>>>> +	 * of performance metrics, they might take up further slots in
+>>>>>>> +	 * the queue's ringbuffer. This means we might not need as many job
+>>>>>>> +	 * slots for keeping track of their profiling information. What we
+>>>>>>> +	 * need is the maximum number of slots we should allocate to this end,
+>>>>>>> +	 * which matches the maximum number of profiled jobs we can place
+>>>>>>> +	 * simultaneously in the queue's ring buffer.
+>>>>>>> +	 * That has to be calculated separately for every single job profiling
+>>>>>>> +	 * flag, but not in the case job profiling is disabled, since unprofiled
+>>>>>>> +	 * jobs don't need to keep track of this at all.
+>>>>>>> +	 */
+>>>>>>> +	for (u32 i = 0; i < last_flag; i++) {
+>>>>>>> +		if (BIT(i) & PANTHOR_DEVICE_PROFILING_ALL)
+>>>>>>> +			min_profiled_job_instrs =
+>>>>>>> +				min(min_profiled_job_instrs, calc_job_credits(BIT(i)));
+>>>>>>> +	}
+>>>>>>> +
+>>>>>>> +	return DIV_ROUND_UP(cs_ringbuf_size, min_profiled_job_instrs * sizeof(u64));
+>>>>>>> +}
+>>>>>>
+>>>>>> I may be missing something, but is there a situation where this is
+>>>>>> different to calc_job_credits(0)? AFAICT the infrastructure you've added
+>>>>>> can only add extra instructions to the no-flags case - whereas this
+>>>>>> implies you're thinking that instructions may also be removed (or replaced).
+>>>>>>
+>>>>>> Steve
+>>>>>
+>>>>> Since we create a separate kernel BO to hold the profiling information slot, we
+>>>>> need one that would be able to accomodate as many slots as the maximum number of
+>>>>> profiled jobs we can insert simultaneously into the queue's ring buffer. Because
+>>>>> profiled jobs always take more instructions than unprofiled ones, then we would
+>>>>> usually need fewer slots than the number of unprofiled jobs we could insert at
+>>>>> once in the ring buffer.
+>>>>>
+>>>>> Because we represent profiling metrics with a bit mask, then we need to test the
+>>>>> size of the CS for every single metric enabled in isolation, since enabling more
+>>>>> than one will always mean a bigger CS, and therefore fewer jobs tracked at once
+>>>>> in the queue's ring buffer.
+>>>>>
+>>>>> In our case, calling calc_job_credits(0) would simply tell us the number of
+>>>>> instructions we need for a normal job with no profiled features enabled, which
+>>>>> would always requiere less instructions than profiled ones, and therefore more
+>>>>> slots in the profiling info kernel BO. But we don't need to keep track of
+>>>>> profiling numbers for unprofiled jobs, so there's no point in calculating this
+>>>>> number.
+>>>>>
+>>>>> At first I was simply allocating a profiling info kernel BO as big as the number
+>>>>> of simultaneous unprofiled job slots in the ring queue, but Boris pointed out
+>>>>> that since queue ringbuffers can be as big as 2GiB, a lot of this memory would
+>>>>> be wasted, since profiled jobs always require more slots because they hold more
+>>>>> instructions, so fewer profiling slots in said kernel BO.
+>>>>>
+>>>>> The value of this approach will eventually manifest if we decided to keep track of
+>>>>> more profiling metrics, since this code won't have to change at all, other than
+>>>>> adding new profiling flags in the panthor_device_profiling_flags enum.
+>>>>
+>>>> Thanks for the detailed explanation. I think what I was missing is that
+>>>> the loop is checking each bit flag independently and *not* checking
+>>>> calc_job_credits(0).
+>>>>
+>>>> The check for (BIT(i) & PANTHOR_DEVICE_PROFILING_ALL) is probably what
+>>>> confused me - that should be completely redundant. Or at least we need
+>>>> something more intelligent if we have profiling bits which are not
+>>>> mutually compatible.
+>>>
+>>> I thought of an alternative that would only test bits that are actually part of
+>>> the mask:
+>>>
+>>> static u32 calc_profiling_ringbuf_num_slots(struct panthor_device *ptdev,
+>>> 				       u32 cs_ringbuf_size)
+>>> {
+>>> 	u32 min_profiled_job_instrs = U32_MAX;
+>>> 	u32 profiling_mask = PANTHOR_DEVICE_PROFILING_ALL;
+>>>
+>>> 	while (profiling_mask) {
+>>> 		u32 i = ffs(profiling_mask) - 1;
+>>> 		profiling_mask &= ~BIT(i);
+>>> 		min_profiled_job_instrs =
+>>> 			min(min_profiled_job_instrs, calc_job_credits(BIT(i)));
+>>> 	}
+>>>
+>>> 	return DIV_ROUND_UP(cs_ringbuf_size, min_profiled_job_instrs * sizeof(u64));
+>>> }
+>>>
+>>> However, I don't think this would be more efficient, because ffs() is probably
+>>> fetching the first set bit by performing register shifts, and I guess this would
+>>> take somewhat longer than iterating over every single bit from the last one,
+>>> even if also matching them against the whole mask, just in case in future
+>>> additions of performance metrics we decide to leave some of the lower
+>>> significance bits untouched.
+>>
+>> Efficiency isn't very important here - we're not on a fast path, so it's
+>> more about ensuring the code is readable. I don't think the above is
+>> more readable then the original for loop.
+>>
+>>> Regarding your question about mutual compatibility, I don't think that is an
+>>> issue here, because we're testing bits in isolation. If in the future we find
+>>> out that some of the values we're profiling cannot be sampled at once, we can
+>>> add that logic to the sysfs knob handler, to make sure UM cannot set forbidden
+>>> profiling masks.
+>>
+>> My comment about compatibility is because in the original above you were
+>> calculating the top bit of PANTHOR_DEVICE_PROFILING_ALL:
+>>
+>>> u32 last_flag = fls(PANTHOR_DEVICE_PROFILING_ALL);
+>>
+>> then looping between 0 and that bit:
+>>
+>>> for (u32 i = 0; i < last_flag; i++) {
+>>
+>> So the test:
+>>
+>>> if (BIT(i) & PANTHOR_DEVICE_PROFILING_ALL)
+>>
+>> would only fail if PANTHOR_DEVICE_PROFILING_ALL had gaps in the bits
+>> that it set. The only reason I can think for that to be true in the
+>> future is if there is some sort of incompatibility - e.g. maybe there's
+>> an old and new way of doing some form of profiling with the old way
+>> being kept for backwards compatibility. But I suspect if/when that is
+>> required we'll need to revisit this function anyway. So that 'if'
+>> statement seems completely redundant (it's trivially always true).
+> 
+> I think you're right about this. Would you be fine with the rest of the patch
+> as it is in revision 8 if I also deleted this bitmask check?
 
-Please split that up by driver, apart from that looks good to me.
+Yes the rest of it looks fine.
 
-Christian.
+Thanks,
+Steve
 
->
-> Problems identified using Coccinelle.
->
-> Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
->
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c |    2 +-
->   drivers/gpu/drm/radeon/radeon_ib.c     |    2 +-
->   2 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> index 6005280f5f38..ad4fdd4d4d82 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> @@ -2773,11 +2773,11 @@ int amdgpu_vm_ioctl(struct drm_device *dev, void *data, struct drm_file *filp)
->    * amdgpu_vm_handle_fault - graceful handling of VM faults.
->    * @adev: amdgpu device pointer
->    * @pasid: PASID of the VM
-> - * @ts: Timestamp of the fault
->    * @vmid: VMID, only used for GFX 9.4.3.
->    * @node_id: Node_id received in IH cookie. Only applicable for
->    *           GFX 9.4.3.
->    * @addr: Address of the fault
-> + * @ts: Timestamp of the fault
->    * @write_fault: true is write fault, false is read fault
->    *
->    * Try to gracefully handle a VM fault. Return true if the fault was handled and
-> diff --git a/drivers/gpu/drm/radeon/radeon_ib.c b/drivers/gpu/drm/radeon/radeon_ib.c
-> index 1aa41cc3f991..8611a27dfb3d 100644
-> --- a/drivers/gpu/drm/radeon/radeon_ib.c
-> +++ b/drivers/gpu/drm/radeon/radeon_ib.c
-> @@ -49,8 +49,8 @@ static void radeon_debugfs_sa_init(struct radeon_device *rdev);
->    *
->    * @rdev: radeon_device pointer
->    * @ring: ring index the IB is associated with
-> - * @vm: requested vm
->    * @ib: IB object returned
-> + * @vm: requested vm
->    * @size: requested IB size
->    *
->    * Request an IB (all asics).  IBs are allocated using the
->
+>> Steve
+>>
+>>>> I'm also not entirely sure that the amount of RAM saved is significant,
+>>>> but you've already written the code so we might as well have the saving ;)
+>>>
+>>> I think this was more evident before Boris suggested we reduce the basic slot
+>>> size to that of a single cache line, because then the minimum profiled job
+>>> might've taken twice as many ringbuffer slots as a nonprofiled one. In that
+>>> case, we would need a half as big BO for holding the sampled data (in case the
+>>> least size profiled job CS would extend over the 16 instruction boundary).
+>>> I still think this is a good idea so that in the future we don't need to worry
+>>> about adjusting the code that deals with preparing the right boilerplate CS,
+>>> since it'll only be a matter of adding new instructions inside prepare_job_instrs().
+>>>
+>>>> Thanks,
+>>>> Steve
+>>>>
+>>>>> Regards,
+>>>>> Adrian
+>>>>>
+>>>>>>> +
+>>>>>>>  static struct panthor_queue *
+>>>>>>>  group_create_queue(struct panthor_group *group,
+>>>>>>>  		   const struct drm_panthor_queue_create *args)
+>>>>>>> @@ -3056,9 +3271,35 @@ group_create_queue(struct panthor_group *group,
+>>>>>>>  		goto err_free_queue;
+>>>>>>>  	}
+>>>>>>>  
+>>>>>>> +	queue->profiling.slot_count =
+>>>>>>> +		calc_profiling_ringbuf_num_slots(group->ptdev, args->ringbuf_size);
+>>>>>>> +
+>>>>>>> +	queue->profiling.slots =
+>>>>>>> +		panthor_kernel_bo_create(group->ptdev, group->vm,
+>>>>>>> +					 queue->profiling.slot_count *
+>>>>>>> +					 sizeof(struct panthor_job_profiling_data),
+>>>>>>> +					 DRM_PANTHOR_BO_NO_MMAP,
+>>>>>>> +					 DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC |
+>>>>>>> +					 DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED,
+>>>>>>> +					 PANTHOR_VM_KERNEL_AUTO_VA);
+>>>>>>> +
+>>>>>>> +	if (IS_ERR(queue->profiling.slots)) {
+>>>>>>> +		ret = PTR_ERR(queue->profiling.slots);
+>>>>>>> +		goto err_free_queue;
+>>>>>>> +	}
+>>>>>>> +
+>>>>>>> +	ret = panthor_kernel_bo_vmap(queue->profiling.slots);
+>>>>>>> +	if (ret)
+>>>>>>> +		goto err_free_queue;
+>>>>>>> +
+>>>>>>> +	/*
+>>>>>>> +	 * Credit limit argument tells us the total number of instructions
+>>>>>>> +	 * across all CS slots in the ringbuffer, with some jobs requiring
+>>>>>>> +	 * twice as many as others, depending on their profiling status.
+>>>>>>> +	 */
+>>>>>>>  	ret = drm_sched_init(&queue->scheduler, &panthor_queue_sched_ops,
+>>>>>>>  			     group->ptdev->scheduler->wq, 1,
+>>>>>>> -			     args->ringbuf_size / (NUM_INSTRS_PER_SLOT * sizeof(u64)),
+>>>>>>> +			     args->ringbuf_size / sizeof(u64),
+>>>>>>>  			     0, msecs_to_jiffies(JOB_TIMEOUT_MS),
+>>>>>>>  			     group->ptdev->reset.wq,
+>>>>>>>  			     NULL, "panthor-queue", group->ptdev->base.dev);
+>>>>>>> @@ -3354,6 +3595,7 @@ panthor_job_create(struct panthor_file *pfile,
+>>>>>>>  {
+>>>>>>>  	struct panthor_group_pool *gpool = pfile->groups;
+>>>>>>>  	struct panthor_job *job;
+>>>>>>> +	u32 credits;
+>>>>>>>  	int ret;
+>>>>>>>  
+>>>>>>>  	if (qsubmit->pad)
+>>>>>>> @@ -3407,9 +3649,16 @@ panthor_job_create(struct panthor_file *pfile,
+>>>>>>>  		}
+>>>>>>>  	}
+>>>>>>>  
+>>>>>>> +	job->profiling.mask = pfile->ptdev->profile_mask;
+>>>>>>> +	credits = calc_job_credits(job->profiling.mask);
+>>>>>>> +	if (credits == 0) {
+>>>>>>> +		ret = -EINVAL;
+>>>>>>> +		goto err_put_job;
+>>>>>>> +	}
+>>>>>>> +
+>>>>>>>  	ret = drm_sched_job_init(&job->base,
+>>>>>>>  				 &job->group->queues[job->queue_idx]->entity,
+>>>>>>> -				 1, job->group);
+>>>>>>> +				 credits, job->group);
+>>>>>>>  	if (ret)
+>>>>>>>  		goto err_put_job;
+>>>>>>>  
+>>>>>
 
