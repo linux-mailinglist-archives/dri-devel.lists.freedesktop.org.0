@@ -2,53 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BE4898AD5E
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2024 21:53:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C87C98AD60
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2024 21:53:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FB6610E2F9;
-	Mon, 30 Sep 2024 19:53:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D14110E2FC;
+	Mon, 30 Sep 2024 19:53:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="EU0Jhwxr";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nCsOsV+Q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF4AC10E2F9
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2024 19:53:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F3EE10E2FB
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2024 19:53:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1727726006; x=1759262006;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=iRA+I4jbLIrYdPeXQ4zWPc5NkEsH5cZwSOILKDgrUKQ=;
- b=EU0Jhwxr2DE1wS+SjoAIPZw0YEfwZD1TymffwF87IbrhkmyIrGoYneVM
- +gbQo3TFHIiiKvB6wSJO16Qoc9A0OVEg2RnhvXV00Bn6jvOn1NWB+C03S
- /vqQ3eCEudBwvdO7Z/DAjSnjGLK2SUfVkNTSCAWLRf3qfvWmk+T8B9gFN
- b1XU1slOidKw7Mh4QymxQLdyQcxnr2csaxjcgaElidO1+/NZnEwOHAjwF
- V9bivx/4lldp4OOyvMEP/F+xDdDc6d/Ikd0NILYipwDzD+zkcDoq5yoUO
- OF/afdGXD3KQ3zg0V7EctJAzAnN+G3sMOntx1x6gdKKaluKn0b4Kfx/Qo Q==;
-X-CSE-ConnectionGUID: MzSp7QdZRrmddJUAgbsJ6w==
-X-CSE-MsgGUID: 6I5d/xDUR/+68QMiW2ibCw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11211"; a="26962277"
-X-IronPort-AV: E=Sophos;i="6.11,166,1725346800"; d="scan'208";a="26962277"
+ t=1727726008; x=1759262008;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=sw2GEnfXJBODTnyftRU4+lXVxgPUWH+8s0vQ0feVa8g=;
+ b=nCsOsV+QlOsxzUtR5+nZf//T/1ks40oW/JzMYHHO0jbCqGmTkfyz1xRZ
+ T0ywxZFcDj//FWEoBuYK4V3Lvk43XYLC0SZ7ASYAUCTTSRt27uU4fiSyG
+ ZviTI/N5awLNmiT1DfO9tL1j6jQXYGuDuiIZz3a7J2o8UQBrESoe9L4SA
+ gKCHq7+hF7KA1Vg53/fqJWen8Qgr5DC4EDtvIkLitNAL/O7nL97tmwRIX
+ bFZxgJg9iFeIzKeUDn/h8WUTK+zgctbiesLLAkHzv+WndJpC0v+XkMm7b
+ 3yj1dbTN2Dx6BKGN9y2YA4V0X0k4K+eJWXpoqDKlhzkzaBxOeFgS1SzUy w==;
+X-CSE-ConnectionGUID: Fg/IayjsSDSFTzAXW1SnWw==
+X-CSE-MsgGUID: 2voTy+w0Tvm4EdoM4zuJqw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11211"; a="26962285"
+X-IronPort-AV: E=Sophos;i="6.11,166,1725346800"; d="scan'208";a="26962285"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Sep 2024 12:53:26 -0700
-X-CSE-ConnectionGUID: HtfE6KOhS8+qY+mfvZropA==
-X-CSE-MsgGUID: nWPkftLIR7qCMZWcmRaatg==
+ 30 Sep 2024 12:53:28 -0700
+X-CSE-ConnectionGUID: SxklwLPTQPqBYwgaXUC7TA==
+X-CSE-MsgGUID: Ko7MiJgXSySBbTuXuk0jyQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,166,1725346800"; d="scan'208";a="73369975"
+X-IronPort-AV: E=Sophos;i="6.11,166,1725346800"; d="scan'208";a="73369980"
 Received: from jlawryno.igk.intel.com ([10.91.220.59])
  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Sep 2024 12:53:24 -0700
+ 30 Sep 2024 12:53:26 -0700
 From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com,
+ Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>,
+ Tomasz Rusinowicz <tomasz.rusinowicz@intel.com>,
  Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Subject: [PATCH v2 00/31] accel/ivpu: Fixes for 6.12-rc1
-Date: Mon, 30 Sep 2024 21:52:51 +0200
-Message-ID: <20240930195322.461209-1-jacek.lawrynowicz@linux.intel.com>
+Subject: [PATCH v2 01/31] accel/ivpu: Update VPU FW API headers
+Date: Mon, 30 Sep 2024 21:52:52 +0200
+Message-ID: <20240930195322.461209-2-jacek.lawrynowicz@linux.intel.com>
 X-Mailer: git-send-email 2.45.1
+In-Reply-To: <20240930195322.461209-1-jacek.lawrynowicz@linux.intel.com>
+References: <20240930195322.461209-1-jacek.lawrynowicz@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -66,93 +70,640 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Most notable changes are coredump and tracing support.
-The rest are stability fixes, some refactoring and typos.
+From: Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
 
-Changes in v2:
-- Fix typos in FW API headers
-- Split fw refactor commit into 2 commits and improved commit messages
-- Fixed commit messages for state dump and power island commits
-- Added limit and NULL termination for FW version string
-- Documented sched_mode sysfs file
+This commit bumps:
+  - Boot API from 3.24.0 to 3.26.3
+  - JSM API from 3.16.0 to 3.25.0
 
+Signed-off-by: Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
+Co-developed-by: Tomasz Rusinowicz <tomasz.rusinowicz@intel.com>
+Signed-off-by: Tomasz Rusinowicz <tomasz.rusinowicz@intel.com>
+Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+---
+ drivers/accel/ivpu/ivpu_job.c     |   2 +-
+ drivers/accel/ivpu/ivpu_jsm_msg.c |   3 +-
+ drivers/accel/ivpu/vpu_boot_api.h |  45 +++--
+ drivers/accel/ivpu/vpu_jsm_api.h  | 303 +++++++++++++++++++++++++-----
+ 4 files changed, 293 insertions(+), 60 deletions(-)
 
-Andrzej Kacprowski (4):
-  accel/ivpu: Update VPU FW API headers
-  accel/ivpu: Allow reading dvfs_mode debugfs file
-  accel/ivpu: Add test_mode bit to force turbo
-  accel/ivpu: Fix reset_engine debugfs file logic
-
-Jacek Lawrynowicz (11):
-  accel/ivpu: Rename ivpu_log_level to fw_log_level
-  accel/ivpu: Refactor functions in ivpu_fw_log.c
-  accel/ivpu: Fix fw log printing
-  accel/ivpu: Limit FW version string length
-  accel/ivpu: Stop using hardcoded DRIVER_DATE
-  accel/ivpu: Add auto selection logic for job scheduler
-  accel/ivpu: Remove invalid warnings
-  accel/ivpu: Increase MS info buffer size
-  accel/ivpu: Fix ivpu_jsm_dyndbg_control()
-  accel/ivpu: Remove HWS_EXTRA_EVENTS from test modes
-  accel/ivpu: Fix typos in ivpu_pm.c
-
-Jakub Pawlak (1):
-  accel/ivpu: Add tracing for IPC/PM/JOB
-
-Karol Wachowski (12):
-  accel/ivpu: Add coredump support
-  accel/ivpu: Set 500 ns delay between power island TRICKLE and ENABLE
-  accel/ivpu: Turn on autosuspend on Simics
-  accel/ivpu: Add FW version debugfs entry
-  accel/ivpu: Remove 1-tile power up Simics workaround
-  accel/ivpu: Add one jiffy to bo_wait_ioctl timeout value
-  accel/ivpu: Print JSM message result in case of error
-  accel/ivpu: Remove skip of clock own resource ack on Simics
-  accel/ivpu: Prevent recovery invocation during probe and resume
-  accel/ivpu: Refactor failure diagnostics during boot
-  accel/ivpu: Do not fail on cmdq if failed to allocate preemption
-    buffers
-  accel/ivpu: Use whole user and shave ranges for preemption buffers
-
-Tomasz Rusinowicz (3):
-  accel/ivpu: Reset fw log on cold boot
-  accel/ivpu: Add FW state dump on TDR
-  accel/ivpu: Make DB_ID and JOB_ID allocations incremental
-
- drivers/accel/ivpu/Kconfig             |   1 +
- drivers/accel/ivpu/Makefile            |   6 +-
- drivers/accel/ivpu/ivpu_coredump.c     |  39 ++++
- drivers/accel/ivpu/ivpu_coredump.h     |  25 ++
- drivers/accel/ivpu/ivpu_debugfs.c      |  86 +++----
- drivers/accel/ivpu/ivpu_drv.c          |  52 +++--
- drivers/accel/ivpu/ivpu_drv.h          |  13 +-
- drivers/accel/ivpu/ivpu_fw.c           |  26 ++-
- drivers/accel/ivpu/ivpu_fw.h           |   9 +-
- drivers/accel/ivpu/ivpu_fw_log.c       | 113 +++++----
- drivers/accel/ivpu/ivpu_fw_log.h       |  17 +-
- drivers/accel/ivpu/ivpu_gem.c          |   3 +
- drivers/accel/ivpu/ivpu_hw.c           |   5 +-
- drivers/accel/ivpu/ivpu_hw.h           |   1 -
- drivers/accel/ivpu/ivpu_hw_btrs.c      |   9 -
- drivers/accel/ivpu/ivpu_hw_ip.c        |   8 +-
- drivers/accel/ivpu/ivpu_ipc.c          |  45 ++--
- drivers/accel/ivpu/ivpu_ipc.h          |   9 +-
- drivers/accel/ivpu/ivpu_job.c          | 102 +++++----
- drivers/accel/ivpu/ivpu_jsm_msg.c      |  34 +--
- drivers/accel/ivpu/ivpu_jsm_msg.h      |   2 +
- drivers/accel/ivpu/ivpu_ms.c           |   2 +-
- drivers/accel/ivpu/ivpu_pm.c           |  24 +-
- drivers/accel/ivpu/ivpu_sysfs.c        |  24 ++
- drivers/accel/ivpu/ivpu_trace.h        |  73 ++++++
- drivers/accel/ivpu/ivpu_trace_points.c |   9 +
- drivers/accel/ivpu/vpu_boot_api.h      |  45 ++--
- drivers/accel/ivpu/vpu_jsm_api.h       | 303 +++++++++++++++++++++----
- include/uapi/drm/ivpu_accel.h          |   3 -
- 29 files changed, 797 insertions(+), 291 deletions(-)
- create mode 100644 drivers/accel/ivpu/ivpu_coredump.c
- create mode 100644 drivers/accel/ivpu/ivpu_coredump.h
- create mode 100644 drivers/accel/ivpu/ivpu_trace.h
- create mode 100644 drivers/accel/ivpu/ivpu_trace_points.c
-
---
+diff --git a/drivers/accel/ivpu/ivpu_job.c b/drivers/accel/ivpu/ivpu_job.c
+index be2e2bf0f43f0..b00634af8bc34 100644
+--- a/drivers/accel/ivpu/ivpu_job.c
++++ b/drivers/accel/ivpu/ivpu_job.c
+@@ -354,7 +354,7 @@ static int ivpu_cmdq_push_job(struct ivpu_cmdq *cmdq, struct ivpu_job *job)
+ 		return -EBUSY;
+ 	}
+ 
+-	entry = &cmdq->jobq->job[tail];
++	entry = &cmdq->jobq->slot[tail].job;
+ 	entry->batch_buf_addr = job->cmd_buf_vpu_addr;
+ 	entry->job_id = job->job_id;
+ 	entry->flags = 0;
+diff --git a/drivers/accel/ivpu/ivpu_jsm_msg.c b/drivers/accel/ivpu/ivpu_jsm_msg.c
+index 46ef16c3c0691..b06da8f50fd39 100644
+--- a/drivers/accel/ivpu/ivpu_jsm_msg.c
++++ b/drivers/accel/ivpu/ivpu_jsm_msg.c
+@@ -48,9 +48,10 @@ const char *ivpu_jsm_msg_type_to_str(enum vpu_ipc_msg_type type)
+ 	IVPU_CASE_TO_STR(VPU_JSM_MSG_HWS_RESUME_ENGINE_DONE);
+ 	IVPU_CASE_TO_STR(VPU_JSM_MSG_STATE_DUMP);
+ 	IVPU_CASE_TO_STR(VPU_JSM_MSG_STATE_DUMP_RSP);
+-	IVPU_CASE_TO_STR(VPU_JSM_MSG_BLOB_DEINIT);
++	IVPU_CASE_TO_STR(VPU_JSM_MSG_BLOB_DEINIT_DEPRECATED);
+ 	IVPU_CASE_TO_STR(VPU_JSM_MSG_DYNDBG_CONTROL);
+ 	IVPU_CASE_TO_STR(VPU_JSM_MSG_JOB_DONE);
++	IVPU_CASE_TO_STR(VPU_JSM_MSG_NATIVE_FENCE_SIGNALLED);
+ 	IVPU_CASE_TO_STR(VPU_JSM_MSG_ENGINE_RESET_DONE);
+ 	IVPU_CASE_TO_STR(VPU_JSM_MSG_ENGINE_PREEMPT_DONE);
+ 	IVPU_CASE_TO_STR(VPU_JSM_MSG_REGISTER_DB_DONE);
+diff --git a/drivers/accel/ivpu/vpu_boot_api.h b/drivers/accel/ivpu/vpu_boot_api.h
+index 82954b91b7481..908e68ea1c39c 100644
+--- a/drivers/accel/ivpu/vpu_boot_api.h
++++ b/drivers/accel/ivpu/vpu_boot_api.h
+@@ -1,14 +1,13 @@
+ /* SPDX-License-Identifier: MIT */
+ /*
+- * Copyright (c) 2020-2023, Intel Corporation.
++ * Copyright (c) 2020-2024, Intel Corporation.
+  */
+ 
+ #ifndef VPU_BOOT_API_H
+ #define VPU_BOOT_API_H
+ 
+ /*
+- * =========== FW API version information beginning ================
+- *  The bellow values will be used to construct the version info this way:
++ *  The below values will be used to construct the version info this way:
+  *  fw_bin_header->api_version[VPU_BOOT_API_VER_ID] = (VPU_BOOT_API_VER_MAJOR << 16) |
+  *  VPU_BOOT_API_VER_MINOR;
+  *  VPU_BOOT_API_VER_PATCH will be ignored. KMD and compatibility is not affected if this changes
+@@ -27,19 +26,18 @@
+  * Minor version changes when API backward compatibility is preserved.
+  * Resets to 0 if Major version is incremented.
+  */
+-#define VPU_BOOT_API_VER_MINOR 24
++#define VPU_BOOT_API_VER_MINOR 26
+ 
+ /*
+  * API header changed (field names, documentation, formatting) but API itself has not been changed
+  */
+-#define VPU_BOOT_API_VER_PATCH 0
++#define VPU_BOOT_API_VER_PATCH 3
+ 
+ /*
+  * Index in the API version table
+  * Must be unique for each API
+  */
+ #define VPU_BOOT_API_VER_INDEX 0
+-/* ------------ FW API version information end ---------------------*/
+ 
+ #pragma pack(push, 4)
+ 
+@@ -164,8 +162,6 @@ enum vpu_trace_destination {
+ /* VPU 30xx HW component IDs are sequential, so define first and last IDs. */
+ #define VPU_TRACE_PROC_BIT_30XX_FIRST VPU_TRACE_PROC_BIT_LRT
+ #define VPU_TRACE_PROC_BIT_30XX_LAST  VPU_TRACE_PROC_BIT_SHV_15
+-#define VPU_TRACE_PROC_BIT_KMB_FIRST  VPU_TRACE_PROC_BIT_30XX_FIRST
+-#define VPU_TRACE_PROC_BIT_KMB_LAST   VPU_TRACE_PROC_BIT_30XX_LAST
+ 
+ struct vpu_boot_l2_cache_config {
+ 	u8 use;
+@@ -199,6 +195,17 @@ struct vpu_warm_boot_section {
+  */
+ #define POWER_PROFILE_SURVIVABILITY 0x1
+ 
++/**
++ * Enum for dvfs_mode boot param.
++ */
++enum vpu_governor {
++	VPU_GOV_DEFAULT = 0, /* Default Governor for the system */
++	VPU_GOV_MAX_PERFORMANCE = 1, /* Maximum performance governor */
++	VPU_GOV_ON_DEMAND = 2, /* On Demand frequency control governor */
++	VPU_GOV_POWER_SAVE = 3, /* Power save governor */
++	VPU_GOV_ON_DEMAND_PRIORITY_AWARE = 4 /* On Demand priority based governor */
++};
++
+ struct vpu_boot_params {
+ 	u32 magic;
+ 	u32 vpu_id;
+@@ -301,7 +308,14 @@ struct vpu_boot_params {
+ 	u32 temp_sensor_period_ms;
+ 	/** PLL ratio for efficient clock frequency */
+ 	u32 pn_freq_pll_ratio;
+-	/** DVFS Mode: Default: 0, Max Performance: 1, On Demand: 2, Power Save: 3 */
++	/**
++	 * DVFS Mode:
++	 * 0 - Default, DVFS mode selected by the firmware
++	 * 1 - Max Performance
++	 * 2 - On Demand
++	 * 3 - Power Save
++	 * 4 - On Demand Priority Aware
++	 */
+ 	u32 dvfs_mode;
+ 	/**
+ 	 * Depending on DVFS Mode:
+@@ -332,8 +346,8 @@ struct vpu_boot_params {
+ 	u64 d0i3_entry_vpu_ts;
+ 	/*
+ 	 * The system time of the host operating system in microseconds.
+-	 * E.g the number of microseconds since 1st of January 1970, or whatever date the
+-	 * host operating system uses to maintain system time.
++	 * E.g the number of microseconds since 1st of January 1970, or whatever
++	 * date the host operating system uses to maintain system time.
+ 	 * This value will be used to track system time on the VPU.
+ 	 * The KMD is required to update this value on every VPU reset.
+ 	 */
+@@ -382,10 +396,7 @@ struct vpu_boot_params {
+ 	u32 pad6[734];
+ };
+ 
+-/*
+- * Magic numbers set between host and vpu to detect corruptio of tracing init
+- */
+-
++/* Magic numbers set between host and vpu to detect corruption of tracing init */
+ #define VPU_TRACING_BUFFER_CANARY (0xCAFECAFE)
+ 
+ /* Tracing buffer message format definitions */
+@@ -405,7 +416,9 @@ struct vpu_tracing_buffer_header {
+ 	u32 host_canary_start;
+ 	/* offset from start of buffer for trace entries */
+ 	u32 read_index;
+-	u32 pad_to_cache_line_size_0[14];
++	/* keeps track of wrapping on the reader side */
++	u32 read_wrap_count;
++	u32 pad_to_cache_line_size_0[13];
+ 	/* End of first cache line */
+ 
+ 	/**
+diff --git a/drivers/accel/ivpu/vpu_jsm_api.h b/drivers/accel/ivpu/vpu_jsm_api.h
+index 33f462b1a25d8..7215c144158cb 100644
+--- a/drivers/accel/ivpu/vpu_jsm_api.h
++++ b/drivers/accel/ivpu/vpu_jsm_api.h
+@@ -22,7 +22,7 @@
+ /*
+  * Minor version changes when API backward compatibility is preserved.
+  */
+-#define VPU_JSM_API_VER_MINOR 16
++#define VPU_JSM_API_VER_MINOR 25
+ 
+ /*
+  * API header changed (field names, documentation, formatting) but API itself has not been changed
+@@ -36,7 +36,7 @@
+ 
+ /*
+  * Number of Priority Bands for Hardware Scheduling
+- * Bands: RealTime, Focus, Normal, Idle
++ * Bands: Idle(0), Normal(1), Focus(2), RealTime(3)
+  */
+ #define VPU_HWS_NUM_PRIORITY_BANDS 4
+ 
+@@ -74,6 +74,7 @@
+ #define VPU_JSM_STATUS_MVNCI_INTERNAL_ERROR		 0xCU
+ /* Job status returned when the job was preempted mid-inference */
+ #define VPU_JSM_STATUS_PREEMPTED_MID_INFERENCE		 0xDU
++#define VPU_JSM_STATUS_MVNCI_CONTEXT_VIOLATION_HW	 0xEU
+ 
+ /*
+  * Host <-> VPU IPC channels.
+@@ -86,18 +87,58 @@
+ /*
+  * Job flags bit masks.
+  */
+-#define VPU_JOB_FLAGS_NULL_SUBMISSION_MASK 0x00000001
+-#define VPU_JOB_FLAGS_PRIVATE_DATA_MASK	   0xFF000000
++enum {
++	/*
++	 * Null submission mask.
++	 * When set, batch buffer's commands are not processed but returned as
++	 * successful immediately, except fences and timestamps.
++	 * When cleared, batch buffer's commands are processed normally.
++	 * Used for testing and profiling purposes.
++	 */
++	VPU_JOB_FLAGS_NULL_SUBMISSION_MASK = (1 << 0U),
++	/*
++	 * Inline command mask.
++	 * When set, the object in job queue is an inline command (see struct vpu_inline_cmd below).
++	 * When cleared, the object in job queue is a job (see struct vpu_job_queue_entry below).
++	 */
++	VPU_JOB_FLAGS_INLINE_CMD_MASK = (1 << 1U),
++	/*
++	 * VPU private data mask.
++	 * Reserved for the VPU to store private data about the job (or inline command)
++	 * while being processed.
++	 */
++	VPU_JOB_FLAGS_PRIVATE_DATA_MASK = 0xFFFF0000U
++};
+ 
+ /*
+- * Sizes of the reserved areas in jobs, in bytes.
++ * Job queue flags bit masks.
+  */
+-#define VPU_JOB_RESERVED_BYTES 8
++enum {
++	/*
++	 * No job done notification mask.
++	 * When set, indicates that no job done notification should be sent for any
++	 * job from this queue. When cleared, indicates that job done notification
++	 * should be sent for every job completed from this queue.
++	 */
++	VPU_JOB_QUEUE_FLAGS_NO_JOB_DONE_MASK = (1 << 0U),
++	/*
++	 * Native fence usage mask.
++	 * When set, indicates that job queue uses native fences (as inline commands
++	 * in job queue). Such queues may also use legacy fences (as commands in batch buffers).
++	 * When cleared, indicates the job queue only uses legacy fences.
++	 * NOTE: For queues using native fences, VPU expects that all jobs in the queue
++	 * are immediately followed by an inline command object. This object is expected
++	 * to be a fence signal command in most cases, but can also be a NOP in case the host
++	 * does not need per-job fence signalling. Other inline commands objects can be
++	 * inserted between "job and inline command" pairs.
++	 */
++	VPU_JOB_QUEUE_FLAGS_USE_NATIVE_FENCE_MASK = (1 << 1U),
+ 
+-/*
+- * Sizes of the reserved areas in job queues, in bytes.
+- */
+-#define VPU_JOB_QUEUE_RESERVED_BYTES 52
++	/*
++	 * Enable turbo mode for testing NPU performance; not recommended for regular usage.
++	 */
++	VPU_JOB_QUEUE_FLAGS_TURBO_MODE = (1 << 2U)
++};
+ 
+ /*
+  * Max length (including trailing NULL char) of trace entity name (e.g., the
+@@ -140,24 +181,113 @@
+  */
+ #define VPU_HWS_INVALID_CMDQ_HANDLE 0ULL
+ 
++/*
++ * Inline commands types.
++ */
++/*
++ * NOP.
++ * VPU does nothing other than consuming the inline command object.
++ */
++#define VPU_INLINE_CMD_TYPE_NOP		 0x0
++/*
++ * Fence wait.
++ * VPU waits for the fence current value to reach monitored value.
++ * Fence wait operations are executed upon job dispatching. While waiting for
++ * the fence to be satisfied, VPU blocks fetching of the next objects in the queue.
++ * Jobs present in the queue prior to the fence wait object may be processed
++ * concurrently.
++ */
++#define VPU_INLINE_CMD_TYPE_FENCE_WAIT	 0x1
++/*
++ * Fence signal.
++ * VPU sets the fence current value to the provided value. If new current value
++ * is equal to or higher than monitored value, VPU sends fence signalled notification
++ * to the host. Fence signal operations are executed upon completion of all the jobs
++ * present in the queue prior to them, and in-order relative to each other in the queue.
++ * But jobs in-between them may be processed concurrently and may complete out-of-order.
++ */
++#define VPU_INLINE_CMD_TYPE_FENCE_SIGNAL 0x2
++
++/*
++ * Job scheduling priority bands for both hardware scheduling and OS scheduling.
++ */
++enum vpu_job_scheduling_priority_band {
++	VPU_JOB_SCHEDULING_PRIORITY_BAND_IDLE = 0,
++	VPU_JOB_SCHEDULING_PRIORITY_BAND_NORMAL = 1,
++	VPU_JOB_SCHEDULING_PRIORITY_BAND_FOCUS = 2,
++	VPU_JOB_SCHEDULING_PRIORITY_BAND_REALTIME = 3,
++	VPU_JOB_SCHEDULING_PRIORITY_BAND_COUNT = 4,
++};
++
+ /*
+  * Job format.
++ * Jobs defines the actual workloads to be executed by a given engine.
+  */
+ struct vpu_job_queue_entry {
+-	u64 batch_buf_addr; /**< Address of VPU commands batch buffer */
+-	u32 job_id;	  /**< Job ID */
+-	u32 flags; /**< Flags bit field, see VPU_JOB_FLAGS_* above */
+-	u64 root_page_table_addr; /**< Address of root page table to use for this job */
+-	u64 root_page_table_update_counter; /**< Page tables update events counter */
+-	u64 primary_preempt_buf_addr;
++	/**< Address of VPU commands batch buffer */
++	u64 batch_buf_addr;
++	/**< Job ID */
++	u32 job_id;
++	/**< Flags bit field, see VPU_JOB_FLAGS_* above */
++	u32 flags;
++	/**
++	 * Doorbell ring timestamp taken by KMD from SoC's global system clock, in
++	 * microseconds. NPU can convert this value to its own fixed clock's timebase,
++	 * to match other profiling timestamps.
++	 */
++	u64 doorbell_timestamp;
++	/**< Extra id for job tracking, used only in the firmware perf traces */
++	u64 host_tracking_id;
+ 	/**< Address of the primary preemption buffer to use for this job */
+-	u32 primary_preempt_buf_size;
++	u64 primary_preempt_buf_addr;
+ 	/**< Size of the primary preemption buffer to use for this job */
+-	u32 secondary_preempt_buf_size;
++	u32 primary_preempt_buf_size;
+ 	/**< Size of secondary preemption buffer to use for this job */
+-	u64 secondary_preempt_buf_addr;
++	u32 secondary_preempt_buf_size;
+ 	/**< Address of secondary preemption buffer to use for this job */
+-	u8 reserved_0[VPU_JOB_RESERVED_BYTES];
++	u64 secondary_preempt_buf_addr;
++	u64 reserved_0;
++};
++
++/*
++ * Inline command format.
++ * Inline commands are the commands executed at scheduler level (typically,
++ * synchronization directives). Inline command and job objects must be of
++ * the same size and have flags field at same offset.
++ */
++struct vpu_inline_cmd {
++	u64 reserved_0;
++	/* Inline command type, see VPU_INLINE_CMD_TYPE_* defines. */
++	u32 type;
++	/* Flags bit field, see VPU_JOB_FLAGS_* above. */
++	u32 flags;
++	/* Inline command payload. Depends on inline command type. */
++	union {
++		/* Fence (wait and signal) commands' payload. */
++		struct {
++			/* Fence object handle. */
++			u64 fence_handle;
++			/* User VA of the current fence value. */
++			u64 current_value_va;
++			/* User VA of the monitored fence value (read-only). */
++			u64 monitored_value_va;
++			/* Value to wait for or write in fence location. */
++			u64 value;
++			/* User VA of the log buffer in which to add log entry on completion. */
++			u64 log_buffer_va;
++		} fence;
++		/* Other commands do not have a payload. */
++		/* Payload definition for future inline commands can be inserted here. */
++		u64 reserved_1[6];
++	} payload;
++};
++
++/*
++ * Job queue slots can be populated either with job objects or inline command objects.
++ */
++union vpu_jobq_slot {
++	struct vpu_job_queue_entry job;
++	struct vpu_inline_cmd inline_cmd;
+ };
+ 
+ /*
+@@ -167,7 +297,21 @@ struct vpu_job_queue_header {
+ 	u32 engine_idx;
+ 	u32 head;
+ 	u32 tail;
+-	u8 reserved_0[VPU_JOB_QUEUE_RESERVED_BYTES];
++	u32 flags;
++	/* Set to 1 to indicate priority_band field is valid */
++	u32 priority_band_valid;
++	/*
++	 * Priority for the work of this job queue, valid only if the HWS is NOT used
++	 * and the `priority_band_valid` is set to 1. It is applied only during
++	 * the VPU_JSM_MSG_REGISTER_DB message processing.
++	 * The device firmware might use the `priority_band` to optimize the power
++	 * management logic, but it will not affect the order of jobs.
++	 * Available priority bands: @see enum vpu_job_scheduling_priority_band
++	 */
++	u32 priority_band;
++	/* Inside realtime band assigns a further priority, limited to 0..31 range */
++	u32 realtime_priority_level;
++	u32 reserved_0[9];
+ };
+ 
+ /*
+@@ -175,7 +319,7 @@ struct vpu_job_queue_header {
+  */
+ struct vpu_job_queue {
+ 	struct vpu_job_queue_header header;
+-	struct vpu_job_queue_entry job[];
++	union vpu_jobq_slot slot[];
+ };
+ 
+ /**
+@@ -197,9 +341,7 @@ enum vpu_trace_entity_type {
+ struct vpu_hws_log_buffer_header {
+ 	/* Written by VPU after adding a log entry. Initialised by host to 0. */
+ 	u32 first_free_entry_index;
+-	/* Incremented by VPU every time the VPU overwrites the 0th entry;
+-	 * initialised by host to 0.
+-	 */
++	/* Incremented by VPU every time the VPU writes the 0th entry; initialised by host to 0. */
+ 	u32 wraparound_count;
+ 	/*
+ 	 * This is the number of buffers that can be stored in the log buffer provided by the host.
+@@ -230,14 +372,80 @@ struct vpu_hws_log_buffer_entry {
+ 	u64 operation_data[2];
+ };
+ 
++/* Native fence log buffer types. */
++enum vpu_hws_native_fence_log_type {
++	VPU_HWS_NATIVE_FENCE_LOG_TYPE_WAITS = 1,
++	VPU_HWS_NATIVE_FENCE_LOG_TYPE_SIGNALS = 2
++};
++
++/* HWS native fence log buffer header. */
++struct vpu_hws_native_fence_log_header {
++	union {
++		struct {
++			/* Index of the first free entry in buffer. */
++			u32 first_free_entry_idx;
++			/* Incremented each time NPU wraps around the buffer to write next entry. */
++			u32 wraparound_count;
++		};
++		/* Field allowing atomic update of both fields above. */
++		u64 atomic_wraparound_and_entry_idx;
++	};
++	/* Log buffer type, see enum vpu_hws_native_fence_log_type. */
++	u64 type;
++	/* Allocated number of entries in the log buffer. */
++	u64 entry_nb;
++	u64 reserved[2];
++};
++
++/* Native fence log operation types. */
++enum vpu_hws_native_fence_log_op {
++	VPU_HWS_NATIVE_FENCE_LOG_OP_SIGNAL_EXECUTED = 0,
++	VPU_HWS_NATIVE_FENCE_LOG_OP_WAIT_UNBLOCKED = 1
++};
++
++/* HWS native fence log entry. */
++struct vpu_hws_native_fence_log_entry {
++	/* Newly signaled/unblocked fence value. */
++	u64 fence_value;
++	/* Native fence object handle to which this operation belongs. */
++	u64 fence_handle;
++	/* Operation type, see enum vpu_hws_native_fence_log_op. */
++	u64 op_type;
++	u64 reserved_0;
++	/*
++	 * VPU_HWS_NATIVE_FENCE_LOG_OP_WAIT_UNBLOCKED only: Timestamp at which fence
++	 * wait was started (in NPU SysTime).
++	 */
++	u64 fence_wait_start_ts;
++	u64 reserved_1;
++	/* Timestamp at which fence operation was completed (in NPU SysTime). */
++	u64 fence_end_ts;
++};
++
++/* Native fence log buffer. */
++struct vpu_hws_native_fence_log_buffer {
++	struct vpu_hws_native_fence_log_header header;
++	struct vpu_hws_native_fence_log_entry entry[];
++};
++
+ /*
+  * Host <-> VPU IPC messages types.
+  */
+ enum vpu_ipc_msg_type {
+ 	VPU_JSM_MSG_UNKNOWN = 0xFFFFFFFF,
++
+ 	/* IPC Host -> Device, Async commands */
+ 	VPU_JSM_MSG_ASYNC_CMD = 0x1100,
+ 	VPU_JSM_MSG_ENGINE_RESET = VPU_JSM_MSG_ASYNC_CMD,
++	/**
++	 * Preempt engine. The NPU stops (preempts) all the jobs currently
++	 * executing on the target engine making the engine become idle and ready to
++	 * execute new jobs.
++	 * NOTE: The NPU does not remove unstarted jobs (if any) from job queues of
++	 * the target engine, but it stops processing them (until the queue doorbell
++	 * is rung again); the host is responsible to reset the job queue, either
++	 * after preemption or when resubmitting jobs to the queue.
++	 */
+ 	VPU_JSM_MSG_ENGINE_PREEMPT = 0x1101,
+ 	VPU_JSM_MSG_REGISTER_DB = 0x1102,
+ 	VPU_JSM_MSG_UNREGISTER_DB = 0x1103,
+@@ -323,9 +531,10 @@ enum vpu_ipc_msg_type {
+ 	 * NOTE: Please introduce new ASYNC commands before this one. *
+ 	 */
+ 	VPU_JSM_MSG_STATE_DUMP = 0x11FF,
++
+ 	/* IPC Host -> Device, General commands */
+ 	VPU_JSM_MSG_GENERAL_CMD = 0x1200,
+-	VPU_JSM_MSG_BLOB_DEINIT = VPU_JSM_MSG_GENERAL_CMD,
++	VPU_JSM_MSG_BLOB_DEINIT_DEPRECATED = VPU_JSM_MSG_GENERAL_CMD,
+ 	/**
+ 	 * Control dyndbg behavior by executing a dyndbg command; equivalent to
+ 	 * Linux command: `echo '<dyndbg_cmd>' > <debugfs>/dynamic_debug/control`.
+@@ -335,8 +544,12 @@ enum vpu_ipc_msg_type {
+ 	 * Perform the save procedure for the D0i3 entry
+ 	 */
+ 	VPU_JSM_MSG_PWR_D0I3_ENTER = 0x1202,
++
+ 	/* IPC Device -> Host, Job completion */
+ 	VPU_JSM_MSG_JOB_DONE = 0x2100,
++	/* IPC Device -> Host, Fence signalled */
++	VPU_JSM_MSG_NATIVE_FENCE_SIGNALLED = 0x2101,
++
+ 	/* IPC Device -> Host, Async command completion */
+ 	VPU_JSM_MSG_ASYNC_CMD_DONE = 0x2200,
+ 	VPU_JSM_MSG_ENGINE_RESET_DONE = VPU_JSM_MSG_ASYNC_CMD_DONE,
+@@ -422,6 +635,7 @@ enum vpu_ipc_msg_type {
+ 	 * NOTE: Please introduce new ASYNC responses before this one. *
+ 	 */
+ 	VPU_JSM_MSG_STATE_DUMP_RSP = 0x22FF,
++
+ 	/* IPC Device -> Host, General command completion */
+ 	VPU_JSM_MSG_GENERAL_CMD_DONE = 0x2300,
+ 	VPU_JSM_MSG_BLOB_DEINIT_DONE = VPU_JSM_MSG_GENERAL_CMD_DONE,
+@@ -600,11 +814,6 @@ struct vpu_jsm_metric_streamer_update {
+ 	u64 next_buffer_size;
+ };
+ 
+-struct vpu_ipc_msg_payload_blob_deinit {
+-	/* 64-bit unique ID for the blob to be de-initialized. */
+-	u64 blob_id;
+-};
+-
+ struct vpu_ipc_msg_payload_job_done {
+ 	/* Engine to which the job was submitted. */
+ 	u32 engine_idx;
+@@ -622,6 +831,21 @@ struct vpu_ipc_msg_payload_job_done {
+ 	u64 cmdq_id;
+ };
+ 
++/*
++ * Notification message upon native fence signalling.
++ * @see VPU_JSM_MSG_NATIVE_FENCE_SIGNALLED
++ */
++struct vpu_ipc_msg_payload_native_fence_signalled {
++	/* Engine ID. */
++	u32 engine_idx;
++	/* Host SSID. */
++	u32 host_ssid;
++	/* CMDQ ID */
++	u64 cmdq_id;
++	/* Fence object handle. */
++	u64 fence_handle;
++};
++
+ struct vpu_jsm_engine_reset_context {
+ 	/* Host SSID */
+ 	u32 host_ssid;
+@@ -700,11 +924,6 @@ struct vpu_ipc_msg_payload_get_power_level_count_done {
+ 	u8 power_limit[16];
+ };
+ 
+-struct vpu_ipc_msg_payload_blob_deinit_done {
+-	/* 64-bit unique ID for the blob de-initialized. */
+-	u64 blob_id;
+-};
+-
+ /* HWS priority band setup request / response */
+ struct vpu_ipc_msg_payload_hws_priority_band_setup {
+ 	/*
+@@ -794,7 +1013,10 @@ struct vpu_ipc_msg_payload_hws_set_context_sched_properties {
+ 	u32 reserved_0;
+ 	/* Command queue id */
+ 	u64 cmdq_id;
+-	/* Priority band to assign to work of this context */
++	/*
++	 * Priority band to assign to work of this context.
++	 * Available priority bands: @see enum vpu_job_scheduling_priority_band
++	 */
+ 	u32 priority_band;
+ 	/* Inside realtime band assigns a further priority */
+ 	u32 realtime_priority_level;
+@@ -869,9 +1091,7 @@ struct vpu_ipc_msg_payload_hws_set_scheduling_log {
+ 	 */
+ 	u64 notify_index;
+ 	/*
+-	 * Enable extra events to be output to log for debug of scheduling algorithm.
+-	 * Interpreted by VPU as a boolean to enable or disable, expected values are
+-	 * 0 and 1.
++	 * Field is now deprecated, will be removed when KMD is updated to support removal
+ 	 */
+ 	u32 enable_extra_events;
+ 	/* Zero Padding */
+@@ -1243,10 +1463,10 @@ union vpu_ipc_msg_payload {
+ 	struct vpu_jsm_metric_streamer_start metric_streamer_start;
+ 	struct vpu_jsm_metric_streamer_stop metric_streamer_stop;
+ 	struct vpu_jsm_metric_streamer_update metric_streamer_update;
+-	struct vpu_ipc_msg_payload_blob_deinit blob_deinit;
+ 	struct vpu_ipc_msg_payload_ssid_release ssid_release;
+ 	struct vpu_jsm_hws_register_db hws_register_db;
+ 	struct vpu_ipc_msg_payload_job_done job_done;
++	struct vpu_ipc_msg_payload_native_fence_signalled native_fence_signalled;
+ 	struct vpu_ipc_msg_payload_engine_reset_done engine_reset_done;
+ 	struct vpu_ipc_msg_payload_engine_preempt_done engine_preempt_done;
+ 	struct vpu_ipc_msg_payload_register_db_done register_db_done;
+@@ -1254,7 +1474,6 @@ union vpu_ipc_msg_payload {
+ 	struct vpu_ipc_msg_payload_query_engine_hb_done query_engine_hb_done;
+ 	struct vpu_ipc_msg_payload_get_power_level_count_done get_power_level_count_done;
+ 	struct vpu_jsm_metric_streamer_done metric_streamer_done;
+-	struct vpu_ipc_msg_payload_blob_deinit_done blob_deinit_done;
+ 	struct vpu_ipc_msg_payload_trace_config trace_config;
+ 	struct vpu_ipc_msg_payload_trace_capability_rsp trace_capability;
+ 	struct vpu_ipc_msg_payload_trace_get_name trace_get_name;
+-- 
 2.45.1
+
