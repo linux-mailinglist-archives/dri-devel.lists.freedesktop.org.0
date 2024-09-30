@@ -2,180 +2,179 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C110989E9A
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2024 11:40:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1692E989EAA
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2024 11:45:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB80710E2D9;
-	Mon, 30 Sep 2024 09:40:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7760710E2DC;
+	Mon, 30 Sep 2024 09:45:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="UDy4i/Ln";
+	dkim=pass (1024-bit key; unprotected) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="D1+w9h2N";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com
- (mail-db8eur05on2065.outbound.protection.outlook.com [40.107.20.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99A6910E2D9
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2024 09:40:13 +0000 (UTC)
+Received: from OS0P286CU011.outbound.protection.outlook.com
+ (mail-japanwestazon11010004.outbound.protection.outlook.com [52.101.228.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A88610E2DC
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2024 09:45:03 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KNI0jZr8X9H/CrURQf5iuOTrbzpoM5X985V6CDnyScaJD6SdxLmpTIfZ1J/nYy1TIyR352jvZtgTPUJwFLYXOG2Ass2uoVhB5DAcCK9MFspUTvJdDo75WPLzHnLMn1/GWvdCNl7+oujVT3HiIrcv/qxq0vuqdp6Dd9N6AYDmgiwJvNJ/nl75g8sLEt2ThfzSChMwwPXTmjyqU5uY1kTIc6l6HeJDMc904+0IpOPYPsQ/zYO9Rt++n+YI8mdA4/KcB5MEr8J1RMvO6JBqs97Kbmssnn/bPX1ew1EsHoHMBSPG9W0GYlIibTJTWx0Cc+zMANrBqjKpk/QFTcZDAnLBzA==
+ b=V5EH0M92Of/YhX8BwOGda3pRfpBZZwiJA/Jm0N3efcYoBeEXHiGgVgrFUeUbU+yGwqk0mKJjJ31ysb+fnfDu44rnUFQ42NbREaG8XDbTzvIRp+ZO6sBl9RfjjMr+6PUc7QyLKOdrH45GCejIwC0WkUwS1BHlTNogfVVVWbqZl4jBBYPZtERMkaz1qOebB2rruTQqEcb5zE31NqMOpqZofPvujIX3ijyVENxeZOIZs6NPj5i5QuYi2wBQTHXJc5X9PCLaym6m0xbf3A3F6LwsuEXGLIINHsCHIDcRoE9+oc29YoBBuIGiS0nRsV9KYR97dKdh/AJmKI3a16SwLYOg4w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=r4BvdowF4yU280w3m5jWi+Qy600EcLeUWOklrU7maQU=;
- b=tZwtQd9DekbqdU9M2yBzntWXABxxJ/gYRMSgwgBsfrjH+p6+FT3ODgaClFHsunrLI3SYtcc2NAQ65ysfMpXez9oHtkcxuCDLbCUfNSSEemu+Bg9m7t6FP60Z9mO0Mx6qkOLgKDRzIUBcJxkeR07FBMiO8ru602e5iiB1iYbvFN5QMNm+fAt7tIxV1pxe8x877KeCyqkh97iN498L70F2err/tG/cg8OU1k7KyN/5RFyggcNI8QFB2LgOD0pmUk1wB4rUNYlkOFwaVVBvqq89Mh25MoXHLJ92aXDvZeQTtFTDYzF3ZF4lOxORyapN/P+R7ipOsn/SUJp18xknpmvr8A==
+ bh=9DAdbgZpvuIPZFoausCKaeucCx8cSfClaZcNvmO8tMU=;
+ b=LRWXFzarVsR6ciTYj9a7NG2hbvwxLhcZmhTX5XiC5PSc2RbcrNKKklNDYDETx6/GBD7+bcMA/6QxztZnFDmnWRyTST2ChAP4BUPMpp7Y0rRrnrOcu5VMbXuOS4R+0aMJVCn5xjc03ZDf4SRsYBjELihmzluWYOMHLJStMw3a/yRKrxNVFt92/sSBNIkgji3ZfNJvLbcb+FAsDC42GoPpd6UqaPBxyuWhdJ1cFQgGJFpPQ3h7Zry9M5ZB5jytMLeEjsf8DirTyWTy1od/8EiC3wOf0LvM8MretpN38XL8dUGOyCHnv4LzsNOzIY+WhBi8ny9WK/6jce5qNuwYqO/s+g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=r4BvdowF4yU280w3m5jWi+Qy600EcLeUWOklrU7maQU=;
- b=UDy4i/Lnl3UIzcg4Cu3EP6lMGDbv6fplzJIFNkU23NcyzCyubt6+Mlk9SNfhcd0EaxSscDGFFpaoM8855uIoQrv0TSUkcsQ8Yp0kccm5Av9YEj3Ecl5Gw/dOq9vPteADbUhIZYe6F45DukQ14nh4av0t9myZNdvX1hWZEe+HKzI8CK7FRM0tUSEj/axflSuzQ8fkSYSSKGtfun/gVZImQbITYsELatcGtsXY4uDOBrxBY6yaOLYLJ9hajo/bepExy/Z1xmX3rX7GxdCQeXAK+nYFTmaf855wPaMTKoFxWCNjdw7mogroiRfxM72SVSXaIA0GASREheI1r3QSJlR9sA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by DU2PR04MB8727.eurprd04.prod.outlook.com (2603:10a6:10:2de::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.27; Mon, 30 Sep
- 2024 09:40:06 +0000
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::d1ce:ea15:6648:6f90]) by AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::d1ce:ea15:6648:6f90%4]) with mapi id 15.20.8005.024; Mon, 30 Sep 2024
- 09:40:05 +0000
-Message-ID: <5bdd86cf-ee76-452c-b854-171b3aecb04b@nxp.com>
-Date: Mon, 30 Sep 2024 17:40:25 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/8] drm/bridge: Add ITE IT6263 LVDS to HDMI converter
-To: Biju Das <biju.das.jz@bp.renesas.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "imx@lists.linux.dev" <imx@lists.linux.dev>,
+ bh=9DAdbgZpvuIPZFoausCKaeucCx8cSfClaZcNvmO8tMU=;
+ b=D1+w9h2Ny8p37SWZy1wwDOYtAG/YW0dYIV9rtDSuDBC5RaT/nr4bnCU1nlZfxy2J6cmQe9MjsLG3iJplgC5a3K5R1EUT7e3WUyGmpikudfmbekkTJjTHG7q464BSF4mZdLMV0YDlij5trfd6ZAirWVhF5gjtzHKmhHy/qbmdAiE=
+Received: from TYWPR01MB11343.jpnprd01.prod.outlook.com
+ (2603:1096:400:3f5::13) by TYCPR01MB9368.jpnprd01.prod.outlook.com
+ (2603:1096:400:191::8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8005.26; Mon, 30 Sep
+ 2024 09:45:00 +0000
+Received: from TYWPR01MB11343.jpnprd01.prod.outlook.com
+ ([fe80::f54f:8da2:5ffb:1391]) by TYWPR01MB11343.jpnprd01.prod.outlook.com
+ ([fe80::f54f:8da2:5ffb:1391%3]) with mapi id 15.20.8005.024; Mon, 30 Sep 2024
+ 09:45:00 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Liu Ying <victor.liu@nxp.com>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "devicetree@vger.kernel.org"
+ <devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "imx@lists.linux.dev" <imx@lists.linux.dev>,
  "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-Cc: "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>,
- "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
- "rfoss@kernel.org" <rfoss@kernel.org>,
- "laurent.pinchart" <laurent.pinchart@ideasonboard.com>,
- "jonas@kwiboo.se" <jonas@kwiboo.se>,
- "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "mripard@kernel.org" <mripard@kernel.org>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "airlied@gmail.com" <airlied@gmail.com>, "simona@ffwll.ch"
- <simona@ffwll.ch>, "robh@kernel.org" <robh@kernel.org>,
- "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "shawnguo@kernel.org" <shawnguo@kernel.org>,
- "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
- "kernel@pengutronix.de" <kernel@pengutronix.de>,
- "festevam@gmail.com" <festevam@gmail.com>,
- "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
- "will@kernel.org" <will@kernel.org>,
+CC: "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>,
+ "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>, "rfoss@kernel.org"
+ <rfoss@kernel.org>, laurent.pinchart <laurent.pinchart@ideasonboard.com>,
+ "jonas@kwiboo.se" <jonas@kwiboo.se>, "jernej.skrabec@gmail.com"
+ <jernej.skrabec@gmail.com>, "maarten.lankhorst@linux.intel.com"
+ <maarten.lankhorst@linux.intel.com>, "mripard@kernel.org"
+ <mripard@kernel.org>, "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "airlied@gmail.com" <airlied@gmail.com>, "simona@ffwll.ch" <simona@ffwll.ch>, 
+ "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
+ <krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "shawnguo@kernel.org" <shawnguo@kernel.org>, "s.hauer@pengutronix.de"
+ <s.hauer@pengutronix.de>, "kernel@pengutronix.de" <kernel@pengutronix.de>,
+ "festevam@gmail.com" <festevam@gmail.com>, "catalin.marinas@arm.com"
+ <catalin.marinas@arm.com>, "will@kernel.org" <will@kernel.org>,
  "quic_bjorande@quicinc.com" <quic_bjorande@quicinc.com>,
  "geert+renesas@glider.be" <geert+renesas@glider.be>,
- "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
- "arnd@arndb.de" <arnd@arndb.de>,
- "nfraprado@collabora.com" <nfraprado@collabora.com>,
- "o.rempel@pengutronix.de" <o.rempel@pengutronix.de>,
- "y.moog@phytec.de" <y.moog@phytec.de>
+ "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>, "arnd@arndb.de"
+ <arnd@arndb.de>, "nfraprado@collabora.com" <nfraprado@collabora.com>,
+ "o.rempel@pengutronix.de" <o.rempel@pengutronix.de>, "y.moog@phytec.de"
+ <y.moog@phytec.de>
+Subject: RE: [PATCH 6/8] drm/bridge: Add ITE IT6263 LVDS to HDMI converter
+Thread-Topic: [PATCH 6/8] drm/bridge: Add ITE IT6263 LVDS to HDMI converter
+Thread-Index: AQHbEvtUipP47OqWn0qTbXIXZ3wX97JwA4ZggAAQEICAAADwAA==
+Date: Mon, 30 Sep 2024 09:45:00 +0000
+Message-ID: <TYWPR01MB11343041A6065078D4466FF3386762@TYWPR01MB11343.jpnprd01.prod.outlook.com>
 References: <20240930052903.168881-1-victor.liu@nxp.com>
  <20240930052903.168881-7-victor.liu@nxp.com>
  <TYWPR01MB11343E3DE82874B557B537B6186762@TYWPR01MB11343.jpnprd01.prod.outlook.com>
-From: Liu Ying <victor.liu@nxp.com>
+ <5bdd86cf-ee76-452c-b854-171b3aecb04b@nxp.com>
+In-Reply-To: <5bdd86cf-ee76-452c-b854-171b3aecb04b@nxp.com>
+Accept-Language: en-GB, en-US
 Content-Language: en-US
-In-Reply-To: <TYWPR01MB11343E3DE82874B557B537B6186762@TYWPR01MB11343.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-X-ClientProxiedBy: SI2PR02CA0018.apcprd02.prod.outlook.com
- (2603:1096:4:194::18) To AM7PR04MB7046.eurprd04.prod.outlook.com
- (2603:10a6:20b:113::22)
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYWPR01MB11343:EE_|TYCPR01MB9368:EE_
+x-ms-office365-filtering-correlation-id: 85fae1ff-dcb3-4ce0-9a73-08dce1348d2b
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|7416014|376014|366016|1800799024|38070700018; 
+x-microsoft-antispam-message-info: =?utf-8?B?cWFYSVplMEFnejRUVy9sNEVUMEZ5Y2hQZVhZY3k2aE5abUNyRnZSbkp3cFQ1?=
+ =?utf-8?B?ZFJzckhaM3pLeE5oWlVncnIrUFZnNVZ0Y1orK0xNYzlvVGd5WXJML1drd3ZG?=
+ =?utf-8?B?RTBDY0x6QVhhbHhlZU05SWdrVEZpQUlqVVprMksrVmZ3NzAxUFZMMzdmV1cr?=
+ =?utf-8?B?TU5oaEtweC83bGRVRXBjV0s1UnhVMHNTUExITVloZFhGbzVTMU43L2N1REJn?=
+ =?utf-8?B?Zzl3NG9ua2V6OFZKMC84aWM1YXp6WFg1Y1lTNEh6Q2RUZ3NjOGFMYzN6Z1Ew?=
+ =?utf-8?B?L2lrN25kK0xoV3B5bExjT1FpQWtaNkdLcVl2b3lXMU1YNHRZVUtsOU5Bc1dq?=
+ =?utf-8?B?aDg0NXJtSVBqQTFaVXVoaXB4WGhGZ1N5aWoweTljSDJMcEk4QlBuR2RTMVdE?=
+ =?utf-8?B?aDdJSHBJdGVnclRKa1RBZ1pMaDVOd3d5d0lYTGdBR0tLTWZqZjIzemRmZTVX?=
+ =?utf-8?B?QkswZW1qSk9JU0JYM2ZJQ3MyOUtqSHZKRGdYOEtSaWEyMVJjNERsVUZKdjRK?=
+ =?utf-8?B?eStEMHVtWXhHSjVpbjQwL2NCNkV0RUhySUJ0MjNrcnp0Z3lGSVR3U0hKa29S?=
+ =?utf-8?B?WnVGLzhVVWVCMUFHZGl3TGR0bFhyZndJbkdRNnVNYkxJeit3U2RSbXhaeVhC?=
+ =?utf-8?B?QlZMblI0dWI1RzFYcnZENWI1V1hiK2ozeVg1RExyOWhaMTFIeWJLUHpqSUpM?=
+ =?utf-8?B?UGd1YTAyMkMrUGJZOVZJY2crUDE3ZHRkNk5tNFM5dzY4Ym9rRHI3RjJiZEw1?=
+ =?utf-8?B?dzJYaXJROGpDQnZlWE1PY01Pd0NCNVMySXhKdXdSYmtKZmExYnNkb3Nub0FY?=
+ =?utf-8?B?T0RzWTd3YlZrY0VsRDBmcGdRb3RyTlNld2RmdTVZMEp1RFRSS0tRR0NlelZM?=
+ =?utf-8?B?OGRycTlhVHpBcHN6WFgxa3FvNG1YQnJVRmFXem5CY2IrTlJJVE1YLzQ1Qmh3?=
+ =?utf-8?B?SFpicHFWb3VQR281TXRSaS9oNWJ4cUtnS0oxd000TEhoT3dIMnRRSDZtUjhS?=
+ =?utf-8?B?YjdiWnZaME02Qld1ZWV0ckJYV0d0OC93MlVKcWJNZTRiaW5ZOEEvVitCS2h5?=
+ =?utf-8?B?Z0IrNWFaazVYL242MmFMdWdjblg2U2VnTUF5WktDUWxtSnYvM2dqVDNTWUNz?=
+ =?utf-8?B?dnRqUk80NTZqajFqSVFUc1NPTWRyS20wNFVteTI1Y05Pa0R2VFZaaldYN2lC?=
+ =?utf-8?B?bXJKZ0tOYXo4MEpPS09lNTNvYU16cDA4WDc2aHY1bzdtb3QyYmcrRFFhT1da?=
+ =?utf-8?B?UFpDL0pLR0RMQ2s1dVZLUkhwVmNGS1FiTnFBOFZuYUh4UkZKMDRSUWo0ajAz?=
+ =?utf-8?B?eHI1Q1RiNzMyUWV1aVNPdHNacm9ieDIwQTNzTmNRUVg4cEJZVXpIeXMwZVF2?=
+ =?utf-8?B?Ni9uaVA0ZWhoK0hqZ2hOU2FNODlEaUJMa2xnTjR3VURBMTJDeTkyU1paajI4?=
+ =?utf-8?B?K1NTMWhVLzdLRmZKSkJHa0J5R3gwK3dKMUhSOVVwNUFKYWh2K3Q0NU10NFJI?=
+ =?utf-8?B?WXZsbTRrVkx5UVdCYXZsSkVLMXRHYjZ3RW5NZjJLenZlNlhaMjY0anhGcWxW?=
+ =?utf-8?B?blU2Uko3emk5UkdvL2pzOHZoVzFBOW5vRmNzZVJOeHQyUTBkZGFKU21ESE1J?=
+ =?utf-8?B?OGtMb1RvZSsvamdLSUd3a3FVYVdmN3NHbUhFNmpqRGtGVi95UkJmRGpXTStD?=
+ =?utf-8?B?T29PcC9SR2U1aFcrcjBIRHpxUTZudkUrTkdiRUkvT0tlaFVaTDBsYmNkS0dZ?=
+ =?utf-8?B?Y01yRnFXek82bXNkSVYyTGVjT29qVTNyaHlsZ2Y4eC8zMUYrdkI2TDg5MnhX?=
+ =?utf-8?B?dkkzQkZyZ2p3QkxOYzRTUT09?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:TYWPR01MB11343.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(366016)(1800799024)(38070700018); DIR:OUT;
+ SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?aFJrOUxxMmI1VmVWNnpCSTJVRUdMTW9uay9JMUpzMUVSb3N2VHhkZFFLMWR2?=
+ =?utf-8?B?SkZNeElBSHNHVVdxTmFnUVlDUnZhZjlNZHFTaVFQQlo5b293ajNqTTdTNXZG?=
+ =?utf-8?B?Y3p1WkxCd2t4YTk5VFcvcUpWZnY0UjhUZFRtMThmN0N2VytkbituNFFVdkpq?=
+ =?utf-8?B?SjVQa2lCSGpVRmFqNngvaGMrOXZyemVkeWwweEFmZ0hOV3JIZmRyQVdORnFH?=
+ =?utf-8?B?bVFyd3htVzNSN09vcjRmLy9tVjl2THNSc3llZFRvTVYrcFUwUzk1Y2tKTm5u?=
+ =?utf-8?B?QnllZzZPTkZyS0dFME9XaHo4ZDQ4QVhBd1RkbXFqRitZZlU1Q2FZQytVZEFs?=
+ =?utf-8?B?ODdDelpjSUxDK0ZQajhERTVBeU5aSTNyRlZyL0lueTl6TVVSNk81UHEwM0V5?=
+ =?utf-8?B?RXNnOThDZ291YWVwN3lBZEtiVkdVdG8vajVvN0pVQWltREY1QWNtZFFvSUx3?=
+ =?utf-8?B?UDFpbnoyeXE5cTF1TlFkV0ZqK2hPYzJ3RnlPa0hieTJkNUpsM0FuaFd2bkhL?=
+ =?utf-8?B?UlVqNnExN0NJSW1YdlFtZ2o4SnRiZTA4dEkwSDMzMWNUSHJ3UWdjS0RsdWg1?=
+ =?utf-8?B?OXEwZ0M1cWsvS3R4UlFIbEo4OEFpWnVld0N6VFBUaGsyMk5oOFVKNTFLSDR1?=
+ =?utf-8?B?MzYwaWh2R01TQ2J3TVg2YWl4SXlkZGJvZjFWMS91Y1VzdnJ2OTNXTjdZUitH?=
+ =?utf-8?B?eFRkWlAwd2t2bGU4NkR6RzRpZGhjb1dhSnp4UkxmVEY1WU9rR0YvVjVsU28y?=
+ =?utf-8?B?OVBlZENuWGdlMG5paHcvNU5KKzEzOVZYT2I1TUhJZUtlSU8rZU1DcGtPWWVv?=
+ =?utf-8?B?MEJqaXAvOEpPQTlFUjRVekJqd0Z4c3FkMTd6anFWY3lPZGtZVC9Sc3c2ZzRE?=
+ =?utf-8?B?cUpEK2NzdmJ6Z2ZlWHJGcHltaUc2UWtBTkNsWkxvSlQ1eklXUTFFa0U1Q3ZZ?=
+ =?utf-8?B?Q3MwQXAwbkxSWXBFOVlCQ2g1R1ZERE85UmhXZ0JTQzk4WFBKTW9HdVBkN1Vy?=
+ =?utf-8?B?bFJhSFowODFGV2NyUzRNOWQxVGZob0lSZzk1amIzTzdMak16cUxPN3NBS1BP?=
+ =?utf-8?B?QXhYcTF0OG56YnNmS1Z2cG9JSGNTNUorWTFlVm5qL05VREk4b1MwUTN0NjhS?=
+ =?utf-8?B?VUpSRGdaZUNIbHFDRVphQ1pMZVFVNXF2RXZRTEtNc3kySlcrcHZuT0JPRHJu?=
+ =?utf-8?B?L0x3MHN2WDhQS1lTeStPODZTYkpVV1NUM3EyL0d3NldKTmN0WTBaOHNaZXlG?=
+ =?utf-8?B?b2p6YlV1b3RUODIrSm9CS0l1R1dEdko0b0VQcys0Y3hoa0ZLNE1Gd3FrZk5n?=
+ =?utf-8?B?QVdQVkZuNTRDM3J3UVdzZ3NkcFdvRkZDWVdDT21EZ3hWeDVwYlYwSUlnTjRs?=
+ =?utf-8?B?MU9HZEJkdU9TUC9kaW9jRGdQU2grUmhZc1lqcFlsekk0a1o4WWZrUzhTSFlu?=
+ =?utf-8?B?Mzdmd0d0RlFUYURpS2M3aUZ3ZHF2TmNURDl2VEJaMUJNYnFiemNhOGRzYzYr?=
+ =?utf-8?B?Qmd2SDNpK3h4TDF1ZVgzN05UYzFGb0Y2S2pNemI1ZHByVmMvQnFvQTRLd1lB?=
+ =?utf-8?B?LzR4b1FXMVNLZ29hTE43TEd5bEc5cFhnZkMzc21HeUFHTzh2UTUvRm5peHZL?=
+ =?utf-8?B?SkFUYjlMRVB5ZkY5OEg0NVRvQTk1ZXhPbUd6U1dvTHk2KzEyWEc4RkIxSW5H?=
+ =?utf-8?B?R25KR0E3OWxCMWZ3V3REa2R3TFd2MXFZQ3FNb3BOczBmaG1zMy9mTEU4S21q?=
+ =?utf-8?B?ZjVEd3M3TUFITHN4dGFkcjM0QUU2SjRkdC93ZlhCanFyc1EzVHpvYkpPNFJI?=
+ =?utf-8?B?Tks0d3liMVEzVlJOd1lIZFRmK0NhTEhrRTNYOXgxbHFjcW0xeWozNjNqVzFp?=
+ =?utf-8?B?STZxRXprcUV4cE95KzVIUHlTMTU3ZmlOdUlrUlV6RUdaMW43eFBIQjU5YUFX?=
+ =?utf-8?B?cGd1ZVJ4Umh0Vk0yNUhmbEFPQmdhbE53V3JWeURmSUt4UjYwb1pIcHVpVy9v?=
+ =?utf-8?B?Rm5WS1dDRUFBM091NUR5MC9kYjBJaFcwdmVsc1I0ckFyUVpCR2dUZ21wNU5x?=
+ =?utf-8?B?ajJpRGViTTk4QTgxcWdRUFhyWVdjcVZ1R25JQWw1dWp3R2JQeExKbWI5eGhV?=
+ =?utf-8?Q?Sm1oKvVorEfhWxpcyBU6UWdGW?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|DU2PR04MB8727:EE_
-X-MS-Office365-Filtering-Correlation-Id: c5b5b55d-6bc0-4e36-8e03-08dce133dd7a
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?MXZ4K2VLMnhSNHB6aEdwTG9ySEg0RXJUOEx3MnpRbVlhQVdCU045MUVtTDlM?=
- =?utf-8?B?NlN3dDk2K0ZJeGxSRkFHT0ZlK0RnRm53MHR6S3R2aUs4RndkR2FJeEJ0ZVJX?=
- =?utf-8?B?TVV2Qi9YWkZpZVdPRjhsT0dHd1FPTHNERTlvNHBOMlBzRlEraTJEM1BZVDJn?=
- =?utf-8?B?UEwxQURENU9aUzR5RUNGelFjeDVRWVZXNnplNEc0MkcrSWVlV0RmeDVoNCtQ?=
- =?utf-8?B?THpBNlk2TWkxcUxFb05xMXloT3NXMmVGQ054ZXZOUDZMQ3poaThTSjh2c01v?=
- =?utf-8?B?WmtvV1pTTzBMK2NvZ0xoQUFySkZmbXd1VTkrM3I2NXBaVjdua0RHU281c3pp?=
- =?utf-8?B?NEdxR2ROSGVXSk80OHBEWXJWWHRmaTh6SFc2cSt6VmY2TmV1MUJLc0pIZHVk?=
- =?utf-8?B?SEVuNXlOYS9HRTZma3lWZTFEN3JCekg1VW85RHh5bzdaQmpVUE9PQkNkS3lx?=
- =?utf-8?B?V3pxVWtPWDExUEpacVJDNWNrdit5YXJZRzI1R1ZEVEI1Y05wTXBvSXUrZTdJ?=
- =?utf-8?B?b0MrZHdlVEptR2g2TFpBeTZnbTRtQW9jMGFUQW13UC9ZSEp3RjA1N3d5dmJw?=
- =?utf-8?B?TEhHMUhlazNWd1RCZmZ3YlorMjk2ZGdmUWRhZlZtZjNkSlFpbTV5M285Zng3?=
- =?utf-8?B?aDRzY3Zoc1YzNkxMdFBZRkl4ZjF6em9QZXU0dUd0RmJEdFFWdmx3VzlIYlVS?=
- =?utf-8?B?RkFSQ1AwVkNibTZlcmd3YjJIK1VocWsybS9VWFNmck5rcjNSWk44M2N5anVQ?=
- =?utf-8?B?TjJ6RlVTSEw5TGhES0R6aEpjZHQ5TFNaanZDSVZzQmdERGFMbFpYM0h2SnJw?=
- =?utf-8?B?UjFTNng4R2ozdHgveFRDL0dKaTFKMVBrZjZqQ3JmZk5jdEM0SU9MUlRkdk90?=
- =?utf-8?B?YlNNTFVkMGNhYmp0eW03cDd5eGtOWFVzNmx4SUZyMUE1SWVzUDI3aFFNczQx?=
- =?utf-8?B?UnpJNFpIYnlQaWx2TTFNTjJIcWc2a1U5MXlxUlJGS2FGbXEwRXZjSVBpTm9k?=
- =?utf-8?B?ZlZpOEtLc0RqTFM0VFNxdzFsSjRCUEFsY2J5UkNYZUJIMThBOExPQ2d3eWpS?=
- =?utf-8?B?VWJNWm5CdmFDQ21oQndXcExPNlNKb2tZU09MNnY2RDhZNngxclVETWYwbUM4?=
- =?utf-8?B?SEhlNDZxM3l3bCtTaXFKZlpab0krNFo4Z0VoTXhVWG5PeVFRbmN1QjgrQWlv?=
- =?utf-8?B?dWJKaE5iQTZLOWpVV01EeCs4Sjk4QUkxb2FTaW1HZzh2N1hQTWhrWGRLc0c3?=
- =?utf-8?B?SUROUDBJeUtkT3BPNmFlZWtPdlRmaVFYWmFpd1ArTFFCUlN6ZkZFNU42RDY2?=
- =?utf-8?B?T1FOZzF1UUJQREtBaDh2a3VEWWJxcXhGTDNZdWpWRTlONzd6dklqTStRbDM4?=
- =?utf-8?B?YmhIZ2xvVWZyWUFrcGRBbk9zVEJEZ09QbGE3WkVBUFp4U1NhZ0FFSnZLWWEr?=
- =?utf-8?B?QXRDaFc2WklQUWUvTzZZTy9LZGhiYkp3QW5zOGRBWU9oNElQN2FkSVV3c3Fn?=
- =?utf-8?B?MGFUR1ovK1JxbGREbWd2SU00L1d4MndmSklRdkFFVUpaTzdybWlUcXVNalpU?=
- =?utf-8?B?djZ6a3V0MlJoMzZjZXh5Yk1rdFJKSzJodjU0elZ4K25WNld4RURYc0pqRnZx?=
- =?utf-8?B?bmdmZ1dOcENQVXRmd2lOWlVCTW43WTgyOGRDRXdPeFcrSUFLakhiZHBXY0h5?=
- =?utf-8?B?RkszcE5SbVN0OU8zcEF2ZG5mZjQrcHpEelBQYjlGS3I3RHlXMzMxa1IzUk4z?=
- =?utf-8?B?cWRWRTJ3Q0NIWGllWDZiSzR3T3cyckdLMk1tcDZ1a2ZIenJPSkVGZnFWa05Z?=
- =?utf-8?B?bVRLOUdyckZjWERLR1lVdz09?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?c3VxT0I0dXVCUkJ4UE5ydnhQS2h1YTdvM29Uc3JlUWM1LzdGMmpoTWlRMVc4?=
- =?utf-8?B?VjBSS0pEaXFYQ25Oa1MraHdOSE1kL0F4UjREMExrcHVPQWgwUU1sd2s2ME9q?=
- =?utf-8?B?ZzZJUXlxRWQzWFBycEJ2aXEzUi9CcFpnbVVYRDIvdHBPYmZWb3pMekpsemFR?=
- =?utf-8?B?Y1QzeU1UbEJtRmxINHphQTM0c3FGTEthbUJRbmFNeDFzcWNmbFB1eVpzZ3pr?=
- =?utf-8?B?T1ZQUzd4RFlNaUUrS2p1NVJsbWxMY2tlNDRZbGQ0NDhjakxCSUY5ZTlNeXpI?=
- =?utf-8?B?enYzdWVsU1I5d09hb0hQbnhiZEJEZW1meHFJZGVrU0pGREJSeUN1VHBvbjZB?=
- =?utf-8?B?ejVJME9MRkJpV21uUVYwVmxwNWhCZnJQWXFLSXVHZEM4TGVHWEQzWXNVNFlu?=
- =?utf-8?B?NFh3R0RvL3paSlhoNUpsb1dMdHV1Z09IYmJjNzN1b0NudmlUTTI4Mkx3SDhI?=
- =?utf-8?B?MVQwejdxdVFuamxhVXNCdGhlcFFHeXFwbEtabGlwQzlSaW5MR3lSekZwMXdC?=
- =?utf-8?B?M3lPSjhyTVFIanpuTmFrY1M1VzFaOWRvM1ozVTZNc2R0Y2kxeGxBcFNYMFJI?=
- =?utf-8?B?MElKRXFCdllSQU5qRGhsQWV6ajliTVZCVnloZHVVQ09DZm5PZXZ5Ymg4aDdD?=
- =?utf-8?B?ZnFvYi81UEd5Z25xQWpIa1J2cEhES0x6dFJmUy9IMFBWS0FRemRnNjdiMVho?=
- =?utf-8?B?K2x5SUd4WjdDOG0xNVhxZGl4ajVtWmkvaDFNNmRnQnV6TG5qTUhQM1VYV2F3?=
- =?utf-8?B?N0xEanZqV2dCbFhRcU9JZXo0a01SZURxL2RTbjVtWjRPUmZlUHA5bk16WmtX?=
- =?utf-8?B?eFRjWXdwT3ZzRkZtSkNOT24xLzkxcXJwenRWS2JHVi9nUmIvRSt1Mk9ZQ1pu?=
- =?utf-8?B?ODRFMllyaW5PUHZFZ2Noek5acWxpNjYwOUxrVnZFMEFTQmxjOU9DTmJJWnB3?=
- =?utf-8?B?MnJrTFRkL3ZUck1MN1h6bzVSbzgzS3FkQmVtMkptR3JUWnUvVlZBcG9Yazky?=
- =?utf-8?B?UmZuQXR3UzJKNVdEa0ZSZ05IMnl2K3BNYi8wb0lwVlltc0hFWTdFZ2pxMzNr?=
- =?utf-8?B?cEN4cVFHS2lsMm10d0J2YVJpenhnSFoySUJISFdnWkhRaWJpUktFN3FXQUtR?=
- =?utf-8?B?ZGtxRW9PeVI0cmlmbGlEN1JLSmV4TXo1cFh1YXNBVm9ySGp5TWV0b2VBV1Er?=
- =?utf-8?B?dHk5eWY2RkVUWXNxdUk1dnNKZUdUREQ4bXpHUS9uY1dqOEh1UTdUN2JSTUZB?=
- =?utf-8?B?RXI3OUJDMFA0K2xVbW05UCtkdWVocXRTbXRJSWRyV0lRRVBGM3Jzd1pDODB6?=
- =?utf-8?B?QmZQaXNpQUVRcWkwVFJiQ3lSaE55MzBhU0ZobGFlRHcrTnpVaEswL0NhT3Nm?=
- =?utf-8?B?OVFVRkU1bk9QQnFuVERORWlPK3FhNUZYQThLY1U4cmJSczBScmo5QzU2aHp1?=
- =?utf-8?B?NCtQU0VzMWdhRmR3Rm1ubFZzOUlyWG5KTU9ua09FRlVnTE1wNzF4dFV5RVpa?=
- =?utf-8?B?SGczbGlGbHdrc0grTDZseHNEWU5JVnhQN04xcnU1NmNoMVFYd2dkT2hFd1k2?=
- =?utf-8?B?bzBUNTl0Nm9SUnpQYVZyVGRucnVGVGdoaE1MdCtEOW1HVkdMYWtDQXgyVW1W?=
- =?utf-8?B?SENGdzRzbXBsdS9xaFNNdUMvVkFTYXFSMzdlQjRiNFdiZlpaMlU2Nm9yVVVl?=
- =?utf-8?B?dnE4WS8xMEg2ZW43VFdJYVVsa1JDNHZRSnVWbWkwZFZXS2t5TDVZUll0QlNB?=
- =?utf-8?B?QVoxQlIwK2lMcll4OUp1bk9pVitzNzlCMVdybjhQWDNwdEI1NHZpckw3cEhk?=
- =?utf-8?B?UFlsR2hWSG9VSTBhUENWU1RLWCtTVk4waWRUOFgyeWhQNHR4VnpUallUR0JY?=
- =?utf-8?B?RlA1UzNmWW5uOUs5Y0NLckhhU3NrZmNGR2JVZjZzWllFM1lyL1FJa0VyWGFr?=
- =?utf-8?B?U3drTTVFVllUNVpGeFBhUy9JRVdQYVAvREFJaVBrdFh1UFNTOHlCTWZ5STJW?=
- =?utf-8?B?WTVwVlhTaGJpYndDTzhIYUNOVDBmZzBNVS82N3daNGNlV09mMDBXcEozajJR?=
- =?utf-8?B?QlVHNXlVWVBMRnhoR0xmVlpmR3FtRFBMNzN4TnEzV2V3c3J6MURwbHpBR3pj?=
- =?utf-8?Q?s1eZuOtIw/tEdjXrOil/nsTPR?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c5b5b55d-6bc0-4e36-8e03-08dce133dd7a
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
+X-OriginatorOrg: bp.renesas.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Sep 2024 09:40:05.8243 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fE1yr7KPK32XAqfjatpCw2KC3X9fsGFpuYq+AtB700QEs4Ru3u8yojl5kTbnZ/rldQb9nZKlc1swrJ6SyNYHvw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR04MB8727
+X-MS-Exchange-CrossTenant-AuthSource: TYWPR01MB11343.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 85fae1ff-dcb3-4ce0-9a73-08dce1348d2b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Sep 2024 09:45:00.2672 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ipb/NeMQapzqaFAmHhVwBKKj8ghozxlgETeLbWKuHjnhrahQ3MbZqOeWc0JA9diqAxMlnocAwlDE62G4m2Ne58VgDPEJHRdQj8BVZNgo95Q=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB9368
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -191,907 +190,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/30/2024, Biju Das wrote:
-> Hi Liu,
-
-Hi Biju,
-
-> 
-> Thanks for the patch.
-> 
->> -----Original Message-----
->> From: linux-arm-kernel <linux-arm-kernel-bounces@lists.infradead.org> On Behalf Of Liu Ying
->> Sent: Monday, September 30, 2024 6:29 AM
->> Subject: [PATCH 6/8] drm/bridge: Add ITE IT6263 LVDS to HDMI converter
->>
->> Add basic HDMI video output support. Currently, only RGB888 output pixel format is supported.  At the
->> LVDS input side, the driver supports single LVDS link and dual LVDS links with "jeida-24" LVDS
->> mapping.
->>
->> Product link:
->> https://www.ite.com.tw/en/product/cate1/IT6263
->>
->> Signed-off-by: Liu Ying <victor.liu@nxp.com>
->> ---
->>  drivers/gpu/drm/bridge/Kconfig      |   8 +
->>  drivers/gpu/drm/bridge/Makefile     |   1 +
->>  drivers/gpu/drm/bridge/ite-it6263.c | 829 ++++++++++++++++++++++++++++
->>  3 files changed, 838 insertions(+)
->>  create mode 100644 drivers/gpu/drm/bridge/ite-it6263.c
->>
->> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig index
->> 3eb955333c80..93f99682a090 100644
->> --- a/drivers/gpu/drm/bridge/Kconfig
->> +++ b/drivers/gpu/drm/bridge/Kconfig
->> @@ -90,6 +90,14 @@ config DRM_FSL_LDB
->>  	help
->>  	  Support for i.MX8MP DPI-to-LVDS on-SoC encoder.
->>
->> +config DRM_ITE_IT6263
->> +	tristate "ITE IT6263 LVDS/HDMI bridge"
->> +	depends on OF
->> +	select DRM_KMS_HELPER
->> +	select REGMAP_I2C
->> +	help
->> +	  ITE IT6263 LVDS to HDMI bridge chip driver.
->> +
->>  config DRM_ITE_IT6505
->>  	tristate "ITE IT6505 DisplayPort bridge"
->>  	depends on OF
->> diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile index
->> 7df87b582dca..f3776dd473fd 100644
->> --- a/drivers/gpu/drm/bridge/Makefile
->> +++ b/drivers/gpu/drm/bridge/Makefile
->> @@ -6,6 +6,7 @@ obj-$(CONFIG_DRM_CHRONTEL_CH7033) += chrontel-ch7033.o
->>  obj-$(CONFIG_DRM_CROS_EC_ANX7688) += cros-ec-anx7688.o
->>  obj-$(CONFIG_DRM_DISPLAY_CONNECTOR) += display-connector.o
->>  obj-$(CONFIG_DRM_FSL_LDB) += fsl-ldb.o
->> +obj-$(CONFIG_DRM_ITE_IT6263) += ite-it6263.o
->>  obj-$(CONFIG_DRM_ITE_IT6505) += ite-it6505.o
->>  obj-$(CONFIG_DRM_LONTIUM_LT8912B) += lontium-lt8912b.o
->>  obj-$(CONFIG_DRM_LONTIUM_LT9211) += lontium-lt9211.o diff --git a/drivers/gpu/drm/bridge/ite-it6263.c
->> b/drivers/gpu/drm/bridge/ite-it6263.c
->> new file mode 100644
->> index 000000000000..886588497bc1
->> --- /dev/null
->> +++ b/drivers/gpu/drm/bridge/ite-it6263.c
->> @@ -0,0 +1,829 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +/*
->> + * Copyright 2024 NXP
->> + */
->> +
->> +#include <linux/bitfield.h>
->> +#include <linux/bits.h>
->> +#include <linux/delay.h>
->> +#include <linux/gpio/consumer.h>
->> +#include <linux/i2c.h>
->> +#include <linux/media-bus-format.h>
->> +#include <linux/module.h>
->> +#include <linux/of.h>
->> +#include <linux/regmap.h>
->> +#include <linux/regulator/consumer.h>
->> +
->> +#include <drm/drm_atomic.h>
->> +#include <drm/drm_atomic_helper.h>
->> +#include <drm/drm_atomic_state_helper.h> #include <drm/drm_bridge.h>
->> +#include <drm/drm_connector.h> #include <drm/drm_crtc.h> #include
->> +<drm/drm_edid.h> #include <drm/drm_of.h> #include
->> +<drm/drm_probe_helper.h>
->> +
->> +/*
->> +-----------------------------------------------------------------------
->> +------
->> + * LVDS registers
->> + */
->> +
->> +/* LVDS software reset registers */
->> +#define LVDS_REG_05			0x05
->> +#define  REG_SOFT_P_RST			BIT(1)
->> +
->> +/* LVDS system configuration registers */
->> +/* 0x0b */
->> +#define LVDS_REG_0B			0x0b
->> +#define  REG_SSC_PCLK_RF		BIT(0)
->> +#define  REG_LVDS_IN_SWAP		BIT(1)
->> +
->> +/* LVDS test pattern gen control registers */
->> +/* 0x2c */
->> +#define LVDS_REG_2C			0x2c
->> +#define  REG_COL_DEP			GENMASK(1, 0)
->> +#define  BIT8				FIELD_PREP(REG_COL_DEP, 2)
->> +#define  OUT_MAP			BIT(4)
->> +#define  JEIDA				0
->> +#define  REG_DESSC_ENB			BIT(6)
->> +#define  DMODE				BIT(7)
->> +#define  DISO				BIT(7)
->> +#define  SISO				0
->> +
->> +#define LVDS_REG_3C			0x3c
->> +#define LVDS_REG_3F			0x3f
->> +#define LVDS_REG_47			0x47
->> +#define LVDS_REG_48			0x48
->> +#define LVDS_REG_4F			0x4f
->> +#define LVDS_REG_52			0x52
->> +
->> +/*
->> +-----------------------------------------------------------------------
->> +------
->> + * HDMI registers are separated into three banks:
->> + * 1) HDMI register common bank: 0x00 ~ 0x2f  */
->> +
->> +/* HDMI genernal registers */
->> +#define HDMI_REG_SW_RST			0x04
->> +#define  SOFTREF_RST			BIT(5)
->> +#define  SOFTA_RST			BIT(4)
->> +#define  SOFTV_RST			BIT(3)
->> +#define  AUD_RST			BIT(2)
->> +#define  HDCP_RST			BIT(0)
->> +#define  HDMI_RST_ALL			(SOFTREF_RST | SOFTA_RST | SOFTV_RST | \
->> +					 AUD_RST | HDCP_RST)
->> +
->> +#define HDMI_REG_SYS_STATUS		0x0e
->> +#define  HPDETECT			BIT(6)
->> +#define  TXVIDSTABLE			BIT(4)
->> +
->> +#define HDMI_REG_BANK_CTRL		0x0f
->> +#define  REG_BANK_SEL			BIT(0)
->> +
->> +/* HDMI System DDC control registers */
->> +#define HDMI_REG_DDC_MASTER_CTRL	0x10
->> +#define  MASTER_SEL_HOST		BIT(0)
->> +
->> +#define HDMI_REG_DDC_HEADER		0x11
->> +
->> +#define HDMI_REG_DDC_REQOFF		0x12
->> +#define HDMI_REG_DDC_REQCOUNT		0x13
->> +#define HDMI_REG_DDC_EDIDSEG		0x14
->> +
->> +#define HDMI_REG_DDC_CMD		0x15
->> +#define  DDC_CMD_EDID_READ		0x3
->> +#define  DDC_CMD_FIFO_CLR		0x9
->> +
->> +#define HDMI_REG_DDC_STATUS		0x16
->> +#define  DDC_DONE			BIT(7)
->> +#define  DDC_NOACK			BIT(5)
->> +#define  DDC_WAITBUS			BIT(4)
->> +#define  DDC_ARBILOSE			BIT(3)
->> +#define  DDC_ERROR			(DDC_NOACK | DDC_WAITBUS | DDC_ARBILOSE)
->> +
->> +#define HDMI_DDC_FIFO_BYTES		32
->> +#define HDMI_REG_DDC_READFIFO		0x17
->> +#define HDMI_REG_LVDS_PORT		0x1d /* LVDS input control I2C addr */
->> +#define HDMI_REG_LVDS_PORT_EN		0x1e
->> +#define LVDS_INPUT_CTRL_I2C_ADDR	0x33
->> +
->> +/*
->> +-----------------------------------------------------------------------
->> +------
->> + * 2) HDMI register bank0: 0x30 ~ 0xff
->> + */
->> +
->> +/* HDMI AFE registers */
->> +#define HDMI_REG_AFE_DRV_CTRL		0x61
->> +#define  AFE_DRV_PWD			BIT(5)
->> +#define  AFE_DRV_RST			BIT(4)
->> +
->> +#define HDMI_REG_AFE_XP_CTRL		0x62
->> +#define  AFE_XP_GAINBIT			BIT(7)
->> +#define  AFE_XP_ER0			BIT(4)
->> +#define  AFE_XP_RESETB			BIT(3)
->> +
->> +#define HDMI_REG_AFE_ISW_CTRL		0x63
->> +
->> +#define HDMI_REG_AFE_IP_CTRL		0x64
->> +#define  AFE_IP_GAINBIT			BIT(7)
->> +#define  AFE_IP_ER0			BIT(3)
->> +#define  AFE_IP_RESETB			BIT(2)
->> +
->> +/* HDMI input data format registers */
->> +#define HDMI_REG_INPUT_MODE		0x70
->> +#define  IN_RGB				0x00
->> +
->> +/* HDMI general control registers */
->> +#define HDMI_REG_HDMI_MODE		0xc0
->> +#define  TX_HDMI_MODE			BIT(0)
->> +
->> +#define HDMI_REG_GCP			0xc1
->> +#define  AVMUTE				BIT(0)
->> +#define  HDMI_COLOR_DEPTH		GENMASK(6, 4)
->> +#define  HDMI_COLOR_DEPTH_24		FIELD_PREP(HDMI_COLOR_DEPTH, 4)
->> +
->> +#define HDMI_REG_PKT_GENERAL_CTRL	0xc6
->> +#define  ENABLE_PKT			BIT(0)
->> +#define  REPEAT_PKT			BIT(1)
->> +
->> +/*
->> +-----------------------------------------------------------------------
->> +------
->> + * 3) HDMI register bank1: 0x130 ~ 0x1ff (HDMI packet registers)  */
->> +
->> +/* AVI packet registers */
->> +#define HDMI_REG_AVI_DB1		0x158
->> +#define  AVI_DB1_COLOR_SPACE		GENMASK(6, 5)
->> +#define  AVI_COLOR_SPACE_RGB		FIELD_PREP(AVI_DB1_COLOR_SPACE, 0)
->> +
->> +#define MAX_PIXEL_CLOCK_KHZ		150000
->> +#define HIGH_PIXEL_CLOCK_KHZ		80000
->> +
->> +struct it6263 {
->> +	struct device *dev;
->> +	struct i2c_client *hdmi_i2c;
->> +	struct i2c_client *lvds_i2c;
->> +	struct regmap *hdmi_regmap;
->> +	struct regmap *lvds_regmap;
->> +	struct drm_bridge bridge;
->> +	struct drm_bridge *next_bridge;
->> +	struct drm_connector connector;
->> +	struct gpio_desc *reset_gpio;
->> +	bool lvds_dual_link;
->> +	bool lvds_link12_swap;
->> +};
->> +
->> +static inline struct it6263 *bridge_to_it6263(struct drm_bridge
->> +*bridge) {
->> +	return container_of(bridge, struct it6263, bridge); }
->> +
->> +static inline struct it6263 *connector_to_it6263(struct drm_connector
->> +*conn) {
->> +	return container_of(conn, struct it6263, connector); }
->> +
->> +static bool it6263_hdmi_writeable_reg(struct device *dev, unsigned int
->> +reg) {
->> +	switch (reg) {
->> +	case HDMI_REG_SW_RST:
->> +	case HDMI_REG_BANK_CTRL:
->> +	case HDMI_REG_DDC_MASTER_CTRL:
->> +	case HDMI_REG_DDC_HEADER:
->> +	case HDMI_REG_DDC_REQOFF:
->> +	case HDMI_REG_DDC_REQCOUNT:
->> +	case HDMI_REG_DDC_EDIDSEG:
->> +	case HDMI_REG_DDC_CMD:
->> +	case HDMI_REG_LVDS_PORT:
->> +	case HDMI_REG_LVDS_PORT_EN:
->> +	case HDMI_REG_AFE_DRV_CTRL:
->> +	case HDMI_REG_AFE_XP_CTRL:
->> +	case HDMI_REG_AFE_ISW_CTRL:
->> +	case HDMI_REG_AFE_IP_CTRL:
->> +	case HDMI_REG_INPUT_MODE:
->> +	case HDMI_REG_HDMI_MODE:
->> +	case HDMI_REG_GCP:
->> +	case HDMI_REG_PKT_GENERAL_CTRL:
->> +	case HDMI_REG_AVI_DB1:
->> +		return true;
->> +	default:
->> +		return false;
->> +	}
->> +}
->> +
->> +static bool it6263_hdmi_readable_reg(struct device *dev, unsigned int
->> +reg) {
->> +	if (it6263_hdmi_writeable_reg(dev, reg))
->> +		return true;
->> +
->> +	switch (reg) {
->> +	case HDMI_REG_SYS_STATUS:
->> +	case HDMI_REG_DDC_STATUS:
->> +	case HDMI_REG_DDC_READFIFO:
->> +		return true;
->> +	default:
->> +		return false;
->> +	}
->> +}
->> +
->> +static bool it6263_hdmi_volatile_reg(struct device *dev, unsigned int
->> +reg) {
->> +	switch (reg) {
->> +	case HDMI_REG_SW_RST:
->> +	case HDMI_REG_SYS_STATUS:
->> +	case HDMI_REG_DDC_STATUS:
->> +	case HDMI_REG_DDC_READFIFO:
->> +		return true;
->> +	default:
->> +		return false;
->> +	}
->> +}
->> +
->> +static const struct regmap_range_cfg it6263_hdmi_range_cfg = {
->> +	.range_min = 0x00,
->> +	.range_max = HDMI_REG_AVI_DB1,
->> +	.selector_reg = HDMI_REG_BANK_CTRL,
->> +	.selector_mask = REG_BANK_SEL,
->> +	.selector_shift = 0,
->> +	.window_start = 0x00,
->> +	.window_len = 0x100,
->> +};
->> +
->> +static const struct regmap_config it6263_hdmi_regmap_config = {
->> +	.name = "it6263-hdmi",
->> +	.reg_bits = 8,
->> +	.val_bits = 8,
->> +	.writeable_reg = it6263_hdmi_writeable_reg,
->> +	.readable_reg = it6263_hdmi_readable_reg,
->> +	.volatile_reg = it6263_hdmi_volatile_reg,
->> +	.max_register = HDMI_REG_AVI_DB1,
->> +	.ranges = &it6263_hdmi_range_cfg,
->> +	.num_ranges = 1,
->> +	.cache_type = REGCACHE_MAPLE,
->> +};
->> +
->> +static bool it6263_lvds_writeable_reg(struct device *dev, unsigned int
->> +reg) {
->> +	switch (reg) {
->> +	case LVDS_REG_05:
->> +	case LVDS_REG_0B:
->> +	case LVDS_REG_2C:
->> +	case LVDS_REG_3C:
->> +	case LVDS_REG_3F:
->> +	case LVDS_REG_47:
->> +	case LVDS_REG_48:
->> +	case LVDS_REG_4F:
->> +	case LVDS_REG_52:
->> +		return true;
->> +	default:
->> +		return false;
->> +	}
->> +}
->> +
->> +static bool it6263_lvds_readable_reg(struct device *dev, unsigned int
->> +reg) {
->> +	return it6263_lvds_writeable_reg(dev, reg); }
->> +
->> +static bool it6263_lvds_volatile_reg(struct device *dev, unsigned int
->> +reg) {
->> +	return reg == LVDS_REG_05;
->> +}
->> +
->> +static const struct regmap_config it6263_lvds_regmap_config = {
->> +	.name = "it6263-lvds",
->> +	.reg_bits = 8,
->> +	.val_bits = 8,
->> +	.writeable_reg = it6263_lvds_writeable_reg,
->> +	.readable_reg = it6263_lvds_readable_reg,
->> +	.volatile_reg = it6263_lvds_volatile_reg,
->> +	.max_register = LVDS_REG_52,
->> +	.cache_type = REGCACHE_MAPLE,
->> +};
->> +
->> +static const char * const it6263_supplies[] = {
->> +	"ivdd", "ovdd", "txavcc18", "txavcc33", "pvcc1", "pvcc2",
->> +	"avcc", "anvdd", "apvdd"
->> +};
->> +
->> +static int it6263_parse_dt(struct it6263 *it) {
->> +	struct device *dev = it->dev;
->> +	struct device_node *port0, *port1;
->> +	int ret = 0;
->> +
->> +	it->next_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 2, 0);
->> +	if (IS_ERR(it->next_bridge))
->> +		return dev_err_probe(dev, PTR_ERR(it->next_bridge),
->> +				     "failed to get next bridge\n");
->> +
->> +	port0 = of_graph_get_port_by_id(dev->of_node, 0);
->> +	port1 = of_graph_get_port_by_id(dev->of_node, 1);
->> +	if (port0 && port1) {
->> +		if (of_property_read_bool(port0, "dual-lvds-even-pixels") &&
->> +		    of_property_read_bool(port1, "dual-lvds-odd-pixels")) {
->> +			it->lvds_dual_link = true;
->> +			it->lvds_link12_swap = true;
->> +		} else if (of_property_read_bool(port0, "dual-lvds-odd-pixels") &&
->> +			   of_property_read_bool(port1, "dual-lvds-even-pixels")) {
->> +			it->lvds_dual_link = true;
->> +		}
->> +
->> +		if (!it->lvds_dual_link) {
->> +			dev_err(dev,
->> +				"failed to get LVDS dual link pixel order\n");
->> +			ret = -EINVAL;
->> +		}
->> +	} else if (port1) {
->> +		ret = -EINVAL;
->> +		dev_err(dev, "single input LVDS port1 is not supported\n");
-> 
-> 		Are you supporting single input LVDS port0??
-> 
->> +	} else if (!port0) {
->> +		ret = -EINVAL;
->> +		dev_err(dev, "no input LVDS port\n");
->> +	}
->> +
->> +	of_node_put(port0);
->> +	of_node_put(port1);
->> +
->> +	return ret;
->> +}
->> +
->> +static inline void it6263_reset(struct it6263 *it) {
->> +	if (!it->reset_gpio)
->> +		return;
->> +
->> +	gpiod_set_value_cansleep(it->reset_gpio, 0);
->> +	fsleep(1000);
->> +	gpiod_set_value_cansleep(it->reset_gpio, 1);
->> +	/* The chip maker says the low pulse should be at least 40ms. */
->> +	fsleep(40000);
->> +	gpiod_set_value_cansleep(it->reset_gpio, 0);
->> +	/* addtional time to wait the high voltage to be stable */
->> +	fsleep(5000);
-> 
-> What about other resets ??
-> 
-> /* AFE PLL reset and  pclk reset */
-> 
->> +}
->> +
->> +static inline int it6263_lvds_set_i2c_addr(struct it6263 *it) {
->> +	int ret;
->> +
->> +	ret = regmap_write(it->hdmi_regmap, HDMI_REG_LVDS_PORT,
->> +			   LVDS_INPUT_CTRL_I2C_ADDR << 1);
->> +	if (ret)
->> +		return ret;
->> +
->> +	return regmap_write(it->hdmi_regmap, HDMI_REG_LVDS_PORT_EN, BIT(0)); }
->> +
->> +static inline void it6263_lvds_reset(struct it6263 *it) {
->> +	/* AFE PLL reset */
->> +	regmap_write_bits(it->lvds_regmap, LVDS_REG_3C, BIT(0), 0x0);
->> +	fsleep(1000);
->> +	regmap_write_bits(it->lvds_regmap, LVDS_REG_3C, BIT(0), BIT(0));
->> +
->> +	/* software pixel clock domain reset */
->> +	regmap_write_bits(it->lvds_regmap, LVDS_REG_05, REG_SOFT_P_RST,
->> +			  REG_SOFT_P_RST);
->> +	fsleep(1000);
->> +	regmap_write_bits(it->lvds_regmap, LVDS_REG_05, REG_SOFT_P_RST, 0x0);
->> +	fsleep(10000);
->> +}
->> +
->> +static inline void it6263_lvds_set_interface(struct it6263 *it) {
->> +	/* color depth */
->> +	regmap_write_bits(it->lvds_regmap, LVDS_REG_2C, REG_COL_DEP, BIT8);
->> +	/* output mapping */
->> +	regmap_write_bits(it->lvds_regmap, LVDS_REG_2C, OUT_MAP, JEIDA);
->> +
->> +	if (it->lvds_dual_link) {
->> +		regmap_write_bits(it->lvds_regmap, LVDS_REG_2C, DMODE, DISO);
->> +		regmap_write_bits(it->lvds_regmap, LVDS_REG_52, BIT(1), BIT(1));
->> +	} else {
->> +		regmap_write_bits(it->lvds_regmap, LVDS_REG_2C, DMODE, SISO);
->> +		regmap_write_bits(it->lvds_regmap, LVDS_REG_52, BIT(1), 0);
->> +	}
->> +}
->> +
->> +static inline void it6263_lvds_set_afe(struct it6263 *it) {
->> +	regmap_write(it->lvds_regmap, LVDS_REG_3C, 0xaa);
->> +	regmap_write(it->lvds_regmap, LVDS_REG_3F, 0x02);
->> +	regmap_write(it->lvds_regmap, LVDS_REG_47, 0xaa);
->> +	regmap_write(it->lvds_regmap, LVDS_REG_48, 0x02);
->> +	regmap_write(it->lvds_regmap, LVDS_REG_4F, 0x11);
->> +
->> +	regmap_write_bits(it->lvds_regmap, LVDS_REG_0B, REG_SSC_PCLK_RF,
->> +			  REG_SSC_PCLK_RF);
->> +	regmap_write_bits(it->lvds_regmap, LVDS_REG_3C, 0x07, 0);
->> +	regmap_write_bits(it->lvds_regmap, LVDS_REG_2C, REG_DESSC_ENB,
->> +			  REG_DESSC_ENB);
->> +}
->> +
->> +static inline void it6263_lvds_sys_cfg(struct it6263 *it) {
->> +	regmap_write_bits(it->lvds_regmap, LVDS_REG_0B, REG_LVDS_IN_SWAP,
->> +			  it->lvds_link12_swap ? REG_LVDS_IN_SWAP : 0); }
->> +
->> +static inline void it6263_lvds_config(struct it6263 *it) {
->> +	it6263_lvds_reset(it);
->> +	it6263_lvds_set_interface(it);
->> +	it6263_lvds_set_afe(it);
->> +	it6263_lvds_sys_cfg(it);
->> +}
->> +
->> +static inline void it6263_hdmi_config(struct it6263 *it) {
->> +	regmap_write(it->hdmi_regmap, HDMI_REG_SW_RST, HDMI_RST_ALL);
->> +	regmap_write(it->hdmi_regmap, HDMI_REG_INPUT_MODE, IN_RGB);
->> +	regmap_write_bits(it->hdmi_regmap, HDMI_REG_GCP, HDMI_COLOR_DEPTH,
->> +			  HDMI_COLOR_DEPTH_24);
->> +	regmap_write_bits(it->hdmi_regmap, HDMI_REG_AVI_DB1,
->> +			  AVI_DB1_COLOR_SPACE, AVI_COLOR_SPACE_RGB); }
->> +
->> +static enum drm_connector_status it6263_detect(struct it6263 *it) {
->> +	unsigned int val;
->> +
->> +	regmap_read(it->hdmi_regmap, HDMI_REG_SYS_STATUS, &val);
->> +	if (val & HPDETECT)
->> +		return connector_status_connected;
->> +	else
->> +		return connector_status_disconnected; }
->> +
->> +static enum drm_connector_status
->> +it6263_connector_detect(struct drm_connector *connector, bool force) {
->> +	struct it6263 *it = connector_to_it6263(connector);
->> +
->> +	return it6263_detect(it);
->> +}
->> +
->> +static const struct drm_connector_funcs it6263_connector_funcs = {
->> +	.detect = it6263_connector_detect,
->> +	.fill_modes = drm_helper_probe_single_connector_modes,
->> +	.destroy = drm_connector_cleanup,
->> +	.reset = drm_atomic_helper_connector_reset,
->> +	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
->> +	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
->> +};
->> +
->> +static int it6263_read_edid(void *data, u8 *buf, unsigned int block,
->> +size_t len) {
->> +	struct it6263 *it = data;
->> +	struct regmap *regmap = it->hdmi_regmap;
->> +	unsigned int start = (block % 2) * EDID_LENGTH;
->> +	unsigned int segment = block >> 1;
->> +	unsigned int count, val;
->> +	int ret;
->> +
->> +	regmap_write(regmap, HDMI_REG_DDC_MASTER_CTRL, MASTER_SEL_HOST);
->> +	regmap_write(regmap, HDMI_REG_DDC_HEADER, DDC_ADDR << 1);
->> +	regmap_write(regmap, HDMI_REG_DDC_EDIDSEG, segment);
->> +
->> +	while (len) {
->> +		/* clear DDC FIFO */
->> +		regmap_write(regmap, HDMI_REG_DDC_CMD, DDC_CMD_FIFO_CLR);
->> +
->> +		ret = regmap_read_poll_timeout(regmap, HDMI_REG_DDC_STATUS,
->> +					       val, val & DDC_DONE,
->> +					       2000, 10000);
->> +		if (ret) {
->> +			dev_err(it->dev, "failed to clear DDC FIFO:%d\n", ret);
->> +			return ret;
->> +		}
->> +
->> +		count = len > HDMI_DDC_FIFO_BYTES ? HDMI_DDC_FIFO_BYTES : len;
->> +
->> +		/* fire the read command */
->> +		regmap_write(regmap, HDMI_REG_DDC_REQOFF, start);
->> +		regmap_write(regmap, HDMI_REG_DDC_REQCOUNT, count);
->> +		regmap_write(regmap, HDMI_REG_DDC_CMD, DDC_CMD_EDID_READ);
->> +
->> +		start += count;
->> +		len -= count;
->> +
->> +		ret = regmap_read_poll_timeout(regmap, HDMI_REG_DDC_STATUS, val,
->> +					       val & (DDC_DONE | DDC_ERROR),
->> +					       20000, 250000);
->> +		if (ret && !(val & DDC_ERROR)) {
->> +			dev_err(it->dev, "failed to read EDID:%d\n", ret);
->> +			return ret;
->> +		}
->> +
->> +		if (val & DDC_ERROR) {
->> +			dev_err(it->dev, "DDC error\n");
->> +			return -EIO;
->> +		}
->> +
->> +		/* cache to buffer */
->> +		for (; count > 0; count--) {
->> +			regmap_read(regmap, HDMI_REG_DDC_READFIFO, &val);
->> +			*(buf++) = val;
->> +		}
->> +	}
->> +
->> +	return 0;
->> +}
->> +
->> +static int it6263_connector_get_modes(struct drm_connector *connector)
->> +{
->> +	struct it6263 *it = connector_to_it6263(connector);
->> +	const struct drm_edid *drm_edid;
->> +	int count;
->> +
->> +	drm_edid = drm_edid_read_custom(connector, it6263_read_edid, it);
->> +
->> +	drm_edid_connector_update(connector, drm_edid);
->> +	count = drm_edid_connector_add_modes(connector);
->> +
->> +	drm_edid_free(drm_edid);
->> +
->> +	return count;
->> +}
->> +
->> +static const struct drm_connector_helper_funcs it6263_connector_helper_funcs = {
->> +	.get_modes = it6263_connector_get_modes, };
->> +
->> +static int it6263_bridge_atomic_check(struct drm_bridge *bridge,
->> +				      struct drm_bridge_state *bridge_state,
->> +				      struct drm_crtc_state *crtc_state,
->> +				      struct drm_connector_state *conn_state) {
->> +	struct drm_display_mode *mode = &crtc_state->adjusted_mode;
->> +
->> +	return mode->clock > MAX_PIXEL_CLOCK_KHZ ? -EINVAL : 0; }
->> +
->> +static void
->> +it6263_bridge_atomic_disable(struct drm_bridge *bridge,
->> +			     struct drm_bridge_state *old_bridge_state) {
->> +	struct it6263 *it = bridge_to_it6263(bridge);
->> +
->> +	regmap_write_bits(it->hdmi_regmap, HDMI_REG_GCP, AVMUTE, AVMUTE);
->> +	regmap_write(it->hdmi_regmap, HDMI_REG_PKT_GENERAL_CTRL, 0);
->> +	regmap_write(it->hdmi_regmap, HDMI_REG_AFE_DRV_CTRL,
->> +		     AFE_DRV_RST | AFE_DRV_PWD);
->> +}
->> +
->> +static void
->> +it6263_bridge_atomic_enable(struct drm_bridge *bridge,
->> +			    struct drm_bridge_state *old_bridge_state) {
->> +	struct drm_atomic_state *state = old_bridge_state->base.state;
->> +	struct it6263 *it = bridge_to_it6263(bridge);
->> +	const struct drm_crtc_state *crtc_state;
->> +	struct regmap *regmap = it->hdmi_regmap;
->> +	const struct drm_display_mode *mode;
->> +	struct drm_connector *connector;
->> +	bool is_stable = false;
->> +	struct drm_crtc *crtc;
->> +	unsigned int val;
->> +	bool pclk_high;
->> +	int i, ret;
->> +
->> +	connector = drm_atomic_get_new_connector_for_encoder(state,
->> +							     bridge->encoder);
->> +	crtc = drm_atomic_get_new_connector_state(state, connector)->crtc;
->> +	crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
->> +	mode = &crtc_state->adjusted_mode;
->> +
->> +	regmap_write(regmap, HDMI_REG_HDMI_MODE, TX_HDMI_MODE);
->> +
->> +	/* HDMI AFE setup */
->> +	pclk_high = mode->clock > HIGH_PIXEL_CLOCK_KHZ ? true : false;
->> +	regmap_write(regmap, HDMI_REG_AFE_DRV_CTRL, AFE_DRV_RST);
->> +	if (pclk_high)
->> +		regmap_write(regmap, HDMI_REG_AFE_XP_CTRL,
->> +			     AFE_XP_GAINBIT | AFE_XP_RESETB);
->> +	else
->> +		regmap_write(regmap, HDMI_REG_AFE_XP_CTRL,
->> +			     AFE_XP_ER0 | AFE_XP_RESETB);
->> +	regmap_write(regmap, HDMI_REG_AFE_ISW_CTRL, 0x10);
->> +	if (pclk_high)
->> +		regmap_write(regmap, HDMI_REG_AFE_IP_CTRL,
->> +			     AFE_IP_GAINBIT | AFE_IP_RESETB);
->> +	else
->> +		regmap_write(regmap, HDMI_REG_AFE_IP_CTRL,
->> +			     AFE_IP_ER0 | AFE_IP_RESETB);
->> +
->> +	/* HDMI software video reset */
->> +	regmap_write_bits(regmap, HDMI_REG_SW_RST, SOFTV_RST, SOFTV_RST);
->> +	fsleep(1000);
->> +	regmap_write_bits(regmap, HDMI_REG_SW_RST, SOFTV_RST, 0);
->> +
->> +	/* reconfigure LVDS and retry several times in case video is instable */
->> +	for (i = 0; i < 3; i++) {
->> +		ret = regmap_read_poll_timeout(regmap, HDMI_REG_SYS_STATUS, val,
->> +					       val & TXVIDSTABLE,
->> +					       20000, 500000);
->> +		if (!ret) {
->> +			is_stable = true;
->> +			break;
->> +		}
->> +
->> +		it6263_lvds_config(it);
->> +	}
->> +
->> +	if (!is_stable)
->> +		dev_warn(it->dev, "failed to wait for video stable\n");
->> +
->> +	/* HDMI AFE reset release and power up */
->> +	regmap_write(regmap, HDMI_REG_AFE_DRV_CTRL, 0);
->> +
->> +	regmap_write_bits(regmap, HDMI_REG_GCP, AVMUTE, 0);
->> +
->> +	regmap_write(regmap, HDMI_REG_PKT_GENERAL_CTRL, ENABLE_PKT |
->> +REPEAT_PKT); }
->> +
->> +static enum drm_mode_status
->> +it6263_bridge_mode_valid(struct drm_bridge *bridge,
->> +			 const struct drm_display_info *info,
->> +			 const struct drm_display_mode *mode) {
->> +	return mode->clock > MAX_PIXEL_CLOCK_KHZ ? MODE_CLOCK_HIGH : MODE_OK;
->> +}
->> +
->> +static int it6263_bridge_attach(struct drm_bridge *bridge,
->> +				enum drm_bridge_attach_flags flags) {
->> +	struct it6263 *it = bridge_to_it6263(bridge);
->> +	int ret;
->> +
->> +	ret = drm_bridge_attach(bridge->encoder, it->next_bridge, bridge,
->> +				flags | DRM_BRIDGE_ATTACH_NO_CONNECTOR);
->> +	if (ret < 0)
->> +		return ret;
->> +
->> +	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)
->> +		return 0;
->> +
->> +	it->connector.polled = DRM_CONNECTOR_POLL_CONNECT |
->> +			       DRM_CONNECTOR_POLL_DISCONNECT;
->> +
->> +	ret = drm_connector_init(bridge->dev, &it->connector,
->> +				 &it6263_connector_funcs,
->> +				 DRM_MODE_CONNECTOR_HDMIA);
->> +	if (ret)
->> +		return ret;
->> +
->> +	drm_connector_helper_add(&it->connector,
->> +				 &it6263_connector_helper_funcs);
->> +	drm_connector_attach_encoder(&it->connector, bridge->encoder);
->> +
->> +	return 0;
->> +}
->> +
->> +static enum drm_connector_status it6263_bridge_detect(struct drm_bridge
->> +*bridge) {
->> +	struct it6263 *it = bridge_to_it6263(bridge);
->> +
->> +	return it6263_detect(it);
->> +}
->> +
->> +static const struct drm_edid *
->> +it6263_bridge_edid_read(struct drm_bridge *bridge,
->> +			struct drm_connector *connector)
->> +{
->> +	struct it6263 *it = bridge_to_it6263(bridge);
->> +
->> +	return drm_edid_read_custom(connector, it6263_read_edid, it); }
->> +
->> +static u32 *
->> +it6263_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
->> +					struct drm_bridge_state *bridge_state,
->> +					struct drm_crtc_state *crtc_state,
->> +					struct drm_connector_state *conn_state,
->> +					u32 output_fmt,
->> +					unsigned int *num_input_fmts)
->> +{
->> +	u32 *input_fmts;
->> +
->> +	input_fmts = kmalloc(sizeof(*input_fmts), GFP_KERNEL);
->> +	if (!input_fmts) {
->> +		*num_input_fmts = 0;
->> +		return NULL;
->> +	}
->> +
->> +	input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA;
-> 
-> Why is it hardcoded? What about supporting VESA??
-> 
->> +	*num_input_fmts = 1;
->> +
->> +	return input_fmts;
->> +}
->> +
->> +static const struct drm_bridge_funcs it6263_bridge_funcs = {
->> +	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
->> +	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
->> +	.atomic_reset = drm_atomic_helper_bridge_reset,
->> +	.attach = it6263_bridge_attach,
->> +	.mode_valid = it6263_bridge_mode_valid,
->> +	.atomic_disable = it6263_bridge_atomic_disable,
->> +	.atomic_enable = it6263_bridge_atomic_enable,
->> +	.atomic_check = it6263_bridge_atomic_check,
->> +	.detect = it6263_bridge_detect,
->> +	.edid_read = it6263_bridge_edid_read,
->> +	.atomic_get_input_bus_fmts = it6263_bridge_atomic_get_input_bus_fmts,
->> +};
->> +
->> +static int it6263_probe(struct i2c_client *client) {
->> +	struct device *dev = &client->dev;
->> +	struct it6263 *it;
->> +	int ret;
->> +
->> +	it = devm_kzalloc(dev, sizeof(*it), GFP_KERNEL);
->> +	if (!it)
->> +		return -ENOMEM;
->> +
->> +	it->dev = dev;
->> +	it->hdmi_i2c = client;
->> +
->> +	it->hdmi_regmap = devm_regmap_init_i2c(client,
->> +					       &it6263_hdmi_regmap_config);
->> +	if (IS_ERR(it->hdmi_regmap))
->> +		return dev_err_probe(dev, PTR_ERR(it->hdmi_regmap),
->> +				     "failed to init I2C regmap for HDMI\n");
->> +
->> +	it->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
->> +	if (IS_ERR(it->reset_gpio))
->> +		return dev_err_probe(dev, PTR_ERR(it->reset_gpio),
->> +				     "failed to get reset gpio\n");
->> +
->> +	ret = devm_regulator_bulk_get_enable(dev, ARRAY_SIZE(it6263_supplies),
->> +					     it6263_supplies);
->> +	if (ret)
->> +		return dev_err_probe(dev, ret, "failed to get power supplies\n");
->> +
->> +	ret = it6263_parse_dt(it);
->> +	if (ret)
->> +		return ret;
->> +
->> +	it6263_reset(it);
->> +
->> +	ret = it6263_lvds_set_i2c_addr(it);
->> +	if (ret)
->> +		return dev_err_probe(dev, ret, "failed to set I2C addr\n");
->> +
->> +	it->lvds_i2c = devm_i2c_new_dummy_device(dev, client->adapter,
->> +						 LVDS_INPUT_CTRL_I2C_ADDR);
->> +	if (IS_ERR(it->lvds_i2c))
->> +		dev_err_probe(it->dev, PTR_ERR(it->lvds_i2c),
->> +			      "failed to allocate I2C device for LVDS\n");
-> 
-> Maybe use action_or_reset and call i2c_unregister_device();
-
-devm_i2c_new_dummy_device() is called here.  It is a dev managed function
-call.  Action devm_i2c_release_dummy() is added in it already.
-
-> 
->> +
->> +	it->lvds_regmap = devm_regmap_init_i2c(it->lvds_i2c,
->> +					       &it6263_lvds_regmap_config);
->> +	if (IS_ERR(it->lvds_regmap))
->> +		return dev_err_probe(dev, PTR_ERR(it->lvds_regmap),
->> +				     "failed to init I2C regmap for LVDS\n");
-> 
->> +
->> +	it6263_lvds_config(it);
->> +	it6263_hdmi_config(it);
-> 
->> +
->> +	i2c_set_clientdata(client, it);
->> +
->> +	it->bridge.funcs = &it6263_bridge_funcs;
->> +	it->bridge.of_node = dev->of_node;
->> +	it->bridge.ops = DRM_BRIDGE_OP_EDID | DRM_BRIDGE_OP_DETECT;
-> 
-> 	it->bridge.type = DRM_MODE_CONNECTOR_HDMIA; ??
-
-Will add this.  Thanks.
-
-> 
->> +	drm_bridge_add(&it->bridge);
->> +
->> +	return 0;
->> +}
->> +
->> +static void it6263_remove(struct i2c_client *client) {
->> +	struct it6263 *it = i2c_get_clientdata(client);
->> +
->> +	drm_bridge_remove(&it->bridge);
-> 
->> +}
->> +
->> +static const struct of_device_id it6263_of_match[] = {
->> +	{ .compatible = "ite,it6263", },
->> +	{ }
->> +};
->> +MODULE_DEVICE_TABLE(of, it6263_of_match);
->> +
->> +static const struct i2c_device_id it6263_i2c_ids[] = {
->> +	{ "it6263", 0 },
->> +	{ }
->> +};
->> +MODULE_DEVICE_TABLE(i2c, it6263_i2c_ids);
->> +
->> +static struct i2c_driver it6263_driver = {
->> +	.probe = it6263_probe,
->> +	.remove = it6263_remove,
->> +	.driver = {
->> +		.name = "it6263",
->> +		.of_match_table = it6263_of_match,
->> +	},
->> +	.id_table = it6263_i2c_ids,
->> +};
->> +module_i2c_driver(it6263_driver);
->> +
->> +MODULE_DESCRIPTION("ITE Tech. Inc. IT6263 LVDS/HDMI bridge");
->> +MODULE_AUTHOR("Liu Ying <victor.liu@nxp.com>"); MODULE_LICENSE("GPL");
->> --
->> 2.34.1
->>
-> 
-
--- 
-Regards,
-Liu Ying
-
+SGkgTGl1LA0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IExpdSBZaW5n
+IDx2aWN0b3IubGl1QG54cC5jb20+DQo+IFNlbnQ6IE1vbmRheSwgU2VwdGVtYmVyIDMwLCAyMDI0
+IDEwOjQwIEFNDQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggNi84XSBkcm0vYnJpZGdlOiBBZGQgSVRF
+IElUNjI2MyBMVkRTIHRvIEhETUkgY29udmVydGVyDQo+IA0KPiBPbiAwOS8zMC8yMDI0LCBCaWp1
+IERhcyB3cm90ZToNCj4gPiBIaSBMaXUsDQo+IA0KPiBIaSBCaWp1LA0KPiANCj4gPg0KPiA+IFRo
+YW5rcyBmb3IgdGhlIHBhdGNoLg0KPiA+DQo+ID4+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0t
+DQo+ID4+IEZyb206IGxpbnV4LWFybS1rZXJuZWwgPGxpbnV4LWFybS1rZXJuZWwtYm91bmNlc0Bs
+aXN0cy5pbmZyYWRlYWQub3JnPg0KPiA+PiBPbiBCZWhhbGYgT2YgTGl1IFlpbmcNCj4gPj4gU2Vu
+dDogTW9uZGF5LCBTZXB0ZW1iZXIgMzAsIDIwMjQgNjoyOSBBTQ0KPiA+PiBTdWJqZWN0OiBbUEFU
+Q0ggNi84XSBkcm0vYnJpZGdlOiBBZGQgSVRFIElUNjI2MyBMVkRTIHRvIEhETUkNCj4gPj4gY29u
+dmVydGVyDQo+ID4+DQo+ID4+IEFkZCBiYXNpYyBIRE1JIHZpZGVvIG91dHB1dCBzdXBwb3J0LiBD
+dXJyZW50bHksIG9ubHkgUkdCODg4IG91dHB1dA0KPiA+PiBwaXhlbCBmb3JtYXQgaXMgc3VwcG9y
+dGVkLiAgQXQgdGhlIExWRFMgaW5wdXQgc2lkZSwgdGhlIGRyaXZlcg0KPiA+PiBzdXBwb3J0cyBz
+aW5nbGUgTFZEUyBsaW5rIGFuZCBkdWFsIExWRFMgbGlua3Mgd2l0aCAiamVpZGEtMjQiIExWRFMg
+bWFwcGluZy4NCj4gPj4NCj4gPj4gUHJvZHVjdCBsaW5rOg0KPiA+PiBodHRwczovL3d3dy5pdGUu
+Y29tLnR3L2VuL3Byb2R1Y3QvY2F0ZTEvSVQ2MjYzDQo+ID4+DQo+ID4+IFNpZ25lZC1vZmYtYnk6
+IExpdSBZaW5nIDx2aWN0b3IubGl1QG54cC5jb20+DQo+ID4+IC0tLQ0KPiA+PiAgZHJpdmVycy9n
+cHUvZHJtL2JyaWRnZS9LY29uZmlnICAgICAgfCAgIDggKw0KPiA+PiAgZHJpdmVycy9ncHUvZHJt
+L2JyaWRnZS9NYWtlZmlsZSAgICAgfCAgIDEgKw0KPiA+PiAgZHJpdmVycy9ncHUvZHJtL2JyaWRn
+ZS9pdGUtaXQ2MjYzLmMgfCA4MjkNCj4gPj4gKysrKysrKysrKysrKysrKysrKysrKysrKysrKw0K
+PiA+PiAgMyBmaWxlcyBjaGFuZ2VkLCA4MzggaW5zZXJ0aW9ucygrKQ0KPiA+PiAgY3JlYXRlIG1v
+ZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvaXRlLWl0NjI2My5jDQo+ID4+DQo+ID4+
+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL0tjb25maWcNCj4gPj4gKw0KPiA+
+PiArCWl0LT5sdmRzX2kyYyA9IGRldm1faTJjX25ld19kdW1teV9kZXZpY2UoZGV2LCBjbGllbnQt
+PmFkYXB0ZXIsDQo+ID4+ICsJCQkJCQkgTFZEU19JTlBVVF9DVFJMX0kyQ19BRERSKTsNCj4gPj4g
+KwlpZiAoSVNfRVJSKGl0LT5sdmRzX2kyYykpDQo+ID4+ICsJCWRldl9lcnJfcHJvYmUoaXQtPmRl
+diwgUFRSX0VSUihpdC0+bHZkc19pMmMpLA0KPiA+PiArCQkJICAgICAgImZhaWxlZCB0byBhbGxv
+Y2F0ZSBJMkMgZGV2aWNlIGZvciBMVkRTXG4iKTsNCj4gPg0KPiA+IE1heWJlIHVzZSBhY3Rpb25f
+b3JfcmVzZXQgYW5kIGNhbGwgaTJjX3VucmVnaXN0ZXJfZGV2aWNlKCk7DQo+IA0KPiBkZXZtX2ky
+Y19uZXdfZHVtbXlfZGV2aWNlKCkgaXMgY2FsbGVkIGhlcmUuICBJdCBpcyBhIGRldiBtYW5hZ2Vk
+IGZ1bmN0aW9uIGNhbGwuICBBY3Rpb24NCj4gZGV2bV9pMmNfcmVsZWFzZV9kdW1teSgpIGlzIGFk
+ZGVkIGluIGl0IGFscmVhZHkuDQoNCk9vcHMuIEkgbWlzc2VkIHRoYXQuDQoNCkNoZWVycywNCkJp
+anUNCg0K
