@@ -2,48 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16F1A98A3A2
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2024 14:55:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16FF698A3D0
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2024 15:00:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4991610E06F;
-	Mon, 30 Sep 2024 12:55:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A41A10E0A4;
+	Mon, 30 Sep 2024 13:00:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SRw13xnu";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YRwh2IrN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD82110E06F
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2024 12:55:53 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id C42F5A41D24;
- Mon, 30 Sep 2024 12:55:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10451C4CEC7;
- Mon, 30 Sep 2024 12:55:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1727700952;
- bh=ZkOKTBg9HnSwyIfJv2ogItEM8FFlmo+OKiYh3SAC7U8=;
- h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=SRw13xnuw+GY/oTpMMLYex91TBeZlHGX85pOz/s/gVvAXqfLYa6Op1RXKGV+EMkjk
- 2JkZVuQziXKWpQScqt6uS6K2OdW6CYsfVQRcEvI9PyUsv1XA3lIcxRYyFKEDG8WcKk
- ahb5v9oUG+rKFGZcEeOjKSvkMRwwvq5TjK08zEYHU9RMC6kGu57/ORbLWOKyKSqDZq
- JURLm80xE/cvdCr6HR+HBXv35relSbuKywtLj6XaAT8HbLk1Es01+mj9DQXVj2/Sku
- pkWnmgrzNe/Nlsv0b1OtoE/QpKeGnWL8koNtHTvrqt9ulqDA7gZgu8r9N+I+7ymtVN
- XsMwnlQSaDvZQ==
-From: Lee Jones <lee@kernel.org>
-To: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- Liao Chen <liaochen4@huawei.com>
-Cc: linux-kernel@vger.kernel.org, lujianhua000@gmail.com, lee@kernel.org, 
- daniel.thompson@linaro.org, jingoohan1@gmail.com, deller@gmx.de
-In-Reply-To: <20240820121628.42321-1-liaochen4@huawei.com>
-References: <20240820121628.42321-1-liaochen4@huawei.com>
-Subject: Re: (subset) [PATCH -next] backlight: ktz8866: fix module autoloading
-Message-Id: <172770095080.460970.7941679869764996013.b4-ty@kernel.org>
-Date: Mon, 30 Sep 2024 13:55:50 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54A1410E0A4;
+ Mon, 30 Sep 2024 13:00:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1727701207; x=1759237207;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=IXMwSrIc4nJso3027HeetFDRPbbpcRT3kuh2ZjZSjN0=;
+ b=YRwh2IrNmwgDXE6efVF0XQOhairfx4qJYEI6t/LfkP6gKoZiaQiRMft5
+ fQXX6IgwflUaY4yNPMYdnaZmR342RNnkAYZrPNo7rIj71LrVZN9mn3yl1
+ Cf91SV5n51QwU/xhF2UmW3rWFVwMQtxX17MMpD7XhczNaAzEHHeHsaGB0
+ SYg3jB+rnc7+BYQDPJBmiX0WYFxkwXafcDMsSjOo2LqzMKUsS+YZOTVxS
+ 6QwEbyDk1hgomfr1Dkrk4QVUtbxhxIV04hnBnomjDo89k03Rq4jd/Bklg
+ bG1qPYiBn+Y+eMd54Kq0c5kxJAS/kVwb8pns6DN3EVR6Jf+NdLmTyXDnZ w==;
+X-CSE-ConnectionGUID: o8vbVq2+QJ6tsBQWZuX8+A==
+X-CSE-MsgGUID: 5EvfrmGRSDCalPLfVPDZjg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11210"; a="30582467"
+X-IronPort-AV: E=Sophos;i="6.11,165,1725346800"; d="scan'208";a="30582467"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Sep 2024 06:00:06 -0700
+X-CSE-ConnectionGUID: RyaL/ViLR326Hj/XCdUTQA==
+X-CSE-MsgGUID: jESKNTQCRsqcyERzGFtdGA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,165,1725346800"; d="scan'208";a="73693257"
+Received: from smile.fi.intel.com ([10.237.72.54])
+ by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Sep 2024 06:00:02 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1svG0N-0000000EfJI-2yje; Mon, 30 Sep 2024 15:59:59 +0300
+Date: Mon, 30 Sep 2024 15:59:59 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Raag Jadav <raag.jadav@intel.com>
+Cc: airlied@gmail.com, simona@ffwll.ch, lucas.demarchi@intel.com,
+ thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
+ jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+ tursulin@ursulin.net, lina@asahilina.net,
+ intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com,
+ francois.dugast@intel.com, aravind.iddamsetty@linux.intel.com,
+ anshuman.gupta@intel.com, andi.shyti@linux.intel.com,
+ matthew.d.roper@intel.com
+Subject: Re: [PATCH v7 1/5] drm: Introduce device wedged event
+Message-ID: <Zvqgz3Vpz2IS1Cua@smile.fi.intel.com>
+References: <20240930073845.347326-1-raag.jadav@intel.com>
+ <20240930073845.347326-2-raag.jadav@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.13.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240930073845.347326-2-raag.jadav@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,17 +80,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 20 Aug 2024 12:16:28 +0000, Liao Chen wrote:
-> Add MODULE_DEVICE_TABLE(), so modules could be properly autoloaded
-> based on the alias from of_device_id table.
+On Mon, Sep 30, 2024 at 01:08:41PM +0530, Raag Jadav wrote:
+> Introduce device wedged event, which will notify userspace of wedged
+> (hanged/unusable) state of the DRM device through a uevent. This is
+> useful especially in cases where the device is no longer operating as
+> expected even after a hardware reset and has become unrecoverable from
+> driver context.
 > 
+> Purpose of this implementation is to provide drivers a generic way to
+> recover with the help of userspace intervention. Different drivers may
+> have different ideas of a "wedged device" depending on their hardware
+> implementation, and hence the vendor agnostic nature of the event.
+> It is up to the drivers to decide when they see the need for recovery
+> and how they want to recover from the available methods.
 > 
+> Current implementation defines three recovery methods, out of which,
+> drivers can choose to support any one or multiple of them. Preferred
+> recovery method will be sent in the uevent environment as WEDGED=<method>.
+> Userspace consumers (sysadmin) can define udev rules to parse this event
+> and take respective action to recover the device.
+> 
+>     =============== ==================================
+>     Recovery method Consumer expectations
+>     =============== ==================================
+>     rebind          unbind + rebind driver
+>     bus-reset       unbind + reset bus device + rebind
+>     reboot          reboot system
+>     =============== ==================================
 
-Applied, thanks!
+...
 
-[1/1] backlight: ktz8866: fix module autoloading
-      commit: 2d3553b76ecaf23c98f3070a2db8d08906be37b8
+> +/*
+> + * Available recovery methods for wedged device. To be sent along with device
+> + * wedged uevent.
+> + */
+> +static const char *const drm_wedge_recovery_opts[] = {
+> +	[DRM_WEDGE_RECOVERY_REBIND] = "rebind",
+> +	[DRM_WEDGE_RECOVERY_BUS_RESET] = "bus-reset",
+> +	[DRM_WEDGE_RECOVERY_REBOOT] = "reboot",
+> +};
 
---
-Lee Jones [李琼斯]
+Place for static_assert() is here, as it closer to the actual data we test...
+
+> +static bool drm_wedge_recovery_is_valid(enum drm_wedge_recovery method)
+> +{
+> +	static_assert(ARRAY_SIZE(drm_wedge_recovery_opts) == DRM_WEDGE_RECOVERY_MAX);
+
+...it doesn't fully belong to this function (or only to this function).
+
+> +	return method >= DRM_WEDGE_RECOVERY_REBIND && method < DRM_WEDGE_RECOVERY_MAX;
+> +}
+
+Why do we need this one-liner (after above comment being addressed) as a
+separate function?
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
