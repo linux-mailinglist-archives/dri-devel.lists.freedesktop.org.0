@@ -2,63 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEFD898AB07
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2024 19:22:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E8B398AB40
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2024 19:39:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5392310E55F;
-	Mon, 30 Sep 2024 17:22:17 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jP0ne484";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B83110E56D;
+	Mon, 30 Sep 2024 17:39:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01E0F10E55F
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2024 17:22:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1727716936; x=1759252936;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=0kmSe5KIr6TBE/0yo4+zp6CtVcDS0CZqwNkQ+9/BHgU=;
- b=jP0ne484bes9TOi4fWtGb+9k8MxqCQ3GhRUHIbPo/3Cs3v7EK54GK6yk
- wacL0eUy6dxEqR3c2nF6u4sn8s3jwjnaY8xEN97SvDosd3ucueVBvNUlj
- wZ1P/hzaCfs8OSAEKAnrHg5mcoN1nPpDC8YjPLeF2rJ8I2juTGJq1dBfh
- +wb5szlpe/SSAgEHkaY0RyVEsFbibNUOpx8B5r/9eIX2892DF1GWx2gC6
- SiqlQ6kl0330EiqakkOETh9vIkpBC2DPUwEX/9A3zrvu3ionASkVnkHA/
- mAadPlULx8o9DvG/Evk3p0VX23WJAKmlxKfVNE5mWm8H+X+iXjBPeHt7q w==;
-X-CSE-ConnectionGUID: l8Axty0CT6mZBj3LvetiaQ==
-X-CSE-MsgGUID: V6+1kaeDSvSIsMzTwLMbQw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11211"; a="52236626"
-X-IronPort-AV: E=Sophos;i="6.11,166,1725346800"; d="scan'208";a="52236626"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Sep 2024 10:22:16 -0700
-X-CSE-ConnectionGUID: pSDbUbI3RF2nzgjc74AXMQ==
-X-CSE-MsgGUID: NQ/mT7MYQBGF5Vp10ISd4Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,166,1725346800"; d="scan'208";a="78342382"
-Received: from jpdavis-mobl1.ger.corp.intel.com (HELO [10.246.18.68])
- ([10.246.18.68])
- by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Sep 2024 10:22:15 -0700
-Message-ID: <0eadf977-45ea-4d16-a585-5602a2613f07@linux.intel.com>
-Date: Mon, 30 Sep 2024 19:22:08 +0200
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2117110E56D
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2024 17:39:30 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 04E2C367
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2024 10:40:00 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 4BF173F64C
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2024 10:39:30 -0700 (PDT)
+Date: Mon, 30 Sep 2024 18:39:26 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Steven Price <steven.price@arm.com>,
+ =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>,
+ dri-devel@lists.freedesktop.org,
+ Julia Lawall <julia.lawall@inria.fr>, kernel@collabora.com,
+ stable@vger.kernel.org, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v2] drm/panthor: Fix access to uninitialized variable in
+ tick_ctx_cleanup()
+Message-ID: <ZvriTjPDtN-UGFpf@e110455-lin.cambridge.arm.com>
+References: <20240930163742.87036-1-boris.brezillon@collabora.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 06/29] accel/ivpu: Fix JSM state dump message warnings
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>, dri-devel@lists.freedesktop.org
-Cc: oded.gabbay@gmail.com, Tomasz Rusinowicz <tomasz.rusinowicz@intel.com>
-References: <20240924081754.209728-1-jacek.lawrynowicz@linux.intel.com>
- <20240924081754.209728-7-jacek.lawrynowicz@linux.intel.com>
- <8a11b370-531e-91e3-40d8-d65c96065e30@quicinc.com>
-Content-Language: en-US
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <8a11b370-531e-91e3-40d8-d65c96065e30@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240930163742.87036-1-boris.brezillon@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,17 +51,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/27/2024 10:44 PM, Jeffrey Hugo wrote:
-> On 9/24/2024 2:17 AM, Jacek Lawrynowicz wrote:
->> From: Tomasz Rusinowicz <tomasz.rusinowicz@intel.com>
->>
->> We are disabling IRQs prior to queuing recovery work, so state dump
->> messages always timed out with a warning. Use simple msleep() to prevent
->> IPC warnings.
+On Mon, Sep 30, 2024 at 06:37:42PM +0200, Boris Brezillon wrote:
+> The group variable can't be used to retrieve ptdev in our second loop,
+> because it points to the previously iterated list_head, not a valid
+> group. Get the ptdev object from the scheduler instead.
 > 
-> It looks to me like this patch is adding state dump messages, but this commit text reads like they already exist, but there is a logic flaw.
-> 
-> Did you perhaps copy the commit text for some internal fix that added the msleep line, but implement the entire feature?
-> 
-Yeah, I forgot to update the commit message. I will fix this in v2.
+> Cc: <stable@vger.kernel.org>
+> Fixes: d72f049087d4 ("drm/panthor: Allow driver compilation")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Reported-by: Julia Lawall <julia.lawall@inria.fr>
+> Closes: https://lore.kernel.org/r/202409302306.UDikqa03-lkp@intel.com/
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 
+Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+
+Best regards,
+Liviu
+
+> ---
+>  drivers/gpu/drm/panthor/panthor_sched.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+> index 201d5e7a921e..24ff91c084e4 100644
+> --- a/drivers/gpu/drm/panthor/panthor_sched.c
+> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+> @@ -2052,6 +2052,7 @@ static void
+>  tick_ctx_cleanup(struct panthor_scheduler *sched,
+>  		 struct panthor_sched_tick_ctx *ctx)
+>  {
+> +	struct panthor_device *ptdev = sched->ptdev;
+>  	struct panthor_group *group, *tmp;
+>  	u32 i;
+>  
+> @@ -2060,7 +2061,7 @@ tick_ctx_cleanup(struct panthor_scheduler *sched,
+>  			/* If everything went fine, we should only have groups
+>  			 * to be terminated in the old_groups lists.
+>  			 */
+> -			drm_WARN_ON(&group->ptdev->base, !ctx->csg_upd_failed_mask &&
+> +			drm_WARN_ON(&ptdev->base, !ctx->csg_upd_failed_mask &&
+>  				    group_can_run(group));
+>  
+>  			if (!group_can_run(group)) {
+> @@ -2083,7 +2084,7 @@ tick_ctx_cleanup(struct panthor_scheduler *sched,
+>  		/* If everything went fine, the groups to schedule lists should
+>  		 * be empty.
+>  		 */
+> -		drm_WARN_ON(&group->ptdev->base,
+> +		drm_WARN_ON(&ptdev->base,
+>  			    !ctx->csg_upd_failed_mask && !list_empty(&ctx->groups[i]));
+>  
+>  		list_for_each_entry_safe(group, tmp, &ctx->groups[i], run_node) {
+> -- 
+> 2.46.0
+> 
+
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
