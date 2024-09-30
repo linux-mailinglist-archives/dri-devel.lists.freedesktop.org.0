@@ -2,54 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2BAB98AD75
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2024 21:54:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0397A98AD78
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2024 21:54:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16AB810E588;
-	Mon, 30 Sep 2024 19:54:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A44B10E58B;
+	Mon, 30 Sep 2024 19:54:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="CJSnEqjn";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bgc+CFbh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD76E10E593
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2024 19:53:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D92110E590
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2024 19:53:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1727726037; x=1759262037;
+ t=1727726039; x=1759262039;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=yM0MKhjoKxQEyZyw7LFYjlTYiHAf664qO/W9thWv00g=;
- b=CJSnEqjnwif4/AV9YzadSsbH6ktJDADKEvEg29Y8/KQ2E4QAVdOORSP1
- pshvjdfiRwPwXlzj2T0/WHXGWXdP2DVFdOchWRsBiDHhqJ4+9/SU8l3qo
- Ul578mg/+u6Y8U8LGV4x0yRfMotoov8lYwDLoRS4BjbBbe54d3hKOWarj
- +xZEZ+QDcCvHYpETst6qk0zUpSuaTUAiWMTaxeAqdoxr12zp3J6mAltYk
- aRx2Hb+4mARjygdJS3a+P1HvCYQsNlL1Fp41WckrVZfCHfQPacZxEZvlk
- wDd63ZqcbuTns1dSBVLozPS7xDZGagIRgvKOzEAN2/UTMhftnarkERCIp Q==;
-X-CSE-ConnectionGUID: J/0hC54wTiOAnUHiQBWBng==
-X-CSE-MsgGUID: 4UGuyhJrRquRMfWvRT66jQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11211"; a="26962352"
-X-IronPort-AV: E=Sophos;i="6.11,166,1725346800"; d="scan'208";a="26962352"
+ bh=t1P0r865FB5aaNn87u6B7veSyH/VbG2iTyARwCk3cN4=;
+ b=bgc+CFbhJYJNZAYylnQYlsuVlfb7GnrNfbTx9KhmvJWNWYYbIfvbbpWO
+ b0sUHYaZqIvVKnWNQqYLwjE0NMfcoRwWp+DoXtmwfF4cv6Jp62cLnrdto
+ pWBuGWhGoTd/0gdyuRKjqlNvAlu2NxcvoPtZIjAAP6ulZO08K5wNS85x5
+ Ryp/3J46LcOXpAf6pZKN/OG+xSHAAxWuNAnJUtHPxegI1xNDAsTuev/9+
+ bkKDR9VEtUETU+jmSddWqy68fT2V2RtNKEF2OC85h+ZgBxrmBal1NcQC9
+ uv92oaj9wXuCasmRdf1lqvqWVcF386CVj/c0CI6IgJopIYhGkSvo7yiYM g==;
+X-CSE-ConnectionGUID: nr9lRTS4Qx2yFIaKh0TnXA==
+X-CSE-MsgGUID: fnMzA30rTBulPLRE9RriRg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11211"; a="26962356"
+X-IronPort-AV: E=Sophos;i="6.11,166,1725346800"; d="scan'208";a="26962356"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Sep 2024 12:53:57 -0700
-X-CSE-ConnectionGUID: 8f0ByfkaRMGz9kOX/jhFmA==
-X-CSE-MsgGUID: WrvWuu3sTxCznSvKOy4NlA==
+ 30 Sep 2024 12:53:58 -0700
+X-CSE-ConnectionGUID: bda3eswvTKGVTWuX74uceg==
+X-CSE-MsgGUID: dqS6WyUMS6q+G/Yxl9r0YA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,166,1725346800"; d="scan'208";a="73370152"
+X-IronPort-AV: E=Sophos;i="6.11,166,1725346800"; d="scan'208";a="73370167"
 Received: from jlawryno.igk.intel.com ([10.91.220.59])
  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Sep 2024 12:53:55 -0700
+ 30 Sep 2024 12:53:56 -0700
 From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com,
- Karol Wachowski <karol.wachowski@intel.com>,
+ Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>,
  Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Subject: [PATCH v2 20/31] accel/ivpu: Remove skip of clock own resource ack on
- Simics
-Date: Mon, 30 Sep 2024 21:53:11 +0200
-Message-ID: <20240930195322.461209-21-jacek.lawrynowicz@linux.intel.com>
+Subject: [PATCH v2 21/31] accel/ivpu: Fix reset_engine debugfs file logic
+Date: Mon, 30 Sep 2024 21:53:12 +0200
+Message-ID: <20240930195322.461209-22-jacek.lawrynowicz@linux.intel.com>
 X-Mailer: git-send-email 2.45.1
 In-Reply-To: <20240930195322.461209-1-jacek.lawrynowicz@linux.intel.com>
 References: <20240930195322.461209-1-jacek.lawrynowicz@linux.intel.com>
@@ -70,34 +69,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Karol Wachowski <karol.wachowski@intel.com>
+From: Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
 
-With recent Simics model update CLOCK_RESOURCE_OWN_ACK signal
-was implemented as part of VPU STATUS register and workaround
-is no longer needed.
+The current reset_engine implementation unconditionally resets
+all engines. Improve implementation to reset only the engine
+requested by the user space to allow more granular testing.
+Also use DEFINE_DEBUGFS_ATTRIBUTE() to simplify implementation.
 
-Signed-off-by: Karol Wachowski <karol.wachowski@intel.com>
+Same changes applied to resume_engine debugfs file for consistency.
+
+Signed-off-by: Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
 Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 ---
- drivers/accel/ivpu/ivpu_hw_btrs.c | 3 ---
- 1 file changed, 3 deletions(-)
+ drivers/accel/ivpu/ivpu_debugfs.c | 42 ++++++-------------------------
+ 1 file changed, 8 insertions(+), 34 deletions(-)
 
-diff --git a/drivers/accel/ivpu/ivpu_hw_btrs.c b/drivers/accel/ivpu/ivpu_hw_btrs.c
-index 7dc8e333dcec2..6d5f1cc711435 100644
---- a/drivers/accel/ivpu/ivpu_hw_btrs.c
-+++ b/drivers/accel/ivpu/ivpu_hw_btrs.c
-@@ -459,9 +459,6 @@ int ivpu_hw_btrs_wait_for_clock_res_own_ack(struct ivpu_device *vdev)
- 	if (ivpu_hw_btrs_gen(vdev) == IVPU_HW_BTRS_MTL)
- 		return 0;
+diff --git a/drivers/accel/ivpu/ivpu_debugfs.c b/drivers/accel/ivpu/ivpu_debugfs.c
+index f873119e56fe2..8958145c49adb 100644
+--- a/drivers/accel/ivpu/ivpu_debugfs.c
++++ b/drivers/accel/ivpu/ivpu_debugfs.c
+@@ -337,49 +337,23 @@ static const struct file_operations ivpu_force_recovery_fops = {
+ 	.write = ivpu_force_recovery_fn,
+ };
  
--	if (ivpu_is_simics(vdev))
--		return 0;
+-static ssize_t
+-ivpu_reset_engine_fn(struct file *file, const char __user *user_buf, size_t size, loff_t *pos)
++static int ivpu_reset_engine_fn(void *data, u64 val)
+ {
+-	struct ivpu_device *vdev = file->private_data;
 -
- 	return REGB_POLL_FLD(VPU_HW_BTRS_LNL_VPU_STATUS, CLOCK_RESOURCE_OWN_ACK, 1, TIMEOUT_US);
+-	if (!size)
+-		return -EINVAL;
+-
+-	if (ivpu_jsm_reset_engine(vdev, DRM_IVPU_ENGINE_COMPUTE))
+-		return -ENODEV;
+-	if (ivpu_jsm_reset_engine(vdev, DRM_IVPU_ENGINE_COPY))
+-		return -ENODEV;
++	struct ivpu_device *vdev = (struct ivpu_device *)data;
+ 
+-	return size;
++	return ivpu_jsm_reset_engine(vdev, (u32)val);
  }
  
+-static const struct file_operations ivpu_reset_engine_fops = {
+-	.owner = THIS_MODULE,
+-	.open = simple_open,
+-	.write = ivpu_reset_engine_fn,
+-};
++DEFINE_DEBUGFS_ATTRIBUTE(ivpu_reset_engine_fops, NULL, ivpu_reset_engine_fn, "0x%02llx\n");
+ 
+-static ssize_t
+-ivpu_resume_engine_fn(struct file *file, const char __user *user_buf, size_t size, loff_t *pos)
++static int ivpu_resume_engine_fn(void *data, u64 val)
+ {
+-	struct ivpu_device *vdev = file->private_data;
+-
+-	if (!size)
+-		return -EINVAL;
+-
+-	if (ivpu_jsm_hws_resume_engine(vdev, DRM_IVPU_ENGINE_COMPUTE))
+-		return -ENODEV;
+-	if (ivpu_jsm_hws_resume_engine(vdev, DRM_IVPU_ENGINE_COPY))
+-		return -ENODEV;
++	struct ivpu_device *vdev = (struct ivpu_device *)data;
+ 
+-	return size;
++	return ivpu_jsm_hws_resume_engine(vdev, (u32)val);
+ }
+ 
+-static const struct file_operations ivpu_resume_engine_fops = {
+-	.owner = THIS_MODULE,
+-	.open = simple_open,
+-	.write = ivpu_resume_engine_fn,
+-};
++DEFINE_DEBUGFS_ATTRIBUTE(ivpu_resume_engine_fops, NULL, ivpu_resume_engine_fn, "0x%02llx\n");
+ 
+ static int dct_active_get(void *data, u64 *active_percent)
+ {
 -- 
 2.45.1
 
