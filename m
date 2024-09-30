@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E43C198B109
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2024 01:41:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 009AC98B10A
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2024 01:41:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6750E10E5A7;
-	Mon, 30 Sep 2024 23:41:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 799F510E5A8;
+	Mon, 30 Sep 2024 23:41:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="eUK9edg5";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="QalZnnmw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 426A210E5A7
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2024 23:41:12 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DFF910E5A8
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2024 23:41:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1727739671;
+ s=mimecast20190719; t=1727739679;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Wwd9KyXQl0BylRT4eiU/cc5fZo+yn5dpVQ2DRtqGoyA=;
- b=eUK9edg5UixKjMmgrCDxUCtSQTz24Ts4j6ewnEx4cuoLblwyhoqy/jm6MYGQs4JD5dYTVi
- pYJAKTcoT3SSiOqQbYsxVj0mNHqN/vO133RP6nxZGb49Y4jmkaJ0/jGbNEtdXbJpbv0kSR
- fC5M2n1U2ojKNQkhfmw7d0rgcxCRWyE=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ bh=Hf2PwgqqoorfI7tgNpCFOlFnV5DzwsS0y6C7e13QCQQ=;
+ b=QalZnnmw+f213HUQlvJoMt+dMkgcMB/K7ooPUMN40JDIpj8yckQ0ubEppYpJC5GRg7IL70
+ mI7tYyktrX4jVZmimmn92hJzANRVxiq8ba5PgG5RojgRegPlVQUtEF7geuL11MWEv6oN2f
+ IflL4Uc1OBNkYMT4J2d52UmSHiaTgIE=
+Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-684-ql9qTW94PYqZ09md1Du9_Q-1; Mon,
- 30 Sep 2024 19:41:09 -0400
-X-MC-Unique: ql9qTW94PYqZ09md1Du9_Q-1
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-617-_xPnOvVNMX-5Pb_SaZ2qGQ-1; Mon,
+ 30 Sep 2024 19:41:16 -0400
+X-MC-Unique: _xPnOvVNMX-5Pb_SaZ2qGQ-1
 Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (unknown
  [10.30.177.4])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 79796193E8CD; Mon, 30 Sep 2024 23:41:07 +0000 (UTC)
+ by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 583F8196D18E; Mon, 30 Sep 2024 23:41:14 +0000 (UTC)
 Received: from chopper.redhat.com (unknown [10.22.32.36])
  by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 5DC423003DEC; Mon, 30 Sep 2024 23:41:03 +0000 (UTC)
+ id 6EB443003DEC; Mon, 30 Sep 2024 23:41:10 +0000 (UTC)
 From: Lyude Paul <lyude@redhat.com>
 To: dri-devel@lists.freedesktop.org,
 	rust-for-linux@vger.kernel.org
@@ -56,10 +56,10 @@ Cc: Asahi Lina <lina@asahilina.net>, Danilo Krummrich <dakr@kernel.org>,
  Andreas Hindborg <a.hindborg@samsung.com>,
  Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
  linux-kernel@vger.kernel.org (open list)
-Subject: [WIP RFC v2 29/35] rust: drm/kms: Add DriverCrtc::atomic_begin() and
- atomic_flush()
-Date: Mon, 30 Sep 2024 19:10:12 -0400
-Message-ID: <20240930233257.1189730-30-lyude@redhat.com>
+Subject: [WIP RFC v2 30/35] rust: drm/kms: Add DriverCrtc::atomic_enable() and
+ atomic_disable()
+Date: Mon, 30 Sep 2024 19:10:13 -0400
+Message-ID: <20240930233257.1189730-31-lyude@redhat.com>
 In-Reply-To: <20240930233257.1189730-1-lyude@redhat.com>
 References: <20240930233257.1189730-1-lyude@redhat.com>
 MIME-Version: 1.0
@@ -80,56 +80,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Optional trait methods for implementing the atomic_begin and atomic_flush
-callbacks for a CRTC.
+Optional trait methods for implementing the atomic_enable and
+atomic_disable callbacks of a CRTC.
 
 Signed-off-by: Lyude Paul <lyude@redhat.com>
 ---
- rust/kernel/drm/kms/crtc.rs | 78 ++++++++++++++++++++++++++++++++++++-
- 1 file changed, 76 insertions(+), 2 deletions(-)
+ rust/kernel/drm/kms/crtc.rs | 76 ++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 74 insertions(+), 2 deletions(-)
 
 diff --git a/rust/kernel/drm/kms/crtc.rs b/rust/kernel/drm/kms/crtc.rs
-index ec9b58763dcca..a4e955364bd8c 100644
+index a4e955364bd8c..ef1b331f742d0 100644
 --- a/rust/kernel/drm/kms/crtc.rs
 +++ b/rust/kernel/drm/kms/crtc.rs
-@@ -90,8 +90,8 @@ pub trait DriverCrtc: Send + Sync + Sized {
-             mode_set: None,
-             mode_valid: None,
-             mode_fixup: None,
--            atomic_begin: None,
--            atomic_flush: None,
-+            atomic_begin: if Self::HAS_ATOMIC_BEGIN { Some(atomic_begin_callback::<Self>) } else { None },
-+            atomic_flush: if Self::HAS_ATOMIC_FLUSH { Some(atomic_flush_callback::<Self>) } else { None },
-             mode_set_nofb: None,
-             mode_set_base: None,
-             mode_set_base_atomic: None,
-@@ -132,6 +132,36 @@ fn atomic_check(
-     ) -> Result {
-         build_error::build_error("This should not be reachable")
+@@ -80,8 +80,8 @@ pub trait DriverCrtc: Send + Sync + Sized {
+         },
+ 
+         helper_funcs: bindings::drm_crtc_helper_funcs {
+-            atomic_disable: None,
+-            atomic_enable: None,
++            atomic_disable: if Self::HAS_ATOMIC_DISABLE { Some(atomic_disable_callback::<Self>) } else { None },
++            atomic_enable: if Self::HAS_ATOMIC_ENABLE { Some(atomic_enable_callback::<Self>) } else { None },
+             atomic_check: if Self::HAS_ATOMIC_CHECK { Some(atomic_check_callback::<Self>) } else { None },
+             dpms: None,
+             commit: None,
+@@ -162,6 +162,34 @@ fn atomic_flush(
+     ) {
+         build_error::build_error("This should never be reachable")
      }
 +
-+    /// The optional [`drm_crtc_helper_funcs.atomic_begin`] hook.
++    /// The optional [`drm_crtc_helper_funcs.atomic_enable`] hook.
 +    ///
-+    /// This hook will be called before a set of [`Plane`] updates are performed for the given
-+    /// [`Crtc`].
++    /// This hook will be called before enabling a [`Crtc`] in an atomic commit.
 +    ///
-+    /// [`drm_crtc_helper_funcs.atomic_begin`]: srctree/include/drm/drm_modeset_helper_vtables.h
-+    fn atomic_begin(
++    /// [`drm_crtc_helper_funcs.atomic_enable`]: srctree/include/drm/drm_modeset_helper_vtables.h
++    fn atomic_enable(
 +        crtc: &Crtc<Self>,
 +        old_state: &CrtcState<Self::State>,
 +        new_state: BorrowedCrtcState<'_, CrtcState<Self::State>>,
 +        state: &AtomicStateMutator<Self::Driver>
 +    ) {
-+        build_error::build_error("This should not be reachable")
++        build_error::build_error("This should never be reachable")
 +    }
 +
-+    /// The optional [`drm_crtc_helper_funcs.atomic_flush`] hook.
++    /// The optional [`drm_crtc_helper_funcs.atomic_disable`] hook.
 +    ///
-+    /// This hook will be called after a set of [`Plane`] updates are performed for the given
-+    /// [`Crtc`].
++    /// This hook will be called before disabling a [`Crtc`] in an atomic commit.
 +    ///
-+    /// [`drm_crtc_helper_funcs.atomic_flush`]: srctree/include/drm/drm_modeset_helper_vtables.h
-+    fn atomic_flush(
++    /// [`drm_crtc_helper_funcs.atomic_disable`]: srctree/include/drm/drm_modeset_helper_vtables.h
++    fn atomic_disable(
 +        crtc: &Crtc<Self>,
 +        old_state: &CrtcState<Self::State>,
 +        new_state: BorrowedCrtcState<'_, CrtcState<Self::State>>,
@@ -140,12 +138,12 @@ index ec9b58763dcca..a4e955364bd8c 100644
  }
  
  /// The generated C vtable for a [`DriverCrtc`].
-@@ -776,3 +806,47 @@ fn as_raw(&self) -> *mut bindings::drm_crtc_state {
-         Ok(0)
-     })
+@@ -850,3 +878,47 @@ fn as_raw(&self) -> *mut bindings::drm_crtc_state {
+ 
+     T::atomic_flush(crtc, old_state, new_state, &state);
  }
 +
-+unsafe extern "C" fn atomic_begin_callback<T: DriverCrtc>(
++unsafe extern "C" fn atomic_enable_callback<T: DriverCrtc>(
 +    crtc: *mut bindings::drm_crtc,
 +    state: *mut bindings::drm_atomic_state,
 +) {
@@ -154,39 +152,39 @@ index ec9b58763dcca..a4e955364bd8c 100644
 +    // * We're guaranteed by DRM that `crtc` is pointing to a valid initialized state.
 +    let crtc = unsafe { Crtc::from_raw(crtc) };
 +
-+    // SAFETY: We're guaranteed by DRM that `state` points to a valid instance of `drm_atomic_state`
++    // SAFETY: DRM never passes an invalid ptr for `state`
 +    let state = unsafe { AtomicStateMutator::new(NonNull::new_unchecked(state)) };
 +
-+    // SAFETY: We're guaranteed by DRM that both the old and new atomic state are present within
-+    // this `drm_atomic_state`
-+    let (old_state, new_state) = unsafe {(
-+        state.get_old_crtc_state(crtc).unwrap_unchecked(),
-+        state.get_new_crtc_state(crtc).unwrap_unchecked(),
-+    )};
-+
-+    T::atomic_begin(crtc, old_state, new_state, &state);
-+}
-+
-+unsafe extern "C" fn atomic_flush_callback<T: DriverCrtc>(
-+    crtc: *mut bindings::drm_crtc,
-+    state: *mut bindings::drm_atomic_state,
-+) {
-+    // SAFETY:
-+    // * We're guaranteed `crtc` is of type `Crtc<T>` via type invariants.
-+    // * We're guaranteed by DRM that `crtc` is pointing to a valid initialized state.
-+    let crtc = unsafe { Crtc::from_raw(crtc) };
-+
-+    // SAFETY: We're guaranteed by DRM that `state` points to a valid instance of `drm_atomic_state`
-+    let state = unsafe { AtomicStateMutator::new(NonNull::new_unchecked(state)) };
-+
-+    // SAFETY: We're in an atomic flush callback, so we know that both the new and old state are
++    // SAFETY: We're in an atomic enable callback, so we know that both the new and old state are
 +    // present
 +    let (old_state, new_state) = unsafe {(
 +        state.get_old_crtc_state(crtc).unwrap_unchecked(),
 +        state.get_new_crtc_state(crtc).unwrap_unchecked(),
 +    )};
 +
-+    T::atomic_flush(crtc, old_state, new_state, &state);
++    T::atomic_enable(crtc, old_state, new_state, &state);
++}
++
++unsafe extern "C" fn atomic_disable_callback<T: DriverCrtc>(
++    crtc: *mut bindings::drm_crtc,
++    state: *mut bindings::drm_atomic_state,
++) {
++    // SAFETY:
++    // * We're guaranteed `crtc` points to a valid instance of `drm_crtc`
++    // * We're guaranteed that `crtc` is of type `Plane<T>` by `DriverPlane`s type invariants.
++    let crtc = unsafe { Crtc::from_raw(crtc) };
++
++    // SAFETY: We're guaranteed that `state` points to a valid `drm_crtc_state` by DRM
++    let state = unsafe { AtomicStateMutator::new(NonNull::new_unchecked(state)) };
++
++    // SAFETY: We're in an atomic commit callback, so we know that both the new and old state are
++    // present
++    let (old_state, new_state) = unsafe {(
++        state.get_old_crtc_state(crtc).unwrap_unchecked(),
++        state.get_new_crtc_state(crtc).unwrap_unchecked(),
++    )};
++
++    T::atomic_disable(crtc, old_state, new_state, &state);
 +}
 -- 
 2.46.1
