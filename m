@@ -2,70 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CFB2989C79
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2024 10:18:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C45D8989CBF
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Sep 2024 10:27:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE9F710E1BF;
-	Mon, 30 Sep 2024 08:18:10 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AvE5aNbV";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39D1C10E1B9;
+	Mon, 30 Sep 2024 08:27:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69B1910E1BF
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2024 08:18:09 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 6095DA4016A;
- Mon, 30 Sep 2024 08:18:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D941BC4CEC7;
- Mon, 30 Sep 2024 08:18:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1727684288;
- bh=SInII8Bh1V2/a6fF+OScty0ect+SAo9SbH+FOzX+R4I=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=AvE5aNbVsKzYVIscSLWbvzpknA33wVLpigLKu0ANl2s6/8Sp+4cdB5KKdwlgJikP1
- H6yEJwIOIsdzDm257aZR+XPfkAWsuOLORh1j7vxG7WYYxD3tquXRDTY7KT6cqv39gA
- 4jyJ3OTa+zt/vkwLy4nlxfX5LEJ3xV1TJfbBa7WLM//1wo7qzVvPFUwdx9+kRu12J5
- CCPC1f+fKyltUA9UYYPK3pJkxGx/wO8tKEnXvGWpTROSnIoFaKsfZiSTz/9Z7ZQFz+
- YmKLSpzRGi05M0Wa98Zzymsg7ddYYmuZ2oUukSJ2U+B/7t4G6EcnRcU2HH1Eefu00p
- sCmex4Rz+WdEA==
-Date: Mon, 30 Sep 2024 10:18:06 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Sandor Yu <sandor.yu@nxp.com>, 
- "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>
-Cc: "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>, 
- "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- "jonas@kwiboo.se" <jonas@kwiboo.se>,
- "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>, 
- "airlied@gmail.com" <airlied@gmail.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>, 
- "robh+dt@kernel.org" <robh+dt@kernel.org>, 
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
- "shawnguo@kernel.org" <shawnguo@kernel.org>, 
- "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
- "festevam@gmail.com" <festevam@gmail.com>, 
- "vkoul@kernel.org" <vkoul@kernel.org>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
- "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>,
- "kernel@pengutronix.de" <kernel@pengutronix.de>, 
- dl-linux-imx <linux-imx@nxp.com>, Oliver Brown <oliver.brown@nxp.com>, 
- "alexander.stein@ew.tq-group.com" <alexander.stein@ew.tq-group.com>,
- "sam@ravnborg.org" <sam@ravnborg.org>
-Subject: Re: [PATCH v17 4/8] drm: bridge: Cadence: Add MHDP8501 DP/HDMI driver
-Message-ID: <wdelo4zco6v5qchdupfvbrqin4n7fyjyo6yaqbpfihdkkhceoi@ja4zxmhk5isq>
-References: <cover.1727159906.git.Sandor.yu@nxp.com>
- <8bdf573bfd7e3feb45d7ccb53765a978a685ce2d.1727159906.git.Sandor.yu@nxp.com>
- <20240924-mottled-psychedelic-lorikeet-ef8f4c@houat>
- <DB9PR04MB945284B95FAE4FE127E6568FF4752@DB9PR04MB9452.eurprd04.prod.outlook.com>
+Received: from mx.astralinux.ru (mx.astralinux.ru [89.232.161.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 231C910E1B9
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Sep 2024 08:27:26 +0000 (UTC)
+Received: from [10.177.185.111] (helo=new-mail.astralinux.ru)
+ by mx.astralinux.ru with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <abelova@astralinux.ru>)
+ id 1svBie-00Favb-4H; Mon, 30 Sep 2024 11:25:24 +0300
+Received: from naya-MACHC-WAX9.ispras.ru (unknown [10.198.27.89])
+ by new-mail.astralinux.ru (Postfix) with ESMTPA id 4XHDgy4lDLz1c0s4;
+ Mon, 30 Sep 2024 11:26:54 +0300 (MSK)
+From: Anastasia Belova <abelova@astralinux.ru>
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Anastasia Belova <abelova@astralinux.ru>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Kevin Hilman <khilman@baylibre.com>,
+ Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ lvc-project@linuxtesting.org, stable@vger.kernel.org
+Subject: [PATCH v3] drm/meson: switch to a managed drm device
+Date: Mon, 30 Sep 2024 11:26:34 +0300
+Message-ID: <20240930082640.129543-1-abelova@astralinux.ru>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <CAFBinCCVL5idjip8NtDTimid+H0xmoMT1807SBj0-dFaH+hbkQ@mail.gmail.com>
+References: 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="xn5raseppdto4osu"
-Content-Disposition: inline
-In-Reply-To: <DB9PR04MB945284B95FAE4FE127E6568FF4752@DB9PR04MB9452.eurprd04.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
+X-DrWeb-SpamScore: 0
+X-DrWeb-SpamState: legit
+X-DrWeb-SpamDetail: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehuddgtddvucetufdoteggodetrfcurfhrohhfihhlvgemucfftfghgfeunecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeetnhgrshhtrghsihgruceuvghlohhvrgcuoegrsggvlhhovhgrsegrshhtrhgrlhhinhhugidrrhhuqeenucggtffrrghtthgvrhhnpefhudejgfetgfeftdeitdegffduhefftdduieeludeutdffgeeugfdvgedutddtvdenucfkphepuddtrdduleekrddvjedrkeelnecurfgrrhgrmhephhgvlhhopehnrgihrgdqofetvefjvedqhgetigelrdhishhprhgrshdrrhhupdhinhgvthepuddtrdduleekrddvjedrkeelmeehtdeggeekpdhmrghilhhfrhhomheprggsvghlohhvrgesrghsthhrrghlihhnuhigrdhruhdpnhgspghrtghpthhtohepudeipdhrtghpthhtohepnhgvihhlrdgrrhhmshhtrhhonhhgsehlihhnrghrohdrohhrghdprhgtphhtthhopegrsggvlhhovhgrsegrshhtrhgrlhhinhhugidrrhhupdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtoheprghirh
+ hlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopegurghnihgvlhesfhhffihllhdrtghhpdhrtghpthhtohepkhhhihhlmhgrnhessggrhihlihgsrhgvrdgtohhmpdhrtghpthhtohepjhgsrhhunhgvthessggrhihlihgsrhgvrdgtohhmpdhrtghpthhtohepmhgrrhhtihhnrdgslhhumhgvnhhsthhinhhglhesghhoohhglhgvmhgrihhlrdgtohhmpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopehlihhnuhigqdgrmhhlohhgihgtsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhrtghpthhtoheplhhinhhugidqrghrmhdqkhgvrhhnvghlsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhvtgdqphhrohhjvggttheslhhinhhugihtvghsthhinhhgrdhorhhgpdhrtghpthhtohepshhtrggslhgvsehvghgvrhdrkhgvrhhnvghlrdhorhhgnecuffhrrdghvggsucetnhhtihhsphgrmhemucenucfvrghgshem
+X-DrWeb-SpamVersion: Dr.Web Antispam 1.0.7.202406240#1727454337#02
+X-AntiVirus: Checked by Dr.Web [MailD: 11.1.19.2307031128,
+ SE: 11.1.12.2210241838, Core engine: 7.00.65.05230, Virus records: 12190137,
+ Updated: 2024-Sep-30 06:50:01 UTC]
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,106 +63,458 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Switch to a managed drm device to cleanup some error handling
+and make future work easier.
 
---xn5raseppdto4osu
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Fix dereference of NULL in meson_drv_bind_master by removing
+drm_dev_put(drm) before meson_encoder_*_remove and
+component_unbind_all where drm is dereferenced.
 
-On Sun, Sep 29, 2024 at 02:34:36AM GMT, Sandor Yu wrote:
-> > > +static void cdns_hdmi_sink_config(struct cdns_mhdp8501_device *mhdp)
-> > > +{
-> > > +	struct drm_display_info *display =3D &mhdp->curr_conn->display_info;
-> > > +	struct drm_connector_state *conn_state =3D mhdp->curr_conn->state;
-> >=20
-> > That looks a bit hackish to me. We should probably provide a helper to =
-get the
-> > connector state the bridge is attached to.
->=20
-> How about code change to followed, is it more clear?
-> 370         struct drm_connector *connector =3D mhdp->curr_conn;
-> 371         struct drm_connector_state *conn_state =3D connector->state;
-> 372         struct drm_display_info *display =3D &connector->display_info;
-> 373         struct drm_scdc *scdc =3D &display->hdmi.scdc;
+Co-developed by Linux Verification Center (linuxtesting.org).
 
-What I meant was that I wish bridges had a way to get their connector
-pointer. It doesn't look like it's possible with drm_bridge_connector,
-and we don't have access to drm_display_info anymore.
+Cc: stable@vger.kernel.org # 6.5
+Fixes: 6a044642988b ("drm/meson: fix unbind path if HDMI fails to bind")
+Signed-off-by: Anastasia Belova <abelova@astralinux.ru>
+---
+ drivers/gpu/drm/meson/meson_crtc.c         | 10 +--
+ drivers/gpu/drm/meson/meson_drv.c          | 93 ++++++++++------------
+ drivers/gpu/drm/meson/meson_drv.h          |  2 +-
+ drivers/gpu/drm/meson/meson_encoder_cvbs.c |  8 +-
+ drivers/gpu/drm/meson/meson_overlay.c      |  8 +-
+ drivers/gpu/drm/meson/meson_plane.c        | 10 +--
+ 6 files changed, 59 insertions(+), 72 deletions(-)
 
-I don't really see a good way to do this yet, so maybe that kind of
-workaround is ok. Eventually, I guess we'll have the scrambler setup in
-the HDMI connector helpers anyway.
+diff --git a/drivers/gpu/drm/meson/meson_crtc.c b/drivers/gpu/drm/meson/meson_crtc.c
+index d70616da8ce2..e1c0bf3baeea 100644
+--- a/drivers/gpu/drm/meson/meson_crtc.c
++++ b/drivers/gpu/drm/meson/meson_crtc.c
+@@ -662,13 +662,13 @@ void meson_crtc_irq(struct meson_drm *priv)
+ 
+ 	drm_crtc_handle_vblank(priv->crtc);
+ 
+-	spin_lock_irqsave(&priv->drm->event_lock, flags);
++	spin_lock_irqsave(&priv->drm.event_lock, flags);
+ 	if (meson_crtc->event) {
+ 		drm_crtc_send_vblank_event(priv->crtc, meson_crtc->event);
+ 		drm_crtc_vblank_put(priv->crtc);
+ 		meson_crtc->event = NULL;
+ 	}
+-	spin_unlock_irqrestore(&priv->drm->event_lock, flags);
++	spin_unlock_irqrestore(&priv->drm.event_lock, flags);
+ }
+ 
+ int meson_crtc_create(struct meson_drm *priv)
+@@ -677,18 +677,18 @@ int meson_crtc_create(struct meson_drm *priv)
+ 	struct drm_crtc *crtc;
+ 	int ret;
+ 
+-	meson_crtc = devm_kzalloc(priv->drm->dev, sizeof(*meson_crtc),
++	meson_crtc = devm_kzalloc(priv->drm.dev, sizeof(*meson_crtc),
+ 				  GFP_KERNEL);
+ 	if (!meson_crtc)
+ 		return -ENOMEM;
+ 
+ 	meson_crtc->priv = priv;
+ 	crtc = &meson_crtc->base;
+-	ret = drm_crtc_init_with_planes(priv->drm, crtc,
++	ret = drm_crtc_init_with_planes(&priv->drm, crtc,
+ 					priv->primary_plane, NULL,
+ 					&meson_crtc_funcs, "meson_crtc");
+ 	if (ret) {
+-		dev_err(priv->drm->dev, "Failed to init CRTC\n");
++		dev_err(priv->drm.dev, "Failed to init CRTC\n");
+ 		return ret;
+ 	}
+ 
+diff --git a/drivers/gpu/drm/meson/meson_drv.c b/drivers/gpu/drm/meson/meson_drv.c
+index 4bd0baa2a4f5..dd87c6b61e9e 100644
+--- a/drivers/gpu/drm/meson/meson_drv.c
++++ b/drivers/gpu/drm/meson/meson_drv.c
+@@ -182,7 +182,6 @@ static int meson_drv_bind_master(struct device *dev, bool has_components)
+ 	struct platform_device *pdev = to_platform_device(dev);
+ 	const struct meson_drm_match_data *match;
+ 	struct meson_drm *priv;
+-	struct drm_device *drm;
+ 	struct resource *res;
+ 	void __iomem *regs;
+ 	int ret, i;
+@@ -197,58 +196,49 @@ static int meson_drv_bind_master(struct device *dev, bool has_components)
+ 	if (!match)
+ 		return -ENODEV;
+ 
+-	drm = drm_dev_alloc(&meson_driver, dev);
+-	if (IS_ERR(drm))
+-		return PTR_ERR(drm);
++	priv = devm_drm_dev_alloc(dev, &meson_driver,
++				 struct meson_drm, drm);
+ 
+-	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+-	if (!priv) {
+-		ret = -ENOMEM;
+-		goto free_drm;
+-	}
+-	drm->dev_private = priv;
+-	priv->drm = drm;
++	if (IS_ERR(priv))
++		return PTR_ERR(priv);
++
++	priv->drm.dev_private = priv;
+ 	priv->dev = dev;
+ 	priv->compat = match->compat;
+ 	priv->afbcd.ops = match->afbcd_ops;
+ 
+ 	regs = devm_platform_ioremap_resource_byname(pdev, "vpu");
+ 	if (IS_ERR(regs)) {
+-		ret = PTR_ERR(regs);
+-		goto free_drm;
++		return PTR_ERR(regs);
+ 	}
+ 
+ 	priv->io_base = regs;
+ 
+ 	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "hhi");
+ 	if (!res) {
+-		ret = -EINVAL;
+-		goto free_drm;
++		return -EINVAL;
+ 	}
+ 	/* Simply ioremap since it may be a shared register zone */
+ 	regs = devm_ioremap(dev, res->start, resource_size(res));
+ 	if (!regs) {
+-		ret = -EADDRNOTAVAIL;
+-		goto free_drm;
++		return -EADDRNOTAVAIL;
+ 	}
+ 
+ 	priv->hhi = devm_regmap_init_mmio(dev, regs,
+ 					  &meson_regmap_config);
+ 	if (IS_ERR(priv->hhi)) {
+ 		dev_err(&pdev->dev, "Couldn't create the HHI regmap\n");
+-		ret = PTR_ERR(priv->hhi);
+-		goto free_drm;
++		return PTR_ERR(priv->hhi);
+ 	}
+ 
+ 	priv->canvas = meson_canvas_get(dev);
+ 	if (IS_ERR(priv->canvas)) {
+-		ret = PTR_ERR(priv->canvas);
+-		goto free_drm;
++		return PTR_ERR(priv->canvas);
+ 	}
+ 
+ 	ret = meson_canvas_alloc(priv->canvas, &priv->canvas_id_osd1);
+ 	if (ret)
+-		goto free_drm;
++		return ret;
+ 	ret = meson_canvas_alloc(priv->canvas, &priv->canvas_id_vd1_0);
+ 	if (ret)
+ 		goto free_canvas_osd1;
+@@ -261,7 +251,7 @@ static int meson_drv_bind_master(struct device *dev, bool has_components)
+ 
+ 	priv->vsync_irq = platform_get_irq(pdev, 0);
+ 
+-	ret = drm_vblank_init(drm, 1);
++	ret = drm_vblank_init(&priv->drm, 1);
+ 	if (ret)
+ 		goto free_canvas_vd1_2;
+ 
+@@ -281,13 +271,13 @@ static int meson_drv_bind_master(struct device *dev, bool has_components)
+ 	if (ret)
+ 		goto free_canvas_vd1_2;
+ 
+-	ret = drmm_mode_config_init(drm);
++	ret = drmm_mode_config_init(&priv->drm);
+ 	if (ret)
+ 		goto free_canvas_vd1_2;
+-	drm->mode_config.max_width = 3840;
+-	drm->mode_config.max_height = 2160;
+-	drm->mode_config.funcs = &meson_mode_config_funcs;
+-	drm->mode_config.helper_private	= &meson_mode_config_helpers;
++	priv->drm.mode_config.max_width = 3840;
++	priv->drm.mode_config.max_height = 2160;
++	priv->drm.mode_config.funcs = &meson_mode_config_funcs;
++	priv->drm.mode_config.helper_private = &meson_mode_config_helpers;
+ 
+ 	/* Hardware Initialization */
+ 
+@@ -308,9 +298,9 @@ static int meson_drv_bind_master(struct device *dev, bool has_components)
+ 		goto exit_afbcd;
+ 
+ 	if (has_components) {
+-		ret = component_bind_all(dev, drm);
++		ret = component_bind_all(dev, &priv->drm);
+ 		if (ret) {
+-			dev_err(drm->dev, "Couldn't bind all components\n");
++			dev_err(priv->drm.dev, "Couldn't bind all components\n");
+ 			/* Do not try to unbind */
+ 			has_components = false;
+ 			goto exit_afbcd;
+@@ -319,46 +309,49 @@ static int meson_drv_bind_master(struct device *dev, bool has_components)
+ 
+ 	ret = meson_encoder_hdmi_probe(priv);
+ 	if (ret)
+-		goto exit_afbcd;
++		goto unbind_components;
+ 
+ 	if (meson_vpu_is_compatible(priv, VPU_COMPATIBLE_G12A)) {
+ 		ret = meson_encoder_dsi_probe(priv);
+ 		if (ret)
+-			goto exit_afbcd;
++			goto unbind_components;
+ 	}
+ 
+ 	ret = meson_plane_create(priv);
+ 	if (ret)
+-		goto exit_afbcd;
++		goto unbind_components;
+ 
+ 	ret = meson_overlay_create(priv);
+ 	if (ret)
+-		goto exit_afbcd;
++		goto unbind_components;
+ 
+ 	ret = meson_crtc_create(priv);
+ 	if (ret)
+-		goto exit_afbcd;
++		goto unbind_components;
+ 
+-	ret = request_irq(priv->vsync_irq, meson_irq, 0, drm->driver->name, drm);
++	ret = request_irq(priv->vsync_irq, meson_irq, 0, priv->drm.driver->name, &priv->drm);
+ 	if (ret)
+-		goto exit_afbcd;
++		goto unbind_components;
+ 
+-	drm_mode_config_reset(drm);
++	drm_mode_config_reset(&priv->drm);
+ 
+-	drm_kms_helper_poll_init(drm);
++	drm_kms_helper_poll_init(&priv->drm);
+ 
+ 	platform_set_drvdata(pdev, priv);
+ 
+-	ret = drm_dev_register(drm, 0);
++	ret = drm_dev_register(&priv->drm, 0);
+ 	if (ret)
+ 		goto uninstall_irq;
+ 
+-	drm_fbdev_dma_setup(drm, 32);
++	drm_fbdev_dma_setup(&priv->drm, 32);
+ 
+ 	return 0;
+ 
+ uninstall_irq:
+-	free_irq(priv->vsync_irq, drm);
++	free_irq(priv->vsync_irq, &priv->drm);
++unbind_components:
++	if (has_components)
++		component_unbind_all(dev, &priv->drm);
+ exit_afbcd:
+ 	if (priv->afbcd.ops)
+ 		priv->afbcd.ops->exit(priv);
+@@ -370,16 +363,11 @@ static int meson_drv_bind_master(struct device *dev, bool has_components)
+ 	meson_canvas_free(priv->canvas, priv->canvas_id_vd1_0);
+ free_canvas_osd1:
+ 	meson_canvas_free(priv->canvas, priv->canvas_id_osd1);
+-free_drm:
+-	drm_dev_put(drm);
+ 
+ 	meson_encoder_dsi_remove(priv);
+ 	meson_encoder_hdmi_remove(priv);
+ 	meson_encoder_cvbs_remove(priv);
+ 
+-	if (has_components)
+-		component_unbind_all(dev, drm);
+-
+ 	return ret;
+ }
+ 
+@@ -391,7 +379,7 @@ static int meson_drv_bind(struct device *dev)
+ static void meson_drv_unbind(struct device *dev)
+ {
+ 	struct meson_drm *priv = dev_get_drvdata(dev);
+-	struct drm_device *drm = priv->drm;
++	struct drm_device *drm = &priv->drm;
+ 
+ 	if (priv->canvas) {
+ 		meson_canvas_free(priv->canvas, priv->canvas_id_osd1);
+@@ -404,7 +392,6 @@ static void meson_drv_unbind(struct device *dev)
+ 	drm_kms_helper_poll_fini(drm);
+ 	drm_atomic_helper_shutdown(drm);
+ 	free_irq(priv->vsync_irq, drm);
+-	drm_dev_put(drm);
+ 
+ 	meson_encoder_dsi_remove(priv);
+ 	meson_encoder_hdmi_remove(priv);
+@@ -428,7 +415,7 @@ static int __maybe_unused meson_drv_pm_suspend(struct device *dev)
+ 	if (!priv)
+ 		return 0;
+ 
+-	return drm_mode_config_helper_suspend(priv->drm);
++	return drm_mode_config_helper_suspend(&priv->drm);
+ }
+ 
+ static int __maybe_unused meson_drv_pm_resume(struct device *dev)
+@@ -445,7 +432,7 @@ static int __maybe_unused meson_drv_pm_resume(struct device *dev)
+ 	if (priv->afbcd.ops)
+ 		priv->afbcd.ops->init(priv);
+ 
+-	return drm_mode_config_helper_resume(priv->drm);
++	return drm_mode_config_helper_resume(&priv->drm);
+ }
+ 
+ static void meson_drv_shutdown(struct platform_device *pdev)
+@@ -455,8 +442,8 @@ static void meson_drv_shutdown(struct platform_device *pdev)
+ 	if (!priv)
+ 		return;
+ 
+-	drm_kms_helper_poll_fini(priv->drm);
+-	drm_atomic_helper_shutdown(priv->drm);
++	drm_kms_helper_poll_fini(&priv->drm);
++	drm_atomic_helper_shutdown(&priv->drm);
+ }
+ 
+ /*
+diff --git a/drivers/gpu/drm/meson/meson_drv.h b/drivers/gpu/drm/meson/meson_drv.h
+index 3f9345c14f31..c4c6c810cb20 100644
+--- a/drivers/gpu/drm/meson/meson_drv.h
++++ b/drivers/gpu/drm/meson/meson_drv.h
+@@ -53,7 +53,7 @@ struct meson_drm {
+ 	u8 canvas_id_vd1_1;
+ 	u8 canvas_id_vd1_2;
+ 
+-	struct drm_device *drm;
++	struct drm_device drm;
+ 	struct drm_crtc *crtc;
+ 	struct drm_plane *primary_plane;
+ 	struct drm_plane *overlay_plane;
+diff --git a/drivers/gpu/drm/meson/meson_encoder_cvbs.c b/drivers/gpu/drm/meson/meson_encoder_cvbs.c
+index d1191de855d9..ddca22c8c1ff 100644
+--- a/drivers/gpu/drm/meson/meson_encoder_cvbs.c
++++ b/drivers/gpu/drm/meson/meson_encoder_cvbs.c
+@@ -104,7 +104,7 @@ static int meson_encoder_cvbs_get_modes(struct drm_bridge *bridge,
+ 	for (i = 0; i < MESON_CVBS_MODES_COUNT; ++i) {
+ 		struct meson_cvbs_mode *meson_mode = &meson_cvbs_modes[i];
+ 
+-		mode = drm_mode_duplicate(priv->drm, &meson_mode->mode);
++		mode = drm_mode_duplicate(&priv->drm, &meson_mode->mode);
+ 		if (!mode) {
+ 			dev_err(priv->dev, "Failed to create a new display mode\n");
+ 			return 0;
+@@ -221,7 +221,7 @@ static const struct drm_bridge_funcs meson_encoder_cvbs_bridge_funcs = {
+ 
+ int meson_encoder_cvbs_probe(struct meson_drm *priv)
+ {
+-	struct drm_device *drm = priv->drm;
++	struct drm_device *drm = &priv->drm;
+ 	struct meson_encoder_cvbs *meson_encoder_cvbs;
+ 	struct drm_connector *connector;
+ 	struct device_node *remote;
+@@ -256,7 +256,7 @@ int meson_encoder_cvbs_probe(struct meson_drm *priv)
+ 	meson_encoder_cvbs->priv = priv;
+ 
+ 	/* Encoder */
+-	ret = drm_simple_encoder_init(priv->drm, &meson_encoder_cvbs->encoder,
++	ret = drm_simple_encoder_init(&priv->drm, &meson_encoder_cvbs->encoder,
+ 				      DRM_MODE_ENCODER_TVDAC);
+ 	if (ret)
+ 		return dev_err_probe(priv->dev, ret,
+@@ -273,7 +273,7 @@ int meson_encoder_cvbs_probe(struct meson_drm *priv)
+ 	}
+ 
+ 	/* Initialize & attach Bridge Connector */
+-	connector = drm_bridge_connector_init(priv->drm, &meson_encoder_cvbs->encoder);
++	connector = drm_bridge_connector_init(&priv->drm, &meson_encoder_cvbs->encoder);
+ 	if (IS_ERR(connector))
+ 		return dev_err_probe(priv->dev, PTR_ERR(connector),
+ 				     "Unable to create CVBS bridge connector\n");
+diff --git a/drivers/gpu/drm/meson/meson_overlay.c b/drivers/gpu/drm/meson/meson_overlay.c
+index 7f98de38842b..60ee7f758723 100644
+--- a/drivers/gpu/drm/meson/meson_overlay.c
++++ b/drivers/gpu/drm/meson/meson_overlay.c
+@@ -484,7 +484,7 @@ static void meson_overlay_atomic_update(struct drm_plane *plane,
+ 
+ 	interlace_mode = new_state->crtc->mode.flags & DRM_MODE_FLAG_INTERLACE;
+ 
+-	spin_lock_irqsave(&priv->drm->event_lock, flags);
++	spin_lock_irqsave(&priv->drm.event_lock, flags);
+ 
+ 	if ((fb->modifier & DRM_FORMAT_MOD_AMLOGIC_FBC(0, 0)) ==
+ 			    DRM_FORMAT_MOD_AMLOGIC_FBC(0, 0)) {
+@@ -717,7 +717,7 @@ static void meson_overlay_atomic_update(struct drm_plane *plane,
+ 
+ 	priv->viu.vd1_enabled = true;
+ 
+-	spin_unlock_irqrestore(&priv->drm->event_lock, flags);
++	spin_unlock_irqrestore(&priv->drm.event_lock, flags);
+ 
+ 	DRM_DEBUG_DRIVER("\n");
+ }
+@@ -838,7 +838,7 @@ int meson_overlay_create(struct meson_drm *priv)
+ 
+ 	DRM_DEBUG_DRIVER("\n");
+ 
+-	meson_overlay = devm_kzalloc(priv->drm->dev, sizeof(*meson_overlay),
++	meson_overlay = devm_kzalloc(priv->drm.dev, sizeof(*meson_overlay),
+ 				   GFP_KERNEL);
+ 	if (!meson_overlay)
+ 		return -ENOMEM;
+@@ -846,7 +846,7 @@ int meson_overlay_create(struct meson_drm *priv)
+ 	meson_overlay->priv = priv;
+ 	plane = &meson_overlay->base;
+ 
+-	drm_universal_plane_init(priv->drm, plane, 0xFF,
++	drm_universal_plane_init(&priv->drm, plane, 0xFF,
+ 				 &meson_overlay_funcs,
+ 				 supported_drm_formats,
+ 				 ARRAY_SIZE(supported_drm_formats),
+diff --git a/drivers/gpu/drm/meson/meson_plane.c b/drivers/gpu/drm/meson/meson_plane.c
+index b43ac61201f3..13be94309bf4 100644
+--- a/drivers/gpu/drm/meson/meson_plane.c
++++ b/drivers/gpu/drm/meson/meson_plane.c
+@@ -157,7 +157,7 @@ static void meson_plane_atomic_update(struct drm_plane *plane,
+ 	 * Update Buffer
+ 	 * Enable Plane
+ 	 */
+-	spin_lock_irqsave(&priv->drm->event_lock, flags);
++	spin_lock_irqsave(&priv->drm.event_lock, flags);
+ 
+ 	/* Check if AFBC decoder is required for this buffer */
+ 	if ((meson_vpu_is_compatible(priv, VPU_COMPATIBLE_GXM) ||
+@@ -393,7 +393,7 @@ static void meson_plane_atomic_update(struct drm_plane *plane,
+ 
+ 	priv->viu.osd1_enabled = true;
+ 
+-	spin_unlock_irqrestore(&priv->drm->event_lock, flags);
++	spin_unlock_irqrestore(&priv->drm.event_lock, flags);
+ }
+ 
+ static void meson_plane_atomic_disable(struct drm_plane *plane,
+@@ -536,7 +536,7 @@ int meson_plane_create(struct meson_drm *priv)
+ 	const uint64_t *format_modifiers = format_modifiers_default;
+ 	int ret;
+ 
+-	meson_plane = devm_kzalloc(priv->drm->dev, sizeof(*meson_plane),
++	meson_plane = devm_kzalloc(priv->drm.dev, sizeof(*meson_plane),
+ 				   GFP_KERNEL);
+ 	if (!meson_plane)
+ 		return -ENOMEM;
+@@ -549,14 +549,14 @@ int meson_plane_create(struct meson_drm *priv)
+ 	else if (meson_vpu_is_compatible(priv, VPU_COMPATIBLE_G12A))
+ 		format_modifiers = format_modifiers_afbc_g12a;
+ 
+-	ret = drm_universal_plane_init(priv->drm, plane, 0xFF,
++	ret = drm_universal_plane_init(&priv->drm, plane, 0xFF,
+ 					&meson_plane_funcs,
+ 					supported_drm_formats,
+ 					ARRAY_SIZE(supported_drm_formats),
+ 					format_modifiers,
+ 					DRM_PLANE_TYPE_PRIMARY, "meson_primary_plane");
+ 	if (ret) {
+-		devm_kfree(priv->drm->dev, meson_plane);
++		devm_kfree(priv->drm.dev, meson_plane);
+ 		return ret;
+ 	}
+ 
+-- 
+2.30.2
 
-Dmitry, any idea?
-
-> > > +static enum drm_mode_status
-> > > +cdns_hdmi_tmds_char_rate_valid(const struct drm_bridge *bridge,
-> > > +			       const struct drm_display_mode *mode,
-> > > +			       unsigned long long tmds_rate) {
-> > > +	struct cdns_mhdp8501_device *mhdp =3D bridge->driver_private;
-> > > +	union phy_configure_opts phy_cfg;
-> > > +	int ret;
-> > > +
-> > > +	phy_cfg.hdmi.tmds_char_rate =3D tmds_rate;
-> > > +
-> > > +	ret =3D phy_validate(mhdp->phy, PHY_MODE_HDMI, 0, &phy_cfg);
-> > > +	if (ret < 0)
-> > > +		return MODE_CLOCK_RANGE;
-> > > +
-> > > +	return MODE_OK;
-> > > +}
-> > > +
-> > > +static enum drm_mode_status
-> > > +cdns_hdmi_bridge_mode_valid(struct drm_bridge *bridge,
-> > > +			    const struct drm_display_info *info,
-> > > +			    const struct drm_display_mode *mode) {
-> > > +	unsigned long long tmds_rate;
-> > > +
-> > > +	/* We don't support double-clocked and Interlaced modes */
-> > > +	if (mode->flags & DRM_MODE_FLAG_DBLCLK ||
-> > > +	    mode->flags & DRM_MODE_FLAG_INTERLACE)
-> > > +		return MODE_BAD;
-> > > +
-> > > +	if (mode->hdisplay > 3840)
-> > > +		return MODE_BAD_HVALUE;
-> > > +
-> > > +	if (mode->vdisplay > 2160)
-> > > +		return MODE_BAD_VVALUE;
-> > > +
-> > > +	tmds_rate =3D mode->clock * 1000ULL;
-> > > +	return cdns_hdmi_tmds_char_rate_valid(bridge, mode, tmds_rate); }
-> >=20
-> > Didn't we agree on creating a mode_valid helper?
->=20
-> In fact, now I'm no idea where should add the mode_valid helper function.
->=20
-> In struct drm_bridge_funcs, it had mode_valid() and hdmi_tmds_char_rate_v=
-alid().
->=20
-> If create a new mode_valid helper function in struct drm_connector_hdmi_f=
-uncs,
-> Is it appropriate to call another API function(tmds_char_rate_valid)
-> at the same level within this API function?
-
-I'm not quite sure what you mean, but a reasonable approach to me would
-be to turn drm_hdmi_state_helper.c hdmi_clock_valid into a public
-function, and then call it from drm_bridge_connector mode_valid hook.
-
-It's a similar discussion to the previous one really: in order to
-implement it properly, we need access to drm_display_info.
-
-Maxime
-
---xn5raseppdto4osu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZvpetwAKCRAnX84Zoj2+
-djfgAYCZaASwMfe2ykj0a/K8S1j5r3GzSEFIzakKBywubxq6GcozEOQ+mxz87A86
-cv/NELIBf0DTXPsTAXCviErr47lI3nve1omF4vQyAP+zb2jBvRypL75ULr+xiBwe
-lVBTPB0JNA==
-=FfFA
------END PGP SIGNATURE-----
-
---xn5raseppdto4osu--
