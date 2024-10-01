@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEFA398B6AB
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2024 10:21:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D14B98B6B6
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2024 10:21:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D524510E08F;
-	Tue,  1 Oct 2024 08:21:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 000FB10E0A3;
+	Tue,  1 Oct 2024 08:21:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="OZmjMxKz";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ynT8pBZE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F21E10E08F
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Oct 2024 08:21:16 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B2B510E0A3
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Oct 2024 08:21:30 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id D583F5C1190;
- Tue,  1 Oct 2024 08:21:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B5D4C4CECE;
- Tue,  1 Oct 2024 08:21:15 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id D0A9CA43292;
+ Tue,  1 Oct 2024 08:21:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73F77C4CEC6;
+ Tue,  1 Oct 2024 08:21:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1727770875;
- bh=qhGkxecf6C+m55AMSJX3Oxasa5bp1/H/7Hwx1xu6rWU=;
+ s=korg; t=1727770888;
+ bh=HjlVssoAVJy60Hb8Jtkhc9PXAmWdZzMrhpEHBj4rYRk=;
  h=Subject:To:Cc:From:Date:From;
- b=OZmjMxKzatPd2qRyVVT/agxhBiLNdXZqGJdeMz1F6yR38GUPsWr4+d62zswUwTeiz
- LuF4kNJvgH6eC8QURHnN4gVIUdrbzy2a7U3WsMjnrUyTtrT2f4GPUL4oDemvCK32ns
- 4qBN7KrOKhlNZWcRYv6tgAB3owWXSjGaxVLPepBY=
+ b=ynT8pBZE02AjfHj/SL+gjxwNclYns+Yso9oB3nJuuKgUByz2ORWqJCebKbcW4tXmU
+ 2p6R5kR//wgPdR2NHpkaNF4Yy/7SEvQw6J3aDzulf4LeZppIVEKdZ4pDB/58NC6n9J
+ nxyZCfPVk3ipzT3XcrjPCVXuzRQR8LxTqytlFE44=
 Subject: Patch "drm/vmwgfx: Prevent unmapping active read buffers" has been
- added to the 6.1-stable tree
+ added to the 6.6-stable tree
 To: bcm-kernel-feedback-list@broadcom.com, dri-devel@lists.freedesktop.org,
  gregkh@linuxfoundation.org, maaz.mombasawala@broadcom.com,
  martin.krastev@broadcom.com, shivani.agarwal@broadcom.com,
  zack.rusin@broadcom.com
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
-Date: Tue, 01 Oct 2024 10:20:45 +0200
-Message-ID: <2024100145-deplored-armoire-a5e5@gregkh>
+Date: Tue, 01 Oct 2024 10:20:55 +0200
+Message-ID: <2024100155-detection-unfounded-e9bc@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
@@ -62,12 +62,12 @@ This is a note to let you know that I've just added the patch titled
 
     drm/vmwgfx: Prevent unmapping active read buffers
 
-to the 6.1-stable tree which can be found at:
+to the 6.6-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      drm-vmwgfx-prevent-unmapping-active-read-buffers.patch
-and it can be found in the queue-6.1 subdirectory.
+and it can be found in the queue-6.6 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -104,17 +104,17 @@ Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
 Link: https://patchwork.freedesktop.org/patch/msgid/20240816183332.31961-2-zack.rusin@broadcom.com
 Reviewed-by: Martin Krastev <martin.krastev@broadcom.com>
 Reviewed-by: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
-[Shivani: Modified to apply on v6.1.y]
+[Shivani: Modified to apply on v6.6.y]
 Signed-off-by: Shivani Agarwal <shivani.agarwal@broadcom.com>
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_bo.c  |   12 +++++++++++-
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.h |    3 +++
- 2 files changed, 14 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_bo.c |   13 +++++++++++--
+ drivers/gpu/drm/vmwgfx/vmwgfx_bo.h |    3 +++
+ 2 files changed, 14 insertions(+), 2 deletions(-)
 
 --- a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
 +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
-@@ -348,6 +348,8 @@ void *vmw_bo_map_and_cache(struct vmw_bu
+@@ -331,6 +331,8 @@ void *vmw_bo_map_and_cache(struct vmw_bo
  	void *virtual;
  	int ret;
  
@@ -123,9 +123,9 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	virtual = ttm_kmap_obj_virtual(&vbo->map, &not_used);
  	if (virtual)
  		return virtual;
-@@ -370,10 +372,17 @@ void *vmw_bo_map_and_cache(struct vmw_bu
+@@ -353,11 +355,17 @@ void *vmw_bo_map_and_cache(struct vmw_bo
   */
- void vmw_bo_unmap(struct vmw_buffer_object *vbo)
+ void vmw_bo_unmap(struct vmw_bo *vbo)
  {
 +	int map_count;
 +
@@ -133,6 +133,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  		return;
  
 -	ttm_bo_kunmap(&vbo->map);
+-	vbo->map.bo = NULL;
 +	map_count = atomic_dec_return(&vbo->map_count);
 +
 +	if (!map_count) {
@@ -142,28 +143,28 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  }
  
  
-@@ -510,6 +519,7 @@ int vmw_bo_init(struct vmw_private *dev_
+@@ -390,6 +398,7 @@ static int vmw_bo_init(struct vmw_privat
  	BUILD_BUG_ON(TTM_MAX_BO_PRIORITY <= 3);
- 	vmw_bo->base.priority = 3;
+ 	vmw_bo->tbo.priority = 3;
  	vmw_bo->res_tree = RB_ROOT;
 +	atomic_set(&vmw_bo->map_count, 0);
  
- 	size = ALIGN(size, PAGE_SIZE);
- 	drm_gem_private_object_init(vdev, &vmw_bo->base.base, size);
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-@@ -116,6 +116,8 @@ struct vmwgfx_hash_item {
-  * @base: The TTM buffer object
+ 	params->size = ALIGN(params->size, PAGE_SIZE);
+ 	drm_gem_private_object_init(vdev, &vmw_bo->tbo.base, params->size);
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.h
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.h
+@@ -68,6 +68,8 @@ struct vmw_bo_params {
+  * @map: Kmap object for semi-persistent mappings
   * @res_tree: RB tree of resources using this buffer object as a backing MOB
-  * @base_mapped_count: ttm BO mapping count; used by KMS atomic helpers.
+  * @res_prios: Eviction priority counts for attached resources
 + * @map_count: The number of currently active maps. Will differ from the
 + * cpu_writers because it includes kernel maps.
   * @cpu_writers: Number of synccpu write grabs. Protected by reservation when
   * increased. May be decreased without reservation.
   * @dx_query_ctx: DX context if this buffer object is used as a DX query MOB
-@@ -129,6 +131,7 @@ struct vmw_buffer_object {
- 	/* For KMS atomic helpers: ttm bo mapping count */
- 	atomic_t base_mapped_count;
+@@ -86,6 +88,7 @@ struct vmw_bo {
+ 	struct rb_root res_tree;
+ 	u32 res_prios[TTM_MAX_BO_PRIORITY];
  
 +	atomic_t map_count;
  	atomic_t cpu_writers;
@@ -173,4 +174,4 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from zack.rusin@broadcom.com are
 
-queue-6.1/drm-vmwgfx-prevent-unmapping-active-read-buffers.patch
+queue-6.6/drm-vmwgfx-prevent-unmapping-active-read-buffers.patch
