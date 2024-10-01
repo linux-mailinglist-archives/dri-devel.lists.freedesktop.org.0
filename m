@@ -2,67 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB82F98C5E1
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2024 21:18:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCE2298C601
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2024 21:27:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5DC9710E666;
-	Tue,  1 Oct 2024 19:18:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E021A10E09F;
+	Tue,  1 Oct 2024 19:27:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="Sdb32tkQ";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="bBAVKu6z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com
- [157.90.84.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45F4D10E09F
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Oct 2024 19:18:03 +0000 (UTC)
-Received: from [192.168.42.96] (pd9e59da1.dip0.t-ipconnect.de
- [217.229.157.161]) (Authenticated sender: wse@tuxedocomputers.com)
- by mail.tuxedocomputers.com (Postfix) with ESMTPSA id CC9192FC0055;
- Tue,  1 Oct 2024 21:18:00 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
- s=default; t=1727810281;
+Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com
+ [91.218.175.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A90410E09F
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Oct 2024 19:26:58 +0000 (UTC)
+Message-ID: <46c64cf0-4cd5-4b6f-a224-ffe4bac5bb7a@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1727810816;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=X+cw6q/5i1bHOSzS2dbiJ/kQFGbl+76ohWRhqh4yiPA=;
- b=Sdb32tkQwZjeq/p721EE3umIc9ILqyJfy+sYxgXQZJ8ITa28NRr+KAvJLpIuBz5f4mKdBT
- 2P7KNMrMXlAjbajjZLuAhtqE4kHOQCD7pOXTu9GtHu72hnzLjZXkx6BCF56kY9aXWDmMZ9
- tWzf+MXCbD0aQgqiaO6U5HOTKwV1qhs=
-Authentication-Results: mail.tuxedocomputers.com;
- auth=pass smtp.auth=wse@tuxedocomputers.com
- smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <7ce4470c-a502-416a-8472-a5b606bb8fd4@tuxedocomputers.com>
-Date: Tue, 1 Oct 2024 21:18:00 +0200
+ bh=I0OsDS4gQjPi2gzEJxpMcxlJylzmmO17YMUNLvUo+5I=;
+ b=bBAVKu6z9+t0XqnlCeRAKs1GFkTXKSrkakw4kTIlfb3eAH702sLg2knyD+RoygGayfIF+p
+ HY1oKScnljKa+zGRexE79nuwbzI4aZ1DYc9XJR/Yf6qRsjpnPw88LfKe1U5APVvSvvBve2
+ c+WDAPiZBBJdq2WNJoXANttigkHyCrE=
+Date: Wed, 2 Oct 2024 03:26:46 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] platform/x86/tuxedo: Add virtual LampArray for TUXEDO
- NB04 devices
-To: Benjamin Tissoires <bentiss@kernel.org>
-Cc: Armin Wolf <W_Armin@gmx.de>, Pavel Machek <pavel@ucw.cz>,
- Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
- lee@kernel.org, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-leds@vger.kernel.org, miguel.ojeda.sandonis@gmail.com,
- ojeda@kernel.org, onitake@gmail.com, platform-driver-x86@vger.kernel.org
-References: <ZvcdNXQJmc8cjifw@amd.ucw.cz>
- <bea39077-6104-4b59-8757-9cbe0e703e5c@gmx.de>
- <7r3zg4tcmp5ozjwyiusstgv7g4dha4wuh4kwssxpk3tkurpgo3@36laqab7lsxp>
- <58cf1777-222f-4156-9079-bcbba4a32c96@tuxedocomputers.com>
- <45qkbpaxhrv2r32hghjqoexkenktymzyjgpx2xnnxt6dmfawjt@44lrhgcnozh3>
- <586a1c41-bbe0-4912-b7c7-1716d886c198@tuxedocomputers.com>
- <5th4pisccud5s7dbia42glsnu7e5u3q7jszty6o3mjdedsd2bg@7nsvp6t2krnf>
- <b6f2244d-7567-49ac-b2db-23b632a4e181@tuxedocomputers.com>
- <cflor5mz4flekn44ttlbanfigmwn5mmp3p54gkeeznzmzkyjqz@p2c6q7gulrdl>
- <84b629c6-5b26-4285-9b2f-66dd1afa99e5@tuxedocomputers.com>
- <zph6fnuaamhayivmzftowjw6klgcy2gb7vdub2v2yo7n665vpo@rkxtorfvmzph>
+Subject: Re: [PATCH] drm/etnaviv: Print error message if inserting IOVA
+ address range fails
+To: Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>
+Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20240930221706.399139-1-sui.jingfeng@linux.dev>
+ <ca5e444a22bae0a834a673e41e8d5b93c08f2351.camel@pengutronix.de>
 Content-Language: en-US
-From: Werner Sembach <wse@tuxedocomputers.com>
-In-Reply-To: <zph6fnuaamhayivmzftowjw6klgcy2gb7vdub2v2yo7n665vpo@rkxtorfvmzph>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <ca5e444a22bae0a834a673e41e8d5b93c08f2351.camel@pengutronix.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,246 +62,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Benjamin,
+Hi,
 
-Am 01.10.24 um 15:41 schrieb Benjamin Tissoires:
-> On Oct 01 2024, Werner Sembach wrote:
->> (sorry resend because thunderbird made it a html mail)
+On 2024/10/1 16:27, Lucas Stach wrote:
+> Hi Sui,
+>
+> Am Dienstag, dem 01.10.2024 um 06:17 +0800 schrieb Sui Jingfeng:
+>> Etnaviv assumes that GPU page size is 4KiB, yet on some systems, the CPU
+>> page size is 16 KiB. The size of etnaviv buffer objects will be aligned
+>> to CPU page size on kernel side, however, userspace still assumes the
+>> page size is 4KiB and doing allocation with 4KiB page as unit. This
+>> results in softpin(userspace managed per-process address spaces) fails.
+>> Because kernel side BO takes up bigger address space than user space
+>> assumes whenever the size of a BO is not CPU page size aligned.
 >>
->> Hi,
->>
->> Am 30.09.24 um 19:06 schrieb Benjamin Tissoires:
->>> On Sep 30 2024, Werner Sembach wrote:
->>>> [...]
->>>> Thinking about it, maybe it's not to bad that it only changes once udev is
->>>> ready, like this udev could decide if leds should be used or if it should
->>>> directly be passed to OpenRGB for example, giving at least some consistency
->>>> only changing once: i.e. firmware -> OpenRGB setting and not firmware->leds
->>>> setting->OpenRGB setting.
->>> That would work if OpenRGB gets to ship the LampArray bpf object (not
->>> saying that it should). Because if OpenRGB is not installed, you'll get
->>> a led class device, and if/when OpenRGB is installed, full LampArray
->>> would be presented.
->> The idea in my head is still that there is some kind of sysfs switch to
->> enable/disable leds.
-> FWIW, I'm never a big fan of sysfs. They become UAPI and we are screwed
-> without possibility to change them...
->
->> My idea is then that a udev rule shipped with OpenRGB sets this switch to
->> disable before loading the BPF driver so leds never get initialized for the
->> final LampArray device.
-> FWIW, udev-hid-bpf can inject a udev property into a HID-BPF. So
-> basically we can have a udev property set (or not) by openrgb which
-> makes the BPF program decide whether to present the keyboard as
-> LampArray or not.
->
->>> But anyway, BPF allows to dynamically change the behaviour of the
->>> device, so that's IMO one bonus point of it.
->>>
->>>>> FWIW, the use of BPF only allows you to not corner yourself. If you
->>>>> failed at your LampArray implementation, you'll have to deal with it
->>>>> forever-ish. So it's perfectly sensible to use BPF as an intermediate step
->>>>> where you develop both userspace and kernel space and then convert back
->>>>> the BPF into a proper HID driver.
->>>> I don't really see this point: The LampArray API is defined by the HID Usage
->>>> Table and the report descriptor, so there is not API to mess up and
->>>> everything else has to be parsed dynamically by userspace anyway, so it can
->>>> easily be changed and userspace just adopts automatically.
->>>>
->>>> And for this case the proper HID driver is already ready.
->>> Yeah, except we don't have the fallback LED class. If you are confident
->>> enough with your implementation, then maybe yes we can include it as a
->>> driver from day one, but that looks like looking for troubles from my
->>> point of view.
->> To be on the safe side that we don't talk about different things: My current
->> plan is that the leds subsystem builds on top of the LampArray
->> implementation.
-> I would say that the HID subsystem knows how to translate LampArray into
-> a subset of LEDs. But I think that's what you are saying.
->
->> Like this the leds part has to be only implemented once for all LampArray
->> devices be it emulated via a driver or native via firmware in the device
->> itself.
-> yep, that's the plan. However, not sure how to fit LampArray into LED.
+> Seems we need to track the GPU and CPU allocation sizes separately.
 
-My idea was that all leds just get treated as a singular led only allowing to 
-set a singular color and brightness, but I just looked it up again: LampArray 
-allows different color and brightness ranges per key, so the grouping might not 
-be possible in a sensible way ...
 
-Maybe the leds integration is a bad idea after all and we should just nudge the 
-DEs and/or UPower to implement LampArray directly? But that's just kicking the 
-complexity down the road, at least as long as there is not universal easy to use 
-library (haven't looked into the library build of OpenRGB yet).
+The idea is cool and fancy, I have been tried.
 
->
->> And I feel confident that the UAPI should be that the userspace gets a
->> hidraw device with a LampArray HID descriptor, and every thing else is, by
->> the HID spec, dynamic anyway so I can still change my mind in implementation
->> specifics there, can't I?
-> Yeah... I think?
->
->  From my point of view we are just bikeshedding on to where put that
-> "firmware" extension, in WMI, in HID (kernel with a subdriver), or
-> externally in BPF.
->
->>> After a second look at the LampArray code here... Aren't you forgetting
->>> the to/from CPU conversions in case you are on a little endian system?
->> Since this driver is for built in keyboards of x86 notebooks it isn't
->> required or is it?
-> Good point. Let's just hope you don't start shipping a LE laptop with
-> the same keyboard hardware :)
-Well there is the dmi table in the driver that would prevent issues in this front.
->
->>>> So the only point for me currently is: Is it ok to have key position/usage
->>>> description tables in the kernel driver or not?
->>> good question :)
->>>
->>> I would say, probably not in the WMI driver itself. I would rather have
->>> a hid-tuxedo.c HID driver that does that. But even there, we already had
->>> Linus complaining once regarding the report descriptors we sometimes
->>> insert in drivers, which are looking like opaque blobs. So it might not be
->>> the best either.
->> Isn't tuxedo_nb04_wmi_ab_virtual_lamp_array.c not something like
->> hid-tuxedo.c? or should it be a separate file with just the arrays?
-> It is, in a way. I think it's more a question for Hans and the other
-> platform maintainers, whether they would accept this.
->
->>> Sorry I don't have a clear yes/no answer.
->> Hm... Well if it's no problem I would keep the current implementation with
->> minor adjustments because, like i described above, I don't see a benefit now
->> that this already works to rewrite it in BPF again.
->>
->> If it is a problem then i don't see another way then to rewrite it in BPF.
->>
->> Note: For future devices there might be more keyboard layouts added,
->> basically every time the chassis form factor changes.
-> If the WMI part doesn't change, then maybe having BPF would be easier
-> for you in the future. Adding a HID-BPF file would cost basically
-> nothing, and it'll be out of band with the kernel, meaning you can ship
-> it in already running kernels (assuming the same WMI driver doesn't need
-> any updates).
-The WMI part will probably not change, but since we don't write the firmware but 
-also just get it as a blob we can't control that. That's why I put the DMI table 
-in the driver, so at least an expansion to the DMI table is required every time 
-a new device releases.
->
->>> Cheers,
->>> Benjamin
->> To sum up the architechture (not mutally exclusive technically)
->>
->> /- leds
->> WMI <- WMI to LampArray Kernel driver <-switch-|
->>                                                 \- OpenRGB
->>
->> /- leds
->> WMI <- WMI to Custom HID Kernel driver <- Custom HID to LampArray BPF
->> driver<-switch-|
->> \- OpenRGB
->>
->> With the "switch" and "leds" implemented in hid core, automatically
->> initialized every time a LampArray device pops up (regardless if it is from
->> native firmware, a bpf driver or a kernel driver)
->>
->> Writing this down I think it was never decided how the switch should look like:
->>
->> It should not be a sysfs attribute of the leds device as the leds device
->> should disappear when the switch is set away from it, but should it be a
->> sysfs variable of the hid device? This would mean that hid core needs to add
->> that switch variable to every hid device having a LampArray section in the
->> descriptor.
-> Again, not a big fan of the sysfs, because it's UAPI and need root to
-> trigger it (though the udev rule sort this one out).
-> BPF allows already to re-enumerate the device with a different look and
-> feel, so it seems more appropriate to me.
->
-> Also, having a sysfs that depends on the report descriptor basically
-> means that we will lose it whenever we re-enumerate it (kind of what the
-> LED problem you mentioned above). So we would need to have a sysfs on
-> *every* HID devices???
->
-> Actually, what would work is (ignoring the BPF bikeshedding for Tuxedos
-> HW):
-> - a device presents a report descriptor with LampArray (wherever it
->    comes from)
-> - hid-led.c takes over it (assuming we extend it for LampArray), and
->    creates a few LEDs based on the Input usage (one global rgb color for
->    regular keys, another one for the few other LEDs known to userspace)
-> - when openRGB is present (special udev property), a BPF program is
->    inserted that only contains a report descriptor fixup that prevent the
->    use of hid-led.c
+By adding a 'user_size' member into the struct etnaviv_gem_object,
+and use this 'user_size'; to track the actual size that user-space
+thing of. (or in other words, the actual size that potential user
+allow to use)
 
-How would that look like? just a custom bit in a "Vendor defined" usage page?
+Using 'user_size' is pin, this partly solve VA address space collision
+under softpin fashion. This is partly works under my hasty test. But ...
 
-But this is still UAPI just hidden inside a BFP program instead of sysfs. But it 
-would avoid the re-enumeration problem.
+> Userspace is correct in assuming that the GPU page size is 4K and
+> buffers are aligned to this granule.
 
-> - the device gets re-enumerated, cleaning the in-kernel leds, and only
->    present the LampArray through hidraw, waiting for OpenRGB to take
->    over.
-> - at any time we can remove the BPF and restore the LEDs functionality
->    of hid-led.c
->
->>>>> Being able to develop a kernel driver without having to reboot and
->>>>> being sure you won't crash your kernel is a game changer ;)
->>>>>
->>>>> Cheers,
->>>>> Benjamin
->> Best regards and sorry for the many questions,
+
+Vivante GPU support 4KB and 64KB GPU page size.
+
+
+>   There should be no need to waste GPU VA space
+
+
+We have nearly 4GBGPU VA space, As far as I can see it, we only use a few. So, is it true 
+that we are wealthy about the VA space?
+
+
+> just because the CPU page size is larger than that and we
+> need to overallocate buffers to suit the CPU.
+
+
+A single CPU page share the same caching property, therefore, I image that
+asingle VA address  range at least should occupy entire room of a single CPU
+page.
+
+Otherwise, it possible that 4 GPUVA share a single CPU page.
+if each GPUVA  mapped with a different caching property from others.
+This get coherency requirements involved.
+
+
+>> Insert an error message to help debug when such an issue happen.
 >>
->> Werner Sembach
+>> Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+>> ---
+>> For example, when running glmark2-drm:
 >>
->> PS: on a side node: How does hid core handle HID devices with a broken HID
->> implementation fixed by bpf, if bpf is loaded after hid-core? Does the hid
->> device get reinitialized by hid core once the bpf driver got loaded? If yes,
->> is there a way to avoid side effects by this double initialization or is
->> there a way to avoid this double initialization, like marking the device id
->> as broken so that hid core- does not initialize it unless it's fixed by bpf?
-> - broken HID device:
->    it depends on what you call "broken" HID device. If the report
->    descriptor is boggus, hid-core will reject the device and will not
->    present it to user space (by returning -EINVAL).
->    If the device is sensible in terms of HID protocol, it will present it
->    to userspace, but the fact that it creates an input node or LED or
->    whatever just depends on what is inside the report descriptor.
+>> [kernel space debug log]
+>>
+>>   etnaviv 0000:03:00.0: Insert bo failed, va: fd38b000, size: 4000
+>>   etnaviv 0000:03:00.0: Insert bo failed, va: fd38a000, size: 4000
+>>
+>> [user space debug log]
+>>
+>> bo->va = 0xfd48c000, bo->size=100000
+>> bo->va = 0xfd38c000, bo->size=100000
+>> bo->va = 0xfd38b000, bo->size=1000   <-- Insert IOVA fails started at here.
+>> bo->va = 0xfd38a000, bo->size=1000
+>> bo->va = 0xfd389000, bo->size=1000
+>>
+>> [texture] texture-filter=nearest:MESA: error: etna_cmd_stream_flush:238: submit failed: -28 (No space left on device)
+>> ---
+>>   drivers/gpu/drm/etnaviv/etnaviv_mmu.c | 6 +++++-
+>>   1 file changed, 5 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
+>> index 1661d589bf3e..682f27b27d59 100644
+>> --- a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
+>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
+>> @@ -310,8 +310,12 @@ int etnaviv_iommu_map_gem(struct etnaviv_iommu_context *context,
+>>   	else
+>>   		ret = etnaviv_iommu_find_iova(context, node,
+>>   					      etnaviv_obj->base.size);
+>> -	if (ret < 0)
+>> +	if (ret < 0) {
+>> +		dev_err(context->global->dev,
+>> +			"Insert iova failed, va: %llx, size: %zx\n",
+>> +			va, etnaviv_obj->base.size);
+> As this might happen for a lot of buffers in a single submit and
+> userspace might be unimpressed by the submit failure and keep pushing
+> new submits, this has a potential to spam the logs. Please use
+> dev_err_ratelimited. Other than that, this patch looks good.
 >
-> - HID-BPF:
->    HID-BPF is inserted between the device itself and the rest of the
->    in-kernel HID stack.
->    Whenever you load and attach (or detach) a BPF program which has a
->    report descriptor fixup, HID-core will reconnect the device,
->    re-enumerate it (calling ->probe()), and will re-present it to
->    userspace as if it were a new device (you get all uevents).
+> Regards,
+> Lucas
 >
-> - double initialization:
->    nowadays hid-generic doesn't do anything on the device itself except
->    calling the powerup/powerdown, by calling ->start and ->stop on the
->    HID transport driver. It's not a problem on 99% of the devices AFAICT.
->    technically, if the report descriptor is bogus, start/stop won't be
->    called, but you'll get an error in the dmesg. So if you really want to
->    rely on that "broken" scenario we can always add a specific quirk in
->    HID to not spew that error.
->
-> Cheers,
-> Benjamin
->
-> PPS: sorry for pushing that hard on HID-BPF, but I can see that it fits
-> all of the requirements here:
-> - need to be dynamic
-> - still unsure of the userspace implementation, meaning that userspace
->    might do something wrong, which might require kernel changes
+>>   		goto unlock;
+>> +	}
+>>   
+>>   	mapping->iova = node->start;
+>>   	ret = etnaviv_iommu_map(context, node->start, sgt,
 
-Well the reference implementetion for the arduiono macropad from microsoft 
-ignores the intensity (brightness) channel on rgb leds contrary to the HID spec, 
-soo yeah you have a point here ...
-
-> - possibility to extend later the kernel API
-> - lots of fun :)
-
-You advertise it good ;). More work for me now but maybe less work for me later, 
-I will look into it.
-
+-- 
 Best regards,
-
-Werner
+Sui
 
