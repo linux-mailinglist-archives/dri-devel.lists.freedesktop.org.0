@@ -2,51 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0068F98B7A8
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2024 10:55:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8444A98B840
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2024 11:26:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6989510E5FC;
-	Tue,  1 Oct 2024 08:55:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE10C10E042;
+	Tue,  1 Oct 2024 09:26:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JwFhJk+s";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="aiftIwu6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B28D310E5FA
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Oct 2024 08:55:46 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 1189B5C545E;
- Tue,  1 Oct 2024 08:55:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AA2FC4CEC6;
- Tue,  1 Oct 2024 08:55:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1727772945;
- bh=siQymRtTEPsEGx0zx5SfKOjAhstZARHZrhU+kftc6MY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=JwFhJk+sjQKWUycH6f0aBhWp2rS2iox+HT/Sa5IrFg/E83F6Eu2SDFYcfPL6jVd10
- w6NthvnCgowaK2m4UvXVyrgOsnds874xOUOz+Z8T47XRYJTX6mBYzTaayv2Sbmij1M
- WVysM+/702SKhCpqV2aaS19We5jVT8JOdwgspps75qYRAQe49N4wQkkuPkQeM5JhXJ
- NLziFK+eLDL9sev+sORcCu5IyaNsyXGzGGSBdsoWxmqOj3uVNRPbNGAT7GtrN7U+s2
- F0sTfKAA2u9vMZ2NdqZzLlY6XeUdKcoJkr3NWT7N1v2t8xYrxa9uuGW3nw0jW6BX+z
- MFN7qkhP4w59Q==
-Date: Tue, 1 Oct 2024 09:55:40 +0100
-From: Lee Jones <lee@kernel.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: daniel.thompson@linaro.org, jingoohan1@gmail.com, deller@gmx.de,
- bonbons@linux-vserver.org, jikos@kernel.org, bentiss@kernel.org,
- s.hauer@pengutronix.de, kernel@pengutronix.de, shawnguo@kernel.org,
- festevam@gmail.com, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-omap@vger.kernel.org
-Subject: [GIT PULL] Immutable branch between Backlight, HID and fbdev due for
- the v6.13 merge window
-Message-ID: <20241001085540.GB7504@google.com>
-References: <20240906075439.98476-1-tzimmermann@suse.de>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3181A10E042
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Oct 2024 09:26:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1727774776; x=1759310776;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=/zTxW2Q4rdr/1ja5lFCscVDf0DCutjtKqBZkiH6uLoc=;
+ b=aiftIwu6wJyksF/ovdqFztgPWuuys22S1rF36uIcjBoB2FynhtBmk/xk
+ 2jF/eEmfY2OABFqea/Rz9XXu2ljNGysStqTvYEpytRl717HR90t9p3Ucl
+ R7ICBOahdrWWf+tzTYqf7L1Vk+aMfKacRfQlLrIbuzsYud/1afrW4WRly
+ qPfNF8GqorTPH5f0lvfp34apGKEkKNjZPYzFMqBTmCWdoXR6XsDypjheT
+ mbTQTqGfTNqtPMzzDc3/1SyvrfZ0/ERjELVYlaM+c/8EjoU2RqnOSUz5Q
+ qDIE0L6ONKbUddoudzzMZQBunUYOkrq7L1MjqXO/PFuTXjJa60fN5g3/e g==;
+X-CSE-ConnectionGUID: vp6HUqUxRiKJ8nAVK4oW3g==
+X-CSE-MsgGUID: PtynfnTRRxWJ3x3BFnqgZw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11211"; a="30781573"
+X-IronPort-AV: E=Sophos;i="6.11,167,1725346800"; d="scan'208";a="30781573"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Oct 2024 02:26:15 -0700
+X-CSE-ConnectionGUID: 76G6BrhES1ChPPJWS/k47A==
+X-CSE-MsgGUID: K4Tt8maWQkG40hKqSfKtgg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,167,1725346800"; d="scan'208";a="104390946"
+Received: from slindbla-desk.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.188])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Oct 2024 02:26:08 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Lyude Paul <lyude@redhat.com>, dri-devel@lists.freedesktop.org,
+ rust-for-linux@vger.kernel.org
+Cc: Asahi Lina <lina@asahilina.net>, Danilo Krummrich <dakr@kernel.org>,
+ mcanal@igalia.com, airlied@redhat.com, zhiw@nvidia.com, cjia@nvidia.com,
+ jhubbard@nvidia.com, Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor
+ <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun
+ Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj?=
+ =?utf-8?Q?=C3=B6rn?= Roy Baron
+ <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>, Andreas
+ Hindborg <a.hindborg@samsung.com>, Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@redhat.com>, Mika
+ Westerberg <mika.westerberg@linux.intel.com>, open list
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [WIP RFC v2 01/35] WIP: rust/drm: Add fourcc bindings
+In-Reply-To: <20240930233257.1189730-2-lyude@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240930233257.1189730-1-lyude@redhat.com>
+ <20240930233257.1189730-2-lyude@redhat.com>
+Date: Tue, 01 Oct 2024 12:25:54 +0300
+Message-ID: <87wmisuqcd.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240906075439.98476-1-tzimmermann@suse.de>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,76 +80,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enjoy!
+On Mon, 30 Sep 2024, Lyude Paul <lyude@redhat.com> wrote:
+> diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_helper.h
+> index b2e05f8c2ee7d..04898f70ef1b8 100644
+> --- a/rust/bindings/bindings_helper.h
+> +++ b/rust/bindings/bindings_helper.h
+> @@ -9,6 +9,7 @@
+>  #include <drm/drm_device.h>
+>  #include <drm/drm_drv.h>
+>  #include <drm/drm_file.h>
+> +#include <drm/drm_fourcc.h>
+>  #include <drm/drm_gem.h>
+>  #include <drm/drm_gem_shmem_helper.h>
+>  #include <drm/drm_ioctl.h>
 
-The following changes since commit 9852d85ec9d492ebef56dc5f229416c925758edc:
+Unrelated to the patch, sorry, but... what's the idea with putting all
+the bindings in the same file? Does it mean every time any of the files
+or their dependencies get changed, *all* the rust bindings get
+regenerated? Should there be more granularity?
 
-  Linux 6.12-rc1 (2024-09-29 15:06:19 -0700)
-
-are available in the Git repository at:
-
-  ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/lee/backlight.git tags/ib-backlight-hid-fbdev-v6.13
-
-for you to fetch changes up to 0d580d99749e759b62dc8e28f511310e9235da7a:
-
-  backlight: lcd: Do not include <linux/fb.h> in lcd header (2024-09-30 16:49:42 +0100)
-
-----------------------------------------------------------------
-Immutable branch between Backlight, HID and fbdev due for the v6.13 merge window
-
-----------------------------------------------------------------
-Thomas Zimmermann (28):
-      backlight: lcd: Rearrange code in fb_notifier_callback()
-      backlight: lcd: Test against struct fb_info.lcd_dev
-      backlight: lcd: Add LCD_POWER_ constants for power states
-      backlight: corgi_lcd: Use lcd power constants
-      backlight: hx8357: Use lcd power constants
-      backlight: ili922x: Use lcd power constants
-      backlight: ili9320: Use lcd power constants
-      backlight: jornada720_lcd: Include <linux/io.h> for IOMEM() macro
-      backlight: jornada720_lcd: Use lcd power constants
-      backlight: l4f00242t03: Use lcd power constants
-      backlight: lms283gf05: Use lcd power constants
-      backlight: lms501kf03: Remove unnecessary include of <linux/backlight.h>
-      backlight: lms501kf03: Use lcd power constants
-      backlight: ltv350qv: Use lcd power constants
-      backlight: otm3225a: Use lcd power constants
-      backlight: platform_lcd: Remove include statement for <linux/backlight.h>
-      backlight: platform_lcd: Remove match_fb from struct plat_lcd_data
-      backlight: platform_lcd: Use lcd power constants
-      backlight: tdo24m: Use lcd power constants
-      fbdev: clps711x-fb: Replace check_fb in favor of struct fb_info.lcd_dev
-      fbdev: clps711x-fb: Use lcd power constants
-      fbdev: imxfb: Replace check_fb in favor of struct fb_info.lcd_dev
-      fbdev: imxfb: Use lcd power constants
-      fbdev: omap: Use lcd power constants
-      HID: picoLCD: Replace check_fb in favor of struct fb_info.lcd_dev
-      backlight: lcd: Replace check_fb with controls_device
-      backlight: lcd: Remove struct fb_videomode from set_mode callback
-      backlight: lcd: Do not include <linux/fb.h> in lcd header
-
- drivers/hid/hid-picolcd_fb.c             |  4 +++
- drivers/hid/hid-picolcd_lcd.c            |  6 ----
- drivers/video/backlight/corgi_lcd.c      | 17 +++++------
- drivers/video/backlight/hx8357.c         |  2 +-
- drivers/video/backlight/ili922x.c        |  7 ++---
- drivers/video/backlight/ili9320.c        | 15 +++++-----
- drivers/video/backlight/jornada720_lcd.c | 10 +++----
- drivers/video/backlight/l4f00242t03.c    | 32 ++++++++++----------
- drivers/video/backlight/lcd.c            | 50 ++++++++++++++++++++++++--------
- drivers/video/backlight/lms283gf05.c     |  2 +-
- drivers/video/backlight/lms501kf03.c     | 24 +++++++--------
- drivers/video/backlight/ltv350qv.c       | 15 +++++-----
- drivers/video/backlight/otm3225a.c       |  2 +-
- drivers/video/backlight/platform_lcd.c   | 20 +++++--------
- drivers/video/backlight/tdo24m.c         | 19 ++++++------
- drivers/video/fbdev/clps711x-fb.c        | 29 +++++++++---------
- drivers/video/fbdev/imxfb.c              | 32 +++++++-------------
- drivers/video/fbdev/omap/lcd_ams_delta.c |  8 ++---
- include/linux/fb.h                       | 13 +++++++++
- include/linux/lcd.h                      | 29 +++++++++++++-----
- include/video/platform_lcd.h             |  3 --
- 21 files changed, 181 insertions(+), 158 deletions(-)
+BR,
+Jani.
 
 -- 
-Lee Jones [李琼斯]
+Jani Nikula, Intel
