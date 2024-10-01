@@ -2,40 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D459898B9AE
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2024 12:28:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B63A798BA91
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2024 13:05:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9584410E2E1;
-	Tue,  1 Oct 2024 10:28:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2427B10E00C;
+	Tue,  1 Oct 2024 11:05:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
- [210.160.252.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9FDDC10E2E1
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Oct 2024 10:28:28 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="6.11,167,1725289200"; d="scan'208";a="224444664"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
- by relmlie6.idc.renesas.com with ESMTP; 01 Oct 2024 19:28:27 +0900
-Received: from localhost.localdomain (unknown [10.226.93.56])
- by relmlir6.idc.renesas.com (Postfix) with ESMTP id E6AC741D5AFB;
- Tue,  1 Oct 2024 19:28:16 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH] drm: renesas: rz-du: Drop DU_MCR0_DPI_OE macro
-Date: Tue,  1 Oct 2024 11:28:12 +0100
-Message-ID: <20241001102814.94279-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
+Received: from tretyak2.mcst.ru (tretyak2.mcst.ru [212.5.119.215])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D6CF10E00C;
+ Tue,  1 Oct 2024 11:05:05 +0000 (UTC)
+Received: from tretyak2.mcst.ru (localhost [127.0.0.1])
+ by tretyak2.mcst.ru (Postfix) with ESMTP id F3FF5102392;
+ Tue,  1 Oct 2024 14:05:00 +0300 (MSK)
+Received: from frog.lab.sun.mcst.ru (frog.lab.sun.mcst.ru [176.16.4.50])
+ by tretyak2.mcst.ru (Postfix) with ESMTP id EAC41101765;
+ Tue,  1 Oct 2024 14:04:10 +0300 (MSK)
+Received: from artemiev-i.lab.sun.mcst.ru (avior-1 [192.168.63.223])
+ by frog.lab.sun.mcst.ru (8.13.4/8.12.11) with ESMTP id 491B4AwQ005662;
+ Tue, 1 Oct 2024 14:04:10 +0300
+From: Igor Artemiev <Igor.A.Artemiev@mcst.ru>
+To: Alex Deucher <alexander.deucher@amd.com>
+Cc: Igor Artemiev <Igor.A.Artemiev@mcst.ru>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Kenneth Feng <kenneth.feng@amd.com>, Simona Vetter <simona@ffwll.ch>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org
+Subject: [PATCH] drm/amd/pm: check return value of amdgpu_irq_add_id()
+Date: Tue,  1 Oct 2024 13:57:27 +0300
+Message-Id: <20241001105727.1582368-1-Igor.A.Artemiev@mcst.ru>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Anti-Virus: Kaspersky Anti-Virus for Linux Mail Server 5.6.39/RELEASE,
+ bases: 20111107 #2745587, check: 20241001 notchecked
+X-AV-Checked: ClamAV using ClamSMTP
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,42 +53,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The DPI_OE bit is removed from the latest RZ/G2UL and RZ/G2L hardware
-manual. So, drop this macro.
+amdgpu_irq_ad_id() may fail and the irq handlers will not be registered.
+This patch adds error code check.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Found by Linux Verification Center (linuxtesting.org) with static
+analysis tool SVACE.
+
+Signed-off-by: Igor Artemiev <Igor.A.Artemiev@mcst.ru>
 ---
- drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+ .../drm/amd/pm/powerplay/hwmgr/smu_helper.c   | 19 ++++++++++++++++---
+ 1 file changed, 16 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
-index c4c1474d487e..6e7aac6219be 100644
---- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
-+++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
-@@ -28,7 +28,6 @@
- #include "rzg2l_du_vsp.h"
- 
- #define DU_MCR0			0x00
--#define DU_MCR0_DPI_OE		BIT(0)
- #define DU_MCR0_DI_EN		BIT(8)
- 
- #define DU_DITR0		0x10
-@@ -217,14 +216,9 @@ static void rzg2l_du_crtc_put(struct rzg2l_du_crtc *rcrtc)
- 
- static void rzg2l_du_start_stop(struct rzg2l_du_crtc *rcrtc, bool start)
+diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu_helper.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu_helper.c
+index 79a566f3564a..109df1039d5c 100644
+--- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu_helper.c
++++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu_helper.c
+@@ -647,28 +647,41 @@ int smu9_register_irq_handlers(struct pp_hwmgr *hwmgr)
  {
--	struct rzg2l_du_crtc_state *rstate = to_rzg2l_crtc_state(rcrtc->crtc.state);
- 	struct rzg2l_du_device *rcdu = rcrtc->dev;
--	u32 val = DU_MCR0_DI_EN;
+ 	struct amdgpu_irq_src *source =
+ 		kzalloc(sizeof(struct amdgpu_irq_src), GFP_KERNEL);
++	int ret;
  
--	if (rstate->outputs & BIT(RZG2L_DU_OUTPUT_DPAD0))
--		val |= DU_MCR0_DPI_OE;
--
--	writel(start ? val : 0, rcdu->mmio + DU_MCR0);
-+	writel(start ? DU_MCR0_DI_EN : 0, rcdu->mmio + DU_MCR0);
+ 	if (!source)
+ 		return -ENOMEM;
+ 
+ 	source->funcs = &smu9_irq_funcs;
+ 
+-	amdgpu_irq_add_id((struct amdgpu_device *)(hwmgr->adev),
++	ret = amdgpu_irq_add_id((struct amdgpu_device *)(hwmgr->adev),
+ 			SOC15_IH_CLIENTID_THM,
+ 			THM_9_0__SRCID__THM_DIG_THERM_L2H,
+ 			source);
+-	amdgpu_irq_add_id((struct amdgpu_device *)(hwmgr->adev),
++	if (ret)
++		goto err;
++
++	ret = amdgpu_irq_add_id((struct amdgpu_device *)(hwmgr->adev),
+ 			SOC15_IH_CLIENTID_THM,
+ 			THM_9_0__SRCID__THM_DIG_THERM_H2L,
+ 			source);
++	if (ret)
++		goto err;
+ 
+ 	/* Register CTF(GPIO_19) interrupt */
+-	amdgpu_irq_add_id((struct amdgpu_device *)(hwmgr->adev),
++	ret = amdgpu_irq_add_id((struct amdgpu_device *)(hwmgr->adev),
+ 			SOC15_IH_CLIENTID_ROM_SMUIO,
+ 			SMUIO_9_0__SRCID__SMUIO_GPIO19,
+ 			source);
++	if (ret)
++		goto err;
+ 
+ 	return 0;
++
++err:
++	kfree(source);
++
++	return ret;
  }
  
- static void rzg2l_du_crtc_start(struct rzg2l_du_crtc *rcrtc)
+ void *smu_atom_get_data_table(void *dev, uint32_t table, uint16_t *size,
 -- 
-2.43.0
+2.39.2
 
