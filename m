@@ -2,75 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 238D598B4AA
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2024 08:42:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D49B98B4BD
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2024 08:43:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C686D10E5D9;
-	Tue,  1 Oct 2024 06:42:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F1D410E5DF;
+	Tue,  1 Oct 2024 06:43:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="J3hqxMrC";
+	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ite.com.tw header.i=@ite.com.tw header.b="lXbgNz5+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A41E310E16C;
- Tue,  1 Oct 2024 06:42:06 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id A13145C53FD;
- Tue,  1 Oct 2024 06:42:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id DBEA6C4CEDB;
- Tue,  1 Oct 2024 06:42:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1727764924;
- bh=eHhi3IE5QYIljEIZfCEN/SVnk/FjMdvW+31klwdSPOA=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=J3hqxMrCvJxWVepJQlPHo2PHHZQ4EeFWui20tkpxEkrd5IA45R8yRYZLJMDGN738R
- GUzmf+EjcsZEUuoEmKGi1MDoiBzIHhbxoUKnyi2qnRL8eEi0ald8K90CSD2Mv8YXs8
- VE2wCS9otmwQs9WlG2octRcE2MUrk4ILURn7wHlHpwW8aPpQt/dHKRlYsWBmg39oOa
- OQ4EOHR5wy7LTAuJA1iR2FsfDKqnixBuPo63A/QyPb0VhxqHGZfLERpALSt18NwVSN
- aSGfSj1GXU9U+7hbeZ00vf7uGNl0/Dgt/gdtHFIPZSxA6095gnzDG6WvByTfIZYJiA
- kneJlJ1uVSIng==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id D3868CEB2E8;
- Tue,  1 Oct 2024 06:42:04 +0000 (UTC)
-From: Mahadevan via B4 Relay <devnull+quic_mahap.quicinc.com@kernel.org>
-Date: Tue, 01 Oct 2024 12:11:40 +0530
-Subject: [PATCH v3 5/5] arm64: dts: qcom: sa8775p: add display dt nodes for
- MDSS0 and DPU
+Received: from ironport.ite.com.tw (60-251-196-230.hinet-ip.hinet.net
+ [60.251.196.230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 744F610E5DC
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Oct 2024 06:43:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ite.com.tw; s=dkim;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=yId9hUjXMvIgIK6EfcFuOboUd7/oDFwEzCFgGZmvOZs=;
+ b=lXbgNz5+ZHEg03rJXnxpTB8uza0OgIZakcoogsLRkwesleiBlzRbQDRM
+ L4ZMpsHJK7w58SZEq3iX+UPH6ZEHSg6QiRzIH2vAXnmvUqSt35pRlJ6Lh
+ kTOELNdGnUcbSkjuqk7AiqbF5vtPOdZ6+6uxnqZ2qiHQ2NP2g5vOAZLa/
+ Ak3suGPCJOGAjpbbRZUAz8ACda2/rJw+tMW3ratM+vkpubL18aCzUwXNv
+ lRVGuL9Uqy+lxRv09K5tVrRNcDPQVai4HVCFSGf+hyuoiIlQKtu1kEjlt
+ 24eWKllLQCxYnXLd6W5/7wxSBS/pel1NIGged0B108rBzRhj4So3ELCOH Q==;
+X-CSE-ConnectionGUID: 19ILxpjeTqiKkqOJYEVW6Q==
+X-CSE-MsgGUID: EnfVdjXZQhawdG3M6Ix2UA==
+Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
+ by ironport.ite.com.tw with ESMTP; 01 Oct 2024 14:43:42 +0800
+Received: from tpemail1.internal.ite.com.tw (TPEMAIL1.internal.ite.com.tw
+ [192.168.15.58]) by mse.ite.com.tw with ESMTP id 4916hcY2044673;
+ Tue, 1 Oct 2024 14:43:38 +0800 (GMT-8)
+ (envelope-from Hermes.Wu@ite.com.tw)
+Received: from LAPTOP-C4GM1L3U.localdomain (192.168.82.6) by
+ TPEMAIL1.internal.ite.com.tw (192.168.15.58) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Tue, 1 Oct 2024 14:43:38 +0800
+From: Hermes Wu <Hermes.Wu@ite.com.tw>
+To: Pin-yen Lin <treapking@chromium.org>
+CC: Kenneth Hung <Kenneth.hung@ite.com.tw>, Pet Weng <Pet.Weng@ite.com.tw>,
+ Hermes Wu <Hermes.wu@ite.com.tw>, Allen Chen <allen.chen@ite.com.tw>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, "open
+ list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>, Hermes Wu
+ <hermes.wu@ite.com.tw>, Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas
+ Karlman <jonas@kwiboo.se>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, open list
+ <linux-kernel@vger.kernel.org>, Robert Foss <rfoss@kernel.org>
+Subject: [PATCH v5 00/10]drm/bridge: it6505: fix HDCP CTS fail items and add
+ MCCS support
+Date: Tue, 1 Oct 2024 14:42:59 +0800
+Message-ID: <20241001064305.32180-1-Hermes.Wu@ite.com.tw>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241001-patchv3_1-v3-5-d23284f45977@quicinc.com>
-References: <20241001-patchv3_1-v3-0-d23284f45977@quicinc.com>
-In-Reply-To: <20241001-patchv3_1-v3-0-d23284f45977@quicinc.com>
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Mahadevan <quic_mahap@quicinc.com>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc: Kalyan Thota <quic_kalyant@quicinc.com>, 
- Jayaprakash Madisetty <quic_jmadiset@quicinc.com>, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1727764922; l=3736;
- i=quic_mahap@quicinc.com; s=20241001; h=from:subject:message-id;
- bh=mwU+T+g7aZfnj3h6yUCl49ZVraCw0HZEXDEFdRAhnjw=;
- b=XcwdYY/DjaO3MExCm5Duwt4n6hGSj6aUbW5VG4zX8y7dIQpI+o6mNcrdOWmbCWFhrz/64xzR9
- /qDLJy8aXk4DndR0Y+SM5Dyy1wchEKngN/LEnenQZ4LEPHsXx9oyYyV
-X-Developer-Key: i=quic_mahap@quicinc.com; a=ed25519;
- pk=Xc9CA438o9mZKp4uZ8vZMclALnJ8XtlKn/n3Y42mMBI=
-X-Endpoint-Received: by B4 Relay for quic_mahap@quicinc.com/20241001 with
- auth_id=236
-X-Original-From: Mahadevan <quic_mahap@quicinc.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [192.168.82.6]
+X-ClientProxiedBy: TPEMAIL1.internal.ite.com.tw (192.168.15.58) To
+ TPEMAIL1.internal.ite.com.tw (192.168.15.58)
+X-TM-SNTS-SMTP: 5BEC668B2C8AAEBEF419837CB032D160902223DAA3B18AA826522A2476B3CE132002:8
+X-MAIL: mse.ite.com.tw 4916hcY2044673
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,129 +73,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: quic_mahap@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Mahadevan <quic_mahap@quicinc.com>
+From: Hermes Wu <Hermes.wu@ite.com.tw>
 
-Add devicetree changes to enable MDSS0 display-subsystem its
-display-controller(DPU) for Qualcomm SA8775P platform.
+This is a v5 patch-set.
 
-Signed-off-by: Mahadevan <quic_mahap@quicinc.com>
----
- arch/arm64/boot/dts/qcom/sa8775p.dtsi | 89 +++++++++++++++++++++++++++++++++++
- 1 file changed, 89 insertions(+)
+There are lots of failure items while running HDCP CTS using UNIGRAF DPR-100.
+In Order to fix those failures, HDCP flow needs to be changed.
 
-diff --git a/arch/arm64/boot/dts/qcom/sa8775p.dtsi b/arch/arm64/boot/dts/qcom/sa8775p.dtsi
-index 8fd68a8aa916e6595134b470f87b18b509178a51..66bd5e1c82a426f93097dee63a69c03527f04b3e 100644
---- a/arch/arm64/boot/dts/qcom/sa8775p.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sa8775p.dtsi
-@@ -6,6 +6,7 @@
- #include <dt-bindings/interconnect/qcom,icc.h>
- #include <dt-bindings/interrupt-controller/arm-gic.h>
- #include <dt-bindings/clock/qcom,rpmh.h>
-+#include <dt-bindings/clock/qcom,sa8775p-dispcc.h>
- #include <dt-bindings/clock/qcom,sa8775p-gcc.h>
- #include <dt-bindings/clock/qcom,sa8775p-gpucc.h>
- #include <dt-bindings/interconnect/qcom,sa8775p-rpmh.h>
-@@ -2937,6 +2938,94 @@ camcc: clock-controller@ade0000 {
- 			#power-domain-cells = <1>;
- 		};
- 
-+		mdss0: display-subsystem@ae00000 {
-+			compatible = "qcom,sa8775p-mdss";
-+			reg = <0x0 0x0ae00000 0x0 0x1000>;
-+			reg-names = "mdss";
-+
-+			/* same path used twice */
-+			interconnects = <&mmss_noc MASTER_MDP0 QCOM_ICC_TAG_ACTIVE_ONLY
-+					 &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ACTIVE_ONLY>,
-+					<&mmss_noc MASTER_MDP1 QCOM_ICC_TAG_ACTIVE_ONLY
-+					 &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ACTIVE_ONLY>,
-+					<&gem_noc MASTER_APPSS_PROC QCOM_ICC_TAG_ACTIVE_ONLY
-+					 &config_noc SLAVE_DISPLAY_CFG QCOM_ICC_TAG_ACTIVE_ONLY>;
-+			interconnect-names = "mdp0-mem",
-+					     "mdp1-mem",
-+					     "cpu-cfg";
-+
-+			resets = <&dispcc0 MDSS_DISP_CC_MDSS_CORE_BCR>;
-+
-+			power-domains = <&dispcc0 MDSS_DISP_CC_MDSS_CORE_GDSC>;
-+
-+			clocks = <&dispcc0 MDSS_DISP_CC_MDSS_AHB_CLK>,
-+				 <&gcc GCC_DISP_HF_AXI_CLK>,
-+				 <&dispcc0 MDSS_DISP_CC_MDSS_MDP_CLK>;
-+
-+			interrupts = <GIC_SPI 92 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-controller;
-+			#interrupt-cells = <1>;
-+
-+			iommus = <&apps_smmu 0x1000 0x402>;
-+
-+			#address-cells = <2>;
-+			#size-cells = <2>;
-+			ranges;
-+
-+			status = "disabled";
-+
-+			mdss0_mdp: display-controller@ae01000 {
-+				compatible = "qcom,sa8775p-dpu";
-+				reg = <0x0 0x0ae01000 0x0 0x8f000>,
-+				      <0x0 0x0aeb0000 0x0 0x2008>;
-+				reg-names = "mdp", "vbif";
-+
-+				clocks = <&gcc GCC_DISP_HF_AXI_CLK>,
-+					 <&dispcc0 MDSS_DISP_CC_MDSS_AHB_CLK>,
-+					 <&dispcc0 MDSS_DISP_CC_MDSS_MDP_LUT_CLK>,
-+					 <&dispcc0 MDSS_DISP_CC_MDSS_MDP_CLK>,
-+					 <&dispcc0 MDSS_DISP_CC_MDSS_VSYNC_CLK>;
-+				clock-names = "bus",
-+					      "iface",
-+					      "lut",
-+					      "core",
-+					      "vsync";
-+
-+				assigned-clocks = <&dispcc0 MDSS_DISP_CC_MDSS_VSYNC_CLK>;
-+				assigned-clock-rates = <19200000>;
-+
-+				operating-points-v2 = <&mdss0_mdp_opp_table>;
-+				power-domains = <&rpmhpd RPMHPD_MMCX>;
-+
-+				interrupt-parent = <&mdss0>;
-+				interrupts = <0>;
-+
-+				mdss0_mdp_opp_table: opp-table {
-+					compatible = "operating-points-v2";
-+
-+					opp-375000000 {
-+						opp-hz = /bits/ 64 <375000000>;
-+						required-opps = <&rpmhpd_opp_svs_l1>;
-+					};
-+
-+					opp-500000000 {
-+						opp-hz = /bits/ 64 <500000000>;
-+						required-opps = <&rpmhpd_opp_nom>;
-+					};
-+
-+					opp-575000000 {
-+						opp-hz = /bits/ 64 <575000000>;
-+						required-opps = <&rpmhpd_opp_turbo>;
-+					};
-+
-+					opp-650000000 {
-+						opp-hz = /bits/ 64 <650000000>;
-+						required-opps = <&rpmhpd_opp_turbo_l1>;
-+					};
-+				};
-+			};
-+		};
-+
- 		dispcc0: clock-controller@af00000 {
- 			compatible = "qcom,sa8775p-dispcc0";
- 			reg = <0x0 0x0af00000 0x0 0x20000>;
+The DisplayPort AUX protocol supports I2C transport.
+In Order to support MCCS via the aux channel, the aux-i2c operation is added.
+
+v4 ->v5:
+	-add more messages for changes.
+	-[2/10] modified AUX transfer data size judgment.
+		change for-loop to do-while.
+	-[7/10] change for-loop to do-while.
+	-[9/10] change wait timer with timer_after()
+
+	links:
+	https://lore.kernel.org/all/20240926074755.22176-4-Hermes.Wu@ite.com.tw/
+	https://lore.kernel.org/all/20240926075134.22394-1-Hermes.Wu@ite.com.tw/
+
+v3 ->v4:
+	-split changes  into patches.
+
+v2- > v3:
+	-split aux read  KSV function to a patch.
+	-[1/3] new in v3
+	-[2/3] add description of patch
+
+v1 -> v2 :
+	- ignored.
+
+
+
+Hermes Wu (10):
+  drm/bridge: it6505: Change definition of AUX_FIFO_MAX_SIZE
+  drm/bridge: it6505: improve AUX operation for edid read
+  drm/bridge: it6505: add AUX operation for HDCP KSV list read
+  drm/bridge: it6505: Change definition MAX_HDCP_DOWN_STREAM_COUNT
+  drm/bridge: it6505: fix HDCP Bstatus check
+  drm/bridge: it6505: fix HDCP encryption when R0 ready
+  drm/bridge: it6505: fix HDCP CTS KSV list read with UNIGRAF DPR-100.
+  drm/bridge: it6505: fix HDCP CTS compare V matching
+  drm/bridge: it6505: fix HDCP CTS KSV list wait timer
+  drm/bridge: it6505: add I2C functionality on AUX
+
+ drivers/gpu/drm/bridge/ite-it6505.c | 334 +++++++++++++++++++++++-----
+ 1 file changed, 277 insertions(+), 57 deletions(-)
 
 -- 
 2.34.1
-
 
