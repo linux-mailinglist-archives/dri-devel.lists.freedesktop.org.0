@@ -2,82 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C15298BAF7
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2024 13:26:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFF4298BB2A
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2024 13:33:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08E6910E185;
-	Tue,  1 Oct 2024 11:26:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D2B810E16B;
+	Tue,  1 Oct 2024 11:33:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="jDb03W+H";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="AcYsMt/L";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
- [209.85.208.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAEBC10E185
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Oct 2024 11:26:37 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id
- 4fb4d7f45d1cf-5c5cf26b95aso6341263a12.3
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Oct 2024 04:26:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1727781996; x=1728386796; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc:subject
- :date:message-id:reply-to;
- bh=b1zPP1JDn3iYgVYvQiKdhlmILDTIwPAaCpUBY9E3Fhc=;
- b=jDb03W+HH08zxZwOcLZoxxek2k8i9SvLFZLfULFski7WfTM6SnEzj8c85hPWb5SZwI
- Cc9UUxIov2cYWRloHgUuTsLbQw93PEk61/He0axMTL7C9o2dZ5jm3Yj9VFQr66ASkHGk
- RUgLWALlDxGVuCVDE86lX5h/N2hUuuoo2UM2aDt0CNMOE392adpaNQllq3+wuvETOMTI
- CTfpFlZvcz3ne1pi4iv1nQMEii3w6W7WTQcbFyC4VcHjaJPnYMOMfrGbqkm/RdiZQN2K
- EHRemJ7yaFCnIJcn0DCz3twHTFYyN4i4z/kVXu/twfgG+kTtcFm7pEYkikjsnRYHrAXc
- fu8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727781996; x=1728386796;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=b1zPP1JDn3iYgVYvQiKdhlmILDTIwPAaCpUBY9E3Fhc=;
- b=JfmopjQp1niNoLqM2lKeJPlpD82XI6O8KzWt5V3Kn3Z0Eq8V1F10uEWag5cbvgCeXs
- 01lpv4XyNghQepLwPABnUHKJ15zytmv+F2tFetsXuQFKCcgyMmW0/rXOukfAo/hMBJ4W
- s4NwXvEHSviDUF7zCDwcos3bo065E/C2URs4ova3BA/m/nREI1T3vHyBO6TF6eNycIys
- bISX4YhGvOD+MWuRtA7/M/CCJ+lbbQMluCad1VObi0ZFgXbmfBYeiQqOGr4s42PmnF47
- /RG2R62SCbD/3NsNbUzl27FHx8t44Jb4cDBShKz4+VbF5ieT9G3fcnFm0wL2yBbfP9B9
- 8S6w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWi5OgHBdf3aLV5OVsM8/ZdtVJYekpd7DNqG0h/f/UMalq0fgWkGr5bbRfmmdcBi5gt30MbqQ3GvBI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwiRyiqGoKLwXrlh72A+ZcgptmV40Nn2TZpFNU3MQ8sTre2eWD1
- ufKv1i7ixySxg8fCNA41IZOjhD5DBbA1tVe4Qg06nUkG7JgHg+MjKWn09rr0Frk=
-X-Google-Smtp-Source: AGHT+IFPmg6eWFezHez5IU0jt/mbzzvx2KZyfUaKlRhXu9JDJPG7pX6tMogPUjGRrKvVvbvxta9LUw==
-X-Received: by 2002:a05:6402:4410:b0:5c0:ad76:f703 with SMTP id
- 4fb4d7f45d1cf-5c88261ab2bmr14745180a12.24.1727781995911; 
- Tue, 01 Oct 2024 04:26:35 -0700 (PDT)
-Received: from [127.0.0.1] ([5.176.33.163]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-5c88248b628sm5989821a12.66.2024.10.01.04.26.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Oct 2024 04:26:34 -0700 (PDT)
-Date: Tue, 01 Oct 2024 14:26:30 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Heiner Kallweit <hkallweit1@gmail.com>
-CC: Oded Gabbay <ogabbay@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Hans de Goede <hdegoede@redhat.com>,
- "open list:AMD KFD" <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH 1/6] drm/sysfs: Remove version attribute
-User-Agent: K-9 Mail for Android
-In-Reply-To: <c7060b7f-cd01-4185-bba7-0e3e318ab196@gmail.com>
-References: <499229fd-5344-4799-85bf-93e4b3b45eca@gmail.com>
- <b2d8d283-36cc-42e8-a8e7-e57e9698a9b5@gmail.com>
- <zqgp5une7apdgiytnhkrqz7ec2zrb5lsxzwwjvtcvs3mke3bns@tplkxi2isud4>
- <72ee3be1-f4bb-48bf-970b-740f272a174c@gmail.com>
- <0A960D8C-FC76-4930-BBF1-1285A4AFE876@linaro.org>
- <c7060b7f-cd01-4185-bba7-0e3e318ab196@gmail.com>
-Message-ID: <813A678B-7B68-47DA-8D06-6C721CEF6E2F@linaro.org>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67BED10E16B
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Oct 2024 11:33:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1727782395;
+ bh=7Mt3V0k4aRzDBUrXL/7pCXO5/s8xTYlqJUHAsA011LQ=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=AcYsMt/LHBxwxCf0x5xfODlOdva0Rui5xZQGSChkM7B6o6i4QakrvO+tRvjHH2k6T
+ SsCVaEThf6rSM5iRbJ/2XQ/5x3Ux6sV9ClJr97/GnUrIH1yXVrwtBK240uQrSYtn65
+ knu+1X8+TuNP8j18HaPLdJ9cfsWAb5jzMx4uKAuljcoTxBmESdc0IK1TRyY1Uo2PoN
+ Qxw/zqIiJGqveoSmkKLMcMtFrNlzhLMJHzlozI0ALQjeKQ9C6TUBWtLiR12NM0pNM+
+ DFabfFmhVRVU/sRJ02Mbr50puDlI3Pl1kAiCVF+44b7JY5fShjwoHqjX6er058U3Jv
+ Zviu+pWaQ59YA==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 3DBD917E0F7D;
+ Tue,  1 Oct 2024 13:33:14 +0200 (CEST)
+Message-ID: <56c4e87c-6774-4542-8ae7-dab89750081c@collabora.com>
+Date: Tue, 1 Oct 2024 13:33:13 +0200
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 3/3] drm/mediatek: Implement OF graphs support for
+ display paths
+To: =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "sui.jingfeng@linux.dev" <sui.jingfeng@linux.dev>,
+ "wenst@chromium.org" <wenst@chromium.org>,
+ Sjoerd Simons <sjoerd@collabora.com>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ =?UTF-8?B?U2hhd24gU3VuZyAo5a6L5a2d6KyZKQ==?= <Shawn.Sung@mediatek.com>,
+ "mripard@kernel.org" <mripard@kernel.org>,
+ =?UTF-8?B?Sml0YW8gU2hpICjnn7PorrDmtpsp?= <jitao.shi@mediatek.com>,
+ "michael@walle.cc" <michael@walle.cc>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
+ "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "robh@kernel.org" <robh@kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "airlied@gmail.com" <airlied@gmail.com>,
+ "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+ "kernel@collabora.com" <kernel@collabora.com>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ =?UTF-8?B?WXUtY2hhbmcgTGVlICjmnY7nprnnkosp?= <Yu-chang.Lee@mediatek.com>,
+ "mwalle@kernel.org" <mwalle@kernel.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ Alexandre Mergnat <amergnat@baylibre.com>
+References: <20240910105054.125005-1-angelogioacchino.delregno@collabora.com>
+ <01020191db8f22cd-0f5d733b-420e-453c-8607-a3e9f70f32d6-000000@eu-west-1.amazonses.com>
+ <e3953947f5cf05e8e6a2ec3448cf0c08a8c39c1c.camel@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <e3953947f5cf05e8e6a2ec3448cf0c08a8c39c1c.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,127 +89,228 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On October 1, 2024 2:07:28 PM GMT+03:00, Heiner Kallweit <hkallweit1@gmail=
-=2Ecom> wrote:
->On 01=2E10=2E2024 12:01, Dmitry Baryshkov wrote:
->> On September 30, 2024 1:49:41 PM GMT+03:00, Heiner Kallweit <hkallweit1=
-@gmail=2Ecom> wrote:
->>> On 22=2E09=2E2024 16:55, Dmitry Baryshkov wrote:
->>>> On Sun, Sep 08, 2024 at 02:08:58PM GMT, Heiner Kallweit wrote:
->>>>> This undocumented attribute returns a version string which hasn't be=
-en
->>>>> changed for ages=2E libdrm doesn't use it and I also found no other =
-user=2E
->>>>> So I think we can remove it=2E
->>>>
->>>> This file is a part of the ABI=2E Commit 82d5e73f6b79 ("drm: drop obs=
-olete
->>>> drm_core=2Eh") replaced variable string with the fixed value that we
->>>> currently have, but at the same it clearly documented that the file i=
-s
->>>> being preserved for the sake of binary compatibility=2E
->>>>
->>> The drm version attribute is documented neither under Documentation/gp=
-u
->>> nor under Documentation/ABI=2E So do we really have to consider it
->>> part of the ABI? And are you aware of any actual user of this attribut=
-e?
->>>
->>> The author of 82d5e73f6b79 wasn't sure either, and therefore didn't
->>> dare to drop the attribute (8 yrs ago)=2E He didn't make any statement=
- that
->>> the attribute is actually used=2E
->>=20
->> A very quick search points out that the file is being used:=20
->>=20
->> <https://codesearch=2Edebian=2Enet/search?q=3Ddrm%2Fversion>
->>=20
->
->Thanks=2E However this script doesn't actually use the version value
->and would work perfectly fine also w/o this attribute=2E
->
->>=20
->>>
->>> 6=2E12-rc1 is just out, so we could drop the attribute in linux-next a=
-nd
->>> would have several weeks before the next merge window to find out
->>> whether anybody complains=2E
->>=20
->> No, this is not the way to treat userspace ABI=2E
->>=20
->
->Mileage of subsystem maintainers seems to vary in this regard=2E
->See following example where Greg supported such an approach=2E
->https://www=2Espinics=2Enet/lists/linux-i2c/msg71821=2Ehtml
->But fine with me, we can also leave the version attribute in=2E
+Il 01/10/24 12:07, CK Hu (胡俊光) ha scritto:
+> Hi, Angelo:
+> 
+> On Tue, 2024-09-10 at 10:51 +0000, AngeloGioacchino Del Regno wrote:
+>> It is impossible to add each and every possible DDP path combination
+>> for each and every possible combination of SoC and board: right now,
+>> this driver hardcodes configuration for 10 SoCs and this is going to
+>> grow larger and larger, and with new hacks like the introduction of
+>> mtk_drm_route which is anyway not enough for all final routes as the
+>> DSI cannot be connected to MERGE if it's not a dual-DSI, or enabling
+>> DSC preventively doesn't work if the display doesn't support it, or
+>> others.
+>>
+>> Since practically all display IPs in MediaTek SoCs support being
+>> interconnected with different instances of other, or the same, IPs
+>> or with different IPs and in different combinations, the final DDP
+>> pipeline is effectively a board specific configuration.
+>>
+>> Implement OF graphs support to the mediatek-drm drivers, allowing to
+>> stop hardcoding the paths, and preventing this driver to get a huge
+>> amount of arrays for each board and SoC combination, also paving the
+>> way to share the same mtk_mmsys_driver_data between multiple SoCs,
+>> making it more straightforward to add support for new chips.
+>>
+>> Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
+>> Tested-by: Alexandre Mergnat <amergnat@baylibre.com>
+>> Acked-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+>> Tested-by: Michael Walle <mwalle@kernel.org> # on kontron-sbc-i1200
+>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>> ---
+> 
+> [snip]
+> 
+>> +
+>> +bool mtk_ovl_adaptor_is_comp_present(struct device_node *node)
+>> +{
+>> +	enum mtk_ovl_adaptor_comp_type type;
+>> +	int ret;
+>> +
+>> +	ret = ovl_adaptor_of_get_ddp_comp_type(node, &type);
+>> +	if (ret)
+>> +		return false;
+>> +
+>> +	if (type >= OVL_ADAPTOR_TYPE_NUM)
+>> +		return false;
+>> +
+>> +	/*
+>> +	 * ETHDR and Padding are used exclusively in OVL Adaptor: if this
+>> +	 * component is not one of those, it's likely not an OVL Adaptor path.
+>> +	 */
+> 
+> I don't know your logic here.
+> The OVL Adaptor pipeline is:
+> 
+> mdp_rdma -> padding ---+      +-------+
+>                       Merge -> |       |
+> mdp_rdma -> padding ---+      |       |
+>                                |       |
+> mdp_rdma -> padding ---+      |       |
+>                       Merge -> |       |
+> mdp_rdma -> padding ---+      |       |
+>                                | ETHDR |
+> mdp_rdma -> padding ---+      |       |
+>                       Merge -> |       |
+> mdp_rdma -> padding ---+      |       |
+>                                |       |
+> mdp_rdma -> padding ---+      |       |
+>                       Merge -> |       |
+> mdp_rdma -> padding ---+      +-------+
+> 
+> So mdp_rdma and merge is not OVL Adaptor?
+> 
 
-Let's leave the final decision to subsystem maintainers=2E
+Yes, and in device tree, you express that exactly like you just pictured.
+
+OVL Adaptor is treated like a software component internally, and manages
+its own merge pipes exactly like before this commit.
+
+In case there will be any need to express OVL Adaptor as hardware component,
+it will be possible to do so with no modification to the bindings.
+
+> 
+>> +	return type == OVL_ADAPTOR_TYPE_ETHDR || type == OVL_ADAPTOR_TYPE_PADDING;
+>> +}
+>> +
+>>   
+> 
+> [snip]
+> 
+>> +
+>> +/**
+>> + * mtk_drm_of_ddp_path_build_one - Build a Display HW Pipeline for a CRTC Path
+>> + * @dev:          The mediatek-drm device
+>> + * @cpath:        CRTC Path relative to a VDO or MMSYS
+>> + * @out_path:     Pointer to an array that will contain the new pipeline
+>> + * @out_path_len: Number of entries in the pipeline array
+>> + *
+>> + * MediaTek SoCs can use different DDP hardware pipelines (or paths) depending
+>> + * on the board-specific desired display configuration; this function walks
+>> + * through all of the output endpoints starting from a VDO or MMSYS hardware
+>> + * instance and builds the right pipeline as specified in device trees.
+>> + *
+>> + * Return:
+>> + * * %0       - Display HW Pipeline successfully built and validated
+>> + * * %-ENOENT - Display pipeline was not specified in device tree
+>> + * * %-EINVAL - Display pipeline built but validation failed
+>> + * * %-ENOMEM - Failure to allocate pipeline array to pass to the caller
+>> + */
+>> +static int mtk_drm_of_ddp_path_build_one(struct device *dev, enum mtk_crtc_path cpath,
+>> +					 const unsigned int **out_path,
+>> +					 unsigned int *out_path_len)
+>> +{
+>> +	struct device_node *next, *prev, *vdo = dev->parent->of_node;
+>> +	unsigned int temp_path[DDP_COMPONENT_DRM_ID_MAX] = { 0 };
+>> +	unsigned int *final_ddp_path;
+>> +	unsigned short int idx = 0;
+>> +	bool ovl_adaptor_comp_added = false;
+>> +	int ret;
+>> +
+>> +	/* Get the first entry for the temp_path array */
+>> +	ret = mtk_drm_of_get_ddp_ep_cid(vdo, 0, cpath, &next, &temp_path[idx]);
+>> +	if (ret) {
+>> +		if (next && temp_path[idx] == DDP_COMPONENT_DRM_OVL_ADAPTOR) {
+> 
+> mdp_rdma would not be DDP_COMPONENT_DRM_OVL_ADAPTOR.
+
+This piece of code just avoids adding OVL_ADAPTOR more than once to the pipeline.
+
+> 
+>> +			dev_dbg(dev, "Adding OVL Adaptor for %pOF\n", next);
+>> +			ovl_adaptor_comp_added = true;
+>> +		} else {
+>> +			if (next)
+>> +				dev_err(dev, "Invalid component %pOF\n", next);
+>> +			else
+>> +				dev_err(dev, "Cannot find first endpoint for path %d\n", cpath);
+>> +
+>> +			return ret;
+>> +		}
+>> +	}
+>> +	idx++;
+>> +
+>> +	/*
+>> +	 * Walk through port outputs until we reach the last valid mediatek-drm component.
+>> +	 * To be valid, this must end with an "invalid" component that is a display node.
+>> +	 */
+>> +	do {
+>> +		prev = next;
+>> +		ret = mtk_drm_of_get_ddp_ep_cid(next, 1, cpath, &next, &temp_path[idx]);
+>> +		of_node_put(prev);
+>> +		if (ret) {
+>> +			of_node_put(next);
+>> +			break;
+>> +		}
+>> +
+>> +		/*
+>> +		 * If this is an OVL adaptor exclusive component and one of those
+>> +		 * was already added, don't add another instance of the generic
+>> +		 * DDP_COMPONENT_OVL_ADAPTOR, as this is used only to decide whether
+>> +		 * to probe that component master driver of which only one instance
+>> +		 * is needed and possible.
+>> +		 */
+>> +		if (temp_path[idx] == DDP_COMPONENT_DRM_OVL_ADAPTOR) {
+> 
+> merge would not be DDP_COMPONENT_DRM_OVL_ADAPTOR.
+> Finally, the path would be:
+> 
+> mdp_rdma -> ovl adaptor (padding) -> merge -> (ethdr is skipped here) ...
+> 
+
+Again, the path in the OF graph is expressed exactly like you said.
+
+Regards,
+Angelo
+
+> Regards,
+> CK
+> 
+>> +			if (!ovl_adaptor_comp_added)
+>> +				ovl_adaptor_comp_added = true;
+>> +			else
+>> +				idx--;
+>> +		}
+>> +	} while (++idx < DDP_COMPONENT_DRM_ID_MAX);
+>> +
+>> +	/*
+>> +	 * The device component might not be enabled: in that case, don't
+>> +	 * check the last entry and just report that the device is missing.
+>> +	 */
+>> +	if (ret == -ENODEV)
+>> +		return ret;
+>> +
+>> +	/* If the last entry is not a final display output, the configuration is wrong */
+>> +	switch (temp_path[idx - 1]) {
+>> +	case DDP_COMPONENT_DP_INTF0:
+>> +	case DDP_COMPONENT_DP_INTF1:
+>> +	case DDP_COMPONENT_DPI0:
+>> +	case DDP_COMPONENT_DPI1:
+>> +	case DDP_COMPONENT_DSI0:
+>> +	case DDP_COMPONENT_DSI1:
+>> +	case DDP_COMPONENT_DSI2:
+>> +	case DDP_COMPONENT_DSI3:
+>> +		break;
+>> +	default:
+>> +		dev_err(dev, "Invalid display hw pipeline. Last component: %d (ret=%d)\n",
+>> +			temp_path[idx - 1], ret);
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	final_ddp_path = devm_kmemdup(dev, temp_path, idx * sizeof(temp_path[0]), GFP_KERNEL);
+>> +	if (!final_ddp_path)
+>> +		return -ENOMEM;
+>> +
+>> +	dev_dbg(dev, "Display HW Pipeline built with %d components.\n", idx);
+>> +
+>> +	/* Pipeline built! */
+>> +	*out_path = final_ddp_path;
+>> +	*out_path_len = idx;
+>> +
+>> +	return 0;
+>> +}
+>> +
 
 
->
->>>
->>>>>
->>>>> Signed-off-by: Heiner Kallweit <hkallweit1@gmail=2Ecom>
->>>>> ---
->>>>>  drivers/gpu/drm/drm_sysfs=2Ec | 12 ------------
->>>>>  1 file changed, 12 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/drm_sysfs=2Ec b/drivers/gpu/drm/drm_sys=
-fs=2Ec
->>>>> index fb3bbb6ad=2E=2E49e5faf11 100644
->>>>> --- a/drivers/gpu/drm/drm_sysfs=2Ec
->>>>> +++ b/drivers/gpu/drm/drm_sysfs=2Ec
->>>>> @@ -126,8 +126,6 @@ static const struct component_ops typec_connecto=
-r_ops =3D {
->>>>>  	=2Eunbind =3D typec_connector_unbind,
->>>>>  };
->>>>> =20
->>>>> -static CLASS_ATTR_STRING(version, S_IRUGO, "drm 1=2E1=2E0 20060810"=
-);
->>>>> -
->>>>>  /**
->>>>>   * drm_sysfs_init - initialize sysfs helpers
->>>>>   *
->>>>> @@ -140,19 +138,10 @@ static CLASS_ATTR_STRING(version, S_IRUGO, "dr=
-m 1=2E1=2E0 20060810");
->>>>>   */
->>>>>  int drm_sysfs_init(void)
->>>>>  {
->>>>> -	int err;
->>>>> -
->>>>>  	drm_class =3D class_create("drm");
->>>>>  	if (IS_ERR(drm_class))
->>>>>  		return PTR_ERR(drm_class);
->>>>> =20
->>>>> -	err =3D class_create_file(drm_class, &class_attr_version=2Eattr);
->>>>> -	if (err) {
->>>>> -		class_destroy(drm_class);
->>>>> -		drm_class =3D NULL;
->>>>> -		return err;
->>>>> -	}
->>>>> -
->>>>>  	drm_class->devnode =3D drm_devnode;
->>>>> =20
->>>>>  	drm_sysfs_acpi_register();
->>>>> @@ -169,7 +158,6 @@ void drm_sysfs_destroy(void)
->>>>>  	if (IS_ERR_OR_NULL(drm_class))
->>>>>  		return;
->>>>>  	drm_sysfs_acpi_unregister();
->>>>> -	class_remove_file(drm_class, &class_attr_version=2Eattr);
->>>>>  	class_destroy(drm_class);
->>>>>  	drm_class =3D NULL;
->>>>>  }
->>>>> --=20
->>>>> 2=2E46=2E0
->>>>>
->>>>>
->>>>
->>>
->>=20
->>=20
->
 
-
---=20
-With best wishes
-Dmitry
