@@ -2,65 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8907B98BC02
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2024 14:24:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D25CE98BC0A
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2024 14:27:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF4C910E30A;
-	Tue,  1 Oct 2024 12:24:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D7CA10E30C;
+	Tue,  1 Oct 2024 12:27:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="ZoURNHYy";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="AkdeKnVk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com
- [157.90.84.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4892710E30A
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Oct 2024 12:23:59 +0000 (UTC)
-Received: from [192.168.42.96] (pd9e59da1.dip0.t-ipconnect.de
- [217.229.157.161]) (Authenticated sender: wse@tuxedocomputers.com)
- by mail.tuxedocomputers.com (Postfix) with ESMTPSA id BEA272FC0050;
- Tue,  1 Oct 2024 14:23:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
- s=default; t=1727785438;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=J9BRaS43VNCO0jEZG+GlrVHwvIo8h2VK94zwX476Pjs=;
- b=ZoURNHYyb6UjMgBEWKTimqKNOY8jo/wnxC/s1Tn357vM7KPmXqe32v7QF1j+Bc/b7UdFPa
- FvHrHc105CsRMsvZVsqwU6HWVP+WSyZ9ib+prpJjDETb9jQFysp3LXfEgX8M4ptpB01f1a
- 2aGjsa5gqOBy5eiwH83ryVLsWaEPFxY=
-Authentication-Results: mail.tuxedocomputers.com;
- auth=pass smtp.auth=wse@tuxedocomputers.com
- smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <84b629c6-5b26-4285-9b2f-66dd1afa99e5@tuxedocomputers.com>
-Date: Tue, 1 Oct 2024 14:23:57 +0200
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
+ [209.85.208.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F77E10E30C;
+ Tue,  1 Oct 2024 12:27:40 +0000 (UTC)
+Received: by mail-lj1-f174.google.com with SMTP id
+ 38308e7fff4ca-2fada911953so6830321fa.0; 
+ Tue, 01 Oct 2024 05:27:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1727785658; x=1728390458; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=mz/frrgh2X7veajb8TRHaK7nOvFp0bcaRFEIvpq+FUs=;
+ b=AkdeKnVk+eMxjRvFql7EQ1ta3DNeTZSiSMilV2GwaUPiZhUqPpajmPt3lXtX18cbqC
+ ypZXJIhX0pnFx+SjPOJ+EPHrqR+yJd2HSmMucVNQh2TD69Va5RXo4H+0CO2ABEl+IEV7
+ s6NkDJtVawllbZvNWiCo09jrsJB/YamtXhJAVvJLDyg2L32YpbaS1//oZ8vUS/kqXl8+
+ YOYpOgweGko8IqJw3TYcE6FiWouMcqTDjEltWhCpeJi60X4AIvETNN0naQmvTUyJkrz/
+ ru7KcxYh7HGGR3L+UzOYVihFjH0byTVedf6oUa2oM3TZU7Zav++C3VA2NFEWaQwUOvyF
+ fb/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1727785658; x=1728390458;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=mz/frrgh2X7veajb8TRHaK7nOvFp0bcaRFEIvpq+FUs=;
+ b=uAa6Z8CpQWpCvvoRAwO7Rztk6I62xx2tETuIy8X4JLSc9PEBH5VSimO0equ+BaxgGc
+ seVTpcd9i41+vcgiC3Ps0Ay2k/kzF+541EMibioB7VO60MCO6O/9KXyqYjq3c5GyzCJd
+ boVj2E3VRM3sAJApah8HwqT0ai/uVsle4j5kTAAweJFxAshmiaUPV/eYpNB3qKh/eRE8
+ 89wDMxD0uw5S4P2i/fG/fJSdv5noVSQX96uGR7ziEkabui8by0yj9dlMYS3ozfmLD0YV
+ 98vnvkTaSXfCH0n31mY6ux3+AyYsp+wZUxIs5+87NGMeWymdEWbu+PJGNuXfNnmEbUtN
+ UHOg==
+X-Gm-Message-State: AOJu0YyOYluelN2sc29Ix1419oSlNfZwWjIu1fv7G4WBoJ9U4z5pwG7M
+ 0sHG9q/7DMJvW4KaNmJpwgJKqCUhzIfmVpAx2ppMrlP+rlDLRp/KSP5Z7Q==
+X-Google-Smtp-Source: AGHT+IF0YCu8Ao1ATLmR+ThBkMjQWDXd8xwg6dEchuwhJPVdhV2D/29Zn351/G949Yz8GY66ykez1A==
+X-Received: by 2002:a05:6512:1056:b0:52e:fa08:f0f5 with SMTP id
+ 2adb3069b0e04-5399a2564b7mr1082698e87.13.1727785658075; 
+ Tue, 01 Oct 2024 05:27:38 -0700 (PDT)
+Received: from shiban.. (host-95-193-98-80.mobileonline.telia.com.
+ [95.193.98.80]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-538a04417c7sm1563319e87.275.2024.10.01.05.27.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Oct 2024 05:27:37 -0700 (PDT)
+From: =?UTF-8?q?Jonas=20=C3=85dahl?= <jadahl@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Cc: wayland-devel@lists.freedesktop.org,
+ =?UTF-8?q?Jonas=20=C3=85dahl?= <jadahl@redhat.com>
+Subject: [PATCH] uapi/drm: Specify time constraints of DRM_MODE_ATOMIC_NONBLOCK
+Date: Tue,  1 Oct 2024 14:27:31 +0200
+Message-ID: <20241001122733.3643057-1-jadahl@gmail.com>
+X-Mailer: git-send-email 2.44.0.501.g19981daefd.dirty
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Werner Sembach <wse@tuxedocomputers.com>
-Subject: Re: [PATCH 1/1] platform/x86/tuxedo: Add virtual LampArray for TUXEDO
- NB04 devices
-To: Benjamin Tissoires <bentiss@kernel.org>
-Cc: Armin Wolf <W_Armin@gmx.de>, Pavel Machek <pavel@ucw.cz>,
- Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
- lee@kernel.org, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-leds@vger.kernel.org, miguel.ojeda.sandonis@gmail.com,
- ojeda@kernel.org, onitake@gmail.com, platform-driver-x86@vger.kernel.org
-References: <20240926174405.110748-1-wse@tuxedocomputers.com>
- <20240926174405.110748-2-wse@tuxedocomputers.com>
- <ZvcdNXQJmc8cjifw@amd.ucw.cz> <bea39077-6104-4b59-8757-9cbe0e703e5c@gmx.de>
- <7r3zg4tcmp5ozjwyiusstgv7g4dha4wuh4kwssxpk3tkurpgo3@36laqab7lsxp>
- <58cf1777-222f-4156-9079-bcbba4a32c96@tuxedocomputers.com>
- <45qkbpaxhrv2r32hghjqoexkenktymzyjgpx2xnnxt6dmfawjt@44lrhgcnozh3>
- <586a1c41-bbe0-4912-b7c7-1716d886c198@tuxedocomputers.com>
- <5th4pisccud5s7dbia42glsnu7e5u3q7jszty6o3mjdedsd2bg@7nsvp6t2krnf>
- <b6f2244d-7567-49ac-b2db-23b632a4e181@tuxedocomputers.com>
- <cflor5mz4flekn44ttlbanfigmwn5mmp3p54gkeeznzmzkyjqz@p2c6q7gulrdl>
-Content-Language: en-US
-In-Reply-To: <cflor5mz4flekn44ttlbanfigmwn5mmp3p54gkeeznzmzkyjqz@p2c6q7gulrdl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,124 +79,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-(sorry resend because thunderbird made it a html mail)
+From: Jonas Ådahl <jadahl@redhat.com>
+
+In order for compositors to utilize real time scheduling capabilities,
+it must be ensured by the kernel that calling a drmModeAtomicCommit()
+with DRM_MODE_ATOMIC_NONBLOCK does not block in a manner that makes the
+realtime scheduler watchdog send a SIGKILL to the calling process.
+
+Thus, require drmModeAtomicCommit() explicitly with passed
+DRM_MODE_ATOMIC_NONBLOCK to not block in such a way, i.e. during regular
+non-mode setting page flips, the kernel must not block any extensive
+period of time.
+
+While blocking for the amount of time needed to trigger SIGKILL
+(usually 250 ms) already means inadequate behavior due to a large amount
+of missed frames, thus stuttering, is the result, if drivers still need
+to behave this way in edge cases, they should behave in away that the
+calling thread can go to sleep.
+
+Signed-off-by: Jonas Ådahl <jadahl@redhat.com>
+---
 
 Hi,
 
-Am 30.09.24 um 19:06 schrieb Benjamin Tissoires:
-> On Sep 30 2024, Werner Sembach wrote:
->> [...]
->> Thinking about it, maybe it's not to bad that it only changes once udev is
->> ready, like this udev could decide if leds should be used or if it should
->> directly be passed to OpenRGB for example, giving at least some consistency
->> only changing once: i.e. firmware -> OpenRGB setting and not firmware->leds
->> setting->OpenRGB setting.
-> That would work if OpenRGB gets to ship the LampArray bpf object (not
-> saying that it should). Because if OpenRGB is not installed, you'll get
-> a led class device, and if/when OpenRGB is installed, full LampArray
-> would be presented.
+This is a follow up from the Display Next Hackfest in Coruña[1], where the
+topic was discussed, and the conclusion was to try to document the
+expectations of the kernel when compositors are doing non-blocking page
+flips.
 
-The idea in my head is still that there is some kind of sysfs switch to 
-enable/disable leds.
+As can be seen, synchronous mode setting commits are not, for the time
+being, meant to guarantee finishing fast enough, which is fine, but to be
+able to make use of realtime scheduling, nonblocking updates must behave
+in a sensible manner.
 
-My idea is then that a udev rule shipped with OpenRGB sets this switch to 
-disable before loading the BPF driver so leds never get initialized for the 
-final LampArray device.
+I took it so far to describe how drivers should handle situations when checking
+an update can potentially take a very very long time, but if that should just
+never be allowed to happen, it can be reworded. The main take away should be
+that it's a kernel bug if a non-blocking commit blocks for more than a few
+milliseconds.
 
-> But anyway, BPF allows to dynamically change the behaviour of the
-> device, so that's IMO one bonus point of it.
->
->>> FWIW, the use of BPF only allows you to not corner yourself. If you
->>> failed at your LampArray implementation, you'll have to deal with it
->>> forever-ish. So it's perfectly sensible to use BPF as an intermediate step
->>> where you develop both userspace and kernel space and then convert back
->>> the BPF into a proper HID driver.
->> I don't really see this point: The LampArray API is defined by the HID Usage
->> Table and the report descriptor, so there is not API to mess up and
->> everything else has to be parsed dynamically by userspace anyway, so it can
->> easily be changed and userspace just adopts automatically.
->>
->> And for this case the proper HID driver is already ready.
-> Yeah, except we don't have the fallback LED class. If you are confident
-> enough with your implementation, then maybe yes we can include it as a
-> driver from day one, but that looks like looking for troubles from my
-> point of view.
 
-To be on the safe side that we don't talk about different things: My current 
-plan is that the leds subsystem builds on top of the LampArray implementation.
+Jonas
 
-Like this the leds part has to be only implemented once for all LampArray 
-devices be it emulated via a driver or native via firmware in the device itself.
 
-And I feel confident that the UAPI should be that the userspace gets a hidraw 
-device with a LampArray HID descriptor, and every thing else is, by the HID 
-spec, dynamic anyway so I can still change my mind in implementation specifics 
-there, can't I?
+[1] https://events.pages.igalia.com/linuxdisplaynexthackfest/
 
-> After a second look at the LampArray code here... Aren't you forgetting
-> the to/from CPU conversions in case you are on a little endian system?
-Since this driver is for built in keyboards of x86 notebooks it isn't required 
-or is it?
->> So the only point for me currently is: Is it ok to have key position/usage
->> description tables in the kernel driver or not?
-> good question :)
->
-> I would say, probably not in the WMI driver itself. I would rather have
-> a hid-tuxedo.c HID driver that does that. But even there, we already had
-> Linus complaining once regarding the report descriptors we sometimes
-> insert in drivers, which are looking like opaque blobs. So it might not be
-> the best either.
-Isn't tuxedo_nb04_wmi_ab_virtual_lamp_array.c not something like hid-tuxedo.c? 
-or should it be a separate file with just the arrays?
-> Sorry I don't have a clear yes/no answer.
+ include/uapi/drm/drm_mode.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Hm... Well if it's no problem I would keep the current implementation with minor 
-adjustments because, like i described above, I don't see a benefit now that this 
-already works to rewrite it in BPF again.
-
-If it is a problem then i don't see another way then to rewrite it in BPF.
-
-Note: For future devices there might be more keyboard layouts added, basically 
-every time the chassis form factor changes.
-
-> Cheers,
-> Benjamin
-To sum up the architechture (not mutally exclusive technically)
-
-/- leds
-WMI <- WMI to LampArray Kernel driver <-switch-|
-                                                \- OpenRGB
-
-/- leds
-WMI <- WMI to Custom HID Kernel driver <- Custom HID to LampArray BPF 
-driver<-switch-|
-\- OpenRGB
-
-With the "switch" and "leds" implemented in hid core, automatically initialized 
-every time a LampArray device pops up (regardless if it is from native firmware, 
-a bpf driver or a kernel driver)
-
-Writing this down I think it was never decided how the switch should look like:
-
-It should not be a sysfs attribute of the leds device as the leds device should 
-disappear when the switch is set away from it, but should it be a sysfs variable 
-of the hid device? This would mean that hid core needs to add that switch 
-variable to every hid device having a LampArray section in the descriptor.
-
->>> Being able to develop a kernel driver without having to reboot and
->>> being sure you won't crash your kernel is a game changer ;)
->>>
->>> Cheers,
->>> Benjamin
-
-Best regards and sorry for the many questions,
-
-Werner Sembach
-
-PS: on a side node: How does hid core handle HID devices with a broken HID 
-implementation fixed by bpf, if bpf is loaded after hid-core? Does the hid 
-device get reinitialized by hid core once the bpf driver got loaded? If yes, is 
-there a way to avoid side effects by this double initialization or is there a 
-way to avoid this double initialization, like marking the device id as broken so 
-that hid core- does not initialize it unless it's fixed by bpf?
+diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+index c082810c08a8..1953ae1a37d2 100644
+--- a/include/uapi/drm/drm_mode.h
++++ b/include/uapi/drm/drm_mode.h
+@@ -1112,6 +1112,12 @@ struct drm_mode_destroy_dumb {
+  * IOCTL returns immediately instead of waiting for the changes to be applied
+  * in hardware. Note, the driver will still check that the update can be
+  * applied before retuning.
++ *
++ * The driver must not leave the calling thread in a running state for any
++ * extensive period of time to avoid the process receiving SIGKILL by the
++ * realtime scheduler. This means if checking the update needs to wait for an
++ * excessive amount of time, the running state of the calling thread must be
++ * changed accordingly while waiting.
+  */
+ #define DRM_MODE_ATOMIC_NONBLOCK  0x0200
+ /**
+-- 
+2.44.0.501.g19981daefd.dirty
 
