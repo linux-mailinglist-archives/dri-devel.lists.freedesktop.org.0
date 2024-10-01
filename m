@@ -2,53 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADBBD98C576
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2024 20:38:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72E2198C574
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2024 20:34:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C45AF10E65A;
-	Tue,  1 Oct 2024 18:38:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E4CF10E64E;
+	Tue,  1 Oct 2024 18:34:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="u4qt7krl";
+	dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="K+K67RpW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 386 seconds by postgrey-1.36 at gabe;
- Tue, 01 Oct 2024 18:38:02 UTC
-Received: from out-171.mta1.migadu.com (out-171.mta1.migadu.com
- [95.215.58.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94C9110E65A
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Oct 2024 18:38:02 +0000 (UTC)
-Message-ID: <5e9769dd-459a-4ff3-aebb-bb7057192733@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1727807494;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rlcHKQwn5L21aymtnarukq/iOfnG9kcJ0DkEr1DK1Lo=;
- b=u4qt7krlAH/WlmjcZxvGLaQuYPDvn//4i6Oj/BnHRm8F9LMSa8bxOvbXzLTd15EZ7pnktz
- CoUGfmRaSPfhfXCrWvCV2avcLd2CdV7WT9RjdlEzx+UjfPGq3NmOMI1cRge27qBplGZFxd
- kkF/hsu2qHQr3beT6mNTTr1uMQ7EYVU=
-Date: Tue, 1 Oct 2024 14:31:28 -0400
+Received: from smtp.smtpout.orange.fr (smtp-16.smtpout.orange.fr
+ [80.12.242.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE76810E64E;
+ Tue,  1 Oct 2024 18:34:27 +0000 (UTC)
+Received: from [192.168.1.37] ([90.11.132.44]) by smtp.orange.fr with ESMTPA
+ id vhhWsArpWmg82vhhXsn5vg; Tue, 01 Oct 2024 20:34:25 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+ s=t20230301; t=1727807665;
+ bh=UBzLZKmUY5K/4GpZqq6iV1mDM5MbfDMRwF2KXqeGStg=;
+ h=Message-ID:Date:MIME-Version:Subject:To:From;
+ b=K+K67RpWv0Sldneorbl/Yihg5oAysH/+1k5bBDYIa+LXaEerq9d5n+DCNruFs8A7j
+ Vq/FUMrWU+/EZ73PoLCH1sj+PnzSxCkAU2VfAGj88DAqLgFIp+kEEcZHhpteIBFVtm
+ 5f2SbzSj3HFFvft4s4v887k0svZ1o1RrcQ7xu4rGglDSuswYwBG3Hjb5hDf/vlgVoh
+ kL3Jb7+/Vul7XEzC3jrB9qW5I3vBiokr5Ek3vtVDY4eVLqUtNIDcz+9WflEhFDWjqJ
+ fH3cPzsI0bs4dELybx9/3e/ztfFYCGAjxtW1G1IMwu+70BN9Hkt+i/VyV11SR1etrm
+ xHTy2HPBaJx0Q==
+X-ME-Helo: [192.168.1.37]
+X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
+X-ME-Date: Tue, 01 Oct 2024 20:34:25 +0200
+X-ME-IP: 90.11.132.44
+Message-ID: <3c793f42-6cd1-40e7-a3f2-556b6e5b4094@wanadoo.fr>
+Date: Tue, 1 Oct 2024 20:34:22 +0200
 MIME-Version: 1.0
-Subject: Re: [PATCH v6 0/8] drm: zynqmp_dp: IRQ cleanups and debugfs support
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/i915/backlight: Remove a useless kstrdup_const()
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- David Airlie <airlied@gmail.com>, Michal Simek <michal.simek@amd.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-References: <20240809193600.3360015-1-sean.anderson@linux.dev>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sean Anderson <sean.anderson@linux.dev>
-In-Reply-To: <20240809193600.3360015-1-sean.anderson@linux.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+References: <3b3d3af8739e3016f3f80df0aa85b3c06230a385.1727533674.git.christophe.jaillet@wanadoo.fr>
+ <875xqdy42v.fsf@intel.com>
+Content-Language: en-US, fr-FR
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <875xqdy42v.fsf@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,68 +67,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/9/24 15:35, Sean Anderson wrote:
-> This series cleans up the zyqnmp_dp IRQ and locking situation. Once
-> that's done, it adds debugfs support. The intent is to enable compliance
-> testing or to help debug signal-integrity issues.
+Le 30/09/2024 à 09:48, Jani Nikula a écrit :
+> On Sat, 28 Sep 2024, Christophe JAILLET <christophe.jaillet@wanadoo.fr> wrote:
+>> "name" is allocated and freed in intel_backlight_device_register().
+>> The initial allocation just duplicates "intel_backlight".
+>>
+>> Later, if a device with this name has already been registered, another
+>> dynamically generated one is allocated using kasprintf().
+>>
+>> So at the end of the function, when "name" is freed, it can point either to
+>> the initial static literal "intel_backlight" or to the kasprintf()'ed one.
+>>
+>> So kfree_const() is used.
+>>
+>> However, when built as a module, kstrdup_const() and kfree_const() don't
+>> work as one would expect and are just plain kstrdup() and kfree().
+>>
+>>
+>> Slightly change the logic and introduce a new variable to hold the
+>> address returned by kasprintf() should it be used.
+>>
+>> This saves a memory allocation/free and avoids these _const functions,
+>> which names can be confusing when used with code built as module.
 > 
-> Previously, I discussed converting the HPD work(s) to a threaded IRQ. I
-> did not end up doing that for this series since the steps would be
+> Okay, I'd rather revert your earlier commit 379b63e7e682
+> ("drm/i915/display: Save a few bytes of memory in
+> intel_backlight_device_register()") than add this.
+
+Hi,
+
+that works for me. Thanks and sorry for the noise.
+
+CJ
+
 > 
-> - Add locking
-> - Move link retraining to a work function
-> - Harden the IRQ
-> - Merge the works into a threaded IRQ (omitted)
+> The code simplicity is much more important than saving a few bytes.
 > 
-> Which with the exception of the final step is the same as leaving those
-> works as-is. Conversion to a threaded IRQ can be done as a follow-up.
+> BR,
+> Jani.
 > 
-> Changes in v6:
-> - Unplug DRM device before removal
-> - Fix hang upon driver removal
-> - Rebase onto drm-misc/drm-misc-next
 > 
-> Changes in v5:
-> - Rebase onto drm-misc/drm-misc-next
 > 
-> Changes in v4:
-> - Rebase onto drm/drm-next
-> 
-> Changes in v3:
-> - Convert to a hard IRQ
-> - Use AUX IRQs instead of polling
-> - Take dp->lock in zynqmp_dp_hpd_work_func
-> 
-> Changes in v2:
-> - Split off the HPD IRQ work into another commit
-> - Expand the commit message
-> - Document hpd_irq_work
-> - Document debugfs files
-> - Add ignore_aux_errors and ignore_hpd debugfs files to replace earlier
->   implicit functionality
-> - Attempt to fix unreproducable, spurious build warning
-> - Drop "Optionally ignore DPCD errors" in favor of a debugfs file
->   directly affecting zynqmp_dp_aux_transfer.
-> 
-> Sean Anderson (8):
->   drm: zynqmp_kms: Unplug DRM device before removal
->   drm: zynqmp_dp: Add locking
->   drm: zynqmp_dp: Don't retrain the link in our IRQ
->   drm: zynqmp_dp: Convert to a hard IRQ
->   drm: zynqmp_dp: Use AUX IRQs instead of polling
->   drm: zynqmp_dp: Split off several helper functions
->   drm: zynqmp_dp: Take dp->lock in zynqmp_dp_hpd_work_func
->   drm: zynqmp_dp: Add debugfs interface for compliance testing
-> 
->  Documentation/gpu/drivers.rst     |   1 +
->  Documentation/gpu/zynqmp.rst      | 149 ++++++
->  MAINTAINERS                       |   1 +
->  drivers/gpu/drm/xlnx/zynqmp_dp.c  | 846 ++++++++++++++++++++++++++++--
->  drivers/gpu/drm/xlnx/zynqmp_kms.c |   2 +-
->  5 files changed, 951 insertions(+), 48 deletions(-)
->  create mode 100644 Documentation/gpu/zynqmp.rst
+>>
+>> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+>> ---
+>> Compile tested only.
+>>
+>> For the records, this patch is a clean-up effort related to discussions at:
+>>    - https://lore.kernel.org/all/ZvHurCYlCoi1ZTCX@skv.local/
+>>    - https://lore.kernel.org/all/20240924050937.697118-1-senozhatsky@chromium.org/
+>> ---
+>>   drivers/gpu/drm/i915/display/intel_backlight.c | 17 +++++++----------
+>>   1 file changed, 7 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/display/intel_backlight.c b/drivers/gpu/drm/i915/display/intel_backlight.c
+>> index 9e05745d797d..bf7686aa044f 100644
+>> --- a/drivers/gpu/drm/i915/display/intel_backlight.c
+>> +++ b/drivers/gpu/drm/i915/display/intel_backlight.c
+>> @@ -914,9 +914,9 @@ int intel_backlight_device_register(struct intel_connector *connector)
+>>   {
+>>   	struct drm_i915_private *i915 = to_i915(connector->base.dev);
+>>   	struct intel_panel *panel = &connector->panel;
+>> +	const char *name, *new_name = NULL;
+>>   	struct backlight_properties props;
+>>   	struct backlight_device *bd;
+>> -	const char *name;
+>>   	int ret = 0;
+>>   
+>>   	if (WARN_ON(panel->backlight.device))
+>> @@ -949,10 +949,7 @@ int intel_backlight_device_register(struct intel_connector *connector)
+>>   	else
+>>   		props.power = BACKLIGHT_POWER_OFF;
+>>   
+>> -	name = kstrdup_const("intel_backlight", GFP_KERNEL);
+>> -	if (!name)
+>> -		return -ENOMEM;
+>> -
+>> +	name = "intel_backlight";
+>>   	bd = backlight_device_get_by_name(name);
+>>   	if (bd) {
+>>   		put_device(&bd->dev);
+>> @@ -963,11 +960,11 @@ int intel_backlight_device_register(struct intel_connector *connector)
+>>   		 * compatibility. Use unique names for subsequent backlight devices as a
+>>   		 * fallback when the default name already exists.
+>>   		 */
+>> -		kfree_const(name);
+>> -		name = kasprintf(GFP_KERNEL, "card%d-%s-backlight",
+>> -				 i915->drm.primary->index, connector->base.name);
+>> -		if (!name)
+>> +		new_name = kasprintf(GFP_KERNEL, "card%d-%s-backlight",
+>> +				     i915->drm.primary->index, connector->base.name);
+>> +		if (!new_name)
+>>   			return -ENOMEM;
+>> +		name = new_name;
+>>   	}
+>>   	bd = backlight_device_register(name, connector->base.kdev, connector,
+>>   				       &intel_backlight_device_ops, &props);
+>> @@ -987,7 +984,7 @@ int intel_backlight_device_register(struct intel_connector *connector)
+>>   		    connector->base.base.id, connector->base.name, name);
+>>   
+>>   out:
+>> -	kfree_const(name);
+>> +	kfree(new_name);
+>>   
+>>   	return ret;
+>>   }
 > 
 
-ping
-
---Sean
