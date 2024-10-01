@@ -2,73 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46F3398C0D5
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2024 16:55:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A62D98C16A
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2024 17:19:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3E8910E642;
-	Tue,  1 Oct 2024 14:55:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F88310E05F;
+	Tue,  1 Oct 2024 15:19:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gVdG44w/";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="IsGNGBnH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A92810E2C0;
- Tue,  1 Oct 2024 14:54:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1727794499; x=1759330499;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=ecwBI6yVzkZLIXGC3sGQbIbn+aqLSYy+OdwyEgxXCgo=;
- b=gVdG44w/S0/NZj7iZYj/s+BNZKOAszm6IXYYl+FGfYS7cdAXFWmIarRm
- QkncxrrSTuaaYQdjMg6lhLXdVLaiIPSmic0rniPufowvN7eF+TM/3B54f
- HtBXD6vrkpyj8MOP/hEhd+RyqOWm7MMjDxeuQKgCm9ILzvvZKAap9DGRi
- QgOzz+pkfLr3x2djIh0yiyEiJ0YdIKWxX4tW+YrjB4BMdmhrPRLLiS3zw
- nxYYaZWZT0wiwf88XS5b7SvZm/n+KPu7xhE//81gfp8qudsscgjacBurF
- VK5DLfIHx0sko2rFV63OffpClgHB0k+6/7EiZ3FXcc965bxj6/DYGA738 w==;
-X-CSE-ConnectionGUID: gen9IMooTh+rF4ii3eeM1w==
-X-CSE-MsgGUID: Dkh2EoSRQtmnmRJ6hfVH9A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="49455917"
-X-IronPort-AV: E=Sophos;i="6.11,167,1725346800"; d="scan'208";a="49455917"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Oct 2024 07:54:55 -0700
-X-CSE-ConnectionGUID: Q3vajoooSKqRZ8KFv059Fw==
-X-CSE-MsgGUID: 6Audy8LHRhqenlYEHO3U5Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,167,1725346800"; d="scan'208";a="73658322"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Oct 2024 07:54:51 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1sveH1-0000000FEdp-077P; Tue, 01 Oct 2024 17:54:47 +0300
-Date: Tue, 1 Oct 2024 17:54:46 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Raag Jadav <raag.jadav@intel.com>
-Cc: airlied@gmail.com, simona@ffwll.ch, lucas.demarchi@intel.com,
- thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
- jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- tursulin@ursulin.net, lina@asahilina.net,
- intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com,
- francois.dugast@intel.com, aravind.iddamsetty@linux.intel.com,
- anshuman.gupta@intel.com, andi.shyti@linux.intel.com,
- matthew.d.roper@intel.com
-Subject: Re: [PATCH v7 1/5] drm: Introduce device wedged event
-Message-ID: <ZvwNNsZ85oEAEJvh@smile.fi.intel.com>
-References: <20240930073845.347326-1-raag.jadav@intel.com>
- <20240930073845.347326-2-raag.jadav@intel.com>
- <Zvqgz3Vpz2IS1Cua@smile.fi.intel.com>
- <ZvuDwvtyJ4djuIQ7@black.fi.intel.com>
- <ZvvmH0n_y_vVSpvR@smile.fi.intel.com>
- <ZvwEubI8ldUT6TsK@black.fi.intel.com>
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
+ [209.85.208.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 210C710E05F
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Oct 2024 15:19:09 +0000 (UTC)
+Received: by mail-lj1-f177.google.com with SMTP id
+ 38308e7fff4ca-2fad48f6f9aso723301fa.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Oct 2024 08:19:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1727795947; x=1728400747; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=qi8yKQjrLWHCSWjOpRs4bR/ZSldJgDWgk6YEdhDY6s4=;
+ b=IsGNGBnHPg5qn5ajXs9M7G1NOvZR470MgSQlPy4FfzAy13TgxuJy/scoWTw3I1fFqv
+ bwpqLeRQuQTiZaOD4fZb+AT7TaKxKk2bgcjjt8RJfe/2yNDIcOYAZgYE8Cvvm35vtf+u
+ LN7yuipZu5cwe4LSDwPqjV3rrPFWoYSDefEEf5cHxoPWyrf7VzFSvEJHbqKJJvy9Hpmo
+ gIrD1FCD4+cx9pvjOzElxyZ5kTZxXQKtB/01Ik9fhn7vv6zuGD787cv53g4wN/SftkhE
+ 6CJd75W1sheNI8mzC/8oIYg6JtICketiqTNBxb1LIsIfua1625PCnO+NFydob2OCEvpb
+ zbxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1727795947; x=1728400747;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=qi8yKQjrLWHCSWjOpRs4bR/ZSldJgDWgk6YEdhDY6s4=;
+ b=cB+VwTYpx0rsrEUl3s5O2vKWcDIWTULz6MUEazaX3/H4p69qmKO/CW+HVlIITOe0Ri
+ 3tFxUhBGJ33rZvDjCfejIpJUAPYNPuxsYtYgnWg6GOHnqJz4STx3ZzoPPCVXyeqgXW83
+ Peq+YJ+/ccDH21o/4zPVUcvCREvNFHMTNus5NyXfmwuCe7W5OhRSDvvsSqB+muL81SeS
+ sPpoynA5t7nGUR9yRDBLfAIIU3v+E3aAyWGbvAq02eCPBeg3MugNWpKenVZVQRvtjdcq
+ X56eJKgpP9sHMpyowOU7ipopVj/g3xwgjvNcvtS71dqso4rZhcoP13Hu7Vws8He2Jtv4
+ J2FA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWY4i3W90UYlJF9SGTpgyfrt9eMqCFnHPOp/Ml+2yohrwvBHyn54woVagUq5bYN78KdC3THDphiSjA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyitrjQkbcyTfPhhEQr7cqIFPPPc+fEEVMKvsMJEFrvBC4iXQC4
+ iIyfaFv7DfHMQwRcjMt2jfsAnHr8Hxj6CLQLeG5rpGRcHnwUb/GhA6ELXuOKQMP/vGRRi4evK9p
+ nJtn0NROpvVUuPZ2lBCyK3D+XnDQ=
+X-Google-Smtp-Source: AGHT+IHt+TuZfDewSpTYnzspHrDKyHlYwH7HsKkgbgr/yf/IpVhOkdGpUpV5QaZEfyPfW8LWCD7/L67Db9Tp6/Do6RU=
+X-Received: by 2002:a2e:b8c5:0:b0:2fa:d784:e11e with SMTP id
+ 38308e7fff4ca-2fae10a34c3mr207631fa.11.1727795946762; Tue, 01 Oct 2024
+ 08:19:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZvwEubI8ldUT6TsK@black.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240930233257.1189730-1-lyude@redhat.com>
+ <20240930233257.1189730-2-lyude@redhat.com>
+ <87wmisuqcd.fsf@intel.com>
+In-Reply-To: <87wmisuqcd.fsf@intel.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Tue, 1 Oct 2024 17:18:53 +0200
+Message-ID: <CANiq72n5bethTsoGvEEd4OM-J+7t6bsMN0Qvm-=cnqjMLyAcrQ@mail.gmail.com>
+Subject: Re: [WIP RFC v2 01/35] WIP: rust/drm: Add fourcc bindings
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Lyude Paul <lyude@redhat.com>, dri-devel@lists.freedesktop.org, 
+ rust-for-linux@vger.kernel.org, Asahi Lina <lina@asahilina.net>, 
+ Danilo Krummrich <dakr@kernel.org>, mcanal@igalia.com, airlied@redhat.com,
+ zhiw@nvidia.com, 
+ cjia@nvidia.com, jhubbard@nvidia.com, Miguel Ojeda <ojeda@kernel.org>, 
+ Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@samsung.com>, 
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+ Danilo Krummrich <dakr@redhat.com>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>, 
+ open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,47 +93,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 01, 2024 at 05:18:33PM +0300, Raag Jadav wrote:
-> On Tue, Oct 01, 2024 at 03:07:59PM +0300, Andy Shevchenko wrote:
-> > On Tue, Oct 01, 2024 at 08:08:18AM +0300, Raag Jadav wrote:
-> > > On Mon, Sep 30, 2024 at 03:59:59PM +0300, Andy Shevchenko wrote:
-> > > > On Mon, Sep 30, 2024 at 01:08:41PM +0530, Raag Jadav wrote:
+On Tue, Oct 1, 2024 at 11:26=E2=80=AFAM Jani Nikula <jani.nikula@linux.inte=
+l.com> wrote:
+>
+> regenerated? Should there be more granularity?
 
-...
+Indeed, eventually this will need to be split, like we did for `helpers.c`.
 
-> > > > > +static const char *const drm_wedge_recovery_opts[] = {
-> > > > > +	[DRM_WEDGE_RECOVERY_REBIND] = "rebind",
-> > > > > +	[DRM_WEDGE_RECOVERY_BUS_RESET] = "bus-reset",
-> > > > > +	[DRM_WEDGE_RECOVERY_REBOOT] = "reboot",
-> > > > > +};
-> > > > 
-> > > > Place for static_assert() is here, as it closer to the actual data we test...
-> > > 
-> > > Shouldn't it be at the point of access?
-> > 
-> > No, the idea of static_assert() is in word 'static', meaning it's allowed to be
-> > used in the global space.
-> > 
-> > > If no, why do we care about the data when it's not being used?
-> > 
-> > What does this suppose to mean? The assertion is for enforcing the boundaries
-> > that are defined by different means (constant of the size and real size of
-> > an array).
-> 
-> The point was to simply not assert without an active user of the array, which is
-> not the case now but may be possible with growing functionality in the future.
-
-static_assert() is a compile-time check. How is it even related to this?
-So, i.o.w., you are contradicting yourself in this code: on one hand you want
-compile-time static checker, on the other you do not want it and rely on the
-usage of the function.
-
-Possible solutions:
-1) remove static_assert() completely;
-2) move it as I said.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Cheers,
+Miguel
