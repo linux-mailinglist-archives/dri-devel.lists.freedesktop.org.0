@@ -2,86 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E52798B443
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2024 08:26:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E43498B4A2
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2024 08:42:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A056410E0C9;
-	Tue,  1 Oct 2024 06:26:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC6F810E1E4;
+	Tue,  1 Oct 2024 06:42:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.b="TLI22kcq";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KhOmqNeG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
- [205.220.165.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A7BA10E0C9;
- Tue,  1 Oct 2024 06:26:13 +0000 (UTC)
-Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4911te6b031730;
- Tue, 1 Oct 2024 06:26:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
- from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding; s=corp-2023-11-20; bh=ynm5UubeZN8/05
- jyHZV3Mzy9wSlSyMLNZm6kc6piD7s=; b=TLI22kcqJ2TwT43yzz/LCEqOT61md1
- ghpl1u30R6CUd+0Jk24j5d/DhNxyXpxPzXz/uJvNAmQ1oq0OuzkIYT4OCIrWGKYH
- V8eSUgfbhs2ZD1UO3gbDSVJkstStI3u+manIWCjOuZTyT9y+HmtpQ80qP7CI1+GN
- xOVmOq5JBBLXCiTFrESxKUUsRzBifH5g57PAGOFlgZ1Ew55MKFR4iTKFk4BAdJzs
- +uZyRusWP4LuFOF5mykYav+zIJgkGqbLQcG7QqIhZSnEZ4BvDRzeBcSz3bcje2Fy
- +aCs9uBdgGSato8t8JcM4/eAIPoqJlhLElTBnwjV8R2zxL8vHOXh0Lmg==
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 41x8qb5e53-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 01 Oct 2024 06:26:01 +0000 (GMT)
-Received: from pps.filterd
- (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2)
- with ESMTP id 49162Qlq012578; Tue, 1 Oct 2024 06:26:00 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
- 41x886usvm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 01 Oct 2024 06:26:00 +0000
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 4916Pxcd017923;
- Tue, 1 Oct 2024 06:25:59 GMT
-Received: from ca-dev112.us.oracle.com (ca-dev112.us.oracle.com
- [10.129.136.47])
- by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id
- 41x886usuf-1; Tue, 01 Oct 2024 06:25:59 +0000
-From: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Jonathan Cavitt <jonathan.cavitt@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: vegard.nossum@oracle.com,
- Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>,
- Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: [PATCH] drm/i915: Rename functions in the docs to match code changes
-Date: Mon, 30 Sep 2024 23:25:54 -0700
-Message-ID: <20241001062555.1908090-1-harshit.m.mogalapalli@oracle.com>
-X-Mailer: git-send-email 2.46.0
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D185310E118;
+ Tue,  1 Oct 2024 06:42:05 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id BF0A75C541D;
+ Tue,  1 Oct 2024 06:42:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 6B1B0C4CEC6;
+ Tue,  1 Oct 2024 06:42:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1727764924;
+ bh=RFBfeiQ3kImiTf9iCh1nA3uLTEXECoQ/rL+Pil+RxJ4=;
+ h=From:Subject:Date:To:Cc:Reply-To:From;
+ b=KhOmqNeGbIgspQXtvwN5PzW3TXgAKYmIvJjuiO1q7FF0QH1Z54WFynZjWWYedttCM
+ sh23yol9tc2T+NienYPUTr4/CuvdnUn7OXhLkC2g9ykIm/ez6jHAAd51uVl/5fNGjO
+ nBTN9YpRKWLS9G6hPl8XQPTWWdyiJ8xROB9cnQkjqdGbF01JRMmW+vgeBe+kWrDOep
+ DxulkHZZMPG/hO4PKcIOo/S+viS1MK+ul01GBa7NMjhPCM/Xk+syE+tvUI9X8SVYWL
+ 6YLuRZa4FaVpmKJvaqJ8u6s5WjAS4TyWfasNPa3wdvoam8+INGmHSJ0HoZxUG632mJ
+ OeyGGkvM6wt3A==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 5D417CEB2E8;
+ Tue,  1 Oct 2024 06:42:04 +0000 (UTC)
+From: Mahadevan via B4 Relay <devnull+quic_mahap.quicinc.com@kernel.org>
+Subject: [PATCH v3 0/5] Display enablement changes for Qualcomm SA8775P
+ platform
+Date: Tue, 01 Oct 2024 12:11:35 +0530
+Message-Id: <20241001-patchv3_1-v3-0-d23284f45977@quicinc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-01_03,2024-09-30_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- phishscore=0
- malwarescore=0 mlxscore=0 spamscore=0 suspectscore=0 adultscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2408220000 definitions=main-2410010042
-X-Proofpoint-GUID: z_dP0EpF79RgKrDIG2aJ8fVG7AvxDQlH
-X-Proofpoint-ORIG-GUID: z_dP0EpF79RgKrDIG2aJ8fVG7AvxDQlH
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJ+Z+2YC/03Myw6CMBCF4Vchs7ZkpgUEV76HMaSOg50FFwsSE
+ 8K7W125O19y8m8wS1SZ4ZRtEGXVWcchwR0y4OCHhxi9J4NFW2Dj0Ex+4bC6lkyFyDemsmikhvS
+ fonT6/rUu1+Qujr1ZQhT/V7AVEZI75tYiUlkbMs+Xctv74Kfzd+rAOY897PsH/jV1np0AAAA=
+X-Change-ID: 20240930-patchv3_1-600cbc1549e8
+To: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Mahadevan <quic_mahap@quicinc.com>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc: Kalyan Thota <quic_kalyant@quicinc.com>, 
+ Jayaprakash Madisetty <quic_jmadiset@quicinc.com>, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1727764922; l=2620;
+ i=quic_mahap@quicinc.com; s=20241001; h=from:subject:message-id;
+ bh=RFBfeiQ3kImiTf9iCh1nA3uLTEXECoQ/rL+Pil+RxJ4=;
+ b=fKnZ5k6CWZ0PFBIPrYz4dqhEIPGH3wp8wZeAzyc0OGoAcdqef6TraNEIwSEfmKZwkFpmqMHzs
+ MZnQg9eND9eA7Bvp+uMIHt3HyFMvYwGE+Vz7VullWX2aU/kiEqTfgtx
+X-Developer-Key: i=quic_mahap@quicinc.com; a=ed25519;
+ pk=Xc9CA438o9mZKp4uZ8vZMclALnJ8XtlKn/n3Y42mMBI=
+X-Endpoint-Received: by B4 Relay for quic_mahap@quicinc.com/20241001 with
+ auth_id=236
+X-Original-From: Mahadevan <quic_mahap@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,44 +85,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: quic_mahap@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-make htmldocs is reporting:
+This series introduces support to enable the Mobile Display Subsystem (MDSS)
+and Display Processing Unit (DPU) for the Qualcomm SA8775P target. It
+includes the addition of the hardware catalog, compatible string,
+relevant device tree changes, and their YAML bindings.
 
-drivers/gpu/drm/i915/i915_irq.c:1: warning: 'intel_runtime_pm_disable_interrupts' not found
-drivers/gpu/drm/i915/i915_irq.c:1: warning: 'intel_runtime_pm_enable_interrupts' not found
-
-intel_runtime_pm_disable_interrupts() is renamed to intel_irq_suspend(),
-make documentation changes accordingly.
-
-Fixes: 3de5774cb8c0 ("drm/i915/irq: Rename suspend/resume functions")
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Closes: https://lore.kernel.org/all/20241001134331.7b4d4ca5@canb.auug.org.au/
-Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
 ---
-Noticed that Stephen also reported this so added a Closes URL.
----
- Documentation/gpu/i915.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+In this series PATCH 5: "arm64: dts: qcom: sa8775p: add display dt nodes for MDSS0 and DPU"
+depends on the clock enablement change:
+https://lore.kernel.org/all/20240816-sa8775p-mm-v3-v1-0-77d53c3c0cef@quicinc.com/
 
-diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
-index ad59ae579237..7a469df675d8 100644
---- a/Documentation/gpu/i915.rst
-+++ b/Documentation/gpu/i915.rst
-@@ -35,10 +35,10 @@ Interrupt Handling
-    :functions: intel_irq_init intel_irq_init_hw intel_hpd_init
- 
- .. kernel-doc:: drivers/gpu/drm/i915/i915_irq.c
--   :functions: intel_runtime_pm_disable_interrupts
-+   :functions: intel_irq_suspend
- 
- .. kernel-doc:: drivers/gpu/drm/i915/i915_irq.c
--   :functions: intel_runtime_pm_enable_interrupts
-+   :functions: intel_irq_resume
- 
- Intel GVT-g Guest Support(vGPU)
- -------------------------------
+---
+
+[v3]
+-Edited copyright for catalog changes. [Dmitry]
+-Fix dt_binding_check tool errors(update reg address as address-cells and
+ size-cells of root node one and maintain the same for child nodes of mdss,
+ added additionalProperties in schema).
+ [Rob, Bjorn, Krzysztof]
+-Add QCOM_ICC_TAG_ACTIVE_ONLY interconnect path tag to mdp0-mem and mdp1-mem
+ path in devicetree. [Dmitry]
+-Update commit subject and message for DT change. [Dmitry]
+-Remove interconnect path tags from dt bindings. (ref sm8450-mdss yaml)
+
+[v2]
+- Updated cover letter subject and message. [Dmitry]
+- Use fake DISPCC nodes to avoid clock dependencies in dt-bindings. [Dmitry]
+- Update bindings by fixing dt_binding_check tool errors (update includes in example),
+  adding proper spacing and indentation in the binding example, droping unused labels,
+  droping status disable, adding reset node. [Dmitry, Rob, Krzysztof]
+- Reorder compatible string of MDSS and DPU based on alphabetical order.[Dmitry]
+- add reg_bus_bw in msm_mdss_data. [Dmitry]
+- Fix indentation in the devicetree. [Dmitry]
+
+--
+2.34.1
+
+---
+Mahadevan (5):
+      dt-bindings: display/msm: Document MDSS on SA8775P
+      dt-bindings: display/msm: Document the DPU for SA8775P
+      drm/msm: mdss: Add SA8775P support
+      drm/msm/dpu: Add SA8775P support
+      arm64: dts: qcom: sa8775p: add display dt nodes for MDSS0 and DPU
+
+ .../bindings/display/msm/qcom,sa8775p-dpu.yaml     | 122 ++++++
+ .../bindings/display/msm/qcom,sa8775p-mdss.yaml    | 241 ++++++++++
+ arch/arm64/boot/dts/qcom/sa8775p.dtsi              |  89 ++++
+ .../drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h    | 485 +++++++++++++++++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |   1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   1 +
+ drivers/gpu/drm/msm/msm_mdss.c                     |  11 +
+ 8 files changed, 951 insertions(+)
+---
+base-commit: e390603cfa79c860ed35e073f5fe77805b067a8e
+change-id: 20240930-patchv3_1-600cbc1549e8
+
+Best regards,
 -- 
-2.46.0
+Mahadevan <quic_mahap@quicinc.com>
+
 
