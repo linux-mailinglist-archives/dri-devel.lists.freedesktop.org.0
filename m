@@ -2,43 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11C8998C0B3
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2024 16:51:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46F3398C0D5
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2024 16:55:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D1DC10E63E;
-	Tue,  1 Oct 2024 14:51:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3E8910E642;
+	Tue,  1 Oct 2024 14:55:00 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gVdG44w/";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B55510E2C0
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Oct 2024 14:51:05 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1sveDO-0004wV-Qj; Tue, 01 Oct 2024 16:51:02 +0200
-Message-ID: <2b5afbe1d32c984f67555d73a35ae24eed60dd68.camel@pengutronix.de>
-Subject: Re: [PATCH v15 18/19] drm/etnaviv: Allow userspace specify the
- domain of etnaviv GEM buffer object
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Sui Jingfeng <sui.jingfeng@linux.dev>
-Cc: Christian Gmeiner <christian.gmeiner@gmail.com>, Russell King
- <linux+etnaviv@armlinux.org.uk>, dri-devel@lists.freedesktop.org, 
- etnaviv@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Date: Tue, 01 Oct 2024 16:51:02 +0200
-In-Reply-To: <20240908094357.291862-19-sui.jingfeng@linux.dev>
-References: <20240908094357.291862-1-sui.jingfeng@linux.dev>
- <20240908094357.291862-19-sui.jingfeng@linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A92810E2C0;
+ Tue,  1 Oct 2024 14:54:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1727794499; x=1759330499;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=ecwBI6yVzkZLIXGC3sGQbIbn+aqLSYy+OdwyEgxXCgo=;
+ b=gVdG44w/S0/NZj7iZYj/s+BNZKOAszm6IXYYl+FGfYS7cdAXFWmIarRm
+ QkncxrrSTuaaYQdjMg6lhLXdVLaiIPSmic0rniPufowvN7eF+TM/3B54f
+ HtBXD6vrkpyj8MOP/hEhd+RyqOWm7MMjDxeuQKgCm9ILzvvZKAap9DGRi
+ QgOzz+pkfLr3x2djIh0yiyEiJ0YdIKWxX4tW+YrjB4BMdmhrPRLLiS3zw
+ nxYYaZWZT0wiwf88XS5b7SvZm/n+KPu7xhE//81gfp8qudsscgjacBurF
+ VK5DLfIHx0sko2rFV63OffpClgHB0k+6/7EiZ3FXcc965bxj6/DYGA738 w==;
+X-CSE-ConnectionGUID: gen9IMooTh+rF4ii3eeM1w==
+X-CSE-MsgGUID: Dkh2EoSRQtmnmRJ6hfVH9A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="49455917"
+X-IronPort-AV: E=Sophos;i="6.11,167,1725346800"; d="scan'208";a="49455917"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Oct 2024 07:54:55 -0700
+X-CSE-ConnectionGUID: Q3vajoooSKqRZ8KFv059Fw==
+X-CSE-MsgGUID: 6Audy8LHRhqenlYEHO3U5Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,167,1725346800"; d="scan'208";a="73658322"
+Received: from smile.fi.intel.com ([10.237.72.54])
+ by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Oct 2024 07:54:51 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1sveH1-0000000FEdp-077P; Tue, 01 Oct 2024 17:54:47 +0300
+Date: Tue, 1 Oct 2024 17:54:46 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Raag Jadav <raag.jadav@intel.com>
+Cc: airlied@gmail.com, simona@ffwll.ch, lucas.demarchi@intel.com,
+ thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
+ jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+ tursulin@ursulin.net, lina@asahilina.net,
+ intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com,
+ francois.dugast@intel.com, aravind.iddamsetty@linux.intel.com,
+ anshuman.gupta@intel.com, andi.shyti@linux.intel.com,
+ matthew.d.roper@intel.com
+Subject: Re: [PATCH v7 1/5] drm: Introduce device wedged event
+Message-ID: <ZvwNNsZ85oEAEJvh@smile.fi.intel.com>
+References: <20240930073845.347326-1-raag.jadav@intel.com>
+ <20240930073845.347326-2-raag.jadav@intel.com>
+ <Zvqgz3Vpz2IS1Cua@smile.fi.intel.com>
+ <ZvuDwvtyJ4djuIQ7@black.fi.intel.com>
+ <ZvvmH0n_y_vVSpvR@smile.fi.intel.com>
+ <ZvwEubI8ldUT6TsK@black.fi.intel.com>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZvwEubI8ldUT6TsK@black.fi.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,93 +84,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Sonntag, dem 08.09.2024 um 17:43 +0800 schrieb Sui Jingfeng:
-> Otherwise we don't know where a etnaviv GEM buffer object should put when
-> we create it at userspace.
->=20
-> Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_drv.c |  9 +++++++++
->  include/uapi/drm/etnaviv_drm.h        | 12 ++++++++++++
->  2 files changed, 21 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etna=
-viv/etnaviv_drv.c
-> index f10661fe079f..cdc62f64b200 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> @@ -331,11 +331,20 @@ static int etnaviv_ioctl_gem_new(struct drm_device =
-*dev, void *data,
->  		struct drm_file *file)
->  {
->  	struct drm_etnaviv_gem_new *args =3D data;
-> +	u32 domain;
-> +
-> +	domain =3D args->flags & ETNA_BO_DOMAIN_MASK;
-> +
-> +	args->flags &=3D ~ETNA_BO_DOMAIN_MASK;
+On Tue, Oct 01, 2024 at 05:18:33PM +0300, Raag Jadav wrote:
+> On Tue, Oct 01, 2024 at 03:07:59PM +0300, Andy Shevchenko wrote:
+> > On Tue, Oct 01, 2024 at 08:08:18AM +0300, Raag Jadav wrote:
+> > > On Mon, Sep 30, 2024 at 03:59:59PM +0300, Andy Shevchenko wrote:
+> > > > On Mon, Sep 30, 2024 at 01:08:41PM +0530, Raag Jadav wrote:
 
-This is not a proper input validation, as it would accept data in the
-domain mask range that doesn't correspond to valid flags. You need to
-add your new valid flag bits to the check below.
+...
 
-> =20
->  	if (args->flags & ~(ETNA_BO_CACHED | ETNA_BO_WC | ETNA_BO_UNCACHED |
->  			    ETNA_BO_FORCE_MMU))
->  		return -EINVAL;
-> =20
-> +	if (domain =3D=3D ETNA_BO_PL_VRAM)
-> +		return etnaviv_gem_new_vram(dev, file, args->size,
-> +					    args->flags, &args->handle);
-> +
->  	return etnaviv_gem_new_handle(dev, file, args->size,
->  			args->flags, &args->handle);
->  }
-> diff --git a/include/uapi/drm/etnaviv_drm.h b/include/uapi/drm/etnaviv_dr=
-m.h
-> index 61eaa8cd0f5e..00e778c9d312 100644
-> --- a/include/uapi/drm/etnaviv_drm.h
-> +++ b/include/uapi/drm/etnaviv_drm.h
-> @@ -99,6 +99,18 @@ struct drm_etnaviv_param {
->  /* map flags */
->  #define ETNA_BO_FORCE_MMU    0x00100000
-> =20
-> +/* domain (placement) flags */
-> +#define ETNA_BO_DOMAIN_MASK  0x00f00000
+> > > > > +static const char *const drm_wedge_recovery_opts[] = {
+> > > > > +	[DRM_WEDGE_RECOVERY_REBIND] = "rebind",
+> > > > > +	[DRM_WEDGE_RECOVERY_BUS_RESET] = "bus-reset",
+> > > > > +	[DRM_WEDGE_RECOVERY_REBOOT] = "reboot",
+> > > > > +};
+> > > > 
+> > > > Place for static_assert() is here, as it closer to the actual data we test...
+> > > 
+> > > Shouldn't it be at the point of access?
+> > 
+> > No, the idea of static_assert() is in word 'static', meaning it's allowed to be
+> > used in the global space.
+> > 
+> > > If no, why do we care about the data when it's not being used?
+> > 
+> > What does this suppose to mean? The assertion is for enforcing the boundaries
+> > that are defined by different means (constant of the size and real size of
+> > an array).
+> 
+> The point was to simply not assert without an active user of the array, which is
+> not the case now but may be possible with growing functionality in the future.
 
-How does this work? Has this been tested? This define masks different
-bits than the placement flags defined below.
->=20
-> +
-> +/* CPU accessible, GPU accessible pages in dedicated VRAM */
-> +#define ETNA_BO_PL_VRAM      0x01000000
+static_assert() is a compile-time check. How is it even related to this?
+So, i.o.w., you are contradicting yourself in this code: on one hand you want
+compile-time static checker, on the other you do not want it and rely on the
+usage of the function.
 
-Other drivers call this the visible VRAM range.
+Possible solutions:
+1) remove static_assert() completely;
+2) move it as I said.
 
-> +/* CPU accessible, GPU accessible pages in SHMEM */
-> +#define ETNA_BO_PL_GTT       0x02000000
-> +/* Userspace allocated memory, at least CPU accessible */
-> +#define ETNA_BO_PL_USERPTR   0x08000000
+-- 
+With Best Regards,
+Andy Shevchenko
 
-How is this a valid placement? If it's userspace allocated memory, the
-driver has no influence on placement. All it can do is to pin the pages
-and set up a GART mapping.
-
-> +/* GPU accessible but CPU not accessible private VRAM pages */
-> +#define ETNA_BO_PL_PRIV      0x04000000
-> +
-
-VRAM_INVISIBLE would be a more descriptive name for the flag than PRIV.
-
-However I'm not sure if we can make the distinction between visible and
-invisible VRAM at allocation time. What needs to be CPU visible may
-change over the runtime of the workload, which is why real TTM drivers
-can migrate BOs in and out of the visible region.
-
-Regards,
-Lucas
-
->  struct drm_etnaviv_gem_new {
->  	__u64 size;           /* in */
->  	__u32 flags;          /* in, mask of ETNA_BO_x */
 
