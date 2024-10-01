@@ -2,86 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7EE798BAD6
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2024 13:18:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C15298BAF7
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2024 13:26:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DC3D10E30E;
-	Tue,  1 Oct 2024 11:18:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08E6910E185;
+	Tue,  1 Oct 2024 11:26:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Nh8UrUvW";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="jDb03W+H";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com
- [209.85.218.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1D6C10E1E1;
- Tue,  1 Oct 2024 11:18:22 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id
- a640c23a62f3a-a8d51a7d6f5so712493066b.2; 
- Tue, 01 Oct 2024 04:18:22 -0700 (PDT)
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
+ [209.85.208.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CAEBC10E185
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Oct 2024 11:26:37 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id
+ 4fb4d7f45d1cf-5c5cf26b95aso6341263a12.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Oct 2024 04:26:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1727781501; x=1728386301; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=M7Y+01ypUJsEmgwdYhnhTchynt4rwwmYzwYQjNI7xpM=;
- b=Nh8UrUvWaypuLQREz98e1RYNxWQi+xWIJLn3ONSmxrsP/Wa63J12U/d5smCBaIL8kt
- bPZmgtf08Ia9yBQB4Rb0tkNMfXKdY5GW/1EoKbU1zkxe6x/aYVnnfNYSFcbpWMrv2e/d
- n7sNCUhPPR8gw30nAxdyT7dqLSxgfjG+rLplB7jgfgjVfcbLzxSpZ9u3/rhVBRDO4eyF
- sxDswafQWiAdISwcraSzSFvqnTKGG1HbvCoX7/YEserfztMwyB8BX/UzPm2OBpQsk572
- Hn0y9nSUKt5XZ5BOwS1HU8EayIVmNYD9MF35PA7JBp8hKioOn9W8yM9ltgPV3OL8nwhz
- mJkQ==
+ d=linaro.org; s=google; t=1727781996; x=1728386796; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=b1zPP1JDn3iYgVYvQiKdhlmILDTIwPAaCpUBY9E3Fhc=;
+ b=jDb03W+HH08zxZwOcLZoxxek2k8i9SvLFZLfULFski7WfTM6SnEzj8c85hPWb5SZwI
+ Cc9UUxIov2cYWRloHgUuTsLbQw93PEk61/He0axMTL7C9o2dZ5jm3Yj9VFQr66ASkHGk
+ RUgLWALlDxGVuCVDE86lX5h/N2hUuuoo2UM2aDt0CNMOE392adpaNQllq3+wuvETOMTI
+ CTfpFlZvcz3ne1pi4iv1nQMEii3w6W7WTQcbFyC4VcHjaJPnYMOMfrGbqkm/RdiZQN2K
+ EHRemJ7yaFCnIJcn0DCz3twHTFYyN4i4z/kVXu/twfgG+kTtcFm7pEYkikjsnRYHrAXc
+ fu8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727781501; x=1728386301;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=M7Y+01ypUJsEmgwdYhnhTchynt4rwwmYzwYQjNI7xpM=;
- b=eXXYxGApy4q6uV62niIObmd3NLAPSQ+ViPYsiaZNe9C2M7IpZKr4Y4efKJoVqQt6uO
- QSWDEf/cKEIB7IjtZXTxb7yg4cF8kfnSymqAV4Cb+f4Rw2P79cHRA7b0E2TnIOFYa6nQ
- 6+Fn57CtrQJV6rxAJutL0oylwlsVHQiQAeLKHI7gH6qUVXgERTUDMy6kKlqqBiuMj/Fv
- 5ujmR7uXVaRyfqshFJXQJNmHsayoHpVWO3cg8sG89+u5fdUW5kD5LWV1ZYHg2iRtdmO8
- 5h/D8ved4LweIVj/vEq993F2l5v/HZoNTCzyg5Wu+f5+S//R7+TyXQfVX/d8mZFd+3Da
- 5LIw==
+ d=1e100.net; s=20230601; t=1727781996; x=1728386796;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=b1zPP1JDn3iYgVYvQiKdhlmILDTIwPAaCpUBY9E3Fhc=;
+ b=JfmopjQp1niNoLqM2lKeJPlpD82XI6O8KzWt5V3Kn3Z0Eq8V1F10uEWag5cbvgCeXs
+ 01lpv4XyNghQepLwPABnUHKJ15zytmv+F2tFetsXuQFKCcgyMmW0/rXOukfAo/hMBJ4W
+ s4NwXvEHSviDUF7zCDwcos3bo065E/C2URs4ova3BA/m/nREI1T3vHyBO6TF6eNycIys
+ bISX4YhGvOD+MWuRtA7/M/CCJ+lbbQMluCad1VObi0ZFgXbmfBYeiQqOGr4s42PmnF47
+ /RG2R62SCbD/3NsNbUzl27FHx8t44Jb4cDBShKz4+VbF5ieT9G3fcnFm0wL2yBbfP9B9
+ 8S6w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWe92ojCjiybIzv1P4zPq/6EaLpBXSeFugFMcfuj7iiRPjWhHEJybnvgMldejytIRPyIgxThjOgSSM=@lists.freedesktop.org,
- AJvYcCWjK5n1vT88uDervbBtX4TO3wIkPnUiFY30OF4BpqycUeoiPrnuMkaagAOQnD0gMh/1vqnYWBg9nTdf@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz//44OoD0FPpBSkM8G1n3BuzTSaK3OhO6+tO5FD6KfOmgqAFnF
- +McSScvRw9jxexz2oDD0D7IL0aoH5nflCKyvr5dQgNg1o1eqTaUM
-X-Google-Smtp-Source: AGHT+IEjf7kjW+MgxUTDGHSJNPDYgDC2pVN3zKWGsYHhpG6QGdF/JkSRWRkTQCML9v/lBAseCkcp7g==
-X-Received: by 2002:a17:907:ea7:b0:a8a:8c92:1c76 with SMTP id
- a640c23a62f3a-a93c4961721mr1478843866b.36.1727781500535; 
- Tue, 01 Oct 2024 04:18:20 -0700 (PDT)
-Received: from [192.168.1.17] (host-79-12-161-203.retail.telecomitalia.it.
- [79.12.161.203]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a93c27ecf90sm694400766b.97.2024.10.01.04.18.19
+ AJvYcCWi5OgHBdf3aLV5OVsM8/ZdtVJYekpd7DNqG0h/f/UMalq0fgWkGr5bbRfmmdcBi5gt30MbqQ3GvBI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwiRyiqGoKLwXrlh72A+ZcgptmV40Nn2TZpFNU3MQ8sTre2eWD1
+ ufKv1i7ixySxg8fCNA41IZOjhD5DBbA1tVe4Qg06nUkG7JgHg+MjKWn09rr0Frk=
+X-Google-Smtp-Source: AGHT+IFPmg6eWFezHez5IU0jt/mbzzvx2KZyfUaKlRhXu9JDJPG7pX6tMogPUjGRrKvVvbvxta9LUw==
+X-Received: by 2002:a05:6402:4410:b0:5c0:ad76:f703 with SMTP id
+ 4fb4d7f45d1cf-5c88261ab2bmr14745180a12.24.1727781995911; 
+ Tue, 01 Oct 2024 04:26:35 -0700 (PDT)
+Received: from [127.0.0.1] ([5.176.33.163]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-5c88248b628sm5989821a12.66.2024.10.01.04.26.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Oct 2024 04:18:20 -0700 (PDT)
-Message-ID: <0aab9845-b960-477f-b869-e8d0759c4671@gmail.com>
-Date: Tue, 1 Oct 2024 13:18:18 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 11/11] Documentation: document adreno preemption
-To: Bagas Sanjaya <bagasdotme@gmail.com>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Tue, 01 Oct 2024 04:26:34 -0700 (PDT)
+Date: Tue, 01 Oct 2024 14:26:30 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Heiner Kallweit <hkallweit1@gmail.com>
+CC: Oded Gabbay <ogabbay@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20240926-preemption-a750-t-v6-0-7b6e1ef3648f@gmail.com>
- <20240926-preemption-a750-t-v6-11-7b6e1ef3648f@gmail.com>
- <ZvtMB14Yx5m3TzFJ@archie.me>
-Content-Language: en-US
-From: Antonino Maniscalco <antomani103@gmail.com>
-In-Reply-To: <ZvtMB14Yx5m3TzFJ@archie.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Hans de Goede <hdegoede@redhat.com>,
+ "open list:AMD KFD" <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH 1/6] drm/sysfs: Remove version attribute
+User-Agent: K-9 Mail for Android
+In-Reply-To: <c7060b7f-cd01-4185-bba7-0e3e318ab196@gmail.com>
+References: <499229fd-5344-4799-85bf-93e4b3b45eca@gmail.com>
+ <b2d8d283-36cc-42e8-a8e7-e57e9698a9b5@gmail.com>
+ <zqgp5une7apdgiytnhkrqz7ec2zrb5lsxzwwjvtcvs3mke3bns@tplkxi2isud4>
+ <72ee3be1-f4bb-48bf-970b-740f272a174c@gmail.com>
+ <0A960D8C-FC76-4930-BBF1-1285A4AFE876@linaro.org>
+ <c7060b7f-cd01-4185-bba7-0e3e318ab196@gmail.com>
+Message-ID: <813A678B-7B68-47DA-8D06-6C721CEF6E2F@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,45 +93,127 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/1/24 3:10 AM, Bagas Sanjaya wrote:
-> On Thu, Sep 26, 2024 at 11:16:53PM +0200, Antonino Maniscalco wrote:
->> +.. SPDX-License-Identifier: GPL-2.0
->> +
->> +:orphan:
-> 
-> Why don't this be added to toctree in Documentation/gpu/index.rst?
+On October 1, 2024 2:07:28 PM GMT+03:00, Heiner Kallweit <hkallweit1@gmail=
+=2Ecom> wrote:
+>On 01=2E10=2E2024 12:01, Dmitry Baryshkov wrote:
+>> On September 30, 2024 1:49:41 PM GMT+03:00, Heiner Kallweit <hkallweit1=
+@gmail=2Ecom> wrote:
+>>> On 22=2E09=2E2024 16:55, Dmitry Baryshkov wrote:
+>>>> On Sun, Sep 08, 2024 at 02:08:58PM GMT, Heiner Kallweit wrote:
+>>>>> This undocumented attribute returns a version string which hasn't be=
+en
+>>>>> changed for ages=2E libdrm doesn't use it and I also found no other =
+user=2E
+>>>>> So I think we can remove it=2E
+>>>>
+>>>> This file is a part of the ABI=2E Commit 82d5e73f6b79 ("drm: drop obs=
+olete
+>>>> drm_core=2Eh") replaced variable string with the fixed value that we
+>>>> currently have, but at the same it clearly documented that the file i=
+s
+>>>> being preserved for the sake of binary compatibility=2E
+>>>>
+>>> The drm version attribute is documented neither under Documentation/gp=
+u
+>>> nor under Documentation/ABI=2E So do we really have to consider it
+>>> part of the ABI? And are you aware of any actual user of this attribut=
+e?
+>>>
+>>> The author of 82d5e73f6b79 wasn't sure either, and therefore didn't
+>>> dare to drop the attribute (8 yrs ago)=2E He didn't make any statement=
+ that
+>>> the attribute is actually used=2E
+>>=20
+>> A very quick search points out that the file is being used:=20
+>>=20
+>> <https://codesearch=2Edebian=2Enet/search?q=3Ddrm%2Fversion>
+>>=20
+>
+>Thanks=2E However this script doesn't actually use the version value
+>and would work perfectly fine also w/o this attribute=2E
+>
+>>=20
+>>>
+>>> 6=2E12-rc1 is just out, so we could drop the attribute in linux-next a=
+nd
+>>> would have several weeks before the next merge window to find out
+>>> whether anybody complains=2E
+>>=20
+>> No, this is not the way to treat userspace ABI=2E
+>>=20
+>
+>Mileage of subsystem maintainers seems to vary in this regard=2E
+>See following example where Greg supported such an approach=2E
+>https://www=2Espinics=2Enet/lists/linux-i2c/msg71821=2Ehtml
+>But fine with me, we can also leave the version attribute in=2E
 
-Yes so there is existing orphan documentation for msm so my intention 
-was to add it as orphan then eventually send out a series to organize it 
-properly (so creating an msm directory with an index which then points 
-two files we currently have). Does that sound good to you?
+Let's leave the final decision to subsystem maintainers=2E
 
-> 
->> +
->> +=============
->> +MSM Preemtion
->> +=============
-> s/Preemtion/Preemption/
 
-Thanks for pointing out the typo!
+>
+>>>
+>>>>>
+>>>>> Signed-off-by: Heiner Kallweit <hkallweit1@gmail=2Ecom>
+>>>>> ---
+>>>>>  drivers/gpu/drm/drm_sysfs=2Ec | 12 ------------
+>>>>>  1 file changed, 12 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/drm_sysfs=2Ec b/drivers/gpu/drm/drm_sys=
+fs=2Ec
+>>>>> index fb3bbb6ad=2E=2E49e5faf11 100644
+>>>>> --- a/drivers/gpu/drm/drm_sysfs=2Ec
+>>>>> +++ b/drivers/gpu/drm/drm_sysfs=2Ec
+>>>>> @@ -126,8 +126,6 @@ static const struct component_ops typec_connecto=
+r_ops =3D {
+>>>>>  	=2Eunbind =3D typec_connector_unbind,
+>>>>>  };
+>>>>> =20
+>>>>> -static CLASS_ATTR_STRING(version, S_IRUGO, "drm 1=2E1=2E0 20060810"=
+);
+>>>>> -
+>>>>>  /**
+>>>>>   * drm_sysfs_init - initialize sysfs helpers
+>>>>>   *
+>>>>> @@ -140,19 +138,10 @@ static CLASS_ATTR_STRING(version, S_IRUGO, "dr=
+m 1=2E1=2E0 20060810");
+>>>>>   */
+>>>>>  int drm_sysfs_init(void)
+>>>>>  {
+>>>>> -	int err;
+>>>>> -
+>>>>>  	drm_class =3D class_create("drm");
+>>>>>  	if (IS_ERR(drm_class))
+>>>>>  		return PTR_ERR(drm_class);
+>>>>> =20
+>>>>> -	err =3D class_create_file(drm_class, &class_attr_version=2Eattr);
+>>>>> -	if (err) {
+>>>>> -		class_destroy(drm_class);
+>>>>> -		drm_class =3D NULL;
+>>>>> -		return err;
+>>>>> -	}
+>>>>> -
+>>>>>  	drm_class->devnode =3D drm_devnode;
+>>>>> =20
+>>>>>  	drm_sysfs_acpi_register();
+>>>>> @@ -169,7 +158,6 @@ void drm_sysfs_destroy(void)
+>>>>>  	if (IS_ERR_OR_NULL(drm_class))
+>>>>>  		return;
+>>>>>  	drm_sysfs_acpi_unregister();
+>>>>> -	class_remove_file(drm_class, &class_attr_version=2Eattr);
+>>>>>  	class_destroy(drm_class);
+>>>>>  	drm_class =3D NULL;
+>>>>>  }
+>>>>> --=20
+>>>>> 2=2E46=2E0
+>>>>>
+>>>>>
+>>>>
+>>>
+>>=20
+>>=20
+>
 
-> 
-> 
->> +This mechanism can be used by the kernel to switch between rings. Whenever a
->> +submission occurs the kernel finds the highest priority ring which isn't empty
->> +and preempts to it if said ring is not the one being currently executed. This is
->> +also done whenever a submission completes to make sure execution resumes on a
->> +lower priority ring when a higher priority ring is done.
-> 
-> Do you mean that the kernel finds highest priority ring possible that is not
-> empty? What if all these 4 rings are empty?
-> 
-> Confused...
-> 
 
-Yep, if all rings are empty we don't preempt, same as when the highest 
-priority ring is the current one.
-
-Best regards,
--- 
-Antonino Maniscalco <antomani103@gmail.com>
+--=20
+With best wishes
+Dmitry
