@@ -2,86 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B705F98BF86
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2024 16:17:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F48298BF9A
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2024 16:18:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3AAF10E634;
-	Tue,  1 Oct 2024 14:17:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A11E910E631;
+	Tue,  1 Oct 2024 14:18:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="doOfP70C";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VrZYgH+p";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
- [209.85.218.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D643010E636
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Oct 2024 14:17:01 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id
- a640c23a62f3a-a98f6f777f1so389766b.2
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Oct 2024 07:17:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1727792220; x=1728397020; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc:subject
- :date:message-id:reply-to;
- bh=MvAacLaDBceNrpSd1jDzbEXuHGqrT8pU1AHDnl3+2N0=;
- b=doOfP70C74sHI3iBIN6J7XjEVJFBJS1MoEkiaBa4POOwWOViIdacLIzJ5ocyIa6eQS
- rsqIl+X1Ve3tZ+OzWDjgxYrcx6biUJQAHI2kDcn8Jbs3M0VC+ntTvxanU3ajf62UnVmh
- zSt0kWplKDB7KWugtmeJxITNEXwoDmrn81nRp035DaulBzyEH0a9hnY2hy4FXxb0r7g9
- fCNGXdJC24/JLgc0v21nO67gFRHXVToc7WmsQX9grOMYQFHMZSj0a1mLSeUt8bvz1uF1
- BJQqVRn2b4PZiFQ8Iigdj8i8EUj4OzDJu5RXJKdD9UplnnmUGW+56duDbGkF++fqmpA/
- eW8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727792220; x=1728397020;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=MvAacLaDBceNrpSd1jDzbEXuHGqrT8pU1AHDnl3+2N0=;
- b=c0w+1DACECDMIQuON/mgZ5anxj0MCou7iLjAlu6NgwkSl03Y6Tg5WaCVTC1oO5SRfx
- gduoiKmr8+sbfOowATQZYGFD/PYuaAcBLpBZwAsD+K7OPxPLVjLUufizf+tOEDLkv168
- eqigJiIi2xu7CPYRDjZEzfPHjc1Skq9qZnQfKJL8ZY9uzz11IpN8CXtRqcMtAnS+1meb
- XyzQ83bkqhOqXNsPz6pGVoJ6yhJ1Gulj15V65KDMZsPpOVaog69RU9oVVh8QQwNd1ewB
- EiD0oVIxIIUgg8U9bwQGxCrWMJCkHrScoFbXi8hE3OqTGCHwTH0p8/gmwDyznzFTE+w2
- blow==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXvqmtVVYW1sahSSTtrrV7ZrQ3U3IrML5m+K+XnJ/u54km9OvEhJl6uRShDkikZ0LJWyEe7FuTaLKk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywc0Kym/R3dvNoS8mnKYFBvmbtM9EZU2qZ7hlApWDjmSsoWzKwV
- gmL/IJp4VOLkzv43Po2vibUu7jws5jR4D64IKrZYiqkc7tP/gkSR+IdcAzz07fM=
-X-Google-Smtp-Source: AGHT+IFEWffX/CHGY6XoMdO9kdp7HM2GYhPbJlSBDdG8O1hxbquzBTDo/fLcnh7exBe/tUwFPn8yXw==
-X-Received: by 2002:a17:906:db04:b0:a8a:18f9:269f with SMTP id
- a640c23a62f3a-a93c4c267dfmr1736758766b.60.1727792220071; 
- Tue, 01 Oct 2024 07:17:00 -0700 (PDT)
-Received: from [127.0.0.1] ([37.155.79.147]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a93c2947487sm719545766b.139.2024.10.01.07.16.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Oct 2024 07:16:59 -0700 (PDT)
-Date: Tue, 01 Oct 2024 17:16:55 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>, quic_mahap@quicinc.com,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>
-CC: Kalyan Thota <quic_kalyant@quicinc.com>,
- Jayaprakash Madisetty <quic_jmadiset@quicinc.com>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v3_0/5=5D_Display_enablement?=
- =?US-ASCII?Q?_changes_for_Qualcomm_SA8775P_platform?=
-User-Agent: K-9 Mail for Android
-In-Reply-To: <609440b4-e46b-44c6-ba33-c30f4ca8d863@kernel.org>
-References: <20241001-patchv3_1-v3-0-d23284f45977@quicinc.com>
- <609440b4-e46b-44c6-ba33-c30f4ca8d863@kernel.org>
-Message-ID: <576B115A-CB36-4795-BF23-75EACD0679E5@linaro.org>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1ECE410E17A;
+ Tue,  1 Oct 2024 14:18:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1727792321; x=1759328321;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=f/xwpNxTqNitbx89InneKuup2yZVD2QHw5scdRCz3QI=;
+ b=VrZYgH+p5syxnm2sg9Ahy8hGnjfqmuZze1Tufk0px2J1X9S9BDysOWDa
+ PAxk+0OUsUpGXkQ3MpH8ZMZCekpy6GLNe7zSyLzgfL/gyYwvsXVbVWveF
+ V9xGQuPgPms0drmHeUaR8P6vyofekN4fZR34RdKo5Ks8VcW4xWvmxjgor
+ Q5TIA6qTH+Nqldh4hqOcFQvwgwsFPZXpVzLyRtA58RI7/KFnoIUhJ0ZHn
+ kB3nudGw+EWV1Q60t4Ye0cOoLb91f7EPNH+fx4k+mpL8SoNl1TUBtOvlB
+ ecdMxMub7fduSDeUzsoteiFcyY9k9v6DOKVJRJsyG+1F8IgciuClit6q0 A==;
+X-CSE-ConnectionGUID: bUU/myqiSd2ZmKL37YdNHw==
+X-CSE-MsgGUID: 8yhm+ohuToORbE+r8CP6vQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="37487738"
+X-IronPort-AV: E=Sophos;i="6.11,167,1725346800"; d="scan'208";a="37487738"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Oct 2024 07:18:41 -0700
+X-CSE-ConnectionGUID: 7rmqgJz1R3KHgk4Ji2lAFQ==
+X-CSE-MsgGUID: UJolPFigRf+YHa2th5xTlg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,167,1725346800"; d="scan'208";a="73930739"
+Received: from black.fi.intel.com ([10.237.72.28])
+ by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Oct 2024 07:18:37 -0700
+Date: Tue, 1 Oct 2024 17:18:33 +0300
+From: Raag Jadav <raag.jadav@intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: airlied@gmail.com, simona@ffwll.ch, lucas.demarchi@intel.com,
+ thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
+ jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+ tursulin@ursulin.net, lina@asahilina.net,
+ intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com,
+ francois.dugast@intel.com, aravind.iddamsetty@linux.intel.com,
+ anshuman.gupta@intel.com, andi.shyti@linux.intel.com,
+ matthew.d.roper@intel.com
+Subject: Re: [PATCH v7 1/5] drm: Introduce device wedged event
+Message-ID: <ZvwEubI8ldUT6TsK@black.fi.intel.com>
+References: <20240930073845.347326-1-raag.jadav@intel.com>
+ <20240930073845.347326-2-raag.jadav@intel.com>
+ <Zvqgz3Vpz2IS1Cua@smile.fi.intel.com>
+ <ZvuDwvtyJ4djuIQ7@black.fi.intel.com>
+ <ZvvmH0n_y_vVSpvR@smile.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZvvmH0n_y_vVSpvR@smile.fi.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,41 +79,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On October 1, 2024 1:16:31 PM GMT+03:00, Krzysztof Kozlowski <krzk@kernel=
-=2Eorg> wrote:
->On 01/10/2024 08:41, Mahadevan via B4 Relay wrote:
->> This series introduces support to enable the Mobile Display Subsystem (=
-MDSS)
->> and Display Processing Unit (DPU) for the Qualcomm SA8775P target=2E It
->> includes the addition of the hardware catalog, compatible string,
->> relevant device tree changes, and their YAML bindings=2E
->>=20
->> ---
->> In this series PATCH 5: "arm64: dts: qcom: sa8775p: add display dt node=
-s for MDSS0 and DPU"
->> depends on the clock enablement change:
->> https://lore=2Ekernel=2Eorg/all/20240816-sa8775p-mm-v3-v1-0-77d53c3c0ce=
-f@quicinc=2Ecom/
->>=20
->
->b4 diff fails=2E b4 mbox + b4 diff -m also fail=2E Way to make reviewers
->life more difficult than it should be=2E
->
->I'll move this patchset to the bottom of the queue=2E Please in the futur=
-e
->send patches in standard way, so our tools can handle it easily=2E
+On Tue, Oct 01, 2024 at 03:07:59PM +0300, Andy Shevchenko wrote:
+> On Tue, Oct 01, 2024 at 08:08:18AM +0300, Raag Jadav wrote:
+> > On Mon, Sep 30, 2024 at 03:59:59PM +0300, Andy Shevchenko wrote:
+> > > On Mon, Sep 30, 2024 at 01:08:41PM +0530, Raag Jadav wrote:
+> 
+> ...
+> 
+> > > > +static const char *const drm_wedge_recovery_opts[] = {
+> > > > +	[DRM_WEDGE_RECOVERY_REBIND] = "rebind",
+> > > > +	[DRM_WEDGE_RECOVERY_BUS_RESET] = "bus-reset",
+> > > > +	[DRM_WEDGE_RECOVERY_REBOOT] = "reboot",
+> > > > +};
+> > > 
+> > > Place for static_assert() is here, as it closer to the actual data we test...
+> > 
+> > Shouldn't it be at the point of access?
+> 
+> No, the idea of static_assert() is in word 'static', meaning it's allowed to be
+> used in the global space.
+> 
+> > If no, why do we care about the data when it's not being used?
+> 
+> What does this suppose to mean? The assertion is for enforcing the boundaries
+> that are defined by different means (constant of the size and real size of
+> an array).
 
-This is the first time I read that using b4 tool is a strong requirement=
-=2E This iteration has been sent using b4, previous, probably, were not=2E=
-=20
+The point was to simply not assert without an active user of the array, which is
+not the case now but may be possible with growing functionality in the future.
 
-
->
->Best regards,
->Krzysztof
->
-
-
---=20
-With best wishes
-Dmitry
+Raag
