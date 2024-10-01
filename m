@@ -2,69 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8021598BBFD
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2024 14:20:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E62D598BBFE
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2024 14:21:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3C7B10E2E6;
-	Tue,  1 Oct 2024 12:20:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 445DE10E216;
+	Tue,  1 Oct 2024 12:21:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eH2yHksn";
+	dkim=pass (1024-bit key; unprotected) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="rxsQ/F9n";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 406E110E2E6;
- Tue,  1 Oct 2024 12:20:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1727785238; x=1759321238;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=u39Vf2xW3Sn8VrNdFBSdQK13CKiFImEoX4u5aUweK2Y=;
- b=eH2yHksnqllNvfHnPWPo3v6XeEVpFJZnkbqg/RcTKICnGg2pKGIc947t
- nqzXwn7KB3Tjiy3reYp6uIXEGGIcsubSdStWkLWOny6pgTHqY75r1+v9G
- IMgrsCCkMXxfWkui7chyEXF4r9MoCsQA3DR5eFMa9pD5uqo355ULcLQsv
- 25/whk7pR6e+3rpSqWUop2XyyZhtrGXQW0E6vGplXSa5WUpB73M5YHC2d
- 52wt4m3f9Ftd4FpJ8CfVfKMWRrF6moOGvZRTHA+R9eqwOzoi7ugaRjiEF
- lsDdpHihrPNBGMmcaqtO7dA/nMNpl+51uHuAzfL7zMZFFkaSF/a1XuvQh Q==;
-X-CSE-ConnectionGUID: IJ208xPZQH+OqiKwCGvmOA==
-X-CSE-MsgGUID: +pXcIgvmTauk0Berpj0noA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="30802721"
-X-IronPort-AV: E=Sophos;i="6.11,167,1725346800"; d="scan'208";a="30802721"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Oct 2024 05:20:37 -0700
-X-CSE-ConnectionGUID: yXddqDHvTZmRjam5sZMp1A==
-X-CSE-MsgGUID: uJfiyOVfQrGhUizPn6b8qA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,167,1725346800"; d="scan'208";a="73966697"
-Received: from irvmail002.ir.intel.com ([10.43.11.120])
- by fmviesa010.fm.intel.com with ESMTP; 01 Oct 2024 05:20:33 -0700
-Received: from [10.246.27.12] (mwajdecz-MOBL.ger.corp.intel.com [10.246.27.12])
- by irvmail002.ir.intel.com (Postfix) with ESMTP id 5D6A627BD2;
- Tue,  1 Oct 2024 13:20:30 +0100 (IST)
-Message-ID: <26f90d12-6a04-445e-96ff-aafbe3dc8132@intel.com>
-Date: Tue, 1 Oct 2024 14:20:29 +0200
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com
+ [157.90.84.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1ADC510E216
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Oct 2024 12:21:28 +0000 (UTC)
+Received: from [192.168.42.96] (pd9e59da1.dip0.t-ipconnect.de
+ [217.229.157.161]) (Authenticated sender: wse@tuxedocomputers.com)
+ by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 096042FC0050;
+ Tue,  1 Oct 2024 14:21:26 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+ s=default; t=1727785286;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=AbG84A5EMvLn9Auuag1AZjOQAJNiNrBNBh5UdE2lQpc=;
+ b=rxsQ/F9nD1M5QXhssUgDk13znS5GjPIZOjWPyA8TpV6W0rROE6w7qF1rF6cinjcJRoLl93
+ h2Q8D+n0ysfeOrFbBb62IrsSq5LAlIqfHljWQDizVGruaw4hZ2OdRJSZyna4PSBF2P3NBf
+ goasHAxEkxXjlr3AFrDMx8+vL/iJGJk=
+Authentication-Results: mail.tuxedocomputers.com;
+ auth=pass smtp.auth=wse@tuxedocomputers.com
+ smtp.mailfrom=wse@tuxedocomputers.com
+Content-Type: multipart/alternative;
+ boundary="------------wt7iuG0qGsNY4mdWufVlYl0x"
+Message-ID: <48961e58-a75f-48eb-8967-04a653258b0f@tuxedocomputers.com>
+Date: Tue, 1 Oct 2024 14:21:25 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 1/5] drm: Introduce device wedged event
-To: Raag Jadav <raag.jadav@intel.com>, airlied@gmail.com, simona@ffwll.ch,
- lucas.demarchi@intel.com, thomas.hellstrom@linux.intel.com,
- rodrigo.vivi@intel.com, jani.nikula@linux.intel.com,
- andriy.shevchenko@linux.intel.com, joonas.lahtinen@linux.intel.com,
- tursulin@ursulin.net, lina@asahilina.net
-Cc: intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com,
- francois.dugast@intel.com, aravind.iddamsetty@linux.intel.com,
- anshuman.gupta@intel.com, andi.shyti@linux.intel.com,
- matthew.d.roper@intel.com
-References: <20240930073845.347326-1-raag.jadav@intel.com>
- <20240930073845.347326-2-raag.jadav@intel.com>
+Subject: Re: [PATCH 1/1] platform/x86/tuxedo: Add virtual LampArray for TUXEDO
+ NB04 devices
+To: Benjamin Tissoires <bentiss@kernel.org>
+Cc: Armin Wolf <W_Armin@gmx.de>, Pavel Machek <pavel@ucw.cz>,
+ Hans de Goede <hdegoede@redhat.com>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
+ lee@kernel.org, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-leds@vger.kernel.org, miguel.ojeda.sandonis@gmail.com,
+ ojeda@kernel.org, onitake@gmail.com, platform-driver-x86@vger.kernel.org
+References: <20240926174405.110748-1-wse@tuxedocomputers.com>
+ <20240926174405.110748-2-wse@tuxedocomputers.com>
+ <ZvcdNXQJmc8cjifw@amd.ucw.cz> <bea39077-6104-4b59-8757-9cbe0e703e5c@gmx.de>
+ <7r3zg4tcmp5ozjwyiusstgv7g4dha4wuh4kwssxpk3tkurpgo3@36laqab7lsxp>
+ <58cf1777-222f-4156-9079-bcbba4a32c96@tuxedocomputers.com>
+ <45qkbpaxhrv2r32hghjqoexkenktymzyjgpx2xnnxt6dmfawjt@44lrhgcnozh3>
+ <586a1c41-bbe0-4912-b7c7-1716d886c198@tuxedocomputers.com>
+ <5th4pisccud5s7dbia42glsnu7e5u3q7jszty6o3mjdedsd2bg@7nsvp6t2krnf>
+ <b6f2244d-7567-49ac-b2db-23b632a4e181@tuxedocomputers.com>
+ <cflor5mz4flekn44ttlbanfigmwn5mmp3p54gkeeznzmzkyjqz@p2c6q7gulrdl>
 Content-Language: en-US
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-In-Reply-To: <20240930073845.347326-2-raag.jadav@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Werner Sembach <wse@tuxedocomputers.com>
+In-Reply-To: <cflor5mz4flekn44ttlbanfigmwn5mmp3p54gkeeznzmzkyjqz@p2c6q7gulrdl>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,269 +76,328 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This is a multi-part message in MIME format.
+--------------wt7iuG0qGsNY4mdWufVlYl0x
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+
 Hi,
 
-sorry for late comments,
+Am 30.09.24 um 19:06 schrieb Benjamin Tissoires:
+> On Sep 30 2024, Werner Sembach wrote:
+>> [...]
+>> Thinking about it, maybe it's not to bad that it only changes once udev is
+>> ready, like this udev could decide if leds should be used or if it should
+>> directly be passed to OpenRGB for example, giving at least some consistency
+>> only changing once: i.e. firmware -> OpenRGB setting and not firmware->leds
+>> setting->OpenRGB setting.
+> That would work if OpenRGB gets to ship the LampArray bpf object (not
+> saying that it should). Because if OpenRGB is not installed, you'll get
+> a led class device, and if/when OpenRGB is installed, full LampArray
+> would be presented.
 
-On 30.09.2024 09:38, Raag Jadav wrote:
-> Introduce device wedged event, which will notify userspace of wedged
-> (hanged/unusable) state of the DRM device through a uevent. This is
-> useful especially in cases where the device is no longer operating as
-> expected even after a hardware reset and has become unrecoverable from
-> driver context.
-> 
-> Purpose of this implementation is to provide drivers a generic way to
-> recover with the help of userspace intervention. Different drivers may
-> have different ideas of a "wedged device" depending on their hardware
-> implementation, and hence the vendor agnostic nature of the event.
-> It is up to the drivers to decide when they see the need for recovery
-> and how they want to recover from the available methods.
+The idea in my head is still that there is some kind of sysfs switch to 
+enable/disable leds.
 
-what about when driver just wants to tell that it is in unusable state,
-but recovery method is unknown or not possible?
+My idea is then that a udev rule shipped with OpenRGB sets this switch to 
+disable before loading the BPF driver so leds never get initialized for the 
+final LampArray device.
 
-> 
-> Current implementation defines three recovery methods, out of which,
-> drivers can choose to support any one or multiple of them. Preferred
-> recovery method will be sent in the uevent environment as WEDGED=<method>.
+>
+> But anyway, BPF allows to dynamically change the behaviour of the
+> device, so that's IMO one bonus point of it.
+>
+>>> FWIW, the use of BPF only allows you to not corner yourself. If you
+>>> failed at your LampArray implementation, you'll have to deal with it
+>>> forever-ish. So it's perfectly sensible to use BPF as an intermediate step
+>>> where you develop both userspace and kernel space and then convert back
+>>> the BPF into a proper HID driver.
+>> I don't really see this point: The LampArray API is defined by the HID Usage
+>> Table and the report descriptor, so there is not API to mess up and
+>> everything else has to be parsed dynamically by userspace anyway, so it can
+>> easily be changed and userspace just adopts automatically.
+>>
+>> And for this case the proper HID driver is already ready.
+> Yeah, except we don't have the fallback LED class. If you are confident
+> enough with your implementation, then maybe yes we can include it as a
+> driver from day one, but that looks like looking for troubles from my
+> point of view.
 
-could this be something like below instead:
+To be on the safe side that we don't talk about different things: My current 
+plan is that the leds subsystem builds on top of the LampArray implementation.
 
-	WEDGED=<reason>
-	RECOVERY=<method>[,<method>]
+Like this the leds part has to be only implemented once for all LampArray 
+devices be it emulated via a driver or native via firmware in the device itself.
 
-then driver will have a chance to tell what happen _and_ additionally
-provide a hint(s) how to recover from that situation
+And I feel confident that the UAPI should be that the userspace gets a hidraw 
+device with a LampArray HID descriptor, and every thing else is, by the HID 
+spec, dynamic anyway so I can still change my mind in implementation specifics 
+there, can't I?
 
-> Userspace consumers (sysadmin) can define udev rules to parse this event
-> and take respective action to recover the device.
-> 
->     =============== ==================================
->     Recovery method Consumer expectations
->     =============== ==================================
->     rebind          unbind + rebind driver
->     bus-reset       unbind + reset bus device + rebind
->     reboot          reboot system
+>
+> After a second look at the LampArray code here... Aren't you forgetting
+> the to/from CPU conversions in case you are on a little endian system?
+Since this driver is for built in keyboards of x86 notebooks it isn't required 
+or is it?
+>
+>> So the only point for me currently is: Is it ok to have key position/usage
+>> description tables in the kernel driver or not?
+> good question :)
+>
+> I would say, probably not in the WMI driver itself. I would rather have
+> a hid-tuxedo.c HID driver that does that. But even there, we already had
+> Linus complaining once regarding the report descriptors we sometimes
+> insert in drivers, which are looking like opaque blobs. So it might not be
+> the best either.
+Isn't tuxedo_nb04_wmi_ab_virtual_lamp_array.c not something like hid-tuxedo.c? 
+or should it be a separate file with just the arrays?
+>
+> Sorry I don't have a clear yes/no answer.
 
-btw, what if driver detects a really broken HW, or has no clue what will
-help here, shouldn't we have a "none" method?
+Hm... Well if it's no problem I would keep the current implementation with minor 
+adjustments because, like i described above, I don't see a benefit now that this 
+already works to rewrite it in BPF again.
 
->     =============== ==================================
-> 
-> v4: s/drm_dev_wedged/drm_dev_wedged_event
->     Use drm_info() (Jani)
->     Kernel doc adjustment (Aravind)
-> v5: Send recovery method with uevent (Lina)
-> v6: Access wedge_recovery_opts[] using helper function (Jani)
->     Use snprintf() (Jani)
-> v7: Convert recovery helpers into regular functions (Andy, Jani)
->     Aesthetic adjustments (Andy)
->     Handle invalid method cases
-> 
-> Signed-off-by: Raag Jadav <raag.jadav@intel.com>
-> ---
->  drivers/gpu/drm/drm_drv.c | 77 +++++++++++++++++++++++++++++++++++++++
->  include/drm/drm_device.h  | 23 ++++++++++++
->  include/drm/drm_drv.h     |  3 ++
->  3 files changed, 103 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-> index ac30b0ec9d93..cfe9600da2ee 100644
-> --- a/drivers/gpu/drm/drm_drv.c
-> +++ b/drivers/gpu/drm/drm_drv.c
-> @@ -26,6 +26,8 @@
->   * DEALINGS IN THE SOFTWARE.
->   */
->  
-> +#include <linux/array_size.h>
-> +#include <linux/build_bug.h>
->  #include <linux/debugfs.h>
->  #include <linux/fs.h>
->  #include <linux/module.h>
-> @@ -33,6 +35,7 @@
->  #include <linux/mount.h>
->  #include <linux/pseudo_fs.h>
->  #include <linux/slab.h>
-> +#include <linux/sprintf.h>
->  #include <linux/srcu.h>
->  #include <linux/xarray.h>
->  
-> @@ -70,6 +73,42 @@ static struct dentry *drm_debugfs_root;
->  
->  DEFINE_STATIC_SRCU(drm_unplug_srcu);
->  
-> +/*
-> + * Available recovery methods for wedged device. To be sent along with device
-> + * wedged uevent.
-> + */
-> +static const char *const drm_wedge_recovery_opts[] = {
-> +	[DRM_WEDGE_RECOVERY_REBIND] = "rebind",
-> +	[DRM_WEDGE_RECOVERY_BUS_RESET] = "bus-reset",
-> +	[DRM_WEDGE_RECOVERY_REBOOT] = "reboot",
-> +};
-> +
-> +static bool drm_wedge_recovery_is_valid(enum drm_wedge_recovery method)
-> +{
-> +	static_assert(ARRAY_SIZE(drm_wedge_recovery_opts) == DRM_WEDGE_RECOVERY_MAX);
-> +
-> +	return method >= DRM_WEDGE_RECOVERY_REBIND && method < DRM_WEDGE_RECOVERY_MAX;
-> +}
-> +
-> +/**
-> + * drm_wedge_recovery_name - provide wedge recovery name
-> + * @method: method to be used for recovery
-> + *
-> + * This validates wedge recovery @method against the available ones in
+If it is a problem then i don't see another way then to rewrite it in BPF.
 
-do we really need to validate an enum? maybe the problem is that there
-is MAX enumerator that just shouldn't be there?
+Note: For future devices there might be more keyboard layouts added, basically 
+every time the chassis form factor changes.
 
-> + * drm_wedge_recovery_opts[] and provides respective recovery name in string
-> + * format if found valid.
-> + *
-> + * Returns: pointer to const recovery string on success, NULL otherwise.
-> + */
-> +const char *drm_wedge_recovery_name(enum drm_wedge_recovery method)
-> +{
-> +	if (drm_wedge_recovery_is_valid(method))
-> +		return drm_wedge_recovery_opts[method];
+>
+> Cheers,
+> Benjamin
+To sum up the architechture (not mutally exclusive technically)
 
-as we only have 3 methods, maybe simple switch() will do the work?
+/- leds
+WMI <- WMI to LampArray Kernel driver <-switch-|
+                                                \- OpenRGB
 
-> +
-> +	return NULL;
-> +}
-> +EXPORT_SYMBOL(drm_wedge_recovery_name);
-> +
->  /*
->   * DRM Minors
->   * A DRM device can provide several char-dev interfaces on the DRM-Major. Each
-> @@ -497,6 +536,44 @@ void drm_dev_unplug(struct drm_device *dev)
->  }
->  EXPORT_SYMBOL(drm_dev_unplug);
->  
-> +/**
-> + * drm_dev_wedged_event - generate a device wedged uevent
-> + * @dev: DRM device
-> + * @method: method to be used for recovery
-> + *
-> + * This generates a device wedged uevent for the DRM device specified by @dev.
-> + * Recovery @method from drm_wedge_recovery_opts[] (if supprted by the device)
+/- leds
+WMI <- WMI to Custom HID Kernel driver <- Custom HID to LampArray BPF 
+driver<-switch-|
+\- OpenRGB
 
-typo
+With the "switch" and "leds" implemented in hid core, automatically initialized 
+every time a LampArray device pops up (regardless if it is from native firmware, 
+a bpf driver or a kernel driver)
 
-> + * is sent in the uevent environment as WEDGED=<method>, on the basis of which,
-> + * userspace may take respective action to recover the device.
-> + *
-> + * Returns: 0 on success, or negative error code otherwise.
-> + */
-> +int drm_dev_wedged_event(struct drm_device *dev, enum drm_wedge_recovery method)
-> +{
-> +	/* Event string length up to 16+ characters with available methods */
-> +	char event_string[32] = {};
+Writing this down I think it was never decided how the switch should look like:
 
-magic 32 here and likely don't need to be initialized with { }
+It should not be a sysfs attribute of the leds device as the leds device should 
+disappear when the switch is set away from it, but should it be a sysfs variable 
+of the hid device? This would mean that hid core needs to add that switch 
+variable to every hid device having a LampArray section in the descriptor.
 
-> +	char *envp[] = { event_string, NULL };
-> +	const char *recovery;
-> +
-> +	recovery = drm_wedge_recovery_name(method);
-> +	if (!recovery) {
-> +		drm_err(dev, "device wedged, invalid recovery method %d\n", method);
+>
+>>> Being able to develop a kernel driver without having to reboot and
+>>> being sure you won't crash your kernel is a game changer ;)
+>>>
+>>> Cheers,
+>>> Benjamin
 
-maybe use drm_WARN() to see who is abusing the API ?
+Best regards and sorry for the many questions,
 
-> +		return -EINVAL;
+Werner Sembach
 
-but shouldn't we still trigger an event with "none" recovery?
+PS: on a side node: How does hid core handle HID devices with a broken HID 
+implementation fixed by bpf, if bpf is loaded after hid-core? Does the hid 
+device get reinitialized by hid core once the bpf driver got loaded? If yes, is 
+there a way to avoid side effects by this double initialization or is there a 
+way to avoid this double initialization, like marking the device id as broken so 
+that hid core- does not initialize it unless it's fixed by bpf?
 
-> +	}
-> +
-> +	if (!test_bit(method, &dev->wedge_recovery)) {
-> +		drm_err(dev, "device wedged, %s based recovery not supported\n",
-> +			drm_wedge_recovery_name(method));
+--------------wt7iuG0qGsNY4mdWufVlYl0x
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-do we really need this kind of guard? it will be a driver code that will
-call this function, so likely it knows better what will work to recover
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p>Hi,<br>
+    </p>
+    <div class="moz-cite-prefix">Am 30.09.24 um 19:06 schrieb Benjamin
+      Tissoires:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:cflor5mz4flekn44ttlbanfigmwn5mmp3p54gkeeznzmzkyjqz@p2c6q7gulrdl">
+      <pre class="moz-quote-pre" wrap="">On Sep 30 2024, Werner Sembach wrote:
+</pre>
+      <blockquote type="cite">[...]<span style="white-space: pre-wrap">
+</span>
+        <pre class="moz-quote-pre" wrap="">Thinking about it, maybe it's not to bad that it only changes once udev is
+ready, like this udev could decide if leds should be used or if it should
+directly be passed to OpenRGB for example, giving at least some consistency
+only changing once: i.e. firmware -&gt; OpenRGB setting and not firmware-&gt;leds
+setting-&gt;OpenRGB setting.
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+That would work if OpenRGB gets to ship the LampArray bpf object (not
+saying that it should). Because if OpenRGB is not installed, you'll get
+a led class device, and if/when OpenRGB is installed, full LampArray
+would be presented.</pre>
+    </blockquote>
+    <p>The idea in my head is still that there is some kind of sysfs
+      switch to enable/disable leds.</p>
+    <p>My idea is then that a udev rule shipped with OpenRGB sets this
+      switch to disable before loading the BPF driver so leds never get
+      initialized for the final LampArray device.<br>
+    </p>
+    <blockquote type="cite"
+cite="mid:cflor5mz4flekn44ttlbanfigmwn5mmp3p54gkeeznzmzkyjqz@p2c6q7gulrdl">
+      <pre class="moz-quote-pre" wrap="">
 
-> +		return -EOPNOTSUPP;
-> +	}
-> +
-> +	snprintf(event_string, sizeof(event_string), "WEDGED=%s", recovery);
-> +
-> +	drm_info(dev, "device wedged, generating uevent for %s based recovery\n", recovery);
+But anyway, BPF allows to dynamically change the behaviour of the
+device, so that's IMO one bonus point of it.
 
-nit:
-	drm_info(dev, "device wedged, needs %s to recover\n", recovery);
+</pre>
+      <blockquote type="cite">
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">
+FWIW, the use of BPF only allows you to not corner yourself. If you
+failed at your LampArray implementation, you'll have to deal with it
+forever-ish. So it's perfectly sensible to use BPF as an intermediate step
+where you develop both userspace and kernel space and then convert back
+the BPF into a proper HID driver.
+</pre>
+        </blockquote>
+        <pre class="moz-quote-pre" wrap="">
+I don't really see this point: The LampArray API is defined by the HID Usage
+Table and the report descriptor, so there is not API to mess up and
+everything else has to be parsed dynamically by userspace anyway, so it can
+easily be changed and userspace just adopts automatically.
 
-> +	return kobject_uevent_env(&dev->primary->kdev->kobj, KOBJ_CHANGE, envp);
-> +}
-> +EXPORT_SYMBOL(drm_dev_wedged_event);
-> +
->  /*
->   * DRM internal mount
->   * We want to be able to allocate our own "struct address_space" to control
-> diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
-> index c91f87b5242d..fed6f20e52fb 100644
-> --- a/include/drm/drm_device.h
-> +++ b/include/drm/drm_device.h
-> @@ -40,6 +40,26 @@ enum switch_power_state {
->  	DRM_SWITCH_POWER_DYNAMIC_OFF = 3,
->  };
->  
-> +/**
-> + * enum drm_wedge_recovery - Recovery method for wedged device in order of
-> + * severity. To be set as bit fields in drm_device.wedge_recovery variable.
-> + * Drivers can choose to support any one or multiple of them depending on
-> + * their needs.
-> + */
-> +enum drm_wedge_recovery {
-> +	/** @DRM_WEDGE_RECOVERY_REBIND: unbind + rebind driver */
-> +	DRM_WEDGE_RECOVERY_REBIND,
-> +
-> +	/** @DRM_WEDGE_RECOVERY_BUS_RESET: unbind + reset bus device + rebind */
-> +	DRM_WEDGE_RECOVERY_BUS_RESET,
-> +
-> +	/** @DRM_WEDGE_RECOVERY_REBOOT: reboot system */
-> +	DRM_WEDGE_RECOVERY_REBOOT,
-> +
-> +	/** @DRM_WEDGE_RECOVERY_MAX: for bounds checking, do not use */
-> +	DRM_WEDGE_RECOVERY_MAX
-> +};
-> +
->  /**
->   * struct drm_device - DRM device structure
->   *
-> @@ -317,6 +337,9 @@ struct drm_device {
->  	 * Root directory for debugfs files.
->  	 */
->  	struct dentry *debugfs_root;
-> +
-> +	/** @wedge_recovery: Supported recovery methods for wedged device */
-> +	unsigned long wedge_recovery;
+And for this case the proper HID driver is already ready.
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+Yeah, except we don't have the fallback LED class. If you are confident
+enough with your implementation, then maybe yes we can include it as a
+driver from day one, but that looks like looking for troubles from my
+point of view.</pre>
+    </blockquote>
+    <p>To be on the safe side that we don't talk about different things:
+      My current plan is that the leds subsystem builds on top of the
+      LampArray implementation.</p>
+    <p>Like this the leds part has to be only implemented once for all
+      LampArray devices be it emulated via a driver or native via
+      firmware in the device itself.</p>
+    <p>And I feel confident that the UAPI should be that the userspace
+      gets a hidraw device with a LampArray HID descriptor, and every
+      thing else is, by the HID spec, dynamic anyway so I can still
+      change my mind in implementation specifics there, can't I?<br>
+    </p>
+    <blockquote type="cite"
+cite="mid:cflor5mz4flekn44ttlbanfigmwn5mmp3p54gkeeznzmzkyjqz@p2c6q7gulrdl">
+      <pre class="moz-quote-pre" wrap="">
 
-hmm, so before the driver can ask for a reboot as a recovery method from
-wedge it has to somehow add 'reboot' as available method? why it that?
+After a second look at the LampArray code here... Aren't you forgetting
+the to/from CPU conversions in case you are on a little endian system?</pre>
+    </blockquote>
+    Since this driver is for built in keyboards of x86 notebooks it
+    isn't required or is it?<br>
+    <blockquote type="cite"
+cite="mid:cflor5mz4flekn44ttlbanfigmwn5mmp3p54gkeeznzmzkyjqz@p2c6q7gulrdl">
+      <pre class="moz-quote-pre" wrap="">
 
-and if you insist that this is useful then at least document how this
-should be initialized (to not forcing developers to look at
-drm_dev_wedged_event code where it's used)
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">
+So the only point for me currently is: Is it ok to have key position/usage
+description tables in the kernel driver or not?
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+good question :)
 
->  };
->  
->  #endif
-> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
-> index 02ea4e3248fd..d8dbc77010b0 100644
-> --- a/include/drm/drm_drv.h
-> +++ b/include/drm/drm_drv.h
-> @@ -462,6 +462,9 @@ bool drm_dev_enter(struct drm_device *dev, int *idx);
->  void drm_dev_exit(int idx);
->  void drm_dev_unplug(struct drm_device *dev);
->  
-> +const char *drm_wedge_recovery_name(enum drm_wedge_recovery method);
-> +int drm_dev_wedged_event(struct drm_device *dev, enum drm_wedge_recovery method);
-> +
->  /**
->   * drm_dev_is_unplugged - is a DRM device unplugged
->   * @dev: DRM device
+I would say, probably not in the WMI driver itself. I would rather have
+a hid-tuxedo.c HID driver that does that. But even there, we already had
+Linus complaining once regarding the report descriptors we sometimes
+insert in drivers, which are looking like opaque blobs. So it might not be
+the best either.</pre>
+    </blockquote>
+    Isn't tuxedo_nb04_wmi_ab_virtual_lamp_array.c not something like
+    hid-tuxedo.c? or should it be a separate file with just the arrays?<br>
+    <blockquote type="cite"
+cite="mid:cflor5mz4flekn44ttlbanfigmwn5mmp3p54gkeeznzmzkyjqz@p2c6q7gulrdl">
+      <pre class="moz-quote-pre" wrap="">
 
+Sorry I don't have a clear yes/no answer.</pre>
+    </blockquote>
+    <p>Hm... Well if it's no problem I would keep the current
+      implementation with minor adjustments because, like i described
+      above, I don't see a benefit now that this already works to
+      rewrite it in BPF again.</p>
+    <p>If it is a problem then i don't see another way then to rewrite
+      it in BPF.</p>
+    <p>Note: For future devices there might be more keyboard layouts
+      added, basically every time the chassis form factor changes.<br>
+    </p>
+    <blockquote type="cite"
+cite="mid:cflor5mz4flekn44ttlbanfigmwn5mmp3p54gkeeznzmzkyjqz@p2c6q7gulrdl">
+      <pre class="moz-quote-pre" wrap="">
+
+Cheers,
+Benjamin</pre>
+    </blockquote>
+    To sum up the architechture (not mutally exclusive technically)<br>
+    <p><font face="monospace">                                              
+        /- leds<br>
+        WMI &lt;- WMI to LampArray Kernel driver &lt;-switch-|<br>
+                                                       \- OpenRGB</font></p>
+    <p><font face="monospace">                                                                                     
+        /- leds<br>
+        WMI &lt;- WMI to Custom HID Kernel driver &lt;- </font><font
+        face="monospace">Custom HID to LampArray BPF driver</font><font
+        face="monospace"> &lt;-switch-|<br>
+                                                                                     
+        \- OpenRGB</font></p>
+    <p>With the "switch" and "leds" implemented in hid core,
+      automatically initialized every time a LampArray device pops up
+      (regardless if it is from native firmware, a bpf driver or a
+      kernel driver)<br>
+    </p>
+    <p>Writing this down I think it was never decided how the switch
+      should look like:</p>
+    <p>It should not be a sysfs attribute of the leds device as the leds
+      device should disappear when the switch is set away from it, but
+      should it be a sysfs variable of the hid device? This would mean
+      that hid core needs to add that switch variable to every hid
+      device having a LampArray section in the descriptor.<br>
+    </p>
+    <blockquote type="cite"
+cite="mid:cflor5mz4flekn44ttlbanfigmwn5mmp3p54gkeeznzmzkyjqz@p2c6q7gulrdl">
+      <pre class="moz-quote-pre" wrap="">
+
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">
+</pre>
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">
+Being able to develop a kernel driver without having to reboot and
+being sure you won't crash your kernel is a game changer ;)
+
+Cheers,
+Benjamin
+</pre>
+        </blockquote>
+      </blockquote>
+    </blockquote>
+    <p>Best regards and sorry for the many questions,</p>
+    <p>Werner Sembach<br>
+    </p>
+    <p>PS: on a side node: How does hid core handle HID devices with a
+      broken HID implementation fixed by bpf, if bpf is loaded after
+      hid-core? Does the hid device get reinitialized by hid core once
+      the bpf driver got loaded? If yes, is there a way to avoid side
+      effects by this double initialization or is there a way to avoid
+      this double initialization, like marking the device id as broken
+      so that hid core- does not initialize it unless it's fixed by bpf?</p>
+  </body>
+</html>
+
+--------------wt7iuG0qGsNY4mdWufVlYl0x--
