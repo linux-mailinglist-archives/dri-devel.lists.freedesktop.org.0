@@ -2,68 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F48298BF9A
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2024 16:18:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FB0698BFBD
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2024 16:22:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A11E910E631;
-	Tue,  1 Oct 2024 14:18:42 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VrZYgH+p";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 157F710E17A;
+	Tue,  1 Oct 2024 14:21:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1ECE410E17A;
- Tue,  1 Oct 2024 14:18:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1727792321; x=1759328321;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=f/xwpNxTqNitbx89InneKuup2yZVD2QHw5scdRCz3QI=;
- b=VrZYgH+p5syxnm2sg9Ahy8hGnjfqmuZze1Tufk0px2J1X9S9BDysOWDa
- PAxk+0OUsUpGXkQ3MpH8ZMZCekpy6GLNe7zSyLzgfL/gyYwvsXVbVWveF
- V9xGQuPgPms0drmHeUaR8P6vyofekN4fZR34RdKo5Ks8VcW4xWvmxjgor
- Q5TIA6qTH+Nqldh4hqOcFQvwgwsFPZXpVzLyRtA58RI7/KFnoIUhJ0ZHn
- kB3nudGw+EWV1Q60t4Ye0cOoLb91f7EPNH+fx4k+mpL8SoNl1TUBtOvlB
- ecdMxMub7fduSDeUzsoteiFcyY9k9v6DOKVJRJsyG+1F8IgciuClit6q0 A==;
-X-CSE-ConnectionGUID: bUU/myqiSd2ZmKL37YdNHw==
-X-CSE-MsgGUID: 8yhm+ohuToORbE+r8CP6vQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="37487738"
-X-IronPort-AV: E=Sophos;i="6.11,167,1725346800"; d="scan'208";a="37487738"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Oct 2024 07:18:41 -0700
-X-CSE-ConnectionGUID: 7rmqgJz1R3KHgk4Ji2lAFQ==
-X-CSE-MsgGUID: UJolPFigRf+YHa2th5xTlg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,167,1725346800"; d="scan'208";a="73930739"
-Received: from black.fi.intel.com ([10.237.72.28])
- by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Oct 2024 07:18:37 -0700
-Date: Tue, 1 Oct 2024 17:18:33 +0300
-From: Raag Jadav <raag.jadav@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: airlied@gmail.com, simona@ffwll.ch, lucas.demarchi@intel.com,
- thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
- jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- tursulin@ursulin.net, lina@asahilina.net,
- intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com,
- francois.dugast@intel.com, aravind.iddamsetty@linux.intel.com,
- anshuman.gupta@intel.com, andi.shyti@linux.intel.com,
- matthew.d.roper@intel.com
-Subject: Re: [PATCH v7 1/5] drm: Introduce device wedged event
-Message-ID: <ZvwEubI8ldUT6TsK@black.fi.intel.com>
-References: <20240930073845.347326-1-raag.jadav@intel.com>
- <20240930073845.347326-2-raag.jadav@intel.com>
- <Zvqgz3Vpz2IS1Cua@smile.fi.intel.com>
- <ZvuDwvtyJ4djuIQ7@black.fi.intel.com>
- <ZvvmH0n_y_vVSpvR@smile.fi.intel.com>
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F201010E17A
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Oct 2024 14:21:56 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1svdlC-0005r6-D6; Tue, 01 Oct 2024 16:21:54 +0200
+Message-ID: <45b8eb9a0a2b91d85f9dd6b7e66a1796398fa27c.camel@pengutronix.de>
+Subject: Re: [PATCH v15 11/19] drm/etnaviv: Add etnaviv_gem_obj_remove() helper
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Sui Jingfeng <sui.jingfeng@linux.dev>
+Cc: Christian Gmeiner <christian.gmeiner@gmail.com>, Russell King
+ <linux+etnaviv@armlinux.org.uk>, dri-devel@lists.freedesktop.org, 
+ etnaviv@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Date: Tue, 01 Oct 2024 16:21:53 +0200
+In-Reply-To: <20240908094357.291862-12-sui.jingfeng@linux.dev>
+References: <20240908094357.291862-1-sui.jingfeng@linux.dev>
+ <20240908094357.291862-12-sui.jingfeng@linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZvvmH0n_y_vVSpvR@smile.fi.intel.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,33 +53,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 01, 2024 at 03:07:59PM +0300, Andy Shevchenko wrote:
-> On Tue, Oct 01, 2024 at 08:08:18AM +0300, Raag Jadav wrote:
-> > On Mon, Sep 30, 2024 at 03:59:59PM +0300, Andy Shevchenko wrote:
-> > > On Mon, Sep 30, 2024 at 01:08:41PM +0530, Raag Jadav wrote:
-> 
-> ...
-> 
-> > > > +static const char *const drm_wedge_recovery_opts[] = {
-> > > > +	[DRM_WEDGE_RECOVERY_REBIND] = "rebind",
-> > > > +	[DRM_WEDGE_RECOVERY_BUS_RESET] = "bus-reset",
-> > > > +	[DRM_WEDGE_RECOVERY_REBOOT] = "reboot",
-> > > > +};
-> > > 
-> > > Place for static_assert() is here, as it closer to the actual data we test...
-> > 
-> > Shouldn't it be at the point of access?
-> 
-> No, the idea of static_assert() is in word 'static', meaning it's allowed to be
-> used in the global space.
-> 
-> > If no, why do we care about the data when it's not being used?
-> 
-> What does this suppose to mean? The assertion is for enforcing the boundaries
-> that are defined by different means (constant of the size and real size of
-> an array).
+Am Sonntag, dem 08.09.2024 um 17:43 +0800 schrieb Sui Jingfeng:
+> Which is corresonding to the etnaviv_gem_obj_add()
+>=20
+While symmetry is nice, it's still not really symmetric, as this
+function isn't exported into the PRIME parts of the driver like
+etnaviv_gem_obj_add(). Given that I don't really see how this patch
+improves code legibility.
 
-The point was to simply not assert without an active user of the array, which is
-not the case now but may be possible with growing functionality in the future.
+Regards,
+Lucas
 
-Raag
+> Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_gem.c | 17 +++++++++++++----
+>  1 file changed, 13 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etna=
+viv/etnaviv_gem.c
+> index 39cfece67b90..3732288ff530 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+> @@ -19,6 +19,8 @@
+>  static struct lock_class_key etnaviv_shm_lock_class;
+>  static struct lock_class_key etnaviv_userptr_lock_class;
+> =20
+> +static void etnaviv_gem_obj_remove(struct drm_gem_object *obj);
+> +
+>  static void etnaviv_gem_scatter_map(struct etnaviv_gem_object *etnaviv_o=
+bj)
+>  {
+>  	struct drm_device *dev =3D etnaviv_obj->base.dev;
+> @@ -555,15 +557,12 @@ void etnaviv_gem_free_object(struct drm_gem_object =
+*obj)
+>  {
+>  	struct drm_device *drm =3D obj->dev;
+>  	struct etnaviv_gem_object *etnaviv_obj =3D to_etnaviv_bo(obj);
+> -	struct etnaviv_drm_private *priv =3D obj->dev->dev_private;
+>  	struct etnaviv_vram_mapping *mapping, *tmp;
+> =20
+>  	/* object should not be active */
+>  	drm_WARN_ON(drm, is_active(etnaviv_obj));
+> =20
+> -	mutex_lock(&priv->gem_lock);
+> -	list_del(&etnaviv_obj->gem_node);
+> -	mutex_unlock(&priv->gem_lock);
+> +	etnaviv_gem_obj_remove(obj);
+> =20
+>  	list_for_each_entry_safe(mapping, tmp, &etnaviv_obj->vram_list,
+>  				 obj_node) {
+> @@ -595,6 +594,16 @@ void etnaviv_gem_obj_add(struct drm_device *dev, str=
+uct drm_gem_object *obj)
+>  	mutex_unlock(&priv->gem_lock);
+>  }
+> =20
+> +static void etnaviv_gem_obj_remove(struct drm_gem_object *obj)
+> +{
+> +	struct etnaviv_drm_private *priv =3D to_etnaviv_priv(obj->dev);
+> +	struct etnaviv_gem_object *etnaviv_obj =3D to_etnaviv_bo(obj);
+> +
+> +	mutex_lock(&priv->gem_lock);
+> +	list_del(&etnaviv_obj->gem_node);
+> +	mutex_unlock(&priv->gem_lock);
+> +}
+> +
+>  static const struct vm_operations_struct vm_ops =3D {
+>  	.fault =3D etnaviv_gem_fault,
+>  	.open =3D drm_gem_vm_open,
+
