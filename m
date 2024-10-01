@@ -2,69 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 709F698CCE6
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2024 08:04:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B01598CE02
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2024 09:47:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C04110E10F;
-	Wed,  2 Oct 2024 06:04:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A11310E6AD;
+	Wed,  2 Oct 2024 07:47:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="o1l4vKo+";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="I0EyC/kb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7A9210E10F
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Oct 2024 06:04:30 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 4C705A41441;
- Wed,  2 Oct 2024 06:04:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B438C4CEC5;
- Wed,  2 Oct 2024 06:04:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1727849069;
- bh=eRDH2gRHruASGT5jIjGwtC0n2ZkTL8neYpxlhmRvEhc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=o1l4vKo+R24aKUhtoK4RPWqg3hTdfs5DZ8QTcKArXPES9xZ/CMZxzDEIDZmGdtBN6
- i4YrOt9UWjUMHOMl+Vc3xNYigCtDHmP6ZIqlrw2/KUTRP7g8iWO7MtU+NVW38eHma+
- Hjo3/2okxFlyS6xpnivTf8T3Hp/fvqkFjo2y4tAMP39+z49ZYFyP9d0uY+PSSHe4LY
- 0J6j4mBx5kBwn3uvOpSX+B0VHnjPazoNR1M9X2CaYcLOSXAx4pgJlXxrAVTXUmJNK8
- dk7SnCyAkfFVdwuLjcFeTM+cxgMgqVHULozvZp8tsLuCbMbPkdxiRP1E8qlIbxFtqs
- S8cnpJhj1mNuA==
-Date: Wed, 2 Oct 2024 08:04:24 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Macpaul Lin <macpaul.lin@mediatek.com>
-Cc: Rob Herring <robh@kernel.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Yong Wu <yong.wu@mediatek.com>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, 
- Robin Murphy <robin.murphy@arm.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Rohit Agarwal <rohiagar@chromium.org>, 
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, 
- Alexandre Mergnat <amergnat@baylibre.com>, Bear Wang <bear.wang@mediatek.com>, 
- Pablo Sun <pablo.sun@mediatek.com>, Macpaul Lin <macpaul@gmail.com>,
- Sen Chu <sen.chu@mediatek.com>, 
- Chris-qj chen <chris-qj.chen@mediatek.com>, MediaTek Chromebook Upstream
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- Chen-Yu Tsai <wenst@chromium.org>, Jitao Shi <jitao.shi@mediatek.com>
-Subject: Re: [PATCH v4 5/5] dt-bindings: display: mediatek: dpi: correct
- power-domains property
-Message-ID: <idkorrjd5g2yjcnclks55pozf6rrv2w4fyhbwaaznvq5ngmcdm@vxpjh6q4visi>
-References: <20240930083854.7267-1-macpaul.lin@mediatek.com>
- <20240930083854.7267-5-macpaul.lin@mediatek.com>
- <20241002015120.GA236278-robh@kernel.org>
- <7f212146-3dc7-9a0d-baf4-ac7a5b845060@mediatek.com>
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
+ [209.85.208.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12C1A10E636
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Oct 2024 14:28:14 +0000 (UTC)
+Received: by mail-lj1-f182.google.com with SMTP id
+ 38308e7fff4ca-2fabc9bc5dfso40601071fa.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Oct 2024 07:28:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1727792892; x=1728397692; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:reply-to:message-id:date
+ :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=yK6XSPQeuFyFtbXfA5WqInzgCnLkF64sx+xWC6/eYac=;
+ b=I0EyC/kbABGoZpnwkarl983NZmrgYCNKgPwgaMxPecsLlcVuu14CMbEmey2AGM80BP
+ 9BqN6aDgsLYAPFuGL34jy1ycVX2GW5+ec3sKsBJfsaXDp25Qxokokg5jy8NHbQ0SE70v
+ zLeguAqoPseu6bv1wRAPP5AERtLBDNRSGHuao4NL7wy5gfjJpIvCJf0CJ9tQGpbU8sH4
+ +n3Uo34iM9k84IQInK7GWbABJMvm6y9AA+Gr3XGDYdWFHsFBZr0d9JIIEQf1t9rr/Ui9
+ vRwy6Tcd7ygc+5vp4sLInfmkE8sw127Q9K5eKINdPSiCA06Z8JoH/cBs/IG1b7W+TIKK
+ w1/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1727792892; x=1728397692;
+ h=content-transfer-encoding:mime-version:reply-to:message-id:date
+ :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=yK6XSPQeuFyFtbXfA5WqInzgCnLkF64sx+xWC6/eYac=;
+ b=ux3/F3blPAL+RPJ8mjFmOGB0JFdI9YbYYgluMhScY3LKJLYkNHAjOJ1Yv0gxFEPZUY
+ GShVU0NmaqAoFEE6kOISYkGlpFHkYRyHE3TrMY01cI8SUDpL7ASzmgRifq0xOuVTIdL5
+ z9T5zvcu1P/iGgf42Ft6ed08/XngT/Vg85Cl7yIR/RUR4xWD7xu3omXwnyI7GLWzlTHW
+ Ir/tMADQDJNkwVH9jKGg83n7yBTNOmcYkz0B6eg+8X1Gmr7ZbQy4zAYc/foh19WiysvH
+ Q9HOMP02FDZg1mB96o+OCTB7JLI68mN+AhuDACJ+5TNL4ftnxIXIRTYh7NCOV4X1uQAL
+ 709g==
+X-Gm-Message-State: AOJu0Ywbl0Ao1uZc92fJqZhTfTHf//8GOuSm9tHYuzYL6AC4Nd+LWcoZ
+ UjN9LIfJfieJUVDM0yIu9MFuWe8ahk/b/DfYj9++GmvQriAHTQnCXQldXH0v
+X-Google-Smtp-Source: AGHT+IFwNSvB5OFTQC5+i3xSNrkEy6O4lUnjOnMWyZBSitigufKnu6QriZt/jeP99QMT0/19djJfeg==
+X-Received: by 2002:a05:651c:550:b0:2f3:f339:e68d with SMTP id
+ 38308e7fff4ca-2f9d3e5d2f9mr92861701fa.15.1727792891454; 
+ Tue, 01 Oct 2024 07:28:11 -0700 (PDT)
+Received: from azathoth.prg2.suse.org ([45.250.247.85])
+ by smtp.googlemail.com with ESMTPSA id
+ 4fb4d7f45d1cf-5c882495335sm6254320a12.95.2024.10.01.07.28.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Oct 2024 07:28:11 -0700 (PDT)
+From: Brahmajit Das <brahmajit.xyz@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Cc: ville.syrjala@linux.intel.com
+Subject: [PATCH 1/1] drm/display: Fix building with GCC 15
+Date: Tue,  1 Oct 2024 19:57:52 +0530
+Message-ID: <20241001142752.3471847-1-brahmajit.xyz@gmail.com>
+X-Mailer: git-send-email 2.46.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <7f212146-3dc7-9a0d-baf4-ac7a5b845060@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Wed, 02 Oct 2024 07:47:18 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,55 +76,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: ZvwDYHgZBth8J7YA@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 02, 2024 at 11:09:07AM +0800, Macpaul Lin wrote:
-> 
-> 
-> On 10/2/24 09:51, Rob Herring wrote:
-> > 	
-> > 
-> > External email : Please do not click links or open attachments until you
-> > have verified the sender or the content.
-> > 
-> > On Mon, Sep 30, 2024 at 04:38:54PM +0800, Macpaul Lin wrote:
-> > > The MediaTek DPI module is typically associated with one of the
-> > > following multimedia power domains:
-> > >  - POWER_DOMAIN_DISPLAY
-> > >  - POWER_DOMAIN_VDOSYS
-> > >  - POWER_DOMAIN_MM
-> > > The specific power domain used varies depending on the SoC design.
-> > > 
-> > > These power domains are shared by multiple devices within the SoC.
-> > > In most cases, these power domains are enabled by other devices.
-> > > As a result, the DPI module of legacy SoCs often functions correctly
-> > > even without explicit configuration.
-> > > 
-> > > It is recommended to explicitly add the appropriate power domain
-> > > property to the DPI node in the device tree. Hence drop the
-> > > compatible checking for specific SoCs.
-> > > 
-> > > Fixes: 5474d49b2f79 ("dt-bindings: display: mediatek: dpi: Add power domains")
-> > > Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
-> > > Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
-> > > Signed-off-by: Pablo Sun <pablo.sun@mediatek.com>
-> > > ---
-> > >  .../display/mediatek/mediatek,dpi.yaml        | 24 ++++++++-----------
-> > >  1 file changed, 10 insertions(+), 14 deletions(-)
-> > 
-> > You missed Krzysztof's R-by tag.
-> > 
-> 
-> Oh, I just missed that reply for v3 in the mailbox
-> and thought it still need to be reviewed.
-> I just found Krzysztof's R-by tag in the mailbox right now.
-> 
-> I'll send an update for this patch set.
-> Thanks for the reminder.
+GCC 15 enables -Werror=unterminated-string-initialization by default.
+This results in the following build error
 
-Plaese, instead just start using b4...
+drivers/gpu/drm/display/drm_dp_dual_mode_helper.c: In function ‘is_hdmi_adaptor’:
+drivers/gpu/drm/display/drm_dp_dual_mode_helper.c:164:17: error: initializer-string for array of
+ ‘char’ is too long [-Werror=unterminated-string-initialization]
+  164 |                 "DP-HDMI ADAPTOR\x04";
+      |                 ^~~~~~~~~~~~~~~~~~~~~
 
-Best regards,
-Krzysztof
+After discussion with Ville, the fix was to increase the size of
+dp_dual_mode_hdmi_id array by one, so that it can accommodate the new
+line character. This should let us build the kernel with GCC 15.
+
+Signed-off-by: Brahmajit Das <brahmajit.xyz@gmail.com>
+---
+ drivers/gpu/drm/display/drm_dp_dual_mode_helper.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c b/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
+index 14a2a8473682..295375868db6 100644
+--- a/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
++++ b/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
+@@ -160,11 +160,12 @@ EXPORT_SYMBOL(drm_dp_dual_mode_write);
+ 
+ static bool is_hdmi_adaptor(const char hdmi_id[DP_DUAL_MODE_HDMI_ID_LEN])
+ {
+-	static const char dp_dual_mode_hdmi_id[DP_DUAL_MODE_HDMI_ID_LEN] =
++	//+1 to avaoid spurious -Werror=unterminated-string-initialization warning
++	static const char dp_dual_mode_hdmi_id[DP_DUAL_MODE_HDMI_ID_LEN + 1] =
+ 		"DP-HDMI ADAPTOR\x04";
+ 
+ 	return memcmp(hdmi_id, dp_dual_mode_hdmi_id,
+-		      sizeof(dp_dual_mode_hdmi_id)) == 0;
++		      DP_DUAL_MODE_HDMI_ID_LEN) == 0;
+ }
+ 
+ static bool is_type1_adaptor(uint8_t adaptor_id)
+-- 
+2.46.2
 
