@@ -2,51 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 724B498C5B0
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2024 20:52:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB82F98C5E1
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2024 21:18:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B54210E19C;
-	Tue,  1 Oct 2024 18:52:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DC9710E666;
+	Tue,  1 Oct 2024 19:18:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="G8e9+EFU";
+	dkim=pass (1024-bit key; unprotected) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="Sdb32tkQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com
- [91.218.175.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF02910E19C
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Oct 2024 18:52:22 +0000 (UTC)
-Message-ID: <abaf2911-8312-48db-9fe1-c9ee2c504c12@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1727808740;
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com
+ [157.90.84.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45F4D10E09F
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Oct 2024 19:18:03 +0000 (UTC)
+Received: from [192.168.42.96] (pd9e59da1.dip0.t-ipconnect.de
+ [217.229.157.161]) (Authenticated sender: wse@tuxedocomputers.com)
+ by mail.tuxedocomputers.com (Postfix) with ESMTPSA id CC9192FC0055;
+ Tue,  1 Oct 2024 21:18:00 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+ s=default; t=1727810281;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uknnqffaMAXkaWSb+ZKDtQjaxOO4Fpx7xtRqM5uVvNU=;
- b=G8e9+EFUGm2c7v1PGQnpW6e6NdwEcQJ2rY8GjRZ1HWIPOLvq6eAEIQTb4THQs2fsBmMA+I
- 6c0NSyMK3J6DlSkLKu1M2NmiSKP7VZjg/siVhTg8orGZeD3AhX0LlmhNjK09UHoTXflKx3
- ooa7G4P/t5Ht8Cb8ZmIYC4vpYrMbpPQ=
-Date: Wed, 2 Oct 2024 02:52:12 +0800
+ bh=X+cw6q/5i1bHOSzS2dbiJ/kQFGbl+76ohWRhqh4yiPA=;
+ b=Sdb32tkQwZjeq/p721EE3umIc9ILqyJfy+sYxgXQZJ8ITa28NRr+KAvJLpIuBz5f4mKdBT
+ 2P7KNMrMXlAjbajjZLuAhtqE4kHOQCD7pOXTu9GtHu72hnzLjZXkx6BCF56kY9aXWDmMZ9
+ tWzf+MXCbD0aQgqiaO6U5HOTKwV1qhs=
+Authentication-Results: mail.tuxedocomputers.com;
+ auth=pass smtp.auth=wse@tuxedocomputers.com
+ smtp.mailfrom=wse@tuxedocomputers.com
+Message-ID: <7ce4470c-a502-416a-8472-a5b606bb8fd4@tuxedocomputers.com>
+Date: Tue, 1 Oct 2024 21:18:00 +0200
 MIME-Version: 1.0
-Subject: Re: [PATCH v15 16/19] drm/etnaviv: Call etnaviv_gem_obj_add() in
- ernaviv_gem_new_private()
-To: Lucas Stach <l.stach@pengutronix.de>
-Cc: Christian Gmeiner <christian.gmeiner@gmail.com>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20240908094357.291862-1-sui.jingfeng@linux.dev>
- <20240908094357.291862-17-sui.jingfeng@linux.dev>
- <67cce03c96f5e4d08d837b77c723fdaf214f7c0d.camel@pengutronix.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/1] platform/x86/tuxedo: Add virtual LampArray for TUXEDO
+ NB04 devices
+To: Benjamin Tissoires <bentiss@kernel.org>
+Cc: Armin Wolf <W_Armin@gmx.de>, Pavel Machek <pavel@ucw.cz>,
+ Hans de Goede <hdegoede@redhat.com>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
+ lee@kernel.org, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-leds@vger.kernel.org, miguel.ojeda.sandonis@gmail.com,
+ ojeda@kernel.org, onitake@gmail.com, platform-driver-x86@vger.kernel.org
+References: <ZvcdNXQJmc8cjifw@amd.ucw.cz>
+ <bea39077-6104-4b59-8757-9cbe0e703e5c@gmx.de>
+ <7r3zg4tcmp5ozjwyiusstgv7g4dha4wuh4kwssxpk3tkurpgo3@36laqab7lsxp>
+ <58cf1777-222f-4156-9079-bcbba4a32c96@tuxedocomputers.com>
+ <45qkbpaxhrv2r32hghjqoexkenktymzyjgpx2xnnxt6dmfawjt@44lrhgcnozh3>
+ <586a1c41-bbe0-4912-b7c7-1716d886c198@tuxedocomputers.com>
+ <5th4pisccud5s7dbia42glsnu7e5u3q7jszty6o3mjdedsd2bg@7nsvp6t2krnf>
+ <b6f2244d-7567-49ac-b2db-23b632a4e181@tuxedocomputers.com>
+ <cflor5mz4flekn44ttlbanfigmwn5mmp3p54gkeeznzmzkyjqz@p2c6q7gulrdl>
+ <84b629c6-5b26-4285-9b2f-66dd1afa99e5@tuxedocomputers.com>
+ <zph6fnuaamhayivmzftowjw6klgcy2gb7vdub2v2yo7n665vpo@rkxtorfvmzph>
 Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <67cce03c96f5e4d08d837b77c723fdaf214f7c0d.camel@pengutronix.de>
+From: Werner Sembach <wse@tuxedocomputers.com>
+In-Reply-To: <zph6fnuaamhayivmzftowjw6klgcy2gb7vdub2v2yo7n665vpo@rkxtorfvmzph>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,129 +78,246 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Benjamin,
 
-On 2024/10/1 22:39, Lucas Stach wrote:
-> Am Sonntag, dem 08.09.2024 um 17:43 +0800 schrieb Sui Jingfeng:
->> The etnaviv_gem_obj_add() a common operation, the 'etnaviv_drm_private::
->> gem_list' is being used to record(track) all of the etnaviv GEM buffer
->> object created in this driver.
+Am 01.10.24 um 15:41 schrieb Benjamin Tissoires:
+> On Oct 01 2024, Werner Sembach wrote:
+>> (sorry resend because thunderbird made it a html mail)
 >>
->> Once a etnaviv GEM buffer object has been allocated successfully, we
->> should add it into the global etnaviv_drm_private::gem_list'. Because
->> we need to free it and remove it free the list if the invoke of the
->> subsequent functions fail.
+>> Hi,
 >>
->> The only way that destroy etnaviv GEM buffer object is the implementation
->> of etnaviv_gem_free_object() function. The etnaviv_gem_free_object() first
->> remove the etnaviv GEM object from the list, then destroy its mapping and
->> finally free its memory footprint. Therefore, in order to corresponding
->> this, we add the freshly created etnaviv GEM buffer object immediately
->> after it was successfully created.
->>
->> A benifit is that we only need to call etnaviv_gem_obj_add() once now,
->> since the ernaviv_gem_new_private() has been unified. Make the
->> etnaviv_gem_obj_add() static is a next nature thing.
->>
-> Seeing this patch, I would really ask you to drop patch 11 from this
-> series and go the other way around: remove etnaviv_gem_obj_add() here
-> altogether and simply inline the few lines of code into
-> etnaviv_gem_new_private().
-
-
-The 'etnaviv_drm_private::gem_list' is being used to manage the buffer
-object itself, not the backing memory of a specific buffer object.
-
-Therefore, once a etnaviv GEM buffer object is successfully created,
-we want to add it into the global etnaviv_drm_private::gem_list'.
-To prevent the cases which removing an entry that is not in the list.
-
-Both etnaviv_gem_obj_add() and etnaviv_gem_obj_remove() touches driver
-private but shared data members. Which has nothing to do with the GEM
-core functionality itself.
-
-The unction pair is for tracking, recording, listing and showing
-purpose. Which is clearly separated functionality. Split them from
-the BO construction is a untangled fashion and is a good thing.
-
-
-> Regards,
-> Lucas
+>> Am 30.09.24 um 19:06 schrieb Benjamin Tissoires:
+>>> On Sep 30 2024, Werner Sembach wrote:
+>>>> [...]
+>>>> Thinking about it, maybe it's not to bad that it only changes once udev is
+>>>> ready, like this udev could decide if leds should be used or if it should
+>>>> directly be passed to OpenRGB for example, giving at least some consistency
+>>>> only changing once: i.e. firmware -> OpenRGB setting and not firmware->leds
+>>>> setting->OpenRGB setting.
+>>> That would work if OpenRGB gets to ship the LampArray bpf object (not
+>>> saying that it should). Because if OpenRGB is not installed, you'll get
+>>> a led class device, and if/when OpenRGB is installed, full LampArray
+>>> would be presented.
+>> The idea in my head is still that there is some kind of sysfs switch to
+>> enable/disable leds.
+> FWIW, I'm never a big fan of sysfs. They become UAPI and we are screwed
+> without possibility to change them...
 >
->> Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
->> ---
->>   drivers/gpu/drm/etnaviv/etnaviv_gem.c       | 8 +++-----
->>   drivers/gpu/drm/etnaviv/etnaviv_gem.h       | 1 -
->>   drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c | 2 --
->>   3 files changed, 3 insertions(+), 8 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
->> index 27e4a93c981c..ee799c02d0aa 100644
->> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
->> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
->> @@ -584,7 +584,7 @@ void etnaviv_gem_free_object(struct drm_gem_object *obj)
->>   	kfree(etnaviv_obj);
->>   }
->>   
->> -void etnaviv_gem_obj_add(struct drm_device *dev, struct drm_gem_object *obj)
->> +static void etnaviv_gem_obj_add(struct drm_device *dev, struct drm_gem_object *obj)
->>   {
->>   	struct etnaviv_drm_private *priv = to_etnaviv_priv(dev);
->>   	struct etnaviv_gem_object *etnaviv_obj = to_etnaviv_bo(obj);
->> @@ -719,8 +719,6 @@ int etnaviv_gem_new_handle(struct drm_device *dev, struct drm_file *file,
->>   	 */
->>   	mapping_set_gfp_mask(obj->filp->f_mapping, priv->shm_gfp_mask);
->>   
->> -	etnaviv_gem_obj_add(dev, obj);
->> -
->>   	ret = drm_gem_handle_create(file, obj, handle);
->>   
->>   	/* drop reference from allocate - handle holds it now */
->> @@ -751,6 +749,8 @@ int etnaviv_gem_new_private(struct drm_device *dev, size_t size, u32 flags,
->>   		drm_gem_private_object_init(dev, obj, size);
->>   	}
->>   
->> +	etnaviv_gem_obj_add(dev, obj);
->> +
->>   	*res = to_etnaviv_bo(obj);
->>   
->>   	return 0;
->> @@ -849,8 +849,6 @@ int etnaviv_gem_new_userptr(struct drm_device *dev, struct drm_file *file,
->>   	etnaviv_obj->userptr.mm = current->mm;
->>   	etnaviv_obj->userptr.ro = !(flags & ETNA_USERPTR_WRITE);
->>   
->> -	etnaviv_gem_obj_add(dev, &etnaviv_obj->base);
->> -
->>   	ret = drm_gem_handle_create(file, &etnaviv_obj->base, handle);
->>   
->>   	/* drop reference from allocate - handle holds it now */
->> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.h b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
->> index b174a9e4cc48..8d8fc5b3a541 100644
->> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.h
->> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
->> @@ -121,7 +121,6 @@ int etnaviv_gem_new_private(struct drm_device *dev, size_t size, u32 flags,
->>   			    bool shmem, const struct etnaviv_gem_ops *ops,
->>   			    struct etnaviv_gem_object **res);
->>   
->> -void etnaviv_gem_obj_add(struct drm_device *dev, struct drm_gem_object *obj);
->>   struct page **etnaviv_gem_get_pages(struct etnaviv_gem_object *obj);
->>   void etnaviv_gem_put_pages(struct etnaviv_gem_object *obj);
->>   
->> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
->> index 64a858a0b0cf..04ee31461b8c 100644
->> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
->> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
->> @@ -127,8 +127,6 @@ struct drm_gem_object *etnaviv_gem_prime_import_sg_table(struct drm_device *dev,
->>   	if (ret)
->>   		goto fail;
->>   
->> -	etnaviv_gem_obj_add(dev, &etnaviv_obj->base);
->> -
->>   	return &etnaviv_obj->base;
->>   
->>   fail:
+>> My idea is then that a udev rule shipped with OpenRGB sets this switch to
+>> disable before loading the BPF driver so leds never get initialized for the
+>> final LampArray device.
+> FWIW, udev-hid-bpf can inject a udev property into a HID-BPF. So
+> basically we can have a udev property set (or not) by openrgb which
+> makes the BPF program decide whether to present the keyboard as
+> LampArray or not.
+>
+>>> But anyway, BPF allows to dynamically change the behaviour of the
+>>> device, so that's IMO one bonus point of it.
+>>>
+>>>>> FWIW, the use of BPF only allows you to not corner yourself. If you
+>>>>> failed at your LampArray implementation, you'll have to deal with it
+>>>>> forever-ish. So it's perfectly sensible to use BPF as an intermediate step
+>>>>> where you develop both userspace and kernel space and then convert back
+>>>>> the BPF into a proper HID driver.
+>>>> I don't really see this point: The LampArray API is defined by the HID Usage
+>>>> Table and the report descriptor, so there is not API to mess up and
+>>>> everything else has to be parsed dynamically by userspace anyway, so it can
+>>>> easily be changed and userspace just adopts automatically.
+>>>>
+>>>> And for this case the proper HID driver is already ready.
+>>> Yeah, except we don't have the fallback LED class. If you are confident
+>>> enough with your implementation, then maybe yes we can include it as a
+>>> driver from day one, but that looks like looking for troubles from my
+>>> point of view.
+>> To be on the safe side that we don't talk about different things: My current
+>> plan is that the leds subsystem builds on top of the LampArray
+>> implementation.
+> I would say that the HID subsystem knows how to translate LampArray into
+> a subset of LEDs. But I think that's what you are saying.
+>
+>> Like this the leds part has to be only implemented once for all LampArray
+>> devices be it emulated via a driver or native via firmware in the device
+>> itself.
+> yep, that's the plan. However, not sure how to fit LampArray into LED.
 
--- 
+My idea was that all leds just get treated as a singular led only allowing to 
+set a singular color and brightness, but I just looked it up again: LampArray 
+allows different color and brightness ranges per key, so the grouping might not 
+be possible in a sensible way ...
+
+Maybe the leds integration is a bad idea after all and we should just nudge the 
+DEs and/or UPower to implement LampArray directly? But that's just kicking the 
+complexity down the road, at least as long as there is not universal easy to use 
+library (haven't looked into the library build of OpenRGB yet).
+
+>
+>> And I feel confident that the UAPI should be that the userspace gets a
+>> hidraw device with a LampArray HID descriptor, and every thing else is, by
+>> the HID spec, dynamic anyway so I can still change my mind in implementation
+>> specifics there, can't I?
+> Yeah... I think?
+>
+>  From my point of view we are just bikeshedding on to where put that
+> "firmware" extension, in WMI, in HID (kernel with a subdriver), or
+> externally in BPF.
+>
+>>> After a second look at the LampArray code here... Aren't you forgetting
+>>> the to/from CPU conversions in case you are on a little endian system?
+>> Since this driver is for built in keyboards of x86 notebooks it isn't
+>> required or is it?
+> Good point. Let's just hope you don't start shipping a LE laptop with
+> the same keyboard hardware :)
+Well there is the dmi table in the driver that would prevent issues in this front.
+>
+>>>> So the only point for me currently is: Is it ok to have key position/usage
+>>>> description tables in the kernel driver or not?
+>>> good question :)
+>>>
+>>> I would say, probably not in the WMI driver itself. I would rather have
+>>> a hid-tuxedo.c HID driver that does that. But even there, we already had
+>>> Linus complaining once regarding the report descriptors we sometimes
+>>> insert in drivers, which are looking like opaque blobs. So it might not be
+>>> the best either.
+>> Isn't tuxedo_nb04_wmi_ab_virtual_lamp_array.c not something like
+>> hid-tuxedo.c? or should it be a separate file with just the arrays?
+> It is, in a way. I think it's more a question for Hans and the other
+> platform maintainers, whether they would accept this.
+>
+>>> Sorry I don't have a clear yes/no answer.
+>> Hm... Well if it's no problem I would keep the current implementation with
+>> minor adjustments because, like i described above, I don't see a benefit now
+>> that this already works to rewrite it in BPF again.
+>>
+>> If it is a problem then i don't see another way then to rewrite it in BPF.
+>>
+>> Note: For future devices there might be more keyboard layouts added,
+>> basically every time the chassis form factor changes.
+> If the WMI part doesn't change, then maybe having BPF would be easier
+> for you in the future. Adding a HID-BPF file would cost basically
+> nothing, and it'll be out of band with the kernel, meaning you can ship
+> it in already running kernels (assuming the same WMI driver doesn't need
+> any updates).
+The WMI part will probably not change, but since we don't write the firmware but 
+also just get it as a blob we can't control that. That's why I put the DMI table 
+in the driver, so at least an expansion to the DMI table is required every time 
+a new device releases.
+>
+>>> Cheers,
+>>> Benjamin
+>> To sum up the architechture (not mutally exclusive technically)
+>>
+>> /- leds
+>> WMI <- WMI to LampArray Kernel driver <-switch-|
+>>                                                 \- OpenRGB
+>>
+>> /- leds
+>> WMI <- WMI to Custom HID Kernel driver <- Custom HID to LampArray BPF
+>> driver<-switch-|
+>> \- OpenRGB
+>>
+>> With the "switch" and "leds" implemented in hid core, automatically
+>> initialized every time a LampArray device pops up (regardless if it is from
+>> native firmware, a bpf driver or a kernel driver)
+>>
+>> Writing this down I think it was never decided how the switch should look like:
+>>
+>> It should not be a sysfs attribute of the leds device as the leds device
+>> should disappear when the switch is set away from it, but should it be a
+>> sysfs variable of the hid device? This would mean that hid core needs to add
+>> that switch variable to every hid device having a LampArray section in the
+>> descriptor.
+> Again, not a big fan of the sysfs, because it's UAPI and need root to
+> trigger it (though the udev rule sort this one out).
+> BPF allows already to re-enumerate the device with a different look and
+> feel, so it seems more appropriate to me.
+>
+> Also, having a sysfs that depends on the report descriptor basically
+> means that we will lose it whenever we re-enumerate it (kind of what the
+> LED problem you mentioned above). So we would need to have a sysfs on
+> *every* HID devices???
+>
+> Actually, what would work is (ignoring the BPF bikeshedding for Tuxedos
+> HW):
+> - a device presents a report descriptor with LampArray (wherever it
+>    comes from)
+> - hid-led.c takes over it (assuming we extend it for LampArray), and
+>    creates a few LEDs based on the Input usage (one global rgb color for
+>    regular keys, another one for the few other LEDs known to userspace)
+> - when openRGB is present (special udev property), a BPF program is
+>    inserted that only contains a report descriptor fixup that prevent the
+>    use of hid-led.c
+
+How would that look like? just a custom bit in a "Vendor defined" usage page?
+
+But this is still UAPI just hidden inside a BFP program instead of sysfs. But it 
+would avoid the re-enumeration problem.
+
+> - the device gets re-enumerated, cleaning the in-kernel leds, and only
+>    present the LampArray through hidraw, waiting for OpenRGB to take
+>    over.
+> - at any time we can remove the BPF and restore the LEDs functionality
+>    of hid-led.c
+>
+>>>>> Being able to develop a kernel driver without having to reboot and
+>>>>> being sure you won't crash your kernel is a game changer ;)
+>>>>>
+>>>>> Cheers,
+>>>>> Benjamin
+>> Best regards and sorry for the many questions,
+>>
+>> Werner Sembach
+>>
+>> PS: on a side node: How does hid core handle HID devices with a broken HID
+>> implementation fixed by bpf, if bpf is loaded after hid-core? Does the hid
+>> device get reinitialized by hid core once the bpf driver got loaded? If yes,
+>> is there a way to avoid side effects by this double initialization or is
+>> there a way to avoid this double initialization, like marking the device id
+>> as broken so that hid core- does not initialize it unless it's fixed by bpf?
+> - broken HID device:
+>    it depends on what you call "broken" HID device. If the report
+>    descriptor is boggus, hid-core will reject the device and will not
+>    present it to user space (by returning -EINVAL).
+>    If the device is sensible in terms of HID protocol, it will present it
+>    to userspace, but the fact that it creates an input node or LED or
+>    whatever just depends on what is inside the report descriptor.
+>
+> - HID-BPF:
+>    HID-BPF is inserted between the device itself and the rest of the
+>    in-kernel HID stack.
+>    Whenever you load and attach (or detach) a BPF program which has a
+>    report descriptor fixup, HID-core will reconnect the device,
+>    re-enumerate it (calling ->probe()), and will re-present it to
+>    userspace as if it were a new device (you get all uevents).
+>
+> - double initialization:
+>    nowadays hid-generic doesn't do anything on the device itself except
+>    calling the powerup/powerdown, by calling ->start and ->stop on the
+>    HID transport driver. It's not a problem on 99% of the devices AFAICT.
+>    technically, if the report descriptor is bogus, start/stop won't be
+>    called, but you'll get an error in the dmesg. So if you really want to
+>    rely on that "broken" scenario we can always add a specific quirk in
+>    HID to not spew that error.
+>
+> Cheers,
+> Benjamin
+>
+> PPS: sorry for pushing that hard on HID-BPF, but I can see that it fits
+> all of the requirements here:
+> - need to be dynamic
+> - still unsure of the userspace implementation, meaning that userspace
+>    might do something wrong, which might require kernel changes
+
+Well the reference implementetion for the arduiono macropad from microsoft 
+ignores the intensity (brightness) channel on rgb leds contrary to the HID spec, 
+soo yeah you have a point here ...
+
+> - possibility to extend later the kernel API
+> - lots of fun :)
+
+You advertise it good ;). More work for me now but maybe less work for me later, 
+I will look into it.
+
 Best regards,
-Sui
+
+Werner
 
