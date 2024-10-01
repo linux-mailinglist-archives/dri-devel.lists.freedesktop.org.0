@@ -2,52 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5253C98BC79
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2024 14:44:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E4BE98BD08
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Oct 2024 15:05:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C06A610E61F;
-	Tue,  1 Oct 2024 12:44:45 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="na+K2Oya";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CAF410E2E2;
+	Tue,  1 Oct 2024 13:04:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 919FB10E043
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Oct 2024 12:44:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
- s=gloria202408;
- h=Content-Type:Content-Transfer-Encoding:MIME-Version:
- References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=9QUcWnz6fid45GBubUoL7prAN4V8aOcYdytpl4grgXs=; b=na+K2OyaYLFieMg8y9ZtfgQb7O
- QqINAle8PwspThKDNJD7HTyEu8eRcnZufTpM0xmzVr/Tb+Dq/gpLHUvXZPShNP0kCVsd8EVmriMyF
- eCcEpHhpbYwLMBLKM53Gtf7ZRUopVpuytTWlfYki/E+LIy97aJtocW4Rt99cMmDp5BT/zCPIN0KdA
- obsHHD7FpIXj/v628JC0wGC+SxJO7zS56cpYNUWYQewn7mFb/DBrMncFe9uSoYbZER+OLtRzCCs4/
- h+brEFsmxy5Sexqk5M1JeY0rNGr2yg+QQgwMZdMVJZgovLryuOarJXstNSlGZ3lI1te4IgOkrpd78
- OEViH03Q==;
-Received: from i5e861925.versanet.de ([94.134.25.37] helo=diego.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1svcF5-0004px-7q; Tue, 01 Oct 2024 14:44:39 +0200
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- dri-devel@lists.freedesktop.org
-Cc: Steven Price <steven.price@arm.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Christian Brauner <brauner@kernel.org>,
- dri-devel@lists.freedesktop.org, Al Viro <viro@zeniv.linux.org.uk>,
- linux-fsdevel@vger.kernel.org, Liviu Dudau <liviu.dudau@arm.com>
-Subject: Re: [PATCH] drm/panthor: Add FOP_UNSIGNED_OFFSET to fop_flags
-Date: Tue, 01 Oct 2024 14:44:38 +0200
-Message-ID: <2002903.PYKUYFuaPT@diego>
-In-Reply-To: <20240920102802.2483367-1-liviu.dudau@arm.com>
-References: <20240920102802.2483367-1-liviu.dudau@arm.com>
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CAEAD10E2E2
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Oct 2024 13:04:57 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1svcYg-0005l1-DU; Tue, 01 Oct 2024 15:04:54 +0200
+Message-ID: <e4270c6629f4f7ac086e7a177374bdbc306226a0.camel@pengutronix.de>
+Subject: Re: [PATCH v15 01/19] drm/etnaviv: Implement
+ drm_gem_object_funcs::print_info()
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Sui Jingfeng <sui.jingfeng@linux.dev>
+Cc: Christian Gmeiner <christian.gmeiner@gmail.com>, Russell King
+ <linux+etnaviv@armlinux.org.uk>, dri-devel@lists.freedesktop.org, 
+ etnaviv@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Date: Tue, 01 Oct 2024 15:04:53 +0200
+In-Reply-To: <20240908094357.291862-2-sui.jingfeng@linux.dev>
+References: <20240908094357.291862-1-sui.jingfeng@linux.dev>
+ <20240908094357.291862-2-sui.jingfeng@linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,46 +54,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Freitag, 20. September 2024, 12:28:02 CEST schrieb Liviu Dudau:
-> Since 641bb4394f40 ("fs: move FMODE_UNSIGNED_OFFSET to fop_flags")
-> the FMODE_UNSIGNED_OFFSET flag has been moved to fop_flags and renamed,
-> but the patch failed to make the changes for the panthor driver.
-> When user space opens the render node the WARN() added by the patch
-> gets triggered.
-> 
-> Fixes: 641bb4394f40 ("fs: move FMODE_UNSIGNED_OFFSET to fop_flags")
-> Cc: Christian Brauner <brauner@kernel.org>
-> Signed-off-by: Liviu Dudau <liviu.dudau@arm.com>
+Hi Sui,
 
-On a rk3588-tiger-haikou
+Am Sonntag, dem 08.09.2024 um 17:43 +0800 schrieb Sui Jingfeng:
+> It will be called by drm_gem_print_info() if implemented, and it can
+> provide more information about the framebuffer objects.
 
-Tested-by: Heiko Stuebner <heiko@sntech.de>
+Etnaviv GEM BOs are not framebuffer objects.
 
-
-with 6.11 panthor was working nicely
-with 6.12-rc1 panthor was not recognized by mesa anymore
-
-with this patch applied on top, things are back to a working state.
-
-
+>=20
+> Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
 > ---
->  drivers/gpu/drm/panthor/panthor_drv.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-> index 34182f67136c1..c520f156e2d73 100644
-> --- a/drivers/gpu/drm/panthor/panthor_drv.c
-> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
-> @@ -1383,6 +1383,7 @@ static const struct file_operations panthor_drm_driver_fops = {
->  	.read = drm_read,
->  	.llseek = noop_llseek,
->  	.mmap = panthor_mmap,
-> +	.fop_flags = FOP_UNSIGNED_OFFSET,
+>  drivers/gpu/drm/etnaviv/etnaviv_gem.c | 32 +++++++++++++++++++++++++++
+>  drivers/gpu/drm/etnaviv/etnaviv_gem.h |  2 +-
+>  2 files changed, 33 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etna=
+viv/etnaviv_gem.c
+> index 4247a10f8d4f..543d881585b3 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+> @@ -534,8 +534,40 @@ static const struct vm_operations_struct vm_ops =3D =
+{
+>  	.close =3D drm_gem_vm_close,
 >  };
->  
->  #ifdef CONFIG_DEBUG_FS
-> 
+> =20
+> +static const char *etnaviv_gem_obj_caching_info(u32 flags)
+> +{
+> +	switch (flags & ETNA_BO_CACHE_MASK) {
+> +	case ETNA_BO_CACHED:
+> +		return "cached";
+> +	case ETNA_BO_UNCACHED:
+> +		return "uncached";
+> +	case ETNA_BO_WC:
+> +		return "write-combine";
 
+"write-combined" to be consistent with the other two.
 
+> +	default:
+> +		break;
+> +	}
+> +
+> +	return "unknown";
+> +}
+> +
+> +static void etnaviv_gem_object_info(struct drm_printer *p,
+> +				    unsigned int indent,
+> +				    const struct drm_gem_object *obj)
+> +{
+> +	const struct etnaviv_gem_object *etnaviv_obj;
+> +
+> +	etnaviv_obj =3D container_of(obj, struct etnaviv_gem_object, base);
+> +
+> +	drm_printf_indent(p, indent, "caching mode=3D%s\n",
+> +			  etnaviv_gem_obj_caching_info(etnaviv_obj->flags));
+> +	drm_printf_indent(p, indent, "active=3D%s\n",
+> +			  str_yes_no(is_active(etnaviv_obj)));
+> +	drm_printf_indent(p, indent, "vaddr=3D%p\n", etnaviv_obj->vaddr);
 
+Why should we expose the vaddr to userspace? I don't see why this would
+be relevant even as debug info and it leaks the kernel vmap area
+address, which could be abused to facilitate kernel exploits.
+
+Regards,
+Lucas
+
+> +}
+> +
+>  static const struct drm_gem_object_funcs etnaviv_gem_object_funcs =3D {
+>  	.free =3D etnaviv_gem_free_object,
+> +	.print_info =3D etnaviv_gem_object_info,
+>  	.pin =3D etnaviv_gem_prime_pin,
+>  	.unpin =3D etnaviv_gem_prime_unpin,
+>  	.get_sg_table =3D etnaviv_gem_prime_get_sg_table,
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.h b/drivers/gpu/drm/etna=
+viv/etnaviv_gem.h
+> index a42d260cac2c..3f8fe19a77cc 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.h
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
+> @@ -68,7 +68,7 @@ struct etnaviv_gem_ops {
+>  	int (*mmap)(struct etnaviv_gem_object *, struct vm_area_struct *);
+>  };
+> =20
+> -static inline bool is_active(struct etnaviv_gem_object *etnaviv_obj)
+> +static inline bool is_active(const struct etnaviv_gem_object *etnaviv_ob=
+j)
+>  {
+>  	return atomic_read(&etnaviv_obj->gpu_active) !=3D 0;
+>  }
 
