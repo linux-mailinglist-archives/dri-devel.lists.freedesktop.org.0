@@ -2,59 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5FF198D446
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2024 15:15:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F061E98D4F3
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2024 15:26:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 329D910E730;
-	Wed,  2 Oct 2024 13:15:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B01710E339;
+	Wed,  2 Oct 2024 13:26:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fuJjA+OK";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VhuQngfs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B56E10E150;
- Wed,  2 Oct 2024 13:15:32 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BA2C10E339
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Oct 2024 13:26:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1727874933; x=1759410933;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=rPsuxueaSJdcYUA1+nYf0rpvNrqu8V3LXmrJfdMJwmg=;
- b=fuJjA+OKKTaOweOPJoVbp9GOSKYRTBJyoEWf9d28lMzHjSohXsG9j/0V
- zyBjat7maYZ4t8ZN715mgKg++2gibyFMz54/uR7wwe5tgOgdTZWfcHjsl
- oGdy+0TEVf6pvE8pNgIlzup1YunVSfwNz4nl1iaYIRzZl0L79OPHB5wWe
- 9g9kyjC3s2kbF1LaoCcMomaCbYtsCsekxmgCIfgxuOyYnSRVGxF2HCutQ
- YqFMzblZpul4JpNpgM1uVhI5T3FbmOKgrX0Ue5rD34yjMlFe1bwhJj51y
- 5AmBQtPcE7I2OHtER6rXlFCGqzQqZj7YPkpAr3f0RxS3aW3PcGsERwtUA Q==;
-X-CSE-ConnectionGUID: UZ+PDPydQdiRBfTh/wTA3g==
-X-CSE-MsgGUID: cRqiZFK5TBGKbbIUGC54yA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="26834963"
-X-IronPort-AV: E=Sophos;i="6.11,171,1725346800"; d="scan'208";a="26834963"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Oct 2024 06:15:32 -0700
-X-CSE-ConnectionGUID: 4M3TriYmRfeuy2gcaVoYXQ==
-X-CSE-MsgGUID: qHF+Wyn9QTew0bj7fBbpEA==
+ t=1727875569; x=1759411569;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=25+MaR8CBScAHOk7XyEAqruUS8MUZ20tvCHvENGeIZQ=;
+ b=VhuQngfsDv+UuMXLBr3nGGHr5rzuomupGI5pc2w0ZZKRjfwAjmFy2hSF
+ 6V9CGCxzJPV92VfVg71zi1OEj2lsBjomrHE+SB8BU2KBYuIJBlb87J8CJ
+ iKQwaeI4dyhNSvWZfi7GCntL3K71KPEv0zUXgdumjRjmSFJz8fzypBwPb
+ qgQtvI4oE5UpXM7lAJx8O9WMRrsNloePGDGkPwrF8PlgrSoLraM3eze0f
+ 0R1nUb6C6Vb0eo5/gx7shgkV8OSD/cGPAjUaiF5oDXUnsxl1MvuLleKn7
+ c2iVWE+sBI+9YXC3a13JPHXmfnWyqHINa3LFK6dL1ZjDwbNbdqT3qJVNU Q==;
+X-CSE-ConnectionGUID: GPV2cwUMTFqEE5Qgg1egbg==
+X-CSE-MsgGUID: uJth1uA2TcSiNxU/vgqa0Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="37705940"
+X-IronPort-AV: E=Sophos;i="6.11,171,1725346800"; d="scan'208";a="37705940"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Oct 2024 06:26:08 -0700
+X-CSE-ConnectionGUID: QEdfdyrCQuSIKa+H+bUQUg==
+X-CSE-MsgGUID: RQ9g6klqTIWC2Rpzsc2d/A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,171,1725346800"; d="scan'208";a="111465247"
-Received: from lstrano-desk.jf.intel.com ([10.54.39.91])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Oct 2024 06:15:32 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: intel-xe@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Cc: dakr@kernel.org,
-	pstanner@redhat.com,
-	ltuikov89@gmail.com
-Subject: [PATCH v4 2/2] drm/xe: Drop GuC submit_wq pool
-Date: Wed,  2 Oct 2024 06:16:39 -0700
-Message-Id: <20241002131639.3425022-3-matthew.brost@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241002131639.3425022-1-matthew.brost@intel.com>
-References: <20241002131639.3425022-1-matthew.brost@intel.com>
+X-IronPort-AV: E=Sophos;i="6.11,171,1725346800"; d="scan'208";a="78864586"
+Received: from jpdavis-mobl1.ger.corp.intel.com (HELO [10.246.18.68])
+ ([10.246.18.68])
+ by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Oct 2024 06:26:06 -0700
+Message-ID: <6f18b890-2fa2-4c81-ab4e-2816d0ce98d9@linux.intel.com>
+Date: Wed, 2 Oct 2024 15:26:01 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 00/31] accel/ivpu: Fixes for 6.12-rc1
+To: dri-devel@lists.freedesktop.org
+Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com
+References: <20240930195322.461209-1-jacek.lawrynowicz@linux.intel.com>
+Content-Language: en-US
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20240930195322.461209-1-jacek.lawrynowicz@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,125 +72,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that drm sched uses a single lockdep map for all submit_wq, drop the
-GuC submit_wq pool hack.
+Applied to drm-misc-fixes
 
-Signed-off-by: Matthew Brost <matthew.brost@intel.com>
----
- drivers/gpu/drm/xe/xe_guc_submit.c | 60 +-----------------------------
- drivers/gpu/drm/xe/xe_guc_types.h  |  7 ----
- 2 files changed, 1 insertion(+), 66 deletions(-)
-
-diff --git a/drivers/gpu/drm/xe/xe_guc_submit.c b/drivers/gpu/drm/xe/xe_guc_submit.c
-index 80062e1d3f66..ce251845d59a 100644
---- a/drivers/gpu/drm/xe/xe_guc_submit.c
-+++ b/drivers/gpu/drm/xe/xe_guc_submit.c
-@@ -224,58 +224,6 @@ static bool exec_queue_killed_or_banned_or_wedged(struct xe_exec_queue *q)
- 		 EXEC_QUEUE_STATE_BANNED));
- }
- 
--#ifdef CONFIG_PROVE_LOCKING
--static int alloc_submit_wq(struct xe_guc *guc)
--{
--	int i;
--
--	for (i = 0; i < NUM_SUBMIT_WQ; ++i) {
--		guc->submission_state.submit_wq_pool[i] =
--			alloc_ordered_workqueue("submit_wq", 0);
--		if (!guc->submission_state.submit_wq_pool[i])
--			goto err_free;
--	}
--
--	return 0;
--
--err_free:
--	while (i)
--		destroy_workqueue(guc->submission_state.submit_wq_pool[--i]);
--
--	return -ENOMEM;
--}
--
--static void free_submit_wq(struct xe_guc *guc)
--{
--	int i;
--
--	for (i = 0; i < NUM_SUBMIT_WQ; ++i)
--		destroy_workqueue(guc->submission_state.submit_wq_pool[i]);
--}
--
--static struct workqueue_struct *get_submit_wq(struct xe_guc *guc)
--{
--	int idx = guc->submission_state.submit_wq_idx++ % NUM_SUBMIT_WQ;
--
--	return guc->submission_state.submit_wq_pool[idx];
--}
--#else
--static int alloc_submit_wq(struct xe_guc *guc)
--{
--	return 0;
--}
--
--static void free_submit_wq(struct xe_guc *guc)
--{
--
--}
--
--static struct workqueue_struct *get_submit_wq(struct xe_guc *guc)
--{
--	return NULL;
--}
--#endif
--
- static void xe_guc_submit_fini(struct xe_guc *guc)
- {
- 	struct xe_device *xe = guc_to_xe(guc);
-@@ -297,7 +245,6 @@ static void guc_submit_fini(struct drm_device *drm, void *arg)
- 
- 	xe_guc_submit_fini(guc);
- 	xa_destroy(&guc->submission_state.exec_queue_lookup);
--	free_submit_wq(guc);
- }
- 
- static void guc_submit_wedged_fini(void *arg)
-@@ -359,10 +306,6 @@ int xe_guc_submit_init(struct xe_guc *guc, unsigned int num_ids)
- 	if (err)
- 		return err;
- 
--	err = alloc_submit_wq(guc);
--	if (err)
--		return err;
--
- 	gt->exec_queue_ops = &guc_exec_queue_ops;
- 
- 	xa_init(&guc->submission_state.exec_queue_lookup);
-@@ -1482,8 +1425,7 @@ static int guc_exec_queue_init(struct xe_exec_queue *q)
- 	timeout = (q->vm && xe_vm_in_lr_mode(q->vm)) ? MAX_SCHEDULE_TIMEOUT :
- 		  msecs_to_jiffies(q->sched_props.job_timeout_ms);
- 	err = xe_sched_init(&ge->sched, &drm_sched_ops, &xe_sched_ops,
--			    get_submit_wq(guc),
--			    q->lrc[0]->ring.size / MAX_JOB_SIZE_BYTES, 64,
-+			    NULL, q->lrc[0]->ring.size / MAX_JOB_SIZE_BYTES, 64,
- 			    timeout, guc_to_gt(guc)->ordered_wq, NULL,
- 			    q->name, gt_to_xe(q->gt)->drm.dev);
- 	if (err)
-diff --git a/drivers/gpu/drm/xe/xe_guc_types.h b/drivers/gpu/drm/xe/xe_guc_types.h
-index 69046f698271..ed150fc09ad0 100644
---- a/drivers/gpu/drm/xe/xe_guc_types.h
-+++ b/drivers/gpu/drm/xe/xe_guc_types.h
-@@ -72,13 +72,6 @@ struct xe_guc {
- 		atomic_t stopped;
- 		/** @submission_state.lock: protects submission state */
- 		struct mutex lock;
--#ifdef CONFIG_PROVE_LOCKING
--#define NUM_SUBMIT_WQ	256
--		/** @submission_state.submit_wq_pool: submission ordered workqueues pool */
--		struct workqueue_struct *submit_wq_pool[NUM_SUBMIT_WQ];
--		/** @submission_state.submit_wq_idx: submission ordered workqueue index */
--		int submit_wq_idx;
--#endif
- 		/** @submission_state.enabled: submission is enabled */
- 		bool enabled;
- 		/** @submission_state.fini_wq: submit fini wait queue */
--- 
-2.34.1
+On 9/30/2024 9:52 PM, Jacek Lawrynowicz wrote:
+> Most notable changes are coredump and tracing support.
+> The rest are stability fixes, some refactoring and typos.
+> 
+> Changes in v2:
+> - Fix typos in FW API headers
+> - Split fw refactor commit into 2 commits and improved commit messages
+> - Fixed commit messages for state dump and power island commits
+> - Added limit and NULL termination for FW version string
+> - Documented sched_mode sysfs file
+> 
+> 
+> Andrzej Kacprowski (4):
+>   accel/ivpu: Update VPU FW API headers
+>   accel/ivpu: Allow reading dvfs_mode debugfs file
+>   accel/ivpu: Add test_mode bit to force turbo
+>   accel/ivpu: Fix reset_engine debugfs file logic
+> 
+> Jacek Lawrynowicz (11):
+>   accel/ivpu: Rename ivpu_log_level to fw_log_level
+>   accel/ivpu: Refactor functions in ivpu_fw_log.c
+>   accel/ivpu: Fix fw log printing
+>   accel/ivpu: Limit FW version string length
+>   accel/ivpu: Stop using hardcoded DRIVER_DATE
+>   accel/ivpu: Add auto selection logic for job scheduler
+>   accel/ivpu: Remove invalid warnings
+>   accel/ivpu: Increase MS info buffer size
+>   accel/ivpu: Fix ivpu_jsm_dyndbg_control()
+>   accel/ivpu: Remove HWS_EXTRA_EVENTS from test modes
+>   accel/ivpu: Fix typos in ivpu_pm.c
+> 
+> Jakub Pawlak (1):
+>   accel/ivpu: Add tracing for IPC/PM/JOB
+> 
+> Karol Wachowski (12):
+>   accel/ivpu: Add coredump support
+>   accel/ivpu: Set 500 ns delay between power island TRICKLE and ENABLE
+>   accel/ivpu: Turn on autosuspend on Simics
+>   accel/ivpu: Add FW version debugfs entry
+>   accel/ivpu: Remove 1-tile power up Simics workaround
+>   accel/ivpu: Add one jiffy to bo_wait_ioctl timeout value
+>   accel/ivpu: Print JSM message result in case of error
+>   accel/ivpu: Remove skip of clock own resource ack on Simics
+>   accel/ivpu: Prevent recovery invocation during probe and resume
+>   accel/ivpu: Refactor failure diagnostics during boot
+>   accel/ivpu: Do not fail on cmdq if failed to allocate preemption
+>     buffers
+>   accel/ivpu: Use whole user and shave ranges for preemption buffers
+> 
+> Tomasz Rusinowicz (3):
+>   accel/ivpu: Reset fw log on cold boot
+>   accel/ivpu: Add FW state dump on TDR
+>   accel/ivpu: Make DB_ID and JOB_ID allocations incremental
+> 
+>  drivers/accel/ivpu/Kconfig             |   1 +
+>  drivers/accel/ivpu/Makefile            |   6 +-
+>  drivers/accel/ivpu/ivpu_coredump.c     |  39 ++++
+>  drivers/accel/ivpu/ivpu_coredump.h     |  25 ++
+>  drivers/accel/ivpu/ivpu_debugfs.c      |  86 +++----
+>  drivers/accel/ivpu/ivpu_drv.c          |  52 +++--
+>  drivers/accel/ivpu/ivpu_drv.h          |  13 +-
+>  drivers/accel/ivpu/ivpu_fw.c           |  26 ++-
+>  drivers/accel/ivpu/ivpu_fw.h           |   9 +-
+>  drivers/accel/ivpu/ivpu_fw_log.c       | 113 +++++----
+>  drivers/accel/ivpu/ivpu_fw_log.h       |  17 +-
+>  drivers/accel/ivpu/ivpu_gem.c          |   3 +
+>  drivers/accel/ivpu/ivpu_hw.c           |   5 +-
+>  drivers/accel/ivpu/ivpu_hw.h           |   1 -
+>  drivers/accel/ivpu/ivpu_hw_btrs.c      |   9 -
+>  drivers/accel/ivpu/ivpu_hw_ip.c        |   8 +-
+>  drivers/accel/ivpu/ivpu_ipc.c          |  45 ++--
+>  drivers/accel/ivpu/ivpu_ipc.h          |   9 +-
+>  drivers/accel/ivpu/ivpu_job.c          | 102 +++++----
+>  drivers/accel/ivpu/ivpu_jsm_msg.c      |  34 +--
+>  drivers/accel/ivpu/ivpu_jsm_msg.h      |   2 +
+>  drivers/accel/ivpu/ivpu_ms.c           |   2 +-
+>  drivers/accel/ivpu/ivpu_pm.c           |  24 +-
+>  drivers/accel/ivpu/ivpu_sysfs.c        |  24 ++
+>  drivers/accel/ivpu/ivpu_trace.h        |  73 ++++++
+>  drivers/accel/ivpu/ivpu_trace_points.c |   9 +
+>  drivers/accel/ivpu/vpu_boot_api.h      |  45 ++--
+>  drivers/accel/ivpu/vpu_jsm_api.h       | 303 +++++++++++++++++++++----
+>  include/uapi/drm/ivpu_accel.h          |   3 -
+>  29 files changed, 797 insertions(+), 291 deletions(-)
+>  create mode 100644 drivers/accel/ivpu/ivpu_coredump.c
+>  create mode 100644 drivers/accel/ivpu/ivpu_coredump.h
+>  create mode 100644 drivers/accel/ivpu/ivpu_trace.h
+>  create mode 100644 drivers/accel/ivpu/ivpu_trace_points.c
+> 
+> --
+> 2.45.1
 
