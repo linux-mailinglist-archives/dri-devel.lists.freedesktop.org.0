@@ -2,72 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C65BE98EA6A
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 09:37:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A81698EA75
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 09:37:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7BE210E7B3;
-	Thu,  3 Oct 2024 07:37:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F15B10E7BD;
+	Thu,  3 Oct 2024 07:37:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gV8RZKAk";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="PGQ3uGRj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
- [209.85.218.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4057F10E1F6
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Oct 2024 09:23:23 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id
- a640c23a62f3a-a90349aa7e5so935407766b.0
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Oct 2024 02:23:23 -0700 (PDT)
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
+ [209.85.215.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64A0410E166
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Oct 2024 10:14:04 +0000 (UTC)
+Received: by mail-pg1-f194.google.com with SMTP id
+ 41be03b00d2f7-7e6cbf6cd1dso4410847a12.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Oct 2024 03:14:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1727861001; x=1728465801; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=iaQhpnhHBH69krl2w1/dGjBTBlNuiT9+NdutbasOvZU=;
- b=gV8RZKAkRessu6CIdBfpDTzylWlGpLnPuLbQ5wjv61FIblffhNOyFWyn3qzz6+rMjC
- GmqWlCrPG+blLPS3foaEvXTVSprKiNIuayD14bZoK6RYZLkSXInoWOkBN3AoEcz7cl29
- 5HD8pF87c3VDoI8jglvv1Uh5yq7KZfhk56YbUspZevqFC5yXU4L6eyArYNBf1D1mRSdU
- 8QVTuJhkHVj3KUf6xnsVW6vKa8JiPaXxCkYL2r+mLBPmlWbP4lqIEUlr9eA44lunOOLl
- 3wRouTNMi9klo6M/UyVuM9haH0yr4sWZ6QpaIpMwy09kxa/iTF5LfEAPqlUchqRgEtc8
- LasQ==
+ d=gmail.com; s=20230601; t=1727864044; x=1728468844; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=6ITkNe+vNpHw1xzRexboVGuwiuVidOEjpkGuzCecQoQ=;
+ b=PGQ3uGRjPSddHmK42GgKuxLHwVj7vlGLRSUM+qebrtv7V2kiEpc+U8Myceu3DZBfvK
+ gCoPpbWa1G42/6j3n8SfwcOH1GGJ4UuR6xeIl+Wlg8AlSvqKBlZDvwgofkXmgSY8fn8M
+ byiZxYV6tw2/wE4CgLJ7VjDJiB3E9pqkDGpxx0AOj1pucnRZFfmM6zkwff3jRbiPBpwT
+ lJrrAVtEao8YjQlQMbBgo51kbvwYpec7R6+dP35mO5T1CGotOVBxl+vKaEhUvNkHhvoR
+ MhWb7k+LVMj+mOfpS3i1JmMfdkhExO7NcSmOEJ54ntXZsooz8uejjs7fM8U3romJvZ+5
+ G3QA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727861001; x=1728465801;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=iaQhpnhHBH69krl2w1/dGjBTBlNuiT9+NdutbasOvZU=;
- b=gfz9qWhujDN+DTpcwIhv4MQs1PJgNbND+9a2zxC+mVaqdX1Wel45rUGyHYU+UHtlLi
- R3NZPtRRdSqrv+n89J5AbGHiCjxpxG8zEbRVchSJJCvE5JuvuBZNSlmMS+yWeALT1hcq
- fmBNSkil/62QAMzLCFfk09nnUuxEoVG2HRznQi4FBWDVdelgN+JwyS6uLoXmdxhGT0hW
- nxRke1c5uxM5N1VrNXwEi5ls7X03GDM2xIFBoYUwDOPMaA/hILo+xvdwJnC1o3fS80vT
- aviK3/HSQCz/8ADZGFu8170J3qsPfOugYbZHYlH0EEhGC79O2f6psMoOvmIXscYUK5Ta
- hAbA==
+ d=1e100.net; s=20230601; t=1727864044; x=1728468844;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=6ITkNe+vNpHw1xzRexboVGuwiuVidOEjpkGuzCecQoQ=;
+ b=EE/7nbE8ngllJMvLHYvSXQxyUAHamFExThtSvlcxKVjYrzzE2AbFt+Z5RxzihdW1DF
+ XDyiX8soK95dHs+OTdunFrCXXIFEJ9eTbetYrYKW1DEaVTQxQX1fS50Garh017glTSYT
+ NmCJk/DKNn0KM4PZqoBStZM4WeaiKNuc3smdmciMypfR0/5VjXTzb2e5tdeRw5uwQC3A
+ dhHYxPYAYS4RJX8eORmwiJRFZ68s51H1SblzMbh7rgfrojAbGmMphdfXqFWZ1B2KtFT8
+ suA5w5BYVKbbnm6FlzDg2eMhKI/VYXHIPRRN58wWv7hT42wR1MV4cl4tFlBfbgHRUorO
+ uWlg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXww3GEzOEC2iKXOOt5p/hdc7mvpxZpp/N5REJ8L6j76aRpATDmb3W8g8Ee130cupbTo75njBotCp4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxqs20T7NRxcOX0x5KaScSZcMvrjZOpjXJA2NXYHDbodIkcDA+U
- Kjo3D4c/Y1m1F2vh2ULwPcb//l7vt0sbQFUTpOdv0i32HNsdSrz5hJHyDXQQRlg=
-X-Google-Smtp-Source: AGHT+IHECtzHGvAL9MP9q1EegqpZ9Z5rAkGSfkKWxlawz84CqPVj/i9yLtPvROVMvRA6Fq8rP6IHcQ==
-X-Received: by 2002:a17:907:a0d:b0:a8d:4b70:b09a with SMTP id
- a640c23a62f3a-a98f82342fcmr248114566b.20.1727861001256; 
- Wed, 02 Oct 2024 02:23:21 -0700 (PDT)
-Received: from azathoth.prg2.suse.org ([45.250.247.85])
- by smtp.googlemail.com with ESMTPSA id
- a640c23a62f3a-a93c27c5a7dsm836931266b.62.2024.10.02.02.23.18
+ AJvYcCV77lJbXkfD+dswYAjZaidrMKJVpZGkv6FdhVmmBXbCBj+3hyeb/HgYZbGY+zUgFtu7cxCyRvVVPB0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzX9R5TsQkGl7jPvc3R4RxF860S09BV1sa0uW1hcMiUB/g5BtV3
+ XgBPw1Tft8KYpSPLnTpAV7uiga+5CezhdcFyYPA3WtZnqDXO7L6c
+X-Google-Smtp-Source: AGHT+IHsEpxiZKr1A+amXk6qtyBogBEtwHQBxLPLnv6JkIZs9mofhd/Q4z4wixB8pY4oRE0ZobmECQ==
+X-Received: by 2002:a05:6a21:3417:b0:1cf:4596:d486 with SMTP id
+ adf61e73a8af0-1d5e2d42f0emr3893725637.47.1727864043756; 
+ Wed, 02 Oct 2024 03:14:03 -0700 (PDT)
+Received: from Archie.mec.ac.in ([210.212.232.142])
+ by smtp.gmail.com with ESMTPSA id
+ 41be03b00d2f7-7e9c4e5ad46sm352374a12.36.2024.10.02.03.14.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Oct 2024 02:23:21 -0700 (PDT)
-From: Brahmajit Das <brahmajit.xyz@gmail.com>
-To: jani.nikula@linux.intel.com
-Cc: ville.syrjala@linux.intel.com,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v3] drm/display: Fix building with GCC 15
-Date: Wed,  2 Oct 2024 14:53:11 +0530
-Message-ID: <20241002092311.942822-1-brahmajit.xyz@gmail.com>
+ Wed, 02 Oct 2024 03:14:03 -0700 (PDT)
+From: KK Surendran <kksurendran95@gmail.com>
+To: maarten.lankhorst@linux.intel.com
+Cc: mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, corbet@lwn.net, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ KK Surendran <kksurendran95@gmail.com>
+Subject: [PATCH] docs: Fix typo
+Date: Wed,  2 Oct 2024 15:43:44 +0530
+Message-ID: <20241002101344.137636-1-kksurendran95@gmail.com>
 X-Mailer: git-send-email 2.46.2
-In-Reply-To: <20241002090703.919591-1-brahmajit.xyz@gmail.com>
-References: <20241002090703.919591-1-brahmajit.xyz@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Thu, 03 Oct 2024 07:37:11 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -85,42 +83,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-GCC 15 enables -Werror=unterminated-string-initialization by default.
-This results in the following build error
+Fix typo in Documentation/gpu/rfc/i915_scheduler.rst -
+"paralllel" to "parallel"
 
-drivers/gpu/drm/display/drm_dp_dual_mode_helper.c: In function ‘is_hdmi_adaptor’:
-drivers/gpu/drm/display/drm_dp_dual_mode_helper.c:164:17: error: initializer-string for array of
- ‘char’ is too long [-Werror=unterminated-string-initialization]
-  164 |                 "DP-HDMI ADAPTOR\x04";
-      |                 ^~~~~~~~~~~~~~~~~~~~~
-
-After discussion with Ville, the fix was to increase the size of
-dp_dual_mode_hdmi_id array by one, so that it can accommodate the NULL
-line character. This should let us build the kernel with GCC 15.
-
-Signed-off-by: Brahmajit Das <brahmajit.xyz@gmail.com>
+Signed-off-by: KK Surendran <kksurendran95@gmail.com>
 ---
- drivers/gpu/drm/display/drm_dp_dual_mode_helper.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ Documentation/gpu/rfc/i915_scheduler.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c b/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
-index 14a2a8473682..c491e3203bf1 100644
---- a/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
-+++ b/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
-@@ -160,11 +160,11 @@ EXPORT_SYMBOL(drm_dp_dual_mode_write);
- 
- static bool is_hdmi_adaptor(const char hdmi_id[DP_DUAL_MODE_HDMI_ID_LEN])
- {
--	static const char dp_dual_mode_hdmi_id[DP_DUAL_MODE_HDMI_ID_LEN] =
-+	static const char dp_dual_mode_hdmi_id[DP_DUAL_MODE_HDMI_ID_LEN + 1] =
- 		"DP-HDMI ADAPTOR\x04";
- 
- 	return memcmp(hdmi_id, dp_dual_mode_hdmi_id,
--		      sizeof(dp_dual_mode_hdmi_id)) == 0;
-+		      DP_DUAL_MODE_HDMI_ID_LEN) == 0;
- }
- 
- static bool is_type1_adaptor(uint8_t adaptor_id)
+diff --git a/Documentation/gpu/rfc/i915_scheduler.rst b/Documentation/gpu/rfc/i915_scheduler.rst
+index c237ebc02..2974525f0 100644
+--- a/Documentation/gpu/rfc/i915_scheduler.rst
++++ b/Documentation/gpu/rfc/i915_scheduler.rst
+@@ -26,7 +26,7 @@ i915 with the DRM scheduler is:
+ 	  which configures a slot with N contexts
+ 	* After I915_CONTEXT_ENGINES_EXT_PARALLEL a user can submit N batches to
+ 	  a slot in a single execbuf IOCTL and the batches run on the GPU in
+-	  paralllel
++	  parallel
+ 	* Initially only for GuC submission but execlists can be supported if
+ 	  needed
+ * Convert the i915 to use the DRM scheduler
 -- 
 2.46.2
 
