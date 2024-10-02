@@ -2,51 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FFBD98D08A
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2024 11:55:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F2DE98D09D
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2024 11:58:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9D6610E6E7;
-	Wed,  2 Oct 2024 09:55:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33DCB10E6E8;
+	Wed,  2 Oct 2024 09:58:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ucw.cz header.i=@ucw.cz header.b="B1s0I5yP";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Ke2ig3SH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41B6110E6E7
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Oct 2024 09:55:37 +0000 (UTC)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
- id 09E911C00AB; Wed,  2 Oct 2024 11:55:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
- t=1727862936;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=xVFQhl1IXGjm6FdN7IB9MwRQN5m8UNmBJeC5esI3Mos=;
- b=B1s0I5yPlzF/d6xsKvaj4iLqlUQ4x9YntyJ1Ek7CDFsjz+WTvoPMQLi2iQue/utjDMVgLv
- 8LrHbMff704Y5pYOWpfKFaPwH8sXpoeI/zKfvPE4CD8Wxcs1GpL0hfEg5eYWDiq6yVndZP
- Bk8u5fhKxQEozgzogxP83uKYhV3ACU8=
-Date: Wed, 2 Oct 2024 11:55:35 +0200
-From: Pavel Machek <pavel@ucw.cz>
-To: Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: Werner Sembach <wse@tuxedocomputers.com>,
- Hans de Goede <hdegoede@redhat.com>, bentiss@kernel.org,
- dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
- lee@kernel.org, linux-input@vger.kernel.org,
- LKML <linux-kernel@vger.kernel.org>, linux-leds@vger.kernel.org,
- miguel.ojeda.sandonis@gmail.com, ojeda@kernel.org,
- onitake@gmail.com, cs@tuxedo.de, platform-driver-x86@vger.kernel.org
-Subject: Re: [RFC PATCH v4 1/1] platform/x86/tuxedo: Add virtual LampArray
- for TUXEDO NB04 devices
-Message-ID: <Zv0YlxQOFVGRS/DB@duo.ucw.cz>
-References: <20241001180658.76396-1-wse@tuxedocomputers.com>
- <20241001180658.76396-2-wse@tuxedocomputers.com>
- <bc3f5f2b-252e-0a66-df0f-f01197a5a17d@linux.intel.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24F3810E6E8
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Oct 2024 09:58:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1727863096;
+ bh=1Wu8gz7SNzE9dXIwLl9sRnsY2wkdlQOxuOY5+fjdyqI=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=Ke2ig3SHS7s7dXwARMfmB9XJ61pBF6kaCdZg5QrB9Srd46sNo/Bb5iXZkEajhb7vX
+ nikfkWpPbE6Hqki5JbKTVWFfNLZxdXO/z7GQegFFisR6xYw4pVx7fHAC6JE8Qd3MnC
+ wjqX/CtSlqnuOZXDy5Rm+65uEuDvQG+cclV1wLjuvqGtDcuBgHnRKEvuHakTTOeDTd
+ 1JEY1bWlNj/VBozV7XDbap1gp5CC/0JvZO2MyC69F13QQkn8xXy8hbtqhmTcnx//EE
+ xUWDI/hNe+t3DLHVzoThxtsQs0xmdYu/WzK0Ii9bi7iPCm6veGb09NPWTfmRvblERQ
+ E8jV36Akd5VxQ==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 14B1C17E120E;
+ Wed,  2 Oct 2024 11:58:16 +0200 (CEST)
+Date: Wed, 2 Oct 2024 11:58:10 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>, Steven
+ Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Sumit Semwal
+ <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
+ <christian.koenig@amd.com>, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v8 0/5] Support fdinfo runtime and memory stats on Panthor
+Message-ID: <20241002115810.32cbde0c@collabora.com>
+In-Reply-To: <877caqvorq.fsf@intel.com>
+References: <20240923230912.2207320-1-adrian.larumbe@collabora.com>
+ <20241002105715.18ec024c@collabora.com> <877caqvorq.fsf@intel.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
- protocol="application/pgp-signature"; boundary="uaKVhuXPT4+1FXsI"
-Content-Disposition: inline
-In-Reply-To: <bc3f5f2b-252e-0a66-df0f-f01197a5a17d@linux.intel.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,51 +69,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, 02 Oct 2024 12:26:49 +0300
+Jani Nikula <jani.nikula@linux.intel.com> wrote:
 
---uaKVhuXPT4+1FXsI
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On Wed, 02 Oct 2024, Boris Brezillon <boris.brezillon@collabora.com> wrote:
+> > Queued to drm-misc-next after applying the few modifications I
+> > mentioned. Also added Steve's ack (given on IRC) on the first patch.  
+> 
+> Can we have the drm-tip rebuild conflict resolution too, please?
 
-Hi!
+Oops, sorry. Should be good now.
 
-> > +static struct wmi_driver tuxedo_nb04_wmi_ab_driver =3D {
-> > +	.driver =3D {
-> > +		.name =3D "tuxedo_nb04_wmi_ab",
-> > +		.probe_type =3D PROBE_PREFER_ASYNCHRONOUS,
-> > +	},
-> > +	.id_table =3D tuxedo_nb04_wmi_ab_device_ids,
-> > +	.probe =3D probe,
-> > +	.remove =3D remove,
-> > +	.no_singleton =3D true,
-> > +};
-> > +
-> > +// We don't know if the WMI API is stable and how unique the GUID is f=
-or this ODM. To be on the safe
-> > +// side we therefore only run this driver on tested devices defined by=
- this list.
->=20
-> Please limit comment length to 80 chars and since you need multiple lines=
-=20
-> here anyway, use the usual /* */ multiline comment formatting.
-
-This driver needs to be split into generic part + hw specific part,
-and reasonable kernel/user API needs to be defined for the generic
-part. It is really too soon to tweak comment lengths.
-
-Best regards,
-							Pavel
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
-
---uaKVhuXPT4+1FXsI
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZv0YlwAKCRAw5/Bqldv6
-8uc3AJ9YfvVjpyV7vAX/h5mxLaYK816TWgCfXnY6WH/URGZR58rYfQMlwSibVb4=
-=GCLD
------END PGP SIGNATURE-----
-
---uaKVhuXPT4+1FXsI--
+> 
+> diff --cc drivers/gpu/drm/panthor/panthor_drv.c
+> index c520f156e2d7,f9b93f84d611..000000000000
+> --- a/drivers/gpu/drm/panthor/panthor_drv.c
+> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
+> @@@ -1383,7 -1476,7 +1476,11 @@@ static const struct file_operations pan
+>         .read = drm_read,
+>         .llseek = noop_llseek,
+>         .mmap = panthor_mmap,
+> ++<<<<<<< HEAD
+>  +      .fop_flags = FOP_UNSIGNED_OFFSET,
+> ++=======
+> +       .show_fdinfo = drm_show_fdinfo,
+> ++>>>>>>> drm-misc/drm-misc-next  
+>   };
+>   
+>   #ifdef CONFIG_DEBUG_FS
