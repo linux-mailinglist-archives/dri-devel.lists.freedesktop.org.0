@@ -2,78 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED35898E3CE
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2024 22:01:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F7AB98E3D5
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2024 22:02:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CBD810E0FE;
-	Wed,  2 Oct 2024 20:01:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEB8410E436;
+	Wed,  2 Oct 2024 20:02:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="H2gg1K3x";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="T1KFNIzy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
- [209.85.167.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68A2F10E0FE
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Oct 2024 20:01:24 +0000 (UTC)
-Received: by mail-lf1-f45.google.com with SMTP id
- 2adb3069b0e04-53988c54ec8so172079e87.0
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Oct 2024 13:01:24 -0700 (PDT)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
+ [209.85.167.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2267710E436
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Oct 2024 20:02:41 +0000 (UTC)
+Received: by mail-lf1-f46.google.com with SMTP id
+ 2adb3069b0e04-5398f3be400so188308e87.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Oct 2024 13:02:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1727899281; x=1728504081;
+ d=chromium.org; s=google; t=1727899356; x=1728504156;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=4RTbP2THnQ7ZPSao3GlpGoyqfA8hmjwpPW28NYvs/R0=;
- b=H2gg1K3xQRepCZGrgl2qcOkUOOCGbNZoHzEEP7uFfu2fW1UlV/2+pG4HLPF7npQ/Dp
- 4velwzwwBpuu0tQSYQXYh6SVW41NrnyeAuCMMg2KofojbuRnwNvWMUMgOOqTFQosd+cQ
- G4Avgopx3ITOv2jXduTIfr7MSHtTpLwA0C0XA=
+ bh=91dAvx/GtXFhViAEPrc2ya71jT/cwYu2QCMwf3YXBnA=;
+ b=T1KFNIzyYJJEs3rRD/sw/tOUvicgRbx0s/5pQBmHfiyaR3Xp3evFMUf7vf/ydQjMeU
+ ftfc54nbRtuRJhJJsS8BLpHPECIpjgJFVbATy2rBMah0Q0086XVoA3nHtVaYPge5GZ3c
+ 2TRVFWvIhJxDNKzTioPZIri7V8ffyNrs4jK20=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727899281; x=1728504081;
+ d=1e100.net; s=20230601; t=1727899356; x=1728504156;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=4RTbP2THnQ7ZPSao3GlpGoyqfA8hmjwpPW28NYvs/R0=;
- b=k6yeZ16nFvFSJzuex+FRhhCCsamBzVUKFDBJPg6zX3TdpLYJ7QxPQ3kVyfbKjo24UX
- qfSvOoTYkm+knzvCdBdwXCEtHpzVoEQtZxWeh4b3vrAhPHX18xeVtDLSRdQbIh7awsCe
- 56/1H3xnQDj2GqZ4kqG0JzO6mMdCX6PFsXVXSX5afD/2GzDPvU95KexdkvtmmqjYlobR
- rVOtmg6iZkygoMo9rYXHMFC8zvLfeaak+eo6I2TNPdbJg6Aqt647FTo9B+JlGeaYAjTh
- vppXiQAEtLXk+Shb8FcvldAL6tAvwoKuow+vOxm1MwZnkBye4R97cRevUXEqje6wuaA2
- qzvg==
+ bh=91dAvx/GtXFhViAEPrc2ya71jT/cwYu2QCMwf3YXBnA=;
+ b=GdcpOzbkOaQ3vgAZ5Zvs9mZ2LoKb8hMRStITwCGc6STYftKFC8ve5xrUjikHIJYlvt
+ hxUgODUJ4S9fC+0hVfm2C1b1tXIffN3rQShX9iKl0MVBQq7h3UT1vrfZPDvMuJNqo4ZR
+ hsBZEYSg+Mwo88xb+O8wW1vO+E/39P3Z0iNBDiNU4Gyb3OM2Q0mVT4XvKUKHGSQ1rW+f
+ M8G9/sGrhOtMr+GShBc6Sjf9w1JhgDqAtcgt3MqXwc+oO4LQJSF6p4L1fnsMsI3LM6Lk
+ 02X7uzHNcqGWnze/9uUyS1No1D7eUYeQ1/HDQq8n4qCKwVjDiqV1H4kmeqoIOOe/j6UP
+ POsA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWGhJ9/wu7fihTFxgBtlkcI1JFPMk0JtkYBMOegsR9wdGUf6ChLmM2IpNYkXesLHNqQKKsSZZ7a1LA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx0pCDrJtu2tU6V2GOiG7wwOyjS7VZR/BCza+4EAC0rU93dKk4u
- TUDZa3ojr3CRCsu2WdDZT2TVZkODukJtBRvVjcDTnBHO2feox6BpoS5yGlIgIoVOZJTd45T3q9r
- nFw==
-X-Google-Smtp-Source: AGHT+IHxNEVOypmIpHMsWM9czEpus96MXgfWuwgw8qwFhw5J7sC3EdduAOccSSLj9XEkJZKNplKryQ==
-X-Received: by 2002:a05:6512:138b:b0:536:a50a:3c25 with SMTP id
- 2adb3069b0e04-539a065c529mr2797593e87.12.1727899281440; 
- Wed, 02 Oct 2024 13:01:21 -0700 (PDT)
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com.
- [209.85.167.42]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5399fbb5062sm401653e87.219.2024.10.02.13.01.20
+ AJvYcCW0dSf4k/D//9oHEI0Il1YFfj516tcYjqDczBnBaBsx1+BRy89hbKG7D9GfQpZ97QMw7Q+sOfLYjXk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxdVTpvnZI+2YfADrq0qbvgs3UNJ+AF6b2pEs8sJ7hOCrqKk3wi
+ EYNmod6MXSlYbvDUOXwdn5mQdshL61TNT77TdLqlvX2yicUkvUb7/S8thJRIlljvh0/M+DZDQ9B
+ l3Q==
+X-Google-Smtp-Source: AGHT+IHtC6bul2QEkmpT55ZYdVyP18x39fFuzfl7D1XJ+yeXv94hi3UzGtdVFI9jBFgl+KFJZv2S3A==
+X-Received: by 2002:a05:6512:3d10:b0:52e:faf0:40c with SMTP id
+ 2adb3069b0e04-539a065ebbbmr2930301e87.3.1727899356406; 
+ Wed, 02 Oct 2024 13:02:36 -0700 (PDT)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com.
+ [209.85.167.46]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-538a043219csm1986293e87.150.2024.10.02.13.02.33
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Oct 2024 13:01:21 -0700 (PDT)
-Received: by mail-lf1-f42.google.com with SMTP id
- 2adb3069b0e04-5398ec2f3c3so175596e87.1
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Oct 2024 13:01:20 -0700 (PDT)
+ Wed, 02 Oct 2024 13:02:35 -0700 (PDT)
+Received: by mail-lf1-f46.google.com with SMTP id
+ 2adb3069b0e04-537a399e06dso171398e87.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Oct 2024 13:02:33 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCXj8tFkkMQ8YL+l2YipdUfoFF/Op07fZs95pJSzP+X9DZCh5BMNk8vZ4/w4vctkinQC0cbjufWKLR0=@lists.freedesktop.org
-X-Received: by 2002:a05:6512:b85:b0:539:896e:46c0 with SMTP id
- 2adb3069b0e04-539a079eaf0mr2740940e87.37.1727899279887; Wed, 02 Oct 2024
- 13:01:19 -0700 (PDT)
+ AJvYcCUTI3krPzcIxTZAD9KAUbnbnzdtG8vNPuXF2M/Y/JvEq4gde5icWrQgB+pww+wtt3Re/+Njz2RNdC8=@lists.freedesktop.org
+X-Received: by 2002:a05:6512:3b1e:b0:536:56d8:24b4 with SMTP id
+ 2adb3069b0e04-539a065eb21mr2856666e87.5.1727899353357; Wed, 02 Oct 2024
+ 13:02:33 -0700 (PDT)
 MIME-Version: 1.0
 References: <20240927094340.18544-1-lvzhaoxiong@huaqin.corp-partner.google.com>
- <20240927094340.18544-2-lvzhaoxiong@huaqin.corp-partner.google.com>
-In-Reply-To: <20240927094340.18544-2-lvzhaoxiong@huaqin.corp-partner.google.com>
+ <20240927094340.18544-3-lvzhaoxiong@huaqin.corp-partner.google.com>
+In-Reply-To: <20240927094340.18544-3-lvzhaoxiong@huaqin.corp-partner.google.com>
 From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 2 Oct 2024 13:01:03 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=Vm-MzhNrotMz1n-iYvm_VAfyVRDtTp4yrQ=6sCTzX1Vw@mail.gmail.com>
-Message-ID: <CAD=FV=Vm-MzhNrotMz1n-iYvm_VAfyVRDtTp4yrQ=6sCTzX1Vw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] drm/panel: jd9365da: Modify Kingdisplay and Melfas
- panel timing
+Date: Wed, 2 Oct 2024 13:02:16 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WTOCNtvvT3Z-5-7eRnFt4Um9R+vq2BB+V7DhWngsKrWA@mail.gmail.com>
+Message-ID: <CAD=FV=WTOCNtvvT3Z-5-7eRnFt4Um9R+vq2BB+V7DhWngsKrWA@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] drm/panel: boe-th101mb31ig002: Modify Starry panel
+ timing
 To: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
 Cc: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com, sam@ravnborg.org, 
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
@@ -108,20 +108,9 @@ On Fri, Sep 27, 2024 at 2:44=E2=80=AFAM Zhaoxiong Lv
 > a black screen after waking the machine. Reduce the disable delay
 > resolves this issue,
 
-This sounds _really_ suspicious to me and it feels like you're just
-pushing around timing to get lucky and avoid the problem. Generally if
-decreasing delays like this fixes a functional problem then the
-problem is still there (just hidden) and has the potential to come
-back if a little extra delay shows up.
-
-I don't understand _why_ it's important for DRM runtime resume to
-complete before the system enters sleep. Is this causing the Mediatek
-DRM driver to get confused? I would have expected that if the system
-went fully into suspend that it would have totally powered off the
-panel and then when we resume the panel shouldn't maintain any state
-from before the suspend.
-
-...so this needs to be debugged more and a real fix needs to be made.
+Similar to patch #1, this sounds very suspicious and I think you need
+to root cause the problem and submit a proper fix instead of just
+playing with timings.
 
 
 > The "backlight_off_to_display_off_delay_ms" was added between
@@ -130,22 +119,23 @@ from before the suspend.
 > a white screen. However, we removed this
 > "backlight_off_to_display_off_delay_ms" and found that this situation
 > did not occur. Therefore, in order to solve the problem mentioned
-> above, we reduced it from 100ms to 3ms (tCMD_OFF >=3D 1ms).
+> above, we removed this delay, and the delay between "display off" and
+> "enter sleep" is not defined in the spec, so we reduce it from 120ms
+> to 50ms.
 >
-> This is the timing specification for the two panels:
-> 1. Kingdisplay panel timing spec:
-> https://github.com/KD54183/-JD9365DA_Power-On-Off-Sequence_V0120240923
-> 2. LMFBX101117480 timing spec: https://github.com/chiohsin-lo/TDY-JD_LIB
+> In addition, T14 >=3D 120ms, so we change
+> "enter_sleep_to_reset_down_delay_ms" from 100ms to 120ms.
 >
-> Fixes: 2b976ad760dc ("drm/panel: jd9365da: Support for kd101ne3-40ti MIPI=
--DSI panel")
-> Fixes: c4ce398cf18a ("drm/panel: jd9365da: Support for Melfas lmfbx101117=
-480 MIPI-DSI panel")
+> The panel spec:
+> 1. https://github.com/Vme5o/power-on-off-sequential
+>
+> Fixes: e4bd1db1c1f7 ("drm/panel: boe-th101mb31ig002: Support for starry-e=
+r88577 MIPI-DSI panel")
 >
 > Signed-off-by: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
 
-For future reference: please don't put a blank line between the
-"Fixes" and the "Signed-off-by".
+Similar to patch #1, no blank space between the "Fixes:" tag and the
+"Signed-off-by:" tag.
 
 
 -Doug
