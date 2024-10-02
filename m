@@ -2,78 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB40498E9A7
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 08:07:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D10998EA6B
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 09:37:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2813F10E08B;
-	Thu,  3 Oct 2024 06:06:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DA3410E7B4;
+	Thu,  3 Oct 2024 07:37:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lYguMvV0";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZSyKfguy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com
- [209.85.215.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6620110E08B;
- Thu,  3 Oct 2024 06:06:58 +0000 (UTC)
-Received: by mail-pg1-f182.google.com with SMTP id
- 41be03b00d2f7-7ae3d7222d4so445222a12.3; 
- Wed, 02 Oct 2024 23:06:58 -0700 (PDT)
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com
+ [209.85.218.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE14910E6D4
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Oct 2024 09:07:17 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id
+ a640c23a62f3a-a8d4093722bso956038466b.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Oct 2024 02:07:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1727935618; x=1728540418; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Gizy/hHvKle/wUxwaQYiB0W0k117aCDj8y0fuH7eCC0=;
- b=lYguMvV0KkjJyayEWuJ+g7U9iyn6uxm5F09tL09Q0e7D3EP2p2f7mLzDmQ5nya2vip
- ChbTwZcovpObVhtolm9J+gIRLaeQhOoPKQEjR4EOfuOORQ6cG1buYqpX4wOIr+llMvMo
- Szx6yjZJx7rwuyXN70RKffmMyOQWHV80efjEc2MFG1tLuWSYSLdAWUQ7PUS/KYiFK4mp
- XPaOAj27QzcKZyJkZY2XC0t8xyrwApe6V2+qdypgMIIHxbMeC6+WSwUbl1zF8bCHmJAz
- LD2rY2KDByzV0wVoES2wAAfJz4rPBeGL1PUfOQohPy1uC+XoLHsvFbHZMbymrBPLe7Gg
- F51A==
+ d=gmail.com; s=20230601; t=1727860036; x=1728464836; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:reply-to:references
+ :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=FcvIViQVlDS2WsqVsa06bUuiyL4w3XFOgCNxRQLBe1I=;
+ b=ZSyKfguyhTmuTbLQ5bHfpn1bqxm5lqdZ+u8ZEmf3JcEuMXfzWmby1O+VBKHRQoyS8l
+ m80/Kdt8Qc+GViSsL/SE3nNlU09FgsbAujoYKobaySaPRTza0hxayKy3PZD6AbZs4+nf
+ TIc1g0GYPzE52AqZ/RXTKCW5UA6UEObRyVvKNbIPe+Vaphyqd0OPo00FDnZVb1MBUIv8
+ KdJClx2ECADID3q+pkk1mb7OG9MFF4fvdLNEOn19Cmve49VtnW8WYXhzByKeGEUKMCbE
+ 87ED5zYHbU1//itqIDT0G7TG1QhWpPcpQ3Xy2mSnIyPTGc61hPuVMk+az6LNv109iswA
+ lLsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727935618; x=1728540418;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Gizy/hHvKle/wUxwaQYiB0W0k117aCDj8y0fuH7eCC0=;
- b=aZiKQ+zVH9Nw7mSitPxUUOSQ+mATlsn/P4o/UHwf7mxpk0h/znmvr6UQOz7DlO4ioZ
- LqT85pCskcqzZfaVrX2mw7NS7ikoIZp2VbK5YsVhjx9u8BzsAgEbq+Sk/CDzwiVWeFnC
- M2NyanRs0NInVrYnkq+rxRPsSsfOYP9pXuxnJbKVuVotA3/0Q3T3aqj7ZeG4Y/sIrK9Q
- A57usa5VL3bQgxbrbi94THialWeLs4WZkqskdselegU4spfTOZnvQ67DQXAhBJ9A2UtR
- wGiDLhm36nwKXal2Y+0E3rhevJlI4R88XCq8mfK1LWcYVj4tSurc95PdE82YJ1i62HK1
- Dx2g==
+ d=1e100.net; s=20230601; t=1727860036; x=1728464836;
+ h=content-transfer-encoding:mime-version:reply-to:references
+ :in-reply-to:message-id:date:subject:cc:to:from:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=FcvIViQVlDS2WsqVsa06bUuiyL4w3XFOgCNxRQLBe1I=;
+ b=UmIkuYWC16RwkD1gxoCz0iGEGy1/LcwmkxnkrqXwO1DWQFjgQEK8jKfcMaCStYdyZy
+ 2fQu4jNTnGtE3ByzrrvL97Do6HiChHqNKJ+pFFVh0JhUhn18uwx1imyI5Z4LpfwGkL/e
+ BvjwFHSCIWc8LSGryV5MFYHgIcdrYan70VdjxXgJT22rPFQ1Z04iGqV+Z4gJ7F/SlIdM
+ AbQzltxMAqEvLmxvbvYTx5bU94VV7+sqDRiHM0srAKVwUJ1HwxjvIp5vPPqsbY5qHnHI
+ E/sVHfejyUkzL5FEp3jINMxZdCsy8EJqgppP+26mzenG/OtPTVieUodjcCKMuVzBdvZA
+ Nwpg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUs0OXWPjU7982XKfhYAhH6tEbzwNgpkZPTOvhYVBx7D6bVwYXGUjPDwxOblq2z4JEwEVsW3LALDTKy@lists.freedesktop.org,
- AJvYcCXE/HALfX4jTimir0sOxMAvNMSpdp8NBFy6CXz2vqq3nml5NRfw36oyqpuQA4PLpL8Ht7yvVWJQ@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxDM8KinXWO5ZIp9qHIGysQxBOJj5GtdhzMEJcY1XPD4Co/D4wz
- yZKO8RLNvCoJxsoQYGdAcNSKqdnJg1onqxE1bnF4OQHjYd5ZUF+K
-X-Google-Smtp-Source: AGHT+IH28i2qJ6+/r9g3BIoTWHR1EDtmgHyOuIUkZIQ+s87HIus1gxI6hsudyMxwnt0IsASivdgL4w==
-X-Received: by 2002:a17:90b:3b52:b0:2e0:8784:d420 with SMTP id
- 98e67ed59e1d1-2e1848013e7mr6502496a91.21.1727935617738; 
- Wed, 02 Oct 2024 23:06:57 -0700 (PDT)
-Received: from jayDESKTOP.. (210006200231.ctinets.com. [210.6.200.231])
- by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-2e1bfad5e01sm620663a91.3.2024.10.02.23.06.54
+ AJvYcCV6WfHUfigBLAqAtlcHnZBVpNyoYj3eU4gWLN6w/RdUktxoZlEvD9yBgqTVurHY3czTBA4P1mkzW0U=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwwnfMK7+m9o+mpNu+M0JYArkvVSrYtlq8Nz99l+Qc/DeXelLuz
+ qcj8hajaNADsGm1YoqZup5PXZNUCK8RpSwtBWgkqJzFSd6rfXuX8
+X-Google-Smtp-Source: AGHT+IHQZVXuaMWh2VB25DsRX8UC/S20xLekqiyAEm37jrmrC6fSlzCwQBFF0r65Pp5bDEcpksqupQ==
+X-Received: by 2002:a17:906:478b:b0:a90:b73f:61d7 with SMTP id
+ a640c23a62f3a-a98f836ee63mr309695366b.42.1727860036030; 
+ Wed, 02 Oct 2024 02:07:16 -0700 (PDT)
+Received: from azathoth.prg2.suse.org ([45.250.247.85])
+ by smtp.googlemail.com with ESMTPSA id
+ a640c23a62f3a-a93e49542afsm609373566b.205.2024.10.02.02.07.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Oct 2024 23:06:57 -0700 (PDT)
-From: Wu Hoi Pok <wuhoipok@gmail.com>
-To: 
-Cc: Hoi Pok Wu <wuhoipok@gmail.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Christian Zigotzky <chzigotzky@xenosoft.de>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- amd-gfx@lists.freedesktop.org (open list:RADEON and AMDGPU DRM DRIVERS),
- dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
- linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] drm/radeon: add late_register for connector
-Date: Thu,  3 Oct 2024 14:06:46 +0800
-Message-ID: <20241003060650.18454-1-wuhoipok@gmail.com>
+ Wed, 02 Oct 2024 02:07:15 -0700 (PDT)
+From: Brahmajit Das <brahmajit.xyz@gmail.com>
+To: jani.nikula@linux.intel.com
+Cc: ville.syrjala@linux.intel.com,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v2] drm/display: Fix building with GCC 15
+Date: Wed,  2 Oct 2024 14:36:37 +0530
+Message-ID: <20241002090703.919591-1-brahmajit.xyz@gmail.com>
 X-Mailer: git-send-email 2.46.2
+In-Reply-To: <87a5fmvrkt.fsf@intel.com>
+References: <87a5fmvrkt.fsf@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Thu, 03 Oct 2024 07:37:11 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,102 +82,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: 87a5fmvrkt.fsf@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a fix patch not tested yet,
-for a bug I introduce in previous rework of radeon driver.
-The bug is a null dereference in 'aux.dev', which is the
-'device' not registered, resulting in kernel panic. By having
-'late_register', the connector should be registered after
-'drm_dev_register' automatically.
+GCC 15 enables -Werror=unterminated-string-initialization by default.
+This results in the following build error
 
-Please help testing thank you.
+drivers/gpu/drm/display/drm_dp_dual_mode_helper.c: In function ‘is_hdmi_adaptor’:
+drivers/gpu/drm/display/drm_dp_dual_mode_helper.c:164:17: error: initializer-string for array of
+ ‘char’ is too long [-Werror=unterminated-string-initialization]
+  164 |                 "DP-HDMI ADAPTOR\x04";
+      |                 ^~~~~~~~~~~~~~~~~~~~~
 
-Signed-off-by: Wu Hoi Pok <wuhoipok@gmail.com>
+After discussion with Ville, the fix was to increase the size of
+dp_dual_mode_hdmi_id array by one, so that it can accommodate the new
+line character. This should let us build the kernel with GCC 15.
+
+Signed-off-by: Brahmajit Das <brahmajit.xyz@gmail.com>
 ---
- drivers/gpu/drm/radeon/atombios_dp.c       |  9 ++-------
- drivers/gpu/drm/radeon/radeon_connectors.c | 17 +++++++++++++++++
- 2 files changed, 19 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/display/drm_dp_dual_mode_helper.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/atombios_dp.c b/drivers/gpu/drm/radeon/atombios_dp.c
-index fca8b08535a5..6328627b7c34 100644
---- a/drivers/gpu/drm/radeon/atombios_dp.c
-+++ b/drivers/gpu/drm/radeon/atombios_dp.c
-@@ -228,10 +228,8 @@ void radeon_dp_aux_init(struct radeon_connector *radeon_connector)
+diff --git a/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c b/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
+index 14a2a8473682..efb3c3494579 100644
+--- a/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
++++ b/drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
+@@ -160,11 +160,11 @@ EXPORT_SYMBOL(drm_dp_dual_mode_write);
+ 
+ static bool is_hdmi_adaptor(const char hdmi_id[DP_DUAL_MODE_HDMI_ID_LEN])
  {
- 	struct drm_device *dev = radeon_connector->base.dev;
- 	struct radeon_device *rdev = dev->dev_private;
--	int ret;
+-	static const char dp_dual_mode_hdmi_id[DP_DUAL_MODE_HDMI_ID_LEN] =
+-		"DP-HDMI ADAPTOR\x04";
++	static const char dp_dual_mode_hdmi_id[DP_DUAL_MODE_HDMI_ID_LEN + 1] =
++		"DP-HDMI ADAPTOR\x00";
  
- 	radeon_connector->ddc_bus->rec.hpd = radeon_connector->hpd.hpd;
--	radeon_connector->ddc_bus->aux.dev = radeon_connector->base.kdev;
- 	radeon_connector->ddc_bus->aux.drm_dev = radeon_connector->base.dev;
- 	if (ASIC_IS_DCE5(rdev)) {
- 		if (radeon_auxch)
-@@ -242,11 +240,8 @@ void radeon_dp_aux_init(struct radeon_connector *radeon_connector)
- 		radeon_connector->ddc_bus->aux.transfer = radeon_dp_aux_transfer_atom;
- 	}
- 
--	ret = drm_dp_aux_register(&radeon_connector->ddc_bus->aux);
--	if (!ret)
--		radeon_connector->ddc_bus->has_aux = true;
--
--	WARN(ret, "drm_dp_aux_register() failed with error %d\n", ret);
-+	drm_dp_aux_init(&radeon_connector->ddc_bus->aux);
-+	radeon_connector->ddc_bus->has_aux = true;
+ 	return memcmp(hdmi_id, dp_dual_mode_hdmi_id,
+-		      sizeof(dp_dual_mode_hdmi_id)) == 0;
++		      DP_DUAL_MODE_HDMI_ID_LEN) == 0;
  }
  
- /***** general DP utility functions *****/
-diff --git a/drivers/gpu/drm/radeon/radeon_connectors.c b/drivers/gpu/drm/radeon/radeon_connectors.c
-index 528a8f3677c2..f9c73c55f04f 100644
---- a/drivers/gpu/drm/radeon/radeon_connectors.c
-+++ b/drivers/gpu/drm/radeon/radeon_connectors.c
-@@ -1786,6 +1786,20 @@ static enum drm_mode_status radeon_dp_mode_valid(struct drm_connector *connector
- 	return MODE_OK;
- }
- 
-+static int
-+radeon_connector_late_register(struct drm_connector *connector)
-+{
-+	struct radeon_connector *radeon_connector = to_radeon_connector(connector);
-+	int r = 0;
-+
-+	if (radeon_connector->ddc_bus->has_aux) {
-+		radeon_connector->ddc_bus->aux.dev = radeon_connector->base.kdev;
-+		r = drm_dp_aux_register(&radeon_connector->ddc_bus->aux);
-+	}
-+
-+	return r;
-+}
-+
- static const struct drm_connector_helper_funcs radeon_dp_connector_helper_funcs = {
- 	.get_modes = radeon_dp_get_modes,
- 	.mode_valid = radeon_dp_mode_valid,
-@@ -1800,6 +1814,7 @@ static const struct drm_connector_funcs radeon_dp_connector_funcs = {
- 	.early_unregister = radeon_connector_unregister,
- 	.destroy = radeon_connector_destroy,
- 	.force = radeon_dvi_force,
-+	.late_register = radeon_connector_late_register,
- };
- 
- static const struct drm_connector_funcs radeon_edp_connector_funcs = {
-@@ -1810,6 +1825,7 @@ static const struct drm_connector_funcs radeon_edp_connector_funcs = {
- 	.early_unregister = radeon_connector_unregister,
- 	.destroy = radeon_connector_destroy,
- 	.force = radeon_dvi_force,
-+	.late_register = radeon_connector_late_register,
- };
- 
- static const struct drm_connector_funcs radeon_lvds_bridge_connector_funcs = {
-@@ -1820,6 +1836,7 @@ static const struct drm_connector_funcs radeon_lvds_bridge_connector_funcs = {
- 	.early_unregister = radeon_connector_unregister,
- 	.destroy = radeon_connector_destroy,
- 	.force = radeon_dvi_force,
-+	.late_register = radeon_connector_late_register,
- };
- 
- void
+ static bool is_type1_adaptor(uint8_t adaptor_id)
 -- 
 2.46.2
 
