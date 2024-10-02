@@ -2,62 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED81098E105
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2024 18:37:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 949CC98E11B
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2024 18:43:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 465C410E0E7;
-	Wed,  2 Oct 2024 16:37:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE1BC10E63F;
+	Wed,  2 Oct 2024 16:43:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="biXhasDA";
+	dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="Nk1uVEjx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 729AC10E0E7
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Oct 2024 16:37:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
- :In-Reply-To:From:References:To:Subject:MIME-Version:Date:Message-ID:Sender:
- Reply-To:Cc:Content-ID:Content-Description;
- bh=nSB0vAIAYM2AQOnHMlZeovDUyB4IdF1sRc2O4+qt2jA=; b=biXhasDAABs9Wai4Fl7ksS1pIB
- R3nOZf1sCs7QTK6t4cbC+FHHL4rYjXeeYGVLGpGpFXQYjZiLTsyqhUqwZ4MyCPtsaKWh4YPiJN4cj
- 8CV8Ao9T/QgHqzFFGjuRqamTgvva18a5FX5c0XZ4ZOz2CY+F4Z8Wx4ueXhfO4seZxildcKXERcPV0
- A2OtKwf7I4U8hG4zfUtJ3HLPCm5Xa92ekW0z0bgz1eD/gBrOKWgyynnQOFbdPHe4yFkpBixLamX4y
- Myn7fxK1ihSHqMRMNJU1BP6FlkRiYWQLpFU47Msl5xArXJdogtQdP8t2To9QGVtHd/NY8qasnO6WU
- +7oAUOFw==;
-Received: from [50.53.2.24] (helo=[192.168.254.17])
- by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
- id 1sw2Lc-00000003YEo-0v2C; Wed, 02 Oct 2024 16:37:08 +0000
-Message-ID: <9886cf09-8886-4757-86ca-f5e724d1cd88@infradead.org>
-Date: Wed, 2 Oct 2024 09:37:01 -0700
+Received: from msa.smtpout.orange.fr (smtp-81.smtpout.orange.fr [80.12.242.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7BC010E639;
+ Wed,  2 Oct 2024 16:43:36 +0000 (UTC)
+Received: from [192.168.1.37] ([90.11.132.44]) by smtp.orange.fr with ESMTPA
+ id w2RossPGwzmbmw2RosTOhn; Wed, 02 Oct 2024 18:43:35 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+ s=t20230301; t=1727887415;
+ bh=WiQ9rEm/MZNLKkSTulKn+at0cQ54EY5swCihzKM4b7w=;
+ h=Message-ID:Date:MIME-Version:Subject:To:From;
+ b=Nk1uVEjxNTz97srXuWkEodHCeQDwJawSXbdJvq5E/vPJTLAYPRquOSfnBP7DgGfKu
+ Q+bNgdy0tcgJ4C691IEakEnP/Y0h2zGS967JAbTHRgaVjqH5YkvughNSgJwDs6Prpg
+ xe+h5LhyU2SFgv/thSpC3VTQhGlbKPkrq2wvM/GhGlIS4f7qJwhgb1aRBPDDeQGCwu
+ jBFZsUmP8sbCggKvqXDRa4POJt5uEZqUzzrjwtPJfoWtqrNUxRu7zf7sOKFM8A5/vc
+ lWokM0gjw65+gRqxNHZNh6uq3ybg2nGvgzwos/Xg9RdZqhr3TCt1mU/XEg15vC8mZe
+ JDVFKeqRkXQmg==
+X-ME-Helo: [192.168.1.37]
+X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
+X-ME-Date: Wed, 02 Oct 2024 18:43:35 +0200
+X-ME-IP: 90.11.132.44
+Message-ID: <86f6269f-e367-4192-ab71-5d82b1c88309@wanadoo.fr>
+Date: Wed, 2 Oct 2024 18:43:32 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 06/15] drm/vkms: Avoid computing blending limits
- inside pre_mul_alpha_blend
-To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>, Maaara Canal <mairacanal@riseup.net>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Simona Vetter <simona@ffwll.ch>, arthurgrillo@riseup.net,
- pekka.paalanen@haloniitty.fi, Simona Vetter <simona.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, thomas.petazzoni@bootlin.com,
- jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
- seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
- Pekka Paalanen <pekka.paalanen@collabora.com>
-References: <20240930-yuv-v11-0-4b1a26bcfc96@bootlin.com>
- <20240930-yuv-v11-6-4b1a26bcfc96@bootlin.com>
- <30573f5a-d3dd-4aa4-ac5a-cf6df77b79dc@infradead.org>
- <Zv0LBo8OtRHJM029@louis-chauvet-laptop>
- <509aa67d-5bfa-4f37-aae6-ce3786e35596@infradead.org>
- <Zv1wz-TNT36McwXp@louis-chauvet-laptop>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <Zv1wz-TNT36McwXp@louis-chauvet-laptop>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH] drm/i915/backlight: Remove a useless kstrdup_const()
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <3b3d3af8739e3016f3f80df0aa85b3c06230a385.1727533674.git.christophe.jaillet@wanadoo.fr>
+ <875xqdy42v.fsf@intel.com> <3c793f42-6cd1-40e7-a3f2-556b6e5b4094@wanadoo.fr>
+ <87cykiu3hk.fsf@intel.com>
+Content-Language: en-US, fr-FR
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <87cykiu3hk.fsf@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,79 +67,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 10/2/24 9:11 AM, Louis Chauvet wrote:
-> On 02/10/24 - 08:49, Randy Dunlap wrote:
->> Hi Louis,
->>
->> On 10/2/24 1:57 AM, Louis Chauvet wrote:
->>> On 01/10/24 - 20:54, Randy Dunlap wrote:
->>>> Hi--
+Le 02/10/2024 à 13:51, Jani Nikula a écrit :
+> On Tue, 01 Oct 2024, Christophe JAILLET <christophe.jaillet@wanadoo.fr> wrote:
+>> Le 30/09/2024 à 09:48, Jani Nikula a écrit :
+>>> On Sat, 28 Sep 2024, Christophe JAILLET <christophe.jaillet@wanadoo.fr> wrote:
+>>>> "name" is allocated and freed in intel_backlight_device_register().
+>>>> The initial allocation just duplicates "intel_backlight".
 >>>>
->>>> On 9/30/24 8:31 AM, Louis Chauvet wrote:
->>>>> The pre_mul_alpha_blend is dedicated to blending, so to avoid mixing
->>>>> different concepts (coordinate calculation and color management), extract
->>>>> the x_limit and x_dst computation outside of this helper.
->>>>> It also increases the maintainability by grouping the computation related
->>>>> to coordinates in the same place: the loop in `blend`.
->>>>>
->>>>> Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
->>>>> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
->>>>> ---
->>>>>  drivers/gpu/drm/vkms/vkms_composer.c | 40 +++++++++++++++++-------------------
->>>>>  1 file changed, 19 insertions(+), 21 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
->>>>> index 931e214b225c..4d220bbb023c 100644
->>>>> --- a/drivers/gpu/drm/vkms/vkms_composer.c
->>>>> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
->>>>> @@ -24,34 +24,30 @@ static u16 pre_mul_blend_channel(u16 src, u16 dst, u16 alpha)
->>>>>  
->>>>>  /**
->>>>>   * pre_mul_alpha_blend - alpha blending equation
->>>>> - * @frame_info: Source framebuffer's metadata
->>>>>   * @stage_buffer: The line with the pixels from src_plane
->>>>>   * @output_buffer: A line buffer that receives all the blends output
->>>>> + * @x_start: The start offset
->>>>> + * @pixel_count: The number of pixels to blend
+>>>> Later, if a device with this name has already been registered, another
+>>>> dynamically generated one is allocated using kasprintf().
 >>>>
->>>> so is this actually pixel count + 1; or
+>>>> So at the end of the function, when "name" is freed, it can point either to
+>>>> the initial static literal "intel_backlight" or to the kasprintf()'ed one.
 >>>>
->>>>>   *
->>>>> - * Using the information from the `frame_info`, this blends only the
->>>>> - * necessary pixels from the `stage_buffer` to the `output_buffer`
->>>>> - * using premultiplied blend formula.
->>>>> + * The pixels 0..@pixel_count in stage_buffer are blended at @x_start..@x_start+@pixel_count in
+>>>> So kfree_const() is used.
 >>>>
->>>> should these ranges include a "- 1"?
->>>> Else please explain.
+>>>> However, when built as a module, kstrdup_const() and kfree_const() don't
+>>>> work as one would expect and are just plain kstrdup() and kfree().
+>>>>
+>>>>
+>>>> Slightly change the logic and introduce a new variable to hold the
+>>>> address returned by kasprintf() should it be used.
+>>>>
+>>>> This saves a memory allocation/free and avoids these _const functions,
+>>>> which names can be confusing when used with code built as module.
 >>>
->>> Hi Randy,
->>>
->>> For the next version, I will use standard mathematical notation to clarify 
->>> the "inclusiveness" of the interval: [0;pixel_count[
+>>> Okay, I'd rather revert your earlier commit 379b63e7e682
+>>> ("drm/i915/display: Save a few bytes of memory in
+>>> intel_backlight_device_register()") than add this.
 >>
->> Hm, I can read that after a second or two.
+>> Hi,
 >>
->> My math classes always used:  [0,pixel_count)
->> for that range, and that is what most of the internet says as well.
+>> that works for me. Thanks and sorry for the noise.
 > 
-> I'm french, and we use ]a;b[ notation at school :-)
-
-The one reference that I found to that notation was to a French author.
+> Will you send the revert?
 > 
-> Both are valids according to ISO80000-2, but I will change it for the next 
-> revision.
->  
->> or you could just stick with
->>   The pixels from 0 through @pixel_count - 1 in stage_buffer are blended at @x_start
->>   through @x_start through @x_start + @pixel_count - 1.
->>
->> but after writing all of that, I think using range notation is better.
+> BR,
+> Jani.
 > 
-> I also prefer ranges, way shorter to write, and easier to understand at 
-> first sight. 
+> 
 
-Yes, thanks.
+Will do.
 
+CJ
