@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C95B98D444
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2024 15:15:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3FE598D445
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2024 15:15:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DEC110E150;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78A1710E721;
 	Wed,  2 Oct 2024 13:15:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fllYyTrN";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="EhdBKZA6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FFDD10E164;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3423D10E150;
  Wed,  2 Oct 2024 13:15:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1727874933; x=1759410933;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=At2Vm/40qVS8N1Rt8ypOf/eUuD9NFe5mXby12e05zV8=;
- b=fllYyTrNoTkzW0tTY1/e1f+/FIT3lBRkF0egpQUyub8uEttzemkwMjnU
- FKIrUxKqQGw+XnffnV1pyOy9EAEjF/29W6/md0EQkk4c3NPDQ10jD5T+e
- ll6UtvB1qsHC8ZF/695W4RjpNLnGu427z+BkyyA8Y2c1kkguI6alrRwo2
- rKCeSRyX24B6fy/Ac0/I1WhJ8M340UGyrLvmZeb0hkSUdfWqo60pP5NFR
- y6/IAfxpMLtNIDF7SGwjw/pORB4OJwkkuWN4mLAf2jRsyaPBLAd7KAPnl
- fEPhm4RXMgUOspmm+I4pWL8gPa7q7ZZYKyOm7rN2d/ZZGZL8w/G67SizI w==;
-X-CSE-ConnectionGUID: sCYm8VEAQ7qObe0U1s2PnQ==
-X-CSE-MsgGUID: gE1tCadCTt6CsVBezEphHA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="26834955"
-X-IronPort-AV: E=Sophos;i="6.11,171,1725346800"; d="scan'208";a="26834955"
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=7806N7TTHrLydaatWindQwB91JH28YQtm2VGJ+VTbzI=;
+ b=EhdBKZA6Mtzl3cbnVkSawXtQK+stFeCP5hHxJ8RzPf+05ilsibniqZl5
+ aPSxeLQABGbJN12Pu/PxMUMHh0cdwOsWoQJLkQ5Uh8KbkhiF5nHfxWzW+
+ M2aDxXdS8P7iOHcxDc305mUvHH1M/3QLqJ2PQoq658pYbqBzn6JtyoxuL
+ DvH3mVK4QH0acs/eEgrOPd5uQT1wIpxmyITly+WM3pyMnMxNCyrZBQk0J
+ 7stKSf2nQTZDOqi+i+uOOZbQZ7HOcZKQmH1PNw+YlZ/XoIdCygbkPbofU
+ abVFGdKfPgsAInzcWeqyb3m78qHJ/B0hBFewXusWE3BYFRiPZXHF85nU9 w==;
+X-CSE-ConnectionGUID: JqDghPBkR/mJ6g7B8avOVQ==
+X-CSE-MsgGUID: ad2wEml9Tla3k0LMzfm1AQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="26834959"
+X-IronPort-AV: E=Sophos;i="6.11,171,1725346800"; d="scan'208";a="26834959"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  02 Oct 2024 06:15:32 -0700
-X-CSE-ConnectionGUID: 72J2Vay0Sp26BIYU4vVSGg==
-X-CSE-MsgGUID: Deh9piA/TNya8xEkk3iL9w==
+X-CSE-ConnectionGUID: 9hHGMcxXRlq1Ou78KiEliQ==
+X-CSE-MsgGUID: 8FUJ9YmQR9aDsRVQ8CJEog==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,171,1725346800"; d="scan'208";a="111465245"
+X-IronPort-AV: E=Sophos;i="6.11,171,1725346800"; d="scan'208";a="111465246"
 Received: from lstrano-desk.jf.intel.com ([10.54.39.91])
  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  02 Oct 2024 06:15:32 -0700
@@ -47,10 +47,12 @@ To: intel-xe@lists.freedesktop.org,
 Cc: dakr@kernel.org,
 	pstanner@redhat.com,
 	ltuikov89@gmail.com
-Subject: [PATCH v4 0/2] Use user-defined workqueue lockdep map for drm sched
-Date: Wed,  2 Oct 2024 06:16:37 -0700
-Message-Id: <20241002131639.3425022-1-matthew.brost@intel.com>
+Subject: [PATCH v4 1/2] drm/sched: Use drm sched lockdep map for submit_wq
+Date: Wed,  2 Oct 2024 06:16:38 -0700
+Message-Id: <20241002131639.3425022-2-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20241002131639.3425022-1-matthew.brost@intel.com>
+References: <20241002131639.3425022-1-matthew.brost@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -69,47 +71,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-By default, each DRM scheduler instance creates an ordered workqueue for
-submission, and each workqueue creation allocates a new lockdep map.
-This becomes problematic when a DRM scheduler is created for every user
-queue (e.g., in DRM drivers with firmware schedulers like Xe) due to the
-limited number of available lockdep maps. With numerous user queues
-being created and destroyed, lockdep may run out of maps, leading to
-lockdep being disabled. Xe mitigated this by creating a pool of
-workqueues for DRM scheduler use. However, this approach also encounters
-issues if the driver is unloaded and reloaded multiple times or if many
-VFs are probed.
-
-To address this, we propose creating a single lockdep map for all DRM
-scheduler workqueues, which will also resolve issues for other DRM
-drivers that create a DRM scheduler per user queue.
-
-This solution has been tested by unloading and reloading the Xe driver.
-Before this series, around 30 driver reloads would result in lockdep
-being turned off. After implementing the series, the driver can be
-unloaded and reloaded hundreds of times without issues.
+Avoid leaking a lockdep map on each drm sched creation and destruction
+by using a single lockdep map for all drm sched allocated submit_wq.
 
 v2:
- - Split workqueue changes into multiple patches
- - Add alloc_workqueue_lockdep_map (Tejun)
- - Drop RFC
-v3:
- - Drop __WQ_USER_OWNED_LOCKDEP (Tejun)
- - static inline alloc_ordered_workqueue_lockdep_map (Tejun)
-v4:
- - Rebase on 6.12 which has required work queue patches
+ - Use alloc_ordered_workqueue_lockdep_map (Tejun)
 
-Matt
+Cc: Luben Tuikov <ltuikov89@gmail.com>
+Cc: Christian König <christian.koenig@amd.com>
+Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+---
+ drivers/gpu/drm/scheduler/sched_main.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-Matthew Brost (2):
-  drm/sched: Use drm sched lockdep map for submit_wq
-  drm/xe: Drop GuC submit_wq pool
-
- drivers/gpu/drm/scheduler/sched_main.c | 11 +++++
- drivers/gpu/drm/xe/xe_guc_submit.c     | 60 +-------------------------
- drivers/gpu/drm/xe/xe_guc_types.h      |  7 ---
- 3 files changed, 12 insertions(+), 66 deletions(-)
-
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index 36db5c7736fc..e32b0f7d7e94 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -87,6 +87,12 @@
+ #define CREATE_TRACE_POINTS
+ #include "gpu_scheduler_trace.h"
+ 
++#ifdef CONFIG_LOCKDEP
++static struct lockdep_map drm_sched_lockdep_map = {
++	.name = "drm_sched_lockdep_map"
++};
++#endif
++
+ #define to_drm_sched_job(sched_job)		\
+ 		container_of((sched_job), struct drm_sched_job, queue_node)
+ 
+@@ -1270,7 +1276,12 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
+ 		sched->submit_wq = submit_wq;
+ 		sched->own_submit_wq = false;
+ 	} else {
++#ifdef CONFIG_LOCKDEP
++		sched->submit_wq = alloc_ordered_workqueue_lockdep_map(name, 0,
++								       &drm_sched_lockdep_map);
++#else
+ 		sched->submit_wq = alloc_ordered_workqueue(name, 0);
++#endif
+ 		if (!sched->submit_wq)
+ 			return -ENOMEM;
+ 
 -- 
 2.34.1
 
