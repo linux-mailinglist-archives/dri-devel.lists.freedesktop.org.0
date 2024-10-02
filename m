@@ -2,68 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90F4598D2CB
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2024 14:10:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67A8598D313
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2024 14:24:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41DD210E341;
-	Wed,  2 Oct 2024 12:10:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1E1A10E709;
+	Wed,  2 Oct 2024 12:24:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hATPXc+K";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ipdT19hv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3097010E341;
- Wed,  2 Oct 2024 12:10:21 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C11E10E204;
+ Wed,  2 Oct 2024 12:24:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1727871021; x=1759407021;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=ljppMGga7HHIaQ2C8q5qgGTYYrsqjXivx9zFiKpi1Xc=;
- b=hATPXc+KFWhRVbs2lq1a+9EMWswbx/Xmz765FCGa2bvcGcSfCZSPffqt
- EwxBSZ3IRxEanvZ10NV7hvEXiv0iOmtPmNILai3HJriWMhESBRqH0yJMJ
- fmQDNb3ZuEi5hmxvPlt+nSYQZK1vwlthPRKNLRyOy3oIczDyhKvYz8WvW
- 8fE8qy2emc1owpdFzUJPApAyFK8yz2QrQ0H7FXd/sljcN0CA00tJTZ6gz
- 1j9dToY9R2mQZxtDEXIgj9hJJ7OfeHGl1QZ5L8xOwp/yCYfVXZPY5888N
- JwLTMNzY2tL6bmdY4ytKb3EUjUbtDAH2S9FJu+IsNXieEqanWobwFj9Aa g==;
-X-CSE-ConnectionGUID: hxnwAT57RNO5pCk3hEv23A==
-X-CSE-MsgGUID: I9C3cQhARCKc/BR5kafTQg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="26912783"
-X-IronPort-AV: E=Sophos;i="6.11,171,1725346800"; d="scan'208";a="26912783"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Oct 2024 05:10:21 -0700
-X-CSE-ConnectionGUID: 6h9jxrIfR5qBHBWf0Vt0xA==
-X-CSE-MsgGUID: 8VKf2UCkT2aBHxkgKrBLxA==
+ t=1727871883; x=1759407883;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=S73w0Dupi7vDTH7lqcJXtf7MvEjQ2efkpDxP9sz4ekM=;
+ b=ipdT19hvmyxN10YavN7qQBw6OvSR+Pn9f01UfWMsmY+8wQouNtfcd8rZ
+ AhKGSrmv5p4CX9AmOCeDhBbCsYdO5kZCXxRYXDAXxJEXyVOT5jOpbetX9
+ j0UvDCab4zhFtDnEb4IhD9M+D4nHsrr/2Sm2BNc5inkXmFN8yoimVBS+7
+ Ph1Hb5ZSjS/qSK8fCPNqB0NKoexsgwKwEDRpX2m7I3QlQzHHZFSNanpli
+ TDTKDhYXunHdrfG4iAdChlztgwIyg8F1nT9YvKRKdMxeSX4TAt0MGUHVe
+ 3s7bNWW5Q8R6pQTLsQVlRh0nkPmVs7W7WZMofHYIG550tyX2V58sXmHCy g==;
+X-CSE-ConnectionGUID: 8+ja7SVOR1iPFFSxY2lnQw==
+X-CSE-MsgGUID: xajXIug1Q66Vn68P9S4zdg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="30735377"
+X-IronPort-AV: E=Sophos;i="6.11,171,1725346800"; d="scan'208";a="30735377"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Oct 2024 05:24:43 -0700
+X-CSE-ConnectionGUID: aXzl/KrASwC3xlNNtsn1DA==
+X-CSE-MsgGUID: 0YP0m1IZRxCW9/L/ZZTVGg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,171,1725346800"; d="scan'208";a="73573394"
-Received: from lbogdanm-mobl3.ger.corp.intel.com (HELO localhost)
- ([10.245.246.49])
- by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Oct 2024 05:10:17 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona.vetter@ffwll.ch>
-Cc: Guenter Roeck <linux@roeck-us.net>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, Carlos Eduardo Gallo Filho
- <gcarlos@disroot.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, Jeff Johnson <quic_jjohnson@quicinc.com>
-Subject: Re: [PATCH 0/2] drm: revert some framebuffer API tests
-In-Reply-To: <20240925-fresh-artichoke-boa-1a673f@houat>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1726594684.git.jani.nikula@intel.com>
- <ZvKPJGQyZmdWNOmd@phenom.ffwll.local>
- <20240924-refined-nocturnal-starfish-2947b8@houat>
- <f3f8bec1-884b-46ac-82a6-6e5cb8840146@roeck-us.net>
- <20240924-handsome-labrador-of-shopping-b1dce5@houat>
- <4accd038-9624-43de-96ad-7ecd0876b607@roeck-us.net>
- <ZvP5YhON49Z5TMI7@phenom.ffwll.local>
- <20240925-fresh-artichoke-boa-1a673f@houat>
-Date: Wed, 02 Oct 2024 15:10:14 +0300
-Message-ID: <877caqu2mx.fsf@intel.com>
+X-IronPort-AV: E=Sophos;i="6.11,171,1725346800"; d="scan'208";a="74221149"
+Received: from oandoniu-mobl3.ger.corp.intel.com (HELO fedora..)
+ ([10.245.244.67])
+ by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Oct 2024 05:24:41 -0700
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-xe@lists.freedesktop.org
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, amd-gfx@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ spice-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Zack Rusin <zack.rusin@broadcom.com>,
+ bcm-kernel-feedback-list@broadcom.com,
+ Sui Jingfeng <suijingfeng@loongson.cn>
+Subject: [PATCH v2 0/2] drm/ttm: Add an option to report graphics memory OOM 
+Date: Wed,  2 Oct 2024 14:24:20 +0200
+Message-ID: <20241002122422.287276-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.46.0
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,34 +75,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 25 Sep 2024, Maxime Ripard <mripard@kernel.org> wrote:
-> On Wed, Sep 25, 2024 at 01:52:02PM GMT, Simona Vetter wrote:
->> I think for at least drm the consensus is clear, we won't have kunit tests
->> that splat.
->
-> Where was that ever discussed?
+Some graphics APIs differentiate between out-of-graphics-memory and
+out-of-host-memory (system memory). Add a device init flag to
+have -ENOSPC propagated from the resource managers instead of being
+converted to -ENOMEM, to aid driver stacks in determining what
+error code to return or whether corrective action can be taken at
+the driver level.
 
-Well, where was it ever agreed that it's okay for drm kunit tests to
-emit warnings? :p
+The first patch deals with a ttm_device_init() interface change,
+The Second patch adds the actual functionality.
 
->> Personally I really don't see the point of unit tests that are
->> somewhere between unecessarily hard or outright too much pain to
->> deploy in a test rig: Either you don't run them (not great), or you
->> filter splats and might filter too much (not great either) or you
->> filter as little as possible and fight false positives (also kinda
->> suboptimal).
->
-> Or you don't do any of that, and just rely on the canonical way to run
-> kunit test and trust it's going to pass tests that do indeed pass, and
-> fail / warn on those that don't.
+A follow-up will be posted for Xe once this is merged / backmerged.
 
-That still doesn't address code being tested emitting *unexpected*
-warnings.
+Thomas Hellström (2):
+  drm/ttm: Change ttm_device_init to use a struct instead of multiple
+    bools
+  drm/ttm: Add a device flag to propagate -ENOSPC on OOM
 
-
-BR,
-Jani.
-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c       |  6 +++--
+ drivers/gpu/drm/drm_gem_vram_helper.c         |  7 +++---
+ drivers/gpu/drm/i915/intel_region_ttm.c       |  3 ++-
+ drivers/gpu/drm/loongson/lsdc_ttm.c           |  5 +++-
+ drivers/gpu/drm/nouveau/nouveau_ttm.c         |  7 ++++--
+ drivers/gpu/drm/qxl/qxl_ttm.c                 |  2 +-
+ drivers/gpu/drm/radeon/radeon_ttm.c           |  6 +++--
+ drivers/gpu/drm/ttm/tests/ttm_bo_test.c       | 16 ++++++------
+ .../gpu/drm/ttm/tests/ttm_bo_validate_test.c  |  3 ++-
+ drivers/gpu/drm/ttm/tests/ttm_device_test.c   | 16 ++++++------
+ drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c | 20 ++++++---------
+ drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h |  6 ++---
+ drivers/gpu/drm/ttm/ttm_bo.c                  |  2 +-
+ drivers/gpu/drm/ttm/ttm_device.c              |  8 +++---
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           |  4 +--
+ drivers/gpu/drm/xe/xe_device.c                |  3 ++-
+ include/drm/ttm/ttm_device.h                  | 25 ++++++++++++++++++-
+ 17 files changed, 86 insertions(+), 53 deletions(-)
 
 -- 
-Jani Nikula, Intel
+2.46.0
+
