@@ -2,53 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D576C98D0C2
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2024 12:05:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13DAE98D0E2
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2024 12:12:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7D0210E6EB;
-	Wed,  2 Oct 2024 10:05:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21E3E10E6EC;
+	Wed,  2 Oct 2024 10:12:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ucw.cz header.i=@ucw.cz header.b="loAw3P46";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Rv9Qo73V";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C461310E6EB
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Oct 2024 10:05:36 +0000 (UTC)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
- id 847221C00AB; Wed,  2 Oct 2024 12:05:35 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
- t=1727863535;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=VfuiRXRY0wqydTeH0MWxTZk7em8PH+gby0u5eY1neME=;
- b=loAw3P467BCPE5Xmcz+Cvm2i8cXLQNjKYOguqWLT1/a8DJaWWP/ZC13lXWSVUM20zOFEoF
- p+S9LPmrCK3eWvm7E35hH7fgBTjTH+FOPUsC8zPG7riywLgPRk29wK4EucUhx8I8Nqnh1w
- 2ZBF/AdSECKVIHnzJ17VkehK06yfdKY=
-Date: Wed, 2 Oct 2024 12:05:34 +0200
-From: Pavel Machek <pavel@ucw.cz>
-To: Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: Werner Sembach <wse@tuxedocomputers.com>,
- Hans de Goede <hdegoede@redhat.com>, bentiss@kernel.org,
- dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
- lee@kernel.org, linux-input@vger.kernel.org,
- LKML <linux-kernel@vger.kernel.org>, linux-leds@vger.kernel.org,
- miguel.ojeda.sandonis@gmail.com, ojeda@kernel.org,
- onitake@gmail.com, cs@tuxedo.de, platform-driver-x86@vger.kernel.org
-Subject: Re: [RFC PATCH v4 1/1] platform/x86/tuxedo: Add virtual LampArray
- for TUXEDO NB04 devices
-Message-ID: <Zv0a7pUQlZP44aB5@duo.ucw.cz>
-References: <20241001180658.76396-1-wse@tuxedocomputers.com>
- <20241001180658.76396-2-wse@tuxedocomputers.com>
- <bc3f5f2b-252e-0a66-df0f-f01197a5a17d@linux.intel.com>
- <Zv0YlxQOFVGRS/DB@duo.ucw.cz>
- <c2694d50-db7c-84ee-288a-06802e10ca8d@linux.intel.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8F0C10E6EC
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Oct 2024 10:12:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1727863936;
+ bh=Q1ywTNB9lkgOQO9Ms/otIbM6l1ohtJ5nkE73nfT4W4A=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=Rv9Qo73V3EUDx56HkQEEO2qvo2sdZ/FM+dPqx3fDZsJqmtp6+M5+hsXpdziSvNxBF
+ wClZ2AgIwXsek37vXzRz9QN7lAxUNoNaAvLXEitHlj/P6GIaV4UqkV8FjiplPxXxrX
+ 3iDyEXOwKWcYwoUk+fMZRAWPw6rfxv0QPy+nD4+Tq8y36CVTczqymkNevqkv0sfmoH
+ dkf/Oo7AEglmo4i/H73KROqwVBgG43I2pGVBF6U0BbdTlCfYSwEIMgRaGl5zIqk2GN
+ hQKmavYQhND0B4iNpSUeEQMbfw0zuJJKINdT9cLYMNaIFYanTkvfK5OiXRkbEUzZSK
+ 4JHKnUW04+PyQ==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 3D49E17E121F;
+ Wed,  2 Oct 2024 12:12:15 +0200 (CEST)
+Message-ID: <c952603f-2c01-48f1-9cd3-7ebc8f06a98c@collabora.com>
+Date: Wed, 2 Oct 2024 12:12:14 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
- protocol="application/pgp-signature"; boundary="/5H51XUMUCryMJ4/"
-Content-Disposition: inline
-In-Reply-To: <c2694d50-db7c-84ee-288a-06802e10ca8d@linux.intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/5] dt-bindings: iommu: mediatek: Fix interrupt count
+ constraint for new SoCs
+To: Macpaul Lin <macpaul.lin@mediatek.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Yong Wu <yong.wu@mediatek.com>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, CK Hu <ck.hu@mediatek.com>,
+ Jitao shi <jitao.shi@mediatek.com>, Tinghan Shen
+ <tinghan.shen@mediatek.com>, Seiya Wang <seiya.wang@mediatek.com>,
+ Ben Lok <ben.lok@mediatek.com>, "Nancy . Lin" <nancy.lin@mediatek.com>,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ Alexandre Mergnat <amergnat@baylibre.com>
+Cc: Bear Wang <bear.wang@mediatek.com>, Pablo Sun <pablo.sun@mediatek.com>,
+ Macpaul Lin <macpaul@gmail.com>, Sen Chu <sen.chu@mediatek.com>,
+ Chris-qj chen <chris-qj.chen@mediatek.com>, MediaTek Chromebook Upstream
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ Chen-Yu Tsai <wenst@chromium.org>
+References: <20240926111449.9245-1-macpaul.lin@mediatek.com>
+ <20240926111449.9245-2-macpaul.lin@mediatek.com>
+ <8883c84d-8333-4b04-83b5-022be5b6153c@collabora.com>
+ <a41bf3aa-812e-2234-cca8-c68a8420f9e4@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <a41bf3aa-812e-2234-cca8-c68a8420f9e4@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,65 +86,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Il 02/10/24 07:01, Macpaul Lin ha scritto:
+> 
+> 
+> On 9/30/24 16:49, AngeloGioacchino Del Regno wrote:
+>> Il 26/09/24 13:14, Macpaul Lin ha scritto:
+>>> The infra-iommu node in mt8195.dtsi was triggering a CHECK_DTBS error due
+>>> to an excessively long 'interrupts' property. The error message was:
+>>>
+> 
+> [snip]
+> 
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml 
+>>> b/Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
+>>> index ea6b0f5f24de..fdd2996d2a31 100644
+>>> --- a/Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
+>>> +++ b/Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
+>>> @@ -96,7 +96,8 @@ properties:
+>>>       maxItems: 1
+>>>     interrupts:
+>>> -    maxItems: 1
+>>> +    minItems: 1
+>>> +    maxItems: 5
+>>>     clocks:
+>>>       items:
+>>> @@ -210,6 +211,28 @@ allOf:
+>>>         required:
+>>>           - mediatek,larbs
+>>> +  - if:
+>>> +      properties:
+>>> +        compatible:
+>>> +          contains:
+>>> +            enum:
+>>> +              - mediatek,mt8195-iommu-infra
+>>> +
+>>> +    then:
+>>> +      properties:
+>>> +        interrupts:
+>>> +          description: |
+>>
+>> Do you really need to keep the formatting?
+>>
+>> If you rephrase that as:
+>>
+>> The infra IOMMU in MT8195 has five banks: each features one set
+>> of APB registers for the normal world (set 0), one
+> 
+> Shouldn't we use a 'three' here?
 
---/5H51XUMUCryMJ4/
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Oops, yes, that's three. I wrote 'one' but described three. Heh!
 
-On Wed 2024-10-02 13:01:05, Ilpo J=E4rvinen wrote:
-> On Wed, 2 Oct 2024, Pavel Machek wrote:
->=20
-> > Hi!
-> >=20
-> > > > +static struct wmi_driver tuxedo_nb04_wmi_ab_driver =3D {
-> > > > +	.driver =3D {
-> > > > +		.name =3D "tuxedo_nb04_wmi_ab",
-> > > > +		.probe_type =3D PROBE_PREFER_ASYNCHRONOUS,
-> > > > +	},
-> > > > +	.id_table =3D tuxedo_nb04_wmi_ab_device_ids,
-> > > > +	.probe =3D probe,
-> > > > +	.remove =3D remove,
-> > > > +	.no_singleton =3D true,
-> > > > +};
-> > > > +
-> > > > +// We don't know if the WMI API is stable and how unique the GUID =
-is for this ODM. To be on the safe
-> > > > +// side we therefore only run this driver on tested devices define=
-d by this list.
-> > >=20
-> > > Please limit comment length to 80 chars and since you need multiple l=
-ines=20
-> > > here anyway, use the usual /* */ multiline comment formatting.
-> >=20
-> > This driver needs to be split into generic part + hw specific part,
-> > and reasonable kernel/user API needs to be defined for the generic
-> > part. It is really too soon to tweak comment lengths.
->=20
-> Coding style is not something you add on top of everything after=20
-> everything else is done. It's much better to start with that right from=
-=20
-> the beginning.
+> Three APB register sets for the protected world 1, protected world 2,
+> and protected world 3.
 
-And yes, this driver leaves something to be desired.
+three APB register sets for the protected world (sets 1/2/3) -- or
+three APB register sets for the protected world (sets 1-3)
 
-OTOH if you comment on coding style only, it leaves impression of
-"everything else is ok with this", which easily leads to wasted work
-and frustration.
+I mean, repeating "protected world X" three times is too much I think :-)
 
-Best regards,
-								Pavel
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
+> 
+>> for the protected
+>> world (sets 1-3) and one for the secure world (set 4), and each set
+>> has its own interrupt. Therefore, five interrupts are needed.
+>>
+>> ...you won't need the bar :-)
+> 
+> Thanks for the suggestion. The description has been moved to
+> top common property in v3, and v4,
+> hence the bar is still required to explain the
+> others SOCs. I'll try to rephrase the description for MT8195 also.
 
---/5H51XUMUCryMJ4/
-Content-Type: application/pgp-signature; name="signature.asc"
+Sure. You're welcome!
 
------BEGIN PGP SIGNATURE-----
+> 
+>>> +            The IOMMU of MT8195 has 5 banks: 0/1/2/3/4.
+>>> +            Each bank has a set of APB registers corresponding to the
+>>> +            normal world, protected world 1/2/3, and secure world, respectively.
+>>> +            Therefore, 5 interrupt numbers are needed.
+>>> +          maxItems: 5
+>>
+>> minItems: 5
+>>
+>> Cheers,
+>> Angelo
+>>
+>>
+> 
+> Thanks
+> Macpaul Lin
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZv0a7gAKCRAw5/Bqldv6
-8jInAKCTO0pfGpRohULY7qmHpbryLYpGAgCgvtfw76lxVOS/qGSzcnI5XQM7r6c=
-=nnrN
------END PGP SIGNATURE-----
-
---/5H51XUMUCryMJ4/--
