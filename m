@@ -2,77 +2,154 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8165398D6B5
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2024 15:43:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26F6498D71D
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2024 15:46:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E1CD10E725;
-	Wed,  2 Oct 2024 13:43:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F81E10E086;
+	Wed,  2 Oct 2024 13:46:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WtkWYiFs";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="joPC/7v5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
- [209.85.208.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D539B10E725
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Oct 2024 13:43:28 +0000 (UTC)
-Received: by mail-lj1-f170.google.com with SMTP id
- 38308e7fff4ca-2fac63abf63so38321281fa.1
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Oct 2024 06:43:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1727876607; x=1728481407; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=4U/HG7Zu+rJjch/B5zOY+UiM6d6AX6rq/Wk+vOsFihU=;
- b=WtkWYiFsxUd26OZnfYL05aOXMCbSG52RTHFksJZXIP/XW5Ry639hgoCthyH3RgdJnp
- 5I+c/lt/wwEBQUALz9lhHdMk8mqQeOYhR4ouDWTRZNe6LMu1NziRbc9kes82amRPKcOJ
- BqHNddAS0Ag+Q3QOC/7IJGrj8jF/dBHJ4xYG/IPEkR52wBj2RhFfoKCTWsDXks2ksrl3
- VvYpcZY36+57IjpyI79FIKI4fUAhjhzVfMHg/SJoNT9IMAcHLHeBDbzJ8ZVNH+s9NG8F
- qdfeXVyTBlodtwfHpJLXLTJpluYFpU4krgEhfajKnUs3Z/UWzcLHM76GmIR4yzM6DlL+
- g8Bg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727876607; x=1728481407;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=4U/HG7Zu+rJjch/B5zOY+UiM6d6AX6rq/Wk+vOsFihU=;
- b=XH18YYZj3SDUzZ/yQYTQbzLl3DsQfYR3gUPKLH4QBIHFcf6ETfNsIeobyBUP7y+id1
- wskRlupyY8hfQfWCU8D0QEEmG+SR6HevbzHO18dVc1sg6Flg+2/ORb82DFu8LLEnmMAl
- aAbf/uwCBQVnCJy686d4j23Vmi4qabCtQBHQ7SK03BdXmsIg+dlOWfjRLjD6aggNlJSI
- MxMg3uqfySZo6rb5mvqF9B/Xxiw4ylbRCaQDHs5EJLzPZJPgScyeHMemXvTG46tTZkoJ
- o1qthqKneiLnw7VQyF08bw3X8PAfGHKs3rBc/YfJpP+0Dq8Pd9rJXDsI03qVWD3nKkZ9
- JAeA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUmDc5J4x8HWeAA3tys3nCMIxYo1QF4R9X6qjsFTJ4j3xkhxbj+I2vJWOba4U+izILSeBIuPr89N7I=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywh79CDfArYWie8ttK0DBt7qYZjo9S6aDdRsfwWwlSTVwHk1VTH
- g8lu0R11i4yz11IvU2TgvMVh8NH0j8hmAPtmj/AUEGyw4Kvw5lGwtRgNHcMbuHLdyskj/EdAK+S
- BYAkDKUqI2xhCrkQXA72iR9NWWLl9awbltZk=
-X-Google-Smtp-Source: AGHT+IEJ6f4uGOKEroxtjURr/U02X8Am0TD9em6KyzlCinzdT0JnlbDBuypuv1SdsH3NYin0rH96Dcj8V9kt0PH/U3c=
-X-Received: by 2002:a05:651c:150a:b0:2fa:cf5b:1ea7 with SMTP id
- 38308e7fff4ca-2fae0ffccd0mr19283841fa.6.1727876606397; Wed, 02 Oct 2024
- 06:43:26 -0700 (PDT)
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2065.outbound.protection.outlook.com [40.107.243.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46EB410E086;
+ Wed,  2 Oct 2024 13:46:41 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=wpxTdUtuJXylW+tH1ulRoo8rV6VyJb2ZDJRYxjw/NlGwI2O8IlBJITYvFraCl1Mh+BNNWzQUdiSu9UwEzSNwxuyoPZPXF3ROHC1Vsz3ARyRTZi82cweKO7vONz36q9RWTqAY1BnrHy+XN5B7lMqYzPVdAvL9bBviMRFiMUSdW8SZyN2xjA4InKw4lMqJ3Xex5RID2QgCu3lPCXF3HP908s3ZIctswKt5S0IiRLcayKWM7RipYnIdOuPJ1DMrLadzhT9EHiQhvEwlE0grU8SBy882nrEHIwpl2p5gqjQDh1Cdf+ElC4qL8ra2vxKCT5hEaDZPsHlc/3qcm/rJ7wNAkA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=H2DPsGcdAcV9H+owYaEqbH+dcNAzsMhwesUYwLoz340=;
+ b=sRyhPw54m49sXtGOvpvnR+ZDm3jOKNsFKnX+MFwry5ZentSBjuPg46iXmojBNQf14NBbVzWWc8ochGRR+kv0P7wsE5OgpKq31CU0jeIKN2Fcxcze1B6D07K5f5FHxWYvbIXEq06M0Pnwngu8uxfeSyT2X3/xkkUr8lfHAFEJCz2UI93IiC4gtUZAqnWnuUz4lXMMwvSEJfAl6gqy/KDvqVGIx5jebjwuGP2erDqNPKc9GKEwwClYAhkur/Ws2+sspdYtsJLaKImLGSO1Jhd5vVFG5OZHYq2okdrGBwAogwP3tX0AohPkP0oExiH517nS7TtmMBmP7oZ/etx7XFZAuA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=H2DPsGcdAcV9H+owYaEqbH+dcNAzsMhwesUYwLoz340=;
+ b=joPC/7v5rh42u5eLL0TcEIM5nvwEc9TmtXlCbylRakNOrX3bmDAj7gaDlbZ/Ka7MWMz1w87VY3irUXhTDgj3XdSWatxMSmQ1snNGAtJgCIxwV/3yJ1chGDQKPEuN3UAlxhks2YAofc86ALopX9iILhpe1qm6jeC908+I8oM7G6g=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by DS0PR12MB8320.namprd12.prod.outlook.com (2603:10b6:8:f8::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8005.27; Wed, 2 Oct
+ 2024 13:46:38 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%2]) with mapi id 15.20.8026.016; Wed, 2 Oct 2024
+ 13:46:38 +0000
+Message-ID: <91d734a4-af1c-4506-98fc-cd1bad0857a4@amd.com>
+Date: Wed, 2 Oct 2024 15:46:29 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/2] drm/ttm: Add a device flag to propagate -ENOSPC on
+ OOM
+To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-xe@lists.freedesktop.org
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, amd-gfx@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ spice-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Zack Rusin <zack.rusin@broadcom.com>, bcm-kernel-feedback-list@broadcom.com,
+ Sui Jingfeng <suijingfeng@loongson.cn>
+References: <20241002122422.287276-1-thomas.hellstrom@linux.intel.com>
+ <20241002122422.287276-3-thomas.hellstrom@linux.intel.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20241002122422.287276-3-thomas.hellstrom@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR3P281CA0023.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:1c::7) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-References: <CADnq5_PB8zUfCN-NcNpgHqzAv8A55o2hsYHAdnSBhEy525NLfA@mail.gmail.com>
- <D01B31B5-0609-4106-ABF4-B549CDBA362B@xenosoft.de>
- <CANyH0kBnWZMZCG7K9vGt2a8Svr30U=PVOwrhwn-Q-CN9PZc=Sw@mail.gmail.com>
- <77d49375-8eac-45cf-83b7-c3334ed6d665@csgroup.eu>
-In-Reply-To: <77d49375-8eac-45cf-83b7-c3334ed6d665@csgroup.eu>
-From: Hoi Pok Wu <wuhoipok@gmail.com>
-Date: Wed, 2 Oct 2024 21:43:15 +0800
-Message-ID: <CANyH0kD1Q8PvRaMkBr=0x7QHzkUFheaMfL5LVeDaaj3FrBm5XA@mail.gmail.com>
-Subject: Re: Kernel doesn't boot after DRM updates (drm-next-2024-09-19)
-To: Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc: Christian Zigotzky <chzigotzky@xenosoft.de>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- Alex Deucher <alexdeucher@gmail.com>, Alex Deucher <alexander.deucher@amd.com>,
- developers DRI <dri-devel@lists.freedesktop.org>,
- mad skateman <madskateman@gmail.com>, 
- "R.T.Dickinson" <rtd2@xtra.co.nz>, Darren Stevens <darren@stevens-zone.net>,
- hypexed@yahoo.com.au, linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- Christian Zigotzky <info@xenosoft.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DS0PR12MB8320:EE_
+X-MS-Office365-Filtering-Correlation-Id: f4af38f4-b863-48a7-dfb8-08dce2e8a33c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?c0dnRnFBM2ozUU5Jd2FCenVNRldad1Rab2U4cG9ScERJQ3BOV1pSZFQzWUM3?=
+ =?utf-8?B?eTc5U2VibDMraytEVVhaekZxQ2FNcjdRdzR5RytDclE2RXFZbzdoeERZVVlN?=
+ =?utf-8?B?b1VmdHRwV0hWc09ZRkhnNndzNlE4aTNhWE9odWRhdjl1K2hiMTZsZXhUdzVt?=
+ =?utf-8?B?d0tOSEZwaElPNjh5RjlseG1nb1FtMmNrR2hOOW5BckNXNVJZUHpWVnpQQ1pP?=
+ =?utf-8?B?Q1FVU3Izc3ZNRkZIMkxxRkpxSVJZbDdrTjZ6eWNiWHZEdnFvNjB2SHVndjdy?=
+ =?utf-8?B?ekF1bFNZM3JyL3RMTS85YmlGZVowcVdJdC8wMlFYaFRSdGtqNFJxa1VjeUxH?=
+ =?utf-8?B?eUh2MHU1ZmxnVzJuaW11bS9FZSs3WkYxMkZDYm5kQU1RcnQ1ODFiUTFOY2dZ?=
+ =?utf-8?B?K1RwRkVpL3EyQnBUSUVnWENBa0dmQTVMazZOb2NEaUVmbS96enlFOWxycTdH?=
+ =?utf-8?B?ZENUb3hSdDlSK2R3VDF5SDQxd0xjVVFlQ3dEQm9EWEpSTnZlVlQybTZQTkIr?=
+ =?utf-8?B?WlQzMkxaNVhNcWxYZlRjVTZVbzBySzdZN2dlaVRqam9SY0VhUG50RkV1eDlH?=
+ =?utf-8?B?dGFvZEV1VDNhY2p3OExJRDIvdWVoUHBEVVZUaFVaZDQ5QWJoSXpMV1dvcmhU?=
+ =?utf-8?B?L2szajZiWnIrUytqYTZ0eGhidlpmWWpmT3JKOHliQUs1aXJ2MVdmZkhlbi9W?=
+ =?utf-8?B?NnRKZWsvMWo4YXFyMWg1QncySTBzeDRLd2t1MlZMdmNOcUJMMDhwSm9PVDFk?=
+ =?utf-8?B?YlY1Rk5ONDlPNFk2ZFYwdDQ4eEQ5SXJYS1NuSXc3bVRZeWlsazV5TC8yeEZa?=
+ =?utf-8?B?Yk5NNHJYaXhsd3l0QnB1c3lzdVhPWSt4bVJHbkJoZFErcis0U1dMZVh2UUdT?=
+ =?utf-8?B?eFB5YjF2Rks3YVNSWlZPbm1KeCtKVW1lc2FOMVl1M1o4SHlOdm5SQnVwcm1j?=
+ =?utf-8?B?SVR0RCtEU1VWY0c2dURJZ0w5QmZ1VDA2aUczL25uemFlWW83MFNmenR5VE1h?=
+ =?utf-8?B?RTdTL0RZNG95U0w1MDN1OWVvazFMQ1BZTUxBT2dCdzA2eDdrQm5BQjVML3Yr?=
+ =?utf-8?B?cUpyNVBSNXlVY1JTU0trZy9yL0cyY09HZWo0YnJ4SkJyUkNpMVluOTdvTUZn?=
+ =?utf-8?B?Zno4MStMcFNUVVFRZkVQelJqajlKZDRuOURTWVNmT0k0Q0JCTU1SZ1JDdWtT?=
+ =?utf-8?B?SXdJY2Rac1Yvb2lvMGgraXY3ek1WRW43aEtzTkNzSnJteEdud3pMc3YzYm9M?=
+ =?utf-8?B?SXZVc0pyVnkwWjhrOW9XMEtqWlk3dkMrZW5GTHZkaUozRnY4ZGZjUGdLVE12?=
+ =?utf-8?B?ZUJ3OEpENXphcU0vYjNnK2QvWDZDb2NLOHMwSndYeFhIUVJjS0s1ZFVFMGps?=
+ =?utf-8?B?VW82eXNhbVZmSW8vRzRXSkJESzdjM0dCUWpaenhyWENNS25UeEdCWENwdXVt?=
+ =?utf-8?B?WlNvSGZMYVhSOExaejdiMlJKc2k2b0NKTXN1cVBDenp1ZkxnWkhaMmwyRysr?=
+ =?utf-8?B?UVFnVWFPYnZxWlRDRXhCMVR1YTJsSE8xcVdSSHdoMWxDLzJYeXNkeS9OVzYw?=
+ =?utf-8?B?dTB4TVpWRkxDZ0N4WFZ6YWlhTTRrbit2aVZiV25TeVdVQ3ZVOGNtVkZHQ2hY?=
+ =?utf-8?B?cVE1bWxNS283ekc4YXk1NzluRllZOWwwL3o0NW1oc3VhVWxkaXc3RWhBSW80?=
+ =?utf-8?B?c3ljRXBOWGp5VmJBeDg0MWJIY0hvYnB2dzJsS2lSUFE5ZlB1QlFaSVdBPT0=?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014)(7416014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NXM5OVp4dWdwUXEzM1ZXVGhLK0R6Z0E5Q1BaOWk1aFRqUlR3TW5xaWN3WktD?=
+ =?utf-8?B?Z0o0ZC80Nm1LUzRvRitoU09NTkZJQjhhME92Szg5THlTRExrK2Jjcis2Tit2?=
+ =?utf-8?B?ZEJzN0NYWTBlMnV3UGtHczBZa0NsQkxUMDFxZElKeDd4T0Z5T0VJNXNKSFhW?=
+ =?utf-8?B?OXRkTWNtQnJ4WkhEZHJMNW5MRFk2c3R4a2RTSFkrSitxVGcwUE9RVm12UzI2?=
+ =?utf-8?B?bnpseE1NLzZPbFc2aC82eTFhZjJCVVFrTXUxOWdCNTB2S0dsMnczVzFENWZw?=
+ =?utf-8?B?VG53RUtiY3R1UHFQaitZUi9ZUkwvcnd6Ylg2ZDBmNDlqa2k5Q0ZWSTI4dklF?=
+ =?utf-8?B?T3ZxWnBLQ3lMZEJsQU5Jc05VNVRqeEpBSDFuRTJGS2FYaUJXKzRzbVIwc0M1?=
+ =?utf-8?B?eVRwam9vT1NONXRybEFiZTRwQUtCZEpCbmpPUjh5YXNmOFlncUR5Q21Ic1dr?=
+ =?utf-8?B?SEx5QldPTDl0Z2hXbTArOVRaYjRSRFZCeUxQKzZtZVR2WmhtYXprMVdyR09x?=
+ =?utf-8?B?d29GN0gvSFBsNEVBNXBBVjhudU9rQzBrUWRuaURJVENGM2FMdndzUlBDYTkr?=
+ =?utf-8?B?NUU3OFdWUG5td3dRQzc5S01hOTc5eVdqdTdDOGd0ajE4a1pieHhxUTdSVk41?=
+ =?utf-8?B?dWtKQUJxUGFRZVlKUTRxRUNIems1cUk5WmIwT1VlckMwaHJJSWF3cEhJaGp6?=
+ =?utf-8?B?c3NMMExSbnZvMHFuMEJ6eWdDOHVXQmpxZ0dEaWt5QytDTTlpSXNHMHZLNGx0?=
+ =?utf-8?B?YmlicDVjVlRQWXFDNk5rakIwUXQ2S0l1OU9jZ2tjOTZvNjFxb2x6U1J0bWpU?=
+ =?utf-8?B?aHZVdDJ6L0VtVDBhUUZDelBHZWVMYzlTRU00SGdYTno0TW82WGdXT1NWSXV0?=
+ =?utf-8?B?aVlaeGlCSVJNdVc5bDUzYTZ3UThhNk8xVGdjRXcvWnVFblhvbGNKT1ExSHVO?=
+ =?utf-8?B?WXl6VUw5TnpLa1NjOEJwN1V6aEloSmgwQnpiZ0FrNlFOamhiZ1h2L0NaZjJJ?=
+ =?utf-8?B?aWNyMkxxcWMvTFBjTG96bzRjOHNhcFZYMEpNS1JscWxZdFlUMlJodDNRNVkr?=
+ =?utf-8?B?cTAvZnV4RStQYzJGc3NlUFp3UTlNZ0xLWjNBRmJWWkpyUFRUT0tWL2l5QmVY?=
+ =?utf-8?B?Sy8rLzZ4eEJ6SjhxYU5tci9adlRtVmFQaStVV0pQbXhVa3NBa0RkcSsxK0cx?=
+ =?utf-8?B?YzZFbEo4YngydU5DU0MvUjRVY0M2WHlySTBMQ2hVdm9xVUQrU2RxcFBvMzY0?=
+ =?utf-8?B?aXYyMDhFOFc0QU55cFJHaER0aDJxbW92aFUxMDFhTVBIMnFBcWEwdEZnbkht?=
+ =?utf-8?B?NUZaS0xDTDdUNG5jUTVtNThqSVhuTmlLL1Q5cFdlMVZiSi96UEdyUDJiQU42?=
+ =?utf-8?B?MEtIa0tRb2ZkU1ZGOGcxNExKcUFCMWtXZFdzRmdRK0Y1dFJtZnJpb20xakl0?=
+ =?utf-8?B?ODRwT2cyd1Q5aXgrYTdNdXdkQnljK2tiWWxTT09pZGRzenlFdXFWbThwcmFG?=
+ =?utf-8?B?eWlMUWx4dm9TZDFHZjE0bzJPNGEvSDA1bEh3MXZvU1Q3eGZjNHB5b3Z0dC8x?=
+ =?utf-8?B?TnpqZW03VlRKOWt3MUZlWCtSNUpGbjRXYWZDTENyeGpudm1CRENFM1ZCbSsz?=
+ =?utf-8?B?L2MzTlRTMXZ0dFBRcWJuMGNmMnJmSjVlNFptM2tWbDExdGtOYmFDSTVPc1p2?=
+ =?utf-8?B?QWNVTzlDNnV0aEF5NE1VQjBnQ3hBK3BJREJPbGJqd1N5UkZIYmRyTlMyR0Zv?=
+ =?utf-8?B?cE16WDVWd2N3Vk56TWllTkdVSVBmVzVTNmJ6SnM3c0tKY0pZeExQa3FJU3Zn?=
+ =?utf-8?B?TWZnSS9sZjZWNEF2bWdYSy9jSVFqelltQmRvZVYwVXhaSGxYemVFZWp5NWRC?=
+ =?utf-8?B?d3BwVzlMdzMyLzlqZ0tjQ1pUQldzRERJNnFWUjhFalBxZTZnZ1dheXZxNkpw?=
+ =?utf-8?B?cUxKWjRvZnhHYkIvbVcvcllNbncxTlpIb2NRU3d3MGNsWGtKSEV6VGJoRFF3?=
+ =?utf-8?B?c0xvQ2ZWWnVHWmJXR1hWSFRRZ0pFQUM5RVVYUC9kVGhUb3d5WTB0S1F6Y3lr?=
+ =?utf-8?B?dFN5VmtvTU1SaWhvNjBpV2JzU0tMaWVQdkxjR3dzM1ZleVZaNlE2VXNueXRP?=
+ =?utf-8?Q?KND1DzIplc9epKPZudLmGHSL0?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f4af38f4-b863-48a7-dfb8-08dce2e8a33c
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Oct 2024 13:46:38.1157 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: NjfE3aHcs22JWT9tQV16C482MI5bL/Yh9ZSPvMX6ZHcoJvMxbu1rV4TmCQhzrszs
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8320
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,189 +165,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thanks to Christophe.
-I have figured out what happened.
-The connector is registered before the device,
-where drm_connector_register() states that,
-drm_dev_register() has to be called before it.
+Am 02.10.24 um 14:24 schrieb Thomas Hellström:
+> Some graphics APIs differentiate between out-of-graphics-memory and
+> out-of-host-memory (system memory). Add a device init flag to
+> have -ENOSPC propagated from the resource managers instead of being
+> converted to -ENOMEM, to aid driver stacks in determining what
+> error code to return or whether corrective action can be taken at
+> the driver level.
+>
+> Cc: Christian König <christian.koenig@amd.com>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 
-Assuming this is the fix, I will send the patch for testing soon.
+Independent of how we communicate flags to the TTM device init function 
+this looks like the right approach to me.
 
-On Tue, Oct 1, 2024 at 8:23=E2=80=AFPM Christophe Leroy
-<christophe.leroy@csgroup.eu> wrote:
+So feel free to add Reviewed-by: Christian König <christian.koenig@amd.com>.
+
+Regards,
+Christian.
+
+> ---
+>   drivers/gpu/drm/ttm/ttm_bo.c     |  2 +-
+>   drivers/gpu/drm/ttm/ttm_device.c |  1 +
+>   include/drm/ttm/ttm_device.h     | 13 +++++++++++++
+>   3 files changed, 15 insertions(+), 1 deletion(-)
 >
-> Hi All,
->
-> Le 01/10/2024 =C3=A0 14:09, Hoi Pok Wu a =C3=A9crit :
-> > [Vous ne recevez pas souvent de courriers de wuhoipok@gmail.com. D=C3=
-=A9couvrez pourquoi ceci est important =C3=A0 https://aka.ms/LearnAboutSend=
-erIdentification ]
-> >
-> > Hi Thomas,
-> >
-> > Could you help on this issue?
-> > I do not have access to the hardware now.
-> > Thank you.
->
-> The OOPS is from function drm_dp_aux_register(), exactly here below:
->
-> static inline const char *dev_name(const struct device *dev)
-> {
->         /* Use the init name until the kobject becomes available */
->         if (dev->init_name)
->
->      1ae0:      e8 89 00 50     ld      r4,80(r9)
->
->
-> As you see in registers dump, r9 register is NULL. That's dev which is NU=
-LL:
->
-> GPR00: c0000000005b74f0 c0000000800daf10 c0000000015a3600 c00000008033f7e=
-c
-> GPR04: 0000000000000000 c000000001908f18 c000000080460c80 ffffffffc0c0c0c=
-0
-> GPR08: c000000080f74008 0000000000000000 0000000000000003 c000000080f7400=
-8
-> GPR12: 0000000048000828 c00000003fffeac0 0000000000000003 000000000100000=
-0
-> GPR16: c0000000804eaeca 0000000000000013 0000000000003113 000000000000000=
-0
-> GPR20: 0000000000000008 c0000000800db208 000000000000000a c0000000014d686=
-8
-> GPR24: 0000000000000000 0000000000000001 c0000000800db29c c0000000800db25=
-0
-> GPR28: c000000080bd8040 0000000000000001 c000000080f74000 c00000008033f4a=
-0
->
-> Full dump below:
->
-> 0000000000001a5c <drm_dp_aux_register>:
-> {
->      1a5c:      3c 4c 00 00     addis   r2,r12,0
->                         1a5e: R_PPC64_REL16_HA  .TOC.+0x2
->      1a60:      38 42 00 00     addi    r2,r2,0
->                         1a62: R_PPC64_REL16_LO  .TOC.+0x6
->      1a64:      7c 08 02 a6     mflr    r0
->      1a68:      fb e1 ff f8     std     r31,-8(r1)
->      1a6c:      f8 01 00 10     std     r0,16(r1)
->      1a70:      7c 7f 1b 78     mr      r31,r3
->      1a74:      f8 21 ff d1     stdu    r1,-48(r1)
->         WARN_ON_ONCE(!aux->drm_dev);
->      1a78:      e9 23 03 38     ld      r9,824(r3)
->      1a7c:      2f a9 00 00     cmpdi   cr7,r9,0
->      1a80:      41 de 00 90     beq-    cr7,1b10 <drm_dp_aux_register+0xb=
-4>
->         if (!aux->ddc.algo)
->      1a84:      e9 3f 00 18     ld      r9,24(r31)
->      1a88:      2f a9 00 00     cmpdi   cr7,r9,0
->      1a8c:      41 de 00 74     beq-    cr7,1b00 <drm_dp_aux_register+0xa=
-4>
->         strscpy(aux->ddc.name, aux->name ? aux->name : dev_name(aux->dev)=
-,
->      1a90:      e8 9f 00 00     ld      r4,0(r31)
->         aux->ddc.owner =3D THIS_MODULE;
->      1a94:      39 40 00 00     li      r10,0
->         aux->ddc.dev.parent =3D aux->dev;
->      1a98:      e9 3f 03 30     ld      r9,816(r31)
->         strscpy(aux->ddc.name, aux->name ? aux->name : dev_name(aux->dev)=
-,
->      1a9c:      38 7f 02 74     addi    r3,r31,628
->         aux->ddc.owner =3D THIS_MODULE;
->      1aa0:      f9 5f 00 08     std     r10,8(r31)
->         strscpy(aux->ddc.name, aux->name ? aux->name : dev_name(aux->dev)=
-,
->      1aa4:      2f a4 00 00     cmpdi   cr7,r4,0
->         aux->ddc.dev.parent =3D aux->dev;
->      1aa8:      f9 3f 00 b8     std     r9,184(r31)
->         strscpy(aux->ddc.name, aux->name ? aux->name : dev_name(aux->dev)=
-,
->      1aac:      41 de 00 34     beq-    cr7,1ae0 <drm_dp_aux_register+0x8=
-4>
->      1ab0:      38 a0 00 30     li      r5,48
->      1ab4:      48 00 00 01     bl      1ab4 <drm_dp_aux_register+0x58>
->                         1ab4: R_PPC64_REL24     sized_strscpy
->      1ab8:      60 00 00 00     nop
->         ret =3D i2c_add_adapter(&aux->ddc);
->      1abc:      38 7f 00 08     addi    r3,r31,8
->      1ac0:      48 00 00 01     bl      1ac0 <drm_dp_aux_register+0x64>
->                         1ac0: R_PPC64_REL24     i2c_add_adapter
->      1ac4:      60 00 00 00     nop
-> }
->      1ac8:      38 21 00 30     addi    r1,r1,48
->      1acc:      e8 01 00 10     ld      r0,16(r1)
->      1ad0:      eb e1 ff f8     ld      r31,-8(r1)
->      1ad4:      7c 08 03 a6     mtlr    r0
->      1ad8:      4e 80 00 20     blr
->      1adc:      60 00 00 00     nop
->   * Return: The kobject name of the device, or its initial name if
-> unavailable.
->   */
-> static inline const char *dev_name(const struct device *dev)
-> {
->         /* Use the init name until the kobject becomes available */
->         if (dev->init_name)
->      1ae0:      e8 89 00 50     ld      r4,80(r9)
->      1ae4:      2f a4 00 00     cmpdi   cr7,r4,0
->      1ae8:      40 fe ff c8     bne+    cr7,1ab0 <drm_dp_aux_register+0x5=
-4>
->                 return dev->init_name;
->
->         return kobject_name(&dev->kobj);
->      1aec:      e8 89 00 00     ld      r4,0(r9)
->      1af0:      4b ff ff c0     b       1ab0 <drm_dp_aux_register+0x54>
->      1af4:      60 00 00 00     nop
->      1af8:      60 00 00 00     nop
->      1afc:      60 00 00 00     nop
->                 drm_dp_aux_init(aux);
->      1b00:      7f e3 fb 78     mr      r3,r31
->      1b04:      48 00 00 01     bl      1b04 <drm_dp_aux_register+0xa8>
->                         1b04: R_PPC64_REL24     drm_dp_aux_init
->      1b08:      4b ff ff 88     b       1a90 <drm_dp_aux_register+0x34>
->      1b0c:      60 00 00 00     nop
->         WARN_ON_ONCE(!aux->drm_dev);
->      1b10:      0f e0 00 00     twui    r0,0
->      1b14:      4b ff ff 70     b       1a84 <drm_dp_aux_register+0x28>
->
->
->
-> >
-> > Regards,
-> > Wu Hoi Pok
-> >
-> >
-> > On Tue, Oct 1, 2024 at 12:26=E2=80=AFPM Christian Zigotzky
-> > <chzigotzky@xenosoft.de> wrote:
-> >>
-> >> On 30 September 2024 3:27pm, Alex Deucher <alexdeucher@gmail.com> wrot=
-e:
-> >>
-> >> =EF=BB=BF+ Wu Hoi Pok
-> >>
-> >> This is likely related to the drm device rework.
-> >>
-> >> Alex
-> >>
-> >> =E2=80=94=E2=80=94=E2=80=94=E2=80=94=E2=80=94-
-> >>
-> >> Hi All,
-> >>
-> >> I was able to revert the drm-next-2024-09-19 updates for the RC1 of ke=
-rnel 6.12.
-> >>
-> >> This kernel works on all machines without any problems.
-> >>
-> >> This means, the new Radeon DRM driver is unreliable after the DRM rewo=
-rk.
-> >>
-> >> Please fix this issue because we can=E2=80=99t deliver the kernels wit=
-h the new Radeon DRM driver.
-> >>
-> >> Error log: https://eur01.safelinks.protection.outlook.com/?url=3Dhttps=
-%3A%2F%2Fwww.xenosoft.de%2FPuTTY_P5040_U-Boot.log&data=3D05%7C02%7Cchristop=
-he.leroy%40csgroup.eu%7C9b40f906e2f2493cb25908dce211ee23%7C8b87af7d86474dc7=
-8df45f69a2011bb5%7C0%7C0%7C638633814783011669%7CUnknown%7CTWFpbGZsb3d8eyJWI=
-joiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C60000%7C%7C=
-%7C&sdata=3DfgAj0osIOyJtNrzUKp%2Bpq0NN1sGW2bqGm8nXYj88Ne0%3D&reserved=3D0
-> >>
-> >> Thanks,
-> >> Christian
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+> index 320592435252..c4bec2ad301b 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> @@ -835,7 +835,7 @@ int ttm_bo_validate(struct ttm_buffer_object *bo,
+>   
+>   	/* For backward compatibility with userspace */
+>   	if (ret == -ENOSPC)
+> -		return -ENOMEM;
+> +		return bo->bdev->propagate_enospc ? ret : -ENOMEM;
+>   
+>   	/*
+>   	 * We might need to add a TTM.
+> diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
+> index 0c85d10e5e0b..aee9d52d745b 100644
+> --- a/drivers/gpu/drm/ttm/ttm_device.c
+> +++ b/drivers/gpu/drm/ttm/ttm_device.c
+> @@ -203,6 +203,7 @@ int ttm_device_init(struct ttm_device *bdev, const struct ttm_device_funcs *func
+>   	}
+>   
+>   	bdev->funcs = funcs;
+> +	bdev->propagate_enospc = flags.propagate_enospc;
+>   
+>   	ttm_sys_man_init(bdev);
+>   
+> diff --git a/include/drm/ttm/ttm_device.h b/include/drm/ttm/ttm_device.h
+> index 1534bd946c78..f9da78bbd925 100644
+> --- a/include/drm/ttm/ttm_device.h
+> +++ b/include/drm/ttm/ttm_device.h
+> @@ -266,6 +266,13 @@ struct ttm_device {
+>   	 * @wq: Work queue structure for the delayed delete workqueue.
+>   	 */
+>   	struct workqueue_struct *wq;
+> +
+> +	/**
+> +	 * @propagate_enospc: Whether -ENOSPC should be propagated to the caller after
+> +	 * graphics memory allocation failure. If false, this will be converted to
+> +	 * -ENOMEM, which is the default behaviour.
+> +	 */
+> +	bool propagate_enospc;
+>   };
+>   
+>   int ttm_global_swapout(struct ttm_operation_ctx *ctx, gfp_t gfp_flags);
+> @@ -295,6 +302,12 @@ struct ttm_device_init_flags {
+>   	u32 use_dma_alloc : 1;
+>   	/** @use_dma32: If we should use GFP_DMA32 for device memory allocations. */
+>   	u32 use_dma32 : 1;
+> +	/**
+> +	 * @propagate_enospc: Whether -ENOSPC should be propagated to the caller after
+> +	 * graphics memory allocation failure. If false, this will be converted to
+> +	 * -ENOMEM, which is the default behaviour.
+> +	 */
+> +	u32 propagate_enospc : 1;
+>   };
+>   
+>   int ttm_device_init(struct ttm_device *bdev, const struct ttm_device_funcs *funcs,
+
