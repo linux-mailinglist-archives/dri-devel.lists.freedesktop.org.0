@@ -2,94 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6339898D7C5
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2024 15:53:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A55F398D851
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2024 15:58:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7AAB10E176;
-	Wed,  2 Oct 2024 13:53:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B219E10E754;
+	Wed,  2 Oct 2024 13:58:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="BsDINdMu";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="ki1tLMiV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D89D210E176
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Oct 2024 13:53:00 +0000 (UTC)
-Received: from [192.168.88.20] (91-156-87-48.elisa-laajakaista.fi
- [91.156.87.48])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 79A1663F;
- Wed,  2 Oct 2024 15:51:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1727877087;
- bh=DGThh15vn3N7A97W4Hu1YVDyCl4iVwV+QEmH/Bim+lY=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=BsDINdMuEMWNyiQThdo3u7IP8itVJBYUBJDPic1Gru15ilAwuMi+OI9JHCNjAxrwn
- PJtlb7gefUm4vnJVnFk6Ra7M4ajAiDOD57C9lGplsTOsTIAwtSZTZOk6NS7JCNu/cm
- iSWBcTaqlV78+r4r5UL2RMjTnF0S28QquCh0Nq5I=
-Message-ID: <1846295a-aea7-41fe-a7a6-756a260ef3a3@ideasonboard.com>
-Date: Wed, 2 Oct 2024 16:52:55 +0300
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam04on2072.outbound.protection.outlook.com [40.107.102.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00B4610E769;
+ Wed,  2 Oct 2024 13:58:49 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=NVPENNX2uQN84ed6t1EQvM8GyJGsornE65hFRjm66vMM25/tR7uArlwVSP6UN/fdURehCwyejJ5MZngGnS0Q+l2dx1KiwxYKJQibDKvOTLUvQ7B0kP58UBNZpC5XGPr/1+Lu9VMcv8VumJu4LKTt0qh6m8+y2NUO16fFGc/Zg62MFX1y+CX05FjGvGmBinGf2u/91Q65ieejcAiJDaVH0oX0+r26arpLsQYYzzvcfso0llsPfD9emaOApTwkY4A5bvoTy1NI4R0HodrYR++W05PO8o/llpIfz7Gjt8BMdaZq06XE7nzGoQjkyjbiLRHS9gICBT8SggGfJ6gApgs4fw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6kF3v67WenitCe/nHoSl+miP0b2nD2wR746B1HuS+aM=;
+ b=FL1P7urWGbjna9HWVdiQkMDcE4e37HdMGFAsesNQyiJc+6+w9pbWkg+jk7U8ftR/AKlHfFxRP/krj81QZZIbzDQcHW4++3ozU7NKygR/EH7kRcamoLWZO+Zz3ChC6jYQss20hPRJq2UPUAm+Y1CzBwUNbTLNngHgMdtCUg7HrlbccBFCUmb+BU338WuxEhWHvDsy/aJIpMGiihHphEd77fi0867wtRM8S4FNdONe9/A7YIOQJrXBhWXIbQ5kZKqlWz16VUjLDOf6jnu1B1WfB/8Gh86I3G6z+jS96NEqxV4Vt+bctKD8aULofOveBQM6E6y1P7rgeusHTU+xZyopSw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6kF3v67WenitCe/nHoSl+miP0b2nD2wR746B1HuS+aM=;
+ b=ki1tLMiVwiSq2/Hm2dyIYKgO8e7sSHTwqis654llYSFgDCfEwKI+CxIIWL5PTpbGv1XkGHZnI6cuirm6TFzEGMRqcTD6BJ8lK2sHYFl8X0aSZTuvazy9SV2cWWB7MHMnenQlUfL2zZtNE2JBajHecWY2Pq8wZwvXZzrwFSVV19Q=
+Received: from BN9PR03CA0492.namprd03.prod.outlook.com (2603:10b6:408:130::17)
+ by PH0PR12MB7931.namprd12.prod.outlook.com (2603:10b6:510:289::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8005.26; Wed, 2 Oct
+ 2024 13:58:47 +0000
+Received: from BL02EPF0001A108.namprd05.prod.outlook.com
+ (2603:10b6:408:130:cafe::e2) by BN9PR03CA0492.outlook.office365.com
+ (2603:10b6:408:130::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.17 via Frontend
+ Transport; Wed, 2 Oct 2024 13:58:47 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BL02EPF0001A108.mail.protection.outlook.com (10.167.241.138) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8026.11 via Frontend Transport; Wed, 2 Oct 2024 13:58:47 +0000
+Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 2 Oct
+ 2024 08:58:46 -0500
+From: Alex Deucher <alexander.deucher@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <airlied@gmail.com>, <simona.vetter@ffwll.ch>
+CC: Alex Deucher <alexander.deucher@amd.com>
+Subject: [pull] amdgpu drm-fixes-6.12
+Date: Wed, 2 Oct 2024 09:58:31 -0400
+Message-ID: <20241002135831.2510790-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.46.2
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 4/8] drm: zynqmp_dp: Convert to a hard IRQ
-To: Sean Anderson <sean.anderson@linux.dev>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- David Airlie <airlied@gmail.com>, Michal Simek <michal.simek@amd.com>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20240809193600.3360015-1-sean.anderson@linux.dev>
- <20240809193600.3360015-5-sean.anderson@linux.dev>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20240809193600.3360015-5-sean.anderson@linux.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL02EPF0001A108:EE_|PH0PR12MB7931:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9a7f8658-8367-471a-154e-08dce2ea55f9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|82310400026|36860700013|376014|1800799024; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?OgU3UFqhQJrnPZVirdvpK2lczbpRfN/23l7SwcTwCy7qvCDv/iYtOlaFIJe/?=
+ =?us-ascii?Q?dYC/RRwzI+xklUJ2NchSg9AJOGmj+GW4vhKe5lzL3qJFSQ8EQbxjF9PpPDRw?=
+ =?us-ascii?Q?6kPgdN4V5DP1ONZa5YGNAkWKgZggfFp0akjWJ/8xAFqJjh5H9SVl//mK2MiT?=
+ =?us-ascii?Q?OF70Y1e1CplWtTqZAxXC1KbdKRRX77FSsw4bXh7MJH8j2El3O2nc8ChL4gdZ?=
+ =?us-ascii?Q?nQugVTKMT/Mycs1AXi0MRpriJ4iiEeH8GM7qMEGyV3jYakArvK+S7XVXWgqh?=
+ =?us-ascii?Q?4O9DrM0P5Ore5NL2b/IWSBJ+GicgIK8gBwKEu1QCkhNl7R++0eMQTTMIpvMo?=
+ =?us-ascii?Q?xJSKB6Y93ggbB8PJg/NOovW5VX+iNEjAslo/m9TbkqZWE+DiAED7FzyG954N?=
+ =?us-ascii?Q?ldC0e5Dr3h38v36EzPa8JSYwlo9pp8Hlp6C+nlp+52UHqsTwGRZs1uKYoCdI?=
+ =?us-ascii?Q?OtBpBYZJ9NbsPuk9QBYAQlH/ujr7rHP7LQA/QZ5MzUbsyAOmgbY3FBwRZp+x?=
+ =?us-ascii?Q?OQ6CKTIM6K2KJOQJeLrp4hzOxbm8DVTJg++zjBWiATDrcrupekYKRGEePSGg?=
+ =?us-ascii?Q?vTwwL8wTYN/Uos5xMvOS/pj2Dp0Kdm3CM3b10SEuqPm1K0I8pEMRYB0kKB0U?=
+ =?us-ascii?Q?SKgwV6StZrAtln93kOyh0K9mCiu/w7GQ2kP8F4FyEWSYC+j0+YpLGAZX5Q8a?=
+ =?us-ascii?Q?P/Ry7/ZNEOv1srxc3FN5e1CqXhRg36bd+S/oR0ArBxzfeYaFGcnCurQw8Kxq?=
+ =?us-ascii?Q?ZpJMyiMVKtON8vh/qSDQRLTbFsgmX2Fl12LwJcPM1FR0coAOEn1SWxiBdAoA?=
+ =?us-ascii?Q?HPdEgWMQR4vwB80wAZSHI8UFy17d86f6ChxJrH+CkB3Gkiil71/JKnoH7kjh?=
+ =?us-ascii?Q?4y0DDnYIKdOk3ZMu2FPiyX97ptKNYbv+FWAv1wCmheraemnoyd2t0gA0i5eU?=
+ =?us-ascii?Q?jzqbnwXLD0NtCQhUM6JXX1hvcc5ecpfO4GSazmF9srV0ZKCg5dJAPjLN49eK?=
+ =?us-ascii?Q?PZwRr+i4Ev96cN2vU/1K7mL5Ev/hL4pXRQO62wQwsSUJmoWDF0A98CDxMo9n?=
+ =?us-ascii?Q?5Atf8jhu3VefYHMOQ1Nwy/EVZmWr59aDMNWlQzoTlp0LAm6dPgpHdSUVzTxu?=
+ =?us-ascii?Q?oXQL3G+5PGHNrQnjvTadvQLXqOQv81F86m4PaMqIrH0nAHWwJczBKRxQhjju?=
+ =?us-ascii?Q?xPxrXuJoiUjZbmkUFP/4nLS5B6ZWJEdkIFrW5cXT0zvwpZ+5OF+kA1y33SX5?=
+ =?us-ascii?Q?+n+Om62Qa9A8AetZAmm7wQkqvq/7VwJ9B941FaZD5xL+T0QnST6ET/uk3gW1?=
+ =?us-ascii?Q?wOvj/UeK2tKBXT83kt54WW+f?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(82310400026)(36860700013)(376014)(1800799024); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Oct 2024 13:58:47.1754 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9a7f8658-8367-471a-154e-08dce2ea55f9
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BL02EPF0001A108.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7931
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,66 +129,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Dave, Simona,
 
-On 09/08/2024 22:35, Sean Anderson wrote:
-> Now that all of the sleeping work is done outside of the IRQ, we can
-> convert it to a hard IRQ. Shared IRQs may be triggered even after
-> calling disable_irq, so use free_irq instead which removes our callback
-> altogether.
-> 
-> Signed-off-by: Sean Anderson <sean.anderson@linux.dev>
-> ---
-> 
-> Changes in v6:
-> - Fix hang upon driver removal
-> 
-> Changes in v3:
-> - New
-> 
->   drivers/gpu/drm/xlnx/zynqmp_dp.c | 7 +++----
->   1 file changed, 3 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> index cec5711c7026..532e103713b3 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> @@ -1831,9 +1831,8 @@ int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub)
->   	 * Now that the hardware is initialized and won't generate spurious
->   	 * interrupts, request the IRQ.
->   	 */
-> -	ret = devm_request_threaded_irq(dp->dev, dp->irq, NULL,
-> -					zynqmp_dp_irq_handler, IRQF_ONESHOT,
-> -					dev_name(dp->dev), dp);
-> +	ret = devm_request_irq(dp->dev, dp->irq, zynqmp_dp_irq_handler,
-> +			       IRQF_SHARED, dev_name(dp->dev), dp);
->   	if (ret < 0)
->   		goto err_phy_exit;
->   
-> @@ -1858,7 +1857,7 @@ void zynqmp_dp_remove(struct zynqmp_dpsub *dpsub)
->   	struct zynqmp_dp *dp = dpsub->dp;
->   
->   	zynqmp_dp_write(dp, ZYNQMP_DP_INT_DS, ZYNQMP_DP_INT_ALL);
-> -	disable_irq(dp->irq);
-> +	devm_free_irq(dp->dev, dp->irq, dp);
->   
->   	cancel_work_sync(&dp->hpd_irq_work);
->   	cancel_work_sync(&dp->hpd_work);
+Fixes for 6.12.
 
-Not much point using devm for request irq, I think, as it's manually freed.
+The following changes since commit d7d2688bf4ea58734d73e18edcbf4684b1496d30:
 
-Another thing, which I think is not an issue at the moment nor related 
-to this series as such, is that we use IRQF_SHARED and 
-zynqmp_dp_irq_handler() will read a DP register right away. This means 
-that if the DP is runtime suspended and we get an interrupt, the driver 
-accesses a register on a suspended IP, which often leads to crash/hang.
+  drm/amd/pm: update workload mask after the setting (2024-09-26 17:05:10 -0400)
 
-Here I think we enable all necessary clocks at probe time, so the DP is 
-always enabled and the above is not an issue.
+are available in the Git repository at:
 
-In any case, even with the current devm:
+  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.12-2024-10-02
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+for you to fetch changes up to 52d4e3fb3d340447dcdac0e14ff21a764f326907:
 
-  Tomi
+  drm/amd/display: Fix system hang while resume with TBT monitor (2024-10-01 18:13:19 -0400)
 
+----------------------------------------------------------------
+amd-drm-fixes-6.12-2024-10-02:
+
+amdgpu:
+- DML2 fix
+- DSC fix
+- Dispclk fix
+- eDP HDR fix
+- IPS fix
+- TBT fix
+
+----------------------------------------------------------------
+Alex Hung (1):
+      drm/amd/display: Add HDR workaround for specific eDP
+
+Charlene Liu (1):
+      drm/amd/display: avoid set dispclk to 0
+
+Fangzhi Zuo (1):
+      drm/amd/display: Restore Optimized pbn Value if Failed to Disable DSC
+
+Leo Li (1):
+      drm/amd/display: Enable idle workqueue for more IPS modes
+
+Tom Chung (1):
+      drm/amd/display: Fix system hang while resume with TBT monitor
+
+Yihan Zhu (1):
+      drm/amd/display: update DML2 policy EnhancedPrefetchScheduleAccelerationFinal DCN35
+
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c    | 20 ++++++++++++++++++--
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c    |  4 ++++
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c  | 17 +++++++++++++----
+ drivers/gpu/drm/amd/display/dc/dc_types.h            |  1 +
+ drivers/gpu/drm/amd/display/dc/dml2/dml2_policy.c    |  1 -
+ .../amd/display/dc/resource/dcn351/dcn351_resource.c |  1 +
+ 6 files changed, 37 insertions(+), 7 deletions(-)
