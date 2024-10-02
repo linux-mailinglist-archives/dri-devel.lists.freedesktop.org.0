@@ -2,70 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DAA398D250
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2024 13:45:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DFF698D282
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2024 13:52:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0211E10E6FA;
-	Wed,  2 Oct 2024 11:45:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BC0810E6FE;
+	Wed,  2 Oct 2024 11:51:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="N5hxFosR";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="De8iypiH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A188910E6FA;
- Wed,  2 Oct 2024 11:45:21 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 027B110E6FB;
+ Wed,  2 Oct 2024 11:51:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1727869522; x=1759405522;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=vTcIC5iYWIX8kyGe+9VaZ1HriAauQzandHaKzai+F+o=;
- b=N5hxFosRlF3XyABv9iYlWsU69I/epxnfnYwJFUVhAgBn6pkHd8/4BlUH
- hsUX4eTbBLNjl8Ed0wX3Ir6c8U8jyUof0v4x9qMpnzxN9TJBa99k+EvaK
- LWw38DQaupYwTrNlrv4BYJ9fhJxQz3uEoU3CuDQcjZ4WrxUNTkgA8yxBg
- 3uYnffrdHsj+TnEgiwHBnwjuaUoJowj+BuIyrao1wkh8mOBNNRW56sXou
- AGN/N81yLAkrH/8F+8J/yum4g1Q0H1PG9AMn7arWY5XuZFDw+tgqq43e1
- FicxzpZZUkAt1E9tPgPIs39t6F/yjuqn38ElgOP7BIUIKNm+qmKnFrZfj A==;
-X-CSE-ConnectionGUID: Hg1vpFy7SjWZkryVcRHxJQ==
-X-CSE-MsgGUID: CDE0ssGYRiGGyEiJeCCH2g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="38388359"
-X-IronPort-AV: E=Sophos;i="6.11,171,1725346800"; d="scan'208";a="38388359"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Oct 2024 04:45:21 -0700
-X-CSE-ConnectionGUID: 5VVvCXsjTbqrL6m4UF3JtA==
-X-CSE-MsgGUID: MJx1Yoh2ROmzs0s9vzeNAw==
+ t=1727869918; x=1759405918;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=gBJSjm8Db5ChqVbRHc3AT32deIpUrD8cF2ddm3npVBo=;
+ b=De8iypiHVa6sjROcjOiCXdSJKVWBzAttl1S3v0SqmNR0Ga0C2eKuAltz
+ j/MU7Yh20zgdg9x7IA/3ayrIG7AoEoVk2P49eFVGl4N8321FiA5RrSKre
+ sP2f//vufWEiikvdeSlHDptZDixqJDalVmSZi9ScBEaqKv8fZ/24NpiTv
+ KRTif1auJo8Dbr8kvMw4wMuLkeqDKtA1thJdi8c9TD70MD8CHsKmMkohy
+ 9d0LfbgR/L8QodYa15bpiN5vjBVDxYyGjNF2AV13Of23An875oztm79Js
+ 73Y0GD+cPj22Eu3Quo4iNJGhxBt1zxG+csHB8zqAlarqcvV7+gKlvTfgs w==;
+X-CSE-ConnectionGUID: 96ESm/ZzRmStI+nM2gYXpg==
+X-CSE-MsgGUID: hytD/tPoQH6vjzxFxvqTCQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="27183781"
+X-IronPort-AV: E=Sophos;i="6.11,171,1725346800"; d="scan'208";a="27183781"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Oct 2024 04:51:57 -0700
+X-CSE-ConnectionGUID: /nWU2SiwQfmHzvSdPW9YxQ==
+X-CSE-MsgGUID: TkUQETggSUKh9cmze5nP7A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,171,1725346800"; d="scan'208";a="111446338"
-Received: from cpetruta-mobl1.ger.corp.intel.com (HELO intel.com)
- ([10.245.246.61])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Oct 2024 04:45:15 -0700
-Date: Wed, 2 Oct 2024 13:45:11 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Jonathan Cavitt <jonathan.cavitt@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- vegard.nossum@oracle.com, Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: Re: [PATCH] drm/i915: Rename functions in the docs to match code
- changes
-Message-ID: <Zv0yRyYbepSGZjFR@ashyti-mobl2.lan>
-References: <20241001062555.1908090-1-harshit.m.mogalapalli@oracle.com>
+X-IronPort-AV: E=Sophos;i="6.11,171,1725346800"; d="scan'208";a="78507107"
+Received: from lbogdanm-mobl3.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.49])
+ by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Oct 2024 04:51:54 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Rodrigo Vivi
+ <rodrigo.vivi@intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/i915/backlight: Remove a useless kstrdup_const()
+In-Reply-To: <3c793f42-6cd1-40e7-a3f2-556b6e5b4094@wanadoo.fr>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <3b3d3af8739e3016f3f80df0aa85b3c06230a385.1727533674.git.christophe.jaillet@wanadoo.fr>
+ <875xqdy42v.fsf@intel.com>
+ <3c793f42-6cd1-40e7-a3f2-556b6e5b4094@wanadoo.fr>
+Date: Wed, 02 Oct 2024 14:51:51 +0300
+Message-ID: <87cykiu3hk.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241001062555.1908090-1-harshit.m.mogalapalli@oracle.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,59 +76,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Harshit,
+On Tue, 01 Oct 2024, Christophe JAILLET <christophe.jaillet@wanadoo.fr> wro=
+te:
+> Le 30/09/2024 =C3=A0 09:48, Jani Nikula a =C3=A9crit=C2=A0:
+>> On Sat, 28 Sep 2024, Christophe JAILLET <christophe.jaillet@wanadoo.fr> =
+wrote:
+>>> "name" is allocated and freed in intel_backlight_device_register().
+>>> The initial allocation just duplicates "intel_backlight".
+>>>
+>>> Later, if a device with this name has already been registered, another
+>>> dynamically generated one is allocated using kasprintf().
+>>>
+>>> So at the end of the function, when "name" is freed, it can point eithe=
+r to
+>>> the initial static literal "intel_backlight" or to the kasprintf()'ed o=
+ne.
+>>>
+>>> So kfree_const() is used.
+>>>
+>>> However, when built as a module, kstrdup_const() and kfree_const() don't
+>>> work as one would expect and are just plain kstrdup() and kfree().
+>>>
+>>>
+>>> Slightly change the logic and introduce a new variable to hold the
+>>> address returned by kasprintf() should it be used.
+>>>
+>>> This saves a memory allocation/free and avoids these _const functions,
+>>> which names can be confusing when used with code built as module.
+>>=20
+>> Okay, I'd rather revert your earlier commit 379b63e7e682
+>> ("drm/i915/display: Save a few bytes of memory in
+>> intel_backlight_device_register()") than add this.
+>
+> Hi,
+>
+> that works for me. Thanks and sorry for the noise.
 
-On Mon, Sep 30, 2024 at 11:25:54PM -0700, Harshit Mogalapalli wrote:
-> make htmldocs is reporting:
-> 
-> drivers/gpu/drm/i915/i915_irq.c:1: warning: 'intel_runtime_pm_disable_interrupts' not found
-> drivers/gpu/drm/i915/i915_irq.c:1: warning: 'intel_runtime_pm_enable_interrupts' not found
-> 
-> intel_runtime_pm_disable_interrupts() is renamed to intel_irq_suspend(),
-> make documentation changes accordingly.
-> 
-> Fixes: 3de5774cb8c0 ("drm/i915/irq: Rename suspend/resume functions")
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Closes: https://lore.kernel.org/all/20241001134331.7b4d4ca5@canb.auug.org.au/
-> Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
+Will you send the revert?
 
-Thanks for your patch. The functions were indeed renamed here(*)
-by Rodrigo.
+BR,
+Jani.
 
-I'm going to remove the "Fixes:" tag as I don't think
-documentation fixes are part of it. Unless someone wants it
-strongly.
 
-Without the Fixes tag:
-
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
-
-Andi
-
-(*) 3de5774cb8c0 ("drm/i915/irq: Rename suspend/resume functions")
-
-> ---
-> Noticed that Stephen also reported this so added a Closes URL.
-> ---
->  Documentation/gpu/i915.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
-> index ad59ae579237..7a469df675d8 100644
-> --- a/Documentation/gpu/i915.rst
-> +++ b/Documentation/gpu/i915.rst
-> @@ -35,10 +35,10 @@ Interrupt Handling
->     :functions: intel_irq_init intel_irq_init_hw intel_hpd_init
->  
->  .. kernel-doc:: drivers/gpu/drm/i915/i915_irq.c
-> -   :functions: intel_runtime_pm_disable_interrupts
-> +   :functions: intel_irq_suspend
->  
->  .. kernel-doc:: drivers/gpu/drm/i915/i915_irq.c
-> -   :functions: intel_runtime_pm_enable_interrupts
-> +   :functions: intel_irq_resume
->  
->  Intel GVT-g Guest Support(vGPU)
->  -------------------------------
-> -- 
-> 2.46.0
+--=20
+Jani Nikula, Intel
