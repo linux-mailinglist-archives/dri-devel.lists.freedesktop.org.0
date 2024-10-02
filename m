@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 914C698CEE0
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2024 10:38:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C422598CEF7
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2024 10:40:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B956C10E6D6;
-	Wed,  2 Oct 2024 08:38:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8A2E10E6C5;
+	Wed,  2 Oct 2024 08:40:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="p80H3rt6";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="K5w+4ymg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1896610E6CC
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Oct 2024 08:38:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8329D10E6CC
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Oct 2024 08:40:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1727858295;
- bh=PapsXDbscE5g+CTsH3TMd8PdEDw+5StvLgt1r7y4e2E=;
+ s=mail; t=1727858412;
+ bh=E072KCVh6LJlFj0HOPume94KTKRPv9XY7u/cVyvRPyk=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=p80H3rt6J4/GSbs8bgUfR5T35tiZ1xTuCBrNO7xrn5z5McLQS5NLBZQpyMvM3AJOU
- qJ8prqHbXBGhTaydK63dfTz2bVcfZ1sYS7mZ28DuWNpxUBEz9xBppAv9OwqR345MlF
- B5JJ/RkJBW+j6K7sD6xcjTZbLBsJauDxVTBliEpl4Ufon4QdgdLWj0HPZdeGJZeAzr
- 7YB78MYC0VvdKGH1xfCVpO5eTqaXzHU8BvRlQYx7+zRMAHXNyfepAljngqCMPcuS85
- Eieb475kQF23qy6QIUcFZiSl79fhHZzB39iJrXBqtXXl7C4Mtdev7k5M4BA8NjnIUe
- BJn3kuwD4tbBA==
+ b=K5w+4ymg5N/PtfoggMLxoOi2zwnyqYQDZxpNXfK7Ykat4b91VXf4SFFPU0CP3EywD
+ hLmHQhTLebP8IiogDgNFfWgSY0rqES4sfbkVChT2IMg5Cj2B9JQ+J1PCLw7zDm18jV
+ 3Y0OXSQeNypck3HB4aNJNjw/n6WYrBWZbELFyJwOjeK8MsIh4cPRIPt4oQMezs+wU4
+ w/BwDIA1IX2+Y05VZXHzBGCCU6AYEbB2Yy+F9UGCIMG1PJu7yEVmSyBQkbACeP/4nn
+ UNMmYsaK79A6F1Fz0x6s1yRoK2rIbmpBBDsh8pVxDR5/zr7yKyBQkGk0zy5y2EyaX3
+ rNhgIE81/h+yg==
 Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 2720C17E1082;
- Wed,  2 Oct 2024 10:38:15 +0200 (CEST)
-Date: Wed, 2 Oct 2024 10:38:09 +0200
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 7F26A17E1082;
+ Wed,  2 Oct 2024 10:40:11 +0200 (CEST)
+Date: Wed, 2 Oct 2024 10:40:06 +0200
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
 Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
@@ -43,12 +43,11 @@ Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
  <christian.koenig@amd.com>, kernel@collabora.com,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v8 1/5] drm/panthor: introduce job cycle and timestamp
- accounting
-Message-ID: <20241002103809.26d34ee0@collabora.com>
-In-Reply-To: <20240923230912.2207320-2-adrian.larumbe@collabora.com>
+Subject: Re: [PATCH v8 3/5] drm/panthor: add DRM fdinfo support
+Message-ID: <20241002104006.5e2f744b@collabora.com>
+In-Reply-To: <20240923230912.2207320-4-adrian.larumbe@collabora.com>
 References: <20240923230912.2207320-1-adrian.larumbe@collabora.com>
- <20240923230912.2207320-2-adrian.larumbe@collabora.com>
+ <20240923230912.2207320-4-adrian.larumbe@collabora.com>
 Organization: Collabora
 X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -69,41 +68,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 24 Sep 2024 00:06:21 +0100
+On Tue, 24 Sep 2024 00:06:23 +0100
 Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
 
-> +static u32 calc_profiling_ringbuf_num_slots(struct panthor_device *ptdev,
-> +				       u32 cs_ringbuf_size)
+> +static void update_fdinfo_stats(struct panthor_job *job)
 > +{
-> +	u32 min_profiled_job_instrs =3D U32_MAX;
-> +	u32 last_flag =3D fls(PANTHOR_DEVICE_PROFILING_ALL);
+> +	struct panthor_group *group =3D job->group;
+> +	struct panthor_queue *queue =3D group->queues[job->queue_idx];
+> +	struct panthor_gpu_usage *fdinfo =3D &group->fdinfo.data;
+> +	struct panthor_job_profiling_data *times;
 > +
-> +	/*
-> +	 * We want to calculate the minimum size of a profiled job's CS,
-> +	 * because since they need additional instructions for the sampling
-> +	 * of performance metrics, they might take up further slots in
-> +	 * the queue's ringbuffer. This means we might not need as many job
-> +	 * slots for keeping track of their profiling information. What we
-> +	 * need is the maximum number of slots we should allocate to this end,
-> +	 * which matches the maximum number of profiled jobs we can place
-> +	 * simultaneously in the queue's ring buffer.
-> +	 * That has to be calculated separately for every single job profiling
-> +	 * flag, but not in the case job profiling is disabled, since unprofiled
-> +	 * jobs don't need to keep track of this at all.
-> +	 */
-> +	for (u32 i =3D 0; i < last_flag; i++) {
-> +		if (BIT(i) & PANTHOR_DEVICE_PROFILING_ALL)
+> +	times =3D (struct panthor_job_profiling_data *)
+> +		((unsigned long) queue->profiling.slots->kmap +
+> +		 (job->profiling.slot * sizeof(struct panthor_job_profiling_data)));
 
-I'll get rid of this check when applying, as suggested by Steve. Steve,
-with this modification do you want me to add your R-b?
+The casting done here is a bit of a mess, so I replaced it by:
 
-BTW, I've also fixed a bunch of checkpatch errors/warnings, so you
-might want to run checkpatch --strict next time.
+	struct panthor_job_profiling_data *slots =3D queue->profiling.slots->kmap;
+	struct panthor_job_profiling_data *data =3D &slots[job->profiling.slot];
 
-> +			min_profiled_job_instrs =3D
-> +				min(min_profiled_job_instrs, calc_job_credits(BIT(i)));
-> +	}
 > +
-> +	return DIV_ROUND_UP(cs_ringbuf_size, min_profiled_job_instrs * sizeof(u=
-64));
+> +	mutex_lock(&group->fdinfo.lock);
+> +	if (job->profiling.mask & PANTHOR_DEVICE_PROFILING_CYCLES)
+> +		fdinfo->cycles +=3D times->cycles.after - times->cycles.before;
+> +	if (job->profiling.mask & PANTHOR_DEVICE_PROFILING_TIMESTAMP)
+> +		fdinfo->time +=3D times->time.after - times->time.before;
+> +	mutex_unlock(&group->fdinfo.lock);
 > +}
