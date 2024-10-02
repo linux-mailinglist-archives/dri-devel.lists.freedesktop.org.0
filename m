@@ -2,94 +2,137 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64CDC98DD8F
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2024 16:50:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F41C98DDBE
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2024 16:52:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D415810E0C1;
-	Wed,  2 Oct 2024 14:50:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96ECA10E753;
+	Wed,  2 Oct 2024 14:52:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Irub82N7";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="VRN8fUcU";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sZUZYvw7";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VRN8fUcU";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sZUZYvw7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20E6610E0C1
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Oct 2024 14:50:37 +0000 (UTC)
-Received: from [192.168.88.20] (91-156-87-48.elisa-laajakaista.fi
- [91.156.87.48])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9BE905A5;
- Wed,  2 Oct 2024 16:49:02 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1727880543;
- bh=xNMS1K/HpPh03J2jOEdTpgext3J3ZGIqfHxpLFRxzWc=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Irub82N782cgzbFZ5/+gZ5AeMxvZH8FqMRs5a6LuY1+4N+anv31JoCXtzW/1KMtdk
- Wl+G8wjEtmFY7khMIp83/IXW+kWntV3GWFB63QGATVv3RZ+77aSW/4fluiDgOgW08K
- iofuPR/yFXzq6iQBCRph9bImnEk75bHhirXtdsDo=
-Message-ID: <a023bd66-8f42-4f27-9aa2-5097b2574562@ideasonboard.com>
-Date: Wed, 2 Oct 2024 17:50:31 +0300
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C04E610E753
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Oct 2024 14:51:59 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 4A54D21998;
+ Wed,  2 Oct 2024 14:51:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1727880718; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=hswwSYWp6R+Ly+qyYXtkvRmfjgPVesLZWu39YZnYSLg=;
+ b=VRN8fUcU+Y9qbMpBMvzOMJHFuPA4ieIAHvyXqlP+2Ra2p1TTzbQ51WZb/uKo+lt5aN4HXQ
+ ZgKyBfdA2CVaKYXC08z4rtAEIpowcuKjiMuoE+DlmDaXd9y1goK4nsFM8L3vTZkP0muPAV
+ 4ucidFZlcUlP1dUcNdnoM4NcdE3LatE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1727880718;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=hswwSYWp6R+Ly+qyYXtkvRmfjgPVesLZWu39YZnYSLg=;
+ b=sZUZYvw7W/pXSI3+jqnuaGivRB164nRSO76/CqKeuRtfH3A6lhyt1Dacl+1rz2HWf9jacA
+ 9LqQKujZvklddpDQ==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=VRN8fUcU;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=sZUZYvw7
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1727880718; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=hswwSYWp6R+Ly+qyYXtkvRmfjgPVesLZWu39YZnYSLg=;
+ b=VRN8fUcU+Y9qbMpBMvzOMJHFuPA4ieIAHvyXqlP+2Ra2p1TTzbQ51WZb/uKo+lt5aN4HXQ
+ ZgKyBfdA2CVaKYXC08z4rtAEIpowcuKjiMuoE+DlmDaXd9y1goK4nsFM8L3vTZkP0muPAV
+ 4ucidFZlcUlP1dUcNdnoM4NcdE3LatE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1727880718;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=hswwSYWp6R+Ly+qyYXtkvRmfjgPVesLZWu39YZnYSLg=;
+ b=sZUZYvw7W/pXSI3+jqnuaGivRB164nRSO76/CqKeuRtfH3A6lhyt1Dacl+1rz2HWf9jacA
+ 9LqQKujZvklddpDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2963213A6E;
+ Wed,  2 Oct 2024 14:51:58 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id qL3eCA5e/WalOQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 02 Oct 2024 14:51:58 +0000
+Message-ID: <9b55ce32-a53d-4345-ad7e-de9e3dd74996@suse.de>
+Date: Wed, 2 Oct 2024 16:51:57 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 0/8] drm: zynqmp_dp: IRQ cleanups and debugfs support
-To: Sean Anderson <sean.anderson@linux.dev>
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- David Airlie <airlied@gmail.com>, Michal Simek <michal.simek@amd.com>,
- Daniel Vetter <daniel@ffwll.ch>, "Sagar, Vishal" <vishal.sagar@amd.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+Subject: Re: [PATCH v2 00/31] accel/ivpu: Fixes for 6.12-rc1
+To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
  dri-devel@lists.freedesktop.org
-References: <20240809193600.3360015-1-sean.anderson@linux.dev>
- <5e9769dd-459a-4ff3-aebb-bb7057192733@linux.dev>
+Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com
+References: <20240930195322.461209-1-jacek.lawrynowicz@linux.intel.com>
+ <6f18b890-2fa2-4c81-ab4e-2816d0ce98d9@linux.intel.com>
 Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <5e9769dd-459a-4ff3-aebb-bb7057192733@linux.dev>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <6f18b890-2fa2-4c81-ab4e-2816d0ce98d9@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 4A54D21998
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ ARC_NA(0.00)[]; FREEMAIL_CC(0.00)[gmail.com,quicinc.com];
+ DKIM_TRACE(0.00)[suse.de:+]; MIME_TRACE(0.00)[0:+];
+ RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ MID_RHS_MATCH_FROM(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ TAGGED_RCPT(0.00)[]; RCPT_COUNT_THREE(0.00)[4];
+ TO_DN_SOME(0.00)[]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.01
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,35 +148,120 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi
 
-On 01/10/2024 21:31, Sean Anderson wrote:
-> On 8/9/24 15:35, Sean Anderson wrote:
->> This series cleans up the zyqnmp_dp IRQ and locking situation. Once
->> that's done, it adds debugfs support. The intent is to enable compliance
->> testing or to help debug signal-integrity issues.
+Am 02.10.24 um 15:26 schrieb Jacek Lawrynowicz:
+> Applied to drm-misc-fixes
 
-I think the patches 1-7 look fine, and I think I can pick those already 
-to drm-misc if you're ok with that.
+And removed from drm-misc-fixes.
 
-I'm a bit unsure about patch 8, probably mainly because I don't have 
-experience with the compliance testing.
+The -misc-fixes branch is for fixing bugs that either regressed working 
+code or to resolve serious bugs that affects upstream users. It is NOT a 
+dumping ground for all kinds of things you want to get into upstream 
+quickly. Your review process should have found these issues already.
 
-How have you tested this? With some DP analyzer/tester, I presume?
+Best regards
+Thomas
 
-I think none of this (patch 8) is needed by almost anybody. Even among 
-zynqmp_dp developers I assume it's very rare to have the hardware for 
-this. I wonder if it would make sense to have the debugfs and related 
-code behind a compile option (which would be nice as the code wouldn't 
-even compiled in), or maybe a module parameter (which would be nice as 
-then "anyone" can easily enable it for compliance testing). What do you 
-think?
+>
+> On 9/30/2024 9:52 PM, Jacek Lawrynowicz wrote:
+>> Most notable changes are coredump and tracing support.
+>> The rest are stability fixes, some refactoring and typos.
+>>
+>> Changes in v2:
+>> - Fix typos in FW API headers
+>> - Split fw refactor commit into 2 commits and improved commit messages
+>> - Fixed commit messages for state dump and power island commits
+>> - Added limit and NULL termination for FW version string
+>> - Documented sched_mode sysfs file
+>>
+>>
+>> Andrzej Kacprowski (4):
+>>    accel/ivpu: Update VPU FW API headers
+>>    accel/ivpu: Allow reading dvfs_mode debugfs file
+>>    accel/ivpu: Add test_mode bit to force turbo
+>>    accel/ivpu: Fix reset_engine debugfs file logic
+>>
+>> Jacek Lawrynowicz (11):
+>>    accel/ivpu: Rename ivpu_log_level to fw_log_level
+>>    accel/ivpu: Refactor functions in ivpu_fw_log.c
+>>    accel/ivpu: Fix fw log printing
+>>    accel/ivpu: Limit FW version string length
+>>    accel/ivpu: Stop using hardcoded DRIVER_DATE
+>>    accel/ivpu: Add auto selection logic for job scheduler
+>>    accel/ivpu: Remove invalid warnings
+>>    accel/ivpu: Increase MS info buffer size
+>>    accel/ivpu: Fix ivpu_jsm_dyndbg_control()
+>>    accel/ivpu: Remove HWS_EXTRA_EVENTS from test modes
+>>    accel/ivpu: Fix typos in ivpu_pm.c
+>>
+>> Jakub Pawlak (1):
+>>    accel/ivpu: Add tracing for IPC/PM/JOB
+>>
+>> Karol Wachowski (12):
+>>    accel/ivpu: Add coredump support
+>>    accel/ivpu: Set 500 ns delay between power island TRICKLE and ENABLE
+>>    accel/ivpu: Turn on autosuspend on Simics
+>>    accel/ivpu: Add FW version debugfs entry
+>>    accel/ivpu: Remove 1-tile power up Simics workaround
+>>    accel/ivpu: Add one jiffy to bo_wait_ioctl timeout value
+>>    accel/ivpu: Print JSM message result in case of error
+>>    accel/ivpu: Remove skip of clock own resource ack on Simics
+>>    accel/ivpu: Prevent recovery invocation during probe and resume
+>>    accel/ivpu: Refactor failure diagnostics during boot
+>>    accel/ivpu: Do not fail on cmdq if failed to allocate preemption
+>>      buffers
+>>    accel/ivpu: Use whole user and shave ranges for preemption buffers
+>>
+>> Tomasz Rusinowicz (3):
+>>    accel/ivpu: Reset fw log on cold boot
+>>    accel/ivpu: Add FW state dump on TDR
+>>    accel/ivpu: Make DB_ID and JOB_ID allocations incremental
+>>
+>>   drivers/accel/ivpu/Kconfig             |   1 +
+>>   drivers/accel/ivpu/Makefile            |   6 +-
+>>   drivers/accel/ivpu/ivpu_coredump.c     |  39 ++++
+>>   drivers/accel/ivpu/ivpu_coredump.h     |  25 ++
+>>   drivers/accel/ivpu/ivpu_debugfs.c      |  86 +++----
+>>   drivers/accel/ivpu/ivpu_drv.c          |  52 +++--
+>>   drivers/accel/ivpu/ivpu_drv.h          |  13 +-
+>>   drivers/accel/ivpu/ivpu_fw.c           |  26 ++-
+>>   drivers/accel/ivpu/ivpu_fw.h           |   9 +-
+>>   drivers/accel/ivpu/ivpu_fw_log.c       | 113 +++++----
+>>   drivers/accel/ivpu/ivpu_fw_log.h       |  17 +-
+>>   drivers/accel/ivpu/ivpu_gem.c          |   3 +
+>>   drivers/accel/ivpu/ivpu_hw.c           |   5 +-
+>>   drivers/accel/ivpu/ivpu_hw.h           |   1 -
+>>   drivers/accel/ivpu/ivpu_hw_btrs.c      |   9 -
+>>   drivers/accel/ivpu/ivpu_hw_ip.c        |   8 +-
+>>   drivers/accel/ivpu/ivpu_ipc.c          |  45 ++--
+>>   drivers/accel/ivpu/ivpu_ipc.h          |   9 +-
+>>   drivers/accel/ivpu/ivpu_job.c          | 102 +++++----
+>>   drivers/accel/ivpu/ivpu_jsm_msg.c      |  34 +--
+>>   drivers/accel/ivpu/ivpu_jsm_msg.h      |   2 +
+>>   drivers/accel/ivpu/ivpu_ms.c           |   2 +-
+>>   drivers/accel/ivpu/ivpu_pm.c           |  24 +-
+>>   drivers/accel/ivpu/ivpu_sysfs.c        |  24 ++
+>>   drivers/accel/ivpu/ivpu_trace.h        |  73 ++++++
+>>   drivers/accel/ivpu/ivpu_trace_points.c |   9 +
+>>   drivers/accel/ivpu/vpu_boot_api.h      |  45 ++--
+>>   drivers/accel/ivpu/vpu_jsm_api.h       | 303 +++++++++++++++++++++----
+>>   include/uapi/drm/ivpu_accel.h          |   3 -
+>>   29 files changed, 797 insertions(+), 291 deletions(-)
+>>   create mode 100644 drivers/accel/ivpu/ivpu_coredump.c
+>>   create mode 100644 drivers/accel/ivpu/ivpu_coredump.h
+>>   create mode 100644 drivers/accel/ivpu/ivpu_trace.h
+>>   create mode 100644 drivers/accel/ivpu/ivpu_trace_points.c
+>>
+>> --
+>> 2.45.1
 
-I also somehow recall that there was some discussion earlier about 
-how/if other drivers support compliance testing. But I can't find the 
-discussion. Do you remember if there was such discussion, and what was 
-the conclusion? With a quick look, everything in the debugfs looks 
-generic, not xilinx specific.
-
-  Tomi
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
