@@ -2,56 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C50C898D58E
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2024 15:31:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8165398D6B5
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2024 15:43:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35E6710E34E;
-	Wed,  2 Oct 2024 13:31:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E1CD10E725;
+	Wed,  2 Oct 2024 13:43:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="AKdh1Wtt";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WtkWYiFs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com
- [157.90.84.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F52E10E34E
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Oct 2024 13:31:46 +0000 (UTC)
-Received: from [192.168.42.96] (pd9e59da1.dip0.t-ipconnect.de
- [217.229.157.161]) (Authenticated sender: wse@tuxedocomputers.com)
- by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 57BDA2FC0050;
- Wed,  2 Oct 2024 15:31:44 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
- s=default; t=1727875904;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wGOtZtXVPpdQdwtaMm7mq8l+rXyCb8gEF+WRDFxJKYo=;
- b=AKdh1WttXohJ3kmStfUJlq+YBFG0nVVUnH6gJFFlkO8LXBTQ7i67AAKMa7Uxgojxe11DIp
- 9AhqnU/+v8p4FwfkK8fs51GtUsn7waSWGeag7UMc39r6cbMDH4m76TrYCEmcPZL7xuNO+D
- 1kN11fRwGQqVAzXFaIdgmU1Vid2iy7U=
-Authentication-Results: mail.tuxedocomputers.com;
- auth=pass smtp.auth=wse@tuxedocomputers.com
- smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <4bfc188c-0873-490f-bfef-119c7fa74be5@tuxedocomputers.com>
-Date: Wed, 2 Oct 2024 15:31:44 +0200
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
+ [209.85.208.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D539B10E725
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Oct 2024 13:43:28 +0000 (UTC)
+Received: by mail-lj1-f170.google.com with SMTP id
+ 38308e7fff4ca-2fac63abf63so38321281fa.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Oct 2024 06:43:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1727876607; x=1728481407; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=4U/HG7Zu+rJjch/B5zOY+UiM6d6AX6rq/Wk+vOsFihU=;
+ b=WtkWYiFsxUd26OZnfYL05aOXMCbSG52RTHFksJZXIP/XW5Ry639hgoCthyH3RgdJnp
+ 5I+c/lt/wwEBQUALz9lhHdMk8mqQeOYhR4ouDWTRZNe6LMu1NziRbc9kes82amRPKcOJ
+ BqHNddAS0Ag+Q3QOC/7IJGrj8jF/dBHJ4xYG/IPEkR52wBj2RhFfoKCTWsDXks2ksrl3
+ VvYpcZY36+57IjpyI79FIKI4fUAhjhzVfMHg/SJoNT9IMAcHLHeBDbzJ8ZVNH+s9NG8F
+ qdfeXVyTBlodtwfHpJLXLTJpluYFpU4krgEhfajKnUs3Z/UWzcLHM76GmIR4yzM6DlL+
+ g8Bg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1727876607; x=1728481407;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=4U/HG7Zu+rJjch/B5zOY+UiM6d6AX6rq/Wk+vOsFihU=;
+ b=XH18YYZj3SDUzZ/yQYTQbzLl3DsQfYR3gUPKLH4QBIHFcf6ETfNsIeobyBUP7y+id1
+ wskRlupyY8hfQfWCU8D0QEEmG+SR6HevbzHO18dVc1sg6Flg+2/ORb82DFu8LLEnmMAl
+ aAbf/uwCBQVnCJy686d4j23Vmi4qabCtQBHQ7SK03BdXmsIg+dlOWfjRLjD6aggNlJSI
+ MxMg3uqfySZo6rb5mvqF9B/Xxiw4ylbRCaQDHs5EJLzPZJPgScyeHMemXvTG46tTZkoJ
+ o1qthqKneiLnw7VQyF08bw3X8PAfGHKs3rBc/YfJpP+0Dq8Pd9rJXDsI03qVWD3nKkZ9
+ JAeA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUmDc5J4x8HWeAA3tys3nCMIxYo1QF4R9X6qjsFTJ4j3xkhxbj+I2vJWOba4U+izILSeBIuPr89N7I=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywh79CDfArYWie8ttK0DBt7qYZjo9S6aDdRsfwWwlSTVwHk1VTH
+ g8lu0R11i4yz11IvU2TgvMVh8NH0j8hmAPtmj/AUEGyw4Kvw5lGwtRgNHcMbuHLdyskj/EdAK+S
+ BYAkDKUqI2xhCrkQXA72iR9NWWLl9awbltZk=
+X-Google-Smtp-Source: AGHT+IEJ6f4uGOKEroxtjURr/U02X8Am0TD9em6KyzlCinzdT0JnlbDBuypuv1SdsH3NYin0rH96Dcj8V9kt0PH/U3c=
+X-Received: by 2002:a05:651c:150a:b0:2fa:cf5b:1ea7 with SMTP id
+ 38308e7fff4ca-2fae0ffccd0mr19283841fa.6.1727876606397; Wed, 02 Oct 2024
+ 06:43:26 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/1] platform/x86/tuxedo: Add virtual LampArray for
- TUXEDO
-To: Lee Jones <lee@kernel.org>
-Cc: bentiss@kernel.org, dri-devel@lists.freedesktop.org, hdegoede@redhat.com, 
- jelle@vdwaa.nl, jikos@kernel.org, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
- miguel.ojeda.sandonis@gmail.com, ojeda@kernel.org, onitake@gmail.com,
- pavel@ucw.cz, cs@tuxedo.de
-References: <20240927124152.139099-1-wse@tuxedocomputers.com>
- <20241002125243.GC7504@google.com>
-Content-Language: en-US
-From: Werner Sembach <wse@tuxedocomputers.com>
-In-Reply-To: <20241002125243.GC7504@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <CADnq5_PB8zUfCN-NcNpgHqzAv8A55o2hsYHAdnSBhEy525NLfA@mail.gmail.com>
+ <D01B31B5-0609-4106-ABF4-B549CDBA362B@xenosoft.de>
+ <CANyH0kBnWZMZCG7K9vGt2a8Svr30U=PVOwrhwn-Q-CN9PZc=Sw@mail.gmail.com>
+ <77d49375-8eac-45cf-83b7-c3334ed6d665@csgroup.eu>
+In-Reply-To: <77d49375-8eac-45cf-83b7-c3334ed6d665@csgroup.eu>
+From: Hoi Pok Wu <wuhoipok@gmail.com>
+Date: Wed, 2 Oct 2024 21:43:15 +0800
+Message-ID: <CANyH0kD1Q8PvRaMkBr=0x7QHzkUFheaMfL5LVeDaaj3FrBm5XA@mail.gmail.com>
+Subject: Re: Kernel doesn't boot after DRM updates (drm-next-2024-09-19)
+To: Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: Christian Zigotzky <chzigotzky@xenosoft.de>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ Alex Deucher <alexdeucher@gmail.com>, Alex Deucher <alexander.deucher@amd.com>,
+ developers DRI <dri-devel@lists.freedesktop.org>,
+ mad skateman <madskateman@gmail.com>, 
+ "R.T.Dickinson" <rtd2@xtra.co.nz>, Darren Stevens <darren@stevens-zone.net>,
+ hypexed@yahoo.com.au, linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+ Christian Zigotzky <info@xenosoft.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,28 +88,189 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Thanks to Christophe.
+I have figured out what happened.
+The connector is registered before the device,
+where drm_connector_register() states that,
+drm_dev_register() has to be called before it.
 
-Am 02.10.24 um 14:52 schrieb Lee Jones:
-> On Fri, 27 Sep 2024, Werner Sembach wrote:
+Assuming this is the fix, I will send the patch for testing soon.
+
+On Tue, Oct 1, 2024 at 8:23=E2=80=AFPM Christophe Leroy
+<christophe.leroy@csgroup.eu> wrote:
 >
->> Hi,
->> first revision integrating Armins feedback.
->>
->> Stuff I did not yet change and did not comment on previously:
->> - Still have to ask Christoffer why the mutex is required
->> - Still using acpi_size instad of size_t in the util functions, because the value is put directly into a struct using acpi_size
->> - Error messages for __wmi_method_acpi_object_out still in that method because they reference method internal variables
->>
->> Let me know if my reasoning is flawed
-> Use `git format-patch`'s --annotate and --compose next time please.
+> Hi All,
 >
-I did but --compose does not automatically insert the subject line, that's why i 
-copied it but forgot to change it to 0/1
-
-Sorry for the flawed subject line
-
-Best Regards,
-
-Werner
-
+> Le 01/10/2024 =C3=A0 14:09, Hoi Pok Wu a =C3=A9crit :
+> > [Vous ne recevez pas souvent de courriers de wuhoipok@gmail.com. D=C3=
+=A9couvrez pourquoi ceci est important =C3=A0 https://aka.ms/LearnAboutSend=
+erIdentification ]
+> >
+> > Hi Thomas,
+> >
+> > Could you help on this issue?
+> > I do not have access to the hardware now.
+> > Thank you.
+>
+> The OOPS is from function drm_dp_aux_register(), exactly here below:
+>
+> static inline const char *dev_name(const struct device *dev)
+> {
+>         /* Use the init name until the kobject becomes available */
+>         if (dev->init_name)
+>
+>      1ae0:      e8 89 00 50     ld      r4,80(r9)
+>
+>
+> As you see in registers dump, r9 register is NULL. That's dev which is NU=
+LL:
+>
+> GPR00: c0000000005b74f0 c0000000800daf10 c0000000015a3600 c00000008033f7e=
+c
+> GPR04: 0000000000000000 c000000001908f18 c000000080460c80 ffffffffc0c0c0c=
+0
+> GPR08: c000000080f74008 0000000000000000 0000000000000003 c000000080f7400=
+8
+> GPR12: 0000000048000828 c00000003fffeac0 0000000000000003 000000000100000=
+0
+> GPR16: c0000000804eaeca 0000000000000013 0000000000003113 000000000000000=
+0
+> GPR20: 0000000000000008 c0000000800db208 000000000000000a c0000000014d686=
+8
+> GPR24: 0000000000000000 0000000000000001 c0000000800db29c c0000000800db25=
+0
+> GPR28: c000000080bd8040 0000000000000001 c000000080f74000 c00000008033f4a=
+0
+>
+> Full dump below:
+>
+> 0000000000001a5c <drm_dp_aux_register>:
+> {
+>      1a5c:      3c 4c 00 00     addis   r2,r12,0
+>                         1a5e: R_PPC64_REL16_HA  .TOC.+0x2
+>      1a60:      38 42 00 00     addi    r2,r2,0
+>                         1a62: R_PPC64_REL16_LO  .TOC.+0x6
+>      1a64:      7c 08 02 a6     mflr    r0
+>      1a68:      fb e1 ff f8     std     r31,-8(r1)
+>      1a6c:      f8 01 00 10     std     r0,16(r1)
+>      1a70:      7c 7f 1b 78     mr      r31,r3
+>      1a74:      f8 21 ff d1     stdu    r1,-48(r1)
+>         WARN_ON_ONCE(!aux->drm_dev);
+>      1a78:      e9 23 03 38     ld      r9,824(r3)
+>      1a7c:      2f a9 00 00     cmpdi   cr7,r9,0
+>      1a80:      41 de 00 90     beq-    cr7,1b10 <drm_dp_aux_register+0xb=
+4>
+>         if (!aux->ddc.algo)
+>      1a84:      e9 3f 00 18     ld      r9,24(r31)
+>      1a88:      2f a9 00 00     cmpdi   cr7,r9,0
+>      1a8c:      41 de 00 74     beq-    cr7,1b00 <drm_dp_aux_register+0xa=
+4>
+>         strscpy(aux->ddc.name, aux->name ? aux->name : dev_name(aux->dev)=
+,
+>      1a90:      e8 9f 00 00     ld      r4,0(r31)
+>         aux->ddc.owner =3D THIS_MODULE;
+>      1a94:      39 40 00 00     li      r10,0
+>         aux->ddc.dev.parent =3D aux->dev;
+>      1a98:      e9 3f 03 30     ld      r9,816(r31)
+>         strscpy(aux->ddc.name, aux->name ? aux->name : dev_name(aux->dev)=
+,
+>      1a9c:      38 7f 02 74     addi    r3,r31,628
+>         aux->ddc.owner =3D THIS_MODULE;
+>      1aa0:      f9 5f 00 08     std     r10,8(r31)
+>         strscpy(aux->ddc.name, aux->name ? aux->name : dev_name(aux->dev)=
+,
+>      1aa4:      2f a4 00 00     cmpdi   cr7,r4,0
+>         aux->ddc.dev.parent =3D aux->dev;
+>      1aa8:      f9 3f 00 b8     std     r9,184(r31)
+>         strscpy(aux->ddc.name, aux->name ? aux->name : dev_name(aux->dev)=
+,
+>      1aac:      41 de 00 34     beq-    cr7,1ae0 <drm_dp_aux_register+0x8=
+4>
+>      1ab0:      38 a0 00 30     li      r5,48
+>      1ab4:      48 00 00 01     bl      1ab4 <drm_dp_aux_register+0x58>
+>                         1ab4: R_PPC64_REL24     sized_strscpy
+>      1ab8:      60 00 00 00     nop
+>         ret =3D i2c_add_adapter(&aux->ddc);
+>      1abc:      38 7f 00 08     addi    r3,r31,8
+>      1ac0:      48 00 00 01     bl      1ac0 <drm_dp_aux_register+0x64>
+>                         1ac0: R_PPC64_REL24     i2c_add_adapter
+>      1ac4:      60 00 00 00     nop
+> }
+>      1ac8:      38 21 00 30     addi    r1,r1,48
+>      1acc:      e8 01 00 10     ld      r0,16(r1)
+>      1ad0:      eb e1 ff f8     ld      r31,-8(r1)
+>      1ad4:      7c 08 03 a6     mtlr    r0
+>      1ad8:      4e 80 00 20     blr
+>      1adc:      60 00 00 00     nop
+>   * Return: The kobject name of the device, or its initial name if
+> unavailable.
+>   */
+> static inline const char *dev_name(const struct device *dev)
+> {
+>         /* Use the init name until the kobject becomes available */
+>         if (dev->init_name)
+>      1ae0:      e8 89 00 50     ld      r4,80(r9)
+>      1ae4:      2f a4 00 00     cmpdi   cr7,r4,0
+>      1ae8:      40 fe ff c8     bne+    cr7,1ab0 <drm_dp_aux_register+0x5=
+4>
+>                 return dev->init_name;
+>
+>         return kobject_name(&dev->kobj);
+>      1aec:      e8 89 00 00     ld      r4,0(r9)
+>      1af0:      4b ff ff c0     b       1ab0 <drm_dp_aux_register+0x54>
+>      1af4:      60 00 00 00     nop
+>      1af8:      60 00 00 00     nop
+>      1afc:      60 00 00 00     nop
+>                 drm_dp_aux_init(aux);
+>      1b00:      7f e3 fb 78     mr      r3,r31
+>      1b04:      48 00 00 01     bl      1b04 <drm_dp_aux_register+0xa8>
+>                         1b04: R_PPC64_REL24     drm_dp_aux_init
+>      1b08:      4b ff ff 88     b       1a90 <drm_dp_aux_register+0x34>
+>      1b0c:      60 00 00 00     nop
+>         WARN_ON_ONCE(!aux->drm_dev);
+>      1b10:      0f e0 00 00     twui    r0,0
+>      1b14:      4b ff ff 70     b       1a84 <drm_dp_aux_register+0x28>
+>
+>
+>
+> >
+> > Regards,
+> > Wu Hoi Pok
+> >
+> >
+> > On Tue, Oct 1, 2024 at 12:26=E2=80=AFPM Christian Zigotzky
+> > <chzigotzky@xenosoft.de> wrote:
+> >>
+> >> On 30 September 2024 3:27pm, Alex Deucher <alexdeucher@gmail.com> wrot=
+e:
+> >>
+> >> =EF=BB=BF+ Wu Hoi Pok
+> >>
+> >> This is likely related to the drm device rework.
+> >>
+> >> Alex
+> >>
+> >> =E2=80=94=E2=80=94=E2=80=94=E2=80=94=E2=80=94-
+> >>
+> >> Hi All,
+> >>
+> >> I was able to revert the drm-next-2024-09-19 updates for the RC1 of ke=
+rnel 6.12.
+> >>
+> >> This kernel works on all machines without any problems.
+> >>
+> >> This means, the new Radeon DRM driver is unreliable after the DRM rewo=
+rk.
+> >>
+> >> Please fix this issue because we can=E2=80=99t deliver the kernels wit=
+h the new Radeon DRM driver.
+> >>
+> >> Error log: https://eur01.safelinks.protection.outlook.com/?url=3Dhttps=
+%3A%2F%2Fwww.xenosoft.de%2FPuTTY_P5040_U-Boot.log&data=3D05%7C02%7Cchristop=
+he.leroy%40csgroup.eu%7C9b40f906e2f2493cb25908dce211ee23%7C8b87af7d86474dc7=
+8df45f69a2011bb5%7C0%7C0%7C638633814783011669%7CUnknown%7CTWFpbGZsb3d8eyJWI=
+joiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C60000%7C%7C=
+%7C&sdata=3DfgAj0osIOyJtNrzUKp%2Bpq0NN1sGW2bqGm8nXYj88Ne0%3D&reserved=3D0
+> >>
+> >> Thanks,
+> >> Christian
