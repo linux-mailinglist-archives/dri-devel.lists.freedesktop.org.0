@@ -2,75 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CDBB98DEA2
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2024 17:15:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1640298DEE8
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2024 17:25:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1135710E763;
-	Wed,  2 Oct 2024 15:15:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E37C010E32A;
+	Wed,  2 Oct 2024 15:25:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="oyeJ8KRm";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2lxGfzbC";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pHVZrscT";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="upyibpfk";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SeoPAL2U";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D97210E773;
- Wed,  2 Oct 2024 15:15:31 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id C45E521C76;
- Wed,  2 Oct 2024 15:15:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1727882130; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ziT2x5drRDgrc83+VlX/JW6EBssFihBEAAHkgD2BcGM=;
- b=oyeJ8KRmybeuktXTIe50Q+32UFhH0veH/XJFkRVGqgGN/e428WRxz/KkaC/ggVwhVl4UDQ
- cmVOyNsthYiuiusIXEbU0kiJ+9+XqfDhRqHvs8q1jNUXvjxqLxJD4XTJK4vzsdBnnynPSR
- kHI8QKQ2VjuIgqgh+AxkvUc7gG329II=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1727882130;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ziT2x5drRDgrc83+VlX/JW6EBssFihBEAAHkgD2BcGM=;
- b=2lxGfzbCc08UphL4YokncBfIJBkRvZ0hR1prWuGjJHgSA3Id+B5Nf/TGowyTLpsU9U1TLX
- 3RyKsLdjqk/idqCQ==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=pHVZrscT;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=upyibpfk
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1727882129; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ziT2x5drRDgrc83+VlX/JW6EBssFihBEAAHkgD2BcGM=;
- b=pHVZrscTgBu3XMeQo6KO7y3DmKgmoKjuhEGWY7oX4Nk5XBeT1tbyoB0of5waijTAV7Lz3U
- gM5feX0fwE+8dQiBI/q7+h0+Ztibh5zoNHOD9uCCNuqfKm+SIzWV1a+QLAym1Qc9uIKKVb
- osipwufwqjGqUv4zH7IKNEfHAenIqE0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1727882129;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ziT2x5drRDgrc83+VlX/JW6EBssFihBEAAHkgD2BcGM=;
- b=upyibpfk4idfggpWU9/P3y2MUauKcmiCY4HyWLn1VGehrWco1SJUWpFicBTK2ZJqIfmlj5
- e0PgDeyhEbssOCBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 63DB513A6E;
- Wed,  2 Oct 2024 15:15:29 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id vXkyF5Fj/Wa3QQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 02 Oct 2024 15:15:29 +0000
-Date: Wed, 2 Oct 2024 17:15:28 +0200
-From: Thomas Zimmermann <tzimmermann@suse.de>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06BAE10E00A;
+ Wed,  2 Oct 2024 15:25:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1727882745; x=1759418745;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=48riYWv1AS0oMFz/CKOhrBHc1mk2BpQ28bW4VOo4i64=;
+ b=SeoPAL2UHMOzQvTYAFNSfwdR1Wd7sx95RaCaeCSEoaBS0SFyPpCWxbqd
+ 1awttLuffTvpV1G813wt3XqhpvbP4HgzuxwzdQWfAypiDJXqdoKaL4WBp
+ typ///tgzb59hrPaZ5S6jV95TjdPurr96+8NKb2iaWM7u0m3BtO4Gm2+1
+ zMQvcK4lTqRDAdMZPlaZbeS5d04xMJ7oXPxnho5kYhyuDs8q1Poai4giI
+ 7Ks9vo3MMOMGEsUbmGPoZnWoGpH4jvvim4MBl0jP8czSNBemRy7wezvF8
+ EFlIGBabCTByLEQ0Kk88X8OSH2NerovOpNUJo62BKsHhyCUv94Oi7z6ez A==;
+X-CSE-ConnectionGUID: v/2KXbzPS8G9E82GMFuMWQ==
+X-CSE-MsgGUID: oWV3RhduSsCdcroThokH1g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="26850664"
+X-IronPort-AV: E=Sophos;i="6.11,172,1725346800"; d="scan'208";a="26850664"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Oct 2024 08:25:44 -0700
+X-CSE-ConnectionGUID: qcx0zXmpSMOXKybi5hE7kA==
+X-CSE-MsgGUID: Ag5qp731QomXFE81X2RHNQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,172,1725346800"; d="scan'208";a="111490772"
+Received: from oandoniu-mobl3.ger.corp.intel.com (HELO localhost)
+ ([10.245.244.93])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Oct 2024 08:25:39 -0700
+Date: Wed, 2 Oct 2024 18:25:35 +0300
+From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
 To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
 Cc: Jani Nikula <jani.nikula@linux.intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
@@ -84,37 +56,11 @@ Cc: Jani Nikula <jani.nikula@linux.intel.com>,
  Lucas De Marchi <lucas.demarchi@intel.com>,
  dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-misc-fixes
-Message-ID: <20241002151528.GA300287@linux.fritz.box>
+Subject: [PULL] drm-intel-fixes
+Message-ID: <Zv1l75s9Z4Gl4lDH@jlahtine-mobl.ger.corp.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: C45E521C76
-X-Spam-Score: -4.51
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[99.99%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; MIME_TRACE(0.00)[0:+];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- RCPT_COUNT_TWELVE(0.00)[16];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- FREEMAIL_TO(0.00)[gmail.com,ffwll.ch]; ARC_NA(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]; TO_DN_SOME(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- MISSING_XM_UA(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,
- imap1.dmz-prg2.suse.org:helo, suse.de:dkim]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,83 +76,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Sima,
+Hi Dave & Sima,
 
-although a bit early, here's the week's PR for drm-misc-fixes.
+Here goes drm-intel-fixes toward v6.12-rc2.
 
-Best regards
-Thomas
+Just one & vs && fixup into PM code that should only trigger with debug
+Kconfig options.
 
-drm-misc-fixes-2024-10-02:
-Short summary of fixes pull:
+Regards, Joonas
 
-panthor:
-- Set FOP_UNSIGNED_OFFSET in fops instance
-- Acquire lock in panthor_vm_prepare_map_op_ctx()
-- Avoid ninitialized variable in tick_ctx_cleanup()
-- Do not block scheduler queue if work is pending
-- Do not add write fences to the shared BOs
+***
 
-scheduler:
-- Fix locking in drm_sched_entity_modify_sched()
-- Fix pointer deref if entity queue changes
-The following changes since commit 43102a2012c2e2f8424d7eef52aede8e73cf2fed:
+drm-intel-fixes-2024-10-02:
 
-  Merge tag 'drm-misc-fixes-2024-09-26' of https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes (2024-10-01 08:15:55 +1000)
+- One fix for bitwise and logical "and" mixup in PM code
+
+The following changes since commit 9852d85ec9d492ebef56dc5f229416c925758edc:
+
+  Linux 6.12-rc1 (2024-09-29 15:06:19 -0700)
 
 are available in the Git repository at:
 
-  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-fixes-2024-10-02
+  https://gitlab.freedesktop.org/drm/i915/kernel.git tags/drm-intel-fixes-2024-10-02
 
-for you to fetch changes up to f9e7ac6e2e9986c2ee63224992cb5c8276e46b2a:
+for you to fetch changes up to 394b52462020b6cceff1f7f47fdebd03589574f3:
 
-  drm/panthor: Don't add write fences to the shared BOs (2024-10-01 18:41:02 +0200)
-
-----------------------------------------------------------------
-Short summary of fixes pull:
-
-panthor:
-- Set FOP_UNSIGNED_OFFSET in fops instance
-- Acquire lock in panthor_vm_prepare_map_op_ctx()
-- Avoid ninitialized variable in tick_ctx_cleanup()
-- Do not block scheduler queue if work is pending
-- Do not add write fences to the shared BOs
-
-scheduler:
-- Fix locking in drm_sched_entity_modify_sched()
-- Fix pointer deref if entity queue changes
+  drm/i915/gem: fix bitwise and logical AND mixup (2024-10-01 10:28:29 +0300)
 
 ----------------------------------------------------------------
-Boris Brezillon (4):
-      drm/panthor: Lock the VM resv before calling drm_gpuvm_bo_obtain_prealloc()
-      drm/panthor: Fix access to uninitialized variable in tick_ctx_cleanup()
-      drm/panthor: Don't declare a queue blocked if deferred operations are pending
-      drm/panthor: Don't add write fences to the shared BOs
+- One fix for bitwise and logical "and" mixup in PM code
 
-Christian König (1):
-      drm/sched: revert "Always increment correct scheduler score"
+----------------------------------------------------------------
+Jani Nikula (1):
+      drm/i915/gem: fix bitwise and logical AND mixup
 
-Liviu Dudau (1):
-      drm/panthor: Add FOP_UNSIGNED_OFFSET to fop_flags
-
-Maarten Lankhorst (1):
-      Merge remote-tracking branch 'drm/drm-fixes' into drm-misc-fixes
-
-Tvrtko Ursulin (3):
-      drm/sched: Add locking to drm_sched_entity_modify_sched
-      drm/sched: Always wake up correct scheduler in drm_sched_entity_push_job
-      drm/sched: Always increment correct scheduler score
-
- drivers/gpu/drm/panthor/panthor_drv.c    |  1 +
- drivers/gpu/drm/panthor/panthor_mmu.c    |  8 ++++++++
- drivers/gpu/drm/panthor/panthor_sched.c  | 20 +++++++++++---------
- drivers/gpu/drm/scheduler/sched_entity.c | 12 ++++++++++--
- 4 files changed, 30 insertions(+), 11 deletions(-)
-
--- 
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
