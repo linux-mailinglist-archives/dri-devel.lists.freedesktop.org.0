@@ -2,65 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1640298DEE8
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2024 17:25:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7E3F98DFB2
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2024 17:49:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E37C010E32A;
-	Wed,  2 Oct 2024 15:25:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71DA510E207;
+	Wed,  2 Oct 2024 15:49:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SeoPAL2U";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="ArTGtdMV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06BAE10E00A;
- Wed,  2 Oct 2024 15:25:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1727882745; x=1759418745;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=48riYWv1AS0oMFz/CKOhrBHc1mk2BpQ28bW4VOo4i64=;
- b=SeoPAL2UHMOzQvTYAFNSfwdR1Wd7sx95RaCaeCSEoaBS0SFyPpCWxbqd
- 1awttLuffTvpV1G813wt3XqhpvbP4HgzuxwzdQWfAypiDJXqdoKaL4WBp
- typ///tgzb59hrPaZ5S6jV95TjdPurr96+8NKb2iaWM7u0m3BtO4Gm2+1
- zMQvcK4lTqRDAdMZPlaZbeS5d04xMJ7oXPxnho5kYhyuDs8q1Poai4giI
- 7Ks9vo3MMOMGEsUbmGPoZnWoGpH4jvvim4MBl0jP8czSNBemRy7wezvF8
- EFlIGBabCTByLEQ0Kk88X8OSH2NerovOpNUJo62BKsHhyCUv94Oi7z6ez A==;
-X-CSE-ConnectionGUID: v/2KXbzPS8G9E82GMFuMWQ==
-X-CSE-MsgGUID: oWV3RhduSsCdcroThokH1g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="26850664"
-X-IronPort-AV: E=Sophos;i="6.11,172,1725346800"; d="scan'208";a="26850664"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Oct 2024 08:25:44 -0700
-X-CSE-ConnectionGUID: qcx0zXmpSMOXKybi5hE7kA==
-X-CSE-MsgGUID: Ag5qp731QomXFE81X2RHNQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,172,1725346800"; d="scan'208";a="111490772"
-Received: from oandoniu-mobl3.ger.corp.intel.com (HELO localhost)
- ([10.245.244.93])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Oct 2024 08:25:39 -0700
-Date: Wed, 2 Oct 2024 18:25:35 +0300
-From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-intel-fixes
-Message-ID: <Zv1l75s9Z4Gl4lDH@jlahtine-mobl.ger.corp.intel.com>
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8113310E207
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Oct 2024 15:49:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+ :In-Reply-To:From:References:To:Subject:MIME-Version:Date:Message-ID:Sender:
+ Reply-To:Cc:Content-ID:Content-Description;
+ bh=7RcmtwIDm6JN9AQ9SNlCuNNoGT34XsxYlpE1SCdozGg=; b=ArTGtdMVyIqkeXprOcooCWoMZb
+ bygL0njNlsoN89ChNh4ogIkBpNGG1c/GhV9XSJs16QCrvgrxVVXohIx6247HjlMq1iKW4CDUJYIOJ
+ gB8oskAaANsmKjAOmrys4wwbnXi/zAhi3iwyPpinS8g2mRPGYXjRmv5w7Y0P0vVH5rccsKtfj1nhp
+ FDBjNK8j1ZUKTazEJnFJ6bxZwh7Qt2F+lCj+q0XJBd0gTazkejD0tHSqW8gao5UQMJJPuDyd5chV/
+ cD9zgr2/jxDjEvClbZ8Y+QswRHlYWoZVzAvXs3ETi9co1r4PoZgzfPLax/OlOmGf+x9fP47am2BEy
+ pmrf34eg==;
+Received: from [50.53.2.24] (helo=[192.168.254.17])
+ by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+ id 1sw1bJ-00000003W5T-0Dx6; Wed, 02 Oct 2024 15:49:17 +0000
+Message-ID: <509aa67d-5bfa-4f37-aae6-ce3786e35596@infradead.org>
+Date: Wed, 2 Oct 2024 08:49:09 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v11 06/15] drm/vkms: Avoid computing blending limits
+ inside pre_mul_alpha_blend
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>, Maaara Canal <mairacanal@riseup.net>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Simona Vetter <simona@ffwll.ch>, arthurgrillo@riseup.net,
+ pekka.paalanen@haloniitty.fi, Simona Vetter <simona.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, thomas.petazzoni@bootlin.com,
+ jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
+ seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
+ Pekka Paalanen <pekka.paalanen@collabora.com>
+References: <20240930-yuv-v11-0-4b1a26bcfc96@bootlin.com>
+ <20240930-yuv-v11-6-4b1a26bcfc96@bootlin.com>
+ <30573f5a-d3dd-4aa4-ac5a-cf6df77b79dc@infradead.org>
+ <Zv0LBo8OtRHJM029@louis-chauvet-laptop>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <Zv0LBo8OtRHJM029@louis-chauvet-laptop>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,39 +71,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave & Sima,
+Hi Louis,
 
-Here goes drm-intel-fixes toward v6.12-rc2.
+On 10/2/24 1:57 AM, Louis Chauvet wrote:
+> On 01/10/24 - 20:54, Randy Dunlap wrote:
+>> Hi--
+>>
+>> On 9/30/24 8:31 AM, Louis Chauvet wrote:
+>>> The pre_mul_alpha_blend is dedicated to blending, so to avoid mixing
+>>> different concepts (coordinate calculation and color management), extract
+>>> the x_limit and x_dst computation outside of this helper.
+>>> It also increases the maintainability by grouping the computation related
+>>> to coordinates in the same place: the loop in `blend`.
+>>>
+>>> Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+>>> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+>>> ---
+>>>  drivers/gpu/drm/vkms/vkms_composer.c | 40 +++++++++++++++++-------------------
+>>>  1 file changed, 19 insertions(+), 21 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
+>>> index 931e214b225c..4d220bbb023c 100644
+>>> --- a/drivers/gpu/drm/vkms/vkms_composer.c
+>>> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
+>>> @@ -24,34 +24,30 @@ static u16 pre_mul_blend_channel(u16 src, u16 dst, u16 alpha)
+>>>  
+>>>  /**
+>>>   * pre_mul_alpha_blend - alpha blending equation
+>>> - * @frame_info: Source framebuffer's metadata
+>>>   * @stage_buffer: The line with the pixels from src_plane
+>>>   * @output_buffer: A line buffer that receives all the blends output
+>>> + * @x_start: The start offset
+>>> + * @pixel_count: The number of pixels to blend
+>>
+>> so is this actually pixel count + 1; or
+>>
+>>>   *
+>>> - * Using the information from the `frame_info`, this blends only the
+>>> - * necessary pixels from the `stage_buffer` to the `output_buffer`
+>>> - * using premultiplied blend formula.
+>>> + * The pixels 0..@pixel_count in stage_buffer are blended at @x_start..@x_start+@pixel_count in
+>>
+>> should these ranges include a "- 1"?
+>> Else please explain.
+> 
+> Hi Randy,
+> 
+> For the next version, I will use standard mathematical notation to clarify 
+> the "inclusiveness" of the interval: [0;pixel_count[
 
-Just one & vs && fixup into PM code that should only trigger with debug
-Kconfig options.
+Hm, I can read that after a second or two.
 
-Regards, Joonas
+My math classes always used:  [0,pixel_count)
+for that range, and that is what most of the internet says as well.
 
-***
+or you could just stick with
+  The pixels from 0 through @pixel_count - 1 in stage_buffer are blended at @x_start
+  through @x_start through @x_start + @pixel_count - 1.
 
-drm-intel-fixes-2024-10-02:
+but after writing all of that, I think using range notation is better.
 
-- One fix for bitwise and logical "and" mixup in PM code
-
-The following changes since commit 9852d85ec9d492ebef56dc5f229416c925758edc:
-
-  Linux 6.12-rc1 (2024-09-29 15:06:19 -0700)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/i915/kernel.git tags/drm-intel-fixes-2024-10-02
-
-for you to fetch changes up to 394b52462020b6cceff1f7f47fdebd03589574f3:
-
-  drm/i915/gem: fix bitwise and logical AND mixup (2024-10-01 10:28:29 +0300)
-
-----------------------------------------------------------------
-- One fix for bitwise and logical "and" mixup in PM code
-
-----------------------------------------------------------------
-Jani Nikula (1):
-      drm/i915/gem: fix bitwise and logical AND mixup
-
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+thanks.
