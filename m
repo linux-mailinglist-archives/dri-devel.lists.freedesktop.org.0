@@ -2,84 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DF2598CB62
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2024 05:09:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E1B998CB8F
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2024 05:38:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 725F110E00B;
-	Wed,  2 Oct 2024 03:09:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE3FC10E33F;
+	Wed,  2 Oct 2024 03:38:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="RHBZzYqC";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="j8bkWcaL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A568D10E00B
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Oct 2024 03:09:17 +0000 (UTC)
-X-UUID: b29240e8806b11ef8b96093e013ec31c-20241002
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:CC:To:Subject:MIME-Version:Date:Message-ID;
- bh=2g8tKHBs88WWFxv64z1cVEtqY0rKkhBPjnwbXsFsUyc=; 
- b=RHBZzYqCGrEb7nWfjAmIuZFK3yrcirmULc7g/ukJvsQXo0vCbUxrAor7sUJ9IP9k7UFoULRrNjvt5Nry/DE8BfNZa6z95JFjKa2+BAgvbqO5wXbtYi2y7ACZ77R32S459hgCVu7m+uXQNKy3jpfqTW28BmHrV8/0eMoyx2DGCDQ=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.41, REQID:72dfb011-11b6-4428-8c0f-2cb8c0d0216a, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:0
-X-CID-META: VersionHash:6dc6a47, CLOUDID:03f92988-3a5d-4d9e-b012-e875acfb157d,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0|-5,EDM:-3,IP:ni
- l,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
- :1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: b29240e8806b11ef8b96093e013ec31c-20241002
-Received: from mtkmbs14n2.mediatek.inc [(172.21.101.76)] by
- mailgw02.mediatek.com (envelope-from <macpaul.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1639784707; Wed, 02 Oct 2024 11:09:11 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Wed, 2 Oct 2024 11:09:10 +0800
-Received: from [172.21.84.99] (172.21.84.99) by mtkmbs11n2.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.1118.26 via Frontend
- Transport; Wed, 2 Oct 2024 11:09:09 +0800
-Message-ID: <7f212146-3dc7-9a0d-baf4-ac7a5b845060@mediatek.com>
-Date: Wed, 2 Oct 2024 11:09:07 +0800
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com
+ [209.85.160.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10BB810E0E5
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Oct 2024 03:38:31 +0000 (UTC)
+Received: by mail-qt1-f181.google.com with SMTP id
+ d75a77b69052e-4585e25f42bso61871611cf.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Oct 2024 20:38:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1727840310; x=1728445110; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=iUOKiBUXnpsFTZ5jMqyjR0K9mCXZ+ssrPBDzZNi8o+w=;
+ b=j8bkWcaLpZPf0eO6OWETgn3a4dGUjEPpEnnhx0mhZqOOQ3WD9ZN8MaeNly8AYndEBr
+ xqcZ3ufBzqNeTOb1gwAjYpbISRXJLIWpv2xPguzc74dkQoR+UhuukMPktRV9frl3xkhi
+ /r8NG1pdK4h3tt7wAn77iZmJlDW+eds3LqnEu931ZRoQ7+HF4KhP811mzUTpoIIhuTfx
+ NUVExD/wCdOEAieibJzJ1kvuwIo68I4eGzWAbMIAyZAlMXuU5XtpjssVlU7sgkFPrLS6
+ vw8/cYDLjmcPyEGywLjoCfgnxvTpYk4nRhaXEXYJzgx6rNANS1cotug6SgHOUhGLpg0w
+ zKxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1727840310; x=1728445110;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=iUOKiBUXnpsFTZ5jMqyjR0K9mCXZ+ssrPBDzZNi8o+w=;
+ b=NRjp4UcljRY9hfIAKpURJUO1d1bhYU2YrdLkZSAShJo7ULzsYV9PCCPQQAoVM1Qzf5
+ Gy0+uEF5bpa5wtEN9wGRSef4dVfG4HeQ0tl5Q1zRiPE+cSpTAgxO19oN1TJwOtjJ8V5M
+ F66vsMCs+VSk++pNr0PkXmvaku/A4BLVsWDHHitMlITJA+ucuUBgo0iGaHqxQ2v+X3af
+ NrtXAg1u784PcCGaxEejSnfZwkG8my6Zm1NXzRtegVHm57FLXBH9Qp2pu4/jeGkQCn8U
+ WLNedkDdex5x7rD9bHaY15LSCInroTQR1lGaaYUeE3VeXaxtr9GtLPCsLYrLyHtWRD3G
+ mpNg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUlIw675VwUIg7Hf+XWoISpmzt7ydAviRt3QBHoyYedUYpTvT6gnsHG7SwmxoEb9h5dDwrw3PlsAUU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwTUu1ExJziD6lBwxO1JrLWfjQHoVVG2D2PAjKqVCC4xdDGcGhS
+ Xc55rCMn0PsqbGY99sHzWVCKaLI0AHhhonnaQv6eWt503ySoY/u7
+X-Google-Smtp-Source: AGHT+IFB3Rfsz3+Lfr4kTvzv/Vj1epWm/jyj0EIrItSKQRLruClkbfn6m+DM4X6WPN4Ew4cmQ35Y1A==
+X-Received: by 2002:a05:6214:41a0:b0:6cb:3a7b:96b9 with SMTP id
+ 6a1803df08f44-6cb81a05676mr22602866d6.15.1727840309742; 
+ Tue, 01 Oct 2024 20:38:29 -0700 (PDT)
+Received: from localhost.localdomain (ool-1826d901.dyn.optonline.net.
+ [24.38.217.1]) by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-6cb3b62d9e6sm55640446d6.69.2024.10.01.20.38.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Oct 2024 20:38:28 -0700 (PDT)
+From: Alex Lanzano <lanzano.alex@gmail.com>
+To: u.kleine-koenig@baylibre.com, Alex Lanzano <lanzano.alex@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Mehdi Djait <mehdi.djait@bootlin.com>
+Cc: skhan@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org
+Subject: [PATCH v8 0/2] Add driver for Sharp Memory LCD
+Date: Tue,  1 Oct 2024 23:37:35 -0400
+Message-ID: <20241002033807.682177-1-lanzano.alex@gmail.com>
+X-Mailer: git-send-email 2.46.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v4 5/5] dt-bindings: display: mediatek: dpi: correct
- power-domains property
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>
-CC: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Yong Wu <yong.wu@mediatek.com>, Joerg Roedel <joro@8bytes.org>, Will Deacon
- <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, Matthias Brugger
- <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Rohit Agarwal
- <rohiagar@chromium.org>, <dri-devel@lists.freedesktop.org>,
- <linux-mediatek@lists.infradead.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <iommu@lists.linux.dev>,
- <linux-arm-kernel@lists.infradead.org>, Alexandre Mergnat
- <amergnat@baylibre.com>, Bear Wang <bear.wang@mediatek.com>, Pablo Sun
- <pablo.sun@mediatek.com>, Macpaul Lin <macpaul@gmail.com>, Sen Chu
- <sen.chu@mediatek.com>, Chris-qj chen <chris-qj.chen@mediatek.com>, MediaTek
- Chromebook Upstream <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- Chen-Yu Tsai <wenst@chromium.org>, Jitao Shi <jitao.shi@mediatek.com>
-References: <20240930083854.7267-1-macpaul.lin@mediatek.com>
- <20240930083854.7267-5-macpaul.lin@mediatek.com>
- <20241002015120.GA236278-robh@kernel.org>
-From: Macpaul Lin <macpaul.lin@mediatek.com>
-In-Reply-To: <20241002015120.GA236278-robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,48 +90,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This patch series add support for the monochrome Sharp Memory LCD
+panels. This series is based off of the work done by Mehdi Djait.
 
+References:
+https://lore.kernel.org/dri-devel/71a9dbf4609dbba46026a31f60261830163a0b99.1701267411.git.mehdi.djait@bootlin.com/
+https://www.sharpsde.com/fileadmin/products/Displays/2016_SDE_App_Note_for_Memory_LCD_programming_V1.3.pdf
 
-On 10/2/24 09:51, Rob Herring wrote:
-> 	
-> 
-> External email : Please do not click links or open attachments until you 
-> have verified the sender or the content.
-> 
-> On Mon, Sep 30, 2024 at 04:38:54PM +0800, Macpaul Lin wrote:
->> The MediaTek DPI module is typically associated with one of the
->> following multimedia power domains:
->>  - POWER_DOMAIN_DISPLAY
->>  - POWER_DOMAIN_VDOSYS
->>  - POWER_DOMAIN_MM
->> The specific power domain used varies depending on the SoC design.
->> 
->> These power domains are shared by multiple devices within the SoC.
->> In most cases, these power domains are enabled by other devices.
->> As a result, the DPI module of legacy SoCs often functions correctly
->> even without explicit configuration.
->> 
->> It is recommended to explicitly add the appropriate power domain
->> property to the DPI node in the device tree. Hence drop the
->> compatible checking for specific SoCs.
->> 
->> Fixes: 5474d49b2f79 ("dt-bindings: display: mediatek: dpi: Add power domains")
->> Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
->> Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
->> Signed-off-by: Pablo Sun <pablo.sun@mediatek.com>
->> ---
->>  .../display/mediatek/mediatek,dpi.yaml        | 24 ++++++++-----------
->>  1 file changed, 10 insertions(+), 14 deletions(-)
-> 
-> You missed Krzysztof's R-by tag.
-> 
+Co-developed-by: Mehdi Djait <mehdi.djait@bootlin.com>
+Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
+Signed-off-by: Alex Lanzano <lanzano.alex@gmail.com>
+---
+Changes in v8:
+- Addressed review comments from Uwe
+    - Replace pwm_get_state with pwm_init_state
+    - Use pwm_set_relative_duty_cycle instead of manually setting period and duty cycle
 
-Oh, I just missed that reply for v3 in the mailbox
-and thought it still need to be reviewed.
-I just found Krzysztof's R-by tag in the mailbox right now.
+Changes in v7:
+- Add Reviewed-by tag back to dt-binding patch
 
-I'll send an update for this patch set.
-Thanks for the reminder.
+Changes in v6:
+- Rebase off latest drm-misc-next
+- Replace pwm_apply_state with pwm_apply_might_sleep
 
-Regards,
-Macpaul Lin
+Changes in v5:
+- Address minor style issues in sharp-memory.c
+
+Changes in v4:
+- Remove redundant dev_err
+
+Changes in v3:
+- Fix file path in MAINTAINERS file
+- Address review comments
+- Simplify mode selection based on match data instead of model
+
+Changes in v2:
+- Credited Mehdi Djait in commit messages
+- Renamed sharp,sharp-memory.yaml to sharp,ls010b7dh04.yaml
+- Using strings instead of int for vcom-mode in dt-binding
+- Fixed indentation of binding example
+- Removed binding header
+- Removed extra whitespace in sharp-memory.c
+- Fixed error handling in sharp-memory.c
+- Added match data to of_device_id table to be in-sync with spi_device_id table
+- Replaced redundant function with spi_get_device_match_data
+- Sorted header files in sharp-memory.c
+---
+
+Alex Lanzano (2):
+  dt-bindings: display: Add Sharp Memory LCD bindings
+  drm/tiny: Add driver for Sharp Memory LCD
+
+ .../bindings/display/sharp,ls010b7dh04.yaml   |  92 +++
+ MAINTAINERS                                   |   6 +
+ drivers/gpu/drm/tiny/Kconfig                  |  20 +
+ drivers/gpu/drm/tiny/Makefile                 |   1 +
+ drivers/gpu/drm/tiny/sharp-memory.c           | 681 ++++++++++++++++++
+ 5 files changed, 800 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/sharp,ls010b7dh04.yaml
+ create mode 100644 drivers/gpu/drm/tiny/sharp-memory.c
+
+-- 
+2.46.2
+
