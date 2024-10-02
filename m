@@ -2,111 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32AA398D028
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2024 11:31:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 658F698D018
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2024 11:27:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C113A10E6DB;
-	Wed,  2 Oct 2024 09:31:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78F1010E1F6;
+	Wed,  2 Oct 2024 09:27:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kroah.com header.i=@kroah.com header.b="QuJwwvjC";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="Zj8iDjWg";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="M/jfdI26";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 434 seconds by postgrey-1.36 at gabe;
- Wed, 02 Oct 2024 09:31:13 UTC
-Received: from flow-a5-smtp.messagingengine.com
- (flow-a5-smtp.messagingengine.com [103.168.172.140])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A89810E6DB
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Oct 2024 09:31:13 +0000 (UTC)
-Received: from phl-compute-11.internal (phl-compute-11.phl.internal
- [10.202.2.51])
- by mailflow.phl.internal (Postfix) with ESMTP id E8846200A49;
- Wed,  2 Oct 2024 05:23:58 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
- by phl-compute-11.internal (MEProxy); Wed, 02 Oct 2024 05:23:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
- :cc:content-transfer-encoding:content-type:content-type:date
- :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=fm2; t=1727861038;
- x=1727868238; bh=1wPBV2CtAfCxsHt6vXI1u7/VDJf3lNbwZEi9inaErLs=; b=
- QuJwwvjCXMBstSyTt2ibEcamIo2+Gkt90Ah/ZbVHiRDstxzJJXbaBPREgIPVQtDu
- 2IQiferN53Cm6St7whHPmdOCIlFeTyrYcZh/Jq5IaR4X2z0nLmCCK2vvAbrFN9rt
- lT/tFrFbm+KWuL247BtXQUEfIGOPGehSxO+9/ABynpifTYx+GAksIzfxFLCQ54R1
- s5QxcZ2/UqX2aXxtCNwx4tq6XiUlKOTGLG+BOT4jkGtCdhQbyX2DsgpgmxSpF/Ve
- QAKm1uce+DWccvFZOglfv8Ox/9gYmH4BTuJzVG9yK+UiPTcNGfGvVt5tVhSSd0e8
- B7Ekv3pmNSUowCLWbXl46A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1727861038; x=
- 1727868238; bh=1wPBV2CtAfCxsHt6vXI1u7/VDJf3lNbwZEi9inaErLs=; b=Z
- j8iDjWgaTEBk3vDijGRlGTVogBTQiUXXfbABiYMbBTTwj53/TxFN6jMfBAjEpT0b
- 3Lo4uFHvEZwkNx00/qRGgjmM2pDH4DCzosU7CI7FDnVbtKCEUi6F5hmwD0DqLY5L
- U7/OTcXTNl3aV9mcgutaovqICSjQv0nHnZP0CKfDwceqJo0YX5BpcgWmkgDeyfod
- KSTzeTNoiyddV08Tom4/QXVInro66UeWqW0yjiUAJtF+ZVFGZbRNpCcp5qJ+pF/O
- 5rX5MIpFo6tEi9gmu4xvqdbtcGa7Iv/O+uSvcoxbjI1/abVZDhLPwGhZRpKzZ9cI
- qVGJK+VbypI97CYT/ArJw==
-X-ME-Sender: <xms:LRH9Zsk_WXCJbPDRc2vNMGPlguniQZhgwM-wdwKir_XUfkd0zKe-Uw>
- <xme:LRH9Zr3akGgxBjqqxq3WB0wyBxE2Y4Xru-zWIcrO-2kxO6nmcGOMy9asyMHh6TAif
- aviRRCyts7heQ>
-X-ME-Received: <xmr:LRH9ZqpIzy1iQYkrdNhrVZ-Nq_saUdDrSpOUkyPCIlq6QbFdVss64OeuNNPkw6g1qGyhL9gosugMwpIFHtjUaFCdl98zqbJ28fgkoQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdduledguddvucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
- rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
- htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdej
- necuhfhrohhmpefirhgvghcumffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucggtf
- frrghtthgvrhhnpeehfffftdehkeevfeeujeduhefggfetffeijefgkeelffdtjeefhedt
- tdfffeffueenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucevlhhushhtvghruf
- hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvgheskhhrohgrhhdrtgho
- mhdpnhgspghrtghpthhtohepgedvpdhmohguvgepshhmthhpohhuthdprhgtphhtthhope
- hmrghrkhhushdrvghlfhhrihhnghesfigvsgdruggvpdhrtghpthhtoheplhgrnhiirghn
- ohdrrghlvgigsehgmhgrihhlrdgtohhmpdhrtghpthhtohepmhgvhhguihdrughjrghith
- essghoohhtlhhinhdrtghomhdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhs
- rdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepuggvvhhitggvthhrvggvse
- hvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqphifmhesvhhg
- vghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhdqmh
- gvnhhtvggvsheslhhishhtshdrlhhinhhugihfohhunhgurghtihhonhdrohhrghdprhgt
- phhtthhopegtohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepuggrnh
- hivghlsehffhiflhhlrdgthh
-X-ME-Proxy: <xmx:LRH9ZokYJmotGcGhC28P1JQ0SfIfGOhWrLJ4ei_uog9Hep3W-u2ZVA>
- <xmx:LRH9Zq1M0xTfph_85-Qn3YiyB140f5sId7AuT9Atf4uE0fREMzbOHQ>
- <xmx:LRH9ZvuvPeu2RSpNdmtow7zR36WzX-imbT-NLcyUAbF6GvPvpMicFA>
- <xmx:LRH9ZmUBYe0IbYVvg1kRfj_5jZOkQEHBGaO113FTK9qTPjORkr3QcQ>
- <xmx:LhH9ZgVnyXxYwMI2ap2i61BR4vYQUGzIXKqLe69Xv4COkBz9kONmCKLb>
-Feedback-ID: i787e41f1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 2 Oct 2024 05:23:56 -0400 (EDT)
-Date: Wed, 2 Oct 2024 11:23:54 +0200
-From: Greg KH <greg@kroah.com>
-To: Markus Elfring <Markus.Elfring@web.de>
-Cc: Alex Lanzano <lanzano.alex@gmail.com>,
- Mehdi Djait <mehdi.djait@bootlin.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
- Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
- LKML <linux-kernel@vger.kernel.org>,
- Christophe Jaillet <christophe.jaillet@wanadoo.fr>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
-Subject: Re: [PATCH v8 2/2] drm/tiny: Add driver for Sharp Memory LCD
-Message-ID: <2024100246-gladly-overfed-75b9@gregkh>
-References: <20241002033807.682177-3-lanzano.alex@gmail.com>
- <b671e4d2-e969-4b9a-a7ff-b3b688689ee8@web.de>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7B3610E1F6
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Oct 2024 09:26:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1727861219; x=1759397219;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=x2Lea59cyav6s4rmBPsAfXbrLXjdvVugkrjeXsbGoM0=;
+ b=M/jfdI266yA4sL4Ta4ATC11UoctgXRoMlUqd2mjQvjORzptKVrDK1RMR
+ +OrqQiAAdVwxnbrjlQ9NNCb89LzyTyr+TpfHWuVmtdyqgZo5yhwLLxzbi
+ EIxjbvyX/08fiBiXeO1gGP8f7CQ9w+qXSviqPEmDNkctJcpeVcYSp5TLq
+ 3jCbvzu1ZmB0t+1r8NRZ63mfICgTtGbays7nLbwV4ZkzmU3OpaH8uhw+H
+ rAE8UKia+qUr4IZEGh1/fo5yZRdHYJTjVGjNth+5EUbR0bp7/9WpkCwV4
+ 1NPYe7GmXwjty/fTTZjUquHoKuqT7+5wBQ33jflydTo5zocBrN2UACdks A==;
+X-CSE-ConnectionGUID: jOA9K9pMRBSM1/yzk5qiuQ==
+X-CSE-MsgGUID: EZ6wCQv6RFy+QvXzyoxUAA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="27111936"
+X-IronPort-AV: E=Sophos;i="6.11,171,1725346800"; d="scan'208";a="27111936"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Oct 2024 02:26:58 -0700
+X-CSE-ConnectionGUID: pQ2E3cIVQYGGnj+wNhQSJA==
+X-CSE-MsgGUID: XK7Z7LLWTPWKx/kgKAUymw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,171,1725346800"; d="scan'208";a="104744897"
+Received: from lbogdanm-mobl3.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.49])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Oct 2024 02:26:53 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>, =?utf-8?Q?Adri=C3=A1n?=
+ Larumbe <adrian.larumbe@collabora.com>
+Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David
+ Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Sumit Semwal
+ <sumit.semwal@linaro.org>, Christian =?utf-8?Q?K=C3=B6nig?=
+ <christian.koenig@amd.com>,
+ kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v8 0/5] Support fdinfo runtime and memory stats on Panthor
+In-Reply-To: <20241002105715.18ec024c@collabora.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240923230912.2207320-1-adrian.larumbe@collabora.com>
+ <20241002105715.18ec024c@collabora.com>
+Date: Wed, 02 Oct 2024 12:26:49 +0300
+Message-ID: <877caqvorq.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b671e4d2-e969-4b9a-a7ff-b3b688689ee8@web.de>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,46 +78,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 02, 2024 at 10:56:42AM +0200, Markus Elfring wrote:
-> …
-> > +++ b/drivers/gpu/drm/tiny/sharp-memory.c
-> > @@ -0,0 +1,681 @@
-> …
-> > +static int sharp_memory_maintain_display(struct sharp_memory_device *smd)
-> > +{
-> …
-> > +	u8 *tx_buffer = smd->tx_buffer;
-> > +
-> > +	mutex_lock(&smd->tx_mutex);
-> …
-> > +	mutex_unlock(&smd->tx_mutex);
-> > +
-> > +	return ret;
-> > +}
-> …
-> 
-> Will development interests grow for the application of a statement
-> like “guard(mutex)(&smd->tx_mutex);”?
-> https://elixir.bootlin.com/linux/v6.12-rc1/source/include/linux/mutex.h#L201
+On Wed, 02 Oct 2024, Boris Brezillon <boris.brezillon@collabora.com> wrote:
+> Queued to drm-misc-next after applying the few modifications I
+> mentioned. Also added Steve's ack (given on IRC) on the first patch.
+
+Can we have the drm-tip rebuild conflict resolution too, please?
+
+diff --cc drivers/gpu/drm/panthor/panthor_drv.c
+index c520f156e2d7,f9b93f84d611..000000000000
+--- a/drivers/gpu/drm/panthor/panthor_drv.c
++++ b/drivers/gpu/drm/panthor/panthor_drv.c
+@@@ -1383,7 -1476,7 +1476,11 @@@ static const struct file_operations pan
+        .read = drm_read,
+        .llseek = noop_llseek,
+        .mmap = panthor_mmap,
+++<<<<<<< HEAD
+ +      .fop_flags = FOP_UNSIGNED_OFFSET,
+++=======
++       .show_fdinfo = drm_show_fdinfo,
+++>>>>>>> drm-misc/drm-misc-next
+  };
+  
+  #ifdef CONFIG_DEBUG_FS
 
 
-Hi,
 
-This is the semi-friendly patch-bot of Greg Kroah-Hartman.
+>
+>> 
+>>  .../testing/sysfs-driver-panthor-profiling    |  10 +
+>>  Documentation/gpu/panthor.rst                 |  46 +++
+>>  drivers/gpu/drm/panthor/panthor_devfreq.c     |  18 +-
+>>  drivers/gpu/drm/panthor/panthor_device.h      |  36 ++
+>>  drivers/gpu/drm/panthor/panthor_drv.c         |  73 ++++
+>>  drivers/gpu/drm/panthor/panthor_gem.c         |  12 +
+>>  drivers/gpu/drm/panthor/panthor_sched.c       | 384 +++++++++++++++---
+>>  drivers/gpu/drm/panthor/panthor_sched.h       |   2 +
+>>  8 files changed, 531 insertions(+), 50 deletions(-)
+>>  create mode 100644 Documentation/ABI/testing/sysfs-driver-panthor-profiling
+>>  create mode 100644 Documentation/gpu/panthor.rst
+>> 
+>
 
-Markus, you seem to have sent a nonsensical or otherwise pointless
-review comment to a patch submission on a Linux kernel developer mailing
-list.  I strongly suggest that you not do this anymore.  Please do not
-bother developers who are actively working to produce patches and
-features with comments that, in the end, are a waste of time.
-
-Patch submitter, please ignore Markus's suggestion; you do not need to
-follow it at all.  The person/bot/AI that sent it is being ignored by
-almost all Linux kernel maintainers for having a persistent pattern of
-behavior of producing distracting and pointless commentary, and
-inability to adapt to feedback.  Please feel free to also ignore emails
-from them.
-
-thanks,
-
-greg k-h's patch email bot
+-- 
+Jani Nikula, Intel
