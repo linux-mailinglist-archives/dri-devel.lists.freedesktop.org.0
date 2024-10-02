@@ -2,61 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAC0698D9E6
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2024 16:15:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66CF398D9EF
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2024 16:16:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33D9B10E75D;
-	Wed,  2 Oct 2024 14:15:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3F3510E75A;
+	Wed,  2 Oct 2024 14:16:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="C6RQ6IGP";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="k6Kz3d57";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B5CD10E75A;
- Wed,  2 Oct 2024 14:15:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1727878537; x=1759414537;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=vrKDtkzvCbfn1iEnoEHNTgFCx2GhBBccqTrXXTqzVRI=;
- b=C6RQ6IGPyxYXK0M9PW3u5Jri6U/xfOgcrPEjbsJNZn1H7fGMsN4gLFp6
- IO+fHLQI1bSGIivKuMB65nf5RBnQoWZZk1b/s9lQW3hq7u0eFgTtSRL7q
- n0xGRJK8C+Ww7fqfPUAIs185Pmisq5f1ZdFiKPoeaddiXOlyqsCOrnpl2
- 7uPuF6iG3Q1BqWayMe7BROZOO28fcqY7cV19DsWU9+/0PZNwLhohKhSIB
- 3CO8xMKawbj0LtRoPXOgQk/oqoxJbTjFOyfh2DQ4lAPGywkrlurrPws9N
- wEfXtnFdlAUuXcyduE2JW4/F5njVuGhXmb6/0utpkPiffyAQKhluENLua Q==;
-X-CSE-ConnectionGUID: OkNfpZuHQZ6vTAHOYv5PDQ==
-X-CSE-MsgGUID: TmOJSYqqQKqoaW5a0eQv6w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="27174618"
-X-IronPort-AV: E=Sophos;i="6.11,171,1725346800"; d="scan'208";a="27174618"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Oct 2024 07:15:37 -0700
-X-CSE-ConnectionGUID: bLHtxDyjQ5u5qHQlV9XflA==
-X-CSE-MsgGUID: gLHi+q7/SaCUzuFTXTUeog==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,171,1725346800"; d="scan'208";a="74825692"
-Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.245.192.230])
- ([10.245.192.230])
- by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Oct 2024 07:15:35 -0700
-Message-ID: <4f586fcd-b1b8-497c-b594-5fb89447296d@linux.intel.com>
-Date: Wed, 2 Oct 2024 16:15:32 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/2] drm/xe: Drop GuC submit_wq pool
-To: Matthew Brost <matthew.brost@intel.com>, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: dakr@kernel.org, pstanner@redhat.com, ltuikov89@gmail.com
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BB6410E75A;
+ Wed,  2 Oct 2024 14:16:06 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id BE72EA43D44;
+ Wed,  2 Oct 2024 14:15:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29EA5C4CECE;
+ Wed,  2 Oct 2024 14:16:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1727878564;
+ bh=Lu5yeeAWDRG7wuGSdV8umcfdT5iHrBtdO/F0ex29vvo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=k6Kz3d57eDeMmu2Iall0kqR6ATmDj0MJv78eF4BB0UpFLOc71XptkxCkMXKvFdMba
+ p9mCrhSbH/0jHOBJXR3rsH5x/OL5NDVQqFNXkPcz/yxLlxfVdgfJGcS0VW7hROE0WK
+ rpy32Ia1ZXwbEmOQRDTfMx7ERd/GOR0g2gxnzkwV8ueN5EIfsPhR0wTiCU6ywvUdWk
+ C/N3AFnv95flscZMI0KfGdANJPD+If3fBuFeBA5GlWrFW8rmJ3T8d0anuubU5ZtUvf
+ NS6dzrqrlGekT3sCbQZ62y9wGv+ljnm+53zKO2fTe4AhhLhtqRu9MZYYROW2mAS++Z
+ AbdSuqscRuOpw==
+Date: Wed, 2 Oct 2024 16:16:00 +0200
+From: Danilo Krummrich <dakr@kernel.org>
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ pstanner@redhat.com, ltuikov89@gmail.com
+Subject: Re: [PATCH v4 1/2] drm/sched: Use drm sched lockdep map for submit_wq
+Message-ID: <Zv1VoJ_KEw1-P257@pollux>
 References: <20241002131639.3425022-1-matthew.brost@intel.com>
- <20241002131639.3425022-3-matthew.brost@intel.com>
-Content-Language: en-US
-From: Nirmoy Das <nirmoy.das@linux.intel.com>
-In-Reply-To: <20241002131639.3425022-3-matthew.brost@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <20241002131639.3425022-2-matthew.brost@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241002131639.3425022-2-matthew.brost@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,127 +59,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 10/2/2024 3:16 PM, Matthew Brost wrote:
-> Now that drm sched uses a single lockdep map for all submit_wq, drop the
-> GuC submit_wq pool hack.
->
+On Wed, Oct 02, 2024 at 06:16:38AM -0700, Matthew Brost wrote:
+> Avoid leaking a lockdep map on each drm sched creation and destruction
+> by using a single lockdep map for all drm sched allocated submit_wq.
+> 
+> v2:
+>  - Use alloc_ordered_workqueue_lockdep_map (Tejun)
+> 
+> Cc: Luben Tuikov <ltuikov89@gmail.com>
+> Cc: Christian König <christian.koenig@amd.com>
 > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 
-Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
+Good catch,
+
+Acked-by: Danilo Krummrich <dakr@kernel.org>
 
 > ---
->  drivers/gpu/drm/xe/xe_guc_submit.c | 60 +-----------------------------
->  drivers/gpu/drm/xe/xe_guc_types.h  |  7 ----
->  2 files changed, 1 insertion(+), 66 deletions(-)
->
-> diff --git a/drivers/gpu/drm/xe/xe_guc_submit.c b/drivers/gpu/drm/xe/xe_guc_submit.c
-> index 80062e1d3f66..ce251845d59a 100644
-> --- a/drivers/gpu/drm/xe/xe_guc_submit.c
-> +++ b/drivers/gpu/drm/xe/xe_guc_submit.c
-> @@ -224,58 +224,6 @@ static bool exec_queue_killed_or_banned_or_wedged(struct xe_exec_queue *q)
->  		 EXEC_QUEUE_STATE_BANNED));
->  }
+>  drivers/gpu/drm/scheduler/sched_main.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index 36db5c7736fc..e32b0f7d7e94 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -87,6 +87,12 @@
+>  #define CREATE_TRACE_POINTS
+>  #include "gpu_scheduler_trace.h"
 >  
-> -#ifdef CONFIG_PROVE_LOCKING
-> -static int alloc_submit_wq(struct xe_guc *guc)
-> -{
-> -	int i;
-> -
-> -	for (i = 0; i < NUM_SUBMIT_WQ; ++i) {
-> -		guc->submission_state.submit_wq_pool[i] =
-> -			alloc_ordered_workqueue("submit_wq", 0);
-> -		if (!guc->submission_state.submit_wq_pool[i])
-> -			goto err_free;
-> -	}
-> -
-> -	return 0;
-> -
-> -err_free:
-> -	while (i)
-> -		destroy_workqueue(guc->submission_state.submit_wq_pool[--i]);
-> -
-> -	return -ENOMEM;
-> -}
-> -
-> -static void free_submit_wq(struct xe_guc *guc)
-> -{
-> -	int i;
-> -
-> -	for (i = 0; i < NUM_SUBMIT_WQ; ++i)
-> -		destroy_workqueue(guc->submission_state.submit_wq_pool[i]);
-> -}
-> -
-> -static struct workqueue_struct *get_submit_wq(struct xe_guc *guc)
-> -{
-> -	int idx = guc->submission_state.submit_wq_idx++ % NUM_SUBMIT_WQ;
-> -
-> -	return guc->submission_state.submit_wq_pool[idx];
-> -}
-> -#else
-> -static int alloc_submit_wq(struct xe_guc *guc)
-> -{
-> -	return 0;
-> -}
-> -
-> -static void free_submit_wq(struct xe_guc *guc)
-> -{
-> -
-> -}
-> -
-> -static struct workqueue_struct *get_submit_wq(struct xe_guc *guc)
-> -{
-> -	return NULL;
-> -}
-> -#endif
-> -
->  static void xe_guc_submit_fini(struct xe_guc *guc)
->  {
->  	struct xe_device *xe = guc_to_xe(guc);
-> @@ -297,7 +245,6 @@ static void guc_submit_fini(struct drm_device *drm, void *arg)
+> +#ifdef CONFIG_LOCKDEP
+> +static struct lockdep_map drm_sched_lockdep_map = {
+> +	.name = "drm_sched_lockdep_map"
+> +};
+> +#endif
+> +
+>  #define to_drm_sched_job(sched_job)		\
+>  		container_of((sched_job), struct drm_sched_job, queue_node)
 >  
->  	xe_guc_submit_fini(guc);
->  	xa_destroy(&guc->submission_state.exec_queue_lookup);
-> -	free_submit_wq(guc);
->  }
+> @@ -1270,7 +1276,12 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
+>  		sched->submit_wq = submit_wq;
+>  		sched->own_submit_wq = false;
+>  	} else {
+> +#ifdef CONFIG_LOCKDEP
+> +		sched->submit_wq = alloc_ordered_workqueue_lockdep_map(name, 0,
+> +								       &drm_sched_lockdep_map);
+> +#else
+>  		sched->submit_wq = alloc_ordered_workqueue(name, 0);
+> +#endif
+>  		if (!sched->submit_wq)
+>  			return -ENOMEM;
 >  
->  static void guc_submit_wedged_fini(void *arg)
-> @@ -359,10 +306,6 @@ int xe_guc_submit_init(struct xe_guc *guc, unsigned int num_ids)
->  	if (err)
->  		return err;
->  
-> -	err = alloc_submit_wq(guc);
-> -	if (err)
-> -		return err;
-> -
->  	gt->exec_queue_ops = &guc_exec_queue_ops;
->  
->  	xa_init(&guc->submission_state.exec_queue_lookup);
-> @@ -1482,8 +1425,7 @@ static int guc_exec_queue_init(struct xe_exec_queue *q)
->  	timeout = (q->vm && xe_vm_in_lr_mode(q->vm)) ? MAX_SCHEDULE_TIMEOUT :
->  		  msecs_to_jiffies(q->sched_props.job_timeout_ms);
->  	err = xe_sched_init(&ge->sched, &drm_sched_ops, &xe_sched_ops,
-> -			    get_submit_wq(guc),
-> -			    q->lrc[0]->ring.size / MAX_JOB_SIZE_BYTES, 64,
-> +			    NULL, q->lrc[0]->ring.size / MAX_JOB_SIZE_BYTES, 64,
->  			    timeout, guc_to_gt(guc)->ordered_wq, NULL,
->  			    q->name, gt_to_xe(q->gt)->drm.dev);
->  	if (err)
-> diff --git a/drivers/gpu/drm/xe/xe_guc_types.h b/drivers/gpu/drm/xe/xe_guc_types.h
-> index 69046f698271..ed150fc09ad0 100644
-> --- a/drivers/gpu/drm/xe/xe_guc_types.h
-> +++ b/drivers/gpu/drm/xe/xe_guc_types.h
-> @@ -72,13 +72,6 @@ struct xe_guc {
->  		atomic_t stopped;
->  		/** @submission_state.lock: protects submission state */
->  		struct mutex lock;
-> -#ifdef CONFIG_PROVE_LOCKING
-> -#define NUM_SUBMIT_WQ	256
-> -		/** @submission_state.submit_wq_pool: submission ordered workqueues pool */
-> -		struct workqueue_struct *submit_wq_pool[NUM_SUBMIT_WQ];
-> -		/** @submission_state.submit_wq_idx: submission ordered workqueue index */
-> -		int submit_wq_idx;
-> -#endif
->  		/** @submission_state.enabled: submission is enabled */
->  		bool enabled;
->  		/** @submission_state.fini_wq: submit fini wait queue */
+> -- 
+> 2.34.1
+> 
