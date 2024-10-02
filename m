@@ -2,59 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4930798E4AA
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2024 23:14:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5943398E4B0
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Oct 2024 23:16:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE11610E1D1;
-	Wed,  2 Oct 2024 21:14:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B95A10E0D6;
+	Wed,  2 Oct 2024 21:16:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="EqWveaOy";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="jq7+Swt6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D429510E1D1;
- Wed,  2 Oct 2024 21:14:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1727903665; x=1759439665;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=pE9rJGNQU6bQS1D6Z7/XELNdvYB1vUUF7MaKDUcK7KY=;
- b=EqWveaOyJpCmbYegpnBXmYFNgKBZBwN82vQ/lw4W6Vcu8n5ZQrdzN5Xq
- DBFZjJCx2RGs9qfgfOMkmIYzcaxNIGvGhZYAeCFf0/56ca7Dv5KSei1cw
- GaU9WtVfHcAVLOzN9kJVKPTkNZdZkyAC7DBszloaidcVueyNZeWhUNXfp
- UDClSy/P71QyPdBQ5uIKmChmAGySJyHDwbDIQ7ENlG1Xd1U2dRvT4xPaF
- hOhkaH50RcQq/aTQ7cNYFYG7ATNBARC6lPXnOkUPUVEaNmDWeTwhQsXL2
- bHnQOEexIDf1Lp+MPdClQyeyQyn3fzxSUohgtdBSOtQDnfwgkQe84k3sN A==;
-X-CSE-ConnectionGUID: Kvjfi4ZqSXKGT69bauhOeg==
-X-CSE-MsgGUID: /AcgRiRKRMq2TaQivfnsDQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="30879600"
-X-IronPort-AV: E=Sophos;i="6.11,172,1725346800"; d="scan'208";a="30879600"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Oct 2024 14:14:25 -0700
-X-CSE-ConnectionGUID: PQcgbpbcS1S+5ezq92kmHg==
-X-CSE-MsgGUID: NRZllKPgRnqsPcCg7bakHg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,172,1725346800"; d="scan'208";a="111584931"
-Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
- by orviesa001.jf.intel.com with ESMTP; 02 Oct 2024 14:14:23 -0700
-From: John.C.Harrison@Intel.com
-To: Intel-Xe@Lists.FreeDesktop.Org
-Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>,
- Jani Nikula <jani.nikula@intel.com>,
- John Harrison <John.C.Harrison@Intel.com>, dri-devel@lists.freedesktop.org
-Subject: [PATCH v9 07/11] drm/print: Introduce drm_line_printer
-Date: Wed,  2 Oct 2024 14:14:18 -0700
-Message-ID: <20241002211422.2135130-8-John.C.Harrison@Intel.com>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20241002211422.2135130-1-John.C.Harrison@Intel.com>
-References: <20241002211422.2135130-1-John.C.Harrison@Intel.com>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B163710E009;
+ Wed,  2 Oct 2024 21:16:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Cc:To:Content-Transfer-Encoding:Content-Type:MIME-Version:
+ Message-Id:Date:Subject:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=zw3CnjmaMmXgMlS66QKNCXXAJ2JyjAKjSarlVGPessY=; b=jq7+Swt6pPi+1CZq+aa73tlXFE
+ UEg1rrTLgRk8uyVFpDOQwMlGNyi0GTHfmIXxXyvzRoaKi1mlmJLdXe4ehsTyWft4hmuxhtgty3Wgo
+ 7sUCXC5X5Te1e6uqmxgLztqoh1OTHK3RScBRpCP+FqmZVf10f56Uzw5e/GZCnsg2iH87np5DMmy/Z
+ KS1Us5TtKWsMrX99XzwAl2y38CIZEMN6ER+4T5V4bXkOyLIszjaSH/63jS+E6CoqzN+ltoMbwOurz
+ huCA4/nX3WL81aeRYnNZ6jrZ453hNSBU9l+mIPOsHbsajLJPT7WJsefJ7R49N4BMKw4FEGAqT1h6y
+ JojBnn3w==;
+Received: from [187.57.199.212] (helo=[192.168.15.100])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1sw6i9-0042sU-RU; Wed, 02 Oct 2024 23:16:42 +0200
+From: =?utf-8?q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
+Subject: [PATCH v9 0/2] drm/atomic: Ease async flip restrictions
+Date: Wed, 02 Oct 2024 18:16:04 -0300
+Message-Id: <20241002-tonyk-async_flip-v9-0-453b1b8977bd@igalia.com>
 MIME-Version: 1.0
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
- Swindon SN3 1RJ
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIABW4/WYC/x3MQQqAIBBA0avIrBPMWmhXiQiZxhoKE40oorsnL
+ d/i/wcyJaYMnXgg0cmZ91BgKwG4uDCT5KkYtNJtrZSWxx7uVbp8Bxz9xlEabdCTRd+gg5LFRJ6
+ vf9kP7/sBlsIyB2IAAAA=
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, 
+ Alex Deucher <alexander.deucher@amd.com>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Xinhui Pan <Xinhui.Pan@amd.com>, dmitry.baryshkov@linaro.org, 
+ Simon Ser <contact@emersion.fr>, joshua@froggi.es, 
+ Xaver Hugl <xaver.hugl@gmail.com>, Daniel Stone <daniel@fooishbar.org>, 
+ ville.syrjala@linux.intel.com
+Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
+ =?utf-8?q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
+X-Mailer: b4 0.14.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,139 +72,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Hi,
 
-This drm printer wrapper can be used to increase the robustness of
-the captured output generated by any other drm_printer to make sure
-we didn't lost any intermediate lines of the output by adding line
-numbers to each output line. Helpful for capturing some crash data.
+As per my previous patchsets, the goal of this work is to find a nice way to
+allow amdgpu to perform async page flips in the overlay plane as well, not
+only on the primary one. Currently, when using the atomic uAPI, this is the only
+type of plane allowed to do async flips, and every driver accepts it.
 
-v2: Extended short int counters to full int (JohnH)
+In my last version, I had created a static field `bool async_flip` for
+drm_planes. When creating new planes, drivers could tell if such plane was
+allowed or not to do async flips. This would be latter checked on the atomic
+uAPI whenever the DRM_MODE_PAGE_FLIP_ASYNC was present.
 
-Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Cc: Jani Nikula <jani.nikula@intel.com>
-Cc: John Harrison <John.C.Harrison@Intel.com>
-Cc: dri-devel@lists.freedesktop.org
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+However, Dmitry Baryshkov raised a valid point about getting confused with the 
+existing atomic_async_check() code, giving that is a function to do basically
+what I want: to let drivers tell DRM whether a giving plane can do async flips
+or not. It turns out atomic_async_check() is implemented by drivers to deal with
+the legacy cursor update, so it's not wired with the atomic uAPI because is
+something that precedes such API.
+
+So my new proposal is to just reuse this same function in the atomic uAPI path.
+The plane restrictions defined at atomic_async_check() should work in this
+codepath as well. And I will be able to allow overlays planes by modifying
+amdgpu_dm_plane_atomic_async_check(), and anyone else have a proper place to
+play with async plane restrictions as well.
+
+One note is that currently we always allow async flips for primary planes,
+regardless of the drivers, but not every atomic_async_check() implementation
+allows primary planes (because they were writing targeting cursor planes
+anyway...). To avoid regressions, my patch only calls atomic_async_check() for
+non primary planes, and always allows primary ones.
+
+Thoughts?
+
+Changelog
+ v8: https://lore.kernel.org/lkml/20240806135300.114469-1-andrealmeid@igalia.com/
+ - Rebased on top of 6.12-rc1 (drm/drm-next)
+
+Changelog
+ v7: https://lore.kernel.org/dri-devel/20240618030024.500532-1-andrealmeid@igalia.com/
+ - Complete rewrite
+
 ---
- drivers/gpu/drm/drm_print.c | 14 ++++++++
- include/drm/drm_print.h     | 64 +++++++++++++++++++++++++++++++++++++
- 2 files changed, 78 insertions(+)
+André Almeida (2):
+      drm/atomic: Let drivers decide which planes to async flip
+      drm/amdgpu: Enable async flip on overlay planes
 
-diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
-index 0081190201a7..08cfea04e22b 100644
---- a/drivers/gpu/drm/drm_print.c
-+++ b/drivers/gpu/drm/drm_print.c
-@@ -235,6 +235,20 @@ void __drm_printfn_err(struct drm_printer *p, struct va_format *vaf)
- }
- EXPORT_SYMBOL(__drm_printfn_err);
- 
-+void __drm_printfn_line(struct drm_printer *p, struct va_format *vaf)
-+{
-+	unsigned int counter = ++p->line.counter;
-+	const char *prefix = p->prefix ?: "";
-+	const char *pad = p->prefix ? " " : "";
-+
-+	if (p->line.series)
-+		drm_printf(p->arg, "%s%s%u.%u: %pV",
-+			   prefix, pad, p->line.series, counter, vaf);
-+	else
-+		drm_printf(p->arg, "%s%s%u: %pV", prefix, pad, counter, vaf);
-+}
-+EXPORT_SYMBOL(__drm_printfn_line);
-+
- /**
-  * drm_puts - print a const string to a &drm_printer stream
-  * @p: the &drm printer
-diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
-index d2676831d765..b3906dc04388 100644
---- a/include/drm/drm_print.h
-+++ b/include/drm/drm_print.h
-@@ -177,6 +177,10 @@ struct drm_printer {
- 	void *arg;
- 	const void *origin;
- 	const char *prefix;
-+	struct {
-+		unsigned int series;
-+		unsigned int counter;
-+	} line;
- 	enum drm_debug_category category;
- };
- 
-@@ -187,6 +191,7 @@ void __drm_puts_seq_file(struct drm_printer *p, const char *str);
- void __drm_printfn_info(struct drm_printer *p, struct va_format *vaf);
- void __drm_printfn_dbg(struct drm_printer *p, struct va_format *vaf);
- void __drm_printfn_err(struct drm_printer *p, struct va_format *vaf);
-+void __drm_printfn_line(struct drm_printer *p, struct va_format *vaf);
- 
- __printf(2, 3)
- void drm_printf(struct drm_printer *p, const char *f, ...);
-@@ -411,6 +416,65 @@ static inline struct drm_printer drm_err_printer(struct drm_device *drm,
- 	return p;
- }
- 
-+/**
-+ * drm_line_printer - construct a &drm_printer that prefixes outputs with line numbers
-+ * @p: the &struct drm_printer which actually generates the output
-+ * @prefix: optional output prefix, or NULL for no prefix
-+ * @series: optional unique series identifier, or 0 to omit identifier in the output
-+ *
-+ * This printer can be used to increase the robustness of the captured output
-+ * to make sure we didn't lost any intermediate lines of the output. Helpful
-+ * while capturing some crash data.
-+ *
-+ * Example 1::
-+ *
-+ *	void crash_dump(struct drm_device *drm)
-+ *	{
-+ *		static unsigned int id;
-+ *		struct drm_printer p = drm_err_printer(drm, "crash");
-+ *		struct drm_printer lp = drm_line_printer(&p, "dump", ++id);
-+ *
-+ *		drm_printf(&lp, "foo");
-+ *		drm_printf(&lp, "bar");
-+ *	}
-+ *
-+ * Above code will print into the dmesg something like::
-+ *
-+ *	[ ] 0000:00:00.0: [drm] *ERROR* crash dump 1.1: foo
-+ *	[ ] 0000:00:00.0: [drm] *ERROR* crash dump 1.2: bar
-+ *
-+ * Example 2::
-+ *
-+ *	void line_dump(struct device *dev)
-+ *	{
-+ *		struct drm_printer p = drm_info_printer(dev);
-+ *		struct drm_printer lp = drm_line_printer(&p, NULL, 0);
-+ *
-+ *		drm_printf(&lp, "foo");
-+ *		drm_printf(&lp, "bar");
-+ *	}
-+ *
-+ * Above code will print::
-+ *
-+ *	[ ] 0000:00:00.0: [drm] 1: foo
-+ *	[ ] 0000:00:00.0: [drm] 2: bar
-+ *
-+ * RETURNS:
-+ * The &drm_printer object
-+ */
-+static inline struct drm_printer drm_line_printer(struct drm_printer *p,
-+						  const char *prefix,
-+						  unsigned int series)
-+{
-+	struct drm_printer lp = {
-+		.printfn = __drm_printfn_line,
-+		.arg = p,
-+		.prefix = prefix,
-+		.line = { .series = series, },
-+	};
-+	return lp;
-+}
-+
- /*
-  * struct device based logging
-  *
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c    |  3 +-
+ drivers/gpu/drm/drm_atomic_uapi.c                  | 39 ++++++++++++++++------
+ 2 files changed, 30 insertions(+), 12 deletions(-)
+---
+base-commit: e32cde8d2bd7d251a8f9b434143977ddf13dcec6
+change-id: 20241002-tonyk-async_flip-828cfe9cf3ca
+
+Best regards,
 -- 
-2.46.0
+André Almeida <andrealmeid@igalia.com>
 
