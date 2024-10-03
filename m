@@ -2,68 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D60898F3D4
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 18:13:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BECD198F3D7
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 18:13:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 124D410E8C4;
-	Thu,  3 Oct 2024 16:13:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 261A010E8B0;
+	Thu,  3 Oct 2024 16:13:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ONG8sW0X";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KCjipMac";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
- [209.85.218.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1422F10E8C2;
- Thu,  3 Oct 2024 16:13:19 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id
- a640c23a62f3a-a9909dff33dso186583366b.2; 
- Thu, 03 Oct 2024 09:13:18 -0700 (PDT)
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
+ [209.85.218.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C367E10E8C5;
+ Thu,  3 Oct 2024 16:13:20 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id
+ a640c23a62f3a-a8d446adf6eso187269966b.2; 
+ Thu, 03 Oct 2024 09:13:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1727971997; x=1728576797; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1727971999; x=1728576799; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=NKJFRuukzHMdicXNTKn9DNH9WIRDTQEFbWKyZAU8kdY=;
- b=ONG8sW0XzM45jd3RYAykz+QTqdFQCGenWvX3Kw1gfAjD37ewqKq/QN7OuUApeNXyKP
- q4DVPJrjFFqEvpas1djOiUdp0jHAcetzRhTy2GU/ZtkAtXcc9ZTOku0kem7f4ITKtqt2
- JcjgtpEAcKq2Go27n5sj3Waec9Xjy2x+1payrFFaB/MwNOyOIjgCYo2HNrQXaq+X9MnM
- MV94CpgIuDy6sAffefIS0M90s0Z9NR0NQzbuC8u0uUvntmQ6EbMLLEbGvesCdFhtCotJ
- eBbbVZzXjEup6giAyQ/P5XOkgW9aGoq1WAXOIrU4zc5ZIbmJOoGFWCPc8nQ/PLAWVnp/
- CHlg==
+ :reply-to; bh=3fpNTS0q1Wya28e2Ddw3u+eLcNrzlMeAfttSM8CxcnU=;
+ b=KCjipMacIDD/bIfaVXp6wTIFmC9+H7fKwqmNqMW2FyJcmzOTmmakFR7wPq/8XuxumQ
+ TWLmcmM3wwSx/oZuEXubeUX/sFKOCekUMelbqPpXBoyHj/VoaW2CgZ7+hPOg2CcTWgVV
+ Lpja/jA07726RpxY+oeSSQl02+VY6mIw6ZzHoOM/mShmBuo7Cl2KS1vTjWThy4JEavpK
+ bMhg49AwjNuJB+5rF6WZ9igq77YaeoKOSSrSj3CcdahYS1u1O+NUiNUUebV7XxfCUni2
+ YmLmrVa1feDbqdlFiqGsfToBVplxPcl4cJotuk36NAfkMGgk2wcYj5rK2LvqYiIGx+y/
+ 9f5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727971997; x=1728576797;
+ d=1e100.net; s=20230601; t=1727971999; x=1728576799;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=NKJFRuukzHMdicXNTKn9DNH9WIRDTQEFbWKyZAU8kdY=;
- b=t28C+mL9+Thj7cLxi1rYDWJE4nieQVbRqoNJbXqb08xUq12Fmg0rvRegsUwX/3vmO8
- Fa+eOCuUkD92xyX8dvO1EbCnbKxRD6E/QyGv5QzlJNKDR+DhENxXzza5TYQ6S5bDKPmm
- JNXj77SIHPbZDZgyHURZGKynhnar2ZiEhzY8dgtWlgIVwCjWfWYLRpoA3XiXB9LVd7xz
- fw29MQxhURyj+Y5Uglnb4gKD5FUwSZfqPVwkJSUxb8UgB+6TsUnEuJ+8NjfKXHofZKRa
- RJ+o8JHXdSMn1yYgtpba7veC7MCG263Uz/mggrppfL0+li54hy7bXaP95Kc9bOkZVoWj
- ashA==
+ bh=3fpNTS0q1Wya28e2Ddw3u+eLcNrzlMeAfttSM8CxcnU=;
+ b=dYKMK6uoTmN40n3CYCnB6YJSNQi9wNncS3f4NpgL6e/8t+UW8q2t7aDm79ICVZ16fv
+ h1BRbLCJhvbp4Efxw+UvQwqDUpVtZKOpyGxouZSOBP++Wpsg5y0UveJqGrcq7yosYr7u
+ yIDDN0332xQgjXjOYgYZ/r342G8blZSe3FejJ4GaBzgYeqeNrgCHsmN5abfv6LIpbBFO
+ 5L8TXjuU605ewPX/lHQgig39e7KW5QSBI35oaypx/jG9Ty/yY58xlcqr1cJZmW71MvhR
+ SAwgokHt9xp+FEBViFNeCpjFIaBw7CLJAhwmcVMt8o79X7myktos3gsWpPzEwtxX6uf9
+ x1Cg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUq7SziJoooO66AA23Z+knfvHSxyW5jUHrjOpR0pVjtlI3d6HpUQQSJ4EE810V9hziIboeiH0sU3GE=@lists.freedesktop.org,
- AJvYcCXHoyQu8nd3/S9ZSQ2XHuK479c4lV4mHhLHdjfPJ5x2EgSvxDAS8KVmJmjI6GClkwJTprt7L0XWHI0G@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx/qxVxW1Nc1nkJsH0gyQzOXaDa2iA5dOXsD1BxtLvnVO4VYfEJ
- X/ITFN14PlNeZsPiK2im1h9McwItz3tP1IzammgIcbo3kPI0fs7S
-X-Google-Smtp-Source: AGHT+IHcNU+ucBCkSRq9sRA5jDmhMoPbP9eCdmVwT7A5aCxRX32s1cRNWnQ5GXUoPvz7ueJoYdS17g==
-X-Received: by 2002:a17:907:3fa4:b0:a93:d5d3:def6 with SMTP id
- a640c23a62f3a-a98f821ea56mr645715566b.19.1727971997234; 
- Thu, 03 Oct 2024 09:13:17 -0700 (PDT)
+ AJvYcCX1UQJrtCf/RW82kEXCO5qq097jCqd4hOhpr3RfWs+m743dZMlSFXabUdbUM6RkQ9EdxBPhI3iFP7W+@lists.freedesktop.org,
+ AJvYcCXOMHaN7gcEDLZXgOliFLuu8g1jjW4p5AU/nZRFXB++k2BQ5RUX1hswyCur1awdizlZAhVRr1ElXwA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxQZMaYxqh5XQLzbk0g29Pc/jX2Tkz7ZTjfP+yEizgXIvPMP31R
+ JqTd6nGJIOxqXqdL8Rm/3kYXXtqT/IFEFOcWsCXOrREyuuiCGyr5
+X-Google-Smtp-Source: AGHT+IH+z9eUo8QcUxhrDoJYH3nCVHawLxyeUByKeD9f7uhNjTIOXx5BsvoGTwPWw9epYlodqVNg5g==
+X-Received: by 2002:a17:906:9c84:b0:a91:15dc:34e4 with SMTP id
+ a640c23a62f3a-a98f838b3b9mr825508066b.59.1727971998826; 
+ Thu, 03 Oct 2024 09:13:18 -0700 (PDT)
 Received: from [192.168.1.17] (host-79-12-161-203.retail.telecomitalia.it.
  [79.12.161.203]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a99103b314asm102382366b.103.2024.10.03.09.13.15
+ a640c23a62f3a-a99103b314asm102382366b.103.2024.10.03.09.13.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Oct 2024 09:13:16 -0700 (PDT)
+ Thu, 03 Oct 2024 09:13:18 -0700 (PDT)
 From: Antonino Maniscalco <antomani103@gmail.com>
-Date: Thu, 03 Oct 2024 18:13:00 +0200
-Subject: [PATCH v8 11/12] drm/msm/a6xx: Enable preemption for tested a7xx
- targets
+Date: Thu, 03 Oct 2024 18:13:01 +0200
+Subject: [PATCH v8 12/12] Documentation: document adreno preemption
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241003-preemption-a750-t-v8-11-5c6cb9f256e0@gmail.com>
+Message-Id: <20241003-preemption-a750-t-v8-12-5c6cb9f256e0@gmail.com>
 References: <20241003-preemption-a750-t-v8-0-5c6cb9f256e0@gmail.com>
 In-Reply-To: <20241003-preemption-a750-t-v8-0-5c6cb9f256e0@gmail.com>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
@@ -77,14 +76,13 @@ To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Jonathan Corbet <corbet@lwn.net>
 Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, Antonino Maniscalco <antomani103@gmail.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>
+ linux-doc@vger.kernel.org, Antonino Maniscalco <antomani103@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1727971975; l=6216;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1727971975; l=5027;
  i=antomani103@gmail.com; s=20240815; h=from:subject:message-id;
- bh=p8dXQLzJR/jPRlo026VsvM4xjBwdjBGjnZtTLsi6I5U=;
- b=G6df5+75NylpuHekm/mwOE/ZF0IRDk6mgols9dNhlXQtjxK9TVajTFWNRoi56ynFAxGBMaTVo
- E6/9azpvOB6DmDOXFgpLzJJIEoGMbPiXUCP+XFf1EVek3hVO1OS4+NW
+ bh=Lqokp436hYQPQY3ahWAbbFwj5CouB7qIxKNoJs67APU=;
+ b=Y0+gbMYo926SrfUYu3rTzPeHpFJC7sLUBp92IZwL/MosjFrr3cLUskF07F3sMVxjJFJpTPcOG
+ gOApUuQ84zwDkVsFRRh+sxuDU5aagr8Devr8sF7RPuK3cahOsLtbI8D
 X-Developer-Key: i=antomani103@gmail.com; a=ed25519;
  pk=0zicFb38tVla+iHRo4kWpOMsmtUrpGBEa7LkFF81lyY=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -102,142 +100,119 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Initialize with 4 rings to enable preemption.
+Add documentation about the preemption feature supported by the msm
+driver.
 
-Add the "preemption_enabled" module parameter to override this.
-
-Tested-by: Rob Clark <robdclark@gmail.com>
-Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-QRD
-Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8550-QRD
-Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8450-HDK
 Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
 ---
- drivers/gpu/drm/msm/adreno/a6xx_catalog.c  | 12 ++++++++----
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c      |  6 +++++-
- drivers/gpu/drm/msm/adreno/adreno_device.c |  4 ++++
- drivers/gpu/drm/msm/adreno/adreno_gpu.h    |  1 +
- drivers/gpu/drm/msm/msm_submitqueue.c      |  6 +++++-
- 5 files changed, 23 insertions(+), 6 deletions(-)
+ Documentation/gpu/msm-preemption.rst | 99 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 99 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-index e4d271fa89cc66f188be04206e267fabd83cca83..1c8b31627eb68bff406e70995838e418331449ef 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-@@ -1204,7 +1204,8 @@ static const struct adreno_info a7xx_gpus[] = {
- 		.gmem = SZ_2M,
- 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
- 		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
--			  ADRENO_QUIRK_HAS_HW_APRIV,
-+			  ADRENO_QUIRK_HAS_HW_APRIV |
-+			  ADRENO_QUIRK_PREEMPTION,
- 		.init = a6xx_gpu_init,
- 		.zapfw = "a730_zap.mdt",
- 		.a6xx = &(const struct a6xx_info) {
-@@ -1224,7 +1225,8 @@ static const struct adreno_info a7xx_gpus[] = {
- 		.gmem = 3 * SZ_1M,
- 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
- 		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
--			  ADRENO_QUIRK_HAS_HW_APRIV,
-+			  ADRENO_QUIRK_HAS_HW_APRIV |
-+			  ADRENO_QUIRK_PREEMPTION,
- 		.init = a6xx_gpu_init,
- 		.zapfw = "a740_zap.mdt",
- 		.a6xx = &(const struct a6xx_info) {
-@@ -1245,7 +1247,8 @@ static const struct adreno_info a7xx_gpus[] = {
- 		.gmem = 3 * SZ_1M,
- 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
- 		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
--			  ADRENO_QUIRK_HAS_HW_APRIV,
-+			  ADRENO_QUIRK_HAS_HW_APRIV |
-+			  ADRENO_QUIRK_PREEMPTION,
- 		.init = a6xx_gpu_init,
- 		.a6xx = &(const struct a6xx_info) {
- 			.hwcg = a740_hwcg,
-@@ -1265,7 +1268,8 @@ static const struct adreno_info a7xx_gpus[] = {
- 		.gmem = 3 * SZ_1M,
- 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
- 		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
--			  ADRENO_QUIRK_HAS_HW_APRIV,
-+			  ADRENO_QUIRK_HAS_HW_APRIV |
-+			  ADRENO_QUIRK_PREEMPTION,
- 		.init = a6xx_gpu_init,
- 		.zapfw = "gen70900_zap.mbn",
- 		.a6xx = &(const struct a6xx_info) {
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index 2f7c93e74e097a78510700d2c6607d052cbdda66..dca9d011f09e741784ac6dc31b61841149acbae2 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -2439,6 +2439,7 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
- 	struct a6xx_gpu *a6xx_gpu;
- 	struct adreno_gpu *adreno_gpu;
- 	struct msm_gpu *gpu;
-+	extern int enable_preemption;
- 	bool is_a7xx;
- 	int ret;
- 
-@@ -2477,7 +2478,10 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
- 		return ERR_PTR(ret);
- 	}
- 
--	if (is_a7xx)
-+	if ((enable_preemption == 1) || (enable_preemption == -1 &&
-+	    (config->info->quirks & ADRENO_QUIRK_PREEMPTION)))
-+		ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs_a7xx, 4);
-+	else if (is_a7xx)
- 		ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs_a7xx, 1);
- 	else if (adreno_has_gmu_wrapper(adreno_gpu))
- 		ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs_gmuwrapper, 1);
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
-index cfc74a9e2646d3de76a06bd67457d69afa49e309..9ffe91920fbfb4841b28aabec9fbde94539fdd83 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_device.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
-@@ -20,6 +20,10 @@ bool allow_vram_carveout = false;
- MODULE_PARM_DESC(allow_vram_carveout, "Allow using VRAM Carveout, in place of IOMMU");
- module_param_named(allow_vram_carveout, allow_vram_carveout, bool, 0600);
- 
-+int enable_preemption = -1;
-+MODULE_PARM_DESC(enable_preemption, "Enable preemption (A7xx only) (1=on , 0=disable, -1=auto (default))");
-+module_param(enable_preemption, int, 0600);
+diff --git a/Documentation/gpu/msm-preemption.rst b/Documentation/gpu/msm-preemption.rst
+new file mode 100644
+index 0000000000000000000000000000000000000000..2f74f8b61935a4469168ec36e777320dd6f22df9
+--- /dev/null
++++ b/Documentation/gpu/msm-preemption.rst
+@@ -0,0 +1,99 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
- extern const struct adreno_gpulist a2xx_gpulist;
- extern const struct adreno_gpulist a3xx_gpulist;
- extern const struct adreno_gpulist a4xx_gpulist;
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-index 2d8eef6c668b0da246edceba0c5d92041ea9a35b..30c6b949d0b197fea130c9b2b69c9362c1527737 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-@@ -56,6 +56,7 @@ enum adreno_family {
- #define ADRENO_QUIRK_LMLOADKILL_DISABLE		BIT(2)
- #define ADRENO_QUIRK_HAS_HW_APRIV		BIT(3)
- #define ADRENO_QUIRK_HAS_CACHED_COHERENT	BIT(4)
-+#define ADRENO_QUIRK_PREEMPTION			BIT(5)
- 
- /* Helper for formating the chip_id in the way that userspace tools like
-  * crashdec expect.
-diff --git a/drivers/gpu/drm/msm/msm_submitqueue.c b/drivers/gpu/drm/msm/msm_submitqueue.c
-index 9b3ffca3f3b471f509918edd4a2fdb0f80dfeb06..2fc3eaf81f4461990d48065f67bf5477787708e9 100644
---- a/drivers/gpu/drm/msm/msm_submitqueue.c
-+++ b/drivers/gpu/drm/msm/msm_submitqueue.c
-@@ -161,6 +161,8 @@ int msm_submitqueue_create(struct drm_device *drm, struct msm_file_private *ctx,
- 	struct msm_drm_private *priv = drm->dev_private;
- 	struct msm_gpu_submitqueue *queue;
- 	enum drm_sched_priority sched_prio;
-+	extern int enable_preemption;
-+	bool preemption_supported;
- 	unsigned ring_nr;
- 	int ret;
- 
-@@ -170,7 +172,9 @@ int msm_submitqueue_create(struct drm_device *drm, struct msm_file_private *ctx,
- 	if (!priv->gpu)
- 		return -ENODEV;
- 
--	if (flags & MSM_SUBMITQUEUE_ALLOW_PREEMPT && priv->gpu->nr_rings == 1)
-+	preemption_supported = priv->gpu->nr_rings == 1 && enable_preemption != 0;
++:orphan:
 +
-+	if (flags & MSM_SUBMITQUEUE_ALLOW_PREEMPT && preemption_supported)
- 		return -EINVAL;
- 
- 	ret = msm_gpu_convert_priority(priv->gpu, prio, &ring_nr, &sched_prio);
++==============
++MSM Preemption
++==============
++
++Preemption allows Adreno GPUs to switch to an higher priority ring when work is
++pushed to it, reducing latency for high priority submissions.
++
++When preemption is enabled 4 rings are initialized, corresponding to different
++priority levels. Having multiple rings is purely a software concept as the GPU
++only has registers to keep track of one graphics ring.
++The kernel is able to switch which ring is currently being processed by
++requesting preemption. When certain conditions are met, depending on the
++priority level, the GPU will save its current state in a series of buffers,
++then restores state from a similar set of buffers specified by the kernel. It
++then resumes execution and fires an IRQ to let the kernel know the context
++switch has completed.
++
++This mechanism can be used by the kernel to switch between rings. Whenever a
++submission occurs the kernel finds the highest priority ring which isn't empty
++and preempts to it if said ring is not the one being currently executed. This is
++also done whenever a submission completes to make sure execution resumes on a
++lower priority ring when a higher priority ring is done.
++
++Preemption levels
++-----------------
++
++Preemption can only occur at certain boundaries. The exact conditions can be
++configured by changing the preemption level, this allows to compromise between
++latency (ie. the time that passes between when the kernel requests preemption
++and when the SQE begins saving state) and overhead (the amount of state that
++needs to be saved).
++
++The GPU offers 3 levels:
++
++Level 0
++  Preemption only occurs at the submission level. This requires the least amount
++  of state to be saved as the execution of userspace submitted IBs is never
++  interrupted, however it offers very little benefit compared to not enabling
++  preemption of any kind.
++
++Level 1
++  Preemption occurs at either bin level, if using GMEM rendering, or draw level
++  in the sysmem rendering case.
++
++Level 2
++  Preemption occurs at draw level.
++
++Level 1 is the mode that is used by the msm driver.
++
++Additionally the GPU allows to specify a `skip_save_restore` option. This
++disables the saving and restoring of all registers except those relating to the
++operation of the SQE itself, reducing overhead. Saving and restoring is only
++skipped when using GMEM with Level 1 preemption. When enabling this userspace is
++expected to set the state that isn't preserved whenever preemption occurs which
++is done by specifying preamble and postambles. Those are IBs that are executed
++before and after preemption.
++
++Preemption buffers
++------------------
++
++A series of buffers are necessary to store the state of rings while they are not
++being executed. There are different kinds of preemption records and most of
++those require one buffer per ring. This is because preemption never occurs
++between submissions on the same ring, which always run in sequence when the ring
++is active. This means that only one context per ring is effectively active.
++
++SMMU_INFO
++  This buffer contains info about the current SMMU configuration such as the
++  ttbr0 register. The SQE firmware isn't actually able to save this record.
++  As a result SMMU info must be saved manually from the CP to a buffer and the
++  SMMU record updated with info from said buffer before triggering
++  preemption.
++
++NON_SECURE
++  This is the main preemption record where most state is saved. It is mostly
++  opaque to the kernel except for the first few words that must be initialized
++  by the kernel.
++
++SECURE
++  This saves state related to the GPU's secure mode.
++
++NON_PRIV
++  The intended purpose of this record is unknown. The SQE firmware actually
++  ignores it and therefore msm doesn't handle it.
++
++COUNTER
++  This record is used to save and restore performance counters.
++
++Handling the permissions of those buffers is critical for security. All but the
++NON_PRIV records need to be inaccessible from userspace, so they must be mapped
++in the kernel address space with the MSM_BO_MAP_PRIV flag.
++For example, making the NON_SECURE record accessible from userspace would allow
++any process to manipulate a saved ring's RPTR which can be used to skip the
++execution of some packets in a ring and execute user commands with higher
++privileges.
 
 -- 
 2.46.1
