@@ -2,62 +2,101 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 902C998F370
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 18:01:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16A5C98F563
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 19:37:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B257A10E8A1;
-	Thu,  3 Oct 2024 16:01:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF18910E237;
+	Thu,  3 Oct 2024 17:37:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nlUuerq6";
+	dkim=pass (2048-bit key; secure) header.d=adamthiede.com header.i=@adamthiede.com header.b="niJ092Ed";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2D6510E8A1
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 16:01:37 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 380CCA43D7B;
- Thu,  3 Oct 2024 16:01:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF5DAC4CEC5;
- Thu,  3 Oct 2024 16:01:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1727971296;
- bh=N1KpW62xffrI1xTNzdpqLWPuaaxVmpXQlBykvBKOYos=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=nlUuerq6jbWlISvrN32hO7SexdrK03YY9JjbQN6uws4xuKYvBvihbcXTT9a9l5cHK
- pgguUwi+UAlqdOwiGtP+WPf88+D+hTQrTGq7bVjSoFwygpOQDegCToHeMaUrfQ9zPL
- TAFr4PDnJARhiYi62iuUl0ccT2fiwCLFAWBz1PmfZWWXngFtmQ+h1yiOMK3lD/vVO3
- EKUVNSE4Eiip8BSVk1iTVHvNkpSII5cib+lvnAhjjLS0Nfo/CWvAHcHwR5lWqx354J
- Df1fx1ilq9gb866aewtZ3zJTcjRRQayOe90l7mabPI0XvTtLrglCAONHdxgui35Hak
- u4M9kp0lRTlxQ==
-Date: Thu, 3 Oct 2024 18:01:30 +0200
-From: Benjamin Tissoires <bentiss@kernel.org>
-To: Armin Wolf <W_Armin@gmx.de>
-Cc: Werner Sembach <wse@tuxedocomputers.com>, Pavel Machek <pavel@ucw.cz>, 
- Hans de Goede <hdegoede@redhat.com>,
- Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
- dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
- lee@kernel.org, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-leds@vger.kernel.org, 
- miguel.ojeda.sandonis@gmail.com, ojeda@kernel.org, onitake@gmail.com, 
- platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH 1/1] platform/x86/tuxedo: Add virtual LampArray for
- TUXEDO NB04 devices
-Message-ID: <cpt37kj2xqv6f5pb6bxgl53rxmmew6jdd647rsnrhowlphjq7i@dhp2655sl2sn>
-References: <586a1c41-bbe0-4912-b7c7-1716d886c198@tuxedocomputers.com>
- <5th4pisccud5s7dbia42glsnu7e5u3q7jszty6o3mjdedsd2bg@7nsvp6t2krnf>
- <b6f2244d-7567-49ac-b2db-23b632a4e181@tuxedocomputers.com>
- <cflor5mz4flekn44ttlbanfigmwn5mmp3p54gkeeznzmzkyjqz@p2c6q7gulrdl>
- <84b629c6-5b26-4285-9b2f-66dd1afa99e5@tuxedocomputers.com>
- <zph6fnuaamhayivmzftowjw6klgcy2gb7vdub2v2yo7n665vpo@rkxtorfvmzph>
- <c4e0beb6-acd1-45fa-ad47-f5cf9df89b11@gmx.de>
- <74f8bd23-d85a-4f12-b8db-ebde59f3abe3@tuxedocomputers.com>
- <swb45gt3vvctsmwgevo3ay6vkwoksasc64poj3tnaxsapxlsbg@kkmactexmclj>
- <f2f013b9-6891-4aa0-9124-95775580f84e@gmx.de>
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0963510E081
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 15:30:12 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4XKFwv5DZ7z9t3b;
+ Thu,  3 Oct 2024 17:30:07 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=adamthiede.com;
+ s=MBO0001; t=1727969407;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=VQ7Tdl23liWLVAg/y+01BU3yD+eB6aWTqWBSJ+/vJng=;
+ b=niJ092EdrphluiifAVW5QfjhDYDzaGEabtMnbHrD9h9MdCnkuu7PnWAHwKhDyv3X+rcfbX
+ YvVBMKj8xc7+OTaxMBUS1WCOx725nmUZAiuD0Lrye9ktjNlVEMCjJ47ljT9BrwDmdOcQbC
+ 1DCmk8COswoyAGrpNLtIDiGvouaEuF1/FlZw0E9RFc5A5vJ7GpNGPcV/w4pGXKbjrPbdcD
+ Kj8kjwRljX0+RwPAV9nqKEfhr3AmbNSE5DAwOB3VAa06egnJB64vA+bym4+PoakrYt/KqP
+ Nn1Jk2oWSOWOy3KpVYQwQ0h2JhwKriOghPfzXmVoyL/zka2GqytSyI8QOXYOOA==
+Message-ID: <0d93420b-4d40-479c-bd51-98963e49c4ed@adamthiede.com>
+Date: Thu, 3 Oct 2024 10:29:57 -0500
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f2f013b9-6891-4aa0-9124-95775580f84e@gmx.de>
+From: Adam Thiede <me@adamthiede.com>
+Subject: Re: [PATCH v3 13/14] drm/mediatek: Support DRM plane alpha in OVL
+To: =?UTF-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>, 
+ =?UTF-8?B?QmliYnkgSHNpZWggKOisnea/n+mBoCk=?= <Bibby.Hsieh@mediatek.com>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
+ "djkurtz@chromium.org" <djkurtz@chromium.org>,
+ =?UTF-8?B?U2hhd24gU3VuZyAo5a6L5a2d6KyZKQ==?= <Shawn.Sung@mediatek.com>,
+ =?UTF-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>,
+ "daniel@ffwll.ch" <daniel@ffwll.ch>,
+ "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+ =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>,
+ "airlied@gmail.com" <airlied@gmail.com>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "littlecvr@chromium.org" <littlecvr@chromium.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: =?UTF-8?B?WVQgU2hlbiAo5rKI5bKz6ZyGKQ==?= <Yt.Shen@mediatek.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20240620-igt-v3-0-a9d62d2e2c7e@mediatek.com>
+ <20240620-igt-v3-13-a9d62d2e2c7e@mediatek.com>
+ <1a3af354-bd15-4219-960e-089b6a6e673c@adamthiede.com>
+ <49df03e8b982cc5ee97e09ef9545c1d138c32178.camel@mediatek.com>
+ <00ebe9ca262b6a95fd726e5be06334b1e923db02.camel@mediatek.com>
+ <5975b361-c1b4-4c57-89d4-0d247ae99d8c@adamthiede.com>
+ <272b47f0c9e27268d29b58c341e0b48bce7e8e25.camel@mediatek.com>
+ <06ed4527-3749-4fac-bd38-d837f1593311@adamthiede.com>
+ <f7b4c6601d648e0eba2dc66f0fe1f34ca3d29cfb.camel@mediatek.com>
+Content-Language: en-US
+Autocrypt: addr=me@adamthiede.com; keydata=
+ xsBNBF+n+90BCAC2ZRLVcvdXDgfY7EppN05eNor3U7/eeiNCCEIWZkYLhikUEP1ReLGBkXpK
+ Pc70hfnKAKkCoth3IwhDty9WXMNU+iLNei4ieb2luW+UqluR6xIUIA+txahMU9YcjVaQTKf/
+ yZWO4yl6pfBPCxC2UdPZKBAdGoi5NnE0ABFNbhBETQhhBic533lZn33ByupfI3acECnQdjgQ
+ llCUpDbw4I+S/N1iFiEHcbMXH7ZB00e3IYNorZ1E9v7p++5rDY1fQ9gXpieg1vFKwSq1NJWo
+ 9xx336YjaTUbX0EwrdKd9l8AktA3yRjckaK5TAcwSQaDtHvhpbl4ebvPhtwHh699MroXABEB
+ AAHNH0FkYW0gVGhpZWRlIDxtZUBhZGFtdGhpZWRlLmNvbT7CwI4EEwEIADgCGwMFCwkIBwIG
+ FQoJCAsCBBYCAwECHgECF4AWIQQtG9pGQ7sz3tf8M/kC7fV9o/vRzgUCZL1HxQAKCRAC7fV9
+ o/vRzgyRB/wLqRCvvWhQCMgvzeKvru9wcXquhb77K8H/ByLbfiT8YBuP3lZFVh0IQhgO9Ylk
+ fIoOJE4V+jjxyOnO2d9xjGbvAmmR6yT0gfLzSVWqrC4k+V9MWLv43nrNzxt41dvo5j824FAl
+ X+zaiRZCdO8Jtxg5Elpiop2SKLi1utX1Z8i6YZh+ccJZlchUBAGUTk+D4UjK7vUcjLWT96ya
+ CtdtTfXyw36CvGOPEWfc6++Kkl/5sgej1i7biPYzu/r0vssaQYTXKSrv6Cfa3Maa89ASiTtv
+ q4qmhLnJeCrPxWlRAf6LEizeBEkOasYni2u8sp4wBezEq45Ozu45sfPkqLpPolG7zsBNBF+n
+ +90BCADBRt+vrToRBEG580n77S99qSEkbKD+oJtCVyovnjMNkg0K9UG68LIeCX/ezngiV1M8
+ JISvw5iFOuUFqGX/1hLl9wgt/YpuIrgWOp8XxkotavTCloLDvQmufJPO1L8bnnA+WgP2YgVZ
+ 5MJTj/t4DI+yQgysEjsH8aurHO2uuqgJE+xK+2dy6Cl/wskuGxObksSPmmFH5PH0Joziwrtl
+ 61ouLE2XwKbkMgIGEKkbFgbfwz3/QuLZGBni+OOtLzXeZ9wNTW/AHUPy6S9U4F+5z6/09fVT
+ tTH0cvrgAGjbASlYx2VqGONXAsxCfjulq6ryJBFlPLp949c/JTTgOojukCSbABEBAAHCwHYE
+ GAEIACACGwwWIQQtG9pGQ7sz3tf8M/kC7fV9o/vRzgUCZL1H0gAKCRAC7fV9o/vRzlamCACs
+ vHw+0heTm+BfC3S8DUST6889gidIIwdqBep1ByzetCph7Bq8Y8BlT5YTX0u/bSKkxCzFgeTm
+ vC341Q09ST2XjLAl1ZTdzGhH9gcgYyOw34pr5fPQRJLB392mPzD8YReRzciNbhWzj+DLgeVe
+ ouyfGajd6jDjkf4FEq+trQLGZhpfsKn3JnDbzBUs945D50l/vz9q/QN3qZO+H4F6g8ZeMnqo
+ FOEFN26xVtdEDr+0DNFsbgKmEzs675kdAY78ZZdbEetX/FSknxJ+FK1ZW3J7Yswwulj34AXP
+ LB49Mk8Ot7fo6mdt0DkV11JS9LmKxKvpY+KTlrKG+i7pVCSZvVUx
+In-Reply-To: <f7b4c6601d648e0eba2dc66f0fe1f34ca3d29cfb.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 4XKFwv5DZ7z9t3b
+X-Mailman-Approved-At: Thu, 03 Oct 2024 17:37:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,76 +112,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Oct 02 2024, Armin Wolf wrote:
-> Am 02.10.24 um 10:42 schrieb Benjamin Tissoires:
+On 10/3/24 00:17, Jason-JH Lin (林睿祥) wrote:
+>> Jason:
+>> That is a lot of information, and quite above my head! Thank you
+>> though.
+>> 
+>> I should note that the log items I sent you are from the "good"
+>> kernel - 
+>> 6.11 with the commit reverted. Here is a much longer set of logs: 
+>> https://termbin.com/co6v
+>> 
+>> I've rebuild 6.11 with the log statement enabled and the "bad"
+>> behavior.
+>> Here is a dmesg from that: https://termbin.com/xiev
+>> 
+> Hi Adam,
 > 
-> > On Oct 01 2024, Werner Sembach wrote:
-> > > Hi Armin,
-> > > 
-> > > Am 01.10.24 um 18:45 schrieb Armin Wolf:
-> > [...snipped...]
-> > > > Why not having a simple led driver for HID LampArray devices which exposes the
-> > > > whole LampArray as a single LED?
-> > > Yes that is my plan, but see my last reply to Benjamin, it might not be
-> > > trivial as different leds in the same LampArray might have different max
-> > > values for red, green, blue, and intensity. And the LampArray spec even
-> > > allows to mix RGB and non-RGB leds.
-> > > > If userspace wants to have direct control over the underlying LampArray device,
-> > > > it just needs to unbind the default driver (maybe udev can be useful here?).
-> > > There was something in the last discussion why this might not work, but i
-> > > can't put my finger on it.
-> > We recently have the exact same problem, so it's still fresh in my
-> > memory. And here are what is happening:
-> > - you can unbind the driver with a sysfs command for sure
-> > - but then the device is not attached to a driver so HID core doesn't
-> >    expose the hidraw node
-> > - you'd think "we can just rebind it to hid-generic", but that doesn't
-> >    work because hid-generic sees that there is already a loaded driver
-> >    that can handle the device and it'll reject itself because it gives
-> >    priority over the other driver
-> > - what works is that you might be able to unload the other driver, but
-> >    if it's already used by something else (like hid-multitouch), you
-> >    don't want to do that. And also if you unload that driver, whenever
-> >    the driver gets re-inserted, hid-generic will unbind itself, so back
-> >    to square one
-> > 
-> > So unless we find a way to forward the "manual" binding to hid-generic,
-> > and/or we can also quirk the device with
-> > HID_QUIRK_IGNORE_SPECIAL_DRIVER[0] just unbinding the device doesn't
-> > work.
-> > 
-> > Cheers,
-> > Benjamin
+> I think something wrong with your dmesg links, both logs look the same.
+> We should see this log in the "bad" one:
+> fmt:0x34325258, has_alpha:0x0, alpha:0xffff, con:0x2000
+
+Apologies, I did indeed upload the same file twice. Here is the "good" one:
+https://termbin.com/tb33
+
+And the "bad" one:
+https://termbin.com/yhxx
+
+I think the fact that we're not seeing that line in the "bad" one is 
+part of the problem?
 > 
-> I see, maybe we can add support for the driver_override mechanism to the HID bus?
-
-hmm, we can, but only a couple of drivers would be valid: hid-multitouch
-and hid-generic AFAICT. All of the others are device specific, so
-allowing anybody to map a device to it might not work (if the driver
-requires driver_data).
-
-> Basically userspace could use the driver_override mechanism to forcefully bind hid-generic
-> to a given HID device even if a compatible HID driver already exists.
+> But anyway, I think the reason for the downgrade is clear enough to me.
+> So let's try to figure out the solution.
 > 
-
-that coud be an option. But in that case, I wonder if the LampArray
-implementation should be done in hid-led or in hid-input.c (the generic
-part). I don't know if the new devices will export one HID device for
-LampArray and one other for the rest, when the rest might need a
-specific driver.
-
-Anyway, thanks for the tip :)
-
-Cheers,
-Benjamin
-
-> Thanks,
-> Armin Wolf
+>> These logs are both from `dmesg`.
+>> 
+>> I'm fairly certain I've built with the patch you referenced enabled.
+>> The 
+>> kernels I run are just release kernels, not RCs or git branches or 
+>> anything. The mainline v6.11 kernel is the one that has this problem.
+>> If 
+>> that patch has been merged into 6.11 (which, looks like it has) then 
+>> it's in the kernel I'm building.
 > 
-> > PS: brain fart:
-> > if HID LampArray support (whatever the implementation, through Pavel's
-> > new API or simple LED emulation) is in hid-input, we can also simply add
-> > a new HID quirk to enable this or not, and use that quirk dynamically
-> > (yes, with BPF :-P ) to rebind the device...
-> > 
-> > [0] https://lore.kernel.org/linux-input/20241001-hid-bpf-hid-generic-v3-0-2ef1019468df@kernel.org/T/#t
+> Got it.
+> Then OVL_CONST_BLEND might be the unsupported configuration in MT8173,
+> I think we should remove the XRGB8888 format for MT8173.
+> 
+> Could you please try this modification and see if it'll change to use
+> others supported format to show the text?
+> 
+> --- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
+> @@ -102,12 +102,9 @@ static inline bool is_10bit_rgb(u32 fmt)
+>   }
+> 
+>   static const u32 mt8173_formats[] = {
+> -       DRM_FORMAT_XRGB8888,
+>          DRM_FORMAT_ARGB8888,
+> -       DRM_FORMAT_BGRX8888,
+>          DRM_FORMAT_BGRA8888,
+>          DRM_FORMAT_ABGR8888,
+> -       DRM_FORMAT_XBGR8888,
+>          DRM_FORMAT_RGB888,
+>          DRM_FORMAT_BGR888,
+>          DRM_FORMAT_RGB565,
+> 
+I've not been able to get the kernel to build with that patch; it keeps 
+segfaulting at the end. I will keep attempting though.
+
+> 
+> Regards,
+> Jason-JH.Lin
+> 
+>> 
+>> - Adam Thiede
+
