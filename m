@@ -2,58 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CFB998EE39
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 13:33:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E52698EE4B
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 13:38:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B8CC10E821;
-	Thu,  3 Oct 2024 11:33:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D0AC10E811;
+	Thu,  3 Oct 2024 11:38:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="cL/f57Lr";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="MDerJOB7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16BE010E821;
- Thu,  3 Oct 2024 11:33:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1727955212; x=1759491212;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=PGZLCcVIH9CT89YkamNILT79DNR60PJ7u1AA9UGz0F8=;
- b=cL/f57LreOOAq8MJH/ScZ8BPk8NvOh7qdGeWaaG8gfnA6cDr6I72DRVR
- BPCRxW/0KNivGbcXQjYfVCVjt28zdEpeZanMz7ZSrk/Y43NTI2O1wLmkm
- LzqccX7ggutrsWyuYvA66QLRNg/l066O/JBMiB7txMYhr2SKbaXYrygdj
- wSdLr4Wrfvsiq4hzszaUJ53v67XsWJGXoxAhvstRy8WAQQV2Vp2mx1P/R
- 5HcK8mog8GrKbKBxwLEdnXQyJxt1tXiKQTFtaiL8lVT1/ygo6w0knGj1k
- uprxtIbGJ2n1kkmbS6GDQhktev3/J0SmlkKnCFNb2+imZoBW6fSOAuHJe Q==;
-X-CSE-ConnectionGUID: DtqQTXzkQ+mwMgjs1556HA==
-X-CSE-MsgGUID: uNvbvoj6RTimeChqAuw2Dg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="38503021"
-X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; d="scan'208";a="38503021"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Oct 2024 04:33:32 -0700
-X-CSE-ConnectionGUID: 70JAljCWQH2HkfiFo64EQw==
-X-CSE-MsgGUID: ner3WqVYQZOpa5PWkpW/Mw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; d="scan'208";a="74426565"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by fmviesa008.fm.intel.com with SMTP; 03 Oct 2024 04:33:30 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 03 Oct 2024 14:33:29 +0300
-From: Ville Syrjala <ville.syrjala@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 8/8] drm/client: s/unsigned int i/int i/
-Date: Thu,  3 Oct 2024 14:33:04 +0300
-Message-ID: <20241003113304.11700-9-ville.syrjala@linux.intel.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20241003113304.11700-1-ville.syrjala@linux.intel.com>
-References: <20241003113304.11700-1-ville.syrjala@linux.intel.com>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA3A010E811
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 11:38:40 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1727955512; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=kneEU5WkWJ7M8qSDSiSyfuvvlEnk6I5+NeOQJbbZSIjzYtYBFepORoBKMbBpB8Oa5p0oOYcbpHRCt+ZYbQkBiAT9pfdigv6DewuPdZMIyvR8DDuzAdLkp/Log7ZLSfBs/kdh1JccfDV2XujAsMuTkywTED3BJsgfiz9b7qPIGyY=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1727955512;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=80oOBJ90RZjsAjivwL50rHDRZPA468mLSAz/lMSF0Rs=; 
+ b=CO/vbSd5YvHie9iMRknSfx3+LYYMPmOqR8kvT3FbKZcQU5EAUXXvcWdedfLgvdw/U3eQT0wquD3Q/4gP9qA6KjnVfgK8huRi/B10OAC1okNdAlbTsUt3IvDKDMSHZ81E1eYQVxEDkxhl1Gc8V0RArUP+k8aVguuJCuLlwTpjXWg=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
+ dmarc=pass header.from=<adrian.larumbe@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1727955512; 
+ s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
+ h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
+ bh=80oOBJ90RZjsAjivwL50rHDRZPA468mLSAz/lMSF0Rs=;
+ b=MDerJOB7jlGsqYe7k5TAPFCf1QdTLjWWYp1Zzc/T3rJWM4O5eyKT2GLg1QwxLGJr
+ 9o6rG/Wkrk8wo+HB1gjRyiKnwfg+aTz8gfrKQM6KW+gJQaTIk1xIJPR5SxB/cSJJkhP
+ JDYfEjxROI/2DnSpPp3o/ZcN8Gzpmpm5uUM1hqdA=
+Received: by mx.zohomail.com with SMTPS id 1727955510313671.7731952775321;
+ Thu, 3 Oct 2024 04:38:30 -0700 (PDT)
+Date: Thu, 3 Oct 2024 12:38:26 +0100
+From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ kernel@collabora.com, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/panfrost: Add missing OPP table refcnt decremental
+Message-ID: <e33rx3l52arkfgno64l5dctibo647kx3cpjlwcm3lil6cvszrt@abhg2mbu7ec4>
+References: <20241003002603.3177741-1-adrian.larumbe@collabora.com>
+ <20241003091740.4e610f21@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241003091740.4e610f21@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,48 +72,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+On 03.10.2024 09:17, Boris Brezillon wrote:
+> On Thu,  3 Oct 2024 01:25:37 +0100
+> Adrián Larumbe <adrian.larumbe@collabora.com> wrote:
+> 
+> > Commit f11b0417eec2 ("drm/panfrost: Add fdinfo support GPU load metrics")
+> > retrieves the OPP for the maximum device clock frequency, but forgets to
+> > keep the reference count balanced by putting the returned OPP object. This
+> > eventually leads to an OPP core warning when removing the device.
+> > 
+> > Fix it by putting OPP objects as many times as they're retrieved.
+> > Also remove an unnecessary whitespace.
+> > 
+> > Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+> > Fixes: f11b0417eec2 ("drm/panfrost: Add fdinfo support GPU load metrics")
+> 
+> Reviewed-by: 
+> 
+> > ---
+> >  drivers/gpu/drm/panfrost/panfrost_devfreq.c | 4 +++-
+> >  1 file changed, 3 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/gpu/drm/panfrost/panfrost_devfreq.c b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+> > index 2d30da38c2c3..c7d3f980f1e5 100644
+> > --- a/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+> > +++ b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+> > @@ -38,7 +38,7 @@ static int panfrost_devfreq_target(struct device *dev, unsigned long *freq,
+> >  		return PTR_ERR(opp);
+> >  	dev_pm_opp_put(opp);
+> >  
+> > -	err =  dev_pm_opp_set_rate(dev, *freq);
+> > +	err = dev_pm_opp_set_rate(dev, *freq);
+> >  	if (!err)
+> >  		ptdev->pfdevfreq.current_frequency = *freq;
+> >  
+> > @@ -177,6 +177,8 @@ int panfrost_devfreq_init(struct panfrost_device *pfdev)
+> >  	 */
+> >  	pfdevfreq->current_frequency = cur_freq;
+> >  
+> > +	dev_pm_opp_put(opp);
+> > +
+> 
+> Shouldn't this be moved after the dev_pm_opp_set_opp() that's
+> following?
 
-Replace the 'unsigned int i' footguns with plain old signed
-int. Avoids accidents if/when someone decides they need
-to iterate backwards.
+Yes, right now it's in the wrong place, thanks for catching this.
 
-Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
----
- drivers/gpu/drm/drm_client_modeset.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+> >  	/*
+> >  	 * Set the recommend OPP this will enable and configure the regulator
+> >  	 * if any and will avoid a switch off by regulator_late_cleanup()
 
-diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
-index ccf5c9b5537b..875d517fa8f2 100644
---- a/drivers/gpu/drm/drm_client_modeset.c
-+++ b/drivers/gpu/drm/drm_client_modeset.c
-@@ -39,7 +39,7 @@ int drm_client_modeset_create(struct drm_client_dev *client)
- 	unsigned int max_connector_count = 1;
- 	struct drm_mode_set *modeset;
- 	struct drm_crtc *crtc;
--	unsigned int i = 0;
-+	int i = 0;
- 
- 	/* Add terminating zero entry to enable index less iteration */
- 	client->modesets = kcalloc(num_crtc + 1, sizeof(*client->modesets), GFP_KERNEL);
-@@ -75,7 +75,7 @@ static void drm_client_modeset_release(struct drm_client_dev *client)
- 	struct drm_mode_set *modeset;
- 
- 	drm_client_for_each_modeset(modeset, client) {
--		unsigned int i;
-+		int i;
- 
- 		drm_mode_destroy(client->dev, modeset->mode);
- 		modeset->mode = NULL;
-@@ -925,7 +925,7 @@ bool drm_client_rotation(struct drm_mode_set *modeset, unsigned int *rotation)
- 	struct drm_plane *plane = modeset->crtc->primary;
- 	struct drm_cmdline_mode *cmdline;
- 	u64 valid_mask = 0;
--	unsigned int i;
-+	int i;
- 
- 	if (!modeset->num_connectors)
- 		return false;
--- 
-2.45.2
 
+Adrian Larumbe
