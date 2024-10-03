@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 745AA98F5EA
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 20:16:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B2F598F5EE
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 20:17:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DA2A10E8CA;
-	Thu,  3 Oct 2024 18:16:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B647410E8CF;
+	Thu,  3 Oct 2024 18:17:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bpup9Hqc";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hQtxEJGG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27E8A10E8C9;
- Thu,  3 Oct 2024 18:16:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB72910E8CF;
+ Thu,  3 Oct 2024 18:17:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1727979391; x=1759515391;
+ t=1727979432; x=1759515432;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=n/VM/tyNogsq7+sdBDKT+tIPMYtIVgL9RlJczHT7fAE=;
- b=bpup9HqcknoOlHolFuEHAaZn6bxHwYBfn4vfQMd9bkHZC7AHOnhs1o8Z
- nEDAPUCWLMB7qZ0SRBDYEpq43cKWhLKyyMhC4D/YCjHwbcmC/KjJ52drK
- E89uehPe8AK6PgDTKNaZ73J44puvahmh9XIvPYSzv1a2uEt2JLC0jHNSQ
- AWo46j3kwK6ombTcYATVxIcn/uJ2tth/x2CDtvWQLwR23gvJJzKREr238
- u0bAcVqg/XeeT6cccxPcvRB8yLF182PqYuw8q4RA/u/LrNt7ElwPMo8op
- 2pORmhHs5XnCIyruLt1cHd/8+Dg339Tw/VkGNQYaGlNZPWUuy6KIxXHrg w==;
-X-CSE-ConnectionGUID: UZcwa0hoRhSzQaJdm04FSg==
-X-CSE-MsgGUID: mQceJGhdRdeHtDXlVJocJA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="27070102"
-X-IronPort-AV: E=Sophos;i="6.11,175,1725346800"; d="scan'208";a="27070102"
+ bh=cLJGdGjEnvQHk0VOxm3+EJX0xSKIvCukpXlEhTf2wwE=;
+ b=hQtxEJGG89dB1u4SR3NgkbPw+xtLil/t/QzNDQ/ZsJAhoZvYGoFMlXFs
+ C9LK7Fz3y5LPKQHz74dDA2cEMHbMZIn3DYeTZHsXyyS14/3L6d0TDhkHw
+ tt+Fmk6zWSZDFCIKD6/QQh1TkgCQJv6RnnunTSjQwN9ftdikkPrdOIHiT
+ eyFFJE2vcoZDIb83oVEouwYbEiAut4YKwknYXTLhB82E7vGPohEq27JuD
+ yKRhKBUCo1es1byfaSP2Nv227jfuocHupfi7if7OerkW+NejL7WGyMpr8
+ 3WUO+sLjSnByCw5J1OA8XlN+M/oQzNozQ2B2+B8hYNV5MVqwEO/z7ZtaI g==;
+X-CSE-ConnectionGUID: 9kM3MUO1SiiXFNBWut8kfg==
+X-CSE-MsgGUID: EwLV4ATGSziHsqSf8tq1XA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="27070137"
+X-IronPort-AV: E=Sophos;i="6.11,175,1725346800"; d="scan'208";a="27070137"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Oct 2024 11:16:30 -0700
-X-CSE-ConnectionGUID: 4zK2GztbREqN6aiWRaKkBg==
-X-CSE-MsgGUID: NwzU3H2ZR/6Qijd9B5KT2w==
+ 03 Oct 2024 11:17:12 -0700
+X-CSE-ConnectionGUID: 55r5ztk5QqOVxGbT6Lc+8Q==
+X-CSE-MsgGUID: X2KR+Q5WS7OBIzAVlW6hlg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,175,1725346800"; d="scan'208";a="74543912"
+X-IronPort-AV: E=Sophos;i="6.11,175,1725346800"; d="scan'208";a="74543949"
 Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by fmviesa008.fm.intel.com with SMTP; 03 Oct 2024 11:16:28 -0700
+ by fmviesa008.fm.intel.com with SMTP; 03 Oct 2024 11:17:10 -0700
 Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 03 Oct 2024 21:16:27 +0300
+ Thu, 03 Oct 2024 21:17:09 +0300
 From: Ville Syrjala <ville.syrjala@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 5/8] drm/client: Stop using the legacy crtc->mode
-Date: Thu,  3 Oct 2024 21:16:27 +0300
-Message-ID: <20241003181627.8950-1-ville.syrjala@linux.intel.com>
+Subject: [PATCH v2 6/8] drm/client: s/new_crtc/crtc/
+Date: Thu,  3 Oct 2024 21:17:09 +0300
+Message-ID: <20241003181709.9022-1-ville.syrjala@linux.intel.com>
 X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20241003113304.11700-6-ville.syrjala@linux.intel.com>
-References: <20241003113304.11700-6-ville.syrjala@linux.intel.com>
+In-Reply-To: <20241003113304.11700-7-ville.syrjala@linux.intel.com>
+References: <20241003113304.11700-7-ville.syrjala@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -71,49 +71,71 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-crtc->mode is legacy junk and shouldn't really be used with
-atomic drivers.
-
-Most (all?) atomic drivers do end up still calling
-drm_atomic_helper_update_legacy_modeset_state() at some
-point, so crtc->mode does still get populated, and this
-does work for now. But now that the modes[] lifetime issues
-have been sorted out we can just switch over to the
-proper crtc->state->mode.
+Rename the 'new_crtc' variable to just 'crtc' in
+drm_client_firmware_config(). We don't call any of the other
+stuff in here new or old so this feels out of place.
 
 v2: Rebase
 
 Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 ---
- drivers/gpu/drm/drm_client_modeset.c | 13 +------------
- 1 file changed, 1 insertion(+), 12 deletions(-)
+ drivers/gpu/drm/drm_client_modeset.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
-index 730ed0d4bfa9..0f3418cb59ab 100644
+index 0f3418cb59ab..d0ed7a8effbe 100644
 --- a/drivers/gpu/drm/drm_client_modeset.c
 +++ b/drivers/gpu/drm/drm_client_modeset.c
-@@ -724,20 +724,9 @@ static bool drm_client_firmware_config(struct drm_client_dev *client,
+@@ -649,7 +649,7 @@ static bool drm_client_firmware_config(struct drm_client_dev *client,
+ 	for (i = 0; i < count; i++) {
+ 		struct drm_connector *connector;
+ 		struct drm_encoder *encoder;
+-		struct drm_crtc *new_crtc;
++		struct drm_crtc *crtc;
+ 		const char *mode_type;
  
- 		/* last resort: use current mode */
+ 		connector = connectors[i];
+@@ -691,7 +691,7 @@ static bool drm_client_firmware_config(struct drm_client_dev *client,
+ 
+ 		num_connectors_enabled++;
+ 
+-		new_crtc = connector->state->crtc;
++		crtc = connector->state->crtc;
+ 
+ 		/*
+ 		 * Make sure we're not trying to drive multiple connectors
+@@ -699,7 +699,7 @@ static bool drm_client_firmware_config(struct drm_client_dev *client,
+ 		 * match the BIOS.
+ 		 */
+ 		for (j = 0; j < count; j++) {
+-			if (crtcs[j] == new_crtc) {
++			if (crtcs[j] == crtc) {
+ 				drm_dbg_kms(dev, "[CONNECTOR:%d:%s] fallback: cloned configuration\n",
+ 					    connector->base.id, connector->name);
+ 				goto bail;
+@@ -726,7 +726,7 @@ static bool drm_client_firmware_config(struct drm_client_dev *client,
  		if (!mode_valid(&modes[i])) {
--			/*
--			 * IMPORTANT: We want to use the adjusted mode (i.e.
--			 * after the panel fitter upscaling) as the initial
--			 * config, not the input mode, which is what crtc->mode
--			 * usually contains. But since our current
--			 * code puts a mode derived from the post-pfit timings
--			 * into crtc->mode this works out correctly.
--			 *
--			 * This is crtc->mode and not crtc->state->mode for the
--			 * fastboot check to work correctly.
--			 */
  			mode_type = "current";
  			mode_copy_if_not_null(&modes[i],
--					      &connector->state->crtc->mode);
-+					      &new_crtc->state->mode);
+-					      &new_crtc->state->mode);
++					      &crtc->state->mode);
  		}
  
  		/*
+@@ -739,11 +739,11 @@ static bool drm_client_firmware_config(struct drm_client_dev *client,
+ 			mode_copy_if_not_null(&modes[i],
+ 					      drm_connector_fallback_non_tiled_mode(connector));
+ 		}
+-		crtcs[i] = new_crtc;
++		crtcs[i] = crtc;
+ 
+ 		drm_dbg_kms(dev, "[CONNECTOR::%d:%s] on [CRTC:%d:%s] using %s mode: %s\n",
+ 			    connector->base.id, connector->name,
+-			    new_crtc->base.id, new_crtc->name,
++			    crtc->base.id, crtc->name,
+ 			    mode_type, modes[i].name);
+ 
+ 		fallback = false;
 -- 
 2.45.2
 
