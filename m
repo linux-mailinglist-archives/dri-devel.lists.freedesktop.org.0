@@ -2,69 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C58698E9E9
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 08:57:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B49E98EA2F
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 09:13:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC59F10E0F3;
-	Thu,  3 Oct 2024 06:57:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51C0010E7A5;
+	Thu,  3 Oct 2024 07:13:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="reKTNdEG";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Kaxd3lJ2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com
- [209.85.208.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55A9910E0F3
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 06:57:47 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id
- 4fb4d7f45d1cf-5c881aa669fso604610a12.0
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Oct 2024 23:57:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1727938666; x=1728543466; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=JGecQKR7ZoIYH4vaHNJNV/6/ajVJtBZfvfEOkIG81WE=;
- b=reKTNdEGaq9oUXFKYWekz/hMoMrWrXDOOVeuImGLI7MES0lDAqxcRDqvJgY4aln9PP
- 6pkQt+jULamS2ME+0y80FKalP6QPQquzJ3Xsn8xosxOtd+SSP/IrbYKxTS61/DSNI6WG
- v4WEFP167Gwk/doj5PWGIPAa3lTwCsXdhAbG8LzprJiMqSz0r63+4Q1us2eeiqpbZg/b
- uj+ks30NKpW1cY5g8qne/OgXXSJ8bgtW2y9z7r34KYBAgmNsiQSerBRyluFx4lz5hOiz
- /knyAAEn7hEOqMZFpvDJgck2uUegCFWgHLwuqWVrtFgGbrvW3zLqwO6m7hzMjRdUgICQ
- OZhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727938666; x=1728543466;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=JGecQKR7ZoIYH4vaHNJNV/6/ajVJtBZfvfEOkIG81WE=;
- b=DLfX4zvmSdNlfObRG9o3FUoSLlhznAIl6ihQq547RlwedebueIxHxW0B/1TflKMz8/
- WszicqPRkeipGjAIujqDOGLTzpOnDf/I9j/lqJLMGGNxQ9JsMZOGOjtoeFh4leJ5T1cx
- Q3uAyTvmK/RecnmgWBFnicSM7grODy94dmS1CaFPN9+kzs8hQGddCAzH8Vy7CLWsCJaV
- gE+01M60zHXO6xa8oKnuaMBY1iZizQo0Smwywh/+tYeQNnC+d3FcY4ky/Il4rXW6KKiR
- +1P1s8CcvTJlFGC04YPAulWiSIZ8VtfaTMTqt786HZNioxgON71sC6k0y4yVBxeZ7+G2
- m1Og==
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5D4810E7A5
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 07:13:36 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 9B46B5C5B77
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 07:13:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61056C4CEC7
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 07:13:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1727939615;
+ bh=JhZKiGtQJ3zymd/WHqllXr0LMe1u0429Jy42xFeCp7k=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=Kaxd3lJ25rkQajgmz7cQN8bDKn6xrj7OzSOtHfn8uH4EjOnJl1D9S+R5irC6GrrDU
+ qaiRpJJpeMDcDyvWLjlcsf7YPsExEhhXOdxOUkJsbSb0hF5ljMlQaccLs9MGOVjIs4
+ T07US2duiGJyfSvyps8auPPRECrs2CdTanUNzbrzk39yc7aiR8AkK7EOZscPeoeWiB
+ YnZotNZBMuG9quNjZbeo0/vC6dxalac0MqejTpFccgxzVERgPtCGg2wlgpk7XykI5E
+ BRddwweGoeGpXcwu66CUB/t+x0dwqGyAl1iidQuEZieU3X4s/Kt55QfpgTSSvn1Plm
+ a+x8wkatdrz4Q==
+Received: by mail-pf1-f179.google.com with SMTP id
+ d2e1a72fcca58-71798a15ce5so1273732b3a.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Oct 2024 00:13:35 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCXnGQeE3nMdANo1QzsBE/9Xr9qD2aoBdk4887Grz4eHPlpjJJwl0XQJIFdCy5Jbti9qU5fRsCyEqwU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yysgz+WOXBQFRlUgZ+FopKE/4+QtG7oizj88ki8b2U+DGW6wfHJ
- ziv6yUtqpaHu50QidEH0KpoqoBkTNWu8I4btLOAXn+7I86uO21IrhXvNh4F+ave4znNs7g21dj3
- 0R2t6GiUKJBGGuE2caB9gHqlO2M3rnPdCzyMNwQ==
-X-Google-Smtp-Source: AGHT+IH4QGNNGP1NJcTcHJDWHlXA92zW2AJIpIf/rMuRfbu+fTqO/rDiEJy3cDA2artuxJKreIShbOnY5J0XVGAbl6I=
-X-Received: by 2002:a05:6402:5108:b0:5c2:4cbe:ac1c with SMTP id
- 4fb4d7f45d1cf-5c8b18eed8fmr3645435a12.4.1727938665602; Wed, 02 Oct 2024
- 23:57:45 -0700 (PDT)
+ AJvYcCXPHTP4zoZ2g+SnsyBLyxOKOM/CUAPQS5ujP5rSbyQ8piXlY2uA9NMd81sioJdvufbe0JlRytTW6/k=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyILNOO6dhJHnbiCTz/0qFgvg36wJeVkCApet7g7JjoAOeYnJvO
+ M9g/CRcQ8kHRkctyjUCEqSJ300nuzFwtRkW+Vm443AOogBCQ3i6orPJCs1jfv0Krz3A7ok26moG
+ 4B1YI1SLqNSxSPynsOMWfNC11jA==
+X-Google-Smtp-Source: AGHT+IHaAo5eZ05/dh9oa9JP9QZga/GAqhHnubzaK7kWFsvBL+T5Ll6XOf4RZb+dNKFMS4YkePxJqv4X4Xs3SvAUasY=
+X-Received: by 2002:a05:6a21:7746:b0:1d1:88bf:dff6 with SMTP id
+ adf61e73a8af0-1d6d3aab4bbmr2809735637.15.1727939614998; Thu, 03 Oct 2024
+ 00:13:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20241001174611.12155-1-quic_pintu@quicinc.com>
-In-Reply-To: <20241001174611.12155-1-quic_pintu@quicinc.com>
-From: Sumit Semwal <sumit.semwal@linaro.org>
-Date: Thu, 3 Oct 2024 12:27:34 +0530
-Message-ID: <CAO_48GFPg=R4JaSZtgTKjh0TLKTrw24AF0nRMvFRXxwYCP28fg@mail.gmail.com>
-Subject: Re: [PATCH 1/3] dma-buf: replace symbolic permission S_IRUGO with
- octal 0444
-To: Pintu Kumar <quic_pintu@quicinc.com>
-Cc: christian.koenig@amd.com, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- linux-kernel@vger.kernel.org, joe@perches.com, skhan@linuxfoundation.org, 
- pintu.ping@gmail.com
+References: <20240928161546.9285-1-jason-jh.lin@mediatek.com>
+In-Reply-To: <20240928161546.9285-1-jason-jh.lin@mediatek.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Thu, 3 Oct 2024 15:13:53 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_9V+BFV0fCahzn2qNBAmLrY-cwRQAKzorTdRYGCFv5+tw@mail.gmail.com>
+Message-ID: <CAAOTY_9V+BFV0fCahzn2qNBAmLrY-cwRQAKzorTdRYGCFv5+tw@mail.gmail.com>
+Subject: Re: [PATCH v8 0/3] Fix degradation problem of alpha blending series
+To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>
+Cc: Alper Nebi Yasak <alpernebiyasak@gmail.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Shawn Sung <shawn.sung@mediatek.com>, dri-devel@lists.freedesktop.org, 
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, Singo Chang <singo.chang@mediatek.com>, 
+ Nancy Lin <nancy.lin@mediatek.com>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com, 
+ Jason-jh Lin <jason-jh.lin@mediatek.corp-partner.google.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,90 +77,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Pintu,
+Hi, Jason:
 
-On Tue, 1 Oct 2024 at 23:16, Pintu Kumar <quic_pintu@quicinc.com> wrote:
+Jason-JH.Lin <jason-jh.lin@mediatek.com> =E6=96=BC 2024=E5=B9=B49=E6=9C=882=
+9=E6=97=A5 =E9=80=B1=E6=97=A5 =E4=B8=8A=E5=8D=8812:16=E5=AF=AB=E9=81=93=EF=
+=BC=9A
 >
-> Symbolic permissions are not preferred, instead use the octal.
-> Also, fix other warnings/errors as well for cleanup.
+> From: Jason-jh Lin <jason-jh.lin@mediatek.corp-partner.google.com>
 >
-> WARNING: Block comments use * on subsequent lines
-> +       /* only support discovering the end of the buffer,
-> +          but also allow SEEK_SET to maintain the idiomatic
+> Some SoCs not support pre-multiplied pixel formats and extending
+> configuration of OVL pre-multiplied color formats, such as MT8173.
 >
-> WARNING: Block comments use a trailing */ on a separate line
-> +          SEEK_END(0), SEEK_CUR(0) pattern */
->
-> WARNING: Block comments use a trailing */ on a separate line
-> +        * before passing the sgt back to the exporter. */
->
-> ERROR: "foo * bar" should be "foo *bar"
-> +static struct sg_table * __map_dma_buf(struct dma_buf_attachment *attach,
->
-> WARNING: Symbolic permissions 'S_IRUGO' are not preferred. Consider using octal permissions '0444'.
-> +       d = debugfs_create_file("bufinfo", S_IRUGO, dma_buf_debugfs_dir,
->
-> total: 1 errors, 4 warnings, 1746 lines checked
->
-> Signed-off-by: Pintu Kumar <quic_pintu@quicinc.com>
+> Fix the SoC degradation problem by this sreies.
 
-Thanks for this patch - could you please also mention in the commit
-log how did you find this? It looks like you ran checkpatch, but it's
-not clear from the commit log.
+Applied to mediatek-drm-fixes [1], thanks.
 
-Since this patch does multiple things related to checkpatch warnings
-(change S_IRUGO to 0444, comments correction, function declaration
-correction), can I please ask you to change the commit title to also
-reflect that?
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
+log/?h=3Dmediatek-drm-fixes
+
+Regards,
+Chun-Kuang.
+
+>
 > ---
->  drivers/dma-buf/dma-buf.c | 12 +++++++-----
->  1 file changed, 7 insertions(+), 5 deletions(-)
+> Change in v8:
+> Remove blend_modes for not supported pre-multiplied SoCs to fix the
+> return error from drm_plane_create_blend_mode_property().
 >
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index 8892bc701a66..2e63d50e46d3 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -176,8 +176,9 @@ static loff_t dma_buf_llseek(struct file *file, loff_t offset, int whence)
->         dmabuf = file->private_data;
+> Change in v7:
+> 1. Add the remove color format comment patch for OVL
+> 2. Fix warning: 'const' type qualifier on return type has no effect
 >
->         /* only support discovering the end of the buffer,
-> -          but also allow SEEK_SET to maintain the idiomatic
-> -          SEEK_END(0), SEEK_CUR(0) pattern */
-> +        * but also allow SEEK_SET to maintain the idiomatic
-> +        * SEEK_END(0), SEEK_CUR(0) pattern.
-> +        */
->         if (whence == SEEK_END)
->                 base = dmabuf->size;
->         else if (whence == SEEK_SET)
-> @@ -782,13 +783,14 @@ static void mangle_sg_table(struct sg_table *sg_table)
->         /* To catch abuse of the underlying struct page by importers mix
->          * up the bits, but take care to preserve the low SG_ bits to
->          * not corrupt the sgt. The mixing is undone in __unmap_dma_buf
-> -        * before passing the sgt back to the exporter. */
-> +        * before passing the sgt back to the exporter.
-> +        */
->         for_each_sgtable_sg(sg_table, sg, i)
->                 sg->page_link ^= ~0xffUL;
->  #endif
+> Chnage in v6:
+> 1. Use blend_modes instead of function pointer in OVL
+> 2. Use ethdr instead of mdp_rdma to get blend_modes
+> 3. Add 0 checking for adding blend_mode property for mtk_plane
 >
->  }
-> -static struct sg_table * __map_dma_buf(struct dma_buf_attachment *attach,
-> +static struct sg_table *__map_dma_buf(struct dma_buf_attachment *attach,
->                                        enum dma_data_direction direction)
->  {
->         struct sg_table *sg_table;
-> @@ -1694,7 +1696,7 @@ static int dma_buf_init_debugfs(void)
+> Change in v5:
+> Add fix patch for mtk_plane
 >
->         dma_buf_debugfs_dir = d;
+> Change in v4:
+> Add lost cases of mtk_ovl_fmt_convert_with_blend
 >
-> -       d = debugfs_create_file("bufinfo", S_IRUGO, dma_buf_debugfs_dir,
-> +       d = debugfs_create_file("bufinfo", 0444, dma_buf_debugfs_dir,
->                                 NULL, &dma_buf_debug_fops);
->         if (IS_ERR(d)) {
->                 pr_debug("dma_buf: debugfs: failed to create node bufinfo\n");
+> Change in v3:
+> Change MACRO approach to function pointer in driver data
+>
+> Change in v2:
+> Fix build error and typo
+>
+> Change in v1:
+> Add fix patch for OVL unsupport color format settings by driver data
+>
+> ---
+>
+> Jason-JH.Lin (3):
+>   drm/mediatek: ovl: Remove the color format comment for
+>     ovl_fmt_convert()
+>   drm/mediatek: ovl: Add blend_modes to driver data
+>   drm/mediatek: Add blend_modes to mtk_plane_init() for different SoCs
+>
+>  drivers/gpu/drm/mediatek/mtk_crtc.c           |  1 +
+>  drivers/gpu/drm/mediatek/mtk_ddp_comp.c       |  2 +
+>  drivers/gpu/drm/mediatek/mtk_ddp_comp.h       | 10 +++++
+>  drivers/gpu/drm/mediatek/mtk_disp_drv.h       |  2 +
+>  drivers/gpu/drm/mediatek/mtk_disp_ovl.c       | 44 ++++++++++++++++---
+>  .../gpu/drm/mediatek/mtk_disp_ovl_adaptor.c   |  7 +++
+>  drivers/gpu/drm/mediatek/mtk_ethdr.c          |  7 +++
+>  drivers/gpu/drm/mediatek/mtk_ethdr.h          |  1 +
+>  drivers/gpu/drm/mediatek/mtk_plane.c          | 15 +++----
+>  drivers/gpu/drm/mediatek/mtk_plane.h          |  4 +-
+>  10 files changed, 76 insertions(+), 17 deletions(-)
+>
 > --
-> 2.17.1
+> 2.43.0
 >
-
-Best,
-Sumit.
