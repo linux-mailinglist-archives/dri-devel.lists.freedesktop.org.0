@@ -2,85 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE57D98F2F8
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 17:45:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C772298F306
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 17:45:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA83110E888;
-	Thu,  3 Oct 2024 15:45:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3821110E898;
+	Thu,  3 Oct 2024 15:45:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="TICrwrFP";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="nKRgWD+G";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
- [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9F1410E139;
- Thu,  3 Oct 2024 15:45:16 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 6E6A6E0002;
- Thu,  3 Oct 2024 15:45:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1727970315;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KEG391uPbET+smFrjuUd3Gbf+SfD/X5R0PGVdaNVyDQ=;
- b=TICrwrFPqNQr0FkllJojskNhDNyxJBBjJ7p1KfIigSpe1yz5eAAGd2ZrO2BidvC6/A+Qom
- NZAd/9RJSz1RiDd3lLdtADp5nqX9bQyWNoBMaYmxSJhOSDe0T0fZ3BzR0Se1uCIXgHLatP
- 0EnPqF616SrgdCpZaDlShmBrP13ZbIXW9Bj7Oi5IuZvb8HSqOh6m1SReSPJmtquU99Yk9c
- wA7Vpopy8iwsQYMzzsZgtNT4idP5iRQdLFv3pdXkbJyEmdQQR3dqplUNNyYzH1sATd/MpW
- BCY3lPJp+f+t7R9s2mNyuYyLKxVcwMtVAupvHPO8B9IX4HLM2IwIi9MsvKSHrQ==
-Date: Thu, 3 Oct 2024 17:45:10 +0200
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- Liviu Dudau <liviu.dudau@arm.com>, Russell King <linux@armlinux.org.uk>,
- Inki Dae <inki.dae@samsung.com>,
- Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
- Alain Volmat <alain.volmat@foss.st.com>,
- Sandy Huang <hjc@rock-chips.com>, Jyri Sarha <jyri.sarha@iki.fi>,
- Alexey Brodkin <abrodkin@synopsys.com>,
- Hans de Goede <hdegoede@redhat.com>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
- Zack Rusin <zack.rusin@broadcom.com>, amd-gfx@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org,
- linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org, xen-devel@lists.xenproject.org
-Subject: Re: [PATCH 2/2] drm: Move crtc->{x, y, mode, enabled} to legacy
- sub-structure
-Message-ID: <Zv68Bj8UTNvRSmFj@louis-chauvet-laptop>
-Mail-Followup-To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?=
- <ville.syrjala@linux.intel.com>, 
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- Liviu Dudau <liviu.dudau@arm.com>,
- Russell King <linux@armlinux.org.uk>,
- Inki Dae <inki.dae@samsung.com>,
- Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
- Alain Volmat <alain.volmat@foss.st.com>,
- Sandy Huang <hjc@rock-chips.com>, Jyri Sarha <jyri.sarha@iki.fi>,
- Alexey Brodkin <abrodkin@synopsys.com>,
- Hans de Goede <hdegoede@redhat.com>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
- Zack Rusin <zack.rusin@broadcom.com>, amd-gfx@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org,
- linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org, xen-devel@lists.xenproject.org
-References: <20241002182200.15363-1-ville.syrjala@linux.intel.com>
- <20241002182200.15363-3-ville.syrjala@linux.intel.com>
- <Zv6QF2EmIcogtlLA@louis-chauvet-laptop>
- <Zv6gSGMXZZARf3oV@intel.com>
- <Zv6zN7Go_XG44P2-@louis-chauvet-laptop>
- <Zv64RktMPv2rpCZf@intel.com>
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com
+ [209.85.222.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D3D410E899
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 15:45:57 +0000 (UTC)
+Received: by mail-qk1-f177.google.com with SMTP id
+ af79cd13be357-7a9a7bea3cfso76129185a.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Oct 2024 08:45:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1727970356; x=1728575156; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=L2nFqSHnerYWNOViSxQusgw7yMTCBN7rx6/Qgg/L014=;
+ b=nKRgWD+GUDOAOiHS8PMlE0hvvM5fgaVD+sbDdfXjwGBHYgGPrUy5db88NEaHqt5MQT
+ wI4DDIe1lI2yktii2xZdp2oQFgFyb8rgXbAuIxdBY5YK9fB7nmsLpoWInP/YBIXyw/0k
+ S7nXeCNJbQFrIBHP9mFy4fT/CaKUYIzKhdc7HvmtgAIRcKMvlwx685MMW+t43E/4uRNL
+ b3IPggP5F/RKzayqAZpI+AzAvPWp7bfhub/YWoFTKYI836h6GxSY/D1Ygiv0J/6QefBK
+ N7E5jPmcoAlDr1LJsow4rQfftjYgE7Oluzjhyx4duzQf0b6e+wZS5O1Dc0sbaFsKpaqm
+ rahw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1727970356; x=1728575156;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=L2nFqSHnerYWNOViSxQusgw7yMTCBN7rx6/Qgg/L014=;
+ b=khQSriIvCZBiRhP9T7IctJqFXXZ7hqnjdMInN0UktM3bR6ZYRW+Umntk2yX5SwPo8H
+ PwTisoOInnDae4m0g8OZaQOJz/4HIw4o7QADxeeaYT3X4K99BDUObfemvj7G/G5OH6i2
+ QaX40DXwWqigXbkmr0b60Z6DSQhMO93n6U8GCUXqzj//a5NKJMI9i+OkLvRXHqqHkZ6R
+ t9+Wn437ce2695WGDYjG1a7KmiaYeFbuOuYc1IOI3ge1XpB5m2EEo8L9pBQUCzL4TZc9
+ cxn1UIdW1krrA//qOS7oUC01Fr4EtuFFWOFm/XHUDXrE7NQdqjYztwbkZNwgQH6k/W5I
+ xYZw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVgKj/jpDNDNZAzRVeW7vl6zpFNkqRpgeajwGIxwtoc3vsmVUMHX8fSa5N1E3ndHgJv2eg1cqbn26o=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxwVEbqoQI8mnBJFvJ34y7DOoYj/wXusiC8nQhUYHElbQ0pmcZB
+ um0YuYeNgJb10L0achR3EeKCRm1NRNfoToNJdZGoDGpY5zl/a+YO
+X-Google-Smtp-Source: AGHT+IHZBTbeMUL5KqSIdlIsTi4jsvld9rbEJPgXHMZ4S9+FWr6RXYwMwnLXLpDeQReSAPIV3rqe0w==
+X-Received: by 2002:a05:620a:470f:b0:7a3:785a:dc1c with SMTP id
+ af79cd13be357-7ae62727a6amr1128481685a.50.1727970355946; 
+ Thu, 03 Oct 2024 08:45:55 -0700 (PDT)
+Received: from VM-Arch ([2600:1001:b14f:5ed5:a130:4dde:abcd:f635])
+ by smtp.gmail.com with ESMTPSA id
+ af79cd13be357-7ae6b1409dbsm61011385a.0.2024.10.03.08.45.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Oct 2024 08:45:55 -0700 (PDT)
+Date: Thu, 3 Oct 2024 11:45:51 -0400
+From: Alex Lanzano <lanzano.alex@gmail.com>
+To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Mehdi Djait <mehdi.djait@bootlin.com>, skhan@linuxfoundation.org, 
+ linux-kernel-mentees@lists.linuxfoundation.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org
+Subject: Re: [PATCH v8 0/2] Add driver for Sharp Memory LCD
+Message-ID: <seex6vou5hig2qguejt7hfi5s5muikxch64f2d5fh2kcbs4tau@332xy75kvobl>
+References: <20241002033807.682177-1-lanzano.alex@gmail.com>
+ <t4lefcykpoe5i36wb4x5u23sseh6drnphtivuqc3mjviat2vvc@7hg4jyhxvpye>
+ <ees3m2qmazah2547ys62zvbrvo4dsgki2z2jwulwz4dfjtm4hk@kpmlapv6occv>
+ <q53inyaxyvfib7okxzazepxzarqmq4rubbasumvvx2woioyp42@fbtn4poujsyh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Zv64RktMPv2rpCZf@intel.com>
-X-GND-Sasl: louis.chauvet@bootlin.com
+In-Reply-To: <q53inyaxyvfib7okxzazepxzarqmq4rubbasumvvx2woioyp42@fbtn4poujsyh>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,75 +95,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Le 03/10/24 - 18:29, Ville Syrjälä a écrit :
-> On Thu, Oct 03, 2024 at 05:07:35PM +0200, Louis Chauvet wrote:
-> > 
-> > > > > diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
-> > > > > index a40295c18b48..780681ea77e4 100644
-> > > > > --- a/drivers/gpu/drm/vkms/vkms_crtc.c
-> > > > > +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-> > > > > @@ -64,7 +64,7 @@ static int vkms_enable_vblank(struct drm_crtc *crtc)
-> > > > >  	struct drm_vblank_crtc *vblank = drm_crtc_vblank_crtc(crtc);
-> > > > >  	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
-> > > > >  
-> > > > > -	drm_calc_timestamping_constants(crtc, &crtc->mode);
-> > > > > +	drm_calc_timestamping_constants(crtc, &crtc->legacy.mode);
-> > > > 
-> > > > 	drm_calc_timestamping_constants(crtc, &crtc->state->mode);
+On Thu, Oct 03, 2024 at 11:27:43AM GMT, Uwe Kleine-König wrote:
+> Hello Alex,
+> 
+> On Wed, Oct 02, 2024 at 10:33:13PM -0400, Alex Lanzano wrote:
+> > On Wed, Oct 02, 2024 at 09:56:38AM GMT, Uwe Kleine-König wrote:
+> > > On Tue, Oct 01, 2024 at 11:37:35PM -0400, Alex Lanzano wrote:
+> > > > Changes in v8:
+> > > > - Addressed review comments from Uwe
+> > > >     - Replace pwm_get_state with pwm_init_state
+> > > >     - Use pwm_set_relative_duty_cycle instead of manually setting period and duty cycle
 > > > 
-> > > This one doesn't look safe. You want to call that during your atomic
-> > > commit already.
+> > > You didn't explicitly mention that it's fine if the PWM doesn't emit the
+> > > inactive state when you call pwm_disable(). You're code should continue
+> > > to work if you drop all calls to pwm_disable().
 > > > 
+> > > Ideally you mention that in a code comment to make others reading your
+> > > code understand that.
 > > 
-> > This was already not safe with the previous implementation? Or it is only 
-> > unsafe because now I use state->mode instead of legacy.mode?
+> > Sorry about that! The intent of the code is to stop the pwm from outputing
+> > when the display is disabled since the signal is no longer needed. If
+> > it's best to emit the inactive state rather than calling pwm_disable()
+> > I'm fine with making that change.
 > 
-> Yeah, if you want to look at obj->state then you need the corresponding
-> lock.
+> Calling pwm_disable() is best iff you don't care about the output any
+> more. If however you rely on it to emit the inactive level,
+> pwm_disable() is wrong. I don't know enough about your display to judge
+> from here.
 > 
-> obj->state is also not necessarily the correct state you want because
-> a parallel commit could have already swapped in a new state but the
-> hardware is still on the old state.
+> The code to disable the display looks (simplified) as follows:
 > 
-> Basically 99.9% of code should never even look at obj->state, and
-> instead should always use the for_each_new_<obj>_in_state()
-> and drm_atomic_get_new_<obj>_state() stuff. Currently that is a
-> pipe dream though because a lot of drivers haven't been fixed to
-> do things properly. If we ever manage to fix everything then we
-> could remove the stall hacks from drm_atomic_helper_swap_state()
-> and allow a commit pipeline of arbitrary length.
->
-> > 
-> > After inspecting the code, I think I don't need to call it as:
-> > 
-> > In `vkms_atomic_commit_tail` (used in 
-> > `@vkms_mode_config_helpers.atomic_commit_tail`), we call 
-> > `drm_atomic_helper_commit_modeset_disables`, which call 
-> > `drm_atomic_helper_calc_timestamping_constants` which call 
-> > `drm_calc_timestamping_constants` for every CRTC.
+> 	if (smd->enable_gpio)
+> 		gpiod_set_value(smd->enable_gpio, 0);
 > 
-> Slightly odd place for it, but I think that's just because it was
-> originally part of drm_atomic_helper_update_legacy_modeset_state()
-> and I didn't bother looking for a better home for it when I split
-> it out. But seems like it should work fine as is.
+> 	pwm_disable(smd->pwm_vcom_signal);
+> 
+> so maybe the logic you need is:
+> 
+> 	if (smd->enable_gpio) {
+> 		gpiod_set_value(smd->enable_gpio, 0);
+> 
+> 		/*
+> 		 * In the presence of a GPIO to disable the display the
+> 		 * behaviour of the PWM doesn't matter and we can
+> 		 * just disable it.
+> 		 */
+> 		pwm_disable(smd->pwm_vcom_signal);
+> 	} else {
+> 		struct pwm_state state;
+> 
+> 		/*
+> 		 * However without a GPIO driving the display's output
+> 		 * enable pin the PWM must emit the inactive level,
+> 		 * which isn't guaranteed when calling pwm_disable(), so
+> 		 * configure it for duty_cycle = 0.
+> 		 */
+> 		 pwm_init_state(smd->pwm_vcom_signal, &state);
+> 		 state.duty_cycle = 0;
+> 		 state.enabled = true;
+> 		 pwm_apply_might_sleep(smd->pwm_vcom_signal, &state);
+> 	}
+> 
 
-I just send a patch for this! Thanks for your help!
+Ahh, understood. I looked over the datasheet again. It looks like in the
+case where no enable gpio pin is defined we'll need to keep the pwm pulsing
+since display hardware would still be enabled.
 
-[1]:https://lore.kernel.org/all/20241003-remove-legacy-v1-1-0b7db1f1a1a6@bootlin.com/
- 
-> > 
-> > I tested kms_vblank, all of them are SUCCESS/SKIP, do you know other tests 
-> > that can trigger bugs?
-> 
-> You would explicitly have to race commits against vblank_enable.
-> Could of course sprinkle sleep()s around to widen the race window
-> if you're really keen to hit it.
-> 
-> -- 
-> Ville Syrjälä
-> Intel
+I'll fix this up in the disable and probe functions.
 
--- 
-Louis Chauvet, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Best regards,
+Alex
+
