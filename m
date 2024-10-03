@@ -2,124 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F67A98EF97
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 14:45:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 206C798EFBF
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 14:54:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D58E10E843;
-	Thu,  3 Oct 2024 12:45:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82E9010E00E;
+	Thu,  3 Oct 2024 12:54:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="d/XGZVxt";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KEl8PKRa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com
- (mail-sn1nam02on2086.outbound.protection.outlook.com [40.107.96.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA1BC10E839;
- Thu,  3 Oct 2024 12:45:52 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PBei4riAKT7mhKPbkVejyMkLVyEdAjsJK2J5b1LsId2fSNMhQmxvYj4ycxrpSSiSVtQqkxYYy3ZsdcWI4HxDYhNriodZUZtOYXcS4PWvOS4n63o9Xr/5dcXyVd4MP19BxOJuR8slMQ98oGGCBT+/sU0TV5b0H62AhHpCtRYzIEPAovyEWxS6lcwndHMAM2KbvDMx3gQtVSEZLcXBG7T0fKqq665uYOR6msw4t90XvcL5UP1r+r+hrkKrGBV+7HJqxuNeydqcYGvTzfH92cgn6UZWd7/GDWsZWgXoqx/MWDati6STNjNaIHGrbUxUTD9ktoilqZklQ/Ip1V5Ris1A1A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yowdtSHK/j4j19l0+TOb8v//t93Bdyd+0ZarGUsnhxc=;
- b=mFEKtHpjaPu+jjtLSx8fS9zaLma5GtlEcCPkowpnwF9TaC3I83zARyQGJQOWWbaTdWIOpIHU8QB7+bhTIbkazNon5EpDpcicDtxFRsZUZwIPdi4jodTV8bexs85X8cdk7rgvyRqDzz9h0rA/NaBD3lW578uHdlO1EtkhWYEtO1emSv6Hfok5mj9uU7nXxScjBhKGJ3tn4pwGlnJO4i5pzdhcXUtxFF2hgA3wWOtbFE4qmv/389Enr6QLiDniJVkFzROG7QyJcTqyqVNWjw+8Ot1THRv5Ap9Za9LTG+xo3/JIeiZ4VagFEJ219updsXknjA9iCM11mX2ykZrZNy31Bw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yowdtSHK/j4j19l0+TOb8v//t93Bdyd+0ZarGUsnhxc=;
- b=d/XGZVxtYSOVvfhLvYH2quVKdRPPg8QLQnumUsYUx9WMjDWyGdaFHJbB2XT4kmhDNTKq2AF68OID4ZTY/ANJYCNYTOtZH8wQQ0QOMKHARiE9W2c+p4O51MOXwhV0/+DbetOuez0DeWNGrm0uJ7e3pGInwNW2F8mt1qgKj0bbrxc=
-Received: from SN4PR0501CA0012.namprd05.prod.outlook.com
- (2603:10b6:803:40::25) by DS0PR12MB6536.namprd12.prod.outlook.com
- (2603:10b6:8:d3::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.16; Thu, 3 Oct
- 2024 12:45:49 +0000
-Received: from SA2PEPF00003F68.namprd04.prod.outlook.com
- (2603:10b6:803:40:cafe::fa) by SN4PR0501CA0012.outlook.office365.com
- (2603:10b6:803:40::25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.15 via Frontend
- Transport; Thu, 3 Oct 2024 12:45:49 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SA2PEPF00003F68.mail.protection.outlook.com (10.167.248.43) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8026.11 via Frontend Transport; Thu, 3 Oct 2024 12:45:49 +0000
-Received: from patedamande.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 3 Oct
- 2024 07:45:46 -0500
-From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
- <dmitry.osipenko@collabora.com>, <jani.nikula@linux.intel.com>,
- <christian.koenig@amd.com>, <tursulin@igalia.com>, <simona.vetter@ffwll.ch>,
- <robdclark@gmail.com>, <alexander.deucher@amd.com>
-CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-Subject: [PATCH v5 6/6] drm/amdgpu: use drm_file::name in
- task_info::process_desc
-Date: Thu, 3 Oct 2024 14:43:14 +0200
-Message-ID: <20241003124506.470931-7-pierre-eric.pelloux-prayer@amd.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20241003124506.470931-1-pierre-eric.pelloux-prayer@amd.com>
-References: <20241003124506.470931-1-pierre-eric.pelloux-prayer@amd.com>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50A6A10E00E
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 12:54:55 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id A2808A40E25;
+ Thu,  3 Oct 2024 12:54:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55D8EC4CEC5;
+ Thu,  3 Oct 2024 12:54:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1727960093;
+ bh=jQAcHVSSj5IEV8CkJIYNkBOVkifIG505tJlB5w5mV4g=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=KEl8PKRamd+RdDBI2RD8Z/e4/D7pfJ4E5rGZFR4DNlzmuTKsoB/7cKhjZYq8J9z7s
+ sfpRthwojqLH76Th5UzTpp7jd2Cs9PgFAC4O9X+e/6ukr9lghJbvAjui6VnZM8mhNq
+ OWkf4WXxUsDd+c2RIoPxb8sq5ZC/Yc94jd2e8k4s5IsPmrk2wFy5DSy59RrbX6s3zc
+ Hle7UA5a/MnORU0HfbvSSG59/AA7vlFGLd7vYsNBP08HhAkAYsQDTnW2YPtt4qt8Pt
+ pVCxmYKOkj3RhHODhydc6DLqhPaV8R8ZlkXn+elbcVl2YJYTiy/u5Ju6aYEhgOyfsI
+ 7KjSTmi4kTgtQ==
+Date: Thu, 3 Oct 2024 14:54:47 +0200
+From: Benjamin Tissoires <bentiss@kernel.org>
+To: Pavel Machek <pavel@ucw.cz>
+Cc: Werner Sembach <wse@tuxedocomputers.com>, Armin Wolf <W_Armin@gmx.de>, 
+ Hans de Goede <hdegoede@redhat.com>,
+ Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
+ dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
+ lee@kernel.org, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-leds@vger.kernel.org, 
+ miguel.ojeda.sandonis@gmail.com, ojeda@kernel.org, onitake@gmail.com, 
+ platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH 1/1] platform/x86/tuxedo: Add virtual LampArray for
+ TUXEDO NB04 devices
+Message-ID: <ysidntvhwmqwe5o6rpshtoam674lwnkook747ni5dbf4z5sf3a@vdf44xu2ydjz>
+References: <5th4pisccud5s7dbia42glsnu7e5u3q7jszty6o3mjdedsd2bg@7nsvp6t2krnf>
+ <b6f2244d-7567-49ac-b2db-23b632a4e181@tuxedocomputers.com>
+ <cflor5mz4flekn44ttlbanfigmwn5mmp3p54gkeeznzmzkyjqz@p2c6q7gulrdl>
+ <84b629c6-5b26-4285-9b2f-66dd1afa99e5@tuxedocomputers.com>
+ <zph6fnuaamhayivmzftowjw6klgcy2gb7vdub2v2yo7n665vpo@rkxtorfvmzph>
+ <Zvxjo/CYXmKw2jjM@duo.ucw.cz>
+ <rdo2yyy5dxsxrfm7bweuuvsqjzjelyevo5xvufixuiyrdlf7pc@mprc7pzbpnla>
+ <Zv0YI3qIEg88Dx4c@duo.ucw.cz>
+ <hdahq2vfi3bnvaqswwdtave2kc2qm3ngvcwn6cgfiirfjfbqnz@zk77mbs3yktp>
+ <Zv54/T+6znqZB3X9@duo.ucw.cz>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PEPF00003F68:EE_|DS0PR12MB6536:EE_
-X-MS-Office365-Filtering-Correlation-Id: 74777d48-c15d-47ac-1682-08dce3a94f18
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|1800799024|36860700013|82310400026; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?iXbMnb5pesZTYAz9JDvNmvA1iBZvOZ0xd5korZFb7wng+9yrvYuMgMrPKA7W?=
- =?us-ascii?Q?kKJ6tUNzRvnBskD0YhX9k+sZ6TdA/MEBUlwjX4bY1xy4n6L0N1n6Vceau29H?=
- =?us-ascii?Q?PZCe1H24qJiar/ixse6GKVTUG8IARuoQN65VI+GHLGS3MyJnk2nrX1gv9BU1?=
- =?us-ascii?Q?xKJAzB8KHB3WUAq9n5mH/fl3NeBmPYR+2EVPGU+zHJaFaX0qrIPeRUgypE4U?=
- =?us-ascii?Q?j8iaT7bsmQJ+nqymW+IDR48iBV3U6IFWrFq4MursQF6P3O1fWK8JdmOe0QYM?=
- =?us-ascii?Q?LOgmN624cLCHhdtfy00HXa4jeJg2/UdiPcOvpUGrU0YycQ9mBclJoG+myDSC?=
- =?us-ascii?Q?a81kfSOdGnKh7mRUD7429Dlf2jAJoZAYendzGIFHbWxsR5JsAR2yOd0u7UEK?=
- =?us-ascii?Q?xbfMg96vPHefO8w2nE8yUfOBfRAHPqJn0aAQSkU5GBQdj1unXqlQ91aSFXG9?=
- =?us-ascii?Q?COxD1PpRWhBrRmwlPuchG24zryQ1Pi5F3MWznDR4UtI1gHg4K4D/SK4u4+Bv?=
- =?us-ascii?Q?7dbeeQlwVdAVQcOaPPD2+grWDnbgs5C8R6UoTsSmj+hZCscAPTJM61rLKLAQ?=
- =?us-ascii?Q?eQiOwxtBSXwdFjx4rey+sHwHwzWEN2gG8SQTLlL0Z3JdBkeGYqWbp9loUAii?=
- =?us-ascii?Q?eiVvkeZh0ZsGmoARW5JzyN1GolGMuhN1v2Dxm3GO4V5f16L4XiiBAaL93JSH?=
- =?us-ascii?Q?yuI130iZQnVWvW2VUK/OkJoJFIe+VaRzWMEffD04+p/R2ufm9lwbfea1YnwS?=
- =?us-ascii?Q?kQW0Zn8xi6ZRxvPOcHTIE+T0KlhjbFNf1LAWWok1OXyrKQEhsH4Ae0zAXqZL?=
- =?us-ascii?Q?p78hNbqRfZYilFdk6HGahWIsjt6YbDdLg+wjElym4LPdKquZWa121+1NbKmL?=
- =?us-ascii?Q?DgAWtWoJr62vTh++ZL7XpTtyJMCxlAGC/qzg0YH9IVg5IVrBE/p4PnoSl3uG?=
- =?us-ascii?Q?kZXCnOdbbmJe6U8GyFtwFFr1EaSB3Z38QLaX3lQO/j3n+fSARj6MEZ69lg1Y?=
- =?us-ascii?Q?ru8AAJFUt/DWin638tSizeAI/y1bzV+C9rTRnVPWzwqD8qDrwmFIJj8pcBOA?=
- =?us-ascii?Q?peJTKj23HqLnZYXMC6JPqppYYfjvRO12GzM0yGKS65DmMfZJRFPSJr2EE1eQ?=
- =?us-ascii?Q?i/Hd2ov2AnSlNLoN8gkNIicspNzPemSkGLQ/4dG9oXhLEvaG+aSlBYx8RQHn?=
- =?us-ascii?Q?T6YLaK/Wd9qiVUV7cumcwbiztONVAkv9zA35QH2NMV2X+zARoOXAu7qo63hm?=
- =?us-ascii?Q?FTgGfHQ1t4MEVkx/ZKPbpHMiukL2HwLpv9nRkV/6jekZhrT7QcQaooiYZegX?=
- =?us-ascii?Q?9UQnXESp4oMdjGix/4IDjCWqjMwCl8ycom+sTVrNEroU53EmLbWrIARaiMDQ?=
- =?us-ascii?Q?Pe7Ux7RCaDHTkxWOzATT7RUaOQFJ?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(36860700013)(82310400026); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Oct 2024 12:45:49.4787 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 74777d48-c15d-47ac-1682-08dce3a94f18
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: SA2PEPF00003F68.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB6536
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Zv54/T+6znqZB3X9@duo.ucw.cz>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,173 +73,203 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If a drm_file name is set append it to the process name.
+On Oct 03 2024, Pavel Machek wrote:
+> Hi!
+> 
+> > > (Hint: it is LEDs below regular keyboard.)
+> > 
+> > Yes, I know, and if you read this email and the few others, you'll read
+> > that I own a few of them already (for a long time), and I worked on a
+> > cross vendor userspace API to configure them. So I know what I am
+> > talking about.
+> 
+> Ok.
+> 
+> > > > The positions of the pixels also depend on the physical layout of the
+> > > > keyboard itself. So with the same vendor ID/Product ID, you might have
+> > > > different pixel positions if the device is sold in Europe, or in the
+> > > > US.
+> > > 
+> > > If vendor sells different hardware with same IDs, well 1) that's a
+> > > nono, a 2) that's what kernel parameters are for.
+> > 
+> > This is already the case (hello hid-uclogic), and no, kernel parameters
+> > are not helping. In that case (uclogic), we ask the device a specific
+> > USB string which has the information, but is not part of HID. This is
+> > dumb, but we don't control hardware makers.
+> 
+> Well, good you find other solution. Kernel parameter would have worked
+> as a fallback.
 
-This information is useful with the virtio/native-context driver: this
-allows the guest applications identifier to visible in amdgpu's output.
+This is probably a side topic, but IMO, kernel parameter are most of the
+time the worst solution. Basically we are asking people to look for
+solutions on random forums and they have to manually add the parameter
+in their bootcmd. But that's a different topic.
 
-The output in amdgpu_vm_info/amdgpu_gem_info looks like this:
-   pid:12255	Process:glxgears/test-set-fd-name ----------
+Of course, I'm not saying kernel parameters are just a bad thing: being
+able to enable specific debug or some per user configuration (like
+enabling disabling a feature) is a whole different story. It's just
+"kernel parameter to fix a device" that I dislike.
 
-Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h    |  1 +
- .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  |  3 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c        |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c        | 34 ++++++++++++++-----
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h        |  2 +-
- drivers/gpu/drm/amd/amdkfd/kfd_process.c      |  3 ++
- 6 files changed, 34 insertions(+), 11 deletions(-)
+> 
+> > > > But that's just the "easy" part. We can define a kernel API, for sure,
+> > > > but then we need users. And there are several problems here:
+> > > > 
+> > > > - first, users of this new kernel API need to be root to address the
+> > > >   LEDs. They probably won't, so they'll rely on a third party daemon for
+> > > >   that, or just use uaccess (yay!). But that part is easy
+> > > 
+> > > Eventually, desktop environment should talk the interface. (Plus, how
+> > > does HID or BPF craziness help with his?)
+> > 
+> > HID helps because we already have the case with game controllers. Steam
+> > and SDL (both widely use), put rules giving uaccess to hidraw nodes on
+> > those controllers. So we finally made the jump and now provide in v6.12
+> > a new hidraw ioctl to allow logind to revoke the hidraw node. This
+> > should allow us to not give uaccess to those hidraw nodes.
+> > 
+> > So in the near future, there will be a portal available, that says
+> > "please give me a fd for this hidraw node", the compositor will then ask
+> > logind to open the file for it and then will pass that fd to the final
+> > application. Once there is a vt-switch, logind will revoke the fd,
+> > meaning that the application will not have access to the device.
+> 
+> Yes, you can work around kernel not providing abstractions. But you
+> should not have to.
+> 
+> > > > - but then, even if you make everyones happy, the GUI project is
+> > > >   actually cross-platform (OpenRGB is, Steam is, SDL is). And what is
+> > > >   done on Windows is simple: raw access to the HID device. And the
+> > > >   raw
+> > > 
+> > > Yes, Windows is a mess. We don't want to emulate them.
+> > > 
+> > > > I've been through this exact same process with Input and game
+> > > > controllers, and even for libratbag for configuring gaming devices. In
+> > > > the end, the kernel developer never wins, but the userspace
+> > > 
+> > > Yes, we have been in this exact situation. Userland was directly
+> > > accessing mice. It was called "gpm" and we moved away from that for
+> > > good reasons.
+> > 
+> > There is a slight difference between mouse support and LEDs on your
+> > keyboard. The former is actually required to bring up the machine and to
+> > use it, the latter is nice to have.
+> 
+> But that's not the difference that matters. Linux is not microkernel,
+> and is trying to provide hardware abstractions. (Except for printers,
+> I guess that's because printers are often network devices).
+> 
+> Besides, mouse was not required to bring up a machine "back then".
+> 
+> Besides,
+> 
+> 1) using those keyboards in dark room without backlight is hard,
+> because their labels are translucent and not having enough contrast.
+> 
+> 2) rainbow effects make people ill.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
-index f9d119448442..ad909173e419 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
-@@ -299,6 +299,7 @@ int amdgpu_amdkfd_gpuvm_set_vm_pasid(struct amdgpu_device *adev,
- 				     struct amdgpu_vm *avm, u32 pasid);
- int amdgpu_amdkfd_gpuvm_acquire_process_vm(struct amdgpu_device *adev,
- 					struct amdgpu_vm *avm,
-+					struct drm_file *filp,
- 					void **process_info,
- 					struct dma_fence **ef);
- void amdgpu_amdkfd_gpuvm_release_process_vm(struct amdgpu_device *adev,
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-index 6d5fd371d5ce..172882af6705 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-@@ -1558,6 +1558,7 @@ int amdgpu_amdkfd_gpuvm_set_vm_pasid(struct amdgpu_device *adev,
- 
- int amdgpu_amdkfd_gpuvm_acquire_process_vm(struct amdgpu_device *adev,
- 					   struct amdgpu_vm *avm,
-+					   struct drm_file *filp,
- 					   void **process_info,
- 					   struct dma_fence **ef)
- {
-@@ -1577,7 +1578,7 @@ int amdgpu_amdkfd_gpuvm_acquire_process_vm(struct amdgpu_device *adev,
- 	if (ret)
- 		return ret;
- 
--	amdgpu_vm_set_task_info(avm);
-+	amdgpu_vm_set_task_info(avm, filp);
- 
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-index 891128ecee6d..5d43e24906d2 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-@@ -1178,7 +1178,7 @@ static int amdgpu_cs_vm_handling(struct amdgpu_cs_parser *p)
- 	}
- 
- 	/* Use this opportunity to fill in task info for the vm */
--	amdgpu_vm_set_task_info(vm);
-+	amdgpu_vm_set_task_info(vm, p->filp);
- 
- 	if (adev->debug_vm) {
- 		/* Invalidate all BOs to test for userspace bugs */
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-index 561ff832930e..920660c23e0f 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-@@ -2355,24 +2355,41 @@ amdgpu_vm_get_task_info_pasid(struct amdgpu_device *adev, u32 pasid)
- 			amdgpu_vm_get_vm_from_pasid(adev, pasid));
- }
- 
--static int amdgpu_vm_create_task_info(struct amdgpu_vm *vm)
-+static int amdgpu_vm_create_task_info(struct amdgpu_vm *vm, struct drm_file *filp)
- {
- 	char process_name[TASK_COMM_LEN];
--	size_t pname_len;
-+	size_t pname_len, pdesc_len;
- 
- 	get_task_comm(process_name, current->group_leader);
--	pname_len = strlen(process_name);
-+	pdesc_len = pname_len = strlen(process_name);
-+
-+	mutex_lock(&filp->client_name_lock);
-+	if (filp->client_name)
-+		pdesc_len += strlen(filp->client_name) + 1;
-+
-+	/* Add 1 for the NUL char. */
-+	pdesc_len += 1;
- 
- 	vm->task_info = kzalloc(
--		struct_size(vm->task_info, process_desc, pname_len + 1),
-+		struct_size(vm->task_info, process_desc, pdesc_len),
- 		GFP_KERNEL);
- 
--	if (!vm->task_info)
-+	if (!vm->task_info) {
-+		mutex_unlock(&filp->client_name_lock);
- 		return -ENOMEM;
-+	}
- 
- 	/* Set process attributes now. */
- 	vm->task_info->tgid = current->group_leader->pid;
--	strscpy(vm->task_info->process_desc, process_name, pname_len + 1);
-+	strscpy(vm->task_info->process_desc, process_name, pdesc_len);
-+
-+	if (filp->client_name) {
-+		/* Append the drm-client-name. */
-+		vm->task_info->process_desc[pname_len] = '/';
-+		strscpy(&vm->task_info->process_desc[pname_len + 1],
-+			filp->client_name, pdesc_len - (pname_len + 1));
-+	}
-+	mutex_unlock(&filp->client_name_lock);
- 
- 	kref_init(&vm->task_info->refcount);
- 	return 0;
-@@ -2382,11 +2399,12 @@ static int amdgpu_vm_create_task_info(struct amdgpu_vm *vm)
-  * amdgpu_vm_set_task_info - Sets VMs task info.
-  *
-  * @vm: vm for which to set the info
-+ * @filp: drm_file instance
-  */
--void amdgpu_vm_set_task_info(struct amdgpu_vm *vm)
-+void amdgpu_vm_set_task_info(struct amdgpu_vm *vm, struct drm_file *filp)
- {
- 	if (!vm->task_info) {
--		if (amdgpu_vm_create_task_info(vm))
-+		if (amdgpu_vm_create_task_info(vm, filp))
- 			return;
- 	} else if (vm->task_info->pid == current->pid) {
- 		return;
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
-index 44da250217be..8df3dece54c2 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
-@@ -561,7 +561,7 @@ bool amdgpu_vm_handle_fault(struct amdgpu_device *adev, u32 pasid,
- 			    u32 vmid, u32 node_id, uint64_t addr, uint64_t ts,
- 			    bool write_fault);
- 
--void amdgpu_vm_set_task_info(struct amdgpu_vm *vm);
-+void amdgpu_vm_set_task_info(struct amdgpu_vm *vm, struct drm_file *filp);
- 
- void amdgpu_vm_move_to_lru_tail(struct amdgpu_device *adev,
- 				struct amdgpu_vm *vm);
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process.c b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-index a902950cc060..e473fe433d3f 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-@@ -1654,6 +1654,7 @@ int kfd_process_device_init_vm(struct kfd_process_device *pdd,
- 			       struct file *drm_file)
- {
- 	struct amdgpu_fpriv *drv_priv;
-+	struct drm_file *filp;
- 	struct amdgpu_vm *avm;
- 	struct kfd_process *p;
- 	struct dma_fence *ef;
-@@ -1673,8 +1674,10 @@ int kfd_process_device_init_vm(struct kfd_process_device *pdd,
- 
- 	p = pdd->process;
- 	dev = pdd->dev;
-+	filp = drm_file->private_data;
- 
- 	ret = amdgpu_amdkfd_gpuvm_acquire_process_vm(dev->adev, avm,
-+						     filp,
- 						     &p->kgd_process_info,
- 						     &ef);
- 	if (ret) {
--- 
-2.40.1
+And I agree with you here. And that's also why I agree with Werner's
+plan: have a minimum support in kernel for that with the already
+supported LED class, which is supported by UPower and others, and let
+the ones who want the fancy effects be in charge of their mess.
 
+To me, there is no value in designing a new API, gather all the
+requirements, try to make it perfect, when the users will just say
+"nope, we rather talk to hidraw because we can have the same code on
+Linux, Windows and Mac".
+
+This is what happened to us with SDL and Steam. We added support for the
+PlayStation controllers, the XBox ones, the Wii, and many others,
+through the regular input and FF stacks. But all they want is being able
+to disable what the kernel is doing because they are using the device
+differently and in the same way on Windows, Mac and Linux.
+
+And if you look at OpenRGB (or any other tool that configures multiple
+crazy LEDs devices), they are all doing the same thing, *already*. So if
+we come to them with a new fancy interface, they'll just laugh at us.
+
+(and no, it's not just a hidraw problem, they are actually dettaching
+the USB device entirely, having a userspace USB library and then on top
+of it parse the HID data with a userspace HID library).
+
+> 
+> Note how we have drivers for audio, LEDs, cameras, dunno, iio sensors,
+> none of that is required to bring system up.
+> 
+> We need driver for the WMI stuff in kernel. And that point it should
+> be pretty clear proper driver/subsystem should be done.
+
+Yes, and again, I never said we need to provide WMI to userspace.
+
+What I want is:
+- provide a minimum support on Linux using already existing APIs (LED
+  class)
+- allow crazy people to do their thing if they want to have a rainbow
+  initiated by every key press
+- ensure the minimum support of the LED class is not messed up when
+  people start using the HID LampArray API.
+
+HID LampArray is a ratified standard by a few hardware makers already[0]
+(Acer, Asus, HP, Logitech, Razer, SteelSeries and Twinkly apparently).
+They already made the job of knowing their requirements. From the
+kernel, we probably don't need all of this. But they have users who
+cares. So providing the minimum support in Linux and a way to forward
+more advanced usage seems like a good way to me.
+
+> 
+> > > > If you want a 100 lines of code program to control your keyboard, with
+> > > > LampArray, you can, as long as you don't require a GUI and don't require
+> > > > to be generic. Just write the values directly on the hidraw device,
+> > > > and
+> > > 
+> > > Haha, no. Kernel part was 400+ lines, no way you can parse that in 100
+> > > lines.
+> > 
+> > I'm not saying "parsing", I mean adapt to your use case. If you know
+> > your device, your simple CLI is just writing a static array of bytes to
+> > the hidraw interface.
+> 
+> No. Hardware abstraction is kernel work, my application should work
+> everywhere.
+
+So when you say "Kernel part was 400+ lines" you mean the HID parsing of
+the report descriptor? You don't want to use a already existing HID
+parsing library?
+
+Because if you want a plain C program without anything outside stdlib,
+then yes, 100 LoC is going to be tricky. But if you can cope with a HID
+parsing library, setting the color of a keyboard driven by LampArray is
+a single write to the hidraw node (see page 345 of HID HUT 1.5[1]):
+
+LampRangeUpdateReport(LampIdStart==0, LampIdEnd==(LampCount-1),
+RGBI==color)
+
+where LampCount is found in the report descriptor and color a simple
+(r,g,b) value.
+
+> 
+> > > What is relevant that these crazy arrays are not going to be merged,
+> > > and better solution is needed.
+> > 
+> > Again, you seemn to miss the point: those crazy arrays should have been
+> > in the firmware from day one. They are not, so the idea is to convert
+> > proprietary protocol into a standard. Then we can start thinking what
+> > comes next.
+> 
+> Firmware is what it is and we have to deal with that.
+> 
+> (Not to mention that "standard" you are citing is not used by anyone
+> and is ugly as hell. So not even open hardware such as MNT Reform uses
+> it).
+
+See Microsoft's pledge[0] and the list of vendors I quoted. And again, I
+don't care if it's ugly as long as we have minimal support in the kernel
+and can let userspace deal with this, if they want.
+
+
+Cheers,
+Benjamin
+
+[0] https://learn.microsoft.com/en-us/windows-hardware/design/component-guidelines/dynamic-lighting-devices
+[1] https://www.usb.org/sites/default/files/hut1_5.pdf
