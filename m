@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A25598EF6B
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 14:41:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7277998EF6D
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 14:41:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B22FF10E82B;
-	Thu,  3 Oct 2024 12:41:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DE7C10E830;
+	Thu,  3 Oct 2024 12:41:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.net header.i=wahrenst@gmx.net header.b="ZBuYwigB";
+	dkim=pass (2048-bit key; secure) header.d=gmx.net header.i=wahrenst@gmx.net header.b="NT6T1GIo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1817310E82B
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 12:41:27 +0000 (UTC)
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C76A110E830
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 12:41:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
  s=s31663417; t=1727959274; x=1728564074; i=wahrenst@gmx.net;
- bh=tnQcBU5toJjMIRGGXx0VSn/ZnlHQ0dkV9gVm+2hU+G4=;
+ bh=YnUO4CKkc1+oBQ7nfo3qXoEWai63XjWoSzBMZ4zBOc4=;
  h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:In-Reply-To:
  References:MIME-Version:Content-Transfer-Encoding:cc:
  content-transfer-encoding:content-type:date:from:message-id:
  mime-version:reply-to:subject:to;
- b=ZBuYwigB/ZRkTs1vzpTqReOE5Z539kaZ5f9WaXpltzRVa5awhdpQdV965w01Hs3c
- BuYwWvYWfiuJZoG+9rv8s+a3ieq7jfPCzvkgxPrgvEzBmdQ/zrdhMyTtn9+oHqNn3
- U5Ga6otzz0Zh0Bv78Ei//pGSjRIRw3Zkw514D2I4xGUv/HnTyfQnDTbFgH51txbFO
- pfUnO66/MW2K5kzhI3RKp4lguORwYi6rcYTNNCCXUzUfvJmlgRsW08C6XYJedormE
- w3bmd1ymYGMRPFwFZ+CKtbLwmNxmfnmGYFB/Takq7YyhpvbW1U+T9qSZa8oAyVwJF
- h1h09oiJUQGsSYB7Aw==
+ b=NT6T1GIozfy9FZ29B3V7dRUEytsAspxBUUQmNR8L4yhpjISui73NnjLaxpC37TTy
+ 02lTtZPAWTiuMJZahEPfqjphbo/6+we4eJp53vRMNXmwVkkfNjFKC1BAuL2LbKonX
+ dXTAwQu7pKUxtdEfdIDAIATuwPi7UVPD9UsW0GSpjL5fG5c2rOVS3YCZE7Ix99Ji4
+ 8pX+KVnF+uPJ4rKeXVd7IL6VgD0ud3+2Fsx6rJvW378t7Y3m4P8SUVK0wSUvecrU7
+ DQEaADOOHz1F6EVxwTrq1Q1gi0JphP3mReScahQuCuOmtjEVdBBIDe+3Y60zqnUS4
+ gFm4DDUp15deyaaiFg==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from stefanw-SCHENKER ([37.4.248.43]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MwfWU-1ryJlr3vje-00tP6n; Thu, 03
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MZktj-1sQGC52Wrn-00RisG; Thu, 03
  Oct 2024 14:41:14 +0200
 From: Stefan Wahren <wahrenst@gmx.net>
 To: Florian Fainelli <florian.fainelli@broadcom.com>,
@@ -42,32 +42,32 @@ Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
  Simona Vetter <simona@ffwll.ch>, Peter Robinson <pbrobinson@gmail.com>,
  dri-devel@lists.freedesktop.org, kernel-list@raspberrypi.com,
  Stefan Wahren <wahrenst@gmx.net>
-Subject: [PATCH V4 1/2] drm/vc4: hdmi: add PM suspend/resume support
-Date: Thu,  3 Oct 2024 14:41:06 +0200
-Message-Id: <20241003124107.39153-2-wahrenst@gmx.net>
+Subject: [PATCH V4 2/2] drm/vc4: v3d: add PM suspend/resume support
+Date: Thu,  3 Oct 2024 14:41:07 +0200
+Message-Id: <20241003124107.39153-3-wahrenst@gmx.net>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241003124107.39153-1-wahrenst@gmx.net>
 References: <20241003124107.39153-1-wahrenst@gmx.net>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:11kO0ckKqnLzd9cpwH173pwRGEXeP2dVte0XmK8E8Auy+s5ZPxJ
- n5Mz5X0w77FwtvroevqavtFd1arJNG0PDzRUGHkxr/EFksi0FX5Y5Bbr8xa85cCBjfXnLXW
- m3fsA9Ke2vWdH6Bx6VPjvaCyqWxGrrjTAQ6sA6/kEQ5TWvgFBGNDyHqLYEkDHuBuQThnbg8
- UcJBbQXKQ8Qu7/1gXP2IA==
+X-Provags-ID: V03:K1:t+vO0AEE0p4f4N/vpWFk0zu56kYqGOJJSDAE8m8gZsH6JlP/kAt
+ IjhmWu75EtuE8oEcBDIxmGamLMR6n1WePPSMCuihIRhh5VHyteh+PqUy9E2tlz280XnH47f
+ cFBkuEKew1WuHmxFqY2SwkRz2l0BzkNUmZ89Ts1/j+hzvAKBcfYIajjlfJ/n58qpBGffULw
+ ZBcjHEyVsb8l1ef2nqyow==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:b5fQAdBeQ9k=;Pekfi3o96vyL8L8ejA/frZEPoHB
- KALeOtHCaE8qBpG7Q9xODOdDVxe3v1LWq2Aovdl3pBNt7DEyfP/Fes9gX+Aouzc6Bf+XxyBBf
- BZd2oFtXrb3ltUbK3t2+PHpb5mu8KQmnzGl20Uvq8SZmmfOw+OsCGgPdobjOvwPRLgYoYm+ey
- NV4MSxIdh5jbMVLycEz981tU9LMUnDU/j5VgBr26NeQ+g1YvvewIipuOcYnZdJZKrvFK0y7cb
- WRG5MH2M6MfWI55u9BdoNIS54xSbvmrMPculV9kucXulje2xUSbB0dG043IAAytm+gH0LeTLv
- WS2/qBK0DGHAEGt4w0CUMLER5fG8yUs/Rxi8z3rFYR9jwmIyoMu9SlSAySvGP+lbjt2PDa0Hp
- W8OyAfe7aPTKvrCfTcuKXQK/PvDyA/Rt3QTGD7hj9dkHdeEOXkZ8DykNSzKS30IGz6CSEKTBP
- xHs3tqfEvgbl0qzXs/7xt37N0vYYpn7Tnwi1P3KixkXiD89Ir4TOFJozgGRdN4D6Ng3qp3YdS
- MPI8A9snsQYAmpt84MqB2oeizx68ziHaSSt/iB82kzpNW3ucDLWLxqNXCApIeFR8hOSc28rNQ
- EEsNh0BaxpYNL0hxC42okrcKzsz53488z8rl44YkPPZXsJ2Gomf1al0WgcSh9GGGyLSyRWUDq
- CUzfTqDJdWZcpYwWJiu0DCX0ncuIJvDLBXP/REgPUjmvVjJZIXuR2zdjGIfVyAsT8Qs4Gskim
- sUJggOb3N3mbZqBIEPVN9oKBtKSEr0+eKbe/NxxpIeDBaoIDLUO5vrwBDBf8kC38EORdNRj37
- moZDEcY8u19aJmI2xyVzl8pw==
+UI-OutboundReport: notjunk:1;M01:P0:k3oi6o0bE48=;+neQBDdKHH7amm7ub82vmltSx+h
+ MiH/uXxqYChJ5OU5qm//2ZO28yltJwXpRsOUlquSbItcT40697KGwmJ5Ox5bWbKM6L8zZP1D7
+ hDBTqHGLUan8S98fSg0dTG9FZ9Ld/ZYtRFWnGfOPav/n2lZ9V1UA3VsUFwieuXqwixRNFIMD3
+ rXpfrtrDzdRtc2idfLx6Cv8W8DqRPX4x/tS41Hrb3vQOS7JynSsFMGfq0Po1+V8882H0KRnnd
+ Bm4KMO3oAk+YNlThpr4b+ks+UeVeoY7sPUwKDGo5H+3fHwkYDhHKX5jUg5LOXtIhohJcBjZCz
+ SSY+UztIiz/HcsxYYNBoO4wPBiGSmsfsnMD97/wCI9ecGt5k6DYZWSLcCf66RgnYcEYHMvFI2
+ YBnPy/PDiwqtSr1HMAFtfFtik3GWx//vd/FhJuWuctFGxCOW3oZ9jf0lT+sMP0eUtneoEH5q4
+ CCn3B5jhuemeiloZ+m/x5LDd7QMX6zNDIIx5OvwJ3GwkXspEHj1xHU0Ct7pzoyTttBsVGeUgv
+ vyUXEamyfJJFVHX/+j0355drtpy7oBqAG3EpSGOeCNJo3d2O1ce97YzbpoKvSQ2c3m2QwY5KR
+ LmPSq1j0lLXssb3BkRiH2EIsg9KVggX488rLJM/prerlOqOPi7CnuoKA8qfK497y5LhawHlaQ
+ 8otNKfj0H3kjQJ0xQaJwVoAzcvHWXk2ZLLFMyFJ4i7yoqu/Nimc4VskzXSL/4ADjBDrAy4PpP
+ PFnPwB7IdOc6wNgR+U1fc2maTethm+G4Y90Rs47ceimd+G0ylvugi6KbFvJcTNRZ1cp84KN9y
+ re8zQ02GVak5i7R7W8DkDVpQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,76 +83,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add suspend/resume support for the VC4 HDMI component in order
-to handle suspend to idle properly. Since the HDMI power domain
-is powered down during suspend, this makes connector status polling
-pointless.
+Add suspend/resume support for the VC4 V3D component in order
+to handle suspend to idle properly.
 
-Link: https://lore.kernel.org/dri-devel/7003512d-7303-4f41-b0d6-a8af5bf8e4=
-97@gmx.net/
 Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
-Acked-by: Maxime Ripard <mripard@kernel.org>
 =2D--
- drivers/gpu/drm/vc4/vc4_hdmi.c | 32 ++++++++++++++++++++++++++++----
- 1 file changed, 28 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/vc4/vc4_v3d.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi=
-.c
-index 62b82b1eeb36..5e5d1c609858 100644
-=2D-- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -3117,6 +3117,31 @@ static int vc5_hdmi_init_resources(struct drm_devic=
-e *drm,
- 	return 0;
+diff --git a/drivers/gpu/drm/vc4/vc4_v3d.c b/drivers/gpu/drm/vc4/vc4_v3d.c
+index 2423826c89eb..8057b06c1f16 100644
+=2D-- a/drivers/gpu/drm/vc4/vc4_v3d.c
++++ b/drivers/gpu/drm/vc4/vc4_v3d.c
+@@ -368,7 +368,6 @@ void vc4_v3d_bin_bo_put(struct vc4_dev *vc4)
+ 	mutex_unlock(&vc4->bin_bo_lock);
  }
 
-+static int vc4_hdmi_suspend(struct device *dev)
-+{
-+	struct vc4_hdmi *vc4_hdmi =3D dev_get_drvdata(dev);
-+	struct drm_device *drm =3D vc4_hdmi->connector.dev;
-+
-+	if (drm && drm->mode_config.poll_enabled)
-+		drm_kms_helper_poll_disable(drm);
-+
-+	return pm_runtime_force_suspend(dev);
-+}
-+
-+static int vc4_hdmi_resume(struct device *dev)
-+{
-+	struct vc4_hdmi *vc4_hdmi =3D dev_get_drvdata(dev);
-+	struct drm_device *drm =3D vc4_hdmi->connector.dev;
-+	int ret;
-+
-+	ret =3D pm_runtime_force_resume(dev);
-+
-+	if (drm && drm->mode_config.poll_enabled)
-+		drm_kms_helper_poll_enable(drm);
-+
-+	return ret;
-+}
-+
- static int vc4_hdmi_runtime_suspend(struct device *dev)
+-#ifdef CONFIG_PM
+ static int vc4_v3d_runtime_suspend(struct device *dev)
  {
- 	struct vc4_hdmi *vc4_hdmi =3D dev_get_drvdata(dev);
-@@ -3415,9 +3440,8 @@ static const struct of_device_id vc4_hdmi_dt_match[]=
- =3D {
+ 	struct vc4_v3d *v3d =3D dev_get_drvdata(dev);
+@@ -397,7 +396,6 @@ static int vc4_v3d_runtime_resume(struct device *dev)
+
+ 	return 0;
+ }
+-#endif
+
+ int vc4_v3d_debugfs_init(struct drm_minor *minor)
+ {
+@@ -507,7 +505,8 @@ static void vc4_v3d_unbind(struct device *dev, struct =
+device *master,
+ }
+
+ static const struct dev_pm_ops vc4_v3d_pm_ops =3D {
+-	SET_RUNTIME_PM_OPS(vc4_v3d_runtime_suspend, vc4_v3d_runtime_resume, NULL=
+)
++	RUNTIME_PM_OPS(vc4_v3d_runtime_suspend, vc4_v3d_runtime_resume, NULL)
++	SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
  };
 
- static const struct dev_pm_ops vc4_hdmi_pm_ops =3D {
--	SET_RUNTIME_PM_OPS(vc4_hdmi_runtime_suspend,
--			   vc4_hdmi_runtime_resume,
--			   NULL)
-+	RUNTIME_PM_OPS(vc4_hdmi_runtime_suspend, vc4_hdmi_runtime_resume, NULL)
-+	SYSTEM_SLEEP_PM_OPS(vc4_hdmi_suspend, vc4_hdmi_resume)
- };
-
- struct platform_driver vc4_hdmi_driver =3D {
-@@ -3426,6 +3450,6 @@ struct platform_driver vc4_hdmi_driver =3D {
+ static const struct component_ops vc4_v3d_ops =3D {
+@@ -538,6 +537,6 @@ struct platform_driver vc4_v3d_driver =3D {
  	.driver =3D {
- 		.name =3D "vc4_hdmi",
- 		.of_match_table =3D vc4_hdmi_dt_match,
--		.pm =3D &vc4_hdmi_pm_ops,
-+		.pm =3D pm_ptr(&vc4_hdmi_pm_ops),
+ 		.name =3D "vc4_v3d",
+ 		.of_match_table =3D vc4_v3d_dt_match,
+-		.pm =3D &vc4_v3d_pm_ops,
++		.pm =3D pm_ptr(&vc4_v3d_pm_ops),
  	},
  };
 =2D-
