@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FBE698EDF7
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 13:19:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C99D98EDF8
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 13:19:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A65910E80A;
-	Thu,  3 Oct 2024 11:19:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA37110E80B;
+	Thu,  3 Oct 2024 11:19:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KRiOZAtX";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZtYBDfoD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33D4110E80A
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 11:19:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C95D10E80B
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 11:19:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1727954364; x=1759490364;
+ t=1727954367; x=1759490367;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=w4FuzTyDGreS0szixpBegUWK/7yzbqINFYrMt9HjXBE=;
- b=KRiOZAtXQ3jw5/MP4jgV3ZV4agXwPG2tsfFSZidLobZrko4jQhH/20iy
- 0D1MYm42iz2AwnV5+Rz+fSaLkc0By18VOWvrIR4PdpnMajThO/5yizxFN
- gUZch5Lf6dKT5QDe4lta05Ildd0jRXXooEL1UeiGTuImB6sWyMZ7no3wy
- jyzaD7LPv/vWboSNbrBNLN+DO+Ze31Q1BsgSRDzEtonPnLiIGH6ndzpsD
- d0DR1Ms8QlGsvZsOQ/8QwGtb0DUsWIYEX3s8V2qQMLtDH1ARy1OZyIaOx
- PR+8wWeiJLEfx4Bz0GZR88oFIz3uNsqSnXEJAbpT6FNjuzZl6ry2BSaoE g==;
-X-CSE-ConnectionGUID: VlQzq9sYTBepL1nKYT4HAw==
-X-CSE-MsgGUID: Ambt8xXSR52b0j7VaRlNVw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="27013023"
-X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; d="scan'208";a="27013023"
+ bh=1WWBSxzILxSYsGawLcrm3HdTa6GEE9/bUz51NQZ0heg=;
+ b=ZtYBDfoDgwjVov8YKTQxE4IbVs9/ga2zDwXVeMSbgtZoz1ofDUK77bNo
+ 8o2V2olP3c2p1AM1U1NzhPLNHca1Ib9xXycCfSu83P32jL8Jr8St7BgB9
+ tc4OY4aUwrpQEy9S7f/IZaVp12jbC+KBz1cnItQLP440jfLX4jXXehjpG
+ KSeeqb8gu03fa6D2aS0uYWh+kSRxq5zlrQip1B1l3P6C6Eqtb8ANIREMD
+ ZqN9E9CQvSguEV9L3p97DEVd7hJuxFYJbl8/Rvj1g77qC/wqs6dkDpGoc
+ geOFUVqf8Fgg4vIBZMN3PAb1LkLQaXXN9LjtrBs/9O8ljKCQVcvcd1sij g==;
+X-CSE-ConnectionGUID: 32F7dp29Rra9brASFvPXcQ==
+X-CSE-MsgGUID: Gx6jeqdPTWGliBG05NIt/w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="27013031"
+X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; d="scan'208";a="27013031"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Oct 2024 04:19:23 -0700
-X-CSE-ConnectionGUID: n+jyGRUXQiylc0o9f28Znw==
-X-CSE-MsgGUID: pL+u723oSLui50F3+/MfPw==
+ 03 Oct 2024 04:19:27 -0700
+X-CSE-ConnectionGUID: sqs5aFW3S6yEfoNZtQFAWA==
+X-CSE-MsgGUID: CqCmrdf6RCmqVgsfFpIjBw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; d="scan'208";a="74423820"
+X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; d="scan'208";a="74423838"
 Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by fmviesa008.fm.intel.com with SMTP; 03 Oct 2024 04:19:21 -0700
+ by fmviesa008.fm.intel.com with SMTP; 03 Oct 2024 04:19:25 -0700
 Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 03 Oct 2024 14:19:20 +0300
+ Thu, 03 Oct 2024 14:19:24 +0300
 From: Ville Syrjala <ville.syrjala@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, linux-mediatek@lists.infradead.org
-Subject: [PATCH v2 09/10] drm/mediatek: Allow build with COMPILE_TEST=y
-Date: Thu,  3 Oct 2024 14:18:50 +0300
-Message-ID: <20241003111851.10453-10-ville.syrjala@linux.intel.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ linux-amlogic@lists.infradead.org
+Subject: [PATCH v2 10/10] drm/meson: Allow build with COMPILE_TEST=y
+Date: Thu,  3 Oct 2024 14:18:51 +0300
+Message-ID: <20241003111851.10453-11-ville.syrjala@linux.intel.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20241003111851.10453-1-ville.syrjala@linux.intel.com>
 References: <20241003111851.10453-1-ville.syrjala@linux.intel.com>
@@ -72,33 +72,29 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-Allow mediatek to be built with COMPILE_TEST=y for greater
+Allow meson to be built with COMPILE_TEST=y for greater
 coverage. Builds fine on x86/x86_64 at least.
 
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>
-Cc: linux-mediatek@lists.infradead.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: linux-amlogic@lists.infradead.org
 Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 ---
- drivers/gpu/drm/mediatek/Kconfig | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/meson/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/mediatek/Kconfig b/drivers/gpu/drm/mediatek/Kconfig
-index 3d2436272ff2..2e0e7c4079b6 100644
---- a/drivers/gpu/drm/mediatek/Kconfig
-+++ b/drivers/gpu/drm/mediatek/Kconfig
-@@ -2,9 +2,9 @@
- config DRM_MEDIATEK
- 	tristate "DRM Support for Mediatek SoCs"
- 	depends on DRM
--	depends on ARCH_MEDIATEK || (ARM && COMPILE_TEST)
-+	depends on (ARCH_MEDIATEK && ARM) || COMPILE_TEST
- 	depends on COMMON_CLK
--	depends on HAVE_ARM_SMCCC
-+	depends on HAVE_ARM_SMCCC || COMPILE_TEST
- 	depends on OF
- 	depends on MTK_MMSYS
+diff --git a/drivers/gpu/drm/meson/Kconfig b/drivers/gpu/drm/meson/Kconfig
+index b410e0d8015a..417f79829cf8 100644
+--- a/drivers/gpu/drm/meson/Kconfig
++++ b/drivers/gpu/drm/meson/Kconfig
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ config DRM_MESON
+ 	tristate "DRM Support for Amlogic Meson Display Controller"
+-	depends on DRM && OF && (ARM || ARM64)
++	depends on DRM && OF && (ARM || ARM64 || COMPILE_TEST)
+ 	depends on ARCH_MESON || COMPILE_TEST
  	select DRM_CLIENT_SELECTION
+ 	select DRM_KMS_HELPER
 -- 
 2.45.2
 
