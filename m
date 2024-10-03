@@ -2,73 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A84598EBD5
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 10:45:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF54898EBD4
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 10:45:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD15B10E7E1;
-	Thu,  3 Oct 2024 08:45:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93E5510E7CF;
+	Thu,  3 Oct 2024 08:45:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kD4qUyed";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="k3s32xm2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9F6010E7E1;
- Thu,  3 Oct 2024 08:45:52 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id
- 5b1f17b1804b1-42cacabd2e0so5372755e9.3; 
- Thu, 03 Oct 2024 01:45:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1727945150; x=1728549950; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=xKrTJrxaC66IYpmC0zcPIsToT+rr6ixnJrZ/0hCTJes=;
- b=kD4qUyedSbCXe52ciai1ZqmGx/wFCpWUOZThIQtfaM+FiSMON/dGz15qkj/VLAtYYx
- Fol+FZP3nXwzZxGFYgXvZoANIt5u1Bq9KB8gFaj6l1I1Igk5J6iYyF56DHBQg6mzXNLm
- +RwOuLX0djMe1yjAl6SVctMtRgwvStUkjWP0DFgiZM4txAk5g4xy2cy+m2fRcE8rUU1L
- k7euGbyMcFg0DP5M08zwWCSMyPr+37RWtEK5t0wKgBirEOUQ7Y7fC2NwNbG6fQNcNC8Y
- X/oSbZoit1jcws9r+MSXDLZX2zpt+cVFOGaO8LjJpbdcj3pfvpSpMFT2F5CfIIzgPi+v
- y3jA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727945150; x=1728549950;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=xKrTJrxaC66IYpmC0zcPIsToT+rr6ixnJrZ/0hCTJes=;
- b=s28jSjA7Cg2YIsdcbemXIRQa6ToWlMzUZ6b7sh2rYF542NFt0hOvaO8qd/RrKKeo6B
- LOBEM4+NAoaYAJ2nRfHBbf9vYoBju0YV7FNbJ+PqW+cF6q0dR1aqN/Exf4otOGz0U/wh
- 6AgOqLx9EdH1mhbnlKtdjwI5HZ6YeukaeUdiN3Uhgt3mWrq62MnlovssWlGFqTkwQMzP
- s6sQChrPbARjSWqYzST3+pDwlUtegcCXO1hgaF4Mk8DDewTUSWyYtdOe/SWrVYlBUhir
- EB132EQO6Ssq2aHiz6fUXgzxesbuEKj6NyzEfJAqJ3rsa1ePv20yrnoXlJohLdbBbLes
- BB+A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV3gawJtNIISpvhNWqbW2bRFCcxhfVgRF50QjvcBLo6zpkKzZihRff0iY+mJg0Kr3SXTsaH3iLnNJg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwMLcO/iwwN8V645rIU+C4w00MBvnul2a2BFhSlN6P3MCIJC6WN
- 4kyjDTVfCHJz6wg3LFCZAZKb+N1u35yRB2kpUzfJ4ClFFf95AiJaV/7icMHD
-X-Google-Smtp-Source: AGHT+IHYcJ+v3BvMh9LmMa+x7Pipzt189nt8Wq5bzwu6NOma37eD1ygcwKs6Tjm30wExRNhkHBbT7A==
-X-Received: by 2002:adf:f3c9:0:b0:371:79f2:3d5c with SMTP id
- ffacd0b85a97d-37cfb8c84e9mr3308661f8f.31.1727945149887; 
- Thu, 03 Oct 2024 01:45:49 -0700 (PDT)
-Received: from fedora.iskraemeco.si ([193.77.86.250])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-42f771c1401sm27262635e9.0.2024.10.03.01.45.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Oct 2024 01:45:49 -0700 (PDT)
-From: Uros Bizjak <ubizjak@gmail.com>
-To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Cc: Uros Bizjak <ubizjak@gmail.com>, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Subject: [PATCH] drm/i915/active: Use try_cmpxchg() in active_fence_cb()
-Date: Thu,  3 Oct 2024 10:44:31 +0200
-Message-ID: <20241003084533.871524-1-ubizjak@gmail.com>
-X-Mailer: git-send-email 2.46.2
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A341A10E7C0
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 08:45:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1727945122; x=1759481122;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=oisODV5rKAVavXbf/PkTzLfH8IHC60RXmPNqmsN3BG8=;
+ b=k3s32xm2VipFUtjJyffPM1PJDif66TxblLOK1H5OsmpJ/RK44YMMf4gd
+ qWYQfT9CRIrKT8RR9kKVwmxIC21SV6FnJZ/+uTbiDlQTepB/1VSoAqgF7
+ uoG3IriFfN8KgxTLKVtxAjmIIDJarAlJjtE4PfXEZBUoWm6QbilWCTChF
+ +UAP1UcRChA+39jGTEVQwo1Mc2eTJjJCva9LXVBHfg6p01Ew/2vP1YrtV
+ 1txm95Lx73tpaoobKQuaN1GYQNzxwlEvNkn6f2T9VmEIJ3iP97tNxj7bI
+ /OoJrD+fTcueKvlm66WKDKgTS7mDu0N029FtyRQt4xTM1HYZBNCJ/rLvy w==;
+X-CSE-ConnectionGUID: 660autYnRlWyM1jcLCK27w==
+X-CSE-MsgGUID: Y+H34H9qSfudjA026enwow==
+X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="44657562"
+X-IronPort-AV: E=Sophos;i="6.11,173,1725346800"; d="scan'208";a="44657562"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Oct 2024 01:45:22 -0700
+X-CSE-ConnectionGUID: TF/hLKOHTFyG58fLBJbQoQ==
+X-CSE-MsgGUID: 0J0xUhCxRyKTI6a5zb+Ydg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,173,1725346800"; d="scan'208";a="74135136"
+Received: from jpdavis-mobl1.ger.corp.intel.com (HELO [10.246.18.68])
+ ([10.246.18.68])
+ by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Oct 2024 01:45:21 -0700
+Message-ID: <bdf507b6-855b-4c34-afcc-e09aecbdfd66@linux.intel.com>
+Date: Thu, 3 Oct 2024 10:45:13 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 00/31] accel/ivpu: Fixes for 6.12-rc1
+To: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com
+References: <20240930195322.461209-1-jacek.lawrynowicz@linux.intel.com>
+ <6f18b890-2fa2-4c81-ab4e-2816d0ce98d9@linux.intel.com>
+ <9b55ce32-a53d-4345-ad7e-de9e3dd74996@suse.de>
+Content-Language: en-US
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <9b55ce32-a53d-4345-ad7e-de9e3dd74996@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,41 +74,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace this pattern in active_fence_cb():
+Hi,
 
-    cmpxchg(*ptr, old, new) == old
+On 10/2/2024 4:51 PM, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 02.10.24 um 15:26 schrieb Jacek Lawrynowicz:
+>> Applied to drm-misc-fixes
+> 
+> And removed from drm-misc-fixes.
 
-... with the simpler and faster:
+:(
 
-    try_cmpxchg(*ptr, &old, new)
+> The -misc-fixes branch is for fixing bugs that either regressed working code or to resolve serious bugs that affects upstream users. It is NOT a dumping ground for all kinds of things you want to get into upstream quickly. Your review process should have found these issues already.
 
-The x86 CMPXCHG instruction returns success in the ZF flag,
-so this change saves a compare after the CMPXCHG.
+Sorry about this. I guess I allowed my upstreaming backlog to grow beyond sensible size.
+I will apply small subset of these patches to -fixes and the rest to -next.
 
-Signed-off-by: Uros Bizjak <ubizjak@gmail.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Tvrtko Ursulin <tursulin@ursulin.net>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Simona Vetter <simona@ffwll.ch>
----
- drivers/gpu/drm/i915/i915_active.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/i915/i915_active.c b/drivers/gpu/drm/i915/i915_active.c
-index 5ec293011d99..35319228bc51 100644
---- a/drivers/gpu/drm/i915/i915_active.c
-+++ b/drivers/gpu/drm/i915/i915_active.c
-@@ -212,7 +212,7 @@ active_fence_cb(struct dma_fence *fence, struct dma_fence_cb *cb)
- 	struct i915_active_fence *active =
- 		container_of(cb, typeof(*active), cb);
- 
--	return cmpxchg(__active_fence_slot(active), fence, NULL) == fence;
-+	return try_cmpxchg(__active_fence_slot(active), &fence, NULL);
- }
- 
- static void
--- 
-2.46.2
-
+Regards,
+Jacek
