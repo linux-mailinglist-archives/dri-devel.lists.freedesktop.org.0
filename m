@@ -2,66 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88EA398F89A
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 23:10:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7B6798F8D7
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 23:22:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 990E010E26C;
-	Thu,  3 Oct 2024 21:10:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6ED0F10E28E;
+	Thu,  3 Oct 2024 21:22:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="njlj0Ah/";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="IrmHW7jS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA23110E25C
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 21:10:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1727989827; x=1759525827;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=1FA88b8GWYAmlaSKYt8MbXQMv67aDLUKv9Ao95E+gck=;
- b=njlj0Ah/3yV+lGzGggjM7SBiPXqJlrJAMQklGV+h2ygrmtapZFOZWnte
- ZK+zS/biPKfx848bcggyRT+BPz//cVPshMFZxGamCTr4+AmKt/D2BlhQ8
- I1Q/aSYIOWyDvfqhS2w1jl5gpkV6OSw70RNUsX3M4FJxYJsJB6mYC2678
- OYdIRyn5doo1QK/6d4jKNRD3oQlc0dHTxruB9ngNWZAyvAR6hqLcV8N/T
- w00IRu4K4cgqIri7A+WXj/TGxU3qzBnzcXqVyxL4RJDEK0ounMQajqIWR
- l/wqk3XxVEXH68D2FVGWs4qP+29XU0L0eCIRTi/ZeAzZ6InTBoeJv/76K Q==;
-X-CSE-ConnectionGUID: 9AiBTiouSwCJ7ORYo8c+Ew==
-X-CSE-MsgGUID: 1KXTA3h4Rh6eCibPwlU7MA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="37866015"
-X-IronPort-AV: E=Sophos;i="6.11,175,1725346800"; d="scan'208";a="37866015"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Oct 2024 14:10:26 -0700
-X-CSE-ConnectionGUID: Qibn512WQTKlCUy6xhSprg==
-X-CSE-MsgGUID: RyctnvlIQfq43hSH1gTKoA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,175,1725346800"; d="scan'208";a="74602182"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by fmviesa008.fm.intel.com with SMTP; 03 Oct 2024 14:10:22 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 04 Oct 2024 00:10:21 +0300
-Date: Fri, 4 Oct 2024 00:10:21 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
- Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Melissa Wen <melissa.srw@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, thomas.petazzoni@bootlin.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/vkms: Remove usage of legacy drm_crtc members
-Message-ID: <Zv8IPRKcPqYXgL2B@intel.com>
-References: <20241003-remove-legacy-v1-1-0b7db1f1a1a6@bootlin.com>
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
+ [209.85.216.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65F8710E260;
+ Thu,  3 Oct 2024 21:22:48 +0000 (UTC)
+Received: by mail-pj1-f47.google.com with SMTP id
+ 98e67ed59e1d1-2e0c2e42b75so234701a91.1; 
+ Thu, 03 Oct 2024 14:22:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1727990568; x=1728595368; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=C8bMyDSFrLBNevUJ9LtMU8i6rbFbMQVqj25AXNIEIAk=;
+ b=IrmHW7jSwT0bXHWMWOpAiXp4SJV/kEL2H9dPwZn6Si0oahtp2y14jvbMYQ2kr9wvfk
+ Nw3Lkz/ycHNuNUeOzv3oQnvh12or04/bNVN+wjz6zokMO3Bhrq+tmA1mv89XmnUlqLTK
+ dWDGd7Hrtl8sHFqM0dyMghZnVylgFT2MWhTC5zXpi9qa41+Ke7np/co4tGXc7k6KvNba
+ x1N6T6ZjZzUNIqm5yZfDCzWlFwunnddENSPiHFgQS/vyVwJdFTNXxkp+McryFGyH69z+
+ 2OPJTDDx/BdN04RxXY+v0VE3tl0wq1K5nVbz8y3LGFnMG1/4gAwuhSxOd8/u+JTuAofS
+ tnJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1727990568; x=1728595368;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=C8bMyDSFrLBNevUJ9LtMU8i6rbFbMQVqj25AXNIEIAk=;
+ b=Pna83Pgl129GmU+ZN6CLG2viywjQE0UNl8Bo4U+nyIG74CpBs3QZLqm+aMTXFjjwcL
+ j5UrAZOhpnOBZaE4XSHblS7Xl/nLgVKTAEZ22rfA+u8zPDahdq/rHq6gBghZxUCQSA1x
+ uAOxtDqSD12kcAO4VW0CjJ8zMZwsCos2/A7iw6iUna6JlK759DyI2boJdeVNTVaQO0m0
+ dqRLpcZ1Epm3JlDHzYVnt1K59cx6JI2T9a4+niNN6Kn3dpT81sCVAfauejOJFjmgMdOp
+ Ck/jM2jAZNe2qTfvWFUkCGuey8zmW8DWwTh/3jnZbXnco6k+NPCDjJZ72OcoFm1kkdD1
+ OHGg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVacczC+7P+AKOLRioH28Yb4QYeAdodnpblO+I6E1sRgn0Onn+FCgAbm6+sOAvI3QA3fC0OI6jdPbbo@lists.freedesktop.org,
+ AJvYcCXt6i1UAUeswTuul8JYfpH7EfiuLDE85TMZxSwHlXFoywfDGr2aZAI5ouRLKmInOA953Q4UxsHy@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyWQcoUSaAWPqkD/Zq0Rwv20Si4zMTNXernjT40nVHI0RkrM8Z6
+ QLQZhZRkx5n5AuYthLwMS2ewED+5Vo6W5+o/yvIn4Ta+KGIb4dGAp9BrWagPUYncNc5o3XiIMU1
+ 5mYyuQuJRFwEMDkdAXHtplRoASr4=
+X-Google-Smtp-Source: AGHT+IGTRPzNfQ/7+u7BSzM6FZnIvSZ1AWAcxUHxX7WRYTwAD2cHcF+DqMengiGIAam5tHXtqq5TtLp6rPq/ga4a6So=
+X-Received: by 2002:a17:90b:310b:b0:2e0:9147:7dc1 with SMTP id
+ 98e67ed59e1d1-2e1e63636b6mr209190a91.6.1727990567826; Thu, 03 Oct 2024
+ 14:22:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241003-remove-legacy-v1-1-0b7db1f1a1a6@bootlin.com>
-X-Patchwork-Hint: comment
+References: <20241003102623.11262-1-advaitdhamorikar@gmail.com>
+ <c344f4ac-1ff2-4250-bf31-c17430675751@amd.com>
+In-Reply-To: <c344f4ac-1ff2-4250-bf31-c17430675751@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 3 Oct 2024 17:22:35 -0400
+Message-ID: <CADnq5_OgZvTgUDvDqDikoUh28jTRm2mOAVV6zAEtWE9RHTFkyA@mail.gmail.com>
+Subject: Re: [PATCH-next v2] Fix unintentional integer overflow
+To: "Sundararaju, Sathishkumar" <sasundar@amd.com>
+Cc: Advait Dhamorikar <advaitdhamorikar@gmail.com>, alexander.deucher@amd.com, 
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com, 
+ simona@ffwll.ch, leo.liu@amd.com, sathishkumar.sundararaju@amd.com, 
+ saleemkhan.jamadar@amd.com, Veerabadhran.Gopalakrishnan@amd.com, 
+ sonny.jiang@amd.com, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ skhan@linuxfoundation.org, anupnewsmail@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,97 +86,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 03, 2024 at 05:41:10PM +0200, Louis Chauvet wrote:
-> Some members of the drm_crtc structure have been deprecated in favor of
-> equivalent members in the drm_crtc_state structure. As reported by Ville
-> Syrjala [1], the VKMS driver was still using these deprecated fields. This
-> commit updates the VKMS driver to use the new drm_crtc_state fields
-> instead.
-> 
-> Additionally, this commit removes the call to
-> `drm_calc_timestamping_constants` in `vkms_enable_vblank` as it is
-> redundant. This calculation is already performed in
-> `vkms_atomic_commit_tail` by calling
-> `drm_atomic_helper_commit_modeset_disables`.
+Applied.  Thanks!
 
-One slight difference here is that
-drm_atomic_helper_calc_timestamping_constants() passes in
-crtc_state->adjusted_mode instead of crtc_state->mode, but
-doesn't look look vkms mangles either in any way so they should
-stay identical after drm_atomic_helper_check_modeset()->mode_fixup()
-has done the copy.
-
-Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-
-> 
-> [1]:https://lore.kernel.org/all/20241002182200.15363-1-ville.syrjala@linux.intel.com/
-> 
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> ---
->  drivers/gpu/drm/vkms/vkms_composer.c  | 4 ++--
->  drivers/gpu/drm/vkms/vkms_crtc.c      | 2 --
->  drivers/gpu/drm/vkms/vkms_writeback.c | 4 ++--
->  3 files changed, 4 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-> index 57a5769fc994..3f0977d746be 100644
-> --- a/drivers/gpu/drm/vkms/vkms_composer.c
-> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
-> @@ -187,7 +187,7 @@ static void blend(struct vkms_writeback_job *wb,
->  
->  	const struct pixel_argb_u16 background_color = { .a = 0xffff };
->  
-> -	size_t crtc_y_limit = crtc_state->base.crtc->mode.vdisplay;
-> +	size_t crtc_y_limit = crtc_state->base.mode.vdisplay;
->  
->  	/*
->  	 * The planes are composed line-by-line to avoid heavy memory usage. It is a necessary
-> @@ -270,7 +270,7 @@ static int compose_active_planes(struct vkms_writeback_job *active_wb,
->  	if (WARN_ON(check_format_funcs(crtc_state, active_wb)))
->  		return -EINVAL;
->  
-> -	line_width = crtc_state->base.crtc->mode.hdisplay;
-> +	line_width = crtc_state->base.mode.hdisplay;
->  	stage_buffer.n_pixels = line_width;
->  	output_buffer.n_pixels = line_width;
->  
-> diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
-> index a40295c18b48..bbf080d32d2c 100644
-> --- a/drivers/gpu/drm/vkms/vkms_crtc.c
-> +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-> @@ -64,8 +64,6 @@ static int vkms_enable_vblank(struct drm_crtc *crtc)
->  	struct drm_vblank_crtc *vblank = drm_crtc_vblank_crtc(crtc);
->  	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
->  
-> -	drm_calc_timestamping_constants(crtc, &crtc->mode);
-> -
->  	hrtimer_init(&out->vblank_hrtimer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
->  	out->vblank_hrtimer.function = &vkms_vblank_simulate;
->  	out->period_ns = ktime_set(0, vblank->framedur_ns);
-> diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
-> index bc724cbd5e3a..999d5c01ea81 100644
-> --- a/drivers/gpu/drm/vkms/vkms_writeback.c
-> +++ b/drivers/gpu/drm/vkms/vkms_writeback.c
-> @@ -131,8 +131,8 @@ static void vkms_wb_atomic_commit(struct drm_connector *conn,
->  	struct drm_connector_state *conn_state = wb_conn->base.state;
->  	struct vkms_crtc_state *crtc_state = output->composer_state;
->  	struct drm_framebuffer *fb = connector_state->writeback_job->fb;
-> -	u16 crtc_height = crtc_state->base.crtc->mode.vdisplay;
-> -	u16 crtc_width = crtc_state->base.crtc->mode.hdisplay;
-> +	u16 crtc_height = crtc_state->base.mode.vdisplay;
-> +	u16 crtc_width = crtc_state->base.mode.hdisplay;
->  	struct vkms_writeback_job *active_wb;
->  	struct vkms_frame_info *wb_frame_info;
->  	u32 wb_format = fb->format->format;
-> 
-> ---
-> base-commit: cbc1e8696fbea0010a73bf93534c712f9ad177db
-> change-id: 20241003-remove-legacy-a2683a7bbcd5
-> 
-> Best regards,
-> -- 
-> Louis Chauvet <louis.chauvet@bootlin.com>
-
--- 
-Ville Syrjälä
-Intel
+On Thu, Oct 3, 2024 at 6:53=E2=80=AFAM Sundararaju, Sathishkumar
+<sasundar@amd.com> wrote:
+>
+>
+> The patch is Reviewed-by: Sathishkumar S <sathishkumar.sundararaju@amd.co=
+m>
+>
+> Regards,
+> Sathish
+>
+>
+> On 10/3/2024 3:56 PM, Advait Dhamorikar wrote:
+> > Fix shift-count-overflow in JPEG instance
+> > multiplication. The expression's value may not be
+> > what the programmer intended, because the expression
+> > is evaluated using a narrower integer type.
+> >
+> > Fixes: f0b19b84d391 ("drm/amdgpu: add amdgpu_jpeg_sched_mask debugfs")
+> > Signed-off-by: Advait Dhamorikar <advaitdhamorikar@gmail.com>
+> > ---
+> >   V1 -> V2: addressed review comments
+> >
+> >   drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c b/drivers/gpu/drm=
+/amd/amdgpu/amdgpu_jpeg.c
+> > index 95e2796919fc..b6f0435f56ba 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c
+> > @@ -357,7 +357,7 @@ static int amdgpu_debugfs_jpeg_sched_mask_set(void =
+*data, u64 val)
+> >       if (!adev)
+> >               return -ENODEV;
+> >
+> > -     mask =3D (1 << (adev->jpeg.num_jpeg_inst * adev->jpeg.num_jpeg_ri=
+ngs)) - 1;
+> > +     mask =3D ((uint64_t)1 << (adev->jpeg.num_jpeg_inst * adev->jpeg.n=
+um_jpeg_rings)) - 1;
+> >       if ((val & mask) =3D=3D 0)
+> >               return -EINVAL;
+> >
