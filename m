@@ -2,64 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 402B298F605
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 20:28:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 813C398F5E2
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 20:16:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65C0A10E8E3;
-	Thu,  3 Oct 2024 18:28:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4181010E240;
+	Thu,  3 Oct 2024 18:15:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="xxRB4ytO";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="EjZ9msV8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FE5010E8E0
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 18:28:11 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id E5C7088A24;
- Thu,  3 Oct 2024 20:28:08 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1727980090;
- bh=faYbxPEN6YGmMvqnzy2uL/Tt+yyjSeCCd5lEptEMVRc=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=xxRB4ytOkc6Vv1VH6rsKDSeN00aFVCafvnSNKlb/8KIvj3EXbvodAYGnQ+cu5M/AY
- KS7m9F2QT59CYaYSEdLLeHakPaBahOPgjAcMbNQLDqJsN1clRo3GTaZTMUB/nbCAdh
- TXScmeYcmcpn2Q8ZiwohhZAMW8jP+vrRo3rEDXcW0lcEMgnCwcmDIZNk+X+aIPjF/i
- pd+sTqrA88SI6nirocgCfT2qIVS/uIwBKePE73/I28K6fU+paoc903tnmAvrPfOePw
- WbFW0LjbY6vs5MftIbm86biFfOgFtFNddCWHT7iloI5Ax/045Ppo8igAg3q5BOLAnz
- 5Jn6AYlUvJeNg==
-Message-ID: <0c49d362-da0c-432e-90d9-69b02cdf3e64@denx.de>
-Date: Thu, 3 Oct 2024 19:13:34 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C72F10E240;
+ Thu,  3 Oct 2024 18:15:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1727979358; x=1759515358;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=nC1DkYF8+JnC9bRqRYD8jIOLHS7p+55kYwVDJUu0JlY=;
+ b=EjZ9msV8ZZyYBX2EoY26NNotz/XdgPSP3UDcBK4RiNkCP8NrAD2amIIT
+ nD3QT0rap0nPHMr2LwZKFf0Avo4E/AYTNMp7jQ7bNwNE9TbLsyw4kp9rF
+ C41vFxlJcuJ1t6m3duyG9pp84s59t5BCZCAtMoziGdgYTD9dBL04KVb87
+ yN72OZ1fPNJSG22zEX803lnahbbur1ErrClazs9y3Rk7jSMjii3n1kIZd
+ Rvyblg2P1wCD6vcqZofD8TX24rjnRGQVIR/qJ4SqUD9uIjSfalG/sT28u
+ HqsTDMYxNUHHlgZTxG3CpucUYvnzSFtf5CzPRSBCjHLF+J+2eJt4U10EG g==;
+X-CSE-ConnectionGUID: ZphkC1AgSWaQceA1gNMtxQ==
+X-CSE-MsgGUID: LxyQ54S0T5WPF0+jpV7tww==
+X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="27070042"
+X-IronPort-AV: E=Sophos;i="6.11,175,1725346800"; d="scan'208";a="27070042"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Oct 2024 11:15:57 -0700
+X-CSE-ConnectionGUID: AWpG6aMWTQSWY2XMipq25A==
+X-CSE-MsgGUID: YdyH8NLpQy6+eEpC+/XTJw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,175,1725346800"; d="scan'208";a="74543878"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by fmviesa008.fm.intel.com with SMTP; 03 Oct 2024 11:15:54 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Thu, 03 Oct 2024 21:15:53 +0300
+From: Ville Syrjala <ville.syrjala@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v2 4/8] drm/client: Make copies of modes
+Date: Thu,  3 Oct 2024 21:15:53 +0300
+Message-ID: <20241003181553.8891-1-ville.syrjala@linux.intel.com>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20241003113304.11700-5-ville.syrjala@linux.intel.com>
+References: <20241003113304.11700-5-ville.syrjala@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] media: imx: vdic: Introduce mem2mem VDI
- deinterlacer driver
-To: Nicolas Dufresne <nicolas@ndufresne.ca>, linux-media@vger.kernel.org
-Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Fabio Estevam <festevam@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller
- <deller@gmx.de>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Philipp Zabel <p.zabel@pengutronix.de>, Sascha Hauer
- <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Steve Longerbeam <slongerbeam@gmail.com>, dri-devel@lists.freedesktop.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev
-References: <20240724002044.112544-1-marex@denx.de>
- <20240724002044.112544-2-marex@denx.de>
- <85a5a42667e5867bc45da31baf045d4c9557f5f1.camel@ndufresne.ca>
- <6b45e30c-b215-4f7a-91a4-fde05d78f737@denx.de>
- <386f4e12fd835b18c3f618f2c94cbd426bd6cf28.camel@ndufresne.ca>
-Content-Language: en-US
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <386f4e12fd835b18c3f618f2c94cbd426bd6cf28.camel@ndufresne.ca>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,181 +69,305 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/27/24 9:33 PM, Nicolas Dufresne wrote:
-> Le mercredi 25 septembre 2024 à 22:45 +0200, Marek Vasut a écrit :
->> On 9/25/24 7:58 PM, Nicolas Dufresne wrote:
->>
->>
-> 
-> [...]
-> 
->>
->>>> +static irqreturn_t ipu_mem2mem_vdic_nfb4eof_interrupt(int irq, void *dev_id)
->>>> +{
->>>> +	struct ipu_mem2mem_vdic_priv *priv = dev_id;
->>>> +
->>>> +	/* That is about all we can do about it, report it. */
->>>> +	dev_warn_ratelimited(priv->dev, "NFB4EOF error interrupt occurred\n");
->>>
->>> Not sure this is right. If that means ipu_mem2mem_vdic_eof_interrupt won't fire,
->>> then it means streamoff/close after that will hang forever, leaving a zombie
->>> process behind.
->>>
->>> Perhaps mark the buffers as ERROR, and finish the job.
->>
->> The NFB4EOF interrupt is generated when the VDIC didn't write (all of)
->> output frame . I think it stands for "New Frame Before EOF" or some
->> such. Basically the currently written frame will be corrupted and the
->> next frame(s) are likely going to be OK again.
-> 
-> So the other IRQ will be triggered ? After this one ? Is so, perhaps take a
-> moment to mark the frames as ERROR (which means corrupted).
+From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-OK, fixed in V3.
+drm_client_firmware_config() is currently picking up the current
+mode of the crtc via the legacy crtc->mode, which is not supposed
+to be used by atomic drivers at all. We can't simply switch over
+to the proper crtc->state->mode because we drop the crtc->mutex
+(which protects crtc->state) before the mode gets used.
 
-> [...]
-> 
->>>
->>> The driver is not taking ownership of prev_buf, only curr_buf is guaranteed to
->>> exist until v4l2_m2m_job_finish() is called. Usespace could streamoff, allocate
->>> new buffers, and then an old freed buffer may endup being used.
->>
->> So, what should I do about this ? Is there some way to ref the buffer to
->> keep it around ?
->>
->>> Its also unclear to me how userspace can avoid this ugly warning, how can you
->>> have curr_buf set the first time ? (I might be missing something you this one
->>> though).
->>
->> The warning happens when streaming starts and there is only one input
->> frame available for the VDIC, which needs three fields to work
->> correctly. So, if there in only one input frame, VDI uses the input
->> frame bottom field as PREV field for the prediction, and input frame top
->> and bottom fields as CURR and NEXT fields for the prediction, the result
->> may be one sub-optimal deinterlaced output frame (the first one). Once
->> another input frame gets enqueued, the VDIC uses the previous frame
->> bottom field as PREV and the newly enqueued frame top and bottom fields
->> as CURR and NEXT and the prediction works correctly from that point on.
-> 
-> Warnings by default are not acceptable.
+The most straightforward solution to extend the lifetime of
+modes[] seem to be to make full copies of the modes instead
+of just storing pointers. We do have to replace the NULL checks
+with something else though. Checking that mode->clock!=0
+should be sufficient.
 
-This is a workaround so that older gstreamer versions would work, what 
-else can I do here ?
+And with this we can undo also commit 3eadd887dbac
+("drm/client:Fully protect modes[] with dev->mode_config.mutex")
+as the lifetime of modes[] no longer has anything to do with
+that lock.
 
->>> Perhaps what you want is a custom job_ready() callback, that ensure you have 2
->>> buffers in the OUTPUT queue ? You also need to ajust the CID
->>> MIN_BUFFERS_FOR_OUTPUT accordingly.
->>
->> I had that before, but gstreamer didn't enqueue the two frames for me,
->> so I got back to this variant for maximum compatibility.
-> 
-> Its well known that GStreamer v4l2convert element have no support for
-> detinterlacing and need to be improved to support any deinterlace drivers out
-> there.
+v2: Don't try to copy NULL modes
 
-It seems v4l2convert disable-passthrough=true works with deinterlacers 
-just fine , except for this one reused frame at stream start ?
+Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+---
+ drivers/gpu/drm/drm_client_modeset.c | 96 +++++++++++++++++-----------
+ 1 file changed, 59 insertions(+), 37 deletions(-)
 
-> Other drivers will simply holds on output buffers until it has enough to produce
-> the first valid picture. Holding meaning not marking them done, which keeps then
-> in the ACTIVE state, which is being tracked by the core for your.
+diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
+index 888323137a6a..730ed0d4bfa9 100644
+--- a/drivers/gpu/drm/drm_client_modeset.c
++++ b/drivers/gpu/drm/drm_client_modeset.c
+@@ -265,10 +265,21 @@ static void drm_client_connectors_enabled(struct drm_connector *connectors[],
+ 		enabled[i] = drm_connector_enabled(connectors[i], false);
+ }
+ 
++static bool mode_valid(const struct drm_display_mode *mode)
++{
++	return mode->clock != 0;
++}
++
++static void mode_copy_if_not_null(struct drm_display_mode *dst, const struct drm_display_mode *src)
++{
++	if (src)
++		drm_mode_copy(dst, src);
++}
++
+ static bool drm_client_target_cloned(struct drm_device *dev,
+ 				     struct drm_connector *connectors[],
+ 				     unsigned int connector_count,
+-				     const struct drm_display_mode *modes[],
++				     struct drm_display_mode modes[],
+ 				     struct drm_client_offset offsets[],
+ 				     bool enabled[], int width, int height)
+ {
+@@ -296,15 +307,16 @@ static bool drm_client_target_cloned(struct drm_device *dev,
+ 	for (i = 0; i < connector_count; i++) {
+ 		if (!enabled[i])
+ 			continue;
+-		modes[i] = drm_connector_pick_cmdline_mode(connectors[i]);
+-		if (!modes[i]) {
++
++		mode_copy_if_not_null(&modes[i], drm_connector_pick_cmdline_mode(connectors[i]));
++		if (!mode_valid(&modes[i])) {
+ 			can_clone = false;
+ 			break;
+ 		}
+ 		for (j = 0; j < i; j++) {
+ 			if (!enabled[j])
+ 				continue;
+-			if (!drm_mode_match(modes[j], modes[i],
++			if (!drm_mode_match(&modes[j], &modes[i],
+ 					    DRM_MODE_MATCH_TIMINGS |
+ 					    DRM_MODE_MATCH_CLOCK |
+ 					    DRM_MODE_MATCH_FLAGS |
+@@ -335,9 +347,9 @@ static bool drm_client_target_cloned(struct drm_device *dev,
+ 					   DRM_MODE_MATCH_CLOCK |
+ 					   DRM_MODE_MATCH_FLAGS |
+ 					   DRM_MODE_MATCH_3D_FLAGS))
+-				modes[i] = mode;
++				mode_copy_if_not_null(&modes[i], mode);
+ 		}
+-		if (!modes[i])
++		if (!mode_valid(&modes[i]))
+ 			can_clone = false;
+ 	}
+ 	drm_mode_destroy(dev, dmt_mode);
+@@ -354,7 +366,7 @@ static bool drm_client_target_cloned(struct drm_device *dev,
+ static int drm_client_get_tile_offsets(struct drm_device *dev,
+ 				       struct drm_connector *connectors[],
+ 				       unsigned int connector_count,
+-				       const struct drm_display_mode *modes[],
++				       const struct drm_display_mode modes[],
+ 				       struct drm_client_offset offsets[],
+ 				       int idx,
+ 				       int h_idx, int v_idx)
+@@ -368,17 +380,17 @@ static int drm_client_get_tile_offsets(struct drm_device *dev,
+ 		if (!connector->has_tile)
+ 			continue;
+ 
+-		if (!modes[i] && (h_idx || v_idx)) {
++		if (!mode_valid(&modes[i]) && (h_idx || v_idx)) {
+ 			drm_dbg_kms(dev,
+ 				    "[CONNECTOR:%d:%s] no modes for connector tiled %d\n",
+ 				    connector->base.id, connector->name, i);
+ 			continue;
+ 		}
+ 		if (connector->tile_h_loc < h_idx)
+-			hoffset += modes[i]->hdisplay;
++			hoffset += modes[i].hdisplay;
+ 
+ 		if (connector->tile_v_loc < v_idx)
+-			voffset += modes[i]->vdisplay;
++			voffset += modes[i].vdisplay;
+ 	}
+ 	offsets[idx].x = hoffset;
+ 	offsets[idx].y = voffset;
+@@ -389,7 +401,7 @@ static int drm_client_get_tile_offsets(struct drm_device *dev,
+ static bool drm_client_target_preferred(struct drm_device *dev,
+ 					struct drm_connector *connectors[],
+ 					unsigned int connector_count,
+-					const struct drm_display_mode *modes[],
++					struct drm_display_mode modes[],
+ 					struct drm_client_offset offsets[],
+ 					bool enabled[], int width, int height)
+ {
+@@ -445,16 +457,19 @@ static bool drm_client_target_preferred(struct drm_device *dev,
+ 		}
+ 
+ 		mode_type = "cmdline";
+-		modes[i] = drm_connector_pick_cmdline_mode(connector);
++		mode_copy_if_not_null(&modes[i],
++				      drm_connector_pick_cmdline_mode(connector));
+ 
+-		if (!modes[i]) {
++		if (!mode_valid(&modes[i])) {
+ 			mode_type = "preferred";
+-			modes[i] = drm_connector_preferred_mode(connector, width, height);
++			mode_copy_if_not_null(&modes[i],
++					      drm_connector_preferred_mode(connector, width, height));
+ 		}
+ 
+-		if (!modes[i]) {
++		if (!mode_valid(&modes[i])) {
+ 			mode_type = "first";
+-			modes[i] = drm_connector_first_mode(connector);
++			mode_copy_if_not_null(&modes[i],
++					      drm_connector_first_mode(connector));
+ 		}
+ 
+ 		/*
+@@ -472,17 +487,19 @@ static bool drm_client_target_preferred(struct drm_device *dev,
+ 			     connector->tile_v_loc == 0 &&
+ 			     !drm_connector_get_tiled_mode(connector))) {
+ 				mode_type = "non tiled";
+-				modes[i] = drm_connector_fallback_non_tiled_mode(connector);
++				mode_copy_if_not_null(&modes[i],
++						      drm_connector_fallback_non_tiled_mode(connector));
+ 			} else {
+ 				mode_type = "tiled";
+-				modes[i] = drm_connector_get_tiled_mode(connector);
++				mode_copy_if_not_null(&modes[i],
++						      drm_connector_get_tiled_mode(connector));
+ 			}
+ 		}
+ 
+-		if (modes[i])
++		if (mode_valid(&modes[i]))
+ 			drm_dbg_kms(dev, "[CONNECTOR:%d:%s] found %s mode: %s\n",
+ 				    connector->base.id, connector->name,
+-				    mode_type, modes[i]->name);
++				    mode_type, modes[i].name);
+ 		else
+ 			drm_dbg_kms(dev, "[CONNECTOR:%d:%s] no mode found\n",
+ 				    connector->base.id, connector->name);
+@@ -514,7 +531,7 @@ static int drm_client_pick_crtcs(struct drm_client_dev *client,
+ 				 struct drm_connector *connectors[],
+ 				 unsigned int connector_count,
+ 				 struct drm_crtc *best_crtcs[],
+-				 const struct drm_display_mode *modes[],
++				 const struct drm_display_mode modes[],
+ 				 int n, int width, int height)
+ {
+ 	struct drm_device *dev = client->dev;
+@@ -532,7 +549,7 @@ static int drm_client_pick_crtcs(struct drm_client_dev *client,
+ 	best_crtcs[n] = NULL;
+ 	best_score = drm_client_pick_crtcs(client, connectors, connector_count,
+ 					   best_crtcs, modes, n + 1, width, height);
+-	if (modes[n] == NULL)
++	if (!mode_valid(&modes[n]))
+ 		return best_score;
+ 
+ 	crtcs = kcalloc(connector_count, sizeof(*crtcs), GFP_KERNEL);
+@@ -566,7 +583,7 @@ static int drm_client_pick_crtcs(struct drm_client_dev *client,
+ 			if (dev->mode_config.num_crtc > 1)
+ 				continue;
+ 
+-			if (!drm_mode_equal(modes[o], modes[n]))
++			if (!drm_mode_equal(&modes[o], &modes[n]))
+ 				continue;
+ 		}
+ 
+@@ -589,7 +606,7 @@ static bool drm_client_firmware_config(struct drm_client_dev *client,
+ 				       struct drm_connector *connectors[],
+ 				       unsigned int connector_count,
+ 				       struct drm_crtc *crtcs[],
+-				       const struct drm_display_mode *modes[],
++				       struct drm_display_mode modes[],
+ 				       struct drm_client_offset offsets[],
+ 				       bool enabled[], int width, int height)
+ {
+@@ -690,20 +707,23 @@ static bool drm_client_firmware_config(struct drm_client_dev *client,
+ 		}
+ 
+ 		mode_type = "cmdline";
+-		modes[i] = drm_connector_pick_cmdline_mode(connector);
++		mode_copy_if_not_null(&modes[i],
++				      drm_connector_pick_cmdline_mode(connector));
+ 
+-		if (!modes[i]) {
++		if (!mode_valid(&modes[i])) {
+ 			mode_type = "preferred";
+-			modes[i] = drm_connector_preferred_mode(connector, width, height);
++			mode_copy_if_not_null(&modes[i],
++					      drm_connector_preferred_mode(connector, width, height));
+ 		}
+ 
+-		if (!modes[i]) {
++		if (!mode_valid(&modes[i])) {
+ 			mode_type = "first";
+-			modes[i] = drm_connector_first_mode(connector);
++			mode_copy_if_not_null(&modes[i],
++					      drm_connector_first_mode(connector));
+ 		}
+ 
+ 		/* last resort: use current mode */
+-		if (!modes[i]) {
++		if (!mode_valid(&modes[i])) {
+ 			/*
+ 			 * IMPORTANT: We want to use the adjusted mode (i.e.
+ 			 * after the panel fitter upscaling) as the initial
+@@ -716,7 +736,8 @@ static bool drm_client_firmware_config(struct drm_client_dev *client,
+ 			 * fastboot check to work correctly.
+ 			 */
+ 			mode_type = "current";
+-			modes[i] = &connector->state->crtc->mode;
++			mode_copy_if_not_null(&modes[i],
++					      &connector->state->crtc->mode);
+ 		}
+ 
+ 		/*
+@@ -726,14 +747,15 @@ static bool drm_client_firmware_config(struct drm_client_dev *client,
+ 		if (connector->has_tile &&
+ 		    num_tiled_conns < connector->num_h_tile * connector->num_v_tile) {
+ 			mode_type = "non tiled";
+-			modes[i] = drm_connector_fallback_non_tiled_mode(connector);
++			mode_copy_if_not_null(&modes[i],
++					      drm_connector_fallback_non_tiled_mode(connector));
+ 		}
+ 		crtcs[i] = new_crtc;
+ 
+ 		drm_dbg_kms(dev, "[CONNECTOR::%d:%s] on [CRTC:%d:%s] using %s mode: %s\n",
+ 			    connector->base.id, connector->name,
+ 			    new_crtc->base.id, new_crtc->name,
+-			    mode_type, modes[i]->name);
++			    mode_type, modes[i].name);
+ 
+ 		fallback = false;
+ 		conn_configured |= BIT(i);
+@@ -789,8 +811,7 @@ int drm_client_modeset_probe(struct drm_client_dev *client, unsigned int width,
+ 	unsigned int total_modes_count = 0;
+ 	struct drm_client_offset *offsets;
+ 	unsigned int connector_count = 0;
+-	/* points to modes protected by mode_config.mutex */
+-	const struct drm_display_mode **modes;
++	struct drm_display_mode *modes;
+ 	struct drm_crtc **crtcs;
+ 	int i, ret = 0;
+ 	bool *enabled;
+@@ -858,10 +879,12 @@ int drm_client_modeset_probe(struct drm_client_dev *client, unsigned int width,
+ 				      crtcs, modes, 0, width, height);
+ 	}
+ 
++	mutex_unlock(&dev->mode_config.mutex);
++
+ 	drm_client_modeset_release(client);
+ 
+ 	for (i = 0; i < connector_count; i++) {
+-		const struct drm_display_mode *mode = modes[i];
++		const struct drm_display_mode *mode = &modes[i];
+ 		struct drm_crtc *crtc = crtcs[i];
+ 		struct drm_client_offset *offset = &offsets[i];
+ 
+@@ -892,7 +915,6 @@ int drm_client_modeset_probe(struct drm_client_dev *client, unsigned int width,
+ 			modeset->y = offset->y;
+ 		}
+ 	}
+-	mutex_unlock(&dev->mode_config.mutex);
+ 
+ 	mutex_unlock(&client->modeset_mutex);
+ out:
+-- 
+2.45.2
 
-As far as I understand this, when the EOF interrupt happens, 
-v4l2_m2m_src_buf_remove() pulls the oldest input buffer from the queue 
-and that buffer is then marked as DONE (or ERROR in v3), that is the 
-->prev buffer, isn't it ?
-
-Once the next frame deinterlacing starts, the (new) current frame and 
-the prev frame are both active, the deinterlacing happens and then in 
-the EOF interrupt, the ->prev frame gets marked as DONE again.
-
-What am I missing here ?
-
-> [...]
-> 
->>>> +
->>>> +	if (ipu_mem2mem_vdic_format_is_yuv420(f->fmt.pix.pixelformat))
->>>> +		f->fmt.pix.bytesperline = f->fmt.pix.width * 3 / 2;
->>>> +	else if (ipu_mem2mem_vdic_format_is_yuv422(f->fmt.pix.pixelformat))
->>>> +		f->fmt.pix.bytesperline = f->fmt.pix.width * 2;
->>>> +	else if (ipu_mem2mem_vdic_format_is_rgb16(f->fmt.pix.pixelformat))
->>>> +		f->fmt.pix.bytesperline = f->fmt.pix.width * 2;
->>>> +	else if (ipu_mem2mem_vdic_format_is_rgb24(f->fmt.pix.pixelformat))
->>>> +		f->fmt.pix.bytesperline = f->fmt.pix.width * 3;
->>>> +	else if (ipu_mem2mem_vdic_format_is_rgb32(f->fmt.pix.pixelformat))
->>>> +		f->fmt.pix.bytesperline = f->fmt.pix.width * 4;
->>>> +	else
->>>> +		f->fmt.pix.bytesperline = f->fmt.pix.width;
->>>> +
->>>> +	f->fmt.pix.sizeimage = f->fmt.pix.height * f->fmt.pix.bytesperline;
->>>
->>> And use v4l2-common ?
->>
->> I don't really understand, there is nothing in v4l2-common.c that would
->> be really useful replacement for this ?
-> 
-> Not sure I get your response, v4l2-common is used in many drivers already, and
-> we intent to keep improving it so that all driver uses it in the long term. It
-> been created because folks believed they can calculate bytesperline and
-> sizeimage, but as the number of format grows, it always endup wrong, causing the
-> HW to overflow and break the system at a larger scale.
-
-Do you want me to introduce some new generic helper ? Because I don't 
-see an existing generic one.
-
->>>> +	return 0;
->>>> +}
->>>> +
->>>> +static int ipu_mem2mem_vdic_s_fmt(struct file *file, void *fh, struct v4l2_format *f)
->>>> +{
->>>> +	struct ipu_mem2mem_vdic_ctx *ctx = fh_to_ctx(fh);
->>>> +	struct ipu_mem2mem_vdic_priv *priv = ctx->priv;
->>>> +	struct v4l2_pix_format *fmt, *infmt, *outfmt;
->>>> +	struct vb2_queue *vq;
->>>> +	int ret;
->>>> +
->>>> +	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
->>>> +	if (vb2_is_busy(vq)) {
->>>> +		dev_err(priv->dev, "%s queue busy\n",  __func__);
->>>> +		return -EBUSY;
->>>> +	}
->>>> +
->>>> +	ret = ipu_mem2mem_vdic_try_fmt(file, fh, f);
->>>> +	if (ret < 0)
->>>> +		return ret;
->>>> +
->>>> +	fmt = ipu_mem2mem_vdic_get_format(priv, f->type);
->>>> +	*fmt = f->fmt.pix;
->>>> +
->>>> +	/* Propagate colorimetry to the capture queue */
->>>> +	infmt = ipu_mem2mem_vdic_get_format(priv, V4L2_BUF_TYPE_VIDEO_OUTPUT);
->>>> +	outfmt = ipu_mem2mem_vdic_get_format(priv, V4L2_BUF_TYPE_VIDEO_CAPTURE);
->>>> +	outfmt->colorspace = infmt->colorspace;
->>>> +	outfmt->ycbcr_enc = infmt->ycbcr_enc;
->>>> +	outfmt->xfer_func = infmt->xfer_func;
->>>> +	outfmt->quantization = infmt->quantization;
->>>
->>> So you can do CSC conversion but not colorimetry ? We have
->>> V4L2_PIX_FMT_FLAG_SET_CSC if you can do colorimetry transforms too. I have
->>> patches that I'll send for the csc-scaler driver.
->>
->> See ipu_ic_calc_csc() , that's what does the colorspace conversion in
->> this driver (on output from VDI).
-> 
-> int ipu_ic_calc_csc(struct ipu_ic_csc *csc,
->                      enum v4l2_ycbcr_encoding in_enc,
->                      enum v4l2_quantization in_quant,
->                      enum ipu_color_space in_cs,
->                      enum v4l2_ycbcr_encoding out_enc,
->                      enum v4l2_quantization out_quant,
->                      enum ipu_color_space out_cs)
-> 
-> So instead of simply overriding CSC like you do, let userspace set different CSC
-> in and out, so that IPU can handle the conversion properly with correct colors.
-> That requires to flag these in the fmt_desc structure during enum format, and to
-> only read acknowledge the CSC if userspace have set V4L2_PIX_FMT_FLAG_SET_CSC,
-> in other condition, the information must be ignored (which you don't).
-The input is from the VDI and that always has to be YUV. Can you maybe 
-just CC me on the CSC-scaler patches ? Then I'll see what can be done here.
-
-Thanks
