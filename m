@@ -2,71 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B0FB98EEBB
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 14:07:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E3B698EEE9
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 14:17:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6432310E825;
-	Thu,  3 Oct 2024 12:07:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9420310E14F;
+	Thu,  3 Oct 2024 12:17:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="A1MPQvIW";
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="KWZzfa79";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
- [209.85.210.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CCBB10E825
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 12:07:03 +0000 (UTC)
-Received: by mail-pf1-f172.google.com with SMTP id
- d2e1a72fcca58-71b20ffd809so814560b3a.0
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Oct 2024 05:07:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1727957223; x=1728562023; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=tENLZuUZDqCKRHgFd+nN+o31lrR5w79lUzAqq4taxj4=;
- b=A1MPQvIWTot003dCOqSv5aCG1OmY24M1Ydxpams08bWBqKXP0eKgF0MFInq7XR1P96
- ChMc/BMfGjIKxyHHgADAzmEn3CJ3uMLVzal6fMWtbDl9ueSRzcZBqbQrtcpCk3dn6+OO
- 9/p2fdyzdNS9V3T9EJ2GrsWftDbse+Xyb7/IYIXs7G0mECUjpXh13kQrQMPK7DRk3j7V
- oYw8avXTQgK4WUy/Dfh71oOOOol2uLdl+XJo1PulgQO93B/3wwYmEJBUXyA1FztmOxWV
- lSd5sQ3zCFgEEQWPnUuqGX5rRgXg0LAdD0GCexxcrjbeYFm56BIiYSR3948aFG/soy8y
- pqOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727957223; x=1728562023;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=tENLZuUZDqCKRHgFd+nN+o31lrR5w79lUzAqq4taxj4=;
- b=bBE7lbL6Ck5dp2QZnJTODtn0cxMoXRn4guDlbuoArlmE5beVDC+mNkOOtyrkWzY6SE
- nXyLk9BePJ8WYFFs7W/PbQ8HZXPqkUscdhlw4OGieciR0KXcCuFDYDP2PBzXO4IJffDw
- 09sLePEBqyariwxauVCqkW0D0EMhEZusOjs1JRPiwajpve/azsbzlDV5/yAaT1W5J4Gy
- kbQB9Z87Sj7QkWGWfVCWLfU7wBfTlgXLdax16z2Pm/S9oR0D2rvuex2t4E3dCWkoZ80a
- KZ7RFyJANQZz+bUnx/H8RbMIK+Y1yS7P7yNMXZsk7YrAqnuzG92ss8uv7/fo2D4Pc57G
- myfw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCViON9Ey3C0Y5m5/h3P613jYC3J5X3EswQEikZDzWmiPUpSOzq6nU4xp5QfV1Zy3Oux4s9Y1KFl4v0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyL7f9x32xX9QfUrovFs60cFnR54N7ARZuT3dMZ0C/PJHS+cJEY
- jPUXFpGGce0UCGAdqvIFUP0j2GBW/RExPH3/7h9clq4C8DIP5DvF
-X-Google-Smtp-Source: AGHT+IFxqoj5fyUph4UhadmHB8SVnCU8LR0L/apgVycs4/k3ghkiqeSJseoHUadhnddg+9TcHN3m2w==
-X-Received: by 2002:a05:6a21:9cca:b0:1d4:e4a9:c126 with SMTP id
- adf61e73a8af0-1d5e2d9e0a5mr10236329637.32.1727957222574; 
- Thu, 03 Oct 2024 05:07:02 -0700 (PDT)
-Received: from fedora.. ([2405:201:d007:50c2:4888:86b4:6f32:9ae])
- by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-7e9dcb138f3sm601150a12.40.2024.10.03.05.06.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Oct 2024 05:07:01 -0700 (PDT)
-From: Vamsi Krishna Brahmajosyula <vamsikrishna.brahmajosyula@gmail.com>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch
-Cc: skhan@linuxfoundation.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] gpu/drm: set gamma_lut or degamma_lut based on HW in
- setcmap_atomic
-Date: Thu,  3 Oct 2024 17:36:55 +0530
-Message-ID: <20241003120655.53663-1-vamsikrishna.brahmajosyula@gmail.com>
-X-Mailer: git-send-email 2.46.2
+Received: from mout.web.de (mout.web.de [212.227.15.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EDEE10E14F
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 12:17:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+ s=s29768273; t=1727957813; x=1728562613; i=markus.elfring@web.de;
+ bh=8I/IVOJ3HUxRhKc3coTrKl5H6hLLRD2Cqq329HCmAMs=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:From:
+ Subject:Content-Type:Content-Transfer-Encoding:cc:
+ content-transfer-encoding:content-type:date:from:message-id:
+ mime-version:reply-to:subject:to;
+ b=KWZzfa79eoJusIj+SI02HZcVeTsQJT9lKNItBaG/W8Vi+sIU7ovmNWmrFYpT8EIr
+ cnS9DdnFlAnHueEKFhExQVQb2q5rCSQygyY6KRH5EXubAZ96RVfpn/v3ZLpih4tnj
+ M5cI3LwKpTFar9d87YBvstLNL8B/40Or4OBEKOdPhzXKxIDHYjdKUuMRpw9ohoJyj
+ DiEPCHixJFoihspZpsbMyH9oru0TAUPBhcm4hWqOffgd4yZxN+Z631eExsPaIPL+p
+ CmGhFGYHpEfFtJlfHWeCBAOgOak7uSzxM2TXgkBUf/XKzh4YKdkwQa7y4SmCeKh1+
+ TLXZeOkALx3MU22Zpw==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.87.95]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1N30ZN-1rtfqa21KX-017WxI; Thu, 03
+ Oct 2024 14:16:53 +0200
+Message-ID: <591377f6-1926-49df-a1cf-6b621244a710@web.de>
+Date: Thu, 3 Oct 2024 14:16:49 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+To: dri-devel@lists.freedesktop.org,
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+ David Airlie <airlied@gmail.com>, Edmund Dea <edmund.j.dea@intel.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Simona Vetter <simona@ffwll.ch>
+Content-Language: en-GB
+Cc: LKML <linux-kernel@vger.kernel.org>, kernel-janitors@vger.kernel.org,
+ Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>
+From: Markus Elfring <Markus.Elfring@web.de>
+Subject: [PATCH] drm/kmb: Use common error handling code in kmb_probe()
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:uL7MhWR5SiXR/kMcs5RsR9sj6LDYN4Fz+J3FqEkdyXxpptsRV/k
+ yEplJlOq2a87hAxfwzsdXCYks0r7GprGgrE8LKeN2ac00TT3K4Xb24JIWXGMGwxU+rO1kY8
+ RktrRdwTIRReqCWfWTXIUv3m+rkgnfSWFBQ3eIqVZH9TT1JVI0WpT0M3C6DvIpnMrPjrgy9
+ A8KUQeBFDKcolJpJ9i3ew==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:KCtrGQQkKZY=;TF5WihV4S6I79F9YfEj54MYbYD8
+ /RLaOqfTbpetzSRjLm8ka1Nc07LDwgTcIwpvBPO78qziCXUU0uU03lBRTq1ZGH00U1BHcQp03
+ e+dErfyCqI8wi/FLK8LXkY6Mns12agpqnoe5umMwCCxpjqKnX11VUVed7ZfR6pLUrtj4le+kC
+ qNzhdTe7T+RoXRTgIBwH9yQ5IJxpvEYpaiMHvufpmaVoStHvokb4NTwCBhT9j84x1iwoDkbk9
+ rJU50rq0JADFt5o++4V4xRB4B/6SVig9uke6atfdbMKALanjxkULgk6fASIg5hCwqR341ah8t
+ bbqO3iSz6mNBj9bLcOEhE1ePrn0VvpOE4JK6q20uSYD7gPGM5kPJEclbLJAjOTikPeRxf+Olj
+ IZSzx2Vnwg5Azt+f34NBg+DtVKK8wc0VEtC4Zn9KTkhvkDbWZCHogplMxVp0Ik2hT8gQsnyMJ
+ MSMESOE9PqPf3WhTzqrhniDtQ1LNNjdo06Fr6+z+fDwwOvUfjJ1QH/JrOBr+y+F6U0zDlTJOx
+ jy0QHmEy2jXLu/9sLI0XLPyMnOul7SctuRLEb6y4K64kVuselECpu9ilJAhyo75MnIA1J6o7n
+ lU0as8A+bgKiDRdLDgBhzTC3O+6+BD+eiZpyN7LxQ1CYMkEw1P/BIO711x5Ut31O+Uz6eyCUD
+ 3kwDiN7uKHDzt7MZbu+mPRu/CvZfFSou7ecEzaaoX0luGiE0cKjiaGi4qrAzZwn1912pKt/V6
+ wmTEF7oOvevlYv1E7x35Jqe/kjUlc+eZkww/BWMoJfqr+gKMe/MGiC613JdqeYUgR42Qol+Ot
+ Hwj3+60mYDVkHQGxTV0qnYcQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,140 +80,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-setcmap_atomic always sets gamma_lut in setcmap_atomic
+From: Markus Elfring <elfring@users.sourceforge.net>
+Date: Thu, 3 Oct 2024 13:20:05 +0200
 
-Address the following FIXME to set gamma or degamma lut
-	FIXME: This always uses gamma_lut. Some HW have only
-	degamma_lut, in which case we should reset gamma_lut and set
-	degamma_lut. See drm_crtc_legacy_gamma_set().
+Add a label so that a bit of exception handling can be better reused
+in a subsequent if branch of this function implementation.
 
-Tested by calling setcmap_atomic in drm_fb_helper_setcmap with out
-the condition check.
+This issue was detected by using the Coccinelle software.
 
-Signed-off-by: Vamsi Krishna Brahmajosyula <vamsikrishna.brahmajosyula@gmail.com>
----
- drivers/gpu/drm/drm_fb_helper.c | 50 ++++++++++++++++++++-------------
- 1 file changed, 31 insertions(+), 19 deletions(-)
+Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+=2D--
+ drivers/gpu/drm/kmb/kmb_drv.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-index 29c53f9f449c..48f053f7ac89 100644
---- a/drivers/gpu/drm/drm_fb_helper.c
-+++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -871,11 +871,11 @@ static int setcmap_legacy(struct fb_cmap *cmap, struct fb_info *info)
- 	return ret;
- }
- 
--static struct drm_property_blob *setcmap_new_gamma_lut(struct drm_crtc *crtc,
-+static struct drm_property_blob *setcmap_new_blob_lut(struct drm_crtc *crtc,
- 						       struct fb_cmap *cmap)
- {
- 	struct drm_device *dev = crtc->dev;
--	struct drm_property_blob *gamma_lut;
-+	struct drm_property_blob *blob;
- 	struct drm_color_lut *lut;
- 	int size = crtc->gamma_size;
- 	int i;
-@@ -883,11 +883,11 @@ static struct drm_property_blob *setcmap_new_gamma_lut(struct drm_crtc *crtc,
- 	if (!size || cmap->start + cmap->len > size)
- 		return ERR_PTR(-EINVAL);
- 
--	gamma_lut = drm_property_create_blob(dev, sizeof(*lut) * size, NULL);
--	if (IS_ERR(gamma_lut))
--		return gamma_lut;
-+	blob = drm_property_create_blob(dev, sizeof(*lut) * size, NULL);
-+	if (IS_ERR(blob))
-+		return blob;
- 
--	lut = gamma_lut->data;
-+	lut = blob->data;
- 	if (cmap->start || cmap->len != size) {
- 		u16 *r = crtc->gamma_store;
- 		u16 *g = r + crtc->gamma_size;
-@@ -911,14 +911,14 @@ static struct drm_property_blob *setcmap_new_gamma_lut(struct drm_crtc *crtc,
- 		lut[cmap->start + i].blue = cmap->blue[i];
+diff --git a/drivers/gpu/drm/kmb/kmb_drv.c b/drivers/gpu/drm/kmb/kmb_drv.c
+index 169b83987ce2..2680afa684a2 100644
+=2D-- a/drivers/gpu/drm/kmb/kmb_drv.c
++++ b/drivers/gpu/drm/kmb/kmb_drv.c
+@@ -498,16 +498,16 @@ static int kmb_probe(struct platform_device *pdev)
  	}
- 
--	return gamma_lut;
-+	return blob;
- }
- 
- static int setcmap_atomic(struct fb_cmap *cmap, struct fb_info *info)
- {
- 	struct drm_fb_helper *fb_helper = info->par;
- 	struct drm_device *dev = fb_helper->dev;
--	struct drm_property_blob *gamma_lut = NULL;
-+	struct drm_property_blob *blob = NULL;
- 	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_crtc_state *crtc_state;
- 	struct drm_atomic_state *state;
-@@ -926,6 +926,9 @@ static int setcmap_atomic(struct fb_cmap *cmap, struct fb_info *info)
- 	struct drm_crtc *crtc;
- 	u16 *r, *g, *b;
- 	bool replaced;
-+	u32 gamma_id = dev->mode_config.gamma_lut_property->base.id;
-+	u32 degamma_id = dev->mode_config.degamma_lut_property->base.id;
-+	bool use_gamma_lut;
- 	int ret = 0;
- 
- 	drm_modeset_acquire_init(&ctx, 0);
-@@ -941,11 +944,21 @@ static int setcmap_atomic(struct fb_cmap *cmap, struct fb_info *info)
- 	drm_client_for_each_modeset(modeset, &fb_helper->client) {
- 		crtc = modeset->crtc;
- 
--		if (!gamma_lut)
--			gamma_lut = setcmap_new_gamma_lut(crtc, cmap);
--		if (IS_ERR(gamma_lut)) {
--			ret = PTR_ERR(gamma_lut);
--			gamma_lut = NULL;
-+		if (drm_mode_obj_find_prop_id(&crtc->base, gamma_id))
-+			use_gamma_lut = true;
-+		else if (drm_mode_obj_find_prop_id(&crtc->base, degamma_id))
-+			use_gamma_lut = false;
-+		else {
-+			ret = -ENODEV;
-+			blob = NULL;
-+			goto out_state;
-+		}
-+
-+		if (!blob)
-+			blob = setcmap_new_blob_lut(crtc, cmap);
-+		if (IS_ERR(blob)) {
-+			ret = PTR_ERR(blob);
-+			blob = NULL;
- 			goto out_state;
- 		}
- 
-@@ -956,15 +969,14 @@ static int setcmap_atomic(struct fb_cmap *cmap, struct fb_info *info)
- 		}
- 
- 		/*
--		 * FIXME: This always uses gamma_lut. Some HW have only
--		 * degamma_lut, in which case we should reset gamma_lut and set
--		 * degamma_lut. See drm_crtc_legacy_gamma_set().
-+		 * Some HW have only degamma_lut, in which case we should
-+		 * reset gamma_lut and set degamma_lut.
- 		 */
- 		replaced  = drm_property_replace_blob(&crtc_state->degamma_lut,
--						      NULL);
-+						      use_gamma_lut ? NULL : blob);
- 		replaced |= drm_property_replace_blob(&crtc_state->ctm, NULL);
- 		replaced |= drm_property_replace_blob(&crtc_state->gamma_lut,
--						      gamma_lut);
-+						      use_gamma_lut ? blob : NULL);
- 		crtc_state->color_mgmt_changed |= replaced;
+ 	dsi_node =3D of_graph_get_remote_port_parent(dsi_in);
+ 	if (!dsi_node) {
+-		of_node_put(dsi_in);
+ 		DRM_ERROR("Failed to get dsi node from DT\n");
+-		return -EINVAL;
++		goto err_put_dsi_in;
  	}
- 
-@@ -988,7 +1000,7 @@ static int setcmap_atomic(struct fb_cmap *cmap, struct fb_info *info)
- 	if (ret == -EDEADLK)
- 		goto backoff;
- 
--	drm_property_blob_put(gamma_lut);
-+	drm_property_blob_put(blob);
- 	drm_atomic_state_put(state);
- out_ctx:
- 	drm_modeset_drop_locks(&ctx);
 
-base-commit: 7ec462100ef9142344ddbf86f2c3008b97acddbe
--- 
-2.46.2
+ 	dsi_pdev =3D of_find_device_by_node(dsi_node);
+ 	if (!dsi_pdev) {
+-		of_node_put(dsi_in);
+ 		of_node_put(dsi_node);
+ 		DRM_ERROR("Failed to get dsi platform device\n");
++err_put_dsi_in:
++		of_node_put(dsi_in);
+ 		return -EINVAL;
+ 	}
+
+=2D-
+2.46.1
 
