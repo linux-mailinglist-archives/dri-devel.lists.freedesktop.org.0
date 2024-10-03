@@ -2,54 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 551AB98F1E8
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 16:53:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 662EC98F1EF
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 16:57:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 802A810E88D;
-	Thu,  3 Oct 2024 14:53:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5260810E188;
+	Thu,  3 Oct 2024 14:56:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="hDBZlOYu";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="E9vQjEb6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-175.mta1.migadu.com (out-175.mta1.migadu.com
- [95.215.58.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADA9E10E889
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 14:53:23 +0000 (UTC)
-Message-ID: <e959a01f-b466-4076-8219-a6c83a7194c0@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1727967201;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=k0KagNPwCCq2CvCaJVY5j4td7R7+u7bJKeN0d8+4kuQ=;
- b=hDBZlOYuxiAg2FRFHLCdBebeLEHo/aDXMEK0M9YPDW4wdTT6Ammtt8IvFhegcgmX0v4xBT
- GT7HfV//WX4/x/yyc4ojBsHm5KiysPiI/G02s0q0xY0d5haRV7UmSqRPR/xtCc8zwsz3aA
- lWwcDXRvf+PsfoyJ46jNqa6exaYw61s=
-Date: Thu, 3 Oct 2024 10:53:16 -0400
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9947E10E86F
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 14:56:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1727967404;
+ bh=xNB8aA4lwhkIWkbB3SrXYkjCVDmlWQ+HINc2HyZXxy8=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=E9vQjEb6DZSHlrpW7fhQwpsHX0Ffb6bXFAImCCaFq0YDIV12Tp1lZW14imXDY/5UF
+ lFzOfG3JJzDfdxe2lkFDYMmuTxIyDvx6Az0t2DgBVAOodUbgaybIo7iZOo9WsEg6/M
+ 5PgfdyL5qEIxmoTPICOJBELh08GIlBGMnshc4aIsGR79tScD7f+v+ulUFAx47pbmGB
+ PTC+D9LNhXrOYen9/WEI43q+CffeZRDqDTTCsbBBoj9BGdsWXFIqc22nNGXYGAxbNJ
+ M/oGMluRWgrmLOdemPG616O4K+pST87PHmS+egIv03wBWzd+2IPyojeAJ3A5l9T7IX
+ 0lgqjrm90HnsQ==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 995AF17E3600;
+ Thu,  3 Oct 2024 16:56:43 +0200 (CEST)
+Date: Thu, 3 Oct 2024 16:56:38 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
+Cc: Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, AngeloGioacchino Del
+ Regno <angelogioacchino.delregno@collabora.com>, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] drm/panfrost: Add missing OPP table refcnt
+ decremental
+Message-ID: <20241003165638.65a2d16e@collabora.com>
+In-Reply-To: <20241003133037.3398144-1-adrian.larumbe@collabora.com>
+References: <20241003133037.3398144-1-adrian.larumbe@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Subject: Re: [PATCH v6 0/8] drm: zynqmp_dp: IRQ cleanups and debugfs support
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- David Airlie <airlied@gmail.com>, Michal Simek <michal.simek@amd.com>,
- Daniel Vetter <daniel@ffwll.ch>, "Sagar, Vishal" <vishal.sagar@amd.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- dri-devel@lists.freedesktop.org
-References: <20240809193600.3360015-1-sean.anderson@linux.dev>
- <5e9769dd-459a-4ff3-aebb-bb7057192733@linux.dev>
- <a023bd66-8f42-4f27-9aa2-5097b2574562@ideasonboard.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sean Anderson <sean.anderson@linux.dev>
-In-Reply-To: <a023bd66-8f42-4f27-9aa2-5097b2574562@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,54 +66,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/2/24 10:50, Tomi Valkeinen wrote:
-> Hi,
-> 
-> On 01/10/2024 21:31, Sean Anderson wrote:
->> On 8/9/24 15:35, Sean Anderson wrote:
->>> This series cleans up the zyqnmp_dp IRQ and locking situation. Once
->>> that's done, it adds debugfs support. The intent is to enable compliance
->>> testing or to help debug signal-integrity issues.
-> 
-> I think the patches 1-7 look fine, and I think I can pick those already to drm-misc if you're ok with that.
-> 
-> I'm a bit unsure about patch 8, probably mainly because I don't have experience with the compliance testing.
-> 
-> How have you tested this? With some DP analyzer/tester, I presume?
+On Thu,  3 Oct 2024 14:30:28 +0100
+Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
 
-For my test setup I used an oscilloscope hooked up to the displayport
-output using a fixture that broke the signals out to SMA. Since the
-oscilloscope cannot emulate a sink, I first had the output connected to
-a monitor. Then I disabled HPD and reconnected the output to my fixture.
-This process is described in more detail in the documentation.
+> Commit f11b0417eec2 ("drm/panfrost: Add fdinfo support GPU load metrics")
+> retrieves the OPP for the maximum device clock frequency, but forgets to
+> keep the reference count balanced by putting the returned OPP object. This
+> eventually leads to an OPP core warning when removing the device.
+>=20
+> Fix it by putting OPP objects as many times as they're retrieved. That
+> includes putting the OPP object in case setting it fails.
+>=20
+> Also remove an unnecessary whitespace.
+>=20
+> Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
+> Fixes: f11b0417eec2 ("drm/panfrost: Add fdinfo support GPU load metrics")
+> ---
+>  drivers/gpu/drm/panfrost/panfrost_devfreq.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_devfreq.c b/drivers/gpu/dr=
+m/panfrost/panfrost_devfreq.c
+> index 2d30da38c2c3..4b8840a41779 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+> @@ -38,7 +38,7 @@ static int panfrost_devfreq_target(struct device *dev, =
+unsigned long *freq,
+>  		return PTR_ERR(opp);
+>  	dev_pm_opp_put(opp);
+> =20
+> -	err =3D  dev_pm_opp_set_rate(dev, *freq);
+> +	err =3D dev_pm_opp_set_rate(dev, *freq);
+>  	if (!err)
+>  		ptdev->pfdevfreq.current_frequency =3D *freq;
+> =20
+> @@ -184,9 +184,12 @@ int panfrost_devfreq_init(struct panfrost_device *pf=
+dev)
+>  	ret =3D dev_pm_opp_set_opp(dev, opp);
 
-> I think none of this (patch 8) is needed by almost anybody.
+Put the dev_pm_opp_put(opp) here, and you can drop the one in the error
+path.
 
-Well, I found it very useful for debugging a signal integrity issue I
-was having. Once I could have a look at the signals it was very clear
-what the problem was.
+>  	if (ret) {
+>  		DRM_DEV_ERROR(dev, "Couldn't set recommended OPP\n");
+> +		dev_pm_opp_put(opp);
+>  		return ret;
+>  	}
+> =20
+> +	dev_pm_opp_put(opp);
+> +
+>  	/* Find the fastest defined rate  */
+>  	opp =3D dev_pm_opp_find_freq_floor(dev, &freq);
+>  	if (IS_ERR(opp))
 
-> Even among zynqmp_dp developers I assume it's very rare to have the
-> hardware for this. I wonder if it would make sense to have the debugfs
-> and related code behind a compile option (which would be nice as the
-> code wouldn't even compiled in), or maybe a module parameter (which
-> would be nice as then "anyone" can easily enable it for compliance
-> testing). What do you think?
-
-Other drivers with these features just enabled it unconditionally, so I
-didn't bother with any special config.
-
-> I also somehow recall that there was some discussion earlier about
-> how/if other drivers support compliance testing. But I can't find the
-> discussion. Do you remember if there was such discussion, and what was
-> the conclusion? With a quick look, everything in the debugfs looks
-> generic, not xilinx specific.
-
-The last it got discussed was back in [1], but I never got any further
-response. I agree that some of this is generic, and could probably be
-reworked into some internal helpers. But I don't have the bandwidth at
-the moment to do that work.
-
---Sean
-
-[1] http://lore.kernel.org/dri-devel/cda22b0c-8d7c-4ce2-9a7c-3b5ab540fa1f@linux.dev
