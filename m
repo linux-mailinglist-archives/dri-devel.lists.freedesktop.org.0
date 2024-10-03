@@ -2,68 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 992DB98F3AF
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 18:12:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08AFB98F3B1
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 18:12:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F60310E8A2;
-	Thu,  3 Oct 2024 16:12:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA35710E8A7;
+	Thu,  3 Oct 2024 16:12:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="OF2UPutZ";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="IuZwHN29";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
- [209.85.128.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06BA810E8A2
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 16:12:30 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id
- 5b1f17b1804b1-42e7b7bef42so10623925e9.3
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Oct 2024 09:12:29 -0700 (PDT)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+ [209.85.128.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3697E10E8A7
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 16:12:38 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id
+ 5b1f17b1804b1-42e82f7f36aso10370605e9.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Oct 2024 09:12:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1727971948; x=1728576748; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1727971956; x=1728576756; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=9x0kA6Y5xirU8ZKb3vd7ah9xp3oW+AcwIHY8MvPuPSw=;
- b=OF2UPutZ8zZCwor9q7DSRfksYP9K01tSb6oLa8g88Tqzqd1rd0MQNtxhqmf7ENIxC2
- PnQVuJygK1ZVq5PFNZU6ux9Wtiwe2k54J1JmWdRfazopNrG9Bm/8fotCb6MV69cqGtOJ
- Bw5XgGvAySpZz//MSrxvl7emtZ+j8vNvql9OpGNdWk+yQaAdOHgbtIWxaaH8wDEGH7TQ
- K+KKYeDRT+0JYGLYyujzc/XB3mToz9SwFzoSxzLsoC6P2L90mYbzRDkLfyRa78ef1uPC
- ZKSFjNHgCMrHI6LCuZpfYmjwcTiIyJHlDCOdGyTxYYFW2V4uBtoSYfGOs0pu5pgs1GFK
- hcgw==
+ :reply-to; bh=Nxjal9NLxsSrsdx2DROpNELieYh4/8tITxuoItEclxk=;
+ b=IuZwHN29kSMfhDc7HCKv9NFB4vLFIBs2kcYiNImYsQdLnjzKkIQU4kVmV7pdjD6q/0
+ ihV/TIlBfPyAwomHeE2bUIAHL1TYEtVI+tqhLohD1RYG2r7Y7tiNvgs1Y+ijU5P7wylF
+ cEFwgvOMZ7GnNHZW0thOZRfEiBVDymWtzYLA5/stsFAbGllgiT38wnDPpiKMKJt6uSHR
+ uJOPGKL6zryFimaZVmPCdftJQVGozr2j1IbvtQ/3BuP/Q7y7AUdOkehVvEwSfasZ/FBO
+ s+rDNzw+LapqPW9EjheWr48Wjqugr785y5FOy/CF18C4TiVl3x5OBVfW8q+NqEC0C2f/
+ 0SdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727971948; x=1728576748;
+ d=1e100.net; s=20230601; t=1727971956; x=1728576756;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=9x0kA6Y5xirU8ZKb3vd7ah9xp3oW+AcwIHY8MvPuPSw=;
- b=GkL+O7IakML6lSxcBmREF4bk134VaNiMd6NcFG6FBUc9V7HQkjL6HQAz912dWDzT4m
- eanD0QSL8MXjhlSKTSoc2dXLeHBbcYBhkctF1vjZm8nbvWUz4WvPWxtOMGU9lsd51MwN
- EJE3gGbDNLdT2ow+fg7tI5UGoFGq7s+Y5/1x98sK+IHGG4GNbRiBUu+9cx/KJRO/MNqm
- l/42CTqiJSKpGLMnL3iinA282zJEmj7WREjd1uMPCrXry2sWLgABNRxE9rqudK0D+5HU
- EGM2w3dhJtoRc3uIpk4lj1cc3zUroph1uatecdRO50VndGbQeeGhhecw/o1fKmc8nSOU
- A+4Q==
+ bh=Nxjal9NLxsSrsdx2DROpNELieYh4/8tITxuoItEclxk=;
+ b=SnuuVCP7Ow2/7wl1+U6BAB5pIL3IvzhHcXuBC+d0Qi08TbkjQ7TDZUMtLtXhYtSsvM
+ tK+eClsDT2LL2vDl6A7xczz/A90EjXBtvOprs6R2yQbP/7BU4lxKUX4agGY/MC0/UA+d
+ oGbo4uS9NOQWw0mt/mZf4oelueXs0SatkXhOTEhFBssj6iYEIqdrGYWy2mXTgv/NCLL4
+ 2IHNGSEv7XNV2UDjW362hFjDPkq0dHT2bkeCsDhEax2YXodLAGn9x4Z4PhmM1OSwt4xp
+ CQtHR9JZRPbtOW4WeEsGjgghbPvlYL/zVS5oWetuoa9qovgKoLK08C1m3510OiCRER03
+ 9zcQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWPCKIvjWZfiRX9t/I5hiEXeHVZAvdluYdbLtpL8jOx6dSClk/9kxcZOMJLw+KRfMi5j7PCMJSD+cg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyL/+nX2Gj5ep+5b33Ax3s6EJWfUQtqujIJsJqO2Ls6FYMvpuYr
- xGimPjvpAv1tJ95tDKSyeDmLns83m/H4xIaf8dGwMc4xkYoUPy2IVTvnSrb52PE=
-X-Google-Smtp-Source: AGHT+IH7XqoTZIRUQjlYMVABAzMAJKn3H7Cg1IhhW5+WLWmS66vcYeXzq7UpCoZZyE94HETXaXNryQ==
-X-Received: by 2002:adf:a38a:0:b0:374:ba7a:7d46 with SMTP id
- ffacd0b85a97d-37cfba04204mr4360586f8f.43.1727971948300; 
- Thu, 03 Oct 2024 09:12:28 -0700 (PDT)
+ AJvYcCVcx2/MlJ6+DboYD/aDtNy6gVcp7qLkhkFOsLqsvyc84tDy+Er3MJWQSvIDZFkjx9IRxPpyshM5zb4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxZtZNCpXFAALk/JxhSWsTVt+9VX/X+KgQaH+QW2clLTVxtDdAJ
+ 6gsRB3Jif2F+VfH2eBj694zXxDM6DusqI/yZEU9hqTGrpRLQH7qpNlxhk84ValY=
+X-Google-Smtp-Source: AGHT+IFFl6f96MyLoOvbN+EXoMYpotmRTEsZw6HH9lEWLuCWHWMFwO37IdTl7WToRn7LoUvbJrF1uA==
+X-Received: by 2002:a05:600c:1f0f:b0:42c:b22e:fbfa with SMTP id
+ 5b1f17b1804b1-42f819ff766mr16435075e9.21.1727971956492; 
+ Thu, 03 Oct 2024 09:12:36 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:982:cbb0:e534:c027:e113:29a1?
  ([2a01:e0a:982:cbb0:e534:c027:e113:29a1])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-37d0822bc38sm1598885f8f.45.2024.10.03.09.12.27
+ 5b1f17b1804b1-42f802a01f2sm18982715e9.30.2024.10.03.09.12.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Oct 2024 09:12:27 -0700 (PDT)
-Message-ID: <4caf21cd-2783-48d3-8e6d-159ad8e89113@linaro.org>
-Date: Thu, 3 Oct 2024 18:12:26 +0200
+ Thu, 03 Oct 2024 09:12:36 -0700 (PDT)
+Message-ID: <62bdc55b-8620-407b-a6b8-cce2f120a933@linaro.org>
+Date: Thu, 3 Oct 2024 18:12:35 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 2/2] drm/bridge: tc358768: switch to bus-width
+Subject: Re: [PATCH 1/2] dt-bindings: display: bridge: tc358768: switch to
+ bus-width
 To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
  Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
@@ -76,7 +77,6 @@ To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20241003133904.69244-1-krzysztof.kozlowski@linaro.org>
- <20241003133904.69244-2-krzysztof.kozlowski@linaro.org>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -103,7 +103,7 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <20241003133904.69244-2-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20241003133904.69244-1-krzysztof.kozlowski@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -124,29 +124,28 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 03/10/2024 15:39, Krzysztof Kozlowski wrote:
 > "data-lines" property is way too similar to "data-lanes".  It is also
-> duplicating "bus-width" from video-interfaces.yaml schema.  "data-lines"
-> was deprecated in the bindings and "bus-width" is preferred, so parse it
-> instead while keeping things backwards compatible.
+> duplicating "bus-width" from video-interfaces.yaml schema.  Deprecate
+> "data-lines" and use the common property.
 > 
 > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > ---
->   drivers/gpu/drm/bridge/tc358768.c | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
+>   .../devicetree/bindings/display/bridge/toshiba,tc358768.yaml  | 4 ++++
+>   1 file changed, 4 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/bridge/tc358768.c b/drivers/gpu/drm/bridge/tc358768.c
-> index 0e8813278a2f..fc96fa5aab54 100644
-> --- a/drivers/gpu/drm/bridge/tc358768.c
-> +++ b/drivers/gpu/drm/bridge/tc358768.c
-> @@ -443,7 +443,9 @@ static int tc358768_dsi_host_attach(struct mipi_dsi_host *host,
->   	ret = -EINVAL;
->   	ep = of_graph_get_endpoint_by_regs(host->dev->of_node, 0, 0);
->   	if (ep) {
-> -		ret = of_property_read_u32(ep, "data-lines", &priv->pd_lines);
-> +		ret = of_property_read_u32(ep, "bus-width", &priv->pd_lines);
-> +		if (ret)
-> +			ret = of_property_read_u32(ep, "data-lines", &priv->pd_lines);
+> diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
+> index 779d8c57f854..bb5d3b543800 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
+> @@ -60,6 +60,10 @@ properties:
+>                 data-lines:
+>                   $ref: /schemas/types.yaml#/definitions/uint32
+>                   enum: [ 16, 18, 24 ]
+> +                deprecated: true
+> +
+> +              bus-width:
+> +                enum: [ 16, 18, 24 ]
 >   
->   		of_node_put(ep);
->   	}
+>         port@1:
+>           $ref: /schemas/graph.yaml#/properties/port
 
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
