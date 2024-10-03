@@ -2,72 +2,127 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7277998EF6D
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 14:41:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 656D098EF88
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 14:45:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DE7C10E830;
-	Thu,  3 Oct 2024 12:41:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A477810E83F;
+	Thu,  3 Oct 2024 12:45:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.net header.i=wahrenst@gmx.net header.b="NT6T1GIo";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="YBVnqzIb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C76A110E830
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 12:41:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
- s=s31663417; t=1727959274; x=1728564074; i=wahrenst@gmx.net;
- bh=YnUO4CKkc1+oBQ7nfo3qXoEWai63XjWoSzBMZ4zBOc4=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:In-Reply-To:
- References:MIME-Version:Content-Transfer-Encoding:cc:
- content-transfer-encoding:content-type:date:from:message-id:
- mime-version:reply-to:subject:to;
- b=NT6T1GIozfy9FZ29B3V7dRUEytsAspxBUUQmNR8L4yhpjISui73NnjLaxpC37TTy
- 02lTtZPAWTiuMJZahEPfqjphbo/6+we4eJp53vRMNXmwVkkfNjFKC1BAuL2LbKonX
- dXTAwQu7pKUxtdEfdIDAIATuwPi7UVPD9UsW0GSpjL5fG5c2rOVS3YCZE7Ix99Ji4
- 8pX+KVnF+uPJ4rKeXVd7IL6VgD0ud3+2Fsx6rJvW378t7Y3m4P8SUVK0wSUvecrU7
- DQEaADOOHz1F6EVxwTrq1Q1gi0JphP3mReScahQuCuOmtjEVdBBIDe+3Y60zqnUS4
- gFm4DDUp15deyaaiFg==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from stefanw-SCHENKER ([37.4.248.43]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MZktj-1sQGC52Wrn-00RisG; Thu, 03
- Oct 2024 14:41:14 +0200
-From: Stefan Wahren <wahrenst@gmx.net>
-To: Florian Fainelli <florian.fainelli@broadcom.com>,
- Maxime Ripard <mripard@kernel.org>,
- =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Peter Robinson <pbrobinson@gmail.com>,
- dri-devel@lists.freedesktop.org, kernel-list@raspberrypi.com,
- Stefan Wahren <wahrenst@gmx.net>
-Subject: [PATCH V4 2/2] drm/vc4: v3d: add PM suspend/resume support
-Date: Thu,  3 Oct 2024 14:41:07 +0200
-Message-Id: <20241003124107.39153-3-wahrenst@gmx.net>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241003124107.39153-1-wahrenst@gmx.net>
-References: <20241003124107.39153-1-wahrenst@gmx.net>
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2071.outbound.protection.outlook.com [40.107.92.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75D1B10E83A;
+ Thu,  3 Oct 2024 12:45:39 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=QyZReOSM/zPz6OE5yuNDg48DqyzaTtGYskUhz6fZN+rrXwOw73onbXztPh7s2rSPPfhTMSkKScdjHBhq1ZGfFnVzwOW6HJo1/39DeuUMTi9IpbsQH3TZYrCkGhskX3izFTIktRABN2ZO6digcrMGRlTrKCmCMpAi7GLZjmTDYF8cuDvSuqaPJYKXQvy2LWtC48dUlF+/JFvE8Dv+zjwpcM5q1TMLKKoEDatiS2ShkW4QciOPe62Q3YLX7cYWoFbverUMZsv+8dzqJCvzlK1xTriaaIvMAJEkIJdkCA9QLFVFWeeDUcvUSh7LQB8/JRsqQe/xLscKMmu05y4+0hhTVw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DohunavMyjvyq5CCy7tDN/nPMwK1gHLLQzN1T6JhB80=;
+ b=euu7eOYrLBgShZsM3p2mQhBXs0x373CbQ/n4O8pkta4Wr20uj32FfzhgS6BVFHi8ZqJW5GA/uqXSFRBx99JJIeX5/1wKe3So09GVbkbcrHmBHbI1Nw4upWaf3AAgjyxroXBYIAiymWO63BVjeKy4l2jG4u5S82s8ztTztrckNcdw7Yrt8z14vSN99sdj4no9aEj0/+h07Fc7p2unNRcO419Q1y6TB2BpZPPls1k9RCMjSWzGGq1jPiyug7Qmz0sYcCRqXph4WTsRb9Nkb84raHQ6n8D2IS7Y9cXEK1Euzsa6Q6+T2LCtE22UOMxkyegYs1Dy0hzjDtth1052jQb6Nw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DohunavMyjvyq5CCy7tDN/nPMwK1gHLLQzN1T6JhB80=;
+ b=YBVnqzIb0k8L+GUKcNO+Hp6BukJvzUGayEF1QVFN3OQzvOO4FoaubO85tQ7SYEiAIy/9dFWb8aBGnJNDSMhbMNIFR493xmFeE5NLj1QoBDblWFN52OVztY61r9nld2OPU7ym9p+bX1nKr3M0RSBogygdXM3Vuz23Ssadh8HbP6o=
+Received: from SN4PR0501CA0025.namprd05.prod.outlook.com
+ (2603:10b6:803:40::38) by BL3PR12MB6476.namprd12.prod.outlook.com
+ (2603:10b6:208:3bc::8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.16; Thu, 3 Oct
+ 2024 12:45:35 +0000
+Received: from SA2PEPF00003F68.namprd04.prod.outlook.com
+ (2603:10b6:803:40:cafe::6c) by SN4PR0501CA0025.outlook.office365.com
+ (2603:10b6:803:40::38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.9 via Frontend
+ Transport; Thu, 3 Oct 2024 12:45:34 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ SA2PEPF00003F68.mail.protection.outlook.com (10.167.248.43) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8026.11 via Frontend Transport; Thu, 3 Oct 2024 12:45:34 +0000
+Received: from patedamande.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 3 Oct
+ 2024 07:45:30 -0500
+From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
+ <dmitry.osipenko@collabora.com>, <jani.nikula@linux.intel.com>,
+ <christian.koenig@amd.com>, <tursulin@igalia.com>, <simona.vetter@ffwll.ch>,
+ <robdclark@gmail.com>, <alexander.deucher@amd.com>
+CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+Subject: [PATCH v5 0/6] DRM_SET_CLIENT_NAME ioctl
+Date: Thu, 3 Oct 2024 14:43:08 +0200
+Message-ID: <20241003124506.470931-1-pierre-eric.pelloux-prayer@amd.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:t+vO0AEE0p4f4N/vpWFk0zu56kYqGOJJSDAE8m8gZsH6JlP/kAt
- IjhmWu75EtuE8oEcBDIxmGamLMR6n1WePPSMCuihIRhh5VHyteh+PqUy9E2tlz280XnH47f
- cFBkuEKew1WuHmxFqY2SwkRz2l0BzkNUmZ89Ts1/j+hzvAKBcfYIajjlfJ/n58qpBGffULw
- ZBcjHEyVsb8l1ef2nqyow==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:k3oi6o0bE48=;+neQBDdKHH7amm7ub82vmltSx+h
- MiH/uXxqYChJ5OU5qm//2ZO28yltJwXpRsOUlquSbItcT40697KGwmJ5Ox5bWbKM6L8zZP1D7
- hDBTqHGLUan8S98fSg0dTG9FZ9Ld/ZYtRFWnGfOPav/n2lZ9V1UA3VsUFwieuXqwixRNFIMD3
- rXpfrtrDzdRtc2idfLx6Cv8W8DqRPX4x/tS41Hrb3vQOS7JynSsFMGfq0Po1+V8882H0KRnnd
- Bm4KMO3oAk+YNlThpr4b+ks+UeVeoY7sPUwKDGo5H+3fHwkYDhHKX5jUg5LOXtIhohJcBjZCz
- SSY+UztIiz/HcsxYYNBoO4wPBiGSmsfsnMD97/wCI9ecGt5k6DYZWSLcCf66RgnYcEYHMvFI2
- YBnPy/PDiwqtSr1HMAFtfFtik3GWx//vd/FhJuWuctFGxCOW3oZ9jf0lT+sMP0eUtneoEH5q4
- CCn3B5jhuemeiloZ+m/x5LDd7QMX6zNDIIx5OvwJ3GwkXspEHj1xHU0Ct7pzoyTttBsVGeUgv
- vyUXEamyfJJFVHX/+j0355drtpy7oBqAG3EpSGOeCNJo3d2O1ce97YzbpoKvSQ2c3m2QwY5KR
- LmPSq1j0lLXssb3BkRiH2EIsg9KVggX488rLJM/prerlOqOPi7CnuoKA8qfK497y5LhawHlaQ
- 8otNKfj0H3kjQJ0xQaJwVoAzcvHWXk2ZLLFMyFJ4i7yoqu/Nimc4VskzXSL/4ADjBDrAy4PpP
- PFnPwB7IdOc6wNgR+U1fc2maTethm+G4Y90Rs47ceimd+G0ylvugi6KbFvJcTNRZ1cp84KN9y
- re8zQ02GVak5i7R7W8DkDVpQ==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA2PEPF00003F68:EE_|BL3PR12MB6476:EE_
+X-MS-Office365-Filtering-Correlation-Id: 60be9bec-ab15-46ac-cfd3-08dce3a9464f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|36860700013|82310400026|376014; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?VS8rOTUwQk1ISzVRbU1Bc0hTZFF0SXFGZWhmVkNPaTA0QStDWGdJQmNObk1w?=
+ =?utf-8?B?N0krRUNqZnhUTE1ET0ZqT2F4SGVGWlB1eTFGT0d5U0IyOElHeE9TcDJPSmNv?=
+ =?utf-8?B?Q3ZsTEpCcHY4VnUvS05Db29oNmVmNVNOVzYrMXV0VlN3U09EOWV4c25WNEZx?=
+ =?utf-8?B?UStYSjdqakxrMm9vS2xXTTltRHVkY0tza1ZVSlhVVzBjU080ekdxZUcxRUU4?=
+ =?utf-8?B?dDJoa1ZpNEVYaCtPZUJ3VG51MFdHY2ZDRkhkK0tjUStWdUJkZWRRV2VodDlZ?=
+ =?utf-8?B?M1dTc09CTWt6SG9GMDNzaFF0NEZrMjdZVU9aWEowS3dqczBpcFArMWplNjlp?=
+ =?utf-8?B?ZlRqT0YzNm8yVzluWExRZjM0SXI4dmFTcGdqb3VTZjIvSVhnUzlGL3RMeGF5?=
+ =?utf-8?B?V2VFUmczNk5zQkh5WkVRT1JHdm9sOU05bDJLdGpjYlBFejRpOFdkRmRqaXdq?=
+ =?utf-8?B?SWxhcXVSUWhrQzNCSmVIeFR2cFVoWEc5Q096Y3E4TU9qYUNyU05Oc25UWmkr?=
+ =?utf-8?B?cWhXT3UvMHUzVlB3OEhVeHZRY0I1UVM5aTZ1S1FEdTRreEY1c1BKaFA2WkxE?=
+ =?utf-8?B?elAwWVlLT2NFdFViWmhHS1dMeVg4ZWtUb3VJS085TkVaSnZHdW1hczZqZnR1?=
+ =?utf-8?B?L05LR2x1WnJBVzdjK2RWdXJGc1BuRXpXWmtpcDk1MUJJeW1LMXpJbGFKZGtx?=
+ =?utf-8?B?QVNCeUJYMnAxdEpEVG1ZcUNxS0ZGL244MWtUTk9RUXFOMWttTStWVDc0bkYv?=
+ =?utf-8?B?dk5Jc3dFTy9iZ3E5LzArbUZmRWhlOU94VjhsZ0xPdGJWOXF1NHh5UnlOdmZM?=
+ =?utf-8?B?dDB6Mm1UUHExUzdRK3FlekN6ZzhZYzM1b1ZsNW9uRkZyYVFxYk85YktET1Qz?=
+ =?utf-8?B?eDYvdWRNSE1yWSttc1N6MjJEU3llVm5MRkIxYlhJN3RGYUFTbDJVWnFEL0JW?=
+ =?utf-8?B?cUw5dStxU1ZyTUxDYkhibnFoMjFwNHBHRHErRU9iUXVON25mTjAxWk1SdHl1?=
+ =?utf-8?B?STBCSWJFTEtNakJvNmhRN050VTkvdk51THdDMEk3bW1UVzE1cXIxbXBXZ3dT?=
+ =?utf-8?B?UEFpSVArM3NyWUJFaFBEanlmSzZhRERkaVl1WFR4cjdDOVBMYkVxM2RhanJE?=
+ =?utf-8?B?Q2QyQTNiQ3huNVNjMDlxeTc2aWdrR2dBSEZ0WWVIeC9pL05ucFcwUnZEbUU0?=
+ =?utf-8?B?K050bXFyZGJFWUpOYjgvV2FneFRrYkxxcFZGalNaQ29GQTFOeE5zUmxrVlFV?=
+ =?utf-8?B?RXF3Q0RlRGcwNlhhVTZnTjRkb2pJYkx3OW9RcVRLRnorc2FqNWtzT2ljUlBM?=
+ =?utf-8?B?YnZZbDVxM0RCSGU5ZkxQNEtZK1lpSDBOZG0wQVhIK0ttZWE2N01CZDVvNlNC?=
+ =?utf-8?B?NjNkN0wvc1ZpakdNZCt5ZmJHeUd1aUZhSVlHMkdaZlhDTDNURkZobTgreEdk?=
+ =?utf-8?B?d3F5ejNTZmkvSjhZeWdLK1B0Vk1jUDN2QzhoeDhFU0VNR3liZEZUbkxpb0Z5?=
+ =?utf-8?B?MUtuSHh4QUVORW4xVFB0dklNSVdXMDNaaDVxemx6clFwYzI0a3ZvcmtZaTZo?=
+ =?utf-8?B?VVdGWk1pckttZE9YVUxpUG1ubUdYSU44cWg2Uyt0U3dhODVWKy9nUWtYVndV?=
+ =?utf-8?B?MWt4Tk12VHZtRjY2d2tqUnprMmNvM2VnTlVycmx1NDN0MzQzR3k4LzlBK1pj?=
+ =?utf-8?B?eXJWY2h4MFhmN3poWDREZVhUWDA2VStoRWFnbk93TEVHUUtxUnFrc3FheVpJ?=
+ =?utf-8?Q?28frYIconVrGnKKjPT+Y40YTmrsT6x9xh1puDJk?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(1800799024)(36860700013)(82310400026)(376014); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Oct 2024 12:45:34.7287 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 60be9bec-ab15-46ac-cfd3-08dce3a9464f
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: SA2PEPF00003F68.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6476
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,54 +138,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add suspend/resume support for the VC4 V3D component in order
-to handle suspend to idle properly.
+v5 of this series which is adding a new ioctl to let userspace associate
+a free-form name to a drm_file.
 
-Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
-=2D--
- drivers/gpu/drm/vc4/vc4_v3d.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+Having this name is useful when debugging or tracking resource usage; in
+particular when using virtio native-context driver, where a single process
+(say QEMU), uses 1 drm_file per-guest application.
+With this change, fdinfo and other tools can map each drm_file activity to
+the guest application.
 
-diff --git a/drivers/gpu/drm/vc4/vc4_v3d.c b/drivers/gpu/drm/vc4/vc4_v3d.c
-index 2423826c89eb..8057b06c1f16 100644
-=2D-- a/drivers/gpu/drm/vc4/vc4_v3d.c
-+++ b/drivers/gpu/drm/vc4/vc4_v3d.c
-@@ -368,7 +368,6 @@ void vc4_v3d_bin_bo_put(struct vc4_dev *vc4)
- 	mutex_unlock(&vc4->bin_bo_lock);
- }
+virglrenderer MR using this new ioctl to associate the context "debug_name"
+to the fd: 
+https://gitlab.freedesktop.org/virgl/virglrenderer/-/merge_requests/1428
 
--#ifdef CONFIG_PM
- static int vc4_v3d_runtime_suspend(struct device *dev)
- {
- 	struct vc4_v3d *v3d =3D dev_get_drvdata(dev);
-@@ -397,7 +396,6 @@ static int vc4_v3d_runtime_resume(struct device *dev)
+Changes since v4:
+* patches 1, 4 and 6 were slightly reworked based on Tvrtko' suggestions.
 
- 	return 0;
- }
--#endif
+v4: https://lists.freedesktop.org/archives/dri-devel/2024-September/471695.html
 
- int vc4_v3d_debugfs_init(struct drm_minor *minor)
- {
-@@ -507,7 +505,8 @@ static void vc4_v3d_unbind(struct device *dev, struct =
-device *master,
- }
 
- static const struct dev_pm_ops vc4_v3d_pm_ops =3D {
--	SET_RUNTIME_PM_OPS(vc4_v3d_runtime_suspend, vc4_v3d_runtime_resume, NULL=
-)
-+	RUNTIME_PM_OPS(vc4_v3d_runtime_suspend, vc4_v3d_runtime_resume, NULL)
-+	SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
- };
+Pierre-Eric Pelloux-Prayer (6):
+  drm: add DRM_SET_CLIENT_NAME ioctl
+  drm: use drm_file client_name in fdinfo
+  drm/amdgpu: delay the use of amdgpu_vm_set_task_info
+  drm/amdgpu: alloc and init vm::task_info from first submit
+  drm/amdgpu: make process_name a flexible array
+  drm/amdgpu: use drm_file::name in task_info::process_desc
 
- static const struct component_ops vc4_v3d_ops =3D {
-@@ -538,6 +537,6 @@ struct platform_driver vc4_v3d_driver =3D {
- 	.driver =3D {
- 		.name =3D "vc4_v3d",
- 		.of_match_table =3D vc4_v3d_dt_match,
--		.pm =3D &vc4_v3d_pm_ops,
-+		.pm =3D pm_ptr(&vc4_v3d_pm_ops),
- 	},
- };
-=2D-
-2.34.1
+ Documentation/gpu/drm-usage-stats.rst         |  5 ++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h    |  1 +
+ .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  |  3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c        |  6 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c   |  2 +-
+ .../gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c  |  4 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.c       |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c        | 67 +++++++++++++------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h        |  4 +-
+ drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c        |  2 +-
+ drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c        |  2 +-
+ drivers/gpu/drm/amd/amdgpu/gmc_v12_0.c        |  2 +-
+ drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c         |  2 +-
+ drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c         |  2 +-
+ drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c        |  2 +-
+ drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c      |  2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_events.c       |  2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_process.c      |  3 +
+ drivers/gpu/drm/drm_debugfs.c                 | 14 ++--
+ drivers/gpu/drm/drm_file.c                    | 10 +++
+ drivers/gpu/drm/drm_ioctl.c                   | 51 ++++++++++++++
+ include/drm/drm_file.h                        |  9 +++
+ include/uapi/drm/drm.h                        | 17 +++++
+ 23 files changed, 172 insertions(+), 42 deletions(-)
+
+-- 
+2.40.1
 
