@@ -2,75 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC2C398F0BC
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 15:47:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8B4198F0D2
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 15:51:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 073F210E842;
-	Thu,  3 Oct 2024 13:46:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 543D510E853;
+	Thu,  3 Oct 2024 13:51:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YoSJx8J+";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XdwQ8dE7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04F4510E1E6;
- Thu,  3 Oct 2024 13:46:56 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E2CA10E853;
+ Thu,  3 Oct 2024 13:51:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1727963217; x=1759499217;
- h=date:from:to:subject:message-id:references:mime-version:
- content-transfer-encoding:in-reply-to;
- bh=n5OHn3QUdpat2aC/O/iKVjfoE6iGTaPoN/6J8frtUYg=;
- b=YoSJx8J+nOAGpupUZE+M60XfDzYhATyBDvLh1Pyt7oWYpE7QcdXGuwzz
- FLhuhYWSxZ1RGCaVw9uOQnYJ6qPpA+QUo6zvwzn8pMShC/OpcqiHsCbuT
- CfNXnZbq9kjilvnWBNfJD9oiWUO+LkDipWrN95v08e+Ji9T7OKabsytCt
- RG/PXL+y71c7SUWfkZvUlGHLDvWTn5c1URim4E0rKm0ne8hbIpQfn6Bda
- g8WxF4JZUD9Kgl7Xs30/ew7IP+YdudA3aVD+lBBy0hlJxSbFlDboEX+bq
- iKcdKnzzEpv/bV1XKZ0MfakioZ5uXigMQNsE32lU19HGXFw+UJJS260x7 Q==;
-X-CSE-ConnectionGUID: ZPZJ2HX5RDamrE/7b0Feog==
-X-CSE-MsgGUID: UtIE7sqkRfyK+vj5rH0d7w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="27286656"
-X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; d="scan'208";a="27286656"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Oct 2024 06:46:56 -0700
-X-CSE-ConnectionGUID: H7+f/vSCTa27grfFf3KfqQ==
-X-CSE-MsgGUID: dSiUo7Y0SbyaiImM3Q2NMw==
+ t=1727963494; x=1759499494;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=dCkl15ljyGoSD/y7vO+r0OHhRxI4Fk5WDXfH+VJo32c=;
+ b=XdwQ8dE7PcP0JfD1555DnbAVcdqwICVU5P7Rl8Z+Z+oDd1vbhaTbTe6B
+ 9BAKxpZIG5PumN1qX6x349fqEKERFIXsa2VNAZ9NK8la9HkQgAD271rhn
+ PRiCC+dMeTIeyKAsUz29RaqSZKs/Ids8uiuve8O9Ymdr8xR+X4IkSEuh3
+ vzAFTmo6LLmSZBMgDO26/ieyx6ZxrJavOr2qPLnurRhvavhbmUtF2hDj+
+ e3uvWtJFnrfTIatU7TCkDA63kpaC9qv5/ir7Cu/uPjWJ3CFWPLVfh8ONm
+ sQ6PjDxvC8WNeMEtiWRedJVL6bqaCHSI9+VBY1JLWmsUI9U7LFhyWmy6R w==;
+X-CSE-ConnectionGUID: njQiZn7nQMihyojc1wRQ4w==
+X-CSE-MsgGUID: V3n3mASbTRe4c1riOKTeYw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="44683274"
+X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; d="scan'208";a="44683274"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Oct 2024 06:51:34 -0700
+X-CSE-ConnectionGUID: mHIKT89rQv2CSzznqbBgOw==
+X-CSE-MsgGUID: fCIU1ioKSmef2fQZfCZBMA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; d="scan'208";a="74451391"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by fmviesa008.fm.intel.com with SMTP; 03 Oct 2024 06:46:50 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 03 Oct 2024 16:46:48 +0300
-Date: Thu, 3 Oct 2024 16:46:48 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- Liviu Dudau <liviu.dudau@arm.com>, Russell King <linux@armlinux.org.uk>,
- Inki Dae <inki.dae@samsung.com>,
- Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
- Alain Volmat <alain.volmat@foss.st.com>,
- Sandy Huang <hjc@rock-chips.com>, Jyri Sarha <jyri.sarha@iki.fi>,
- Alexey Brodkin <abrodkin@synopsys.com>,
- Hans de Goede <hdegoede@redhat.com>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
- Zack Rusin <zack.rusin@broadcom.com>, amd-gfx@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org,
- linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org, xen-devel@lists.xenproject.org
-Subject: Re: [PATCH 2/2] drm: Move crtc->{x, y, mode, enabled} to legacy
- sub-structure
-Message-ID: <Zv6gSGMXZZARf3oV@intel.com>
-References: <20241002182200.15363-1-ville.syrjala@linux.intel.com>
- <20241002182200.15363-3-ville.syrjala@linux.intel.com>
- <Zv6QF2EmIcogtlLA@louis-chauvet-laptop>
+X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; d="scan'208";a="74344740"
+Received: from nitin-super-server.iind.intel.com ([10.145.169.70])
+ by fmviesa009.fm.intel.com with ESMTP; 03 Oct 2024 06:51:31 -0700
+From: Nitin Gote <nitin.r.gote@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, chris.p.wilson@intel.com,
+ andi.shyti@linux.intel.com, nirmoy.das@intel.com,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Nitin Gote <nitin.r.gote@intel.com>
+Subject: [PATCH v1] drm/i915/gt: Retry RING_HEAD reset until it sticks
+Date: Thu,  3 Oct 2024 19:40:44 +0530
+Message-Id: <20241003141044.149748-1-nitin.r.gote@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Zv6QF2EmIcogtlLA@louis-chauvet-laptop>
-X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,110 +67,127 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 03, 2024 at 02:38:35PM +0200, Louis Chauvet wrote:
-> Le 02/10/24 - 21:22, Ville Syrjala a écrit :
-> > From: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> > 
-> > Atomic drivers shouldn't be using the legacy state stored
-> > directly under drm_crtc. Move that junk into a 'legacy' sub
-> > structure to highlight the offenders, of which there are
-> > quite a few unfortunately.
-> 
-> Hi,
-> 
-> Do we need to do something particular in an atomic driver except using
-> state content?
-> 
-> I proposed some modifications for VKMS bellow. If you think this is good,
-> I can send a patch to avoid being an offender :-) I just tested it, and it
-> seems to work.
-> 
-> > I'm hoping we could get all these fixed and then declare
-> > the legacy state off limits for atomic drivers (which is
-> > what did long ago for plane->fb/etc). And maybe eventually
-> > turn crtc->legacy into a pointer and only allocate it on
-> > legacy drivers.
-> > 
-> > TODO: hwmode should probably go there too but it probably
-> >       needs a closer look, maybe other stuff too...
-> 
-> [...]
-> 
-> > diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-> > index 57a5769fc994..a7f8b1da6e85 100644
-> > --- a/drivers/gpu/drm/vkms/vkms_composer.c
-> > +++ b/drivers/gpu/drm/vkms/vkms_composer.c
-> > @@ -187,7 +187,7 @@ static void blend(struct vkms_writeback_job *wb,
-> >  
-> >  	const struct pixel_argb_u16 background_color = { .a = 0xffff };
-> >  
-> > -	size_t crtc_y_limit = crtc_state->base.crtc->mode.vdisplay;
-> > +	size_t crtc_y_limit = crtc_state->base.crtc->legacy.mode.vdisplay;
-> 
-> 	size_t crtc_y_limit = crtc_state->base.mode.vdisplay;
-> 
-> >  	/*
-> >  	 * The planes are composed line-by-line to avoid heavy memory usage. It is a necessary
-> > @@ -270,7 +270,7 @@ static int compose_active_planes(struct vkms_writeback_job *active_wb,
-> >  	if (WARN_ON(check_format_funcs(crtc_state, active_wb)))
-> >  		return -EINVAL;
-> >  
-> > -	line_width = crtc_state->base.crtc->mode.hdisplay;
-> > +	line_width = crtc_state->base.crtc->legacy.mode.hdisplay;
-> 
-> 	line_width = crtc_state->base.mode.hdisplay;
-> 
-> >  	stage_buffer.n_pixels = line_width;
-> >  	output_buffer.n_pixels = line_width;
-> >  
-> > diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
-> > index a40295c18b48..780681ea77e4 100644
-> > --- a/drivers/gpu/drm/vkms/vkms_crtc.c
-> > +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-> > @@ -64,7 +64,7 @@ static int vkms_enable_vblank(struct drm_crtc *crtc)
-> >  	struct drm_vblank_crtc *vblank = drm_crtc_vblank_crtc(crtc);
-> >  	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
-> >  
-> > -	drm_calc_timestamping_constants(crtc, &crtc->mode);
-> > +	drm_calc_timestamping_constants(crtc, &crtc->legacy.mode);
-> 
-> 	drm_calc_timestamping_constants(crtc, &crtc->state->mode);
+From: Chris Wilson <chris@chris-wilson.co.uk>
 
-This one doesn't look safe. You want to call that during your atomic
-commit already.
+On Haswell, in particular, we see an issue where resets fails because
+the engine resumes from an incorrect RING_HEAD. Since the RING_HEAD
+doesn't point to the remaining requests to re-run, but may instead point
+into the uninitialised portion of the ring, the GPU may be then fed
+invalid instructions from a privileged context, oft pushing the GPU into
+an unrecoverable hang.
 
-The rest look reasonable.
+If at first the write doesn't succeed, try, try again.
 
-> 
-> >  	hrtimer_init(&out->vblank_hrtimer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
-> >  	out->vblank_hrtimer.function = &vkms_vblank_simulate;
-> > diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
-> > index bc724cbd5e3a..27164cddb94d 100644
-> > --- a/drivers/gpu/drm/vkms/vkms_writeback.c
-> > +++ b/drivers/gpu/drm/vkms/vkms_writeback.c
-> > @@ -131,8 +131,8 @@ static void vkms_wb_atomic_commit(struct drm_connector *conn,
-> >  	struct drm_connector_state *conn_state = wb_conn->base.state;
-> >  	struct vkms_crtc_state *crtc_state = output->composer_state;
-> >  	struct drm_framebuffer *fb = connector_state->writeback_job->fb;
-> > -	u16 crtc_height = crtc_state->base.crtc->mode.vdisplay;
-> > -	u16 crtc_width = crtc_state->base.crtc->mode.hdisplay;
-> > +	u16 crtc_height = crtc_state->base.crtc->legacy.mode.vdisplay;
-> > +	u16 crtc_width = crtc_state->base.crtc->legacy.mode.hdisplay;
-> 
-> 	u16 crtc_height = crtc_state->base.mode.vdisplay;
-> 	u16 crtc_width = crtc_state->base.mode.hdisplay;
-> 
-> >  	struct vkms_writeback_job *active_wb;
-> >  	struct vkms_frame_info *wb_frame_info;
-> >  	u32 wb_format = fb->format->format;
-> 
-> [...]
-> 
-> -- 
-> Louis Chauvet, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
+References: https://gitlab.freedesktop.org/drm/intel/-/issues/5432
+Testcase: igt/i915_selftest/hangcheck
+Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+Signed-off-by: Nitin Gote <nitin.r.gote@intel.com>
+---
+ .../gpu/drm/i915/gt/intel_ring_submission.c   | 44 +++++++++++++------
+ drivers/gpu/drm/i915/i915_utils.h             |  9 ++++
+ 2 files changed, 39 insertions(+), 14 deletions(-)
 
+diff --git a/drivers/gpu/drm/i915/gt/intel_ring_submission.c b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+index 72277bc8322e..6427f07ed23e 100644
+--- a/drivers/gpu/drm/i915/gt/intel_ring_submission.c
++++ b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+@@ -192,6 +192,7 @@ static bool stop_ring(struct intel_engine_cs *engine)
+ static int xcs_resume(struct intel_engine_cs *engine)
+ {
+ 	struct intel_ring *ring = engine->legacy.ring;
++	ktime_t kt;
+ 
+ 	ENGINE_TRACE(engine, "ring:{HEAD:%04x, TAIL:%04x}\n",
+ 		     ring->head, ring->tail);
+@@ -230,9 +231,20 @@ static int xcs_resume(struct intel_engine_cs *engine)
+ 	set_pp_dir(engine);
+ 
+ 	/* First wake the ring up to an empty/idle ring */
+-	ENGINE_WRITE_FW(engine, RING_HEAD, ring->head);
++	until_timeout_ns(kt, 2 * NSEC_PER_MSEC) {
++		ENGINE_WRITE_FW(engine, RING_HEAD, ring->head);
++		if (ENGINE_READ_FW(engine, RING_HEAD) == ring->head)
++			break;
++	}
++
+ 	ENGINE_WRITE_FW(engine, RING_TAIL, ring->head);
+-	ENGINE_POSTING_READ(engine, RING_TAIL);
++	if (ENGINE_READ_FW(engine, RING_HEAD) != ENGINE_READ_FW(engine, RING_TAIL)) {
++		ENGINE_TRACE(engine, "failed to reset empty ring: [%x, %x]: %x\n",
++				ENGINE_READ_FW(engine, RING_HEAD),
++				ENGINE_READ_FW(engine, RING_TAIL),
++				ring->head);
++		goto err;
++	}
+ 
+ 	ENGINE_WRITE_FW(engine, RING_CTL,
+ 			RING_CTL_SIZE(ring->size) | RING_VALID);
+@@ -241,12 +253,16 @@ static int xcs_resume(struct intel_engine_cs *engine)
+ 	if (__intel_wait_for_register_fw(engine->uncore,
+ 					 RING_CTL(engine->mmio_base),
+ 					 RING_VALID, RING_VALID,
+-					 5000, 0, NULL))
++					 5000, 0, NULL)) {
++		ENGINE_TRACE(engine, "failed to restart\n");
+ 		goto err;
++	}
+ 
+-	if (GRAPHICS_VER(engine->i915) > 2)
++	if (GRAPHICS_VER(engine->i915) > 2) {
+ 		ENGINE_WRITE_FW(engine,
+ 				RING_MI_MODE, _MASKED_BIT_DISABLE(STOP_RING));
++		ENGINE_POSTING_READ(engine, RING_MI_MODE);
++	}
+ 
+ 	/* Now awake, let it get started */
+ 	if (ring->tail != ring->head) {
+@@ -259,16 +275,16 @@ static int xcs_resume(struct intel_engine_cs *engine)
+ 	return 0;
+ 
+ err:
+-	drm_err(&engine->i915->drm,
+-		"%s initialization failed; "
+-		"ctl %08x (valid? %d) head %08x [%08x] tail %08x [%08x] start %08x [expected %08x]\n",
+-		engine->name,
+-		ENGINE_READ(engine, RING_CTL),
+-		ENGINE_READ(engine, RING_CTL) & RING_VALID,
+-		ENGINE_READ(engine, RING_HEAD), ring->head,
+-		ENGINE_READ(engine, RING_TAIL), ring->tail,
+-		ENGINE_READ(engine, RING_START),
+-		i915_ggtt_offset(ring->vma));
++	ENGINE_TRACE(engine,
++		     "initialization failed; "
++		     "ctl %08x (valid? %d) head %08x [%08x] tail %08x [%08x] start %08x [expected %08x]\n",
++		     ENGINE_READ(engine, RING_CTL),
++		     ENGINE_READ(engine, RING_CTL) & RING_VALID,
++		     ENGINE_READ(engine, RING_HEAD), ring->head,
++		     ENGINE_READ(engine, RING_TAIL), ring->tail,
++		     ENGINE_READ(engine, RING_START),
++		     i915_ggtt_offset(ring->vma));
++	GEM_TRACE_DUMP();
+ 	return -EIO;
+ }
+ 
+diff --git a/drivers/gpu/drm/i915/i915_utils.h b/drivers/gpu/drm/i915/i915_utils.h
+index 609214231ffc..538dfb8fa1d8 100644
+--- a/drivers/gpu/drm/i915/i915_utils.h
++++ b/drivers/gpu/drm/i915/i915_utils.h
+@@ -232,6 +232,15 @@ wait_remaining_ms_from_jiffies(unsigned long timestamp_jiffies, int to_wait_ms)
+ 	}
+ }
+ 
++/*
++ * until_timeout_ns - Keep retrying (busy spin) until the duration has passed
++ */
++
++#define until_timeout_ns(end, timeout_ns) \
++	for ((end) = ktime_get() + (timeout_ns); \
++			ktime_before(ktime_get(), (end)); \
++			cpu_relax())
++
+ /*
+  * __wait_for - magic wait macro
+  *
 -- 
-Ville Syrjälä
-Intel
+2.25.1
+
