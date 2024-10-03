@@ -2,110 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08AFB98F3B1
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 18:12:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEA1198F562
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 19:37:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA35710E8A7;
-	Thu,  3 Oct 2024 16:12:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D936B10E232;
+	Thu,  3 Oct 2024 17:37:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="IuZwHN29";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="YxeeEdaC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
- [209.85.128.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3697E10E8A7
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 16:12:38 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id
- 5b1f17b1804b1-42e82f7f36aso10370605e9.0
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Oct 2024 09:12:38 -0700 (PDT)
+Received: from mail-pj1-f66.google.com (mail-pj1-f66.google.com
+ [209.85.216.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B8EE10E8B4
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 16:13:11 +0000 (UTC)
+Received: by mail-pj1-f66.google.com with SMTP id
+ 98e67ed59e1d1-2e084dc44bcso146826a91.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Oct 2024 09:13:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1727971956; x=1728576756; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=Nxjal9NLxsSrsdx2DROpNELieYh4/8tITxuoItEclxk=;
- b=IuZwHN29kSMfhDc7HCKv9NFB4vLFIBs2kcYiNImYsQdLnjzKkIQU4kVmV7pdjD6q/0
- ihV/TIlBfPyAwomHeE2bUIAHL1TYEtVI+tqhLohD1RYG2r7Y7tiNvgs1Y+ijU5P7wylF
- cEFwgvOMZ7GnNHZW0thOZRfEiBVDymWtzYLA5/stsFAbGllgiT38wnDPpiKMKJt6uSHR
- uJOPGKL6zryFimaZVmPCdftJQVGozr2j1IbvtQ/3BuP/Q7y7AUdOkehVvEwSfasZ/FBO
- s+rDNzw+LapqPW9EjheWr48Wjqugr785y5FOy/CF18C4TiVl3x5OBVfW8q+NqEC0C2f/
- 0SdA==
+ d=gmail.com; s=20230601; t=1727971991; x=1728576791; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Z3WiMbAhFsbgFsMbymS9SFj9ZdJkNGNlqWJ97chhwH4=;
+ b=YxeeEdaCaAZ+C8vdAOfuUp0el/T6jyO5BYzoFBptVWDG5qqekwmjw6WLtLPE9yazmi
+ X91uoz76CVh3wBzhOwlGJwC9qj1qFnbxAq9ulWvq8asx6RT+IQa8315nJlH35l5gH9jx
+ Oo2HOSiFAZFwQS/LixqGJ185fwYoSm2o0Y7ScZCQ9A79QziUw9zBmwqznrqd80Hzib+G
+ VzHppK4eDVLQRekJY3Gfd5tDamY6r4BM+yMcA5q9qo5bBnQo3LM2KTYs25xgsd65P378
+ vtpur9iUejdRvpZe3wmBwlQPPmZJmTafIeiLZmEwrjTJ/rbcHrAdDLHi3vZYKOAF3ee8
+ hgpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727971956; x=1728576756;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=Nxjal9NLxsSrsdx2DROpNELieYh4/8tITxuoItEclxk=;
- b=SnuuVCP7Ow2/7wl1+U6BAB5pIL3IvzhHcXuBC+d0Qi08TbkjQ7TDZUMtLtXhYtSsvM
- tK+eClsDT2LL2vDl6A7xczz/A90EjXBtvOprs6R2yQbP/7BU4lxKUX4agGY/MC0/UA+d
- oGbo4uS9NOQWw0mt/mZf4oelueXs0SatkXhOTEhFBssj6iYEIqdrGYWy2mXTgv/NCLL4
- 2IHNGSEv7XNV2UDjW362hFjDPkq0dHT2bkeCsDhEax2YXodLAGn9x4Z4PhmM1OSwt4xp
- CQtHR9JZRPbtOW4WeEsGjgghbPvlYL/zVS5oWetuoa9qovgKoLK08C1m3510OiCRER03
- 9zcQ==
+ d=1e100.net; s=20230601; t=1727971991; x=1728576791;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Z3WiMbAhFsbgFsMbymS9SFj9ZdJkNGNlqWJ97chhwH4=;
+ b=evpJ24wl+uf/VZAicpSm63UZ572G3mnqEFf1p1EF5OQlZcBtFeMptuluCexe++4JhN
+ Xo2rQzJH4eVoEIqKq4ObwUFw1U0IzzOJEtAXM2h6fmYwls6L2b0+3hBP/dSApV6bR1m8
+ yG61LYESi4H+L+rsOSBnAX8LwFhPrEzKOUliC+MAA8C8GJzd4J4E9Eb/sLgCKFvDEAQA
+ r9DIoqVYCXD+tYtBojn0/MH553ijk19XrId+lDWugSh6KHNA++zstV+KY3n82mTssJeg
+ h0tjI0ukSHriSZ4v/qs30fm8PaCMIPOyylcJJx2i2XOpDR01h/yLQJ+SSvayaDLpQ5do
+ jdwg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVcx2/MlJ6+DboYD/aDtNy6gVcp7qLkhkFOsLqsvyc84tDy+Er3MJWQSvIDZFkjx9IRxPpyshM5zb4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxZtZNCpXFAALk/JxhSWsTVt+9VX/X+KgQaH+QW2clLTVxtDdAJ
- 6gsRB3Jif2F+VfH2eBj694zXxDM6DusqI/yZEU9hqTGrpRLQH7qpNlxhk84ValY=
-X-Google-Smtp-Source: AGHT+IFFl6f96MyLoOvbN+EXoMYpotmRTEsZw6HH9lEWLuCWHWMFwO37IdTl7WToRn7LoUvbJrF1uA==
-X-Received: by 2002:a05:600c:1f0f:b0:42c:b22e:fbfa with SMTP id
- 5b1f17b1804b1-42f819ff766mr16435075e9.21.1727971956492; 
- Thu, 03 Oct 2024 09:12:36 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:e534:c027:e113:29a1?
- ([2a01:e0a:982:cbb0:e534:c027:e113:29a1])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-42f802a01f2sm18982715e9.30.2024.10.03.09.12.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Oct 2024 09:12:36 -0700 (PDT)
-Message-ID: <62bdc55b-8620-407b-a6b8-cce2f120a933@linaro.org>
-Date: Thu, 3 Oct 2024 18:12:35 +0200
+ AJvYcCXxYwJtuQ9iZijqlDCZI28oNGctLbVQ08KY0CnXmN/4g97UXUfue8d7pqXnv3wRuiHQAdLweNC0Y7w=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxp1DYKCiE5GGgaoYCD9tWh4RCXW+QHNdJVbmsln/rXHPrEW/Zr
+ OYnzVEia2d9e9kMSINpm0cyDRkv4NbunHuD6ekNLzyXAlU7KEnhL5Vu/E/A0hft0I9Tf
+X-Google-Smtp-Source: AGHT+IECRTHvTd6P+YA/9SXtKlU5SkB5oDthZt0x/R2Qd3F/NleiAE4FG9DI3RlVuzOcBMfQ4d15Fw==
+X-Received: by 2002:a17:90a:d50f:b0:2e0:7adb:6380 with SMTP id
+ 98e67ed59e1d1-2e1849be000mr3540656a91.9.1727971990582; 
+ Thu, 03 Oct 2024 09:13:10 -0700 (PDT)
+Received: from user.. ([206.237.119.148]) by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-2e1bff53444sm1836316a91.52.2024.10.03.09.13.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Oct 2024 09:13:10 -0700 (PDT)
+From: clingfei <clf700383@gmail.com>
+To: deller@gmx.de
+Cc: shc_work@mail.ru, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, clf700383@gmail.com
+Subject: [PATCH] fbdev: clps711x-fb: unregister fb when clps711x_fb_probe
+ register failed
+Date: Fri,  4 Oct 2024 00:12:36 +0800
+Message-Id: <20241003161236.3527733-1-clf700383@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 1/2] dt-bindings: display: bridge: tc358768: switch to
- bus-width
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Peter Ujfalusi <peter.ujfalusi@ti.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20241003133904.69244-1-krzysztof.kozlowski@linaro.org>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20241003133904.69244-1-krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Thu, 03 Oct 2024 17:37:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,34 +79,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03/10/2024 15:39, Krzysztof Kozlowski wrote:
-> "data-lines" property is way too similar to "data-lanes".  It is also
-> duplicating "bus-width" from video-interfaces.yaml schema.  Deprecate
-> "data-lines" and use the common property.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->   .../devicetree/bindings/display/bridge/toshiba,tc358768.yaml  | 4 ++++
->   1 file changed, 4 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
-> index 779d8c57f854..bb5d3b543800 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
-> @@ -60,6 +60,10 @@ properties:
->                 data-lines:
->                   $ref: /schemas/types.yaml#/definitions/uint32
->                   enum: [ 16, 18, 24 ]
-> +                deprecated: true
-> +
-> +              bus-width:
-> +                enum: [ 16, 18, 24 ]
->   
->         port@1:
->           $ref: /schemas/graph.yaml#/properties/port
+When register_framebuffer failed, it jumps out_fb_dealloc_cmap without
+calling unregister_framebuffer, which may cause potential memory leak.
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+Signed-off-by: clingfei <clf700383@gmail.com>
+---
+ drivers/video/fbdev/clps711x-fb.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/video/fbdev/clps711x-fb.c b/drivers/video/fbdev/clps711x-fb.c
+index 9e3df1df5ac4..69db40a7a361 100644
+--- a/drivers/video/fbdev/clps711x-fb.c
++++ b/drivers/video/fbdev/clps711x-fb.c
+@@ -328,10 +328,11 @@ static int clps711x_fb_probe(struct platform_device *pdev)
+ 
+ 	ret = register_framebuffer(info);
+ 	if (ret)
+-		goto out_fb_dealloc_cmap;
++		goto out_fb_unregister;
+ 
+ 	return 0;
+ 
++out_fb_unregister:
+ 	unregister_framebuffer(info);
+ 
+ out_fb_dealloc_cmap:
+-- 
+2.34.1
+
