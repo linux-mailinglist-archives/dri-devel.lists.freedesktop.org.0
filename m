@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC64C98F1F9
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 16:58:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72BFF98F1FF
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 16:59:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 388DC10E86F;
-	Thu,  3 Oct 2024 14:58:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E918610E872;
+	Thu,  3 Oct 2024 14:59:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="kvTn1y3I";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NupKv7lf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA21810E86F
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 14:58:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1727967511;
- bh=GKHtfj37CNGse5EH3aylphaiOEB5Kj4jq9UhlQgMeXY=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=kvTn1y3IB4Z2Hk2S+3CF3KHUcG/q6JntATwfk2XtcdS604ITksKF2IGNzOZ7pyYEA
- sxTsJhKR2E+uG6zP5nWyQivgmL3ixBho9Iy/NzqaalMVAllQek2BbIHqqqFOG/xXZP
- eq4qJh59TlG7Xnkv+aqoHqr0MQ+RNWWU+ycG8k0+TW2pAyw9jH3bW4vmv4LsZaLlHU
- ySWEU4+FPo8NpC+uyi5q6cXFTLhiLpK1yWnVc/R6wDQvsphY2Ueh8MKruD8fykQkzP
- j34HnKRTwyiKc9JTPbQcNnkGu26DooGqctwkZAYdjb6c2KXvq7jA5sxq57l7EKWHes
- 7KI6cfImEHt/A==
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id F111E17E3601;
- Thu,  3 Oct 2024 16:58:30 +0200 (CEST)
-Date: Thu, 3 Oct 2024 16:58:25 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>,
- kernel@collabora.com
-Cc: Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, AngeloGioacchino Del
- Regno <angelogioacchino.delregno@collabora.com>, Liviu Dudau
- <liviu.dudau@arm.com>, =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?=
- <peron.clem@gmail.com>, Heiko Stuebner <heiko@sntech.de>, Grant Likely
- <grant.likely@linaro.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] drm/panthor: Fix OPP refcnt leaks in devfreq
- initialisation
-Message-ID: <20241003165825.178bb096@collabora.com>
-In-Reply-To: <20241003133037.3398144-2-adrian.larumbe@collabora.com>
-References: <20241003133037.3398144-1-adrian.larumbe@collabora.com>
- <20241003133037.3398144-2-adrian.larumbe@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1DB810E872;
+ Thu,  3 Oct 2024 14:59:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1727967588; x=1759503588;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=xZ61SgZZV6nZdaa2enqgueOD5rFjT6KcucQ1Q/SlfSs=;
+ b=NupKv7lfiaW9oS0BTYUW766fSZiqPJ2wuHJ9Ec1aNsdzwpdr0IpFrxui
+ gf3+Ln8PilWCROzOe5NxH/Td8Fc/+IIlH0V3k2ALEsLS1KI9JpLASymxG
+ XU9Ql9g62b+4jk6i5UWihjt+Io0xTXwrSX+2ODpeBPwiYt14N1V1ACxQ8
+ CeDSS9ZsuE548jMm22PtwHg3jZmX0OpmnLk0y2RJPMLf4MLCLfgDes9zL
+ ZkOVMxRFVN0CIvRdRiYOgOv0rA2FF1qjHG56UPqvPb+emBVjxF9KaMSd+
+ u421JcquXF5UNG73NZ4vOeUQXpzLRgIDcxitcNl9I9I7FHnf88b4qlxZx w==;
+X-CSE-ConnectionGUID: EDOrCBqUQ7eqH8alN7YyMw==
+X-CSE-MsgGUID: RCC+105hSzSKZYvFVXb3CA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="27294071"
+X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; d="scan'208";a="27294071"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Oct 2024 07:59:48 -0700
+X-CSE-ConnectionGUID: PTZ3lighSnCMJypN3qbJXA==
+X-CSE-MsgGUID: /8NJBpcJSjuiarO5Qusuqg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; d="scan'208";a="74473021"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by fmviesa008.fm.intel.com with SMTP; 03 Oct 2024 07:59:45 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Thu, 03 Oct 2024 17:59:44 +0300
+Date: Thu, 3 Oct 2024 17:59:44 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH 7/8] drm/client: Move variables to tighter scope
+Message-ID: <Zv6xYL1rBckwFMJS@intel.com>
+References: <20241003113304.11700-1-ville.syrjala@linux.intel.com>
+ <20241003113304.11700-8-ville.syrjala@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241003113304.11700-8-ville.syrjala@linux.intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,101 +71,165 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu,  3 Oct 2024 14:30:29 +0100
-Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
+On Thu, Oct 03, 2024 at 02:33:03PM +0300, Ville Syrjala wrote:
+> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> 
+> Bunch of variables are only needed inside loops and whatnot.
+> Move them to a tighter scope to make the code less confusing.
+> 
+> Also replace the 'unsigned int i' footguns with plain signed
+> ints.
 
-> Make sure in case of errors between the first fetch of an OPP in
-> panthor_devfreq_init and its successive put, the error path decrements its
-> reference count to avoid OPP object leaks when removing the device.
->=20
-> Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
-> Fixes: fac9b22df4b1 ("drm/panthor: Add the devfreq logical block")
+I moved that last part to a separate patch but forgot
+to update the commit message here.
+
+> 
+> Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 > ---
->  drivers/gpu/drm/panthor/panthor_devfreq.c | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/panthor/panthor_devfreq.c b/drivers/gpu/drm/=
-panthor/panthor_devfreq.c
-> index 9d0f891b9b53..ce0ac4563f65 100644
-> --- a/drivers/gpu/drm/panthor/panthor_devfreq.c
-> +++ b/drivers/gpu/drm/panthor/panthor_devfreq.c
-> @@ -197,7 +197,7 @@ int panthor_devfreq_init(struct panthor_device *ptdev)
->  	if (ret && ret !=3D -ENODEV) {
->  		if (ret !=3D -EPROBE_DEFER)
->  			DRM_DEV_ERROR(dev, "Couldn't retrieve/enable sram supply\n");
-> -		return ret;
-> +		goto opp_err;
->  	}
-> =20
->  	/*
-> @@ -207,7 +207,7 @@ int panthor_devfreq_init(struct panthor_device *ptdev)
->  	ret =3D dev_pm_opp_set_opp(dev, opp);
->  	if (ret) {
->  		DRM_DEV_ERROR(dev, "Couldn't set recommended OPP\n");
-> -		return ret;
-> +		goto opp_err;
->  	}
-> =20
->  	dev_pm_opp_put(opp);
-> @@ -242,6 +242,10 @@ int panthor_devfreq_init(struct panthor_device *ptde=
-v)
->  		DRM_DEV_INFO(dev, "Failed to register cooling device\n");
-> =20
->  	return 0;
+>  drivers/gpu/drm/drm_client_modeset.c | 33 +++++++++++++++-------------
+>  1 file changed, 18 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
+> index b82bb3119cb2..ccf5c9b5537b 100644
+> --- a/drivers/gpu/drm/drm_client_modeset.c
+> +++ b/drivers/gpu/drm/drm_client_modeset.c
+> @@ -73,9 +73,10 @@ int drm_client_modeset_create(struct drm_client_dev *client)
+>  static void drm_client_modeset_release(struct drm_client_dev *client)
+>  {
+>  	struct drm_mode_set *modeset;
+> -	unsigned int i;
+>  
+>  	drm_client_for_each_modeset(modeset, client) {
+> +		unsigned int i;
 > +
-> +opp_err:
-> +	dev_pm_opp_put(opp);
-> +	return ret;
+>  		drm_mode_destroy(client->dev, modeset->mode);
+>  		modeset->mode = NULL;
+>  		modeset->fb = NULL;
+> @@ -277,9 +278,8 @@ static bool drm_client_target_cloned(struct drm_device *dev,
+>  				     struct drm_client_offset offsets[],
+>  				     bool enabled[], int width, int height)
+>  {
+> -	int count, i, j;
+> +	int count, i;
+>  	bool can_clone = false;
+> -	const struct drm_display_mode *mode;
+>  	struct drm_display_mode *dmt_mode;
+>  
+>  	/* only contemplate cloning in the single crtc case */
+> @@ -299,6 +299,8 @@ static bool drm_client_target_cloned(struct drm_device *dev,
+>  	/* check the command line or if nothing common pick 1024x768 */
+>  	can_clone = true;
+>  	for (i = 0; i < connector_count; i++) {
+> +		int j;
+> +
+>  		if (!enabled[i])
+>  			continue;
+>  
+> @@ -332,6 +334,8 @@ static bool drm_client_target_cloned(struct drm_device *dev,
+>  		goto fail;
+>  
+>  	for (i = 0; i < connector_count; i++) {
+> +		const struct drm_display_mode *mode;
+> +
+>  		if (!enabled[i])
+>  			continue;
+>  
+> @@ -365,12 +369,12 @@ static int drm_client_get_tile_offsets(struct drm_device *dev,
+>  				       int idx,
+>  				       int h_idx, int v_idx)
+>  {
+> -	struct drm_connector *connector;
+>  	int i;
+>  	int hoffset = 0, voffset = 0;
+>  
+>  	for (i = 0; i < connector_count; i++) {
+> -		connector = connectors[i];
+> +		struct drm_connector *connector = connectors[i];
+> +
+>  		if (!connector->has_tile)
+>  			continue;
+>  
+> @@ -400,7 +404,6 @@ static bool drm_client_target_preferred(struct drm_device *dev,
+>  					bool enabled[], int width, int height)
+>  {
+>  	const u64 mask = BIT_ULL(connector_count) - 1;
+> -	struct drm_connector *connector;
+>  	u64 conn_configured = 0;
+>  	int tile_pass = 0;
+>  	int num_tiled_conns = 0;
+> @@ -414,9 +417,9 @@ static bool drm_client_target_preferred(struct drm_device *dev,
+>  
+>  retry:
+>  	for (i = 0; i < connector_count; i++) {
+> +		struct drm_connector *connector = connectors[i];
+>  		const char *mode_type;
+>  
+> -		connector = connectors[i];
+>  
+>  		if (conn_configured & BIT_ULL(i))
+>  			continue;
+> @@ -526,9 +529,8 @@ static int drm_client_pick_crtcs(struct drm_client_dev *client,
+>  	struct drm_device *dev = client->dev;
+>  	struct drm_connector *connector;
+>  	int my_score, best_score, score;
+> -	struct drm_crtc **crtcs, *crtc;
+> +	struct drm_crtc **crtcs;
+>  	struct drm_mode_set *modeset;
+> -	int o;
+>  
+>  	if (n == connector_count)
+>  		return 0;
+> @@ -558,7 +560,8 @@ static int drm_client_pick_crtcs(struct drm_client_dev *client,
+>  	 * remaining connectors
+>  	 */
+>  	drm_client_for_each_modeset(modeset, client) {
+> -		crtc = modeset->crtc;
+> +		struct drm_crtc *crtc = modeset->crtc;
+> +		int o;
+>  
+>  		if (!connector_has_possible_crtc(connector, crtc))
+>  			continue;
+> @@ -602,7 +605,7 @@ static bool drm_client_firmware_config(struct drm_client_dev *client,
+>  	const int count = min_t(unsigned int, connector_count, BITS_PER_LONG);
+>  	unsigned long conn_configured, conn_seq, mask;
+>  	struct drm_device *dev = client->dev;
+> -	int i, j;
+> +	int i;
+>  	bool *save_enabled;
+>  	bool fallback = true, ret = true;
+>  	int num_connectors_enabled = 0;
+> @@ -636,12 +639,11 @@ static bool drm_client_firmware_config(struct drm_client_dev *client,
+>  retry:
+>  	conn_seq = conn_configured;
+>  	for (i = 0; i < count; i++) {
+> -		struct drm_connector *connector;
+> +		struct drm_connector *connector = connectors[i];
+>  		struct drm_encoder *encoder;
+>  		struct drm_crtc *crtc;
+>  		const char *mode_type;
+> -
+> -		connector = connectors[i];
+> +		int j;
+>  
+>  		if (conn_configured & BIT(i))
+>  			continue;
+> @@ -1204,11 +1206,12 @@ static void drm_client_modeset_dpms_legacy(struct drm_client_dev *client, int dp
+>  	struct drm_connector *connector;
+>  	struct drm_mode_set *modeset;
+>  	struct drm_modeset_acquire_ctx ctx;
+> -	int j;
+>  	int ret;
+>  
+>  	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
+>  	drm_client_for_each_modeset(modeset, client) {
+> +		int j;
+> +
+>  		if (!modeset->crtc->enabled)
+>  			continue;
+>  
+> -- 
+> 2.45.2
 
-If you re-order things (see the following diff), you shouldn't need
-this error path.
-
---->8---
-
-diff --git a/drivers/gpu/drm/panthor/panthor_devfreq.c b/drivers/gpu/drm/pa=
-nthor/panthor_devfreq.c
-index 9d0f891b9b53..4f1a30f29c06 100644
---- a/drivers/gpu/drm/panthor/panthor_devfreq.c
-+++ b/drivers/gpu/drm/panthor/panthor_devfreq.c
-@@ -163,13 +163,6 @@ int panthor_devfreq_init(struct panthor_device *ptdev)
-=20
-        cur_freq =3D clk_get_rate(ptdev->clks.core);
-=20
--       opp =3D devfreq_recommended_opp(dev, &cur_freq, 0);
--       if (IS_ERR(opp))
--               return PTR_ERR(opp);
--
--       panthor_devfreq_profile.initial_freq =3D cur_freq;
--       ptdev->current_frequency =3D cur_freq;
--
-        /* Regulator coupling only takes care of synchronizing/balancing vo=
-ltage
-         * updates, but the coupled regulator needs to be enabled manually.
-         *
-@@ -200,17 +193,24 @@ int panthor_devfreq_init(struct panthor_device *ptdev)
-                return ret;
-        }
-=20
-+       opp =3D devfreq_recommended_opp(dev, &cur_freq, 0);
-+       if (IS_ERR(opp))
-+               return PTR_ERR(opp);
-+
-+       panthor_devfreq_profile.initial_freq =3D cur_freq;
-+       ptdev->current_frequency =3D cur_freq;
-+
-        /*
-         * Set the recommend OPP this will enable and configure the regulat=
-or
-         * if any and will avoid a switch off by regulator_late_cleanup()
-         */
-        ret =3D dev_pm_opp_set_opp(dev, opp);
-+       dev_pm_opp_put(opp);
-        if (ret) {
-                DRM_DEV_ERROR(dev, "Couldn't set recommended OPP\n");
-                return ret;
-        }
-=20
--       dev_pm_opp_put(opp);
-=20
-        /* Find the fastest defined rate  */
-        opp =3D dev_pm_opp_find_freq_floor(dev, &freq);
+-- 
+Ville Syrjälä
+Intel
