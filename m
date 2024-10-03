@@ -2,66 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B79DA98EF23
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 14:23:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A65198EF52
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 14:38:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99BCD10E829;
-	Thu,  3 Oct 2024 12:23:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A78610E236;
+	Thu,  3 Oct 2024 12:38:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HpJQxAmn";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="jaIPWC0X";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 915B210E236;
- Thu,  3 Oct 2024 12:23:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1727958204; x=1759494204;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=8+Nb51KEogXE77PpyQoBafWuKkipDKsRryhilX83ejQ=;
- b=HpJQxAmnwBCti9V4cT3i2/1otKQvwWTvZFeLUni37TH1LFycaXEVG/WV
- moAA6oxRqZOIqKOwTJgKthAux7SLaSAgHEj+/KD9+UHrwQQNKYzywlKpv
- cn/+Le3qx85THEXr7Jf/bpN+LT/V/EgKtZnE6uR0jMo+wJw6EzS2rEPcA
- qo86vOIFnk6hX4VBueWdQOzmfSmYNxzbg1hlgHochvJg/7r/5r5phJcV5
- xMkES3Kjy3PmQlsLLvR9n8E5gYA35UspNWrSpJ6yQ34uVCLpAjTAyue5q
- 8+6YWQ3KyJQy/qSVYOR5CGGNfz8S4k0lieerf4CYSuF/fy0ZoQtn1pg6H A==;
-X-CSE-ConnectionGUID: h0i1PZaQROmt+8t4S18hAw==
-X-CSE-MsgGUID: On2re/qCRnmdtTr+YmWf/A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="37810590"
-X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; d="scan'208";a="37810590"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Oct 2024 05:23:23 -0700
-X-CSE-ConnectionGUID: uZ1C13vMRAyZtZmpA2Xzig==
-X-CSE-MsgGUID: R4qnhdpeS9+EDxMc8BaDng==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; d="scan'208";a="75129663"
-Received: from black.fi.intel.com ([10.237.72.28])
- by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Oct 2024 05:23:19 -0700
-Date: Thu, 3 Oct 2024 15:23:15 +0300
-From: Raag Jadav <raag.jadav@intel.com>
-To: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Cc: airlied@gmail.com, simona@ffwll.ch, lucas.demarchi@intel.com,
- thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
- jani.nikula@linux.intel.com, andriy.shevchenko@linux.intel.com,
- joonas.lahtinen@linux.intel.com, tursulin@ursulin.net,
- lina@asahilina.net, intel-xe@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- himal.prasad.ghimiray@intel.com, francois.dugast@intel.com,
- aravind.iddamsetty@linux.intel.com, anshuman.gupta@intel.com,
- andi.shyti@linux.intel.com, matthew.d.roper@intel.com
-Subject: Re: [PATCH v7 1/5] drm: Introduce device wedged event
-Message-ID: <Zv6Ms7G4pSLdgUKo@black.fi.intel.com>
-References: <20240930073845.347326-1-raag.jadav@intel.com>
- <20240930073845.347326-2-raag.jadav@intel.com>
- <26f90d12-6a04-445e-96ff-aafbe3dc8132@intel.com>
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
+ [217.70.183.200])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 808FD10E236
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 12:38:41 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 1429220003;
+ Thu,  3 Oct 2024 12:38:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1727959119;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=G1WWqv8PxjeMLKflSPYmbUe7DeomMcAnSm/A8iMPhzI=;
+ b=jaIPWC0Xu79mrXEmZMnQsiXzA9Wr3uoH8MULWQT5IUuNp55G4sX5QevmhszIPLVwNB8KAr
+ O3AkPLtQl5yloTMbuyNDdO+X5TRPKMqYEvSTrAQoGgw5IuBAjgFtNYLiG0d10jUZ4bA3FH
+ m1e4s8kFAAe17/+QzeW38cun4KUy2aCMbNTrAFDwf/82DfLhx3fqZMuDYE4KWwrNFUQiLe
+ EpyU5sN7nS1+Zc1hdPjgaFvbZTVp4v512I9O9Hvnt/yMn7PWEyyffcB8w/4zGq889GcVPI
+ rtotQp17FYcj62LrbVAqrFIRzZevDuIvYg4y31zSeUiM6gR48lVIIrxWlvKtpw==
+Date: Thu, 3 Oct 2024 14:38:35 +0200
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+To: Ville Syrjala <ville.syrjala@linux.intel.com>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ Liviu Dudau <liviu.dudau@arm.com>, Russell King <linux@armlinux.org.uk>,
+ Inki Dae <inki.dae@samsung.com>,
+ Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+ Alain Volmat <alain.volmat@foss.st.com>,
+ Sandy Huang <hjc@rock-chips.com>, Jyri Sarha <jyri.sarha@iki.fi>,
+ Alexey Brodkin <abrodkin@synopsys.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
+ Zack Rusin <zack.rusin@broadcom.com>, amd-gfx@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org,
+ linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org, xen-devel@lists.xenproject.org
+Subject: Re: [PATCH 2/2] drm: Move crtc->{x, y, mode, enabled} to legacy
+ sub-structure
+Message-ID: <Zv6QF2EmIcogtlLA@louis-chauvet-laptop>
+Mail-Followup-To: Ville Syrjala <ville.syrjala@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Russell King <linux@armlinux.org.uk>,
+ Inki Dae <inki.dae@samsung.com>,
+ Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+ Alain Volmat <alain.volmat@foss.st.com>,
+ Sandy Huang <hjc@rock-chips.com>, Jyri Sarha <jyri.sarha@iki.fi>,
+ Alexey Brodkin <abrodkin@synopsys.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
+ Zack Rusin <zack.rusin@broadcom.com>, amd-gfx@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org,
+ linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org, xen-devel@lists.xenproject.org
+References: <20241002182200.15363-1-ville.syrjala@linux.intel.com>
+ <20241002182200.15363-3-ville.syrjala@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <26f90d12-6a04-445e-96ff-aafbe3dc8132@intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241002182200.15363-3-ville.syrjala@linux.intel.com>
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,297 +91,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 01, 2024 at 02:20:29PM +0200, Michal Wajdeczko wrote:
-> Hi,
+Le 02/10/24 - 21:22, Ville Syrjala a écrit :
+> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 > 
-> sorry for late comments,
+> Atomic drivers shouldn't be using the legacy state stored
+> directly under drm_crtc. Move that junk into a 'legacy' sub
+> structure to highlight the offenders, of which there are
+> quite a few unfortunately.
 
-Sure, no problem.
+Hi,
 
-> On 30.09.2024 09:38, Raag Jadav wrote:
-> > Introduce device wedged event, which will notify userspace of wedged
-> > (hanged/unusable) state of the DRM device through a uevent. This is
-> > useful especially in cases where the device is no longer operating as
-> > expected even after a hardware reset and has become unrecoverable from
-> > driver context.
-> > 
-> > Purpose of this implementation is to provide drivers a generic way to
-> > recover with the help of userspace intervention. Different drivers may
-> > have different ideas of a "wedged device" depending on their hardware
-> > implementation, and hence the vendor agnostic nature of the event.
-> > It is up to the drivers to decide when they see the need for recovery
-> > and how they want to recover from the available methods.
+Do we need to do something particular in an atomic driver except using
+state content?
+
+I proposed some modifications for VKMS bellow. If you think this is good,
+I can send a patch to avoid being an offender :-) I just tested it, and it
+seems to work.
+
+> I'm hoping we could get all these fixed and then declare
+> the legacy state off limits for atomic drivers (which is
+> what did long ago for plane->fb/etc). And maybe eventually
+> turn crtc->legacy into a pointer and only allocate it on
+> legacy drivers.
 > 
-> what about when driver just wants to tell that it is in unusable state,
-> but recovery method is unknown or not possible?
+> TODO: hwmode should probably go there too but it probably
+>       needs a closer look, maybe other stuff too...
 
-Interesting... However, what would be the consumer expectation for it?
-If the expectation is to not recover, why send an event at all?
+[...]
 
-> > 
-> > Current implementation defines three recovery methods, out of which,
-> > drivers can choose to support any one or multiple of them. Preferred
-> > recovery method will be sent in the uevent environment as WEDGED=<method>.
-> 
-> could this be something like below instead:
-> 
-> 	WEDGED=<reason>
-> 	RECOVERY=<method>[,<method>]
-> 
-> then driver will have a chance to tell what happen _and_ additionally
-> provide a hint(s) how to recover from that situation
+> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
+> index 57a5769fc994..a7f8b1da6e85 100644
+> --- a/drivers/gpu/drm/vkms/vkms_composer.c
+> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
+> @@ -187,7 +187,7 @@ static void blend(struct vkms_writeback_job *wb,
+>  
+>  	const struct pixel_argb_u16 background_color = { .a = 0xffff };
+>  
+> -	size_t crtc_y_limit = crtc_state->base.crtc->mode.vdisplay;
+> +	size_t crtc_y_limit = crtc_state->base.crtc->legacy.mode.vdisplay;
 
-Documentation/gpu/drm-uapi.rst +337
+	size_t crtc_y_limit = crtc_state->base.mode.vdisplay;
 
-UMD can issue an ioctl to the KMD to check the reset status
+>  	/*
+>  	 * The planes are composed line-by-line to avoid heavy memory usage. It is a necessary
+> @@ -270,7 +270,7 @@ static int compose_active_planes(struct vkms_writeback_job *active_wb,
+>  	if (WARN_ON(check_format_funcs(crtc_state, active_wb)))
+>  		return -EINVAL;
+>  
+> -	line_width = crtc_state->base.crtc->mode.hdisplay;
+> +	line_width = crtc_state->base.crtc->legacy.mode.hdisplay;
 
-...or <reason> for wedging, which KMD will signify with an error code...
+	line_width = crtc_state->base.mode.hdisplay;
 
-UMD will then proceed to report it to the application using the appropriate
-API error code
+>  	stage_buffer.n_pixels = line_width;
+>  	output_buffer.n_pixels = line_width;
+>  
+> diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
+> index a40295c18b48..780681ea77e4 100644
+> --- a/drivers/gpu/drm/vkms/vkms_crtc.c
+> +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
+> @@ -64,7 +64,7 @@ static int vkms_enable_vblank(struct drm_crtc *crtc)
+>  	struct drm_vblank_crtc *vblank = drm_crtc_vblank_crtc(crtc);
+>  	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
+>  
+> -	drm_calc_timestamping_constants(crtc, &crtc->mode);
+> +	drm_calc_timestamping_constants(crtc, &crtc->legacy.mode);
 
-(should've explicitly added, sorry)
+	drm_calc_timestamping_constants(crtc, &crtc->state->mode);
 
-> > Userspace consumers (sysadmin) can define udev rules to parse this event
-> > and take respective action to recover the device.
-> > 
-> >     =============== ==================================
-> >     Recovery method Consumer expectations
-> >     =============== ==================================
-> >     rebind          unbind + rebind driver
-> >     bus-reset       unbind + reset bus device + rebind
-> >     reboot          reboot system
-> 
-> btw, what if driver detects a really broken HW, or has no clue what will
-> help here, shouldn't we have a "none" method?
+>  	hrtimer_init(&out->vblank_hrtimer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
+>  	out->vblank_hrtimer.function = &vkms_vblank_simulate;
+> diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
+> index bc724cbd5e3a..27164cddb94d 100644
+> --- a/drivers/gpu/drm/vkms/vkms_writeback.c
+> +++ b/drivers/gpu/drm/vkms/vkms_writeback.c
+> @@ -131,8 +131,8 @@ static void vkms_wb_atomic_commit(struct drm_connector *conn,
+>  	struct drm_connector_state *conn_state = wb_conn->base.state;
+>  	struct vkms_crtc_state *crtc_state = output->composer_state;
+>  	struct drm_framebuffer *fb = connector_state->writeback_job->fb;
+> -	u16 crtc_height = crtc_state->base.crtc->mode.vdisplay;
+> -	u16 crtc_width = crtc_state->base.crtc->mode.hdisplay;
+> +	u16 crtc_height = crtc_state->base.crtc->legacy.mode.vdisplay;
+> +	u16 crtc_width = crtc_state->base.crtc->legacy.mode.hdisplay;
 
-Sure. But same as above, we have to define expectations.
+	u16 crtc_height = crtc_state->base.mode.vdisplay;
+	u16 crtc_width = crtc_state->base.mode.hdisplay;
 
-> >     =============== ==================================
-> > 
-> > v4: s/drm_dev_wedged/drm_dev_wedged_event
-> >     Use drm_info() (Jani)
-> >     Kernel doc adjustment (Aravind)
-> > v5: Send recovery method with uevent (Lina)
-> > v6: Access wedge_recovery_opts[] using helper function (Jani)
-> >     Use snprintf() (Jani)
-> > v7: Convert recovery helpers into regular functions (Andy, Jani)
-> >     Aesthetic adjustments (Andy)
-> >     Handle invalid method cases
-> > 
-> > Signed-off-by: Raag Jadav <raag.jadav@intel.com>
-> > ---
-> >  drivers/gpu/drm/drm_drv.c | 77 +++++++++++++++++++++++++++++++++++++++
-> >  include/drm/drm_device.h  | 23 ++++++++++++
-> >  include/drm/drm_drv.h     |  3 ++
-> >  3 files changed, 103 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-> > index ac30b0ec9d93..cfe9600da2ee 100644
-> > --- a/drivers/gpu/drm/drm_drv.c
-> > +++ b/drivers/gpu/drm/drm_drv.c
-> > @@ -26,6 +26,8 @@
-> >   * DEALINGS IN THE SOFTWARE.
-> >   */
-> >  
-> > +#include <linux/array_size.h>
-> > +#include <linux/build_bug.h>
-> >  #include <linux/debugfs.h>
-> >  #include <linux/fs.h>
-> >  #include <linux/module.h>
-> > @@ -33,6 +35,7 @@
-> >  #include <linux/mount.h>
-> >  #include <linux/pseudo_fs.h>
-> >  #include <linux/slab.h>
-> > +#include <linux/sprintf.h>
-> >  #include <linux/srcu.h>
-> >  #include <linux/xarray.h>
-> >  
-> > @@ -70,6 +73,42 @@ static struct dentry *drm_debugfs_root;
-> >  
-> >  DEFINE_STATIC_SRCU(drm_unplug_srcu);
-> >  
-> > +/*
-> > + * Available recovery methods for wedged device. To be sent along with device
-> > + * wedged uevent.
-> > + */
-> > +static const char *const drm_wedge_recovery_opts[] = {
-> > +	[DRM_WEDGE_RECOVERY_REBIND] = "rebind",
-> > +	[DRM_WEDGE_RECOVERY_BUS_RESET] = "bus-reset",
-> > +	[DRM_WEDGE_RECOVERY_REBOOT] = "reboot",
-> > +};
-> > +
-> > +static bool drm_wedge_recovery_is_valid(enum drm_wedge_recovery method)
-> > +{
-> > +	static_assert(ARRAY_SIZE(drm_wedge_recovery_opts) == DRM_WEDGE_RECOVERY_MAX);
-> > +
-> > +	return method >= DRM_WEDGE_RECOVERY_REBIND && method < DRM_WEDGE_RECOVERY_MAX;
-> > +}
-> > +
-> > +/**
-> > + * drm_wedge_recovery_name - provide wedge recovery name
-> > + * @method: method to be used for recovery
-> > + *
-> > + * This validates wedge recovery @method against the available ones in
-> 
-> do we really need to validate an enum?
+>  	struct vkms_writeback_job *active_wb;
+>  	struct vkms_frame_info *wb_frame_info;
+>  	u32 wb_format = fb->format->format;
 
-I'm all for trusting the drivers explicitly, but since this is a core feature
-I thought we'd have some guard rails (for abusers).
+[...]
 
-> maybe the problem is that there is MAX enumerator that just shouldn't be there?
-
-With MAX in place we won't need to adjust the helpers to match with enum
-modifications in the future (if any).
-
-> > + * drm_wedge_recovery_opts[] and provides respective recovery name in string
-> > + * format if found valid.
-> > + *
-> > + * Returns: pointer to const recovery string on success, NULL otherwise.
-> > + */
-> > +const char *drm_wedge_recovery_name(enum drm_wedge_recovery method)
-> > +{
-> > +	if (drm_wedge_recovery_is_valid(method))
-> > +		return drm_wedge_recovery_opts[method];
-> 
-> as we only have 3 methods, maybe simple switch() will do the work?
-
-Sure.
-
-> > +
-> > +	return NULL;
-> > +}
-> > +EXPORT_SYMBOL(drm_wedge_recovery_name);
-> > +
-> >  /*
-> >   * DRM Minors
-> >   * A DRM device can provide several char-dev interfaces on the DRM-Major. Each
-> > @@ -497,6 +536,44 @@ void drm_dev_unplug(struct drm_device *dev)
-> >  }
-> >  EXPORT_SYMBOL(drm_dev_unplug);
-> >  
-> > +/**
-> > + * drm_dev_wedged_event - generate a device wedged uevent
-> > + * @dev: DRM device
-> > + * @method: method to be used for recovery
-> > + *
-> > + * This generates a device wedged uevent for the DRM device specified by @dev.
-> > + * Recovery @method from drm_wedge_recovery_opts[] (if supprted by the device)
-> 
-> typo
-
-Good catch.
-
-> > + * is sent in the uevent environment as WEDGED=<method>, on the basis of which,
-> > + * userspace may take respective action to recover the device.
-> > + *
-> > + * Returns: 0 on success, or negative error code otherwise.
-> > + */
-> > +int drm_dev_wedged_event(struct drm_device *dev, enum drm_wedge_recovery method)
-> > +{
-> > +	/* Event string length up to 16+ characters with available methods */
-> > +	char event_string[32] = {};
-> 
-> magic 32 here
-
-Anything to add to the event string length comment above?
-
-> > +	char *envp[] = { event_string, NULL };
-> > +	const char *recovery;
-> > +
-> > +	recovery = drm_wedge_recovery_name(method);
-> > +	if (!recovery) {
-> > +		drm_err(dev, "device wedged, invalid recovery method %d\n", method);
-> 
-> maybe use drm_WARN() to see who is abusing the API ?
-
-Sure.
-
-> > +		return -EINVAL;
-> 
-> but shouldn't we still trigger an event with "none" recovery?
-
-Explained above.
-
-> > +	}
-> > +
-> > +	if (!test_bit(method, &dev->wedge_recovery)) {
-> > +		drm_err(dev, "device wedged, %s based recovery not supported\n",
-> > +			drm_wedge_recovery_name(method));
-> 
-> do we really need this kind of guard? it will be a driver code that will
-> call this function, so likely it knows better what will work to recover
-
-Agree, although unsupported method could cause undefined behaviour.
-
-> > +		return -EOPNOTSUPP;
-> > +	}
-> > +
-> > +	snprintf(event_string, sizeof(event_string), "WEDGED=%s", recovery);
-> > +
-> > +	drm_info(dev, "device wedged, generating uevent for %s based recovery\n", recovery);
-> 
-> nit:
-> 	drm_info(dev, "device wedged, needs %s to recover\n", recovery);
-
-Sure.
-
-> > +	return kobject_uevent_env(&dev->primary->kdev->kobj, KOBJ_CHANGE, envp);
-> > +}
-> > +EXPORT_SYMBOL(drm_dev_wedged_event);
-> > +
-> >  /*
-> >   * DRM internal mount
-> >   * We want to be able to allocate our own "struct address_space" to control
-> > diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
-> > index c91f87b5242d..fed6f20e52fb 100644
-> > --- a/include/drm/drm_device.h
-> > +++ b/include/drm/drm_device.h
-> > @@ -40,6 +40,26 @@ enum switch_power_state {
-> >  	DRM_SWITCH_POWER_DYNAMIC_OFF = 3,
-> >  };
-> >  
-> > +/**
-> > + * enum drm_wedge_recovery - Recovery method for wedged device in order of
-> > + * severity. To be set as bit fields in drm_device.wedge_recovery variable.
-> > + * Drivers can choose to support any one or multiple of them depending on
-> > + * their needs.
-> > + */
-> > +enum drm_wedge_recovery {
-> > +	/** @DRM_WEDGE_RECOVERY_REBIND: unbind + rebind driver */
-> > +	DRM_WEDGE_RECOVERY_REBIND,
-> > +
-> > +	/** @DRM_WEDGE_RECOVERY_BUS_RESET: unbind + reset bus device + rebind */
-> > +	DRM_WEDGE_RECOVERY_BUS_RESET,
-> > +
-> > +	/** @DRM_WEDGE_RECOVERY_REBOOT: reboot system */
-> > +	DRM_WEDGE_RECOVERY_REBOOT,
-> > +
-> > +	/** @DRM_WEDGE_RECOVERY_MAX: for bounds checking, do not use */
-> > +	DRM_WEDGE_RECOVERY_MAX
-> > +};
-> > +
-> >  /**
-> >   * struct drm_device - DRM device structure
-> >   *
-> > @@ -317,6 +337,9 @@ struct drm_device {
-> >  	 * Root directory for debugfs files.
-> >  	 */
-> >  	struct dentry *debugfs_root;
-> > +
-> > +	/** @wedge_recovery: Supported recovery methods for wedged device */
-> > +	unsigned long wedge_recovery;
-> 
-> hmm, so before the driver can ask for a reboot as a recovery method from
-> wedge it has to somehow add 'reboot' as available method? why it that?
-
-It's for consumers to use as fallbacks in case the preferred recovery method
-(sent along with uevent) don't workout. (patch 2/5)
-
-> and if you insist that this is useful then at least document how this
-> should be initialized (to not forcing developers to look at
-> drm_dev_wedged_event code where it's used)
-
-Sure.
-
-Raag
+-- 
+Louis Chauvet, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
