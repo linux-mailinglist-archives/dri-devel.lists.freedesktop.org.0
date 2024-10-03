@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08A5898E7C0
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 02:26:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF0FE98E7E7
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 02:46:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8E8D10E05D;
-	Thu,  3 Oct 2024 00:26:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BAC0610E353;
+	Thu,  3 Oct 2024 00:46:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="U4glnt4l";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VUaJWXSh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FA3610E05D
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 00:26:28 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1727915179; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=gebRKY4Cd8s6LDrxNwkT2OUgQQUWitapRVQ8AYlE6ZYxZhctwZ9gu6t8MhEzfuu9m2G1sJzQtXepIxBlJRkhbd95ZMLZ/S7uPrs+pj2nEUyMothgTkpgalWhUvA4vnUsyjvWzo5DTHN7XrnHkCJ7mlcpEgAoPIInqz4y6HCEiiY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1727915179;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=DChdb2BFzLOXfJBF9ehTCkQlOOWBFtEDNuAGBsr3xJ4=; 
- b=U/EiUdxVShpE7mSEw+vKvOrMYl8izisccJuNSyR7Df4FeBCSlDVTrvBZx+BJBQ1DyWoWb5jp08PJIfsmZeFcQFEOjvMi4kEFYB+Ea2WrKbuCKVwCcDCsn7K30B7m76QNTeA1XbuhAGD4lpCJDUkM2IJBe8cd1FzP17rJzlVKKU0=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
- dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1727915179; 
- s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=DChdb2BFzLOXfJBF9ehTCkQlOOWBFtEDNuAGBsr3xJ4=;
- b=U4glnt4lU4eZXXlmuK6xFvxFeAdEywuNSE1Ixmm8HQ8PaEvvVa4yjKYC8K5XeINu
- QQgjcbGeqSHUsMNnmeF1ldcOm4Yz54mOx0zMIzpjPy7SnKX7qIFNI04mA7VeL+UKXua
- Mw0Jp84Tx75QQ/pWjSjs2GeNV/Ed5WSqPTkylZ4I=
-Received: by mx.zohomail.com with SMTPS id 1727915178493626.7814922268785;
- Wed, 2 Oct 2024 17:26:18 -0700 (PDT)
-From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/panfrost: Add missing OPP table refcnt decremental
-Date: Thu,  3 Oct 2024 01:25:37 +0100
-Message-ID: <20241003002603.3177741-1-adrian.larumbe@collabora.com>
-X-Mailer: git-send-email 2.46.2
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C7B810E347;
+ Thu,  3 Oct 2024 00:46:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1727916373; x=1759452373;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=pE9rJGNQU6bQS1D6Z7/XELNdvYB1vUUF7MaKDUcK7KY=;
+ b=VUaJWXShmOWj6nAGhHCBa6ZrrOPOpuFPjyTCkYVO2UnioRPG2imaOl1e
+ 049ybNUjhNNj3LhMlaOt++4hTp+fReC3/vo3byLu1BUVD9pCnifC+dTb2
+ T2ggL0djDNmCMSRMCiXE7FCSBouKND2Vqso91+UVuil4qPy1CkTYtVbn5
+ igk28t96Xoi1gIjg3KTjKAZN/ZNtin7XrKWyxESH9B1uwXT+iIluxigIJ
+ 2jUYRLGxMuU27Edb2Iz4PaeqmU3V5DzmSoH01HNCGL5HSHdt9QMK3uvdG
+ ZcnL8ONHCez/vhpcB/CVVzY4neMpPPibS3bnndlc6J5QNtrD+o74Y/rnw w==;
+X-CSE-ConnectionGUID: 8RcbXy/tQ4Glp1vODEL7xQ==
+X-CSE-MsgGUID: 3tdunN9zRNWS3sti4GKq3A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="38460027"
+X-IronPort-AV: E=Sophos;i="6.11,173,1725346800"; d="scan'208";a="38460027"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Oct 2024 17:46:13 -0700
+X-CSE-ConnectionGUID: 4oqQ3fL0QLSmUKI9xm2wjQ==
+X-CSE-MsgGUID: KAW0IGWpS5SAc7dtUbODFQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,173,1725346800"; d="scan'208";a="97514751"
+Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
+ by fmviesa002.fm.intel.com with ESMTP; 02 Oct 2024 17:46:12 -0700
+From: John.C.Harrison@Intel.com
+To: Intel-Xe@Lists.FreeDesktop.Org
+Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>,
+ Jani Nikula <jani.nikula@intel.com>,
+ John Harrison <John.C.Harrison@Intel.com>, dri-devel@lists.freedesktop.org
+Subject: [PATCH v9 07/11] drm/print: Introduce drm_line_printer
+Date: Wed,  2 Oct 2024 17:46:07 -0700
+Message-ID: <20241003004611.2323493-8-John.C.Harrison@Intel.com>
+X-Mailer: git-send-email 2.46.0
+In-Reply-To: <20241003004611.2323493-1-John.C.Harrison@Intel.com>
+References: <20241003004611.2323493-1-John.C.Harrison@Intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+ Swindon SN3 1RJ
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,42 +70,139 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit f11b0417eec2 ("drm/panfrost: Add fdinfo support GPU load metrics")
-retrieves the OPP for the maximum device clock frequency, but forgets to
-keep the reference count balanced by putting the returned OPP object. This
-eventually leads to an OPP core warning when removing the device.
+From: Michal Wajdeczko <michal.wajdeczko@intel.com>
 
-Fix it by putting OPP objects as many times as they're retrieved.
-Also remove an unnecessary whitespace.
+This drm printer wrapper can be used to increase the robustness of
+the captured output generated by any other drm_printer to make sure
+we didn't lost any intermediate lines of the output by adding line
+numbers to each output line. Helpful for capturing some crash data.
 
-Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
-Fixes: f11b0417eec2 ("drm/panfrost: Add fdinfo support GPU load metrics")
+v2: Extended short int counters to full int (JohnH)
+
+Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Cc: Jani Nikula <jani.nikula@intel.com>
+Cc: John Harrison <John.C.Harrison@Intel.com>
+Cc: dri-devel@lists.freedesktop.org
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/panfrost/panfrost_devfreq.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/drm_print.c | 14 ++++++++
+ include/drm/drm_print.h     | 64 +++++++++++++++++++++++++++++++++++++
+ 2 files changed, 78 insertions(+)
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_devfreq.c b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-index 2d30da38c2c3..c7d3f980f1e5 100644
---- a/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-@@ -38,7 +38,7 @@ static int panfrost_devfreq_target(struct device *dev, unsigned long *freq,
- 		return PTR_ERR(opp);
- 	dev_pm_opp_put(opp);
+diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
+index 0081190201a7..08cfea04e22b 100644
+--- a/drivers/gpu/drm/drm_print.c
++++ b/drivers/gpu/drm/drm_print.c
+@@ -235,6 +235,20 @@ void __drm_printfn_err(struct drm_printer *p, struct va_format *vaf)
+ }
+ EXPORT_SYMBOL(__drm_printfn_err);
  
--	err =  dev_pm_opp_set_rate(dev, *freq);
-+	err = dev_pm_opp_set_rate(dev, *freq);
- 	if (!err)
- 		ptdev->pfdevfreq.current_frequency = *freq;
- 
-@@ -177,6 +177,8 @@ int panfrost_devfreq_init(struct panfrost_device *pfdev)
- 	 */
- 	pfdevfreq->current_frequency = cur_freq;
- 
-+	dev_pm_opp_put(opp);
++void __drm_printfn_line(struct drm_printer *p, struct va_format *vaf)
++{
++	unsigned int counter = ++p->line.counter;
++	const char *prefix = p->prefix ?: "";
++	const char *pad = p->prefix ? " " : "";
 +
- 	/*
- 	 * Set the recommend OPP this will enable and configure the regulator
- 	 * if any and will avoid a switch off by regulator_late_cleanup()
++	if (p->line.series)
++		drm_printf(p->arg, "%s%s%u.%u: %pV",
++			   prefix, pad, p->line.series, counter, vaf);
++	else
++		drm_printf(p->arg, "%s%s%u: %pV", prefix, pad, counter, vaf);
++}
++EXPORT_SYMBOL(__drm_printfn_line);
++
+ /**
+  * drm_puts - print a const string to a &drm_printer stream
+  * @p: the &drm printer
+diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
+index d2676831d765..b3906dc04388 100644
+--- a/include/drm/drm_print.h
++++ b/include/drm/drm_print.h
+@@ -177,6 +177,10 @@ struct drm_printer {
+ 	void *arg;
+ 	const void *origin;
+ 	const char *prefix;
++	struct {
++		unsigned int series;
++		unsigned int counter;
++	} line;
+ 	enum drm_debug_category category;
+ };
+ 
+@@ -187,6 +191,7 @@ void __drm_puts_seq_file(struct drm_printer *p, const char *str);
+ void __drm_printfn_info(struct drm_printer *p, struct va_format *vaf);
+ void __drm_printfn_dbg(struct drm_printer *p, struct va_format *vaf);
+ void __drm_printfn_err(struct drm_printer *p, struct va_format *vaf);
++void __drm_printfn_line(struct drm_printer *p, struct va_format *vaf);
+ 
+ __printf(2, 3)
+ void drm_printf(struct drm_printer *p, const char *f, ...);
+@@ -411,6 +416,65 @@ static inline struct drm_printer drm_err_printer(struct drm_device *drm,
+ 	return p;
+ }
+ 
++/**
++ * drm_line_printer - construct a &drm_printer that prefixes outputs with line numbers
++ * @p: the &struct drm_printer which actually generates the output
++ * @prefix: optional output prefix, or NULL for no prefix
++ * @series: optional unique series identifier, or 0 to omit identifier in the output
++ *
++ * This printer can be used to increase the robustness of the captured output
++ * to make sure we didn't lost any intermediate lines of the output. Helpful
++ * while capturing some crash data.
++ *
++ * Example 1::
++ *
++ *	void crash_dump(struct drm_device *drm)
++ *	{
++ *		static unsigned int id;
++ *		struct drm_printer p = drm_err_printer(drm, "crash");
++ *		struct drm_printer lp = drm_line_printer(&p, "dump", ++id);
++ *
++ *		drm_printf(&lp, "foo");
++ *		drm_printf(&lp, "bar");
++ *	}
++ *
++ * Above code will print into the dmesg something like::
++ *
++ *	[ ] 0000:00:00.0: [drm] *ERROR* crash dump 1.1: foo
++ *	[ ] 0000:00:00.0: [drm] *ERROR* crash dump 1.2: bar
++ *
++ * Example 2::
++ *
++ *	void line_dump(struct device *dev)
++ *	{
++ *		struct drm_printer p = drm_info_printer(dev);
++ *		struct drm_printer lp = drm_line_printer(&p, NULL, 0);
++ *
++ *		drm_printf(&lp, "foo");
++ *		drm_printf(&lp, "bar");
++ *	}
++ *
++ * Above code will print::
++ *
++ *	[ ] 0000:00:00.0: [drm] 1: foo
++ *	[ ] 0000:00:00.0: [drm] 2: bar
++ *
++ * RETURNS:
++ * The &drm_printer object
++ */
++static inline struct drm_printer drm_line_printer(struct drm_printer *p,
++						  const char *prefix,
++						  unsigned int series)
++{
++	struct drm_printer lp = {
++		.printfn = __drm_printfn_line,
++		.arg = p,
++		.prefix = prefix,
++		.line = { .series = series, },
++	};
++	return lp;
++}
++
+ /*
+  * struct device based logging
+  *
 -- 
-2.46.2
+2.46.0
 
