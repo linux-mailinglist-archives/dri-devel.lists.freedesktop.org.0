@@ -2,93 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E65A398EBFE
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 11:02:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE6A798EC46
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 11:27:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BEEC10E7D5;
-	Thu,  3 Oct 2024 09:02:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D37D10E7DB;
+	Thu,  3 Oct 2024 09:27:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="KDObjsZr";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="jkAQUJLG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC05F10E7C0;
- Thu,  3 Oct 2024 09:02:25 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4934WPgV006976;
- Thu, 3 Oct 2024 09:02:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- cyhMD9subqdRNWifinp10CFZ39Qn0LnQ5YpIkBebER0=; b=KDObjsZrx4+7lH+u
- RRmZkpjue1vcC0Zkh8BghSeOeB2ZBeCbxjG25VzwImo59/xcJEzgZE60btMiVhHM
- 6xoXqxGNbkqB+cofjzC+3nlWla0X9hy3w03p2iJJa3NzUfUpk13+Qx78GzSOyAtY
- Yptc+G/F36izBscfveKzhuDX99qlOswtbjZW3whEKwvA6sx3o+ZyGB+WKwadGIXt
- BqAsbwxsBRobWvZFBfvpJ+QUurlARTFiNS7sRPcZkdM6GS8mtu6AjeQtuo87Ghz8
- 7fF34BJZdc1T6WYPcuno2uTbMGRcX0KTS10/j+XST8xrrraZZ8PSyDQ/OxEG93Fz
- jfQCpQ==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41xajfnrye-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 03 Oct 2024 09:02:18 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
- [10.47.209.197])
- by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49392HfT000929
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 3 Oct 2024 09:02:17 GMT
-Received: from [10.204.67.11] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 3 Oct 2024
- 02:02:10 -0700
-Message-ID: <2fe92521-acb5-410f-9838-9f34ac62026a@quicinc.com>
-Date: Thu, 3 Oct 2024 14:32:07 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/5] dt-bindings: display/msm: Document MDSS on SA8775P
-To: Krzysztof Kozlowski <krzk@kernel.org>
-CC: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+ [209.85.221.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE75710E101
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 09:27:48 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id
+ ffacd0b85a97d-37ccebd7f0dso530011f8f.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Oct 2024 02:27:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1727947667; x=1728552467;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=8evBbk/IwxxgJLl6adf7U2FK+xKf3XGZPnSLuIWsvAs=;
+ b=jkAQUJLGgOSq6YnbapxYLW6KOERs1D1jB1rT5yjA2dvbdPB4YauysI98mb/NU5mbNO
+ qawFsHx5VjRjmgtt1OIhTGIH85wGN0xS81bBgEJ3NNyTMFcXOYfQCoJUzc0Cm0D/zEK4
+ oro7UrIyySzzWMCxKtuxprbcZSXoG3w4/lwzYNrPos2G71GP1YaqBoxlanzT1pimmUQS
+ XcpmmLF2NsXj49Yp1zrZJaOd8J6VY+3cXYOQKsFHJG+pSSpMTkb8lZjcjv0CjmxQZVhx
+ VdNKae5pMcnxlFOXOSbKTnjttBu8i0UzD84s2Ph1rApsnchVuobQa8NcHEcUC3P3HQfI
+ gNzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1727947667; x=1728552467;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8evBbk/IwxxgJLl6adf7U2FK+xKf3XGZPnSLuIWsvAs=;
+ b=clBbtMY6xB6fyJ2qku0K34tNm9QSwgvktUzgpKcL/VfP4VWLu1VbbLFFTYF9wF6G/W
+ o2RFWTHOaIrQsaHaj6BhfS7GBwIC1jHULqhld6SOUT9Q3etUMvGiozzCF/hIIqo+yV6v
+ 29hHmxoIL7LT4qL6Q1baUP6xoDMlnyTwv0TGD1VDugi2oBbXZxoJa0i2VyvWIoM7YEjI
+ LzIfbtXgYAaYt3ujwsVkfPyCGUhAGnkxgiyBzoK1Gez5/SOpvs/S8G1b61XqsHVAjxwf
+ rHyYUsZj2voDVH06tXRL2+AJMszlSsAl45PvRbSNX3gnuHhWZpv7YsMR5k3Dm/vy8QoR
+ DwKA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUoYUEV0+TWW9GBx8A5OpjlNdxpw3fqatV+dTYoszOQzN/wj8/r4zOFcooM5pTbf3wkMIamEIqc3Oo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzqwDw/x+48gTtJdKV1lxAfNlSx4lkTU+CSv+qbxEACsqq1hHP8
+ wGXJBInlySeVAd3lv5ZDWBVACWOMiQl3No99Yq7Cu+sGseBO/wnyaOiX1xBG65Q=
+X-Google-Smtp-Source: AGHT+IHekoCrEouitVYfb8Yy3HlP99xd5ZykhItjucwYVLFSB9uXwVt08HFWHlBeglYtqaJQ2Pm8Mg==
+X-Received: by 2002:a5d:4a90:0:b0:37c:d344:8b42 with SMTP id
+ ffacd0b85a97d-37cfb8b2ec0mr3807558f8f.15.1727947666441; 
+ Thu, 03 Oct 2024 02:27:46 -0700 (PDT)
+Received: from localhost ([2a02:8071:b783:6940:36f3:9aff:fec2:7e46])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-37d08242d79sm847425f8f.51.2024.10.03.02.27.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Oct 2024 02:27:45 -0700 (PDT)
+Date: Thu, 3 Oct 2024 11:27:43 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Alex Lanzano <lanzano.alex@gmail.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Kalyan Thota <quic_kalyant@quicinc.com>,
- Jayaprakash Madisetty <quic_jmadiset@quicinc.com>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-References: <20241001-patchv3_1-v3-0-d23284f45977@quicinc.com>
- <20241001-patchv3_1-v3-1-d23284f45977@quicinc.com>
- <hieznomkoezdzmmvxfrvfrma3v5lixnkjkahh25fz5fttcpetv@t4pvd343j3ww>
-Content-Language: en-US
-From: Mahadevan P <quic_mahap@quicinc.com>
-In-Reply-To: <hieznomkoezdzmmvxfrvfrma3v5lixnkjkahh25fz5fttcpetv@t4pvd343j3ww>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: tWNAPNjobPhjxrKy2vlDazysiyS1S16B
-X-Proofpoint-ORIG-GUID: tWNAPNjobPhjxrKy2vlDazysiyS1S16B
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 mlxlogscore=999
- impostorscore=0 mlxscore=0 clxscore=1011 priorityscore=1501 adultscore=0
- lowpriorityscore=0 suspectscore=0 bulkscore=0 malwarescore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2408220000
- definitions=main-2410030064
+ Mehdi Djait <mehdi.djait@bootlin.com>, skhan@linuxfoundation.org, 
+ linux-kernel-mentees@lists.linuxfoundation.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org
+Subject: Re: [PATCH v8 0/2] Add driver for Sharp Memory LCD
+Message-ID: <q53inyaxyvfib7okxzazepxzarqmq4rubbasumvvx2woioyp42@fbtn4poujsyh>
+References: <20241002033807.682177-1-lanzano.alex@gmail.com>
+ <t4lefcykpoe5i36wb4x5u23sseh6drnphtivuqc3mjviat2vvc@7hg4jyhxvpye>
+ <ees3m2qmazah2547ys62zvbrvo4dsgki2z2jwulwz4dfjtm4hk@kpmlapv6occv>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="s5o77kb33dofvcnw"
+Content-Disposition: inline
+In-Reply-To: <ees3m2qmazah2547ys62zvbrvo4dsgki2z2jwulwz4dfjtm4hk@kpmlapv6occv>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,39 +95,90 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 10/3/2024 1:23 PM, Krzysztof Kozlowski wrote:
-> On Tue, Oct 01, 2024 at 12:11:36PM +0530, Mahadevan wrote:
->> +patternProperties:
->> +  "^display-controller@[0-9a-f]+$":
->> +    type: object
->> +    additionalProperties: true
->> +
->> +    properties:
->> +      compatible:
->> +        const: qcom,sa8775p-dpu
->> +
->> +  "^displayport-controller@[0-9a-f]+$":
->> +    type: object
->> +    additionalProperties: true
->> +
->> +    properties:
->> +      compatible:
->> +        items:
->> +          - const: qcom,sa8775p-dp
-> Where is this binding? The schema is incomplete.
+--s5o77kb33dofvcnw
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+Hello Alex,
 
-This binding is added as part of following change.
+On Wed, Oct 02, 2024 at 10:33:13PM -0400, Alex Lanzano wrote:
+> On Wed, Oct 02, 2024 at 09:56:38AM GMT, Uwe Kleine-K=F6nig wrote:
+> > On Tue, Oct 01, 2024 at 11:37:35PM -0400, Alex Lanzano wrote:
+> > > Changes in v8:
+> > > - Addressed review comments from Uwe
+> > >     - Replace pwm_get_state with pwm_init_state
+> > >     - Use pwm_set_relative_duty_cycle instead of manually setting per=
+iod and duty cycle
+> >=20
+> > You didn't explicitly mention that it's fine if the PWM doesn't emit the
+> > inactive state when you call pwm_disable(). You're code should continue
+> > to work if you drop all calls to pwm_disable().
+> >=20
+> > Ideally you mention that in a code comment to make others reading your
+> > code understand that.
+>=20
+> Sorry about that! The intent of the code is to stop the pwm from outputing
+> when the display is disabled since the signal is no longer needed. If
+> it's best to emit the inactive state rather than calling pwm_disable()
+> I'm fine with making that change.
 
-https://lore.kernel.org/all/20240923113150.24711-5-quic_mukhopad@quicinc.com/
+Calling pwm_disable() is best iff you don't care about the output any
+more. If however you rely on it to emit the inactive level,
+pwm_disable() is wrong. I don't know enough about your display to judge
+=66rom here.
 
-I will mention the same in cover letter/commit message of subsequent patch.
+The code to disable the display looks (simplified) as follows:
 
+	if (smd->enable_gpio)
+		gpiod_set_value(smd->enable_gpio, 0);
 
->
-> Best regards,
-> Krzysztof
+	pwm_disable(smd->pwm_vcom_signal);
 
-Thanks,
-Mahadevan
+so maybe the logic you need is:
 
+	if (smd->enable_gpio) {
+		gpiod_set_value(smd->enable_gpio, 0);
+
+		/*
+		 * In the presence of a GPIO to disable the display the
+		 * behaviour of the PWM doesn't matter and we can
+		 * just disable it.
+		 */
+		pwm_disable(smd->pwm_vcom_signal);
+	} else {
+		struct pwm_state state;
+
+		/*
+		 * However without a GPIO driving the display's output
+		 * enable pin the PWM must emit the inactive level,
+		 * which isn't guaranteed when calling pwm_disable(), so
+		 * configure it for duty_cycle =3D 0.
+		 */
+		 pwm_init_state(smd->pwm_vcom_signal, &state);
+		 state.duty_cycle =3D 0;
+		 state.enabled =3D true;
+		 pwm_apply_might_sleep(smd->pwm_vcom_signal, &state);
+	}
+
+?
+
+Best regards
+Uwe
+
+--s5o77kb33dofvcnw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmb+Y40ACgkQj4D7WH0S
+/k6Jjwf/VkhVbrj5zZduvEjBR6Ryq5075XnahyFTpoqckqRcE+V8H/OzEfaT7fsA
+VAT9CFZPEfJ02N0jj2m4V82vzDlwk8m9Tiw0b8m5eFB3NeJLpKUh4Fi4Np3Lp5AK
+jIiCwhOEUY6Iw1bWsW2qj66Cism13MQ0tUlq43y7lxHNI/RzrysnZxYFX0FGCfkg
+PDQp7WW3JWJF3uH4yr1Mycw1gSzd0ECUG0/VG4rwiqc+jr7H2FYU3tcnVZgNPsD4
+Na680Wj75PWN6l5SYDEj04196IvNGz2psPJqxpaWwrtHquBLYQ/MvNXJ3XX21PnV
+k4ppnw4FCPFAuN7nTlta4MWjKi66gA==
+=YxME
+-----END PGP SIGNATURE-----
+
+--s5o77kb33dofvcnw--
