@@ -2,73 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9398B98F78A
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 22:02:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECB7A98F778
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 22:01:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C3C610E8F3;
-	Thu,  3 Oct 2024 20:01:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C04A10E8F2;
+	Thu,  3 Oct 2024 20:01:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="bBZKEjJm";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="hFYVe6bZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2056.outbound.protection.outlook.com [40.107.92.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5835610E912;
- Thu,  3 Oct 2024 20:01:45 +0000 (UTC)
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam04on2069.outbound.protection.outlook.com [40.107.100.69])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD25110E8EB;
+ Thu,  3 Oct 2024 20:01:41 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=W3RLDsElmYMAbplS2eIuOS1pdhEFI4TNwHM+nh8it3xoBDyScR1bI0e/8Qussp1NMgkZaEfwhgZTBu+pIf/koTQXJrt3dHXfhyMCpHWg7DEJSMQzu0+MZfH8Df7E9XG1Y7/GWR76boXPMyZHREc0giA4IOlejZkq2xCmS8DJlUA49fTfQzJp3GWjZCy2yuSwS6fdZURub/P1qNVub8wwtUSd9ecRpSkclsJVnkT2VOEyJToVWaBnTMGUvgAX254Dxmt1+NSG1w+URSBU5BghDEaGKMdnKwAoOXq7ec1Je52F+Tddm+4M5TfaQ0uljcubxwdnJdSrRLtL+oACK/NrSA==
+ b=DQR5xYzFBStR9KeFfD4NqImc82EBxa+CZ5oF9MvmKehiNWsMG/TKuk9XvWRphouNkWtxnDIuiB6cKKxevAV0BPvNP2q4XcUk3fNyfvMKcNHe9PC/bUondWatuYm/cbfcbipblzLVlm8/COO8xDXt4dnPo6u+nfkIW/FVS0Tsc5Hne2zgHRrqOyvkNnIO6w7xfW05fNd9NeK4mwATbMAT544owvFh+KBJvRnEq6XtPVd99VHmi5pzuTvh1hy6MphUBy3rLNm7YxeAleBS6X9BlWsabLYn0r4RUP3uYhVXybGazl1iUlg5uGKImx4ZbCdXsJezrj3N8DtDwDaq8gaItg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6WIRcrG8jXQrlSzQktHMP2dWxS1Vvi22DWyvKMIVAGI=;
- b=yRoyEf6sZQae76wY8qxoDaJnWrtN3QBAzTKxgU6hR9M9ytTm7FPHUfwZs7MVyC8NJ6LXj1homffzQQ/tORCQMk4MWZWcZCt0Ey9mBd46KuUTpq5F3VAOvMMPaRj7nZaO5jUnoc4LsMixETaEjk9zsHh1H9lXorfGXhGCVRkWzq30QU/B8Xo/exXU6dI5jgonW7vqwjK1VxGxoZik8cRPftlG2vf4cbaKz5RK+uBKW6lsitvCQJzlbu07puQyz8c0iZgnKDz0cs+9GjNbJBHY/uZCKOts1eFusqlrNaFaOcUrxO2fEKZ4wiZ49sZMwAUeRW2roYkVjHR6dS4VEQDSyA==
+ bh=GKhFuF2R67lF3Fx3qUcWAp+7TtXF1wlCDOCZIn6ep4U=;
+ b=yrQEJyj3soHt1zxI7i0woB5zAgbIuDsMX9JG9aRdWv1aXMTSXcKfDx/5GzeURt9aPL+4BSRlcadQqs5O9HWhT8mzOdUToPF4Gf8iWGi3kWYHon0ASA2hingLTlF+95/pJ4CpesB2oagwdTWmeFJPAHO2JCKS7SV5nizd/+VVO+OAUv66FwNbPqZ5fjxLLlkSzuhqxrxzC6un0WbmNvzYCYBO7M65wIzhr8vYcnB04Dpr6E1rqxUz2E5PBM50YzYE4nPjtBpWV6qzsO4aXo6XBq+MedjJ9B32WbMImW+kaCQId+s2fCO7oVxyrmhBike5tx+FiCb53MH7QwGuXdDUOg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6WIRcrG8jXQrlSzQktHMP2dWxS1Vvi22DWyvKMIVAGI=;
- b=bBZKEjJmlittVvsdoKAwBlPZlYt49lWzJaYou1ItTDYEMdUb178s+SXo01wrWcYc3EFVn9aD0NfVJXKlx7wu0DGF9nUCZIR/0cVoMmdc2ta7ABvXX6gab9SflclplHWyTxbmtJh6TqSp0BfcB5+cphL1rv7L/sqzGesegqK6sJU=
-Received: from CH2PR14CA0047.namprd14.prod.outlook.com (2603:10b6:610:56::27)
- by CH3PR12MB8329.namprd12.prod.outlook.com (2603:10b6:610:12e::10)
+ bh=GKhFuF2R67lF3Fx3qUcWAp+7TtXF1wlCDOCZIn6ep4U=;
+ b=hFYVe6bZYOECxLutabLoiOB8G7190Lq8aUrrlTfBKFf7f+vsAO4jPfIYHkHHBWtmwxgEKUqykruxZKRbNi0FvL/NJxifQXvv9qP8LM70yD62jBOFoi30dca2/gQlHF0SkF2V2RFiHEEz7jAhvgGzykmWiGUmx0mlr/lKD8Go1mo=
+Received: from CH0PR03CA0066.namprd03.prod.outlook.com (2603:10b6:610:cc::11)
+ by MN0PR12MB5859.namprd12.prod.outlook.com (2603:10b6:208:37a::17)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.18; Thu, 3 Oct
- 2024 20:01:40 +0000
-Received: from DS2PEPF0000343E.namprd02.prod.outlook.com
- (2603:10b6:610:56:cafe::e2) by CH2PR14CA0047.outlook.office365.com
- (2603:10b6:610:56::27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.18 via Frontend
- Transport; Thu, 3 Oct 2024 20:01:40 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.16; Thu, 3 Oct
+ 2024 20:01:37 +0000
+Received: from CH2PEPF00000140.namprd02.prod.outlook.com
+ (2603:10b6:610:cc:cafe::1) by CH0PR03CA0066.outlook.office365.com
+ (2603:10b6:610:cc::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.17 via Frontend
+ Transport; Thu, 3 Oct 2024 20:01:37 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
 Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DS2PEPF0000343E.mail.protection.outlook.com (10.167.18.41) with Microsoft
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ CH2PEPF00000140.mail.protection.outlook.com (10.167.244.72) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8026.11 via Frontend Transport; Thu, 3 Oct 2024 20:01:40 +0000
-Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ 15.20.8026.11 via Frontend Transport; Thu, 3 Oct 2024 20:01:37 +0000
+Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 3 Oct
  2024 15:01:33 -0500
 Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB05.amd.com
  (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 3 Oct
- 2024 15:01:33 -0500
+ 2024 15:01:34 -0500
 Received: from localhost.localdomain (10.180.168.240) by SATLEXMB03.amd.com
  (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Thu, 3 Oct 2024 15:01:32 -0500
+ Transport; Thu, 3 Oct 2024 15:01:33 -0500
 From: Harry Wentland <harry.wentland@amd.com>
 To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
 CC: <wayland-devel@lists.freedesktop.org>, Harry Wentland
- <harry.wentland@amd.com>
-Subject: [PATCH v6 01/44] drm: Add helper for conversion from signed-magnitude
-Date: Thu, 3 Oct 2024 16:00:43 -0400
-Message-ID: <20241003200129.1732122-2-harry.wentland@amd.com>
+ <harry.wentland@amd.com>, Louis Chauvet <louis.chauvet@bootlin.com>
+Subject: [PATCH v6 02/44] drm/vkms: Round fixp2int conversion in lerp_u16
+Date: Thu, 3 Oct 2024 16:00:44 -0400
+Message-ID: <20241003200129.1732122-3-harry.wentland@amd.com>
 X-Mailer: git-send-email 2.46.2
 In-Reply-To: <20241003200129.1732122-1-harry.wentland@amd.com>
 References: <20241003200129.1732122-1-harry.wentland@amd.com>
@@ -79,50 +79,50 @@ Received-SPF: None (SATLEXMB05.amd.com: harry.wentland@amd.com does not
  designate permitted sender hosts)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS2PEPF0000343E:EE_|CH3PR12MB8329:EE_
-X-MS-Office365-Filtering-Correlation-Id: 35db2853-0978-428f-491b-08dce3e63267
+X-MS-TrafficTypeDiagnostic: CH2PEPF00000140:EE_|MN0PR12MB5859:EE_
+X-MS-Office365-Filtering-Correlation-Id: 508d94bd-86fe-4150-af5e-08dce3e6303e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
  ARA:13230040|376014|36860700013|1800799024|82310400026; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?GkFyW05V+T1Dw+D5AtFu+4HqqP8/gmWU+A8oYblKppGJ2JznWfFMINUV6Qjb?=
- =?us-ascii?Q?TZelVnfLRS5Vzjm5Ry7dRG5h8/eBCkzrwVIANbN4642OJTLqVkIKgzz/ClDN?=
- =?us-ascii?Q?lFI5gWUSJC1GiUTNXfrkOSoCd1zBok62ZujjrfULVawZ2L3oBo4l6Ss8Rd/G?=
- =?us-ascii?Q?Jrnk4pAWIbr4MMmvMeAfV23GQHXHXhXZVpa+eQhhnql26tEcy2Cb9YdNoZP6?=
- =?us-ascii?Q?5RieZROMwwGWkSVLYOpqBzR8tRpFjOAqMNQiis94twUre1KduXfrQxiAqV2x?=
- =?us-ascii?Q?MSeD7iNK644DsChUOSKzrQciQx7iPJg5zdmYlQIAwcElcVeYE42oH7nerNyN?=
- =?us-ascii?Q?WnJJLVq9wElEAQ6Qtb6Pwv+e+FRie4JuoISEZfD73TaR2AjexrB//u6ISrFy?=
- =?us-ascii?Q?cKfe9E/P2szWNv6Rx3y5yPNtu8ORTZS3I7JqAi1w3K39iAa0b1oSQNnfwBnc?=
- =?us-ascii?Q?sV96GYchHwLppT/OHqfhrzKHKeUVyMal9Ys91FOLTeB+SW8VlEZUcvfeOVf6?=
- =?us-ascii?Q?rWw2uN0Y6hWiDkKN6u8o6/CAQn/DL6YNNbj9ZFFq5w7BZ0jVQTNYpJx7U5ef?=
- =?us-ascii?Q?L/iOtSaxQmz6Pxfz/CMqKCA1Sihp1jdccohp6zcH0RKo9DbgOS97oLlDgC37?=
- =?us-ascii?Q?au8O3HJeGL2/8pl4gebxhLB+fVO6/KMcZXItl5SREPCKIl/losmoMVnLEdL0?=
- =?us-ascii?Q?GUfyJnn1MXj8yTNDxrMmvvEI5mdqLL5igbOJLYzI+7mTFkCxkQSidVF0vPlA?=
- =?us-ascii?Q?au+9JT9deK0jRQcpu7Qfoh9S6aVUpbq1hwHuM/5DE6v6hz6ITgB3P0mL3IGe?=
- =?us-ascii?Q?lVgmyNayLtWi9F2pxFfZMEIA0QaqRl9rHDeUm8l3+/j38Sz13r4ffoSvK/kY?=
- =?us-ascii?Q?KK3msh5mN/6TzMD2scuMaO7FbG3IrGI7DlAqyFBogH5bWBHyz31L/R4avybD?=
- =?us-ascii?Q?XrARFdf7HwrvuWQEFVXt1jFhb614YKXuAUnlG9vH82cLGVeWOHzeePm5G8Mu?=
- =?us-ascii?Q?JKNI8eGJN9ac8Y2y6w25fQzxQHsMjXlPgT7ShpMlvJl9hJsulDdlKs3axws9?=
- =?us-ascii?Q?xsWXTDBKIirNnfH6z+LAu1RdWaK4dbA5ICkR3Gmy2DQUuQXK9PQWGIS4wHxg?=
- =?us-ascii?Q?XTWW3sRWBdo3Wdp4KovSQgC/B+qXiJVsKb1pn84HkPkHL/q4QuPWN2df/bKe?=
- =?us-ascii?Q?77IsZeNZ8KGn8hkaZL/InA9t8YptXvHuA5CeFXdq9wYCnYQAdCWcVvWhw/GI?=
- =?us-ascii?Q?cV6pgKf1znEh6Jd6R8S/s3raioPbUJtzjVPRmJpzJPqrsZRd8CQn+jvtB+gG?=
- =?us-ascii?Q?kwR6yFHGpE16+jPK9ojJggyfzITaVjFLTzfsAvCt6xAIZb1UXlbbvSZmKXda?=
- =?us-ascii?Q?WI5O2h4=3D?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?i5IUu61E+iCtzkvDRvirIEfe2YQ9K7pxZ63q4icrncxOs/zAL8ILG+hCzQtE?=
+ =?us-ascii?Q?Nbqw2XGzTUGgRxnbWD/oKlKnTpv/Hja4JsVP3lxkjF0GehXBgA3LjlSDoK3V?=
+ =?us-ascii?Q?1h550z5TsDAqvRR+SgVyzpsXjM6/sGuBdckCU1LlFZU49Hz7gNkQKmOfbl8u?=
+ =?us-ascii?Q?sY6/eQQhABP1geAkaT6g1Lm5Sr83+QrGPJYoD8GtK0KoG/6CaMEQ2LQIx+EH?=
+ =?us-ascii?Q?K7aJMv1GDlWJY50wEh1mYGaVyiwYU8JIy8ltCJR68z6lXQUVZ5ZYmksc11n7?=
+ =?us-ascii?Q?+KEDd8MysU7+L++y+vQzKoLb/rvAhrecbsZ20/94WB49qlFDiqE+94jEiWwr?=
+ =?us-ascii?Q?fcNzbbi6zlrv/q0LvRFefjIWwhy9YOm1URDaxERbUn+sHOH9bIobv5wGlJvu?=
+ =?us-ascii?Q?/CTjFk1N4+aZ1Q+YhAIyppWwlqSoa7r70Xe4lWfU0OBGWH16bkXJUyYyGd5v?=
+ =?us-ascii?Q?uAqTXYtRCTdYHvcb9rHm8AJr6nxywcwSEQPBzOB/Oc81w8P6eY6RBB/W1j4i?=
+ =?us-ascii?Q?T9Gth1eCB9XfI2LxjEQHRHWHdnT474O+JqZqp1Bvbt65qqHOk9I7o0dGfRg6?=
+ =?us-ascii?Q?m1nFb+PZc9HpFfN0euJl+D8pBFGKFt9DhI25nZD6mQsraRZwJ3bg0alPA28l?=
+ =?us-ascii?Q?hbt1SvoJ8jsKNjnhz0QeFWkz6jGH/c8wNM6jv5+xrkJ7CMs1aVSfdsHT0Y9s?=
+ =?us-ascii?Q?e3Oeqc3sUcaFnfK4EbbHlviYYpa9IdQLUBFOKrmagIxGo9qdSr0C6Gb4i9mv?=
+ =?us-ascii?Q?JMwFK99IJp+I+GDiM52tC1YPpzrL8DBuvjqvBcRJl4CJl86O9bcjo3Xp/Om3?=
+ =?us-ascii?Q?oyvCKeci3qmHRjK4hNXIVXAu6l3LPj7HNegipfCiquEGO7d02o3sdS0DLn6r?=
+ =?us-ascii?Q?Rx/4BLXu6/mAevsDXJvb0l08dYOeYTXf3yPobkM6FBQ1dhlYVil6JSwYUJgK?=
+ =?us-ascii?Q?9f6yUapFXK6H3VaO8Pn4OlXKmiFDRASv3XhmJwg3zqpG8Qjfptp8LJrCDUJq?=
+ =?us-ascii?Q?CyWONr6phgTrjx/lXisgdyWqK1N3DwJxgJdtaLEc+Uyf1gGnPrwKUuPbiUBi?=
+ =?us-ascii?Q?p1+2jTvzhNO6G7pHizGw4trGnkoI/GWSWQDk97L/nwPn+Fl+WD85su1u2Oh8?=
+ =?us-ascii?Q?7iKaVdOzUqAX7ivjVQFc26vhpl5JeRf/9aqVHqxLTNWBA0OvaXhXB8TgFlwI?=
+ =?us-ascii?Q?p85i+X9ki3Eum4nWbt+figFOJq5Jby74FVOOi608u1h3AixNCg2T4ul+GCsi?=
+ =?us-ascii?Q?EHW6NqzaQgL8KZEeQHrtHEAQcm1vkDDInKGffRwcHLbOQVMqurs3bqCfqg5f?=
+ =?us-ascii?Q?Dm7eDD0Gxdgj6nyiWnFyH4XinHlEtQkdCWX5oBM/CjgA453QmMkAwQm/Z1Jc?=
+ =?us-ascii?Q?pvTl1G5qZxskPS6+3cNf4DgRcrIf?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
  SFS:(13230040)(376014)(36860700013)(1800799024)(82310400026); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Oct 2024 20:01:40.6287 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 35db2853-0978-428f-491b-08dce3e63267
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Oct 2024 20:01:37.0070 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 508d94bd-86fe-4150-af5e-08dce3e6303e
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DS2PEPF0000343E.namprd02.prod.outlook.com
+ Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CH2PEPF00000140.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8329
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5859
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -138,45 +138,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CTM values are defined as signed-magnitude values. Add
-a helper that converts from CTM signed-magnitude fixed
-point value to the twos-complement value used by
-drm_fixed.
+fixp2int always rounds down, fixp2int_ceil rounds up. We need
+the new fixp2int_round.
 
 Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- include/drm/drm_fixed.h | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ drivers/gpu/drm/vkms/vkms_composer.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/drm/drm_fixed.h b/include/drm/drm_fixed.h
-index 1922188f00e8..0b44f2f294ce 100644
---- a/include/drm/drm_fixed.h
-+++ b/include/drm/drm_fixed.h
-@@ -78,6 +78,24 @@ static inline u32 dfixed_div(fixed20_12 A, fixed20_12 B)
- #define DRM_FIXED_EPSILON	1LL
- #define DRM_FIXED_ALMOST_ONE	(DRM_FIXED_ONE - DRM_FIXED_EPSILON)
+diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
+index e7441b227b3c..3d6785d081f2 100644
+--- a/drivers/gpu/drm/vkms/vkms_composer.c
++++ b/drivers/gpu/drm/vkms/vkms_composer.c
+@@ -98,7 +98,7 @@ static u16 lerp_u16(u16 a, u16 b, s64 t)
  
-+/**
-+ * @drm_sm2fixp
-+ *
-+ * Convert a 1.31.32 signed-magnitude fixed point to 32.32
-+ * 2s-complement fixed point
-+ *
-+ * @return s64 2s-complement fixed point
-+ */
-+static inline s64 drm_sm2fixp(__u64 a)
-+{
-+	if ((a & (1LL << 63))) {
-+		return -(a & 0x7fffffffffffffffll);
-+	} else {
-+		return a;
-+	}
-+
-+}
-+
- static inline s64 drm_int2fixp(int a)
- {
- 	return ((s64)a) << DRM_FIXED_POINT;
+ 	s64 delta = drm_fixp_mul(b_fp - a_fp,  t);
+ 
+-	return drm_fixp2int(a_fp + delta);
++	return drm_fixp2int_round(a_fp + delta);
+ }
+ 
+ static s64 get_lut_index(const struct vkms_color_lut *lut, u16 channel_value)
 -- 
 2.46.2
 
