@@ -2,75 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA34E98EA6F
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 09:37:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76EAC98EA3C
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 09:17:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C0CE10E7B7;
-	Thu,  3 Oct 2024 07:37:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 945C610E1E3;
+	Thu,  3 Oct 2024 07:17:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NdbzrFfB";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="MHvIFztx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com
- [209.85.215.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E229B10E1E3;
- Thu,  3 Oct 2024 07:15:02 +0000 (UTC)
-Received: by mail-pg1-f169.google.com with SMTP id
- 41be03b00d2f7-656d8b346d2so359867a12.2; 
- Thu, 03 Oct 2024 00:15:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1727939702; x=1728544502; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=wa4pIu5pC+135xygnD713lEhYzLZxMaLiQkWjJzvNgM=;
- b=NdbzrFfB6bC404gglxeeS2LVrOwEnQWihhv6oDCA5fPMaSdlk6pyA6jXy+2V6l51Nk
- SqYTIcGc+h8MJ6O1rX9O5ZeSC2acURV2OhrXlBq7pm4CUdVeWOAb/OPvhrHyQ/Y05di3
- Plfu0d/Maoi+sED27SzcYcddY5DwxbGt+KtBffY6f5XFCob4THJOJIfAJTY3vKQWXwwG
- qkERHwyZ8gegiElbYd1zCi8uFFJWN9aD5XGpw9nv0m9mEp+O2qOzoY9XGs0AjYZhfB+S
- TQMCIg4TVXm2hYaN5XcuydnqNswBv7LbELtXIRC8DqvdhCICsEis86cIJ8lhGqBU9Cuo
- hqGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727939702; x=1728544502;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=wa4pIu5pC+135xygnD713lEhYzLZxMaLiQkWjJzvNgM=;
- b=OXR0TovJNGTsLXZJCnigyGthgalhs003fe4IwQFFM2kBmUws+SLnxyr5eSI2VbjtJ9
- 8F654U8svO6RofSiWzZqfrZXQombnetVe6VL0TSmo2E/l58vt8TNPBeTGtJrjOLiG7k0
- 2qzbmaHqRk98TjQYaufPwFYH7y5C7bZZblVdKT8rWIiPEn8OrXW6cwVGHYoYI1ljxM4o
- aoaqlbjFQ5jDvpnTofq+jfyI28hfDWbLk+iWnXQnmkAEHftSXh0Yz7n4gDBDx4o0c5jc
- q8etBEMpYAlM+YaAhOOhLsRyq5JwW5n7Y9+SG6lel/kev1udfOo0nxhAArTbgwNWTch2
- u6cg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX+nRpvRjSKHSaTbXzyHcsgXP0N4fzo/xd0SZZwc6GUvfuT+Uld0OZalecmhBD/EXKge3aWbFwdWf0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxkcXeWtEnL8X24Jg8bC3dql2oHPVnyZUlinu45Dv66HMXMQmO1
- iD9oShzRKECDGFHLzJp6pVhls/kr6ZzRuFwt+s615Q5C6a5VaV7x
-X-Google-Smtp-Source: AGHT+IG395izEmIc+wheQbgooKM2yOIXSyp8HxCpDyfAtHvRK9D3lYz5JKBwip2Ls4SZJD7e4PEZOQ==
-X-Received: by 2002:a17:90a:8f03:b0:2d3:d68e:e8d8 with SMTP id
- 98e67ed59e1d1-2e1849e48bemr5475891a91.40.1727939702292; 
- Thu, 03 Oct 2024 00:15:02 -0700 (PDT)
-Received: from advait-kdeneon.. ([2405:201:1e:f1d5:b1fd:ba19:3835:b7cf])
- by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-2e1bff53549sm763656a91.55.2024.10.03.00.14.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Oct 2024 00:15:01 -0700 (PDT)
-From: Advait Dhamorikar <advaitdhamorikar@gmail.com>
-To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, simona@ffwll.ch, leo.liu@amd.com,
- sathishkumar.sundararaju@amd.com, saleemkhan.jamadar@amd.com,
- Veerabadhran.Gopalakrishnan@amd.com, advaitdhamorikar@gmail.com,
- sonny.jiang@amd.com
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
- anupnewsmail@gmail.com
-Subject: [PATCH-next] Fix unintentional integer overflow
-Date: Thu,  3 Oct 2024 12:44:31 +0530
-Message-Id: <20241003071431.328259-1-advaitdhamorikar@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28B6C10E1E3
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 07:17:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1727939866;
+ bh=lT8bT5kSxgIfLqr7Z2JCHBxtG5CmBxPjUIRJ7Ggt7fw=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=MHvIFztxhjhDMGBD4nqw27saXhmX4h2DeAgqBUJynHF/mjC9uxB4OQmSCiJ4xGhZL
+ n5FMwm+/NMqC/knPYDJ1QbHxbxPhE/HfcatTu8sY+CTShmP5qP9C7YueNWsFaIXqac
+ uZCJT6sNkdYV1SL3/kT7OWuVar9Lz6JnqGFfG4pgnPfa1V2N7Ix5f8p1OkaEPza8ia
+ 97e2yNcrnzC6IicFMg+yex/+1nX7feZwta0VFnVYN9G6ZXzxpP7rKC20OzQH/y2vED
+ xtIJpRrgY4meaKvDxlsHPmMG/Csf7FlQFzma7ow+NA6W5fm1iESOWXWHhiwsGXurLi
+ u8Uk79hThnC8A==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 56EB217E0F98;
+ Thu,  3 Oct 2024 09:17:46 +0200 (CEST)
+Date: Thu, 3 Oct 2024 09:17:40 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
+Cc: Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, AngeloGioacchino Del
+ Regno <angelogioacchino.delregno@collabora.com>, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/panfrost: Add missing OPP table refcnt decremental
+Message-ID: <20241003091740.4e610f21@collabora.com>
+In-Reply-To: <20241003002603.3177741-1-adrian.larumbe@collabora.com>
+References: <20241003002603.3177741-1-adrian.larumbe@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Thu, 03 Oct 2024 07:37:11 +0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,31 +65,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix overflow issue by casting uint8_t to uint64_t in JPEG
-instance multiplication.
-The expression's value may not be what the programmer intended,
-because the expression is evaluated using
-a narrow (i.e. few bits) integer type.
+On Thu,  3 Oct 2024 01:25:37 +0100
+Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
 
-Fixes: f0b19b84d391 ("drm/amdgpu: add amdgpu_jpeg_sched_mask debugfs")
-Signed-off-by: Advait Dhamorikar <advaitdhamorikar@gmail.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> Commit f11b0417eec2 ("drm/panfrost: Add fdinfo support GPU load metrics")
+> retrieves the OPP for the maximum device clock frequency, but forgets to
+> keep the reference count balanced by putting the returned OPP object. This
+> eventually leads to an OPP core warning when removing the device.
+>=20
+> Fix it by putting OPP objects as many times as they're retrieved.
+> Also remove an unnecessary whitespace.
+>=20
+> Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
+> Fixes: f11b0417eec2 ("drm/panfrost: Add fdinfo support GPU load metrics")
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c
-index 95e2796919fc..b6f0435f56ba 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c
-@@ -357,7 +357,7 @@ static int amdgpu_debugfs_jpeg_sched_mask_set(void *data, u64 val)
- 	if (!adev)
- 		return -ENODEV;
- 
--	mask = (1 << (adev->jpeg.num_jpeg_inst * adev->jpeg.num_jpeg_rings)) - 1;
-+	mask = ((uint64_t)1 << (adev->jpeg.num_jpeg_inst * adev->jpeg.num_jpeg_rings)) - 1;
- 	if ((val & mask) == 0)
- 		return -EINVAL;
- 
--- 
-2.34.1
+Reviewed-by:=20
+
+> ---
+>  drivers/gpu/drm/panfrost/panfrost_devfreq.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_devfreq.c b/drivers/gpu/dr=
+m/panfrost/panfrost_devfreq.c
+> index 2d30da38c2c3..c7d3f980f1e5 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+> @@ -38,7 +38,7 @@ static int panfrost_devfreq_target(struct device *dev, =
+unsigned long *freq,
+>  		return PTR_ERR(opp);
+>  	dev_pm_opp_put(opp);
+> =20
+> -	err =3D  dev_pm_opp_set_rate(dev, *freq);
+> +	err =3D dev_pm_opp_set_rate(dev, *freq);
+>  	if (!err)
+>  		ptdev->pfdevfreq.current_frequency =3D *freq;
+> =20
+> @@ -177,6 +177,8 @@ int panfrost_devfreq_init(struct panfrost_device *pfd=
+ev)
+>  	 */
+>  	pfdevfreq->current_frequency =3D cur_freq;
+> =20
+> +	dev_pm_opp_put(opp);
+> +
+
+Shouldn't this be moved after the dev_pm_opp_set_opp() that's
+following?
+
+>  	/*
+>  	 * Set the recommend OPP this will enable and configure the regulator
+>  	 * if any and will avoid a switch off by regulator_late_cleanup()
 
