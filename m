@@ -2,52 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BAB498EDF0
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 13:19:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D01C198EDF1
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 13:19:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EC5910E806;
-	Thu,  3 Oct 2024 11:19:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4958010E807;
+	Thu,  3 Oct 2024 11:19:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ToM+yNx+";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ItmiA0r6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6156810E805
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 11:19:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CE0010E807
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 11:19:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1727954351; x=1759490351;
+ t=1727954354; x=1759490354;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=sDN1B3+8eCTn8UdE1PuRscDjA8/jdTqpcVEkaYnt/GI=;
- b=ToM+yNx+4HcJiWgP2mhDx+qCO+ZENBlJEZkSdcsjUt2uZg2wgcC5udAY
- QCFYFPJIt/OofumYcQDaW9oxakxuCROpJnP4rI0x++9NvMrwO2XdOl+Pn
- 2hqH424qr1ckjt0xUsMpESZrACHZm8Z9Ijx9WFE7EF+pqmZ2uRqpVnwik
- 0ZR9f7MjimVLUJzw20/ddeC10NPY3n+7jn9WI0gJ+lJFJk7OEGgUvj3l7
- XW/LwYaBD2vxPvENULZTwLark7YuXuz+zrBxnm7Vfv5X+13+xrw4MKqVn
- h8AqEL+BF4QO22YtUiuu0RDhmr0BEihNwzS9JiHPhlx/j1kGd7lbF3MdJ w==;
-X-CSE-ConnectionGUID: D3d2K+BEQqGOkypChrXMHA==
-X-CSE-MsgGUID: tpDkmQTdSzSfdch/gWo2ow==
-X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="27012975"
-X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; d="scan'208";a="27012975"
+ bh=f71NPFG/zGrZfNemG//LfafSmN0hY0k7o5M+KaLTHfU=;
+ b=ItmiA0r6zm/tGts4UWtN0LTP4KCLeDrFFtewuUAxUVV70Ii9E9nIQlxC
+ hvDhPKfFjeB6yD1f80JmGtwyUDwtEMRlWR8dh99AG0QYgK7SeRQV9swyr
+ 4xXcEdX0ZiBXQtDBmePhdML9PRJ4k0XaW+o5hjUmXcN3xSbqtEmMFl5na
+ MJw7x5W5kmES3o9o5OC0dCrFQhkM1wboZFZRRzrX6/kYsD/L1GhhxBSe3
+ eacecRttvjaBhhRW+F98OAbxJYjS3oVDg6XiwPmOZIhpmmQ6ACoHJ1DDg
+ fpwbDQjVBqe8IB23U0Thy7X2V3685ckTT+kr1jplTsWN1zbq02dq08KZE g==;
+X-CSE-ConnectionGUID: iS2PpD8NQluX8x/Xay/4Tw==
+X-CSE-MsgGUID: Kybm9TPwRh28f86nl1yGMQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="27012980"
+X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; d="scan'208";a="27012980"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Oct 2024 04:19:11 -0700
-X-CSE-ConnectionGUID: 2jn9CGDnTdGlhtIMzUp8vQ==
-X-CSE-MsgGUID: SfE4Dv0dQ0GDB/UJYiVWGQ==
+ 03 Oct 2024 04:19:14 -0700
+X-CSE-ConnectionGUID: Q4IpU6++SGCZclxUduFizA==
+X-CSE-MsgGUID: HZ+XwzHdRwKjBWm2HahGCg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; d="scan'208";a="74423759"
+X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; d="scan'208";a="74423773"
 Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by fmviesa008.fm.intel.com with SMTP; 03 Oct 2024 04:19:09 -0700
+ by fmviesa008.fm.intel.com with SMTP; 03 Oct 2024 04:19:12 -0700
 Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 03 Oct 2024 14:19:08 +0300
+ Thu, 03 Oct 2024 14:19:11 +0300
 From: Ville Syrjala <ville.syrjala@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Cc: Russell King <linux@armlinux.org.uk>
-Subject: [PATCH v2 05/10] drm/armada: Allow build with COMPILE_TEST=y
-Date: Thu,  3 Oct 2024 14:18:46 +0300
-Message-ID: <20241003111851.10453-6-ville.syrjala@linux.intel.com>
+Cc: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+ Lucas Stach <l.stach@pengutronix.de>
+Subject: [PATCH v2 06/10] drm/imx/dcss: Fix 64bit divisions
+Date: Thu,  3 Oct 2024 14:18:47 +0300
+Message-ID: <20241003111851.10453-7-ville.syrjala@linux.intel.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20241003111851.10453-1-ville.syrjala@linux.intel.com>
 References: <20241003111851.10453-1-ville.syrjala@linux.intel.com>
@@ -71,28 +72,38 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-Allow armada to be built with COMPILE_TEST=y for greater
-coverage. Builds fine on x86/x86_64 at least.
+Use the appropriate 64bit division helpers to make the code
+build on 32bit architectures.
 
-Cc: Russell King <linux@armlinux.org.uk>
+Cc: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+Cc: Lucas Stach <l.stach@pengutronix.de>
 Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 ---
- drivers/gpu/drm/armada/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/imx/dcss/dcss-scaler.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/armada/Kconfig b/drivers/gpu/drm/armada/Kconfig
-index b22c891a670b..1376337548da 100644
---- a/drivers/gpu/drm/armada/Kconfig
-+++ b/drivers/gpu/drm/armada/Kconfig
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0-only
- config DRM_ARMADA
- 	tristate "DRM support for Marvell Armada SoCs"
--	depends on DRM && HAVE_CLK && ARM && MMU
-+	depends on DRM && HAVE_CLK && MMU && (ARM || COMPILE_TEST)
- 	select DRM_CLIENT_SELECTION
- 	select DRM_KMS_HELPER
- 	select FB_IOMEM_HELPERS if DRM_FBDEV_EMULATION
+diff --git a/drivers/gpu/drm/imx/dcss/dcss-scaler.c b/drivers/gpu/drm/imx/dcss/dcss-scaler.c
+index 825728c356ff..32c3f46b21da 100644
+--- a/drivers/gpu/drm/imx/dcss/dcss-scaler.c
++++ b/drivers/gpu/drm/imx/dcss/dcss-scaler.c
+@@ -136,7 +136,7 @@ static int div_q(int A, int B)
+ 	else
+ 		temp -= B / 2;
+ 
+-	result = (int)(temp / B);
++	result = div_s64(temp, B);
+ 	return result;
+ }
+ 
+@@ -239,7 +239,7 @@ static void dcss_scaler_gaussian_filter(int fc_q, bool use_5_taps,
+ 			ll_temp = coef[phase][i];
+ 			ll_temp <<= PSC_COEFF_PRECISION;
+ 			ll_temp += sum >> 1;
+-			ll_temp /= sum;
++			ll_temp = div_s64(ll_temp, sum);
+ 			coef[phase][i] = (int)ll_temp;
+ 		}
+ 	}
 -- 
 2.45.2
 
