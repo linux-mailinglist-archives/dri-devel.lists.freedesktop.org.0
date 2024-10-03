@@ -2,56 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C99D98EDF8
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 13:19:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0D7798EE28
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 13:33:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA37110E80B;
-	Thu,  3 Oct 2024 11:19:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0255B10E80D;
+	Thu,  3 Oct 2024 11:33:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZtYBDfoD";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KSKZk325";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C95D10E80B
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 11:19:27 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D19B10E80C;
+ Thu,  3 Oct 2024 11:33:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1727954367; x=1759490367;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=1WWBSxzILxSYsGawLcrm3HdTa6GEE9/bUz51NQZ0heg=;
- b=ZtYBDfoDgwjVov8YKTQxE4IbVs9/ga2zDwXVeMSbgtZoz1ofDUK77bNo
- 8o2V2olP3c2p1AM1U1NzhPLNHca1Ib9xXycCfSu83P32jL8Jr8St7BgB9
- tc4OY4aUwrpQEy9S7f/IZaVp12jbC+KBz1cnItQLP440jfLX4jXXehjpG
- KSeeqb8gu03fa6D2aS0uYWh+kSRxq5zlrQip1B1l3P6C6Eqtb8ANIREMD
- ZqN9E9CQvSguEV9L3p97DEVd7hJuxFYJbl8/Rvj1g77qC/wqs6dkDpGoc
- geOFUVqf8Fgg4vIBZMN3PAb1LkLQaXXN9LjtrBs/9O8ljKCQVcvcd1sij g==;
-X-CSE-ConnectionGUID: 32F7dp29Rra9brASFvPXcQ==
-X-CSE-MsgGUID: Gx6jeqdPTWGliBG05NIt/w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="27013031"
-X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; d="scan'208";a="27013031"
+ t=1727955188; x=1759491188;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=lctZBswY1qaa0QV/JzrmhiJG/GDAr7QWhxmnoiLBYvw=;
+ b=KSKZk325sUeGc8vSX8S0rFPGR8VhgUEeQtV685aHLzx1FnlGrCKYD+Vl
+ NUAaWlkXoyeOfxvSVzZvtV/SfyPrGMEOl5StnLzdHcQkLHUXaDUGR28n6
+ +yEnWye1zkyr1tPiljLNTuDCshwUpZ4xEoohsAi5EnHUVS2/zLFAOYguK
+ 4NXQUTnogtvh6KpTSqew7/CS+/EKKc3AWMKJ6iJOwVvVkvfACMXoVVr+/
+ 8vuT0yBvQU20HuB1I7sEGt00uxRZ5axjdKIVYIXjBoKPaeshbRPAOqFVw
+ 21DnZB5EeUgfH0RyX+Q8DQ+DhYvfwbw8kVeNIGgkRHzmKJj5mLjHHi3PS g==;
+X-CSE-ConnectionGUID: Sqw7qmo9SLi9FQDP8k1zIQ==
+X-CSE-MsgGUID: /UAEfwnRQzSl2D7Iziin8g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="38502972"
+X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; d="scan'208";a="38502972"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Oct 2024 04:19:27 -0700
-X-CSE-ConnectionGUID: sqs5aFW3S6yEfoNZtQFAWA==
-X-CSE-MsgGUID: CqCmrdf6RCmqVgsfFpIjBw==
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Oct 2024 04:33:07 -0700
+X-CSE-ConnectionGUID: 6sgb4V0QTdCOf9T4dTUT5g==
+X-CSE-MsgGUID: PcPA3l4bSzWHtbmYxYKZkg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; d="scan'208";a="74423838"
+X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; d="scan'208";a="74426449"
 Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by fmviesa008.fm.intel.com with SMTP; 03 Oct 2024 04:19:25 -0700
+ by fmviesa008.fm.intel.com with SMTP; 03 Oct 2024 04:33:05 -0700
 Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 03 Oct 2024 14:19:24 +0300
+ Thu, 03 Oct 2024 14:33:04 +0300
 From: Ville Syrjala <ville.syrjala@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- linux-amlogic@lists.infradead.org
-Subject: [PATCH v2 10/10] drm/meson: Allow build with COMPILE_TEST=y
-Date: Thu,  3 Oct 2024 14:18:51 +0300
-Message-ID: <20241003111851.10453-11-ville.syrjala@linux.intel.com>
+Cc: intel-gfx@lists.freedesktop.org
+Subject: [PATCH 0/8] drm/client: Stop using legacy crtc->mode and a bunch of
+ cleanups
+Date: Thu,  3 Oct 2024 14:32:56 +0300
+Message-ID: <20241003113304.11700-1-ville.syrjala@linux.intel.com>
 X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20241003111851.10453-1-ville.syrjala@linux.intel.com>
-References: <20241003111851.10453-1-ville.syrjala@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -72,29 +70,26 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-Allow meson to be built with COMPILE_TEST=y for greater
-coverage. Builds fine on x86/x86_64 at least.
+The most interesting part is the change to modes[] to solve
+the lifetime issue so that we can stop using the legacy
+crtc->mode for atomic drivers.
 
-Cc: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: linux-amlogic@lists.infradead.org
-Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
----
- drivers/gpu/drm/meson/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Additionally I included a bunch of cleanups, some of which were
+inherited from https://patchwork.freedesktop.org/series/132051/
 
-diff --git a/drivers/gpu/drm/meson/Kconfig b/drivers/gpu/drm/meson/Kconfig
-index b410e0d8015a..417f79829cf8 100644
---- a/drivers/gpu/drm/meson/Kconfig
-+++ b/drivers/gpu/drm/meson/Kconfig
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0-only
- config DRM_MESON
- 	tristate "DRM Support for Amlogic Meson Display Controller"
--	depends on DRM && OF && (ARM || ARM64)
-+	depends on DRM && OF && (ARM || ARM64 || COMPILE_TEST)
- 	depends on ARCH_MESON || COMPILE_TEST
- 	select DRM_CLIENT_SELECTION
- 	select DRM_KMS_HELPER
+Ville Syrjälä (8):
+  drm/client: Constify modes
+  drm/client: Use array notation for function arguments
+  drm/client: Streamline mode selection debugs
+  drm/client: Make copies of modes
+  drm/client: Stop using the legacy crtc->mode
+  drm/client: s/new_crtc/crtc/
+  drm/client: Move variables to tighter scope
+  drm/client: s/unsigned int i/int i/
+
+ drivers/gpu/drm/drm_client_modeset.c | 253 +++++++++++++--------------
+ 1 file changed, 125 insertions(+), 128 deletions(-)
+
 -- 
 2.45.2
 
