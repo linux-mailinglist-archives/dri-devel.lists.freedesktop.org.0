@@ -2,65 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95B9E98F069
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 15:31:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7827F98F0CC
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 15:49:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 148B410E242;
-	Thu,  3 Oct 2024 13:31:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A5DB10E84B;
+	Thu,  3 Oct 2024 13:49:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="fKX8rtSx";
+	dkim=pass (1024-bit key; unprotected) header.d=ispras.ru header.i=@ispras.ru header.b="f6DMs9mc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F085A10E242
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 13:31:07 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1727962254; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=RtCuQjkb4ImmOrs9F5OU9PpeLiqS0rm9TzjibjiQRWR0ZkSLSXQbgqr4DihjV4A9+6Ca/bDniTKkW/C7bbabNTVmP0kp90CYzYrdM/RT3nyxOON62FQpEx4Oe93LPX39Omqk9IAakCLTwGOjZLQtpRo1CG95HItq6Z4XhWV/1Ic=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1727962254;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=u3hkyLMMRDkXtwRu8SNsIhsLIlGy1TJE8XWYuhk2/yA=; 
- b=MFUGGHRxojnhQcdB93EfDl4j1/8X1IibIlgkfdsT7s4UM/T8eC+HgOCydlNQsxTCI++tgBumbQYpB4IzgfVA2Prfa94Pl6adsmfiJZobOTthRauVP52AnL58NGMW4Y6wrYWkbr3iaytMM7FYKiXwOO3nuqGhetPflMi8n1pwFfk=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
- dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1727962254; 
- s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=u3hkyLMMRDkXtwRu8SNsIhsLIlGy1TJE8XWYuhk2/yA=;
- b=fKX8rtSxSyVJ1u69UoRXm/uTNy9DM9czkjbHjwQS3cP38vY1dar28o+3vsxyjPIT
- /YuCBUpZiMAWEWB8C7UXmQDRfXiphxt6kWJjuSfC5TAtNC4l+r2kYLDgeVUJFwiNPzk
- dM83FBK4TGPUvoSsr3hvTVebn0ycTF1CbGMLSqOc=
-Received: by mx.zohomail.com with SMTPS id 1727962253296545.6382302905259;
- Thu, 3 Oct 2024 06:30:53 -0700 (PDT)
-From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>,
- Heiko Stuebner <heiko@sntech.de>, Grant Likely <grant.likely@linaro.org>
-Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/2] drm/panthor: Fix OPP refcnt leaks in devfreq
- initialisation
-Date: Thu,  3 Oct 2024 14:30:29 +0100
-Message-ID: <20241003133037.3398144-2-adrian.larumbe@collabora.com>
-X-Mailer: git-send-email 2.46.2
-In-Reply-To: <20241003133037.3398144-1-adrian.larumbe@collabora.com>
-References: <20241003133037.3398144-1-adrian.larumbe@collabora.com>
+X-Greylist: delayed 616 seconds by postgrey-1.36 at gabe;
+ Thu, 03 Oct 2024 13:49:14 UTC
+Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A43310E844;
+ Thu,  3 Oct 2024 13:49:14 +0000 (UTC)
+Received: from fpc (unknown [10.10.165.16])
+ by mail.ispras.ru (Postfix) with ESMTPSA id 3F68540A1DCA;
+ Thu,  3 Oct 2024 13:38:55 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru 3F68540A1DCA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
+ s=default; t=1727962735;
+ bh=KOWqdSYd0HRIuG/HzcyDAFKhPmaylzN0roNXviZpNtw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=f6DMs9mcJlTEHUqLTs5QPEMUO7gN0VYHvdDmd/FxOybqbeRUBvUpIagjui8SOv9vZ
+ 0DYyc/90v8TpSAxjE75gy5VUGqVGVkNcXu27F6n8d+RR/5hbeGUDOBvskxjKGnxgh9
+ zYDYpR5pfyt4HfkQWc7/PPrL62IBlNdpvRVbgIJk=
+Date: Thu, 3 Oct 2024 16:38:46 +0300
+From: Fedor Pchelkin <pchelkin@ispras.ru>
+To: Igor Artemiev <Igor.A.Artemiev@mcst.ru>,
+ Alex Deucher <alexander.deucher@amd.com>
+Cc: Simona Vetter <simona@ffwll.ch>, Kenneth Feng <kenneth.feng@amd.com>,
+ lvc-project@linuxtesting.org, Xinhui Pan <Xinhui.Pan@amd.com>,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Subject: Re: [lvc-project] [PATCH v2] drm/amd/pm: check return value of
+ amdgpu_irq_add_id()
+Message-ID: <20241003-271275e284694a8c82dac508-pchelkin@ispras.ru>
+References: <7b3ea9a6-575e-4fe5-98d9-6e53803188fa@amd.com>
+ <20241002130149.1607979-1-Igor.A.Artemiev@mcst.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241002130149.1607979-1-Igor.A.Artemiev@mcst.ru>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,49 +62,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Make sure in case of errors between the first fetch of an OPP in
-panthor_devfreq_init and its successive put, the error path decrements its
-reference count to avoid OPP object leaks when removing the device.
+On Wed, 02. Oct 16:01, Igor Artemiev wrote:
+> amdgpu_irq_ad_id() may fail and the irq handlers will not be registered.
+> This patch adds error code check.
+> 
+> Found by Linux Verification Center (linuxtesting.org) with static
+> analysis tool SVACE.
+> 
+> Signed-off-by: Igor Artemiev <Igor.A.Artemiev@mcst.ru>
+> ---
+> v2: Remove the cast to struct amdgpu_device as Christian König 
+> <christian.koenig@amd.com> suggested.
+> 
+>  .../drm/amd/pm/powerplay/hwmgr/smu_helper.c   | 19 ++++++++++++++++---
+>  1 file changed, 16 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu_helper.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu_helper.c
+> index 79a566f3564a..50a3085c00aa 100644
+> --- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu_helper.c
+> +++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu_helper.c
+> @@ -647,28 +647,41 @@ int smu9_register_irq_handlers(struct pp_hwmgr *hwmgr)
+>  {
+>  	struct amdgpu_irq_src *source =
+>  		kzalloc(sizeof(struct amdgpu_irq_src), GFP_KERNEL);
+> +	int ret;
+>  
+>  	if (!source)
+>  		return -ENOMEM;
+>  
+>  	source->funcs = &smu9_irq_funcs;
+>  
+> -	amdgpu_irq_add_id((struct amdgpu_device *)(hwmgr->adev),
+> +	ret = amdgpu_irq_add_id(hwmgr->adev,
+>  			SOC15_IH_CLIENTID_THM,
+>  			THM_9_0__SRCID__THM_DIG_THERM_L2H,
+>  			source);
+> -	amdgpu_irq_add_id((struct amdgpu_device *)(hwmgr->adev),
+> +	if (ret)
+> +		goto err;
+> +
+> +	ret = amdgpu_irq_add_id(hwmgr->adev,
+>  			SOC15_IH_CLIENTID_THM,
+>  			THM_9_0__SRCID__THM_DIG_THERM_H2L,
+>  			source);
+> +	if (ret)
+> +		goto err;
+>  
+>  	/* Register CTF(GPIO_19) interrupt */
+> -	amdgpu_irq_add_id((struct amdgpu_device *)(hwmgr->adev),
+> +	ret = amdgpu_irq_add_id(hwmgr->adev,
+>  			SOC15_IH_CLIENTID_ROM_SMUIO,
+>  			SMUIO_9_0__SRCID__SMUIO_GPIO19,
+>  			source);
+> +	if (ret)
+> +		goto err;
+>  
+>  	return 0;
+> +
+> +err:
+> +	kfree(source);
 
-Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
-Fixes: fac9b22df4b1 ("drm/panthor: Add the devfreq logical block")
----
- drivers/gpu/drm/panthor/panthor_devfreq.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+Oh, the calltrace looks like:
 
-diff --git a/drivers/gpu/drm/panthor/panthor_devfreq.c b/drivers/gpu/drm/panthor/panthor_devfreq.c
-index 9d0f891b9b53..ce0ac4563f65 100644
---- a/drivers/gpu/drm/panthor/panthor_devfreq.c
-+++ b/drivers/gpu/drm/panthor/panthor_devfreq.c
-@@ -197,7 +197,7 @@ int panthor_devfreq_init(struct panthor_device *ptdev)
- 	if (ret && ret != -ENODEV) {
- 		if (ret != -EPROBE_DEFER)
- 			DRM_DEV_ERROR(dev, "Couldn't retrieve/enable sram supply\n");
--		return ret;
-+		goto opp_err;
- 	}
- 
- 	/*
-@@ -207,7 +207,7 @@ int panthor_devfreq_init(struct panthor_device *ptdev)
- 	ret = dev_pm_opp_set_opp(dev, opp);
- 	if (ret) {
- 		DRM_DEV_ERROR(dev, "Couldn't set recommended OPP\n");
--		return ret;
-+		goto opp_err;
- 	}
- 
- 	dev_pm_opp_put(opp);
-@@ -242,6 +242,10 @@ int panthor_devfreq_init(struct panthor_device *ptdev)
- 		DRM_DEV_INFO(dev, "Failed to register cooling device\n");
- 
- 	return 0;
-+
-+opp_err:
-+	dev_pm_opp_put(opp);
-+	return ret;
- }
- 
- int panthor_devfreq_resume(struct panthor_device *ptdev)
--- 
-2.46.2
+hwmgr_sw_init()
+  phm_register_irq_handlers()
+    ->register_irq_handlers()
+    smu9_register_irq_handlers()
 
+And the return value of phm_register_irq_handlers() is not processed and
+the error is not reported anywhere, so I guess there is a risk of
+use-after-free: the source pointer may have been already registered by
+some of amdgpu_irq_add_id() calls before the error occured.
+
+The similar code exists in smu7_register_irq_handlers(), maybe should be
+fixed as well.
+
+Alex, is https://gitlab.freedesktop.org/agd5f/linux a public repo this
+patch should go in? I'd suggest to drop the patch and ask Igor to do a
+complete fix or, if dropping is not possible now, fix it by another patch.
+For the latter one I can do this myself but it would be nice to refer to
+the current patch via a git hash (it's probably not published yet in your
+repo).
+
+> +
+> +	return ret;
+>  }
+>  
+>  void *smu_atom_get_data_table(void *dev, uint32_t table, uint16_t *size,
+> -- 
+> 2.39.2
