@@ -2,39 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F41B798F471
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 18:48:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C90498F4A3
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 18:56:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF7B710E238;
-	Thu,  3 Oct 2024 16:48:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CFD810E8BE;
+	Thu,  3 Oct 2024 16:56:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Xx777kdn";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="mUBgoeXr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AC2F10E238;
- Thu,  3 Oct 2024 16:48:20 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96CE610E23C;
+ Thu,  3 Oct 2024 16:55:59 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id A23E45C5D32;
- Thu,  3 Oct 2024 16:48:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BF20C4CEC5;
- Thu,  3 Oct 2024 16:48:15 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 30DB3A441AE;
+ Thu,  3 Oct 2024 16:55:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECFA5C4CEC5;
+ Thu,  3 Oct 2024 16:55:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1727974099;
- bh=+Qa9dKaycAhBRYIrsw+LWF3SLzloCUMxztuqxkQ01wM=;
+ s=k20201202; t=1727974558;
+ bh=imNR9DXTopukjHkwo5tclh0f1T0zRA2E8rGys8K3ZBI=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Xx777kdnc3tch5DRdjRa9JbwLb4MLmM2MxRanYyJW2QfqJ0Qll6QmcgDF9fqX9SYk
- UkXxhpqfVfbmrbOm/RTxL58LD8uklTYebjtLja6+ul4cOW5k4vBOjjl6o8/jZII3sY
- BSQAZh6687xuad/hq/L5jt/CbaZkvRsbYSIEwH1BQxJnhysM8eVlH5GyercFqUO9Pa
- fXvKWR+ULspFHYp12q+72fFLyFJEuftVGEd7M5/mpStkolRzyKZL7KeYQSrxXlSXFW
- mX0OyIPR2VNQ7Q28rGSUna681NPSlAYHyciLZ/xkMoEj+Ok5G9TgiLtr91z/yq94oL
- BQcfnHY1AjEww==
-Message-ID: <c30baaca-beaf-485c-88b4-984febf06519@kernel.org>
-Date: Thu, 3 Oct 2024 18:48:13 +0200
+ b=mUBgoeXrHyFZRDnDFpzUHsyrA3zf4FusfHuV2snFvZRImM4+j7hwtqq+ZrBSE5D3n
+ +rdmASkKWd/fwNc4EiIKOPcuKRL4ovfbG9e1T9T9utn0siEstG84ngnVYNVQFCKR0H
+ a2nMO5EGxHa9Gv8oLd6M163qG4tqe/Oe5OvANnNKq+BwMbj3m9IVAePMwhALF/qYrn
+ 77GTVxyHvspOo/svDpB5dNVt4uLddhwrn3bThmnrF22a9wjH96M7wDNnTfJssFDbNi
+ VSg4b7UjtZOwHotpEY7baNida1iiOa+A+XTaFlC/g2xvW30DztVq2ee2fMhPjLRbFl
+ 5ZyH4Wd0XM2Hw==
+Message-ID: <b084d738-19dd-469a-8ac8-e72c76e0997c@kernel.org>
+Date: Thu, 3 Oct 2024 18:55:52 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFT 1/2] firmware: qcom: scm: Introduce CP_SMMU_APERTURE_ID
+Subject: Re: [PATCH RFT 2/2] drm/msm/adreno: Setup SMMU aparture for
+ per-process page table
 To: Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>,
  Bjorn Andersson <andersson@kernel.org>,
  Konrad Dybcio <konradybcio@kernel.org>, Rob Clark <robdclark@gmail.com>,
@@ -45,10 +46,10 @@ To: Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>,
 Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
 References: <20241002-adreno-smmu-aparture-v1-0-e9a63c9ccef5@oss.qualcomm.com>
- <20241002-adreno-smmu-aparture-v1-1-e9a63c9ccef5@oss.qualcomm.com>
+ <20241002-adreno-smmu-aparture-v1-2-e9a63c9ccef5@oss.qualcomm.com>
 Content-Language: en-US
 From: Konrad Dybcio <konradybcio@kernel.org>
-In-Reply-To: <20241002-adreno-smmu-aparture-v1-1-e9a63c9ccef5@oss.qualcomm.com>
+In-Reply-To: <20241002-adreno-smmu-aparture-v1-2-e9a63c9ccef5@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,20 +68,29 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 3.10.2024 5:01 AM, Bjorn Andersson wrote:
-> The QCOM_SCM_SVC_MP service provides QCOM_SCM_MP_CP_SMMU_APERTURE_ID,
-> which is used to trigger the mapping of register banks into the SMMU
-> context for per-processes page tables to function (in case this isn't
-> statically setup by firmware).
+> Support for per-process page tables requires the SMMU aparture to be
+> setup such that the GPU can make updates with the SMMU. On some targets
+> this is done statically in firmware, on others it's expected to be
+> requested in runtime by the driver, through a SCM call.
 > 
-> This is necessary on e.g. QCS6490 Rb3Gen2, in order to avoid "CP | AHB
-> bus error"-errors from the GPU.
+> One place where configuration is expected to be done dynamically is the
+> QCS6490 rb3gen2.
 > 
-> Introduce a function to allow the msm driver to invoke this call.
+> The downstream driver does this unconditioanlly on any A6xx and newer,
+> so follow suite and make the call.
 > 
 > Signed-off-by: Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>
 > ---
+
+Not all A6xx targets support PPPT (e.g. A619 on SM6375 - but A619 on SM6350
+does..). We already print some error messages when that's the case, I think
+this may add one more.
+
+Nonetheless, I think that sticks to the accepted status quo where lacking
+PPPT is a bug, so..
 
 Tested-by: Konrad Dybcio <konradybcio@kernel.org> # FP5
 Reviewed-by: Konrad Dybcio <konradybcio@kernel.org>
 
 Konrad
+
