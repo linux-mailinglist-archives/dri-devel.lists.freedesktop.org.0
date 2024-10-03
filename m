@@ -2,75 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E66DD98EBB5
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 10:35:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD81F98EB9E
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 10:30:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53EBC10E062;
-	Thu,  3 Oct 2024 08:35:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1DCD10E13D;
+	Thu,  3 Oct 2024 08:30:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=phytec.de header.i=@phytec.de header.b="gYT1MbKu";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="MLxD/3E1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 902 seconds by postgrey-1.36 at gabe;
- Thu, 03 Oct 2024 08:35:20 UTC
-Received: from mickerik.phytec.de (mickerik.phytec.de [91.26.50.163])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43B1E10E062
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 08:35:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; d=phytec.de; s=a4; c=relaxed/simple;
- q=dns/txt; i=@phytec.de; t=1727943616; x=1730535616;
- h=From:Sender:Reply-To:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Type:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=CZS1DqAcLXOylqarIwLjyRPvbIyThJtJvm66m95KT0M=;
- b=gYT1MbKuLOga+5NwnKc2gtoOTJZLOg7LQZWc3jlYIgsdseaibSb/6xZ4NLTD0Osi
- Tq7SQKqVJ9A3LoGFjQtLOl3wiuPPEo8kskuhg1AXe4Ktu2/L3ehn5LXHyeIxc6M9
- cTZUd8lL3uZaUosPt8EMvXEj/F7dlcelU0mti1KWeUQ=;
-X-AuditID: ac14000a-4637f70000004e2a-a0-66fe53c07c40
-Received: from berlix.phytec.de (Unknown_Domain [172.25.0.12])
- (using TLS with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (Client did not present a certificate)
- by mickerik.phytec.de (PHYTEC Mail Gateway) with SMTP id 0F.F4.20010.0C35EF66;
- Thu,  3 Oct 2024 10:20:16 +0200 (CEST)
-Received: from augenblix2.phytec.de (172.25.0.11) by Berlix.phytec.de
- (172.25.0.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.6; Thu, 3 Oct 2024
- 10:20:15 +0200
-From: Wadim Egorov <w.egorov@phytec.de>
-To: <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>, <rfoss@kernel.org>
-CC: <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
- <jernej.skrabec@gmail.com>, <maarten.lankhorst@linux.intel.com>,
- <mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
- <simona@ffwll.ch>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <bbrezillon@kernel.org>, <conor+dt@kernel.org>, <krzk+dt@kernel.org>,
- <robh@kernel.org>, <upstream@lists.phytec.de>
-Subject: [PATCH 2/2] dt-bindings: display: bridge: sil, sii9022: Add data-lines
-Date: Thu, 3 Oct 2024 10:20:06 +0200
-Message-ID: <20241003082006.2728617-2-w.egorov@phytec.de>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20241003082006.2728617-1-w.egorov@phytec.de>
-References: <20241003082006.2728617-1-w.egorov@phytec.de>
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
+ [217.70.183.196])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F09C410E13D
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 08:30:20 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 5F6D0E0004;
+ Thu,  3 Oct 2024 08:30:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1727944219;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=iYwVbcXzOAwHNa1Q5dbXWi831DDv+S4RKd+7CqAL57I=;
+ b=MLxD/3E13eXYlbGJbaC/H7zWAk2rWd0u4/tdXCF5JFlR4zm3qRI22LGc8UdNLu/xA3wS5/
+ OL2YXmGOO+j93JMupyf5BUg3fb6vCY0CDmAscJfOxDLwHtJxSN+0y3izq4v/SelX+L3+Fk
+ 0QDIOjMNY97FffSglfrdsLBv62vfqVwDrw7SlfO3SFNROI5Mh4M54GySu0glEf2VgItf0O
+ zotlUCsNtHB1kS9mYoe0JMEixSfQ1S4NJSr1GOA0czsBEIguYVxOkxbqaVnUs9DVGrpijG
+ XkUc3PY3duRwGygsL6bsVGyX8EyHV/2er9g1unUwatuERCVoR8MJ6M+VtSj2xQ==
+Date: Thu, 3 Oct 2024 10:30:16 +0200
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+To: Lyude Paul <lyude@redhat.com>
+Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+ Asahi Lina <lina@asahilina.net>, Danilo Krummrich <dakr@kernel.org>,
+ mcanal@igalia.com, airlied@redhat.com, zhiw@nvidia.com,
+ cjia@nvidia.com, jhubbard@nvidia.com, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>,
+ Wedson Almeida Filho <wedsonaf@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@samsung.com>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ open list <linux-kernel@vger.kernel.org>
+Subject: Re: [WIP RFC v2 06/35] rust: drm/kms: Add drm_plane bindings
+Message-ID: <Zv5WGMxZHAeRkgZI@louis-chauvet-laptop>
+Mail-Followup-To: Lyude Paul <lyude@redhat.com>,
+ dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+ Asahi Lina <lina@asahilina.net>, Danilo Krummrich <dakr@kernel.org>,
+ mcanal@igalia.com, airlied@redhat.com, zhiw@nvidia.com,
+ cjia@nvidia.com, jhubbard@nvidia.com,
+ Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>,
+ Wedson Almeida Filho <wedsonaf@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@samsung.com>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20240930233257.1189730-1-lyude@redhat.com>
+ <20240930233257.1189730-7-lyude@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [172.25.0.11]
-X-ClientProxiedBy: Berlix.phytec.de (172.25.0.12) To Berlix.phytec.de
- (172.25.0.12)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrPIsWRmVeSWpSXmKPExsWyRpKBR/dA8L80g5ZD3BYnri9isri/+DOL
- xeqW6YwWa/aeY7KYf+Qcq8WVr+/ZLJ7PX8docfLNVRaLl7PusVl0TlzCbnF51xw2i4Uft7JY
- tHUuY7V4v/MWo8WkeTdZLf7v2cFuMfvdfnaLLW8mslp0v1N3EPbY+20Bi8fOWXfZPWZ3zGT1
- WLznJZPHplWdbB4nJlxi8rhzbQ+bx7yTgR73u48zefR3t7B6bD5d7fF5k1wATxSXTUpqTmZZ
- apG+XQJXxoO9nawFa7grni2awdzAeJeji5GTQ0LAROLrxn72LkYuDiGBJUwS7yc9Z4FwHjFK
- LJx9nh2kik1AXeLOhm+sILaIgJ/ErS/7wDqYBTYxS3x+vRssIQyUmLfwJBOIzSKgIvGo5S4b
- iM0rYClxp6mFDWKdvMTMS9/BhnIKWElsefEQaBsH0DZLiS1HCiDKBSVOznzCAmIzA5U3b53N
- DGFLSBx88QLMFgKKv7i0nAVm5LRzr5kh7FCJrV+2M01gFJqFZNQsJKNmIRm1gJF5FaNQbmZy
- dmpRZrZeQUZlSWqyXkrqJkZQJIswcO1g7JvjcYiRiYPxEKMEB7OSCO+87X/ThHhTEiurUovy
- 44tKc1KLDzFKc7AoifOu7ghOFRJITyxJzU5NLUgtgskycXBKNTBOYorqylf56SFz9X2DorTA
- gYeXm4wixfau3DD1Ms9OzsfJj9L7XAy+JiXtPaAhyH/P01vhFuMW68/KoQu6ryUeef177+aa
- e6uzisrU3n1c5C5+rGHz6uZjDSxy65+UdWn/Wpj9ZN1p3Yg3S/49dq/OeH2561uGxUaxi7MC
- dP5+uBAZISa90u2gEktxRqKhFnNRcSIAdGjyYdICAAA=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240930233257.1189730-7-lyude@redhat.com>
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,42 +82,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The SI9022 HDMI transmitter can be configured with 16, 18, or 24 input
-data lines. This commit introduces the data-lines property to the input
-endpoint, specifying the number of parallel RGB input pins connected
-to the transmitter.
+Hi Lyude
 
-Signed-off-by: Wadim Egorov <w.egorov@phytec.de>
----
- .../bindings/display/bridge/sil,sii9022.yaml        | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+Thank you for all this amazing work!
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/sil,sii9022.yaml b/Documentation/devicetree/bindings/display/bridge/sil,sii9022.yaml
-index 5a69547ad3d7..24306f8eb107 100644
---- a/Documentation/devicetree/bindings/display/bridge/sil,sii9022.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/sil,sii9022.yaml
-@@ -81,9 +81,20 @@ properties:
- 
-     properties:
-       port@0:
--        $ref: /schemas/graph.yaml#/properties/port
-+        unevaluatedProperties: false
-+        $ref: /schemas/graph.yaml#/$defs/port-base
-         description: Parallel RGB input port
- 
-+        properties:
-+          endpoint:
-+            $ref: /schemas/graph.yaml#/$defs/endpoint-base
-+            unevaluatedProperties: false
-+
-+            properties:
-+              data-lines:
-+                $ref: /schemas/types.yaml#/definitions/uint32
-+                enum: [ 16, 18, 24 ]
-+
-       port@1:
-         $ref: /schemas/graph.yaml#/properties/port
-         description: HDMI output port
+[...]
+
+> +impl<T: DriverPlane> Plane<T> {
+> +    /// Construct a new [`Plane`].
+> +    ///
+> +    /// A driver may use this from their [`Kms::create_objects`] callback in order to construct new
+> +    /// [`Plane`] objects.
+> +    ///
+> +    /// [`Kms::create_objects`]: kernel::drm::kms::Kms::create_objects
+> +    pub fn new<'a, 'b: 'a, const FMT_COUNT: usize, const MOD_COUNT: usize>(
+> +        dev: &'a UnregisteredKmsDevice<'a, T::Driver>,
+> +        possible_crtcs: u32,
+> +        formats: &'static FormatList<FMT_COUNT>,
+> +        format_modifiers: Option<&'static ModifierList<MOD_COUNT>>,
+> +        type_: PlaneType,
+> +        name: Option<&CStr>,
+> +        args: T::Args,
+> +    ) -> Result<&'b Self> {
+
+Here I have a little comment about this API, I really like the fact that
+FormatList and ModifierList have a type fixed length, but I fear it will
+be limiting for the drivers. The same apply for the &'static lifetime,
+does it really need to be static?
+
+For example, with the introduction of ConfigFS interface in VKMS (I did
+not send this part), I need to be able to create a plane with any number 
+of formats/modifier dynamically according to the userspace configuration: 
+so a dynamically allocated array, which is not 'static and not 
+fixed-length.
+
+I think here you can easly remove the &'static requirement as the
+format list and format modifiers are copied by drm core [1]. Do you think
+it is also feasable to use a slice instead of a custom *List type?
+
+[1]:https://elixir.bootlin.com/linux/v6.11.1/source/drivers/gpu/drm/drm_plane.c#L442
+
+
+> +        let this: Pin<Box<Self>> = Box::try_pin_init(
+> +            try_pin_init!(Self {
+> +                plane: Opaque::new(bindings::drm_plane {
+> +                    helper_private: &T::OPS.helper_funcs,
+> +                    ..Default::default()
+> +                }),
+> +                inner <- T::new(dev, args),
+> +                _p: PhantomPinned
+> +            }),
+> +            GFP_KERNEL
+> +        )?;
+> +
+> +        // SAFETY: FFI call with no special requirements
+
+I don't know what should be the granularity of safety comments, but I
+think drm_universal_plane_init requires some pointers to be valid (at
+least dev, this, formats, funcs)
+
+> +        to_result(unsafe {
+> +            bindings::drm_universal_plane_init(
+> +                dev.as_raw(),
+> +                this.as_raw(),
+> +                possible_crtcs,
+> +                &T::OPS.funcs,
+> +                formats.as_ptr(),
+> +                formats.raw_len() as _,
+> +                format_modifiers.map_or(null(), |f| f.as_ptr()),
+> +                type_ as _,
+> +                name.map_or(null(), |n| n.as_char_ptr())
+> +            )
+> +        })?;
+> +
+> +        // Convert the box into a raw pointer, we'll re-assemble it in plane_destroy_callback()
+> +        // SAFETY: We don't move anything
+> +        Ok(unsafe { &*Box::into_raw(Pin::into_inner_unchecked(this)) })
+> +    }
+> +}
+
+[...]
+
 -- 
-2.34.1
-
+Louis Chauvet, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
