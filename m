@@ -2,61 +2,103 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E52698EE4B
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 13:38:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D677598EE91
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 13:55:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D0AC10E811;
-	Thu,  3 Oct 2024 11:38:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B63110E822;
+	Thu,  3 Oct 2024 11:55:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="MDerJOB7";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="slv+exgy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA3A010E811
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 11:38:40 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1727955512; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=kneEU5WkWJ7M8qSDSiSyfuvvlEnk6I5+NeOQJbbZSIjzYtYBFepORoBKMbBpB8Oa5p0oOYcbpHRCt+ZYbQkBiAT9pfdigv6DewuPdZMIyvR8DDuzAdLkp/Log7ZLSfBs/kdh1JccfDV2XujAsMuTkywTED3BJsgfiz9b7qPIGyY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1727955512;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=80oOBJ90RZjsAjivwL50rHDRZPA468mLSAz/lMSF0Rs=; 
- b=CO/vbSd5YvHie9iMRknSfx3+LYYMPmOqR8kvT3FbKZcQU5EAUXXvcWdedfLgvdw/U3eQT0wquD3Q/4gP9qA6KjnVfgK8huRi/B10OAC1okNdAlbTsUt3IvDKDMSHZ81E1eYQVxEDkxhl1Gc8V0RArUP+k8aVguuJCuLlwTpjXWg=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
- dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1727955512; 
- s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
- h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
- bh=80oOBJ90RZjsAjivwL50rHDRZPA468mLSAz/lMSF0Rs=;
- b=MDerJOB7jlGsqYe7k5TAPFCf1QdTLjWWYp1Zzc/T3rJWM4O5eyKT2GLg1QwxLGJr
- 9o6rG/Wkrk8wo+HB1gjRyiKnwfg+aTz8gfrKQM6KW+gJQaTIk1xIJPR5SxB/cSJJkhP
- JDYfEjxROI/2DnSpPp3o/ZcN8Gzpmpm5uUM1hqdA=
-Received: by mx.zohomail.com with SMTPS id 1727955510313671.7731952775321;
- Thu, 3 Oct 2024 04:38:30 -0700 (PDT)
-Date: Thu, 3 Oct 2024 12:38:26 +0100
-From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- kernel@collabora.com, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/panfrost: Add missing OPP table refcnt decremental
-Message-ID: <e33rx3l52arkfgno64l5dctibo647kx3cpjlwcm3lil6cvszrt@abhg2mbu7ec4>
-References: <20241003002603.3177741-1-adrian.larumbe@collabora.com>
- <20241003091740.4e610f21@collabora.com>
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
+ [209.85.221.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 717A910E823
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 11:55:29 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id
+ ffacd0b85a97d-37cea34cb57so634970f8f.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Oct 2024 04:55:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1727956528; x=1728561328; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=Ab2R4/kCazlaYiRKlRL0Q879kkxP9RVXhQRJAU5QMOs=;
+ b=slv+exgyuEKNPej0HxNNlhr6qfkg8V4jVv9oRdDmeZVlJa9TmWDiB3NtcSSH4cRwPj
+ 8vD8GbEN4UUtQ6I9DehyXUpFsdbCOVwkhnlAbl3KiRbj1oWA+N99dKDobSXqijwOQaAT
+ FE8FCv2F8m0K67m3rIhG+LTN+wmG8fXLMLAmcA9vd4oWxabqRYlw3bYKFd44Csrs+vDz
+ iNQz7V9FuEYHRZeRUGdNaDt7Ezk8Tjwm//2qtYeQDai/hoPgSfARzOSBUnghyZhH+Oga
+ m52Cv8HKTsGSluD2rbhZ+iIJ7VumDoQV/yk93sxF0KWu0mXjcWakSKxIqtaWPjJyE6f6
+ LQSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1727956528; x=1728561328;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=Ab2R4/kCazlaYiRKlRL0Q879kkxP9RVXhQRJAU5QMOs=;
+ b=Stj/9O16vx4Qf6Tmnohe07okH/p9nK2KefT7eiVtziAYijOs45SZC+sOW+0lc7nXTZ
+ J8awIWbgvXkanKj3Wnx9J+PisOQfxQr/ZfWxaGR5U1aNjrUEY10U1Mrqlc1Fx09C+YDI
+ sNKld1HaIH1VjjwCuyum1M7kld+BNv3zs8JuEeoAZsfFEPVupBrmJEpXXei0PXQxzsn1
+ xXDI+2UwqRzlBk249iyPcGqrP1M8hKLk5MWbdjf7iJf4zwQbJQa8oXJs077RRYakuvOm
+ a9mewBMmiKfH5CNLIQ9bOvHCmeLAg9RUM3t3AVNzW6oogppQ1oRgNgRKB/ADSHBbwXU3
+ nqGw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXuOSh9pY+a8jHuQOkXI7k8hdQMo12Saz4rlgRoZN3wPpMrfaOSTrF99gA0hV1ft/qTtpzwHLKKejI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxcomMNQk/bZr+pDOq2SvTtaCKdUymjm/t8j9WFIkmPNzYrj/mR
+ MAgt0zjtoqB9akvDzPfW07M9mNkvmmkXGSSBRGt/3Y/b/ee/024QE4bBRKqT21QqacOrVPkT0Vf
+ E/qs=
+X-Google-Smtp-Source: AGHT+IHKkgKdKG0k1hqIM9d4fDHkrFEKwWLLdhNb4lgY3k1F+nM7LOLAqJc+U0jg5McKkr6iIe+jqQ==
+X-Received: by 2002:adf:f70c:0:b0:378:8dea:4bee with SMTP id
+ ffacd0b85a97d-37cfb8d0a68mr3759720f8f.33.1727956527703; 
+ Thu, 03 Oct 2024 04:55:27 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:e534:c027:e113:29a1?
+ ([2a01:e0a:982:cbb0:e534:c027:e113:29a1])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-37d082d20bcsm1112388f8f.100.2024.10.03.04.55.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Oct 2024 04:55:27 -0700 (PDT)
+Message-ID: <13b81191-b647-4577-a92f-b98c521a7727@linaro.org>
+Date: Thu, 3 Oct 2024 13:55:26 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v2 10/10] drm/meson: Allow build with COMPILE_TEST=y
+To: Ville Syrjala <ville.syrjala@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
+Cc: linux-amlogic@lists.infradead.org
+References: <20241003111851.10453-1-ville.syrjala@linux.intel.com>
+ <20241003111851.10453-11-ville.syrjala@linux.intel.com>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20241003111851.10453-11-ville.syrjala@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241003091740.4e610f21@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,58 +111,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03.10.2024 09:17, Boris Brezillon wrote:
-> On Thu,  3 Oct 2024 01:25:37 +0100
-> Adrián Larumbe <adrian.larumbe@collabora.com> wrote:
+On 03/10/2024 13:18, Ville Syrjala wrote:
+> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 > 
-> > Commit f11b0417eec2 ("drm/panfrost: Add fdinfo support GPU load metrics")
-> > retrieves the OPP for the maximum device clock frequency, but forgets to
-> > keep the reference count balanced by putting the returned OPP object. This
-> > eventually leads to an OPP core warning when removing the device.
-> > 
-> > Fix it by putting OPP objects as many times as they're retrieved.
-> > Also remove an unnecessary whitespace.
-> > 
-> > Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
-> > Fixes: f11b0417eec2 ("drm/panfrost: Add fdinfo support GPU load metrics")
+> Allow meson to be built with COMPILE_TEST=y for greater
+> coverage. Builds fine on x86/x86_64 at least.
 > 
-> Reviewed-by: 
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Cc: linux-amlogic@lists.infradead.org
+> Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> ---
+>   drivers/gpu/drm/meson/Kconfig | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> > ---
-> >  drivers/gpu/drm/panfrost/panfrost_devfreq.c | 4 +++-
-> >  1 file changed, 3 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/gpu/drm/panfrost/panfrost_devfreq.c b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-> > index 2d30da38c2c3..c7d3f980f1e5 100644
-> > --- a/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-> > +++ b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-> > @@ -38,7 +38,7 @@ static int panfrost_devfreq_target(struct device *dev, unsigned long *freq,
-> >  		return PTR_ERR(opp);
-> >  	dev_pm_opp_put(opp);
-> >  
-> > -	err =  dev_pm_opp_set_rate(dev, *freq);
-> > +	err = dev_pm_opp_set_rate(dev, *freq);
-> >  	if (!err)
-> >  		ptdev->pfdevfreq.current_frequency = *freq;
-> >  
-> > @@ -177,6 +177,8 @@ int panfrost_devfreq_init(struct panfrost_device *pfdev)
-> >  	 */
-> >  	pfdevfreq->current_frequency = cur_freq;
-> >  
-> > +	dev_pm_opp_put(opp);
-> > +
-> 
-> Shouldn't this be moved after the dev_pm_opp_set_opp() that's
-> following?
+> diff --git a/drivers/gpu/drm/meson/Kconfig b/drivers/gpu/drm/meson/Kconfig
+> index b410e0d8015a..417f79829cf8 100644
+> --- a/drivers/gpu/drm/meson/Kconfig
+> +++ b/drivers/gpu/drm/meson/Kconfig
+> @@ -1,7 +1,7 @@
+>   # SPDX-License-Identifier: GPL-2.0-only
+>   config DRM_MESON
+>   	tristate "DRM Support for Amlogic Meson Display Controller"
+> -	depends on DRM && OF && (ARM || ARM64)
+> +	depends on DRM && OF && (ARM || ARM64 || COMPILE_TEST)
+>   	depends on ARCH_MESON || COMPILE_TEST
+>   	select DRM_CLIENT_SELECTION
+>   	select DRM_KMS_HELPER
 
-Yes, right now it's in the wrong place, thanks for catching this.
-
-> >  	/*
-> >  	 * Set the recommend OPP this will enable and configure the regulator
-> >  	 * if any and will avoid a switch off by regulator_late_cleanup()
-
-
-Adrian Larumbe
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
