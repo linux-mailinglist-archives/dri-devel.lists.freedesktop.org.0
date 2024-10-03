@@ -2,59 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF0FE98E7E7
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 02:46:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C998898E7F8
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 03:04:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAC0610E353;
-	Thu,  3 Oct 2024 00:46:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6D5810E07D;
+	Thu,  3 Oct 2024 01:04:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VUaJWXSh";
+	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="u0uEohHN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C7B810E347;
- Thu,  3 Oct 2024 00:46:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1727916373; x=1759452373;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=pE9rJGNQU6bQS1D6Z7/XELNdvYB1vUUF7MaKDUcK7KY=;
- b=VUaJWXShmOWj6nAGhHCBa6ZrrOPOpuFPjyTCkYVO2UnioRPG2imaOl1e
- 049ybNUjhNNj3LhMlaOt++4hTp+fReC3/vo3byLu1BUVD9pCnifC+dTb2
- T2ggL0djDNmCMSRMCiXE7FCSBouKND2Vqso91+UVuil4qPy1CkTYtVbn5
- igk28t96Xoi1gIjg3KTjKAZN/ZNtin7XrKWyxESH9B1uwXT+iIluxigIJ
- 2jUYRLGxMuU27Edb2Iz4PaeqmU3V5DzmSoH01HNCGL5HSHdt9QMK3uvdG
- ZcnL8ONHCez/vhpcB/CVVzY4neMpPPibS3bnndlc6J5QNtrD+o74Y/rnw w==;
-X-CSE-ConnectionGUID: 8RcbXy/tQ4Glp1vODEL7xQ==
-X-CSE-MsgGUID: 3tdunN9zRNWS3sti4GKq3A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="38460027"
-X-IronPort-AV: E=Sophos;i="6.11,173,1725346800"; d="scan'208";a="38460027"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Oct 2024 17:46:13 -0700
-X-CSE-ConnectionGUID: 4oqQ3fL0QLSmUKI9xm2wjQ==
-X-CSE-MsgGUID: KAW0IGWpS5SAc7dtUbODFQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,173,1725346800"; d="scan'208";a="97514751"
-Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
- by fmviesa002.fm.intel.com with ESMTP; 02 Oct 2024 17:46:12 -0700
-From: John.C.Harrison@Intel.com
-To: Intel-Xe@Lists.FreeDesktop.Org
-Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>,
- Jani Nikula <jani.nikula@intel.com>,
- John Harrison <John.C.Harrison@Intel.com>, dri-devel@lists.freedesktop.org
-Subject: [PATCH v9 07/11] drm/print: Introduce drm_line_printer
-Date: Wed,  2 Oct 2024 17:46:07 -0700
-Message-ID: <20241003004611.2323493-8-John.C.Harrison@Intel.com>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20241003004611.2323493-1-John.C.Harrison@Intel.com>
-References: <20241003004611.2323493-1-John.C.Harrison@Intel.com>
+Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44BB310E07D;
+ Thu,  3 Oct 2024 01:04:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1727917473;
+ bh=X/YYsEKEor7BsDLH5o98zBdgxxt28r7iTiDpVYQK73Y=;
+ h=Date:From:To:Cc:Subject:From;
+ b=u0uEohHN8Dq1XXlZt8fnzUOWGGYtsGuwaBZ6Cgc6jbw9tR0aE+jZ1bpKWee93cT+J
+ fwKvT4GdCM7SktY9DqB/Idm4WEbP39m0oWQoVm2kc+ovsEmOlAlU857Hn63u3Re1nU
+ DV7naRg7PJqPnCfvSx/Qwnvr3Xx/gDTmFYMoHasEC6FRcidwEDHzqh3CVPzQkCuScG
+ RbvQIp7K4klT0ypFrkVjLTpJNfZe+ZE194UMakNN6+gKbhdjggQyfweehhDPgBl/U/
+ BqJnRucH+KPGFsMzGb5gytSeg0dOTQLVQw/wQa2IwrL7YU81rIO3EH249dCL9T1zRX
+ UKFYH2HwpViKw==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (Client did not present a certificate)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4XJtk807Zlz4wbr;
+ Thu,  3 Oct 2024 11:04:31 +1000 (AEST)
+Date: Thu, 3 Oct 2024 11:04:31 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Simona Vetter <simona.vetter@ffwll.ch>
+Cc: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>, Boris
+ Brezillon <boris.brezillon@collabora.com>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Next
+ Mailing List <linux-next@vger.kernel.org>, Liviu Dudau
+ <liviu.dudau@arm.com>
+Subject: linux-next: manual merge of the drm-misc tree with the
+ drm-misc-fixes tree
+Message-ID: <20241003110431.4bbfd467@canb.auug.org.au>
 MIME-Version: 1.0
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
- Swindon SN3 1RJ
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="Sig_/Y4XmcyjBBi1VuD=v6iR9R+b";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,139 +61,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+--Sig_/Y4XmcyjBBi1VuD=v6iR9R+b
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-This drm printer wrapper can be used to increase the robustness of
-the captured output generated by any other drm_printer to make sure
-we didn't lost any intermediate lines of the output by adding line
-numbers to each output line. Helpful for capturing some crash data.
+Hi all,
 
-v2: Extended short int counters to full int (JohnH)
+Today's linux-next merge of the drm-misc tree got a conflict in:
 
-Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Cc: Jani Nikula <jani.nikula@intel.com>
-Cc: John Harrison <John.C.Harrison@Intel.com>
-Cc: dri-devel@lists.freedesktop.org
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
----
- drivers/gpu/drm/drm_print.c | 14 ++++++++
- include/drm/drm_print.h     | 64 +++++++++++++++++++++++++++++++++++++
- 2 files changed, 78 insertions(+)
+  drivers/gpu/drm/panthor/panthor_drv.c
 
-diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
-index 0081190201a7..08cfea04e22b 100644
---- a/drivers/gpu/drm/drm_print.c
-+++ b/drivers/gpu/drm/drm_print.c
-@@ -235,6 +235,20 @@ void __drm_printfn_err(struct drm_printer *p, struct va_format *vaf)
- }
- EXPORT_SYMBOL(__drm_printfn_err);
- 
-+void __drm_printfn_line(struct drm_printer *p, struct va_format *vaf)
-+{
-+	unsigned int counter = ++p->line.counter;
-+	const char *prefix = p->prefix ?: "";
-+	const char *pad = p->prefix ? " " : "";
-+
-+	if (p->line.series)
-+		drm_printf(p->arg, "%s%s%u.%u: %pV",
-+			   prefix, pad, p->line.series, counter, vaf);
-+	else
-+		drm_printf(p->arg, "%s%s%u: %pV", prefix, pad, counter, vaf);
-+}
-+EXPORT_SYMBOL(__drm_printfn_line);
-+
- /**
-  * drm_puts - print a const string to a &drm_printer stream
-  * @p: the &drm printer
-diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
-index d2676831d765..b3906dc04388 100644
---- a/include/drm/drm_print.h
-+++ b/include/drm/drm_print.h
-@@ -177,6 +177,10 @@ struct drm_printer {
- 	void *arg;
- 	const void *origin;
- 	const char *prefix;
-+	struct {
-+		unsigned int series;
-+		unsigned int counter;
-+	} line;
- 	enum drm_debug_category category;
- };
- 
-@@ -187,6 +191,7 @@ void __drm_puts_seq_file(struct drm_printer *p, const char *str);
- void __drm_printfn_info(struct drm_printer *p, struct va_format *vaf);
- void __drm_printfn_dbg(struct drm_printer *p, struct va_format *vaf);
- void __drm_printfn_err(struct drm_printer *p, struct va_format *vaf);
-+void __drm_printfn_line(struct drm_printer *p, struct va_format *vaf);
- 
- __printf(2, 3)
- void drm_printf(struct drm_printer *p, const char *f, ...);
-@@ -411,6 +416,65 @@ static inline struct drm_printer drm_err_printer(struct drm_device *drm,
- 	return p;
- }
- 
-+/**
-+ * drm_line_printer - construct a &drm_printer that prefixes outputs with line numbers
-+ * @p: the &struct drm_printer which actually generates the output
-+ * @prefix: optional output prefix, or NULL for no prefix
-+ * @series: optional unique series identifier, or 0 to omit identifier in the output
-+ *
-+ * This printer can be used to increase the robustness of the captured output
-+ * to make sure we didn't lost any intermediate lines of the output. Helpful
-+ * while capturing some crash data.
-+ *
-+ * Example 1::
-+ *
-+ *	void crash_dump(struct drm_device *drm)
-+ *	{
-+ *		static unsigned int id;
-+ *		struct drm_printer p = drm_err_printer(drm, "crash");
-+ *		struct drm_printer lp = drm_line_printer(&p, "dump", ++id);
-+ *
-+ *		drm_printf(&lp, "foo");
-+ *		drm_printf(&lp, "bar");
-+ *	}
-+ *
-+ * Above code will print into the dmesg something like::
-+ *
-+ *	[ ] 0000:00:00.0: [drm] *ERROR* crash dump 1.1: foo
-+ *	[ ] 0000:00:00.0: [drm] *ERROR* crash dump 1.2: bar
-+ *
-+ * Example 2::
-+ *
-+ *	void line_dump(struct device *dev)
-+ *	{
-+ *		struct drm_printer p = drm_info_printer(dev);
-+ *		struct drm_printer lp = drm_line_printer(&p, NULL, 0);
-+ *
-+ *		drm_printf(&lp, "foo");
-+ *		drm_printf(&lp, "bar");
-+ *	}
-+ *
-+ * Above code will print::
-+ *
-+ *	[ ] 0000:00:00.0: [drm] 1: foo
-+ *	[ ] 0000:00:00.0: [drm] 2: bar
-+ *
-+ * RETURNS:
-+ * The &drm_printer object
-+ */
-+static inline struct drm_printer drm_line_printer(struct drm_printer *p,
-+						  const char *prefix,
-+						  unsigned int series)
-+{
-+	struct drm_printer lp = {
-+		.printfn = __drm_printfn_line,
-+		.arg = p,
-+		.prefix = prefix,
-+		.line = { .series = series, },
-+	};
-+	return lp;
-+}
-+
- /*
-  * struct device based logging
-  *
--- 
-2.46.0
+between commit:
 
+  2b55639a4e25 ("drm/panthor: Add FOP_UNSIGNED_OFFSET to fop_flags")
+
+from the drm-misc-fixes tree and commit:
+
+  e16635d88fa0 ("drm/panthor: add DRM fdinfo support")
+
+from the drm-misc tree.
+
+I fixed it up (see below) and can carry the fix as necessary. This
+is now fixed as far as linux-next is concerned, but any non trivial
+conflicts should be mentioned to your upstream maintainer when your tree
+is submitted for merging.  You may also want to consider cooperating
+with the maintainer of the conflicting tree to minimise any particularly
+complex conflicts.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+diff --cc drivers/gpu/drm/panthor/panthor_drv.c
+index c520f156e2d7,f9b93f84d611..000000000000
+--- a/drivers/gpu/drm/panthor/panthor_drv.c
++++ b/drivers/gpu/drm/panthor/panthor_drv.c
+@@@ -1383,7 -1476,7 +1476,8 @@@ static const struct file_operations pan
+  	.read =3D drm_read,
+  	.llseek =3D noop_llseek,
+  	.mmap =3D panthor_mmap,
+ +	.fop_flags =3D FOP_UNSIGNED_OFFSET,
++ 	.show_fdinfo =3D drm_show_fdinfo,
+  };
+ =20
+  #ifdef CONFIG_DEBUG_FS
+
+--Sig_/Y4XmcyjBBi1VuD=v6iR9R+b
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmb97Z8ACgkQAVBC80lX
+0GzE6gf/c+S9TSnISE26vBOeap0FH86mtSRUJiSJ6ameIHRJjSIT/+sDxhf5CiG8
++tB+9/a5n48kRrrNVA48wtRqi81UUo0bp2+GWA4VMj4Bb011MeCte23mF68mssyF
+72iYSp22x5n8FlNTtTJW5hrSwj69p0UlDJgs2Uce/rX0I+24ewXDq71iMus6Mk7l
+9bhzugePKWcQVA1wR3ugJHk6M5EggPIOq5mX1ITKPbZwmom3vqtdS6BqPx7fHAjS
+3mZeC/btok+2gN0SJ7qfY4rixLoVQt2F5QuQuRa4QBqBjMI1IbHqiwTXZSsRh08c
+ixCkOtFnsQfTsCwR/9lvI86VgF+vwA==
+=fEHS
+-----END PGP SIGNATURE-----
+
+--Sig_/Y4XmcyjBBi1VuD=v6iR9R+b--
