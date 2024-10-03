@@ -2,76 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87DBB98F342
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 17:54:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 902C998F370
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 18:01:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59B6410E21E;
-	Thu,  3 Oct 2024 15:54:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B257A10E8A1;
+	Thu,  3 Oct 2024 16:01:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="QAZOw1tr";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nlUuerq6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
- [209.85.216.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A57D610E21E;
- Thu,  3 Oct 2024 15:54:42 +0000 (UTC)
-Received: by mail-pj1-f43.google.com with SMTP id
- 98e67ed59e1d1-2e0ad414718so188310a91.2; 
- Thu, 03 Oct 2024 08:54:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1727970882; x=1728575682; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=0yGeUrKYFIPCVFsOqzylmOrv3kBoBBc0wc9fqVx2R8I=;
- b=QAZOw1trSZSMpPOgFmf/X5OYpSXzrQZhlYCTX9d2EBlnlHk+Ldae6dx+H3bDOM10IH
- 3MqwboJn8kfS/WBtR/5xlvkFzZRSzLcYZifi/XlkS9FWru8PBEGJJr5xY7PzMuMris8W
- rw3vJPWSXkyqc7FXIfqNlg5uHwqxyE59ErXyFj67Z8J+X/nTr++N0ZtDYgOOL6noQaqW
- T53m1lCf2iJ2qXYKElm+RsTe+0Vz6q2vkxFtQVknCFfZf+tZhJGKpbIIemJjGNZJuJVi
- s7zJcD4ctCRAlOVcvUkJoYLY7okd2P6GFh+tib1RjJv8mVxL2HhlDBUeoKq3TM35UQWZ
- PTKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727970882; x=1728575682;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=0yGeUrKYFIPCVFsOqzylmOrv3kBoBBc0wc9fqVx2R8I=;
- b=hWpn5B0HlkyZo0FIv/hqYutjDvseqoYQdhbpMZlpKpp6VCKOEv3d4ynTpE3rGqZzy+
- iemkRD3zv5ZxHKI7IWBWZwMcE0MYCEwApy1riaIKsm59gcOiwbI99ZMQ0ihDLZErQ1av
- +szg/yVfHc88YpoGlpn7yOtZyaIVrksooPd3/DWkl1xgD/wu/G7Sb/E8gNQawWQbr24J
- WblLvcSxmhoqxWiyFRoS/ffUshbTrR2Nvwr8m3Eh46+RXugfMWGWif2BdosU0ua6O+PV
- 7reIMUn8cBhCt0Kz+vU6/paXHzMQrruIuT5ZD+ZTaASNyK79GU4A8uH4Uzzru3OMSS/w
- gSkg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVZTYR8HagdNAyymoHQzxXL59HPRUKkt6AEMDyQWKchoZRzsum3mA1O4UuDVDYNAYtArluJOfkI@lists.freedesktop.org,
- AJvYcCVtEk3nRW20CqaUX1D+NcCw2RiS3xGNOjnL6Iw4TTnYohc9oPqsycqaypkrx3rk8F/hBpEmNamjAyjM@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwnaSAijwWw0TJKlEQiVQPl1UNVtMPTW3ZI9TQ+kpG8J0lGcIgp
- Bpmb4qpcIl78+7dAuBC7jd44LcqYGG0uorczeAHMdyVp2KBot/BLU7nDnlWmPUT4GklvKGJNOEK
- 5OThdAmqYMcyvckQBD66XO9Mn2Yk=
-X-Google-Smtp-Source: AGHT+IH+eTjTi91vp6di708DRWo+fli07tV+SgXGhpx5vBaiOKNM8nEPU0iifLJQbB3mv3n732aR5ljw2ZJKiemM5cM=
-X-Received: by 2002:a17:90b:3c6:b0:2da:a6d4:fd5d with SMTP id
- 98e67ed59e1d1-2e184527f84mr3469685a91.1.1727970882126; Thu, 03 Oct 2024
- 08:54:42 -0700 (PDT)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2D6510E8A1
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 16:01:37 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 380CCA43D7B;
+ Thu,  3 Oct 2024 16:01:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF5DAC4CEC5;
+ Thu,  3 Oct 2024 16:01:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1727971296;
+ bh=N1KpW62xffrI1xTNzdpqLWPuaaxVmpXQlBykvBKOYos=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=nlUuerq6jbWlISvrN32hO7SexdrK03YY9JjbQN6uws4xuKYvBvihbcXTT9a9l5cHK
+ pgguUwi+UAlqdOwiGtP+WPf88+D+hTQrTGq7bVjSoFwygpOQDegCToHeMaUrfQ9zPL
+ TAFr4PDnJARhiYi62iuUl0ccT2fiwCLFAWBz1PmfZWWXngFtmQ+h1yiOMK3lD/vVO3
+ EKUVNSE4Eiip8BSVk1iTVHvNkpSII5cib+lvnAhjjLS0Nfo/CWvAHcHwR5lWqx354J
+ Df1fx1ilq9gb866aewtZ3zJTcjRRQayOe90l7mabPI0XvTtLrglCAONHdxgui35Hak
+ u4M9kp0lRTlxQ==
+Date: Thu, 3 Oct 2024 18:01:30 +0200
+From: Benjamin Tissoires <bentiss@kernel.org>
+To: Armin Wolf <W_Armin@gmx.de>
+Cc: Werner Sembach <wse@tuxedocomputers.com>, Pavel Machek <pavel@ucw.cz>, 
+ Hans de Goede <hdegoede@redhat.com>,
+ Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
+ dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
+ lee@kernel.org, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-leds@vger.kernel.org, 
+ miguel.ojeda.sandonis@gmail.com, ojeda@kernel.org, onitake@gmail.com, 
+ platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH 1/1] platform/x86/tuxedo: Add virtual LampArray for
+ TUXEDO NB04 devices
+Message-ID: <cpt37kj2xqv6f5pb6bxgl53rxmmew6jdd647rsnrhowlphjq7i@dhp2655sl2sn>
+References: <586a1c41-bbe0-4912-b7c7-1716d886c198@tuxedocomputers.com>
+ <5th4pisccud5s7dbia42glsnu7e5u3q7jszty6o3mjdedsd2bg@7nsvp6t2krnf>
+ <b6f2244d-7567-49ac-b2db-23b632a4e181@tuxedocomputers.com>
+ <cflor5mz4flekn44ttlbanfigmwn5mmp3p54gkeeznzmzkyjqz@p2c6q7gulrdl>
+ <84b629c6-5b26-4285-9b2f-66dd1afa99e5@tuxedocomputers.com>
+ <zph6fnuaamhayivmzftowjw6klgcy2gb7vdub2v2yo7n665vpo@rkxtorfvmzph>
+ <c4e0beb6-acd1-45fa-ad47-f5cf9df89b11@gmx.de>
+ <74f8bd23-d85a-4f12-b8db-ebde59f3abe3@tuxedocomputers.com>
+ <swb45gt3vvctsmwgevo3ay6vkwoksasc64poj3tnaxsapxlsbg@kkmactexmclj>
+ <f2f013b9-6891-4aa0-9124-95775580f84e@gmx.de>
 MIME-Version: 1.0
-References: <20241003060650.18454-1-wuhoipok@gmail.com>
-In-Reply-To: <20241003060650.18454-1-wuhoipok@gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 3 Oct 2024 11:54:30 -0400
-Message-ID: <CADnq5_PA37NQ52-Y8r6JEtXDRwPehzM5+cxysiZgVks4AkivjQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/radeon: add late_register for connector
-To: Wu Hoi Pok <wuhoipok@gmail.com>, Hans de Goede <hdegoede@redhat.com>
-Cc: Christophe Leroy <christophe.leroy@csgroup.eu>, 
- Christian Zigotzky <chzigotzky@xenosoft.de>,
- Alex Deucher <alexander.deucher@amd.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>, 
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f2f013b9-6891-4aa0-9124-95775580f84e@gmx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,120 +73,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-+ Hans
+On Oct 02 2024, Armin Wolf wrote:
+> Am 02.10.24 um 10:42 schrieb Benjamin Tissoires:
+> 
+> > On Oct 01 2024, Werner Sembach wrote:
+> > > Hi Armin,
+> > > 
+> > > Am 01.10.24 um 18:45 schrieb Armin Wolf:
+> > [...snipped...]
+> > > > Why not having a simple led driver for HID LampArray devices which exposes the
+> > > > whole LampArray as a single LED?
+> > > Yes that is my plan, but see my last reply to Benjamin, it might not be
+> > > trivial as different leds in the same LampArray might have different max
+> > > values for red, green, blue, and intensity. And the LampArray spec even
+> > > allows to mix RGB and non-RGB leds.
+> > > > If userspace wants to have direct control over the underlying LampArray device,
+> > > > it just needs to unbind the default driver (maybe udev can be useful here?).
+> > > There was something in the last discussion why this might not work, but i
+> > > can't put my finger on it.
+> > We recently have the exact same problem, so it's still fresh in my
+> > memory. And here are what is happening:
+> > - you can unbind the driver with a sysfs command for sure
+> > - but then the device is not attached to a driver so HID core doesn't
+> >    expose the hidraw node
+> > - you'd think "we can just rebind it to hid-generic", but that doesn't
+> >    work because hid-generic sees that there is already a loaded driver
+> >    that can handle the device and it'll reject itself because it gives
+> >    priority over the other driver
+> > - what works is that you might be able to unload the other driver, but
+> >    if it's already used by something else (like hid-multitouch), you
+> >    don't want to do that. And also if you unload that driver, whenever
+> >    the driver gets re-inserted, hid-generic will unbind itself, so back
+> >    to square one
+> > 
+> > So unless we find a way to forward the "manual" binding to hid-generic,
+> > and/or we can also quirk the device with
+> > HID_QUIRK_IGNORE_SPECIAL_DRIVER[0] just unbinding the device doesn't
+> > work.
+> > 
+> > Cheers,
+> > Benjamin
+> 
+> I see, maybe we can add support for the driver_override mechanism to the HID bus?
 
-On Thu, Oct 3, 2024 at 2:33=E2=80=AFAM Wu Hoi Pok <wuhoipok@gmail.com> wrot=
-e:
->
-> This is a fix patch not tested yet,
-> for a bug I introduce in previous rework of radeon driver.
-> The bug is a null dereference in 'aux.dev', which is the
-> 'device' not registered, resulting in kernel panic. By having
-> 'late_register', the connector should be registered after
-> 'drm_dev_register' automatically.
->
-> Please help testing thank you.
->
-> Signed-off-by: Wu Hoi Pok <wuhoipok@gmail.com>
-> ---
->  drivers/gpu/drm/radeon/atombios_dp.c       |  9 ++-------
->  drivers/gpu/drm/radeon/radeon_connectors.c | 17 +++++++++++++++++
->  2 files changed, 19 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/gpu/drm/radeon/atombios_dp.c b/drivers/gpu/drm/radeo=
-n/atombios_dp.c
-> index fca8b08535a5..6328627b7c34 100644
-> --- a/drivers/gpu/drm/radeon/atombios_dp.c
-> +++ b/drivers/gpu/drm/radeon/atombios_dp.c
-> @@ -228,10 +228,8 @@ void radeon_dp_aux_init(struct radeon_connector *rad=
-eon_connector)
->  {
->         struct drm_device *dev =3D radeon_connector->base.dev;
->         struct radeon_device *rdev =3D dev->dev_private;
-> -       int ret;
->
->         radeon_connector->ddc_bus->rec.hpd =3D radeon_connector->hpd.hpd;
-> -       radeon_connector->ddc_bus->aux.dev =3D radeon_connector->base.kde=
-v;
->         radeon_connector->ddc_bus->aux.drm_dev =3D radeon_connector->base=
-.dev;
->         if (ASIC_IS_DCE5(rdev)) {
->                 if (radeon_auxch)
-> @@ -242,11 +240,8 @@ void radeon_dp_aux_init(struct radeon_connector *rad=
-eon_connector)
->                 radeon_connector->ddc_bus->aux.transfer =3D radeon_dp_aux=
-_transfer_atom;
->         }
->
-> -       ret =3D drm_dp_aux_register(&radeon_connector->ddc_bus->aux);
-> -       if (!ret)
-> -               radeon_connector->ddc_bus->has_aux =3D true;
-> -
-> -       WARN(ret, "drm_dp_aux_register() failed with error %d\n", ret);
-> +       drm_dp_aux_init(&radeon_connector->ddc_bus->aux);
-> +       radeon_connector->ddc_bus->has_aux =3D true;
->  }
->
->  /***** general DP utility functions *****/
-> diff --git a/drivers/gpu/drm/radeon/radeon_connectors.c b/drivers/gpu/drm=
-/radeon/radeon_connectors.c
-> index 528a8f3677c2..f9c73c55f04f 100644
-> --- a/drivers/gpu/drm/radeon/radeon_connectors.c
-> +++ b/drivers/gpu/drm/radeon/radeon_connectors.c
-> @@ -1786,6 +1786,20 @@ static enum drm_mode_status radeon_dp_mode_valid(s=
-truct drm_connector *connector
->         return MODE_OK;
->  }
->
-> +static int
-> +radeon_connector_late_register(struct drm_connector *connector)
-> +{
-> +       struct radeon_connector *radeon_connector =3D to_radeon_connector=
-(connector);
-> +       int r =3D 0;
-> +
-> +       if (radeon_connector->ddc_bus->has_aux) {
-> +               radeon_connector->ddc_bus->aux.dev =3D radeon_connector->=
-base.kdev;
-> +               r =3D drm_dp_aux_register(&radeon_connector->ddc_bus->aux=
-);
-> +       }
-> +
-> +       return r;
-> +}
-> +
->  static const struct drm_connector_helper_funcs radeon_dp_connector_helpe=
-r_funcs =3D {
->         .get_modes =3D radeon_dp_get_modes,
->         .mode_valid =3D radeon_dp_mode_valid,
-> @@ -1800,6 +1814,7 @@ static const struct drm_connector_funcs radeon_dp_c=
-onnector_funcs =3D {
->         .early_unregister =3D radeon_connector_unregister,
->         .destroy =3D radeon_connector_destroy,
->         .force =3D radeon_dvi_force,
-> +       .late_register =3D radeon_connector_late_register,
->  };
->
->  static const struct drm_connector_funcs radeon_edp_connector_funcs =3D {
-> @@ -1810,6 +1825,7 @@ static const struct drm_connector_funcs radeon_edp_=
-connector_funcs =3D {
->         .early_unregister =3D radeon_connector_unregister,
->         .destroy =3D radeon_connector_destroy,
->         .force =3D radeon_dvi_force,
-> +       .late_register =3D radeon_connector_late_register,
->  };
->
->  static const struct drm_connector_funcs radeon_lvds_bridge_connector_fun=
-cs =3D {
-> @@ -1820,6 +1836,7 @@ static const struct drm_connector_funcs radeon_lvds=
-_bridge_connector_funcs =3D {
->         .early_unregister =3D radeon_connector_unregister,
->         .destroy =3D radeon_connector_destroy,
->         .force =3D radeon_dvi_force,
-> +       .late_register =3D radeon_connector_late_register,
->  };
->
->  void
-> --
-> 2.46.2
->
+hmm, we can, but only a couple of drivers would be valid: hid-multitouch
+and hid-generic AFAICT. All of the others are device specific, so
+allowing anybody to map a device to it might not work (if the driver
+requires driver_data).
+
+> Basically userspace could use the driver_override mechanism to forcefully bind hid-generic
+> to a given HID device even if a compatible HID driver already exists.
+> 
+
+that coud be an option. But in that case, I wonder if the LampArray
+implementation should be done in hid-led or in hid-input.c (the generic
+part). I don't know if the new devices will export one HID device for
+LampArray and one other for the rest, when the rest might need a
+specific driver.
+
+Anyway, thanks for the tip :)
+
+Cheers,
+Benjamin
+
+> Thanks,
+> Armin Wolf
+> 
+> > PS: brain fart:
+> > if HID LampArray support (whatever the implementation, through Pavel's
+> > new API or simple LED emulation) is in hid-input, we can also simply add
+> > a new HID quirk to enable this or not, and use that quirk dynamically
+> > (yes, with BPF :-P ) to rebind the device...
+> > 
+> > [0] https://lore.kernel.org/linux-input/20241001-hid-bpf-hid-generic-v3-0-2ef1019468df@kernel.org/T/#t
