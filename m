@@ -2,127 +2,125 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A173498F78D
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 22:02:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19B2B98F7B2
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 22:03:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04AF010E926;
-	Thu,  3 Oct 2024 20:01:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACEF310E964;
+	Thu,  3 Oct 2024 20:01:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="sYm9X0hh";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Zd90KMns";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2042.outbound.protection.outlook.com [40.107.92.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB66F10E908;
- Thu,  3 Oct 2024 20:01:46 +0000 (UTC)
+ (mail-bn7nam10on2085.outbound.protection.outlook.com [40.107.92.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9885110E936;
+ Thu,  3 Oct 2024 20:01:51 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=T6azpWa9JmYZHbrzHmyayN3mKJB5geoNs3OJGdynwIL+knxPUF4iJLeyrmPWfAs8m49PVaHPAK7K1wk2Chf1fiv4anzleSi4hXAa7cVHu6mJ7uGmzTwx+wGGCIRRHleofQK4ma/t9psyvO18tMu5aRqVrIRwM5msluRcSIXJMlW9IE48Q5NK91Zyed4V3ZSH/d3rhk22wCMdJ3jGjRM+NyaG7q2O2P+IsP8lI4CiYS4z9U19ATXILHMhSAVCT4AyM9rYmyzXG9lAF9gRHG4HUGxgc2y1009puB61BSJaQsCI863HdGeQ6A0zfOHR/Sl6s9E+T1ZsXXZHOUUuQht+Ww==
+ b=AyPLWoxbKScZQW27fPgzonpWC6eaE7wtdVakrwtQnEFJjoy7tgLFeqHgqj6Q1icshNQ25G/Kp4eHMxpkPn7neFukAOTfJbEYH1Cf7sbmZd2lUzBw4fLoDaXImpQeRA42ZJAMCG1dNVHA1476iFnpfnfVtow170TAJNUhCNXKwUFR3M3Baiy0mIzQmaHczfTyuZoKkgDtlg1RcSdrGOXih79WrPYBXsqXOIs1qQP+8ATwN1fpaMBKXYefDEW+CoSVR59f0vYlGrfCVQAlSStTaStdZVcCBiklDNRLiXOHNBqBpHTgdSPHUIvramQN5pJdu1N9+Y3JuWTca4PbSKJHjA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ENN9/RUgMyV61otFp8tylTbyGoEG5qPQekxBQiwXkWU=;
- b=ibOumOU/yVww92GP67htk4Tn2tw/aCxJuM8QY034Ps/RVNK5KF8z4LTYSebnQeBRIo3KRvTtsVjt5C8OvE4DFeAq872vAT6QZXIj6RjBz2ookyilKBd9FLJdvN8DubsoXCD+PeIIHjh4YXN+pCr/7PAx93CrzE0oRCCv4wTJ8M+FAi9jUo5RKYfGtXxAKmN+ISZE9igvInQ1FzrDU9FqGj1x36Ar3ik9XNCW1KyYvgeRLB9ufUblK4S8ZkfyWArZX/R/SMxJWnWaTmStu60Ts4YwG/KJLs1DjyY2PMjGHILyowITMK0jEuHJ8le01TxT9UZbpSCIIktn9gCg3ZDBpA==
+ bh=Bkg2fFzjR2nONFBohmZRYN+3gBVIpqeVsPnhYvhFo/A=;
+ b=qcWZHIcC0lb0RnXmqq1zJT0bXaSwYtJaBkvRCsStqHDInpOFqjpBxXkA55JoNauq8oio7+lqX7HBLmrPZJ/nIdw7/HQ22+kyGyNtWLaTXhemyqLzTkJmUh2eYRHSHoql9khRHJsVfVE8QE3v3VonazzfjVMpkevEu+6cL+vNVlf2SkPDFXhwrgFMLPysIyIiWXyjTEjyFhsjzYOYKepQXsQ7H5rkilef16/rWMDdBByuz98DQ2n9Rya2+hccRJHz5Isp48uCN7+MRJyr9VoJ3I5LLlaQUkXn32JOKqMVLIF+h/fqxbynnP9E33Q3vs963cONS07G/OyW7qwgkv4U+A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ENN9/RUgMyV61otFp8tylTbyGoEG5qPQekxBQiwXkWU=;
- b=sYm9X0hhV7HIK87p1dgihnizwwHbEqg4qSxjpDwLXeb6SUmBp5QP2plPhXAZgVEy8Dh9hd9BsdbLggyT6NU5uV8Ln1mfQNzwjQEpDTMqLwTNA2oMnfKQbpiAHVunkb5WkaIBYDlzeNaAOcxqIhE5RbmMC6S7+49cRkJd3D9s0qo=
-Received: from CH2PR14CA0052.namprd14.prod.outlook.com (2603:10b6:610:56::32)
- by DS7PR12MB5958.namprd12.prod.outlook.com (2603:10b6:8:7d::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8005.27; Thu, 3 Oct
- 2024 20:01:43 +0000
-Received: from DS2PEPF0000343E.namprd02.prod.outlook.com
- (2603:10b6:610:56:cafe::76) by CH2PR14CA0052.outlook.office365.com
- (2603:10b6:610:56::32) with Microsoft SMTP Server (version=TLS1_2,
+ bh=Bkg2fFzjR2nONFBohmZRYN+3gBVIpqeVsPnhYvhFo/A=;
+ b=Zd90KMns5dfWsQ6b2+Edu4a4eHZVX2Bfr4TkN801zqrbXhHia+0VZMb6aU0buH2M1a4jA1WzO9+Z0eA3YLUPLOivgkCraHwO00/RKLjV6vMgyY0nS7JVr/zlgEd1+uGE3n7o8JljDiNPm4JnjyayHf8qJzRSAlDPCA8BEaJ7KBE=
+Received: from CH0PR03CA0269.namprd03.prod.outlook.com (2603:10b6:610:e5::34)
+ by PH7PR12MB5928.namprd12.prod.outlook.com (2603:10b6:510:1db::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.16; Thu, 3 Oct
+ 2024 20:01:44 +0000
+Received: from CH2PEPF00000142.namprd02.prod.outlook.com
+ (2603:10b6:610:e5:cafe::6b) by CH0PR03CA0269.outlook.office365.com
+ (2603:10b6:610:e5::34) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.18 via Frontend
- Transport; Thu, 3 Oct 2024 20:01:43 +0000
+ Transport; Thu, 3 Oct 2024 20:01:44 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
 Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DS2PEPF0000343E.mail.protection.outlook.com (10.167.18.41) with Microsoft
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ CH2PEPF00000142.mail.protection.outlook.com (10.167.244.75) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8026.11 via Frontend Transport; Thu, 3 Oct 2024 20:01:43 +0000
-Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ 15.20.8026.11 via Frontend Transport; Thu, 3 Oct 2024 20:01:44 +0000
+Received: from SATLEXMB06.amd.com (10.181.40.147) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 3 Oct
- 2024 15:01:40 -0500
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB05.amd.com
- (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
+ 2024 15:01:41 -0500
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB06.amd.com
+ (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 3 Oct
- 2024 15:01:40 -0500
+ 2024 15:01:41 -0500
 Received: from localhost.localdomain (10.180.168.240) by SATLEXMB03.amd.com
  (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Thu, 3 Oct 2024 15:01:39 -0500
+ Transport; Thu, 3 Oct 2024 15:01:40 -0500
 From: Harry Wentland <harry.wentland@amd.com>
 To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
 CC: <wayland-devel@lists.freedesktop.org>, Harry Wentland
- <harry.wentland@amd.com>
-Subject: [PATCH v6 13/44] drm/colorop: Add NEXT to colorop state print
-Date: Thu, 3 Oct 2024 16:00:55 -0400
-Message-ID: <20241003200129.1732122-14-harry.wentland@amd.com>
+ <harry.wentland@amd.com>, Alex Hung <alex.hung@amd.com>
+Subject: [PATCH v6 14/44] drm/vkms: Add enumerated 1D curve colorop
+Date: Thu, 3 Oct 2024 16:00:56 -0400
+Message-ID: <20241003200129.1732122-15-harry.wentland@amd.com>
 X-Mailer: git-send-email 2.46.2
 In-Reply-To: <20241003200129.1732122-1-harry.wentland@amd.com>
 References: <20241003200129.1732122-1-harry.wentland@amd.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-Received-SPF: None (SATLEXMB05.amd.com: harry.wentland@amd.com does not
- designate permitted sender hosts)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS2PEPF0000343E:EE_|DS7PR12MB5958:EE_
-X-MS-Office365-Filtering-Correlation-Id: 73e7466a-f9a7-4389-5deb-08dce3e63401
+X-MS-TrafficTypeDiagnostic: CH2PEPF00000142:EE_|PH7PR12MB5928:EE_
+X-MS-Office365-Filtering-Correlation-Id: d7fa061e-3620-48fe-60ec-08dce3e63477
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|82310400026|36860700013|376014; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?260pnWIoda1XirenU0JRM4VQ1sZn8Fqf1+oWIkQ50qGGTMh4YmH5WyjqGgyI?=
- =?us-ascii?Q?1xwn004rao/uWh6RhN1yitxS3LoE6QM2Pz6MZyEbX8ULg0O6a5xMdBRBCCUc?=
- =?us-ascii?Q?0wzFwHD88Vl7Mm6M1XmVkyrhjL0wbdVEygIDSCblHobWPb6JmwPuO4doYHcq?=
- =?us-ascii?Q?21B7dMKBeOTRlyxMVZDLjKSy5FunBgdnGYmtkowIQ1JJNWSyAtvaX1aaQclA?=
- =?us-ascii?Q?SKuq0OyKnL68Ld/sxEgC0UP8G2EPi6qHGzTmNVZkA7oMO/Nnne38FoHpoKYp?=
- =?us-ascii?Q?IjS6jxK3BSu4vrSeZmwrzrjKPU7SILxVplLCPDBPdPuLsZbXjbH/IENKRQI0?=
- =?us-ascii?Q?whUFFU0WaX/1aBJBWjiTFYLyoOMqIj9YfUu1DCT4RmypNVQivIgyO7AXrp1R?=
- =?us-ascii?Q?5Kby4WrH9jvWgwt7FuXiOiEUWKGqBIsluk/PuPX1qqO+N5fKbti3covrkMVO?=
- =?us-ascii?Q?jdW9mdESMeY9W+5tVNJp5b3cj+EIw4w4cbandGSnnwalIXx4ASptSb6nOuZk?=
- =?us-ascii?Q?ROkswVyxbxNquqsj2JIy68RZusEc1zngPC2e9kN9I3zDROJbsX4yU58Uwnud?=
- =?us-ascii?Q?w0bZo71TU37/lm3Wj012gAlndN88aqXUig58d7KQxQ4mEZdcnMgkgWOKpWgA?=
- =?us-ascii?Q?exI6SfEp54a4MwgoH/8TbuLIh4TP8Jny7sFk4ShyJHgPaxoYqTOai2cukRFS?=
- =?us-ascii?Q?TlFMeSq/AJzY+kNwln1d0VOjx2Not/xK/H6FJKZpjZ+kQTpgJRvMs+a3Z7eO?=
- =?us-ascii?Q?dVn6aVrlWd/ReO6Xz5NliX4wjU832PKlpYNoDtvrAJc03crf5BKV2jflSxy+?=
- =?us-ascii?Q?5A1xE9iSD80Yg6XLoUxvrLdtfpd5QHlfJZguRMqCoY8+e3d4IM4+BQP/NS8l?=
- =?us-ascii?Q?LSbRa3OWGE4iFfwSByRsPc2YkMBFjWsmyqvH/sn2SM3tygOvMqCJR/MqBwD4?=
- =?us-ascii?Q?kYEWCdedSm9/rrn+jImIPYOAZAbASfHOxKXxj33iUsrShKI4Vg4PVKBeg89x?=
- =?us-ascii?Q?Fme7u6za2ycTt82e5pzLfgYyvC8+nB6PgKAQpqdrBnV4k+Cw78gSkhfFEVCe?=
- =?us-ascii?Q?pyZgzOH4VLcMZBAe8HGUX57Gb7tHGcOxvZz16nGGYIFmhAYlfoV9OrQBRo/0?=
- =?us-ascii?Q?lDB7v5pd8U/gYAJb9hSk9uJ22Ck0+pfQyAysdzK3kzkWu8B+g0xHPjV3M0Le?=
- =?us-ascii?Q?+bFlmcOvSTl+/omuigaR34tfVrKK9A5XE70r8+mcZYG38MkExhhAsDzna5/O?=
- =?us-ascii?Q?NaUYfRa+XoXcuRiqt5mmX6epgmSlfEsOt/DxG1Rd77TYc1P1cU4yLAv8neud?=
- =?us-ascii?Q?d8bcK7Qn4W5uYQZuhN/i/ncVJPpDYKMPpkdCPnisgA+qBe6Sd8oCBp433ZY4?=
- =?us-ascii?Q?ftyA9ck=3D?=
+ ARA:13230040|36860700013|376014|82310400026|1800799024; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Id11vLCQ8VIXXmJCQn+AY80ObaOUU4v+T9H1L9amZRYjuY23y70zP7eDlpuR?=
+ =?us-ascii?Q?JqpcvWcl30nV7jG9k079X7F9z9NHwn6XpVVvTopBSNN3amXX4mRTDwzQBOJA?=
+ =?us-ascii?Q?VOGrTLPlYkovzc8/+MelBS7K8PqcC3icsclFKcXP1AS9+SOEcdueHyHYMRAF?=
+ =?us-ascii?Q?k5LfT3mhX6l6qU1xW6QSYJ9iVi/yIMmb9jJBsiH5wr+faNiSz0PHGQOTdclw?=
+ =?us-ascii?Q?0Yvnsofkg9nxupkWq5ImPJPCyi3sjHrRfNB25DOs+Hec0H0arLkvwKYWF+sU?=
+ =?us-ascii?Q?GKi+R/OAVVxyezXkU60lPRFO/jr7ioCxfOjfAwiIHfOB09phZhQuvrlAofOQ?=
+ =?us-ascii?Q?IGTXx8yyDXtnzbIYWEuZ0PN8hWzvwoQTNdsBU2PjKNe23cTteiTt1KzkCkRK?=
+ =?us-ascii?Q?P3v66YdP/AJgssByImp4lKWdHrEhlro8JIlEo0VKisdlyUlOr1ID6PSenc8m?=
+ =?us-ascii?Q?k3m7auWIzhXpTzrHVUuaFiz/o1twG/d8I+Bh+G3vA2aY1RfoOJ6LR4Hq2V43?=
+ =?us-ascii?Q?NHA8eILcYWrBS+Qz1sdKGFPn7umDGnYkWT1FsMenlzEJCJnawvPr49Z3aQTa?=
+ =?us-ascii?Q?tgEfByzFLBCqKFQJWce0p/FbaW18bE6cJkHRNyYHcS6r9iwTQ6ioO0EJkO+v?=
+ =?us-ascii?Q?Z6GbV55LGh17/7L5GuTHxMd+vc+eFV7yECZ/5LvHqgsHoJEs4Dt4mmVOF57d?=
+ =?us-ascii?Q?ImAdNOYP9OW8rb0b8HQi019+KI3Bp4johsozu6oVDG67aXVNgaj00u+TUJSc?=
+ =?us-ascii?Q?ZLE8efdKcojk1E+ncG/uSVv705e8YBDav6XbzgU9n1P1McUhzDCuauN7SMuK?=
+ =?us-ascii?Q?UwDWJEMRJkJhWpuJ0vThVnSJ6k+1Hxds7ZUmck0xAN5XYqaEtEpBZFNyaK77?=
+ =?us-ascii?Q?nNIWYhEKTEBEuWR3crUTvFw9n38MZU4VpyiS3PVpVuB9H4U0/AsA1Vxh0846?=
+ =?us-ascii?Q?oHz2s1lfvIaI03oFnnMPzOqeF2zo3fcQNZOzSK61LRnHOZyayFvE/SaAiT00?=
+ =?us-ascii?Q?UKvpyyJG2SB+NnO0w03CudZ7eVSKrz7IdY9OKN8bWRxKdObP6j56toGXIB7y?=
+ =?us-ascii?Q?q/8IrNOavQth2c+U+xjnJ3pJGFVHiSDKM6YxzgdNV8k4v4G6eE0zpldmzXNB?=
+ =?us-ascii?Q?63pEgldYhlI+CWm44ZX6A+wAYrXXzXZpiein2ntv0ucjS+D7UBp9u98vfDXz?=
+ =?us-ascii?Q?iSUX8SmdwUUutUQqfEGdoxh0Ay/3+TUOrTLejfnxF0i5Ut/Qq2h8VAqXL+OZ?=
+ =?us-ascii?Q?2/ImRM3owG82GCXC3DFEGtgGa08UHl4wLsM27FEQBxm/0+O9mGYki1P7yGam?=
+ =?us-ascii?Q?jfWnwJX5ZrxUO6RAVJ97DtJhd/Xwh029MnWT8VdpxdnVtYMHYH8ET5L55nok?=
+ =?us-ascii?Q?MUYsOiWP9qt3RMvQPKoMtxsTXtCV?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(1800799024)(82310400026)(36860700013)(376014); DIR:OUT;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(36860700013)(376014)(82310400026)(1800799024); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Oct 2024 20:01:43.2068 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 73e7466a-f9a7-4389-5deb-08dce3e63401
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Oct 2024 20:01:44.0114 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d7fa061e-3620-48fe-60ec-08dce3e63477
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DS2PEPF0000343E.namprd02.prod.outlook.com
+ Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CH2PEPF00000142.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB5958
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5928
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -138,30 +136,1087 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This patch introduces a VKMS color pipeline that includes two
+drm_colorops for named transfer functions. For now the only ones
+supported are sRGB EOTF, sRGB Inverse EOTF, and a Linear TF.
+We will expand this in the future but I don't want to do so
+without accompanying IGT tests.
+
+We introduce a new vkms_luts.c file that hard-codes sRGB EOTF,
+sRGB Inverse EOTF, and a linear EOTF LUT. These have been
+generated with 256 entries each as IGT is currently testing
+only 8 bpc surfaces. We will likely need higher precision
+but I'm reluctant to make that change without clear indication
+that we need it. We'll revisit and, if necessary, regenerate
+the LUTs when we have IGT tests for higher precision buffers.
+
 Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+Signed-off-by: Alex Hung <alex.hung@amd.com>
 ---
 
+v6:
+ - drop 'len' var (Louis Chauvet)
+ - cleanup if colorop alloc or init fails (Louis Chauvet)
+ - switch loop in pre_blend_transform (Louis Chauvet)
+ - drop extraneous if (colorop) inside while (colorop) (Louis Chauvet)
+
 v5:
- - Drop unused header definitions
+ - Squash with "Pull apply_colorop out of pre_blend_color_transform"
+   (Sebastian)
+ - Fix warnings
+ - Fix include
+ - Drop TODOs
 
-v3:
- - Read NEXT ID from drm_colorop's next pointer
+v4:
+ - Drop _tf_ from color_pipeline init function
+ - Pass supported TFs into colorop init
+ - Create bypass pipeline in DRM helper (Pekka)
 
- drivers/gpu/drm/drm_atomic.c | 1 +
- 1 file changed, 1 insertion(+)
+v2:
+ - Add commit description
+ - Fix sRGB EOTF LUT definition
+ - Add linear and sRGB inverse EOTF LUTs
 
-diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-index 12e787e73c63..35136987d5e8 100644
---- a/drivers/gpu/drm/drm_atomic.c
-+++ b/drivers/gpu/drm/drm_atomic.c
-@@ -788,6 +788,7 @@ static void drm_atomic_colorop_print_state(struct drm_printer *p,
- 	drm_printf(p, "\ttype=%s\n", drm_get_colorop_type_name(colorop->type));
- 	drm_printf(p, "\tbypass=%u\n", state->bypass);
- 	drm_printf(p, "\tcurve_1d_type=%s\n", drm_get_colorop_curve_1d_type_name(state->curve_1d_type));
-+	drm_printf(p, "\tnext=%d\n", colorop->next ? colorop->next->base.id : 0);
+ drivers/gpu/drm/vkms/Makefile        |   4 +-
+ drivers/gpu/drm/vkms/vkms_colorop.c  |  81 +++
+ drivers/gpu/drm/vkms/vkms_composer.c |  49 ++
+ drivers/gpu/drm/vkms/vkms_drv.h      |   4 +
+ drivers/gpu/drm/vkms/vkms_luts.c     | 802 +++++++++++++++++++++++++++
+ drivers/gpu/drm/vkms/vkms_luts.h     |  12 +
+ drivers/gpu/drm/vkms/vkms_plane.c    |   2 +
+ 7 files changed, 953 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/gpu/drm/vkms/vkms_colorop.c
+ create mode 100644 drivers/gpu/drm/vkms/vkms_luts.c
+ create mode 100644 drivers/gpu/drm/vkms/vkms_luts.h
+
+diff --git a/drivers/gpu/drm/vkms/Makefile b/drivers/gpu/drm/vkms/Makefile
+index 8d3e46dde635..0bf3c116f1ae 100644
+--- a/drivers/gpu/drm/vkms/Makefile
++++ b/drivers/gpu/drm/vkms/Makefile
+@@ -6,7 +6,9 @@ vkms-y := \
+ 	vkms_formats.o \
+ 	vkms_crtc.o \
+ 	vkms_composer.o \
+-	vkms_writeback.o
++	vkms_writeback.o \
++	vkms_colorop.o \
++	vkms_luts.o
+
+ obj-$(CONFIG_DRM_VKMS) += vkms.o
+ obj-$(CONFIG_DRM_VKMS_KUNIT_TESTS) += tests/
+diff --git a/drivers/gpu/drm/vkms/vkms_colorop.c b/drivers/gpu/drm/vkms/vkms_colorop.c
+new file mode 100644
+index 000000000000..aebd467c4e61
+--- /dev/null
++++ b/drivers/gpu/drm/vkms/vkms_colorop.c
+@@ -0,0 +1,81 @@
++/* SPDX-License-Identifier: GPL-2.0+ */
++
++#include <linux/slab.h>
++#include <drm/drm_colorop.h>
++#include <drm/drm_print.h>
++#include <drm/drm_property.h>
++#include <drm/drm_plane.h>
++
++#include "vkms_drv.h"
++
++static const u64 supported_tfs =
++	BIT(DRM_COLOROP_1D_CURVE_SRGB_EOTF) |
++	BIT(DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF);
++
++#define MAX_COLOR_PIPELINE_OPS 2
++
++static int vkms_initialize_color_pipeline(struct drm_plane *plane, struct drm_prop_enum_list *list)
++{
++	struct drm_colorop *ops[MAX_COLOR_PIPELINE_OPS];
++	struct drm_device *dev = plane->dev;
++	int ret;
++	int i = 0;
++
++	memset(ops, 0, sizeof(ops));
++
++	/* 1st op: 1d curve */
++	ops[i] = kzalloc(sizeof(struct drm_colorop), GFP_KERNEL);
++	if (!ops[i]) {
++		DRM_ERROR("KMS: Failed to allocate colorop\n");
++		ret = -ENOMEM;
++		goto cleanup;
++	}
++
++	ret = drm_colorop_curve_1d_init(dev, ops[i], plane, supported_tfs);
++	if (ret)
++		goto cleanup;
++
++	list->type = ops[i]->base.id;
++	list->name = kasprintf(GFP_KERNEL, "Color Pipeline %d", ops[i]->base.id);
++
++	i++;
++
++	/* 2nd op: 1d curve */
++	ops[i] = kzalloc(sizeof(struct drm_colorop), GFP_KERNEL);
++	if (!ops[i]) {
++		DRM_ERROR("KMS: Failed to allocate colorop\n");
++		ret = -ENOMEM;
++		goto cleanup;
++	}
++
++	ret = drm_colorop_curve_1d_init(dev, ops[i], plane, supported_tfs);
++	if (ret)
++		goto cleanup;
++
++	drm_colorop_set_next_property(ops[i-1], ops[i]);
++
++	return 0;
++
++cleanup:
++	for (; i >= 0; i--)
++		if (ops[i])
++			kfree(ops[i]);
++
++	return ret;
++}
++
++int vkms_initialize_colorops(struct drm_plane *plane)
++{
++	struct drm_prop_enum_list pipeline;
++	int ret;
++
++	/* Add color pipeline */
++	ret = vkms_initialize_color_pipeline(plane, &pipeline);
++	if (ret)
++		return ret;
++
++	/* Create COLOR_PIPELINE property and attach */
++	drm_plane_create_color_pipeline_property(plane, &pipeline, 1);
++
++	return 0;
++}
+diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
+index 93f4ed5ea52f..a35466e68237 100644
+--- a/drivers/gpu/drm/vkms/vkms_composer.c
++++ b/drivers/gpu/drm/vkms/vkms_composer.c
+@@ -14,6 +14,7 @@
+ #include "vkms_drv.h"
+ #include <kunit/visibility.h>
+ #include "vkms_composer.h"
++#include "vkms_luts.h"
+
+ static u16 pre_mul_blend_channel(u16 src, u16 dst, u16 alpha)
+ {
+@@ -167,6 +168,51 @@ static void apply_lut(const struct vkms_crtc_state *crtc_state, struct line_buff
+ 	}
  }
 
- static void drm_atomic_plane_print_state(struct drm_printer *p,
++static void apply_colorop(struct pixel_argb_u16 *pixel, struct drm_colorop *colorop)
++{
++	struct drm_colorop_state *colorop_state = colorop->state;
++
++	if (colorop->type == DRM_COLOROP_1D_CURVE) {
++		switch (colorop_state->curve_1d_type) {
++			case DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF:
++				pixel->r = apply_lut_to_channel_value(&srgb_inv_eotf, pixel->r, LUT_RED);
++				pixel->g = apply_lut_to_channel_value(&srgb_inv_eotf, pixel->g, LUT_GREEN);
++				pixel->b = apply_lut_to_channel_value(&srgb_inv_eotf, pixel->b, LUT_BLUE);
++				break;
++			case DRM_COLOROP_1D_CURVE_SRGB_EOTF:
++				pixel->r = apply_lut_to_channel_value(&srgb_eotf, pixel->r, LUT_RED);
++				pixel->g = apply_lut_to_channel_value(&srgb_eotf, pixel->g, LUT_GREEN);
++				pixel->b = apply_lut_to_channel_value(&srgb_eotf, pixel->b, LUT_BLUE);
++				break;
++			default:
++				DRM_DEBUG_DRIVER("unkown colorop 1D curve type %d\n", colorop_state->curve_1d_type);
++				break;
++		}
++	}
++
++}
++
++static void pre_blend_color_transform(const struct vkms_plane_state *plane_state, struct line_buffer *output_buffer)
++{
++	for (size_t x = 0; x < output_buffer->n_pixels; x++) {
++		struct drm_colorop *colorop = plane_state->base.base.color_pipeline;
++
++		while (colorop) {
++			struct drm_colorop_state *colorop_state;
++
++			colorop_state = colorop->state;
++
++			if (!colorop_state)
++				return;
++
++			if (!colorop_state->bypass)
++				apply_colorop(&output_buffer->pixels[x], colorop);
++
++			colorop = colorop->next;
++		}
++	}
++}
++
+ /**
+  * blend - blend the pixels from all planes and compute crc
+  * @wb: The writeback frame buffer metadata
+@@ -204,6 +250,9 @@ static void blend(struct vkms_writeback_job *wb,
+ 				continue;
+
+ 			vkms_compose_row(stage_buffer, plane[i], y_pos);
++
++			pre_blend_color_transform(plane[i], stage_buffer);
++
+ 			pre_mul_alpha_blend(plane[i]->frame_info, stage_buffer,
+ 					    output_buffer);
+ 		}
+diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+index 5e46ea5b96dc..278cf3533f58 100644
+--- a/drivers/gpu/drm/vkms/vkms_drv.h
++++ b/drivers/gpu/drm/vkms/vkms_drv.h
+@@ -169,4 +169,8 @@ void vkms_writeback_row(struct vkms_writeback_job *wb, const struct line_buffer
+ /* Writeback */
+ int vkms_enable_writeback_connector(struct vkms_device *vkmsdev);
+
++/* Colorops */
++int vkms_initialize_colorops(struct drm_plane *plane);
++
++
+ #endif /* _VKMS_DRV_H_ */
+diff --git a/drivers/gpu/drm/vkms/vkms_luts.c b/drivers/gpu/drm/vkms/vkms_luts.c
+new file mode 100644
+index 000000000000..6553d6d442b4
+--- /dev/null
++++ b/drivers/gpu/drm/vkms/vkms_luts.c
+@@ -0,0 +1,802 @@
++/* SPDX-License-Identifier: GPL-2.0+ */
++
++#include <drm/drm_mode.h>
++
++#include "vkms_drv.h"
++#include "vkms_luts.h"
++
++static struct drm_color_lut linear_array[LUT_SIZE] = {
++	{ 0x0, 0x0, 0x0, 0 },
++	{ 0x101, 0x101, 0x101, 0 },
++	{ 0x202, 0x202, 0x202, 0 },
++	{ 0x303, 0x303, 0x303, 0 },
++	{ 0x404, 0x404, 0x404, 0 },
++	{ 0x505, 0x505, 0x505, 0 },
++	{ 0x606, 0x606, 0x606, 0 },
++	{ 0x707, 0x707, 0x707, 0 },
++	{ 0x808, 0x808, 0x808, 0 },
++	{ 0x909, 0x909, 0x909, 0 },
++	{ 0xa0a, 0xa0a, 0xa0a, 0 },
++	{ 0xb0b, 0xb0b, 0xb0b, 0 },
++	{ 0xc0c, 0xc0c, 0xc0c, 0 },
++	{ 0xd0d, 0xd0d, 0xd0d, 0 },
++	{ 0xe0e, 0xe0e, 0xe0e, 0 },
++	{ 0xf0f, 0xf0f, 0xf0f, 0 },
++	{ 0x1010, 0x1010, 0x1010, 0 },
++	{ 0x1111, 0x1111, 0x1111, 0 },
++	{ 0x1212, 0x1212, 0x1212, 0 },
++	{ 0x1313, 0x1313, 0x1313, 0 },
++	{ 0x1414, 0x1414, 0x1414, 0 },
++	{ 0x1515, 0x1515, 0x1515, 0 },
++	{ 0x1616, 0x1616, 0x1616, 0 },
++	{ 0x1717, 0x1717, 0x1717, 0 },
++	{ 0x1818, 0x1818, 0x1818, 0 },
++	{ 0x1919, 0x1919, 0x1919, 0 },
++	{ 0x1a1a, 0x1a1a, 0x1a1a, 0 },
++	{ 0x1b1b, 0x1b1b, 0x1b1b, 0 },
++	{ 0x1c1c, 0x1c1c, 0x1c1c, 0 },
++	{ 0x1d1d, 0x1d1d, 0x1d1d, 0 },
++	{ 0x1e1e, 0x1e1e, 0x1e1e, 0 },
++	{ 0x1f1f, 0x1f1f, 0x1f1f, 0 },
++	{ 0x2020, 0x2020, 0x2020, 0 },
++	{ 0x2121, 0x2121, 0x2121, 0 },
++	{ 0x2222, 0x2222, 0x2222, 0 },
++	{ 0x2323, 0x2323, 0x2323, 0 },
++	{ 0x2424, 0x2424, 0x2424, 0 },
++	{ 0x2525, 0x2525, 0x2525, 0 },
++	{ 0x2626, 0x2626, 0x2626, 0 },
++	{ 0x2727, 0x2727, 0x2727, 0 },
++	{ 0x2828, 0x2828, 0x2828, 0 },
++	{ 0x2929, 0x2929, 0x2929, 0 },
++	{ 0x2a2a, 0x2a2a, 0x2a2a, 0 },
++	{ 0x2b2b, 0x2b2b, 0x2b2b, 0 },
++	{ 0x2c2c, 0x2c2c, 0x2c2c, 0 },
++	{ 0x2d2d, 0x2d2d, 0x2d2d, 0 },
++	{ 0x2e2e, 0x2e2e, 0x2e2e, 0 },
++	{ 0x2f2f, 0x2f2f, 0x2f2f, 0 },
++	{ 0x3030, 0x3030, 0x3030, 0 },
++	{ 0x3131, 0x3131, 0x3131, 0 },
++	{ 0x3232, 0x3232, 0x3232, 0 },
++	{ 0x3333, 0x3333, 0x3333, 0 },
++	{ 0x3434, 0x3434, 0x3434, 0 },
++	{ 0x3535, 0x3535, 0x3535, 0 },
++	{ 0x3636, 0x3636, 0x3636, 0 },
++	{ 0x3737, 0x3737, 0x3737, 0 },
++	{ 0x3838, 0x3838, 0x3838, 0 },
++	{ 0x3939, 0x3939, 0x3939, 0 },
++	{ 0x3a3a, 0x3a3a, 0x3a3a, 0 },
++	{ 0x3b3b, 0x3b3b, 0x3b3b, 0 },
++	{ 0x3c3c, 0x3c3c, 0x3c3c, 0 },
++	{ 0x3d3d, 0x3d3d, 0x3d3d, 0 },
++	{ 0x3e3e, 0x3e3e, 0x3e3e, 0 },
++	{ 0x3f3f, 0x3f3f, 0x3f3f, 0 },
++	{ 0x4040, 0x4040, 0x4040, 0 },
++	{ 0x4141, 0x4141, 0x4141, 0 },
++	{ 0x4242, 0x4242, 0x4242, 0 },
++	{ 0x4343, 0x4343, 0x4343, 0 },
++	{ 0x4444, 0x4444, 0x4444, 0 },
++	{ 0x4545, 0x4545, 0x4545, 0 },
++	{ 0x4646, 0x4646, 0x4646, 0 },
++	{ 0x4747, 0x4747, 0x4747, 0 },
++	{ 0x4848, 0x4848, 0x4848, 0 },
++	{ 0x4949, 0x4949, 0x4949, 0 },
++	{ 0x4a4a, 0x4a4a, 0x4a4a, 0 },
++	{ 0x4b4b, 0x4b4b, 0x4b4b, 0 },
++	{ 0x4c4c, 0x4c4c, 0x4c4c, 0 },
++	{ 0x4d4d, 0x4d4d, 0x4d4d, 0 },
++	{ 0x4e4e, 0x4e4e, 0x4e4e, 0 },
++	{ 0x4f4f, 0x4f4f, 0x4f4f, 0 },
++	{ 0x5050, 0x5050, 0x5050, 0 },
++	{ 0x5151, 0x5151, 0x5151, 0 },
++	{ 0x5252, 0x5252, 0x5252, 0 },
++	{ 0x5353, 0x5353, 0x5353, 0 },
++	{ 0x5454, 0x5454, 0x5454, 0 },
++	{ 0x5555, 0x5555, 0x5555, 0 },
++	{ 0x5656, 0x5656, 0x5656, 0 },
++	{ 0x5757, 0x5757, 0x5757, 0 },
++	{ 0x5858, 0x5858, 0x5858, 0 },
++	{ 0x5959, 0x5959, 0x5959, 0 },
++	{ 0x5a5a, 0x5a5a, 0x5a5a, 0 },
++	{ 0x5b5b, 0x5b5b, 0x5b5b, 0 },
++	{ 0x5c5c, 0x5c5c, 0x5c5c, 0 },
++	{ 0x5d5d, 0x5d5d, 0x5d5d, 0 },
++	{ 0x5e5e, 0x5e5e, 0x5e5e, 0 },
++	{ 0x5f5f, 0x5f5f, 0x5f5f, 0 },
++	{ 0x6060, 0x6060, 0x6060, 0 },
++	{ 0x6161, 0x6161, 0x6161, 0 },
++	{ 0x6262, 0x6262, 0x6262, 0 },
++	{ 0x6363, 0x6363, 0x6363, 0 },
++	{ 0x6464, 0x6464, 0x6464, 0 },
++	{ 0x6565, 0x6565, 0x6565, 0 },
++	{ 0x6666, 0x6666, 0x6666, 0 },
++	{ 0x6767, 0x6767, 0x6767, 0 },
++	{ 0x6868, 0x6868, 0x6868, 0 },
++	{ 0x6969, 0x6969, 0x6969, 0 },
++	{ 0x6a6a, 0x6a6a, 0x6a6a, 0 },
++	{ 0x6b6b, 0x6b6b, 0x6b6b, 0 },
++	{ 0x6c6c, 0x6c6c, 0x6c6c, 0 },
++	{ 0x6d6d, 0x6d6d, 0x6d6d, 0 },
++	{ 0x6e6e, 0x6e6e, 0x6e6e, 0 },
++	{ 0x6f6f, 0x6f6f, 0x6f6f, 0 },
++	{ 0x7070, 0x7070, 0x7070, 0 },
++	{ 0x7171, 0x7171, 0x7171, 0 },
++	{ 0x7272, 0x7272, 0x7272, 0 },
++	{ 0x7373, 0x7373, 0x7373, 0 },
++	{ 0x7474, 0x7474, 0x7474, 0 },
++	{ 0x7575, 0x7575, 0x7575, 0 },
++	{ 0x7676, 0x7676, 0x7676, 0 },
++	{ 0x7777, 0x7777, 0x7777, 0 },
++	{ 0x7878, 0x7878, 0x7878, 0 },
++	{ 0x7979, 0x7979, 0x7979, 0 },
++	{ 0x7a7a, 0x7a7a, 0x7a7a, 0 },
++	{ 0x7b7b, 0x7b7b, 0x7b7b, 0 },
++	{ 0x7c7c, 0x7c7c, 0x7c7c, 0 },
++	{ 0x7d7d, 0x7d7d, 0x7d7d, 0 },
++	{ 0x7e7e, 0x7e7e, 0x7e7e, 0 },
++	{ 0x7f7f, 0x7f7f, 0x7f7f, 0 },
++	{ 0x8080, 0x8080, 0x8080, 0 },
++	{ 0x8181, 0x8181, 0x8181, 0 },
++	{ 0x8282, 0x8282, 0x8282, 0 },
++	{ 0x8383, 0x8383, 0x8383, 0 },
++	{ 0x8484, 0x8484, 0x8484, 0 },
++	{ 0x8585, 0x8585, 0x8585, 0 },
++	{ 0x8686, 0x8686, 0x8686, 0 },
++	{ 0x8787, 0x8787, 0x8787, 0 },
++	{ 0x8888, 0x8888, 0x8888, 0 },
++	{ 0x8989, 0x8989, 0x8989, 0 },
++	{ 0x8a8a, 0x8a8a, 0x8a8a, 0 },
++	{ 0x8b8b, 0x8b8b, 0x8b8b, 0 },
++	{ 0x8c8c, 0x8c8c, 0x8c8c, 0 },
++	{ 0x8d8d, 0x8d8d, 0x8d8d, 0 },
++	{ 0x8e8e, 0x8e8e, 0x8e8e, 0 },
++	{ 0x8f8f, 0x8f8f, 0x8f8f, 0 },
++	{ 0x9090, 0x9090, 0x9090, 0 },
++	{ 0x9191, 0x9191, 0x9191, 0 },
++	{ 0x9292, 0x9292, 0x9292, 0 },
++	{ 0x9393, 0x9393, 0x9393, 0 },
++	{ 0x9494, 0x9494, 0x9494, 0 },
++	{ 0x9595, 0x9595, 0x9595, 0 },
++	{ 0x9696, 0x9696, 0x9696, 0 },
++	{ 0x9797, 0x9797, 0x9797, 0 },
++	{ 0x9898, 0x9898, 0x9898, 0 },
++	{ 0x9999, 0x9999, 0x9999, 0 },
++	{ 0x9a9a, 0x9a9a, 0x9a9a, 0 },
++	{ 0x9b9b, 0x9b9b, 0x9b9b, 0 },
++	{ 0x9c9c, 0x9c9c, 0x9c9c, 0 },
++	{ 0x9d9d, 0x9d9d, 0x9d9d, 0 },
++	{ 0x9e9e, 0x9e9e, 0x9e9e, 0 },
++	{ 0x9f9f, 0x9f9f, 0x9f9f, 0 },
++	{ 0xa0a0, 0xa0a0, 0xa0a0, 0 },
++	{ 0xa1a1, 0xa1a1, 0xa1a1, 0 },
++	{ 0xa2a2, 0xa2a2, 0xa2a2, 0 },
++	{ 0xa3a3, 0xa3a3, 0xa3a3, 0 },
++	{ 0xa4a4, 0xa4a4, 0xa4a4, 0 },
++	{ 0xa5a5, 0xa5a5, 0xa5a5, 0 },
++	{ 0xa6a6, 0xa6a6, 0xa6a6, 0 },
++	{ 0xa7a7, 0xa7a7, 0xa7a7, 0 },
++	{ 0xa8a8, 0xa8a8, 0xa8a8, 0 },
++	{ 0xa9a9, 0xa9a9, 0xa9a9, 0 },
++	{ 0xaaaa, 0xaaaa, 0xaaaa, 0 },
++	{ 0xabab, 0xabab, 0xabab, 0 },
++	{ 0xacac, 0xacac, 0xacac, 0 },
++	{ 0xadad, 0xadad, 0xadad, 0 },
++	{ 0xaeae, 0xaeae, 0xaeae, 0 },
++	{ 0xafaf, 0xafaf, 0xafaf, 0 },
++	{ 0xb0b0, 0xb0b0, 0xb0b0, 0 },
++	{ 0xb1b1, 0xb1b1, 0xb1b1, 0 },
++	{ 0xb2b2, 0xb2b2, 0xb2b2, 0 },
++	{ 0xb3b3, 0xb3b3, 0xb3b3, 0 },
++	{ 0xb4b4, 0xb4b4, 0xb4b4, 0 },
++	{ 0xb5b5, 0xb5b5, 0xb5b5, 0 },
++	{ 0xb6b6, 0xb6b6, 0xb6b6, 0 },
++	{ 0xb7b7, 0xb7b7, 0xb7b7, 0 },
++	{ 0xb8b8, 0xb8b8, 0xb8b8, 0 },
++	{ 0xb9b9, 0xb9b9, 0xb9b9, 0 },
++	{ 0xbaba, 0xbaba, 0xbaba, 0 },
++	{ 0xbbbb, 0xbbbb, 0xbbbb, 0 },
++	{ 0xbcbc, 0xbcbc, 0xbcbc, 0 },
++	{ 0xbdbd, 0xbdbd, 0xbdbd, 0 },
++	{ 0xbebe, 0xbebe, 0xbebe, 0 },
++	{ 0xbfbf, 0xbfbf, 0xbfbf, 0 },
++	{ 0xc0c0, 0xc0c0, 0xc0c0, 0 },
++	{ 0xc1c1, 0xc1c1, 0xc1c1, 0 },
++	{ 0xc2c2, 0xc2c2, 0xc2c2, 0 },
++	{ 0xc3c3, 0xc3c3, 0xc3c3, 0 },
++	{ 0xc4c4, 0xc4c4, 0xc4c4, 0 },
++	{ 0xc5c5, 0xc5c5, 0xc5c5, 0 },
++	{ 0xc6c6, 0xc6c6, 0xc6c6, 0 },
++	{ 0xc7c7, 0xc7c7, 0xc7c7, 0 },
++	{ 0xc8c8, 0xc8c8, 0xc8c8, 0 },
++	{ 0xc9c9, 0xc9c9, 0xc9c9, 0 },
++	{ 0xcaca, 0xcaca, 0xcaca, 0 },
++	{ 0xcbcb, 0xcbcb, 0xcbcb, 0 },
++	{ 0xcccc, 0xcccc, 0xcccc, 0 },
++	{ 0xcdcd, 0xcdcd, 0xcdcd, 0 },
++	{ 0xcece, 0xcece, 0xcece, 0 },
++	{ 0xcfcf, 0xcfcf, 0xcfcf, 0 },
++	{ 0xd0d0, 0xd0d0, 0xd0d0, 0 },
++	{ 0xd1d1, 0xd1d1, 0xd1d1, 0 },
++	{ 0xd2d2, 0xd2d2, 0xd2d2, 0 },
++	{ 0xd3d3, 0xd3d3, 0xd3d3, 0 },
++	{ 0xd4d4, 0xd4d4, 0xd4d4, 0 },
++	{ 0xd5d5, 0xd5d5, 0xd5d5, 0 },
++	{ 0xd6d6, 0xd6d6, 0xd6d6, 0 },
++	{ 0xd7d7, 0xd7d7, 0xd7d7, 0 },
++	{ 0xd8d8, 0xd8d8, 0xd8d8, 0 },
++	{ 0xd9d9, 0xd9d9, 0xd9d9, 0 },
++	{ 0xdada, 0xdada, 0xdada, 0 },
++	{ 0xdbdb, 0xdbdb, 0xdbdb, 0 },
++	{ 0xdcdc, 0xdcdc, 0xdcdc, 0 },
++	{ 0xdddd, 0xdddd, 0xdddd, 0 },
++	{ 0xdede, 0xdede, 0xdede, 0 },
++	{ 0xdfdf, 0xdfdf, 0xdfdf, 0 },
++	{ 0xe0e0, 0xe0e0, 0xe0e0, 0 },
++	{ 0xe1e1, 0xe1e1, 0xe1e1, 0 },
++	{ 0xe2e2, 0xe2e2, 0xe2e2, 0 },
++	{ 0xe3e3, 0xe3e3, 0xe3e3, 0 },
++	{ 0xe4e4, 0xe4e4, 0xe4e4, 0 },
++	{ 0xe5e5, 0xe5e5, 0xe5e5, 0 },
++	{ 0xe6e6, 0xe6e6, 0xe6e6, 0 },
++	{ 0xe7e7, 0xe7e7, 0xe7e7, 0 },
++	{ 0xe8e8, 0xe8e8, 0xe8e8, 0 },
++	{ 0xe9e9, 0xe9e9, 0xe9e9, 0 },
++	{ 0xeaea, 0xeaea, 0xeaea, 0 },
++	{ 0xebeb, 0xebeb, 0xebeb, 0 },
++	{ 0xecec, 0xecec, 0xecec, 0 },
++	{ 0xeded, 0xeded, 0xeded, 0 },
++	{ 0xeeee, 0xeeee, 0xeeee, 0 },
++	{ 0xefef, 0xefef, 0xefef, 0 },
++	{ 0xf0f0, 0xf0f0, 0xf0f0, 0 },
++	{ 0xf1f1, 0xf1f1, 0xf1f1, 0 },
++	{ 0xf2f2, 0xf2f2, 0xf2f2, 0 },
++	{ 0xf3f3, 0xf3f3, 0xf3f3, 0 },
++	{ 0xf4f4, 0xf4f4, 0xf4f4, 0 },
++	{ 0xf5f5, 0xf5f5, 0xf5f5, 0 },
++	{ 0xf6f6, 0xf6f6, 0xf6f6, 0 },
++	{ 0xf7f7, 0xf7f7, 0xf7f7, 0 },
++	{ 0xf8f8, 0xf8f8, 0xf8f8, 0 },
++	{ 0xf9f9, 0xf9f9, 0xf9f9, 0 },
++	{ 0xfafa, 0xfafa, 0xfafa, 0 },
++	{ 0xfbfb, 0xfbfb, 0xfbfb, 0 },
++	{ 0xfcfc, 0xfcfc, 0xfcfc, 0 },
++	{ 0xfdfd, 0xfdfd, 0xfdfd, 0 },
++	{ 0xfefe, 0xfefe, 0xfefe, 0 },
++	{ 0xffff, 0xffff, 0xffff, 0 },
++};
++
++const struct vkms_color_lut linear_eotf = {
++	.base = linear_array,
++	.lut_length = LUT_SIZE,
++	.channel_value2index_ratio = 0xff00ffll
++};
++
++
++static struct drm_color_lut srgb_array[LUT_SIZE] = {
++	{ 0x0, 0x0, 0x0, 0 },
++	{ 0x13, 0x13, 0x13, 0 },
++	{ 0x27, 0x27, 0x27, 0 },
++	{ 0x3b, 0x3b, 0x3b, 0 },
++	{ 0x4f, 0x4f, 0x4f, 0 },
++	{ 0x63, 0x63, 0x63, 0 },
++	{ 0x77, 0x77, 0x77, 0 },
++	{ 0x8b, 0x8b, 0x8b, 0 },
++	{ 0x9f, 0x9f, 0x9f, 0 },
++	{ 0xb3, 0xb3, 0xb3, 0 },
++	{ 0xc6, 0xc6, 0xc6, 0 },
++	{ 0xdb, 0xdb, 0xdb, 0 },
++	{ 0xf0, 0xf0, 0xf0, 0 },
++	{ 0x107, 0x107, 0x107, 0 },
++	{ 0x11f, 0x11f, 0x11f, 0 },
++	{ 0x139, 0x139, 0x139, 0 },
++	{ 0x153, 0x153, 0x153, 0 },
++	{ 0x16f, 0x16f, 0x16f, 0 },
++	{ 0x18c, 0x18c, 0x18c, 0 },
++	{ 0x1aa, 0x1aa, 0x1aa, 0 },
++	{ 0x1ca, 0x1ca, 0x1ca, 0 },
++	{ 0x1eb, 0x1eb, 0x1eb, 0 },
++	{ 0x20d, 0x20d, 0x20d, 0 },
++	{ 0x231, 0x231, 0x231, 0 },
++	{ 0x256, 0x256, 0x256, 0 },
++	{ 0x27d, 0x27d, 0x27d, 0 },
++	{ 0x2a4, 0x2a4, 0x2a4, 0 },
++	{ 0x2ce, 0x2ce, 0x2ce, 0 },
++	{ 0x2f9, 0x2f9, 0x2f9, 0 },
++	{ 0x325, 0x325, 0x325, 0 },
++	{ 0x352, 0x352, 0x352, 0 },
++	{ 0x381, 0x381, 0x381, 0 },
++	{ 0x3b2, 0x3b2, 0x3b2, 0 },
++	{ 0x3e4, 0x3e4, 0x3e4, 0 },
++	{ 0x418, 0x418, 0x418, 0 },
++	{ 0x44d, 0x44d, 0x44d, 0 },
++	{ 0x484, 0x484, 0x484, 0 },
++	{ 0x4bc, 0x4bc, 0x4bc, 0 },
++	{ 0x4f6, 0x4f6, 0x4f6, 0 },
++	{ 0x531, 0x531, 0x531, 0 },
++	{ 0x56e, 0x56e, 0x56e, 0 },
++	{ 0x5ad, 0x5ad, 0x5ad, 0 },
++	{ 0x5ed, 0x5ed, 0x5ed, 0 },
++	{ 0x62f, 0x62f, 0x62f, 0 },
++	{ 0x672, 0x672, 0x672, 0 },
++	{ 0x6b7, 0x6b7, 0x6b7, 0 },
++	{ 0x6fe, 0x6fe, 0x6fe, 0 },
++	{ 0x746, 0x746, 0x746, 0 },
++	{ 0x791, 0x791, 0x791, 0 },
++	{ 0x7dc, 0x7dc, 0x7dc, 0 },
++	{ 0x82a, 0x82a, 0x82a, 0 },
++	{ 0x879, 0x879, 0x879, 0 },
++	{ 0x8ca, 0x8ca, 0x8ca, 0 },
++	{ 0x91d, 0x91d, 0x91d, 0 },
++	{ 0x971, 0x971, 0x971, 0 },
++	{ 0x9c7, 0x9c7, 0x9c7, 0 },
++	{ 0xa1f, 0xa1f, 0xa1f, 0 },
++	{ 0xa79, 0xa79, 0xa79, 0 },
++	{ 0xad4, 0xad4, 0xad4, 0 },
++	{ 0xb32, 0xb32, 0xb32, 0 },
++	{ 0xb91, 0xb91, 0xb91, 0 },
++	{ 0xbf2, 0xbf2, 0xbf2, 0 },
++	{ 0xc54, 0xc54, 0xc54, 0 },
++	{ 0xcb9, 0xcb9, 0xcb9, 0 },
++	{ 0xd1f, 0xd1f, 0xd1f, 0 },
++	{ 0xd88, 0xd88, 0xd88, 0 },
++	{ 0xdf2, 0xdf2, 0xdf2, 0 },
++	{ 0xe5e, 0xe5e, 0xe5e, 0 },
++	{ 0xecc, 0xecc, 0xecc, 0 },
++	{ 0xf3c, 0xf3c, 0xf3c, 0 },
++	{ 0xfad, 0xfad, 0xfad, 0 },
++	{ 0x1021, 0x1021, 0x1021, 0 },
++	{ 0x1096, 0x1096, 0x1096, 0 },
++	{ 0x110e, 0x110e, 0x110e, 0 },
++	{ 0x1187, 0x1187, 0x1187, 0 },
++	{ 0x1203, 0x1203, 0x1203, 0 },
++	{ 0x1280, 0x1280, 0x1280, 0 },
++	{ 0x12ff, 0x12ff, 0x12ff, 0 },
++	{ 0x1380, 0x1380, 0x1380, 0 },
++	{ 0x1404, 0x1404, 0x1404, 0 },
++	{ 0x1489, 0x1489, 0x1489, 0 },
++	{ 0x1510, 0x1510, 0x1510, 0 },
++	{ 0x1599, 0x1599, 0x1599, 0 },
++	{ 0x1624, 0x1624, 0x1624, 0 },
++	{ 0x16b2, 0x16b2, 0x16b2, 0 },
++	{ 0x1741, 0x1741, 0x1741, 0 },
++	{ 0x17d2, 0x17d2, 0x17d2, 0 },
++	{ 0x1865, 0x1865, 0x1865, 0 },
++	{ 0x18fb, 0x18fb, 0x18fb, 0 },
++	{ 0x1992, 0x1992, 0x1992, 0 },
++	{ 0x1a2c, 0x1a2c, 0x1a2c, 0 },
++	{ 0x1ac8, 0x1ac8, 0x1ac8, 0 },
++	{ 0x1b65, 0x1b65, 0x1b65, 0 },
++	{ 0x1c05, 0x1c05, 0x1c05, 0 },
++	{ 0x1ca7, 0x1ca7, 0x1ca7, 0 },
++	{ 0x1d4b, 0x1d4b, 0x1d4b, 0 },
++	{ 0x1df1, 0x1df1, 0x1df1, 0 },
++	{ 0x1e99, 0x1e99, 0x1e99, 0 },
++	{ 0x1f44, 0x1f44, 0x1f44, 0 },
++	{ 0x1ff0, 0x1ff0, 0x1ff0, 0 },
++	{ 0x209f, 0x209f, 0x209f, 0 },
++	{ 0x2150, 0x2150, 0x2150, 0 },
++	{ 0x2203, 0x2203, 0x2203, 0 },
++	{ 0x22b8, 0x22b8, 0x22b8, 0 },
++	{ 0x2370, 0x2370, 0x2370, 0 },
++	{ 0x2429, 0x2429, 0x2429, 0 },
++	{ 0x24e5, 0x24e5, 0x24e5, 0 },
++	{ 0x25a3, 0x25a3, 0x25a3, 0 },
++	{ 0x2663, 0x2663, 0x2663, 0 },
++	{ 0x2726, 0x2726, 0x2726, 0 },
++	{ 0x27ea, 0x27ea, 0x27ea, 0 },
++	{ 0x28b1, 0x28b1, 0x28b1, 0 },
++	{ 0x297a, 0x297a, 0x297a, 0 },
++	{ 0x2a45, 0x2a45, 0x2a45, 0 },
++	{ 0x2b13, 0x2b13, 0x2b13, 0 },
++	{ 0x2be3, 0x2be3, 0x2be3, 0 },
++	{ 0x2cb5, 0x2cb5, 0x2cb5, 0 },
++	{ 0x2d89, 0x2d89, 0x2d89, 0 },
++	{ 0x2e60, 0x2e60, 0x2e60, 0 },
++	{ 0x2f39, 0x2f39, 0x2f39, 0 },
++	{ 0x3014, 0x3014, 0x3014, 0 },
++	{ 0x30f2, 0x30f2, 0x30f2, 0 },
++	{ 0x31d2, 0x31d2, 0x31d2, 0 },
++	{ 0x32b4, 0x32b4, 0x32b4, 0 },
++	{ 0x3398, 0x3398, 0x3398, 0 },
++	{ 0x347f, 0x347f, 0x347f, 0 },
++	{ 0x3569, 0x3569, 0x3569, 0 },
++	{ 0x3654, 0x3654, 0x3654, 0 },
++	{ 0x3742, 0x3742, 0x3742, 0 },
++	{ 0x3832, 0x3832, 0x3832, 0 },
++	{ 0x3925, 0x3925, 0x3925, 0 },
++	{ 0x3a1a, 0x3a1a, 0x3a1a, 0 },
++	{ 0x3b11, 0x3b11, 0x3b11, 0 },
++	{ 0x3c0b, 0x3c0b, 0x3c0b, 0 },
++	{ 0x3d07, 0x3d07, 0x3d07, 0 },
++	{ 0x3e05, 0x3e05, 0x3e05, 0 },
++	{ 0x3f06, 0x3f06, 0x3f06, 0 },
++	{ 0x400a, 0x400a, 0x400a, 0 },
++	{ 0x410f, 0x410f, 0x410f, 0 },
++	{ 0x4218, 0x4218, 0x4218, 0 },
++	{ 0x4322, 0x4322, 0x4322, 0 },
++	{ 0x442f, 0x442f, 0x442f, 0 },
++	{ 0x453f, 0x453f, 0x453f, 0 },
++	{ 0x4650, 0x4650, 0x4650, 0 },
++	{ 0x4765, 0x4765, 0x4765, 0 },
++	{ 0x487c, 0x487c, 0x487c, 0 },
++	{ 0x4995, 0x4995, 0x4995, 0 },
++	{ 0x4ab1, 0x4ab1, 0x4ab1, 0 },
++	{ 0x4bcf, 0x4bcf, 0x4bcf, 0 },
++	{ 0x4cf0, 0x4cf0, 0x4cf0, 0 },
++	{ 0x4e13, 0x4e13, 0x4e13, 0 },
++	{ 0x4f39, 0x4f39, 0x4f39, 0 },
++	{ 0x5061, 0x5061, 0x5061, 0 },
++	{ 0x518b, 0x518b, 0x518b, 0 },
++	{ 0x52b9, 0x52b9, 0x52b9, 0 },
++	{ 0x53e8, 0x53e8, 0x53e8, 0 },
++	{ 0x551b, 0x551b, 0x551b, 0 },
++	{ 0x5650, 0x5650, 0x5650, 0 },
++	{ 0x5787, 0x5787, 0x5787, 0 },
++	{ 0x58c1, 0x58c1, 0x58c1, 0 },
++	{ 0x59fd, 0x59fd, 0x59fd, 0 },
++	{ 0x5b3c, 0x5b3c, 0x5b3c, 0 },
++	{ 0x5c7e, 0x5c7e, 0x5c7e, 0 },
++	{ 0x5dc2, 0x5dc2, 0x5dc2, 0 },
++	{ 0x5f09, 0x5f09, 0x5f09, 0 },
++	{ 0x6052, 0x6052, 0x6052, 0 },
++	{ 0x619e, 0x619e, 0x619e, 0 },
++	{ 0x62ec, 0x62ec, 0x62ec, 0 },
++	{ 0x643d, 0x643d, 0x643d, 0 },
++	{ 0x6591, 0x6591, 0x6591, 0 },
++	{ 0x66e7, 0x66e7, 0x66e7, 0 },
++	{ 0x6840, 0x6840, 0x6840, 0 },
++	{ 0x699b, 0x699b, 0x699b, 0 },
++	{ 0x6afa, 0x6afa, 0x6afa, 0 },
++	{ 0x6c5a, 0x6c5a, 0x6c5a, 0 },
++	{ 0x6dbe, 0x6dbe, 0x6dbe, 0 },
++	{ 0x6f24, 0x6f24, 0x6f24, 0 },
++	{ 0x708c, 0x708c, 0x708c, 0 },
++	{ 0x71f8, 0x71f8, 0x71f8, 0 },
++	{ 0x7366, 0x7366, 0x7366, 0 },
++	{ 0x74d6, 0x74d6, 0x74d6, 0 },
++	{ 0x764a, 0x764a, 0x764a, 0 },
++	{ 0x77c0, 0x77c0, 0x77c0, 0 },
++	{ 0x7938, 0x7938, 0x7938, 0 },
++	{ 0x7ab4, 0x7ab4, 0x7ab4, 0 },
++	{ 0x7c32, 0x7c32, 0x7c32, 0 },
++	{ 0x7db3, 0x7db3, 0x7db3, 0 },
++	{ 0x7f36, 0x7f36, 0x7f36, 0 },
++	{ 0x80bc, 0x80bc, 0x80bc, 0 },
++	{ 0x8245, 0x8245, 0x8245, 0 },
++	{ 0x83d1, 0x83d1, 0x83d1, 0 },
++	{ 0x855f, 0x855f, 0x855f, 0 },
++	{ 0x86f0, 0x86f0, 0x86f0, 0 },
++	{ 0x8884, 0x8884, 0x8884, 0 },
++	{ 0x8a1a, 0x8a1a, 0x8a1a, 0 },
++	{ 0x8bb4, 0x8bb4, 0x8bb4, 0 },
++	{ 0x8d50, 0x8d50, 0x8d50, 0 },
++	{ 0x8eee, 0x8eee, 0x8eee, 0 },
++	{ 0x9090, 0x9090, 0x9090, 0 },
++	{ 0x9234, 0x9234, 0x9234, 0 },
++	{ 0x93db, 0x93db, 0x93db, 0 },
++	{ 0x9585, 0x9585, 0x9585, 0 },
++	{ 0x9732, 0x9732, 0x9732, 0 },
++	{ 0x98e1, 0x98e1, 0x98e1, 0 },
++	{ 0x9a93, 0x9a93, 0x9a93, 0 },
++	{ 0x9c48, 0x9c48, 0x9c48, 0 },
++	{ 0x9e00, 0x9e00, 0x9e00, 0 },
++	{ 0x9fbb, 0x9fbb, 0x9fbb, 0 },
++	{ 0xa178, 0xa178, 0xa178, 0 },
++	{ 0xa338, 0xa338, 0xa338, 0 },
++	{ 0xa4fb, 0xa4fb, 0xa4fb, 0 },
++	{ 0xa6c1, 0xa6c1, 0xa6c1, 0 },
++	{ 0xa88a, 0xa88a, 0xa88a, 0 },
++	{ 0xaa56, 0xaa56, 0xaa56, 0 },
++	{ 0xac24, 0xac24, 0xac24, 0 },
++	{ 0xadf5, 0xadf5, 0xadf5, 0 },
++	{ 0xafc9, 0xafc9, 0xafc9, 0 },
++	{ 0xb1a0, 0xb1a0, 0xb1a0, 0 },
++	{ 0xb37a, 0xb37a, 0xb37a, 0 },
++	{ 0xb557, 0xb557, 0xb557, 0 },
++	{ 0xb736, 0xb736, 0xb736, 0 },
++	{ 0xb919, 0xb919, 0xb919, 0 },
++	{ 0xbafe, 0xbafe, 0xbafe, 0 },
++	{ 0xbce6, 0xbce6, 0xbce6, 0 },
++	{ 0xbed2, 0xbed2, 0xbed2, 0 },
++	{ 0xc0c0, 0xc0c0, 0xc0c0, 0 },
++	{ 0xc2b0, 0xc2b0, 0xc2b0, 0 },
++	{ 0xc4a4, 0xc4a4, 0xc4a4, 0 },
++	{ 0xc69b, 0xc69b, 0xc69b, 0 },
++	{ 0xc895, 0xc895, 0xc895, 0 },
++	{ 0xca91, 0xca91, 0xca91, 0 },
++	{ 0xcc91, 0xcc91, 0xcc91, 0 },
++	{ 0xce93, 0xce93, 0xce93, 0 },
++	{ 0xd098, 0xd098, 0xd098, 0 },
++	{ 0xd2a1, 0xd2a1, 0xd2a1, 0 },
++	{ 0xd4ac, 0xd4ac, 0xd4ac, 0 },
++	{ 0xd6ba, 0xd6ba, 0xd6ba, 0 },
++	{ 0xd8cb, 0xd8cb, 0xd8cb, 0 },
++	{ 0xdadf, 0xdadf, 0xdadf, 0 },
++	{ 0xdcf7, 0xdcf7, 0xdcf7, 0 },
++	{ 0xdf11, 0xdf11, 0xdf11, 0 },
++	{ 0xe12e, 0xe12e, 0xe12e, 0 },
++	{ 0xe34e, 0xe34e, 0xe34e, 0 },
++	{ 0xe571, 0xe571, 0xe571, 0 },
++	{ 0xe796, 0xe796, 0xe796, 0 },
++	{ 0xe9bf, 0xe9bf, 0xe9bf, 0 },
++	{ 0xebeb, 0xebeb, 0xebeb, 0 },
++	{ 0xee1a, 0xee1a, 0xee1a, 0 },
++	{ 0xf04c, 0xf04c, 0xf04c, 0 },
++	{ 0xf281, 0xf281, 0xf281, 0 },
++	{ 0xf4b9, 0xf4b9, 0xf4b9, 0 },
++	{ 0xf6f4, 0xf6f4, 0xf6f4, 0 },
++	{ 0xf932, 0xf932, 0xf932, 0 },
++	{ 0xfb73, 0xfb73, 0xfb73, 0 },
++	{ 0xfdb7, 0xfdb7, 0xfdb7, 0 },
++	{ 0xffff, 0xffff, 0xffff, 0 },
++};
++
++const struct vkms_color_lut srgb_eotf = {
++	.base = srgb_array,
++	.lut_length = LUT_SIZE,
++	.channel_value2index_ratio = 0xff00ffll
++};
++
++static struct drm_color_lut srgb_inv_array[LUT_SIZE] = {
++	{ 0x0, 0x0, 0x0, 0 },
++	{ 0xcc2, 0xcc2, 0xcc2, 0 },
++	{ 0x15be, 0x15be, 0x15be, 0 },
++	{ 0x1c56, 0x1c56, 0x1c56, 0 },
++	{ 0x21bd, 0x21bd, 0x21bd, 0 },
++	{ 0x2666, 0x2666, 0x2666, 0 },
++	{ 0x2a8a, 0x2a8a, 0x2a8a, 0 },
++	{ 0x2e4c, 0x2e4c, 0x2e4c, 0 },
++	{ 0x31c0, 0x31c0, 0x31c0, 0 },
++	{ 0x34f6, 0x34f6, 0x34f6, 0 },
++	{ 0x37f9, 0x37f9, 0x37f9, 0 },
++	{ 0x3acf, 0x3acf, 0x3acf, 0 },
++	{ 0x3d80, 0x3d80, 0x3d80, 0 },
++	{ 0x4010, 0x4010, 0x4010, 0 },
++	{ 0x4284, 0x4284, 0x4284, 0 },
++	{ 0x44dd, 0x44dd, 0x44dd, 0 },
++	{ 0x4720, 0x4720, 0x4720, 0 },
++	{ 0x494e, 0x494e, 0x494e, 0 },
++	{ 0x4b69, 0x4b69, 0x4b69, 0 },
++	{ 0x4d73, 0x4d73, 0x4d73, 0 },
++	{ 0x4f6e, 0x4f6e, 0x4f6e, 0 },
++	{ 0x5159, 0x5159, 0x5159, 0 },
++	{ 0x5337, 0x5337, 0x5337, 0 },
++	{ 0x5509, 0x5509, 0x5509, 0 },
++	{ 0x56cf, 0x56cf, 0x56cf, 0 },
++	{ 0x588a, 0x588a, 0x588a, 0 },
++	{ 0x5a3b, 0x5a3b, 0x5a3b, 0 },
++	{ 0x5be2, 0x5be2, 0x5be2, 0 },
++	{ 0x5d80, 0x5d80, 0x5d80, 0 },
++	{ 0x5f16, 0x5f16, 0x5f16, 0 },
++	{ 0x60a4, 0x60a4, 0x60a4, 0 },
++	{ 0x6229, 0x6229, 0x6229, 0 },
++	{ 0x63a8, 0x63a8, 0x63a8, 0 },
++	{ 0x6520, 0x6520, 0x6520, 0 },
++	{ 0x6691, 0x6691, 0x6691, 0 },
++	{ 0x67fc, 0x67fc, 0x67fc, 0 },
++	{ 0x6961, 0x6961, 0x6961, 0 },
++	{ 0x6ac0, 0x6ac0, 0x6ac0, 0 },
++	{ 0x6c19, 0x6c19, 0x6c19, 0 },
++	{ 0x6d6e, 0x6d6e, 0x6d6e, 0 },
++	{ 0x6ebd, 0x6ebd, 0x6ebd, 0 },
++	{ 0x7008, 0x7008, 0x7008, 0 },
++	{ 0x714d, 0x714d, 0x714d, 0 },
++	{ 0x728f, 0x728f, 0x728f, 0 },
++	{ 0x73cc, 0x73cc, 0x73cc, 0 },
++	{ 0x7504, 0x7504, 0x7504, 0 },
++	{ 0x7639, 0x7639, 0x7639, 0 },
++	{ 0x776a, 0x776a, 0x776a, 0 },
++	{ 0x7897, 0x7897, 0x7897, 0 },
++	{ 0x79c1, 0x79c1, 0x79c1, 0 },
++	{ 0x7ae7, 0x7ae7, 0x7ae7, 0 },
++	{ 0x7c09, 0x7c09, 0x7c09, 0 },
++	{ 0x7d28, 0x7d28, 0x7d28, 0 },
++	{ 0x7e44, 0x7e44, 0x7e44, 0 },
++	{ 0x7f5d, 0x7f5d, 0x7f5d, 0 },
++	{ 0x8073, 0x8073, 0x8073, 0 },
++	{ 0x8186, 0x8186, 0x8186, 0 },
++	{ 0x8296, 0x8296, 0x8296, 0 },
++	{ 0x83a4, 0x83a4, 0x83a4, 0 },
++	{ 0x84ae, 0x84ae, 0x84ae, 0 },
++	{ 0x85b6, 0x85b6, 0x85b6, 0 },
++	{ 0x86bc, 0x86bc, 0x86bc, 0 },
++	{ 0x87bf, 0x87bf, 0x87bf, 0 },
++	{ 0x88bf, 0x88bf, 0x88bf, 0 },
++	{ 0x89be, 0x89be, 0x89be, 0 },
++	{ 0x8ab9, 0x8ab9, 0x8ab9, 0 },
++	{ 0x8bb3, 0x8bb3, 0x8bb3, 0 },
++	{ 0x8cab, 0x8cab, 0x8cab, 0 },
++	{ 0x8da0, 0x8da0, 0x8da0, 0 },
++	{ 0x8e93, 0x8e93, 0x8e93, 0 },
++	{ 0x8f84, 0x8f84, 0x8f84, 0 },
++	{ 0x9073, 0x9073, 0x9073, 0 },
++	{ 0x9161, 0x9161, 0x9161, 0 },
++	{ 0x924c, 0x924c, 0x924c, 0 },
++	{ 0x9335, 0x9335, 0x9335, 0 },
++	{ 0x941d, 0x941d, 0x941d, 0 },
++	{ 0x9503, 0x9503, 0x9503, 0 },
++	{ 0x95e7, 0x95e7, 0x95e7, 0 },
++	{ 0x96c9, 0x96c9, 0x96c9, 0 },
++	{ 0x97aa, 0x97aa, 0x97aa, 0 },
++	{ 0x9889, 0x9889, 0x9889, 0 },
++	{ 0x9966, 0x9966, 0x9966, 0 },
++	{ 0x9a42, 0x9a42, 0x9a42, 0 },
++	{ 0x9b1c, 0x9b1c, 0x9b1c, 0 },
++	{ 0x9bf5, 0x9bf5, 0x9bf5, 0 },
++	{ 0x9ccc, 0x9ccc, 0x9ccc, 0 },
++	{ 0x9da1, 0x9da1, 0x9da1, 0 },
++	{ 0x9e76, 0x9e76, 0x9e76, 0 },
++	{ 0x9f49, 0x9f49, 0x9f49, 0 },
++	{ 0xa01a, 0xa01a, 0xa01a, 0 },
++	{ 0xa0ea, 0xa0ea, 0xa0ea, 0 },
++	{ 0xa1b9, 0xa1b9, 0xa1b9, 0 },
++	{ 0xa286, 0xa286, 0xa286, 0 },
++	{ 0xa352, 0xa352, 0xa352, 0 },
++	{ 0xa41d, 0xa41d, 0xa41d, 0 },
++	{ 0xa4e7, 0xa4e7, 0xa4e7, 0 },
++	{ 0xa5af, 0xa5af, 0xa5af, 0 },
++	{ 0xa676, 0xa676, 0xa676, 0 },
++	{ 0xa73c, 0xa73c, 0xa73c, 0 },
++	{ 0xa801, 0xa801, 0xa801, 0 },
++	{ 0xa8c5, 0xa8c5, 0xa8c5, 0 },
++	{ 0xa987, 0xa987, 0xa987, 0 },
++	{ 0xaa48, 0xaa48, 0xaa48, 0 },
++	{ 0xab09, 0xab09, 0xab09, 0 },
++	{ 0xabc8, 0xabc8, 0xabc8, 0 },
++	{ 0xac86, 0xac86, 0xac86, 0 },
++	{ 0xad43, 0xad43, 0xad43, 0 },
++	{ 0xadff, 0xadff, 0xadff, 0 },
++	{ 0xaeba, 0xaeba, 0xaeba, 0 },
++	{ 0xaf74, 0xaf74, 0xaf74, 0 },
++	{ 0xb02d, 0xb02d, 0xb02d, 0 },
++	{ 0xb0e5, 0xb0e5, 0xb0e5, 0 },
++	{ 0xb19c, 0xb19c, 0xb19c, 0 },
++	{ 0xb252, 0xb252, 0xb252, 0 },
++	{ 0xb307, 0xb307, 0xb307, 0 },
++	{ 0xb3bb, 0xb3bb, 0xb3bb, 0 },
++	{ 0xb46f, 0xb46f, 0xb46f, 0 },
++	{ 0xb521, 0xb521, 0xb521, 0 },
++	{ 0xb5d3, 0xb5d3, 0xb5d3, 0 },
++	{ 0xb683, 0xb683, 0xb683, 0 },
++	{ 0xb733, 0xb733, 0xb733, 0 },
++	{ 0xb7e2, 0xb7e2, 0xb7e2, 0 },
++	{ 0xb890, 0xb890, 0xb890, 0 },
++	{ 0xb93d, 0xb93d, 0xb93d, 0 },
++	{ 0xb9ea, 0xb9ea, 0xb9ea, 0 },
++	{ 0xba96, 0xba96, 0xba96, 0 },
++	{ 0xbb40, 0xbb40, 0xbb40, 0 },
++	{ 0xbbea, 0xbbea, 0xbbea, 0 },
++	{ 0xbc94, 0xbc94, 0xbc94, 0 },
++	{ 0xbd3c, 0xbd3c, 0xbd3c, 0 },
++	{ 0xbde4, 0xbde4, 0xbde4, 0 },
++	{ 0xbe8b, 0xbe8b, 0xbe8b, 0 },
++	{ 0xbf31, 0xbf31, 0xbf31, 0 },
++	{ 0xbfd7, 0xbfd7, 0xbfd7, 0 },
++	{ 0xc07b, 0xc07b, 0xc07b, 0 },
++	{ 0xc120, 0xc120, 0xc120, 0 },
++	{ 0xc1c3, 0xc1c3, 0xc1c3, 0 },
++	{ 0xc266, 0xc266, 0xc266, 0 },
++	{ 0xc308, 0xc308, 0xc308, 0 },
++	{ 0xc3a9, 0xc3a9, 0xc3a9, 0 },
++	{ 0xc449, 0xc449, 0xc449, 0 },
++	{ 0xc4e9, 0xc4e9, 0xc4e9, 0 },
++	{ 0xc589, 0xc589, 0xc589, 0 },
++	{ 0xc627, 0xc627, 0xc627, 0 },
++	{ 0xc6c5, 0xc6c5, 0xc6c5, 0 },
++	{ 0xc763, 0xc763, 0xc763, 0 },
++	{ 0xc7ff, 0xc7ff, 0xc7ff, 0 },
++	{ 0xc89b, 0xc89b, 0xc89b, 0 },
++	{ 0xc937, 0xc937, 0xc937, 0 },
++	{ 0xc9d2, 0xc9d2, 0xc9d2, 0 },
++	{ 0xca6c, 0xca6c, 0xca6c, 0 },
++	{ 0xcb06, 0xcb06, 0xcb06, 0 },
++	{ 0xcb9f, 0xcb9f, 0xcb9f, 0 },
++	{ 0xcc37, 0xcc37, 0xcc37, 0 },
++	{ 0xcccf, 0xcccf, 0xcccf, 0 },
++	{ 0xcd66, 0xcd66, 0xcd66, 0 },
++	{ 0xcdfd, 0xcdfd, 0xcdfd, 0 },
++	{ 0xce93, 0xce93, 0xce93, 0 },
++	{ 0xcf29, 0xcf29, 0xcf29, 0 },
++	{ 0xcfbe, 0xcfbe, 0xcfbe, 0 },
++	{ 0xd053, 0xd053, 0xd053, 0 },
++	{ 0xd0e7, 0xd0e7, 0xd0e7, 0 },
++	{ 0xd17a, 0xd17a, 0xd17a, 0 },
++	{ 0xd20d, 0xd20d, 0xd20d, 0 },
++	{ 0xd2a0, 0xd2a0, 0xd2a0, 0 },
++	{ 0xd331, 0xd331, 0xd331, 0 },
++	{ 0xd3c3, 0xd3c3, 0xd3c3, 0 },
++	{ 0xd454, 0xd454, 0xd454, 0 },
++	{ 0xd4e4, 0xd4e4, 0xd4e4, 0 },
++	{ 0xd574, 0xd574, 0xd574, 0 },
++	{ 0xd603, 0xd603, 0xd603, 0 },
++	{ 0xd692, 0xd692, 0xd692, 0 },
++	{ 0xd720, 0xd720, 0xd720, 0 },
++	{ 0xd7ae, 0xd7ae, 0xd7ae, 0 },
++	{ 0xd83c, 0xd83c, 0xd83c, 0 },
++	{ 0xd8c9, 0xd8c9, 0xd8c9, 0 },
++	{ 0xd955, 0xd955, 0xd955, 0 },
++	{ 0xd9e1, 0xd9e1, 0xd9e1, 0 },
++	{ 0xda6d, 0xda6d, 0xda6d, 0 },
++	{ 0xdaf8, 0xdaf8, 0xdaf8, 0 },
++	{ 0xdb83, 0xdb83, 0xdb83, 0 },
++	{ 0xdc0d, 0xdc0d, 0xdc0d, 0 },
++	{ 0xdc97, 0xdc97, 0xdc97, 0 },
++	{ 0xdd20, 0xdd20, 0xdd20, 0 },
++	{ 0xdda9, 0xdda9, 0xdda9, 0 },
++	{ 0xde31, 0xde31, 0xde31, 0 },
++	{ 0xdeb9, 0xdeb9, 0xdeb9, 0 },
++	{ 0xdf41, 0xdf41, 0xdf41, 0 },
++	{ 0xdfc8, 0xdfc8, 0xdfc8, 0 },
++	{ 0xe04f, 0xe04f, 0xe04f, 0 },
++	{ 0xe0d5, 0xe0d5, 0xe0d5, 0 },
++	{ 0xe15b, 0xe15b, 0xe15b, 0 },
++	{ 0xe1e0, 0xe1e0, 0xe1e0, 0 },
++	{ 0xe266, 0xe266, 0xe266, 0 },
++	{ 0xe2ea, 0xe2ea, 0xe2ea, 0 },
++	{ 0xe36f, 0xe36f, 0xe36f, 0 },
++	{ 0xe3f3, 0xe3f3, 0xe3f3, 0 },
++	{ 0xe476, 0xe476, 0xe476, 0 },
++	{ 0xe4f9, 0xe4f9, 0xe4f9, 0 },
++	{ 0xe57c, 0xe57c, 0xe57c, 0 },
++	{ 0xe5fe, 0xe5fe, 0xe5fe, 0 },
++	{ 0xe680, 0xe680, 0xe680, 0 },
++	{ 0xe702, 0xe702, 0xe702, 0 },
++	{ 0xe783, 0xe783, 0xe783, 0 },
++	{ 0xe804, 0xe804, 0xe804, 0 },
++	{ 0xe884, 0xe884, 0xe884, 0 },
++	{ 0xe905, 0xe905, 0xe905, 0 },
++	{ 0xe984, 0xe984, 0xe984, 0 },
++	{ 0xea04, 0xea04, 0xea04, 0 },
++	{ 0xea83, 0xea83, 0xea83, 0 },
++	{ 0xeb02, 0xeb02, 0xeb02, 0 },
++	{ 0xeb80, 0xeb80, 0xeb80, 0 },
++	{ 0xebfe, 0xebfe, 0xebfe, 0 },
++	{ 0xec7b, 0xec7b, 0xec7b, 0 },
++	{ 0xecf9, 0xecf9, 0xecf9, 0 },
++	{ 0xed76, 0xed76, 0xed76, 0 },
++	{ 0xedf2, 0xedf2, 0xedf2, 0 },
++	{ 0xee6f, 0xee6f, 0xee6f, 0 },
++	{ 0xeeeb, 0xeeeb, 0xeeeb, 0 },
++	{ 0xef66, 0xef66, 0xef66, 0 },
++	{ 0xefe2, 0xefe2, 0xefe2, 0 },
++	{ 0xf05d, 0xf05d, 0xf05d, 0 },
++	{ 0xf0d7, 0xf0d7, 0xf0d7, 0 },
++	{ 0xf152, 0xf152, 0xf152, 0 },
++	{ 0xf1cc, 0xf1cc, 0xf1cc, 0 },
++	{ 0xf245, 0xf245, 0xf245, 0 },
++	{ 0xf2bf, 0xf2bf, 0xf2bf, 0 },
++	{ 0xf338, 0xf338, 0xf338, 0 },
++	{ 0xf3b0, 0xf3b0, 0xf3b0, 0 },
++	{ 0xf429, 0xf429, 0xf429, 0 },
++	{ 0xf4a1, 0xf4a1, 0xf4a1, 0 },
++	{ 0xf519, 0xf519, 0xf519, 0 },
++	{ 0xf590, 0xf590, 0xf590, 0 },
++	{ 0xf608, 0xf608, 0xf608, 0 },
++	{ 0xf67e, 0xf67e, 0xf67e, 0 },
++	{ 0xf6f5, 0xf6f5, 0xf6f5, 0 },
++	{ 0xf76b, 0xf76b, 0xf76b, 0 },
++	{ 0xf7e1, 0xf7e1, 0xf7e1, 0 },
++	{ 0xf857, 0xf857, 0xf857, 0 },
++	{ 0xf8cd, 0xf8cd, 0xf8cd, 0 },
++	{ 0xf942, 0xf942, 0xf942, 0 },
++	{ 0xf9b7, 0xf9b7, 0xf9b7, 0 },
++	{ 0xfa2b, 0xfa2b, 0xfa2b, 0 },
++	{ 0xfaa0, 0xfaa0, 0xfaa0, 0 },
++	{ 0xfb14, 0xfb14, 0xfb14, 0 },
++	{ 0xfb88, 0xfb88, 0xfb88, 0 },
++	{ 0xfbfb, 0xfbfb, 0xfbfb, 0 },
++	{ 0xfc6e, 0xfc6e, 0xfc6e, 0 },
++	{ 0xfce1, 0xfce1, 0xfce1, 0 },
++	{ 0xfd54, 0xfd54, 0xfd54, 0 },
++	{ 0xfdc6, 0xfdc6, 0xfdc6, 0 },
++	{ 0xfe39, 0xfe39, 0xfe39, 0 },
++	{ 0xfeaa, 0xfeaa, 0xfeaa, 0 },
++	{ 0xff1c, 0xff1c, 0xff1c, 0 },
++	{ 0xff8d, 0xff8d, 0xff8d, 0 },
++	{ 0xffff, 0xffff, 0xffff, 0 },
++};
++
++const struct vkms_color_lut srgb_inv_eotf = {
++	.base = srgb_inv_array,
++	.lut_length = LUT_SIZE,
++	.channel_value2index_ratio = 0xff00ffll
++};
+diff --git a/drivers/gpu/drm/vkms/vkms_luts.h b/drivers/gpu/drm/vkms/vkms_luts.h
+new file mode 100644
+index 000000000000..053512a643f7
+--- /dev/null
++++ b/drivers/gpu/drm/vkms/vkms_luts.h
+@@ -0,0 +1,12 @@
++/* SPDX-License-Identifier: GPL-2.0+ */
++
++#ifndef _VKMS_LUTS_H_
++#define _VKMS_LUTS_H_
++
++#define LUT_SIZE 256
++
++extern const struct vkms_color_lut linear_eotf;
++extern const struct vkms_color_lut srgb_eotf;
++extern const struct vkms_color_lut srgb_inv_eotf;
++
++#endif /* _VKMS_LUTS_H_ */
+\ No newline at end of file
+diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+index e5c625ab8e3e..8520ee0534d1 100644
+--- a/drivers/gpu/drm/vkms/vkms_plane.c
++++ b/drivers/gpu/drm/vkms/vkms_plane.c
+@@ -215,5 +215,7 @@ struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
+ 	drm_plane_create_rotation_property(&plane->base, DRM_MODE_ROTATE_0,
+ 					   DRM_MODE_ROTATE_MASK | DRM_MODE_REFLECT_MASK);
+
++	vkms_initialize_colorops(&plane->base);
++
+ 	return plane;
+ }
 --
 2.46.2
 
