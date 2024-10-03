@@ -2,114 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4676498EC5A
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 11:37:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19A2398EC65
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 11:43:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B201210E7DC;
-	Thu,  3 Oct 2024 09:37:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABC1610E7DD;
+	Thu,  3 Oct 2024 09:43:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="DtRwP02r";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="aPRf/DSG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D6A710E7C0
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 09:37:05 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20241003092901euoutp0227889e968a5627c02c00f1ffe221a982~651DC5Iro3264832648euoutp02k
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 09:29:01 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20241003092901euoutp0227889e968a5627c02c00f1ffe221a982~651DC5Iro3264832648euoutp02k
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1727947741;
- bh=51BHMcWfEge1OQoCPrt4FdlKAhUWgI/LQIBASekG+MA=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=DtRwP02rALlsiZbRPhU9GkbqB4k8qR9y5PqZ++AgHpuh6y1FB7/XZ/fvKBGVDEFzr
- eOq1q4RXLY234WrFycZOhB1uREgh76C1S1UnIoK/VtgzwAI69vII/JLQb9lYMhxd4n
- +kqZPwR043dP6z/rN/Xs0sepFDbiTgZ3EuiWHHpY=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20241003092900eucas1p1026e90c64d86804b160af507ef2259fb~651C0SQ1D2406024060eucas1p1k;
- Thu,  3 Oct 2024 09:29:00 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id 2E.D2.09875.CD36EF66; Thu,  3
- Oct 2024 10:29:00 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20241003092900eucas1p23bc93401d6803aa36c1b442b40bd6c15~651CbQ-tk1289512895eucas1p2R;
- Thu,  3 Oct 2024 09:29:00 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20241003092900eusmtrp1121e5b125467f1ab56ece748eb257cbd~651Can7Re1370213702eusmtrp1e;
- Thu,  3 Oct 2024 09:29:00 +0000 (GMT)
-X-AuditID: cbfec7f4-11bff70000002693-9e-66fe63dc56b7
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id 29.57.19096.CD36EF66; Thu,  3
- Oct 2024 10:29:00 +0100 (BST)
-Received: from AMDC4653.digital.local (unknown [106.120.51.32]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20241003092859eusmtip21772a927d7df8b2da94ddc169c169b12~651BzFhHk2013120131eusmtip2V;
- Thu,  3 Oct 2024 09:28:59 +0000 (GMT)
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-To: Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Dave Stevenson
- <dave.stevenson@raspberrypi.com>, Javier Martinez Canillas
- <javierm@redhat.com>
-Subject: [PATCH 2/2] drm/vc4: Provides DRM_FBDEV_DMA_DRIVER_OPS also for
- vc5_drm_driver
-Date: Thu,  3 Oct 2024 11:28:26 +0200
-Message-Id: <20241003092826.1942901-3-m.szyprowski@samsung.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241003092826.1942901-1-m.szyprowski@samsung.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D13610E7DD
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 09:43:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1727948592; x=1759484592;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=kKheSpvNhKnnOCs4OPuTFoh9bYM2IVoqL5zJ0I4iiA0=;
+ b=aPRf/DSGO+v6faCuEZe1nSqYQkPRjs4DbgBxYn9sFfZq78ZLG5vhEHNA
+ uhZeuq1XRA2HCyMmN6fcnUihkAPhsxblCd4e8Yc3YUUX0OVVfHsTDoRPm
+ VPA7R3RHn7lUDdfEMeGtkQbKho/tI9C6POAfXd1ein8XTCUwPmuGqWuLn
+ fOqZrS3eGXRdMl2eBN84NzP3GM2AaJAhie+D1+yTiHblKjOLwdAtbmjfN
+ RngT5P9gnHjZhSXh8FYA/B0OHuqGdBS7+8tT8wuvsXRKH7pcg36YNpKas
+ ibNNQkJR4fTywPw+jSXz9lVROteAyARe5njS3kKAknj9Yin+cpB86MtOA A==;
+X-CSE-ConnectionGUID: jIRJSNl6RVWmW16BBxMlKA==
+X-CSE-MsgGUID: XxI7QpOEShWajcGeuNCKoA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="27004823"
+X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; d="scan'208";a="27004823"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Oct 2024 02:43:10 -0700
+X-CSE-ConnectionGUID: O4wAEbQkTLmaeFPky2TQRA==
+X-CSE-MsgGUID: PWK+fE28TIuwbifN1Tu/fw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; d="scan'208";a="79062025"
+Received: from soc-5cg4213gc7.clients.intel.com (HELO [10.66.114.183])
+ ([10.66.114.183])
+ by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Oct 2024 02:43:05 -0700
+Message-ID: <6523649b-9143-42d8-b301-a143088530b9@intel.com>
+Date: Thu, 3 Oct 2024 15:13:02 +0530
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrPKsWRmVeSWpSXmKPExsWy7djPc7p3kv+lGXQ907Y4cX0Rk8XbuYtZ
- LK58fc9msXDackaL9zMnMFtc3jWHzWLtkbvsFgs/bmWxaOtcxmox+91+dostbyayOnB77P22
- gMVj56y77B6bVnWyecw7Gehxv/s4k0fr0V8sHu/3XWXz6NuyitFj8+lqj8+b5AK4orhsUlJz
- MstSi/TtErgypj5+zlQwgb3ixuzCBsYWti5GTg4JAROJWbd7mLsYuTiEBFYwSvROPswO4Xxh
- lHj/YwsrhPOZUeLWxxPsMC2vvrexQSSWM0rMXb+MCa7l7LFrzCBVbAKGEl1vu8CqRASagBIr
- m8FmMQs8YJJ4MvUhI0iVsECkxLyjb1lBbBYBVYnWw1OYQGxeAXuJviXLmSH2yUvsP3gWzOYU
- cJDYfOMVK0SNoMTJmU9YQGxmoJrmrbPB3pAQ+MAhsf3dFqhjXSQO374PNUhY4tVxmLiMxOnJ
- PSwQDe2MEgt+32eCcCYwSjQ8v8UIUWUtcefcL6AnOIBWaEqs36UPEXaUeHoD5GkOIJtP4sZb
- QYgj+CQmbZvODBHmlehoE4KoVpOYdXwd3NqDFy5BneMh8ezGTMYJjIqzkLwzC8k7sxD2LmBk
- XsUonlpanJueWmyUl1quV5yYW1yal66XnJ+7iRGYxk7/O/5lB+PyVx/1DjEycTAeYpTgYFYS
- 4Z23/W+aEG9KYmVValF+fFFpTmrxIUZpDhYlcV7VFPlUIYH0xJLU7NTUgtQimCwTB6dUA9PW
- FIG76+O59Z42Mi2akDTZQTVnY6WXUG7M5nVnnnE/qayR0Ju+1yd/xTuGHdmhv+es+JUV52w8
- ZXPrmcU35cJrD38XcPGKuuax48osMVbpBI4gsfgik83vUibIm9/5ddaL37Vkc9/2LJW2pyt2
- nV116fy+i9VfD33/WZmf3xTBUfGnsy7rvsDuTL/7G7wF83c2SfZNPl0dPdlaPl3riGvIu28d
- Szaqt/+otDHiiqk5blkVF3uVZbKlzSkP9U4VC94Kts36XfUPl918/ibodLiBhMiOq25b0k5F
- pbouijwtfLHm2eMP21dvLajgbNY5vO5ll439BuX7EkpvjPknTzCdE1BjfftAyZ1ijbt9Ykos
- xRmJhlrMRcWJAIrGR3DSAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrDIsWRmVeSWpSXmKPExsVy+t/xe7p3kv+lGSz4LWJx4voiJou3cxez
- WFz5+p7NYuG05YwW72dOYLa4vGsOm8XaI3fZLRZ+3Mpi0da5jNVi9rv97BZb3kxkdeD22Ptt
- AYvHzll32T02repk85h3MtDjfvdxJo/Wo79YPN7vu8rm0bdlFaPH5tPVHp83yQVwRenZFOWX
- lqQqZOQXl9gqRRtaGOkZWlroGZlY6hkam8daGZkq6dvZpKTmZJalFunbJehlTH38nKlgAnvF
- jdmFDYwtbF2MnBwSAiYSr763AdlcHEICSxkl3rw/xAyRkJE4Oa2BFcIWlvhzrQuq6BOjxK4L
- t8CK2AQMJbreQiREBFoYJY5u/M0I4jALPGGSWPptKyNIlbBAuMTrxhVMIDaLgKpE6+EpYDav
- gL1E35LlUOvkJfYfPAtmcwo4SGy+8QpstRBQzeFNfxkh6gUlTs58wgJiMwPVN2+dzTyBUWAW
- ktQsJKkFjEyrGEVSS4tz03OLjfSKE3OLS/PS9ZLzczcxAqNt27GfW3Ywrnz1Ue8QIxMH4yFG
- CQ5mJRHeedv/pgnxpiRWVqUW5ccXleakFh9iNAW6eyKzlGhyPjDe80riDc0MTA1NzCwNTC3N
- jJXEedmunE8TEkhPLEnNTk0tSC2C6WPi4JRqYJI8+21bZll5OOOzQrO/RcIdDML6Ev//BD/c
- JvNlcc/5mgcXBOuUf9YsMlgr7VgyR+pFvMDvjA/Z+RbhN7wVmVqEpzDc+m2m+HrRqq8cDh4F
- kikLzzZatS0qZnli/vGx5bXTnid2X1sXyxRgIjNrl0nUmZ8/+SUdtsr+mXFQ8qHSuYNdYeZO
- Ntm2xjvWP9Z73OWTt/hqQcFGdxePNR8N2XUmsB2Xnr+CR/vwFn7LrDJJro/TFE9Kmk3a9m6G
- 4ulzf+sKbWancbOvXD33TSGPq8L0BTOKJs7mat2h/TlWLnJRu6y2uPqKG6b6sU0qJj9uXGbm
- ruB5fd+3PYn7fMyCc0e2xsV9Mmcu+e+jISPuocRSnJFoqMVcVJwIAPjRwPk/AwAA
-X-CMS-MailID: 20241003092900eucas1p23bc93401d6803aa36c1b442b40bd6c15
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20241003092900eucas1p23bc93401d6803aa36c1b442b40bd6c15
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20241003092900eucas1p23bc93401d6803aa36c1b442b40bd6c15
-References: <20241003092826.1942901-1-m.szyprowski@samsung.com>
- <CGME20241003092900eucas1p23bc93401d6803aa36c1b442b40bd6c15@eucas1p2.samsung.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] drm/bridge: sii902x: Provide data-lines property to
+ input endpoint
+To: Wadim Egorov <w.egorov@phytec.de>, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org
+Cc: Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, bbrezillon@kernel.org, conor+dt@kernel.org,
+ krzk+dt@kernel.org, robh@kernel.org, upstream@lists.phytec.de
+References: <20241003082006.2728617-1-w.egorov@phytec.de>
+Content-Language: en-US
+From: Aradhya Bhatia <aradhya.bhatia@intel.com>
+In-Reply-To: <20241003082006.2728617-1-w.egorov@phytec.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,30 +77,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The VC4 DRM driver contains 2 'struct drm_driver' objects, used for
-different hardware versions. Commit 45903624e9fc ("drm/vc4: Run DRM
-default client setup") added the DRM_FBDEV_DMA_DRIVER_OPS entry only to
-the first one, causing the kernel oops if the second 'drm_driver' object
-is used. Fix this.
+Hi Wadim,
 
-Fixes: 45903624e9fc ("drm/vc4: Run DRM default client setup")
-Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
----
- drivers/gpu/drm/vc4/vc4_drv.c | 1 +
- 1 file changed, 1 insertion(+)
+Thanks for the patch.
 
-diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
-index 13a1ecddbca3..a238f76a6073 100644
---- a/drivers/gpu/drm/vc4/vc4_drv.c
-+++ b/drivers/gpu/drm/vc4/vc4_drv.c
-@@ -238,6 +238,7 @@ const struct drm_driver vc5_drm_driver = {
- #endif
- 
- 	DRM_GEM_DMA_DRIVER_OPS_WITH_DUMB_CREATE(vc5_dumb_create),
-+	DRM_FBDEV_DMA_DRIVER_OPS,
- 
- 	.fops = &vc4_drm_fops,
- 
--- 
-2.34.1
+Probably a nit, but the dt-binding patch should come before the driver
+patch.
+
+On 03-10-2024 13:50, Wadim Egorov wrote:
+> Introduce a data-lines property to define the number of parallel RGB
+> input pins connected to the transmitter. The input bus formats are updated
+> accordingly. If the property is not specified, default to 24 data lines.
+> 
+> Signed-off-by: Wadim Egorov <w.egorov@phytec.de>
+> ---
+>  drivers/gpu/drm/bridge/sii902x.c | 27 ++++++++++++++++++++++++++-
+>  1 file changed, 26 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/sii902x.c b/drivers/gpu/drm/bridge/sii902x.c
+> index 7f91b0db161e..3565c3533597 100644
+> --- a/drivers/gpu/drm/bridge/sii902x.c
+> +++ b/drivers/gpu/drm/bridge/sii902x.c
+> @@ -180,6 +180,8 @@ struct sii902x {
+>  	struct gpio_desc *reset_gpio;
+>  	struct i2c_mux_core *i2cmux;
+>  	bool sink_is_hdmi;
+> +	u32 pd_lines; /* number of Parallel Port Input Data Lines */
+> +
+>  	/*
+>  	 * Mutex protects audio and video functions from interfering
+>  	 * each other, by keeping their i2c command sequences atomic.
+> @@ -477,6 +479,8 @@ static u32 *sii902x_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
+>  						     u32 output_fmt,
+>  						     unsigned int *num_input_fmts)
+>  {
+> +
+> +	struct sii902x *sii902x = bridge_to_sii902x(bridge);
+>  	u32 *input_fmts;
+>  
+>  	*num_input_fmts = 0;
+> @@ -485,7 +489,19 @@ static u32 *sii902x_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
+>  	if (!input_fmts)
+>  		return NULL;
+>  
+> -	input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X24;
+> +	switch (sii902x->pd_lines) {
+> +	case 16:
+> +		input_fmts[0] = MEDIA_BUS_FMT_RGB565_1X16;
+> +		break;
+> +	case 18:
+> +		input_fmts[0] = MEDIA_BUS_FMT_RGB666_1X18;
+> +		break;
+> +	default:
+
+For backward compatibility - in cases where the property is absent - you
+have already defaulted sii902x->pd_lines to 24 below, which I think is
+the right way.
+
+So, the default case should be kept separately, as an error case -
+which should then return back NULL / num_input_fmts = 0.
+
+> +	case 24:
+> +		input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X24;
+> +		break;
+> +	}
+> +
+>  	*num_input_fmts = 1;
+>  
+>  	return input_fmts;
+> @@ -1167,6 +1183,15 @@ static int sii902x_probe(struct i2c_client *client)
+>  		return PTR_ERR(sii902x->reset_gpio);
+>  	}
+>
+> +	endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 0, -1);
+> +	if (endpoint) {
+> +		ret = of_property_read_u32(endpoint, "data-lines", &sii902x->pd_lines);
+> +		if (ret) {
+> +			dev_dbg(dev, "Could not get data-lines, fallback to 24 data-lines\n");
+> +			sii902x->pd_lines = 24;
+> +		}
+> +	}
+> +
+>  	endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 1, -1);
+>  	if (endpoint) {
+>  		struct device_node *remote = of_graph_get_remote_port_parent(endpoint);
+
+--
+Regards
+Aradhya
 
