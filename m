@@ -2,75 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3D1C98EE52
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 13:39:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86FE598ECF4
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 12:30:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D99210E1A1;
-	Thu,  3 Oct 2024 11:39:21 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hC5R2T7m";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 326AA10E0E2;
+	Thu,  3 Oct 2024 10:30:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
- [209.85.214.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D63DF10E0E2;
- Thu,  3 Oct 2024 10:26:35 +0000 (UTC)
-Received: by mail-pl1-f177.google.com with SMTP id
- d9443c01a7336-20b01da232aso6170715ad.1; 
- Thu, 03 Oct 2024 03:26:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1727951195; x=1728555995; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=bDaF4ZaP993V4kYD6pYXH6Xnw0kgfu6U+rAc0OMJWWQ=;
- b=hC5R2T7ml1cuW4AN/GF+HzlT61dNia4kofA4+oF6/QOkgnnwUS42aNLrA8DTNlfml7
- ux+Szn5C5vYERCmlW0ojAjmctpBcg50ETSMetvRVrUPwYkbEE+wBc1+EftESZDyWwg1H
- bSgvulkpCXqckRLEMgaW5IoCYD5t2xMmakXmGdUrUTJQzGSA1WZFnomGRO7zGC+VTGZf
- RBPqQSG/8ks5meBIG1XcAs2yaTYe/ab32d37OLpsgMnrNhBFmWTSshIzv0H4glmduujW
- 7W8OCdJL+ejNGtY7h8NQv9/td4Tn1c0ky9rWlQiO/0v95/Qpd/aaqx5uDouF77Mp37em
- R2YA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727951195; x=1728555995;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=bDaF4ZaP993V4kYD6pYXH6Xnw0kgfu6U+rAc0OMJWWQ=;
- b=Hon4lsP4hmoSzLpnsYKn2p4LtNsbM4IEQ4p/4ua6tDNTmcpu9nKP+/n5ueWzu4m3no
- midCNk3/PdNv5T1Vh/5kMqL9qC8lkIF0kW27XDdk+n7oyKHwiAQHrKGW4H0QjqM9YiLC
- 5vqVTnKH2LBrFklhDhdpJ1OKiqUQCVXDUN50roAbwCStWMZfdGNMOBGjL5VlGZ1g17Qt
- oylVlKxwpWkMNACHRVdJ+kVz6v9iHr5BdLLk933FvsByl/jisRaxG0XQjzDT4TZ86oXr
- kXwJCEiASO3Quac+hgvZOSCAP+i2q09p9NAkkhtz499vf1DFEE39K8JynqDItKV6ETJp
- qpAg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVVGt49OtGOjRCkZc2La8VAsKcwCB+qZa+GEgvyNaPiHUeKOfqmIacXpsDUWIr/xpO8A2qSVbE4yII=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyEYek9uEa7c822VfC8mtXtimiNVWyIAon9SBMA9wfcGMjgfL87
- 2wgAb1gWGQwB8qsji96HAiWqpGTeqHZbo/qhyO5x/2x//g85mAZu
-X-Google-Smtp-Source: AGHT+IGo37GKqQtikoviYEnk2OxpIfz8FZmT6Ip6E5UkGYqwcD89Hrh/VwPrSgDk9Mm6GjcwA32CbQ==
-X-Received: by 2002:a17:902:d503:b0:20b:9831:9edf with SMTP id
- d9443c01a7336-20be18c7b4cmr47675395ad.6.1727951195194; 
- Thu, 03 Oct 2024 03:26:35 -0700 (PDT)
-Received: from advait-kdeneon.. ([2405:201:1e:f1d5:d1e9:7a9b:5841:2826])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-20beeca14bdsm6514475ad.64.2024.10.03.03.26.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Oct 2024 03:26:34 -0700 (PDT)
-From: Advait Dhamorikar <advaitdhamorikar@gmail.com>
-To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, simona@ffwll.ch, leo.liu@amd.com,
- sathishkumar.sundararaju@amd.com, saleemkhan.jamadar@amd.com,
- Veerabadhran.Gopalakrishnan@amd.com, advaitdhamorikar@gmail.com,
- sonny.jiang@amd.com
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
- anupnewsmail@gmail.com
-Subject: [PATCH-next v2] Fix unintentional integer overflow
-Date: Thu,  3 Oct 2024 15:56:23 +0530
-Message-Id: <20241003102623.11262-1-advaitdhamorikar@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 73FEA10E0E2
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 10:30:01 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 834C7339;
+ Thu,  3 Oct 2024 03:30:30 -0700 (PDT)
+Received: from [10.1.39.32] (e122027.cambridge.arm.com [10.1.39.32])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3225F3F64C;
+ Thu,  3 Oct 2024 03:29:58 -0700 (PDT)
+Message-ID: <4c8cf37c-1576-4633-9f75-01e26e95f6c2@arm.com>
+Date: Thu, 3 Oct 2024 11:29:55 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/panfrost: Add missing OPP table refcnt decremental
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
+Cc: Rob Herring <robh@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20241003002603.3177741-1-adrian.larumbe@collabora.com>
+ <20241003091740.4e610f21@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20241003091740.4e610f21@collabora.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Thu, 03 Oct 2024 11:39:20 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,32 +54,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix shift-count-overflow in JPEG instance
-multiplication. The expression's value may not be
-what the programmer intended, because the expression
-is evaluated using a narrower integer type.
+On 03/10/2024 08:17, Boris Brezillon wrote:
+> On Thu,  3 Oct 2024 01:25:37 +0100
+> Adrián Larumbe <adrian.larumbe@collabora.com> wrote:
+> 
+>> Commit f11b0417eec2 ("drm/panfrost: Add fdinfo support GPU load metrics")
+>> retrieves the OPP for the maximum device clock frequency, but forgets to
+>> keep the reference count balanced by putting the returned OPP object. This
+>> eventually leads to an OPP core warning when removing the device.
+>>
+>> Fix it by putting OPP objects as many times as they're retrieved.
+>> Also remove an unnecessary whitespace.
+>>
+>> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+>> Fixes: f11b0417eec2 ("drm/panfrost: Add fdinfo support GPU load metrics")
+> 
+> Reviewed-by: 
 
-Fixes: f0b19b84d391 ("drm/amdgpu: add amdgpu_jpeg_sched_mask debugfs")
-Signed-off-by: Advait Dhamorikar <advaitdhamorikar@gmail.com>
----
- V1 -> V2: addressed review comments
- 
- drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I assume that tag shouldn't be there ;)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c
-index 95e2796919fc..b6f0435f56ba 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c
-@@ -357,7 +357,7 @@ static int amdgpu_debugfs_jpeg_sched_mask_set(void *data, u64 val)
- 	if (!adev)
- 		return -ENODEV;
- 
--	mask = (1 << (adev->jpeg.num_jpeg_inst * adev->jpeg.num_jpeg_rings)) - 1;
-+	mask = ((uint64_t)1 << (adev->jpeg.num_jpeg_inst * adev->jpeg.num_jpeg_rings)) - 1;
- 	if ((val & mask) == 0)
- 		return -EINVAL;
- 
--- 
-2.34.1
+>> ---
+>>  drivers/gpu/drm/panfrost/panfrost_devfreq.c | 4 +++-
+>>  1 file changed, 3 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/panfrost/panfrost_devfreq.c b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+>> index 2d30da38c2c3..c7d3f980f1e5 100644
+>> --- a/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+>> +++ b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+>> @@ -38,7 +38,7 @@ static int panfrost_devfreq_target(struct device *dev, unsigned long *freq,
+>>  		return PTR_ERR(opp);
+>>  	dev_pm_opp_put(opp);
+>>  
+>> -	err =  dev_pm_opp_set_rate(dev, *freq);
+>> +	err = dev_pm_opp_set_rate(dev, *freq);
+>>  	if (!err)
+>>  		ptdev->pfdevfreq.current_frequency = *freq;
+>>  
+>> @@ -177,6 +177,8 @@ int panfrost_devfreq_init(struct panfrost_device *pfdev)
+>>  	 */
+>>  	pfdevfreq->current_frequency = cur_freq;
+>>  
+>> +	dev_pm_opp_put(opp);
+>> +
+> 
+> Shouldn't this be moved after the dev_pm_opp_set_opp() that's
+> following?
+
+I agree.
+
+I'm not sure what the devfreq maintainers would think, but there's now a
+few drivers that basically want find_available_max_freq() exported - if
+you're interested in a wider cleanup then it might be worth looking at.
+
+Steve
+
+>>  	/*
+>>  	 * Set the recommend OPP this will enable and configure the regulator
+>>  	 * if any and will avoid a switch off by regulator_late_cleanup()
+> 
 
