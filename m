@@ -2,66 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B49E98EA2F
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 09:13:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA34E98EA6F
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 09:37:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51C0010E7A5;
-	Thu,  3 Oct 2024 07:13:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C0CE10E7B7;
+	Thu,  3 Oct 2024 07:37:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Kaxd3lJ2";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NdbzrFfB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5D4810E7A5
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 07:13:36 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 9B46B5C5B77
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 07:13:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61056C4CEC7
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 07:13:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1727939615;
- bh=JhZKiGtQJ3zymd/WHqllXr0LMe1u0429Jy42xFeCp7k=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=Kaxd3lJ25rkQajgmz7cQN8bDKn6xrj7OzSOtHfn8uH4EjOnJl1D9S+R5irC6GrrDU
- qaiRpJJpeMDcDyvWLjlcsf7YPsExEhhXOdxOUkJsbSb0hF5ljMlQaccLs9MGOVjIs4
- T07US2duiGJyfSvyps8auPPRECrs2CdTanUNzbrzk39yc7aiR8AkK7EOZscPeoeWiB
- YnZotNZBMuG9quNjZbeo0/vC6dxalac0MqejTpFccgxzVERgPtCGg2wlgpk7XykI5E
- BRddwweGoeGpXcwu66CUB/t+x0dwqGyAl1iidQuEZieU3X4s/Kt55QfpgTSSvn1Plm
- a+x8wkatdrz4Q==
-Received: by mail-pf1-f179.google.com with SMTP id
- d2e1a72fcca58-71798a15ce5so1273732b3a.0
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Oct 2024 00:13:35 -0700 (PDT)
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com
+ [209.85.215.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E229B10E1E3;
+ Thu,  3 Oct 2024 07:15:02 +0000 (UTC)
+Received: by mail-pg1-f169.google.com with SMTP id
+ 41be03b00d2f7-656d8b346d2so359867a12.2; 
+ Thu, 03 Oct 2024 00:15:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1727939702; x=1728544502; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=wa4pIu5pC+135xygnD713lEhYzLZxMaLiQkWjJzvNgM=;
+ b=NdbzrFfB6bC404gglxeeS2LVrOwEnQWihhv6oDCA5fPMaSdlk6pyA6jXy+2V6l51Nk
+ SqYTIcGc+h8MJ6O1rX9O5ZeSC2acURV2OhrXlBq7pm4CUdVeWOAb/OPvhrHyQ/Y05di3
+ Plfu0d/Maoi+sED27SzcYcddY5DwxbGt+KtBffY6f5XFCob4THJOJIfAJTY3vKQWXwwG
+ qkERHwyZ8gegiElbYd1zCi8uFFJWN9aD5XGpw9nv0m9mEp+O2qOzoY9XGs0AjYZhfB+S
+ TQMCIg4TVXm2hYaN5XcuydnqNswBv7LbELtXIRC8DqvdhCICsEis86cIJ8lhGqBU9Cuo
+ hqGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1727939702; x=1728544502;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=wa4pIu5pC+135xygnD713lEhYzLZxMaLiQkWjJzvNgM=;
+ b=OXR0TovJNGTsLXZJCnigyGthgalhs003fe4IwQFFM2kBmUws+SLnxyr5eSI2VbjtJ9
+ 8F654U8svO6RofSiWzZqfrZXQombnetVe6VL0TSmo2E/l58vt8TNPBeTGtJrjOLiG7k0
+ 2qzbmaHqRk98TjQYaufPwFYH7y5C7bZZblVdKT8rWIiPEn8OrXW6cwVGHYoYI1ljxM4o
+ aoaqlbjFQ5jDvpnTofq+jfyI28hfDWbLk+iWnXQnmkAEHftSXh0Yz7n4gDBDx4o0c5jc
+ q8etBEMpYAlM+YaAhOOhLsRyq5JwW5n7Y9+SG6lel/kev1udfOo0nxhAArTbgwNWTch2
+ u6cg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXPHTP4zoZ2g+SnsyBLyxOKOM/CUAPQS5ujP5rSbyQ8piXlY2uA9NMd81sioJdvufbe0JlRytTW6/k=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyILNOO6dhJHnbiCTz/0qFgvg36wJeVkCApet7g7JjoAOeYnJvO
- M9g/CRcQ8kHRkctyjUCEqSJ300nuzFwtRkW+Vm443AOogBCQ3i6orPJCs1jfv0Krz3A7ok26moG
- 4B1YI1SLqNSxSPynsOMWfNC11jA==
-X-Google-Smtp-Source: AGHT+IHaAo5eZ05/dh9oa9JP9QZga/GAqhHnubzaK7kWFsvBL+T5Ll6XOf4RZb+dNKFMS4YkePxJqv4X4Xs3SvAUasY=
-X-Received: by 2002:a05:6a21:7746:b0:1d1:88bf:dff6 with SMTP id
- adf61e73a8af0-1d6d3aab4bbmr2809735637.15.1727939614998; Thu, 03 Oct 2024
- 00:13:34 -0700 (PDT)
+ AJvYcCX+nRpvRjSKHSaTbXzyHcsgXP0N4fzo/xd0SZZwc6GUvfuT+Uld0OZalecmhBD/EXKge3aWbFwdWf0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxkcXeWtEnL8X24Jg8bC3dql2oHPVnyZUlinu45Dv66HMXMQmO1
+ iD9oShzRKECDGFHLzJp6pVhls/kr6ZzRuFwt+s615Q5C6a5VaV7x
+X-Google-Smtp-Source: AGHT+IG395izEmIc+wheQbgooKM2yOIXSyp8HxCpDyfAtHvRK9D3lYz5JKBwip2Ls4SZJD7e4PEZOQ==
+X-Received: by 2002:a17:90a:8f03:b0:2d3:d68e:e8d8 with SMTP id
+ 98e67ed59e1d1-2e1849e48bemr5475891a91.40.1727939702292; 
+ Thu, 03 Oct 2024 00:15:02 -0700 (PDT)
+Received: from advait-kdeneon.. ([2405:201:1e:f1d5:b1fd:ba19:3835:b7cf])
+ by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-2e1bff53549sm763656a91.55.2024.10.03.00.14.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Oct 2024 00:15:01 -0700 (PDT)
+From: Advait Dhamorikar <advaitdhamorikar@gmail.com>
+To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, simona@ffwll.ch, leo.liu@amd.com,
+ sathishkumar.sundararaju@amd.com, saleemkhan.jamadar@amd.com,
+ Veerabadhran.Gopalakrishnan@amd.com, advaitdhamorikar@gmail.com,
+ sonny.jiang@amd.com
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+ anupnewsmail@gmail.com
+Subject: [PATCH-next] Fix unintentional integer overflow
+Date: Thu,  3 Oct 2024 12:44:31 +0530
+Message-Id: <20241003071431.328259-1-advaitdhamorikar@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20240928161546.9285-1-jason-jh.lin@mediatek.com>
-In-Reply-To: <20240928161546.9285-1-jason-jh.lin@mediatek.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Thu, 3 Oct 2024 15:13:53 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_9V+BFV0fCahzn2qNBAmLrY-cwRQAKzorTdRYGCFv5+tw@mail.gmail.com>
-Message-ID: <CAAOTY_9V+BFV0fCahzn2qNBAmLrY-cwRQAKzorTdRYGCFv5+tw@mail.gmail.com>
-Subject: Re: [PATCH v8 0/3] Fix degradation problem of alpha blending series
-To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>
-Cc: Alper Nebi Yasak <alpernebiyasak@gmail.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Shawn Sung <shawn.sung@mediatek.com>, dri-devel@lists.freedesktop.org, 
- linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, Singo Chang <singo.chang@mediatek.com>, 
- Nancy Lin <nancy.lin@mediatek.com>,
- Project_Global_Chrome_Upstream_Group@mediatek.com, 
- Jason-jh Lin <jason-jh.lin@mediatek.corp-partner.google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Thu, 03 Oct 2024 07:37:11 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,77 +86,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Jason:
+Fix overflow issue by casting uint8_t to uint64_t in JPEG
+instance multiplication.
+The expression's value may not be what the programmer intended,
+because the expression is evaluated using
+a narrow (i.e. few bits) integer type.
 
-Jason-JH.Lin <jason-jh.lin@mediatek.com> =E6=96=BC 2024=E5=B9=B49=E6=9C=882=
-9=E6=97=A5 =E9=80=B1=E6=97=A5 =E4=B8=8A=E5=8D=8812:16=E5=AF=AB=E9=81=93=EF=
-=BC=9A
->
-> From: Jason-jh Lin <jason-jh.lin@mediatek.corp-partner.google.com>
->
-> Some SoCs not support pre-multiplied pixel formats and extending
-> configuration of OVL pre-multiplied color formats, such as MT8173.
->
-> Fix the SoC degradation problem by this sreies.
+Fixes: f0b19b84d391 ("drm/amdgpu: add amdgpu_jpeg_sched_mask debugfs")
+Signed-off-by: Advait Dhamorikar <advaitdhamorikar@gmail.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Applied to mediatek-drm-fixes [1], thanks.
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c
+index 95e2796919fc..b6f0435f56ba 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c
+@@ -357,7 +357,7 @@ static int amdgpu_debugfs_jpeg_sched_mask_set(void *data, u64 val)
+ 	if (!adev)
+ 		return -ENODEV;
+ 
+-	mask = (1 << (adev->jpeg.num_jpeg_inst * adev->jpeg.num_jpeg_rings)) - 1;
++	mask = ((uint64_t)1 << (adev->jpeg.num_jpeg_inst * adev->jpeg.num_jpeg_rings)) - 1;
+ 	if ((val & mask) == 0)
+ 		return -EINVAL;
+ 
+-- 
+2.34.1
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
-log/?h=3Dmediatek-drm-fixes
-
-Regards,
-Chun-Kuang.
-
->
-> ---
-> Change in v8:
-> Remove blend_modes for not supported pre-multiplied SoCs to fix the
-> return error from drm_plane_create_blend_mode_property().
->
-> Change in v7:
-> 1. Add the remove color format comment patch for OVL
-> 2. Fix warning: 'const' type qualifier on return type has no effect
->
-> Chnage in v6:
-> 1. Use blend_modes instead of function pointer in OVL
-> 2. Use ethdr instead of mdp_rdma to get blend_modes
-> 3. Add 0 checking for adding blend_mode property for mtk_plane
->
-> Change in v5:
-> Add fix patch for mtk_plane
->
-> Change in v4:
-> Add lost cases of mtk_ovl_fmt_convert_with_blend
->
-> Change in v3:
-> Change MACRO approach to function pointer in driver data
->
-> Change in v2:
-> Fix build error and typo
->
-> Change in v1:
-> Add fix patch for OVL unsupport color format settings by driver data
->
-> ---
->
-> Jason-JH.Lin (3):
->   drm/mediatek: ovl: Remove the color format comment for
->     ovl_fmt_convert()
->   drm/mediatek: ovl: Add blend_modes to driver data
->   drm/mediatek: Add blend_modes to mtk_plane_init() for different SoCs
->
->  drivers/gpu/drm/mediatek/mtk_crtc.c           |  1 +
->  drivers/gpu/drm/mediatek/mtk_ddp_comp.c       |  2 +
->  drivers/gpu/drm/mediatek/mtk_ddp_comp.h       | 10 +++++
->  drivers/gpu/drm/mediatek/mtk_disp_drv.h       |  2 +
->  drivers/gpu/drm/mediatek/mtk_disp_ovl.c       | 44 ++++++++++++++++---
->  .../gpu/drm/mediatek/mtk_disp_ovl_adaptor.c   |  7 +++
->  drivers/gpu/drm/mediatek/mtk_ethdr.c          |  7 +++
->  drivers/gpu/drm/mediatek/mtk_ethdr.h          |  1 +
->  drivers/gpu/drm/mediatek/mtk_plane.c          | 15 +++----
->  drivers/gpu/drm/mediatek/mtk_plane.h          |  4 +-
->  10 files changed, 76 insertions(+), 17 deletions(-)
->
-> --
-> 2.43.0
->
