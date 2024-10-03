@@ -2,88 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11FAC98F81E
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 22:30:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88EA398F89A
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 23:10:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 859CC10E25A;
-	Thu,  3 Oct 2024 20:30:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 990E010E26C;
+	Thu,  3 Oct 2024 21:10:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="QJ96LRpG";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="njlj0Ah/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
- [209.85.167.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A98610E25A
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 20:30:21 +0000 (UTC)
-Received: by mail-lf1-f51.google.com with SMTP id
- 2adb3069b0e04-53959a88668so1824925e87.2
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Oct 2024 13:30:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1727987416; x=1728592216;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=1KveEyJA6f8M/Ebmg+cvZ3aq6352Aa475xJFPESWp5U=;
- b=QJ96LRpGgu6260JL/lkNrKw5mYgaLIpLLDAXJyc1viGABzoKSOx9xni8nit8guuf5K
- bRdMtM/MIb+RDXjywP92VTS29h145pyqwADvwIBn2l/eKBZNWW8wA2t91X6qpQ7K04oR
- fRK+b9t399ghWE9nsRIBlcsKiOew05oO9OjwA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1727987416; x=1728592216;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=1KveEyJA6f8M/Ebmg+cvZ3aq6352Aa475xJFPESWp5U=;
- b=KrrTZ6FDuaN+GmVpVNJUBnlPRIuHzGC+xRYDo7bIwRp4z4v7SGVvawl4Ut+KD+zZ2Q
- 35vysqFR2a1VyR6XipIfTqLzeT6zQwrWl5YVPFoQE4Jjco5HiPClEf4Gi17mim3gAwRh
- mVzKXe8qTLDn/sOMLe5FmfLt1wSeMRgjoDnGCSwwa7ZqO0ZN48J7cAephgpZ+3FByQ6b
- xULjPZ84EIdg269quwZqqXiccUmOmRGLL10XSLc3yqxZbIOy+NO/W28Dyae0xIRCq/DB
- aUlCieV2CvtvjSfB+x+2ZNHqF8UbY3W4S6p0uhM97txYEEbk1ztCz0nr9CuM3mN3dS6Q
- O4ng==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWqGezf2gHiRubA2SRm+EJvYeauwpgq+f3HntpZudmVy2L0pjl/mrkmtB4ct9eQjUi9XOxpEIajbpw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzwH2ic6GazqlhTiRdN5hUogrbSGII0REvkRdJ0grGnfEK0n4zV
- c5liD2h2R5qirHgFBrrBZMFKGPs+NPi4qEIgcRkFmk201hiZltyenrsxGmvI8/Tw2vsGzVOQQih
- Q/w==
-X-Google-Smtp-Source: AGHT+IGgs9luTHsBf4H0RySpZ9UH5cWkXaL032W5C8u4H+w5gFBkMF2FNPcg+9Sl1JeDU1EvGIHAEg==
-X-Received: by 2002:a05:6512:3ba6:b0:52c:d645:eda7 with SMTP id
- 2adb3069b0e04-539ab87712emr383102e87.18.1727987416297; 
- Thu, 03 Oct 2024 13:30:16 -0700 (PDT)
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com.
- [209.85.167.50]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-539a82ab2b9sm248807e87.276.2024.10.03.13.30.15
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Oct 2024 13:30:15 -0700 (PDT)
-Received: by mail-lf1-f50.google.com with SMTP id
- 2adb3069b0e04-53995380bb3so1780424e87.1
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Oct 2024 13:30:15 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCU1c/9sdZ8riGgVRq5+KuR+MfJCLBZLlgXyrgvsaeCpamAbVcxPiF46LZUAA5hX2XBYKCapM7HkYSw=@lists.freedesktop.org
-X-Received: by 2002:a05:6512:398b:b0:530:c239:6fad with SMTP id
- 2adb3069b0e04-539ab6d8fb5mr464943e87.0.1727987414575; Thu, 03 Oct 2024
- 13:30:14 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA23110E25C
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 21:10:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1727989827; x=1759525827;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=1FA88b8GWYAmlaSKYt8MbXQMv67aDLUKv9Ao95E+gck=;
+ b=njlj0Ah/3yV+lGzGggjM7SBiPXqJlrJAMQklGV+h2ygrmtapZFOZWnte
+ ZK+zS/biPKfx848bcggyRT+BPz//cVPshMFZxGamCTr4+AmKt/D2BlhQ8
+ I1Q/aSYIOWyDvfqhS2w1jl5gpkV6OSw70RNUsX3M4FJxYJsJB6mYC2678
+ OYdIRyn5doo1QK/6d4jKNRD3oQlc0dHTxruB9ngNWZAyvAR6hqLcV8N/T
+ w00IRu4K4cgqIri7A+WXj/TGxU3qzBnzcXqVyxL4RJDEK0ounMQajqIWR
+ l/wqk3XxVEXH68D2FVGWs4qP+29XU0L0eCIRTi/ZeAzZ6InTBoeJv/76K Q==;
+X-CSE-ConnectionGUID: 9AiBTiouSwCJ7ORYo8c+Ew==
+X-CSE-MsgGUID: 1KXTA3h4Rh6eCibPwlU7MA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="37866015"
+X-IronPort-AV: E=Sophos;i="6.11,175,1725346800"; d="scan'208";a="37866015"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Oct 2024 14:10:26 -0700
+X-CSE-ConnectionGUID: Qibn512WQTKlCUy6xhSprg==
+X-CSE-MsgGUID: RyctnvlIQfq43hSH1gTKoA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,175,1725346800"; d="scan'208";a="74602182"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by fmviesa008.fm.intel.com with SMTP; 03 Oct 2024 14:10:22 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 04 Oct 2024 00:10:21 +0300
+Date: Fri, 4 Oct 2024 00:10:21 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Louis Chauvet <louis.chauvet@bootlin.com>
+Cc: =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, thomas.petazzoni@bootlin.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/vkms: Remove usage of legacy drm_crtc members
+Message-ID: <Zv8IPRKcPqYXgL2B@intel.com>
+References: <20241003-remove-legacy-v1-1-0b7db1f1a1a6@bootlin.com>
 MIME-Version: 1.0
-References: <20240926092931.3870342-1-treapking@chromium.org>
- <20240926092931.3870342-3-treapking@chromium.org>
-In-Reply-To: <20240926092931.3870342-3-treapking@chromium.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 3 Oct 2024 13:29:57 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XTwjOwezAuD0_yFz01YyKBVPPTc=2bys5N+nrYJH91vQ@mail.gmail.com>
-Message-ID: <CAD=FV=XTwjOwezAuD0_yFz01YyKBVPPTc=2bys5N+nrYJH91vQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] drm/bridge: it6505: Drop EDID cache on bridge
- power off
-To: Pin-yen Lin <treapking@chromium.org>
-Cc: Xin Ji <xji@analogixsemi.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, Sam Ravnborg <sam@ravnborg.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241003-remove-legacy-v1-1-0b7db1f1a1a6@bootlin.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,37 +77,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Thu, Oct 03, 2024 at 05:41:10PM +0200, Louis Chauvet wrote:
+> Some members of the drm_crtc structure have been deprecated in favor of
+> equivalent members in the drm_crtc_state structure. As reported by Ville
+> Syrjala [1], the VKMS driver was still using these deprecated fields. This
+> commit updates the VKMS driver to use the new drm_crtc_state fields
+> instead.
+> 
+> Additionally, this commit removes the call to
+> `drm_calc_timestamping_constants` in `vkms_enable_vblank` as it is
+> redundant. This calculation is already performed in
+> `vkms_atomic_commit_tail` by calling
+> `drm_atomic_helper_commit_modeset_disables`.
 
-On Thu, Sep 26, 2024 at 2:29=E2=80=AFAM Pin-yen Lin <treapking@chromium.org=
-> wrote:
->
-> The bridge might miss the display change events when it's powered off.
-> This happens when a user changes the external monitor when the system
-> is suspended and the embedded controller doesn't not wake AP up.
->
-> It's also observed that one DP-to-HDMI bridge doesn't work correctly
-> when there is no EDID read after it is powered on.
->
-> Drop the cache to force an EDID read after system resume to fix this.
->
-> Fixes: 11feaef69d0c ("drm/bridge: it6505: Add caching for EDID")
-> Signed-off-by: Pin-yen Lin <treapking@chromium.org>
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
->
+One slight difference here is that
+drm_atomic_helper_calc_timestamping_constants() passes in
+crtc_state->adjusted_mode instead of crtc_state->mode, but
+doesn't look look vkms mangles either in any way so they should
+stay identical after drm_atomic_helper_check_modeset()->mode_fixup()
+has done the copy.
+
+Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+
+> 
+> [1]:https://lore.kernel.org/all/20241002182200.15363-1-ville.syrjala@linux.intel.com/
+> 
+> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 > ---
->
-> Changes in v2:
-> - Collect review tags
->
->  drivers/gpu/drm/bridge/ite-it6505.c | 2 ++
->  1 file changed, 2 insertions(+)
+>  drivers/gpu/drm/vkms/vkms_composer.c  | 4 ++--
+>  drivers/gpu/drm/vkms/vkms_crtc.c      | 2 --
+>  drivers/gpu/drm/vkms/vkms_writeback.c | 4 ++--
+>  3 files changed, 4 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
+> index 57a5769fc994..3f0977d746be 100644
+> --- a/drivers/gpu/drm/vkms/vkms_composer.c
+> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
+> @@ -187,7 +187,7 @@ static void blend(struct vkms_writeback_job *wb,
+>  
+>  	const struct pixel_argb_u16 background_color = { .a = 0xffff };
+>  
+> -	size_t crtc_y_limit = crtc_state->base.crtc->mode.vdisplay;
+> +	size_t crtc_y_limit = crtc_state->base.mode.vdisplay;
+>  
+>  	/*
+>  	 * The planes are composed line-by-line to avoid heavy memory usage. It is a necessary
+> @@ -270,7 +270,7 @@ static int compose_active_planes(struct vkms_writeback_job *active_wb,
+>  	if (WARN_ON(check_format_funcs(crtc_state, active_wb)))
+>  		return -EINVAL;
+>  
+> -	line_width = crtc_state->base.crtc->mode.hdisplay;
+> +	line_width = crtc_state->base.mode.hdisplay;
+>  	stage_buffer.n_pixels = line_width;
+>  	output_buffer.n_pixels = line_width;
+>  
+> diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
+> index a40295c18b48..bbf080d32d2c 100644
+> --- a/drivers/gpu/drm/vkms/vkms_crtc.c
+> +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
+> @@ -64,8 +64,6 @@ static int vkms_enable_vblank(struct drm_crtc *crtc)
+>  	struct drm_vblank_crtc *vblank = drm_crtc_vblank_crtc(crtc);
+>  	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
+>  
+> -	drm_calc_timestamping_constants(crtc, &crtc->mode);
+> -
+>  	hrtimer_init(&out->vblank_hrtimer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
+>  	out->vblank_hrtimer.function = &vkms_vblank_simulate;
+>  	out->period_ns = ktime_set(0, vblank->framedur_ns);
+> diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
+> index bc724cbd5e3a..999d5c01ea81 100644
+> --- a/drivers/gpu/drm/vkms/vkms_writeback.c
+> +++ b/drivers/gpu/drm/vkms/vkms_writeback.c
+> @@ -131,8 +131,8 @@ static void vkms_wb_atomic_commit(struct drm_connector *conn,
+>  	struct drm_connector_state *conn_state = wb_conn->base.state;
+>  	struct vkms_crtc_state *crtc_state = output->composer_state;
+>  	struct drm_framebuffer *fb = connector_state->writeback_job->fb;
+> -	u16 crtc_height = crtc_state->base.crtc->mode.vdisplay;
+> -	u16 crtc_width = crtc_state->base.crtc->mode.hdisplay;
+> +	u16 crtc_height = crtc_state->base.mode.vdisplay;
+> +	u16 crtc_width = crtc_state->base.mode.hdisplay;
+>  	struct vkms_writeback_job *active_wb;
+>  	struct vkms_frame_info *wb_frame_info;
+>  	u32 wb_format = fb->format->format;
+> 
+> ---
+> base-commit: cbc1e8696fbea0010a73bf93534c712f9ad177db
+> change-id: 20241003-remove-legacy-a2683a7bbcd5
+> 
+> Best regards,
+> -- 
+> Louis Chauvet <louis.chauvet@bootlin.com>
 
-Like with patch #1, meant to push to drm-misc-fixes but ended up on
-drm-misc-next. Yell if this is a problem, but I think it should be OK.
-
-[2/2] drm/bridge: it6505: Drop EDID cache on bridge power off
-      commit: 574c558ddb68591c9a4b7a95e45e935ab22c0fc6
-
--Doug
+-- 
+Ville Syrjälä
+Intel
