@@ -2,93 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 868C898F012
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 15:12:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17D8798F055
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 15:26:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BDB410E132;
-	Thu,  3 Oct 2024 13:12:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9130310E17F;
+	Thu,  3 Oct 2024 13:26:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="bgOnL8bW";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RNQ1Ex1N";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D99310E078;
- Thu,  3 Oct 2024 13:12:04 +0000 (UTC)
-Received: from [192.168.88.20] (91-156-87-48.elisa-laajakaista.fi
- [91.156.87.48])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 20062593;
- Thu,  3 Oct 2024 15:10:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1727961029;
- bh=tplxAmF4PFVVUhtYrM26ew2n9imTSDe1och2jI6SSB0=;
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A248C10E17F
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 13:26:41 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 7D949A43BC6;
+ Thu,  3 Oct 2024 13:26:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C4B9C4CEC5;
+ Thu,  3 Oct 2024 13:26:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1727962000;
+ bh=4teILCpG7nVKauGfczDrS3CuU7P1Mr3FJftqso6wKZ8=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=bgOnL8bWv5Qxe0ZVgDQvuLT41kypPTSecAUUYQmoBRKLIYmj4x/OyetiqCE9zvlWg
- tYjWPoxcFV4X8YOq60rbS1L4CZ+aQ1dER7/a6+RrAcO5vkSHx3dUgCG7IBCfmrt2UL
- bp2mlwe4thU4mI+nxp0Dn31uvNeIZaNGTby3Dx7Q=
-Message-ID: <fbf0b1fb-afe7-47be-9016-eadac5492c1a@ideasonboard.com>
-Date: Thu, 3 Oct 2024 16:11:59 +0300
+ b=RNQ1Ex1NthJJkR0uKRzC360vI7m29LF5rzT1fbDMbceYF1BcaU1clgeUkwlWCmFZA
+ KEOZWRRXjYdsY1fnuJBbj9Ts7qeKFiVOgWvvX4j6y+3M33GoWaD+AMPDLH7LD7X+15
+ QZHjm99J+q3LwuEDu0l6QtuH80mQTLy1gQKsj/XhwYp0/rkxRz5H5sRJ054fnKymZ0
+ R0YbSdR4OMpLaHz6IzphVxjb3FEKRiQqkDWApG24oWoudG1iMuO8kyW8Icg6gtDu2O
+ RAzTheRVRB4bBITaggv/a9NNAwF6RJMpLYOhS1CFZAov7rHZhvtQnZZXnnnTYu+1Il
+ t86BfUPt4Akrg==
+Message-ID: <ca913f6a-c028-456d-9f9f-0c3183d8a921@kernel.org>
+Date: Thu, 3 Oct 2024 15:26:31 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 79/80] drm/omapdrm: Remove struct drm_fb_helper from
- struct omap_fbdev.
-To: Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com,
- jfalempe@redhat.com, airlied@gmail.com, simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org
-References: <20240924071734.98201-1-tzimmermann@suse.de>
- <20240924071734.98201-80-tzimmermann@suse.de>
- <029f0567-f9df-402c-ae42-3bf27c060986@ideasonboard.com>
- <8fb2df6b-4708-4eac-aa18-d7825d0410a6@suse.de>
+Subject: Re: [PATCH 2/2] dt-bindings: display: bridge: sil,sii9022: Add
+ data-lines
+To: Wadim Egorov <w.egorov@phytec.de>, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org
+Cc: Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, bbrezillon@kernel.org, conor+dt@kernel.org,
+ krzk+dt@kernel.org, robh@kernel.org, upstream@lists.phytec.de
+References: <20241003082006.2728617-1-w.egorov@phytec.de>
+ <20241003082006.2728617-2-w.egorov@phytec.de>
+ <fbb7d268-76f9-4d2e-9168-c927ccfdac50@kernel.org>
+ <d28be8e9-b235-43e0-aaed-dd65a87c5797@phytec.de>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
- wCEZjx3o0Z34diXBaMRJ3rAk9yB90UJAnLtb8A97Oq64DskLF81GCYB2P1i0qrG7UjpASgCA
- Ru0lVvxsWyIwSfoYoLrazbT1wkWRs8YBkkXQFfL7Mn3ZMoGPcpfwYH9O7bV1NslbmyJzRCMO
- eYV258gjCcwYlrkyIratlHCek4GrwV8Z9NQcjD5iLzrONjfafrWPwj6yn2RlL0mQEwt1lOvn
- LnI7QRtB3zxA3yB+FLsT1hx0va6xCHpX3QO2gBsyHCyVafFMrg3c/7IIWkDLngJxFgz6DLiA
- G4ld1QK/jsYqfP2GIMH1mFdjY+iagG4DqOsjip479HCWAptpNxSOCL6z3qxCU8MCz8iNOtZk
- DYXQWVscM5qgYSn+fmMM2qN+eoWlnCGVURZZLDjg387S2E1jT/dNTOsM/IqQj+ZROUZuRcF7
- 0RTtuU5q1HnbRNwy+23xeoSGuwmLQ2UsUk7Q5CnrjYfiPo3wHze8avK95JBoSd+WIRmV3uoO
- rXCoYOIRlDhg9XJTrbnQ3Ot5zOa0Y9c4IpyAlut6mDtxtKXr4+8OzjSVFww7tIwadTK3wDQv
- Bus4jxHjS6dz1g2ypT65qnHen6mUUH63lhzewqO9peAHJ0SLrQARAQABzTBUb21pIFZhbGtl
- aW5lbiA8dG9taS52YWxrZWluZW5AaWRlYXNvbmJvYXJkLmNvbT7CwY4EEwEIADgWIQTEOAw+
- ll79gQef86f6PaqMvJYe9QUCX/HruAIbAwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRD6
- PaqMvJYe9WmFD/99NGoD5lBJhlFDHMZvO+Op8vCwnIRZdTsyrtGl72rVh9xRfcSgYPZUvBuT
- VDxE53mY9HaZyu1eGMccYRBaTLJSfCXl/g317CrMNdY0k40b9YeIX10feiRYEWoDIPQ3tMmA
- 0nHDygzcnuPiPT68JYZ6tUOvAt7r6OX/litM+m2/E9mtp8xCoWOo/kYO4mOAIoMNvLB8vufi
- uBB4e/AvAjtny4ScuNV5c5q8MkfNIiOyag9QCiQ/JfoAqzXRjVb4VZG72AKaElwipiKCWEcU
- R4+Bu5Qbaxj7Cd36M/bI54OrbWWETJkVVSV1i0tghCd6HHyquTdFl7wYcz6cL1hn/6byVnD+
- sR3BLvSBHYp8WSwv0TCuf6tLiNgHAO1hWiQ1pOoXyMEsxZlgPXT+wb4dbNVunckwqFjGxRbl
- Rz7apFT/ZRwbazEzEzNyrBOfB55xdipG/2+SmFn0oMFqFOBEszXLQVslh64lI0CMJm2OYYe3
- PxHqYaztyeXsx13Bfnq9+bUynAQ4uW1P5DJ3OIRZWKmbQd/Me3Fq6TU57LsvwRgE0Le9PFQs
- dcP2071rMTpqTUteEgODJS4VDf4lXJfY91u32BJkiqM7/62Cqatcz5UWWHq5xeF03MIUTqdE
- qHWk3RJEoWHWQRzQfcx6Fn2fDAUKhAddvoopfcjAHfpAWJ+ENc7BTQROprNHARAAx0aat8GU
- hsusCLc4MIxOQwidecCTRc9Dz/7U2goUwhw2O5j9TPqLtp57VITmHILnvZf6q3QAho2QMQyE
- DDvHubrdtEoqaaSKxKkFie1uhWNNvXPhwkKLYieyL9m2JdU+b88HaDnpzdyTTR4uH7wk0bBa
- KbTSgIFDDe5lXInypewPO30TmYNkFSexnnM3n1PBCqiJXsJahE4ZQ+WnV5FbPUj8T2zXS2xk
- 0LZ0+DwKmZ0ZDovvdEWRWrz3UzJ8DLHb7blPpGhmqj3ANXQXC7mb9qJ6J/VSl61GbxIO2Dwb
- xPNkHk8fwnxlUBCOyBti/uD2uSTgKHNdabhVm2dgFNVuS1y3bBHbI/qjC3J7rWE0WiaHWEqy
- UVPk8rsph4rqITsj2RiY70vEW0SKePrChvET7D8P1UPqmveBNNtSS7In+DdZ5kUqLV7rJnM9
- /4cwy+uZUt8cuCZlcA5u8IsBCNJudxEqBG10GHg1B6h1RZIz9Q9XfiBdaqa5+CjyFs8ua01c
- 9HmyfkuhXG2OLjfQuK+Ygd56mV3lq0aFdwbaX16DG22c6flkkBSjyWXYepFtHz9KsBS0DaZb
- 4IkLmZwEXpZcIOQjQ71fqlpiXkXSIaQ6YMEs8WjBbpP81h7QxWIfWtp+VnwNGc6nq5IQDESH
- mvQcsFS7d3eGVI6eyjCFdcAO8eMAEQEAAcLBXwQYAQIACQUCTqazRwIbDAAKCRD6PaqMvJYe
- 9fA7EACS6exUedsBKmt4pT7nqXBcRsqm6YzT6DeCM8PWMTeaVGHiR4TnNFiT3otD5UpYQI7S
- suYxoTdHrrrBzdlKe5rUWpzoZkVK6p0s9OIvGzLT0lrb0HC9iNDWT3JgpYDnk4Z2mFi6tTbq
- xKMtpVFRA6FjviGDRsfkfoURZI51nf2RSAk/A8BEDDZ7lgJHskYoklSpwyrXhkp9FHGMaYII
- m9EKuUTX9JPDG2FTthCBrdsgWYPdJQvM+zscq09vFMQ9Fykbx5N8z/oFEUy3ACyPqW2oyfvU
- CH5WDpWBG0s5BALp1gBJPytIAd/pY/5ZdNoi0Cx3+Z7jaBFEyYJdWy1hGddpkgnMjyOfLI7B
- CFrdecTZbR5upjNSDvQ7RG85SnpYJTIin+SAUazAeA2nS6gTZzumgtdw8XmVXZwdBfF+ICof
- 92UkbYcYNbzWO/GHgsNT1WnM4sa9lwCSWH8Fw1o/3bX1VVPEsnESOfxkNdu+gAF5S6+I6n3a
- ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
- yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
- 3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <8fb2df6b-4708-4eac-aa18-d7825d0410a6@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Autocrypt: addr=krzk@kernel.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
+ FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
+ QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
+ gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
+ /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
+ iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
+ VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
+ 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
+ xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
+ eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
+ AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
+ MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
+ Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
+ MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
+ OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
+ GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
+ 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
+ YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
+ 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
+ BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
+ JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
+ 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
+ YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
+ Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
+ ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
+ vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
+ oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
+ lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
+ t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
+ uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
+ 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
+ 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
+In-Reply-To: <d28be8e9-b235-43e0-aaed-dd65a87c5797@phytec.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,59 +111,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 27/09/2024 17:46, Thomas Zimmermann wrote:
-> Hi
+On 03/10/2024 13:56, Wadim Egorov wrote:
 > 
-> Am 26.09.24 um 15:07 schrieb Tomi Valkeinen:
->> Hi,
+> 
+> Am 03.10.24 um 12:03 schrieb Krzysztof Kozlowski:
+>> On 03/10/2024 10:20, Wadim Egorov wrote:
+>>> The SI9022 HDMI transmitter can be configured with 16, 18, or 24 input
+>>> data lines. This commit introduces the data-lines property to the input
 >>
->> On 24/09/2024 10:13, Thomas Zimmermann wrote:
->>> Store instances of drm_fb_helper and struct omap_fbdev separately.
->>> This will allow omapdrm to use the common fbdev client, which allocates
->>> its own instance of struct drm_fb_helper.
+>> lines? lanes? What are lines? like pins?
+> 
+> Yes, "lines" in this context refers to the number of pins used for the 
+> input pixel data bus, which can support 16, 18, or 24-bit wide data 
+> buses. These are parallel data lines (or pins) that carry uncompressed 
+> digital video to the HDMI transmitter.
+> 
+>>
+>>> endpoint, specifying the number of parallel RGB input pins connected
+>>> to the transmitter.
 >>>
->>> There is at most one instance of each per DRM device, so both can be
->>> referenced directly from the omap and DRM device structures. A later
->>> patchset might rework the common fbdev client to allow for storing
->>> both, drm_fb_helper and omap_fbdev, together in the same place.
->>>
->>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>> Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->>> Acked-by: Javier Martinez Canillas <javierm@redhat.com>
+>>> Signed-off-by: Wadim Egorov <w.egorov@phytec.de>
 >>> ---
->>>   drivers/gpu/drm/omapdrm/omap_drv.h   |  3 ++
->>>   drivers/gpu/drm/omapdrm/omap_fbdev.c | 42 +++++++++++++++-------------
->>>   2 files changed, 26 insertions(+), 19 deletions(-)
+>>>   .../bindings/display/bridge/sil,sii9022.yaml        | 13 ++++++++++++-
+>>>   1 file changed, 12 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/display/bridge/sil,sii9022.yaml b/Documentation/devicetree/bindings/display/bridge/sil,sii9022.yaml
+>>> index 5a69547ad3d7..24306f8eb107 100644
+>>> --- a/Documentation/devicetree/bindings/display/bridge/sil,sii9022.yaml
+>>> +++ b/Documentation/devicetree/bindings/display/bridge/sil,sii9022.yaml
+>>> @@ -81,9 +81,20 @@ properties:
+>>>   
+>>>       properties:
+>>>         port@0:
+>>> -        $ref: /schemas/graph.yaml#/properties/port
+>>> +        unevaluatedProperties: false
+>>> +        $ref: /schemas/graph.yaml#/$defs/port-base
+>>>           description: Parallel RGB input port
+>>>   
+>>> +        properties:
+>>> +          endpoint:
+>>> +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
+>>> +            unevaluatedProperties: false
+>>> +
+>>> +            properties:
+>>> +              data-lines:
 >>
->> The ywrap seems to be broken, but it's broken without this series too. 
->> With some quick hacks I managed to get the omapdrm's panning function 
->> called, and it works the same way with or without this series.
->>
->> Tested on DRA76 EVM.
->>
->> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->>
->> For reference, in case someone is interested fixing omapdrm's ywrap code:
->>
->> - get_fb() doesn't work. I don't understand the point of the function. 
->> It compares fbi->fix.id and MODULE_NAME, and the "fbi->fix.id" has 
->> changed along the years so the check no longer works. Afaik, the whole 
->> function is not needed, and we can just use fbi->par.
->>
->> - omap_fbdev_pan_display() doesn't seem to get called when the console 
->> scrolls. I can get it called with an userspace app that does some y 
->> panning. Maybe FBINFO_HWACCEL_YWRAP is not supported anymore?
+>> No, this will confuse everyone. Considering lack of description how
+>> anyone would figure out what this means?
 > 
-> If ywrap doesn't work and no one complained, can we remove it? The rest 
-> of the code is equivalent to drm_fbdev_dma.c, so we could remove omap's 
-> implementation entirely.
+> I guess from working with the hardware/reference manual and using this chip?
+> 
+> I don't think it is overly confusing, especially since the port is 
+> already described as the "Parallel RGB input port" which clearly implies 
+> the use of pins for data transmission.
 
-Personally I'm fine with dropping it, but I have to say the console 
-scrolling looked reaaaally slow without it. I'll try to find the time to 
-at least figure out when it broke. Maybe it was a recent thing, and thus 
-no one has complained.
 
-  Tomi
+I am surprised you do not find data-lanes and data-lines confusing. For
+non-native English speakers this even might sound the same.
+
+You used earlier pins and bits, so maybe it's the same as bus-width,
+which is already used all over the bindings, including one of the bridges.
+
+Anyway a generic property should go to video-interfaces.
+
+> 
+> I am open to other suggestions if you believe a different name would 
+> improve clarity.
+> 
+> Btw, bridge/toshiba,tc358768.yaml, which performs a similar function, 
+> also uses the term data-lines.
+
+Then this has to go to common schema.
+
+Oh, wait, video-interfaces already have it!
+
+Best regards,
+Krzysztof
 
