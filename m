@@ -2,60 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72BFF98F1FF
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 16:59:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 072B698F223
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 17:07:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E918610E872;
-	Thu,  3 Oct 2024 14:59:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E698410E87E;
+	Thu,  3 Oct 2024 15:07:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NupKv7lf";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="YEH2YnPw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1DB810E872;
- Thu,  3 Oct 2024 14:59:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1727967588; x=1759503588;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=xZ61SgZZV6nZdaa2enqgueOD5rFjT6KcucQ1Q/SlfSs=;
- b=NupKv7lfiaW9oS0BTYUW766fSZiqPJ2wuHJ9Ec1aNsdzwpdr0IpFrxui
- gf3+Ln8PilWCROzOe5NxH/Td8Fc/+IIlH0V3k2ALEsLS1KI9JpLASymxG
- XU9Ql9g62b+4jk6i5UWihjt+Io0xTXwrSX+2ODpeBPwiYt14N1V1ACxQ8
- CeDSS9ZsuE548jMm22PtwHg3jZmX0OpmnLk0y2RJPMLf4MLCLfgDes9zL
- ZkOVMxRFVN0CIvRdRiYOgOv0rA2FF1qjHG56UPqvPb+emBVjxF9KaMSd+
- u421JcquXF5UNG73NZ4vOeUQXpzLRgIDcxitcNl9I9I7FHnf88b4qlxZx w==;
-X-CSE-ConnectionGUID: EDOrCBqUQ7eqH8alN7YyMw==
-X-CSE-MsgGUID: RCC+105hSzSKZYvFVXb3CA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="27294071"
-X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; d="scan'208";a="27294071"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Oct 2024 07:59:48 -0700
-X-CSE-ConnectionGUID: PTZ3lighSnCMJypN3qbJXA==
-X-CSE-MsgGUID: /8NJBpcJSjuiarO5Qusuqg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; d="scan'208";a="74473021"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by fmviesa008.fm.intel.com with SMTP; 03 Oct 2024 07:59:45 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 03 Oct 2024 17:59:44 +0300
-Date: Thu, 3 Oct 2024 17:59:44 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH 7/8] drm/client: Move variables to tighter scope
-Message-ID: <Zv6xYL1rBckwFMJS@intel.com>
-References: <20241003113304.11700-1-ville.syrjala@linux.intel.com>
- <20241003113304.11700-8-ville.syrjala@linux.intel.com>
+X-Greylist: delayed 8943 seconds by postgrey-1.36 at gabe;
+ Thu, 03 Oct 2024 15:07:44 UTC
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
+ [217.70.183.193])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63EFE10E874;
+ Thu,  3 Oct 2024 15:07:44 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 11E6024000C;
+ Thu,  3 Oct 2024 15:07:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1727968061;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=YZElLwQ5mHYReOaSmSvT7278JqqhnnyULQk+/1+1kJk=;
+ b=YEH2YnPwiMskls9hd/gfzbIgYfC1qkcLesGnJNkrsmHEe3zu8VFZWm6BdgmnrnZ2Qgf6Mu
+ rl3svRb/4mCMycfcmpARRBvji7+Ry/w2vzIC3T393ERmy9UbpVYnNhM87rfFxR4CxUfMDQ
+ ksrKmVA99rcw5b1jA2ZNxjOLpTc24XkDfONA9tFeR45nmPl6UkQuJxTG6VYt19wt2k0OWd
+ ly5GPToqHmZiL+uWVlGQozyWeIO9rxeLv5puwAjVLmo/Jys8TaMxMe0xWkBxg30yo2dr0e
+ +qHYoE0Ir3I/BslTW53FebEDYX6GCccBs1oOkCfEqWwDeCFPtxDgi2SkeFavmA==
+Date: Thu, 3 Oct 2024 17:07:35 +0200
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ Liviu Dudau <liviu.dudau@arm.com>, Russell King <linux@armlinux.org.uk>,
+ Inki Dae <inki.dae@samsung.com>,
+ Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+ Alain Volmat <alain.volmat@foss.st.com>,
+ Sandy Huang <hjc@rock-chips.com>, Jyri Sarha <jyri.sarha@iki.fi>,
+ Alexey Brodkin <abrodkin@synopsys.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
+ Zack Rusin <zack.rusin@broadcom.com>, amd-gfx@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org,
+ linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org, xen-devel@lists.xenproject.org
+Subject: Re: [PATCH 2/2] drm: Move crtc->{x, y, mode, enabled} to legacy
+ sub-structure
+Message-ID: <Zv6zN7Go_XG44P2-@louis-chauvet-laptop>
+Mail-Followup-To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?=
+ <ville.syrjala@linux.intel.com>, 
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Russell King <linux@armlinux.org.uk>,
+ Inki Dae <inki.dae@samsung.com>,
+ Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+ Alain Volmat <alain.volmat@foss.st.com>,
+ Sandy Huang <hjc@rock-chips.com>, Jyri Sarha <jyri.sarha@iki.fi>,
+ Alexey Brodkin <abrodkin@synopsys.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
+ Zack Rusin <zack.rusin@broadcom.com>, amd-gfx@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org,
+ linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org, xen-devel@lists.xenproject.org
+References: <20241002182200.15363-1-ville.syrjala@linux.intel.com>
+ <20241002182200.15363-3-ville.syrjala@linux.intel.com>
+ <Zv6QF2EmIcogtlLA@louis-chauvet-laptop>
+ <Zv6gSGMXZZARf3oV@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241003113304.11700-8-ville.syrjala@linux.intel.com>
-X-Patchwork-Hint: comment
+In-Reply-To: <Zv6gSGMXZZARf3oV@intel.com>
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,165 +94,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 03, 2024 at 02:33:03PM +0300, Ville Syrjala wrote:
-> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> 
-> Bunch of variables are only needed inside loops and whatnot.
-> Move them to a tighter scope to make the code less confusing.
-> 
-> Also replace the 'unsigned int i' footguns with plain signed
-> ints.
 
-I moved that last part to a separate patch but forgot
-to update the commit message here.
+> > > diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
+> > > index a40295c18b48..780681ea77e4 100644
+> > > --- a/drivers/gpu/drm/vkms/vkms_crtc.c
+> > > +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
+> > > @@ -64,7 +64,7 @@ static int vkms_enable_vblank(struct drm_crtc *crtc)
+> > >  	struct drm_vblank_crtc *vblank = drm_crtc_vblank_crtc(crtc);
+> > >  	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
+> > >  
+> > > -	drm_calc_timestamping_constants(crtc, &crtc->mode);
+> > > +	drm_calc_timestamping_constants(crtc, &crtc->legacy.mode);
+> > 
+> > 	drm_calc_timestamping_constants(crtc, &crtc->state->mode);
+> 
+> This one doesn't look safe. You want to call that during your atomic
+> commit already.
+> 
 
-> 
-> Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> ---
->  drivers/gpu/drm/drm_client_modeset.c | 33 +++++++++++++++-------------
->  1 file changed, 18 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
-> index b82bb3119cb2..ccf5c9b5537b 100644
-> --- a/drivers/gpu/drm/drm_client_modeset.c
-> +++ b/drivers/gpu/drm/drm_client_modeset.c
-> @@ -73,9 +73,10 @@ int drm_client_modeset_create(struct drm_client_dev *client)
->  static void drm_client_modeset_release(struct drm_client_dev *client)
->  {
->  	struct drm_mode_set *modeset;
-> -	unsigned int i;
->  
->  	drm_client_for_each_modeset(modeset, client) {
-> +		unsigned int i;
-> +
->  		drm_mode_destroy(client->dev, modeset->mode);
->  		modeset->mode = NULL;
->  		modeset->fb = NULL;
-> @@ -277,9 +278,8 @@ static bool drm_client_target_cloned(struct drm_device *dev,
->  				     struct drm_client_offset offsets[],
->  				     bool enabled[], int width, int height)
->  {
-> -	int count, i, j;
-> +	int count, i;
->  	bool can_clone = false;
-> -	const struct drm_display_mode *mode;
->  	struct drm_display_mode *dmt_mode;
->  
->  	/* only contemplate cloning in the single crtc case */
-> @@ -299,6 +299,8 @@ static bool drm_client_target_cloned(struct drm_device *dev,
->  	/* check the command line or if nothing common pick 1024x768 */
->  	can_clone = true;
->  	for (i = 0; i < connector_count; i++) {
-> +		int j;
-> +
->  		if (!enabled[i])
->  			continue;
->  
-> @@ -332,6 +334,8 @@ static bool drm_client_target_cloned(struct drm_device *dev,
->  		goto fail;
->  
->  	for (i = 0; i < connector_count; i++) {
-> +		const struct drm_display_mode *mode;
-> +
->  		if (!enabled[i])
->  			continue;
->  
-> @@ -365,12 +369,12 @@ static int drm_client_get_tile_offsets(struct drm_device *dev,
->  				       int idx,
->  				       int h_idx, int v_idx)
->  {
-> -	struct drm_connector *connector;
->  	int i;
->  	int hoffset = 0, voffset = 0;
->  
->  	for (i = 0; i < connector_count; i++) {
-> -		connector = connectors[i];
-> +		struct drm_connector *connector = connectors[i];
-> +
->  		if (!connector->has_tile)
->  			continue;
->  
-> @@ -400,7 +404,6 @@ static bool drm_client_target_preferred(struct drm_device *dev,
->  					bool enabled[], int width, int height)
->  {
->  	const u64 mask = BIT_ULL(connector_count) - 1;
-> -	struct drm_connector *connector;
->  	u64 conn_configured = 0;
->  	int tile_pass = 0;
->  	int num_tiled_conns = 0;
-> @@ -414,9 +417,9 @@ static bool drm_client_target_preferred(struct drm_device *dev,
->  
->  retry:
->  	for (i = 0; i < connector_count; i++) {
-> +		struct drm_connector *connector = connectors[i];
->  		const char *mode_type;
->  
-> -		connector = connectors[i];
->  
->  		if (conn_configured & BIT_ULL(i))
->  			continue;
-> @@ -526,9 +529,8 @@ static int drm_client_pick_crtcs(struct drm_client_dev *client,
->  	struct drm_device *dev = client->dev;
->  	struct drm_connector *connector;
->  	int my_score, best_score, score;
-> -	struct drm_crtc **crtcs, *crtc;
-> +	struct drm_crtc **crtcs;
->  	struct drm_mode_set *modeset;
-> -	int o;
->  
->  	if (n == connector_count)
->  		return 0;
-> @@ -558,7 +560,8 @@ static int drm_client_pick_crtcs(struct drm_client_dev *client,
->  	 * remaining connectors
->  	 */
->  	drm_client_for_each_modeset(modeset, client) {
-> -		crtc = modeset->crtc;
-> +		struct drm_crtc *crtc = modeset->crtc;
-> +		int o;
->  
->  		if (!connector_has_possible_crtc(connector, crtc))
->  			continue;
-> @@ -602,7 +605,7 @@ static bool drm_client_firmware_config(struct drm_client_dev *client,
->  	const int count = min_t(unsigned int, connector_count, BITS_PER_LONG);
->  	unsigned long conn_configured, conn_seq, mask;
->  	struct drm_device *dev = client->dev;
-> -	int i, j;
-> +	int i;
->  	bool *save_enabled;
->  	bool fallback = true, ret = true;
->  	int num_connectors_enabled = 0;
-> @@ -636,12 +639,11 @@ static bool drm_client_firmware_config(struct drm_client_dev *client,
->  retry:
->  	conn_seq = conn_configured;
->  	for (i = 0; i < count; i++) {
-> -		struct drm_connector *connector;
-> +		struct drm_connector *connector = connectors[i];
->  		struct drm_encoder *encoder;
->  		struct drm_crtc *crtc;
->  		const char *mode_type;
-> -
-> -		connector = connectors[i];
-> +		int j;
->  
->  		if (conn_configured & BIT(i))
->  			continue;
-> @@ -1204,11 +1206,12 @@ static void drm_client_modeset_dpms_legacy(struct drm_client_dev *client, int dp
->  	struct drm_connector *connector;
->  	struct drm_mode_set *modeset;
->  	struct drm_modeset_acquire_ctx ctx;
-> -	int j;
->  	int ret;
->  
->  	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
->  	drm_client_for_each_modeset(modeset, client) {
-> +		int j;
-> +
->  		if (!modeset->crtc->enabled)
->  			continue;
->  
-> -- 
-> 2.45.2
+This was already not safe with the previous implementation? Or it is only 
+unsafe because now I use state->mode instead of legacy.mode?
+
+After inspecting the code, I think I don't need to call it as:
+
+In `vkms_atomic_commit_tail` (used in 
+`@vkms_mode_config_helpers.atomic_commit_tail`), we call 
+`drm_atomic_helper_commit_modeset_disables`, which call 
+`drm_atomic_helper_calc_timestamping_constants` which call 
+`drm_calc_timestamping_constants` for every CRTC.
+
+I tested kms_vblank, all of them are SUCCESS/SKIP, do you know other tests 
+that can trigger bugs?
 
 -- 
-Ville Syrjälä
-Intel
+Louis Chauvet, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
