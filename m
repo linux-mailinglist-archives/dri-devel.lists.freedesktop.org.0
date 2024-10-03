@@ -2,46 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 517B798FA45
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2024 01:09:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AB2198FAB9
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2024 01:41:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A861010E0B0;
-	Thu,  3 Oct 2024 23:09:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E598610E9A6;
+	Thu,  3 Oct 2024 23:41:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IMMvu79L";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SCivXwtG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78C8C10E0B0
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 23:09:00 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA69510E9A6;
+ Thu,  3 Oct 2024 23:41:14 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 153E6A43FD3;
- Thu,  3 Oct 2024 23:08:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6B9AC4CEC5;
- Thu,  3 Oct 2024 23:08:56 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id F25695C5992;
+ Thu,  3 Oct 2024 23:41:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD0E3C4CEC5;
+ Thu,  3 Oct 2024 23:41:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1727996939;
- bh=DzQHCv1YgHZYR5hu7J+5iPetr1YSbCm6MTZAU6xv2oo=;
- h=From:To:Cc:Subject:Date:From;
- b=IMMvu79LVQfFX3ETLxZugfhepwunJuO+6XCzDcxcOVsLrNI5k5fpMk6TitACbAxsI
- LL7Xz8YPr8e7bEKeL4WO+GIsqDyB3KTZRUZ1saaqAkjAVkuS94mUVTGRL65yquQrJb
- D7xun4CDy9Wl+9QHefwwZvK31yVhSAy8WIgAbUP+B0MVIemQtT8AUWrHxNn36/C8yU
- gNwt/0NJ4MyQEklvE7o3UEgc7ssBMxdejVkz/d/Z+mGdBfuHlFzfnNOYNfUTnVp047
- 3QBlD4MJhrOdUT++lTMzxQa+O0Q0y5CsNBC53aDJWR2Y+9Tu7dxJmI79zo+NPp8O5R
- Rbx5gTZy14l0A==
-From: Miguel Ojeda <ojeda@kernel.org>
-To: Jocelyn Falempe <jfalempe@redhat.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
+ s=k20201202; t=1727998873;
+ bh=izyo/MfvsnXCOlauszx1miz+7Gvkw2ssldnsTvhIVP4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=SCivXwtGEbSKeZElFTxVQgRfL5vFjKzc3rrKnIJ0cHYk4TxyrYaf+h5ztyzKen1qb
+ 6Jd4BJh5v+rrRDsxEkIoLCiPUZkH4A6sYe+/BHuVPw8MYatgIDyi7Ge93Qv5b780y8
+ UbvQX3xzVHB9s+RJv999b8M9FBkYfBAzXJOLlug0PlYZA5f01Zkmhd5kkJ0CoSEw36
+ IyqdJ1DHfct/ZqAyyvKWU3zYYkEOAQQgzgmpcK6FeF2dZQyd8RddDUIjbQhvN3Fcj4
+ 6SBKEgq3sZhUpM1FoF2kllCun3EBnM7iyfeekQF1qLHgnJxXBviDnPc+BTywjCHcW7
+ yFQtF2yo6p/wQ==
+Date: Thu, 3 Oct 2024 18:41:12 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- patches@lists.linux.dev, Miguel Ojeda <ojeda@kernel.org>
-Subject: [PATCH] drm/panic: Select ZLIB_DEFLATE for DRM_PANIC_SCREEN_QR_CODE
-Date: Fri,  4 Oct 2024 01:07:34 +0200
-Message-ID: <20241003230734.653717-1-ojeda@kernel.org>
+ David Airlie <airlied@gmail.com>, linux-kernel@vger.kernel.org,
+ Simona Vetter <simona@ffwll.ch>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Maxime Ripard <mripard@kernel.org>, freedreno@lists.freedesktop.org,
+ Rob Clark <robdclark@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, Sean Paul <sean@poorly.run>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: Re: [PATCH 3/5] dt-bindings: display/msm: merge SM8350 DPU into SC7280
+Message-ID: <172799887185.1833455.5440021996602281505.robh@kernel.org>
+References: <20241003-dt-binding-display-msm-merge-v1-0-91ab08fc76a2@linaro.org>
+ <20241003-dt-binding-display-msm-merge-v1-3-91ab08fc76a2@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241003-dt-binding-display-msm-merge-v1-3-91ab08fc76a2@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,31 +71,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Under `CONFIG_DRM_PANIC_SCREEN_QR_CODE=y`, zlib is used:
 
-    ld.lld: error: undefined symbol: zlib_deflate_workspacesize
-    >>> referenced by drm_panic.c
-    >>>               drivers/gpu/drm/drm_panic.o:(drm_panic_qr_init) in archive vmlinux.a
+On Thu, 03 Oct 2024 10:14:20 +0200, Krzysztof Kozlowski wrote:
+> Split of the bindings was artificial and not helping - we end up with
+> multiple binding files for very similar devices thus increasing the
+> chances of using different order of reg and clocks entries.
+> 
+> Unify DPU bindings of SC7280 and SM8350, because they are the same.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>  .../bindings/display/msm/qcom,sc7280-dpu.yaml      |   1 +
+>  .../bindings/display/msm/qcom,sm8350-dpu.yaml      | 120 ---------------------
+>  2 files changed, 1 insertion(+), 120 deletions(-)
+> 
 
-Thus select `CONFIG_ZLIB_DEFLATE`.
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
-Fixes: cb5164ac43d0 ("drm/panic: Add a QR code panic screen")
-Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
----
- drivers/gpu/drm/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 1cb5a4f19293..cf5bc77e2362 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -152,6 +152,7 @@ config DRM_PANIC_SCREEN
- config DRM_PANIC_SCREEN_QR_CODE
- 	bool "Add a panic screen with a QR code"
- 	depends on DRM_PANIC && RUST
-+	select ZLIB_DEFLATE
- 	help
- 	  This option adds a QR code generator, and a panic screen with a QR
- 	  code. The QR code will contain the last lines of kmsg and other debug
---
-2.46.2
