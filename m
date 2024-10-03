@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0054598E8A4
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 05:09:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1EF098E8A6
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 05:09:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF9EA10E02A;
-	Thu,  3 Oct 2024 03:09:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88ADC10E202;
+	Thu,  3 Oct 2024 03:09:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="CZjHTZqS";
+	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="KuIlQN0L";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 504CC10E02A
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 03:09:32 +0000 (UTC)
-X-UUID: e72df990813411efb66947d174671e26-20241003
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 497A410E02A
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 03:09:33 +0000 (UTC)
+X-UUID: e72ae692813411efb66947d174671e26-20241003
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=y+/q2mCK0XJ8ag77MrdRNzJZqPH1iD6XZZ/UwSEWzsw=; 
- b=CZjHTZqSMxKLW6D1Yx1bkfP40kkQa4pbM/Rn/iqQujtQqDGb4zUkGACMQUxnsKUt/JHo+GFLCcmAnXgMR7ct05ro/sgtMON+qk+y+YSkb3VNe3ThNoH4OFOGpDnvyzh9woU1XlWmxWSQPZLy5khEzO6RE8m27KmPkggGWxJ63MA=;
+ bh=2cVeEegbNKzvHYczwy2ZHXx+jDPjya5kMRJ8rfwLJ60=; 
+ b=KuIlQN0LqM0tSBw+54fl4CuO2WuRB7mp8XPl7w0mLCNQgBe/4X7kqsNmKoUyvStp9soH9iP3cKUvoBfyeXiFyCD70hD9UdOFd9Wsgq3F2s8FhTWGQQF9+qiaW8r02GSqf5cJWu9OnnmTkI/acgcEjcqdW3VkIh7abYPxDz4kTG8=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.41, REQID:59c9a872-4dc1-4c78-b88e-431514458864, IP:0,
+X-CID-O-INFO: VERSION:1.1.41, REQID:57b15a4d-d838-4b49-8f43-dc329cb5c4b9, IP:0,
  U
  RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
  release,TS:0
-X-CID-META: VersionHash:6dc6a47, CLOUDID:0f03143c-93c1-4dd7-9dcb-d081586a26a6,
+X-CID-META: VersionHash:6dc6a47, CLOUDID:1003143c-93c1-4dd7-9dcb-d081586a26a6,
  B
  ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
  RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
@@ -34,11 +34,11 @@ X-CID-META: VersionHash:6dc6a47, CLOUDID:0f03143c-93c1-4dd7-9dcb-d081586a26a6,
 X-CID-BVR: 0
 X-CID-BAS: 0,_,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: e72df990813411efb66947d174671e26-20241003
+X-UUID: e72ae692813411efb66947d174671e26-20241003
 Received: from mtkmbs09n2.mediatek.inc [(172.21.101.94)] by
  mailgw01.mediatek.com (envelope-from <macpaul.lin@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1755936061; Thu, 03 Oct 2024 11:09:28 +0800
+ with ESMTP id 914276001; Thu, 03 Oct 2024 11:09:28 +0800
 Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
  MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
@@ -67,10 +67,9 @@ CC: Bear Wang <bear.wang@mediatek.com>, Pablo Sun <pablo.sun@mediatek.com>,
  MediaTek Chromebook Upstream
  <Project_Global_Chrome_Upstream_Group@mediatek.com>, Chen-Yu Tsai
  <wenst@chromium.org>
-Subject: [PATCH v6 2/4] arm64: dts: mediatek: mt8395-genio-1200-evk: Fix
- dtbs_check error for phy
-Date: Thu, 3 Oct 2024 11:09:17 +0800
-Message-ID: <20241003030919.17980-2-macpaul.lin@mediatek.com>
+Subject: [PATCH v6 3/4] arm64: dts: mt8195: Fix dtbs_check error for mutex node
+Date: Thu, 3 Oct 2024 11:09:18 +0800
+Message-ID: <20241003030919.17980-3-macpaul.lin@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20241003030919.17980-1-macpaul.lin@mediatek.com>
 References: <20241003030919.17980-1-macpaul.lin@mediatek.com>
@@ -78,17 +77,17 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--4.841900-8.000000
-X-TMASE-MatchedRID: zCWA9GkRdEXwBTQ+XvV6VZdc7I2df+ms2D9FbDg9BP7HkH7uosEn7E/3
- ZkXeY1OAsdosXJJWMVwSc9Me4enxyKXzgcphDfm8i/b+LxU2p47Dx2NobQWtm3td2pOTSxFkZvo
- +mFW19mDftLFtxOSbQ4Ay6p60ZV62fJ5/bZ6npdjGVuWouVipcp4sBTE6I60vn04MC/32hamTFH
- Y3fpknPk+1Y2AWrhCZQn+6Lm/IJRrsM5jjy6iom9ieHLZMZ/BPRPZbP+jn79N3eENhF60Pgm1Rj
- oup2VCcWve+eVz4Pp5Vk5utmQ1VlGVF3+d9rnoxpI8EFEZVbig=
+X-TM-AS-Result: No-10--3.706900-8.000000
+X-TMASE-MatchedRID: wYKjk3ae4OLLmPsfsKViBzyQH9QLmFOgMZm0+sEE9mv/evmlVf9xZgxm
+ 8TLlhkMG2y0jybZAxqx7nZmSglxg9sJjog0sYBeSrDFtme53KvvvJY9pBzgg1GaBgvyiTOIIo8W
+ MkQWv6iXBcIE78YqRWo6HM5rqDwqtivlcPs9FUI05ATGXXlFkSWu7gS8lrCKz35LP/V9STirqWm
+ MCcv4tHrFMAtdMmQTJZ5ZFoD56Rp7r9ZELdKKU9ImmikotZSeQ4sOrsb4iT/K/bbEolHIgZUOc7
+ GjOamnWv5a9cmIodEspRnLV2kwrLg==
 X-TM-AS-User-Approved-Sender: No
 X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--4.841900-8.000000
+X-TMASE-Result: 10--3.706900-8.000000
 X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP: 3A432F52C549AB02A7417472CA6CA1845F5AEEE3A9D0766BCF32ECD3255395DB2000:8
+X-TM-SNTS-SMTP: CCACF346455230C21048E8C4EF6D299401BEF89CFE9E7EB966C654F47323C2292000:8
 X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -105,34 +104,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The ethernet-phy node in mt8395-genio-1200-evk.dts was triggering a
-dtbs_check error. The error message was:
-  eth-phy0@1: $nodename:0: 'eth-phy0@1' does not match
-              '^ethernet-phy(@[a-f0-9]+)?$'
-Fix this issue by replacing 'eth-phy' node to generic 'ethernet-phy'.
+The mutex node in mt8195.dtsi was triggering a dtbs_check error:
+  mutex@1c101000: 'clock-names', 'reg-names' do not match any of the
+                  regexes: 'pinctrl-[0-9]+'
 
-Fixes: f2b543a191b6 ("arm64: dts: mediatek: add device-tree for Genio 1200 EVK board")
+This seems no need by inspecting the DT schemas and other reference boards,
+so drop 'clock-names' and 'reg-names' in mt8195.dtsi.
+
+Fixes: 92d2c23dc269 ("arm64: dts: mt8195: add display node for vdosys1")
 Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dts | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/arm64/boot/dts/mediatek/mt8195.dtsi | 2 --
+ 1 file changed, 2 deletions(-)
 
-Changes for v2, v3, v4, v5 and v6:
+Changes for v2, v3, v4, v5, v6:
  - No change.
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dts b/arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dts
-index 1ef6262b65c9..b4b48eb93f3c 100644
---- a/arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dts
-+++ b/arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dts
-@@ -187,7 +187,7 @@ mdio {
- 		compatible = "snps,dwmac-mdio";
- 		#address-cells = <1>;
- 		#size-cells = <0>;
--		eth_phy0: eth-phy0@1 {
-+		eth_phy0: ethernet-phy@1 {
- 			compatible = "ethernet-phy-id001c.c916";
- 			reg = <0x1>;
+diff --git a/arch/arm64/boot/dts/mediatek/mt8195.dtsi b/arch/arm64/boot/dts/mediatek/mt8195.dtsi
+index 2e1b41359b43..ade685ed2190 100644
+--- a/arch/arm64/boot/dts/mediatek/mt8195.dtsi
++++ b/arch/arm64/boot/dts/mediatek/mt8195.dtsi
+@@ -3331,11 +3331,9 @@ &larb19 &larb21 &larb24 &larb25
+ 		mutex1: mutex@1c101000 {
+ 			compatible = "mediatek,mt8195-disp-mutex";
+ 			reg = <0 0x1c101000 0 0x1000>;
+-			reg-names = "vdo1_mutex";
+ 			interrupts = <GIC_SPI 494 IRQ_TYPE_LEVEL_HIGH 0>;
+ 			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
+ 			clocks = <&vdosys1 CLK_VDO1_DISP_MUTEX>;
+-			clock-names = "vdo1_mutex";
+ 			mediatek,gce-client-reg = <&gce0 SUBSYS_1c10XXXX 0x1000 0x1000>;
+ 			mediatek,gce-events = <CMDQ_EVENT_VDO1_STREAM_DONE_ENG_0>;
  		};
 -- 
 2.45.2
