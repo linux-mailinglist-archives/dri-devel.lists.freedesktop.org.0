@@ -2,101 +2,110 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16A5C98F563
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 19:37:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 992DB98F3AF
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Oct 2024 18:12:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF18910E237;
-	Thu,  3 Oct 2024 17:37:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F60310E8A2;
+	Thu,  3 Oct 2024 16:12:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=adamthiede.com header.i=@adamthiede.com header.b="niJ092Ed";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="OF2UPutZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0963510E081
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 15:30:12 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org
- [IPv6:2001:67c:2050:b231:465::2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4XKFwv5DZ7z9t3b;
- Thu,  3 Oct 2024 17:30:07 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=adamthiede.com;
- s=MBO0001; t=1727969407;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=VQ7Tdl23liWLVAg/y+01BU3yD+eB6aWTqWBSJ+/vJng=;
- b=niJ092EdrphluiifAVW5QfjhDYDzaGEabtMnbHrD9h9MdCnkuu7PnWAHwKhDyv3X+rcfbX
- YvVBMKj8xc7+OTaxMBUS1WCOx725nmUZAiuD0Lrye9ktjNlVEMCjJ47ljT9BrwDmdOcQbC
- 1DCmk8COswoyAGrpNLtIDiGvouaEuF1/FlZw0E9RFc5A5vJ7GpNGPcV/w4pGXKbjrPbdcD
- Kj8kjwRljX0+RwPAV9nqKEfhr3AmbNSE5DAwOB3VAa06egnJB64vA+bym4+PoakrYt/KqP
- Nn1Jk2oWSOWOy3KpVYQwQ0h2JhwKriOghPfzXmVoyL/zka2GqytSyI8QOXYOOA==
-Message-ID: <0d93420b-4d40-479c-bd51-98963e49c4ed@adamthiede.com>
-Date: Thu, 3 Oct 2024 10:29:57 -0500
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+ [209.85.128.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06BA810E8A2
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Oct 2024 16:12:30 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id
+ 5b1f17b1804b1-42e7b7bef42so10623925e9.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Oct 2024 09:12:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1727971948; x=1728576748; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=9x0kA6Y5xirU8ZKb3vd7ah9xp3oW+AcwIHY8MvPuPSw=;
+ b=OF2UPutZ8zZCwor9q7DSRfksYP9K01tSb6oLa8g88Tqzqd1rd0MQNtxhqmf7ENIxC2
+ PnQVuJygK1ZVq5PFNZU6ux9Wtiwe2k54J1JmWdRfazopNrG9Bm/8fotCb6MV69cqGtOJ
+ Bw5XgGvAySpZz//MSrxvl7emtZ+j8vNvql9OpGNdWk+yQaAdOHgbtIWxaaH8wDEGH7TQ
+ K+KKYeDRT+0JYGLYyujzc/XB3mToz9SwFzoSxzLsoC6P2L90mYbzRDkLfyRa78ef1uPC
+ ZKSFjNHgCMrHI6LCuZpfYmjwcTiIyJHlDCOdGyTxYYFW2V4uBtoSYfGOs0pu5pgs1GFK
+ hcgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1727971948; x=1728576748;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=9x0kA6Y5xirU8ZKb3vd7ah9xp3oW+AcwIHY8MvPuPSw=;
+ b=GkL+O7IakML6lSxcBmREF4bk134VaNiMd6NcFG6FBUc9V7HQkjL6HQAz912dWDzT4m
+ eanD0QSL8MXjhlSKTSoc2dXLeHBbcYBhkctF1vjZm8nbvWUz4WvPWxtOMGU9lsd51MwN
+ EJE3gGbDNLdT2ow+fg7tI5UGoFGq7s+Y5/1x98sK+IHGG4GNbRiBUu+9cx/KJRO/MNqm
+ l/42CTqiJSKpGLMnL3iinA282zJEmj7WREjd1uMPCrXry2sWLgABNRxE9rqudK0D+5HU
+ EGM2w3dhJtoRc3uIpk4lj1cc3zUroph1uatecdRO50VndGbQeeGhhecw/o1fKmc8nSOU
+ A+4Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWPCKIvjWZfiRX9t/I5hiEXeHVZAvdluYdbLtpL8jOx6dSClk/9kxcZOMJLw+KRfMi5j7PCMJSD+cg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyL/+nX2Gj5ep+5b33Ax3s6EJWfUQtqujIJsJqO2Ls6FYMvpuYr
+ xGimPjvpAv1tJ95tDKSyeDmLns83m/H4xIaf8dGwMc4xkYoUPy2IVTvnSrb52PE=
+X-Google-Smtp-Source: AGHT+IH7XqoTZIRUQjlYMVABAzMAJKn3H7Cg1IhhW5+WLWmS66vcYeXzq7UpCoZZyE94HETXaXNryQ==
+X-Received: by 2002:adf:a38a:0:b0:374:ba7a:7d46 with SMTP id
+ ffacd0b85a97d-37cfba04204mr4360586f8f.43.1727971948300; 
+ Thu, 03 Oct 2024 09:12:28 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:e534:c027:e113:29a1?
+ ([2a01:e0a:982:cbb0:e534:c027:e113:29a1])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-37d0822bc38sm1598885f8f.45.2024.10.03.09.12.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Oct 2024 09:12:27 -0700 (PDT)
+Message-ID: <4caf21cd-2783-48d3-8e6d-159ad8e89113@linaro.org>
+Date: Thu, 3 Oct 2024 18:12:26 +0200
 MIME-Version: 1.0
-From: Adam Thiede <me@adamthiede.com>
-Subject: Re: [PATCH v3 13/14] drm/mediatek: Support DRM plane alpha in OVL
-To: =?UTF-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>, 
- =?UTF-8?B?QmliYnkgSHNpZWggKOisnea/n+mBoCk=?= <Bibby.Hsieh@mediatek.com>,
- "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
- "djkurtz@chromium.org" <djkurtz@chromium.org>,
- =?UTF-8?B?U2hhd24gU3VuZyAo5a6L5a2d6KyZKQ==?= <Shawn.Sung@mediatek.com>,
- =?UTF-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>,
- "daniel@ffwll.ch" <daniel@ffwll.ch>,
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
- =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>,
- "airlied@gmail.com" <airlied@gmail.com>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "littlecvr@chromium.org" <littlecvr@chromium.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: =?UTF-8?B?WVQgU2hlbiAo5rKI5bKz6ZyGKQ==?= <Yt.Shen@mediatek.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20240620-igt-v3-0-a9d62d2e2c7e@mediatek.com>
- <20240620-igt-v3-13-a9d62d2e2c7e@mediatek.com>
- <1a3af354-bd15-4219-960e-089b6a6e673c@adamthiede.com>
- <49df03e8b982cc5ee97e09ef9545c1d138c32178.camel@mediatek.com>
- <00ebe9ca262b6a95fd726e5be06334b1e923db02.camel@mediatek.com>
- <5975b361-c1b4-4c57-89d4-0d247ae99d8c@adamthiede.com>
- <272b47f0c9e27268d29b58c341e0b48bce7e8e25.camel@mediatek.com>
- <06ed4527-3749-4fac-bd38-d837f1593311@adamthiede.com>
- <f7b4c6601d648e0eba2dc66f0fe1f34ca3d29cfb.camel@mediatek.com>
-Content-Language: en-US
-Autocrypt: addr=me@adamthiede.com; keydata=
- xsBNBF+n+90BCAC2ZRLVcvdXDgfY7EppN05eNor3U7/eeiNCCEIWZkYLhikUEP1ReLGBkXpK
- Pc70hfnKAKkCoth3IwhDty9WXMNU+iLNei4ieb2luW+UqluR6xIUIA+txahMU9YcjVaQTKf/
- yZWO4yl6pfBPCxC2UdPZKBAdGoi5NnE0ABFNbhBETQhhBic533lZn33ByupfI3acECnQdjgQ
- llCUpDbw4I+S/N1iFiEHcbMXH7ZB00e3IYNorZ1E9v7p++5rDY1fQ9gXpieg1vFKwSq1NJWo
- 9xx336YjaTUbX0EwrdKd9l8AktA3yRjckaK5TAcwSQaDtHvhpbl4ebvPhtwHh699MroXABEB
- AAHNH0FkYW0gVGhpZWRlIDxtZUBhZGFtdGhpZWRlLmNvbT7CwI4EEwEIADgCGwMFCwkIBwIG
- FQoJCAsCBBYCAwECHgECF4AWIQQtG9pGQ7sz3tf8M/kC7fV9o/vRzgUCZL1HxQAKCRAC7fV9
- o/vRzgyRB/wLqRCvvWhQCMgvzeKvru9wcXquhb77K8H/ByLbfiT8YBuP3lZFVh0IQhgO9Ylk
- fIoOJE4V+jjxyOnO2d9xjGbvAmmR6yT0gfLzSVWqrC4k+V9MWLv43nrNzxt41dvo5j824FAl
- X+zaiRZCdO8Jtxg5Elpiop2SKLi1utX1Z8i6YZh+ccJZlchUBAGUTk+D4UjK7vUcjLWT96ya
- CtdtTfXyw36CvGOPEWfc6++Kkl/5sgej1i7biPYzu/r0vssaQYTXKSrv6Cfa3Maa89ASiTtv
- q4qmhLnJeCrPxWlRAf6LEizeBEkOasYni2u8sp4wBezEq45Ozu45sfPkqLpPolG7zsBNBF+n
- +90BCADBRt+vrToRBEG580n77S99qSEkbKD+oJtCVyovnjMNkg0K9UG68LIeCX/ezngiV1M8
- JISvw5iFOuUFqGX/1hLl9wgt/YpuIrgWOp8XxkotavTCloLDvQmufJPO1L8bnnA+WgP2YgVZ
- 5MJTj/t4DI+yQgysEjsH8aurHO2uuqgJE+xK+2dy6Cl/wskuGxObksSPmmFH5PH0Joziwrtl
- 61ouLE2XwKbkMgIGEKkbFgbfwz3/QuLZGBni+OOtLzXeZ9wNTW/AHUPy6S9U4F+5z6/09fVT
- tTH0cvrgAGjbASlYx2VqGONXAsxCfjulq6ryJBFlPLp949c/JTTgOojukCSbABEBAAHCwHYE
- GAEIACACGwwWIQQtG9pGQ7sz3tf8M/kC7fV9o/vRzgUCZL1H0gAKCRAC7fV9o/vRzlamCACs
- vHw+0heTm+BfC3S8DUST6889gidIIwdqBep1ByzetCph7Bq8Y8BlT5YTX0u/bSKkxCzFgeTm
- vC341Q09ST2XjLAl1ZTdzGhH9gcgYyOw34pr5fPQRJLB392mPzD8YReRzciNbhWzj+DLgeVe
- ouyfGajd6jDjkf4FEq+trQLGZhpfsKn3JnDbzBUs945D50l/vz9q/QN3qZO+H4F6g8ZeMnqo
- FOEFN26xVtdEDr+0DNFsbgKmEzs675kdAY78ZZdbEetX/FSknxJ+FK1ZW3J7Yswwulj34AXP
- LB49Mk8Ot7fo6mdt0DkV11JS9LmKxKvpY+KTlrKG+i7pVCSZvVUx
-In-Reply-To: <f7b4c6601d648e0eba2dc66f0fe1f34ca3d29cfb.camel@mediatek.com>
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH 2/2] drm/bridge: tc358768: switch to bus-width
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Peter Ujfalusi <peter.ujfalusi@ti.com>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20241003133904.69244-1-krzysztof.kozlowski@linaro.org>
+ <20241003133904.69244-2-krzysztof.kozlowski@linaro.org>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20241003133904.69244-2-krzysztof.kozlowski@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 4XKFwv5DZ7z9t3b
-X-Mailman-Approved-At: Thu, 03 Oct 2024 17:37:05 +0000
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,81 +118,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/3/24 00:17, Jason-JH Lin (林睿祥) wrote:
->> Jason:
->> That is a lot of information, and quite above my head! Thank you
->> though.
->> 
->> I should note that the log items I sent you are from the "good"
->> kernel - 
->> 6.11 with the commit reverted. Here is a much longer set of logs: 
->> https://termbin.com/co6v
->> 
->> I've rebuild 6.11 with the log statement enabled and the "bad"
->> behavior.
->> Here is a dmesg from that: https://termbin.com/xiev
->> 
-> Hi Adam,
+On 03/10/2024 15:39, Krzysztof Kozlowski wrote:
+> "data-lines" property is way too similar to "data-lanes".  It is also
+> duplicating "bus-width" from video-interfaces.yaml schema.  "data-lines"
+> was deprecated in the bindings and "bus-width" is preferred, so parse it
+> instead while keeping things backwards compatible.
 > 
-> I think something wrong with your dmesg links, both logs look the same.
-> We should see this log in the "bad" one:
-> fmt:0x34325258, has_alpha:0x0, alpha:0xffff, con:0x2000
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>   drivers/gpu/drm/bridge/tc358768.c | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/tc358768.c b/drivers/gpu/drm/bridge/tc358768.c
+> index 0e8813278a2f..fc96fa5aab54 100644
+> --- a/drivers/gpu/drm/bridge/tc358768.c
+> +++ b/drivers/gpu/drm/bridge/tc358768.c
+> @@ -443,7 +443,9 @@ static int tc358768_dsi_host_attach(struct mipi_dsi_host *host,
+>   	ret = -EINVAL;
+>   	ep = of_graph_get_endpoint_by_regs(host->dev->of_node, 0, 0);
+>   	if (ep) {
+> -		ret = of_property_read_u32(ep, "data-lines", &priv->pd_lines);
+> +		ret = of_property_read_u32(ep, "bus-width", &priv->pd_lines);
+> +		if (ret)
+> +			ret = of_property_read_u32(ep, "data-lines", &priv->pd_lines);
+>   
+>   		of_node_put(ep);
+>   	}
 
-Apologies, I did indeed upload the same file twice. Here is the "good" one:
-https://termbin.com/tb33
-
-And the "bad" one:
-https://termbin.com/yhxx
-
-I think the fact that we're not seeing that line in the "bad" one is 
-part of the problem?
-> 
-> But anyway, I think the reason for the downgrade is clear enough to me.
-> So let's try to figure out the solution.
-> 
->> These logs are both from `dmesg`.
->> 
->> I'm fairly certain I've built with the patch you referenced enabled.
->> The 
->> kernels I run are just release kernels, not RCs or git branches or 
->> anything. The mainline v6.11 kernel is the one that has this problem.
->> If 
->> that patch has been merged into 6.11 (which, looks like it has) then 
->> it's in the kernel I'm building.
-> 
-> Got it.
-> Then OVL_CONST_BLEND might be the unsupported configuration in MT8173,
-> I think we should remove the XRGB8888 format for MT8173.
-> 
-> Could you please try this modification and see if it'll change to use
-> others supported format to show the text?
-> 
-> --- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-> @@ -102,12 +102,9 @@ static inline bool is_10bit_rgb(u32 fmt)
->   }
-> 
->   static const u32 mt8173_formats[] = {
-> -       DRM_FORMAT_XRGB8888,
->          DRM_FORMAT_ARGB8888,
-> -       DRM_FORMAT_BGRX8888,
->          DRM_FORMAT_BGRA8888,
->          DRM_FORMAT_ABGR8888,
-> -       DRM_FORMAT_XBGR8888,
->          DRM_FORMAT_RGB888,
->          DRM_FORMAT_BGR888,
->          DRM_FORMAT_RGB565,
-> 
-I've not been able to get the kernel to build with that patch; it keeps 
-segfaulting at the end. I will keep attempting though.
-
-> 
-> Regards,
-> Jason-JH.Lin
-> 
->> 
->> - Adam Thiede
-
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
