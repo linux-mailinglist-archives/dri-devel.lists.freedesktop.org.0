@@ -2,51 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F283990B59
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2024 20:26:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B99F1990B6C
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2024 20:28:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9520710EA70;
-	Fri,  4 Oct 2024 18:26:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EE1C10EA72;
+	Fri,  4 Oct 2024 18:28:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="m+lq4PGd";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FgaybzOK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D325B10EA70
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Oct 2024 18:26:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4294C10EA71;
+ Fri,  4 Oct 2024 18:28:34 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 12C7D5C5981;
- Fri,  4 Oct 2024 18:26:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3C1CC4CECD;
- Fri,  4 Oct 2024 18:26:51 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 723EB5C54B2;
+ Fri,  4 Oct 2024 18:28:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2786C4CEC6;
+ Fri,  4 Oct 2024 18:28:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1728066413;
- bh=myeabkgwV5B0dBTenPH3LrT45ixX+J76K5SmmTq3PA4=;
+ s=k20201202; t=1728066513;
+ bh=C16IEkzhseK1MgeBXcb8tz19363Pmd4frgSZSpu14+Y=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=m+lq4PGd1EWQ4s2vHkKttRweDCgBH4YOCpOJdL26ZuWVE8NpvZH11VD3BCvYpTin6
- v8UR5VCTwttDIZnry81HNWcQKkMy2ilaH8aIoSbCYpGbH1/z/4e1u6rWz1pWimlGs3
- UhYJGgSCQG8j6S5jBn5OTOS/5RnBJBnZHRjSw8jtiLxZHEBKstsouemjz8AsIh1dsi
- c/V4HMUnmcRTPHfqYj0+Cq5tQEM7gb5yg315w8PuG3VVJCa5ta4YGwfkwAa1ThtzL+
- Qt0GkkGRvPVGwNwZxiTW0bJX1pAnvpB66HLcg69oShoLnqoG9iIRYx7j5XtgZ5l02v
- KeW/q/PNI1wdA==
+ b=FgaybzOK93BIVdcXnEj3N4j0Ohzf487O4w6tAqz7DqyImtKdyG8j3P3qL0wvp2pIN
+ +HW63RHXLzg3V4meMZqFFdugvH4QC6hNwGUbmgPmtIrg6W4UqW3JcYuj7xYZByDNRv
+ bwM7YVCWmyIkrxiNgggP0fkRxtuB+2nOXyJtxmx4h5JrJIEOoCmVWw8gEujxcoCLUZ
+ LdArtE5nKWilCHaUjPAmnhksTX1uJPUZ9DvakCehWwCMuZjeKfXh5UEr3caEGzznJP
+ DerU8o5xG8QQ7IhwoRVst88MsbiwCioIndmYX2VmnX2/WIj2F3jZPASpQ6oyMblL5A
+ QrkSYw72yWV7g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Andrey Shumilin <shum.sdl@nppct.ru>, Helge Deller <deller@gmx.de>,
- Sasha Levin <sashal@kernel.org>, tzimmermann@suse.de,
- fullwaywang@outlook.com, javierm@redhat.com, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.6 58/58] fbdev: sisfb: Fix strbuf array overflow
-Date: Fri,  4 Oct 2024 14:24:31 -0400
-Message-ID: <20241004182503.3672477-58-sashal@kernel.org>
+Cc: Alex Hung <alex.hung@amd.com>, Rodrigo Siqueira <rodrigo.siqueira@amd.com>,
+ Daniel Wheeler <daniel.wheeler@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch, alvin.lee2@amd.com, chiahsuan.chung@amd.com,
+ wenjing.liu@amd.com, sungjoon.kim@amd.com, nicholas.kazlauskas@amd.com,
+ dillon.varone@amd.com, aurabindo.pillai@amd.com, chiawen.huang@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.1 40/42] drm/amd/display: Check null pointer before
+ dereferencing se
+Date: Fri,  4 Oct 2024 14:26:51 -0400
+Message-ID: <20241004182718.3673735-40-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241004182503.3672477-1-sashal@kernel.org>
-References: <20241004182503.3672477-1-sashal@kernel.org>
+In-Reply-To: <20241004182718.3673735-1-sashal@kernel.org>
+References: <20241004182718.3673735-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.54
+X-stable-base: Linux 6.1.112
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,40 +69,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Andrey Shumilin <shum.sdl@nppct.ru>
+From: Alex Hung <alex.hung@amd.com>
 
-[ Upstream commit 9cf14f5a2746c19455ce9cb44341b5527b5e19c3 ]
+[ Upstream commit ff599ef6970ee000fa5bc38d02fa5ff5f3fc7575 ]
 
-The values of the variables xres and yres are placed in strbuf.
-These variables are obtained from strbuf1.
-The strbuf1 array contains digit characters
-and a space if the array contains non-digit characters.
-Then, when executing sprintf(strbuf, "%ux%ux8", xres, yres);
-more than 16 bytes will be written to strbuf.
-It is suggested to increase the size of the strbuf array to 24.
+[WHAT & HOW]
+se is null checked previously in the same function, indicating
+it might be null; therefore, it must be checked when used again.
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
+This fixes 1 FORWARD_NULL issue reported by Coverity.
 
-Signed-off-by: Andrey Shumilin <shum.sdl@nppct.ru>
-Signed-off-by: Helge Deller <deller@gmx.de>
+Acked-by: Alex Hung <alex.hung@amd.com>
+Reviewed-by: Rodrigo Siqueira <rodrigo.siqueira@amd.com>
+Signed-off-by: Alex Hung <alex.hung@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/video/fbdev/sis/sis_main.c | 2 +-
+ drivers/gpu/drm/amd/display/dc/core/dc.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/sis/sis_main.c b/drivers/video/fbdev/sis/sis_main.c
-index 6d524a65af181..ad39571f91349 100644
---- a/drivers/video/fbdev/sis/sis_main.c
-+++ b/drivers/video/fbdev/sis/sis_main.c
-@@ -184,7 +184,7 @@ static void sisfb_search_mode(char *name, bool quiet)
- {
- 	unsigned int j = 0, xres = 0, yres = 0, depth = 0, rate = 0;
- 	int i = 0;
--	char strbuf[16], strbuf1[20];
-+	char strbuf[24], strbuf1[20];
- 	char *nameptr = name;
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
+index d7bca680805d3..ce31a2f460932 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
+@@ -1659,7 +1659,7 @@ bool dc_validate_boot_timing(const struct dc *dc,
+ 		if (crtc_timing->pix_clk_100hz != pix_clk_100hz)
+ 			return false;
  
- 	/* We don't know the hardware specs yet and there is no ivideo */
+-		if (!se->funcs->dp_get_pixel_format)
++		if (!se || !se->funcs->dp_get_pixel_format)
+ 			return false;
+ 
+ 		if (!se->funcs->dp_get_pixel_format(
 -- 
 2.43.0
 
