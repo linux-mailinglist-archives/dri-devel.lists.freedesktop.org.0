@@ -2,129 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5016798FF4F
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2024 11:06:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD8E998FF5C
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2024 11:09:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4973410E1BE;
-	Fri,  4 Oct 2024 09:06:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EDFD10E9BF;
+	Fri,  4 Oct 2024 09:09:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="0J11UA3q";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rmU9CoN/";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0J11UA3q";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rmU9CoN/";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="HsW8Q3Nx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3718010E1BE
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Oct 2024 09:06:34 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3D8510E362
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Oct 2024 09:09:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1728032973;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=KeAMh0T1DMYBfSkg4rMFIKsLXbl/1FZfHzQE7MzILB0=;
+ b=HsW8Q3NxQTqHgH44naA7MlNWfMm7YYfhD9n/4FeePh9Q+GxCu3VAWCOOt+JEdK7UzrMXif
+ l8k+ic6xr0QJwYpPiJkfDC8m1rKU+2n6jXY+xuwqqhhV69glF3fu7um4RXLIorZwzLew53
+ 9+VB6ZORkjlirhLjTjff3egvaDrcT4k=
+Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-632-srQA7pafMfuBXjA6m1retg-1; Fri,
+ 04 Oct 2024 05:09:29 -0400
+X-MC-Unique: srQA7pafMfuBXjA6m1retg-1
+Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id B614621CFF;
- Fri,  4 Oct 2024 09:06:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1728032792; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=JZgVmvQL2JTQezfe4d08s20s5gOOPF3rmb+sz6n55uw=;
- b=0J11UA3q2uREgmRWQoJNslgtDrY02BXrbtGSaqs7nuUfwrxx81lXK4UJ5vIHS85XarGYx9
- EaFzOhYWzl0TXLtc5tj7n6Lboc2JLY7Dv0cFDfsXjXTpB486kGwt5iT03yySau94924v0o
- VJ3E1WHXXVn+oGrFY4bESrimDT77bAE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1728032792;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=JZgVmvQL2JTQezfe4d08s20s5gOOPF3rmb+sz6n55uw=;
- b=rmU9CoN/AFHX0ywR1tDGobJIZZNXKnS5tIboDer7DEWx4mm3oLMJZbKe6Ltq31EtMPsy2P
- 6D/nSGtsBEY/gIBw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1728032792; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=JZgVmvQL2JTQezfe4d08s20s5gOOPF3rmb+sz6n55uw=;
- b=0J11UA3q2uREgmRWQoJNslgtDrY02BXrbtGSaqs7nuUfwrxx81lXK4UJ5vIHS85XarGYx9
- EaFzOhYWzl0TXLtc5tj7n6Lboc2JLY7Dv0cFDfsXjXTpB486kGwt5iT03yySau94924v0o
- VJ3E1WHXXVn+oGrFY4bESrimDT77bAE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1728032792;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=JZgVmvQL2JTQezfe4d08s20s5gOOPF3rmb+sz6n55uw=;
- b=rmU9CoN/AFHX0ywR1tDGobJIZZNXKnS5tIboDer7DEWx4mm3oLMJZbKe6Ltq31EtMPsy2P
- 6D/nSGtsBEY/gIBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D090013A55;
- Fri,  4 Oct 2024 09:06:31 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id V2YAKBew/2bbAwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 04 Oct 2024 09:06:31 +0000
-Message-ID: <1db0e2db-97e0-492f-ba89-0a1f49ca4498@suse.de>
-Date: Fri, 4 Oct 2024 11:06:30 +0200
+ by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 7FB9619560AF; Fri,  4 Oct 2024 09:09:24 +0000 (UTC)
+Received: from hydra.redhat.com (unknown [10.39.192.229])
+ by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id 1B6401956054; Fri,  4 Oct 2024 09:09:16 +0000 (UTC)
+From: Jocelyn Falempe <jfalempe@redhat.com>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>, Melissa Wen <mwen@igalia.com>,
+ Joshua Ashton <joshua@froggi.es>,
+ =?UTF-8?q?Marek=20Ol=C5=A1=C3=A1k?= <marek.olsak@amd.com>,
+ Jocelyn Falempe <jfalempe@redhat.com>, Hersen Wu <hersenxs.wu@amd.com>,
+ Tom Chung <chiahsuan.chung@amd.com>, Roman Li <roman.li@amd.com>,
+ Bhuvana Chandra Pinninti <bhuvanachandra.pinninti@amd.com>,
+ Alvin Lee <alvin.lee2@amd.com>, Sung Joon Kim <sungkim@amd.com>,
+ Duncan Ma <duncan.ma@amd.com>, Hamza Mahfooz <hamza.mahfooz@amd.com>,
+ Lu Yao <yaolu@kylinos.cn>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/amdgpu: Add dcn30 drm_panic support
+Date: Fri,  4 Oct 2024 11:07:54 +0200
+Message-ID: <20241004090850.460668-1-jfalempe@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Subject: fbdev: sstfb: Make CONFIG_FB_DEVICE optional
-To: Gonzalo Silvalde Blanco <gonzalo.silvalde@gmail.com>,
- linux-fbdev@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org, thomas.zimmermann@suse.de
-References: <20241002214517.206657-1-gonzalo.silvalde@gmail.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20241002214517.206657-1-gonzalo.silvalde@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Score: -2.80
-X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- FREEMAIL_TO(0.00)[gmail.com,vger.kernel.org];
- TAGGED_RCPT(0.00)[]; MIME_TRACE(0.00)[0:+]; TO_DN_SOME(0.00)[];
- ARC_NA(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- MID_RHS_MATCH_FROM(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- RCPT_COUNT_THREE(0.00)[4]; RCVD_TLS_ALL(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Level: 
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -140,99 +79,266 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Add support for the drm_panic module, which displays a pretty user
+friendly message on the screen when a Linux kernel panic occurs.
 
-thanks for your patch.
+It should work on all readeon using amdgpu_dm_plane.c, when the
+framebuffer is linear (like when in a VT). For tiled framebuffer, it
+will only work on radeon with dcn30. It should be easy to add support
+for dcn20 or dcn31, but I can't test it.
+I've tested it on a Radeon W6400 pro.
 
- > [PATCH] Subject: fbdev: sstfb: Make CONFIG_FB_DEVICE optional
+Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+---
+ .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   | 137 +++++++++++++++++-
+ .../amd/display/dc/hubp/dcn30/dcn30_hubp.c    |  17 +++
+ .../amd/display/dc/hubp/dcn30/dcn30_hubp.h    |   2 +
+ drivers/gpu/drm/amd/display/dc/inc/hw/hubp.h  |   1 +
+ 4 files changed, 155 insertions(+), 2 deletions(-)
 
-'Subject:' should not be part of the subject line. Is that an issue with 
-your mail setup?
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+index 25f63b2e7a8e2..a62b197ab6833 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+@@ -26,7 +26,9 @@
+ 
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_blend.h>
++#include "drm/drm_framebuffer.h"
+ #include <drm/drm_gem_atomic_helper.h>
++#include <drm/drm_panic.h>
+ #include <drm/drm_plane_helper.h>
+ #include <drm/drm_gem_framebuffer_helper.h>
+ #include <drm/drm_fourcc.h>
+@@ -36,6 +38,7 @@
+ #include "amdgpu_display.h"
+ #include "amdgpu_dm_trace.h"
+ #include "amdgpu_dm_plane.h"
++#include "bif/bif_4_1_d.h"
+ #include "gc/gc_11_0_0_offset.h"
+ #include "gc/gc_11_0_0_sh_mask.h"
+ 
+@@ -1420,6 +1423,125 @@ static void amdgpu_dm_plane_atomic_async_update(struct drm_plane *plane,
+ 	amdgpu_dm_plane_handle_cursor_update(plane, old_state);
+ }
+ 
++/* panic_bo is set in amdgpu_dm_plane_get_scanout_buffer() and only used in amdgpu_dm_set_pixel()
++ * they are called from the panic handler, and no race condition can occurs.
++ */
++static struct amdgpu_bo *panic_abo;
++
++/* Use the indirect MMIO to write each pixel to the GPU VRAM,
++ * This is a simplified version of amdgpu_device_mm_access()
++ */
++static void amdgpu_dm_set_pixel(struct drm_scanout_buffer *sb,
++				unsigned int x,
++				unsigned int y,
++				u32 color)
++{
++	struct amdgpu_res_cursor cursor;
++	unsigned long offset;
++	struct amdgpu_bo *abo = panic_abo;
++	struct amdgpu_device *adev = amdgpu_ttm_adev(abo->tbo.bdev);
++	uint32_t tmp;
++
++	offset = x * 4 + y * sb->pitch[0];
++	amdgpu_res_first(abo->tbo.resource, offset, 4, &cursor);
++
++	tmp = cursor.start >> 31;
++	WREG32_NO_KIQ(mmMM_INDEX, ((uint32_t) cursor.start) | 0x80000000);
++	if (tmp != 0xffffffff)
++		WREG32_NO_KIQ(mmMM_INDEX_HI, tmp);
++	WREG32_NO_KIQ(mmMM_DATA, color);
++}
++
++static int amdgpu_dm_plane_disable_tiling(struct dc_plane_state *dc_plane_state)
++{
++	struct dc_state *dc_state;
++	int i;
++
++	if (!dc_plane_state)
++		return -EINVAL;
++
++	dc_state = dc_plane_state->ctx->dc->current_state;
++	if (!dc_state)
++		return -EINVAL;
++
++	for (i = 0; i < dc_plane_state->ctx->dc->res_pool->pipe_count; i++) {
++		struct pipe_ctx *pipe_ctx = &dc_state->res_ctx.pipe_ctx[i];
++		struct hubp *hubp;
++
++		if (!pipe_ctx)
++			continue;
++
++		hubp = pipe_ctx->plane_res.hubp;
++		if (!hubp)
++			continue;
++
++		if (!hubp->funcs->hubp_clear_tiling)
++			return -EINVAL;
++
++		hubp->funcs->hubp_clear_tiling(hubp);
++		hubp->funcs->hubp_program_surface_flip_and_addr(hubp,
++								&dc_plane_state->address,
++								dc_plane_state->flip_immediate);
++	}
++	return 0;
++}
++
++static int amdgpu_dm_plane_get_scanout_buffer(struct drm_plane *plane,
++					      struct drm_scanout_buffer *sb)
++{
++	struct dm_plane_state *dm_plane_state = to_dm_plane_state(plane->state);
++	struct amdgpu_bo *abo;
++	struct drm_framebuffer *fb = plane->state->fb;
++
++	if (!fb)
++		return -EINVAL;
++
++	DRM_DEBUG_KMS("Framebuffer %dx%d %p4cc\n", fb->width, fb->height, &fb->format->format);
++
++	abo = gem_to_amdgpu_bo(fb->obj[0]);
++	if (!abo)
++		return -EINVAL;
++
++	/* disable tiling */
++	if (fb->modifier && amdgpu_dm_plane_disable_tiling(dm_plane_state->dc_state))
++		return -EINVAL;
++
++	sb->width = fb->width;
++	sb->height = fb->height;
++	/* Use the generic linear format, because we just disabled tiling */
++	sb->format = drm_format_info(fb->format->format);
++	if (!sb->format)
++		return -EINVAL;
++
++	sb->pitch[0] = fb->pitches[0];
++
++	if (abo->flags & AMDGPU_GEM_CREATE_NO_CPU_ACCESS) {
++		if (abo->tbo.resource->mem_type != TTM_PL_VRAM) {
++			DRM_WARN("amdgpu panic, framebuffer not in VRAM\n");
++			return -EINVAL;
++		}
++		/* Only handle 32bits format, to simplify mmio access */
++		if (fb->format->cpp[0] != 4) {
++			DRM_WARN("amdgpu panic, pixel format is not 32bits\n");
++			return -EINVAL;
++		}
++		sb->set_pixel = amdgpu_dm_set_pixel;
++		panic_abo = abo;
++		return 0;
++	}
++	if (!abo->kmap.virtual &&
++	    ttm_bo_kmap(&abo->tbo, 0, PFN_UP(abo->tbo.base.size), &abo->kmap)) {
++		DRM_WARN("amdgpu bo map failed, panic won't be displayed\n");
++		return -ENOMEM;
++	}
++	if (abo->kmap.bo_kmap_type & TTM_BO_MAP_IOMEM_MASK)
++		iosys_map_set_vaddr_iomem(&sb->map[0], abo->kmap.virtual);
++	else
++		iosys_map_set_vaddr(&sb->map[0], abo->kmap.virtual);
++
++	return 0;
++}
++
+ static const struct drm_plane_helper_funcs dm_plane_helper_funcs = {
+ 	.prepare_fb = amdgpu_dm_plane_helper_prepare_fb,
+ 	.cleanup_fb = amdgpu_dm_plane_helper_cleanup_fb,
+@@ -1428,6 +1550,15 @@ static const struct drm_plane_helper_funcs dm_plane_helper_funcs = {
+ 	.atomic_async_update = amdgpu_dm_plane_atomic_async_update
+ };
+ 
++static const struct drm_plane_helper_funcs dm_primary_plane_helper_funcs = {
++	.prepare_fb = amdgpu_dm_plane_helper_prepare_fb,
++	.cleanup_fb = amdgpu_dm_plane_helper_cleanup_fb,
++	.atomic_check = amdgpu_dm_plane_atomic_check,
++	.atomic_async_check = amdgpu_dm_plane_atomic_async_check,
++	.atomic_async_update = amdgpu_dm_plane_atomic_async_update,
++	.get_scanout_buffer = amdgpu_dm_plane_get_scanout_buffer,
++};
++
+ static void amdgpu_dm_plane_drm_plane_reset(struct drm_plane *plane)
+ {
+ 	struct dm_plane_state *amdgpu_state = NULL;
+@@ -1854,7 +1985,10 @@ int amdgpu_dm_plane_init(struct amdgpu_display_manager *dm,
+ 	    plane->type != DRM_PLANE_TYPE_CURSOR)
+ 		drm_plane_enable_fb_damage_clips(plane);
+ 
+-	drm_plane_helper_add(plane, &dm_plane_helper_funcs);
++	if (plane->type == DRM_PLANE_TYPE_PRIMARY)
++		drm_plane_helper_add(plane, &dm_primary_plane_helper_funcs);
++	else
++		drm_plane_helper_add(plane, &dm_plane_helper_funcs);
+ 
+ #ifdef AMD_PRIVATE_COLOR
+ 	dm_atomic_plane_attach_color_mgmt_properties(dm, plane);
+@@ -1876,4 +2010,3 @@ bool amdgpu_dm_plane_is_video_format(uint32_t format)
+ 
+ 	return false;
+ }
+-
+diff --git a/drivers/gpu/drm/amd/display/dc/hubp/dcn30/dcn30_hubp.c b/drivers/gpu/drm/amd/display/dc/hubp/dcn30/dcn30_hubp.c
+index 60a64d2903527..3b16c3cda2c3e 100644
+--- a/drivers/gpu/drm/amd/display/dc/hubp/dcn30/dcn30_hubp.c
++++ b/drivers/gpu/drm/amd/display/dc/hubp/dcn30/dcn30_hubp.c
+@@ -334,6 +334,22 @@ void hubp3_program_tiling(
+ 
+ }
+ 
++void hubp3_clear_tiling(struct hubp *hubp)
++{
++	struct dcn20_hubp *hubp2 = TO_DCN20_HUBP(hubp);
++
++	REG_UPDATE(DCHUBP_REQ_SIZE_CONFIG, SWATH_HEIGHT, 0);
++	REG_UPDATE(DCSURF_TILING_CONFIG, SW_MODE, DC_SW_LINEAR);
++
++	REG_UPDATE_6(DCSURF_SURFACE_CONTROL,
++		PRIMARY_SURFACE_DCC_EN, 0,
++		PRIMARY_SURFACE_DCC_IND_BLK, 0,
++		PRIMARY_SURFACE_DCC_IND_BLK_C, 0,
++		SECONDARY_SURFACE_DCC_EN, 0,
++		SECONDARY_SURFACE_DCC_IND_BLK, 0,
++		SECONDARY_SURFACE_DCC_IND_BLK_C, 0);
++}
++
+ void hubp3_dcc_control(struct hubp *hubp, bool enable,
+ 		enum hubp_ind_block_size blk_size)
+ {
+@@ -512,6 +528,7 @@ static struct hubp_funcs dcn30_hubp_funcs = {
+ 	.hubp_in_blank = hubp1_in_blank,
+ 	.hubp_soft_reset = hubp1_soft_reset,
+ 	.hubp_set_flip_int = hubp1_set_flip_int,
++	.hubp_clear_tiling = hubp3_clear_tiling,
+ };
+ 
+ bool hubp3_construct(
+diff --git a/drivers/gpu/drm/amd/display/dc/hubp/dcn30/dcn30_hubp.h b/drivers/gpu/drm/amd/display/dc/hubp/dcn30/dcn30_hubp.h
+index b010531a7fe88..cfb01bf340a1a 100644
+--- a/drivers/gpu/drm/amd/display/dc/hubp/dcn30/dcn30_hubp.h
++++ b/drivers/gpu/drm/amd/display/dc/hubp/dcn30/dcn30_hubp.h
+@@ -297,6 +297,8 @@ void hubp3_read_state(struct hubp *hubp);
+ 
+ void hubp3_init(struct hubp *hubp);
+ 
++void hubp3_clear_tiling(struct hubp *hubp);
++
+ #endif /* __DC_HUBP_DCN30_H__ */
+ 
+ 
+diff --git a/drivers/gpu/drm/amd/display/dc/inc/hw/hubp.h b/drivers/gpu/drm/amd/display/dc/inc/hw/hubp.h
+index 16580d6242789..d0878fc0cc948 100644
+--- a/drivers/gpu/drm/amd/display/dc/inc/hw/hubp.h
++++ b/drivers/gpu/drm/amd/display/dc/inc/hw/hubp.h
+@@ -275,6 +275,7 @@ struct hubp_funcs {
+ 			enum hubp_3dlut_fl_crossbar_bit_slice bit_slice_cb_b,
+ 			enum hubp_3dlut_fl_crossbar_bit_slice bit_slice_cr_r);
+ 	int (*hubp_get_3dlut_fl_done)(struct hubp *hubp);
++	void (*hubp_clear_tiling)(struct hubp *hubp);
+ };
+ 
+ #endif
 
-Am 02.10.24 um 23:45 schrieb Gonzalo Silvalde Blanco:
-> The sstfb driver currently depends on CONFIG_FB_DEVICE to create sysfs
-> entries and access info->dev. This patch wraps the relevant code blocks
-> with #ifdef CONFIG_FB_DEVICE, allowing the driver to be built and used
-> even if CONFIG_FB_DEVICE is not selected.
-
-You should mention that the sysfs setting only controls VGA pass-through 
-state and is not required for the display to work correctly.
-
-(See http://vogonswiki.com/index.php/VGA_passthrough_cable if you don't 
-know what that means.)
-
->
-> Tested by building with and without CONFIG_FB_DEVICE, both of which
-> compile without issues
-An empty lines goes before the tags.
-> Signed-off-by: Gonzalo Silvalde Blanco <gonzalo.silvalde@gmail.com>
-> ---
->   drivers/video/fbdev/sstfb.c | 10 ++++++----
->   1 file changed, 6 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/video/fbdev/sstfb.c b/drivers/video/fbdev/sstfb.c
-> index f8ae54ca0cc3..17f39cc721aa 100644
-> --- a/drivers/video/fbdev/sstfb.c
-> +++ b/drivers/video/fbdev/sstfb.c
-> @@ -716,6 +716,7 @@ static void sstfb_setvgapass( struct fb_info *info, int enable )
->   	pci_write_config_dword(sst_dev, PCI_INIT_ENABLE, tmp);
->   }
->   
-> +#ifdef CONFIG_FB_DEVICE
->   static ssize_t store_vgapass(struct device *device, struct device_attribute *attr,
->   			const char *buf, size_t count)
->   {
-> @@ -736,10 +737,10 @@ static ssize_t show_vgapass(struct device *device, struct device_attribute *attr
->   	struct sstfb_par *par = info->par;
->   	return sprintf(buf, "%d\n", par->vgapass);
->   }
-> -
->   static struct device_attribute device_attrs[] = {
->   	__ATTR(vgapass, S_IRUGO|S_IWUSR, show_vgapass, store_vgapass)
->   	};
-> +#endif
->   
->   static int sstfb_ioctl(struct fb_info *info, unsigned int cmd,
->   			unsigned long arg)
-> @@ -1435,10 +1436,10 @@ static int sstfb_probe(struct pci_dev *pdev, const struct pci_device_id *id)
->   	}
->   
->   	sstfb_clear_screen(info);
-> -
-> +	#ifdef CONFIG_FB_DEVICE
-No tab indention for #ifdef and #endif. Here and below.
-
-The patch should be good with the suggested changes. Please send an update.
-
-Best regards
-Thomas
-
-
->   	if (device_create_file(info->dev, &device_attrs[0]))
->   		printk(KERN_WARNING "sstfb: can't create sysfs entry.\n");
-> -
-> +	#endif
->   
->   	fb_info(info, "%s frame buffer device at 0x%p\n",
->   		fix->id, info->screen_base);
-> @@ -1467,8 +1468,9 @@ static void sstfb_remove(struct pci_dev *pdev)
->   
->   	info = pci_get_drvdata(pdev);
->   	par = info->par;
-> -
-> +	#ifdef CONFIG_FB_DEVICE
->   	device_remove_file(info->dev, &device_attrs[0]);
-> +	#endif
->   	sst_shutdown(info);
->   	iounmap(info->screen_base);
->   	iounmap(par->mmio_vbase);
-
+base-commit: a5c2320151ff7cdf9ec50630d638a417ff927e31
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+2.46.1
 
