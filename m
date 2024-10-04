@@ -2,61 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D458F9904FF
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2024 15:57:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1B62990522
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2024 16:01:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11BA510EA11;
-	Fri,  4 Oct 2024 13:57:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E991E10EA13;
+	Fri,  4 Oct 2024 14:01:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="UEOyKr7+";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dQfGJPCs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE53C10EA0F;
- Fri,  4 Oct 2024 13:57:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1728050230; x=1759586230;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=M49PjplVFWzMiaDf5oBTP4OcF6VyilnGxocPYLYyQzg=;
- b=UEOyKr7+H5E8Z0uRWpMjluJk7aA8e6LIHcViVaMYv+iYUy7T0Uv6mFf7
- JeqP8lhUnvYmG6XUNdgTd7sq1izuXCENh7nLWkw1pXH5Nnq433OpL/2jF
- enIOBXeDU5NHxISOMBBE7zXhKhouRRKGnzyKGfEbLUtRGdtR2UP2B5rlV
- bgGNZNGxFFDDyhtsyqFwlZ++W9pG9NJ3CGCKFIIgR5sD5A5iIZ5kLDxya
- qdHWfelk9vNJVowPJy/AUWmC2hhpPzhHWVUPOLYiiByILTh4KqapBjHcB
- yy5jL204d9RWL+WflYHo08SAXxj2T9z4ait1EE/R5OMJPJ75fYgybBpDj A==;
-X-CSE-ConnectionGUID: EJk255wVRFOv93RuSyzyOg==
-X-CSE-MsgGUID: tMdVulkQTZ2gsv+7nGzbKw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="37840997"
-X-IronPort-AV: E=Sophos;i="6.11,177,1725346800"; d="scan'208";a="37840997"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Oct 2024 06:57:10 -0700
-X-CSE-ConnectionGUID: zw7rS/EKT3OAhNDR44zmZQ==
-X-CSE-MsgGUID: xvWoLuf4Ql63MaAL18WgJQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,177,1725346800"; d="scan'208";a="74821614"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO [10.245.245.204])
- ([10.245.245.204])
- by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Oct 2024 06:57:09 -0700
-Message-ID: <35fb9448-4742-4d2b-8eca-1654dd8e235c@linux.intel.com>
-Date: Fri, 4 Oct 2024 15:57:06 +0200
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com
+ [209.85.216.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D98510EA12;
+ Fri,  4 Oct 2024 14:01:12 +0000 (UTC)
+Received: by mail-pj1-f51.google.com with SMTP id
+ 98e67ed59e1d1-2e07d87adc2so307790a91.3; 
+ Fri, 04 Oct 2024 07:01:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1728050471; x=1728655271; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=KMwn901ZRLoRHXVyYDozCoh9nimOdyplKHDEtmswe7U=;
+ b=dQfGJPCsdU5ZOb/YI70f4q+YRWWYfz5SVmXbppGbgxpQorePOek2XKsF3V2CUD/mtU
+ cFjW99WRezZ/egk5bSvXS3Csz8PNZCn1z9CwNvtS+K39P3W+2Sje+glBIVYci7OgrOBv
+ afd/OB1a4TfJuyINPVtpkJ9sYvLIO2Y8b9rhyIUzghBQaMElbhJb1vAfiU8U1rtT4E4Q
+ auNBWYWuWQA4N/Owx/IU2/mUE1OPYKn7bxdpVPN6Mxt+ZAWATS+NOxlAHixm+DEnfVLG
+ 1uw0Lx1cfM3D7AQC717MsJvCFYV5D0m+cR52QjZ4XXTW4QR54fsiUyKsp8APzkpahKBq
+ I+Aw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1728050471; x=1728655271;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=KMwn901ZRLoRHXVyYDozCoh9nimOdyplKHDEtmswe7U=;
+ b=aRuNqq0jN52bo+vQEh3FXjeVYnKrNce36cQzdYSsdZSnGoY79qJut2rM3NEWAU4krC
+ znfUT/GunKD8lUOyI2TCC1aZgF7wyzXlm+MzrnSYBg6hxKC0MKSqirxRvEx9PCipZfnS
+ SqRD/ZiL4Ww1V97+0Hco8MyfTVZt5mbfCbkL67pNCfkskz/+qBkUhgk6OYni7Byj295W
+ +F8h13MqJ72em18KkjYYIx9LjOu4pwHEKu/4zJuWO1NDcNbLZa9d1B+XfC3HUB6NL9GM
+ lTeA7o4GzIA+sDTnt/MKk2MNTZJjmWin961EbwVTeNxYcrJb10faVOHmz8r57b1d7fXI
+ 9d7w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW0F9P6s3u0zW2ZoF908EGfRZ9EGzkm/eGkCRCPVZhBZifxdzQSfak1GuQlVtRc+odGgtFSBM7hEI8v@lists.freedesktop.org,
+ AJvYcCXTW4mypefh3greFSWnbeLzKJ8foFAG5k3NL33hfgs+uKWxGXgRTnAJE8mbUOml+UOdAG21dbeR@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwcO3q6NkMepmcRzxkHAUR+RnT+27kbdYgR+z3xKdFeXHAWliDc
+ v656Tn0f1L8SVOkhnHlvIUEWH82+/J2mhigkxZ0C5H5vPRQZ9dbafrqelWcjINeEBXCG6QX8Ey+
+ 8WRv7jMXxwKrlgMXaKe2vcEzBFNc0jnwJ
+X-Google-Smtp-Source: AGHT+IEJ1tRqM5NLWvzkRdlOsKIDAq7K9+lPQKlj31f3AEwobSgsbCs+ky8e9auMeCNS8p7/tSoWstvR8FyH9iCmeAs=
+X-Received: by 2002:a17:90a:c88:b0:2e0:9d3f:4292 with SMTP id
+ 98e67ed59e1d1-2e1e62117bemr1411095a91.1.1728050471300; Fri, 04 Oct 2024
+ 07:01:11 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 07/11] drm/print: Introduce drm_line_printer
-To: John.C.Harrison@Intel.com, Intel-Xe@Lists.FreeDesktop.Org
-Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>,
- Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
-References: <20241003004611.2323493-1-John.C.Harrison@Intel.com>
- <20241003004611.2323493-8-John.C.Harrison@Intel.com>
-Content-Language: en-US
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-In-Reply-To: <20241003004611.2323493-8-John.C.Harrison@Intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20241004010601.3387-1-wuhoipok@gmail.com>
+In-Reply-To: <20241004010601.3387-1-wuhoipok@gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 4 Oct 2024 10:00:59 -0400
+Message-ID: <CADnq5_Nt=8Lx6KOXHf0DHmqo2O7dYKDTfGCz-w_Hv+__=BqP9w@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/radeon: add late_register for connector
+To: Wu Hoi Pok <wuhoipok@gmail.com>
+Cc: Christophe Leroy <christophe.leroy@csgroup.eu>, 
+ Christian Zigotzky <chzigotzky@xenosoft.de>,
+ Alex Deucher <alexander.deucher@amd.com>, 
+ Hans de Goede <hdegoede@redhat.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>, 
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,142 +88,122 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I don't think there's an immediate use for this in drm-misc, so its 
-easier to merge through xe. :-)
-Acked-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+On Thu, Oct 3, 2024 at 9:18=E2=80=AFPM Wu Hoi Pok <wuhoipok@gmail.com> wrot=
+e:
+>
+> The patch is to solve null dereference in 'aux.dev', which is
+> introduced in recent radeon rework. By having 'late_register',
+> the connector should be registered after 'drm_dev_register'
+> automatically, where in before it is the opposite.
+>
+> Fixes: 90985660ba48 ("drm/radeon: remove load callback from kms_driver")
+> Tested-by: Hans de Goede <hdegoede@redhat.com>
+> Suggested-by: Christophe Leroy <christophe.leroy@csgroup.eu>
+> Signed-off-by: Wu Hoi Pok <wuhoipok@gmail.com>
 
-Den 2024-10-03 kl. 02:46, skrev John.C.Harrison@Intel.com:
-> From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-> 
-> This drm printer wrapper can be used to increase the robustness of
-> the captured output generated by any other drm_printer to make sure
-> we didn't lost any intermediate lines of the output by adding line
-> numbers to each output line. Helpful for capturing some crash data.
-> 
-> v2: Extended short int counters to full int (JohnH)
-> 
-> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
-> Cc: Jani Nikula <jani.nikula@intel.com>
-> Cc: John Harrison <John.C.Harrison@Intel.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+Applied.  Thanks!
+
+Alex
+
 > ---
->   drivers/gpu/drm/drm_print.c | 14 ++++++++
->   include/drm/drm_print.h     | 64 +++++++++++++++++++++++++++++++++++++
->   2 files changed, 78 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
-> index 0081190201a7..08cfea04e22b 100644
-> --- a/drivers/gpu/drm/drm_print.c
-> +++ b/drivers/gpu/drm/drm_print.c
-> @@ -235,6 +235,20 @@ void __drm_printfn_err(struct drm_printer *p, struct va_format *vaf)
->   }
->   EXPORT_SYMBOL(__drm_printfn_err);
->   
-> +void __drm_printfn_line(struct drm_printer *p, struct va_format *vaf)
+>  drivers/gpu/drm/radeon/atombios_dp.c       |  9 ++-------
+>  drivers/gpu/drm/radeon/radeon_connectors.c | 17 +++++++++++++++++
+>  2 files changed, 19 insertions(+), 7 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/radeon/atombios_dp.c b/drivers/gpu/drm/radeo=
+n/atombios_dp.c
+> index fca8b08535a5..6328627b7c34 100644
+> --- a/drivers/gpu/drm/radeon/atombios_dp.c
+> +++ b/drivers/gpu/drm/radeon/atombios_dp.c
+> @@ -228,10 +228,8 @@ void radeon_dp_aux_init(struct radeon_connector *rad=
+eon_connector)
+>  {
+>         struct drm_device *dev =3D radeon_connector->base.dev;
+>         struct radeon_device *rdev =3D dev->dev_private;
+> -       int ret;
+>
+>         radeon_connector->ddc_bus->rec.hpd =3D radeon_connector->hpd.hpd;
+> -       radeon_connector->ddc_bus->aux.dev =3D radeon_connector->base.kde=
+v;
+>         radeon_connector->ddc_bus->aux.drm_dev =3D radeon_connector->base=
+.dev;
+>         if (ASIC_IS_DCE5(rdev)) {
+>                 if (radeon_auxch)
+> @@ -242,11 +240,8 @@ void radeon_dp_aux_init(struct radeon_connector *rad=
+eon_connector)
+>                 radeon_connector->ddc_bus->aux.transfer =3D radeon_dp_aux=
+_transfer_atom;
+>         }
+>
+> -       ret =3D drm_dp_aux_register(&radeon_connector->ddc_bus->aux);
+> -       if (!ret)
+> -               radeon_connector->ddc_bus->has_aux =3D true;
+> -
+> -       WARN(ret, "drm_dp_aux_register() failed with error %d\n", ret);
+> +       drm_dp_aux_init(&radeon_connector->ddc_bus->aux);
+> +       radeon_connector->ddc_bus->has_aux =3D true;
+>  }
+>
+>  /***** general DP utility functions *****/
+> diff --git a/drivers/gpu/drm/radeon/radeon_connectors.c b/drivers/gpu/drm=
+/radeon/radeon_connectors.c
+> index 528a8f3677c2..f9c73c55f04f 100644
+> --- a/drivers/gpu/drm/radeon/radeon_connectors.c
+> +++ b/drivers/gpu/drm/radeon/radeon_connectors.c
+> @@ -1786,6 +1786,20 @@ static enum drm_mode_status radeon_dp_mode_valid(s=
+truct drm_connector *connector
+>         return MODE_OK;
+>  }
+>
+> +static int
+> +radeon_connector_late_register(struct drm_connector *connector)
 > +{
-> +	unsigned int counter = ++p->line.counter;
-> +	const char *prefix = p->prefix ?: "";
-> +	const char *pad = p->prefix ? " " : "";
+> +       struct radeon_connector *radeon_connector =3D to_radeon_connector=
+(connector);
+> +       int r =3D 0;
 > +
-> +	if (p->line.series)
-> +		drm_printf(p->arg, "%s%s%u.%u: %pV",
-> +			   prefix, pad, p->line.series, counter, vaf);
-> +	else
-> +		drm_printf(p->arg, "%s%s%u: %pV", prefix, pad, counter, vaf);
-> +}
-> +EXPORT_SYMBOL(__drm_printfn_line);
+> +       if (radeon_connector->ddc_bus->has_aux) {
+> +               radeon_connector->ddc_bus->aux.dev =3D radeon_connector->=
+base.kdev;
+> +               r =3D drm_dp_aux_register(&radeon_connector->ddc_bus->aux=
+);
+> +       }
 > +
->   /**
->    * drm_puts - print a const string to a &drm_printer stream
->    * @p: the &drm printer
-> diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
-> index d2676831d765..b3906dc04388 100644
-> --- a/include/drm/drm_print.h
-> +++ b/include/drm/drm_print.h
-> @@ -177,6 +177,10 @@ struct drm_printer {
->   	void *arg;
->   	const void *origin;
->   	const char *prefix;
-> +	struct {
-> +		unsigned int series;
-> +		unsigned int counter;
-> +	} line;
->   	enum drm_debug_category category;
->   };
->   
-> @@ -187,6 +191,7 @@ void __drm_puts_seq_file(struct drm_printer *p, const char *str);
->   void __drm_printfn_info(struct drm_printer *p, struct va_format *vaf);
->   void __drm_printfn_dbg(struct drm_printer *p, struct va_format *vaf);
->   void __drm_printfn_err(struct drm_printer *p, struct va_format *vaf);
-> +void __drm_printfn_line(struct drm_printer *p, struct va_format *vaf);
->   
->   __printf(2, 3)
->   void drm_printf(struct drm_printer *p, const char *f, ...);
-> @@ -411,6 +416,65 @@ static inline struct drm_printer drm_err_printer(struct drm_device *drm,
->   	return p;
->   }
->   
-> +/**
-> + * drm_line_printer - construct a &drm_printer that prefixes outputs with line numbers
-> + * @p: the &struct drm_printer which actually generates the output
-> + * @prefix: optional output prefix, or NULL for no prefix
-> + * @series: optional unique series identifier, or 0 to omit identifier in the output
-> + *
-> + * This printer can be used to increase the robustness of the captured output
-> + * to make sure we didn't lost any intermediate lines of the output. Helpful
-> + * while capturing some crash data.
-> + *
-> + * Example 1::
-> + *
-> + *	void crash_dump(struct drm_device *drm)
-> + *	{
-> + *		static unsigned int id;
-> + *		struct drm_printer p = drm_err_printer(drm, "crash");
-> + *		struct drm_printer lp = drm_line_printer(&p, "dump", ++id);
-> + *
-> + *		drm_printf(&lp, "foo");
-> + *		drm_printf(&lp, "bar");
-> + *	}
-> + *
-> + * Above code will print into the dmesg something like::
-> + *
-> + *	[ ] 0000:00:00.0: [drm] *ERROR* crash dump 1.1: foo
-> + *	[ ] 0000:00:00.0: [drm] *ERROR* crash dump 1.2: bar
-> + *
-> + * Example 2::
-> + *
-> + *	void line_dump(struct device *dev)
-> + *	{
-> + *		struct drm_printer p = drm_info_printer(dev);
-> + *		struct drm_printer lp = drm_line_printer(&p, NULL, 0);
-> + *
-> + *		drm_printf(&lp, "foo");
-> + *		drm_printf(&lp, "bar");
-> + *	}
-> + *
-> + * Above code will print::
-> + *
-> + *	[ ] 0000:00:00.0: [drm] 1: foo
-> + *	[ ] 0000:00:00.0: [drm] 2: bar
-> + *
-> + * RETURNS:
-> + * The &drm_printer object
-> + */
-> +static inline struct drm_printer drm_line_printer(struct drm_printer *p,
-> +						  const char *prefix,
-> +						  unsigned int series)
-> +{
-> +	struct drm_printer lp = {
-> +		.printfn = __drm_printfn_line,
-> +		.arg = p,
-> +		.prefix = prefix,
-> +		.line = { .series = series, },
-> +	};
-> +	return lp;
+> +       return r;
 > +}
 > +
->   /*
->    * struct device based logging
->    *
-
+>  static const struct drm_connector_helper_funcs radeon_dp_connector_helpe=
+r_funcs =3D {
+>         .get_modes =3D radeon_dp_get_modes,
+>         .mode_valid =3D radeon_dp_mode_valid,
+> @@ -1800,6 +1814,7 @@ static const struct drm_connector_funcs radeon_dp_c=
+onnector_funcs =3D {
+>         .early_unregister =3D radeon_connector_unregister,
+>         .destroy =3D radeon_connector_destroy,
+>         .force =3D radeon_dvi_force,
+> +       .late_register =3D radeon_connector_late_register,
+>  };
+>
+>  static const struct drm_connector_funcs radeon_edp_connector_funcs =3D {
+> @@ -1810,6 +1825,7 @@ static const struct drm_connector_funcs radeon_edp_=
+connector_funcs =3D {
+>         .early_unregister =3D radeon_connector_unregister,
+>         .destroy =3D radeon_connector_destroy,
+>         .force =3D radeon_dvi_force,
+> +       .late_register =3D radeon_connector_late_register,
+>  };
+>
+>  static const struct drm_connector_funcs radeon_lvds_bridge_connector_fun=
+cs =3D {
+> @@ -1820,6 +1836,7 @@ static const struct drm_connector_funcs radeon_lvds=
+_bridge_connector_funcs =3D {
+>         .early_unregister =3D radeon_connector_unregister,
+>         .destroy =3D radeon_connector_destroy,
+>         .force =3D radeon_dvi_force,
+> +       .late_register =3D radeon_connector_late_register,
+>  };
+>
+>  void
+> --
+> 2.46.2
+>
