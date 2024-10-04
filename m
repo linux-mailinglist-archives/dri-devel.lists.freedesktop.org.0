@@ -2,82 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEEB4990A0C
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2024 19:21:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6F20990A30
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2024 19:33:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD6D010EA4C;
-	Fri,  4 Oct 2024 17:21:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF45A10EA4E;
+	Fri,  4 Oct 2024 17:33:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="OZ0Qzua0";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="O/MMSUcW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F0D110EA4C
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Oct 2024 17:21:38 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 494AleTe022372;
- Fri, 4 Oct 2024 17:21:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- h8pDrKThNBMRHWCD93WtzCOuodX0EWrNg30D82b5kf4=; b=OZ0Qzua0TY2kVHYA
- TDe/R0SdJ4LOisYZO7l51wuhY0dACkmvDW5jNcu8WLjGLC45F+rHcrXl9akUfz8g
- x9MHnBoZQdSnECRZJ/aOW0sGiMFLALSdGoDVVDFXU/plh+k65XJ92zKXMOVIMNHH
- G1V/o3aL62KgEgNUV9O/Yvz8pNIJEUCSvqa2Q0lAVPR3VpYsHaPaAbYmXWbyGYCA
- GzLFhH1acB8E6QNSGVZWB6VUthjqti64gCD54BHVKTClILlisw0p5QfNnBrHSzRu
- oeplhr1jXFRELcEpo3dbUWCBSzldYqzkqc0EG/CXeT3Agh4HMkflATB0sLfzOWAU
- JZoT7Q==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42205datcj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 04 Oct 2024 17:21:33 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 494HLWCl004057
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 4 Oct 2024 17:21:32 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 4 Oct 2024
- 10:21:31 -0700
-Message-ID: <f81addf5-f9eb-5d39-313e-b18788cd8418@quicinc.com>
-Date: Fri, 4 Oct 2024 11:21:31 -0600
+Received: from mail-io1-f43.google.com (mail-io1-f43.google.com
+ [209.85.166.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02FBF10EA4F
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Oct 2024 17:33:52 +0000 (UTC)
+Received: by mail-io1-f43.google.com with SMTP id
+ ca18e2360f4ac-82aac438539so104183939f.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Oct 2024 10:33:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linuxfoundation.org; s=google; t=1728063232; x=1728668032;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=AgjqbFQ8hXrOjTXuOvQSjPVxsFmi6mOfY4A+dK7+CZQ=;
+ b=O/MMSUcWSF5tkAvP5FhZ4BgHknUUnkMhLISDjxkS5w5xOK02w3/dplc2W5AE+Q6vyY
+ EhANvktAd/IIG+QSTpsbD7AloB2bGbou2PPlDAcWX6EAMoMPCnoUYifIIMb672r5k4Dy
+ xA9THu/ULKKBgFIbaPdF3pUMCzmOdVPbScz+Y=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1728063232; x=1728668032;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=AgjqbFQ8hXrOjTXuOvQSjPVxsFmi6mOfY4A+dK7+CZQ=;
+ b=j6peH/28G9VFnx0hMKdUx4FeK9Dszj5DUl/aQMscQKjJFwDVMSEbTDdmwsi8eJhNB9
+ BEXbF0hvNmtcQqFUMCw+MbvYjZeJyMhonRel7NqCbLBdSanuCaw6MtKNriHomrVDKD8O
+ vWKMI1UD9OWTaFIENhLHb408L/3W2n6v5xXe1zwX4qYTl4YvoG+nXgAfCMTnEX5aZxet
+ xsqkY8EKg8JpFGZ1ZV4keHuGWoEjScTqIRnG0TBrZmNEEhb8UqDuV/fhV38iDtN0sgvH
+ jlhwTIYlk3a+ENDB5J6hthqCeGNRzcTUpZrvNGjA+tY4f8nbeeD5vIW6P5FNURXlL+YZ
+ r4rQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXaLSFcUC1DXyPEAGk9oxd0gitCB0QG9YMpAE3CE4cx0ucO+1tZSqp1AegkZ0wq4Z/fCvSi2MvW4wQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzq9w0U/nMjr0iLqEh5xu8FfvdGr9MYfXBKE1VkjVa/DFYTotDz
+ 9JUi+X6Gq5HC41maEA/L83DocQcHrlZ3l41LI5Lfh/9FIEha3MEMrzKUs8EzFGM=
+X-Google-Smtp-Source: AGHT+IFWtN+nePXXWQrjbLcWtHgnNNN+hX6zEwqzI13DzO7+hHBsT7GAMCn6f/EhVXGV2DP3eQ9Jew==
+X-Received: by 2002:a05:6602:3f93:b0:82c:fa71:2326 with SMTP id
+ ca18e2360f4ac-834f7cfb296mr299279739f.8.1728063231607; 
+ Fri, 04 Oct 2024 10:33:51 -0700 (PDT)
+Received: from [192.168.1.128] ([38.175.170.29])
+ by smtp.gmail.com with ESMTPSA id
+ ca18e2360f4ac-83503b154b5sm4227339f.43.2024.10.04.10.33.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 04 Oct 2024 10:33:51 -0700 (PDT)
+Message-ID: <7e1d5d2d-1b6d-4232-8d1b-6523849708b5@linuxfoundation.org>
+Date: Fri, 4 Oct 2024 11:33:49 -0600
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH V3 02/11] accel/amdxdna: Add a new driver for AMD AI Engine
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH-next] Fix unintentional integer overflow
+To: "Sundararaju, Sathishkumar" <sasundar@amd.com>,
+ Advait Dhamorikar <advaitdhamorikar@gmail.com>, alexander.deucher@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ simona@ffwll.ch, leo.liu@amd.com, sathishkumar.sundararaju@amd.com,
+ saleemkhan.jamadar@amd.com, Veerabadhran.Gopalakrishnan@amd.com,
+ sonny.jiang@amd.com
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, anupnewsmail@gmail.com,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20241004081618.27599-1-advaitdhamorikar@gmail.com>
+ <00761132-75f3-41fd-b571-30b0cbe5565d@amd.com>
 Content-Language: en-US
-To: Lizhi Hou <lizhi.hou@amd.com>, <ogabbay@kernel.org>,
- <dri-devel@lists.freedesktop.org>
-CC: <linux-kernel@vger.kernel.org>, <min.ma@amd.com>, <max.zhen@amd.com>,
- <sonal.santan@amd.com>, <king.tam@amd.com>, Narendra Gutta
- <VenkataNarendraKumar.Gutta@amd.com>, George Yang <George.Yang@amd.com>
-References: <20240911180604.1834434-1-lizhi.hou@amd.com>
- <20240911180604.1834434-3-lizhi.hou@amd.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20240911180604.1834434-3-lizhi.hou@amd.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <00761132-75f3-41fd-b571-30b0cbe5565d@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: wpYxAsAV87ue9CPWyW899sescKxEBGU3
-X-Proofpoint-ORIG-GUID: wpYxAsAV87ue9CPWyW899sescKxEBGU3
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 spamscore=0
- phishscore=0 priorityscore=1501 malwarescore=0 impostorscore=0 bulkscore=0
- suspectscore=0 mlxlogscore=999 lowpriorityscore=0 adultscore=0
- clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2410040119
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,96 +90,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/11/2024 12:05 PM, Lizhi Hou wrote:
-> diff --git a/drivers/accel/amdxdna/aie2_pci.c b/drivers/accel/amdxdna/aie2_pci.c
-> new file mode 100644
-> index 000000000000..e21b32557fc2
-> --- /dev/null
-> +++ b/drivers/accel/amdxdna/aie2_pci.c
-> @@ -0,0 +1,183 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (C) 2023-2024, Advanced Micro Devices, Inc.
-> + */
-> +
-> +#include <drm/drm_device.h>
-> +#include <drm/drm_managed.h>
-> +#include <drm/drm_print.h>
-> +#include <linux/errno.h>
-> +#include <linux/firmware.h>
-> +#include <linux/iommu.h>
-> +#include <linux/pci.h>
-> +
-> +#include "amdxdna_pci_drv.h"
-> +#include "aie2_pci.h"
+On 10/4/24 03:15, Sundararaju, Sathishkumar wrote:
+> 
+> All occurrences of this error fix should have been together in a single patch both in _get and _set callbacks corresponding to f0b19b84d391, please avoid separate patch for each occurrence.
+> 
+> Sorry Alex, I missed to note this yesterday.
+> 
+> 
+> Regards,
+> Sathish
 
-Feels like a blank line is missing here.
+Sathish,
 
-> +static void aie2_hw_stop(struct amdxdna_dev *xdna)
-> +{
-> +	struct pci_dev *pdev = to_pci_dev(xdna->ddev.dev);
-> +	struct amdxdna_dev_hdl *ndev = xdna->dev_handle;
-> +
-> +	aie2_psp_stop(ndev->psp_hdl);
-> +	aie2_smu_fini(ndev);
-> +	pci_disable_device(pdev);
-> +}
-> diff --git a/drivers/accel/amdxdna/aie2_pci.h b/drivers/accel/amdxdna/aie2_pci.h
-> new file mode 100644
-> index 000000000000..b3c360a10c04
-> --- /dev/null
-> +++ b/drivers/accel/amdxdna/aie2_pci.h
-> @@ -0,0 +1,130 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Copyright (C) 2023-2024, Advanced Micro Devices, Inc.
-> + */
-> +
-> +#ifndef _AIE2_PCI_H_
-> +#define _AIE2_PCI_H_
-> +
-> +#define AIE2_INTERVAL	20000	/* us */
-> +#define AIE2_TIMEOUT	1000000	/* us */
-> +
-> +/* Firmware determines device memory base address and size */
-> +#define AIE2_DEVM_BASE	0x4000000
-> +#define AIE2_DEVM_SIZE	(64 * SZ_1M)
+Please don't post on top when responding to kernel emails
+and patches. It makes it difficult to follow the discussions
 
-SZ_64M? Then the code, and reader's brains, are not doing multiplication.
+> 
+> 
+> On 10/4/2024 1:46 PM, Advait Dhamorikar wrote:
+>> Fix shift-count-overflow when creating mask.
+>> The expression's value may not be what the
+>> programmer intended, because the expression is
+>> evaluated using a narrower integer type.
+>>
+>> Fixes: f0b19b84d391 ("drm/amdgpu: add amdgpu_jpeg_sched_mask debugfs")
+>> Signed-off-by: Advait Dhamorikar<advaitdhamorikar@gmail.com>
+>> ---
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c
+>> index 95e2796919fc..7df402c45f40 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c
+>> @@ -388,7 +388,7 @@ static int amdgpu_debugfs_jpeg_sched_mask_get(void *data, u64 *val)
+>>   		for (j = 0; j < adev->jpeg.num_jpeg_rings; ++j) {
+>>   			ring = &adev->jpeg.inst[i].ring_dec[j];
+>>   			if (ring->sched.ready)
+>> -				mask |= 1 << ((i * adev->jpeg.num_jpeg_rings) + j);
+>> +				mask |= (u64)1 << ((i * adev->jpeg.num_jpeg_rings) + j);
+>>   		}
+>>   	}
+>>   	*val = mask;
 
-> diff --git a/drivers/accel/amdxdna/amdxdna_pci_drv.c b/drivers/accel/amdxdna/amdxdna_pci_drv.c
-> new file mode 100644
-> index 000000000000..33133f2503cd
-> --- /dev/null
-> +++ b/drivers/accel/amdxdna/amdxdna_pci_drv.c
-> @@ -0,0 +1,128 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (C) 2022-2024, Advanced Micro Devices, Inc.
-> + */
-> +
-> +#include <drm/drm_accel.h>
-> +#include <drm/drm_drv.h>
-> +#include <drm/drm_gem.h>
-> +#include <drm/drm_ioctl.h>
-> +#include <drm/drm_managed.h>
-> +#include <linux/pci.h>
-> +
-> +#include "amdxdna_pci_drv.h"
-> +
-> +/*
-> + *  Bind the driver base on PCI class and later use the (device_id, rev_id)
-> + *  pair as a key to select the devices. The devices with same device_id
-> + *  have very similar interface to host driver.
-> + */
-
-Looks like this comment didn't get updated when the class matching was 
-removed.
-
-> +static const struct pci_device_id pci_ids[] = {
-> +	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, 0x1502) },
-> +	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, 0x17f0) },
-> +	{0}
-> +};
-> +
-> +MODULE_DEVICE_TABLE(pci, pci_ids);
+thanks,
+-- Shuah
