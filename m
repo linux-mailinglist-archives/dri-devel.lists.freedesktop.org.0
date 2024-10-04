@@ -2,53 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8B0D98FC3B
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2024 04:18:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06B9398FC47
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2024 04:24:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65D3C10E23D;
-	Fri,  4 Oct 2024 02:18:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EF5110E271;
+	Fri,  4 Oct 2024 02:24:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="G4NRfL6g";
+	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="PHmdj+Vp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 422F010E1B6;
- Fri,  4 Oct 2024 02:18:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1728008281;
- bh=PltzQyGOsappo7+6bKToHM0oOpnfQxAb9D8FQdYGGLw=;
- h=Date:From:To:Cc:Subject:From;
- b=G4NRfL6gvV9RuGYHaywEujfDQWkt/AhGxC9D8VHBi8lEl6810zAkKgiI1D8+4Fc6K
- 9lvj/4RbPjsz2koRZes4v8PJWBK3LM7pbuzT0TrumMF6b1uV9jQGBVC+FkhzK1oQWq
- h+ijXi0OJGUrcherZwxl/9bSEzJLJ7e6VJKDeh9XnVbKg2zvzCfX4iyoed55hOi1QW
- gRY2DZb0X8C7G+/UjMd63Ggwp3/XSGCRgEV58dxiUmNAYr9ib+bBqzK6QFxvWsFWGX
- b+u6U9K60KMElMqhi0RPPa/RBouYmYYRs5WZ+i9CLvvI4bFygUaj1l1KHath6U4SrK
- yIAEzELzVw6Kg==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (Client did not present a certificate)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4XKXJS2ycQz4x8h;
- Fri,  4 Oct 2024 12:18:00 +1000 (AEST)
-Date: Fri, 4 Oct 2024 12:18:00 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Lucas De Marchi <lucas.demarchi@intel.com>, Thomas =?UTF-8?B?SGVsbHN0?=
- =?UTF-8?B?csO2bQ==?= <thomas.hellstrom@linux.intel.com>, Simona Vetter
- <simona.vetter@ffwll.ch>
-Cc: Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
- <dri-devel@lists.freedesktop.org>, DRM XE List
- <intel-xe@lists.freedesktop.org>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Next Mailing List
- <linux-next@vger.kernel.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Matthew Auld <matthew.auld@intel.com>,
- Matthew Brost <matthew.brost@intel.com>
-Subject: linux-next: manual merge of the drm-xe tree with the drm-misc-fixes
- tree
-Message-ID: <20241004121800.7ab3214b@canb.auug.org.au>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A6BE10E271
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Oct 2024 02:24:40 +0000 (UTC)
+X-UUID: cbca511281f711ef8b96093e013ec31c-20241004
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=Kjly8y7UsTFJRLhG7/ML1Rzsva3stHv/nqE2+gId9i0=; 
+ b=PHmdj+VpDl2JpLLFmDqlEyZnu5NOwJBHjvqErE1rOKAdt9SRhLD6H15ihBSqylIkGQLVgYkjRcBP9kGRC2TZXwyT1JeGQ/lwMjQwMLtIRDcnvYgY6A+udfbesN/1BS3zi3IGNRXPLiNcAweNsd1iZS98D7eBch1wyy+kLydrSII=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.41, REQID:1d3fec9a-5c26-4386-af91-88a132c3c040, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:6dc6a47, CLOUDID:c850b764-444a-4b47-a99a-591ade3b04b2,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
+ SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: cbca511281f711ef8b96093e013ec31c-20241004
+Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
+ mailgw02.mediatek.com (envelope-from <moudy.ho@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1183843751; Fri, 04 Oct 2024 10:24:34 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Fri, 4 Oct 2024 10:24:31 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Fri, 4 Oct 2024 10:24:31 +0800
+From: Moudy Ho <moudy.ho@mediatek.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, "jason-jh . lin"
+ <jason-jh.lin@mediatek.com>, Macpaul Lin <macpaul.lin@mediatek.com>
+CC: <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, Moudy Ho <moudy.ho@mediatek.com>
+Subject: [PATCH v3] dt-bindings: display: mediatek: split: add subschema
+ property constraints
+Date: Fri, 4 Oct 2024 10:24:30 +0800
+Message-ID: <20241004022430.19689-1-moudy.ho@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/jD=fq14.FzymV123VlZ2qFF";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain
+X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-AS-Result: No-10--3.848600-8.000000
+X-TMASE-MatchedRID: Ru+54+IMWaQ72d2F4DOSZIzb2GR6Ttd3MZm0+sEE9mtb6PBUqmq+Utdh
+ dhqLxa0jj6kCfX0Edc5fvtuIsaf1Zbf0EuHoGRzu/IBH0OAL+EeusS9CiBzL8VSkag5D7Fg8O0i
+ 2vQl58jgZoBsQWiqLArpjAjMHHtZlHxPMjOKY7A9qHXONfTwSQsRB0bsfrpPInxMyeYT53RnDa+
+ 4JklccgJy6v5kFJZhEinJ4I5Ggj8rhkRPh6jPIcsP7/0dW/TeQ+mRKzDVuOcuVSFhjFH946aGuH
+ qXWE6OVz8eQmvI53il5lSmbrC6fdtr/To2FgNrjDLMIOOVTHz2nbLeYgH6K31Zca9RSYo/b
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--3.848600-8.000000
+X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-SNTS-SMTP: 9DECDB592F3AC4DFB91808774BE073A28B4AF3D9B721064985D5E56E3CF704D42000:8
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,137 +94,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/jD=fq14.FzymV123VlZ2qFF
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+The display node in mt8195.dtsi was triggering a CHECK_DTBS error due
+to an excessively long 'clocks' property:
+  display@14f06000: clocks: [[31, 14], [31, 43], [31, 44]] is too long
 
-Hi all,
+To resolve this issue, the constraints for 'clocks' and
+other properties within the subschemas will be reinforced.
 
-Today's linux-next merge of the drm-xe tree got a conflict in:
+Fixes: 739058a9c5c3 ("dt-bindings: display: mediatek: split: add compatible for MT8195")
+Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
+Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
 
-  drivers/gpu/drm/xe/xe_guc_submit.c
+--
+This is based on [v2] dt-bindings: display: mediatek: split: add clocks count constraint for MT8195
 
-between commit:
+Changes since v2:
+  - Revise the commit message.
+  - Enhance the descriptions of 'clocks'.
+  - Strengthen the conditions within the subschema.
 
-  9286a191abe2 ("drm/xe: Drop GuC submit_wq pool")
+Changes since v1:
+  - Adding functional descriptions and quantity restrictions.
+---
+ .../display/mediatek/mediatek,split.yaml      | 24 +++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
-from the drm-misc-fixes tree and commit:
+diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,split.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,split.yaml
+index e4affc854f3d..0ffcd9d2b718 100644
+--- a/Documentation/devicetree/bindings/display/mediatek/mediatek,split.yaml
++++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,split.yaml
+@@ -57,6 +57,9 @@ properties:
+   clocks:
+     items:
+       - description: SPLIT Clock
++      - description: Used for interfacing with the HDMI RX signal source.
++      - description: Paired with receiving HDMI RX metadata.
++    minItems: 1
+ 
+ required:
+   - compatible
+@@ -72,9 +75,30 @@ allOf:
+             const: mediatek,mt8195-mdp3-split
+ 
+     then:
++      properties:
++        clocks:
++          maxItems: 3
++
++        power-domains:
++          maxItems: 1
++
+       required:
+         - mediatek,gce-client-reg
+ 
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: mediatek,mt8173-mdp3-split
++
++    then:
++      properties:
++        clocks:
++          maxItems: 1
++
++        power-domains:
++          maxItems: 1
++
+ additionalProperties: false
+ 
+ examples:
+-- 
+2.34.1
 
-  861108666cc0 ("drm/xe: fix UAF around queue destruction")
-
-from the drm-xe tree.
-
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
-
---=20
-Cheers,
-Stephen Rothwell
-
-diff --cc drivers/gpu/drm/xe/xe_guc_submit.c
-index 17c25f18e286,8a5c21a87977..000000000000
---- a/drivers/gpu/drm/xe/xe_guc_submit.c
-+++ b/drivers/gpu/drm/xe/xe_guc_submit.c
-@@@ -224,11 -224,80 +224,27 @@@ static bool exec_queue_killed_or_banned
-  		 EXEC_QUEUE_STATE_BANNED));
-  }
- =20
- -#ifdef CONFIG_PROVE_LOCKING
- -static int alloc_submit_wq(struct xe_guc *guc)
- -{
- -	int i;
- -
- -	for (i =3D 0; i < NUM_SUBMIT_WQ; ++i) {
- -		guc->submission_state.submit_wq_pool[i] =3D
- -			alloc_ordered_workqueue("submit_wq", 0);
- -		if (!guc->submission_state.submit_wq_pool[i])
- -			goto err_free;
- -	}
- -
- -	return 0;
- -
- -err_free:
- -	while (i)
- -		destroy_workqueue(guc->submission_state.submit_wq_pool[--i]);
- -
- -	return -ENOMEM;
- -}
- -
- -static void free_submit_wq(struct xe_guc *guc)
- -{
- -	int i;
- -
- -	for (i =3D 0; i < NUM_SUBMIT_WQ; ++i)
- -		destroy_workqueue(guc->submission_state.submit_wq_pool[i]);
- -}
- -
- -static struct workqueue_struct *get_submit_wq(struct xe_guc *guc)
- -{
- -	int idx =3D guc->submission_state.submit_wq_idx++ % NUM_SUBMIT_WQ;
- -
- -	return guc->submission_state.submit_wq_pool[idx];
- -}
- -#else
- -static int alloc_submit_wq(struct xe_guc *guc)
- -{
- -	return 0;
- -}
- -
- -static void free_submit_wq(struct xe_guc *guc)
- -{
- -
- -}
- -
- -static struct workqueue_struct *get_submit_wq(struct xe_guc *guc)
- -{
- -	return NULL;
- -}
- -#endif
- -
-+ static void xe_guc_submit_fini(struct xe_guc *guc)
-+ {
-+ 	struct xe_device *xe =3D guc_to_xe(guc);
-+ 	struct xe_gt *gt =3D guc_to_gt(guc);
-+ 	int ret;
-+=20
-+ 	ret =3D wait_event_timeout(guc->submission_state.fini_wq,
-+ 				 xa_empty(&guc->submission_state.exec_queue_lookup),
-+ 				 HZ * 5);
-+=20
-+ 	drain_workqueue(xe->destroy_wq);
-+=20
-+ 	xe_gt_assert(gt, ret);
-+ }
-+=20
-  static void guc_submit_fini(struct drm_device *drm, void *arg)
-  {
-  	struct xe_guc *guc =3D arg;
- =20
-+ 	xe_guc_submit_fini(guc);
-  	xa_destroy(&guc->submission_state.exec_queue_lookup);
- -	free_submit_wq(guc);
-  }
- =20
-  static void guc_submit_wedged_fini(void *arg)
-
---Sig_/jD=fq14.FzymV123VlZ2qFF
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmb/UFgACgkQAVBC80lX
-0GxVsAf/ZYVWAcXeYUGDOHAeO28Sf2yjhVR2ORN42Cc3+vf+jbnmMzSM21w/jSC3
-i00ah/BnLAel8+9vAi+F/TiH+jpJLvHQSPMeAfQ5I3na2S6ocz6U2X05Yjg6FaH3
-6a23FL4lh+Chm9cOTw7WR+OqPu1//x3n1xRtZLTNB/tdvbF0UqCZYa2i2ia2IfMQ
-nmt6vCmMgL1mRCiDSiDR61D1puW9FD8Poilv82Lta2YpHuiryfurQhF7hREAKIaF
-dutvRlioCDCVsHQ1I8RRH28KOgvWfg0gbGHBkfJASbeuAP/rKDGx97/5HGTS98EO
-P6hC7Tnd2lnMCnoUNOXg70kypy1Cgw==
-=6604
------END PGP SIGNATURE-----
-
---Sig_/jD=fq14.FzymV123VlZ2qFF--
