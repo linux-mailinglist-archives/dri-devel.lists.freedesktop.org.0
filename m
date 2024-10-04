@@ -2,48 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03BC4990B30
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2024 20:24:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A16D990B34
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2024 20:24:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8104C10EA68;
-	Fri,  4 Oct 2024 18:24:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D8EB10EA65;
+	Fri,  4 Oct 2024 18:24:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="h3IQtncK";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ER3t1wSw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 746CE10EA64;
- Fri,  4 Oct 2024 18:24:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C668910EA64;
+ Fri,  4 Oct 2024 18:24:19 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id ADA805C0245;
- Fri,  4 Oct 2024 18:24:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F704C4CEC6;
- Fri,  4 Oct 2024 18:24:04 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id EADC95C0245;
+ Fri,  4 Oct 2024 18:24:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 556EEC4CEC6;
+ Fri,  4 Oct 2024 18:24:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1728066245;
- bh=uaCsyk/8Q1WkDlCkvPx6grACTOhl/XaO4310uT5XGfg=;
+ s=k20201202; t=1728066258;
+ bh=CQGDjPS0DX2w2r5yziM1VpkUviJ1AUCnCKkRMTlmOrc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=h3IQtncKq73pc7NF//GpfBtCmGOPVwjlRo8dj7/3ocRodBr1bRkoZNxrF059wC1zL
- tj3YeQViQJP9s0+0qceWIE91ScsVTU49zHeOKSoL+j4CwNA5essHaa0e9585/icKAP
- 6FALrS754z7byHHbplcXwUSeBI/VODpXe1fRgpHSD7ykJZDMkXF7mWviwKGSCR60jH
- S2wnG+DVz6JvhWxiRANJ02WHNtCNyhuWaDI/bd/xDYl5mWI+nHNVFiK7SyLc/NXkk3
- ss7vloLlwB0VR9JzgztWVSyOYHJonhqCNHrG1UCCMdzgs0LZNMl1QD/SWSSPbaB5cV
- io4OSmxiy+L2A==
+ b=ER3t1wSwTD6lL9hAHgt9o9v2gAXL6m5S0rrvqi+4eeHGRKN6F1znQmSMrhspDTemN
+ 56bi80HnKHrEUV1NndudUOd7SHqVR5yGt/NTf4S27miyBB7Gbk6wQv5bGHS3o3Yol6
+ hby+pQQV2HakHtwWqc0xyr5LZYRNugfQKIEuAJmMnLbLhj4raGZvUkP8f/Ki7rkPqX
+ /PT0GcGp5rxRu8zeY7eANB5/fNGazcvHZ8lq1hUnauHKt291smvDr2qO+yk6vWRS97
+ VHwDWyuQGOXJ8BjVu4cbT1HaxLNz2tiAQoRDwroPg3tVkRiGq58fEzU6W/jH/AIKDc
+ qME2s7oZra+5Q==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
- Ashutosh Dixit <ashutosh.dixit@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Sasha Levin <sashal@kernel.org>, thomas.hellstrom@linux.intel.com,
- rodrigo.vivi@intel.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- daniel@ffwll.ch, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.10 65/70] drm/xe/oa: Fix overflow in oa batch buffer
-Date: Fri,  4 Oct 2024 14:21:03 -0400
-Message-ID: <20241004182200.3670903-65-sashal@kernel.org>
+Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Lijo Lazar <lijo.lazar@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Sasha Levin <sashal@kernel.org>, Xinhui.Pan@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch, sumit.semwal@linaro.org, mario.limonciello@amd.com,
+ Hawking.Zhang@amd.com, hamza.mahfooz@amd.com, andrealmeid@igalia.com,
+ kevinyang.wang@amd.com, victorchengchi.lu@amd.com, sunil.khatri@amd.com,
+ chenxb_99091@126.com, Jun.Ma2@amd.com, Yunxiang.Li@amd.com,
+ Felix.Kuehling@amd.com, Arunpravin.PaneerSelvam@amd.com,
+ tvrtko.ursulin@igalia.com, pierre-eric.pelloux-prayer@amd.com,
+ Wang.Beyond@amd.com, shashank.sharma@amd.com, zhenguo.yin@amd.com,
+ jesse.zhang@amd.com, Philip.Yang@amd.com, rajneesh.bhardwaj@amd.com,
+ Tim.Huang@amd.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org
+Subject: [PATCH AUTOSEL 6.10 66/70] drm/amdgpu: nuke the VM PD/PT shadow
+ handling
+Date: Fri,  4 Oct 2024 14:21:04 -0400
+Message-ID: <20241004182200.3670903-66-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241004182200.3670903-1-sashal@kernel.org>
 References: <20241004182200.3670903-1-sashal@kernel.org>
@@ -68,55 +75,515 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: José Roberto de Souza <jose.souza@intel.com>
+From: Christian König <christian.koenig@amd.com>
 
-[ Upstream commit 6c10ba06bb1b48acce6d4d9c1e33beb9954f1788 ]
+[ Upstream commit 7181faaa4703705939580abffaf9cb5d6b50dbb7 ]
 
-By default xe_bb_create_job() appends a MI_BATCH_BUFFER_END to batch
-buffer, this is not a problem if batch buffer is only used once but
-oa reuses the batch buffer for the same metric and at each call
-it appends a MI_BATCH_BUFFER_END, printing the warning below and then
-overflowing.
+This was only used as workaround for recovering the page tables after
+VRAM was lost and is no longer necessary after the function
+amdgpu_vm_bo_reset_state_machine() started to do the same.
 
-[  381.072016] ------------[ cut here ]------------
-[  381.072019] xe 0000:00:02.0: [drm] Assertion `bb->len * 4 + bb_prefetch(q->gt) <= size` failed!
-               platform: LUNARLAKE subplatform: 1
-               graphics: Xe2_LPG / Xe2_HPG 20.04 step B0
-               media: Xe2_LPM / Xe2_HPM 20.00 step B0
-               tile: 0 VRAM 0 B
-               GT: 0 type 1
+Compute never used shadows either, so the only proplematic case left is
+SVM and that is most likely not recoverable in any way when VRAM is
+lost.
 
-So here checking if batch buffer already have MI_BATCH_BUFFER_END if
-not append it.
-
-v2:
-- simply fix, suggestion from Ashutosh
-
-Cc: Ashutosh Dixit <ashutosh.dixit@intel.com>
-Signed-off-by: José Roberto de Souza <jose.souza@intel.com>
-Reviewed-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240912153842.35813-1-jose.souza@intel.com
-(cherry picked from commit 9ba0e0f30ca42a98af3689460063edfb6315718a)
-Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+Signed-off-by: Christian König <christian.koenig@amd.com>
+Acked-by: Lijo Lazar <lijo.lazar@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/xe/xe_bb.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h         |  4 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c  | 87 +--------------------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.c  | 67 +---------------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.h  | 21 -----
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c      | 17 ----
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c   | 56 +------------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c | 19 +----
+ 7 files changed, 6 insertions(+), 265 deletions(-)
 
-diff --git a/drivers/gpu/drm/xe/xe_bb.c b/drivers/gpu/drm/xe/xe_bb.c
-index 541361caff3b0..5cae7ecfc431e 100644
---- a/drivers/gpu/drm/xe/xe_bb.c
-+++ b/drivers/gpu/drm/xe/xe_bb.c
-@@ -65,7 +65,8 @@ __xe_bb_create_job(struct xe_exec_queue *q, struct xe_bb *bb, u64 *addr)
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+index f87d53e183c3d..b48e8066c01cc 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+@@ -1078,10 +1078,6 @@ struct amdgpu_device {
+ 
+ 	struct amdgpu_virt	virt;
+ 
+-	/* link all shadow bo */
+-	struct list_head                shadow_list;
+-	struct mutex                    shadow_list_lock;
+-
+ 	/* record hw reset is performed */
+ 	bool has_hw_reset;
+ 	u8				reset_magic[AMDGPU_RESET_MAGIC_NUM];
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+index e66546df0bc19..1df57a02a7598 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+@@ -4072,9 +4072,6 @@ int amdgpu_device_init(struct amdgpu_device *adev,
+ 	spin_lock_init(&adev->mm_stats.lock);
+ 	spin_lock_init(&adev->wb.lock);
+ 
+-	INIT_LIST_HEAD(&adev->shadow_list);
+-	mutex_init(&adev->shadow_list_lock);
+-
+ 	INIT_LIST_HEAD(&adev->reset_list);
+ 
+ 	INIT_LIST_HEAD(&adev->ras_list);
+@@ -4979,80 +4976,6 @@ static int amdgpu_device_ip_post_soft_reset(struct amdgpu_device *adev)
+ 	return 0;
+ }
+ 
+-/**
+- * amdgpu_device_recover_vram - Recover some VRAM contents
+- *
+- * @adev: amdgpu_device pointer
+- *
+- * Restores the contents of VRAM buffers from the shadows in GTT.  Used to
+- * restore things like GPUVM page tables after a GPU reset where
+- * the contents of VRAM might be lost.
+- *
+- * Returns:
+- * 0 on success, negative error code on failure.
+- */
+-static int amdgpu_device_recover_vram(struct amdgpu_device *adev)
+-{
+-	struct dma_fence *fence = NULL, *next = NULL;
+-	struct amdgpu_bo *shadow;
+-	struct amdgpu_bo_vm *vmbo;
+-	long r = 1, tmo;
+-
+-	if (amdgpu_sriov_runtime(adev))
+-		tmo = msecs_to_jiffies(8000);
+-	else
+-		tmo = msecs_to_jiffies(100);
+-
+-	dev_info(adev->dev, "recover vram bo from shadow start\n");
+-	mutex_lock(&adev->shadow_list_lock);
+-	list_for_each_entry(vmbo, &adev->shadow_list, shadow_list) {
+-		/* If vm is compute context or adev is APU, shadow will be NULL */
+-		if (!vmbo->shadow)
+-			continue;
+-		shadow = vmbo->shadow;
+-
+-		/* No need to recover an evicted BO */
+-		if (!shadow->tbo.resource ||
+-		    shadow->tbo.resource->mem_type != TTM_PL_TT ||
+-		    shadow->tbo.resource->start == AMDGPU_BO_INVALID_OFFSET ||
+-		    shadow->parent->tbo.resource->mem_type != TTM_PL_VRAM)
+-			continue;
+-
+-		r = amdgpu_bo_restore_shadow(shadow, &next);
+-		if (r)
+-			break;
+-
+-		if (fence) {
+-			tmo = dma_fence_wait_timeout(fence, false, tmo);
+-			dma_fence_put(fence);
+-			fence = next;
+-			if (tmo == 0) {
+-				r = -ETIMEDOUT;
+-				break;
+-			} else if (tmo < 0) {
+-				r = tmo;
+-				break;
+-			}
+-		} else {
+-			fence = next;
+-		}
+-	}
+-	mutex_unlock(&adev->shadow_list_lock);
+-
+-	if (fence)
+-		tmo = dma_fence_wait_timeout(fence, false, tmo);
+-	dma_fence_put(fence);
+-
+-	if (r < 0 || tmo <= 0) {
+-		dev_err(adev->dev, "recover vram bo from shadow failed, r is %ld, tmo is %ld\n", r, tmo);
+-		return -EIO;
+-	}
+-
+-	dev_info(adev->dev, "recover vram bo from shadow done\n");
+-	return 0;
+-}
+-
+-
+ /**
+  * amdgpu_device_reset_sriov - reset ASIC for SR-IOV vf
+  *
+@@ -5112,12 +5035,8 @@ static int amdgpu_device_reset_sriov(struct amdgpu_device *adev,
+ 	if (r)
+ 		return r;
+ 
+-	if (adev->virt.gim_feature & AMDGIM_FEATURE_GIM_FLR_VRAMLOST) {
++	if (adev->virt.gim_feature & AMDGIM_FEATURE_GIM_FLR_VRAMLOST)
+ 		amdgpu_inc_vram_lost(adev);
+-		r = amdgpu_device_recover_vram(adev);
+-	}
+-	if (r)
+-		return r;
+ 
+ 	/* need to be called during full access so we can't do it later like
+ 	 * bare-metal does.
+@@ -5529,9 +5448,7 @@ int amdgpu_do_asic_reset(struct list_head *device_list_handle,
+ 			}
+ 		}
+ 
+-		if (!r)
+-			r = amdgpu_device_recover_vram(tmp_adev);
+-		else
++		if (r)
+ 			tmp_adev->asic_reset_res = r;
+ 	}
+ 
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+index c556c8b653fa4..5f3b2c157824e 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+@@ -77,24 +77,6 @@ static void amdgpu_bo_user_destroy(struct ttm_buffer_object *tbo)
+ 	amdgpu_bo_destroy(tbo);
+ }
+ 
+-static void amdgpu_bo_vm_destroy(struct ttm_buffer_object *tbo)
+-{
+-	struct amdgpu_device *adev = amdgpu_ttm_adev(tbo->bdev);
+-	struct amdgpu_bo *shadow_bo = ttm_to_amdgpu_bo(tbo), *bo;
+-	struct amdgpu_bo_vm *vmbo;
+-
+-	bo = shadow_bo->parent;
+-	vmbo = to_amdgpu_bo_vm(bo);
+-	/* in case amdgpu_device_recover_vram got NULL of bo->parent */
+-	if (!list_empty(&vmbo->shadow_list)) {
+-		mutex_lock(&adev->shadow_list_lock);
+-		list_del_init(&vmbo->shadow_list);
+-		mutex_unlock(&adev->shadow_list_lock);
+-	}
+-
+-	amdgpu_bo_destroy(tbo);
+-}
+-
+ /**
+  * amdgpu_bo_is_amdgpu_bo - check if the buffer object is an &amdgpu_bo
+  * @bo: buffer object to be checked
+@@ -108,8 +90,7 @@ static void amdgpu_bo_vm_destroy(struct ttm_buffer_object *tbo)
+ bool amdgpu_bo_is_amdgpu_bo(struct ttm_buffer_object *bo)
  {
- 	u32 size = drm_suballoc_size(bb->bo);
+ 	if (bo->destroy == &amdgpu_bo_destroy ||
+-	    bo->destroy == &amdgpu_bo_user_destroy ||
+-	    bo->destroy == &amdgpu_bo_vm_destroy)
++	    bo->destroy == &amdgpu_bo_user_destroy)
+ 		return true;
  
--	bb->cs[bb->len++] = MI_BATCH_BUFFER_END;
-+	if (bb->len == 0 || bb->cs[bb->len - 1] != MI_BATCH_BUFFER_END)
-+		bb->cs[bb->len++] = MI_BATCH_BUFFER_END;
+ 	return false;
+@@ -722,52 +703,6 @@ int amdgpu_bo_create_vm(struct amdgpu_device *adev,
+ 	return r;
+ }
  
- 	xe_gt_assert(q->gt, bb->len * 4 + bb_prefetch(q->gt) <= size);
+-/**
+- * amdgpu_bo_add_to_shadow_list - add a BO to the shadow list
+- *
+- * @vmbo: BO that will be inserted into the shadow list
+- *
+- * Insert a BO to the shadow list.
+- */
+-void amdgpu_bo_add_to_shadow_list(struct amdgpu_bo_vm *vmbo)
+-{
+-	struct amdgpu_device *adev = amdgpu_ttm_adev(vmbo->bo.tbo.bdev);
+-
+-	mutex_lock(&adev->shadow_list_lock);
+-	list_add_tail(&vmbo->shadow_list, &adev->shadow_list);
+-	vmbo->shadow->parent = amdgpu_bo_ref(&vmbo->bo);
+-	vmbo->shadow->tbo.destroy = &amdgpu_bo_vm_destroy;
+-	mutex_unlock(&adev->shadow_list_lock);
+-}
+-
+-/**
+- * amdgpu_bo_restore_shadow - restore an &amdgpu_bo shadow
+- *
+- * @shadow: &amdgpu_bo shadow to be restored
+- * @fence: dma_fence associated with the operation
+- *
+- * Copies a buffer object's shadow content back to the object.
+- * This is used for recovering a buffer from its shadow in case of a gpu
+- * reset where vram context may be lost.
+- *
+- * Returns:
+- * 0 for success or a negative error code on failure.
+- */
+-int amdgpu_bo_restore_shadow(struct amdgpu_bo *shadow, struct dma_fence **fence)
+-
+-{
+-	struct amdgpu_device *adev = amdgpu_ttm_adev(shadow->tbo.bdev);
+-	struct amdgpu_ring *ring = adev->mman.buffer_funcs_ring;
+-	uint64_t shadow_addr, parent_addr;
+-
+-	shadow_addr = amdgpu_bo_gpu_offset(shadow);
+-	parent_addr = amdgpu_bo_gpu_offset(shadow->parent);
+-
+-	return amdgpu_copy_buffer(ring, shadow_addr, parent_addr,
+-				  amdgpu_bo_size(shadow), NULL, fence,
+-				  true, false, 0);
+-}
+-
+ /**
+  * amdgpu_bo_kmap - map an &amdgpu_bo buffer object
+  * @bo: &amdgpu_bo buffer object to be mapped
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
+index bc42ccbde659a..a4fa1f296daec 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
+@@ -130,8 +130,6 @@ struct amdgpu_bo_user {
  
+ struct amdgpu_bo_vm {
+ 	struct amdgpu_bo		bo;
+-	struct amdgpu_bo		*shadow;
+-	struct list_head		shadow_list;
+ 	struct amdgpu_vm_bo_base        entries[];
+ };
+ 
+@@ -269,22 +267,6 @@ static inline bool amdgpu_bo_encrypted(struct amdgpu_bo *bo)
+ 	return bo->flags & AMDGPU_GEM_CREATE_ENCRYPTED;
+ }
+ 
+-/**
+- * amdgpu_bo_shadowed - check if the BO is shadowed
+- *
+- * @bo: BO to be tested.
+- *
+- * Returns:
+- * NULL if not shadowed or else return a BO pointer.
+- */
+-static inline struct amdgpu_bo *amdgpu_bo_shadowed(struct amdgpu_bo *bo)
+-{
+-	if (bo->tbo.type == ttm_bo_type_kernel)
+-		return to_amdgpu_bo_vm(bo)->shadow;
+-
+-	return NULL;
+-}
+-
+ bool amdgpu_bo_is_amdgpu_bo(struct ttm_buffer_object *bo);
+ void amdgpu_bo_placement_from_domain(struct amdgpu_bo *abo, u32 domain);
+ 
+@@ -343,9 +325,6 @@ u64 amdgpu_bo_gpu_offset(struct amdgpu_bo *bo);
+ u64 amdgpu_bo_gpu_offset_no_check(struct amdgpu_bo *bo);
+ void amdgpu_bo_get_memory(struct amdgpu_bo *bo,
+ 			  struct amdgpu_mem_stats *stats);
+-void amdgpu_bo_add_to_shadow_list(struct amdgpu_bo_vm *vmbo);
+-int amdgpu_bo_restore_shadow(struct amdgpu_bo *shadow,
+-			     struct dma_fence **fence);
+ uint32_t amdgpu_bo_get_preferred_domain(struct amdgpu_device *adev,
+ 					    uint32_t domain);
+ 
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+index 0f7106066480e..4820277e3c550 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+@@ -465,7 +465,6 @@ int amdgpu_vm_validate(struct amdgpu_device *adev, struct amdgpu_vm *vm,
+ {
+ 	uint64_t new_vm_generation = amdgpu_vm_generation(adev, vm);
+ 	struct amdgpu_vm_bo_base *bo_base;
+-	struct amdgpu_bo *shadow;
+ 	struct amdgpu_bo *bo;
+ 	int r;
+ 
+@@ -486,16 +485,10 @@ int amdgpu_vm_validate(struct amdgpu_device *adev, struct amdgpu_vm *vm,
+ 		spin_unlock(&vm->status_lock);
+ 
+ 		bo = bo_base->bo;
+-		shadow = amdgpu_bo_shadowed(bo);
+ 
+ 		r = validate(param, bo);
+ 		if (r)
+ 			return r;
+-		if (shadow) {
+-			r = validate(param, shadow);
+-			if (r)
+-				return r;
+-		}
+ 
+ 		if (bo->tbo.type != ttm_bo_type_kernel) {
+ 			amdgpu_vm_bo_moved(bo_base);
+@@ -2125,10 +2118,6 @@ void amdgpu_vm_bo_invalidate(struct amdgpu_device *adev,
+ {
+ 	struct amdgpu_vm_bo_base *bo_base;
+ 
+-	/* shadow bo doesn't have bo base, its validation needs its parent */
+-	if (bo->parent && (amdgpu_bo_shadowed(bo->parent) == bo))
+-		bo = bo->parent;
+-
+ 	for (bo_base = bo->vm_bo; bo_base; bo_base = bo_base->next) {
+ 		struct amdgpu_vm *vm = bo_base->vm;
+ 
+@@ -2456,7 +2445,6 @@ int amdgpu_vm_init(struct amdgpu_device *adev, struct amdgpu_vm *vm,
+ 	root_bo = amdgpu_bo_ref(&root->bo);
+ 	r = amdgpu_bo_reserve(root_bo, true);
+ 	if (r) {
+-		amdgpu_bo_unref(&root->shadow);
+ 		amdgpu_bo_unref(&root_bo);
+ 		goto error_free_delayed;
+ 	}
+@@ -2548,11 +2536,6 @@ int amdgpu_vm_make_compute(struct amdgpu_device *adev, struct amdgpu_vm *vm)
+ 	vm->last_update = dma_fence_get_stub();
+ 	vm->is_compute_context = true;
+ 
+-	/* Free the shadow bo for compute VM */
+-	amdgpu_bo_unref(&to_amdgpu_bo_vm(vm->root.bo)->shadow);
+-
+-	goto unreserve_bo;
+-
+ unreserve_bo:
+ 	amdgpu_bo_unreserve(vm->root.bo);
+ 	return r;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c
+index f07647a9a9d97..ad3a9e594a406 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c
+@@ -383,14 +383,6 @@ int amdgpu_vm_pt_clear(struct amdgpu_device *adev, struct amdgpu_vm *vm,
+ 	if (r)
+ 		return r;
+ 
+-	if (vmbo->shadow) {
+-		struct amdgpu_bo *shadow = vmbo->shadow;
+-
+-		r = ttm_bo_validate(&shadow->tbo, &shadow->placement, &ctx);
+-		if (r)
+-			return r;
+-	}
+-
+ 	if (!drm_dev_enter(adev_to_drm(adev), &idx))
+ 		return -ENODEV;
+ 
+@@ -448,10 +440,7 @@ int amdgpu_vm_pt_create(struct amdgpu_device *adev, struct amdgpu_vm *vm,
+ 			int32_t xcp_id)
+ {
+ 	struct amdgpu_bo_param bp;
+-	struct amdgpu_bo *bo;
+-	struct dma_resv *resv;
+ 	unsigned int num_entries;
+-	int r;
+ 
+ 	memset(&bp, 0, sizeof(bp));
+ 
+@@ -484,42 +473,7 @@ int amdgpu_vm_pt_create(struct amdgpu_device *adev, struct amdgpu_vm *vm,
+ 	if (vm->root.bo)
+ 		bp.resv = vm->root.bo->tbo.base.resv;
+ 
+-	r = amdgpu_bo_create_vm(adev, &bp, vmbo);
+-	if (r)
+-		return r;
+-
+-	bo = &(*vmbo)->bo;
+-	if (vm->is_compute_context || (adev->flags & AMD_IS_APU)) {
+-		(*vmbo)->shadow = NULL;
+-		return 0;
+-	}
+-
+-	if (!bp.resv)
+-		WARN_ON(dma_resv_lock(bo->tbo.base.resv,
+-				      NULL));
+-	resv = bp.resv;
+-	memset(&bp, 0, sizeof(bp));
+-	bp.size = amdgpu_vm_pt_size(adev, level);
+-	bp.domain = AMDGPU_GEM_DOMAIN_GTT;
+-	bp.flags = AMDGPU_GEM_CREATE_CPU_GTT_USWC;
+-	bp.type = ttm_bo_type_kernel;
+-	bp.resv = bo->tbo.base.resv;
+-	bp.bo_ptr_size = sizeof(struct amdgpu_bo);
+-	bp.xcp_id_plus1 = xcp_id + 1;
+-
+-	r = amdgpu_bo_create(adev, &bp, &(*vmbo)->shadow);
+-
+-	if (!resv)
+-		dma_resv_unlock(bo->tbo.base.resv);
+-
+-	if (r) {
+-		amdgpu_bo_unref(&bo);
+-		return r;
+-	}
+-
+-	amdgpu_bo_add_to_shadow_list(*vmbo);
+-
+-	return 0;
++	return amdgpu_bo_create_vm(adev, &bp, vmbo);
+ }
+ 
+ /**
+@@ -569,7 +523,6 @@ static int amdgpu_vm_pt_alloc(struct amdgpu_device *adev,
+ 	return 0;
+ 
+ error_free_pt:
+-	amdgpu_bo_unref(&pt->shadow);
+ 	amdgpu_bo_unref(&pt_bo);
+ 	return r;
+ }
+@@ -581,17 +534,10 @@ static int amdgpu_vm_pt_alloc(struct amdgpu_device *adev,
+  */
+ static void amdgpu_vm_pt_free(struct amdgpu_vm_bo_base *entry)
+ {
+-	struct amdgpu_bo *shadow;
+-
+ 	if (!entry->bo)
+ 		return;
+ 
+ 	entry->bo->vm_bo = NULL;
+-	shadow = amdgpu_bo_shadowed(entry->bo);
+-	if (shadow) {
+-		ttm_bo_set_bulk_move(&shadow->tbo, NULL);
+-		amdgpu_bo_unref(&shadow);
+-	}
+ 	ttm_bo_set_bulk_move(&entry->bo->tbo, NULL);
+ 
+ 	spin_lock(&entry->vm->status_lock);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c
+index 9b748d7058b5c..390432a22ddd5 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c
+@@ -35,16 +35,7 @@
+  */
+ static int amdgpu_vm_sdma_map_table(struct amdgpu_bo_vm *table)
+ {
+-	int r;
+-
+-	r = amdgpu_ttm_alloc_gart(&table->bo.tbo);
+-	if (r)
+-		return r;
+-
+-	if (table->shadow)
+-		r = amdgpu_ttm_alloc_gart(&table->shadow->tbo);
+-
+-	return r;
++	return amdgpu_ttm_alloc_gart(&table->bo.tbo);
+ }
+ 
+ /* Allocate a new job for @count PTE updates */
+@@ -273,17 +264,13 @@ static int amdgpu_vm_sdma_update(struct amdgpu_vm_update_params *p,
+ 
+ 		if (!p->pages_addr) {
+ 			/* set page commands needed */
+-			if (vmbo->shadow)
+-				amdgpu_vm_sdma_set_ptes(p, vmbo->shadow, pe, addr,
+-							count, incr, flags);
+ 			amdgpu_vm_sdma_set_ptes(p, bo, pe, addr, count,
+ 						incr, flags);
+ 			return 0;
+ 		}
+ 
+ 		/* copy commands needed */
+-		ndw -= p->adev->vm_manager.vm_pte_funcs->copy_pte_num_dw *
+-			(vmbo->shadow ? 2 : 1);
++		ndw -= p->adev->vm_manager.vm_pte_funcs->copy_pte_num_dw;
+ 
+ 		/* for padding */
+ 		ndw -= 7;
+@@ -298,8 +285,6 @@ static int amdgpu_vm_sdma_update(struct amdgpu_vm_update_params *p,
+ 			pte[i] |= flags;
+ 		}
+ 
+-		if (vmbo->shadow)
+-			amdgpu_vm_sdma_copy_ptes(p, vmbo->shadow, pe, nptes);
+ 		amdgpu_vm_sdma_copy_ptes(p, bo, pe, nptes);
+ 
+ 		pe += nptes * 8;
 -- 
 2.43.0
 
