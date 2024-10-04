@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 551E9990242
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2024 13:43:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F22D990243
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2024 13:43:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7C2810E9DA;
+	by gabe.freedesktop.org (Postfix) with ESMTP id B427310E9DB;
 	Fri,  4 Oct 2024 11:43:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="RN4aTHyp";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="F83c2XgI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
  [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E976110E9D3;
- Fri,  4 Oct 2024 11:43:29 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 4D91AE0004;
- Fri,  4 Oct 2024 11:43:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 965FD10E9D0;
+ Fri,  4 Oct 2024 11:43:31 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 1CD9FE0007;
+ Fri,  4 Oct 2024 11:43:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1728042208;
+ t=1728042210;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=35IOsAFxKDYMNKBLsITBusdoM8zjKFRYrPKlnrQgWzI=;
- b=RN4aTHyp4vy/ez4e7XXGPHmxUDi+vwj+N1lVFkbMxiPn9taXRG96XJ4Kd4ozYbTV8h9t+Z
- +TaIl1YSdgI3MUmOD2K5gl1OzGvPNqkZ82tbesbYS1tNZWrCR/S+VEmBBJWKQ+oNzUl9Zt
- KGSBorGzEw1tXFmKfJEh1yCY/EA1K/oZH7IypwUrnz7lMQSpz4p628JeStT+jikJoDmzvV
- HC1q5bmAYq7YpvCJ0t6AMLyTY5c3bhUu7OE+aMiEbavXAdJINWxBmdnu86HWhH/RJo6jff
- FjGuxPS1WulGohMcQj5OLiuxxCS7rC34+C6JthP94+eh8rqAGZ1Dy/MqUJvsDA==
-Date: Fri, 4 Oct 2024 13:43:27 +0200
+ bh=t73TyjdYfKpLL0vLqGmQ2NO/lX80RKkRyRMfRcsiMRY=;
+ b=F83c2XgIuKLcPatXQaqLp6Pb1Uq123pJmJnaG4rKLRA6HxAwrS9XP1fnuCLhFXXncqSX0u
+ fzBJqvmmce350HfWT9fYmRD/O15JhWPooz7RtoiH+cDzCzd29Z5PIzSstciy2+GB21LUaq
+ l1100JnnTCW8fCHzGfTq3tJX1zl4GfjaYCdAbsQJ0YZVLgEMiDm4UShJ5b30zcQ1oLb2Zb
+ ETz8ReTOJ8ySPhL14J/w6QR8NvTxnz/LKw4v/apGIib9BekmgjaHu24SkTWtQOm6iKpdyc
+ s4AVOgZJCgzTbwFK1Y/vLpIOPEn/FSYHw3nDFvUxNMHU6aLUTM1gq4pbXuhL6A==
+Date: Fri, 4 Oct 2024 13:43:28 +0200
 From: Louis Chauvet <louis.chauvet@bootlin.com>
 To: Harry Wentland <harry.wentland@amd.com>
 Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- wayland-devel@lists.freedesktop.org
-Subject: Re: [PATCH v6 21/44] drm/vkms: Add tests for CTM handling
-Message-ID: <Zv_U39fUBbG0fdEL@louis-chauvet-laptop>
+ wayland-devel@lists.freedesktop.org, Alex Hung <alex.hung@amd.com>
+Subject: Re: [PATCH v6 14/44] drm/vkms: Add enumerated 1D curve colorop
+Message-ID: <Zv_U4MbmVKdRn4BQ@louis-chauvet-laptop>
 References: <20241003200129.1732122-1-harry.wentland@amd.com>
- <20241003200129.1732122-22-harry.wentland@amd.com>
+ <20241003200129.1732122-15-harry.wentland@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241003200129.1732122-22-harry.wentland@amd.com>
+In-Reply-To: <20241003200129.1732122-15-harry.wentland@amd.com>
 X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,335 +58,394 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03/10/24 - 16:01, Harry Wentland wrote:
-> A whole slew of tests for CTM handling that greatly helped in
-> debugging the CTM code. The extent of tests might seem a bit
-> silly but they're fast and might someday help save someone
-> else's day when debugging this.
+On 03/10/24 - 16:00, Harry Wentland wrote:
+> This patch introduces a VKMS color pipeline that includes two
+> drm_colorops for named transfer functions. For now the only ones
+> supported are sRGB EOTF, sRGB Inverse EOTF, and a Linear TF.
+> We will expand this in the future but I don't want to do so
+> without accompanying IGT tests.
+> 
+> We introduce a new vkms_luts.c file that hard-codes sRGB EOTF,
+> sRGB Inverse EOTF, and a linear EOTF LUT. These have been
+> generated with 256 entries each as IGT is currently testing
+> only 8 bpc surfaces. We will likely need higher precision
+> but I'm reluctant to make that change without clear indication
+> that we need it. We'll revisit and, if necessary, regenerate
+> the LUTs when we have IGT tests for higher precision buffers.
 > 
 > Signed-off-by: Harry Wentland <harry.wentland@amd.com>
-
-Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-
+> Signed-off-by: Alex Hung <alex.hung@amd.com>
 > ---
 > 
 > v6:
->  - update reference values since we're now rounding
-> 
+>  - drop 'len' var (Louis Chauvet)
+>  - cleanup if colorop alloc or init fails (Louis Chauvet)
+>  - switch loop in pre_blend_transform (Louis Chauvet)
+>  - drop extraneous if (colorop) inside while (colorop) (Louis Chauvet)
+
+thanks!
+
 > v5:
->  - Make apply_3x4_matrix static
+>  - Squash with "Pull apply_colorop out of pre_blend_color_transform"
+>    (Sebastian)
+>  - Fix warnings
+>  - Fix include
+>  - Drop TODOs
 > 
 > v4:
->  - Comment on origin of bt709_enc matrix (Pekka)
->  - Use full opaque alpha (Pekka)
->  - Add additional check for Y < 0xffff (Pekka)
->  - Remove unused code (Pekka)
->  - Rename red, green, blue to Y, U, V where applicable
+>  - Drop _tf_ from color_pipeline init function
+>  - Pass supported TFs into colorop init
+>  - Create bypass pipeline in DRM helper (Pekka)
 > 
->  drivers/gpu/drm/vkms/tests/vkms_color_test.c | 250 +++++++++++++++++++
->  drivers/gpu/drm/vkms/vkms_composer.c         |   3 +-
->  drivers/gpu/drm/vkms/vkms_composer.h         |   1 +
->  3 files changed, 253 insertions(+), 1 deletion(-)
+> v2:
+>  - Add commit description
+>  - Fix sRGB EOTF LUT definition
+>  - Add linear and sRGB inverse EOTF LUTs
 > 
-> diff --git a/drivers/gpu/drm/vkms/tests/vkms_color_test.c b/drivers/gpu/drm/vkms/tests/vkms_color_test.c
-> index c36e67c7909e..d5eb1e4e9b67 100644
-> --- a/drivers/gpu/drm/vkms/tests/vkms_color_test.c
-> +++ b/drivers/gpu/drm/vkms/tests/vkms_color_test.c
-> @@ -187,11 +187,261 @@ static void vkms_color_srgb_inv_srgb(struct kunit *test)
->  	}
->  }
+>  drivers/gpu/drm/vkms/Makefile        |   4 +-
+>  drivers/gpu/drm/vkms/vkms_colorop.c  |  81 +++
+>  drivers/gpu/drm/vkms/vkms_composer.c |  49 ++
+>  drivers/gpu/drm/vkms/vkms_drv.h      |   4 +
+>  drivers/gpu/drm/vkms/vkms_luts.c     | 802 +++++++++++++++++++++++++++
+>  drivers/gpu/drm/vkms/vkms_luts.h     |  12 +
+>  drivers/gpu/drm/vkms/vkms_plane.c    |   2 +
+>  7 files changed, 953 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/gpu/drm/vkms/vkms_colorop.c
+>  create mode 100644 drivers/gpu/drm/vkms/vkms_luts.c
+>  create mode 100644 drivers/gpu/drm/vkms/vkms_luts.h
 > 
-> +#define FIXPT_HALF        (DRM_FIXED_ONE >> 1)
-> +#define FIXPT_QUARTER     (DRM_FIXED_ONE >> 2)
+> diff --git a/drivers/gpu/drm/vkms/Makefile b/drivers/gpu/drm/vkms/Makefile
+> index 8d3e46dde635..0bf3c116f1ae 100644
+> --- a/drivers/gpu/drm/vkms/Makefile
+> +++ b/drivers/gpu/drm/vkms/Makefile
+> @@ -6,7 +6,9 @@ vkms-y := \
+>  	vkms_formats.o \
+>  	vkms_crtc.o \
+>  	vkms_composer.o \
+> -	vkms_writeback.o
+> +	vkms_writeback.o \
+> +	vkms_colorop.o \
+> +	vkms_luts.o
+> 
+>  obj-$(CONFIG_DRM_VKMS) += vkms.o
+>  obj-$(CONFIG_DRM_VKMS_KUNIT_TESTS) += tests/
+> diff --git a/drivers/gpu/drm/vkms/vkms_colorop.c b/drivers/gpu/drm/vkms/vkms_colorop.c
+> new file mode 100644
+> index 000000000000..aebd467c4e61
+> --- /dev/null
+> +++ b/drivers/gpu/drm/vkms/vkms_colorop.c
+> @@ -0,0 +1,81 @@
+> +/* SPDX-License-Identifier: GPL-2.0+ */
+
+checkpatch: Improper SPDX comment style for 
+'drivers/gpu/drm/vkms/vkms_colorop.c', please use '//' instead
+
 > +
-> +const struct drm_color_ctm_3x4 test_matrix_3x4_50_desat = { {
-> +	FIXPT_HALF, FIXPT_QUARTER, FIXPT_QUARTER, 0,
-> +	FIXPT_QUARTER, FIXPT_HALF, FIXPT_QUARTER, 0,
-> +	FIXPT_QUARTER, FIXPT_QUARTER, FIXPT_HALF, 0
-> +} };
+> +#include <linux/slab.h>
+> +#include <drm/drm_colorop.h>
+> +#include <drm/drm_print.h>
+> +#include <drm/drm_property.h>
+> +#include <drm/drm_plane.h>
 > +
-> +static void vkms_color_ctm_3x4_50_desat(struct kunit *test)
+> +#include "vkms_drv.h"
+> +
+> +static const u64 supported_tfs =
+> +	BIT(DRM_COLOROP_1D_CURVE_SRGB_EOTF) |
+> +	BIT(DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF);
+> +
+> +#define MAX_COLOR_PIPELINE_OPS 2
+> +
+> +static int vkms_initialize_color_pipeline(struct drm_plane *plane, struct drm_prop_enum_list *list)
 > +{
-> +	struct pixel_argb_s32 ref, out;
+> +	struct drm_colorop *ops[MAX_COLOR_PIPELINE_OPS];
+> +	struct drm_device *dev = plane->dev;
+> +	int ret;
+> +	int i = 0;
 > +
-> +	/* full white */
-> +	ref.a = 0xffff;
-> +	ref.r = 0xffff;
-> +	ref.g = 0xffff;
-> +	ref.b = 0xffff;
+> +	memset(ops, 0, sizeof(ops));
 > +
-> +	memcpy(&out, &ref, sizeof(out));
-> +	apply_3x4_matrix(&out, &test_matrix_3x4_50_desat);
+> +	/* 1st op: 1d curve */
+> +	ops[i] = kzalloc(sizeof(struct drm_colorop), GFP_KERNEL);
+
+checkpatch: Prefer kzalloc(sizeof(*ops[i])...) over kzalloc(sizeof(struct 
+drm_colorop)...)
+
+> +	if (!ops[i]) {
+> +		DRM_ERROR("KMS: Failed to allocate colorop\n");
+> +		ret = -ENOMEM;
+> +		goto cleanup;
+> +	}
 > +
-> +	KUNIT_EXPECT_MEMEQ(test, &ref, &out, sizeof(out));
+> +	ret = drm_colorop_curve_1d_init(dev, ops[i], plane, supported_tfs);
+> +	if (ret)
+> +		goto cleanup;
 > +
-> +	/* full black */
-> +	ref.a = 0xffff;
-> +	ref.r = 0x0;
-> +	ref.g = 0x0;
-> +	ref.b = 0x0;
+> +	list->type = ops[i]->base.id;
+> +	list->name = kasprintf(GFP_KERNEL, "Color Pipeline %d", ops[i]->base.id);
 > +
-> +	memcpy(&out, &ref, sizeof(out));
-> +	apply_3x4_matrix(&out, &test_matrix_3x4_50_desat);
+> +	i++;
 > +
-> +	KUNIT_EXPECT_MEMEQ(test, &ref, &out, sizeof(out));
+> +	/* 2nd op: 1d curve */
+> +	ops[i] = kzalloc(sizeof(struct drm_colorop), GFP_KERNEL);
+
+ditto
+
+> +	if (!ops[i]) {
+> +		DRM_ERROR("KMS: Failed to allocate colorop\n");
+> +		ret = -ENOMEM;
+> +		goto cleanup;
+> +	}
 > +
-> +	/* 50% grey */
-> +	ref.a = 0xffff;
-> +	ref.r = 0x8000;
-> +	ref.g = 0x8000;
-> +	ref.b = 0x8000;
+> +	ret = drm_colorop_curve_1d_init(dev, ops[i], plane, supported_tfs);
+> +	if (ret)
+> +		goto cleanup;
 > +
-> +	memcpy(&out, &ref, sizeof(out));
-> +	apply_3x4_matrix(&out, &test_matrix_3x4_50_desat);
+> +	drm_colorop_set_next_property(ops[i-1], ops[i]);
+
+checkpatch: spaces preferred around that '-' (ctx:VxV)
+
 > +
-> +	KUNIT_EXPECT_MEMEQ(test, &ref, &out, sizeof(out));
+> +	return 0;
 > +
-> +	/* full red to 50% desat */
-> +	ref.a = 0xffff;
-> +	ref.r = 0x8000;
-> +	ref.g = 0x4000;
-> +	ref.b = 0x4000;
+> +cleanup:
+> +	for (; i >= 0; i--)
+> +		if (ops[i])
+> +			kfree(ops[i]);
+
+I think this is not sufficient, drm_colorop_curve_1d_init seems to 
+call many drm_* helpers to create properties and store pointers to dev.
+
+Issues I found:
+
+drm_colorop.c:105
+	list_add_tail(&colorop->head, &config->colorop_list);
+-> here colorop is added to the colorop_list, but in case of error, you 
+call kfree on colorop, so colorop_list may allows access to a freed memory
+
+drm_colorop.c:111
+	prop = drm_property_create_enum(...)
+-> here this property seems to leak in case of error (I don't know if the 
+core automatically clean this property if the driver fails to create the 
+device), same for bypass_property and next_property
+
+Maybe you should create a "color_cleanup" function?
+
+Also, if you keep the kfree:
+checkpatch: kfree(NULL) is safe and this check is probably not required
+
 > +
-> +	out.a = 0xffff;
-> +	out.r = 0xffff;
-> +	out.g = 0x0;
-> +	out.b = 0x0;
-> +
-> +	apply_3x4_matrix(&out, &test_matrix_3x4_50_desat);
-> +
-> +	KUNIT_EXPECT_MEMEQ(test, &ref, &out, sizeof(out));
+> +	return ret;
 > +}
 > +
-> +/*
-> + * BT.709 encoding matrix
-> + *
-> + * Values printed from within IGT when converting
-> + * igt_matrix_3x4_bt709_enc to the fixed-point format expected
-> + * by DRM/KMS.
-> + */
-> +const struct drm_color_ctm_3x4 test_matrix_3x4_bt709_enc = { {
-> +	0x00000000366cf400ull, 0x00000000b7175900ull, 0x0000000127bb300ull, 0,
-> +	0x800000001993b3a0ull, 0x800000005609fe80ull, 0x000000006f9db200ull, 0,
-> +	0x000000009d70a400ull, 0x800000008f011100ull, 0x800000000e6f9330ull, 0
-> +} };
-> +
-> +static void vkms_color_ctm_3x4_bt709(struct kunit *test)
+> +int vkms_initialize_colorops(struct drm_plane *plane)
 > +{
-> +	struct pixel_argb_s32 out;
+> +	struct drm_prop_enum_list pipeline;
+> +	int ret;
 > +
-> +	/* full white to bt709 */
-> +	out.a = 0xffff;
-> +	out.r = 0xffff;
-> +	out.g = 0xffff;
-> +	out.b = 0xffff;
+> +	/* Add color pipeline */
+> +	ret = vkms_initialize_color_pipeline(plane, &pipeline);
+> +	if (ret)
+> +		return ret;
 > +
-> +	apply_3x4_matrix(&out, &test_matrix_3x4_bt709_enc);
-> +
-> +	/* Y 255 */
-> +	KUNIT_EXPECT_GT(test, out.r, 0xfe00);
-> +	KUNIT_EXPECT_LT(test, out.r, 0x10000);
-> +
-> +	/* U 0 */
-> +	KUNIT_EXPECT_LT(test, out.g, 0x0100);
-> +
-> +	/* V 0 */
-> +	KUNIT_EXPECT_LT(test, out.b, 0x0100);
-> +
-> +	/* full black to bt709 */
-> +	out.a = 0xffff;
-> +	out.r = 0x0;
-> +	out.g = 0x0;
-> +	out.b = 0x0;
-> +
-> +	apply_3x4_matrix(&out, &test_matrix_3x4_bt709_enc);
-> +
-> +	/* Y 0 */
-> +	KUNIT_EXPECT_LT(test, out.r, 0x100);
-> +
-> +	/* U 0 */
-> +	KUNIT_EXPECT_LT(test, out.g, 0x0100);
-> +
-> +	/* V 0 */
-> +	KUNIT_EXPECT_LT(test, out.b, 0x0100);
-> +
-> +	/* gray to bt709 */
-> +	out.a = 0xffff;
-> +	out.r = 0x7fff;
-> +	out.g = 0x7fff;
-> +	out.b = 0x7fff;
-> +
-> +	apply_3x4_matrix(&out, &test_matrix_3x4_bt709_enc);
-> +
-> +	/* Y 127 */
-> +	KUNIT_EXPECT_GT(test, out.r, 0x7e00);
-> +	KUNIT_EXPECT_LT(test, out.r, 0x8000);
-> +
-> +	/* U 0 */
-> +	KUNIT_EXPECT_LT(test, out.g, 0x0100);
-> +
-> +	/* V 0 */
-> +	KUNIT_EXPECT_LT(test, out.b, 0x0100);
-> +
-> +	/* == red 255 - bt709 enc == */
-> +	out.a = 0xffff;
-> +	out.r = 0xffff;
-> +	out.g = 0x0;
-> +	out.b = 0x0;
-> +
-> +	apply_3x4_matrix(&out, &test_matrix_3x4_bt709_enc);
-> +
-> +	/* Y 54 */
-> +	KUNIT_EXPECT_GT(test, out.r, 0x3500);
-> +	KUNIT_EXPECT_LT(test, out.r, 0x3700);
-> +
-> +	/* U 0 */
-> +	KUNIT_EXPECT_LT(test, out.g, 0x0100);
-> +
-> +	/* V 157 */
-> +	KUNIT_EXPECT_GT(test, out.b, 0x9C00);
-> +	KUNIT_EXPECT_LT(test, out.b, 0x9E00);
-> +
-> +
-> +	/* == green 255 - bt709 enc == */
-> +	out.a = 0xffff;
-> +	out.r = 0x0;
-> +	out.g = 0xffff;
-> +	out.b = 0x0;
-> +
-> +	apply_3x4_matrix(&out, &test_matrix_3x4_bt709_enc);
-> +
-> +	/* Y 182 */
-> +	KUNIT_EXPECT_GT(test, out.r, 0xB500);
-> +	KUNIT_EXPECT_LT(test, out.r, 0xB780); /* laxed by half*/
-> +
-> +	/* U 0 */
-> +	KUNIT_EXPECT_LT(test, out.g, 0x0100);
-> +
-> +	/* V 0 */
-> +	KUNIT_EXPECT_LT(test, out.b, 0x0100);
-> +
-> +	/* == blue 255 - bt709 enc == */
-> +	out.a = 0xffff;
-> +	out.r = 0x0;
-> +	out.g = 0x0;
-> +	out.b = 0xffff;
-> +
-> +	apply_3x4_matrix(&out, &test_matrix_3x4_bt709_enc);
-> +
-> +	/* Y 18 */
-> +	KUNIT_EXPECT_GT(test, out.r, 0x1100);
-> +	KUNIT_EXPECT_LT(test, out.r, 0x1300);
-> +
-> +	/* U 111 */
-> +	KUNIT_EXPECT_GT(test, out.g, 0x6E00);
-> +	KUNIT_EXPECT_LT(test, out.g, 0x7000);
-> +
-> +	/* V 0 */
-> +	KUNIT_EXPECT_LT(test, out.b, 0x0100);
-> +
-> +	/* == red 140 - bt709 enc == */
-> +	out.a = 0xffff;
-> +	out.r = 0x8c8c;
-> +	out.g = 0x0;
-> +	out.b = 0x0;
-> +
-> +	apply_3x4_matrix(&out, &test_matrix_3x4_bt709_enc);
-> +
-> +	/* Y 30 */
-> +	KUNIT_EXPECT_GT(test, out.r, 0x1D00);
-> +	KUNIT_EXPECT_LT(test, out.r, 0x1F00);
-> +
-> +	/* U 0 */
-> +	KUNIT_EXPECT_LT(test, out.g, 0x100);
-> +
-> +	/* V 87 */
-> +	KUNIT_EXPECT_GT(test, out.b, 0x5600);
-> +	KUNIT_EXPECT_LT(test, out.b, 0x5800);
-> +
-> +	/* == green 140 - bt709 enc == */
-> +	out.a = 0xffff;
-> +	out.r = 0x0;
-> +	out.g = 0x8c8c;
-> +	out.b = 0x0;
-> +
-> +	apply_3x4_matrix(&out, &test_matrix_3x4_bt709_enc);
-> +
-> +	/* Y 30 */
-> +	KUNIT_EXPECT_GT(test, out.r, 0x6400);
-> +	KUNIT_EXPECT_LT(test, out.r, 0x6600);
-> +
-> +	/* U 0 */
-> +	KUNIT_EXPECT_LT(test, out.g, 0x100);
-> +
-> +	/* V 0 */
-> +	KUNIT_EXPECT_LT(test, out.b, 0x100);
-> +
-> +
-> +	/* == blue 140 - bt709 enc == */
-> +	out.a = 0xffff;
-> +	out.r = 0x0;
-> +	out.g = 0x0;
-> +	out.b = 0x8c8c;
-> +
-> +	apply_3x4_matrix(&out, &test_matrix_3x4_bt709_enc);
-> +
-> +	/* Y 30 */
-> +	KUNIT_EXPECT_GT(test, out.r, 0x900);
-> +	KUNIT_EXPECT_LT(test, out.r, 0xB00);
-> +
-> +	/* U 61 */
-> +	KUNIT_EXPECT_GT(test, out.g, 0x3C00);
-> +	KUNIT_EXPECT_LT(test, out.g, 0x3E00);
-> +
-> +	/* V 0 */
-> +	KUNIT_EXPECT_LT(test, out.b, 0x100);
-> +
+> +	/* Create COLOR_PIPELINE property and attach */
+> +	drm_plane_create_color_pipeline_property(plane, &pipeline, 1);
+
+This can fail, can you add a check?
+
+> +	return 0;
 > +}
-> +
->  static struct kunit_case vkms_color_test_cases[] = {
->  	KUNIT_CASE(vkms_color_test_get_lut_index),
->  	KUNIT_CASE(vkms_color_test_lerp),
->  	KUNIT_CASE(vkms_color_test_linear),
->  	KUNIT_CASE(vkms_color_srgb_inv_srgb),
-> +	KUNIT_CASE(vkms_color_ctm_3x4_50_desat),
-> +	KUNIT_CASE(vkms_color_ctm_3x4_bt709),
->  	{}
->  };
-> 
 > diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-> index c8b9b9d7f78f..daee7d56abb7 100644
+> index 93f4ed5ea52f..a35466e68237 100644
 > --- a/drivers/gpu/drm/vkms/vkms_composer.c
 > +++ b/drivers/gpu/drm/vkms/vkms_composer.c
-> @@ -159,7 +159,7 @@ static void apply_lut(const struct vkms_crtc_state *crtc_state, struct line_buff
+> @@ -14,6 +14,7 @@
+>  #include "vkms_drv.h"
+>  #include <kunit/visibility.h>
+>  #include "vkms_composer.h"
+> +#include "vkms_luts.h"
+> 
+>  static u16 pre_mul_blend_channel(u16 src, u16 dst, u16 alpha)
+>  {
+> @@ -167,6 +168,51 @@ static void apply_lut(const struct vkms_crtc_state *crtc_state, struct line_buff
 >  	}
 >  }
 > 
-> -static void apply_3x4_matrix(struct pixel_argb_s32 *pixel, const struct drm_color_ctm_3x4 *matrix)
-> +VISIBLE_IF_KUNIT void apply_3x4_matrix(struct pixel_argb_s32 *pixel, const struct drm_color_ctm_3x4 *matrix)
->  {
->  	s64 rf, gf, bf;
->  	s64 r, g, b;
-> @@ -187,6 +187,7 @@ static void apply_3x4_matrix(struct pixel_argb_s32 *pixel, const struct drm_colo
->  	pixel->g = drm_fixp2int_round(gf);
->  	pixel->b = drm_fixp2int_round(bf);
+> +static void apply_colorop(struct pixel_argb_u16 *pixel, struct drm_colorop *colorop)
+> +{
+> +	struct drm_colorop_state *colorop_state = colorop->state;
+> +
+> +	if (colorop->type == DRM_COLOROP_1D_CURVE) {
+> +		switch (colorop_state->curve_1d_type) {
+> +			case DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF:
+> +				pixel->r = apply_lut_to_channel_value(&srgb_inv_eotf, pixel->r, LUT_RED);
+> +				pixel->g = apply_lut_to_channel_value(&srgb_inv_eotf, pixel->g, LUT_GREEN);
+> +				pixel->b = apply_lut_to_channel_value(&srgb_inv_eotf, pixel->b, LUT_BLUE);
+> +				break;
+> +			case DRM_COLOROP_1D_CURVE_SRGB_EOTF:
+> +				pixel->r = apply_lut_to_channel_value(&srgb_eotf, pixel->r, LUT_RED);
+> +				pixel->g = apply_lut_to_channel_value(&srgb_eotf, pixel->g, LUT_GREEN);
+> +				pixel->b = apply_lut_to_channel_value(&srgb_eotf, pixel->b, LUT_BLUE);
+> +				break;
+> +			default:
+> +				DRM_DEBUG_DRIVER("unkown colorop 1D curve type %d\n", colorop_state->curve_1d_type);
+
+Maybe you can use a _ONCE variant? You don't want to write a line for each 
+pixel
+
+checkpatch is not happy about the indentation and line length:
+- switch and case should be at the same indent
+- line length of .. exceeds 100 columns
+
+> +				break;
+> +		}
+> +	}
+> +
+
+checkpatch: Blank lines aren't necessary before a close brace '}'
+
+> +}
+> +
+> +static void pre_blend_color_transform(const struct vkms_plane_state *plane_state, struct line_buffer *output_buffer)
+
+checkpatch: line length of 116 exceeds 100 columns
+
+> +{
+> +	for (size_t x = 0; x < output_buffer->n_pixels; x++) {
+> +		struct drm_colorop *colorop = plane_state->base.base.color_pipeline;
+> +
+> +		while (colorop) {
+> +			struct drm_colorop_state *colorop_state;
+> +
+> +			colorop_state = colorop->state;
+> +
+> +			if (!colorop_state)
+> +				return;
+> +
+> +			if (!colorop_state->bypass)
+> +				apply_colorop(&output_buffer->pixels[x], colorop);
+> +
+
+Just a note for future colorop: it may be interesting to have a 
+"specialized" fonction for each colorop, like I proposed for color 
+conversion [1] to only check the color operation for each line and 
+not each pixel.
+
+Is a plane color conversion considered as a colorop? 
+
+> +			colorop = colorop->next;
+> +		}
+> +	}
+> +}
+> +
+>  /**
+>   * blend - blend the pixels from all planes and compute crc
+>   * @wb: The writeback frame buffer metadata
+> @@ -204,6 +250,9 @@ static void blend(struct vkms_writeback_job *wb,
+>  				continue;
+> 
+>  			vkms_compose_row(stage_buffer, plane[i], y_pos);
+> +
+> +			pre_blend_color_transform(plane[i], stage_buffer);
+> +
+>  			pre_mul_alpha_blend(plane[i]->frame_info, stage_buffer,
+>  					    output_buffer);
+>  		}
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+> index 5e46ea5b96dc..278cf3533f58 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.h
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
+> @@ -169,4 +169,8 @@ void vkms_writeback_row(struct vkms_writeback_job *wb, const struct line_buffer
+>  /* Writeback */
+>  int vkms_enable_writeback_connector(struct vkms_device *vkmsdev);
+> 
+> +/* Colorops */
+> +int vkms_initialize_colorops(struct drm_plane *plane);
+> +
+> +
+
+checkpatch: Please don't use multiple blank lines
+
+>  #endif /* _VKMS_DRV_H_ */
+> diff --git a/drivers/gpu/drm/vkms/vkms_luts.c b/drivers/gpu/drm/vkms/vkms_luts.c
+> new file mode 100644
+> index 000000000000..6553d6d442b4
+> --- /dev/null
+> +++ b/drivers/gpu/drm/vkms/vkms_luts.c
+> @@ -0,0 +1,802 @@
+> +/* SPDX-License-Identifier: GPL-2.0+ */
+> +
+
+checkpatch: Improper SPDX comment style for 
+'drivers/gpu/drm/vkms/vkms_luts.c', please use '//' instead
+
+> +#include <drm/drm_mode.h>
+> +
+> +#include "vkms_drv.h"
+> +#include "vkms_luts.h"
+> +
+> +static struct drm_color_lut linear_array[LUT_SIZE] = {
+> +	{ 0x0, 0x0, 0x0, 0 },
+> +	{ 0x101, 0x101, 0x101, 0 },
+
+[...]
+
+> +	{ 0xfefe, 0xfefe, 0xfefe, 0 },
+> +	{ 0xffff, 0xffff, 0xffff, 0 },
+> +};
+> +
+> +const struct vkms_color_lut linear_eotf = {
+> +	.base = linear_array,
+> +	.lut_length = LUT_SIZE,
+> +	.channel_value2index_ratio = 0xff00ffll
+> +};
+> +
+> +
+
+checkpatch: Please don't use multiple blank lines
+
+> +static struct drm_color_lut srgb_array[LUT_SIZE] = {
+> +	{ 0x0, 0x0, 0x0, 0 },
+> +	{ 0x13, 0x13, 0x13, 0 },
+
+[...]
+
+> diff --git a/drivers/gpu/drm/vkms/vkms_luts.h b/drivers/gpu/drm/vkms/vkms_luts.h
+> new file mode 100644
+> index 000000000000..053512a643f7
+> --- /dev/null
+> +++ b/drivers/gpu/drm/vkms/vkms_luts.h
+> @@ -0,0 +1,12 @@
+> +/* SPDX-License-Identifier: GPL-2.0+ */
+> +
+> +#ifndef _VKMS_LUTS_H_
+> +#define _VKMS_LUTS_H_
+> +
+> +#define LUT_SIZE 256
+> +
+> +extern const struct vkms_color_lut linear_eotf;
+> +extern const struct vkms_color_lut srgb_eotf;
+> +extern const struct vkms_color_lut srgb_inv_eotf;
+> +
+> +#endif /* _VKMS_LUTS_H_ */
+> \ No newline at end of file
+
+checkpatch: adding a line without newline at end of file
+
+> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+> index e5c625ab8e3e..8520ee0534d1 100644
+> --- a/drivers/gpu/drm/vkms/vkms_plane.c
+> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
+> @@ -215,5 +215,7 @@ struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
+>  	drm_plane_create_rotation_property(&plane->base, DRM_MODE_ROTATE_0,
+>  					   DRM_MODE_ROTATE_MASK | DRM_MODE_REFLECT_MASK);
+> 
+> +	vkms_initialize_colorops(&plane->base);
+> +
+
+This can fail, can you add a check and do the proper cleanup?
+
+>  	return plane;
 >  }
-> +EXPORT_SYMBOL_IF_KUNIT(apply_3x4_matrix);
-> 
->  static void apply_colorop(struct pixel_argb_s32 *pixel, struct drm_colorop *colorop)
->  {
-> diff --git a/drivers/gpu/drm/vkms/vkms_composer.h b/drivers/gpu/drm/vkms/vkms_composer.h
-> index 67ae09913460..afef65a5c3ba 100644
-> --- a/drivers/gpu/drm/vkms/vkms_composer.h
-> +++ b/drivers/gpu/drm/vkms/vkms_composer.h
-> @@ -21,6 +21,7 @@ u16 lerp_u16(u16 a, u16 b, s64 t);
->  s64 get_lut_index(const struct vkms_color_lut *lut, u16 channel_value);
->  u16 apply_lut_to_channel_value(const struct vkms_color_lut *lut, u16 channel_value,
->  			       enum lut_channel channel);
-> +void apply_3x4_matrix(struct pixel_argb_s32 *pixel, const struct drm_color_ctm_3x4 *matrix);
->  #endif
-> 
->  #endif /* _VKMS_COMPOSER_H_ */
 > --
 > 2.46.2
 > 
