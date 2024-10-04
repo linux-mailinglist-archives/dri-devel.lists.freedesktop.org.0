@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B21299090C
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2024 18:24:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83D22990918
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2024 18:24:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2290610EA44;
-	Fri,  4 Oct 2024 16:24:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED98610EA43;
+	Fri,  4 Oct 2024 16:24:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="I1vbeiKc";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="YIfteTox";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AE6210EA44
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Oct 2024 16:24:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 233D210EA43
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Oct 2024 16:24:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
@@ -22,27 +22,29 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=v8T0JE9z/ge8d43YeWanAagTAp6GfHEOwNvCGrvqvoQ=; b=I1vbeiKcS2QNkzMf3HXpxVJlb6
- nZe0VAAYTXCcITYw/bsOcaD6r/TovPyo9y/PPxtf29QLiiZoaKXAfIdMzRs34JcC5NuUszpy8TyAw
- b88vx+PWbPUiYo6miseb073mPGXmNwVbtrFv697hjU3jeJgiLUVkWQcXb4SRkFKHMscDSrAi0FVMB
- vvbc7FKPRWkjkzVFA+a4ObVzAROmj+pZfy8fn/ino2a8Ej2nRUkHx08h2gd+mI3o+cjKAFCg3B16D
- 0NNz1hs+EsRxdKiJy2FFjnSt1eYJOGj4Lm+bV63RNofq+4Q27QURoV7ZcIpMuTuQ7fQu51CouGxxR
- AuppKydA==;
+ bh=UQOyHBg8bU0Bf7chEpvs8imTBHh50BGAwBiOlxg1U8E=; b=YIfteToxspCOmgjRNXhIkNiaUi
+ Xxk8hOF1oZLdIkAPumPG25XH5JHAXKU1FARRAnMM3hmj3VMhsGsrwdXLL75OWpinhRbnhtVw2pWpK
+ JrHBFe3Ybl1tmB+ocnpFJjX9VCireSUzXXfrkjFq5Y7l6CmnvzPp60gfC6keO2nDEyL1umvv4n59b
+ ZUH2bkEzdRsagjC5e0WmPzr3UZDZyuhMSKT5fon1ALKJgXXscE3ZKltaesVg03ZnlZRBSTqm1ZZQT
+ HLbgJzRNz/AtK+uvK8uG/qi2tXYvbcJASZdNKt6AWuEbaf690HtVOJEqMb5xlDh74ujxbX2UezsYB
+ JYG9GtXA==;
 Received: from [139.47.49.49] (helo=[192.168.1.139])
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1swl5w-004uaU-LB; Fri, 04 Oct 2024 18:23:56 +0200
-Message-ID: <20654eb7211b951ad97052ef3b2730e94d3b608d.camel@igalia.com>
-Subject: Re: [PATCH] drm/v3d: Stop the active perfmon before being destroyed
+ id 1swl6b-004ub3-37; Fri, 04 Oct 2024 18:24:37 +0200
+Message-ID: <9871252bf67c1f3dfc482690e5bd6e12ac1e4724.camel@igalia.com>
+Subject: Re: [PATCH 1/2] drm/vc4: Use `vc4_perfmon_find()`
 From: "Juan A." =?ISO-8859-1?Q?Su=E1rez?= <jasuarez@igalia.com>
-To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Melissa Wen
- <mwen@igalia.com>, Iago Toral <itoral@igalia.com>, Maxime Ripard
- <mripard@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com, 
- stable@vger.kernel.org
-Date: Fri, 04 Oct 2024 18:23:55 +0200
-In-Reply-To: <20241004130625.918580-2-mcanal@igalia.com>
-References: <20241004130625.918580-2-mcanal@igalia.com>
+To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Maxime Ripard
+ <mripard@kernel.org>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
+ <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com, Christian
+ Gmeiner <cgmeiner@igalia.com>
+Date: Fri, 04 Oct 2024 18:24:36 +0200
+In-Reply-To: <20241004123817.890016-1-mcanal@igalia.com>
+References: <20241004123817.890016-1-mcanal@igalia.com>
 Autocrypt: addr=jasuarez@igalia.com; prefer-encrypt=mutual;
  keydata=mQINBFrxh8QBEACmRH99FIPaqrH29i2N8nuTJZ/CJ/05zxwQx2v+7lkCCJOMXogsPEzbQ
  M/LogiDAl3cIyRtIJ2zFxhoKpkFglGztQ0aJHJM6Xh6674Wf7xVQSQ5ImSC4jPv5Y1mZxqI+NRPsW
@@ -76,8 +78,8 @@ Autocrypt: addr=jasuarez@igalia.com; prefer-encrypt=mutual;
  WuwcwUyX85ABequmxB0fZuXXrWZ1ii5Y1BP3opOO9AB9Et4/nvN1OL9zXtGq1YMufZhc5rNBddNx0
  YdecvtnPkv5BxdnuUf6okigwkYjTZiBSQaNDSPm4EmVmMTbHAiOMtLaowlr2EQ/bq8gwJFNgDkjgH
  fUePB/i37LpOs4mt4/zIFeWDJxdHzBNHg
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.52.4 (3.52.4-1.fc40) 
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -95,8 +97,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Good catch!
-
 Reviewed-by: Juan A. Suarez <jasuarez@igalia.com>
 
+On Fri, 2024-10-04 at 09:35 -0300, Ma=C3=ADra Canal wrote:
+> Similar to commit f2a4bcb25328 ("drm/v3d: Use v3d_perfmon_find()"),
+> replace the open-coded `vc4_perfmon_find()` with the real thing.
+>=20
+> Cc: Christian Gmeiner <cgmeiner@igalia.com>
+> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
+> ---
+> =C2=A0drivers/gpu/drm/vc4/vc4_perfmon.c | 6 +-----
+> =C2=A01 file changed, 1 insertion(+), 5 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/vc4/vc4_perfmon.c
+> b/drivers/gpu/drm/vc4/vc4_perfmon.c
+> index 4cd3643c3ba7..f2e56d0f6298 100644
+> --- a/drivers/gpu/drm/vc4/vc4_perfmon.c
+> +++ b/drivers/gpu/drm/vc4/vc4_perfmon.c
+> @@ -236,11 +236,7 @@ int vc4_perfmon_get_values_ioctl(struct
+> drm_device *dev, void *data,
+> =C2=A0		return -ENODEV;
+> =C2=A0	}
+> =C2=A0
+> -	mutex_lock(&vc4file->perfmon.lock);
+> -	perfmon =3D idr_find(&vc4file->perfmon.idr, req->id);
+> -	vc4_perfmon_get(perfmon);
+> -	mutex_unlock(&vc4file->perfmon.lock);
+> -
+> +	perfmon =3D vc4_perfmon_find(vc4file, req->id);
+> =C2=A0	if (!perfmon)
+> =C2=A0		return -EINVAL;
+> =C2=A0
 
