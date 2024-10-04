@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83D22990918
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2024 18:24:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8539899091C
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2024 18:25:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED98610EA43;
-	Fri,  4 Oct 2024 16:24:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFCC210EA45;
+	Fri,  4 Oct 2024 16:25:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="YIfteTox";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="HaX8nOJm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 233D210EA43
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Oct 2024 16:24:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FA6C10EA45
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Oct 2024 16:25:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
@@ -22,29 +22,31 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=UQOyHBg8bU0Bf7chEpvs8imTBHh50BGAwBiOlxg1U8E=; b=YIfteToxspCOmgjRNXhIkNiaUi
- Xxk8hOF1oZLdIkAPumPG25XH5JHAXKU1FARRAnMM3hmj3VMhsGsrwdXLL75OWpinhRbnhtVw2pWpK
- JrHBFe3Ybl1tmB+ocnpFJjX9VCireSUzXXfrkjFq5Y7l6CmnvzPp60gfC6keO2nDEyL1umvv4n59b
- ZUH2bkEzdRsagjC5e0WmPzr3UZDZyuhMSKT5fon1ALKJgXXscE3ZKltaesVg03ZnlZRBSTqm1ZZQT
- HLbgJzRNz/AtK+uvK8uG/qi2tXYvbcJASZdNKt6AWuEbaf690HtVOJEqMb5xlDh74ujxbX2UezsYB
- JYG9GtXA==;
+ bh=+ToU/cCDQxvPZGABEX4zvJeWof5X6I9KDLPxE68DOgg=; b=HaX8nOJmJasudZjLYkR80Ywnvr
+ yZsl/Nu7KqjIylQ76RIlIBxbK1HynsAi0zrvbFTqFf+WxBkRlQ3T4x9R9FyPnUFn1KubZZERj1Cwx
+ 5YKRjt7/QpUCDNjIXOWuBBlnYK3Ny3bhNWFP2yo/xK0ouPXQVsgALPJJQItLmkoQP8cLiobKm/3lX
+ OqUBrRWTYhu0x1J8QPYQFxFIDhwdGDKDRtg76MjECRNz/pEoudZt1hCcStJLXV8EkPU8EL7wgyjnN
+ GMnfJ3MrTbCQfItBCOKeuxRnkOSbbaqNEr9ErFvGdHOYfd0Xpu8QRxQ42MCNijtIIiXnztnc24+0l
+ ZFfvMflw==;
 Received: from [139.47.49.49] (helo=[192.168.1.139])
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1swl6b-004ub3-37; Fri, 04 Oct 2024 18:24:37 +0200
-Message-ID: <9871252bf67c1f3dfc482690e5bd6e12ac1e4724.camel@igalia.com>
-Subject: Re: [PATCH 1/2] drm/vc4: Use `vc4_perfmon_find()`
+ id 1swl7i-004ucx-Fg; Fri, 04 Oct 2024 18:25:46 +0200
+Message-ID: <5d674670c6f43bd501c20f5cc066a3f3a1531e50.camel@igalia.com>
+Subject: Re: [PATCH 2/2] drm/vc4: Stop the active perfmon before being
+ destroyed
 From: "Juan A." =?ISO-8859-1?Q?Su=E1rez?= <jasuarez@igalia.com>
 To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Maxime Ripard
  <mripard@kernel.org>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
  <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
  <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com, Christian
- Gmeiner <cgmeiner@igalia.com>
-Date: Fri, 04 Oct 2024 18:24:36 +0200
-In-Reply-To: <20241004123817.890016-1-mcanal@igalia.com>
+Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com, 
+ stable@vger.kernel.org, Boris Brezillon <bbrezillon@kernel.org>
+Date: Fri, 04 Oct 2024 18:25:45 +0200
+In-Reply-To: <20241004123817.890016-2-mcanal@igalia.com>
 References: <20241004123817.890016-1-mcanal@igalia.com>
+ <20241004123817.890016-2-mcanal@igalia.com>
 Autocrypt: addr=jasuarez@igalia.com; prefer-encrypt=mutual;
  keydata=mQINBFrxh8QBEACmRH99FIPaqrH29i2N8nuTJZ/CJ/05zxwQx2v+7lkCCJOMXogsPEzbQ
  M/LogiDAl3cIyRtIJ2zFxhoKpkFglGztQ0aJHJM6Xh6674Wf7xVQSQ5ImSC4jPv5Y1mZxqI+NRPsW
@@ -97,35 +99,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Worth to mention we got this issue happened also for v3d (a fix was
+already submitted).
+
+
 Reviewed-by: Juan A. Suarez <jasuarez@igalia.com>
 
-On Fri, 2024-10-04 at 09:35 -0300, Ma=C3=ADra Canal wrote:
-> Similar to commit f2a4bcb25328 ("drm/v3d: Use v3d_perfmon_find()"),
-> replace the open-coded `vc4_perfmon_find()` with the real thing.
+
+On Fri, 2024-10-04 at 09:36 -0300, Ma=C3=ADra Canal wrote:
+> Upon closing the file descriptor, the active performance monitor is
+> not
+> stopped. Although all perfmons are destroyed in
+> `vc4_perfmon_close_file()`,
+> the active performance monitor's pointer (`vc4->active_perfmon`) is
+> still
+> retained.
 >=20
-> Cc: Christian Gmeiner <cgmeiner@igalia.com>
+> If we open a new file descriptor and submit a few jobs with
+> performance
+> monitors, the driver will attempt to stop the active performance
+> monitor
+> using the stale pointer in `vc4->active_perfmon`. However, this
+> pointer
+> is no longer valid because the previous process has already
+> terminated,
+> and all performance monitors associated with it have been destroyed
+> and
+> freed.
+>=20
+> To fix this, when the active performance monitor belongs to a given
+> process, explicitly stop it before destroying and freeing it.
+>=20
+> Cc: <stable@vger.kernel.org> # v4.17+
+> Cc: Boris Brezillon <bbrezillon@kernel.org>
+> Cc: Juan A. Suarez Romero <jasuarez@igalia.com>
+> Fixes: 65101d8c9108 ("drm/vc4: Expose performance counters to
+> userspace")
 > Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
 > ---
-> =C2=A0drivers/gpu/drm/vc4/vc4_perfmon.c | 6 +-----
-> =C2=A01 file changed, 1 insertion(+), 5 deletions(-)
+> =C2=A0drivers/gpu/drm/vc4/vc4_perfmon.c | 7 ++++++-
+> =C2=A01 file changed, 6 insertions(+), 1 deletion(-)
 >=20
 > diff --git a/drivers/gpu/drm/vc4/vc4_perfmon.c
 > b/drivers/gpu/drm/vc4/vc4_perfmon.c
-> index 4cd3643c3ba7..f2e56d0f6298 100644
+> index f2e56d0f6298..f1342f917cf7 100644
 > --- a/drivers/gpu/drm/vc4/vc4_perfmon.c
 > +++ b/drivers/gpu/drm/vc4/vc4_perfmon.c
-> @@ -236,11 +236,7 @@ int vc4_perfmon_get_values_ioctl(struct
-> drm_device *dev, void *data,
-> =C2=A0		return -ENODEV;
-> =C2=A0	}
+> @@ -116,6 +116,11 @@ void vc4_perfmon_open_file(struct vc4_file
+> *vc4file)
+> =C2=A0static int vc4_perfmon_idr_del(int id, void *elem, void *data)
+> =C2=A0{
+> =C2=A0	struct vc4_perfmon *perfmon =3D elem;
+> +	struct vc4_dev *vc4 =3D (struct vc4_dev *)data;
+> +
+> +	/* If the active perfmon is being destroyed, stop it first
+> */
+> +	if (perfmon =3D=3D vc4->active_perfmon)
+> +		vc4_perfmon_stop(vc4, perfmon, false);
 > =C2=A0
-> -	mutex_lock(&vc4file->perfmon.lock);
-> -	perfmon =3D idr_find(&vc4file->perfmon.idr, req->id);
-> -	vc4_perfmon_get(perfmon);
-> -	mutex_unlock(&vc4file->perfmon.lock);
-> -
-> +	perfmon =3D vc4_perfmon_find(vc4file, req->id);
-> =C2=A0	if (!perfmon)
-> =C2=A0		return -EINVAL;
+> =C2=A0	vc4_perfmon_put(perfmon);
 > =C2=A0
+> @@ -130,7 +135,7 @@ void vc4_perfmon_close_file(struct vc4_file
+> *vc4file)
+> =C2=A0		return;
+> =C2=A0
+> =C2=A0	mutex_lock(&vc4file->perfmon.lock);
+> -	idr_for_each(&vc4file->perfmon.idr, vc4_perfmon_idr_del,
+> NULL);
+> +	idr_for_each(&vc4file->perfmon.idr, vc4_perfmon_idr_del,
+> vc4);
+> =C2=A0	idr_destroy(&vc4file->perfmon.idr);
+> =C2=A0	mutex_unlock(&vc4file->perfmon.lock);
+> =C2=A0	mutex_destroy(&vc4file->perfmon.lock);
 
