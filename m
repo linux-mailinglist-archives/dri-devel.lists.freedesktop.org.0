@@ -2,67 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1391298FD38
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2024 08:20:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C0C798FD64
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2024 08:35:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2AE010E660;
-	Fri,  4 Oct 2024 06:20:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23B9810E69B;
+	Fri,  4 Oct 2024 06:35:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="n4o9pnFC";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Gw2MCGp4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1D5210E660
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Oct 2024 06:20:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1728022809; x=1759558809;
- h=message-id:date:mime-version:subject:from:to:cc:
- references:in-reply-to:content-transfer-encoding;
- bh=u0ROQGIKvHYwdRfflIP+jEihYIQYG+R7/MJxd3/po+Q=;
- b=n4o9pnFCnrYvZ2Jfy/wO2Z4TrxyGquWCfcernkKYG3YqisMpWtXgRNnc
- kjbSpHTWahuI/ofkZMnCDS7TMJPE+yKedEuAL5F5NfnyZKT7iushPOhNm
- wHMjaTobmPgiXIutNtNYNaKE3KGAT4vmgU80IFrEhzHlVlWr8CX++sM2v
- P/s804VhI1Ufen3m714hvkBdE0JVE/r0nRTXdr5Ty05/B2cUX7lVfiDD1
- D9AIub3K3yAioTbtSrD5n6SrkTf5FS4UNEF+MZJrDoFyTibJYDlacFy/j
- 1L0ocqUTXCbcqpixXxl8cRukBSDw6/mI5hhwqgO0moZr5A1T2dqI4xRZe w==;
-X-CSE-ConnectionGUID: mJ5tB/uoQBqMNJGhsWRSBg==
-X-CSE-MsgGUID: EELCwc+oRnuQ2TaCllBXPA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="26704164"
-X-IronPort-AV: E=Sophos;i="6.11,176,1725346800"; d="scan'208";a="26704164"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Oct 2024 23:20:08 -0700
-X-CSE-ConnectionGUID: Mg9fEK4RTNy1I03QnObZ2w==
-X-CSE-MsgGUID: v+UZnQapRpKt/A1Lf/CftA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,176,1725346800"; d="scan'208";a="74860934"
-Received: from kkruthiv-mobl1.gar.corp.intel.com (HELO [10.247.176.17])
- ([10.247.176.17])
- by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Oct 2024 23:20:03 -0700
-Message-ID: <5862746f-d594-4e7e-9b54-c5ea77596ef6@intel.com>
-Date: Fri, 4 Oct 2024 11:49:51 +0530
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AC9210E798
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Oct 2024 06:35:15 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 334EE5C1060;
+ Fri,  4 Oct 2024 06:35:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04550C4CEC6;
+ Fri,  4 Oct 2024 06:35:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1728023713;
+ bh=jl7T+5WwqtroqvfChKzcUHISh4+13GhKzPmF41T9kb4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Gw2MCGp4xo+Jr9zBJnBd23K/f47mAe6echPEvacE0G3+nEMudx1iKOP9pWMUxsKkn
+ tp6GB+nSIfbQOr3BUn/wLowrU3ypk5dTbDd0NPFCF0uzwUnkYkZuoVcWyPkUJo5tTn
+ 2YVYY0WwClMxyzmBlqQBsH9c+f1viVw7YXP/swCc30oKXm9ajBlE0gwK4JZrxIvLyI
+ DMb2rsII3cDJYqvAm8oo4kg8s2zh9DsubrnASD6Dbs9YqERGoj+SeSRU3mQS5eDLhK
+ A8i4wpwRlAQpdyNG8HQVYPMXJT2pAD0UjQqH6Nd48iRDqE6vhqJ5XBiapPjgzabRnD
+ zqd5krKAy4zFg==
+Date: Fri, 4 Oct 2024 08:35:09 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Moudy Ho <moudy.ho@mediatek.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ "jason-jh . lin" <jason-jh.lin@mediatek.com>, 
+ Macpaul Lin <macpaul.lin@mediatek.com>, dri-devel@lists.freedesktop.org, 
+ linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v4] dt-bindings: display: mediatek: split: add subschema
+ property constraints
+Message-ID: <ajydpbq4ygrfr3ahs5nuh72pdmbttus2kgjb6csxc3p4tcq5l2@dlmucrzchvgl>
+References: <20241004031245.27514-1-moudy.ho@mediatek.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] drm/bridge: sii902x: Provide data-lines property to
- input endpoint
-From: Aradhya Bhatia <aradhya.bhatia@intel.com>
-To: Wadim Egorov <w.egorov@phytec.de>, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org
-Cc: Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, bbrezillon@kernel.org, conor+dt@kernel.org,
- krzk+dt@kernel.org, robh@kernel.org, upstream@lists.phytec.de
-References: <20241003082006.2728617-1-w.egorov@phytec.de>
- <6523649b-9143-42d8-b301-a143088530b9@intel.com>
-Content-Language: en-US
-In-Reply-To: <6523649b-9143-42d8-b301-a143088530b9@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241004031245.27514-1-moudy.ho@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,113 +68,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 03-10-2024 15:13, Aradhya Bhatia wrote:
-> Hi Wadim,
+On Fri, Oct 04, 2024 at 11:12:45AM +0800, Moudy Ho wrote:
+> The display node in mt8195.dtsi was triggering a CHECK_DTBS error due
+> to an excessively long 'clocks' property:
+>   display@14f06000: clocks: [[31, 14], [31, 43], [31, 44]] is too long
 > 
-> Thanks for the patch.
+> To resolve this issue, the constraints for 'clocks' and
+> other properties within the subschema will be reinforced.
 > 
-> Probably a nit, but the dt-binding patch should come before the driver
-> patch.
-> 
-> On 03-10-2024 13:50, Wadim Egorov wrote:
->> Introduce a data-lines property to define the number of parallel RGB
->> input pins connected to the transmitter. The input bus formats are updated
->> accordingly. If the property is not specified, default to 24 data lines.
-
-One more thing. This driver also supports the older way of
-encoder-bridge connections - that is, with no
-DRM_BRIDGE_ATTACH_NO_CONNECTOR flag.
-
-In the sii902x_bridge_attach, you will see that the bus_format is being
-statically assigned to MEDIA_BUS_FMT_RGB888_1X24. When the
-ATTACH_NO_CONNECTOR flag is set, it doesn't matter. But when it is not,
-the RGB888 bus format will get trickled back to the encoder even if the
-dt property says differently.
-
->>
->> Signed-off-by: Wadim Egorov <w.egorov@phytec.de>
->> ---
->>  drivers/gpu/drm/bridge/sii902x.c | 27 ++++++++++++++++++++++++++-
->>  1 file changed, 26 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/bridge/sii902x.c b/drivers/gpu/drm/bridge/sii902x.c
->> index 7f91b0db161e..3565c3533597 100644
->> --- a/drivers/gpu/drm/bridge/sii902x.c
->> +++ b/drivers/gpu/drm/bridge/sii902x.c
->> @@ -180,6 +180,8 @@ struct sii902x {
->>  	struct gpio_desc *reset_gpio;
->>  	struct i2c_mux_core *i2cmux;
->>  	bool sink_is_hdmi;
->> +	u32 pd_lines; /* number of Parallel Port Input Data Lines */
->> +
->>  	/*
->>  	 * Mutex protects audio and video functions from interfering
->>  	 * each other, by keeping their i2c command sequences atomic.
->> @@ -477,6 +479,8 @@ static u32 *sii902x_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
->>  						     u32 output_fmt,
->>  						     unsigned int *num_input_fmts)
->>  {
->> +
-
-And this is probably a stray.
-
->> +	struct sii902x *sii902x = bridge_to_sii902x(bridge);
->>  	u32 *input_fmts;
->>  
->>  	*num_input_fmts = 0; 
->> @@ -485,7 +489,19 @@ static u32 *sii902x_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
->>  	if (!input_fmts)
->>  		return NULL;
->>  
->> -	input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X24;
->> +	switch (sii902x->pd_lines) {
->> +	case 16:
->> +		input_fmts[0] = MEDIA_BUS_FMT_RGB565_1X16;
->> +		break;
->> +	case 18:
->> +		input_fmts[0] = MEDIA_BUS_FMT_RGB666_1X18;
->> +		break;
->> +	default:
-> 
-> For backward compatibility - in cases where the property is absent - you
-> have already defaulted sii902x->pd_lines to 24 below, which I think is
-> the right way.
-> 
-> So, the default case should be kept separately, as an error case -
-> which should then return back NULL / num_input_fmts = 0.
-> 
->> +	case 24:
->> +		input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X24;
->> +		break;
->> +	}
->> +
->>  	*num_input_fmts = 1;
->>  
->>  	return input_fmts;
->> @@ -1167,6 +1183,15 @@ static int sii902x_probe(struct i2c_client *client)
->>  		return PTR_ERR(sii902x->reset_gpio);
->>  	}
->>
->> +	endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 0, -1);
->> +	if (endpoint) {
->> +		ret = of_property_read_u32(endpoint, "data-lines", &sii902x->pd_lines);
->> +		if (ret) {
->> +			dev_dbg(dev, "Could not get data-lines, fallback to 24 data-lines\n");
->> +			sii902x->pd_lines = 24;
->> +		}
->> +	}
->> +
->>  	endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 1, -1);
->>  	if (endpoint) {
->>  		struct device_node *remote = of_graph_get_remote_port_parent(endpoint);
+> Fixes: 739058a9c5c3 ("dt-bindings: display: mediatek: split: add compatible for MT8195")
+> Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
+> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
 > 
 > --
-> Regards
-> Aradhya
+> This is based on [v2] dt-bindings: display: mediatek: split: add clocks count constraint for MT8195
 > 
+> Changes since v3:
+>   - Correct the compatible name for the mt8173 split in the subschema.
+> 
+> Changes since v2:
+>   - Revise the commit message.
+>   - Enhance the descriptions of 'clocks'.
+>   - Strengthen the conditions within the subschema.
+> 
+> Changes since v1:
+>   - Adding functional descriptions and quantity restrictions.
+> ---
+>  .../display/mediatek/mediatek,split.yaml      | 24 +++++++++++++++++++
+>  1 file changed, 24 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,split.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,split.yaml
+> index e4affc854f3d..87f8477a7be8 100644
+> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,split.yaml
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,split.yaml
+> @@ -57,6 +57,9 @@ properties:
+>    clocks:
+>      items:
+>        - description: SPLIT Clock
+> +      - description: Used for interfacing with the HDMI RX signal source.
+> +      - description: Paired with receiving HDMI RX metadata.
+> +    minItems: 1
+>  
+>  required:
+>    - compatible
+> @@ -72,9 +75,30 @@ allOf:
+>              const: mediatek,mt8195-mdp3-split
+>  
+>      then:
+> +      properties:
+> +        clocks:
 
---
-Regards
-Aradhya
+minItems, nothing in your commit msg says that clocks are optional
+
+> +          maxItems: 3
+> +
+> +        power-domains:
+> +          maxItems: 1
+
+This should be in top-level, not here.
+
+Best regards,
+Krzysztof
+
