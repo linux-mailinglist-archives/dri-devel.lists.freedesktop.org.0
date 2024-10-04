@@ -2,56 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E226D990A78
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2024 19:55:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B33D8990A7A
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2024 19:57:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66C0410E1D3;
-	Fri,  4 Oct 2024 17:55:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E54510EA54;
+	Fri,  4 Oct 2024 17:57:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="RZ83lulQ";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="dCFHK+Aq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from msa.smtpout.orange.fr (smtp-72.smtpout.orange.fr [80.12.242.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92C0B10EA51;
- Fri,  4 Oct 2024 17:55:50 +0000 (UTC)
-Received: from [192.168.1.37] ([90.11.132.44]) by smtp.orange.fr with ESMTPA
- id wmVksyfpFTdlvwmVlsjM8t; Fri, 04 Oct 2024 19:54:47 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
- s=t20230301; t=1728064487;
- bh=5/9qc1wj5VBrWaCuWdDjCcwU0H/Qapv4qLyWjHhEANA=;
- h=Message-ID:Date:MIME-Version:Subject:To:From;
- b=RZ83lulQI7hSHE6j6QNSb9hXP5VJ601NGIFBkt464weGSSU9KICkhe71UYPaC4PVz
- yXXL3vPRu/5IfDEBnVB1a8q7wDeeTI6wShTvP/znJY1fBKkA6dRDwzFLfmjptl/kR6
- 25auBgnY/yow3MOvMOHf8V+x+AKcdY/g3b0B/oy80x3Id6DJuk1kplLVSswCF+r+Rn
- KqCq3q3L67euPpj8Tp581uRR81sQyFU5bBOaz1Px0jvYqU+x+0FjZoxgzI4o4qtRF2
- O3ELFtYJNX9SM+8g/glhoDVY8tjT/VVGMcVM4X4L6gkJLvVWKaWowXyBivqr2omwIM
- L66FEyH+4eFsw==
-X-ME-Helo: [192.168.1.37]
-X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
-X-ME-Date: Fri, 04 Oct 2024 19:54:47 +0200
-X-ME-IP: 90.11.132.44
-Message-ID: <6673435f-250a-4fb7-9843-20f050e85c7c@wanadoo.fr>
-Date: Fri, 4 Oct 2024 19:54:37 +0200
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 131CB10EA54
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Oct 2024 17:57:09 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 494Aeo9A014160;
+ Fri, 4 Oct 2024 17:57:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ RjVAIODgIMe6TcbnIeo3RvgBeLIP865au+8FkWupWgM=; b=dCFHK+Aq1D39Kj8q
+ /8zZqnnMxcaPungOtziwi19nWb9Kdky8tavB4xRDm7/HgM+yavWP8Vf9WV356Y1S
+ JB7n6LUYGDGD2v+h7C/AdCyCNnB6TeG0XeP20nJ1dPcQXrKB2fuwlXwYEgP3Hnsp
+ sRjMXIhkVZYGV07590sBwexPoh2beoGoA8bqlYRvXO6S6EFI2e6dybc5xy/xYkQY
+ 4vnGLIB1SkVwHWdtw+DtQIq+KRlwCTHyYVXJYibd7Ec5gmY6qfYxgu6spllS5snv
+ 0WLnJg9e+FmP8q7uTKBwTfsOvQST7bwu/aHXze1xj/MEl7qEcvlEgodvCpORBvHY
+ slJ/kg==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42205e2xc9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 04 Oct 2024 17:56:59 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 494HuwkL016729
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 4 Oct 2024 17:56:58 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 4 Oct 2024
+ 10:56:57 -0700
+Message-ID: <d5694bb9-e035-c4ba-392e-ca06562355d1@quicinc.com>
+Date: Fri, 4 Oct 2024 11:56:57 -0600
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/i915/display: Remove kstrdup_const() and
- kfree_const() usage
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-References: <f82be2ee3ac7d18dd9982b5368a88a5bf2aeb777.1727977199.git.christophe.jaillet@wanadoo.fr>
- <87h69srz1q.fsf@intel.com>
-Content-Language: en-US, fr-FR
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <87h69srz1q.fsf@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH V3 06/11] accel/amdxdna: Add GEM buffer object management
+Content-Language: en-US
+To: Lizhi Hou <lizhi.hou@amd.com>, <ogabbay@kernel.org>,
+ <dri-devel@lists.freedesktop.org>
+CC: <linux-kernel@vger.kernel.org>, <min.ma@amd.com>, <max.zhen@amd.com>,
+ <sonal.santan@amd.com>, <king.tam@amd.com>
+References: <20240911180604.1834434-1-lizhi.hou@amd.com>
+ <20240911180604.1834434-7-lizhi.hou@amd.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20240911180604.1834434-7-lizhi.hou@amd.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: gxZCMvLNNaZWAXU2vSgITrRDBLVmKIfm
+X-Proofpoint-ORIG-GUID: gxZCMvLNNaZWAXU2vSgITrRDBLVmKIfm
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ lowpriorityscore=0 spamscore=0 suspectscore=0 phishscore=0 mlxlogscore=791
+ mlxscore=0 adultscore=0 bulkscore=0 priorityscore=1501 clxscore=1015
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410040123
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,143 +92,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Le 04/10/2024 à 11:35, Jani Nikula a écrit :
-> On Thu, 03 Oct 2024, Christophe JAILLET <christophe.jaillet@wanadoo.fr> wrote:
->> kstrdup_const() and kfree_const() can be confusing in code built as a
->> module. In such a case, it does not do what one could expect from the name
->> of the functions.
->>
->> The code is not wrong by itself, but in such a case, it is equivalent to
->> kstrdup() and kfree().
->>
->> So, keep thinks simple and straightforward.
->>
->> This reverts commit 379b63e7e682 ("drm/i915/display: Save a few bytes of
->> memory in intel_backlight_device_register()")
-> 
-> Sorry, I guess I'm confused here. Or I just didn't read the commit
-> message to [1] properly. Or both.
-> 
-> So the whole point of [1] was that the _const versions can be confusing
-> if i915 is builtin? But not wrong?
+On 9/11/2024 12:05 PM, Lizhi Hou wrote:
+> +/**
+> + * struct amdxdna_drm_create_bo - Create a buffer object.
+> + * @flags: Buffer flags. MBZ.
+> + * @type: Buffer type.
+> + * @pad1: MBZ.
+> + * @vaddr: User VA of buffer if applied. MBZ.
+> + * @size: Size in bytes.
+> + * @handle: Returned DRM buffer object handle.
+> + * @pad2: MBZ.
+> + */
+> +struct amdxdna_drm_create_bo {
+> +	__u64	flags;
+> +	__u32	type;
+> +	__u32	pad1;
+> +	__u64	vaddr;
+> +	__u64	size;
+> +	__u32	handle;
+> +	__u32	pad2;
+> +};
 
-I'll try to explain the whole story and (try to) be clearer.
-
-
-[2] the intent of this initial patch was a micro-optimization which was 
-expected to save a few bytes of memory. The naming of the function 
-looked promising. However kstrdup_const() only saves the allocation 
-within the rodata section of the kernel [5,6]. The mechanism does not 
-work for code built as module.
-
-This patch *is not* broken by itself, it is just pointless most of the 
-time. So keeping it as-is is just fine, from my point of view.
-
-If built as a module, kstrdup_const() is just a plain kstrdup() and 
-kfree_const() is just kfree().
-
-
-
-[3] was a variation that tried to avoid the allocation in all cases, 
-should it be built as a module or not.
-Being a micro-optimization of a slow path, your argument of keeping 
-things simple is just fine for me.
-
-
-
-[4] just revert [2].
-[2] was not broken, so [4] does not fix anything. It just makes things 
-simpler and as before.
-
-
-So the whole point of [1,3] was that the _const versions can be 
-confusing if i915 is *NOT* builtin.
-But it *is* not wrong, just likely useless in such a case.
-
-So, from my point of view, keeping [2] as is, or applying [3] or [4] on 
-top of it does not change things much, and each solution is correct.
-
-
-
-The idea behind removing some usage of _const() function in modules is 
-related to the patch proposal [7] and more precisely the response of 
-Christoph Hellwig [8]. The patch [7] will not be applied because it 
-breaks things.
-So, should this API be removed one day, or at least removed for modules, 
-the more preparation work is already done (up to now: 4,9,10] the better 
-it is.
-
-CJ
-
-
-
-[2]: 379b63e7e682 ("drm/i915/display: Save a few bytes of memory in 
-intel_backlight_device_register()")
-
-[3]: 
-https://lore.kernel.org/all/3b3d3af8739e3016f3f80df0aa85b3c06230a385.1727533674.git.christophe.jaillet@wanadoo.fr/
-
-[4]: 
-https://lore.kernel.org/all/f82be2ee3ac7d18dd9982b5368a88a5bf2aeb777.1727977199.git.christophe.jaillet@wanadoo.fr/
-
-[5]: https://elixir.bootlin.com/linux/v6.12-rc1/source/mm/util.c#L84
-[6]: 
-https://elixir.bootlin.com/linux/v6.12-rc1/source/include/asm-generic/sections.h#L177
-
-[7]: 
-https://lore.kernel.org/all/20240924050937.697118-1-senozhatsky@chromium.org/
-[8]: https://lore.kernel.org/all/ZvJfhDrv-eArtU8Y@infradead.org/
-
-[9]: 
-https://lore.kernel.org/all/63ac20f64234b7c9ea87a7fa9baf41e8255852f7.1727374631.git.christophe.jaillet@wanadoo.fr/
-[10]: 
-https://lore.kernel.org/all/06630f9ec3e153d0e7773b8d97a17e7c53e0d606.1727375615.git.christophe.jaillet@wanadoo.fr/
-
-> 
-> BR,
-> Jani.
-> 
-> 
-> [1] https://lore.kernel.org/r/3b3d3af8739e3016f3f80df0aa85b3c06230a385.1727533674.git.christophe.jaillet@wanadoo.fr
-> 
-> 
-> 
->>
->> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
->> ---
->>   drivers/gpu/drm/i915/display/intel_backlight.c | 6 +++---
->>   1 file changed, 3 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/display/intel_backlight.c b/drivers/gpu/drm/i915/display/intel_backlight.c
->> index 9e05745d797d..3f81a726cc7d 100644
->> --- a/drivers/gpu/drm/i915/display/intel_backlight.c
->> +++ b/drivers/gpu/drm/i915/display/intel_backlight.c
->> @@ -949,7 +949,7 @@ int intel_backlight_device_register(struct intel_connector *connector)
->>   	else
->>   		props.power = BACKLIGHT_POWER_OFF;
->>   
->> -	name = kstrdup_const("intel_backlight", GFP_KERNEL);
->> +	name = kstrdup("intel_backlight", GFP_KERNEL);
->>   	if (!name)
->>   		return -ENOMEM;
->>   
->> @@ -963,7 +963,7 @@ int intel_backlight_device_register(struct intel_connector *connector)
->>   		 * compatibility. Use unique names for subsequent backlight devices as a
->>   		 * fallback when the default name already exists.
->>   		 */
->> -		kfree_const(name);
->> +		kfree(name);
->>   		name = kasprintf(GFP_KERNEL, "card%d-%s-backlight",
->>   				 i915->drm.primary->index, connector->base.name);
->>   		if (!name)
->> @@ -987,7 +987,7 @@ int intel_backlight_device_register(struct intel_connector *connector)
->>   		    connector->base.base.id, connector->base.name, name);
->>   
->>   out:
->> -	kfree_const(name);
->> +	kfree(name);
->>   
->>   	return ret;
->>   }
-> 
-
+Why not eliminate both padding fields by either moving "handle" up, or 
+"type" down?
