@@ -2,79 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E77FC98FBCE
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2024 03:06:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8B0D98FC3B
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2024 04:18:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3FA910E0C7;
-	Fri,  4 Oct 2024 01:06:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65D3C10E23D;
+	Fri,  4 Oct 2024 02:18:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EyCPFBv0";
+	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="G4NRfL6g";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
- [209.85.216.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4567B10E0C7;
- Fri,  4 Oct 2024 01:06:29 +0000 (UTC)
-Received: by mail-pj1-f49.google.com with SMTP id
- 98e67ed59e1d1-2e0b93157caso1932951a91.0; 
- Thu, 03 Oct 2024 18:06:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1728003989; x=1728608789; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=0MKM8RY4WB/OtS3QV8HYE66wVq4ICJcjlSk60orFw5E=;
- b=EyCPFBv0c7YRw7/BnSWjzDb9CA6gwYEcUS9WBwLPfU7KdUOUaUzP1Fo54cUyT+dIyl
- b7+UdTBoYa1OdfT0+eP8wzlBP+1aRsQK3vpJfeJwCJ/D53QJRbPEwvJaf8VpjoaAguaS
- FfHN8POCfUvVrmhKWOj05+uGsMHabdxcvkBpeJbYvbQ4tXBDXdV3BREsKg5P488e7qK/
- 7LFPqhoWow1rGKtE6Z8/MtFeE8oQ2ZnkMBoWXcdC693kNQAPvMprCwfX1rFUttB/6x/1
- dWSnFv5xLog683ey9WcTsUwIeZ3PRbthcVt/jbMKkqrxXiEsuexbFNd9Ke+sidttG52l
- j/Lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728003989; x=1728608789;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=0MKM8RY4WB/OtS3QV8HYE66wVq4ICJcjlSk60orFw5E=;
- b=bHiuJxHVvYKAdArXDcicSBH0QrjeTAHYHiTRqhDpb7m39QOQJqAVba8DV+kP+E9Tu8
- O/GPiRAQQwB8ZA4ZvEcM7nPdCDbp7MHfh0R4fm5EglhJmyo231NUbjlRE/vKqrfWKatz
- svXbYF9P2UmwF9xkxUDuJfNuQ6CdLx5y6OE0Tw/uimczmkQ35QcI/VtsNVwHpoYvKyd2
- E7ra1OsOr34YV33DKLTUJkq72V93Ln7W169ZfevRuFPXrEDkjPol+t+80eIg4R4IOHpI
- 8QcfDXkOXlOx5csOeys0El7bH1suh4q6CeXtVT5QnWw1ZoVKGjbQ5liMWB4NgP0pvLAD
- dxEA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU6gj+FcboYNqxAnFJ7TY0l5+rwn6mg8YeWOHu83mxq6wlmcfK3Vddh0LVStYdbSorv8VSL9yLZVoGD@lists.freedesktop.org,
- AJvYcCX8uNPS0SP29OHWdeb9E7770fVPQ/wcWrrThyOzGiKMeDRHrQGlCd70MMZHqSH+VKznpq+K9Sfj@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwDUEJapxCPBi/90+ikzGN881prYkaOdt5av9tre/80Ur3xzhO+
- 1oYyTWr1Dg6wCI6WyS0skl5hA7NF5JUfD8bV947wBXjmBfylAnnF
-X-Google-Smtp-Source: AGHT+IHwF8QgszAa+3JDFqSJKcd/5/5sO19rtoHRsn+mDj++CQ5sQCWk7+OvQqlR0Eb+5nDmm597Jw==
-X-Received: by 2002:a17:90a:8a13:b0:2d8:89ff:db1a with SMTP id
- 98e67ed59e1d1-2e1e5b49179mr1423648a91.8.1728003988669; 
- Thu, 03 Oct 2024 18:06:28 -0700 (PDT)
-Received: from jayDESKTOP.. (210006200231.ctinets.com. [210.6.200.231])
- by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-2e1e862328csm187341a91.44.2024.10.03.18.06.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Oct 2024 18:06:28 -0700 (PDT)
-From: Wu Hoi Pok <wuhoipok@gmail.com>
-To: 
-Cc: Hoi Pok Wu <wuhoipok@gmail.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Christian Zigotzky <chzigotzky@xenosoft.de>,
- Alex Deucher <alexander.deucher@amd.com>,
- Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- amd-gfx@lists.freedesktop.org (open list:RADEON and AMDGPU DRM DRIVERS),
- dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
- linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v2] drm/radeon: add late_register for connector
-Date: Fri,  4 Oct 2024 09:05:59 +0800
-Message-ID: <20241004010601.3387-1-wuhoipok@gmail.com>
-X-Mailer: git-send-email 2.46.2
+Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 422F010E1B6;
+ Fri,  4 Oct 2024 02:18:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1728008281;
+ bh=PltzQyGOsappo7+6bKToHM0oOpnfQxAb9D8FQdYGGLw=;
+ h=Date:From:To:Cc:Subject:From;
+ b=G4NRfL6gvV9RuGYHaywEujfDQWkt/AhGxC9D8VHBi8lEl6810zAkKgiI1D8+4Fc6K
+ 9lvj/4RbPjsz2koRZes4v8PJWBK3LM7pbuzT0TrumMF6b1uV9jQGBVC+FkhzK1oQWq
+ h+ijXi0OJGUrcherZwxl/9bSEzJLJ7e6VJKDeh9XnVbKg2zvzCfX4iyoed55hOi1QW
+ gRY2DZb0X8C7G+/UjMd63Ggwp3/XSGCRgEV58dxiUmNAYr9ib+bBqzK6QFxvWsFWGX
+ b+u6U9K60KMElMqhi0RPPa/RBouYmYYRs5WZ+i9CLvvI4bFygUaj1l1KHath6U4SrK
+ yIAEzELzVw6Kg==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (Client did not present a certificate)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4XKXJS2ycQz4x8h;
+ Fri,  4 Oct 2024 12:18:00 +1000 (AEST)
+Date: Fri, 4 Oct 2024 12:18:00 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Lucas De Marchi <lucas.demarchi@intel.com>, Thomas =?UTF-8?B?SGVsbHN0?=
+ =?UTF-8?B?csO2bQ==?= <thomas.hellstrom@linux.intel.com>, Simona Vetter
+ <simona.vetter@ffwll.ch>
+Cc: Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
+ <dri-devel@lists.freedesktop.org>, DRM XE List
+ <intel-xe@lists.freedesktop.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Next Mailing List
+ <linux-next@vger.kernel.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>
+Subject: linux-next: manual merge of the drm-xe tree with the drm-misc-fixes
+ tree
+Message-ID: <20241004121800.7ab3214b@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="Sig_/jD=fq14.FzymV123VlZ2qFF";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,98 +64,137 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The patch is to solve null dereference in 'aux.dev', which is
-introduced in recent radeon rework. By having 'late_register',
-the connector should be registered after 'drm_dev_register'
-automatically, where in before it is the opposite.
+--Sig_/jD=fq14.FzymV123VlZ2qFF
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Fixes: 90985660ba48 ("drm/radeon: remove load callback from kms_driver")
-Tested-by: Hans de Goede <hdegoede@redhat.com>
-Suggested-by: Christophe Leroy <christophe.leroy@csgroup.eu>
-Signed-off-by: Wu Hoi Pok <wuhoipok@gmail.com>
----
- drivers/gpu/drm/radeon/atombios_dp.c       |  9 ++-------
- drivers/gpu/drm/radeon/radeon_connectors.c | 17 +++++++++++++++++
- 2 files changed, 19 insertions(+), 7 deletions(-)
+Hi all,
 
-diff --git a/drivers/gpu/drm/radeon/atombios_dp.c b/drivers/gpu/drm/radeon/atombios_dp.c
-index fca8b08535a5..6328627b7c34 100644
---- a/drivers/gpu/drm/radeon/atombios_dp.c
-+++ b/drivers/gpu/drm/radeon/atombios_dp.c
-@@ -228,10 +228,8 @@ void radeon_dp_aux_init(struct radeon_connector *radeon_connector)
- {
- 	struct drm_device *dev = radeon_connector->base.dev;
- 	struct radeon_device *rdev = dev->dev_private;
--	int ret;
- 
- 	radeon_connector->ddc_bus->rec.hpd = radeon_connector->hpd.hpd;
--	radeon_connector->ddc_bus->aux.dev = radeon_connector->base.kdev;
- 	radeon_connector->ddc_bus->aux.drm_dev = radeon_connector->base.dev;
- 	if (ASIC_IS_DCE5(rdev)) {
- 		if (radeon_auxch)
-@@ -242,11 +240,8 @@ void radeon_dp_aux_init(struct radeon_connector *radeon_connector)
- 		radeon_connector->ddc_bus->aux.transfer = radeon_dp_aux_transfer_atom;
- 	}
- 
--	ret = drm_dp_aux_register(&radeon_connector->ddc_bus->aux);
--	if (!ret)
--		radeon_connector->ddc_bus->has_aux = true;
--
--	WARN(ret, "drm_dp_aux_register() failed with error %d\n", ret);
-+	drm_dp_aux_init(&radeon_connector->ddc_bus->aux);
-+	radeon_connector->ddc_bus->has_aux = true;
- }
- 
- /***** general DP utility functions *****/
-diff --git a/drivers/gpu/drm/radeon/radeon_connectors.c b/drivers/gpu/drm/radeon/radeon_connectors.c
-index 528a8f3677c2..f9c73c55f04f 100644
---- a/drivers/gpu/drm/radeon/radeon_connectors.c
-+++ b/drivers/gpu/drm/radeon/radeon_connectors.c
-@@ -1786,6 +1786,20 @@ static enum drm_mode_status radeon_dp_mode_valid(struct drm_connector *connector
- 	return MODE_OK;
- }
- 
-+static int
-+radeon_connector_late_register(struct drm_connector *connector)
-+{
-+	struct radeon_connector *radeon_connector = to_radeon_connector(connector);
-+	int r = 0;
-+
-+	if (radeon_connector->ddc_bus->has_aux) {
-+		radeon_connector->ddc_bus->aux.dev = radeon_connector->base.kdev;
-+		r = drm_dp_aux_register(&radeon_connector->ddc_bus->aux);
-+	}
-+
-+	return r;
-+}
-+
- static const struct drm_connector_helper_funcs radeon_dp_connector_helper_funcs = {
- 	.get_modes = radeon_dp_get_modes,
- 	.mode_valid = radeon_dp_mode_valid,
-@@ -1800,6 +1814,7 @@ static const struct drm_connector_funcs radeon_dp_connector_funcs = {
- 	.early_unregister = radeon_connector_unregister,
- 	.destroy = radeon_connector_destroy,
- 	.force = radeon_dvi_force,
-+	.late_register = radeon_connector_late_register,
- };
- 
- static const struct drm_connector_funcs radeon_edp_connector_funcs = {
-@@ -1810,6 +1825,7 @@ static const struct drm_connector_funcs radeon_edp_connector_funcs = {
- 	.early_unregister = radeon_connector_unregister,
- 	.destroy = radeon_connector_destroy,
- 	.force = radeon_dvi_force,
-+	.late_register = radeon_connector_late_register,
- };
- 
- static const struct drm_connector_funcs radeon_lvds_bridge_connector_funcs = {
-@@ -1820,6 +1836,7 @@ static const struct drm_connector_funcs radeon_lvds_bridge_connector_funcs = {
- 	.early_unregister = radeon_connector_unregister,
- 	.destroy = radeon_connector_destroy,
- 	.force = radeon_dvi_force,
-+	.late_register = radeon_connector_late_register,
- };
- 
- void
--- 
-2.46.2
+Today's linux-next merge of the drm-xe tree got a conflict in:
 
+  drivers/gpu/drm/xe/xe_guc_submit.c
+
+between commit:
+
+  9286a191abe2 ("drm/xe: Drop GuC submit_wq pool")
+
+from the drm-misc-fixes tree and commit:
+
+  861108666cc0 ("drm/xe: fix UAF around queue destruction")
+
+from the drm-xe tree.
+
+I fixed it up (see below) and can carry the fix as necessary. This
+is now fixed as far as linux-next is concerned, but any non trivial
+conflicts should be mentioned to your upstream maintainer when your tree
+is submitted for merging.  You may also want to consider cooperating
+with the maintainer of the conflicting tree to minimise any particularly
+complex conflicts.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+diff --cc drivers/gpu/drm/xe/xe_guc_submit.c
+index 17c25f18e286,8a5c21a87977..000000000000
+--- a/drivers/gpu/drm/xe/xe_guc_submit.c
++++ b/drivers/gpu/drm/xe/xe_guc_submit.c
+@@@ -224,11 -224,80 +224,27 @@@ static bool exec_queue_killed_or_banned
+  		 EXEC_QUEUE_STATE_BANNED));
+  }
+ =20
+ -#ifdef CONFIG_PROVE_LOCKING
+ -static int alloc_submit_wq(struct xe_guc *guc)
+ -{
+ -	int i;
+ -
+ -	for (i =3D 0; i < NUM_SUBMIT_WQ; ++i) {
+ -		guc->submission_state.submit_wq_pool[i] =3D
+ -			alloc_ordered_workqueue("submit_wq", 0);
+ -		if (!guc->submission_state.submit_wq_pool[i])
+ -			goto err_free;
+ -	}
+ -
+ -	return 0;
+ -
+ -err_free:
+ -	while (i)
+ -		destroy_workqueue(guc->submission_state.submit_wq_pool[--i]);
+ -
+ -	return -ENOMEM;
+ -}
+ -
+ -static void free_submit_wq(struct xe_guc *guc)
+ -{
+ -	int i;
+ -
+ -	for (i =3D 0; i < NUM_SUBMIT_WQ; ++i)
+ -		destroy_workqueue(guc->submission_state.submit_wq_pool[i]);
+ -}
+ -
+ -static struct workqueue_struct *get_submit_wq(struct xe_guc *guc)
+ -{
+ -	int idx =3D guc->submission_state.submit_wq_idx++ % NUM_SUBMIT_WQ;
+ -
+ -	return guc->submission_state.submit_wq_pool[idx];
+ -}
+ -#else
+ -static int alloc_submit_wq(struct xe_guc *guc)
+ -{
+ -	return 0;
+ -}
+ -
+ -static void free_submit_wq(struct xe_guc *guc)
+ -{
+ -
+ -}
+ -
+ -static struct workqueue_struct *get_submit_wq(struct xe_guc *guc)
+ -{
+ -	return NULL;
+ -}
+ -#endif
+ -
++ static void xe_guc_submit_fini(struct xe_guc *guc)
++ {
++ 	struct xe_device *xe =3D guc_to_xe(guc);
++ 	struct xe_gt *gt =3D guc_to_gt(guc);
++ 	int ret;
++=20
++ 	ret =3D wait_event_timeout(guc->submission_state.fini_wq,
++ 				 xa_empty(&guc->submission_state.exec_queue_lookup),
++ 				 HZ * 5);
++=20
++ 	drain_workqueue(xe->destroy_wq);
++=20
++ 	xe_gt_assert(gt, ret);
++ }
++=20
+  static void guc_submit_fini(struct drm_device *drm, void *arg)
+  {
+  	struct xe_guc *guc =3D arg;
+ =20
++ 	xe_guc_submit_fini(guc);
+  	xa_destroy(&guc->submission_state.exec_queue_lookup);
+ -	free_submit_wq(guc);
+  }
+ =20
+  static void guc_submit_wedged_fini(void *arg)
+
+--Sig_/jD=fq14.FzymV123VlZ2qFF
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmb/UFgACgkQAVBC80lX
+0GxVsAf/ZYVWAcXeYUGDOHAeO28Sf2yjhVR2ORN42Cc3+vf+jbnmMzSM21w/jSC3
+i00ah/BnLAel8+9vAi+F/TiH+jpJLvHQSPMeAfQ5I3na2S6ocz6U2X05Yjg6FaH3
+6a23FL4lh+Chm9cOTw7WR+OqPu1//x3n1xRtZLTNB/tdvbF0UqCZYa2i2ia2IfMQ
+nmt6vCmMgL1mRCiDSiDR61D1puW9FD8Poilv82Lta2YpHuiryfurQhF7hREAKIaF
+dutvRlioCDCVsHQ1I8RRH28KOgvWfg0gbGHBkfJASbeuAP/rKDGx97/5HGTS98EO
+P6hC7Tnd2lnMCnoUNOXg70kypy1Cgw==
+=6604
+-----END PGP SIGNATURE-----
+
+--Sig_/jD=fq14.FzymV123VlZ2qFF--
