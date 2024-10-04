@@ -2,153 +2,137 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37CE398FF76
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2024 11:15:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16E3398FF78
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2024 11:17:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2C5F10E9C3;
-	Fri,  4 Oct 2024 09:15:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BC8810E25F;
+	Fri,  4 Oct 2024 09:17:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="OxNkm9j7";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="X3KLTaYf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4KtBbmFK";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="X3KLTaYf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4KtBbmFK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com
- (mail-dm3nam02on2087.outbound.protection.outlook.com [40.107.95.87])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77E6F10E25F;
- Fri,  4 Oct 2024 09:15:50 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=u0TRmH3lle76arMlMVmYouQYotYaDW9epqS+L3w4s5JKJSuthOB8+5LJvehi3YbMd7sWrW9dhHSDtxOLlwmrBLNOv5sgO1cXnRppuxtiYCYQPDM408UzTb4gNdC/ty04LeJqoS7n6ZgGDBtiOm1heXnH8t4z0N7gwEUHAJbSsyWVE0uRSTUJ+aadMVAhVn5lC9D5TbKj2q6ltVZZaJdii/RTrnGTny3RXbhI6XLljuonixOmWA/GnYFf3YaTZNIe6Mw8KdAC2eTIlPkT20aWvLJjVM24iqBe3uG61E9of9x7Cx4cL16KXdWchifIkSYNDLaf6JOXrzJv+a3aHFZbjw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8GtKWZVCupXFvfh/9Zb7UJkMBla7UkckWFzS+Y+R+VM=;
- b=eo5sCGXug6CAv5X3oeXcgmTmmLTrDAuehFsQRSIJgoF+tB7DTQFCLWGsc4qaMdq3s449dIcNV7aQByVOIbFqXIzYF2l+ToMvE4fo7wxU6dMTJWUxF3JCRmuKZ9kCstvCK5FORZktTt6QwECxdXzKFSg1yzHaiMu5KFfyKIDfvJq1AMxuSt/ETIbuokvdnMf1T0FN2FVWJj24nGTyWC0BmlWyp13TBWRapUW+5NgiX67hDOVVbzdwUZNncRNei84uSmR2fl9eG2ZnLR9JOE4A9UGlMofmV+n7VhuMrnPuiPhO2NrcK8StE8Kts+KKPipPClo+E8nVNnI/MOzekx6egQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8GtKWZVCupXFvfh/9Zb7UJkMBla7UkckWFzS+Y+R+VM=;
- b=OxNkm9j7U33YdhE5cYJty7UwJ26+Gg7PsTg9qmw2sUToQZiw07rTL+bF7FrVR95aRyUOjwowb4knn6XpwijNddIFv8Y3KAU4mRRgBKVTcDFY559au9FPV1c0TYgbbdDQ1vjKF/f22tdgXRKTJ6mw6suQgTlBDhaBaAmC7SAUQ24=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB6304.namprd12.prod.outlook.com (2603:10b6:8:a2::7) by
- PH7PR12MB6810.namprd12.prod.outlook.com (2603:10b6:510:1b4::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.16; Fri, 4 Oct
- 2024 09:15:47 +0000
-Received: from DM4PR12MB6304.namprd12.prod.outlook.com
- ([fe80::81da:b334:9e6:2b91]) by DM4PR12MB6304.namprd12.prod.outlook.com
- ([fe80::81da:b334:9e6:2b91%3]) with mapi id 15.20.8026.017; Fri, 4 Oct 2024
- 09:15:47 +0000
-Content-Type: multipart/alternative;
- boundary="------------sohC0i00oVtE69nNHtN0etfc"
-Message-ID: <00761132-75f3-41fd-b571-30b0cbe5565d@amd.com>
-Date: Fri, 4 Oct 2024 14:45:32 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH-next] Fix unintentional integer overflow
-To: Advait Dhamorikar <advaitdhamorikar@gmail.com>,
- alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, simona@ffwll.ch, leo.liu@amd.com,
- sathishkumar.sundararaju@amd.com, saleemkhan.jamadar@amd.com,
- Veerabadhran.Gopalakrishnan@amd.com, sonny.jiang@amd.com
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
- anupnewsmail@gmail.com
-References: <20241004081618.27599-1-advaitdhamorikar@gmail.com>
-Content-Language: en-US
-From: "Sundararaju, Sathishkumar" <sasundar@amd.com>
-In-Reply-To: <20241004081618.27599-1-advaitdhamorikar@gmail.com>
-X-ClientProxiedBy: PN3PR01CA0164.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:de::6) To DM4PR12MB6304.namprd12.prod.outlook.com
- (2603:10b6:8:a2::7)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DC0E10E9C2
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Oct 2024 09:17:07 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id F3EB521E2C;
+ Fri,  4 Oct 2024 09:17:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1728033426; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=/ZNSdqpvnSRoYMeR2U1o4zbyOKGguZ35HIQ05/Q6lwQ=;
+ b=X3KLTaYftw6+ttSAjuUPLsxQYEUs1ScTfPDHdBxS1+U52CBNkHP0zRM6yhHDEwEYcxvWaQ
+ OsH8imeSOjqWvKtSH0VN2bi6bFdcbYiKIoaD3Ip/Z6MHVFgoVrLc7qBTUktdOCDPdSPZkO
+ q1w6RXLHjPOpA6bi9BTmYsU0yBEdfZw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1728033426;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=/ZNSdqpvnSRoYMeR2U1o4zbyOKGguZ35HIQ05/Q6lwQ=;
+ b=4KtBbmFKzP8uO/vUOPQp7940rrCFw9v+J17pzDHFRXHnQYnYQ6ZFKA5VkJCES3iIW7SflP
+ ZZJHAtJgC8BwroAg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1728033426; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=/ZNSdqpvnSRoYMeR2U1o4zbyOKGguZ35HIQ05/Q6lwQ=;
+ b=X3KLTaYftw6+ttSAjuUPLsxQYEUs1ScTfPDHdBxS1+U52CBNkHP0zRM6yhHDEwEYcxvWaQ
+ OsH8imeSOjqWvKtSH0VN2bi6bFdcbYiKIoaD3Ip/Z6MHVFgoVrLc7qBTUktdOCDPdSPZkO
+ q1w6RXLHjPOpA6bi9BTmYsU0yBEdfZw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1728033426;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=/ZNSdqpvnSRoYMeR2U1o4zbyOKGguZ35HIQ05/Q6lwQ=;
+ b=4KtBbmFKzP8uO/vUOPQp7940rrCFw9v+J17pzDHFRXHnQYnYQ6ZFKA5VkJCES3iIW7SflP
+ ZZJHAtJgC8BwroAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0CF9F13A55;
+ Fri,  4 Oct 2024 09:17:03 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id psHDNI+y/2aLBwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 04 Oct 2024 09:17:03 +0000
+Content-Type: multipart/mixed; boundary="------------1jT1IP0EKdljg6H4PgBZvlrj"
+Message-ID: <ad02af39-b9b5-4b04-878b-78b3eb7885a5@suse.de>
+Date: Fri, 4 Oct 2024 11:17:02 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB6304:EE_|PH7PR12MB6810:EE_
-X-MS-Office365-Filtering-Correlation-Id: 91add126-25e2-4966-0fe8-08dce45521fc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|921020;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?L0V1ekI5MzIzdjhmRzlibnZ1RkpiN2pQckoyV2dzcDhXT28reWw5QXpnV21D?=
- =?utf-8?B?QzdIdmEwUkZPbGtCRTNxNHB1VHVDdzFyMEhIUk05OVhyTmMzN2h2ckphNTBF?=
- =?utf-8?B?WTVOalREc0xjeE9SMFdaNzFhdzBFUWNKeEQ2R2lDUzVtRnJWMzlpb2NqMncw?=
- =?utf-8?B?TnBEZVlRYWpGbkpIVHovWEh1YkZ0d1A0eTBSTDlyNzVQYzY1WVdUdHBQOXhj?=
- =?utf-8?B?eWVzRC9iVUJ4YzFYREIwWFpGVUY1RndMUi93WkM2SkVEdGdvNUFKODhLSFF2?=
- =?utf-8?B?Zi81SU15VDlpQ2tqSW82K09td01zWGdhYXByUm9mRlc1RzIzMHVITGpVVjAr?=
- =?utf-8?B?dTMyUnBBbm1ydStGTGFhNnJlZWlXSzZHMVQwVTNGUEhOZGlPZkVQOUthUFVj?=
- =?utf-8?B?bGFlK2F0cEVTWStPWXpYMDA5NWZRYUtwd1VZdDlmWDZDWllqei9wMGFta3NI?=
- =?utf-8?B?VnVLZEJCTjhxZHMrNUtrNHlMbWk4eEwyU0laV01SeGp3dnBBNGsrV013cHhq?=
- =?utf-8?B?K2kwQVZLMXVSeTRFdVgrSWtpM0ZCd2R3dkM5WmYwUnRwV1U3YUlLZ1BJRkNI?=
- =?utf-8?B?MklWOFQxMmVPbEEwY2RpMEk4Mlo2dklRME1TcGpzMFpwamM1Q3pPbkRQWmE5?=
- =?utf-8?B?d2g3emk4UFBSTGVPRHVMdXFOWE15eWl6WTF6OG9qR0NwZ3VDZERNYWkzbHlK?=
- =?utf-8?B?a2xwcTJ4eDNFWlp0dzNXZmFVOWdUU2RaQ25xU0V3Znc0WkwxblZ5amh2TitW?=
- =?utf-8?B?MUJaWkNFL1BVU0tiRVlTNnhOZnNCNjBtSmE2dThxZlFLaGtnd1haRGF0TUh3?=
- =?utf-8?B?bGhWMHJXbTB6d0U3MXVrK0p3ZnVGaGUvUzhnNkRQekhMdDFLSGJXL1UxY05u?=
- =?utf-8?B?RVFCd2tVUEFNOFJMbTJRRlpudEhTbTBPZkxFOFROQjZEUEIxeDBXajVNT1ZX?=
- =?utf-8?B?ZC9LUk56dC9xUXZ2dXNVaWxFWnM0Vk4yYVNHRzJQL2cwOFVHUkh4NTR5OWZ6?=
- =?utf-8?B?UjVucGZRQWNSMnpobmNianZ2Z1M1bm9nelp0TjlGRWt2NUkyNWZoWkc4TFh4?=
- =?utf-8?B?MTcvbEM3ZE1EUHZCdEdzWmxLR3hOUy9aNUxBRmpNQmViSmhTb3NITW5ZZlVo?=
- =?utf-8?B?a28rVC9TT1BjUFhnV2hwMWJCSzhTTU5OWDBnMDYxc3pYREQvRGhoUmJLbGlx?=
- =?utf-8?B?TjNHOU0yR2lJMk16Y2RtNXo5dDVmMEN3SHdhMXZQaEQyYXdiK0RUTnhHcjZ1?=
- =?utf-8?B?OFNmOFdaNDluZEZxWVF6OXB0eVczTmNoaUxnUHhkRGJXTVlDY3JScVhDRDhS?=
- =?utf-8?B?SlFvZXcranpJL3B3eDRjMkxLRURsU2FxMmc1Mm02UlRiVkNaQkMzYUxYNks1?=
- =?utf-8?B?bk1tVlFDeWtUMStEQk5SMllIb3BUeWJtMGVjT0hLUmI4RXdUVTl5THVUeHM5?=
- =?utf-8?B?azB0Yjl1dHJ2enhBWEVRdGFmUVBIb3NxT2dyR0o4M0hhTG9yTWo4K1BJTVFZ?=
- =?utf-8?B?OVFnRDdhQ3dXRTlIbzU4UkpJN1pjTzVuREY3V1NHTWlWNGJJcDRlNW1aQ3dD?=
- =?utf-8?B?Umo4T3B1SXZ3cS9LdXJHQ2FRdnA3ZnlVL2xHMUgveFpmcVM2UTdwNnVvZGZr?=
- =?utf-8?B?RndPTWgrMU1LK2NWNi95ZDVGT0ExR2dKd0hoK3h2T2lld3lQV1UvR3V6TTVi?=
- =?utf-8?B?a050TnhOQmlBQ1FVZHFBR05NL09yd1BSVForNWhCQkdUTWRlMVVweW1NTDlB?=
- =?utf-8?Q?B7kTEX1EZzE42HmG+hYgQhXF6R9KNdlvHKIOhVF?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB6304.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014)(921020); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QTduUlRkczNrTXhLQ21KWTQ2anJ1RTFaSVdZdVM2QTZua280RnVyS0RGalNi?=
- =?utf-8?B?dUM3aXUrUWU4RlQ5U1gvaThzSnlTTEJzRTNMS0k3Zjh1RTAraDZFNEhTam1l?=
- =?utf-8?B?SE1ZTmZXa3Q3eG4vaWorTDV1cVBFQktTVTFtc3RncFZOdEJjZzF0NEEvdXd4?=
- =?utf-8?B?TmJRWXdPZGIvSTJoZG94RE52bTRmemJiSytYOG1lQTcyUHVOenFiY0M2WlRH?=
- =?utf-8?B?emlnRElmSE9Gd2lzcmliMGFCYjBPOU8xekljbWVPbXhuMWhpSW9Ub0Riczlx?=
- =?utf-8?B?QWZEMDhieUFhNmdXMnIzVWROcmVnZWF2VC9NbHNGUjJmQWtrSVBzYlZCOHB5?=
- =?utf-8?B?Y2pEVy9Jck55SjZUNUxGUmZOTlB0TkhHM0tJdGdIdStwWnpUbCs2UGU3UWFT?=
- =?utf-8?B?a1NmbTlkMmlKNDdHUzN0Rmw0TGJ6bjVpZ3hNK2hMTXhUSmczY3pjYXYrNE9F?=
- =?utf-8?B?U0lYN2tFSTYwMkVuaDI1ckNETGozcm9NazVLUDN3R0I3a3R1Ykl1elN1dXhP?=
- =?utf-8?B?TE1TRXZjRHJMUGVaWWpxQ1NHVThZNERpS1R1T0U3a0xQK0dWM0x1SWMwN1V0?=
- =?utf-8?B?Rk1qdkk2ai9Vb0l3QWQrQmN5VjJUVm9VRzNRQUptSWVXdTIyOVV4UWgwQi93?=
- =?utf-8?B?WUFGMm5hMUFLbkRJeDFidDY5NTczL0ExS0lySjZMN1RVajJRNExMeGRGZm55?=
- =?utf-8?B?Q05wQnFyTnorYktQdkttcjY3c3JuM3lZc0pMSkhpd296Rk5ueFlBUzBUS1Bv?=
- =?utf-8?B?YUQ0c0Y0aTZRVEZscWdpQ1VxVjQyeGE5WUlkQUFuc2VOZ25QVVIwN0RlaGVj?=
- =?utf-8?B?UDFwQXQ3WDhudDYzc1k2S1JDUXhWc0FuWW9kaUFGZklqY1kzUzJ1WHg0Y1k1?=
- =?utf-8?B?cTd2WFl1Z3VFMFFOaFpXRXRTb002aUZUaVNwbTBLSEkrREVLdVgwWCtXL1FK?=
- =?utf-8?B?cUJicTIwenN1a1NleGlraW9Vc0EwdjFBYWp1QUhOKzFOUjNpQ2IvdjNicXky?=
- =?utf-8?B?TEVINzBuUDZHa0trTUFpcFVOV09yNi9hbGQ1cjBQK0ZKRTliMzlib2hWRjYr?=
- =?utf-8?B?bG5vZk5JSmNlNTh4aE9KbllJS1lSUWxpNXZleUZ6ejh6MVk1NmlSTFAydGpL?=
- =?utf-8?B?SEVCalZoUVlHeDVLOVcrbHFQWGxFeWpINFFDekNJZXlDb05wc0ZiU2hoLzE0?=
- =?utf-8?B?UEFtRzh1Vm5ETEtkNDg3MEhZVTJhVmEzSVBaamVmUnVtd045UmJFZGQrY0o0?=
- =?utf-8?B?aHVrUzFKaFYva2tPaXFDcHdlQ2M5WmhiUGd1YWFiRThBZVdHMU80S0d5VkxP?=
- =?utf-8?B?QlBycENsYXVWNE1yM3d2MnF2TUdaaUdvakJZMUdrbFcwYVpTZ0V3bnpiNnNr?=
- =?utf-8?B?cEE0Q2pXSmwrN01JUG9YcVY5ME9KaTJJUTNHZU1oczFibU4ydi9kVk44WEZu?=
- =?utf-8?B?SFVNdmVmVE5DMnpFZkhkVVZRZUM3eVM1a1FrZExPdUx4cHhLWCtxeVArSEp5?=
- =?utf-8?B?NnlDTGtuNUMrYTdsT3R2aEhkMlRDK09UcC95QTkxOHJpNVBMOWh6Ky9VQlFo?=
- =?utf-8?B?S3RITjkrdTRpdjYxQnhSdGtzSmhZUkYwRUw0bXZscDRRT0N2djREV0paWlRY?=
- =?utf-8?B?Y1Q4ZXBVejZNTDFielMydFJLN0piZEJGYW1mUExYL0NwVHp5SlVJaFZ2OWMx?=
- =?utf-8?B?OTZzQUluWVVWMGZKaGN0QTc2Z3JDTzZJdTBWMk1rSE1OSjc3bDk1NWZsZXMr?=
- =?utf-8?B?cDd1VDhXTENCQnQ4dGdVNHZiaTljUWNORmZVV1pReHBpSjcxa0tsK0grbkM3?=
- =?utf-8?B?NEFMSTIzd1VRenFpSFZ4TFZWRzhVOEc0NnJvbnczZ1lqSjhjMGJXWnNtK3VK?=
- =?utf-8?B?ZzRoNTFZRFlOMXdtZVlaTHFuQ1p0TTZvSzN4SG91N0lsWEx1QlN3d1ZXcWFC?=
- =?utf-8?B?VDRxNWVDeXVpK2dFaE5GSWtnd0ZhU05LWUUvdlFwT1gySDhEOWpYTXVEZFNN?=
- =?utf-8?B?N2FVL1BTbTJjQnVpS0tUd3J5cDlrTzY2OVM0citaTWg0a09EcE0wcVNla0xN?=
- =?utf-8?B?SHBmUkFic2hIL3JuajJtYnlVcWNjY3ZBRmdsaE9kRFpHMDhBdlhMWkY5QnF4?=
- =?utf-8?Q?+oE+5ZkP0za7m2LwxSQ5MxnW/?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 91add126-25e2-4966-0fe8-08dce45521fc
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6304.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Oct 2024 09:15:47.7121 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SHnPZnhkBcoDzOMSsWm5vKXNGaU/3iIQf7kdMbqbvqkbkwkUPD0tY+YklDXkLtsBrWeCPtM7HULg6lhoYHjEaw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6810
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 0/7] drm/mgag200: Implement VBLANK support
+To: "Luck, Tony" <tony.luck@intel.com>
+Cc: "jfalempe@redhat.com" <jfalempe@redhat.com>,
+ "airlied@redhat.com" <airlied@redhat.com>,
+ "sam@ravnborg.org" <sam@ravnborg.org>,
+ "emil.l.velikov@gmail.com" <emil.l.velikov@gmail.com>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>,
+ "airlied@gmail.com" <airlied@gmail.com>, "daniel@ffwll.ch"
+ <daniel@ffwll.ch>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+References: <20240718104551.575912-1-tzimmermann@suse.de>
+ <Zvx6lSi7oq5xvTZb@agluck-desk3.sc.intel.com>
+ <49f0ca61-0cf4-4093-b4a7-f49dc46037ab@suse.de>
+ <SJ1PR11MB60836E1B04A688CF55506BF4FC702@SJ1PR11MB6083.namprd11.prod.outlook.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <SJ1PR11MB60836E1B04A688CF55506BF4FC702@SJ1PR11MB6083.namprd11.prod.outlook.com>
+X-Spam-Level: 
+X-Spamd-Result: default: False [-1.70 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ SUSPICIOUS_RECIPS(1.50)[]; MIME_BASE64_TEXT_BOGUS(1.00)[];
+ NEURAL_HAM_LONG(-1.00)[-0.998];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_BASE64_TEXT(0.10)[];
+ MIME_GOOD(-0.10)[multipart/mixed,text/plain,text/x-patch];
+ TAGGED_RCPT(0.00)[]; ARC_NA(0.00)[];
+ MID_RHS_MATCH_FROM(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ MIME_TRACE(0.00)[0:+,1:+,2:+]; TO_DN_EQ_ADDR_SOME(0.00)[];
+ RCVD_TLS_ALL(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ TO_DN_SOME(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[];
+ FREEMAIL_CC(0.00)[redhat.com,ravnborg.org,gmail.com,linux.intel.com,kernel.org,ffwll.ch,lists.freedesktop.org];
+ RCPT_COUNT_SEVEN(0.00)[10]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ RCVD_COUNT_TWO(0.00)[2]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ HAS_ATTACHMENT(0.00)[]
+X-Spam-Score: -1.70
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -164,99 +148,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---------------sohC0i00oVtE69nNHtN0etfc
+This is a multi-part message in MIME format.
+--------------1jT1IP0EKdljg6H4PgBZvlrj
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
+Hi
 
-All occurrences of this error fix should have been together in a single 
-patch both in _get and _set callbacks corresponding to f0b19b84d391, 
-please avoid separate patch for each occurrence.
-
-Sorry Alex, I missed to note this yesterday.
-
-
-Regards,
-Sathish
-
-
-On 10/4/2024 1:46 PM, Advait Dhamorikar wrote:
-> Fix shift-count-overflow when creating mask.
-> The expression's value may not be what the
-> programmer intended, because the expression is
-> evaluated using a narrower integer type.
+Am 02.10.24 um 18:15 schrieb Luck, Tony:
+>> Thanks for the bug report. Can you provide the output of 'sudo lspci
+>> -vvv' for the graphics device?
+> Thomas,
 >
-> Fixes: f0b19b84d391 ("drm/amdgpu: add amdgpu_jpeg_sched_mask debugfs")
-> Signed-off-by: Advait Dhamorikar<advaitdhamorikar@gmail.com>
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> Sure. Here's the output (run on the v6.11.0 kernel)
+
+Thanks. It doesn't look much different from other systems. IRQ is also 
+assigned.
+
+Attached is a patch that fixes a possible off-by-one error in the 
+register settings. This would affect the bug you're reporting. If 
+possible, please apply the patch to your 6.12-rc1, test and report the 
+result.
+
+Best regards
+Thomas
+
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c
-> index 95e2796919fc..7df402c45f40 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c
-> @@ -388,7 +388,7 @@ static int amdgpu_debugfs_jpeg_sched_mask_get(void *data, u64 *val)
->   		for (j = 0; j < adev->jpeg.num_jpeg_rings; ++j) {
->   			ring = &adev->jpeg.inst[i].ring_dec[j];
->   			if (ring->sched.ready)
-> -				mask |= 1 << ((i * adev->jpeg.num_jpeg_rings) + j);
-> +				mask |= (u64)1 << ((i * adev->jpeg.num_jpeg_rings) + j);
->   		}
->   	}
->   	*val = mask;
---------------sohC0i00oVtE69nNHtN0etfc
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+> $ sudo lspci -vvv -s 0000:08:00.0
+> 08:00.0 VGA compatible controller: Matrox Electronics Systems Ltd. MGA G200e [Pilot] ServerEngines (SEP1) (rev 05) (prog-if 00 [VGA controller])
+>          Subsystem: Intel Corporation Device 0103
+>          Control: I/O+ Mem+ BusMaster- SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx-
+>          Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+>          Interrupt: pin A routed to IRQ 16
+>          Region 0: Memory at 90000000 (32-bit, prefetchable) [size=16M]
+>          Region 1: Memory at 91800000 (32-bit, non-prefetchable) [size=16K]
+>          Region 2: Memory at 91000000 (32-bit, non-prefetchable) [size=8M]
+>          Expansion ROM at 91810000 [disabled] [size=64K]
+>          Capabilities: [dc] Power Management version 2
+>                  Flags: PMEClk- DSI+ D1- D2- AuxCurrent=0mA PME(D0-,D1-,D2-,D3hot-,D3cold-)
+>                  Status: D0 NoSoftRst- PME-Enable- DSel=0 DScale=0 PME-
+>          Capabilities: [e4] Express (v1) Legacy Endpoint, MSI 00
+>                  DevCap: MaxPayload 256 bytes, PhantFunc 0, Latency L0s <64ns, L1 <1us
+>                          ExtTag- AttnBtn- AttnInd- PwrInd- RBE- FLReset-
+>                  DevCtl: CorrErr- NonFatalErr- FatalErr- UnsupReq-
+>                          RlxdOrd+ ExtTag- PhantFunc- AuxPwr- NoSnoop-
+>                          MaxPayload 128 bytes, MaxReadReq 128 bytes
+>                  DevSta: CorrErr+ NonFatalErr- FatalErr- UnsupReq+ AuxPwr- TransPend-
+>                  LnkCap: Port #0, Speed 2.5GT/s, Width x1, ASPM L0s, Exit Latency L0s <64ns
+>                          ClockPM- Surprise- LLActRep- BwNot- ASPMOptComp-
+>                  LnkCtl: ASPM Disabled; RCB 64 bytes, Disabled- CommClk+
+>                          ExtSynch- ClockPM- AutWidDis- BWInt- AutBWInt-
+>                  LnkSta: Speed 2.5GT/s (ok), Width x1 (ok)
+>                          TrErr- Train- SlotClk+ DLActive- BWMgmt- ABWMgmt-
+>          Capabilities: [54] MSI: Enable- Count=1/1 Maskable- 64bit-
+>                  Address: 00000000  Data: 0000
+>          Kernel driver in use: mgag200
+>          Kernel modules: mgag200
+>
+> -Tony
 
-<!DOCTYPE html><html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    <br>
-    <font face="monospace">All occurrences of this error fix should have
-      been together in a single patch both in _get and _set callbacks
-      corresponding to <span style="white-space: pre-wrap">f0b19b84d391</span>,
-      please avoid separate patch for each occurrence.</font><br>
-    <p><font face="monospace">Sorry Alex, I missed to note this
-        yesterday.<br>
-      </font></p>
-    <br>
-    <font face="monospace">Regards,</font><br>
-    <font face="monospace">Sathish</font>
-    <p><font face="monospace"><br>
-      </font></p>
-    <div class="moz-cite-prefix">On 10/4/2024 1:46 PM, Advait Dhamorikar
-      wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:20241004081618.27599-1-advaitdhamorikar@gmail.com">
-      <pre class="moz-quote-pre" wrap="">Fix shift-count-overflow when creating mask.
-The expression's value may not be what the
-programmer intended, because the expression is
-evaluated using a narrower integer type.
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
-Fixes: f0b19b84d391 (&quot;drm/amdgpu: add amdgpu_jpeg_sched_mask debugfs&quot;)
-Signed-off-by: Advait Dhamorikar <a class="moz-txt-link-rfc2396E" href="mailto:advaitdhamorikar@gmail.com">&lt;advaitdhamorikar@gmail.com&gt;</a>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--------------1jT1IP0EKdljg6H4PgBZvlrj
+Content-Type: text/x-patch; charset=UTF-8;
+ name="0001-drm-matrox-Fix-off-by-one-error-in-vblank-start-valu.patch"
+Content-Disposition: attachment;
+ filename*0="0001-drm-matrox-Fix-off-by-one-error-in-vblank-start-valu.pa";
+ filename*1="tch"
+Content-Transfer-Encoding: base64
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c
-index 95e2796919fc..7df402c45f40 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c
-@@ -388,7 +388,7 @@ static int amdgpu_debugfs_jpeg_sched_mask_get(void *data, u64 *val)
- 		for (j = 0; j &lt; adev-&gt;jpeg.num_jpeg_rings; ++j) {
- 			ring = &amp;adev-&gt;jpeg.inst[i].ring_dec[j];
- 			if (ring-&gt;sched.ready)
--				mask |= 1 &lt;&lt; ((i * adev-&gt;jpeg.num_jpeg_rings) + j);
-+				mask |= (u64)1 &lt;&lt; ((i * adev-&gt;jpeg.num_jpeg_rings) + j);
- 		}
- 	}
- 	*val = mask;
-</pre>
-    </blockquote>
-  </body>
-</html>
+RnJvbSAzMDA1MmM0MTBiYTVkZTcxMDUwNmM3Mjc5YjY0MzRkYjM5ZTYwOTA2IE1vbiBTZXAg
+MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5A
+c3VzZS5kZT4KRGF0ZTogRnJpLCA0IE9jdCAyMDI0IDEwOjQzOjA0ICswMjAwClN1YmplY3Q6
+IFtQQVRDSF0gZHJtL21hdHJveDogRml4IG9mZi1ieS1vbmUgZXJyb3IgaW4gdmJsYW5rIHN0
+YXJ0IHZhbHVlCgotLS0KIGRyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBfbW9kZS5j
+IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0p
+CgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIwMF9tb2RlLmMg
+Yi9kcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAwX21vZGUuYwppbmRleCA3MTU5OTA5
+YWNhMWUuLjlkOTA1YjM3OWYzOCAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL21nYWcy
+MDAvbWdhZzIwMF9tb2RlLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIw
+MF9tb2RlLmMKQEAgLTIyNCw3ICsyMjQsNyBAQCB2b2lkIG1nYWcyMDBfc2V0X21vZGVfcmVn
+cyhzdHJ1Y3QgbWdhX2RldmljZSAqbWRldiwgY29uc3Qgc3RydWN0IGRybV9kaXNwbGF5X21v
+ZAogCXZzeW5jc3RyID0gbW9kZS0+Y3J0Y192c3luY19zdGFydCAtIDE7CiAJdnN5bmNlbmQg
+PSBtb2RlLT5jcnRjX3ZzeW5jX2VuZCAtIDE7CiAJdnRvdGFsID0gbW9kZS0+Y3J0Y192dG90
+YWwgLSAyOwotCXZibGtzdHIgPSBtb2RlLT5jcnRjX3ZibGFua19zdGFydDsKKwl2Ymxrc3Ry
+ID0gbW9kZS0+Y3J0Y192Ymxhbmtfc3RhcnQgLSAxOwogCXZibGtlbmQgPSB2dG90YWwgKyAx
+OwogCiAJLyoKLS0gCjIuNDYuMAoK
 
---------------sohC0i00oVtE69nNHtN0etfc--
+--------------1jT1IP0EKdljg6H4PgBZvlrj--
