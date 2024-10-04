@@ -2,75 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA644991356
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Oct 2024 01:59:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFC22991359
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Oct 2024 01:59:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F37AB10E0CB;
-	Fri,  4 Oct 2024 23:59:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9413110E1B8;
+	Fri,  4 Oct 2024 23:59:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="m3mjtcKB";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RZ1eSbao";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
- [209.85.214.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5887610E0CB;
- Fri,  4 Oct 2024 23:59:20 +0000 (UTC)
-Received: by mail-pl1-f175.google.com with SMTP id
- d9443c01a7336-20ba8d92af9so20765435ad.3; 
- Fri, 04 Oct 2024 16:59:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1728086359; x=1728691159; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=ELTyDzpdOksZjoNrVzCSOk+1T+6UJusdniGL8nRZ6BA=;
- b=m3mjtcKBEZbGCHoUncmYMN1Ij4ULPef/bPmXtMHo4PgXQdVD/Hg1Vyl/Kb9KiVhwi7
- VEk7uQbZc5VC8rk7t4ijz2VPdtfaz7RUuEuqYuJPWpfIlTJ4vKl1zXpE6yKDM4iO+i7B
- pMVgR9riWVlnMVLul0f9xM/zmkLM7+qIEVWELU8BjMLx4BjcfVzKiG/ckQPEt/e6xCnP
- sR7Kqyz3IyxhJD8FUc1Xod91okrQAt0YiskwwDR5mXZhbRhxK++T1qjMqHj1BukGvvvM
- MpupziDvephlJ0iHm2cryphDzkjoCZfgLtiiynr7/mGlV7xI9TvnRdY/AOnUXzUJ2lxa
- gytQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728086359; x=1728691159;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ELTyDzpdOksZjoNrVzCSOk+1T+6UJusdniGL8nRZ6BA=;
- b=w72yAAKKS7Y33GMA3GQQq18WfgvfRV2P+oV0YeahyR/QX9jeVrKYsgCLi4oZXWpHrZ
- L01ny/oiFICR4G4+C7J6rvW0dRVyugfa0H2apZyp6cF8HHvbBdnkU10MME60EeWFxVAI
- v5H4Z5UTsCx4HrG+UkJnzkuCybrxkPnLbmgHAtNl47HDwNnVSBmYRHPwx0XYDPrH18fn
- 2E1fb1xBBgSciN3jwaP/UU99rs//IZ11T6g/yg98oUyqBTquPlSBUPS5eahOHQL0mLRy
- akoJtU2smYQmy+nLxx8jrUcWnJ4qa+VjxM8lzxG+TC8na1cUy5g9EyGu/6poNlBQ9l0Q
- Plqw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXRPKaVhbuuqTJcEC46tGXA8mqpG0DSZu7U1lkmmk48diUJQCwga71qquUkjL2TdO5nfwboyL09SMQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy3RSW6+0IajbzAD2steRa4XaSQmtTebz1mkJSjgSm3zxZylZlx
- hz9zzPYuRh/l22ZzWiRWjLB2HvkBRCtGHPKWOpgUB+vXJna0TGu80wkG8o04
-X-Google-Smtp-Source: AGHT+IE4KeUCrGU0raePMGcI+7No2gZ8fga25JYXVow+n45+mMfBY6vGLyd1AwU6nr8w1On2GvMBAQ==
-X-Received: by 2002:a17:902:e547:b0:20b:b75d:e8c1 with SMTP id
- d9443c01a7336-20bfde5567cmr72247025ad.4.1728086358935; 
- Fri, 04 Oct 2024 16:59:18 -0700 (PDT)
-Received: from archlinux.. ([2405:201:e00c:517f:5e87:9cff:fe63:6000])
- by smtp.googlemail.com with ESMTPSA id
- d9443c01a7336-20c13987571sm3841785ad.250.2024.10.04.16.59.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Oct 2024 16:59:18 -0700 (PDT)
-From: Mohammed Anees <pvmohammedanees2003@gmail.com>
-To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
- David Wu <David.Wu3@amd.com>, Felix Kuehling <felix.kuehling@amd.com>,
- Mohammed Anees <pvmohammedanees2003@gmail.com>
-Subject: [PATCH] drm/amdgpu: prevent BO_HANDLES error from being overwritten
-Date: Sat,  5 Oct 2024 05:29:04 +0530
-Message-ID: <20241004235904.8605-1-pvmohammedanees2003@gmail.com>
-X-Mailer: git-send-email 2.46.0
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80E8A10E198;
+ Fri,  4 Oct 2024 23:59:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1728086389; x=1759622389;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=pkFs7lkzwnAV7kMzsCAOU0nn92TjwRHRGRSsl5BbEFs=;
+ b=RZ1eSbao5OoMKC5AnfmztMyOJgtWpl5yFo/1CAvLF33dXmcZPzG54SF0
+ Vy18BZ2WaeUPPtfcCyTaFrCj22BijCQ7BaT9wX7z792SsvFyMko8frBIx
+ AdGdjO0+hupEBlLW4SF9h+JJM9Cq8JOkiuvnknJFQPJIp/vU87s4lLNl7
+ 5EeCB51v2fwbWvI9X4cWe44hMKedp9vftaRTfCqKfhsoBz8BOXYijhUJS
+ tBdIGCaWT9YCXRoasY+nN54VbizhRHWTe2KntiDHnAZbAlBkFoqcI9e5f
+ +0T33rLiVioFUSvYtTNPbc5oSiEBLyY3VT8AD87Hd5+Y0owXgBPfXcfHu g==;
+X-CSE-ConnectionGUID: p4SPtyIOSNas9DORYm5OIA==
+X-CSE-MsgGUID: 9dlnChlHSQCL/yHRHskeeA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="27456444"
+X-IronPort-AV: E=Sophos;i="6.11,178,1725346800"; d="scan'208";a="27456444"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Oct 2024 16:59:49 -0700
+X-CSE-ConnectionGUID: yyxXa65FQ2iEoW0f05Pnjw==
+X-CSE-MsgGUID: YO9UuW43Q5KtpCCGAybLWw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,178,1725346800"; d="scan'208";a="75290559"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+ by orviesa007.jf.intel.com with ESMTP; 04 Oct 2024 16:59:46 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1swsD2-0002Ly-0B;
+ Fri, 04 Oct 2024 23:59:44 +0000
+Date: Sat, 5 Oct 2024 07:59:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ville Syrjala <ville.syrjala@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ intel-gfx@lists.freedesktop.org, Jani Nikula <jani.nikula@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 1/8] drm/client: Constify modes
+Message-ID: <202410050750.I0iVowt8-lkp@intel.com>
+References: <20241003113304.11700-2-ville.syrjala@linux.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241003113304.11700-2-ville.syrjala@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,32 +72,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Before this patch, if multiple BO_HANDLES chunks were submitted,
-the error -EINVAL would be correctly set but could be overwritten
-by the return value from amdgpu_cs_p1_bo_handles(). This patch
-ensures that once an error condition is detected, the function
-returns immediately, avoiding the overwriting of the error code.
+Hi Ville,
 
-Signed-off-by: Mohammed Anees <pvmohammedanees2003@gmail.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+kernel test robot noticed the following build errors:
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-index 1e475eb01417..543db0df9a31 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-@@ -266,8 +266,9 @@ static int amdgpu_cs_pass1(struct amdgpu_cs_parser *p,
- 			/* Only a single BO list is allowed to simplify handling. */
- 			if (p->bo_list)
- 				ret = -EINVAL;
-+			else
-+				ret = amdgpu_cs_p1_bo_handles(p, p->chunks[i].kdata);
- 
--			ret = amdgpu_cs_p1_bo_handles(p, p->chunks[i].kdata);
- 			if (ret)
- 				goto free_partial_kdata;
- 			break;
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on next-20241004]
+[cannot apply to drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm/drm-next drm-exynos/exynos-drm-next linus/master v6.12-rc1]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ville-Syrjala/drm-client-Constify-modes/20241004-061843
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20241003113304.11700-2-ville.syrjala%40linux.intel.com
+patch subject: [PATCH 1/8] drm/client: Constify modes
+config: i386-buildonly-randconfig-002-20241005 (https://download.01.org/0day-ci/archive/20241005/202410050750.I0iVowt8-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241005/202410050750.I0iVowt8-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410050750.I0iVowt8-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/gpu/drm/drm_client_modeset.c:1266:
+>> drivers/gpu/drm/tests/drm_client_modeset_test.c:108:7: error: assigning to 'struct drm_display_mode *' from 'const struct drm_display_mode *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+     108 |         mode = drm_connector_pick_cmdline_mode(connector);
+         |              ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
+
+
+vim +108 drivers/gpu/drm/tests/drm_client_modeset_test.c
+
+8fc0380f6ba7e94 Maxime Ripard 2022-11-14   84  
+8fc0380f6ba7e94 Maxime Ripard 2022-11-14   85  static void drm_test_pick_cmdline_res_1920_1080_60(struct kunit *test)
+8fc0380f6ba7e94 Maxime Ripard 2022-11-14   86  {
+8fc0380f6ba7e94 Maxime Ripard 2022-11-14   87  	struct drm_client_modeset_test_priv *priv = test->priv;
+8fc0380f6ba7e94 Maxime Ripard 2022-11-14   88  	struct drm_device *drm = priv->drm;
+8fc0380f6ba7e94 Maxime Ripard 2022-11-14   89  	struct drm_connector *connector = &priv->connector;
+8fc0380f6ba7e94 Maxime Ripard 2022-11-14   90  	struct drm_cmdline_mode *cmdline_mode = &connector->cmdline_mode;
+8fc0380f6ba7e94 Maxime Ripard 2022-11-14   91  	struct drm_display_mode *expected_mode, *mode;
+8fc0380f6ba7e94 Maxime Ripard 2022-11-14   92  	const char *cmdline = "1920x1080@60";
+8fc0380f6ba7e94 Maxime Ripard 2022-11-14   93  	int ret;
+8fc0380f6ba7e94 Maxime Ripard 2022-11-14   94  
+8fc0380f6ba7e94 Maxime Ripard 2022-11-14   95  	expected_mode = drm_mode_find_dmt(priv->drm, 1920, 1080, 60, false);
+8fc0380f6ba7e94 Maxime Ripard 2022-11-14   96  	KUNIT_ASSERT_NOT_NULL(test, expected_mode);
+8fc0380f6ba7e94 Maxime Ripard 2022-11-14   97  
+8fc0380f6ba7e94 Maxime Ripard 2022-11-14   98  	KUNIT_ASSERT_TRUE(test,
+8fc0380f6ba7e94 Maxime Ripard 2022-11-14   99  			  drm_mode_parse_command_line_for_connector(cmdline,
+8fc0380f6ba7e94 Maxime Ripard 2022-11-14  100  								    connector,
+8fc0380f6ba7e94 Maxime Ripard 2022-11-14  101  								    cmdline_mode));
+8fc0380f6ba7e94 Maxime Ripard 2022-11-14  102  
+8fc0380f6ba7e94 Maxime Ripard 2022-11-14  103  	mutex_lock(&drm->mode_config.mutex);
+8fc0380f6ba7e94 Maxime Ripard 2022-11-14  104  	ret = drm_helper_probe_single_connector_modes(connector, 1920, 1080);
+8fc0380f6ba7e94 Maxime Ripard 2022-11-14  105  	mutex_unlock(&drm->mode_config.mutex);
+8fc0380f6ba7e94 Maxime Ripard 2022-11-14  106  	KUNIT_ASSERT_GT(test, ret, 0);
+8fc0380f6ba7e94 Maxime Ripard 2022-11-14  107  
+8fc0380f6ba7e94 Maxime Ripard 2022-11-14 @108  	mode = drm_connector_pick_cmdline_mode(connector);
+8fc0380f6ba7e94 Maxime Ripard 2022-11-14  109  	KUNIT_ASSERT_NOT_NULL(test, mode);
+8fc0380f6ba7e94 Maxime Ripard 2022-11-14  110  
+8fc0380f6ba7e94 Maxime Ripard 2022-11-14  111  	KUNIT_EXPECT_TRUE(test, drm_mode_equal(expected_mode, mode));
+8fc0380f6ba7e94 Maxime Ripard 2022-11-14  112  }
+8fc0380f6ba7e94 Maxime Ripard 2022-11-14  113  
+
 -- 
-2.46.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
