@@ -2,75 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36E93990A87
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2024 20:00:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 422CA990A8B
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2024 20:01:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94C1510EA56;
-	Fri,  4 Oct 2024 18:00:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF2CC10EA57;
+	Fri,  4 Oct 2024 18:01:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="m5t5WoXJ";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="cEBnjt3C";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com
- [209.85.215.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D44AA10EA55;
- Fri,  4 Oct 2024 18:00:26 +0000 (UTC)
-Received: by mail-pg1-f182.google.com with SMTP id
- 41be03b00d2f7-7e9f6f5e7f4so24972a12.0; 
- Fri, 04 Oct 2024 11:00:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1728064826; x=1728669626; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=RKWT3sDU4NtrrluAI0QmU3x+uhGBRrICw49xVu95Gg0=;
- b=m5t5WoXJvbnhntiiLezarT7yxBo4+M1Q6Q60SeHz3bpEWvfQIBoIv9/fKlChTSGuAh
- 0xwrEaWtOeebJtbQrtXQ3sQFGdhXcrwTDCYfmfjX1zKWeco2YBN2tQ4xEcWFhqLHtG4o
- cd9PuabcmDYkLYQpCEVWnQS5X+WHrhVnKRfK8MJK863MkbH9Gu08QL9PczjJjMJpARhB
- Ht+TxZXiCLLSENGF6vaBnuJfBV3eBNoScENdIwt5LLZXZ3VEC/D7IbmXvxunPMm+39xH
- 4MA4G2h9Ktuy5K7C6mU0DAz0ulTi6hFTGfF0GTpPKQQx/7aoZKTfIQj6BqDuDYhLTope
- SQcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728064826; x=1728669626;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=RKWT3sDU4NtrrluAI0QmU3x+uhGBRrICw49xVu95Gg0=;
- b=BPceZdnCFdgDc3rkc2ixNvvnMr5ESRNmtUWW49esxrLZlt8s+T8U+YH7jBAR1I90rg
- mdbneEWLGPWBtx6rOpyUpaPj97ahlQVWOb2TyFdi0iSJAMEwvQV7E8Xrbp4E3dxYO5w6
- z4JUvmT1ktaLOpl8bIadyvTDxI2/XaSz0kjfiGinj1N0qKT5ADQjdeFC+zhZRIh2AGwG
- mdKLaoxlKojIAXkVLxjnahurDJUc1OJHyQq2X3l6PmyN8Mm1CEfZGlDdH8Yw3sYDoud4
- ILyam7G0jW0guFrIQsQ7PgerK8cobSSjlp7HxYFXQC/LqIR6IsAH1Dx8dMS7FEQwr+wQ
- 4TWQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUKtX3fwOnOviFZe8xijyWv0k13W75uOm/IXrE/skYK663ajBDAueMBkdhej3kcJw/44q/W0LxY@lists.freedesktop.org,
- AJvYcCWs0gTrBCeLTuT1GTh8dErfQvwCk13BTY3ExFodnZNysQ0UFSUb6XTfVI/q5juanTjsIKN94ZIfqXMI@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwED4/kPN3uiDjztWQfj9kCnXgc6K/LQVuj3zjaXrJfIJptdGni
- qsjl7gNOcS1ImmdLteRxFS/BBxbSwmWSMgyWp8/efxyEweieNDiXrcdyEyvo2+37VQQzJC+BSW5
- qRoBS+/ZMeQ4RuDQ5Bb1DlrpF8qs=
-X-Google-Smtp-Source: AGHT+IGNe3YVRFKhWrgUI99fM++c+XkooDEtmM3ozfZ5VLPvyPYojqK0jLsnzBStdbGNJy4bDlX3c3UeSSmtiOAwF1I=
-X-Received: by 2002:a17:90a:3dc5:b0:2d8:9f4e:1c3d with SMTP id
- 98e67ed59e1d1-2e1e63237e8mr1635577a91.5.1728064826219; Fri, 04 Oct 2024
- 11:00:26 -0700 (PDT)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3F0410EA57
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Oct 2024 18:01:22 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 494APai9029115;
+ Fri, 4 Oct 2024 18:01:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ qWeHTzzr5dKEVUmcLYSOmzmVGfE/02KwSjMavnSpS8w=; b=cEBnjt3CsOcpyUg6
+ g4oW1gkoeaQwbijs3SxX7cHQK8NDnHVIbl/9egJKaARbde0m8Qr3vo84p75BuLKs
+ 7/jqPQrWsipJT7nl/rdChKz9VYtFZcVVM6t9KYiXgkesWS4knSmiaE2rtLJ8z2Mx
+ kd2ZA9HDZMkNzVOzEtbcBiKNP5/GQtQHIC8so6dNAjj0d+rMciif8RRzo84xf+ER
+ 0ZqcYxwbLNwqiaXfn3a224zaC/C5tNLXxJf1QHQA+JbV0U2bKFMkKoO5mOSGrL9E
+ 46hMmRfh2fG6ycXHaXuZUwOn+XevTwEMSjk3L+61eiU30ZFbm9hHeHxmtq77afZ+
+ QrpgIw==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42205hawq4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 04 Oct 2024 18:01:18 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 494I1H3f003827
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 4 Oct 2024 18:01:17 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 4 Oct 2024
+ 11:01:17 -0700
+Message-ID: <8549424d-bd22-8308-c661-c2ef13cdc441@quicinc.com>
+Date: Fri, 4 Oct 2024 12:01:16 -0600
 MIME-Version: 1.0
-References: <20241004081618.27599-1-advaitdhamorikar@gmail.com>
- <00761132-75f3-41fd-b571-30b0cbe5565d@amd.com>
-In-Reply-To: <00761132-75f3-41fd-b571-30b0cbe5565d@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 4 Oct 2024 14:00:14 -0400
-Message-ID: <CADnq5_OKww1YZ1R_OytEMLcNVwdq=-ckc2gqQ+WMyOv6AZ9kqg@mail.gmail.com>
-Subject: Re: [PATCH-next] Fix unintentional integer overflow
-To: "Sundararaju, Sathishkumar" <sasundar@amd.com>
-Cc: Advait Dhamorikar <advaitdhamorikar@gmail.com>, alexander.deucher@amd.com, 
- christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com, 
- simona@ffwll.ch, leo.liu@amd.com, sathishkumar.sundararaju@amd.com, 
- saleemkhan.jamadar@amd.com, Veerabadhran.Gopalakrishnan@amd.com, 
- sonny.jiang@amd.com, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- skhan@linuxfoundation.org, anupnewsmail@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH V3 07/11] accel/amdxdna: Add command execution
+Content-Language: en-US
+To: Lizhi Hou <lizhi.hou@amd.com>, <ogabbay@kernel.org>,
+ <dri-devel@lists.freedesktop.org>
+CC: <linux-kernel@vger.kernel.org>, <min.ma@amd.com>, <max.zhen@amd.com>,
+ <sonal.santan@amd.com>, <king.tam@amd.com>
+References: <20240911180604.1834434-1-lizhi.hou@amd.com>
+ <20240911180604.1834434-8-lizhi.hou@amd.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20240911180604.1834434-8-lizhi.hou@amd.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: 2cBXhKe3-JPb7Mob1bWJOBauxhG2eP64
+X-Proofpoint-ORIG-GUID: 2cBXhKe3-JPb7Mob1bWJOBauxhG2eP64
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 adultscore=0
+ malwarescore=0 clxscore=1015 mlxlogscore=723 phishscore=0
+ priorityscore=1501 impostorscore=0 lowpriorityscore=0 spamscore=0
+ bulkscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410040124
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,54 +92,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 4, 2024 at 5:15=E2=80=AFAM Sundararaju, Sathishkumar
-<sasundar@amd.com> wrote:
->
->
-> All occurrences of this error fix should have been together in a single p=
-atch both in _get and _set callbacks corresponding to f0b19b84d391, please =
-avoid separate patch for each occurrence.
->
-> Sorry Alex, I missed to note this yesterday.
+On 9/11/2024 12:06 PM, Lizhi Hou wrote:
+> +enum amdxdna_cmd_type {
+> +	AMDXDNA_CMD_SUBMIT_EXEC_BUF = 0,
+> +	AMDXDNA_CMD_SUBMIT_DEPENDENCY,
+> +	AMDXDNA_CMD_SUBMIT_SIGNAL,
+> +};
+> +
+> +/**
+> + * struct amdxdna_drm_exec_cmd - Execute command.
+> + * @ext: MBZ.
+> + * @ext_flags: MBZ.
 
-I've dropped the patch.  Please pick it up once it's fixed up appropriately=
-.
+I see a check for ext_flags, but not ext
 
-Thanks,
-
-Alex
-
->
->
-> Regards,
-> Sathish
->
->
-> On 10/4/2024 1:46 PM, Advait Dhamorikar wrote:
->
-> Fix shift-count-overflow when creating mask.
-> The expression's value may not be what the
-> programmer intended, because the expression is
-> evaluated using a narrower integer type.
->
-> Fixes: f0b19b84d391 ("drm/amdgpu: add amdgpu_jpeg_sched_mask debugfs")
-> Signed-off-by: Advait Dhamorikar <advaitdhamorikar@gmail.com>
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c b/drivers/gpu/drm/a=
-md/amdgpu/amdgpu_jpeg.c
-> index 95e2796919fc..7df402c45f40 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c
-> @@ -388,7 +388,7 @@ static int amdgpu_debugfs_jpeg_sched_mask_get(void *d=
-ata, u64 *val)
->   for (j =3D 0; j < adev->jpeg.num_jpeg_rings; ++j) {
->   ring =3D &adev->jpeg.inst[i].ring_dec[j];
->   if (ring->sched.ready)
-> - mask |=3D 1 << ((i * adev->jpeg.num_jpeg_rings) + j);
-> + mask |=3D (u64)1 << ((i * adev->jpeg.num_jpeg_rings) + j);
->   }
->   }
->   *val =3D mask;
+> + * @hwctx: Hardware context handle.
+> + * @type: One of command type in enum amdxdna_cmd_type.
+> + * @cmd_handles: Array of command handles or the command handle itself
+> + *               in case of just one.
+> + * @args: Array of arguments for all command handles.
+> + * @cmd_count: Number of command handles in the cmd_handles array.
+> + * @arg_count: Number of arguments in the args array.
+> + * @seq: Returned sequence number for this command.
+> + */
+> +struct amdxdna_drm_exec_cmd {
+> +	__u64 ext;
+> +	__u64 ext_flags;
+> +	__u32 hwctx;
+> +	__u32 type;
+> +	__u64 cmd_handles;
+> +	__u64 args;
+> +	__u32 cmd_count;
+> +	__u32 arg_count;
+> +	__u64 seq;
+> +};
