@@ -2,74 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D829E98FEC8
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2024 10:16:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B692798FF37
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2024 11:02:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7280110E8F0;
-	Fri,  4 Oct 2024 08:16:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04F1810E138;
+	Fri,  4 Oct 2024 09:02:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kpPH/93h";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="YFV4lxKL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
- [209.85.214.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB53110E8F0;
- Fri,  4 Oct 2024 08:16:36 +0000 (UTC)
-Received: by mail-pl1-f176.google.com with SMTP id
- d9443c01a7336-20b1335e4e4so17952575ad.0; 
- Fri, 04 Oct 2024 01:16:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1728029796; x=1728634596; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=EpHwQlBLt9aUuZVqI52DbACRCcwYewzEXJNWbf21nvo=;
- b=kpPH/93hbHeOIBVxiPIdPSFfo9tyLjWchudR5Kpf8/DCWDsNoiJk6ZikAgS1RKB/18
- JnOFYm/XWEQXRAguhiEdO1zxfJUi+H30T/mwFWQ7kQfkQsFcWdL+sT4uG1ZOe3o+z6y5
- Dd4H1MagZLzxbSqnSfey6PxsUYPISwfrWQT33MGYQK9Yb2Z3RYOZ+iBI2VETjjZtJ4/f
- hSkKU8nK72lBG78oPhSlPARkBiC1CO0dVEDt16dhB65Gn3ctFtXM5CF6WPbIls6i2id4
- dA2CCGprsrnp3EuT+bEeUCAG+Dzws+hdYNEt8DNdJoIK0UHch7s/7MM2tzI1IEqg0yrx
- QtJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728029796; x=1728634596;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=EpHwQlBLt9aUuZVqI52DbACRCcwYewzEXJNWbf21nvo=;
- b=UwrMZ1DdFufiM490nIISPOTGhG6mKcsw9J5I8FiqpOfErLuAHEPOADiBRU0eopYDoL
- HzPVJxYQj+cZPia6DcaC09jkOo5P+t/GkPMLWRq53hQkos2QFv4TdjuOhl0ID38G+/9q
- 03yXwQk44GBQakggC0bRX1kY6GHK+SC6v0aoJ3M55Za6IeoUfq7xOhru/B8FdsWJAF72
- 3lJhinU981/2jc3Te5fhct+TfSH0jAbA3ETf8oy2/8L+WCdZkC74i6wBMhALX++3mN2t
- 3d5PW12mO0I1BtOZG6bkP22J1+h3iKJUBINj0NXFAuwRFWiggKWCgxO8vkWpg+Q6bBat
- 4arg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVdcNedMMoOVro3cc/Wh59ScFUmVT+VwTlEpXBAJb9vqTF+1qCllkQQlPtnOBM8Wv6HtftAgB890fk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx8qBvtWw5m/GubBUKUYfjjWmfAYu/zWil7bhE6JwKmcNPFSks+
- NF/RZUm3B9i4rKKpWLk6Ql882Hm1IUH6JSg6f/wttMFzMhp3bwS6
-X-Google-Smtp-Source: AGHT+IESstItqCuBNL/elHzMasRvg1qmLhXnxawENnsB30tcavQLHFcDrefZED0ZlkxVd/XHEigKaA==
-X-Received: by 2002:a17:902:e551:b0:20b:4875:2c51 with SMTP id
- d9443c01a7336-20bfe024d5cmr32004945ad.27.1728029796105; 
- Fri, 04 Oct 2024 01:16:36 -0700 (PDT)
-Received: from advait-kdeneon.. ([2405:201:1e:f1d5:4e5:4fce:4f6a:9764])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-20beead49b4sm19832125ad.32.2024.10.04.01.16.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Oct 2024 01:16:35 -0700 (PDT)
-From: Advait Dhamorikar <advaitdhamorikar@gmail.com>
-To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, simona@ffwll.ch, leo.liu@amd.com,
- sathishkumar.sundararaju@amd.com, saleemkhan.jamadar@amd.com,
- Veerabadhran.Gopalakrishnan@amd.com, advaitdhamorikar@gmail.com,
- sonny.jiang@amd.com
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
- anupnewsmail@gmail.com
-Subject: [PATCH-next] Fix unintentional integer overflow
-Date: Fri,  4 Oct 2024 13:46:18 +0530
-Message-Id: <20241004081618.27599-1-advaitdhamorikar@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Received: from out-186.mta1.migadu.com (out-186.mta1.migadu.com
+ [95.215.58.186])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7987410E138
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Oct 2024 09:02:09 +0000 (UTC)
+Message-ID: <41c46ac0-23e5-4566-8808-f0ad84a58ca0@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1728032527;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/q7TCKWkBRa2jleMeAwpZZBWHheD5FpO/n7jqw+l1m0=;
+ b=YFV4lxKLCDKae389/8VdPDsh8vRn+pLK9YtOk17Z2dP5w1db+xISdDxHgXFQkfpjM17hVs
+ hQqv9zsx6atEPCZJDZuavDaQUhsvZ1h5oLKEJyzKQkQxuTU+ARCdX39GXq1fy2BmznpBb8
+ qQkaXngwVnTofn1S0sSBOXvuSssONo8=
+Date: Fri, 4 Oct 2024 17:01:55 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH 08/28] drm/loongson: Use video aperture helpers
+To: Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com,
+ airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+References: <20240930130921.689876-1-tzimmermann@suse.de>
+ <20240930130921.689876-9-tzimmermann@suse.de>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <20240930130921.689876-9-tzimmermann@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,30 +60,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix shift-count-overflow when creating mask.
-The expression's value may not be what the
-programmer intended, because the expression is
-evaluated using a narrower integer type.
+Hi,
 
-Fixes: f0b19b84d391 ("drm/amdgpu: add amdgpu_jpeg_sched_mask debugfs")
-Signed-off-by: Advait Dhamorikar <advaitdhamorikar@gmail.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 2024/9/30 21:03, Thomas Zimmermann wrote:
+> DRM's aperture functions have long been implemented as helpers
+> under drivers/video/ for use with fbdev. Avoid the DRM wrappers by
+> calling the video functions directly.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c
-index 95e2796919fc..7df402c45f40 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c
-@@ -388,7 +388,7 @@ static int amdgpu_debugfs_jpeg_sched_mask_get(void *data, u64 *val)
- 		for (j = 0; j < adev->jpeg.num_jpeg_rings; ++j) {
- 			ring = &adev->jpeg.inst[i].ring_dec[j];
- 			if (ring->sched.ready)
--				mask |= 1 << ((i * adev->jpeg.num_jpeg_rings) + j);
-+				mask |= (u64)1 << ((i * adev->jpeg.num_jpeg_rings) + j);
- 		}
- 	}
- 	*val = mask;
+
+Okay!
+
+Sometimes the aperture_remove_conflicting_devices() is more easier
+to use, as it doesn't need direct reference to the struct drm_driver.
+
+The third argument of aperture_remove_conflicting_devices() does not
+get used, so we can actually pass a casual string.
+
+
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Sui Jingfeng <suijingfeng@loongson.cn>
+
+
+Acked-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+
+
+> ---
+>   drivers/gpu/drm/loongson/lsdc_drv.c | 8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/loongson/lsdc_drv.c b/drivers/gpu/drm/loongson/lsdc_drv.c
+> index a19dce35c839..b350bdcf1645 100644
+> --- a/drivers/gpu/drm/loongson/lsdc_drv.c
+> +++ b/drivers/gpu/drm/loongson/lsdc_drv.c
+> @@ -3,10 +3,10 @@
+>    * Copyright (C) 2023 Loongson Technology Corporation Limited
+>    */
+>   
+> +#include <linux/aperture.h>
+>   #include <linux/pci.h>
+>   #include <linux/vgaarb.h>
+>   
+> -#include <drm/drm_aperture.h>
+>   #include <drm/drm_atomic.h>
+>   #include <drm/drm_atomic_helper.h>
+>   #include <drm/drm_client_setup.h>
+> @@ -215,9 +215,9 @@ lsdc_create_device(struct pci_dev *pdev,
+>   		return ERR_PTR(ret);
+>   	}
+>   
+> -	ret = drm_aperture_remove_conflicting_framebuffers(ldev->vram_base,
+> -							   ldev->vram_size,
+> -							   driver);
+> +	ret = aperture_remove_conflicting_devices(ldev->vram_base,
+> +						  ldev->vram_size,
+> +						  driver->name);
+>   	if (ret) {
+>   		drm_err(ddev, "Remove firmware framebuffers failed: %d\n", ret);
+>   		return ERR_PTR(ret);
+
 -- 
-2.34.1
+Best regards,
+Sui
 
