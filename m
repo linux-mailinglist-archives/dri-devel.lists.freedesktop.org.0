@@ -2,64 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FE2499003C
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2024 11:51:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63057990065
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2024 12:01:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D35F10E250;
-	Fri,  4 Oct 2024 09:51:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E00910E1C1;
+	Fri,  4 Oct 2024 10:01:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KEWQI4tB";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="R2d4Zwks";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C11910E250
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Oct 2024 09:51:27 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0E5110E1C1
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Oct 2024 10:01:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1728035487; x=1759571487;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=3LUO0pHMJ3gRHY4MyWGlnNe62Y1yIsb3N3CnA/PN4oE=;
- b=KEWQI4tBwr+HYFEEwujy7a9GgDjH1jYzJYfFa7QwOygIgE46CyjBqaBj
- PUIJidmRU+XrCqwU8hUwUXl8pf3+nJBrOm1ArEse89aKm5k2koRInM/PR
- YxfDfI3wlzFXJwi3GCRAC2ViMO/p8qSJHd1HC3vu3OMzlHZkP4z63eBsH
- PlXDvaAxJTmP7rzahYZw1KK+TprgJalpESrc+C9wZAOU2c2wO+mPsiWLc
- XVYRrceKtQZGwkDpl/U98I7PBu9TAeJ1hggErWdsYfdyPLkGdnOyrl2V1
- zRSkoMcCpjtPcr5wG9lQElaqPwEnmmmKAXyOeCh7KsL4NE7bYx2mVFuA7 g==;
-X-CSE-ConnectionGUID: fDtBa9MMQQiyGxkcmVMrXQ==
-X-CSE-MsgGUID: 51mKLL0NR7mKsYnF05m2lg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="37857074"
-X-IronPort-AV: E=Sophos;i="6.11,177,1725346800"; d="scan'208";a="37857074"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Oct 2024 02:51:27 -0700
-X-CSE-ConnectionGUID: Y5rIj9jKRhm4IQsEd8A2cQ==
-X-CSE-MsgGUID: roxSG5krS9aluXR9MFaXtQ==
+ t=1728036072; x=1759572072;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=163bqd0iuLnMhogyWnlC00hLdJCcoBI98++uZ9481Gg=;
+ b=R2d4Zwks1Gx58VF5fReEY1hRgLvsqZXcmF8l7Bn4RdtLP/BHyP8+BURy
+ rl8Cs63j6wUUFC3bi2jJUdwoL87KF+cwfnXaz6dsq5e6OMFySayZSenkJ
+ y0OeRoq3W8PI/wL7jqzte+n+mtd4gJfVLxypVPKF2pqgl4Cy01r1G9H3A
+ baBwIu5nzqRn78FoJ1RQd+6gzZ9t4wVI2sPYiZKwB8gdztjwZRQXpajsb
+ o06UtB+vxNCX+2s4I+Oa8umodL/rt1ud6s+3d1EoM9HedHJX8led3AHX8
+ XwCoTQm3qj1CClvIKg8tYMIk4pztMKRDqheqxUd429FQLQtYtbFCkQ/Du g==;
+X-CSE-ConnectionGUID: cUaWQkoDQgGl6LZKUcyiKg==
+X-CSE-MsgGUID: 2R5g/qRvS06ac2WsGBUTcA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="27402348"
+X-IronPort-AV: E=Sophos;i="6.11,177,1725346800"; d="scan'208";a="27402348"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Oct 2024 03:01:11 -0700
+X-CSE-ConnectionGUID: CDv8BwIfQki7bxb0eOOtMg==
+X-CSE-MsgGUID: B6nuMCvNRc+191Y0Eh9AKw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,177,1725346800"; d="scan'208";a="74332813"
-Received: from anugen2x-mobl.ger.corp.intel.com (HELO [10.245.64.247])
- ([10.245.64.247])
- by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Oct 2024 02:51:25 -0700
-Message-ID: <5e16f232-7aff-46a8-9fad-a6703f095482@linux.intel.com>
-Date: Fri, 4 Oct 2024 11:51:18 +0200
+X-IronPort-AV: E=Sophos;i="6.11,177,1725346800"; d="scan'208";a="74764683"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by fmviesa008.fm.intel.com with SMTP; 04 Oct 2024 03:01:07 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 04 Oct 2024 13:01:06 +0300
+Date: Fri, 4 Oct 2024 13:01:06 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: "Luck, Tony" <tony.luck@intel.com>,
+ "jfalempe@redhat.com" <jfalempe@redhat.com>,
+ "airlied@redhat.com" <airlied@redhat.com>,
+ "sam@ravnborg.org" <sam@ravnborg.org>,
+ "emil.l.velikov@gmail.com" <emil.l.velikov@gmail.com>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>,
+ "airlied@gmail.com" <airlied@gmail.com>,
+ "daniel@ffwll.ch" <daniel@ffwll.ch>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH v5 0/7] drm/mgag200: Implement VBLANK support
+Message-ID: <Zv-84gdD85CqVeh5@intel.com>
+References: <20240718104551.575912-1-tzimmermann@suse.de>
+ <Zvx6lSi7oq5xvTZb@agluck-desk3.sc.intel.com>
+ <49f0ca61-0cf4-4093-b4a7-f49dc46037ab@suse.de>
+ <SJ1PR11MB60836E1B04A688CF55506BF4FC702@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <ad02af39-b9b5-4b04-878b-78b3eb7885a5@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/51] accel/ivpu: Switch to __pm_runtime_put_autosuspend()
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
- Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>
-Cc: dri-devel@lists.freedesktop.org
-References: <20241004094101.113349-1-sakari.ailus@linux.intel.com>
- <20241004094111.113368-1-sakari.ailus@linux.intel.com>
-Content-Language: en-US
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20241004094111.113368-1-sakari.ailus@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ad02af39-b9b5-4b04-878b-78b3eb7885a5@suse.de>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,71 +83,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-
-On 10/4/2024 11:41 AM, Sakari Ailus wrote:
-> pm_runtime_put_autosuspend() will soon be changed to include a call to
-> pm_runtime_mark_last_busy(). This patch switches the current users to
-> __pm_runtime_put_autosuspend() which will continue to have the
-> functionality of old pm_runtime_put_autosuspend().
+On Fri, Oct 04, 2024 at 11:17:02AM +0200, Thomas Zimmermann wrote:
+> Hi
 > 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  drivers/accel/ivpu/ivpu_drv.c | 2 +-
->  drivers/accel/ivpu/ivpu_pm.c  | 8 ++++----
->  2 files changed, 5 insertions(+), 5 deletions(-)
+> Am 02.10.24 um 18:15 schrieb Luck, Tony:
+> >> Thanks for the bug report. Can you provide the output of 'sudo lspci
+> >> -vvv' for the graphics device?
+> > Thomas,
+> >
+> > Sure. Here's the output (run on the v6.11.0 kernel)
 > 
-> diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
-> index c91400ecf926..4140ff55a4e6 100644
-> --- a/drivers/accel/ivpu/ivpu_drv.c
-> +++ b/drivers/accel/ivpu/ivpu_drv.c
-> @@ -104,7 +104,7 @@ static void file_priv_release(struct kref *ref)
->  	mutex_lock(&vdev->context_list_lock);
->  	file_priv_unbind(vdev, file_priv);
->  	mutex_unlock(&vdev->context_list_lock);
-> -	pm_runtime_put_autosuspend(vdev->drm.dev);
-> +	__pm_runtime_put_autosuspend(vdev->drm.dev);
->  
->  	mutex_destroy(&file_priv->ms_lock);
->  	mutex_destroy(&file_priv->lock);
-> diff --git a/drivers/accel/ivpu/ivpu_pm.c b/drivers/accel/ivpu/ivpu_pm.c
-> index 59d3170f5e35..643854e51fa0 100644
-> --- a/drivers/accel/ivpu/ivpu_pm.c
-> +++ b/drivers/accel/ivpu/ivpu_pm.c
-> @@ -143,7 +143,7 @@ static void ivpu_pm_recovery_work(struct work_struct *work)
->  
->  	kobject_uevent_env(&vdev->drm.dev->kobj, KOBJ_CHANGE, evt);
->  	pm_runtime_mark_last_busy(vdev->drm.dev);
-> -	pm_runtime_put_autosuspend(vdev->drm.dev);
-> +	__pm_runtime_put_autosuspend(vdev->drm.dev);
->  }
->  
->  void ivpu_pm_trigger_recovery(struct ivpu_device *vdev, const char *reason)
-> @@ -303,7 +303,7 @@ int ivpu_rpm_get(struct ivpu_device *vdev)
->  void ivpu_rpm_put(struct ivpu_device *vdev)
->  {
->  	pm_runtime_mark_last_busy(vdev->drm.dev);
-> -	pm_runtime_put_autosuspend(vdev->drm.dev);
-> +	__pm_runtime_put_autosuspend(vdev->drm.dev);
->  }
->  
->  void ivpu_pm_reset_prepare_cb(struct pci_dev *pdev)
-> @@ -339,7 +339,7 @@ void ivpu_pm_reset_done_cb(struct pci_dev *pdev)
->  	ivpu_dbg(vdev, PM, "Post-reset done.\n");
->  
->  	pm_runtime_mark_last_busy(vdev->drm.dev);
-> -	pm_runtime_put_autosuspend(vdev->drm.dev);
-> +	__pm_runtime_put_autosuspend(vdev->drm.dev);
->  }
->  
->  void ivpu_pm_init(struct ivpu_device *vdev)
-> @@ -381,7 +381,7 @@ void ivpu_pm_enable(struct ivpu_device *vdev)
->  	pm_runtime_set_active(dev);
->  	pm_runtime_allow(dev);
->  	pm_runtime_mark_last_busy(dev);
-> -	pm_runtime_put_autosuspend(dev);
-> +	__pm_runtime_put_autosuspend(dev);
->  }
->  
->  void ivpu_pm_disable(struct ivpu_device *vdev)
+> Thanks. It doesn't look much different from other systems. IRQ is also 
+> assigned.
+> 
+> Attached is a patch that fixes a possible off-by-one error in the 
+> register settings. This would affect the bug you're reporting. If 
+> possible, please apply the patch to your 6.12-rc1, test and report the 
+> result.
 
+Didn't one of these weird variants have some bug where the
+CRTC startadd was not working? Is this one of those?
+That to me sounds like maybe linecomp has internally been
+tied to be always active somehow. Perhaps that would
+also prevent it from generating the interrupt...
+
+Anyways, sounds like someone should just double check whether
+the status bit ever get asserted or not. If yes, then the
+problem must be with interrupt delivery, otherwise the
+problem is that the internal interrupt is never even
+generated. In the latter case you could try using the
+vsync interrupt instead.
+
+-- 
+Ville Syrjälä
+Intel
