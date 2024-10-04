@@ -2,82 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 455CC990AA0
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2024 20:08:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4171990AF9
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2024 20:20:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 785A510EA59;
-	Fri,  4 Oct 2024 18:08:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E295D10EA5C;
+	Fri,  4 Oct 2024 18:20:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="ZBOpzVOh";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RMU3oGa0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81E0E10EA59
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Oct 2024 18:08:12 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 494ALgD1031149;
- Fri, 4 Oct 2024 18:08:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- y4QC37OxQXSNGhOjdjZvbGKEKAY7MLVfsRD4BEm29tk=; b=ZBOpzVOhW23l2CRZ
- /MDGdSpR6yPXfixE7UR31e5JmF2XFO/7jiCorkzwkmntx2i0B94iERW0hZxmjnK6
- tqsxJm2kSrmhHlKWYXzkMzGDMJjZoRRUpNSFFT4Kkdp9pAswjUINkitsHRs1eZci
- YT2SvDWljwy94u0ILnPmZw49zgY1BSzhEjue5Z/zgSrNCR70mvjDaaaEgQoPEGzT
- QJMgURxENvYk1EIUtXzdLe2OL08Jc2BhuswB8VSMuXQY2mD6iCKDwB2Wu0TFtlx0
- c526papYDJpSN9+kMKXaZuWNsdxT5GtZvF+bILbZQ6KTXWds0rsNP8MATZi5Ne4/
- GcLIZA==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42205njwfu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 04 Oct 2024 18:08:08 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 494I86Ub011485
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 4 Oct 2024 18:08:06 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 4 Oct 2024
- 11:08:06 -0700
-Message-ID: <fd84e624-a534-26a1-a434-3c8390bbb311@quicinc.com>
-Date: Fri, 4 Oct 2024 12:08:05 -0600
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 873EC10EA5A;
+ Fri,  4 Oct 2024 18:20:44 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 2C03CA44266;
+ Fri,  4 Oct 2024 18:20:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A08C9C4CECE;
+ Fri,  4 Oct 2024 18:20:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1728066043;
+ bh=qCUkdYZFENPx3eZTiw+UAraDYp+IYqhWq1wkRorpgGY=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=RMU3oGa0KwsARgkSpaqjVdPLvhDS5EkpPYJaJvoO3xj2LKqPs08rx+TpwSiHD89xC
+ agVCtln4lPqTO5eYKUlBY2Tn5leqZoT2rh+/kcC4kn3e81FVAV28huXL6ovVo0U6Su
+ YKhWIGdI686BvOVbtbB5jr+dGk2E7gQi5edsEtlJG1+R2ekTG6xifTanlZdKjqeOy+
+ gM/NH1xeCFCrKghkaWekBF4Q6pP2w1RGNYU6D0SsPGhHRqeqKnk7b4tOCwKfuOHpfh
+ ZUhrNZf4sznq7PglcDA3qo5fCSdVFnmseOrcXtBmKmhEWx1q2CHxFwtVVt4/dBRv49
+ 2FhHtni7TAraQ==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
+ Ashutosh Dixit <ashutosh.dixit@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Sasha Levin <sashal@kernel.org>, thomas.hellstrom@linux.intel.com,
+ rodrigo.vivi@intel.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ daniel@ffwll.ch, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.11 71/76] drm/xe/oa: Fix overflow in oa batch buffer
+Date: Fri,  4 Oct 2024 14:17:28 -0400
+Message-ID: <20241004181828.3669209-71-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20241004181828.3669209-1-sashal@kernel.org>
+References: <20241004181828.3669209-1-sashal@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH V3 08/11] accel/amdxdna: Add suspend and resume
-Content-Language: en-US
-To: Lizhi Hou <lizhi.hou@amd.com>, <ogabbay@kernel.org>,
- <dri-devel@lists.freedesktop.org>
-CC: <linux-kernel@vger.kernel.org>, <min.ma@amd.com>, <max.zhen@amd.com>,
- <sonal.santan@amd.com>, <king.tam@amd.com>, Narendra Gutta
- <VenkataNarendraKumar.Gutta@amd.com>, Xiaoming Ren <xiaoming.ren@amd.com>
-References: <20240911180604.1834434-1-lizhi.hou@amd.com>
- <20240911180604.1834434-9-lizhi.hou@amd.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20240911180604.1834434-9-lizhi.hou@amd.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: hrFOmLt4ScfA4mm4fiOB8Sl_OzoaWU-4
-X-Proofpoint-ORIG-GUID: hrFOmLt4ScfA4mm4fiOB8Sl_OzoaWU-4
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999
- malwarescore=0 impostorscore=0 clxscore=1011 phishscore=0 adultscore=0
- spamscore=0 suspectscore=0 bulkscore=0 priorityscore=1501
- lowpriorityscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2409260000 definitions=main-2410040124
+Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.11.2
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,21 +68,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/11/2024 12:06 PM, Lizhi Hou wrote:
-> +static int amdxdna_rpmops_suspend(struct device *dev)
-> +{
-> +	struct amdxdna_dev *xdna = pci_get_drvdata(to_pci_dev(dev));
-> +	int ret;
-> +
-> +	mutex_lock(&xdna->dev_lock);
-> +	WARN_ON(!list_empty(&xdna->client_list));
+From: José Roberto de Souza <jose.souza@intel.com>
 
-This feels weird. Can you explain?
+[ Upstream commit 6c10ba06bb1b48acce6d4d9c1e33beb9954f1788 ]
 
-> +	ret = amdxdna_dev_suspend_nolock(xdna);
-> +	mutex_unlock(&xdna->dev_lock);
-> +
-> +	XDNA_DBG(xdna, "Runtime suspend done ret: %d", ret);
-> +	return ret;
-> +}
-> +
+By default xe_bb_create_job() appends a MI_BATCH_BUFFER_END to batch
+buffer, this is not a problem if batch buffer is only used once but
+oa reuses the batch buffer for the same metric and at each call
+it appends a MI_BATCH_BUFFER_END, printing the warning below and then
+overflowing.
+
+[  381.072016] ------------[ cut here ]------------
+[  381.072019] xe 0000:00:02.0: [drm] Assertion `bb->len * 4 + bb_prefetch(q->gt) <= size` failed!
+               platform: LUNARLAKE subplatform: 1
+               graphics: Xe2_LPG / Xe2_HPG 20.04 step B0
+               media: Xe2_LPM / Xe2_HPM 20.00 step B0
+               tile: 0 VRAM 0 B
+               GT: 0 type 1
+
+So here checking if batch buffer already have MI_BATCH_BUFFER_END if
+not append it.
+
+v2:
+- simply fix, suggestion from Ashutosh
+
+Cc: Ashutosh Dixit <ashutosh.dixit@intel.com>
+Signed-off-by: José Roberto de Souza <jose.souza@intel.com>
+Reviewed-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20240912153842.35813-1-jose.souza@intel.com
+(cherry picked from commit 9ba0e0f30ca42a98af3689460063edfb6315718a)
+Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/xe/xe_bb.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/xe/xe_bb.c b/drivers/gpu/drm/xe/xe_bb.c
+index a13e0b3a169ed..ef777dbdf4ecc 100644
+--- a/drivers/gpu/drm/xe/xe_bb.c
++++ b/drivers/gpu/drm/xe/xe_bb.c
+@@ -65,7 +65,8 @@ __xe_bb_create_job(struct xe_exec_queue *q, struct xe_bb *bb, u64 *addr)
+ {
+ 	u32 size = drm_suballoc_size(bb->bo);
+ 
+-	bb->cs[bb->len++] = MI_BATCH_BUFFER_END;
++	if (bb->len == 0 || bb->cs[bb->len - 1] != MI_BATCH_BUFFER_END)
++		bb->cs[bb->len++] = MI_BATCH_BUFFER_END;
+ 
+ 	xe_gt_assert(q->gt, bb->len * 4 + bb_prefetch(q->gt) <= size);
+ 
+-- 
+2.43.0
+
