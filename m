@@ -2,88 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D95FB9904A4
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2024 15:41:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D458F9904FF
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2024 15:57:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E286C10EA04;
-	Fri,  4 Oct 2024 13:41:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11BA510EA11;
+	Fri,  4 Oct 2024 13:57:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="jZraDx4+";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="UEOyKr7+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
- [209.85.221.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CED810EA04
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Oct 2024 13:41:04 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id
- ffacd0b85a97d-37cfa129074so1587496f8f.1
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Oct 2024 06:41:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1728049263; x=1728654063;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=XJJaYG/UjcPI9Vu1xZCbyJCG1qpp93Sl6ieZKzkzV10=;
- b=jZraDx4+/2JeVPB9eQHaD/wKDKZ8w49NyYg/o3s5htqiL2poho+RoPtnr/youTfkLL
- OS3ID0+LMHvevMLLo1DJpHbThOJ8U9azULV4YVu9zxP6nrZO/3UitezM+dDZOlIN9BsW
- GoEJY/Me1kCVPv717QyJROOEYaesacQ44heeq8OfiOfUClB+AjCrkagebD2q/3rtEqZi
- X79LEKRw1+NX+HnHLBW/wrN9rrdfkahUQSh7LOzLqsBN8GOi8KXrChL+xli5A9Xz0S5M
- yIsPAadqnWh9fBPrObgTimqQ1oDWQKBgKTgga3kEImUIhD7NRUTV0Ih6AhbCwf4EVBQy
- UAhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728049263; x=1728654063;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=XJJaYG/UjcPI9Vu1xZCbyJCG1qpp93Sl6ieZKzkzV10=;
- b=aIA8poeWcGgIANRHwD4xRXYf0b3xTrCN4X6Cn9O3PuvL5/ifBKFsp+khESG82eR8ax
- Vxm86HQJEiKg2/z4j4j8411svSTSuJrr+8DNUIXndTppP3ce6o0NjIpt5Vpvjkuez7WJ
- 2SbYd3px++ni2nIdOmTa9ftW8pnqSn9P+Y1YYyUUk0nLEPzLtANkhmvB7ZiHaDlPa7r9
- xLes4ztppOHzBLAZCvIr2NxP9a7ROomjViQ4HZideCva3Kl9wVezFmSOBKYw2XzlLegB
- dozCB/8/8z9FMfIj3pVxom5vwnUpV86IJfXoBBMLDnkITYtHfXv1yP8rrsGMJPjQdCCX
- Yrpw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVcVJRy1BYKud4Vp06OotyExfD9xpB+RJMErSVCZjAuweZV6BagkTzgXiiFw5si/GuYpG43R46iWqE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwanOp1KTRNOGm/0+qtdyFdLfaJeSf6dmQyAq90pFpOhD7cbtCo
- vxWGmsTbuEgTIYlhSoAh9LcFnSpHze3ea3jjxwsLaTqjWryHOlwttoJQOJG5cs0=
-X-Google-Smtp-Source: AGHT+IG4vBGF4NpEzfHeDyzIbE6mmFfjm+kFefPRmd5EuR7GcJ/3YlWKWt2QrBk+FicBBqpl77sSaA==
-X-Received: by 2002:a5d:68cc:0:b0:37c:d20e:37c with SMTP id
- ffacd0b85a97d-37d0e8de7f9mr1579644f8f.36.1728049262455; 
- Fri, 04 Oct 2024 06:41:02 -0700 (PDT)
-Received: from [192.168.0.101] ([90.241.98.187])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-37d0822995fsm3291067f8f.38.2024.10.04.06.41.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Oct 2024 06:41:01 -0700 (PDT)
-Message-ID: <6657b080-f41e-4c95-8895-e474f1ca5d57@ursulin.net>
-Date: Fri, 4 Oct 2024 14:41:00 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE53C10EA0F;
+ Fri,  4 Oct 2024 13:57:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1728050230; x=1759586230;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=M49PjplVFWzMiaDf5oBTP4OcF6VyilnGxocPYLYyQzg=;
+ b=UEOyKr7+H5E8Z0uRWpMjluJk7aA8e6LIHcViVaMYv+iYUy7T0Uv6mFf7
+ JeqP8lhUnvYmG6XUNdgTd7sq1izuXCENh7nLWkw1pXH5Nnq433OpL/2jF
+ enIOBXeDU5NHxISOMBBE7zXhKhouRRKGnzyKGfEbLUtRGdtR2UP2B5rlV
+ bgGNZNGxFFDDyhtsyqFwlZ++W9pG9NJ3CGCKFIIgR5sD5A5iIZ5kLDxya
+ qdHWfelk9vNJVowPJy/AUWmC2hhpPzhHWVUPOLYiiByILTh4KqapBjHcB
+ yy5jL204d9RWL+WflYHo08SAXxj2T9z4ait1EE/R5OMJPJ75fYgybBpDj A==;
+X-CSE-ConnectionGUID: EJk255wVRFOv93RuSyzyOg==
+X-CSE-MsgGUID: tMdVulkQTZ2gsv+7nGzbKw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="37840997"
+X-IronPort-AV: E=Sophos;i="6.11,177,1725346800"; d="scan'208";a="37840997"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Oct 2024 06:57:10 -0700
+X-CSE-ConnectionGUID: zw7rS/EKT3OAhNDR44zmZQ==
+X-CSE-MsgGUID: xvWoLuf4Ql63MaAL18WgJQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,177,1725346800"; d="scan'208";a="74821614"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO [10.245.245.204])
+ ([10.245.245.204])
+ by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Oct 2024 06:57:09 -0700
+Message-ID: <35fb9448-4742-4d2b-8eca-1654dd8e235c@linux.intel.com>
+Date: Fri, 4 Oct 2024 15:57:06 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 1/2] drm/drm_file: Add display of driver's internal
- memory size
-To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Melissa Wen <mwen@igalia.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
- <mcanal@igalia.com>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
-References: <20241002234531.3113431-1-adrian.larumbe@collabora.com>
- <20241002234531.3113431-2-adrian.larumbe@collabora.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <20241002234531.3113431-2-adrian.larumbe@collabora.com>
+Subject: Re: [PATCH v9 07/11] drm/print: Introduce drm_line_printer
+To: John.C.Harrison@Intel.com, Intel-Xe@Lists.FreeDesktop.Org
+Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>,
+ Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
+References: <20241003004611.2323493-1-John.C.Harrison@Intel.com>
+ <20241003004611.2323493-8-John.C.Harrison@Intel.com>
+Content-Language: en-US
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+In-Reply-To: <20241003004611.2323493-8-John.C.Harrison@Intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,164 +72,142 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+I don't think there's an immediate use for this in drm-misc, so its 
+easier to merge through xe. :-)
+Acked-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 
-Hi Adrian,
-
-On 03/10/2024 00:45, Adrián Larumbe wrote:
-> Some drivers must allocate a considerable amount of memory for bookkeeping
-> structures and GPU's MCU-kernel shared communication regions. These are
-> often created as a result of the invocation of the driver's ioctl()
-> interface functions, so it is sensible to consider them as being owned by
-> the render context associated with an open drm file.
+Den 2024-10-03 kl. 02:46, skrev John.C.Harrison@Intel.com:
+> From: Michal Wajdeczko <michal.wajdeczko@intel.com>
 > 
-> However, at the moment drm_show_memory_stats only traverses the UM-exposed
-> drm objects for which a handle exists. Private driver objects and memory
-> regions, though connected to a render context, are unaccounted for in their
-> fdinfo numbers.
+> This drm printer wrapper can be used to increase the robustness of
+> the captured output generated by any other drm_printer to make sure
+> we didn't lost any intermediate lines of the output by adding line
+> numbers to each output line. Helpful for capturing some crash data.
 > 
-> Add a new drm_memory_stats 'internal' memory category.
+> v2: Extended short int counters to full int (JohnH)
 > 
-> Because deciding what constitutes an 'internal' object and where to find
-> these are driver-dependent, calculation of this size must be done through a
-> driver-provided function pointer, which becomes the third argument of
-> drm_show_memory_stats. Drivers which have no interest in exposing the size
-> of internal memory objects can keep passing NULL for unaltered behaviour.
-> 
-> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
-> Cc: Rob Clark <robdclark@gmail.com>
-> Cc: Tvrtko Ursulin <tursulin@ursulin.net>
-> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+> Cc: Jani Nikula <jani.nikula@intel.com>
+> Cc: John Harrison <John.C.Harrison@Intel.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Reviewed-by: Jani Nikula <jani.nikula@intel.com>
 > ---
->   drivers/gpu/drm/drm_file.c              | 6 +++++-
->   drivers/gpu/drm/msm/msm_drv.c           | 2 +-
->   drivers/gpu/drm/panfrost/panfrost_drv.c | 2 +-
->   drivers/gpu/drm/v3d/v3d_drv.c           | 2 +-
->   include/drm/drm_file.h                  | 7 ++++++-
->   5 files changed, 14 insertions(+), 5 deletions(-)
+>   drivers/gpu/drm/drm_print.c | 14 ++++++++
+>   include/drm/drm_print.h     | 64 +++++++++++++++++++++++++++++++++++++
+>   2 files changed, 78 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-> index ad1dc638c83b..937471339c9a 100644
-> --- a/drivers/gpu/drm/drm_file.c
-> +++ b/drivers/gpu/drm/drm_file.c
-> @@ -856,6 +856,7 @@ void drm_print_memory_stats(struct drm_printer *p,
->   	print_size(p, "total", region, stats->private + stats->shared);
->   	print_size(p, "shared", region, stats->shared);
->   	print_size(p, "active", region, stats->active);
-> +	print_size(p, "internal", region, stats->internal);
+> diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
+> index 0081190201a7..08cfea04e22b 100644
+> --- a/drivers/gpu/drm/drm_print.c
+> +++ b/drivers/gpu/drm/drm_print.c
+> @@ -235,6 +235,20 @@ void __drm_printfn_err(struct drm_printer *p, struct va_format *vaf)
+>   }
+>   EXPORT_SYMBOL(__drm_printfn_err);
 >   
->   	if (supported_status & DRM_GEM_OBJECT_RESIDENT)
->   		print_size(p, "resident", region, stats->resident);
-> @@ -873,7 +874,7 @@ EXPORT_SYMBOL(drm_print_memory_stats);
->    * Helper to iterate over GEM objects with a handle allocated in the specified
->    * file.
->    */
-> -void drm_show_memory_stats(struct drm_printer *p, struct drm_file *file)
-> +void drm_show_memory_stats(struct drm_printer *p, struct drm_file *file, internal_bos func)
->   {
->   	struct drm_gem_object *obj;
->   	struct drm_memory_stats status = {};
-> @@ -919,6 +920,9 @@ void drm_show_memory_stats(struct drm_printer *p, struct drm_file *file)
->   	}
->   	spin_unlock(&file->table_lock);
->   
-> +	if (func)
-> +		func(&status, file);
+> +void __drm_printfn_line(struct drm_printer *p, struct va_format *vaf)
+> +{
+> +	unsigned int counter = ++p->line.counter;
+> +	const char *prefix = p->prefix ?: "";
+> +	const char *pad = p->prefix ? " " : "";
 > +
->   	drm_print_memory_stats(p, &status, supported_status, "memory");
->   }
->   EXPORT_SYMBOL(drm_show_memory_stats);
-> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-> index edbc1ab0fbc8..2b3feb79afc4 100644
-> --- a/drivers/gpu/drm/msm/msm_drv.c
-> +++ b/drivers/gpu/drm/msm/msm_drv.c
-> @@ -880,7 +880,7 @@ static void msm_show_fdinfo(struct drm_printer *p, struct drm_file *file)
->   
->   	msm_gpu_show_fdinfo(priv->gpu, file->driver_priv, p);
->   
-> -	drm_show_memory_stats(p, file);
-> +	drm_show_memory_stats(p, file, NULL);
->   }
->   
->   static const struct file_operations fops = {
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> index 04d615df5259..aaa8602bf00d 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> @@ -609,7 +609,7 @@ static void panfrost_show_fdinfo(struct drm_printer *p, struct drm_file *file)
->   
->   	panfrost_gpu_show_fdinfo(pfdev, file->driver_priv, p);
->   
-> -	drm_show_memory_stats(p, file);
-> +	drm_show_memory_stats(p, file, NULL);
->   }
->   
->   static const struct file_operations panfrost_drm_driver_fops = {
-> diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
-> index fb35c5c3f1a7..314e77c67972 100644
-> --- a/drivers/gpu/drm/v3d/v3d_drv.c
-> +++ b/drivers/gpu/drm/v3d/v3d_drv.c
-> @@ -195,7 +195,7 @@ static void v3d_show_fdinfo(struct drm_printer *p, struct drm_file *file)
->   			   v3d_queue_to_string(queue), jobs_completed);
->   	}
->   
-> -	drm_show_memory_stats(p, file);
-> +	drm_show_memory_stats(p, file, NULL);
->   }
->   
->   static const struct file_operations v3d_drm_fops = {
-> diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-> index 8c0030c77308..661d00d5350e 100644
-> --- a/include/drm/drm_file.h
-> +++ b/include/drm/drm_file.h
-> @@ -469,6 +469,7 @@ void drm_send_event_timestamp_locked(struct drm_device *dev,
->    * @resident: Total size of GEM objects backing pages
->    * @purgeable: Total size of GEM objects that can be purged (resident and not active)
->    * @active: Total size of GEM objects active on one or more engines
-> + * @internal: Total size of GEM objects that aren't exposed to user space
->    *
->    * Used by drm_print_memory_stats()
->    */
-> @@ -478,16 +479,20 @@ struct drm_memory_stats {
->   	u64 resident;
->   	u64 purgeable;
->   	u64 active;
-> +	u64 internal;
-
-So equally as in the last round of discussion back in June, internal in 
-my mind still does not fit alongside the categories.
-
-Reason is that in some drivers, at least such as i915, "internal" can be:
-
-a) Backed by either system memory or device memory - so this does not 
-provice that visibility;
-
-b) They can also be resident or not, active or not, etc - so from that 
-angle it also does not fit.
-
-Do you lose anything if you add the internal objects into their 
-respective regions and under the existing categories? Like do you have 
-an use case in mind which needs to be able to distinguish between 
-userspace and internal, or the problem simply is internal are 
-unaccounted for?
-
-Regards,
-
-Tvrtko
-
+> +	if (p->line.series)
+> +		drm_printf(p->arg, "%s%s%u.%u: %pV",
+> +			   prefix, pad, p->line.series, counter, vaf);
+> +	else
+> +		drm_printf(p->arg, "%s%s%u: %pV", prefix, pad, counter, vaf);
+> +}
+> +EXPORT_SYMBOL(__drm_printfn_line);
+> +
+>   /**
+>    * drm_puts - print a const string to a &drm_printer stream
+>    * @p: the &drm printer
+> diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
+> index d2676831d765..b3906dc04388 100644
+> --- a/include/drm/drm_print.h
+> +++ b/include/drm/drm_print.h
+> @@ -177,6 +177,10 @@ struct drm_printer {
+>   	void *arg;
+>   	const void *origin;
+>   	const char *prefix;
+> +	struct {
+> +		unsigned int series;
+> +		unsigned int counter;
+> +	} line;
+>   	enum drm_debug_category category;
 >   };
 >   
->   enum drm_gem_object_status;
+> @@ -187,6 +191,7 @@ void __drm_puts_seq_file(struct drm_printer *p, const char *str);
+>   void __drm_printfn_info(struct drm_printer *p, struct va_format *vaf);
+>   void __drm_printfn_dbg(struct drm_printer *p, struct va_format *vaf);
+>   void __drm_printfn_err(struct drm_printer *p, struct va_format *vaf);
+> +void __drm_printfn_line(struct drm_printer *p, struct va_format *vaf);
 >   
-> +typedef void (*internal_bos)(struct drm_memory_stats *status,
-> +			     struct drm_file *file);
+>   __printf(2, 3)
+>   void drm_printf(struct drm_printer *p, const char *f, ...);
+> @@ -411,6 +416,65 @@ static inline struct drm_printer drm_err_printer(struct drm_device *drm,
+>   	return p;
+>   }
+>   
+> +/**
+> + * drm_line_printer - construct a &drm_printer that prefixes outputs with line numbers
+> + * @p: the &struct drm_printer which actually generates the output
+> + * @prefix: optional output prefix, or NULL for no prefix
+> + * @series: optional unique series identifier, or 0 to omit identifier in the output
+> + *
+> + * This printer can be used to increase the robustness of the captured output
+> + * to make sure we didn't lost any intermediate lines of the output. Helpful
+> + * while capturing some crash data.
+> + *
+> + * Example 1::
+> + *
+> + *	void crash_dump(struct drm_device *drm)
+> + *	{
+> + *		static unsigned int id;
+> + *		struct drm_printer p = drm_err_printer(drm, "crash");
+> + *		struct drm_printer lp = drm_line_printer(&p, "dump", ++id);
+> + *
+> + *		drm_printf(&lp, "foo");
+> + *		drm_printf(&lp, "bar");
+> + *	}
+> + *
+> + * Above code will print into the dmesg something like::
+> + *
+> + *	[ ] 0000:00:00.0: [drm] *ERROR* crash dump 1.1: foo
+> + *	[ ] 0000:00:00.0: [drm] *ERROR* crash dump 1.2: bar
+> + *
+> + * Example 2::
+> + *
+> + *	void line_dump(struct device *dev)
+> + *	{
+> + *		struct drm_printer p = drm_info_printer(dev);
+> + *		struct drm_printer lp = drm_line_printer(&p, NULL, 0);
+> + *
+> + *		drm_printf(&lp, "foo");
+> + *		drm_printf(&lp, "bar");
+> + *	}
+> + *
+> + * Above code will print::
+> + *
+> + *	[ ] 0000:00:00.0: [drm] 1: foo
+> + *	[ ] 0000:00:00.0: [drm] 2: bar
+> + *
+> + * RETURNS:
+> + * The &drm_printer object
+> + */
+> +static inline struct drm_printer drm_line_printer(struct drm_printer *p,
+> +						  const char *prefix,
+> +						  unsigned int series)
+> +{
+> +	struct drm_printer lp = {
+> +		.printfn = __drm_printfn_line,
+> +		.arg = p,
+> +		.prefix = prefix,
+> +		.line = { .series = series, },
+> +	};
+> +	return lp;
+> +}
 > +
->   void drm_print_memory_stats(struct drm_printer *p,
->   			    const struct drm_memory_stats *stats,
->   			    enum drm_gem_object_status supported_status,
->   			    const char *region);
->   
-> -void drm_show_memory_stats(struct drm_printer *p, struct drm_file *file);
-> +void drm_show_memory_stats(struct drm_printer *p, struct drm_file *file, internal_bos func);
->   void drm_show_fdinfo(struct seq_file *m, struct file *f);
->   
->   struct file *mock_drm_getfile(struct drm_minor *minor, unsigned int flags);
+>   /*
+>    * struct device based logging
+>    *
+
