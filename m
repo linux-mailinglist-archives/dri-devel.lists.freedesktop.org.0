@@ -2,86 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA1A499125B
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Oct 2024 00:35:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0801299126B
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Oct 2024 00:40:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B226610E00D;
-	Fri,  4 Oct 2024 22:35:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F09210E11D;
+	Fri,  4 Oct 2024 22:40:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="mSJsj870";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="MgtDB07V";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BACD10E00D;
- Fri,  4 Oct 2024 22:35:52 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 494AqPGQ022237;
- Fri, 4 Oct 2024 22:35:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 8vvWlUlBG9LiEOXGXDsCZuQHQTqb1u8zSsuk4WJvbAY=; b=mSJsj87075KRGY5e
- TPQR9IUt9ID9B28wRQMIj+2bd3n/h1tXp7BrO1MmyM42Os8HMnbrcKspokq9qHdm
- Y2GSLrO48Ocxhzhhr1PApAvau4U/kPG8A0sd6P8uQNJ4Fs4sLHU9R+abUOlOWCP9
- LGyHf6KW4Vm5dKnL7liMzVXM9VBGj4Zf4jUUJnOnZtl8YisGZeKNgxDlv0RO2E0W
- XI2vJXTuSlfyjdAKGbmkZJCO02vx1jw2MI0GZlxr6WDC3h2w95w0dHKWXQtsst7a
- RYQbEL88Pdna0LcQbNja8WF56TjALGaMGP/JArPBMa/6wOynIVSWU1lvNcohJ611
- vHEvtA==
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42205dbdjk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 04 Oct 2024 22:35:47 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 494MZksl026135
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 4 Oct 2024 22:35:46 GMT
-Received: from [10.134.70.212] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 4 Oct 2024
- 15:35:46 -0700
-Message-ID: <92d5f299-b931-41a0-a337-001f4a0d9b90@quicinc.com>
-Date: Fri, 4 Oct 2024 15:35:45 -0700
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+ [209.85.128.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E54D10E0CB
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Oct 2024 22:40:43 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id
+ 5b1f17b1804b1-42cc8782869so25558015e9.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Oct 2024 15:40:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1728081641; x=1728686441; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=Pm0SUmL0h+/zFum7zGqvM26tqKRl3o1sbbm2mcZg8yk=;
+ b=MgtDB07VBDueuJdxm52DNs9aRT5NBgHKe7AOxkyKGOY5PMsErRI3DmjVvbvm7XgHP/
+ 5Cs1e9ht907mXRr4zj6BVhQTt+S94/z/SDVJPljeOqvW2MeK2miWmkPlNilyDgtpco7A
+ sDP5uHqfNXhYKgGIge2trN2/nuC+gjtTgt51QtxbMBX6OxzbX73k/QSmgis3GFau9i/C
+ tAHgGI8n/uJUwULdn6aIj4idhUVv6JP+u0aNlNRAD/zNScwzrhmXtPkVFqanvwBZN/Wf
+ fIrOT6gSDT1OmkRkdJtsOyDw96EXOQ0F+m9LMe+vNsTiQc/3kp8pGLqZmMmlV9sRBauW
+ c8MQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1728081641; x=1728686441;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Pm0SUmL0h+/zFum7zGqvM26tqKRl3o1sbbm2mcZg8yk=;
+ b=Hfida3zmG8ua1ESjSuyb8tgv9vcPtFq5chieXFeMvJKK2Tf7MRmkaYGq/pEKHnR92R
+ 2+rqUjhqPU+93cp3sZ0c0oGPEYYCj15VpzkVuNG25VvL6mzdOMggy/Ji9dHBC3g7XBKW
+ VKyiQGTu0kOvcG6U2+2Kdey30Dd8HbMvUnRvymPDsIFIVlYiXd8BrNcr4I03/Vo4BrIK
+ cga9kV556hPd2ec/MKVLfy05Utfu5jm3DvMOpNd6D1xSQtFva9b+LSfwXKWfAH5FaAJs
+ ldA1yn5OBbPNHS9BUQNfLSg01wBBApWQq853HF0RUKTWIgAdtsAIbrdjcz2N4XJHgVfg
+ Zh2Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXcfKjzfBk/NO/vJZ4dDKEy4ZbZPcquXuvQ4UcX2pdduL7kAMCpy0j8bApzgwMnUXXu7fQYQ0CY+GY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyhfwthvSF0+keKEp595w8E6DkYD2JFP4110wYYafiKksAOccTU
+ y1bkH751mm8RyC66qcLdBjIYQXJhVtCmEnK4iUo2lMS6xXuRGiKqQBdCDBkhzc4=
+X-Google-Smtp-Source: AGHT+IEAyWl+ECruivGYhlckYJ/sRggq+bTCKeTD26RE/A1w2YG5iYaNE6u8Y3RrX5FvA49B42jmoA==
+X-Received: by 2002:adf:f741:0:b0:371:8e8b:39d4 with SMTP id
+ ffacd0b85a97d-37d0e77eea6mr2854008f8f.28.1728081641222; 
+ Fri, 04 Oct 2024 15:40:41 -0700 (PDT)
+Received: from [82.195.85.209] ([82.195.85.209])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-37d16920445sm544722f8f.52.2024.10.04.15.40.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 04 Oct 2024 15:40:40 -0700 (PDT)
+Message-ID: <782f6c32-73ed-4e58-ae10-ff2d486b499c@linaro.org>
+Date: Sat, 5 Oct 2024 00:40:38 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFT 2/2] drm/msm/adreno: Setup SMMU aparture for
- per-process page table
-To: Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>, Bjorn Andersson
- <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Abhinav Kumar
- <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-CC: <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>
-References: <20241002-adreno-smmu-aparture-v1-0-e9a63c9ccef5@oss.qualcomm.com>
- <20241002-adreno-smmu-aparture-v1-2-e9a63c9ccef5@oss.qualcomm.com>
+Subject: Re: [PATCH v3 0/4] drm/log: Introduce a new boot logger to draw the
+ kmsg on the screen
+To: Jocelyn Falempe <jfalempe@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ John Ogness <john.ogness@linutronix.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+ bluescreen_avenger@verizon.net, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20240910070733.156127-1-jfalempe@redhat.com>
 Content-Language: en-US
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <20241002-adreno-smmu-aparture-v1-2-e9a63c9ccef5@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+From: Caleb Connolly <caleb.connolly@linaro.org>
+In-Reply-To: <20240910070733.156127-1-jfalempe@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: cmSqWPSkbKUyLnkLWUe45Y7wUrxh-GFk
-X-Proofpoint-ORIG-GUID: cmSqWPSkbKUyLnkLWUe45Y7wUrxh-GFk
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 spamscore=0
- phishscore=0 priorityscore=1501 malwarescore=0 impostorscore=0 bulkscore=0
- suspectscore=0 mlxlogscore=999 lowpriorityscore=0 adultscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2410040156
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,60 +92,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Jocelyn,
+
+On 10/09/2024 08:56, Jocelyn Falempe wrote:
+> drm_log is a simple logger that uses the drm_client API to print the kmsg boot log on the screen.
+> This is not a full replacement to fbcon, as it will only print the kmsg.
+> It will never handle user input, or a terminal because this is better done in userspace.
 
 
-On 10/2/2024 8:01 PM, Bjorn Andersson wrote:
-> Support for per-process page tables requires the SMMU aparture to be
-> setup such that the GPU can make updates with the SMMU. On some targets
-> this is done statically in firmware, on others it's expected to be
-> requested in runtime by the driver, through a SCM call.
+I tried this out on the OnePlus 6 (Qualcomm SDM845/freedreno) and it 
+looks great :D
+
+Here's a demo for kicks:
+
+https://people.linaro.org/~caleb.connolly/drm_log_oneplus6.mp4
+
+Tested-by: Caleb Connolly <caleb.connolly@linaro.org> # freedreno/dsi
+
+Kind regards,
 > 
-> One place where configuration is expected to be done dynamically is the
-> QCS6490 rb3gen2.
+> If you're curious on how it looks like, I've put a small demo here:
+> https://people.redhat.com/jfalempe/drm_log/drm_log_draft_boot_v2.mp4
 > 
-> The downstream driver does this unconditioanlly on any A6xx and newer,
-> so follow suite and make the call.
-> 
-> Signed-off-by: Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>
-
-Hi Bjorn,
-
-Tested-by: Jessica Zhang <quic_jesszhan@quicinc.com> # Trogdor (sc7180)
-
-Thanks,
-
-Jessica Zhang
-
-> ---
->   drivers/gpu/drm/msm/adreno/adreno_gpu.c | 10 ++++++++++
->   1 file changed, 10 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> index 465a4cd14a43..5b06f7a04fe6 100644
-> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> @@ -572,8 +572,18 @@ struct drm_gem_object *adreno_fw_create_bo(struct msm_gpu *gpu,
+> Design decisions:
+>    * It uses the drm_client API, so it should work on all drm drivers from the start.
+>    * It doesn't scroll the message, that way it doesn't need to redraw the whole screen for each new message.
+>      It also means it doesn't have to keep drawn messages in memory, to redraw them when scrolling.
+>    * drm_log can only be built-in (and drm must be built-in too).
+>      The reason is that, if you build it as a module, then a userspace application will be more appropriate than this module.
+>    * It uses the new non-blocking console API, so it should work well with PREEMPT_RT
 >   
->   int adreno_hw_init(struct msm_gpu *gpu)
->   {
-> +	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-> +	int ret;
-> +
->   	VERB("%s", gpu->name);
->   
-> +	if (adreno_gpu->info->family >= ADRENO_6XX_GEN1) {
-> +		/* We currently always use context bank 0, so hard code this */
-> +		ret = qcom_scm_set_gpu_smmu_aperture(0);
-> +		if (ret)
-> +			DRM_DEV_ERROR(gpu->dev->dev, "unable to set SMMU aperture: %d\n", ret);
-> +	}
-> +
->   	for (int i = 0; i < gpu->nr_rings; i++) {
->   		struct msm_ringbuffer *ring = gpu->rb[i];
->   
+> v2:
+>   * Use vmap_local() api, with that change, I've tested it successfully on simpledrm, virtio-gpu, amdgpu, and nouveau.
+>   * Stop drawing when the drm_master is taken. This avoid wasting CPU cycle if the buffer is not visible.
+>   * Use deferred probe. Only do the probe the first time there is a log to draw. With this, if you boot with quiet, drm_log won't do any modeset.
+>   * Add color support for the timestamp prefix, like what dmesg does.
+>   * Add build dependency on  disabling the fbdev emulation, as they are both drm_client, and there is no way to choose which one gets the focus.
 > 
-> -- 
-> 2.45.2
+> v3:
+>   * Remove the work thread and circular buffer, and use the new write_thread() console API.
+>   * Register a console for each drm driver.
+> 
+> Thanks and best regards,
+> 
+> Jocelyn Falempe (4):
+>    drm/panic: Move drawing functions to drm_draw
+>    drm/log: Introduce a new boot logger to draw the kmsg on the screen
+>    drm/log: Do not draw if drm_master is taken
+>    drm/log: Color the timestamp, to improve readability
+> 
+>   drivers/gpu/drm/Kconfig     |  19 ++
+>   drivers/gpu/drm/Makefile    |   3 +
+>   drivers/gpu/drm/drm_draw.c  | 216 ++++++++++++++++++++
+>   drivers/gpu/drm/drm_draw.h  |  56 ++++++
+>   drivers/gpu/drm/drm_drv.c   |   2 +
+>   drivers/gpu/drm/drm_log.c   | 391 ++++++++++++++++++++++++++++++++++++
+>   drivers/gpu/drm/drm_log.h   |  11 +
+>   drivers/gpu/drm/drm_panic.c | 247 +++--------------------
+>   8 files changed, 721 insertions(+), 224 deletions(-)
+>   create mode 100644 drivers/gpu/drm/drm_draw.c
+>   create mode 100644 drivers/gpu/drm/drm_draw.h
+>   create mode 100644 drivers/gpu/drm/drm_log.c
+>   create mode 100644 drivers/gpu/drm/drm_log.h
 > 
 > 
+> base-commit: 9aaeb87ce1e966169a57f53a02ba05b30880ffb8
+
+-- 
+// Caleb (they/them)
 
