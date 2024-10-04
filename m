@@ -2,52 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44DBA990B3B
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2024 20:24:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E67F1990B29
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2024 20:23:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B515510EA6A;
-	Fri,  4 Oct 2024 18:24:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D02210EA63;
+	Fri,  4 Oct 2024 18:23:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="CV88qISq";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="ic6Eu+cZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 736DA10EA6A
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Oct 2024 18:24:31 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id AC8095C04CF;
- Fri,  4 Oct 2024 18:24:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73CB0C4CEC6;
- Fri,  4 Oct 2024 18:24:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1728066270;
- bh=n2o64wcB9RGbVFbvgQObSO2pzut7VrPHzQR3h9vkoNA=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=CV88qISq7Mv960IpA+zQqMpdwpb4UVLRmM7eEpqUGKU/3GCgqO5kGcZ7fn4pZjbob
- FHriIDs5mPK3r0zG6OIM7UxmtyaFo8NT4AR+Z/b9I4TzstmEOGf8zxDlt5shaziMnD
- 6GpF4P1FV630ecY7V6I3tF+CyNfrHt7rlomw3XfnBs4E685qQZyd2ASgV7YKS31PnR
- xndHdZC0KXKKgLKSpvGtYguHn+tiiFy7Ww66XJ1tLeep+TerfoV3TyyOYSvu3qDYHk
- OTglPoylH9HzcnvPXty7oIvdbBfyahx/4kFwBDUNs4XCW7Eg3sg58uKky79M1Myyrf
- GSw1JWZfCviLA==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Andrey Shumilin <shum.sdl@nppct.ru>, Helge Deller <deller@gmx.de>,
- Sasha Levin <sashal@kernel.org>, tzimmermann@suse.de,
- fullwaywang@outlook.com, javierm@redhat.com, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.10 70/70] fbdev: sisfb: Fix strbuf array overflow
-Date: Fri,  4 Oct 2024 14:21:08 -0400
-Message-ID: <20241004182200.3670903-70-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241004182200.3670903-1-sashal@kernel.org>
-References: <20241004182200.3670903-1-sashal@kernel.org>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F03610EA63
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Oct 2024 18:23:43 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 494A4grc031989;
+ Fri, 4 Oct 2024 18:23:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ bqBt+x4TRRe7C1lPlzRCRL5ZSm4Dw8vlyjsXr8DFA/0=; b=ic6Eu+cZVkTKbwqm
+ ybfjM4am4lOvpnZsinhnZnuJUoOB5q6g91GTGkJ1+7DzQoIMsDc7UJB9YU60HswM
+ 0yk2pIcpEeQqFSzVXRuBxS0bq7CBrm1uJVMygqW4keT7ZBHjrBvdNHwwtVOS5nGE
+ rl8PZwX7XujHFnfSXPAI6uuqNWtLxOA8C8dPuLVZjUA0xUfArQZTDTFFpgfejirx
+ MGMPyyTyVUd8gGuXX7aoFUWUWP+atjbpfeEoPUySqW29xSIElv7fi+BH0PvwxLMM
+ Dz6WrZpvtBDVHtDvJqcmm1yEBv/tuJaYHh8JggyJ2SbSYrAFOSjOofVAdOy0be/N
+ bw/KlQ==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42205f2xp4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 04 Oct 2024 18:23:40 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 494INdR5032471
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 4 Oct 2024 18:23:39 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 4 Oct 2024
+ 11:23:38 -0700
+Message-ID: <bc45a66f-70d1-da44-808c-e924d8e06c37@quicinc.com>
+Date: Fri, 4 Oct 2024 12:23:38 -0600
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.10.13
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH V3 10/11] accel/amdxdna: Add query functions
+Content-Language: en-US
+To: Lizhi Hou <lizhi.hou@amd.com>, <ogabbay@kernel.org>,
+ <dri-devel@lists.freedesktop.org>
+CC: <linux-kernel@vger.kernel.org>, <min.ma@amd.com>, <max.zhen@amd.com>,
+ <sonal.santan@amd.com>, <king.tam@amd.com>
+References: <20240911180604.1834434-1-lizhi.hou@amd.com>
+ <20240911180604.1834434-11-lizhi.hou@amd.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20240911180604.1834434-11-lizhi.hou@amd.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: vqHGHLNlK-WsapGgwE7jC2IumvKkXO98
+X-Proofpoint-ORIG-GUID: vqHGHLNlK-WsapGgwE7jC2IumvKkXO98
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 suspectscore=0
+ mlxlogscore=998 priorityscore=1501 phishscore=0 bulkscore=0
+ impostorscore=0 clxscore=1015 lowpriorityscore=0 spamscore=0 mlxscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410040127
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,40 +92,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Andrey Shumilin <shum.sdl@nppct.ru>
+On 9/11/2024 12:06 PM, Lizhi Hou wrote:
+> diff --git a/drivers/accel/amdxdna/aie2_error.c b/drivers/accel/amdxdna/aie2_error.c
+> index 3b8223420f5b..9dc44ecf2adb 100644
+> --- a/drivers/accel/amdxdna/aie2_error.c
+> +++ b/drivers/accel/amdxdna/aie2_error.c
+> @@ -3,6 +3,7 @@
+>    * Copyright (C) 2023-2024, Advanced Micro Devices, Inc.
+>    */
+>   
+> +#include <drm/amdxdna_accel.h>
+>   #include <drm/drm_cache.h>
+>   #include <drm/drm_device.h>
+>   #include <drm/drm_print.h>
 
-[ Upstream commit 9cf14f5a2746c19455ce9cb44341b5527b5e19c3 ]
-
-The values of the variables xres and yres are placed in strbuf.
-These variables are obtained from strbuf1.
-The strbuf1 array contains digit characters
-and a space if the array contains non-digit characters.
-Then, when executing sprintf(strbuf, "%ux%ux8", xres, yres);
-more than 16 bytes will be written to strbuf.
-It is suggested to increase the size of the strbuf array to 24.
-
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
-
-Signed-off-by: Andrey Shumilin <shum.sdl@nppct.ru>
-Signed-off-by: Helge Deller <deller@gmx.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/video/fbdev/sis/sis_main.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/video/fbdev/sis/sis_main.c b/drivers/video/fbdev/sis/sis_main.c
-index 009bf1d926448..75033e6be15ab 100644
---- a/drivers/video/fbdev/sis/sis_main.c
-+++ b/drivers/video/fbdev/sis/sis_main.c
-@@ -183,7 +183,7 @@ static void sisfb_search_mode(char *name, bool quiet)
- {
- 	unsigned int j = 0, xres = 0, yres = 0, depth = 0, rate = 0;
- 	int i = 0;
--	char strbuf[16], strbuf1[20];
-+	char strbuf[24], strbuf1[20];
- 	char *nameptr = name;
- 
- 	/* We don't know the hardware specs yet and there is no ivideo */
--- 
-2.43.0
-
+Feels like this should be in the previous patch.
