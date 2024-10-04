@@ -2,57 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C0C798FD64
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2024 08:35:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B020F98FDAC
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Oct 2024 09:14:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23B9810E69B;
-	Fri,  4 Oct 2024 06:35:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5CD410E257;
+	Fri,  4 Oct 2024 07:14:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Gw2MCGp4";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Xz8lIaMC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AC9210E798
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Oct 2024 06:35:15 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 334EE5C1060;
- Fri,  4 Oct 2024 06:35:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04550C4CEC6;
- Fri,  4 Oct 2024 06:35:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1728023713;
- bh=jl7T+5WwqtroqvfChKzcUHISh4+13GhKzPmF41T9kb4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Gw2MCGp4xo+Jr9zBJnBd23K/f47mAe6echPEvacE0G3+nEMudx1iKOP9pWMUxsKkn
- tp6GB+nSIfbQOr3BUn/wLowrU3ypk5dTbDd0NPFCF0uzwUnkYkZuoVcWyPkUJo5tTn
- 2YVYY0WwClMxyzmBlqQBsH9c+f1viVw7YXP/swCc30oKXm9ajBlE0gwK4JZrxIvLyI
- DMb2rsII3cDJYqvAm8oo4kg8s2zh9DsubrnASD6Dbs9YqERGoj+SeSRU3mQS5eDLhK
- A8i4wpwRlAQpdyNG8HQVYPMXJT2pAD0UjQqH6Nd48iRDqE6vhqJ5XBiapPjgzabRnD
- zqd5krKAy4zFg==
-Date: Fri, 4 Oct 2024 08:35:09 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Moudy Ho <moudy.ho@mediatek.com>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- "jason-jh . lin" <jason-jh.lin@mediatek.com>, 
- Macpaul Lin <macpaul.lin@mediatek.com>, dri-devel@lists.freedesktop.org, 
- linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v4] dt-bindings: display: mediatek: split: add subschema
- property constraints
-Message-ID: <ajydpbq4ygrfr3ahs5nuh72pdmbttus2kgjb6csxc3p4tcq5l2@dlmucrzchvgl>
-References: <20241004031245.27514-1-moudy.ho@mediatek.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E29A610E257
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Oct 2024 07:14:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1728026051;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hBtwnr0LZruEJbvlzvyuk1+vZcUV6rsB3LNlgkW3ppA=;
+ b=Xz8lIaMCGdSjd6MC/L6xu23krO2Twlt5boqi/vp+M7oY+tMSzWtizv18bFnnmdLisje5Cz
+ zQz0vwKGT+KMnMEvGLGEIoy2y2Vhuif5alhjIbOBGABD2DOUF51HSICsXfa+p7ZBpWIc61
+ 0IE/LjeD/v2u4V0TFJrnN1RRsxjZhpA=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-654-Rt_amQnlOh-HC0l9f827FQ-1; Fri, 04 Oct 2024 03:14:10 -0400
+X-MC-Unique: Rt_amQnlOh-HC0l9f827FQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ ffacd0b85a97d-37ccd0cf138so1217539f8f.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Oct 2024 00:14:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1728026049; x=1728630849;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=hBtwnr0LZruEJbvlzvyuk1+vZcUV6rsB3LNlgkW3ppA=;
+ b=BtAnhMU4mXOHzIUYGW7o1zcuxlDUdC3RVMezZBRgffEoYo32Pabk571qqZ+rRsHM4H
+ sTb4Yc19eWchyoTPw++3JOR8PkoMO7H5NmhAKixv1RTU88x9KaodtYnC8UicdFHo6AU8
+ Iazy2kEkNU6IZKnxVVGQksA36hdM760f/btaB1X1Rde57cUL23ko27SLS8p59nLqjl4/
+ Y3CStpiisjsWkMddEd044j/TtLzstJe8RlrQJofTrWSMZ2daiRo0ONgrAsode9LlpdLr
+ g8/olXd3bYgoHIvK9rrckKE1lRDgcK4jZJs+kS/Wqx+t435OUEOwgjumnbAii4gKHmnw
+ 16Gw==
+X-Gm-Message-State: AOJu0YwtX2ubNMvo5+9pK4/XoLX1Xwp3OgsyJOOtgg1fIa8zuL24sMNn
+ rxKpjjhGZeOxsIhON2AOke37GCUwnTGeWiLuclwQSa38zpwyCn5GJv4t3Ce+uJacXR9m+vr0w0T
+ FifznyQgSyBEDD4jO+gVIxIaVSSy0BjTBzrcB0MQ3j2C+3eKW9t/nkDkrOD5W9DoNsQ==
+X-Received: by 2002:a5d:5f54:0:b0:37c:cfdc:19ba with SMTP id
+ ffacd0b85a97d-37d0e751784mr2002742f8f.28.1728026048950; 
+ Fri, 04 Oct 2024 00:14:08 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF5EgGjYY0JfV/z7iaa59W+QZpz8ppmjKMbpPUYbcvmPnVnctrVU3GxGrg0lDO74dDBrAfR4w==
+X-Received: by 2002:a5d:5f54:0:b0:37c:cfdc:19ba with SMTP id
+ ffacd0b85a97d-37d0e751784mr2002722f8f.28.1728026048613; 
+ Fri, 04 Oct 2024 00:14:08 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-37d0822995fsm2673066f8f.38.2024.10.04.00.14.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 04 Oct 2024 00:14:08 -0700 (PDT)
+Message-ID: <609cf7e5-0fd6-4636-b5b1-b63fe319db28@redhat.com>
+Date: Fri, 4 Oct 2024 09:14:07 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241004031245.27514-1-moudy.ho@mediatek.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/panic: Select ZLIB_DEFLATE for
+ DRM_PANIC_SCREEN_QR_CODE
+To: Miguel Ojeda <ojeda@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ patches@lists.linux.dev
+References: <20241003230734.653717-1-ojeda@kernel.org>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <20241003230734.653717-1-ojeda@kernel.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,65 +97,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 04, 2024 at 11:12:45AM +0800, Moudy Ho wrote:
-> The display node in mt8195.dtsi was triggering a CHECK_DTBS error due
-> to an excessively long 'clocks' property:
->   display@14f06000: clocks: [[31, 14], [31, 43], [31, 44]] is too long
+On 04/10/2024 01:07, Miguel Ojeda wrote:
+> Under `CONFIG_DRM_PANIC_SCREEN_QR_CODE=y`, zlib is used:
 > 
-> To resolve this issue, the constraints for 'clocks' and
-> other properties within the subschema will be reinforced.
+>      ld.lld: error: undefined symbol: zlib_deflate_workspacesize
+>      >>> referenced by drm_panic.c
+>      >>>               drivers/gpu/drm/drm_panic.o:(drm_panic_qr_init) in archive vmlinux.a
 > 
-> Fixes: 739058a9c5c3 ("dt-bindings: display: mediatek: split: add compatible for MT8195")
-> Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
-> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
-> 
-> --
-> This is based on [v2] dt-bindings: display: mediatek: split: add clocks count constraint for MT8195
-> 
-> Changes since v3:
->   - Correct the compatible name for the mt8173 split in the subschema.
-> 
-> Changes since v2:
->   - Revise the commit message.
->   - Enhance the descriptions of 'clocks'.
->   - Strengthen the conditions within the subschema.
-> 
-> Changes since v1:
->   - Adding functional descriptions and quantity restrictions.
-> ---
->  .../display/mediatek/mediatek,split.yaml      | 24 +++++++++++++++++++
->  1 file changed, 24 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,split.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,split.yaml
-> index e4affc854f3d..87f8477a7be8 100644
-> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,split.yaml
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,split.yaml
-> @@ -57,6 +57,9 @@ properties:
->    clocks:
->      items:
->        - description: SPLIT Clock
-> +      - description: Used for interfacing with the HDMI RX signal source.
-> +      - description: Paired with receiving HDMI RX metadata.
-> +    minItems: 1
->  
->  required:
->    - compatible
-> @@ -72,9 +75,30 @@ allOf:
->              const: mediatek,mt8195-mdp3-split
->  
->      then:
-> +      properties:
-> +        clocks:
+> Thus select `CONFIG_ZLIB_DEFLATE`.
 
-minItems, nothing in your commit msg says that clocks are optional
+Hi, good catch, yes it should select the zlib deflate.
 
-> +          maxItems: 3
-> +
-> +        power-domains:
-> +          maxItems: 1
-
-This should be in top-level, not here.
+Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
 
 Best regards,
-Krzysztof
+
+-- 
+
+Jocelyn
+
+> 
+> Fixes: cb5164ac43d0 ("drm/panic: Add a QR code panic screen")
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+> ---
+>   drivers/gpu/drm/Kconfig | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index 1cb5a4f19293..cf5bc77e2362 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -152,6 +152,7 @@ config DRM_PANIC_SCREEN
+>   config DRM_PANIC_SCREEN_QR_CODE
+>   	bool "Add a panic screen with a QR code"
+>   	depends on DRM_PANIC && RUST
+> +	select ZLIB_DEFLATE
+>   	help
+>   	  This option adds a QR code generator, and a panic screen with a QR
+>   	  code. The QR code will contain the last lines of kmsg and other debug
+> --
+> 2.46.2
+> 
 
