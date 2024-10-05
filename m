@@ -2,78 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18BC1991509
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Oct 2024 09:06:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FB56991560
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Oct 2024 10:50:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68FA110E1AF;
-	Sat,  5 Oct 2024 07:06:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E72AB10E10C;
+	Sat,  5 Oct 2024 08:50:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="FQxNQT8d";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Tii5gFNc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
- [209.85.167.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADA1110E1AF;
- Sat,  5 Oct 2024 07:06:05 +0000 (UTC)
-Received: by mail-lf1-f52.google.com with SMTP id
- 2adb3069b0e04-5398e3f43f3so3463053e87.2; 
- Sat, 05 Oct 2024 00:06:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1728111963; x=1728716763; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=bYVrMrQSJwfYKCjPdcCYgt+chvzT8Uf5ftZ8FQgUQlc=;
- b=FQxNQT8d3ziGzaMKCw9Grn+LgpaJhGFevK5pko914Y+hkuPlO8tloIL3UgQ8DVd07E
- Y1GW5R75pPWnQWIrdtsEiferDLs/fNoHVfpWqiyxbqK8eL9ErQX7abzgFmS79Dv0AMPE
- 8joRJq/SsGm3RqUg8TQzclkUicE+1D/x7M8mI/xtILJaSOCOq8zg/ebyWLBwIHviQHmB
- uuQQK+At0RsjP70QJtNr/6E0p2+UCL6fmbNTTiNhNdeCEY8/gauCA4PVHgqIQRvDDNRo
- wDM7YIsgZxJFrBfv7TiV1kxQqdm6gYZY7ipDWjZywzrdQvZ9jT3Acrtziu/3WEk6LGdF
- 6G3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728111963; x=1728716763;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=bYVrMrQSJwfYKCjPdcCYgt+chvzT8Uf5ftZ8FQgUQlc=;
- b=CGT7rsji2mkKDTOnKmeRh9WwlTRATvVF8bGLIsi9omGmw7Zutj7sLl1R7Nbxl8Rotj
- Y/6JA6lh6AmudAn1KnGBIAVMd57PbHqTRjru4fetOYxb0r/o4+VRRTQT8tKfWMVWatea
- hA1jLkTPoOy9gxEqRKvCx/S/919wDtQx23ar1b+fm7IECUOB1KGaz0Z7Q8Jw2ChFLpbH
- 1mztjrzYAVqWMOIQxmSm6nzmKgQqplLzwwfxltztAHnN3DFZkeEGWcngTu+an6qnk7Fk
- 9rHMUlSB5Ql4hUEKHPV5JVtql0nO7nW+IqXs7HcLBVcaaVuwYeohwDjXfiAzFzcsHYfc
- DyvQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXENv6PYxt0xC7mHV29mUxliBKqIMIcRpqanKalzu6al4F5jELTjq2UhSIfeaOzwUoJWgHW6aSL@lists.freedesktop.org,
- AJvYcCXfQjB00F80tkWK+EhzI3pymsXEkpJqh85XQMMYu4fL4sHb35KKyhZcAn3aII+xjpmlXC95CK+92fHu@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywk0GpN8+sRRr5SNJ/KWh+dcoO32wyR4lCI3aGQePlDwZlsPXm2
- KdubtT2fT5e2GKB4mp6FY1AnOlBNyEw39TL4m6saydfODAKO/ry3m/Vqtkh1gVBbJHUvAPdAq3y
- FZN+JntSZlwPd1Mch71Oa8L7c9FA=
-X-Google-Smtp-Source: AGHT+IF/SPb5q9d7Mi42mGpfn9y/A5HUxHESegg0s2/uE/R/lfVJVIWc3Bz0N41WkD4BgjxASggZkzFCnV8S5bjvk8g=
-X-Received: by 2002:a05:6512:1090:b0:539:896e:46c9 with SMTP id
- 2adb3069b0e04-539ab9e4b44mr3143607e87.45.1728111963147; Sat, 05 Oct 2024
- 00:06:03 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3040410E099;
+ Sat,  5 Oct 2024 08:50:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1728118205; x=1759654205;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=4Zc+oGm1rYm5R0fRDJO5MYaw7udfVcyqE7skd1baFbI=;
+ b=Tii5gFNcuGXTd14oPHJdRKqOM5DGvld3puqxLUcSpuVJ6OYFRqw/b2V1
+ E7FRQgBUPuZjjpaarSofE1p5IMBGtSH7PvBTMeiMbnrCyMw7/zD0uW1ay
+ 84uTbSV4D+NnXWx3W4KK1M7IxuqYRwPGh01pquQmhgJ/BRbp+yopPxAxB
+ S6CB8ZjFR0iqiKeLpjyAmvfUtZIRIwq24kUOi9m+66DFBbDcPXlM5EITL
+ Vkr1rHca9SGS2rHPIYDpLHj8wSJ/oYySPRDo8xL+3BdORjXthXGMAMvHX
+ e7FKwQTAtewHcnEA19yD21AAWv3by6r7lHAoeKbp6sC281wCxGSOWtjoT Q==;
+X-CSE-ConnectionGUID: v1nA2pu6S5iwfVm7BwjRmw==
+X-CSE-MsgGUID: BooiV52OS56pkiU4TNE7dA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="37990484"
+X-IronPort-AV: E=Sophos;i="6.11,180,1725346800"; d="scan'208";a="37990484"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Oct 2024 01:50:04 -0700
+X-CSE-ConnectionGUID: qVCshNAJR/uJWpE0kHSlQA==
+X-CSE-MsgGUID: 90hXrQfaScezsXBVxhPi6Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,180,1725346800"; d="scan'208";a="98252179"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+ by fmviesa002.fm.intel.com with ESMTP; 05 Oct 2024 01:50:03 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1sx0UD-0002ma-0l;
+ Sat, 05 Oct 2024 08:50:01 +0000
+Date: Sat, 5 Oct 2024 16:49:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Harry Wentland <harry.wentland@amd.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, wayland-devel@lists.freedesktop.org,
+ Harry Wentland <harry.wentland@amd.com>,
+ Arthur Grillo <arthurgrillo@riseup.net>
+Subject: Re: [PATCH v6 03/44] drm/vkms: Add kunit tests for VKMS LUT handling
+Message-ID: <202410051655.9wEF2CHW-lkp@intel.com>
+References: <20241003200129.1732122-4-harry.wentland@amd.com>
 MIME-Version: 1.0
-References: <20241004081618.27599-1-advaitdhamorikar@gmail.com>
- <00761132-75f3-41fd-b571-30b0cbe5565d@amd.com>
- <CADnq5_OKww1YZ1R_OytEMLcNVwdq=-ckc2gqQ+WMyOv6AZ9kqg@mail.gmail.com>
- <007679b9-b7b6-4385-9a2e-2be392cb5f58@amd.com>
-In-Reply-To: <007679b9-b7b6-4385-9a2e-2be392cb5f58@amd.com>
-From: Advait Dhamorikar <advaitdhamorikar@gmail.com>
-Date: Sat, 5 Oct 2024 12:35:51 +0530
-Message-ID: <CAJ7bepLv3Z9RwuxoBS3SfkMjeBkN1LRTjLEjT8Lv4Jdu-CXb6Q@mail.gmail.com>
-Subject: Re: [PATCH-next] Fix unintentional integer overflow
-To: "Sundararaju, Sathishkumar" <sasundar@amd.com>
-Cc: Alex Deucher <alexdeucher@gmail.com>, alexander.deucher@amd.com, 
- christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com, 
- simona@ffwll.ch, leo.liu@amd.com, sathishkumar.sundararaju@amd.com, 
- saleemkhan.jamadar@amd.com, Veerabadhran.Gopalakrishnan@amd.com, 
- sonny.jiang@amd.com, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- skhan@linuxfoundation.org, anupnewsmail@gmail.com, 
- "Lazar, Lijo" <lijo.lazar@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241003200129.1732122-4-harry.wentland@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,86 +72,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sathish,
+Hi Harry,
 
-> Please collate the changes together with Lijo's suggestion as well,
-> "1ULL <<" instead of typecast, there are 3 occurrences of the error in
-> f0b19b84d391.
+kernel test robot noticed the following build warnings:
 
-I could only observe two instances of this error in f0b19b84d391 at:
-'mask =3D (1 << (adev->jpeg.num_jpeg_inst * adev->jpeg.num_jpeg_rings)) - 1=
-;`
-and `mask |=3D 1 << ((i * adev->jpeg.num_jpeg_rings) + j);`
+[auto build test WARNING on drm/drm-next]
+[also build test WARNING on drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip linus/master v6.12-rc1 next-20241004]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-There are a few instances where we can use 1U instead of int as
-harvest_config uses unsigned int
-(adev->jpeg.harvest_config & (1 << i)
-However I think they should be fixed in a separate patch?
+url:    https://github.com/intel-lab-lkp/linux/commits/Harry-Wentland/drm-Add-helper-for-conversion-from-signed-magnitude/20241004-040629
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+patch link:    https://lore.kernel.org/r/20241003200129.1732122-4-harry.wentland%40amd.com
+patch subject: [PATCH v6 03/44] drm/vkms: Add kunit tests for VKMS LUT handling
+config: csky-randconfig-r112-20241005 (https://download.01.org/0day-ci/archive/20241005/202410051655.9wEF2CHW-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20241005/202410051655.9wEF2CHW-lkp@intel.com/reproduce)
 
-Thanks and regards,
-Advait
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410051655.9wEF2CHW-lkp@intel.com/
 
-On Sat, 5 Oct 2024 at 09:05, Sundararaju, Sathishkumar <sasundar@amd.com> w=
-rote:
->
->
->
-> On 10/4/2024 11:30 PM, Alex Deucher wrote:
-> > On Fri, Oct 4, 2024 at 5:15=E2=80=AFAM Sundararaju, Sathishkumar
-> > <sasundar@amd.com> wrote:
-> >>
-> >> All occurrences of this error fix should have been together in a singl=
-e patch both in _get and _set callbacks corresponding to f0b19b84d391, plea=
-se avoid separate patch for each occurrence.
-> >>
-> >> Sorry Alex, I missed to note this yesterday.
-> > I've dropped the patch.  Please pick it up once it's fixed up appropria=
-tely.
-> Thanks Alex.
->
-> Hi Advait,
-> Please collate the changes together with Lijo's suggestion as well,
-> "1ULL <<" instead of typecast, there are 3 occurrences of the error in
-> f0b19b84d391.
->
-> Regards,
-> Sathish
-> >
-> > Thanks,
-> >
-> > Alex
-> >
-> >>
-> >> Regards,
-> >> Sathish
-> >>
-> >>
-> >> On 10/4/2024 1:46 PM, Advait Dhamorikar wrote:
-> >>
-> >> Fix shift-count-overflow when creating mask.
-> >> The expression's value may not be what the
-> >> programmer intended, because the expression is
-> >> evaluated using a narrower integer type.
-> >>
-> >> Fixes: f0b19b84d391 ("drm/amdgpu: add amdgpu_jpeg_sched_mask debugfs")
-> >> Signed-off-by: Advait Dhamorikar <advaitdhamorikar@gmail.com>
-> >> ---
-> >>   drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c | 2 +-
-> >>   1 file changed, 1 insertion(+), 1 deletion(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c b/drivers/gpu/dr=
-m/amd/amdgpu/amdgpu_jpeg.c
-> >> index 95e2796919fc..7df402c45f40 100644
-> >> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c
-> >> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c
-> >> @@ -388,7 +388,7 @@ static int amdgpu_debugfs_jpeg_sched_mask_get(void=
- *data, u64 *val)
-> >>    for (j =3D 0; j < adev->jpeg.num_jpeg_rings; ++j) {
-> >>    ring =3D &adev->jpeg.inst[i].ring_dec[j];
-> >>    if (ring->sched.ready)
-> >> - mask |=3D 1 << ((i * adev->jpeg.num_jpeg_rings) + j);
-> >> + mask |=3D (u64)1 << ((i * adev->jpeg.num_jpeg_rings) + j);
-> >>    }
-> >>    }
-> >>    *val =3D mask;
->
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/vkms/tests/vkms_color_test.c:33:29: sparse: sparse: symbol 'test_linear_lut' was not declared. Should it be static?
+
+vim +/test_linear_lut +33 drivers/gpu/drm/vkms/tests/vkms_color_test.c
+
+    32	
+  > 33	const struct vkms_color_lut test_linear_lut = {
+    34		.base = test_linear_array,
+    35		.lut_length = TEST_LUT_SIZE,
+    36		.channel_value2index_ratio = 0xf000fll
+    37	};
+    38	
+    39	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
