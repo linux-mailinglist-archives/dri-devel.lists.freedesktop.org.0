@@ -2,57 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADE46991810
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Oct 2024 18:04:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01B74991820
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Oct 2024 18:09:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0ED1410E04D;
-	Sat,  5 Oct 2024 16:04:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76A9710E0E3;
+	Sat,  5 Oct 2024 16:09:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="eLMvt9Sr";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="GcfZ6KZt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76EAD10E04D;
- Sat,  5 Oct 2024 16:04:16 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id ECCECA406D3;
- Sat,  5 Oct 2024 16:04:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE239C4CEC2;
- Sat,  5 Oct 2024 16:04:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1728144255;
- bh=3kAl7AjYTqaiWlIoDOVi3hSGnrwStWTjPrjLj2tI724=;
- h=Date:From:To:CC:Subject:In-Reply-To:References:From;
- b=eLMvt9SrhuO+7e/pS/H9lQjX2AqV059uevEzfrx+Dw+iuWn+LOJbwklOMYNL+a3QD
- zoDlXuPx9dWYCDbmMdEZ6GPvMZPl2UeOwym082tTGhnmbwlsTT4RTHXdxXiJl/yDrl
- f8SU9tvLHwjnmJ+FcMDjgiKzomkn3GDpjCLnzhURhh5c9X/ZYJz/A1tknReLKn6QNR
- xsV49DEm6eWuiOjUE1qbpPapztLqHTtfvXkpWiWpQSxy3NqZB0BMFbSMNhDE2445CZ
- e0Lp477VZJ8v1xun5OhT0MF7asrTfTf0v2JrxyHLA3m4y/IPvwaOWaka3vE9gqeC4J
- BvqcMf7nPW56Q==
-Date: Sat, 05 Oct 2024 09:04:11 -0700
-From: Kees Cook <kees@kernel.org>
-To: "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
- Danilo Krummrich <dakr@kernel.org>
-CC: "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH=5D=5Bnext=5D_drm/nouveau=3A_Avoid_?=
- =?US-ASCII?Q?-Wflex-array-member-not-at-end_warning?=
-User-Agent: K-9 Mail for Android
-In-Reply-To: <45560975-7215-4205-8d3b-a01009c9b4f5@embeddedor.com>
-References: <ZsZLFS1CsHkKjw+C@elsanto>
- <ef5a8e6d-cb97-4872-901c-cf4bbec23be6@embeddedor.com>
- <30530165-0ea9-4f02-9d8c-e8abc9eda5a7@kernel.org>
- <035ae74b-5df5-493f-9835-02c1c30ccfcc@kernel.org>
- <45560975-7215-4205-8d3b-a01009c9b4f5@embeddedor.com>
-Message-ID: <81E112F0-51CA-4171-8DA7-59EC8AE14510@kernel.org>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1288810E0E3
+ for <dri-devel@lists.freedesktop.org>; Sat,  5 Oct 2024 16:09:17 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1728144548; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=cGd8u8H830/Y9MO90QueAMSjyO+lDU3OLKxWbV6b1rCR0e588kYZ64v/J2C70fSG5pO5kxyeIDBczyV3nH3SnX/2dW5FOBB6Klcw7dRfStavpdUmmpNg2dxkQXnFZvUhhZD1Tm4P1ZXA14HH5ziwcce4qLzMZt1FF9+1KaQnMZE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1728144548;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=B/KSYYR1T3gUzqZowAe2+SBTCH+9OFZAP3JPy6LVLtQ=; 
+ b=l42G5dDJj4SEepunCXhDsrONYyJw+v/u1dhOc2VWhI4YOysyXNTBFr+KdEX5CVPNhEBa7DfSwJJOtC8gQGYVx7ptsGEGbiQXFa84cE/dAqs18TuJQiDsfdu2z26XM0+83vSX7MiI+bSuqdkQBWIieG/51PQpO3s8ykurWsfBdDE=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
+ dmarc=pass header.from=<adrian.larumbe@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1728144548; 
+ s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=B/KSYYR1T3gUzqZowAe2+SBTCH+9OFZAP3JPy6LVLtQ=;
+ b=GcfZ6KZtDAkZM7DuszAaU5JXvF07NOzzq+M3jAjklI2J37A6kO4PoFw/AsRfyui8
+ 8QWdDAW0Zf/pHLfmruTHTTqDoLIPoog4CgL3LMvJZQaL8EhQzkdWagPH9Nh6lFN5avj
+ C/N3eXCJu/ovNgC1ZgkwQUAtUbZX/3BrKQclYM3A=
+Received: by mx.zohomail.com with SMTPS id 172814454763354.29541276121313;
+ Sat, 5 Oct 2024 09:09:07 -0700 (PDT)
+From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v3 1/2] drm/panfrost: Add missing OPP table refcnt decremental
+Date: Sat,  5 Oct 2024 17:08:52 +0100
+Message-ID: <20241005160857.347796-1-adrian.larumbe@collabora.com>
+X-Mailer: git-send-email 2.46.2
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,19 +70,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Commit f11b0417eec2 ("drm/panfrost: Add fdinfo support GPU load metrics")
+retrieves the OPP for the maximum device clock frequency, but forgets to
+keep the reference count balanced by putting the returned OPP object. This
+eventually leads to an OPP core warning when removing the device.
 
+Fix it by putting OPP objects as many times as they're retrieved.
 
+Also remove an unnecessary whitespace.
 
->On 03/10/24 12:36, Danilo Krummrich wrote:
->> On 9/13/24 12:23 PM, Danilo Krummrich wrote:
+Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+Fixes: f11b0417eec2 ("drm/panfrost: Add fdinfo support GPU load metrics")
+Reviewed-by: Steven Price <steven.price@arm.com>
+---
+ drivers/gpu/drm/panfrost/panfrost_devfreq.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-I am reminded that I should check all my MUAs to render the date as YYYY-M=
-M-DD so my brain doesn't explode when I see people "time traveling"=2E ;)
+diff --git a/drivers/gpu/drm/panfrost/panfrost_devfreq.c b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+index 2d30da38c2c3..3385fd3ef41a 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_devfreq.c
++++ b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+@@ -38,7 +38,7 @@ static int panfrost_devfreq_target(struct device *dev, unsigned long *freq,
+ 		return PTR_ERR(opp);
+ 	dev_pm_opp_put(opp);
+ 
+-	err =  dev_pm_opp_set_rate(dev, *freq);
++	err = dev_pm_opp_set_rate(dev, *freq);
+ 	if (!err)
+ 		ptdev->pfdevfreq.current_frequency = *freq;
+ 
+@@ -182,6 +182,7 @@ int panfrost_devfreq_init(struct panfrost_device *pfdev)
+ 	 * if any and will avoid a switch off by regulator_late_cleanup()
+ 	 */
+ 	ret = dev_pm_opp_set_opp(dev, opp);
++	dev_pm_opp_put(opp);
+ 	if (ret) {
+ 		DRM_DEV_ERROR(dev, "Couldn't set recommended OPP\n");
+ 		return ret;
+-- 
+2.46.2
 
-(BTW, what MUAs do you both use? I use Mutt and K-9 Mail, and I need to ch=
-eck the quote prefix settings in both=2E=2E=2E)
-
--Kees
-
---=20
-Kees Cook
