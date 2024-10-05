@@ -2,39 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57EBB99195D
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Oct 2024 20:17:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4856C991955
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Oct 2024 20:15:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCBBF10E2C7;
-	Sat,  5 Oct 2024 18:17:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5375410E0FD;
+	Sat,  5 Oct 2024 18:15:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=me.com header.i=@me.com header.b="UVzUTy9J";
+	dkim=pass (2048-bit key; unprotected) header.d=me.com header.i=@me.com header.b="jko0GRC7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from st43p00im-ztfb10073301.me.com (st43p00im-ztfb10073301.me.com
- [17.58.63.186])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9446A10E2C7
- for <dri-devel@lists.freedesktop.org>; Sat,  5 Oct 2024 18:17:26 +0000 (UTC)
+X-Greylist: delayed 370 seconds by postgrey-1.36 at gabe;
+ Sat, 05 Oct 2024 18:15:09 UTC
+Received: from st43p00im-ztdg10063201.me.com (st43p00im-ztdg10063201.me.com
+ [17.58.63.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC60310E0FD
+ for <dri-devel@lists.freedesktop.org>; Sat,  5 Oct 2024 18:15:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=me.com; s=1a1hai;
- t=1728151743; bh=ZhPhTWXU0skZ/HI5SHs4S26BqfVlCdZwrR6/Jdzn/1o=;
+ t=1728151755; bh=7qNVpRk4hShjfI18Pwxsd9HJEZlZreJGT8LTSHQa0iQ=;
  h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To;
- b=UVzUTy9J125gWcUUi36KbsFcgE0jnAAuaMXuR6pQwANwxQIP+huBV4igvtfIOR6Jw
- ZuEsjx3yU4KL40ivjJV6ydON5CRJrGnq+/Y3H/GapenBTbLKD+jG+uTB1tdhxGsJbi
- sTETT1ZwXxEyydOxOdRMDdbcSi9gzEy0V60kT0RfReLLQfZsnbSPiWMoqU8frYCCC7
- sOEF4/jYM/4pF4ZU4IVrB2vV343n7IQLbrbh9/jrEFRpviiJkMxFLMgFC+sSoU3ICL
- Ui9+QcONknIcbuRZXksNX3StH0YaoXtlu516iD0UbbgRwceLFLZSoMwPskmn9ro2FH
- bMGlFRveg4H1A==
+ b=jko0GRC7+2kWGDql7LJxnJYDkWLNnEXt+AwqLY//tHpqFO82oYVEHXEvWrq8HGqDY
+ CrWb+TskoDr0jsZJHuwqsDWNEIUptkCCDhIosWU1D/Ie9HYuXL67JXWNuwvEV6dcvF
+ 5lNXozVgC0c2iF489YxwG+Q+OsONy3cCuPTmTAiSpRLfV3lBC+WNXLUwgzdnfcYfdo
+ Whhpm0BPaCSgKsfwTiGocHptIBDKpIqlsA6T9ZKgv+OxjJGBpJaliLMq9CLbHqHfSk
+ PZfyjQxX4yQNppvNOpo/8sgMzOTB2x5/wTITD3/plPDJ02kNuIizgcj5eoVDR3mN1X
+ OS63qywjG7blQ==
 Received: from localhost (st43p00im-dlb-asmtp-mailmevip.me.com [17.42.251.41])
- by st43p00im-ztfb10073301.me.com (Postfix) with ESMTPSA id
- 414A88001DC; Sat,  5 Oct 2024 18:09:01 +0000 (UTC)
+ by st43p00im-ztdg10063201.me.com (Postfix) with ESMTPSA id
+ A0E179803CA; Sat,  5 Oct 2024 18:09:09 +0000 (UTC)
 From: Alain Volmat <avolmat@me.com>
-Date: Sat, 05 Oct 2024 18:07:59 +0000
-Subject: [PATCH 1/3] dt-bindings: gpu: mali-utgard: Add ST sti compatible
+Date: Sat, 05 Oct 2024 18:08:00 +0000
+Subject: [PATCH 2/3] ARM: dts: st: add node for the MALI gpu on
+ stih410.dtsi
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241005-sti-gpu-v1-1-9bc11100b54b@me.com>
+Message-Id: <20241005-sti-gpu-v1-2-9bc11100b54b@me.com>
 References: <20241005-sti-gpu-v1-0-9bc11100b54b@me.com>
 In-Reply-To: <20241005-sti-gpu-v1-0-9bc11100b54b@me.com>
 To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
@@ -47,15 +50,15 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
  Alain Volmat <avolmat@me.com>
 X-Mailer: b4 0.14.2
-X-Proofpoint-ORIG-GUID: lJDHjayoU8Hude1I6tz2rld_PMnry1X6
-X-Proofpoint-GUID: lJDHjayoU8Hude1I6tz2rld_PMnry1X6
+X-Proofpoint-GUID: ikPKVfJGHYnCfHiGGVwKwG-qG3Am1h7b
+X-Proofpoint-ORIG-GUID: ikPKVfJGHYnCfHiGGVwKwG-qG3Am1h7b
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
  definitions=2024-10-05_17,2024-10-04_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- spamscore=0 phishscore=0
- suspectscore=0 adultscore=0 clxscore=1015 malwarescore=0 bulkscore=0
- mlxlogscore=726 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ spamscore=0 mlxscore=0
+ phishscore=0 malwarescore=0 adultscore=0 mlxlogscore=587 suspectscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2308100000 definitions=main-2410050133
 X-Apple-Remote-Links: v=1;h=KCk=;charset=UTF-8
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,26 +76,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ST STi SoC family (stih410, stih418) has a Mali400.
-Add a compatible for it.
+Add the entry for the GPU (Mali400) on the stih410.dtsi
 
 Signed-off-by: Alain Volmat <avolmat@me.com>
 ---
- Documentation/devicetree/bindings/gpu/arm,mali-utgard.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm/boot/dts/st/stih410.dtsi | 34 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 34 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-utgard.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-utgard.yaml
-index abd4aa335fbcebafc9164bd4963f9db60f0450c4..97a7ef0fea1a10df0ff485b9eb4468f44c92da39 100644
---- a/Documentation/devicetree/bindings/gpu/arm,mali-utgard.yaml
-+++ b/Documentation/devicetree/bindings/gpu/arm,mali-utgard.yaml
-@@ -33,6 +33,7 @@ properties:
-               - rockchip,rk3188-mali
-               - rockchip,rk3228-mali
-               - samsung,exynos4210-mali
-+              - st,sti-mali
-               - stericsson,db8500-mali
-               - xlnx,zynqmp-mali
-           - const: arm,mali-400
+diff --git a/arch/arm/boot/dts/st/stih410.dtsi b/arch/arm/boot/dts/st/stih410.dtsi
+index a69231854f783b1b9fd685ba2822eb406e0ffdf5..be34de10bbcb0d1f2d527568878e3ed1ff297954 100644
+--- a/arch/arm/boot/dts/st/stih410.dtsi
++++ b/arch/arm/boot/dts/st/stih410.dtsi
+@@ -285,5 +285,39 @@ cec@94a087c {
+ 			resets = <&softreset STIH407_LPM_SOFTRESET>;
+ 			hdmi-phandle = <&sti_hdmi>;
+ 		};
++
++		gpu: gpu@9f00000 {
++			compatible = "st,sti-mali", "arm,mali-400";
++			reg = <0x9f00000 0x10000>;
++			/* LIMA driver needs 2 clocks, use the same for both */
++			clocks = <&clk_s_c0_flexgen CLK_ICN_GPU>,
++				 <&clk_s_c0_flexgen CLK_ICN_GPU>;
++			clock-names = "bus", "core";
++			assigned-clocks = <&clk_s_c0_flexgen CLK_ICN_GPU>;
++			assigned-clock-rates = <400000000>;
++			resets = <&softreset STIH407_GPU_SOFTRESET>;
++			interrupts = <GIC_SPI 49 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 50 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 41 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 45 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 42 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 46 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 43 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 47 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 44 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 48 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "gp",
++					  "gpmmu",
++					  "pp0",
++					  "ppmmu0",
++					  "pp1",
++					  "ppmmu1",
++					  "pp2",
++					  "ppmmu2",
++					  "pp3",
++					  "ppmmu3";
++
++			status = "disabled";
++		};
+ 	};
+ };
 
 -- 
 2.43.0
