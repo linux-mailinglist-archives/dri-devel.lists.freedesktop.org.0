@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01B74991820
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Oct 2024 18:09:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 692AD991821
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Oct 2024 18:09:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76A9710E0E3;
-	Sat,  5 Oct 2024 16:09:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCD2B10E0EC;
+	Sat,  5 Oct 2024 16:09:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="GcfZ6KZt";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="BNlHkIog";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1288810E0E3
- for <dri-devel@lists.freedesktop.org>; Sat,  5 Oct 2024 16:09:17 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1728144548; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1F3B10E0EC
+ for <dri-devel@lists.freedesktop.org>; Sat,  5 Oct 2024 16:09:23 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1728144552; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=cGd8u8H830/Y9MO90QueAMSjyO+lDU3OLKxWbV6b1rCR0e588kYZ64v/J2C70fSG5pO5kxyeIDBczyV3nH3SnX/2dW5FOBB6Klcw7dRfStavpdUmmpNg2dxkQXnFZvUhhZD1Tm4P1ZXA14HH5ziwcce4qLzMZt1FF9+1KaQnMZE=
+ b=NwNP66V0483WtAyzZowk2XgkBDH1zelCOmUawa47RGHDjE3EawRnT3VT+ouwl5FclIJUb9x86lpfvRsbM4yzFpLRw03xl8NwkdLHl7WvRq8NHpTCt5Lzx2HfBOsYXZGdlBelNxm9EczK/IRlgexblqXK/CcFsuc+MDmQuW+tmes=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1728144548;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=B/KSYYR1T3gUzqZowAe2+SBTCH+9OFZAP3JPy6LVLtQ=; 
- b=l42G5dDJj4SEepunCXhDsrONYyJw+v/u1dhOc2VWhI4YOysyXNTBFr+KdEX5CVPNhEBa7DfSwJJOtC8gQGYVx7ptsGEGbiQXFa84cE/dAqs18TuJQiDsfdu2z26XM0+83vSX7MiI+bSuqdkQBWIieG/51PQpO3s8ykurWsfBdDE=
+ s=zohoarc; t=1728144552;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=1Ici44Rb1PgnLO5qChCrAsJMisDfA95zHInoEyRjrx0=; 
+ b=IFwhJ14DOpfeJRBtg1zRG9S67JgAF622Keb6hSnSgOuMdHlKnLGFTpvJOJhWIpZOSk8FhGufZpjuwE7aQKvuupwdUfDhoGSNvfsEwh+MobeDs117LsOFPEt18a9jFzwHgpPrXNaUay+AlTq31juJ1V4fTso2Wnv4hAPGstms+KE=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
  dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1728144548; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1728144552; 
  s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=B/KSYYR1T3gUzqZowAe2+SBTCH+9OFZAP3JPy6LVLtQ=;
- b=GcfZ6KZtDAkZM7DuszAaU5JXvF07NOzzq+M3jAjklI2J37A6kO4PoFw/AsRfyui8
- 8QWdDAW0Zf/pHLfmruTHTTqDoLIPoog4CgL3LMvJZQaL8EhQzkdWagPH9Nh6lFN5avj
- C/N3eXCJu/ovNgC1ZgkwQUAtUbZX/3BrKQclYM3A=
-Received: by mx.zohomail.com with SMTPS id 172814454763354.29541276121313;
- Sat, 5 Oct 2024 09:09:07 -0700 (PDT)
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=1Ici44Rb1PgnLO5qChCrAsJMisDfA95zHInoEyRjrx0=;
+ b=BNlHkIogYFw+ozP7mqhQhLwS6OjmeRc2DneG7dX1Dan1juMZQ8lohipjp/gQ9Th3
+ R+NQZLBB4GteUWJ6kadRW4fup5eUIPM3uCm6r/Uzd3uDeAdt0SLr5edNEE4zwg0cQx8
+ 8tEdrDisWN7zZWYYmyUVlkjoYZAmG1gWnQcsPXic=
+Received: by mx.zohomail.com with SMTPS id 1728144551305121.11416664592002;
+ Sat, 5 Oct 2024 09:09:11 -0700 (PDT)
 From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>,
  Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
@@ -45,13 +45,18 @@ To: Boris Brezillon <boris.brezillon@collabora.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>,
  =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, Grant Likely <grant.likely@linaro.org>,
+ Heiko Stuebner <heiko@sntech.de>
 Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH v3 1/2] drm/panfrost: Add missing OPP table refcnt decremental
-Date: Sat,  5 Oct 2024 17:08:52 +0100
-Message-ID: <20241005160857.347796-1-adrian.larumbe@collabora.com>
+Subject: [PATCH v3 2/2] drm/panthor: Fix OPP refcnt leaks in devfreq
+ initialisation
+Date: Sat,  5 Oct 2024 17:08:53 +0100
+Message-ID: <20241005160857.347796-2-adrian.larumbe@collabora.com>
 X-Mailer: git-send-email 2.46.2
+In-Reply-To: <20241005160857.347796-1-adrian.larumbe@collabora.com>
+References: <20241005160857.347796-1-adrian.larumbe@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -70,36 +75,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit f11b0417eec2 ("drm/panfrost: Add fdinfo support GPU load metrics")
-retrieves the OPP for the maximum device clock frequency, but forgets to
-keep the reference count balanced by putting the returned OPP object. This
-eventually leads to an OPP core warning when removing the device.
-
-Fix it by putting OPP objects as many times as they're retrieved.
-
-Also remove an unnecessary whitespace.
+Rearrange lookup of recommended OPP for the Mali GPU device and its refcnt
+decremental to make sure no OPP object leaks happen in the error path.
 
 Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
-Fixes: f11b0417eec2 ("drm/panfrost: Add fdinfo support GPU load metrics")
+Fixes: fac9b22df4b1 ("drm/panthor: Add the devfreq logical block")
 Reviewed-by: Steven Price <steven.price@arm.com>
 ---
- drivers/gpu/drm/panfrost/panfrost_devfreq.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/panthor/panthor_devfreq.c | 17 ++++++++---------
+ 1 file changed, 8 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_devfreq.c b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-index 2d30da38c2c3..3385fd3ef41a 100644
---- a/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-@@ -38,7 +38,7 @@ static int panfrost_devfreq_target(struct device *dev, unsigned long *freq,
- 		return PTR_ERR(opp);
- 	dev_pm_opp_put(opp);
+diff --git a/drivers/gpu/drm/panthor/panthor_devfreq.c b/drivers/gpu/drm/panthor/panthor_devfreq.c
+index 9d0f891b9b53..ecc7a52bd688 100644
+--- a/drivers/gpu/drm/panthor/panthor_devfreq.c
++++ b/drivers/gpu/drm/panthor/panthor_devfreq.c
+@@ -163,13 +163,6 @@ int panthor_devfreq_init(struct panthor_device *ptdev)
  
--	err =  dev_pm_opp_set_rate(dev, *freq);
-+	err = dev_pm_opp_set_rate(dev, *freq);
- 	if (!err)
- 		ptdev->pfdevfreq.current_frequency = *freq;
+ 	cur_freq = clk_get_rate(ptdev->clks.core);
  
-@@ -182,6 +182,7 @@ int panfrost_devfreq_init(struct panfrost_device *pfdev)
+-	opp = devfreq_recommended_opp(dev, &cur_freq, 0);
+-	if (IS_ERR(opp))
+-		return PTR_ERR(opp);
+-
+-	panthor_devfreq_profile.initial_freq = cur_freq;
+-	ptdev->current_frequency = cur_freq;
+-
+ 	/* Regulator coupling only takes care of synchronizing/balancing voltage
+ 	 * updates, but the coupled regulator needs to be enabled manually.
+ 	 *
+@@ -200,18 +193,24 @@ int panthor_devfreq_init(struct panthor_device *ptdev)
+ 		return ret;
+ 	}
+ 
++	opp = devfreq_recommended_opp(dev, &cur_freq, 0);
++	if (IS_ERR(opp))
++		return PTR_ERR(opp);
++
++	panthor_devfreq_profile.initial_freq = cur_freq;
++	ptdev->current_frequency = cur_freq;
++
+ 	/*
+ 	 * Set the recommend OPP this will enable and configure the regulator
  	 * if any and will avoid a switch off by regulator_late_cleanup()
  	 */
  	ret = dev_pm_opp_set_opp(dev, opp);
@@ -107,6 +123,13 @@ index 2d30da38c2c3..3385fd3ef41a 100644
  	if (ret) {
  		DRM_DEV_ERROR(dev, "Couldn't set recommended OPP\n");
  		return ret;
+ 	}
+ 
+-	dev_pm_opp_put(opp);
+-
+ 	/* Find the fastest defined rate  */
+ 	opp = dev_pm_opp_find_freq_floor(dev, &freq);
+ 	if (IS_ERR(opp))
 -- 
 2.46.2
 
