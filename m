@@ -2,85 +2,101 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C658099189A
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Oct 2024 18:58:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9943E9918E0
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Oct 2024 19:32:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C333310E263;
-	Sat,  5 Oct 2024 16:58:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6728D10E0CD;
+	Sat,  5 Oct 2024 17:32:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=marek.ca header.i=@marek.ca header.b="cMszOBFG";
+	dkim=pass (2048-bit key; secure) header.d=adamthiede.com header.i=@adamthiede.com header.b="BsL/E+C4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com
- [209.85.219.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 264D610E263
- for <dri-devel@lists.freedesktop.org>; Sat,  5 Oct 2024 16:58:34 +0000 (UTC)
-Received: by mail-qv1-f50.google.com with SMTP id
- 6a1803df08f44-6cb27e974ceso21152776d6.1
- for <dri-devel@lists.freedesktop.org>; Sat, 05 Oct 2024 09:58:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=marek.ca; s=google; t=1728147513; x=1728752313; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:content-language:in-reply-to:mime-version
- :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
- :subject:date:message-id:reply-to;
- bh=534BF0P5lE7Sw6EXBB2MdGwppSsVFm73Tau4PbJd3Pc=;
- b=cMszOBFGGwxZ08ebz/x2hVWcGvwQtyagFKhakDM4Zv8iIS+kwOVAZ8luv9m0s7yblb
- w+0wqDCOP6XxpH6ZeyvEpIWe9kb8Crb+6yuBuMKG6dXVJX70YmUz9ACkTkoPXO3L43Fz
- MAxfVmQfQgXT00F9gwMV1wioHKtyyPi9Bij7S8sZaTVEGcZObdIXPxGRN1AvW5ihtFCj
- Y9C61feSHAs667TVYBlvabwkPK+3H5SSVoTyoLAm4UGIy6BLaPwhUfRAdaCXbUKdzqb0
- QPVcsDgQF1Q9ATbd9ADGoyyTccH0JNz1s6J79YpUqGLPe+t9Gx2MkfaRsQ+/GrroRqP4
- wxIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728147513; x=1728752313;
- h=content-transfer-encoding:content-language:in-reply-to:mime-version
- :user-agent:date:message-id:from:references:cc:to:subject
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=534BF0P5lE7Sw6EXBB2MdGwppSsVFm73Tau4PbJd3Pc=;
- b=m5XKPk8TW0LbCkA59AFtYfZrQV6LJaKZ2xEfhSh9JR2uW2VRp22CBnW8NK8d2L6gQa
- dmIWd6ErgR2ku9c3wHqAmCqc3N3X0Ryc15cv+JMsofc0Kh2qGhHm5GxohAjnJvOZzBXp
- 4i5Lj3aMa3buBboAhQCmQxyrDndimeFOmJq/XPeuxaZDQ5OAqOAoJMJV6j91M5YgtmYN
- NfQOuYABZ+UpdPZt636dHoIcLL4TRfXxavoT1Vmli4LOE0H6FlKka4V66B4wC6vpZfPs
- lRZtY1j3Bhd0PV3KaLqQIwoyJuD/O9neewEJyd4frWQfJqL8u1CsZyfUHX5g9dU45i5t
- hIeA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVmTJVVT8VxNZjSX0QttNSyt+DUp9nhfvVlDd90fjZkGF0E+KLc+Xg+x6FCFIMh+Znk0SbEmZH00f8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YynRLb1Z+6pxc0d1XyJ9V4sLuI7UajfmfodiWUZaNkuMAxd7r4b
- eadLhR1uofa3z3M0b3x9CbaVh3Ud3cVKohpF7qRpp7Ow4r2blSJugRPzEHJbFcY=
-X-Google-Smtp-Source: AGHT+IHNX/nlmxQbI/WqWLEEy+/8YLvtUS/jHRIC7aZ58AdVpv3bsRE62Z/GKH7EQ1/OcMHcCRnZww==
-X-Received: by 2002:a05:6214:5709:b0:6cb:46ce:744a with SMTP id
- 6a1803df08f44-6cb9a4fa3b0mr78469376d6.48.1728147512903; 
- Sat, 05 Oct 2024 09:58:32 -0700 (PDT)
-Received: from [192.168.0.189] (modemcable125.110-19-135.mc.videotron.ca.
- [135.19.110.125]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6cba46efed1sm9795796d6.68.2024.10.05.09.58.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 05 Oct 2024 09:58:32 -0700 (PDT)
-Subject: Re: [PATCH 1/2] drm/msm/dsi: improve/fix dsc pclk calculation
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- freedreno@lists.freedesktop.org
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar
- <quic_abhinavk@quicinc.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Konrad Dybcio <konradybcio@kernel.org>,
- "open list:DRM DRIVER for Qualcomm display hardware"
- <linux-arm-msm@vger.kernel.org>,
- "open list:DRM DRIVER for Qualcomm display hardware"
- <dri-devel@lists.freedesktop.org>, open list <linux-kernel@vger.kernel.org>
-References: <20241005143818.2036-1-jonathan@marek.ca>
- <ba56c822-cf3d-4d62-86d4-e04551e443c6@oss.qualcomm.com>
-From: Jonathan Marek <jonathan@marek.ca>
-Message-ID: <e60361b2-29bc-aeee-2ab9-bb19e5c0afa6@marek.ca>
-Date: Sat, 5 Oct 2024 12:55:10 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 573AC10E0CD
+ for <dri-devel@lists.freedesktop.org>; Sat,  5 Oct 2024 17:32:29 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4XLXY45PjSz9tNS;
+ Sat,  5 Oct 2024 19:32:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=adamthiede.com;
+ s=MBO0001; t=1728149544;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=CG45aAOFfe8PHxOzrqT1C7cq33Z790UzjgBn6h+hl6A=;
+ b=BsL/E+C4lTSm8/p7F14XCn+dmX+UF/UI3FySuS9/YwaSQHkEuLljfa5S/29Br2cuq9BmO5
+ TDJ6ZpZU/ChKgnXFcvsNs+HGSjS/ml35AcSjd6YxTnQ0Mz7k7i5HSzrDM3jtd8z6i7MfBI
+ qQ9dA9PKZYlMF5Ep1rxKExLrZo7c6vI1BenSVITe268arVsXym7aP29CB78tipTsF4XoEH
+ 1qPDrYZ9dM8LjTVdn4ev/zOXU4wJZN8vAQz6wa2iQiSTXtGvyc85/5M5wXeTxgVD7BnAFT
+ 8vimVUazPlR94Qj+QbhBi9va3ZmwOECVGSFgUCrC5aB0LUzbut9B984cCfSADw==
+Message-ID: <fd6fc10e-d0f6-4c53-8561-bdfd047e45f2@adamthiede.com>
+Date: Sat, 5 Oct 2024 12:32:15 -0500
 MIME-Version: 1.0
-In-Reply-To: <ba56c822-cf3d-4d62-86d4-e04551e443c6@oss.qualcomm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Subject: Re: [PATCH v3 13/14] drm/mediatek: Support DRM plane alpha in OVL
+To: =?UTF-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>, 
+ =?UTF-8?B?QmliYnkgSHNpZWggKOisnea/n+mBoCk=?= <Bibby.Hsieh@mediatek.com>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
+ "djkurtz@chromium.org" <djkurtz@chromium.org>,
+ =?UTF-8?B?U2hhd24gU3VuZyAo5a6L5a2d6KyZKQ==?= <Shawn.Sung@mediatek.com>,
+ =?UTF-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>,
+ "daniel@ffwll.ch" <daniel@ffwll.ch>,
+ "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+ =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>,
+ "yassine.oudjana@gmail.com" <yassine.oudjana@gmail.com>,
+ "airlied@gmail.com" <airlied@gmail.com>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "littlecvr@chromium.org" <littlecvr@chromium.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: =?UTF-8?B?WVQgU2hlbiAo5rKI5bKz6ZyGKQ==?= <Yt.Shen@mediatek.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20240620-igt-v3-0-a9d62d2e2c7e@mediatek.com>
+ <20240620-igt-v3-13-a9d62d2e2c7e@mediatek.com>
+ <1a3af354-bd15-4219-960e-089b6a6e673c@adamthiede.com>
+ <49df03e8b982cc5ee97e09ef9545c1d138c32178.camel@mediatek.com>
+ <00ebe9ca262b6a95fd726e5be06334b1e923db02.camel@mediatek.com>
+ <5975b361-c1b4-4c57-89d4-0d247ae99d8c@adamthiede.com>
+ <272b47f0c9e27268d29b58c341e0b48bce7e8e25.camel@mediatek.com>
+ <06ed4527-3749-4fac-bd38-d837f1593311@adamthiede.com>
+ <f7b4c6601d648e0eba2dc66f0fe1f34ca3d29cfb.camel@mediatek.com>
+ <d820e8be-c525-4435-99a3-b0eb076b3282@gmail.com>
+ <b8fb4f241b2d248ca4c2c57b98588e1be0642b76.camel@mediatek.com>
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+From: Adam Thiede <me@adamthiede.com>
+Autocrypt: addr=me@adamthiede.com; keydata=
+ xsBNBF+n+90BCAC2ZRLVcvdXDgfY7EppN05eNor3U7/eeiNCCEIWZkYLhikUEP1ReLGBkXpK
+ Pc70hfnKAKkCoth3IwhDty9WXMNU+iLNei4ieb2luW+UqluR6xIUIA+txahMU9YcjVaQTKf/
+ yZWO4yl6pfBPCxC2UdPZKBAdGoi5NnE0ABFNbhBETQhhBic533lZn33ByupfI3acECnQdjgQ
+ llCUpDbw4I+S/N1iFiEHcbMXH7ZB00e3IYNorZ1E9v7p++5rDY1fQ9gXpieg1vFKwSq1NJWo
+ 9xx336YjaTUbX0EwrdKd9l8AktA3yRjckaK5TAcwSQaDtHvhpbl4ebvPhtwHh699MroXABEB
+ AAHNH0FkYW0gVGhpZWRlIDxtZUBhZGFtdGhpZWRlLmNvbT7CwI4EEwEIADgCGwMFCwkIBwIG
+ FQoJCAsCBBYCAwECHgECF4AWIQQtG9pGQ7sz3tf8M/kC7fV9o/vRzgUCZL1HxQAKCRAC7fV9
+ o/vRzgyRB/wLqRCvvWhQCMgvzeKvru9wcXquhb77K8H/ByLbfiT8YBuP3lZFVh0IQhgO9Ylk
+ fIoOJE4V+jjxyOnO2d9xjGbvAmmR6yT0gfLzSVWqrC4k+V9MWLv43nrNzxt41dvo5j824FAl
+ X+zaiRZCdO8Jtxg5Elpiop2SKLi1utX1Z8i6YZh+ccJZlchUBAGUTk+D4UjK7vUcjLWT96ya
+ CtdtTfXyw36CvGOPEWfc6++Kkl/5sgej1i7biPYzu/r0vssaQYTXKSrv6Cfa3Maa89ASiTtv
+ q4qmhLnJeCrPxWlRAf6LEizeBEkOasYni2u8sp4wBezEq45Ozu45sfPkqLpPolG7zsBNBF+n
+ +90BCADBRt+vrToRBEG580n77S99qSEkbKD+oJtCVyovnjMNkg0K9UG68LIeCX/ezngiV1M8
+ JISvw5iFOuUFqGX/1hLl9wgt/YpuIrgWOp8XxkotavTCloLDvQmufJPO1L8bnnA+WgP2YgVZ
+ 5MJTj/t4DI+yQgysEjsH8aurHO2uuqgJE+xK+2dy6Cl/wskuGxObksSPmmFH5PH0Joziwrtl
+ 61ouLE2XwKbkMgIGEKkbFgbfwz3/QuLZGBni+OOtLzXeZ9wNTW/AHUPy6S9U4F+5z6/09fVT
+ tTH0cvrgAGjbASlYx2VqGONXAsxCfjulq6ryJBFlPLp949c/JTTgOojukCSbABEBAAHCwHYE
+ GAEIACACGwwWIQQtG9pGQ7sz3tf8M/kC7fV9o/vRzgUCZL1H0gAKCRAC7fV9o/vRzlamCACs
+ vHw+0heTm+BfC3S8DUST6889gidIIwdqBep1ByzetCph7Bq8Y8BlT5YTX0u/bSKkxCzFgeTm
+ vC341Q09ST2XjLAl1ZTdzGhH9gcgYyOw34pr5fPQRJLB392mPzD8YReRzciNbhWzj+DLgeVe
+ ouyfGajd6jDjkf4FEq+trQLGZhpfsKn3JnDbzBUs945D50l/vz9q/QN3qZO+H4F6g8ZeMnqo
+ FOEFN26xVtdEDr+0DNFsbgKmEzs675kdAY78ZZdbEetX/FSknxJ+FK1ZW3J7Yswwulj34AXP
+ LB49Mk8Ot7fo6mdt0DkV11JS9LmKxKvpY+KTlrKG+i7pVCSZvVUx
+In-Reply-To: <b8fb4f241b2d248ca4c2c57b98588e1be0642b76.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,31 +112,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/5/24 12:31 PM, Konrad Dybcio wrote:
-> On 5.10.2024 4:38 PM, Jonathan Marek wrote:
->> drm_mode_vrefresh() can introduce a large rounding error, avoid it.
->>
->> Signed-off-by: Jonathan Marek <jonathan@marek.ca>
->> ---
->>   drivers/gpu/drm/msm/dsi/dsi_host.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
->> index 185d7de0bf376..1205aa398e445 100644
->> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
->> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
->> @@ -542,7 +542,7 @@ static unsigned long dsi_adjust_pclk_for_compression(const struct drm_display_mo
->>   
->>   	int new_htotal = mode->htotal - mode->hdisplay + new_hdisplay;
->>   
->> -	return new_htotal * mode->vtotal * drm_mode_vrefresh(mode);
->> +	return mult_frac(mode->clock * 1000u, new_htotal, mode->htotal);
+On 10/5/24 05:02, Jason-JH Lin (林睿祥) wrote:
+>> > --- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
+>> > +++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
+>> > @@ -102,12 +102,9 @@ static inline bool is_10bit_rgb(u32 fmt)
+>> >   }
+>> > 
+>> >   static const u32 mt8173_formats[] = {
+>> > -       DRM_FORMAT_XRGB8888,
+>> >          DRM_FORMAT_ARGB8888,
+>> > -       DRM_FORMAT_BGRX8888,
+>> >          DRM_FORMAT_BGRA8888,
+>> >          DRM_FORMAT_ABGR8888,
+>> > -       DRM_FORMAT_XBGR8888,
+>> >          DRM_FORMAT_RGB888,
+>> >          DRM_FORMAT_BGR888,
+>> >          DRM_FORMAT_RGB565,
+>> 
+>> This is what I get on MT6735:
+>> 
+>> [    1.729467] mediatek-drm mediatek-drm.1.auto: [drm] bpp/depth
+>> value 
+>> of 32/24 not supported
+>> [    1.737777] mediatek-drm mediatek-drm.1.auto: [drm] No compatible 
+>> format found
+>> [    1.745943] mediatek-drm mediatek-drm.1.auto: [drm] *ERROR* 
+>> fbdev-dma: Failed to setup generic emulation (ret=-22)
+>> 
 > 
-> This seems to ignore mult/div by two on certain mode flags.. is that
-> intended?
+> Hi Adam, Yassine,
 > 
-> Konrad
+> Please try the patches below and check if they can fix the downgrade
+> issue:
+> [1] Fix degradation problem of alpha blending series
+> -
+> https://patchwork.kernel.org/project/linux-mediatek/list/?series=893634
+> [2] drm/mediatek: Fix XRGB format breakage for blend_modes unsupported
+> SoCs
+> -
+> https://patchwork.kernel.org/project/linux-mediatek/patch/20241005095234.12925-1-jason-jh.lin@mediatek.com/
 > 
+> Regards,
+> Jason-JH.Lin
 
-It is intended - those flags are not relevant to DSI panels, and DSC 
-pclk adjustment is only about how DSC affects htotal.
+Jason,
+I've built 6.12-rc1 with those patch series applied. (I am also not 
+reverting the other commit.) This fixes the issue - I'm able to see the 
+console now. Thank you! Hopefully these can go into 6.12?
+- Adam Thiede
