@@ -2,78 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3200991D8D
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Oct 2024 11:55:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77AC8991D8F
+	for <lists+dri-devel@lfdr.de>; Sun,  6 Oct 2024 11:55:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDB3F10E08F;
-	Sun,  6 Oct 2024 09:55:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFDEA10E10B;
+	Sun,  6 Oct 2024 09:55:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="Zv/Z+UDM";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ikI8Z7cT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCB1A10E0FD
- for <dri-devel@lists.freedesktop.org>; Sat,  5 Oct 2024 18:10:38 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 495FP1HJ015331;
- Sat, 5 Oct 2024 18:10:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-type:date:from:message-id:mime-version:subject:to; s=
- qcppdkim1; bh=y1AI6Ybprvocd2qzWabOJfmmPMvHCkyW5WFymyIkuK0=; b=Zv
- /Z+UDMuJs+fwXY3Cy7ZsPKz6B/QQWOh6ZWb9uXCKxop92djJz3oCZ43m07EmYl9v
- aST7w6RGU0Aw5/FS6j8p1i4orvEguRCDtwE1e4E+jKROem6tdtQcZuvpAwlpKiRJ
- 2j45RQeYqeJZ5SdJBERBqEEdlT9WofL+19VUS9rAF09uY3En+UOJG6Wzbnc0E7wO
- va+NFf/4jzzMLrTcM4io5e8SxC69LW8s7CBUlAcGhfDYE8qys7cTojdJRKhawC19
- WdbSf0DYj8XpMHFhfuCkrI5b+Xpg1FC7hRFy5wUQc3DQ7OuSa0R8zzJ5TBeMTAET
- ecH9a/tE45PAuKgLgVAw==
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 422xv88w9p-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 05 Oct 2024 18:10:23 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com
- [10.52.223.231])
- by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 495IAMYe012621
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 5 Oct 2024 18:10:22 GMT
-Received: from hu-pintu-blr.qualcomm.com (10.80.80.8) by
- nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Sat, 5 Oct 2024 11:10:18 -0700
-From: Pintu Kumar <quic_pintu@quicinc.com>
-To: <sumit.semwal@linaro.org>, <benjamin.gaignard@collabora.com>,
- <Brian.Starkey@arm.com>, <jstultz@google.com>, <tjmercier@google.com>,
- <christian.koenig@amd.com>, <linux-media@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
- <linux-kernel@vger.kernel.org>
-CC: <joe@perches.com>, <skhan@linuxfoundation.org>, <pintu.ping@gmail.com>,
- Pintu Kumar <quic_pintu@quicinc.com>
-Subject: [PATCH v2] dma-buf: fix S_IRUGO to 0444, block comments,
- func declaration
-Date: Sat, 5 Oct 2024 23:39:55 +0530
-Message-ID: <20241005180955.6523-1-quic_pintu@quicinc.com>
-X-Mailer: git-send-email 2.17.1
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
+ [209.85.216.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8EAA510E035
+ for <dri-devel@lists.freedesktop.org>; Sun,  6 Oct 2024 07:15:57 +0000 (UTC)
+Received: by mail-pj1-f46.google.com with SMTP id
+ 98e67ed59e1d1-2e0a950e2f2so2898969a91.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 06 Oct 2024 00:15:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1728198957; x=1728803757; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=EY5p4xlsAqQOcxvqm9u7nE7mDZrPMRJXe9re+U3pcIg=;
+ b=ikI8Z7cTPygpoYSmREB4M6vw9T7w4SSMU4GhU0etXTRYHfBmtWLO5jyyLo1jWJ2wFz
+ CU2hz1KSj4e/z8mMmdgqSoaD0Aq68zj+0uRyFrypPxRK6PmMSXK+mASMEE3P4Bv6qkxC
+ GFRbFnp8u2Z+/XkLzEFdkn5+AGXcvluGPVxWKhhdel+VqC3rNaXlY88m+m9sZq+c9N+Y
+ rBmEtbujPltgmmkDNHxtSmYFMFLybd6b2L/0SUldlcgaaGy5pHmov3HFeDsR2maCPWhO
+ EdmRZefmFdjuBJnGsTYZMQpMjziR+rV1xJm5Crcto4Lgf0XBODP6Xc8wQwVJk0Ort6dZ
+ IR8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1728198957; x=1728803757;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=EY5p4xlsAqQOcxvqm9u7nE7mDZrPMRJXe9re+U3pcIg=;
+ b=XRSCxCPeKnUH+mWShPOa3NE9PWxpW25ReZ0QHUQYfwA5I3GXKrmbTHaYJRpbov+pc4
+ e3NOGGyosQMpY3OjOr1S+Xe2vRKx9aTY6BNX6qIbPuxL/HFlknkTtieeJegqsHze/cm4
+ ZZdO8BdVkjSGP5fy4HD6+SahdMwvYLmO7dhkrGqt1vLPAYexKHiAABCNyJ+5tIo9uGRV
+ shsN/+laY9QmC3EnWM3bYF4EvkiwpqG7uYBLlsBWYLUpVwpguWhUMpxwIdM3V5zjjNAZ
+ qDViIjDRzy5i6HXsZucY6pwRd2xa1tfVq2OBmrJ/BKkotQfg0/uFEbEFANf5ubuDkyf6
+ UVKQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX0gJ5dv+EUVIu4njemSwBoC2ZPw2h6x8mbbB14ydLjm6diYSTIzJaGTzmKbnN6z4DwfZyNg/r1G3w=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwmhP0u1e6m9p0bpT5P4te4CtGxmr/8rsBxOJHg8988/5kXzvdo
+ q/lePlcHuQIDudOA+f6QXiIRaGHf/nZBArNGMZfM/RnA8NtbR/k0
+X-Google-Smtp-Source: AGHT+IHfxiCQnGgXw6gWSyy7mb50GfJveRtEjxaOuoIhvi/t6X26Ke+95wPLjiBS3eg+nZBeW/KzDA==
+X-Received: by 2002:a17:90b:b0c:b0:2e0:99bc:6907 with SMTP id
+ 98e67ed59e1d1-2e1e6229e93mr9356389a91.15.1728198956928; 
+ Sun, 06 Oct 2024 00:15:56 -0700 (PDT)
+Received: from purva-IdeaPad-Gaming-3-15IHU6.lan
+ ([2409:40c0:230:2966:8a2:4c2e:bb52:a9af])
+ by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-2e20aeb7db0sm2943600a91.15.2024.10.06.00.15.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 06 Oct 2024 00:15:55 -0700 (PDT)
+From: SurajSonawane2415 <surajsonawane0215@gmail.com>
+To: adaplas@gmail.com,
+	deller@gmx.de
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ SurajSonawane2415 <surajsonawane0215@gmail.com>
+Subject: [PATCH] video: fix inconsistent indentation warning
+Date: Sun,  6 Oct 2024 12:45:14 +0530
+Message-Id: <20241006071514.5577-1-surajsonawane0215@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: YRla0X3yiQaJF3lejNKaRIlBtVmAQ3CI
-X-Proofpoint-GUID: YRla0X3yiQaJF3lejNKaRIlBtVmAQ3CI
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 mlxscore=0
- impostorscore=0 phishscore=0 malwarescore=0 suspectscore=0 bulkscore=0
- spamscore=0 mlxlogscore=999 adultscore=0 clxscore=1015 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2409260000
- definitions=main-2410050133
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Sun, 06 Oct 2024 09:55:26 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -90,80 +84,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-These warnings/errors are reported by checkpatch.
-Fix them with minor changes to make it clean.
-No other functional changes.
+Fix the indentation to ensure consistent code style and improve
+readability, and to fix this warning:
+drivers/video/fbdev/nvidia/nv_hw.c:1512 NVLoadStateExt() warn:
+inconsistent indenting
 
-WARNING: Block comments use * on subsequent lines
-+       /* only support discovering the end of the buffer,
-+          but also allow SEEK_SET to maintain the idiomatic
-
-WARNING: Block comments use a trailing */ on a separate line
-+          SEEK_END(0), SEEK_CUR(0) pattern */
-
-WARNING: Block comments use a trailing */ on a separate line
-+        * before passing the sgt back to the exporter. */
-
-ERROR: "foo * bar" should be "foo *bar"
-+static struct sg_table * __map_dma_buf(struct dma_buf_attachment *attach,
-
-WARNING: Symbolic permissions 'S_IRUGO' are not preferred. Consider using octal permissions '0444'.
-+       d = debugfs_create_file("bufinfo", S_IRUGO, dma_buf_debugfs_dir,
-
-total: 1 errors, 4 warnings, 1746 lines checked
-
-Signed-off-by: Pintu Kumar <quic_pintu@quicinc.com>
-
+Signed-off-by: SurajSonawane2415 <surajsonawane0215@gmail.com>
 ---
-Changes in V1 suggested by Sumit Semwal:
-Change commit title, and mention exact reason of fix in commit log.
-V1: https://lore.kernel.org/all/CAOuPNLg1=YCUFXW-76A_gZm_PE1MFSugNvg3dEdkfujXV_5Zfw@mail.gmail.com/
----
- drivers/dma-buf/dma-buf.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ drivers/video/fbdev/nvidia/nv_hw.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 8892bc701a66..2e63d50e46d3 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -176,8 +176,9 @@ static loff_t dma_buf_llseek(struct file *file, loff_t offset, int whence)
- 	dmabuf = file->private_data;
+diff --git a/drivers/video/fbdev/nvidia/nv_hw.c b/drivers/video/fbdev/nvidia/nv_hw.c
+index 9b0a324bb..75afaa07e 100644
+--- a/drivers/video/fbdev/nvidia/nv_hw.c
++++ b/drivers/video/fbdev/nvidia/nv_hw.c
+@@ -1509,10 +1509,10 @@ void NVLoadStateExt(struct nvidia_par *par, RIVA_HW_STATE * state)
+ 	NV_WR32(par->PFIFO, 0x0495 * 4, 0x00000001);
+ 	NV_WR32(par->PFIFO, 0x0140 * 4, 0x00000001);
  
- 	/* only support discovering the end of the buffer,
--	   but also allow SEEK_SET to maintain the idiomatic
--	   SEEK_END(0), SEEK_CUR(0) pattern */
-+	 * but also allow SEEK_SET to maintain the idiomatic
-+	 * SEEK_END(0), SEEK_CUR(0) pattern.
-+	 */
- 	if (whence == SEEK_END)
- 		base = dmabuf->size;
- 	else if (whence == SEEK_SET)
-@@ -782,13 +783,14 @@ static void mangle_sg_table(struct sg_table *sg_table)
- 	/* To catch abuse of the underlying struct page by importers mix
- 	 * up the bits, but take care to preserve the low SG_ bits to
- 	 * not corrupt the sgt. The mixing is undone in __unmap_dma_buf
--	 * before passing the sgt back to the exporter. */
-+	 * before passing the sgt back to the exporter.
-+	 */
- 	for_each_sgtable_sg(sg_table, sg, i)
- 		sg->page_link ^= ~0xffUL;
- #endif
+-    if (!state) {
+-	    par->CurrentState = NULL;
+-	    return;
+-    }
++	if (!state) {
++		par->CurrentState = NULL;
++		return;
++	}
  
- }
--static struct sg_table * __map_dma_buf(struct dma_buf_attachment *attach,
-+static struct sg_table *__map_dma_buf(struct dma_buf_attachment *attach,
- 				       enum dma_data_direction direction)
- {
- 	struct sg_table *sg_table;
-@@ -1694,7 +1696,7 @@ static int dma_buf_init_debugfs(void)
- 
- 	dma_buf_debugfs_dir = d;
- 
--	d = debugfs_create_file("bufinfo", S_IRUGO, dma_buf_debugfs_dir,
-+	d = debugfs_create_file("bufinfo", 0444, dma_buf_debugfs_dir,
- 				NULL, &dma_buf_debug_fops);
- 	if (IS_ERR(d)) {
- 		pr_debug("dma_buf: debugfs: failed to create node bufinfo\n");
+ 	if (par->Architecture >= NV_ARCH_10) {
+ 		if (par->twoHeads) {
 -- 
-2.17.1
+2.34.1
 
