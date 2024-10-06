@@ -2,67 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23CB9991BCA
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Oct 2024 03:55:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21115991BCF
+	for <lists+dri-devel@lfdr.de>; Sun,  6 Oct 2024 03:55:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48B7110E04A;
-	Sun,  6 Oct 2024 01:55:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AFA510E1BD;
+	Sun,  6 Oct 2024 01:55:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bHJhnSlc";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ANAu7fCF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBA9510E04A;
- Sun,  6 Oct 2024 01:55:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 236A010E12A;
+ Sun,  6 Oct 2024 01:55:49 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 86C2A5C55E1;
- Sun,  6 Oct 2024 01:55:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 442DCC4CEC2;
- Sun,  6 Oct 2024 01:55:42 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 38DFE5C560D;
+ Sun,  6 Oct 2024 01:55:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C38EC4CEC2;
+ Sun,  6 Oct 2024 01:55:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1728179745;
- bh=/4L+Waftv30hJTd8pHAaY7MDs2ik61gNjRPrwI78SK4=;
+ s=k20201202; t=1728179748;
+ bh=rC+M5Q4mJ52FdeEm7n0DqxEJm1JtZU9xFaRkElGY0cc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=bHJhnSlcDypCxKXc9/0e8sSwcsPUcNs5OrzLmNK372VoYuGepvQT+MeJe7gZxz24S
- Td8OetlGIX6VQqxeo+oLpBwCwYCr2xh0kr7HWG2dWxJwS9C9I5+F0Ozm3XgnvgOi6R
- eyo7cMIiqgZ5im6lRwsEC9egd6IBXTkhxhVOAfSeJ6SqQ1OAUWk36taYJoiLw9dpJ9
- 1TD2kMI24gaTyunNoaEycYfyV8WJ6EL2ZaaiP5SsbbYsVWCcKHV7TrlwKb7lUEYqTY
- l48kzmdHzTLb/dBfgaSN3gUHXAeR3ENezjiB4lZZ+5JAICFVxSM/ycZNnlcwg/pUoP
- 0Njb/XOnUh7ew==
+ b=ANAu7fCFnOLld8npK91JMiF0SSNILGzX7Zxq3t17I20gMXHlfLIAhNINRBVvQ+MFh
+ wLrNy6x7BrJNiI0rDjIRCpBXFGLNJ+ZGLkE5gEKh7CSZd7NjXbkUOk4z34uP+DH4hR
+ aIKX0fAbD2476S++uZJvu/P3+YutJuBIqWYihXM+tsAjjdBjNqc31cvaas2hZ8cY5l
+ yMH+ywiAd5e6YRLZUDWyQf8MQX40fK3D9IvPcdpVlPMej83wmuQT/V3ayrRZWmyzoo
+ T/xp1m3R6zLBTXdN+5tk8kvKHVzjHjoRMNFoY/P/dfJu72jb5EVvVmnWWhSgrxfSXo
+ N759TeFLHt1pA==
 From: Bjorn Andersson <andersson@kernel.org>
-To: linux-gpio@vger.kernel.org,
-	Julia Lawall <Julia.Lawall@inria.fr>
-Cc: kernel-janitors@vger.kernel.org, audit@vger.kernel.org,
- linux-mtd@lists.infradead.org, Zhihao Cheng <chengzhihao1@huawei.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>, linux-arm-msm@vger.kernel.org,
- linux-pci@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-usb@vger.kernel.org, linux-mm@kvack.org,
- maple-tree@lists.infradead.org, alsa-devel@alsa-project.org,
- Sanyog Kale <sanyog.r.kale@intel.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- dccp@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- Jan Kara <jack@suse.cz>, drbd-dev@lists.linbit.com,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- netdev@vger.kernel.org, nvdimm@lists.linux.dev, linux-leds@vger.kernel.org,
- Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Naveen N Rao <naveen@kernel.org>,
- Madhavan Srinivasan <maddy@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org,
- tipc-discussion@lists.sourceforge.net, Robin Murphy <robin.murphy@arm.com>,
- iommu@lists.linux.dev, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- linux-trace-kernel@vger.kernel.org, Neil Brown <neilb@suse.de>,
- Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>,
- Tom Talpey <tom@talpey.com>, linux-nfs@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, linux-wireless@vger.kernel.org,
- intel-wired-lan@lists.osuosl.org
-Subject: Re: (subset) [PATCH 00/35] Reorganize kerneldoc parameter names
-Date: Sat,  5 Oct 2024 20:55:35 -0500
-Message-ID: <172817973322.398361.12931602917664759173.b4-ty@kernel.org>
+To: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Simona Vetter <simona.vetter@ffwll.ch>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Marc Gonzalez <mgonzalez@freebox.fr>
+Cc: linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, Arnaud Vrac <avrac@freebox.fr>,
+ Pierre-Hugues Husson <phhusson@freebox.fr>,
+ Jeffrey Hugo <quic_jhugo@quicinc.com>,
+ Conor Dooley <conor.dooley@microchip.com>
+Subject: Re: (subset) [PATCH v7 0/6] HDMI TX support in msm8998
+Date: Sat,  5 Oct 2024 20:55:37 -0500
+Message-ID: <172817973327.398361.7245928166448591196.b4-ty@kernel.org>
 X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240930112121.95324-1-Julia.Lawall@inria.fr>
-References: <20240930112121.95324-1-Julia.Lawall@inria.fr>
+In-Reply-To: <20240724-hdmi-tx-v7-0-e44a20553464@freebox.fr>
+References: <20240724-hdmi-tx-v7-0-e44a20553464@freebox.fr>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -82,23 +76,16 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Mon, 30 Sep 2024 13:20:46 +0200, Julia Lawall wrote:
-> Reorganize kerneldoc parameter names to match the parameter
-> order in the function header.
+On Wed, 24 Jul 2024 17:01:33 +0200, Marc Gonzalez wrote:
+> DT bits required for HDMI TX support in qcom APQ8098 (MSM8998 cousin)
 > 
-> The misordered cases were identified using the following
-> Coccinelle semantic patch:
-> 
-> // <smpl>
-> @initialize:ocaml@
-> @@
-> 
-> [...]
 
 Applied, thanks!
 
-[24/35] soc: qcom: qmi: Reorganize kerneldoc parameter names
-        commit: eea73fa08e69fec9cdc915592022bec6a9ac8ad7
+[5/6] arm64: dts: qcom: msm8998: add HDMI GPIOs
+      commit: 1b97f00d1b11ed6e349816ba7e60fa76e477fcbb
+[6/6] arm64: dts: qcom: add HDMI nodes for msm8998
+      commit: 2150c87db80cf7eed3939f32cbb18393055c58ce
 
 Best regards,
 -- 
