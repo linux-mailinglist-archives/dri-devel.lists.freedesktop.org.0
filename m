@@ -2,62 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A373992145
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Oct 2024 22:43:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D201299214B
+	for <lists+dri-devel@lfdr.de>; Sun,  6 Oct 2024 22:44:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3FFA10E2E5;
-	Sun,  6 Oct 2024 20:43:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FD8A10E2E1;
+	Sun,  6 Oct 2024 20:44:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=me.com header.i=@me.com header.b="RxIU+WQj";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="PMGIwR4g";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from st43p00im-ztdg10063201.me.com (st43p00im-ztdg10063201.me.com
- [17.58.63.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90F5810E2E5
- for <dri-devel@lists.freedesktop.org>; Sun,  6 Oct 2024 20:43:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=me.com; s=1a1hai;
- t=1728247419; bh=Rb4uSMd3WuIyW+3aNpC7juKYGvVxUYO7LHjTErftlXk=;
- h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To;
- b=RxIU+WQj+kb7PoLYFhpjaoiWCFXY+FgvYHfJYwjKbThv4SzKNvqax31uAvxulFl7L
- G3E+cA0M5rRIB97Vww+84GE2hnJm5BUqVfBhb/+OOnAbNTsUJPKuaBxuIqcMyNEZpR
- frtl5wC7hO0WpEaffXf6J94l0Z3saVHgTxsPjSHvMMSmB8jwCJtOy9X1HDxYYThyTM
- G8zjrLqY1qPwHr1VsW5vBWD6BiM/i8kS3QT2csrx5SukifC3E+0ZCVUPR59GIlhe0j
- iRIFODcKbfgKo0VAQakbI+3qxmTHFsqqHATjrhIHG78WR16Y13MOs2LdsAbAnzPet9
- qGXTyHX61BCeQ==
-Received: from localhost (st43p00im-dlb-asmtp-mailmevip.me.com [17.42.251.41])
- by st43p00im-ztdg10063201.me.com (Postfix) with ESMTPSA id
- DFCD29803C1; Sun,  6 Oct 2024 20:43:36 +0000 (UTC)
-From: Alain Volmat <avolmat@me.com>
-Date: Sun, 06 Oct 2024 20:42:51 +0000
-Subject: [PATCH v2 3/3] ARM: dts: st: enable the MALI gpu on the stih410-b2260
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241006-sti-gpu-v2-3-c6bb408d6903@me.com>
-References: <20241006-sti-gpu-v2-0-c6bb408d6903@me.com>
-In-Reply-To: <20241006-sti-gpu-v2-0-c6bb408d6903@me.com>
-To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
+ [209.85.208.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A017510E2E1
+ for <dri-devel@lists.freedesktop.org>; Sun,  6 Oct 2024 20:44:42 +0000 (UTC)
+Received: by mail-lj1-f177.google.com with SMTP id
+ 38308e7fff4ca-2fad100dd9fso50243121fa.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 06 Oct 2024 13:44:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1728247481; x=1728852281; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=1dzk3WntIySvLJWusveHPZhNWnaINtIPBE/POIj9sa4=;
+ b=PMGIwR4gkJv60GCdxjs5FxwBB/wkupmEEej/8w2zyFM2DchO289HorZJRhDQ91NqrU
+ C31vOBQb4FCnwR0AzjM7EiF9Pqow0dmyhbLSn2UO/BCamS1mtwo1eNPZotu0yEckXX4N
+ uGLXWZSINSS3RJz/x7Qc7ZUCoD2rm7+TkYmXpR1ZToZ6ZWVVhjN7wiunI+FKszLwkOng
+ JL8TKlEZA8PnroWt4+GyMTPjeSwwLu3vjxBr59vUd7byjlmaj01olqzYYvJm/PxdU4k8
+ ztCpS/LlQ9Pre/lCGcKoduIybDHxS7HFS6yAd8NM07vHOQ6JCP8vunI+leoe3yPXGuol
+ uEDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1728247481; x=1728852281;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=1dzk3WntIySvLJWusveHPZhNWnaINtIPBE/POIj9sa4=;
+ b=THQ13JNfkIeaGoW575ppsRmCTY1zytJz7NIaQYeMM7ATx+pLXbtncm8xeY+nZWRwUt
+ hKCNYJI5u22y8MZiBJsWMfOn396mkYnMCcRDaSENJJxy/YxhkYQpDXChftFH9LnEPZCI
+ 7WurUQuNI+PE2g4qhrsn1HDeVDlJOtDyhDbjTcKgMyQX1iSLw38gGsuR4uX2aG4QV5BS
+ 8nukVCol8oFMjGeZytn5EgY++rGYy9UmnFTfZdWeEzUmqZgsvuCc6I0pWHRSf9dwNzn+
+ FuvZzQ9mZ/KIWy0ycR1ovzqDgedhEp+To/NINHqx9mDjKbejADTdJ6qDdtxVXPVxWDeD
+ n0cg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW+Ko/r3Q4BM8Zl8fDKMukcNdX1cGsgEMkOONOvWMvM12C8LCBx2dr8DG5fvRnNIy8q9HiFpWioD2Q=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyGyvrb94fCwM8vMm+h+cGHRnyfH5pxto72+GuXZov4PNK0LXUK
+ 1xWmgcJSBLFewPgwjghc0sncuftN1gUW2jYWJg9UCUGbJILnp02G+Sfy6cT7Sd4=
+X-Google-Smtp-Source: AGHT+IGSACiI3kw3knol095Cbq7pCc2Lxyw8CUsV9n35GwTxUyFJ2etK1ySJVEoir2VRZFMDNMgfeA==
+X-Received: by 2002:a05:6512:b98:b0:536:55cc:963e with SMTP id
+ 2adb3069b0e04-539ab9cf28bmr6424748e87.44.1728247480760; 
+ Sun, 06 Oct 2024 13:44:40 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00-89ea-67f6-92cd-b49.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:89ea:67f6:92cd:b49])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-539afec852esm615479e87.93.2024.10.06.13.44.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 06 Oct 2024 13:44:39 -0700 (PDT)
+Date: Sun, 6 Oct 2024 23:44:37 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: quic_mahap@quicinc.com
+Cc: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
- Patrice Chotard <patrice.chotard@foss.st.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- Alain Volmat <avolmat@me.com>
-X-Mailer: b4 0.14.2
-X-Proofpoint-ORIG-GUID: i_TaJ1qM4CeIyoTXli7CsWKMXexD7nFQ
-X-Proofpoint-GUID: i_TaJ1qM4CeIyoTXli7CsWKMXexD7nFQ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-06_19,2024-10-04_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- spamscore=0 malwarescore=0
- adultscore=0 clxscore=1015 phishscore=0 suspectscore=0 mlxlogscore=438
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2308100000 definitions=main-2410060148
-X-Apple-Remote-Links: v=1;h=KCk=;charset=UTF-8
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, 
+ Kalyan Thota <quic_kalyant@quicinc.com>,
+ Jayaprakash Madisetty <quic_jmadiset@quicinc.com>, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 3/5] drm/msm: mdss: Add SA8775P support
+Message-ID: <dg73wfucbacsalh6eaxuk5u2lhoavvlp3euh3zhb7tlkvnhcvq@2x55r35znc3w>
+References: <20241001-patchv3_1-v3-0-d23284f45977@quicinc.com>
+ <20241001-patchv3_1-v3-3-d23284f45977@quicinc.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241001-patchv3_1-v3-3-d23284f45977@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,28 +98,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable the GPU on the stih410-b2260 board.
+On Tue, Oct 01, 2024 at 12:11:38PM GMT, Mahadevan via B4 Relay wrote:
+> From: Mahadevan <quic_mahap@quicinc.com>
+> 
+> Add Mobile Display Subsystem (MDSS) support for the SA8775P platform.
+> 
+> Signed-off-by: Mahadevan <quic_mahap@quicinc.com>
+> ---
+>  drivers/gpu/drm/msm/msm_mdss.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
 
-Signed-off-by: Alain Volmat <avolmat@me.com>
----
- arch/arm/boot/dts/st/stih410-b2260.dts | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/arch/arm/boot/dts/st/stih410-b2260.dts b/arch/arm/boot/dts/st/stih410-b2260.dts
-index 240b62040000b8c0357d39504d3475186958bf31..736b1e059b0a8f122d1b824e1f4e5db0a668ec2c 100644
---- a/arch/arm/boot/dts/st/stih410-b2260.dts
-+++ b/arch/arm/boot/dts/st/stih410-b2260.dts
-@@ -206,5 +206,9 @@ hdmiddc: i2c@9541000 {
- 		sata1: sata@9b28000 {
- 			status = "okay";
- 		};
-+
-+		gpu: gpu@9f00000 {
-+			status = "okay";
-+		};
- 	};
- };
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 -- 
-2.43.0
-
+With best wishes
+Dmitry
