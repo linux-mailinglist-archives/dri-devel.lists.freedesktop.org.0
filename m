@@ -2,111 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B97FB992AE5
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 13:59:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44A89992B13
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 14:06:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32FE810E074;
-	Mon,  7 Oct 2024 11:59:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF5C110E1B1;
+	Mon,  7 Oct 2024 12:06:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="Al5dDLjq";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lq2t+k7l";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56F8210E371
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 11:59:40 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20241007115938euoutp01e27b3768aa1ca734aea549582c8e24a4~8KdsZVRSC0815308153euoutp01Q
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 11:59:38 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20241007115938euoutp01e27b3768aa1ca734aea549582c8e24a4~8KdsZVRSC0815308153euoutp01Q
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1728302378;
- bh=2nEzV/9f9vECwihtlTslc8KbVKH6tVjfOzw+6LN5A5M=;
- h=Date:Subject:To:From:In-Reply-To:References:From;
- b=Al5dDLjqj+UjAu9bpGZKRJ8nuCkw3AWbUj1mxsSCA8PFQjxR90fgxE7rlFvU0R/v6
- ghlQRQKgeO02helzaaLvXgUwPuZYjeFK5etpQl92gCGcTmnZqYDNIpzA2HM8NrsGCz
- ukDikeoZ6UXOuMmsC2PU4wc1OwD5FJpJhOIGjYVk=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20241007115937eucas1p2bf81db0287940ac197a90652a05442da~8KdsQOjly0470104701eucas1p2d;
- Mon,  7 Oct 2024 11:59:37 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges1new.samsung.com (EUCPMTA) with SMTP id 7E.7F.09624.92DC3076; Mon,  7
- Oct 2024 12:59:37 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20241007115937eucas1p1230341a23b39c7b935812cc62825f2f7~8Kdr3TJeT2244222442eucas1p1H;
- Mon,  7 Oct 2024 11:59:37 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20241007115937eusmtrp2875010845fb96db30d8f40c648f619f7~8Kdr2usfA2609526095eusmtrp2s;
- Mon,  7 Oct 2024 11:59:37 +0000 (GMT)
-X-AuditID: cbfec7f2-c11ff70000002598-24-6703cd29635a
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 8B.D4.14621.92DC3076; Mon,  7
- Oct 2024 12:59:37 +0100 (BST)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20241007115936eusmtip23cff28f50580afbdea4c4cb27f495093~8KdrF6TEe3240732407eusmtip2v;
- Mon,  7 Oct 2024 11:59:36 +0000 (GMT)
-Message-ID: <37051126-3921-4afe-a936-5f828bff5752@samsung.com>
-Date: Mon, 7 Oct 2024 13:59:35 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15F6210E1B1
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 12:06:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1728302811; x=1759838811;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=4nem5neUbIc5QSZ4I5m7/QHNX1+9xrR1i3iA0CCx7ik=;
+ b=lq2t+k7l3tlhPaxIwHfJYikUS+HpGLsJUt1lJXupf7Lp96zhfPdR70eR
+ aQ5sSuYoFiCEh1ZCglvCbCXsr27TnTSNAidSR0x8C6cj5MvFKJJ+yoVXP
+ DPeyTmmbVuS6xvbvUz8+VbG+6MthAeaAMwkQwiv8APAaIzFMqCqfzYrYB
+ 0wi6qpi2LrzRdDuDtTxR+TLVk+qNwjO8uOT9NSwGK8oLMEzLbF8wFSUCR
+ Tsu6at11U01fJk34fNBAduQJUJzq8MNHFxXHE5XtRI5+0kIx7CIAb3BhW
+ c6i1VDhKjI5lSoDWASn9qZIdttseRXZ2Rc53DtlpnYvw72sIQK9cxZGRV g==;
+X-CSE-ConnectionGUID: UcArXDHZQ3+Cj/SBG7rFvg==
+X-CSE-MsgGUID: 3QWRJ4yASg2oUfmu65Bf7Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11217"; a="31333620"
+X-IronPort-AV: E=Sophos;i="6.11,184,1725346800"; d="scan'208";a="31333620"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Oct 2024 05:06:51 -0700
+X-CSE-ConnectionGUID: +iOQObMNR2adxQNZSFjS1g==
+X-CSE-MsgGUID: VdTr0s+fQEiOWaCgXeMGhQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,184,1725346800"; d="scan'208";a="80433796"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+ by orviesa004.jf.intel.com with ESMTP; 07 Oct 2024 05:06:49 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1sxmVi-0004xQ-0n;
+ Mon, 07 Oct 2024 12:06:46 +0000
+Date: Mon, 7 Oct 2024 20:06:10 +0800
+From: kernel test robot <lkp@intel.com>
+To: Gonzalo Silvalde Blanco <gonzalo.silvalde@gmail.com>,
+ linux-fbdev@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, thomas.zimmermann@suse.de,
+ Gonzalo Silvalde Blanco <gonzalo.silvalde@gmail.com>
+Subject: Re: [PATCH v2] fbdev: sstfb: Make CONFIG_FB_DEVICE optional
+Message-ID: <202410071957.gJryKfOF-lkp@intel.com>
+References: <20241004152429.4329-1-gonzalo.silvalde@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [v2,20/31] drm/vc4: Introduce generation number enum
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>, Maxime Ripard
- <mripard@kernel.org>, Raspberry Pi Kernel Maintenance
- <kernel-list@raspberrypi.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
- <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org
-Content-Language: en-US
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <20240621152055.4180873-21-dave.stevenson@raspberrypi.com>
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrDKsWRmVeSWpSXmKPExsWy7djP87qaZ5nTDY7e1bE4cX0Rk8X/bROZ
- Ld7OXcxiceXrezaL9zMnMFss/LiVxaKtcxmrxZY3E1kdODz2flvA4rFz1l12j02rOtk85p0M
- 9LjffZzJo/XoLxaPzaerA9ijuGxSUnMyy1KL9O0SuDJ2Pf7AVjBHsGLShjcsDYxT+LoYOTkk
- BEwkPqyfztjFyMUhJLCCUeLfvW9MEM4XRomre+9CZT4zSlw5upgJpmXW100sEInlQC1vb4El
- hAQ+Mkoc2KgKYvMK2EmcWXaYGcRmEVCROLPkPiNEXFDi5MwnLCC2qIC8xP1bM9hBbGEBR4m5
- fYfAhooIPGGS+PP3LlgRs4C4xK0n88EWsAkYSnS97WIDsTkF3CWu33jMBFEjL9G8dTYzxHUP
- OCQePjODsF0kmk42sULYwhKvjm9hh7BlJP7vnA/2p4RAO6PEgt/3oZwJjBINz28xQlRZS9w5
- 9wtoGwfQBk2J9bv0IcKOEstPv2IECUsI8EnceCsIcQOfxKRt05khwrwSHW1CENVqErOOr4Nb
- e/DCJagzPSQ6zi9hncCoOAspWGYh+XgWks9mIdywgJFlFaN4amlxbnpqsWFearlecWJucWle
- ul5yfu4mRmCCOv3v+KcdjHNffdQ7xMjEwXiIUYKDWUmEN2INY7oQb0piZVVqUX58UWlOavEh
- RmkOFiVxXtUU+VQhgfTEktTs1NSC1CKYLBMHp1QDk9HBrqAy3oZ6SbNPRhUNYkGbWXRu1uuu
- nqDBYsD/ZJHoFX7R0kVCC9JVj+9s9V/i6bv6R0Iri4CMk6f/OkelmimmOmEpRgpFLbp7j3vE
- vfi627Zsx+/Wy4ezq4uu7L5zjZN1Vugnie1rV+gmSUjXtafPdL9SZCv138rp/tI5xamP9Zju
- 23CY6q/YbKlhJZhw/O7P13EK/1O77bkb1C8ri9VMdaqdNfWF0feZhVc85r+csJJ9yflKvQ9i
- XgLRsTxiL14uMrviaXpuOdvmZ/KSbydvKK50M75/+a+xi5/9LYGv5mtqgm99zvSZEmV66PW1
- /RLSttJP5V9KTWMIPPnxu2ifz28p9g/HZ342l1VUYinOSDTUYi4qTgQAQs+FJb8DAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrEIsWRmVeSWpSXmKPExsVy+t/xe7qaZ5nTDW5eFLY4cX0Rk8X/bROZ
- Ld7OXcxiceXrezaL9zMnMFss/LiVxaKtcxmrxZY3E1kdODz2flvA4rFz1l12j02rOtk85p0M
- 9LjffZzJo/XoLxaPzaerA9ij9GyK8ktLUhUy8otLbJWiDS2M9AwtLfSMTCz1DI3NY62MTJX0
- 7WxSUnMyy1KL9O0S9DJ2Pf7AVjBHsGLShjcsDYxT+LoYOTkkBEwkZn3dxNLFyMUhJLCUUWL3
- 6y0sEAkZiZPTGlghbGGJP9e62EBsIYH3QEWLBEFsXgE7iTPLDjOD2CwCKhJnltxnhIgLSpyc
- +QRsjqiAvMT9WzPYQWxhAUeJuX2HwJaJCDxhkmi+08oOMdRN4snPf2ANzALiEreezGcCsdkE
- DCW63kIs5hRwl7h+4zETRI2ZRNfWLkYIW16ieets5gmMgrOQ7J6FZNQsJC2zkLQsYGRZxSiS
- Wlqcm55bbKhXnJhbXJqXrpecn7uJERh524793LyDcd6rj3qHGJk4GA8xSnAwK4nwRqxhTBfi
- TUmsrEotyo8vKs1JLT7EaAoMgInMUqLJ+cDYzyuJNzQzMDU0MbM0MLU0M1YS53W7fD5NSCA9
- sSQ1OzW1ILUIpo+Jg1OqgckxQrZBQPjxbf5GxlARhyfWd76la4Zy53oZr7m59ZLhpQCXy5V6
- U1xPfPjY5JMZ+3rOLf09Kve5e1llLpp4rJrXFfdSdSWb7DHhTyG9r1fcOPLgyoS2i4uMVqzj
- Ea44ZF2ZIsa1RvvBkpuNKtfOLfrPI6Z9ehePQoTe59eMP9Ue2Rw58nq71uuKw9frqt7pF09Z
- JTm3t+fxe58PZ+/ypze1H9nu9DStj3n2onSz/HiJzG8u3Un1+a/s1L59avhzQFHoXLfwo0k7
- l/s9rzNL7u3Qefly1rcTySrV5rHhL8R/qnFIpM5fa5aZz2Tgnmj6oDPKvTTuy+Tu3/vuSeVc
- LPO9+pnrrmRN/03ewnofMSWW4oxEQy3mouJEABIWdvZFAwAA
-X-CMS-MailID: 20241007115937eucas1p1230341a23b39c7b935812cc62825f2f7
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20241007115937eucas1p1230341a23b39c7b935812cc62825f2f7
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20241007115937eucas1p1230341a23b39c7b935812cc62825f2f7
-References: <20240621152055.4180873-21-dave.stevenson@raspberrypi.com>
- <CGME20241007115937eucas1p1230341a23b39c7b935812cc62825f2f7@eucas1p1.samsung.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241004152429.4329-1-gonzalo.silvalde@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,63 +72,193 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave,
+Hi Gonzalo,
 
-On 21.06.2024 17:20, Dave Stevenson wrote:
-> From: Maxime Ripard <mripard@kernel.org>
->
-> With the introduction of the BCM2712 support, we will get yet another
-> generation of display engine to support.
->
-> The binary check of whether it's VC5 or not thus doesn't work anymore,
-> especially since some parts of the driver will have changed with BCM2711,
-> and some others with BCM2712.
->
-> Let's introduce an enum to store the generation the driver is running
-> on, which should provide more flexibility.
->
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+kernel test robot noticed the following build errors:
 
-This patch landed recently in linux-next as commit 24c5ed3ddf27 
-("drm/vc4: Introduce generation number enum"). In my tests I found that 
-it introduces the following warning on Raspberry Pi3B+ board:
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on drm-tip/drm-tip linus/master v6.12-rc2 next-20241004]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-================================================
-WARNING: lock held when returning to user space!
-6.11.0-rc5+ #15405 Tainted: G         C
-------------------------------------------------
-(udev-worker)/161 is leaving the kernel with locks still held!
-1 lock held by (udev-worker)/161:
-  #0: ffff80008338bff8 (drm_unplug_srcu){.?.?}-{0:0}, at: 
-drm_dev_enter+0x0/0xdc
+url:    https://github.com/intel-lab-lkp/linux/commits/Gonzalo-Silvalde-Blanco/fbdev-sstfb-Make-CONFIG_FB_DEVICE-optional/20241004-232658
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20241004152429.4329-1-gonzalo.silvalde%40gmail.com
+patch subject: [PATCH v2] fbdev: sstfb: Make CONFIG_FB_DEVICE optional
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20241007/202410071957.gJryKfOF-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241007/202410071957.gJryKfOF-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410071957.gJryKfOF-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/video/fbdev/sstfb.c:1439:2: error: invalid preprocessing directive
+    1439 | #fdef CONFIG_FB_DEVICE
+         |  ^
+>> drivers/video/fbdev/sstfb.c:1442:2: error: #endif without #if
+    1442 | #endif
+         |  ^
+   2 errors generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for MODVERSIONS
+   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
+   Selected by [y]:
+   - RANDSTRUCT_FULL [=y] && (CC_HAS_RANDSTRUCT [=y] || GCC_PLUGINS [=n]) && MODULES [=y]
 
 
-I suspect that the error path is somewhere broken and the conversion 
-triggered that path.
+vim +1439 drivers/video/fbdev/sstfb.c
 
+  1320	
+  1321	static int sstfb_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+  1322	{
+  1323		struct fb_info *info;
+  1324		struct fb_fix_screeninfo *fix;
+  1325		struct sstfb_par *par;
+  1326		struct sst_spec *spec;
+  1327		int err;
+  1328	
+  1329		err = aperture_remove_conflicting_pci_devices(pdev, "sstfb");
+  1330		if (err)
+  1331			return err;
+  1332	
+  1333		/* Enable device in PCI config. */
+  1334		if ((err=pci_enable_device(pdev))) {
+  1335			printk(KERN_ERR "cannot enable device\n");
+  1336			return err;
+  1337		}
+  1338	
+  1339		/* Allocate the fb and par structures.  */
+  1340		info = framebuffer_alloc(sizeof(struct sstfb_par), &pdev->dev);
+  1341		if (!info)
+  1342			return -ENOMEM;
+  1343	
+  1344		pci_set_drvdata(pdev, info);
+  1345	
+  1346		par  = info->par;
+  1347		fix  = &info->fix;
+  1348	
+  1349		par->type = id->driver_data;
+  1350		spec = &voodoo_spec[par->type];
+  1351		f_ddprintk("found device : %s\n", spec->name);
+  1352	
+  1353		par->dev = pdev;
+  1354		par->revision = pdev->revision;
+  1355	
+  1356		fix->mmio_start = pci_resource_start(pdev,0);
+  1357		fix->mmio_len	= 0x400000;
+  1358		fix->smem_start = fix->mmio_start + 0x400000;
+  1359	
+  1360		if (!request_mem_region(fix->mmio_start, fix->mmio_len, "sstfb MMIO")) {
+  1361			printk(KERN_ERR "sstfb: cannot reserve mmio memory\n");
+  1362			goto fail_mmio_mem;
+  1363		}
+  1364	
+  1365		if (!request_mem_region(fix->smem_start, 0x400000,"sstfb FB")) {
+  1366			printk(KERN_ERR "sstfb: cannot reserve fb memory\n");
+  1367			goto fail_fb_mem;
+  1368		}
+  1369	
+  1370		par->mmio_vbase = ioremap(fix->mmio_start,
+  1371						fix->mmio_len);
+  1372		if (!par->mmio_vbase) {
+  1373			printk(KERN_ERR "sstfb: cannot remap register area %#lx\n",
+  1374			        fix->mmio_start);
+  1375			goto fail_mmio_remap;
+  1376		}
+  1377		info->screen_base = ioremap(fix->smem_start, 0x400000);
+  1378		if (!info->screen_base) {
+  1379			printk(KERN_ERR "sstfb: cannot remap framebuffer %#lx\n",
+  1380			        fix->smem_start);
+  1381			goto fail_fb_remap;
+  1382		}
+  1383	
+  1384		if (!sst_init(info, par)) {
+  1385			printk(KERN_ERR "sstfb: Init failed\n");
+  1386			goto fail;
+  1387		}
+  1388		sst_get_memsize(info, &fix->smem_len);
+  1389		strscpy(fix->id, spec->name, sizeof(fix->id));
+  1390	
+  1391		printk(KERN_INFO "%s (revision %d) with %s dac\n",
+  1392			fix->id, par->revision, par->dac_sw.name);
+  1393		printk(KERN_INFO "framebuffer at %#lx, mapped to 0x%p, size %dMB\n",
+  1394		        fix->smem_start, info->screen_base,
+  1395		        fix->smem_len >> 20);
+  1396	
+  1397		f_ddprintk("regbase_virt: %p\n", par->mmio_vbase);
+  1398		f_ddprintk("membase_phys: %#lx\n", fix->smem_start);
+  1399		f_ddprintk("fbbase_virt: %p\n", info->screen_base);
+  1400	
+  1401		info->fbops	= &sstfb_ops;
+  1402		info->pseudo_palette = par->palette;
+  1403	
+  1404		fix->type	= FB_TYPE_PACKED_PIXELS;
+  1405		fix->visual	= FB_VISUAL_TRUECOLOR;
+  1406		fix->accel	= FB_ACCEL_NONE;  /* FIXME */
+  1407		/*
+  1408		 * According to the specs, the linelength must be of 1024 *pixels*
+  1409		 * and the 24bpp mode is in fact a 32 bpp mode (and both are in
+  1410		 * fact dithered to 16bit).
+  1411		 */
+  1412		fix->line_length = 2048; /* default value, for 24 or 32bit: 4096 */
+  1413	
+  1414		fb_find_mode(&info->var, info, mode_option, NULL, 0, NULL, 16);
+  1415	
+  1416		if (sstfb_check_var(&info->var, info)) {
+  1417			printk(KERN_ERR "sstfb: invalid video mode.\n");
+  1418			goto fail;
+  1419		}
+  1420	
+  1421		if (sstfb_set_par(info)) {
+  1422			printk(KERN_ERR "sstfb: can't set default video mode.\n");
+  1423			goto fail;
+  1424		}
+  1425	
+  1426		if (fb_alloc_cmap(&info->cmap, 256, 0)) {
+  1427			printk(KERN_ERR "sstfb: can't alloc cmap memory.\n");
+  1428			goto fail;
+  1429		}
+  1430	
+  1431		/* register fb */
+  1432		info->device = &pdev->dev;
+  1433		if (register_framebuffer(info) < 0) {
+  1434			printk(KERN_ERR "sstfb: can't register framebuffer.\n");
+  1435			goto fail_register;
+  1436		}
+  1437	
+  1438		sstfb_clear_screen(info);
+> 1439	#fdef CONFIG_FB_DEVICE
+  1440		if (device_create_file(info->dev, &device_attrs[0]))
+  1441			printk(KERN_WARNING "sstfb: can't create sysfs entry.\n");
+> 1442	#endif
+  1443	
+  1444		fb_info(info, "%s frame buffer device at 0x%p\n",
+  1445			fix->id, info->screen_base);
+  1446	
+  1447		return 0;
+  1448	
+  1449	fail_register:
+  1450		fb_dealloc_cmap(&info->cmap);
+  1451	fail:
+  1452		iounmap(info->screen_base);
+  1453	fail_fb_remap:
+  1454		iounmap(par->mmio_vbase);
+  1455	fail_mmio_remap:
+  1456		release_mem_region(fix->smem_start, 0x400000);
+  1457	fail_fb_mem:
+  1458		release_mem_region(fix->mmio_start, info->fix.mmio_len);
+  1459	fail_mmio_mem:
+  1460		framebuffer_release(info);
+  1461		return -ENXIO; 	/* no voodoo detected */
+  1462	}
+  1463	
 
-A wild guess (noticed by grepping for 'drm_dev_enter') is that the 
-following chunk is broken:
-
-> diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
-> index 933177cb8d66..7380a02a69a2 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hvs.c
-> +++ b/drivers/gpu/drm/vc4/vc4_hvs.c
-> @@ -224,7 +224,7 @@ static void vc4_hvs_lut_load(struct vc4_hvs *hvs,
->  	if (!drm_dev_enter(drm, &idx))
->  		return;
->  
-> -	if (hvs->vc4->is_vc5)
-> +	if (hvs->vc4->gen == VC4_GEN_4)
->  		return;
->  
->  	/* The LUT memory is laid out with each HVS channel in order,
-
-as changing the above check to 'if (hvs->vc4->gen > VC4_GEN_4)' fixes this issue (tested also on top of linux-next). I think that one has to review the checks again as well as the error paths in the driver.
-
-Best regards
 -- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
