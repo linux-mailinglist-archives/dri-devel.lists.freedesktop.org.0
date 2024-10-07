@@ -2,76 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16B23993198
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 17:41:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31B929932A3
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 18:10:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C530710E322;
-	Mon,  7 Oct 2024 15:41:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BEAE10E0CC;
+	Mon,  7 Oct 2024 16:10:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="q5Sq3COy";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="NkV3tdUW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [217.72.192.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A236210E322
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 15:41:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
- s=s29768273; t=1728315653; x=1728920453; i=markus.elfring@web.de;
- bh=tde9+HTtwvSdjyegqAc2pBuj8Xp3aZ588ljCLxtJGic=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
- Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
- cc:content-transfer-encoding:content-type:date:from:message-id:
- mime-version:reply-to:subject:to;
- b=q5Sq3COyuSf/1JH97wnrgaIuQ3reunJaZXWZmgVqH3S4bc1gzfXC1bXmCX0lRPZK
- MohSHiT6Bdr9qEsk2PM6O1gZqD9rnqd+e//uYO9xZ4GmLXXcR6gWl8OwqWdvAoY3+
- 8TG7qKE/wkuby1eu63mCXt7MDg+vGZ4FCXadUmF/uCBxSdiKGblgH4Hxdh4KJHhUH
- cxY5LdaysWk0KuX2IZ4m/HzB83zjBAAwZiZVeR+5dUomrUUly3khG1gzv8aBq1CQb
- Rie09a8IG5pQL2HPE/H9GYTFc/Zm7IWgjB648sn8Uyn0AQmNlrn0o0I92Jep9ct4Y
- EvUZpid7Dbs0snx9sg==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.81.95]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1Mc1VF-1tZ6sc2ymF-00aZDj; Mon, 07
- Oct 2024 17:40:53 +0200
-Message-ID: <caab097f-2522-4c07-9d05-ffa2acd4f157@web.de>
-Date: Mon, 7 Oct 2024 17:40:51 +0200
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
+ [217.70.183.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53FEB10E0CC
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 16:10:48 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id D2D6C40004;
+ Mon,  7 Oct 2024 16:10:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1728317446;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=kioySecs94ytLyunHg7ANuOPG4RUayYRxxU72T7SIkg=;
+ b=NkV3tdUW9yLuqdF2UknyXXxtGvyAGaKB75wvks+krl8O3FpW2mzqpgZz3nHluadIXGrmqd
+ NdzQONNG+1NSjfhQ0bFUud0PDqldCMs6VCCbezflpkxwL78T4HV4tqn6AGEwSu9GoURzd0
+ KTzMhjnOZWNtzPRJ4js+KsHzrlPxeDoz2Flvfa0N3yvhPcNTEhjv9dg3qIXRjkKUxKv17E
+ k4E2pMabeQJfrAkmu8mbCv7XcfS4q2omsiQlcDhStl0aLqLas7Nh+/AjQ72XywGzTSObVI
+ 8/pOy73oBEoHmBJdRrwZyq1gTxdw8km0xFsaweD+WbtH3lyajOCDpoMNcr1iag==
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Subject: [PATCH v12 00/15] drm/vkms: Reimplement line-per-line pixel
+ conversion for plane reading
+Date: Mon, 07 Oct 2024 18:10:34 +0200
+Message-Id: <20241007-yuv-v12-0-01c1ada6fec8@bootlin.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: =?UTF-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>, 
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- dri-devel@lists.freedesktop.org, Adam Thiede <me@adamthiede.com>,
- Angelo Gioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Yassine Oudjana <yassine.oudjana@gmail.com>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- Alper Nebi Yasak <alpernebiyasak@gmail.com>,
- =?UTF-8?B?U2hhd24gU3VuZyAo5a6L5a2d6KyZKQ==?= <Shawn.Sung@mediatek.com>,
- Nancy Lin <nancy.lin@mediatek.com>, Singo Chang <singo.chang@mediatek.com>
-References: <20241007070101.23263-5-jason-jh.lin@mediatek.com>
-Subject: Re: [PATCH v9 4/5] drm/mediatek: ovl: Add blend_modes to driver data
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20241007070101.23263-5-jason-jh.lin@mediatek.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:xhaVx5v7PosVmZn5lfsVejKxm77d78UE8Dwj1ZHJMNzfubbc9hc
- nOMDtulMu4vq4tw/LAOTukfsSPVPLLOLPZqM3P3udTJIHJdl6aiEcZsvibqdJvqpg3WvuXl
- U2xDR+GtEQa8tpUhbvJQj4ppHPNP8+4o/NQZa4kSx24ZpA0n8V/I5nDPj/8Y4iFGXiN9W+i
- YSKD4lwcvpemBctWU0tYg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:i6vWuXQBUIU=;8wJPZmm+YsQAcUeXc+eYb4/8UrW
- mdoNJ5PMI8upFkOyQItiezXpSAGoHVOlOK3MpX3eXIulgTlc4zuur4F/alJYjKtk0tSE611Rg
- 9KNU8T4MiErNjW3/3ag5oyul0u3C81SR6mP362eQzIKP7Xj8h5kah2GdQFTr5w9KayiWWhISa
- y9A8Y/q/2eMvwvVSGP3OzAKsddqrDlN4KCdfXiyWYXrkFplAwan6Cwwo0VdqxZ483Z1ODfrmN
- 3JPLgGJOG/pOM73xm6LOFQpdLGfGSBo/eNCWxibra6/MH24Xhuvwns8pKr6r0QI0627A+J+3Y
- tnd9g2cp3BmXu9fJtdAKC9fTBE8hg2cXKhmhDKgGgl91ekjhu5o5r1ptUkFUdeiSTgteMRFXu
- C0qHtZ6mKeqi5/OFmckJGmP3+aam/ANOkAdcMwoCWswpeSxxq2OlIi4gxrjWdD96ATmrH9kgr
- 2GYutXrcTPSoA2BSQLIBxVqhQGI4e45BXBsnngBJ86PKgAEcxWzJb1RXB8QvgDDGPittqaaEi
- qyDnIASjLIwfM8oNbaHFbYQ/myCerrwXaaoCkajWhA1rjJfpOO4NeA/lTLPPRRo/X3vGUMWFg
- Ft9xNG56sIgu0EVgTu0/71JNH8kG4/AJ6L3SbLXpGX15DZJ6vkU3XQ+XS5wfKS8eWpoXK9KRz
- J6K6rwUkUu11sbVfDkQMoi0R1Z3ddpzqgjWO6sOiZJdid57AGnADfkmeHikXvJwN24LygyIU6
- iWSM+bV7Lkm335H5XDKxh0WUCPkD+uwWW5KTguhdx3WFVF5a+jC5wM9iz1E2inrPADQxjFh4x
- rzqZi8jx1Pzox33zD5aIqA9Q==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAPoHBGcC/23Sy07DMBAF0F+pssYwfmRsd8V/IBZ+UkttAkkat
+ UL8O5MmqIGwi517fC1rPqs+dSX11X73WXVpLH1pG1pw8bCrwsE1b4mVSBuVAKFAAGfX88i4lDp
+ aiLbWWFHSuz4x37kmHCjbnI9H2nzvUi6X29kvr7Q+lH5ou+utauTT7u9DR86AyeCkxiw0SvHs2
+ 3Y4luYxtKep5ZauOc5pQ+mQTcRsUElIv9JT3yhWHULOSpByDn0SRmjv9VbJtVq6JKmcEUUGa1X
+ 0W6XuSoKalSKlqcoFk6y2cqvqleLLDWtSCTkEH0HmWmwV3pUCOyskFRMPtRYmRw1bpe+q/unS0
+ 4sbSDbnFGr4p8velQExK0sKjNOAiDZx3CoOa7ZckZNi3OmgUXHE/M/b89VYWAmLm+ZCee4E+pC
+ D/dP3NY9alz7ONL3DPG/zRNL/Uxn2u9id2Kn04enngzXpMhD9+gYnFM9bAAMAAA==
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
+ Melissa Wen <melissa.srw@gmail.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>, 
+ Haneen Mohammed <hamohammed.sa@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Louis Chauvet <louis.chauvet@bootlin.com>, Simona Vetter <simona@ffwll.ch>, 
+ rdunlap@infradead.org, arthurgrillo@riseup.net, 
+ pekka.paalanen@haloniitty.fi, Simona Vetter <simona.vetter@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, thomas.petazzoni@bootlin.com, 
+ jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com, 
+ seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com, 
+ Pekka Paalanen <pekka.paalanen@collabora.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+X-Mailer: b4 0.14.1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=15309;
+ i=louis.chauvet@bootlin.com; h=from:subject:message-id;
+ bh=+7R0di79tikBdGpP0xxEsPs89I1vWiRdqUfJiTNhtSc=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBnBAf/QX33D1v7vtfguUDdHT3bzcrNZiiLyHfCQ
+ mHUmP0SPsWJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZwQH/wAKCRAgrS7GWxAs
+ 4pbpEADTAClfgE9vYC4zjbeXGojNFjsbq55CUDKpdKViH5FDIxFt/IxkqtUI08BzzQ21/4xhPGY
+ 8JWRXV7nlT4w7G3tBKXxNSdxSaozJgDcF0uz3J/O0NodPvVKYupGAIH5GCxGglB2Dro/d3BYOn+
+ CIfeRaiU9bpubfgPNGfZQm/xvUkchcZQ13lscDFi4TIOMOGr0BMgH8vpP4g8fF3H/adxsBIAktP
+ oRcAfcZc3KwEYxYmfYGYpPovSytQvgM4e6+QWAUwJHIhd9ikLQZlv9xBLYLdmm7NhF3oJMhUj0/
+ auZl1XIdZ65I9gHSD6vl3Re7Vs8EwVA5zOPjg19njCFVFrP6UwO9LXyShO6ZJeWcy7cLQTPwDtj
+ vF7kicQTXArr2+7a5i7AbuJR9538bkdTkquZ8K8/s7g2HH2Tc8z6DNaQ6jBUlhS+Lorll0o86K2
+ 6IgJHuQk3Zyv9jz2ZPSz77aoTfRt+HqJ+BIV/6rstqIEyl9JyezAZshuy8USaTfTw/x6vQ1gx2w
+ /tJ2f8W2Xd8zVSHfXE5Sm+OSq3+qSZRkMl2aqEolvE6EkrLqDpisDwCbE6yDOH7JqhcAat/wqEO
+ bwhhdUB/do/7E9N06IFxRKaR+fGyflYoks114ljbZfl8LK3FPel+KoZC29zslaLtcEwY4JA5rKL
+ zBGazV4+KCisvag==
+X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
+ fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,12 +94,319 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-=E2=80=A6
-> premultiplied supported in current platform.
-=E2=80=A6
+This patchset is the second version of [1]. It is almost a complete
+rewrite to use a line-by-line algorithm for the composition.
 
-                format would be?
+During the development of this series Pekka and Arthur found an issue in
+drm core. The YUV part of this series depend on the fix [9]. I'll let
+Arthur extract it and submit a new independant patch.
 
+It can be divided in three parts:
+- PATCH 1 to 3: no functional change is intended, only some formatting and
+  documenting (PATCH 2 is taken from [2])
+- PATCH 4 to 7: Some preparation work not directly related to the
+  line-by-line algorithm
+- PATCH 8: main patch for this series, it reintroduce the
+  line-by-line algorithm
+- PATCH 9: Remove useless drm_simplify_rotation
+- PATCH 10 to 14: taken from Arthur's series [2], with sometimes
+  adaptation to use the pixel-by-pixel algorithm.
+- PATCH 15: Introduce the support for DRM_FORMAT_R1/2/4/8
 
-Regards,
-Markus
+The PATCH 8 aims to restore the line-by-line pixel reading algorithm. It
+was introduced in 8ba1648567e2 ("drm: vkms: Refactor the plane composer to
+accept new formats") but removed in 8ba1648567e2 ("drm: vkms: Refactor the
+plane composer to accept new formats") in a over-simplification effort.
+At this time, nobody noticed the performance impact of this commit. After
+the first iteration of my series, poeple notice performance impact, and it
+was the case. Pekka suggested to reimplement the line-by-line algorithm.
+
+Expiriments on my side shown great improvement for the line-by-line
+algorithm, and the performances are the same as the original line-by-line
+algorithm. I targeted my effort to make the code working for all the
+rotations and translations. The usage of helpers from drm_rect_* avoid
+reimplementing existing logic.
+
+The only "complex" part remaining is the clipping of the coordinate to
+avoid reading/writing outside of src/dst. Thus I added a lot of comments
+to help when someone will want to add some features (framebuffer resizing
+for example).
+
+The YUV part is not mandatory for this series, but as my first effort was
+to help the integration of YUV, I decided to rebase Arthur's series on
+mine to help. I took [3], [4], [5] and [6] and adapted them to use the
+line-by-line reading. They were also updated to use 32.32 fixed point
+values for yuv conversion instead of 8.8 fixed points.
+
+The last patch of this series introduce DRM_FORMAT_R1/2/4/8 to show how
+the PATCH 7/16 can be used to manage packed pixel formats.
+
+To properly test the rotation algorithm, I had to implement a new IGT
+test [8]. This helped to found one issue in the YUV rotation algortihm.
+
+My series was mainly tested with:
+- kms_plane (for color conversions)
+- kms_rotation_crc (for a subset of rotation and formats)
+- kms_rotation (to test all rotation and formats combinations) [8]
+- kms_cursor_crc (for translations)
+The benchmark used to measure the improvment was done with
+kms_fb_stress [10] with some modifications:
+- Fixing the writeback format to XRGB8888
+- Using a primary plane with odd dimension to avoid failures due to YUV
+  alignment
+The KMS structure was:
+	CRTC:
+		rectangle: 4096x2160+0+0
+	primary:
+		format: ABGR16161616
+		rectangle: 3640x2160+101+0
+	writeback:
+		format: XRGB8888
+		rectangle: 4096x2160+0+0
+Results (on my computer):
+
+8356b9790650: drm/test: Add test cases for drm_rect_rotate_inv() (before any regression)
+322d716a3e8a: drm/vkms: isolate pixel conversion functionality (first regression)
+cc4fd2934d41: drm/vkms: Isolate writeback pixel conversion functions (second regression)
+2c3d1bd284c5: drm/panel: simple: Add Microtips Technology MF-103HIEB0GA0 panel (current drm-misc-next)
+
+ Used format  | This series | 2c3d1bd284c5 | cc4fd2934d41 | 322d716a3e8a | 8356b9790650 |
+--------------+-------------+--------------+--------------+--------------+--------------+
+ XRGB8888     |  13.261666s |   14.289582s |   10.731272s |    9.480001s |    9.277507s |
+ XRGB16161616 |  13.282479s |   13.918926s |   10.712616s |    9.776903s |    9.291766s |
+ RGB565       | 136.154163s |  141.646489s |  101.744050s |  103.712164s |   87.860923s |
+
+This is a 5-10% improvment of the performance. More work need to be done
+on the writeback to gain more.
+
+[1]: https://lore.kernel.org/all/20240201-yuv-v1-0-3ca376f27632@bootlin.com
+[2]: https://lore.kernel.org/all/20240110-vkms-yuv-v2-0-952fcaa5a193@riseup.net/
+[3]: https://lore.kernel.org/all/20240110-vkms-yuv-v2-3-952fcaa5a193@riseup.net/
+[4]: https://lore.kernel.org/all/20240110-vkms-yuv-v2-5-952fcaa5a193@riseup.net/
+[5]: https://lore.kernel.org/all/20240110-vkms-yuv-v2-6-952fcaa5a193@riseup.net/
+[6]: https://lore.kernel.org/all/20240110-vkms-yuv-v2-7-952fcaa5a193@riseup.net/
+[8]: https://lore.kernel.org/r/20240313-new_rotation-v2-0-6230fd5cae59@bootlin.com
+[9]: https://lore.kernel.org/dri-devel/20240306-louis-vkms-conv-v1-1-5bfe7d129fdd@riseup.net/
+[10]: https://lore.kernel.org/all/20240422-kms_fb_stress-dev-v5-0-0c577163dc88@riseup.net/
+
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+To: Melissa Wen <melissa.srw@gmail.com>
+To: Maíra Canal <mairacanal@riseup.net>
+To: Haneen Mohammed <hamohammed.sa@gmail.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+To: David Airlie <airlied@gmail.com>
+To: rdunlap@infradead.org
+To: arthurgrillo@riseup.net
+To: Jonathan Corbet <corbet@lwn.net>
+To: pekka.paalanen@haloniitty.fi
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org
+Cc: jeremie.dautheribes@bootlin.com
+Cc: miquel.raynal@bootlin.com
+Cc: thomas.petazzoni@bootlin.com
+Cc: seanpaul@google.com
+Cc: marcheu@google.com
+Cc: nicolejadeyee@google.com
+Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+
+Note: after my changes, those tests seems to pass, so [7] may need
+updating (I did not check, it was maybe already the case):
+- kms_cursor_legacy@flip-vs-cursor-atomic
+- kms_pipe_crc_basic@nonblocking-crc
+- kms_pipe_crc_basic@nonblocking-crc-frame-sequence
+- kms_writeback@writeback-pixel-formats
+- kms_writeback@writeback-invalid-parameters
+- kms_flip@flip-vs-absolute-wf_vblank-interruptible
+And those tests pass, I did not investigate why the runners fails:
+- kms_flip@flip-vs-expired-vblank-interruptible
+- kms_flip@flip-vs-expired-vblank
+- kms_flip@plain-flip-fb-recreate
+- kms_flip@plain-flip-fb-recreate-interruptible
+- kms_flip@plain-flip-ts-check-interruptible
+- kms_cursor_legacy@cursorA-vs-flipA-toggle
+- kms_pipe_crc_basic@nonblocking-crc
+- kms_prop_blob@invalid-get-prop
+- kms_flip@flip-vs-absolute-wf_vblank-interruptible
+- kms_invalid_mode@zero-hdisplay
+- kms_invalid_mode@bad-vtotal
+- kms_cursor_crc.* (everything is SUCCEED or SKIP, except for
+  rapid_movement)
+
+[7]: https://lore.kernel.org/all/20240201065346.801038-1-vignesh.raman@collabora.com/
+
+Changes in v12:
+- Fix documentation issues as suggested by Randy
+- Link to v11: https://lore.kernel.org/r/20240930-yuv-v11-0-4b1a26bcfc96@bootlin.com
+Changes in v11:
+- Remove documentation patch (already merged)
+- Fix sparse warning about documentation
+- Link to v10: https://lore.kernel.org/r/20240809-yuv-v10-0-1a7c764166f7@bootlin.com
+Changes in v10:
+- Properly remove the patch introducing dummy read/write functions
+- PATCH 8/16: Format fixups
+- PATCH 9/16: Format fixups
+- PATCH 11/16: Format fixups
+- PATCH 14/16: Fix test compilation, add module description
+- Link to v9: https://lore.kernel.org/r/20240802-yuv-v9-0-08a706669e16@bootlin.com
+Changes in v9:
+- PATCH 3/17: Fix docs as Maíra suggested
+- PATCH 4,6,10,12,15,17/17: Fix sparse warning about __le16 casting
+- Link to v8: https://lore.kernel.org/all/20240516-yuv-v8-0-cf8d6f86430e@bootlin.com/
+Changes in v8:
+- PATCH 7/17: Update pitch access to use the proper value for block
+  formats
+- PATCH 9/17: Update pitch access to use the proper value for block 
+  formats
+- Link to v7: https://lore.kernel.org/r/20240513-yuv-v7-0-380e9ffec502@bootlin.com
+Changes in v7:
+- Some typos and indent fixes
+- Add Review-By, Acked-By
+- PATCH 3/17: Clarify src/dst unit
+- PATCH 9/17: Clarify documentation
+- PATCH 9/17: Restrict conditions for direction
+- PATCH 9/17: Rename get_block_step_byte to get_block_step_bytes
+- PATCH 10/17: Clarify kernel doc for clamp_line_coordinates, blend_line, 
+  pixel_read_line_t
+- PATCH 10/17: Fix the case when src_*_start >= fb->width/height
+- PATCH 10/17: Change y in blend to be an int
+- PATCH 10/17: Clarify documentation for read functions
+- PATCH 12/17: Fix the type of rgb variables in argb_u16_from_yuv888
+- PATCH 12/17: Move comments at the right place, remove useless ones
+- PATCH 12/17: Add missing const
+- PATCH 17/17: Use drm_format_info_bpp and computation to avoid hard-coded 
+  values
+- Link to v6: https://lore.kernel.org/r/20240409-yuv-v6-0-de1c5728fd70@bootlin.com
+Changes in v6:
+- Add Randy
+- Add Review-By and Acked-By
+- PATCH 2/17: Remove useless newline
+- PATCH 3/17: Fix kernel doc
+- PATCH 4/17: Fix typo in git commit
+- PATCH 4/17: Fix kernel doc and simplify brief description of typedef
+- PATCH 5/17: Change black default color to Magenta
+- PATCH 5/17: Fix wording in comment
+- PATCH 7/17: Fix typo in packed_pixel_offset
+- PATCH 7/17: Add WARN_ON for currently not supported formats
+- PATCH 8/17: Rename x_limit to pixel_count
+- PATCH 8/17: Clarify kernel doc for pre_mul_alpha_blend
+- PATCH 9/17: Rename get_step_next_block to get_block_step_bytes
+- PATCH 9/17: Change kernel doc order
+- PATCH 9/17: Rework the direction_for_rotation function to use drm
+  helpers
+- PATCH 9/17: Add a warn in direction_for_rotation if the result is not
+  expected
+- PATCH 10/17: Reword the comment of pixel color conversion functions
+- PATCH 10/17: Refactor the blending function to extract functions
+- PATCH 11/17: Remove useless drm_rotation_simplify
+- PATCH 12/17: Fix typo in comments
+- PATCH 12/17: Remove useless define
+- PATCH 12/17: Fix some comments typo and kernel doc
+- PATCH 12/17: Add a comma at the end of the vkms_formats list
+- PATCH 12/17: Use copy of matrix instead of pointers
+- PATCH 12/17: Use 16 bit range for yuv conversion
+- PATCH 17/17: Add a comma at the end of the vkms_formats list
+- PATCH 17/17: Add assertions
+- PATCH 17/17: Fix color conversion... Next time I will read the doc 
+  twice...
+- Link to v5: https://lore.kernel.org/r/20240313-yuv-v5-0-e610cbd03f52@bootlin.com
+Changes in v5:
+- All patches: fix some formatting issues
+- PATCH 4/16: Use the correct formatter for 4cc code
+- PATCH 7/16: Update the pixel accessors to also return the pixel position
+  inside a block.
+- PATCH 8/16: Fix a temporary bug
+- PATCH 9/16: Update the get_step_1x1 to get_step_next_block and update
+  the documentation
+- PATCH 10/16: Update to uses the new pixel accessors
+- PATCH 10/16: Reword some comments
+- PATCH 11/16: Update to use the new pixel accessors
+- PATCH 11/16: Fix a bug in the subsampling offset for inverted reading
+  (right to left/bottom to top). Found by [8].
+- PATCH 11/16: Apply Arthur's modifications (comments, algorithm
+  clarification)
+- PATCH 11/16: Use the correct formatter for 4cc code
+- PATCH 11/16: Update to use the new get_step_next_block
+- PATCH 14/16: Apply Arthur's modification (comments, compilation issue)
+- PATCH 15/16: Add Arthur's patch to explain the kunit tests
+- PATCH 16/16: Introduce DRM_FORMAT_R* support.
+- Link to v4: https://lore.kernel.org/r/20240304-yuv-v4-0-76beac8e9793@bootlin.com
+Changes in v4:
+- PATCH 3/14: Update comments for get_pixel_* functions
+- PATCH 4/14: Add WARN when trying to get unsupported pixel_* functions
+- PATCH 5/14: Create dummy pixel reader/writer to avoid NULL
+  function pointers and kernel OOPS
+- PATCH 6/14: Added the usage of const pointers when needed
+- PATCH 7/14: Extraction of pixel accessors modification
+- PATCH 8/14: Extraction of the blending function modification
+- PATCH 9/14: Extraction of the pixel_read_direction enum
+- PATCH 10/14: Update direction_for_rotation documentation
+- PATCH 10/14: Rename conversion functions to be explicit
+- PATCH 10/14: Replace while(count) by while(out_pixel<end) in read_line
+  callbacks. It avoid a new variable+addition in the composition hot path.
+- PATCH 11/14: Rename conversion functions to be explicit
+- PATCH 11/14: Update the documentation for get_subsampling_offset
+- PATCH 11/14: Add the matrix_conversion structure to remove a test from
+  the hot path.
+- PATCH 11/14: Upadate matrix values to use 32.32 fixed floats for
+  conversion
+- PATCH 12/14: Update commit message
+- PATCH 14/14: Change kunit expected value
+- Link to v3: https://lore.kernel.org/r/20240226-yuv-v3-0-ff662f0994db@bootlin.com
+Changes in v3:
+- Correction of remaining git-rebase artefacts
+- Added Pekka in copy of this patch
+- Link to v2: https://lore.kernel.org/r/20240223-yuv-v2-0-aa6be2827bb7@bootlin.com
+Changes in v2:
+- Rebased the series on top of drm-misc/drm-misc-net
+- Extract the typedef for pixel_read/pixel_write
+- Introduce the line-by-line algorithm per pixel format
+- Add some documentation for existing and new code
+- Port the series [1] to use line-by-line algorithm
+- Link to v1: https://lore.kernel.org/r/20240201-yuv-v1-0-3ca376f27632@bootlin.com
+
+---
+Arthur Grillo (6):
+      drm/vkms: Use drm_frame directly
+      drm/vkms: Add YUV support
+      drm/vkms: Add range and encoding properties to the plane
+      drm/vkms: Drop YUV formats TODO
+      drm/vkms: Create KUnit tests for YUV conversions
+      drm/vkms: Add how to run the Kunit tests
+
+Louis Chauvet (9):
+      drm/vkms: Code formatting
+      drm/vkms: Add typedef and documentation for pixel_read and pixel_write functions
+      drm/vkms: Use const for input pointers in pixel_read an pixel_write functions
+      drm/vkms: Update pixels accessor to support packed and multi-plane formats.
+      drm/vkms: Avoid computing blending limits inside pre_mul_alpha_blend
+      drm/vkms: Introduce pixel_read_direction enum
+      drm/vkms: Re-introduce line-per-line composition algorithm
+      drm/vkms: Remove useless drm_rotation_simplify
+      drm/vkms: Add support for DRM_FORMAT_R*
+
+ Documentation/gpu/vkms.rst                    |  14 +-
+ drivers/gpu/drm/vkms/Kconfig                  |  15 +
+ drivers/gpu/drm/vkms/Makefile                 |   1 +
+ drivers/gpu/drm/vkms/tests/.kunitconfig       |   4 +
+ drivers/gpu/drm/vkms/tests/Makefile           |   3 +
+ drivers/gpu/drm/vkms/tests/vkms_format_test.c | 232 +++++++
+ drivers/gpu/drm/vkms/vkms_composer.c          | 312 +++++++--
+ drivers/gpu/drm/vkms/vkms_crtc.c              |   6 +-
+ drivers/gpu/drm/vkms/vkms_drv.c               |   3 +-
+ drivers/gpu/drm/vkms/vkms_drv.h               |  73 ++-
+ drivers/gpu/drm/vkms/vkms_formats.c           | 873 ++++++++++++++++++++++----
+ drivers/gpu/drm/vkms/vkms_formats.h           |  13 +-
+ drivers/gpu/drm/vkms/vkms_plane.c             |  46 +-
+ drivers/gpu/drm/vkms/vkms_writeback.c         |   5 -
+ 14 files changed, 1374 insertions(+), 226 deletions(-)
+---
+base-commit: 82fe69e63d2b5a5e86ea94c7361c833d3848ab69
+change-id: 20240201-yuv-1337d90d9576
+
+Best regards,
+-- 
+Louis Chauvet <louis.chauvet@bootlin.com>
+
