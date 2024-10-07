@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DE14992FE0
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 16:50:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E0C8992FE6
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 16:50:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83F9010E3C0;
-	Mon,  7 Oct 2024 14:50:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDEA010E3C1;
+	Mon,  7 Oct 2024 14:50:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JhABQuCa";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="U+sMnO53";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com
- [209.85.215.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 673FC10E3C0
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 14:50:30 +0000 (UTC)
-Received: by mail-pg1-f180.google.com with SMTP id
- 41be03b00d2f7-7ea16c7759cso342723a12.1
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Oct 2024 07:50:30 -0700 (PDT)
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com
+ [209.85.215.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2D9E10E3C1
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 14:50:41 +0000 (UTC)
+Received: by mail-pg1-f171.google.com with SMTP id
+ 41be03b00d2f7-7e9ff6fb4c6so2437589a12.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Oct 2024 07:50:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1728312630; x=1728917430; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1728312641; x=1728917441; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=rOSaWXUvmAwO/V+X4Wf8hE6beLEX5jMwcQWbLUwGe5Q=;
- b=JhABQuCa7U6H1wEWmOVnu4xyXKdgxjN6EPqFfqUKDlt0uWeb4VMss+r+uR0d1wyzBq
- 1a9t6MuWMhxwph98Z8Z+KV4z5i/+9MUrfSbVxQDx+O5nTNDvGJB86fw6RegcpmTRSKrP
- s32OOEuTB0JTD4/4caV6+HABYyTM0sKTj0PpUeEnd1g94z/o5Au1A0KzMg0rtLMOuar8
- xVpmt4/RS0OjN6/RsupG2C8Jnk0C8v6Dd6fRpZctmi/gI6wISNr/e6MUg666F3H5J4dY
- BFc91LcXIXcwHNIFOHiVBlvDvjWbDkei7isWzbeIOBN4XnHbQu/UNtiS97br9tgJiKpG
- g++g==
+ bh=fBFkTCCgw4nKzS/UQclQt52OlK7datrkk2Sl/mMl9SE=;
+ b=U+sMnO53EAWN45J9OdGH/093zboDIW+EibQtCthawDmVKXsPVhUkifytZ8OYwHRgqe
+ BQEXlwFCBzVuKPd4lh0QSDBibrtik2FGFt4AG1qHkEQJn3niOumkl/vxAuEk8sjLPNx7
+ NHNZAwO/JZXAMnlVrLFneTfNfbaFpsB1A1ZATOVd1bmClbJPK93emX/pozDQVdabv0j2
+ QkKTpsV6bMVJ6icCCSgeJbd8Jz1g0L58jw12S4lAeW3UQ6rwwOC4oBBDvpPiXlbdJaJ2
+ NpqYC8sZWxRZWr1XdgoxyzxxGnZoGI0G9ZfwZOg3Q4FAE6/75NaMP/31hcNyUkWZNyOQ
+ RjGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728312630; x=1728917430;
+ d=1e100.net; s=20230601; t=1728312641; x=1728917441;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=rOSaWXUvmAwO/V+X4Wf8hE6beLEX5jMwcQWbLUwGe5Q=;
- b=Kv3jOYbhvvfKRX7JodAH09RwTgFWtuMMymx77aq48MYMDyBnzDSpVuAQynILMCaLhN
- RgyF7aAa57aQ9reh/PQx612PVhBRNsADmQqwOeZkalReAcAMC7MtuPhgvNZjFlLoyvyN
- OyJfj3QfMD/9yL4C4NcVdH3fv1SMGTl8qF7qZ57Uib2B6nwTFDUE/aXota6S/HDwJKrn
- NC4P629xxsl3xoHrg9uYcMkFJ/2froMZoxxRohEgjhnORfGZGml+8nhvl6otjbzYwWVZ
- wQ/i6lnREEJW16bCaHAWQUxdZg5FlLUkpTrb3YauFtTXyywnfVet0JeV0dt5sDuDzgLU
- +0gA==
+ bh=fBFkTCCgw4nKzS/UQclQt52OlK7datrkk2Sl/mMl9SE=;
+ b=qvn8mMAU77fY3ZitBiktH/DhrBdUF1jf9kliCpDuqM2Zra/cx3Hpef6vhGW4XOYV+u
+ D2BbEX1+cD1nyrU841ij8/dT7wrr1r+K+fTIOegT5kqT99fBziEHQrVPo8SayUSZyt2S
+ o9O3ehP2utZx+g7AD1GX1UQZTtQnms4r55FMtjQ47MtUiBjUucltYsmIlYBUGdi0tzvb
+ pZWZONCXoDxvwptliqo1a0UlwrrXMYhwIV8En76wcp/AzyB8fjWeINIQwka9qwoCUe02
+ EADMlJPUF9um07H/a+L/f9nGgken3ArZGBAO/TODoXZ3Jnsr1m93V7DrGzSmGBHoQW7+
+ B1NQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWSwSDZC7oHhRUsOzIzT7+Gii/fgfsjchuXOPZhUbMn1SNHxeDMOVa+FJkIoqfeiKBGqNW1K71wml0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzI2J3WsAepumuNNqJ4ZbF41cnP5NMTRuy0TQLuC3Wun9VT7R56
- ERLAdXUYDlJxUaw6kvxmv5plX4FZ8GKz3q83bhDlPIzCYCDp2zBa
-X-Google-Smtp-Source: AGHT+IHqOdUcOlcgWNq7VMpvl6yahiIrnpFyiw3ojJd2mp7haZXT77OIrOQnvCwSUS5AAO7Cn/LNdA==
-X-Received: by 2002:a05:6a20:9d91:b0:1c8:a5ba:d2ba with SMTP id
- adf61e73a8af0-1d6dfa44e04mr19075009637.22.1728312629925; 
- Mon, 07 Oct 2024 07:50:29 -0700 (PDT)
+ AJvYcCVky/FuhbadryAh1OR1dXNNcJul5vuxjR2HepT0jNdnxRoIhCkyMwsRE2UmWOYhb5yqwe0UGf6qfEo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx3X0pR6fzsopH0N9i5mu+Oii0YADS6W9D/NcfYhs+74eqTFSzG
+ TJw9BsFctz3ATPRqEuxSvJWYFdWoX3KpMstIvf4GITtcX6vJYpI/
+X-Google-Smtp-Source: AGHT+IGsy7J8upAtizdqT7cwdExa0Ot6GSfKRh917J35OaiwbZMAM2iFolVRA0oRI0wvfYtn8vWlEw==
+X-Received: by 2002:a05:6a20:9f8f:b0:1d3:e4e:ff55 with SMTP id
+ adf61e73a8af0-1d6dfa22f17mr20436900637.7.1728312641423; 
+ Mon, 07 Oct 2024 07:50:41 -0700 (PDT)
 Received: from localhost.localdomain ([223.104.210.43])
  by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-71df0d7cf82sm4466432b3a.200.2024.10.07.07.50.20
+ d2e1a72fcca58-71df0d7cf82sm4466432b3a.200.2024.10.07.07.50.30
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 07 Oct 2024 07:50:29 -0700 (PDT)
+ Mon, 07 Oct 2024 07:50:40 -0700 (PDT)
 From: Yafang Shao <laoar.shao@gmail.com>
 To: akpm@linux-foundation.org
 Cc: torvalds@linux-foundation.org, keescook@chromium.org, alx@kernel.org,
@@ -66,10 +66,11 @@ Cc: torvalds@linux-foundation.org, keescook@chromium.org, alx@kernel.org,
  audit@vger.kernel.org, linux-security-module@vger.kernel.org,
  selinux@vger.kernel.org, bpf@vger.kernel.org, netdev@vger.kernel.org,
  dri-devel@lists.freedesktop.org, Yafang Shao <laoar.shao@gmail.com>,
- Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: [PATCH v9 5/7] mm/util: Fix possible race condition in kstrdup()
-Date: Mon,  7 Oct 2024 22:49:09 +0800
-Message-Id: <20241007144911.27693-6-laoar.shao@gmail.com>
+ Simon Horman <horms@kernel.org>, Matthew Wilcox <willy@infradead.org>
+Subject: [PATCH v9 6/7] mm/util: Deduplicate code in {kstrdup, kstrndup,
+ kmemdup_nul}
+Date: Mon,  7 Oct 2024 22:49:10 +0800
+Message-Id: <20241007144911.27693-7-laoar.shao@gmail.com>
 X-Mailer: git-send-email 2.30.1 (Apple Git-130)
 In-Reply-To: <20241007144911.27693-1-laoar.shao@gmail.com>
 References: <20241007144911.27693-1-laoar.shao@gmail.com>
@@ -90,60 +91,122 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In kstrdup(), it is critical to ensure that the dest string is always
-NUL-terminated. However, potential race condition can occur between a
-writer and a reader.
+These three functions follow the same pattern. To deduplicate the code,
+let's introduce a common helper __kmemdup_nul().
 
-Consider the following scenario involving task->comm:
-
-    reader                    writer
-
-  len = strlen(s) + 1;
-                             strlcpy(tsk->comm, buf, sizeof(tsk->comm));
-  memcpy(buf, s, len);
-
-In this case, there is a race condition between the reader and the
-writer. The reader calculates the length of the string `s` based on the
-old value of task->comm. However, during the memcpy(), the string `s`
-might be updated by the writer to a new value of task->comm.
-
-If the new task->comm is larger than the old one, the `buf` might not be
-NUL-terminated. This can lead to undefined behavior and potential
-security vulnerabilities.
-
-Let's fix it by explicitly adding a NUL terminator after the memcpy. It
-is worth noting that memcpy() is not atomic, so the new string can be
-shorter when memcpy() already copied past the new NUL.
-
+Suggested-by: Andrew Morton <akpm@linux-foundation.org>
 Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Simon Horman <horms@kernel.org>
+Cc: Matthew Wilcox <willy@infradead.org>
 Cc: Alejandro Colomar <alx@kernel.org>
-Cc: Andy Shevchenko <andy.shevchenko@gmail.com>
 ---
- mm/util.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ mm/util.c | 69 ++++++++++++++++++++++---------------------------------
+ 1 file changed, 27 insertions(+), 42 deletions(-)
 
 diff --git a/mm/util.c b/mm/util.c
-index 4f1275023eb7..858a9a2f57e7 100644
+index 858a9a2f57e7..c7d851c40843 100644
 --- a/mm/util.c
 +++ b/mm/util.c
-@@ -62,8 +62,15 @@ char *kstrdup(const char *s, gfp_t gfp)
+@@ -45,34 +45,41 @@ void kfree_const(const void *x)
+ EXPORT_SYMBOL(kfree_const);
  
- 	len = strlen(s) + 1;
- 	buf = kmalloc_track_caller(len, gfp);
--	if (buf)
-+	if (buf) {
- 		memcpy(buf, s, len);
-+		/*
-+		 * During memcpy(), the string might be updated to a new value,
-+		 * which could be longer than the string when strlen() is
-+		 * called. Therefore, we need to add a NUL terminator.
-+		 */
-+		buf[len - 1] = '\0';
-+	}
+ /**
+- * kstrdup - allocate space for and copy an existing string
+- * @s: the string to duplicate
++ * __kmemdup_nul - Create a NUL-terminated string from @s, which might be unterminated.
++ * @s: The data to copy
++ * @len: The size of the data, not including the NUL terminator
+  * @gfp: the GFP mask used in the kmalloc() call when allocating memory
+  *
+- * Return: newly allocated copy of @s or %NULL in case of error
++ * Return: newly allocated copy of @s with NUL-termination or %NULL in
++ * case of error
+  */
+-noinline
+-char *kstrdup(const char *s, gfp_t gfp)
++static __always_inline char *__kmemdup_nul(const char *s, size_t len, gfp_t gfp)
+ {
+-	size_t len;
+ 	char *buf;
+ 
+-	if (!s)
++	/* '+1' for the NUL terminator */
++	buf = kmalloc_track_caller(len + 1, gfp);
++	if (!buf)
+ 		return NULL;
+ 
+-	len = strlen(s) + 1;
+-	buf = kmalloc_track_caller(len, gfp);
+-	if (buf) {
+-		memcpy(buf, s, len);
+-		/*
+-		 * During memcpy(), the string might be updated to a new value,
+-		 * which could be longer than the string when strlen() is
+-		 * called. Therefore, we need to add a NUL terminator.
+-		 */
+-		buf[len - 1] = '\0';
+-	}
++	memcpy(buf, s, len);
++	/* Ensure the buf is always NUL-terminated, regardless of @s. */
++	buf[len] = '\0';
  	return buf;
  }
++
++/**
++ * kstrdup - allocate space for and copy an existing string
++ * @s: the string to duplicate
++ * @gfp: the GFP mask used in the kmalloc() call when allocating memory
++ *
++ * Return: newly allocated copy of @s or %NULL in case of error
++ */
++noinline
++char *kstrdup(const char *s, gfp_t gfp)
++{
++	return s ? __kmemdup_nul(s, strlen(s), gfp) : NULL;
++}
  EXPORT_SYMBOL(kstrdup);
+ 
+ /**
+@@ -107,19 +114,7 @@ EXPORT_SYMBOL(kstrdup_const);
+  */
+ char *kstrndup(const char *s, size_t max, gfp_t gfp)
+ {
+-	size_t len;
+-	char *buf;
+-
+-	if (!s)
+-		return NULL;
+-
+-	len = strnlen(s, max);
+-	buf = kmalloc_track_caller(len+1, gfp);
+-	if (buf) {
+-		memcpy(buf, s, len);
+-		buf[len] = '\0';
+-	}
+-	return buf;
++	return s ? __kmemdup_nul(s, strnlen(s, max), gfp) : NULL;
+ }
+ EXPORT_SYMBOL(kstrndup);
+ 
+@@ -193,17 +188,7 @@ EXPORT_SYMBOL(kvmemdup);
+  */
+ char *kmemdup_nul(const char *s, size_t len, gfp_t gfp)
+ {
+-	char *buf;
+-
+-	if (!s)
+-		return NULL;
+-
+-	buf = kmalloc_track_caller(len + 1, gfp);
+-	if (buf) {
+-		memcpy(buf, s, len);
+-		buf[len] = '\0';
+-	}
+-	return buf;
++	return s ? __kmemdup_nul(s, len, gfp) : NULL;
+ }
+ EXPORT_SYMBOL(kmemdup_nul);
+ 
 -- 
 2.43.5
 
