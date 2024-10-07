@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B29E993528
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 19:37:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98D5199352D
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 19:39:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A3DE10E3EC;
-	Mon,  7 Oct 2024 17:37:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FEA210E225;
+	Mon,  7 Oct 2024 17:39:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="xQVCWk9Q";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Y1/W1gnN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A1B510E3E7
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 17:37:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF36410E3ED
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 17:39:07 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 320D35C5C01;
- Mon,  7 Oct 2024 17:37:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B91FC4CEC6;
- Mon,  7 Oct 2024 17:37:29 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id E35F85C5CF7;
+ Mon,  7 Oct 2024 17:39:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62FBFC4CEC6;
+ Mon,  7 Oct 2024 17:39:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1728322650;
- bh=OaTs6EzPtvVxyA2qRj9KT3lO2N99hc6Yt68KWxbs//c=;
+ s=korg; t=1728322746;
+ bh=VvJ8YNU78de4xDh311gpCyCxsuwRL7e1AlwnGF6LTbw=;
  h=Subject:To:Cc:From:Date:From;
- b=xQVCWk9QYxWo3ZAZFi3nwKjkgFMujB3/Y1HMAqoTzgS0K1mylYjh2njmJeVeP2Rr5
- uSeFy6f2oX2CedvIinYBsHCVvY2MpBitil9Vt1Z5NjLltsYjO5WjFcZB9DsemGAhki
- +5lW5Ni2RZSbDcPcSsOO46L0aOmBm1i51vR/aRi0=
+ b=Y1/W1gnNv7t1ijeCT7s6Cy0fGwoxiXMsddubbSjEwJvf+8uUvcm/MuAmbstm/bBNp
+ W4ly0oc1r2Z6RwBqYmfmMEs/wEHmJb/pjleyxXPg2x4RAUWrQBtvHd1aKmk+W022G9
+ xyOhz4/13HmrjISrjYnqM/fETu10dSTjdckcHgiE=
 Subject: Patch "firmware/sysfb: Disable sysfb for firmware buffers with
- unknown parent" has been added to the 6.10-stable tree
+ unknown parent" has been added to the 6.11-stable tree
 To: alexander.deucher@amd.com, chaitanya.kumar.borah@intel.com,
  daniel.vetter@ffwll.ch, deller@gmx.de, dri-devel@lists.freedesktop.org,
  gregkh@linuxfoundation.org, javierm@redhat.com, regressions@leemhuis.info,
  sam@ravnborg.org, tzimmermann@suse.de
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
-Date: Mon, 07 Oct 2024 19:35:28 +0200
-Message-ID: <2024100728-crowbar-relearn-77f9@gregkh>
+Date: Mon, 07 Oct 2024 19:35:45 +0200
+Message-ID: <2024100744-predator-upbeat-952c@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
@@ -62,12 +62,12 @@ This is a note to let you know that I've just added the patch titled
 
     firmware/sysfb: Disable sysfb for firmware buffers with unknown parent
 
-to the 6.10-stable tree which can be found at:
+to the 6.11-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      firmware-sysfb-disable-sysfb-for-firmware-buffers-with-unknown-parent.patch
-and it can be found in the queue-6.10 subdirectory.
+and it can be found in the queue-6.11 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -109,11 +109,9 @@ Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 Link: https://patchwork.freedesktop.org/patch/msgid/20240924084227.262271-1-tzimmermann@suse.de
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/firmware/sysfb.c | 4 +++-
+ drivers/firmware/sysfb.c |    4 +++-
  1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/firmware/sysfb.c b/drivers/firmware/sysfb.c
-index 02a07d3d0d40..a3df782fa687 100644
 --- a/drivers/firmware/sysfb.c
 +++ b/drivers/firmware/sysfb.c
 @@ -67,9 +67,11 @@ static bool sysfb_unregister(void)
@@ -129,12 +127,9 @@ index 02a07d3d0d40..a3df782fa687 100644
  		sysfb_unregister();
  		disabled = true;
  	}
--- 
-2.46.2
-
 
 
 Patches currently in stable-queue which might be from tzimmermann@suse.de are
 
-queue-6.10/firmware-sysfb-disable-sysfb-for-firmware-buffers-with-unknown-parent.patch
-queue-6.10/drm-consistently-use-struct-drm_mode_rect-for-fb_damage_clips.patch
+queue-6.11/firmware-sysfb-disable-sysfb-for-firmware-buffers-with-unknown-parent.patch
+queue-6.11/drm-consistently-use-struct-drm_mode_rect-for-fb_damage_clips.patch
