@@ -2,81 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6FAC9927D6
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 11:08:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30CC4992822
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 11:31:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6052D10E32E;
-	Mon,  7 Oct 2024 09:08:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC91E10E334;
+	Mon,  7 Oct 2024 09:31:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="TpV6g2tT";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="QtFRIe4H";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D02F10E32E
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 09:08:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FB1210E331
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 09:31:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1728292133;
- bh=IIry1dEYTifF6DEPd31BX5nVO/lm731GurpTFpXJErI=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=TpV6g2tTzqJSEfvFXUsJr+805MendttYBqk7k5qFBc78STg3QgoyOHMj/tfTp2kAR
- tFn0pLf4NrU6kjGtIMmu+jyrfcbKX7a4jOXaoCjNc3ABwwAaVjrZKHJXo8Dgzlghf8
- /Nijpl3eVUSXaCb/JzYDnxERsKMZpUICzoCJ9gsPmjTbJYqOFYWk88QQlrp2nwXl8I
- abIgY2hF2vC2q1MxdRbLLl552O/9/26akUWC2q7ST4WAXPjXIUX6H2kRDCYR5QsclR
- adQBHhqzUZ6YxZvbMRPAZecf2w4hfwNzKt8DCiFWsbsQndiwX/5QKOOaZeaissIbP4
- QwuCjP56dagTw==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ s=mail; t=1728293482;
+ bh=MLwRO+9lWwscEa9FACM8gG7ouKiu4dMHaFkAgiF14uA=;
+ h=From:To:Cc:Subject:Date:From;
+ b=QtFRIe4H4fOIHa6i236if/3Np6ItoediA1wqhyltvITYDq5Hq5adVZG02288CUkcz
+ /8DTIRTzCueY9aX0Bo4UONy5/oxciwTHodvc7Q3lUE+5QhLLPv19QOje6xrSOhHDWq
+ fkiGPXlM5GcBWIXADRyo69tlQoWbKwcksKkgnkxPCP5mIiOdc4WchIYKdWCC2PeXSE
+ YVQD1LgHdkQ8/R06SeNzXxFitLsjI3weDc6c3hOQijcpZg9cStDnKzkMfnYO2qMJCG
+ FbTPBMEeBuO+2xl5ARZkN5JbYKugzIHMm37AaNAy46eyAc8rhYaW98pYp6eV62iF9H
+ ZyRjo67mm77bg==
+Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id C956517E10D6;
- Mon,  7 Oct 2024 11:08:52 +0200 (CEST)
-Message-ID: <9bda89e0-d236-40e2-a109-0de5fb4bd228@collabora.com>
-Date: Mon, 7 Oct 2024 11:08:52 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 3/3] drm/mediatek: Implement OF graphs support for
- display paths
-To: =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>,
- "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "sui.jingfeng@linux.dev" <sui.jingfeng@linux.dev>,
- "wenst@chromium.org" <wenst@chromium.org>,
- Sjoerd Simons <sjoerd@collabora.com>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- =?UTF-8?B?U2hhd24gU3VuZyAo5a6L5a2d6KyZKQ==?= <Shawn.Sung@mediatek.com>,
- "mripard@kernel.org" <mripard@kernel.org>,
- =?UTF-8?B?Sml0YW8gU2hpICjnn7PorrDmtpsp?= <jitao.shi@mediatek.com>,
- "michael@walle.cc" <michael@walle.cc>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "robh@kernel.org" <robh@kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "airlied@gmail.com" <airlied@gmail.com>,
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
- "kernel@collabora.com" <kernel@collabora.com>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- =?UTF-8?B?WXUtY2hhbmcgTGVlICjmnY7nprnnkosp?= <Yu-chang.Lee@mediatek.com>,
- "mwalle@kernel.org" <mwalle@kernel.org>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- Alexandre Mergnat <amergnat@baylibre.com>
-References: <20240910105054.125005-1-angelogioacchino.delregno@collabora.com>
- <01020191db8f22cd-0f5d733b-420e-453c-8607-a3e9f70f32d6-000000@eu-west-1.amazonses.com>
- <e3953947f5cf05e8e6a2ec3448cf0c08a8c39c1c.camel@mediatek.com>
- <56c4e87c-6774-4542-8ae7-dab89750081c@collabora.com>
- <58ee09aeb5a224dbc8faee236ed1a77ce3fbd011.camel@mediatek.com>
- <d704a5b0-d503-4e6b-b6ef-32909a9aea77@collabora.com>
- <04f1506b23b41c775e0735b5b3189b4118500715.camel@mediatek.com>
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id C53E917E1147;
+ Mon,  7 Oct 2024 11:31:21 +0200 (CEST)
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <04f1506b23b41c775e0735b5b3189b4118500715.camel@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: chunkuang.hu@kernel.org
+Cc: robh@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
+ shawn.sung@mediatek.com, yu-chang.lee@mediatek.com, ck.hu@mediatek.com,
+ jitao.shi@mediatek.com, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ wenst@chromium.org, kernel@collabora.com, sui.jingfeng@linux.dev,
+ michael@walle.cc, sjoerd@collabora.com
+Subject: [PATCH v11 0/3] drm/mediatek: Add support for OF graphs
+Date: Mon,  7 Oct 2024 11:31:11 +0200
+Message-ID: <20241007093114.35332-1-angelogioacchino.delregno@collabora.com>
+X-Mailer: git-send-email 2.46.1
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -93,322 +66,119 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 07/10/24 08:57, CK Hu (胡俊光) ha scritto:
-> Hi, Angelo:
-> 
-> On Fri, 2024-10-04 at 12:22 +0200, AngeloGioacchino Del Regno wrote:
->> Il 04/10/24 08:03, CK Hu (胡俊光) ha scritto:
->>> Hi, Angelo:
->>>
->>> On Tue, 2024-10-01 at 13:33 +0200, AngeloGioacchino Del Regno wrote:
->>>> Il 01/10/24 12:07, CK Hu (胡俊光) ha scritto:
->>>>> Hi, Angelo:
->>>>>
->>>>> On Tue, 2024-09-10 at 10:51 +0000, AngeloGioacchino Del Regno wrote:
->>>>>> It is impossible to add each and every possible DDP path combination
->>>>>> for each and every possible combination of SoC and board: right now,
->>>>>> this driver hardcodes configuration for 10 SoCs and this is going to
->>>>>> grow larger and larger, and with new hacks like the introduction of
->>>>>> mtk_drm_route which is anyway not enough for all final routes as the
->>>>>> DSI cannot be connected to MERGE if it's not a dual-DSI, or enabling
->>>>>> DSC preventively doesn't work if the display doesn't support it, or
->>>>>> others.
->>>>>>
->>>>>> Since practically all display IPs in MediaTek SoCs support being
->>>>>> interconnected with different instances of other, or the same, IPs
->>>>>> or with different IPs and in different combinations, the final DDP
->>>>>> pipeline is effectively a board specific configuration.
->>>>>>
->>>>>> Implement OF graphs support to the mediatek-drm drivers, allowing to
->>>>>> stop hardcoding the paths, and preventing this driver to get a huge
->>>>>> amount of arrays for each board and SoC combination, also paving the
->>>>>> way to share the same mtk_mmsys_driver_data between multiple SoCs,
->>>>>> making it more straightforward to add support for new chips.
->>>>>>
->>>>>> Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
->>>>>> Tested-by: Alexandre Mergnat <amergnat@baylibre.com>
->>>>>> Acked-by: Sui Jingfeng <sui.jingfeng@linux.dev>
->>>>>> Tested-by: Michael Walle <mwalle@kernel.org> # on kontron-sbc-i1200
->>>>>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
->>>>>> ---
->>>>>
->>>>> [snip]
->>>>>
->>>>>> +
->>>>>> +bool mtk_ovl_adaptor_is_comp_present(struct device_node *node)
->>>>>> +{
->>>>>> +	enum mtk_ovl_adaptor_comp_type type;
->>>>>> +	int ret;
->>>>>> +
->>>>>> +	ret = ovl_adaptor_of_get_ddp_comp_type(node, &type);
->>>>>> +	if (ret)
->>>>>> +		return false;
->>>>>> +
->>>>>> +	if (type >= OVL_ADAPTOR_TYPE_NUM)
->>>>>> +		return false;
->>>>>> +
->>>>>> +	/*
->>>>>> +	 * ETHDR and Padding are used exclusively in OVL Adaptor: if this
->>>>>> +	 * component is not one of those, it's likely not an OVL Adaptor path.
->>>>>> +	 */
->>>>>
->>>>> I don't know your logic here.
->>>>> The OVL Adaptor pipeline is:
->>>>>
->>>>> mdp_rdma -> padding ---+      +-------+
->>>>>                         Merge -> |       |
->>>>> mdp_rdma -> padding ---+      |       |
->>>>>                                  |       |
->>>>> mdp_rdma -> padding ---+      |       |
->>>>>                         Merge -> |       |
->>>>> mdp_rdma -> padding ---+      |       |
->>>>>                                  | ETHDR |
->>>>> mdp_rdma -> padding ---+      |       |
->>>>>                         Merge -> |       |
->>>>> mdp_rdma -> padding ---+      |       |
->>>>>                                  |       |
->>>>> mdp_rdma -> padding ---+      |       |
->>>>>                         Merge -> |       |
->>>>> mdp_rdma -> padding ---+      +-------+
->>>>>
->>>>> So mdp_rdma and merge is not OVL Adaptor?
->>>>>
->>>>
->>>> Yes, and in device tree, you express that exactly like you just pictured.
->>>>
->>>> OVL Adaptor is treated like a software component internally, and manages
->>>> its own merge pipes exactly like before this commit.
->>>>
->>>> In case there will be any need to express OVL Adaptor as hardware component,
->>>> it will be possible to do so with no modification to the bindings.
->>>>
->>>>>
->>>>>> +	return type == OVL_ADAPTOR_TYPE_ETHDR || type == OVL_ADAPTOR_TYPE_PADDING;
->>>>>> +}
->>>>>> +
->>>>>>     
->>>>>
->>>>> [snip]
->>>>>
->>>>>> +
->>>>>> +/**
->>>>>> + * mtk_drm_of_ddp_path_build_one - Build a Display HW Pipeline for a CRTC Path
->>>>>> + * @dev:          The mediatek-drm device
->>>>>> + * @cpath:        CRTC Path relative to a VDO or MMSYS
->>>>>> + * @out_path:     Pointer to an array that will contain the new pipeline
->>>>>> + * @out_path_len: Number of entries in the pipeline array
->>>>>> + *
->>>>>> + * MediaTek SoCs can use different DDP hardware pipelines (or paths) depending
->>>>>> + * on the board-specific desired display configuration; this function walks
->>>>>> + * through all of the output endpoints starting from a VDO or MMSYS hardware
->>>>>> + * instance and builds the right pipeline as specified in device trees.
->>>>>> + *
->>>>>> + * Return:
->>>>>> + * * %0       - Display HW Pipeline successfully built and validated
->>>>>> + * * %-ENOENT - Display pipeline was not specified in device tree
->>>>>> + * * %-EINVAL - Display pipeline built but validation failed
->>>>>> + * * %-ENOMEM - Failure to allocate pipeline array to pass to the caller
->>>>>> + */
->>>>>> +static int mtk_drm_of_ddp_path_build_one(struct device *dev, enum mtk_crtc_path cpath,
->>>>>> +					 const unsigned int **out_path,
->>>>>> +					 unsigned int *out_path_len)
->>>>>> +{
->>>>>> +	struct device_node *next, *prev, *vdo = dev->parent->of_node;
->>>>>> +	unsigned int temp_path[DDP_COMPONENT_DRM_ID_MAX] = { 0 };
->>>>>> +	unsigned int *final_ddp_path;
->>>>>> +	unsigned short int idx = 0;
->>>>>> +	bool ovl_adaptor_comp_added = false;
->>>>>> +	int ret;
->>>>>> +
->>>>>> +	/* Get the first entry for the temp_path array */
->>>>>> +	ret = mtk_drm_of_get_ddp_ep_cid(vdo, 0, cpath, &next, &temp_path[idx]);
->>>>>> +	if (ret) {
->>>>>> +		if (next && temp_path[idx] == DDP_COMPONENT_DRM_OVL_ADAPTOR) {
->>>>>
->>>>> mdp_rdma would not be DDP_COMPONENT_DRM_OVL_ADAPTOR.
->>>>
->>>> This piece of code just avoids adding OVL_ADAPTOR more than once to the pipeline.
->>>>
->>>>>
->>>>>> +			dev_dbg(dev, "Adding OVL Adaptor for %pOF\n", next);
->>>>>> +			ovl_adaptor_comp_added = true;
->>>>>> +		} else {
->>>>>> +			if (next)
->>>>>> +				dev_err(dev, "Invalid component %pOF\n", next);
->>>>>> +			else
->>>>>> +				dev_err(dev, "Cannot find first endpoint for path %d\n", cpath);
->>>>>> +
->>>>>> +			return ret;
->>>>>> +		}
->>>>>> +	}
->>>>>> +	idx++;
->>>>>> +
->>>>>> +	/*
->>>>>> +	 * Walk through port outputs until we reach the last valid mediatek-drm component.
->>>>>> +	 * To be valid, this must end with an "invalid" component that is a display node.
->>>>>> +	 */
->>>>>> +	do {
->>>>>> +		prev = next;
->>>>>> +		ret = mtk_drm_of_get_ddp_ep_cid(next, 1, cpath, &next, &temp_path[idx]);
->>>>>> +		of_node_put(prev);
->>>>>> +		if (ret) {
->>>>>> +			of_node_put(next);
->>>>>> +			break;
->>>>>> +		}
->>>>>> +
->>>>>> +		/*
->>>>>> +		 * If this is an OVL adaptor exclusive component and one of those
->>>>>> +		 * was already added, don't add another instance of the generic
->>>>>> +		 * DDP_COMPONENT_OVL_ADAPTOR, as this is used only to decide whether
->>>>>> +		 * to probe that component master driver of which only one instance
->>>>>> +		 * is needed and possible.
->>>>>> +		 */
->>>>>> +		if (temp_path[idx] == DDP_COMPONENT_DRM_OVL_ADAPTOR) {
->>>>>
->>>>> merge would not be DDP_COMPONENT_DRM_OVL_ADAPTOR.
->>>>> Finally, the path would be:
->>>>>
->>>>> mdp_rdma -> ovl adaptor (padding) -> merge -> (ethdr is skipped here) ...
->>>>>
->>>>
->>>> Again, the path in the OF graph is expressed exactly like you said.
->>>
->>> I know the OF graph is expressed like I said.
->>> But I care about the path in driver should like this:
->>
->> Ok, now I understand your concern.
->>
->>>
->>> static const unsigned int mt8195_mtk_ddp_ext[] = {
->>>           DDP_COMPONENT_DRM_OVL_ADAPTOR,
->>>           DDP_COMPONENT_MERGE5,
->>>           DDP_COMPONENT_DP_INTF1,
->>> };
->>>
->>> In OF graph, the first component is mdp_rdma and mtk_ovl_adaptor_is_comp_present() would return false for mdp_rdma.
->>> So I think this would make mtk_drm_of_ddp_path_build_one() return error and the path is not created.
->>> If I'm wrong, please explain how this code would result in the path like mt8195_mtk_ddp_ext[].
->>>
->>
->> The MDP_RDMA usage in mtk_disp_ovl_adaptor is hardcoded: in function
->> mtk_ovl_adaptor_layer_config(), the rdma_l/r are always OVL_ADAPTOR_MDP_RDMAx,
->> then function mtk_ovl_adaptor_dma_dev_get(), always returns the MDP_RDMA0
->> component, same for mtk_ovl_adaptor_get_{num_formats,formats}() which always
->> call mtk_mdp_rdma_get_formats() for OVL_ADAPTOR_MDP_RDMA0.
->>
->> I have just rechecked how I expressed the path for MT8195 Tomato, where the
->> external display works with OF Graphs, and it was missing MDP_RDMA entirely.
->>
->> The path was ethdr -> merge -> dp_intf1 ... and it should be mdp_rdma -> (etc).
->>
->> Effectively, that is indeed wrong, as all of the steps must be expressed
->> inside of the graph.
->>
->> Since the OVL Adaptor's RDMA instances' compatible strings do *not* collide
->> with the others, as OVL Adaptor uses compatible mediatek,mt8195-vdo1-rdma,
->> and the regular one uses compatible mediatek,mt8195-disp-rdma, we can resolve
->> this issue by changing function mtk_ovl_adaptor_is_comp_present()
->>
->> from
->>
->> return type == OVL_ADAPTOR_TYPE_ETHDR || type == OVL_ADAPTOR_TYPE_PADDING;
->>
->> to
->>
->> return type == OVL_ADAPTOR_TYPE_ETHDR || type == OVL_ADAPTOR_TYPE_PADDING ||
->>          type == OVL_ADAPTOR_TYPE_MDP_RDMA;
->>
->> is that okay for you?
-> 
-> I just want the path to be like mt8195_mtk_ddp_ext[]. If so, I'm ok.
-> 
+Changes in v11:
+ - Added OVL_ADAPTOR_MDP_RDMA to OVL Adaptor exclusive components list
+   to avoid failures in graphs with MDP_RDMA inside
+ - Rebased on next-20241004
 
-Yes, that makes the path that you described to be exactly like
-mt8195_mtk_ddp_ext[].
+Changes in v10:
+ - Removed erroneously added *.orig/*.rej files
 
-I will send a v11 later today.
+Changes in v9:
+ - Rebased on next-20240910
+ - Removed redundant assignment and changed a print to dev_err()
+ - Dropped if branch to switch conversion as requested; this will
+   be sent as a separate commit out of this series.
 
-Cheers,
-Angelo
+Changes in v8:
+ - Rebased on next-20240617
+ - Changed to allow probing a VDO with no available display outputs
 
-> Regards,
-> CK
-> 
->>
->>> If you does not test this with mt8195 external display path, maybe we could just drop the code about OVL adaptor with a TODO comment.
->>>
->>
->> And yes, as I said, external display paths were tested on 8195, actually both
->> on Kontron i1200 by Michael Walle and on MT8195 Tomato by myself.
->>
->> Thanks again,
->> Angelo
->>
->>> Regards,
->>> CK
->>>
->>>>
->>>> Regards,
->>>> Angelo
->>>>
->>>>> Regards,
->>>>> CK
->>>>>
->>>>>> +			if (!ovl_adaptor_comp_added)
->>>>>> +				ovl_adaptor_comp_added = true;
->>>>>> +			else
->>>>>> +				idx--;
->>>>>> +		}
->>>>>> +	} while (++idx < DDP_COMPONENT_DRM_ID_MAX);
->>>>>> +
->>>>>> +	/*
->>>>>> +	 * The device component might not be enabled: in that case, don't
->>>>>> +	 * check the last entry and just report that the device is missing.
->>>>>> +	 */
->>>>>> +	if (ret == -ENODEV)
->>>>>> +		return ret;
->>>>>> +
->>>>>> +	/* If the last entry is not a final display output, the configuration is wrong */
->>>>>> +	switch (temp_path[idx - 1]) {
->>>>>> +	case DDP_COMPONENT_DP_INTF0:
->>>>>> +	case DDP_COMPONENT_DP_INTF1:
->>>>>> +	case DDP_COMPONENT_DPI0:
->>>>>> +	case DDP_COMPONENT_DPI1:
->>>>>> +	case DDP_COMPONENT_DSI0:
->>>>>> +	case DDP_COMPONENT_DSI1:
->>>>>> +	case DDP_COMPONENT_DSI2:
->>>>>> +	case DDP_COMPONENT_DSI3:
->>>>>> +		break;
->>>>>> +	default:
->>>>>> +		dev_err(dev, "Invalid display hw pipeline. Last component: %d (ret=%d)\n",
->>>>>> +			temp_path[idx - 1], ret);
->>>>>> +		return -EINVAL;
->>>>>> +	}
->>>>>> +
->>>>>> +	final_ddp_path = devm_kmemdup(dev, temp_path, idx * sizeof(temp_path[0]), GFP_KERNEL);
->>>>>> +	if (!final_ddp_path)
->>>>>> +		return -ENOMEM;
->>>>>> +
->>>>>> +	dev_dbg(dev, "Display HW Pipeline built with %d components.\n", idx);
->>>>>> +
->>>>>> +	/* Pipeline built! */
->>>>>> +	*out_path = final_ddp_path;
->>>>>> +	*out_path_len = idx;
->>>>>> +
->>>>>> +	return 0;
->>>>>> +}
->>>>>> +
->>>>
->>>>
->>>>
->>
->>
+Changes in v7:
+ - Fix typo in patch 3/3
+
+Changes in v6:
+ - Added EPROBE_DEFER check to fix dsi/dpi false positive DT fallback case
+ - Dropped refcount of ep_out in mtk_drm_of_get_ddp_ep_cid()
+ - Fixed double refcount drop during path building
+ - Removed failure upon finding a DT-disabled path as requested
+ - Tested again on MT8195, MT8395 boards
+
+Changes in v5:
+ - Fixed commit [2/3], changed allOf -> anyOf to get the
+   intended allowance in the binding
+
+Changes in v4:
+ - Fixed a typo that caused pure OF graphs pipelines multiple
+   concurrent outputs to not get correctly parsed (port->id); 
+ - Added OVL_ADAPTOR support for OF graph specified pipelines;
+ - Now tested with fully OF Graph specified pipelines on MT8195
+   Chromebooks and MT8395 boards;
+ - Rebased on next-20240516
+
+Changes in v3:
+ - Rebased on next-20240502 because of renames in mediatek-drm
+
+Changes in v2:
+ - Fixed wrong `required` block indentation in commit [2/3]
+
+
+The display IPs in MediaTek SoCs are *VERY* flexible and those support
+being interconnected with different instances of DDP IPs (for example,
+merge0 or merge1) and/or with different DDP IPs (for example, rdma can
+be connected with either color, dpi, dsi, merge, etc), forming a full
+Display Data Path that ends with an actual display.
+
+This series was born because of an issue that I've found while enabling
+support for MT8195/MT8395 boards with DSI output as main display: the
+current mtk_drm_route variations would not work as currently, the driver
+hardcodes a display path for Chromebooks, which have a DisplayPort panel
+with DSC support, instead of a DSI panel without DSC support.
+
+There are other reasons for which I wrote this series, and I find that
+hardcoding those paths - when a HW path is clearly board-specific - is
+highly suboptimal. Also, let's not forget about keeping this driver from
+becoming a huge list of paths for each combination of SoC->board->disp
+and... this and that.
+
+For more information, please look at the commit description for each of
+the commits included in this series.
+
+This series is essential to enable support for the MT8195/MT8395 EVK,
+Kontron i1200, Radxa NIO-12L and, mainly, for non-Chromebook boards
+and Chromebooks to co-exist without conflicts.
+
+Besides, this is also a valid option for MT8188 Chromebooks which might
+have different DSI-or-eDP displays depending on the model (as far as I
+can see from the mtk_drm_route attempt for this SoC that is already
+present in this driver).
+
+This series was tested on MT8195 Cherry Tomato and on MT8395 Radxa
+NIO-12L with both hardcoded paths, OF graph support and partially
+hardcoded paths, and pure OF graph support including pipelines that
+require OVL_ADAPTOR support.
+
+
+AngeloGioacchino Del Regno (3):
+  dt-bindings: display: mediatek: Add OF graph support for board path
+  dt-bindings: arm: mediatek: mmsys: Add OF graph support for board path
+  drm/mediatek: Implement OF graphs support for display paths
+
+ .../bindings/arm/mediatek/mediatek,mmsys.yaml |  28 ++
+ .../display/mediatek/mediatek,aal.yaml        |  40 +++
+ .../display/mediatek/mediatek,ccorr.yaml      |  21 ++
+ .../display/mediatek/mediatek,color.yaml      |  22 ++
+ .../display/mediatek/mediatek,dither.yaml     |  22 ++
+ .../display/mediatek/mediatek,dpi.yaml        |  25 +-
+ .../display/mediatek/mediatek,dsc.yaml        |  24 ++
+ .../display/mediatek/mediatek,dsi.yaml        |  27 +-
+ .../display/mediatek/mediatek,ethdr.yaml      |  22 ++
+ .../display/mediatek/mediatek,gamma.yaml      |  19 ++
+ .../display/mediatek/mediatek,merge.yaml      |  23 ++
+ .../display/mediatek/mediatek,od.yaml         |  22 ++
+ .../display/mediatek/mediatek,ovl-2l.yaml     |  22 ++
+ .../display/mediatek/mediatek,ovl.yaml        |  22 ++
+ .../display/mediatek/mediatek,postmask.yaml   |  21 ++
+ .../display/mediatek/mediatek,rdma.yaml       |  22 ++
+ .../display/mediatek/mediatek,ufoe.yaml       |  21 ++
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h       |   1 +
+ .../gpu/drm/mediatek/mtk_disp_ovl_adaptor.c   |  43 ++-
+ drivers/gpu/drm/mediatek/mtk_dpi.c            |  21 +-
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        | 253 +++++++++++++++++-
+ drivers/gpu/drm/mediatek/mtk_drm_drv.h        |   2 +-
+ drivers/gpu/drm/mediatek/mtk_dsi.c            |  14 +-
+ 23 files changed, 712 insertions(+), 25 deletions(-)
 
 -- 
-AngeloGioacchino Del Regno
-Senior Software Engineer
-
-Collabora Ltd.
-Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK
-Registered in England & Wales, no. 5513718
+2.46.1
 
