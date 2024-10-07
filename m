@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 147B6993561
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 19:50:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52436993563
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 19:51:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8352410E0F0;
-	Mon,  7 Oct 2024 17:50:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA30B10E3E7;
+	Mon,  7 Oct 2024 17:50:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="HsyMvnpQ";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="cXND0hxT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E3FD10E0F0
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 17:50:44 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D7F610E3E7
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 17:50:57 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 3FFCF5C5C69;
- Mon,  7 Oct 2024 17:50:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49303C4CEC6;
- Mon,  7 Oct 2024 17:50:42 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 144F0A41DAF;
+ Mon,  7 Oct 2024 17:50:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E802CC4CEC6;
+ Mon,  7 Oct 2024 17:50:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1728323443;
- bh=tMcdtDc3cBnj8DI8Cw55P8SM57a2O+wkvSOybbCTvU4=;
+ s=korg; t=1728323456;
+ bh=pJgVgr+fWamtnfNxgjG0XPOXojlYnHGSWRX4Nv1TMXw=;
  h=Subject:To:Cc:From:Date:From;
- b=HsyMvnpQSrnIF7/+9zjso8j9flmD2SrSv+SGBkPkWgvNLvkMowkEFGCH7AzXEwJhC
- Nq4t0taQVGByeDLlsFMHPpzr8IolTijk3z4CW1SO1MqeHJNpngjC4VwcuRxtVUToDs
- 2B74gnpcKc/hB4rd/VyFNto6okGlxhmac9jbKFHs=
+ b=cXND0hxTVZb5lSI+7NMdiZGynEjfF/N+xlFixEXcTbpCjKv+weo8+3kxTXmVP9+Xt
+ D6OYoX5wrH9B3QOxdUp8dfl4LhRWALWpCJ/VbpGY5qdr3qmXWkCz2V3AceqI4yPhd8
+ 7XoqHVdRU2953OJX176hwv3ze5A1O228omuqV7U0=
 Subject: Patch "drm/sched: Add locking to drm_sched_entity_modify_sched" has
- been added to the 6.1-stable tree
+ been added to the 6.6-stable tree
 To: airlied@gmail.com, alexander.deucher@amd.com, christian.koenig@amd.com,
  daniel@ffwll.ch, dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
  ltuikov89@gmail.com, matthew.brost@intel.com, pstanner@redhat.com,
  tvrtko.ursulin@igalia.com
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
-Date: Mon, 07 Oct 2024 19:50:29 +0200
-Message-ID: <2024100729-manpower-hut-938f@gregkh>
+Date: Mon, 07 Oct 2024 19:50:39 +0200
+Message-ID: <2024100739-affluent-credit-5b96@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -62,12 +62,12 @@ This is a note to let you know that I've just added the patch titled
 
     drm/sched: Add locking to drm_sched_entity_modify_sched
 
-to the 6.1-stable tree which can be found at:
+to the 6.6-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      drm-sched-add-locking-to-drm_sched_entity_modify_sched.patch
-and it can be found in the queue-6.1 subdirectory.
+and it can be found in the queue-6.6 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -114,7 +114,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/gpu/drm/scheduler/sched_entity.c
 +++ b/drivers/gpu/drm/scheduler/sched_entity.c
-@@ -110,8 +110,10 @@ void drm_sched_entity_modify_sched(struc
+@@ -111,8 +111,10 @@ void drm_sched_entity_modify_sched(struc
  {
  	WARN_ON(!num_sched_list || !sched_list);
  
@@ -129,4 +129,4 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from tvrtko.ursulin@igalia.com are
 
-queue-6.1/drm-sched-add-locking-to-drm_sched_entity_modify_sched.patch
+queue-6.6/drm-sched-add-locking-to-drm_sched_entity_modify_sched.patch
