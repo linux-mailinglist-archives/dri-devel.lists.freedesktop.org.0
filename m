@@ -2,127 +2,103 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A075992959
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 12:38:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F09A99298C
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 12:54:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A487910E1F6;
-	Mon,  7 Oct 2024 10:38:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3993910E083;
+	Mon,  7 Oct 2024 10:54:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="k9Wg0OXq";
+	dkim=pass (2048-bit key; secure) header.d=adamthiede.com header.i=@adamthiede.com header.b="caqIzTeU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CBFA10E1F6
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 10:38:44 +0000 (UTC)
-Received: from epcas1p3.samsung.com (unknown [182.195.41.47])
- by mailout2.samsung.com (KnoxPortal) with ESMTP id
- 20241007103842epoutp02d7331a19e687872a068f02057cdb089e~8JXCzwkv62525425254epoutp02O
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 10:38:42 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com
- 20241007103842epoutp02d7331a19e687872a068f02057cdb089e~8JXCzwkv62525425254epoutp02O
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1728297523;
- bh=v4/6u8K6sBjv48Tz30keWOypL8e77IpeF76bvG6qJhw=;
- h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
- b=k9Wg0OXqCP3sVRAOSwx74caTaKUmDFvyMi1+NTl+vsfdVbRZCnfnwYYsN5OrdIHgc
- XupN795ziRabCiin7kcq/dTsbqwb9A925ww/r/ONJs2jd2oTP2SWXRLbwOxr8pZLOe
- 6cMEfwLhQGyHG+pcJuR2R0CzPnLB6k+VvdQBhtJg=
-Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
- epcas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20241007103841epcas1p192eba855b1fdf30ac5dd56839d95dee0~8JXB0mbjK2252022520epcas1p1A;
- Mon,  7 Oct 2024 10:38:41 +0000 (GMT)
-Received: from epsmges1p1.samsung.com (unknown [182.195.36.136]) by
- epsnrtp2.localdomain (Postfix) with ESMTP id 4XMbGm4QcHz4x9Px; Mon,  7 Oct
- 2024 10:38:40 +0000 (GMT)
-Received: from epcas1p2.samsung.com ( [182.195.41.46]) by
- epsmges1p1.samsung.com (Symantec Messaging Gateway) with SMTP id
- 14.55.09406.03AB3076; Mon,  7 Oct 2024 19:38:40 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
- epcas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20241007103839epcas1p2aa0d26f8948bf8aba33d8f11e6c8f4e6~8JW-7A5MQ2238222382epcas1p2P;
- Mon,  7 Oct 2024 10:38:39 +0000 (GMT)
-Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
- epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20241007103839epsmtrp11dbf16769e7621ea484f409e8216e997~8JW-6O-400549005490epsmtrp1K;
- Mon,  7 Oct 2024 10:38:39 +0000 (GMT)
-X-AuditID: b6c32a35-83fff700000024be-79-6703ba309025
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
- epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
- 6C.90.18937.F2AB3076; Mon,  7 Oct 2024 19:38:39 +0900 (KST)
-Received: from inkidae001 (unknown [10.113.221.213]) by epsmtip1.samsung.com
- (KnoxPortal) with ESMTPA id
- 20241007103839epsmtip15d1d23795062623ef1c5a345df50be94~8JW-nso660375003750epsmtip1Q;
- Mon,  7 Oct 2024 10:38:39 +0000 (GMT)
-From: =?utf-8?B?64yA7J246riwL1RpemVuIFBsYXRmb3JtIExhYihTUikv7IK87ISx7KCE7J6Q?=
- <inki.dae@samsung.com>
-To: "'Kaustabh Chakraborty'" <kauschluss@disroot.org>, "'Seung-Woo Kim'"
- <sw0312.kim@samsung.com>, "'Kyungmin Park'" <kyungmin.park@samsung.com>,
- "'David Airlie'" <airlied@gmail.com>, "'Simona Vetter'" <simona@ffwll.ch>,
- "'Krzysztof Kozlowski'" <krzk@kernel.org>, "'Alim Akhtar'"
- <alim.akhtar@samsung.com>, "'Maarten Lankhorst'"
- <maarten.lankhorst@linux.intel.com>, "'Maxime Ripard'" <mripard@kernel.org>,
- "'Thomas Zimmermann'" <tzimmermann@suse.de>, "'Rob Herring'"
- <robh@kernel.org>, "'Conor Dooley'" <conor@kernel.org>
-Cc: <dri-devel@lists.freedesktop.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-samsung-soc@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>
-In-Reply-To: <20240919-exynosdrm-decon-v1-3-6c5861c1cb04@disroot.org>
-Subject: RE: [PATCH 3/6] drm/exynos: exynos7_drm_decon: fix ideal_clk by
- converting it to Hz
-Date: Mon, 7 Oct 2024 19:38:39 +0900
-Message-ID: <000001db18a5$125e9320$371bb960$@samsung.com>
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3051710E083
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 10:54:30 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4XMbcy4n9kz9t71;
+ Mon,  7 Oct 2024 12:54:26 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=adamthiede.com;
+ s=MBO0001; t=1728298466;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Pzq/9OH/wEUEr8LytjQ2yipH1ySgGZIBd78mF4V77bU=;
+ b=caqIzTeUXmiqbJ91Jdyhhw9ZZ3xOXW/pY17zn9AGqt0OpKtxxQwbrzqNf3vG3uPjLgQsL3
+ Xsh4LTr0U2iWZ0ud5Cu9mEKNUTqKd61SAk14+o75v/+nc/mVplonqK+tPQEOXLoOOhvCFz
+ Vm/YKmAgYvObHJKg6mUMgJyWoAM9gsvfCl7m+tgIZHcVxoxqzajOl1wDBmbxNpFesSpc8K
+ Z7sbLFV4dXglQXwDmbMnNoULr/TnnA65hdxHFytM/CZ2wNfgKXFEjz84JVbY6L+xulmKvO
+ gUOGjUHjBtSH+h7nSoujiVGSl9hWhm603gSdlaaXrlhjwACGwRSa3AwtBfMUdA==
+Message-ID: <85971b89-b6eb-4ea3-994e-6107e91477fc@adamthiede.com>
+Date: Mon, 7 Oct 2024 05:54:19 -0500
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQFhWZRKEoYF0bFiO1qJqvKMjjKGhgJZvOb/AnBb7xizSEWWUA==
-Content-Language: ko
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Ta1AbZRT1y242CxrZBMRvGC24RWdgCmQbSBcHkKkVt9oqiJXqD+kO7IRn
- ErMBaTvSBwxTUg1S6pQCpaGlgNFBCjQ8BGqhQhGB0gfBTqtBxRGbtGiKw0PFhMXKv3PuPXfO
- Pd8DR+R2LADP1Bg4vYbNITFv1DoQEh6m6EbUCsfXT9FXbGdEtL3WitGffmLB6NOXx8T0jfn7
- GP3XP+MYPT7eIqFHDzskdOtPk2L6encNRleO94nout8voHRJaYOYXunplNDV9y5K6MqKWYxu
- d5SL42XMcHObiOn904wyXVV3JEyrpRRjaoeTmB+ODomYtvoDjKndApi2kf2Mq3VDovc72TEZ
- HJvO6YM4TZo2PVOjjiVfTU59MTVKpaDCqGh6CxmkYXO5WHLbjsSwhMwcdxwyKJ/NyXOXElme
- JyPiYvTaPAMXlKHlDbEkp0vP0UXpwnk2l8/TqMM1nOF5SqHYHOUW7snOmPh+BugGfAp6RrIP
- gkqpEXjhkIiE1ppjIiPwxuVEJ4AnyiaBQP4A8P7ygughMV72yISRFodrrdEF4LRVaMiJWQBH
- zcEejBFqOGu8jnpEfsQJFD4YGUI8BCHaAbzzox3zqLyIl6C92Ip4sC/xLjy6Mi3xYJQIhi3O
- YtSDpUQ0nLw2JRGwDA6f/Hm1jhCBsMNZgwgrBcHFmQaxEeBut62wr1csSPxgdWnJqi8kVnD4
- 5TnHWoRtcLB7RixgX/jbULtEwAFwtqxEIgxUAHjb1oQKpBLAgUUbEFRKePFchcjjhhAh8Ivu
- CMHtcXhv/sPVJSAhhUdK5IKahIMTU2uTEF6tL8cECQNN9oSPwTNV65JVrUtWtS5C1f9eZoBa
- gD+n43PVHE/pqIe3nabNbQWrTz00qhOUO+fC+4EIB/0A4gjpJ939OVDLpens3n2cXpuqz8vh
- +H4Q5T7rciTgiTSt+69oDKlUZLQiUrVZGUlTKop8UvrtjXxOTqhZA5fNcTpO/9+cCPcKOChS
- XZufq2haWpqjSm+az+9d1PT+nXJIeguGnupQbV/u8Qk5fang/UHLo5fqX5kmZ+7KXb6umK1l
- jrv4vg+6Gvb0+IxWDrxXtKnbFXEmc+N25Gnl1cDcX276J5omzm/Z/cLJ+NuumMHJvre5QGp0
- yXug+ILC+ZoR9ztuarXcMkxYawOdPh8RR4qCZUkbXXFfYb+2kFmNhc1ioulYb51pOcHEwsVC
- NHL/6/l1Y43HxzYl22ZevvJcyqlgWapMXadMMmPBb20o6+yT1T6YQBbGk7I65qsP+D/m4ufe
- nM0q+qZop5/yLB839dnhCNuuN+KbDy2eLbV/t/xs466VpIWORwrFKQXJJMpnsFQooufZfwGz
- VFBMcwQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrCIsWRmVeSWpSXmKPExsWy7bCSnK7+LuZ0g9en9C1OXF/EZPFg3jY2
- i5VTV7FZzD9yjtXiytf3bBZ//p1nszh/fgO7xdmmN+wWmx5fY7W4vGsOm8WM8/uYLBZ+3Mpi
- 0da5jNXi/54d7Baz3+1nt5gx+SWbxZY3E1kdBD1OrtvM5LH32wIWj52z7rJ7bFrVyeYx72Sg
- x/3u40wem5fUe/RtWcXosfl0tcfnTXIBXFFcNimpOZllqUX6dglcGRfvPWUsOMxfsed0dgPj
- DN4uRk4OCQETiQ1vPjN1MXJxCAlsZ5RoabnJ3sXIAZSQkNiylQPCFJY4fLgYpFxI4DmjxKlu
- ZZAwm0CqxOvVdSCdIgLzWSSeTtrGBuIwC+xglDjatJUZYuZ5Rok9Dz4yg3RzCrhKPGjZBmYL
- C8RI/L06HcxmEVCR2PC2hQXE5hWwlLh26QY7hC0ocXLmE7A4s4C2xNObT6FseYntb+cwQzyg
- IPHz6TJWkItEBJwk9u1lhSgRkZjd2cY8gVF4FpJJs5BMmoVk0iwkLQsYWVYxiqYWFOem5yYX
- GOoVJ+YWl+al6yXn525iBEe0VtAOxmXr/+odYmTiYDzEKMHBrCTCG7GGMV2INyWxsiq1KD++
- qDQntfgQozQHi5I4r3JOZ4qQQHpiSWp2ampBahFMlomDU6qByTlYikfm+0wX4wtxfn69E/JW
- /TZdVsEWOPO+6dvbPf0e5a2HWUQPVOi45Lw7HGrQc4Ol2thKiev6yrvpN2qkDi56urow+MD9
- H5Wytj1JLzxm+l08fsmE08UocberAK9O+MK++eyCrvc7dB+dWmsxy+PUyYM7HUJXLhV6xnYu
- QjW8L0jz2/ldwue8Ajf5fJ+bfb71hbnw1FZPNasP+V+TDp+aqdkmYlwV9ebviRfB7R0Nf2Yx
- L/t2SF9q4/+1jQv3vE3Ldprlr2lt9aE2Lntaje9pvhOTqr5xPQwTv6+u4nKnevulcjanPxtu
- 3E/PnV/fUqIuVpPtfslJWtfzckfx12Vbn6YturQoydlBJOSzEktxRqKhFnNRcSIADIPioVcD
- AAA=
-X-CMS-MailID: 20241007103839epcas1p2aa0d26f8948bf8aba33d8f11e6c8f4e6
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240919151145epcas1p3b3a76512b87498e976db249906a4f5bc
-References: <20240919-exynosdrm-decon-v1-0-6c5861c1cb04@disroot.org>
- <CGME20240919151145epcas1p3b3a76512b87498e976db249906a4f5bc@epcas1p3.samsung.com>
- <20240919-exynosdrm-decon-v1-3-6c5861c1cb04@disroot.org>
+Subject: Re: [PATCH v3 13/14] drm/mediatek: Support DRM plane alpha in OVL
+To: =?UTF-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>, 
+ =?UTF-8?B?QmliYnkgSHNpZWggKOisnea/n+mBoCk=?= <Bibby.Hsieh@mediatek.com>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
+ "djkurtz@chromium.org" <djkurtz@chromium.org>,
+ =?UTF-8?B?U2hhd24gU3VuZyAo5a6L5a2d6KyZKQ==?= <Shawn.Sung@mediatek.com>,
+ =?UTF-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>,
+ "daniel@ffwll.ch" <daniel@ffwll.ch>,
+ "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+ =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>,
+ "yassine.oudjana@gmail.com" <yassine.oudjana@gmail.com>,
+ "airlied@gmail.com" <airlied@gmail.com>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "littlecvr@chromium.org" <littlecvr@chromium.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: =?UTF-8?B?WVQgU2hlbiAo5rKI5bKz6ZyGKQ==?= <Yt.Shen@mediatek.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20240620-igt-v3-0-a9d62d2e2c7e@mediatek.com>
+ <20240620-igt-v3-13-a9d62d2e2c7e@mediatek.com>
+ <1a3af354-bd15-4219-960e-089b6a6e673c@adamthiede.com>
+ <49df03e8b982cc5ee97e09ef9545c1d138c32178.camel@mediatek.com>
+ <00ebe9ca262b6a95fd726e5be06334b1e923db02.camel@mediatek.com>
+ <5975b361-c1b4-4c57-89d4-0d247ae99d8c@adamthiede.com>
+ <272b47f0c9e27268d29b58c341e0b48bce7e8e25.camel@mediatek.com>
+ <06ed4527-3749-4fac-bd38-d837f1593311@adamthiede.com>
+ <f7b4c6601d648e0eba2dc66f0fe1f34ca3d29cfb.camel@mediatek.com>
+ <d820e8be-c525-4435-99a3-b0eb076b3282@gmail.com>
+ <b8fb4f241b2d248ca4c2c57b98588e1be0642b76.camel@mediatek.com>
+ <fd6fc10e-d0f6-4c53-8561-bdfd047e45f2@adamthiede.com>
+ <429db3b66919e67ef765eef220608cb3d3d9db65.camel@mediatek.com>
+Content-Language: en-US
+From: Adam Thiede <me@adamthiede.com>
+Autocrypt: addr=me@adamthiede.com; keydata=
+ xsBNBF+n+90BCAC2ZRLVcvdXDgfY7EppN05eNor3U7/eeiNCCEIWZkYLhikUEP1ReLGBkXpK
+ Pc70hfnKAKkCoth3IwhDty9WXMNU+iLNei4ieb2luW+UqluR6xIUIA+txahMU9YcjVaQTKf/
+ yZWO4yl6pfBPCxC2UdPZKBAdGoi5NnE0ABFNbhBETQhhBic533lZn33ByupfI3acECnQdjgQ
+ llCUpDbw4I+S/N1iFiEHcbMXH7ZB00e3IYNorZ1E9v7p++5rDY1fQ9gXpieg1vFKwSq1NJWo
+ 9xx336YjaTUbX0EwrdKd9l8AktA3yRjckaK5TAcwSQaDtHvhpbl4ebvPhtwHh699MroXABEB
+ AAHNH0FkYW0gVGhpZWRlIDxtZUBhZGFtdGhpZWRlLmNvbT7CwI4EEwEIADgCGwMFCwkIBwIG
+ FQoJCAsCBBYCAwECHgECF4AWIQQtG9pGQ7sz3tf8M/kC7fV9o/vRzgUCZL1HxQAKCRAC7fV9
+ o/vRzgyRB/wLqRCvvWhQCMgvzeKvru9wcXquhb77K8H/ByLbfiT8YBuP3lZFVh0IQhgO9Ylk
+ fIoOJE4V+jjxyOnO2d9xjGbvAmmR6yT0gfLzSVWqrC4k+V9MWLv43nrNzxt41dvo5j824FAl
+ X+zaiRZCdO8Jtxg5Elpiop2SKLi1utX1Z8i6YZh+ccJZlchUBAGUTk+D4UjK7vUcjLWT96ya
+ CtdtTfXyw36CvGOPEWfc6++Kkl/5sgej1i7biPYzu/r0vssaQYTXKSrv6Cfa3Maa89ASiTtv
+ q4qmhLnJeCrPxWlRAf6LEizeBEkOasYni2u8sp4wBezEq45Ozu45sfPkqLpPolG7zsBNBF+n
+ +90BCADBRt+vrToRBEG580n77S99qSEkbKD+oJtCVyovnjMNkg0K9UG68LIeCX/ezngiV1M8
+ JISvw5iFOuUFqGX/1hLl9wgt/YpuIrgWOp8XxkotavTCloLDvQmufJPO1L8bnnA+WgP2YgVZ
+ 5MJTj/t4DI+yQgysEjsH8aurHO2uuqgJE+xK+2dy6Cl/wskuGxObksSPmmFH5PH0Joziwrtl
+ 61ouLE2XwKbkMgIGEKkbFgbfwz3/QuLZGBni+OOtLzXeZ9wNTW/AHUPy6S9U4F+5z6/09fVT
+ tTH0cvrgAGjbASlYx2VqGONXAsxCfjulq6ryJBFlPLp949c/JTTgOojukCSbABEBAAHCwHYE
+ GAEIACACGwwWIQQtG9pGQ7sz3tf8M/kC7fV9o/vRzgUCZL1H0gAKCRAC7fV9o/vRzlamCACs
+ vHw+0heTm+BfC3S8DUST6889gidIIwdqBep1ByzetCph7Bq8Y8BlT5YTX0u/bSKkxCzFgeTm
+ vC341Q09ST2XjLAl1ZTdzGhH9gcgYyOw34pr5fPQRJLB392mPzD8YReRzciNbhWzj+DLgeVe
+ ouyfGajd6jDjkf4FEq+trQLGZhpfsKn3JnDbzBUs945D50l/vz9q/QN3qZO+H4F6g8ZeMnqo
+ FOEFN26xVtdEDr+0DNFsbgKmEzs675kdAY78ZZdbEetX/FSknxJ+FK1ZW3J7Yswwulj34AXP
+ LB49Mk8Ot7fo6mdt0DkV11JS9LmKxKvpY+KTlrKG+i7pVCSZvVUx
+In-Reply-To: <429db3b66919e67ef765eef220608cb3d3d9db65.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -138,55 +114,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-> -----Original Message-----
-> From: Kaustabh Chakraborty <kauschluss@disroot.org>
-> Sent: Friday, September 20, 2024 12:11 AM
-> To: Inki Dae <inki.dae@samsung.com>; Seung-Woo Kim
-> <sw0312.kim@samsung.com>; Kyungmin Park <kyungmin.park@samsung.com>; David
-> Airlie <airlied@gmail.com>; Simona Vetter <simona@ffwll.ch>; Krzysztof
-> Kozlowski <krzk@kernel.org>; Alim Akhtar <alim.akhtar@samsung.com>;
-> Maarten Lankhorst <maarten.lankhorst@linux.intel.com>; Maxime Ripard
-> <mripard@kernel.org>; Thomas Zimmermann <tzimmermann@suse.de>; Rob Herring
-> <robh@kernel.org>; Conor Dooley <conor@kernel.org>
-> Cc: dri-devel@lists.freedesktop.org; linux-arm-kernel@lists.infradead.org;
-> linux-samsung-soc@vger.kernel.org; linux-kernel@vger.kernel.org;
-> devicetree@vger.kernel.org; Kaustabh Chakraborty <kauschluss@disroot.org>
-> Subject: [PATCH 3/6] drm/exynos: exynos7_drm_decon: fix ideal_clk by
-> converting it to Hz
+On 10/7/24 02:22, Jason-JH Lin (林睿祥) wrote:
+>> > 
+>> > Hi Adam, Yassine,
+>> > 
+>> > Please try the patches below and check if they can fix the
+>> downgrade
+>> > issue:
+>> > [1] Fix degradation problem of alpha blending series
+>> > -
+>> > 
+>> https://patchwork.kernel.org/project/linux-mediatek/list/?series=893634
+>> > [2] drm/mediatek: Fix XRGB format breakage for blend_modes
+>> unsupported
+>> > SoCs
+>> > -
+>> > 
+>> https://patchwork.kernel.org/project/linux-mediatek/patch/20241005095234.12925-1-jason-jh.lin@mediatek.com/
+>> > 
+>> > Regards,
+>> > Jason-JH.Lin
+>> 
+>> Jason,
+>> I've built 6.12-rc1 with those patch series applied. (I am also not 
+>> reverting the other commit.) This fixes the issue - I'm able to see
+>> the 
+>> console now. Thank you! Hopefully these can go into 6.12?
+>> - Adam Thiede
 > 
-> The clkdiv values are incorrect as ideal_clk is in kHz and the clock
-> rate of vclk is in Hz. Multiply 1000 to ideal_clk to bring it to Hz.
+> Yes, they will go into 6.12.
 > 
-> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
-> ---
->  drivers/gpu/drm/exynos/exynos7_drm_decon.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/exynos/exynos7_drm_decon.c
-> b/drivers/gpu/drm/exynos/exynos7_drm_decon.c
-> index 2c4ee87ae6ec..4e4ced50ff15 100644
-> --- a/drivers/gpu/drm/exynos/exynos7_drm_decon.c
-> +++ b/drivers/gpu/drm/exynos/exynos7_drm_decon.c
-> @@ -137,7 +137,7 @@ static void decon_ctx_remove(struct decon_context *ctx)
->  static u32 decon_calc_clkdiv(struct decon_context *ctx,
->  		const struct drm_display_mode *mode)
->  {
-> -	unsigned long ideal_clk = mode->clock;
-> +	unsigned long ideal_clk = mode->clock * 1000;
-
-Right. ideal_clk should be fixed with Hz.
-
-Thanks,
-Inki Dae
-
->  	u32 clkdiv;
 > 
->  	/* Find the clock divider value that gets us closest to ideal_clk
-> */
+> Hi Adam, Yassine,
 > 
-> --
-> 2.46.1
+> Since the maintainer, CK, had some comments at the [2], I made some
+> changes for it.
+> 
+> Could you please test again only with this single fix patch:
+> [3] drm/mediatek: ovl: Fix XRGB format breakage for blend_modes
+> unsupported SoCs
+> -
+> https://patchwork.kernel.org/project/linux-mediatek/patch/20241007070101.23263-2-jason-jh.lin@mediatek.com/
+>   
+> and see if it can fix your problem?
+> 
+> Regards,
+> Jason-JH.Lin
 
+Jason,
+Just this patch on 6.12-rc1 does fix my problem too.
+Thank you.
 
+-Adam
