@@ -2,76 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 292159930B4
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 17:09:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD6329930D6
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 17:13:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F52510E3C2;
-	Mon,  7 Oct 2024 15:09:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3F3A10E3C5;
+	Mon,  7 Oct 2024 15:13:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="XHkcZdqq";
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="ckWnGuHt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
- [209.85.210.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D151010E3C2
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 15:09:17 +0000 (UTC)
-Received: by mail-pf1-f172.google.com with SMTP id
- d2e1a72fcca58-71e06ba441cso643797b3a.1
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Oct 2024 08:09:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1728313757; x=1728918557; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=U/+GSwCeOWRm/l1+CfEkkyplSY7a0N5EITYY7LFjoig=;
- b=XHkcZdqq+HfRgOIMgzKXASI4e6uVh0+lVoXn1praOo/ZRMVjCOIyk7Or636+b4cpXB
- 6RdwqZIn/s899ULeNIiswC8ysb8Pyj9OPBO9USvbcdMD6VfPXYHlIw3O/7pFGPniIUKy
- 0MSGzmQLB2G0NpUnUMsOyJeeNgFsM2CnQipIda3gDpIC7mGmzuK4LQwGetrzyAfYsJik
- DdvlpCc9yD6xhckeTwCQ7bfXljtabpJOuerDZaeQ2vBs+1Ce1MSR9+CAcD8zqzf2tg0V
- VIRoEJF0OM0xSpeUzgbgHhzjbNTcjLeul75PWotFu+2lTJDTZ9uUXZN7p7qvVgbKWCOl
- +Ueg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728313757; x=1728918557;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=U/+GSwCeOWRm/l1+CfEkkyplSY7a0N5EITYY7LFjoig=;
- b=Az92GSNjC0ewKTl4FOOiC0tQhnWLTwv3YiXf3J9+db0zW0F3g89Uy3bxZSIkpGjjBT
- AtGr8F1NqKcO5bgt9dwSVwTWGHqcsOAVm/OPa6ayUGFcYQCweiRr8R678vglNWQ/l7Y3
- wSsylrM72fc0gP0do3F/gEkCOwWKp7DYocIB7XrazXpjDZ4kHXRo2rtnRX5QNRSeT9hc
- RQwHxeaKHpN+pcAZh+NOr+p6iavoyzC/gl1L7rA+XgJXms9qbXfu/lgmCkTVVcuEkQY5
- OIrrbBCuA8RlOmXEz0WJ6KIfa0toyPbaWSnl8C7tKRcLlYddNeIQyRTItMbyFtueu41H
- KYTw==
-X-Gm-Message-State: AOJu0YyKp6STS3+uJ50LbUDDe3KYr5GRbW9JoY9L1yn6yMZGAcXAWx44
- Bh3ilQ8xGGQfHxxFR1RjjqGDy++OrWM0utieKT9XOBCb/EBFJqOw
-X-Google-Smtp-Source: AGHT+IFyaIcmre3vkQABIM8yyNZlEuDS9Fnfn9Gk+ufQWVciOVuxyxkAe1vCDGKPdT/UvjtIoXMFog==
-X-Received: by 2002:a05:6a20:6f07:b0:1d3:2976:144 with SMTP id
- adf61e73a8af0-1d6dfafc08cmr16632114637.44.1728313757227; 
- Mon, 07 Oct 2024 08:09:17 -0700 (PDT)
-Received: from advait-kdeneon.. ([2405:201:1e:f1d5:ffb9:ea:f539:1909])
- by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-7e9f6c3411asm5011809a12.68.2024.10.07.08.09.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Oct 2024 08:09:16 -0700 (PDT)
-From: Advait Dhamorikar <advaitdhamorikar@gmail.com>
-To: Sam Ravnborg <sam@ravnborg.org>, Boris Brezillon <bbrezillon@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
- anupnewsmail@gmail.com, Advait Dhamorikar <advaitdhamorikar@gmail.com>,
- kernel test robot <lkp@intel.com>, Dan Carpenter <error27@gmail.com>
-Subject: [PATCH v2] drm/atmel_hlcdc: Fix uninitialized variable
-Date: Mon,  7 Oct 2024 20:39:04 +0530
-Message-Id: <20241007150904.9840-1-advaitdhamorikar@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mout.web.de (mout.web.de [212.227.17.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B97F710E3C5
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 15:13:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+ s=s29768273; t=1728313977; x=1728918777; i=markus.elfring@web.de;
+ bh=XNt8PiHSRhGOiAe8aOruShDn2RME9MmrXhLIkyUnMzM=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+ Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+ cc:content-transfer-encoding:content-type:date:from:message-id:
+ mime-version:reply-to:subject:to;
+ b=ckWnGuHtnv3IpM55KrFLYzxF29UAtZfhL8g71qavPkkAaJsEY5w1NvYdZ2C65ZiB
+ tKWUdwtRrhXp1kKzMw6jcT6BfFe9cuMTG+VGKApbHTd2qryzAcZZMrQknLy+h4ShG
+ BSELoTls79wocpEpqEofbIQncphwv8ZCTudh7bRMvsl/F89OEYLUQjaGM4ekS8u/U
+ sb996rvdPvcKcQm/QAoFN5mWP8Rrs5A3n5DNG18t6hA0EIwhwlmujN1/LrV1dFk+g
+ EWm5ws921nGiDvqrQXZnK5F6r/o7vMBTjhfN51eY1QuYtDJ41KkBLaPOUFCvemjao
+ qjGeQ1eySDD4aXtTbg==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.81.95]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MQxsD-1tK1EM2k2p-00ObJM; Mon, 07
+ Oct 2024 17:12:57 +0200
+Message-ID: <0fd2ab9e-66f7-44bc-915e-2a5c2d52d511@web.de>
+Date: Mon, 7 Oct 2024 17:12:49 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+To: =?UTF-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>, 
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, Adam Thiede <me@adamthiede.com>,
+ Angelo Gioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Yassine Oudjana <yassine.oudjana@gmail.com>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ Alper Nebi Yasak <alpernebiyasak@gmail.com>,
+ Hsiao Chien Sung <shawn.sung@mediatek.com>,
+ Nancy Lin <nancy.lin@mediatek.com>, Singo Chang <singo.chang@mediatek.com>
+References: <20241007070101.23263-2-jason-jh.lin@mediatek.com>
+Subject: Re: [PATCH v9 1/5] drm/mediatek: ovl: Fix XRGB format breakage for
+ blend_modes unsupported SoCs
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20241007070101.23263-2-jason-jh.lin@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:7Ba8zBh6CcOHXB4RQMIGo0IzFQsQS+XJ52yqKm/QjZ/OaWqf4cn
+ Civ4p1nJVkQGwGnIf7wGGzD70wZfDfvbyVxQTzmdjXlzu1fTfEWu8TegRsuYfdHVSwkgh0N
+ u3vG1L3sqnf+vHHmazZKnCPEGLwiF1sQbm0Rwn5kWHrHs54fjyEOkQJOdOy4YDCGv+F5ErM
+ yR0Zaf16vNRcHG1WjrnZQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:NoyAAvXeFxE=;3AyKjdVXmM17V36gSbpC/Mgn84i
+ GaFke1AWEV/mZ22ie5au+YVcwE0CsgarP21NqsWWnV24gLj3ADcXt3tt3X38XbfG/idcZu3+u
+ j1PLb3p4TeE4A44s54kjF4na/ANddJRaCTA5ly8GuLIoWPsm72hm6BpbC29AkeIOmpceh1gjr
+ MFnWO3vEf0NBFw1XudvKOPr7UeyzaHC/3InlEhSt5o63UoorPwRgiXHHb0kwE2LG0bVf+u18A
+ JNMPTR/vY4YvOCdRqhlhOZ5aj7YvK1FVY7fno1t1eEcEJvbYMgSBziFS3IZZX7aTZMQp607Pb
+ aR0jH44EZ6gPBXrEtW1j5l7N+tPdO1R2rIB7jSB6SLR31cKy2pgy34u0Lq/40C7ruMaqDIwRQ
+ qX0wg8X/jAO0qIBJi+6wTRAvlVIjDxphbBMSp1G0bfq+CisLpgOYZIjGqiWPHEy6yEiW0vzUY
+ gllKsvkRGvTntQL2hBPvXfj8Vc+2Oj5m9Z9Ubn4m0IOvo1n0YjYNmLH1xeqrFwZI2oTC5LGak
+ Cen/42hJXsnw+jFwc39swZt8H1IP9eDcgLsdzISq00BStOEQkPLfJP/M2oCeAsBhbGc3x+g2Y
+ Fjb2TSdrg6GqWgqS4jLWWxop96ezkV0dYx81UcZGlPqzR/z1xyqWqWO8gIqd25EBHgtnfQINF
+ qdRDqUYLFjH3TvA4IlM53ViihwlS0UBePv0IUVhRuJvET4TW9HgFOPqLnUNaVl4EMpl27oZOP
+ 2ZvNoKzqdZTA5+ZmNRrNqIZAmhD61Pf6qabCWuMgGsAl20rLpwiVZHHkzGUZd4Bs9kLzm1dPk
+ 5TG1bQSGyyqcy8mFGzvmwi2g==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,33 +88,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-atmel_hlcdc_plane_update_buffers: may use an uninitialized
-sr variable when the if condition remains unsatisfied.
-The variable may contain an arbitrary value left from earlier computations.
+=E2=80=A6
+> Make the constatnt alpha only enable when having a vliad blend_mode or
+=E2=80=A6
 
-Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <error27@gmail.com>
-Closes: https://lore.kernel.org/r/202409240320.MZPgi3Up-lkp@intel.com/
-Signed-off-by: Advait Dhamorikar <advaitdhamorikar@gmail.com>
----
-v1->v2: add reported by and closes labels
+Another wording suggestion:
+Enable the constant alpha channel only when having a valid blending mode?
 
- drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
-index 4a7ba0918eca..4150c4d0b4f2 100644
---- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
-+++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
-@@ -559,7 +559,7 @@ static void atmel_hlcdc_plane_update_buffers(struct atmel_hlcdc_plane *plane,
- 	const struct atmel_hlcdc_layer_desc *desc = plane->layer.desc;
- 	struct atmel_hlcdc_dc *dc = plane->base.dev->dev_private;
- 	struct drm_framebuffer *fb = state->base.fb;
--	u32 sr;
-+	u32 sr = 0;
- 	int i;
- 
- 	if (!dc->desc->is_xlcdc)
--- 
-2.34.1
+=E2=80=A6
+> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
 
+Does a dot really belong to this personal name?
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
+cumentation/process/submitting-patches.rst?h=3Dv6.12-rc2#n396
+
+Regards,
+Markus
