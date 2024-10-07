@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A64CC992FDA
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 16:50:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DE14992FE0
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 16:50:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BBF910E3C4;
-	Mon,  7 Oct 2024 14:50:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83F9010E3C0;
+	Mon,  7 Oct 2024 14:50:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lCMHC2UX";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JhABQuCa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com
- [209.85.215.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52F4710E3C7
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 14:50:20 +0000 (UTC)
-Received: by mail-pg1-f175.google.com with SMTP id
- 41be03b00d2f7-7e9fd82f1a5so1045752a12.1
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Oct 2024 07:50:20 -0700 (PDT)
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com
+ [209.85.215.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 673FC10E3C0
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 14:50:30 +0000 (UTC)
+Received: by mail-pg1-f180.google.com with SMTP id
+ 41be03b00d2f7-7ea16c7759cso342723a12.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Oct 2024 07:50:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1728312620; x=1728917420; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1728312630; x=1728917430; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=QQdkC9XISn7BWPlTE5/iE7aUj/L2jeLonKoaBsbNpS0=;
- b=lCMHC2UXxFVlMijAQ2KEMXdFjPUOvPB4LhpvWxpjkIncWjAVexgTH7QncdDy9H89VR
- mn7yKD8mn3vD7bHsHQh0xUAv8kiCRARo5xaWz3s13GBdU+SHadw/tRt7GLlc5t83brbU
- xLrtInLQjHM5o56D5ioi6sS5HqQaCk8zzbXOBnl1qGUh+wcFFhF+TfmoJVxs7s3AKFXe
- SNU7ftv1DDNh7VV1yZH+p3Yoebqu3mz3+cTlCkGXLtHCBCzf01andjYYot8XYPQ/DGSe
- udnPTrlG+odIMw6PAuO3InCohiG23ErqfN7xlVDZ9OToMMIug+tynHHey30zUlmbUt8T
- wrnQ==
+ bh=rOSaWXUvmAwO/V+X4Wf8hE6beLEX5jMwcQWbLUwGe5Q=;
+ b=JhABQuCa7U6H1wEWmOVnu4xyXKdgxjN6EPqFfqUKDlt0uWeb4VMss+r+uR0d1wyzBq
+ 1a9t6MuWMhxwph98Z8Z+KV4z5i/+9MUrfSbVxQDx+O5nTNDvGJB86fw6RegcpmTRSKrP
+ s32OOEuTB0JTD4/4caV6+HABYyTM0sKTj0PpUeEnd1g94z/o5Au1A0KzMg0rtLMOuar8
+ xVpmt4/RS0OjN6/RsupG2C8Jnk0C8v6Dd6fRpZctmi/gI6wISNr/e6MUg666F3H5J4dY
+ BFc91LcXIXcwHNIFOHiVBlvDvjWbDkei7isWzbeIOBN4XnHbQu/UNtiS97br9tgJiKpG
+ g++g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728312620; x=1728917420;
+ d=1e100.net; s=20230601; t=1728312630; x=1728917430;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=QQdkC9XISn7BWPlTE5/iE7aUj/L2jeLonKoaBsbNpS0=;
- b=OhZCsxjsjBNNGCHL7ICf7wr5qQqFNsxj+C9lBfOZlFhQMj1xWd0ZftX3Y0FiyodZW8
- t5VqUmYfG1s6+yck8n9tdNeM7/4GPaqLzvuYc9EECKnvGW0xGygIKp+8tAlWGRLRyb64
- yns5B/HjYtoa9OcgHcK8CaPjRDtm7+MDKfDzR0Oj/hl2CUNZHkBnaHWMA09duaMB+6D8
- 3F50n1GcJcV66riCAr+uKxC7QEdA9yeISvbDOlMEVoy5oahSxTjswReyyKnnH3zdk/X/
- IKCO4tNQXzdZDxi7mnxLc0uCquruzkXJ6apF9ygeizwxRA65x/IE1c4c2uSyEW9pu3UI
- QMtw==
+ bh=rOSaWXUvmAwO/V+X4Wf8hE6beLEX5jMwcQWbLUwGe5Q=;
+ b=Kv3jOYbhvvfKRX7JodAH09RwTgFWtuMMymx77aq48MYMDyBnzDSpVuAQynILMCaLhN
+ RgyF7aAa57aQ9reh/PQx612PVhBRNsADmQqwOeZkalReAcAMC7MtuPhgvNZjFlLoyvyN
+ OyJfj3QfMD/9yL4C4NcVdH3fv1SMGTl8qF7qZ57Uib2B6nwTFDUE/aXota6S/HDwJKrn
+ NC4P629xxsl3xoHrg9uYcMkFJ/2froMZoxxRohEgjhnORfGZGml+8nhvl6otjbzYwWVZ
+ wQ/i6lnREEJW16bCaHAWQUxdZg5FlLUkpTrb3YauFtTXyywnfVet0JeV0dt5sDuDzgLU
+ +0gA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUGDUwfS0beoi9cP1kKMmWNuAJVKxCHquCZ9fWiT4Zk6bbqDpy8qOs3hreQ5K5Sb4rr33W+HYPiLog=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwAsXG3jNQp4y6JpThutddWuhR5VsDk/0dWsTFVNKsGAFrSlyYt
- 0E4I+bJBTioVLvo6Y8NSRGoTo0uV0+QTmlJBljpVZBz/+L4KyQNZ
-X-Google-Smtp-Source: AGHT+IGdJ8333QIHr9VJupVLpNtoPXxXbiV/WsIALKPyiyHXyFn3qrINZ3iUgrsX4T7ZKXd0XBWepw==
-X-Received: by 2002:a05:6a21:9201:b0:1d5:1729:35ec with SMTP id
- adf61e73a8af0-1d6dfa27a24mr21138343637.7.1728312619784; 
- Mon, 07 Oct 2024 07:50:19 -0700 (PDT)
+ AJvYcCWSwSDZC7oHhRUsOzIzT7+Gii/fgfsjchuXOPZhUbMn1SNHxeDMOVa+FJkIoqfeiKBGqNW1K71wml0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzI2J3WsAepumuNNqJ4ZbF41cnP5NMTRuy0TQLuC3Wun9VT7R56
+ ERLAdXUYDlJxUaw6kvxmv5plX4FZ8GKz3q83bhDlPIzCYCDp2zBa
+X-Google-Smtp-Source: AGHT+IHqOdUcOlcgWNq7VMpvl6yahiIrnpFyiw3ojJd2mp7haZXT77OIrOQnvCwSUS5AAO7Cn/LNdA==
+X-Received: by 2002:a05:6a20:9d91:b0:1c8:a5ba:d2ba with SMTP id
+ adf61e73a8af0-1d6dfa44e04mr19075009637.22.1728312629925; 
+ Mon, 07 Oct 2024 07:50:29 -0700 (PDT)
 Received: from localhost.localdomain ([223.104.210.43])
  by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-71df0d7cf82sm4466432b3a.200.2024.10.07.07.50.10
+ d2e1a72fcca58-71df0d7cf82sm4466432b3a.200.2024.10.07.07.50.20
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 07 Oct 2024 07:50:19 -0700 (PDT)
+ Mon, 07 Oct 2024 07:50:29 -0700 (PDT)
 From: Yafang Shao <laoar.shao@gmail.com>
 To: akpm@linux-foundation.org
 Cc: torvalds@linux-foundation.org, keescook@chromium.org, alx@kernel.org,
@@ -66,10 +66,10 @@ Cc: torvalds@linux-foundation.org, keescook@chromium.org, alx@kernel.org,
  audit@vger.kernel.org, linux-security-module@vger.kernel.org,
  selinux@vger.kernel.org, bpf@vger.kernel.org, netdev@vger.kernel.org,
  dri-devel@lists.freedesktop.org, Yafang Shao <laoar.shao@gmail.com>,
- Quentin Monnet <qmo@kernel.org>
-Subject: [PATCH v9 4/7] bpftool: Ensure task comm is always NUL-terminated
-Date: Mon,  7 Oct 2024 22:49:08 +0800
-Message-Id: <20241007144911.27693-5-laoar.shao@gmail.com>
+ Andy Shevchenko <andy.shevchenko@gmail.com>
+Subject: [PATCH v9 5/7] mm/util: Fix possible race condition in kstrdup()
+Date: Mon,  7 Oct 2024 22:49:09 +0800
+Message-Id: <20241007144911.27693-6-laoar.shao@gmail.com>
 X-Mailer: git-send-email 2.30.1 (Apple Git-130)
 In-Reply-To: <20241007144911.27693-1-laoar.shao@gmail.com>
 References: <20241007144911.27693-1-laoar.shao@gmail.com>
@@ -90,35 +90,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Let's explicitly ensure the destination string is NUL-terminated. This way,
-it won't be affected by changes to the source string.
+In kstrdup(), it is critical to ensure that the dest string is always
+NUL-terminated. However, potential race condition can occur between a
+writer and a reader.
+
+Consider the following scenario involving task->comm:
+
+    reader                    writer
+
+  len = strlen(s) + 1;
+                             strlcpy(tsk->comm, buf, sizeof(tsk->comm));
+  memcpy(buf, s, len);
+
+In this case, there is a race condition between the reader and the
+writer. The reader calculates the length of the string `s` based on the
+old value of task->comm. However, during the memcpy(), the string `s`
+might be updated by the writer to a new value of task->comm.
+
+If the new task->comm is larger than the old one, the `buf` might not be
+NUL-terminated. This can lead to undefined behavior and potential
+security vulnerabilities.
+
+Let's fix it by explicitly adding a NUL terminator after the memcpy. It
+is worth noting that memcpy() is not atomic, so the new string can be
+shorter when memcpy() already copied past the new NUL.
 
 Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
-Reviewed-by: Quentin Monnet <qmo@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Alejandro Colomar <alx@kernel.org>
+Cc: Andy Shevchenko <andy.shevchenko@gmail.com>
 ---
- tools/bpf/bpftool/pids.c | 2 ++
- 1 file changed, 2 insertions(+)
+ mm/util.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/tools/bpf/bpftool/pids.c b/tools/bpf/bpftool/pids.c
-index 9b898571b49e..23f488cf1740 100644
---- a/tools/bpf/bpftool/pids.c
-+++ b/tools/bpf/bpftool/pids.c
-@@ -54,6 +54,7 @@ static void add_ref(struct hashmap *map, struct pid_iter_entry *e)
- 		ref = &refs->refs[refs->ref_cnt];
- 		ref->pid = e->pid;
- 		memcpy(ref->comm, e->comm, sizeof(ref->comm));
-+		ref->comm[sizeof(ref->comm) - 1] = '\0';
- 		refs->ref_cnt++;
+diff --git a/mm/util.c b/mm/util.c
+index 4f1275023eb7..858a9a2f57e7 100644
+--- a/mm/util.c
++++ b/mm/util.c
+@@ -62,8 +62,15 @@ char *kstrdup(const char *s, gfp_t gfp)
  
- 		return;
-@@ -77,6 +78,7 @@ static void add_ref(struct hashmap *map, struct pid_iter_entry *e)
- 	ref = &refs->refs[0];
- 	ref->pid = e->pid;
- 	memcpy(ref->comm, e->comm, sizeof(ref->comm));
-+	ref->comm[sizeof(ref->comm) - 1] = '\0';
- 	refs->ref_cnt = 1;
- 	refs->has_bpf_cookie = e->has_bpf_cookie;
- 	refs->bpf_cookie = e->bpf_cookie;
+ 	len = strlen(s) + 1;
+ 	buf = kmalloc_track_caller(len, gfp);
+-	if (buf)
++	if (buf) {
+ 		memcpy(buf, s, len);
++		/*
++		 * During memcpy(), the string might be updated to a new value,
++		 * which could be longer than the string when strlen() is
++		 * called. Therefore, we need to add a NUL terminator.
++		 */
++		buf[len - 1] = '\0';
++	}
+ 	return buf;
+ }
+ EXPORT_SYMBOL(kstrdup);
 -- 
 2.43.5
 
