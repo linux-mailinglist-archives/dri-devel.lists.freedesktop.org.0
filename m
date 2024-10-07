@@ -2,92 +2,136 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36D44992608
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 09:27:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 791E1992624
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 09:36:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7317D10E312;
-	Mon,  7 Oct 2024 07:27:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C13110E313;
+	Mon,  7 Oct 2024 07:36:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ShifBP9s";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="1N17+uQr";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="60K1hteN";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1N17+uQr";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="60K1hteN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 793F310E31B
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 07:27:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1728286054;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40ED210E313;
+ Mon,  7 Oct 2024 07:36:16 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 4C24421AD4;
+ Mon,  7 Oct 2024 07:36:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1728286574; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cw2WEIesKZP7kRBN9ihX4z0j8EU2ju/lqZ4x9HFRnko=;
- b=ShifBP9sP/0cJqS7bQEJxEQx9kbZ0Gw74pOFrghWWNUgVkrdkgjuQEb/FqNOAjpr5NHmBp
- cKbbc+V/PJKF5GwH9WIfszjt0+5IYyFaOcwSK8+smtljET1j+o+ftuKdQiLP9vR530Gbb3
- 0i/ch02jrksLJlZgohboM1/NrvyXpeQ=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-367-xbTOYy2aPjSM0dY_z-EwFQ-1; Mon, 07 Oct 2024 03:27:33 -0400
-X-MC-Unique: xbTOYy2aPjSM0dY_z-EwFQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-37ce12c2f36so2581435f8f.2
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Oct 2024 00:27:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728286052; x=1728890852;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=cw2WEIesKZP7kRBN9ihX4z0j8EU2ju/lqZ4x9HFRnko=;
- b=w32q1EdQ/xN+nzbHI+MdJ+QgIQODX+Gkijq58l7JfADtov2dXYtztIDn8zi/Rg9VbM
- 0cPT9OGbHCmVWHA84UzM+HOgxJ+k7QSYqEKiV5LT6W0WRr4NfQDhddo3jIr1R4FPqlqr
- YVnh2ikMvdkD9pYfKA804f9ahAppw5g7U5GAnlsyQ46Tjk22OtarFjgUJPpm3xttczLA
- IkbfUDHwtT/MKEvk069AOujGCiPCbMwODzNZRrJzPDIjaAvlUF2TktdmD/Duu+peqRqB
- 8nRpDOcEXoioGonQEgNyTkqjlExcmRTmta7RvKYrY54oCcuot9SV4gEHUTEBZ3DojUu8
- L13g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXhRjU39+lpIncgXggVWfwNQcOI4FoOoG7v1ZNg84Zc4erbUIRjhvYQ2g0/sHjjB6cvDTQHJskgZCU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yysz18/Y0GsQV1kM9iOSRPqwcFurXymg++pHNHImeRByhNynCvq
- MjYvGfUwTUeMLF0yENJ6e4mFsh+wnh/vTe8ZvK/ni60vzaY9+clPZo3+4LbNiJ3auZgS1QFVsBp
- vyPbQTkknGNrQjzz90ayU8bc+bSLzY7jy4w4omdJcSY9Y8rBo6SdYbs5ieX4WTWZNbg==
-X-Received: by 2002:adf:fb4f:0:b0:37c:d261:3c6e with SMTP id
- ffacd0b85a97d-37d0e6bb9ebmr6279621f8f.10.1728286051795; 
- Mon, 07 Oct 2024 00:27:31 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEtq8JWHTMkBnHAxco/hSRyF3Kw8hFWJ++hg1DsVE0Of3iNQ06+04BW/YAH9dSwMbiGx1lSvg==
-X-Received: by 2002:adf:fb4f:0:b0:37c:d261:3c6e with SMTP id
- ffacd0b85a97d-37d0e6bb9ebmr6279601f8f.10.1728286051342; 
- Mon, 07 Oct 2024 00:27:31 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-37d1690f0b2sm5064405f8f.9.2024.10.07.00.27.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Oct 2024 00:27:30 -0700 (PDT)
-Message-ID: <d328299b-40c2-4e63-a3b9-c83feb1ca168@redhat.com>
-Date: Mon, 7 Oct 2024 09:27:28 +0200
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=2lvvyKDHYJEWJ5YAjzoqiTrsZNbnW0RaLNBmGUZEypA=;
+ b=1N17+uQr0Eaa/a+XcoqFKAzssNYGTxgRzM+ip3mmB5M+BefCMPkel2taW1E00E0SHmAl3g
+ /6Bf+q7jLTtQ4Cvs7k1/rW2/pGOrn8X66v7pEGravRLrT9T05VkSIjs6h06COUgwODQ3DM
+ tyuJoyegfgIhC/1TA2u9epT0Lh7Be/s=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1728286574;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=2lvvyKDHYJEWJ5YAjzoqiTrsZNbnW0RaLNBmGUZEypA=;
+ b=60K1hteNNg8Pco3WXV1nnrjbdI7jDTbDMQMHyBkPw1EPmDzSr8YX78pFEDJUSq8ZAfLwBE
+ dzUQB7O5SWW7oGAA==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=1N17+uQr;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=60K1hteN
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1728286574; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=2lvvyKDHYJEWJ5YAjzoqiTrsZNbnW0RaLNBmGUZEypA=;
+ b=1N17+uQr0Eaa/a+XcoqFKAzssNYGTxgRzM+ip3mmB5M+BefCMPkel2taW1E00E0SHmAl3g
+ /6Bf+q7jLTtQ4Cvs7k1/rW2/pGOrn8X66v7pEGravRLrT9T05VkSIjs6h06COUgwODQ3DM
+ tyuJoyegfgIhC/1TA2u9epT0Lh7Be/s=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1728286574;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=2lvvyKDHYJEWJ5YAjzoqiTrsZNbnW0RaLNBmGUZEypA=;
+ b=60K1hteNNg8Pco3WXV1nnrjbdI7jDTbDMQMHyBkPw1EPmDzSr8YX78pFEDJUSq8ZAfLwBE
+ dzUQB7O5SWW7oGAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2724A132BD;
+ Mon,  7 Oct 2024 07:36:14 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id JcHwB26PA2cYbAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 07 Oct 2024 07:36:14 +0000
+Message-ID: <d6678cad-7017-4d46-914f-27126d894b91@suse.de>
+Date: Mon, 7 Oct 2024 09:36:13 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/4] drm/log: Introduce a new boot logger to draw the
- kmsg on the screen
-To: Caleb Connolly <caleb.connolly@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- John Ogness <john.ogness@linutronix.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
- bluescreen_avenger@verizon.net, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20240910070733.156127-1-jfalempe@redhat.com>
- <782f6c32-73ed-4e58-ae10-ff2d486b499c@linaro.org>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <782f6c32-73ed-4e58-ae10-ff2d486b499c@linaro.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
+Subject: Re: [PATCH 4/8] drm/client: Make copies of modes
+To: Ville Syrjala <ville.syrjala@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org
+References: <20241003113304.11700-1-ville.syrjala@linux.intel.com>
+ <20241003113304.11700-5-ville.syrjala@linux.intel.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20241003113304.11700-5-ville.syrjala@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 4C24421AD4
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
+ MIME_TRACE(0.00)[0:+]; MID_RHS_MATCH_FROM(0.00)[];
+ TO_DN_SOME(0.00)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ RCVD_TLS_ALL(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ RCPT_COUNT_THREE(0.00)[3]; RCVD_COUNT_TWO(0.00)[2];
+ TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid];
+ DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -4.51
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,94 +147,313 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 05/10/2024 00:40, Caleb Connolly wrote:
-> Hi Jocelyn,
-> 
-> On 10/09/2024 08:56, Jocelyn Falempe wrote:
->> drm_log is a simple logger that uses the drm_client API to print the 
->> kmsg boot log on the screen.
->> This is not a full replacement to fbcon, as it will only print the kmsg.
->> It will never handle user input, or a terminal because this is better 
->> done in userspace.
-> 
-> 
-> I tried this out on the OnePlus 6 (Qualcomm SDM845/freedreno) and it 
-> looks great :D
-> 
-> Here's a demo for kicks:
-> 
-> https://people.linaro.org/~caleb.connolly/drm_log_oneplus6.mp4
+Hi
 
-Thanks, it's a really nice demo!
-For high-resolution screen, I will add integer scaling soon, so that 
-should be a bit easier to read, without requiring huge fonts.
+Am 03.10.24 um 13:33 schrieb Ville Syrjala:
+> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+>
+> drm_client_firmware_config() is currently picking up the current
+> mode of the crtc via the legacy crtc->mode, which is not supposed
+> to be used by atomic drivers at all. We can't simply switch over
+> to the proper crtc->state->mode because we drop the crtc->mutex
+> (which protects crtc->state) before the mode gets used.
+>
+> The most straightforward solution to extend the lifetime of
+> modes[] seem to be to make full copies of the modes instead
+> of just storing pointers. We do have to replace the NULL checks
+> with something else though. Checking that mode->clock!=0
+> should be sufficient.
+>
+> And with this we can undo also commit 3eadd887dbac
+> ("drm/client:Fully protect modes[] with dev->mode_config.mutex")
+> as the lifetime of modes[] no longer has anything to do with
+> that lock.
+
+I think it would be a lot better to first build that mode list while 
+holding the mutex, and afterwards copy the resulting modes before 
+releasing the lock. The code below is convoluted with drm_mode_copy().
+
+>
+> Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> ---
+>   drivers/gpu/drm/drm_client_modeset.c | 80 +++++++++++++++-------------
+>   1 file changed, 43 insertions(+), 37 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
+> index 888323137a6a..d413e119db3f 100644
+> --- a/drivers/gpu/drm/drm_client_modeset.c
+> +++ b/drivers/gpu/drm/drm_client_modeset.c
+> @@ -265,10 +265,15 @@ static void drm_client_connectors_enabled(struct drm_connector *connectors[],
+>   		enabled[i] = drm_connector_enabled(connectors[i], false);
+>   }
+>   
+> +static bool mode_valid(const struct drm_display_mode *mode)
+> +{
+> +	return mode->clock != 0;
+
+A mode's clock isn't always known and not all drivers might set it 
+correctly. At least in simpledrm/ofdrm, we have to make up a clock value 
+for the firmware framebuffer. Otherwise some of our userspace would oops.
+
+The test for clock != 0 makes sense, but it's maybe the wrong place to 
+do this. Would a test for hdisplay/vdisplay != 0 work instead?
+
+> +}
+> +
+>   static bool drm_client_target_cloned(struct drm_device *dev,
+>   				     struct drm_connector *connectors[],
+>   				     unsigned int connector_count,
+> -				     const struct drm_display_mode *modes[],
+> +				     struct drm_display_mode modes[],
+>   				     struct drm_client_offset offsets[],
+>   				     bool enabled[], int width, int height)
+>   {
+> @@ -296,15 +301,16 @@ static bool drm_client_target_cloned(struct drm_device *dev,
+>   	for (i = 0; i < connector_count; i++) {
+>   		if (!enabled[i])
+>   			continue;
+> -		modes[i] = drm_connector_pick_cmdline_mode(connectors[i]);
+> -		if (!modes[i]) {
+> +
+> +		drm_mode_copy(&modes[i], drm_connector_pick_cmdline_mode(connectors[i]));
+> +		if (!mode_valid(&modes[i])) {
+
+You're copying and only then test for validity?
+
+>   			can_clone = false;
+>   			break;
+>   		}
+>   		for (j = 0; j < i; j++) {
+>   			if (!enabled[j])
+>   				continue;
+> -			if (!drm_mode_match(modes[j], modes[i],
+> +			if (!drm_mode_match(&modes[j], &modes[i],
+>   					    DRM_MODE_MATCH_TIMINGS |
+>   					    DRM_MODE_MATCH_CLOCK |
+>   					    DRM_MODE_MATCH_FLAGS |
+> @@ -335,9 +341,9 @@ static bool drm_client_target_cloned(struct drm_device *dev,
+>   					   DRM_MODE_MATCH_CLOCK |
+>   					   DRM_MODE_MATCH_FLAGS |
+>   					   DRM_MODE_MATCH_3D_FLAGS))
+> -				modes[i] = mode;
+> +				drm_mode_copy(&modes[i], mode);
+>   		}
+> -		if (!modes[i])
+> +		if (!mode_valid(&modes[i]))
+>   			can_clone = false;
+>   	}
+>   	drm_mode_destroy(dev, dmt_mode);
+> @@ -354,7 +360,7 @@ static bool drm_client_target_cloned(struct drm_device *dev,
+>   static int drm_client_get_tile_offsets(struct drm_device *dev,
+>   				       struct drm_connector *connectors[],
+>   				       unsigned int connector_count,
+> -				       const struct drm_display_mode *modes[],
+> +				       const struct drm_display_mode modes[],
+>   				       struct drm_client_offset offsets[],
+>   				       int idx,
+>   				       int h_idx, int v_idx)
+> @@ -368,17 +374,17 @@ static int drm_client_get_tile_offsets(struct drm_device *dev,
+>   		if (!connector->has_tile)
+>   			continue;
+>   
+> -		if (!modes[i] && (h_idx || v_idx)) {
+> +		if (!mode_valid(&modes[i]) && (h_idx || v_idx)) {
+>   			drm_dbg_kms(dev,
+>   				    "[CONNECTOR:%d:%s] no modes for connector tiled %d\n",
+>   				    connector->base.id, connector->name, i);
+>   			continue;
+>   		}
+>   		if (connector->tile_h_loc < h_idx)
+> -			hoffset += modes[i]->hdisplay;
+> +			hoffset += modes[i].hdisplay;
+>   
+>   		if (connector->tile_v_loc < v_idx)
+> -			voffset += modes[i]->vdisplay;
+> +			voffset += modes[i].vdisplay;
+>   	}
+>   	offsets[idx].x = hoffset;
+>   	offsets[idx].y = voffset;
+> @@ -389,7 +395,7 @@ static int drm_client_get_tile_offsets(struct drm_device *dev,
+>   static bool drm_client_target_preferred(struct drm_device *dev,
+>   					struct drm_connector *connectors[],
+>   					unsigned int connector_count,
+> -					const struct drm_display_mode *modes[],
+> +					struct drm_display_mode modes[],
+>   					struct drm_client_offset offsets[],
+>   					bool enabled[], int width, int height)
+>   {
+> @@ -445,16 +451,16 @@ static bool drm_client_target_preferred(struct drm_device *dev,
+>   		}
+>   
+>   		mode_type = "cmdline";
+> -		modes[i] = drm_connector_pick_cmdline_mode(connector);
+> +		drm_mode_copy(&modes[i], drm_connector_pick_cmdline_mode(connector));
+>   
+> -		if (!modes[i]) {
+> +		if (!mode_valid(&modes[i])) {
+>   			mode_type = "preferred";
+> -			modes[i] = drm_connector_preferred_mode(connector, width, height);
+> +			drm_mode_copy(&modes[i], drm_connector_preferred_mode(connector, width, height));
+>   		}
+>   
+> -		if (!modes[i]) {
+> +		if (!mode_valid(&modes[i])) {
+>   			mode_type = "first";
+> -			modes[i] = drm_connector_first_mode(connector);
+> +			drm_mode_copy(&modes[i], drm_connector_first_mode(connector));
+>   		}
+>   
+>   		/*
+> @@ -472,17 +478,17 @@ static bool drm_client_target_preferred(struct drm_device *dev,
+>   			     connector->tile_v_loc == 0 &&
+>   			     !drm_connector_get_tiled_mode(connector))) {
+>   				mode_type = "non tiled";
+> -				modes[i] = drm_connector_fallback_non_tiled_mode(connector);
+> +				drm_mode_copy(&modes[i], drm_connector_fallback_non_tiled_mode(connector));
+>   			} else {
+>   				mode_type = "tiled";
+> -				modes[i] = drm_connector_get_tiled_mode(connector);
+> +				drm_mode_copy(&modes[i], drm_connector_get_tiled_mode(connector));
+>   			}
+>   		}
+>   
+> -		if (modes[i])
+> +		if (mode_valid(&modes[i]))
+>   			drm_dbg_kms(dev, "[CONNECTOR:%d:%s] found %s mode: %s\n",
+>   				    connector->base.id, connector->name,
+> -				    mode_type, modes[i]->name);
+> +				    mode_type, modes[i].name);
+>   		else
+>   			drm_dbg_kms(dev, "[CONNECTOR:%d:%s] no mode found\n",
+>   				    connector->base.id, connector->name);
+> @@ -514,7 +520,7 @@ static int drm_client_pick_crtcs(struct drm_client_dev *client,
+>   				 struct drm_connector *connectors[],
+>   				 unsigned int connector_count,
+>   				 struct drm_crtc *best_crtcs[],
+> -				 const struct drm_display_mode *modes[],
+> +				 const struct drm_display_mode modes[],
+>   				 int n, int width, int height)
+>   {
+>   	struct drm_device *dev = client->dev;
+> @@ -532,7 +538,7 @@ static int drm_client_pick_crtcs(struct drm_client_dev *client,
+>   	best_crtcs[n] = NULL;
+>   	best_score = drm_client_pick_crtcs(client, connectors, connector_count,
+>   					   best_crtcs, modes, n + 1, width, height);
+> -	if (modes[n] == NULL)
+> +	if (!mode_valid(&modes[n]))
+>   		return best_score;
+>   
+>   	crtcs = kcalloc(connector_count, sizeof(*crtcs), GFP_KERNEL);
+> @@ -566,7 +572,7 @@ static int drm_client_pick_crtcs(struct drm_client_dev *client,
+>   			if (dev->mode_config.num_crtc > 1)
+>   				continue;
+>   
+> -			if (!drm_mode_equal(modes[o], modes[n]))
+> +			if (!drm_mode_equal(&modes[o], &modes[n]))
+>   				continue;
+>   		}
+>   
+> @@ -589,7 +595,7 @@ static bool drm_client_firmware_config(struct drm_client_dev *client,
+>   				       struct drm_connector *connectors[],
+>   				       unsigned int connector_count,
+>   				       struct drm_crtc *crtcs[],
+> -				       const struct drm_display_mode *modes[],
+> +				       struct drm_display_mode modes[],
+>   				       struct drm_client_offset offsets[],
+>   				       bool enabled[], int width, int height)
+>   {
+> @@ -690,20 +696,20 @@ static bool drm_client_firmware_config(struct drm_client_dev *client,
+>   		}
+>   
+>   		mode_type = "cmdline";
+> -		modes[i] = drm_connector_pick_cmdline_mode(connector);
+> +		drm_mode_copy(&modes[i], drm_connector_pick_cmdline_mode(connector));
+>   
+> -		if (!modes[i]) {
+> +		if (!mode_valid(&modes[i])) {
+>   			mode_type = "preferred";
+> -			modes[i] = drm_connector_preferred_mode(connector, width, height);
+> +			drm_mode_copy(&modes[i], drm_connector_preferred_mode(connector, width, height));
+>   		}
+>   
+> -		if (!modes[i]) {
+> +		if (!mode_valid(&modes[i])) {
+>   			mode_type = "first";
+> -			modes[i] = drm_connector_first_mode(connector);
+> +			drm_mode_copy(&modes[i], drm_connector_first_mode(connector));
+>   		}
+>   
+>   		/* last resort: use current mode */
+> -		if (!modes[i]) {
+> +		if (!mode_valid(&modes[i])) {
+>   			/*
+>   			 * IMPORTANT: We want to use the adjusted mode (i.e.
+>   			 * after the panel fitter upscaling) as the initial
+> @@ -716,7 +722,7 @@ static bool drm_client_firmware_config(struct drm_client_dev *client,
+>   			 * fastboot check to work correctly.
+>   			 */
+>   			mode_type = "current";
+> -			modes[i] = &connector->state->crtc->mode;
+> +			drm_mode_copy(&modes[i], &connector->state->crtc->mode);
+>   		}
+>   
+>   		/*
+> @@ -726,14 +732,14 @@ static bool drm_client_firmware_config(struct drm_client_dev *client,
+>   		if (connector->has_tile &&
+>   		    num_tiled_conns < connector->num_h_tile * connector->num_v_tile) {
+>   			mode_type = "non tiled";
+> -			modes[i] = drm_connector_fallback_non_tiled_mode(connector);
+> +			drm_mode_copy(&modes[i], drm_connector_fallback_non_tiled_mode(connector));
+>   		}
+>   		crtcs[i] = new_crtc;
+>   
+>   		drm_dbg_kms(dev, "[CONNECTOR::%d:%s] on [CRTC:%d:%s] using %s mode: %s\n",
+>   			    connector->base.id, connector->name,
+>   			    new_crtc->base.id, new_crtc->name,
+> -			    mode_type, modes[i]->name);
+> +			    mode_type, modes[i].name);
+>   
+>   		fallback = false;
+>   		conn_configured |= BIT(i);
+> @@ -789,8 +795,7 @@ int drm_client_modeset_probe(struct drm_client_dev *client, unsigned int width,
+>   	unsigned int total_modes_count = 0;
+>   	struct drm_client_offset *offsets;
+>   	unsigned int connector_count = 0;
+> -	/* points to modes protected by mode_config.mutex */
+> -	const struct drm_display_mode **modes;
+> +	struct drm_display_mode *modes;
+>   	struct drm_crtc **crtcs;
+>   	int i, ret = 0;
+>   	bool *enabled;
+> @@ -858,10 +863,12 @@ int drm_client_modeset_probe(struct drm_client_dev *client, unsigned int width,
+>   				      crtcs, modes, 0, width, height);
+>   	}
+>   
+> +	mutex_unlock(&dev->mode_config.mutex);
+> +
+>   	drm_client_modeset_release(client);
+>   
+>   	for (i = 0; i < connector_count; i++) {
+> -		const struct drm_display_mode *mode = modes[i];
+> +		const struct drm_display_mode *mode = &modes[i];
+>   		struct drm_crtc *crtc = crtcs[i];
+>   		struct drm_client_offset *offset = &offsets[i];
+>   
+> @@ -892,7 +899,6 @@ int drm_client_modeset_probe(struct drm_client_dev *client, unsigned int width,
+>   			modeset->y = offset->y;
+>   		}
+>   	}
+> -	mutex_unlock(&dev->mode_config.mutex);
+>   
+>   	mutex_unlock(&client->modeset_mutex);
+>   out:
 
 -- 
-
-Jocelyn
-
-
-> 
-> Tested-by: Caleb Connolly <caleb.connolly@linaro.org> # freedreno/dsi
-> 
-> Kind regards,
->>
->> If you're curious on how it looks like, I've put a small demo here:
->> https://people.redhat.com/jfalempe/drm_log/drm_log_draft_boot_v2.mp4
->>
->> Design decisions:
->>    * It uses the drm_client API, so it should work on all drm drivers 
->> from the start.
->>    * It doesn't scroll the message, that way it doesn't need to redraw 
->> the whole screen for each new message.
->>      It also means it doesn't have to keep drawn messages in memory, 
->> to redraw them when scrolling.
->>    * drm_log can only be built-in (and drm must be built-in too).
->>      The reason is that, if you build it as a module, then a userspace 
->> application will be more appropriate than this module.
->>    * It uses the new non-blocking console API, so it should work well 
->> with PREEMPT_RT
->> v2:
->>   * Use vmap_local() api, with that change, I've tested it 
->> successfully on simpledrm, virtio-gpu, amdgpu, and nouveau.
->>   * Stop drawing when the drm_master is taken. This avoid wasting CPU 
->> cycle if the buffer is not visible.
->>   * Use deferred probe. Only do the probe the first time there is a 
->> log to draw. With this, if you boot with quiet, drm_log won't do any 
->> modeset.
->>   * Add color support for the timestamp prefix, like what dmesg does.
->>   * Add build dependency on  disabling the fbdev emulation, as they 
->> are both drm_client, and there is no way to choose which one gets the 
->> focus.
->>
->> v3:
->>   * Remove the work thread and circular buffer, and use the new 
->> write_thread() console API.
->>   * Register a console for each drm driver.
->>
->> Thanks and best regards,
->>
->> Jocelyn Falempe (4):
->>    drm/panic: Move drawing functions to drm_draw
->>    drm/log: Introduce a new boot logger to draw the kmsg on the screen
->>    drm/log: Do not draw if drm_master is taken
->>    drm/log: Color the timestamp, to improve readability
->>
->>   drivers/gpu/drm/Kconfig     |  19 ++
->>   drivers/gpu/drm/Makefile    |   3 +
->>   drivers/gpu/drm/drm_draw.c  | 216 ++++++++++++++++++++
->>   drivers/gpu/drm/drm_draw.h  |  56 ++++++
->>   drivers/gpu/drm/drm_drv.c   |   2 +
->>   drivers/gpu/drm/drm_log.c   | 391 ++++++++++++++++++++++++++++++++++++
->>   drivers/gpu/drm/drm_log.h   |  11 +
->>   drivers/gpu/drm/drm_panic.c | 247 +++--------------------
->>   8 files changed, 721 insertions(+), 224 deletions(-)
->>   create mode 100644 drivers/gpu/drm/drm_draw.c
->>   create mode 100644 drivers/gpu/drm/drm_draw.h
->>   create mode 100644 drivers/gpu/drm/drm_log.c
->>   create mode 100644 drivers/gpu/drm/drm_log.h
->>
->>
->> base-commit: 9aaeb87ce1e966169a57f53a02ba05b30880ffb8
-> 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
