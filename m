@@ -2,70 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E65E992FA0
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 16:42:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1ED6992FC6
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 16:49:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 363F410E3B8;
-	Mon,  7 Oct 2024 14:42:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0253310E0D0;
+	Mon,  7 Oct 2024 14:49:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="LowxAn38";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UrDW4LnX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com
- [209.85.128.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9629310E3B8
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 14:42:33 +0000 (UTC)
-Received: by mail-yw1-f170.google.com with SMTP id
- 00721157ae682-6e2d2447181so20167737b3.1
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Oct 2024 07:42:33 -0700 (PDT)
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com
+ [209.85.210.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 271BD10E0D0
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 14:49:32 +0000 (UTC)
+Received: by mail-pf1-f169.google.com with SMTP id
+ d2e1a72fcca58-71e023635acso769132b3a.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Oct 2024 07:49:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1728312152; x=1728916952; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=OQVz0vOtE/vhE4JxfRN39I/kekE4gMvxJaTmqdYN4Hk=;
- b=LowxAn38ipZnQRe6WQNtmo+eYnzt0Tm82lZ9xVaIyqQJrxCzhS4Ol30hjtNS9puaSs
- rBXMvnneintpl7q14XL1UBJ3QozxUo0x+xLC80H26BmrLPzapSNWxQgVo+R451Gl1FzG
- pbR/KgBLqpz1MjBwp51MWsEPdZm61INuGCitLfqVqgObboe9L2Hpuh0q/IUTOwfsbxa/
- gHrI4yPO0OmEKqAjLvduxVbPTew3out8ssOmhuBa14LkhAwYCWPBLezXFSMcxyuQBFgF
- xmh866adAVKoJACMYpjo2tQsENDFm2O/qw4rDI28EeGR9uJVMIdhvryV1+J6stHvYXEY
- OHFA==
+ d=gmail.com; s=20230601; t=1728312571; x=1728917371; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=LUiVT68fLR3vW4CyEtRR57v0fZ51pf3YQeR56Ep4krg=;
+ b=UrDW4LnX40v1nXSnepbhQQE/SKcciubdcxloSfM0UJFqBLgrah4x+lAXXDpNi8ZOB1
+ AYeIZnZgeP+WVWML5Fp+/zoqt+SykHsBTZV2KDclBIjKsG6qN2F/xS0w5AZF+hqpxPO7
+ dI5hPWNQd9xSKqa7SEXVVcjDm821CwDL746p+B0nXW+va5V++37puQK0mPCSW5uL6Rov
+ NqhpWlmC3Izcnde+6/O2UkA0O88XKDICW1ynO/1mdSfONpaWrrRwRCWCWyyKYjQElS6S
+ frBGGIrl9iY06AKHN0uSXbpK+2u0lGuz6Sd/HDWOIJvJEOJY7dtSK5yHDvPOgJSln48M
+ mcrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728312152; x=1728916952;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20230601; t=1728312571; x=1728917371;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=OQVz0vOtE/vhE4JxfRN39I/kekE4gMvxJaTmqdYN4Hk=;
- b=cxlpXXFvcEQdx5arqO0lsLqwzDLY2IbsBAfe9+6cpwReEIHb0bj/yd0Si3cqbASx6j
- OtGjKke+/zfm0woMlgciLh8c8p9e00O/BRoMq65A+EyhTC5Fe2r+e0QLsY9I1RpgLumX
- tTKBKTX7W0+34CUf6gGDoyIpvEaZNEqxvybIz70dGHceh9plOCYfnvc0FA5rdIH9//AL
- Kk+/Jc68LPu2l/oOW+alas3uA0ASdoAdLMKgKBfAVNfPTSpHpAIDxJprjlOv2zmYgK6Z
- JxmgBus7jODlq/FgabbByfyBhZEDoavMhyEbOnsta/lCe3jJb1AFaQ6utfvKkRbN1V9b
- tGdg==
+ bh=LUiVT68fLR3vW4CyEtRR57v0fZ51pf3YQeR56Ep4krg=;
+ b=oX1OxxBion0ldLHuKrAsPl191rEQCuZx3GZ2At0h3UaoLtrGMWAIsH+Ui3s5LxwWq/
+ MMk+ZAQNENOPmvaYP7+RvCe/D6Mussst0Vyl7ewE/H/X/qidciI97/gAA8iSslVA9Hq/
+ Os26nGm+mRY8LNuvJ0+Xg2+U2WGLoaac9H8+JbMRF0HVPAILJ1CQhxxxykRyy47C2WWU
+ mr3QjAnENAy35tjbI9WniomBGXIgInN3BDjpP5b84IOg8OWhbfHDhYSBweso9kPlNas6
+ vyoR9LkNaNv94rnogfC3BXMbvHfAau9ab4P8Yp4Y1SW79JjBeQFV8e+FQ4miYWfBUC+1
+ sUVA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWI6i18c8+bd+oKmjfSEqgVS8YT/jqBQ5Ad11C3rYxRf4Hb9c/p+yqfZdvsEZR3kYSlrcUkK71vVMQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwECfZrk2gwXKH4dZrM8pSquOH0H8jii36XlPHuzPeoliB7Mq/b
- pj9wfaOj2XDRU6C2Lx7uzv0Ovj6E+Cc/1PKTxHzkNWHJlqP47OowfxltiDQ5U4fiNXjT4kIMIFX
- weVqsvQ+//4MLsYoM+Xdb3/fygkheVsyltCJCzQ==
-X-Google-Smtp-Source: AGHT+IFtLx92+g4Im4BYq0IF/nuPhymbQIsBhoZ0lME72v6xi/Y1yH6ePIkFIQAOuj840/kCSHbxUC0u4ACUasl+Ueg=
-X-Received: by 2002:a05:690c:6ac8:b0:6de:a3:a7ca with SMTP id
- 00721157ae682-6e2c728a25fmr86622347b3.32.1728312152659; Mon, 07 Oct 2024
- 07:42:32 -0700 (PDT)
+ AJvYcCWAJkk3Jl4s0KWXXQoIzyBK252k4HrRTLCCVeLhDLZTavkqyHHPtWGFsgAd34Ra8E9is8sZ73K4e1g=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxtqzLd3BJHISnKT0wKFlj2PIL2qVAIsh49WqhnY6BzTPionTTu
+ X1Pk4UIFXv6o++uP2zgXf0U8I0Oge+sa0II0AFtHCTlfPuvz6HM4
+X-Google-Smtp-Source: AGHT+IFd5G5JZb9zGuck27vY3G5rfm6RRd7wrvlQcG7A8r1xXm54v9yJmOzv7wLCL4FHuPfrgLQA4A==
+X-Received: by 2002:a05:6a00:3a14:b0:717:9768:a4f0 with SMTP id
+ d2e1a72fcca58-71de22eb62bmr20503670b3a.0.1728312571513; 
+ Mon, 07 Oct 2024 07:49:31 -0700 (PDT)
+Received: from localhost.localdomain ([223.104.210.43])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-71df0d7cf82sm4466432b3a.200.2024.10.07.07.49.22
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 07 Oct 2024 07:49:30 -0700 (PDT)
+From: Yafang Shao <laoar.shao@gmail.com>
+To: akpm@linux-foundation.org
+Cc: torvalds@linux-foundation.org, keescook@chromium.org, alx@kernel.org,
+ justinstitt@google.com, ebiederm@xmission.com,
+ alexei.starovoitov@gmail.com, rostedt@goodmis.org, catalin.marinas@arm.com,
+ penguin-kernel@i-love.sakura.ne.jp, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ audit@vger.kernel.org, linux-security-module@vger.kernel.org,
+ selinux@vger.kernel.org, bpf@vger.kernel.org, netdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Yafang Shao <laoar.shao@gmail.com>
+Subject: [PATCH v9 0/7] Improve the copy of task comm
+Date: Mon,  7 Oct 2024 22:49:04 +0800
+Message-Id: <20241007144911.27693-1-laoar.shao@gmail.com>
+X-Mailer: git-send-email 2.30.1 (Apple Git-130)
 MIME-Version: 1.0
-References: <20240812-tdp158-v5-0-78684a84ec23@freebox.fr>
- <172536721812.2552069.2889737892670833119.b4-ty@kernel.org>
- <40ffacc2-fa04-4e6d-b817-c547aa75a21c@freebox.fr>
-In-Reply-To: <40ffacc2-fa04-4e6d-b817-c547aa75a21c@freebox.fr>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 7 Oct 2024 16:42:21 +0200
-Message-ID: <CAA8EJpqYp8uBNVdNSAmSbeev=itxNKS_scb2xAwe63aS5bdhkg@mail.gmail.com>
-Subject: Re: [PATCH v5 0/2] Basic support for TI TDP158
-To: Marc Gonzalez <mgonzalez@freebox.fr>
-Cc: Robert Foss <rfoss@kernel.org>, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- Arnaud Vrac <avrac@freebox.fr>, Pierre-Hugues Husson <phhusson@freebox.fr>, 
- Konrad Dybcio <konradybcio@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,43 +86,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 7 Oct 2024 at 16:33, Marc Gonzalez <mgonzalez@freebox.fr> wrote:
->
-> On 03/09/2024 14:40, Robert Foss wrote:
->
-> > On Mon, 12 Aug 2024 16:51:00 +0200, Marc Gonzalez wrote:
-> >
-> >> TDP158 is an AC-coupled DVI / HDMI to TMDS level shifting Redriver.
-> >>
-> >> Like the TFP410, the TDP158 can be set up in 2 different ways:
-> >> 1) hard-coding its configuration settings using pin-strapping resistors
-> >> 2) placing it on an I2C bus, and defer set-up until run-time
-> >>
-> >> The mode is selected by pin 8 = I2C_EN
-> >> I2C_EN = 1 ==> I2C Control Mode
-> >> I2C_EN = 0 ==> Pin Strap Mode
-> >>
-> >> [...]
-> >
-> > Applied, thanks!
-> >
-> > [1/2] dt-bindings: display: bridge: add TI TDP158
-> >       https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/887665792b99
-> > [2/2] drm/bridge: add support for TI TDP158
-> >       https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/a15710027afb
->
-> Hello Robert,
->
-> I expected this series to be included in v6.12-rc1, since you applied it
-> before the v6.12 merge window opened. Did I misunderstand the process?
+Using {memcpy,strncpy,strcpy,kstrdup} to copy the task comm relies on the
+length of task comm. Changes in the task comm could result in a destination
+string that is overflow. Therefore, we should explicitly ensure the
+destination string is always NUL-terminated, regardless of the task comm.
+This approach will facilitate future extensions to the task comm.
 
-drm-misc-next stops propagating new changes to drm-next one or two
-weeks before the release.
+As suggested by Linus [0], we can identify all relevant code with the
+following git grep command:
 
-> If not in v6.12, does that mean it will be in v6.13?
+  git grep 'memcpy.*->comm\>'
+  git grep 'kstrdup.*->comm\>'
+  git grep 'strncpy.*->comm\>'
+  git grep 'strcpy.*->comm\>'
 
-Yes.
+PATCH #2~#4:   memcpy
+PATCH #5~#6:   kstrdup
+PATCH #7:      strcpy
+
+Please note that strncpy() is not included in this series as it is being
+tracked by another effort. [1]
+
+task_lock() is removed from get_task_comm() as it is unnecessary.
+
+Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
+Link: https://lore.kernel.org/all/CAHk-=wjAmmHUg6vho1KjzQi2=psR30+CogFd4aXrThr2gsiS4g@mail.gmail.com/ [0]
+
+Changes:
+v8->v9:
+- Keep the BUILD_BUG_ON() in get_task_comm() (Kees)
+- Keep strscpy_pad() in get_task_comm() (Kees)
+- Replace more strcpy() with strscpy() in
+  drivers/gpu/drm/i915/i915_gpu_error.c (Justin)
+- Fix typos and commit improvement in patch #5 (Andy)
+- Drop the change in net as it was fixed by
+  b19f69a95830 ("net/ipv6: replace deprecated strcpy with strscpy")
+
+v7->v8: https://lore.kernel.org/all/20240828030321.20688-1-laoar.shao@gmail.com/
+- Avoid '+1' and '-1' in string copy. (Alejandro)
+
+v6->v7: https://lore.kernel.org/all/20240817025624.13157-1-laoar.shao@gmail.com/
+- Improve the comment (Alejandro)
+- Drop strncpy as it is being tracked by another effort (Justin)
+  https://github.com/KSPP/linux/issues/90 [1]
+
+v5->v6: https://lore.kernel.org/linux-mm/20240812022933.69850-1-laoar.shao@gmail.com/
+- Get rid of __get_task_comm() (Linus)
+- Use ARRAY_SIZE() in get_task_comm() (Alejandro)
+
+v4->v5: https://lore.kernel.org/all/20240804075619.20804-1-laoar.shao@gmail.com/
+- Drop changes in the mm/kmemleak.c as it was fixed by
+  commit 0b84780134fb ("mm/kmemleak: replace strncpy() with strscpy()")
+- Drop changes in kernel/tsacct.c as it was fixed by
+  commit 0fe2356434e ("tsacct: replace strncpy() with strscpy()")
+
+v3->v4: https://lore.kernel.org/linux-mm/20240729023719.1933-1-laoar.shao@gmail.com/
+- Rename __kstrndup() to __kmemdup_nul() and define it inside mm/util.c
+  (Matthew)
+- Remove unused local variable (Simon)
+
+v2->v3: https://lore.kernel.org/all/20240621022959.9124-1-laoar.shao@gmail.com/
+- Deduplicate code around kstrdup (Andrew)
+- Add commit log for dropping task_lock (Catalin)
+
+v1->v2: https://lore.kernel.org/bpf/20240613023044.45873-1-laoar.shao@gmail.com/
+- Add comment for dropping task_lock() in __get_task_comm() (Alexei)
+- Drop changes in trace event (Steven)
+- Fix comment on task comm (Matus)
+
+v1: https://lore.kernel.org/all/20240602023754.25443-1-laoar.shao@gmail.com/
+
+Yafang Shao (7):
+  Get rid of __get_task_comm()
+  auditsc: Replace memcpy() with strscpy()
+  security: Replace memcpy() with get_task_comm()
+  bpftool: Ensure task comm is always NUL-terminated
+  mm/util: Fix possible race condition in kstrdup()
+  mm/util: Deduplicate code in {kstrdup,kstrndup,kmemdup_nul}
+  drm: Replace strcpy() with strscpy()
+
+ drivers/gpu/drm/drm_framebuffer.c     |  2 +-
+ drivers/gpu/drm/i915/i915_gpu_error.c |  6 +--
+ fs/exec.c                             | 10 -----
+ fs/proc/array.c                       |  2 +-
+ include/linux/sched.h                 | 28 +++++++++---
+ kernel/auditsc.c                      |  6 +--
+ kernel/kthread.c                      |  2 +-
+ mm/util.c                             | 62 ++++++++++++---------------
+ security/lsm_audit.c                  |  4 +-
+ security/selinux/selinuxfs.c          |  2 +-
+ tools/bpf/bpftool/pids.c              |  2 +
+ 11 files changed, 63 insertions(+), 63 deletions(-)
 
 -- 
-With best wishes
-Dmitry
+2.43.5
+
