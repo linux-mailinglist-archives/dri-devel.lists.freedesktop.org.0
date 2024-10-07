@@ -2,81 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C260699283B
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 11:34:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FE45992843
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 11:36:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97F2B10E33E;
-	Mon,  7 Oct 2024 09:34:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59F9910E33C;
+	Mon,  7 Oct 2024 09:36:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="rX6f/0U8";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="jgMLBtwT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.17.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C967110E33C
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 09:34:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
- s=s29768273; t=1728293655; x=1728898455; i=markus.elfring@web.de;
- bh=E8AFC3vJAjHzrpqVDLoldFXTK/U5srUyH05spTlfP1w=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
- Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
- cc:content-transfer-encoding:content-type:date:from:message-id:
- mime-version:reply-to:subject:to;
- b=rX6f/0U8f5wtmtxWrZmbLaBUzcCAsjuUakwZA9Nvdf+pYNhTqKiWDWaMbcmxHtcG
- RbqoXJbP18hyUwpsjJRBud/wwf8s0HyUSpJQUV7969GxZ2iE1gu5tZCw2laj+ujog
- Ubp7/87d5tzGMRSC1ZGAfyitE15IJ2LvIP1Zp2mkzcOslqyfClNfJUgI9+b2fOF+v
- la03gsOvjqbT8HqO4gfrb9Z4MEE8RZ54s3cYDnxvBiuoaWNvUtwP8KVUoRxDOIZGX
- 6j9TCohZ0BeinzHxpKoCdgjNhKPe2bxJ/ejeVL4zENE3QbJOHzhjKZUOghjMIeuln
- PYOYJao80vNRTzLg+g==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.81.95]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MA4fI-1t89CX08ja-009AV3; Mon, 07
- Oct 2024 11:34:15 +0200
-Message-ID: <4e1d50de-8e00-47a3-94e0-5ee9c5df8755@web.de>
-Date: Mon, 7 Oct 2024 11:34:13 +0200
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3B7710E33C
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 09:36:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1728293796;
+ bh=pWjov5Fcb9t1OXwN3B6DkMW278o+8JHNmlMCNyJ1DB4=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=jgMLBtwTMgZCwf39YRE5Y2Qx59/Mxvnny0ZqiUtOfMbub5R6Ry+Bv4I4eTRfIYVVP
+ 2FjxMZIB2yC4WoaUP68qPFWX2SFY2/YW5dbECRS7ug++I7K1Q9DvEM84LKI8jSlaJD
+ rshdeJml2fRMw5UX9Q3G9wD+sPdo0iYb3RfMB486x4sdkWllhnHWGNBsbXJK9pmcEQ
+ b7YWduc5ly+k87bfXpUotE0j76ndQWHbI8K2tpTdxt8sdYRum4UN+6qktjueEa0htL
+ Nl6ycsTQGz0qX+tC6qfAvZ5Iy3Ylkf1vBwnYKKmEuuXd4x9c5zbH2X/z0VaMgWbpkv
+ rbNENBqkwbW3g==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 1B5FC17E1166;
+ Mon,  7 Oct 2024 11:36:36 +0200 (CEST)
+Message-ID: <703213a8-1ac6-4c8d-9487-ea1dbdabec40@collabora.com>
+Date: Mon, 7 Oct 2024 11:36:35 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-To: Alex Lanzano <lanzano.alex@gmail.com>,
- Mehdi Djait <mehdi.djait@bootlin.com>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-pwm@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org,
- Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- Christophe Jaillet <christophe.jaillet@wanadoo.fr>,
- Shuah Khan <skhan@linuxfoundation.org>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-References: <20241007013036.3104877-1-lanzano.alex@gmail.com>
-Subject: Re: [PATCH v9 0/2] Add driver for Sharp Memory LCD
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20241007013036.3104877-1-lanzano.alex@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:rR2t7Wp2hZRiAb/yvZ9QgARwGiDDwzquxtShZ89SpcJPiec4qQB
- 6bLSocXYLUlNWmFEpjB+t2lsProJxaVXkFnIipZELFqgz03WEDRwcu1awSTO12RQb+2JDDR
- G2lyvui1h9Aih3uiJWr5lvTsPH8ak29feabOGUhquhqKWumeIFsXU6nrgzhXqiM7EoXi9eL
- GkhHbba2YZyjdjkyhI4hg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:teEmP1NgyxY=;NTXvpEe1d0ucl3ou6FBsiGiNXEM
- wfsWbKpcr/5esT4j1RcosJawt4OhCv676VkbSL7veI4uf4d3pKD8MSoxBv2MWwllsySiNXX0V
- 9tmBU5+lBm9fMKuvyUzGYsKjbYfY7I1i53ZjApx15089wDAHt8h6dibZzMSZh7TY3ZBLZdMrF
- UDXvpbdRGRt4zZB8rPFiFTxSyRtSiY8L5WB5/Y4uoHAr4jVRmW73DFmOBvVRjpQyFluoxPDhM
- co26t19Sv02s7P+rxWsFjlg9gyvsYmx33xN1zDwKwfA6O7+F3aWXo7XUcabebPhZXx9d8puee
- D5vD02NcecHtuFYFYC1EXGq2/1iVSTwkTU9Au5XdED6uv5KzzXmgNRWpuuIMt7WDXxZp7qL91
- qmlnNhpEugaGfYWNw8ILX96oRE+zFzaGjJEh2rwoyUwkHfmFWvc8QKbVZmpYLNqTwlK1fVpQr
- jn2n45ECm/LkwtAGDALqzBtdPaSCrCu1LFScy2XplHWBSEr9hepadI9KzF49sfLa+pS6ngxuE
- djEX34HmG6HtFjnG4VK5CTAqyS9bKKzNvO2jfmrvTHGI9GewXtwPMbqMJIpThwqGGsBwyRB0l
- 46JtYDEkKssML1SBO78zbf+kkUOUDDba5giFfH3hCs6hgGymmSrkq3HjWKP/tKLvalm9c1/t4
- 9mj8xM6XJLj0CcM/JZ1blQQBRoeDsGWIEv4mIefNro1JA2x8zSGpzM44htdWUfoDzcC+zS/Yv
- sNtDJrGTJKv/QhTjDezjU33hcNo4NbpAD2g1iFjihwcXJazA25bn8dpeLLq5k9uyvAiJI8H04
- YfFYOSzAMdKjrVLQkgfva+3Q==
+Subject: Re: [PATCH v9 1/5] drm/mediatek: ovl: Fix XRGB format breakage for
+ blend_modes unsupported SoCs
+To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
+ Adam Thiede <me@adamthiede.com>, Yassine Oudjana
+ <yassine.oudjana@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Cc: Shawn Sung <shawn.sung@mediatek.com>,
+ Alper Nebi Yasak <alpernebiyasak@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Singo Chang <singo.chang@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20241007070101.23263-1-jason-jh.lin@mediatek.com>
+ <20241007070101.23263-2-jason-jh.lin@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20241007070101.23263-2-jason-jh.lin@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,16 +70,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> This patch series add support for the monochrome Sharp Memory LCD panels=
-.
-=E2=80=A6
+Il 07/10/24 09:00, Jason-JH.Lin ha scritto:
+> If the constant alpha always enable, the SoCs that is not supported the
+> ignore pixel alpha bit will still use constant alpha. That will break
+> the original constant alpha setting of XRGB foramt for blend_modes
+> unsupported SoCs, such as MT8173.
+> 
+> Note that ignore pixel alpha bit is suppored if the SoC support the
+> blend_modes.
+> Make the constatnt alpha only enable when having a vliad blend_mode or
+> setting the has_alpha to fix the downgrade issue.
+> 
+> Fixes: bc46eb5d5d77 ("drm/mediatek: Support DRM plane alpha in OVL")
+> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
 > ---
-> Changes in v9:
-=E2=80=A6
+>   drivers/gpu/drm/mediatek/mtk_disp_ovl.c | 8 +++++++-
+>   1 file changed, 7 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
+> index 89b439dcf3a6..8453a72f9e59 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
+> @@ -473,8 +473,14 @@ void mtk_ovl_layer_config(struct device *dev, unsigned int idx,
+>   
+>   	con = ovl_fmt_convert(ovl, fmt, blend_mode);
+>   	if (state->base.fb) {
+> -		con |= OVL_CON_AEN;
+>   		con |= state->base.alpha & OVL_CON_ALPHA;
+> +
+> +		/*
+> +		 * For blend_modes supported SoCs, always enable constant alpha.
+> +		 * For blend_modes unsupported SoCs, enable constant alpha when has_alpha is set.
+> +		 */
+> +		if (blend_mode || state->base.fb->format->has_alpha)
+> +			con |= OVL_CON_AEN;
 
-Would you like to benefit from the application of scope-based resource man=
-agement
-(also for this software component)?
+I'd say that you should make sure that OVL_CON_AEN is not set when
+!blend_mode && !has_alpha, and you can do that like this:
 
-Regards,
-Markus
+		if (blend_mode || state->base.fb->format->has_alpha)
+			con |= OVL_CON_AEN;
+		else
+			con &= ~OVL_CON_AEN;
+
+After applying the proposed change,
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+
