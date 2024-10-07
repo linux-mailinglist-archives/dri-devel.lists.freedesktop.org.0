@@ -2,77 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FC559932B7
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 18:11:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA6EF9932E9
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 18:17:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92FD310E3D9;
-	Mon,  7 Oct 2024 16:11:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F010910E0BC;
+	Mon,  7 Oct 2024 16:17:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="kaCEZXN/";
+	dkim=pass (1024-bit key; unprotected) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="VUnquY9M";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
- [217.70.183.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5054410E3DA
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 16:11:05 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id EEFC040005;
- Mon,  7 Oct 2024 16:11:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1728317464;
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com
+ [157.90.84.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD41110E0BC
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 16:17:51 +0000 (UTC)
+Received: from [192.168.42.96] (p5de457db.dip0.t-ipconnect.de [93.228.87.219])
+ (Authenticated sender: wse@tuxedocomputers.com)
+ by mail.tuxedocomputers.com (Postfix) with ESMTPSA id C72112FC004D;
+ Mon,  7 Oct 2024 18:17:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+ s=default; t=1728317869;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bYBVsTbvX0Vvhdgtk3+NNjlF1mcR2qZl1/lxJqF5EiU=;
- b=kaCEZXN/C1gNE4h9vUUhswWCvZ8DIUXtXsfhjzN2+wq5xP1J6CX5Z182/269JrMktRilYn
- uIQy2/kxygAklrtH9rmHXzDmz1vD+G1vdJ/rM1q4EUGZNX9Bv74BJEVxbfDD1pYR7Mrkvv
- 2UL3KXw9yOnAGZi53uN4HmjwrRCKE9gEH6NMqtb5VzEWF+EWbkWVyalotqSP/rMuXtLQXu
- Ecp3ZcNa4oO4EjUMfgoaUHMHL+tlWuL3vkF9RLljQWVlGc30dWVrKipCxBs9Wfv4bO6Pgt
- rnmnwOsfWZekZ3GMaMd2PXN7B5Smon6izwMuc3XvMcfdQLUPe5n2rRys8Vv1Dw==
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Mon, 07 Oct 2024 18:10:49 +0200
-Subject: [PATCH v12 15/15] drm/vkms: Add support for DRM_FORMAT_R*
+ bh=KXCO8nk9dKyl6+T9Ci1UYd9mcP4/XTE0/Kr6tzc5qDg=;
+ b=VUnquY9MWox7I1OzpywCG2UbAbIvlqwLEvnewplFuE/POSjG2eswBZ7lU4XMRgz5Wd5+FS
+ qRZyi9AMsPiLNAieVVp1WaZvRI2ia7zbwvLiaRQsuW/HiUBa/z19SMV49c1rE0V948kyda
+ J9QRvcwYtFrOf9eZx1HplLEp8UU4LMQ=
+Authentication-Results: mail.tuxedocomputers.com;
+ auth=pass smtp.auth=wse@tuxedocomputers.com
+ smtp.mailfrom=wse@tuxedocomputers.com
+Message-ID: <2392fa23-4823-4660-8b38-0f9dfe06c863@tuxedocomputers.com>
+Date: Mon, 7 Oct 2024 18:17:48 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241007-yuv-v12-15-01c1ada6fec8@bootlin.com>
-References: <20241007-yuv-v12-0-01c1ada6fec8@bootlin.com>
-In-Reply-To: <20241007-yuv-v12-0-01c1ada6fec8@bootlin.com>
-To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
- Melissa Wen <melissa.srw@gmail.com>, 
- =?utf-8?q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>, 
- Haneen Mohammed <hamohammed.sa@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
- Louis Chauvet <louis.chauvet@bootlin.com>, Simona Vetter <simona@ffwll.ch>, 
- rdunlap@infradead.org, arthurgrillo@riseup.net, 
- pekka.paalanen@haloniitty.fi, Simona Vetter <simona.vetter@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, thomas.petazzoni@bootlin.com, 
- jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com, 
- seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com, 
- Pekka Paalanen <pekka.paalanen@collabora.com>
-X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6383;
- i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=XA5++UHB22P8byetvVhtzmOdqkragW9YoMtVdS2c/kE=;
- b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBnBAgEazaRlQ3ZFx7oJX3sXhObAiSzyYJXRKnbG
- VxczsDxpXOJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZwQIBAAKCRAgrS7GWxAs
- 4sk6EACYUtgKqtjgVQn/nazxS4GHZP3YDAe5s6Z4wZpYYDmx9fJRKKmwACI6rCgesvXXiCR6zIq
- m40F5evxk3D/GCwkJLH2qHo+8mecAM4bugoZrbCUewSFjwSm/tOJ92m8pNvC39cT312l9NYJ+kr
- W11evzi1M8Ypo/3fYKkUfi38YgIovI/z1Fav6ZfA/b+hNk8lNmmL0uuQFs1znEiGA6NoPHMrR2v
- cDBlWmhAkjqzQ5tOQcEs/DeVXZyqMQAQR8P9YbZ0ywh8Pt07XhLv8YJVnRHk5iv1t6M+9BY5mdj
- PBuH+UM+DjvWLzBsWNERsBLlio87V2wOL0jYVeOpqwh6HEXoRO/D5DG2pQdgYvrXRLyRAiwFkxy
- B4GlzMS9QLXqXWvCGU8PYPikCnYAf01tJVhfg4CBsyn1cRKie5xGCF1FQabgP73qY6M88iaRbOE
- TLN8VktBMcTOBxytv37r+5AeAntxjZCRWE17I1oToB5I2MuW4Uyh0Bir7+ZbxrZSAFMMFN5Ebo3
- 9iT/BhKPcrovSf5DM7LM9FLYOosopvykjgeOkLK6czpXzQ1HDD6w+jzg+wuzz/cKUTzc85NlPyg
- IAINIkgde64Ar2lYr/JJX30U8ac+w3pCqYXX54E/ziOxi5gnswryUKXUaBvfP6kXLn2Tyl4Eu5X
- ZKeoDrJCm+0S+cA==
-X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
- fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
-X-GND-Sasl: louis.chauvet@bootlin.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v4 1/1] platform/x86/tuxedo: Add virtual LampArray for
+ TUXEDO NB04 devices
+To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: Hans de Goede <hdegoede@redhat.com>, bentiss@kernel.org,
+ dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
+ lee@kernel.org, linux-input@vger.kernel.org,
+ LKML <linux-kernel@vger.kernel.org>, linux-leds@vger.kernel.org,
+ miguel.ojeda.sandonis@gmail.com, ojeda@kernel.org, onitake@gmail.com,
+ pavel@ucw.cz, cs@tuxedo.de, platform-driver-x86@vger.kernel.org
+References: <20241001180658.76396-1-wse@tuxedocomputers.com>
+ <20241001180658.76396-2-wse@tuxedocomputers.com>
+ <bc3f5f2b-252e-0a66-df0f-f01197a5a17d@linux.intel.com>
+ <fdfaaad5-59e7-4825-bc06-db44831ac741@tuxedocomputers.com>
+ <49beebf1-db73-a3a1-3376-e1822ce2e569@linux.intel.com>
+ <98883fb1-c895-4aad-842b-ed525d4c42f6@tuxedocomputers.com>
+ <07e29712-4c33-efa2-c8c6-ae19e21376fa@linux.intel.com>
+Content-Language: en-US
+From: Werner Sembach <wse@tuxedocomputers.com>
+In-Reply-To: <07e29712-4c33-efa2-c8c6-ae19e21376fa@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,179 +73,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This add the support for:
-- R1/R2/R4/R8
 
-R1 format was tested with [1] and [2].
-
-[1]: https://lore.kernel.org/r/20240313-new_rotation-v2-0-6230fd5cae59@bootlin.com
-[2]: https://lore.kernel.org/igt-dev/20240306-b4-kms_tests-v1-0-8fe451efd2ac@bootlin.com/
-
-Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
----
- drivers/gpu/drm/vkms/vkms_formats.c | 110 +++++++++++++++++++++++++++++++++++-
- drivers/gpu/drm/vkms/vkms_plane.c   |   4 ++
- 2 files changed, 113 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
-index 0b201185eae7..f9841b8000c4 100644
---- a/drivers/gpu/drm/vkms/vkms_formats.c
-+++ b/drivers/gpu/drm/vkms/vkms_formats.c
-@@ -249,6 +249,16 @@ static struct pixel_argb_u16 argb_u16_from_RGB565(const __le16 *pixel)
- 	return out_pixel;
- }
- 
-+static struct pixel_argb_u16 argb_u16_from_gray8(u16 gray)
-+{
-+	return argb_u16_from_u8888(255, gray, gray, gray);
-+}
-+
-+static struct pixel_argb_u16 argb_u16_from_grayu16(u16 gray)
-+{
-+	return argb_u16_from_u16161616(0xFFFF, gray, gray, gray);
-+}
-+
- VISIBLE_IF_KUNIT struct pixel_argb_u16 argb_u16_from_yuv888(u8 y, u8 channel_1, u8 channel_2,
- 							    const struct conversion_matrix *matrix)
- {
-@@ -286,7 +296,7 @@ EXPORT_SYMBOL_IF_KUNIT(argb_u16_from_yuv888);
-  * The following functions are read_line function for each pixel format supported by VKMS.
-  *
-  * They read a line starting at the point @x_start,@y_start following the @direction. The result
-- * is stored in @out_pixel and in the format ARGB16161616.
-+ * is stored in @out_pixel and in a 64 bits format, see struct pixel_argb_u16.
-  *
-  * These functions are very repetitive, but the innermost pixel loops must be kept inside these
-  * functions for performance reasons. Some benchmarking was done in [1] where having the innermost
-@@ -295,6 +305,96 @@ EXPORT_SYMBOL_IF_KUNIT(argb_u16_from_yuv888);
-  * [1]: https://lore.kernel.org/dri-devel/d258c8dc-78e9-4509-9037-a98f7f33b3a3@riseup.net/
-  */
- 
-+static void Rx_read_line(const struct vkms_plane_state *plane, int x_start,
-+			 int y_start, enum pixel_read_direction direction, int count,
-+			 struct pixel_argb_u16 out_pixel[])
-+{
-+	struct pixel_argb_u16 *end = out_pixel + count;
-+	int bits_per_pixel = drm_format_info_bpp(plane->frame_info->fb->format, 0);
-+	u8 *src_pixels;
-+	int rem_x, rem_y;
-+
-+	WARN_ONCE(drm_format_info_block_height(plane->frame_info->fb->format, 0) != 1,
-+		  "%s() only support formats with block_h == 1", __func__);
-+
-+	packed_pixels_addr(plane->frame_info, x_start, y_start, 0, &src_pixels, &rem_x, &rem_y);
-+	int bit_offset = (8 - bits_per_pixel) - rem_x * bits_per_pixel;
-+	int step = get_block_step_bytes(plane->frame_info->fb, direction, 0);
-+	int mask = (0x1 << bits_per_pixel) - 1;
-+	int lum_per_level = 0xFFFF / mask;
-+
-+	if (direction == READ_LEFT_TO_RIGHT || direction == READ_RIGHT_TO_LEFT) {
-+		int restart_bit_offset;
-+		int step_bit_offset;
-+
-+		if (direction == READ_LEFT_TO_RIGHT) {
-+			restart_bit_offset = 8 - bits_per_pixel;
-+			step_bit_offset = -bits_per_pixel;
-+		} else {
-+			restart_bit_offset = 0;
-+			step_bit_offset = bits_per_pixel;
-+		}
-+
-+		while (out_pixel < end) {
-+			u8 val = ((*src_pixels) >> bit_offset) & mask;
-+
-+			*out_pixel = argb_u16_from_grayu16((int)val * lum_per_level);
-+
-+			bit_offset += step_bit_offset;
-+			if (bit_offset < 0 || 8 <= bit_offset) {
-+				bit_offset = restart_bit_offset;
-+				src_pixels += step;
-+			}
-+			out_pixel += 1;
-+		}
-+	} else if (direction == READ_TOP_TO_BOTTOM || direction == READ_BOTTOM_TO_TOP) {
-+		while (out_pixel < end) {
-+			u8 val = (*src_pixels >> bit_offset) & mask;
-+			*out_pixel = argb_u16_from_grayu16((int)val * lum_per_level);
-+			src_pixels += step;
-+			out_pixel += 1;
-+		}
-+	}
-+}
-+
-+static void R1_read_line(const struct vkms_plane_state *plane, int x_start,
-+			 int y_start, enum pixel_read_direction direction, int count,
-+			 struct pixel_argb_u16 out_pixel[])
-+{
-+	Rx_read_line(plane, x_start, y_start, direction, count, out_pixel);
-+}
-+
-+static void R2_read_line(const struct vkms_plane_state *plane, int x_start,
-+			 int y_start, enum pixel_read_direction direction, int count,
-+			 struct pixel_argb_u16 out_pixel[])
-+{
-+	Rx_read_line(plane, x_start, y_start, direction, count, out_pixel);
-+}
-+
-+static void R4_read_line(const struct vkms_plane_state *plane, int x_start,
-+			 int y_start, enum pixel_read_direction direction, int count,
-+			 struct pixel_argb_u16 out_pixel[])
-+{
-+	Rx_read_line(plane, x_start, y_start, direction, count, out_pixel);
-+}
-+
-+static void R8_read_line(const struct vkms_plane_state *plane, int x_start,
-+			 int y_start, enum pixel_read_direction direction, int count,
-+			 struct pixel_argb_u16 out_pixel[])
-+{
-+	struct pixel_argb_u16 *end = out_pixel + count;
-+	u8 *src_pixels;
-+	int step = get_block_step_bytes(plane->frame_info->fb, direction, 0);
-+
-+	packed_pixels_addr_1x1(plane->frame_info, x_start, y_start, 0, &src_pixels);
-+
-+	while (out_pixel < end) {
-+		*out_pixel = argb_u16_from_gray8(*src_pixels);
-+		src_pixels += step;
-+		out_pixel += 1;
-+	}
-+}
-+
- static void ARGB8888_read_line(const struct vkms_plane_state *plane, int x_start, int y_start,
- 			       enum pixel_read_direction direction, int count,
- 			       struct pixel_argb_u16 out_pixel[])
-@@ -606,6 +706,14 @@ pixel_read_line_t get_pixel_read_line_function(u32 format)
- 	case DRM_FORMAT_YVU422:
- 	case DRM_FORMAT_YVU444:
- 		return &planar_yuv_read_line;
-+	case DRM_FORMAT_R1:
-+		return &R1_read_line;
-+	case DRM_FORMAT_R2:
-+		return &R2_read_line;
-+	case DRM_FORMAT_R4:
-+		return &R4_read_line;
-+	case DRM_FORMAT_R8:
-+		return &R8_read_line;
- 	default:
- 		/*
- 		 * This is a bug in vkms_plane_atomic_check(). All the supported
-diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-index 8f764a108b00..67f891e7ac58 100644
---- a/drivers/gpu/drm/vkms/vkms_plane.c
-+++ b/drivers/gpu/drm/vkms/vkms_plane.c
-@@ -30,6 +30,10 @@ static const u32 vkms_formats[] = {
- 	DRM_FORMAT_YVU420,
- 	DRM_FORMAT_YVU422,
- 	DRM_FORMAT_YVU444,
-+	DRM_FORMAT_R1,
-+	DRM_FORMAT_R2,
-+	DRM_FORMAT_R4,
-+	DRM_FORMAT_R8,
- };
- 
- static struct drm_plane_state *
-
--- 
-2.46.2
-
+Am 04.10.24 um 16:46 schrieb Ilpo Järvinen:
+> On Fri, 4 Oct 2024, Werner Sembach wrote:
+>> Am 03.10.24 um 12:54 schrieb Ilpo Järvinen:
+>>> On Wed, 2 Oct 2024, Werner Sembach wrote:
+>>>> Am 02.10.24 um 11:52 schrieb Ilpo Järvinen:
+>>>>> On Tue, 1 Oct 2024, Werner Sembach wrote:
+>>>>>
+>>>>>> The TUXEDO Sirius 16 Gen1 and TUXEDO Sirius 16 Gen2 devices have a
+>>>>>> per-key
+>>>>>> controllable RGB keyboard backlight. The firmware API for it is
+>>>>>> implemented
+>>>>>> via WMI.
+>>>>>>
+>>>>>> To make the backlight userspace configurable this driver emulates a
+>>>>>> LampArray HID device and translates the input from hidraw to the
+>>>>>> corresponding WMI calls. This is a new approach as the leds subsystem
+>>>>>> lacks
+>>>>>> a suitable UAPI for per-key keyboard backlights, and like this no new
+>>>>>> UAPI
+>>>>>> needs to be established.
+>>>>>>
+>>>>>> v2: Integrated Armins feedback and fixed kernel test robot warnings.
+>>>>>> v3: Fixed borked subject line of v2.
+>>>>>> v4: Remove unrequired WMI mutex.
+>>>>>>        Move device checking from probe to init.
+>>>>>>        Fix device checking working exactly reverse as it should.
+>>>>>>        Fix null pointer dereference because, hdev->driver_data !=
+>>>>>> hdev->dev.driver_data.
+>>>>>>
+>>>>>> Co-developed-by: Christoffer Sandberg <cs@tuxedo.de>
+>>>>>> Signed-off-by: Christoffer Sandberg <cs@tuxedo.de>
+>>>>>> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+>>>>>> Link:
+>>>>>> https://lore.kernel.org/all/1fb08a74-62c7-4d0c-ba5d-648e23082dcb@tuxedocomputers.com/
+>>>>>> ---
+>>>> That why i choose the rather generic names of just the input and output
+>>>> length
+>>>> because there is no semantic connection between the wmi methods in
+>>>> tuxedo_nb04_wmi_8_b_in_80_b_out and tuxedo_nb04_wmi_496_b_in_80_b_out
+>>>> respectively that would make for a good name.
+>>> So the only valuable characters are prefix + 8/496/80 the rest doesn't
+>>> really tell much despite all its characters :-). Details like which of the
+>>> numbers is in/out and that the numbers are in bytes could IMO be left to
+>>> struct's comment without loss of much information value.
+>>>
+>> tuxedo_nb04_wmi_8_80 kinda looks strange to me, what about
+>> tuxedo_nb04_wmi_8_in_80_out? but that's on 4 chars shorter.
+> Perhaps just tuxedo_nb04_wmi_8in_80out ?
+ok
+>
+> I can see you like to use underscores a lot so I can understand if that
+> feels a step too far :-) (no offence meant).
+>
