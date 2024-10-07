@@ -2,81 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C4D3992CBE
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 15:12:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97721992CEB
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 15:17:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C664C10E398;
-	Mon,  7 Oct 2024 13:12:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0B3410E335;
+	Mon,  7 Oct 2024 13:17:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Rbw8PP6F";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="IJFQB0AM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2C4010E397
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 13:12:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=MTw3C7BxFmXipMVnxcZzEVkXYOpZp/J8LaVhffnCjKQ=; b=Rbw8PP6FlVUVza66EznoiE19yV
- bsneCnRAgX/ZECJo/DQNWS6Dn7NswAuEREUK4/Und6sZS6L3lbXyeiObYESeSfVWY/5wU/KohazQE
- jUDIaJuKHHflvPZVfW3vbjauUNrpFBtrgMMDEE1J9Jngjj4WrY5od8Qwu6u6xL8yK7ZTUeLXoTciR
- 3niTz9DK+zeVKJqXFkMNYgYcuT99Lo67m8BuZ0p9DB1tkXOsXK4AI3/ei2kAHQvgVmEE7fYdChSXb
- HhfsFmF+wLGAfAcC8UlPNT9aT9oqyCW/Lg+3oTrrBiIqzoqZT2S/iPMf4jSLIpftfBHZWVVqMGXgr
- k+Nw4Grw==;
-Received: from [187.36.213.55] (helo=[192.168.1.212])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1sxnWx-00692N-Bk; Mon, 07 Oct 2024 15:12:07 +0200
-Message-ID: <660ceebc-a045-4e68-bb63-2fbb7a58b28a@igalia.com>
-Date: Mon, 7 Oct 2024 10:12:02 -0300
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
+ [209.85.167.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B627910E210
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 13:17:01 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id
+ 2adb3069b0e04-53988c54ec8so4975683e87.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Oct 2024 06:17:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1728307020; x=1728911820; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=+pWYExryHfEOHSZj+Ne8AORcHVOO1VxvRGvUXHt9asg=;
+ b=IJFQB0AMfoa40CYQjsoMs3rL0+NNN5BmCgwknf9QggY1LV3dfb0w5BFmxMcI4af/gz
+ Uro/406ANjfzax0T4LFnX2MciUrnuZSbC+pWlBbLfzMNT6fIWoZqdg9/h8I0FmNewN1m
+ DXfvKQWr7diILwwrO1fHmMCNbpOde0u4ouhpu6/8Cxm+T1NfcPUro1IxwQL9kRER49Gb
+ rB6zZ/6DMUeDldmnd6LwHMYQaWKCqyTvG0zcvz7XoPG5CysV1UVPgjZ5m4398mJZd4Dt
+ y3Ma8k84vfS74qBMflRzAyCr2dkTy9egNzdTdECzMt27SniRD89OGnkyloi/2BafdqmW
+ dYUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1728307020; x=1728911820;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=+pWYExryHfEOHSZj+Ne8AORcHVOO1VxvRGvUXHt9asg=;
+ b=RPinspe21kQJazQ9DXQ3yLd049zmDphPgO/KQAh1eNy/ZW31qYUDomJ+LdRlwl0isB
+ nvD+z8MojcaD6j+3gdutBamZQCJZUhxaRDaFW8alC8AfonzNnPKoH/9nuGyoMrQGOZ+1
+ Sg+USBvbn2Jr6v/2iz6MNgRFchJSSj6Yq4sQ2j9HoPx7p30joy0E8yImyE4STgXazvyq
+ 5se0cIUKe3jeubR8fLlZA98kzpYgx26S+MiYgRGPJaWNlM5TIZ4+IjJ5X25S5JYkZVB8
+ jGiEfNnOzRSZHXL48OftEXptRdHHHeREBQRvbkOMdrCPbe16iE1LhIYvIeaTI3PjMIUM
+ rE5w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUxh+pBrzkudglsOqRRtykCnxp9FdLHpacJ2TWU7Hn5YRmVFEKYP8xvXuTKIeXY65NGeQjP75UPRG4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwKZNZd4o311cxbt3M8IahEyCMqorVtYP2Ns5s4lFATU/4kcpgn
+ 7wr4m8QiGiTRcf+cpzU3QzWdNBL3MM/MZT0Ke9MO+4p64Q35Ugsrec6Uaknej7g=
+X-Google-Smtp-Source: AGHT+IF5Z5M06yNJGCi1ez/Gx/T8VjldzZqMCqhBqFS3zMMX19PR8zfmRYYeTqG1usnU6bJUYarfKQ==
+X-Received: by 2002:a05:6512:3c9b:b0:539:9155:e8d4 with SMTP id
+ 2adb3069b0e04-539ab862530mr4922913e87.8.1728307019585; 
+ Mon, 07 Oct 2024 06:16:59 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00-89ea-67f6-92cd-b49.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:89ea:67f6:92cd:b49])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-539afec157asm851578e87.58.2024.10.07.06.16.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Oct 2024 06:16:58 -0700 (PDT)
+Date: Mon, 7 Oct 2024 16:16:56 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Jonathan Marek <jonathan@marek.ca>
+Cc: freedreno@lists.freedesktop.org, Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Konrad Dybcio <konradybcio@kernel.org>, 
+ "open list:DRM DRIVER for Qualcomm display hardware"
+ <linux-arm-msm@vger.kernel.org>, 
+ "open list:DRM DRIVER for Qualcomm display hardware"
+ <dri-devel@lists.freedesktop.org>, open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 1/2] drm/msm/dsi: improve/fix dsc pclk calculation
+Message-ID: <gd3bevkbevqqn54xq54dfc5imq3koc7ggudkila7jxgaxcluvz@5mkw2ra6pgoh>
+References: <20241007050157.26855-1-jonathan@marek.ca>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] drm/vc4: Stop the active perfmon before being
- destroyed
-To: Maxime Ripard <mripard@kernel.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- "Juan A . Suarez Romero" <jasuarez@igalia.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
- stable@vger.kernel.org, Boris Brezillon <bbrezillon@kernel.org>
-References: <20241004123817.890016-1-mcanal@igalia.com>
- <20241004123817.890016-2-mcanal@igalia.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Autocrypt: addr=mcanal@igalia.com; keydata=
- xsBNBGcCwywBCADgTji02Sv9zjHo26LXKdCaumcSWglfnJ93rwOCNkHfPIBll85LL9G0J7H8
- /PmEL9y0LPo9/B3fhIpbD8VhSy9Sqz8qVl1oeqSe/rh3M+GceZbFUPpMSk5pNY9wr5raZ63d
- gJc1cs8XBhuj1EzeE8qbP6JAmsL+NMEmtkkNPfjhX14yqzHDVSqmAFEsh4Vmw6oaTMXvwQ40
- SkFjtl3sr20y07cJMDe++tFet2fsfKqQNxwiGBZJsjEMO2T+mW7DuV2pKHr9aifWjABY5EPw
- G7qbrh+hXgfT+njAVg5+BcLz7w9Ju/7iwDMiIY1hx64Ogrpwykj9bXav35GKobicCAwHABEB
- AAHNIE1hw61yYSBDYW5hbCA8bWNhbmFsQGlnYWxpYS5jb20+wsCRBBMBCAA7FiEE+ORdfQEW
- dwcppnfRP/MOinaI+qoFAmcCwywCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQ
- P/MOinaI+qoUBQgAqz2gzUP7K3EBI24+a5FwFlruQGtim85GAJZXToBtzsfGLLVUSCL3aF/5
- O335Bh6ViSBgxmowIwVJlS/e+L95CkTGzIIMHgyUZfNefR2L3aZA6cgc9z8cfow62Wu8eXnq
- GM/+WWvrFQb/dBKKuohfBlpThqDWXxhozazCcJYYHradIuOM8zyMtCLDYwPW7Vqmewa+w994
- 7Lo4CgOhUXVI2jJSBq3sgHEPxiUBOGxvOt1YBg7H9C37BeZYZxFmU8vh7fbOsvhx7Aqu5xV7
- FG+1ZMfDkv+PixCuGtR5yPPaqU2XdjDC/9mlRWWQTPzg74RLEw5sz/tIHQPPm6ROCACFls7A
- TQRnAsMsAQgAxTU8dnqzK6vgODTCW2A6SAzcvKztxae4YjRwN1SuGhJR2isJgQHoOH6oCItW
- Xc1CGAWnci6doh1DJvbbB7uvkQlbeNxeIz0OzHSiB+pb1ssuT31Hz6QZFbX4q+crregPIhr+
- 0xeDi6Mtu+paYprI7USGFFjDUvJUf36kK0yuF2XUOBlF0beCQ7Jhc+UoI9Akmvl4sHUrZJzX
- LMeajARnSBXTcig6h6/NFVkr1mi1uuZfIRNCkxCE8QRYebZLSWxBVr3h7dtOUkq2CzL2kRCK
- T2rKkmYrvBJTqSvfK3Ba7QrDg3szEe+fENpL3gHtH6h/XQF92EOulm5S5o0I+ceREwARAQAB
- wsB2BBgBCAAgFiEE+ORdfQEWdwcppnfRP/MOinaI+qoFAmcCwywCGwwACgkQP/MOinaI+qpI
- zQf+NAcNDBXWHGA3lgvYvOU31+ik9bb30xZ7IqK9MIi6TpZqL7cxNwZ+FAK2GbUWhy+/gPkX
- it2gCAJsjo/QEKJi7Zh8IgHN+jfim942QZOkU+p/YEcvqBvXa0zqW0sYfyAxkrf/OZfTnNNE
- Tr+uBKNaQGO2vkn5AX5l8zMl9LCH3/Ieaboni35qEhoD/aM0Kpf93PhCvJGbD4n1DnRhrxm1
- uEdQ6HUjWghEjC+Jh9xUvJco2tUTepw4OwuPxOvtuPTUa1kgixYyG1Jck/67reJzMigeuYFt
- raV3P8t/6cmtawVjurhnCDuURyhUrjpRhgFp+lW8OGr6pepHol/WFIOQEg==
-In-Reply-To: <20241004123817.890016-2-mcanal@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241007050157.26855-1-jonathan@marek.ca>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,33 +92,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/4/24 09:36, Maíra Canal wrote:
-> Upon closing the file descriptor, the active performance monitor is not
-> stopped. Although all perfmons are destroyed in `vc4_perfmon_close_file()`,
-> the active performance monitor's pointer (`vc4->active_perfmon`) is still
-> retained.
+On Mon, Oct 07, 2024 at 01:01:48AM GMT, Jonathan Marek wrote:
+> drm_mode_vrefresh() can introduce a large rounding error, avoid it.
 > 
-> If we open a new file descriptor and submit a few jobs with performance
-> monitors, the driver will attempt to stop the active performance monitor
-> using the stale pointer in `vc4->active_perfmon`. However, this pointer
-> is no longer valid because the previous process has already terminated,
-> and all performance monitors associated with it have been destroyed and
-> freed.
-> 
-> To fix this, when the active performance monitor belongs to a given
-> process, explicitly stop it before destroying and freeing it.
-> 
-> Cc: <stable@vger.kernel.org> # v4.17+
-> Cc: Boris Brezillon <bbrezillon@kernel.org>
-> Cc: Juan A. Suarez Romero <jasuarez@igalia.com>
-> Fixes: 65101d8c9108 ("drm/vc4: Expose performance counters to userspace")
-> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+> Fixes: 7c9e4a554d4a ("drm/msm/dsi: Reduce pclk rate for compression")
+> Signed-off-by: Jonathan Marek <jonathan@marek.ca>
 > ---
->   drivers/gpu/drm/vc4/vc4_perfmon.c | 7 ++++++-
->   1 file changed, 6 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/msm/dsi/dsi_host.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 
-Applied to misc/kernel.git (drm-misc-fixes).
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Best Regards,
-- Maíra
+-- 
+With best wishes
+Dmitry
