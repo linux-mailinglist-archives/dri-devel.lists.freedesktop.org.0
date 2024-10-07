@@ -2,153 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD458992D86
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 15:37:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23651992DCF
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 15:51:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E22D810E3AA;
-	Mon,  7 Oct 2024 13:37:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 089B010E15D;
+	Mon,  7 Oct 2024 13:51:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="SA9BCtXs";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="M+Hf29u3";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SA9BCtXs";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="M+Hf29u3";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="CYOQYw+9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AF7E10E3A3
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 13:37:43 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 971F41FD4E;
- Mon,  7 Oct 2024 13:37:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1728308261; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=aMorQxKE/oml1ffWc3yHWiIr0CbFzZTNE0qz5GEHXLM=;
- b=SA9BCtXsuURcqU+1oOyD2sCb0XcfLg5oZwUH4iRTZv44aeggqtzJzRfT/RQ9s1S1SvhfjH
- umS8cOnhVdHPO9Env5SwD9oM5eNe8j+nQKxr3U+nmkNA2m0+2yKcb8f8M4HV+iAujTq9UK
- TRaWfX/5+qRHEqMFQkqLVkmbOonty48=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1728308261;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=aMorQxKE/oml1ffWc3yHWiIr0CbFzZTNE0qz5GEHXLM=;
- b=M+Hf29u37J2oIDJvbdyhU7V7V180CAWVDfok40BE+f1/6WlrDeW8bf3ghmwceMdPxoGcdC
- Pw/OZ8Bmz5sKD8CQ==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=SA9BCtXs;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=M+Hf29u3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1728308261; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=aMorQxKE/oml1ffWc3yHWiIr0CbFzZTNE0qz5GEHXLM=;
- b=SA9BCtXsuURcqU+1oOyD2sCb0XcfLg5oZwUH4iRTZv44aeggqtzJzRfT/RQ9s1S1SvhfjH
- umS8cOnhVdHPO9Env5SwD9oM5eNe8j+nQKxr3U+nmkNA2m0+2yKcb8f8M4HV+iAujTq9UK
- TRaWfX/5+qRHEqMFQkqLVkmbOonty48=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1728308261;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=aMorQxKE/oml1ffWc3yHWiIr0CbFzZTNE0qz5GEHXLM=;
- b=M+Hf29u37J2oIDJvbdyhU7V7V180CAWVDfok40BE+f1/6WlrDeW8bf3ghmwceMdPxoGcdC
- Pw/OZ8Bmz5sKD8CQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4908413786;
- Mon,  7 Oct 2024 13:37:41 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id PuWMECXkA2eRaAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 07 Oct 2024 13:37:41 +0000
-Message-ID: <1437f8b3-bf67-4474-849b-1964615227b3@suse.de>
-Date: Mon, 7 Oct 2024 15:37:40 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2AB610E15D;
+ Mon,  7 Oct 2024 13:51:27 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 541405C54D8;
+ Mon,  7 Oct 2024 13:51:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5106AC4CEC6;
+ Mon,  7 Oct 2024 13:51:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1728309086;
+ bh=Af38W6K14UukOEOgx0/mvgFmNDN3th5anBo4M2ARqD8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=CYOQYw+9XtOkvTunR9e38VIVowN1HzmEpxK9oazjAOIT8u+nZpZOeZd+BHJW9NAZZ
+ ffuG0u9XKF8lbBICED9/x6YC4Vpt7/zlQaTJpWBEq4uiiUuyRvhLn+N9LOgaeMeDP/
+ VXnhsALO+3r57KtWSGLtebuB3nuDOcoQbPC2lUAJqOYkC8TqVnCO98oZmRwXNeWiis
+ vPSMS0ca1LAPd3KcwpVQgX9PK4PJSTuBtp6z4hcsFc0Gm6/8w4lfAC1ay6sduoqTN/
+ hn61yCmMmifgqJSeoy1ey1MJ1Zk6CWZZnqKf2unlTW0P2ur/TT2gozgx1sMC2US0/c
+ 9IjSzIHTFuYAQ==
+Date: Mon, 7 Oct 2024 15:51:19 +0200
+From: Danilo Krummrich <dakr@kernel.org>
+To: Yonatan Maman <ymaman@nvidia.com>
+Cc: nouveau@lists.freedesktop.org, Gal Shalom <GalShalom@nvidia.com>,
+ kherbst@redhat.com, lyude@redhat.com, dakr@redhat.com,
+ airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] nouveau/dmem: Fix memory leak in `migrate_to_ram`
+ upon copy error
+Message-ID: <ZwPnV2OPJhOUcsU0@pollux>
+References: <20240923135449.356244-1-Ymaman@Nvidia.com>
+ <20240923135449.356244-3-Ymaman@Nvidia.com>
+ <ZvqJgMVBs2kAWguk@pollux>
+ <f9fa14c1-f487-4ad9-9bc9-7c1db6de1ae6@nvidia.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 0/7] drm/mgag200: Implement VBLANK support
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Cc: "Luck, Tony" <tony.luck@intel.com>,
- "jfalempe@redhat.com" <jfalempe@redhat.com>,
- "airlied@redhat.com" <airlied@redhat.com>,
- "sam@ravnborg.org" <sam@ravnborg.org>,
- "emil.l.velikov@gmail.com" <emil.l.velikov@gmail.com>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "mripard@kernel.org" <mripard@kernel.org>,
- "airlied@gmail.com" <airlied@gmail.com>, "daniel@ffwll.ch"
- <daniel@ffwll.ch>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-References: <20240718104551.575912-1-tzimmermann@suse.de>
- <Zvx6lSi7oq5xvTZb@agluck-desk3.sc.intel.com>
- <49f0ca61-0cf4-4093-b4a7-f49dc46037ab@suse.de>
- <SJ1PR11MB60836E1B04A688CF55506BF4FC702@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <ad02af39-b9b5-4b04-878b-78b3eb7885a5@suse.de> <Zv-84gdD85CqVeh5@intel.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <Zv-84gdD85CqVeh5@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 971F41FD4E
-X-Spam-Score: -3.01
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- ARC_NA(0.00)[]; TO_DN_SOME(0.00)[];
- FUZZY_BLOCKED(0.00)[rspamd.com]; MIME_TRACE(0.00)[0:+];
- TO_DN_EQ_ADDR_SOME(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
- FREEMAIL_CC(0.00)[intel.com,redhat.com,ravnborg.org,gmail.com,linux.intel.com,kernel.org,ffwll.ch,lists.freedesktop.org];
- RCVD_TLS_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- MID_RHS_MATCH_FROM(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- RCPT_COUNT_SEVEN(0.00)[11]; TAGGED_RCPT(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- DKIM_TRACE(0.00)[suse.de:+]; RCVD_VIA_SMTP_AUTH(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,
- imap1.dmz-prg2.suse.org:helo, suse.de:mid, suse.de:dkim]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
+In-Reply-To: <f9fa14c1-f487-4ad9-9bc9-7c1db6de1ae6@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -164,57 +64,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+On Mon, Oct 07, 2024 at 03:28:22PM +0300, Yonatan Maman wrote:
+> 
+> 
+> On 30/09/2024 14:20, Danilo Krummrich wrote:
+> > External email: Use caution opening links or attachments
+> > 
+> > 
+> > On Mon, Sep 23, 2024 at 01:54:58PM +0000, Yonatan Maman wrote:
+> > > A copy push command might fail, causing `migrate_to_ram` to return a
+> > > dirty HIGH_USER page to the user.
+> > > 
+> > > This exposes a security vulnerability in the nouveau driver. To prevent
+> > > memory leaks in `migrate_to_ram` upon a copy error, allocate a zero
+> > > page for the destination page.
+> > 
+> > So, you refer to the case where this function fails in nouveau_dmem_copy_one()?
+> > 
+> > If so, can you please explain why adding __GFP_ZERO to alloc_page_vma() helps
+> > with that?
+> > 
+> 
+> The nouveau_dmem_copy_one function ensures that the copy push command is
+> sent to the device firmware but does not track whether it was executed
+> successfully.
+> 
+> In the case of a copy error (e.g., firmware or hardware error), the command
+> will be sent in the firmware channel, and nouveau_dmem_copy_one might
+> succeed, as well as the migrate_to_ram function. Thus, a dirty page could be
+> returned to the user.
+> 
+> It’s important to note that we attempted to use nouveau_fence_wait status to
+> handle migration errors, but it does not catch all error types.
+> 
+> To avoid this vulnerability, we allocate a zero page. So that, in case of an
+> error, a non-dirty (zero) page will be returned to the user.
 
-Am 04.10.24 um 12:01 schrieb Ville Syrjälä:
-> On Fri, Oct 04, 2024 at 11:17:02AM +0200, Thomas Zimmermann wrote:
->> Hi
->>
->> Am 02.10.24 um 18:15 schrieb Luck, Tony:
->>>> Thanks for the bug report. Can you provide the output of 'sudo lspci
->>>> -vvv' for the graphics device?
->>> Thomas,
->>>
->>> Sure. Here's the output (run on the v6.11.0 kernel)
->> Thanks. It doesn't look much different from other systems. IRQ is also
->> assigned.
->>
->> Attached is a patch that fixes a possible off-by-one error in the
->> register settings. This would affect the bug you're reporting. If
->> possible, please apply the patch to your 6.12-rc1, test and report the
->> result.
-> Didn't one of these weird variants have some bug where the
-> CRTC startadd was not working? Is this one of those?
-> That to me sounds like maybe linecomp has internally been
-> tied to be always active somehow. Perhaps that would
-> also prevent it from generating the interrupt...
+I see, I got confused by calling this a 'memory leak'.
 
-Impressive debugging skills! The broken chip has vendor id 0x0522 
-according to commit 21e74bf99596 ("drm/mgag200: Store HW_BUG_NO_STARTADD 
-flag in device info"). And that's the same type the Tony reported. [1] 
-I'm just not sure if it's worth special casing the chip again or simply 
-revert vblank irqs.
+Please add this description in the commit message and avoid the term 'memory
+leak' in this context.
 
-Best regards
-Thomas
-
-[1] https://admin.pci-ids.ucw.cz/read/PC/102b/0522
-
->
-> Anyways, sounds like someone should just double check whether
-> the status bit ever get asserted or not. If yes, then the
-> problem must be with interrupt delivery, otherwise the
-> problem is that the internal interrupt is never even
-> generated. In the latter case you could try using the
-> vsync interrupt instead.
->
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
+> 
+> > > 
+> > > Signed-off-by: Yonatan Maman <Ymaman@Nvidia.com>
+> > > Signed-off-by: Gal Shalom <GalShalom@Nvidia.com>
+> > 
+> > Since this is a bug, please also add a 'Fixes' tag, CC stable and add a
+> > 'Co-developed-by' tag if appropriate.
+> 
+> sure, thanks, I will add, and push it as V2 patch-series.
+> > 
+> > > ---
+> > >   drivers/gpu/drm/nouveau/nouveau_dmem.c | 2 +-
+> > >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/nouveau/nouveau_dmem.c b/drivers/gpu/drm/nouveau/nouveau_dmem.c
+> > > index 6fb65b01d778..097bd3af0719 100644
+> > > --- a/drivers/gpu/drm/nouveau/nouveau_dmem.c
+> > > +++ b/drivers/gpu/drm/nouveau/nouveau_dmem.c
+> > > @@ -193,7 +193,7 @@ static vm_fault_t nouveau_dmem_migrate_to_ram(struct vm_fault *vmf)
+> > >        if (!spage || !(src & MIGRATE_PFN_MIGRATE))
+> > >                goto done;
+> > > 
+> > > -     dpage = alloc_page_vma(GFP_HIGHUSER, vmf->vma, vmf->address);
+> > > +     dpage = alloc_page_vma(GFP_HIGHUSER | __GFP_ZERO, vmf->vma, vmf->address);
+> > >        if (!dpage)
+> > >                goto done;
+> > > 
+> > > --
+> > > 2.34.1
+> > > 
+> 
