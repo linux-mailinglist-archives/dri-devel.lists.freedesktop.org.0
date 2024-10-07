@@ -2,53 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23651992DCF
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 15:51:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01057992DDA
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 15:54:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 089B010E15D;
-	Mon,  7 Oct 2024 13:51:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CBA710E34E;
+	Mon,  7 Oct 2024 13:54:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="CYOQYw+9";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DctWvKJa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2AB610E15D;
- Mon,  7 Oct 2024 13:51:27 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F26F910E34E;
+ Mon,  7 Oct 2024 13:54:03 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 541405C54D8;
- Mon,  7 Oct 2024 13:51:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5106AC4CEC6;
- Mon,  7 Oct 2024 13:51:23 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id B79E2A40814;
+ Mon,  7 Oct 2024 13:53:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4082FC4CEC6;
+ Mon,  7 Oct 2024 13:54:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1728309086;
- bh=Af38W6K14UukOEOgx0/mvgFmNDN3th5anBo4M2ARqD8=;
+ s=k20201202; t=1728309243;
+ bh=OqTgQbaF1Wymp6tKgKCQ/wtWZC34eQBotCaVLTmxZLU=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=CYOQYw+9XtOkvTunR9e38VIVowN1HzmEpxK9oazjAOIT8u+nZpZOeZd+BHJW9NAZZ
- ffuG0u9XKF8lbBICED9/x6YC4Vpt7/zlQaTJpWBEq4uiiUuyRvhLn+N9LOgaeMeDP/
- VXnhsALO+3r57KtWSGLtebuB3nuDOcoQbPC2lUAJqOYkC8TqVnCO98oZmRwXNeWiis
- vPSMS0ca1LAPd3KcwpVQgX9PK4PJSTuBtp6z4hcsFc0Gm6/8w4lfAC1ay6sduoqTN/
- hn61yCmMmifgqJSeoy1ey1MJ1Zk6CWZZnqKf2unlTW0P2ur/TT2gozgx1sMC2US0/c
- 9IjSzIHTFuYAQ==
-Date: Mon, 7 Oct 2024 15:51:19 +0200
+ b=DctWvKJa5JQaX+NffcrwW411WL8HqFa26Ui3O2VffAPTPyX3gmFF3E6MzGZkQB/Xr
+ XVqZnwBA3ox8xdkaQZN+ND5N2xSDCTgIhIuwMwCVD0AIoM5K5JcfVzMmDBWzV4ihbE
+ qXUqs7r/+DuszgI++u2396nKyh9fB+JV6/IEZzv6r0XSnTPGFMe+TDUXZTcB915kBV
+ mJCPOl3lKNKLrsq3zEkG9pJvmzzmMeRG6i/AW3+rqqYL7f6EmG6I3mnx4gfH3hF0IM
+ Bf8e5JNhr9kJZOoR3jTYnIPSwCDog0idaXUpKNT7hib+e9cqs5bE0MVhcbnvI79q4K
+ AeAtnTSUf2cXw==
+Date: Mon, 7 Oct 2024 15:53:57 +0200
 From: Danilo Krummrich <dakr@kernel.org>
 To: Yonatan Maman <ymaman@nvidia.com>
-Cc: nouveau@lists.freedesktop.org, Gal Shalom <GalShalom@nvidia.com>,
- kherbst@redhat.com, lyude@redhat.com, dakr@redhat.com,
- airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] nouveau/dmem: Fix memory leak in `migrate_to_ram`
- upon copy error
-Message-ID: <ZwPnV2OPJhOUcsU0@pollux>
-References: <20240923135449.356244-1-Ymaman@Nvidia.com>
- <20240923135449.356244-3-Ymaman@Nvidia.com>
- <ZvqJgMVBs2kAWguk@pollux>
- <f9fa14c1-f487-4ad9-9bc9-7c1db6de1ae6@nvidia.com>
+Cc: kherbst@redhat.com, lyude@redhat.com, dakr@redhat.com,
+ airlied@gmail.com, daniel@ffwll.ch, bskeggs@nvidia.com,
+ jglisse@redhat.com, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, Gal Shalom <GalShalom@nvidia.com>
+Subject: Re: [PATCH v2 1/2] nouveau/dmem: Fix privileged error in copy engine
+ channel
+Message-ID: <ZwPn9Z1IPlB65zd-@pollux>
+References: <20241007132700.982800-1-ymaman@nvidia.com>
+ <20241007132700.982800-2-ymaman@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f9fa14c1-f487-4ad9-9bc9-7c1db6de1ae6@nvidia.com>
+In-Reply-To: <20241007132700.982800-2-ymaman@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,75 +62,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 07, 2024 at 03:28:22PM +0300, Yonatan Maman wrote:
+On Mon, Oct 07, 2024 at 04:26:59PM +0300, Yonatan Maman wrote:
+> From: Yonatan Maman <Ymaman@Nvidia.com>
 > 
+> When `nouveau_dmem_copy_one` is called, the following error occurs:
 > 
-> On 30/09/2024 14:20, Danilo Krummrich wrote:
-> > External email: Use caution opening links or attachments
-> > 
-> > 
-> > On Mon, Sep 23, 2024 at 01:54:58PM +0000, Yonatan Maman wrote:
-> > > A copy push command might fail, causing `migrate_to_ram` to return a
-> > > dirty HIGH_USER page to the user.
-> > > 
-> > > This exposes a security vulnerability in the nouveau driver. To prevent
-> > > memory leaks in `migrate_to_ram` upon a copy error, allocate a zero
-> > > page for the destination page.
-> > 
-> > So, you refer to the case where this function fails in nouveau_dmem_copy_one()?
-> > 
-> > If so, can you please explain why adding __GFP_ZERO to alloc_page_vma() helps
-> > with that?
-> > 
+> [272146.675156] nouveau 0000:06:00.0: fifo: PBDMA9: 00000004 [HCE_PRIV]
+> ch 1 00000300 00003386
 > 
-> The nouveau_dmem_copy_one function ensures that the copy push command is
-> sent to the device firmware but does not track whether it was executed
-> successfully.
+> This indicates that a copy push command triggered a Host Copy Engine
+> Privileged error on channel 1 (Copy Engine channel). To address this
+> issue, modify the Copy Engine channel to allow privileged push commands
 > 
-> In the case of a copy error (e.g., firmware or hardware error), the command
-> will be sent in the firmware channel, and nouveau_dmem_copy_one might
-> succeed, as well as the migrate_to_ram function. Thus, a dirty page could be
-> returned to the user.
-> 
-> It’s important to note that we attempted to use nouveau_fence_wait status to
-> handle migration errors, but it does not catch all error types.
-> 
-> To avoid this vulnerability, we allocate a zero page. So that, in case of an
-> error, a non-dirty (zero) page will be returned to the user.
+> Fixes: 6de125383a5c ("drm/nouveau/fifo: expose runlist topology info on all chipsets")
+> Signed-off-by: Yonatan Maman <Ymaman@Nvidia.com>
+> Signed-off-by: Gal Shalom <GalShalom@Nvidia.com>
 
-I see, I got confused by calling this a 'memory leak'.
+Again, why is this signed-off by Gal? If he's a co-author, please add the
+corresponding tag.
 
-Please add this description in the commit message and avoid the term 'memory
-leak' in this context.
+Please also see my reply to the previous version.
 
+> Reviewed-by: Ben Skeggs <bskeggs@nvidia.com>
+> ---
+>  drivers/gpu/drm/nouveau/nouveau_drm.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> > > 
-> > > Signed-off-by: Yonatan Maman <Ymaman@Nvidia.com>
-> > > Signed-off-by: Gal Shalom <GalShalom@Nvidia.com>
-> > 
-> > Since this is a bug, please also add a 'Fixes' tag, CC stable and add a
-> > 'Co-developed-by' tag if appropriate.
-> 
-> sure, thanks, I will add, and push it as V2 patch-series.
-> > 
-> > > ---
-> > >   drivers/gpu/drm/nouveau/nouveau_dmem.c | 2 +-
-> > >   1 file changed, 1 insertion(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/nouveau/nouveau_dmem.c b/drivers/gpu/drm/nouveau/nouveau_dmem.c
-> > > index 6fb65b01d778..097bd3af0719 100644
-> > > --- a/drivers/gpu/drm/nouveau/nouveau_dmem.c
-> > > +++ b/drivers/gpu/drm/nouveau/nouveau_dmem.c
-> > > @@ -193,7 +193,7 @@ static vm_fault_t nouveau_dmem_migrate_to_ram(struct vm_fault *vmf)
-> > >        if (!spage || !(src & MIGRATE_PFN_MIGRATE))
-> > >                goto done;
-> > > 
-> > > -     dpage = alloc_page_vma(GFP_HIGHUSER, vmf->vma, vmf->address);
-> > > +     dpage = alloc_page_vma(GFP_HIGHUSER | __GFP_ZERO, vmf->vma, vmf->address);
-> > >        if (!dpage)
-> > >                goto done;
-> > > 
-> > > --
-> > > 2.34.1
-> > > 
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c b/drivers/gpu/drm/nouveau/nouveau_drm.c
+> index a58c31089613..0a75ce4c5021 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_drm.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
+> @@ -356,7 +356,7 @@ nouveau_accel_ce_init(struct nouveau_drm *drm)
+>  		return;
+>  	}
+>  
+> -	ret = nouveau_channel_new(drm, device, false, runm, NvDmaFB, NvDmaTT, &drm->cechan);
+> +	ret = nouveau_channel_new(drm, device, true, runm, NvDmaFB, NvDmaTT, &drm->cechan);
+>  	if (ret)
+>  		NV_ERROR(drm, "failed to create ce channel, %d\n", ret);
+>  }
+> -- 
+> 2.34.1
 > 
