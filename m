@@ -2,46 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98D5199352D
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 19:39:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D26F993559
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 19:49:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FEA210E225;
-	Mon,  7 Oct 2024 17:39:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68C2210E0E7;
+	Mon,  7 Oct 2024 17:49:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Y1/W1gnN";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UYLzhHvT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF36410E3ED
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 17:39:07 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id E35F85C5CF7;
- Mon,  7 Oct 2024 17:39:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62FBFC4CEC6;
- Mon,  7 Oct 2024 17:39:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1728322746;
- bh=VvJ8YNU78de4xDh311gpCyCxsuwRL7e1AlwnGF6LTbw=;
- h=Subject:To:Cc:From:Date:From;
- b=Y1/W1gnNv7t1ijeCT7s6Cy0fGwoxiXMsddubbSjEwJvf+8uUvcm/MuAmbstm/bBNp
- W4ly0oc1r2Z6RwBqYmfmMEs/wEHmJb/pjleyxXPg2x4RAUWrQBtvHd1aKmk+W022G9
- xyOhz4/13HmrjISrjYnqM/fETu10dSTjdckcHgiE=
-Subject: Patch "firmware/sysfb: Disable sysfb for firmware buffers with
- unknown parent" has been added to the 6.11-stable tree
-To: alexander.deucher@amd.com, chaitanya.kumar.borah@intel.com,
- daniel.vetter@ffwll.ch, deller@gmx.de, dri-devel@lists.freedesktop.org,
- gregkh@linuxfoundation.org, javierm@redhat.com, regressions@leemhuis.info,
- sam@ravnborg.org, tzimmermann@suse.de
-Cc: <stable-commits@vger.kernel.org>
-From: <gregkh@linuxfoundation.org>
-Date: Mon, 07 Oct 2024 19:35:45 +0200
-Message-ID: <2024100744-predator-upbeat-952c@gregkh>
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com
+ [209.85.210.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42F9C10E0E7;
+ Mon,  7 Oct 2024 17:49:15 +0000 (UTC)
+Received: by mail-pf1-f169.google.com with SMTP id
+ d2e1a72fcca58-71927b62fa1so672468b3a.2; 
+ Mon, 07 Oct 2024 10:49:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1728323355; x=1728928155; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=xFIN27AG3WgjOnmH18Fk8WaAPf1pZ2KMgetkW6A+4t0=;
+ b=UYLzhHvT+90mPuUXy9T6UQlLMSdrpLftvDkqEc1RieGiImICzGK9uiSLSIHelOA/y0
+ hylcc8Xf5RGH65tuNVgWkMu7xJLFCWZtkiDUnw0LEmCtIX3mXc3qiJS7te5n7WWEaME/
+ kBNpJkF5vdgoFMi/LF4BUpawILosE8/zlwjdUcaXft7Y7s9GOG1jW0FCa9fhuCAWg0xc
+ 6BYITVuyvch0sI9ebQlfkt2fO0EBdfrZOBvGJ2tfwsjIsZxd+ezzzJpZOP9I2/0c9Uxx
+ kfLZT4hboyhS3duRzB6qE9B7gPZeHuBlkTCLG00XNMWM2pHdNRHspud9ZfD+2T2IkNox
+ MHiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1728323355; x=1728928155;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=xFIN27AG3WgjOnmH18Fk8WaAPf1pZ2KMgetkW6A+4t0=;
+ b=t8Nalz/usrjY7inP+Ri6G1F0BDbN74qeIdqiQ5sqVlPukwoICqkZVdlrcV+Anwd8wA
+ rqilBJfUxz8qB3QBkOQyOJOBXtTtQcf0UxAZr8SoPS/byWEMjj+tQCKFN0QAWloa512a
+ PwYZe7sdkMjpLUvXrUdl6WUqVKP7s4biGoLGPsekXy51ldYbz+lVHYB8S49kA6E9fgd0
+ BGGeH8S/2CneoUISWE7lWn6hrXExUHRx0KywN646AouDdxe+4+C4F0FzbplGSM6dRi7A
+ +EB3ktGBQfYqgmEbsO4KDf9O55DMdVcSKr8/k+xhDfnu12vz9D6qa212ucJzkNdocTd3
+ yqRw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUb4mtaulSbMRSfiruD6KH90/3aPT1+rMinDeEYmwkweNj5g6cEPdcwUeCLbc1qxbbwFtoFMU1qBHM=@lists.freedesktop.org,
+ AJvYcCV235rMUhHCcsuQFU5oealB4rd7lGnpFQU8FXr1cIxYr7T003bCUjYpR89bH+FIp+xvrUv2gm+DdaA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyk9zfkwW4aEzerDXkMHaOTWQouj6ZkjwyTGcluD+Sf+T4v3W74
+ z7QQY8zOVvmOUygP+Ri4PNwAQYTdg3zUc9hBLfP9OkRv27LBLDfB
+X-Google-Smtp-Source: AGHT+IH236XZqVh5kSYznYvuShbIvj5woyfy5XKiXBwQQoAWzcu2Nl7W5TjR15p5S8ffsQdMMGim+g==
+X-Received: by 2002:a05:6a00:2e24:b0:71d:f744:67 with SMTP id
+ d2e1a72fcca58-71df744011amr4789204b3a.7.1728323354725; 
+ Mon, 07 Oct 2024 10:49:14 -0700 (PDT)
+Received: from dev.. ([2402:e280:214c:86:a843:852f:eac4:ff92])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-71df0cd0ae9sm4649923b3a.82.2024.10.07.10.49.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Oct 2024 10:49:14 -0700 (PDT)
+From: R Sundar <prosunofficial@gmail.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ imre.deak@intel.com, ville.syrjala@linux.intel.com,
+ R Sundar <prosunofficial@gmail.com>, kernel test robot <lkp@intel.com>,
+ Julia Lawall <julia.lawall@inria.fr>
+Subject: [PATCH linux-next] drm/i915/dp: use string choice helpers
+Date: Mon,  7 Oct 2024 23:18:57 +0530
+Message-Id: <20241007174857.85061-1-prosunofficial@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
-X-stable: commit
-X-Patchwork-Hint: ignore 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,79 +88,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Use str_on_off string helpers for better readability and to fix cocci
+warning.
 
-This is a note to let you know that I've just added the patch titled
-
-    firmware/sysfb: Disable sysfb for firmware buffers with unknown parent
-
-to the 6.11-stable tree which can be found at:
-    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
-
-The filename of the patch is:
-     firmware-sysfb-disable-sysfb-for-firmware-buffers-with-unknown-parent.patch
-and it can be found in the queue-6.11 subdirectory.
-
-If you, or anyone else, feels it should not be added to the stable tree,
-please let <stable@vger.kernel.org> know about it.
-
-
-From ad604f0a4c040dcb8faf44dc72db25e457c28076 Mon Sep 17 00:00:00 2001
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Date: Tue, 24 Sep 2024 10:41:03 +0200
-Subject: firmware/sysfb: Disable sysfb for firmware buffers with unknown parent
-
-From: Thomas Zimmermann <tzimmermann@suse.de>
-
-commit ad604f0a4c040dcb8faf44dc72db25e457c28076 upstream.
-
-The sysfb framebuffer handling only operates on graphics devices
-that provide the system's firmware framebuffer. If that device is
-not known, assume that any graphics device has been initialized by
-firmware.
-
-Fixes a problem on i915 where sysfb does not release the firmware
-framebuffer after the native graphics driver loaded.
-
-Reported-by: Borah, Chaitanya Kumar <chaitanya.kumar.borah@intel.com>
-Closes: https://lore.kernel.org/dri-devel/SJ1PR11MB6129EFB8CE63D1EF6D932F94B96F2@SJ1PR11MB6129.namprd11.prod.outlook.com/
-Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/12160
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: b49420d6a1ae ("video/aperture: optionally match the device in sysfb_disable()")
-Cc: Javier Martinez Canillas <javierm@redhat.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Helge Deller <deller@gmx.de>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: Linux regression tracking (Thorsten Leemhuis) <regressions@leemhuis.info>
-Cc: <stable@vger.kernel.org> # v6.11+
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240924084227.262271-1-tzimmermann@suse.de
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Julia Lawall <julia.lawall@inria.fr>
+Closes: https://lore.kernel.org/r/202410071252.cWILJzrH-lkp@intel.com/
+Signed-off-by: R Sundar <prosunofficial@gmail.com>
 ---
- drivers/firmware/sysfb.c |    4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
 
---- a/drivers/firmware/sysfb.c
-+++ b/drivers/firmware/sysfb.c
-@@ -67,9 +67,11 @@ static bool sysfb_unregister(void)
- void sysfb_disable(struct device *dev)
- {
- 	struct screen_info *si = &screen_info;
-+	struct device *parent;
- 
- 	mutex_lock(&disable_lock);
--	if (!dev || dev == sysfb_parent_dev(si)) {
-+	parent = sysfb_parent_dev(si);
-+	if (!dev || !parent || dev == parent) {
- 		sysfb_unregister();
- 		disabled = true;
- 	}
+Reported in linux repo:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/i915/display/intel_dp.c:2243:6-9: opportunity for str_on_off(dsc)
 
-Patches currently in stable-queue which might be from tzimmermann@suse.de are
+vim +2243 drivers/gpu/drm/i915/display/intel_dp.c
 
-queue-6.11/firmware-sysfb-disable-sysfb-for-firmware-buffers-with-unknown-parent.patch
-queue-6.11/drm-consistently-use-struct-drm_mode_rect-for-fb_damage_clips.patch
+compile tested only.
+
+ drivers/gpu/drm/i915/display/intel_dp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+index fbb096be02ad..733619b14193 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.c
++++ b/drivers/gpu/drm/i915/display/intel_dp.c
+@@ -2475,7 +2475,7 @@ intel_dp_compute_config_link_bpp_limits(struct intel_dp *intel_dp,
+ 		    encoder->base.base.id, encoder->base.name,
+ 		    crtc->base.base.id, crtc->base.name,
+ 		    adjusted_mode->crtc_clock,
+-		    dsc ? "on" : "off",
++		    str_on_off(dsc),
+ 		    limits->max_lane_count,
+ 		    limits->max_rate,
+ 		    limits->pipe.max_bpp,
+-- 
+2.34.1
+
