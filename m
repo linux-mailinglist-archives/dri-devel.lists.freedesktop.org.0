@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A890B9928D9
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 12:11:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 882029928DD
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 12:12:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2790110E361;
-	Mon,  7 Oct 2024 10:11:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E14010E364;
+	Mon,  7 Oct 2024 10:12:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="IMqvCHlE";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="1OxnFh7Z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1837310E361
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 10:11:53 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC65E10E364
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 10:12:32 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id C74BFA41993;
- Mon,  7 Oct 2024 10:11:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E196C4CEC6;
- Mon,  7 Oct 2024 10:11:51 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id E500F5C5C53;
+ Mon,  7 Oct 2024 10:12:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64D34C4CEC6;
+ Mon,  7 Oct 2024 10:12:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1728295912;
- bh=EnM3/KODrTRszfsyanZ6XU/3MQZqV1sOe9czndfY/yA=;
+ s=korg; t=1728295951;
+ bh=rFKWlhvciM5FlOlz7H188J5i+jQ7+7+IyBzz4rC8Fiw=;
  h=Subject:To:Cc:From:Date:From;
- b=IMqvCHlEdzfBRkFWaHP5odixtSLKKZz5yXWdq5jr5rCjpQzGWLk4JK84UJANvKW2c
- eM4o6xmLC+d+HY5Sq9lPpTzX6N14Pix827N9B7Q6VDX75ABJerHGEAY/9z9ZWhWdlN
- soqldUfLmmh3o35h6izKt/OQpCouLVHNO7lnLv9w=
+ b=1OxnFh7ZOfskp1sBrXyGM7jiFzgxL6oHOOzlkwWBe0c++vgQCJA6nMaNNDnOFg8kw
+ OsG94uSoXWj0kX9Ujy5RKeDhqaGA2czRotSRvplZLtnCUso5KRJCuCpcZ6ky5dAeGP
+ EfXgqo89Vx8t7wiOfHKNiDlv2++Kf8eFQaIQxHNM=
 Subject: Patch "drm: Consistently use struct drm_mode_rect for
- FB_DAMAGE_CLIPS" has been added to the 6.10-stable tree
+ FB_DAMAGE_CLIPS" has been added to the 6.11-stable tree
 To: airlied@gmail.com, daniel.vetter@ffwll.ch, dmitry.baryshkov@linaro.org,
  drawat@vmware.com, dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
  lukasz.spintzyk@displaylink.com, maarten.lankhorst@linux.intel.com,
@@ -36,8 +36,8 @@ To: airlied@gmail.com, daniel.vetter@ffwll.ch, dmitry.baryshkov@linaro.org,
  tzimmermann@suse.de, ville.syrjala@linux.intel.com
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
-Date: Mon, 07 Oct 2024 12:10:04 +0200
-Message-ID: <2024100704-runway-scone-2c25@gregkh>
+Date: Mon, 07 Oct 2024 12:10:18 +0200
+Message-ID: <2024100718-overbook-finale-fa4c@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -63,12 +63,12 @@ This is a note to let you know that I've just added the patch titled
 
     drm: Consistently use struct drm_mode_rect for FB_DAMAGE_CLIPS
 
-to the 6.10-stable tree which can be found at:
+to the 6.11-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      drm-consistently-use-struct-drm_mode_rect-for-fb_damage_clips.patch
-and it can be found in the queue-6.10 subdirectory.
+and it can be found in the queue-6.11 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -128,4 +128,4 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from tzimmermann@suse.de are
 
-queue-6.10/drm-consistently-use-struct-drm_mode_rect-for-fb_damage_clips.patch
+queue-6.11/drm-consistently-use-struct-drm_mode_rect-for-fb_damage_clips.patch
