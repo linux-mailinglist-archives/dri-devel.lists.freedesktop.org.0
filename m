@@ -2,76 +2,121 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86F60992A51
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 13:37:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C68FC992A5F
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 13:41:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFD6110E1FC;
-	Mon,  7 Oct 2024 11:37:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6594210E332;
+	Mon,  7 Oct 2024 11:41:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="MZM5fjg3";
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.b="HAh/WZuB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [217.72.192.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A047310E1FC
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 11:37:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
- s=s29768273; t=1728301024; x=1728905824; i=markus.elfring@web.de;
- bh=NAdvvRci/qH4SyInWfc5eb3BE9V/ablTONBTVmrRJpI=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
- Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
- cc:content-transfer-encoding:content-type:date:from:message-id:
- mime-version:reply-to:subject:to;
- b=MZM5fjg3r3b+Qfx69A56uNXYK5YgB1UvO5CZ+KxNBJF2ng/w43pcbmIhvm0cwGT4
- OsCXF63Ohax1Vt4gefZQzDSpW1mS36r1JQJGulmM8W98RZkPVNSZYNTma5wi2Yo7b
- GSJRNvIkeLVHdC2C8pPVYPwTI5ydQsJ+t+ljJwYYF3k+StDwX10ycnAHk6jClqaar
- WjIXYw4MVxloCrN0bDYraX3mRuACbgsoVKZXonZhDLARuqTh0C+3oeEIMPwpfeLmJ
- p5LHzya0AiC2Yj59IWTQB+Vi/nNyv2ppaRikFS5xG35AvvkSxafWA2SY4FVkETBcF
- aWZBIkHIEKqfAmbXbw==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.81.95]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MDv9a-1t7hgB3sMG-00BYNo; Mon, 07
- Oct 2024 13:37:03 +0200
-Message-ID: <81ce44fa-a972-44bd-ae80-6144a8ac4c2f@web.de>
-Date: Mon, 7 Oct 2024 13:36:56 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Hsiao Chien Sung <shawn.sung@mediatek.com>,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- dri-devel@lists.freedesktop.org,
- Angelo Gioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Bibby Hsieh <bibby.hsieh@mediatek.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Daniel Kurtz
- <djkurtz@chromium.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>, Mao Huang <littlecvr@chromium.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, Nancy Lin
- <nancy.lin@mediatek.com>, Philipp Zabel <p.zabel@pengutronix.de>
-Cc: LKML <linux-kernel@vger.kernel.org>, YT Shen <yt.shen@mediatek.com>
-References: <20240620-igt-v3-4-a9d62d2e2c7e@mediatek.com>
-Subject: Re: [PATCH v3 04/14] drm/mediatek: Fix XRGB setting error in Mixer
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20240620-igt-v3-4-a9d62d2e2c7e@mediatek.com>
-Content-Type: text/plain; charset=UTF-8
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
+ [148.163.158.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6705C10E332;
+ Mon,  7 Oct 2024 11:41:47 +0000 (UTC)
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 497BIJnD007103;
+ Mon, 7 Oct 2024 11:41:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from
+ :subject:date:message-id:content-type:to:cc
+ :content-transfer-encoding:mime-version; s=pp1; bh=nNF7VnqBxEo29
+ MKADQtdRLRbARsJ4XAjfkKqWI+vbjc=; b=HAh/WZuBIpn34YnemiDYdg8nMV2ad
+ 7SZFEPQt8TsZK+L84Bvs+uOCLi9BlKqDE0eqBuzGTnF8YT6lEVukJK9zjm2MwgcA
+ 6kiE1+hwQP3kwK27N4Ye6DecA4+f4cWdSb+HuFshpYxPCwEuO/3g9djKX48346pf
+ FMnG5U5GEMM2kGZQMR1B7feA8Uc628fS/nIyKPryK8D2l2BpsDaCh192BLJQkUQp
+ CBPKFyzMUExtEnhAo8SNMGP592e7Qh+Wx2VPt6jc8Scf9GYGaCgx2fBwkJrNoVzY
+ bU0ipTU1nu9vyeMmNVK61mivvDIrTtlgDk9PAPRfL29PVwWut5qfSdt1g==
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 424enc861f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 07 Oct 2024 11:41:36 +0000 (GMT)
+Received: from m0356516.ppops.net (m0356516.ppops.net [127.0.0.1])
+ by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 497Bc4JU029871;
+ Mon, 7 Oct 2024 11:41:35 GMT
+Received: from ppma22.wdc07v.mail.ibm.com
+ (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 424enc861a-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 07 Oct 2024 11:41:35 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+ by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 497AknUA011521;
+ Mon, 7 Oct 2024 11:41:34 GMT
+Received: from smtprelay02.wdc07v.mail.ibm.com ([172.16.1.69])
+ by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 423g5xeecn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 07 Oct 2024 11:41:34 +0000
+Received: from smtpav04.wdc07v.mail.ibm.com (smtpav04.wdc07v.mail.ibm.com
+ [10.39.53.231])
+ by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 497BfX1p26542776
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 7 Oct 2024 11:41:33 GMT
+Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A533458050;
+ Mon,  7 Oct 2024 11:41:33 +0000 (GMT)
+Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7D15058045;
+ Mon,  7 Oct 2024 11:41:28 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+ by smtpav04.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+ Mon,  7 Oct 2024 11:41:28 +0000 (GMT)
+From: Niklas Schnelle <schnelle@linux.ibm.com>
+Subject: [PATCH v6 0/5] treewide: Remove I/O port accessors for
+ HAS_IOPORT=n
+Date: Mon, 07 Oct 2024 13:40:18 +0200
+Message-Id: <20241007-b4-has_ioport-v6-0-03f7240da6e5@linux.ibm.com>
+Content-Type: text/plain; charset="utf-8"
+X-B4-Tracking: v=1; b=H4sIAKLIA2cC/x3MTQqAIBBA4avIrBNUxEVXiQh/ppyNikYE4t2Tl
+ t/ivQ4NK2GDlXWo+FCjnCbMwsBHmy7kFKZBCaWlEJo7zaNtB+WS682NsN54lAGdgdmUiie9/2/
+ bx/gA4nRBSV8AAAA=
+X-Change-ID: 20241004-b4-has_ioport-60ac6ce1deb6
+To: Brian Cain <bcain@quicinc.com>, Marcel Holtmann <marcel@holtmann.org>,
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+ Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Dave Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jiri Slaby <jirislaby@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ "Maciej W. Rozycki" <macro@orcam.me.uk>, Heiko Carstens <hca@linux.ibm.com>
+Cc: linux-kernel@vger.kernel.org, linux-hexagon@vger.kernel.org,
+ linux-bluetooth@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, linux-serial@vger.kernel.org,
+ linux-arch@vger.kernel.org, Niklas Schnelle <schnelle@linux.ibm.com>,
+ Arnd Bergmann <arnd@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2835;
+ i=schnelle@linux.ibm.com; h=from:subject:message-id;
+ bh=56Zn+untYB/86BUOrMg1tqyRhTgF3l22FcAHs6oZeLk=;
+ b=owGbwMvMwCX2Wz534YHOJ2GMp9WSGNKZTxzJ15rsYcIWk/KtyKduunlbb7DY2z0v7i99rGKV7
+ MvjmbS7o5SFQYyLQVZMkWVRl7PfuoIppnuC+jtg5rAygQxh4OIUgImc2MDw37fU0d9p6dn9aj5n
+ Kyb/3/d7avK9f2lZmidWG3uH5vXOdGD4K233t5tt0fPevk+Tp5yVKVSqOjkv5cn+BZY/0v/9fxB
+ cxA8A
+X-Developer-Key: i=schnelle@linux.ibm.com; a=openpgp;
+ fpr=9DB000B2D2752030A5F72DDCAFE43F15E8C26090
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: Adc5AubR4hKNTwbscHQvyecHJvamlipo
+X-Proofpoint-GUID: skSNSjYdfik1WxfIsD7PmOVu7ZXOEQYn
 Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:NUFwNhkscOyDyELqWmI3FAG77svFnNMD9qcpFN+Jv7FYNoq4/il
- Lqkd5arsarOez0n1pZ/3F+SeTSVUjoo6y6MVY+1gBB5CdVnyRKuwDBHo4CQugSvZpaiwI7k
- VYsfKaqBau1PVZH4BWksV9WC2wMEk7JtFHGCUObnqhltQAVSWoa31uEfmkX9m6nlwQuxSV+
- 3UK0k+pqVdsKGA202IYLg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:eoxNj23SWsQ=;o3VmP1ZFXqYQVJFwAVVnskPmFD3
- FarkdV6GJwpSGCaLmZm3vu2EJblANfNpqOD7eXB6V7XX+v6xlHXTLdHpHvFAPIn0uMESmyUcp
- FRQ8fEi69mfLJ/IXR1nw0MwoHYhX1kCtenYg4J/2zjdcetn4ptS9MEIWBuM4xJCdGt/kmv4Un
- /hmp0gMXcCA0MSM+FRxes+HmsJZVAFPPRJdGYw5Mn61Si9TurMnqNDYWowQpwq2K4qFYd9ZoQ
- aX/GSI0YwoqM2/e+klENOn96uSkzTKguV5Ob422AG5+A930Aim0R8Evuv5tRAWsjP8xuf/QqS
- ziG3JETK+v+ny1t1qVetJWw/ZySO+epUYcT1fGMHyH+msWbNHgwnAyf9K+0uIFQgwQG9V75tf
- 1FjWC4MSU3rylvpCUQb1ntrpdJe4D1ZVN9BRXJ8JfCvMUlRVlewOVW370+GqNow4JF2xYR6tm
- 0qK3V9V0ok/ma8PPjHfslD5Vv2qBMTt93tuR9p0u5Y88c9mwBwiFS1S06Jeb6koHIcZg2a+Hs
- 3X/itD/WtHAeHcVp2I1D4ClCH5AW3yH1huFYWR+pBjZ1qFB7D7b3sE4fYK9IstdKYiVW2uLKP
- U4nnjzMFpHT0uZZq8A7C+xni5CyLKz6eTWKlB/kyIb++H5B3c4nLgxLsxlgKntcgoyNHzMNfo
- fJsEwBr5b8Y7SOlJFzK83QLS+t/FM4W59GhJPyy0bFtt4hjx/4ZVXhr3lywy487KOe3xDj3AC
- MloT8TOcpaCcvQcD/x/EIsf2ud8mcMEKRs4qqrWrB0RXgHj5ntiae8dW8/povxGcI9SXaU+Zu
- mESKha9BOBE/RPYSX9opQUsg==
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-07_02,2024-10-07_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 mlxscore=0 suspectscore=0 clxscore=1011 mlxlogscore=999
+ bulkscore=0 lowpriorityscore=0 impostorscore=0 spamscore=0 adultscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410070081
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,16 +132,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> Although the alpha channel in XRGB formats can be ignored, ALPHA_CON
-> must be configured accordingly when using XRGB formats or it will still
-> affects CRC generation.
+Hi All,
 
-  affect?
+This is a follow up in my long running effort of making inb()/outb() and
+similar I/O port accessors compile-time optional. After initially
+sending this as a treewide series with the latest revision at[0]
+we switched to per subsystem series. Now though as we're left with only
+5 patches left I'm going back to a single series with Arnd planning
+to take this via the the asm-generic tree.
 
+This series may also be viewed for your convenience on my git.kernel.org
+tree[1] under the b4/has_ioport branch. As for compile-time vs runtime
+see Linus' reply to my first attempt[2].
 
-Can such a change description become a bit nicer with an additional
-imperative wording?
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/submitting-patches.rst?h=v6.12-rc2#n94
+Thanks,
+Niklas
 
-Regards,
-Markus
+[0] https://lore.kernel.org/all/20230522105049.1467313-1-schnelle@linux.ibm.com/
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/niks/linux.git
+[2] https://lore.kernel.org/lkml/CAHk-=wg80je=K7madF4e7WrRNp37e3qh6y10Svhdc7O8SZ_-8g@mail.gmail.com/
+
+Changes since v5 / per subsystem patches:
+
+drm:
+- Add HAS_IOPORT dependency for GMA500
+tty: serial:
+- Make 8250 PCI driver emit an error message when trying to use devices
+  which require I/O ports without CONFIG_HAS_IOPORT (Maciej)
+- Use early returns + dead code elimination to skip inb()/outb() uses
+  in quirks (Arnd)
+- In 8250 PCI driver also handle fintek and moxi quirks
+- In 8250 ports code handle um's defined(__i385__) &&
+  defined(CONFIG_HAS_IOPORT) case
+- Use IS_ENABLED() early return also in is_upf_fourport()
+  __always_inline to force constant folding
+
+Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
+---
+Niklas Schnelle (5):
+      hexagon: Don't select GENERIC_IOMAP without HAS_IOPORT support
+      Bluetooth: add HAS_IOPORT dependencies
+      drm: handle HAS_IOPORT dependencies
+      tty: serial: handle HAS_IOPORT dependencies
+      asm-generic/io.h: Remove I/O port accessors for HAS_IOPORT=n
+
+ arch/hexagon/Kconfig                  |  1 -
+ drivers/bluetooth/Kconfig             |  6 ++--
+ drivers/gpu/drm/gma500/Kconfig        |  2 +-
+ drivers/gpu/drm/qxl/Kconfig           |  1 +
+ drivers/gpu/drm/tiny/bochs.c          | 17 ++++++++++
+ drivers/gpu/drm/tiny/cirrus.c         |  2 ++
+ drivers/gpu/drm/xe/Kconfig            |  2 +-
+ drivers/tty/Kconfig                   |  4 +--
+ drivers/tty/serial/8250/8250_early.c  |  4 +++
+ drivers/tty/serial/8250/8250_pci.c    | 49 +++++++++++++++++++++++++++-
+ drivers/tty/serial/8250/8250_pcilib.c |  4 +++
+ drivers/tty/serial/8250/8250_port.c   | 47 +++++++++++++++++++++------
+ drivers/tty/serial/8250/Kconfig       |  4 +--
+ drivers/tty/serial/Kconfig            |  2 +-
+ include/asm-generic/io.h              | 60 +++++++++++++++++++++++++++++++++++
+ 15 files changed, 183 insertions(+), 22 deletions(-)
+---
+base-commit: 8cf0b93919e13d1e8d4466eb4080a4c4d9d66d7b
+change-id: 20241004-b4-has_ioport-60ac6ce1deb6
+
+Best regards,
+-- 
+Niklas Schnelle
+
