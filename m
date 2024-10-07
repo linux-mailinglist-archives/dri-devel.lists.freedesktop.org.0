@@ -2,81 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85203992170
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Oct 2024 22:52:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4D6C992279
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 02:19:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB88B10E2ED;
-	Sun,  6 Oct 2024 20:52:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F09F10E0DA;
+	Mon,  7 Oct 2024 00:19:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="OFwtBMyg";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NhUGh/k1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com
- [209.85.208.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10A7A10E2F8
- for <dri-devel@lists.freedesktop.org>; Sun,  6 Oct 2024 20:52:11 +0000 (UTC)
-Received: by mail-lj1-f178.google.com with SMTP id
- 38308e7fff4ca-2fad0f66d49so55491581fa.3
- for <dri-devel@lists.freedesktop.org>; Sun, 06 Oct 2024 13:52:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1728247929; x=1728852729; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=9OyMjhdbJ+/IeY2iyhb3CqRL8DD3x/amWZ1lVkIaJ5Y=;
- b=OFwtBMyg0AMo5f0tlPfsh33T8lEb3eIJ7mmj/Gbs+1hIVGuUsFyGrjuglOcU8fEeuf
- DzjBBNsPSpdsx0iwEdzn7xraMZs0/zlkB7rj90K8oA9BQiIwWgtK97xyb2f17k0aMmms
- DrurL2pLpmogBP3fJ3qUKr7C+5smiGJJP9QSxeQQrAyS2xAqEF2C003HtbkB+SL6ZPkG
- aQeO+Dq1wmuB24+JTmqvBV9169Whjssru/x64h0kxl+4K7pf/PtJiChiUMOdKpmcGN27
- 7yBsKyUuakQsQbviO3JS30aDueYX7BJqK48fQ2fxx1kmu8pP4juRx3CAPIxnLi0ac0iC
- iodA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728247929; x=1728852729;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=9OyMjhdbJ+/IeY2iyhb3CqRL8DD3x/amWZ1lVkIaJ5Y=;
- b=tuAvHYEwlp/gGHexTxvuqgKofNdjhobxrLQZAc9Cs9DidH1fZ+vec7maKkg/hQk6Ue
- ugIMJg+fzx+drlGS409t05xOszGFZ4i6/WjsrDGXuQBqRauUPMWho03I4Q//K8CnTfvU
- h/VAp/f5Uf/lVpCXd4GPO9Gg3wY0lgSR3wqtSYhMOjoUxcOiWDt7e1w7BEC5e1dNZqpd
- qEHr1v1rnnT+5xH0i/xP7M8ZQmFbPccO7gEiZwvhrjOFyul40YrQFjNBfNKTe/LD5HTV
- xe7k+BOKyBDQy8d2nEVsKfQ4Vh6Tw5cQ5fbLJZJ4tdohm3P/CEnZUuUrGiRUP3OU/i5x
- Eo0g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUH2MjMumIp3RnPbf5zJlSWAsybwVzTmzMMVr8AcLmXa49OlH0cDOEjGFa7QZiav82SY8wlVcS09i4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxDDFqHqe76fAy0wRQPnfIHBNY0y4T/iLf2aNEd9ygLjNkLbf9i
- RA1wNIewCtS4alz8oNiBjSm7+mDsUrXQKK+EY5yS2R7tq8vi838Ixsmdzj0MqwI=
-X-Google-Smtp-Source: AGHT+IGRiIySlWrGOiv+6I3t6tczVBclAkcxaaYg68qustx800l6/g5ilrv8dcAOtRr4pKR5snZEBg==
-X-Received: by 2002:a2e:bc1a:0:b0:2fa:c966:589f with SMTP id
- 38308e7fff4ca-2faf3c0c21dmr44365801fa.1.1728247929172; 
- Sun, 06 Oct 2024 13:52:09 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00-89ea-67f6-92cd-b49.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:89ea:67f6:92cd:b49])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2faf9ac440asm6287441fa.46.2024.10.06.13.52.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Oct 2024 13:52:07 -0700 (PDT)
-Date: Sun, 6 Oct 2024 23:52:05 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: =?utf-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <barnabas.czeman@mainlining.org>
-Cc: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Simona Vetter <simona.vetter@ffwll.ch>, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
-Subject: Re: [PATCH v2 4/4] drm/msm/dpu: Add support for MSM8917
-Message-ID: <tv7eajb252ncdtb4vrd4o3yi3jbod6sgt3rerfaixr2kyddnfv@nrrihbhu5me6>
-References: <20240930-dpu-msm8953-msm8996-v2-0-594c3e3190b4@mainlining.org>
- <20240930-dpu-msm8953-msm8996-v2-4-594c3e3190b4@mainlining.org>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A4A910E0DA
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 00:19:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1728260363; x=1759796363;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=yZOFus3QgzfCLDaNDox5LbUTHFJSNKpV2o9NW1pu0Rg=;
+ b=NhUGh/k1A7FGA101G8UAhyby0Uwuf7bANK3HI2zYFOm+O8wq4gyoOhSb
+ BafranyCJxvJg8d3QMAkjrz4DzOhhWt2kZhnzbGzKhHFzxyO1olm+8ilR
+ Jl5CGXlOLidzIdQT6fm7rKpdyZlSNMGooOxy4j+N+R6YGfT2g8aOasaYw
+ 0abJ/gZBXKz1QLwUUCQgofoh0XdcM+z1vTRh9cBs8m/cuHG668RwF7bNo
+ wSoqs/JNAS8PPIc0c8CvnVFiqLYh4bM74dhbIC4WXB09B03m8+pHDetdN
+ aU65aRVN9YeaRJj1UCDubR2NEh+8HZJW0ap98nsLlXTHrVBuTg/S0MT6F Q==;
+X-CSE-ConnectionGUID: 0x1EOyrkRca3d4GXN0gCiQ==
+X-CSE-MsgGUID: sGuBi/4QRyCZaIbS1SxsXg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11217"; a="30282406"
+X-IronPort-AV: E=Sophos;i="6.11,183,1725346800"; d="scan'208";a="30282406"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Oct 2024 17:19:22 -0700
+X-CSE-ConnectionGUID: u4Q4/UduSpK2xzAbia36NQ==
+X-CSE-MsgGUID: XO48gbKSSCm4FzCWFRGA8Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,183,1725346800"; d="scan'208";a="75743289"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+ by orviesa007.jf.intel.com with ESMTP; 06 Oct 2024 17:19:21 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1sxbT4-0004SW-21;
+ Mon, 07 Oct 2024 00:19:18 +0000
+Date: Mon, 7 Oct 2024 08:19:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ville Syrjala <ville.syrjala@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, Russell King <linux@armlinux.org.uk>
+Subject: Re: [PATCH v2 05/10] drm/armada: Allow build with COMPILE_TEST=y
+Message-ID: <202410070736.GTeKJE6r-lkp@intel.com>
+References: <20241003111851.10453-6-ville.syrjala@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240930-dpu-msm8953-msm8996-v2-4-594c3e3190b4@mainlining.org>
+In-Reply-To: <20241003111851.10453-6-ville.syrjala@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,26 +70,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 30, 2024 at 08:35:59PM GMT, Barnabás Czémán wrote:
-> From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> 
-> Add support for MSM8917, which has MDP5 v1.15. It looks like
-> trimmed down version of MSM8937. Even fewer PP, LM and no DSI1.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> [Remove intr_start from CTLs config, reword the commit]
-> Signed-off-by: Barnabás Czémán <barnabas.czeman@mainlining.org>
-> ---
->  .../drm/msm/disp/dpu1/catalog/dpu_1_15_msm8917.h   | 187 +++++++++++++++++++++
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |   1 +
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   1 +
->  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   1 +
->  drivers/gpu/drm/msm/msm_drv.c                      |   1 +
->  5 files changed, 191 insertions(+)
-> 
+Hi Ville,
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on next-20241003]
+[cannot apply to shawnguo/for-next linus/master rmk-arm/drm-armada-devel rmk-arm/drm-armada-fixes v6.12-rc1 v6.11 v6.11-rc7 v6.12-rc2]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ville-Syrjala/drm-tilcdc-Allow-build-without-__iowmb/20241003-192043
+base:   next-20241003
+patch link:    https://lore.kernel.org/r/20241003111851.10453-6-ville.syrjala%40linux.intel.com
+patch subject: [PATCH v2 05/10] drm/armada: Allow build with COMPILE_TEST=y
+config: csky-randconfig-r121-20241006 (https://download.01.org/0day-ci/archive/20241007/202410070736.GTeKJE6r-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20241007/202410070736.GTeKJE6r-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410070736.GTeKJE6r-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/armada/armada_gem.c:63:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *addr @@
+   drivers/gpu/drm/armada/armada_gem.c:63:37: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/gpu/drm/armada/armada_gem.c:63:37: sparse:     got void *addr
+   drivers/gpu/drm/armada/armada_gem.c:185:28: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *addr @@     got void [noderef] __iomem * @@
+   drivers/gpu/drm/armada/armada_gem.c:185:28: sparse:     expected void *addr
+   drivers/gpu/drm/armada/armada_gem.c:185:28: sparse:     got void [noderef] __iomem *
+
+vim +63 drivers/gpu/drm/armada/armada_gem.c
+
+96f60e37dc6609 Russell King    2012-08-15  40  
+96f60e37dc6609 Russell King    2012-08-15  41  void armada_gem_free_object(struct drm_gem_object *obj)
+96f60e37dc6609 Russell King    2012-08-15  42  {
+96f60e37dc6609 Russell King    2012-08-15  43  	struct armada_gem_object *dobj = drm_to_armada_gem(obj);
+dad75a5208ec88 Simona Vetter   2020-09-04  44  	struct armada_private *priv = drm_to_armada_dev(obj->dev);
+96f60e37dc6609 Russell King    2012-08-15  45  
+96f60e37dc6609 Russell King    2012-08-15  46  	DRM_DEBUG_DRIVER("release obj %p\n", dobj);
+96f60e37dc6609 Russell King    2012-08-15  47  
+96f60e37dc6609 Russell King    2012-08-15  48  	drm_gem_free_mmap_offset(&dobj->obj);
+96f60e37dc6609 Russell King    2012-08-15  49  
+0b8ebeacf5ef43 Simona Vetter   2015-11-24  50  	might_lock(&priv->linear_lock);
+0b8ebeacf5ef43 Simona Vetter   2015-11-24  51  
+96f60e37dc6609 Russell King    2012-08-15  52  	if (dobj->page) {
+96f60e37dc6609 Russell King    2012-08-15  53  		/* page backed memory */
+96f60e37dc6609 Russell King    2012-08-15  54  		unsigned int order = get_order(dobj->obj.size);
+96f60e37dc6609 Russell King    2012-08-15  55  		__free_pages(dobj->page, order);
+96f60e37dc6609 Russell King    2012-08-15  56  	} else if (dobj->linear) {
+96f60e37dc6609 Russell King    2012-08-15  57  		/* linear backed memory */
+0b8ebeacf5ef43 Simona Vetter   2015-11-24  58  		mutex_lock(&priv->linear_lock);
+96f60e37dc6609 Russell King    2012-08-15  59  		drm_mm_remove_node(dobj->linear);
+0b8ebeacf5ef43 Simona Vetter   2015-11-24  60  		mutex_unlock(&priv->linear_lock);
+96f60e37dc6609 Russell King    2012-08-15  61  		kfree(dobj->linear);
+96f60e37dc6609 Russell King    2012-08-15  62  		if (dobj->addr)
+96f60e37dc6609 Russell King    2012-08-15 @63  			iounmap(dobj->addr);
+96f60e37dc6609 Russell King    2012-08-15  64  	}
+96f60e37dc6609 Russell King    2012-08-15  65  
+96f60e37dc6609 Russell King    2012-08-15  66  	if (dobj->obj.import_attach) {
+96f60e37dc6609 Russell King    2012-08-15  67  		/* We only ever display imported data */
+0481c8c47f5e85 Russell King    2015-06-15  68  		if (dobj->sgt)
+e4ea542846d0ef Dmitry Osipenko 2022-10-17  69  			dma_buf_unmap_attachment_unlocked(dobj->obj.import_attach,
+0481c8c47f5e85 Russell King    2015-06-15  70  							  dobj->sgt, DMA_TO_DEVICE);
+96f60e37dc6609 Russell King    2012-08-15  71  		drm_prime_gem_destroy(&dobj->obj, NULL);
+96f60e37dc6609 Russell King    2012-08-15  72  	}
+96f60e37dc6609 Russell King    2012-08-15  73  
+96f60e37dc6609 Russell King    2012-08-15  74  	drm_gem_object_release(&dobj->obj);
+96f60e37dc6609 Russell King    2012-08-15  75  
+96f60e37dc6609 Russell King    2012-08-15  76  	kfree(dobj);
+96f60e37dc6609 Russell King    2012-08-15  77  }
+96f60e37dc6609 Russell King    2012-08-15  78  
 
 -- 
-With best wishes
-Dmitry
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
