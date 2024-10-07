@@ -2,71 +2,138 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A9D3992547
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 09:01:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE5D69925EC
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 09:19:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 683F010E30C;
-	Mon,  7 Oct 2024 07:01:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E33E10E30A;
+	Mon,  7 Oct 2024 07:19:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="DgxQvMMD";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="z9sG4du5";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0hX7je+I";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="z9sG4du5";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0hX7je+I";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CF1A10E30A
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 07:01:11 +0000 (UTC)
-X-UUID: eb9f13fe847911ef8b96093e013ec31c-20241007
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=HUAoNHkgqgr0AnMY6wJzpTNO+6y1bdxYcYe4IvYKdOQ=; 
- b=DgxQvMMDq6501DwPuHXMNHIO4zlypUW+2FK9m59bt+Rt5hTr8RrGk/2SWKaHzkhPrDvoY/rXqHrf+Qc91aXzDxNFI1j/KvsnZLgMREysi+fcjRZ6VYntT83vqM4Eb2WKapN2t1cBZm2tzKWMC96DTc8kpHHGnFNYKPsMwTJXzgg=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.41, REQID:76d29a7c-0211-43de-8b7a-821bb7db960e, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:0
-X-CID-META: VersionHash:6dc6a47, CLOUDID:4c7f6526-5902-4533-af4f-d0904aa89b3c,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:11|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
- :1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
-X-UUID: eb9f13fe847911ef8b96093e013ec31c-20241007
-Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by
- mailgw02.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1411766351; Mon, 07 Oct 2024 15:01:05 +0800
-Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Mon, 7 Oct 2024 15:01:03 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Mon, 7 Oct 2024 15:01:03 +0800
-From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-To: Adam Thiede <me@adamthiede.com>, Yassine Oudjana
- <yassine.oudjana@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-CC: Shawn Sung <shawn.sung@mediatek.com>, Alper Nebi Yasak
- <alpernebiyasak@gmail.com>, <dri-devel@lists.freedesktop.org>,
- <linux-mediatek@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, "Jason-JH . Lin"
- <jason-jh.lin@mediatek.com>, Singo Chang <singo.chang@mediatek.com>, Nancy
- Lin <nancy.lin@mediatek.com>,
- <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH v9 5/5] drm/mediatek: Add blend_modes to mtk_plane_init() for
- different SoCs
-Date: Mon, 7 Oct 2024 15:01:01 +0800
-Message-ID: <20241007070101.23263-6-jason-jh.lin@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20241007070101.23263-1-jason-jh.lin@mediatek.com>
-References: <20241007070101.23263-1-jason-jh.lin@mediatek.com>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDA6910E30A
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 07:19:17 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 653091FD12;
+ Mon,  7 Oct 2024 07:19:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1728285556; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=UawE5IaZhH+nBsddJnD8RyGq+p3Jsd2GXC7wWG4082w=;
+ b=z9sG4du5JvepLEwQaMP01R3+xlkBd0h4dzfqmO/hgN02ooTEB0PfSkgiWXjVXiKT+cypyD
+ O3EhA0NgjlOiZdKqeQ3FrS/m5K5bMYPXFxLuGi48i+Ag2nK+qXrtlR+L8JhDMsDXrQg4KH
+ 4gd8pQsuWKcFk758mpZVGYfTF8KQ4Kw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1728285556;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=UawE5IaZhH+nBsddJnD8RyGq+p3Jsd2GXC7wWG4082w=;
+ b=0hX7je+IrNEE3uawqwxnzDqwLEANPDwUNRanT74vtLvnhfMR7TJw2u+k2tCuxFzs5zNICq
+ Px3loVOA6C3btfCg==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=z9sG4du5;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=0hX7je+I
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1728285556; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=UawE5IaZhH+nBsddJnD8RyGq+p3Jsd2GXC7wWG4082w=;
+ b=z9sG4du5JvepLEwQaMP01R3+xlkBd0h4dzfqmO/hgN02ooTEB0PfSkgiWXjVXiKT+cypyD
+ O3EhA0NgjlOiZdKqeQ3FrS/m5K5bMYPXFxLuGi48i+Ag2nK+qXrtlR+L8JhDMsDXrQg4KH
+ 4gd8pQsuWKcFk758mpZVGYfTF8KQ4Kw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1728285556;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=UawE5IaZhH+nBsddJnD8RyGq+p3Jsd2GXC7wWG4082w=;
+ b=0hX7je+IrNEE3uawqwxnzDqwLEANPDwUNRanT74vtLvnhfMR7TJw2u+k2tCuxFzs5zNICq
+ Px3loVOA6C3btfCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 14A9713786;
+ Mon,  7 Oct 2024 07:19:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id oa8eA3SLA2ezYgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 07 Oct 2024 07:19:16 +0000
+Message-ID: <6d3aa140-347e-482a-93d2-0e2d1325339b@suse.de>
+Date: Mon, 7 Oct 2024 09:19:15 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/fbdev-dma: Only cleanup deferred I/O if necessary
+To: Janne Grunau <j@jannau.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Simona Vetter <simona.vetter@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <ZwLNuZL-8Gh5UUQb@robin>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <ZwLNuZL-8Gh5UUQb@robin>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 653091FD12
+X-Spam-Score: -4.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; RCPT_COUNT_SEVEN(0.00)[8];
+ FREEMAIL_TO(0.00)[jannau.net,linux.intel.com,kernel.org,gmail.com,linaro.org,ffwll.ch];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; MIME_TRACE(0.00)[0:+];
+ ARC_NA(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; TO_DN_SOME(0.00)[];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; RCVD_TLS_ALL(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,222 +149,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since some SoCs support premultiplied pixel formats but some do not,
-the blend_modes parameter is added to mtk_plane_init(), which is
-obtained from the mtk_ddp_comp_get_blend_modes function implemented
-in different blending supported components.
 
-The blending supported components can use driver data to set the
-blend mode capabilities for different SoCs.
 
-Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Reviewed-by: CK Hu <ck.hu@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_crtc.c             |  1 +
- drivers/gpu/drm/mediatek/mtk_ddp_comp.c         |  2 ++
- drivers/gpu/drm/mediatek/mtk_ddp_comp.h         | 10 ++++++++++
- drivers/gpu/drm/mediatek/mtk_disp_drv.h         |  2 ++
- drivers/gpu/drm/mediatek/mtk_disp_ovl.c         |  7 +++++++
- drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c |  7 +++++++
- drivers/gpu/drm/mediatek/mtk_ethdr.c            |  7 +++++++
- drivers/gpu/drm/mediatek/mtk_ethdr.h            |  1 +
- drivers/gpu/drm/mediatek/mtk_plane.c            | 15 +++++++--------
- drivers/gpu/drm/mediatek/mtk_plane.h            |  4 ++--
- 10 files changed, 46 insertions(+), 10 deletions(-)
+Am 06.10.24 um 19:49 schrieb Janne Grunau:
+> Commit 5a498d4d06d6 ("drm/fbdev-dma: Only install deferred I/O if
+> necessary") initializes deferred I/O only if it is used.
+> drm_fbdev_dma_fb_destroy() however calls fb_deferred_io_cleanup()
+> unconditionally with struct fb_info.fbdefio == NULL. KASAN with the
+> out-of-tree Apple silicon display driver posts following warning from
+> __flush_work() of a random struct work_struct instead of the expected
+> NULL pointer derefs.
+>
+> [   22.053799] ------------[ cut here ]------------
+> [   22.054832] WARNING: CPU: 2 PID: 1 at kernel/workqueue.c:4177 __flush_work+0x4d8/0x580
+> [   22.056597] Modules linked in: uhid bnep uinput nls_ascii ip6_tables ip_tables i2c_dev loop fuse dm_multipath nfnetlink zram hid_magicmouse btrfs xor xor_neon brcmfmac_wcc raid6_pq hci_bcm4377 bluetooth brcmfmac hid_apple brcmutil nvmem_spmi_mfd simple_mfd_spmi dockchannel_hid cfg80211 joydev regmap_spmi nvme_apple ecdh_generic ecc macsmc_hid rfkill dwc3 appledrm snd_soc_macaudio macsmc_power nvme_core apple_isp phy_apple_atc apple_sart apple_rtkit_helper apple_dockchannel tps6598x macsmc_hwmon snd_soc_cs42l84 videobuf2_v4l2 spmi_apple_controller nvmem_apple_efuses videobuf2_dma_sg apple_z2 videobuf2_memops spi_nor panel_summit videobuf2_common asahi videodev pwm_apple apple_dcp snd_soc_apple_mca apple_admac spi_apple clk_apple_nco i2c_pasemi_platform snd_pcm_dmaengine mc i2c_pasemi_core mux_core ofpart adpdrm drm_dma_helper apple_dart apple_soc_cpufreq leds_pwm phram
+> [   22.073768] CPU: 2 UID: 0 PID: 1 Comm: systemd-shutdow Not tainted 6.11.2-asahi+ #asahi-dev
+> [   22.075612] Hardware name: Apple MacBook Pro (13-inch, M2, 2022) (DT)
+> [   22.077032] pstate: 01400005 (nzcv daif +PAN -UAO -TCO +DIT -SSBS BTYPE=--)
+> [   22.078567] pc : __flush_work+0x4d8/0x580
+> [   22.079471] lr : __flush_work+0x54/0x580
+> [   22.080345] sp : ffffc000836ef820
+> [   22.081089] x29: ffffc000836ef880 x28: 0000000000000000 x27: ffff80002ddb7128
+> [   22.082678] x26: dfffc00000000000 x25: 1ffff000096f0c57 x24: ffffc00082d3e358
+> [   22.084263] x23: ffff80004b7862b8 x22: dfffc00000000000 x21: ffff80005aa1d470
+> [   22.085855] x20: ffff80004b786000 x19: ffff80004b7862a0 x18: 0000000000000000
+> [   22.087439] x17: 0000000000000000 x16: 0000000000000000 x15: 0000000000000005
+> [   22.089030] x14: 1ffff800106ddf0a x13: 0000000000000000 x12: 0000000000000000
+> [   22.090618] x11: ffffb800106ddf0f x10: dfffc00000000000 x9 : 1ffff800106ddf0e
+> [   22.092206] x8 : 0000000000000000 x7 : aaaaaaaaaaaaaaaa x6 : 0000000000000001
+> [   22.093790] x5 : ffffc000836ef728 x4 : 0000000000000000 x3 : 0000000000000020
+> [   22.095368] x2 : 0000000000000008 x1 : 00000000000000aa x0 : 0000000000000000
+> [   22.096955] Call trace:
+> [   22.097505]  __flush_work+0x4d8/0x580
+> [   22.098330]  flush_delayed_work+0x80/0xb8
+> [   22.099231]  fb_deferred_io_cleanup+0x3c/0x130
+> [   22.100217]  drm_fbdev_dma_fb_destroy+0x6c/0xe0 [drm_dma_helper]
+> [   22.101559]  unregister_framebuffer+0x210/0x2f0
+> [   22.102575]  drm_fb_helper_unregister_info+0x48/0x60
+> [   22.103683]  drm_fbdev_dma_client_unregister+0x4c/0x80 [drm_dma_helper]
+> [   22.105147]  drm_client_dev_unregister+0x1cc/0x230
+> [   22.106217]  drm_dev_unregister+0x58/0x570
+> [   22.107125]  apple_drm_unbind+0x50/0x98 [appledrm]
+> [   22.108199]  component_del+0x1f8/0x3a8
+> [   22.109042]  dcp_platform_shutdown+0x24/0x38 [apple_dcp]
+> [   22.110357]  platform_shutdown+0x70/0x90
+> [   22.111219]  device_shutdown+0x368/0x4d8
+> [   22.112095]  kernel_restart+0x6c/0x1d0
+> [   22.112946]  __arm64_sys_reboot+0x1c8/0x328
+> [   22.113868]  invoke_syscall+0x78/0x1a8
+> [   22.114703]  do_el0_svc+0x124/0x1a0
+> [   22.115498]  el0_svc+0x3c/0xe0
+> [   22.116181]  el0t_64_sync_handler+0x70/0xc0
+> [   22.117110]  el0t_64_sync+0x190/0x198
+> [   22.117931] ---[ end trace 0000000000000000 ]---
+>
+> Signed-off-by: Janne Grunau <j@jannau.net>
+> Fixes: 5a498d4d06d6 ("drm/fbdev-dma: Only install deferred I/O if necessary")
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_crtc.c b/drivers/gpu/drm/mediatek/mtk_crtc.c
-index 175b00e5a253..b65f196f2015 100644
---- a/drivers/gpu/drm/mediatek/mtk_crtc.c
-+++ b/drivers/gpu/drm/mediatek/mtk_crtc.c
-@@ -913,6 +913,7 @@ static int mtk_crtc_init_comp_planes(struct drm_device *drm_dev,
- 				BIT(pipe),
- 				mtk_crtc_plane_type(mtk_crtc->layer_nr, num_planes),
- 				mtk_ddp_comp_supported_rotations(comp),
-+				mtk_ddp_comp_get_blend_modes(comp),
- 				mtk_ddp_comp_get_formats(comp),
- 				mtk_ddp_comp_get_num_formats(comp), i);
- 		if (ret)
-diff --git a/drivers/gpu/drm/mediatek/mtk_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
-index be66d94be361..edc6417639e6 100644
---- a/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
-@@ -363,6 +363,7 @@ static const struct mtk_ddp_comp_funcs ddp_ovl = {
- 	.layer_config = mtk_ovl_layer_config,
- 	.bgclr_in_on = mtk_ovl_bgclr_in_on,
- 	.bgclr_in_off = mtk_ovl_bgclr_in_off,
-+	.get_blend_modes = mtk_ovl_get_blend_modes,
- 	.get_formats = mtk_ovl_get_formats,
- 	.get_num_formats = mtk_ovl_get_num_formats,
- };
-@@ -416,6 +417,7 @@ static const struct mtk_ddp_comp_funcs ddp_ovl_adaptor = {
- 	.disconnect = mtk_ovl_adaptor_disconnect,
- 	.add = mtk_ovl_adaptor_add_comp,
- 	.remove = mtk_ovl_adaptor_remove_comp,
-+	.get_blend_modes = mtk_ovl_adaptor_get_blend_modes,
- 	.get_formats = mtk_ovl_adaptor_get_formats,
- 	.get_num_formats = mtk_ovl_adaptor_get_num_formats,
- 	.mode_valid = mtk_ovl_adaptor_mode_valid,
-diff --git a/drivers/gpu/drm/mediatek/mtk_ddp_comp.h b/drivers/gpu/drm/mediatek/mtk_ddp_comp.h
-index ecf6dc283cd7..39720b27f4e9 100644
---- a/drivers/gpu/drm/mediatek/mtk_ddp_comp.h
-+++ b/drivers/gpu/drm/mediatek/mtk_ddp_comp.h
-@@ -80,6 +80,7 @@ struct mtk_ddp_comp_funcs {
- 	void (*ctm_set)(struct device *dev,
- 			struct drm_crtc_state *state);
- 	struct device * (*dma_dev_get)(struct device *dev);
-+	u32 (*get_blend_modes)(struct device *dev);
- 	const u32 *(*get_formats)(struct device *dev);
- 	size_t (*get_num_formats)(struct device *dev);
- 	void (*connect)(struct device *dev, struct device *mmsys_dev, unsigned int next);
-@@ -266,6 +267,15 @@ static inline struct device *mtk_ddp_comp_dma_dev_get(struct mtk_ddp_comp *comp)
- 	return comp->dev;
- }
- 
-+static inline
-+u32 mtk_ddp_comp_get_blend_modes(struct mtk_ddp_comp *comp)
-+{
-+	if (comp->funcs && comp->funcs->get_blend_modes)
-+		return comp->funcs->get_blend_modes(comp->dev);
-+
-+	return 0;
-+}
-+
- static inline
- const u32 *mtk_ddp_comp_get_formats(struct mtk_ddp_comp *comp)
- {
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-index 082ac18fe04a..04154db9085c 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-@@ -103,6 +103,7 @@ void mtk_ovl_register_vblank_cb(struct device *dev,
- void mtk_ovl_unregister_vblank_cb(struct device *dev);
- void mtk_ovl_enable_vblank(struct device *dev);
- void mtk_ovl_disable_vblank(struct device *dev);
-+u32 mtk_ovl_get_blend_modes(struct device *dev);
- const u32 *mtk_ovl_get_formats(struct device *dev);
- size_t mtk_ovl_get_num_formats(struct device *dev);
- 
-@@ -131,6 +132,7 @@ void mtk_ovl_adaptor_start(struct device *dev);
- void mtk_ovl_adaptor_stop(struct device *dev);
- unsigned int mtk_ovl_adaptor_layer_nr(struct device *dev);
- struct device *mtk_ovl_adaptor_dma_dev_get(struct device *dev);
-+u32 mtk_ovl_adaptor_get_blend_modes(struct device *dev);
- const u32 *mtk_ovl_adaptor_get_formats(struct device *dev);
- size_t mtk_ovl_adaptor_get_num_formats(struct device *dev);
- enum drm_mode_status mtk_ovl_adaptor_mode_valid(struct device *dev,
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-index 41874dc9d933..f747b91e586f 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-@@ -215,6 +215,13 @@ void mtk_ovl_disable_vblank(struct device *dev)
- 	writel_relaxed(0x0, ovl->regs + DISP_REG_OVL_INTEN);
- }
- 
-+u32 mtk_ovl_get_blend_modes(struct device *dev)
-+{
-+	struct mtk_disp_ovl *ovl = dev_get_drvdata(dev);
-+
-+	return ovl->data->blend_modes;
-+}
-+
- const u32 *mtk_ovl_get_formats(struct device *dev)
- {
- 	struct mtk_disp_ovl *ovl = dev_get_drvdata(dev);
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
-index c6768210b08b..bf2546c4681a 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
-@@ -400,6 +400,13 @@ void mtk_ovl_adaptor_disable_vblank(struct device *dev)
- 	mtk_ethdr_disable_vblank(ovl_adaptor->ovl_adaptor_comp[OVL_ADAPTOR_ETHDR0]);
- }
- 
-+u32 mtk_ovl_adaptor_get_blend_modes(struct device *dev)
-+{
-+	struct mtk_disp_ovl_adaptor *ovl_adaptor = dev_get_drvdata(dev);
-+
-+	return mtk_ethdr_get_blend_modes(ovl_adaptor->ovl_adaptor_comp[OVL_ADAPTOR_ETHDR0]);
-+}
-+
- const u32 *mtk_ovl_adaptor_get_formats(struct device *dev)
- {
- 	struct mtk_disp_ovl_adaptor *ovl_adaptor = dev_get_drvdata(dev);
-diff --git a/drivers/gpu/drm/mediatek/mtk_ethdr.c b/drivers/gpu/drm/mediatek/mtk_ethdr.c
-index d1d9cf8b10e1..0f22e7d337cb 100644
---- a/drivers/gpu/drm/mediatek/mtk_ethdr.c
-+++ b/drivers/gpu/drm/mediatek/mtk_ethdr.c
-@@ -145,6 +145,13 @@ static irqreturn_t mtk_ethdr_irq_handler(int irq, void *dev_id)
- 	return IRQ_HANDLED;
- }
- 
-+u32 mtk_ethdr_get_blend_modes(struct device *dev)
-+{
-+	return BIT(DRM_MODE_BLEND_PREMULTI) |
-+	       BIT(DRM_MODE_BLEND_COVERAGE) |
-+	       BIT(DRM_MODE_BLEND_PIXEL_NONE);
-+}
-+
- void mtk_ethdr_layer_config(struct device *dev, unsigned int idx,
- 			    struct mtk_plane_state *state,
- 			    struct cmdq_pkt *cmdq_pkt)
-diff --git a/drivers/gpu/drm/mediatek/mtk_ethdr.h b/drivers/gpu/drm/mediatek/mtk_ethdr.h
-index 81af9edea3f7..a72aeee46829 100644
---- a/drivers/gpu/drm/mediatek/mtk_ethdr.h
-+++ b/drivers/gpu/drm/mediatek/mtk_ethdr.h
-@@ -13,6 +13,7 @@ void mtk_ethdr_clk_disable(struct device *dev);
- void mtk_ethdr_config(struct device *dev, unsigned int w,
- 		      unsigned int h, unsigned int vrefresh,
- 		      unsigned int bpc, struct cmdq_pkt *cmdq_pkt);
-+u32 mtk_ethdr_get_blend_modes(struct device *dev);
- void mtk_ethdr_layer_config(struct device *dev, unsigned int idx,
- 			    struct mtk_plane_state *state,
- 			    struct cmdq_pkt *cmdq_pkt);
-diff --git a/drivers/gpu/drm/mediatek/mtk_plane.c b/drivers/gpu/drm/mediatek/mtk_plane.c
-index 7d2cb4e0fafa..8a48b3b0a956 100644
---- a/drivers/gpu/drm/mediatek/mtk_plane.c
-+++ b/drivers/gpu/drm/mediatek/mtk_plane.c
-@@ -320,8 +320,8 @@ static const struct drm_plane_helper_funcs mtk_plane_helper_funcs = {
- 
- int mtk_plane_init(struct drm_device *dev, struct drm_plane *plane,
- 		   unsigned long possible_crtcs, enum drm_plane_type type,
--		   unsigned int supported_rotations, const u32 *formats,
--		   size_t num_formats, unsigned int plane_idx)
-+		   unsigned int supported_rotations, const u32 blend_modes,
-+		   const u32 *formats, size_t num_formats, unsigned int plane_idx)
- {
- 	int err;
- 
-@@ -366,12 +366,11 @@ int mtk_plane_init(struct drm_device *dev, struct drm_plane *plane,
- 	if (err)
- 		DRM_ERROR("failed to create property: alpha\n");
- 
--	err = drm_plane_create_blend_mode_property(plane,
--						   BIT(DRM_MODE_BLEND_PREMULTI) |
--						   BIT(DRM_MODE_BLEND_COVERAGE) |
--						   BIT(DRM_MODE_BLEND_PIXEL_NONE));
--	if (err)
--		DRM_ERROR("failed to create property: blend_mode\n");
-+	if (blend_modes) {
-+		err = drm_plane_create_blend_mode_property(plane, blend_modes);
-+		if (err)
-+			DRM_ERROR("failed to create property: blend_mode\n");
-+	}
- 
- 	drm_plane_helper_add(plane, &mtk_plane_helper_funcs);
- 
-diff --git a/drivers/gpu/drm/mediatek/mtk_plane.h b/drivers/gpu/drm/mediatek/mtk_plane.h
-index 5b177eac67b7..3b13b89989c7 100644
---- a/drivers/gpu/drm/mediatek/mtk_plane.h
-+++ b/drivers/gpu/drm/mediatek/mtk_plane.h
-@@ -48,6 +48,6 @@ to_mtk_plane_state(struct drm_plane_state *state)
- 
- int mtk_plane_init(struct drm_device *dev, struct drm_plane *plane,
- 		   unsigned long possible_crtcs, enum drm_plane_type type,
--		   unsigned int supported_rotations, const u32 *formats,
--		   size_t num_formats, unsigned int plane_idx);
-+		   unsigned int supported_rotations, const u32 blend_modes,
-+		   const u32 *formats, size_t num_formats, unsigned int plane_idx);
- #endif
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+> ---
+>   drivers/gpu/drm/drm_fbdev_dma.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/drm_fbdev_dma.c b/drivers/gpu/drm/drm_fbdev_dma.c
+> index b0602c4f3628..51c2d742d199 100644
+> --- a/drivers/gpu/drm/drm_fbdev_dma.c
+> +++ b/drivers/gpu/drm/drm_fbdev_dma.c
+> @@ -50,7 +50,8 @@ static void drm_fbdev_dma_fb_destroy(struct fb_info *info)
+>   	if (!fb_helper->dev)
+>   		return;
+>   
+> -	fb_deferred_io_cleanup(info);
+> +	if (info->fbdefio)
+> +		fb_deferred_io_cleanup(info);
+>   	drm_fb_helper_fini(fb_helper);
+>   
+>   	drm_client_buffer_vunmap(fb_helper->buffer);
+>
+> ---
+> base-commit: 98f7e32f20d28ec452afb208f9cffc08448a2652
+> change-id: 20241006-drm_fbdev_dma_deferred_io_cleanup-de87ee345dbc
+>
+> Best regards,
+
 -- 
-2.43.0
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
