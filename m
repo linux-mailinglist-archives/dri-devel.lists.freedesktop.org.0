@@ -2,69 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80A639922A6
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 03:44:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87C639922A9
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 03:46:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B929B10E1C7;
-	Mon,  7 Oct 2024 01:44:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C7CA10E2E9;
+	Mon,  7 Oct 2024 01:46:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RrulR+bi";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jocggA4C";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com
- [209.85.221.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC52110E1C7
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 01:44:49 +0000 (UTC)
-Received: by mail-vk1-f176.google.com with SMTP id
- 71dfb90a1353d-50ca3428289so310664e0c.1
- for <dri-devel@lists.freedesktop.org>; Sun, 06 Oct 2024 18:44:49 -0700 (PDT)
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com
+ [209.85.222.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF1CB10E2E9
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 01:46:39 +0000 (UTC)
+Received: by mail-ua1-f45.google.com with SMTP id
+ a1e0cc1a2514c-84ea36b65cfso775100241.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 06 Oct 2024 18:46:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1728265488; x=1728870288; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1728265598; x=1728870398; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=uzU4HApFVdOla6cFpiLhDsurqYX2GUtT9S+gfYoFCVc=;
- b=RrulR+bivl1sIGpp8y2Q/FC8E6LD0lrjXcgarLep2WtlAHaeOsu1o7+2RlLP+mqWnH
- Hpzpo1VFZjoid4l/K4wMDyN2OY0Yy7oe5R9yTGd+ZHHpuGg/viygEbDD6NQicC1hYjyZ
- eYJxMj6wGQXW3NokLy8Gz7O9UAx9RYPoLXtgAADirrn6siKjv43T/M7IhGluexYe3HI3
- uM3TTAT0uKgg0qhnrusIt3qmQyHgY6qg5J7H/7qMZCY2mxlml1AJA8it2VP08ci7xP4g
- gPPdjUZDPV468E4zPgMRwWslsQpPyqRd3zcpPoCQzotHkaG1iej1NyxcnTRa6XsyokJt
- iRZg==
+ bh=6I7P4o4lqoq+/5/fIQFIlC3dJz4di8qGjmyqkb1fWR8=;
+ b=jocggA4CI4mXfzG7eXXdIdjSzqwuowwbMrLGVOVcc+3k3axeCdf97T4Auz6KIyfkBv
+ 60LjJprAC/CxqiMfpbJSjsqKxOBXxCQ9CUOhSGsnnnYFsuzHYpZL/b3UOlcOJbhDkeqd
+ hHBfY6xY5hs60gRdHUfA1VcsSo6Rauo9B9biKHGuejTO2WL8/Q/qO6fR9BIlmpOIaYWM
+ 9gOf60y2CE3zW3iZmjooyA8F6dSVFyf/XlI/D9ZcdXJa3HZWbOu/MqETZhqpr+br62Fn
+ 4zKNKbNd51PuCKmPPxQI4s1C510583UxzTQfAO1H/kvitvPqXz+zRuJ4pR3O14ZYi0ld
+ 8GYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728265488; x=1728870288;
+ d=1e100.net; s=20230601; t=1728265598; x=1728870398;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=uzU4HApFVdOla6cFpiLhDsurqYX2GUtT9S+gfYoFCVc=;
- b=iWHOnKDsl42feZfdTlD8frESDEA/JSbfH27+YxFOJ9aE20T+FXBw9xkkgnCIe9suEn
- 8n6EjRTyOYBKg5i4/yR76u3nI6L+EVWaCVAEhKAV+tfsHea5wOwNv1xJns04CvZgvdzQ
- vqU93fD+i1okewliF46OJ2GtoC9nDAZqU3KYmUcx+QEic7Or1Wdbb0/BPEC9taEollHM
- AzlmxFrgjQnyRcB9LCNg19LsZj+BA5uc+Z9buC/KiNM/xzlLpNTR+YVEc3oQMiR6MmIr
- hOnOmbZjfQiyxOkyF0VPUYHP5/JxC0fbvt5xB8GD0IyCOy4pns+zYKdYzm0bj9DpuDTT
- uQ2w==
+ bh=6I7P4o4lqoq+/5/fIQFIlC3dJz4di8qGjmyqkb1fWR8=;
+ b=HowqF7OKVr05mPOnurKPxsH0aqhMTipdFzqeQfaE/29wV7APnsA9YVRTPKXVJbYMDj
+ jByp9Bm0bsIyVO12D4Dn0/NsIkzvN5C6GN7kYexXsgXT5au/xkVZ9t43dJbybHH+yMCI
+ N8kGgpHoCV70x0fMGmE60Hsmi8cSwS/KU3w4j27tM8pCx/H71xNU9ZgqN7Lsw7x2/MaF
+ j6WY15PbLyJDbTtpcBa5u4YoQzHrLiwThLBS03f6+OKpj7FmJIXyRFPUSKcZ/dLMoUj7
+ U2oaps0V4/c+hg6NgjJD8YufMbzTQoXGWcJ+DW8ZEUE5GgK4BzMPHd8O+f5tWdw6LyTe
+ xIuw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVPkgLTlh42s5xCLeNhp579P5oVuch+tn2wMA2t0C8VVOvSKZz+rrttPamtFA9eyUHvajVIlcw+RKI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzojhVj0ycSr0OSxos0Asmxuu9fYjW261BKO7PgtntOPpqjT+p2
- v/JhICLE8y5BSiYIGwnlP3fNn7UNUdud3Rsb6c8eAJlS08c1OhI9/s/ZQTQR4uJ4xUQevx3QS1u
- Ki+h4GWZliWuzPEq37b+AugwIAsc=
-X-Google-Smtp-Source: AGHT+IGi4uAf0aCu5jsPGNvmsMYcFJYpM9lCgPSIHQQx9wMYlcO6+UiL7uE9lenoS0XrukOWueFat2eiVWWotzvuwQU=
-X-Received: by 2002:a05:6122:3c4e:b0:50c:6514:956d with SMTP id
- 71dfb90a1353d-50c85583589mr5734158e0c.13.1728265488432; Sun, 06 Oct 2024
- 18:44:48 -0700 (PDT)
+ AJvYcCXq0+xqyX71AcSFUB5zEoyTOh4sJCCybONXOq5JjB5TquqTmdPLLncFVX9lIugv6Zi+iJ7AulhCxdY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw4CeJ77l1DFAvAxJhuCUn10r1z7lq2hOM9jjo0TNd/1f2JN82R
+ dUyM6xu09K+MqjV6E1A+37Nnt6raLc4h6g6pfAV4BIiVXP+vSj4zesVWffmB5UqU//U+cAR5yuy
+ 9j9M4x7bweifQ9mWhNjK3a/Ivx7w=
+X-Google-Smtp-Source: AGHT+IHn77otsKYlNOvgcsPX5BgvnpzzQqomM/S9P5IjJKyLNB7h0JdstqFb1GMHjr7HniWTcTfA6P2c37takKxUm+4=
+X-Received: by 2002:a05:6122:3d15:b0:50c:79a4:c4a with SMTP id
+ 71dfb90a1353d-50c855966e4mr5467687e0c.13.1728265598461; Sun, 06 Oct 2024
+ 18:46:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240909080620.35245-1-shenlichuan@vivo.com>
-In-Reply-To: <20240909080620.35245-1-shenlichuan@vivo.com>
+References: <CGME20240926052608epcas1p39e2db7b275e944285d0925b3e5c649b9@epcas1p3.samsung.com>
+ <20240926-remove_crtc-v1-1-9a20062444cb@samsung.com>
+In-Reply-To: <20240926-remove_crtc-v1-1-9a20062444cb@samsung.com>
 From: Inki Dae <daeinki@gmail.com>
-Date: Mon, 7 Oct 2024 10:44:12 +0900
-Message-ID: <CAAQKjZN9K1GieEpG4uebJ_ygtpwbVOLD3Poy-+jQePYBwsb7Zw@mail.gmail.com>
-Subject: Re: [PATCH v1] drm/exynos: gsc: Fix typo in comment
-To: Shen Lichuan <shenlichuan@vivo.com>
-Cc: sw0312.kim@samsung.com, kyungmin.park@samsung.com, airlied@gmail.com, 
- simona@ffwll.ch, krzk@kernel.org, alim.akhtar@samsung.com, 
+Date: Mon, 7 Oct 2024 10:46:02 +0900
+Message-ID: <CAAQKjZPkc+y47Pv87EmUhLJ9SFASOuMKgvvN0UXZcg11tkjaOg@mail.gmail.com>
+Subject: Re: [PATCH] drm/exynos: remove unused prototype for crtc
+To: Kwanghoon Son <k.son@samsung.com>
+Cc: Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
  dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- opensource.kernel@vivo.com
+ linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -82,37 +84,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-2024=EB=85=84 9=EC=9B=94 9=EC=9D=BC (=EC=9B=94) =EC=98=A4=ED=9B=84 5:08, Sh=
-en Lichuan <shenlichuan@vivo.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+2024=EB=85=84 9=EC=9B=94 26=EC=9D=BC (=EB=AA=A9) =EC=98=A4=ED=9B=84 2:33, K=
+wanghoon Son <k.son@samsung.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
 >
-> Replace 'initailization' with 'initialization' in the comment.
->
-> Signed-off-by: Shen Lichuan <shenlichuan@vivo.com>
-> ---
->  drivers/gpu/drm/exynos/exynos_drm_gsc.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_gsc.c b/drivers/gpu/drm/ex=
-ynos/exynos_drm_gsc.c
-> index 1b111e2c3347..fc5fc65823c6 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_gsc.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_gsc.c
-> @@ -1286,7 +1286,7 @@ static int gsc_probe(struct platform_device *pdev)
->                 return ret;
->         }
->
-> -       /* context initailization */
-> +       /* context initialization */
+> exynos_drm_crtc_wait_pending_update, exynos_drm_crtc_finish_update
+> are not used anymore.
 
 Merged.
 
 Thanks,
 Inki Dae
 
->         ctx->id =3D pdev->id;
 >
->         platform_set_drvdata(pdev, ctx);
+> Signed-off-by: Kwanghoon Son <k.son@samsung.com>
+> ---
+>  drivers/gpu/drm/exynos/exynos_drm_crtc.h | 3 ---
+>  1 file changed, 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/exynos/exynos_drm_crtc.h b/drivers/gpu/drm/e=
+xynos/exynos_drm_crtc.h
+> index 0ed4f2b8595a..1815374c38df 100644
+> --- a/drivers/gpu/drm/exynos/exynos_drm_crtc.h
+> +++ b/drivers/gpu/drm/exynos/exynos_drm_crtc.h
+> @@ -19,9 +19,6 @@ struct exynos_drm_crtc *exynos_drm_crtc_create(struct d=
+rm_device *drm_dev,
+>                                         enum exynos_drm_output_type out_t=
+ype,
+>                                         const struct exynos_drm_crtc_ops =
+*ops,
+>                                         void *context);
+> -void exynos_drm_crtc_wait_pending_update(struct exynos_drm_crtc *exynos_=
+crtc);
+> -void exynos_drm_crtc_finish_update(struct exynos_drm_crtc *exynos_crtc,
+> -                                  struct exynos_drm_plane *exynos_plane)=
+;
+>
+>  /* This function gets crtc device matched with out_type. */
+>  struct exynos_drm_crtc *exynos_drm_crtc_get_by_type(struct drm_device *d=
+rm_dev,
+>
+> ---
+> base-commit: 684a64bf32b6e488004e0ad7f0d7e922798f65b6
+> change-id: 20240925-remove_crtc-9647baaab5cd
+>
+> Best regards,
 > --
-> 2.17.1
+> Kwanghoon Son <k.son@samsung.com>
 >
 >
