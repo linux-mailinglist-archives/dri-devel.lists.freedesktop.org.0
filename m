@@ -2,136 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2160992380
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 06:15:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B80C69923B7
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 06:49:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B50B110E00B;
-	Mon,  7 Oct 2024 04:15:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0442C10E077;
+	Mon,  7 Oct 2024 04:49:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="VLU6BONI";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RllpkXYC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2059.outbound.protection.outlook.com [40.107.220.59])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B13410E00B
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 04:15:51 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JgG9b0LYCwNcgBMAtbHQukwLLt3ZUU4tGGD1Vqzk7j5cAl72ptuToSplmANfEAkZykZYgGlmqllzkpyZHcOlYpT9eqTjizD/wzM4cz+s3COU0YUHsLAhSuqEKRKznOViWNw8XvgCyvUIEdJT/Aou2CNYLpKYwGa/WG7d1h0pdx0t4CEeLjvzbEoHXFdWqi25IjU2kTWiYaAy3VLDEevdgAUN76lRKga27gLKbI6OGoquWjix5rW9WuQn6Wf5L1FbGFqWpbh1ejXHTOb52i0KZ9sqKbBWnQ7UseqSx7dx0A2XVYvHnnVh6OL52ys6H5ZhXk5kEX3qrnGU8QjHQKNLxQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/N1kyP9LKjY2S0Dw9VM3O4D5XkVa154h8xVQDpCROko=;
- b=mVDMRr6xtmRDQctbbdN68j771uqn7oKPV4TxOsE+wNzk8jLHt3/Y1u9EC0KCvgdZCrPj5Yzp3MxAA4pEHMDPpODdmr3BN8B12B8guQs3SVnjO75C989pO+UyC8EjZovTBNviuQ67T6/ki0fRxYRd4D54H4n4wDGHKtFSs/ooREGvGg+jrPkNXrsEG1PBhnHg8soV10RrWwKtWeP7aTsiGXs6w9LbLTd1M1wSwro0yoQ0LKPoixxq7R6sNHRZTskLKw0tfcfCjD+S1CInPy9XbAZfpepJImn6bB5CRdEYqcpDBninuWxrNT5LUp5BmsuuegzwjrWZkgmH5Hh7icDwOw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=quicinc.com smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/N1kyP9LKjY2S0Dw9VM3O4D5XkVa154h8xVQDpCROko=;
- b=VLU6BONIr8kbNEjvh04TdEs1yJWH3cHghyAvdBgjDaweaAWo+eJORu7Ti2kMVXt7upwVZMrKyHFpdGogM86HxmvanGMKl1w7LDHFvUYpEn8UMy+09707o8wsY1T38gmR0fLGKfNvGoiQmuA4ApCNycTqkETBVFWNu9VyjHjeFPU=
-Received: from BL1PR13CA0364.namprd13.prod.outlook.com (2603:10b6:208:2c0::9)
- by DS0PR12MB7746.namprd12.prod.outlook.com (2603:10b6:8:135::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.22; Mon, 7 Oct
- 2024 04:15:46 +0000
-Received: from BL02EPF0001A106.namprd05.prod.outlook.com
- (2603:10b6:208:2c0:cafe::e7) by BL1PR13CA0364.outlook.office365.com
- (2603:10b6:208:2c0::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.12 via Frontend
- Transport; Mon, 7 Oct 2024 04:15:45 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- BL02EPF0001A106.mail.protection.outlook.com (10.167.241.139) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8048.13 via Frontend Transport; Mon, 7 Oct 2024 04:15:45 +0000
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Sun, 6 Oct
- 2024 23:15:29 -0500
-Received: from [172.19.71.207] (10.180.168.240) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Sun, 6 Oct 2024 23:15:28 -0500
-Message-ID: <7e337655-a0ff-0c9f-f074-35ca61b0d934@amd.com>
-Date: Sun, 6 Oct 2024 21:15:17 -0700
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
+ [209.85.167.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85B3210E077;
+ Mon,  7 Oct 2024 04:49:18 +0000 (UTC)
+Received: by mail-lf1-f52.google.com with SMTP id
+ 2adb3069b0e04-5369f1c7cb8so4090054e87.1; 
+ Sun, 06 Oct 2024 21:49:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1728276557; x=1728881357; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=1lvwQPOid1i1r42ZkZnh/p8pKa/FUX1d5F+Gn+3bK3Q=;
+ b=RllpkXYCmzkEYqSEGzKuBJ4NyxXSvXDvH68XCRkYIo81g9p4Li2PMFE9S36LrI7okw
+ EwEodSJOZ/adb5qfIekgeJnUEtxHsJ1E76EJ2Vzbx0iXbj6fFIkUSYAuogSC9vvxABJY
+ PBX+hPQPv4Z/6574Pkk/4dH2obNwrJsJ8+x2LdAWSWh/mkfsAg0FK8zPW/PbIeXlk89Y
+ ZqQhQLmpGrIaINdbjgUbTm/5loFfIJzG5NzG/QQ+s3vc6ouvHejrgLzeR8IMZH4Soce3
+ WkPzrDfIL/844ZqerAY7hvwmmA/EuaUXeJneuBtnT6d+Pc55U36Q8n4Q6eR2S9F+bfBf
+ B/KQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1728276557; x=1728881357;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=1lvwQPOid1i1r42ZkZnh/p8pKa/FUX1d5F+Gn+3bK3Q=;
+ b=esIGuLSmr3GZ1L7mzmLhv76ldkfqulXK3qiFiOTV0+WJwt+MMSTR/R0pUF82cQdbb6
+ mXmUz2JeeHg0ZPNqe9+EOF//hfoyp59qBr9FbEbGO0d++DTuThiOAW5XzNWd6kFMFO75
+ jzNuBaL6IGk/dWCk09PJXnezllYl3V49Izxhu1YYPffwDp7RtVIeRRLvkXVMCDKreUKQ
+ JNCO56cZOxglFPXmb80LZTM6mkTfcumoxT913j9XyggV9ouuZ0KcvyybOKnWtBylGLo0
+ M/i085qyHCti7+LpBKIdlrzyE9sEvE7P/5ppvqzhPeAlvpaKF2Usb6djtEDhBYkG960C
+ seeg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUSDsyEfSh2Nxt7sZNiCyiUsySXBn74kJfjPivZg19dUqW2fkwjwOPcbGFifLsod7uVN0ZA9Y8elKeX@lists.freedesktop.org,
+ AJvYcCUWVlIRsIZ8LutoMJIu/3krpWpOzTyhw5uLwmtv2wdc691h2ophdZUuACNEmsbPDlYv8T++m66U@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxooUJT/9OO461ineNcZNrpI+UOrEmlzNJ0Ebc9cHP305K69mdZ
+ 8UaRPoMeQCUqqjIw9smkfUwq8NW2XjaMHw+WV44jjWeawKpibbmCXN+APblQcSWi1YNi5q9KxAp
+ +fSvpugGf3qCuI5TTmdXQa0BITu4=
+X-Google-Smtp-Source: AGHT+IEqYdkAsBK40ts4UhEMsF1yFermt8J6Dvxy5IFPcLo+Hv58lpgoIpYRR++uyhCFnESMlrPik/53JXVKb3ATJUg=
+X-Received: by 2002:a05:6512:4019:b0:52e:9e70:d068 with SMTP id
+ 2adb3069b0e04-539ab85b365mr4201855e87.4.1728276556297; Sun, 06 Oct 2024
+ 21:49:16 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH V3 03/11] accel/amdxdna: Support hardware mailbox
-Content-Language: en-US
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>, <ogabbay@kernel.org>,
- <dri-devel@lists.freedesktop.org>
-CC: <linux-kernel@vger.kernel.org>, <min.ma@amd.com>, <max.zhen@amd.com>,
- <sonal.santan@amd.com>, <king.tam@amd.com>, George Yang <George.Yang@amd.com>
-References: <20240911180604.1834434-1-lizhi.hou@amd.com>
- <20240911180604.1834434-4-lizhi.hou@amd.com>
- <86c8f688-eea3-ff95-5ae5-2e4da32b7edb@quicinc.com>
-From: Lizhi Hou <lizhi.hou@amd.com>
-In-Reply-To: <86c8f688-eea3-ff95-5ae5-2e4da32b7edb@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: None (SATLEXMB03.amd.com: lizhi.hou@amd.com does not designate
- permitted sender hosts)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF0001A106:EE_|DS0PR12MB7746:EE_
-X-MS-Office365-Filtering-Correlation-Id: f6e0c267-2bd3-44e2-00ae-08dce686b773
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|82310400026|1800799024|376014|36860700013; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?cnowNnJmam9zNHc5VGpYNGNxaDA0OVYwdGlndVo5REtSbXV5Sk5mK1RqeGhw?=
- =?utf-8?B?VS9SQmJFcTZTZmNBYWJXSkZXQXQwSzU0R09oc3FCWjlsSENQR2xqUFBRaVFZ?=
- =?utf-8?B?L0tvL2IzWGtDVDlqdUwyWEFZYm5MaSt6bDBhYUdZbEwxY1JzcVppMURuSDl3?=
- =?utf-8?B?UGxSWTJXbTlCUDZUbSs1TXVwd3RRMlJIMURQdys4MnRuMm0waTFNQ2dHVkdy?=
- =?utf-8?B?ZnF0ZjkvczJXMWJRWExhUDRVYWF0VlI5TlFBYXB2djd3ellKVXNqdWZ3ck5r?=
- =?utf-8?B?MzZhaUo4S1EvYjBVL20waVN4cXljWXdTTjhYU1lhMFRTVnJ6bk1tYkRjb1U4?=
- =?utf-8?B?N1ozZEUySGlOODlBV3RFU3gxNGpWN3dHRkxEcEg4Wk9XdXU1eWNUQkFlY3RK?=
- =?utf-8?B?bVBGTFRlUklPQVlDSlA4c3BRZmM1bXc0VVFvWlZYQXNpclBxRzR5ZVh0K3dG?=
- =?utf-8?B?d2tKdjlmc21IdHV1T05KckllUFBzYnp5Y1BaSkNrdGZBbzAxMGM0NXh0cXVu?=
- =?utf-8?B?aW1SWUFrS1RpVkJWNllIK0h0dWJHcmxGWUFQM21UZVRpTldiYlpucDY1RzRO?=
- =?utf-8?B?blBMTktzeS8wWlAxT21kN2QxR0VpZ29ka1NubUh1N29EdkRqRjNwNE1BVjZS?=
- =?utf-8?B?Z2l2UGM2K0FoaHhoQVZLSUJUYzcxb1hMWnliOGNqOXc2SXdYcFMrZzlpOVRq?=
- =?utf-8?B?QzhpRDFSTm0vMm1zL3FnbHlQbU1hZHQ5b2pGaHhzeHhUYjNQL3FKVkg1WHg4?=
- =?utf-8?B?TEp4YitRVU85eEwvNWY3NExZZS9NcllYMmpWOWpmTXRxVGl5MTZSUVRqQUJx?=
- =?utf-8?B?bm9xZzEybTN4S2JXTGJFbzNGelZBU3JzcUxsQ2MxOWpSVE90dkFyRHlzblBU?=
- =?utf-8?B?Uk5LUjZtZUR5djZmeTJqWFJsTzZFdGRZR3BtQ3J0TkNPa0pUelNLYlpHVmN3?=
- =?utf-8?B?ZjNDYTlPRGg1VlcxdGRXU2wxRFdrSERuejN6bWlDUjU3VVJoTGZWNSs1dU9w?=
- =?utf-8?B?Q21pY05YbmdibTZsOUgzbjNzSTlubkxzSzZWNEZhc3ZPdXROdGx3dHRXZW5G?=
- =?utf-8?B?Zjc3TE5QajlOdVhGaGNDTUhvcUZEV3JPdnVKVGY5ZGNNY28zZHlLQ1dQL1Rs?=
- =?utf-8?B?MWpWYnVCSnJQamhJZnBOaXkrOGpyVjU2WUx3Z1FvZWJLb2NOdTNjbkVoMWdj?=
- =?utf-8?B?cXdFcDRiSk4rbC93TGxrTU5oWlBreXJ5V0l0dHI2SGNmTU1NRktjbTI1UFVz?=
- =?utf-8?B?VmIwb0Zpbkxld0FuSXp6SlBDZy9iZVBlZW13QzA0L1AxWFR4MHljUmlPTzUx?=
- =?utf-8?B?VEY2LzBjVlNEY2pyMFloNm5lMkx1djNtM3Ztd0pCRjJPTHhPeE1YSDBQVjZQ?=
- =?utf-8?B?dnJqVnlvS01xREdIYXRSbDVUa3VrVHY2RjBNUUZTSUZSZXBrQ0lFU0orRWsw?=
- =?utf-8?B?L3JMcEpkS01HTTNvdmRLV2pYOVhNQXBuMUpBZWVrNEdQZ3FGYWU2NFlraE9Y?=
- =?utf-8?B?eTA3N2JGNWNTR0lTQjk5U1BDeTFGWmphMFNrdjNhb0dOVEwrMGRVUlZwaWor?=
- =?utf-8?B?L1NEb0kxYjdLZTFZREt4VGlaaitxbHROZjVjU3BlUGdSNE01QTBjYTJlQ3RP?=
- =?utf-8?B?Nld0TkMzeGRqQWtvMWJTUzlCWFFVVk5VMHBhWEk2bzZlNEFybFU3dGNGVUpl?=
- =?utf-8?B?aWd0N1c5QUFnUmh5M3NKTDRjcUNMSUlqUDdsaGxFUmc2UzN6SVJmZmVZajFj?=
- =?utf-8?B?dGFYSDNwcTlSQVIrQkhZUzVaRmVwUkNoR20wZFRPQzByek0xL0c1YzNiSTFt?=
- =?utf-8?B?NzQ3RyswV2luclhBbytrWnJjWVZMb2dTZ2V2ZWNRZkxBRis4MFgrSEhlQlR4?=
- =?utf-8?Q?XZpOrrbNTid9q?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(82310400026)(1800799024)(376014)(36860700013); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Oct 2024 04:15:45.6760 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f6e0c267-2bd3-44e2-00ae-08dce686b773
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BL02EPF0001A106.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7746
+References: <20241003060650.18454-1-wuhoipok@gmail.com>
+ <d2704a2b-ceb2-4919-81d3-f6ff58a734fe@xenosoft.de>
+ <c868e394-b1ad-4f30-b27b-c779e3458c42@csgroup.eu>
+In-Reply-To: <c868e394-b1ad-4f30-b27b-c779e3458c42@csgroup.eu>
+From: Hoi Pok Wu <wuhoipok@gmail.com>
+Date: Mon, 7 Oct 2024 12:49:04 +0800
+Message-ID: <CANyH0kDWaS8mavzuUeH4CPHBN9kBQ3hcCGjWA8U0UU2_y=5Gnw@mail.gmail.com>
+Subject: Re: [PATCH] drm/radeon: add late_register for connector
+To: Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: Christian Zigotzky <chzigotzky@xenosoft.de>,
+ Alex Deucher <alexander.deucher@amd.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>, 
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>, 
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, "R.T.Dickinson" <rtd2@xtra.co.nz>,
+ mad skateman <madskateman@gmail.com>, hypexed@yahoo.com.au, 
+ Christian Zigotzky <info@xenosoft.de>, Darren Stevens <darren@stevens-zone.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -147,85 +91,176 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Thank you. I am looking at the problem now.
 
-On 10/4/24 10:34, Jeffrey Hugo wrote:
-> On 9/11/2024 12:05 PM, Lizhi Hou wrote:
->> +struct create_ctx_req {
->> +    __u32    aie_type;
->> +    __u8    start_col;
->> +    __u8    num_col;
->> +    __u16    reserved;
->> +    __u8    num_cq_pairs_requested;
->> +    __u8    reserved1;
->> +    __u16    pasid;
->> +    __u32    pad[2];
->> +    __u32    sec_comm_target_type;
->> +    __u32     context_priority;
->
-> Alignment
-Will fix it.
->
->> +} __packed;
->> +
->> +struct create_ctx_resp {
->> +    enum aie2_msg_status    status;
->> +    __u32            context_id;
->> +    __u16            msix_id;
->> +    __u8            num_cq_pairs_allocated;
->> +    __u8            reserved;
->> +    struct cq_pair        cq_pair[MAX_CQ_PAIRS];
->> +} __packed;
->> +
->> +struct destroy_ctx_req {
->> +    __u32    context_id;
->> +} __packed;
->> +
->> +struct destroy_ctx_resp {
->> +    enum aie2_msg_status    status;
->> +} __packed;
->> +
->> +struct execute_buffer_req {
->> +    __u32    cu_idx;
->> +    __u32    payload[19];
->> +} __packed;
->> +
->> +struct exec_dpu_req {
->> +    __u64    inst_buf_addr;
->> +    __u32     inst_size;
->> +    __u32     inst_prop_cnt;
->> +    __u32     cu_idx;
->
-> Alignment
-will fix it.
->
->> +    __u32    payload[35];
->> +} __packed;
->> +
->> diff --git a/drivers/accel/amdxdna/aie2_psp.c 
->> b/drivers/accel/amdxdna/aie2_psp.c
->> index c87ca322e206..ac5296f4f2ae 100644
->> --- a/drivers/accel/amdxdna/aie2_psp.c
->> +++ b/drivers/accel/amdxdna/aie2_psp.c
->> @@ -8,6 +8,8 @@
->>   #include <drm/drm_print.h>
->>   #include <linux/iopoll.h>
->>   +#include "amdxdna_mailbox.h"
->> +#include "amdxdna_pci_drv.h"
->>   #include "aie2_pci.h"
->
-> Doesn't look like alphabetical order to me.  Also similar instances in 
-> the *_regs.c files below
-
-aie2 is one type of amdxdna hw platform. I would put amdxdna_*.h ahead 
-of aie_*.h. Otherwise I probably need to add include in aie2_*.h.  Is it 
-acceptable reason? Or I must use alphabetical for #include?
-
-
-Thanks,
-
-Lizhi
-
->
->>     #define PSP_STATUS_READY    BIT(31)
+On Mon, Oct 7, 2024 at 1:37=E2=80=AFAM Christophe Leroy
+<christophe.leroy@csgroup.eu> wrote:
 >
 >
+>
+> Le 06/10/2024 =C3=A0 18:56, Christian Zigotzky a =C3=A9crit :
+> > On 03 October 2024 at 08:06 am, Wu Hoi Pok wrote:
+> >> This is a fix patch not tested yet,
+> >> for a bug I introduce in previous rework of radeon driver.
+> >> The bug is a null dereference in 'aux.dev', which is the
+> >> 'device' not registered, resulting in kernel panic. By having
+> >> 'late_register', the connector should be registered after
+> >> 'drm_dev_register' automatically.
+> >>
+> >> Please help testing thank you.
+> > Hello Wu Hoi Pok,
+> >
+> > Thanks a lot for your patch. Unfortunately there is a new issue after
+> > patching the RC1. Could you please fix the following issue?
+> >
+> > Thanks,
+> > Christian
+> >
+> > ---
+> >
+> > Linux fienix 6.12.0-rc1-2-powerpc64-smp #1 SMP Fri Oct  4 08:55:45 CEST
+> > 2024 ppc64 GNU/Linux
+> >
+> > [   29.167145] systemd[1]: Sent message type=3Dsignal sender=3Dn/a
+> > destination=3Dn/a
+> > path=3D/org/freedesktop/systemd1/unit/NetworkManager_2eservice
+> > interface=3Dorg.freedesktop.DBus.Properties member=3DPropertiesChanged
+> > cookie=3D103 reply_cookie=3D0 signature=3Dsa{sv}as error-name=3Dn/a
+> > error-message=3Dn/a
+> > [   29.542140] systemd-journald[1301]: Successfully sent stream file
+> > descriptor to service manager.
+> > [   29.561863] BUG: Kernel NULL pointer dereference on read at 0x000000=
+00
+> > [   29.567156] Faulting instruction address: 0xc000000000c973c0
+> > [   29.571574] cpu 0x1: Vector: 300 (Data Access) at [c000000006f97640]
+> > [   29.576637]     pc: c000000000c973c0: .drm_gem_object_free+0x20/0x70
+> > [   29.581708]     lr: c000000000d28dd8: .radeon_bo_unref+0x58/0x90
+> > [   29.586428]     sp: c000000006f978e0
+> > [   29.588695]    msr: 9000000000009032
+> > [   29.590962]    dar: 0
+> > [   29.591925]  dsisr: 40000000
+> > [   29.593496]   current =3D 0xc0000000085b1f00
+> > [   29.596286]   paca    =3D 0xc00000003ffff680     irqmask: 0x03
+> > irq_happened: 0x01
+> > [   29.602119]     pid   =3D 1524, comm =3D Xorg.wrap
+> > [   29.605257] Linux version 6.12.0-rc1-2-powerpc64-smp
+> > (geeko@buildhost) (powerpc64-suse-linux-gcc (SUSE Linux) 7.5.0, GNU ld
+> > (GNU Binutils; devel:gcc / SLE-15) 2.43.1.20240828-150300.536) #1 SMP
+> > Fri Oct  4 08:55:45 CEST 2024
+> > [   29.623892] enter ? for help
+> > [   29.625487] [c000000006f97960] c000000000d28dd8
+> > .radeon_bo_unref+0x58/0x90
+> > [   29.631083] [c000000006f979e0] c000000000e287b0
+> > .radeon_vm_fini+0x260/0x330
+> > [   29.636765] [c000000006f97aa0] c000000000d07c94
+> > .radeon_driver_postclose_kms+0x1a4/0x1f0
+> > [   29.643579] [c000000006f97b30] c000000000c9374c
+> > .drm_file_free+0x28c/0x300
+> > [   29.649174] [c000000006f97be0] c000000000c93900 .drm_release+0x90/0x=
+170
+> > [   29.654508] [c000000006f97c70] c000000000304790 .__fput+0x120/0x3b0
+> > [   29.659495] [c000000006f97d10] c0000000002fe0fc .__se_sys_close+0x4c=
+/0xc0
+> > [   29.665004] [c000000006f97d90] c000000000025bac
+> > .system_call_exception+0x22c/0x260
+> > [   29.671295] [c000000006f97e10] c00000000000b554
+> > system_call_common+0xf4/0x258
+> > [   29.677164] --- Exception: c00 (System Call) at 00000000006b2b48
+> > [   29.681876] SP (fff4b3d0) is in userspace
+> > [   29.684577] 1:mon>  <no input ...>
+> > [   31.666727] Oops: Kernel access of bad area, sig: 11 [#1]
+> > [   31.670829] BE PAGE_SIZE=3D4K MMU=3DHash SMP NR_CPUS=3D2 A-EON Amiga=
+one X1000
+> > [   31.676144] Modules linked in: snd_hda_codec_idt
+> > snd_hda_codec_generic snd_hda_codec_hdmi snd_hda_intel snd_intel_dspcfg
+> > snd_hda_codec snd_hda_core dm_mod
+> > [   31.688703] CPU: 1 UID: 0 PID: 1524 Comm: Xorg.wrap Not tainted
+> > 6.12.0-rc1-2-powerpc64-smp #1
+> > [   31.695932] Hardware name: pasemi,nemo PA6T 0x900102 A-EON Amigaone =
+X1000
+> > [   31.701417] NIP:  c000000000c973c0 LR: c000000000d28dd8 CTR:
+> > c000000000d07af0
+> > [   31.707250] REGS: c000000006f97640 TRAP: 0300   Not tainted
+> > (6.12.0-rc1-2-powerpc64-smp)
+> > [   31.714128] MSR:  9000000000009032 <SF,HV,EE,ME,IR,DR,RI> CR:
+> > 28002222  XER: 20000000
+> > [   31.720773] DAR: 0000000000000000 DSISR: 40000000 IRQMASK: 0
+> >                 GPR00: c000000000d28dd8 c000000006f978e0
+> > c00000000207a800 c0000000085f5468
+> >                 GPR04: 0000000000000b9b 0000000000000b9a
+> > 0000000179779000 c0000000086a4b00
+> >                 GPR08: 0000000000000000 0000000000000000
+> > 0000000000000001 0000000000000000
+> >                 GPR12: 0000000048002202 c00000003ffff680
+> > 0000000000000000 0000000000000000
+> >                 GPR16: 00000000006e3318 0000000000000001
+> > 00000000006e289c 0000000000000063
+> >                 GPR20: 00000000c04064a0 00000000007f0088
+> > 00000000fff4c734 00000000007d165c
+> >                 GPR24: 00000000007d1668 c000000024b6a220
+> > c000000003588000 c000000024b6a200
+> >                 GPR28: c000000003b3cc00 c000000024b6a248
+> > c000000002d48820 c0000000085f5468
+> > [   31.778903] NIP [c000000000c973c0] .drm_gem_object_free+0x20/0x70
+> > [   31.783701] LR [c000000000d28dd8] .radeon_bo_unref+0x58/0x90
+> > [   31.788062] Call Trace:
+> > [   31.789199] [c000000006f978e0] [c000000006f97990] 0xc000000006f97990
+> > (unreliable)
+> > [   31.795388] [c000000006f97960] [c000000000d28dd8]
+> > .radeon_bo_unref+0x58/0x90
+> > [   31.801142] [c000000006f979e0] [c000000000e287b0]
+> > .radeon_vm_fini+0x260/0x330
+> > [   31.806982] [c000000006f97aa0] [c000000000d07c94]
+> > .radeon_driver_postclose_kms+0x1a4/0x1f0
+> > [   31.813954] [c000000006f97b30] [c000000000c9374c]
+> > .drm_file_free+0x28c/0x300
+> > [   31.819707] [c000000006f97be0] [c000000000c93900] .drm_release+0x90/=
+0x170
+> > [   31.825197] [c000000006f97c70] [c000000000304790] .__fput+0x120/0x3b=
+0
+> > [   31.830342] [c000000006f97d10] [c0000000002fe0fc]
+> > .__se_sys_close+0x4c/0xc0
+> > [   31.836010] [c000000006f97d90] [c000000000025bac]
+> > .system_call_exception+0x22c/0x260
+> > [   31.842460] [c000000006f97e10] [c00000000000b554]
+> > system_call_common+0xf4/0x258
+> > [   31.848476] --- interrupt: c00 at 0x6b2b48
+> > [   31.851267] NIP:  00000000006b2b48 LR: 00000000006b2b20 CTR:
+> > 0000000000000000
+> > [   31.857101] REGS: c000000006f97e80 TRAP: 0c00   Not tainted
+> > (6.12.0-rc1-2-powerpc64-smp)
+> > [   31.863978] MSR:  100000000200f032 <HV,VEC,EE,PR,FP,ME,IR,DR,RI>  CR=
+:
+> > 28002400  XER: 00000000
+> > [   31.871235] IRQMASK: 0
+> >                 GPR00: 0000000000000006 00000000fff4b3d0
+> > 00000000f7b7f3a0 0000000000000003
+> >                 GPR04: 0000000000000000 0000000000000000
+> > 0000000000000000 0000000000000000
+> >                 GPR08: 0000000000000000 0000000000000000
+> > 0000000000000000 0000000000000000
+> >                 GPR12: 0000000000000000 00000000007efff4
+> > 0000000000000000 0000000000000000
+> >                 GPR16: 00000000006e3318 0000000000000001
+> > 00000000006e289c 0000000000000063
+> >                 GPR20: 00000000c04064a0 00000000007f0088
+> > 00000000fff4c734 00000000007d165c
+> >                 GPR24: 00000000007d1668 00000000fff4b400
+> > 0000000000000001 0000000000000001
+> >                 GPR28: 00000000fff4b46c 0000000000000000
+> > 00000000007bfff4 0000000000000003
+> > [   31.926053] NIP [00000000006b2b48] 0x6b2b48
+> > [   31.928930] LR [00000000006b2b20] 0x6b2b20
+> > [   31.931720] --- interrupt: c00
+> > [   31.933466] Code: ebe1fff8 7c0803a6 4e800020 60000000 7c0802a6
+> > fbe1fff8 7c7f1b78 f8010010 f821ff81 60000000 60000000 e93f0140
+> > <e9290000> 7d2a0074 794ad182 0b0a0000
+> > [   31.946913] ---[ end trace 0000000000000000 ]---
+> >
+> >
+>
+> That's a NULL pointer dereference in drm_gem_object_free().
+>
+> Trying to read obj->funcs->free while obj->funcs is NULL.
+>
+> Christophe
