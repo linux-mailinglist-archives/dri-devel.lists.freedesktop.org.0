@@ -2,65 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1631B9933EA
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 18:51:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA992993514
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 19:33:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B3FC10E3DD;
-	Mon,  7 Oct 2024 16:51:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04E4110E213;
+	Mon,  7 Oct 2024 17:33:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="hvsJOJ6E";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gPkZe+35";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
- [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A3CD10E3DD
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 16:51:21 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 62C81E0006;
- Mon,  7 Oct 2024 16:51:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1728319878;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=rRZMTR1n/c5WTha8acx2XuOAYRFLJCXcobXPAU05IwM=;
- b=hvsJOJ6EE7PFjP9GabrrJ0wgvzPInnhglw+nh/p+QObBGGFDXpE6riy8SnHUQ62h/ZkJ8J
- Og1zSCK6QfGbE0S/D4zxkYUGmN2SKX7mRRFtAsyc8juD3b93dq8FjsYNMdWQt7yq1gSSh0
- GA30FDbxOuf2pxzvFZcEspTpL2Ay01nZt3Ek3ksk/VZYlP7SpMqSX+8y0L/zysT89l/Ed+
- MmG1LfvqX1vU2b9EDdb1dXxNwcAKZsXOEJcrbxBatUAyoTxOjXO5NIOCkV3KtFL9D8Hr/R
- 2/fzAlSuZPfkB4ZdrDn2rKE5WlvUVFkbvFg4JQjGMjH5MD6JX3xNvvS1TBaxKw==
-Date: Mon, 7 Oct 2024 18:51:16 +0200
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-To: Paz Zcharya <pazz@chromium.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, Paz Zcharya <pazz@google.com>,
- David Airlie <airlied@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Maaara Canal <mairacanal@riseup.net>,
- Melissa Wen <melissa.srw@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/vkms: Add support for ABGR8888 pixel format
-Message-ID: <ZwQRhKHZuK4AgWuy@fedora>
-Mail-Followup-To: Paz Zcharya <pazz@chromium.org>,
- LKML <linux-kernel@vger.kernel.org>, Paz Zcharya <pazz@google.com>,
- David Airlie <airlied@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Maaara Canal <mairacanal@riseup.net>,
- Melissa Wen <melissa.srw@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org
-References: <20241007142814.4037157-1-pazz@google.com>
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
+ [209.85.216.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BED9B10E213;
+ Mon,  7 Oct 2024 17:33:08 +0000 (UTC)
+Received: by mail-pj1-f54.google.com with SMTP id
+ 98e67ed59e1d1-2e0b467da03so578850a91.2; 
+ Mon, 07 Oct 2024 10:33:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1728322388; x=1728927188; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=QBVwovZqhJiutGf/q57pmoMot4Vg5YimdUN+GQvqspM=;
+ b=gPkZe+35mIYIIdSlBeFNfXy4WiHRuGF/z1dJ+E9rRUodAD+P+WploIqkG2wKqw1e/u
+ ZEc2nn/OGnRDCESydqfU/qmvEv1bpKOfpCnvhVZlNFoJYuJytRfpQ4M/VyK8x4ocL431
+ 31DGelrwDya20cbqWz1v9bIb1t9VKl3xG3CAqCg2to35CjueeduD5kQSNpquAQy7HcNE
+ QySm+KERJraWGGaz5ceba08AgbO7EBQ03oTptwTw1Yk37BS4qpGeOozon0CvX3g1piCn
+ HE5mu7rvLXujf4ZvPsY5gJiGzxH/cmXtviMSY/Damyu3JtcRyZraLJAPIga4fvr5igVH
+ GuGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1728322388; x=1728927188;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=QBVwovZqhJiutGf/q57pmoMot4Vg5YimdUN+GQvqspM=;
+ b=BB5Oli/lTVSlWhuQVtYEsU1lFP7WFXL/t71TWdKRD1uswK2dSBGGposlsTGdTkQfSl
+ 8W2ossUCHxkuncO9kuC3TQZt4szv/XjMokZTITlTehUl9/M6O8BZHhqKUxfj+MtDAnf4
+ 8HGij6vH3jmsjnF6yqwt9a/rJeKDKtzXzSYK2X2C+zBs8PkQHqAzCmiBW0oCzwzjjPRF
+ OCef71l3iajHPSOYpy04vpaOmO7vasAdZNqwikkijapKNQQJaKrcdE7AWTXicqpc2Ojy
+ glYhR/cfGPmUFSuaRbFZN+ntHhfKRyT56qQGYwZyCRMzPjTjKosPpm/dPi1O3ET/3bP7
+ Rd2w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV1EJTHXBgf8R61mABkMSg6z8dfrHCvmUCzrjeBfhY03IS2zcHCUPjI0gFvSuIyquZKqGcJHgMBOQQ=@lists.freedesktop.org,
+ AJvYcCWhqVHy5FWHpYGTWo1o7SU4/igeqoFDFKGNjepZL/xn4uG/C8/ZG7AQts5GU4RTEw1BbvkDVH+HVbc=@lists.freedesktop.org,
+ AJvYcCXBh/chXA0xrFa0byQAWQcTbMBLHKSXI1uvjqTaou5cR3yqSHK5qPo1a/gLX3M3INQiX7jzSJLaUomP@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwXGniTiiogeqZBC86/iMiivyOZxSHsirJ9VWLz/yOTZ3DB73cF
+ d5Ui7ZYECHURJmYXM2DaaGtbFEvNBkg1xoZDzD9h9BeX976T9k2L
+X-Google-Smtp-Source: AGHT+IGbvJGQl/UAHTUNNHtW5c/lWs0TlfWR9gt/d7p98Gcfl9rgsSZB50FW193XaadNkp+X0cxCxg==
+X-Received: by 2002:a17:90b:1115:b0:2db:60b:eee with SMTP id
+ 98e67ed59e1d1-2e1e63eabeemr6155040a91.9.1728322388268; 
+ Mon, 07 Oct 2024 10:33:08 -0700 (PDT)
+Received: from dev.. ([2402:e280:214c:86:a843:852f:eac4:ff92])
+ by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-2e1e86657d5sm7442881a91.46.2024.10.07.10.33.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Oct 2024 10:33:08 -0700 (PDT)
+From: R Sundar <prosunofficial@gmail.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, imre.deak@intel.com
+Cc: R Sundar <prosunofficial@gmail.com>, kernel test robot <lkp@intel.com>,
+ Julia Lawall <julia.lawall@inria.fr>
+Subject: [PATCH linux-next] drm/i915/ddi: use string choice helpers
+Date: Mon,  7 Oct 2024 23:03:00 +0530
+Message-Id: <20241007173300.83902-1-prosunofficial@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241007142814.4037157-1-pazz@google.com>
-X-GND-Sasl: louis.chauvet@bootlin.com
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,140 +88,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07/10/24 - 14:27, Paz Zcharya wrote:
-> Add support for pixel format ABGR8888, which is the default format
-> on Android devices. This will allow us to use VKMS as the default
-> display driver in Android Emulator (Cuttlefish) and increase VKMS
-> adoption.
+Use str_enabled_disabled string helpers for better readability and to
+fix cocci warning.
 
-Hi Paz,
+Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Julia Lawall <julia.lawall@inria.fr>
+Closes: https://lore.kernel.org/r/202410071601.TFpXoqgW-lkp@intel.com/
+Signed-off-by: R Sundar <prosunofficial@gmail.com>
+---
 
-Thank you for your contribution!
+Reported in linux repo:
 
-I am very happy to see new users for VKMS, and I will be glad to add new 
-formats to VKMS!
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 
-However, as you can see [1], there is a significant rework of the VKMS 
-formats and composition that should be merged soon.
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/i915/display/intel_ddi.c:2225:7-13: opportunity for str_enabled_disabled(enable)
 
-This series introduces two key improvements: performance enhancements and 
-YUV support. These changes involve substantial modifications to the 
-vkms_format.c file, which may conflict with your work.
+vim +2225 drivers/gpu/drm/i915/display/intel_ddi.c
 
-Additionally, I wrote a few patches [2] and [3] a few months ago to 
-practice with VKMS, and they did not receive any comments, so I believe I 
-will be able to merge them quickly after [1].
+compile tested only.
 
-In [2], I added many new formats: ABGR, BGRA, RGBA, XBGR, RGBX, BGRX, 
-BGR565, P010, P012, P016. 
-Would you mind testing this version to see if it meets your needs?
+ drivers/gpu/drm/i915/display/intel_ddi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-In [3], I did similar work for writeback, but it is not as complete, so I 
-need to add a patch, almost identical to your code:
+diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
+index fe1ded6707f9..ff4c633c8546 100644
+--- a/drivers/gpu/drm/i915/display/intel_ddi.c
++++ b/drivers/gpu/drm/i915/display/intel_ddi.c
+@@ -2236,7 +2236,7 @@ static void intel_dp_sink_set_fec_ready(struct intel_dp *intel_dp,
+ 	if (drm_dp_dpcd_writeb(&intel_dp->aux, DP_FEC_CONFIGURATION,
+ 			       enable ? DP_FEC_READY : 0) <= 0)
+ 		drm_dbg_kms(display->drm, "Failed to set FEC_READY to %s in the sink\n",
+-			    enable ? "enabled" : "disabled");
++			    str_enabled_disabled(enable));
+ 
+ 	if (enable &&
+ 	    drm_dp_dpcd_writeb(&intel_dp->aux, DP_FEC_STATUS,
+-- 
+2.34.1
 
-	static void argb_u16_to_ABGR8888(u8 *out_pixel, const struct pixel_argb_u16 *in_pixel)
-		[...]
-
-Added:	WRITE_LINE(XBGR8888_write_line, argb_u16_to_XBGR8888)
-
-I need to send a v2 of [3] anyway because of conflicts, do you mind if I 
-take your argb_u16_to_ABGR8888 to integrate it (with your signed-off-by 
-obviously)?
-
-In any case, if you have time to test, or even better review [1], [2] or 
-[3], it could be amazing!
-
-Thank you,
-Louis Chauvet
-
-[1]:https://lore.kernel.org/all/20241007-yuv-v12-0-01c1ada6fec8@bootlin.com/
-[2]:https://lore.kernel.org/all/20241007-b4-new-color-formats-v2-0-d47da50d4674@bootlin.com/
-[3]:https://lore.kernel.org/all/20240814-writeback_line_by_line-v2-0-36541c717569@bootlin.com/
-
-> Signed-off-by: Paz Zcharya <pazz@chromium.org>
-> ---
-> 
->  drivers/gpu/drm/vkms/vkms_formats.c   | 20 ++++++++++++++++++++
->  drivers/gpu/drm/vkms/vkms_plane.c     |  1 +
->  drivers/gpu/drm/vkms/vkms_writeback.c |  1 +
->  3 files changed, 22 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
-> index 040b7f113a3b..9e9d7290388e 100644
-> --- a/drivers/gpu/drm/vkms/vkms_formats.c
-> +++ b/drivers/gpu/drm/vkms/vkms_formats.c
-> @@ -73,6 +73,14 @@ static void XRGB8888_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_pixe
->  	out_pixel->b = (u16)src_pixels[0] * 257;
->  }
->  
-> +static void ABGR8888_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_pixel)
-> +{
-> +	out_pixel->a = (u16)src_pixels[3] * 257;
-> +	out_pixel->b = (u16)src_pixels[2] * 257;
-> +	out_pixel->g = (u16)src_pixels[1] * 257;
-> +	out_pixel->r = (u16)src_pixels[0] * 257;
-> +}
-> +
->  static void ARGB16161616_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_pixel)
->  {
->  	__le16 *pixels = (__force __le16 *)src_pixels;
-> @@ -176,6 +184,14 @@ static void argb_u16_to_XRGB8888(u8 *dst_pixels, struct pixel_argb_u16 *in_pixel
->  	dst_pixels[0] = DIV_ROUND_CLOSEST(in_pixel->b, 257);
->  }
->  
-> +static void argb_u16_to_ABGR8888(u8 *dst_pixels, struct pixel_argb_u16 *in_pixel)
-> +{
-> +	dst_pixels[3] = DIV_ROUND_CLOSEST(in_pixel->a, 257);
-> +	dst_pixels[2] = DIV_ROUND_CLOSEST(in_pixel->b, 257);
-> +	dst_pixels[1] = DIV_ROUND_CLOSEST(in_pixel->g, 257);
-> +	dst_pixels[0] = DIV_ROUND_CLOSEST(in_pixel->r, 257);
-> +}
-> +
->  static void argb_u16_to_ARGB16161616(u8 *dst_pixels, struct pixel_argb_u16 *in_pixel)
->  {
->  	__le16 *pixels = (__force __le16 *)dst_pixels;
-> @@ -234,6 +250,8 @@ void *get_pixel_conversion_function(u32 format)
->  		return &ARGB8888_to_argb_u16;
->  	case DRM_FORMAT_XRGB8888:
->  		return &XRGB8888_to_argb_u16;
-> +	case DRM_FORMAT_ABGR8888:
-> +		return &ABGR8888_to_argb_u16;
->  	case DRM_FORMAT_ARGB16161616:
->  		return &ARGB16161616_to_argb_u16;
->  	case DRM_FORMAT_XRGB16161616:
-> @@ -252,6 +270,8 @@ void *get_pixel_write_function(u32 format)
->  		return &argb_u16_to_ARGB8888;
->  	case DRM_FORMAT_XRGB8888:
->  		return &argb_u16_to_XRGB8888;
-> +	case DRM_FORMAT_ABGR8888:
-> +		return &argb_u16_to_ABGR8888;
->  	case DRM_FORMAT_ARGB16161616:
->  		return &argb_u16_to_ARGB16161616;
->  	case DRM_FORMAT_XRGB16161616:
-> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-> index e5c625ab8e3e..8efd585fc34c 100644
-> --- a/drivers/gpu/drm/vkms/vkms_plane.c
-> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
-> @@ -15,6 +15,7 @@
->  static const u32 vkms_formats[] = {
->  	DRM_FORMAT_ARGB8888,
->  	DRM_FORMAT_XRGB8888,
-> +	DRM_FORMAT_ABGR8888,
->  	DRM_FORMAT_XRGB16161616,
->  	DRM_FORMAT_ARGB16161616,
->  	DRM_FORMAT_RGB565
-> diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
-> index bc724cbd5e3a..04cb9c58e7ad 100644
-> --- a/drivers/gpu/drm/vkms/vkms_writeback.c
-> +++ b/drivers/gpu/drm/vkms/vkms_writeback.c
-> @@ -17,6 +17,7 @@
->  static const u32 vkms_wb_formats[] = {
->  	DRM_FORMAT_ARGB8888,
->  	DRM_FORMAT_XRGB8888,
-> +	DRM_FORMAT_ABGR8888,
->  	DRM_FORMAT_XRGB16161616,
->  	DRM_FORMAT_ARGB16161616,
->  	DRM_FORMAT_RGB565
-> -- 
-> 2.47.0.rc0.187.ge670bccf7e-goog
-> 
