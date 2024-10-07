@@ -2,111 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F598992FE7
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 16:50:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 292159930B4
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 17:09:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF01710E3C3;
-	Mon,  7 Oct 2024 14:50:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F52510E3C2;
+	Mon,  7 Oct 2024 15:09:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=arndb.de header.i=@arndb.de header.b="Up5FKcIp";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="J6dMbAbu";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="XHkcZdqq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from flow-a8-smtp.messagingengine.com
- (flow-a8-smtp.messagingengine.com [103.168.172.143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D09DB10E3C3;
- Mon,  7 Oct 2024 14:50:44 +0000 (UTC)
-Received: from phl-compute-10.internal (phl-compute-10.phl.internal
- [10.202.2.50])
- by mailflow.phl.internal (Postfix) with ESMTP id 1C5DC20056E;
- Mon,  7 Oct 2024 10:50:44 -0400 (EDT)
-Received: from phl-imap-11 ([10.202.2.101])
- by phl-compute-10.internal (MEProxy); Mon, 07 Oct 2024 10:50:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
- :cc:content-transfer-encoding:content-type:content-type:date
- :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=fm1; t=1728312644;
- x=1728319844; bh=etD4e8fREf9I10+o9SUXvRJ3oUE/2nTOuOsA3IfGV0I=; b=
- Up5FKcIpjBZ6k6OO9HvsIVrtn+oyytHREAsBXp6Oexcg+99JEzromzAQIH4UmAAA
- x9JqWwcMF/ICY//C+mZObEm3sG5NCGUp8cqnz1R7uDgsYhIEOSWD9vn/EXP4Wxim
- yqnKXJ5xAo2Ec7sa5GwvOHSV2sHeFN+AqlGlsOkXxl7UbnwZuxP9sqq8IJDKVVYc
- Ue5XPJzJKi1AGpKrW/s/2+4QjwXztRWGLl/qNHNof5iFl0I5gh8hyLclasmY/1PE
- GEtpoTHkWgoCfT7TFQL7pY61kIcXj6+AxYKQoxFU2GOMzEGM8VlBWXsfQYDUuC4Y
- QzV12/5hIMFxr/JH3iCRXw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1728312644; x=
- 1728319844; bh=etD4e8fREf9I10+o9SUXvRJ3oUE/2nTOuOsA3IfGV0I=; b=J
- 6dMbAbusojRSCSe9UnR6C3k8JdJVJevEoZHv/Lnz9PETzXw9HoWr3mXoxRc1sG8a
- GTcE9ngpub/XS2GinrGwG2qrIYjyfqC/nN+63f92KZe741WLbKYz2JolBW3M6/hd
- svpZ+DpWS0IuO6OyEgOdorM3AQQYtapQoJ08UkZpPEyTcRTFSCUSdfJV8a7YqQMQ
- /lI74RQZE94PPxyLoPPoUhLHMyBeW/9cCCHeneCCcBYyHFfdayAyauhQeR1NACk4
- f0xGDnDn0wVS4dFYj/3LOS/W/l1Gck/u5aCAFGa8OtI5MoYBlySDpNJdpgbjVKwY
- 0x8tsx2J1tIeENv9gmgpg==
-X-ME-Sender: <xms:Q_UDZ1Yizc8iqp72AWNwAlQIzhnZ-5ZRDnYyvEZPj62NU4VqkVW3JQ>
- <xme:Q_UDZ8b-bkrU1pb64mikfrQ4wH0WxPnYn3P--VK9KB4ujQ2RJtzvf_ovTUuV_1328
- YWUSmNC99yn6ViQCjo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvddvledgkedvucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
- rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
- htshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddt
- necuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrd
- guvgeqnecuggftrfgrthhtvghrnhephfdthfdvtdefhedukeetgefggffhjeeggeetfefg
- gfevudegudevledvkefhvdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
- hmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepvdel
- pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtg
- hhpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopehl
- uhhiiidruggvnhhtiiesghhmrghilhdrtghomhdprhgtphhtthhopehprghtrhhikhdrrh
- drjhgrkhhosghsshhonhesghhmrghilhdrtghomhdprhgtphhtthhopehmrghrtggvlhes
- hhholhhtmhgrnhhnrdhorhhgpdhrtghpthhtoheplhhutggrshdruggvmhgrrhgthhhise
- hinhhtvghlrdgtohhmpdhrtghpthhtoheprhhoughrihhgohdrvhhivhhisehinhhtvghl
- rdgtohhmpdhrtghpthhtoheprghrnhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhope
- hjihhrihhslhgrsgihsehkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:Q_UDZ3-2EPROruSgT8GW1PbVwSNM-dUV4TQEZQVPNTgpR7BkSYI-ug>
- <xmx:Q_UDZzo6C5Mu6AEw2E-QjoA96ZZX7yK2h0S8UeCN9XoWTHYFouXsjw>
- <xmx:Q_UDZwqr0-eTXOX_gSC1UArZNUyW35LA2rhkPo2ukZlYqtWmYtlThw>
- <xmx:Q_UDZ5Rr6brJB6oXR0tLZ_ghHteD7HYyIYrIcJ6iKg0KFiUJKLAIpg>
- <xmx:RPUDZyhlRtMuy3U--PRER_M7LuMc2pt9keUGA9G5u16wBEFfl7ppTrg->
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
- id 20D602220071; Mon,  7 Oct 2024 10:50:43 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
+ [209.85.210.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D151010E3C2
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 15:09:17 +0000 (UTC)
+Received: by mail-pf1-f172.google.com with SMTP id
+ d2e1a72fcca58-71e06ba441cso643797b3a.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Oct 2024 08:09:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1728313757; x=1728918557; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=U/+GSwCeOWRm/l1+CfEkkyplSY7a0N5EITYY7LFjoig=;
+ b=XHkcZdqq+HfRgOIMgzKXASI4e6uVh0+lVoXn1praOo/ZRMVjCOIyk7Or636+b4cpXB
+ 6RdwqZIn/s899ULeNIiswC8ysb8Pyj9OPBO9USvbcdMD6VfPXYHlIw3O/7pFGPniIUKy
+ 0MSGzmQLB2G0NpUnUMsOyJeeNgFsM2CnQipIda3gDpIC7mGmzuK4LQwGetrzyAfYsJik
+ DdvlpCc9yD6xhckeTwCQ7bfXljtabpJOuerDZaeQ2vBs+1Ce1MSR9+CAcD8zqzf2tg0V
+ VIRoEJF0OM0xSpeUzgbgHhzjbNTcjLeul75PWotFu+2lTJDTZ9uUXZN7p7qvVgbKWCOl
+ +Ueg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1728313757; x=1728918557;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=U/+GSwCeOWRm/l1+CfEkkyplSY7a0N5EITYY7LFjoig=;
+ b=Az92GSNjC0ewKTl4FOOiC0tQhnWLTwv3YiXf3J9+db0zW0F3g89Uy3bxZSIkpGjjBT
+ AtGr8F1NqKcO5bgt9dwSVwTWGHqcsOAVm/OPa6ayUGFcYQCweiRr8R678vglNWQ/l7Y3
+ wSsylrM72fc0gP0do3F/gEkCOwWKp7DYocIB7XrazXpjDZ4kHXRo2rtnRX5QNRSeT9hc
+ RQwHxeaKHpN+pcAZh+NOr+p6iavoyzC/gl1L7rA+XgJXms9qbXfu/lgmCkTVVcuEkQY5
+ OIrrbBCuA8RlOmXEz0WJ6KIfa0toyPbaWSnl8C7tKRcLlYddNeIQyRTItMbyFtueu41H
+ KYTw==
+X-Gm-Message-State: AOJu0YyKp6STS3+uJ50LbUDDe3KYr5GRbW9JoY9L1yn6yMZGAcXAWx44
+ Bh3ilQ8xGGQfHxxFR1RjjqGDy++OrWM0utieKT9XOBCb/EBFJqOw
+X-Google-Smtp-Source: AGHT+IFyaIcmre3vkQABIM8yyNZlEuDS9Fnfn9Gk+ufQWVciOVuxyxkAe1vCDGKPdT/UvjtIoXMFog==
+X-Received: by 2002:a05:6a20:6f07:b0:1d3:2976:144 with SMTP id
+ adf61e73a8af0-1d6dfafc08cmr16632114637.44.1728313757227; 
+ Mon, 07 Oct 2024 08:09:17 -0700 (PDT)
+Received: from advait-kdeneon.. ([2405:201:1e:f1d5:ffb9:ea:f539:1909])
+ by smtp.gmail.com with ESMTPSA id
+ 41be03b00d2f7-7e9f6c3411asm5011809a12.68.2024.10.07.08.09.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Oct 2024 08:09:16 -0700 (PDT)
+From: Advait Dhamorikar <advaitdhamorikar@gmail.com>
+To: Sam Ravnborg <sam@ravnborg.org>, Boris Brezillon <bbrezillon@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+ anupnewsmail@gmail.com, Advait Dhamorikar <advaitdhamorikar@gmail.com>,
+ kernel test robot <lkp@intel.com>, Dan Carpenter <error27@gmail.com>
+Subject: [PATCH v2] drm/atmel_hlcdc: Fix uninitialized variable
+Date: Mon,  7 Oct 2024 20:39:04 +0530
+Message-Id: <20241007150904.9840-1-advaitdhamorikar@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Date: Mon, 07 Oct 2024 14:50:11 +0000
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Lucas De Marchi" <lucas.demarchi@intel.com>,
- "Niklas Schnelle" <schnelle@linux.ibm.com>
-Cc: "Brian Cain" <bcain@quicinc.com>, "Marcel Holtmann" <marcel@holtmann.org>,
- "Luiz Augusto von Dentz" <luiz.dentz@gmail.com>,
- "Patrik Jakobsson" <patrik.r.jakobsson@gmail.com>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>,
- "Dave Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
- "Dave Airlie" <airlied@redhat.com>, "Gerd Hoffmann" <kraxel@redhat.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- "Rodrigo Vivi" <rodrigo.vivi@intel.com>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Jiri Slaby" <jirislaby@kernel.org>,
- "Maciej W. Rozycki" <macro@orcam.me.uk>,
- "Heiko Carstens" <hca@linux.ibm.com>, linux-kernel@vger.kernel.org,
- linux-hexagon@vger.kernel.org, linux-bluetooth@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev,
- spice-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linux-serial@vger.kernel.org, Linux-Arch <linux-arch@vger.kernel.org>,
- "Arnd Bergmann" <arnd@kernel.org>
-Message-Id: <c58ab639-f0de-4cea-b745-13e9cfe0e588@app.fastmail.com>
-In-Reply-To: <3wh4nsirm5kjapft47oe3gaqgzdjwlhzku5lrctb4hhfjxicv3@n2sow3o36chc>
-References: <20241007-b4-has_ioport-v6-0-03f7240da6e5@linux.ibm.com>
- <20241007-b4-has_ioport-v6-3-03f7240da6e5@linux.ibm.com>
- <3wh4nsirm5kjapft47oe3gaqgzdjwlhzku5lrctb4hhfjxicv3@n2sow3o36chc>
-Subject: Re: [PATCH v6 3/5] drm: handle HAS_IOPORT dependencies
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,33 +87,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 7, 2024, at 14:39, Lucas De Marchi wrote:
-> as an example:
-> $ git grep -lw outb -- drivers/gpu/drm/
-> drivers/gpu/drm/gma500/cdv_device.c
-> drivers/gpu/drm/i915/display/intel_vga.c
-> drivers/gpu/drm/qxl/qxl_cmd.c
-> drivers/gpu/drm/qxl/qxl_irq.c
-> drivers/gpu/drm/tiny/bochs.c
-> drivers/gpu/drm/tiny/cirrus.c
->
-> you are adding the dependency on xe, but why are you keeping i915 out?
-> What approach did you use to determine the dependency?
+atmel_hlcdc_plane_update_buffers: may use an uninitialized
+sr variable when the if condition remains unsatisfied.
+The variable may contain an arbitrary value left from earlier computations.
 
-I did a lot of 'randconfig' build testing on earlier versions
-(and this version) of the series, which eventually catches
-all of them. The i915 driver depends on CONfIG_X86 since it
-is only used in Intel PC chipsets that already rely on PIO.
+Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <error27@gmail.com>
+Closes: https://lore.kernel.org/r/202409240320.MZPgi3Up-lkp@intel.com/
+Signed-off-by: Advait Dhamorikar <advaitdhamorikar@gmail.com>
+---
+v1->v2: add reported by and closes labels
 
-The XE driver is also used for add-on cards, so the drivers
-can be built on all architectures including those that do
-not support PCI I/O space access. Adding the dependency on
-i915 as well wouldn't be wrong, but is not required for
-correctness.
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I also sent a patch for vmwgfx, which can be used on arm64.
-arm64 currently always sets HAS_IOPORT, so my patch is not
-required as a dependency for [PATCH v6 5/5], but we eventually
-want this so HAS_IOPORT can become optional on arm64.
+diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
+index 4a7ba0918eca..4150c4d0b4f2 100644
+--- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
++++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
+@@ -559,7 +559,7 @@ static void atmel_hlcdc_plane_update_buffers(struct atmel_hlcdc_plane *plane,
+ 	const struct atmel_hlcdc_layer_desc *desc = plane->layer.desc;
+ 	struct atmel_hlcdc_dc *dc = plane->base.dev->dev_private;
+ 	struct drm_framebuffer *fb = state->base.fb;
+-	u32 sr;
++	u32 sr = 0;
+ 	int i;
+ 
+ 	if (!dc->desc->is_xlcdc)
+-- 
+2.34.1
 
-      Arnd
