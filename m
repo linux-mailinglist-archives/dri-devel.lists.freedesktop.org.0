@@ -2,215 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B451992F8B
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 16:39:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3310C992F8F
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 16:39:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9273710E3B4;
-	Mon,  7 Oct 2024 14:39:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8180E10E3B7;
+	Mon,  7 Oct 2024 14:39:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="KQ4MIZSx";
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b="c29H04nN";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fJ/DZ7sX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0755D10E3B4
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 14:39:05 +0000 (UTC)
-X-UUID: e3368ec884b911ef8b96093e013ec31c-20241007
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-ID:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From;
- bh=P3YjIdFSt/x7eWb3m7RWOm2bkLnVAZ1ZACn+0EjCnZE=; 
- b=KQ4MIZSxmV3pk9PuCoh1wsUnr4HFbrLBGd5gtJtaHZ+ri/2zyjFm9sKAFA6nnifZGnWaALY7c80KTP4BuQ/dT092ZqAccLaNG/B6lZTFBD4chEqPBVzyKR3y3hiEYHqr91Rx1+9yB60RKQ/t/aNDkQszUPMQVKg8UnEYz0MzNQs=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.41, REQID:14e89355-ac8e-4fb2-8d96-57b84c9454ff, IP:0,
- U
- RL:0,TC:0,Content:1,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:1
-X-CID-META: VersionHash:6dc6a47, CLOUDID:dfec6a26-5902-4533-af4f-d0904aa89b3c,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:817|102,TC:nil,Content:4|-5,EDM:-3,I
- P:nil,URL:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0
- ,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 1,FCT|NGT
-X-CID-BAS: 1,FCT|NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_ULS,TF_CID_SPAM_SNR
-X-UUID: e3368ec884b911ef8b96093e013ec31c-20241007
-Received: from mtkmbs14n1.mediatek.inc [(172.21.101.75)] by
- mailgw02.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 104576509; Mon, 07 Oct 2024 22:38:58 +0800
-Received: from mtkmbs10n1.mediatek.inc (172.21.101.34) by
- mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Mon, 7 Oct 2024 22:38:57 +0800
-Received: from HK2PR02CU002.outbound.protection.outlook.com (172.21.101.237)
- by mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Mon, 7 Oct 2024 22:38:57 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rkxjVRDU3ab3kK23bxi74md68wo5lGEMI1/JgJBXbougWnn5wZutgLTpPsO0+SkAiHGAbfYcrTTNcwCe+XAjjXl69BOoXdZiw0ukFO02Bfaiz7aYKoUmIFqqLHmaqW925CuybjkwpZuaznjOuTE29WQVuzFvY6JWzAgvsz3kogwOd4nCP9d6KXfzUlUV2e6NR+yvcv53QlOq8spZPq/DdWtAJUohDdv8d2wAZg3pzGOznSs/IhP3d1Zffo/lm9uqE8ITvj9+DCsumMwAgYfuQ5rSy2RkUgwWPIn6gBF4yFxe3GxTNkw6b4Spu4FJakdQFr8blAQDwJr+nlwKEhilyw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IA880mnyv1KnJRbzEheYinJu/fupG19csS2tNmm4eI0=;
- b=EQZwRcRm6dy7+i92ITNw0+QULEs86kaeXcj8r7Sf9TaDWYHaHZ1phjFr3RYLodClHlUsIfC600ENjrPj8McL8BNsHmYD6ZqcuJcTtUeyWHza9ceMq1uUt6Ol41CbX3zCZQGeZhfbGqU/vMiA3zpI89x3pB2PcVbY6yER13QvogPgQMBzvaZIeXpTaZmFmQoOx3nuj3u97Eg5hj4gUtEN5Jpdm8oT+HXcWokSacgcZEfmAQALa2qE5LCFa5UIdjbMvee1FDHRtU68Ll+Ra+9d5SRrfFtkGrwH0/5Gz4rz/DfVTcw1LROfDYREDNzwwpfYaIdOrw3i5qJLKMbnvBZa6Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
- dkim=pass header.d=mediatek.com; arc=none
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com
+ [209.85.215.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C701F10E3B5;
+ Mon,  7 Oct 2024 14:39:20 +0000 (UTC)
+Received: by mail-pg1-f173.google.com with SMTP id
+ 41be03b00d2f7-7ea0bc03a90so208332a12.2; 
+ Mon, 07 Oct 2024 07:39:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IA880mnyv1KnJRbzEheYinJu/fupG19csS2tNmm4eI0=;
- b=c29H04nNlbG70PCC5qweS05l0vPSFNIB6Vk/rqEMIKoUbUelQXgnk8ciKS/VEg3t5RHJAV6KOutS2v+Ckfe/JG+iUG1YsTBxuAw1sjTYQlB7pVMS78HVzwAGVJZ36YZeLGV9nyyxZWku7P6g2lpH2nLq1ExzEX1QYwZti6ey2HA=
-Received: from SEYPR03MB7682.apcprd03.prod.outlook.com (2603:1096:101:149::11)
- by KL1PR03MB7221.apcprd03.prod.outlook.com (2603:1096:820:cb::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.22; Mon, 7 Oct
- 2024 14:38:54 +0000
-Received: from SEYPR03MB7682.apcprd03.prod.outlook.com
- ([fe80::c6cc:cbf7:59cf:62b6]) by SEYPR03MB7682.apcprd03.prod.outlook.com
- ([fe80::c6cc:cbf7:59cf:62b6%5]) with mapi id 15.20.8026.020; Mon, 7 Oct 2024
- 14:38:53 +0000
-From: =?utf-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>
-To: =?utf-8?B?QmliYnkgSHNpZWggKOisnea/n+mBoCk=?= <Bibby.Hsieh@mediatek.com>,
- "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>, "djkurtz@chromium.org"
- <djkurtz@chromium.org>, =?utf-8?B?U2hhd24gU3VuZyAo5a6L5a2d6KyZKQ==?=
- <Shawn.Sung@mediatek.com>, =?utf-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?=
- <Nancy.Lin@mediatek.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
- =?utf-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>,
- "yassine.oudjana@gmail.com" <yassine.oudjana@gmail.com>, "me@adamthiede.com"
- <me@adamthiede.com>, "airlied@gmail.com" <airlied@gmail.com>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>, "littlecvr@chromium.org"
- <littlecvr@chromium.org>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>
-CC: =?utf-8?B?WVQgU2hlbiAo5rKI5bKz6ZyGKQ==?= <Yt.Shen@mediatek.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 13/14] drm/mediatek: Support DRM plane alpha in OVL
-Thread-Topic: [PATCH v3 13/14] drm/mediatek: Support DRM plane alpha in OVL
-Thread-Index: AQHbFVPlNViRsB+fWkG+2zWvYOwE6rJ3tjcAgAA6owCAAH2HgIACekgAgAA7M4CAAD6+AA==
-Date: Mon, 7 Oct 2024 14:38:53 +0000
-Message-ID: <5e599d263f5801cc90e291e6fd304bd1b6cb00ae.camel@mediatek.com>
-References: <20240620-igt-v3-0-a9d62d2e2c7e@mediatek.com>
- <20240620-igt-v3-13-a9d62d2e2c7e@mediatek.com>
- <1a3af354-bd15-4219-960e-089b6a6e673c@adamthiede.com>
- <49df03e8b982cc5ee97e09ef9545c1d138c32178.camel@mediatek.com>
- <00ebe9ca262b6a95fd726e5be06334b1e923db02.camel@mediatek.com>
- <5975b361-c1b4-4c57-89d4-0d247ae99d8c@adamthiede.com>
- <272b47f0c9e27268d29b58c341e0b48bce7e8e25.camel@mediatek.com>
- <06ed4527-3749-4fac-bd38-d837f1593311@adamthiede.com>
- <f7b4c6601d648e0eba2dc66f0fe1f34ca3d29cfb.camel@mediatek.com>
- <d820e8be-c525-4435-99a3-b0eb076b3282@gmail.com>
- <b8fb4f241b2d248ca4c2c57b98588e1be0642b76.camel@mediatek.com>
- <fd6fc10e-d0f6-4c53-8561-bdfd047e45f2@adamthiede.com>
- <429db3b66919e67ef765eef220608cb3d3d9db65.camel@mediatek.com>
- <85971b89-b6eb-4ea3-994e-6107e91477fc@adamthiede.com>
-In-Reply-To: <85971b89-b6eb-4ea3-994e-6107e91477fc@adamthiede.com>
-Accept-Language: zh-TW, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mediatek.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SEYPR03MB7682:EE_|KL1PR03MB7221:EE_
-x-ms-office365-filtering-correlation-id: 5b52aa0a-6cbc-4c5c-8bdb-08dce6ddc419
-x-ld-processed: a7687ede-7a6b-4ef6-bace-642f677fbe31,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|366016|376014|7416014|1800799024|921020|38070700018; 
-x-microsoft-antispam-message-info: =?utf-8?B?alAxbDNCUzZ3VDF3WlpXYUQvT0ZiZGFsQ3FWeFppbEliMktnZFRaaXN6NHlW?=
- =?utf-8?B?N1MvRjNhaFp3TXgyMzk0b1VuOWoxdkg3ZEl3K2RCNmYxUHZ4cUhSaER4N3U1?=
- =?utf-8?B?K0JsR3JmR2Ewb0cxcDJIem14VUZYa2o0YXFEVzNpNmJQZ0swQi9JOUVKNXVs?=
- =?utf-8?B?WGFITFZRMVgxL2xqN3lOUjJNa01KT2tsdUwrTUZiRHNQZnJsT29rRlAwWHhs?=
- =?utf-8?B?RmZYUWJCNDZlU3VzL1BNZDB1ZENWaElrWThYTzFlNkFYSjNQTjdoVkhseEgz?=
- =?utf-8?B?ZXJDUksxeTd6djJLeFdxbG5rcU5INzF2WVRVaVBVNk1zYzNrTXFuOUlXVVE0?=
- =?utf-8?B?Z2Z3TVlFaWZaWWRlTGIxOWZqQXpLMGNzQXJHeUNtMEN0UVZFaE0wOWJYOGdX?=
- =?utf-8?B?bjZUZm1tY0lKdDIrelhaZFJCOWZmVnJ5RENEZG84a1BySVZyS1BpbStXN1RI?=
- =?utf-8?B?S24rdTVPYmRkRHBGVVozSFRzMjhzQ1YrYjhDUkpQNk9mR202ZlN6MXA2bzBR?=
- =?utf-8?B?NmRZU3RTTGZ5eDB5WUFXdWtOTVlqTDBGWXhGNVNKbkVvS1dlUHBCVzhZbFY5?=
- =?utf-8?B?cjdraEFrRTRvdGNUK1lsSG5SOEhhNEJoU2NvQkovelRpSFN3OXQvVTJzVmE5?=
- =?utf-8?B?TGJ1ZGlxaCtVa3IrbXFxMWYwMEVJeTRFdXJ1Nk9NMzhJdjN4SCtVVU43bGZx?=
- =?utf-8?B?WU90R2djNndQRWRlVTEraEoyc2VZMUhkRDlvWXR1aHJEdEY2bTNmSEVDUlhh?=
- =?utf-8?B?Z2psYkpFbjBabVBNN3lNVDJhc2hPL2dDMTA0T2RHUkEvdlh5b0NhemIybjFs?=
- =?utf-8?B?T0wzRlV3eTN3ZkZJTEZKVmRiTG8rdHoxelFaMnR3aDUzeWFUNXh2Yis3QlBn?=
- =?utf-8?B?R0dVcHU5ZVJhTVUyQWw0d1V2NmhTSjZOcUJIVStFVVNxa0R2WGcyakFLcHZm?=
- =?utf-8?B?Y0htR3lDaHNsM0I2cVlQNW5tcW53VDlselg0cHBGYXlGbFA0S1Y2UjhMU0d0?=
- =?utf-8?B?NlJkSDZYQ0NrWmhDUHd0ZjVEMThLaVp6RzdZODZEcGdqbDE3QVdpMmxwYklp?=
- =?utf-8?B?L1FXZHludzFEd0g1N2c4SkgxWnczbHJ1RkdPNUl2WlEvVzhNZXJnM2FlUTF5?=
- =?utf-8?B?Y05HSjNFd2pMZzNBZEJOMnN0V1U3cGFqREQwMnFKYlZZdW0yTjJ3M0d6d3NB?=
- =?utf-8?B?bVFYZWFEYSt2eHJBbVU3S2VBRE9iZExVV0IzcnZUREtKM3B5ZWFyY2NRUE1x?=
- =?utf-8?B?R0kvSVg0OTc5UWpoSTFSZzBSR2VBVk5hZlJKM2ZUWEZoRHpFc1JEdmNldzI3?=
- =?utf-8?B?eW5LNFBMM3dOL3o4TnpJVXZqZ1NHOGdaRklvdTFKdnJ1U3hGMG9CY0twbXFN?=
- =?utf-8?B?cnNGd1lWVXpBUnBEU0VKUEJQM3R5c2VsYi9xNVlXQkJBdytrRXVBdTlURzdF?=
- =?utf-8?B?Ymk5bnZqMVhTVUZ6bUdqWE8xYWJJak1yU1U4VUJQSzZCejdDb1M5YnlBZU9o?=
- =?utf-8?B?SHNqOWNncnRoMG04UzlvZlNmMUZPem8rR3VuRnBOc1FVOWVsSkczdnFGLzZx?=
- =?utf-8?B?aTFNeDFjbm9MeVpIQWZ3R21ZakFwc212d3dJalhoc3RFbWtqUEJJZUlreUky?=
- =?utf-8?B?Wm1FMWxucFVyNXoyUU44NlNLc3gyQjhBcHprMXR0N3FmZXFoZFRGcjVOdXNw?=
- =?utf-8?B?aUtPMUlqbCt6NW5VSUVaYjIrZU8zREJlbm05cmhvTVZaZmpBajNETU05TnB0?=
- =?utf-8?B?TWUwNWF2cDVFV3hzWkE0TFF1aGZZZ1M1UzVhRXR5SkhVOEN1MStzUkQvZXIr?=
- =?utf-8?Q?78CkZ5NOb+Kl4iY3N3rAX1wY6LIpEv1D2au3w=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SEYPR03MB7682.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(7416014)(1800799024)(921020)(38070700018);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?YVlzdHl5Mk8rR1dZcXRuTkFINURCUzg2U3k5Yk9CK3Ezc0FoWHF3K093b0pk?=
- =?utf-8?B?ajdOVkZpU01YM1B4ai9kcFZQeEdETklPRUwwNVhsVDUvWlloMEhVeVZnUVVp?=
- =?utf-8?B?MUZCUGVUeU8vd0U2enJ0QUorVUpaOEF0aTZDR0VQeEdtNUs4bjFtN2dOb2Nr?=
- =?utf-8?B?OGVGRUJUTGhHVjB5SWp6NHFacmpxSEViRk5KQlFhWmFwTVhneWFibFlyellz?=
- =?utf-8?B?bDlmMmZ5eXJvckYzaXBVdG5jMmJLS1VVbWcwbUh4bzZQQnY1QnZjRTNIVzVV?=
- =?utf-8?B?TTcrZG5pLzNPK3dGZXMycVVEY0J2Z2V4bEhlSkFweFlZY1ljdW9uU0pXWnRT?=
- =?utf-8?B?YXJhOGJzM2xaTURUNHBxcEZEbmFHMy9MdTB0SnFYSmIxMGJhUnh5TVJPTjlX?=
- =?utf-8?B?S2tVdEJCUHdYMWROQjFnK2JLRWRYSm1jTGhxSmltRnpxMDhtemdKVGFYZzNj?=
- =?utf-8?B?ZnNqSlVNS2lXYmViV3lPZXZSd1JZc1QrTk5TaVhId2JUYTFIL0g3UWxrMjRa?=
- =?utf-8?B?Wm9BVU42emVPdmdiNDBSVk9BT3kySGM3V2xiMEtCenpWZFhNeCt6Z0tVR1hI?=
- =?utf-8?B?d1V1WHA0ZDVDTzdRNWg3TG5TN1lZSCtNczZmZmIzb2c5WUx3R3pxOUQ3WHpC?=
- =?utf-8?B?STF4dEk5Qk5VRks5QVhnZUI1OVFRWUFEUWVpMlF3czlUTEdiMmtPZ3N3REZt?=
- =?utf-8?B?L1J0bXo3ZC9BWXg1NEUvVGJXQnd3aGVOQmI4Y1BHSGcrRkxDdFY1cUpFUEVj?=
- =?utf-8?B?ZUxjMEErYXVwdGpJMlA0dEROYWN2SS93QUIvTkNXL3djNHFTT0FFZHhETjUy?=
- =?utf-8?B?a2lnSTAxS2FhSy9BRVRhZTJwclh6cjJaZno0NmcydGt3YngrSW9kbjRvTzFy?=
- =?utf-8?B?QzlzSU02Q3FrVFJhNzBVVW5zWk9aMU1ES3FxT3pSeWErYkp6UUFiWUNrekZt?=
- =?utf-8?B?WmkvWEZkc3BKTDcxTEJHRTN6ZmhHNGVGdjBJbGN1RjNzNkdDbXBRd0V0L1Nt?=
- =?utf-8?B?Q0NkY3VHaFk3em01M2tsR1NHZjdISXEvTENyUUZxaXdPZGUrTHhyREJaTmcw?=
- =?utf-8?B?dDI3QndyQUZINXJaNG5GRXRHblFmY3hSOE8wa1AySjJuWVJCbHdTaWd6MTR5?=
- =?utf-8?B?RlpGNGZ4T1pNSnh4RGVLbWpYWkdtQ2dFOEQ2dG5ueVgyOTlZUSs2V2w2QTIw?=
- =?utf-8?B?QzI3VGYrKy9OUHNDcEZuNVM3ZjR2UytCM3V0R21YdlFoV25hRzFHa2FGdnlx?=
- =?utf-8?B?NFFsdGRjaEpRMElGWk1lSHhKNjY0MUlBMWd5RWwxbEFMTENaaVI4UFdqRkpD?=
- =?utf-8?B?WWlyUyt1Z3N6Vy9hajFHZVVxZnJibXdmSzBnZU00dWRCTWpEM3l2TW1LRmVM?=
- =?utf-8?B?Zkgyc3pzNDVQUk1GMHU0cGdxWDZzUEVLVWpoYkFJMW43bDZseE1PL00yaFlE?=
- =?utf-8?B?cFdNcEo4VjhoNk5QUkRJSlJQK2hyanY4U0IrTFRqbHpzQzErSFA2cGpSSjhR?=
- =?utf-8?B?SlVabUk0Yy9uem9kSUFleE5UZFplY1RydC9DM0ZxRVo4L0pFVHZ1dDVuVVpX?=
- =?utf-8?B?MThIZUV0ZWJIYTFwT2Y3WitzMm12eXRDM1hPZ1VKWGVBblVYMDA4dVlOamZK?=
- =?utf-8?B?TTFMQlZRd2tlR2RnWVdzRkpiSmVxWUVDc3h4VHlLNXJWbjlrSjdDUEdKUVNi?=
- =?utf-8?B?VS9KUTZhcUpsQloxYW50bE9qMXZ5UlJyVVdDaVo3RFkwTDVlekU3TTBNNHdU?=
- =?utf-8?B?djVuV24vcUVrVEFFY3pBTlViT25tUm5HaUMrVDBzcTFzRCtnQmp3ZWduV0VV?=
- =?utf-8?B?RzdyT3RkZjk0YmFDOTB4T1h2S3kyTUZWQnpUR3NvZzczMXNrMlkybkV3Z2dI?=
- =?utf-8?B?VE9KUE5pTlFVR3BQbklSWi9tVFZjcTMzbVBUdnl0QlJzNDN4b1FXWjN4QjFh?=
- =?utf-8?B?S3NtNVNWTjNzZGpqSUJVM0YySElTQXVCTjRRSUU2TUYzdXFBK0J5a091Qk12?=
- =?utf-8?B?MCt2RVhYK3A1WjJGSHBCbTI3V0l6a20zNGN6d0hJd0hEZlpiYllTUzY0bnp2?=
- =?utf-8?B?Z0x4QU1uWXlOOUkxU21JWEo3c0l1WHZ2aElhcGdxK3phdWRyZXZNT0dCUmJS?=
- =?utf-8?B?dndXUEdOZE05V0VCZElqeEd3c1FCdTVuTUI4R2Zya2RnSHRONUgzRjFQeEx3?=
- =?utf-8?B?ZVE9PQ==?=
-Content-ID: <F3CD8900A812D0479154BEA22DA8BCDE@apcprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ d=gmail.com; s=20230601; t=1728311960; x=1728916760; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=41EG0wBTaRLhGghVaFzTBqmlzLz9UNB5W/PfMlenw7Q=;
+ b=fJ/DZ7sXegFg+KRPcfHWfsiiOZ6nyrIpja1P8g/YkYv53K4ZdmOCHJV82bSkqubuy1
+ AYNWQF0ipHo/HHTKtxvp+sYSw0vgyb6NSb3XnxEwfqbp9HkWsLr/3OXAE/Qhruk4NghV
+ SqiMf+KlLt2hSaECZWob9GjFphbdpQMpMTi6JXcuo2h+3Y9sdGOVJpm3PvLB1B1yffow
+ pTQQjQZ9IXi0ghbWv83h10zwipuk4NfAQUxfJLyhMqYJpAV6AV03I+FHJOWQ5uu5Yniw
+ Pb1Td01ysWuzbDpSZ1nj/JoORtCKfTynS2ko1xNFreM/KSsDT4qhiM3JhP3UGrOpAZjz
+ bATg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1728311960; x=1728916760;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=41EG0wBTaRLhGghVaFzTBqmlzLz9UNB5W/PfMlenw7Q=;
+ b=I2RkePcd9xUhqqLDMO76oH/VB8c0h0Uloc1n/dvoM26NF5Y0tKWeZ/bll4pY/we1xM
+ +yY1QNzT5faGxmg1+1OEh70h0sVU4c3GZ41LURfpbnUTclAn+xShWhVoNNS2U+h13S0w
+ CfqeyUmPbkEfcWhuwV+QUta1UkN0UkPunMde9misJtAhaIdLuEOy8CTrkXdvAADdHxEL
+ tu5L/rY7jN3M3viOCXkvfDg9bJDJvOh3+xmZJyZyo6tqZuzZoU+3b9CqOv1v2U1GKmxL
+ iISANM1RtTQvqinGP1aJFHBvhu+75hHx5rkHGlts++shEd3s06QnVsbhdt8zR9USf3Ea
+ giGQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVn9N92KyYIlxBijsDcTTyuNKT4IMn/Y/BphLYlz/R2Fwez21npKLYjiNUsLah32LDkcxnbCnv0i0K8@lists.freedesktop.org,
+ AJvYcCXEj414pNdt82VsWhuqXdKk80d3EmTkUl1vyx6HY5vO9sDJ/rkxVLK0WMurrK/rdjsrNRzaL82G@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz1VcmHBK7YvBmWAN96FRmYTpdjaiQUwdxiUMPl463x+VafdC0G
+ MIar8uEbvByJP5YECthTP6RmcSJaVTVUCYrqCpsTbLATp19B4dDxgT485Dn+6o6Ql+2xplGQFSM
+ VLIf7zIm/pamIEGwVQoUwPsV1TWc=
+X-Google-Smtp-Source: AGHT+IFu3sdImquPZDUIazbv80iKOQXgfBesFYMDDAi3QionUKHFm4iCpBGmlkcdGiY4ZEQz7KZsSFyhG5YuocnN9IY=
+X-Received: by 2002:a05:6a20:914f:b0:1cf:4e49:bc74 with SMTP id
+ adf61e73a8af0-1d6dfac48e8mr8308134637.9.1728311960209; Mon, 07 Oct 2024
+ 07:39:20 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SEYPR03MB7682.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5b52aa0a-6cbc-4c5c-8bdb-08dce6ddc419
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Oct 2024 14:38:53.1340 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: aXHqua/Xxjdxq6YhmrDsZ/TGI8c2rPAEmrObMDODs9N7pGbgKRs3UFz+nk5tDEMMb0+X010umVAE+vt2e7nQns/elevbieeqAmmaKcKRe0I=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR03MB7221
-Content-Type: multipart/alternative;
- boundary="__=_Part_Boundary_001_1808393573.149652657"
+References: <20240520111338.10110-1-tursulin@igalia.com>
+ <20240520111338.10110-2-tursulin@igalia.com>
+ <4194a56c-d2eb-4992-be0c-8a03cfeafefb@igalia.com>
+In-Reply-To: <4194a56c-d2eb-4992-be0c-8a03cfeafefb@igalia.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 7 Oct 2024 10:39:08 -0400
+Message-ID: <CADnq5_Nk5n2G0Z=0hK8qegfktDDvve26X=Jgv1a0hvwgQT1iTg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm/amdgpu: Use drm_print_memory_stats helper from
+ fdinfo
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Cc: Tvrtko Ursulin <tursulin@igalia.com>, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, kernel-dev@igalia.com, 
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Rob Clark <robdclark@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -226,69 +86,464 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---__=_Part_Boundary_001_1808393573.149652657
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
+Applied the series.  Thanks!
 
-PiA+IEhpIEFkYW0sIFlhc3NpbmUsDQo+ID4gDQo+ID4gU2luY2UgdGhlIG1haW50YWluZXIsIENL
-LCBoYWQgc29tZSBjb21tZW50cyBhdCB0aGUgWzJdLCBJIG1hZGUgc29tZQ0KPiA+IGNoYW5nZXMg
-Zm9yIGl0Lg0KPiA+IA0KPiA+IENvdWxkIHlvdSBwbGVhc2UgdGVzdCBhZ2FpbiBvbmx5IHdpdGgg
-dGhpcyBzaW5nbGUgZml4IHBhdGNoOg0KPiA+IFszXSBkcm0vbWVkaWF0ZWs6IG92bDogRml4IFhS
-R0IgZm9ybWF0IGJyZWFrYWdlIGZvciBibGVuZF9tb2Rlcw0KPiA+IHVuc3VwcG9ydGVkIFNvQ3MN
-Cj4gPiAtDQo+ID4gDQo+IGh0dHBzOi8vcGF0Y2h3b3JrLmtlcm5lbC5vcmcvcHJvamVjdC9saW51
-eC1tZWRpYXRlay9wYXRjaC8yMDI0MTAwNzA3MDEwMS4yMzI2My0yLWphc29uLWpoLmxpbkBtZWRp
-YXRlay5jb20vDQo+ID4gICANCj4gPiBhbmQgc2VlIGlmIGl0IGNhbiBmaXggeW91ciBwcm9ibGVt
-Pw0KPiA+IA0KPiA+IFJlZ2FyZHMsDQo+ID4gSmFzb24tSkguTGluDQo+IA0KPiBKYXNvbiwNCj4g
-SnVzdCB0aGlzIHBhdGNoIG9uIDYuMTItcmMxIGRvZXMgZml4IG15IHByb2JsZW0gdG9vLg0KPiBU
-aGFuayB5b3UuDQoNCkhpIEFkYW0sDQoNClRoYW5rcyBmb3IgeW91ciB2ZXJpZmljYXRpb24uDQpJ
-J2xsIG1ha2UgdGhlc2UgZml4IHBhdGNoZXMgZ2V0IHJldmlld2VkIHNvb24uDQoNClJlZ2FyZHMs
-DQpKYXNvbi1KSC5MaW4NCg0KPiANCj4gLUFkYW0NCg==
+Alex
 
---__=_Part_Boundary_001_1808393573.149652657
-Content-Type: text/html;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
-
-PGh0bWw+PGJvZHk+PHA+DQo8cHJlPg0KJmd0OyYjMzI7Jmd0OyYjMzI7SGkmIzMyO0FkYW0sJiMz
-MjtZYXNzaW5lLA0KJmd0OyYjMzI7Jmd0OyYjMzI7DQomZ3Q7JiMzMjsmZ3Q7JiMzMjtTaW5jZSYj
-MzI7dGhlJiMzMjttYWludGFpbmVyLCYjMzI7Q0ssJiMzMjtoYWQmIzMyO3NvbWUmIzMyO2NvbW1l
-bnRzJiMzMjthdCYjMzI7dGhlJiMzMjtbMl0sJiMzMjtJJiMzMjttYWRlJiMzMjtzb21lDQomZ3Q7
-JiMzMjsmZ3Q7JiMzMjtjaGFuZ2VzJiMzMjtmb3ImIzMyO2l0Lg0KJmd0OyYjMzI7Jmd0OyYjMzI7
-DQomZ3Q7JiMzMjsmZ3Q7JiMzMjtDb3VsZCYjMzI7eW91JiMzMjtwbGVhc2UmIzMyO3Rlc3QmIzMy
-O2FnYWluJiMzMjtvbmx5JiMzMjt3aXRoJiMzMjt0aGlzJiMzMjtzaW5nbGUmIzMyO2ZpeCYjMzI7
-cGF0Y2g6DQomZ3Q7JiMzMjsmZ3Q7JiMzMjtbM10mIzMyO2RybS9tZWRpYXRlazomIzMyO292bDom
-IzMyO0ZpeCYjMzI7WFJHQiYjMzI7Zm9ybWF0JiMzMjticmVha2FnZSYjMzI7Zm9yJiMzMjtibGVu
-ZF9tb2Rlcw0KJmd0OyYjMzI7Jmd0OyYjMzI7dW5zdXBwb3J0ZWQmIzMyO1NvQ3MNCiZndDsmIzMy
-OyZndDsmIzMyOy0NCiZndDsmIzMyOyZndDsmIzMyOw0KJmd0OyYjMzI7aHR0cHM6Ly9wYXRjaHdv
-cmsua2VybmVsLm9yZy9wcm9qZWN0L2xpbnV4LW1lZGlhdGVrL3BhdGNoLzIwMjQxMDA3MDcwMTAx
-LjIzMjYzLTItamFzb24tamgubGluQG1lZGlhdGVrLmNvbS8NCiZndDsmIzMyOyZndDsmIzMyOyYj
-MzI7JiMzMjsNCiZndDsmIzMyOyZndDsmIzMyO2FuZCYjMzI7c2VlJiMzMjtpZiYjMzI7aXQmIzMy
-O2NhbiYjMzI7Zml4JiMzMjt5b3VyJiMzMjtwcm9ibGVtJiM2MzsNCiZndDsmIzMyOyZndDsmIzMy
-Ow0KJmd0OyYjMzI7Jmd0OyYjMzI7UmVnYXJkcywNCiZndDsmIzMyOyZndDsmIzMyO0phc29uLUpI
-Lkxpbg0KJmd0OyYjMzI7DQomZ3Q7JiMzMjtKYXNvbiwNCiZndDsmIzMyO0p1c3QmIzMyO3RoaXMm
-IzMyO3BhdGNoJiMzMjtvbiYjMzI7Ni4xMi1yYzEmIzMyO2RvZXMmIzMyO2ZpeCYjMzI7bXkmIzMy
-O3Byb2JsZW0mIzMyO3Rvby4NCiZndDsmIzMyO1RoYW5rJiMzMjt5b3UuDQoNCkhpJiMzMjtBZGFt
-LA0KDQpUaGFua3MmIzMyO2ZvciYjMzI7eW91ciYjMzI7dmVyaWZpY2F0aW9uLg0KSSYjMzk7bGwm
-IzMyO21ha2UmIzMyO3RoZXNlJiMzMjtmaXgmIzMyO3BhdGNoZXMmIzMyO2dldCYjMzI7cmV2aWV3
-ZWQmIzMyO3Nvb24uDQoNClJlZ2FyZHMsDQpKYXNvbi1KSC5MaW4NCg0KJmd0OyYjMzI7DQomZ3Q7
-JiMzMjstQWRhbQ0KDQo8L3ByZT4NCjwvcD48L2JvZHk+PC9odG1sPjwhLS10eXBlOnRleHQtLT48
-IS0tey0tPjxwcmU+KioqKioqKioqKioqKiBNRURJQVRFSyBDb25maWRlbnRpYWxpdHkgTm90aWNl
-ICoqKioqKioqKioqKioqKioqKioqDQpUaGUgaW5mb3JtYXRpb24gY29udGFpbmVkIGluIHRoaXMg
-ZS1tYWlsIG1lc3NhZ2UgKGluY2x1ZGluZyBhbnkgDQphdHRhY2htZW50cykgbWF5IGJlIGNvbmZp
-ZGVudGlhbCwgcHJvcHJpZXRhcnksIHByaXZpbGVnZWQsIG9yIG90aGVyd2lzZQ0KZXhlbXB0IGZy
-b20gZGlzY2xvc3VyZSB1bmRlciBhcHBsaWNhYmxlIGxhd3MuIEl0IGlzIGludGVuZGVkIHRvIGJl
-IA0KY29udmV5ZWQgb25seSB0byB0aGUgZGVzaWduYXRlZCByZWNpcGllbnQocykuIEFueSB1c2Us
-IGRpc3NlbWluYXRpb24sIA0KZGlzdHJpYnV0aW9uLCBwcmludGluZywgcmV0YWluaW5nIG9yIGNv
-cHlpbmcgb2YgdGhpcyBlLW1haWwgKGluY2x1ZGluZyBpdHMgDQphdHRhY2htZW50cykgYnkgdW5p
-bnRlbmRlZCByZWNpcGllbnQocykgaXMgc3RyaWN0bHkgcHJvaGliaXRlZCBhbmQgbWF5IA0KYmUg
-dW5sYXdmdWwuIElmIHlvdSBhcmUgbm90IGFuIGludGVuZGVkIHJlY2lwaWVudCBvZiB0aGlzIGUt
-bWFpbCwgb3IgYmVsaWV2ZSANCnRoYXQgeW91IGhhdmUgcmVjZWl2ZWQgdGhpcyBlLW1haWwgaW4g
-ZXJyb3IsIHBsZWFzZSBub3RpZnkgdGhlIHNlbmRlciANCmltbWVkaWF0ZWx5IChieSByZXBseWlu
-ZyB0byB0aGlzIGUtbWFpbCksIGRlbGV0ZSBhbnkgYW5kIGFsbCBjb3BpZXMgb2YgDQp0aGlzIGUt
-bWFpbCAoaW5jbHVkaW5nIGFueSBhdHRhY2htZW50cykgZnJvbSB5b3VyIHN5c3RlbSwgYW5kIGRv
-IG5vdA0KZGlzY2xvc2UgdGhlIGNvbnRlbnQgb2YgdGhpcyBlLW1haWwgdG8gYW55IG90aGVyIHBl
-cnNvbi4gVGhhbmsgeW91IQ0KPC9wcmU+PCEtLX0tLT4=
-
---__=_Part_Boundary_001_1808393573.149652657--
-
+On Thu, May 30, 2024 at 6:20=E2=80=AFAM Tvrtko Ursulin
+<tvrtko.ursulin@igalia.com> wrote:
+>
+>
+> Hi,
+>
+> On 20/05/2024 12:13, Tvrtko Ursulin wrote:
+> > From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> >
+> > Convert fdinfo memory stats to use the common drm_print_memory_stats
+> > helper.
+> >
+> > This achieves alignment with the common keys as documented in
+> > drm-usage-stats.rst, adding specifically drm-total- key the driver was
+> > missing until now.
+> >
+> > Additionally I made the code stop skipping total size for objects which
+> > currently do not have a backing store, and I added resident, active and
+> > purgeable reporting.
+> >
+> > Legacy keys have been preserved, with the outlook of only potentially
+> > removing only the drm-memory- when the time gets right.
+> >
+> > The example output now looks like this:
+> >
+> >   pos:        0
+> >   flags:      02100002
+> >   mnt_id:     24
+> >   ino:        1239
+> >   drm-driver: amdgpu
+> >   drm-client-id:      4
+> >   drm-pdev:   0000:04:00.0
+> >   pasid:      32771
+> >   drm-total-cpu:      0
+> >   drm-shared-cpu:     0
+> >   drm-active-cpu:     0
+> >   drm-resident-cpu:   0
+> >   drm-purgeable-cpu:  0
+> >   drm-total-gtt:      2392 KiB
+> >   drm-shared-gtt:     0
+> >   drm-active-gtt:     0
+> >   drm-resident-gtt:   2392 KiB
+> >   drm-purgeable-gtt:  0
+> >   drm-total-vram:     44564 KiB
+> >   drm-shared-vram:    31952 KiB
+> >   drm-active-vram:    0
+> >   drm-resident-vram:  44564 KiB
+> >   drm-purgeable-vram: 0
+> >   drm-memory-vram:    44564 KiB
+> >   drm-memory-gtt:     2392 KiB
+> >   drm-memory-cpu:     0 KiB
+> >   amd-memory-visible-vram:    44564 KiB
+> >   amd-evicted-vram:   0 KiB
+> >   amd-evicted-visible-vram:   0 KiB
+> >   amd-requested-vram: 44564 KiB
+> >   amd-requested-visible-vram: 11952 KiB
+> >   amd-requested-gtt:  2392 KiB
+> >   drm-engine-compute: 46464671 ns
+> >
+> > v2:
+> >   * Track purgeable via AMDGPU_GEM_CREATE_DISCARDABLE.
+>
+> Any interest on this work from AMD side? As a summary it adds active and
+> purgeable reporting and converts to using the drm_print_memory_stats
+> helper for outputting all the fields as documented in drm-usage-stats.rst=
+.
+>
+> Regards,
+>
+> Tvrtko
+>
+> >
+> > Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> > Cc: Alex Deucher <alexander.deucher@amd.com>
+> > Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > Cc: Rob Clark <robdclark@chromium.org>
+> > ---
+> >   drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c | 48 +++++++----
+> >   drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 96 +++++++++++++++------=
+-
+> >   drivers/gpu/drm/amd/amdgpu/amdgpu_object.h | 35 +++-----
+> >   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h    |  1 +
+> >   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c     | 20 +++--
+> >   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h     |  3 +-
+> >   6 files changed, 122 insertions(+), 81 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c b/drivers/gpu/d=
+rm/amd/amdgpu/amdgpu_fdinfo.c
+> > index c7df7fa3459f..00a4ab082459 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
+> > @@ -59,18 +59,21 @@ void amdgpu_show_fdinfo(struct drm_printer *p, stru=
+ct drm_file *file)
+> >       struct amdgpu_fpriv *fpriv =3D file->driver_priv;
+> >       struct amdgpu_vm *vm =3D &fpriv->vm;
+> >
+> > -     struct amdgpu_mem_stats stats;
+> > +     struct amdgpu_mem_stats stats[__AMDGPU_PL_LAST + 1] =3D { };
+> >       ktime_t usage[AMDGPU_HW_IP_NUM];
+> > -     unsigned int hw_ip;
+> > +     const char *pl_name[] =3D {
+> > +             [TTM_PL_VRAM] =3D "vram",
+> > +             [TTM_PL_TT] =3D "gtt",
+> > +             [TTM_PL_SYSTEM] =3D "cpu",
+> > +     };
+> > +     unsigned int hw_ip, i;
+> >       int ret;
+> >
+> > -     memset(&stats, 0, sizeof(stats));
+> > -
+> >       ret =3D amdgpu_bo_reserve(vm->root.bo, false);
+> >       if (ret)
+> >               return;
+> >
+> > -     amdgpu_vm_get_memory(vm, &stats);
+> > +     amdgpu_vm_get_memory(vm, stats, ARRAY_SIZE(stats));
+> >       amdgpu_bo_unreserve(vm->root.bo);
+> >
+> >       amdgpu_ctx_mgr_usage(&fpriv->ctx_mgr, usage);
+> > @@ -82,24 +85,35 @@ void amdgpu_show_fdinfo(struct drm_printer *p, stru=
+ct drm_file *file)
+> >        */
+> >
+> >       drm_printf(p, "pasid:\t%u\n", fpriv->vm.pasid);
+> > -     drm_printf(p, "drm-memory-vram:\t%llu KiB\n", stats.vram/1024UL);
+> > -     drm_printf(p, "drm-memory-gtt: \t%llu KiB\n", stats.gtt/1024UL);
+> > -     drm_printf(p, "drm-memory-cpu: \t%llu KiB\n", stats.cpu/1024UL);
+> > +
+> > +     for (i =3D 0; i < TTM_PL_PRIV; i++)
+> > +             drm_print_memory_stats(p,
+> > +                                    &stats[i].drm,
+> > +                                    DRM_GEM_OBJECT_RESIDENT |
+> > +                                    DRM_GEM_OBJECT_PURGEABLE,
+> > +                                    pl_name[i]);
+> > +
+> > +     /* Legacy amdgpu keys, alias to drm-resident-memory-: */
+> > +     drm_printf(p, "drm-memory-vram:\t%llu KiB\n",
+> > +                stats[TTM_PL_VRAM].total/1024UL);
+> > +     drm_printf(p, "drm-memory-gtt: \t%llu KiB\n",
+> > +                stats[TTM_PL_TT].total/1024UL);
+> > +     drm_printf(p, "drm-memory-cpu: \t%llu KiB\n",
+> > +                stats[TTM_PL_SYSTEM].total/1024UL);
+> > +
+> > +     /* Amdgpu specific memory accounting keys: */
+> >       drm_printf(p, "amd-memory-visible-vram:\t%llu KiB\n",
+> > -                stats.visible_vram/1024UL);
+> > +                stats[TTM_PL_VRAM].visible/1024UL);
+> >       drm_printf(p, "amd-evicted-vram:\t%llu KiB\n",
+> > -                stats.evicted_vram/1024UL);
+> > +                stats[TTM_PL_VRAM].evicted/1024UL);
+> >       drm_printf(p, "amd-evicted-visible-vram:\t%llu KiB\n",
+> > -                stats.evicted_visible_vram/1024UL);
+> > +                stats[TTM_PL_VRAM].evicted_visible/1024UL);
+> >       drm_printf(p, "amd-requested-vram:\t%llu KiB\n",
+> > -                stats.requested_vram/1024UL);
+> > +                stats[TTM_PL_VRAM].requested/1024UL);
+> >       drm_printf(p, "amd-requested-visible-vram:\t%llu KiB\n",
+> > -                stats.requested_visible_vram/1024UL);
+> > +                stats[TTM_PL_VRAM].requested_visible/1024UL);
+> >       drm_printf(p, "amd-requested-gtt:\t%llu KiB\n",
+> > -                stats.requested_gtt/1024UL);
+> > -     drm_printf(p, "drm-shared-vram:\t%llu KiB\n", stats.vram_shared/1=
+024UL);
+> > -     drm_printf(p, "drm-shared-gtt:\t%llu KiB\n", stats.gtt_shared/102=
+4UL);
+> > -     drm_printf(p, "drm-shared-cpu:\t%llu KiB\n", stats.cpu_shared/102=
+4UL);
+> > +                stats[TTM_PL_TT].requested/1024UL);
+> >
+> >       for (hw_ip =3D 0; hw_ip < AMDGPU_HW_IP_NUM; ++hw_ip) {
+> >               if (!usage[hw_ip])
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/d=
+rm/amd/amdgpu/amdgpu_object.c
+> > index e44db1ee9c1d..9fd1f1a0e99c 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> > @@ -1286,54 +1286,92 @@ void amdgpu_bo_move_notify(struct ttm_buffer_ob=
+ject *bo,
+> >   }
+> >
+> >   void amdgpu_bo_get_memory(struct amdgpu_bo *bo,
+> > -                       struct amdgpu_mem_stats *stats)
+> > +                       struct amdgpu_mem_stats *stats,
+> > +                       unsigned int sz)
+> >   {
+> > +     const unsigned int domain_to_pl[] =3D {
+> > +             [ilog2(AMDGPU_GEM_DOMAIN_CPU)]      =3D TTM_PL_SYSTEM,
+> > +             [ilog2(AMDGPU_GEM_DOMAIN_GTT)]      =3D TTM_PL_TT,
+> > +             [ilog2(AMDGPU_GEM_DOMAIN_VRAM)]     =3D TTM_PL_VRAM,
+> > +             [ilog2(AMDGPU_GEM_DOMAIN_GDS)]      =3D AMDGPU_PL_GDS,
+> > +             [ilog2(AMDGPU_GEM_DOMAIN_GWS)]      =3D AMDGPU_PL_GWS,
+> > +             [ilog2(AMDGPU_GEM_DOMAIN_OA)]       =3D AMDGPU_PL_OA,
+> > +             [ilog2(AMDGPU_GEM_DOMAIN_DOORBELL)] =3D AMDGPU_PL_DOORBEL=
+L,
+> > +     };
+> >       struct amdgpu_device *adev =3D amdgpu_ttm_adev(bo->tbo.bdev);
+> >       struct ttm_resource *res =3D bo->tbo.resource;
+> > +     struct drm_gem_object *obj =3D &bo->tbo.base;
+> >       uint64_t size =3D amdgpu_bo_size(bo);
+> > -     struct drm_gem_object *obj;
+> > -     bool shared;
+> > +     unsigned int type;
+> >
+> > -     /* Abort if the BO doesn't currently have a backing store */
+> > -     if (!res)
+> > -             return;
+> > +     if (!res) {
+> > +             /*
+> > +              * If no backing store use one of the preferred domain fo=
+r basic
+> > +              * stats. We take the MSB since that should give a reason=
+able
+> > +              * view.
+> > +              */
+> > +             BUILD_BUG_ON(TTM_PL_VRAM < TTM_PL_TT ||
+> > +                          TTM_PL_VRAM < TTM_PL_SYSTEM);
+> > +             type =3D fls(bo->preferred_domains & AMDGPU_GEM_DOMAIN_MA=
+SK);
+> > +             if (!type)
+> > +                     return;
+> > +             type--;
+> > +             if (drm_WARN_ON_ONCE(&adev->ddev,
+> > +                                  type >=3D ARRAY_SIZE(domain_to_pl)))
+> > +                     return;
+> > +             type =3D domain_to_pl[type];
+> > +     } else {
+> > +             type =3D res->mem_type;
+> > +     }
+> >
+> > -     obj =3D &bo->tbo.base;
+> > -     shared =3D drm_gem_object_is_shared_for_memory_stats(obj);
+> > -
+> > -     switch (res->mem_type) {
+> > +     /* Squash some into 'cpu' to keep the legacy userspace view. */
+> > +     switch (type) {
+> >       case TTM_PL_VRAM:
+> > -             stats->vram +=3D size;
+> > -             if (amdgpu_res_cpu_visible(adev, res))
+> > -                     stats->visible_vram +=3D size;
+> > -             if (shared)
+> > -                     stats->vram_shared +=3D size;
+> > -             break;
+> >       case TTM_PL_TT:
+> > -             stats->gtt +=3D size;
+> > -             if (shared)
+> > -                     stats->gtt_shared +=3D size;
+> > -             break;
+> >       case TTM_PL_SYSTEM:
+> > +             break;
+> >       default:
+> > -             stats->cpu +=3D size;
+> > -             if (shared)
+> > -                     stats->cpu_shared +=3D size;
+> > +             type =3D TTM_PL_SYSTEM;
+> >               break;
+> >       }
+> >
+> > +     if (drm_WARN_ON_ONCE(&adev->ddev, type >=3D sz))
+> > +             return;
+> > +
+> > +     /* DRM stats common fields: */
+> > +
+> > +     stats[type].total +=3D size;
+> > +     if (drm_gem_object_is_shared_for_memory_stats(obj))
+> > +             stats[type].drm.shared +=3D size;
+> > +     else
+> > +             stats[type].drm.private +=3D size;
+> > +
+> > +     if (res) {
+> > +             stats[type].drm.resident +=3D size;
+> > +
+> > +             if (!dma_resv_test_signaled(obj->resv, DMA_RESV_USAGE_BOO=
+KKEEP))
+> > +                     stats[type].drm.active +=3D size;
+> > +             else if (bo->flags & AMDGPU_GEM_CREATE_DISCARDABLE)
+> > +                     stats[type].drm.purgeable +=3D size;
+> > +
+> > +             if (type =3D=3D TTM_PL_VRAM && amdgpu_res_cpu_visible(ade=
+v, res))
+> > +                     stats[type].visible +=3D size;
+> > +     }
+> > +
+> > +     /* amdgpu specific stats: */
+> > +
+> >       if (bo->preferred_domains & AMDGPU_GEM_DOMAIN_VRAM) {
+> > -             stats->requested_vram +=3D size;
+> > +             stats[TTM_PL_VRAM].requested +=3D size;
+> >               if (bo->flags & AMDGPU_GEM_CREATE_CPU_ACCESS_REQUIRED)
+> > -                     stats->requested_visible_vram +=3D size;
+> > +                     stats[TTM_PL_VRAM].requested_visible +=3D size;
+> >
+> > -             if (res->mem_type !=3D TTM_PL_VRAM) {
+> > -                     stats->evicted_vram +=3D size;
+> > +             if (type !=3D TTM_PL_VRAM) {
+> > +                     stats[TTM_PL_VRAM].evicted +=3D size;
+> >                       if (bo->flags & AMDGPU_GEM_CREATE_CPU_ACCESS_REQU=
+IRED)
+> > -                             stats->evicted_visible_vram +=3D size;
+> > +                             stats[TTM_PL_VRAM].evicted_visible +=3D s=
+ize;
+> >               }
+> >       } else if (bo->preferred_domains & AMDGPU_GEM_DOMAIN_GTT) {
+> > -             stats->requested_gtt +=3D size;
+> > +             stats[TTM_PL_TT].requested +=3D size;
+> >       }
+> >   }
+> >
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h b/drivers/gpu/d=
+rm/amd/amdgpu/amdgpu_object.h
+> > index bc42ccbde659..44774584a29f 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
+> > @@ -136,30 +136,14 @@ struct amdgpu_bo_vm {
+> >   };
+> >
+> >   struct amdgpu_mem_stats {
+> > -     /* current VRAM usage, includes visible VRAM */
+> > -     uint64_t vram;
+> > -     /* current shared VRAM usage, includes visible VRAM */
+> > -     uint64_t vram_shared;
+> > -     /* current visible VRAM usage */
+> > -     uint64_t visible_vram;
+> > -     /* current GTT usage */
+> > -     uint64_t gtt;
+> > -     /* current shared GTT usage */
+> > -     uint64_t gtt_shared;
+> > -     /* current system memory usage */
+> > -     uint64_t cpu;
+> > -     /* current shared system memory usage */
+> > -     uint64_t cpu_shared;
+> > -     /* sum of evicted buffers, includes visible VRAM */
+> > -     uint64_t evicted_vram;
+> > -     /* sum of evicted buffers due to CPU access */
+> > -     uint64_t evicted_visible_vram;
+> > -     /* how much userspace asked for, includes vis.VRAM */
+> > -     uint64_t requested_vram;
+> > -     /* how much userspace asked for */
+> > -     uint64_t requested_visible_vram;
+> > -     /* how much userspace asked for */
+> > -     uint64_t requested_gtt;
+> > +     struct drm_memory_stats drm;
+> > +
+> > +     uint64_t total;
+> > +     uint64_t visible;
+> > +     uint64_t evicted;
+> > +     uint64_t evicted_visible;
+> > +     uint64_t requested;
+> > +     uint64_t requested_visible;
+> >   };
+> >
+> >   static inline struct amdgpu_bo *ttm_to_amdgpu_bo(struct ttm_buffer_ob=
+ject *tbo)
+> > @@ -342,7 +326,8 @@ int amdgpu_bo_sync_wait(struct amdgpu_bo *bo, void =
+*owner, bool intr);
+> >   u64 amdgpu_bo_gpu_offset(struct amdgpu_bo *bo);
+> >   u64 amdgpu_bo_gpu_offset_no_check(struct amdgpu_bo *bo);
+> >   void amdgpu_bo_get_memory(struct amdgpu_bo *bo,
+> > -                       struct amdgpu_mem_stats *stats);
+> > +                       struct amdgpu_mem_stats *stats,
+> > +                       unsigned int size);
+> >   void amdgpu_bo_add_to_shadow_list(struct amdgpu_bo_vm *vmbo);
+> >   int amdgpu_bo_restore_shadow(struct amdgpu_bo *shadow,
+> >                            struct dma_fence **fence);
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h b/drivers/gpu/drm/=
+amd/amdgpu/amdgpu_ttm.h
+> > index 53d5a5990c31..b856506d1497 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+> > @@ -34,6 +34,7 @@
+> >   #define AMDGPU_PL_OA                (TTM_PL_PRIV + 2)
+> >   #define AMDGPU_PL_PREEMPT   (TTM_PL_PRIV + 3)
+> >   #define AMDGPU_PL_DOORBELL  (TTM_PL_PRIV + 4)
+> > +#define __AMDGPU_PL_LAST     (TTM_PL_PRIV + 4)
+> >
+> >   #define AMDGPU_GTT_MAX_TRANSFER_SIZE        512
+> >   #define AMDGPU_GTT_NUM_TRANSFER_WINDOWS     2
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/a=
+md/amdgpu/amdgpu_vm.c
+> > index 3abfa66d72a2..3e0a0ece9e7c 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+> > @@ -1089,7 +1089,8 @@ int amdgpu_vm_update_range(struct amdgpu_device *=
+adev, struct amdgpu_vm *vm,
+> >   }
+> >
+> >   static void amdgpu_vm_bo_get_memory(struct amdgpu_bo_va *bo_va,
+> > -                                 struct amdgpu_mem_stats *stats)
+> > +                                 struct amdgpu_mem_stats *stats,
+> > +                                 unsigned int size)
+> >   {
+> >       struct amdgpu_vm *vm =3D bo_va->base.vm;
+> >       struct amdgpu_bo *bo =3D bo_va->base.bo;
+> > @@ -1105,34 +1106,35 @@ static void amdgpu_vm_bo_get_memory(struct amdg=
+pu_bo_va *bo_va,
+> >           !dma_resv_trylock(bo->tbo.base.resv))
+> >               return;
+> >
+> > -     amdgpu_bo_get_memory(bo, stats);
+> > +     amdgpu_bo_get_memory(bo, stats, size);
+> >       if (!amdgpu_vm_is_bo_always_valid(vm, bo))
+> >               dma_resv_unlock(bo->tbo.base.resv);
+> >   }
+> >
+> >   void amdgpu_vm_get_memory(struct amdgpu_vm *vm,
+> > -                       struct amdgpu_mem_stats *stats)
+> > +                       struct amdgpu_mem_stats *stats,
+> > +                       unsigned int size)
+> >   {
+> >       struct amdgpu_bo_va *bo_va, *tmp;
+> >
+> >       spin_lock(&vm->status_lock);
+> >       list_for_each_entry_safe(bo_va, tmp, &vm->idle, base.vm_status)
+> > -             amdgpu_vm_bo_get_memory(bo_va, stats);
+> > +             amdgpu_vm_bo_get_memory(bo_va, stats, size);
+> >
+> >       list_for_each_entry_safe(bo_va, tmp, &vm->evicted, base.vm_status=
+)
+> > -             amdgpu_vm_bo_get_memory(bo_va, stats);
+> > +             amdgpu_vm_bo_get_memory(bo_va, stats, size);
+> >
+> >       list_for_each_entry_safe(bo_va, tmp, &vm->relocated, base.vm_stat=
+us)
+> > -             amdgpu_vm_bo_get_memory(bo_va, stats);
+> > +             amdgpu_vm_bo_get_memory(bo_va, stats, size);
+> >
+> >       list_for_each_entry_safe(bo_va, tmp, &vm->moved, base.vm_status)
+> > -             amdgpu_vm_bo_get_memory(bo_va, stats);
+> > +             amdgpu_vm_bo_get_memory(bo_va, stats, size);
+> >
+> >       list_for_each_entry_safe(bo_va, tmp, &vm->invalidated, base.vm_st=
+atus)
+> > -             amdgpu_vm_bo_get_memory(bo_va, stats);
+> > +             amdgpu_vm_bo_get_memory(bo_va, stats, size);
+> >
+> >       list_for_each_entry_safe(bo_va, tmp, &vm->done, base.vm_status)
+> > -             amdgpu_vm_bo_get_memory(bo_va, stats);
+> > +             amdgpu_vm_bo_get_memory(bo_va, stats, size);
+> >       spin_unlock(&vm->status_lock);
+> >   }
+> >
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h b/drivers/gpu/drm/a=
+md/amdgpu/amdgpu_vm.h
+> > index 312a408b80d3..478a158ae171 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
+> > @@ -556,7 +556,8 @@ void amdgpu_vm_set_task_info(struct amdgpu_vm *vm);
+> >   void amdgpu_vm_move_to_lru_tail(struct amdgpu_device *adev,
+> >                               struct amdgpu_vm *vm);
+> >   void amdgpu_vm_get_memory(struct amdgpu_vm *vm,
+> > -                       struct amdgpu_mem_stats *stats);
+> > +                       struct amdgpu_mem_stats *stats,
+> > +                       unsigned int size);
+> >
+> >   int amdgpu_vm_pt_clear(struct amdgpu_device *adev, struct amdgpu_vm *=
+vm,
+> >                      struct amdgpu_bo_vm *vmbo, bool immediate);
