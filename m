@@ -2,55 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C156B99506F
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 15:41:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F89F995068
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 15:41:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32EAB10E544;
-	Tue,  8 Oct 2024 13:41:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20B9710E53F;
+	Tue,  8 Oct 2024 13:41:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="KAx4tdC2";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BEqqM7lM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCE6D10E1DE
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 17:01:39 +0000 (UTC)
-Received: from isaac-ThinkPad-T16-Gen-2.local
- (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 90ED1792;
- Mon,  7 Oct 2024 19:00:00 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1728320401;
- bh=AbMEOw93QpMNA2VLo4O5BMIQ6k/dgsGjKI0UHF5F9yc=;
- h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
- b=KAx4tdC2+hP7gWXw0kQgcd/huRYwMJ6wLpgLfYLxlw+vwF770PoE01iuMG/sucTRe
- 19EjJgZJ8bzfgpGWIwH1YdmLmoHS85vvKnGqimzOPM3tNO/yUunbeB2ry7xWTpVoCT
- JZqGxArpraB98jG/B/WktnJkizqD4aXDg6jieJJY=
-Message-ID: <7ae0cd7774f4b3e30cc033a7e543546732dbced0.camel@ideasonboard.com>
-Subject: Re: [PATCH] drm: lcdif: Use adjusted_mode .clock instead of
- .crtc_clock
-From: Isaac Scott <isaac.scott@ideasonboard.com>
-To: Marek Vasut <marex@denx.de>, Alexander Stein
- <alexander.stein@ew.tq-group.com>, dri-devel@lists.freedesktop.org
-Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, Fabio
- Estevam <festevam@gmail.com>, Lucas Stach <l.stach@pengutronix.de>, "Lukas
- F . Hartmann"	 <lukas@mntmn.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>,  Maxime Ripard <mripard@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, Sascha Hauer	
- <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, Stefan Agner	
- <stefan@agner.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- imx@lists.linux.dev, 	kernel@dh-electronics.com,
- linux-arm-kernel@lists.infradead.org, 	kieran.bingham@ideasonboard.com
-Date: Mon, 07 Oct 2024 18:01:33 +0100
-In-Reply-To: <ab2eb32e-a458-4c9b-8324-27ccb00336c5@denx.de>
-References: <20240531202813.277109-1-marex@denx.de>
- <1897634.CQOukoFCf9@steina-w>
- <ab2eb32e-a458-4c9b-8324-27ccb00336c5@denx.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.0 (by Flathub.org) 
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+ [209.85.221.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E942310E275
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 20:14:03 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id
+ ffacd0b85a97d-37cd26c6dd1so4778151f8f.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Oct 2024 13:14:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1728332042; x=1728936842; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=yp2+CwKDNz0bGqR2gk7cxk+8EAcTD9zgHXQlXp3C56s=;
+ b=BEqqM7lMRqnvhztETiddRaALtfMedD7zSglTU8p+BwuiMWmS1tcp2nxzYS9UqpmW9V
+ YVWZrWNZ4b4EsXx80VvPXxoXZtdcPt9n9OCVCbyR8EOPksYiU/XksWRSOJGb0Z3FO6OD
+ 0KBQtHMnbGgkBTTSo584ckHY+B3cKZHvDDuQXm2UNE45duQvRvo344yKhNJgA66iJOMD
+ 43Ul5H81Qvtx5uQYpwzrzYr9S7vOxAr47SZyt0GJkyr8bS+uK2nsuyiaiqRYpfao8vSj
+ EuGHCGrrGEXkt88hD0Vs5I68siQ0ifaXLYwBA6hNOd9LqzJ6SZKgkWTG28TjdF13XADO
+ Kd9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1728332042; x=1728936842;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=yp2+CwKDNz0bGqR2gk7cxk+8EAcTD9zgHXQlXp3C56s=;
+ b=PXfuu+MMUwI2VXG/G4hYYDNixIn+kgIjXCC3dMeShpcSWv9QWUOf3sIaM9itV11Qe6
+ 9EmcVfPMuRPC+JFypRBKewOFgs+5ArtNWEKilG/Uo6HW7zOjskNYv71EPlfsjyRqD0ej
+ ZG+WVH3Zjmgvqt3GKvm3xZM4NG7ZYh8Xhy03cNyfps1hhT24Z2QQCEUEDYkxKCzR3zdV
+ 7jzrruIMoUJjUQjH9Mus8QZ/8S4DCS7ymWzl4V+3PGGnwujykjj/VImzFfd9CC95x9Ys
+ CB72my37VsaRCUTuEKaMqusL0f5mK7HojwNThhFoMuXPHCg7IUdH7My92FNHe4j9Tw/B
+ nPhw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUwWCh69hKvSNgHTm1b/f2GRMQchX44q5I3REF193XJ6y36R60oe+7s0wfGmIlvYSjhPdGiIYPv9WI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxb1mP9MSl3E0qpifz2a80cx5SnhCXE0MHtKi+pr59gZn2HK7Tw
+ bCdEojzR48gpyzZeaX5ro7EofdSR/xc4FGOnCMMS6yV8nwK1Y5o=
+X-Google-Smtp-Source: AGHT+IG0x4+zvg7mLQVkS7BFE01UEpbCC5w0E/+O9612eREReOU+v+c9Nrej6W3d7I3jOCM4IuOxAQ==
+X-Received: by 2002:adf:a39d:0:b0:374:bde8:66af with SMTP id
+ ffacd0b85a97d-37d0eaea911mr10615499f8f.57.1728332041866; 
+ Mon, 07 Oct 2024 13:14:01 -0700 (PDT)
+Received: from localhost.lan (adsl-178-39-53-103.adslplus.ch. [178.39.53.103])
+ by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a995ab0a99esm128665866b.89.2024.10.07.13.14.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Oct 2024 13:14:01 -0700 (PDT)
+From: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
+To: Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Bryan.Kemp@dell.com,
+ tudor.laurentiu.oss@gmail.com,
+ Aleksandrs Vinarskis <alex.vinarskis@gmail.com>,
+ Peter de Kraker <peterdekraker@umito.nl>
+Subject: [PATCH v1 1/1] drm/edp-panel: Add panels used by Dell XPS 13 9345
+Date: Mon,  7 Oct 2024 22:13:56 +0200
+Message-ID: <20241007201356.10430-1-alex.vinarskis@gmail.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Tue, 08 Oct 2024 13:41:08 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,45 +89,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek,
+Introduce low-res IPS and OLED panels for mentioned device.
 
-On Sat, 2024-07-06 at 02:16 +0200, Marek Vasut wrote:
-> On 6/24/24 11:19 AM, Alexander Stein wrote:
-> > Am Freitag, 31. Mai 2024, 22:27:21 CEST schrieb Marek Vasut:
-> > > In case an upstream bridge modified the required clock frequency
-> > > in its .atomic_check callback by setting adjusted_mode.clock ,
-> > > make sure that clock frequency is generated by the LCDIFv3 block.
-> > >=20
-> > > This is useful e.g. when LCDIFv3 feeds DSIM which feeds TC358767
-> > > with (e)DP output, where the TC358767 expects precise timing on
-> > > its input side, the precise timing must be generated by the
-> > > LCDIF.
-> > >=20
-> > > Signed-off-by: Marek Vasut <marex@denx.de>
-> >=20
-> > With the other rc358767 patches in place, this does the trick.
-> > Reviewed-by: Alexander Stein <alexander.stein@ew.tq-group.com>
->=20
-> I'll pick this up next week if there is no objection.
+SHP panel's timings were picked experimentally, without this patch or with
+`delay_200_500_e50` panel sometimes fails to boot/stays black on startup.
 
-Unfortunately, this has caused a regression that is present in v6.12-
-rc1 on the i.MX8MP PHYTEC Pollux using the
-arch/arm64/boot/dts/freescale/imx8mp-phyboard-pollux-rdk.dts. The
-display is the edt,etml1010g3dra panel, as per the upstream dts. We
-bisected to this commit, and reverting this change fixed the screen.
+LGD panel's timings were copied from other LGD panels and tested to be
+working.
 
-We then tried to retest this on top of v6.12-rc2, and found we also had
-to revert commit ff06ea04e4cf3ba2f025024776e83bfbdfa05155 ("clk: imx:
-clk-imx8mp: Allow media_disp pixel clock reconfigure parent rate")
-alongside this. Reverting these two commits makes the display work
-again at -rc2.
+Particular laptop also comes in high-res IPS variant, which unfortunately
+I do not have access to verify.
 
-Do you have any suggestions on anything we might be missing on our end?
-Please let me know if there's anything you'd like me to test as I'm not
-sure what the underlying fault was here.
+Signed-off-by: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
+Tested-by: Peter de Kraker <peterdekraker@umito.nl>
+---
+ drivers/gpu/drm/panel/panel-edp.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Best wishes,
-Isaac
-
-=C2=A0
+diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+index 767e47a2b0c1..8566e9cf2f82 100644
+--- a/drivers/gpu/drm/panel/panel-edp.c
++++ b/drivers/gpu/drm/panel/panel-edp.c
+@@ -1977,11 +1977,13 @@ static const struct edp_panel_entry edp_panels[] = {
+ 	EDP_PANEL_ENTRY('L', 'G', 'D', 0x0567, &delay_200_500_e200_d200, "Unknown"),
+ 	EDP_PANEL_ENTRY('L', 'G', 'D', 0x05af, &delay_200_500_e200_d200, "Unknown"),
+ 	EDP_PANEL_ENTRY('L', 'G', 'D', 0x05f1, &delay_200_500_e200_d200, "Unknown"),
++	EDP_PANEL_ENTRY('L', 'G', 'D', 0x0778, &delay_200_500_e200_d200, "134WT1"),
+ 
+ 	EDP_PANEL_ENTRY('S', 'H', 'P', 0x1511, &delay_200_500_e50, "LQ140M1JW48"),
+ 	EDP_PANEL_ENTRY('S', 'H', 'P', 0x1523, &delay_80_500_e50, "LQ140M1JW46"),
+ 	EDP_PANEL_ENTRY('S', 'H', 'P', 0x153a, &delay_200_500_e50, "LQ140T1JH01"),
+ 	EDP_PANEL_ENTRY('S', 'H', 'P', 0x154c, &delay_200_500_p2e100, "LQ116M1JW10"),
++	EDP_PANEL_ENTRY('S', 'H', 'P', 0x1593, &delay_200_500_p2e100, "LQ134N1"),
+ 
+ 	EDP_PANEL_ENTRY('S', 'T', 'A', 0x0100, &delay_100_500_e200, "2081116HHD028001-51D"),
+ 
+-- 
+2.45.2
 
