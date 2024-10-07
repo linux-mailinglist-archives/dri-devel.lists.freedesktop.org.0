@@ -2,79 +2,110 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD16F992FD3
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 16:50:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F598992FE7
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 16:50:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E62D10E3BE;
-	Mon,  7 Oct 2024 14:50:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF01710E3C3;
+	Mon,  7 Oct 2024 14:50:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b="nAfPTF6c";
+	dkim=pass (2048-bit key; unprotected) header.d=arndb.de header.i=@arndb.de header.b="Up5FKcIp";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="J6dMbAbu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
- [209.85.128.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB6B610E3BE
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 14:50:02 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id
- 5b1f17b1804b1-42cb9a0c300so41695165e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Oct 2024 07:50:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=freebox-fr.20230601.gappssmtp.com; s=20230601; t=1728312601; x=1728917401;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=1NyQRssNX2H+PouQCuQZFpVJ+OYp8Hk88kmYRkHCtA4=;
- b=nAfPTF6cb5jfB58xI0WFP3/vb7OwAkLj7MThaZDS2pcXXgU6zgOxYNH95yC/shY0Zr
- y4DQrzPgdd9sWb33E1XQhyKYuD3NXJLZ+I1muQKM13QiEjzrbvrY/xlyxAVL7wcTRKUI
- OOcuFQWZCL9ef47h02RHfSrzwhWOGhbyr/ng5OrMW5okyjUgD85pCfEurwiauViNQZvU
- B604DpBdoZY6t0nU59dINXoUuu62yF9r1Jqt/uGhEM5L843SxeELZBecE8+ePNM3ugja
- Y4X73KwezCK5V8CA5RAGTbfcNsKb84gFF33T7camfBXODzgtBnPCAQwjpVN5E2FhkZr4
- StVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728312601; x=1728917401;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1NyQRssNX2H+PouQCuQZFpVJ+OYp8Hk88kmYRkHCtA4=;
- b=sWD6eRG9tEGdlp9oWmJ0SHZ1LdCzoVxdnchmPtXYRTMYxvgAfqayOmEjQkcU4AZSO9
- Mh+ux7UU0T3Vn+QbJCPy9IwPn6bloebF0eK18Bx3dCc4+yoPRblSm+Y+8RIvZc0jBs7w
- DfMUt+RlkWSlp9JO1ymEhuXiik6/uEc6oLoZ1YalJGdFF1fpdKeY9++8iOx2IawQZXlc
- u4ZqbKqKVIWtdOCaOJ9TZGw9pqOGAcYHkLJ0wk+26O/Y3YQwn1o0vWaXYRGu9TH3CNnF
- IRhNfZNJypuK7roFMSdhapnFm1Vk5ArefpzKIjyF0wFjZwNpc4rsQlLVRzdOcx7VqJ0o
- nQdQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUXW79XdMQDST8zkaPlFv/8zqYFM0n5Drj/74mtmpha6NWJeJ8/YjvvHT5vLGHnpcIS+wVbmWLOqXw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YznPgrN+UcqeBQa1bu7roZLJTc1nJw5eeKcOyQkCd5/bXvWltua
- B+ig810R+2a6GjvCLTmQC+hAPEXhCCYSlfG+NSHllfj51xmG+gCxvLL44HVjq2g=
-X-Google-Smtp-Source: AGHT+IEME010xJ6NSIv9wR7Z/93/BFWW/x3u0WJ5DnL0ywdklukEZv0FJeErGQxlLa2wTRRInxBsmA==
-X-Received: by 2002:a05:600c:3107:b0:426:6710:223c with SMTP id
- 5b1f17b1804b1-42f85ab64b4mr98834965e9.9.1728312601201; 
- Mon, 07 Oct 2024 07:50:01 -0700 (PDT)
-Received: from [192.168.108.50] (freebox.vlq16.iliad.fr. [213.36.7.13])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-37d1698e885sm5877536f8f.114.2024.10.07.07.50.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Oct 2024 07:50:01 -0700 (PDT)
-Message-ID: <c48b54d2-6903-490e-a80f-ce3e04354470@freebox.fr>
-Date: Mon, 7 Oct 2024 16:50:00 +0200
+Received: from flow-a8-smtp.messagingengine.com
+ (flow-a8-smtp.messagingengine.com [103.168.172.143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D09DB10E3C3;
+ Mon,  7 Oct 2024 14:50:44 +0000 (UTC)
+Received: from phl-compute-10.internal (phl-compute-10.phl.internal
+ [10.202.2.50])
+ by mailflow.phl.internal (Postfix) with ESMTP id 1C5DC20056E;
+ Mon,  7 Oct 2024 10:50:44 -0400 (EDT)
+Received: from phl-imap-11 ([10.202.2.101])
+ by phl-compute-10.internal (MEProxy); Mon, 07 Oct 2024 10:50:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+ :cc:content-transfer-encoding:content-type:content-type:date
+ :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to; s=fm1; t=1728312644;
+ x=1728319844; bh=etD4e8fREf9I10+o9SUXvRJ3oUE/2nTOuOsA3IfGV0I=; b=
+ Up5FKcIpjBZ6k6OO9HvsIVrtn+oyytHREAsBXp6Oexcg+99JEzromzAQIH4UmAAA
+ x9JqWwcMF/ICY//C+mZObEm3sG5NCGUp8cqnz1R7uDgsYhIEOSWD9vn/EXP4Wxim
+ yqnKXJ5xAo2Ec7sa5GwvOHSV2sHeFN+AqlGlsOkXxl7UbnwZuxP9sqq8IJDKVVYc
+ Ue5XPJzJKi1AGpKrW/s/2+4QjwXztRWGLl/qNHNof5iFl0I5gh8hyLclasmY/1PE
+ GEtpoTHkWgoCfT7TFQL7pY61kIcXj6+AxYKQoxFU2GOMzEGM8VlBWXsfQYDUuC4Y
+ QzV12/5hIMFxr/JH3iCRXw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:content-type:date:date:feedback-id:feedback-id
+ :from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1728312644; x=
+ 1728319844; bh=etD4e8fREf9I10+o9SUXvRJ3oUE/2nTOuOsA3IfGV0I=; b=J
+ 6dMbAbusojRSCSe9UnR6C3k8JdJVJevEoZHv/Lnz9PETzXw9HoWr3mXoxRc1sG8a
+ GTcE9ngpub/XS2GinrGwG2qrIYjyfqC/nN+63f92KZe741WLbKYz2JolBW3M6/hd
+ svpZ+DpWS0IuO6OyEgOdorM3AQQYtapQoJ08UkZpPEyTcRTFSCUSdfJV8a7YqQMQ
+ /lI74RQZE94PPxyLoPPoUhLHMyBeW/9cCCHeneCCcBYyHFfdayAyauhQeR1NACk4
+ f0xGDnDn0wVS4dFYj/3LOS/W/l1Gck/u5aCAFGa8OtI5MoYBlySDpNJdpgbjVKwY
+ 0x8tsx2J1tIeENv9gmgpg==
+X-ME-Sender: <xms:Q_UDZ1Yizc8iqp72AWNwAlQIzhnZ-5ZRDnYyvEZPj62NU4VqkVW3JQ>
+ <xme:Q_UDZ8b-bkrU1pb64mikfrQ4wH0WxPnYn3P--VK9KB4ujQ2RJtzvf_ovTUuV_1328
+ YWUSmNC99yn6ViQCjo>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvddvledgkedvucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+ rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+ htshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddt
+ necuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrd
+ guvgeqnecuggftrfgrthhtvghrnhephfdthfdvtdefhedukeetgefggffhjeeggeetfefg
+ gfevudegudevledvkefhvdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
+ hmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepvdel
+ pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtg
+ hhpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopehl
+ uhhiiidruggvnhhtiiesghhmrghilhdrtghomhdprhgtphhtthhopehprghtrhhikhdrrh
+ drjhgrkhhosghsshhonhesghhmrghilhdrtghomhdprhgtphhtthhopehmrghrtggvlhes
+ hhholhhtmhgrnhhnrdhorhhgpdhrtghpthhtoheplhhutggrshdruggvmhgrrhgthhhise
+ hinhhtvghlrdgtohhmpdhrtghpthhtoheprhhoughrihhgohdrvhhivhhisehinhhtvghl
+ rdgtohhmpdhrtghpthhtoheprghrnhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhope
+ hjihhrihhslhgrsgihsehkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:Q_UDZ3-2EPROruSgT8GW1PbVwSNM-dUV4TQEZQVPNTgpR7BkSYI-ug>
+ <xmx:Q_UDZzo6C5Mu6AEw2E-QjoA96ZZX7yK2h0S8UeCN9XoWTHYFouXsjw>
+ <xmx:Q_UDZwqr0-eTXOX_gSC1UArZNUyW35LA2rhkPo2ukZlYqtWmYtlThw>
+ <xmx:Q_UDZ5Rr6brJB6oXR0tLZ_ghHteD7HYyIYrIcJ6iKg0KFiUJKLAIpg>
+ <xmx:RPUDZyhlRtMuy3U--PRER_M7LuMc2pt9keUGA9G5u16wBEFfl7ppTrg->
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+ id 20D602220071; Mon,  7 Oct 2024 10:50:43 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 0/2] Basic support for TI TDP158
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Robert Foss <rfoss@kernel.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- Arnaud Vrac <avrac@freebox.fr>, Pierre-Hugues Husson <phhusson@freebox.fr>,
- Konrad Dybcio <konradybcio@kernel.org>
-References: <20240812-tdp158-v5-0-78684a84ec23@freebox.fr>
- <172536721812.2552069.2889737892670833119.b4-ty@kernel.org>
- <40ffacc2-fa04-4e6d-b817-c547aa75a21c@freebox.fr>
- <CAA8EJpqYp8uBNVdNSAmSbeev=itxNKS_scb2xAwe63aS5bdhkg@mail.gmail.com>
-Content-Language: en-US
-From: Marc Gonzalez <mgonzalez@freebox.fr>
-In-Reply-To: <CAA8EJpqYp8uBNVdNSAmSbeev=itxNKS_scb2xAwe63aS5bdhkg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Date: Mon, 07 Oct 2024 14:50:11 +0000
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Lucas De Marchi" <lucas.demarchi@intel.com>,
+ "Niklas Schnelle" <schnelle@linux.ibm.com>
+Cc: "Brian Cain" <bcain@quicinc.com>, "Marcel Holtmann" <marcel@holtmann.org>,
+ "Luiz Augusto von Dentz" <luiz.dentz@gmail.com>,
+ "Patrik Jakobsson" <patrik.r.jakobsson@gmail.com>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>,
+ "Dave Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
+ "Dave Airlie" <airlied@redhat.com>, "Gerd Hoffmann" <kraxel@redhat.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ "Rodrigo Vivi" <rodrigo.vivi@intel.com>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Jiri Slaby" <jirislaby@kernel.org>,
+ "Maciej W. Rozycki" <macro@orcam.me.uk>,
+ "Heiko Carstens" <hca@linux.ibm.com>, linux-kernel@vger.kernel.org,
+ linux-hexagon@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev,
+ spice-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-serial@vger.kernel.org, Linux-Arch <linux-arch@vger.kernel.org>,
+ "Arnd Bergmann" <arnd@kernel.org>
+Message-Id: <c58ab639-f0de-4cea-b745-13e9cfe0e588@app.fastmail.com>
+In-Reply-To: <3wh4nsirm5kjapft47oe3gaqgzdjwlhzku5lrctb4hhfjxicv3@n2sow3o36chc>
+References: <20241007-b4-has_ioport-v6-0-03f7240da6e5@linux.ibm.com>
+ <20241007-b4-has_ioport-v6-3-03f7240da6e5@linux.ibm.com>
+ <3wh4nsirm5kjapft47oe3gaqgzdjwlhzku5lrctb4hhfjxicv3@n2sow3o36chc>
+Subject: Re: [PATCH v6 3/5] drm: handle HAS_IOPORT dependencies
+Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -91,42 +122,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07/10/2024 16:42, Dmitry Baryshkov wrote:
+On Mon, Oct 7, 2024, at 14:39, Lucas De Marchi wrote:
+> as an example:
+> $ git grep -lw outb -- drivers/gpu/drm/
+> drivers/gpu/drm/gma500/cdv_device.c
+> drivers/gpu/drm/i915/display/intel_vga.c
+> drivers/gpu/drm/qxl/qxl_cmd.c
+> drivers/gpu/drm/qxl/qxl_irq.c
+> drivers/gpu/drm/tiny/bochs.c
+> drivers/gpu/drm/tiny/cirrus.c
+>
+> you are adding the dependency on xe, but why are you keeping i915 out?
+> What approach did you use to determine the dependency?
 
-> On Mon, 7 Oct 2024 at 16:33, Marc Gonzalez <mgonzalez@freebox.fr> wrote:
->>
->> On 03/09/2024 14:40, Robert Foss wrote:
->>
->>> On Mon, 12 Aug 2024 16:51:00 +0200, Marc Gonzalez wrote:
->>>
->>>> TDP158 is an AC-coupled DVI / HDMI to TMDS level shifting Redriver.
->>>>
->>>> Like the TFP410, the TDP158 can be set up in 2 different ways:
->>>> 1) hard-coding its configuration settings using pin-strapping resistors
->>>> 2) placing it on an I2C bus, and defer set-up until run-time
->>>>
->>>> The mode is selected by pin 8 = I2C_EN
->>>> I2C_EN = 1 ==> I2C Control Mode
->>>> I2C_EN = 0 ==> Pin Strap Mode
->>>>
->>>> [...]
->>>
->>> Applied, thanks!
->>>
->>> [1/2] dt-bindings: display: bridge: add TI TDP158
->>>       https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/887665792b99
->>> [2/2] drm/bridge: add support for TI TDP158
->>>       https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/a15710027afb
->>
->> Hello Robert,
->>
->> I expected this series to be included in v6.12-rc1, since you applied it
->> before the v6.12 merge window opened. Did I misunderstand the process?
-> 
-> drm-misc-next stops propagating new changes to drm-next one or two
-> weeks before the release.
+I did a lot of 'randconfig' build testing on earlier versions
+(and this version) of the series, which eventually catches
+all of them. The i915 driver depends on CONfIG_X86 since it
+is only used in Intel PC chipsets that already rely on PIO.
 
-Oh right, the "stop at rc6" rule of thumb that Krzysztof mentioned.
+The XE driver is also used for add-on cards, so the drivers
+can be built on all architectures including those that do
+not support PCI I/O space access. Adding the dependency on
+i915 as well wouldn't be wrong, but is not required for
+correctness.
 
-Regards
+I also sent a patch for vmwgfx, which can be used on arm64.
+arm64 currently always sets HAS_IOPORT, so my patch is not
+required as a dependency for [PATCH v6 5/5], but we eventually
+want this so HAS_IOPORT can become optional on arm64.
 
+      Arnd
