@@ -2,62 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA6EF9932E9
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 18:17:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47591993308
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 18:24:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F010910E0BC;
-	Mon,  7 Oct 2024 16:17:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D37FF10E32A;
+	Mon,  7 Oct 2024 16:23:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="VUnquY9M";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MBhpBfZh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com
- [157.90.84.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD41110E0BC
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 16:17:51 +0000 (UTC)
-Received: from [192.168.42.96] (p5de457db.dip0.t-ipconnect.de [93.228.87.219])
- (Authenticated sender: wse@tuxedocomputers.com)
- by mail.tuxedocomputers.com (Postfix) with ESMTPSA id C72112FC004D;
- Mon,  7 Oct 2024 18:17:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
- s=default; t=1728317869;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KXCO8nk9dKyl6+T9Ci1UYd9mcP4/XTE0/Kr6tzc5qDg=;
- b=VUnquY9MWox7I1OzpywCG2UbAbIvlqwLEvnewplFuE/POSjG2eswBZ7lU4XMRgz5Wd5+FS
- qRZyi9AMsPiLNAieVVp1WaZvRI2ia7zbwvLiaRQsuW/HiUBa/z19SMV49c1rE0V948kyda
- J9QRvcwYtFrOf9eZx1HplLEp8UU4LMQ=
-Authentication-Results: mail.tuxedocomputers.com;
- auth=pass smtp.auth=wse@tuxedocomputers.com
- smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <2392fa23-4823-4660-8b38-0f9dfe06c863@tuxedocomputers.com>
-Date: Mon, 7 Oct 2024 18:17:48 +0200
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
+ [209.85.218.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 853A710E32A
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 16:23:57 +0000 (UTC)
+Received: by mail-ej1-f45.google.com with SMTP id
+ a640c23a62f3a-a99650da839so32886866b.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Oct 2024 09:23:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1728318236; x=1728923036; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=1DjhLFwVBpKRr9Z2MwbXlQuaVUI2IN6bC3xXF+EK/4g=;
+ b=MBhpBfZhl7V1HDpfwbeNTPK0lWDe0gYZ9vdRVDhivRwC5icQHKd8pCZLe2xu9AMqG1
+ MkNjyiLjSwuGjkL3HmPfKkz0jjhImjMlAC3j+VzZBwLkk2XqWACu+mKXBLsZ7jdM0MYJ
+ fzMCwy0AGs+ceiKTsDZ/wPvQ93rRuNs6shMwsTxeWw2S7dhAhY4TmCni10S+s1Dny0H2
+ U/bd87cxvYIwvLbQQXjbUMUFDu9QJYjk2GyXNIZ1NERtA5u4ZFyu0S8Kk86hOX/tSphK
+ j2NdVRnqbBxcDTEcwB/uLNAhx2BlFwWxsvqgxiZTn8WGYkvooGnh9i4J0kS86efgOuEn
+ Uu+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1728318236; x=1728923036;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=1DjhLFwVBpKRr9Z2MwbXlQuaVUI2IN6bC3xXF+EK/4g=;
+ b=wlkoFTvFouY1Evge26Fy5iWWSh/lyNzF/cdOCdHcF4ZuvEVvB2qkGAVYQGhCTOaLmY
+ 6uureeTGNK9MfyNsbmCi5J3Otmabd0To2jDvi1ZeMsPRZJenUlTXbM34ThzpXJqe5pDj
+ T18J8wsafZ5G1biEJ0XKk5Sp+8MT28f39vapU9YSDVg4uUAf6sUAVkRhnxUhG6IoR5MI
+ cVH03xDceaWnmU4Gdf1oAgyqWoIv9dVRsPhdeCTrgW+XTC7fhSa/f3aCr/qANHn9r6E5
+ hsjv24WskwO7sqAWbw/SP7k/IS02n6pId037MzJtKl8dw+cpuTtW5Pe6edIAirGyyMR9
+ ZtNA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXB6xI8Kcaw/ohdkFHpp/raLmYzjQejtetunf7gTVGOHO6UukG+QVdXisBdzeZ8k+JJxBEi3eAXNp4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxYyemmre6bR6+a6ozTYQjjb2mBsyGtLgyTphyhN6GjgwajysZj
+ 8gDv5eSS+eddHzs1BecQbqs1xKlF0RcLV+hN3TYm4x09DFu/nrQa4MzikCWTapPMLsL63TQPT1v
+ Dz41pCWGqnODYR1TfE+rSFkGV5Wk=
+X-Google-Smtp-Source: AGHT+IEhWSRFZqVhC3rbl0UHvbwLLLlpn38m/GYhWm2qL50BAg4U+z5JzqqQw152dm0AYm6pv3+IQ51UGtTJYfZ34DY=
+X-Received: by 2002:a17:907:a0d:b0:a8b:ddf4:4701 with SMTP id
+ a640c23a62f3a-a991bd47985mr1349645766b.16.1728318235289; Mon, 07 Oct 2024
+ 09:23:55 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v4 1/1] platform/x86/tuxedo: Add virtual LampArray for
- TUXEDO NB04 devices
-To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: Hans de Goede <hdegoede@redhat.com>, bentiss@kernel.org,
- dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
- lee@kernel.org, linux-input@vger.kernel.org,
- LKML <linux-kernel@vger.kernel.org>, linux-leds@vger.kernel.org,
- miguel.ojeda.sandonis@gmail.com, ojeda@kernel.org, onitake@gmail.com,
- pavel@ucw.cz, cs@tuxedo.de, platform-driver-x86@vger.kernel.org
-References: <20241001180658.76396-1-wse@tuxedocomputers.com>
- <20241001180658.76396-2-wse@tuxedocomputers.com>
- <bc3f5f2b-252e-0a66-df0f-f01197a5a17d@linux.intel.com>
- <fdfaaad5-59e7-4825-bc06-db44831ac741@tuxedocomputers.com>
- <49beebf1-db73-a3a1-3376-e1822ce2e569@linux.intel.com>
- <98883fb1-c895-4aad-842b-ed525d4c42f6@tuxedocomputers.com>
- <07e29712-4c33-efa2-c8c6-ae19e21376fa@linux.intel.com>
-Content-Language: en-US
-From: Werner Sembach <wse@tuxedocomputers.com>
-In-Reply-To: <07e29712-4c33-efa2-c8c6-ae19e21376fa@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20241003120655.53663-1-vamsikrishna.brahmajosyula@gmail.com>
+ <202410060802.Ln9ygpuY-lkp@intel.com>
+In-Reply-To: <202410060802.Ln9ygpuY-lkp@intel.com>
+From: Vamsi Krishna Brahmajosyula <vamsikrishna.brahmajosyula@gmail.com>
+Date: Mon, 7 Oct 2024 21:53:43 +0530
+Message-ID: <CAJvTgAg-8RYjo9Rapor86G5o10aTws7B1NmZVuN64KRy5kjzWg@mail.gmail.com>
+Subject: Re: [PATCH] gpu/drm: set gamma_lut or degamma_lut based on HW in
+ setcmap_atomic
+To: kernel test robot <lkp@intel.com>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, oe-kbuild-all@lists.linux.dev, 
+ skhan@linuxfoundation.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,57 +83,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-Am 04.10.24 um 16:46 schrieb Ilpo Järvinen:
-> On Fri, 4 Oct 2024, Werner Sembach wrote:
->> Am 03.10.24 um 12:54 schrieb Ilpo Järvinen:
->>> On Wed, 2 Oct 2024, Werner Sembach wrote:
->>>> Am 02.10.24 um 11:52 schrieb Ilpo Järvinen:
->>>>> On Tue, 1 Oct 2024, Werner Sembach wrote:
->>>>>
->>>>>> The TUXEDO Sirius 16 Gen1 and TUXEDO Sirius 16 Gen2 devices have a
->>>>>> per-key
->>>>>> controllable RGB keyboard backlight. The firmware API for it is
->>>>>> implemented
->>>>>> via WMI.
->>>>>>
->>>>>> To make the backlight userspace configurable this driver emulates a
->>>>>> LampArray HID device and translates the input from hidraw to the
->>>>>> corresponding WMI calls. This is a new approach as the leds subsystem
->>>>>> lacks
->>>>>> a suitable UAPI for per-key keyboard backlights, and like this no new
->>>>>> UAPI
->>>>>> needs to be established.
->>>>>>
->>>>>> v2: Integrated Armins feedback and fixed kernel test robot warnings.
->>>>>> v3: Fixed borked subject line of v2.
->>>>>> v4: Remove unrequired WMI mutex.
->>>>>>        Move device checking from probe to init.
->>>>>>        Fix device checking working exactly reverse as it should.
->>>>>>        Fix null pointer dereference because, hdev->driver_data !=
->>>>>> hdev->dev.driver_data.
->>>>>>
->>>>>> Co-developed-by: Christoffer Sandberg <cs@tuxedo.de>
->>>>>> Signed-off-by: Christoffer Sandberg <cs@tuxedo.de>
->>>>>> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
->>>>>> Link:
->>>>>> https://lore.kernel.org/all/1fb08a74-62c7-4d0c-ba5d-648e23082dcb@tuxedocomputers.com/
->>>>>> ---
->>>> That why i choose the rather generic names of just the input and output
->>>> length
->>>> because there is no semantic connection between the wmi methods in
->>>> tuxedo_nb04_wmi_8_b_in_80_b_out and tuxedo_nb04_wmi_496_b_in_80_b_out
->>>> respectively that would make for a good name.
->>> So the only valuable characters are prefix + 8/496/80 the rest doesn't
->>> really tell much despite all its characters :-). Details like which of the
->>> numbers is in/out and that the numbers are in bytes could IMO be left to
->>> struct's comment without loss of much information value.
->>>
->> tuxedo_nb04_wmi_8_80 kinda looks strange to me, what about
->> tuxedo_nb04_wmi_8_in_80_out? but that's on 4 chars shorter.
-> Perhaps just tuxedo_nb04_wmi_8in_80out ?
-ok
+On Sun, Oct 6, 2024 at 6:31=E2=80=AFAM kernel test robot <lkp@intel.com> wr=
+ote:
 >
-> I can see you like to use underscores a lot so I can understand if that
-> feels a step too far :-) (no offence meant).
+> Hi Vamsi,
 >
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on 7ec462100ef9142344ddbf86f2c3008b97acddbe]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Vamsi-Krishna-Brah=
+majosyula/gpu-drm-set-gamma_lut-or-degamma_lut-based-on-HW-in-setcmap_atomi=
+c/20241003-200835
+> base:   7ec462100ef9142344ddbf86f2c3008b97acddbe
+> patch link:    https://lore.kernel.org/r/20241003120655.53663-1-vamsikris=
+hna.brahmajosyula%40gmail.com
+> patch subject: [PATCH] gpu/drm: set gamma_lut or degamma_lut based on HW =
+in setcmap_atomic
+> config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241006=
+/202410060802.Ln9ygpuY-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20241006/202410060802.Ln9ygpuY-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202410060802.Ln9ygpuY-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>, old ones prefixed by <<):
+>
+Based on the kernel bot compile failure I received,
+> >> ERROR: modpost: "drm_mode_obj_find_prop_id" [drivers/gpu/drm/drm_kms_h=
+elper.ko] undefined!
+I realised I can not use drm_mode_obj_find_prop_id in setcmap_atomic
+(in atomic context).
+I am exploring atomic functions which access gamma_lut and degamma_lut
+via state.
+I will send a v2 with a new approach.
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
