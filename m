@@ -2,84 +2,135 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74C189923C9
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 07:06:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2E189923C3
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 07:04:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC52910E300;
-	Mon,  7 Oct 2024 05:06:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D085510E0E5;
+	Mon,  7 Oct 2024 05:04:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=marek.ca header.i=@marek.ca header.b="B2I6YJoi";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="hJPpaRt6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com
- [209.85.219.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D35D10E2FF
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 05:06:05 +0000 (UTC)
-Received: by mail-qv1-f45.google.com with SMTP id
- 6a1803df08f44-6cb399056b4so33431526d6.0
- for <dri-devel@lists.freedesktop.org>; Sun, 06 Oct 2024 22:06:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=marek.ca; s=google; t=1728277564; x=1728882364; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=c05QmqKO8Yo45LGADbAWzf+kRfAr29i9++XErp7UJmk=;
- b=B2I6YJoiSi/Dc3kepdyccPY+Yz+6x6+vEOoY0TV/ubj/YueqkNAaEYmY8BisBDc1Et
- 2q2AIP0IMk8/GswXkBNskXVWyIKPSRyEmzgBZUpNaDhbI3fsmwitMDmSi790zw2N+EDQ
- aVBhnOyLYZx5m0pCk0KcwJ3B6vyyhRFypclpMF/Ug5h2p5dt+k788fs3TAFTozcOXjzj
- 7ycA2YKQMRDkKe2acdoTXziuvDm1XvCEEjPs46wAeNEAqg3LxbwMSVwyvq8e8Ull5WF9
- bAWXIpbbYTE55oanGdmFDWTp+un3Qoc8sUvWC6OVyue3CqW572BdE7q8lO+a7loA/KWR
- HwOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728277564; x=1728882364;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=c05QmqKO8Yo45LGADbAWzf+kRfAr29i9++XErp7UJmk=;
- b=cJuAyzpgLLEvHIlTeEtYN7GFexAjDy9K6GuS7ZVfJXscJHKs+Nf5yG1ufhQwzlbGWd
- k7wkmkUu1HDNPSQ3p5/+yGx8JsCwj8OzNCIpOqHzCBuH8XRWTAdepLLg29W5HIih917j
- SZw6PwaU4+33OM06h/HP3QYKGNsWaoFsAJgWEz1RH4khNMHwVzjS0sXLi9/qb0d64CAC
- H8xnLF0Reunmi6BLGMC0emllDZovBBbDhI+Dh+krJkE5yLdQCvE+C4zSziwEHX0BhlgV
- IUKVrpeDbTpUKJ9VeVTVPUk04YjwpP5VEP8PuQELh1z6fZR0SL258TxB7tO/vs2abajv
- lwGw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUHkG2nsVWQhpf7nckIY0Su/Lh4vtVoMtT0803QN/N7dqdkX04A47pFif7+nkrSegPDhpqh/4IAz2o=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzMxfY1kw0X11dqzQFGVTCZweUfTa8FthJzygLvnEUeFsU1eDHn
- J5O6amtw7g8AHXQyfIuHWG86s/Rg/2NYDMqcBsHjAHeBf+5lV/roGdFeg7FGm78=
-X-Google-Smtp-Source: AGHT+IEWxrxm89ar9oCXwy8ju2UWdzVDET69V1sE10TCiENXP3CF9q530YGphHlLEbICHowgYDYfMA==
-X-Received: by 2002:a05:6214:3bca:b0:6cb:2242:df32 with SMTP id
- 6a1803df08f44-6cb9a2ff311mr159433696d6.20.1728277564552; 
- Sun, 06 Oct 2024 22:06:04 -0700 (PDT)
-Received: from localhost.localdomain
- (modemcable125.110-19-135.mc.videotron.ca. [135.19.110.125])
- by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6cba476152asm22452216d6.126.2024.10.06.22.06.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Oct 2024 22:06:04 -0700 (PDT)
-From: Jonathan Marek <jonathan@marek.ca>
-To: freedreno@lists.freedesktop.org
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Sibi Sankar <quic_sibis@quicinc.com>,
- linux-arm-msm@vger.kernel.org (open list:DRM DRIVER for Qualcomm display
- hardware), 
- dri-devel@lists.freedesktop.org (open list:DRM DRIVER for Qualcomm display
- hardware), linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v2 2/2] drm/msm/dsi: fix 32-bit signed integer extension in
- pclk_rate calculation
-Date: Mon,  7 Oct 2024 01:01:49 -0400
-Message-ID: <20241007050157.26855-2-jonathan@marek.ca>
-X-Mailer: git-send-email 2.45.1
-In-Reply-To: <20241007050157.26855-1-jonathan@marek.ca>
-References: <20241007050157.26855-1-jonathan@marek.ca>
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2085.outbound.protection.outlook.com [40.107.94.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86BC410E0E5
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 05:04:18 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=SO6IAPmYKV0XYaOxGFIHIFGXNx8jQ4Wp6+40gEQqmC147wagWE3tOvJTkVNvxzJ1qxpeP7cw6zI8/Se3cGfiD0r5SoYr2lrKrr6w4ZSkmh1xhDcBf3DZq8/6AN8TvDl7EMF6YiBgknBGsvT1e8UvqBFTXkWOu5UDAEUVdWPfjinrh5AhEv9B2aanYnAMd2sS7W7cStCc4LLcrHxxEYp1bGSg4XZ2r4FvoixRuSjQ87ppaSLBZYGkiH6jUz5+UpgO61Nvbz8cMcN5tvDVbjwcIqGtQlkOqUVn5olIB2dsbMhO83C2YK6X31Yj0oTuYUtZbwmMxlts4Wi/Wnxoc76BfQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zE9691sSOo450XbTsuvt/W24suWrMy5aD0R2TTZiv+g=;
+ b=g/dzrurKfmKt67GA0/mMqi76IzBd4LS5iZEhLfUJAfspDe01xTZUhqKe8El+Bg20Ee5ag2ALbFOH0uDWBzz3H/5FsM1QaXZ0M76gKq7ek7C8tGh06qIDSnzB2rl/GNkVb86PHP2A1X1020y/tf/U53c3xPYFIqmw4I+Kq/DJhz3hHVX9usM8nY55LjwdPN7F+JKQ4szwbIe+lDc1f82VfSEBJV6aPX1Hyy5dGozZ5kEOYGj73YIupbRj268TNbzS4tKAWTmNRh9OYidquwBRCjuqkl/MABjZGgjdN5nWglslB473HDWjqy5EOeViZiODbaOPiqRNOaVA8zCNUxiKzg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=quicinc.com smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zE9691sSOo450XbTsuvt/W24suWrMy5aD0R2TTZiv+g=;
+ b=hJPpaRt6x92/AfSdqSPHVTgxuihkzzShSvJQqiKNJ2bGCFZcSP1Jnk7RD98BFBvxQbk6k7ZlYX3M1hYcy4DqcZyqg3WTtOtxpk36KhTGX365tf1FcLBoXqu0L5FZdOIl0SnRISLxXy0zcM21AmmSfZpzPlKTmGfNtEGcYvXkfZI=
+Received: from MN0PR05CA0007.namprd05.prod.outlook.com (2603:10b6:208:52c::9)
+ by PH8PR12MB6819.namprd12.prod.outlook.com (2603:10b6:510:1ca::5)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.16; Mon, 7 Oct
+ 2024 05:04:15 +0000
+Received: from BN1PEPF00004689.namprd05.prod.outlook.com
+ (2603:10b6:208:52c:cafe::16) by MN0PR05CA0007.outlook.office365.com
+ (2603:10b6:208:52c::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.16 via Frontend
+ Transport; Mon, 7 Oct 2024 05:04:15 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN1PEPF00004689.mail.protection.outlook.com (10.167.243.134) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8048.13 via Frontend Transport; Mon, 7 Oct 2024 05:04:15 +0000
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 7 Oct
+ 2024 00:02:53 -0500
+Received: from [172.19.71.207] (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
+ Transport; Mon, 7 Oct 2024 00:02:53 -0500
+Message-ID: <8347abb4-7c9a-416c-4837-29e78fd715f0@amd.com>
+Date: Sun, 6 Oct 2024 22:02:53 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH V3 05/11] accel/amdxdna: Add hardware context
+Content-Language: en-US
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>, <ogabbay@kernel.org>,
+ <dri-devel@lists.freedesktop.org>
+CC: <linux-kernel@vger.kernel.org>, <min.ma@amd.com>, <max.zhen@amd.com>,
+ <sonal.santan@amd.com>, <king.tam@amd.com>
+References: <20240911180604.1834434-1-lizhi.hou@amd.com>
+ <20240911180604.1834434-6-lizhi.hou@amd.com>
+ <c1f92388-bd94-ebc2-dd59-0434a3fa63a6@quicinc.com>
+From: Lizhi Hou <lizhi.hou@amd.com>
+In-Reply-To: <c1f92388-bd94-ebc2-dd59-0434a3fa63a6@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+Received-SPF: None (SATLEXMB04.amd.com: lizhi.hou@amd.com does not designate
+ permitted sender hosts)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN1PEPF00004689:EE_|PH8PR12MB6819:EE_
+X-MS-Office365-Filtering-Correlation-Id: 60b0ddef-f882-4f51-1392-08dce68d7db2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|36860700013|1800799024|82310400026; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?MVBXNGtXOGVnNmlabnFSUjZTdHMzYm9VaVpmbHpDa0ZET1JTektUTVlWNVRI?=
+ =?utf-8?B?amNLTjFnNklncUFEb0U0ZjdpSnhVcW9JcWptRlhwbFdna2RGQnVNbDJzVzRi?=
+ =?utf-8?B?ejVKREdBaGYwS3lZc3NHcnR1MWVkZW04Y3ZMd29MOXhQMEdxSU5iWGJWalNS?=
+ =?utf-8?B?M0k4dlp3YlN3amZrUFFNWmNkTDJKcUFuS2l0eEhwWStJa0NMUTROQXorWmdH?=
+ =?utf-8?B?dE80ZTdISTN2YjNpYjFFMFNGb1NrMXNzQXNpYzVIT2pQWkNMZUNTZVdFaitO?=
+ =?utf-8?B?MGZoNVBFQU1TZW1SOFA4OXhWYzU5ZWJGWkhoVENDRTJieVlnVDdNNGJwcHZK?=
+ =?utf-8?B?Uy8zWnFlS0RmVnZjWFg3anJQdkZVSnBiK0E0ZGFXZEFGeUdSUjIrTThzY1ZV?=
+ =?utf-8?B?d05heXFGWEpOMnppV2V4d0p6cjFqR3RnckJ5K01DcmNOZUJuOWxoNmprRCtk?=
+ =?utf-8?B?WUw3dEhkb3E4bW93MzVRUjJ4by9ZWW1kQXVzcmcxeHA5bG5FUnFyRkRtWDRM?=
+ =?utf-8?B?dFVZMFpLdGo1TmRRdlBrWWRUeXhyU2dESHVIUEprRnJBQmNOWm5LM0IyNC9R?=
+ =?utf-8?B?K29YMzZiTURFeHZkTGRNMlV5RkdBakxjeElJWjZJRlZVbysvc1JVNDlWMkYv?=
+ =?utf-8?B?Q0c4dVRtck5QcXhMRGIwVU9QZHVXQWFQU1A2ZzNPNXdZVVd6RHZISUpNUVph?=
+ =?utf-8?B?c2liMlJSd3VJeElmVVROWXlyUE0vTW02SXEwUTVZVWxsbmdpejVTbHk3MlVk?=
+ =?utf-8?B?RFJlck4zK3BjS2tJYlEyallxRS9rMmFENStpOGliOGpTV3BqRi85eW0zQTJu?=
+ =?utf-8?B?cnhQWTl4bUU3REFSYVE4OGNYR2tVNTR4R1lHYVdzY0JkdU5sNUJwcjFwbjNT?=
+ =?utf-8?B?US94TUVnbmg2R0JSYXNOVmxWbm9Ua05qNklxSDlyMWFrRmxrQk9CcEZ4dmhZ?=
+ =?utf-8?B?czZvUDRmbzlLcDBBM1liWWNva2xTL2xuYlRueXRLMEhkWHFmMURmaVJqbUFD?=
+ =?utf-8?B?NExSc0tOWVNLdyswWkM0WXZKMmIyTm9sMWMyY1doM211YmM0S0hEVUh5SWxG?=
+ =?utf-8?B?OHpvZXgvOTQrRitFMmZOVFpnNjBpcTdBeURBdzJBUTBNb3h4bGw3Z3RkOUlI?=
+ =?utf-8?B?c2pvTEsyckl3OElhbVFHZlF0S2hWdjNyMDRUSzdSbmR0TjUwRzVUeWJwL1dM?=
+ =?utf-8?B?UG0xTUd6V1lNcUxrbmdBeWNwVm5sRnFtaFc4a3JmdFlpVUxEamZQVnRSMmpZ?=
+ =?utf-8?B?ckgxYW95Qm1Wcm5tcTNnR21PVGJVMy9aWmI3MjF0RkhLNHNETGdKVWd3L0Iw?=
+ =?utf-8?B?RVowbnVnTzNjS1c4R0dWV0k3cHpZaDZJSjBYOUVHRVRvVW5KUDBmT3ZYS0dQ?=
+ =?utf-8?B?RjN2bWg3L3ZIeFV1diswd3J3VWJxS0pGbnVlZ3dGbTM5d3F2Q0xMN1liM0I3?=
+ =?utf-8?B?dHI1UFl4aDBIeVZUZy9vRFpoc2FrMkdxamU0Qys3NVVnUmF6SE94TnNTZmIz?=
+ =?utf-8?B?WmpPTjh4dkdyQmwrRmUvQ3JuK3hraG5JWWpUUUJkMVNsM2M0M3dsci9Mckla?=
+ =?utf-8?B?akg3ZDlSR0ZwMGlIbTR4YnNQQTBGQXZNWTZESFROcG9hS2pBY3FyWFZtT1cv?=
+ =?utf-8?B?UHdrLzRIZk1ka00vcWhkTzFTNlVrdHRnRnJrVWZEUXhpR3Nwc1JsbTBZTWRJ?=
+ =?utf-8?B?VE11NmFEdGdxaE9YK1M5UWtEd3BvTlkvcXZ6Z0h6b2t5OVU3Rm5XV2t0ZkQ4?=
+ =?utf-8?B?OWxUU2hHcGNjam8zVXB1YUEwalNVczk4VXNuYnRkd1hiYlB4b3p4QWdDSkdT?=
+ =?utf-8?Q?hJ+Ri0qtKw/NoZrViOY7+7uL8fe4tagYj9AKc=3D?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(376014)(36860700013)(1800799024)(82310400026); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Oct 2024 05:04:15.2742 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 60b0ddef-f882-4f51-1392-08dce68d7db2
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN1PEPF00004689.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6819
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,34 +146,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When (mode->clock * 1000) is larger than (1<<31), int to unsigned long
-conversion will sign extend the int to 64 bits and the pclk_rate value
-will be incorrect.
 
-Fix this by making the result of the multiplication unsigned.
+On 10/4/24 10:50, Jeffrey Hugo wrote:
+> On 9/11/2024 12:05 PM, Lizhi Hou wrote:
+>> diff --git a/drivers/accel/amdxdna/aie2_ctx.c 
+>> b/drivers/accel/amdxdna/aie2_ctx.c
+>> new file mode 100644
+>> index 000000000000..52a71661f887
+>> --- /dev/null
+>> +++ b/drivers/accel/amdxdna/aie2_ctx.c
+>> @@ -0,0 +1,186 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +/*
+>> + * Copyright (C) 2024, Advanced Micro Devices, Inc.
+>> + */
+>> +
+>> +#include <drm/amdxdna_accel.h>
+>> +#include <drm/drm_device.h>
+>> +#include <drm/drm_print.h>
+>> +#include <linux/types.h>
+>> +
+>> +#include "amdxdna_ctx.h"
+>> +#include "amdxdna_mailbox.h"
+>> +#include "amdxdna_pci_drv.h"
+>> +#include "aie2_pci.h"
+>> +#include "aie2_solver.h"
+>
+> Alphabetical order?
+>
+> <snip>
+>> +/**
+>> + * struct amdxdna_drm_create_hwctx - Create hardware context.
+>> + * @ext: MBZ.
+>> + * @ext_flags: MBZ.
+>> + * @qos_p: Address of QoS info.
+>> + * @umq_bo: BO handle for user mode queue(UMQ).
+>> + * @log_buf_bo: BO handle for log buffer.
+>> + * @max_opc: Maximum operations per cycle.
+>> + * @num_tiles: Number of AIE tiles.
+>> + * @mem_size: Size of AIE tile memory.
+>> + * @umq_doorbell: Returned offset of doorbell associated with UMQ.
+>> + * @handle: Returned hardware context handle.
+>> + * @pad: MBZ.
+>
+> You specify must be zero, but I don't see that checked anywhere.
 
-Note that above (1<<32) would still be broken and require more changes, but
-its unlikely anyone will need that anytime soon.
+Ok. I did not see any driver checks structure pad. And pad should not be 
+used. I will remove MBZ for pad.
 
-Fixes: c4d8cfe516dc ("drm/msm/dsi: add implementation for helper functions")
-Signed-off-by: Jonathan Marek <jonathan@marek.ca>
----
- drivers/gpu/drm/msm/dsi/dsi_host.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-index 1205aa398e445..a98d24b7cb00b 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-@@ -550,7 +550,7 @@ static unsigned long dsi_get_pclk_rate(const struct drm_display_mode *mode,
- {
- 	unsigned long pclk_rate;
- 
--	pclk_rate = mode->clock * 1000;
-+	pclk_rate = mode->clock * 1000u;
- 
- 	if (dsc)
- 		pclk_rate = dsi_adjust_pclk_for_compression(mode, dsc);
--- 
-2.45.1
+Thanks,
 
+Lizhi
+
+>
+>> + */
+>> +struct amdxdna_drm_create_hwctx {
+>> +    __u64 ext;
+>> +    __u64 ext_flags;
+>> +    __u64 qos_p;
+>> +    __u32 umq_bo;
+>> +    __u32 log_buf_bo;
+>> +    __u32 max_opc;
+>> +    __u32 num_tiles;
+>> +    __u32 mem_size;
+>> +    __u32 umq_doorbell;
+>> +    __u32 handle;
+>> +    __u32 pad;
+>> +};
