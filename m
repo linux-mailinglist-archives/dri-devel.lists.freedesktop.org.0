@@ -2,48 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E60A993588
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 19:59:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E7589935B2
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 20:08:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CF9F10E223;
-	Mon,  7 Oct 2024 17:59:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A946010E211;
+	Mon,  7 Oct 2024 18:08:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="vk4Mx36L";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="btMFe/qB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3ED7610E223
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 17:59:15 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 87813A41E72;
- Mon,  7 Oct 2024 17:59:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C231C4CEC6;
- Mon,  7 Oct 2024 17:59:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1728323954;
- bh=WqtbSakV4by+DFFQ2xQXqIDv0cF1tT9f9gKj/M08akA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=vk4Mx36L5kfhqAX9OhASzL3lay4fq1JPskWhsTF+UfKVdzIOql4KRAZ9MLVgBozsw
- GUpV4j/VckmIdKLtpHnESQ1Jojg0h/U97ysGahq2+O8vqU5cr34tLTRAvTeu/ODhrf
- Tgo7CXOSKBuH5Tj7DDXeZLRIRpdbi48U5xhYTNMM=
-Date: Mon, 7 Oct 2024 19:59:11 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: airlied@gmail.com, alexander.deucher@amd.com, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, ltuikov89@gmail.com,
- matthew.brost@intel.com, pstanner@redhat.com,
- tvrtko.ursulin@igalia.com, stable-commits@vger.kernel.org
-Subject: Re: Patch "drm/sched: Always wake up correct scheduler in
- drm_sched_entity_push_job" has been added to the 6.10-stable tree
-Message-ID: <2024100743-oozy-moving-59d4@gregkh>
-References: <2024100752-shaking-sycamore-3cc4@gregkh>
- <8badb067-3cb3-431f-8081-be1bc0b9729b@amd.com>
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58EA410E211
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 18:08:13 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 3825488B11;
+ Mon,  7 Oct 2024 20:08:10 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1728324491;
+ bh=t37Zt3mgkzmUw94HUM/iiv1j173o+JY1xkZxRp4bBEQ=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=btMFe/qBpoEcy2MqO5FBSgJm52csiJZxIWesalAIbNDOFeyrn+WcsOy2etqJ8CISD
+ rRXEsHxvMeauqRUXeGLHzJFAPpVzSt5t26zhpq0BA5JjzXl0+nQ2eugj+YSpDEBFtY
+ ljfZ+Er0cf7qqn3db0ZXPg8dWebaUIYHoruCObh9kIpaAyx/jlRB+rC6F817hcWe8A
+ oP90LCbbW8p/tXY1rMizj4ZUuuJyHmCGmNAifpk2r6l2FegTrf50wnvH+6W81aaAVM
+ R63cZZJdGwGyVl2G79eEzx74p4O2YIUfar2wWDkBj4aqYtuGYFAItxK4lcjW6TAiLU
+ y88j+S8gkYQyw==
+Message-ID: <de285fc0-728f-4ba0-86e0-0069d2cc9a35@denx.de>
+Date: Mon, 7 Oct 2024 20:06:26 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <8badb067-3cb3-431f-8081-be1bc0b9729b@amd.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm: lcdif: Use adjusted_mode .clock instead of
+ .crtc_clock
+To: Isaac Scott <isaac.scott@ideasonboard.com>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>,
+ dri-devel@lists.freedesktop.org
+Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Fabio Estevam <festevam@gmail.com>, Lucas Stach <l.stach@pengutronix.de>,
+ "Lukas F . Hartmann" <lukas@mntmn.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Stefan Agner <stefan@agner.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ imx@lists.linux.dev, kernel@dh-electronics.com,
+ linux-arm-kernel@lists.infradead.org, kieran.bingham@ideasonboard.com
+References: <20240531202813.277109-1-marex@denx.de>
+ <1897634.CQOukoFCf9@steina-w> <ab2eb32e-a458-4c9b-8324-27ccb00336c5@denx.de>
+ <7ae0cd7774f4b3e30cc033a7e543546732dbced0.camel@ideasonboard.com>
+Content-Language: en-US
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <7ae0cd7774f4b3e30cc033a7e543546732dbced0.camel@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,18 +75,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 07, 2024 at 07:53:26PM +0200, Christian König wrote:
-> Hi Greg,
+On 10/7/24 7:01 PM, Isaac Scott wrote:
+> Hi Marek,
+
+Hi,
+
+> On Sat, 2024-07-06 at 02:16 +0200, Marek Vasut wrote:
+>> On 6/24/24 11:19 AM, Alexander Stein wrote:
+>>> Am Freitag, 31. Mai 2024, 22:27:21 CEST schrieb Marek Vasut:
+>>>> In case an upstream bridge modified the required clock frequency
+>>>> in its .atomic_check callback by setting adjusted_mode.clock ,
+>>>> make sure that clock frequency is generated by the LCDIFv3 block.
+>>>>
+>>>> This is useful e.g. when LCDIFv3 feeds DSIM which feeds TC358767
+>>>> with (e)DP output, where the TC358767 expects precise timing on
+>>>> its input side, the precise timing must be generated by the
+>>>> LCDIF.
+>>>>
+>>>> Signed-off-by: Marek Vasut <marex@denx.de>
+>>>
+>>> With the other rc358767 patches in place, this does the trick.
+>>> Reviewed-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+>>
+>> I'll pick this up next week if there is no objection.
 > 
-> please drop this patch from all backports. It turned out to be broken and
-> the old handling has been restored by a revert.
+> Unfortunately, this has caused a regression that is present in v6.12-
+> rc1 on the i.MX8MP PHYTEC Pollux using the
+> arch/arm64/boot/dts/freescale/imx8mp-phyboard-pollux-rdk.dts. The
+> display is the edt,etml1010g3dra panel, as per the upstream dts. We
+> bisected to this commit, and reverting this change fixed the screen.
 > 
-> Sorry for the noise. The revert should show up in Linus tree by the end of
-> the week.
+> We then tried to retest this on top of v6.12-rc2, and found we also had
+> to revert commit ff06ea04e4cf3ba2f025024776e83bfbdfa05155 ("clk: imx:
+> clk-imx8mp: Allow media_disp pixel clock reconfigure parent rate")
+> alongside this. Reverting these two commits makes the display work
+> again at -rc2.
+> 
+> Do you have any suggestions on anything we might be missing on our end?
+> Please let me know if there's anything you'd like me to test as I'm not
+> sure what the underlying fault was here.
+I believe what is going on is that the LCDIF cannot configure its 
+upstream clock because something else is already using those clock and 
+it set those clock to a specific frequency. LCDIF is now trying to 
+configure those clock to match the LVDS panel, and it fails, so it tries 
+to set some approximate clock and that is not good enough for the LVDS 
+panel.
 
-What is the revert's git id?  I'd rather take that so we don't have any
-"why wasn't this patch applied" stuff later on.
+Can you share dump of /sys/kernel/debug/clk/clk_summary on failing and 
+working system ? You might see the difference around the "video" clock.
 
-thanks,
-
-greg k-h
+(I have seen this behavior before, the fix was usually a matter of 
+moving one of the LCDIFs to another upstream clock like PLL3, so it can 
+pick well matching output clock instead of some horrid approximation 
+which then drives the panel likely out of specification)
