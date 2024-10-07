@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DD969933B4
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 18:46:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90C659933B6
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 18:46:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9876510E20E;
-	Mon,  7 Oct 2024 16:46:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C88E10E3DC;
+	Mon,  7 Oct 2024 16:46:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="jpu+anjT";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Z+HA0GgJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
  [217.70.183.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FC1F10E20E
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 16:46:24 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id DE60040005;
- Mon,  7 Oct 2024 16:46:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1394110E20E
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 16:46:25 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id C7DF540007;
+ Mon,  7 Oct 2024 16:46:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1728319583;
+ t=1728319584;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rS9nUQWZiV3e0foKLhEBRgWJnsWmMc+J3tidmd0VNVc=;
- b=jpu+anjTB0lNSBgpA2bgJcHfap7Z2uHKyDNbD4py18AQw5JZNTvM01q/OKpav6skySIjmf
- PnjiUmI2hO5YseQXHzFk7h96WUoPw88BJwsLvcUDsfOY8U36VLx3dJcDqm9UX225gtCKUB
- MUanKa1ms3E5bqt1p5i7M0KOZF829Ec+QkMszHxAA7DVuvseLLEQjSfnYZtgt7GKe3lHhE
- bV9EcGKIBfmVhRcrmUmgHjtB+VFiAKyhGolg61NvLOGdVBm5CSro/p/JUvbJD50Xvho+GX
- K+civ1sOwvoeqZUBXJDMduxDWNQYVYG+2zu/63hCX9DRIOLDuYxsCds2oJO2rg==
+ bh=xsoIMQdz4wDrKoGlEaJ6v8bPFcpjT0jVjkTFUPasYok=;
+ b=Z+HA0GgJi9aukoEaEoIHq15lDIlZ2Ir7f3wP7TttCQ7jLb1A3q22dWdHyIms8YOwus8vrw
+ DyXtxxeU2TniX3o9X81kXyYmlGu3LVIScyJLakrug19Pw4lz1kPCOhVTd445nu7DWIG4uf
+ TcjyJNBiJBEeyTy3snB32Q/Zpg8NiA68d1Wkp68jRrrpwEtwuqg4XUVbK0hauLuto6pEMc
+ eAUDb4CApYf/7jcQ0UzHtgde17RiggUJlpLElEUIPrX4+vifN9zoBpAIWO6ptv2I1bCyNE
+ x9SNudPBwaID2jDRp2rX3d1MnB3pYCWCWzw9oMbKO+a37mor22B7DdrFIuxZ9g==
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Mon, 07 Oct 2024 18:46:06 +0200
-Subject: [PATCH RESEND v2 1/8] drm/vkms: Create helpers macro to avoid code
- duplication in format callbacks
+Date: Mon, 07 Oct 2024 18:46:07 +0200
+Subject: [PATCH RESEND v2 2/8] drm/vkms: Add support for ARGB8888 formats
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241007-b4-new-color-formats-v2-1-d47da50d4674@bootlin.com>
+Message-Id: <20241007-b4-new-color-formats-v2-2-d47da50d4674@bootlin.com>
 References: <20241007-b4-new-color-formats-v2-0-d47da50d4674@bootlin.com>
 In-Reply-To: <20241007-b4-new-color-formats-v2-0-d47da50d4674@bootlin.com>
 To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
@@ -55,21 +54,21 @@ Cc: dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net,
  Louis Chauvet <louis.chauvet@bootlin.com>, 
  20241007-yuv-v12-0-01c1ada6fec8@bootlin.com
 X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7762;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2595;
  i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=9mGB556rofW06HSalIfd4eO0p9rQZ2+EOUY99ZbyD8Y=;
- b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBnBBBarxLpfmhIzLwhk4o9TlgXf2JGbylgRdixC
- 8jcc5r183KJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZwQQWgAKCRAgrS7GWxAs
- 4lVGEACU37A2MEWTRnvC5j+mqrD6zirqJTkOuKOuy0Foq9R2Idr2L3KYIkH14KaUouxe8PgCmxp
- oYh0PQ8v1uFIvV+JscDGkc004yiKdZGrZRz+0KlkOBCwpZA0abNva93JDgZf2RE5DxOpcV0RDT/
- eTjRBnbli4QyjpKxo1nZKnUJsVLko5rK5pCHVN4NNnc9Kpo9hey8RbG0gfj/bxFZX23TOAPQjZc
- qbpF6W3R9SiFq810PJ24ttcG2WaSeLHhDfFBMiN1VcdFbB+3Mq8Z4H7r0zwBHnkvTM0674PQAUq
- 1uehLR69r7Tii4BAjU6LXTzMsonn8KlyxkcU1q7zqpW5ONngaa7M/FyFUr23hQwLQK6O5+9jCto
- lFQ3tKExvawPSIFPIXvrIFnuMNN87nM3/NkCylSRE+DKzmWj+aCtZ5HMX/GBsLg3aDFrJBvyWPI
- vr9Mh95autUIuRg5ZBwQBxrQUNfr6jFV7rxkht5PNsnumFkLVtWcvMfS8z2ci7LPxg/G0Er/tQ8
- 844rDpdDW8+0U6oL/P/p3spB6fIHg8iN2I7fqc5yGbxhpWnvQCuvwrJpmjNMXQQ086HIX7l/X+G
- kxjKf2GHMDyGunpgWBT3Km+S1n9qTN3ZJMvu5UR9bXeUQhXOIVbJcIlM2YbsYlPWwDRdVp29iXt
- boogOoEfVB39YgA==
+ bh=gdPmVx5gF0p9G7Is+ZemThuXnezaEwBJJ2Nq9GqmioI=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBnBBBbGctjHAB+1xzKIPMJi6GLs3ax8ph26aT9Z
+ C0y/kEZ9TKJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZwQQWwAKCRAgrS7GWxAs
+ 4hw5D/9xwAmNKH9SjFGaYfaRf5MlYlKnW89W23FxkC+pRJzv+/oOasp0GJQPzUuN9p3pwtvgGjU
+ ld+KiO0HcadOvDdViq9ef4j5RPZIUy+/dpu/9RmsBki+ICVBhCoQ9yLtB4TLekJgzWGludJlPiN
+ 6+Dt1S3TqJuhtpPlBL+gqtE06cbom+Oehn6uXrAsJB/meO4zlS9mRGy2XnMPY7ZZGWA1EoMtPGk
+ CQTYN8lqYRgR6scwf2tQokGpboDr4NPUD+v8ZKs+/IDS9r6Cmv5sXx/F6pjsyaEfyRjP7bscusb
+ umLBxDjb78JJQaBrUCVZ/+cezlrPJ6C20z2Nl1qWFGPU/cdIXCyuOY5NOAgboBmEL1cl/863oKx
+ Si5ziIGegSs8F7HCWEHEPsVcc9HX9GEv93pe9IrCe2pIl27IB6e8lLsTqoJCEeTDFOlnGRk7U0o
+ e980P1Q9Qrt6bzikRAcgurUTft2LCpmaQ+SV3URZ1uwBVK9kIYAy6dtH2nUjDF4NxmFD6M2+ipi
+ zC3F+txRtDwV94lDFlT8wHPfkZHxWh6qVHQVgyjhTPnce1zr9LRkmHRu2EIYCWNppnMKvhon04w
+ qBIrdNZI8u5d8Xo3ZwnhApjPsxjp8IzNOFzL0evAr8XedMpJxBaSaUzCAAQ7GwGYI4caIxl7hAQ
+ N3uwZVBLSBlylsg==
 X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
  fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
 X-GND-Sasl: louis.chauvet@bootlin.com
@@ -88,206 +87,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The callback functions for line conversion are almost identical for
-some format. The generic READ_LINE macro generate all the required
-boilerplate to process a line.
-
-Two overrides of this macro have been added to avoid duplication of
-the same arguments every time.
+The formats XRGB8888 and ARGB8888 were already supported.
+Add the support for:
+- XBGR8888
+- RGBX8888
+- BGRX8888
+- ABGR8888
+- RGBA8888
+- BGRA8888
 
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- drivers/gpu/drm/vkms/vkms_formats.c | 163 +++++++++++++-----------------------
- 1 file changed, 58 insertions(+), 105 deletions(-)
+ drivers/gpu/drm/vkms/vkms_formats.c | 18 ++++++++++++++++++
+ drivers/gpu/drm/vkms/vkms_plane.c   |  6 ++++++
+ 2 files changed, 24 insertions(+)
 
 diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
-index f9841b8000c4..8f1bcca38148 100644
+index 8f1bcca38148..b5a38f70c62b 100644
 --- a/drivers/gpu/drm/vkms/vkms_formats.c
 +++ b/drivers/gpu/drm/vkms/vkms_formats.c
-@@ -292,6 +292,58 @@ VISIBLE_IF_KUNIT struct pixel_argb_u16 argb_u16_from_yuv888(u8 y, u8 channel_1,
- }
- EXPORT_SYMBOL_IF_KUNIT(argb_u16_from_yuv888);
+@@ -432,8 +432,14 @@ static void R4_read_line(const struct vkms_plane_state *plane, int x_start,
  
-+/**
-+ * READ_LINE() - Generic generator for a read_line function which can be used for format with one
-+ * plane and a block_h == block_w == 1.
-+ *
-+ * @function_name: Function name to generate
-+ * @pixel_name: temporary pixel name used in the @__VA_ARGS__ parameters
-+ * @pixel_type: Used to specify the type you want to cast the pixel pointer
-+ * @callback: Callback to call for each pixels. This fonction should take @__VA_ARGS__ as parameter
-+ *            and return a pixel_argb_u16
-+ * @__VA_ARGS__: Argument to pass inside the callback. You can use @pixel_name to access current
-+ *  pixel.
-+ */
-+#define READ_LINE(function_name, pixel_name, pixel_type, callback, ...)				\
-+static void function_name(const struct vkms_plane_state *plane, int x_start,			\
-+			      int y_start, enum pixel_read_direction direction, int count,	\
-+			      struct pixel_argb_u16 out_pixel[])				\
-+{												\
-+	struct pixel_argb_u16 *end = out_pixel + count;						\
-+	int step = get_block_step_bytes(plane->frame_info->fb, direction, 0);			\
-+	u8 *src_pixels;										\
-+												\
-+	packed_pixels_addr_1x1(plane->frame_info, x_start, y_start, 0, &src_pixels);		\
-+												\
-+	while (out_pixel < end) {								\
-+		pixel_type *(pixel_name) = (pixel_type *)src_pixels;				\
-+		*out_pixel = (callback)(__VA_ARGS__);						\
-+		out_pixel += 1;									\
-+		src_pixels += step;								\
-+	}											\
-+}
-+
-+/**
-+ * READ_LINE_ARGB8888() - Generic generator for ARGB8888 formats.
-+ * The pixel type used is u8, so pixel_name[0]..pixel_name[n] are the n components of the pixel.
-+ *
-+ * @function_name: Function name to generate
-+ * @pixel_name: temporary pixel to use in @a, @r, @g and @b parameters
-+ * @a, @r, @g, @b: value of each channel
-+ */
-+#define READ_LINE_ARGB8888(function_name, pixel_name, a, r, g, b) \
-+	READ_LINE(function_name, pixel_name, u8, argb_u16_from_u8888, a, r, g, b)
-+/**
-+ * READ_LINE_ARGB16161616() - Generic generator for ARGB16161616 formats.
-+ * The pixel type used is u8, so pixel_name[0]..pixel_name[n] are the n components of the pixel.
-+ *
-+ * @function_name: Function name to generate
-+ * @pixel_name: temporary pixel to use in @a, @r, @g and @b parameters
-+ * @a, @r, @g, @b: value of each channel
-+ */
-+#define READ_LINE_16161616(function_name, pixel_name, a, r, g, b) \
-+	READ_LINE(function_name, pixel_name, u16, argb_u16_from_u16161616, a, r, g, b)
-+
- /*
-  * The following functions are read_line function for each pixel format supported by VKMS.
-  *
-@@ -378,118 +430,19 @@ static void R4_read_line(const struct vkms_plane_state *plane, int x_start,
- 	Rx_read_line(plane, x_start, y_start, direction, count, out_pixel);
- }
  
--static void R8_read_line(const struct vkms_plane_state *plane, int x_start,
--			 int y_start, enum pixel_read_direction direction, int count,
--			 struct pixel_argb_u16 out_pixel[])
--{
--	struct pixel_argb_u16 *end = out_pixel + count;
--	u8 *src_pixels;
--	int step = get_block_step_bytes(plane->frame_info->fb, direction, 0);
--
--	packed_pixels_addr_1x1(plane->frame_info, x_start, y_start, 0, &src_pixels);
--
--	while (out_pixel < end) {
--		*out_pixel = argb_u16_from_gray8(*src_pixels);
--		src_pixels += step;
--		out_pixel += 1;
--	}
--}
--
--static void ARGB8888_read_line(const struct vkms_plane_state *plane, int x_start, int y_start,
--			       enum pixel_read_direction direction, int count,
--			       struct pixel_argb_u16 out_pixel[])
--{
--	struct pixel_argb_u16 *end = out_pixel + count;
--	u8 *src_pixels;
--
--	packed_pixels_addr_1x1(plane->frame_info, x_start, y_start, 0, &src_pixels);
--
--	int step = get_block_step_bytes(plane->frame_info->fb, direction, 0);
--
--	while (out_pixel < end) {
--		u8 *px = (u8 *)src_pixels;
--		*out_pixel = argb_u16_from_u8888(px[3], px[2], px[1], px[0]);
--		out_pixel += 1;
--		src_pixels += step;
--	}
--}
--
--static void XRGB8888_read_line(const struct vkms_plane_state *plane, int x_start, int y_start,
--			       enum pixel_read_direction direction, int count,
--			       struct pixel_argb_u16 out_pixel[])
--{
--	struct pixel_argb_u16 *end = out_pixel + count;
--	u8 *src_pixels;
--
--	packed_pixels_addr_1x1(plane->frame_info, x_start, y_start, 0, &src_pixels);
--
--	int step = get_block_step_bytes(plane->frame_info->fb, direction, 0);
--
--	while (out_pixel < end) {
--		u8 *px = (u8 *)src_pixels;
--		*out_pixel = argb_u16_from_u8888(255, px[2], px[1], px[0]);
--		out_pixel += 1;
--		src_pixels += step;
--	}
--}
--
--static void ARGB16161616_read_line(const struct vkms_plane_state *plane, int x_start,
--				   int y_start, enum pixel_read_direction direction, int count,
--				   struct pixel_argb_u16 out_pixel[])
--{
--	struct pixel_argb_u16 *end = out_pixel + count;
--	u8 *src_pixels;
--
--	packed_pixels_addr_1x1(plane->frame_info, x_start, y_start, 0, &src_pixels);
--
--	int step = get_block_step_bytes(plane->frame_info->fb, direction, 0);
--
--	while (out_pixel < end) {
--		u16 *px = (u16 *)src_pixels;
--		*out_pixel = argb_u16_from_u16161616(px[3], px[2], px[1], px[0]);
--		out_pixel += 1;
--		src_pixels += step;
--	}
--}
--
--static void XRGB16161616_read_line(const struct vkms_plane_state *plane, int x_start,
--				   int y_start, enum pixel_read_direction direction, int count,
--				   struct pixel_argb_u16 out_pixel[])
--{
--	struct pixel_argb_u16 *end = out_pixel + count;
--	u8 *src_pixels;
--
--	packed_pixels_addr_1x1(plane->frame_info, x_start, y_start, 0, &src_pixels);
+ READ_LINE_ARGB8888(XRGB8888_read_line, px, 255, px[2], px[1], px[0])
++READ_LINE_ARGB8888(XBGR8888_read_line, px, 255, px[0], px[1], px[2])
++READ_LINE_ARGB8888(RGBX8888_read_line, px, 255, px[3], px[2], px[1])
++READ_LINE_ARGB8888(BGRX8888_read_line, px, 255, px[1], px[2], px[3])
  
--	int step = get_block_step_bytes(plane->frame_info->fb, direction, 0);
-+READ_LINE_ARGB8888(XRGB8888_read_line, px, 255, px[2], px[1], px[0])
+ READ_LINE_ARGB8888(ARGB8888_read_line, px, px[3], px[2], px[1], px[0])
++READ_LINE_ARGB8888(ABGR8888_read_line, px, px[3], px[0], px[1], px[2])
++READ_LINE_ARGB8888(RGBA8888_read_line, px, px[0], px[3], px[2], px[1])
++READ_LINE_ARGB8888(BGRA8888_read_line, px, px[0], px[1], px[2], px[3])
  
--	while (out_pixel < end) {
--		__le16 *px = (__le16 *)src_pixels;
--		*out_pixel = argb_u16_from_le16161616(cpu_to_le16(0xFFFF), px[2], px[1], px[0]);
--		out_pixel += 1;
--		src_pixels += step;
--	}
--}
-+READ_LINE_ARGB8888(ARGB8888_read_line, px, px[3], px[2], px[1], px[0])
  
--static void RGB565_read_line(const struct vkms_plane_state *plane, int x_start,
--			     int y_start, enum pixel_read_direction direction, int count,
--			     struct pixel_argb_u16 out_pixel[])
--{
--	struct pixel_argb_u16 *end = out_pixel + count;
--	u8 *src_pixels;
+ READ_LINE_16161616(ARGB16161616_read_line, px, px[3], px[2], px[1], px[0]);
+@@ -637,8 +643,20 @@ pixel_read_line_t get_pixel_read_line_function(u32 format)
+ 	switch (format) {
+ 	case DRM_FORMAT_ARGB8888:
+ 		return &ARGB8888_read_line;
++	case DRM_FORMAT_ABGR8888:
++		return &ABGR8888_read_line;
++	case DRM_FORMAT_BGRA8888:
++		return &BGRA8888_read_line;
++	case DRM_FORMAT_RGBA8888:
++		return &RGBA8888_read_line;
+ 	case DRM_FORMAT_XRGB8888:
+ 		return &XRGB8888_read_line;
++	case DRM_FORMAT_XBGR8888:
++		return &XBGR8888_read_line;
++	case DRM_FORMAT_RGBX8888:
++		return &RGBX8888_read_line;
++	case DRM_FORMAT_BGRX8888:
++		return &BGRX8888_read_line;
+ 	case DRM_FORMAT_ARGB16161616:
+ 		return &ARGB16161616_read_line;
+ 	case DRM_FORMAT_XRGB16161616:
+diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+index 67f891e7ac58..941a6e92a040 100644
+--- a/drivers/gpu/drm/vkms/vkms_plane.c
++++ b/drivers/gpu/drm/vkms/vkms_plane.c
+@@ -14,7 +14,13 @@
  
--	packed_pixels_addr_1x1(plane->frame_info, x_start, y_start, 0, &src_pixels);
-+READ_LINE_16161616(ARGB16161616_read_line, px, px[3], px[2], px[1], px[0]);
-+READ_LINE_16161616(XRGB16161616_read_line, px, 0xFFFF, px[2], px[1], px[0]);
- 
--	int step = get_block_step_bytes(plane->frame_info->fb, direction, 0);
-+READ_LINE(RGB565_read_line, px, __le16, argb_u16_from_RGB565, px)
- 
--	while (out_pixel < end) {
--		__le16 *px = (__le16 *)src_pixels;
-+READ_LINE(R8_read_line, px, u8, argb_u16_from_gray8, *px)
- 
--		*out_pixel = argb_u16_from_RGB565(px);
--		out_pixel += 1;
--		src_pixels += step;
--	}
--}
- 
- /*
-  * This callback can be used for YUV formats where U and V values are
+ static const u32 vkms_formats[] = {
+ 	DRM_FORMAT_ARGB8888,
++	DRM_FORMAT_ABGR8888,
++	DRM_FORMAT_BGRA8888,
++	DRM_FORMAT_RGBA8888,
+ 	DRM_FORMAT_XRGB8888,
++	DRM_FORMAT_XBGR8888,
++	DRM_FORMAT_RGBX8888,
++	DRM_FORMAT_BGRX8888,
+ 	DRM_FORMAT_XRGB16161616,
+ 	DRM_FORMAT_ARGB16161616,
+ 	DRM_FORMAT_RGB565,
 
 -- 
 2.46.2
