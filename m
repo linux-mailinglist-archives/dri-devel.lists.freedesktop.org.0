@@ -2,82 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12CA8992FE9
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 16:50:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD16F992FD3
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Oct 2024 16:50:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8ADE610E3C6;
-	Mon,  7 Oct 2024 14:50:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E62D10E3BE;
+	Mon,  7 Oct 2024 14:50:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="G9tIZegf";
+	dkim=pass (2048-bit key; unprotected) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b="nAfPTF6c";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com
- [209.85.215.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 302C610E3C6
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 14:50:54 +0000 (UTC)
-Received: by mail-pg1-f173.google.com with SMTP id
- 41be03b00d2f7-7ea0ae67df5so861392a12.2
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Oct 2024 07:50:54 -0700 (PDT)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB6B610E3BE
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 14:50:02 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id
+ 5b1f17b1804b1-42cb9a0c300so41695165e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Oct 2024 07:50:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1728312654; x=1728917454; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=7VwBx3mFnKYzOzVHPezqvf6E6t3GSTY/lMuePwrb08s=;
- b=G9tIZegfj4mvOb+3a/N/CIkLK/b0qHSfdl4GZOyGkrlenGv49aWAUM4kSEdvSHOpsG
- RSm6mCEApd4Wzt61AtbjL/up5pVjWICAuEqwEvH1d+zA9p/z8r034OXF7bIWPJR4KbDq
- JmdKSIfGQgG8UXH+127YGDHyqUiNqBcAxCkiv1RpE+X4jtFtXfQXLdJYKyPJiqS8MLCb
- LqVXaLRBXDYSQAQyYHPmzo/vr8D0U0fvjbD1Bd9HsuhlT/0uPdvs9H9P8FBB8e7W1t8j
- +VfSbuA1Fg0+RSnWZDNC76jacYrCLCFjvPhmQGL3Ko/FDa1l00AZ4jbbaCUaRbA+XPWP
- MTTg==
+ d=freebox-fr.20230601.gappssmtp.com; s=20230601; t=1728312601; x=1728917401;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=1NyQRssNX2H+PouQCuQZFpVJ+OYp8Hk88kmYRkHCtA4=;
+ b=nAfPTF6cb5jfB58xI0WFP3/vb7OwAkLj7MThaZDS2pcXXgU6zgOxYNH95yC/shY0Zr
+ y4DQrzPgdd9sWb33E1XQhyKYuD3NXJLZ+I1muQKM13QiEjzrbvrY/xlyxAVL7wcTRKUI
+ OOcuFQWZCL9ef47h02RHfSrzwhWOGhbyr/ng5OrMW5okyjUgD85pCfEurwiauViNQZvU
+ B604DpBdoZY6t0nU59dINXoUuu62yF9r1Jqt/uGhEM5L843SxeELZBecE8+ePNM3ugja
+ Y4X73KwezCK5V8CA5RAGTbfcNsKb84gFF33T7camfBXODzgtBnPCAQwjpVN5E2FhkZr4
+ StVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728312654; x=1728917454;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=7VwBx3mFnKYzOzVHPezqvf6E6t3GSTY/lMuePwrb08s=;
- b=uF6CpQoDPfqnU9YNeWOkJJKABlC1WUMCIsvT/dzjSVUNI/my14blI5zc5KhLMx2CNT
- b5I1TdZ6CABhg2tzbrd3/VtGi8ZsTUbSuy9bBofWhsDU8DHGmC9AvJ8o+4/b/KDL5DdG
- YJSlKRJfFljhvlAqGMXhBOxZ9mO0u3GPwIGFAANqd/Vm5WjGrg9w2qQV9kLBacMWrLDW
- IRololxrHhaMfxJ2DEnsUgbsEAICjRCpDojMzu6BmOiVvlhpGZM6AcfPPJT4Bgs3K6M1
- 3U7P6pherMbZ44HvE7EOyhHfeCHv6UMGBumUl46voEMHRpWC+h9D9Kn8TFHie2CyvpaG
- ETKg==
+ d=1e100.net; s=20230601; t=1728312601; x=1728917401;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=1NyQRssNX2H+PouQCuQZFpVJ+OYp8Hk88kmYRkHCtA4=;
+ b=sWD6eRG9tEGdlp9oWmJ0SHZ1LdCzoVxdnchmPtXYRTMYxvgAfqayOmEjQkcU4AZSO9
+ Mh+ux7UU0T3Vn+QbJCPy9IwPn6bloebF0eK18Bx3dCc4+yoPRblSm+Y+8RIvZc0jBs7w
+ DfMUt+RlkWSlp9JO1ymEhuXiik6/uEc6oLoZ1YalJGdFF1fpdKeY9++8iOx2IawQZXlc
+ u4ZqbKqKVIWtdOCaOJ9TZGw9pqOGAcYHkLJ0wk+26O/Y3YQwn1o0vWaXYRGu9TH3CNnF
+ IRhNfZNJypuK7roFMSdhapnFm1Vk5ArefpzKIjyF0wFjZwNpc4rsQlLVRzdOcx7VqJ0o
+ nQdQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX7dsCLgVb+3663ys7TekVi8/+0ok5GO53o5zOjjg8sb49c0SNiHZcV23Kd0O9lSses2ncJAclx+0s=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyvcD3Z2kTXbN+mkjaof4PQhMyCJ3nRnL3trUKJJMy3H4j8cw/D
- VcVILCqq/Yz1t/+sHKP/QhTIjaR3rEUThlEANgAW3Rjq910KRrAK
-X-Google-Smtp-Source: AGHT+IEwpXCzalPlyOY9Cdfli1GLzxvFvEupvvujLKDDOEy0H0EsRpGoLeoHLvpBbBHNCnkbeHqgcw==
-X-Received: by 2002:a05:6a20:9f8f:b0:1d2:eb9d:997d with SMTP id
- adf61e73a8af0-1d6dfa23bccmr18227823637.7.1728312653634; 
- Mon, 07 Oct 2024 07:50:53 -0700 (PDT)
-Received: from localhost.localdomain ([223.104.210.43])
+ AJvYcCUXW79XdMQDST8zkaPlFv/8zqYFM0n5Drj/74mtmpha6NWJeJ8/YjvvHT5vLGHnpcIS+wVbmWLOqXw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YznPgrN+UcqeBQa1bu7roZLJTc1nJw5eeKcOyQkCd5/bXvWltua
+ B+ig810R+2a6GjvCLTmQC+hAPEXhCCYSlfG+NSHllfj51xmG+gCxvLL44HVjq2g=
+X-Google-Smtp-Source: AGHT+IEME010xJ6NSIv9wR7Z/93/BFWW/x3u0WJ5DnL0ywdklukEZv0FJeErGQxlLa2wTRRInxBsmA==
+X-Received: by 2002:a05:600c:3107:b0:426:6710:223c with SMTP id
+ 5b1f17b1804b1-42f85ab64b4mr98834965e9.9.1728312601201; 
+ Mon, 07 Oct 2024 07:50:01 -0700 (PDT)
+Received: from [192.168.108.50] (freebox.vlq16.iliad.fr. [213.36.7.13])
  by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-71df0d7cf82sm4466432b3a.200.2024.10.07.07.50.41
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 07 Oct 2024 07:50:53 -0700 (PDT)
-From: Yafang Shao <laoar.shao@gmail.com>
-To: akpm@linux-foundation.org
-Cc: torvalds@linux-foundation.org, keescook@chromium.org, alx@kernel.org,
- justinstitt@google.com, ebiederm@xmission.com,
- alexei.starovoitov@gmail.com, rostedt@goodmis.org, catalin.marinas@arm.com,
- penguin-kernel@i-love.sakura.ne.jp, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- audit@vger.kernel.org, linux-security-module@vger.kernel.org,
- selinux@vger.kernel.org, bpf@vger.kernel.org, netdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Yafang Shao <laoar.shao@gmail.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>
-Subject: [PATCH v9 7/7] drm: Replace strcpy() with strscpy()
-Date: Mon,  7 Oct 2024 22:49:11 +0800
-Message-Id: <20241007144911.27693-8-laoar.shao@gmail.com>
-X-Mailer: git-send-email 2.30.1 (Apple Git-130)
-In-Reply-To: <20241007144911.27693-1-laoar.shao@gmail.com>
-References: <20241007144911.27693-1-laoar.shao@gmail.com>
+ ffacd0b85a97d-37d1698e885sm5877536f8f.114.2024.10.07.07.50.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 07 Oct 2024 07:50:01 -0700 (PDT)
+Message-ID: <c48b54d2-6903-490e-a80f-ce3e04354470@freebox.fr>
+Date: Mon, 7 Oct 2024 16:50:00 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 0/2] Basic support for TI TDP158
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Robert Foss <rfoss@kernel.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Arnaud Vrac <avrac@freebox.fr>, Pierre-Hugues Husson <phhusson@freebox.fr>,
+ Konrad Dybcio <konradybcio@kernel.org>
+References: <20240812-tdp158-v5-0-78684a84ec23@freebox.fr>
+ <172536721812.2552069.2889737892670833119.b4-ty@kernel.org>
+ <40ffacc2-fa04-4e6d-b817-c547aa75a21c@freebox.fr>
+ <CAA8EJpqYp8uBNVdNSAmSbeev=itxNKS_scb2xAwe63aS5bdhkg@mail.gmail.com>
+Content-Language: en-US
+From: Marc Gonzalez <mgonzalez@freebox.fr>
+In-Reply-To: <CAA8EJpqYp8uBNVdNSAmSbeev=itxNKS_scb2xAwe63aS5bdhkg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,67 +91,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To prevent errors from occurring when the src string is longer than the
-dst string in strcpy(), we should use strscpy() instead. This
-approach also facilitates future extensions to the task comm.
+On 07/10/2024 16:42, Dmitry Baryshkov wrote:
 
-Suggested-by: Justin Stitt <justinstitt@google.com>
-Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Reviewed-by: Justin Stitt <justinstitt@google.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@gmail.com>
----
- drivers/gpu/drm/drm_framebuffer.c     | 2 +-
- drivers/gpu/drm/i915/i915_gpu_error.c | 6 +++---
- 2 files changed, 4 insertions(+), 4 deletions(-)
+> On Mon, 7 Oct 2024 at 16:33, Marc Gonzalez <mgonzalez@freebox.fr> wrote:
+>>
+>> On 03/09/2024 14:40, Robert Foss wrote:
+>>
+>>> On Mon, 12 Aug 2024 16:51:00 +0200, Marc Gonzalez wrote:
+>>>
+>>>> TDP158 is an AC-coupled DVI / HDMI to TMDS level shifting Redriver.
+>>>>
+>>>> Like the TFP410, the TDP158 can be set up in 2 different ways:
+>>>> 1) hard-coding its configuration settings using pin-strapping resistors
+>>>> 2) placing it on an I2C bus, and defer set-up until run-time
+>>>>
+>>>> The mode is selected by pin 8 = I2C_EN
+>>>> I2C_EN = 1 ==> I2C Control Mode
+>>>> I2C_EN = 0 ==> Pin Strap Mode
+>>>>
+>>>> [...]
+>>>
+>>> Applied, thanks!
+>>>
+>>> [1/2] dt-bindings: display: bridge: add TI TDP158
+>>>       https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/887665792b99
+>>> [2/2] drm/bridge: add support for TI TDP158
+>>>       https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/a15710027afb
+>>
+>> Hello Robert,
+>>
+>> I expected this series to be included in v6.12-rc1, since you applied it
+>> before the v6.12 merge window opened. Did I misunderstand the process?
+> 
+> drm-misc-next stops propagating new changes to drm-next one or two
+> weeks before the release.
 
-diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_framebuffer.c
-index 888aadb6a4ac..2d6993539474 100644
---- a/drivers/gpu/drm/drm_framebuffer.c
-+++ b/drivers/gpu/drm/drm_framebuffer.c
-@@ -868,7 +868,7 @@ int drm_framebuffer_init(struct drm_device *dev, struct drm_framebuffer *fb,
- 	INIT_LIST_HEAD(&fb->filp_head);
- 
- 	fb->funcs = funcs;
--	strcpy(fb->comm, current->comm);
-+	strscpy(fb->comm, current->comm);
- 
- 	ret = __drm_mode_object_add(dev, &fb->base, DRM_MODE_OBJECT_FB,
- 				    false, drm_framebuffer_free);
-diff --git a/drivers/gpu/drm/i915/i915_gpu_error.c b/drivers/gpu/drm/i915/i915_gpu_error.c
-index 6469b9bcf2ec..9d4b25b2cd39 100644
---- a/drivers/gpu/drm/i915/i915_gpu_error.c
-+++ b/drivers/gpu/drm/i915/i915_gpu_error.c
-@@ -1113,7 +1113,7 @@ i915_vma_coredump_create(const struct intel_gt *gt,
- 	}
- 
- 	INIT_LIST_HEAD(&dst->page_list);
--	strcpy(dst->name, name);
-+	strscpy(dst->name, name);
- 	dst->next = NULL;
- 
- 	dst->gtt_offset = vma_res->start;
-@@ -1413,7 +1413,7 @@ static bool record_context(struct i915_gem_context_coredump *e,
- 	rcu_read_lock();
- 	task = pid_task(ctx->pid, PIDTYPE_PID);
- 	if (task) {
--		strcpy(e->comm, task->comm);
-+		strscpy(e->comm, task->comm);
- 		e->pid = task->pid;
- 	}
- 	rcu_read_unlock();
-@@ -1459,7 +1459,7 @@ capture_vma_snapshot(struct intel_engine_capture_vma *next,
- 		return next;
- 	}
- 
--	strcpy(c->name, name);
-+	strscpy(c->name, name);
- 	c->vma_res = i915_vma_resource_get(vma_res);
- 
- 	c->next = next;
--- 
-2.43.5
+Oh right, the "stop at rc6" rule of thumb that Krzysztof mentioned.
+
+Regards
 
