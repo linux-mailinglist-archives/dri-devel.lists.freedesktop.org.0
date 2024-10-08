@@ -2,61 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A74D993FF3
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 09:53:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57E84993FF7
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 09:55:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2009E10E484;
-	Tue,  8 Oct 2024 07:53:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5207C10E0F3;
+	Tue,  8 Oct 2024 07:55:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XkDNjCv2";
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="odOyKlTR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE32D10E484
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2024 07:53:22 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 2D26DA432F1;
- Tue,  8 Oct 2024 07:53:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AF3BC4CEC7;
- Tue,  8 Oct 2024 07:53:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1728374001;
- bh=ZolOtss5LdxgK0cQ4wMklPeLLWy8E7FsrWTQCKegLW4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=XkDNjCv2cXGTLUY1GG3QCMxnvSAF/v8dl3/+C9zhVZUMVWVAfpDgtwnBl3xQ0ogZC
- gPQl30l4yIKNxn6HIP+A+r9I9umxl3oZWlpjA/XWNZH90dc7vd2tHi/1RwK8OpEW3L
- +AEi7/GNtBleExcKSvi1jlvSlAYLk+VAGcQjPHcS6iIyp0W4a0n98aeYODNqmgWGj0
- fFw9/34IzKBZ9xZHNiGoZRN018MSKpcCrFpzEoMdS+axVf/MRffno5GtNgjwROOJDz
- HavbcbWZTgU45kPlJEWGrlmXMf3blYFHRFaIB20zJMOST9PFUpBlVmCUlDPC3rWNdW
- AIBtvA9ToB8cQ==
-Date: Tue, 8 Oct 2024 09:53:18 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
- Melissa Wen <melissa.srw@gmail.com>,
- =?utf-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>, 
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Jonathan Corbet <corbet@lwn.net>, Simona Vetter <simona@ffwll.ch>,
- rdunlap@infradead.org, 
- arthurgrillo@riseup.net, pekka.paalanen@haloniitty.fi, 
- Simona Vetter <simona.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, thomas.petazzoni@bootlin.com,
- jeremie.dautheribes@bootlin.com, 
- miquel.raynal@bootlin.com, seanpaul@google.com, marcheu@google.com, 
- nicolejadeyee@google.com, Pekka Paalanen <pekka.paalanen@collabora.com>
-Subject: Re: [PATCH v12 13/15] drm/vkms: Create KUnit tests for YUV conversions
-Message-ID: <20241008-ingenious-calm-silkworm-3e99ba@houat>
-References: <20241007-yuv-v12-0-01c1ada6fec8@bootlin.com>
- <20241007-yuv-v12-13-01c1ada6fec8@bootlin.com>
+Received: from mout.web.de (mout.web.de [212.227.15.3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9E5010E0F3
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2024 07:55:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+ s=s29768273; t=1728374126; x=1728978926; i=markus.elfring@web.de;
+ bh=8Szi+NG/IKhAcW5Tw0m4LYzQmYTj7dnRcqmrIO8ay+A=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+ Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+ cc:content-transfer-encoding:content-type:date:from:message-id:
+ mime-version:reply-to:subject:to;
+ b=odOyKlTRlH565CzAMZgEzHLtLrROr15gBYBMSHyTvrZOeNKecQZPtIACbEEu16v9
+ FnIn6FPHtsJQVMOhhfv8ulM9gposJDykX40G9Wot1GMvllksKaUjCnePqfadksMDy
+ 3m71Ss/GleMPrlCANJ8ARIHROH6L+bEOvsJrHw/B35FUDrklA8MeR81eRv0DObMDB
+ glI5Gq2JI6ePnVp4L3/Prxv6kXXi7KQAOaQUQ//x6CL5QMO372MjloKie40Iy0PMK
+ 3sbZ1IGGyp1yIbGVgq/DSOcBrWa80Cs6BIRuljKKJpx7MAKmgc4VmatFYRHqm/5Ph
+ N9npniBj2UGK/f1/sA==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.81.95]) by smtp.web.de (mrweb005
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1N4621-1txi5n08qf-011gWh; Tue, 08
+ Oct 2024 09:55:26 +0200
+Message-ID: <a95532b6-381b-4b06-8f4e-9b3a6c727a60@web.de>
+Date: Tue, 8 Oct 2024 09:55:24 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="wyrq7ipcxm5yvck5"
-Content-Disposition: inline
-In-Reply-To: <20241007-yuv-v12-13-01c1ada6fec8@bootlin.com>
+User-Agent: Mozilla Thunderbird
+To: =?UTF-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>, 
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, Adam Thiede <me@adamthiede.com>,
+ Angelo Gioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Yassine Oudjana <yassine.oudjana@gmail.com>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ Alper Nebi Yasak <alpernebiyasak@gmail.com>,
+ Nancy Lin <nancy.lin@mediatek.com>,
+ =?UTF-8?B?U2hhd24gU3VuZyAo5a6L5a2d6KyZKQ==?= <Shawn.Sung@mediatek.com>,
+ Singo Chang <singo.chang@mediatek.com>
+References: <20241008064716.14670-2-jason-jh.lin@mediatek.com>
+Subject: Re: [PATCH v10 1/5] drm/mediatek: ovl: Fix XRGB format breakage for
+ blend_modes unsupported SoCs
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20241008064716.14670-2-jason-jh.lin@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:bnnmry2eeH2ia82fZczbeiYSu7yQyuShiVcy/uwC9bQlbqQ3z3t
+ SsiKn9mg7MOJPMDxmH/fY6itZ2HMmTmz8TBuY2VxpcF3wtRA9acBC+H12X96BHUBe0gMMKh
+ AZHJjVZX8ZY3uZ+3Wbu5uydu4o4Oi6nvgFeyHKpQtgKaozaEhp0Mc9Uk5HvIQcO5tf1TPNU
+ R86XZ/FytJnjg8APfhCPg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:FoFlhXqQj7A=;UI1YScYjOSeNgHKN6GhiDPyLXHk
+ fjqGDBqWbczkJtzQ+kyRGtBKldIOvUBenD+aOo6nOXGWZRgECBh2i47JqHKtujjIh1IfyyYyg
+ Z+0oLankC+wBAsnASeDiE4vtkWIWbE/4ShPv+9G6eYjrHiesz+yHsDrOQZqD4kP56I3Vm24q9
+ 3JOPjtRWEnCBSQBcgOe7LlfUNdlnQiNp9jO3k1oY8ViD8ZZbVtEaGeqCaqld1JZclbv9TEOHH
+ 17n9rcccTLXcJFevA6mHRMSWkLWVb+q9nEwlzpOSVl3ftSBwGN/NIySXRtSN3QSgcICCAtzm1
+ hjr8ODzwPJtQWT9qtbWRQBByGFYsJw2BNT8ChdzrZqYMgUFqnsghhWKsexMeGRJgf423NklR0
+ vNLqRD7bOwxF62ZxMmSqvvllJLFXzbdHsHAtjwhAz8Be8te5rPqNyQKLqyK48RfeSzO8sLQo2
+ at5Lnk8x545VgNG6JPDDF/190XD6EwLzug9Wgaw8zkKxblL+ExhYtsp3QkRk4brkOGNvMs61d
+ hO9SszOFJ5ZISmJfcAo5MgZ0NesCr3T+iizXe0oTH6sV5Ebj1wbnmMqFInm1fv4Mpanyl0IqS
+ 9o4Q8G/9/4krhmX3KQ6FaH+IQG3p84X+wA17gUgTuYSXT0kRCTe4YPDtoYG0YHBZV8R7nsUQJ
+ XWMdi36/eHlfy2Qqt25iOkd+Z3MN4UhifRIzuwLgNdLmqTBcLLpOp7IRIr6Xexrmcu7YPTjsX
+ GC7ACFsPJ66QFV7ZdsvCHQqIZz0UzrJQcWCQT0hb6JG/78VV0OoukllJT7D/mUw4bYk3ZqVft
+ Ba2SKSIXVldU07wNj5mNBmzg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,170 +89,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+=E2=80=A6
+> Note that ignore pixel alpha bit is not supported if the SoC is not
+> supported the blend_modes.
 
---wyrq7ipcxm5yvck5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+  supporting the blending modes?
 
-Hi,
 
-On Mon, Oct 07, 2024 at 06:10:47PM GMT, Louis Chauvet wrote:
-> From: Arthur Grillo <arthurgrillo@riseup.net>
->=20
-> Create KUnit tests to test the conversion between YUV and RGB. Test each
-> conversion and range combination with some common colors.
->=20
-> The code used to compute the expected result can be found in comment.
->=20
-> [Louis Chauvet:
-> - fix minor formating issues (whitespace, double line)
-> - change expected alpha from 0x0000 to 0xffff
-> - adapt to the new get_conversion_matrix usage
-> - apply the changes from Arthur
-> - move struct pixel_yuv_u8 to the test itself]
->=20
-> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
-> Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> ---
->  drivers/gpu/drm/vkms/Kconfig                  |  15 ++
->  drivers/gpu/drm/vkms/Makefile                 |   1 +
->  drivers/gpu/drm/vkms/tests/.kunitconfig       |   4 +
->  drivers/gpu/drm/vkms/tests/Makefile           |   3 +
->  drivers/gpu/drm/vkms/tests/vkms_format_test.c | 232 ++++++++++++++++++++=
-++++++
->  drivers/gpu/drm/vkms/vkms_formats.c           |   7 +-
->  drivers/gpu/drm/vkms/vkms_formats.h           |   5 +
->  7 files changed, 265 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/vkms/Kconfig b/drivers/gpu/drm/vkms/Kconfig
-> index 9def079f685b..98ecfce929f3 100644
-> --- a/drivers/gpu/drm/vkms/Kconfig
-> +++ b/drivers/gpu/drm/vkms/Kconfig
-> @@ -14,3 +14,18 @@ config DRM_VKMS
->  	  a VKMS.
-> =20
->  	  If M is selected the module will be called vkms.
-> +
-> +config DRM_VKMS_KUNIT_TESTS
-> +	tristate "KUnit tests for VKMS." if !KUNIT_ALL_TESTS
-> +	depends on DRM_VKMS=3Dy && KUNIT
-> +	default KUNIT_ALL_TESTS
-> +	help
-> +	  This builds unit tests for VKMS. This option is not useful for
-> +	  distributions or general kernels, but only for kernel
-> +	  developers working on VKMS.
-> +
-> +	  For more information on KUnit and unit tests in general,
-> +	  please refer to the KUnit documentation in
-> +	  Documentation/dev-tools/kunit/.
-> +
-> +	  If in doubt, say "N".
-> diff --git a/drivers/gpu/drm/vkms/Makefile b/drivers/gpu/drm/vkms/Makefile
-> index 1b28a6a32948..8d3e46dde635 100644
-> --- a/drivers/gpu/drm/vkms/Makefile
-> +++ b/drivers/gpu/drm/vkms/Makefile
-> @@ -9,3 +9,4 @@ vkms-y :=3D \
->  	vkms_writeback.o
-> =20
->  obj-$(CONFIG_DRM_VKMS) +=3D vkms.o
-> +obj-$(CONFIG_DRM_VKMS_KUNIT_TESTS) +=3D tests/
-> diff --git a/drivers/gpu/drm/vkms/tests/.kunitconfig b/drivers/gpu/drm/vk=
-ms/tests/.kunitconfig
-> new file mode 100644
-> index 000000000000..70e378228cbd
-> --- /dev/null
-> +++ b/drivers/gpu/drm/vkms/tests/.kunitconfig
-> @@ -0,0 +1,4 @@
-> +CONFIG_KUNIT=3Dy
-> +CONFIG_DRM=3Dy
-> +CONFIG_DRM_VKMS=3Dy
-> +CONFIG_DRM_VKMS_KUNIT_TESTS=3Dy
-> diff --git a/drivers/gpu/drm/vkms/tests/Makefile b/drivers/gpu/drm/vkms/t=
-ests/Makefile
-> new file mode 100644
-> index 000000000000..2d1df668569e
-> --- /dev/null
-> +++ b/drivers/gpu/drm/vkms/tests/Makefile
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +
-> +obj-$(CONFIG_DRM_VKMS_KUNIT_TESTS) +=3D vkms_format_test.o
-> diff --git a/drivers/gpu/drm/vkms/tests/vkms_format_test.c b/drivers/gpu/=
-drm/vkms/tests/vkms_format_test.c
-> new file mode 100644
-> index 000000000000..351409897ca3
-> --- /dev/null
-> +++ b/drivers/gpu/drm/vkms/tests/vkms_format_test.c
-> @@ -0,0 +1,232 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +
-> +#include <kunit/test.h>
-> +
-> +#include <drm/drm_fixed.h>
-> +#include <drm/drm_fourcc.h>
-> +
-> +#include "../../drm_crtc_internal.h"
-> +
-> +#include "../vkms_formats.h"
-> +
-> +#define TEST_BUFF_SIZE 50
-> +
-> +MODULE_IMPORT_NS(EXPORTED_FOR_KUNIT_TESTING);
-> +
-> +struct pixel_yuv_u8 {
-> +	u8 y, u, v;
-> +};
-> +
-> +struct yuv_u8_to_argb_u16_case {
-> +	enum drm_color_encoding encoding;
-> +	enum drm_color_range range;
-> +	size_t n_colors;
-> +	struct format_pair {
-> +		char *name;
-> +		struct pixel_yuv_u8 yuv;
-> +		struct pixel_argb_u16 argb;
-> +	} colors[TEST_BUFF_SIZE];
-> +};
-> +
-> +/*
-> + * The YUV color representation were acquired via the colour python fram=
-ework.
-> + * Below are the function calls used for generating each case.
-> + *
-> + * For more information got to the docs:
-> + * https://colour.readthedocs.io/en/master/generated/colour.RGB_to_YCbCr=
-=2Ehtml
-> + */
-> +static struct yuv_u8_to_argb_u16_case yuv_u8_to_argb_u16_cases[] =3D {
-> +	/*
-> +	 * colour.RGB_to_YCbCr(<rgb color in 16 bit form>,
-> +	 *                     K=3Dcolour.WEIGHTS_YCBCR["ITU-R BT.601"],
-> +	 *                     in_bits =3D 16,
-> +	 *                     in_legal =3D False,
-> +	 *                     in_int =3D True,
-> +	 *                     out_bits =3D 8,
-> +	 *                     out_legal =3D False,
-> +	 *                     out_int =3D True)
-> +	 */
+> So it will break the original setting of XRGB8888 foramt for the
 
-We should really detail what the intent and expected outcome is supposed
-to be here. Relying on a third-party python library call for
-documentation isn't great.
+                                                    format?
 
-Maxime
 
---wyrq7ipcxm5yvck5
-Content-Type: application/pgp-signature; name="signature.asc"
+> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
 
------BEGIN PGP SIGNATURE-----
+Would a personal name without a dot be preferred
+according to the Developer's Certificate of Origin?
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
+cumentation/process/submitting-patches.rst?h=3Dv6.12-rc2#n396
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZwTk5gAKCRAnX84Zoj2+
-druTAX4hTMoQugVai2QJ1+0Eza191utfm5RxJ0Zb9dWjGrTw2VnJBbVpSX2hSlev
-HllnwM4BgKEgEV2a4hCAoF+4oR8w66ZHex4NLxAaZjmjt93QEVw2BmSgrhCgspOi
-zV2j+K+8fA==
-=/NOH
------END PGP SIGNATURE-----
-
---wyrq7ipcxm5yvck5--
+Regards,
+Markus
