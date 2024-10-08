@@ -2,67 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E02159952D6
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 17:02:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A72AA995316
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 17:16:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 300C810E571;
-	Tue,  8 Oct 2024 15:02:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A46310E0F2;
+	Tue,  8 Oct 2024 15:16:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nFe0yThZ";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="mCC8goXq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B52710E571;
- Tue,  8 Oct 2024 15:02:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1728399771; x=1759935771;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=gpUErE9pNkYGr5nHTOEazsYjopbzltoUu+P7dfTzBZA=;
- b=nFe0yThZxq+AorpyA+mh7MQLyTLC/xKAbd0dgOa6b0byQF1yGR8BMBdC
- yYiwBeGV7uLZwKa63fXMzlLCKxHoQ73mLeL8zB+c9iVwg/FjaIpmi51gS
- MMPCb6DtFoq9WCAoRq/HE/pkvlsE/vrPTyyGGVLT6jyO7jjA0P4lESNzC
- FhlhFS/FCsZ73FHfstgJfGYrCrRssuCh/sskRLqB1u59WBM57PI98QZLm
- gB7CuBsy7RjzQrxqcP1XAIoyqsrIk5ldFoLzqYg17u+ATO0fAhYvGt7lL
- N5MOoBJFDYuTEwx0wI5l18UJGecSOWIwVaA0qLEN9J36UcqzCnJ/jjCpn A==;
-X-CSE-ConnectionGUID: YIYExzxeSP2Kxzh1ns8Gxg==
-X-CSE-MsgGUID: ADtVj3ANRAmAm/E2Jne4BA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11219"; a="38731459"
-X-IronPort-AV: E=Sophos;i="6.11,187,1725346800"; d="scan'208";a="38731459"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Oct 2024 08:02:51 -0700
-X-CSE-ConnectionGUID: MBlP9xOBSz6by9s1ZX3kYg==
-X-CSE-MsgGUID: ZTM8qWQEQLWJWmbMTbGSKg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,187,1725346800"; d="scan'208";a="75966973"
-Received: from black.fi.intel.com ([10.237.72.28])
- by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Oct 2024 08:02:46 -0700
-Date: Tue, 8 Oct 2024 18:02:43 +0300
-From: Raag Jadav <raag.jadav@intel.com>
-To: Michal Wajdeczko <michal.wajdeczko@intel.com>, lucas.demarchi@intel.com
-Cc: airlied@gmail.com, simona@ffwll.ch, thomas.hellstrom@linux.intel.com,
- rodrigo.vivi@intel.com, jani.nikula@linux.intel.com,
- andriy.shevchenko@linux.intel.com, joonas.lahtinen@linux.intel.com,
- tursulin@ursulin.net, lina@asahilina.net,
- intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com,
- francois.dugast@intel.com, aravind.iddamsetty@linux.intel.com,
- anshuman.gupta@intel.com, andi.shyti@linux.intel.com,
- matthew.d.roper@intel.com
-Subject: Re: [PATCH v7 1/5] drm: Introduce device wedged event
-Message-ID: <ZwVJk8ESEyxyemrG@black.fi.intel.com>
-References: <20240930073845.347326-1-raag.jadav@intel.com>
- <20240930073845.347326-2-raag.jadav@intel.com>
- <26f90d12-6a04-445e-96ff-aafbe3dc8132@intel.com>
- <Zv6Ms7G4pSLdgUKo@black.fi.intel.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BE6F10E0F2;
+ Tue,  8 Oct 2024 15:16:44 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4987d8CH022365;
+ Tue, 8 Oct 2024 15:16:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ CUUUppPKv/gk3AtUzBkoKJ4dh/9TbDofAqfWC3so4Ys=; b=mCC8goXqPIpDVuXZ
+ DIDRSr0XUWUJ6kHxxK0VTlDTMVNiQwb+Uo9ciLCtRO7kaEp5By4OkounPwDbL2S8
+ n/qY84NKnhKC9keXJ4incEksXSuwfOMU2iCwUc3IMJuihWTkQQr81Q6urMQ3ENzo
+ ZSj90oAhMWFKvgVR5v9p4HJg9v977WImcF7ka/0LTlFIiCDherFCTyp88DUuShZi
+ 4AG2YKupjZpCbJV7WHH/o9C5zZipZZDb1epPlJn7Iu0YG1V3pf1ARhum5CQuVFDy
+ bo84nSLPUKQjYcTbFHQ5xkspePiRY6i4aEeVazchtlTkYex0rY+qpmqyvI6ob3oB
+ PDTHmQ==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 424kaeu34j-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 08 Oct 2024 15:16:41 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 498FGe0L018295
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 8 Oct 2024 15:16:40 GMT
+Received: from [10.81.24.74] (10.49.16.6) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 8 Oct 2024
+ 08:16:40 -0700
+Message-ID: <1df3fcee-4854-4c55-b8ae-20c9f0ea2d78@quicinc.com>
+Date: Tue, 8 Oct 2024 08:16:39 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Zv6Ms7G4pSLdgUKo@black.fi.intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 03/44] drm/vkms: Add kunit tests for VKMS LUT handling
+To: Harry Wentland <harry.wentland@amd.com>, <dri-devel@lists.freedesktop.org>,
+ <amd-gfx@lists.freedesktop.org>
+CC: <wayland-devel@lists.freedesktop.org>, Arthur Grillo
+ <arthurgrillo@riseup.net>
+References: <20241003200129.1732122-1-harry.wentland@amd.com>
+ <20241003200129.1732122-4-harry.wentland@amd.com>
+From: Jeff Johnson <quic_jjohnson@quicinc.com>
+Content-Language: en-US
+In-Reply-To: <20241003200129.1732122-4-harry.wentland@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.49.16.6]
+X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: PRdPYJcP1dRrK9yaSbnAbmPOc5HuzMA7
+X-Proofpoint-GUID: PRdPYJcP1dRrK9yaSbnAbmPOc5HuzMA7
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 malwarescore=0
+ adultscore=0 spamscore=0 clxscore=1011 lowpriorityscore=0 phishscore=0
+ impostorscore=0 priorityscore=1501 mlxlogscore=949 suspectscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410080097
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,53 +91,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 03, 2024 at 03:23:22PM +0300, Raag Jadav wrote:
-> On Tue, Oct 01, 2024 at 02:20:29PM +0200, Michal Wajdeczko wrote:
-> > On 30.09.2024 09:38, Raag Jadav wrote:
-> > >  
-> > > +/**
-> > > + * enum drm_wedge_recovery - Recovery method for wedged device in order of
-> > > + * severity. To be set as bit fields in drm_device.wedge_recovery variable.
-> > > + * Drivers can choose to support any one or multiple of them depending on
-> > > + * their needs.
-> > > + */
-> > > +enum drm_wedge_recovery {
-> > > +	/** @DRM_WEDGE_RECOVERY_REBIND: unbind + rebind driver */
-> > > +	DRM_WEDGE_RECOVERY_REBIND,
-> > > +
-> > > +	/** @DRM_WEDGE_RECOVERY_BUS_RESET: unbind + reset bus device + rebind */
-> > > +	DRM_WEDGE_RECOVERY_BUS_RESET,
-> > > +
-> > > +	/** @DRM_WEDGE_RECOVERY_REBOOT: reboot system */
-> > > +	DRM_WEDGE_RECOVERY_REBOOT,
-> > > +
-> > > +	/** @DRM_WEDGE_RECOVERY_MAX: for bounds checking, do not use */
-> > > +	DRM_WEDGE_RECOVERY_MAX
-> > > +};
-> > > +
-> > >  /**
-> > >   * struct drm_device - DRM device structure
-> > >   *
-> > > @@ -317,6 +337,9 @@ struct drm_device {
-> > >  	 * Root directory for debugfs files.
-> > >  	 */
-> > >  	struct dentry *debugfs_root;
-> > > +
-> > > +	/** @wedge_recovery: Supported recovery methods for wedged device */
-> > > +	unsigned long wedge_recovery;
-> > 
-> > hmm, so before the driver can ask for a reboot as a recovery method from
-> > wedge it has to somehow add 'reboot' as available method? why it that?
-> 
-> It's for consumers to use as fallbacks in case the preferred recovery method
-> (sent along with uevent) don't workout. (patch 2/5)
+On 10/3/24 13:00, Harry Wentland wrote:
+> Debugging LUT math is much easier when we can unit test
+...
+> diff --git a/drivers/gpu/drm/vkms/tests/vkms_color_test.c b/drivers/gpu/drm/vkms/tests/vkms_color_test.c
+> new file mode 100644
+> index 000000000000..efe139978860
+> --- /dev/null
+> +++ b/drivers/gpu/drm/vkms/tests/vkms_color_test.c
+> @@ -0,0 +1,168 @@
+> +/* SPDX-License-Identifier: GPL-2.0+ */
+> +
+> +#include <kunit/test.h>
+...
+> +kunit_test_suite(vkms_color_test_suite);
+> +
+> +MODULE_LICENSE("GPL");
 
-On second thought...
+Since commit 1fffe7a34c89 ("script: modpost: emit a warning when the
+description is missing"), a module without a MODULE_DESCRIPTION() will
+result in a warning when built with make W=1. Please add the missing
+MODULE_DESCRIPTION()
 
-Lucas, do we have a convincing enough usecase for fallback recovery?
-If <method> were to fail, I would expect there to be even bigger problems
-like kernel crash or unrecoverable hardware failure.
+/jeff
 
-At that point is it worth retrying?
 
-Raag
+
