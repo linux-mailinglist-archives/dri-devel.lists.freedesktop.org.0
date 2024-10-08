@@ -2,83 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB145993ED8
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 08:47:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1900993EFE
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 08:53:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14DC910E473;
-	Tue,  8 Oct 2024 06:47:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 191B110E477;
+	Tue,  8 Oct 2024 06:53:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="kD+49h7J";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="T/dWIzL8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A77B710E46F
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2024 06:47:26 +0000 (UTC)
-X-UUID: 2b6d497a854111ef8b96093e013ec31c-20241008
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=pFOxdzRaeYE5rw04R/YPNRgfZ4pXxfWWeiirvKaiSow=; 
- b=kD+49h7J2CYMHh5aAdlPPO88BL+FrqKUQDueYzqY1Sf2qNRtgoQaMfq0GS/alRrAQc1hvdjNyHOU50/QH/pRHyDjWldVDzRYoskBtGJhLXT26R+vBovE4tponrbBHDuo7XxQDXFl6e/uRR4kCZlNzChHoka/Mbsi1Z57UhfJ2QQ=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.41, REQID:e8995020-6a6a-4d50-9546-35c52678a1f1, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:0
-X-CID-META: VersionHash:6dc6a47, CLOUDID:f127ec40-8751-41b2-98dd-475503d45150,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:11|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
- :1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
-X-UUID: 2b6d497a854111ef8b96093e013ec31c-20241008
-Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by
- mailgw02.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1363128896; Tue, 08 Oct 2024 14:47:21 +0800
-Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
- MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Tue, 8 Oct 2024 14:47:18 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Tue, 8 Oct 2024 14:47:18 +0800
-From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-To: Adam Thiede <me@adamthiede.com>, Yassine Oudjana
- <yassine.oudjana@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-CC: Shawn Sung <shawn.sung@mediatek.com>, Alper Nebi Yasak
- <alpernebiyasak@gmail.com>, <dri-devel@lists.freedesktop.org>,
- <linux-mediatek@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, "Jason-JH . Lin"
- <jason-jh.lin@mediatek.com>, Singo Chang <singo.chang@mediatek.com>, "Nancy
- Lin" <nancy.lin@mediatek.com>,
- <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH v10 5/5] drm/mediatek: Add blend_modes to mtk_plane_init() for
- different SoCs
-Date: Tue, 8 Oct 2024 14:47:16 +0800
-Message-ID: <20241008064716.14670-6-jason-jh.lin@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20241008064716.14670-1-jason-jh.lin@mediatek.com>
-References: <20241008064716.14670-1-jason-jh.lin@mediatek.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03A2010E474
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2024 06:53:04 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id E3D935C2120
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2024 06:52:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9A99C4CED2
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2024 06:53:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1728370382;
+ bh=8/XrZOiutGrNVfzxdCVlvuRXAbgLZqz/eQQNTr69Dhg=;
+ h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
+ b=T/dWIzL8G2sCBSY3Oarm8UDDVD81suXyJ9Vi4Y9dPR6sg6wHxHU7SWfuHcjumV9dg
+ KUmfvp7R+BLgu1EpPZuzzWH7a+Ct51ItHv6OKu0xG4ZA3uCe6xZCMoWh7u0RBrUDD5
+ HIoCfQpMCxBytp2mD+KG+G02+1MP2fS2Lrz71l5XpLDvC3sYLaEaqsL6A1CBC/iVwK
+ +B+LhRwEjsVEdVVBVqS8ArObFOAFSh6tvlEXcL+rsUzhMDpz5XTMuWXjku/uzGxCA9
+ 0lEviRrMRIA5eJwMYXZaiklYNGq/5aZ7bSLn8t39GjcSvLKqxTAsNjGUfqTjDJFerK
+ F1t1aXjGbG4AQ==
+Received: by mail-lj1-f181.google.com with SMTP id
+ 38308e7fff4ca-2facaa16826so44714891fa.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Oct 2024 23:53:02 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV5UiCmHA6Bl4vlXfyaQDAUGHS4MliUXzAVkHTZuNZ1dwicQRuTGpKTp1Zr1Z/1mCoP+wTk0M+392k=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzcxDXiFK2O8ovTGrq+8df1oWgCwdF6FRJsNjM8hdZ29lQ0wt72
+ /O95kKYmEiHZZQ1glYXWgwwPTSvktnp5iNT7KNTuRrrdTSfU2FxCAU46bIB41vzTWmdovn5WywI
+ Sq9VOeUAKdOhOVwKC3y93jKABdAA=
+X-Google-Smtp-Source: AGHT+IHs6ZuxTGNeVEYBhXtHENAWeVj6HUp8shHbQF/6a4rtVBPvdu1/EZNXgt2K8EdIcuhc0j5T0Psz/O4jsy1NTP4=
+X-Received: by 2002:a05:651c:210e:b0:2f9:cf64:aaf6 with SMTP id
+ 38308e7fff4ca-2faf3c30324mr64563851fa.17.1728370381142; Mon, 07 Oct 2024
+ 23:53:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--11.160200-8.000000
-X-TMASE-MatchedRID: 6n1zk+md1nVe0FYiuVD/cPSZ/2axrnPBqQzUsXJNLuEGW3hFnC9N1dpn
- hpe4D1hOFzjo+TNgpJdApkCDZ8Q62p4dOTBCL+zXY1bQMCMvmn5ai3lnXr67vo5RXzY0MfgCcHj
- giTON9jJOFu8ssjxG8/FjRYaB9JwD8Jz+t9Z3vumQOktEo73GFLBH/AqZyGLZVI7KaIl9NhepxN
- 4rruuBUzbBFkyI1h9EASo1XNPhrPpUaz8ayo4K5t8tWTI1R8epfS0Ip2eEHnz3IzXlXlpamPoLR
- 4+zsDTtviI7BBDiM2Ie/IFkimTa6R27VUU1iRPPPkIGLbscM2x34/euOmgyCg==
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--11.160200-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP: B9492E07ED02E9000D7BA47F918152F8031CFB202DFE2DA6DB26A53D3A1C8FEE2000:8
-X-MTK: N
+References: <20241008064716.14670-1-jason-jh.lin@mediatek.com>
+In-Reply-To: <20241008064716.14670-1-jason-jh.lin@mediatek.com>
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Tue, 8 Oct 2024 14:52:48 +0800
+X-Gmail-Original-Message-ID: <CAGb2v67qnJ=ZNYziKe_4WU9KeMUpWLsOn2uoze1FLq4mH8m7Rw@mail.gmail.com>
+Message-ID: <CAGb2v67qnJ=ZNYziKe_4WU9KeMUpWLsOn2uoze1FLq4mH8m7Rw@mail.gmail.com>
+Subject: Re: [PATCH v10 0/5] Fix degradation problem of alpha blending series
+To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>
+Cc: Adam Thiede <me@adamthiede.com>,
+ Yassine Oudjana <yassine.oudjana@gmail.com>, 
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Shawn Sung <shawn.sung@mediatek.com>,
+ Alper Nebi Yasak <alpernebiyasak@gmail.com>, 
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ Singo Chang <singo.chang@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>, 
+ Project_Global_Chrome_Upstream_Group@mediatek.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,225 +75,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: wens@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since some SoCs support premultiplied pixel formats but some do not,
-the blend_modes parameter is added to mtk_plane_init(), which is
-obtained from the mtk_ddp_comp_get_blend_modes function implemented
-in different blending supported components.
+On Tue, Oct 8, 2024 at 2:47=E2=80=AFPM Jason-JH.Lin <jason-jh.lin@mediatek.=
+com> wrote:
+>
+> Some SoCs do not support the ignore_pixl_alpha flag, which breaks the
+> XRGB8888 format. Some SoCs do not support pre-multiplied pixel formats
+> and extending configuration of OVL pre-multiplied color formats,
+> such as MT8173.
+>
+> Fix the SoC degradation problem by this sreies.
 
-The blending supported components can use driver data to set the
-blend mode capabilities for different SoCs.
+Tested-by: Chen-Yu Tsai <wenst@chromium.org>
 
-Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Reviewed-by: CK Hu <ck.hu@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_crtc.c             |  1 +
- drivers/gpu/drm/mediatek/mtk_ddp_comp.c         |  2 ++
- drivers/gpu/drm/mediatek/mtk_ddp_comp.h         | 10 ++++++++++
- drivers/gpu/drm/mediatek/mtk_disp_drv.h         |  2 ++
- drivers/gpu/drm/mediatek/mtk_disp_ovl.c         |  7 +++++++
- drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c |  7 +++++++
- drivers/gpu/drm/mediatek/mtk_ethdr.c            |  7 +++++++
- drivers/gpu/drm/mediatek/mtk_ethdr.h            |  1 +
- drivers/gpu/drm/mediatek/mtk_plane.c            | 15 +++++++--------
- drivers/gpu/drm/mediatek/mtk_plane.h            |  4 ++--
- 10 files changed, 46 insertions(+), 10 deletions(-)
+> ---
+>
+> Change in v10:
+> 1. Fix the commit message and comment for OVL_CON_AEN
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_crtc.c b/drivers/gpu/drm/mediatek/mtk_crtc.c
-index 175b00e5a253..b65f196f2015 100644
---- a/drivers/gpu/drm/mediatek/mtk_crtc.c
-+++ b/drivers/gpu/drm/mediatek/mtk_crtc.c
-@@ -913,6 +913,7 @@ static int mtk_crtc_init_comp_planes(struct drm_device *drm_dev,
- 				BIT(pipe),
- 				mtk_crtc_plane_type(mtk_crtc->layer_nr, num_planes),
- 				mtk_ddp_comp_supported_rotations(comp),
-+				mtk_ddp_comp_get_blend_modes(comp),
- 				mtk_ddp_comp_get_formats(comp),
- 				mtk_ddp_comp_get_num_formats(comp), i);
- 		if (ret)
-diff --git a/drivers/gpu/drm/mediatek/mtk_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
-index be66d94be361..edc6417639e6 100644
---- a/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
-@@ -363,6 +363,7 @@ static const struct mtk_ddp_comp_funcs ddp_ovl = {
- 	.layer_config = mtk_ovl_layer_config,
- 	.bgclr_in_on = mtk_ovl_bgclr_in_on,
- 	.bgclr_in_off = mtk_ovl_bgclr_in_off,
-+	.get_blend_modes = mtk_ovl_get_blend_modes,
- 	.get_formats = mtk_ovl_get_formats,
- 	.get_num_formats = mtk_ovl_get_num_formats,
- };
-@@ -416,6 +417,7 @@ static const struct mtk_ddp_comp_funcs ddp_ovl_adaptor = {
- 	.disconnect = mtk_ovl_adaptor_disconnect,
- 	.add = mtk_ovl_adaptor_add_comp,
- 	.remove = mtk_ovl_adaptor_remove_comp,
-+	.get_blend_modes = mtk_ovl_adaptor_get_blend_modes,
- 	.get_formats = mtk_ovl_adaptor_get_formats,
- 	.get_num_formats = mtk_ovl_adaptor_get_num_formats,
- 	.mode_valid = mtk_ovl_adaptor_mode_valid,
-diff --git a/drivers/gpu/drm/mediatek/mtk_ddp_comp.h b/drivers/gpu/drm/mediatek/mtk_ddp_comp.h
-index ecf6dc283cd7..39720b27f4e9 100644
---- a/drivers/gpu/drm/mediatek/mtk_ddp_comp.h
-+++ b/drivers/gpu/drm/mediatek/mtk_ddp_comp.h
-@@ -80,6 +80,7 @@ struct mtk_ddp_comp_funcs {
- 	void (*ctm_set)(struct device *dev,
- 			struct drm_crtc_state *state);
- 	struct device * (*dma_dev_get)(struct device *dev);
-+	u32 (*get_blend_modes)(struct device *dev);
- 	const u32 *(*get_formats)(struct device *dev);
- 	size_t (*get_num_formats)(struct device *dev);
- 	void (*connect)(struct device *dev, struct device *mmsys_dev, unsigned int next);
-@@ -266,6 +267,15 @@ static inline struct device *mtk_ddp_comp_dma_dev_get(struct mtk_ddp_comp *comp)
- 	return comp->dev;
- }
- 
-+static inline
-+u32 mtk_ddp_comp_get_blend_modes(struct mtk_ddp_comp *comp)
-+{
-+	if (comp->funcs && comp->funcs->get_blend_modes)
-+		return comp->funcs->get_blend_modes(comp->dev);
-+
-+	return 0;
-+}
-+
- static inline
- const u32 *mtk_ddp_comp_get_formats(struct mtk_ddp_comp *comp)
- {
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-index 082ac18fe04a..04154db9085c 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-@@ -103,6 +103,7 @@ void mtk_ovl_register_vblank_cb(struct device *dev,
- void mtk_ovl_unregister_vblank_cb(struct device *dev);
- void mtk_ovl_enable_vblank(struct device *dev);
- void mtk_ovl_disable_vblank(struct device *dev);
-+u32 mtk_ovl_get_blend_modes(struct device *dev);
- const u32 *mtk_ovl_get_formats(struct device *dev);
- size_t mtk_ovl_get_num_formats(struct device *dev);
- 
-@@ -131,6 +132,7 @@ void mtk_ovl_adaptor_start(struct device *dev);
- void mtk_ovl_adaptor_stop(struct device *dev);
- unsigned int mtk_ovl_adaptor_layer_nr(struct device *dev);
- struct device *mtk_ovl_adaptor_dma_dev_get(struct device *dev);
-+u32 mtk_ovl_adaptor_get_blend_modes(struct device *dev);
- const u32 *mtk_ovl_adaptor_get_formats(struct device *dev);
- size_t mtk_ovl_adaptor_get_num_formats(struct device *dev);
- enum drm_mode_status mtk_ovl_adaptor_mode_valid(struct device *dev,
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-index fab23b1904bd..9786ce94de0e 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-@@ -215,6 +215,13 @@ void mtk_ovl_disable_vblank(struct device *dev)
- 	writel_relaxed(0x0, ovl->regs + DISP_REG_OVL_INTEN);
- }
- 
-+u32 mtk_ovl_get_blend_modes(struct device *dev)
-+{
-+	struct mtk_disp_ovl *ovl = dev_get_drvdata(dev);
-+
-+	return ovl->data->blend_modes;
-+}
-+
- const u32 *mtk_ovl_get_formats(struct device *dev)
- {
- 	struct mtk_disp_ovl *ovl = dev_get_drvdata(dev);
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
-index c6768210b08b..bf2546c4681a 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
-@@ -400,6 +400,13 @@ void mtk_ovl_adaptor_disable_vblank(struct device *dev)
- 	mtk_ethdr_disable_vblank(ovl_adaptor->ovl_adaptor_comp[OVL_ADAPTOR_ETHDR0]);
- }
- 
-+u32 mtk_ovl_adaptor_get_blend_modes(struct device *dev)
-+{
-+	struct mtk_disp_ovl_adaptor *ovl_adaptor = dev_get_drvdata(dev);
-+
-+	return mtk_ethdr_get_blend_modes(ovl_adaptor->ovl_adaptor_comp[OVL_ADAPTOR_ETHDR0]);
-+}
-+
- const u32 *mtk_ovl_adaptor_get_formats(struct device *dev)
- {
- 	struct mtk_disp_ovl_adaptor *ovl_adaptor = dev_get_drvdata(dev);
-diff --git a/drivers/gpu/drm/mediatek/mtk_ethdr.c b/drivers/gpu/drm/mediatek/mtk_ethdr.c
-index d1d9cf8b10e1..0f22e7d337cb 100644
---- a/drivers/gpu/drm/mediatek/mtk_ethdr.c
-+++ b/drivers/gpu/drm/mediatek/mtk_ethdr.c
-@@ -145,6 +145,13 @@ static irqreturn_t mtk_ethdr_irq_handler(int irq, void *dev_id)
- 	return IRQ_HANDLED;
- }
- 
-+u32 mtk_ethdr_get_blend_modes(struct device *dev)
-+{
-+	return BIT(DRM_MODE_BLEND_PREMULTI) |
-+	       BIT(DRM_MODE_BLEND_COVERAGE) |
-+	       BIT(DRM_MODE_BLEND_PIXEL_NONE);
-+}
-+
- void mtk_ethdr_layer_config(struct device *dev, unsigned int idx,
- 			    struct mtk_plane_state *state,
- 			    struct cmdq_pkt *cmdq_pkt)
-diff --git a/drivers/gpu/drm/mediatek/mtk_ethdr.h b/drivers/gpu/drm/mediatek/mtk_ethdr.h
-index 81af9edea3f7..a72aeee46829 100644
---- a/drivers/gpu/drm/mediatek/mtk_ethdr.h
-+++ b/drivers/gpu/drm/mediatek/mtk_ethdr.h
-@@ -13,6 +13,7 @@ void mtk_ethdr_clk_disable(struct device *dev);
- void mtk_ethdr_config(struct device *dev, unsigned int w,
- 		      unsigned int h, unsigned int vrefresh,
- 		      unsigned int bpc, struct cmdq_pkt *cmdq_pkt);
-+u32 mtk_ethdr_get_blend_modes(struct device *dev);
- void mtk_ethdr_layer_config(struct device *dev, unsigned int idx,
- 			    struct mtk_plane_state *state,
- 			    struct cmdq_pkt *cmdq_pkt);
-diff --git a/drivers/gpu/drm/mediatek/mtk_plane.c b/drivers/gpu/drm/mediatek/mtk_plane.c
-index 7d2cb4e0fafa..8a48b3b0a956 100644
---- a/drivers/gpu/drm/mediatek/mtk_plane.c
-+++ b/drivers/gpu/drm/mediatek/mtk_plane.c
-@@ -320,8 +320,8 @@ static const struct drm_plane_helper_funcs mtk_plane_helper_funcs = {
- 
- int mtk_plane_init(struct drm_device *dev, struct drm_plane *plane,
- 		   unsigned long possible_crtcs, enum drm_plane_type type,
--		   unsigned int supported_rotations, const u32 *formats,
--		   size_t num_formats, unsigned int plane_idx)
-+		   unsigned int supported_rotations, const u32 blend_modes,
-+		   const u32 *formats, size_t num_formats, unsigned int plane_idx)
- {
- 	int err;
- 
-@@ -366,12 +366,11 @@ int mtk_plane_init(struct drm_device *dev, struct drm_plane *plane,
- 	if (err)
- 		DRM_ERROR("failed to create property: alpha\n");
- 
--	err = drm_plane_create_blend_mode_property(plane,
--						   BIT(DRM_MODE_BLEND_PREMULTI) |
--						   BIT(DRM_MODE_BLEND_COVERAGE) |
--						   BIT(DRM_MODE_BLEND_PIXEL_NONE));
--	if (err)
--		DRM_ERROR("failed to create property: blend_mode\n");
-+	if (blend_modes) {
-+		err = drm_plane_create_blend_mode_property(plane, blend_modes);
-+		if (err)
-+			DRM_ERROR("failed to create property: blend_mode\n");
-+	}
- 
- 	drm_plane_helper_add(plane, &mtk_plane_helper_funcs);
- 
-diff --git a/drivers/gpu/drm/mediatek/mtk_plane.h b/drivers/gpu/drm/mediatek/mtk_plane.h
-index 5b177eac67b7..3b13b89989c7 100644
---- a/drivers/gpu/drm/mediatek/mtk_plane.h
-+++ b/drivers/gpu/drm/mediatek/mtk_plane.h
-@@ -48,6 +48,6 @@ to_mtk_plane_state(struct drm_plane_state *state)
- 
- int mtk_plane_init(struct drm_device *dev, struct drm_plane *plane,
- 		   unsigned long possible_crtcs, enum drm_plane_type type,
--		   unsigned int supported_rotations, const u32 *formats,
--		   size_t num_formats, unsigned int plane_idx);
-+		   unsigned int supported_rotations, const u32 blend_modes,
-+		   const u32 *formats, size_t num_formats, unsigned int plane_idx);
- #endif
--- 
-2.43.0
+Please carry tested-by tags from people for cosmetic changes such as this.
 
+> Change in v9:
+> 1. Add the fix patch for the XRGB8888 downgrade issue of MT8173
+> 2. Add the refine patch for ignore_pixel_alpha statement
+>
+> Change in v8:
+> Remove blend_modes for not supported pre-multiplied SoCs to fix the
+> return error from drm_plane_create_blend_mode_property().
+>
+> Change in v7:
+> 1. Add the remove color format comment patch for OVL
+> 2. Fix warning: 'const' type qualifier on return type has no effect
+>
+> Chnage in v6:
+> 1. Use blend_modes instead of function pointer in OVL
+> 2. Use ethdr instead of mdp_rdma to get blend_modes
+> 3. Add 0 checking for adding blend_mode property for mtk_plane
+>
+> Change in v5:
+> Add fix patch for mtk_plane
+>
+> Change in v4:
+> Add lost cases of mtk_ovl_fmt_convert_with_blend
+>
+> Change in v3:
+> Change MACRO approach to function pointer in driver data
+>
+> Change in v2:
+> Fix build error and typo
+>
+> Change in v1:
+> Add fix patch for OVL unsupport color format settings by driver data
+>
+> ---
+>
+> Jason-JH.Lin (5):
+>   drm/mediatek: ovl: Fix XRGB format breakage for blend_modes
+>     unsupported SoCs
+>   drm/mediatek: ovl: Refine ignore_pixel_alpha comment and placement
+>   drm/mediatek: ovl: Remove the color format comment for
+>     ovl_fmt_convert()
+>   drm/mediatek: ovl: Add blend_modes to driver data
+>   drm/mediatek: Add blend_modes to mtk_plane_init() for different SoCs
+>
+>  drivers/gpu/drm/mediatek/mtk_crtc.c           |  1 +
+>  drivers/gpu/drm/mediatek/mtk_ddp_comp.c       |  2 +
+>  drivers/gpu/drm/mediatek/mtk_ddp_comp.h       | 10 +++
+>  drivers/gpu/drm/mediatek/mtk_disp_drv.h       |  2 +
+>  drivers/gpu/drm/mediatek/mtk_disp_ovl.c       | 70 ++++++++++++++-----
+>  .../gpu/drm/mediatek/mtk_disp_ovl_adaptor.c   |  7 ++
+>  drivers/gpu/drm/mediatek/mtk_ethdr.c          |  7 ++
+>  drivers/gpu/drm/mediatek/mtk_ethdr.h          |  1 +
+>  drivers/gpu/drm/mediatek/mtk_plane.c          | 15 ++--
+>  drivers/gpu/drm/mediatek/mtk_plane.h          |  4 +-
+>  10 files changed, 92 insertions(+), 27 deletions(-)
+>
+> --
+> 2.43.0
+>
