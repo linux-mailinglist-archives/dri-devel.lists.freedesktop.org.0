@@ -2,138 +2,213 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3E2E993EB3
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 08:30:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FFFD993EBF
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 08:33:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E990610E464;
-	Tue,  8 Oct 2024 06:30:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CE0F10E461;
+	Tue,  8 Oct 2024 06:33:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="IS6qLcE7";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="43id+sMx";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IS6qLcE7";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="43id+sMx";
+	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="qfIAAAYc";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b="c3N3hET3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2846B10E461
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2024 06:30:43 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 61BF01FDB0;
- Tue,  8 Oct 2024 06:30:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1728369041; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=XPI1iYJ8ToGTVbOpuI0fTUXW3/F7nAwA7VtSt0snwbM=;
- b=IS6qLcE7NjfzOHdBjAW3xHDIMccb5AIJ4g75V/9CSSRhwPt9HpSJTrDx+vO2QrqSS0bn5y
- sK9tdYekQj80HGhHjnBvJ+00gb7b4pv/A6hrzTphU5wx64IPViUFFS8+UqaGMjLIil3HJI
- gVfXitPc7OrnnBWLtGRILcEN7CQa1Qs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1728369041;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=XPI1iYJ8ToGTVbOpuI0fTUXW3/F7nAwA7VtSt0snwbM=;
- b=43id+sMxyCrbufdq2sfcdQd7STO5ErPOWUVauKG1eI/5OluYqcN5JUxFELab8LZ9FjjFhF
- 8Kxa6A9yxomclzDQ==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=IS6qLcE7;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=43id+sMx
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1728369041; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=XPI1iYJ8ToGTVbOpuI0fTUXW3/F7nAwA7VtSt0snwbM=;
- b=IS6qLcE7NjfzOHdBjAW3xHDIMccb5AIJ4g75V/9CSSRhwPt9HpSJTrDx+vO2QrqSS0bn5y
- sK9tdYekQj80HGhHjnBvJ+00gb7b4pv/A6hrzTphU5wx64IPViUFFS8+UqaGMjLIil3HJI
- gVfXitPc7OrnnBWLtGRILcEN7CQa1Qs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1728369041;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=XPI1iYJ8ToGTVbOpuI0fTUXW3/F7nAwA7VtSt0snwbM=;
- b=43id+sMxyCrbufdq2sfcdQd7STO5ErPOWUVauKG1eI/5OluYqcN5JUxFELab8LZ9FjjFhF
- 8Kxa6A9yxomclzDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3166D137CF;
- Tue,  8 Oct 2024 06:30:41 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 1ZBZCpHRBGfmfAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 08 Oct 2024 06:30:41 +0000
-Message-ID: <863209ef-289d-4414-b19f-e0a308d0fba0@suse.de>
-Date: Tue, 8 Oct 2024 08:30:40 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fbdev: Switch back to struct platform_driver::remove()
-To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
- Helge Deller <deller@gmx.de>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20241007163516.433885-2-u.kleine-koenig@baylibre.com>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E762B10E461
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2024 06:33:36 +0000 (UTC)
+X-UUID: 3d4a5cfc853f11ef8b96093e013ec31c-20241008
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-ID:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From;
+ bh=0QK64O3wJV8+kiS9tycNaXnVfI5HIUT7vWvU8hlmMm4=; 
+ b=qfIAAAYcfB3VKQD+p7TyzDxhUiP9+gn7qsReM1VbTQ5osWULxWYXi89rhYH6muKDDgnRcQDLK2WVitqewdeRheqwJHj4Pmnko3qeP0j+ir2yAUC4a+4SthfSU1FO8xGnTxB8iIUXy7Ng+/1o06TeKuDnXro2iicSJvrgycNBgAs=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.41, REQID:95c404d0-c357-411e-bf30-8dd98dbdb211, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:6dc6a47, CLOUDID:43b0e964-444a-4b47-a99a-591ade3b04b2,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0|-5,EDM:-3,IP:ni
+ l,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
+ :1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 3d4a5cfc853f11ef8b96093e013ec31c-20241008
+Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by
+ mailgw02.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1175461505; Tue, 08 Oct 2024 14:33:32 +0800
+Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
+ MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Tue, 8 Oct 2024 14:33:31 +0800
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com (172.21.101.237)
+ by mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP
+ Server id
+ 15.2.1118.26 via Frontend Transport; Tue, 8 Oct 2024 14:33:30 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=VjvtbWO8HpELPKN1agShFiysDhssRz0Zbt8syjYS/7WiKkfSySIVWgnGZkAJVh+jlcoPvSs4e5ziThFDvzlinvwrfXWXXTD9OBc5iRcHamoKo6UM9Je3XeO8iAjKVLZWDQ/UQnYYi8SvbF32aVPzzn7oHxPM5wPJiTcEUAbfoJlTiYDPum3M2eh+Tk+93Q1Fvy5TYAimm9SVfaFN0ML+rPcyuaUCa0bre8gx2+e3OjJ+AB3bHzg+6ewx9t66a1VyOyPCeWrezL46Q8DYs/Cm6tA9c2xW20iPf5nbzuw1LpucDzVR8aK86yotZS6SIiKKANsC5Kju15Kja6ZuVwJilg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nl8uJNgtMitnPlnlSEIcfpPKUoUVhIhsDUoP4RMuaSI=;
+ b=UTbITdwGbrcd0j4LblxQfNXYQAJoLwPD70lLcbRglBzszi0W7swIhLNTTQEGAFcN+wfFDbOqTU20EP1vu3RbLWNgLuplJdRGbjr0v1fMfm6jY1OM+QaaQRh1032+kBjrntYK5seYVxEPxEpqBAXUE8s3opM0y2XSe14HzlS/upQv3L6nBK7C7WW51wou7vSqSUUsVqQKG2qOttSzXKdwngISAJeYbrVpypKH8KzReoKS3NWnvTNjuD1E2YoAPYjdKpZMMDSrE4agMrrsmqU+FoGxsy+71XKGgtrWde1VaOOQ0UXt3xdFesHXvF5WbHGqunXaA7lF20LODgb8+waL+A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
+ dkim=pass header.d=mediatek.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nl8uJNgtMitnPlnlSEIcfpPKUoUVhIhsDUoP4RMuaSI=;
+ b=c3N3hET3TpyLen6mfHwmuaRZhc7k+U0SZdjJv+jytzqJIXNGDIoaTeqyZTkhG1KJjmU1r38RxYDx/j2ys6vS2syuotDzKgDcmhbqgM7u9qalkDQg8/nG8G73qIttTGTC3MXyWs3EyGcib7jQAkAGXyyStPRrfBMoZTOh12p2BzI=
+Received: from SEYPR03MB7682.apcprd03.prod.outlook.com (2603:1096:101:149::11)
+ by TYZPR03MB7930.apcprd03.prod.outlook.com (2603:1096:400:465::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8005.22; Tue, 8 Oct
+ 2024 06:33:28 +0000
+Received: from SEYPR03MB7682.apcprd03.prod.outlook.com
+ ([fe80::c6cc:cbf7:59cf:62b6]) by SEYPR03MB7682.apcprd03.prod.outlook.com
+ ([fe80::c6cc:cbf7:59cf:62b6%5]) with mapi id 15.20.8026.020; Tue, 8 Oct 2024
+ 06:33:28 +0000
+From: =?utf-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>
+To: =?utf-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>,
+ "me@adamthiede.com" <me@adamthiede.com>, "yassine.oudjana@gmail.com"
+ <yassine.oudjana@gmail.com>, "chunkuang.hu@kernel.org"
+ <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>
+CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "alpernebiyasak@gmail.com" <alpernebiyasak@gmail.com>,
+ =?utf-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
+ =?utf-8?B?U2hhd24gU3VuZyAo5a6L5a2d6KyZKQ==?= <Shawn.Sung@mediatek.com>,
+ =?utf-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH v9 1/5] drm/mediatek: ovl: Fix XRGB format breakage for
+ blend_modes unsupported SoCs
+Thread-Topic: [PATCH v9 1/5] drm/mediatek: ovl: Fix XRGB format breakage for
+ blend_modes unsupported SoCs
+Thread-Index: AQHbGIbKVGGlHXcoSEGwn045U0yDqbJ8ObuAgAAtLoA=
+Date: Tue, 8 Oct 2024 06:33:27 +0000
+Message-ID: <a233d738eb63634c6713c53c85ca63b8df3c3fe4.camel@mediatek.com>
+References: <20241007070101.23263-1-jason-jh.lin@mediatek.com>
+ <20241007070101.23263-2-jason-jh.lin@mediatek.com>
+ <3b1c62caf4a80892071607ce944c151541a7c7d6.camel@mediatek.com>
+In-Reply-To: <3b1c62caf4a80892071607ce944c151541a7c7d6.camel@mediatek.com>
+Accept-Language: zh-TW, en-US
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20241007163516.433885-2-u.kleine-koenig@baylibre.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 61BF01FDB0
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- FREEMAIL_TO(0.00)[baylibre.com,gmx.de];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_TRACE(0.00)[0:+];
- ARC_NA(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmx.de];
- RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- RCVD_VIA_SMTP_AUTH(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
- RCPT_COUNT_THREE(0.00)[4];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email, suse.de:dkim, suse.de:mid,
- baylibre.com:email]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -4.51
-X-Spam-Flag: NO
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mediatek.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SEYPR03MB7682:EE_|TYZPR03MB7930:EE_
+x-ms-office365-filtering-correlation-id: cd243708-8dc5-498d-3eb5-08dce7631e87
+x-ld-processed: a7687ede-7a6b-4ef6-bace-642f677fbe31,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0; ARA:13230040|376014|1800799024|366016|38070700018;
+x-microsoft-antispam-message-info: =?utf-8?B?cGVOa0VCNHIyK3FqdU1kMlhzMU4yREVxNUJRRDRlWHQxTUlhNnd6ZmU5WS8x?=
+ =?utf-8?B?MWI0cUhxSnlLK1hscExhUFZQS0FxQmJhOWNmYzl1TlduWkhiQUNxMUFBM25a?=
+ =?utf-8?B?VHFSdkUxRU9VQzVNRTd6YVpnbTZOUGlORi9WS29ScXB4ZFVHMU10U1ZpbDRl?=
+ =?utf-8?B?OVZwRng1dW1JN0F1NFdoVktsaGZVdGx2RGYyc1hqTHlycDgwaHViSjNpSG40?=
+ =?utf-8?B?QllyRVpiam56S1RuaUFid1hzeWdPQkhROHJNYmp2ZGh0Uzd1ZFZKZjFycFdW?=
+ =?utf-8?B?bmNnSVhCTHF6bWc4RXZGNmx6SGFmWmFEdWt6MjlONGNlTU91S096cXFOYVl4?=
+ =?utf-8?B?L2dhMkJqUE1aMjRiU29zQUoxY3NoNmlsbEgxQUtrMWxmQ215d3hiMVB5UTBU?=
+ =?utf-8?B?T1ZsRDJteE9aazdiekpNNmUzdXVmeStwWmFtajJZUnZuOFZjZ3JMaEtHWVdF?=
+ =?utf-8?B?VkVzc1dESVUwbG5MM0ZVNFc1UmZkcDFBeFV5cnExVXA2VHkyelBqcmZMUWFs?=
+ =?utf-8?B?Qzl6OEN6TVlTQkFxU2hub2V4OVZ1blQ2T2JCNWViVVhkWUxJZ2lZa20rNTZZ?=
+ =?utf-8?B?aVF0RnlFNjFmeFJKRC9tRldHZU5GT0E2MUYrUlVRNjJVTHdQZUdmTDhOQWR4?=
+ =?utf-8?B?a29VbXpRRHdMREdzOSsxV0krekhtaDdmWXFhTHhiQkluOVdtMHVGZzVjcFFS?=
+ =?utf-8?B?c3pqYnFwUEs2c0hnSExQQWJxSmhFM1Q4RWRvYWxIR1hKTkNXK2V1OFg0alJJ?=
+ =?utf-8?B?TWVERmNmQXhiSGsvS0hRU3RsVjA4TzFpVXdScVIrR0FRL09LSWdIa1Z3ODlO?=
+ =?utf-8?B?V3A1dVB6VXJaRUdHQnBGczQ4NFhXdjk1NDFZbXVkN1hWN3BTbDVtNEt3L1Rw?=
+ =?utf-8?B?SDF5QkVqeVNyZ1VVeEYzalRoNnZkclZ6M1UyaFJNMm0yN3lsZU9lRVZ0U2Zo?=
+ =?utf-8?B?OXZrUnp5cGkzOS94MkVaVTYrU0FBT2h1bmNXNlJDTGpVdmdiTC84eGdGS3BZ?=
+ =?utf-8?B?dXQ5STAwajZHV1J2c0xsN2RRUjRJcnc5akYvSjJoZlBlWlFQNVhzMGtqUGpS?=
+ =?utf-8?B?WC9ucjBLTDB4QnhrWW1qSHA3Tm51alM2V2JLZmZCQWVaSmx1Z3d0ejVBS2gw?=
+ =?utf-8?B?U2VNMU8zWU1nTk1uUTFRa29tVmhTRnNCU1o3ZVZQejQ1dis5SXc1TUZkVEIw?=
+ =?utf-8?B?Z3VZM0FyTldCR0xuUTkwVVk3MnVqOHNUTWdMUUxZQjRYWGJ0WllNT0JNTlNI?=
+ =?utf-8?B?d0Jmdlc4U0NIbkhtTkR0alVSbmdXeXBBNFJndHAxcWhyb1ZtV0x3ei9hWVRY?=
+ =?utf-8?B?dmxpZ3lkVXRHMEdCeEdrL3E5RHF4MjF3Rit5cUc2MndwaXNOVmxlQzZaMUJv?=
+ =?utf-8?B?bnhleEpsUmlESW1lSmI1NnlnOTU2RG04YnZ4RzUrRWpYbm10czUzQXJCRitZ?=
+ =?utf-8?B?TXhEOHBFWkRCQ2gyTFVEZjBaRUtsL2dTa01xQnoyZkIzVi9LVGxmV1U1M0F1?=
+ =?utf-8?B?R0o5MWhyVzcvK0JpcjFDcVlpZUFKNllzeWt3dVpMZVFEdmZiWndMZFhpMllL?=
+ =?utf-8?B?WXZJbktkUnFkOVhiVGVJckF5MHdFSHNtZ29vNms3Mmo2cXFMY0ZJcjN3RHRq?=
+ =?utf-8?B?ZFRJZ3VibWRORDl0a1ZCeENQcTV2cDEyKzlxSFN2R0l5Rm5LQXNQK1JvYlo5?=
+ =?utf-8?B?L0xJVDBUQTRReUlYUnMzTXlyVDd6djkvWWM5a3hwM0FIRVB5YnZwLzl1OGZF?=
+ =?utf-8?B?MXQ4VHpabTFpR3ZzME44TE15Z0FSRHRYajd1encra0cvRVdOYWZweXJYc2VU?=
+ =?utf-8?B?R3c1REVzZ3FxQ0ZoczU0Zz09?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SEYPR03MB7682.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(366016)(38070700018); DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?UDJhVk12RUdNQURwaFl1ckRSM2lUcmlNUk1CVTlYUmF2ZGJpVHgzWHVCSXU1?=
+ =?utf-8?B?RktPV2Rqa1loVUV0L0lGTkJQeEVMZGJlQndYWldEdno1cFpid1VqS0hTanBR?=
+ =?utf-8?B?VG9QUmoyVStuUGhTNmo1eVhTU2FPQlRzbHpRWmtMYUlwaHhOWkE2V0JWcTF5?=
+ =?utf-8?B?aHpGUzMydHliRDZPRDNaZkdsZnVJK3dtcENHaGlKN0xPWFI3MTNxT1grR0tu?=
+ =?utf-8?B?cmJYQ1kxVFNBVlNxT3h2K3U0QzVTb1NicHNCanhGSFNJaTdsbW5uaUxVcDB2?=
+ =?utf-8?B?UlhUWk8vZmtCbk5nR3F0akZDcVZDZnYvQ1VsWlNYeEl6Y1ZkY2NuN29COUdK?=
+ =?utf-8?B?N0pMWjRVbi94S2hIL3N6eHdLbTBkKzVpdWVxaHllSzAyZ3UxS1JIcGU2bkl2?=
+ =?utf-8?B?eHM1SmlzR2tJTzdpcVI3MDNqeXBWS1JudEVRcGFYd0p2OUFHWHhvMW1ocUt5?=
+ =?utf-8?B?eWl4bGNmbE5WNEZ4a1E5Z3JIZGV1Y0lEcllFREhQNkVlMG54MVdIVVMwdDha?=
+ =?utf-8?B?SzBpdlBPWW1teFgrNUc3aCsra1NrRENSMU40bkREaWpaSXVxRUJFemhualVS?=
+ =?utf-8?B?M1VmT3ZMd2NGWmJ0NVdFLytLZ2M5MXQ5SllPSnZLR2lTcVdRdXhTTEVuNEgv?=
+ =?utf-8?B?aXExZGFMbkVNMTdNd2ZTSzFBa1ZlTExzdEs3NmdJWVdVaEwrV0lWaXBpZFBH?=
+ =?utf-8?B?Q0lBenZrdXVqR2YwTUxLYXhaN0VDNkpkNCtxMGI0c2lVdVM1R0J6SlNVTTI5?=
+ =?utf-8?B?cGw4S0lpM0J2YUNlRk14MXordDRVRTZnNSs0NG9jYTBxclNKM2FsVEhRVTBt?=
+ =?utf-8?B?SWlWZ0lrUVg1dnp2WEpnc2NWUlAxWFVVNFZGMWlUSzArODlCZExRT0p0T0lG?=
+ =?utf-8?B?YVBQMzZEOGVveEc1Mm1xNmJvcGM4dTJ6YmVVZ0Q1dzNhRGUza2VBcFJiL1o0?=
+ =?utf-8?B?eVJqTDJMWGE4aXdoR0x6RjI4aVBqaGRaU04vbjhJSnB2K0wyczJINWxNbE5m?=
+ =?utf-8?B?a1BsbVpXR2wwSldVK0NVUTUyQnlvakQ5WDlwQmVza1JUR1ExeG5ab0t1Vm41?=
+ =?utf-8?B?KzFIc1A0QUw1dHQ3eUVCa3pjYmZlSS9jb2FDQ09DTmMvS0VybVYwWjVFQWtB?=
+ =?utf-8?B?cDc3ZzF6MDFuZnN2WkVtQlJ3dXNpcG0xV0N2eGJQWVlFRXNGUEh0aWo0Sy9h?=
+ =?utf-8?B?U2VMZ0liZkd5WlBRQjJwdTBjYXZmQk4wdDJpdkE1bm5GYWY4Mis4bG1vRGRQ?=
+ =?utf-8?B?UHFLYWcya1NMSW9yVStSUGlCd21YUHJ0bzlkRjB2cjJMVWl6U3E3SFYzZnV5?=
+ =?utf-8?B?TEFMK1FsQzQzTFFzSThVKzI1VWU0T1VkS1pzWGhhZS9zUEJSbFFpSlM0Q2lj?=
+ =?utf-8?B?eXg4N0s2QS96aGRyOHJTU3hWdGE3NnBhVjNJcHRYbm1FN1BVdmgvNjUvTW5S?=
+ =?utf-8?B?RW8xQ1QvVGpPcG9GUXE1Wm1VdVZqUURPeDRiRkI1OG41S1JIMUN0dTc5akFL?=
+ =?utf-8?B?RlZ5YVVud1JPVDJ4VmZyTHRpM011OGtiS3lRcjlYUkkwMTI0RHJwRXZZMFNS?=
+ =?utf-8?B?d3d2cEFCYzAySmlKOHVDL1ZMb0dTR05JU1d2bWt0bGRBWGw3UG1Wb3lQeUhV?=
+ =?utf-8?B?RDVZSjFlaElLL3JlT29mNkxuUTlhcGhvTFZkOXZmSUkreEt5SEZSUHBzOCtr?=
+ =?utf-8?B?RmJxQkViYzJOeWdXVDhFV3hFeThPTUNObjdROFZ1TmNuaEtZaHJKZFJLWWxU?=
+ =?utf-8?B?WXRCWWoxNTVnSW40V1FQemp2VXExVlo2dmppeDl6a2JSK0wwTFNkM0lCdDdN?=
+ =?utf-8?B?K1EzeDVkN0RwTnpkanZyMVpnRjRVTmJJcG9oLzlJaUJ2YWZsd0hzVGpWS1d2?=
+ =?utf-8?B?ZExIWE5aV2ZsbVBCN0M1TUJVTHpsWmRGVExVVVByM25GUm5oaG15dFNSWHNH?=
+ =?utf-8?B?NFM4K0w5SUNncnNHaFovaUVOaU44b2VOb29UdlRVQzFCdXVZVjkwNkFCM25O?=
+ =?utf-8?B?c3hYRkJheENvTzFuTW1nZVVYQnRUK21FaVk5RllCTlZ2a2dqMExkS1FKL2VL?=
+ =?utf-8?B?V04vYUZUSEZ5dTlwZGg3cU1DVGV5ZGxsR00rdXVUdzhpVlk1Q3RULzArYWpk?=
+ =?utf-8?B?TkJTSjRoOG81bXJ6QW1YbUhISERqTWJmN0x5bzAzVnRXa0ErTHkwYkZaV1E5?=
+ =?utf-8?B?YUE9PQ==?=
+Content-ID: <A38E2CB87E2C374A96D68762141E9B8B@apcprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SEYPR03MB7682.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cd243708-8dc5-498d-3eb5-08dce7631e87
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Oct 2024 06:33:27.9366 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 3GMchm6jzsfMqkb1z9xF3cpQ3dECpvDs/cuwRa6/0yrY7xEDTAqHhQA/Vl3+7I9iCd4dW8Bxdfg8gGcBQjfLRXsft2oS4AI2xcdRKAYpLXA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR03MB7930
+X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-AS-Result: No-10--16.057500-8.000000
+X-TMASE-MatchedRID: cgbqQT5W8hcOwH4pD14DsPHkpkyUphL9GZjaqakC/Mae9toQ6h6LE5A4
+ r6aTBvsBL14PG/qYSRbSUTNHkVpRQJYeam+R4okH7spMO3HwKCC+1Vx7rDn4r7v408/GP5Hqrgw
+ TGulO+mIB9IbMv3Mjderz9kkRKpaJWbvYSwAXzZAD2WXLXdz+Abn7V+KB+3cumyiLZetSf8n5kv
+ mj69FXvAOkBnb8H8GWjaPj0W1qn0SQZS2ujCtcuA==
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--16.057500-8.000000
+X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-SNTS-SMTP: F2B53F34A68D5901BBE019A70F8158ECF43D65C1C3A31015ADA1576604D30B582000:8
+Content-Type: multipart/alternative;
+ boundary="__=_Part_Boundary_006_249485795.1143234701"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -149,1088 +224,124 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+--__=_Part_Boundary_006_249485795.1143234701
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Am 07.10.24 um 18:35 schrieb Uwe Kleine-König:
-> After commit 0edb555a65d1 ("platform: Make platform_driver::remove()
-> return void") .remove() is (again) the right callback to implement for
-> platform drivers.
->
-> Convert all platform drivers below drivers/dma after the previous
-> conversion commits apart from the wireless drivers to use .remove(),
-> with the eventual goal to drop struct platform_driver::remove_new(). As
-> .remove() and .remove_new() have the same prototypes, conversion is done
-> by just changing the structure member name in the driver initializer.
+T24gVHVlLCAyMDI0LTEwLTA4IGF0IDAzOjUxICswMDAwLCBDSyBIdSAo6IOh5L+K5YWJKSB3cm90
+ZToNCj4gSGksIEphc29uOg0KPiANCj4gT24gTW9uLCAyMDI0LTEwLTA3IGF0IDE1OjAwICswODAw
+LCBKYXNvbi1KSC5MaW4gd3JvdGU6DQo+ID4gSWYgdGhlIGNvbnN0YW50IGFscGhhIGFsd2F5cyBl
+bmFibGUsIHRoZSBTb0NzIHRoYXQgaXMgbm90IHN1cHBvcnRlZA0KPiA+IHRoZQ0KPiA+IGlnbm9y
+ZSBwaXhlbCBhbHBoYSBiaXQgd2lsbCBzdGlsbCB1c2UgY29uc3RhbnQgYWxwaGEuIFRoYXQgd2ls
+bA0KPiA+IGJyZWFrDQo+ID4gdGhlIG9yaWdpbmFsIGNvbnN0YW50IGFscGhhIHNldHRpbmcgb2Yg
+WFJHQiBmb3JhbXQgZm9yIGJsZW5kX21vZGVzDQo+ID4gdW5zdXBwb3J0ZWQgU29Dcywgc3VjaCBh
+cyBNVDgxNzMuDQo+ID4gDQo+ID4gTm90ZSB0aGF0IGlnbm9yZSBwaXhlbCBhbHBoYSBiaXQgaXMg
+c3VwcG9yZWQgaWYgdGhlIFNvQyBzdXBwb3J0IHRoZQ0KPiA+IGJsZW5kX21vZGVzLg0KPiA+IE1h
+a2UgdGhlIGNvbnN0YXRudCBhbHBoYSBvbmx5IGVuYWJsZSB3aGVuIGhhdmluZyBhIHZsaWFkIGJs
+ZW5kX21vZGUNCj4gPiBvcg0KPiA+IHNldHRpbmcgdGhlIGhhc19hbHBoYSB0byBmaXggdGhlIGRv
+d25ncmFkZSBpc3N1ZS4NCj4gDQo+IEl0J3MgYWxwaGEgYmxlbmRpbmcgZW5hYmxlLCBub3QgY29u
+c3RhbnQgYWxwaGEgZW5hYmxlLg0KDQpPSywgSSdsbCBjb3JyZWN0IHRoZSBjb21taXQgbWVzc2Fn
+ZS4NCg0KPiANCj4gPiANCj4gPiBGaXhlczogYmM0NmViNWQ1ZDc3ICgiZHJtL21lZGlhdGVrOiBT
+dXBwb3J0IERSTSBwbGFuZSBhbHBoYSBpbg0KPiA+IE9WTCIpDQo+ID4gU2lnbmVkLW9mZi1ieTog
+SmFzb24tSkguTGluIDxqYXNvbi1qaC5saW5AbWVkaWF0ZWsuY29tPg0KPiA+IC0tLQ0KPiA+ICBk
+cml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2Rpc3Bfb3ZsLmMgfCA4ICsrKysrKystDQo+ID4g
+IDEgZmlsZSBjaGFuZ2VkLCA3IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4gPiANCj4g
+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kaXNwX292bC5jDQo+
+ID4gYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2Rpc3Bfb3ZsLmMNCj4gPiBpbmRleCA4
+OWI0MzlkY2YzYTYuLjg0NTNhNzJmOWU1OSAxMDA2NDQNCj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9k
+cm0vbWVkaWF0ZWsvbXRrX2Rpc3Bfb3ZsLmMNCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbWVk
+aWF0ZWsvbXRrX2Rpc3Bfb3ZsLmMNCj4gPiBAQCAtNDczLDggKzQ3MywxNCBAQCB2b2lkIG10a19v
+dmxfbGF5ZXJfY29uZmlnKHN0cnVjdCBkZXZpY2UgKmRldiwNCj4gPiB1bnNpZ25lZCBpbnQgaWR4
+LA0KPiA+ICANCj4gPiAgCWNvbiA9IG92bF9mbXRfY29udmVydChvdmwsIGZtdCwgYmxlbmRfbW9k
+ZSk7DQo+ID4gIAlpZiAoc3RhdGUtPmJhc2UuZmIpIHsNCj4gPiAtCQljb24gfD0gT1ZMX0NPTl9B
+RU47DQo+ID4gIAkJY29uIHw9IHN0YXRlLT5iYXNlLmFscGhhICYgT1ZMX0NPTl9BTFBIQTsNCj4g
+PiArDQo+ID4gKwkJLyoNCj4gPiArCQkgKiBGb3IgYmxlbmRfbW9kZXMgc3VwcG9ydGVkIFNvQ3Ms
+IGFsd2F5cyBlbmFibGUNCj4gPiBjb25zdGFudCBhbHBoYS4NCj4gPiArCQkgKiBGb3IgYmxlbmRf
+bW9kZXMgdW5zdXBwb3J0ZWQgU29DcywgZW5hYmxlIGNvbnN0YW50DQo+ID4gYWxwaGEgd2hlbiBo
+YXNfYWxwaGEgaXMgc2V0Lg0KPiANCj4gSXQncyBhbHBoYSBibGVuZGluZyBlbmFibGUsIG5vdCBj
+b25zdGFudCBhbHBoYSBlbmFibGUuDQo+IA0KT0ssIEknbGwgY29ycmVjdCB0aGUgY29tbWVudC4N
+Cg0KUmVnYXJkcywNCkphc29uLUpILkxpbg0KDQo+IFJlZ2FyZHMsDQo+IENLDQo=
 
-This paragraph refers to dma and wireless code. I don't understand how 
-that is related.
+--__=_Part_Boundary_006_249485795.1143234701
+Content-Type: text/html;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
->
-> While touching these files, make indention of the struct initializer
-> consistent in several files.
->
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
+PGh0bWw+PGJvZHk+PHA+DQo8cHJlPg0KT24mIzMyO1R1ZSwmIzMyOzIwMjQtMTAtMDgmIzMyO2F0
+JiMzMjswMzo1MSYjMzI7KzAwMDAsJiMzMjtDSyYjMzI7SHUmIzMyOygmIzMyOTkzOyYjMjA0MjY7
+JiMyMDgwOTspJiMzMjt3cm90ZToNCiZndDsmIzMyO0hpLCYjMzI7SmFzb246DQomZ3Q7JiMzMjsN
+CiZndDsmIzMyO09uJiMzMjtNb24sJiMzMjsyMDI0LTEwLTA3JiMzMjthdCYjMzI7MTU6MDAmIzMy
+OyswODAwLCYjMzI7SmFzb24tSkguTGluJiMzMjt3cm90ZToNCiZndDsmIzMyOyZndDsmIzMyO0lm
+JiMzMjt0aGUmIzMyO2NvbnN0YW50JiMzMjthbHBoYSYjMzI7YWx3YXlzJiMzMjtlbmFibGUsJiMz
+Mjt0aGUmIzMyO1NvQ3MmIzMyO3RoYXQmIzMyO2lzJiMzMjtub3QmIzMyO3N1cHBvcnRlZA0KJmd0
+OyYjMzI7Jmd0OyYjMzI7dGhlDQomZ3Q7JiMzMjsmZ3Q7JiMzMjtpZ25vcmUmIzMyO3BpeGVsJiMz
+MjthbHBoYSYjMzI7Yml0JiMzMjt3aWxsJiMzMjtzdGlsbCYjMzI7dXNlJiMzMjtjb25zdGFudCYj
+MzI7YWxwaGEuJiMzMjtUaGF0JiMzMjt3aWxsDQomZ3Q7JiMzMjsmZ3Q7JiMzMjticmVhaw0KJmd0
+OyYjMzI7Jmd0OyYjMzI7dGhlJiMzMjtvcmlnaW5hbCYjMzI7Y29uc3RhbnQmIzMyO2FscGhhJiMz
+MjtzZXR0aW5nJiMzMjtvZiYjMzI7WFJHQiYjMzI7Zm9yYW10JiMzMjtmb3ImIzMyO2JsZW5kX21v
+ZGVzDQomZ3Q7JiMzMjsmZ3Q7JiMzMjt1bnN1cHBvcnRlZCYjMzI7U29DcywmIzMyO3N1Y2gmIzMy
+O2FzJiMzMjtNVDgxNzMuDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsNCiZndDsmIzMyOyZndDsmIzMyO05v
+dGUmIzMyO3RoYXQmIzMyO2lnbm9yZSYjMzI7cGl4ZWwmIzMyO2FscGhhJiMzMjtiaXQmIzMyO2lz
+JiMzMjtzdXBwb3JlZCYjMzI7aWYmIzMyO3RoZSYjMzI7U29DJiMzMjtzdXBwb3J0JiMzMjt0aGUN
+CiZndDsmIzMyOyZndDsmIzMyO2JsZW5kX21vZGVzLg0KJmd0OyYjMzI7Jmd0OyYjMzI7TWFrZSYj
+MzI7dGhlJiMzMjtjb25zdGF0bnQmIzMyO2FscGhhJiMzMjtvbmx5JiMzMjtlbmFibGUmIzMyO3do
+ZW4mIzMyO2hhdmluZyYjMzI7YSYjMzI7dmxpYWQmIzMyO2JsZW5kX21vZGUNCiZndDsmIzMyOyZn
+dDsmIzMyO29yDQomZ3Q7JiMzMjsmZ3Q7JiMzMjtzZXR0aW5nJiMzMjt0aGUmIzMyO2hhc19hbHBo
+YSYjMzI7dG8mIzMyO2ZpeCYjMzI7dGhlJiMzMjtkb3duZ3JhZGUmIzMyO2lzc3VlLg0KJmd0OyYj
+MzI7DQomZ3Q7JiMzMjtJdCYjMzk7cyYjMzI7YWxwaGEmIzMyO2JsZW5kaW5nJiMzMjtlbmFibGUs
+JiMzMjtub3QmIzMyO2NvbnN0YW50JiMzMjthbHBoYSYjMzI7ZW5hYmxlLg0KDQpPSywmIzMyO0km
+IzM5O2xsJiMzMjtjb3JyZWN0JiMzMjt0aGUmIzMyO2NvbW1pdCYjMzI7bWVzc2FnZS4NCg0KJmd0
+OyYjMzI7DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsNCiZndDsmIzMyOyZndDsmIzMyO0ZpeGVzOiYjMzI7
+YmM0NmViNWQ1ZDc3JiMzMjsoJnF1b3Q7ZHJtL21lZGlhdGVrOiYjMzI7U3VwcG9ydCYjMzI7RFJN
+JiMzMjtwbGFuZSYjMzI7YWxwaGEmIzMyO2luDQomZ3Q7JiMzMjsmZ3Q7JiMzMjtPVkwmcXVvdDsp
+DQomZ3Q7JiMzMjsmZ3Q7JiMzMjtTaWduZWQtb2ZmLWJ5OiYjMzI7SmFzb24tSkguTGluJiMzMjsm
+bHQ7amFzb24tamgubGluQG1lZGlhdGVrLmNvbSZndDsNCiZndDsmIzMyOyZndDsmIzMyOy0tLQ0K
+Jmd0OyYjMzI7Jmd0OyYjMzI7JiMzMjtkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2Rpc3Bf
+b3ZsLmMmIzMyO3wmIzMyOzgmIzMyOysrKysrKystDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmIzMyOzEm
+IzMyO2ZpbGUmIzMyO2NoYW5nZWQsJiMzMjs3JiMzMjtpbnNlcnRpb25zKCspLCYjMzI7MSYjMzI7
+ZGVsZXRpb24oLSkNCiZndDsmIzMyOyZndDsmIzMyOw0KJmd0OyYjMzI7Jmd0OyYjMzI7ZGlmZiYj
+MzI7LS1naXQmIzMyO2EvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kaXNwX292bC5jDQom
+Z3Q7JiMzMjsmZ3Q7JiMzMjtiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZGlzcF9vdmwu
+Yw0KJmd0OyYjMzI7Jmd0OyYjMzI7aW5kZXgmIzMyOzg5YjQzOWRjZjNhNi4uODQ1M2E3MmY5ZTU5
+JiMzMjsxMDA2NDQNCiZndDsmIzMyOyZndDsmIzMyOy0tLSYjMzI7YS9kcml2ZXJzL2dwdS9kcm0v
+bWVkaWF0ZWsvbXRrX2Rpc3Bfb3ZsLmMNCiZndDsmIzMyOyZndDsmIzMyOysrKyYjMzI7Yi9kcml2
+ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2Rpc3Bfb3ZsLmMNCiZndDsmIzMyOyZndDsmIzMyO0BA
+JiMzMjstNDczLDgmIzMyOys0NzMsMTQmIzMyO0BAJiMzMjt2b2lkJiMzMjttdGtfb3ZsX2xheWVy
+X2NvbmZpZyhzdHJ1Y3QmIzMyO2RldmljZSYjMzI7KmRldiwNCiZndDsmIzMyOyZndDsmIzMyO3Vu
+c2lnbmVkJiMzMjtpbnQmIzMyO2lkeCwNCiZndDsmIzMyOyZndDsmIzMyOyYjMzI7DQomZ3Q7JiMz
+MjsmZ3Q7JiMzMjsmIzMyO2NvbiYjMzI7PSYjMzI7b3ZsX2ZtdF9jb252ZXJ0KG92bCwmIzMyO2Zt
+dCwmIzMyO2JsZW5kX21vZGUpOw0KJmd0OyYjMzI7Jmd0OyYjMzI7JiMzMjtpZiYjMzI7KHN0YXRl
+LSZndDtiYXNlLmZiKSYjMzI7ew0KJmd0OyYjMzI7Jmd0OyYjMzI7LWNvbiYjMzI7fD0mIzMyO09W
+TF9DT05fQUVOOw0KJmd0OyYjMzI7Jmd0OyYjMzI7JiMzMjtjb24mIzMyO3w9JiMzMjtzdGF0ZS0m
+Z3Q7YmFzZS5hbHBoYSYjMzI7JmFtcDsmIzMyO09WTF9DT05fQUxQSEE7DQomZ3Q7JiMzMjsmZ3Q7
+JiMzMjsrDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsrLyoNCiZndDsmIzMyOyZndDsmIzMyOysmIzMyOyom
+IzMyO0ZvciYjMzI7YmxlbmRfbW9kZXMmIzMyO3N1cHBvcnRlZCYjMzI7U29DcywmIzMyO2Fsd2F5
+cyYjMzI7ZW5hYmxlDQomZ3Q7JiMzMjsmZ3Q7JiMzMjtjb25zdGFudCYjMzI7YWxwaGEuDQomZ3Q7
+JiMzMjsmZ3Q7JiMzMjsrJiMzMjsqJiMzMjtGb3ImIzMyO2JsZW5kX21vZGVzJiMzMjt1bnN1cHBv
+cnRlZCYjMzI7U29DcywmIzMyO2VuYWJsZSYjMzI7Y29uc3RhbnQNCiZndDsmIzMyOyZndDsmIzMy
+O2FscGhhJiMzMjt3aGVuJiMzMjtoYXNfYWxwaGEmIzMyO2lzJiMzMjtzZXQuDQomZ3Q7JiMzMjsN
+CiZndDsmIzMyO0l0JiMzOTtzJiMzMjthbHBoYSYjMzI7YmxlbmRpbmcmIzMyO2VuYWJsZSwmIzMy
+O25vdCYjMzI7Y29uc3RhbnQmIzMyO2FscGhhJiMzMjtlbmFibGUuDQomZ3Q7JiMzMjsNCk9LLCYj
+MzI7SSYjMzk7bGwmIzMyO2NvcnJlY3QmIzMyO3RoZSYjMzI7Y29tbWVudC4NCg0KUmVnYXJkcywN
+Ckphc29uLUpILkxpbg0KDQomZ3Q7JiMzMjtSZWdhcmRzLA0KJmd0OyYjMzI7Q0sNCg0KPC9wcmU+
+DQo8L3A+PC9ib2R5PjwvaHRtbD48IS0tdHlwZTp0ZXh0LS0+PCEtLXstLT48cHJlPioqKioqKioq
+KioqKiogTUVESUFURUsgQ29uZmlkZW50aWFsaXR5IE5vdGljZSAqKioqKioqKioqKioqKioqKioq
+Kg0KVGhlIGluZm9ybWF0aW9uIGNvbnRhaW5lZCBpbiB0aGlzIGUtbWFpbCBtZXNzYWdlIChpbmNs
+dWRpbmcgYW55IA0KYXR0YWNobWVudHMpIG1heSBiZSBjb25maWRlbnRpYWwsIHByb3ByaWV0YXJ5
+LCBwcml2aWxlZ2VkLCBvciBvdGhlcndpc2UNCmV4ZW1wdCBmcm9tIGRpc2Nsb3N1cmUgdW5kZXIg
+YXBwbGljYWJsZSBsYXdzLiBJdCBpcyBpbnRlbmRlZCB0byBiZSANCmNvbnZleWVkIG9ubHkgdG8g
+dGhlIGRlc2lnbmF0ZWQgcmVjaXBpZW50KHMpLiBBbnkgdXNlLCBkaXNzZW1pbmF0aW9uLCANCmRp
+c3RyaWJ1dGlvbiwgcHJpbnRpbmcsIHJldGFpbmluZyBvciBjb3B5aW5nIG9mIHRoaXMgZS1tYWls
+IChpbmNsdWRpbmcgaXRzIA0KYXR0YWNobWVudHMpIGJ5IHVuaW50ZW5kZWQgcmVjaXBpZW50KHMp
+IGlzIHN0cmljdGx5IHByb2hpYml0ZWQgYW5kIG1heSANCmJlIHVubGF3ZnVsLiBJZiB5b3UgYXJl
+IG5vdCBhbiBpbnRlbmRlZCByZWNpcGllbnQgb2YgdGhpcyBlLW1haWwsIG9yIGJlbGlldmUgDQp0
+aGF0IHlvdSBoYXZlIHJlY2VpdmVkIHRoaXMgZS1tYWlsIGluIGVycm9yLCBwbGVhc2Ugbm90aWZ5
+IHRoZSBzZW5kZXIgDQppbW1lZGlhdGVseSAoYnkgcmVwbHlpbmcgdG8gdGhpcyBlLW1haWwpLCBk
+ZWxldGUgYW55IGFuZCBhbGwgY29waWVzIG9mIA0KdGhpcyBlLW1haWwgKGluY2x1ZGluZyBhbnkg
+YXR0YWNobWVudHMpIGZyb20geW91ciBzeXN0ZW0sIGFuZCBkbyBub3QNCmRpc2Nsb3NlIHRoZSBj
+b250ZW50IG9mIHRoaXMgZS1tYWlsIHRvIGFueSBvdGhlciBwZXJzb24uIFRoYW5rIHlvdSENCjwv
+cHJlPjwhLS19LS0+
 
-With the commit message clarified:
-
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-> ---
-> Hello,
->
-> given the simplicity of the individual changes I do this all in a single
-> patch. I you don't agree, please tell and I will happily split it.
->
-> It's based on Friday's next, feel free to drop changes that result in a
-> conflict when you come around to apply this. I'll care for the fallout
-> at a later time then. (Having said that, if you use b4 am -3 and git am
-> -3, there should be hardly any conflict.)
->
-> Note I didn't Cc: all the individual driver maintainers to not trigger
-> sending limits and spam filters.
->
-> Best regards
-> Uwe
->
->   drivers/video/fbdev/amifb.c                               | 4 ++--
->   drivers/video/fbdev/arcfb.c                               | 2 +-
->   drivers/video/fbdev/atmel_lcdfb.c                         | 2 +-
->   drivers/video/fbdev/au1100fb.c                            | 2 +-
->   drivers/video/fbdev/au1200fb.c                            | 2 +-
->   drivers/video/fbdev/broadsheetfb.c                        | 2 +-
->   drivers/video/fbdev/bw2.c                                 | 2 +-
->   drivers/video/fbdev/cg14.c                                | 2 +-
->   drivers/video/fbdev/cg3.c                                 | 2 +-
->   drivers/video/fbdev/cg6.c                                 | 2 +-
->   drivers/video/fbdev/clps711x-fb.c                         | 2 +-
->   drivers/video/fbdev/cobalt_lcdfb.c                        | 2 +-
->   drivers/video/fbdev/da8xx-fb.c                            | 2 +-
->   drivers/video/fbdev/ep93xx-fb.c                           | 2 +-
->   drivers/video/fbdev/ffb.c                                 | 2 +-
->   drivers/video/fbdev/fsl-diu-fb.c                          | 6 +++---
->   drivers/video/fbdev/gbefb.c                               | 6 +++---
->   drivers/video/fbdev/goldfishfb.c                          | 2 +-
->   drivers/video/fbdev/grvga.c                               | 2 +-
->   drivers/video/fbdev/hecubafb.c                            | 2 +-
->   drivers/video/fbdev/hgafb.c                               | 2 +-
->   drivers/video/fbdev/hitfb.c                               | 2 +-
->   drivers/video/fbdev/imxfb.c                               | 2 +-
->   drivers/video/fbdev/leo.c                                 | 2 +-
->   drivers/video/fbdev/mb862xx/mb862xxfbdrv.c                | 2 +-
->   drivers/video/fbdev/metronomefb.c                         | 2 +-
->   drivers/video/fbdev/ocfb.c                                | 2 +-
->   drivers/video/fbdev/offb.c                                | 4 ++--
->   drivers/video/fbdev/omap/omapfb_main.c                    | 2 +-
->   .../fbdev/omap2/omapfb/displays/connector-analog-tv.c     | 2 +-
->   drivers/video/fbdev/omap2/omapfb/displays/connector-dvi.c | 2 +-
->   .../video/fbdev/omap2/omapfb/displays/connector-hdmi.c    | 2 +-
->   .../video/fbdev/omap2/omapfb/displays/encoder-opa362.c    | 2 +-
->   .../video/fbdev/omap2/omapfb/displays/encoder-tfp410.c    | 2 +-
->   .../video/fbdev/omap2/omapfb/displays/encoder-tpd12s015.c | 2 +-
->   drivers/video/fbdev/omap2/omapfb/displays/panel-dpi.c     | 2 +-
->   drivers/video/fbdev/omap2/omapfb/displays/panel-dsi-cm.c  | 2 +-
->   .../fbdev/omap2/omapfb/displays/panel-sharp-ls037v7dw01.c | 2 +-
->   drivers/video/fbdev/omap2/omapfb/dss/core.c               | 6 +++---
->   drivers/video/fbdev/omap2/omapfb/dss/dispc.c              | 2 +-
->   drivers/video/fbdev/omap2/omapfb/dss/dpi.c                | 4 ++--
->   drivers/video/fbdev/omap2/omapfb/dss/dsi.c                | 2 +-
->   drivers/video/fbdev/omap2/omapfb/dss/dss.c                | 2 +-
->   drivers/video/fbdev/omap2/omapfb/dss/hdmi4.c              | 6 +++---
->   drivers/video/fbdev/omap2/omapfb/dss/hdmi5.c              | 2 +-
->   drivers/video/fbdev/omap2/omapfb/dss/sdi.c                | 6 +++---
->   drivers/video/fbdev/omap2/omapfb/dss/venc.c               | 6 +++---
->   drivers/video/fbdev/omap2/omapfb/omapfb-main.c            | 2 +-
->   drivers/video/fbdev/p9100.c                               | 2 +-
->   drivers/video/fbdev/platinumfb.c                          | 2 +-
->   drivers/video/fbdev/pxa168fb.c                            | 2 +-
->   drivers/video/fbdev/pxa3xx-gcu.c                          | 8 ++++----
->   drivers/video/fbdev/pxafb.c                               | 2 +-
->   drivers/video/fbdev/s1d13xxxfb.c                          | 2 +-
->   drivers/video/fbdev/s3c-fb.c                              | 2 +-
->   drivers/video/fbdev/sh7760fb.c                            | 2 +-
->   drivers/video/fbdev/sh_mobile_lcdcfb.c                    | 2 +-
->   drivers/video/fbdev/simplefb.c                            | 2 +-
->   drivers/video/fbdev/sm501fb.c                             | 2 +-
->   drivers/video/fbdev/tcx.c                                 | 2 +-
->   drivers/video/fbdev/uvesafb.c                             | 2 +-
->   drivers/video/fbdev/vesafb.c                              | 2 +-
->   drivers/video/fbdev/vfb.c                                 | 2 +-
->   drivers/video/fbdev/vga16fb.c                             | 2 +-
->   drivers/video/fbdev/via/via-gpio.c                        | 2 +-
->   drivers/video/fbdev/via/via_i2c.c                         | 2 +-
->   drivers/video/fbdev/vt8500lcdfb.c                         | 2 +-
->   drivers/video/fbdev/wm8505fb.c                            | 2 +-
->   drivers/video/fbdev/wmt_ge_rops.c                         | 2 +-
->   drivers/video/fbdev/xilinxfb.c                            | 2 +-
->   70 files changed, 88 insertions(+), 88 deletions(-)
->
-> diff --git a/drivers/video/fbdev/amifb.c b/drivers/video/fbdev/amifb.c
-> index 132638240521..1116a0789ca4 100644
-> --- a/drivers/video/fbdev/amifb.c
-> +++ b/drivers/video/fbdev/amifb.c
-> @@ -3774,8 +3774,8 @@ static void __exit amifb_remove(struct platform_device *pdev)
->    * triggers a section mismatch warning.
->    */
->   static struct platform_driver amifb_driver __refdata = {
-> -	.remove_new = __exit_p(amifb_remove),
-> -	.driver   = {
-> +	.remove = __exit_p(amifb_remove),
-> +	.driver = {
->   		.name	= "amiga-video",
->   	},
->   };
-> diff --git a/drivers/video/fbdev/arcfb.c b/drivers/video/fbdev/arcfb.c
-> index b2408543277c..b807cf07522d 100644
-> --- a/drivers/video/fbdev/arcfb.c
-> +++ b/drivers/video/fbdev/arcfb.c
-> @@ -548,7 +548,7 @@ static void arcfb_remove(struct platform_device *dev)
->   
->   static struct platform_driver arcfb_driver = {
->   	.probe	= arcfb_probe,
-> -	.remove_new = arcfb_remove,
-> +	.remove	= arcfb_remove,
->   	.driver	= {
->   		.name	= "arcfb",
->   	},
-> diff --git a/drivers/video/fbdev/atmel_lcdfb.c b/drivers/video/fbdev/atmel_lcdfb.c
-> index 4da233fb02a8..9dfbc5310210 100644
-> --- a/drivers/video/fbdev/atmel_lcdfb.c
-> +++ b/drivers/video/fbdev/atmel_lcdfb.c
-> @@ -1299,7 +1299,7 @@ static int atmel_lcdfb_resume(struct platform_device *pdev)
->   
->   static struct platform_driver atmel_lcdfb_driver = {
->   	.probe		= atmel_lcdfb_probe,
-> -	.remove_new	= atmel_lcdfb_remove,
-> +	.remove		= atmel_lcdfb_remove,
->   	.suspend	= atmel_lcdfb_suspend,
->   	.resume		= atmel_lcdfb_resume,
->   	.driver		= {
-> diff --git a/drivers/video/fbdev/au1100fb.c b/drivers/video/fbdev/au1100fb.c
-> index 08109ce535cd..840f22160763 100644
-> --- a/drivers/video/fbdev/au1100fb.c
-> +++ b/drivers/video/fbdev/au1100fb.c
-> @@ -588,7 +588,7 @@ static struct platform_driver au1100fb_driver = {
->   		.name		= "au1100-lcd",
->   	},
->   	.probe		= au1100fb_drv_probe,
-> -	.remove_new	= au1100fb_drv_remove,
-> +	.remove		= au1100fb_drv_remove,
->   	.suspend	= au1100fb_drv_suspend,
->   	.resume		= au1100fb_drv_resume,
->   };
-> diff --git a/drivers/video/fbdev/au1200fb.c b/drivers/video/fbdev/au1200fb.c
-> index e718fea63662..ed770222660b 100644
-> --- a/drivers/video/fbdev/au1200fb.c
-> +++ b/drivers/video/fbdev/au1200fb.c
-> @@ -1833,7 +1833,7 @@ static struct platform_driver au1200fb_driver = {
->   		.pm	= AU1200FB_PMOPS,
->   	},
->   	.probe		= au1200fb_drv_probe,
-> -	.remove_new	= au1200fb_drv_remove,
-> +	.remove		= au1200fb_drv_remove,
->   };
->   module_platform_driver(au1200fb_driver);
->   
-> diff --git a/drivers/video/fbdev/broadsheetfb.c b/drivers/video/fbdev/broadsheetfb.c
-> index e857b15e9f5d..c8ba098a8c42 100644
-> --- a/drivers/video/fbdev/broadsheetfb.c
-> +++ b/drivers/video/fbdev/broadsheetfb.c
-> @@ -1151,7 +1151,7 @@ static void broadsheetfb_remove(struct platform_device *dev)
->   
->   static struct platform_driver broadsheetfb_driver = {
->   	.probe	= broadsheetfb_probe,
-> -	.remove_new = broadsheetfb_remove,
-> +	.remove	= broadsheetfb_remove,
->   	.driver	= {
->   		.name	= "broadsheetfb",
->   	},
-> diff --git a/drivers/video/fbdev/bw2.c b/drivers/video/fbdev/bw2.c
-> index eaab51be74f8..4a64940e0c00 100644
-> --- a/drivers/video/fbdev/bw2.c
-> +++ b/drivers/video/fbdev/bw2.c
-> @@ -372,7 +372,7 @@ static struct platform_driver bw2_driver = {
->   		.of_match_table = bw2_match,
->   	},
->   	.probe		= bw2_probe,
-> -	.remove_new	= bw2_remove,
-> +	.remove		= bw2_remove,
->   };
->   
->   static int __init bw2_init(void)
-> diff --git a/drivers/video/fbdev/cg14.c b/drivers/video/fbdev/cg14.c
-> index c161b2af8933..430e1a7b352b 100644
-> --- a/drivers/video/fbdev/cg14.c
-> +++ b/drivers/video/fbdev/cg14.c
-> @@ -590,7 +590,7 @@ static struct platform_driver cg14_driver = {
->   		.of_match_table = cg14_match,
->   	},
->   	.probe		= cg14_probe,
-> -	.remove_new	= cg14_remove,
-> +	.remove		= cg14_remove,
->   };
->   
->   static int __init cg14_init(void)
-> diff --git a/drivers/video/fbdev/cg3.c b/drivers/video/fbdev/cg3.c
-> index 5e1f1b9a81b6..e4c53c6632ba 100644
-> --- a/drivers/video/fbdev/cg3.c
-> +++ b/drivers/video/fbdev/cg3.c
-> @@ -458,7 +458,7 @@ static struct platform_driver cg3_driver = {
->   		.of_match_table = cg3_match,
->   	},
->   	.probe		= cg3_probe,
-> -	.remove_new	= cg3_remove,
-> +	.remove		= cg3_remove,
->   };
->   
->   static int __init cg3_init(void)
-> diff --git a/drivers/video/fbdev/cg6.c b/drivers/video/fbdev/cg6.c
-> index 69d3ce50948d..0b60df51e7bc 100644
-> --- a/drivers/video/fbdev/cg6.c
-> +++ b/drivers/video/fbdev/cg6.c
-> @@ -858,7 +858,7 @@ static struct platform_driver cg6_driver = {
->   		.of_match_table = cg6_match,
->   	},
->   	.probe		= cg6_probe,
-> -	.remove_new	= cg6_remove,
-> +	.remove		= cg6_remove,
->   };
->   
->   static int __init cg6_init(void)
-> diff --git a/drivers/video/fbdev/clps711x-fb.c b/drivers/video/fbdev/clps711x-fb.c
-> index 9e3df1df5ac4..5e61a349a4ab 100644
-> --- a/drivers/video/fbdev/clps711x-fb.c
-> +++ b/drivers/video/fbdev/clps711x-fb.c
-> @@ -368,7 +368,7 @@ static struct platform_driver clps711x_fb_driver = {
->   		.of_match_table	= clps711x_fb_dt_ids,
->   	},
->   	.probe	= clps711x_fb_probe,
-> -	.remove_new = clps711x_fb_remove,
-> +	.remove	= clps711x_fb_remove,
->   };
->   module_platform_driver(clps711x_fb_driver);
->   
-> diff --git a/drivers/video/fbdev/cobalt_lcdfb.c b/drivers/video/fbdev/cobalt_lcdfb.c
-> index c2b8f894799c..308967b5096a 100644
-> --- a/drivers/video/fbdev/cobalt_lcdfb.c
-> +++ b/drivers/video/fbdev/cobalt_lcdfb.c
-> @@ -344,7 +344,7 @@ static void cobalt_lcdfb_remove(struct platform_device *dev)
->   
->   static struct platform_driver cobalt_lcdfb_driver = {
->   	.probe	= cobalt_lcdfb_probe,
-> -	.remove_new = cobalt_lcdfb_remove,
-> +	.remove	= cobalt_lcdfb_remove,
->   	.driver	= {
->   		.name	= "cobalt-lcd",
->   	},
-> diff --git a/drivers/video/fbdev/da8xx-fb.c b/drivers/video/fbdev/da8xx-fb.c
-> index 4ca70a1bdd3b..fad1e13c6332 100644
-> --- a/drivers/video/fbdev/da8xx-fb.c
-> +++ b/drivers/video/fbdev/da8xx-fb.c
-> @@ -1652,7 +1652,7 @@ static SIMPLE_DEV_PM_OPS(fb_pm_ops, fb_suspend, fb_resume);
->   
->   static struct platform_driver da8xx_fb_driver = {
->   	.probe = fb_probe,
-> -	.remove_new = fb_remove,
-> +	.remove = fb_remove,
->   	.driver = {
->   		   .name = DRIVER_NAME,
->   		   .pm	= &fb_pm_ops,
-> diff --git a/drivers/video/fbdev/ep93xx-fb.c b/drivers/video/fbdev/ep93xx-fb.c
-> index 3e378874ccc7..801ef427f1ba 100644
-> --- a/drivers/video/fbdev/ep93xx-fb.c
-> +++ b/drivers/video/fbdev/ep93xx-fb.c
-> @@ -592,7 +592,7 @@ static void ep93xxfb_remove(struct platform_device *pdev)
->   
->   static struct platform_driver ep93xxfb_driver = {
->   	.probe		= ep93xxfb_probe,
-> -	.remove_new	= ep93xxfb_remove,
-> +	.remove		= ep93xxfb_remove,
->   	.driver = {
->   		.name	= "ep93xx-fb",
->   	},
-> diff --git a/drivers/video/fbdev/ffb.c b/drivers/video/fbdev/ffb.c
-> index 2a0f5337e091..0b7e7b38c05a 100644
-> --- a/drivers/video/fbdev/ffb.c
-> +++ b/drivers/video/fbdev/ffb.c
-> @@ -1053,7 +1053,7 @@ static struct platform_driver ffb_driver = {
->   		.of_match_table = ffb_match,
->   	},
->   	.probe		= ffb_probe,
-> -	.remove_new	= ffb_remove,
-> +	.remove		= ffb_remove,
->   };
->   
->   static int __init ffb_init(void)
-> diff --git a/drivers/video/fbdev/fsl-diu-fb.c b/drivers/video/fbdev/fsl-diu-fb.c
-> index ea37a60da10c..5ac8201c3533 100644
-> --- a/drivers/video/fbdev/fsl-diu-fb.c
-> +++ b/drivers/video/fbdev/fsl-diu-fb.c
-> @@ -1876,12 +1876,12 @@ static const struct of_device_id fsl_diu_match[] = {
->   MODULE_DEVICE_TABLE(of, fsl_diu_match);
->   
->   static struct platform_driver fsl_diu_driver = {
-> -	.driver = {
-> +	.driver		= {
->   		.name = "fsl-diu-fb",
->   		.of_match_table = fsl_diu_match,
->   	},
-> -	.probe  	= fsl_diu_probe,
-> -	.remove_new 	= fsl_diu_remove,
-> +	.probe		= fsl_diu_probe,
-> +	.remove		= fsl_diu_remove,
->   	.suspend	= fsl_diu_suspend,
->   	.resume		= fsl_diu_resume,
->   };
-> diff --git a/drivers/video/fbdev/gbefb.c b/drivers/video/fbdev/gbefb.c
-> index 8463de833d1e..4c36a3e409be 100644
-> --- a/drivers/video/fbdev/gbefb.c
-> +++ b/drivers/video/fbdev/gbefb.c
-> @@ -1247,10 +1247,10 @@ static void gbefb_remove(struct platform_device* p_dev)
->   
->   static struct platform_driver gbefb_driver = {
->   	.probe = gbefb_probe,
-> -	.remove_new = gbefb_remove,
-> -	.driver	= {
-> +	.remove = gbefb_remove,
-> +	.driver = {
->   		.name = "gbefb",
-> -		.dev_groups	= gbefb_groups,
-> +		.dev_groups = gbefb_groups,
->   	},
->   };
->   
-> diff --git a/drivers/video/fbdev/goldfishfb.c b/drivers/video/fbdev/goldfishfb.c
-> index 5f8de1ec23c3..7704f2ab18c0 100644
-> --- a/drivers/video/fbdev/goldfishfb.c
-> +++ b/drivers/video/fbdev/goldfishfb.c
-> @@ -311,7 +311,7 @@ MODULE_DEVICE_TABLE(acpi, goldfish_fb_acpi_match);
->   
->   static struct platform_driver goldfish_fb_driver = {
->   	.probe		= goldfish_fb_probe,
-> -	.remove_new	= goldfish_fb_remove,
-> +	.remove		= goldfish_fb_remove,
->   	.driver = {
->   		.name = "goldfish_fb",
->   		.of_match_table = goldfish_fb_of_match,
-> diff --git a/drivers/video/fbdev/grvga.c b/drivers/video/fbdev/grvga.c
-> index 6d917e06e5f3..de8ab817d406 100644
-> --- a/drivers/video/fbdev/grvga.c
-> +++ b/drivers/video/fbdev/grvga.c
-> @@ -540,7 +540,7 @@ static struct platform_driver grvga_driver = {
->   		.of_match_table = svgactrl_of_match,
->   	},
->   	.probe		= grvga_probe,
-> -	.remove_new	= grvga_remove,
-> +	.remove		= grvga_remove,
->   };
->   
->   module_platform_driver(grvga_driver);
-> diff --git a/drivers/video/fbdev/hecubafb.c b/drivers/video/fbdev/hecubafb.c
-> index ef526ed4a2d9..3547d58a29cf 100644
-> --- a/drivers/video/fbdev/hecubafb.c
-> +++ b/drivers/video/fbdev/hecubafb.c
-> @@ -235,7 +235,7 @@ static void hecubafb_remove(struct platform_device *dev)
->   
->   static struct platform_driver hecubafb_driver = {
->   	.probe	= hecubafb_probe,
-> -	.remove_new = hecubafb_remove,
-> +	.remove	= hecubafb_remove,
->   	.driver	= {
->   		.name	= "hecubafb",
->   	},
-> diff --git a/drivers/video/fbdev/hgafb.c b/drivers/video/fbdev/hgafb.c
-> index c3bc5b78b749..14418aa3791a 100644
-> --- a/drivers/video/fbdev/hgafb.c
-> +++ b/drivers/video/fbdev/hgafb.c
-> @@ -629,7 +629,7 @@ static void hgafb_remove(struct platform_device *pdev)
->   
->   static struct platform_driver hgafb_driver = {
->   	.probe = hgafb_probe,
-> -	.remove_new = hgafb_remove,
-> +	.remove = hgafb_remove,
->   	.driver = {
->   		.name = "hgafb",
->   	},
-> diff --git a/drivers/video/fbdev/hitfb.c b/drivers/video/fbdev/hitfb.c
-> index b64b74b76c71..97db325df2b4 100644
-> --- a/drivers/video/fbdev/hitfb.c
-> +++ b/drivers/video/fbdev/hitfb.c
-> @@ -476,7 +476,7 @@ static const struct dev_pm_ops hitfb_dev_pm_ops = {
->   
->   static struct platform_driver hitfb_driver = {
->   	.probe		= hitfb_probe,
-> -	.remove_new	= hitfb_remove,
-> +	.remove		= hitfb_remove,
->   	.driver		= {
->   		.name	= "hitfb",
->   		.pm	= &hitfb_dev_pm_ops,
-> diff --git a/drivers/video/fbdev/imxfb.c b/drivers/video/fbdev/imxfb.c
-> index 97466e0c5877..f30da32cdaed 100644
-> --- a/drivers/video/fbdev/imxfb.c
-> +++ b/drivers/video/fbdev/imxfb.c
-> @@ -1095,7 +1095,7 @@ static struct platform_driver imxfb_driver = {
->   		.pm	= pm_sleep_ptr(&imxfb_pm_ops),
->   	},
->   	.probe		= imxfb_probe,
-> -	.remove_new	= imxfb_remove,
-> +	.remove		= imxfb_remove,
->   	.id_table	= imxfb_devtype,
->   };
->   module_platform_driver(imxfb_driver);
-> diff --git a/drivers/video/fbdev/leo.c b/drivers/video/fbdev/leo.c
-> index 7cf525c76079..271e2e8c6a84 100644
-> --- a/drivers/video/fbdev/leo.c
-> +++ b/drivers/video/fbdev/leo.c
-> @@ -657,7 +657,7 @@ static struct platform_driver leo_driver = {
->   		.of_match_table = leo_match,
->   	},
->   	.probe		= leo_probe,
-> -	.remove_new	= leo_remove,
-> +	.remove		= leo_remove,
->   };
->   
->   static int __init leo_init(void)
-> diff --git a/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c b/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
-> index baec312d7b33..ade88e7bc760 100644
-> --- a/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
-> +++ b/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
-> @@ -834,7 +834,7 @@ static struct platform_driver of_platform_mb862xxfb_driver = {
->   		.of_match_table = of_platform_mb862xx_tbl,
->   	},
->   	.probe		= of_platform_mb862xx_probe,
-> -	.remove_new	= of_platform_mb862xx_remove,
-> +	.remove		= of_platform_mb862xx_remove,
->   };
->   #endif
->   
-> diff --git a/drivers/video/fbdev/metronomefb.c b/drivers/video/fbdev/metronomefb.c
-> index c15353a356b6..6f0942c6e5f1 100644
-> --- a/drivers/video/fbdev/metronomefb.c
-> +++ b/drivers/video/fbdev/metronomefb.c
-> @@ -707,7 +707,7 @@ static void metronomefb_remove(struct platform_device *dev)
->   
->   static struct platform_driver metronomefb_driver = {
->   	.probe	= metronomefb_probe,
-> -	.remove_new = metronomefb_remove,
-> +	.remove	= metronomefb_remove,
->   	.driver	= {
->   		.name	= "metronomefb",
->   	},
-> diff --git a/drivers/video/fbdev/ocfb.c b/drivers/video/fbdev/ocfb.c
-> index 7dc305c67af8..893888260c21 100644
-> --- a/drivers/video/fbdev/ocfb.c
-> +++ b/drivers/video/fbdev/ocfb.c
-> @@ -391,7 +391,7 @@ MODULE_DEVICE_TABLE(of, ocfb_match);
->   
->   static struct platform_driver ocfb_driver = {
->   	.probe  = ocfb_probe,
-> -	.remove_new = ocfb_remove,
-> +	.remove = ocfb_remove,
->   	.driver = {
->   		.name = "ocfb_fb",
->   		.of_match_table = ocfb_match,
-> diff --git a/drivers/video/fbdev/offb.c b/drivers/video/fbdev/offb.c
-> index e8ff33894603..f85428e13996 100644
-> --- a/drivers/video/fbdev/offb.c
-> +++ b/drivers/video/fbdev/offb.c
-> @@ -673,7 +673,7 @@ static struct platform_driver offb_driver_bootx_noscreen = {
->   		.name = "bootx-noscreen",
->   	},
->   	.probe = offb_probe_bootx_noscreen,
-> -	.remove_new = offb_remove,
-> +	.remove = offb_remove,
->   };
->   
->   static int offb_probe_display(struct platform_device *pdev)
-> @@ -695,7 +695,7 @@ static struct platform_driver offb_driver_display = {
->   		.of_match_table = offb_of_match_display,
->   	},
->   	.probe = offb_probe_display,
-> -	.remove_new = offb_remove,
-> +	.remove = offb_remove,
->   };
->   
->   static int __init offb_init(void)
-> diff --git a/drivers/video/fbdev/omap/omapfb_main.c b/drivers/video/fbdev/omap/omapfb_main.c
-> index e12c6019a4d6..2682b20d184a 100644
-> --- a/drivers/video/fbdev/omap/omapfb_main.c
-> +++ b/drivers/video/fbdev/omap/omapfb_main.c
-> @@ -1825,7 +1825,7 @@ static int omapfb_resume(struct platform_device *pdev)
->   
->   static struct platform_driver omapfb_driver = {
->   	.probe		= omapfb_probe,
-> -	.remove_new	= omapfb_remove,
-> +	.remove		= omapfb_remove,
->   	.suspend	= omapfb_suspend,
->   	.resume		= omapfb_resume,
->   	.driver		= {
-> diff --git a/drivers/video/fbdev/omap2/omapfb/displays/connector-analog-tv.c b/drivers/video/fbdev/omap2/omapfb/displays/connector-analog-tv.c
-> index c6786726a1af..cef1603b7530 100644
-> --- a/drivers/video/fbdev/omap2/omapfb/displays/connector-analog-tv.c
-> +++ b/drivers/video/fbdev/omap2/omapfb/displays/connector-analog-tv.c
-> @@ -245,7 +245,7 @@ MODULE_DEVICE_TABLE(of, tvc_of_match);
->   
->   static struct platform_driver tvc_connector_driver = {
->   	.probe	= tvc_probe,
-> -	.remove_new = tvc_remove,
-> +	.remove	= tvc_remove,
->   	.driver	= {
->   		.name	= "connector-analog-tv",
->   		.of_match_table = tvc_of_match,
-> diff --git a/drivers/video/fbdev/omap2/omapfb/displays/connector-dvi.c b/drivers/video/fbdev/omap2/omapfb/displays/connector-dvi.c
-> index 0cc9294f89b4..3f129ce9ff01 100644
-> --- a/drivers/video/fbdev/omap2/omapfb/displays/connector-dvi.c
-> +++ b/drivers/video/fbdev/omap2/omapfb/displays/connector-dvi.c
-> @@ -328,7 +328,7 @@ MODULE_DEVICE_TABLE(of, dvic_of_match);
->   
->   static struct platform_driver dvi_connector_driver = {
->   	.probe	= dvic_probe,
-> -	.remove_new = dvic_remove,
-> +	.remove	= dvic_remove,
->   	.driver	= {
->   		.name	= "connector-dvi",
->   		.of_match_table = dvic_of_match,
-> diff --git a/drivers/video/fbdev/omap2/omapfb/displays/connector-hdmi.c b/drivers/video/fbdev/omap2/omapfb/displays/connector-hdmi.c
-> index b862a32670ae..e3df731172e8 100644
-> --- a/drivers/video/fbdev/omap2/omapfb/displays/connector-hdmi.c
-> +++ b/drivers/video/fbdev/omap2/omapfb/displays/connector-hdmi.c
-> @@ -272,7 +272,7 @@ MODULE_DEVICE_TABLE(of, hdmic_of_match);
->   
->   static struct platform_driver hdmi_connector_driver = {
->   	.probe	= hdmic_probe,
-> -	.remove_new = hdmic_remove,
-> +	.remove	= hdmic_remove,
->   	.driver	= {
->   		.name	= "connector-hdmi",
->   		.of_match_table = hdmic_of_match,
-> diff --git a/drivers/video/fbdev/omap2/omapfb/displays/encoder-opa362.c b/drivers/video/fbdev/omap2/omapfb/displays/encoder-opa362.c
-> index f0d3eb581166..f4e7ed943b8a 100644
-> --- a/drivers/video/fbdev/omap2/omapfb/displays/encoder-opa362.c
-> +++ b/drivers/video/fbdev/omap2/omapfb/displays/encoder-opa362.c
-> @@ -258,7 +258,7 @@ MODULE_DEVICE_TABLE(of, opa362_of_match);
->   
->   static struct platform_driver opa362_driver = {
->   	.probe	= opa362_probe,
-> -	.remove_new = opa362_remove,
-> +	.remove	= opa362_remove,
->   	.driver	= {
->   		.name	= "amplifier-opa362",
->   		.of_match_table = opa362_of_match,
-> diff --git a/drivers/video/fbdev/omap2/omapfb/displays/encoder-tfp410.c b/drivers/video/fbdev/omap2/omapfb/displays/encoder-tfp410.c
-> index c8aca4592949..458e65771cbb 100644
-> --- a/drivers/video/fbdev/omap2/omapfb/displays/encoder-tfp410.c
-> +++ b/drivers/video/fbdev/omap2/omapfb/displays/encoder-tfp410.c
-> @@ -245,7 +245,7 @@ MODULE_DEVICE_TABLE(of, tfp410_of_match);
->   
->   static struct platform_driver tfp410_driver = {
->   	.probe	= tfp410_probe,
-> -	.remove_new = tfp410_remove,
-> +	.remove	= tfp410_remove,
->   	.driver	= {
->   		.name	= "tfp410",
->   		.of_match_table = tfp410_of_match,
-> diff --git a/drivers/video/fbdev/omap2/omapfb/displays/encoder-tpd12s015.c b/drivers/video/fbdev/omap2/omapfb/displays/encoder-tpd12s015.c
-> index eb3926d0361b..8cf0cb922f3c 100644
-> --- a/drivers/video/fbdev/omap2/omapfb/displays/encoder-tpd12s015.c
-> +++ b/drivers/video/fbdev/omap2/omapfb/displays/encoder-tpd12s015.c
-> @@ -311,7 +311,7 @@ MODULE_DEVICE_TABLE(of, tpd_of_match);
->   
->   static struct platform_driver tpd_driver = {
->   	.probe	= tpd_probe,
-> -	.remove_new = tpd_remove,
-> +	.remove	= tpd_remove,
->   	.driver	= {
->   		.name	= "tpd12s015",
->   		.of_match_table = tpd_of_match,
-> diff --git a/drivers/video/fbdev/omap2/omapfb/displays/panel-dpi.c b/drivers/video/fbdev/omap2/omapfb/displays/panel-dpi.c
-> index 937f9091274f..22f4262b2432 100644
-> --- a/drivers/video/fbdev/omap2/omapfb/displays/panel-dpi.c
-> +++ b/drivers/video/fbdev/omap2/omapfb/displays/panel-dpi.c
-> @@ -234,7 +234,7 @@ MODULE_DEVICE_TABLE(of, panel_dpi_of_match);
->   
->   static struct platform_driver panel_dpi_driver = {
->   	.probe = panel_dpi_probe,
-> -	.remove_new = panel_dpi_remove,
-> +	.remove = panel_dpi_remove,
->   	.driver = {
->   		.name = "panel-dpi",
->   		.of_match_table = panel_dpi_of_match,
-> diff --git a/drivers/video/fbdev/omap2/omapfb/displays/panel-dsi-cm.c b/drivers/video/fbdev/omap2/omapfb/displays/panel-dsi-cm.c
-> index 35ed1b2db993..1d75f27c6b80 100644
-> --- a/drivers/video/fbdev/omap2/omapfb/displays/panel-dsi-cm.c
-> +++ b/drivers/video/fbdev/omap2/omapfb/displays/panel-dsi-cm.c
-> @@ -1275,7 +1275,7 @@ MODULE_DEVICE_TABLE(of, dsicm_of_match);
->   
->   static struct platform_driver dsicm_driver = {
->   	.probe = dsicm_probe,
-> -	.remove_new = dsicm_remove,
-> +	.remove = dsicm_remove,
->   	.driver = {
->   		.name = "panel-dsi-cm",
->   		.of_match_table = dsicm_of_match,
-> diff --git a/drivers/video/fbdev/omap2/omapfb/displays/panel-sharp-ls037v7dw01.c b/drivers/video/fbdev/omap2/omapfb/displays/panel-sharp-ls037v7dw01.c
-> index e37268cf8dca..888d94ea8e7d 100644
-> --- a/drivers/video/fbdev/omap2/omapfb/displays/panel-sharp-ls037v7dw01.c
-> +++ b/drivers/video/fbdev/omap2/omapfb/displays/panel-sharp-ls037v7dw01.c
-> @@ -315,7 +315,7 @@ MODULE_DEVICE_TABLE(of, sharp_ls_of_match);
->   
->   static struct platform_driver sharp_ls_driver = {
->   	.probe = sharp_ls_probe,
-> -	.remove_new = sharp_ls_remove,
-> +	.remove = sharp_ls_remove,
->   	.driver = {
->   		.name = "panel-sharp-ls037v7dw01",
->   		.of_match_table = sharp_ls_of_match,
-> diff --git a/drivers/video/fbdev/omap2/omapfb/dss/core.c b/drivers/video/fbdev/omap2/omapfb/dss/core.c
-> index 5fbd8885bad8..55b640f2f245 100644
-> --- a/drivers/video/fbdev/omap2/omapfb/dss/core.c
-> +++ b/drivers/video/fbdev/omap2/omapfb/dss/core.c
-> @@ -185,10 +185,10 @@ static void omap_dss_shutdown(struct platform_device *pdev)
->   }
->   
->   static struct platform_driver omap_dss_driver = {
-> -	.remove_new     = omap_dss_remove,
-> +	.remove		= omap_dss_remove,
->   	.shutdown	= omap_dss_shutdown,
-> -	.driver         = {
-> -		.name   = "omapdss",
-> +	.driver		= {
-> +		.name	= "omapdss",
->   	},
->   };
->   
-> diff --git a/drivers/video/fbdev/omap2/omapfb/dss/dispc.c b/drivers/video/fbdev/omap2/omapfb/dss/dispc.c
-> index 21fef9db90d2..5832485ab998 100644
-> --- a/drivers/video/fbdev/omap2/omapfb/dss/dispc.c
-> +++ b/drivers/video/fbdev/omap2/omapfb/dss/dispc.c
-> @@ -4072,7 +4072,7 @@ static const struct of_device_id dispc_of_match[] = {
->   
->   static struct platform_driver omap_dispchw_driver = {
->   	.probe		= dispc_probe,
-> -	.remove_new     = dispc_remove,
-> +	.remove         = dispc_remove,
->   	.driver         = {
->   		.name   = "omapdss_dispc",
->   		.pm	= &dispc_pm_ops,
-> diff --git a/drivers/video/fbdev/omap2/omapfb/dss/dpi.c b/drivers/video/fbdev/omap2/omapfb/dss/dpi.c
-> index 7c1b7d89389a..c40b87ffe8fc 100644
-> --- a/drivers/video/fbdev/omap2/omapfb/dss/dpi.c
-> +++ b/drivers/video/fbdev/omap2/omapfb/dss/dpi.c
-> @@ -817,8 +817,8 @@ static void dpi_remove(struct platform_device *pdev)
->   
->   static struct platform_driver omap_dpi_driver = {
->   	.probe		= dpi_probe,
-> -	.remove_new	= dpi_remove,
-> -	.driver         = {
-> +	.remove		= dpi_remove,
-> +	.driver		= {
->   		.name   = "omapdss_dpi",
->   		.suppress_bind_attrs = true,
->   	},
-> diff --git a/drivers/video/fbdev/omap2/omapfb/dss/dsi.c b/drivers/video/fbdev/omap2/omapfb/dss/dsi.c
-> index 1f13bcf73da5..1f3434c040c1 100644
-> --- a/drivers/video/fbdev/omap2/omapfb/dss/dsi.c
-> +++ b/drivers/video/fbdev/omap2/omapfb/dss/dsi.c
-> @@ -5565,7 +5565,7 @@ static const struct of_device_id dsi_of_match[] = {
->   
->   static struct platform_driver omap_dsihw_driver = {
->   	.probe		= dsi_probe,
-> -	.remove_new	= dsi_remove,
-> +	.remove		= dsi_remove,
->   	.driver         = {
->   		.name   = "omapdss_dsi",
->   		.pm	= &dsi_pm_ops,
-> diff --git a/drivers/video/fbdev/omap2/omapfb/dss/dss.c b/drivers/video/fbdev/omap2/omapfb/dss/dss.c
-> index d814e4baa4b3..f06debee02c5 100644
-> --- a/drivers/video/fbdev/omap2/omapfb/dss/dss.c
-> +++ b/drivers/video/fbdev/omap2/omapfb/dss/dss.c
-> @@ -1278,7 +1278,7 @@ MODULE_DEVICE_TABLE(of, dss_of_match);
->   
->   static struct platform_driver omap_dsshw_driver = {
->   	.probe		= dss_probe,
-> -	.remove_new	= dss_remove,
-> +	.remove		= dss_remove,
->   	.driver         = {
->   		.name   = "omapdss_dss",
->   		.pm	= &dss_pm_ops,
-> diff --git a/drivers/video/fbdev/omap2/omapfb/dss/hdmi4.c b/drivers/video/fbdev/omap2/omapfb/dss/hdmi4.c
-> index 8f407ec134dc..428001fd4ac9 100644
-> --- a/drivers/video/fbdev/omap2/omapfb/dss/hdmi4.c
-> +++ b/drivers/video/fbdev/omap2/omapfb/dss/hdmi4.c
-> @@ -792,9 +792,9 @@ static const struct of_device_id hdmi_of_match[] = {
->   
->   static struct platform_driver omapdss_hdmihw_driver = {
->   	.probe		= hdmi4_probe,
-> -	.remove_new	= hdmi4_remove,
-> -	.driver         = {
-> -		.name   = "omapdss_hdmi",
-> +	.remove		= hdmi4_remove,
-> +	.driver		= {
-> +		.name	= "omapdss_hdmi",
->   		.pm	= &hdmi_pm_ops,
->   		.of_match_table = hdmi_of_match,
->   		.suppress_bind_attrs = true,
-> diff --git a/drivers/video/fbdev/omap2/omapfb/dss/hdmi5.c b/drivers/video/fbdev/omap2/omapfb/dss/hdmi5.c
-> index 4ad219f522b9..aa052805050e 100644
-> --- a/drivers/video/fbdev/omap2/omapfb/dss/hdmi5.c
-> +++ b/drivers/video/fbdev/omap2/omapfb/dss/hdmi5.c
-> @@ -834,7 +834,7 @@ static const struct of_device_id hdmi_of_match[] = {
->   
->   static struct platform_driver omapdss_hdmihw_driver = {
->   	.probe		= hdmi5_probe,
-> -	.remove_new	= hdmi5_remove,
-> +	.remove		= hdmi5_remove,
->   	.driver         = {
->   		.name   = "omapdss_hdmi5",
->   		.pm	= &hdmi_pm_ops,
-> diff --git a/drivers/video/fbdev/omap2/omapfb/dss/sdi.c b/drivers/video/fbdev/omap2/omapfb/dss/sdi.c
-> index d527931b2b16..2a45f019ef45 100644
-> --- a/drivers/video/fbdev/omap2/omapfb/dss/sdi.c
-> +++ b/drivers/video/fbdev/omap2/omapfb/dss/sdi.c
-> @@ -382,9 +382,9 @@ static void sdi_remove(struct platform_device *pdev)
->   
->   static struct platform_driver omap_sdi_driver = {
->   	.probe		= sdi_probe,
-> -	.remove_new     = sdi_remove,
-> -	.driver         = {
-> -		.name   = "omapdss_sdi",
-> +	.remove		= sdi_remove,
-> +	.driver		= {
-> +		.name	= "omapdss_sdi",
->   		.suppress_bind_attrs = true,
->   	},
->   };
-> diff --git a/drivers/video/fbdev/omap2/omapfb/dss/venc.c b/drivers/video/fbdev/omap2/omapfb/dss/venc.c
-> index d13ad00d353b..f99dda9e55a5 100644
-> --- a/drivers/video/fbdev/omap2/omapfb/dss/venc.c
-> +++ b/drivers/video/fbdev/omap2/omapfb/dss/venc.c
-> @@ -920,9 +920,9 @@ static const struct of_device_id venc_of_match[] = {
->   
->   static struct platform_driver omap_venchw_driver = {
->   	.probe		= venc_probe,
-> -	.remove_new	= venc_remove,
-> -	.driver         = {
-> -		.name   = "omapdss_venc",
-> +	.remove		= venc_remove,
-> +	.driver		= {
-> +		.name	= "omapdss_venc",
->   		.pm	= &venc_pm_ops,
->   		.of_match_table = venc_of_match,
->   		.suppress_bind_attrs = true,
-> diff --git a/drivers/video/fbdev/omap2/omapfb/omapfb-main.c b/drivers/video/fbdev/omap2/omapfb/omapfb-main.c
-> index 0db9c55fce5a..211f23648686 100644
-> --- a/drivers/video/fbdev/omap2/omapfb/omapfb-main.c
-> +++ b/drivers/video/fbdev/omap2/omapfb/omapfb-main.c
-> @@ -2614,7 +2614,7 @@ static void omapfb_remove(struct platform_device *pdev)
->   
->   static struct platform_driver omapfb_driver = {
->   	.probe		= omapfb_probe,
-> -	.remove_new     = omapfb_remove,
-> +	.remove         = omapfb_remove,
->   	.driver         = {
->   		.name   = "omapfb",
->   	},
-> diff --git a/drivers/video/fbdev/p9100.c b/drivers/video/fbdev/p9100.c
-> index e1356f8a866e..124468f0e9ef 100644
-> --- a/drivers/video/fbdev/p9100.c
-> +++ b/drivers/video/fbdev/p9100.c
-> @@ -347,7 +347,7 @@ static struct platform_driver p9100_driver = {
->   		.of_match_table = p9100_match,
->   	},
->   	.probe		= p9100_probe,
-> -	.remove_new	= p9100_remove,
-> +	.remove		= p9100_remove,
->   };
->   
->   static int __init p9100_init(void)
-> diff --git a/drivers/video/fbdev/platinumfb.c b/drivers/video/fbdev/platinumfb.c
-> index cb6fcc64c8e2..a08d955d9b43 100644
-> --- a/drivers/video/fbdev/platinumfb.c
-> +++ b/drivers/video/fbdev/platinumfb.c
-> @@ -668,7 +668,7 @@ static struct platform_driver platinum_driver =
->   		.of_match_table = platinumfb_match,
->   	},
->   	.probe		= platinumfb_probe,
-> -	.remove_new	= platinumfb_remove,
-> +	.remove		= platinumfb_remove,
->   };
->   
->   static int __init platinumfb_init(void)
-> diff --git a/drivers/video/fbdev/pxa168fb.c b/drivers/video/fbdev/pxa168fb.c
-> index adee34386580..ec602f7776eb 100644
-> --- a/drivers/video/fbdev/pxa168fb.c
-> +++ b/drivers/video/fbdev/pxa168fb.c
-> @@ -799,7 +799,7 @@ static struct platform_driver pxa168fb_driver = {
->   		.name	= "pxa168-fb",
->   	},
->   	.probe		= pxa168fb_probe,
-> -	.remove_new	= pxa168fb_remove,
-> +	.remove		= pxa168fb_remove,
->   };
->   
->   module_platform_driver(pxa168fb_driver);
-> diff --git a/drivers/video/fbdev/pxa3xx-gcu.c b/drivers/video/fbdev/pxa3xx-gcu.c
-> index 489088b4e467..4a78b387b343 100644
-> --- a/drivers/video/fbdev/pxa3xx-gcu.c
-> +++ b/drivers/video/fbdev/pxa3xx-gcu.c
-> @@ -696,10 +696,10 @@ MODULE_DEVICE_TABLE(of, pxa3xx_gcu_of_match);
->   #endif
->   
->   static struct platform_driver pxa3xx_gcu_driver = {
-> -	.probe	  = pxa3xx_gcu_probe,
-> -	.remove_new	 = pxa3xx_gcu_remove,
-> -	.driver	 = {
-> -		.name   = DRV_NAME,
-> +	.probe = pxa3xx_gcu_probe,
-> +	.remove = pxa3xx_gcu_remove,
-> +	.driver = {
-> +		.name = DRV_NAME,
->   		.of_match_table = of_match_ptr(pxa3xx_gcu_of_match),
->   	},
->   };
-> diff --git a/drivers/video/fbdev/pxafb.c b/drivers/video/fbdev/pxafb.c
-> index 5ce02495cda6..4aa84853e31a 100644
-> --- a/drivers/video/fbdev/pxafb.c
-> +++ b/drivers/video/fbdev/pxafb.c
-> @@ -2427,7 +2427,7 @@ MODULE_DEVICE_TABLE(of, pxafb_of_dev_id);
->   
->   static struct platform_driver pxafb_driver = {
->   	.probe		= pxafb_probe,
-> -	.remove_new 	= pxafb_remove,
-> +	.remove		= pxafb_remove,
->   	.driver		= {
->   		.name	= "pxa2xx-fb",
->   		.of_match_table = pxafb_of_dev_id,
-> diff --git a/drivers/video/fbdev/s1d13xxxfb.c b/drivers/video/fbdev/s1d13xxxfb.c
-> index 0e871197c6de..e80c806ef520 100644
-> --- a/drivers/video/fbdev/s1d13xxxfb.c
-> +++ b/drivers/video/fbdev/s1d13xxxfb.c
-> @@ -1001,7 +1001,7 @@ static int s1d13xxxfb_resume(struct platform_device *dev)
->   
->   static struct platform_driver s1d13xxxfb_driver = {
->   	.probe		= s1d13xxxfb_probe,
-> -	.remove_new	= s1d13xxxfb_remove,
-> +	.remove		= s1d13xxxfb_remove,
->   #ifdef CONFIG_PM
->   	.suspend	= s1d13xxxfb_suspend,
->   	.resume		= s1d13xxxfb_resume,
-> diff --git a/drivers/video/fbdev/s3c-fb.c b/drivers/video/fbdev/s3c-fb.c
-> index 2b85aad6a304..2f4d707e2e09 100644
-> --- a/drivers/video/fbdev/s3c-fb.c
-> +++ b/drivers/video/fbdev/s3c-fb.c
-> @@ -1789,7 +1789,7 @@ static const struct dev_pm_ops s3cfb_pm_ops = {
->   
->   static struct platform_driver s3c_fb_driver = {
->   	.probe		= s3c_fb_probe,
-> -	.remove_new	= s3c_fb_remove,
-> +	.remove		= s3c_fb_remove,
->   	.id_table	= s3c_fb_driver_ids,
->   	.driver		= {
->   		.name	= "s3c-fb",
-> diff --git a/drivers/video/fbdev/sh7760fb.c b/drivers/video/fbdev/sh7760fb.c
-> index 08a4943dc541..3d2a27fefc87 100644
-> --- a/drivers/video/fbdev/sh7760fb.c
-> +++ b/drivers/video/fbdev/sh7760fb.c
-> @@ -575,7 +575,7 @@ static struct platform_driver sh7760_lcdc_driver = {
->   		   .name = "sh7760-lcdc",
->   		   },
->   	.probe = sh7760fb_probe,
-> -	.remove_new = sh7760fb_remove,
-> +	.remove = sh7760fb_remove,
->   };
->   
->   module_platform_driver(sh7760_lcdc_driver);
-> diff --git a/drivers/video/fbdev/sh_mobile_lcdcfb.c b/drivers/video/fbdev/sh_mobile_lcdcfb.c
-> index fcc1446ae746..935cd8413ed5 100644
-> --- a/drivers/video/fbdev/sh_mobile_lcdcfb.c
-> +++ b/drivers/video/fbdev/sh_mobile_lcdcfb.c
-> @@ -2648,7 +2648,7 @@ static struct platform_driver sh_mobile_lcdc_driver = {
->   		.pm		= &sh_mobile_lcdc_dev_pm_ops,
->   	},
->   	.probe		= sh_mobile_lcdc_probe,
-> -	.remove_new	= sh_mobile_lcdc_remove,
-> +	.remove		= sh_mobile_lcdc_remove,
->   };
->   
->   module_platform_driver(sh_mobile_lcdc_driver);
-> diff --git a/drivers/video/fbdev/simplefb.c b/drivers/video/fbdev/simplefb.c
-> index 028a56525047..be95fcddce4c 100644
-> --- a/drivers/video/fbdev/simplefb.c
-> +++ b/drivers/video/fbdev/simplefb.c
-> @@ -677,7 +677,7 @@ static struct platform_driver simplefb_driver = {
->   		.of_match_table = simplefb_of_match,
->   	},
->   	.probe = simplefb_probe,
-> -	.remove_new = simplefb_remove,
-> +	.remove = simplefb_remove,
->   };
->   
->   module_platform_driver(simplefb_driver);
-> diff --git a/drivers/video/fbdev/sm501fb.c b/drivers/video/fbdev/sm501fb.c
-> index d6fdc1737cd2..86ecbb2d86db 100644
-> --- a/drivers/video/fbdev/sm501fb.c
-> +++ b/drivers/video/fbdev/sm501fb.c
-> @@ -2211,7 +2211,7 @@ static int sm501fb_resume(struct platform_device *pdev)
->   
->   static struct platform_driver sm501fb_driver = {
->   	.probe		= sm501fb_probe,
-> -	.remove_new	= sm501fb_remove,
-> +	.remove		= sm501fb_remove,
->   	.suspend	= sm501fb_suspend,
->   	.resume		= sm501fb_resume,
->   	.driver		= {
-> diff --git a/drivers/video/fbdev/tcx.c b/drivers/video/fbdev/tcx.c
-> index fe7b7bc77eda..6eb8bb2e3501 100644
-> --- a/drivers/video/fbdev/tcx.c
-> +++ b/drivers/video/fbdev/tcx.c
-> @@ -505,7 +505,7 @@ static struct platform_driver tcx_driver = {
->   		.of_match_table = tcx_match,
->   	},
->   	.probe		= tcx_probe,
-> -	.remove_new	= tcx_remove,
-> +	.remove		= tcx_remove,
->   };
->   
->   static int __init tcx_init(void)
-> diff --git a/drivers/video/fbdev/uvesafb.c b/drivers/video/fbdev/uvesafb.c
-> index 2a88f0d4a84c..5d52fd00806e 100644
-> --- a/drivers/video/fbdev/uvesafb.c
-> +++ b/drivers/video/fbdev/uvesafb.c
-> @@ -1794,7 +1794,7 @@ static void uvesafb_remove(struct platform_device *dev)
->   
->   static struct platform_driver uvesafb_driver = {
->   	.probe  = uvesafb_probe,
-> -	.remove_new = uvesafb_remove,
-> +	.remove = uvesafb_remove,
->   	.driver = {
->   		.name = "uvesafb",
->   	},
-> diff --git a/drivers/video/fbdev/vesafb.c b/drivers/video/fbdev/vesafb.c
-> index 5a161750a3ae..a81df8865143 100644
-> --- a/drivers/video/fbdev/vesafb.c
-> +++ b/drivers/video/fbdev/vesafb.c
-> @@ -515,7 +515,7 @@ static struct platform_driver vesafb_driver = {
->   		.name = "vesa-framebuffer",
->   	},
->   	.probe = vesafb_probe,
-> -	.remove_new = vesafb_remove,
-> +	.remove = vesafb_remove,
->   };
->   
->   module_platform_driver(vesafb_driver);
-> diff --git a/drivers/video/fbdev/vfb.c b/drivers/video/fbdev/vfb.c
-> index 158e48385c24..5b7965f36c5e 100644
-> --- a/drivers/video/fbdev/vfb.c
-> +++ b/drivers/video/fbdev/vfb.c
-> @@ -493,7 +493,7 @@ static void vfb_remove(struct platform_device *dev)
->   
->   static struct platform_driver vfb_driver = {
->   	.probe	= vfb_probe,
-> -	.remove_new = vfb_remove,
-> +	.remove = vfb_remove,
->   	.driver = {
->   		.name	= "vfb",
->   	},
-> diff --git a/drivers/video/fbdev/vga16fb.c b/drivers/video/fbdev/vga16fb.c
-> index a87bafbb119c..fce0f5db7ba3 100644
-> --- a/drivers/video/fbdev/vga16fb.c
-> +++ b/drivers/video/fbdev/vga16fb.c
-> @@ -1417,7 +1417,7 @@ MODULE_DEVICE_TABLE(platform, vga16fb_driver_id_table);
->   
->   static struct platform_driver vga16fb_driver = {
->   	.probe = vga16fb_probe,
-> -	.remove_new = vga16fb_remove,
-> +	.remove = vga16fb_remove,
->   	.driver = {
->   		.name = "vga16fb",
->   	},
-> diff --git a/drivers/video/fbdev/via/via-gpio.c b/drivers/video/fbdev/via/via-gpio.c
-> index 2719943c06f4..9577c2cd52c7 100644
-> --- a/drivers/video/fbdev/via/via-gpio.c
-> +++ b/drivers/video/fbdev/via/via-gpio.c
-> @@ -292,7 +292,7 @@ static struct platform_driver via_gpio_driver = {
->   		.name = "viafb-gpio",
->   	},
->   	.probe = viafb_gpio_probe,
-> -	.remove_new = viafb_gpio_remove,
-> +	.remove = viafb_gpio_remove,
->   };
->   
->   int viafb_gpio_init(void)
-> diff --git a/drivers/video/fbdev/via/via_i2c.c b/drivers/video/fbdev/via/via_i2c.c
-> index 5edd3827ca27..cdbd7a9b8817 100644
-> --- a/drivers/video/fbdev/via/via_i2c.c
-> +++ b/drivers/video/fbdev/via/via_i2c.c
-> @@ -265,7 +265,7 @@ static struct platform_driver via_i2c_driver = {
->   		.name = "viafb-i2c",
->   	},
->   	.probe = viafb_i2c_probe,
-> -	.remove_new = viafb_i2c_remove,
-> +	.remove = viafb_i2c_remove,
->   };
->   
->   int viafb_i2c_init(void)
-> diff --git a/drivers/video/fbdev/vt8500lcdfb.c b/drivers/video/fbdev/vt8500lcdfb.c
-> index ac73937073a7..b08a6fdc53fd 100644
-> --- a/drivers/video/fbdev/vt8500lcdfb.c
-> +++ b/drivers/video/fbdev/vt8500lcdfb.c
-> @@ -471,7 +471,7 @@ static const struct of_device_id via_dt_ids[] = {
->   
->   static struct platform_driver vt8500lcd_driver = {
->   	.probe		= vt8500lcd_probe,
-> -	.remove_new	= vt8500lcd_remove,
-> +	.remove		= vt8500lcd_remove,
->   	.driver		= {
->   		.name	= "vt8500-lcd",
->   		.of_match_table = of_match_ptr(via_dt_ids),
-> diff --git a/drivers/video/fbdev/wm8505fb.c b/drivers/video/fbdev/wm8505fb.c
-> index 00952e9c8802..5caf74ca92fb 100644
-> --- a/drivers/video/fbdev/wm8505fb.c
-> +++ b/drivers/video/fbdev/wm8505fb.c
-> @@ -392,7 +392,7 @@ static const struct of_device_id wmt_dt_ids[] = {
->   
->   static struct platform_driver wm8505fb_driver = {
->   	.probe		= wm8505fb_probe,
-> -	.remove_new	= wm8505fb_remove,
-> +	.remove		= wm8505fb_remove,
->   	.driver		= {
->   		.name	= DRIVER_NAME,
->   		.of_match_table = wmt_dt_ids,
-> diff --git a/drivers/video/fbdev/wmt_ge_rops.c b/drivers/video/fbdev/wmt_ge_rops.c
-> index b70961901683..69106299ab47 100644
-> --- a/drivers/video/fbdev/wmt_ge_rops.c
-> +++ b/drivers/video/fbdev/wmt_ge_rops.c
-> @@ -159,7 +159,7 @@ static const struct of_device_id wmt_dt_ids[] = {
->   
->   static struct platform_driver wmt_ge_rops_driver = {
->   	.probe		= wmt_ge_rops_probe,
-> -	.remove_new	= wmt_ge_rops_remove,
-> +	.remove		= wmt_ge_rops_remove,
->   	.driver		= {
->   		.name	= "wmt_ge_rops",
->   		.of_match_table = wmt_dt_ids,
-> diff --git a/drivers/video/fbdev/xilinxfb.c b/drivers/video/fbdev/xilinxfb.c
-> index 33d20910cb41..0a6e05cd155a 100644
-> --- a/drivers/video/fbdev/xilinxfb.c
-> +++ b/drivers/video/fbdev/xilinxfb.c
-> @@ -488,7 +488,7 @@ MODULE_DEVICE_TABLE(of, xilinxfb_of_match);
->   
->   static struct platform_driver xilinxfb_of_driver = {
->   	.probe = xilinxfb_of_probe,
-> -	.remove_new = xilinxfb_of_remove,
-> +	.remove = xilinxfb_of_remove,
->   	.driver = {
->   		.name = DRIVER_NAME,
->   		.of_match_table = xilinxfb_of_match,
->
-> base-commit: 58ca61c1a866bfdaa5e19fb19a2416764f847d75
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+--__=_Part_Boundary_006_249485795.1143234701--
 
