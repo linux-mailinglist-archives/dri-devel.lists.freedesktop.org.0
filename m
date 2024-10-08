@@ -2,62 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ABFD9956B3
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 20:35:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0D30995708
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 20:45:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6242710E59D;
-	Tue,  8 Oct 2024 18:35:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2151210E113;
+	Tue,  8 Oct 2024 18:45:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="F4wjOeTG";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QezONMuu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADA0A10E588
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2024 18:35:42 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C5A110E113
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2024 18:45:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1728412543; x=1759948543;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=nHrNeNJsF/XXWidU3270UWoFA4O2wgRb70EVT2SYX5E=;
- b=F4wjOeTGcX+BosAtfRymoqppJ3gSPg9vbillr7fNHsBgSM2hZPbOuRQE
- 0lBrMB5AJ8i8FriKZ7xhp9wkV55fMf3xzDfCOLlkn1lAoxeNRk7sXA2GY
- qf5hLSXvpfeWhL6Qsx55yINgjpII3l36FHuRDm1S5D97Puvnaqzry08HR
- crg44iyQIyeUno/nxYqKYN0ZOhjtwFsZntqvRmMWL+BCcifqTjxAOA1P1
- hFwNhVajLq3MLR2tG69iUHgkr6CCoBU4W1umA6SVfTvWqaTRLLicXHPVW
- cjNQ9O//YTAuZjMitlDx9vrClm4wSPghM8F6dtix1R/1/GqkApl4Z1UC2 A==;
-X-CSE-ConnectionGUID: 4Kjp3ZOuSIm/AccLwX+i2g==
-X-CSE-MsgGUID: RRAqn9OjQJ2IXJ+1ppKZrA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11219"; a="38295377"
-X-IronPort-AV: E=Sophos;i="6.11,187,1725346800"; d="scan'208";a="38295377"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Oct 2024 11:35:43 -0700
-X-CSE-ConnectionGUID: 75lAtwCFTgu/OxF3Np5Inw==
-X-CSE-MsgGUID: lzkJKALHSFeawfpQajiarQ==
+ t=1728413105; x=1759949105;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=ICDucJGelq34xkXJWM4N5Y1R19TZD/hVFfeCgqMVV38=;
+ b=QezONMuuivVvzVaaty/9rA2ta+7lsx0ziKthstauL73z9nq5fZywB2+j
+ 9Zi1kx/IIcS9nWPb9qs4n+Pa/h23x8z+OjZ90lIgu6n7UsN5SRjab+9Xv
+ ll7IH4ksJi/pyiUrov9XOVmvXfj4psB3Hlwbwscr2AHOEOvNHPGuxX3nF
+ vwwqMAqzDSFThJAu6LE8DgV7PY8ikp1XHJUQvc8+FTRBebnATY2zKMF9I
+ X3wNDSu8COinXUreoiKa8jKGs4dgdHf6GDWnhpgxiNji6E8MeCDRni4GJ
+ GBpjuV7zs12Ol8PH2yRsZtegoxcM33p4k9qvFthSf4Sd6Ab18PEDw8SED A==;
+X-CSE-ConnectionGUID: 5HPS0ElkQuKdMIlnkIhc1A==
+X-CSE-MsgGUID: wQDcMZy0QWOX8IuSqdkyIw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11219"; a="30520940"
+X-IronPort-AV: E=Sophos;i="6.11,187,1725346800"; d="scan'208";a="30520940"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Oct 2024 11:45:05 -0700
+X-CSE-ConnectionGUID: cwMvMJ5fRPOJ1it0S0q+WA==
+X-CSE-MsgGUID: iXO4RLKTSoatGgtT0Qd+ww==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,187,1725346800"; d="scan'208";a="80530939"
-Received: from ldmartin-desk2.corp.intel.com (HELO ldmartin-desk2.intel.com)
- ([10.125.110.138])
- by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Oct 2024 11:35:41 -0700
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: linux-kernel@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org, Peter Zijlstra <peterz@infradead.org>,
- Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>,
- Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
- Ian Rogers <irogers@google.com>,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>
-Subject: [PATCH 5/5] perf/dummy_pmu: Track and disable active events
-Date: Tue,  8 Oct 2024 13:35:01 -0500
-Message-ID: <20241008183501.1354695-6-lucas.demarchi@intel.com>
-X-Mailer: git-send-email 2.46.2
-In-Reply-To: <20241008183501.1354695-1-lucas.demarchi@intel.com>
-References: <20241008183501.1354695-1-lucas.demarchi@intel.com>
+X-IronPort-AV: E=Sophos;i="6.11,187,1725346800"; d="scan'208";a="76054897"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by fmviesa008.fm.intel.com with SMTP; 08 Oct 2024 11:45:01 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 08 Oct 2024 21:45:00 +0300
+Date: Tue, 8 Oct 2024 21:45:00 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: "Luck, Tony" <tony.luck@intel.com>,
+ "jfalempe@redhat.com" <jfalempe@redhat.com>,
+ "airlied@redhat.com" <airlied@redhat.com>,
+ "sam@ravnborg.org" <sam@ravnborg.org>,
+ "emil.l.velikov@gmail.com" <emil.l.velikov@gmail.com>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>,
+ "airlied@gmail.com" <airlied@gmail.com>,
+ "daniel@ffwll.ch" <daniel@ffwll.ch>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH v5 0/7] drm/mgag200: Implement VBLANK support
+Message-ID: <ZwV9rD6-zJP3qVy7@intel.com>
+References: <20240718104551.575912-1-tzimmermann@suse.de>
+ <Zvx6lSi7oq5xvTZb@agluck-desk3.sc.intel.com>
+ <49f0ca61-0cf4-4093-b4a7-f49dc46037ab@suse.de>
+ <SJ1PR11MB60836E1B04A688CF55506BF4FC702@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <ad02af39-b9b5-4b04-878b-78b3eb7885a5@suse.de>
+ <Zv-84gdD85CqVeh5@intel.com>
+ <1437f8b3-bf67-4474-849b-1964615227b3@suse.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <1437f8b3-bf67-4474-849b-1964615227b3@suse.de>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,114 +85,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When unregistering the PMU, disable the currently active events. This
-allows userspace to see the change and possibly reacting on it, like
-reopening the fd. With perf-stat, "<not counted>" starts to be printed:
+On Mon, Oct 07, 2024 at 03:37:40PM +0200, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 04.10.24 um 12:01 schrieb Ville Syrjälä:
+> > On Fri, Oct 04, 2024 at 11:17:02AM +0200, Thomas Zimmermann wrote:
+> >> Hi
+> >>
+> >> Am 02.10.24 um 18:15 schrieb Luck, Tony:
+> >>>> Thanks for the bug report. Can you provide the output of 'sudo lspci
+> >>>> -vvv' for the graphics device?
+> >>> Thomas,
+> >>>
+> >>> Sure. Here's the output (run on the v6.11.0 kernel)
+> >> Thanks. It doesn't look much different from other systems. IRQ is also
+> >> assigned.
+> >>
+> >> Attached is a patch that fixes a possible off-by-one error in the
+> >> register settings. This would affect the bug you're reporting. If
+> >> possible, please apply the patch to your 6.12-rc1, test and report the
+> >> result.
+> > Didn't one of these weird variants have some bug where the
+> > CRTC startadd was not working? Is this one of those?
+> > That to me sounds like maybe linecomp has internally been
+> > tied to be always active somehow. Perhaps that would
+> > also prevent it from generating the interrupt...
+> 
+> Impressive debugging skills! The broken chip has vendor id 0x0522 
+> according to commit 21e74bf99596 ("drm/mgag200: Store HW_BUG_NO_STARTADD 
+> flag in device info"). And that's the same type the Tony reported. [1] 
+> I'm just not sure if it's worth special casing the chip again or simply 
+> revert vblank irqs.
 
-	$ stat -e dummy_pmu_0/test-event-1/ -I1000
-	1.001227905                 12      dummy_pmu_0/test-event-1/
-	2.004009349                 11      dummy_pmu_0/test-event-1/
-	3.005785067                  0      dummy_pmu_0/test-event-1/
-	4.008565935      <not counted>      dummy_pmu_0/test-event-1/
-	5.010446891      <not counted>      dummy_pmu_0/test-event-1/
+Heh. Though I'm not sure if my theory is quite right. It
+seems I've been confused about linecomp all these years;
+I thought the split screen effect affected both VGA and
+MGA modes (at least on the older chips), but looks like
+it never affected MGA mode. I tested it here on a 2064w
+based card, which is almost as old as you can go (I do
+have an older Athena based card somewhere as well but
+didn't bother digging it up).
 
-Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
----
- kernel/events/dummy_pmu.c | 40 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 40 insertions(+)
-
-diff --git a/kernel/events/dummy_pmu.c b/kernel/events/dummy_pmu.c
-index c07e111bff01..496cb8469a05 100644
---- a/kernel/events/dummy_pmu.c
-+++ b/kernel/events/dummy_pmu.c
-@@ -14,6 +14,7 @@
- #include <linux/random.h>
- #include <linux/seq_file.h>
- #include <linux/types.h>
-+#include <linux/xarray.h>
- 
- struct dummy_mod {
- 	struct dentry *debugfs_root;
-@@ -25,6 +26,7 @@ struct dummy_mod {
- struct dummy_pmu {
- 	struct pmu base;
- 	char *name;
-+	struct xarray active_events;
- 	bool registered;
- };
- 
-@@ -97,9 +99,25 @@ static const struct attribute_group *attr_groups[] = {
- 	NULL,
- };
- 
-+static void dummy_pmu_event_destroy(struct perf_event *event)
-+{
-+	struct dummy_pmu *pmu = event_to_pmu(event);
-+	unsigned long idx;
-+	struct perf_event *e;
-+
-+	/* Event not active anymore */
-+	xa_for_each(&pmu->active_events, idx, e)
-+		if (e == event) {
-+			xa_erase(&pmu->active_events, idx);
-+			break;
-+		}
-+}
-+
- static int dummy_pmu_event_init(struct perf_event *event)
- {
- 	struct dummy_pmu *pmu = event_to_pmu(event);
-+	u32 event_id;
-+	int ret;
- 
- 	if (!pmu->registered)
- 		return -ENODEV;
-@@ -117,6 +135,13 @@ static int dummy_pmu_event_init(struct perf_event *event)
- 	if (event->cpu < 0)
- 		return -EINVAL;
- 
-+	ret = xa_alloc(&pmu->active_events, &event_id, event,
-+			xa_limit_32b, GFP_KERNEL);
-+	if (ret)
-+		return ret;
-+
-+	event->destroy = dummy_pmu_event_destroy;
-+
- 	return 0;
- }
- 
-@@ -232,6 +257,8 @@ static int device_init(struct dummy_device *d)
- 	if (ret)
- 		goto fail;
- 
-+	xa_init_flags(&d->pmu.active_events, XA_FLAGS_ALLOC);
-+
- 	d->pmu.registered = true;
- 	pr_info("Device registered: %s\n", d->pmu.name);
- 
-@@ -248,9 +275,22 @@ static int device_init(struct dummy_device *d)
- 	return ret;
- }
- 
-+static void disable_active_events(struct dummy_pmu *pmu)
-+{
-+	struct perf_event *event;
-+	unsigned long idx;
-+
-+	xa_for_each(&pmu->active_events, idx, event) {
-+		xa_erase(&pmu->active_events, idx);
-+		perf_event_disable(event);
-+	}
-+}
-+
- static void device_exit(struct dummy_device *d)
- {
- 	d->pmu.registered = false;
-+
-+	disable_active_events(&d->pmu);
- 	perf_pmu_unregister(&d->pmu.base);
- 
- 	pr_info("Device released: %s\n", d->pmu.name);
 -- 
-2.46.2
-
+Ville Syrjälä
+Intel
