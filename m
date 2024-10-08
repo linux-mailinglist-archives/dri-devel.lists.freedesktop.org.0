@@ -2,97 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81BEF99588A
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 22:38:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67197995944
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 23:29:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70B9C10E0EA;
-	Tue,  8 Oct 2024 20:38:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91A6A10E24F;
+	Tue,  8 Oct 2024 21:29:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="NRYiLHUC";
+	dkim=pass (2048-bit key; secure) header.d=umito.nl header.i=@umito.nl header.b="s+r8CE4A";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
- [209.85.218.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 972D910E0EA
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2024 20:38:06 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id
- a640c23a62f3a-a83562f9be9so664687466b.0
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Oct 2024 13:38:06 -0700 (PDT)
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com
+ [209.85.208.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C24110E5BC
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2024 20:48:20 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id
+ 4fb4d7f45d1cf-5c896b9b4e0so8881376a12.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Oct 2024 13:48:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1728419885; x=1729024685;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=jBKc56vBxPYaOUWcC+VFZKlnp8sdizUoPysD1KL2n2Y=;
- b=NRYiLHUCQ7TImUks4fAatmLv/c5uDIiISlrDWnTFQR02uom9zRcW+Uyi630EwtrLOS
- rpn+clus4PoEaoSKGREcBZOO2TeBK8i5QT71Yh24xUCMM4+QelwwhGX8uPf306b+WpN6
- h3Ibpnr5FCh7DfMRkj0zKWnT4q92PmClirZcHgUJjwk2Y67XZ2JnngcsUIxzaQPEZFAk
- lse2Gk04nm8/j/zP2JcnXCFg7oXyNfhHisd2bbh8Fo0IPEJ9uLkhBf3DWnCN4R5kk/va
- AdIQfqmNlleVyM7MvWnO7ARvwiYVRvMi9vgLzbzWZbWEfUvXyryK0A7KH3BUim9hkKEm
- 7zzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728419885; x=1729024685;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ d=umito.nl; s=google; t=1728420499; x=1729025299; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=jBKc56vBxPYaOUWcC+VFZKlnp8sdizUoPysD1KL2n2Y=;
- b=m6SDUa8lnIyR/y0a1/va0VaGhd56AAwcCm8JbolWwpMVqVCc8aWWKGu1wHWgTsKM2w
- NNdHwiZ7OIG+KQEfHdkaflRE5yFIdRWk6yhsp3Dupftg95iy2rXD5Qcrr8vQv+HJHdJC
- U8E7t1Z0auheZo/RtQx8F/sa0kwgjgHVWeGHgclt6B3+rMwwdpGUU1QjU1MiHnBPKlC9
- lSvaMNJhsKYtHArHr7HgL5ezAXK/Cse3Y3nLWWymkNAtmtseSuq/Xvotyg6zieRATYoy
- xGTiABBsL9lPrWgown2Fc1el1aSLp8UqwQNhfWA+RjsPbbzFG7OxdptfqME4Qx54qbH0
- DyCg==
+ bh=J6bNuJgolCoIOR/xZEoXXuT40xjDacSmmZKqFqXimDA=;
+ b=s+r8CE4AMgmJM+ipuqfdlDjkenwwP5lTZBiUFmkusgmwHX1srYiwbnj1cASwNzBwKD
+ bHUK54PvVYb0RiwwACDkTmMFb+Pw/q6Uqn+lBg+jwoRlSgbLPSxsxZ9P1BqL4Q2Pf6+/
+ XQwE1cSvVZWDH8gFSI5Ra/ivdibQll5vJ/m90l7+u0AxJBU1PCSAx9ozeg/4hro93fua
+ R0Htk9QUCdvLCB/VJ3MXVg82lNwanxERNP+6ZY+NCfEH0Jujg3p+8CY3JCvOsGLtc/+g
+ +OubUg27jQwJOUUEmBMEUXTdfbc1G2gdDsjTcljhZn7fi8PX7yq/xEI1D74eld2sam/u
+ IN7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1728420499; x=1729025299;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=J6bNuJgolCoIOR/xZEoXXuT40xjDacSmmZKqFqXimDA=;
+ b=EAT3j9o2SgMHRQDiP0+yS6KL02wgzc0R8blJEXcNZ+xHuAtN/dcgidpTGXY4Bqt1qz
+ JsKItND3c0C6/CDT2byFKLVnnamyS12iJubxOdV/BBrB33NrROL9n0k9FoA7MHHQiDkB
+ 8Pb0dOMN4a4Ai8aLUPFvpWGnBUpekIMUP7vN9C60pdVfezCHxz+JXqgrdBsUehTYcEG0
+ NN/ShY/cp1YjroDcBSN/MsMIBDTrQR9LInY4Z/BzfKfxbMGTAGOlFh2VSxdFIYvpbeTe
+ R58u8wSgK0yaqJ6RwHZDIwZD/udV3wzOfNXhrmtgO2MynyTRs37u9/A+V+lAb5rKJODh
+ kzUA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXFBCBxPYz+Slgnsc+KUkpqm24edU8OMehINo5GL+9Ms0OlLMqp1wOqtyemQEoO6PK+BVoYnl7z8tM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx10e7fmz+yAs29mEkCqRMMoR2k6v1NRy8pFnIa1wwi6u1uc1wJ
- hGHMkVOMe5o+9ur3airVeeW9adakJgSIseXb9hJGIL6AxDSRzDBs3vJHMpDaF9Y=
-X-Google-Smtp-Source: AGHT+IFQsuFQDnMORn6KRqls83kXMRALTmz1xji/Zv3nzyXsaV17OwyYMIY5gtZ7u9n9SjQRNHRlFg==
-X-Received: by 2002:a17:907:94d4:b0:a8d:250a:52b2 with SMTP id
- a640c23a62f3a-a998d114bbemr3268366b.6.1728419884897; 
- Tue, 08 Oct 2024 13:38:04 -0700 (PDT)
-Received: from localhost ([2a02:8071:b783:6940:c420:a9b6:c5e1:5b65])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a996274deeesm196971266b.103.2024.10.08.13.38.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Oct 2024 13:38:04 -0700 (PDT)
-Date: Tue, 8 Oct 2024 22:38:02 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, 
- linux-bluetooth@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-crypto@vger.kernel.org, 
- dmaengine@vger.kernel.org, linux-gpio@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, 
- nouveau@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com, 
- linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org,
- linux-i3c@lists.infradead.org, 
- linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
- patches@opensource.cirrus.com, 
- iommu@lists.linux.dev, imx@lists.linux.dev, linux-mediatek@lists.infradead.org,
- linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
- linux-mtd@lists.infradead.org, 
- netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
- linux-pci@vger.kernel.org, 
- linux-phy@lists.infradead.org, linux-pwm@vger.kernel.org,
- linux-remoteproc@vger.kernel.org, 
- linux-sound@vger.kernel.org, linux-spi@vger.kernel.org,
- linux-staging@lists.linux.dev, 
- linux-usb@vger.kernel.org, linux-serial@vger.kernel.org,
- greybus-dev@lists.linaro.org, asahi@lists.linux.dev, rafael@kernel.org,
- Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: Re: [PATCH 00/51] treewide: Switch to __pm_runtime_put_autosuspend()
-Message-ID: <ttmnzgsdyng5vab63pvj7csrotbsmwnultjelvdotrvyg2snac@iv7afgect5f3>
-References: <20241004094101.113349-1-sakari.ailus@linux.intel.com>
- <CAPDyKFp0N6UJhnHS164Tdf=xkWB0jzq65L9TdvYazeBQ-6WjeQ@mail.gmail.com>
- <20241007184924.GH14766@pendragon.ideasonboard.com>
+ AJvYcCW3hZHDD1qmyhIGGO0xb3F6CYnctojud0a6w4H6ys5DDLAGeHkUbOPesKdr5kakxpz4rivz8pwU3iI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyJrXcK/ngs+/lRxMorZhgSgEX84D3t3r26VGzmJDDOsjReSixw
+ NIFlEyU0TNq0z/yrPMv1MB9imDpJcbDQtmY5tdA1P9q7ADbm7fkUW8sVut9RfK9M+X74tjq2Dol
+ sZUAxzicrivSrL5BxhtLt8n1rohnV8bchDlhJtg==
+X-Google-Smtp-Source: AGHT+IFbpJ+7cQNNnJVJ0a+/1F1q+a02uDKJndFdbshTqsp/81SlELOFblReWcu/RskzpGSoDl78MRKm+mZUsPuxGBI=
+X-Received: by 2002:a05:6402:13c1:b0:5c3:cd88:a0a with SMTP id
+ 4fb4d7f45d1cf-5c91d63d98cmr123210a12.18.1728420498538; Tue, 08 Oct 2024
+ 13:48:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="2ocqjla6tcmukjn3"
-Content-Disposition: inline
-In-Reply-To: <20241007184924.GH14766@pendragon.ideasonboard.com>
+References: <20241008073014.16411-1-alex.vinarskis@gmail.com>
+In-Reply-To: <20241008073014.16411-1-alex.vinarskis@gmail.com>
+From: Peter de Kraker <peterdekraker@umito.nl>
+Date: Tue, 8 Oct 2024 22:48:07 +0200
+Message-ID: <CAD=vdcG+KKN1qisSktTqG2Lc4RST5-iccWgx3EXAYoDrU0p8SQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/1] drm/edp-panel: Add panels used by Dell XPS 13 9345
+To: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
+Cc: Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Bryan.Kemp@dell.com, tudor.laurentiu.oss@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Mailman-Approved-At: Tue, 08 Oct 2024 21:29:04 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,80 +86,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Oct 8, 2024 at 9:30=E2=80=AFAM Aleksandrs Vinarskis
+<alex.vinarskis@gmail.com> wrote:
+>
+> Introduce low-res IPS and OLED panels for mentioned device.
+>
+> SHP panel's timings were picked experimentally, without this patch or wit=
+h
+> `delay_200_500_e50` panel sometimes fails to boot/stays black on startup.
+>
+> LGD panel's timings were copied from other LGD panels and tested to be
+> working.
+>
+> Particular laptop also comes in high-res IPS variant, which unfortunately
+> I do not have access to verify.
+>
+> The raw edid for SHP panel is:
+>
+> 00 ff ff ff ff ff ff 00 4d 10 93 15 00 00 00 00
+> 2c 21 01 04 a5 1d 12 78 07 ee 95 a3 54 4c 99 26
+> 0f 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
+> 01 01 01 01 01 01 f0 7b 80 90 70 b0 52 45 30 20
+> 36 00 20 b4 10 00 00 18 00 00 00 fd 00 1e 78 9a
+> 9a 20 01 0a 20 20 20 20 20 20 00 00 00 fe 00 4b
+> 4a 46 47 52 80 4c 51 31 33 34 4e 31 00 00 00 00
+> 00 02 41 0c 32 00 01 00 00 0b 41 0a 20 20 01 ef
+>
+> 70 20 79 02 00 20 00 13 8c 52 19 93 15 00 00 00
+> 00 2c 17 07 4c 51 31 33 34 4e 31 21 00 1d 40 0b
+> 08 07 80 07 b0 04 88 3d 8a 54 cd a4 99 66 62 0f
+> 02 45 54 d0 5f d0 5f 00 34 12 78 26 00 09 02 00
+> 00 00 00 00 01 00 00 22 00 14 5e d7 04 05 7f 07
+> 8f 00 2f 00 1f 00 af 04 50 00 02 00 05 00 25 01
+> 09 5e d7 04 5e d7 04 1e 78 80 81 00 0b e3 05 80
+> 00 e6 06 01 01 6a 6a 39 00 00 00 00 00 00 ce 90
+>
+> The raw edid for LGD panel is:
+>
+> 00 ff ff ff ff ff ff 00 30 e4 78 07 00 00 00 00
+> 00 22 01 04 b5 1d 12 78 06 96 65 b0 4f 3c b9 23
+> 0b 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
+> 01 01 01 01 01 01 ef 83 40 a0 b0 08 34 70 30 20
+> 36 00 20 b4 10 00 00 1a 00 00 00 00 00 00 00 00
+> 00 00 00 00 00 00 00 00 00 00 00 00 00 fe 00 44
+> 48 39 50 57 80 31 33 34 57 54 31 0a 00 00 00 00
+> 00 04 04 03 28 00 01 00 00 2b 01 0a 20 20 01 d4
+>
+> 70 20 79 02 00 20 00 13 3c e6 24 78 07 00 00 00
+> 00 00 18 07 31 33 34 57 54 31 0a 21 00 1d 41 0b
+> 08 07 40 0b 08 07 88 06 6b 4f c3 a3 b9 35 82 0b
+> 02 45 54 40 5e 1a 60 18 10 23 78 26 00 09 04 00
+> 00 00 00 00 41 00 00 22 00 14 55 27 05 85 3f 0b
+> 9f 00 2f 80 1f 00 07 07 33 00 02 00 05 00 25 01
+> 09 55 27 05 55 27 05 3c 3c 00 81 00 0b e3 05 80
+> 00 e6 06 05 01 6d 60 02 00 00 00 00 00 00 31 90
+>
+> Signed-off-by: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
 
---2ocqjla6tcmukjn3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Tested on OLED XPS 9345, panel related errors are no longer present in
+dmesg, and display functionality works as expected.
 
-Hello,
+Tested-by: Peter de Kraker <peterdekraker@umito.nl>
 
-On Mon, Oct 07, 2024 at 09:49:24PM +0300, Laurent Pinchart wrote:
-> On Fri, Oct 04, 2024 at 04:38:36PM +0200, Ulf Hansson wrote:
-> > On Fri, 4 Oct 2024 at 11:41, Sakari Ailus <sakari.ailus@linux.intel.com=
-> wrote:
-> > >
-> > > Hello everyone,
-> > >
-> > > This set will switch the users of pm_runtime_put_autosuspend() to
-> > > __pm_runtime_put_autosuspend() while the former will soon be re-purpo=
-sed
-> > > to include a call to pm_runtime_mark_last_busy(). The two are almost
-> > > always used together, apart from bugs which are likely common. Going
-> > > forward, most new users should be using pm_runtime_put_autosuspend().
-> > >
-> > > Once this conversion is done and pm_runtime_put_autosuspend() re-purp=
-osed,
-> > > I'll post another set to merge the calls to __pm_runtime_put_autosusp=
-end()
-> > > and pm_runtime_mark_last_busy().
-> >=20
-> > That sounds like it could cause a lot of churns.
-> >=20
-> > Why not add a new helper function that does the
-> > pm_runtime_put_autosuspend() and the pm_runtime_mark_last_busy()
-> > things? Then we can start moving users over to this new interface,
-> > rather than having this intermediate step?
->=20
-> I think the API would be nicer if we used the shortest and simplest
-> function names for the most common use cases. Following
-> pm_runtime_put_autosuspend() with pm_runtime_mark_last_busy() is that
-> most common use case. That's why I like Sakari's approach of repurposing
-> pm_runtime_put_autosuspend(), and introducing
-> __pm_runtime_put_autosuspend() for the odd cases where
-> pm_runtime_mark_last_busy() shouldn't be called.
-
-That's ok for me. However this patch series isn't the optimal path to
-there because most drivers (i.e. those that already today do
-pm_runtime_mark_last_busy() in combination with
-pm_runtime_put_autosuspend()) have to be patched twice.
-
-The saner route is: Only convert the drivers with a sole
-pm_runtime_put_autosuspend() (i.e. without pm_runtime_mark_last_busy())
-to __pm_runtime_put_autosuspend(). Then add the mark_last_busy() bits to
-pm_runtime_put_autosuspend() and then drop the explicit calls to
-pm_runtime_mark_last_busy() before pm_runtime_put_autosuspend().
-
-(Note this doesn't take into account Rafael's position that
-pm_runtime_put() might be the saner option. My argument applies for that
-conversion analogously.)
-
-Best regards
-Uwe
-
---2ocqjla6tcmukjn3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmcFmCEACgkQj4D7WH0S
-/k6xnwf/QOZhbtT562rFFa3JIiBatDxTcqyEXoXClrP7jSyQFY/VFzq2S2jRHOFt
-wM6zQUX1bTUqDtC4HozJIbQDjLxd3qFgc5RoTRLV8VhRJbcq9cOo5Nf1h4KJ5Ip9
-nhpzoHwUHoEjEHj1f9UvEWfnFAVCSLFxgb14ZDHZyb2pQue3G5OYI2f2cJYT8YVB
-xQktDFp7rUu4xWDTzoIxNKvR1Ipy5fGxdf9R2/+IQhW64sWuDG2ZH6tAmfn6mEb8
-ecspbesJx+NMbZ06Zl7wqBvyj/DpQGgPaCnWUQ5cI0Of/kOzqxh4+65JK68CLLs0
-/Goin2zz55IZITGC5zHuAA07bW/c7Q==
-=7Wup
------END PGP SIGNATURE-----
-
---2ocqjla6tcmukjn3--
+> ---
+>  drivers/gpu/drm/panel/panel-edp.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/pa=
+nel-edp.c
+> index 767e47a2b0c1..8566e9cf2f82 100644
+> --- a/drivers/gpu/drm/panel/panel-edp.c
+> +++ b/drivers/gpu/drm/panel/panel-edp.c
+> @@ -1977,11 +1977,13 @@ static const struct edp_panel_entry edp_panels[] =
+=3D {
+>         EDP_PANEL_ENTRY('L', 'G', 'D', 0x0567, &delay_200_500_e200_d200, =
+"Unknown"),
+>         EDP_PANEL_ENTRY('L', 'G', 'D', 0x05af, &delay_200_500_e200_d200, =
+"Unknown"),
+>         EDP_PANEL_ENTRY('L', 'G', 'D', 0x05f1, &delay_200_500_e200_d200, =
+"Unknown"),
+> +       EDP_PANEL_ENTRY('L', 'G', 'D', 0x0778, &delay_200_500_e200_d200, =
+"134WT1"),
+>
+>         EDP_PANEL_ENTRY('S', 'H', 'P', 0x1511, &delay_200_500_e50, "LQ140=
+M1JW48"),
+>         EDP_PANEL_ENTRY('S', 'H', 'P', 0x1523, &delay_80_500_e50, "LQ140M=
+1JW46"),
+>         EDP_PANEL_ENTRY('S', 'H', 'P', 0x153a, &delay_200_500_e50, "LQ140=
+T1JH01"),
+>         EDP_PANEL_ENTRY('S', 'H', 'P', 0x154c, &delay_200_500_p2e100, "LQ=
+116M1JW10"),
+> +       EDP_PANEL_ENTRY('S', 'H', 'P', 0x1593, &delay_200_500_p2e100, "LQ=
+134N1"),
+>
+>         EDP_PANEL_ENTRY('S', 'T', 'A', 0x0100, &delay_100_500_e200, "2081=
+116HHD028001-51D"),
+>
+> --
+> 2.45.2
+>
