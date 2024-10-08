@@ -2,76 +2,130 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABE8C995063
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 15:41:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02FBA995071
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 15:41:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04DE210E53D;
-	Tue,  8 Oct 2024 13:41:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BA7910E546;
+	Tue,  8 Oct 2024 13:41:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Pl1+OrRX";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="VJkQTTUL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
- [209.85.128.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6167910E47F
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2024 07:30:23 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id
- 5b1f17b1804b1-42e82f7f36aso46329655e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Oct 2024 00:30:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1728372621; x=1728977421; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=9O2hcJ+rHJih/O+xNq3vq97J5JEk0dHbNznv4YWdRVk=;
- b=Pl1+OrRXxIeqaiYZRy+y6r9Owdmozdkbmx8+sm1Bx/N+LuY/++/UfpzZCu0JvWHta7
- QTdTgBm9zhLw4PmwRpXQo3VCuIxBhiGjC9sUzs/xllFPHJT8GpRkWPWdCW+OQbJt8Q6W
- 6GeTVJaSJd9B22pl973824//C4kqhpTwEn9Z/J07IZBSsSbHN7469vFTexZLt7dLURKy
- oQL2lG+GacNq2MQhxRLSZH9x4+IKW6e++aBSQKEZwnoGRMSz0SqDpDPy43KUYEXRGUE5
- U5Zap8HFi3MbAbFjAxUU5oDYsMCogPHafMnzJ8VveeaOEmS9m1vFtM4bF3eX6QOdk5zj
- eTLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728372621; x=1728977421;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=9O2hcJ+rHJih/O+xNq3vq97J5JEk0dHbNznv4YWdRVk=;
- b=KK6FQLnx4GgR4PIZqzgLb5cIrLB1DtaUnBi+H+H6/0IGVo+teCmQBnCH1+LYltFDih
- 7C+AAyRJIitSA6j4Nh7GToPO7kAm7UPcm1AAsteHb+AVxZhlJHTujtyplIZVp1WdKnLR
- BqtsQwBoUgNitWgzTtj0pEIIKk6ESALBvh6yyWpRsNFphSS4neJabUqg0kDs0dmS6rOo
- iaeje5V6gvLHLE1UE17b14sXR6e2QKKMgC4fcqqRI9j9I7QCTtwAPeOPlAuJdY4G8cS3
- 7JlCbVjPYA7Y1DHKRD0rgOX1sW5jdEQ+ygSMuPy6HkqwtsF9x/VyUiR/sEzXb7n2EWOC
- /zTA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV1avyIc4Ncf1Hl8bH4fhdDyEhx85bmmJyNS5Kx5m2bhm7IpTyW5X3bcV/O96nEma9ZLdsFMyykAVQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxGPG0jxHGG/8TpUAiq2pL5rgZSSMJipEXl0/L/9Ii+lK4b6wqF
- PeqluJnwnKEEGZCccI48tl1loDNGVWQ4x9IiV9XZvwyFJ5qsLTM=
-X-Google-Smtp-Source: AGHT+IEUgoB3rwhhVGEcX/EFy/hB5FmWA+oIeCCWvqbTYzAH4TpTaN8gB1BDFW8NLTGgbuRacONqVw==
-X-Received: by 2002:a5d:4305:0:b0:374:bad2:6a5e with SMTP id
- ffacd0b85a97d-37d0e777812mr7620774f8f.28.1728372621002; 
- Tue, 08 Oct 2024 00:30:21 -0700 (PDT)
-Received: from localhost.lan (adsl-178-39-53-103.adslplus.ch. [178.39.53.103])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-37d1695e395sm7402729f8f.89.2024.10.08.00.30.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Oct 2024 00:30:20 -0700 (PDT)
-From: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
-To: Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Bryan.Kemp@dell.com,
- tudor.laurentiu.oss@gmail.com, peterdekraker@umito.nl,
- Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
-Subject: [PATCH v2 1/1] drm/edp-panel: Add panels used by Dell XPS 13 9345
-Date: Tue,  8 Oct 2024 09:30:14 +0200
-Message-ID: <20241008073014.16411-1-alex.vinarskis@gmail.com>
-X-Mailer: git-send-email 2.45.2
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2054.outbound.protection.outlook.com [40.107.244.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A935110E47F;
+ Tue,  8 Oct 2024 07:32:17 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=tDwxYpfIlH9Wgyn8clcA8G44owWjfKvlexvu2sowDPHv54MIWrQG1kKFQKNfmW+BwDIolXZLEySwYCR6DMddo0Xblh4N2/tKZOlkaUxkGK+cGnkMFeyz4DBlciOrdhF8UCLeE6zu1ZeAH2wevdovIhPCtcQmFmoocKB60Q3FPdQoOiuNdLDzt4Ci+w/Y9kRQQE9x+8z60dQnQhNVy3W+yBlbCflVvgVE6HIA1q3zLukRMcM8uHnHIUiqUtXIA96nftNIFOdOflXVhxOBZsGHdAfjQ1zJhL6Vn5T+PBX2iSz1jlOKYJd3YWqWcFkN5IDZedoEkqDosLk0A7d2lwmI4A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=eIrTafYvUs/SQVSBu1JFq2xnjjOVF1j2qPafoBaktKY=;
+ b=gC5hLYCs9F2+s3NTxSUiUro0ktSKsg7L6Dl0ak4xEfVt/oHtyZd+C90kvzgxrm+UCfx5S78/zoPfTWSkw2psU/qanfaRoAZoEs0DIbE42IW1BoRJw5LYuOzQn82KDI8m2XO2+EJBbluIXunTWW1ufvAeSPdO2GYVvScSiUd/zYSIDEcALsNhV3nPl//xZneh8c5+d5/8Z8iKmhk8tII1MwbJxX2j4UVm1/WbshvKE9FJzhwoTno+Rm7TGw3bjE/+pbkxEsC7ovrzeXW47b+1VQ1FdIjlmU46hiNvDEaTmZrBJSmCrF9GceJWMzj0f6SfUNCTjQkTbwdCoypOJayLjA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.118.232) smtp.rcpttodomain=redhat.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eIrTafYvUs/SQVSBu1JFq2xnjjOVF1j2qPafoBaktKY=;
+ b=VJkQTTULy1qJ2bUEzDM4scrZ/roAHCigaVNFicL2kJkIGtKPWdP9zdu7xnJ6IuEXTT5Gyc1YkgwoYlGxW+wijrcwkvnKLmJ7Ihwkwr+OS46Aor+tGCELraUh9HFSKr3f9PXGtOcgxI/b0krX/klizYwBmhpnTKdXGrU3BQVLLzZdrDhQ5JprrEaABY4Ea/HiHnjl4DBKil5Rvi5dwIxLwPo5KplUB3MFLeQ3rvQ4ZDWcLSP7h4Uge0GPJ+v9gqWMS29Id7yoERaINOn0OvY68HJaJfTaw3x5CNUbYNYYY8PIXV+eq9ZHxVTHa7yQel0lzyc90r2xQWKmf06tz7d5vg==
+Received: from BL1PR13CA0112.namprd13.prod.outlook.com (2603:10b6:208:2b9::27)
+ by BL1PR12MB5754.namprd12.prod.outlook.com (2603:10b6:208:391::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.22; Tue, 8 Oct
+ 2024 07:32:14 +0000
+Received: from BL02EPF0001A0FB.namprd03.prod.outlook.com
+ (2603:10b6:208:2b9:cafe::2e) by BL1PR13CA0112.outlook.office365.com
+ (2603:10b6:208:2b9::27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.17 via Frontend
+ Transport; Tue, 8 Oct 2024 07:32:14 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.232)
+ smtp.mailfrom=nvidia.com;
+ dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.232 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.232; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.232) by
+ BL02EPF0001A0FB.mail.protection.outlook.com (10.167.242.102) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8048.13 via Frontend Transport; Tue, 8 Oct 2024 07:32:14 +0000
+Received: from drhqmail203.nvidia.com (10.126.190.182) by mail.nvidia.com
+ (10.127.129.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Tue, 8 Oct 2024
+ 00:32:02 -0700
+Received: from drhqmail202.nvidia.com (10.126.190.181) by
+ drhqmail203.nvidia.com (10.126.190.182) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.4; Tue, 8 Oct 2024 00:32:01 -0700
+Received: from vdi.nvidia.com (10.127.8.9) by mail.nvidia.com (10.126.190.181)
+ with Microsoft SMTP Server id 15.2.1544.4 via Frontend Transport;
+ Tue, 8 Oct 2024 00:31:58 -0700
+From: Yonatan Maman <ymaman@nvidia.com>
+To: <kherbst@redhat.com>, <lyude@redhat.com>, <dakr@redhat.com>,
+ <airlied@gmail.com>, <daniel@ffwll.ch>, <bskeggs@nvidia.com>,
+ <jglisse@redhat.com>, <dri-devel@lists.freedesktop.org>,
+ <nouveau@lists.freedesktop.org>
+CC: Yonatan Maman <Ymaman@Nvidia.com>, <linux-kernel@vger.kernel.org>,
+ <stable@vger.kernel.org>
+Subject: [PATCH v3 0/2] drm/nouveau/dmem: Fix Vulnerability and Device
+ Channels configuration
+Date: Tue, 8 Oct 2024 10:31:01 +0300
+Message-ID: <20241008073103.987926-1-ymaman@nvidia.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL02EPF0001A0FB:EE_|BL1PR12MB5754:EE_
+X-MS-Office365-Filtering-Correlation-Id: fc0d09a8-58cf-499c-4a7b-08dce76b5472
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|82310400026|1800799024|36860700013|376014|7416014; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?W8Az60HKZA8LGJyYLC9WlEX1xICB5nrpsiqkvqQ4ktoV30ONZ9bnSiBqhP4E?=
+ =?us-ascii?Q?jTg6SIofNWgp5mUVnPEjMWSMTgw7ya53SVhJBkXNEfhzYwnR2p1GX9xuxxeH?=
+ =?us-ascii?Q?JDfC8HWGidx4jXozX9ZvQ9Ot/B/uQWUF3HZ9BtvMFAo46RBZEbsCUPOsHpBF?=
+ =?us-ascii?Q?wsER3sJzuFXfFlbhPFmWJPWjD7FaObC0TezAGodroNvk1kg8yc3WAMtaVJrl?=
+ =?us-ascii?Q?HsBaG/5TLmuHwZnEvKGp1YvrMsz/Zm503mRnzmmPymNi8eSNBSb+uYMh0AEI?=
+ =?us-ascii?Q?HYfmPukHaZVMAG3vP3rSm4ibvWcnrWsTMv6bT587NjGgTVF4qvaKELYjsfEY?=
+ =?us-ascii?Q?98bU2IHUdrdtYwZ/AkrowLSpnPJs/pmN1zOHzg0w13IAKQRmf+odN5Wrkq9Z?=
+ =?us-ascii?Q?H8AdKu0HoCksJ0nr1iv43nc56U9D/QbAQal4GkYxpsd1ZhD4RaHBv2dXfwZ6?=
+ =?us-ascii?Q?0CDdUqHqvKSomB2Yz86CZyjqrggbFcXCixk7mOKvb7svN6ZRmFl1jALyQdY/?=
+ =?us-ascii?Q?IyVRVJZAGQHNxk+fZq3O4JB4GymJov0PuEu1otp8uiaIamHitaA5+YH15+3I?=
+ =?us-ascii?Q?zV13+N3uESsbys8YhW4NeU4NHE8LvTwudUM3uKCQWl3rm1fizNkSs7i+KIUc?=
+ =?us-ascii?Q?FXUjZk0rmph4zSXZLJv7epW7gk1pljqPJzw2rK+9QYMLDaGJM49LbeAtsyq5?=
+ =?us-ascii?Q?9b7SjMUmmiT+W9N0kcKWQntpaeBecHBmMNKo85CtBAK44b492mu7RRV94W5r?=
+ =?us-ascii?Q?qwFgvDL6AfSt8IPU9dok7NhSE6M2Bw1BXR47FHElILrjyMbwSg56Roj40aA8?=
+ =?us-ascii?Q?bSH8b1DduZgMh/OMYOqXW/qMv6FC8+OgT6VV8sFiyI34HY4fAs/MQi2aQfKb?=
+ =?us-ascii?Q?j1rxjvbJ4yjrx9cyiiP44pTFVBY1tBUn7o0Q1juACaRq+KykfJvcuSd0367m?=
+ =?us-ascii?Q?cyVV8eIfYmxwfH/fmuALjDcBD9jJh7kE/eA4nqz9rFFDSpbnDNv7s8w1z2AF?=
+ =?us-ascii?Q?ar10FqZr5hTjyCHHpx0WwYP/h9IfgVWtmku8VMeSrAiv/p7McmaQb9qO5bo9?=
+ =?us-ascii?Q?//VpCrQS1J7yJLJ+k8IePjLfQ61c0kL7QDvHubypm4Y4mHB2KwqvwwFmnZ0y?=
+ =?us-ascii?Q?0vlC4+ANvodsB7vMnC+GcHwY39nopJshRP2ZnUy/AL4hhsz0b0oVsZxm4ZZZ?=
+ =?us-ascii?Q?EZdnZHPvqjcOQ78YzDE6e3vo4ZMKKtKjs/+ZR+B6UK9L1NN/5hqryhs5ODrk?=
+ =?us-ascii?Q?EyAigbAZ3smdyj7Je6ra9etghAtofo/o+gOH8zBLJos0MymwlrwkBOmpsf19?=
+ =?us-ascii?Q?S2MkJ40IKimDevU4Ipv7xdmsvfZ88esnGKdO0wCAMfOXlEZqQq/JeN3/LkA6?=
+ =?us-ascii?Q?3TcdqL44SbjMmE0C1ecCvVhYqnz0?=
+X-Forefront-Antispam-Report: CIP:216.228.118.232; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc7edge1.nvidia.com; CAT:NONE;
+ SFS:(13230040)(82310400026)(1800799024)(36860700013)(376014)(7416014); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Oct 2024 07:32:14.2186 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: fc0d09a8-58cf-499c-4a7b-08dce76b5472
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.118.232];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: BL02EPF0001A0FB.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5754
 X-Mailman-Approved-At: Tue, 08 Oct 2024 13:41:08 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -88,80 +142,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Introduce low-res IPS and OLED panels for mentioned device.
+From: Yonatan Maman <Ymaman@Nvidia.com>
 
-SHP panel's timings were picked experimentally, without this patch or with
-`delay_200_500_e50` panel sometimes fails to boot/stays black on startup.
+This patch series addresses two critical issues in the Nouveau driver
+related to device channels, error handling, and sensitive data leaks.
 
-LGD panel's timings were copied from other LGD panels and tested to be
-working.
+- Vulnerability in migrate_to_ram: The migrate_to_ram function might
+  return a dirty HIGH_USER page when a copy push command (FW channel)
+  fails, potentially exposing sensitive data and posing a security
+  risk. To mitigate this, the patch ensures the allocation of a non-dirty
+  (zero) page for the destination, preventing the return of a dirty page
+  and enhancing driver security in case of failure.
 
-Particular laptop also comes in high-res IPS variant, which unfortunately
-I do not have access to verify.
+- Privileged Error in Copy Engine Channel: An error was observed when
+  the nouveau_dmem_copy_one function is executed, leading to a Host Copy
+  Engine Privileged error on channel 1. The patch resolves this by
+  adjusting the Copy Engine channel configuration to permit privileged
+  push commands, resolving the error.
 
-The raw edid for SHP panel is:
+Changes since V2:
+- Fixed version according to Danilo Krummrich's comments.
 
-00 ff ff ff ff ff ff 00 4d 10 93 15 00 00 00 00
-2c 21 01 04 a5 1d 12 78 07 ee 95 a3 54 4c 99 26
-0f 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-01 01 01 01 01 01 f0 7b 80 90 70 b0 52 45 30 20
-36 00 20 b4 10 00 00 18 00 00 00 fd 00 1e 78 9a
-9a 20 01 0a 20 20 20 20 20 20 00 00 00 fe 00 4b
-4a 46 47 52 80 4c 51 31 33 34 4e 31 00 00 00 00
-00 02 41 0c 32 00 01 00 00 0b 41 0a 20 20 01 ef
 
-70 20 79 02 00 20 00 13 8c 52 19 93 15 00 00 00
-00 2c 17 07 4c 51 31 33 34 4e 31 21 00 1d 40 0b
-08 07 80 07 b0 04 88 3d 8a 54 cd a4 99 66 62 0f
-02 45 54 d0 5f d0 5f 00 34 12 78 26 00 09 02 00
-00 00 00 00 01 00 00 22 00 14 5e d7 04 05 7f 07
-8f 00 2f 00 1f 00 af 04 50 00 02 00 05 00 25 01
-09 5e d7 04 5e d7 04 1e 78 80 81 00 0b e3 05 80
-00 e6 06 01 01 6a 6a 39 00 00 00 00 00 00 ce 90
+Yonatan Maman (2):
+  nouveau/dmem: Fix privileged error in copy engine channel
+  nouveau/dmem: Fix vulnerability in migrate_to_ram upon copy error
 
-The raw edid for LGD panel is:
+ drivers/gpu/drm/nouveau/nouveau_dmem.c | 2 +-
+ drivers/gpu/drm/nouveau/nouveau_drm.c  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-00 ff ff ff ff ff ff 00 30 e4 78 07 00 00 00 00
-00 22 01 04 b5 1d 12 78 06 96 65 b0 4f 3c b9 23
-0b 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-01 01 01 01 01 01 ef 83 40 a0 b0 08 34 70 30 20
-36 00 20 b4 10 00 00 1a 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 fe 00 44
-48 39 50 57 80 31 33 34 57 54 31 0a 00 00 00 00
-00 04 04 03 28 00 01 00 00 2b 01 0a 20 20 01 d4
-
-70 20 79 02 00 20 00 13 3c e6 24 78 07 00 00 00
-00 00 18 07 31 33 34 57 54 31 0a 21 00 1d 41 0b
-08 07 40 0b 08 07 88 06 6b 4f c3 a3 b9 35 82 0b
-02 45 54 40 5e 1a 60 18 10 23 78 26 00 09 04 00
-00 00 00 00 41 00 00 22 00 14 55 27 05 85 3f 0b
-9f 00 2f 80 1f 00 07 07 33 00 02 00 05 00 25 01
-09 55 27 05 55 27 05 3c 3c 00 81 00 0b e3 05 80
-00 e6 06 05 01 6d 60 02 00 00 00 00 00 00 31 90
-
-Signed-off-by: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
----
- drivers/gpu/drm/panel/panel-edp.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-index 767e47a2b0c1..8566e9cf2f82 100644
---- a/drivers/gpu/drm/panel/panel-edp.c
-+++ b/drivers/gpu/drm/panel/panel-edp.c
-@@ -1977,11 +1977,13 @@ static const struct edp_panel_entry edp_panels[] = {
- 	EDP_PANEL_ENTRY('L', 'G', 'D', 0x0567, &delay_200_500_e200_d200, "Unknown"),
- 	EDP_PANEL_ENTRY('L', 'G', 'D', 0x05af, &delay_200_500_e200_d200, "Unknown"),
- 	EDP_PANEL_ENTRY('L', 'G', 'D', 0x05f1, &delay_200_500_e200_d200, "Unknown"),
-+	EDP_PANEL_ENTRY('L', 'G', 'D', 0x0778, &delay_200_500_e200_d200, "134WT1"),
- 
- 	EDP_PANEL_ENTRY('S', 'H', 'P', 0x1511, &delay_200_500_e50, "LQ140M1JW48"),
- 	EDP_PANEL_ENTRY('S', 'H', 'P', 0x1523, &delay_80_500_e50, "LQ140M1JW46"),
- 	EDP_PANEL_ENTRY('S', 'H', 'P', 0x153a, &delay_200_500_e50, "LQ140T1JH01"),
- 	EDP_PANEL_ENTRY('S', 'H', 'P', 0x154c, &delay_200_500_p2e100, "LQ116M1JW10"),
-+	EDP_PANEL_ENTRY('S', 'H', 'P', 0x1593, &delay_200_500_p2e100, "LQ134N1"),
- 
- 	EDP_PANEL_ENTRY('S', 'T', 'A', 0x0100, &delay_100_500_e200, "2081116HHD028001-51D"),
- 
 -- 
-2.45.2
+2.34.1
 
