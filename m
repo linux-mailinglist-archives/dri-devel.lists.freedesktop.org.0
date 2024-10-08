@@ -2,63 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56546994D5C
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 15:04:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 455B79950A1
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 15:50:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 747F410E520;
-	Tue,  8 Oct 2024 13:04:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 126D610E096;
+	Tue,  8 Oct 2024 13:50:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Otmsx2rr";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="bAgqDxt2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C27910E1EF;
- Tue,  8 Oct 2024 13:04:42 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 1CE3EA418D4;
- Tue,  8 Oct 2024 13:04:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 153D2C4CECC;
- Tue,  8 Oct 2024 13:04:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1728392681;
- bh=CiHFkYMfmlhH7C61SxzU1s41M8D5uRdtrYwZ3UI1/nQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Otmsx2rrnevrNJz4cLf+Z+32OY2h9DjQBorQoXCcf6lSUhC69whxs27/7VaNcxKNL
- AaoirpV4LLKVHGxjAn2x57uW1MRbG57TudgY2BNrquGlkdVt0LNLcfzAD4qlin78Hh
- YIeC3z0165JBStl/rD4zo/dKDqZjXAOUuYolq++WUeSBbfYXVMDmAJQUhlMKrekPf4
- /aUR+lVLP+H4wURm1VOCkSyBWrfadgbdrn3Ec4g1JhENfW7X4p/1DLudFetk9pMqHZ
- j1COlC8q+ltFHaUSBCxGFaaL2UxjYnhaNsn3jCEJiclSyUiGEPYPyMupVBjgs/r/Hy
- zmvDqrk1A2Lxw==
-Date: Tue, 8 Oct 2024 09:04:39 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- Lijo Lazar <lijo.lazar@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch, sumit.semwal@linaro.org,
- mario.limonciello@amd.com, Hawking.Zhang@amd.com, le.ma@amd.com,
- hamza.mahfooz@amd.com, andrealmeid@igalia.com,
- victorchengchi.lu@amd.com, sunil.khatri@amd.com,
- chenxb_99091@126.com, victor.skvortsov@amd.com, Jun.Ma2@amd.com,
- Yunxiang.Li@amd.com, Felix.Kuehling@amd.com,
- Arunpravin.PaneerSelvam@amd.com, tvrtko.ursulin@igalia.com,
- pierre-eric.pelloux-prayer@amd.com, Wang.Beyond@amd.com,
- shashank.sharma@amd.com, zhenguo.yin@amd.com, jesse.zhang@amd.com,
- Philip.Yang@amd.com, rajneesh.bhardwaj@amd.com, Tim.Huang@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH AUTOSEL 6.11 72/76] drm/amdgpu: nuke the VM PD/PT shadow
- handling
-Message-ID: <ZwUt5zNpjTMzweM9@sashalap>
-References: <20241004181828.3669209-1-sashal@kernel.org>
- <20241004181828.3669209-72-sashal@kernel.org>
- <bc1f6bc0-6512-48e0-9f97-c607b34e9ab1@amd.com>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CAD6710E096
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2024 13:50:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=vRsy7hkCZhTW1Pn7LpeEQqMyG2TISVuYM6wKoI8OWCA=; b=bAgqDxt2my9/xot129/sHRCJ9y
+ /eEWb78JIMLOxGHTWZ/oSXXNVrmWp9Uw64umi+4tdL8PpdKIt08Xg+Qsv4WGswJb/Oq5pEilvAG3P
+ auFaKXnEVF2GBNGj1SRoWceEM9f5LQo8oFbDaUO3AOf/+b92FJ69iI/UMpu200FwbqjW6Pa3Art/d
+ 5zFDgNNc8nKP0irASAM9u2c584PwqyafQ6IpPsc8LcoN2XTzWORgHIyxz8xpELduZ6ChLOOhIkrMq
+ zvToLBCZRYb7iRECtpi9ECogMr9oGx7+mXA2DT0/td3CwSYPs3huOsMSQWQebabxhRofk0Ex7q6bd
+ Rm1POkFw==;
+Received: from [187.36.213.55] (helo=[192.168.1.212])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1syAau-006aOy-Ua; Tue, 08 Oct 2024 15:49:45 +0200
+Message-ID: <ce07a658-8e5c-4c9a-b0a5-77f1be54d524@igalia.com>
+Date: Tue, 8 Oct 2024 10:49:35 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V4 2/2] drm/vc4: v3d: add PM suspend/resume support
+To: Stefan Wahren <wahrenst@gmx.net>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Maxime Ripard <mripard@kernel.org>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Peter Robinson <pbrobinson@gmail.com>,
+ dri-devel@lists.freedesktop.org, kernel-list@raspberrypi.com
+References: <20241003124107.39153-1-wahrenst@gmx.net>
+ <20241003124107.39153-3-wahrenst@gmx.net>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+Autocrypt: addr=mcanal@igalia.com; keydata=
+ xsBNBGcCwywBCADgTji02Sv9zjHo26LXKdCaumcSWglfnJ93rwOCNkHfPIBll85LL9G0J7H8
+ /PmEL9y0LPo9/B3fhIpbD8VhSy9Sqz8qVl1oeqSe/rh3M+GceZbFUPpMSk5pNY9wr5raZ63d
+ gJc1cs8XBhuj1EzeE8qbP6JAmsL+NMEmtkkNPfjhX14yqzHDVSqmAFEsh4Vmw6oaTMXvwQ40
+ SkFjtl3sr20y07cJMDe++tFet2fsfKqQNxwiGBZJsjEMO2T+mW7DuV2pKHr9aifWjABY5EPw
+ G7qbrh+hXgfT+njAVg5+BcLz7w9Ju/7iwDMiIY1hx64Ogrpwykj9bXav35GKobicCAwHABEB
+ AAHNIE1hw61yYSBDYW5hbCA8bWNhbmFsQGlnYWxpYS5jb20+wsCRBBMBCAA7FiEE+ORdfQEW
+ dwcppnfRP/MOinaI+qoFAmcCwywCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQ
+ P/MOinaI+qoUBQgAqz2gzUP7K3EBI24+a5FwFlruQGtim85GAJZXToBtzsfGLLVUSCL3aF/5
+ O335Bh6ViSBgxmowIwVJlS/e+L95CkTGzIIMHgyUZfNefR2L3aZA6cgc9z8cfow62Wu8eXnq
+ GM/+WWvrFQb/dBKKuohfBlpThqDWXxhozazCcJYYHradIuOM8zyMtCLDYwPW7Vqmewa+w994
+ 7Lo4CgOhUXVI2jJSBq3sgHEPxiUBOGxvOt1YBg7H9C37BeZYZxFmU8vh7fbOsvhx7Aqu5xV7
+ FG+1ZMfDkv+PixCuGtR5yPPaqU2XdjDC/9mlRWWQTPzg74RLEw5sz/tIHQPPm6ROCACFls7A
+ TQRnAsMsAQgAxTU8dnqzK6vgODTCW2A6SAzcvKztxae4YjRwN1SuGhJR2isJgQHoOH6oCItW
+ Xc1CGAWnci6doh1DJvbbB7uvkQlbeNxeIz0OzHSiB+pb1ssuT31Hz6QZFbX4q+crregPIhr+
+ 0xeDi6Mtu+paYprI7USGFFjDUvJUf36kK0yuF2XUOBlF0beCQ7Jhc+UoI9Akmvl4sHUrZJzX
+ LMeajARnSBXTcig6h6/NFVkr1mi1uuZfIRNCkxCE8QRYebZLSWxBVr3h7dtOUkq2CzL2kRCK
+ T2rKkmYrvBJTqSvfK3Ba7QrDg3szEe+fENpL3gHtH6h/XQF92EOulm5S5o0I+ceREwARAQAB
+ wsB2BBgBCAAgFiEE+ORdfQEWdwcppnfRP/MOinaI+qoFAmcCwywCGwwACgkQP/MOinaI+qpI
+ zQf+NAcNDBXWHGA3lgvYvOU31+ik9bb30xZ7IqK9MIi6TpZqL7cxNwZ+FAK2GbUWhy+/gPkX
+ it2gCAJsjo/QEKJi7Zh8IgHN+jfim942QZOkU+p/YEcvqBvXa0zqW0sYfyAxkrf/OZfTnNNE
+ Tr+uBKNaQGO2vkn5AX5l8zMl9LCH3/Ieaboni35qEhoD/aM0Kpf93PhCvJGbD4n1DnRhrxm1
+ uEdQ6HUjWghEjC+Jh9xUvJco2tUTepw4OwuPxOvtuPTUa1kgixYyG1Jck/67reJzMigeuYFt
+ raV3P8t/6cmtawVjurhnCDuURyhUrjpRhgFp+lW8OGr6pepHol/WFIOQEg==
+In-Reply-To: <20241003124107.39153-3-wahrenst@gmx.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <bc1f6bc0-6512-48e0-9f97-c607b34e9ab1@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,31 +91,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 08, 2024 at 08:46:01AM +0200, Christian König wrote:
->Hi Sasha,
->
->Am 04.10.24 um 20:17 schrieb Sasha Levin:
->>From: Christian König <christian.koenig@amd.com>
->>
->>[ Upstream commit 7181faaa4703705939580abffaf9cb5d6b50dbb7 ]
->>
->>This was only used as workaround for recovering the page tables after
->>VRAM was lost and is no longer necessary after the function
->>amdgpu_vm_bo_reset_state_machine() started to do the same.
->>
->>Compute never used shadows either, so the only proplematic case left is
->>SVM and that is most likely not recoverable in any way when VRAM is
->>lost.
->
->why is that backported to older kernels? It's basically just removing 
->an old and now unused feature.
->
->Lijo pointed out a related bug fixed by removing the feature, but that 
->only happens extremely rarely and in my view doesn't really justify a 
->backport.
+Hi Stefan,
 
-I'll drop it then, thanks!
+On 10/3/24 09:41, Stefan Wahren wrote:
+> Add suspend/resume support for the VC4 V3D component in order
+> to handle suspend to idle properly.
+> 
+> Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
+> ---
+>   drivers/gpu/drm/vc4/vc4_v3d.c | 7 +++----
+>   1 file changed, 3 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/vc4/vc4_v3d.c b/drivers/gpu/drm/vc4/vc4_v3d.c
+> index 2423826c89eb..8057b06c1f16 100644
+> --- a/drivers/gpu/drm/vc4/vc4_v3d.c
+> +++ b/drivers/gpu/drm/vc4/vc4_v3d.c
+> @@ -368,7 +368,6 @@ void vc4_v3d_bin_bo_put(struct vc4_dev *vc4)
+>   	mutex_unlock(&vc4->bin_bo_lock);
+>   }
+> 
+> -#ifdef CONFIG_PM
+>   static int vc4_v3d_runtime_suspend(struct device *dev)
+>   {
+>   	struct vc4_v3d *v3d = dev_get_drvdata(dev);
+> @@ -397,7 +396,6 @@ static int vc4_v3d_runtime_resume(struct device *dev)
+> 
+>   	return 0;
+>   }
+> -#endif
+> 
+>   int vc4_v3d_debugfs_init(struct drm_minor *minor)
+>   {
+> @@ -507,7 +505,8 @@ static void vc4_v3d_unbind(struct device *dev, struct device *master,
+>   }
+> 
+>   static const struct dev_pm_ops vc4_v3d_pm_ops = {
+> -	SET_RUNTIME_PM_OPS(vc4_v3d_runtime_suspend, vc4_v3d_runtime_resume, NULL)
+> +	RUNTIME_PM_OPS(vc4_v3d_runtime_suspend, vc4_v3d_runtime_resume, NULL)
+> +	SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
 
--- 
-Thanks,
-Sasha
+I have a question: How can we guarantee that no jobs are running when
+the system is forced to suspend?
+
+Best Regards,
+- MaÃ­ra
+
+>   };
+> 
+>   static const struct component_ops vc4_v3d_ops = {
+> @@ -538,6 +537,6 @@ struct platform_driver vc4_v3d_driver = {
+>   	.driver = {
+>   		.name = "vc4_v3d",
+>   		.of_match_table = vc4_v3d_dt_match,
+> -		.pm = &vc4_v3d_pm_ops,
+> +		.pm = pm_ptr(&vc4_v3d_pm_ops),
+>   	},
+>   };
+> --
+> 2.34.1
+> 
