@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F583995260
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 16:51:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E02159952D6
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 17:02:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A0AB10E568;
-	Tue,  8 Oct 2024 14:51:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 300C810E571;
+	Tue,  8 Oct 2024 15:02:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="pO1RAbC+";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nFe0yThZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com
- [157.90.84.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F35110E568
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2024 14:51:13 +0000 (UTC)
-Received: from [192.168.42.96] (p5de457db.dip0.t-ipconnect.de [93.228.87.219])
- (Authenticated sender: wse@tuxedocomputers.com)
- by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 726C02FC006B;
- Tue,  8 Oct 2024 16:51:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
- s=default; t=1728399072;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZDuJ+vLxxAjjTnsFERAk5G0m/bqwuQtMTf492YyDqTY=;
- b=pO1RAbC+prlqPYCaNqF4jnYEJE4hA4+7AvDM0tPKujc02YJkri7lGIUo32WKwCgWBaAXQ0
- RgXz4mp/y1FuAJns7p0rk756fpkZvDAMcoD26MFsZKD6IBgNEyqTSGy7aiYHxkxxCUXCrD
- DY8MpUOj7Y3CHrq61Fe5bciNuzdtGOo=
-Authentication-Results: mail.tuxedocomputers.com;
- auth=pass smtp.auth=wse@tuxedocomputers.com
- smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <4a761cd0-611a-4245-8353-5c66ba133715@tuxedocomputers.com>
-Date: Tue, 8 Oct 2024 16:51:11 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B52710E571;
+ Tue,  8 Oct 2024 15:02:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1728399771; x=1759935771;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=gpUErE9pNkYGr5nHTOEazsYjopbzltoUu+P7dfTzBZA=;
+ b=nFe0yThZxq+AorpyA+mh7MQLyTLC/xKAbd0dgOa6b0byQF1yGR8BMBdC
+ yYiwBeGV7uLZwKa63fXMzlLCKxHoQ73mLeL8zB+c9iVwg/FjaIpmi51gS
+ MMPCb6DtFoq9WCAoRq/HE/pkvlsE/vrPTyyGGVLT6jyO7jjA0P4lESNzC
+ FhlhFS/FCsZ73FHfstgJfGYrCrRssuCh/sskRLqB1u59WBM57PI98QZLm
+ gB7CuBsy7RjzQrxqcP1XAIoyqsrIk5ldFoLzqYg17u+ATO0fAhYvGt7lL
+ N5MOoBJFDYuTEwx0wI5l18UJGecSOWIwVaA0qLEN9J36UcqzCnJ/jjCpn A==;
+X-CSE-ConnectionGUID: YIYExzxeSP2Kxzh1ns8Gxg==
+X-CSE-MsgGUID: ADtVj3ANRAmAm/E2Jne4BA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11219"; a="38731459"
+X-IronPort-AV: E=Sophos;i="6.11,187,1725346800"; d="scan'208";a="38731459"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Oct 2024 08:02:51 -0700
+X-CSE-ConnectionGUID: MBlP9xOBSz6by9s1ZX3kYg==
+X-CSE-MsgGUID: ZTM8qWQEQLWJWmbMTbGSKg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,187,1725346800"; d="scan'208";a="75966973"
+Received: from black.fi.intel.com ([10.237.72.28])
+ by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Oct 2024 08:02:46 -0700
+Date: Tue, 8 Oct 2024 18:02:43 +0300
+From: Raag Jadav <raag.jadav@intel.com>
+To: Michal Wajdeczko <michal.wajdeczko@intel.com>, lucas.demarchi@intel.com
+Cc: airlied@gmail.com, simona@ffwll.ch, thomas.hellstrom@linux.intel.com,
+ rodrigo.vivi@intel.com, jani.nikula@linux.intel.com,
+ andriy.shevchenko@linux.intel.com, joonas.lahtinen@linux.intel.com,
+ tursulin@ursulin.net, lina@asahilina.net,
+ intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com,
+ francois.dugast@intel.com, aravind.iddamsetty@linux.intel.com,
+ anshuman.gupta@intel.com, andi.shyti@linux.intel.com,
+ matthew.d.roper@intel.com
+Subject: Re: [PATCH v7 1/5] drm: Introduce device wedged event
+Message-ID: <ZwVJk8ESEyxyemrG@black.fi.intel.com>
+References: <20240930073845.347326-1-raag.jadav@intel.com>
+ <20240930073845.347326-2-raag.jadav@intel.com>
+ <26f90d12-6a04-445e-96ff-aafbe3dc8132@intel.com>
+ <Zv6Ms7G4pSLdgUKo@black.fi.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] platform/x86/tuxedo: Add virtual LampArray for TUXEDO
- NB04 devices
-To: Benjamin Tissoires <bentiss@kernel.org>
-Cc: Armin Wolf <W_Armin@gmx.de>, Pavel Machek <pavel@ucw.cz>,
- Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
- lee@kernel.org, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-leds@vger.kernel.org, miguel.ojeda.sandonis@gmail.com,
- ojeda@kernel.org, onitake@gmail.com, platform-driver-x86@vger.kernel.org
-References: <5th4pisccud5s7dbia42glsnu7e5u3q7jszty6o3mjdedsd2bg@7nsvp6t2krnf>
- <b6f2244d-7567-49ac-b2db-23b632a4e181@tuxedocomputers.com>
- <cflor5mz4flekn44ttlbanfigmwn5mmp3p54gkeeznzmzkyjqz@p2c6q7gulrdl>
- <84b629c6-5b26-4285-9b2f-66dd1afa99e5@tuxedocomputers.com>
- <zph6fnuaamhayivmzftowjw6klgcy2gb7vdub2v2yo7n665vpo@rkxtorfvmzph>
- <7ce4470c-a502-416a-8472-a5b606bb8fd4@tuxedocomputers.com>
- <d7gk2mgihtg6242l3isnhw3xpdt745ehpu2kvim2xxgmxdhat7@g5cqei7uqujj>
- <39f84cfe-bb89-4194-81a9-e178c93e5309@tuxedocomputers.com>
- <sih5i2ausorlpiosifvj2vvlut4ok6bbgt6cympuxhdbjljjiw@gg2r5al552az>
- <82a6eca1-728c-436f-8c4d-073d8a43ee27@tuxedocomputers.com>
- <5crqia4gecxg62n2m2lf6haiifue4wlxrr3g35dyoaa3svjyuj@cd5bhouz5rlh>
-Content-Language: en-US
-From: Werner Sembach <wse@tuxedocomputers.com>
-In-Reply-To: <5crqia4gecxg62n2m2lf6haiifue4wlxrr3g35dyoaa3svjyuj@cd5bhouz5rlh>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Zv6Ms7G4pSLdgUKo@black.fi.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,160 +78,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Oct 03, 2024 at 03:23:22PM +0300, Raag Jadav wrote:
+> On Tue, Oct 01, 2024 at 02:20:29PM +0200, Michal Wajdeczko wrote:
+> > On 30.09.2024 09:38, Raag Jadav wrote:
+> > >  
+> > > +/**
+> > > + * enum drm_wedge_recovery - Recovery method for wedged device in order of
+> > > + * severity. To be set as bit fields in drm_device.wedge_recovery variable.
+> > > + * Drivers can choose to support any one or multiple of them depending on
+> > > + * their needs.
+> > > + */
+> > > +enum drm_wedge_recovery {
+> > > +	/** @DRM_WEDGE_RECOVERY_REBIND: unbind + rebind driver */
+> > > +	DRM_WEDGE_RECOVERY_REBIND,
+> > > +
+> > > +	/** @DRM_WEDGE_RECOVERY_BUS_RESET: unbind + reset bus device + rebind */
+> > > +	DRM_WEDGE_RECOVERY_BUS_RESET,
+> > > +
+> > > +	/** @DRM_WEDGE_RECOVERY_REBOOT: reboot system */
+> > > +	DRM_WEDGE_RECOVERY_REBOOT,
+> > > +
+> > > +	/** @DRM_WEDGE_RECOVERY_MAX: for bounds checking, do not use */
+> > > +	DRM_WEDGE_RECOVERY_MAX
+> > > +};
+> > > +
+> > >  /**
+> > >   * struct drm_device - DRM device structure
+> > >   *
+> > > @@ -317,6 +337,9 @@ struct drm_device {
+> > >  	 * Root directory for debugfs files.
+> > >  	 */
+> > >  	struct dentry *debugfs_root;
+> > > +
+> > > +	/** @wedge_recovery: Supported recovery methods for wedged device */
+> > > +	unsigned long wedge_recovery;
+> > 
+> > hmm, so before the driver can ask for a reboot as a recovery method from
+> > wedge it has to somehow add 'reboot' as available method? why it that?
+> 
+> It's for consumers to use as fallbacks in case the preferred recovery method
+> (sent along with uevent) don't workout. (patch 2/5)
 
-Am 08.10.24 um 14:18 schrieb Benjamin Tissoires:
-> On Oct 08 2024, Werner Sembach wrote:
->> Am 08.10.24 um 11:53 schrieb Benjamin Tissoires:
->>> On Oct 07 2024, Werner Sembach wrote:
->>>> Hi,
->>>>
->>>> Am 02.10.24 um 10:31 schrieb Benjamin Tissoires:
->>>>> On Oct 01 2024, Werner Sembach wrote:
->>>>>> Hi Benjamin,
->>>>>>
->>>>>> Am 01.10.24 um 15:41 schrieb Benjamin Tissoires:
->>>>>>> [...]
->>>>>>> PPS: sorry for pushing that hard on HID-BPF, but I can see that it fits
->>>>>>> all of the requirements here:
->>>>>>> - need to be dynamic
->>>>>>> - still unsure of the userspace implementation, meaning that userspace
->>>>>>>       might do something wrong, which might require kernel changes
->>>>>> Well the reference implementetion for the arduiono macropad from microsoft
->>>>>> ignores the intensity (brightness) channel on rgb leds contrary to the HID
->>>>>> spec, soo yeah you have a point here ...
->>>>> Heh :)
->>>>>
->>>>>>> - possibility to extend later the kernel API
->>>>>>> - lots of fun :)
->>>>>> You advertise it good ;). More work for me now but maybe less work for me
->>>>>> later, I will look into it.
->>>>> Again, I'm pushing this because I see the benefits and because I can
->>>>> probably reuse the same code on my Corsair and Logitech keyboards. But
->>>>> also, keep in mind that it's not mandatory because you can actually
->>>>> attach the BPF code on top of your existing driver to change the way it
->>>>> behaves. It'll be slightly more complex if you don't let a couple of
->>>>> vendor passthrough reports that we can use to directly talk to the
->>>>> device without any tampering, but that's doable. But if you want to keep
->>>>> the current implementation and have a different layout, this can easily
->>>>> be done in BPF on top.
->>>>>
->>>>> Cheers,
->>>>> Benjamin
->>>>>
->>>>>
->>>>> [0] https://lore.kernel.org/linux-input/20241001-hid-bpf-hid-generic-v3-0-2ef1019468df@kernel.org/T/#t
->>>> Thinking about the minimal WMI to HID today, but found a problem: a HID
->>>> feature report is either strictly input or output afaik, but the WMI
->>>> interface has both in some functions.
->>> Not sure you are talking about feature reports, because they are
->>> read/write. It's just that they are synchronous over the USB control
->>> endpoint (on USB).
->> I'm confused about the split between get and send feature reports
->> https://www.kernel.org/doc/html/latest/hid/hidraw.html
->>
->> I guess then a get feature report can also carry input data and the
->> difference is that a send feature report doesn't wait for a reply? but then
->> what is it's reason of existence in contrast to an output report?
-> I'm under the impression you are mixing the 3 types of reports (just
-> re-stating that here in case I wasn't clear).
->
-> - Input reports:
->    `Input()` in the report descriptor
->    -> data emitted by the device to the host, and notified through an IRQ
->    mechanism
->    -> obtained in hidraw through a blocking read() operation
-> - Output reports:
->    `Output()` in the report descriptor
->    -> data sent asynchronously by the host to the device.
->    -> sent from hidraw by calling write() on the dev node (no feedback
->    except how many bytes were sent)
-> - Feature reports:
->    `Feature()` in the report descriptor
->    -> way to synchronously configure the device. Think of it like a
->    register on the device: you can read it, write it, but you never get
->    an interrupt when there is a change
->    -> read/written by using an ioctl on the hidraw node
+On second thought...
 
- From userspace there are the HIDIOCSFEATURE and HIDIOCGFEATURE ioctls.
+Lucas, do we have a convincing enough usecase for fallback recovery?
+If <method> were to fail, I would expect there to be even bigger problems
+like kernel crash or unrecoverable hardware failure.
 
- From the hid 1.11 spec:
+At that point is it worth retrying?
 
-"
-
-7.2.2 Set_Report Request
-
-[...]
-
-The meaning of the request fields for the Set_Report request is the same as for
-the Get_Report request, however the data direction is reversed and the Report
-Data is sent from host to device.
-
-"
-
-and from the hut 1.5, some of the LampArray feature reports are meant to be used 
-with set report and some with get report
-
-(well as far as I can tell the hut doesn't actual specify, if they need to be 
-feature reports, or am I missing something?)
-
-and there is the pair with LampAttributesRequestReport and 
-LampAttributesResponseReport.
-
-Sorry for my confusion over the hid spec.
-
->
-> And BTW, it's perfectly fine to have a dedicated report ID which has
-> Input, Output and Feature attached to it :)
->
->>> An input report is strictly directed from the device, and an output
->>> report is from the host to the device.
->>>
->>> But a feature report is bidirectional.
->>>
->>>> How would I map that?
->>> Depending on the WMI interface, if you want this to be synchronous,
->>> defining a Feature report is correct, otherwise (if you don't need
->>> feedback from WMI), you can declare the commands to WMI as Output
->>> reports.
->> Thanks for reminding me that output reports exist xD.
-> hehe
->
->>>> If I split everything in input and output the new interface wouldn't
->>>> actually be much smaller.
->>> The HID report descriptor doesn't need to be smaller. The fact that by
->>> default it exposes only one or two LEDs so we don't have the micrometers
->>> arrays is the only purpose.
->>>
->>> But if we also implement a not-full HID implementation of LampArray, we
->>> should be able to strip out the parts that we don't care in the LED
->>> class implementation, like the exact positioning, or the multiupdate.
->>>
->>>> Also what would I write for the usage for the reserved padding in the report
->>>> descriptor. Usage: 0x00?
->>> padding are ignored by HID. So whatever current usage you have is fine.
->>>
->>> However, if you are talking about the custom WMI vendor access, I'd go
->>> with a vendor collection (usage page 0xff00, usage 0x08 for the 8 bytes
->>> long WMI command for instance, 0x10 for the 16 bytes long one).
->>>
->>> Side note: in drivers/hid/bpf/progs/hid_report_helpers.h we have some
->>> autogenerated macros to help writing report descriptors (see
->>> drivers/hid/bpf/progs/Huion__Dial-2.bpf.c for an example of usage). It's
->>> in the hid-bpf tree but I think we might be able to include this in
->>> other drivers (or do a minimal rewrite/move into include).
->>> I'm not asking you to use it on your code right now, but this has the
->>> advantage of becoming less "binary blob" in your code, and prevent
->>> mistakes where you edit the comments but not the values.
->> I will look into it.
->>
->> Since the interface is fixed I don't need to flesh out the whole descriptor
->> (which i thought i must do) and usage page (0xff42, because NB04 and the wmi
->> has 2 other ec controlling wmi interfaces besides the AB one), report usage
->> (matching the wmi comand id's) and report size should be enough.
-> I'm a little confused by that last sentence. But yeah, I would expect
-> some minimal sanity check before handing over the HID report to the WMI
-> interface :)
->
-> Cheers,
-> Benjamin
->
+Raag
