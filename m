@@ -2,160 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17C20993C8A
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 03:56:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F4D6993C61
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 03:42:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BE2310E44A;
-	Tue,  8 Oct 2024 01:56:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5618110E07D;
+	Tue,  8 Oct 2024 01:42:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="G+uJrtzP";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="A9s1Crko";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2072.outbound.protection.outlook.com [40.107.236.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0309110E0F5;
- Tue,  8 Oct 2024 01:56:41 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xVy5DTi91J2qoHHS7BQHpsEb22Yyvuvn73SgYYeWq38tYQldNIcvnuWe8H0G+eDiTYNfKqb3HZ9+Q2/B0i6I4dPQGHV/54TDKmjUmiHXfMl1u4V/uFqv8UwspYVeVwcJ/YKkR5hVCUqjWbo9BV/LYzSVvs0N90hn0QKpgIH/b1/0wmBEhB0WUxAD8Fa2VhyN+uneBioEXjiyUUgY9sMSkY+OKGIudqDBBduiQS27Dw4fujthb56HAObkjsi2hAeHkXAD2f5rHlVTl6+9OBZqMAr9mbRIdpl7j64mtJiYCqwexlme/Dwas6SuaoQHOwMIyd2si7h/Cy2UQU/3PaxSHg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MBud6PGWDJ1/Sn/n/FP/FETjfS/CQqJgof6eORgWf30=;
- b=n4V+QNUkkeBI0aIouPQixOdQyWNBUpSkj5vw8TMaBklBiNd+6/LrrBBk8CT0iU1DIe/eXj7sfaS20iWU1In0c+e/WDLv31JPybSgW9DuPUyUnCfs9bVGWO4iWa75jEK4+09bUvz37quy+O6bGU/cV2HADoDBueIMb9Ofoa1w1pbYWvi3ITsce0zgGbgn3tXKdr4yMQNSJVU8V0N7oT+aOneKB/jKpD5FZYiPly9RY2bPtCyIox7iGJYnrJzmc1yaN9T2TX8DqVlDivp2Wg8OBHtB0Yz/QTk9T6AylrPzvhlVWjnx11K2bgb+ZxLRXMA1cUEZ9Pz9WPKj2plIFDv0dQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MBud6PGWDJ1/Sn/n/FP/FETjfS/CQqJgof6eORgWf30=;
- b=G+uJrtzP2tvIjCQO82dHmErG+V35UmT6lDFyhUiS+0jN8C64PJ79KZ8JWifuWONJ+9hlf2ydiOJMYzvZ4J13jp3BPLONF2X1aJJTneVW2U1UXMSzHOxHhZHDa5Z/GiRH5Gu3+rvWSjOTJab0B8RJASHQThLgEoqSOSSp/dh0buc5VaPKv8+KFkFR6yfQajkMZKS+rL33shf5PnvSjhASPRfMH6ufOkTaOvT3NllUblWSyw6p1wyKBncrqYUSJK/W1Rp9T8Y7uPdeLWV2fLGDOGitAdwHUKnu9l5W1AaCJ6z4FLXIK1x1JZojGr69AAPyMchdZki/Qc0VAie9Kx9giw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS0PR12MB7726.namprd12.prod.outlook.com (2603:10b6:8:130::6) by
- MN6PR12MB8567.namprd12.prod.outlook.com (2603:10b6:208:478::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.23; Tue, 8 Oct
- 2024 01:56:36 +0000
-Received: from DS0PR12MB7726.namprd12.prod.outlook.com
- ([fe80::953f:2f80:90c5:67fe]) by DS0PR12MB7726.namprd12.prod.outlook.com
- ([fe80::953f:2f80:90c5:67fe%3]) with mapi id 15.20.8026.020; Tue, 8 Oct 2024
- 01:56:35 +0000
-References: <87mskehjtc.fsf@nvdebian.thelocal>
- <ZuS/NH/P8Fl+qptx@DUT025-TGLU.fm.intel.com>
- <87msk5our1.fsf@nvdebian.thelocal>
- <ece41917-2ea7-4571-83a5-a50c776c6587@amd.com>
- <Zu3n3MmtdlEDaXnF@DUT025-TGLU.fm.intel.com>
- <9a3e62e0-cb62-4d73-9694-7be8893f7206@amd.com>
- <Zu3wV9FJSTs1E5Vx@DUT025-TGLU.fm.intel.com>
- <ZvKnDT_bdx_PhAcG@phenom.ffwll.local>
- <ZvLr66F3VqpMyLlS@DUT025-TGLU.fm.intel.com>
- <ZvP3pWjVviMdezuy@phenom.ffwll.local>
- <ZvP79hb-0HJMvhv-@phenom.ffwll.local>
-User-agent: mu4e 1.10.8; emacs 29.1
-From: Alistair Popple <apopple@nvidia.com>
-To: Simona Vetter <simona.vetter@ffwll.ch>
-Cc: Matthew Brost <matthew.brost@intel.com>, Felix Kuehling
- <felix.kuehling@amd.com>, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, Philip.Yang@amd.com,
- akpm@linux-foundation.org, christian.koenig@amd.com
-Subject: Re: [PATCH 1/1] mm/migrate: Trylock device page in do_swap_page
-Date: Tue, 08 Oct 2024 12:33:51 +1100
-In-reply-to: <ZvP79hb-0HJMvhv-@phenom.ffwll.local>
-Message-ID: <87msjfcq7l.fsf@nvdebian.thelocal>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: SY5P300CA0102.AUSP300.PROD.OUTLOOK.COM
- (2603:10c6:10:248::19) To DS0PR12MB7726.namprd12.prod.outlook.com
- (2603:10b6:8:130::6)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75B0A10E07D
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2024 01:42:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1728351750; x=1759887750;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=rWQrvuI3kWl4DRnBphjWazL5RHG9DMWBY7HPWDTFW88=;
+ b=A9s1Crko4TAFpBlapceRUfTU4xTBxsAKocJxy77gxAMpj1ltL0Jkuhjz
+ KdhM8Li5R2B8PotudXQ/a5C54N++KPnIYcfMNXlzpzDAY/Cz1/fQpndgM
+ ZZGf0cxoQH1U0gAn6p6GomX0UYgs/nrcVLKALfmXBa92n788qdnZ6mqAr
+ a7qpXoeJrD9nwAUMXhkbeMe1goswuiHi/2z6L70yLDw2UagpHn3o3giGl
+ CabGv3W1lZOnd0GCAdoPLTXFM9VU994jTOqmyKyZInNiy8UHtY9sN8j9Q
+ 1j+xP99LTJqQWAJSNTK58U3awzNvOyvyvQ72aLu/PZLx4GE+duU26bP1d Q==;
+X-CSE-ConnectionGUID: F35Zm4/9ScaLTQbkvl4PAg==
+X-CSE-MsgGUID: L5nV6PuYRdmslYrBDRAZKg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11218"; a="27691178"
+X-IronPort-AV: E=Sophos;i="6.11,185,1725346800"; d="scan'208";a="27691178"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Oct 2024 18:42:30 -0700
+X-CSE-ConnectionGUID: 8T0R0NfIQBa5Ga1kQiOj8g==
+X-CSE-MsgGUID: apkcM5S+ScytZ5hecFmJiQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,185,1725346800"; d="scan'208";a="80455773"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+ by orviesa005.jf.intel.com with ESMTP; 07 Oct 2024 18:42:27 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1sxzF2-0005ku-2x;
+ Tue, 08 Oct 2024 01:42:24 +0000
+Date: Tue, 8 Oct 2024 09:41:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ekansh Gupta <quic_ekangupt@quicinc.com>,
+ srinivas.kandagatla@linaro.org, linux-arm-msm@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, gregkh@linuxfoundation.org,
+ quic_bkumar@quicinc.com, linux-kernel@vger.kernel.org,
+ quic_chennak@quicinc.com, dri-devel@lists.freedesktop.org, arnd@arndb.de
+Subject: Re: [PATCH v1 1/4] misc: fastrpc: Add CRC support using invokeV2
+ request
+Message-ID: <202410080906.2kCMkY5c-lkp@intel.com>
+References: <20241007084518.3649876-2-quic_ekangupt@quicinc.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB7726:EE_|MN6PR12MB8567:EE_
-X-MS-Office365-Filtering-Correlation-Id: ce06b63a-54e5-4138-24ee-08dce73c70a3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?cXJ5amxOb1ZvR1IrVWFjR1p1VmJLTzViQTlOMnBEWExHV1grd0VmdnZNaTUz?=
- =?utf-8?B?UWxkK2ZwU080NXVTRFViSEEzb01nTENGelc0dzluYllTZ01YbHJiTjkzRDFG?=
- =?utf-8?B?bkFrRmlkKzhJTWZRdmFuSFk4c1hKVE13VmhxOG1zRzJYYzcranMwM0xmNHNn?=
- =?utf-8?B?TE1ScThOb3daWEdsM3NsVEQ4RysrZUd2MGpRSWRTbEJncHFjWFFPbTZQdUdO?=
- =?utf-8?B?NkhBRUZMMm05aFVRYWlXSmRRVlVtZ2QzMTFOVW9YekgxTUNBQytOZVdWbVh4?=
- =?utf-8?B?Q2dJMVllcitMM1B3K0FvSnowWTR5N2c0UkNGSVh1UnJLb2x6ZUYrcmJSWHFr?=
- =?utf-8?B?djV2SGFINzVKSWVxQlBNWTJuYmRSVkhRUnhURDJLNTBGQWV0QjRaMUwycGhI?=
- =?utf-8?B?bjFpcXhHQVFCYzVRQXVLWUp3MUdzc3JKRHpYNk1YU25vODhJbnFKTzV6Vmtm?=
- =?utf-8?B?UFRaM1hSQXY3Z0krcTFtZGdLNG1aVWJuTlZVbkFIa1ZrTmo3VkVKOWEveDFP?=
- =?utf-8?B?bmswSW1aNUNiVFB1VVdIL1RjNHZGTU5uVVJmWUFybThXYVluZ3NZaFMrdWdS?=
- =?utf-8?B?Q25oR1FCRnlRNTNkeG0xMXJmUVp6ZXdTemwwdjkwamlFVGl3bnFxV0NoOG5t?=
- =?utf-8?B?RGQ4c1E3TkliSkVBa3V5QXdxSURhTXhaUEI3TzNzWlA1WjJBYTUxc2JnTGNF?=
- =?utf-8?B?c1hvQys0amxEaUtpM29kNXIyWDlScFFjKzF1VSs1RW1VSkNzUnlXbUliYkhO?=
- =?utf-8?B?MVNUUW03Qms4QThQcTBSRE5JamswVURqekMwWTVxcEI0R1VYcHBQVjEyblRr?=
- =?utf-8?B?MGcwT3FacE5lR29tcXY2T0VDbFlsNi9sWk8rYVRYQS83UlRRRkhpRzl5NUpk?=
- =?utf-8?B?ck1PalFDWkFzdU94d1FLQlg5dlJ2OFhLZXphK3Nna3NmeElWMm9wTXhZNlp5?=
- =?utf-8?B?a09DbGZCOVlyZkJjWVJqbEtrUHVEazczQUozdmg2MU5rY3h4OWVsNEg1OW93?=
- =?utf-8?B?TlkvTlNqRXgrWlVNNWZyNTNTRHBLYXQ3ZkNlSk1yb0tqRDRaL2JlZ1NCVFBo?=
- =?utf-8?B?WVJKVU42emtpRWNhVTRSRTRYVTF6N0x5SHNTb0VzS3JjbElXUGVXMHdtV3h3?=
- =?utf-8?B?TmhxUVVzcDJIMGp2ZldQZnoxWHp2Y0pZeFJHOW5vNndtUkZjNWpOdzJOalBk?=
- =?utf-8?B?amFYbXRTd1g2U1BDQ1BjZWpNb3hNZldublZEV0t1RFQ4dEZDR290N0dRNDR0?=
- =?utf-8?B?L2kySEU5MUZ5d3FXSURCY0Q2Q3pEVVdQYk51a29WcWsxeWkxajRGT1dtMzIz?=
- =?utf-8?B?bFhpY0c4WnVEVFRVYUE4dmtzQU92TWlob3JqNlI5ZTI4c085MFNUL24zbk1q?=
- =?utf-8?B?a3BBeFFCR0N1WjkveEJrS2ZsZnkvNVdkWXpoYnM4aHlyQmVoeGRlajF1WGdJ?=
- =?utf-8?B?NkIwbUJsUXBvdnBPSS9QQ2Y2dVZPdjNuaWlBQXN5T3A4eG1yV1Z4Qks0Qzdq?=
- =?utf-8?B?SkM0eDlxeEZEc3NCdmxXRGtrMlR0ZXNSL3ZJWnQ0bG1OdFlveXU3TTUxeTNa?=
- =?utf-8?B?aFdKd09RakRxODZGSGFXQW1YcURGNDZuREM0cTNhRzVHdzhSOUNoYm9vZjNn?=
- =?utf-8?B?ZEZpem5sU2NQM0NjK0ZNQkFKemoyK3d0aU9UYllYL05QaXUwRXpjanNXNSt0?=
- =?utf-8?B?bkU4QVkyZnZ3dnc2NUxzVmgxM2VvSy9wVWE1TVZpSDJ5RTVTcmwyZ0ZnPT0=?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DS0PR12MB7726.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(1800799024)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?V0ZlVWN1TzQ1YVNBQks3c1dKY0RhZjVsUnRvRkcvdFJwLzF4ZTRwREViK1BS?=
- =?utf-8?B?MlVyOUVoWEZBTlpSTzlucXdBN1ZBNlNENmVrd3N5blVLdkNFcGhHdUVNKzMz?=
- =?utf-8?B?ZDUwaUtlY2FZZ1FndW5DMU0zZ1ljMFY1cTVoa1U4dEs2elhQQXFEUjhpMjdE?=
- =?utf-8?B?YVV3SE9RRXNMTmczTjZHSUVRVFRUdHNqSDczNnd3RVFmZG9Ob0pDQ05IMTR4?=
- =?utf-8?B?NjNQdnFUMStBbmVIcHAvQmZsVmtBdUwyUHZrWXdDUjVSVUtFUTRRMVp2UU44?=
- =?utf-8?B?THgxSjJvUjJoenVTUHBDSWdReWQ4TTBQQVNOSkJ6WVhsSnlHZnRrdmFmL2tv?=
- =?utf-8?B?dHhWZm40U1ZVZlN0N0h3QWVZSmJOek1jaDEraFVRb1JKZUJTRUJKTWw2UGd3?=
- =?utf-8?B?OUxIQ0VlZXNrM0NUc2o0WEE2Vk9xRk5EcGpGL3FiNFJhdlZkL0ttdzdtdEFv?=
- =?utf-8?B?VkRSOXpIQUlnRW5xeVdyeG0vaVJiVUI3ckpGYVI3YkNmcUxWMmxTZnU5eVpR?=
- =?utf-8?B?TWdWWjFsbi9EeHptV0ppV0Q4VkQwQ3VLaU5ldW44Z0d1Ujh0N29QWmYvWSth?=
- =?utf-8?B?SllHKzAvRHpiai9BenhHWjY1bXJnMzU2elF3Tm9qb21GdU1YYmdpL3VZbFFi?=
- =?utf-8?B?MWlXbHBqNXY2MXU5SGlBaTc2bWZGb2h5bkxWSWJaUGJkTGNEMG5OTHFiM2E1?=
- =?utf-8?B?WFVhMlM0VDF4aVY5MkY2RVBHTHVNR0xwSElSb1RtdTdNMm5SbmZ5Zk1TRzFw?=
- =?utf-8?B?L3hqZEIrejBlQWQ3dmJNNnB6V2oyN1BBbWJTMjNaTFV2dUhFWDd1UnRzbTVa?=
- =?utf-8?B?UlpsZTJZVXdMRWtzLzRSeGQxMnJaUWw2U2hqaXA1Um9ldUgxR1draENCVkJG?=
- =?utf-8?B?WUVCVWhHazI4YnQ0QU5ycTUvaU9mZjNvTmdBN3pFMThyemF2VWtTRlVwL0xh?=
- =?utf-8?B?K0k4RXcvMDd4anJIWFlXTnA3Q2dTaE9vdnRUNkJvMkc4cTBLZlprU1dNeWdS?=
- =?utf-8?B?UTRTQVhISDVEWlg1YkRLVTBERmpCWWZDd25nMWl6NWl4ME8yb0pvd2VONnRP?=
- =?utf-8?B?YVRvaUtSRk9CQlFJRUQ3OEVTakZaOUg0TnhJdFAzRU03TmR3WWdmMjhjR0Iw?=
- =?utf-8?B?bXpZVXdpZEpxeExjUXBzMHhXM2s1dWpsVU9HOW1CbldDRDFDelRPTkZwZGFr?=
- =?utf-8?B?Wjg0NFVuWTdqaG5vaFk4S09kS05TcUFpS0xjNmxxVEtDamdrRm5HVmx6WEcz?=
- =?utf-8?B?SC9lcWxidnJFYmgvZzZlNWdkSFB2UnRNUThXQWZmZWtDMnpWdUpMVlZuNGZv?=
- =?utf-8?B?REw1YmVQcUg3TnVSY0tlc2lSRFJ4THU3aTlVQUJ0ZExvdm9JdnUzaHF0bkRm?=
- =?utf-8?B?ZktmRlVQZEdidXhzU1QvbGpnSitYYnhmT0Y1MnVseXgxN0NPSWk2eGx5ZmVu?=
- =?utf-8?B?VXZxdXhuSjdJSEp3MUdDREtuc0QxQld3SEhuUktHNGNHYlhQcHZXK0JjZGZz?=
- =?utf-8?B?MkdxQXBocUcwdkErUm5xOHNDUnJyZDk5UGpvbFAvU1hnMDNCT1JuY1ZiK0Jr?=
- =?utf-8?B?anBlRHJ4TDR1dWcxeTFEZmdlNEdSa3ZRTDUrYkdkN2xGdjRGSDNBVDFTN3Jw?=
- =?utf-8?B?VUp6cEpSMnd3TXE5NkJjREpibXpyakNGdkk4UUxSOGVXZ25yc0R0ZVBIK1lD?=
- =?utf-8?B?RFlJS2lyeUxmaFN3U3ZYTnY1QS9PUXY0MHpLcnNQaDdWTnRIb2JYbmZMc2pS?=
- =?utf-8?B?OENhOFNiblNIbVNsbWtrQU9RUWNLYmR2UkZjTVVjRWV5amZIKzhJOFZtazk3?=
- =?utf-8?B?NG9rWmNyRkF5aU84Q3JFZi9zK2tJZVFpRUhjSVlWOUlSczRUQmZLQmFvR3do?=
- =?utf-8?B?VVJYME45T1FGblNkbXpNU1lOSEV0OVFsd3ZrdjIwTFcrTTl2ZGZZM2gxVkgy?=
- =?utf-8?B?NkNkMFh1TmwxUWVGcTVEb2Q3V3lpVExIcHBIcDNtZzNZS21jb0hjTmxPdVhN?=
- =?utf-8?B?aFNWeTFleVVJSjQ3MktnTmxnaldEa3d6SWR3bXJILzIyM0JEMGlUaktLcm9m?=
- =?utf-8?B?MTNLRy82ekNyaGtXTTBvYnFBTjliSkJHUzJhL3R2cWdQa09haU1Oc1gxRVV6?=
- =?utf-8?Q?aZDAyK6da4omhBpXYdYd4M7Mj?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ce06b63a-54e5-4138-24ee-08dce73c70a3
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB7726.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Oct 2024 01:56:35.6740 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UmuKPo8fLCQgo05l5xTKuBSMml9ohYbOoCC58rEFoj9PNK/YOOReK+hwp2x1yIXPzrOX76QofrJF47ac9wfj4A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR12MB8567
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241007084518.3649876-2-quic_ekangupt@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -171,484 +73,183 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Ekansh,
 
-Simona Vetter <simona.vetter@ffwll.ch> writes:
+kernel test robot noticed the following build warnings:
 
-> On Wed, Sep 25, 2024 at 01:44:37PM +0200, Simona Vetter wrote:
->> On Tue, Sep 24, 2024 at 04:42:19PM +0000, Matthew Brost wrote:
->> > On Tue, Sep 24, 2024 at 01:48:29PM +0200, Simona Vetter wrote:
->> > > On Fri, Sep 20, 2024 at 09:59:51PM +0000, Matthew Brost wrote:
->> > > > On Fri, Sep 20, 2024 at 05:50:10PM -0400, Felix Kuehling wrote:
->> > > > >=20
->> > > > > On 2024-09-20 17:23, Matthew Brost wrote:
->> > > > > > On Fri, Sep 20, 2024 at 04:26:50PM -0400, Felix Kuehling wrote=
-:
->> > > > > > > On 2024-09-18 11:10, Alistair Popple wrote:
->> > > > > > > > Matthew Brost <matthew.brost@intel.com> writes:
->> > > > > > > >=20
->> > > > > > > > > On Wed, Sep 11, 2024 at 02:53:31PM +1000, Alistair Poppl=
-e wrote:
->> > > > > > > > > > Matthew Brost <matthew.brost@intel.com> writes:
->> > > > > > > > > >=20
->> > > > > > > > > > I haven't seen the same in the NVIDIA UVM driver (out-=
-of-tree, I know)
->> > > > > > > > > Still a driver.
->> > > > > > > > Indeed, and I'm happy to answer any questions about our im=
-plementation.
->> > > > > > > >=20
->> > > > > > > > > > but theoretically it seems like it should be possible.=
- However we
->> > > > > > > > > > serialize migrations of the same virtual address range=
- to avoid these
->> > > > > > > > > > kind of issues as they can happen the other way too (i=
-e. multiple
->> > > > > > > > > > threads trying to migrate to GPU).
->> > > > > > > > > >=20
->> > > > > > > > > > So I suspect what happens in UVM is that one thread wi=
-ns and installs
->> > > > > > > > > > the migration entry while the others fail to get the d=
-river migration
->> > > > > > > > > > lock and bail out sufficiently early in the fault path=
- to avoid the
->> > > > > > > > > > live-lock.
->> > > > > > > > > >=20
->> > > > > > > > > I had to try hard to show this, doubt an actual user cou=
-ld trigger this.
->> > > > > > > > >=20
->> > > > > > > > > I wrote a test which kicked 8 threads, each thread did a=
- pthread join,
->> > > > > > > > > and then tried to read the same page. This repeats in lo=
-op for like 512
->> > > > > > > > > pages or something. I needed an exclusive lock in migrat=
-e_to_ram vfunc
->> > > > > > > > > for it to livelock. Without an exclusive lock I think on=
- average I saw
->> > > > > > > > > about 32k retries (i.e. migrate_to_ram calls on the same=
- page) before a
->> > > > > > > > > thread won this race.
->> > > > > > > > >=20
->> > > > > > > > >   From reading UVM, pretty sure if you tried hard enough=
- you could trigger
->> > > > > > > > > a livelock given it appears you take excluvise locks in =
-migrate_to_ram.
->> > > > > > > > Yes, I suspect you're correct here and that we just haven'=
-t tried hard
->> > > > > > > > enough to trigger it.
->> > > > > > > >=20
->> > > > > > > > > > > Cc: Philip Yang <Philip.Yang@amd.com>
->> > > > > > > > > > > Cc: Felix Kuehling <felix.kuehling@amd.com>
->> > > > > > > > > > > Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
->> > > > > > > > > > > Cc: Andrew Morton <akpm@linux-foundation.org>
->> > > > > > > > > > > Suggessted-by: Simona Vetter <simona.vetter@ffwll.ch=
->
->> > > > > > > > > > > Signed-off-by: Matthew Brost <matthew.brost@intel.co=
-m>
->> > > > > > > > > > > ---
->> > > > > > > > > > >    mm/memory.c         | 13 +++++++---
->> > > > > > > > > > >    mm/migrate_device.c | 60 ++++++++++++++++++++++++=
-+++++++--------------
->> > > > > > > > > > >    2 files changed, 50 insertions(+), 23 deletions(-=
-)
->> > > > > > > > > > >=20
->> > > > > > > > > > > diff --git a/mm/memory.c b/mm/memory.c
->> > > > > > > > > > > index 3c01d68065be..bbd97d16a96a 100644
->> > > > > > > > > > > --- a/mm/memory.c
->> > > > > > > > > > > +++ b/mm/memory.c
->> > > > > > > > > > > @@ -4046,10 +4046,15 @@ vm_fault_t do_swap_page(stru=
-ct vm_fault *vmf)
->> > > > > > > > > > >    			 * Get a page reference while we know the page=
- can't be
->> > > > > > > > > > >    			 * freed.
->> > > > > > > > > > >    			 */
->> > > > > > > > > > > -			get_page(vmf->page);
->> > > > > > > > > > > -			pte_unmap_unlock(vmf->pte, vmf->ptl);
->> > > > > > > > > > > -			ret =3D vmf->page->pgmap->ops->migrate_to_ram(vm=
-f);
->> > > > > > > > > > > -			put_page(vmf->page);
->> > > > > > > > > > > +			if (trylock_page(vmf->page)) {
->> > > > > > > > > > > +				get_page(vmf->page);
->> > > > > > > > > > > +				pte_unmap_unlock(vmf->pte, vmf->ptl);
->> > > > > > > > > > This is all beginning to look a lot like migrate_vma_c=
-ollect_pmd(). So
->> > > > > > > > > > rather than do this and then have to pass all this con=
-text
->> > > > > > > > > > (ie. fault_page) down to the migrate_vma_* functions c=
-ould we instead
->> > > > > > > > > > just do what migrate_vma_collect_pmd() does here? Ie. =
-we already have
->> > > > > > > > > > the PTL and the page lock so there's no reason we coul=
-dn't just setup
->> > > > > > > > > > the migration entry prior to calling migrate_to_ram().
->> > > > > > > > > >=20
->> > > > > > > > > > Obviously calling migrate_vma_setup() would show the p=
-age as not
->> > > > > > > > > > migrating, but drivers could easily just fill in the s=
-rc_pfn info after
->> > > > > > > > > > calling migrate_vma_setup().
->> > > > > > > > > >=20
->> > > > > > > > > > This would eliminate the whole fault_page ugliness.
->> > > > > > > > > >=20
->> > > > > > > > > This seems like it would work and agree it likely be cle=
-aner. Let me
->> > > > > > > > > play around with this and see what I come up with. Multi=
--tasking a bit
->> > > > > > > > > so expect a bit of delay here.
->> > > > > > > > >=20
->> > > > > > > > > Thanks for the input,
->> > > > > > > > > Matt
->> > > > > > > Thanks! Sorry, I'm late catching up after a vacation. Please=
- keep Philip,
->> > > > > > > Christian and myself in the loop with future patches in this=
- area.
->> > > > > > >=20
->> > > > > > Will do. Already have another local patch set which helps driv=
-ers dma
->> > > > > > map 2M pages for migrations if SRAM is physically contiguous. =
-Seems
->> > > > > > helpful for performance on Intel hardware. Probably post that =
-soon for
->> > > > > > early feedack.
->> > > > >=20
->> > > > > OK.
->> > > > >=20
->> > > > >=20
->> > > > > >=20
->> > > > > > Longer term I thinking 2M migration entries, 2M device pages, =
-and being
->> > > > > > able to install 2M THP on VRAM -> SRAM could be really helpful=
-. I'm
->> > > > > > finding migrate_vma_* functions take up like 80-90% of the tim=
-e in the
->> > > > > > CPU / GPU fault handlers on a fault (or prefetch) which doesn'=
-t seem
->> > > > > > ideal. Seems like 2M entries for everything would really help =
-here. No
->> > > > > > idea how feasible this is as the core MM stuff gets confusing =
-fast. Any
->> > > > > > input on this idea?
->> > > > >=20
->> > > > > I agree with your observations. We found that the migrate_vma_* =
-code was the
->> > > > > bottle neck for migration performance as well, and not breaking =
-2M pages
->> > > > > could reduce that overhead a lot. I don't have any specific idea=
-s. I'm not
->> > > > > familiar with the details of that code myself. Philip has looked=
- at this
->> > > > > (and some old NVidia patches from a few years ago) in the past b=
-ut never had
->> > > > > enough uninterrupted time to make it past prototyping.
->> > > > >=20
->> > > >=20
->> > > > Cool good to know this isn't some crazy idea. Doubt it happen anyt=
-ime
->> > > > soon as I need to get a working baseline in before anything then s=
-tart
->> > > > applying optimizations and help in get other features to get the d=
-esign
->> > > > complete. But eventually will probably try to look at this. May pi=
-ng
->> > > > Philip and Nvidia when I have time to dig in here.
+[auto build test WARNING on char-misc/char-misc-testing]
+[also build test WARNING on char-misc/char-misc-next char-misc/char-misc-linus linus/master v6.12-rc2 next-20241004]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Apologies for my late reply here, I have just returned from vacation.
+url:    https://github.com/intel-lab-lkp/linux/commits/Ekansh-Gupta/misc-fastrpc-Add-CRC-support-using-invokeV2-request/20241007-164734
+base:   char-misc/char-misc-testing
+patch link:    https://lore.kernel.org/r/20241007084518.3649876-2-quic_ekangupt%40quicinc.com
+patch subject: [PATCH v1 1/4] misc: fastrpc: Add CRC support using invokeV2 request
+config: arc-randconfig-001-20241008 (https://download.01.org/0day-ci/archive/20241008/202410080906.2kCMkY5c-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241008/202410080906.2kCMkY5c-lkp@intel.com/reproduce)
 
-We (Nvidia) are actively looking at this as we have the same bottle
-necks. Mostly I've been doing some clean-ups in MM to make compound
-ZONE_DEVICE pages possible.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410080906.2kCMkY5c-lkp@intel.com/
 
->> > >=20
->> > > I think the big step will be moving hmm.c and migrate.c apis over fr=
-om
->> > > struct page to folios. That should also give us some nice benefits o=
-n the
->> > > gpu side, since instead of 4k pages to track we could allocate 2m gp=
-u
->> > > pages.
->> > >=20
->> >=20
->> > I think was thinking just encode the order in the migration PFN like H=
-MM
->> > does. Really only Nth order entry in the page array needs to be
->> > populated then - HMM populates every entry though which doesn't seem
->> > like that is required. Maybe having a folio API makes more sense?
->>=20
->> Both I'd say, as a first attempt at least. An array of folios, but only
->> populate the ones we need and jump over empty entries. A bit wasteful, b=
-ut
->> eh it's just allocations.
->
-> Ok thought some more, I think there's two things going on:
->
-> - spot contig memory sections so that the gpu side is more efficient and
->   can user bigger pagetables and stuff like that. this is what
->   hmm_range_fault does.
->
-> - optimize the core mm book-keeping by working on folios instead of
->   individual pages. hmm_range_fault does not care because it doesn't grab
->   references or lock pages or do anything else interesting with them, the
->   entire synchronization is provided by mmu notifier retry loops. But the
->   migration code does do a lot of expensive stuff, so it would need that.
->   For hmm_range_fault it's probably not so important, so maybe we could
->   leave the folio conversion of that to later.
->
-> I think we need both, meaning:
-> - switch to folio, leave out entries as NULL for compound folios
-> - on top of compoung folios still track contig ranges so that the gpu sid=
-e
->   can additionally benefit when e.g. 2M pages are split into smaller
->   folios but happen to be contig
+All warnings (new ones prefixed by >>):
 
-Definitely I think the folio approach makes sense and I was prototpying
-a series to allow compound device private pages and to migrate
-them. However I got caught up on similar questions around migrate_vma_*
-API (specifically around whether to allow splitting/merging) so never
-got around to posting them. Probably the simple array based approach
-makes sense though.
+   drivers/misc/fastrpc.c: In function 'fastrpc_context_alloc':
+>> drivers/misc/fastrpc.c:584:16: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     584 |         args = (struct fastrpc_invoke_args *)inv2->inv.args;
+         |                ^
+   drivers/misc/fastrpc.c: In function 'fastrpc_init_create_static_process':
+>> drivers/misc/fastrpc.c:1331:26: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+    1331 |         ioctl.inv.args = (u64)args;
+         |                          ^
+   drivers/misc/fastrpc.c: In function 'fastrpc_init_create_process':
+   drivers/misc/fastrpc.c:1464:26: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+    1464 |         ioctl.inv.args = (u64)args;
+         |                          ^
+   drivers/misc/fastrpc.c: In function 'fastrpc_release_current_dsp_process':
+   drivers/misc/fastrpc.c:1527:26: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+    1527 |         ioctl.inv.args = (u64)args;
+         |                          ^
+   drivers/misc/fastrpc.c: In function 'fastrpc_init_attach':
+   drivers/misc/fastrpc.c:1674:26: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+    1674 |         ioctl.inv.args = (u64)args;
+         |                          ^
+   drivers/misc/fastrpc.c: In function 'fastrpc_copy_args':
+>> drivers/misc/fastrpc.c:1696:19: warning: assignment to '__u64' {aka 'long long unsigned int'} from 'struct fastrpc_invoke_args *' makes integer from pointer without a cast [-Wint-conversion]
+    1696 |         inv->args = args;
+         |                   ^
+   drivers/misc/fastrpc.c: In function 'fastrpc_invoke':
+>> drivers/misc/fastrpc.c:1716:18: warning: passing argument 1 of 'kfree' makes pointer from integer without a cast [-Wint-conversion]
+    1716 |         kfree(inv.args);
+         |               ~~~^~~~~
+         |                  |
+         |                  __u64 {aka long long unsigned int}
+   In file included from include/linux/mm.h:33,
+                    from include/linux/scatterlist.h:8,
+                    from include/linux/dma-buf.h:19,
+                    from drivers/misc/fastrpc.c:7:
+   include/linux/slab.h:446:24: note: expected 'const void *' but argument is of type '__u64' {aka 'long long unsigned int'}
+     446 | void kfree(const void *objp);
+         |            ~~~~~~~~~~~~^~~~
+   drivers/misc/fastrpc.c: In function 'fastrpc_invokev2':
+   drivers/misc/fastrpc.c:1734:23: warning: passing argument 1 of 'kfree' makes pointer from integer without a cast [-Wint-conversion]
+    1734 |         kfree(inv2.inv.args);
+         |               ~~~~~~~~^~~~~
+         |                       |
+         |                       __u64 {aka long long unsigned int}
+   include/linux/slab.h:446:24: note: expected 'const void *' but argument is of type '__u64' {aka 'long long unsigned int'}
+     446 | void kfree(const void *objp);
+         |            ~~~~~~~~~~~~^~~~
+   drivers/misc/fastrpc.c: In function 'fastrpc_get_info_from_dsp':
+   drivers/misc/fastrpc.c:1762:26: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+    1762 |         ioctl.inv.args = (u64)args;
+         |                          ^
+   drivers/misc/fastrpc.c: In function 'fastrpc_req_munmap_impl':
+   drivers/misc/fastrpc.c:1864:26: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+    1864 |         ioctl.inv.args = (u64)args;
+         |                          ^
+   drivers/misc/fastrpc.c: In function 'fastrpc_req_mmap':
+   drivers/misc/fastrpc.c:1961:26: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+    1961 |         ioctl.inv.args = (u64)args;
+         |                          ^
+   drivers/misc/fastrpc.c: In function 'fastrpc_req_mem_unmap_impl':
+   drivers/misc/fastrpc.c:2042:26: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+    2042 |         ioctl.inv.args = (u64)args;
+         |                          ^
+   drivers/misc/fastrpc.c: In function 'fastrpc_req_mem_map':
+   drivers/misc/fastrpc.c:2112:26: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+    2112 |         ioctl.inv.args = (u64)args;
+         |                          ^
 
-In any case to get something like that merged I'd been asked if we could
-fix the ZONE_DEVICE refcounting mess for DAX (as it was the only one
-still relying on the off-by-one refcounts for compound pages). The good
-news is that series[1] is getting close to merged, and as a side-effect
-it allows for compound ZONE_DEVICE pages so extending it to
-DEVICE_PRIVATE pages to allow THP migration shouldn't be too difficult
-and was going to be my next step once this was merged. So it's nice to
-know other people might care about this too.
 
-[1] - https://lore.kernel.org/linux-mm/cover.9f0e45d52f5cff58807831b6b86708=
-4d0b14b61c.1725941415.git-series.apopple@nvidia.com/
+vim +584 drivers/misc/fastrpc.c
 
-> Cheers, Sima
->
->>=20
->> > > Once we have folios at the driver/core mm api level doing all the fa=
-ncy
->> > > thp stuff should be at least a well-contained problem. But I might b=
-e
->> > > dellusionally optimistic here :-)
->> >=20
->> > I think it contained in the sense is the DRM SVM layer just allocates =
-a
->> > THP or large continous device memory and hands it off to migrate layer
->> > and that layer does the right thing. The 'right thing' here I believe =
-is
->> > a decent amount of core MM work though.
->>=20
->> Yeah that's what I meant, once we have switched the interfaces to be
->> arrays of folios, where for larger folios we leave the entries in betwee=
-n
->> NULL and have some appropriate iterators, then the driver side is done
->> mostly.  The core mm side to actually make use of that will be fairly
->> gnarly though.
->> -Sima
->>=20
->> >=20
->> > Matt
->> >=20
->> > > -Sima
->> > >=20
->> > > >=20
->> > > > Matt
->> > > >=20
->> > > > > Regards,
->> > > > > =C2=A0 Felix
->> > > > >=20
->> > > > >=20
->> > > > > >=20
->> > > > > > Matt
->> > > > > >=20
->> > > > > > > Regards,
->> > > > > > >  =C2=A0 Felix
->> > > > > > >=20
->> > > > > > >=20
->> > > > > > > > > > > +				ret =3D vmf->page->pgmap->ops->migrate_to_ram(v=
-mf);
->> > > > > > > > > > > +				put_page(vmf->page);
->> > > > > > > > > > > +				unlock_page(vmf->page);
->> > > > > > > > > > > +			} else {
->> > > > > > > > > > > +				pte_unmap_unlock(vmf->pte, vmf->ptl);
->> > > > > > > > > > > +			}
->> > > > > > > > > > >    		} else if (is_hwpoison_entry(entry)) {
->> > > > > > > > > > >    			ret =3D VM_FAULT_HWPOISON;
->> > > > > > > > > > >    		} else if (is_pte_marker_entry(entry)) {
->> > > > > > > > > > > diff --git a/mm/migrate_device.c b/mm/migrate_device=
-.c
->> > > > > > > > > > > index 6d66dc1c6ffa..049893a5a179 100644
->> > > > > > > > > > > --- a/mm/migrate_device.c
->> > > > > > > > > > > +++ b/mm/migrate_device.c
->> > > > > > > > > > > @@ -60,6 +60,8 @@ static int migrate_vma_collect_pmd=
-(pmd_t *pmdp,
->> > > > > > > > > > >    				   struct mm_walk *walk)
->> > > > > > > > > > >    {
->> > > > > > > > > > >    	struct migrate_vma *migrate =3D walk->private;
->> > > > > > > > > > > +	struct folio *fault_folio =3D migrate->fault_page =
-?
->> > > > > > > > > > > +		page_folio(migrate->fault_page) : NULL;
->> > > > > > > > > > >    	struct vm_area_struct *vma =3D walk->vma;
->> > > > > > > > > > >    	struct mm_struct *mm =3D vma->vm_mm;
->> > > > > > > > > > >    	unsigned long addr =3D start, unmapped =3D 0;
->> > > > > > > > > > > @@ -88,11 +90,13 @@ static int migrate_vma_collect_p=
-md(pmd_t *pmdp,
->> > > > > > > > > > >    			folio_get(folio);
->> > > > > > > > > > >    			spin_unlock(ptl);
->> > > > > > > > > > > -			if (unlikely(!folio_trylock(folio)))
->> > > > > > > > > > > +			if (unlikely(fault_folio !=3D folio &&
->> > > > > > > > > > > +				     !folio_trylock(folio)))
->> > > > > > > > > > >    				return migrate_vma_collect_skip(start, end,
->> > > > > > > > > > >    								walk);
->> > > > > > > > > > >    			ret =3D split_folio(folio);
->> > > > > > > > > > > -			folio_unlock(folio);
->> > > > > > > > > > > +			if (fault_folio !=3D folio)
->> > > > > > > > > > > +				folio_unlock(folio);
->> > > > > > > > > > >    			folio_put(folio);
->> > > > > > > > > > >    			if (ret)
->> > > > > > > > > > >    				return migrate_vma_collect_skip(start, end,
->> > > > > > > > > > > @@ -192,7 +196,7 @@ static int migrate_vma_collect_p=
-md(pmd_t *pmdp,
->> > > > > > > > > > >    		 * optimisation to avoid walking the rmap later=
- with
->> > > > > > > > > > >    		 * try_to_migrate().
->> > > > > > > > > > >    		 */
->> > > > > > > > > > > -		if (folio_trylock(folio)) {
->> > > > > > > > > > > +		if (fault_folio =3D=3D folio || folio_trylock(fol=
-io)) {
->> > > > > > > > > > >    			bool anon_exclusive;
->> > > > > > > > > > >    			pte_t swp_pte;
->> > > > > > > > > > > @@ -204,7 +208,8 @@ static int migrate_vma_collect_p=
-md(pmd_t *pmdp,
->> > > > > > > > > > >    				if (folio_try_share_anon_rmap_pte(folio, page=
-)) {
->> > > > > > > > > > >    					set_pte_at(mm, addr, ptep, pte);
->> > > > > > > > > > > -					folio_unlock(folio);
->> > > > > > > > > > > +					if (fault_folio !=3D folio)
->> > > > > > > > > > > +						folio_unlock(folio);
->> > > > > > > > > > >    					folio_put(folio);
->> > > > > > > > > > >    					mpfn =3D 0;
->> > > > > > > > > > >    					goto next;
->> > > > > > > > > > > @@ -363,6 +368,8 @@ static unsigned long migrate_dev=
-ice_unmap(unsigned long *src_pfns,
->> > > > > > > > > > >    					  unsigned long npages,
->> > > > > > > > > > >    					  struct page *fault_page)
->> > > > > > > > > > >    {
->> > > > > > > > > > > +	struct folio *fault_folio =3D fault_page ?
->> > > > > > > > > > > +		page_folio(fault_page) : NULL;
->> > > > > > > > > > >    	unsigned long i, restore =3D 0;
->> > > > > > > > > > >    	bool allow_drain =3D true;
->> > > > > > > > > > >    	unsigned long unmapped =3D 0;
->> > > > > > > > > > > @@ -427,7 +434,8 @@ static unsigned long migrate_dev=
-ice_unmap(unsigned long *src_pfns,
->> > > > > > > > > > >    		remove_migration_ptes(folio, folio, false);
->> > > > > > > > > > >    		src_pfns[i] =3D 0;
->> > > > > > > > > > > -		folio_unlock(folio);
->> > > > > > > > > > > +		if (fault_folio !=3D folio)
->> > > > > > > > > > > +			folio_unlock(folio);
->> > > > > > > > > > >    		folio_put(folio);
->> > > > > > > > > > >    		restore--;
->> > > > > > > > > > >    	}
->> > > > > > > > > > > @@ -536,6 +544,8 @@ int migrate_vma_setup(struct mig=
-rate_vma *args)
->> > > > > > > > > > >    		return -EINVAL;
->> > > > > > > > > > >    	if (args->fault_page && !is_device_private_page(=
-args->fault_page))
->> > > > > > > > > > >    		return -EINVAL;
->> > > > > > > > > > > +	if (args->fault_page && !PageLocked(args->fault_pa=
-ge))
->> > > > > > > > > > > +		return -EINVAL;
->> > > > > > > > > > >    	memset(args->src, 0, sizeof(*args->src) * nr_pag=
-es);
->> > > > > > > > > > >    	args->cpages =3D 0;
->> > > > > > > > > > > @@ -799,19 +809,13 @@ void migrate_vma_pages(struct =
-migrate_vma *migrate)
->> > > > > > > > > > >    }
->> > > > > > > > > > >    EXPORT_SYMBOL(migrate_vma_pages);
->> > > > > > > > > > > -/*
->> > > > > > > > > > > - * migrate_device_finalize() - complete page migrat=
-ion
->> > > > > > > > > > > - * @src_pfns: src_pfns returned from migrate_device=
-_range()
->> > > > > > > > > > > - * @dst_pfns: array of pfns allocated by the driver=
- to migrate memory to
->> > > > > > > > > > > - * @npages: number of pages in the range
->> > > > > > > > > > > - *
->> > > > > > > > > > > - * Completes migration of the page by removing spec=
-ial migration entries.
->> > > > > > > > > > > - * Drivers must ensure copying of page data is comp=
-lete and visible to the CPU
->> > > > > > > > > > > - * before calling this.
->> > > > > > > > > > > - */
->> > > > > > > > > > > -void migrate_device_finalize(unsigned long *src_pfn=
-s,
->> > > > > > > > > > > -			unsigned long *dst_pfns, unsigned long npages)
->> > > > > > > > > > > +static void __migrate_device_finalize(unsigned long=
- *src_pfns,
->> > > > > > > > > > > +				      unsigned long *dst_pfns,
->> > > > > > > > > > > +				      unsigned long npages,
->> > > > > > > > > > > +				      struct page *fault_page)
->> > > > > > > > > > >    {
->> > > > > > > > > > > +	struct folio *fault_folio =3D fault_page ?
->> > > > > > > > > > > +		page_folio(fault_page) : NULL;
->> > > > > > > > > > >    	unsigned long i;
->> > > > > > > > > > >    	for (i =3D 0; i < npages; i++) {
->> > > > > > > > > > > @@ -838,7 +842,8 @@ void migrate_device_finalize(uns=
-igned long *src_pfns,
->> > > > > > > > > > >    		src =3D page_folio(page);
->> > > > > > > > > > >    		dst =3D page_folio(newpage);
->> > > > > > > > > > >    		remove_migration_ptes(src, dst, false);
->> > > > > > > > > > > -		folio_unlock(src);
->> > > > > > > > > > > +		if (fault_folio !=3D src)
->> > > > > > > > > > > +			folio_unlock(src);
->> > > > > > > > > > >    		if (is_zone_device_page(page))
->> > > > > > > > > > >    			put_page(page);
->> > > > > > > > > > > @@ -854,6 +859,22 @@ void migrate_device_finalize(un=
-signed long *src_pfns,
->> > > > > > > > > > >    		}
->> > > > > > > > > > >    	}
->> > > > > > > > > > >    }
->> > > > > > > > > > > +
->> > > > > > > > > > > +/*
->> > > > > > > > > > > + * migrate_device_finalize() - complete page migrat=
-ion
->> > > > > > > > > > > + * @src_pfns: src_pfns returned from migrate_device=
-_range()
->> > > > > > > > > > > + * @dst_pfns: array of pfns allocated by the driver=
- to migrate memory to
->> > > > > > > > > > > + * @npages: number of pages in the range
->> > > > > > > > > > > + *
->> > > > > > > > > > > + * Completes migration of the page by removing spec=
-ial migration entries.
->> > > > > > > > > > > + * Drivers must ensure copying of page data is comp=
-lete and visible to the CPU
->> > > > > > > > > > > + * before calling this.
->> > > > > > > > > > > + */
->> > > > > > > > > > > +void migrate_device_finalize(unsigned long *src_pfn=
-s,
->> > > > > > > > > > > +			unsigned long *dst_pfns, unsigned long npages)
->> > > > > > > > > > > +{
->> > > > > > > > > > > +	return __migrate_device_finalize(src_pfns, dst_pfn=
-s, npages, NULL);
->> > > > > > > > > > > +}
->> > > > > > > > > > >    EXPORT_SYMBOL(migrate_device_finalize);
->> > > > > > > > > > >    /**
->> > > > > > > > > > > @@ -869,7 +890,8 @@ EXPORT_SYMBOL(migrate_device_fin=
-alize);
->> > > > > > > > > > >     */
->> > > > > > > > > > >    void migrate_vma_finalize(struct migrate_vma *mig=
-rate)
->> > > > > > > > > > >    {
->> > > > > > > > > > > -	migrate_device_finalize(migrate->src, migrate->dst=
-, migrate->npages);
->> > > > > > > > > > > +	__migrate_device_finalize(migrate->src, migrate->d=
-st, migrate->npages,
->> > > > > > > > > > > +				  migrate->fault_page);
->> > > > > > > > > > >    }
->> > > > > > > > > > >    EXPORT_SYMBOL(migrate_vma_finalize);
->> > >=20
->> > > --=20
->> > > Simona Vetter
->> > > Software Engineer, Intel Corporation
->> > > http://blog.ffwll.ch
->>=20
->> --=20
->> Simona Vetter
->> Software Engineer, Intel Corporation
->> http://blog.ffwll.ch
+   573	
+   574	static struct fastrpc_invoke_ctx *fastrpc_context_alloc(
+   575				struct fastrpc_user *user, u32 kernel, u32 sc,
+   576				struct fastrpc_invoke_v2 *inv2)
+   577	{
+   578		struct fastrpc_channel_ctx *cctx = user->cctx;
+   579		struct fastrpc_invoke_ctx *ctx = NULL;
+   580		struct fastrpc_invoke_args *args = NULL;
+   581		unsigned long flags;
+   582		int ret;
+   583	
+ > 584		args = (struct fastrpc_invoke_args *)inv2->inv.args;
+   585		ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
+   586		if (!ctx)
+   587			return ERR_PTR(-ENOMEM);
+   588	
+   589		INIT_LIST_HEAD(&ctx->node);
+   590		ctx->fl = user;
+   591		ctx->nscalars = REMOTE_SCALARS_LENGTH(sc);
+   592		ctx->nbufs = REMOTE_SCALARS_INBUFS(sc) +
+   593			     REMOTE_SCALARS_OUTBUFS(sc);
+   594	
+   595		if (ctx->nscalars) {
+   596			ctx->maps = kcalloc(ctx->nscalars,
+   597					    sizeof(*ctx->maps), GFP_KERNEL);
+   598			if (!ctx->maps) {
+   599				kfree(ctx);
+   600				return ERR_PTR(-ENOMEM);
+   601			}
+   602			ctx->olaps = kcalloc(ctx->nscalars,
+   603					    sizeof(*ctx->olaps), GFP_KERNEL);
+   604			if (!ctx->olaps) {
+   605				kfree(ctx->maps);
+   606				kfree(ctx);
+   607				return ERR_PTR(-ENOMEM);
+   608			}
+   609			ctx->args = args;
+   610			fastrpc_get_buff_overlaps(ctx);
+   611		}
+   612	
+   613		/* Released in fastrpc_context_put() */
+   614		fastrpc_channel_ctx_get(cctx);
+   615	
+   616		ctx->crc = (u32 *)(uintptr_t)inv2->crc;
+   617		ctx->sc = sc;
+   618		ctx->retval = -1;
+   619		ctx->pid = current->pid;
+   620		ctx->tgid = user->tgid;
+   621		ctx->cctx = cctx;
+   622		init_completion(&ctx->work);
+   623		INIT_WORK(&ctx->put_work, fastrpc_context_put_wq);
+   624	
+   625		spin_lock(&user->lock);
+   626		list_add_tail(&ctx->node, &user->pending);
+   627		spin_unlock(&user->lock);
+   628	
+   629		spin_lock_irqsave(&cctx->lock, flags);
+   630		ret = idr_alloc_cyclic(&cctx->ctx_idr, ctx, 1,
+   631				       FASTRPC_CTX_MAX, GFP_ATOMIC);
+   632		if (ret < 0) {
+   633			spin_unlock_irqrestore(&cctx->lock, flags);
+   634			goto err_idr;
+   635		}
+   636		ctx->ctxid = ret << 4;
+   637		spin_unlock_irqrestore(&cctx->lock, flags);
+   638	
+   639		kref_init(&ctx->refcount);
+   640	
+   641		return ctx;
+   642	err_idr:
+   643		spin_lock(&user->lock);
+   644		list_del(&ctx->node);
+   645		spin_unlock(&user->lock);
+   646		fastrpc_channel_ctx_put(cctx);
+   647		kfree(ctx->maps);
+   648		kfree(ctx->olaps);
+   649		kfree(ctx);
+   650	
+   651		return ERR_PTR(ret);
+   652	}
+   653	
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
