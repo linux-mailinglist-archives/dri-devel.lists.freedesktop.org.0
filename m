@@ -2,50 +2,122 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECADB9949EA
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 14:28:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAC70994B25
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 14:40:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9AD4910E4F3;
-	Tue,  8 Oct 2024 12:28:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D94810E1F3;
+	Tue,  8 Oct 2024 12:40:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="iUaNgy5o";
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.b="Mj1wSlLT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF1AD10E4ED;
- Tue,  8 Oct 2024 12:28:39 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 69851A40CED;
- Tue,  8 Oct 2024 12:28:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AC28C4CECD;
- Tue,  8 Oct 2024 12:28:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1728390518;
- bh=IP8ffe5Dzmmh5NHxdl4RiD92eKoxEaHlv8MBTGRIi7g=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=iUaNgy5o2y+iqGr73JqwFNvduRxX97hf0JVMebA1eaBxK5JtwJBQLbgh2L3OeyMGK
- O/9+tdeDMbOapnJT/kxdDhc0UiwA18ILVn/QHFZK1/N4QuNbnS/0ABGwPjHju6hR8x
- DSPhAbSJi+kumg/vtRdHHzmRelfgpOexIBTQEt+gCouEMLFqPkjeDEOMLQjbohjakT
- As8Mw/eB4Fat6Va4zRRJycsUt7YZ4jiVAB6KC5qsIqPFbNDKz5ihHyMKuOknSiFx52
- m9sfUdWMtFBNqlDgTzN6KsNepKZhCMU3nCm7y2MHU6VjLtZk9/yhRlaB5HBm9nhNGl
- x9usUaBSbZTdQ==
-Date: Tue, 8 Oct 2024 14:28:33 +0200
-From: Danilo Krummrich <dakr@kernel.org>
-To: Yonatan Maman <ymaman@nvidia.com>
-Cc: kherbst@redhat.com, lyude@redhat.com, dakr@redhat.com,
- airlied@gmail.com, daniel@ffwll.ch, bskeggs@nvidia.com,
- jglisse@redhat.com, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-Subject: Re: [PATCH v4 0/2] drm/nouveau/dmem: Fix Vulnerability and Device
- Channels configuration
-Message-ID: <ZwUlcWka1_CgXRyG@cassiopeiae>
-References: <20241008115943.990286-1-ymaman@nvidia.com>
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
+ [148.163.158.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BE4D10E1F3;
+ Tue,  8 Oct 2024 12:40:42 +0000 (UTC)
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 498BsMk5006181;
+ Tue, 8 Oct 2024 12:40:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from
+ :subject:date:message-id:content-type:to:cc
+ :content-transfer-encoding:mime-version; s=pp1; bh=pOl4ktgChjI1x
+ ihRyfZf3GuH04LsHn6DYGpUG7dt7hA=; b=Mj1wSlLTzLFGjeC9FjwerlOHFa+zM
+ DKEJgymPSia+4AoUadZhZAMwDj8BTkhZsNk+keJducR3JuupSbWIDCgAmGyWMfi7
+ fKdoMxW1XKYopwBCxx0/Ni9O7Q6oKAZEjnfoh8hiTz1nK8WBXWkRTPviLZx4My/j
+ 7W9MMehDmYxifC9Nk8p8tmuHx7daSEsyNq0dsHQ0H0r1U5s50Xlbw3KmTTUHJ9bD
+ 6PSZebNxsp8OE/uCAjhh3VqQwA6kDKUIc64WO5rIsW2KS3fTIwFM/hPVwnfq8ZBb
+ 0op3/3nx6x6iPk+dlDtCMb0V0QnGiv0JiG56KCM4z1DmtYQZK6K8UKb7g==
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 42549908jn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 08 Oct 2024 12:40:31 +0000 (GMT)
+Received: from m0356516.ppops.net (m0356516.ppops.net [127.0.0.1])
+ by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 498Cd65c030660;
+ Tue, 8 Oct 2024 12:40:31 GMT
+Received: from ppma22.wdc07v.mail.ibm.com
+ (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 42549908jc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 08 Oct 2024 12:40:31 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+ by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 498CR5Ef011521;
+ Tue, 8 Oct 2024 12:40:30 GMT
+Received: from smtprelay03.wdc07v.mail.ibm.com ([172.16.1.70])
+ by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 423g5xmcdp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 08 Oct 2024 12:40:30 +0000
+Received: from smtpav03.wdc07v.mail.ibm.com (smtpav03.wdc07v.mail.ibm.com
+ [10.39.53.230])
+ by smtprelay03.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 498CeTgG23659234
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 8 Oct 2024 12:40:29 GMT
+Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E9B4A58062;
+ Tue,  8 Oct 2024 12:40:28 +0000 (GMT)
+Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id ED9585805A;
+ Tue,  8 Oct 2024 12:40:23 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+ by smtpav03.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+ Tue,  8 Oct 2024 12:40:23 +0000 (GMT)
+From: Niklas Schnelle <schnelle@linux.ibm.com>
+Subject: [PATCH v8 0/5] treewide: Remove I/O port accessors for
+ HAS_IOPORT=n
+Date: Tue, 08 Oct 2024 14:39:41 +0200
+Message-Id: <20241008-b4-has_ioport-v8-0-793e68aeadda@linux.ibm.com>
+Content-Type: text/plain; charset="utf-8"
+X-B4-Tracking: v=1; b=H4sIAA0oBWcC/13M0QqCMBTG8VeRXTc5rrVZV71HRMx5zAPpZLNhi
+ O/eFILw8v/B95tZQE8Y2CWbmcdIgVyfojxkzLamfyKnOjUTIGQBIHkleWvCg9zg/MgVGKssFjV
+ WiqXP4LGhafNu99QthdH5z8ZHta4/Se+kqDhwODZaSKiNwtP1Rf17yqnqcus6tmpR/wvlXtBJK
+ JWQFs5G1lrvhWVZvn32tpDwAAAA
+X-Change-ID: 20241004-b4-has_ioport-60ac6ce1deb6
+To: Brian Cain <bcain@quicinc.com>, Marcel Holtmann <marcel@holtmann.org>,
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+ Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Dave Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jiri Slaby <jirislaby@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ "Maciej W. Rozycki" <macro@orcam.me.uk>, Heiko Carstens <hca@linux.ibm.com>
+Cc: linux-kernel@vger.kernel.org, linux-hexagon@vger.kernel.org,
+ linux-bluetooth@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, linux-serial@vger.kernel.org,
+ linux-arch@vger.kernel.org, Niklas Schnelle <schnelle@linux.ibm.com>,
+ Arnd Bergmann <arnd@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3575;
+ i=schnelle@linux.ibm.com; h=from:subject:message-id;
+ bh=6iXTfylcHiouPDPsYMMA7jBlfpR78tVFP+VwvM5uYoY=;
+ b=owGbwMvMwCX2Wz534YHOJ2GMp9WSGNJZNQR1GfR3Oexh8l07SfSNMveB6KMvjBLeLDuY7Naol
+ y/w/lleRykLgxgXg6yYIsuiLme/dQVTTPcE9XfAzGFlAhnCwMUpABOxFWZkeB7v8H3a5zoJq7ne
+ bSt2R9i9beTdwt5+/p6dxLpwVQvfAIZ/tm+2tV282m/4Tu954GuOHw9fnD0+zYWH+fSkN9kV/Wt
+ msQMA
+X-Developer-Key: i=schnelle@linux.ibm.com; a=openpgp;
+ fpr=9DB000B2D2752030A5F72DDCAFE43F15E8C26090
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: jWlKYB-UbWEldWzuXtPPoAOoIOffl0Yg
+X-Proofpoint-ORIG-GUID: -wc3D3PcYgnXknBTnJB55CoCv5dzwH-2
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241008115943.990286-1-ymaman@nvidia.com>
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-08_10,2024-10-08_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 mlxlogscore=999
+ priorityscore=1501 impostorscore=0 spamscore=0 malwarescore=0
+ lowpriorityscore=0 suspectscore=0 phishscore=0 adultscore=0 clxscore=1015
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410080078
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,30 +133,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 08, 2024 at 02:59:41PM +0300, Yonatan Maman wrote:
-> From: Yonatan Maman <Ymaman@Nvidia.com>
-> 
-> This patch series addresses two critical issues in the Nouveau driver
-> related to device channels, error handling, and sensitive data leaks.
-> 
-> - Vulnerability in migrate_to_ram: The migrate_to_ram function might
->   return a dirty HIGH_USER page when a copy push command (FW channel)
->   fails, potentially exposing sensitive data and posing a security
->   risk. To mitigate this, the patch ensures the allocation of a non-dirty
->   (zero) page for the destination, preventing the return of a dirty page
->   and enhancing driver security in case of failure.
-> 
-> - Privileged Error in Copy Engine Channel: An error was observed when
->   the nouveau_dmem_copy_one function is executed, leading to a Host Copy
->   Engine Privileged error on channel 1. The patch resolves this by
->   adjusting the Copy Engine channel configuration to permit privileged
->   push commands, resolving the error.
-> 
-> Changes since V3:
-> - Fixed version according to Danilo Krummrich's comments.
-> 
-> Yonatan Maman (2):
->   nouveau/dmem: Fix privileged error in copy engine channel
->   nouveau/dmem: Fix vulnerability in migrate_to_ram upon copy error
+Hi All,
 
-Applied to drm-misc-fixes, thanks!
+This is a follow up in my long running effort of making inb()/outb() and
+similar I/O port accessors compile-time optional. After initially
+sending this as a treewide series with the latest revision at[0]
+we switched to per subsystem series. Now though as we're left with only
+5 patches left I'm going back to a single series with Arnd planning
+to take this via the the asm-generic tree.
+
+This series may also be viewed for your convenience on my git.kernel.org
+tree[1] under the b4/has_ioport branch. As for compile-time vs runtime
+see Linus' reply to my first attempt[2].
+
+Thanks,
+Niklas
+
+[0] https://lore.kernel.org/all/20230522105049.1467313-1-schnelle@linux.ibm.com/
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/niks/linux.git
+[2] https://lore.kernel.org/lkml/CAHk-=wg80je=K7madF4e7WrRNp37e3qh6y10Svhdc7O8SZ_-8g@mail.gmail.com/
+
+Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
+---
+Changes in v8:
+- Don't remove "depends on !S390" for SERIAL_8250
+- Link to v7: https://lore.kernel.org/r/20241008-b4-has_ioport-v7-0-8624c09a4d77@linux.ibm.com
+
+Changes in v7:
+- Renamed serial_8250_need_ioport() helper to
+  serial_8250_warn_need_ioport() and move it to 8250_pcilib.c so it can
+  be used in serial8250_pci_setup_port()
+- Flattened if in serial8250_pci_setup_port() (Maciej)
+- Removed gratuituous changes (Maciej)
+- Removed is_upf_fourport() helper in favor of zeroing UPF_FOURPORT
+  if CONFIG_HAS_IOPORT is not set (Maciej)
+- Link to v6: https://lore.kernel.org/r/20241007-b4-has_ioport-v6-0-03f7240da6e5@linux.ibm.com
+
+Changes since v5 / per subsystem patches:
+
+drm:
+- Add HAS_IOPORT dependency for GMA500
+tty: serial:
+- Make 8250 PCI driver emit an error message when trying to use devices
+  which require I/O ports without CONFIG_HAS_IOPORT (Maciej)
+- Use early returns + dead code elimination to skip inb()/outb() uses
+  in quirks (Arnd)
+- In 8250 PCI driver also handle fintek and moxi quirks
+- In 8250 ports code handle um's defined(__i385__) &&
+  defined(CONFIG_HAS_IOPORT) case
+- Use IS_ENABLED() early return also in is_upf_fourport()
+  __always_inline to force constant folding
+
+---
+Niklas Schnelle (5):
+      hexagon: Don't select GENERIC_IOMAP without HAS_IOPORT support
+      Bluetooth: add HAS_IOPORT dependencies
+      drm: handle HAS_IOPORT dependencies
+      tty: serial: handle HAS_IOPORT dependencies
+      asm-generic/io.h: Remove I/O port accessors for HAS_IOPORT=n
+
+ arch/hexagon/Kconfig                  |  1 -
+ drivers/bluetooth/Kconfig             |  6 ++--
+ drivers/gpu/drm/gma500/Kconfig        |  2 +-
+ drivers/gpu/drm/qxl/Kconfig           |  1 +
+ drivers/gpu/drm/tiny/bochs.c          | 17 ++++++++++
+ drivers/gpu/drm/tiny/cirrus.c         |  2 ++
+ drivers/gpu/drm/xe/Kconfig            |  2 +-
+ drivers/tty/Kconfig                   |  4 +--
+ drivers/tty/serial/8250/8250_early.c  |  4 +++
+ drivers/tty/serial/8250/8250_pci.c    | 40 +++++++++++++++++++++++
+ drivers/tty/serial/8250/8250_pcilib.c | 12 ++++++-
+ drivers/tty/serial/8250/8250_pcilib.h |  2 ++
+ drivers/tty/serial/8250/8250_port.c   | 27 +++++++++++++---
+ drivers/tty/serial/8250/Kconfig       |  4 +--
+ drivers/tty/serial/Kconfig            |  2 +-
+ include/asm-generic/io.h              | 60 +++++++++++++++++++++++++++++++++++
+ include/linux/serial_core.h           |  4 +++
+ 17 files changed, 174 insertions(+), 16 deletions(-)
+---
+base-commit: 8cf0b93919e13d1e8d4466eb4080a4c4d9d66d7b
+change-id: 20241004-b4-has_ioport-60ac6ce1deb6
+
+Best regards,
+-- 
+Niklas Schnelle
+
