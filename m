@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E168995A3B
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 00:39:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C1E4995A3A
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 00:39:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9637510E287;
-	Tue,  8 Oct 2024 22:39:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0788110E26A;
+	Tue,  8 Oct 2024 22:39:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="MGpBHb/I";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="Ho8P2zPG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB2A110E26A
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2024 22:39:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42F0810E287
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2024 22:39:01 +0000 (UTC)
 Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 9144588D8F;
- Wed,  9 Oct 2024 00:38:58 +0200 (CEST)
+ by phobos.denx.de (Postfix) with ESMTPSA id 5175688F4B;
+ Wed,  9 Oct 2024 00:38:59 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
  s=phobos-20191101; t=1728427139;
- bh=hbGKo8cn7sM7/EYzSCB5grPZ7Igp1Tz0FfX/nbnW3jI=;
- h=From:To:Cc:Subject:Date:From;
- b=MGpBHb/IRODDTNqOxJiMtE21G1rU12UlYsf6gPSDgz0UCyY0hqdpFPON5z9RgoGXw
- wwlB3KifJa6HQ/5nYWsCDG/8rAFatUYya9OYC4RQU42kAq8j0zAoDrHef2J0WV5VI+
- tKXY4qFWvWpRJTAFlAOXaAdNedN2hW5hJjGn4HDf2rmW+0icuZ3nxZRsocddbG+DhX
- 3tXz3grUUKNVd5W1RlsioucqmjArHTfmwO8KJE5gDbsqo9fGcNlXgSR81adRNQ0EOZ
- hzxAAXkNCTdSJO4TiyKeU/MfhcZ+/pj7jB6FgrxUHJabi+vNUZ9cpjgVAMvLw6ZVNf
- CZKSpH51CXKQQ==
+ bh=KJKH/WpYHcVDKhYFQkulqQ+jQNo550/ZRk57bNzhqsQ=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=Ho8P2zPGsvkWVTq6nno9yUYUNYZAeiKD0pHx3LTu8uLRqwux4wXbpbpuOsVT76RmB
+ cgrXrgUgyHGXgbtR0HTE/BuE1osAo12f883QukUgk8HMPk5+CnZq9gKKTa8xRPpRDy
+ aInZNMB0dcY06lGFF2xQsqjbf+nLskckktP9uBvvuefOO5Z5GAYGV/y+CnSSExcZ7Q
+ IBRy/veAZ2/SRtNpodtdqsJoFPegju8NyeUve0ixY/Jfw6FqUT9E8P9ZeXLkQp3WYI
+ AVtBX3chfvi5SX6zDorSDh5VbsjewK7Tnyxcejj2xfFb3gqSSseCdWVgWMm/JmEvtU
+ mBB2Ikbv8Pk+Q==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
 Cc: Marek Vasut <marex@denx.de>, Abel Vesa <abelvesa@kernel.org>,
@@ -49,11 +49,12 @@ Cc: Marek Vasut <marex@denx.de>, Abel Vesa <abelvesa@kernel.org>,
  Stephen Boyd <sboyd@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  imx@lists.linux.dev, kernel@dh-electronics.com,
  linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org
-Subject: [PATCH 1/2] clk: imx: clk-imx8mp: Allow LDB serializer clock
- reconfigure parent rate
-Date: Wed,  9 Oct 2024 00:38:19 +0200
-Message-ID: <20241008223846.337162-1-marex@denx.de>
+Subject: [PATCH 2/2] drm: bridge: ldb: Configure LDB clock in .mode_set
+Date: Wed,  9 Oct 2024 00:38:20 +0200
+Message-ID: <20241008223846.337162-2-marex@denx.de>
 X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20241008223846.337162-1-marex@denx.de>
+References: <20241008223846.337162-1-marex@denx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
@@ -73,11 +74,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The media_ldb_root_clk supply LDB serializer. These clock are usually
-shared with the LCDIFv3 pixel clock and supplied by the Video PLL on
-i.MX8MP, but the LDB clock run at either x7 or x14 rate of the LCDIFv3
-pixel clock. Allow the LDB to reconfigure Video PLL as needed, as that
-results in accurate serializer clock.
+The LDB serializer clock operate at either x7 or x14 rate of the input
+LCDIFv3 scanout engine clock. Make sure the serializer clock and their
+upstream Video PLL are configured early in .mode_set to the x7 or x14
+rate of pixel clock, before LCDIFv3 .atomic_enable is called which would
+configure the Video PLL to low x1 rate, which is unusable.
+
+With this patch in place, the clock tree is correctly configured. The
+example below is for a 71.1 MHz pixel clock panel, the LDB serializer
+clock is then 497.7 MHz:
+
+video_pll1_ref_sel                      1 1 0  24000000 0 0 50000
+   video_pll1                           1 1 0 497700000 0 0 50000
+      video_pll1_bypass                 1 1 0 497700000 0 0 50000
+         video_pll1_out                 2 2 0 497700000 0 0 50000
+            media_ldb                   1 1 0 497700000 0 0 50000
+               media_ldb_root_clk       1 1 0 497700000 0 0 50000
+            media_disp2_pix             1 1 0  71100000 0 0 50000
+               media_disp2_pix_root_clk 1 1 0  71100000 0 0 50000
 
 Signed-off-by: Marek Vasut <marex@denx.de>
 ---
@@ -107,22 +121,38 @@ Cc: kernel@dh-electronics.com
 Cc: linux-arm-kernel@lists.infradead.org
 Cc: linux-clk@vger.kernel.org
 ---
- drivers/clk/imx/clk-imx8mp.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/bridge/fsl-ldb.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/drivers/clk/imx/clk-imx8mp.c b/drivers/clk/imx/clk-imx8mp.c
-index 516dbd170c8a3..2e61d340b8ab7 100644
---- a/drivers/clk/imx/clk-imx8mp.c
-+++ b/drivers/clk/imx/clk-imx8mp.c
-@@ -611,7 +611,7 @@ static int imx8mp_clocks_probe(struct platform_device *pdev)
- 	hws[IMX8MP_CLK_MEDIA_MIPI_PHY1_REF] = imx8m_clk_hw_composite("media_mipi_phy1_ref", imx8mp_media_mipi_phy1_ref_sels, ccm_base + 0xbd80);
- 	hws[IMX8MP_CLK_MEDIA_DISP1_PIX] = imx8m_clk_hw_composite_bus_flags("media_disp1_pix", imx8mp_media_disp_pix_sels, ccm_base + 0xbe00, CLK_SET_RATE_PARENT);
- 	hws[IMX8MP_CLK_MEDIA_CAM2_PIX] = imx8m_clk_hw_composite("media_cam2_pix", imx8mp_media_cam2_pix_sels, ccm_base + 0xbe80);
--	hws[IMX8MP_CLK_MEDIA_LDB] = imx8m_clk_hw_composite("media_ldb", imx8mp_media_ldb_sels, ccm_base + 0xbf00);
-+	hws[IMX8MP_CLK_MEDIA_LDB] = imx8m_clk_hw_composite_bus_flags("media_ldb", imx8mp_media_ldb_sels, ccm_base + 0xbf00, CLK_SET_RATE_PARENT);
- 	hws[IMX8MP_CLK_MEMREPAIR] = imx8m_clk_hw_composite_critical("mem_repair", imx8mp_memrepair_sels, ccm_base + 0xbf80);
- 	hws[IMX8MP_CLK_MEDIA_MIPI_TEST_BYTE] = imx8m_clk_hw_composite("media_mipi_test_byte", imx8mp_media_mipi_test_byte_sels, ccm_base + 0xc100);
- 	hws[IMX8MP_CLK_ECSPI3] = imx8m_clk_hw_composite("ecspi3", imx8mp_ecspi3_sels, ccm_base + 0xc180);
+diff --git a/drivers/gpu/drm/bridge/fsl-ldb.c b/drivers/gpu/drm/bridge/fsl-ldb.c
+index 0e4bac7dd04ff..a3a31467fcc85 100644
+--- a/drivers/gpu/drm/bridge/fsl-ldb.c
++++ b/drivers/gpu/drm/bridge/fsl-ldb.c
+@@ -278,6 +278,16 @@ fsl_ldb_mode_valid(struct drm_bridge *bridge,
+ 	return MODE_OK;
+ }
+ 
++static void fsl_ldb_mode_set(struct drm_bridge *bridge,
++			       const struct drm_display_mode *mode,
++			       const struct drm_display_mode *adj)
++{
++	struct fsl_ldb *fsl_ldb = to_fsl_ldb(bridge);
++	unsigned long requested_link_freq = fsl_ldb_link_frequency(fsl_ldb, mode->clock);
++
++	clk_set_rate(fsl_ldb->clk, requested_link_freq);
++}
++
+ static const struct drm_bridge_funcs funcs = {
+ 	.attach = fsl_ldb_attach,
+ 	.atomic_enable = fsl_ldb_atomic_enable,
+@@ -287,6 +297,7 @@ static const struct drm_bridge_funcs funcs = {
+ 	.atomic_get_input_bus_fmts = fsl_ldb_atomic_get_input_bus_fmts,
+ 	.atomic_reset = drm_atomic_helper_bridge_reset,
+ 	.mode_valid = fsl_ldb_mode_valid,
++	.mode_set = fsl_ldb_mode_set,
+ };
+ 
+ static int fsl_ldb_probe(struct platform_device *pdev)
 -- 
 2.45.2
 
