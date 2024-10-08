@@ -2,166 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 699889959A8
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 00:01:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E54599959D4
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 00:09:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7C5C10E5F7;
-	Tue,  8 Oct 2024 22:01:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF6A610E25C;
+	Tue,  8 Oct 2024 22:09:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="eDznqeb5";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="JR9bzqB3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from DB3PR0202CU003.outbound.protection.outlook.com
- (mail-northeuropeazon11011028.outbound.protection.outlook.com [52.101.65.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EAD010E5FB
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2024 22:01:51 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jXeNMBwr4h263YKZzjqA0eitDEwnkfq0QBWLYU7BRAaaW5xPrIQ27yuLh71KS40pElykITK8Oq+nVk0TuwMvGpos7f1nkR0ya30ukmz7iGLqYSlaK9cyqjudqRoEMGjKl3c25w4bV6AsDCJqIHpwM+3qYJeFRz/xEIDdrmIJbw6PBZRb7TVWrAoROx2F2n+1GTuaBFzsz+0+yBf15+quSHMQ2g4L04FOXf2by/XkoW+6Qnub/S93Qjnau5Ym6ZtjiC+vpt/Zc1hFSdj0Ccr2yVLEjfP54foxXFeAaw5n8VR7JFzML5o30+3C5f/+tLAXNsTnnlovlwy5vG0ay0+0wA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/5yBaguEH7/lRAPP2avNlNp0tYwa0TnmzDd43PItTlY=;
- b=Qrc3dUEnZy6cblpXUTlHDGYZjKL0tMemV3q7+6PyJyB0W7oqJ/bM5wRMcdAWUIV8ALe7tB3RKffnW6UaNiaudbPgs+E0uAwM3ZCyqMKLxqt/rrl7hJc6IfVX2U9T7ALCUJ91B45+sRvW4+HGNiNLTTDgUGmoiCWtvmngfJyPMIV6TxGHXrmHPID7o/LWr86j/8BCihyLEYp1h0wsazU207WfQvi1HkjN81EtBftvPMc/lHBhkfIEtTFyGznRawhsok1q1g7B3pFtuEJBDw/Za7VbQ0Xl1mecAhlTcYkIREaRsDxu5FomiDkKVDkJcuIzNLPBhOcyGXl+54u5COwuuw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/5yBaguEH7/lRAPP2avNlNp0tYwa0TnmzDd43PItTlY=;
- b=eDznqeb5BK3S6lj+uJ7SDjlyiP9kwKeCmcsDCjNXD1514fQn1cUAmKxon+WDD/yK6iNzv7R0N5Hk0kA8ACcUYUoaIluu0iysUsZeyIkATi+iMcGquIQbNsrypqx38+XW2T4eMTvWt2+zbFXfembdFOnonszHqk1EObZaUYphSMfRPM/PT8Tfo+R2r4BGg9YXj1CEuc1osL/Lg9k2JYrFD5EkxqzcdzEZWiAmZjyCfU5B5EVFG7vlbmrGxNMm3zeDJ/SETSIdDEg02NjjkAgbKMi9AALkGBkEDMO6lhndCtADNIxrNZ9lU051X4mw6YCp+yiKFJQzQjPiYCtcZpq8/g==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
- by PAXPR04MB9667.eurprd04.prod.outlook.com (2603:10a6:102:242::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.16; Tue, 8 Oct
- 2024 22:01:45 +0000
-Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
- ([fe80::9126:a61e:341d:4b06]) by PAXPR04MB9642.eurprd04.prod.outlook.com
- ([fe80::9126:a61e:341d:4b06%4]) with mapi id 15.20.8048.013; Tue, 8 Oct 2024
- 22:01:45 +0000
-From: Frank Li <Frank.Li@nxp.com>
-Date: Tue, 08 Oct 2024 18:01:01 -0400
-Subject: [PATCH 5/5] dt-bindings: mfd: convert zii,rave-sp.txt to yaml format
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241008-zii_yaml-v1-5-d06ba7e26225@nxp.com>
-References: <20241008-zii_yaml-v1-0-d06ba7e26225@nxp.com>
-In-Reply-To: <20241008-zii_yaml-v1-0-d06ba7e26225@nxp.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>, 
- Daniel Thompson <daniel.thompson@linaro.org>, 
- Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>, 
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- Wim Van Sebroeck <wim@linux-watchdog.org>, 
- Guenter Roeck <linux@roeck-us.net>
-Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-leds@vger.kernel.org, linux-watchdog@vger.kernel.org, 
- Frank Li <Frank.Li@nxp.com>
-X-Mailer: b4 0.13-dev-e586c
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1728424880; l=3530;
- i=Frank.Li@nxp.com; s=20240130; h=from:subject:message-id;
- bh=QgZ4qpuBe2Iuf+86t5wdsnelCC4x9/FyyKlFxjiYoLE=;
- b=bk/JeKDHfiCpfG42dW2bKh/kBUGEYKcZyrwAxs+LLP0pCcMyRtGw63oPIC+7jhUnzbi2nsOpj
- SQE/mzmTycPBwC3ki0FLDtDedD6xxEzX5KgF9dkaViYjKNF/0WxKimN
-X-Developer-Key: i=Frank.Li@nxp.com; a=ed25519;
- pk=I0L1sDUfPxpAkRvPKy7MdauTuSENRq+DnA+G4qcS94Q=
-X-ClientProxiedBy: BY3PR10CA0017.namprd10.prod.outlook.com
- (2603:10b6:a03:255::22) To PAXPR04MB9642.eurprd04.prod.outlook.com
- (2603:10a6:102:240::14)
+X-Greylist: delayed 343 seconds by postgrey-1.36 at gabe;
+ Tue, 08 Oct 2024 22:09:14 UTC
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BD4610E25C
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2024 22:09:14 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4XNVQR2MVkz9smf
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 00:03:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1728425007;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=2Z6ROqJX/JwULz3twbm891D1NPzFJMib0yysYG0+/34=;
+ b=JR9bzqB39w9WqbVl6i+3xQaV+xRVL6OJRnw+6hFbPwNz/injRYUgqgyWr6IHUaPmgfs2Wh
+ UhIS1PPqHRMFMwq1XHNWhnWQwo86OYJxGhDysC8oA80qh7LTnOnfxOOqleCLLGkRKEYOMB
+ CIZe1mIfHzA8v6AILFuZis8u/bsfvULohthBMD6PB5g1LRtO1dMBiC0D1czPYgpjfUn5eb
+ +F+r5z6jy8y8UKckSbubDgzInAawfJ6PNUGKSyNOz1AziMvkil/cRZE/bSqCBNyxyg5F/u
+ Rl69toZK/fsXpuLTESGcGaiIbC9QrVHLTiSWM4HwRoHGYPJW+7DmYNb2qBq9bw==
+Date: Wed, 9 Oct 2024 00:03:21 +0200
+From: Erhard Furtner <erhard_f@mailbox.org>
+To: dri-devel@lists.freedesktop.org
+Subject: radeon drm fails to load on v6.12-rc2 "Bogus possible_clones:
+ [ENCODER:46:TV-46] possible_clones=0x4 (full encoder mask=0x7)" ( Thinkpad
+ T60)
+Message-ID: <20241009000321.418e4294@yea>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|PAXPR04MB9667:EE_
-X-MS-Office365-Filtering-Correlation-Id: b859641a-159b-4e27-fc0b-08dce7e4ccff
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|366016|376014|52116014|7416014|38350700014|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?QmR0MkZtckw4UEdHYXVYdjJVVUFjTHhnVlVINWZUZ25sdFJuaUlNUWRWeklw?=
- =?utf-8?B?SmFPN0FRYlZUajM5SERIb3Frb21KRWhoWkVLNjgzUXdJZFRwdDU2NlZpQWFI?=
- =?utf-8?B?R0k5WWFtL0N4MVJYa1JIYU1yaVphVHA4S09JQS84TXRoY0RHczZJN0NqekYv?=
- =?utf-8?B?UG5sNDFkZ3ZNYjRNZmlOc0M5YUk5RUljLzJlOUUxdmlEZndCTjlkTmV0anN6?=
- =?utf-8?B?blo4VTJncW5NaGxUYmM0WU12U01ReWdtT2Z0N3M4alhaMU9sZlpRU3ZHelNI?=
- =?utf-8?B?U2xXUXdZcHJBL1pBVCtEMC9rc0hiSk9aSXNBaWIxeVMrc0hGMDNqeE5KOStJ?=
- =?utf-8?B?ZGZtdDBEczJ4VlBhY0Z3VFRWbVZ2cVcwZ3Y0dkY0VHd4U2tvanQxOVFPNHNu?=
- =?utf-8?B?WkNVRS80K3NrYzRPR0dQZnZuWjd5VUZnTmZ0MGlUTnlZUVNGMmtpbEZYaWI2?=
- =?utf-8?B?YVl5Vy82TkUvTWJTL25meFVRNHZZd2kwNGFGbnEwMFhVYjVtSnlHYy9zbEV2?=
- =?utf-8?B?amRBV0ZsOFhRdDl4YkhIV3hvSkxGMmVPcndJbHNDTzNpODlDc0ltREgwdHgv?=
- =?utf-8?B?Rm41SnJUMzVYT1E2TmRXaDV6cDhjNjJGMStMWFU2TGExanN0T2NTd0J5TEZS?=
- =?utf-8?B?a2VMSlp5TkljaWFveXNPSjVlaGdUcWM1dDBoQkhtUGo5Q2FjOUVpbFNzZGZO?=
- =?utf-8?B?NjlXaDZiOEJxSFpseWxzU2pUeCticXRqL011Z1E3YWQ0N3l0aUJKQ1A1aGdy?=
- =?utf-8?B?TkhxWGFzYWlMMlBJUmw2bElBc2UxK1JtUkNtVVpIdi9oNmcyaVFpcERKTTFv?=
- =?utf-8?B?TXRuK1lPSG5JdFE4aHQwdnBndnpVVCtNUzRDZm81ek5NVklHdllmZUwxc3Fn?=
- =?utf-8?B?dXJKWmlUcCs3enhldC9vRm5jdGdwYmRiOUh3U2k5QklSTitzY29FcFRva1pj?=
- =?utf-8?B?UmhmWmtvZlhCanBFQlNNYmxueENEdXVjQm1LRmtsbmtPbWhvTi9mK01aOHM4?=
- =?utf-8?B?M3VuU3hGVk43OW4ySktKVzNRUloweTBQMmlGZUdmWmVBTG9FTFRGYzVKSlBF?=
- =?utf-8?B?d2FxQnZVbU9obllSN1A4bTd1b01Zd3ZPUFUxcmtTVXJDQzVIclFEeThkUUtE?=
- =?utf-8?B?c3RNZkh5c1pqdUpzQ0hyTGl4UStJOEY5SXpOK0RLeVZYL1F4bDllTEpXZ1pD?=
- =?utf-8?B?TjBaWkc3TXJCRG5ZS2dkQnFZYjNjU252bVFPR1NsTkNoQkprZjh5MVgvSW5y?=
- =?utf-8?B?SHlneWFXZDJGV1ZzVzc5WVk5YzdmRTFjZ0FzNEUzY2RoRGJ4djhFWTlIN3Jy?=
- =?utf-8?B?NDlYNWRNTEVVbkR3REJISXFCWnJZOCtNVStpclZ4b0hmZ0tVaG93RWd3VnVt?=
- =?utf-8?B?blNXeFdoWUE3L2JDL2pWdUVYbUZkQnJpSTIxUVJYTUdna1V0RnByaFBYd1Y4?=
- =?utf-8?B?djBlNG9MaUhwc25RN3I1S3pxNGx5YkpMRHBTNHFIeWlzMU84RDBwK1pGNFVx?=
- =?utf-8?B?aHNvcjVzekdtZkpmRG90aE8vV1JCazMxUHFHdUsrSzBpait4anloNnhoRXV2?=
- =?utf-8?B?azZ6NkZobGJFVG5mM0t1NVgrNG0zeWtRUXJGOG5LM3lYVGpnVWRDRml4blQ3?=
- =?utf-8?B?OUttSkJKTmpKRmVLcXRBSzg0cWNXU3JrZzNQRUV6blFCSU96Rk9lMFloWVVt?=
- =?utf-8?B?dytuQTlxbUt6QjlWS2JWbE1GMzU1T3RuUFZ5UHNDV0MvMk5WWXZOS3VySnpu?=
- =?utf-8?B?UW85RnRWK2xwbFBZRysxNGRkUUk4Y3VacVpidy8zU3FRcUJxcGkvSndYZEJE?=
- =?utf-8?Q?PHwWyKHKjwuXggedekZeKBSNHFZobXYjvLUO8=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PAXPR04MB9642.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014)(52116014)(7416014)(38350700014)(921020);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OXRyMmwyYjdjdW1oV2JtampmVEF4YzBSV1pJS1BQK05Ub2tBY2ZxSEN1M3JM?=
- =?utf-8?B?b2huSlJES3VnR2VtM1Nwd0RvWVNSMTg1S1pkZWNDcFgvaHNvTjIxeXNta1U2?=
- =?utf-8?B?dGJoK2ozLysxZVFVdjNDN1RqQjJ5ZEI3RzU0WmVtNVFUaW5LTGxRS3NxTlpX?=
- =?utf-8?B?Yk91SlJIOVVwOU1jYnhueTl5RnZLOGpwVDJUcGtBcy9vYWNwd3RZZmx5VWFG?=
- =?utf-8?B?NHZvZzBkbXFIbUJpOHdZWGN1cUtRN3puOWJ4Q2lDQllONit5TklHdzZjbWVw?=
- =?utf-8?B?WStxaFEzL2R0N1FhSS9ML0VzWFJKTzdpVCtDTFZHbmZ6ZTRaMmI0dk92dzlq?=
- =?utf-8?B?ZU5scXc1am9WLzFGeWdmV3JwakpOcFI0N0ttUTZ0V1VrbWt1YVdQV2JMTnN5?=
- =?utf-8?B?KzE2SG0wcXFHd0tCalc0UjRtemtubWhBd1BGZDJLY1pxV01TaFlERlNwWklD?=
- =?utf-8?B?SXcyNTJJd2xnclFkMjVOK2NXSTNxLzdmcGtUM1Q1a1o3M1puRkxuU1F3bjJx?=
- =?utf-8?B?dkRNbVFVbmhUNzZiZktKeU5BWmlkWUE5dFdDNzFTWEo5WGp1YzJBY3lVU1FM?=
- =?utf-8?B?SktoR1ZsV0IzeWo1cCttODdOWS8xVG5ON1FWMUQvakdpcUJXRXl4WTJvb1ZN?=
- =?utf-8?B?ZHkzdktyTllNdVdqVDRmR3prbDAyaG03U0dRZzZ6dDN4a2MwN0lja0hsVnVm?=
- =?utf-8?B?dlNIMWZMSVNHSElPcXJmVlV3MXg3UE1NbURBM2wreVJMVnQ4THBPUUhQWUY2?=
- =?utf-8?B?c3FROEpLbnBzV3pURHRFY1dZbmhqUHczRWF3Tk5SMUUrRmRRVFBUMjNlUnlw?=
- =?utf-8?B?VlVPL0trcENnVkxoa3FTL2tDUWZtVS83c3ltS29kd1NoQ2pmaWhDallyUStK?=
- =?utf-8?B?NlJQVzVWTlgrenBJK01qVHZOaldRVEQyb01vWktzKzluQ0I1UHlLVGgrYmFC?=
- =?utf-8?B?N0dMN3dRU2NHd0U1WEJLWklIcVhUL2FrbmZBNG9ZQlI3ZGFGbWwySDAyRnNL?=
- =?utf-8?B?blhuTGw3b25IZGZpU2ZGVHBFdVczZGxwSit1RG9xQmhuZlpaSWRXakoybmd5?=
- =?utf-8?B?UHczSW5keTl0T0VrU3k4Zk9UTTJGeGtGdlJIbFF2RExicEczd3F0L00vaFFI?=
- =?utf-8?B?YXhlczBiUlhhNVBWaXFVZXVoWmxpdmlRcE05T0RJbHdCLzNmOXBvNHZMWU55?=
- =?utf-8?B?RFhsK2ZiZ1pjZHBPNFhYRk15RG5Gd1drQ3VUdndkbUViWFk1ZWhlU0hWVGNI?=
- =?utf-8?B?QWo0cWVTS2ZuQSs5VUxudlNUZ1BiZ1YraVVYTjZFYVFtYW5OUjVYQXRKaFZs?=
- =?utf-8?B?cmpiRnEyeWQ3R09BbUZQRHQ2N29aTE5Md3dOYmtadnAyMXZyQUduUGlrSitV?=
- =?utf-8?B?QWdadGM5R0lhcEc3R2VlNENiV2kyUFV0Tkk2U2xwNGdwYk41R0tueVpjNDAy?=
- =?utf-8?B?SVJGdGRVZHY3cnh5YVZMNUZHcVloTFM0MlI5SFgwTFZqYnY5alBOZzhGYkJK?=
- =?utf-8?B?U1ZQVEY1TWFSTG9yUUdaOEVUZGNHM1h1V0l5MjRyZTZxK2pEbkZrSDBOZ3Zy?=
- =?utf-8?B?U3pBN1hYTEtTRmthOVhOK0wyTFdRL1J2d051dTVvbWJTY3lWd2tHY2p0TlFW?=
- =?utf-8?B?N2QxaTlGN3RlQVRJa0lzZXdwUHN3WGhZZmxRTXBXSmJkcnRxa1dtWXJYdlRa?=
- =?utf-8?B?Z0NpS0xKV0p4RlRMUURxWkZTWmdMSllpaDF6SU85ZGpKYkcycStza1lQWFdO?=
- =?utf-8?B?blU0RUVLdStEYitVTFNoUjNTazVpTFZmdzVGM2w4bElkdjZsZWRJUWpuZnVT?=
- =?utf-8?B?bm5kTkJPVVdZU2UrKy9CVDFWcHJJV3dIcHpnWGc4amJNd1dRZVZZQ3ViQ3hI?=
- =?utf-8?B?T05VVkhYNDJ6Q2w5TlVFZm9BME9JMWpTQWg1Z3VSam9XaUt6bUtrNlZuQkt1?=
- =?utf-8?B?ZVprVXF1YkFvZGZKeUJ4OHFOWGQwdXYxbjFtOUhQcng4KzZhZVdibXZqeDgw?=
- =?utf-8?B?L0J3RXhtalVMbXl6VGY3emhpMjdGMmtRbHhLK1U2UG9NdkRlemNKM0xLREJo?=
- =?utf-8?B?M2ZJZUwvWWpiVFBVeTBrZG42NDhVV1BlZXJjbllPWnc2VEVlVlFwOHpTeDBa?=
- =?utf-8?Q?IG30=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b859641a-159b-4e27-fc0b-08dce7e4ccff
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Oct 2024 22:01:45.8398 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: M47rc8Plg8d5Fkf3TiwdQq7hAFQC5qO3u7ftL7A66otFzFchCOrNCVdjSMS8SyOMnMjCxPziQgFx8KMwHKhGlw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB9667
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-ID: 7ed03a3a80d2fa615e8
+X-MBO-RS-META: 7nkgu8zdkd1s7y91nqgiftyqxk1ac56s
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -177,132 +61,221 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert device binding doc zii,rave-sp.txt to yaml format.
-Additional change:
-- ref to other zii yaml files.
-- remove rave-sp-hwmon and rave-sp-leds.
+Greetings!
 
-Signed-off-by: Frank Li <Frank.Li@nxp.com>
----
- .../devicetree/bindings/mfd/zii,rave-sp.txt        | 39 --------------
- .../devicetree/bindings/mfd/zii,rave-sp.yaml       | 63 ++++++++++++++++++++++
- 2 files changed, 63 insertions(+), 39 deletions(-)
+On kernel v6.12-rc I get no X and dmesg (via netconsole) shows this at loading radeon drm:
 
-diff --git a/Documentation/devicetree/bindings/mfd/zii,rave-sp.txt b/Documentation/devicetree/bindings/mfd/zii,rave-sp.txt
-deleted file mode 100644
-index e0f901edc0635..0000000000000
---- a/Documentation/devicetree/bindings/mfd/zii,rave-sp.txt
-+++ /dev/null
-@@ -1,39 +0,0 @@
--Zodiac Inflight Innovations RAVE Supervisory Processor
--
--RAVE Supervisory Processor communicates with SoC over UART. It is
--expected that its Device Tree node is specified as a child of a node
--corresponding to UART controller used for communication.
--
--Required parent device properties:
--
-- - compatible: Should be one of:
--	- "zii,rave-sp-niu"
--	- "zii,rave-sp-mezz"
--	- "zii,rave-sp-esb"
--	- "zii,rave-sp-rdu1"
--	- "zii,rave-sp-rdu2"
--
-- - current-speed: Should be set to baud rate SP device is using
--
--RAVE SP consists of the following sub-devices:
--
--Device				 Description
--------				 -----------
--rave-sp-wdt			: Watchdog
--rave-sp-nvmem			: Interface to onboard EEPROM
--rave-sp-backlight		: Display backlight
--rave-sp-hwmon			: Interface to onboard hardware sensors
--rave-sp-leds			: Interface to onboard LEDs
--rave-sp-input			: Interface to onboard power button
--
--Example of usage:
--
--	rdu {
--		compatible = "zii,rave-sp-rdu2";
--		current-speed = <1000000>;
--
--		watchdog {
--			compatible = "zii,rave-sp-watchdog";
--		};
--	};
--
-diff --git a/Documentation/devicetree/bindings/mfd/zii,rave-sp.yaml b/Documentation/devicetree/bindings/mfd/zii,rave-sp.yaml
-new file mode 100644
-index 0000000000000..1d078c5ef1689
---- /dev/null
-+++ b/Documentation/devicetree/bindings/mfd/zii,rave-sp.yaml
-@@ -0,0 +1,63 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/mfd/zii,rave-sp.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Zodiac Inflight Innovations RAVE Supervisory Processor
-+
-+maintainers:
-+  - Frank Li <Frank.Li@nxp.com>
-+
-+description:
-+  RAVE Supervisory Processor communicates with SoC over UART. It is
-+  expected that its Device Tree node is specified as a child of a node
-+  corresponding to UART controller used for communication.
-+
-+properties:
-+  compatible:
-+    enum:
-+      - zii,rave-sp-niu
-+      - zii,rave-sp-mezz
-+      - zii,rave-sp-esb
-+      - zii,rave-sp-rdu1
-+      - zii,rave-sp-rdu2
-+
-+  "#address-cells":
-+    const: 1
-+
-+  "#size-cells":
-+    const: 1
-+
-+  watchdog:
-+    $ref: /schemas/watchdog/zii,rave-sp-wdt.yaml
-+
-+  backlight:
-+    $ref: /schemas/leds/backlight/zii,rave-sp-backlight.yaml
-+
-+  pwrbutton:
-+    $ref: /schemas/input/zii,rave-sp-pwrbutton.yaml
-+
-+patternProperties:
-+  '^eeprom@[0-9a-f]+$':
-+    $ref: /schemas/nvmem/zii,rave-sp-eeprom.yaml
-+
-+required:
-+  - compatible
-+
-+allOf:
-+  - $ref: /schemas/serial/serial-peripheral-props.yaml
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    mfd {
-+        compatible = "zii,rave-sp-rdu2";
-+        current-speed = <1000000>;
-+
-+        watchdog {
-+            compatible = "zii,rave-sp-watchdog";
-+        };
-+    };
-+
+[...]
+[drm] PCIE GART of 512M enabled (table at 0x0000000000040000).
+radeon 0000:01:00.0: WB enabled
+radeon 0000:01:00.0: fence driver on ring 0 use gpu addr 0x0000000008000000
+radeon 0000:01:00.0: radeon: MSI limited to 32-bit
+[drm] radeon: irq initialized.
+[drm] Loading R500 Microcode
+[drm] radeon: ring at 0x0000000008001000
+[drm] ring test succeeded in 0 usecs
+[drm] ib test succeeded in 0 usecs
+stackdepot: allocating hash table of 65536 entries via kvcalloc
+acpi device:06: registered as cooling_device2
+[drm] Radeon Display Connectors
+[drm] Connector 0:
+[drm]   VGA-1
+[drm]   DDC: 0x7e40 0x7e40 0x7e44 0x7e44 0x7e48 0x7e48 0x7e4c 0x7e4c
+[drm]   Encoders:
+[drm]     CRT1: INTERNAL_KLDSCP_DAC1
+[drm] Connector 1:
+[drm]   LVDS-1
+[drm]   DDC: 0x7e60 0x7e60 0x7e64 0x7e64 0x7e68 0x7e68 0x7e6c 0x7e6c
+[drm]   Encoders:
+[drm]     LCD1: INTERNAL_LVTM1
+[drm] Connector 2:
+[drm]   DVI-I-1
+[drm]   HPD1
+[drm]   DDC: 0x7e50 0x7e50 0x7e54 0x7e54 0x7e58 0x7e58 0x7e5c 0x7e5c
+[drm]   Encoders:
+[drm]     DFP1: INTERNAL_KLDSCP_TMDS1
+------------[ cut here ]------------
+Bogus possible_clones: [ENCODER:46:TV-46] possible_clones=0x4 (full encoder mask=0x7)
+WARNING: CPU: 0 PID: 170 at drivers/gpu/drm/drm_mode_config.c:615 drm_mode_config_validate+0x113/0x39c
+Modules linked in: iwl3945(+) radeon(+) iwlegacy bcachefs mac80211 thinkpad_acpi snd_hda_intel snd_intel_dspcfg nvram libarc4 snd_hda_codec platform_profile uhci_hcd cfg80211 drm_suballoc_helper snd_hwdep sparse_keymap ehci_pci lz4hc_compress i2c_algo_bit ehci_hcd drm_ttm_helper snd_hda_core lz4_compress snd_pcm ttm lz4_decompress crc64 drm_display_helper usbcore acpi_cpufreq rfkill snd_timer battery snd soundcore usb_common video wmi thermal ac backlight evdev input_leds joydev button processor pkcs8_key_parser coretemp hwmon dm_mod fuse configfs loop
+CPU: 0 UID: 0 PID: 170 Comm: (udev-worker) Tainted: G        W          6.12.0-rc2-P3-dirty #2
+Tainted: [W]=WARN
+Hardware name: LENOVO 2007F2G/2007F2G, BIOS 79ETE7WW (2.27 ) 03/21/2011
+EIP: drm_mode_config_validate+0x113/0x39c
+Code: 4b 24 8b 43 2c 0f a3 c8 8b 75 e4 73 08 89 d1 f7 d1 85 c8 74 17 52 50 ff 73 1c ff 73 08 68 be 86 9a dd e8 70 13 b1 ff 83 c4 14 <0f> 0b 8b 4b fc 8b 91 ac 02 00 00 81 c1 ac 02 00 00 31 c0 39 ca 74
+EAX: 00000000 EBX: c33b1f04 ECX: 00000000 EDX: 00000000
+ESI: c2fe0004 EDI: 00000004 EBP: c1e059f8 ESP: c1e059d0
+DS: 007b ES: 007b FS: 00d8 GS: 0033 SS: 0068 EFLAGS: 00210292
+CR0: 80050033 CR2: b77f053b CR3: 01e08000 CR4: 000006f0
+Call Trace:
+ ? show_regs+0x4e/0x5c
+ ? __warn+0x87/0xdc
+ ? drm_mode_config_validate+0x113/0x39c
+ ? report_bug+0x94/0x108
+ ? exc_overflow+0x3c/0x3c
+ ? handle_bug+0x41/0x60
+ ? exc_invalid_op+0x17/0x40
+ ? handle_exception+0x101/0x101
+ ? enqueue_pushable_dl_task+0x127/0x128
+ ? drm_mode_std+0x4/0x278
+ ? exc_overflow+0x3c/0x3c
+ ? drm_mode_config_validate+0x113/0x39c
+ ? drm_mode_std+0x4/0x278
+ ? exc_overflow+0x3c/0x3c
+ ? drm_mode_config_validate+0x113/0x39c
+ drm_dev_register+0x1d/0x1c8
+ radeon_pci_probe+0xd7/0x12c [radeon]
+ pci_device_probe+0x80/0x100
+ really_probe+0xad/0x1fc
+ __driver_probe_device+0x64/0x138
+ driver_probe_device+0x1a/0x70
+ __driver_attach+0x7c/0xb8
+ bus_for_each_dev+0x63/0x8c
+ driver_attach+0x14/0x20
+ ? driver_attach+0x20/0x20
+ bus_add_driver+0xc7/0x1cc
+ driver_register+0x50/0xd0
+ __pci_register_driver+0x5c/0x68
+ init_module+0x5c/0x1000 [radeon]
+ do_one_initcall+0xb1/0x268
+ ? alloc_debug_processing+0x38/0x12c
+ ? _raw_spin_unlock_irqrestore+0xb/0x18
+ ? check_bytes_and_report+0x2a/0xd0
+ ? check_bytes_and_report+0x2a/0xd0
+ ? init_object+0x77/0xd8
+ ? alloc_debug_processing+0x38/0x12c
+ ? _raw_spin_unlock_irqrestore+0xb/0x18
+ ? __radix_tree_replace+0xb8/0xcc
+ ? radix_tree_iter_tag_clear+0x18/0x28
+ ? idr_alloc_u32+0x81/0xa0
+ ? idr_alloc_cyclic+0x38/0x7c
+ ? __kernfs_new_node+0x117/0x164
+ ? check_bytes_and_report+0x2a/0xd0
+ ? init_object+0x77/0xd8
+ ? alloc_debug_processing+0x38/0x12c
+ ? _raw_spin_unlock_irqrestore+0xb/0x18
+ ? ___slab_alloc+0x38b/0x700
+ ? 0xf80ac000
+ do_init_module+0x50/0x1ac
+ load_module+0xd54/0xe94
+ __ia32_sys_finit_module+0x1b0/0x250
+ ia32_sys_call+0x270b/0x2e08
+ __do_fast_syscall_32+0x88/0xb4
+ ? __ia32_sys_openat+0x19/0x24
+ ? syscall_exit_to_user_mode+0x6c/0x78
+ ? __do_fast_syscall_32+0x92/0xb4
+ ? lock_mm_and_find_vma+0x2a/0xd0
+ ? do_user_addr_fault+0x1c4/0x2b0
+ ? irqentry_exit_to_user_mode+0x60/0x6c
+ do_fast_syscall_32+0x29/0x58
+ do_SYSENTER_32+0x12/0x18
+ entry_SYSENTER_32+0x98/0xf8
+EIP: 0xb7f8d539
+Code: 03 74 b4 01 10 07 03 74 b0 01 10 08 03 74 d8 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 51 52 55 89 e5 0f 34 cd 80 <5d> 5a 59 c3 90 90 90 90 0f 1f 00 58 b8 77 00 00 00 cd 80 90 0f 1f
+EAX: ffffffda EBX: 0000001c ECX: b7b7b54c EDX: 00000000
+ESI: 0175c540 EDI: 00000001 EBP: 00000007 ESP: bfae9aac
+DS: 007b ES: 007b FS: 0000 GS: 0033 SS: 007b EFLAGS: 00200246
+---[ end trace 0000000000000000 ]---
+------------[ cut here ]------------
+Bogus possible_clones: [ENCODER:48:TMDS-48] possible_clones=0x1 (full encoder mask=0x7)
+WARNING: CPU: 0 PID: 170 at drivers/gpu/drm/drm_mode_config.c:615 drm_mode_config_validate+0x113/0x39c
+Modules linked in: iwl3945(+) radeon(+) iwlegacy bcachefs mac80211 thinkpad_acpi snd_hda_intel snd_intel_dspcfg nvram libarc4 snd_hda_codec platform_profile uhci_hcd cfg80211 drm_suballoc_helper snd_hwdep sparse_keymap ehci_pci lz4hc_compress i2c_algo_bit ehci_hcd drm_ttm_helper snd_hda_core lz4_compress snd_pcm ttm lz4_decompress crc64 drm_display_helper usbcore acpi_cpufreq rfkill snd_timer battery snd soundcore usb_common video wmi thermal ac backlight evdev input_leds joydev button processor pkcs8_key_parser coretemp hwmon dm_mod fuse configfs loop
+CPU: 0 UID: 0 PID: 170 Comm: (udev-worker) Tainted: G        W          6.12.0-rc2-P3-dirty #2
+Tainted: [W]=WARN
+Hardware name: LENOVO 2007F2G/2007F2G, BIOS 79ETE7WW (2.27 ) 03/21/2011
+EIP: drm_mode_config_validate+0x113/0x39c
+Code: 4b 24 8b 43 2c 0f a3 c8 8b 75 e4 73 08 89 d1 f7 d1 85 c8 74 17 52 50 ff 73 1c ff 73 08 68 be 86 9a dd e8 70 13 b1 ff 83 c4 14 <0f> 0b 8b 4b fc 8b 91 ac 02 00 00 81 c1 ac 02 00 00 31 c0 39 ca 74
+EAX: 00000000 EBX: c33b2204 ECX: 00000000 EDX: 00000000
+ESI: c2fe0004 EDI: 00000001 EBP: c1e059f8 ESP: c1e059d0
+DS: 007b ES: 007b FS: 00d8 GS: 0033 SS: 0068 EFLAGS: 00210292
+CR0: 80050033 CR2: b77f053b CR3: 01e08000 CR4: 000006f0
+Call Trace:
+ ? show_regs+0x4e/0x5c
+ ? __warn+0x87/0xdc
+ ? drm_mode_config_validate+0x113/0x39c
+ ? report_bug+0x94/0x108
+ ? exc_overflow+0x3c/0x3c
+ ? handle_bug+0x41/0x60
+ ? exc_invalid_op+0x17/0x40
+ ? handle_exception+0x101/0x101
+ ? enqueue_pushable_dl_task+0x127/0x128
+ ? drm_mode_std+0x4/0x278
+ ? exc_overflow+0x3c/0x3c
+ ? drm_mode_config_validate+0x113/0x39c
+ ? drm_mode_std+0x4/0x278
+ ? exc_overflow+0x3c/0x3c
+ ? drm_mode_config_validate+0x113/0x39c
+ drm_dev_register+0x1d/0x1c8
+ radeon_pci_probe+0xd7/0x12c [radeon]
+ pci_device_probe+0x80/0x100
+ really_probe+0xad/0x1fc
+ __driver_probe_device+0x64/0x138
+ driver_probe_device+0x1a/0x70
+ __driver_attach+0x7c/0xb8
+ bus_for_each_dev+0x63/0x8c
+ driver_attach+0x14/0x20
+ ? driver_attach+0x20/0x20
+ bus_add_driver+0xc7/0x1cc
+ driver_register+0x50/0xd0
+ __pci_register_driver+0x5c/0x68
+ init_module+0x5c/0x1000 [radeon]
+ do_one_initcall+0xb1/0x268
+ ? alloc_debug_processing+0x38/0x12c
+ ? _raw_spin_unlock_irqrestore+0xb/0x18
+ ? check_bytes_and_report+0x2a/0xd0
+ ? check_bytes_and_report+0x2a/0xd0
+ ? init_object+0x77/0xd8
+ ? alloc_debug_processing+0x38/0x12c
+ ? _raw_spin_unlock_irqrestore+0xb/0x18
+ ? __radix_tree_replace+0xb8/0xcc
+ ? radix_tree_iter_tag_clear+0x18/0x28
+ ? idr_alloc_u32+0x81/0xa0
+ ? idr_alloc_cyclic+0x38/0x7c
+ ? __kernfs_new_node+0x117/0x164
+ ? check_bytes_and_report+0x2a/0xd0
+ ? init_object+0x77/0xd8
+ ? alloc_debug_processing+0x38/0x12c
+ ? _raw_spin_unlock_irqrestore+0xb/0x18
+ ? ___slab_alloc+0x38b/0x700
+ ? 0xf80ac000
+ do_init_module+0x50/0x1ac
+ load_module+0xd54/0xe94
+ __ia32_sys_finit_module+0x1b0/0x250
+ ia32_sys_call+0x270b/0x2e08
+ __do_fast_syscall_32+0x88/0xb4
+ ? __ia32_sys_openat+0x19/0x24
+ ? syscall_exit_to_user_mode+0x6c/0x78
+ ? __do_fast_syscall_32+0x92/0xb4
+ ? lock_mm_and_find_vma+0x2a/0xd0
+ ? do_user_addr_fault+0x1c4/0x2b0
+ ? irqentry_exit_to_user_mode+0x60/0x6c
+ do_fast_syscall_32+0x29/0x58
+ do_SYSENTER_32+0x12/0x18
+ entry_SYSENTER_32+0x98/0xf8
+EIP: 0xb7f8d539
+Code: 03 74 b4 01 10 07 03 74 b0 01 10 08 03 74 d8 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 51 52 55 89 e5 0f 34 cd 80 <5d> 5a 59 c3 90 90 90 90 0f 1f 00 58 b8 77 00 00 00 cd 80 90 0f 1f
+EAX: ffffffda EBX: 0000001c ECX: b7b7b54c EDX: 00000000
+ESI: 0175c540 EDI: 00000001 EBP: 00000007 ESP: bfae9aac
+DS: 007b ES: 007b FS: 0000 GS: 0033 SS: 007b EFLAGS: 00200246
+---[ end trace 0000000000000000 ]---
 
--- 
-2.34.1
 
+I applied "[PATCH v2] drm/radeon: add late_register for connector" hoping this would help but it didn't make a difference.
+
+Some details about the Mobility Radeon X1300:
+ # lspci -s 01:00.0 -v
+01:00.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI] RV515/M52 [Mobility Radeon X1300] (prog-if 00 [VGA controller])
+	Subsystem: Lenovo Device 2005
+	Flags: bus master, fast devsel, latency 0, IRQ 16
+	Memory at d8000000 (32-bit, prefetchable) [size=128M]
+	I/O ports at 2000 [size=256]
+	Memory at ee100000 (32-bit, non-prefetchable) [size=64K]
+	Expansion ROM at 000c0000 [virtual] [disabled] [size=128K]
+	Capabilities: [50] Power Management version 2
+	Capabilities: [58] Express Legacy Endpoint, IntMsgNum 0
+	Capabilities: [80] MSI: Enable- Count=1/1 Maskable- 64bit+
+	Kernel driver in use: radeon
+	Kernel modules: radeon
+
+Regards,
+Erhard
