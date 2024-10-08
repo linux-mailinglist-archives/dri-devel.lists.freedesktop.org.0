@@ -2,84 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B04D993A9D
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 00:58:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9924993B80
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 02:00:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DC3710E443;
-	Mon,  7 Oct 2024 22:58:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49EBD10E02B;
+	Tue,  8 Oct 2024 00:00:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="ev2nfEqY";
+	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="NwbIDl6k";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
- [209.85.167.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 370F110E443
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Oct 2024 22:58:36 +0000 (UTC)
-Received: by mail-lf1-f45.google.com with SMTP id
- 2adb3069b0e04-539983beb19so6155918e87.3
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Oct 2024 15:58:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1728341913; x=1728946713;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=z9IXdCfaNtqS6OVy5IGIFP7SGWVPgo6mw3WGn70+14M=;
- b=ev2nfEqYrRN8KSVJLoi/3fVHaQwkNu8Qpq9N6yghITYVNqRSMwQwf+Fq72YKo3nGvR
- HoqDwmNAeTIcNrzIj7OaryLz+NJyoCXSviZDCZJqgfhv+T3Coup+h/uCQOO5ArKOGenq
- LqhEy6by7rvXCYn5IY4v16CL4QSNpUKAIhp4o=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728341913; x=1728946713;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=z9IXdCfaNtqS6OVy5IGIFP7SGWVPgo6mw3WGn70+14M=;
- b=e+aRaAeqnXfSmVbUg0SzqjiMTn4uvu8QMFdFxS0m4T4EWIxIdnQsXsIE8cOkI3ro9n
- c67CBjHIuEsFQ6eZibaqhtIrqcSfZnVuVarGDJi1hqy8XGqcdK7G3FL/aFs8vBNNXFX0
- rfYwBFLsU9kGAu1VTTCge4O/qxGaIPe8kuVbQr6T3caeX6haxLfYQOg1I78P63kcbAho
- LKpGp1GGb5/WnhLj1Ge7gj9oXOFG0vxyZOUeCSNSXEhlCnJskX4TQv5ua7VR7ZuSahCJ
- VlYDOnJ96Cr8ripnSLvIvRRFGBlZRQCRNvF4JpEgURxHGm89W21DimYs81jLUu8/S+Cl
- Hvjg==
-X-Gm-Message-State: AOJu0YyUoMtIc0tEf6+eAqtqh+WXYqYjamrDN95KxZd+dtp9CTHbnAZk
- yhoEj7iaxYybHW7ozSDSOQb9hCrKWuuukcVZwlq9nXRdEYuP5298hPbGrnxrwjxJWy3OAqK6xoS
- ChA==
-X-Google-Smtp-Source: AGHT+IFKzLA6Xcz5/s0ZR1Fr+Y/UFWbWrrn2govbDZ6URmFK92KMxocVbKbuNldinh/E7U9U0JhGyg==
-X-Received: by 2002:a05:6512:2355:b0:539:8b81:7f19 with SMTP id
- 2adb3069b0e04-539ab86810bmr7505703e87.22.1728341912880; 
- Mon, 07 Oct 2024 15:58:32 -0700 (PDT)
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com.
- [209.85.167.43]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-539aff1d3cdsm986733e87.166.2024.10.07.15.58.31
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Oct 2024 15:58:31 -0700 (PDT)
-Received: by mail-lf1-f43.google.com with SMTP id
- 2adb3069b0e04-5398996acbeso5506934e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Oct 2024 15:58:31 -0700 (PDT)
-X-Received: by 2002:a05:6512:3b8e:b0:536:5646:251e with SMTP id
- 2adb3069b0e04-539ab84e0b8mr6613892e87.10.1728341911337; Mon, 07 Oct 2024
- 15:58:31 -0700 (PDT)
+Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ECFC610E02B;
+ Tue,  8 Oct 2024 00:00:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1728345610;
+ bh=yjAEA3gAg2MrSRwiY5GNHjLAVYmztAgeqRcgOAiLRR0=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=NwbIDl6kQHNBWm97ZxScLI/dYOIHt0zRS56Nj7VWm50Oo04LcwDMSmsH4yU+qMMzI
+ d4Rb132HhKpeufbXPs4Bt3wuTZgeQdoNMQn2aDXbQk8SIGscWapXGyUOS5texwA99r
+ gUcA8aTUrT6h3gOoO7bM15i1DKGvkuj+tTjxnV4oRNRER0tVgxp0JVTGAwPWvBqGyC
+ 36x7afKicQSXONqkrtkko/sJrkXeZwYpaYxtw8VQEfhDbAOKiYYp7/SZbmaoJjnA9+
+ 0LJZdY3FQAPXH9/K5ND2yiZRB58x6cOYDnEFEYqSRaX8vr4XBhCPEPpoSRkt1iD3LG
+ XWKf9kohqV3oQ==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (Client did not present a certificate)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4XMx3Y0ppHz4wxx;
+ Tue,  8 Oct 2024 11:00:09 +1100 (AEDT)
+Date: Tue, 8 Oct 2024 11:00:08 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>, Thomas =?UTF-8?B?SGVsbHN0?=
+ =?UTF-8?B?csO2bQ==?= <thomas.hellstrom@linux.intel.com>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>,
+ DRM XE List <intel-xe@lists.freedesktop.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Next Mailing List
+ <linux-next@vger.kernel.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>
+Subject: Re: linux-next: manual merge of the drm-xe tree with the
+ drm-misc-fixes tree
+Message-ID: <20241008110008.243b9be7@canb.auug.org.au>
+In-Reply-To: <20241004121800.7ab3214b@canb.auug.org.au>
+References: <20241004121800.7ab3214b@canb.auug.org.au>
 MIME-Version: 1.0
-References: <20241007201356.10430-1-alex.vinarskis@gmail.com>
-In-Reply-To: <20241007201356.10430-1-alex.vinarskis@gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 7 Oct 2024 15:58:17 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UsLHQ5KkOekMntQ1GK=TFoGKN9kaMcLnUmXBLtrmP4qA@mail.gmail.com>
-Message-ID: <CAD=FV=UsLHQ5KkOekMntQ1GK=TFoGKN9kaMcLnUmXBLtrmP4qA@mail.gmail.com>
-Subject: Re: [PATCH v1 1/1] drm/edp-panel: Add panels used by Dell XPS 13 9345
-To: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Bryan.Kemp@dell.com, tudor.laurentiu.oss@gmail.com, 
- Peter de Kraker <peterdekraker@umito.nl>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; boundary="Sig_/waKzPEYWWWoW7vIuYvwUsaZ";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,38 +65,148 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+--Sig_/waKzPEYWWWoW7vIuYvwUsaZ
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 7, 2024 at 1:14=E2=80=AFPM Aleksandrs Vinarskis
-<alex.vinarskis@gmail.com> wrote:
->
-> Introduce low-res IPS and OLED panels for mentioned device.
->
-> SHP panel's timings were picked experimentally, without this patch or wit=
-h
-> `delay_200_500_e50` panel sometimes fails to boot/stays black on startup.
->
-> LGD panel's timings were copied from other LGD panels and tested to be
-> working.
->
-> Particular laptop also comes in high-res IPS variant, which unfortunately
-> I do not have access to verify.
->
-> Signed-off-by: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
-> Tested-by: Peter de Kraker <peterdekraker@umito.nl>
+Hi all,
 
-Your signed-off-by should be _below_ Peter's Tested-by. That means
-that you're the one that signed-off on the fact that Peter tested
-this.
+On Fri, 4 Oct 2024 12:18:00 +1000 Stephen Rothwell <sfr@canb.auug.org.au> w=
+rote:
+>
+> Today's linux-next merge of the drm-xe tree got a conflict in:
+>=20
+>   drivers/gpu/drm/xe/xe_guc_submit.c
+>=20
+> between commit:
+>=20
+>   9286a191abe2 ("drm/xe: Drop GuC submit_wq pool")
+>=20
+> from the drm-misc-fixes tree and commit:
+>=20
+>   861108666cc0 ("drm/xe: fix UAF around queue destruction")
 
-> ---
->  drivers/gpu/drm/panel/panel-edp.c | 2 ++
->  1 file changed, 2 insertions(+)
+This is now also commit
 
-This looks OK to me. I've been requesting people include the RAW EDID
-of panels that they add in the commit message, though. Could you do
-that and send a v2? Also: note that since I didn't see Peter provide
-his Tested-by himself, I'd probably wait a little longer before
-landing to give him a chance to object.
+  2d2be279f1ca ("drm/xe: fix UAF around queue destruction")
 
--Doug
+in Linus' tree.
+
+> from the drm-xe tree.
+>=20
+> I fixed it up (see below) and can carry the fix as necessary. This
+> is now fixed as far as linux-next is concerned, but any non trivial
+> conflicts should be mentioned to your upstream maintainer when your tree
+> is submitted for merging.  You may also want to consider cooperating
+> with the maintainer of the conflicting tree to minimise any particularly
+> complex conflicts.
+>=20
+> diff --cc drivers/gpu/drm/xe/xe_guc_submit.c
+> index 17c25f18e286,8a5c21a87977..000000000000
+> --- a/drivers/gpu/drm/xe/xe_guc_submit.c
+> +++ b/drivers/gpu/drm/xe/xe_guc_submit.c
+> @@@ -224,11 -224,80 +224,27 @@@ static bool exec_queue_killed_or_banned
+>   		 EXEC_QUEUE_STATE_BANNED));
+>   }
+>  =20
+>  -#ifdef CONFIG_PROVE_LOCKING
+>  -static int alloc_submit_wq(struct xe_guc *guc)
+>  -{
+>  -	int i;
+>  -
+>  -	for (i =3D 0; i < NUM_SUBMIT_WQ; ++i) {
+>  -		guc->submission_state.submit_wq_pool[i] =3D
+>  -			alloc_ordered_workqueue("submit_wq", 0);
+>  -		if (!guc->submission_state.submit_wq_pool[i])
+>  -			goto err_free;
+>  -	}
+>  -
+>  -	return 0;
+>  -
+>  -err_free:
+>  -	while (i)
+>  -		destroy_workqueue(guc->submission_state.submit_wq_pool[--i]);
+>  -
+>  -	return -ENOMEM;
+>  -}
+>  -
+>  -static void free_submit_wq(struct xe_guc *guc)
+>  -{
+>  -	int i;
+>  -
+>  -	for (i =3D 0; i < NUM_SUBMIT_WQ; ++i)
+>  -		destroy_workqueue(guc->submission_state.submit_wq_pool[i]);
+>  -}
+>  -
+>  -static struct workqueue_struct *get_submit_wq(struct xe_guc *guc)
+>  -{
+>  -	int idx =3D guc->submission_state.submit_wq_idx++ % NUM_SUBMIT_WQ;
+>  -
+>  -	return guc->submission_state.submit_wq_pool[idx];
+>  -}
+>  -#else
+>  -static int alloc_submit_wq(struct xe_guc *guc)
+>  -{
+>  -	return 0;
+>  -}
+>  -
+>  -static void free_submit_wq(struct xe_guc *guc)
+>  -{
+>  -
+>  -}
+>  -
+>  -static struct workqueue_struct *get_submit_wq(struct xe_guc *guc)
+>  -{
+>  -	return NULL;
+>  -}
+>  -#endif
+>  -
+> + static void xe_guc_submit_fini(struct xe_guc *guc)
+> + {
+> + 	struct xe_device *xe =3D guc_to_xe(guc);
+> + 	struct xe_gt *gt =3D guc_to_gt(guc);
+> + 	int ret;
+> +=20
+> + 	ret =3D wait_event_timeout(guc->submission_state.fini_wq,
+> + 				 xa_empty(&guc->submission_state.exec_queue_lookup),
+> + 				 HZ * 5);
+> +=20
+> + 	drain_workqueue(xe->destroy_wq);
+> +=20
+> + 	xe_gt_assert(gt, ret);
+> + }
+> +=20
+>   static void guc_submit_fini(struct drm_device *drm, void *arg)
+>   {
+>   	struct xe_guc *guc =3D arg;
+>  =20
+> + 	xe_guc_submit_fini(guc);
+>   	xa_destroy(&guc->submission_state.exec_queue_lookup);
+>  -	free_submit_wq(guc);
+>   }
+>  =20
+>   static void guc_submit_wedged_fini(void *arg)
+
+This is now a conflict between the drm-misc-fixes tree and Linus' tree.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/waKzPEYWWWoW7vIuYvwUsaZ
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmcEdggACgkQAVBC80lX
+0GwcqQf/QUyq9Ta+LN7BSZ39z3xyI+qoj2TryT7/RlRUujMo4Skcqv4D5DPGjG5q
+gUR//jxTEBotj4tqZzcfX4C416sIe/cdP5H1wlfCDaSrTrZJfIaS3470rhYfrwrk
+E4CIVonkoQnUG0SXewfQ0YjZwMl89kVNXQTLFnK18kSRqqEN4bIm19IvFlnDUOqb
+fhmuWOjpx7pxpZqvnwKvGcO1hyvK0hfw7YSdvFZ0beTbGmfjzFacqL1WhojXMWAi
+s5AQsaEWL3IKj+Zo/8NqYEHZOEsLdM9RVAygiL3QYgBES47IgmZ4s0hP4yISns0J
+ii7rApDRcbXeip+mveodZyWyVhY+eA==
+=Dqw3
+-----END PGP SIGNATURE-----
+
+--Sig_/waKzPEYWWWoW7vIuYvwUsaZ--
