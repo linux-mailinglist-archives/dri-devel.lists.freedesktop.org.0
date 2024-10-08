@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AA67994DA8
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 15:08:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A42C7994D8B
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 15:06:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB4FD10E528;
-	Tue,  8 Oct 2024 13:07:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6151A10E522;
+	Tue,  8 Oct 2024 13:06:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="v1Hxj+e6";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="n5nDtqlN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4267110E528
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2024 13:07:58 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4853010E522
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2024 13:06:31 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id C2B42A41789;
- Tue,  8 Oct 2024 13:07:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F217C4CECD;
- Tue,  8 Oct 2024 13:07:56 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 166755C5931;
+ Tue,  8 Oct 2024 13:06:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F9E0C4CECC;
+ Tue,  8 Oct 2024 13:06:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1728392877;
- bh=Mhjo9oBJ7px0vI0RCifWM8B2Er7n0OsPzmjU9pEZgAg=;
+ s=korg; t=1728392790;
+ bh=N6HDXsq3fY/TfGqXJRTnCGdAYKmNCxZaIGFlcRCoVdQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=v1Hxj+e64i7Z7WikSYdjIk9kplNvf/bUa1NUFxF2epGXAaBJOVDtu9vkktzrlBn87
- aic/AUYgBAn0Rx0CjYexRjSCDDpI6mwl9K9inw5JEb98RAvCvlbfHcKngkts3vg9m1
- 30BxSXykcqyI5aRbOPQZrAd11KuRRePdUS+MMANo=
+ b=n5nDtqlNur5aIYzHfxeeSb44gar9+t+CoKu7w1SLWD6sKwOvNPpnUbVCceYixnCke
+ L4HzEJNkCsIiAsXYrA4FnygBn2m6Z7FFK3KgdjG69xFtKvTADGb6U3e5+YN8e53UH4
+ 4nxClYBc0n/4CD0fkq+eS3y2bEGz/mChauMyuI2A=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
- "Borah, Chaitanya Kumar" <chaitanya.kumar.borah@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Helge Deller <deller@gmx.de>, Sam Ravnborg <sam@ravnborg.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Alex Deucher <alexander.deucher@amd.com>, dri-devel@lists.freedesktop.org,
- "Linux regression tracking (Thorsten Leemhuis)" <regressions@leemhuis.info>
-Subject: [PATCH 6.11 514/558] firmware/sysfb: Disable sysfb for firmware
- buffers with unknown parent
-Date: Tue,  8 Oct 2024 14:09:04 +0200
-Message-ID: <20241008115722.454183618@linuxfoundation.org>
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Luben Tuikov <ltuikov89@gmail.com>,
+ Matthew Brost <matthew.brost@intel.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ Philipp Stanner <pstanner@redhat.com>
+Subject: [PATCH 6.11 521/558] drm/sched: Add locking to
+ drm_sched_entity_modify_sched
+Date: Tue,  8 Oct 2024 14:09:11 +0200
+Message-ID: <20241008115722.730754697@linuxfoundation.org>
 X-Mailer: git-send-email 2.46.2
 In-Reply-To: <20241008115702.214071228@linuxfoundation.org>
 References: <20241008115702.214071228@linuxfoundation.org>
@@ -48,6 +48,7 @@ User-Agent: quilt/0.67
 X-stable: review
 X-Patchwork-Hint: ignore
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,54 +69,49 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 ------------------
 
-From: Thomas Zimmermann <tzimmermann@suse.de>
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 
-commit ad604f0a4c040dcb8faf44dc72db25e457c28076 upstream.
+commit 4286cc2c953983d44d248c9de1c81d3a9643345c upstream.
 
-The sysfb framebuffer handling only operates on graphics devices
-that provide the system's firmware framebuffer. If that device is
-not known, assume that any graphics device has been initialized by
-firmware.
+Without the locking amdgpu currently can race between
+amdgpu_ctx_set_entity_priority() (via drm_sched_entity_modify_sched()) and
+drm_sched_job_arm(), leading to the latter accesing potentially
+inconsitent entity->sched_list and entity->num_sched_list pair.
 
-Fixes a problem on i915 where sysfb does not release the firmware
-framebuffer after the native graphics driver loaded.
+v2:
+ * Improve commit message. (Philipp)
 
-Reported-by: Borah, Chaitanya Kumar <chaitanya.kumar.borah@intel.com>
-Closes: https://lore.kernel.org/dri-devel/SJ1PR11MB6129EFB8CE63D1EF6D932F94B96F2@SJ1PR11MB6129.namprd11.prod.outlook.com/
-Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/12160
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: b49420d6a1ae ("video/aperture: optionally match the device in sysfb_disable()")
-Cc: Javier Martinez Canillas <javierm@redhat.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Helge Deller <deller@gmx.de>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Fixes: b37aced31eb0 ("drm/scheduler: implement a function to modify sched list")
+Cc: Christian König <christian.koenig@amd.com>
 Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: Luben Tuikov <ltuikov89@gmail.com>
+Cc: Matthew Brost <matthew.brost@intel.com>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
 Cc: dri-devel@lists.freedesktop.org
-Cc: Linux regression tracking (Thorsten Leemhuis) <regressions@leemhuis.info>
-Cc: <stable@vger.kernel.org> # v6.11+
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240924084227.262271-1-tzimmermann@suse.de
+Cc: Philipp Stanner <pstanner@redhat.com>
+Cc: <stable@vger.kernel.org> # v5.7+
+Reviewed-by: Christian König <christian.koenig@amd.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20240913160559.49054-2-tursulin@igalia.com
+Signed-off-by: Christian König <christian.koenig@amd.com>
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/firmware/sysfb.c |    4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/scheduler/sched_entity.c |    2 ++
+ 1 file changed, 2 insertions(+)
 
---- a/drivers/firmware/sysfb.c
-+++ b/drivers/firmware/sysfb.c
-@@ -67,9 +67,11 @@ static bool sysfb_unregister(void)
- void sysfb_disable(struct device *dev)
+--- a/drivers/gpu/drm/scheduler/sched_entity.c
++++ b/drivers/gpu/drm/scheduler/sched_entity.c
+@@ -133,8 +133,10 @@ void drm_sched_entity_modify_sched(struc
  {
- 	struct screen_info *si = &screen_info;
-+	struct device *parent;
+ 	WARN_ON(!num_sched_list || !sched_list);
  
- 	mutex_lock(&disable_lock);
--	if (!dev || dev == sysfb_parent_dev(si)) {
-+	parent = sysfb_parent_dev(si);
-+	if (!dev || !parent || dev == parent) {
- 		sysfb_unregister();
- 		disabled = true;
- 	}
++	spin_lock(&entity->rq_lock);
+ 	entity->sched_list = sched_list;
+ 	entity->num_sched_list = num_sched_list;
++	spin_unlock(&entity->rq_lock);
+ }
+ EXPORT_SYMBOL(drm_sched_entity_modify_sched);
+ 
 
 
