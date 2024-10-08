@@ -2,53 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9363994AB4
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 14:35:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AA67994DA8
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 15:08:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C24310E50F;
-	Tue,  8 Oct 2024 12:35:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB4FD10E528;
+	Tue,  8 Oct 2024 13:07:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ZfYsVKpe";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="v1Hxj+e6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5D2210E504
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2024 12:35:44 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4267110E528
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2024 13:07:58 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id EA8D95C5A64;
- Tue,  8 Oct 2024 12:35:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C3ADC4CEC7;
- Tue,  8 Oct 2024 12:35:43 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id C2B42A41789;
+ Tue,  8 Oct 2024 13:07:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F217C4CECD;
+ Tue,  8 Oct 2024 13:07:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1728390943;
- bh=rnBrmP9dUEToPp45OePR25D3ThEFMu5XBNKjfRF1Gpw=;
+ s=korg; t=1728392877;
+ bh=Mhjo9oBJ7px0vI0RCifWM8B2Er7n0OsPzmjU9pEZgAg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ZfYsVKpef/Apxsrqt88oDkDOzItRXeVZcmytBmNWzsG2qHaeC8JgU91lnxvPgkycJ
- LAv6bh5pacLiNhdhgLZqfexMoHkELnzP6u+BR0B867KOrQICAU4ernMk3sswD68LF2
- 6RUZEoPqySTwciAah3qf12btxHD4+JshTkrrwW+Q=
+ b=v1Hxj+e64i7Z7WikSYdjIk9kplNvf/bUa1NUFxF2epGXAaBJOVDtu9vkktzrlBn87
+ aic/AUYgBAn0Rx0CjYexRjSCDDpI6mwl9K9inw5JEb98RAvCvlbfHcKngkts3vg9m1
+ 30BxSXykcqyI5aRbOPQZrAd11KuRRePdUS+MMANo=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Nirmoy Das <nirmoy.das@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Luben Tuikov <ltuikov89@gmail.com>,
- Matthew Brost <matthew.brost@intel.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- Nirmoy Das <nirmoy.das@intel.com>
-Subject: [PATCH 6.10 442/482] drm/sched: Always increment correct scheduler
- score
-Date: Tue,  8 Oct 2024 14:08:25 +0200
-Message-ID: <20241008115705.917801566@linuxfoundation.org>
+ "Borah, Chaitanya Kumar" <chaitanya.kumar.borah@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Helge Deller <deller@gmx.de>, Sam Ravnborg <sam@ravnborg.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Alex Deucher <alexander.deucher@amd.com>, dri-devel@lists.freedesktop.org,
+ "Linux regression tracking (Thorsten Leemhuis)" <regressions@leemhuis.info>
+Subject: [PATCH 6.11 514/558] firmware/sysfb: Disable sysfb for firmware
+ buffers with unknown parent
+Date: Tue,  8 Oct 2024 14:09:04 +0200
+Message-ID: <20241008115722.454183618@linuxfoundation.org>
 X-Mailer: git-send-email 2.46.2
-In-Reply-To: <20241008115648.280954295@linuxfoundation.org>
-References: <20241008115648.280954295@linuxfoundation.org>
+In-Reply-To: <20241008115702.214071228@linuxfoundation.org>
+References: <20241008115702.214071228@linuxfoundation.org>
 User-Agent: quilt/0.67
 X-stable: review
 X-Patchwork-Hint: ignore
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,53 +64,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-6.10-stable review patch.  If anyone has any objections, please let me know.
+6.11-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
 
-commit 087913e0ba2b3b9d7ccbafb2acf5dab9e35ae1d5 upstream.
+commit ad604f0a4c040dcb8faf44dc72db25e457c28076 upstream.
 
-Entities run queue can change during drm_sched_entity_push_job() so make
-sure to update the score consistently.
+The sysfb framebuffer handling only operates on graphics devices
+that provide the system's firmware framebuffer. If that device is
+not known, assume that any graphics device has been initialized by
+firmware.
 
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Fixes: d41a39dda140 ("drm/scheduler: improve job distribution with multiple queues")
-Cc: Nirmoy Das <nirmoy.das@amd.com>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Luben Tuikov <ltuikov89@gmail.com>
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
+Fixes a problem on i915 where sysfb does not release the firmware
+framebuffer after the native graphics driver loaded.
+
+Reported-by: Borah, Chaitanya Kumar <chaitanya.kumar.borah@intel.com>
+Closes: https://lore.kernel.org/dri-devel/SJ1PR11MB6129EFB8CE63D1EF6D932F94B96F2@SJ1PR11MB6129.namprd11.prod.outlook.com/
+Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/12160
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Fixes: b49420d6a1ae ("video/aperture: optionally match the device in sysfb_disable()")
+Cc: Javier Martinez Canillas <javierm@redhat.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Helge Deller <deller@gmx.de>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Alex Deucher <alexander.deucher@amd.com>
 Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v5.9+
-Reviewed-by: Christian König <christian.koenig@amd.com>
-Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240924101914.2713-4-tursulin@igalia.com
-Signed-off-by: Christian König <christian.koenig@amd.com>
+Cc: Linux regression tracking (Thorsten Leemhuis) <regressions@leemhuis.info>
+Cc: <stable@vger.kernel.org> # v6.11+
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20240924084227.262271-1-tzimmermann@suse.de
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/gpu/drm/scheduler/sched_entity.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/firmware/sysfb.c |    4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
---- a/drivers/gpu/drm/scheduler/sched_entity.c
-+++ b/drivers/gpu/drm/scheduler/sched_entity.c
-@@ -586,7 +586,6 @@ void drm_sched_entity_push_job(struct dr
- 	ktime_t submit_ts;
+--- a/drivers/firmware/sysfb.c
++++ b/drivers/firmware/sysfb.c
+@@ -67,9 +67,11 @@ static bool sysfb_unregister(void)
+ void sysfb_disable(struct device *dev)
+ {
+ 	struct screen_info *si = &screen_info;
++	struct device *parent;
  
- 	trace_drm_sched_job(sched_job, entity);
--	atomic_inc(entity->rq->sched->score);
- 	WRITE_ONCE(entity->last_user, current->group_leader);
- 
- 	/*
-@@ -614,6 +613,7 @@ void drm_sched_entity_push_job(struct dr
- 		rq = entity->rq;
- 		sched = rq->sched;
- 
-+		atomic_inc(sched->score);
- 		drm_sched_rq_add_entity(rq, entity);
- 		spin_unlock(&entity->rq_lock);
- 
+ 	mutex_lock(&disable_lock);
+-	if (!dev || dev == sysfb_parent_dev(si)) {
++	parent = sysfb_parent_dev(si);
++	if (!dev || !parent || dev == parent) {
+ 		sysfb_unregister();
+ 		disabled = true;
+ 	}
 
 
