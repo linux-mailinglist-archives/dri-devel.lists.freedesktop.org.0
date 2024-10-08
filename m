@@ -2,150 +2,166 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D73E49940CE
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 10:15:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDB2F9940E8
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 10:16:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F07B10E491;
-	Tue,  8 Oct 2024 08:15:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A3BB10E48E;
+	Tue,  8 Oct 2024 08:16:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="laIy7+Se";
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.b="sHo4fQUn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2088.outbound.protection.outlook.com [40.107.236.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FEB410E1E3;
- Tue,  8 Oct 2024 08:15:14 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UrKtN34pPeamJt0YXhR7R9J59BRXb8j7wv82U9AKul0LxPR0mHJRcYaTlRp8y0c9nua/AQkRleNSRS+lt5g+S5L+eqh+1R6LTE0HQprohAfqt1vKi6/TvliQmYWNMtlRJ+7hKbmHz6tamexXpRRdeN8X51IJ9S5TjjSsF9AhoRJV+UVHNMdobYP8zmpQ1q1nGe4Xx5iGpN/0Z8BNzeuiRQknUMc+v9yJA0VrcJctXMaXOnk0seaydeq6pDutMXWCss4G4UCA5w8wo7E3RWoEx8okqze15mvRCfNIHnCgJQpQwy0JErte9rzeEPXfSSh+wqDjcCGaoVQKc5inZi2Myg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vSC5ZlYgWnqUhMMYy5Z3JXkBDijh2FJYn/f9x4vJeLc=;
- b=mJPZyT11ON+DjQICwlfU/YHXs73g4XeRy513E7VPqYGHSvQqYjEyR01kuBv6zm+d+zNkJE7loGJX0CJJEVK3+Q6DSz4TjdFrD2BmNxqbusR992Hvra/CkHnyG9nkFHgLxXGVyemFER9I+jGI0pj1qWh2RhaUKoBpjvfy979IwvGPucYDDxYBU0e/C0d4obULLnigEvbPg0awqkUnRdV0Z+KjtdAXPB8SSJsgwx12PyI8wtu38Ye8UrKH3DeLW7iKF/pQToJPTP7jElo+QVH+PFssMFK5w7y4qsp0VcogAD5Uv3B8vk5eNMvqrFsQkf814/lCtsK17cWQJbECpNAnPw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vSC5ZlYgWnqUhMMYy5Z3JXkBDijh2FJYn/f9x4vJeLc=;
- b=laIy7+SecTuZ0rUvTkZxozjVLITMbZgiUfENy52ebcbwzry7A3TciXJ4U1QZ8AyUR7yvIyD8HcrxQQkwPMA8PerP4GBJjvudFVn0dfRgqsLRjAGWGBKTck621umQxYxgvDPtRGvG5NkyS2OSpZmcHNE/URqmIVh8Ll9plxUqnI4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SN7PR12MB6813.namprd12.prod.outlook.com (2603:10b6:806:267::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.18; Tue, 8 Oct
- 2024 08:15:11 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%2]) with mapi id 15.20.8026.020; Tue, 8 Oct 2024
- 08:15:11 +0000
-Message-ID: <139495eb-1b5f-45e9-a784-d291e5201adb@amd.com>
-Date: Tue, 8 Oct 2024 10:15:05 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 5/6] drm/amdgpu: make process_name a flexible array
-To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- dmitry.osipenko@collabora.com, jani.nikula@linux.intel.com,
- tursulin@igalia.com, simona.vetter@ffwll.ch, robdclark@gmail.com,
- alexander.deucher@amd.com
-References: <20241003124506.470931-1-pierre-eric.pelloux-prayer@amd.com>
- <20241003124506.470931-6-pierre-eric.pelloux-prayer@amd.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20241003124506.470931-6-pierre-eric.pelloux-prayer@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0111.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9c::15) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
+ [148.163.158.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEAED10E48E;
+ Tue,  8 Oct 2024 08:16:45 +0000 (UTC)
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4987rMsl004958;
+ Tue, 8 Oct 2024 08:16:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=
+ message-id:subject:from:to:cc:date:in-reply-to:references
+ :content-type:content-transfer-encoding:mime-version; s=pp1; bh=
+ voeEqfxsFd+/77zpL5D+y4gMqcRDIhp51epNuVuJ7ZY=; b=sHo4fQUndC+aATfq
+ x6FtjA95IrCiTWSM6Yr7QeMxglakVe5pbc2Lny9bHH3w2g60v/FUJFod3LKkW2t3
+ N9Pi7SjUPHgcQWGBIf4w2QGfe4makFe056rO1xayTZCnOlROqwylWhMPwFioQyHW
+ KGuC4s5rETTg2OY0uX29prBMNt5LcxufaLfNaAx8+FfqefBKIJORu1HCscCuGS+9
+ fkOyY0qB6TGhps22fVYWALcULALv0kGbxz3ffFjMzsQvjkesCv/Ad5QJbE4DuBg1
+ 04ZUnfmws0Y/Zv/r7uv2uJiWCjDAKB3VId3NfJpujjWTcwpOZKbDD7B/x1jktc6G
+ VelTPA==
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4250r104aj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 08 Oct 2024 08:16:33 +0000 (GMT)
+Received: from m0360072.ppops.net (m0360072.ppops.net [127.0.0.1])
+ by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 4988GW4P030718;
+ Tue, 8 Oct 2024 08:16:32 GMT
+Received: from ppma22.wdc07v.mail.ibm.com
+ (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4250r104a6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 08 Oct 2024 08:16:32 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+ by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 4985aeJf011598;
+ Tue, 8 Oct 2024 08:16:31 GMT
+Received: from smtprelay02.dal12v.mail.ibm.com ([172.16.1.4])
+ by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 423g5xk6ec-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 08 Oct 2024 08:16:31 +0000
+Received: from smtpav02.dal12v.mail.ibm.com (smtpav02.dal12v.mail.ibm.com
+ [10.241.53.101])
+ by smtprelay02.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 4988GUNT36765958
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 8 Oct 2024 08:16:30 GMT
+Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 94E565805E;
+ Tue,  8 Oct 2024 08:16:30 +0000 (GMT)
+Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 782595805A;
+ Tue,  8 Oct 2024 08:16:26 +0000 (GMT)
+Received: from oc-fedora.boeblingen.de.ibm.com (unknown [9.152.212.119])
+ by smtpav02.dal12v.mail.ibm.com (Postfix) with ESMTP;
+ Tue,  8 Oct 2024 08:16:26 +0000 (GMT)
+Message-ID: <46d81b40dda20ada3b5847353a866172b419c811.camel@linux.ibm.com>
+Subject: Re: [PATCH v6 4/5] tty: serial: handle HAS_IOPORT dependencies
+From: Niklas Schnelle <schnelle@linux.ibm.com>
+To: "Maciej W. Rozycki" <macro@orcam.me.uk>
+Cc: Brian Cain <bcain@quicinc.com>, Marcel Holtmann <marcel@holtmann.org>,
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>, Patrik Jakobsson
+ <patrik.r.jakobsson@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Dave Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, Arnd
+ Bergmann <arnd@arndb.de>,
+ Heiko Carstens <hca@linux.ibm.com>, linux-kernel@vger.kernel.org,
+ linux-hexagon@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev,
+ spice-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-serial@vger.kernel.org, linux-arch@vger.kernel.org,
+ Arnd Bergmann <arnd@kernel.org>
+Date: Tue, 08 Oct 2024 10:16:25 +0200
+In-Reply-To: <alpine.DEB.2.21.2410072109130.30973@angie.orcam.me.uk>
+References: <20241007-b4-has_ioport-v6-0-03f7240da6e5@linux.ibm.com>
+ <20241007-b4-has_ioport-v6-4-03f7240da6e5@linux.ibm.com>
+ <alpine.DEB.2.21.2410072109130.30973@angie.orcam.me.uk>
+Autocrypt: addr=schnelle@linux.ibm.com; prefer-encrypt=mutual;
+ keydata=mQINBGHm3M8BEAC+MIQkfoPIAKdjjk84OSQ8erd2OICj98+GdhMQpIjHXn/RJdCZLa58k
+ /ay5x0xIHkWzx1JJOm4Lki7WEzRbYDexQEJP0xUia0U+4Yg7PJL4Dg/W4Ho28dRBROoJjgJSLSHwc
+ 3/1pjpNlSaX/qg3ZM8+/EiSGc7uEPklLYu3gRGxcWV/944HdUyLcnjrZwCn2+gg9ncVJjsimS0ro/
+ 2wU2RPE4ju6NMBn5Go26sAj1owdYQQv9t0d71CmZS9Bh+2+cLjC7HvyTHKFxVGOznUL+j1a45VrVS
+ XQ+nhTVjvgvXR84z10bOvLiwxJZ/00pwNi7uCdSYnZFLQ4S/JGMs4lhOiCGJhJ/9FR7JVw/1t1G9a
+ UlqVp23AXwzbcoV2fxyE/CsVpHcyOWGDahGLcH7QeitN6cjltf9ymw2spBzpRnfFn80nVxgSYVG1d
+ w75ksBAuQ/3e+oTQk4GAa2ShoNVsvR9GYn7rnsDN5pVILDhdPO3J2PGIXa5ipQnvwb3EHvPXyzakY
+ tK50fBUPKk3XnkRwRYEbbPEB7YT+ccF/HioCryqDPWUivXF8qf6Jw5T1mhwukUV1i+QyJzJxGPh19
+ /N2/GK7/yS5wrt0Lwxzevc5g+jX8RyjzywOZGHTVu9KIQiG8Pqx33UxZvykjaqTMjo7kaAdGEkrHZ
+ dVHqoPZwhCsgQARAQABtChOaWtsYXMgU2NobmVsbGUgPHNjaG5lbGxlQGxpbnV4LmlibS5jb20+iQ
+ JXBBMBCABBAhsBBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAhkBFiEEnbAAstJ1IDCl9y3cr+Q/Fej
+ CYJAFAmWVooIFCQWP+TMACgkQr+Q/FejCYJCmLg/+OgZD6wTjooE77/ZHmW6Egb5nUH6DU+2nMHMH
+ UupkE3dKuLcuzI4aEf/6wGG2xF/LigMRrbb1iKRVk/VG/swyLh/OBOTh8cJnhdmURnj3jhaefzslA
+ 1wTHcxeH4wMGJWVRAhOfDUpMMYV2J5XoroiA1+acSuppelmKAK5voVn9/fNtrVr6mgBXT5RUnmW60
+ UUq5z6a1zTMOe8lofwHLVvyG9zMgv6Z9IQJc/oVnjR9PWYDUX4jqFL3yO6DDt5iIQCN8WKaodlNP6
+ 1lFKAYujV8JY4Ln+IbMIV2h34cGpIJ7f76OYt2XR4RANbOd41+qvlYgpYSvIBDml/fT2vWEjmncm7
+ zzpVyPtCZlijV3npsTVerGbh0Ts/xC6ERQrB+rkUqN/fx+dGnTT9I7FLUQFBhK2pIuD+U1K+A+Egw
+ UiTyiGtyRMqz12RdWzerRmWFo5Mmi8N1jhZRTs0yAUn3MSCdRHP1Nu3SMk/0oE+pVeni3ysdJ69Sl
+ kCAZoaf1TMRdSlF71oT/fNgSnd90wkCHUK9pUJGRTUxgV9NjafZy7sx1Gz11s4QzJE6JBelClBUiF
+ 6QD4a+MzFh9TkUcpG0cPNsFfEGyxtGzuoeE86sL1tk3yO6ThJSLZyqFFLrZBIJvYK2UiD+6E7VWRW
+ 9y1OmPyyFBPBosOvmrkLlDtAtyfYInO0KU5pa2xhcyBTY2huZWxsZSA8bmlrbGFzLnNjaG5lbGxlQ
+ GlibS5jb20+iQJUBBMBCAA+AhsBBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAFiEEnbAAstJ1IDCl9y
+ 3cr+Q/FejCYJAFAmWVoosFCQWP+TMACgkQr+Q/FejCYJB7oxAAksHYU+myhSZD0YSuYZl3oLDUEFP
+ 3fm9m6N9zgtiOg/GGI0jHc+Tt8qiQaLEtVeP/waWKgQnje/emHJOEDZTb0AdeXZk+T5/ydrKRLmYC
+ 6rPge3ue1yQUCiA+T72O3WfjZILI2yOstNwd1f0epQ32YaAvM+QbKDloJSmKhGWZlvdVUDXWkS6/m
+ aUtUwZpddFY8InXBxsYCbJsqiKF3kPVD515/6keIZmZh1cTIFQ+Kc+UZaz0MxkhiCyWC4cH6HZGKR
+ fiXLhPlmmAyW9FiZK9pwDocTLemfgMR6QXOiB0uisdoFnjhXNfp6OHSy7w7LTIHzCsJoHk+vsyvSp
+ +fxkjCXgFzGRQaJkoX33QZwQj1mxeWl594QUfR4DIZ2KERRNI0OMYjJVEtB5jQjnD/04qcTrSCpJ5
+ ZPtiQ6Umsb1c9tBRIJnL7gIslo/OXBe/4q5yBCtCZOoD6d683XaMPGhi/F6+fnGvzsi6a9qDBgVvt
+ arI8ybayhXDuS6/StR8qZKCyzZ/1CUofxGVIdgkseDhts0dZ4AYwRVCUFQULeRtyoT4dKfEot7hPE
+ /4wjm9qZf2mDPRvJOqss6jObTNuw1YzGlpe9OvDYtGeEfHgcZqEmHbiMirwfGLaTG2xKDx4g2jd2z
+ Ocf83TCERFKJEhvZxB3tRiUQTd3dZ1TIaisv/o+y0K05pa2xhcyBTY2huZWxsZSA8bmlrbGFzLnNj
+ aG5lbGxlQGdtYWlsLmNvbT6JAlQEEwEIAD4CGwEFCwkIBwIGFQoJCAsCBBYCAwECHgECF4AWIQSds
+ ACy0nUgMKX3Ldyv5D8V6MJgkAUCZZWiiwUJBY/5MwAKCRCv5D8V6MJgkNVuEACo12niyoKhnXLQFt
+ NaqxNZ+8p/MGA7g2XcVJ1bYMPoZ2Wh8zwX0sKX/dLlXVHIAeqelL5hIv6GoTykNqQGUN2Kqf0h/z7
+ b85o3tHiqMAQV0dAB0y6qdIwdiB69SjpPNK5KKS1+AodLzosdIVKb+LiOyqUFKhLnablni1hiKlqY
+ yDeD4k5hePeQdpFixf1YZclGZLFbKlF/A/0Q13USOHuAMYoA/iSgJQDMSUWkuC0mNxdhfVt/gVJnu
+ Kq+uKUghcHflhK+yodqezlxmmRxg6HrPVqRG4pZ6YNYO7YXuEWy9JiEH7MmFYcjNdgjn+kxx4IoYU
+ O0MJ+DjLpVCV1QP1ZvMy8qQxScyEn7pMpQ0aW6zfJBsvoV3EHCR1emwKYO6rJOfvtu1rElGCTe3sn
+ sScV9Z1oXlvo8pVNH5a2SlnsuEBQe0RXNXNJ4RAls8VraGdNSHi4MxcsYEgAVHVaAdTLfJcXZNCIU
+ cZejkOE+U2talW2n5sMvx+yURAEVsT/50whYcvomt0y81ImvCgUz4xN1axZ3PCjkgyhNiqLe+vzge
+ xq7B2Kx2++hxIBDCKLUTn8JUAtQ1iGBZL9RuDrBy2rR7xbHcU2424iSbP0zmnpav5KUg4F1JVYG12
+ vDCi5tq5lORCL28rjOQqE0aLHU1M1D2v51kjkmNuc2pgLDFzpvgLQhTmlrbGFzIFNjaG5lbGxlIDx
+ uaWtzQGtlcm5lbC5vcmc+iQJUBBMBCAA+AhsBBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAFiEEnbAA
+ stJ1IDCl9y3cr+Q/FejCYJAFAmWVoosFCQWP+TMACgkQr+Q/FejCYJAglRAAihbDxiGLOWhJed5cF
+ kOwdTZz6MyYgazbr+2sFrfAhX3hxPFoG4ogY/BzsjkN0cevWpSigb2I8Y1sQD7BFWJ2OjpEpVQd0D
+ sk5VbJBXEWIVDBQ4VMoACLUKgfrb0xiwMRg9C2h6KlwrPBlfgctfvrWWLBq7+oqx73CgxqTcGpfFy
+ tD87R4ovR9W1doZbh7pjsH5Ae9xX5PnQFHruib3y35zC8+tvSgvYWv3Eg/8H4QWlrjLHHy2AfZDVl
+ 9F5t5RfGL8NRsiTdVg9VFYg/GDdck9WPEgdO3L/qoq3Iuk0SZccGl+Nj8vtWYPKNlu2UvgYEbB8cl
+ UoWhg+SjjYQka7/p6tc+CCPZ8JUpkgkAdt7yXt6370wP1gct2VztS6SEGcmAE1qxtGhi5Kuln4ZJ/
+ UO2yxhPHgoW99OuZw3IRHe0+mNR67JbIpSuFWDFNjZ0nckQcU1taSEUi0euWs7i4MEkm0NsOsVhbs
+ 4D2vMiC6kO/FqWOPmWZeAjyJw/KRUG4PaJAr5zJUx57nhKWgeTniW712n4DwCUh77D/PHY0nqBTG/
+ B+QQCR/FYGpTFkO4DRVfapT8njDrsWyVpP9o64VNZP42S+DuRGWfUKCMAXsM/wPzRiDEVfnZMcUR9
+ vwLSHeoV7MiIFC0xIrp5ES9R00t4UFgqtGc36DV71qjR+66Im0=
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.52.4 (3.52.4-1.fc40) 
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: lJvN_sQ-aLNDSuNh0LDS6vl7xXhIFy-h
+X-Proofpoint-ORIG-GUID: 7DRb96EpW2B3fOngjvAD841iHZjNSk_4
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SN7PR12MB6813:EE_
-X-MS-Office365-Filtering-Correlation-Id: 26f7e9b4-a1ad-45bd-206c-08dce771544a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?QkZLc0g3OWtYVDRoRGJvOHV5L2dvV0MwNVk2L3crZmhKa3RDdE9pMyt5RXVU?=
- =?utf-8?B?bjh1ekZvY3dOWDZ2UFRiK2loc3VXUjlKQTRqam5nWGdYZWVtSURSVlU2VHhj?=
- =?utf-8?B?YXlGS0RDdkRPcHpWdGhRRFk2OERkRW5Rdml1UUxuQUhBdHJra0kwVU1TSlBu?=
- =?utf-8?B?Zy9hMHhZdjVvb2N1QUtBRzc2dTNHMkJWNGRVMUNtNkFZRE1qR09tcDgxNmpt?=
- =?utf-8?B?Zmg0YmsrMDF0WmhacEJRaG5yZXVKV0VPYkx4M1h2NUdQdG9Ca0t5UW9BRHIx?=
- =?utf-8?B?bzdmMEdmaXI1Q1ZMa0hBYko1RUtvYk5WcWt5cHFlNHRHWTE0UU1wWVczb05w?=
- =?utf-8?B?Q21PcjVwU0FsdHNKUGUyV3pId3podGt0UlE5aUZwSEpWU0ltSTEwbDIzMjNm?=
- =?utf-8?B?bFBpL2JRbEpaZHhTNjRYV08xYWttTm1sRDVIeGJnemRuaitKNUM2Y21RU0Er?=
- =?utf-8?B?blVoWjV2S1dDSklxRytNTGNzbmYvWXM0VC9MOXlFT1pJVFpXUlpJSlNPSVJU?=
- =?utf-8?B?MkFqVmJqVHVSR2pTY0M3T0F4bU91bWEwZldVZmtHUm1BQko0NEo4UFdNZVdI?=
- =?utf-8?B?QVpwSUZHQnc5TGhkZlBZYzgxRlJIUkVoSUkzOFl2WGVTSlplaU1lZmJIN0xq?=
- =?utf-8?B?R2RERG5hSjJieU5ZMHdxOXVHbHgzVGpFOElXVWZRYnBzbnRJRTJlR1lSbHpt?=
- =?utf-8?B?ekY5MURteVVwZ3ZTU2NiWVZiTUsvUjJxYUVtdy9XSzEwYk54Y3pkbGd5VlI0?=
- =?utf-8?B?eXcwcUxxWDJtUS8xMlArRUQzL3NHOENJR1RQd3ZPa0ZseGJJUHJxbEc1UGlT?=
- =?utf-8?B?a2E3SlpyZ1J0dDdEejRhd2oyRXVpcGdSY3g1YVRDcmJMNWRiRGdLYkk4ZkxM?=
- =?utf-8?B?VUt3VmdlK2tsekF3M08xSHErRlBWa1BaOGU0UkFwV3RiWnU3bnB1V3hPbjRq?=
- =?utf-8?B?VTFHbzRobjA1d09LTHJjYVpQN1JqNUh1TE4zQkhOSXFmZGVMSzZWT1ZabGhK?=
- =?utf-8?B?L0gxM1M4cnhvVXRRR05pYmhpcTlYMFNjREdQbnBpNHJYaUxDQkxMTTE0WkRR?=
- =?utf-8?B?K0ExcUZzdVFod3orYVozSVJvTVdjWG1zSW5ZMHRlYUxRRHRVbHdHdEN5bEtL?=
- =?utf-8?B?MHJkNzZCcTJ1Wm43UGQ3RUs1anpycncwWmp5K0o5c1N6TERvSGxObXBtSFFp?=
- =?utf-8?B?Z1JxbmE5UGxBT216ZFQrV0dSczFoWGw0QW8za1ZVTDQ2OFFyaU9tejdHY1V1?=
- =?utf-8?B?eGowV2RYQWxrd083MUZjejcxbUlac0tJK0tsUm1iV0hHSTRyZ0VvTFJXaEtU?=
- =?utf-8?B?RCtNS2NDay9JVTVJVnIxM21VNnd2bXlIQWhUWEpIM210NlNBWXlYcW1LbXU1?=
- =?utf-8?B?ZVdhS0x0TkppZVNjQ2hRRk02cmNaSWhpSDlTSVRmZm9qbWhmQ0xWK2F5aFNX?=
- =?utf-8?B?elQ5RHRYWWgyVkl3bUdsSG1hZndwbzFSYnIxMmNjMFl3ZVJLWWpVV0hObnZs?=
- =?utf-8?B?VVUvUm16RlkraFBORThhVzhBUTR2NTBrM1FCMUxPOXNjd0VyMFVPNGh0NnRU?=
- =?utf-8?B?YnY5dmRhTS83ZlVGdGNmbytJbnFFMFhkQ2tURDV5WnpuTlNBT2JPaEp0b2xw?=
- =?utf-8?B?ZlZqSUN6YUJTVjNpL05rdU1RUWZhNXRUNVZIWFZTelRmVXIrYU9XSzNEUTFJ?=
- =?utf-8?B?M2FZVS9HVjlhaXNmU29LazIxaUZUQWFFMHZkWCtmS2F3WG4xQzJwTUhBPT0=?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SDFMWnNWcjZSc0V5QVphZkNKdU54czdvcmZhTTZFN3JXRGZLNVVBRllsR1FE?=
- =?utf-8?B?SUY1R1ZQSGVOemU0T2tESzZsVlFlV2VMR2RIWjd4emlBMzBadjlHa01FT0xM?=
- =?utf-8?B?bWxxLzV0b0ROc2hNYUx4R2w2WWdMeUlOaDlKWXdIWEx0THd5ajY2MlhlL2Y1?=
- =?utf-8?B?RTRTQitxd1V0cUozYkJmVHVZWktBZVNPZlBJMzZJcXFsVzFPcXk5c1FhM3hN?=
- =?utf-8?B?Z3YrQ2RlMGRYYkxDNEZVWVUwUldWK09RVGloUHk0RlN6K0ZzTFpSd0hKT2ZZ?=
- =?utf-8?B?aUdweGtEb01BMVpQazJ0dHc3U2JlRWNVMENodVlyazR1S0FBek9VV294REc2?=
- =?utf-8?B?RXNLaysrdzdOcWh3Z203ajZZZk5CZEd4V2NXbzJ3bWlPRWd2VjRhTU9zUXN0?=
- =?utf-8?B?Nko4Wk1TWUR2bmlpa0gySXF4SWwzSWQvUWsydEJvQjhhTjBiRHlNYXlxUWZC?=
- =?utf-8?B?ejd6RjRTWnVpK0tDVklaTmFubjRvV2p3a0dzbWJwamdhYVUzenVHcGRPRU5M?=
- =?utf-8?B?d2pGV3BRRVhFb2trdGdnL1FaVUcxc3lPOUVubFNpcUNhaHhCZUg4clJMWUNF?=
- =?utf-8?B?bndhY0lTV3Y0S04wbkp4clpIRDFNM09qbndvOE5waU4ycWcxZUVNdFNOdGNN?=
- =?utf-8?B?dTBFblJMaU1WaFZQY2twM0JzQjJKRlFPNVA1aEl1YmROVVNlN3FITnNVSEll?=
- =?utf-8?B?ZjFscGs1UHJuR3h2enMxUlJPM3hVSmlKOVl4WFlGdkR6MExzckZDMEtFbUtU?=
- =?utf-8?B?czE5VW41U1pLeVVzN1l2Nm0wdTA2NWF2VWh1RG1Bb1hZSWw2eTBRTHZNSy8x?=
- =?utf-8?B?dVpUaENDMmNZQ3JuTDNlVlloOCtXbG96N2hGTGFZR2paeXRkMC9tamQwajhC?=
- =?utf-8?B?QUgwUUNmaXR6TE5tVTNYUUxKdDBYa0V4NWhBbnFSUUNDOThrTHUvNmZMT0RJ?=
- =?utf-8?B?RWxRRzhrVUFHTHBDcTdvM2hMeGRLQkRJcnRsYW96SGRIcjE4UnExMk9SNWF5?=
- =?utf-8?B?UVIvU0JBZDFNMVV0a1RIREdLazBrY2lDeGtXeU9sa2FFQTZWdFZjdzdMOElT?=
- =?utf-8?B?UEd3eXhJRktEeXJIeUYvQVZnMDhXNVQ5U1hWeGN1eE9ld1VhdmxOdm5CU09N?=
- =?utf-8?B?ZkpBejliRkFCT3ZVYUduUWVUeGtCTktCN0ZCdFhxSU4vN1ZuenZxNThWUThU?=
- =?utf-8?B?SVlWWFFnRWpxWWxiRlRGQWM3OGl0d2dNUkZaMzAxNVEwWHZzQ2RLby81a3Fk?=
- =?utf-8?B?a0NoY1VLSE1aelFBYk9uSWVXb2xlYjllL1AxUk94elRDSVNoblZtU0RSRG1j?=
- =?utf-8?B?a3dRNy9FRUowSVNHbitJVjVlcFkzSnVkWkpRN0htZ2tQWnRxUkFySWZlTXAv?=
- =?utf-8?B?aWhFNDFpQUQ5OTNXcEY5cmMyZ3R6bmlwRGlrVTJWejd0QndyTjM3dHFhdWh5?=
- =?utf-8?B?RnRuWXFkZlhhOUlGUnVQd1cra2ZWYmJITlN4SXNMaGVINmJpK29Va3RPaGZ5?=
- =?utf-8?B?UzRpamtGYk44UHEra1RITXhna1hYUTF5SFpiRnNKK0lrTnBZWDlpbGVUcHhj?=
- =?utf-8?B?OTYrc2VLS0t5NTRhRkFqNm5nbmwxSHRxQWFKVXlUbSt6bUlnTURidFNHeU5s?=
- =?utf-8?B?dXMxTmxLdFVRbGF5eE9UZ1MzWUpoYWZqZnlVZ3pTS2wvbzFETzZkWVJOVHI0?=
- =?utf-8?B?L0ZqTmMySGYva2RFVDUvdFBRSnVBTDZid1QxemRYWTRhU0NiUlFqYzE5aU8w?=
- =?utf-8?B?VjB6cCs2QUF4b3lFZFpCT3NTSVpqKzNNNXVIVUhxNVVsQUdWKzhTU0UxN1hB?=
- =?utf-8?B?WTFVb21zcUNtdFc4WkZCRWFGLzdwQVNIbnE0RnpXVjJwTm1lcFJDVFA2ZG91?=
- =?utf-8?B?eXBoWjQxY2RUaEM1OFJ5SGtJOU5IRUR3K2FzMjk2UmRKM0huL3psdjlQVEs5?=
- =?utf-8?B?STIwTUJFelMwZU8yanJrWVo5aVBhd2w5MllyN1hDM0x0MkY1NjAxcEFlaE1M?=
- =?utf-8?B?TEFkSzBkTG1GUFlhMk5RTElTMllMSHFDYzhuRFhLdzArVWF5YUxRWU1hNm44?=
- =?utf-8?B?RDVDTDZxQ2lxczg5SStlakIvSWM0N1p4ZFg0UGN1SU1iUTM1elAvMUswbWdI?=
- =?utf-8?Q?WJTNJArBlU941k7cO7gZ1s7V9?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 26f7e9b4-a1ad-45bd-206c-08dce771544a
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Oct 2024 08:15:11.2362 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: aIf83s7ICOCGnqjfncFkJTRwwEmWx/drxeDSdcJT4zjOzJT1uzSV7RWpoRM/EMmJ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6813
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-08_05,2024-10-08_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0
+ priorityscore=1501 bulkscore=0 suspectscore=0 mlxlogscore=999 adultscore=0
+ clxscore=1015 impostorscore=0 mlxscore=0 phishscore=0 malwarescore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410080050
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -161,219 +177,140 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 03.10.24 um 14:43 schrieb Pierre-Eric Pelloux-Prayer:
-> And rename it process_desc, since it will soon contain more than
-> just the process_name.
->
-> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+On Mon, 2024-10-07 at 22:09 +0100, Maciej W. Rozycki wrote:
+> On Mon, 7 Oct 2024, Niklas Schnelle wrote:
+>=20
+> > diff --git a/drivers/tty/serial/8250/8250_pci.c b/drivers/tty/serial/82=
+50/8250_pci.c
+> > index 6709b6a5f3011db38acc58dc7223158fe4fcf72e..6a638feb44e443a1998980d=
+d037748f227ec1bc8 100644
+> > --- a/drivers/tty/serial/8250/8250_pci.c
+> > +++ b/drivers/tty/serial/8250/8250_pci.c
+> [...]
+> >  	iobase =3D pci_resource_start(dev, 0);
+> >  	outb(0x0, iobase + CH384_XINT_ENABLE_REG);
+> >  }
+> > =20
+> > -
+> >  static int
+> >  pci_sunix_setup(struct serial_private *priv,
+> >  		const struct pciserial_board *board,
+>=20
+>  Gratuitous change here.
+>=20
+> > diff --git a/drivers/tty/serial/8250/8250_pcilib.c b/drivers/tty/serial=
+/8250/8250_pcilib.c
+> > index ea906d721b2c3eac15c9e8d62cc6fa56c3ef6150..fc1882d7515b5814ff1240f=
+fdbe1009ab908ad6b 100644
+> > --- a/drivers/tty/serial/8250/8250_pcilib.c
+> > +++ b/drivers/tty/serial/8250/8250_pcilib.c
+> > @@ -28,6 +28,10 @@ int serial8250_pci_setup_port(struct pci_dev *dev, s=
+truct uart_8250_port *port,
+> >  		port->port.membase =3D pcim_iomap_table(dev)[bar] + offset;
+> >  		port->port.regshift =3D regshift;
+> >  	} else {
+> > +		if (!IS_ENABLED(CONFIG_HAS_IOPORT)) {
+> > +			pr_err("Serial port %lx requires I/O port support\n", port->port.io=
+base);
+> > +			return -EINVAL;
+> > +		}
+> >  		port->port.iotype =3D UPIO_PORT;
+> >  		port->port.iobase =3D pci_resource_start(dev, bar) + offset;
+> >  		port->port.mapbase =3D 0;
+>=20
+>  Can we please flatten this conditional and get rid of the negation, and=
+=20
+> also use `pci_err' for clear identification (`port->port.iobase' may not=
+=20
+> even have been set to anything meaningful if this triggers)?  I.e.:
+>=20
+> 		/* ... */
+> 	} else if (IS_ENABLED(CONFIG_HAS_IOPORT)) {
+> 		/* ... */
+> 	} else {
+> 		pci_err(dev, "serial port requires I/O port support\n");
+> 		return -EINVAL;
+> 	}
+>=20
+> I'd also say "port I/O" (by analogy to "memory-mapped I/O") rather than=20
+> "I/O port", but I can imagine it might be debatable.
 
-Reviewed-by: Christian König <christian.koenig@amd.com>
+Agree this looks better, will change it.
 
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c      |  2 +-
->   drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c |  4 ++--
->   drivers/gpu/drm/amd/amdgpu/amdgpu_job.c          |  2 +-
->   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c           | 13 +++++++++++--
->   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h           |  2 +-
->   drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c           |  2 +-
->   drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c           |  2 +-
->   drivers/gpu/drm/amd/amdgpu/gmc_v12_0.c           |  2 +-
->   drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c            |  2 +-
->   drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c            |  2 +-
->   drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c           |  2 +-
->   drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c         |  2 +-
->   drivers/gpu/drm/amd/amdkfd/kfd_events.c          |  2 +-
->   13 files changed, 24 insertions(+), 15 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-> index cbef720de779..c2185e43e38d 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-> @@ -1786,7 +1786,7 @@ static int amdgpu_debugfs_vm_info_show(struct seq_file *m, void *unused)
->   
->   		ti = amdgpu_vm_get_task_info_vm(vm);
->   		if (ti) {
-> -			seq_printf(m, "pid:%d\tProcess:%s ----------\n", ti->pid, ti->process_name);
-> +			seq_printf(m, "pid:%d\tProcess:%s ----------\n", ti->pid, ti->process_desc);
->   			amdgpu_vm_put_task_info(ti);
->   		}
->   
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
-> index 5ac59b62020c..4ca0a372984b 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
-> @@ -220,8 +220,8 @@ amdgpu_devcoredump_read(char *buffer, loff_t offset, size_t count,
->   		   coredump->reset_time.tv_nsec);
->   
->   	if (coredump->reset_task_info.pid)
-> -		drm_printf(&p, "process_name: %s PID: %d\n",
-> -			   coredump->reset_task_info.process_name,
-> +		drm_printf(&p, "process: %s PID: %d\n",
-> +			   coredump->reset_task_info.process_desc,
->   			   coredump->reset_task_info.pid);
->   
->   	/* SOC Information */
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-> index ad6bf5d4e0a9..d1678eebbff3 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-> @@ -125,7 +125,7 @@ static enum drm_gpu_sched_stat amdgpu_job_timedout(struct drm_sched_job *s_job)
->   	if (ti) {
->   		dev_err(adev->dev,
->   			"Process information: process %s pid %d thread %s pid %d\n",
-> -			ti->process_name, ti->tgid, ti->task_name, ti->pid);
-> +			ti->process_desc, ti->tgid, ti->task_name, ti->pid);
->   		amdgpu_vm_put_task_info(ti);
->   	}
->   
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> index 6cd5bd5362d4..561ff832930e 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> @@ -2357,13 +2357,22 @@ amdgpu_vm_get_task_info_pasid(struct amdgpu_device *adev, u32 pasid)
->   
->   static int amdgpu_vm_create_task_info(struct amdgpu_vm *vm)
->   {
-> -	vm->task_info = kzalloc(sizeof(struct amdgpu_task_info), GFP_KERNEL);
-> +	char process_name[TASK_COMM_LEN];
-> +	size_t pname_len;
-> +
-> +	get_task_comm(process_name, current->group_leader);
-> +	pname_len = strlen(process_name);
-> +
-> +	vm->task_info = kzalloc(
-> +		struct_size(vm->task_info, process_desc, pname_len + 1),
-> +		GFP_KERNEL);
-> +
->   	if (!vm->task_info)
->   		return -ENOMEM;
->   
->   	/* Set process attributes now. */
->   	vm->task_info->tgid = current->group_leader->pid;
-> -	get_task_comm(vm->task_info->process_name, current->group_leader);
-> +	strscpy(vm->task_info->process_desc, process_name, pname_len + 1);
->   
->   	kref_init(&vm->task_info->refcount);
->   	return 0;
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
-> index d12d66dca8e9..44da250217be 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
-> @@ -232,11 +232,11 @@ struct amdgpu_vm_pte_funcs {
->   };
->   
->   struct amdgpu_task_info {
-> -	char		process_name[TASK_COMM_LEN];
->   	char		task_name[TASK_COMM_LEN];
->   	pid_t		pid;
->   	pid_t		tgid;
->   	struct kref	refcount;
-> +	char		process_desc[];
->   };
->   
->   /**
-> diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
-> index 9784a2892185..c82364e43a15 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
-> @@ -166,7 +166,7 @@ static int gmc_v10_0_process_interrupt(struct amdgpu_device *adev,
->   	if (task_info) {
->   		dev_err(adev->dev,
->   			" in process %s pid %d thread %s pid %d\n",
-> -			task_info->process_name, task_info->tgid,
-> +			task_info->process_desc, task_info->tgid,
->   			task_info->task_name, task_info->pid);
->   		amdgpu_vm_put_task_info(task_info);
->   	}
-> diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c
-> index 2797fd84432b..4dace3de1def 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c
-> @@ -136,7 +136,7 @@ static int gmc_v11_0_process_interrupt(struct amdgpu_device *adev,
->   		if (task_info) {
->   			dev_err(adev->dev,
->   				" in process %s pid %d thread %s pid %d)\n",
-> -				task_info->process_name, task_info->tgid,
-> +				task_info->process_desc, task_info->tgid,
->   				task_info->task_name, task_info->pid);
->   			amdgpu_vm_put_task_info(task_info);
->   		}
-> diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v12_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v12_0.c
-> index edcb5351f8cc..e56d702fbfed 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/gmc_v12_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/gmc_v12_0.c
-> @@ -129,7 +129,7 @@ static int gmc_v12_0_process_interrupt(struct amdgpu_device *adev,
->   		if (task_info) {
->   			dev_err(adev->dev,
->   				" in process %s pid %d thread %s pid %d)\n",
-> -				task_info->process_name, task_info->tgid,
-> +				task_info->process_desc, task_info->tgid,
->   				task_info->task_name, task_info->pid);
->   			amdgpu_vm_put_task_info(task_info);
->   		}
-> diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c
-> index 86488c052f82..5fca64e71ada 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c
-> @@ -1451,7 +1451,7 @@ static int gmc_v8_0_process_interrupt(struct amdgpu_device *adev,
->   		task_info = amdgpu_vm_get_task_info_pasid(adev, entry->pasid);
->   		if (task_info) {
->   			dev_err(adev->dev, " for process %s pid %d thread %s pid %d\n",
-> -				task_info->process_name, task_info->tgid,
-> +				task_info->process_desc, task_info->tgid,
->   				task_info->task_name, task_info->pid);
->   			amdgpu_vm_put_task_info(task_info);
->   		}
-> diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
-> index c76ac0dfe572..c54c86dac14f 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
-> @@ -635,7 +635,7 @@ static int gmc_v9_0_process_interrupt(struct amdgpu_device *adev,
->   	if (task_info) {
->   		dev_err(adev->dev,
->   			" for process %s pid %d thread %s pid %d)\n",
-> -			task_info->process_name, task_info->tgid,
-> +			task_info->process_desc, task_info->tgid,
->   			task_info->task_name, task_info->pid);
->   		amdgpu_vm_put_task_info(task_info);
->   	}
-> diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c b/drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c
-> index 23ef4eb36b40..ea1990c19803 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c
-> @@ -2186,7 +2186,7 @@ static int sdma_v4_0_print_iv_entry(struct amdgpu_device *adev,
->   	if (task_info) {
->   		dev_dbg_ratelimited(adev->dev,
->   				    " for process %s pid %d thread %s pid %d\n",
-> -				    task_info->process_name, task_info->tgid,
-> +				    task_info->process_desc, task_info->tgid,
->   				    task_info->task_name, task_info->pid);
->   		amdgpu_vm_put_task_info(task_info);
->   	}
-> diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c b/drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c
-> index c77889040760..df00bf480dcf 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c
-> @@ -1701,7 +1701,7 @@ static int sdma_v4_4_2_print_iv_entry(struct amdgpu_device *adev,
->   	task_info = amdgpu_vm_get_task_info_pasid(adev, entry->pasid);
->   	if (task_info) {
->   		dev_dbg_ratelimited(adev->dev, " for process %s pid %d thread %s pid %d\n",
-> -				    task_info->process_name, task_info->tgid,
-> +				    task_info->process_desc, task_info->tgid,
->   				    task_info->task_name, task_info->pid);
->   		amdgpu_vm_put_task_info(task_info);
->   	}
-> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_events.c b/drivers/gpu/drm/amd/amdkfd/kfd_events.c
-> index ea3792249209..95ba07ae3b89 100644
-> --- a/drivers/gpu/drm/amd/amdkfd/kfd_events.c
-> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_events.c
-> @@ -1267,7 +1267,7 @@ void kfd_signal_reset_event(struct kfd_node *dev)
->   			if (ti) {
->   				dev_err(dev->adev->dev,
->   					"Queues reset on process %s tid %d thread %s pid %d\n",
-> -					ti->process_name, ti->tgid, ti->task_name, ti->pid);
-> +					ti->process_desc, ti->tgid, ti->task_name, ti->pid);
->   				amdgpu_vm_put_task_info(ti);
->   			}
->   		}
+>=20
+> > +static __always_inline bool is_upf_fourport(struct uart_port *port)
+> > +{
+> > +	if (!IS_ENABLED(CONFIG_HAS_IOPORT))
+> > +		return false;
+> > +
+> > +	return port->flags & UPF_FOURPORT;
+> > +}
+>=20
+>  Can we perhaps avoid adding this helper and then tweaking code throughou=
+t=20
+> by having:
+>=20
+> #ifdef CONFIG_SERIAL_8250_FOURPORT
+> #define UPF_FOURPORT		((__force upf_t) ASYNC_FOURPORT       /* 1  */ )
+> #else
+> #define UPF_FOURPORT		0
+> #endif
+>=20
+> in include/linux/serial_core.h instead?  I can see the flag is reused by=
+=20
+> drivers/tty/serial/sunsu.c, but from a glance over it seems rubbish to me=
+=20
+> and such a change won't hurt the driver anyway.
 
+I'll look at this, do you think this is okay regarding matching the
+user-space definitions in include/uapi/linux/tty_flags.h?
+
+>=20
+> > @@ -1174,7 +1201,7 @@ static void autoconfig(struct uart_8250_port *up)
+> >  		 */
+> >  		scratch =3D serial_in(up, UART_IER);
+> >  		serial_out(up, UART_IER, 0);
+> > -#ifdef __i386__
+> > +#if defined(__i386__) && defined(CONFIG_HAS_IOPORT)
+> >  		outb(0xff, 0x080);
+> >  #endif
+> >  		/*
+> > @@ -1183,7 +1210,7 @@ static void autoconfig(struct uart_8250_port *up)
+> >  		 */
+> >  		scratch2 =3D serial_in(up, UART_IER) & UART_IER_ALL_INTR;
+> >  		serial_out(up, UART_IER, UART_IER_ALL_INTR);
+> > -#ifdef __i386__
+> > +#if defined(__i386__) && defined(CONFIG_HAS_IOPORT)
+> >  		outb(0, 0x080);
+> >  #endif
+> >  		scratch3 =3D serial_in(up, UART_IER) & UART_IER_ALL_INTR;
+>=20
+>  Nah, i386 does have machine OUTB instructions, it has the port I/O=20
+> address space in the ISA, so these two changes make no sense to me. =20
+>=20
+>  Though this #ifdef should likely be converted to CONFIG_X86_32 via a=20
+> separate change.
+
+This is needed for Usermode Linux (UM) which sets __i386__ but also
+doesn't have CONFIG_HAS_IOPORT. This was spotted by the kernel test bot
+here: https://lore.kernel.org/all/202410031712.BwfGjrQY-lkp@intel.com/
+
+>=20
+> > @@ -1306,12 +1333,12 @@ static void autoconfig_irq(struct uart_8250_por=
+t *up)
+> >  {
+> >  	struct uart_port *port =3D &up->port;
+> >  	unsigned char save_mcr, save_ier;
+> > +	unsigned long irqs;
+> >  	unsigned char save_ICP =3D 0;
+> >  	unsigned int ICP =3D 0;
+> > -	unsigned long irqs;
+> >  	int irq;
+>=20
+>  Gratuitous change here (also breaking the reverse Christmas tree order).
+>=20
+>  Thanks for making the clean-ups we discussed.
+>=20
+>   Maciej
+
+WIll drop this hunk
