@@ -2,55 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AC50994F00
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 15:23:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 442F1994AD3
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 14:36:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5C4B10E529;
-	Tue,  8 Oct 2024 13:23:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B31D710E504;
+	Tue,  8 Oct 2024 12:36:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="G0XZSJ8K";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="C3Fet4os";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54D5F10E529
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2024 13:23:39 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C00D510E504
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2024 12:36:55 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id DDFF5A41AAC;
- Tue,  8 Oct 2024 13:23:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41EABC4CECE;
- Tue,  8 Oct 2024 13:23:37 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id E2DF15C58B1;
+ Tue,  8 Oct 2024 12:36:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65504C4CEC7;
+ Tue,  8 Oct 2024 12:36:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1728393817;
- bh=UMrVL9HNWrPPU1dYG23VI6f9/yBNxXk9XmMftg87bJ8=;
+ s=korg; t=1728391014;
+ bh=7mEADpqTRikmYFfBZpHD63Xgw010CmTPQjRuBlBa6HA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=G0XZSJ8KLIfvnRlC0LcB8To8KUplE37/bafQUBLhWf+3ljvIHnlBQUPN6HhmpO/MO
- zG71wbgJIy3puAMd3+kH0E0RGKrTGWGSrT6GsN2qZpesZcdU/sS4tDpq34la0frh5T
- bx5mWOtPoImGGQ66TLjQkZqG7fS+nguY748GWxAs=
+ b=C3Fet4osbvxyJzlVq1/jDJ7Ns39gg9/WMSNud4zvBazS+46PEB0tyCzOe92OQa2aj
+ BIWIzixtANBh5f++hzxab1MaIMbbyB1TdbBKY1yQXU70XxFDtZoUfuehIIxkX1tKl4
+ D1/EYbsSwkT9KUio00+Chu3zpatqLBH5Tn6/NCw4=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
- =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
+ "Borah, Chaitanya Kumar" <chaitanya.kumar.borah@intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>,
- Lukasz Spintzyk <lukasz.spintzyk@displaylink.com>,
- Deepak Rawat <drawat@vmware.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Thomas Hellstrom <thellstrom@vmware.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [PATCH 6.6 223/386] drm: Consistently use struct drm_mode_rect for
- FB_DAMAGE_CLIPS
-Date: Tue,  8 Oct 2024 14:07:48 +0200
-Message-ID: <20241008115638.180401853@linuxfoundation.org>
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Helge Deller <deller@gmx.de>, Sam Ravnborg <sam@ravnborg.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Alex Deucher <alexander.deucher@amd.com>, dri-devel@lists.freedesktop.org,
+ "Linux regression tracking (Thorsten Leemhuis)" <regressions@leemhuis.info>
+Subject: [PATCH 6.10 433/482] firmware/sysfb: Disable sysfb for firmware
+ buffers with unknown parent
+Date: Tue,  8 Oct 2024 14:08:16 +0200
+Message-ID: <20241008115705.561564441@linuxfoundation.org>
 X-Mailer: git-send-email 2.46.2
-In-Reply-To: <20241008115629.309157387@linuxfoundation.org>
-References: <20241008115629.309157387@linuxfoundation.org>
+In-Reply-To: <20241008115648.280954295@linuxfoundation.org>
+References: <20241008115648.280954295@linuxfoundation.org>
 User-Agent: quilt/0.67
 X-stable: review
 X-Patchwork-Hint: ignore
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,51 +64,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-6.6-stable review patch.  If anyone has any objections, please let me know.
+6.10-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
 From: Thomas Zimmermann <tzimmermann@suse.de>
 
-commit 8b0d2f61545545ab5eef923ed6e59fc3be2385e0 upstream.
+commit ad604f0a4c040dcb8faf44dc72db25e457c28076 upstream.
 
-FB_DAMAGE_CLIPS is a plane property for damage handling. Its UAPI
-should only use UAPI types. Hence replace struct drm_rect with
-struct drm_mode_rect in drm_atomic_plane_set_property(). Both types
-are identical in practice, so there's no change in behavior.
+The sysfb framebuffer handling only operates on graphics devices
+that provide the system's firmware framebuffer. If that device is
+not known, assume that any graphics device has been initialized by
+firmware.
 
-Reported-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Closes: https://lore.kernel.org/dri-devel/Zu1Ke1TuThbtz15E@intel.com/
+Fixes a problem on i915 where sysfb does not release the firmware
+framebuffer after the native graphics driver loaded.
+
+Reported-by: Borah, Chaitanya Kumar <chaitanya.kumar.borah@intel.com>
+Closes: https://lore.kernel.org/dri-devel/SJ1PR11MB6129EFB8CE63D1EF6D932F94B96F2@SJ1PR11MB6129.namprd11.prod.outlook.com/
+Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/12160
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: d3b21767821e ("drm: Add a new plane property to send damage during plane update")
-Cc: Lukasz Spintzyk <lukasz.spintzyk@displaylink.com>
-Cc: Deepak Rawat <drawat@vmware.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Thomas Hellstrom <thellstrom@vmware.com>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Simona Vetter <simona@ffwll.ch>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
+Fixes: b49420d6a1ae ("video/aperture: optionally match the device in sysfb_disable()")
+Cc: Javier Martinez Canillas <javierm@redhat.com>
 Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Helge Deller <deller@gmx.de>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Alex Deucher <alexander.deucher@amd.com>
 Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v5.0+
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240923075841.16231-1-tzimmermann@suse.de
+Cc: Linux regression tracking (Thorsten Leemhuis) <regressions@leemhuis.info>
+Cc: <stable@vger.kernel.org> # v6.11+
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20240924084227.262271-1-tzimmermann@suse.de
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/gpu/drm/drm_atomic_uapi.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/firmware/sysfb.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
---- a/drivers/gpu/drm/drm_atomic_uapi.c
-+++ b/drivers/gpu/drm/drm_atomic_uapi.c
-@@ -585,7 +585,7 @@ static int drm_atomic_plane_set_property
- 					&state->fb_damage_clips,
- 					val,
- 					-1,
--					sizeof(struct drm_rect),
-+					sizeof(struct drm_mode_rect),
- 					&replaced);
- 		return ret;
- 	} else if (property == plane->scaling_filter_property) {
+diff --git a/drivers/firmware/sysfb.c b/drivers/firmware/sysfb.c
+index 02a07d3d0d40..a3df782fa687 100644
+--- a/drivers/firmware/sysfb.c
++++ b/drivers/firmware/sysfb.c
+@@ -67,9 +67,11 @@ static bool sysfb_unregister(void)
+ void sysfb_disable(struct device *dev)
+ {
+ 	struct screen_info *si = &screen_info;
++	struct device *parent;
+ 
+ 	mutex_lock(&disable_lock);
+-	if (!dev || dev == sysfb_parent_dev(si)) {
++	parent = sysfb_parent_dev(si);
++	if (!dev || !parent || dev == parent) {
+ 		sysfb_unregister();
+ 		disabled = true;
+ 	}
+-- 
+2.46.2
+
 
 
