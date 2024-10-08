@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9D19994D8E
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 15:06:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12EC0994FB1
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 15:29:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68D4310E527;
-	Tue,  8 Oct 2024 13:06:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80EA610E120;
+	Tue,  8 Oct 2024 13:29:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="BZIfkRsG";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="MN+B3ioo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BE0610E525
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2024 13:06:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2CF610E120
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2024 13:29:23 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 3AECD5C5CC9;
- Tue,  8 Oct 2024 13:06:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91E15C4CECC;
- Tue,  8 Oct 2024 13:06:35 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 6A3E85C5BDE;
+ Tue,  8 Oct 2024 13:29:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E27BFC4CEC7;
+ Tue,  8 Oct 2024 13:29:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1728392796;
- bh=tqSqlcPzDkQuKSYdfxXHHpimnn2kSBhAcYUoqB/veVQ=;
+ s=korg; t=1728394162;
+ bh=GepXjxZ0tGSaPm+xJ8oq0FdnrwmIE3qMsymYs/PNJww=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=BZIfkRsGjwbxZnt5ln8M9AlNqhhhufdWn83ptSynnnofDMSDQSUPydBa89vFm8L57
- 8rBkBkfmXqc1l9xkGMjO32tE4nO1CTo7axVYSVHYB5inUsfiCrZL8psPujRRMi78zz
- uVJq8B7qfEIoBGLQ8zqW01f5YD0g5VYE3y8/EySk=
+ b=MN+B3iooc84S2pjmX7I3wBNDStpXUx2MiGCtD7NIPmXhp8N9AH2YRj9drMFyrrgqr
+ k8P2xuvswfKySkG4ID2pRGKIonGWKsghRLOwZFuxkQTuk1onJEr8GH5XMxaL/IKbVa
+ AXBfGvTtaafdx0yL+3yB46aU4ReTNmdA/HfsRGDU=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
  Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Nirmoy Das <nirmoy.das@amd.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
  Luben Tuikov <ltuikov89@gmail.com>,
  Matthew Brost <matthew.brost@intel.com>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- Nirmoy Das <nirmoy.das@intel.com>
-Subject: [PATCH 6.11 523/558] drm/sched: Always increment correct scheduler
- score
-Date: Tue,  8 Oct 2024 14:09:13 +0200
-Message-ID: <20241008115722.810620190@linuxfoundation.org>
+ Philipp Stanner <pstanner@redhat.com>
+Subject: [PATCH 6.6 324/386] drm/sched: Add locking to
+ drm_sched_entity_modify_sched
+Date: Tue,  8 Oct 2024 14:09:29 +0200
+Message-ID: <20241008115642.136365085@linuxfoundation.org>
 X-Mailer: git-send-email 2.46.2
-In-Reply-To: <20241008115702.214071228@linuxfoundation.org>
-References: <20241008115702.214071228@linuxfoundation.org>
+In-Reply-To: <20241008115629.309157387@linuxfoundation.org>
+References: <20241008115629.309157387@linuxfoundation.org>
 User-Agent: quilt/0.67
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -65,53 +65,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-6.11-stable review patch.  If anyone has any objections, please let me know.
+6.6-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
 From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 
-commit 087913e0ba2b3b9d7ccbafb2acf5dab9e35ae1d5 upstream.
+commit 4286cc2c953983d44d248c9de1c81d3a9643345c upstream.
 
-Entities run queue can change during drm_sched_entity_push_job() so make
-sure to update the score consistently.
+Without the locking amdgpu currently can race between
+amdgpu_ctx_set_entity_priority() (via drm_sched_entity_modify_sched()) and
+drm_sched_job_arm(), leading to the latter accesing potentially
+inconsitent entity->sched_list and entity->num_sched_list pair.
+
+v2:
+ * Improve commit message. (Philipp)
 
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Fixes: d41a39dda140 ("drm/scheduler: improve job distribution with multiple queues")
-Cc: Nirmoy Das <nirmoy.das@amd.com>
+Fixes: b37aced31eb0 ("drm/scheduler: implement a function to modify sched list")
 Cc: Christian König <christian.koenig@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
 Cc: Luben Tuikov <ltuikov89@gmail.com>
 Cc: Matthew Brost <matthew.brost@intel.com>
 Cc: David Airlie <airlied@gmail.com>
 Cc: Daniel Vetter <daniel@ffwll.ch>
 Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v5.9+
+Cc: Philipp Stanner <pstanner@redhat.com>
+Cc: <stable@vger.kernel.org> # v5.7+
 Reviewed-by: Christian König <christian.koenig@amd.com>
-Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240924101914.2713-4-tursulin@igalia.com
+Link: https://patchwork.freedesktop.org/patch/msgid/20240913160559.49054-2-tursulin@igalia.com
 Signed-off-by: Christian König <christian.koenig@amd.com>
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/gpu/drm/scheduler/sched_entity.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/scheduler/sched_entity.c |    2 ++
+ 1 file changed, 2 insertions(+)
 
 --- a/drivers/gpu/drm/scheduler/sched_entity.c
 +++ b/drivers/gpu/drm/scheduler/sched_entity.c
-@@ -586,7 +586,6 @@ void drm_sched_entity_push_job(struct dr
- 	ktime_t submit_ts;
+@@ -111,8 +111,10 @@ void drm_sched_entity_modify_sched(struc
+ {
+ 	WARN_ON(!num_sched_list || !sched_list);
  
- 	trace_drm_sched_job(sched_job, entity);
--	atomic_inc(entity->rq->sched->score);
- 	WRITE_ONCE(entity->last_user, current->group_leader);
- 
- 	/*
-@@ -614,6 +613,7 @@ void drm_sched_entity_push_job(struct dr
- 		rq = entity->rq;
- 		sched = rq->sched;
- 
-+		atomic_inc(sched->score);
- 		drm_sched_rq_add_entity(rq, entity);
- 		spin_unlock(&entity->rq_lock);
++	spin_lock(&entity->rq_lock);
+ 	entity->sched_list = sched_list;
+ 	entity->num_sched_list = num_sched_list;
++	spin_unlock(&entity->rq_lock);
+ }
+ EXPORT_SYMBOL(drm_sched_entity_modify_sched);
  
 
 
