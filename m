@@ -2,63 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1F449944CE
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 11:53:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18AF79944ED
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 11:59:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CED6810E101;
-	Tue,  8 Oct 2024 09:53:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B889B10E4B6;
+	Tue,  8 Oct 2024 09:59:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="V/7E+AEW";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Kq7csZMz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30DD510E101
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2024 09:53:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA3B810E20C
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2024 09:59:22 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 5F7125C5610;
- Tue,  8 Oct 2024 09:53:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 321D1C4CEC7;
- Tue,  8 Oct 2024 09:53:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1728381211;
- bh=JJtL5Mw/7nDn6HqIaVX4x8W8fHB6YR/0KOlubvwYLmE=;
+ by dfw.source.kernel.org (Postfix) with ESMTP id B5BFF5C5433;
+ Tue,  8 Oct 2024 09:59:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49740C4CEC7;
+ Tue,  8 Oct 2024 09:59:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1728381561;
+ bh=7/ulf8aESND0FPeI6VfQVV6see6Ees/8tM6yesV090s=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=V/7E+AEWCJDNVBWLnebhqgwBrjq1bcPzaXH3829mwO5AMrSQokMqeqBL1gV+LUf9L
- /dye9HZMHD6nDtBlTqVqjJgPCgkNeIj6XDqHgKcmr5bcrvxVqQY53TaEtuXW1D5MZ1
- mAosOLevrBOfx4b1wzQN9LixtxYh8HuS+wsH/uoo2o4EeoJQr0WW1LWRYotFQ9x1kV
- YB/CRupoR6VzCosi8Q+ZlP10vROm1OILsMDGdWNQvlVrCBXIy/r/JlyGezYM8w7swW
- 20Qpd6wAS3OqxVZlVJ5C+HWg6oM707QuGgLrTd9sjDyXwKvNbBOGo3JViCdlNoUQ9c
- fKe9rGe6UIAcA==
-Date: Tue, 8 Oct 2024 11:53:25 +0200
-From: Benjamin Tissoires <bentiss@kernel.org>
-To: Werner Sembach <wse@tuxedocomputers.com>
-Cc: Armin Wolf <W_Armin@gmx.de>, Pavel Machek <pavel@ucw.cz>, 
- Hans de Goede <hdegoede@redhat.com>,
- Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
- dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
- lee@kernel.org, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-leds@vger.kernel.org, 
- miguel.ojeda.sandonis@gmail.com, ojeda@kernel.org, onitake@gmail.com, 
- platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH 1/1] platform/x86/tuxedo: Add virtual LampArray for
- TUXEDO NB04 devices
-Message-ID: <sih5i2ausorlpiosifvj2vvlut4ok6bbgt6cympuxhdbjljjiw@gg2r5al552az>
-References: <45qkbpaxhrv2r32hghjqoexkenktymzyjgpx2xnnxt6dmfawjt@44lrhgcnozh3>
- <586a1c41-bbe0-4912-b7c7-1716d886c198@tuxedocomputers.com>
- <5th4pisccud5s7dbia42glsnu7e5u3q7jszty6o3mjdedsd2bg@7nsvp6t2krnf>
- <b6f2244d-7567-49ac-b2db-23b632a4e181@tuxedocomputers.com>
- <cflor5mz4flekn44ttlbanfigmwn5mmp3p54gkeeznzmzkyjqz@p2c6q7gulrdl>
- <84b629c6-5b26-4285-9b2f-66dd1afa99e5@tuxedocomputers.com>
- <zph6fnuaamhayivmzftowjw6klgcy2gb7vdub2v2yo7n665vpo@rkxtorfvmzph>
- <7ce4470c-a502-416a-8472-a5b606bb8fd4@tuxedocomputers.com>
- <d7gk2mgihtg6242l3isnhw3xpdt745ehpu2kvim2xxgmxdhat7@g5cqei7uqujj>
- <39f84cfe-bb89-4194-81a9-e178c93e5309@tuxedocomputers.com>
+ b=Kq7csZMzJaBVqdfzyRaNHWVcVSxzoRDebga81FKhdnnLLIoX+3l5J8jmwoWF+WqEn
+ s0A0SKx23SpLw92/0Gd7bdss7Xt+Mu/oRpr2GtL5hqSmj0IN3DP68iq13SGL0z69Gh
+ hU13aw923URmOMnyxVTwE9bNcUoiIx2tXsLZBiTI=
+Date: Tue, 8 Oct 2024 11:59:18 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: airlied@gmail.com, alexander.deucher@amd.com, daniel@ffwll.ch,
+ dri-devel@lists.freedesktop.org, ltuikov89@gmail.com,
+ matthew.brost@intel.com, pstanner@redhat.com,
+ tvrtko.ursulin@igalia.com, stable-commits@vger.kernel.org
+Subject: Re: Patch "drm/sched: Always wake up correct scheduler in
+ drm_sched_entity_push_job" has been added to the 6.10-stable tree
+Message-ID: <2024100806-abroad-safeguard-7b30@gregkh>
+References: <2024100752-shaking-sycamore-3cc4@gregkh>
+ <8badb067-3cb3-431f-8081-be1bc0b9729b@amd.com>
+ <2024100743-oozy-moving-59d4@gregkh>
+ <dcd15de0-f2d7-45e1-bac0-1d600173465f@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <39f84cfe-bb89-4194-81a9-e178c93e5309@tuxedocomputers.com>
+In-Reply-To: <dcd15de0-f2d7-45e1-bac0-1d600173465f@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,96 +61,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Oct 07 2024, Werner Sembach wrote:
-> Hi,
-> 
-> Am 02.10.24 um 10:31 schrieb Benjamin Tissoires:
-> > On Oct 01 2024, Werner Sembach wrote:
-> > > Hi Benjamin,
+On Mon, Oct 07, 2024 at 08:23:54PM +0200, Christian König wrote:
+> Am 07.10.24 um 19:59 schrieb Greg KH:
+> > On Mon, Oct 07, 2024 at 07:53:26PM +0200, Christian König wrote:
+> > > Hi Greg,
 > > > 
-> > > Am 01.10.24 um 15:41 schrieb Benjamin Tissoires:
-> > > > [...]
-> > > > PPS: sorry for pushing that hard on HID-BPF, but I can see that it fits
-> > > > all of the requirements here:
-> > > > - need to be dynamic
-> > > > - still unsure of the userspace implementation, meaning that userspace
-> > > >     might do something wrong, which might require kernel changes
-> > > Well the reference implementetion for the arduiono macropad from microsoft
-> > > ignores the intensity (brightness) channel on rgb leds contrary to the HID
-> > > spec, soo yeah you have a point here ...
-> > Heh :)
-> > 
-> > > > - possibility to extend later the kernel API
-> > > > - lots of fun :)
-> > > You advertise it good ;). More work for me now but maybe less work for me
-> > > later, I will look into it.
-> > Again, I'm pushing this because I see the benefits and because I can
-> > probably reuse the same code on my Corsair and Logitech keyboards. But
-> > also, keep in mind that it's not mandatory because you can actually
-> > attach the BPF code on top of your existing driver to change the way it
-> > behaves. It'll be slightly more complex if you don't let a couple of
-> > vendor passthrough reports that we can use to directly talk to the
-> > device without any tampering, but that's doable. But if you want to keep
-> > the current implementation and have a different layout, this can easily
-> > be done in BPF on top.
-> > 
-> > Cheers,
-> > Benjamin
-> > 
-> > 
-> > [0] https://lore.kernel.org/linux-input/20241001-hid-bpf-hid-generic-v3-0-2ef1019468df@kernel.org/T/#t
+> > > please drop this patch from all backports. It turned out to be broken and
+> > > the old handling has been restored by a revert.
+> > > 
+> > > Sorry for the noise. The revert should show up in Linus tree by the end of
+> > > the week.
+> > What is the revert's git id?  I'd rather take that so we don't have any
+> > "why wasn't this patch applied" stuff later on.
 > 
-> Thinking about the minimal WMI to HID today, but found a problem: a HID
-> feature report is either strictly input or output afaik, but the WMI
-> interface has both in some functions.
-
-Not sure you are talking about feature reports, because they are
-read/write. It's just that they are synchronous over the USB control
-endpoint (on USB).
-
-An input report is strictly directed from the device, and an output
-report is from the host to the device.
-
-But a feature report is bidirectional.
-
+> Good point. I was also not 100% sure which ones of Tvrtko's patches we had
+> to revert.
 > 
-> How would I map that?
-
-Depending on the WMI interface, if you want this to be synchronous,
-defining a Feature report is correct, otherwise (if you don't need
-feedback from WMI), you can declare the commands to WMI as Output
-reports.
-
+> Here is the git Id from the drm-misc-fixes branch:
 > 
-> If I split everything in input and output the new interface wouldn't
-> actually be much smaller.
-
-The HID report descriptor doesn't need to be smaller. The fact that by
-default it exposes only one or two LEDs so we don't have the micrometers
-arrays is the only purpose.
-
-But if we also implement a not-full HID implementation of LampArray, we
-should be able to strip out the parts that we don't care in the LED
-class implementation, like the exact positioning, or the multiupdate.
-
+> commit abf201f6ce14c4ceeccde5471bdf59614b83a3d8
+> Author: Christian König <christian.koenig@amd.com>
+> Date:   Mon Sep 30 15:07:49 2024 +0200
 > 
-> Also what would I write for the usage for the reserved padding in the report
-> descriptor. Usage: 0x00?
+>     drm/sched: revert "Always increment correct scheduler score"
+> 
+>     This reverts commit 087913e0ba2b3b9d7ccbafb2acf5dab9e35ae1d5.
+> 
+>     It turned out that the original code was correct since the rq can only
+>     change when there is no armed job for an entity.
+> 
+>     This change here broke the logic since we only incremented the counter
+>     for the first job, so revert it.
+> 
+>     Signed-off-by: Christian König <christian.koenig@amd.com>
+>     Acked-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>     Link: https://patchwork.freedesktop.org/patch/msgid/20240930131451.536150-1-christian.koenig@amd.com
+> 
+> Sorry for the noise, we should have catched that during the review and put
+> the stable tag on the revert as well.
 
-padding are ignored by HID. So whatever current usage you have is fine.
+Thanks for the info, I've picked this revert up now as well.
 
-However, if you are talking about the custom WMI vendor access, I'd go
-with a vendor collection (usage page 0xff00, usage 0x08 for the 8 bytes
-long WMI command for instance, 0x10 for the 16 bytes long one).
-
-Side note: in drivers/hid/bpf/progs/hid_report_helpers.h we have some
-autogenerated macros to help writing report descriptors (see
-drivers/hid/bpf/progs/Huion__Dial-2.bpf.c for an example of usage). It's
-in the hid-bpf tree but I think we might be able to include this in
-other drivers (or do a minimal rewrite/move into include).
-I'm not asking you to use it on your code right now, but this has the
-advantage of becoming less "binary blob" in your code, and prevent
-mistakes where you edit the comments but not the values.
-
-Cheers,
-Benjamin
+greg k-h
