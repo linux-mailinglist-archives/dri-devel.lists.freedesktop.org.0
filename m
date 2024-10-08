@@ -2,51 +2,122 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A63AF994601
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 13:04:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0502F9946FF
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 13:33:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F5C910E084;
-	Tue,  8 Oct 2024 11:04:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1882410E180;
+	Tue,  8 Oct 2024 11:33:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TurhgPjT";
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.b="PE6VVQal";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEA0B10E084;
- Tue,  8 Oct 2024 11:04:29 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 39315A43500;
- Tue,  8 Oct 2024 11:04:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9189C4CEC7;
- Tue,  8 Oct 2024 11:04:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1728385468;
- bh=d+4dJ9Ma+xa5ecnFCjCiJyEy9xn4w2t7xy9bBhkJBio=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=TurhgPjTQ805yeA/y+pp7tgQYJlBpGFff7h5LXnlXArSqG+a+guCmzvRbe+3YrLFN
- 15A/dAsNTnDcDE4tSJdb9KbjpMXcnLmhTRCEVlZy6iTbefcEAcSEjQfBMyfDiO+0Dw
- ++pfrqcWg/yMLA4iqwA2SFACfZXkL1lo5cNhU8AfF1M8t7hplKhV5f7Eyrj0LJ++cA
- nQ4m5y3EK3ODlI3ciDppp0YWFI+xUG3v3dNhdGv19PKfFygBF4jqodwi0wEcbUGpKT
- ylECF+7xN2JsmEl6oHW5Ko+7BWMCPFUz/4knKYUYJC/CE0cwsu6LJ4c8DJMqP7YiSA
- iLdLRZL3QGKYg==
-Date: Tue, 8 Oct 2024 13:04:22 +0200
-From: Danilo Krummrich <dakr@kernel.org>
-To: Yonatan Maman <ymaman@nvidia.com>
-Cc: kherbst@redhat.com, lyude@redhat.com, dakr@redhat.com,
- airlied@gmail.com, daniel@ffwll.ch, bskeggs@nvidia.com,
- jglisse@redhat.com, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, Gal Shalom <GalShalom@nvidia.com>
-Subject: Re: [PATCH v3 1/2] nouveau/dmem: Fix privileged error in copy engine
- channel
-Message-ID: <ZwURtuu7Jkgh6GRl@pollux>
-References: <20241008073103.987926-1-ymaman@nvidia.com>
- <20241008073103.987926-2-ymaman@nvidia.com>
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
+ [148.163.156.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8E5910E180;
+ Tue,  8 Oct 2024 11:32:59 +0000 (UTC)
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 498Anb2B003567;
+ Tue, 8 Oct 2024 11:32:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from
+ :subject:date:message-id:content-type:to:cc
+ :content-transfer-encoding:mime-version; s=pp1; bh=q+Jvx74PNMMWk
+ 6uZoF48k4ng2W3kYHsf5kmfDTSiPrk=; b=PE6VVQalDRIHTGI4TX672sLHHNUmO
+ tw4m6Ziu40tMjiadzfHhgGONHfJdQTR7ANGEQe3rp5Un1ysIo9KqXybPaffXFox+
+ S88cLhML+bj68oJgZpsnq0WRFcIMqEOP27/6OSEBc5Unz6JLz0wAoAFUGiPG3JdK
+ RzZMNg5xDD7l1eITFT7WkdLC6Ltww69GU6lZ16NG3suX9CqfkY/Q5h56f8c+wLEv
+ LEt9C5WhDHMgy/VwUtTpsUa2950CH4p6mgxzUggq6NnR0SXbPoLFxPNlMbNpI+FF
+ ptix8wUbleswA6PWjc12ryt8DGY9UUDNQyy/5LJOkLr8M4w821CyMROcQ==
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4253axr6n1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 08 Oct 2024 11:32:46 +0000 (GMT)
+Received: from m0356517.ppops.net (m0356517.ppops.net [127.0.0.1])
+ by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 498BWjSU023984;
+ Tue, 8 Oct 2024 11:32:46 GMT
+Received: from ppma13.dal12v.mail.ibm.com
+ (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4253axr6mx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 08 Oct 2024 11:32:45 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+ by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 498ASfS0010718;
+ Tue, 8 Oct 2024 11:32:44 GMT
+Received: from smtprelay03.wdc07v.mail.ibm.com ([172.16.1.70])
+ by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 423j0jbqdd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 08 Oct 2024 11:32:44 +0000
+Received: from smtpav05.wdc07v.mail.ibm.com (smtpav05.wdc07v.mail.ibm.com
+ [10.39.53.232])
+ by smtprelay03.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 498BWhFY22479474
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 8 Oct 2024 11:32:43 GMT
+Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E1DF558043;
+ Tue,  8 Oct 2024 11:32:42 +0000 (GMT)
+Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A6C9D58053;
+ Tue,  8 Oct 2024 11:32:37 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+ by smtpav05.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+ Tue,  8 Oct 2024 11:32:37 +0000 (GMT)
+From: Niklas Schnelle <schnelle@linux.ibm.com>
+Subject: [PATCH v7 0/5] treewide: Remove I/O port accessors for
+ HAS_IOPORT=n
+Date: Tue, 08 Oct 2024 13:32:00 +0200
+Message-Id: <20241008-b4-has_ioport-v7-0-8624c09a4d77@linux.ibm.com>
+Content-Type: text/plain; charset="utf-8"
+X-B4-Tracking: v=1; b=H4sIADAYBWcC/13MQQqDMBCF4avIrBsZ0zRCV72HSInJ2AxUI4kVi
+ 3j3pkI3Xf4P3rdBosiU4FpsEGnhxGHMUZ8KsN6MDxLscoNEqSpEJTolvEl3DlOIs9BorLZUOeo
+ 05M8Uqef18Jo2t+c0h/g++EV/159U/0mLFijw3NdSoTOaLrcnj6+15G4obRig3ff9A71rWIOuA
+ AAA
+X-Change-ID: 20241004-b4-has_ioport-60ac6ce1deb6
+To: Brian Cain <bcain@quicinc.com>, Marcel Holtmann <marcel@holtmann.org>,
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+ Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Dave Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jiri Slaby <jirislaby@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ "Maciej W. Rozycki" <macro@orcam.me.uk>, Heiko Carstens <hca@linux.ibm.com>
+Cc: linux-kernel@vger.kernel.org, linux-hexagon@vger.kernel.org,
+ linux-bluetooth@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, linux-serial@vger.kernel.org,
+ linux-arch@vger.kernel.org, Niklas Schnelle <schnelle@linux.ibm.com>,
+ Arnd Bergmann <arnd@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3410;
+ i=schnelle@linux.ibm.com; h=from:subject:message-id;
+ bh=cIyZ889sLGrW/Wuw16j9L5VqBMtjCuL2Oox4D9dTRk4=;
+ b=owGbwMvMwCX2Wz534YHOJ2GMp9WSGNJZJUzd+z6/0HHZNnPivTx31s+O3xZW/1X4Hh5+SCFo0
+ 8IV+zdc6ShlYRDjYpAVU2RZ1OXst65giumeoP4OmDmsTCBDGLg4BWAi754x/Pc5F3FdeVZYvFfD
+ m62Zq93/fl37MfFR0kGjaVPOnfsrE/GTkeGJUUuW++FzbRlnrhUu238zuOfinaUF+ys6trXPvs3
+ i9ZkdAA==
+X-Developer-Key: i=schnelle@linux.ibm.com; a=openpgp;
+ fpr=9DB000B2D2752030A5F72DDCAFE43F15E8C26090
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: eU2vCxO04Y81JSOSHXcevqRtUp0Ha1_Z
+X-Proofpoint-GUID: fUKuuKOidhaZJLewDzILyqdlwk_eKTrk
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241008073103.987926-2-ymaman@nvidia.com>
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-08_10,2024-10-08_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 suspectscore=0
+ phishscore=0 adultscore=0 bulkscore=0 mlxscore=0 priorityscore=1501
+ impostorscore=0 spamscore=0 mlxlogscore=999 malwarescore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410080072
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,54 +133,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 08, 2024 at 10:31:02AM +0300, Yonatan Maman wrote:
-> From: Yonatan Maman <Ymaman@Nvidia.com>
-> 
-> When `nouveau_dmem_copy_one` is called, the following error occurs:
-> 
-> [272146.675156] nouveau 0000:06:00.0: fifo: PBDMA9: 00000004 [HCE_PRIV]
-> ch 1 00000300 00003386
-> 
-> This indicates that a copy push command triggered a Host Copy Engine
-> Privileged error on channel 1 (Copy Engine channel). To address this
-> issue, modify the Copy Engine channel to allow privileged push commands
-> 
-> Fixes: 6de125383a5c ("drm/nouveau/fifo: expose runlist topology info on all chipsets")
-> Signed-off-by: Yonatan Maman <Ymaman@Nvidia.com>
-> Signed-off-by: Gal Shalom <GalShalom@Nvidia.com>
-> Co-developed-by: Gal Shalom <GalShalom@Nvidia.com>
+Hi All,
 
-'Co-developed-by' must be immediately followed by the corresponding
-'Signed-off-by'.
+This is a follow up in my long running effort of making inb()/outb() and
+similar I/O port accessors compile-time optional. After initially
+sending this as a treewide series with the latest revision at[0]
+we switched to per subsystem series. Now though as we're left with only
+5 patches left I'm going back to a single series with Arnd planning
+to take this via the the asm-generic tree.
 
-This is just a nit, but it indicates you didn't run ./scripts/checkpatch.pl, did
-you?
+This series may also be viewed for your convenience on my git.kernel.org
+tree[1] under the b4/has_ioport branch. As for compile-time vs runtime
+see Linus' reply to my first attempt[2].
 
-> Reviewed-by: Ben Skeggs <bskeggs@nvidia.com>
-> ---
->  drivers/gpu/drm/nouveau/nouveau_drm.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c b/drivers/gpu/drm/nouveau/nouveau_drm.c
-> index a58c31089613..0a75ce4c5021 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_drm.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
-> @@ -356,7 +356,7 @@ nouveau_accel_ce_init(struct nouveau_drm *drm)
->  		return;
->  	}
->  
-> -	ret = nouveau_channel_new(drm, device, false, runm, NvDmaFB, NvDmaTT, &drm->cechan);
-> +	ret = nouveau_channel_new(drm, device, true, runm, NvDmaFB, NvDmaTT, &drm->cechan);
+Thanks,
+Niklas
 
-This patch does not apply, it seems like it is based on some old or OOT version
-of the code.
+[0] https://lore.kernel.org/all/20230522105049.1467313-1-schnelle@linux.ibm.com/
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/niks/linux.git
+[2] https://lore.kernel.org/lkml/CAHk-=wg80je=K7madF4e7WrRNp37e3qh6y10Svhdc7O8SZ_-8g@mail.gmail.com/
 
-Please make sure to rebase and test your patches against upstream code if you're
-submitting patches upstream.
+Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
+---
+Changes in v7:
+- Renamed serial_8250_need_ioport() helper to
+  serial_8250_warn_need_ioport() and move it to 8250_pcilib.c so it can
+  be used in serial8250_pci_setup_port()
+- Flattened if in serial8250_pci_setup_port() (Maciej)
+- Removed gratuituous changes (Maciej)
+- Removed is_upf_fourport() helper in favor of zeroing UPF_FOURPORT
+  if CONFIG_HAS_IOPORT is not set (Maciej)
+- Link to v6: https://lore.kernel.org/r/20241007-b4-has_ioport-v6-0-03f7240da6e5@linux.ibm.com
 
->  	if (ret)
->  		NV_ERROR(drm, "failed to create ce channel, %d\n", ret);
->  }
-> -- 
-> 2.34.1
-> 
+Changes since v5 / per subsystem patches:
+
+drm:
+- Add HAS_IOPORT dependency for GMA500
+tty: serial:
+- Make 8250 PCI driver emit an error message when trying to use devices
+  which require I/O ports without CONFIG_HAS_IOPORT (Maciej)
+- Use early returns + dead code elimination to skip inb()/outb() uses
+  in quirks (Arnd)
+- In 8250 PCI driver also handle fintek and moxi quirks
+- In 8250 ports code handle um's defined(__i385__) &&
+  defined(CONFIG_HAS_IOPORT) case
+- Use IS_ENABLED() early return also in is_upf_fourport()
+  __always_inline to force constant folding
+
+---
+Niklas Schnelle (5):
+      hexagon: Don't select GENERIC_IOMAP without HAS_IOPORT support
+      Bluetooth: add HAS_IOPORT dependencies
+      drm: handle HAS_IOPORT dependencies
+      tty: serial: handle HAS_IOPORT dependencies
+      asm-generic/io.h: Remove I/O port accessors for HAS_IOPORT=n
+
+ arch/hexagon/Kconfig                  |  1 -
+ drivers/bluetooth/Kconfig             |  6 ++--
+ drivers/gpu/drm/gma500/Kconfig        |  2 +-
+ drivers/gpu/drm/qxl/Kconfig           |  1 +
+ drivers/gpu/drm/tiny/bochs.c          | 17 ++++++++++
+ drivers/gpu/drm/tiny/cirrus.c         |  2 ++
+ drivers/gpu/drm/xe/Kconfig            |  2 +-
+ drivers/tty/Kconfig                   |  4 +--
+ drivers/tty/serial/8250/8250_early.c  |  4 +++
+ drivers/tty/serial/8250/8250_pci.c    | 40 +++++++++++++++++++++++
+ drivers/tty/serial/8250/8250_pcilib.c | 12 ++++++-
+ drivers/tty/serial/8250/8250_pcilib.h |  2 ++
+ drivers/tty/serial/8250/8250_port.c   | 27 +++++++++++++---
+ drivers/tty/serial/8250/Kconfig       |  5 ++-
+ drivers/tty/serial/Kconfig            |  2 +-
+ include/asm-generic/io.h              | 60 +++++++++++++++++++++++++++++++++++
+ include/linux/serial_core.h           |  4 +++
+ 17 files changed, 174 insertions(+), 17 deletions(-)
+---
+base-commit: 8cf0b93919e13d1e8d4466eb4080a4c4d9d66d7b
+change-id: 20241004-b4-has_ioport-60ac6ce1deb6
+
+Best regards,
+-- 
+Niklas Schnelle
+
