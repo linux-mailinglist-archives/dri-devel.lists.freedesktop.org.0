@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91BCF9949EC
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 14:28:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5954994CB7
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 14:58:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EA3110E4F0;
-	Tue,  8 Oct 2024 12:28:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2268010E51F;
+	Tue,  8 Oct 2024 12:58:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Z+nKfVDR";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Z0eUNB/y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A35310E4F1
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2024 12:28:40 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67D2110E51F
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2024 12:58:13 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 600705C5995;
- Tue,  8 Oct 2024 12:28:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AACEEC4CEC7;
- Tue,  8 Oct 2024 12:28:38 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id F0E10A418BE;
+ Tue,  8 Oct 2024 12:58:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90D2EC4CEC7;
+ Tue,  8 Oct 2024 12:58:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1728390519;
- bh=XiwaFGQgkikWrao917ib5JPC/74aagfr9iWd8pix59U=;
+ s=korg; t=1728392292;
+ bh=6lVGrxcUjZcOyMDe9MmGtWsyGRN06TU3Ii7/52lpRdo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Z+nKfVDRIhTLMmJpGKzoeGKNHsFh3Zwxoaee18a9bGigk7PgU4Pj1dsoygbJ9V2ue
- VxEVESHhHF2WHevLTeIHYL8sAmzYAI4Fkst+geA87ESv/Tkr0pMuGBNbAwj+KHOOqD
- PCfiBYlkyurwiELnknTzOx/BmpDPjLQVBYgUGCS4=
+ b=Z0eUNB/y3fmDB2PVqc1cdXA8DjyDO/eJYD6UbZHE81CiGF39jNjsQ2Hx10wzS1J2p
+ r3HKLUwcPmfaDKzGNch6qHXWHepyeJwmI5JPx0z0S/hZWpKwosmflLGpgUIW/59aeG
+ WEguoJONJssScSOrmMPhBhCKBGJdwYbUQqBilMEE=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
@@ -39,13 +39,13 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [PATCH 6.10 313/482] drm: Consistently use struct drm_mode_rect for
+Subject: [PATCH 6.11 371/558] drm: Consistently use struct drm_mode_rect for
  FB_DAMAGE_CLIPS
-Date: Tue,  8 Oct 2024 14:06:16 +0200
-Message-ID: <20241008115700.750528908@linuxfoundation.org>
+Date: Tue,  8 Oct 2024 14:06:41 +0200
+Message-ID: <20241008115716.894470016@linuxfoundation.org>
 X-Mailer: git-send-email 2.46.2
-In-Reply-To: <20241008115648.280954295@linuxfoundation.org>
-References: <20241008115648.280954295@linuxfoundation.org>
+In-Reply-To: <20241008115702.214071228@linuxfoundation.org>
+References: <20241008115702.214071228@linuxfoundation.org>
 User-Agent: quilt/0.67
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -67,7 +67,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-6.10-stable review patch.  If anyone has any objections, please let me know.
+6.11-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
