@@ -2,66 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE3DA9951E6
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 16:37:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A158D995239
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 16:46:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3160310E566;
-	Tue,  8 Oct 2024 14:37:08 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="m0dvEuyO";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB7C110E35E;
+	Tue,  8 Oct 2024 14:46:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 527D610E566
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2024 14:37:06 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 7679A88CFC;
- Tue,  8 Oct 2024 16:37:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1728398224;
- bh=kva98SfEwVDBfm2v2v9KgrJxDJ2/u0bR75XzoUvUmos=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=m0dvEuyOrE7ZRNap8FHVTDG9cWqhHX0D0odcSvjJxBpx3J+Di7Gru/72BZihrRDzP
- Sqh/i6E2M+2iOhZHkrFgUBpJlT0hmvd2A81kVmYisI1Z0GhN9bJLpX4nb6D5Y8Hbd8
- vuDLUDW43TfdUxxL09aXZz/IHf71KW4D+HiIByNbWy8e57CwAFdQWWb8bBzCSgkH/A
- gZ2iMEjpUEnKaO0P2MWAVAEQ/70esOb6/rSUS5ywj3qvmG5p4Q5Veh8Pgz0JScJAv5
- 2ie9B+0Czr2s6erjRk0jjOAarxiB/FGrExDbLClmjc2yqhwwvBSrgGHw9rE7S1cg3T
- nxSvs3hCeZk9Q==
-Message-ID: <49ed56a9-f900-4b7c-83b2-3ac94c0664ca@denx.de>
-Date: Tue, 8 Oct 2024 16:37:02 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm: lcdif: Use adjusted_mode .clock instead of
- .crtc_clock
-To: Isaac Scott <isaac.scott@ideasonboard.com>,
- Alexander Stein <alexander.stein@ew.tq-group.com>,
- dri-devel@lists.freedesktop.org
-Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Fabio Estevam <festevam@gmail.com>, Lucas Stach <l.stach@pengutronix.de>,
- "Lukas F . Hartmann" <lukas@mntmn.com>,
+X-Greylist: delayed 487 seconds by postgrey-1.36 at gabe;
+ Tue, 08 Oct 2024 14:46:46 UTC
+Received: from mail.fris.de (mail.fris.de [116.203.77.234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82E8410E35E
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2024 14:46:46 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 37971BFB0D; Tue,  8 Oct 2024 16:38:25 +0200 (CEST)
+From: Frieder Schrempf <frieder@fris.de>
+To: Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
  Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Stefan Agner <stefan@agner.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- imx@lists.linux.dev, kernel@dh-electronics.com,
- linux-arm-kernel@lists.infradead.org, kieran.bingham@ideasonboard.com
-References: <20240531202813.277109-1-marex@denx.de>
- <1897634.CQOukoFCf9@steina-w> <ab2eb32e-a458-4c9b-8324-27ccb00336c5@denx.de>
- <7ae0cd7774f4b3e30cc033a7e543546732dbced0.camel@ideasonboard.com>
- <de285fc0-728f-4ba0-86e0-0069d2cc9a35@denx.de>
- <64e18ceed5279a9346a6a1141f02ead93383bd1e.camel@ideasonboard.com>
-Content-Language: en-US
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <64e18ceed5279a9346a6a1141f02ead93383bd1e.camel@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
+ Thierry Reding <thierry.reding@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Frieder Schrempf <frieder@fris.de>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Conor Dooley <conor.dooley@microchip.com>,
+ Fabio Estevam <festevam@gmail.com>,
+ Francesco Dolcini <francesco.dolcini@toradex.com>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Gregor Herburger <gregor.herburger@ew.tq-group.com>,
+ Heiko Stuebner <heiko.stuebner@cherry.de>,
+ Hugo Villeneuve <hvilleneuve@dimonoff.com>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Joao Paulo Goncalves <joao.goncalves@toradex.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Parthiban Nallathambi <parthiban@linumiz.com>, Peng Fan <peng.fan@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ =?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <rafal@milecki.pl>,
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+Subject: [PATCH v3 0/4] arm64: dts: imx8mm-kontron: Add HDMI and LVDS display
+ support
+Date: Tue,  8 Oct 2024 16:37:42 +0200
+Message-ID: <20241008143804.126795-1-frieder@fris.de>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,87 +69,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/8/24 12:07 PM, Isaac Scott wrote:
-> On Mon, 2024-10-07 at 20:06 +0200, Marek Vasut wrote:
->> On 10/7/24 7:01 PM, Isaac Scott wrote:
->>> Hi Marek,
->>
->> Hi,
->>
->>> On Sat, 2024-07-06 at 02:16 +0200, Marek Vasut wrote:
->>>> On 6/24/24 11:19 AM, Alexander Stein wrote:
->>>>> Am Freitag, 31. Mai 2024, 22:27:21 CEST schrieb Marek Vasut:
->>>>>> In case an upstream bridge modified the required clock
->>>>>> frequency
->>>>>> in its .atomic_check callback by setting adjusted_mode.clock
->>>>>> ,
->>>>>> make sure that clock frequency is generated by the LCDIFv3
->>>>>> block.
->>>>>>
->>>>>> This is useful e.g. when LCDIFv3 feeds DSIM which feeds
->>>>>> TC358767
->>>>>> with (e)DP output, where the TC358767 expects precise timing
->>>>>> on
->>>>>> its input side, the precise timing must be generated by the
->>>>>> LCDIF.
->>>>>>
->>>>>> Signed-off-by: Marek Vasut <marex@denx.de>
->>>>>
->>>>> With the other rc358767 patches in place, this does the trick.
->>>>> Reviewed-by: Alexander Stein <alexander.stein@ew.tq-group.com>
->>>>
->>>> I'll pick this up next week if there is no objection.
->>>
->>> Unfortunately, this has caused a regression that is present in
->>> v6.12-
->>> rc1 on the i.MX8MP PHYTEC Pollux using the
->>> arch/arm64/boot/dts/freescale/imx8mp-phyboard-pollux-rdk.dts. The
->>> display is the edt,etml1010g3dra panel, as per the upstream dts. We
->>> bisected to this commit, and reverting this change fixed the
->>> screen.
->>>
->>> We then tried to retest this on top of v6.12-rc2, and found we also
->>> had
->>> to revert commit ff06ea04e4cf3ba2f025024776e83bfbdfa05155 ("clk:
->>> imx:
->>> clk-imx8mp: Allow media_disp pixel clock reconfigure parent rate")
->>> alongside this. Reverting these two commits makes the display work
->>> again at -rc2.
->>>
->>> Do you have any suggestions on anything we might be missing on our
->>> end?
->>> Please let me know if there's anything you'd like me to test as I'm
->>> not
->>> sure what the underlying fault was here.
->> I believe what is going on is that the LCDIF cannot configure its
->> upstream clock because something else is already using those clock
->> and
->> it set those clock to a specific frequency. LCDIF is now trying to
->> configure those clock to match the LVDS panel, and it fails, so it
->> tries
->> to set some approximate clock and that is not good enough for the
->> LVDS
->> panel.
->>
->> Can you share dump of /sys/kernel/debug/clk/clk_summary on failing
->> and
->> working system ? You might see the difference around the "video"
->> clock.
->>
->> (I have seen this behavior before, the fix was usually a matter of
->> moving one of the LCDIFs to another upstream clock like PLL3, so it
->> can
->> pick well matching output clock instead of some horrid approximation
->> which then drives the panel likely out of specification)
-> 
-> Hi Marek,
-> 
-> Please find attached the clk_summary for v6.12-rc2 before and after the
-> reversion (the one after the reversion is 6.12-rc2_summary_postfix).
-How come "media_mipi_phy1_ref" is on Video PLL1 before the revert ?
+This add support for the display bridges (DSI->LVDS and DSI->HDMI)
+on the BL i.MX8MM and the 7" LVDS panel in a separate overlay.
 
-Does it start working if you move "media_mipi_phy1_ref" to osc_24m ? 
-(probably not)
+Only one of the interfaces (HDMI or LVDS) is supported at the same
+time. Enabling the LVDS overlay will disable the HDMI interface.
 
-Also, why is the LDB configured to 74 MHz instead of 519 MHz now ? That 
-is really odd. I'll see if I can reproduce this later today.
+* Patch 1 and 2: Add the necessary binding changes
+* Patch 3: Extend the BL devicetree
+* Patch 4: Add the LVDS panel overlay
+
+Changes for v3:
+* Add A-b tag from Krzysztof
+* Fix LVDS bridge input port reference
+
+Changes for v2:
+* Patch 1: Add link to commit message
+* Patch 2: Add Conors A-b tag
+* Patch 3: Remove blank lines from hdmi node
+* Patch 3: Fix order of lvds and hdmi nodes within i2c
+* Patch 3: Remove the unneeded deletion of samsung,pll-clock-frequency
+* Patch 3: Use the existing MIPI DSI output port from imx8mm.dtsi
+* Patch 4: Update copyright year
+* Patch 4: Use exisitng MIPI DSI output port from imx8mm.dtsi
+* Patch 4: Fix pinctrl for GPIO hogs
+* Patch 4: Fix property order in i2c2 node
+* Patch 4: Use generic node name for touchscreen
+
+Frieder Schrempf (4):
+  dt-bindings: vendor-prefixes: Add Jenson Display
+  dt-bindings: display: panel-lvds: Add compatible for Jenson
+    BL-JT60050-01A
+  arm64: dts: imx8mm-kontron: Add support for display bridges on BL
+    i.MX8MM
+  arm64: dts: imx8mm-kontron: Add DL (Display-Line) overlay with LVDS
+    support
+
+ .../bindings/display/panel/panel-lvds.yaml    |   2 +
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ arch/arm64/boot/dts/freescale/Makefile        |   4 +
+ .../boot/dts/freescale/imx8mm-kontron-bl.dts  | 131 ++++++++++++
+ .../boot/dts/freescale/imx8mm-kontron-dl.dtso | 189 ++++++++++++++++++
+ 5 files changed, 328 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/freescale/imx8mm-kontron-dl.dtso
+
+-- 
+2.46.0
+
