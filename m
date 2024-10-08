@@ -2,57 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49A4499536E
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 17:33:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29169995403
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 18:05:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A18CF10E585;
-	Tue,  8 Oct 2024 15:33:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D71010E58D;
+	Tue,  8 Oct 2024 16:05:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FDPxO4xK";
+	dkim=pass (2048-bit key; secure) header.d=gmx.net header.i=wahrenst@gmx.net header.b="iPxqU0El";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 258DE10E588
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2024 15:33:07 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 0E7A05C5CFE;
- Tue,  8 Oct 2024 15:33:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46229C4CEC7;
- Tue,  8 Oct 2024 15:33:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1728401586;
- bh=ouKxO2/IjmSZBjM+1Fc7/vlcAqQ4Vq4MlFM+ug7u5Ls=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=FDPxO4xKf5YTLi8ThQ5IZbwJ0MIuwcFrt1RTRpClUWqh3vmZaEuRd7txTc4759o9Y
- w1aIsLD0U6dwsSG3ZtFIw0+BfkdWsnhsN8keW436leHeHRL2UAWOdN1IsxMSzbYHJk
- /QE9RukogSs8D39YaxIrEssFYKJBmOQCcDXGRuPQn+S5p8ApWd3HlOuczSnjJ9hPBi
- pGxKZsOKoMtvhyBzg5D/tivcnnuBtMTqTUvlOjR9d8Vwvqzbo540Qvjvf+YoxdDAQk
- rZ+qz4acRRW8zGVEXbSwdsCyh7thp9luSLkkVwDcEW/GMu2SYIVNvuLE+c0V3bJFiR
- DnieADb2SODyQ==
-Date: Tue, 8 Oct 2024 16:33:00 +0100
-From: Lee Jones <lee@kernel.org>
-To: Werner Sembach <wse@tuxedocomputers.com>
-Cc: bentiss@kernel.org, dri-devel@lists.freedesktop.org,
- hdegoede@redhat.com, jelle@vdwaa.nl, jikos@kernel.org,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-leds@vger.kernel.org, miguel.ojeda.sandonis@gmail.com,
- ojeda@kernel.org, onitake@gmail.com, pavel@ucw.cz, cs@tuxedo.de
-Subject: Re: [PATCH v2 1/1] platform/x86/tuxedo: Add virtual LampArray for
- TUXEDO
-Message-ID: <20241008153300.GA11264@google.com>
-References: <20240927124152.139099-1-wse@tuxedocomputers.com>
- <20241002125243.GC7504@google.com>
- <4bfc188c-0873-490f-bfef-119c7fa74be5@tuxedocomputers.com>
- <20241003075927.GI7504@google.com>
- <8874c084-20b2-44d8-9a0d-67aedad4b456@tuxedocomputers.com>
- <20241007125813.GA17897@google.com>
- <86936252-f3b6-46c2-9244-ce0cfebf3c42@tuxedocomputers.com>
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5802910E58D
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2024 16:05:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
+ s=s31663417; t=1728403534; x=1729008334; i=wahrenst@gmx.net;
+ bh=kX7US7us5uuUTDZz9M5rKxQT5FzqazaFT0KpfgJmEg8=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+ References:From:In-Reply-To:Content-Type:
+ Content-Transfer-Encoding:cc:content-transfer-encoding:
+ content-type:date:from:message-id:mime-version:reply-to:subject:
+ to;
+ b=iPxqU0ElRO2bCClQXrUxUheAvPIrsrbYEH91N+tDj+4xBfWBG/ef6o+1O5lUvKF2
+ BzduTZO8U6APrEYkq9SI55B5Sb8i8EXVWln0FSz9n5rcUvbGtsvsuMIAwsbThYb1C
+ CAeOk94kwufreoH6Jv7FHx065aKZvopvWl36DPSDiij4qUTYMc3uCWkxWveZHfJk3
+ da1wjx3jevffvvLjfYdL1EjNhziW0PaQ0MP+ahEoKp3Dzx38SThbLlmk6RvLz0Vk2
+ jsNqW3VuDWnHq4qFtLAHo83Jp+5GpDEfs6syc+XElrWUBnv4/zEO6LADnrKPqLLaP
+ a5mh4CsctK80S++giw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.104] ([37.4.248.43]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1N1Obh-1u0NC23rkB-010q4c; Tue, 08
+ Oct 2024 18:05:34 +0200
+Message-ID: <a04c4048-b8cb-4a8a-9fb7-00a5ed7bcd9d@gmx.net>
+Date: Tue, 8 Oct 2024 18:05:32 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <86936252-f3b6-46c2-9244-ce0cfebf3c42@tuxedocomputers.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V4 2/2] drm/vc4: v3d: add PM suspend/resume support
+To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Maxime Ripard <mripard@kernel.org>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Peter Robinson <pbrobinson@gmail.com>,
+ dri-devel@lists.freedesktop.org, kernel-list@raspberrypi.com
+References: <20241003124107.39153-1-wahrenst@gmx.net>
+ <20241003124107.39153-3-wahrenst@gmx.net>
+ <ce07a658-8e5c-4c9a-b0a5-77f1be54d524@igalia.com>
+Content-Language: en-US
+From: Stefan Wahren <wahrenst@gmx.net>
+In-Reply-To: <ce07a658-8e5c-4c9a-b0a5-77f1be54d524@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:GPJp5MrMzg3cgZT+arAuZely8dn8O/Mm7N1kGzl8jP033Q06Tjn
+ wAL4qPOL0CaSbX5YEfjDdg15zLjxG17gSZYCaVEqKarqNwXcOb52ugSgnIJARrX0W0AxL2d
+ mAC8MJunEjjWPJ/zsa4BFLC8fEeGpunowEW+f4QKJzW2nt51FITec6H3+0Nb5k/s5UVGV1J
+ r4HobuN2EmLkr+9AQGVSw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:+7Dipk57MVQ=;+qSutRhrWUM7Urui1M/oDa53xnM
+ 8aV1IlnRNcZ1vAkS8FrdPrMLMX3ue1PehHTcwkIvecNexEJV7bEZfXXAix6qX4cHEin9IVYu+
+ 6IJ8mpUgri0HdDCNnfO0ZkyfYC2f/wiFrPpX/i39USetTjV0A0qCqF2znO3/618KBioUj/UZJ
+ GyGjPgDMMfPxYsPGx1WkHoQAm69r65HM1y1qOYfIksCsmpnp/crIk3839+V5zuTD/AQ51kfjF
+ FSHcqlAwwvaE9sIrrTmNfH94qAnpnog9DQIEhgdQykoD1U5beho67xKo78dV0+4QquhsVNA+j
+ V9vmdKVe1k91y3TCTTe2JO+EulG0rfkcMTbNbJXzF54sBWZOKNiLNVs0VtQ7klJB9a8tiD19g
+ zBt5xZLUJDkmCMl5KdoFEg2y5JuUmPkStM0PQ5C1sxwfaqed3rPVwOLYZxtwV0mvu/dXpbNUz
+ BZvlOzoOQwMiRD+HEI2vU2Lif9h0ooIQJLqwOSY3PCu+IGr5AvwZ18MUDZ3+1MHpF6vj9bcbS
+ p47X6mzyH3dYE3xAy0kmGjN/hlxGnWx9VSGLrHYekEeDMv8F+lIwpCm/rx5F68GUhaF6zXjp7
+ bJVyCESouVW3Q3RMh7Z0N1Ha1Tfry2v5w095UsrD3BfOiT73aaOA9gG87vQ3+ZwY+b5FVuf8F
+ S+Fv3SFimxvv+omx4QlUP7fyxtorIwe9ldLLZPFC/L+Db4YE3a2r5XFO+k/7HJwsQa+WBexDc
+ BuE9L9qUHqo9i98gZb3fquOWH5QFbKyoeovt08LV9mDQIHnVe+f8xKnSzStTo+PyZ2GQMpjIN
+ 624zBOgonHqlO6wZkTlj5xTg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,48 +87,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 07 Oct 2024, Werner Sembach wrote:
+Hi Ma=C3=ADra,
 
-> 
-> Am 07.10.24 um 14:58 schrieb Lee Jones:
-> > On Fri, 04 Oct 2024, Werner Sembach wrote:
-> > 
-> > > Am 03.10.24 um 09:59 schrieb Lee Jones:
-> > > > On Wed, 02 Oct 2024, Werner Sembach wrote:
-> > > > 
-> > > > > Hi,
-> > > > > 
-> > > > > Am 02.10.24 um 14:52 schrieb Lee Jones:
-> > > > > > On Fri, 27 Sep 2024, Werner Sembach wrote:
-> > > > > > 
-> > > > > > > Hi,
-> > > > > > > first revision integrating Armins feedback.
-> > > > > > > 
-> > > > > > > Stuff I did not yet change and did not comment on previously:
-> > > > > > > - Still have to ask Christoffer why the mutex is required
-> > > > > > > - Still using acpi_size instad of size_t in the util functions, because the value is put directly into a struct using acpi_size
-> > > > > > > - Error messages for __wmi_method_acpi_object_out still in that method because they reference method internal variables
-> > > > > > > 
-> > > > > > > Let me know if my reasoning is flawed
-> > > > > > Use `git format-patch`'s --annotate and --compose next time please.
-> > > > > > 
-> > > > > I did but --compose does not automatically insert the subject line, that's
-> > > > > why i copied it but forgot to change it to 0/1
-> > > > > 
-> > > > > Sorry for the flawed subject line
-> > > > And the missing diff-stat?
-> > > > 
-> > > Also not automatically created by git send-email --compose. is there a flag
-> > > I'm not aware of?
-> > As above.  I use "--annotate --compose".  See if that works.
-> > 
-> nope, the cover letter has no change summary with these options
+Am 08.10.24 um 15:49 schrieb Ma=C3=ADra Canal:
+> Hi Stefan,
+>
+> On 10/3/24 09:41, Stefan Wahren wrote:
+>> Add suspend/resume support for the VC4 V3D component in order
+>> to handle suspend to idle properly.
+>>
+>> Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
+>> ---
+>> =C2=A0 drivers/gpu/drm/vc4/vc4_v3d.c | 7 +++----
+>> =C2=A0 1 file changed, 3 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/vc4/vc4_v3d.c
+>> b/drivers/gpu/drm/vc4/vc4_v3d.c
+>> index 2423826c89eb..8057b06c1f16 100644
+>> --- a/drivers/gpu/drm/vc4/vc4_v3d.c
+>> +++ b/drivers/gpu/drm/vc4/vc4_v3d.c
+>> @@ -368,7 +368,6 @@ void vc4_v3d_bin_bo_put(struct vc4_dev *vc4)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mutex_unlock(&vc4->bin_bo_lock);
+>> =C2=A0 }
+>>
+>> -#ifdef CONFIG_PM
+>> =C2=A0 static int vc4_v3d_runtime_suspend(struct device *dev)
+>> =C2=A0 {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct vc4_v3d *v3d =3D dev_get_drvdata(=
+dev);
+>> @@ -397,7 +396,6 @@ static int vc4_v3d_runtime_resume(struct device
+>> *dev)
+>>
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
+>> =C2=A0 }
+>> -#endif
+>>
+>> =C2=A0 int vc4_v3d_debugfs_init(struct drm_minor *minor)
+>> =C2=A0 {
+>> @@ -507,7 +505,8 @@ static void vc4_v3d_unbind(struct device *dev,
+>> struct device *master,
+>> =C2=A0 }
+>>
+>> =C2=A0 static const struct dev_pm_ops vc4_v3d_pm_ops =3D {
+>> -=C2=A0=C2=A0=C2=A0 SET_RUNTIME_PM_OPS(vc4_v3d_runtime_suspend,
+>> vc4_v3d_runtime_resume, NULL)
+>> +=C2=A0=C2=A0=C2=A0 RUNTIME_PM_OPS(vc4_v3d_runtime_suspend, vc4_v3d_run=
+time_resume,
+>> NULL)
+>> +=C2=A0=C2=A0=C2=A0 SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
+>> pm_runtime_force_resume)
+>
+> I have a question: How can we guarantee that no jobs are running when
+> the system is forced to suspend?
+Not sure what do you mean with job. userspace task or v3d job within the
+driver?
 
-Oh, my mistake.  I'm getting confused with `git send-email`.
+Do you have something specific in mind.
 
-You want this:
+Why is there a difference between runtime pm and system pm?
 
-  `mkdir patches && git format-patch --cover-letter -M -o patches`
+I must confess that i didn't test a system sleep while running a v3d
+application.
 
--- 
-Lee Jones [李琼斯]
+Best regards
+Stefan
+>
+> Best Regards,
+> - Ma=C3=ADra
+>
+>> =C2=A0 };
+>>
+>> =C2=A0 static const struct component_ops vc4_v3d_ops =3D {
+>> @@ -538,6 +537,6 @@ struct platform_driver vc4_v3d_driver =3D {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .driver =3D {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .name =3D "vc4_v=
+3d",
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .of_match_table =
+=3D vc4_v3d_dt_match,
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .pm =3D &vc4_v3d_pm_ops,
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .pm =3D pm_ptr(&vc4_v3d_pm_=
+ops),
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 },
+>> =C2=A0 };
+>> --
+>> 2.34.1
+>>
+
