@@ -2,61 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBE5D99576E
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 21:12:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5985D995783
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 21:16:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF47310E5A8;
-	Tue,  8 Oct 2024 19:12:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6DFB10E240;
+	Tue,  8 Oct 2024 19:16:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eJ9ErkOw";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="k0MLtWsK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2D4E10E5A5;
- Tue,  8 Oct 2024 19:12:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1728414739; x=1759950739;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=XVySQBxuiqFHVXdt+Jru3XVKRKScnO4sJDTEy7qOStw=;
- b=eJ9ErkOw2n9/3Cp/AoMdudW7XOR15qFm7FTiWQf7xkriDevdKcKymswJ
- nYfiQaFnZgJlaCnQCRt7ePTMQ8ka7VWHAATNXPB5OV7YN3f9F+bmu04Ud
- I+ArmqDr9f4M0OTNFBrTJWColW1LYv/NBAtBkYHeWIwEqeAPFi2djpklm
- dHwyBbT9Vg9qA2Al3gCBDrLw4PgmgzVY5cbzOPGQLg1ZPrCartPtbleBy
- uQGuwWRRf4i1uFJgv7xUP6ttq8mAjLl3mg5IoON+cL9eYFix+KHmnUGLU
- ZnLsIQjRRW5WQEmdmzXYfQ6Gs24LUz8rHIXJRH00TNt8QRhxortCWvYLc g==;
-X-CSE-ConnectionGUID: eppr9Fo+RXKBymfr/rdfrQ==
-X-CSE-MsgGUID: s6fvEVf7QH6nShqd7nKqGQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11219"; a="38240920"
-X-IronPort-AV: E=Sophos;i="6.11,187,1725346800"; d="scan'208";a="38240920"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Oct 2024 12:12:18 -0700
-X-CSE-ConnectionGUID: hQV9bL8RR9quCG9JzTFiYg==
-X-CSE-MsgGUID: M4nvk6kDR6ac+l+lkTIanw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,187,1725346800"; d="scan'208";a="76065578"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by fmviesa008.fm.intel.com with SMTP; 08 Oct 2024 12:12:16 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 08 Oct 2024 22:12:15 +0300
-Date: Tue, 8 Oct 2024 22:12:15 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH 8/8] drm/client: s/unsigned int i/int i/
-Message-ID: <ZwWED3yDPKfMsNPA@intel.com>
-References: <20241003113304.11700-1-ville.syrjala@linux.intel.com>
- <20241003113304.11700-9-ville.syrjala@linux.intel.com>
- <4bb5b981-0703-4853-acf8-f834da76ed05@suse.de>
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
+ [209.85.210.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8ACA10E240;
+ Tue,  8 Oct 2024 19:16:36 +0000 (UTC)
+Received: by mail-pf1-f172.google.com with SMTP id
+ d2e1a72fcca58-71dfc1124cdso105046b3a.1; 
+ Tue, 08 Oct 2024 12:16:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1728414996; x=1729019796; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Z7qu86Ysicdsx9sM/yuAIgyD1+rSLH54SdSYbKdh/+U=;
+ b=k0MLtWsKmyZDeWPLhuRgxd9aFshcQexZFKdePQ9NTQV27XLSveMzO+77kCO9KoY1f/
+ hBXMQPSiBJv1BsWXBKQx3KLHndWJQ/MMLN2MdUtmR+Q79Sm4EkiipDFD31609tljVcD6
+ Pzc+FGIPOQahz0IY3U5yxXvkn9o7Hd5tM84JaLYU+puivhp0i9jEAofA37/yd3Zq061O
+ l2sLz7HHdKuPjE5ISDAiq8Cby5egrbXE5OX2a+igalPeIkb2i3MkPPUzp6j/gbkYMqqO
+ DVqXWSGjlb9RjU02v1qf6HMResaEPwJgvOPvdltprls607VY9veSDw6YaYrd9ECV7xdu
+ gDzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1728414996; x=1729019796;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Z7qu86Ysicdsx9sM/yuAIgyD1+rSLH54SdSYbKdh/+U=;
+ b=K/fysrh0pIPWyLFnC7Zbqxg/waz756RnbPU6O6nGilFgU62KlXbgD+Zlh+bq01zM2b
+ wdnh5WlM+pO5OUvrrwxFi56YCif3GeZiKoKl473xUKUZDgjj2SXB6/8Ql1oTBcWEBfHD
+ p5+mtjZ2RmwM8s0faTErfooUqOAUEoxmKdpMo0iQfUuCVm4+TjHxR9i0iK3TzpMS3mnc
+ ZYFc24Vk0CheMLhd6Up5tEid7225P+M9Us5XNPnbyypcWeD9CYTisvkT4dIRNIDtjyn0
+ Og0gJ+DhECGwaP114MMMvEplRljcXazAzBISa1j9WjM8NEQDz3kCqUZv8xqYEwtLECBr
+ jV1w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUJBN+HyA4sGkAXh3rUt/n7qlQq2aD/R34VSm45IeNPrHp53Dy1lKiCMdHvdxk8dwEx8xYdNjmOQQ8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzQ22lOhVcnu6Ba6PbuEPac60mOcjBXrlR9QauVTMtsf/f6KT3o
+ 0wTfLAZXec+iAUTF9ddlOF/qdVqfCROxkArGZS3lF8pLxYnusAae
+X-Google-Smtp-Source: AGHT+IG11rsBrtdL3pEggLyoVCWr0nW6/pa+HBU7JaoO06ddPz9+dy2vVAYCq5o1iTlk25NJF+qmtw==
+X-Received: by 2002:a05:6a00:c94:b0:71d:fbc9:e5b2 with SMTP id
+ d2e1a72fcca58-71e1d6d2014mr169431b3a.14.1728414995947; 
+ Tue, 08 Oct 2024 12:16:35 -0700 (PDT)
+Received: from advait-kdeneon.. ([2405:201:1e:f1d5:c7a7:6c1f:8104:8963])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-71dfea52097sm4650939b3a.103.2024.10.08.12.16.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Oct 2024 12:16:35 -0700 (PDT)
+From: Advait Dhamorikar <advaitdhamorikar@gmail.com>
+To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, simona@ffwll.ch, leo.liu@amd.com,
+ sathishkumar.sundararaju@amd.com, saleemkhan.jamadar@amd.com,
+ sonny.jiang@amd.com
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+ anupnewsmail@gmail.com, Advait Dhamorikar <advaitdhamorikar@gmail.com>
+Subject: [PATCH-next v3] drm/amdgpu: Cleanup shift coding style
+Date: Wed,  9 Oct 2024 00:46:23 +0530
+Message-Id: <20241008191623.8171-1-advaitdhamorikar@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <4bb5b981-0703-4853-acf8-f834da76ed05@suse.de>
-X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,37 +84,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 07, 2024 at 09:43:47AM +0200, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 03.10.24 um 13:33 schrieb Ville Syrjala:
-> > From: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> >
-> > Replace the 'unsigned int i' footguns with plain old signed
-> > int. Avoids accidents if/when someone decides they need
-> > to iterate backwards.
-> 
-> Why are signed types preferable here?
+Improves the coding style by updating bit-shift
+operations in the amdgpu_jpeg.c driver file.
+It ensures consistency and avoids potential issues
+by explicitly using 1U and 1ULL for unsigned
+and unsigned long long shifts in all relevant instances.
 
-If you iterate backwards you typically write
 
-for (i = max; i >= 0; i--) {...}
+Signed-off-by: Advait Dhamorikar <advaitdhamorikar@gmail.com>
+---
+v1->v2: address review comments
+https://lore.kernel.org/lkml/CAJ7bepJrm9tJJMSZXz0B_94y8817X4oFpwnrTmUHeagOFgVL7g@mail.gmail.com/
+v2->v3: update changelog and add additional 1U cleanups
+https://lore.kernel.org/lkml/CADnq5_OgZvTgUDvDqDikoUh28jTRm2mOAVV6zAEtWE9RHTFkyA@mail.gmail.com/
 
-and i>=0 is always true for unsigned types.
+ drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-Another danger is doing any kind of arithmetic
-with 'i' and expecting a signed result.
-
-Based on my experience in getting burned by C integer
-promotion/converison rules a good rule of thumb is to
-always use just "int" unless there is a very good
-reason for not doing so (eg. if the thing is a bitmask
-or some kind of other thing where negative values
-can never ever come up).
-
-Also IIRC there was a Linus rant about "unsigned int i"
-but I can't find it now.
-
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c
+index 95e2796919fc..995bc28b4fe6 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c
+@@ -47,7 +47,7 @@ int amdgpu_jpeg_sw_init(struct amdgpu_device *adev)
+ 		adev->jpeg.indirect_sram = true;
+ 
+ 	for (i = 0; i < adev->jpeg.num_jpeg_inst; i++) {
+-		if (adev->jpeg.harvest_config & (1 << i))
++		if (adev->jpeg.harvest_config & (1U << i))
+ 			continue;
+ 
+ 		if (adev->jpeg.indirect_sram) {
+@@ -73,7 +73,7 @@ int amdgpu_jpeg_sw_fini(struct amdgpu_device *adev)
+ 	int i, j;
+ 
+ 	for (i = 0; i < adev->jpeg.num_jpeg_inst; ++i) {
+-		if (adev->jpeg.harvest_config & (1 << i))
++		if (adev->jpeg.harvest_config & (1U << i))
+ 			continue;
+ 
+ 		amdgpu_bo_free_kernel(
+@@ -110,7 +110,7 @@ static void amdgpu_jpeg_idle_work_handler(struct work_struct *work)
+ 	unsigned int i, j;
+ 
+ 	for (i = 0; i < adev->jpeg.num_jpeg_inst; ++i) {
+-		if (adev->jpeg.harvest_config & (1 << i))
++		if (adev->jpeg.harvest_config & (1U << i))
+ 			continue;
+ 
+ 		for (j = 0; j < adev->jpeg.num_jpeg_rings; ++j)
+@@ -357,7 +357,7 @@ static int amdgpu_debugfs_jpeg_sched_mask_set(void *data, u64 val)
+ 	if (!adev)
+ 		return -ENODEV;
+ 
+-	mask = (1 << (adev->jpeg.num_jpeg_inst * adev->jpeg.num_jpeg_rings)) - 1;
++	mask = (1ULL << (adev->jpeg.num_jpeg_inst * adev->jpeg.num_jpeg_rings)) - 1;
+ 	if ((val & mask) == 0)
+ 		return -EINVAL;
+ 
+@@ -388,7 +388,7 @@ static int amdgpu_debugfs_jpeg_sched_mask_get(void *data, u64 *val)
+ 		for (j = 0; j < adev->jpeg.num_jpeg_rings; ++j) {
+ 			ring = &adev->jpeg.inst[i].ring_dec[j];
+ 			if (ring->sched.ready)
+-				mask |= 1 << ((i * adev->jpeg.num_jpeg_rings) + j);
++				mask |= 1ULL << ((i * adev->jpeg.num_jpeg_rings) + j);
+ 		}
+ 	}
+ 	*val = mask;
 -- 
-Ville Syrjälä
-Intel
+2.34.1
+
