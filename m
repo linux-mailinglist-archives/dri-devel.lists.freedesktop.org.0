@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCB9C994AAF
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 14:35:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3B7F994AB2
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 14:35:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E239810E503;
-	Tue,  8 Oct 2024 12:35:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23E5710E508;
+	Tue,  8 Oct 2024 12:35:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="mj2ooDH0";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="MJxNrCn3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BBC110E503
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2024 12:35:38 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56E6A10E504
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2024 12:35:42 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 86FA85C5683;
- Tue,  8 Oct 2024 12:35:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 105DEC4CEC7;
- Tue,  8 Oct 2024 12:35:36 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 942DCA4035C;
+ Tue,  8 Oct 2024 12:35:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F04AC4CEC7;
+ Tue,  8 Oct 2024 12:35:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1728390937;
- bh=H/IuwfwmacurTQgm+MKRL8MVWLTgpdNBdWY7u3ZIcD4=;
+ s=korg; t=1728390940;
+ bh=TQp0lpSHi54E3y25zanOT3txyQKcBuOaz3OKzhxOqg8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=mj2ooDH0GfQZ1Ht5c825S/r+kcxmV7mwXupYZBGZD8u/VnyH2vgSVvbtUGqIoguFt
- 0gwIsBTu3WL5+k66iu0RK38XHifO3a4X1M7Mie3Y5DIxL4mWBEdZvFl3XSMuiyZ2JE
- G6u2+YYm/Vjlj/+B+JftGJbEVhC9U87zk4BWUUQY=
+ b=MJxNrCn361lGkLL+hpLED+4X/vgfY63eh7HLKlZ5NmxR3eaUBkChjQHqZB4A8YrXr
+ OHqEkRDMKwmLdKyiC+WsA9YqcguNvGukce0Av3xO8VwVIipEGQ+KQv621TnhWQmaNH
+ m63rK7SFq296+435aXM+9lnQclN0giiq9MrriFZg=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
@@ -35,12 +35,12 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
  Alex Deucher <alexander.deucher@amd.com>,
  Luben Tuikov <ltuikov89@gmail.com>,
  Matthew Brost <matthew.brost@intel.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- Philipp Stanner <pstanner@redhat.com>
-Subject: [PATCH 6.10 440/482] drm/sched: Add locking to
- drm_sched_entity_modify_sched
-Date: Tue,  8 Oct 2024 14:08:23 +0200
-Message-ID: <20241008115705.838134971@linuxfoundation.org>
+ Daniel Vetter <daniel@ffwll.ch>, Philipp Stanner <pstanner@redhat.com>,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH 6.10 441/482] drm/sched: Always wake up correct scheduler in
+ drm_sched_entity_push_job
+Date: Tue,  8 Oct 2024 14:08:24 +0200
+Message-ID: <20241008115705.877622047@linuxfoundation.org>
 X-Mailer: git-send-email 2.46.2
 In-Reply-To: <20241008115648.280954295@linuxfoundation.org>
 References: <20241008115648.280954295@linuxfoundation.org>
@@ -71,15 +71,19 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 
-commit 4286cc2c953983d44d248c9de1c81d3a9643345c upstream.
+commit cbc8764e29c2318229261a679b2aafd0f9072885 upstream.
 
-Without the locking amdgpu currently can race between
-amdgpu_ctx_set_entity_priority() (via drm_sched_entity_modify_sched()) and
-drm_sched_job_arm(), leading to the latter accesing potentially
-inconsitent entity->sched_list and entity->num_sched_list pair.
+Since drm_sched_entity_modify_sched() can modify the entities run queue,
+lets make sure to only dereference the pointer once so both adding and
+waking up are guaranteed to be consistent.
+
+Alternative of moving the spin_unlock to after the wake up would for now
+be more problematic since the same lock is taken inside
+drm_sched_rq_update_fifo().
 
 v2:
  * Improve commit message. (Philipp)
+ * Cache the scheduler pointer directly. (Christian)
 
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 Fixes: b37aced31eb0 ("drm/scheduler: implement a function to modify sched list")
@@ -89,29 +93,47 @@ Cc: Luben Tuikov <ltuikov89@gmail.com>
 Cc: Matthew Brost <matthew.brost@intel.com>
 Cc: David Airlie <airlied@gmail.com>
 Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org
 Cc: Philipp Stanner <pstanner@redhat.com>
+Cc: dri-devel@lists.freedesktop.org
 Cc: <stable@vger.kernel.org> # v5.7+
 Reviewed-by: Christian König <christian.koenig@amd.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240913160559.49054-2-tursulin@igalia.com
+Link: https://patchwork.freedesktop.org/patch/msgid/20240924101914.2713-3-tursulin@igalia.com
 Signed-off-by: Christian König <christian.koenig@amd.com>
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/gpu/drm/scheduler/sched_entity.c |    2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/scheduler/sched_entity.c |   10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
 --- a/drivers/gpu/drm/scheduler/sched_entity.c
 +++ b/drivers/gpu/drm/scheduler/sched_entity.c
-@@ -133,8 +133,10 @@ void drm_sched_entity_modify_sched(struc
- {
- 	WARN_ON(!num_sched_list || !sched_list);
+@@ -599,6 +599,9 @@ void drm_sched_entity_push_job(struct dr
  
-+	spin_lock(&entity->rq_lock);
- 	entity->sched_list = sched_list;
- 	entity->num_sched_list = num_sched_list;
-+	spin_unlock(&entity->rq_lock);
+ 	/* first job wakes up scheduler */
+ 	if (first) {
++		struct drm_gpu_scheduler *sched;
++		struct drm_sched_rq *rq;
++
+ 		/* Add the entity to the run queue */
+ 		spin_lock(&entity->rq_lock);
+ 		if (entity->stopped) {
+@@ -608,13 +611,16 @@ void drm_sched_entity_push_job(struct dr
+ 			return;
+ 		}
+ 
+-		drm_sched_rq_add_entity(entity->rq, entity);
++		rq = entity->rq;
++		sched = rq->sched;
++
++		drm_sched_rq_add_entity(rq, entity);
+ 		spin_unlock(&entity->rq_lock);
+ 
+ 		if (drm_sched_policy == DRM_SCHED_POLICY_FIFO)
+ 			drm_sched_rq_update_fifo(entity, submit_ts);
+ 
+-		drm_sched_wakeup(entity->rq->sched);
++		drm_sched_wakeup(sched);
+ 	}
  }
- EXPORT_SYMBOL(drm_sched_entity_modify_sched);
- 
+ EXPORT_SYMBOL(drm_sched_entity_push_job);
 
 
