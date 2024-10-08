@@ -2,61 +2,207 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D19CC994106
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 10:19:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A18B994133
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 10:23:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 405DB10E16A;
-	Tue,  8 Oct 2024 08:18:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBCB410E492;
+	Tue,  8 Oct 2024 08:23:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Jpv0nGoS";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="rCsIdL9O";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43CDC10E16A;
- Tue,  8 Oct 2024 08:18:54 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 492EE5C5AE1;
- Tue,  8 Oct 2024 08:18:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBC95C4CEC7;
- Tue,  8 Oct 2024 08:18:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1728375532;
- bh=uItnrWW+h9WOCfW4wij5jD8dv3TkJwtdgaE9MbkHG6Q=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Jpv0nGoSFK0PdwSL8uQ+RajvrVTanhQezKnKbD8ZuyLyvpKWdWpe2ewSxvUlkQpj5
- LCf4lLw6GxpFr4KkjWO15oX9tkkRoI04dXHNIL1wvjA9WUlWb2bXEk5DY4DGMk3I0g
- ewERSvKa2Uh9LFEweuV+47nRDQa8ouM51DGPmIIBhefPzZhxH+miJfhEXuD2IdPylT
- NNiEqgBHUkSsyqxonISb2sn9dfzFLvXe85jW/vH9LcoHgtvQJ56jJBw5oe/JJMaA+y
- GyRLD82MEshSpXE69WlnIfs8+JuZBVPx7/yKdC2PNpjRxHbCmjHMrbNEmIBWLL1XJQ
- 2U/R1oUbjgnLA==
-Date: Tue, 8 Oct 2024 10:18:49 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Rob Clark <robdclark@gmail.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- quic_abhinavk@quicinc.com, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2088.outbound.protection.outlook.com [40.107.94.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3948510E492
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2024 08:23:23 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ZUsHVa51hHbLLXtrObwyUfIhbJ0tPS+0X5KJlynM9rWC9N1rlgq6Jd+hoN4/BOkkPI19UiMCBaLSGhr7VgNCvIAtAqudJWKiyMfMu9mgUCTA0ip32UAI/+qBViIZ/6Fcyun8xKiL8U1PC7Yzp8nw+zX0s3WQd7WCvF5ijUsDyhNVNsSwhI52Aqlz+c7GwptwLjqluOfZxJKpFEBQtFIY9bSyS2UZyyaPeQ3DEpQxsBdEZVXkypF0WaQCXwB92USIMjUei1AWi/I19aUmKd5PscJ5Z6/lMqBPLCfivAyiRCYZGIX0MX2zqb884GSa6Ck55v2scw6diklX5fwP37vs5Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8MsRsnTpznfv5fdb3sqgaEkjdDcNzhVN8hLW6TWHdYY=;
+ b=YuM+/3EBuIlbjfI1IBnuFbQxq5fc7Wh2lU1PJ2u62m/FDi0BAGBnHHDQsXp+RlHt7SlKUN4FRdFiqTA8R4sF/au30OzTrW8jqygjX6pEVPrKLkp0IhCjxIZxrMKDahqx1u4uWkgllB7ms4qHdIBBOISjk55wYaMtM0+5gS2idWUOCR1REh7dtGXOK0Ex9p8DgFCe8+PAj6oXNS7iF1Yy/pcx7lAj0BwwaaQmS8fv2MjQVqNZEPe0lKggGTxK8hEhtOfZEIHD984L8wBIZ2PqkOy1lSvUz1xGGKwuytUkZgrw5edHkG4hdTEQXRhZ/2NvphtcU74uAGdEKpjH0gLorw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8MsRsnTpznfv5fdb3sqgaEkjdDcNzhVN8hLW6TWHdYY=;
+ b=rCsIdL9ONnGRCPOlIGejHdmdEp0kqtoYBO9QW7IA8HYlpZqiURRianJ9OR4WoA7tXjLI4IoP2fT52OLoImWCztEjXQ3aSOI3K8tk62IWry+89hMfWTA3qw56vlzhg4Gn+No2IP2Se+MnKSdIRoFhfQjFNN3JNqjaUnSoIQUs9dI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from SJ2PR12MB8109.namprd12.prod.outlook.com (2603:10b6:a03:4f5::8)
+ by SJ2PR12MB7846.namprd12.prod.outlook.com (2603:10b6:a03:4c9::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.22; Tue, 8 Oct
+ 2024 08:23:19 +0000
+Received: from SJ2PR12MB8109.namprd12.prod.outlook.com
+ ([fe80::7f35:efe7:5e82:5e30]) by SJ2PR12MB8109.namprd12.prod.outlook.com
+ ([fe80::7f35:efe7:5e82:5e30%6]) with mapi id 15.20.8026.020; Tue, 8 Oct 2024
+ 08:23:19 +0000
+Message-ID: <123f770f-ceb6-4c8c-a065-ace2e02dc65f@amd.com>
+Date: Tue, 8 Oct 2024 10:22:58 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/3] arm64: dts: zynqmp: Add DMA for DP audio
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Lars-Peter Clausen <lars@metafoo.de>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, quic_ebharadw@quicinc.com,
- linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Rob Clark <robdclark@chromium.org>,
- Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH v2 16/22] drm/msm/dpu: Configure CWB in writeback encoder
-Message-ID: <20241008-bouncy-sawfish-of-temperance-2e9e5f@houat>
-References: <20240924-concurrent-wb-v2-0-7849f900e863@quicinc.com>
- <20240924-concurrent-wb-v2-16-7849f900e863@quicinc.com>
- <b9e50652-4556-4eed-a013-8e417eccdb69@linaro.org>
- <866ef212-a00e-48c4-9cf1-d1d4ee78d0ae@quicinc.com>
- <a58abb00-f941-48e0-b2a0-3c401e5220a7@linaro.org>
- <4e0ccd07-fdd1-4e92-bda7-ea6ec9d54c80@linaro.org>
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Vishal Sagar <vishal.sagar@amd.com>,
+ Anatoliy Klymenko <anatoliy.klymenko@amd.com>,
+ =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>
+References: <20240910-xilinx-dp-audio-v3-0-75560793f4d0@ideasonboard.com>
+ <20240910-xilinx-dp-audio-v3-2-75560793f4d0@ideasonboard.com>
+Content-Language: en-US
+From: Michal Simek <michal.simek@amd.com>
+Autocrypt: addr=michal.simek@amd.com; keydata=
+ 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
+ 3i3l5DA=
+In-Reply-To: <20240910-xilinx-dp-audio-v3-2-75560793f4d0@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: VI1PR06CA0187.eurprd06.prod.outlook.com
+ (2603:10a6:803:c8::44) To SJ2PR12MB8109.namprd12.prod.outlook.com
+ (2603:10b6:a03:4f5::8)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="yyzazgzbhs7ae6h2"
-Content-Disposition: inline
-In-Reply-To: <4e0ccd07-fdd1-4e92-bda7-ea6ec9d54c80@linaro.org>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR12MB8109:EE_|SJ2PR12MB7846:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8a44b2c4-e996-4f49-aefe-08dce77276f9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|366016|1800799024|7416014|376014|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?VUIySEpxc0VPemtkSDVUV3BZaDg2UnZNalRHL1poQ014N1lRY1ExSFVaTFRq?=
+ =?utf-8?B?QUkzMG9hUWMzaDk5UHN5RUd6RzQ3NGd5R2NLVTYzMnd3Q05PZDNaRW1mM3FN?=
+ =?utf-8?B?V1UyVzZKamN2amRhclEwU3ZmbU9xUlNtdXZWaXlRd0lzNTFwaURCcGxZT28r?=
+ =?utf-8?B?QnVtaTN3MUhjdTNacFlwZThtakUxZ2Q2bndzcitGaEVpQnB4Tmh1M01yUnBJ?=
+ =?utf-8?B?SlR6S09raU94QUhONTB4MWtENisvc1lodkxRRE0vQjVZVSs0SWUxN2loeXNR?=
+ =?utf-8?B?cmM1UmFMUmlJcVZZbEFDRm5pRHdIWmhZdGdUcGMzVW9OL1hETVJ1UmUzSTZL?=
+ =?utf-8?B?UkdaMXR4MitOZ3YxWkF4bzVmWEhPQWdNMXRBemZHbmpDem12QTNMVTNNeGpr?=
+ =?utf-8?B?aFUvbHVHRGR1SXNLRnROMTNCeWplbUJuN3FpQ29YcGZZeUFUQTVTV21BMm8z?=
+ =?utf-8?B?Q09RZGRva1dXNFVxVVRxY1VRM1pZcTJicGxaRkt6UzRMS1JEaFZqTmlqU0o5?=
+ =?utf-8?B?WjcrN09EUTROZFhWWEREbVV5enFpQWZwVkF6bTNnVzNGejdtU2ZNRnRTK2JV?=
+ =?utf-8?B?bXdxZWdKUmVlVzdwRUh2bXcwYVg1aEdXRURIdlk5dmFsQ0trL3lmcGdBd1N1?=
+ =?utf-8?B?cmNsUHFUOC9CbDVwUjJMZVpzYVoxRUkxcGt4YkR1emI3MzJmU0phekYyeWls?=
+ =?utf-8?B?bGtIb3NCV1RxUUUyZWpGU0xrcHVNQW1vbng1TWhSaUswRE84QlYyTjQ5MGJu?=
+ =?utf-8?B?SkFYdUlFb2psNFNiZzl0aXd3VGQ3WjB4Uk5yWWtVQXRsTWc0OG5aWERhWUta?=
+ =?utf-8?B?VU84MERqd1hNbjlpbmhYdjhuOEtKcTV3S0t0ZkJ5c1RqM0w3NDhTa2p2WE84?=
+ =?utf-8?B?L1hQY2tmcEFaSXZUUjcwWkhocm5XOWtNRmhSQ0FTdzJGbmw0ODF5K1FTeThX?=
+ =?utf-8?B?V0xpcmpFU3ZDTStwak90TG9QYnYzVVYyUE05ckhBS2RuTzN6dUpzWHNjb0p4?=
+ =?utf-8?B?Zis4aWlKaFJwRVF6Z1FoZ0ErWld6VmxaeW05VW8xalczbno2WDZycU54dkxz?=
+ =?utf-8?B?c1g2bzFxU1JNOC9GbHVJQU9FYWNGbDVoaTMzZ3dVRHh6RnBPbjRGemdlRC9z?=
+ =?utf-8?B?QVEyeHduc1l0M0d5cHkwL05CUWlHVWk1czZoOGhiVzlTbTZnNGxydmtZUkNU?=
+ =?utf-8?B?QXh1TzAzNVl4TnhxTjZVNWZVU0NaVFVUZnVvazArazRYZndxMEhtdFNHWk0r?=
+ =?utf-8?B?WTBBM2FCNzF5aE1wUHZTN3h1bDNscXErd2d0ZWNpOWpYS3M0WFVlcHZTaFBU?=
+ =?utf-8?B?SFNQU0JtcVZKVEs5cDY5aExRanRCa2h6azZNd0RJWGdEQWxhMUV6a0wrK0Iw?=
+ =?utf-8?B?a0pGeWdTcjlEc2lqcldubFpreEFZUHl2QkxQM3FaVW82SU1VSFlmMk1iRGpH?=
+ =?utf-8?B?aUFKekM2VkUzZ20wcXZ5Qyt1Y1JOTmpSYnZ2a3U1djd2RzhKblVoVEhqeDhp?=
+ =?utf-8?B?Mm9HZis4N3NHTjduQk9FV3orVlZBYUhnRGVnZUdqVkROajd0LzNNaURCWldK?=
+ =?utf-8?B?bGRRdWhySW9ZQ3Z2SUR6cWtBM2JtMWZFTFk2VnlWNDh2aWVuR1Bqcit5a2Ur?=
+ =?utf-8?B?QWhXU0lBaUthMDRrOHQ0VFhWT1FqTG1OTE9Lc091eFRWNmQ1YktFdExFTWVV?=
+ =?utf-8?B?OXBSeHpSeUwxUWFuak5pdlVEMzRwUTdUSmJRQmdjaXllbXhxNTB5cGhUY1NI?=
+ =?utf-8?Q?tt9hTEvE+2TtEb1FyHjhqtLndWNdODP6si9871X?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SJ2PR12MB8109.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(7416014)(376014)(921020); DIR:OUT; SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YjhWQUpoUm1qVEpNWHV0b2E4Z0xRRExVcUhQZ0VDZzZuM0RIMDJhRTRtMzA1?=
+ =?utf-8?B?Q3NQaEk0eWdBaURPdmhIR3R4Z0dQN25sTVZGSENNNXRadXc5amd3OWhTR0sv?=
+ =?utf-8?B?Yi9HcWdZbWw3bXgxTFYyYVVHVTY2S2hyZDVYZUVoNUJYdnV5WW5pT0szNzZV?=
+ =?utf-8?B?MkNFOGJha0VaUmNoV3loN041YnRkKy9rYkYzNEFzb1k3VG43cTBib2tPOGxX?=
+ =?utf-8?B?NnBPT1NhTHZRSWUwbzMwcjdGN3BlcVhrOTIyM0M3aHVUNkJ6S2MwVk9NR041?=
+ =?utf-8?B?c2J3SnAreHUzYXJXcnBPWEY5eGhFOStyRWw5L2tJeWNNdEhGWTFoSUdob3hX?=
+ =?utf-8?B?ZHZlcTBxY241U3NreEttemhLQjdDNDFzb0IrUlRBZitzb0tMVjRXYmQ4VUhl?=
+ =?utf-8?B?b3Q1TTVabm5EZWhSUTJORGswa1V6L0hST3YyaUtXTVpkblNCVHZYSlB2NUt2?=
+ =?utf-8?B?SzY4MGJRRGVJbW9mbjd5YmE3WWFac3E3ZnpSV0RVeEpiUVJmU2xWWmE3VDhI?=
+ =?utf-8?B?SHY0NURHN2VBcnJGQjA0cDVSMElFblJGenllWTdTMjgwenVuRE1GOWRaYi9x?=
+ =?utf-8?B?M21GaGRYK0E5TlQwK0hDcmQwbk5kdUFHdkJxOXY3ditjSmdBZXF6Z1E0Y0xN?=
+ =?utf-8?B?NEYyNHRCUGIrdDdYVmZKcEVHL3JFajNWN2k5Um53a0JQVndTTXBMYWdBSU0y?=
+ =?utf-8?B?QkJIalF0RVZLR3J1QVVoUzcxTStzT2hVeWszTzdFWVpuT0pLeWJmamllOGd2?=
+ =?utf-8?B?cWJNK3I3RkU4TkZ4b3hCeVV1b1orUFNCd3lOdVY3Q1Y2azNNcENJdHYxdEk1?=
+ =?utf-8?B?WFdLWlVlVFlMby9udmJJT3l4bThqakgwTkN2WVpFSjZBYVNKZHFGV1ZlQWx1?=
+ =?utf-8?B?Y2l0bXNLWDAvNSt0TTIyTVdLSWZsZklXc2F4MWlzZ0xOdnBlT1lLYzA2Vzhr?=
+ =?utf-8?B?TXFrQjBQTWkzQ2g4Tm9Ua3NKamwzSk9jWU44VnFRS0diNmtGZVFvaWNpU3U5?=
+ =?utf-8?B?bFYrdHJCQ0RXYjlheU9DQmNVUDAzVGNkcUtjMk9DREdrWW40TElnb25jcXdv?=
+ =?utf-8?B?MjZCZmpubXo5RmNZRVJCZ2JOWHZpR2tmdHNGQnkwNm1tS3NISlRkUzJDUlgr?=
+ =?utf-8?B?MTJ3UUlYUWh1TXA2T0NUaGlJbUtkWkN1Q3FJUVA5ZzFFd1UyVHpYNDJoQkRt?=
+ =?utf-8?B?Q1RIaU5saklaTFZVQ1QxcE8zMG1xVG9ubFVXL0lJSWFWOUtOUkxSdmFlOWo2?=
+ =?utf-8?B?VVpvQnZQZHdyRkg5ZERMV08rMkpraHlGYW5FenNQYlcrZVd6dnhMc0paUDRn?=
+ =?utf-8?B?VHB2YkFKbjJTT2Zva25KNTc3RndFNGVkbkpocW94YWZnWCtGWHg4Zm5ZNDRi?=
+ =?utf-8?B?aU56ZDdTenZ0WS9VN1JLRHYxdjR1a25lL0REME0zSW4yQ1RrVFprWWNWRFFP?=
+ =?utf-8?B?WE95aVQyOFJWQjRYSWZZQUFqY01nVkhkWDVpODU5UjhuSnBCNDVQcVRMNk9r?=
+ =?utf-8?B?T3ZsNGlCVThKa2ZPTkRMNXpLOUw2bzZGRDNxbzl0U2lWRWRtYUdhOFF0Ynor?=
+ =?utf-8?B?bGs4SXpDZ3Q2RDA2NEFSVENlQm01WjF0c20wL0dXSWJ4TkJuT2N0QlRlZm5M?=
+ =?utf-8?B?Q252TTBuYWIxa0tkdi9aUFhabWdDcmVHRlUxVHczSjh4SDdmZzBOOHQ2TUQ4?=
+ =?utf-8?B?VWlrL1BZMzY0MUt3UVk4WVhaM25SMFdLa1dKVXJPdWlidDJsN0REZkwxZ2VM?=
+ =?utf-8?B?Wk54VHBDa214UnpmTFBCOUk1bzNpMEV1UWQwZ09TZlUyY0RiVlMrdHRiR2hS?=
+ =?utf-8?B?MEsrVU95dXB2d3B6djBtZGl0bmxEVklxczFFb2laOUpFQ1ZmdnFMdG41d0JJ?=
+ =?utf-8?B?WlZoYTMwWDZ2NEFXSkFqUFovOEsyTGR5ck1IeXljUy8yalBkSzRVb1YyUlRS?=
+ =?utf-8?B?MklrZnA1TWxXRTh0aVluR0pKeFh3bEo4RHpzVXNaYnVFaWJ5MnhwOWJkSFov?=
+ =?utf-8?B?UEJ3cTRmNjBVeGI3WVczcGE2TEZKR1lWVHF0Y1ovSDBrSUN2c05PL1RSNnhI?=
+ =?utf-8?B?S21uL0RQa2N5NzlSMUxUb25KNE9obTYwYmN4aHpZSlZqNWE3NGlHVlIwRU0w?=
+ =?utf-8?Q?pNYR81fjppY/arhxoR1Z59C8c?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8a44b2c4-e996-4f49-aefe-08dce77276f9
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR12MB8109.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Oct 2024 08:23:19.0551 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: WUuDJOCPkV+Y9mVWTZbfMPXG25YCclOWLhYP3QyZ5NA9hT+utqNP2fREtr/LdTXY
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB7846
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,509 +219,42 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---yyzazgzbhs7ae6h2
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 08, 2024 at 10:00:57AM GMT, Neil Armstrong wrote:
-> Hi,
->=20
-> On 01/10/2024 09:37, neil.armstrong@linaro.org wrote:
-> > Hi,
-> >=20
-> > On 30/09/2024 21:19, Jessica Zhang wrote:
-> > >=20
-> > >=20
-> > > On 9/30/2024 7:17 AM, neil.armstrong@linaro.org wrote:
-> > > > On 25/09/2024 00:59, Jessica Zhang wrote:
->=20
-> <snip>
->=20
-> > > >=20
-> > > > When running igt-test on QRD8650, I get:
-> > > > # IGT_FRAME_DUMP_PATH=3D$PWD FRAME_PNG_FILE_NAME=3Dpwet /usr/libexe=
-c/igt- gpu-tools/kms_writeback -d
-> > >=20
-> > > Hi Neil,
-> > >=20
-> > > Thanks for reporting this. Unfortunately, I'm not able to recreate th=
-is on the MTP8650.
-> > >=20
-> > > How many/which non-WB outputs are you testing with?
-> >=20
-> > Here's the modetest output:
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D><=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > Encoders:
-> > id=A0=A0=A0 crtc=A0=A0=A0 type=A0=A0=A0 possible crtcs=A0=A0=A0 possibl=
-e clones
-> > 32=A0=A0=A0 103=A0=A0=A0 DSI=A0=A0=A0 0x00000007=A0=A0=A0 0x00000005
-> > 34=A0=A0=A0 0=A0=A0=A0 TMDS=A0=A0=A0 0x00000007=A0=A0=A0 0x00000006
-> > 37=A0=A0=A0 0=A0=A0=A0 Virtual=A0=A0=A0 0x00000007=A0=A0=A0 0x00000007
-> >=20
-> > Connectors:
-> > id=A0=A0=A0 encoder=A0=A0=A0 status=A0=A0=A0=A0=A0=A0=A0 name=A0=A0=A0=
-=A0=A0=A0=A0 size (mm)=A0=A0=A0 modes=A0=A0=A0 encoders
-> > 33=A0=A0=A0 32=A0=A0=A0 connected=A0=A0=A0 DSI-1=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0 71x157=A0=A0=A0=A0=A0=A0=A0 1=A0=A0=A0 32
-> >  =A0 modes:
-> >  =A0=A0=A0=A0index name refresh (Hz) hdisp hss hse htot vdisp vss vse v=
-tot
-> >  =A0 #0 1080x2400 144.00 1080 1100 1102 1122 2400 2420 2422 2440 394225=
- flags: ; type: preferred, driver
-> >  =A0 props:
-> >  =A0=A0=A0=A01 EDID:
-> >  =A0=A0=A0=A0=A0=A0=A0 flags: immutable blob
-> >  =A0=A0=A0=A0=A0=A0=A0 blobs:
-> >=20
-> >  =A0=A0=A0=A0=A0=A0=A0 value:
-> >  =A0=A0=A0=A02 DPMS:
-> >  =A0=A0=A0=A0=A0=A0=A0 flags: enum
-> >  =A0=A0=A0=A0=A0=A0=A0 enums: On=3D0 Standby=3D1 Suspend=3D2 Off=3D3
-> >  =A0=A0=A0=A0=A0=A0=A0 value: 0
-> >  =A0=A0=A0=A05 link-status:
-> >  =A0=A0=A0=A0=A0=A0=A0 flags: enum
-> >  =A0=A0=A0=A0=A0=A0=A0 enums: Good=3D0 Bad=3D1
-> >  =A0=A0=A0=A0=A0=A0=A0 value: 0
-> >  =A0=A0=A0=A06 non-desktop:
-> >  =A0=A0=A0=A0=A0=A0=A0 flags: immutable range
-> >  =A0=A0=A0=A0=A0=A0=A0 values: 0 1
-> >  =A0=A0=A0=A0=A0=A0=A0 value: 0
-> >  =A0=A0=A0=A04 TILE:
-> >  =A0=A0=A0=A0=A0=A0=A0 flags: immutable blob
-> >  =A0=A0=A0=A0=A0=A0=A0 blobs:
-> >=20
-> >  =A0=A0=A0=A0=A0=A0=A0 value:
-> > 35=A0=A0=A0 0=A0=A0=A0 disconnected=A0=A0=A0 DP-1=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0 0x0=A0=A0=A0=A0=A0=A0=A0 0=A0=A0=A0 34
-> >  =A0 props:
-> >  =A0=A0=A0=A01 EDID:
-> >  =A0=A0=A0=A0=A0=A0=A0 flags: immutable blob
-> >  =A0=A0=A0=A0=A0=A0=A0 blobs:
-> >=20
-> >  =A0=A0=A0=A0=A0=A0=A0 value:
-> >  =A0=A0=A0=A02 DPMS:
-> >  =A0=A0=A0=A0=A0=A0=A0 flags: enum
-> >  =A0=A0=A0=A0=A0=A0=A0 enums: On=3D0 Standby=3D1 Suspend=3D2 Off=3D3
-> >  =A0=A0=A0=A0=A0=A0=A0 value: 0
-> >  =A0=A0=A0=A05 link-status:
-> >  =A0=A0=A0=A0=A0=A0=A0 flags: enum
-> >  =A0=A0=A0=A0=A0=A0=A0 enums: Good=3D0 Bad=3D1
-> >  =A0=A0=A0=A0=A0=A0=A0 value: 0
-> >  =A0=A0=A0=A06 non-desktop:
-> >  =A0=A0=A0=A0=A0=A0=A0 flags: immutable range
-> >  =A0=A0=A0=A0=A0=A0=A0 values: 0 1
-> >  =A0=A0=A0=A0=A0=A0=A0 value: 0
-> >  =A0=A0=A0=A04 TILE:
-> >  =A0=A0=A0=A0=A0=A0=A0 flags: immutable blob
-> >  =A0=A0=A0=A0=A0=A0=A0 blobs:
-> >=20
-> >  =A0=A0=A0=A0=A0=A0=A0 value:
-> >  =A0=A0=A0=A036 subconnector:
-> >  =A0=A0=A0=A0=A0=A0=A0 flags: immutable enum
-> >  =A0=A0=A0=A0=A0=A0=A0 enums: Unknown=3D0 VGA=3D1 DVI-D=3D3 HDMI=3D11 D=
-P=3D10 Wireless=3D18 Native=3D15
-> >  =A0=A0=A0=A0=A0=A0=A0 value: 0
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D><=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >=20
-> > and dri state:
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D><=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > # cat /sys/kernel/debug/dri/0/state
-> > plane[43]: plane-0
-> >  =A0=A0=A0=A0crtc=3Dcrtc-0
-> >  =A0=A0=A0=A0fb=3D106
-> >  =A0=A0=A0=A0=A0=A0=A0 allocated by =3D [fbcon]
-> >  =A0=A0=A0=A0=A0=A0=A0 refcount=3D2
-> >  =A0=A0=A0=A0=A0=A0=A0 format=3DXR24 little-endian (0x34325258)
-> >  =A0=A0=A0=A0=A0=A0=A0 modifier=3D0x0
-> >  =A0=A0=A0=A0=A0=A0=A0 size=3D1080x2400
-> >  =A0=A0=A0=A0=A0=A0=A0 layers:
-> >  =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 size[0]=3D1080x2400
-> >  =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 pitch[0]=3D4352
-> >  =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 offset[0]=3D0
-> >  =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 obj[0]:
-> >  =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 name=3D0
-> >  =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 refcount=3D1
-> >  =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 start=3D0010102d
-> >  =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 size=3D10444800
-> >  =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 imported=3Dno
-> >  =A0=A0=A0=A0crtc-pos=3D1080x2400+0+0
-> >  =A0=A0=A0=A0src-pos=3D1080.000000x2400.000000+0.000000+0.000000
-> >  =A0=A0=A0=A0rotation=3D1
-> >  =A0=A0=A0=A0normalized-zpos=3D0
-> >  =A0=A0=A0=A0color-encoding=3DITU-R BT.601 YCbCr
-> >  =A0=A0=A0=A0color-range=3DYCbCr limited range
-> >  =A0=A0=A0=A0color_mgmt_changed=3D0
-> >  =A0=A0=A0=A0stage=3D1
-> >  =A0=A0=A0=A0sspp[0]=3Dsspp_0
-> >  =A0=A0=A0=A0multirect_mode[0]=3Dnone
-> >  =A0=A0=A0=A0multirect_index[0]=3Dsolo
-> >  =A0=A0=A0=A0src[0]=3D1080x2400+0+0
-> >  =A0=A0=A0=A0dst[0]=3D1080x2400+0+0
-> > plane[49]: plane-1
-> >  =A0=A0=A0=A0crtc=3D(null)
-> >  =A0=A0=A0=A0fb=3D0
-> >  =A0=A0=A0=A0crtc-pos=3D0x0+0+0
-> >  =A0=A0=A0=A0src-pos=3D0.000000x0.000000+0.000000+0.000000
-> >  =A0=A0=A0=A0rotation=3D1
-> >  =A0=A0=A0=A0normalized-zpos=3D0
-> >  =A0=A0=A0=A0color-encoding=3DITU-R BT.601 YCbCr
-> >  =A0=A0=A0=A0color-range=3DYCbCr limited range
-> >  =A0=A0=A0=A0color_mgmt_changed=3D0
-> >  =A0=A0=A0=A0stage=3D0
-> >  =A0=A0=A0=A0sspp[0]=3Dsspp_1
-> >  =A0=A0=A0=A0multirect_mode[0]=3Dnone
-> >  =A0=A0=A0=A0multirect_index[0]=3Dsolo
-> >  =A0=A0=A0=A0src[0]=3D0x0+0+0
-> >  =A0=A0=A0=A0dst[0]=3D0x0+0+0
-> > plane[55]: plane-2
-> >  =A0=A0=A0=A0crtc=3D(null)
-> >  =A0=A0=A0=A0fb=3D0
-> >  =A0=A0=A0=A0crtc-pos=3D0x0+0+0
-> >  =A0=A0=A0=A0src-pos=3D0.000000x0.000000+0.000000+0.000000
-> >  =A0=A0=A0=A0rotation=3D1
-> >  =A0=A0=A0=A0normalized-zpos=3D0
-> >  =A0=A0=A0=A0color-encoding=3DITU-R BT.601 YCbCr
-> >  =A0=A0=A0=A0color-range=3DYCbCr limited range
-> >  =A0=A0=A0=A0color_mgmt_changed=3D0
-> >  =A0=A0=A0=A0stage=3D0
-> >  =A0=A0=A0=A0sspp[0]=3Dsspp_2
-> >  =A0=A0=A0=A0multirect_mode[0]=3Dnone
-> >  =A0=A0=A0=A0multirect_index[0]=3Dsolo
-> >  =A0=A0=A0=A0src[0]=3D0x0+0+0
-> >  =A0=A0=A0=A0dst[0]=3D0x0+0+0
-> > plane[61]: plane-3
-> >  =A0=A0=A0=A0crtc=3D(null)
-> >  =A0=A0=A0=A0fb=3D0
-> >  =A0=A0=A0=A0crtc-pos=3D0x0+0+0
-> >  =A0=A0=A0=A0src-pos=3D0.000000x0.000000+0.000000+0.000000
-> >  =A0=A0=A0=A0rotation=3D1
-> >  =A0=A0=A0=A0normalized-zpos=3D0
-> >  =A0=A0=A0=A0color-encoding=3DITU-R BT.601 YCbCr
-> >  =A0=A0=A0=A0color-range=3DYCbCr limited range
-> >  =A0=A0=A0=A0color_mgmt_changed=3D0
-> >  =A0=A0=A0=A0stage=3D0
-> >  =A0=A0=A0=A0sspp[0]=3Dsspp_3
-> >  =A0=A0=A0=A0multirect_mode[0]=3Dnone
-> >  =A0=A0=A0=A0multirect_index[0]=3Dsolo
-> >  =A0=A0=A0=A0src[0]=3D0x0+0+0
-> >  =A0=A0=A0=A0dst[0]=3D0x0+0+0
-> > plane[67]: plane-4
-> >  =A0=A0=A0=A0crtc=3D(null)
-> >  =A0=A0=A0=A0fb=3D0
-> >  =A0=A0=A0=A0crtc-pos=3D0x0+0+0
-> >  =A0=A0=A0=A0src-pos=3D0.000000x0.000000+0.000000+0.000000
-> >  =A0=A0=A0=A0rotation=3D1
-> >  =A0=A0=A0=A0normalized-zpos=3D0
-> >  =A0=A0=A0=A0color-encoding=3DITU-R BT.601 YCbCr
-> >  =A0=A0=A0=A0color-range=3DYCbCr limited range
-> >  =A0=A0=A0=A0color_mgmt_changed=3D0
-> >  =A0=A0=A0=A0stage=3D0
-> >  =A0=A0=A0=A0sspp[0]=3Dsspp_8
-> >  =A0=A0=A0=A0multirect_mode[0]=3Dnone
-> >  =A0=A0=A0=A0multirect_index[0]=3Dsolo
-> >  =A0=A0=A0=A0src[0]=3D0x0+0+0
-> >  =A0=A0=A0=A0dst[0]=3D0x0+0+0
-> > plane[73]: plane-5
-> >  =A0=A0=A0=A0crtc=3D(null)
-> >  =A0=A0=A0=A0fb=3D0
-> >  =A0=A0=A0=A0crtc-pos=3D0x0+0+0
-> >  =A0=A0=A0=A0src-pos=3D0.000000x0.000000+0.000000+0.000000
-> >  =A0=A0=A0=A0rotation=3D1
-> >  =A0=A0=A0=A0normalized-zpos=3D0
-> >  =A0=A0=A0=A0color-encoding=3DITU-R BT.601 YCbCr
-> >  =A0=A0=A0=A0color-range=3DYCbCr limited range
-> >  =A0=A0=A0=A0color_mgmt_changed=3D0
-> >  =A0=A0=A0=A0stage=3D0
-> >  =A0=A0=A0=A0sspp[0]=3Dsspp_9
-> >  =A0=A0=A0=A0multirect_mode[0]=3Dnone
-> >  =A0=A0=A0=A0multirect_index[0]=3Dsolo
-> >  =A0=A0=A0=A0src[0]=3D0x0+0+0
-> >  =A0=A0=A0=A0dst[0]=3D0x0+0+0
-> > plane[79]: plane-6
-> >  =A0=A0=A0=A0crtc=3D(null)
-> >  =A0=A0=A0=A0fb=3D0
-> >  =A0=A0=A0=A0crtc-pos=3D0x0+0+0
-> >  =A0=A0=A0=A0src-pos=3D0.000000x0.000000+0.000000+0.000000
-> >  =A0=A0=A0=A0rotation=3D1
-> >  =A0=A0=A0=A0normalized-zpos=3D0
-> >  =A0=A0=A0=A0color-encoding=3DITU-R BT.601 YCbCr
-> >  =A0=A0=A0=A0color-range=3DYCbCr limited range
-> >  =A0=A0=A0=A0color_mgmt_changed=3D0
-> >  =A0=A0=A0=A0stage=3D0
-> >  =A0=A0=A0=A0sspp[0]=3Dsspp_10
-> >  =A0=A0=A0=A0multirect_mode[0]=3Dnone
-> >  =A0=A0=A0=A0multirect_index[0]=3Dsolo
-> >  =A0=A0=A0=A0src[0]=3D0x0+0+0
-> >  =A0=A0=A0=A0dst[0]=3D0x0+0+0
-> > plane[85]: plane-7
-> >  =A0=A0=A0=A0crtc=3D(null)
-> >  =A0=A0=A0=A0fb=3D0
-> >  =A0=A0=A0=A0crtc-pos=3D0x0+0+0
-> >  =A0=A0=A0=A0src-pos=3D0.000000x0.000000+0.000000+0.000000
-> >  =A0=A0=A0=A0rotation=3D1
-> >  =A0=A0=A0=A0normalized-zpos=3D0
-> >  =A0=A0=A0=A0color-encoding=3DITU-R BT.601 YCbCr
-> >  =A0=A0=A0=A0color-range=3DYCbCr limited range
-> >  =A0=A0=A0=A0color_mgmt_changed=3D0
-> >  =A0=A0=A0=A0stage=3D0
-> >  =A0=A0=A0=A0sspp[0]=3Dsspp_11
-> >  =A0=A0=A0=A0multirect_mode[0]=3Dnone
-> >  =A0=A0=A0=A0multirect_index[0]=3Dsolo
-> >  =A0=A0=A0=A0src[0]=3D0x0+0+0
-> >  =A0=A0=A0=A0dst[0]=3D0x0+0+0
-> > plane[91]: plane-8
-> >  =A0=A0=A0=A0crtc=3D(null)
-> >  =A0=A0=A0=A0fb=3D0
-> >  =A0=A0=A0=A0crtc-pos=3D0x0+0+0
-> >  =A0=A0=A0=A0src-pos=3D0.000000x0.000000+0.000000+0.000000
-> >  =A0=A0=A0=A0rotation=3D1
-> >  =A0=A0=A0=A0normalized-zpos=3D0
-> >  =A0=A0=A0=A0color-encoding=3DITU-R BT.601 YCbCr
-> >  =A0=A0=A0=A0color-range=3DYCbCr limited range
-> >  =A0=A0=A0=A0color_mgmt_changed=3D0
-> >  =A0=A0=A0=A0stage=3D0
-> >  =A0=A0=A0=A0sspp[0]=3Dsspp_12
-> >  =A0=A0=A0=A0multirect_mode[0]=3Dnone
-> >  =A0=A0=A0=A0multirect_index[0]=3Dsolo
-> >  =A0=A0=A0=A0src[0]=3D0x0+0+0
-> >  =A0=A0=A0=A0dst[0]=3D0x0+0+0
-> > plane[97]: plane-9
-> >  =A0=A0=A0=A0crtc=3D(null)
-> >  =A0=A0=A0=A0fb=3D0
-> >  =A0=A0=A0=A0crtc-pos=3D0x0+0+0
-> >  =A0=A0=A0=A0src-pos=3D0.000000x0.000000+0.000000+0.000000
-> >  =A0=A0=A0=A0rotation=3D1
-> >  =A0=A0=A0=A0normalized-zpos=3D0
-> >  =A0=A0=A0=A0color-encoding=3DITU-R BT.601 YCbCr
-> >  =A0=A0=A0=A0color-range=3DYCbCr limited range
-> >  =A0=A0=A0=A0color_mgmt_changed=3D0
-> >  =A0=A0=A0=A0stage=3D0
-> >  =A0=A0=A0=A0sspp[0]=3Dsspp_13
-> >  =A0=A0=A0=A0multirect_mode[0]=3Dnone
-> >  =A0=A0=A0=A0multirect_index[0]=3Dsolo
-> >  =A0=A0=A0=A0src[0]=3D0x0+0+0
-> >  =A0=A0=A0=A0dst[0]=3D0x0+0+0
-> > crtc[103]: crtc-0
-> >  =A0=A0=A0=A0enable=3D1
-> >  =A0=A0=A0=A0active=3D1
-> >  =A0=A0=A0=A0self_refresh_active=3D0
-> >  =A0=A0=A0=A0planes_changed=3D1
-> >  =A0=A0=A0=A0mode_changed=3D0
-> >  =A0=A0=A0=A0active_changed=3D0
-> >  =A0=A0=A0=A0connectors_changed=3D0
-> >  =A0=A0=A0=A0color_mgmt_changed=3D0
-> >  =A0=A0=A0=A0plane_mask=3D1
-> >  =A0=A0=A0=A0connector_mask=3D1
-> >  =A0=A0=A0=A0encoder_mask=3D1
-> >  =A0=A0=A0=A0mode: "1080x2400": 144 394225 1080 1100 1102 1122 2400 242=
-0 2422 2440 0x48 0x0
-> >  =A0=A0=A0=A0lm[0]=3D0
-> >  =A0=A0=A0=A0ctl[0]=3D2
-> > crtc[104]: crtc-1
-> >  =A0=A0=A0=A0enable=3D0
-> >  =A0=A0=A0=A0active=3D0
-> >  =A0=A0=A0=A0self_refresh_active=3D0
-> >  =A0=A0=A0=A0planes_changed=3D0
-> >  =A0=A0=A0=A0mode_changed=3D0
-> >  =A0=A0=A0=A0active_changed=3D0
-> >  =A0=A0=A0=A0connectors_changed=3D0
-> >  =A0=A0=A0=A0color_mgmt_changed=3D0
-> >  =A0=A0=A0=A0plane_mask=3D0
-> >  =A0=A0=A0=A0connector_mask=3D0
-> >  =A0=A0=A0=A0encoder_mask=3D0
-> >  =A0=A0=A0=A0mode: "": 0 0 0 0 0 0 0 0 0 0 0x0 0x0
-> > crtc[105]: crtc-2
-> >  =A0=A0=A0=A0enable=3D0
-> >  =A0=A0=A0=A0active=3D0
-> >  =A0=A0=A0=A0self_refresh_active=3D0
-> >  =A0=A0=A0=A0planes_changed=3D0
-> >  =A0=A0=A0=A0mode_changed=3D0
-> >  =A0=A0=A0=A0active_changed=3D0
-> >  =A0=A0=A0=A0connectors_changed=3D0
-> >  =A0=A0=A0=A0color_mgmt_changed=3D0
-> >  =A0=A0=A0=A0plane_mask=3D0
-> >  =A0=A0=A0=A0connector_mask=3D0
-> >  =A0=A0=A0=A0encoder_mask=3D0
-> >  =A0=A0=A0=A0mode: "": 0 0 0 0 0 0 0 0 0 0 0x0 0x0
-> > connector[33]: DSI-1
-> >  =A0=A0=A0=A0crtc=3Dcrtc-0
-> >  =A0=A0=A0=A0self_refresh_aware=3D0
-> >  =A0=A0=A0=A0max_requested_bpc=3D0
-> >  =A0=A0=A0=A0colorspace=3DDefault
-> > connector[35]: DP-1
-> >  =A0=A0=A0=A0crtc=3D(null)
-> >  =A0=A0=A0=A0self_refresh_aware=3D0
-> >  =A0=A0=A0=A0max_requested_bpc=3D0
-> >  =A0=A0=A0=A0colorspace=3DDefault
-> > connector[42]: Writeback-1
-> >  =A0=A0=A0=A0crtc=3D(null)
-> >  =A0=A0=A0=A0self_refresh_aware=3D0
-> >  =A0=A0=A0=A0max_requested_bpc=3D0
-> >  =A0=A0=A0=A0colorspace=3DDefault
-> > resource mapping:
-> >  =A0=A0=A0=A0pingpong=3D103 # # # # # # # # # -
-> >  =A0=A0=A0=A0mixer=3D103 # # # # # -
-> >  =A0=A0=A0=A0ctl=3D# # 103 # # #
-> >  =A0=A0=A0=A0dspp=3D# # # #
-> >  =A0=A0=A0=A0dsc=3D# # # # # #
-> >  =A0=A0=A0=A0cdm=3D-
-> >  =A0=A0=A0=A0cwb=3D# # # #
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D><=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >=20
-> > I pasted all the kms_writeback log, I have nothing more.
-> >=20
-> > If I specify `--run-subtest dump-valid-clones` I get:
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D><=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > IGT_FRAME_DUMP_PATH=3D$PWD FRAME_PNG_FILE_NAME=3Dout.png /usr/libexec/i=
-gt-gpu-tools/kms_writeback -d --run-subtest dump-valid-clones
-> > [=A0=A0 33.250236] Console: switching to colour dummy device 80x25
-> > IGT-Version: 1.29-1.28 (aarch64) (Linux: 6.12.0-rc1-00022-ge581f752bf79=
- aarch64)
-> > Using IGT_SRANDOM=3D1709054789 for randomisation[=A0=A0 33.256171] [IGT=
-] kms_writeback: executing
-> >=20
-> > Opened device: /dev/dri/card0
-> > [=A0=A0 33.360023] [IGT] kms_writeback: starting subtest dump-valid-clo=
-nes
-> > Starting subtest: dump-valid-clones
-> > [=A0=A0 34.063316] [drm:dpu_encoder_virt_atomic_disable:1314] [dpu erro=
-r]enc32 timeout pending
-> > [=A0=A0 34.244272] Unable to handle kernel NULL pointer dereference at =
-virtual address 0000000000000010
-> > [=A0=A0 34.253385] Mem abort info:
-> > [=A0=A0 34.256328]=A0=A0 ESR =3D 0x0000000096000006
-> > [=A0=A0 34.260272]=A0=A0 EC =3D 0x25: DABT (current EL), IL =3D 32 bits
-> > [=A0=A0 34.265816]=A0=A0 SET =3D 0, FnV =3D 0
-> > [=A0=A0 34.269043]=A0=A0 EA =3D 0, S1PTW =3D 0
-> > [=A0=A0 34.272332]=A0=A0 FSC =3D 0x06: level 2 translation fault
-> > [=A0=A0 34.277430] Data abort info:
-> > [=A0=A0 34.280460]=A0=A0 ISV =3D 0, ISS =3D 0x00000006, ISS2 =3D 0x0000=
-0000
-> > [=A0=A0 34.286170]=A0=A0 CM =3D 0, WnR =3D 0, TnD =3D 0, TagAccess =3D 0
-> > [=A0=A0 34.291438]=A0=A0 GCS =3D 0, Overlay =3D 0, DirtyBit =3D 0, Xs =
-=3D 0
-> > [=A0=A0 34.296975] user pgtable: 4k pages, 48-bit VAs, pgdp=3D000000088=
-24fc000
-> > [=A0=A0 34.303673] [0000000000000010] pgd=3D08000008dc4e0003, p4d=3D080=
-00008dc4e0003, pud=3D08000008dd4af003, pmd=3D0000000000000000
-> > [=A0=A0 34.314647] Internal error: Oops: 0000000096000006 [#1] PREEMPT =
-SMP
-> > [=A0=A0 34.321144] Modules linked in: snd_soc_wsa884x q6prm_clocks q6ap=
-m_dai
-> > q6apm_lpass_dais snd_q6dsp_common q6prm 8021q garp mrp stp llc usb_f_fs
-> > libcomposite qrtr_mhi snd_q6apm rpmsg_ctrl fastrpc apr qrtr_smd
-> > rpmsg_char snd_soc_hdmi_codec ath12k mac80211 libarc4 mhi
-> > panel_visionox_vtdr6130 qcom_pd_mapper goodix_berlin_spi ucsi_glink
-> > pmic_glink_altmode pci_pwrctl_pwrseq pci_pwrctl_core typec_ucsi
-> > aux_hpd_bridge qcom_battmgr nb7vpq904m wcd939x_usbss goodix_berlin_core
-> > crct10dif_ce phy_qcom_eusb2_repeater msm sm3_ce sm3 qcom_q6v5_pas
-> > sha3_ce hci_uart sha512_ce sha512_arm64 leds_qcom_lpg ocmem
-> > qcom_pil_info qcom_q6v5 qcom_pbs btqca ipa btbcm drm_exec qcom_sysmon
-> > pwrseq_qcom_wcn snd_soc_sc8280xp led_class_multicolor snd_soc_qcom_sdw
-> > qrtr qcom_common gpu_sched snd_soc_wcd939x drm_dp_aux_bus
-> > qcom_spmi_temp_alarm snd_soc_qcom_common qcom_glink_smem
-> > snd_soc_wcd939x_sdw rtc_pm8xxx drm_display_helper
-> > pinctrl_sm8650_lpass_lpi regmap_sdw cfg80211 bluetooth qcom_pon
-> > pmic_glink ecdh_generic pdr_interface phy_qcom_qmp_combo ecc rfkill
-> > [=A0=A0 34.321268]=A0 nvmem_qcom_spmi_sdam qcom_stats spi_geni_qcom pwr=
-seq_core i2c_qcom_geni aux_bridge phy_qcom_snps_eusb2 dispcc_sm8550 drm_kms=
-_helper gpi soundwire_qcom snd_soc_lpass_va_macro pinctrl_lpass_lpi snd_soc=
-_wcd_mbhc snd_soc_lpass_tx_macro snd_soc_lpass_rx_macro snd_soc_lpass_wsa_m=
-acro llcc_qcom snd_soc_lpass_macro_common slimbus snd_soc_wcd_classh mdt_lo=
-ader qcom_pdr_msg qcrypto gpucc_sm8650 icc_bwmon qmi_helpers authenc phy_qc=
-om_qmp_ufs libdes soundwire_bus ufs_qcom nvmem_reboot_mode phy_qcom_qmp_pci=
-e typec qcom_rng rmtfs_mem socinfo fuse drm backlight ipv6
-> > [=A0=A0 34.464862] CPU: 5 UID: 0 PID: 513 Comm: kms_writeback Tainted: =
-G S=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 6.12.0-rc1-00022-ge581f=
-752bf79 #2
-> > [=A0=A0 34.475812] Tainted: [S]=3DCPU_OUT_OF_SPEC
-> > [=A0=A0 34.479905] Hardware name: Qualcomm Technologies, Inc. SM8650 QR=
-D (DT)
-> > [=A0=A0 34.486667] pstate: 81400005 (Nzcv daif +PAN -UAO -TCO +DIT -SSB=
-S BTYPE=3D--)
-> > [=A0=A0 34.493880] pc : dpu_encoder_helper_phys_setup_cwb+0xb8/0x1ec [m=
-sm]
-> > [=A0=A0 34.500441] lr : dpu_encoder_helper_phys_setup_cwb+0x88/0x1ec [m=
-sm]
-> > [=A0=A0 34.506969] sp : ffff800085fc37e0
-> > [=A0=A0 34.510437] x29: ffff800085fc3810 x28: ffffb8c93c953068 x27: fff=
-f5af315c90880
-> > [=A0=A0 34.517826] x26: ffff5af359c55780 x25: ffff800085fc3878 x24: fff=
-f5af35a956e80
-> > [=A0=A0 34.525217] x23: 0000000000000000 x22: ffff5af355dc2080 x21: fff=
-f5af35a956e80
-> > [=A0=A0 34.532607] x20: ffff5af315c90880 x19: ffff5af315c90c80 x18: 000=
-0000000000001
-> > [=A0=A0 34.539997] x17: 0000000000000018 x16: ffffb8c95c9c8c64 x15: 000=
-0000000000038
-> > [=A0=A0 34.547385] x14: 0000001971602a24 x13: 00000000000000e1 x12: 000=
-000000000000b
-> > [=A0=A0 34.554774] x11: 0000000000000000 x10: e7125de8a27ae014 x9 : 5ae=
-f79bd13b1e2a7
-> > [=A0=A0 34.562162] x8 : ffff5af355dc2718 x7 : 0000000000000004 x6 : fff=
-f5af356374d98
-> > [=A0=A0 34.569550] x5 : 0000000000000002 x4 : ffff800085fc37f8 x3 : fff=
-f5af315c90950
-> > [=A0=A0 34.576938] x2 : 0000000000000002 x1 : 0000000000000000 x0 : 000=
-0000000000001
-> > [=A0=A0 34.584328] Call trace:
-> > [=A0=A0 34.586905]=A0 dpu_encoder_helper_phys_setup_cwb+0xb8/0x1ec [msm]
-> > [=A0=A0 34.593075]=A0 dpu_encoder_helper_phys_cleanup+0x328/0x3c4 [msm]
-> > [=A0=A0 34.599165]=A0 dpu_encoder_phys_wb_disable+0x80/0xac [msm]
-> > [=A0=A0 34.604713]=A0 dpu_encoder_virt_atomic_disable+0xb4/0x160 [msm]
-> > [=A0=A0 34.610711]=A0 disable_outputs+0x108/0x32c [drm_kms_helper]
-> > [=A0=A0 34.616351]=A0 drm_atomic_helper_commit_modeset_disables+0x1c/0x=
-4c [drm_kms_helper]
-> > [=A0=A0 34.624110]=A0 msm_atomic_commit_tail+0x188/0x514 [msm]
-> > [=A0=A0 34.629396]=A0 commit_tail+0xa4/0x18c [drm_kms_helper]
-> > [=A0=A0 34.634570]=A0 drm_atomic_helper_commit+0x17c/0x194 [drm_kms_hel=
-per]
-> > [=A0=A0 34.640990]=A0 drm_atomic_commit+0xb8/0xf4 [drm]
-> > [=A0=A0 34.645690]=A0 drm_mode_atomic_ioctl+0xad4/0xd88 [drm]
-> > [=A0=A0 34.650889]=A0 drm_ioctl_kernel+0xc0/0x128 [drm]
-> > [=A0=A0 34.655564]=A0 drm_ioctl+0x218/0x49c [drm]
-> > [=A0=A0 34.659697]=A0 __arm64_sys_ioctl+0xac/0xf0
-> > [=A0=A0 34.663804]=A0 invoke_syscall+0x48/0x10c
-> > [=A0=A0 34.667755]=A0 el0_svc_common.constprop.0+0xc0/0xe0
-> > [=A0=A0 34.672648]=A0 do_el0_svc+0x1c/0x28
-> > [=A0=A0 34.676117]=A0 el0_svc+0x34/0xd8
-> > [=A0=A0 34.679330]=A0 el0t_64_sync_handler+0x120/0x12c
-> > [=A0=A0 34.683864]=A0 el0t_64_sync+0x190/0x194
-> > [=A0=A0 34.687699] Code: 910063e1 f8607822 f8607861 b9401042 (b9401021)
-> > [=A0=A0 34.694014] ---[ end trace 0000000000000000 ]---
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D><=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->=20
-> Anything I can try to get past the crash ?
+On 9/10/24 13:19, Tomi Valkeinen wrote:
+> Add the two DMA channels used for the DisplayPort audio to the
+> zynqmp_dpsub node.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> ---
+>   arch/arm64/boot/dts/xilinx/zynqmp.dtsi | 7 +++++--
+>   1 file changed, 5 insertions(+), 2 deletions(-)
+> 
+> diff --git a/arch/arm64/boot/dts/xilinx/zynqmp.dtsi b/arch/arm64/boot/dts/xilinx/zynqmp.dtsi
+> index b1b31dcf6291..673ca8422e6b 100644
+> --- a/arch/arm64/boot/dts/xilinx/zynqmp.dtsi
+> +++ b/arch/arm64/boot/dts/xilinx/zynqmp.dtsi
+> @@ -1207,11 +1207,14 @@ zynqmp_dpsub: display@fd4a0000 {
+>   				      "dp_vtc_pixel_clk_in";
+>   			power-domains = <&zynqmp_firmware PD_DP>;
+>   			resets = <&zynqmp_reset ZYNQMP_RESET_DP>;
+> -			dma-names = "vid0", "vid1", "vid2", "gfx0";
+> +			dma-names = "vid0", "vid1", "vid2", "gfx0",
+> +				    "aud0", "aud1";
+>   			dmas = <&zynqmp_dpdma ZYNQMP_DPDMA_VIDEO0>,
+>   			       <&zynqmp_dpdma ZYNQMP_DPDMA_VIDEO1>,
+>   			       <&zynqmp_dpdma ZYNQMP_DPDMA_VIDEO2>,
+> -			       <&zynqmp_dpdma ZYNQMP_DPDMA_GRAPHICS>;
+> +			       <&zynqmp_dpdma ZYNQMP_DPDMA_GRAPHICS>,
+> +			       <&zynqmp_dpdma ZYNQMP_DPDMA_AUDIO0>,
+> +			       <&zynqmp_dpdma ZYNQMP_DPDMA_AUDIO1>;
+>   
+>   			ports {
+>   				#address-cells = <1>;
+> 
 
-The call to dpu_kms_get_existing_global_state in
-dpu_encoder_helper_phys_setup_cwb looks suspicious to me, can you check
-whether the returned global state is NULL?
+Acked-by: Michal Simek <michal.simek@amd.com>
 
-Maxime
+If you want me to take this patch via my tree please let me know.
 
---yyzazgzbhs7ae6h2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZwTq6QAKCRAnX84Zoj2+
-dlixAYDxDfW7La4zSTBTDOT6FWKqC5AujJFMJtQ+PdJf+OArWTo94IXV/ox04Rjl
-XI6x+xMBf1ToVB7mEXGkeik31TeryLrQlCbmjN8jwM/ua1vrM6LcEAo5Pj7eaZKU
-5dcsMa1lcg==
-=tSgD
------END PGP SIGNATURE-----
-
---yyzazgzbhs7ae6h2--
+Thanks,
+Michal
