@@ -2,76 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 832C9994422
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 11:23:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1F449944CE
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Oct 2024 11:53:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEE8D10E4C1;
-	Tue,  8 Oct 2024 09:23:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CED6810E101;
+	Tue,  8 Oct 2024 09:53:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="TOrGLOgZ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="V/7E+AEW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
- [217.70.183.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3929D10E4B5
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2024 09:23:27 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id ECAED40009;
- Tue,  8 Oct 2024 09:23:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1728379405;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=A4aRvABwDkeC3buxJWP1DSdNmC41HRG0mMSMai6hCo0=;
- b=TOrGLOgZNKppyNFh82S3g+skZpzMX92a7kFUxZ6z10guzlPby2MAHCiu+evrNfVmBq+GU8
- iE7spZxbx0A9zFkQWn3oS6k6ueuH5MqjfL01p9TpxDTLocbOpuvrJ5k4T++mfE1jH+5Nvt
- gx3MEbffhJkU/+5dgA92GhmvjTcohrr/o5nGH0bgSXHiXySvvQrxggE/KEPrzhEP1glI3P
- 3njdntGZKLQe6Xol9vYrlbzWjsgohFH/rb83xlT6yUNOdcntC9R7nayzcih86xeneBaFkN
- Xzy0qWhRCS4+aLtJ0fDT80oICzobKYJ9xPl2EddvqRfamCjkIUyRX9g5XeJQ1Q==
-Date: Tue, 8 Oct 2024 11:23:22 +0200
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>, Maaara Canal <mairacanal@riseup.net>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Simona Vetter <simona@ffwll.ch>, rdunlap@infradead.org,
- arthurgrillo@riseup.net, pekka.paalanen@haloniitty.fi,
- Simona Vetter <simona.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, thomas.petazzoni@bootlin.com,
- jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
- seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
- Pekka Paalanen <pekka.paalanen@collabora.com>
-Subject: Re: [PATCH v12 13/15] drm/vkms: Create KUnit tests for YUV conversions
-Message-ID: <ZwT6CnyYRKS9QxIS@louis-chauvet-laptop>
-Mail-Followup-To: Maxime Ripard <mripard@kernel.org>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- Maaara Canal <mairacanal@riseup.net>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Simona Vetter <simona@ffwll.ch>, rdunlap@infradead.org,
- arthurgrillo@riseup.net, pekka.paalanen@haloniitty.fi,
- Simona Vetter <simona.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, thomas.petazzoni@bootlin.com,
- jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
- seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
- Pekka Paalanen <pekka.paalanen@collabora.com>
-References: <20241007-yuv-v12-0-01c1ada6fec8@bootlin.com>
- <20241007-yuv-v12-13-01c1ada6fec8@bootlin.com>
- <20241008-ingenious-calm-silkworm-3e99ba@houat>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30DD510E101
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2024 09:53:32 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 5F7125C5610;
+ Tue,  8 Oct 2024 09:53:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 321D1C4CEC7;
+ Tue,  8 Oct 2024 09:53:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1728381211;
+ bh=JJtL5Mw/7nDn6HqIaVX4x8W8fHB6YR/0KOlubvwYLmE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=V/7E+AEWCJDNVBWLnebhqgwBrjq1bcPzaXH3829mwO5AMrSQokMqeqBL1gV+LUf9L
+ /dye9HZMHD6nDtBlTqVqjJgPCgkNeIj6XDqHgKcmr5bcrvxVqQY53TaEtuXW1D5MZ1
+ mAosOLevrBOfx4b1wzQN9LixtxYh8HuS+wsH/uoo2o4EeoJQr0WW1LWRYotFQ9x1kV
+ YB/CRupoR6VzCosi8Q+ZlP10vROm1OILsMDGdWNQvlVrCBXIy/r/JlyGezYM8w7swW
+ 20Qpd6wAS3OqxVZlVJ5C+HWg6oM707QuGgLrTd9sjDyXwKvNbBOGo3JViCdlNoUQ9c
+ fKe9rGe6UIAcA==
+Date: Tue, 8 Oct 2024 11:53:25 +0200
+From: Benjamin Tissoires <bentiss@kernel.org>
+To: Werner Sembach <wse@tuxedocomputers.com>
+Cc: Armin Wolf <W_Armin@gmx.de>, Pavel Machek <pavel@ucw.cz>, 
+ Hans de Goede <hdegoede@redhat.com>,
+ Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
+ dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
+ lee@kernel.org, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-leds@vger.kernel.org, 
+ miguel.ojeda.sandonis@gmail.com, ojeda@kernel.org, onitake@gmail.com, 
+ platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH 1/1] platform/x86/tuxedo: Add virtual LampArray for
+ TUXEDO NB04 devices
+Message-ID: <sih5i2ausorlpiosifvj2vvlut4ok6bbgt6cympuxhdbjljjiw@gg2r5al552az>
+References: <45qkbpaxhrv2r32hghjqoexkenktymzyjgpx2xnnxt6dmfawjt@44lrhgcnozh3>
+ <586a1c41-bbe0-4912-b7c7-1716d886c198@tuxedocomputers.com>
+ <5th4pisccud5s7dbia42glsnu7e5u3q7jszty6o3mjdedsd2bg@7nsvp6t2krnf>
+ <b6f2244d-7567-49ac-b2db-23b632a4e181@tuxedocomputers.com>
+ <cflor5mz4flekn44ttlbanfigmwn5mmp3p54gkeeznzmzkyjqz@p2c6q7gulrdl>
+ <84b629c6-5b26-4285-9b2f-66dd1afa99e5@tuxedocomputers.com>
+ <zph6fnuaamhayivmzftowjw6klgcy2gb7vdub2v2yo7n665vpo@rkxtorfvmzph>
+ <7ce4470c-a502-416a-8472-a5b606bb8fd4@tuxedocomputers.com>
+ <d7gk2mgihtg6242l3isnhw3xpdt745ehpu2kvim2xxgmxdhat7@g5cqei7uqujj>
+ <39f84cfe-bb89-4194-81a9-e178c93e5309@tuxedocomputers.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20241008-ingenious-calm-silkworm-3e99ba@houat>
-X-GND-Sasl: louis.chauvet@bootlin.com
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <39f84cfe-bb89-4194-81a9-e178c93e5309@tuxedocomputers.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,60 +74,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-Hi, 
-
-> > + * The YUV color representation were acquired via the colour python framework.
-> > + * Below are the function calls used for generating each case.
-> > + *
-> > + * For more information got to the docs:
-> > + * https://colour.readthedocs.io/en/master/generated/colour.RGB_to_YCbCr.html
-> > + */
-> > +static struct yuv_u8_to_argb_u16_case yuv_u8_to_argb_u16_cases[] = {
-> > +	/*
-> > +	 * colour.RGB_to_YCbCr(<rgb color in 16 bit form>,
-> > +	 *                     K=colour.WEIGHTS_YCBCR["ITU-R BT.601"],
-> > +	 *                     in_bits = 16,
-> > +	 *                     in_legal = False,
-> > +	 *                     in_int = True,
-> > +	 *                     out_bits = 8,
-> > +	 *                     out_legal = False,
-> > +	 *                     out_int = True)
-> > +	 */
+On Oct 07 2024, Werner Sembach wrote:
+> Hi,
 > 
-> We should really detail what the intent and expected outcome is supposed
-> to be here. Relying on a third-party python library call for
-> documentation isn't great.
+> Am 02.10.24 um 10:31 schrieb Benjamin Tissoires:
+> > On Oct 01 2024, Werner Sembach wrote:
+> > > Hi Benjamin,
+> > > 
+> > > Am 01.10.24 um 15:41 schrieb Benjamin Tissoires:
+> > > > [...]
+> > > > PPS: sorry for pushing that hard on HID-BPF, but I can see that it fits
+> > > > all of the requirements here:
+> > > > - need to be dynamic
+> > > > - still unsure of the userspace implementation, meaning that userspace
+> > > >     might do something wrong, which might require kernel changes
+> > > Well the reference implementetion for the arduiono macropad from microsoft
+> > > ignores the intensity (brightness) channel on rgb leds contrary to the HID
+> > > spec, soo yeah you have a point here ...
+> > Heh :)
+> > 
+> > > > - possibility to extend later the kernel API
+> > > > - lots of fun :)
+> > > You advertise it good ;). More work for me now but maybe less work for me
+> > > later, I will look into it.
+> > Again, I'm pushing this because I see the benefits and because I can
+> > probably reuse the same code on my Corsair and Logitech keyboards. But
+> > also, keep in mind that it's not mandatory because you can actually
+> > attach the BPF code on top of your existing driver to change the way it
+> > behaves. It'll be slightly more complex if you don't let a couple of
+> > vendor passthrough reports that we can use to directly talk to the
+> > device without any tampering, but that's doable. But if you want to keep
+> > the current implementation and have a different layout, this can easily
+> > be done in BPF on top.
+> > 
+> > Cheers,
+> > Benjamin
+> > 
+> > 
+> > [0] https://lore.kernel.org/linux-input/20241001-hid-bpf-hid-generic-v3-0-2ef1019468df@kernel.org/T/#t
 > 
-> Maxime
+> Thinking about the minimal WMI to HID today, but found a problem: a HID
+> feature report is either strictly input or output afaik, but the WMI
+> interface has both in some functions.
 
-This was requested by Pekka in the [v2] of this series.
+Not sure you are talking about feature reports, because they are
+read/write. It's just that they are synchronous over the USB control
+endpoint (on USB).
 
-I can add something like this before each tests, but I think having the 
-exact python code used may help people to understand what should be the 
-behavior, and refering to the python code to understand the conversion.
+An input report is strictly directed from the device, and an output
+report is from the host to the device.
 
-I can add something like this before each tests to clarify the tested 
-case:
+But a feature report is bidirectional.
 
-	Test cases for conversion between YUV BT601 limited range and 
-	RGB using the ITU-R BT.601 weights.
+> 
+> How would I map that?
 
-Or maybe just documenting the structure yuv_u8_to_argb_u16_case:
+Depending on the WMI interface, if you want this to be synchronous,
+defining a Feature report is correct, otherwise (if you don't need
+feedback from WMI), you can declare the commands to WMI as Output
+reports.
 
-	@encoding: Encoding used to convert RGB to YUV
-	@range: Range used to convert RGB to YUV
-	@n_colors: Count of test colors in this case
-	@format_pair.name: Name used for this color conversion, used to 
-			   clarify the test results
-	@format_pair.rgb: RGB color tested
-	@format_pair.yuv: Same color as @format_pair.rgb, but converted to 
-			  YUV using @encoding and @range.
+> 
+> If I split everything in input and output the new interface wouldn't
+> actually be much smaller.
 
-What do you think?
+The HID report descriptor doesn't need to be smaller. The fact that by
+default it exposes only one or two LEDs so we don't have the micrometers
+arrays is the only purpose.
 
-Thanks,
-Louis Chauvet
+But if we also implement a not-full HID implementation of LampArray, we
+should be able to strip out the parts that we don't care in the LED
+class implementation, like the exact positioning, or the multiupdate.
 
-[v2]:https://lore.kernel.org/all/20240229141238.51891cad.pekka.paalanen@collabora.com/
-[v5]:https://lore.kernel.org/all/20240328152631.63af0e8c.pekka.paalanen@collabora.com/
+> 
+> Also what would I write for the usage for the reserved padding in the report
+> descriptor. Usage: 0x00?
+
+padding are ignored by HID. So whatever current usage you have is fine.
+
+However, if you are talking about the custom WMI vendor access, I'd go
+with a vendor collection (usage page 0xff00, usage 0x08 for the 8 bytes
+long WMI command for instance, 0x10 for the 16 bytes long one).
+
+Side note: in drivers/hid/bpf/progs/hid_report_helpers.h we have some
+autogenerated macros to help writing report descriptors (see
+drivers/hid/bpf/progs/Huion__Dial-2.bpf.c for an example of usage). It's
+in the hid-bpf tree but I think we might be able to include this in
+other drivers (or do a minimal rewrite/move into include).
+I'm not asking you to use it on your code right now, but this has the
+advantage of becoming less "binary blob" in your code, and prevent
+mistakes where you edit the comments but not the values.
+
+Cheers,
+Benjamin
