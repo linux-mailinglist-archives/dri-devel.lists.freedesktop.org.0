@@ -2,56 +2,99 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91A39996DB9
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 16:28:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C11BB996E0C
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 16:34:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 116BE10E74C;
-	Wed,  9 Oct 2024 14:28:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C53210E756;
+	Wed,  9 Oct 2024 14:34:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=steffen.cc header.i=@steffen.cc header.b="htxa8GaF";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="FXw2/bkS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F358310E74C
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 14:28:35 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4XNwH45pCSz9tq8;
- Wed,  9 Oct 2024 16:28:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=steffen.cc; s=MBO0001; 
- t=1728484112;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=S9X+8ZyEQbtZszzxAfza7S2bdTj+xeELPNcL6Rxa/6Y=;
- b=htxa8GaF6d3gam0/0BEsS0285p/vTzFi318zjTLhoC6ezinB/nGZusCoeG7XQvKu8OEEP4
- 9jTAdAz3YzoUMCT9DL6RxRK8FOt9+eTZ9sPJz/CP0+4zDtMTM+ioq4p1LGdx4YLU8P84rc
- Nh+pCICsNb5D80wv52jYHzBm5eCkm/roAnggmoVPl8MBIXhBEvQSJnTfmO+da34ay4sgy8
- eWS+9inIAaPytDl9HME8AdsEvysUmR7Q0/NTzaDrOiI9RKwNlm92J//3WsamogqHFzm2JW
- cTomXrv+IEUrRXuKK9ICkz2rkCJomzYenOVFvdcITYcRzkYpiBaK+XQneJ4mbg==
-Message-ID: <6cea659387e14f0436105053416a42c4729923b3.camel@dirkwinkel.cc>
-Subject: Re: [PATCH] drm: xlnx: zynqmp_dpsub: also call
- drm_helper_hpd_irq_event
-From: Steffen Dirkwinkel <lists@steffen.cc>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: dri-devel@lists.freedesktop.org, Maarten Lankhorst	
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Michal Simek <michal.simek@amd.com>,
- linux-arm-kernel@lists.infradead.org, 	linux-kernel@vger.kernel.org
-Date: Wed, 09 Oct 2024 16:28:26 +0200
-In-Reply-To: <20240925163609.GD27666@pendragon.ideasonboard.com>
-References: <20240923074803.10306-1-lists@steffen.cc>
- <20240924184335.GJ30551@pendragon.ideasonboard.com>
- <e4626c1d3b28613d1d219c735bcd8525be0f0d9e.camel@dirkwinkel.cc>
- <20240925163609.GD27666@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3C4610E755;
+ Wed,  9 Oct 2024 14:34:18 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 499AcDTO022770;
+ Wed, 9 Oct 2024 14:34:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=OLrkGCm1M7uiupIDOq5/qG
+ HdS/WujAZlX6bgxfbtXwY=; b=FXw2/bkS5WANsxlZrV6LrJa/kwW1QrXJ3C0BMO
+ lxqkjaw1C6NhKA1yFn6tvv0Sy8OP6RZcTR5ksEFqp0PRB38MPqQkz+T+Rb5vrkia
+ 0cnTX3aCBo/APG/82tTybPHTZEj5NYGR2zHhbTgF61tWWIoFtQGgqhmCtQwG+TJU
+ zdZs9s+c+38krWw1OMkd4WfzEG/YSeBDFXamhPAzLN9BsMjFcu0ZhvyRESmDWkd2
+ 1HR34LpNBXbnPjVRnjJ4kxFUdzpe147XhA5+Yut5ZW2D3A89N6cIF3A8NmpGwfWr
+ vKPW/q9dvXA4LmlYEPtvY21q5m2mIhjQRfshk3z3Nq3/eO6g==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 424x7rw9qv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 09 Oct 2024 14:34:11 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
+ [10.47.209.197])
+ by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 499EYA41009489
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 9 Oct 2024 14:34:10 GMT
+Received: from hu-mahap-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Wed, 9 Oct 2024 07:34:03 -0700
+From: Mahadevan <quic_mahap@quicinc.com>
+Subject: [PATCH v4 0/5] Display enablement changes for Qualcomm SA8775P
+ platform
+Date: Wed, 9 Oct 2024 20:02:00 +0530
+Message-ID: <20241009-patchv3_1-v4-0-cd683a9ca554@quicinc.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOCTBmcC/03Myw6CMBCF4Vchs7ZkplwEV76HMaSOg50FFAsSE
+ 8K7W125O19y8m8wS1SZ4ZRtEGXVWcOYUB4yYO/Ghxi9J4NFW2JboJncwn4tOjI1It+YqrKVBtJ
+ /itLr+9e6XJP7GAaz+Cjur2BrIqTimFuLSFVjyDxfyt3gvJvO36kj5xwG2PcPpH4Cz50AAAA=
+X-Change-ID: 20240930-patchv3_1-600cbc1549e8
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, "Maarten
+ Lankhorst" <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Mahadevan <quic_mahap@quicinc.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Bjorn Andersson <andersson@kernel.org>,
+ "Konrad Dybcio" <konrad.dybcio@linaro.org>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, Kalyan Thota <quic_kalyant@quicinc.com>,
+ Jayaprakash Madisetty <quic_jmadiset@quicinc.com>, Krzysztof Kozlowski
+ <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1728484443; l=2983;
+ i=quic_mahap@quicinc.com; s=20241001; h=from:subject:message-id;
+ bh=J3ENcrjn9gEIimJlxP2OIgpuvAJFdi3AKCBmbm/60wE=;
+ b=+EPPiNwv5G+hrolpuquZXSzEBXrCBIZ1UlPq3ZOvzarNv61niYK3nZHwlWTZq/AV8+oifR5OX
+ 0ImZrITJIuTA9NHiitcPG9YbNQ3UD43QYJlqzWoJarRXn++m2XLhuUK
+X-Developer-Key: i=quic_mahap@quicinc.com; a=ed25519;
+ pk=Xc9CA438o9mZKp4uZ8vZMclALnJ8XtlKn/n3Y42mMBI=
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: X1yNXcXptXpDn4GUjszpTT3tB2-six-5
+X-Proofpoint-ORIG-GUID: X1yNXcXptXpDn4GUjszpTT3tB2-six-5
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 suspectscore=0
+ phishscore=0 mlxlogscore=999 spamscore=0 clxscore=1011 malwarescore=0
+ lowpriorityscore=0 priorityscore=1501 mlxscore=0 adultscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410090090
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,81 +110,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent,
+This series introduces support to enable the Mobile Display Subsystem (MDSS)
+and Display Processing Unit (DPU) for the Qualcomm SA8775P target. It
+includes the addition of the hardware catalog, compatible string,
+relevant device tree changes, and their YAML bindings.
 
+---
+In this series
+- PATCH 1: "dt-bindings: display/msm: Document MDSS on SA8775P" depends on dp
+  binding documetion in this change:
+  https://lore.kernel.org/all/20240923113150.24711-5-quic_mukhopad@quicinc.com/
+- PATCH 5: "arm64: dts: qcom: sa8775p: add display dt nodes for MDSS0 and DPU"
+  depends on the clock enablement change:
+  https://lore.kernel.org/all/20240816-sa8775p-mm-v3-v1-0-77d53c3c0cef@quicinc.com/
 
-On Wed, 2024-09-25 at 19:36 +0300, Laurent Pinchart wrote:
-> Hi Steffen,
->=20
-> On Wed, Sep 25, 2024 at 09:54:18AM +0200, Steffen Dirkwinkel wrote:
-> > On Tue, 2024-09-24 at 21:43 +0300, Laurent Pinchart wrote:
-> > > On Mon, Sep 23, 2024 at 09:48:03AM +0200, lists@steffen.cc=C2=A0wrote=
-:
-> > > > From: Steffen Dirkwinkel <s.dirkwinkel@beckhoff.com>
-> > > >=20
-> > > > With hpd going through the bridge as of commit eb2d64bfcc17
-> > > > ("drm: xlnx: zynqmp_dpsub: Report HPD through the bridge")
-> > > > we don't get hotplug events in userspace on zynqmp hardware.
-> > > > Also sending hotplug events with drm_helper_hpd_irq_event
-> > > > works.
-> > >=20
-> > > Why does the driver need to call both drm_helper_hpd_irq_event()
-> > > and
-> > > drm_bridge_hpd_notify() ? The latter should end up calling
-> > > drm_kms_helper_connector_hotplug_event(), which is the same
-> > > function
-> > > that drm_helper_hpd_irq_event() calls.
-> >=20
-> > I don't know why we need drm_helper_hpd_irq_event.
-> > I'll try to trace what happens on hotplug.
->=20
-> Thank you. Let's try to find the best solution based on your
-> findings.
+---
 
-There's just nothing registering for hpd with
-"drm_bridge_connector_enable_hpd" or "drm_bridge_hpd_enable". I'm not
-sure what the correct way to implement this is. In
-"drivers/gpu/drm/bridge/ti-tfp410.c" the driver registers for the
-callback and calls "drm_helper_hpd_irq_event" in the callback. I guess
-we could also do that, but then we might as well call
-drm_helper_hpd_irq_event directly? Some other drivers just call both
-like I did here. (drivers/gpu/drm/mediatek/mtk_hdmi.c for example)
-For "drivers/gpu/drm/msm/hdmi/hdmi_bridge.c" I also can't find the hpd
-enable call and it just calls drm_bridge_hpd_notify.
+[v4]
+- Removed new YAML added for sa8775p dpu dt-binding documention as it is similar
+  to qcom,sm8650-dpu.yaml and added the compatible in same. [Krzysztof]
 
->=20
-> > > > Fixes: eb2d64bfcc17 ("drm: xlnx: zynqmp_dpsub: Report HPD
-> > > > through
-> > > > the bridge")
-> > > > Signed-off-by: Steffen Dirkwinkel <s.dirkwinkel@beckhoff.com>
-> > > > ---
-> > > > =C2=A0drivers/gpu/drm/xlnx/zynqmp_dp.c | 4 ++++
-> > > > =C2=A01 file changed, 4 insertions(+)
-> > > >=20
-> > > > diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> > > > b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> > > > index 1846c4971fd8..cb823540a412 100644
-> > > > --- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> > > > +++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> > > > @@ -17,6 +17,7 @@
-> > > > =C2=A0#include <drm/drm_fourcc.h>
-> > > > =C2=A0#include <drm/drm_modes.h>
-> > > > =C2=A0#include <drm/drm_of.h>
-> > > > +#include <drm/drm_probe_helper.h>
-> > > > =C2=A0
-> > > > =C2=A0#include <linux/clk.h>
-> > > > =C2=A0#include <linux/delay.h>
-> > > > @@ -1614,6 +1615,9 @@ static void
-> > > > zynqmp_dp_hpd_work_func(struct
-> > > > work_struct *work)
-> > > > =C2=A0					=C2=A0=C2=A0=C2=A0 hpd_work.work);
-> > > > =C2=A0	enum drm_connector_status status;
-> > > > =C2=A0
-> > > > +	if (dp->bridge.dev)
-> > > > +		drm_helper_hpd_irq_event(dp->bridge.dev);
-> > > > +
-> > > > =C2=A0	status =3D zynqmp_dp_bridge_detect(&dp->bridge);
-> > > > =C2=A0	drm_bridge_hpd_notify(&dp->bridge, status);
-> > > > =C2=A0}
->=20
+[v3]
+-Edited copyright for catalog changes. [Dmitry]
+-Fix dt_binding_check tool errors(update reg address as address-cells and
+ size-cells of root node one and maintain the same for child nodes of mdss,
+ added additionalProperties in schema).
+ [Rob, Bjorn, Krzysztof]
+-Add QCOM_ICC_TAG_ACTIVE_ONLY interconnect path tag to mdp0-mem and mdp1-mem
+ path in devicetree. [Dmitry]
+-Update commit subject and message for DT change. [Dmitry]
+-Remove interconnect path tags from dt bindings. (ref sm8450-mdss yaml)
+
+[v2]
+- Updated cover letter subject and message. [Dmitry]
+- Use fake DISPCC nodes to avoid clock dependencies in dt-bindings. [Dmitry]
+- Update bindings by fixing dt_binding_check tool errors (update includes in example),
+  adding proper spacing and indentation in the binding example, droping unused labels,
+  droping status disable, adding reset node. [Dmitry, Rob, Krzysztof]
+- Reorder compatible string of MDSS and DPU based on alphabetical order.[Dmitry]
+- add reg_bus_bw in msm_mdss_data. [Dmitry]
+- Fix indentation in the devicetree. [Dmitry]
+
+--
+2.34.1
+
+---
+Mahadevan (5):
+      dt-bindings: display/msm: Document MDSS on SA8775P
+      dt-bindings: display/msm: Document the DPU for SA8775P
+      drm/msm: mdss: Add SA8775P support
+      drm/msm/dpu: Add SA8775P support
+      arm64: dts: qcom: sa8775p: add display dt nodes for MDSS0 and DPU
+
+ .../bindings/display/msm/qcom,sa8775p-mdss.yaml    | 241 ++++++++++
+ .../bindings/display/msm/qcom,sm8650-dpu.yaml      |   1 +
+ arch/arm64/boot/dts/qcom/sa8775p.dtsi              |  89 ++++
+ .../drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h    | 485 +++++++++++++++++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |   1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   1 +
+ drivers/gpu/drm/msm/msm_mdss.c                     |  11 +
+ 8 files changed, 830 insertions(+)
+---
+base-commit: e390603cfa79c860ed35e073f5fe77805b067a8e
+change-id: 20240930-patchv3_1-600cbc1549e8
+
+Best regards,
+-- 
+Mahadevan <quic_mahap@quicinc.com>
 
