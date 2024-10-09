@@ -2,109 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEBC3996A20
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 14:34:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 976B6996A29
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 14:37:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED42310E6E7;
-	Wed,  9 Oct 2024 12:34:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4EA110E6EA;
+	Wed,  9 Oct 2024 12:37:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="fVAp84TE";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="TkjDl0Wx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
- [209.85.221.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9304310E6E7
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 12:34:00 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id
- ffacd0b85a97d-37d2e81e110so1022156f8f.3
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Oct 2024 05:34:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1728477239; x=1729082039; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=QqJk1+ztcnArzea2IKL9aLbLF7mwRX4o+oj2Q3NmaSw=;
- b=fVAp84TEw67Kd4YRAo0w9uzHAY2m8aclCDI12KTx3ZQfm+0Sh+KJwIUwyYdEFIYyWk
- 2wqIYrCeNVf34l8/2Oc0U9C3KHgXKeSKL3YbUTLvKWcY35xCz4E0dJ/03CN4iJlSxZH/
- ntG/3Gg+0/ZQHedk/5DEzUN3GC6byIiFPKMDFY39TsL0PJSiN23jTXDiDcyPYzoWwOqS
- bheQhUU0M0UX2MUDM4ciMv3VfsJPTbIG/cDY8igquryf8SCIwhzelJl7OpOOMx1tWoMv
- /DQLd4xFLMKtZmYdyvwCCCYj4NrK5uOdnvotGNsP8QIlmMuUDyaRGkatMzyPWrGJMF0c
- r9ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728477239; x=1729082039;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=QqJk1+ztcnArzea2IKL9aLbLF7mwRX4o+oj2Q3NmaSw=;
- b=ASF+pcdUoecKDMCME7C6dnsHjoV4eNlnSE7Y5UJv9fUqfaPMB726maKU7yXty1cjxo
- jDKnHeH2XtXc+kSPuH7vbGdTa0Z4o0q7TBEAxhC7s1by3YsjmsmA7wpg/rTrih/bM6q9
- oOrryCAKEBldSARe5NDBPDii3yPlNN8itwlF/+t88Bd9OH0ALc5+y9AcrATBj2jTpUxg
- YtBllxqUUM3/u2PfZm0ODKFRnn4lhbeFwWH/sc6KzKd/CfKgIEZIselmpJo9jdOzxLqU
- flDHoHpuAxXNqCvlBUtvHcArR/MXqCaSK1f26uXmi1NkNNyZ5c38R6Mc/5BimXffh/+w
- W53w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUfrK3iC+0UvhVZggreAn7MUH60+37ahbZDOrtTlr5DqQExP2omq/WJa3hRs/FaA0WdPniLyGEht+U=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywml2oJDHQ28KeJfyJnpSd8D8g4LgORGQ5GGS8VmPwdzHhUyc/l
- vjlV791i/DIRDVP0eS0Wtb2C7CX/ozXWRC8VdW5wcEPWs8/QWJaaUybzkelvJ40=
-X-Google-Smtp-Source: AGHT+IHiHRyc0hqA8nCVxG9BCXYGM0RO3iv6rgEPI1NshjsqqMc6/tyJGTt0KdD/OHx5zcpyYuJt1Q==
-X-Received: by 2002:adf:ee87:0:b0:37c:d179:2f73 with SMTP id
- ffacd0b85a97d-37d3aa58580mr1395456f8f.13.1728477238924; 
- Wed, 09 Oct 2024 05:33:58 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:767b:a30:4bcb:fcaf?
- ([2a01:e0a:982:cbb0:767b:a30:4bcb:fcaf])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-37d1698fcacsm10288484f8f.116.2024.10.09.05.33.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Oct 2024 05:33:57 -0700 (PDT)
-Message-ID: <192d8bc9-112c-4303-a463-50d28d47cc21@linaro.org>
-Date: Wed, 9 Oct 2024 14:33:56 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D967410E6E8;
+ Wed,  9 Oct 2024 12:37:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1728477442; x=1760013442;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=quK3TRH3oju5Td7qiNvKw5zRhV5GJLCt78GcGpuwnkA=;
+ b=TkjDl0WxQTmCFHRWTZncJYhGt9oZexXdz2r5cadKjt02l+BY2hQNpW4g
+ qTSl3JCqe7TjUj6eVqSDuEAvb6psUixan3g0lr2XAs17IMJjet+prDeU8
+ zI18D7MzlxGqWAcfmzk3o29K3fPz0MTSnSckzUki4e/2GO5A1A2gPz73p
+ uW1pVVPCcMFCP2LQJSaAKBstZoh2xMYRDwRy7kM4JMstHwK4q6ve812p5
+ 0c4oIcutyUj2CzMck3sJkHIsGSkyqN+W93vAnEGbBVuyE7sv7UJzLScK+
+ 43+CeBOm09yV3PnIP9VR7+6pLYUuzZ/RWP38t9bJ8whxB4c1NJJB6X2xQ Q==;
+X-CSE-ConnectionGUID: 6WZA9eEOT4S6PAp2YeeI7A==
+X-CSE-MsgGUID: xKG74inxS4iOr2VautJXcQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="27651894"
+X-IronPort-AV: E=Sophos;i="6.11,189,1725346800"; d="scan'208";a="27651894"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Oct 2024 05:37:21 -0700
+X-CSE-ConnectionGUID: BurGwgy0SOeZm7ORt5T1PA==
+X-CSE-MsgGUID: OQNP/fjDTYyddIgYXmqfMA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,189,1725346800"; d="scan'208";a="113713514"
+Received: from oandoniu-mobl3.ger.corp.intel.com (HELO [10.245.245.243])
+ ([10.245.245.243])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Oct 2024 05:37:20 -0700
+Message-ID: <1c0c07006e4415b776af3e240c7404fb9e134236.camel@linux.intel.com>
+Subject: Re: RESEND Re: [PATCH v4 1/2] drm/ttm: Move swapped objects off the
+ manager's LRU list
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
+ intel-xe@lists.freedesktop.org
+Cc: Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org
+Date: Wed, 09 Oct 2024 14:37:17 +0200
+In-Reply-To: <298da56b-7a16-404f-bbe8-c67a8653e178@amd.com>
+References: <20240904070808.95126-1-thomas.hellstrom@linux.intel.com>
+ <20240904070808.95126-2-thomas.hellstrom@linux.intel.com>
+ <91936a3d-b8c1-41f6-95e0-870fc1c2d007@amd.com>
+ <e3c6ba4eb2349cb160996a913132e022af63abd8.camel@linux.intel.com>
+ <78c687b5-2dd1-4d6f-a6c3-22769d75bbb6@amd.com>
+ <954958e10350b5e1cd0a4197a4a0ea68f74b6470.camel@linux.intel.com>
+ <a8d52d3f734f059c7a53461f3dfeccfac923d40c.camel@linux.intel.com>
+ <d3dfe63c651b481ef2d56913660bdd2bd76123ff.camel@linux.intel.com>
+ <298da56b-7a16-404f-bbe8-c67a8653e178@amd.com>
+Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
+ keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v6 1/3] drm/mipi-dsi: add mipi_dsi_compression_mode_multi
-To: kernel test robot <lkp@intel.com>,
- Dzmitry Sankouski <dsankouski@gmail.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20241006-starqltechn_integration_upstream-v6-1-8336b9cd6c34@gmail.com>
- <202410092245.tfsuUllL-lkp@intel.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <202410092245.tfsuUllL-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,62 +79,784 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Mon, 2024-10-07 at 10:54 +0200, Christian K=C3=B6nig wrote:
+> My r-b still hold for this series. Please merge it through whatever=20
+> branch you are comfortable with.
+>=20
+> And sorry for the delay, I'm still on sick leave (dentist problems).
+>=20
+> Regards,
+> Christian.
 
-On 09/10/2024 14:18, kernel test robot wrote:
-> Hi Dzmitry,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on 58ca61c1a866bfdaa5e19fb19a2416764f847d75]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Dzmitry-Sankouski/drm-mipi-dsi-add-mipi_dsi_compression_mode_multi/20241007-022151
-> base:   58ca61c1a866bfdaa5e19fb19a2416764f847d75
-> patch link:    https://lore.kernel.org/r/20241006-starqltechn_integration_upstream-v6-1-8336b9cd6c34%40gmail.com
-> patch subject: [PATCH v6 1/3] drm/mipi-dsi: add mipi_dsi_compression_mode_multi
-> config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241009/202410092245.tfsuUllL-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241009/202410092245.tfsuUllL-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202410092245.tfsuUllL-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->>> drivers/gpu/drm/drm_mipi_dsi.c:1533: warning: Function parameter or struct member 'ctx' not described in 'mipi_dsi_compression_mode_multi'
->>> drivers/gpu/drm/drm_mipi_dsi.c:1533: warning: Excess function parameter 'dsi' description in 'mipi_dsi_compression_mode_multi'
+Thanks. Pushed to drm-misc-next.
 
-I missed this, Dmitry, can you send a follow-up patch fixing the kerneldoc ?
+/Thomas
 
-Thanks,
-Neil
 
-> 
-> 
-> vim +1533 drivers/gpu/drm/drm_mipi_dsi.c
-> 
->    1522	
->    1523	/**
->    1524	 * mipi_dsi_compression_mode_multi() - enable/disable DSC on the peripheral
->    1525	 * @dsi: DSI peripheral device
->    1526	 * @enable: Whether to enable or disable the DSC
->    1527	 *
->    1528	 * Enable or disable Display Stream Compression on the peripheral using the
->    1529	 * default Picture Parameter Set and VESA DSC 1.1 algorithm.
->    1530	 */
->    1531	void mipi_dsi_compression_mode_multi(struct mipi_dsi_multi_context *ctx,
->    1532					     bool enable)
->> 1533	{
->    1534		return mipi_dsi_compression_mode_ext_multi(ctx, enable,
->    1535							   MIPI_DSI_COMPRESSION_DSC, 0);
->    1536	}
->    1537	EXPORT_SYMBOL(mipi_dsi_compression_mode_multi);
->    1538	
-> 
+
+>=20
+> Am 02.10.24 um 13:44 schrieb Thomas Hellstr=C3=B6m:
+> > Hi, Christian,
+> >=20
+> > Gentle ping on this one as well.
+> > Thanks,
+> > Thomas
+> >=20
+> >=20
+> > On Thu, 2024-09-19 at 17:24 +0200, Thomas Hellstr=C3=B6m wrote:
+> > > Hi Christian,
+> > >=20
+> > > Ping?
+> > >=20
+> > > /Thomas
+> > >=20
+> > >=20
+> > > On Thu, 2024-09-12 at 15:40 +0200, Thomas Hellstr=C3=B6m wrote:
+> > > > Hi, Christian,
+> > > >=20
+> > > > On Wed, 2024-09-04 at 12:47 +0200, Christian K=C3=B6nig wrote:
+> > > > > Am 04.09.24 um 10:54 schrieb Thomas Hellstr=C3=B6m:
+> > > > > > On Wed, 2024-09-04 at 10:50 +0200, Christian K=C3=B6nig wrote:
+> > > > > > > Am 04.09.24 um 09:08 schrieb Thomas Hellstr=C3=B6m:
+> > > > > > > > Resources of swapped objects remains on the
+> > > > > > > > TTM_PL_SYSTEM
+> > > > > > > > manager's
+> > > > > > > > LRU list, which is bad for the LRU walk efficiency.
+> > > > > > > >=20
+> > > > > > > > Rename the device-wide "pinned" list to "unevictable"
+> > > > > > > > and
+> > > > > > > > move
+> > > > > > > > also resources of swapped-out objects to that list.
+> > > > > > > >=20
+> > > > > > > > An alternative would be to create an "UNEVICTABLE"
+> > > > > > > > priority
+> > > > > > > > to
+> > > > > > > > be able to keep the pinned- and swapped objects on
+> > > > > > > > their
+> > > > > > > > respective manager's LRU without affecting the LRU walk
+> > > > > > > > efficiency.
+> > > > > > > >=20
+> > > > > > > > v2:
+> > > > > > > > - Remove a bogus WARN_ON (Christian K=C3=B6nig)
+> > > > > > > > - Update ttm_resource_[add|del] bulk move (Christian
+> > > > > > > > K=C3=B6nig)
+> > > > > > > > - Fix TTM KUNIT tests (Intel CI)
+> > > > > > > > v3:
+> > > > > > > > - Check for non-NULL bo->resource in ttm_bo_populate().
+> > > > > > > > v4:
+> > > > > > > > - Don't move to LRU tail during swapout until the
+> > > > > > > > resource
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0 is properly swapped or there was a=
+ swapout
+> > > > > > > > failure.
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0 (Intel Ci)
+> > > > > > > > - Add a newline after checkpatch check.
+> > > > > > > >=20
+> > > > > > > > Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > > > > > > > Cc: Matthew Brost <matthew.brost@intel.com>
+> > > > > > > > Cc: <dri-devel@lists.freedesktop.org>
+> > > > > > > > Signed-off-by: Thomas Hellstr=C3=B6m
+> > > > > > > > <thomas.hellstrom@linux.intel.com>
+> > > > > > > I really wonder if having a SWAPPED wouldn't be cleaner
+> > > > > > > in
+> > > > > > > the
+> > > > > > > long
+> > > > > > > run.
+> > > > > > >=20
+> > > > > > > Anyway, that seems to work for now. So patch is Reviewed-
+> > > > > > > by:
+> > > > > > > Christian
+> > > > > > > K=C3=B6nig <christian.koenig@amd.com>.
+> > > > > > Thanks. Are you ok with the changes to the pinning patch
+> > > > > > that
+> > > > > > happened
+> > > > > > after yoour R-B as well?
+> > > > > I was already wondering why the increment used to be separate
+> > > > > while
+> > > > > reviewing the initial version. So yes that looks better now.
+> > > > >=20
+> > > > > > Ack to merge through drm-misc-next once CI is clean?
+> > > > > Yeah, works for me.
+> > > > >=20
+> > > > > Christian.
+> > > > i915 & xe CI is clean now for this series but I had to change
+> > > > patch
+> > > > 1
+> > > > slightly to avoid putting *all* resources that were created for
+> > > > a
+> > > > swapped bo on the unevictable list (Typically VRAM resources
+> > > > that
+> > > > were
+> > > > created for validation back to VRAM).
+> > > >=20
+> > > > So question is if your R-B still holds. Series is now at
+> > > > version 6.
+> > > >=20
+> > > > Thanks,
+> > > > Thomas
+> > > >=20
+> > > >=20
+> > > > > > /Thomas
+> > > > > >=20
+> > > > > >=20
+> > > > > > > Regards,
+> > > > > > > Christian.
+> > > > > > >=20
+> > > > > > > > ---
+> > > > > > > > =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/i915/gem/i915_gem_ttm.c=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2
+> > > > > > > > +-
+> > > > > > > > =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/i915/gem/i915_gem_ttm_mo=
+ve.c=C2=A0 |=C2=A0 2
+> > > > > > > > +-
+> > > > > > > > =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/i915/gem/i915_gem_ttm_pm=
+.c=C2=A0=C2=A0=C2=A0 |=C2=A0 4
+> > > > > > > > +-
+> > > > > > > > =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/ttm/tests/ttm_bo_test.c=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 4
+> > > > > > > > +-
+> > > > > > > > =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/ttm/tests/ttm_resource_t=
+est.c |=C2=A0 6
+> > > > > > > > +-
+> > > > > > > > =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/ttm/ttm_bo.c=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 | 59
+> > > > > > > > ++++++++++++++++++-
+> > > > > > > > =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/ttm/ttm_bo_util.c=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 =
+6
+> > > > > > > > +-
+> > > > > > > > =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/ttm/ttm_bo_vm.c=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ |=C2=A0 2
+> > > > > > > > +-
+> > > > > > > > =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/ttm/ttm_device.c=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=
+=C2=A0 4
+> > > > > > > > +-
+> > > > > > > > =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/ttm/ttm_resource.c=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 15
+> > > > > > > > +++--
+> > > > > > > > =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/ttm/ttm_tt.c=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 |=C2=A0 3
+> > > > > > > > +
+> > > > > > > > =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/xe/xe_bo.c=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 4
+> > > > > > > > +-
+> > > > > > > > =C2=A0=C2=A0=C2=A0 include/drm/ttm/ttm_bo.h=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2
+> > > > > > > > +
+> > > > > > > > =C2=A0=C2=A0=C2=A0 include/drm/ttm/ttm_device.h=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 |=C2=A0 5
+> > > > > > > > +-
+> > > > > > > > =C2=A0=C2=A0=C2=A0 include/drm/ttm/ttm_tt.h=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 5
+> > > > > > > > ++
+> > > > > > > > =C2=A0=C2=A0=C2=A0 15 files changed, 96 insertions(+), 27 d=
+eletions(-)
+> > > > > > > >=20
+> > > > > > > > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> > > > > > > > b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> > > > > > > > index 5c72462d1f57..7de284766f82 100644
+> > > > > > > > --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> > > > > > > > +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> > > > > > > > @@ -808,7 +808,7 @@ static int
+> > > > > > > > __i915_ttm_get_pages(struct
+> > > > > > > > drm_i915_gem_object *obj,
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	}
+> > > > > > > > =C2=A0=C2=A0=C2=A0=20
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	if (bo->ttm && !ttm_tt_is_populate=
+d(bo->ttm))
+> > > > > > > > {
+> > > > > > > > -		ret =3D ttm_tt_populate(bo->bdev, bo-
+> > > > > > > > >ttm,
+> > > > > > > > &ctx);
+> > > > > > > > +		ret =3D ttm_bo_populate(bo, &ctx);
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0		if (ret)
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0			return ret;
+> > > > > > > > =C2=A0=C2=A0=C2=A0=20
+> > > > > > > > diff --git
+> > > > > > > > a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+> > > > > > > > b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+> > > > > > > > index 03b00a03a634..041dab543b78 100644
+> > > > > > > > --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+> > > > > > > > +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+> > > > > > > > @@ -624,7 +624,7 @@ int i915_ttm_move(struct
+> > > > > > > > ttm_buffer_object
+> > > > > > > > *bo,
+> > > > > > > > bool evict,
+> > > > > > > > =C2=A0=C2=A0=C2=A0=20
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	/* Populate ttm with pages if need=
+ed.
+> > > > > > > > Typically
+> > > > > > > > system
+> > > > > > > > memory. */
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	if (ttm && (dst_man->use_tt || (tt=
+m-
+> > > > > > > > >page_flags &
+> > > > > > > > TTM_TT_FLAG_SWAPPED))) {
+> > > > > > > > -		ret =3D ttm_tt_populate(bo->bdev, ttm,
+> > > > > > > > ctx);
+> > > > > > > > +		ret =3D ttm_bo_populate(bo, ctx);
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0		if (ret)
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0			return ret;
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	}
+> > > > > > > > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c
+> > > > > > > > b/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c
+> > > > > > > > index ad649523d5e0..61596cecce4d 100644
+> > > > > > > > --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c
+> > > > > > > > +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c
+> > > > > > > > @@ -90,7 +90,7 @@ static int i915_ttm_backup(struct
+> > > > > > > > i915_gem_apply_to_region *apply,
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0		goto out_no_lock;
+> > > > > > > > =C2=A0=C2=A0=C2=A0=20
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	backup_bo =3D i915_gem_to_ttm(back=
+up);
+> > > > > > > > -	err =3D ttm_tt_populate(backup_bo->bdev,
+> > > > > > > > backup_bo-
+> > > > > > > > > ttm,
+> > > > > > > > &ctx);
+> > > > > > > > +	err =3D ttm_bo_populate(backup_bo, &ctx);
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	if (err)
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0		goto out_no_populate;
+> > > > > > > > =C2=A0=C2=A0=C2=A0=20
+> > > > > > > > @@ -189,7 +189,7 @@ static int i915_ttm_restore(struct
+> > > > > > > > i915_gem_apply_to_region *apply,
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	if (!backup_bo->resource)
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0		err =3D ttm_bo_validate(backup_bo=
+,
+> > > > > > > > i915_ttm_sys_placement(), &ctx);
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	if (!err)
+> > > > > > > > -		err =3D ttm_tt_populate(backup_bo->bdev,
+> > > > > > > > backup_bo-
+> > > > > > > > > ttm, &ctx);
+> > > > > > > > +		err =3D ttm_bo_populate(backup_bo,
+> > > > > > > > &ctx);
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	if (!err) {
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0		err =3D i915_gem_obj_copy_ttm(obj=
+,
+> > > > > > > > backup,
+> > > > > > > > pm_apply-
+> > > > > > > > > allow_gpu,
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0					=C2=A0=C2=A0=C2=A0 false);
+> > > > > > > > diff --git a/drivers/gpu/drm/ttm/tests/ttm_bo_test.c
+> > > > > > > > b/drivers/gpu/drm/ttm/tests/ttm_bo_test.c
+> > > > > > > > index f0a7eb62116c..3139fd9128d8 100644
+> > > > > > > > --- a/drivers/gpu/drm/ttm/tests/ttm_bo_test.c
+> > > > > > > > +++ b/drivers/gpu/drm/ttm/tests/ttm_bo_test.c
+> > > > > > > > @@ -308,11 +308,11 @@ static void
+> > > > > > > > ttm_bo_unreserve_pinned(struct
+> > > > > > > > kunit *test)
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	err =3D ttm_resource_alloc(bo, pla=
+ce, &res2);
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	KUNIT_ASSERT_EQ(test, err, 0);
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	KUNIT_ASSERT_EQ(test,
+> > > > > > > > -			list_is_last(&res2->lru.link,
+> > > > > > > > &priv-
+> > > > > > > > > ttm_dev->pinned), 1);
+> > > > > > > > +			list_is_last(&res2->lru.link,
+> > > > > > > > &priv-
+> > > > > > > > > ttm_dev->unevictable), 1);
+> > > > > > > > =C2=A0=C2=A0=C2=A0=20
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	ttm_bo_unreserve(bo);
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	KUNIT_ASSERT_EQ(test,
+> > > > > > > > -			list_is_last(&res1->lru.link,
+> > > > > > > > &priv-
+> > > > > > > > > ttm_dev->pinned), 1);
+> > > > > > > > +			list_is_last(&res1->lru.link,
+> > > > > > > > &priv-
+> > > > > > > > > ttm_dev->unevictable), 1);
+> > > > > > > > =C2=A0=C2=A0=C2=A0=20
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	ttm_resource_free(bo, &res1);
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	ttm_resource_free(bo, &res2);
+> > > > > > > > diff --git
+> > > > > > > > a/drivers/gpu/drm/ttm/tests/ttm_resource_test.c
+> > > > > > > > b/drivers/gpu/drm/ttm/tests/ttm_resource_test.c
+> > > > > > > > index 22260e7aea58..a9f4b81921c3 100644
+> > > > > > > > --- a/drivers/gpu/drm/ttm/tests/ttm_resource_test.c
+> > > > > > > > +++ b/drivers/gpu/drm/ttm/tests/ttm_resource_test.c
+> > > > > > > > @@ -164,18 +164,18 @@ static void
+> > > > > > > > ttm_resource_init_pinned(struct
+> > > > > > > > kunit *test)
+> > > > > > > > =C2=A0=C2=A0=C2=A0=20
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	res =3D kunit_kzalloc(test, sizeof=
+(*res),
+> > > > > > > > GFP_KERNEL);
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	KUNIT_ASSERT_NOT_NULL(test, res);
+> > > > > > > > -	KUNIT_ASSERT_TRUE(test, list_empty(&bo->bdev-
+> > > > > > > > > pinned));
+> > > > > > > > +	KUNIT_ASSERT_TRUE(test, list_empty(&bo->bdev-
+> > > > > > > > > unevictable));
+> > > > > > > > =C2=A0=C2=A0=C2=A0=20
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	dma_resv_lock(bo->base.resv, NULL)=
+;
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	ttm_bo_pin(bo);
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	ttm_resource_init(bo, place, res);
+> > > > > > > > -	KUNIT_ASSERT_TRUE(test, list_is_singular(&bo-
+> > > > > > > > > bdev-
+> > > > > > > > > pinned));
+> > > > > > > > +	KUNIT_ASSERT_TRUE(test, list_is_singular(&bo-
+> > > > > > > > > bdev-
+> > > > > > > > > unevictable));
+> > > > > > > > =C2=A0=C2=A0=C2=A0=20
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	ttm_bo_unpin(bo);
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	ttm_resource_fini(man, res);
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	dma_resv_unlock(bo->base.resv);
+> > > > > > > > =C2=A0=C2=A0=C2=A0=20
+> > > > > > > > -	KUNIT_ASSERT_TRUE(test, list_empty(&bo->bdev-
+> > > > > > > > > pinned));
+> > > > > > > > +	KUNIT_ASSERT_TRUE(test, list_empty(&bo->bdev-
+> > > > > > > > > unevictable));
+> > > > > > > > =C2=A0=C2=A0=C2=A0 }
+> > > > > > > > =C2=A0=C2=A0=C2=A0=20
+> > > > > > > > =C2=A0=C2=A0=C2=A0 static void ttm_resource_fini_basic(stru=
+ct kunit
+> > > > > > > > *test)
+> > > > > > > > diff --git a/drivers/gpu/drm/ttm/ttm_bo.c
+> > > > > > > > b/drivers/gpu/drm/ttm/ttm_bo.c
+> > > > > > > > index 320592435252..875b024913a0 100644
+> > > > > > > > --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> > > > > > > > +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> > > > > > > > @@ -139,7 +139,7 @@ static int
+> > > > > > > > ttm_bo_handle_move_mem(struct
+> > > > > > > > ttm_buffer_object *bo,
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0			goto out_err;
+> > > > > > > > =C2=A0=C2=A0=C2=A0=20
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0		if (mem->mem_type !=3D TTM_PL_SYS=
+TEM) {
+> > > > > > > > -			ret =3D ttm_tt_populate(bo-
+> > > > > > > > >bdev,
+> > > > > > > > bo-
+> > > > > > > > > ttm,
+> > > > > > > > ctx);
+> > > > > > > > +			ret =3D ttm_bo_populate(bo,
+> > > > > > > > ctx);
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0			if (ret)
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0				goto out_err;
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0		}
+> > > > > > > > @@ -1128,9 +1128,20 @@ ttm_bo_swapout_cb(struct
+> > > > > > > > ttm_lru_walk
+> > > > > > > > *walk,
+> > > > > > > > struct ttm_buffer_object *bo)
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	if (bo->bdev->funcs->swap_notify)
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0		bo->bdev->funcs->swap_notify(bo);
+> > > > > > > > =C2=A0=C2=A0=C2=A0=20
+> > > > > > > > -	if (ttm_tt_is_populated(bo->ttm))
+> > > > > > > > +	if (ttm_tt_is_populated(bo->ttm)) {
+> > > > > > > > +		spin_lock(&bo->bdev->lru_lock);
+> > > > > > > > +		ttm_resource_del_bulk_move(bo-
+> > > > > > > > >resource,
+> > > > > > > > bo);
+> > > > > > > > +		spin_unlock(&bo->bdev->lru_lock);
+> > > > > > > > +
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0		ret =3D ttm_tt_swapout(bo->bdev, =
+bo-
+> > > > > > > > >ttm,
+> > > > > > > > swapout_walk->gfp_flags);
+> > > > > > > > =C2=A0=C2=A0=C2=A0=20
+> > > > > > > > +		spin_lock(&bo->bdev->lru_lock);
+> > > > > > > > +		if (ret)
+> > > > > > > > +			ttm_resource_add_bulk_move(bo-
+> > > > > > > > > resource,
+> > > > > > > > bo);
+> > > > > > > > +		ttm_resource_move_to_lru_tail(bo-
+> > > > > > > > > resource);
+> > > > > > > > +		spin_unlock(&bo->bdev->lru_lock);
+> > > > > > > > +	}
+> > > > > > > > +
+> > > > > > > > =C2=A0=C2=A0=C2=A0 out:
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	/* Consider -ENOMEM and -ENOSPC no=
+n-fatal. */
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	if (ret =3D=3D -ENOMEM || ret =3D=
+=3D -ENOSPC)
+> > > > > > > > @@ -1180,3 +1191,47 @@ void ttm_bo_tt_destroy(struct
+> > > > > > > > ttm_buffer_object *bo)
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	ttm_tt_destroy(bo->bdev, bo->ttm);
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	bo->ttm =3D NULL;
+> > > > > > > > =C2=A0=C2=A0=C2=A0 }
+> > > > > > > > +
+> > > > > > > > +/**
+> > > > > > > > + * ttm_bo_populate() - Ensure that a buffer object has
+> > > > > > > > backing
+> > > > > > > > pages
+> > > > > > > > + * @bo: The buffer object
+> > > > > > > > + * @ctx: The ttm_operation_ctx governing the
+> > > > > > > > operation.
+> > > > > > > > + *
+> > > > > > > > + * For buffer objects in a memory type whose manager
+> > > > > > > > uses
+> > > > > > > > + * struct ttm_tt for backing pages, ensure those
+> > > > > > > > backing
+> > > > > > > > pages
+> > > > > > > > + * are present and with valid content. The bo's
+> > > > > > > > resource
+> > > > > > > > is
+> > > > > > > > also
+> > > > > > > > + * placed on the correct LRU list if it was previously
+> > > > > > > > swapped
+> > > > > > > > + * out.
+> > > > > > > > + *
+> > > > > > > > + * Return: 0 if successful, negative error code on
+> > > > > > > > failure.
+> > > > > > > > + * Note: May return -EINTR or -ERESTARTSYS if
+> > > > > > > > @ctx::interruptible
+> > > > > > > > + * is set to true.
+> > > > > > > > + */
+> > > > > > > > +int ttm_bo_populate(struct ttm_buffer_object *bo,
+> > > > > > > > +		=C2=A0=C2=A0=C2=A0 struct ttm_operation_ctx *ctx)
+> > > > > > > > +{
+> > > > > > > > +	struct ttm_tt *tt =3D bo->ttm;
+> > > > > > > > +	bool swapped;
+> > > > > > > > +	int ret;
+> > > > > > > > +
+> > > > > > > > +	dma_resv_assert_held(bo->base.resv);
+> > > > > > > > +
+> > > > > > > > +	if (!tt)
+> > > > > > > > +		return 0;
+> > > > > > > > +
+> > > > > > > > +	swapped =3D ttm_tt_is_swapped(tt);
+> > > > > > > > +	ret =3D ttm_tt_populate(bo->bdev, tt, ctx);
+> > > > > > > > +	if (ret)
+> > > > > > > > +		return ret;
+> > > > > > > > +
+> > > > > > > > +	if (swapped && !ttm_tt_is_swapped(tt) && !bo-
+> > > > > > > > > pin_count &&
+> > > > > > > > +	=C2=A0=C2=A0=C2=A0 bo->resource) {
+> > > > > > > > +		spin_lock(&bo->bdev->lru_lock);
+> > > > > > > > +		ttm_resource_add_bulk_move(bo-
+> > > > > > > > >resource,
+> > > > > > > > bo);
+> > > > > > > > +		ttm_resource_move_to_lru_tail(bo-
+> > > > > > > > > resource);
+> > > > > > > > +		spin_unlock(&bo->bdev->lru_lock);
+> > > > > > > > +	}
+> > > > > > > > +
+> > > > > > > > +	return 0;
+> > > > > > > > +}
+> > > > > > > > +EXPORT_SYMBOL(ttm_bo_populate);
+> > > > > > > > diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c
+> > > > > > > > b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> > > > > > > > index 3c07f4712d5c..d939925efa81 100644
+> > > > > > > > --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
+> > > > > > > > +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> > > > > > > > @@ -163,7 +163,7 @@ int ttm_bo_move_memcpy(struct
+> > > > > > > > ttm_buffer_object
+> > > > > > > > *bo,
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	src_man =3D ttm_manager_type(bdev,=
+ src_mem-
+> > > > > > > > > mem_type);
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	if (ttm && ((ttm->page_flags &
+> > > > > > > > TTM_TT_FLAG_SWAPPED)
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0		=C2=A0=C2=A0=C2=A0 dst_man->use_t=
+t)) {
+> > > > > > > > -		ret =3D ttm_tt_populate(bdev, ttm, ctx);
+> > > > > > > > +		ret =3D ttm_bo_populate(bo, ctx);
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0		if (ret)
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0			return ret;
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	}
+> > > > > > > > @@ -350,7 +350,7 @@ static int ttm_bo_kmap_ttm(struct
+> > > > > > > > ttm_buffer_object *bo,
+> > > > > > > > =C2=A0=C2=A0=C2=A0=20
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	BUG_ON(!ttm);
+> > > > > > > > =C2=A0=C2=A0=C2=A0=20
+> > > > > > > > -	ret =3D ttm_tt_populate(bo->bdev, ttm, &ctx);
+> > > > > > > > +	ret =3D ttm_bo_populate(bo, &ctx);
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	if (ret)
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0		return ret;
+> > > > > > > > =C2=A0=C2=A0=C2=A0=20
+> > > > > > > > @@ -507,7 +507,7 @@ int ttm_bo_vmap(struct
+> > > > > > > > ttm_buffer_object
+> > > > > > > > *bo,
+> > > > > > > > struct iosys_map *map)
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0		pgprot_t prot;
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0		void *vaddr;
+> > > > > > > > =C2=A0=C2=A0=C2=A0=20
+> > > > > > > > -		ret =3D ttm_tt_populate(bo->bdev, ttm,
+> > > > > > > > &ctx);
+> > > > > > > > +		ret =3D ttm_bo_populate(bo, &ctx);
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0		if (ret)
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0			return ret;
+> > > > > > > > =C2=A0=C2=A0=C2=A0=20
+> > > > > > > > diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c
+> > > > > > > > b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+> > > > > > > > index 4212b8c91dd4..2c699ed1963a 100644
+> > > > > > > > --- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
+> > > > > > > > +++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+> > > > > > > > @@ -224,7 +224,7 @@ vm_fault_t
+> > > > > > > > ttm_bo_vm_fault_reserved(struct
+> > > > > > > > vm_fault *vmf,
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0		};
+> > > > > > > > =C2=A0=C2=A0=C2=A0=20
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0		ttm =3D bo->ttm;
+> > > > > > > > -		err =3D ttm_tt_populate(bdev, bo->ttm,
+> > > > > > > > &ctx);
+> > > > > > > > +		err =3D ttm_bo_populate(bo, &ctx);
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0		if (err) {
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0			if (err =3D=3D -EINTR || err =3D=
+=3D -
+> > > > > > > > ERESTARTSYS
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0			=C2=A0=C2=A0=C2=A0 err =3D=3D -E=
+AGAIN)
+> > > > > > > > diff --git a/drivers/gpu/drm/ttm/ttm_device.c
+> > > > > > > > b/drivers/gpu/drm/ttm/ttm_device.c
+> > > > > > > > index e7cc4954c1bc..02e797fd1891 100644
+> > > > > > > > --- a/drivers/gpu/drm/ttm/ttm_device.c
+> > > > > > > > +++ b/drivers/gpu/drm/ttm/ttm_device.c
+> > > > > > > > @@ -216,7 +216,7 @@ int ttm_device_init(struct
+> > > > > > > > ttm_device
+> > > > > > > > *bdev,
+> > > > > > > > const struct ttm_device_funcs *func
+> > > > > > > > =C2=A0=C2=A0=C2=A0=20
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	bdev->vma_manager =3D vma_manager;
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	spin_lock_init(&bdev->lru_lock);
+> > > > > > > > -	INIT_LIST_HEAD(&bdev->pinned);
+> > > > > > > > +	INIT_LIST_HEAD(&bdev->unevictable);
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	bdev->dev_mapping =3D mapping;
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	mutex_lock(&ttm_global_mutex);
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	list_add_tail(&bdev->device_list, =
+&glob-
+> > > > > > > > > device_list);
+> > > > > > > > @@ -283,7 +283,7 @@ void
+> > > > > > > > ttm_device_clear_dma_mappings(struct
+> > > > > > > > ttm_device *bdev)
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	struct ttm_resource_manager *man;
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	unsigned int i, j;
+> > > > > > > > =C2=A0=C2=A0=C2=A0=20
+> > > > > > > > -	ttm_device_clear_lru_dma_mappings(bdev, &bdev-
+> > > > > > > > > pinned);
+> > > > > > > > +	ttm_device_clear_lru_dma_mappings(bdev, &bdev-
+> > > > > > > > > unevictable);
+> > > > > > > > =C2=A0=C2=A0=C2=A0=20
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	for (i =3D TTM_PL_SYSTEM; i < TTM_=
+NUM_MEM_TYPES;
+> > > > > > > > ++i)
+> > > > > > > > {
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0		man =3D ttm_manager_type(bdev, i)=
+;
+> > > > > > > > diff --git a/drivers/gpu/drm/ttm/ttm_resource.c
+> > > > > > > > b/drivers/gpu/drm/ttm/ttm_resource.c
+> > > > > > > > index 6d764ba88aab..93b44043b428 100644
+> > > > > > > > --- a/drivers/gpu/drm/ttm/ttm_resource.c
+> > > > > > > > +++ b/drivers/gpu/drm/ttm/ttm_resource.c
+> > > > > > > > @@ -30,6 +30,7 @@
+> > > > > > > > =C2=A0=C2=A0=C2=A0 #include <drm/ttm/ttm_bo.h>
+> > > > > > > > =C2=A0=C2=A0=C2=A0 #include <drm/ttm/ttm_placement.h>
+> > > > > > > > =C2=A0=C2=A0=C2=A0 #include <drm/ttm/ttm_resource.h>
+> > > > > > > > +#include <drm/ttm/ttm_tt.h>
+> > > > > > > > =C2=A0=C2=A0=C2=A0=20
+> > > > > > > > =C2=A0=C2=A0=C2=A0 #include <drm/drm_util.h>
+> > > > > > > > =C2=A0=C2=A0=C2=A0=20
+> > > > > > > > @@ -239,7 +240,8 @@ static void
+> > > > > > > > ttm_lru_bulk_move_del(struct
+> > > > > > > > ttm_lru_bulk_move *bulk,
+> > > > > > > > =C2=A0=C2=A0=C2=A0 void ttm_resource_add_bulk_move(struct t=
+tm_resource
+> > > > > > > > *res,
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0				struct
+> > > > > > > > ttm_buffer_object
+> > > > > > > > *bo)
+> > > > > > > > =C2=A0=C2=A0=C2=A0 {
+> > > > > > > > -	if (bo->bulk_move && !bo->pin_count)
+> > > > > > > > +	if (bo->bulk_move && !bo->pin_count &&
+> > > > > > > > +	=C2=A0=C2=A0=C2=A0 (!bo->ttm || !ttm_tt_is_swapped(bo->tt=
+m)))
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0		ttm_lru_bulk_move_add(bo->bulk_mo=
+ve,
+> > > > > > > > res);
+> > > > > > > > =C2=A0=C2=A0=C2=A0 }
+> > > > > > > > =C2=A0=C2=A0=C2=A0=20
+> > > > > > > > @@ -247,7 +249,8 @@ void
+> > > > > > > > ttm_resource_add_bulk_move(struct
+> > > > > > > > ttm_resource *res,
+> > > > > > > > =C2=A0=C2=A0=C2=A0 void ttm_resource_del_bulk_move(struct t=
+tm_resource
+> > > > > > > > *res,
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0				struct
+> > > > > > > > ttm_buffer_object
+> > > > > > > > *bo)
+> > > > > > > > =C2=A0=C2=A0=C2=A0 {
+> > > > > > > > -	if (bo->bulk_move && !bo->pin_count)
+> > > > > > > > +	if (bo->bulk_move && !bo->pin_count &&
+> > > > > > > > +	=C2=A0=C2=A0=C2=A0 (!bo->ttm || !ttm_tt_is_swapped(bo->tt=
+m)))
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0		ttm_lru_bulk_move_del(bo->bulk_mo=
+ve,
+> > > > > > > > res);
+> > > > > > > > =C2=A0=C2=A0=C2=A0 }
+> > > > > > > > =C2=A0=C2=A0=C2=A0=20
+> > > > > > > > @@ -259,8 +262,8 @@ void
+> > > > > > > > ttm_resource_move_to_lru_tail(struct
+> > > > > > > > ttm_resource *res)
+> > > > > > > > =C2=A0=C2=A0=C2=A0=20
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	lockdep_assert_held(&bo->bdev->lru=
+_lock);
+> > > > > > > > =C2=A0=C2=A0=C2=A0=20
+> > > > > > > > -	if (bo->pin_count) {
+> > > > > > > > -		list_move_tail(&res->lru.link, &bdev-
+> > > > > > > > > pinned);
+> > > > > > > > +	if (bo->pin_count || (bo->ttm &&
+> > > > > > > > ttm_tt_is_swapped(bo-
+> > > > > > > > > ttm))) {
+> > > > > > > > +		list_move_tail(&res->lru.link, &bdev-
+> > > > > > > > > unevictable);
+> > > > > > > > =C2=A0=C2=A0=C2=A0=20
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	} else	if (bo->bulk_move) {
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0		struct ttm_lru_bulk_move_pos *pos=
+ =3D
+> > > > > > > > @@ -301,8 +304,8 @@ void ttm_resource_init(struct
+> > > > > > > > ttm_buffer_object
+> > > > > > > > *bo,
+> > > > > > > > =C2=A0=C2=A0=C2=A0=20
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	man =3D ttm_manager_type(bo->bdev,=
+ place-
+> > > > > > > > >mem_type);
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	spin_lock(&bo->bdev->lru_lock);
+> > > > > > > > -	if (bo->pin_count)
+> > > > > > > > -		list_add_tail(&res->lru.link, &bo-
+> > > > > > > > >bdev-
+> > > > > > > > > pinned);
+> > > > > > > > +	if (bo->pin_count || (bo->ttm &&
+> > > > > > > > ttm_tt_is_swapped(bo-
+> > > > > > > > > ttm)))
+> > > > > > > > +		list_add_tail(&res->lru.link, &bo-
+> > > > > > > > >bdev-
+> > > > > > > > > unevictable);
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	else
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0		list_add_tail(&res->lru.link, &ma=
+n-
+> > > > > > > > > lru[bo-
+> > > > > > > > > priority]);
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	man->usage +=3D res->size;
+> > > > > > > > diff --git a/drivers/gpu/drm/ttm/ttm_tt.c
+> > > > > > > > b/drivers/gpu/drm/ttm/ttm_tt.c
+> > > > > > > > index 4b51b9023126..3baf215eca23 100644
+> > > > > > > > --- a/drivers/gpu/drm/ttm/ttm_tt.c
+> > > > > > > > +++ b/drivers/gpu/drm/ttm/ttm_tt.c
+> > > > > > > > @@ -367,7 +367,10 @@ int ttm_tt_populate(struct
+> > > > > > > > ttm_device
+> > > > > > > > *bdev,
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	}
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	return ret;
+> > > > > > > > =C2=A0=C2=A0=C2=A0 }
+> > > > > > > > +
+> > > > > > > > +#if IS_ENABLED(CONFIG_DRM_TTM_KUNIT_TEST)
+> > > > > > > > =C2=A0=C2=A0=C2=A0 EXPORT_SYMBOL(ttm_tt_populate);
+> > > > > > > > +#endif
+> > > > > > > > =C2=A0=C2=A0=C2=A0=20
+> > > > > > > > =C2=A0=C2=A0=C2=A0 void ttm_tt_unpopulate(struct ttm_device=
+ *bdev,
+> > > > > > > > struct
+> > > > > > > > ttm_tt
+> > > > > > > > *ttm)
+> > > > > > > > =C2=A0=C2=A0=C2=A0 {
+> > > > > > > > diff --git a/drivers/gpu/drm/xe/xe_bo.c
+> > > > > > > > b/drivers/gpu/drm/xe/xe_bo.c
+> > > > > > > > index a8e4d46d9123..f34daae2cf2b 100644
+> > > > > > > > --- a/drivers/gpu/drm/xe/xe_bo.c
+> > > > > > > > +++ b/drivers/gpu/drm/xe/xe_bo.c
+> > > > > > > > @@ -892,7 +892,7 @@ int xe_bo_evict_pinned(struct xe_bo
+> > > > > > > > *bo)
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0		}
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	}
+> > > > > > > > =C2=A0=C2=A0=C2=A0=20
+> > > > > > > > -	ret =3D ttm_tt_populate(bo->ttm.bdev, bo-
+> > > > > > > > >ttm.ttm,
+> > > > > > > > &ctx);
+> > > > > > > > +	ret =3D ttm_bo_populate(&bo->ttm, &ctx);
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	if (ret)
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0		goto err_res_free;
+> > > > > > > > =C2=A0=C2=A0=C2=A0=20
+> > > > > > > > @@ -945,7 +945,7 @@ int xe_bo_restore_pinned(struct
+> > > > > > > > xe_bo
+> > > > > > > > *bo)
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	if (ret)
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0		return ret;
+> > > > > > > > =C2=A0=C2=A0=C2=A0=20
+> > > > > > > > -	ret =3D ttm_tt_populate(bo->ttm.bdev, bo-
+> > > > > > > > >ttm.ttm,
+> > > > > > > > &ctx);
+> > > > > > > > +	ret =3D ttm_bo_populate(&bo->ttm, &ctx);
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	if (ret)
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0		goto err_res_free;
+> > > > > > > > =C2=A0=C2=A0=C2=A0=20
+> > > > > > > > diff --git a/include/drm/ttm/ttm_bo.h
+> > > > > > > > b/include/drm/ttm/ttm_bo.h
+> > > > > > > > index 7b56d1ca36d7..5804408815be 100644
+> > > > > > > > --- a/include/drm/ttm/ttm_bo.h
+> > > > > > > > +++ b/include/drm/ttm/ttm_bo.h
+> > > > > > > > @@ -462,5 +462,7 @@ int ttm_bo_pipeline_gutting(struct
+> > > > > > > > ttm_buffer_object *bo);
+> > > > > > > > =C2=A0=C2=A0=C2=A0 pgprot_t ttm_io_prot(struct ttm_buffer_o=
+bject *bo,
+> > > > > > > > struct
+> > > > > > > > ttm_resource *res,
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0		=C2=A0=C2=A0=C2=A0=C2=A0 pgprot_t=
+ tmp);
+> > > > > > > > =C2=A0=C2=A0=C2=A0 void ttm_bo_tt_destroy(struct ttm_buffer=
+_object
+> > > > > > > > *bo);
+> > > > > > > > +int ttm_bo_populate(struct ttm_buffer_object *bo,
+> > > > > > > > +		=C2=A0=C2=A0=C2=A0 struct ttm_operation_ctx *ctx);
+> > > > > > > > =C2=A0=C2=A0=C2=A0=20
+> > > > > > > > =C2=A0=C2=A0=C2=A0 #endif
+> > > > > > > > diff --git a/include/drm/ttm/ttm_device.h
+> > > > > > > > b/include/drm/ttm/ttm_device.h
+> > > > > > > > index c22f30535c84..438358f72716 100644
+> > > > > > > > --- a/include/drm/ttm/ttm_device.h
+> > > > > > > > +++ b/include/drm/ttm/ttm_device.h
+> > > > > > > > @@ -252,9 +252,10 @@ struct ttm_device {
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	spinlock_t lru_lock;
+> > > > > > > > =C2=A0=C2=A0=C2=A0=20
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	/**
+> > > > > > > > -	 * @pinned: Buffer objects which are pinned
+> > > > > > > > and so
+> > > > > > > > not
+> > > > > > > > on
+> > > > > > > > any LRU list.
+> > > > > > > > +	 * @unevictable Buffer objects which are
+> > > > > > > > pinned or
+> > > > > > > > swapped
+> > > > > > > > and as such
+> > > > > > > > +	 * not on an LRU list.
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	 */
+> > > > > > > > -	struct list_head pinned;
+> > > > > > > > +	struct list_head unevictable;
+> > > > > > > > =C2=A0=C2=A0=C2=A0=20
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	/**
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	 * @dev_mapping: A pointer to the =
+struct
+> > > > > > > > address_space
+> > > > > > > > for
+> > > > > > > > invalidating
+> > > > > > > > diff --git a/include/drm/ttm/ttm_tt.h
+> > > > > > > > b/include/drm/ttm/ttm_tt.h
+> > > > > > > > index 2b9d856ff388..991edafdb2dd 100644
+> > > > > > > > --- a/include/drm/ttm/ttm_tt.h
+> > > > > > > > +++ b/include/drm/ttm/ttm_tt.h
+> > > > > > > > @@ -129,6 +129,11 @@ static inline bool
+> > > > > > > > ttm_tt_is_populated(struct
+> > > > > > > > ttm_tt *tt)
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0	return tt->page_flags &
+> > > > > > > > TTM_TT_FLAG_PRIV_POPULATED;
+> > > > > > > > =C2=A0=C2=A0=C2=A0 }
+> > > > > > > > =C2=A0=C2=A0=C2=A0=20
+> > > > > > > > +static inline bool ttm_tt_is_swapped(const struct
+> > > > > > > > ttm_tt
+> > > > > > > > *tt)
+> > > > > > > > +{
+> > > > > > > > +	return tt->page_flags & TTM_TT_FLAG_SWAPPED;
+> > > > > > > > +}
+> > > > > > > > +
+> > > > > > > > =C2=A0=C2=A0=C2=A0 /**
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0 * ttm_tt_create
+> > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0 *
+>=20
 
