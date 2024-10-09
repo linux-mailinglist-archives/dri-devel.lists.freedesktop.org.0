@@ -2,69 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6A53996F2F
+	by mail.lfdr.de (Postfix) with ESMTPS id F233F996F32
 	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 17:09:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61C0E10E769;
-	Wed,  9 Oct 2024 15:09:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B91B810E76B;
+	Wed,  9 Oct 2024 15:09:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BKKh1zO+";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JM8uUONE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com
- [209.85.218.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BCBC10E769
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 15:09:13 +0000 (UTC)
-Received: by mail-ej1-f51.google.com with SMTP id
- a640c23a62f3a-a9943897c07so615195266b.3
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Oct 2024 08:09:13 -0700 (PDT)
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
+ [209.85.208.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A10FF10E76A
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 15:09:14 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id
+ 4fb4d7f45d1cf-5c721803a89so9199849a12.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Oct 2024 08:09:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1728486552; x=1729091352; darn=lists.freedesktop.org;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=oQP4bXtAq110b5q+DlIMRj9A9FiDE9kHqNzGMoUSXjk=;
- b=BKKh1zO+qDDGILUqcEltIWtZcR27jYmgHnx4KK80GLqBCxlqrIDzG0VVKSEFzPMq+d
- VWXoDRvWD2Oz7OPQoSJ/dV9VduAw/QqOtQ3RgXNrjPRYIaC7mMRGUr8PnIauaVWqv5GH
- HqipyAIEoHeV08ZxOTb71oebJ9Egx15JAM0jd5xWQ4iy5mRnxFoE+r5WevMTCbU23d15
- OfMY6bGWSYIOSS5u6Rsq9t3HsxKY4tbzcVM4ng09Or8xAu3oLMiO+uGgKtHOa1X7szaA
- UhNwstktRVeXKgaSwNJIfsjMwYH0i6kU0R1ClD1DmClg/WDyPfclXns7IOFR1mTdzbI7
- kSjw==
+ d=gmail.com; s=20230601; t=1728486553; x=1729091353; darn=lists.freedesktop.org;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=JEvUlk1jL136GgzQVqdT9mrooxY8Q/uLvCPC41MEpWc=;
+ b=JM8uUONEiNhZBzj90akd68bbZl1D1A9CkSKqU/THDZVHx3C806wr1rNVAkpjvHMEdm
+ J9mZBIVSCnNKSDo4k+/1qAQxukPzGJoq4x+2fhn3ADx/rcw6JDH/m13eyoRP6ucxx4Mv
+ KOP5wsw7c/wW7yvICyBbQ2TzVVxVYCwdZKYRc9SPhHEtkFeERt5tsMYv57wE1zTtCPJb
+ GRye7yHZTJPNevaUy0vJL+GA+VtKG+EE4/tsV0jvDTs/Maadj+/UwnL/MCruMfoLpogV
+ SDPde9bJ+6x/5znaiaw+cq4QcSu77C7r2BNqWuz+ZB3TEjnc2BQsSv3UDpNuVVClmEl6
+ GuwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728486552; x=1729091352;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=oQP4bXtAq110b5q+DlIMRj9A9FiDE9kHqNzGMoUSXjk=;
- b=OdhTWBqherokOXi6VeIsCNsl5lE+VPmZl39kRQK/a99ao09dhkDM6Q9tzGKNfnv4CO
- x9s5Xvx1t396eRCP+kcMfXf+dm0DYB72iMzTYwj1FYacaccOq88iHwGSTRvUKNm5pVSg
- X09Jtm3LyjcMR2AQngoNdkCZlMZmDEps/eKyckmN7DGOVBYiscuib2YA8F8mwo42ngJT
- n058fupYVNWnwdSaNauFVWVrvQfkvIrL+dFx2Hfudlu4qyjcxB1VcQIMgtlBYPYPgeJY
- bf3MtH97biY3MvZupTkDQL+72RsGDtp4GHMLlbQ59UjcuOpQ4TIJHzQkJchI9tfHInPh
- AfqA==
-X-Gm-Message-State: AOJu0YwceKCPG7q7NCDGAvelALl5Q6wFEA+wfjftfEetX2QJQbJiULWN
- ipjQ2GAJ/RII1iIE7PTZjrN9FqPoHeIgj0PwcqePNiyfaHsHNWnI
-X-Google-Smtp-Source: AGHT+IGuHAJ47CR9GiJkLEZhWahghIZ3BqZ+9vXKxjyRToKYctVTabsiExnAX6CeyRDQ2/zzVo+bSg==
-X-Received: by 2002:a17:907:6d10:b0:a93:d5d3:be4 with SMTP id
- a640c23a62f3a-a998d10e616mr248485966b.13.1728486551483; 
- Wed, 09 Oct 2024 08:09:11 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1728486553; x=1729091353;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=JEvUlk1jL136GgzQVqdT9mrooxY8Q/uLvCPC41MEpWc=;
+ b=J8cHePxrN3MsqkVIOBcNSsyP3Ziu+ivZVm7dq+W0q7Jfa1mAEc7YL1qXuzIZO2Zucm
+ qp6xa4dNMfYKqw/Q0+zsEmQ9eDabbGyhjnbAIK3HqgyB+cW5HRFVTaK4JhLDemj+2fZX
+ Civso9kw4aPvlQI7zrXyVy9FUVcHTyZxMrN6wHBQ+Koyq+mgs1TFSsoXcJlu8zpaZmYz
+ oYDDC4Qvw/dignBkyrBnRG01Q5ontkVY7JfpJDowHL1Pia587PXQCYiwJOGmYCrL4wOL
+ mPbbpBkqbRf2I/UMpO+zG52FYa6lRRFoAZYZMYe5t5JbviP9lu6CAKDir0GvTvfVmTMg
+ LZfQ==
+X-Gm-Message-State: AOJu0YxPXqZ2WMXqSZPN0w1zdU/4hnhhViDVsGTpQWszmKxvMKCXEbik
+ CZTliw+BgwBDnBRa5MaBiiSNjYFt6ivUPVY2dFLNbg61yNHJjxHg
+X-Google-Smtp-Source: AGHT+IFpmC0d/mSmKW6krwhiMHYg5RC1Y698kV0WymUaPKy3TEmRyQ4FGV+J9yIkDTIheiYLIN+iZg==
+X-Received: by 2002:a17:907:9620:b0:a99:4601:b9d8 with SMTP id
+ a640c23a62f3a-a998d34dd72mr221987366b.63.1728486552647; 
+ Wed, 09 Oct 2024 08:09:12 -0700 (PDT)
 Received: from [127.0.1.1] (leased-line-46-53-189-107.telecom.by.
  [46.53.189.107]) by smtp.googlemail.com with ESMTPSA id
- a640c23a62f3a-a992e7b19b8sm668861766b.154.2024.10.09.08.09.10
+ a640c23a62f3a-a992e7b19b8sm668861766b.154.2024.10.09.08.09.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Oct 2024 08:09:11 -0700 (PDT)
+ Wed, 09 Oct 2024 08:09:12 -0700 (PDT)
 From: Dzmitry Sankouski <dsankouski@gmail.com>
-Subject: [PATCH v7 0/3] Add Samsung S6E3HA8 panel driver
-Date: Wed, 09 Oct 2024 18:09:05 +0300
-Message-Id: <20241009-starqltechn_integration_upstream-v7-0-9967bd15c7c5@gmail.com>
+Date: Wed, 09 Oct 2024 18:09:06 +0300
+Subject: [PATCH v7 1/3] drm/mipi-dsi: add mipi_dsi_compression_mode_multi
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAJGcBmcC/43OTWrDMBAF4KsErauiH2ukdNV7lBAkeWwLbDmVF
- JMSfPcqgbYhm3r5Hsz35koypoCZvO2uJOEScphjDfplR/xgY480tDUTwUTDgGuai02fY0E/xGO
- IBftkS705nk+5JLQTdd6AUcyJDiWpjLMZqUs2+qFC8TyOtTwl7MLlvvtxqHkIuczp6/7GIm/tz
- 6L5f3GRlFGUHQAIxrX17/1kw/jq54nc8KX5A/dcbgCbCopWYNcqr4zWz6B6AAVsAFUFuXcMG4k
- gZPcMwi/IGdsCQgWNlOD2vgUvm0dwXddvV+v0xtgBAAA=
+Message-Id: <20241009-starqltechn_integration_upstream-v7-1-9967bd15c7c5@gmail.com>
+References: <20241009-starqltechn_integration_upstream-v7-0-9967bd15c7c5@gmail.com>
+In-Reply-To: <20241009-starqltechn_integration_upstream-v7-0-9967bd15c7c5@gmail.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
  Jessica Zhang <quic_jesszhan@quicinc.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -73,14 +70,13 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Dzmitry Sankouski <dsankouski@gmail.com>, 
- Conor Dooley <conor.dooley@microchip.com>
+ linux-kernel@vger.kernel.org, Dzmitry Sankouski <dsankouski@gmail.com>
 X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1728486550; l=1745;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1728486550; l=2054;
  i=dsankouski@gmail.com; s=20240619; h=from:subject:message-id;
- bh=I+WsgUKzSR0TDVGgB/Wo96lC4fF+rUpQR5yl1SaHv8g=;
- b=yOVZmBTtbV56rqe40KXX5uPiGp7C4iqXQQmSlTVtO8Cebg9/Ntn5c+HM4KSeUf8jOLI5K8k4x
- 5o3vEmQXznHAKNBeZeBxsiO48E3H6/DoRQni9Zesr64IagWYX8POrFI
+ bh=8E4fr1Sq/NtXc9NlBNm/OB/QNGso+ly2Jqs2ZWzRZDo=;
+ b=3lUOctdE19ggiM11q2NWrCsulpMt6YIvZwdld84ZfRF1xxEwgUNOc/0E6sjnhacb1QQpmn5rW
+ +UfFVu+REpyCxjbZlh5SXgWHsSvzNbXq/x7EmsExNxjBBTHAO1nUPkG
 X-Developer-Key: i=dsankouski@gmail.com; a=ed25519;
  pk=YJcXFcN1EWrzBYuiE2yi5Mn6WLn6L1H71J+f7X8fMag=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -98,42 +94,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The s6e3ha8 is a 1440x2960 DPI AMOLED display panel from Samsung Mobile
-  Displays (SMD)
+mipi_dsi_compression_mode_multi can help with
+error handling.
 
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
 Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
 ---
 Changes in v7:
 - fix kernel doc
-- Link to v6: https://lore.kernel.org/r/20241006-starqltechn_integration_upstream-v6-0-8336b9cd6c34@gmail.com
-
-Changes in v6:
-- add new patch with mipi_dsi_compression_mode_multi function
-- Link to v5: https://lore.kernel.org/r/20240926-starqltechn_integration_upstream-v5-0-1cb0e43e623f@gmail.com
-
-Changes in v5:
-- Split patchset per subsystem
-- Link to v4: https://lore.kernel.org/r/20240913-starqltechn_integration_upstream-v4-0-2d2efd5c5877@gmail.com
-
 ---
-Dzmitry Sankouski (3):
-      drm/mipi-dsi: add mipi_dsi_compression_mode_multi
-      dt-bindings: panel: add Samsung s6e3ha8
-      drm/panel: Add support for S6E3HA8 panel driver
+ drivers/gpu/drm/drm_mipi_dsi.c | 16 ++++++++++++++++
+ include/drm/drm_mipi_dsi.h     |  2 ++
+ 2 files changed, 18 insertions(+)
 
- Documentation/devicetree/bindings/display/panel/samsung,s6e3ha8.yaml |  75 +++++++++++++++++++++
- MAINTAINERS                                                          |   6 ++
- drivers/gpu/drm/drm_mipi_dsi.c                                       |  16 +++++
- drivers/gpu/drm/panel/Kconfig                                        |   7 ++
- drivers/gpu/drm/panel/Makefile                                       |   1 +
- drivers/gpu/drm/panel/panel-samsung-s6e3ha8.c                        | 342 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- include/drm/drm_mipi_dsi.h                                           |   2 +
- 7 files changed, 449 insertions(+)
----
-base-commit: 58ca61c1a866bfdaa5e19fb19a2416764f847d75
-change-id: 20240617-starqltechn_integration_upstream-bc86850b2fe3
+diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.c
+index 2bc3973d35a1..5e5c5f84daac 100644
+--- a/drivers/gpu/drm/drm_mipi_dsi.c
++++ b/drivers/gpu/drm/drm_mipi_dsi.c
+@@ -1520,6 +1520,22 @@ void mipi_dsi_compression_mode_ext_multi(struct mipi_dsi_multi_context *ctx,
+ }
+ EXPORT_SYMBOL(mipi_dsi_compression_mode_ext_multi);
+ 
++/**
++ * mipi_dsi_compression_mode_multi() - enable/disable DSC on the peripheral
++ * @ctx: Context for multiple DSI transactions
++ * @enable: Whether to enable or disable the DSC
++ *
++ * Enable or disable Display Stream Compression on the peripheral using the
++ * default Picture Parameter Set and VESA DSC 1.1 algorithm.
++ */
++void mipi_dsi_compression_mode_multi(struct mipi_dsi_multi_context *ctx,
++				     bool enable)
++{
++	return mipi_dsi_compression_mode_ext_multi(ctx, enable,
++						   MIPI_DSI_COMPRESSION_DSC, 0);
++}
++EXPORT_SYMBOL(mipi_dsi_compression_mode_multi);
++
+ /**
+  * mipi_dsi_dcs_nop_multi() - send DCS NOP packet
+  * @ctx: Context for multiple DSI transactions
+diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
+index f725f8654611..94400a78031f 100644
+--- a/include/drm/drm_mipi_dsi.h
++++ b/include/drm/drm_mipi_dsi.h
+@@ -280,6 +280,8 @@ void mipi_dsi_compression_mode_ext_multi(struct mipi_dsi_multi_context *ctx,
+ 					 bool enable,
+ 					 enum mipi_dsi_compression_algo algo,
+ 					 unsigned int pps_selector);
++void mipi_dsi_compression_mode_multi(struct mipi_dsi_multi_context *ctx,
++				     bool enable);
+ void mipi_dsi_picture_parameter_set_multi(struct mipi_dsi_multi_context *ctx,
+ 					  const struct drm_dsc_picture_parameter_set *pps);
+ 
 
-Best regards,
 -- 
-Dzmitry Sankouski <dsankouski@gmail.com>
+2.39.2
 
