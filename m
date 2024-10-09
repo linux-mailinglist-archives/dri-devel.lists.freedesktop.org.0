@@ -2,67 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05DA5996C78
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 15:43:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB411996C91
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 15:47:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73DD210E729;
-	Wed,  9 Oct 2024 13:43:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C64110E726;
+	Wed,  9 Oct 2024 13:47:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="PJzm/qMW";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="LcaYXt58";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94D0F10E722;
- Wed,  9 Oct 2024 13:43:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1728481415; x=1760017415;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=BmZuKYMkRJ8L4w1vaVjp3jgciXYLxJjGTkK4HfuIKHE=;
- b=PJzm/qMWsX8QcyB4IkbhzyiyGfqhskSYJB1xyn0QR8neyv00098YBItj
- ZEB+QutTuUBkygVysPIgKEid33IrRQ/dYvM8OfIQ+X7zKBoNBQOuy95UH
- r0GnuKuJaNWv5gDYC0AVQKTFIR/gSeN6gHxBKjXh1TkNaEY3qte4kQ740
- DADANJ+Pfh531fxWYHFK4j0s5zvfLeaYpdjdTurPZ53QEVD3oolWO+WIv
- Vet/6MhR+lK/8NL0fbr6tQ6XebYs/uRmfNfYrNwtbWdualILa4cmDo7mc
- SvizWcG+sq+SjIH3XT6n5vCJPfQvjCCQcMpM02R28TigCcswTO53VBI7T Q==;
-X-CSE-ConnectionGUID: rfbVQhkiRaKh8onFBoITwg==
-X-CSE-MsgGUID: iQ8VM9opQHu+5KWoWYkp9g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="39142953"
-X-IronPort-AV: E=Sophos;i="6.11,189,1725346800"; d="scan'208";a="39142953"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Oct 2024 06:43:34 -0700
-X-CSE-ConnectionGUID: bPpCYgWzR1W8nDTQLGhBjg==
-X-CSE-MsgGUID: HeHDlAiMQNyfm4UODcHrCA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,189,1725346800"; d="scan'208";a="75855340"
-Received: from oandoniu-mobl3.ger.corp.intel.com (HELO [10.245.245.243])
- ([10.245.245.243])
- by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Oct 2024 06:43:32 -0700
-Message-ID: <c5e8899f4bcba24a787cd0f4c92c3fc4d7ef3130.camel@linux.intel.com>
-Subject: Re: [PATCH v2] locking/ww_mutex: Adjust to lockdep nest_lock
- requirements
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: intel-xe@lists.freedesktop.org, Ingo Molnar <mingo@redhat.com>, Will
- Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>, Boqun Feng
- <boqun.feng@gmail.com>, Maarten Lankhorst <maarten@lankhorst.se>, Christian
- =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org,  linux-kernel@vger.kernel.org
-Date: Wed, 09 Oct 2024 15:43:29 +0200
-In-Reply-To: <20241009131015.GP17263@noisy.programming.kicks-ass.net>
-References: <20241009092031.6356-1-thomas.hellstrom@linux.intel.com>
- <20241009131015.GP17263@noisy.programming.kicks-ass.net>
-Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
- keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
+ [209.85.208.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CAC0F10E726
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 13:47:14 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id
+ 4fb4d7f45d1cf-5c896b9b3e1so9467655a12.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Oct 2024 06:47:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1728481633; x=1729086433; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=txQkDRS98qxQSlLjIHl1ZL3viMPBW7fCCoQ6NND/4GI=;
+ b=LcaYXt58o4KyQUxXeGhseCX31gU72HhbaPEVIWO0mUYHYJUjpU8vhRvC8nq2kpx6/W
+ niwSmcZ3BTJBOlXq4YE3T+v5IYMQXHpwOVm9+++z7juJrc+NDAnNTLc9ecTez94OsTKD
+ cifxcYJlFu6EnON0XTDocbC5J2Io2sCzv9Yob/Zbfzlvl0iJmqqPaUEhdOWG9m5y1abt
+ rFQIx0XTDE8LbDFfBg44h6qmB9n5WSsiIz1iRBgSei92KMlquzRpr2IG0cJ3+K20/0Sz
+ /peNSedkBshq2b2OgruYRZ0Pq3iUnZMOCnsbN01+NGK5A/HgvU2PKNGOyzCtZM8dhHsn
+ Oi8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1728481633; x=1729086433;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=txQkDRS98qxQSlLjIHl1ZL3viMPBW7fCCoQ6NND/4GI=;
+ b=Dgn6iVSxw2fKk/aBKDgC0GTP0N8eKCiaDHwNREtSYtT6a6xy3c3d8NfNuxHXF7oLDk
+ YeUERnK77WRBsiOC/LcotwPVPh1Gl/hcNQ598IhHmEkrrO3ps5JrCU7/EPnKzt8xTCA3
+ srplcc8653joUaM5QBfsD3Oh+gWorKZjnLM+b7uGpq8yoQLaEaboAFFYt91yqoMJvh9T
+ z8v/YcXjBTvCpT7ya8aD8czdpaSzyw1aft8MQPH7lgRxSwbiWLefRVexrTLn63sPsx/P
+ c8tzJ+p/Ugrf2JiWLRDQaePcPNUKLk/ig5kU/uYHDEaSahZB+YfqhgLEYsBQOWheryMd
+ zzxQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUbygVObymGPIOLKBJO2UgiMjSUbb7u9E+7eGHUoZS8j7aIHgeuCCW4Lt9mXtfvHDv6NVQp601Qruk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxvJO6UAyV+UJqTzYo1nF2Vj1huoLh8swjUD3OKYfkIpIlnByy3
+ 2612SENE68k3qjXCnL00/DO9pbO2D9+LQE7zrvOTrugIS7GDNUGOasotpRnUf4o=
+X-Google-Smtp-Source: AGHT+IFkWiknZr5mm3FCX6LuZw6eRJb1JJkxWWCDxW/CnP8EG2UoaocNNAuDZ7WJQ9/IeyPs62+vKQ==
+X-Received: by 2002:a17:906:d7d1:b0:a90:41a5:bb58 with SMTP id
+ a640c23a62f3a-a998d19eb5amr227845266b.16.1728481633056; 
+ Wed, 09 Oct 2024 06:47:13 -0700 (PDT)
+Received: from aspen.lan
+ (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+ by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a994f4b91aesm462581466b.194.2024.10.09.06.47.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Oct 2024 06:47:12 -0700 (PDT)
+Date: Wed, 9 Oct 2024 14:47:10 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Lee Jones <lee@kernel.org>
+Cc: linux@treblig.org, jingoohan1@gmail.com, hdegoede@redhat.com,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] backlight: Remove notifier
+Message-ID: <20241009134710.GA16179@aspen.lan>
+References: <20240919232758.639925-1-linux@treblig.org>
+ <ZvKgo8RUImafDRPE@phenom.ffwll.local>
+ <20241009102230.GC276481@google.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241009102230.GC276481@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,61 +86,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2024-10-09 at 15:10 +0200, Peter Zijlstra wrote:
-> On Wed, Oct 09, 2024 at 11:20:31AM +0200, Thomas Hellstr=C3=B6m wrote:
-> > When using mutex_acquire_nest() with a nest_lock, lockdep refcounts
-> > the
-> > number of acquired lockdep_maps of mutexes of the same class, and
-> > also
-> > keeps a pointer to the first acquired lockdep_map of a class. That
-> > pointer
-> > is then used for various comparison-, printing- and checking
-> > purposes,
-> > but there is no mechanism to actively ensure that lockdep_map stays
-> > in
-> > memory. Instead, a warning is printed if the lockdep_map is freed
-> > and
-> > there are still held locks of the same lock class, even if the
-> > lockdep_map
-> > itself has been released.
-> >=20
-> > In the context of WW/WD transactions that means that if a user
-> > unlocks
-> > and frees a ww_mutex from within an ongoing ww transaction, and
-> > that
-> > mutex happens to be the first ww_mutex grabbed in the transaction,
-> > such a warning is printed and there might be a risk of a UAF.
-> >=20
-> > Note that this is only problem when lockdep is enabled and affects
-> > only
-> > dereferences of struct lockdep_map.
-> >=20
-> > Adjust to this by adding a fake lockdep_map to the acquired context
-> > and
-> > make sure it is the first acquired lockdep map of the associated
-> > ww_mutex class. Then hold it for the duration of the WW/WD
-> > transaction.
-> >=20
-> > This has the side effect that trying to lock a ww mutex *without* a
-> > ww_acquire_context but where a such context has been acquire, we'd
-> > see
-> > a lockdep splat. The test-ww_mutex.c selftest attempts to do that,
-> > so
-> > modify that particular test to not acquire a ww_acquire_context if
-> > it
-> > is not going to be used.
-> >=20
-> > v2:
-> > - Lower the number of locks in the test-ww_mutex
-> > =C2=A0 stress(STRESS_ALL) test to accommodate the dummy lock
-> > =C2=A0 introduced in this patch without overflowing lockdep held lock
-> > =C2=A0 references.
->=20
-> Thanks, I rebased tip/locking/core, which should now have this patch.
+On Wed, Oct 09, 2024 at 11:22:30AM +0100, Lee Jones wrote:
+> On Tue, 24 Sep 2024, Simona Vetter wrote:
+>
+> > On Fri, Sep 20, 2024 at 12:27:58AM +0100, linux@treblig.org wrote:
+> > > From: "Dr. David Alan Gilbert" <linux@treblig.org>
+> > >
+> > > backlight_register_notifier and backlight_unregister_notifier have
+> > > been unused since
+> > >   commit 6cb634d0dc85 ("ACPI: video: Remove code to unregister acpi_video
+> > > backlight when a native backlight registers")
+> > >
+> > > With those not being called, it means that the backlight_notifier
+> > > list is always empty.
+> > >
+> > > Remove the functions, the list itself and the enum used in the
+> > > notifications.
+> > >
+> > > Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+> >
+> > Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
+> >
+> > I think Lee Jones or Daniel Thompson will pick this up.
+>
+> I will pick this up with Daniel's review.
 
-Thanks.
-It takes some time for that failing CI test to run, though so, and
-since I can't repro the failure locally I'll keep a watch out.
+Thanks for the patch... sorry for the delay. I just bumped this up my
+TODO list a little ;-)
 
-/Thomas
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 
+
+Daniel.
