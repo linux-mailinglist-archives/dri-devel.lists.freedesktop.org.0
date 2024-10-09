@@ -2,73 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E4AB99678A
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 12:45:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 524CF996796
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 12:47:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E2A410E6CA;
-	Wed,  9 Oct 2024 10:45:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5D2A10E6CD;
+	Wed,  9 Oct 2024 10:47:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="hsN4UQ+S";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Redd7Ada";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com
- [209.85.219.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C2A010E6CA
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 10:45:51 +0000 (UTC)
-Received: by mail-yb1-f176.google.com with SMTP id
- 3f1490d57ef6-e25d6342837so5801746276.1
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Oct 2024 03:45:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google; t=1728470750; x=1729075550;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=T8o3JP8Ym8QXKjfXUXNfgbLb7FEiYWttofS1cFkjvfo=;
- b=hsN4UQ+SR7GKn1k7SHW7NTlC0xok9/ek/2dNusyXAbF8jfr/ZHJbCWjyfJ+BqoIzyr
- SaNh0/eOLQoSqgw12n+4Lk/Mc0HmN3na08ekGkXj5kpJtYoiDYrGy0PnzI7RcFrR7HpV
- Kyo9i7X8MprKLBTf5jzxpn6loFIKeCP44Upi5r9yFHQYgk5oh3Iw53JBfHmSWp7riNZN
- moUnZH8XutF4DZhCkr3p9jzwIvknGKNSuDs/2BPhvp93VMN2oPEHYYUVLZyS7GKZbxhr
- hcFanq4diaeLAE8gUwMuexK7jBOz7Perv9VCtvUfhtfuP68FGfTvmAEboDTtTBvbkH48
- EnQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728470750; x=1729075550;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=T8o3JP8Ym8QXKjfXUXNfgbLb7FEiYWttofS1cFkjvfo=;
- b=NOdo6T/BW32rsa6CCPBr8fUBudJaq4T8C+BpWM7g9jss68SObPZ8NWf4Q/7RfIf6SS
- nkc9MnjkuuHIhDPu7hii3ass1zOo47LFJLYukTYrgPd3ADRKOL7eV+RcVTOLk7IDb4eh
- VjVbGpikvhiktmIr4W5WZBSYyKgyNJod4nSKEbGxQE+u0WVwi5Lg42GlcMnHteu3/fu0
- IlL1URbzxnhy4Drl21ilGdpREoQBm4RVNRJbQPO/L/GcUzVwD4cCvbXKPm2ESvXzXoBy
- kqiSFboxgdNRPdicYyvXjRnVEND6IfNQF6Xo1rFDhvwuCUpbtJ9AaNQU5HhKq+qbacWB
- Fflg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU8oih2KdNpLRFM8fmbuKLQ9rwVi3dQfU7sJPckY2DmWcU+UEc6Sxdf4bS7ccivGNgPOdYKgkqgqKk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyf7g2+l/rfsrcqrwn5CDZVc9/Y9mnWa4zZ7peT0j9LLST3F7SY
- /FSaJ/LgpIXdF18iTL73cIner8cVXNlFRCvumAF078oi4m3UAPjx38m1RzfZqKeab7kR4jR0ida
- Mb8thoI5GGvZfLJ/iJDCq0s8zP0+zwTspeWk9eQ==
-X-Google-Smtp-Source: AGHT+IFNV1jEJcdslFSORuIEmRSCIO9ZUPfSTl6otoICMAa7Rat7jue/nFfneJPA4u5AToRHJmksZ06UtzqK+1+6Wt4=
-X-Received: by 2002:a05:6902:90f:b0:e13:d392:82bc with SMTP id
- 3f1490d57ef6-e28fe32e898mr1565160276.12.1728470750526; Wed, 09 Oct 2024
- 03:45:50 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C60810E6CD;
+ Wed,  9 Oct 2024 10:47:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1728470838; x=1760006838;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=pju3iGTyQ0tzIJ+XL/zKUcqmAc3tqyNpMoNv9f4SRLw=;
+ b=Redd7Adaj1dLdxiAEvuJx6PJxAiQ8ZzYL0Drv86Rvc+gfCirwLHjLDvB
+ N3s2FjW3PVdyxrIqTRhLVYtuaFSP9+Ac+HKIewNe9ykLZ/oHGl4Q92Z6/
+ eQnjWFac9d2IP2NKTYhHHOAIx8aY91UvmziuJ7UoZIPPtYRyYF0mO3Mux
+ z3HnE/2Cb/2NHOG+yeyHCE4BATotc6zsq/FnsUE2xzsPaMcdTLyQdOL+a
+ 2WO9d1MnNtE3Pb7Xv7c94zYRUwgL1vU96MgrFAYZlSbqBEhsZYmDH/9tz
+ BtDzdYI6Tw97mczaSUowrAIruRQPUFtYYTbAakNV37uf1hLefyS52bslS A==;
+X-CSE-ConnectionGUID: Tm6Eny30TfCsVkHF9ekp2g==
+X-CSE-MsgGUID: ga0xXp5aSMyclszKyxV0rg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11219"; a="50297261"
+X-IronPort-AV: E=Sophos;i="6.11,189,1725346800"; d="scan'208";a="50297261"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Oct 2024 03:47:17 -0700
+X-CSE-ConnectionGUID: UHVnNWGvQ6eQt6yOLuG2eg==
+X-CSE-MsgGUID: tebn4PytQFCSVEOdBuV/qw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,189,1725346800"; d="scan'208";a="99532499"
+Received: from johunt-mobl9.ger.corp.intel.com (HELO [10.245.244.73])
+ ([10.245.244.73])
+ by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Oct 2024 03:47:14 -0700
+Message-ID: <d9b1f605-9d4a-456c-9f4b-43681f9c1773@linux.intel.com>
+Date: Wed, 9 Oct 2024 12:47:27 +0200
 MIME-Version: 1.0
-References: <20241009004332.1901833-1-mcanal@igalia.com>
- <164f5bd6-c240-42af-aef4-37db7e2041cc@suse.de>
- <20241009-melodic-adorable-groundhog-2c01af@houat>
-In-Reply-To: <20241009-melodic-adorable-groundhog-2c01af@houat>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Wed, 9 Oct 2024 11:45:34 +0100
-Message-ID: <CAPY8ntBAujmMV2RD0FLcE94St6tuP6jwC6cMAE+YmHb8qN5h_g@mail.gmail.com>
-Subject: Re: [PATCH] drm/vc4: Set `fbdev_probe` in `struct vc5_drm_driver`
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND] locking/ww_mutex: Adjust to lockdep nest_lock
+ requirements
+To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-xe@lists.freedesktop.org
+Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ Will Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>,
+ Boqun Feng <boqun.feng@gmail.com>, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20241002125611.361001-1-thomas.hellstrom@linux.intel.com>
+Content-Language: en-US
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+In-Reply-To: <20241002125611.361001-1-thomas.hellstrom@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,136 +76,117 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 9 Oct 2024 at 08:55, Maxime Ripard <mripard@kernel.org> wrote:
->
-> On Wed, Oct 09, 2024 at 08:59:29AM GMT, Thomas Zimmermann wrote:
-> > Hi
-> >
-> > Am 09.10.24 um 02:40 schrieb Ma=C3=ADra Canal:
-> > > Currently, when booting the RPi 4B, we get a NULL pointer dereference=
-:
-> > >
-> > > [    7.642883] Unable to handle kernel NULL pointer dereference at vi=
-rtual address 0000000000000038
-> > > [    7.642926] Mem abort info:
-> > > [    7.642938]   ESR =3D 0x0000000096000044
-> > > [    7.642951]   EC =3D 0x25: DABT (current EL), IL =3D 32 bits
-> > > [    7.642968]   SET =3D 0, FnV =3D 0
-> > > [    7.642981]   EA =3D 0, S1PTW =3D 0
-> > > [    7.642993]   FSC =3D 0x04: level 0 translation fault
-> > > [    7.643007] Data abort info:
-> > > [    7.643017]   ISV =3D 0, ISS =3D 0x00000044, ISS2 =3D 0x00000000
-> > > [    7.643032]   CM =3D 0, WnR =3D 1, TnD =3D 0, TagAccess =3D 0
-> > > [    7.643046]   GCS =3D 0, Overlay =3D 0, DirtyBit =3D 0, Xs =3D 0
-> > > [    7.643063] user pgtable: 4k pages, 48-bit VAs, pgdp=3D00000001074=
-87000
-> > > [    7.643081] [0000000000000038] pgd=3D0000000000000000, p4d=3D00000=
-00000000000
-> > > [    7.643113] Internal error: Oops: 0000000096000044 [#1] PREEMPT SM=
-P
-> > > [    7.643131] Modules linked in: snd_bcm2835(C)  [...] vc4 v3d [...]
-> > > drm_shmem_helper drm_dma_helper drm_kms_helper drm [...] ipv6
-> > > [    7.643377] CPU: 1 UID: 0 PID: 48 Comm: kworker/u16:2 Tainted: G  =
-       C         6.12.0-rc1-00310-g2c34a5464007 #185
-> > > [    7.643407] Tainted: [C]=3DCRAP
-> > > [    7.643419] Hardware name: Raspberry Pi 4 Model B Rev 1.5 (DT)
-> > > [    7.643438] Workqueue: events_unbound deferred_probe_work_func
-> > > [    7.643477] pstate: 80000005 (Nzcv daif -PAN -UAO -TCO -DIT -SSBS =
-BTYPE=3D--)
-> > > [    7.643499] pc : __drm_fb_helper_initial_config_and_unlock+0x40c/0=
-x588 [drm_kms_helper]
-> > > [    7.643616] lr : __drm_fb_helper_initial_config_and_unlock+0x374/0=
-x588 [drm_kms_helper]
-> > > [    7.643710] sp : ffff8000806c3900
-> > > [    7.643724] x29: ffff8000806c3950 x28: ffff431b01a3ec14 x27: 00000=
-00000000010
-> > > [    7.643758] x26: ffff431b0369f000 x25: 0000000036314752 x24: ffff4=
-31b003b6200
-> > > [    7.643790] x23: ffff431b0369f000 x22: 00000000000002d0 x21: ffff4=
-31b003b6030
-> > > [    7.643821] x20: ffff431b003b6030 x19: ffff431b003b6000 x18: ffff4=
-31b002e6e48
-> > > [    7.643852] x17: 0000000000000001 x16: ffffb19c2f10614c x15: 00000=
-00000000000
-> > > [    7.643882] x14: 0000000000000000 x13: ffff431b003b62f0 x12: 00000=
-00000000500
-> > > [    7.643913] x11: 0000000000000000 x10: 0000000000000000 x9 : 005d6=
-e6f6362665b
-> > > [    7.643945] x8 : 0000000000000000 x7 : 0000000000000000 x6 : 00000=
-0000000003f
-> > > [    7.643975] x5 : ffffb19bcb45c59c x4 : 0000000000001e00 x3 : ffffb=
-19bcb420c20
-> > > [    7.644005] x2 : 0000000000000000 x1 : 0000000000000001 x0 : ffff4=
-31b003b6000
-> > > [    7.644036] Call trace:
-> > > [    7.644049]  __drm_fb_helper_initial_config_and_unlock+0x40c/0x588=
- [drm_kms_helper]
-> > > [    7.644149]  drm_fb_helper_initial_config+0x34/0x4c [drm_kms_helpe=
-r]
-> > > [    7.644240]  drm_fbdev_client_hotplug+0x74/0xc8 [drm_kms_helper]
-> > > [    7.644331]  drm_client_register+0x58/0xa0 [drm]
-> > > [    7.644571]  drm_fbdev_client_setup+0xc4/0x17c [drm_kms_helper]
-> > > [    7.644664]  drm_client_setup_with_fourcc+0x28/0x60 [drm_kms_helpe=
-r]
-> > > [    7.644755]  vc4_drm_bind+0x218/0x264 [vc4]
-> > > [    7.644855]  try_to_bring_up_aggregate_device+0x168/0x1b4
-> > > [    7.644884]  __component_add+0xb8/0x158
-> > > [    7.644905]  component_add+0x14/0x20
-> > > [    7.644925]  vc4_hvs_dev_probe+0x1c/0x28 [vc4]
-> > > [    7.645019]  platform_probe+0xa8/0xd0
-> > > [    7.645045]  really_probe+0x128/0x2c8
-> > > [    7.645065]  __driver_probe_device+0xa0/0x128
-> > > [    7.645086]  driver_probe_device+0x3c/0x1f8
-> > > [    7.645106]  __device_attach_driver+0x118/0x140
-> > > [    7.645127]  bus_for_each_drv+0xf4/0x14c
-> > > [    7.645145]  __device_attach+0xfc/0x194
-> > > [    7.645164]  device_initial_probe+0x14/0x20
-> > > [    7.645184]  bus_probe_device+0x94/0x100
-> > > [    7.645202]  deferred_probe_work_func+0x88/0xc4
-> > > [    7.645223]  process_scheduled_works+0x194/0x2c4
-> > > [    7.645246]  worker_thread+0x290/0x39c
-> > > [    7.645265]  kthread+0xfc/0x184
-> > > [    7.645289]  ret_from_fork+0x10/0x20
-> > > [    7.645317] Code: f2ac6c49 aa1303e0 f2cdcde9 f2e00ba9 (f9001d09)
-> > > [    7.645338] ---[ end trace 0000000000000000 ]---
-> > >
-> > > This happens because commit 45903624e9fc ("drm/vc4: Run DRM default c=
-lient
-> > > setup") only added DRM_FBDEV_DMA_DRIVER_OPS to `struct vc4_drm_driver=
-`
-> > > and didn't add it to `struct vc5_drm_driver`. The `struct vc4_drm_dri=
-ver`
-> > > is used in RPi 0-3, as VC4 is also a render node in those RPis. But R=
-Pi 4
-> > > and 5 use V3D as the render node and VC4 as modeset node and therefor=
-e,
-> > > use `struct vc5_drm_driver`.
-> > >
-> > > This commit adds DRM_FBDEV_DMA_DRIVER_OPS to `struct vc5_drm_driver`,
-> > > ensuring that `fbdev_probe` exists for all VC4 generations.
-> > >
-> > > Fixes: 45903624e9fc ("drm/vc4: Run DRM default client setup")
-> > > Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
-> >
-> > Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
->
-> It's the third time it was sent:
->
-> https://lore.kernel.org/dri-devel/20241002-vc4_fbdev_fix-v1-1-8737bd11b14=
-7@raspberrypi.com/
-> https://lore.kernel.org/dri-devel/20241003092826.1942901-3-m.szyprowski@s=
-amsung.com/
+Hey,
 
-It is. No one responded to my version. I can merge Marek's vc4 change
-with my R-b, or now Maira's with Thomas and mine.
-But both the other two submissions also included a patch so that
-drm_fb_helper handled the error more cleanly [1 and 2]. I'm still new
-to maintainership, but I don't believe I'm in a position to merge
-either of those.
+I'm pretty sure I've seen this use-after-free in the wild, just never found the root cause since it's so unlikely to trigger on demand.
 
-  Dave
+Acked-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 
-[1] https://lore.kernel.org/dri-devel/20241002-vc4_fbdev_fix-v1-2-8737bd11b=
-147@raspberrypi.com/
-[2] https://lore.kernel.org/dri-devel/20241003092826.1942901-2-m.szyprowski=
-@samsung.com/
+Den 2024-10-02 kl. 14:56, skrev Thomas Hellström:
+> When using mutex_acquire_nest() with a nest_lock, lockdep refcounts the
+> number of acquired lockdep_maps of mutexes of the same class, and also
+> keeps a pointer to the first acquired lockdep_map of a class. That pointer
+> is then used for various comparison-, printing- and checking purposes,
+> but there is no mechanism to actively ensure that lockdep_map stays in
+> memory. Instead, a warning is printed if the lockdep_map is freed and
+> there are still held locks of the same lock class, even if the lockdep_map
+> itself has been released.
+> 
+> In the context of WW/WD transactions that means that if a user unlocks
+> and frees a ww_mutex from within an ongoing ww transaction, and that
+> mutex happens to be the first ww_mutex grabbed in the transaction,
+> such a warning is printed and there might be a risk of a UAF.
+> 
+> Note that this is only problem when lockdep is enabled and affects only
+> dereferences of struct lockdep_map.
+> 
+> Adjust to this by adding a fake lockdep_map to the acquired context and
+> make sure it is the first acquired lockdep map of the associated
+> ww_mutex class. Then hold it for the duration of the WW/WD transaction.
+> 
+> This has the side effect that trying to lock a ww mutex *without* a
+> ww_acquire_context but where a such context has been acquire, we'd see
+> a lockdep splat. The test-ww_mutex.c selftest attempts to do that, so
+> modify that particular test to not acquire a ww_acquire_context if it
+> is not going to be used.
+> 
+> Cc: Peter Zijlstra <peterz@infradead.org>
+> Cc: Ingo Molnar <mingo@redhat.com>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Waiman Long <longman@redhat.com>
+> Cc: Boqun Feng <boqun.feng@gmail.com>
+> Cc: Maarten Lankhorst <maarten@lankhorst.se>
+> Cc: Christian König <christian.koenig@amd.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-kernel@vger.kernel.org
+> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> ---
+>  include/linux/ww_mutex.h       | 14 ++++++++++++++
+>  kernel/locking/test-ww_mutex.c |  6 ++++--
+>  2 files changed, 18 insertions(+), 2 deletions(-)
+> 
+> diff --git a/include/linux/ww_mutex.h b/include/linux/ww_mutex.h
+> index bb763085479a..a401a2f31a77 100644
+> --- a/include/linux/ww_mutex.h
+> +++ b/include/linux/ww_mutex.h
+> @@ -65,6 +65,16 @@ struct ww_acquire_ctx {
+>  #endif
+>  #ifdef CONFIG_DEBUG_LOCK_ALLOC
+>  	struct lockdep_map dep_map;
+> +	/**
+> +	 * @first_lock_dep_map: fake lockdep_map for first locked ww_mutex.
+> +	 *
+> +	 * lockdep requires the lockdep_map for the first locked ww_mutex
+> +	 * in a ww transaction to remain in memory until all ww_mutexes of
+> +	 * the transaction have been unlocked. Ensure this by keeping a
+> +	 * fake locked ww_mutex lockdep map between ww_acquire_init() and
+> +	 * ww_acquire_fini().
+> +	 */
+> +	struct lockdep_map first_lock_dep_map;
+>  #endif
+>  #ifdef CONFIG_DEBUG_WW_MUTEX_SLOWPATH
+>  	unsigned int deadlock_inject_interval;
+> @@ -146,7 +156,10 @@ static inline void ww_acquire_init(struct ww_acquire_ctx *ctx,
+>  	debug_check_no_locks_freed((void *)ctx, sizeof(*ctx));
+>  	lockdep_init_map(&ctx->dep_map, ww_class->acquire_name,
+>  			 &ww_class->acquire_key, 0);
+> +	lockdep_init_map(&ctx->first_lock_dep_map, ww_class->mutex_name,
+> +			 &ww_class->mutex_key, 0);
+>  	mutex_acquire(&ctx->dep_map, 0, 0, _RET_IP_);
+> +	mutex_acquire_nest(&ctx->first_lock_dep_map, 0, 0, &ctx->dep_map, _RET_IP_);
+>  #endif
+>  #ifdef CONFIG_DEBUG_WW_MUTEX_SLOWPATH
+>  	ctx->deadlock_inject_interval = 1;
+> @@ -185,6 +198,7 @@ static inline void ww_acquire_done(struct ww_acquire_ctx *ctx)
+>  static inline void ww_acquire_fini(struct ww_acquire_ctx *ctx)
+>  {
+>  #ifdef CONFIG_DEBUG_LOCK_ALLOC
+> +	mutex_release(&ctx->first_lock_dep_map, _THIS_IP_);
+>  	mutex_release(&ctx->dep_map, _THIS_IP_);
+>  #endif
+>  #ifdef DEBUG_WW_MUTEXES
+> diff --git a/kernel/locking/test-ww_mutex.c b/kernel/locking/test-ww_mutex.c
+> index 10a5736a21c2..4c2b8b567de5 100644
+> --- a/kernel/locking/test-ww_mutex.c
+> +++ b/kernel/locking/test-ww_mutex.c
+> @@ -62,7 +62,8 @@ static int __test_mutex(unsigned int flags)
+>  	int ret;
+>  
+>  	ww_mutex_init(&mtx.mutex, &ww_class);
+> -	ww_acquire_init(&ctx, &ww_class);
+> +	if (flags & TEST_MTX_CTX)
+> +		ww_acquire_init(&ctx, &ww_class);
+>  
+>  	INIT_WORK_ONSTACK(&mtx.work, test_mutex_work);
+>  	init_completion(&mtx.ready);
+> @@ -90,7 +91,8 @@ static int __test_mutex(unsigned int flags)
+>  		ret = wait_for_completion_timeout(&mtx.done, TIMEOUT);
+>  	}
+>  	ww_mutex_unlock(&mtx.mutex);
+> -	ww_acquire_fini(&ctx);
+> +	if (flags & TEST_MTX_CTX)
+> +		ww_acquire_fini(&ctx);
+>  
+>  	if (ret) {
+>  		pr_err("%s(flags=%x): mutual exclusion failure\n",
+
