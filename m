@@ -2,75 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB411996C91
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 15:47:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BAEC996CC8
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 15:53:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C64110E726;
-	Wed,  9 Oct 2024 13:47:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC8C410E72D;
+	Wed,  9 Oct 2024 13:53:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="LcaYXt58";
+	dkim=pass (2048-bit key; secure) header.d=damsy.net header.i=@damsy.net header.b="SG17PTYf";
+	dkim=permerror (0-bit key) header.d=damsy.net header.i=@damsy.net header.b="M1wTx2Sc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
- [209.85.208.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAC0F10E726
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 13:47:14 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id
- 4fb4d7f45d1cf-5c896b9b3e1so9467655a12.2
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Oct 2024 06:47:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1728481633; x=1729086433; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=txQkDRS98qxQSlLjIHl1ZL3viMPBW7fCCoQ6NND/4GI=;
- b=LcaYXt58o4KyQUxXeGhseCX31gU72HhbaPEVIWO0mUYHYJUjpU8vhRvC8nq2kpx6/W
- niwSmcZ3BTJBOlXq4YE3T+v5IYMQXHpwOVm9+++z7juJrc+NDAnNTLc9ecTez94OsTKD
- cifxcYJlFu6EnON0XTDocbC5J2Io2sCzv9Yob/Zbfzlvl0iJmqqPaUEhdOWG9m5y1abt
- rFQIx0XTDE8LbDFfBg44h6qmB9n5WSsiIz1iRBgSei92KMlquzRpr2IG0cJ3+K20/0Sz
- /peNSedkBshq2b2OgruYRZ0Pq3iUnZMOCnsbN01+NGK5A/HgvU2PKNGOyzCtZM8dhHsn
- Oi8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728481633; x=1729086433;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=txQkDRS98qxQSlLjIHl1ZL3viMPBW7fCCoQ6NND/4GI=;
- b=Dgn6iVSxw2fKk/aBKDgC0GTP0N8eKCiaDHwNREtSYtT6a6xy3c3d8NfNuxHXF7oLDk
- YeUERnK77WRBsiOC/LcotwPVPh1Gl/hcNQ598IhHmEkrrO3ps5JrCU7/EPnKzt8xTCA3
- srplcc8653joUaM5QBfsD3Oh+gWorKZjnLM+b7uGpq8yoQLaEaboAFFYt91yqoMJvh9T
- z8v/YcXjBTvCpT7ya8aD8czdpaSzyw1aft8MQPH7lgRxSwbiWLefRVexrTLn63sPsx/P
- c8tzJ+p/Ugrf2JiWLRDQaePcPNUKLk/ig5kU/uYHDEaSahZB+YfqhgLEYsBQOWheryMd
- zzxQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUbygVObymGPIOLKBJO2UgiMjSUbb7u9E+7eGHUoZS8j7aIHgeuCCW4Lt9mXtfvHDv6NVQp601Qruk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxvJO6UAyV+UJqTzYo1nF2Vj1huoLh8swjUD3OKYfkIpIlnByy3
- 2612SENE68k3qjXCnL00/DO9pbO2D9+LQE7zrvOTrugIS7GDNUGOasotpRnUf4o=
-X-Google-Smtp-Source: AGHT+IFkWiknZr5mm3FCX6LuZw6eRJb1JJkxWWCDxW/CnP8EG2UoaocNNAuDZ7WJQ9/IeyPs62+vKQ==
-X-Received: by 2002:a17:906:d7d1:b0:a90:41a5:bb58 with SMTP id
- a640c23a62f3a-a998d19eb5amr227845266b.16.1728481633056; 
- Wed, 09 Oct 2024 06:47:13 -0700 (PDT)
-Received: from aspen.lan
- (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a994f4b91aesm462581466b.194.2024.10.09.06.47.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Oct 2024 06:47:12 -0700 (PDT)
-Date: Wed, 9 Oct 2024 14:47:10 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Lee Jones <lee@kernel.org>
-Cc: linux@treblig.org, jingoohan1@gmail.com, hdegoede@redhat.com,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] backlight: Remove notifier
-Message-ID: <20241009134710.GA16179@aspen.lan>
-References: <20240919232758.639925-1-linux@treblig.org>
- <ZvKgo8RUImafDRPE@phenom.ffwll.local>
- <20241009102230.GC276481@google.com>
+Received: from jeth.damsy.net (jeth.damsy.net [51.159.152.102])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DD2010E728;
+ Wed,  9 Oct 2024 13:53:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; s=202408r; d=damsy.net; c=relaxed/relaxed; 
+ h=From:To:Subject:Date:Message-ID; t=1728481940;
+ bh=y3vCb8lJ1Emv2BjETJYSa0m
+ f3wOwiCfAIlM3SGQVcTU=; b=SG17PTYfsJLrf+a9nco/vi8u78T2X/Us3sBVLRhbu4IIcfUY5H
+ yUkt7o3D5dLXXt27SvzEnc97pk3iUzfxfn1kkGnf9zmvcHijMw1y7Ss5XO3O5J8FwkcO/6M9rcx
+ t4wqkyPi/cgKJ6eOcJaY2JGRSEDwcugdNKeaQHIIb8Iqd2i3jrwjZyKG8XmmqFf4tcjB/3H0fxY
+ LCcL1hW0Ordt/a5wfbKfmFpbz/JCsJ2wrH+yMzjz1o9mmjATA7tcF8PH3MGfcU4UkMXtQ/pPCiT
+ qHjEppVY6e8A98DRLfJID8o6BGrPP3Aar7cXy7LBbdbK2NwUBkXUopIIFjTI5oJ0UTg==;
+DKIM-Signature: v=1; a=ed25519-sha256; s=202408e; d=damsy.net;
+ c=relaxed/relaxed; 
+ h=From:To:Subject:Date:Message-ID; t=1728481940; bh=y3vCb8lJ1Emv2BjETJYSa0m
+ f3wOwiCfAIlM3SGQVcTU=; b=M1wTx2ScrOP5wwUz4o7ImRLQ7lmcSGBc/71hYvs1Xz499ga30L
+ 0ZY5s7SPIMlOilFB4Cq0LwdubBT5Z4L5w5CA==;
+Message-ID: <dc319be0-af47-4053-bdd2-8a4d53ec4679@damsy.net>
+Date: Wed, 9 Oct 2024 15:52:19 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241009102230.GC276481@google.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/amdgpu: prevent BO_HANDLES error from being
+ overwritten
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Mohammed Anees <pvmohammedanees2003@gmail.com>, alexander.deucher@amd.com,
+ Xinhui.Pan@amd.com, airlied@gmail.com, simona@ffwll.ch,
+ srinivasan.shanmugam@amd.com, David.Wu3@amd.com, felix.kuehling@amd.com,
+ YuanShang.Mao@amd.com, pierre-eric.pelloux-prayer@amd.com
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <20241009122831.109809-1-pvmohammedanees2003@gmail.com>
+ <6426b779-bd4d-4c85-b99d-4ddedf75d837@amd.com>
+Content-Language: en-US
+From: Pierre-Eric Pelloux-Prayer <pierre-eric@damsy.net>
+In-Reply-To: <6426b779-bd4d-4c85-b99d-4ddedf75d837@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,35 +64,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 09, 2024 at 11:22:30AM +0100, Lee Jones wrote:
-> On Tue, 24 Sep 2024, Simona Vetter wrote:
->
-> > On Fri, Sep 20, 2024 at 12:27:58AM +0100, linux@treblig.org wrote:
-> > > From: "Dr. David Alan Gilbert" <linux@treblig.org>
-> > >
-> > > backlight_register_notifier and backlight_unregister_notifier have
-> > > been unused since
-> > >   commit 6cb634d0dc85 ("ACPI: video: Remove code to unregister acpi_video
-> > > backlight when a native backlight registers")
-> > >
-> > > With those not being called, it means that the backlight_notifier
-> > > list is always empty.
-> > >
-> > > Remove the functions, the list itself and the enum used in the
-> > > notifications.
-> > >
-> > > Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
-> >
-> > Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
-> >
-> > I think Lee Jones or Daniel Thompson will pick this up.
->
-> I will pick this up with Daniel's review.
+Thanks for the updated patch, looks good to me.
 
-Thanks for the patch... sorry for the delay. I just bumped this up my
-TODO list a little ;-)
+Le 09/10/2024 à 14:31, Christian König a écrit :
+> Am 09.10.24 um 14:28 schrieb Mohammed Anees:
+>> Before this patch, if multiple BO_HANDLES chunks were submitted,
+>> the error -EINVAL would be correctly set but could be overwritten
+>> by the return value from amdgpu_cs_p1_bo_handles(). This patch
+>> ensures that if there are multiple BO_HANDLES, we stop.
+>>
+>> Cc: stable@vger.kernel.org
+>> Fixes: fec5f8e8c6bc ("drm/amdgpu: disallow multiple BO_HANDLES chunks in one submit")
+>> Signed-off-by: Mohammed Anees <pvmohammedanees2003@gmail.com>
+> 
+> Reviewed-by: Christian König <christian.koenig@amd.com>
+> 
+> @Pierre-Eric can you pick that one up and push to amd-staging-drm-next?
+> 
+> Alex is currently on XDC and I'm a bit busy as well.
 
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+Sure, will do.
 
+Pierre-Eric
 
-Daniel.
+> 
+> Thanks,
+> Christian.
+> 
+>> ---
+>> v2:
+>> - Switched to goto free_partial_kdata for error handling, following the existing pattern.
+>> ---
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+>> index 1e475eb01417..d891ab779ca7 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+>> @@ -265,7 +265,7 @@ static int amdgpu_cs_pass1(struct amdgpu_cs_parser *p,
+>>               /* Only a single BO list is allowed to simplify handling. */
+>>               if (p->bo_list)
+>> -                ret = -EINVAL;
+>> +                goto free_partial_kdata;
+>>               ret = amdgpu_cs_p1_bo_handles(p, p->chunks[i].kdata);
+>>               if (ret)
