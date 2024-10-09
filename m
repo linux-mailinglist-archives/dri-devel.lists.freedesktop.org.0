@@ -2,63 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C1E4995A3A
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 00:39:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28318995C22
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 02:14:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0788110E26A;
-	Tue,  8 Oct 2024 22:39:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1259F10E249;
+	Wed,  9 Oct 2024 00:14:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="Ho8P2zPG";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="divIMHKw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42F0810E287
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Oct 2024 22:39:01 +0000 (UTC)
-Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 5175688F4B;
- Wed,  9 Oct 2024 00:38:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1728427139;
- bh=KJKH/WpYHcVDKhYFQkulqQ+jQNo550/ZRk57bNzhqsQ=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Ho8P2zPGsvkWVTq6nno9yUYUNYZAeiKD0pHx3LTu8uLRqwux4wXbpbpuOsVT76RmB
- cgrXrgUgyHGXgbtR0HTE/BuE1osAo12f883QukUgk8HMPk5+CnZq9gKKTa8xRPpRDy
- aInZNMB0dcY06lGFF2xQsqjbf+nLskckktP9uBvvuefOO5Z5GAYGV/y+CnSSExcZ7Q
- IBRy/veAZ2/SRtNpodtdqsJoFPegju8NyeUve0ixY/Jfw6FqUT9E8P9ZeXLkQp3WYI
- AVtBX3chfvi5SX6zDorSDh5VbsjewK7Tnyxcejj2xfFb3gqSSseCdWVgWMm/JmEvtU
- mBB2Ikbv8Pk+Q==
-From: Marek Vasut <marex@denx.de>
-To: dri-devel@lists.freedesktop.org
-Cc: Marek Vasut <marex@denx.de>, Abel Vesa <abelvesa@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, David Airlie <airlied@gmail.com>,
- Fabio Estevam <festevam@gmail.com>,
- Isaac Scott <isaac.scott@ideasonboard.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Peng Fan <peng.fan@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Robert Foss <rfoss@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Shawn Guo <shawnguo@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Stephen Boyd <sboyd@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- imx@lists.linux.dev, kernel@dh-electronics.com,
- linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org
-Subject: [PATCH 2/2] drm: bridge: ldb: Configure LDB clock in .mode_set
-Date: Wed,  9 Oct 2024 00:38:20 +0200
-Message-ID: <20241008223846.337162-2-marex@denx.de>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20241008223846.337162-1-marex@denx.de>
-References: <20241008223846.337162-1-marex@denx.de>
-MIME-Version: 1.0
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6ED7710E249
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 00:14:05 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id A1BF7A4384A;
+ Wed,  9 Oct 2024 00:13:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFE58C4CEC7;
+ Wed,  9 Oct 2024 00:14:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1728432843;
+ bh=ISowwB8V/w5gps6MY3LRCF12ElijfALxRi3ED/Ocfr0=;
+ h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+ b=divIMHKwDCrk7iS1Bfp1xg/nYyUHq54TSX9moiIzilL8RNe6r2dcqf43qbm8MR/gQ
+ KGQKaGaVUtP8o+QQ5yxQu7+pPVrTQ8WLnvtV0bMZ58na4GgH9kaWvImxPsOiS6xJNG
+ M/nGcOgTdgQhnu/IuwzL28lijd52QrYKjs9wxctXAepXi6fPdALxIbGIlsTZN6DKsY
+ y084+ESg1lY1FXrKTURm2q8D9Ci6X/JTeHdWTLVLGClAcEnRU3VCgG3QPkZXahsSS1
+ tti5gffBklKZMMY8/QufSWCY8jpGGmaoZj3p9Zana36AbI+O4ARh4wtm4OLmd3tKVE
+ Ktb3h4Byd8sOA==
+Date: Tue, 08 Oct 2024 19:14:03 -0500
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
+MIME-Version: 1.0
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Frank Li <Frank.Li@nxp.com>
+Cc: Wim Van Sebroeck <wim@linux-watchdog.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ Daniel Thompson <daniel.thompson@linaro.org>, Pavel Machek <pavel@ucw.cz>, 
+ linux-leds@vger.kernel.org, linux-watchdog@vger.kernel.org, 
+ Jingoo Han <jingoohan1@gmail.com>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, 
+ Lee Jones <lee@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ devicetree@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <20241008-zii_yaml-v1-1-d06ba7e26225@nxp.com>
+References: <20241008-zii_yaml-v1-0-d06ba7e26225@nxp.com>
+ <20241008-zii_yaml-v1-1-d06ba7e26225@nxp.com>
+Message-Id: <172843284049.2657665.7415620328802530234.robh@kernel.org>
+Subject: Re: [PATCH 1/5] dt-bindings: input: convert
+ zii,rave-sp-pwrbutton.txt to yaml
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,85 +67,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The LDB serializer clock operate at either x7 or x14 rate of the input
-LCDIFv3 scanout engine clock. Make sure the serializer clock and their
-upstream Video PLL are configured early in .mode_set to the x7 or x14
-rate of pixel clock, before LCDIFv3 .atomic_enable is called which would
-configure the Video PLL to low x1 rate, which is unusable.
 
-With this patch in place, the clock tree is correctly configured. The
-example below is for a 71.1 MHz pixel clock panel, the LDB serializer
-clock is then 497.7 MHz:
+On Tue, 08 Oct 2024 18:00:57 -0400, Frank Li wrote:
+> Convert device tree binding doc zii,rave-sp-pwrbutton.txt to yaml format.
+> Additional changes:
+> - add ref to input.yaml.
+> - remove mfd node in example.
+> 
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> ---
+>  .../bindings/input/zii,rave-sp-pwrbutton.txt       | 22 -------------
+>  .../bindings/input/zii,rave-sp-pwrbutton.yaml      | 36 ++++++++++++++++++++++
+>  2 files changed, 36 insertions(+), 22 deletions(-)
+> 
 
-video_pll1_ref_sel                      1 1 0  24000000 0 0 50000
-   video_pll1                           1 1 0 497700000 0 0 50000
-      video_pll1_bypass                 1 1 0 497700000 0 0 50000
-         video_pll1_out                 2 2 0 497700000 0 0 50000
-            media_ldb                   1 1 0 497700000 0 0 50000
-               media_ldb_root_clk       1 1 0 497700000 0 0 50000
-            media_disp2_pix             1 1 0  71100000 0 0 50000
-               media_disp2_pix_root_clk 1 1 0  71100000 0 0 50000
+My bot found errors running 'make dt_binding_check' on your patch:
 
-Signed-off-by: Marek Vasut <marex@denx.de>
----
-Cc: Abel Vesa <abelvesa@kernel.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Fabio Estevam <festevam@gmail.com>
-Cc: Isaac Scott <isaac.scott@ideasonboard.com>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Jonas Karlman <jonas@kwiboo.se>
-Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Michael Turquette <mturquette@baylibre.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Peng Fan <peng.fan@nxp.com>
-Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-Cc: Robert Foss <rfoss@kernel.org>
-Cc: Sascha Hauer <s.hauer@pengutronix.de>
-Cc: Shawn Guo <shawnguo@kernel.org>
-Cc: Simona Vetter <simona@ffwll.ch>
-Cc: Stephen Boyd <sboyd@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: dri-devel@lists.freedesktop.org
-Cc: imx@lists.linux.dev
-Cc: kernel@dh-electronics.com
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-clk@vger.kernel.org
----
- drivers/gpu/drm/bridge/fsl-ldb.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+yamllint warnings/errors:
 
-diff --git a/drivers/gpu/drm/bridge/fsl-ldb.c b/drivers/gpu/drm/bridge/fsl-ldb.c
-index 0e4bac7dd04ff..a3a31467fcc85 100644
---- a/drivers/gpu/drm/bridge/fsl-ldb.c
-+++ b/drivers/gpu/drm/bridge/fsl-ldb.c
-@@ -278,6 +278,16 @@ fsl_ldb_mode_valid(struct drm_bridge *bridge,
- 	return MODE_OK;
- }
- 
-+static void fsl_ldb_mode_set(struct drm_bridge *bridge,
-+			       const struct drm_display_mode *mode,
-+			       const struct drm_display_mode *adj)
-+{
-+	struct fsl_ldb *fsl_ldb = to_fsl_ldb(bridge);
-+	unsigned long requested_link_freq = fsl_ldb_link_frequency(fsl_ldb, mode->clock);
-+
-+	clk_set_rate(fsl_ldb->clk, requested_link_freq);
-+}
-+
- static const struct drm_bridge_funcs funcs = {
- 	.attach = fsl_ldb_attach,
- 	.atomic_enable = fsl_ldb_atomic_enable,
-@@ -287,6 +297,7 @@ static const struct drm_bridge_funcs funcs = {
- 	.atomic_get_input_bus_fmts = fsl_ldb_atomic_get_input_bus_fmts,
- 	.atomic_reset = drm_atomic_helper_bridge_reset,
- 	.mode_valid = fsl_ldb_mode_valid,
-+	.mode_set = fsl_ldb_mode_set,
- };
- 
- static int fsl_ldb_probe(struct platform_device *pdev)
--- 
-2.45.2
+dtschema/dtc warnings/errors:
+
+
+doc reference errors (make refcheckdocs):
+Warning: Documentation/devicetree/bindings/input/zii,rave-sp-pwrbutton.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/zii,rave-sp.yaml
+Documentation/devicetree/bindings/input/zii,rave-sp-pwrbutton.yaml: Documentation/devicetree/bindings/mfd/zii,rave-sp.yaml
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20241008-zii_yaml-v1-1-d06ba7e26225@nxp.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
