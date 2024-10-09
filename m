@@ -2,76 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 514E79969BE
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 14:16:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FB9D9969C2
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 14:17:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB6AD10E29F;
-	Wed,  9 Oct 2024 12:16:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD8FA10E2A0;
+	Wed,  9 Oct 2024 12:17:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="dJBAxFat";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="gmamKuxC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com
- [209.85.219.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E4EF10E29F
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 12:16:05 +0000 (UTC)
-Received: by mail-yb1-f171.google.com with SMTP id
- 3f1490d57ef6-e28fe3b02ffso791436276.3
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Oct 2024 05:16:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google; t=1728476164; x=1729080964;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=SP3TO6PzMnYHnnQsF3wSVvNFppGWS7tXRNkouPbefzM=;
- b=dJBAxFatIy4/D8ThPJEi5iID6fqaCxVZxshnL1J8XKRmayRAECY9DPfNgfqC1TbDnW
- OZcnx8Efqq951o6uApEprnkNPOGcoi4ijyDRfJP4AzGxmFUkPOzioYgtS7IOKz6SkA7L
- KbWC1Pl9COHeg98Dmx64hEG2cKYfsq/ypg2M66Q7UnYuMj+gus9wqZcrM65d1nxqjP09
- cRTlU/ULzeuh/cUo8b7PwlqQid1gcqAWXhgLd4p3ZjyW03MJRci8eEI6R/xGMBsNbOX1
- mxz5tA9YBduh1+EJnokK/9ZHLVEkG0rnIYjfazGN/dN0z2Fgi/NFIZ1ZDUZh7Z9a56M3
- FWdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728476164; x=1729080964;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=SP3TO6PzMnYHnnQsF3wSVvNFppGWS7tXRNkouPbefzM=;
- b=M7FEuosUZB7NZavf0ganl6SXoa0TCyGXK4eRHg7z8IJC7UXjG1pnViBCaBT0SgFGfr
- rsfOqflhusyuC+qC3BBZ/aTJedxpOBms0VBjL5S2as6wVSmq1Leo2D7FPQtY7qEGYphI
- hEMNmUlzpkicp5BPTTsY5IXltZmZjuh/rmEFSoayQQN6XeAP7+YUmI7646OkYl4Ae0jb
- bM2u3hiIActF0LuO2ckFFRFLmx4LkqRgtLXRKFo1ut85JTxc53CQ+LArW1pGd3bNwUUR
- gh59bGLbcWUOHexcqs1IidKqPlBZfBr/EoL4h+Wlpm2VtNkBEYt2sqBOnja6scGyaD95
- Okvw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVMoN9CCo7SqZnmvUuMzPMZtE/5bgpSUYm3Iukb5ZSGzWfPVl4+c5FVdAPafN2L4CKNd3var99rNbs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwBcdyVwAzkTvETF6wSk91tOdJtXvTjTLxcWQsJ8Oka/yQiR7TD
- xftk62E/uxtI7A9wJkNZaUV802Q4PvvW0SfajGWwREqZQEUxlcTh/DX6PtDvXsk8ls/5H0vb4kI
- YrK3Qun03Zp1Lj0v7FosLQxHxaLCqX2/P7XjX9A==
-X-Google-Smtp-Source: AGHT+IEjqph+QOBkdC2wgmaMeMXSihsDIdEYasz72e+xVwTC+AQjHciiKXf6ktHHAe3sCryvIdzDZehqTofRN1fBwpc=
-X-Received: by 2002:a25:94d:0:b0:e20:291e:7fe1 with SMTP id
- 3f1490d57ef6-e28fe45cf09mr1822059276.25.1728476164318; Wed, 09 Oct 2024
- 05:16:04 -0700 (PDT)
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D2DA10E2A0
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 12:16:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=Ul4wqHlWKHkxyXVn9YSvRZPRBPmspkB7b0YSbuVoyMM=; b=gmamKuxCbhOj3r0IelmNOf1oGJ
+ SgzJVUksFeYnbP3aRLZfVwAhrB0MLBX18mTZpnDOOeYA27Ohgzah3FgTVRu7QwPpZ6+JPw9tcQ/f+
+ uUACSBHtImoyy3RsCiKS1/XVQ52srZWVtg6zmN7VVkmqJ8uEm12+uAY0zdtSeHaQyIuU5Hu9AXUZg
+ SKdDqNFCD8ySIwB7j2ITqUfdxICCM4T4KWUVH6KRQPhOAk3TnIU/scj3RwGecj57xnxnsEP6jGk7b
+ h8m6O0h6ULZw4N0m64urhX5cey8/p3zTqhUeRDifn8j6yDEeQwXExkiYsKWlFd+zdRUMXi5lVAZNW
+ oURQ54gQ==;
+Received: from [187.36.213.55] (helo=[192.168.1.212])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1syVcT-006vzM-HV; Wed, 09 Oct 2024 14:16:45 +0200
+Message-ID: <566ae236-77a0-4dd7-9b09-5a31172240b5@igalia.com>
+Date: Wed, 9 Oct 2024 09:16:38 -0300
 MIME-Version: 1.0
-References: <20241002-vc4_fbdev_fix-v1-0-8737bd11b147@raspberrypi.com>
- <20241002-vc4_fbdev_fix-v1-1-8737bd11b147@raspberrypi.com>
- <b1d76661-41b9-4841-80f4-452654d9cd6b@igalia.com>
-In-Reply-To: <b1d76661-41b9-4841-80f4-452654d9cd6b@igalia.com>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Wed, 9 Oct 2024 13:15:48 +0100
-Message-ID: <CAPY8ntDgkyQ6ijdgB2Qmd45ArtXqYFwfmpvYgQhobnw=bUnd-Q@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/vc4: Run default client setup for all variants.
-To: =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>
-Cc: Maxime Ripard <mripard@kernel.org>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V4 2/2] drm/vc4: v3d: add PM suspend/resume support
+To: Stefan Wahren <wahrenst@gmx.net>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Maxime Ripard <mripard@kernel.org>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Peter Robinson <pbrobinson@gmail.com>,
+ dri-devel@lists.freedesktop.org, kernel-list@raspberrypi.com
+References: <20241003124107.39153-1-wahrenst@gmx.net>
+ <20241003124107.39153-3-wahrenst@gmx.net>
+ <ce07a658-8e5c-4c9a-b0a5-77f1be54d524@igalia.com>
+ <a04c4048-b8cb-4a8a-9fb7-00a5ed7bcd9d@gmx.net>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+Autocrypt: addr=mcanal@igalia.com; keydata=
+ xsBNBGcCwywBCADgTji02Sv9zjHo26LXKdCaumcSWglfnJ93rwOCNkHfPIBll85LL9G0J7H8
+ /PmEL9y0LPo9/B3fhIpbD8VhSy9Sqz8qVl1oeqSe/rh3M+GceZbFUPpMSk5pNY9wr5raZ63d
+ gJc1cs8XBhuj1EzeE8qbP6JAmsL+NMEmtkkNPfjhX14yqzHDVSqmAFEsh4Vmw6oaTMXvwQ40
+ SkFjtl3sr20y07cJMDe++tFet2fsfKqQNxwiGBZJsjEMO2T+mW7DuV2pKHr9aifWjABY5EPw
+ G7qbrh+hXgfT+njAVg5+BcLz7w9Ju/7iwDMiIY1hx64Ogrpwykj9bXav35GKobicCAwHABEB
+ AAHNIE1hw61yYSBDYW5hbCA8bWNhbmFsQGlnYWxpYS5jb20+wsCRBBMBCAA7FiEE+ORdfQEW
+ dwcppnfRP/MOinaI+qoFAmcCwywCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQ
+ P/MOinaI+qoUBQgAqz2gzUP7K3EBI24+a5FwFlruQGtim85GAJZXToBtzsfGLLVUSCL3aF/5
+ O335Bh6ViSBgxmowIwVJlS/e+L95CkTGzIIMHgyUZfNefR2L3aZA6cgc9z8cfow62Wu8eXnq
+ GM/+WWvrFQb/dBKKuohfBlpThqDWXxhozazCcJYYHradIuOM8zyMtCLDYwPW7Vqmewa+w994
+ 7Lo4CgOhUXVI2jJSBq3sgHEPxiUBOGxvOt1YBg7H9C37BeZYZxFmU8vh7fbOsvhx7Aqu5xV7
+ FG+1ZMfDkv+PixCuGtR5yPPaqU2XdjDC/9mlRWWQTPzg74RLEw5sz/tIHQPPm6ROCACFls7A
+ TQRnAsMsAQgAxTU8dnqzK6vgODTCW2A6SAzcvKztxae4YjRwN1SuGhJR2isJgQHoOH6oCItW
+ Xc1CGAWnci6doh1DJvbbB7uvkQlbeNxeIz0OzHSiB+pb1ssuT31Hz6QZFbX4q+crregPIhr+
+ 0xeDi6Mtu+paYprI7USGFFjDUvJUf36kK0yuF2XUOBlF0beCQ7Jhc+UoI9Akmvl4sHUrZJzX
+ LMeajARnSBXTcig6h6/NFVkr1mi1uuZfIRNCkxCE8QRYebZLSWxBVr3h7dtOUkq2CzL2kRCK
+ T2rKkmYrvBJTqSvfK3Ba7QrDg3szEe+fENpL3gHtH6h/XQF92EOulm5S5o0I+ceREwARAQAB
+ wsB2BBgBCAAgFiEE+ORdfQEWdwcppnfRP/MOinaI+qoFAmcCwywCGwwACgkQP/MOinaI+qpI
+ zQf+NAcNDBXWHGA3lgvYvOU31+ik9bb30xZ7IqK9MIi6TpZqL7cxNwZ+FAK2GbUWhy+/gPkX
+ it2gCAJsjo/QEKJi7Zh8IgHN+jfim942QZOkU+p/YEcvqBvXa0zqW0sYfyAxkrf/OZfTnNNE
+ Tr+uBKNaQGO2vkn5AX5l8zMl9LCH3/Ieaboni35qEhoD/aM0Kpf93PhCvJGbD4n1DnRhrxm1
+ uEdQ6HUjWghEjC+Jh9xUvJco2tUTepw4OwuPxOvtuPTUa1kgixYyG1Jck/67reJzMigeuYFt
+ raV3P8t/6cmtawVjurhnCDuURyhUrjpRhgFp+lW8OGr6pepHol/WFIOQEg==
+In-Reply-To: <a04c4048-b8cb-4a8a-9fb7-00a5ed7bcd9d@gmx.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,41 +93,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 9 Oct 2024 at 12:02, Ma=C3=ADra Canal <mcanal@igalia.com> wrote:
->
-> Hi Dave,
->
-> On 10/2/24 12:06, Dave Stevenson wrote:
-> > Commit 45903624e9fc ("drm/vc4: Run DRM default client setup")
-> > only added DRM_FBDEV_DMA_DRIVER_OPS for the vc4 (Pi0-3) driver
-> > definition, which caused an issue on vc5 (Pi4) as there was no
-> > fbdev_probe function defined.
-> >
-> > Fixes: 45903624e9fc ("drm/vc4: Run DRM default client setup")
-> > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
->
-> Reviewed-by: Ma=C3=ADra Canal <mcanal@igalia.com>
+Hi Stefan,
 
-Applied to drm-misc-next.
+On 10/8/24 13:05, Stefan Wahren wrote:
+> Hi Maíra,
+> 
+> Am 08.10.24 um 15:49 schrieb Maíra Canal:
+>> Hi Stefan,
+>>
+>> On 10/3/24 09:41, Stefan Wahren wrote:
+>>> Add suspend/resume support for the VC4 V3D component in order
+>>> to handle suspend to idle properly.
+>>>
+>>> Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
+>>> ---
+>>>   drivers/gpu/drm/vc4/vc4_v3d.c | 7 +++----
+>>>   1 file changed, 3 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/vc4/vc4_v3d.c
+>>> b/drivers/gpu/drm/vc4/vc4_v3d.c
+>>> index 2423826c89eb..8057b06c1f16 100644
+>>> --- a/drivers/gpu/drm/vc4/vc4_v3d.c
+>>> +++ b/drivers/gpu/drm/vc4/vc4_v3d.c
+>>> @@ -368,7 +368,6 @@ void vc4_v3d_bin_bo_put(struct vc4_dev *vc4)
+>>>       mutex_unlock(&vc4->bin_bo_lock);
+>>>   }
+>>>
+>>> -#ifdef CONFIG_PM
+>>>   static int vc4_v3d_runtime_suspend(struct device *dev)
+>>>   {
+>>>       struct vc4_v3d *v3d = dev_get_drvdata(dev);
+>>> @@ -397,7 +396,6 @@ static int vc4_v3d_runtime_resume(struct device
+>>> *dev)
+>>>
+>>>       return 0;
+>>>   }
+>>> -#endif
+>>>
+>>>   int vc4_v3d_debugfs_init(struct drm_minor *minor)
+>>>   {
+>>> @@ -507,7 +505,8 @@ static void vc4_v3d_unbind(struct device *dev,
+>>> struct device *master,
+>>>   }
+>>>
+>>>   static const struct dev_pm_ops vc4_v3d_pm_ops = {
+>>> -    SET_RUNTIME_PM_OPS(vc4_v3d_runtime_suspend,
+>>> vc4_v3d_runtime_resume, NULL)
+>>> +    RUNTIME_PM_OPS(vc4_v3d_runtime_suspend, vc4_v3d_runtime_resume,
+>>> NULL)
+>>> +    SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
+>>> pm_runtime_force_resume)
+>>
+>> I have a question: How can we guarantee that no jobs are running when
+>> the system is forced to suspend?
+> Not sure what do you mean with job. userspace task or v3d job within the
+> driver?
 
-> Best Regards,
-> - Ma=C3=ADra
+I mean a V3D job. See, when we submit a CL to the GPU, we only know when
+it's done through a IRQ. I'm thinking in the case where:
+
+1. We submitted a CL to the GPU
+2. We suspend but the job wasn't ended yet
+
+What happens to this job? Is the GPU going to be in a unstable state
+when we resume?
+
+> 
+> Do you have something specific in mind.
+> 
+> Why is there a difference between runtime pm and system pm?
 >
-> > ---
-> >   drivers/gpu/drm/vc4/vc4_drv.c | 1 +
-> >   1 file changed, 1 insertion(+)
-> >
-> > diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_dr=
-v.c
-> > index 13a1ecddbca3..a238f76a6073 100644
-> > --- a/drivers/gpu/drm/vc4/vc4_drv.c
-> > +++ b/drivers/gpu/drm/vc4/vc4_drv.c
-> > @@ -238,6 +238,7 @@ const struct drm_driver vc5_drm_driver =3D {
-> >   #endif
-> >
-> >       DRM_GEM_DMA_DRIVER_OPS_WITH_DUMB_CREATE(vc5_dumb_create),
-> > +     DRM_FBDEV_DMA_DRIVER_OPS,
-> >
-> >       .fops =3D &vc4_drm_fops,
-> >
-> >
+As far as I can see, for system PM, we need at least to suspend V3D in
+a stable state, without any jobs running and with IRQs disabled.
+
+Best Regards,
+- Maíra
+
+> I must confess that i didn't test a system sleep while running a v3d
+> application.
+> 
+> Best regards
+> Stefan
+>>
+>> Best Regards,
+>> - Maíra
+>>
+>>>   };
+>>>
+>>>   static const struct component_ops vc4_v3d_ops = {
+>>> @@ -538,6 +537,6 @@ struct platform_driver vc4_v3d_driver = {
+>>>       .driver = {
+>>>           .name = "vc4_v3d",
+>>>           .of_match_table = vc4_v3d_dt_match,
+>>> -        .pm = &vc4_v3d_pm_ops,
+>>> +        .pm = pm_ptr(&vc4_v3d_pm_ops),
+>>>       },
+>>>   };
+>>> -- 
+>>> 2.34.1
+>>>
+> 
