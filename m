@@ -2,48 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CA99996E72
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 16:43:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F87A996EA0
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 16:51:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 824C110E75F;
-	Wed,  9 Oct 2024 14:43:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 855AF10E761;
+	Wed,  9 Oct 2024 14:51:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QvSSIvCO";
+	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="Ln+jJczU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DDAF10E75F
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 14:43:34 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 10BD9A4313E;
- Wed,  9 Oct 2024 14:43:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB5A9C4CEC3;
- Wed,  9 Oct 2024 14:43:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1728485013;
- bh=XpufhfIwBFzW0DRqV9iSYAuW1EUgE4gZ9XDPghDF980=;
- h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=QvSSIvCO0QBVSIjf7t8Xr9t4a7X9q+hgEezm/Qt+NGcOrNios7XHAEGgeHB9Cn7zU
- d2MBFPEnEFayBmHt8gQc+iZxKsyAZWs4Pp384RAij5d2dQRW1O0YruwZKLPUAWohVU
- BD8+g8aG3NVAZLClu+tjZahTj3g7x6FC3IjHZ1e+q3a1YD86NS57JX2m0z0MIFyXiM
- A4XtOYgfqlFFZJD8kmNCAxeKiYkqhc32BCyUbwG7v2meLWf6Q0W1WXuzMDiEB74VCa
- v3GYa6sTXSdoiGU0K2o06HcdJeukCmsYw2NYxrX7Skvzrd0z+35zjRMbG/RAMJmXUA
- aJUIuefm7ediA==
-From: Lee Jones <lee@kernel.org>
-To: lee@kernel.org, daniel.thompson@linaro.org, jingoohan1@gmail.com, 
- hdegoede@redhat.com, linux@treblig.org
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20240919232758.639925-1-linux@treblig.org>
-References: <20240919232758.639925-1-linux@treblig.org>
-Subject: Re: (subset) [PATCH] backlight: Remove notifier
-Message-Id: <172848501143.600706.12618555351534391287.b4-ty@kernel.org>
-Date: Wed, 09 Oct 2024 15:43:31 +0100
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com
+ [209.85.219.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A33EC10E761
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 14:51:16 +0000 (UTC)
+Received: by mail-yb1-f181.google.com with SMTP id
+ 3f1490d57ef6-e25d57072dcso6091482276.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Oct 2024 07:51:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google; t=1728485475; x=1729090275;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=NnK4Qd0NK2VWISWf+NMyMxuUrE/d5YGupiOlwkYiync=;
+ b=Ln+jJczU6bbomzFwEhUvIa5lplLHY/jb4gYC8Ynj1lahp44XoNMco3RhUOTXZsT4dA
+ 7p9jNE+49mZcNk9Ptp2FfKMNXM/nGL8GGZcenXqwuuy9BCL6ZEyM89mgwoRx743qam9K
+ kkuZvmsqIVuOxUtn9M15vBBmNmyDl+nx2D41lv03rCySMT0U+qlBdl8i33uHl3M+Qop9
+ 5OmvBvQWiBM5RZYJJZXCLbbgtFMpEKQ0RncGdsO7VE1dZRP443g2hivPR/Yu01/7hcAq
+ ifxxtIeXT/gY7/zy0VxTxmjRln3PvAsbM0WOKlQL2pzKG2oG5h0plwBWqo4srciMiupz
+ IIrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1728485475; x=1729090275;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=NnK4Qd0NK2VWISWf+NMyMxuUrE/d5YGupiOlwkYiync=;
+ b=Tb8QtctE6pLNYZnmx2pEDp20i6kFtbdqidd1D7R59B/CfBVA4raUjisE5f/zpqXshv
+ 8tivY5qcutf4m1DgETTMA1KZ1HLCSovnO0LIzL1a2D291+tOUuOofM2Qm5tUbQPqyB1w
+ ECdUugx37ga8niGjejakpR6wVEfFBWAcON++5HxbKYLsOmpy2HuvqJ23iSXxUgpvQoDu
+ tV9dRRLObgLrerAEhn6dhtJ4QMH6EbP34WqKlGhBokgEBprj3ZS5SIrxW9AT2g61PSAI
+ ox+OXPFxiqq9L0MiOuUVMzaJckQG8rrXK83QKHDr/ugZO1CINl6ZmV4sIFLktULEX66E
+ X17w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXS/e9GKZ01gJgIrVzPfQRTpE0S8pdkvUpHplIEMogwcLKvWs39eteVdkuOI1yONLA3aTuID93ALE0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx4vdsW2NcWoKOC6STqmUQs79LRHFJtfxYsER2SpWOT3aiKlwXN
+ UKNXv3GdT5QVRUEoJWH46JsRt2OugOBOHFGweAAg4IjhfeLd3PxOQ1SqEJb+kXFb54hMNW8RFL9
+ skWB1cu05Prljpmd3iRY5eeQdJTO7T6LznauA7Q==
+X-Google-Smtp-Source: AGHT+IHWR+l9TVLhwKI81YJZwQ4FdUGwlkUvH9zdhDLYQHfXq7nF6gQAGRoLeBekaJQJ1tJoG5t+e9hdUFmtqeHGoMs=
+X-Received: by 2002:a05:6902:15c5:b0:e28:e470:5236 with SMTP id
+ 3f1490d57ef6-e28fe44a48fmr2606499276.15.1728485475507; Wed, 09 Oct 2024
+ 07:51:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.13.0
+References: <20241009141240.1948482-1-mcanal@igalia.com>
+In-Reply-To: <20241009141240.1948482-1-mcanal@igalia.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Wed, 9 Oct 2024 15:50:59 +0100
+Message-ID: <CAPY8ntCsGuR5VHx33Hfo_LKRuFwON3ruYFO3z6GCYOdPzRRaVQ@mail.gmail.com>
+Subject: =?UTF-8?Q?Re=3A_=5BPATCH_1=2F2=5D_MAINTAINERS=3A_Add_Ma=C3=ADra_to_VC4_revie?=
+ =?UTF-8?Q?wers?=
+To: =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>
+Cc: Maxime Ripard <mripard@kernel.org>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,22 +82,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 20 Sep 2024 00:27:58 +0100, linux@treblig.org wrote:
-> backlight_register_notifier and backlight_unregister_notifier have
-> been unused since
->   commit 6cb634d0dc85 ("ACPI: video: Remove code to unregister acpi_video
-> backlight when a native backlight registers")
-> 
-> With those not being called, it means that the backlight_notifier
-> list is always empty.
-> 
-> [...]
+On Wed, 9 Oct 2024 at 15:12, Ma=C3=ADra Canal <mcanal@igalia.com> wrote:
+>
+> Although I don't hold expertise on the display side of VC4, I'd like to
+> help reviewing patches that are related to the 3D side of the VC4 driver.
+> As V3D maintainer, I hold some expertise with Broadcom GPUs and I'm
+> constantly testing kernels on RPi 3-5.
+>
+> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
 
-Applied, thanks!
+Acked-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-[1/1] backlight: Remove notifier
-      commit: 5461f3fd74a89757f95f351eb0bc26aafc2a2e91
-
---
-Lee Jones [李琼斯]
-
+> ---
+>  MAINTAINERS | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 365fb0ce5117..a740b73e4ecf 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -7799,6 +7799,7 @@ F:        include/uapi/drm/v3d_drm.h
+>  DRM DRIVERS FOR VC4
+>  M:     Maxime Ripard <mripard@kernel.org>
+>  M:     Dave Stevenson <dave.stevenson@raspberrypi.com>
+> +R:     Ma=C3=ADra Canal <mcanal@igalia.com>
+>  R:     Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+>  S:     Supported
+>  T:     git https://gitlab.freedesktop.org/drm/misc/kernel.git
+> --
+> 2.46.2
+>
