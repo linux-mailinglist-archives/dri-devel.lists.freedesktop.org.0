@@ -2,61 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39A8E995FC6
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 08:28:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 885E9995FED
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 08:39:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A03E310E65B;
-	Wed,  9 Oct 2024 06:28:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F9E910E0DD;
+	Wed,  9 Oct 2024 06:39:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jVHJAG9t";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="weHjzLsG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C683910E653
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 06:28:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1728455328; x=1759991328;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=NpVZhGublLuG7zTfV/TZOwA1MxlqCmJX95nLM2X1hSA=;
- b=jVHJAG9tmn7tL9NxBkByYiX5+b6SWHaUhFdf+1RxZ/700YO9cstmU2W1
- 0oyzEiV8tvgk6fQ70NJA0GMXE8pnL3YmrLJTkkNMual/RY3bOqa8GQVxC
- 33f9F6F2QsW6Nfsx+Pq5N6nkXQZuKz8Jy73uOHUzrkQVd6wnJTKDPyrFr
- I0meg5A4524lPRtqYF/hH8cdqPCZ/H6UwWeul9L6/XV+fnxYs9b0xcKhW
- DW/7I10z4RSs/OqzM7/PfNsfipGpZNRZo3mBezp94yLWM2MDU91tVmHcD
- R2F6/LvyLKUInhHrzN/NOPBWnpo9ye4MNsElNpM2QpzIUPL2KvEVDzW8g Q==;
-X-CSE-ConnectionGUID: A1OcEhxCStq9wg898JeVtQ==
-X-CSE-MsgGUID: /6ILGdyuR2GPj3DAFmX02g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11219"; a="45199659"
-X-IronPort-AV: E=Sophos;i="6.11,189,1725346800"; d="scan'208";a="45199659"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Oct 2024 23:28:48 -0700
-X-CSE-ConnectionGUID: TssQdR4fR0ewSxTdX25BsA==
-X-CSE-MsgGUID: MpBsx4+qQi+LbT3G/n7nyg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,189,1725346800"; d="scan'208";a="76255546"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by fmviesa008.fm.intel.com with SMTP; 08 Oct 2024 23:28:45 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 09 Oct 2024 09:28:44 +0300
-Date: Wed, 9 Oct 2024 09:28:44 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Erhard Furtner <erhard_f@mailbox.org>
-Cc: dri-devel@lists.freedesktop.org
-Subject: Re: radeon drm fails to load on v6.12-rc2 "Bogus possible_clones:
- [ENCODER:46:TV-46] possible_clones=0x4 (full encoder mask=0x7)" ( Thinkpad
- T60)
-Message-ID: <ZwYinD22dTiBkCh8@intel.com>
-References: <20241009000321.418e4294@yea>
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
+ [209.85.210.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EFFE10E13B
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 06:39:25 +0000 (UTC)
+Received: by mail-pf1-f179.google.com with SMTP id
+ d2e1a72fcca58-71df7632055so3652386b3a.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Oct 2024 23:39:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1728455965; x=1729060765; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=PrrPIemNfkhENWcftefzia6KqrGXwnglRYTMtDKqEiM=;
+ b=weHjzLsG6OZsubBig+Z6u/0VYmjkEnIBczXrfHsZn1sGO44uxEAVyIOs3XdAlGVsgM
+ 6luvlGPsOaIlij+JdmdHaJRDZ5eljG1iqciErp/DXnrgxUP+BLHmPK2iCblM9J/YVQzv
+ PLaHIuUvlo9VUUQBrdWUOzN0xQOfXoZJA1jLoyQKSjIS3lI9KKWR9qeFDx03fCPQq0Ib
+ 2MWd/mgNYc5dn/xGh4+keoNjmfQ1zDMPv+UO6THhkmiSFEONpXMzLUlKrCxUXLfUvIST
+ 36Aj6rf4stqCog4CRQ5wVFkgvJtNlgQeNPzoZXgyoKpyFmNg1lEszrHLh07kXgCK5MnD
+ OkfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1728455965; x=1729060765;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=PrrPIemNfkhENWcftefzia6KqrGXwnglRYTMtDKqEiM=;
+ b=HYvtwqcrpwTOmlXYWgbsSlUdvqGk/sVCchtTbqQaBCB8Qb4tCEEJtqERJa7+1VOrT2
+ yxCbJHCP6E9kKE9YGfxJbhv3+Vyb4zBn266TD+POOz9LIjwyos2LxadwTMHAsSQ/LhLq
+ qLb9MltoUv1i+1hVQoIPOD4r7UVYBBJUFrg5l/sM3mip1/FDz2t7fkeeso2kVlLjwEgy
+ WwGV4skzGzbc+Paw/go1kGgNS7pcT7q4P3ZuvZbXz+/yXJL2u9FvJqtnJ6x7qCSNOmGn
+ g0Its7VRbRrr8DgivAss0FyyvXfXYVcvMSvYu5zUeXMsByHnUT+SXM13OYgRIKS6OLBp
+ 0Kiw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX/L2cTAZx3C5gi3zqvpGPAjjjzPoFBkSh34g9eJwhT6ps9TSYUsyiPJTDGwOmxsag7X03V3ruPvkw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyBd/F8GsIKu/3knZO4B13vZdxZRM27kFJYx1I1YpJU8iMFDnNa
+ SX3aJo+bArmEbbxhs/Fradk+JAa22xnqRqKJTGIzjOWriv9iCXSdXKdKNoE7m6Vrabg7Ro/ogT0
+ eZQVvKQ==
+X-Google-Smtp-Source: AGHT+IGBfTNGbev/m+8IxDePf8DpPM9r2qpGbcQIw0raY8KgA6eNQUqQG4EvltrCwsXM7gWXCsUt4w==
+X-Received: by 2002:a05:6a00:17a7:b0:714:2069:d90e with SMTP id
+ d2e1a72fcca58-71e1dbcf4cdmr2006826b3a.26.1728455964787; 
+ Tue, 08 Oct 2024 23:39:24 -0700 (PDT)
+Received: from [127.0.1.1] ([112.65.12.217]) by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-71df0d7d209sm7077396b3a.208.2024.10.08.23.39.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Oct 2024 23:39:24 -0700 (PDT)
+From: Jun Nie <jun.nie@linaro.org>
+Subject: [PATCH 0/2] drm/msm/dpu: Support different number of DSC
+Date: Wed, 09 Oct 2024 14:38:41 +0800
+Message-Id: <20241009-sm8650-v6-11-hmd-pocf-mdss-quad-upstream-20-v1-0-139511076a9f@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241009000321.418e4294@yea>
-X-Patchwork-Hint: comment
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPEkBmcC/x3NQQ6CMBBG4auQWfsnU8RKvYpx0dBBuijUDhATw
+ t1tXH6b9w5SKVGUHs1BRfaocZkrzKWhYfLzWxBDNbXcdobZQVNvb4zdwhhMKSAvw4gUVPHZfMC
+ WdS3iE1qG6+QuV2cd945qMRcZ4/d/e77O8wfc5mMVfQAAAA==
+To: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Jun Nie <jun.nie@linaro.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1728455958; l=983;
+ i=jun.nie@linaro.org; s=20240403; h=from:subject:message-id;
+ bh=SCHjFQIsdR1TnrGkWnIJtwSLbGJzA/1R84z2bftBMLs=;
+ b=paM/lwN/b8w8+thx4R5FIkzdnLqhpd0r7l/R9H63EDwsjBlXSEOcTI6++wUc1xuL+02xnlbIL
+ PpD+gZ/dO9qAf/qpxuISXRSijfXtsDDjZd0SxXWWzkPe34V8D64Aa0r
+X-Developer-Key: i=jun.nie@linaro.org; a=ed25519;
+ pk=MNiBt/faLPvo+iJoP1hodyY2x6ozVXL8QMptmsKg3cc=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,85 +96,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 09, 2024 at 12:03:21AM +0200, Erhard Furtner wrote:
-> Greetings!
-> 
-> On kernel v6.12-rc I get no X and dmesg (via netconsole) shows this at loading radeon drm:
-> 
-> [...]
-> [drm] PCIE GART of 512M enabled (table at 0x0000000000040000).
-> radeon 0000:01:00.0: WB enabled
-> radeon 0000:01:00.0: fence driver on ring 0 use gpu addr 0x0000000008000000
-> radeon 0000:01:00.0: radeon: MSI limited to 32-bit
-> [drm] radeon: irq initialized.
-> [drm] Loading R500 Microcode
-> [drm] radeon: ring at 0x0000000008001000
-> [drm] ring test succeeded in 0 usecs
-> [drm] ib test succeeded in 0 usecs
-> stackdepot: allocating hash table of 65536 entries via kvcalloc
-> acpi device:06: registered as cooling_device2
-> [drm] Radeon Display Connectors
-> [drm] Connector 0:
-> [drm]   VGA-1
-> [drm]   DDC: 0x7e40 0x7e40 0x7e44 0x7e44 0x7e48 0x7e48 0x7e4c 0x7e4c
-> [drm]   Encoders:
-> [drm]     CRT1: INTERNAL_KLDSCP_DAC1
-> [drm] Connector 1:
-> [drm]   LVDS-1
-> [drm]   DDC: 0x7e60 0x7e60 0x7e64 0x7e64 0x7e68 0x7e68 0x7e6c 0x7e6c
-> [drm]   Encoders:
-> [drm]     LCD1: INTERNAL_LVTM1
-> [drm] Connector 2:
-> [drm]   DVI-I-1
-> [drm]   HPD1
-> [drm]   DDC: 0x7e50 0x7e50 0x7e54 0x7e54 0x7e58 0x7e58 0x7e5c 0x7e5c
-> [drm]   Encoders:
-> [drm]     DFP1: INTERNAL_KLDSCP_TMDS1
-> ------------[ cut here ]------------
->
-> Bogus possible_clones: [ENCODER:46:TV-46] possible_clones=0x4 (full encoder mask=0x7)
-<snip>
-> Bogus possible_clones: [ENCODER:48:TMDS-48] possible_clones=0x1 (full encoder mask=0x7)
-<snip>
+If DSC is enabled, the only case is with 2 DSC engines so far. And
+DSC in all pipes are configured by default.
 
-Presumably something like this should fix it:
+More usage case will be added, such as 4 DSC in 4:4:2 topoplogy.
+Pipe number is extended in future to support quad-pipe. But only
+some of 4 pipes are used in non quad-pipe. So number of DSC is
+not aligned with maximum pipes.
 
-diff --git a/drivers/gpu/drm/radeon/radeon_encoders.c b/drivers/gpu/drm/radeon/radeon_encoders.c
-index 0f723292409e..fafed331e0a0 100644
---- a/drivers/gpu/drm/radeon/radeon_encoders.c
-+++ b/drivers/gpu/drm/radeon/radeon_encoders.c
-@@ -43,7 +43,7 @@ static uint32_t radeon_encoder_clones(struct drm_encoder *encoder)
- 	struct radeon_device *rdev = dev->dev_private;
- 	struct radeon_encoder *radeon_encoder = to_radeon_encoder(encoder);
- 	struct drm_encoder *clone_encoder;
--	uint32_t index_mask = 0;
-+	uint32_t index_mask = drm_encoder_mask(encoder);
- 	int count;
- 
- 	/* DIG routing gets problematic */
+Thus we support DSC flexiblely with this patch set with storing
+the number and configuring DSC with it.
 
-> 
-> 
-> I applied "[PATCH v2] drm/radeon: add late_register for connector" hoping this would help but it didn't make a difference.
-> 
-> Some details about the Mobility Radeon X1300:
->  # lspci -s 01:00.0 -v
-> 01:00.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI] RV515/M52 [Mobility Radeon X1300] (prog-if 00 [VGA controller])
-> 	Subsystem: Lenovo Device 2005
-> 	Flags: bus master, fast devsel, latency 0, IRQ 16
-> 	Memory at d8000000 (32-bit, prefetchable) [size=128M]
-> 	I/O ports at 2000 [size=256]
-> 	Memory at ee100000 (32-bit, non-prefetchable) [size=64K]
-> 	Expansion ROM at 000c0000 [virtual] [disabled] [size=128K]
-> 	Capabilities: [50] Power Management version 2
-> 	Capabilities: [58] Express Legacy Endpoint, IntMsgNum 0
-> 	Capabilities: [80] MSI: Enable- Count=1/1 Maskable- 64bit+
-> 	Kernel driver in use: radeon
-> 	Kernel modules: radeon
-> 
-> Regards,
-> Erhard
+Signed-off-by: Jun Nie <jun.nie@linaro.org>
+---
+Jun Nie (2):
+      drm/msm/dpu: Do not fix number of DSC
+      drm/msm/dpu: configure DSC per number in use
 
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h    |  2 ++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 18 +++++++++++-------
+ 2 files changed, 13 insertions(+), 7 deletions(-)
+---
+base-commit: 6fc951e4d05d152cfc3c4442cc4e304c927dbf5e
+change-id: 20241009-sm8650-v6-11-hmd-pocf-mdss-quad-upstream-20-94e7e3969089
+
+Best regards,
 -- 
-Ville Syrjälä
-Intel
+Jun Nie <jun.nie@linaro.org>
+
