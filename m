@@ -2,92 +2,155 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDA2899673D
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 12:28:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E61199675F
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 12:34:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A94DC10E6C6;
-	Wed,  9 Oct 2024 10:28:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FF4710E11E;
+	Wed,  9 Oct 2024 10:34:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Ih6htpbw";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="bN8Kmoie";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com
- [209.85.219.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29DC910E6C6
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 10:28:23 +0000 (UTC)
-Received: by mail-yb1-f182.google.com with SMTP id
- 3f1490d57ef6-e28fe3b02ffso699570276.3
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Oct 2024 03:28:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1728469702; x=1729074502; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/fIjIpUdHAzWUFceihGJMz4qHHzjyT7pvRboVHLIXt8=;
- b=Ih6htpbwyLr654Nkt0W1aNcLBG72rAoTYIbz3MlR/dx0LY1I1quiAPH62Bvr6guBhP
- TWgKZPQvKtxuOzGF/CDtXsbp7fL08QmZwjo4beiB7YF2T4og3N8zG64JVdW38+lxoBAg
- 3ZB3Ds8D4zn05KDMdZ+eXGctHsTrzWLbsAbpsY77N1mlujxg04igISPToeQNyZ5cC9cc
- 7JOhXjdXh+hL/Ryy+2KOOceD6Fjb7+pPol+BWjcJKav80da/VdLrcMwssxWgr9fWzv+C
- 15g9wrq1Y3BLuhPm/SIHj2VTu8RYUo3Y+WIbDBgVWros7auRbDy2gg0MMXcU9dGuZPFO
- 76bQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728469702; x=1729074502;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=/fIjIpUdHAzWUFceihGJMz4qHHzjyT7pvRboVHLIXt8=;
- b=p2AeV1a5yccBGfNB6mHP8cELA7owfK+dc1eBLkR4EI2DditeeTBUBKGD6YxJgL3ML+
- mJNH7bgqsNJtBi5USohAQAY+MKwqxQC1ZVgsvPFJm6289X8ityUcSfDP9CCp/rHxUn3n
- 5Vk8oOlWSqh7VXIb6KY8Uk/InY0xV/hVty+43taR6KyJGqWQYPA7iC29BOuQ7KvIwbay
- 6WXRCX6GRcfSO1AIms+iBA0/Zc8MtO0XZQ4KaAA3QEsH+gsu36YaluPER2EsncOgKsc4
- PnTr5HyfjPfQpOFhydHUOnT+D+10P+InTWrCFe3hX3SawpvB9cAEjq/JlblBd+1VYcNV
- Aoig==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXl5KOfQQg6cRgTNk4XUHzQhibHCWXeRlGidNFGrJWWTZr5tCs43tsdYov7SHB2R1RiXWmtmoWxnYo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzU6BBVACRHTwm3N+QocahisoX9xwvSSoiCoaqO6XgOYsG2XG20
- lb+iRx/vE1t7LTrhP2xZSiZZ/G/t+4mOgP5zlWseFamM6AOO25013+1oS3zr+4qS/+3J1FXcF11
- A+lEMbMnXyyqo3tVTIZn/s2s71ZfO3Qjp4ev1NA==
-X-Google-Smtp-Source: AGHT+IHNaU3Z3+DDKTWwqyhccdWy6KGvX0jRFFJtFda2WTvGLlJcpHA53hhWZp12VBznxD4kUpVSZMoh/Lgesk7avnk=
-X-Received: by 2002:a25:eb02:0:b0:e25:96a4:1706 with SMTP id
- 3f1490d57ef6-e28fe43f3d1mr1744852276.19.1728469701975; Wed, 09 Oct 2024
- 03:28:21 -0700 (PDT)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2078.outbound.protection.outlook.com [40.107.220.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 053A610E11E;
+ Wed,  9 Oct 2024 10:34:36 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=sImgFw48x2c6anAFI59xLYI3Nyg6YcyYj2p66Mcq7zIEmnJadIzBi6o0WC7uvHYdvC86LPSD/vXRRx9mZ+dI8YtwIGOXqOJug6LnnMKXPG4AjXx442fG39kNJN0gc0GLpps9Ks4seC9247NV6dMVkAbOES3T+7TkK1BdScdpBiNtFVAa0vRuu0UGYa01xSMS0zYvbf4io2Ui+CD7758abt/GlaSmxy28p20MARFFbtlwGsOGh4pGrOPacTJyXZGcOgHRb7G3OZ4fEBq8cNc2QPl1Ms+CnDgIKKs2ZrMyDLjb5BM+bdYbqiJhgwgviIosCxDD3E4u419rwhACiu9K7g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YEYGj+Rg3ayRYaCyHJMLkbxp+8y+NGqvt0OnbBStO4c=;
+ b=r+r5a1h4srdOwLtdZKykKnbtFn6a32aHuFydK8IbPI5g6FXYVRLSQyubv5T57IXNSPvrrFGcWa9Z04djINHUkyysOsNjY3eZT1TlbE9l9GvemKNZ9t1252CNRStKGNF4f4MBOHo961gzHf//xwKbZjZqXp753EvdghYcYSg7UK7mm47Gh1WpERtdv14Ycz5YsOrPDpE5079uejmz/Q+UmpgX36blFOZSYNTHMHEWPpbqTf4DWo3+3C5+KibcdPSCwcsSDAXsvfeZ2exmXsL+r63p5DshhmU+NlP5xjFjiYMp8GEjLFt/57Q+3r3DdrRSU4sVYSvvz8CSoeDUJHN1Ng==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YEYGj+Rg3ayRYaCyHJMLkbxp+8y+NGqvt0OnbBStO4c=;
+ b=bN8KmoiemSJFpwypBgOtYm1mc/H3V4rX0/flo3Npdyvw7+zXCEv525LxeyydK4nx/Ber3vrfb7PK2A9CovCuBt0/E9/0CeM78k/z82p1FP729fZMdYKJtq3D+0omZvNE5E01hpiAZMEmxG/n3a+2cyThz5Epo7IpE3h3qUnKXVA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by IA1PR12MB6044.namprd12.prod.outlook.com (2603:10b6:208:3d4::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.23; Wed, 9 Oct
+ 2024 10:34:31 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%2]) with mapi id 15.20.8026.020; Wed, 9 Oct 2024
+ 10:34:31 +0000
+Message-ID: <8588f179-9a69-44c3-aedc-0670ef948068@amd.com>
+Date: Wed, 9 Oct 2024 12:34:24 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/amdgpu: prevent BO_HANDLES error from being
+ overwritten
+To: Pierre-Eric Pelloux-Prayer <pierre-eric@damsy.net>,
+ Mohammed Anees <pvmohammedanees2003@gmail.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: Alex Deucher <alexander.deucher@amd.com>, Xinhui Pan
+ <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
+ David Wu <David.Wu3@amd.com>, Felix Kuehling <felix.kuehling@amd.com>
+References: <20241004235904.8605-1-pvmohammedanees2003@gmail.com>
+ <d9a3fee4-bb14-4162-95b1-06177d0a9949@damsy.net>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <d9a3fee4-bb14-4162-95b1-06177d0a9949@damsy.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0016.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:c9::6) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-References: <20241004094101.113349-1-sakari.ailus@linux.intel.com>
- <CAPDyKFp0N6UJhnHS164Tdf=xkWB0jzq65L9TdvYazeBQ-6WjeQ@mail.gmail.com>
- <20241007184924.GH14766@pendragon.ideasonboard.com>
- <CAPDyKFpQVnF7eQv3dup8k-3EijnMjuveCG9sZ=Rpey1Y6MBJEg@mail.gmail.com>
- <20241007222502.GG30699@pendragon.ideasonboard.com>
- <CAPDyKFrGNwna6Y2pqSRaBbRYHKRaD2ayqQHLtoqLPOu9Et7qTg@mail.gmail.com>
- <CAJZ5v0jvJyS7D5-wURi2kyWN-rmNa+YqupeQJ000pQRVd9VBcQ@mail.gmail.com>
-In-Reply-To: <CAJZ5v0jvJyS7D5-wURi2kyWN-rmNa+YqupeQJ000pQRVd9VBcQ@mail.gmail.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Wed, 9 Oct 2024 12:27:45 +0200
-Message-ID: <CAPDyKFqh_BS=6eN4tQzZ20sWCHL3kdnrY=1Mgd7B9gfBamm8bw@mail.gmail.com>
-Subject: Re: [PATCH 00/51] treewide: Switch to __pm_runtime_put_autosuspend()
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-bluetooth@vger.kernel.org, 
- linux-clk@vger.kernel.org, linux-crypto@vger.kernel.org, 
- dmaengine@vger.kernel.org, linux-gpio@vger.kernel.org, 
- amd-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
- linux-stm32@st-md-mailman.stormreply.com, 
- linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org, 
- linux-i3c@lists.infradead.org, linux-iio@vger.kernel.org, 
- linux-input@vger.kernel.org, patches@opensource.cirrus.com, 
- iommu@lists.linux.dev, imx@lists.linux.dev, 
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org, 
- linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org, 
- netdev@vger.kernel.org, linux-wireless@vger.kernel.org, 
- linux-pci@vger.kernel.org, linux-phy@lists.infradead.org, 
- linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org, 
- linux-sound@vger.kernel.org, linux-spi@vger.kernel.org, 
- linux-staging@lists.linux.dev, linux-usb@vger.kernel.org, 
- linux-serial@vger.kernel.org, greybus-dev@lists.linaro.org, 
- asahi@lists.linux.dev, Andy Shevchenko <andy.shevchenko@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|IA1PR12MB6044:EE_
+X-MS-Office365-Filtering-Correlation-Id: 529c99b2-22f9-4b3a-c0d1-08dce84df571
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?azlkSEtrVXRCcloyYXJSeUdPQUlOc1pBTHFZME1kVjVWbGsyZFlvUWxveXZ6?=
+ =?utf-8?B?djNxUFU0OFdhL21TejRVd1RnSDA4MVJrTVY3aldtK0ZJMVBwMWpxakJnN0Fq?=
+ =?utf-8?B?UFhSM2JHQmRDZ0hUMTVBOTRCeExsSStFS0w4ZzZNUVY2cXkrRFlmL1d3bVlk?=
+ =?utf-8?B?ZDNqVEVmRm5sWStnQ1QyV2s2K2h5QkhQSnpoLzlRNXJ1Ukx3R2RjRVYyS2Fi?=
+ =?utf-8?B?OHd4bVQ5VE12cmhPOGZ3UitrZk5NdjlHTkN4YU13a2pKcnUyUG9hd3FtT1VE?=
+ =?utf-8?B?elU5dDFjQ240Z0syQlF1S2xrWlpCbk9LVUNIT005dzU0eWJ2blJ3QVQyQ1U2?=
+ =?utf-8?B?aFcyUUlYRTR0bEhLeTA3RHpzOWVFOW5LV0EwaFpXZ0FTTVQrQXFNWDU2YkE3?=
+ =?utf-8?B?blViRW5ueVRxVThvSXF6dlc0R2pOaTllY0FsSzhWTUxKbjJpelRXMThkOHQr?=
+ =?utf-8?B?K09uQjBMOUJGR2ppcnNDLzV2VzlibmhhYWppU3RWTWl0UHZvZ3VRZ0RrVkNz?=
+ =?utf-8?B?MDMzRzJNVmxHVlAyeWl6NHN4dHVzWi96VzVvYXdTOUZjQVhEclE1QkhjanB6?=
+ =?utf-8?B?RUFicWYxTmtSNzlpQW1zMlFKWDJiUnFVZnNxb3Z1Mkp4dlpPVHZkcVlyN0tm?=
+ =?utf-8?B?ZUd0RWxMQWxhSXUxdHgwbmtURk83R3ZYWDNJeU5DV2tWMktqYUJrcEhHUEVT?=
+ =?utf-8?B?OXJ3eGF5dk9hL2lRa0Z3RmdsazNJaUJra1RYSWlrNDBqcVF2dXhkeW0xNTRI?=
+ =?utf-8?B?bjE5a2RDQnA4dmd4a0YxSzU2b04yTXdhRDE3Mnd4aVNVWkFUS1ZBaTJuaWc1?=
+ =?utf-8?B?YXRQU3hNN0tBeURsaDY5b0djSkxhQ1NBTDZZc0tVL3BNK1lJeUl6TjQ5ZlY3?=
+ =?utf-8?B?WkVNREEvUCtPNVFIM3crUFordXMxb2ExVWV3ejFOMDIyUm5ZcGhaT1BRTnZt?=
+ =?utf-8?B?SHk3OHRxUmVZTWhYZlBOWFlxN3lJQ0tpUUYvOUp1OGZJMWo0U2w1blhVcExz?=
+ =?utf-8?B?Smc2N3VleFN5M3Z3SVJrUU5QTEhUbjBYNWVuZHNXcDdsYVFxQkRzdVd4QjNT?=
+ =?utf-8?B?bEdQTUhxdHk4Q0kyQWRHZCtmTlh5QVJnNFJJcjhtTzNLOFJGMlhaUmxielF1?=
+ =?utf-8?B?d242Zk4za01jVlVrc010NjM2QWdOd3dCZ1pJeDVpSjQvRHFZYmJjRklyWWht?=
+ =?utf-8?B?SzZ4MVhMNEdQV2s0MVhPb1VOSUhNVlFwY2M5ZCtmT3Q0bW4zRWxHQzFrWitP?=
+ =?utf-8?B?K2MrRU8xMVg3MFRmVWVlT1ZPNFE3LzhOSGg5VUo4NGUwSEdFcnVqaDlBdmpV?=
+ =?utf-8?B?ODg2dXcrVDYzODhPNnYxMkRIR2ZnZWJaVDdEVjlvOGFMaUtMM0tXVVNzOUdX?=
+ =?utf-8?B?eTBUNkxWS216b0Y1cGNLZVc2dUtieVlSNHl5RGdJQTdhVmx3TUk2UDJyQUE3?=
+ =?utf-8?B?YjJILzk0aHFDY0pYQXczZFljVyt1UE1qU3RNdk02WE01WWR3S01oaEtPOHkz?=
+ =?utf-8?B?L3BhdnlyR2JtcmorcW1sMi9yb0ZvanpVWGpYbHZySFlkNlRMUUVtUzMwSHVK?=
+ =?utf-8?B?YnVWTGNyYkxXV1NtandNZTJyblh6NWg1OEwrSUNtMktyc2hXS2EzUUN2blR2?=
+ =?utf-8?B?SWRiMmtMTTV1VmJWYVdtdzZiaEo5OVg4TDNtcG9sTEdnazVlTyt6Z1gwRU5H?=
+ =?utf-8?B?LzlzOW54VThNOCtpWVVneUJqalFvTktxV3BRNHd0MWRZT2FIUWliTU5BPT0=?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dHpobm5QbXJVQ2d4SVpUa28wQWFnbUxmWk16Q0NGdWZTa2tUQ2xQY0JnbmRi?=
+ =?utf-8?B?WkYyNmo2VkRlTjhyWjFoTldnT0RDQ2NqTHhYRGRmdzhhL0Z4ai92U3cvUmc0?=
+ =?utf-8?B?NG4xVjRHNXpFU1J2RVE3UEdxTTZaRmtHamgyRWJxOEFyaUxML0hxdmsrb085?=
+ =?utf-8?B?eFZFSDVoOGcydTVvNXN6eDMrdmZGYmJlWm4xZUdFTmZjcTZvaTQweHkwbXBF?=
+ =?utf-8?B?cXBEUUlHUmNKK1FIcU5IaXVaem9BTWNtMDM1UHl3bHNnQ3piOFQrSzd6NHNO?=
+ =?utf-8?B?ZzVZVVJsaXplQitySFNLSDBVTzJJRm1BWTQxdS9rdGlnRGJGUVlSMVkxUm1Q?=
+ =?utf-8?B?YlFZU0ZFbVZaOU9vdWcxK2h2R0l1ZHhITDNkVC9DT2lsRE5yUlhuV1RVSE1J?=
+ =?utf-8?B?TkZ3UDBpYXdRREc0QTZJTzQybjd5bTh4WEFCWTFEdzFjVmIwYk1KbS9US0lG?=
+ =?utf-8?B?dkYwNjJxQzhkT2o5aEUrV20vNWk1UG9BSmVUNTBLTC9xSHk2ZC9OZGc2U2tE?=
+ =?utf-8?B?ZHliREUwdzJsck43ajRWdUNxNS95UEhQTkp2ZDZzcktYQjB0bGpaNGFZZnMz?=
+ =?utf-8?B?UjBYQzlWcWxOMis0UjlPT05IeE5JbUxpVTMrdjdXamwrZjBzaUVpQ0psU2ZV?=
+ =?utf-8?B?dDZGRjNaUkRIblh3L1h4UXN3TStFUEZocTVpa3RObmE2dVVJUlFZQWtOQWww?=
+ =?utf-8?B?cnhsSDJLK29BazYyb256anI1Q0NyRlQrcVRMeEE5V3ZLVFdNU3pQc1IrS3hm?=
+ =?utf-8?B?ZTg0Z3ZncFozakl1b3hTM01NVndoZm84a1VXaWdBSFlRNHU2U09UV2w1ZjNQ?=
+ =?utf-8?B?R2kwWDFFSnRCZUNieC9BelZmaWYvUEhOUVMzSUFCUjhleUQ4ZXkxdGN2a0d0?=
+ =?utf-8?B?RUZVSWFTY0hGSlZ1dmJtbCtJT25qOEVCKy9QRjAwdmEyL1NkbkpQMS9ZK2pC?=
+ =?utf-8?B?cHpVZGx5QktGemMvVjhiQ0xkcm1oeHVoTE5WSnNDd2RQYUlPYnhOQ0YvS1lm?=
+ =?utf-8?B?QlZMcmM4eWJ5VEFxWDBwUkNmRmdneVNRRWtKM2dDaDZlZjBBckRRQ0llejBw?=
+ =?utf-8?B?M0E4c0xLK3gxQmJOR2JGd3FETE0vOVN4N0l1aktteFlmeCsvTjZkbld3ekhi?=
+ =?utf-8?B?MWdDL3JKYUVuRE5nWnhLTklEenM0K05kTWkrbDVzZ2Q1NURiV05wNDBMZVBh?=
+ =?utf-8?B?bUJkTXovcW5oZGxlc0hITDlRTXhOei9zM1RuNTZqVXZJK2swUVRNTEdVejZ1?=
+ =?utf-8?B?U1VUUndIRC9vOUN6MmtQNHUwUG1kbWhpVGNxbGdYMTA0L1VHLzZoNElVRjZI?=
+ =?utf-8?B?dG1NTlNqTDFmZ1hHTE1EcWVEdkNlQU9GWkFiQXJJSjg2aHI3d0xTTDFXQTB0?=
+ =?utf-8?B?bytzK1hzWHRnVzI0NTgwVlBBSWwvNHJVNWRqZUdVZktYd0VGVjN5RVl0TGxp?=
+ =?utf-8?B?b09oUVBxNmJzZ2Z6YmZHSFFBUW56TXZucENvbzF0UzYzanNlT0IvZHU1K2ZQ?=
+ =?utf-8?B?WGdWd2sxZVhYd2RLSUJuMmh3OXIxeDVMVUFGTmJPVEtkNmF6eU5kbmoydGtx?=
+ =?utf-8?B?Zm11clJMclBDaWxLMXFaRkprbzNCQzdjb3NPSGVjaFhwdGxpRDQxM24xeWhu?=
+ =?utf-8?B?ZCtVek03MTNkRnpaR3dhZUhhRmxpMi94NitnRFZGd0ZRVWltLzByOWwrR2VM?=
+ =?utf-8?B?UTd4VFIxYjMwWFZucklJYlEyemdpcWFveXBVa3d6c2h1YTJFdEMyeHZrTTVs?=
+ =?utf-8?B?Sms3dGUrZ25TeFBGUVZrR0MveHpIcGNZQ1dsOG5wRzNnMkRFdEYvZytueEF4?=
+ =?utf-8?B?clZYWHFBR3RtVVg1KzJaT0ZtUE9jdDJFZWlHaS9Wd08xejI5OXhqTlRTWVls?=
+ =?utf-8?B?WkU4a3lMNENGNXlHRkg5M3A5bFVmNFNCTmFzb01zbG4zN3dnQWN6MGxyblVa?=
+ =?utf-8?B?MkV6N3prcForMFNxdytYYnlPcXNBU3VoQnprcEVyUWg3QTNVd1ZnbFJsKzcx?=
+ =?utf-8?B?T1NXTnk1N1Y2cGNMWWU0dDRxK0xoL2VEck1Kd1J5QnlyMkcwTGVFaUxYOEVL?=
+ =?utf-8?B?eC9ycERaQUlMTXNqYlpZTzVuUHB5cUpUZDJod2N4bkh0S0g3YVJYK0lLTXRG?=
+ =?utf-8?Q?gNzU=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 529c99b2-22f9-4b3a-c0d1-08dce84df571
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Oct 2024 10:34:31.0152 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: uva8Wh3SDSwmxtDQS3CHmIby9SaPsEKn+r7UJOyI1BLqJ5aNjn/5uhc96UyVVeMa
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6044
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,140 +166,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 8 Oct 2024 at 20:25, Rafael J. Wysocki <rafael@kernel.org> wrote:
+Am 09.10.24 um 10:22 schrieb Pierre-Eric Pelloux-Prayer:
+> Hi,
 >
-> On Tue, Oct 8, 2024 at 12:35=E2=80=AFAM Ulf Hansson <ulf.hansson@linaro.o=
-rg> wrote:
-> >
-> > On Tue, 8 Oct 2024 at 00:25, Laurent Pinchart
-> > <laurent.pinchart@ideasonboard.com> wrote:
-> > >
-> > > Hi Ulf,
-> > >
-> > > On Tue, Oct 08, 2024 at 12:08:24AM +0200, Ulf Hansson wrote:
-> > > > On Mon, 7 Oct 2024 at 20:49, Laurent Pinchart wrote:
-> > > > > On Fri, Oct 04, 2024 at 04:38:36PM +0200, Ulf Hansson wrote:
-> > > > > > On Fri, 4 Oct 2024 at 11:41, Sakari Ailus wrote:
-> > > > > > >
-> > > > > > > Hello everyone,
-> > > > > > >
-> > > > > > > This set will switch the users of pm_runtime_put_autosuspend(=
-) to
-> > > > > > > __pm_runtime_put_autosuspend() while the former will soon be =
-re-purposed
-> > > > > > > to include a call to pm_runtime_mark_last_busy(). The two are=
- almost
-> > > > > > > always used together, apart from bugs which are likely common=
-. Going
-> > > > > > > forward, most new users should be using pm_runtime_put_autosu=
-spend().
-> > > > > > >
-> > > > > > > Once this conversion is done and pm_runtime_put_autosuspend()=
- re-purposed,
-> > > > > > > I'll post another set to merge the calls to __pm_runtime_put_=
-autosuspend()
-> > > > > > > and pm_runtime_mark_last_busy().
-> > > > > >
-> > > > > > That sounds like it could cause a lot of churns.
-> > > > > >
-> > > > > > Why not add a new helper function that does the
-> > > > > > pm_runtime_put_autosuspend() and the pm_runtime_mark_last_busy(=
-)
-> > > > > > things? Then we can start moving users over to this new interfa=
-ce,
-> > > > > > rather than having this intermediate step?
-> > > > >
-> > > > > I think the API would be nicer if we used the shortest and simple=
-st
-> > > > > function names for the most common use cases. Following
-> > > > > pm_runtime_put_autosuspend() with pm_runtime_mark_last_busy() is =
-that
-> > > > > most common use case. That's why I like Sakari's approach of repu=
-rposing
-> > > > > pm_runtime_put_autosuspend(), and introducing
-> > > > > __pm_runtime_put_autosuspend() for the odd cases where
-> > > > > pm_runtime_mark_last_busy() shouldn't be called.
-> > > >
-> > > > Okay, so the reason for this approach is because we couldn't find a
-> > > > short and descriptive name that could be used in favor of
-> > > > pm_runtime_put_autosuspend(). Let me throw some ideas at it and may=
-be
-> > > > you like it - or not. :-)
-> > >
-> > > I like the idea at least :-)
-> > >
-> > > > I don't know what options you guys discussed, but to me the entire
-> > > > "autosuspend"-suffix isn't really that necessary in my opinion. The=
-re
-> > > > are more ways than calling pm_runtime_put_autosuspend() that trigge=
-rs
-> > > > us to use the RPM_AUTO flag for rpm_suspend(). For example, just
-> > > > calling pm_runtime_put() has the similar effect.
-> > >
-> > > To be honest, I'm lost there. pm_runtime_put() calls
-> > > __pm_runtime_idle(RPM_GET_PUT | RPM_ASYNC), while
-> > > pm_runtime_put_autosuspend() calls __pm_runtime_suspend(RPM_GET_PUT |
-> > > RPM_ASYNC | RPM_AUTO).
-> >
-> > __pm_runtime_idle() ends up calling rpm_idle(), which may call
-> > rpm_suspend() - if it succeeds to idle the device. In that case, it
-> > tags on the RPM_AUTO flag in the call to rpm_suspend(). Quite similar
-> > to what is happening when calling pm_runtime_put_autosuspend().
+> Le 05/10/2024 à 01:59, Mohammed Anees a écrit :
+>> Before this patch, if multiple BO_HANDLES chunks were submitted,
+>> the error -EINVAL would be correctly set but could be overwritten
+>> by the return value from amdgpu_cs_p1_bo_handles(). This patch
+>> ensures that once an error condition is detected, the function
+>> returns immediately, avoiding the overwriting of the error code.
+>>
+>> Signed-off-by: Mohammed Anees <pvmohammedanees2003@gmail.com>
+>> ---
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 3 ++-
+>>   1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c 
+>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+>> index 1e475eb01417..543db0df9a31 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+>> @@ -266,8 +266,9 @@ static int amdgpu_cs_pass1(struct 
+>> amdgpu_cs_parser *p,
+>>               /* Only a single BO list is allowed to simplify 
+>> handling. */
+>>               if (p->bo_list)
+>>                   ret = -EINVAL;
+>> +            else
+>> +                ret = amdgpu_cs_p1_bo_handles(p, p->chunks[i].kdata);
+>>   -            ret = amdgpu_cs_p1_bo_handles(p, p->chunks[i].kdata);
 >
-> Right.
+> My bad, I've merged the wrong version of the patch.
 >
-> For almost everybody, except for a small bunch of drivers that
-> actually have a .runtime_idle() callback, pm_runtime_put() is
-> literally equivalent to pm_runtime_put_autosuspend().
+> That being said, I think it'd be nicer to follow the same pattern as 
+> the other checks and do:
 >
-> So really the question is why anyone who doesn't provide a
-> .runtime_idle() callback bothers with using this special
-> pm_runtime_put_autosuspend() thing, which really means "do a
-> runtime_put(), but skip my .runtime_idle() callback".
+>    if (p->bo_list)
+>       goto free_partial_kdata;
+>
+> Since "ret" is initialized to -EINVAL already.
+>
+> Also can you add a reference to the broken commit in the commit message?
+> Something like:
+>
+> Fixes: fec5f8e8c6bcf83 ("drm/amdgpu: disallow multiple BO_HANDLES 
+> chunks in one submit")
 
-My guess is that it's in most cases a legacy pattern that is being
-followed. Also note that rpm_idle() didn't "always" tag on the
-RPM_AUTO flag, even if it's quite a while ago (2013) since we added
-it.
+Yeah agree with Pierre-Eric and also please add the same CC stable tag 
+the original patch had so that it gets backported ASAP.
 
-Unless there is some actual optimization involved, as it also allows
-us to skip calling rpm_idle() and go directly for rpm_suspend().
+Thanks,
+Christian.
 
 >
-> > >
-> > > >
-> > > > Moreover, it's similar for pm_runtime_mark_last_busy(), it's called
-> > > > during rpm_resume() too, for example. So why bother about having
-> > > > "mark_last_busy" in the new name too.
-> > > >
-> > > > That said, my suggestion is simply "pm_runtime_put_suspend".
-> > >
-> > > Can we do even better, and make pm_runtime_put() to handle autosuspen=
-d
-> > > automatically when autosuspend is enabled ?
-> >
-> > As stated above, this is already the case.
+> Thanks,
+> Pierre-Eric
 >
-> What really is needed appears to be a combination of
-> pm_runtime_mark_last_busy() with pm_runtime_put().
+>>               if (ret)
+>>                   goto free_partial_kdata;
+>>               break;
 
-This makes sense to me too, but I don't think we should limit it to this.
-
-Making pm_runtime_put_autosuspend (or if the name
-"pm_runtime_put_suspend" is better?) to do the similar thing, is
-probably a good idea too. At least in my opinion.
-
->
-> Granted, pm_runtime_put() could do the pm_runtime_mark_last_busy()
-> thing automatically if autosuspend is enabled and the only consequence
-> of it might be delaying a suspend of the device until its autosuspend
-> timer expires, which should not be a problem in the vast majority of
-> cases.
-
-Right.
-
-I guess we should expect the *sync* variants to be used, if the timer
-really needs to be overridden.
-
-Kind regards
-Uffe
