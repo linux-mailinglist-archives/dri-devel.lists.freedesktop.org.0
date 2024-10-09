@@ -2,62 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EAE09961A8
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 10:00:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DF439961F0
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 10:10:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99CFC10E67E;
-	Wed,  9 Oct 2024 08:00:48 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Cw4uHIFN";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F64B10E680;
+	Wed,  9 Oct 2024 08:10:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F304510E67A;
- Wed,  9 Oct 2024 08:00:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1728460847; x=1759996847;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=X5Dfbqv7Nkw22/0CScbgBIGsF0hB+LEpROaW0FgeghM=;
- b=Cw4uHIFNuV4m6IAA37kopDl0D9SyH9KvZBD00ZJF7Tj6yv6HIqLFbB46
- 0MMDHIpflrGFw2hW1/84Gqx6+YwTarV5ZDAoWRKaztiIWAkHEevkCXv6W
- 8mYoEKsLwK2H9+1r32qMZRdVFu7wvU9uLstdpD30wQwJdzMZ9danTyatF
- Spb72V1DcikfWciQyntUF1YT/vSQMN7rGMpviCMlhTCPzLYVgAivv/cx+
- duzrxFNxPSI2HPsHkBANTZJgecv7xm4LVf66CoxEpZqnt2OGWmF1f0HyV
- Ip79GNEdfMsFLWr3mLSpTjWATBsd3x0PpPATiEiWsV4V4BMSHsxAno07s A==;
-X-CSE-ConnectionGUID: 7tf6qqB7Qrmvj9P3cGoCLg==
-X-CSE-MsgGUID: 7FUts6RaSzGnou/sSRpE/w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11219"; a="27694029"
-X-IronPort-AV: E=Sophos;i="6.11,189,1725346800"; d="scan'208";a="27694029"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Oct 2024 01:00:47 -0700
-X-CSE-ConnectionGUID: K98xMOjVSFOEkwHLmsYsCA==
-X-CSE-MsgGUID: OR7jKexLTJuREao8BW2T6w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,189,1725346800"; d="scan'208";a="76989952"
-Received: from yarbov-mobl2.ger.corp.intel.com (HELO [10.245.131.59])
- ([10.245.131.59])
- by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Oct 2024 01:00:41 -0700
-Message-ID: <a156ef31-2614-41c9-9df6-acd6d2fcf6cb@linux.intel.com>
-Date: Wed, 9 Oct 2024 10:00:36 +0200
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C686410E680
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 08:10:46 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E846DFEC;
+ Wed,  9 Oct 2024 01:11:15 -0700 (PDT)
+Received: from [10.57.78.234] (unknown [10.57.78.234])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5A7C93F58B;
+ Wed,  9 Oct 2024 01:10:45 -0700 (PDT)
+Message-ID: <ff6196b6-f385-4d54-b34b-ce8f6d8d0f0a@arm.com>
+Date: Wed, 9 Oct 2024 09:10:43 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/xe/guc: Fix deference after check
-To: "Everest K.C." <everestkc@everestkc.com.np>, lucas.demarchi@intel.com,
- thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch
-Cc: skhan@linuxfoundation.org, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20241008205352.4480-1-everestkc@everestkc.com.np>
-Content-Language: en-US
-From: Nirmoy Das <nirmoy.das@linux.intel.com>
-In-Reply-To: <20241008205352.4480-1-everestkc@everestkc.com.np>
+Subject: Re: [PATCH] drm/panthor: Fix firmware initialization on systems with
+ a page size > 4k
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, kernel@collabora.com
+References: <20241008084744.82688-1-boris.brezillon@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20241008084744.82688-1-boris.brezillon@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,35 +49,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 08/10/2024 09:47, Boris Brezillon wrote:
+> The system and GPU MMU page size might differ, which becomes a
+> problem for FW sections that need to be mapped at explicit address
+> since our PAGE_SIZE alignment might cover a VA range that's
+> expected to be used for another section.
+> 
+> Make sure we never map more than we need.
+> 
+> Fixes: 2718d91816ee ("drm/panthor: Add the FW logical block")
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-On 10/8/2024 10:53 PM, Everest K.C. wrote:
-> The `if (!snapshot->copy)` evaluates to True only when `snapshot->copy`
-> is Null. Thus, derefrencing `snapshot->copy` inside this if block is
-> equivalent to Null pointer derefrencing.
-> The `if` condition is now changed to evaluate to true only when
-> `snapshot->copy` is not Null.
-> This issue was reported by Coverity Scan.
->
-> Signed-off-by: Everest K.C. <everestkc@everestkc.com.np>
-
-Fixes: d8ce1a977226 ("drm/xe/guc: Use a two stage dump for GuC logs and add more info")
-
-Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
+Reviewed-by: Steven Price <steven.price@arm.com>
 
 > ---
->  drivers/gpu/drm/xe/xe_guc_log.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/xe/xe_guc_log.c b/drivers/gpu/drm/xe/xe_guc_log.c
-> index 7fbc56cceaba..4e1a5e8ba1e3 100644
-> --- a/drivers/gpu/drm/xe/xe_guc_log.c
-> +++ b/drivers/gpu/drm/xe/xe_guc_log.c
-> @@ -122,7 +122,7 @@ void xe_guc_log_snapshot_free(struct xe_guc_log_snapshot *snapshot)
->  	if (!snapshot)
->  		return;
+>  drivers/gpu/drm/panthor/panthor_fw.c  |  3 +--
+>  drivers/gpu/drm/panthor/panthor_gem.c | 11 ++++++++---
+>  drivers/gpu/drm/panthor/panthor_mmu.c |  6 +++---
+>  3 files changed, 12 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
+> index ef232c0c2049..293846400296 100644
+> --- a/drivers/gpu/drm/panthor/panthor_fw.c
+> +++ b/drivers/gpu/drm/panthor/panthor_fw.c
+> @@ -515,8 +515,7 @@ static int panthor_fw_load_section_entry(struct panthor_device *ptdev,
+>  		return -EINVAL;
+>  	}
 >  
-> -	if (!snapshot->copy) {
-> +	if (snapshot->copy) {
->  		for (i = 0; i < snapshot->num_chunks; i++)
->  			kfree(snapshot->copy[i]);
->  		kfree(snapshot->copy);
+> -	if ((hdr.va.start & ~PAGE_MASK) != 0 ||
+> -	    (hdr.va.end & ~PAGE_MASK) != 0) {
+> +	if (!IS_ALIGNED(hdr.va.start, SZ_4K) || !IS_ALIGNED(hdr.va.end, SZ_4K)) {
+>  		drm_err(&ptdev->base, "Firmware corrupted, virtual addresses not page aligned: 0x%x-0x%x\n",
+>  			hdr.va.start, hdr.va.end);
+>  		return -EINVAL;
+> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
+> index c60b599665d8..2c8d6e2c7232 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gem.c
+> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
+> @@ -44,8 +44,7 @@ void panthor_kernel_bo_destroy(struct panthor_kernel_bo *bo)
+>  			to_panthor_bo(bo->obj)->exclusive_vm_root_gem != panthor_vm_root_gem(vm)))
+>  		goto out_free_bo;
+>  
+> -	ret = panthor_vm_unmap_range(vm, bo->va_node.start,
+> -				     panthor_kernel_bo_size(bo));
+> +	ret = panthor_vm_unmap_range(vm, bo->va_node.start, bo->va_node.size);
+>  	if (ret)
+>  		goto out_free_bo;
+>  
+> @@ -95,10 +94,16 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
+>  	}
+>  
+>  	bo = to_panthor_bo(&obj->base);
+> -	size = obj->base.size;
+>  	kbo->obj = &obj->base;
+>  	bo->flags = bo_flags;
+>  
+> +	/* The system and GPU MMU page size might differ, which becomes a
+> +	 * problem for FW sections that need to be mapped at explicit address
+> +	 * since our PAGE_SIZE alignment might cover a VA range that's
+> +	 * expected to be used for another section.
+> +	 * Make sure we never map more than we need.
+> +	 */
+> +	size = ALIGN(size, SZ_4K);
+>  	ret = panthor_vm_alloc_va(vm, gpu_va, size, &kbo->va_node);
+>  	if (ret)
+>  		goto err_put_obj;
+> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+> index 3cd2bce59edc..e53d131c53cc 100644
+> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> @@ -1027,10 +1027,10 @@ panthor_vm_alloc_va(struct panthor_vm *vm, u64 va, u64 size,
+>  {
+>  	int ret;
+>  
+> -	if (!size || (size & ~PAGE_MASK))
+> +	if (!size || !IS_ALIGNED(size, SZ_4K))
+>  		return -EINVAL;
+>  
+> -	if (va != PANTHOR_VM_KERNEL_AUTO_VA && (va & ~PAGE_MASK))
+> +	if (va != PANTHOR_VM_KERNEL_AUTO_VA && !IS_ALIGNED(va, SZ_4K))
+>  		return -EINVAL;
+>  
+>  	mutex_lock(&vm->mm_lock);
+> @@ -2370,7 +2370,7 @@ panthor_vm_bind_prepare_op_ctx(struct drm_file *file,
+>  	int ret;
+>  
+>  	/* Aligned on page size. */
+> -	if ((op->va | op->size) & ~PAGE_MASK)
+> +	if (!IS_ALIGNED(op->va | op->size, SZ_4K))
+>  		return -EINVAL;
+>  
+>  	switch (op->flags & DRM_PANTHOR_VM_BIND_OP_TYPE_MASK) {
+
