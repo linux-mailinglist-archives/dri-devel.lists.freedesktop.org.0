@@ -2,68 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37DD49969CE
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 14:18:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECE7E9969FF
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 14:29:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 398E510E2A5;
-	Wed,  9 Oct 2024 12:18:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 473F310E29D;
+	Wed,  9 Oct 2024 12:29:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kXwrgTUs";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="QUz4qNVt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CED8C10E2A5
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 12:18:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1728476335; x=1760012335;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=c2gFY4gtveL1XpFdSfORF1+tbN/JPlxEpuexOeTX9cU=;
- b=kXwrgTUsWW4L7cihZJQ5WqkqBKHCLxR/mz4tZY48fHdqh7Xz93iGq6dt
- bUZWLrc9wCJYxgF3uRnlzQWyaiuw4ZpdVtJ0r4YFMqI018ZP3okOhRlTK
- Cbs4acj44/Un7fp6y7o6MdbSi2fw45y2Ni3VLyXpuosLPouAxuF0ECdmO
- lbey4tc4NvyzHxUFTjniEEMFBw4AhPGz2KiL572fA5TiQC8xTZvpx0l49
- 5UuLms2tj9FzlmFdorl5a/BfA+i4NHke6hRnm9RCugRkKYrlKfBkJFT1h
- jEmPd9t+jljetVUbIKbQn6JjkpO/swgqm5B3+y4Y/KryX24FfUDZko+kI A==;
-X-CSE-ConnectionGUID: ETQhPneVSUerMeNfPvjyLg==
-X-CSE-MsgGUID: xI3DHP4uQF+IHe0n9T+/8w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="31563776"
-X-IronPort-AV: E=Sophos;i="6.11,189,1725346800"; d="scan'208";a="31563776"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Oct 2024 05:18:54 -0700
-X-CSE-ConnectionGUID: PbgVQfRNSVOsRuFInDbpIw==
-X-CSE-MsgGUID: qvIVTNMJRfizD8QMeqt59w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,189,1725346800"; d="scan'208";a="76188060"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
- by orviesa009.jf.intel.com with ESMTP; 09 Oct 2024 05:18:51 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1syVeS-0009C0-30;
- Wed, 09 Oct 2024 12:18:48 +0000
-Date: Wed, 9 Oct 2024 20:18:20 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dzmitry Sankouski <dsankouski@gmail.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Dzmitry Sankouski <dsankouski@gmail.com>
-Subject: Re: [PATCH v6 1/3] drm/mipi-dsi: add mipi_dsi_compression_mode_multi
-Message-ID: <202410092245.tfsuUllL-lkp@intel.com>
-References: <20241006-starqltechn_integration_upstream-v6-1-8336b9cd6c34@gmail.com>
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
+ [209.85.214.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6306110E29D;
+ Wed,  9 Oct 2024 12:29:34 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id
+ d9443c01a7336-20c544d34bcso16855395ad.1; 
+ Wed, 09 Oct 2024 05:29:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1728476974; x=1729081774; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=eMdFLkf55iY8mo8GSix8A+wWwdNb0+DgkDm6Xc8j4s4=;
+ b=QUz4qNVtyzSellW7IVQ5osTHDSXF3dIo0x+OD9hlbZpsU95SQG0A25UTomXNtJP2oU
+ c8fnOsj570ADwJqfbeu05yD4D3cnJXG1nx2mzsTLwpzyzE3xDyj3k37SQ0Nm5oRxSkyO
+ k8vmeW497c4qlJsxGpM2Q2HDUZX+DH5/0vHDkgdoQgQIH1Ef/vaZPI0shxAHiHsMycWg
+ s+7DZROMvZaH6ehWifuvQtu5X1NBDC39TtdPp2qNauNSkpRFIu42FqwJtr5NhYXmL9sb
+ IidH7HBdcR7UFiaIHT9xsrrTfMBmBhuI81nplYhiN/njBI6dZLzIxH09k6WvH7JEpqF6
+ qfUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1728476974; x=1729081774;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=eMdFLkf55iY8mo8GSix8A+wWwdNb0+DgkDm6Xc8j4s4=;
+ b=B1z3pmpnw7sko0zvf+GQ1d3J/NvI2ZzO67gBffG3rYBhwVCo7ANwaBny8OIiT1LS6s
+ mslRwRYlauu+CsbXC7FSp0rkXhxWZCfXdDXc3qOOVCGwRgHwZGwIeLzY9op+w7F61Ns1
+ q7nfzBaARDioEkoqe65xxFjRj+vjEcCK8q/HDEe4ItlYHPI9I05Ngyt0O9aHJdswGehe
+ SZekyWNOvuLRkfjSFASj3YDmtTxpb+Ind+E0FK4FBZzhlFHztX+tL83wG5wJKHufneJ4
+ WvsZJfh5rVVIw7wuo+pQLHy6E1jGzWYT1J2QElxREJb/lq5m9U77+tGBWZd7qe0K6GXM
+ Aqaw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWTVzBUgjnNYOTaSdi+UuH2fTCabPbKsCnpLwvi9lpkkuCS4hyXIbLe0dq48y0iZlbklINc8Gl5dSE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx/Fg1OJIDFqcVx7oxleFKtkKvsiKolHPUA9tiPl2vLT696YG5i
+ m6qzgn/fo8p78un8PwVPVoWX4p7270eI3ip7jgQ7SIC5NccmkBh9
+X-Google-Smtp-Source: AGHT+IHOhfqq0sDN4lcnvYYpx8jag/IqmcLbJY3tWBChS7jUw5p6ehVxXu2GHV6j0c3N1NtWOWbpag==
+X-Received: by 2002:a17:902:d491:b0:20b:983c:f095 with SMTP id
+ d9443c01a7336-20c6378fc02mr37086205ad.51.1728476973686; 
+ Wed, 09 Oct 2024 05:29:33 -0700 (PDT)
+Received: from archlinux.. ([2405:201:e00c:517f:5e87:9cff:fe63:6000])
+ by smtp.googlemail.com with ESMTPSA id
+ d9443c01a7336-20c65fc262dsm10591305ad.225.2024.10.09.05.29.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Oct 2024 05:29:33 -0700 (PDT)
+From: Mohammed Anees <pvmohammedanees2003@gmail.com>
+To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, simona@ffwll.ch, srinivasan.shanmugam@amd.com,
+ David.Wu3@amd.com, felix.kuehling@amd.com, YuanShang.Mao@amd.com,
+ pierre-eric.pelloux-prayer@amd.com
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ Mohammed Anees <pvmohammedanees2003@gmail.com>, stable@vger.kernel.org
+Subject: [PATCH v2] drm/amdgpu: prevent BO_HANDLES error from being overwritten
+Date: Wed,  9 Oct 2024 17:58:31 +0530
+Message-ID: <20241009122831.109809-1-pvmohammedanees2003@gmail.com>
+X-Mailer: git-send-email 2.46.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241006-starqltechn_integration_upstream-v6-1-8336b9cd6c34@gmail.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,51 +84,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dzmitry,
+Before this patch, if multiple BO_HANDLES chunks were submitted,
+the error -EINVAL would be correctly set but could be overwritten
+by the return value from amdgpu_cs_p1_bo_handles(). This patch
+ensures that if there are multiple BO_HANDLES, we stop.
 
-kernel test robot noticed the following build warnings:
+Cc: stable@vger.kernel.org
+Fixes: fec5f8e8c6bc ("drm/amdgpu: disallow multiple BO_HANDLES chunks in one submit")
+Signed-off-by: Mohammed Anees <pvmohammedanees2003@gmail.com>
+---
+v2:
+- Switched to goto free_partial_kdata for error handling, following the existing pattern.
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-[auto build test WARNING on 58ca61c1a866bfdaa5e19fb19a2416764f847d75]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dzmitry-Sankouski/drm-mipi-dsi-add-mipi_dsi_compression_mode_multi/20241007-022151
-base:   58ca61c1a866bfdaa5e19fb19a2416764f847d75
-patch link:    https://lore.kernel.org/r/20241006-starqltechn_integration_upstream-v6-1-8336b9cd6c34%40gmail.com
-patch subject: [PATCH v6 1/3] drm/mipi-dsi: add mipi_dsi_compression_mode_multi
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241009/202410092245.tfsuUllL-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241009/202410092245.tfsuUllL-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410092245.tfsuUllL-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/drm_mipi_dsi.c:1533: warning: Function parameter or struct member 'ctx' not described in 'mipi_dsi_compression_mode_multi'
->> drivers/gpu/drm/drm_mipi_dsi.c:1533: warning: Excess function parameter 'dsi' description in 'mipi_dsi_compression_mode_multi'
-
-
-vim +1533 drivers/gpu/drm/drm_mipi_dsi.c
-
-  1522	
-  1523	/**
-  1524	 * mipi_dsi_compression_mode_multi() - enable/disable DSC on the peripheral
-  1525	 * @dsi: DSI peripheral device
-  1526	 * @enable: Whether to enable or disable the DSC
-  1527	 *
-  1528	 * Enable or disable Display Stream Compression on the peripheral using the
-  1529	 * default Picture Parameter Set and VESA DSC 1.1 algorithm.
-  1530	 */
-  1531	void mipi_dsi_compression_mode_multi(struct mipi_dsi_multi_context *ctx,
-  1532					     bool enable)
-> 1533	{
-  1534		return mipi_dsi_compression_mode_ext_multi(ctx, enable,
-  1535							   MIPI_DSI_COMPRESSION_DSC, 0);
-  1536	}
-  1537	EXPORT_SYMBOL(mipi_dsi_compression_mode_multi);
-  1538	
-
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+index 1e475eb01417..d891ab779ca7 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+@@ -265,7 +265,7 @@ static int amdgpu_cs_pass1(struct amdgpu_cs_parser *p,
+ 
+ 			/* Only a single BO list is allowed to simplify handling. */
+ 			if (p->bo_list)
+-				ret = -EINVAL;
++				goto free_partial_kdata;
+ 
+ 			ret = amdgpu_cs_p1_bo_handles(p, p->chunks[i].kdata);
+ 			if (ret)
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.46.0
+
