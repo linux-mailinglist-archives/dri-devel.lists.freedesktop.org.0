@@ -2,172 +2,115 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F28D6996125
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 09:42:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B46D996153
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 09:46:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DEED10E66C;
-	Wed,  9 Oct 2024 07:42:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FCB910E0BE;
+	Wed,  9 Oct 2024 07:46:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="IIjMaHuZ";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="owGCEpb4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6DF610E66C;
- Wed,  9 Oct 2024 07:42:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1728459738; x=1759995738;
- h=date:from:to:cc:subject:message-id:in-reply-to: mime-version;
- bh=GHBR8CVGu/kj8tQrrvahgnK+Kal7JAGV6y92B8ip+uY=;
- b=IIjMaHuZs7r1raqeHfCF1ubfDBWTp9U9i6pLyBBCrnDcGO3mKSp8tz0D
- 5QxMY3+WysdB1o5Dbtq8C/kTYeVXWyN29PxSmKxNqkXWva1r5oDDRApQj
- R5upPXETf7iqgJrVaXg0Oz1skMNzo388E2zaM4xe/PGL9ILLkBuBGTO0G
- NFt05G3eXqY9F4GNgSnAWqMYgilHhjdesyfM4ANzp0PGTHq94kFEYhZaD
- zPkc6ETDmWtMj0TgmwBqowAc2FhKVa77e3nehJBm9Fm0RR1wA6Pv2YD9h
- IDDxSXO8V1ywnzc7z9hW9O04cjq5+6DvfPDAWfzNCqmiQlUBBHRYkN5BZ g==;
-X-CSE-ConnectionGUID: q2sIarv1TcK9kbMaGnzJfQ==
-X-CSE-MsgGUID: W1rFG249Rym0EF8Ml1+Ycg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11219"; a="38329680"
-X-IronPort-AV: E=Sophos;i="6.11,189,1725346800"; d="scan'208";a="38329680"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Oct 2024 00:42:17 -0700
-X-CSE-ConnectionGUID: zOdJhZP3Ta2cAHR2LgawPQ==
-X-CSE-MsgGUID: UnfajBytQhqx2oqmk4GMXQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,189,1725346800"; d="scan'208";a="76040470"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by orviesa010.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 09 Oct 2024 00:42:17 -0700
-Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Wed, 9 Oct 2024 00:42:16 -0700
-Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Wed, 9 Oct 2024 00:42:16 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Wed, 9 Oct 2024 00:42:16 -0700
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.43) by
- edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Wed, 9 Oct 2024 00:42:15 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=zV1zLJ2yQFjjHq1OjwNp6ZYxQWxoCjYB6HtRtbldJaQ8WG3yrWuGQWgNQ8iNnuF9vXVRbnd/AiuxmdXj3SmWnbu6p8RR8ntfoGWCp7UMW6ggY6kXNv4XglPlzPVrGqZst6yT/D0uvCK5MLzeVa5ENZyCN8fMNBC6YJLO7mRj4lLU3yJEXRJxrAHfs46bRhgUig8CvWEZPJuGI5w1oM5RzFknK3sHghKQBNwSOBluLyN1O/VBz6t0AP9pPBOn3TB2juQkwqq5uzb9SKwhkEFnO9jeOt72v3bOi8bF6KBKFmVAu+fHuQMMEG0YKuyD9BRZAXBFjvSWd82HZF3EPwNYLg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Mjnc9OcgspeIBL7Pu5905uaEA/vhGvl35mAdmLFavqk=;
- b=MLEyTWqKIL7pzkN08PKPYtQFkWSxqdUv5/rBwrehRsCHdeA4FPWNzF/v+3b3UdbJcROEurTWKdEYFkoA1b+PkAHzO2YcCQfFzNceIv6dNinHcyZcNniuocs08wRVOcS/1hoCbWX7RXzxkTu2I1O7fsEy5ULs0EH3SOpHpU02ETW0RDTjOHtb95Oz8VFt41TJTu4MG2+oibOt1KyWr8FO623A6fiO/dXRCJYYF4BocFq3p622dOUiqiuecV/fVQ3ImGWP86Z8coVDthgY7nnnc/k33i9qjlvsnR1aPFJL7cXzogmIQ3mzgKdpYCZdMzbPd4gjWl8veTvoJssOAAQ5wQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from LV3PR11MB8603.namprd11.prod.outlook.com (2603:10b6:408:1b6::9)
- by BL3PR11MB6460.namprd11.prod.outlook.com (2603:10b6:208:3bf::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.24; Wed, 9 Oct
- 2024 07:42:13 +0000
-Received: from LV3PR11MB8603.namprd11.prod.outlook.com
- ([fe80::4622:29cf:32b:7e5c]) by LV3PR11MB8603.namprd11.prod.outlook.com
- ([fe80::4622:29cf:32b:7e5c%5]) with mapi id 15.20.8048.013; Wed, 9 Oct 2024
- 07:42:13 +0000
-Date: Wed, 9 Oct 2024 15:42:02 +0800
-From: kernel test robot <oliver.sang@intel.com>
-To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-CC: <oe-lkp@lists.linux.dev>, <lkp@intel.com>, Peter Zijlstra
- <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, Will Deacon
- <will@kernel.org>, Waiman Long <longman@redhat.com>, Boqun Feng
- <boqun.feng@gmail.com>, Maarten Lankhorst <maarten@lankhorst.se>, Christian
- =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- <linux-kernel@vger.kernel.org>, <intel-xe@lists.freedesktop.org>, Thomas
- =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- <dri-devel@lists.freedesktop.org>, <oliver.sang@intel.com>
-Subject: Re: [PATCH RESEND] locking/ww_mutex: Adjust to lockdep nest_lock
- requirements
-Message-ID: <202410091542.f6c4a438-oliver.sang@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20241002125611.361001-1-thomas.hellstrom@linux.intel.com>
-X-ClientProxiedBy: KL1PR0401CA0001.apcprd04.prod.outlook.com
- (2603:1096:820:f::6) To LV3PR11MB8603.namprd11.prod.outlook.com
- (2603:10b6:408:1b6::9)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+ [209.85.128.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7404110E0BE
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 07:46:29 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id
+ 5b1f17b1804b1-42cae6bb895so66581085e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Oct 2024 00:46:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1728459988; x=1729064788; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=EfnEfZLH3vBeArY9d7gO91paVq+VcoGrCt+B/868dIE=;
+ b=owGCEpb4LpIA/4XMPd4RlWqDa/R5sQ9q8Ua4Bx6R2JGN5LIF8803t1kAA2Ti5RIdtb
+ 60abZEGe0dqFrJHk6wr61lUsVdjPuF6mpKhFnC97J/Wrjd+WfxQYg15Fugj53YwGyZu9
+ yti/FrKV9bUQMAPcJDwgOsGWhJigNIFZ3DxfajdmFvaREMmxM2thyKq036Lg3T/MTBT1
+ 9RTApspAzHyDYJxvB5d0w9XPFHClurvcoUJ5YBVrljcD7URrfzWB1wu0veZhRvRZ1wyI
+ QRmKNITZfgU2phUp5mYgwcLrsjPmOU9YMsgkJxO7FvuFFLFw/TwINs6+yLevXO1M36Sy
+ BSXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1728459988; x=1729064788;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=EfnEfZLH3vBeArY9d7gO91paVq+VcoGrCt+B/868dIE=;
+ b=p/FusUZJG2FdgqKsbkgXjKbG+MG2XNYPHvcjaL7UZehQbNy6ZzDp833b1xfpTChR/B
+ b1mBSq+KHvNRblQs7tOTo676PdTo4IESyLaypBvZQs5POX9v0vC7quhvFGSQfi1ZtDM8
+ PjXzwFnQ4kCSyGasinSd0GEzJkBiB26tdXAY4KZFWz2drcPZAlBv/nXZ+uW5W7KcuMWG
+ ff4llpgIeD7aVhuzvcXy/eITs47m5AOsjxEt+31QVAp0vnUK0fHyA43jR7uaqg82PmTi
+ aRB9DV2txyiWalIaWxI2lHeAj87NHe4MNtT33RYbKU22PPSDW0xK/QWtkc0uZLgetSe8
+ SQwQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCViCbm1Usfbm3AxOxcxE5Ec2r+KUsYau5MpS5mLRwXezVNZZxhutUBO8o6oa/eYGR+sKtEB3Kppvxc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzb6DD6rSGbN0YtsXhUsE/fNFvgan4EtCLrpW7/UZ4rLsR1nbM0
+ Lu2YhbZU6O7pXZUOEaYlGbHzSn/FAk3td9VkdBi8dWXyIzBSXq640FIbPaaMwcc=
+X-Google-Smtp-Source: AGHT+IHwSgPx0bawG5Tx5hZK7jYeRqKEAp9SysxfOyurKYdGg3AbYEEXcBxQ4uLxarirWBznw0VvvQ==
+X-Received: by 2002:a05:600c:b8a:b0:42c:b1a4:c3ef with SMTP id
+ 5b1f17b1804b1-430d70b463dmr9928105e9.33.1728459987691; 
+ Wed, 09 Oct 2024 00:46:27 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:767b:a30:4bcb:fcaf?
+ ([2a01:e0a:982:cbb0:767b:a30:4bcb:fcaf])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-430ccf51770sm11634485e9.22.2024.10.09.00.46.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 09 Oct 2024 00:46:27 -0700 (PDT)
+Message-ID: <98f7cb26-7ea5-4dc4-86d1-ccbbb6ac53b4@linaro.org>
+Date: Wed, 9 Oct 2024 09:46:26 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV3PR11MB8603:EE_|BL3PR11MB6460:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8554364f-0df7-42a7-32ad-08dce835e38a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?o8+BGFvNRsgsDDVEOKxxtNsXDP6cHe1PIFVDrJw9pva9HRFM0sHxMlzT74CY?=
- =?us-ascii?Q?Rl5caCtJ/vvyxJlxjo+xkM8teBDkVJkHYWnXqg3LRuVvn1XU2jujLmez9v3c?=
- =?us-ascii?Q?QIds+d8EVEfUqEIL80w6o9z7rP94iLFbSwGp6reyrExJGVCvHH7DYNYTbg7z?=
- =?us-ascii?Q?c6TqXNgWhmlYFMx4usbvEGzqSuXBgifJYisdMWmvLiuhDFD8Wrol0eAoEmmm?=
- =?us-ascii?Q?emntAwrcXsyjdpAN/veRxrm9IzCjQoOsZpjrotLw6p+f4tL5mXZvre+NUipP?=
- =?us-ascii?Q?gJ/ll8ltUdxH2pbPqLzcdfsltRmWfHJh/yx4dRMG7cG7KiosNCG22z4xFxZu?=
- =?us-ascii?Q?4ZgUBfzfQXPqvMAqaeKReGk6cY7qYwl29AA8o/T4QjTMYdDwswfkN/ctfvym?=
- =?us-ascii?Q?SKyhLA5J6w0TJkKSViyd7vDyFaxG55I7Ya/nMCJUU5NbDPoR4NKsWqXdVz92?=
- =?us-ascii?Q?ux7LrsBIsCcmwG6TVxCcRJD39lhuYzC2CG+WyBoDXfShhy/HY+qORQRWGzi/?=
- =?us-ascii?Q?03ltOan3D+R5XFVuJGQKVc4UCGCvYgPqY2zuiYRM8wTm4sj5R2a37aQYPbQi?=
- =?us-ascii?Q?dY+BbNYIgIvHniM0P0TFYkksSWIG/KS1WdzqCFuE05duQTEr1gva6CE/GDsJ?=
- =?us-ascii?Q?0L17PxF4fDnK6EeMbkb1db/P+BsuDmLWWf/MuzXg+hlbwhFypcgya0GTz4IE?=
- =?us-ascii?Q?3DOkSgWBgruQU57fQf7R7jhujx8M9WzF5ai464x2kQ4mZ95Eu4Oe1Hgm4CCR?=
- =?us-ascii?Q?zISF9r54gMMN/y/6NZ/iLx4m6i2lU8GBO402UnVbbaAD18RtYtzuJvv129hj?=
- =?us-ascii?Q?WeAmU/iDE6mpB0wPbXbGxgqgVgrblOZPfhzQZfSltDNv15JdHd/EfuRY3Hr0?=
- =?us-ascii?Q?9U7hnun05LWjpdqg9h7Uj+4efhcRyvlnMJMYPsr5WtOhjk0ka8HcRomrkF3K?=
- =?us-ascii?Q?Vcf0tB63nkCZyB2DXsGQtIPP4FhDffyae2UzR1gT2FJY222K2rWcCYDUfzLL?=
- =?us-ascii?Q?AwPeqVSY/9jeeyqWipUlCSKlh6qAhD6e9j2f9Y4dAscdadlstP6wCjJ8dEMu?=
- =?us-ascii?Q?/2xlPMBX+M5OENnB/KbpOoz4Pgekik9fSASdsvXD44h0BvASMiutqDOU6RmC?=
- =?us-ascii?Q?DEtrfmHD4WyGT3UunXkHWkWG1//ZGAtwNBHjgcwfwyDCwM4hl/OfHzAjJSsP?=
- =?us-ascii?Q?8BRwkh9KQqhlgdW6PtgF/cFxEw99TNcjdiNzgIWfl7/TZg4rll4bZZ3YO6s?=
- =?us-ascii?Q?=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:LV3PR11MB8603.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Oe4fZqvY72n6SInuLhLEEL4C73Xuul9BVHPzsKAJEnJrF5QkKABmgtMjTD5T?=
- =?us-ascii?Q?C4hHHh+JCCOG8QBHOkgW13y67yH7GZYhma6NL3R9v4gBNbDuRUKUJ488JmKm?=
- =?us-ascii?Q?k3iyxYsLbxRlJpxVcikWil9E5iSCod2rcMYKrljPFn0JeDBjhsmNKD9uh6vW?=
- =?us-ascii?Q?2pU931Dj9Gxssk6iCVnOdi2am7Tn7YHMGysPOiIoKLQb58l4Ffw2gRbBnu/j?=
- =?us-ascii?Q?zvhzPvBiyQuxHOnYAWTgdayowM3DGUezwpfJPB474GRIkRJBkZrSRIAA38pq?=
- =?us-ascii?Q?djZN4N4jomGmLVFBQZsZGG8dnaGGIBQfa3TcGyezjbty7ZKZuTZa9OdDAN5U?=
- =?us-ascii?Q?NXTXZSdgh7SQ7m7qVd9aYs72BWL/18rn1a96BT+CV1zN+THykzJ4xkHo4OTC?=
- =?us-ascii?Q?HVQ9wUW0GmGu9lhzMlgnsIo7du1T1bWmOU30ISeF+ACrzeuHgQNoFZ37EVgj?=
- =?us-ascii?Q?D4buRMrtTouj6DqI4pkvaPYxmCqF+wlH33kzoUWWPOoLioSCbnoeTZm3l22E?=
- =?us-ascii?Q?f/V8qnhzaIWqyGCt3JrikYNezdqBW1UvkzXbVqEETn7o3CDjOzQv1DBPgOsI?=
- =?us-ascii?Q?M7ueEKXw0w9f3SP9ekbkFH8OJMLnoUdaSnzMSBoWp0DtNInniNBp6pxYdpGP?=
- =?us-ascii?Q?T+YFuyx/qhO5WHHpDBatfvVRmD2chrYvB180FszTT2wWmxVaGzdR+L4+diD0?=
- =?us-ascii?Q?C5/NcAm+buwIco56bafsKIDUvXFqIntso50z3lXbH2Nw5KubyaSEQdUnk73a?=
- =?us-ascii?Q?8w9jimB5YxcRl8R6JLe0N3fgRku5C7ws9/Xg8F/VvytcZgjMrXmv3EBflOPd?=
- =?us-ascii?Q?rgRFJQWHrOCKYoqOncb/KDpzGimh/EL2vnwNz+TLjLeKG3EHkpT25CIJrHom?=
- =?us-ascii?Q?w5pcTW2NGFpISTr9uJkLpuGsAa3ZZ7ImtEQ3zlc0WvOBd3M+qMg0JkPLgKIj?=
- =?us-ascii?Q?omr5PGVI0WJu39+7LGJYofe345l9EPjColejG/IrX+xLtETuZT/gR6/ugcjr?=
- =?us-ascii?Q?qVjW4kMC3UjN1kwhFv0ULyVW3INbn73oZr5/XIo/QGwSnL9GseFnVVdjNd78?=
- =?us-ascii?Q?oJ9zg/Zb+IzkgTdrwMt5IJ/nRZ/UuJtW7VfiCETkN6O9IK34CerU52SfCxdn?=
- =?us-ascii?Q?drzpScAq2FI0EW+2ZZGDYPTGGgFV/YVYjnSM2jkOEznNC5uN3qJoRH+Z0TwT?=
- =?us-ascii?Q?zI+gpt/nUEyLhhvPRIBPaGz2KAzXhcyN9WAjTmSTFvoK1Vgwj6LNWX6YJec4?=
- =?us-ascii?Q?d1dORSoj0KG0Su/9u76TuppqOEFD0ZGFHcYYZWpq9aBGTIW+Rmsowwhr3jMA?=
- =?us-ascii?Q?j0g8THqVrKx/T1ojgvEa/k8qhfu8b1tyrD3thMg0Qo5m1ed4TFwBh5axix12?=
- =?us-ascii?Q?kprPl0+mQwXZcA+ng9pr34ljfFQ6PXhB6pefx2Dt8/hC9glcTZlWG2CwE7ey?=
- =?us-ascii?Q?i460QiZYvbPrJcC5lMQuLr/V6Y+oxsW/aoi18G2Va5CWaacQ9FfiSazhR/W2?=
- =?us-ascii?Q?Av7FUhSYPVmO1XwTvRlXV+/gf0GjvlQWhg6RrGisvV26GkFPY3g9HCBb4Ag3?=
- =?us-ascii?Q?7yVNP51KcjbxmE8AY3BDo3DEeADUt46Z4ePKQiACwwc5rmS95PCEz09gO2kP?=
- =?us-ascii?Q?CA=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8554364f-0df7-42a7-32ad-08dce835e38a
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR11MB8603.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Oct 2024 07:42:12.9693 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 14IFmvTGaNzVp9w+7NZCMQKmhPil9sue3g55RMB4aoKSrcFIeUu97WDMwxKn2hQKTIc8EKKw+6JVk7TW0LSNMA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR11MB6460
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+From: neil.armstrong@linaro.org
+Subject: Re: [PATCH v2 16/22] drm/msm/dpu: Configure CWB in writeback encoder
+To: Jessica Zhang <quic_jesszhan@quicinc.com>, Rob Clark
+ <robdclark@gmail.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ quic_abhinavk@quicinc.com, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: quic_ebharadw@quicinc.com, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Rob Clark <robdclark@chromium.org>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+References: <20240924-concurrent-wb-v2-0-7849f900e863@quicinc.com>
+ <20240924-concurrent-wb-v2-16-7849f900e863@quicinc.com>
+ <b9e50652-4556-4eed-a013-8e417eccdb69@linaro.org>
+ <866ef212-a00e-48c4-9cf1-d1d4ee78d0ae@quicinc.com>
+ <a58abb00-f941-48e0-b2a0-3c401e5220a7@linaro.org>
+ <4e0ccd07-fdd1-4e92-bda7-ea6ec9d54c80@linaro.org>
+ <d88264f3-29ed-449b-9971-501ce7e1da99@quicinc.com>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <d88264f3-29ed-449b-9971-501ce7e1da99@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -180,145 +123,297 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 08/10/2024 14:25, Jessica Zhang wrote:
+> 
+> 
+> On 10/8/2024 1:00 AM, Neil Armstrong wrote:
+>> Hi,
+>>
+>> On 01/10/2024 09:37, neil.armstrong@linaro.org wrote:
+>>> Hi,
+>>>
+>>> On 30/09/2024 21:19, Jessica Zhang wrote:
+>>>>
+>>>>
+>>>> On 9/30/2024 7:17 AM, neil.armstrong@linaro.org wrote:
+>>>>> On 25/09/2024 00:59, Jessica Zhang wrote:
+>>
+>> <snip>
+>>
+>>>>>
+>>>>> When running igt-test on QRD8650, I get:
+>>>>> # IGT_FRAME_DUMP_PATH=$PWD FRAME_PNG_FILE_NAME=pwet /usr/libexec/ igt- gpu-tools/kms_writeback -d
+>>>>
+>>>> Hi Neil,
+>>>>
+>>>> Thanks for reporting this. Unfortunately, I'm not able to recreate this on the MTP8650.
+>>>>
 
+<snip>
 
-Hello,
+Thanks for the fix, Indeed it fixes the crash, but the igt test tries to use the Disconnected and fails:
+Starting subtest: dump-valid-clones
+(kms_writeback:521) igt_kms-CRITICAL: Test assertion failure function kmstest_dumb_create, file /usr/src/debug/igt-gpu-tools/1.28/lib/igt_kms.c:1301:
+(kms_writeback:521) igt_kms-CRITICAL: Failed assertion: igt_ioctl((fd), ((((2U|1U) << (((0+8)+8)+14)) | ((('d')) << (0+8)) | (((0xB2)) << 0) | ((((sizeof(struct drm_mode_create_dumb)))) << ((0+8)+8)))), (&create)) == 0
+(kms_writeback:521) igt_kms-CRITICAL: Last errno: 22, Invalid argument
+(kms_writeback:521) igt_kms-CRITICAL: error: -1 != 0
+Stack trace:
+   #0 [igt_nsec_elapsed+0x500]
+Subtest dump-valid-clones failed.
+**** DEBUG ****
+(kms_writeback:521) DEBUG: Test requirement passed: !(!data.dump_check || data.list_modes)
+(kms_writeback:521) DEBUG: Test requirement passed: !(!(data.supported_colors & XRGB8888))
+(kms_writeback:521) DEBUG: Test requirement passed: fb_id > 0
+(kms_writeback:521) igt_kms-DEBUG: display: DSI-1: set_pipe(A)
+(kms_writeback:521) igt_kms-DEBUG: display: DSI-1: Selecting pipe A
+(kms_writeback:521) igt_fb-DEBUG: igt_create_fb_with_bo_size(width=1080, height=2400, format=XR24(0x34325258), modifier=0x0, size=0)
+(kms_writeback:521) igt_fb-DEBUG: igt_create_fb_with_bo_size(handle=3, pitch=4352)
+(kms_writeback:521) ioctl_wrappers-DEBUG: Test requirement passed: igt_has_fb_modifiers(fd)
+(kms_writeback:521) igt_fb-DEBUG: igt_create_fb_with_bo_size(width=1080, height=2400, format=XR24(0x34325258), modifier=0x0, size=0)
+(kms_writeback:521) igt_fb-DEBUG: igt_create_fb_with_bo_size(handle=4, pitch=4352)
+(kms_writeback:521) ioctl_wrappers-DEBUG: Test requirement passed: igt_has_fb_modifiers(fd)
+(kms_writeback:521) DEBUG: Test requirement passed: fb_id > 0
+(kms_writeback:521) igt_kms-DEBUG: display: A.0: plane_set_fb(110)
+(kms_writeback:521) igt_kms-DEBUG: display: A.0: plane_set_size (1080x2400)
+(kms_writeback:521) igt_kms-DEBUG: display: A.0: fb_set_position(0,0)
+(kms_writeback:521) igt_kms-DEBUG: display: A.0: fb_set_size(1080x2400)
+(kms_writeback:521) igt_kms-DEBUG: display: Writeback-1: output_set_writeback_fb(112)
+(kms_writeback:521) igt_kms-DEBUG: display: commit {
+(kms_writeback:521) igt_kms-DEBUG: Pipe A: Setting property "MODE_ID" to 0x6d/109
+(kms_writeback:521) igt_kms-DEBUG: Pipe A: Setting property "ACTIVE" to 0x1/1
+(kms_writeback:521) igt_kms-DEBUG: display:     populating plane data: A.0, fb 110
+(kms_writeback:521) igt_kms-DEBUG: plane A.0: Setting property "SRC_X" to 0x0/0
+(kms_writeback:521) igt_kms-DEBUG: plane A.0: Setting property "SRC_Y" to 0x0/0
+(kms_writeback:521) igt_kms-DEBUG: plane A.0: Setting property "SRC_W" to 0x4380000/70778880
+(kms_writeback:521) igt_kms-DEBUG: plane A.0: Setting property "SRC_H" to 0x9600000/157286400
+(kms_writeback:521) igt_kms-DEBUG: plane A.0: Setting property "CRTC_W" to 0x438/1080
+(kms_writeback:521) igt_kms-DEBUG: plane A.0: Setting property "CRTC_H" to 0x960/2400
+(kms_writeback:521) igt_kms-DEBUG: plane A.0: Setting property "FB_ID" to 0x6e/110
+(kms_writeback:521) igt_kms-DEBUG: plane A.0: Setting property "CRTC_ID" to 0x67/103
+(kms_writeback:521) igt_kms-DEBUG: display:     DSI-1: preparing atomic, pipe: A
+(kms_writeback:521) igt_kms-DEBUG: DSI-1: Setting property "CRTC_ID" to 0x67/103
+(kms_writeback:521) igt_kms-DEBUG: display:     Writeback-1: preparing atomic, pipe: A
+(kms_writeback:521) igt_kms-DEBUG: Writeback-1: Setting property "WRITEBACK_FB_ID" to 0x70/112
+(kms_writeback:521) igt_kms-DEBUG: Writeback-1: Setting property "WRITEBACK_OUT_FENCE_PTR" to 0x3a4958f8/977885432
+(kms_writeback:521) igt_kms-DEBUG: display: }
+(kms_writeback:521) igt_fb-DEBUG: Test requirement passed: cairo_surface_status(fb->cairo_surface) == CAIRO_STATUS_SUCCESS
+(kms_writeback:521) igt_kms-DEBUG: display: DSI-1: set_pipe(None)
+(kms_writeback:521) igt_kms-DEBUG: display: DSI-1: Selecting pipe None
+(kms_writeback:521) igt_kms-DEBUG: display: commit {
+(kms_writeback:521) igt_kms-DEBUG: Pipe A: Setting property "MODE_ID" to 0x6b/107
+(kms_writeback:521) igt_kms-DEBUG: display:     DSI-1: preparing atomic, pipe: None
+(kms_writeback:521) igt_kms-DEBUG: DSI-1: Setting property "CRTC_ID" to 0x0/0
+(kms_writeback:521) igt_kms-DEBUG: display: }
+(kms_writeback:521) igt_kms-DEBUG: display: DP-1: set_pipe(A)
+(kms_writeback:521) igt_kms-DEBUG: display: DP-1: Selecting pipe A
+(kms_writeback:521) igt_fb-DEBUG: igt_create_fb_with_bo_size(width=0, height=0, format=XR24(0x34325258), modifier=0x0, size=0)
+(kms_writeback:521) igt_kms-CRITICAL: Test assertion failure function kmstest_dumb_create, file /usr/src/debug/igt-gpu-tools/1.28/lib/igt_kms.c:1301:
+(kms_writeback:521) igt_kms-CRITICAL: Failed assertion: igt_ioctl((fd), ((((2U|1U) << (((0+8)+8)+14)) | ((('d')) << (0+8)) | (((0xB2)) << 0) | ((((sizeof(struct drm_mode_create_dumb)))) << ((0+8)+8)))), (&create)) == 0
+(kms_writeback:521) igt_kms-CRITICAL: Last errno: 22, Invalid argument
+(kms_writeback:521) igt_kms-CRITICAL: error: -1 != 0
+(kms_writeback:521) igt_core-INFO: Stack trace:
+(kms_writeback:521) igt_core-INFO:   #0 [igt_nsec_elapsed+0x500]
+****  END  ****
 
-kernel test robot noticed "WARNING:at_kernel/locking/lockdep.c:#__lock_acquire" on:
+I'll try with an enabled DP connector.
 
-commit: d417c66b8b12b5706c9df4ddf5367af540f195c6 ("[PATCH RESEND] locking/ww_mutex: Adjust to lockdep nest_lock requirements")
-url: https://github.com/intel-lab-lkp/linux/commits/Thomas-Hellstr-m/locking-ww_mutex-Adjust-to-lockdep-nest_lock-requirements/20241002-205818
-base: https://git.kernel.org/cgit/linux/kernel/git/tip/tip.git d00b83d416e73bc3fa4d21b14bec920e88b70ce6
-patch link: https://lore.kernel.org/all/20241002125611.361001-1-thomas.hellstrom@linux.intel.com/
-patch subject: [PATCH RESEND] locking/ww_mutex: Adjust to lockdep nest_lock requirements
+Neil
 
-in testcase: kernel-selftests
-version: kernel-selftests-x86_64-977d51cf-1_20240508
-with following parameters:
-
-	group: locking
-
-
-
-compiler: gcc-12
-test machine: 4 threads Intel(R) Xeon(R) CPU E3-1225 v5 @ 3.30GHz (Skylake) with 16G memory
-
-(please refer to attached dmesg/kmsg for entire log/backtrace)
-
-
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <oliver.sang@intel.com>
-| Closes: https://lore.kernel.org/oe-lkp/202410091542.f6c4a438-oliver.sang@intel.com
-
-
-[   63.327071][  T246] ------------[ cut here ]------------
-[   63.332388][  T246] DEBUG_LOCKS_WARN_ON(hlock->references < references)
-[ 63.332410][ T246] WARNING: CPU: 2 PID: 246 at kernel/locking/lockdep.c:5058 __lock_acquire (kernel/locking/lockdep.c:5058 (discriminator 9)) 
-[   63.348622][  T246] Modules linked in: test_ww_mutex(+) openvswitch nf_conncount nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 psample btrfs blake2b_generic xor zstd_compress raid6_pq libcrc32c intel_rapl_msr intel_rapl_common x86_pkg_temp_thermal intel_powerclamp sd_mod coretemp sg kvm_intel ipmi_devintf ipmi_msghandler i915 kvm binfmt_misc drm_buddy intel_gtt drm_display_helper crct10dif_pclmul crc32_pclmul crc32c_intel mei_wdt ghash_clmulni_intel ttm wmi_bmof sha512_ssse3 ahci rapl drm_kms_helper libahci video intel_cstate intel_uncore serio_raw libata mei_me i2c_i801 mei i2c_smbus intel_pch_thermal ie31200_edac wmi acpi_pad tpm_infineon loop fuse drm dm_mod ip_tables sch_fq_codel
-[   63.409553][  T246] CPU: 2 PID: 246 Comm: kworker/u16:5 Tainted: G S                 6.10.0-04481-gd417c66b8b12 #1
-[   63.419907][  T246] Hardware name: HP HP Z238 Microtower Workstation/8183, BIOS N51 Ver. 01.63 10/05/2017
-[   63.429471][  T246] Workqueue: test-ww_mutex stress_inorder_work [test_ww_mutex]
-[ 63.436889][ T246] RIP: 0010:__lock_acquire (kernel/locking/lockdep.c:5058 (discriminator 9)) 
-[ 63.442284][ T246] Code: d2 0f 85 15 0c 00 00 44 8b 0d 7d df c7 04 45 85 c9 0f 85 d0 fe ff ff 48 c7 c6 c0 c1 2a 84 48 c7 c7 00 91 2a 84 e8 8d 39 e5 ff <0f> 0b e9 b6 fe ff ff 41 be 02 00 00 00 e9 11 f7 ff ff 31 db e9 bb
-All code
-========
-   0:	d2 0f                	rorb   %cl,(%rdi)
-   2:	85 15 0c 00 00 44    	test   %edx,0x4400000c(%rip)        # 0x44000014
-   8:	8b 0d 7d df c7 04    	mov    0x4c7df7d(%rip),%ecx        # 0x4c7df8b
-   e:	45 85 c9             	test   %r9d,%r9d
-  11:	0f 85 d0 fe ff ff    	jne    0xfffffffffffffee7
-  17:	48 c7 c6 c0 c1 2a 84 	mov    $0xffffffff842ac1c0,%rsi
-  1e:	48 c7 c7 00 91 2a 84 	mov    $0xffffffff842a9100,%rdi
-  25:	e8 8d 39 e5 ff       	callq  0xffffffffffe539b7
-  2a:*	0f 0b                	ud2    		<-- trapping instruction
-  2c:	e9 b6 fe ff ff       	jmpq   0xfffffffffffffee7
-  31:	41 be 02 00 00 00    	mov    $0x2,%r14d
-  37:	e9 11 f7 ff ff       	jmpq   0xfffffffffffff74d
-  3c:	31 db                	xor    %ebx,%ebx
-  3e:	e9                   	.byte 0xe9
-  3f:	bb                   	.byte 0xbb
-
-Code starting with the faulting instruction
-===========================================
-   0:	0f 0b                	ud2    
-   2:	e9 b6 fe ff ff       	jmpq   0xfffffffffffffebd
-   7:	41 be 02 00 00 00    	mov    $0x2,%r14d
-   d:	e9 11 f7 ff ff       	jmpq   0xfffffffffffff723
-  12:	31 db                	xor    %ebx,%ebx
-  14:	e9                   	.byte 0xe9
-  15:	bb                   	.byte 0xbb
-[   63.461748][  T246] RSP: 0018:ffffc9000141f7a8 EFLAGS: 00010086
-[   63.467683][  T246] RAX: 0000000000000000 RBX: 0000000000000001 RCX: 0000000000000027
-[   63.475525][  T246] RDX: 0000000000000027 RSI: 0000000000000004 RDI: ffff8883b5330c48
-[   63.483354][  T246] RBP: ffff888430688000 R08: 0000000000000001 R09: ffffed1076a66189
-[   63.491172][  T246] R10: ffff8883b5330c4b R11: 0000000000000001 R12: ffff888430688f58
-[   63.499015][  T246] R13: 00000000000000a0 R14: ffff88841d5b1f28 R15: 0000000000000000
-[   63.506860][  T246] FS:  0000000000000000(0000) GS:ffff8883b5300000(0000) knlGS:0000000000000000
-[   63.515659][  T246] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[   63.522116][  T246] CR2: 00005566d67bd842 CR3: 000000043b67e002 CR4: 00000000003706f0
-[   63.529942][  T246] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-[   63.537768][  T246] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-[   63.545591][  T246] Call Trace:
-[   63.548744][  T246]  <TASK>
-[ 63.551537][ T246] ? __warn (kernel/panic.c:693) 
-[ 63.555470][ T246] ? __lock_acquire (kernel/locking/lockdep.c:5058 (discriminator 9)) 
-[ 63.560262][ T246] ? report_bug (lib/bug.c:180 lib/bug.c:219) 
-[ 63.564637][ T246] ? handle_bug (arch/x86/kernel/traps.c:239) 
-[ 63.568838][ T246] ? exc_invalid_op (arch/x86/kernel/traps.c:260 (discriminator 1)) 
-[ 63.573389][ T246] ? asm_exc_invalid_op (arch/x86/include/asm/idtentry.h:621) 
-[ 63.578283][ T246] ? __lock_acquire (kernel/locking/lockdep.c:5058 (discriminator 9)) 
-[ 63.583090][ T246] ? __lock_acquire (kernel/locking/lockdep.c:5058 (discriminator 9)) 
-[ 63.587884][ T246] lock_acquire (kernel/locking/lockdep.c:466 kernel/locking/lockdep.c:5758 kernel/locking/lockdep.c:5721) 
-[ 63.592243][ T246] ? stress_inorder_work (kernel/locking/test-ww_mutex.c:456) test_ww_mutex
-[ 63.598787][ T246] ? __pfx_lock_acquire (kernel/locking/lockdep.c:5724) 
-[ 63.603676][ T246] ? __pfx_do_raw_spin_lock (kernel/locking/spinlock_debug.c:114) 
-[ 63.608899][ T246] ? __pfx___might_resched (kernel/sched/core.c:8392) 
-[ 63.614036][ T246] ? __ww_mutex_lock+0x94c/0x2b50 
-[ 63.619954][ T246] __ww_mutex_lock+0x1f9/0x2b50 
-[ 63.625696][ T246] ? stress_inorder_work (kernel/locking/test-ww_mutex.c:456) test_ww_mutex
-[ 63.632218][ T246] ? stress_inorder_work (kernel/locking/test-ww_mutex.c:456) test_ww_mutex
-[ 63.638750][ T246] ? __pfx___ww_mutex_lock+0x10/0x10 
-[ 63.644940][ T246] ? __mutex_unlock_slowpath (arch/x86/include/asm/atomic64_64.h:101 include/linux/atomic/atomic-arch-fallback.h:4329 include/linux/atomic/atomic-long.h:1506 include/linux/atomic/atomic-instrumented.h:4481 kernel/locking/mutex.c:929) 
-[ 63.650454][ T246] ? lock_is_held_type (kernel/locking/lockdep.c:5497 kernel/locking/lockdep.c:5827) 
-[ 63.655348][ T246] ? __pfx___might_resched (kernel/sched/core.c:8392) 
-[ 63.660502][ T246] ? ww_mutex_lock (kernel/locking/mutex.c:878) 
-[ 63.665047][ T246] ww_mutex_lock (kernel/locking/mutex.c:878) 
-[ 63.669432][ T246] stress_inorder_work (kernel/locking/test-ww_mutex.c:456) test_ww_mutex
-[ 63.675813][ T246] ? __pfx_stress_inorder_work (kernel/locking/test-ww_mutex.c:434) test_ww_mutex
-[ 63.682709][ T246] ? lock_is_held_type (kernel/locking/lockdep.c:5497 kernel/locking/lockdep.c:5827) 
-[ 63.687600][ T246] process_one_work (kernel/workqueue.c:3236) 
-[ 63.692398][ T246] ? __pfx_lock_acquire (kernel/locking/lockdep.c:5724) 
-[ 63.697307][ T246] ? __pfx_process_one_work (kernel/workqueue.c:3133) 
-[ 63.702545][ T246] ? assign_work (kernel/workqueue.c:1202) 
-[ 63.707003][ T246] ? lock_is_held_type (kernel/locking/lockdep.c:5497 kernel/locking/lockdep.c:5827) 
-[ 63.711899][ T246] worker_thread (kernel/workqueue.c:3306 kernel/workqueue.c:3390) 
-[ 63.716353][ T246] ? __pfx_worker_thread (kernel/workqueue.c:3339) 
-[ 63.721334][ T246] kthread (kernel/kthread.c:389) 
-[ 63.725270][ T246] ? __pfx_kthread (kernel/kthread.c:342) 
-[ 63.729732][ T246] ret_from_fork (arch/x86/kernel/process.c:153) 
-[ 63.734019][ T246] ? __pfx_kthread (kernel/kthread.c:342) 
-[ 63.738485][ T246] ret_from_fork_asm (arch/x86/entry/entry_64.S:257) 
-[   63.743119][  T246]  </TASK>
-[   63.746012][  T246] irq event stamp: 10527
-[ 63.750118][ T246] hardirqs last enabled at (10527): finish_task_switch+0x1b6/0x950 
-[ 63.760389][ T246] hardirqs last disabled at (10526): __schedule (kernel/sched/core.c:6416 (discriminator 1)) 
-[ 63.769458][ T246] softirqs last enabled at (10478): handle_softirqs (arch/x86/include/asm/preempt.h:26 kernel/softirq.c:401 kernel/softirq.c:582) 
-[ 63.778864][ T246] softirqs last disabled at (10473): __irq_exit_rcu (kernel/softirq.c:589 kernel/softirq.c:428 kernel/softirq.c:637) 
-[   63.788185][  T246] ---[ end trace 0000000000000000 ]---
-
-
-
-The kernel config and materials to reproduce are available at:
-https://download.01.org/0day-ci/archive/20241009/202410091542.f6c4a438-oliver.sang@intel.com
-
-
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> 
+> Thanks,
+> 
+> Jessica Zhang
+> 
+>>
+>> Thanks,
+>> Neil
+>>
+>>>
+>>> Neil
+>>>
+>>>>
+>>>> Also, can you share the IGT debug logs?
+>>>>
+>>>> FWIW, I haven't had the chance to test with DP yet so that might be why you're hitting this issue and I'm not.
+>>>>
+>>>> Thanks,
+>>>>
+>>>> Jessica Zhang
+>>>>
+>>>>> [ 2566.668998] Console: switching to colour dummy device 80x25
+>>>>> IGT-Version: 1.29-1.28 (aarch64) (Linux: 6.12.0-rc1-00022- ge581f752bf79 aarch64)
+>>>>> [ 2566.674859] [IGT] kms_writeback: executing
+>>>>> Using IGT_SRANDOM=1709057323 for randomisation
+>>>>> Opened device: /dev/dri/card0
+>>>>> [ 2566.741375] [IGT] kms_writeback: starting subtest dump-writeback
+>>>>> Starting subtest: dump-writeback
+>>>>> Subtest dump-writeback: SUCCESS (0.305s)[ 2567.053189] [IGT] kms_writeback: finished subtest dump-writeback, SUCCESS
+>>>>>
+>>>>> [ 2567.064505] [IGT] kms_writeback: starting subtest dump-valid-clones
+>>>>> Starting subtest: dump-valid-clones
+>>>>> [ 2567.762793] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000010
+>>>>> [ 2567.771919] Mem abort info:
+>>>>> [ 2567.774888]   ESR = 0x0000000096000006
+>>>>> [ 2567.778831]   EC = 0x25: DABT (current EL), IL = 32 bits
+>>>>> [ 2567.784371]   SET = 0, FnV = 0
+>>>>> [ 2567.787601]   EA = 0, S1PTW = 0
+>>>>> [ 2567.790942]   FSC = 0x06: level 2 translation fault
+>>>>> [ 2567.796044] Data abort info:
+>>>>> [ 2567.799083]   ISV = 0, ISS = 0x00000006, ISS2 = 0x00000000
+>>>>> [ 2567.804793]   CM = 0, WnR = 0, TnD = 0, TagAccess = 0
+>>>>> [ 2567.810057]   GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
+>>>>> [ 2567.815600] user pgtable: 4k pages, 48-bit VAs, pgdp=00000008d60cf000
+>>>>> [ 2567.822290] [0000000000000010] pgd=08000008d6049003, p4d=08000008d6049003, pud=080000089397e003, pmd=0000000000000000
+>>>>> [ 2567.833254] Internal error: Oops: 0000000096000006 [#1] PREEMPT SMP
+>>>>> [ 2567.839747] Modules linked in: snd_soc_wsa884x q6prm_clocks q6apm_lpass_dais snd_q6dsp_common q6apm_dai q6prm 8021q garp mrp stp llc usb_f_fs libcomposite qrtr_mhi snd_soc_hdmi_codec ath12k mac80211 libarc4 mhi panel_visionox_vtdr6130 snd_q6apm pci_pwrctl_pwrseq pci_pwrctl_core rpmsg_ctrl apr fastrpc qrtr_smd rpmsg_char wcd939x_usbss nb7vpq904m qcom_pd_mapper goodix_berlin_spi goodix_berlin_core ucsi_glink typec_ucsi pmic_glink_altmode aux_hpd_bridge qcom_battmgr leds_qcom_lpg msm ocmem drm_exec hci_uart qcom_pbs gpu_sched led_class_multicolor btqca phy_qcom_eusb2_repeater btbcm qcom_spmi_temp_alarm drm_dp_aux_bus phy_qcom_qmp_combo crct10dif_ce bluetooth drm_display_helper sm3_ce ecdh_generic aux_bridge sm3 snd_soc_sc8280xp pwrseq_qcom_wcn sha3_ce snd_soc_qcom_sdw rtc_pm8xxx qcom_pon ecc nvmem_qcom_spmi_sdam sha512_ce qcom_stats spi_geni_qcom snd_soc_qcom_common sha512_arm64 pwrseq_core i2c_qcom_geni cfg80211 drm_kms_helper dispcc_sm8550 gpi ipa 
+>>>>> snd_soc_lpass_va_macro snd_soc_lpass_tx_macro soundwire_qcom
+>>>>> [ 2567.839860]  pinctrl_sm8650_lpass_lpi snd_soc_lpass_wsa_macro snd_soc_lpass_rx_macro rfkill slimbus phy_qcom_snps_eusb2 pinctrl_lpass_lpi gpucc_sm8650 snd_soc_lpass_macro_common qcom_q6v5_pas qcom_pil_info qcom_q6v5 qcrypto authenc icc_bwmon qcom_sysmon qcom_common qrtr qcom_glink_smem phy_qcom_qmp_pcie mdt_loader libdes llcc_qcom ufs_qcom phy_qcom_qmp_ufs pmic_glink snd_soc_wcd939x rmtfs_mem pdr_interface snd_soc_wcd939x_sdw regmap_sdw qcom_pdr_msg snd_soc_wcd_mbhc qmi_helpers snd_soc_wcd_classh soundwire_bus typec nvmem_reboot_mode qcom_rng socinfo fuse drm backlight ipv6
+>>>>> [ 2567.983445] CPU: 5 UID: 0 PID: 554 Comm: kms_writeback Tainted: G S                 6.12.0-rc1-00022-ge581f752bf79 #2
+>>>>> [ 2567.994390] Tainted: [S]=CPU_OUT_OF_SPEC
+>>>>> [ 2567.998483] Hardware name: Qualcomm Technologies, Inc. SM8650 QRD (DT)
+>>>>> [ 2568.005244] pstate: 81400005 (Nzcv daif +PAN -UAO -TCO +DIT -SSBS BTYPE=--)
+>>>>> [ 2568.012455] pc : dpu_encoder_helper_phys_setup_cwb+0xb8/0x1ec [msm]
+>>>>> [ 2568.019009] lr : dpu_encoder_helper_phys_setup_cwb+0x88/0x1ec [msm]
+>>>>> [ 2568.025532] sp : ffff80008939b7e0
+>>>>> [ 2568.028999] x29: ffff80008939b810 x28: ffffcbcb66f26068 x27: ffff37ad962cb080
+>>>>> [ 2568.036388] x26: ffff37ad9887ed80 x25: ffff80008939b878 x24: ffff37ad43642a80
+>>>>> [ 2568.043775] x23: 0000000000000000 x22: ffff37ad42812080 x21: ffff37ad43642a80
+>>>>> [ 2568.051163] x20: ffff37ad962cb080 x19: ffff37ad962c8080 x18: 0000000000000001
+>>>>> [ 2568.058552] x17: 000000040044ffff x16: ffffcbcbb0fc8c64 x15: 00003d08ffff9c00
+>>>>> [ 2568.065939] x14: 00000013519b2832 x13: ffff37ad9d392200 x12: 000000000000000b
+>>>>> [ 2568.073325] x11: ffff37ad40dc56c0 x10: ffff37ad9d392200 x9 : ffff37afbe7bba80
+>>>>> [ 2568.080712] x8 : ffff37ad42812718 x7 : 0000000000000004 x6 : ffff37ad989ac798
+>>>>> [ 2568.088098] x5 : 0000000000000002 x4 : ffff80008939b7f8 x3 : ffff37ad962cb150
+>>>>> [ 2568.095480] x2 : 0000000000000002 x1 : 0000000000000000 x0 : 0000000000000001
+>>>>> [ 2568.102868] Call trace:
+>>>>> [ 2568.105446]  dpu_encoder_helper_phys_setup_cwb+0xb8/0x1ec [msm]
+>>>>> [ 2568.111608]  dpu_encoder_helper_phys_cleanup+0x328/0x3c4 [msm]
+>>>>> [ 2568.117692]  dpu_encoder_phys_wb_disable+0x80/0xac [msm]
+>>>>> [ 2568.123233]  dpu_encoder_virt_atomic_disable+0xb4/0x160 [msm]
+>>>>> [ 2568.129224]  disable_outputs+0x108/0x32c [drm_kms_helper]
+>>>>> [ 2568.134858]  drm_atomic_helper_commit_modeset_disables+0x1c/0x4c [drm_kms_helper]
+>>>>> [ 2568.142614]  msm_atomic_commit_tail+0x188/0x514 [msm]
+>>>>> [ 2568.147894]  commit_tail+0xa4/0x18c [drm_kms_helper]
+>>>>> [ 2568.153065]  drm_atomic_helper_commit+0x17c/0x194 [drm_kms_helper]
+>>>>> [ 2568.159482]  drm_atomic_commit+0xb8/0xf4 [drm]
+>>>>> [ 2568.164176]  drm_mode_atomic_ioctl+0xad4/0xd88 [drm]
+>>>>> [ 2568.169369]  drm_ioctl_kernel+0xc0/0x128 [drm]
+>>>>> [ 2568.174039]  drm_ioctl+0x218/0x49c [drm]
+>>>>> [ 2568.178165]  __arm64_sys_ioctl+0xac/0xf0
+>>>>> [ 2568.182271]  invoke_syscall+0x48/0x10c
+>>>>> [ 2568.186217]  el0_svc_common.constprop.0+0xc0/0xe0
+>>>>> [ 2568.191109]  do_el0_svc+0x1c/0x28
+>>>>> [ 2568.194576]  el0_svc+0x34/0xd8
+>>>>> [ 2568.197788]  el0t_64_sync_handler+0x120/0x12c
+>>>>> [ 2568.202321]  el0t_64_sync+0x190/0x194
+>>>>> [ 2568.206157] Code: 910063e1 f8607822 f8607861 b9401042 (b9401021)
+>>>>> [ 2568.212484] ---[ end trace 0000000000000000 ]---
+>>>>>
+>>>>> Neil
+>>>>>
+>>>>>> +                rt_pp_idx[i] = enable ? hw_pp->idx : PINGPONG_NONE;
+>>>>>> +                break;
+>>>>>> +            }
+>>>>>> +        }
+>>>>>> +    }
+>>>>>> +
+>>>>>> +    /*
+>>>>>> +     * The CWB mux supports using LM or DSPP as tap points. For now,
+>>>>>> +     * always use LM tap point
+>>>>>> +     */
+>>>>>> +    cwb_cfg.input = INPUT_MODE_LM_OUT;
+>>>>>> +
+>>>>>> +    for (int i = 0; i < MAX_CHANNELS_PER_ENC; i++) {
+>>>>>> +        hw_cwb = dpu_enc->hw_cwb[i];
+>>>>>> +        if (!hw_cwb)
+>>>>>> +            continue;
+>>>>>> +
+>>>>>> +        cwb_cfg.pp_idx = rt_pp_idx[i];
+>>>>>> +
+>>>>>> +        hw_cwb->ops.config_cwb(hw_cwb, &cwb_cfg);
+>>>>>> +    }
+>>>>>> +}
+>>>>>> +
+>>>>>>   void dpu_encoder_helper_phys_setup_cdm(struct dpu_encoder_phys *phys_enc,
+>>>>>>                          const struct msm_format *dpu_fmt,
+>>>>>>                          u32 output_type)
+>>>>>> @@ -2557,6 +2630,14 @@ enum dpu_intf_mode dpu_encoder_get_intf_mode(struct drm_encoder *encoder)
+>>>>>>       return INTF_MODE_NONE;
+>>>>>>   }
+>>>>>> +unsigned int dpu_encoder_helper_get_cwb(struct dpu_encoder_phys *phys_enc)
+>>>>>> +{
+>>>>>> +    struct drm_encoder *encoder = phys_enc->parent;
+>>>>>> +    struct dpu_encoder_virt *dpu_enc = to_dpu_encoder_virt(encoder);
+>>>>>> +
+>>>>>> +    return dpu_enc->cwb_mask;
+>>>>>> +}
+>>>>>> +
+>>>>>>   unsigned int dpu_encoder_helper_get_dsc(struct dpu_encoder_phys *phys_enc)
+>>>>>>   {
+>>>>>>       struct drm_encoder *encoder = phys_enc->parent;
+>>>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+>>>>>> index e77ebe3a68da..d7a02d1f8053 100644
+>>>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+>>>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+>>>>>> @@ -1,6 +1,6 @@
+>>>>>>   /* SPDX-License-Identifier: GPL-2.0-only */
+>>>>>>   /*
+>>>>>> - * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+>>>>>> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+>>>>>>    * Copyright (c) 2015-2018 The Linux Foundation. All rights reserved.
+>>>>>>    */
+>>>>>> @@ -331,6 +331,12 @@ static inline enum dpu_3d_blend_mode dpu_encoder_helper_get_3d_blend_mode(
+>>>>>>       return BLEND_3D_NONE;
+>>>>>>   }
+>>>>>> +/**
+>>>>>> + * dpu_encoder_helper_get_cwb - get CWB blocks mask for the DPU encoder
+>>>>>> + * @phys_enc: Pointer to physical encoder structure
+>>>>>> + */
+>>>>>> +unsigned int dpu_encoder_helper_get_cwb(struct dpu_encoder_phys *phys_enc);
+>>>>>> +
+>>>>>>   /**
+>>>>>>    * dpu_encoder_helper_get_dsc - get DSC blocks mask for the DPU encoder
+>>>>>>    *   This helper function is used by physical encoder to get DSC blocks mask
+>>>>>> @@ -400,6 +406,14 @@ int dpu_encoder_helper_wait_for_irq(struct dpu_encoder_phys *phys_enc,
+>>>>>>    */
+>>>>>>   void dpu_encoder_helper_phys_cleanup(struct dpu_encoder_phys *phys_enc);
+>>>>>> +/**
+>>>>>> + * dpu_encoder_helper_phys_setup_cwb - helper to configure CWB muxes
+>>>>>> + * @phys_enc: Pointer to physical encoder structure
+>>>>>> + * @enable: Enable CWB mux
+>>>>>> + */
+>>>>>> +void dpu_encoder_helper_phys_setup_cwb(struct dpu_encoder_phys *phys_enc,
+>>>>>> +                       bool enable);
+>>>>>> +
+>>>>>>   /**
+>>>>>>    * dpu_encoder_helper_phys_setup_cdm - setup chroma down sampling block
+>>>>>>    * @phys_enc: Pointer to physical encoder
+>>>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c b/ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+>>>>>> index 882c717859ce..e88c4d91041f 100644
+>>>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+>>>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+>>>>>> @@ -1,6 +1,6 @@
+>>>>>>   // SPDX-License-Identifier: GPL-2.0-only
+>>>>>>   /*
+>>>>>> - * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+>>>>>> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+>>>>>>    */
+>>>>>>   #define pr_fmt(fmt)    "[drm:%s:%d] " fmt, __func__, __LINE__
+>>>>>> @@ -342,6 +342,8 @@ static void dpu_encoder_phys_wb_setup(
+>>>>>>       dpu_encoder_helper_phys_setup_cdm(phys_enc, dpu_fmt, CDM_CDWN_OUTPUT_WB);
+>>>>>> +    dpu_encoder_helper_phys_setup_cwb(phys_enc, true);
+>>>>>> +
+>>>>>>       dpu_encoder_phys_wb_setup_ctl(phys_enc);
+>>>>>>   }
+>>>>>>
+>>>>>
+>>>>
+>>>
+>>
+> 
 
