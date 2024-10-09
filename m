@@ -2,59 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75797996D20
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 16:03:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BFEB996D31
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 16:05:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDE0C10E72E;
-	Wed,  9 Oct 2024 14:03:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA9FD10E735;
+	Wed,  9 Oct 2024 14:05:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bdqdBHd5";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dZBL4AEY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F297E10E738
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 14:03:08 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D322410E731
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 14:05:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1728482589; x=1760018589;
+ t=1728482715; x=1760018715;
  h=from:to:cc:subject:date:message-id:mime-version:
  content-transfer-encoding;
- bh=uqh+wUltopw1q9AQTVbazDF7LLYCYOzFlotSJz2jWUY=;
- b=bdqdBHd5/7QCQfaE7Xsn46yB+XgTogix9P9z/AsFZ3St7qF1oZk6YT53
- SHcObUE60tmC3oqqE9ybSO/awrmWDCSLAmksoRDSKjQ1S3gTo/gDt4Ge4
- 7mrciCZACDYVjTVk0g2t3SLjgOEkWFDeeoxmINSLRM10ZRFbzq+NXto+C
- 3eoMJ9Nedcso50EbYV6FwQwLqtNudCe4Ggq6rDXomxa/GGRKjaqOuWASl
- qDQNrqeC/+EA3RemdTc5n/sRRgMb/f3AM8GfaE/bgqxVVzDZiND3a1Q0t
- 6D26SOeMXqUZ62GEIEN1xKM65iHod9+jrzNUdPCvfNfoZM10OwQCIQ67j g==;
-X-CSE-ConnectionGUID: 63czyIeKSiKdL9LxlHZJag==
-X-CSE-MsgGUID: j26PxoPeQGOD/4OL6+7hQg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="27941655"
-X-IronPort-AV: E=Sophos;i="6.11,189,1725346800"; d="scan'208";a="27941655"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Oct 2024 07:03:08 -0700
-X-CSE-ConnectionGUID: URsD9vnQTEemgG+Afjk8aw==
-X-CSE-MsgGUID: GfEMH94tQ/+k6+3hPajtEQ==
+ bh=+RcdG33kM26lU8gV00I0eEdx5IVJum437p9861Mbh+E=;
+ b=dZBL4AEYmNsAukeU2dKNd6/Aig9SD+kz4PTS1njoaH3A3PkcSqX5rL94
+ GQkwS/AeSM9UV8A3RGJcoP3LU0DQ6TQS6+p6zaJP4CrP+JnOKW8KiR3gk
+ WOo3DSbFAobsHpMDSNr3YOF1h5dcsHps90MG91Y+XGR1Y9XTSuZCf62IP
+ K8mkTuEangh1djGzUNAGgVRhR2CbVDveyWYk2H3GKGQKmAo2v6ZTJQffC
+ eiMrQTrDj+QYd6vlN7IAaKThI2NonqgNfqtIZHtbf0g3UA0nrjslfIplE
+ ftrX4D43l9w40245JRZO7/ZJMbW63EhPpDzDxjboNuVWMkP3+rcT5/W5O A==;
+X-CSE-ConnectionGUID: h0L2k/dNQomIeDEYy1Ba2A==
+X-CSE-MsgGUID: V2pZZu19R32tdMAO36wfkA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="31679337"
+X-IronPort-AV: E=Sophos;i="6.11,189,1725346800"; d="scan'208";a="31679337"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Oct 2024 07:05:02 -0700
+X-CSE-ConnectionGUID: IqgK93AjT/GmyPQQHQc6CQ==
+X-CSE-MsgGUID: 5EyCHrbxSQGGYeWY21+fxA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,189,1725346800"; d="scan'208";a="107085432"
+X-IronPort-AV: E=Sophos;i="6.11,189,1725346800"; d="scan'208";a="81067851"
 Received: from ettammin-mobl2.ger.corp.intel.com (HELO localhost)
  ([10.245.246.80])
- by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Oct 2024 07:03:05 -0700
+ by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Oct 2024 07:04:59 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Cc: jani.nikula@intel.com, Stephen Rothwell <sfr@canb.auug.org.au>,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Subject: [PATCH] drm/file: fix client_name_lock kernel-doc warning
-Date: Wed,  9 Oct 2024 17:03:00 +0300
-Message-Id: <20241009140300.1980746-1-jani.nikula@intel.com>
+Cc: jani.nikula@intel.com, Philipp Zabel <p.zabel@pengutronix.de>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
+Subject: [PATCH] drm/imx: add forward declarations for types
+Date: Wed,  9 Oct 2024 17:04:52 +0300
+Message-Id: <20241009140452.1981175-1-jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -72,36 +69,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It's client_name_lock, not name_lock. Also unify style while at it.
+The imx.h header does not forward declare the types it uses, and the
+header is not self-contained. Fix it.
 
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Closes: https://lore.kernel.org/r/20241009172650.29169e6f@canb.auug.org.au
-Fixes: 56c594d8df64 ("drm: add DRM_SET_CLIENT_NAME ioctl")
-Cc: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-Cc: Christian König <christian.koenig@amd.com>
+Fixes: cc3e8a216d6b ("drm/imx: add internal bridge handling display-timings DT node")
+Cc: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: imx@lists.linux.dev
+Cc: linux-arm-kernel@lists.infradead.org
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- include/drm/drm_file.h | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ include/drm/bridge/imx.h | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-index d4f1c115ea0f..f0ef32e9fa5e 100644
---- a/include/drm/drm_file.h
-+++ b/include/drm/drm_file.h
-@@ -395,7 +395,10 @@ struct drm_file {
- 	 * Userspace-provided name; useful for accounting and debugging.
- 	 */
- 	const char *client_name;
--	/** @name_lock: Protects @client_name. */
-+
-+	/**
-+	 * @client_name_lock: Protects @client_name.
-+	 */
- 	struct mutex client_name_lock;
- };
+diff --git a/include/drm/bridge/imx.h b/include/drm/bridge/imx.h
+index e14f429a9ca2..b93f719fe0e7 100644
+--- a/include/drm/bridge/imx.h
++++ b/include/drm/bridge/imx.h
+@@ -6,6 +6,10 @@
+ #ifndef DRM_IMX_BRIDGE_H
+ #define DRM_IMX_BRIDGE_H
  
++struct device;
++struct device_node;
++struct drm_bridge;
++
+ struct drm_bridge *devm_imx_drm_legacy_bridge(struct device *dev,
+ 					      struct device_node *np,
+ 					      int type);
 -- 
 2.39.5
 
