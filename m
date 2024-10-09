@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F233F996F32
+	by mail.lfdr.de (Postfix) with ESMTPS id EC17C996F30
 	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 17:09:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B91B810E76B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BFCF10E76A;
 	Wed,  9 Oct 2024 15:09:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JM8uUONE";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Bu2patIc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
- [209.85.208.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A10FF10E76A
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 15:09:14 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id
- 4fb4d7f45d1cf-5c721803a89so9199849a12.1
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Oct 2024 08:09:14 -0700 (PDT)
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com
+ [209.85.218.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D336410E76A
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 15:09:15 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id
+ a640c23a62f3a-a9953bdc341so482104766b.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Oct 2024 08:09:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1728486553; x=1729091353; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1728486554; x=1729091354; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=JEvUlk1jL136GgzQVqdT9mrooxY8Q/uLvCPC41MEpWc=;
- b=JM8uUONEiNhZBzj90akd68bbZl1D1A9CkSKqU/THDZVHx3C806wr1rNVAkpjvHMEdm
- J9mZBIVSCnNKSDo4k+/1qAQxukPzGJoq4x+2fhn3ADx/rcw6JDH/m13eyoRP6ucxx4Mv
- KOP5wsw7c/wW7yvICyBbQ2TzVVxVYCwdZKYRc9SPhHEtkFeERt5tsMYv57wE1zTtCPJb
- GRye7yHZTJPNevaUy0vJL+GA+VtKG+EE4/tsV0jvDTs/Maadj+/UwnL/MCruMfoLpogV
- SDPde9bJ+6x/5znaiaw+cq4QcSu77C7r2BNqWuz+ZB3TEjnc2BQsSv3UDpNuVVClmEl6
- GuwA==
+ :reply-to; bh=pPRpID3jJTn8I9V4JMm2nGYUdsIJs/RBQaF/mHpfi60=;
+ b=Bu2patIcu6/5vtNoQ45Muc5FYVIvXiP8f7vJki79rjS456DhoDCKlmoDkAnCK8G6r8
+ 8a7qTNRFsKl7dzV7eoXTki+OL61xc34uTO2G10YKBEY4TMoCAY01yqPk9OQzGeHknG4q
+ FWDx1gAiN6fgD7zh2rIggbXNaAc2HV1mXSvbcPpJb7Dor7xntlJDljaz4dpNyffhzHr+
+ tKvBlyJ+tEAfrdD/on9kGmp2zSM1KaYUjpDxtC4FrAcIld5u4FQSz9hA4mwX+ww27EaA
+ b576A9LtkOSbYXdoykqWNSaAqlGwMRWky24j9sTo6vLsnRKgWOyM73UpEPUlDG1QggA9
+ /nog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728486553; x=1729091353;
+ d=1e100.net; s=20230601; t=1728486554; x=1729091354;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=JEvUlk1jL136GgzQVqdT9mrooxY8Q/uLvCPC41MEpWc=;
- b=J8cHePxrN3MsqkVIOBcNSsyP3Ziu+ivZVm7dq+W0q7Jfa1mAEc7YL1qXuzIZO2Zucm
- qp6xa4dNMfYKqw/Q0+zsEmQ9eDabbGyhjnbAIK3HqgyB+cW5HRFVTaK4JhLDemj+2fZX
- Civso9kw4aPvlQI7zrXyVy9FUVcHTyZxMrN6wHBQ+Koyq+mgs1TFSsoXcJlu8zpaZmYz
- oYDDC4Qvw/dignBkyrBnRG01Q5ontkVY7JfpJDowHL1Pia587PXQCYiwJOGmYCrL4wOL
- mPbbpBkqbRf2I/UMpO+zG52FYa6lRRFoAZYZMYe5t5JbviP9lu6CAKDir0GvTvfVmTMg
- LZfQ==
-X-Gm-Message-State: AOJu0YxPXqZ2WMXqSZPN0w1zdU/4hnhhViDVsGTpQWszmKxvMKCXEbik
- CZTliw+BgwBDnBRa5MaBiiSNjYFt6ivUPVY2dFLNbg61yNHJjxHg
-X-Google-Smtp-Source: AGHT+IFpmC0d/mSmKW6krwhiMHYg5RC1Y698kV0WymUaPKy3TEmRyQ4FGV+J9yIkDTIheiYLIN+iZg==
-X-Received: by 2002:a17:907:9620:b0:a99:4601:b9d8 with SMTP id
- a640c23a62f3a-a998d34dd72mr221987366b.63.1728486552647; 
- Wed, 09 Oct 2024 08:09:12 -0700 (PDT)
+ bh=pPRpID3jJTn8I9V4JMm2nGYUdsIJs/RBQaF/mHpfi60=;
+ b=VMMuxi8lyCsehVkRi//jWNdi3ngFcRF8DZJxNodVKDv1ejVZoESPOcBIGdgLc1ExBD
+ 7FGKmzms+CiX6U/hYuihIFGpMHMAHO8y4Og2DRkYW7pUdXFF+ig5ZIpF+jPmHT8HZZMZ
+ c3i90clqH0VTmTp7aahn3df+d6SuoOr9W2ty5JVG1QFB4UO8iOpCjYJnT4fKC/lGDPpA
+ yTs3BdY0dwJwVejLQdsjjCe4geHcDeNlDWhVZ8HMI6QKk2RI7p0bULP+1iXkW5ZUIMTD
+ EmGaDMT0Bxe/S3bwge4ponap4lj9fpBFv7/t4kfqavbEnimAwGta/RAosIY0exCwxA0p
+ l77g==
+X-Gm-Message-State: AOJu0YyyemM5ynHiMF13e0APLsqKjhGVAcuxzkAs2A402cvsksMhkPgw
+ kvb0W14zGSPn3tctGukQhMsu51iDksa7RJfgoaXJgKlw9Om04wht9t6R7Q==
+X-Google-Smtp-Source: AGHT+IGGYGjTYmD19xzpwSLKjHIxB0DbuZAy4atQClezI1moGKPNbhTo/EOOQnZ7DkDNbk29GhdCOw==
+X-Received: by 2002:a17:907:96ab:b0:a99:5c22:fef6 with SMTP id
+ a640c23a62f3a-a998d124293mr231186166b.1.1728486553903; 
+ Wed, 09 Oct 2024 08:09:13 -0700 (PDT)
 Received: from [127.0.1.1] (leased-line-46-53-189-107.telecom.by.
  [46.53.189.107]) by smtp.googlemail.com with ESMTPSA id
- a640c23a62f3a-a992e7b19b8sm668861766b.154.2024.10.09.08.09.11
+ a640c23a62f3a-a992e7b19b8sm668861766b.154.2024.10.09.08.09.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Oct 2024 08:09:12 -0700 (PDT)
+ Wed, 09 Oct 2024 08:09:13 -0700 (PDT)
 From: Dzmitry Sankouski <dsankouski@gmail.com>
-Date: Wed, 09 Oct 2024 18:09:06 +0300
-Subject: [PATCH v7 1/3] drm/mipi-dsi: add mipi_dsi_compression_mode_multi
+Date: Wed, 09 Oct 2024 18:09:07 +0300
+Subject: [PATCH v7 2/3] dt-bindings: panel: add Samsung s6e3ha8
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241009-starqltechn_integration_upstream-v7-1-9967bd15c7c5@gmail.com>
+Message-Id: <20241009-starqltechn_integration_upstream-v7-2-9967bd15c7c5@gmail.com>
 References: <20241009-starqltechn_integration_upstream-v7-0-9967bd15c7c5@gmail.com>
 In-Reply-To: <20241009-starqltechn_integration_upstream-v7-0-9967bd15c7c5@gmail.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -70,13 +70,14 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Dzmitry Sankouski <dsankouski@gmail.com>
+ linux-kernel@vger.kernel.org, Dzmitry Sankouski <dsankouski@gmail.com>, 
+ Conor Dooley <conor.dooley@microchip.com>
 X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1728486550; l=2054;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1728486550; l=3291;
  i=dsankouski@gmail.com; s=20240619; h=from:subject:message-id;
- bh=8E4fr1Sq/NtXc9NlBNm/OB/QNGso+ly2Jqs2ZWzRZDo=;
- b=3lUOctdE19ggiM11q2NWrCsulpMt6YIvZwdld84ZfRF1xxEwgUNOc/0E6sjnhacb1QQpmn5rW
- +UfFVu+REpyCxjbZlh5SXgWHsSvzNbXq/x7EmsExNxjBBTHAO1nUPkG
+ bh=8Nxq3DBjGh+N1qOzmBsPWjVg42NnuOUFW+T5n27Uk9Q=;
+ b=CEaDa7s2RpvOgyvsKNpJkaf+X2Rmwq5fRRg4ToYc5g9Ornc3LI1+WdxcF2VPXLnlZN4QkFTrv
+ 1RKmRDoE04xDKDrAuFR0HmscmkY6J7JYmdD3c52kUCKBwhGNa4QfkfX
 X-Developer-Key: i=dsankouski@gmail.com; a=ed25519;
  pk=YJcXFcN1EWrzBYuiE2yi5Mn6WLn6L1H71J+f7X8fMag=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -94,59 +95,121 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-mipi_dsi_compression_mode_multi can help with
-error handling.
+Add binding for the Samsung s6e3ha8 panel found in the Samsung S9.
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
 ---
-Changes in v7:
-- fix kernel doc
----
- drivers/gpu/drm/drm_mipi_dsi.c | 16 ++++++++++++++++
- include/drm/drm_mipi_dsi.h     |  2 ++
- 2 files changed, 18 insertions(+)
+Changes for v5:
+- fix required properties order
+- fix example indentation
 
-diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.c
-index 2bc3973d35a1..5e5c5f84daac 100644
---- a/drivers/gpu/drm/drm_mipi_dsi.c
-+++ b/drivers/gpu/drm/drm_mipi_dsi.c
-@@ -1520,6 +1520,22 @@ void mipi_dsi_compression_mode_ext_multi(struct mipi_dsi_multi_context *ctx,
- }
- EXPORT_SYMBOL(mipi_dsi_compression_mode_ext_multi);
- 
-+/**
-+ * mipi_dsi_compression_mode_multi() - enable/disable DSC on the peripheral
-+ * @ctx: Context for multiple DSI transactions
-+ * @enable: Whether to enable or disable the DSC
-+ *
-+ * Enable or disable Display Stream Compression on the peripheral using the
-+ * default Picture Parameter Set and VESA DSC 1.1 algorithm.
-+ */
-+void mipi_dsi_compression_mode_multi(struct mipi_dsi_multi_context *ctx,
-+				     bool enable)
-+{
-+	return mipi_dsi_compression_mode_ext_multi(ctx, enable,
-+						   MIPI_DSI_COMPRESSION_DSC, 0);
-+}
-+EXPORT_SYMBOL(mipi_dsi_compression_mode_multi);
+Changes in v4:
+- change dts example intendation from tabs
+ to spaces
+- remove reset-gpios description
+---
+ Documentation/devicetree/bindings/display/panel/samsung,s6e3ha8.yaml | 75 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ MAINTAINERS                                                          |  5 +++++
+ 2 files changed, 80 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/display/panel/samsung,s6e3ha8.yaml b/Documentation/devicetree/bindings/display/panel/samsung,s6e3ha8.yaml
+new file mode 100644
+index 000000000000..05a78429aaea
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/samsung,s6e3ha8.yaml
+@@ -0,0 +1,75 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/samsung,s6e3ha8.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
- /**
-  * mipi_dsi_dcs_nop_multi() - send DCS NOP packet
-  * @ctx: Context for multiple DSI transactions
-diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
-index f725f8654611..94400a78031f 100644
---- a/include/drm/drm_mipi_dsi.h
-+++ b/include/drm/drm_mipi_dsi.h
-@@ -280,6 +280,8 @@ void mipi_dsi_compression_mode_ext_multi(struct mipi_dsi_multi_context *ctx,
- 					 bool enable,
- 					 enum mipi_dsi_compression_algo algo,
- 					 unsigned int pps_selector);
-+void mipi_dsi_compression_mode_multi(struct mipi_dsi_multi_context *ctx,
-+				     bool enable);
- void mipi_dsi_picture_parameter_set_multi(struct mipi_dsi_multi_context *ctx,
- 					  const struct drm_dsc_picture_parameter_set *pps);
++title: Samsung s6e3ha8 AMOLED DSI panel
++
++description: The s6e3ha8 is a 1440x2960 DPI display panel from Samsung Mobile
++  Displays (SMD).
++
++maintainers:
++  - Dzmitry Sankouski <dsankouski@gmail.com>
++
++allOf:
++  - $ref: panel-common.yaml#
++
++properties:
++  compatible:
++    const: samsung,s6e3ha8
++
++  reg:
++    maxItems: 1
++
++  reset-gpios: true
++
++  port: true
++
++  vdd3-supply:
++    description: VDD regulator
++
++  vci-supply:
++    description: VCI regulator
++
++  vddr-supply:
++    description: VDDR regulator
++
++required:
++  - compatible
++  - reset-gpios
++  - vdd3-supply
++  - vci-supply
++  - vddr-supply
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    dsi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        panel@0 {
++            compatible = "samsung,s6e3ha8";
++            reg = <0>;
++            vci-supply = <&s2dos05_ldo4>;
++            vddr-supply = <&s2dos05_buck1>;
++            vdd3-supply = <&s2dos05_ldo1>;
++            te-gpios = <&tlmm 10 GPIO_ACTIVE_HIGH>;
++            reset-gpios = <&tlmm 6 GPIO_ACTIVE_HIGH>;
++            pinctrl-0 = <&sde_dsi_active &sde_te_active_sleep>;
++            pinctrl-1 = <&sde_dsi_suspend &sde_te_active_sleep>;
++            pinctrl-names = "default", "sleep";
++
++            port {
++                panel_in: endpoint {
++                    remote-endpoint = <&mdss_dsi0_out>;
++                };
++            };
++        };
++    };
++
++...
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 84086d47db69..ccc3cf5114c6 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7389,6 +7389,11 @@ S:	Maintained
+ F:	Documentation/devicetree/bindings/display/panel/samsung,s6d7aa0.yaml
+ F:	drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
  
++DRM DRIVER FOR SAMSUNG S6E3HA8 PANELS
++M:	Dzmitry Sankouski <dsankouski@gmail.com>
++S:	Maintained
++F:	Documentation/devicetree/bindings/display/panel/samsung,s6e3ha8.yaml
++
+ DRM DRIVER FOR SITRONIX ST7586 PANELS
+ M:	David Lechner <david@lechnology.com>
+ S:	Maintained
 
 -- 
 2.39.2
