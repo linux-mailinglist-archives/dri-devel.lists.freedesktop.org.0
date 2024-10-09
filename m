@@ -2,89 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB31A996C26
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 15:34:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EC77996C59
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 15:39:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 386C610E719;
-	Wed,  9 Oct 2024 13:34:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8267910E190;
+	Wed,  9 Oct 2024 13:39:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="U3neOl0y";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dRhu1JXS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9131210E713;
- Wed,  9 Oct 2024 13:34:48 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id A7839A43FAB;
- Wed,  9 Oct 2024 13:34:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55A70C4CED2;
- Wed,  9 Oct 2024 13:34:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1728480886;
- bh=e0gqHlZkDT5WvXlJLxiiH51AUvpJH6OopoCW36UMFTI=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=U3neOl0ybb4Ab65jgWhp3xT7HcEy4YMuUgGV+fe0qorbYgOtJiVf4vdBC8aSbF+zk
- VaSzmlKJr1Td+ZlEfUnqPwPvP3ItSIxZE3mhiSqTU0Y+ILn1z2LAcj5l0mNd964u9E
- IJiiL6vn/nZ84NJqFn6bT+eDEGpN/zUWDJjiTS1Nw44OfqVQU1G+/BklpTTM5qjnQt
- qFWcWXBTn592t1uwoUFl7fAOhoRDLvjep0N3/TGk+zJy9Qodx9ZM9pOn4mlQ+m1tjB
- +zz3ljVHlk8StJ6aovxl3cW8GcQDcp3o2MYDG6IpoR0lwS4CMa0F2Pi7cYkeI0mOAq
- BM9t8zEhFY8Sg==
-Received: by mail-oo1-f41.google.com with SMTP id
- 006d021491bc7-5e1c49f9b9aso2731865eaf.2; 
- Wed, 09 Oct 2024 06:34:46 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVKU08C0c8BIDwpgMsYRkIM7cSDVqeajvsBdybuJE268EGHdTwT1wmyCHDQGKgaqMQELW6HXEV1+w==@lists.freedesktop.org,
- AJvYcCWZ2bUFhj+8c1LzN6+PrAsJcvRAA5/XNA9UIevPYxIpbfSY3pz3t6Ouk0na9B7cNsSAmMYGijkZSN6L@lists.freedesktop.org,
- AJvYcCXAyo6Gh/XyDLyA4TUrAiGuYXjFyiAgI+KVdQlAoCWvssWbYZ9ayTHN5eKHRoBNfDrTakMEihzk@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyHAHMTd1hkZi9DuLwIDio8TgbLunPtorlfRdzmrgYXBzaYwSsG
- EFra+IAvLVS9oUZfoZgqRzLlBfQ/bjASJqHA/ZjjbHMLC4mwBizcXfJZvFsR1FAYSPYTFsOSzPp
- PZ/N0fUXrJ+yCMf4R0K+WWwcIoR8=
-X-Google-Smtp-Source: AGHT+IGPvjQmX3zbZk+/LQ5kxG4XslEJ8m7y5iETpKVOpmsBmOdZ4tET2kRXnqT/piSrFy5yYrBa2CfwSNatwWXgz3s=
-X-Received: by 2002:a05:6820:270f:b0:5e5:c489:6f3c with SMTP id
- 006d021491bc7-5e987bc9df9mr1249377eaf.5.1728480885551; Wed, 09 Oct 2024
- 06:34:45 -0700 (PDT)
-MIME-Version: 1.0
-References: <20241004094101.113349-1-sakari.ailus@linux.intel.com>
- <CAPDyKFp0N6UJhnHS164Tdf=xkWB0jzq65L9TdvYazeBQ-6WjeQ@mail.gmail.com>
- <20241007184924.GH14766@pendragon.ideasonboard.com>
- <CAPDyKFpQVnF7eQv3dup8k-3EijnMjuveCG9sZ=Rpey1Y6MBJEg@mail.gmail.com>
- <20241007222502.GG30699@pendragon.ideasonboard.com>
- <CAPDyKFrGNwna6Y2pqSRaBbRYHKRaD2ayqQHLtoqLPOu9Et7qTg@mail.gmail.com>
- <CAJZ5v0jvJyS7D5-wURi2kyWN-rmNa+YqupeQJ000pQRVd9VBcQ@mail.gmail.com>
- <41a0ad69-912b-4eb3-84f7-fb385433c056@opensource.cirrus.com>
-In-Reply-To: <41a0ad69-912b-4eb3-84f7-fb385433c056@opensource.cirrus.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Wed, 9 Oct 2024 15:34:33 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0gbrhMpPT0fHYSC+ES5WS5kv7XkM2hj9M4vpNwFFs6xsQ@mail.gmail.com>
-Message-ID: <CAJZ5v0gbrhMpPT0fHYSC+ES5WS5kv7XkM2hj9M4vpNwFFs6xsQ@mail.gmail.com>
-Subject: Re: [PATCH 00/51] treewide: Switch to __pm_runtime_put_autosuspend()
-To: Richard Fitzgerald <rf@opensource.cirrus.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-bluetooth@vger.kernel.org, 
- linux-clk@vger.kernel.org, linux-crypto@vger.kernel.org, 
- dmaengine@vger.kernel.org, linux-gpio@vger.kernel.org, 
- amd-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
- linux-stm32@st-md-mailman.stormreply.com, 
- linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org, 
- linux-i3c@lists.infradead.org, linux-iio@vger.kernel.org, 
- linux-input@vger.kernel.org, patches@opensource.cirrus.com, 
- iommu@lists.linux.dev, imx@lists.linux.dev, 
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org, 
- linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org, 
- netdev@vger.kernel.org, linux-wireless@vger.kernel.org, 
- linux-pci@vger.kernel.org, linux-phy@lists.infradead.org, 
- linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org, 
- linux-sound@vger.kernel.org, linux-spi@vger.kernel.org, 
- linux-staging@lists.linux.dev, linux-usb@vger.kernel.org, 
- linux-serial@vger.kernel.org, greybus-dev@lists.linaro.org, 
- asahi@lists.linux.dev, Andy Shevchenko <andy.shevchenko@gmail.com>, 
- =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 446B410E190
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 13:39:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1728481164; x=1760017164;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=pomC987U5cmPsqGF90kzsyEtu40UHaXy8+GvrxYOIr8=;
+ b=dRhu1JXSr4tMHcqs1zL7DLDpU4ZLRO+m2XPdp78sQm6YMt/coc8oTWi0
+ reZj1jt+88E7FPILRE5Q5L1s7opnMytPBxKdPOLfEjCO9sG0a9yURHEFB
+ uJkN7NEt2U7cmGA5efGQmsNiPTc2IvE+FC3qjpHyVnZpY6Gf3srd/5LKy
+ cmheKyI4XDqYoDCETyYwpP0wbnK8ESgZBwXMQg63z4BbLdTLioEWjWmzo
+ JzCkgTg3UV9Sb0TaVJwa4exK0ZZLLsrzNjTUnreldVKHmiUOi0vewKbhu
+ DRlaakFx1mKfiJCpu+ufikgQa/n8kGbJWfl25mka5nvuDFaKzmZ+0TFDm g==;
+X-CSE-ConnectionGUID: E55LoqLBSuWhAbjYbEQVmA==
+X-CSE-MsgGUID: HhQRVsbtTDuM30CCoxBafw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="27674368"
+X-IronPort-AV: E=Sophos;i="6.11,189,1725346800"; d="scan'208";a="27674368"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Oct 2024 06:39:24 -0700
+X-CSE-ConnectionGUID: 5ErrRuXnTP2LZDXLqC8HEA==
+X-CSE-MsgGUID: hNmEwNEgQaua9sHZI/nHog==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,189,1725346800"; d="scan'208";a="76262102"
+Received: from oandoniu-mobl3.ger.corp.intel.com (HELO [10.245.245.243])
+ ([10.245.245.243])
+ by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Oct 2024 06:39:22 -0700
+Message-ID: <d48f5c1ef67bfe57253aa33370f3105080577534.camel@linux.intel.com>
+Subject: Re: [PATCH 4/7] drm/ttm: move LRU walk defines into new internal
+ header
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Simona
+ Vetter <simona.vetter@ffwll.ch>
+Cc: Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org
+Date: Wed, 09 Oct 2024 15:39:20 +0200
+In-Reply-To: <2bca2a15-029e-4d8a-9eb4-3dc54f42798e@amd.com>
+References: <440bb9a5-54b8-46ef-b6db-50110af5c02a@amd.com>
+ <5a2f24bce352b65a1fb6e933c406b3ab1efa33e3.camel@linux.intel.com>
+ <4d4c532a-ff35-4172-9b71-93f5d130711b@amd.com>
+ <bb0a31ea3d82ee370873ca5f1c66ec4eeafabffe.camel@linux.intel.com>
+ <d065806d-1d72-4707-bc5f-4da311809295@amd.com>
+ <ZscDox5KoiNHXxne@phenom.ffwll.local>
+ <3afe3ab2-4a58-49a9-acd7-c989980c68f2@amd.com>
+ <Zs4EPT1DR7OrE5X-@phenom.ffwll.local> <Zs4Ss8LJ-n9NbBcb@phenom.ffwll.local>
+ <c890ecbf-e7eb-479d-bb54-807edd1f66e6@amd.com>
+ <ZtWca-cpqUsE8WTZ@phenom.ffwll.local>
+ <4c634e5c1bd9907f315d8b3535ebb6154819d5ea.camel@linux.intel.com>
+ <2bca2a15-029e-4d8a-9eb4-3dc54f42798e@amd.com>
+Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
+ keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
+Organization: Intel Sweden AB, Registration Number: 556189-6027
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,138 +85,292 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 9, 2024 at 2:48=E2=80=AFPM Richard Fitzgerald
-<rf@opensource.cirrus.com> wrote:
->
-> On 08/10/2024 7:24 pm, Rafael J. Wysocki wrote:
-> > On Tue, Oct 8, 2024 at 12:35=E2=80=AFAM Ulf Hansson <ulf.hansson@linaro=
-.org> wrote:
-> >>
-> >> On Tue, 8 Oct 2024 at 00:25, Laurent Pinchart
-> >> <laurent.pinchart@ideasonboard.com> wrote:
-> >>>
-> >>> Hi Ulf,
-> >>>
-> >>> On Tue, Oct 08, 2024 at 12:08:24AM +0200, Ulf Hansson wrote:
-> >>>> On Mon, 7 Oct 2024 at 20:49, Laurent Pinchart wrote:
-> >>>>> On Fri, Oct 04, 2024 at 04:38:36PM +0200, Ulf Hansson wrote:
-> >>>>>> On Fri, 4 Oct 2024 at 11:41, Sakari Ailus wrote:
-> >>>>>>>
-> >>>>>>> Hello everyone,
-> >>>>>>>
-> >>>>>>> This set will switch the users of pm_runtime_put_autosuspend() to
-> >>>>>>> __pm_runtime_put_autosuspend() while the former will soon be re-p=
-urposed
-> >>>>>>> to include a call to pm_runtime_mark_last_busy(). The two are alm=
-ost
-> >>>>>>> always used together, apart from bugs which are likely common. Go=
-ing
-> >>>>>>> forward, most new users should be using pm_runtime_put_autosuspen=
-d().
-> >>>>>>>
-> >>>>>>> Once this conversion is done and pm_runtime_put_autosuspend() re-=
-purposed,
-> >>>>>>> I'll post another set to merge the calls to __pm_runtime_put_auto=
-suspend()
-> >>>>>>> and pm_runtime_mark_last_busy().
-> >>>>>>
-> >>>>>> That sounds like it could cause a lot of churns.
-> >>>>>>
-> >>>>>> Why not add a new helper function that does the
-> >>>>>> pm_runtime_put_autosuspend() and the pm_runtime_mark_last_busy()
-> >>>>>> things? Then we can start moving users over to this new interface,
-> >>>>>> rather than having this intermediate step?
-> >>>>>
-> >>>>> I think the API would be nicer if we used the shortest and simplest
-> >>>>> function names for the most common use cases. Following
-> >>>>> pm_runtime_put_autosuspend() with pm_runtime_mark_last_busy() is th=
-at
-> >>>>> most common use case. That's why I like Sakari's approach of repurp=
-osing
-> >>>>> pm_runtime_put_autosuspend(), and introducing
-> >>>>> __pm_runtime_put_autosuspend() for the odd cases where
-> >>>>> pm_runtime_mark_last_busy() shouldn't be called.
-> >>>>
-> >>>> Okay, so the reason for this approach is because we couldn't find a
-> >>>> short and descriptive name that could be used in favor of
-> >>>> pm_runtime_put_autosuspend(). Let me throw some ideas at it and mayb=
-e
-> >>>> you like it - or not. :-)
-> >>>
-> >>> I like the idea at least :-)
-> >>>
-> >>>> I don't know what options you guys discussed, but to me the entire
-> >>>> "autosuspend"-suffix isn't really that necessary in my opinion. Ther=
-e
-> >>>> are more ways than calling pm_runtime_put_autosuspend() that trigger=
-s
-> >>>> us to use the RPM_AUTO flag for rpm_suspend(). For example, just
-> >>>> calling pm_runtime_put() has the similar effect.
-> >>>
-> >>> To be honest, I'm lost there. pm_runtime_put() calls
-> >>> __pm_runtime_idle(RPM_GET_PUT | RPM_ASYNC), while
-> >>> pm_runtime_put_autosuspend() calls __pm_runtime_suspend(RPM_GET_PUT |
-> >>> RPM_ASYNC | RPM_AUTO).
-> >>
-> >> __pm_runtime_idle() ends up calling rpm_idle(), which may call
-> >> rpm_suspend() - if it succeeds to idle the device. In that case, it
-> >> tags on the RPM_AUTO flag in the call to rpm_suspend(). Quite similar
-> >> to what is happening when calling pm_runtime_put_autosuspend().
-> >
-> > Right.
-> >
-> > For almost everybody, except for a small bunch of drivers that
-> > actually have a .runtime_idle() callback, pm_runtime_put() is
-> > literally equivalent to pm_runtime_put_autosuspend().
-> >
-> > So really the question is why anyone who doesn't provide a
-> > .runtime_idle() callback bothers with using this special
-> > pm_runtime_put_autosuspend() thing,
->
-> Because they are following the documentation? It says:
->
-> "Drivers should call pm_runtime_mark_last_busy() to update this field
-> after carrying out I/O, typically just before calling
-> pm_runtime_put_autosuspend()."
->
-> and
->
-> "In order to use autosuspend, subsystems or drivers must call
-> pm_runtime_use_autosuspend() (...), and thereafter they should use the
-> various `*_autosuspend()` helper functions instead of the non#
-> autosuspend counterparts"
->
-> So the documentation says I should be using pm_runtime_put_autosuspend()
-> instead of pm_runtime_put().
->
-> Seems unfair to criticise people for following the documentation.
+On Mon, 2024-10-07 at 11:08 +0200, Christian K=C3=B6nig wrote:
+> Hi Thomas,
+>=20
+> I'm on sick leave, but I will try to answer questions and share some=20
+> thoughts on this to unblock you.
+>=20
+> Am 18.09.24 um 14:57 schrieb Thomas Hellstr=C3=B6m:
+> > Sima, Christian
+> >=20
+> > I've updated the shrinker series now with a guarded for_each macro
+> > instead:
+> >=20
+> > https://patchwork.freedesktop.org/patch/614514/?series=3D131815&rev=3D9
+>=20
+> Yeah that looks like a big step in the right direction.
+>=20
+> > (Note I forgot to remove the export of the previous LRU walker).
+> >=20
+> > =C2=A0 so the midlayer argument is now not an issue anymore. The
+> > cleanup.h
+> > guard provides some additional protection against drivers exiting
+> > the
+> > LRU loop early.
+> >=20
+> > So remaining is the question whether the driver is allowed to
+> > discard a
+> > suggested bo to shrink from TTM.
+> >=20
+> > Arguments for:
+> >=20
+> > 1) Not allowing that would require teaching TTM about purgeable
+> > objects.
+>=20
+> I think that is actually not correct. TTM already knows about
+> purgeable=20
+> objects.
+>=20
+> E.g. when TTM asks the driver what to do with evicted objects it is=20
+> perfectly valid to return an empty placement list indicating that the
+> backing store can just be thrown away.
+>=20
+> We use this for things like temporary buffers for example.
+>=20
+> That this doesn't apply to swapping looks like a design bug in the=20
+> driver/TTM interface to me.
 
-I'm not criticising anyone, just wondering why they do what they do.
+Yes we can do that with TTM, but for shrinking there's no point in
+trying to shrink when there is no swap-space left, other than purgeable
+object. The number of shrinkable objects returned in shrinker::count
+needs to reflect that, and *then* only those objects should be selected
+for shrinking. If we were to announce that to TTM using a callback,
+we're actually back to version 1 of this series which was rejected by
+you exactly since it was using callbacks a year or so ago????
 
-"Because it is documented this way" is a fair answer, but it doesn't
-invalidate the observation that the difference between
-pm_runtime_put_autosuspend() and pm_runtime_put() boils down to the
-cases when the .runtime_idle() callback is present (which are few and
-far between so to speak).  Moreover, there are call sites using
-pm_runtime_*() functions even though they may not know whether or not
-autosuspend is enabled for the target devices, so the advice given in
-the documentation cannot be universally followed regardless.
+>=20
+> > 2) Devices who need the blitter during shrinking would want to punt
+> > runtime_pm_get() to kswapd to avoid sleeping direct reclaim.
+>=20
+> I think the outcome of the discussion is that runtime PM should never
+> be=20
+> mixed into TTM swapping.
+>=20
+> You can power up blocks to enable a HW blitter for swapping, but this
+> then can't be driven by the runtime PM framework.
 
-This thread is about the way to go, generally speaking, and what I'm
-saying is effectively that replacing pm_runtime_put_autosuspend() with
-pm_runtime_put() almost everywhere (if not just everywhere) would be
-fine with me.
+Still that power-on might be sleeping, so what's the difference using
+runtime-pm or not? Why should the driver implement yet another power
+interface, just because TTM refuses to publish a sane LRU walk
+interface?
 
-I also think that the current users of pm_runtime_put_autosuspend()
-that is not immediately preceded by pm_runtime_mark_last_busy() can be
-readily switched over to using pm_runtime_put() instead of it and then
-pm_runtime_put_autosuspend() can be made call
-pm_runtime_mark_last_busy(), so the latter can be removed from the
-code using the former.  Note that this last step does not require
-tree-wide changes, because calling pm_runtime_mark_last_busy() twice
-in a row for the same device is not a problem.
+>=20
+> > 3) If those devices end up blitting (LNL) to be able to shrink,
+> > they
+> > would want to punt waiting for the fence to signal to kswapd to
+> > avoid
+> > waiting in direct reclaim.
+>=20
+> Mhm, what do you mean with that?
 
-Of course, the documentation needs to be updated in accordance with
-the code changes, which didn't happen when previous changes were made
-to pm_runtime_put() and that likely is why it does not reflect the
-current code.
+When we fired the blitter from direct reclaim, we get a fence. If we
+wait for it in direct reclaim we will be sleeping waiting for gpu,
+which is bad form. We'd like return a failure so the object is retried
+when idle, or from kswapd.
+
+>=20
+>=20
+> > 4) It looks like we need to resort to folio_trylock in the shmem
+> > backup
+> > backend when shrinking is called for gfp_t =3D GFP_NOFS. A failing
+> > trylock will require a new bo.
+>=20
+> Why would a folio trylock succeed with one BO and not another?
+
+Good point. We'd fail anyway but would perhaps need to call
+SHRINK_STOP..
+
+>=20
+> And why would that trylock something the device specific driver
+> should=20
+> handle?
+
+It happens in the TTM shrinker helper called from the driver in the
+spirit of demidlayering.
+
+>=20
+> > Arguments against:
+> > None really. I thought the idea of demidlayering would be to allow
+> > the
+> > driver more freedom.
+>=20
+> Well that is a huge argument against it. Giving drivers more freedom
+> is=20
+> absolutely not something which turned out to be valuable in the past.
+
+So then what's the point of demidlayering?
+
+>=20
+> Instead we should put device drivers in a very strict corset of=20
+> validated approaches to do things.
+>=20
+> Background is that in my experience driver developers are perfectly=20
+> willing to do unclean approaches which only work in like 99% of all=20
+> cases just to get a bit more performance or simpler driver
+> implementation.
+>=20
+> Those approaches are not legal and in my opinion as subsystem
+> maintainer=20
+> I think we need to be more strict and push back much harder on stuff=20
+> like that.
+
+Still, historically that has made developers abandon common components
+for driver-specific solutions.=20
+
+And the question is still not answered.
+
+Exactly *why* can't the driver fail and continue traversing the LRU,
+because all our argumentation revolves around this and you have yet to
+provide an objective reason why.=20
+
+/Thomas
+
+
+
+
+>=20
+> Regards,
+> Christian.
+>=20
+> >=20
+> > So any feedback appreciated. If that is found acceptable we can
+> > proceed
+> > with reviewing this patch and also with the shrinker series.
+> >=20
+> > Thanks,
+> > Thomas
+> >=20
+> >=20
+> > On Mon, 2024-09-02 at 13:07 +0200, Daniel Vetter wrote:
+> > > On Wed, Aug 28, 2024 at 02:20:34PM +0200, Christian K=C3=B6nig wrote:
+> > > > Am 27.08.24 um 19:53 schrieb Daniel Vetter:
+> > > > > On Tue, Aug 27, 2024 at 06:52:13PM +0200, Daniel Vetter
+> > > > > wrote:
+> > > > > > On Thu, Aug 22, 2024 at 03:19:29PM +0200, Christian K=C3=B6nig
+> > > > > > wrote:
+> > > > > > > Completely agree that this is complicated, but I still
+> > > > > > > don't
+> > > > > > > see the need
+> > > > > > > for it.
+> > > > > > >=20
+> > > > > > > Drivers just need to use pm_runtime_get_if_in_use()
+> > > > > > > inside
+> > > > > > > the shrinker and
+> > > > > > > postpone all hw activity until resume.
+> > > > > > Not good enough, at least long term I think. Also
+> > > > > > postponing hw
+> > > > > > activity
+> > > > > > to resume doesn't solve the deadlock issue, if you still
+> > > > > > need
+> > > > > > to grab ttm
+> > > > > > locks on resume.
+> > > > > Pondered this specific aspect some more, and I think you
+> > > > > still
+> > > > > have a race
+> > > > > here (even if you avoid the deadlock): If the condiditional
+> > > > > rpm_get call
+> > > > > fails there's no guarantee that the device will
+> > > > > suspend/resume
+> > > > > and clean
+> > > > > up the GART mapping.
+> > > > Well I think we have a major disconnect here. When the device
+> > > > is
+> > > > powered
+> > > > down there is no GART mapping to clean up any more.
+> > > >=20
+> > > > In other words GART is a table in local memory (VRAM) when the
+> > > > device is
+> > > > powered down this table is completely destroyed. Any BO which
+> > > > was
+> > > > mapped
+> > > > inside this table is now not mapped any more.
+> > > >=20
+> > > > So when the shrinker wants to evict a BO which is marked as
+> > > > mapped
+> > > > to GART
+> > > > and the device is powered down we just skip the GART unmapping
+> > > > part
+> > > > because
+> > > > that has already implicitly happened during power down.
+> > > >=20
+> > > > Before mapping any BO into the GART again we power the GPU up
+> > > > through the
+> > > > runtime PM calls. And while powering it up again the GART is
+> > > > restored.
+> > > My point is that you can't tell whether the device will power
+> > > down or
+> > > not,
+> > > you can only tell whether there's a chance it might be powering
+> > > down
+> > > and
+> > > so you can't get at the rpm reference without deadlock issues.
+> > >=20
+> > > > > The race gets a bit smaller if you use
+> > > > > pm_runtime_get_if_active(), but even then you might catch it
+> > > > > right when
+> > > > > resume almost finished.
+> > > > What race are you talking about?
+> > > >=20
+> > > > The worst thing which could happen is that we restore a GART
+> > > > entry
+> > > > which
+> > > > isn't needed any more, but that is pretty much irrelevant since
+> > > > we
+> > > > only
+> > > > clear them to avoid some hw bugs.
+> > > The race I'm seeing is where you thought the GART entry is not
+> > > issue,
+> > > tossed an object, but the device didn't suspend, so might still
+> > > use
+> > > it.
+> > >=20
+> > > I guess if we're clearly separating the sw allocation of the
+> > > TTM_TT
+> > > with
+> > > the physical entries in the GART that should all work, but feels
+> > > a
+> > > bit
+> > > tricky. The race I've seen is essentially these two getting out
+> > > of
+> > > sync.
+> > >=20
+> > > So maybe it was me who's stuck.
+> > >=20
+> > > What I wonder is whether it works in practice, since on the
+> > > restore
+> > > side
+> > > you need to get some locks to figure out which gart mappings
+> > > exist
+> > > and
+> > > need restoring. And that's the same locks as the shrinker needs
+> > > to
+> > > figure
+> > > out whether it might need to reap a gart mapping.
+> > >=20
+> > > Or do you just copy the gart entries over and restore them
+> > > exactly
+> > > as-is,
+> > > so that there's no shared locks?
+> > >=20
+> > > > > That means we'll have ttm bo hanging around with GART
+> > > > > allocations/mappings
+> > > > > which aren't actually valid anymore (since they might escape
+> > > > > the
+> > > > > cleanup
+> > > > > upon resume due to the race). That doesn't feel like a solid
+> > > > > design
+> > > > > either.
+> > > > I'm most likely missing something, but I'm really scratching my
+> > > > head where
+> > > > you see a problem here.
+> > > I guess one issue is that at least traditionally, igfx drivers
+> > > have
+> > > nested
+> > > runtime pm within dma_resv lock. And dgpu drivers the other way
+> > > round.
+> > > Which is a bit awkward if you're trying for common code.
+> > >=20
+> > > Cheers, Sima
+>=20
+
