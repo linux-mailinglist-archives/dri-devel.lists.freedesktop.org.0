@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7865995CEB
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 03:26:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C09A2995CFF
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 03:31:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE13410E0A0;
-	Wed,  9 Oct 2024 01:26:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED7ED10E155;
+	Wed,  9 Oct 2024 01:31:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="pbKqVmAn";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="kxu/HiR5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC88A10E0A0
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 01:26:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70EDE10E155
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 01:31:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
@@ -22,22 +22,21 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=JAFp916kxOdbCqgaPKFuFD6qIvTJHO6XWM83DvknjCc=; b=pbKqVmAnNfs0aA+HpFlUdWOyhW
- MOpSKo8XGRViIsUpOELcc41IFxIuYuU91nVabFEot4/Ua2LV0U2RnyyUHtYX7vLmo04J+6Pr+jvr3
- eE0KBdo+388dikzilt+fUoUvbnSfnpBnao+7Bt0T1l48tnkOCSsDkvGGVcPc0NWgB9vbjhWQWlG0P
- B0/18lpOYOvEXBdJJdNQdFRseXBpxpBhqg3wAqNp8GQwsZItXymxyHdfGkpwV/9SRACfhplhzyMsK
- XiJYI0Qae+a6XmoCjuXhG6XdiXz3QhHVv8h9uNbkWw5pJ3iBDsAjvowoPwjPJ+ymZg12FY2sk2UK7
- vRgTCguQ==;
+ bh=TFsLOBWSv8UQd/8zZ32Lp0PuTYHDd6AQ1gekPW+f/W4=; b=kxu/HiR5RSEi8z+ZqxS5RHRLmT
+ hYeRYR5gWep5i8SNJYH9eU7ucjndv5Jb2rv+fkknvNUGZLibT+k1lIQw85f8oavGpUbLBXhks3igB
+ 0L/haX6LBusDhugCRBo5SCGYE0jg37jCfT4dYW9aIa+nxK6tfFMDK6vFCMiXNW4jKR/gBKv4LvD/J
+ eGn0r3RMupG2svg41CGX2UMiTl0x57Z10yPltPJdh/1w6VHPKtzm6Cd59VYo0LGv1o06iojzfCZTG
+ L5N92YEUJ7P2FX2cKj+d88hEc8uyfrU0gxZtezy5mbNenjqWwmOaIFcWdf9tuV9LHg3lw0/xct1JC
+ qhJP0Klg==;
 Received: from [187.36.213.55] (helo=[192.168.1.212])
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1syLT7-006m5g-Am; Wed, 09 Oct 2024 03:26:25 +0200
-Message-ID: <6a78ccff-915b-4fc6-b677-1301e3d6993f@igalia.com>
-Date: Tue, 8 Oct 2024 22:26:20 -0300
+ id 1syLXT-006m9f-IW; Wed, 09 Oct 2024 03:30:55 +0200
+Message-ID: <a0922d76-0dc0-46a5-8408-a8eda3a07f26@igalia.com>
+Date: Tue, 8 Oct 2024 22:30:49 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] drm/vc4: Match drm_dev_enter and exit calls in
- vc4_hvs_atomic_flush
+Subject: Re: [PATCH 3/3] drm/vc4: Correct generation check in vc4_hvs_lut_load
 To: Dave Stevenson <dave.stevenson@raspberrypi.com>,
  Maxime Ripard <mripard@kernel.org>,
  Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
@@ -47,7 +46,7 @@ To: Dave Stevenson <dave.stevenson@raspberrypi.com>,
 Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 References: <20241008-drm-vc4-fixes-v1-0-9d0396ca9f42@raspberrypi.com>
- <20241008-drm-vc4-fixes-v1-2-9d0396ca9f42@raspberrypi.com>
+ <20241008-drm-vc4-fixes-v1-3-9d0396ca9f42@raspberrypi.com>
 Content-Language: en-US
 From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
 Autocrypt: addr=mcanal@igalia.com; keydata=
@@ -74,7 +73,7 @@ Autocrypt: addr=mcanal@igalia.com; keydata=
  Tr+uBKNaQGO2vkn5AX5l8zMl9LCH3/Ieaboni35qEhoD/aM0Kpf93PhCvJGbD4n1DnRhrxm1
  uEdQ6HUjWghEjC+Jh9xUvJco2tUTepw4OwuPxOvtuPTUa1kgixYyG1Jck/67reJzMigeuYFt
  raV3P8t/6cmtawVjurhnCDuURyhUrjpRhgFp+lW8OGr6pepHol/WFIOQEg==
-In-Reply-To: <20241008-drm-vc4-fixes-v1-2-9d0396ca9f42@raspberrypi.com>
+In-Reply-To: <20241008-drm-vc4-fixes-v1-3-9d0396ca9f42@raspberrypi.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -95,44 +94,41 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Hi Dave,
 
 On 10/8/24 13:44, Dave Stevenson wrote:
-> Commit 92c17d16476c ("drm/vc4: hvs: Ignore atomic_flush if we're disabled")
-> added a path which returned early without having called drm_dev_exit.
+> Commit 24c5ed3ddf27 ("drm/vc4: Introduce generation number enum")
+> incorrectly swapped a check of hvs->vc4->is_vc5 to
+> hvs->vc4->gen == VC4_GEN_4 in vc4_hvs_lut_load, hence breaking
+> loading the gamma look up table on Pi0-3.
 > 
-> Ensure all paths call drm_dev_exit.
+> Correct that conditional.
 > 
-> Fixes: 92c17d16476c ("drm/vc4: hvs: Ignore atomic_flush if we're disabled")
+> Fixes: 24c5ed3ddf27 ("drm/vc4: Introduce generation number enum")
 > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> ---
+>   drivers/gpu/drm/vc4/vc4_hvs.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
+> index c5ebc317188a..1edf6e3fa7e6 100644
+> --- a/drivers/gpu/drm/vc4/vc4_hvs.c
+> +++ b/drivers/gpu/drm/vc4/vc4_hvs.c
+> @@ -224,7 +224,7 @@ static void vc4_hvs_lut_load(struct vc4_hvs *hvs,
+>   	if (!drm_dev_enter(drm, &idx))
+>   		return;
+>   
+> -	if (hvs->vc4->gen == VC4_GEN_4)
+> +	if (hvs->vc4->gen != VC4_GEN_4)
 
-With the same comment as PATCH 1/3,
+Again, another nit: I believe `hvs->vc4->gen > VC4_GEN_4` is more
+semantic and it's the standard I usually see around the driver.
+
+But this isn't critical, so:
 
 Reviewed-by: Maíra Canal <mcanal@igalia.com>
 
 Best Regards,
 - Maíra
 
-> ---
->   drivers/gpu/drm/vc4/vc4_hvs.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
-> index 546ee11016b2..c5ebc317188a 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hvs.c
-> +++ b/drivers/gpu/drm/vc4/vc4_hvs.c
-> @@ -603,7 +603,7 @@ void vc4_hvs_atomic_flush(struct drm_crtc *crtc,
->   	}
+>   		goto exit;
 >   
->   	if (vc4_state->assigned_channel == VC4_HVS_CHANNEL_DISABLED)
-> -		return;
-> +		goto exit;
->   
->   	if (debug_dump_regs) {
->   		DRM_INFO("CRTC %d HVS before:\n", drm_crtc_index(crtc));
-> @@ -686,6 +686,7 @@ void vc4_hvs_atomic_flush(struct drm_crtc *crtc,
->   		vc4_hvs_dump_state(hvs);
->   	}
->   
-> +exit:
->   	drm_dev_exit(idx);
->   }
->   
+>   	/* The LUT memory is laid out with each HVS channel in order,
 > 
