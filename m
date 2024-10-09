@@ -2,68 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16A25997014
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 17:57:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB185996FF4
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 17:48:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C728110E77A;
-	Wed,  9 Oct 2024 15:57:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F30C10E2A3;
+	Wed,  9 Oct 2024 15:48:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="Tuuwok1A";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="aEV40TvV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 333B910E779
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 15:57:28 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 8BB7D88CBF;
- Wed,  9 Oct 2024 17:57:25 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1728489446;
- bh=lqn2MFzTXvgmtUhRy6nKV+J7xpgtD9hHcUcYH7bQYUM=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Tuuwok1ARchnfTrf8VeZdK0111sKied25CVs8zScXQEwCHDU3Xd2pd/fFzehCrWVM
- goakrDTqT0MQCNDq4BSVAXZCHeOBDOuPJ6JcViOSaxHYi2qjnPVqFRDJ2XEJ86E++7
- 1/WqTaITZarbbBPnPHry1BRP+cUqBgPfECEvU1TYONJhuLX5e3r+ubJ16vdZ6vpA07
- xsidiDMFF+drWUtz/lCXQTcPz1YnGkoRY/qXgP1SubqDCewGUE/vM00lPvo/6WjS9r
- WPBHLWvlAdrQ1wzny/9KqEnJ0Ez42iTf4jrLCkiL0ZwTqT1XDg3/eJIZVPINZCam7G
- RBOQWDBwW/E7g==
-Message-ID: <36a3425d-54f5-4c14-b2de-ef8b74f47ed0@denx.de>
-Date: Wed, 9 Oct 2024 17:47:06 +0200
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
+ [209.85.218.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D1FC10E2A3
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 15:48:41 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id
+ a640c23a62f3a-a994c322aefso198708866b.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Oct 2024 08:48:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1728488920; x=1729093720; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=gpoA7U68G9HQgUGPUrZ+1IXl+YXLZClnFOv3Pi/HKVw=;
+ b=aEV40TvVEERNH/7KDPXp2hsrVDsTFCS66xPz3ZmlYEVkpA55GwMXoC4PKTVVI0AL55
+ +oRbWfnXxgfSfwa+Ug/jBt2dd0zZlFn2fqQv5de3Tkddt1/shlKSGizrqfpsD2PLbgsm
+ U2DoB79Er+5CEpK31NCQb0BEHa3YRdvjQhfAvgz1IbL9uJ+TCmXIdw5MR7ke3biHMFU6
+ rtTVejtxEInYsW0QO2Ws9T16YdvBHb4PwPckDstfAycajD6ZUA27J/KkCnJI1qVrD9fP
+ +i4KVsMkHp29tCUxOC0QQ6UDlTRPQq8cB72sJyEfpwb2Y6jfUZlyexXUudk+rr24SlPE
+ aGmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1728488920; x=1729093720;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=gpoA7U68G9HQgUGPUrZ+1IXl+YXLZClnFOv3Pi/HKVw=;
+ b=FXCxhIvvecsaebCArdG1m/EYzZq6rYMPwSKIwdV6UdhrHGDjRMsWocSkD67ZJlwA0m
+ Ph/hrjbyP0YJ8OsQdKdhvtz1zirFozn7ygb8M9OdQjMatNCzVaLyYznuMxsL1urJFFrW
+ Ft+Pj4Nex0IznLoCl2yw5iNxJZ66md+dkLdoIWYuGVOFokif6XtZtfPpwH8RpSnJ6tjV
+ 0Ah01Catu8XElsXYbgLDna9oMW8udKnMxIX5VR2LN7pj9KSncWd+tRgfGXYq549O/ht2
+ D3bcZfm7k6rjlkZIRKOpNV0iaYH/WpCpIjY3BoyWHnj7ax7qftaZ3Qe57cFcjZZJcTgs
+ z1zA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVQ9f24hHubMRPm7yqah6WhEbAHCwTK+WsVwFTseZpUjOqfQ4GY9HRb8avyTWHXPsSWV0YyEVD9Z94=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzvX4a1uWQgRnF4cgS8Bc0Ck9DmjoHcdHOD6CplEoI0T6jtIZR1
+ rLU7ExSBlTzeNGgjfkg+5SMTwjViuUr6xHSXH/V0aHeVyNhPmawi
+X-Google-Smtp-Source: AGHT+IHWOO9nOZunGvkay9i7X+SSjj74oEgJnI0FqGywprSGNAjDKmfmkGDdTyOfIJpukNiscRSlgA==
+X-Received: by 2002:a17:907:8f16:b0:a99:4e74:52aa with SMTP id
+ a640c23a62f3a-a99a113b8f5mr5893266b.33.1728488919530; 
+ Wed, 09 Oct 2024 08:48:39 -0700 (PDT)
+Received: from localhost
+ (craw-09-b2-v4wan-169726-cust2117.vm24.cable.virginm.net. [92.238.24.70])
+ by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a993a0b33ffsm623897366b.69.2024.10.09.08.48.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Oct 2024 08:48:38 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Helge Deller <deller@gmx.de>, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] fbdev: clps711x-fb: remove redundant call to
+ unregister_framebuffer
+Date: Wed,  9 Oct 2024 16:48:37 +0100
+Message-Id: <20241009154837.371757-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm: lcdif: Use adjusted_mode .clock instead of
- .crtc_clock
-To: Isaac Scott <isaac.scott@ideasonboard.com>,
- Alexander Stein <alexander.stein@ew.tq-group.com>,
- dri-devel@lists.freedesktop.org
-Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Fabio Estevam <festevam@gmail.com>, Lucas Stach <l.stach@pengutronix.de>,
- "Lukas F . Hartmann" <lukas@mntmn.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Stefan Agner <stefan@agner.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- imx@lists.linux.dev, kernel@dh-electronics.com,
- linux-arm-kernel@lists.infradead.org, kieran.bingham@ideasonboard.com
-References: <20240531202813.277109-1-marex@denx.de>
- <1897634.CQOukoFCf9@steina-w> <ab2eb32e-a458-4c9b-8324-27ccb00336c5@denx.de>
- <7ae0cd7774f4b3e30cc033a7e543546732dbced0.camel@ideasonboard.com>
- <de285fc0-728f-4ba0-86e0-0069d2cc9a35@denx.de>
- <64e18ceed5279a9346a6a1141f02ead93383bd1e.camel@ideasonboard.com>
- <84f505af-1066-4fcf-84b7-28c152c09b89@denx.de>
- <50f10a422dd3a7099e2e2724f9401dbae41ea529.camel@ideasonboard.com>
-Content-Language: en-US
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <50f10a422dd3a7099e2e2724f9401dbae41ea529.camel@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,214 +85,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/9/24 11:55 AM, Isaac Scott wrote:
-> On Tue, 2024-10-08 at 23:48 +0200, Marek Vasut wrote:
->> On 10/8/24 12:07 PM, Isaac Scott wrote:
->>> On Mon, 2024-10-07 at 20:06 +0200, Marek Vasut wrote:
->>>> On 10/7/24 7:01 PM, Isaac Scott wrote:
->>>>> Hi Marek,
->>>>
->>>> Hi,
->>>>
->>>>> On Sat, 2024-07-06 at 02:16 +0200, Marek Vasut wrote:
->>>>>> On 6/24/24 11:19 AM, Alexander Stein wrote:
->>>>>>> Am Freitag, 31. Mai 2024, 22:27:21 CEST schrieb Marek
->>>>>>> Vasut:
->>>>>>>> In case an upstream bridge modified the required clock
->>>>>>>> frequency
->>>>>>>> in its .atomic_check callback by setting
->>>>>>>> adjusted_mode.clock
->>>>>>>> ,
->>>>>>>> make sure that clock frequency is generated by the
->>>>>>>> LCDIFv3
->>>>>>>> block.
->>>>>>>>
->>>>>>>> This is useful e.g. when LCDIFv3 feeds DSIM which feeds
->>>>>>>> TC358767
->>>>>>>> with (e)DP output, where the TC358767 expects precise
->>>>>>>> timing
->>>>>>>> on
->>>>>>>> its input side, the precise timing must be generated by
->>>>>>>> the
->>>>>>>> LCDIF.
->>>>>>>>
->>>>>>>> Signed-off-by: Marek Vasut <marex@denx.de>
->>>>>>>
->>>>>>> With the other rc358767 patches in place, this does the
->>>>>>> trick.
->>>>>>> Reviewed-by: Alexander Stein
->>>>>>> <alexander.stein@ew.tq-group.com>
->>>>>>
->>>>>> I'll pick this up next week if there is no objection.
->>>>>
->>>>> Unfortunately, this has caused a regression that is present in
->>>>> v6.12-
->>>>> rc1 on the i.MX8MP PHYTEC Pollux using the
->>>>> arch/arm64/boot/dts/freescale/imx8mp-phyboard-pollux-rdk.dts.
->>>>> The
->>>>> display is the edt,etml1010g3dra panel, as per the upstream
->>>>> dts. We
->>>>> bisected to this commit, and reverting this change fixed the
->>>>> screen.
->>>>>
->>>>> We then tried to retest this on top of v6.12-rc2, and found we
->>>>> also
->>>>> had
->>>>> to revert commit ff06ea04e4cf3ba2f025024776e83bfbdfa05155
->>>>> ("clk:
->>>>> imx:
->>>>> clk-imx8mp: Allow media_disp pixel clock reconfigure parent
->>>>> rate")
->>>>> alongside this. Reverting these two commits makes the display
->>>>> work
->>>>> again at -rc2.
->>>>>
->>>>> Do you have any suggestions on anything we might be missing on
->>>>> our
->>>>> end?
->>>>> Please let me know if there's anything you'd like me to test as
->>>>> I'm
->>>>> not
->>>>> sure what the underlying fault was here.
->>>> I believe what is going on is that the LCDIF cannot configure its
->>>> upstream clock because something else is already using those
->>>> clock
->>>> and
->>>> it set those clock to a specific frequency. LCDIF is now trying
->>>> to
->>>> configure those clock to match the LVDS panel, and it fails, so
->>>> it
->>>> tries
->>>> to set some approximate clock and that is not good enough for the
->>>> LVDS
->>>> panel.
->>>>
->>>> Can you share dump of /sys/kernel/debug/clk/clk_summary on
->>>> failing
->>>> and
->>>> working system ? You might see the difference around the "video"
->>>> clock.
->>>>
->>>> (I have seen this behavior before, the fix was usually a matter
->>>> of
->>>> moving one of the LCDIFs to another upstream clock like PLL3, so
->>>> it
->>>> can
->>>> pick well matching output clock instead of some horrid
->>>> approximation
->>>> which then drives the panel likely out of specification)
->>>
->>> Hi Marek,
->>>
->>> Please find attached the clk_summary for v6.12-rc2 before and after
->>> the
->>> reversion (the one after the reversion is 6.12-
->>> rc2_summary_postfix).
->> Thank you, this helped greatly.
->>
->> I believe I know why it used to kind-of work for you, but I'm afraid
->> this used to work by sheer chance and it does not really work
->> correctly
->> for the panel you use, even if the panel likely does show the correct
->> content. But, there is a way to make it work properly for the panel
->> you use.
->>
->> First of all, the pixel clock never really matched the panel-simple.c
->> pixel clock for the edt_etml1010g3dra_timing:
->>
->> $ grep '\<media_disp2_pix\>' 6.12-rc2_summary_postfix
->>     media_disp2_pix  1  1  0  74250000 ...
->>                               ^^^^^^^^
->>
->> $ grep -A 1 edt_etml1010g3dra_timing drivers/gpu/drm/panel/panel-
->> simple.c
->> static const struct display_timing edt_etml1010g3dra_timing = {
->>           .pixelclock = { 66300000, 72400000, 78900000 },
->>                                     ^^^^^^^^
->>
->> The pixel clock are within tolerance, but there is a discrepancy
->> 74250000 != 72400000 .
->>
->> Since commit 94e6197dadc9 ("arm64: dts: imx8mp: Add LCDIF2 & LDB
->> nodes")
->> the IMX8MP_VIDEO_PLL1_OUT is set to a very specific frequency of
->> 1039500000 Hz, which tidily divides by 2 to 519750000 Hz (which is
->> your
->> LVDS serializer frequency) and divides by 7 to 74250000 Hz which is
->> your
->> LCDIF pixel clock.
->>
->> This Video PLL1 configuration since moved to &media_blk_ctrl {} , but
->> it
->> is still in the imx8mp.dtsi . Therefore, to make your panel work at
->> the
->> correct desired pixel clock frequency instead of some random one
->> inherited from imx8mp.dtsi, add the following to the pollux DT, I
->> believe that will fix the problem and is the correct fix:
->>
->> &media_blk_ctrl {
->>      // 506800000 = 72400000 * 7 (for single-link LVDS, this is
->> enough)
->>      // there is no need to multiply the clock by * 2
->>      assigned-clock-rates = <500000000>, <200000000>, <0>, <0>,
->> <500000000>, <506800000>;
->> };
->>
->> Can you please test whether this works and the pixel clock are
->> accurate
->> in /sys/kernel/debug/clk/clk_summary ?
-> 
-> Interestingly, after making the change you suggested to imx8mp-
-> phyboard-pollux-rdk.dts before the two reversions, the display now
-> seems to work. Please see below for the relevant section of the new
-> clk_summary referring to media_disp2_pix:
-> 
-> video_pll1_ref_sel               1       1        0        24000000
-> 0          0     50000      Y      deviceless
-> no_connection_id
->         video_pll1                    1       1        0
-> 506800000   0          0     50000      Y         deviceless
-> no_connection_
->            video_pll1_bypass          1       1        0
-> 506800000   0          0     50000      Y            deviceless
-> no_connecti
->               video_pll1_out          2       2        0
-> 506800000   0          0     50000      Y               deviceless
-> no_conne
->                  media_ldb            1       1        0
-> 506800000   0          0     50000      Y                  deviceless
-> no_co
->                     media_ldb_root_clk 1       1        0
-> 506800000   0          0     50000      Y
-> 32ec0000.blk-ctrl:bridge@5c     l
->                                                                        
-> deviceless                      no
->                  media_disp2_pix      1       1        0        72400000
-> 0          0     50000      Y                  deviceless
-> no_co
->                     media_disp2_pix_root_clk 1       1        0
-> 72400000    0          0     50000      Y
-> 32e90000.display-controller
->                                                                        
-> 32ec0000.blk-ctrl               di
->                                                                        
-> deviceless                      no
->                  media_disp1_pix      0       0        0
-> 506800000   0          0     50000      N                  deviceless
-> no_co
->                     media_disp1_pix_root_clk 0       0        0
-> 506800000   0          0     50000      N
-> 32ec0000.blk-ctrl
->                                                                        
-> deviceless                      no
->                  media_mipi_phy1_ref  0       0        0        23036364
-> 0          0     50000      N                  deviceless
-> no_co
->                     media_mipi_phy1_ref_root 0       0        0
-> 23036364    0          0     50000      N
-> 32ec0000.blk-ctrl
-> 
-> The media_disp2_pix clock now seems to be correct at 724000000 after
-> your changes.
+Currently the call to unregister_framebuffer is unreachable code because
+the previous statement returns from the function. The call is redundant
+and can be removed.
 
-Do you want to submit the DT patch with correct Fixes: tag ? :)
+Fixes: 36462ac19308 ("fbdev: clps711x-fb: Replace check_fb in favor of struct fb_info.lcd_dev")
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/video/fbdev/clps711x-fb.c | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/drivers/video/fbdev/clps711x-fb.c b/drivers/video/fbdev/clps711x-fb.c
+index 5e61a349a4ab..c350340fb7b9 100644
+--- a/drivers/video/fbdev/clps711x-fb.c
++++ b/drivers/video/fbdev/clps711x-fb.c
+@@ -332,8 +332,6 @@ static int clps711x_fb_probe(struct platform_device *pdev)
+ 
+ 	return 0;
+ 
+-	unregister_framebuffer(info);
+-
+ out_fb_dealloc_cmap:
+ 	regmap_update_bits(cfb->syscon, SYSCON_OFFSET, SYSCON1_LCDEN, 0);
+ 	fb_dealloc_cmap(&info->cmap);
+-- 
+2.39.5
+
