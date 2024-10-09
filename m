@@ -2,81 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 745AF99706C
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 18:05:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82C059970B5
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 18:11:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 069A610E780;
-	Wed,  9 Oct 2024 16:05:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F15E10E782;
+	Wed,  9 Oct 2024 16:10:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dSJeT52O";
+	dkim=pass (2048-bit key; secure) header.d=gmx.net header.i=wahrenst@gmx.net header.b="KUuYk9Mc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
- [209.85.167.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BE3310E77F;
- Wed,  9 Oct 2024 16:05:15 +0000 (UTC)
-Received: by mail-lf1-f52.google.com with SMTP id
- 2adb3069b0e04-53993564cb1so7892723e87.2; 
- Wed, 09 Oct 2024 09:05:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1728489913; x=1729094713; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=IIa5sZ1sQN4F9/EAh7jCAPDk1gS2+mafy4s61EUtTUw=;
- b=dSJeT52OH5GuzKLsmckkkPmBh/6/5QOW1Vd6X3dA6Nn6aj0tJXf7wM8sPfvZctCjxc
- iC4sFMcmkXS7IPmlsOYiDsPrYDkp4EXfJCja/JFBzZLw7cJpfVlVTmNFXa00frZqi2Aq
- LI7hLU21XMR7XXKr47rdwmYsyOzrUiuuyNpBwL7X/mxU238P+n8552sTsyKnoZPEVDrD
- RmI92Sntyhrg+f9nKCJx7YbklKWFFtW8nyogatV4LThS+ZHQbjcoUNUv5d5/fk/cVQux
- L9d4kZD5s4NLBrCg31uvBAeftFeWLi57VCJtFfoUTPamGmTCTIGyzb7zU+DCXtPXzZiW
- f6eA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728489913; x=1729094713;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=IIa5sZ1sQN4F9/EAh7jCAPDk1gS2+mafy4s61EUtTUw=;
- b=IMHAQidOcC4KD1syfE6qSWwI3gy6me3926SIRWKu2TP/RDcDxf92N1lKnYwWVZLKLS
- 2JTPgzCpNJX61+2FcXyTUxjceK5T1g0a3CELaKH7VuOrd5S62Wphz6q9m2nO8IBSD7vr
- szEgcN2pyMxwKIV+qAud+DVnYmWsCvUi0h1sbwC5DfVuR7izrMR6We0Sw2e61Hn7BTWy
- aKwkx93FP5KNcvzssPXza9qCx4juXxRo9I4MQcyOwStJHepuXsVO1vki2dqt6si0pdvR
- nHznWnP15kaQW5B7kngFpkRBe3zBDfGezaQ+zlCpmJ6yo1EY3ZoUvIGJbri+Q9AT2pIQ
- jFJQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWFnfTn09FcbSPxLkumH3+7dFQkdfrA0H0Sw7vppl/oCpTTd3FyAmyVZGdT5bPkYbbH7nqQT3RP2rk=@lists.freedesktop.org,
- AJvYcCXf5SlGpACpaohfqPVpw1w5kFlJrupJiSC+JfJwiYAPkCP1Y9U7xJ7lRKJD9tl6vbZa7aqHg5TJaN8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzaLNgJsD1REbZcSdhUz5wefpujn7jv6V3vhuhc7kvAMWEcqHux
- pW56m+Vt8pX3j4UDV7hMfxEY7vjjJO5EdpY2z9Y0CwqYp2U7YEgr
-X-Google-Smtp-Source: AGHT+IHIlkFtmtsRJ++tKxL+GXbAqdTfJNdHb/CKldkqVa2DzJdvODeH4o865Vxvc5KYCgRQ2o8PaA==
-X-Received: by 2002:a2e:8e6f:0:b0:2fa:bb5d:db67 with SMTP id
- 38308e7fff4ca-2fb187aeb2emr16410001fa.32.1728489912522; 
- Wed, 09 Oct 2024 09:05:12 -0700 (PDT)
-Received: from localhost
- (craw-09-b2-v4wan-169726-cust2117.vm24.cable.virginm.net. [92.238.24.70])
- by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-5c8e0598947sm5582859a12.11.2024.10.09.09.05.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Oct 2024 09:05:11 -0700 (PDT)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Julia Filipchuk <julia.filipchuk@intel.com>,
- John Harrison <John.C.Harrison@Intel.com>, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH][next] drm/xe/guc: Fix inverted logic on snapshot->copy check
-Date: Wed,  9 Oct 2024 17:05:10 +0100
-Message-Id: <20241009160510.372195-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.39.5
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71FD510E782
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 16:10:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
+ s=s31663417; t=1728490243; x=1729095043; i=wahrenst@gmx.net;
+ bh=6yozUC9hgPyOB8QOER4aCf6uGdZd1ua6QJnCBTO/ggc=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+ References:From:In-Reply-To:Content-Type:
+ Content-Transfer-Encoding:cc:content-transfer-encoding:
+ content-type:date:from:message-id:mime-version:reply-to:subject:
+ to;
+ b=KUuYk9McqEbSew+q8e6oFbJCQmAensFcjDLvJAiTofRaqtqHnHj8xvmXI7BBnKhW
+ GHi8yS7NrHA+wzMLtqEsJdOuD0I3VWdzNF05MfNzUyRmoJxav6BFHzfAyssJsKJA3
+ fIxO6GpkMH9XsvJnagYhLTCRAhlJ8IKfKqxx/uA3zVDkSpQ96tptgQaURFgYLVvJx
+ aKzOijYV48a2R2WtguG9tlPwLaWB8e7WqCnSsza/to7Jis42Qv6fF26YHjjwpc3OR
+ HOcqQCt5wP1cPjKj3BmPEgqmZrWTUNiMq23Vtn7WciJ3qsxcDjx75Ekv/x3EoM94I
+ RVfiGmn32q+MDXx2Og==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.104] ([37.4.248.43]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MoO6C-1tn0CA3Woq-00mNu6; Wed, 09
+ Oct 2024 18:10:42 +0200
+Message-ID: <6794760c-5428-44a1-9738-f0ec7ef66818@gmx.net>
+Date: Wed, 9 Oct 2024 18:10:40 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V4 2/2] drm/vc4: v3d: add PM suspend/resume support
+To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Maxime Ripard <mripard@kernel.org>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Peter Robinson <pbrobinson@gmail.com>,
+ dri-devel@lists.freedesktop.org, kernel-list@raspberrypi.com
+References: <20241003124107.39153-1-wahrenst@gmx.net>
+ <20241003124107.39153-3-wahrenst@gmx.net>
+ <ce07a658-8e5c-4c9a-b0a5-77f1be54d524@igalia.com>
+ <a04c4048-b8cb-4a8a-9fb7-00a5ed7bcd9d@gmx.net>
+ <566ae236-77a0-4dd7-9b09-5a31172240b5@igalia.com>
+Content-Language: en-US
+From: Stefan Wahren <wahrenst@gmx.net>
+In-Reply-To: <566ae236-77a0-4dd7-9b09-5a31172240b5@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:TXn63LKeKOriw0zbBO4BDdG09d7t8a+L0/T4uw6lsn69rrjXIRp
+ Kp9P3Jei5B1KZOUxPDMoKB1qLuc/Sn6ML/2tmzIFhGaSJ3x3Mo831uRok8TXLMT2DWrywLZ
+ YEOrP6PserbpWmN3hULpteiU6Z0XhyVwEp+1j4JdI/xiDAcTTXKwy7e7+Vwg6YbqWql46Ru
+ ZeodgMH/ZzDLWqseLU8aw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:uOPRpupT9zs=;1dGWnBoyzwPzQrfxCnJ/k/pgF0a
+ V7ja4RSJHXNOlVbmms48gy7I560wjPkD5LHtE1Rzn+UvUht2yCZhc8uiF6T4mbAECUCpKV+KU
+ D1OQdilwhH8T3+Wu+8DvYFUPsuYbgKeGBJDk0qRSboCKcKhKYOy+9CcLzYCyZ6/6Tk7WeEofZ
+ duRnctIASlPVdaDGM5vqRSEOzV4XhM82EfwWO+LKjsHgedqYEM06/nKV2TBzMT8kANTnC62PK
+ QrMnIsE5/V79amsKWKvcsJyBGc+VPWJRIqFcGKYLfESqKanZuLHNjr4T52KyaMwCX27BplmQN
+ 3wNqiIr3qRJp53UzwzA9mgA9i2tmWtj7sDFHyTvJWMFB8zyggip+rlw04n7SQF0MGWYo1qsV7
+ McfBir1sB7MQL3YAGkpXRNdg6MFhodWbOAsJpEDxl2S2MWOX8TvYlT5ogAreknedMyY+FQoXB
+ 334Krbx0PQgpnhWS/Zlfz2cwMVUxdYqVTGFFjUZkuyLhzXve6Uk2ovPn6VtOS4LjxaH/3TyoA
+ jcpRRiYiAiWK+n3gm6xjPzh2jGW11EvY/O7JK6vR2HNU7vRHlN3/l+I167mPRZHt0X2NKnHiM
+ Xc+RKjNqbd5eRc0XqPe3NTh4Q2NS2r8O8Z57OOuQxR4sLHcTnESWxUV0Xxsi7o6dAhBwD69bJ
+ lys1W35Kan5k3E/Z1n4FM3ojrcwjiRyomp0BFj+U2tTUMY3mKCcgIIHO5c5P02VnKVgEZ+ETa
+ ga1Y3NwItENgCIprQIxsFky5R+xtl7AYYUEXGO0hB10+UgncT2KLOMUlMoCmrBuSswfpIe88/
+ Xm9XpMWeHd/6WGpGgbviXFVg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,31 +89,124 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently the check to see if snapshot->copy has been allocated is
-inverted and ends up dereferencing snapshot->copy when free'ing
-objects in the array when it is null or not free'ing the objects
-when snapshot->copy is allocated. Fix this by using the correct
-non-null pointer check logic.
+Hi Ma=C3=ADra,
 
-Fixes: d8ce1a977226 ("drm/xe/guc: Use a two stage dump for GuC logs and add more info")
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- drivers/gpu/drm/xe/xe_guc_log.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Am 09.10.24 um 14:16 schrieb Ma=C3=ADra Canal:
+> Hi Stefan,
+>
+> On 10/8/24 13:05, Stefan Wahren wrote:
+>> Hi Ma=C3=ADra,
+>>
+>> Am 08.10.24 um 15:49 schrieb Ma=C3=ADra Canal:
+>>> Hi Stefan,
+>>>
+>>> On 10/3/24 09:41, Stefan Wahren wrote:
+>>>> Add suspend/resume support for the VC4 V3D component in order
+>>>> to handle suspend to idle properly.
+>>>>
+>>>> Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
+>>>> ---
+>>>> =C2=A0 drivers/gpu/drm/vc4/vc4_v3d.c | 7 +++----
+>>>> =C2=A0 1 file changed, 3 insertions(+), 4 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/vc4/vc4_v3d.c
+>>>> b/drivers/gpu/drm/vc4/vc4_v3d.c
+>>>> index 2423826c89eb..8057b06c1f16 100644
+>>>> --- a/drivers/gpu/drm/vc4/vc4_v3d.c
+>>>> +++ b/drivers/gpu/drm/vc4/vc4_v3d.c
+>>>> @@ -368,7 +368,6 @@ void vc4_v3d_bin_bo_put(struct vc4_dev *vc4)
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mutex_unlock(&vc4->bin_bo_lock);
+>>>> =C2=A0 }
+>>>>
+>>>> -#ifdef CONFIG_PM
+>>>> =C2=A0 static int vc4_v3d_runtime_suspend(struct device *dev)
+>>>> =C2=A0 {
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct vc4_v3d *v3d =3D dev_get_drvdat=
+a(dev);
+>>>> @@ -397,7 +396,6 @@ static int vc4_v3d_runtime_resume(struct device
+>>>> *dev)
+>>>>
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
+>>>> =C2=A0 }
+>>>> -#endif
+>>>>
+>>>> =C2=A0 int vc4_v3d_debugfs_init(struct drm_minor *minor)
+>>>> =C2=A0 {
+>>>> @@ -507,7 +505,8 @@ static void vc4_v3d_unbind(struct device *dev,
+>>>> struct device *master,
+>>>> =C2=A0 }
+>>>>
+>>>> =C2=A0 static const struct dev_pm_ops vc4_v3d_pm_ops =3D {
+>>>> -=C2=A0=C2=A0=C2=A0 SET_RUNTIME_PM_OPS(vc4_v3d_runtime_suspend,
+>>>> vc4_v3d_runtime_resume, NULL)
+>>>> +=C2=A0=C2=A0=C2=A0 RUNTIME_PM_OPS(vc4_v3d_runtime_suspend, vc4_v3d_r=
+untime_resume,
+>>>> NULL)
+>>>> +=C2=A0=C2=A0=C2=A0 SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
+>>>> pm_runtime_force_resume)
+>>>
+>>> I have a question: How can we guarantee that no jobs are running when
+>>> the system is forced to suspend?
+>> Not sure what do you mean with job. userspace task or v3d job within th=
+e
+>> driver?
+>
+> I mean a V3D job. See, when we submit a CL to the GPU, we only know when
+> it's done through a IRQ. I'm thinking in the case where:
+>
+> 1. We submitted a CL to the GPU
+> 2. We suspend but the job wasn't ended yet
+okay, now i understand. I was under the naive impression that everything
+is handled in the ARM cores. Sorry, i don't really have a deeper
+understanding of the V3D stuff.
+>
+> What happens to this job? Is the GPU going to be in a unstable state
+> when we resume?
+I don't know what happens to the GPU, but during suspend most of the
+IRQs would be disabled so the ARM core(s) won't serve the interrupt handle=
+r.
 
-diff --git a/drivers/gpu/drm/xe/xe_guc_log.c b/drivers/gpu/drm/xe/xe_guc_log.c
-index 93921f04153f..cc70f448d879 100644
---- a/drivers/gpu/drm/xe/xe_guc_log.c
-+++ b/drivers/gpu/drm/xe/xe_guc_log.c
-@@ -122,7 +122,7 @@ void xe_guc_log_snapshot_free(struct xe_guc_log_snapshot *snapshot)
- 	if (!snapshot)
- 		return;
- 
--	if (!snapshot->copy) {
-+	if (snapshot->copy) {
- 		for (i = 0; i < snapshot->num_chunks; i++)
- 			kfree(snapshot->copy[i]);
- 		kfree(snapshot->copy);
--- 
-2.39.5
+At least i need some guidance here, how to prevent sending new jobs to
+the GPU. I assume such a logic must be already part of the driver removal.
+
+Best regards
+>
+>>
+>> Do you have something specific in mind.
+>>
+>> Why is there a difference between runtime pm and system pm?
+>>
+> As far as I can see, for system PM, we need at least to suspend V3D in
+> a stable state, without any jobs running and with IRQs disabled.
+>
+> Best Regards,
+> - Ma=C3=ADra
+>
+>> I must confess that i didn't test a system sleep while running a v3d
+>> application.
+>>
+>> Best regards
+>> Stefan
+>>>
+>>> Best Regards,
+>>> - Ma=C3=ADra
+>>>
+>>>> =C2=A0 };
+>>>>
+>>>> =C2=A0 static const struct component_ops vc4_v3d_ops =3D {
+>>>> @@ -538,6 +537,6 @@ struct platform_driver vc4_v3d_driver =3D {
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .driver =3D {
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .name =3D "vc4=
+_v3d",
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .of_match_tabl=
+e =3D vc4_v3d_dt_match,
+>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .pm =3D &vc4_v3d_pm_ops,
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .pm =3D pm_ptr(&vc4_v3d_p=
+m_ops),
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 },
+>>>> =C2=A0 };
+>>>> --
+>>>> 2.34.1
+>>>>
+>>
 
