@@ -2,71 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DD65995E48
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 05:46:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E157995EEF
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 07:24:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8479C10E637;
-	Wed,  9 Oct 2024 03:46:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1248510E205;
+	Wed,  9 Oct 2024 05:24:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="CiUcr7N9";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="S8IupSCb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B46010E637
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 03:46:54 +0000 (UTC)
-X-UUID: 1cdd9dfa85f111ef8b96093e013ec31c-20241009
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=pFOxdzRaeYE5rw04R/YPNRgfZ4pXxfWWeiirvKaiSow=; 
- b=CiUcr7N97XcOA6TgpnvUqlaQ1hJU2t7XXIJgHoylILzMmteAvYl/S1Rl4EnoqrlojFEFJdn2Kju4iOecaqqPajUw05HiuNxwmsAN1mSvFc3SHCo2bMrKkfF07nQ7B7W2MH3D353hrEn8TX3fL9EBwnXhDwqJYAOxaVJiRSc7Ly0=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.41, REQID:231a1d91-c550-43e3-af8c-730633cd8fac, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:0
-X-CID-META: VersionHash:6dc6a47, CLOUDID:1072f764-444a-4b47-a99a-591ade3b04b2,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:11|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
- :1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_ULN,TF_CID_SPAM_SNR
-X-UUID: 1cdd9dfa85f111ef8b96093e013ec31c-20241009
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
- mailgw02.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 855168147; Wed, 09 Oct 2024 11:46:48 +0800
-Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Wed, 9 Oct 2024 11:46:47 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Wed, 9 Oct 2024 11:46:47 +0800
-From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-To: Adam Thiede <me@adamthiede.com>, Yassine Oudjana
- <yassine.oudjana@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-CC: Shawn Sung <shawn.sung@mediatek.com>, Alper Nebi Yasak
- <alpernebiyasak@gmail.com>, <dri-devel@lists.freedesktop.org>,
- <linux-mediatek@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, "Jason-JH . Lin"
- <jason-jh.lin@mediatek.com>, Singo Chang <singo.chang@mediatek.com>, Nancy
- Lin <nancy.lin@mediatek.com>,
- <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH v11 5/5] drm/mediatek: Add blend_modes to mtk_plane_init() for
- different SoCs
-Date: Wed, 9 Oct 2024 11:46:46 +0800
-Message-ID: <20241009034646.13143-6-jason-jh.lin@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20241009034646.13143-1-jason-jh.lin@mediatek.com>
-References: <20241009034646.13143-1-jason-jh.lin@mediatek.com>
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com
+ [209.85.215.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 590AF10E646
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 05:24:41 +0000 (UTC)
+Received: by mail-pg1-f178.google.com with SMTP id
+ 41be03b00d2f7-7e9e38dd5f1so4790874a12.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Oct 2024 22:24:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1728451481; x=1729056281;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=7A6H+KzAjmDQU5CdelmQUCc3Y+xjatMunsXRFdXtofI=;
+ b=S8IupSCbtDq6Ep8IGCKrs8KQjQmkRuwkF7/De6BwkVzmF+j1iIEY9yxaffOYz84O+o
+ Fyiz9XvXjS6z2l6FvG29FI2oqrzzPO33LE0mNWl0oLEcN49z3LIUcunNPDqk6UnLHEJo
+ LgzKDrUDvHBF/UvgXDw1nLzQ9aXsoCWK35veE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1728451481; x=1729056281;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=7A6H+KzAjmDQU5CdelmQUCc3Y+xjatMunsXRFdXtofI=;
+ b=AqJbFcQtf3UgFfc3o8deCgbRWwwzLj4sf8J5l4QLw1QixIRXiVVj9mTerwav3Gr8ES
+ ogXZe3TLdePKKbDmGz8yzLn9xNVV8upwlCaeE5H3gJskeR1PLykGo4e8zo3nj0OUlXCl
+ VIrZnGQSEBYbhVs+V2bxXQyEPduS9HSogVUGqk/l32tV+vnMRuonrgX/+dpNPKjn6inR
+ NnWrWSMyWmcX62ALTtoyauPCHgKsqeu9yddijTCWgHCyAcnv27Rz9fjpMHTpuEdbBpLV
+ CFOWHd3/HYdm8JRxb/GhRnxBq1IwbMcBZxD7Y42ni/D1LbAQXkkovzhHL4ydGz3gy3Ej
+ r4Xg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWMIxEpFkKVWH79zdYIV0wzD4G7xxVtWyNvbBfzcDudeFQUGh6+wJxViyzB8YoUXx++InVZ+IM8s3w=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxWQksnUj1jq8/6mvStpmTgmZ2cBxtGN+N9h+xXZEmKyiKjR2Ml
+ AUIoBP3rKs6ZyqSWCqqZV2BKYuPyrv5BxZ8Xh/eshA43D29PIKY092wu5xkqBA5jCW2G62VtMGP
+ 1YA==
+X-Google-Smtp-Source: AGHT+IEKD21DoJeYdl5yUlTRJTAGnxFTDW05PgaoJ5dAAeoH/tToyjk8YeS0tkwuwuWsScTJVYPC5Q==
+X-Received: by 2002:a05:6a21:3944:b0:1cf:3d14:6921 with SMTP id
+ adf61e73a8af0-1d8a3c5a65bmr2666769637.35.1728451480803; 
+ Tue, 08 Oct 2024 22:24:40 -0700 (PDT)
+Received: from fshao-p620.tpe.corp.google.com
+ ([2401:fa00:1:10:3386:622d:881d:c6f1])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-71e008f3705sm5077341b3a.109.2024.10.08.22.24.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Oct 2024 22:24:40 -0700 (PDT)
+From: Fei Shao <fshao@chromium.org>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Chen-Yu Tsai <wenst@chromium.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Fei Shao <fshao@chromium.org>, David Airlie <airlied@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [RFC PATCH] drm/bridge: panel: Use devm_drm_bridge_add()
+Date: Wed,  9 Oct 2024 13:23:31 +0800
+Message-ID: <20241009052402.411978-1-fshao@chromium.org>
+X-Mailer: git-send-email 2.47.0.rc1.288.g06298d1525-goog
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,222 +88,195 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since some SoCs support premultiplied pixel formats but some do not,
-the blend_modes parameter is added to mtk_plane_init(), which is
-obtained from the mtk_ddp_comp_get_blend_modes function implemented
-in different blending supported components.
+In the mtk_dsi driver, its DSI host attach callback calls
+devm_drm_of_get_bridge() to get the next bridge. If that next bridge is
+a panel bridge, a panel_bridge object is allocated and managed by the
+panel device.
 
-The blending supported components can use driver data to set the
-blend mode capabilities for different SoCs.
+Later, if the attach callback fails with -EPROBE_DEFER from subsequent
+component_add(), the panel device invoking the callback at probe time
+also fails, and all device-managed resources are freed accordingly.
 
-Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Reviewed-by: CK Hu <ck.hu@mediatek.com>
+This exposes a drm_bridge bridge_list corruption due to the unbalanced
+lifecycle between the DSI host and the panel devices: the panel_bridge
+object managed by panel device is freed, while drm_bridge_remove() is
+bound to DSI host device and never gets called.
+The next drm_bridge_add() will trigger UAF against the freed bridge list
+object and result in kernel panic.
+
+This bug is observed on a MediaTek MT8188-based Chromebook with MIPI DSI
+outputting to a DSI panel (DT is WIP for upstream).
+
+As a fix, using devm_drm_bridge_add() with the panel device in the panel
+path seems reasonable. This also implies a chain of potential cleanup
+actions:
+
+1. Removing drm_bridge_remove() means devm_drm_panel_bridge_release()
+   becomes hollow and can be removed.
+
+2. devm_drm_panel_bridge_add_typed() is almost emptied except for the
+   `bridge->pre_enable_prev_first` line. Itself can be also removed if
+   we move the line into drm_panel_bridge_add_typed(). (maybe?)
+
+3. drm_panel_bridge_add_typed() now calls all the needed devm_* calls,
+   so it's essentially the new devm_drm_panel_bridge_add_typed().
+
+4. drmm_panel_bridge_add() needs to be updated accordingly since it
+   calls drm_panel_bridge_add_typed(). But now there's only one bridge
+   object to be freed, and it's already being managed by panel device.
+   I wonder if we still need both drmm_ and devm_ version in this case.
+   (maybe yes from DRM PoV, I don't know much about the context)
+
+This is a RFC patch since I'm not sure if my understanding is correct
+(for both the fix and the cleanup). It fixes the issue I encountered,
+but I don't expect it to be picked up directly due to the redundant
+commit message and the dangling devm_drm_panel_bridge_release().
+I plan to resend the official patch(es) once I know what I supposed to
+do next.
+
+For reference, here's the KASAN report from the device:
+==================================================================
+ BUG: KASAN: slab-use-after-free in drm_bridge_add+0x98/0x230
+ Read of size 8 at addr ffffff80c4e9e100 by task kworker/u32:1/69
+
+ CPU: 1 UID: 0 PID: 69 Comm: kworker/u32:1 Not tainted 6.12.0-rc1-next-20241004-kasan-00030-g062135fa4046 #1
+ Hardware name: Google Ciri sku0/unprovisioned board (DT)
+ Workqueue: events_unbound deferred_probe_work_func
+ Call trace:
+  dump_backtrace+0xfc/0x140
+  show_stack+0x24/0x38
+  dump_stack_lvl+0x40/0xc8
+  print_report+0x140/0x700
+  kasan_report+0xcc/0x130
+  __asan_report_load8_noabort+0x20/0x30
+  drm_bridge_add+0x98/0x230
+  devm_drm_panel_bridge_add_typed+0x174/0x298
+  devm_drm_of_get_bridge+0xe8/0x190
+  mtk_dsi_host_attach+0x130/0x2b0
+  mipi_dsi_attach+0x8c/0xe8
+  hx83102_probe+0x1a8/0x368
+  mipi_dsi_drv_probe+0x6c/0x88
+  really_probe+0x1c4/0x698
+  __driver_probe_device+0x160/0x298
+  driver_probe_device+0x7c/0x2a8
+  __device_attach_driver+0x2a0/0x398
+  bus_for_each_drv+0x198/0x200
+  __device_attach+0x1c0/0x308
+  device_initial_probe+0x20/0x38
+  bus_probe_device+0x11c/0x1f8
+  deferred_probe_work_func+0x80/0x250
+  worker_thread+0x9b4/0x2780
+  kthread+0x274/0x350
+  ret_from_fork+0x10/0x20
+
+ Allocated by task 69:
+  kasan_save_track+0x40/0x78
+  kasan_save_alloc_info+0x44/0x58
+  __kasan_kmalloc+0x84/0xa0
+  __kmalloc_node_track_caller_noprof+0x228/0x450
+  devm_kmalloc+0x6c/0x288
+  devm_drm_panel_bridge_add_typed+0xa0/0x298
+  devm_drm_of_get_bridge+0xe8/0x190
+  mtk_dsi_host_attach+0x130/0x2b0
+  mipi_dsi_attach+0x8c/0xe8
+  hx83102_probe+0x1a8/0x368
+  mipi_dsi_drv_probe+0x6c/0x88
+  really_probe+0x1c4/0x698
+  __driver_probe_device+0x160/0x298
+  driver_probe_device+0x7c/0x2a8
+  __device_attach_driver+0x2a0/0x398
+  bus_for_each_drv+0x198/0x200
+  __device_attach+0x1c0/0x308
+  device_initial_probe+0x20/0x38
+  bus_probe_device+0x11c/0x1f8
+  deferred_probe_work_func+0x80/0x250
+  worker_thread+0x9b4/0x2780
+  kthread+0x274/0x350
+  ret_from_fork+0x10/0x20
+
+ Freed by task 69:
+  kasan_save_track+0x40/0x78
+  kasan_save_free_info+0x58/0x78
+  __kasan_slab_free+0x48/0x68
+  kfree+0xd4/0x750
+  devres_release_all+0x144/0x1e8
+  really_probe+0x48c/0x698
+  __driver_probe_device+0x160/0x298
+  driver_probe_device+0x7c/0x2a8
+  __device_attach_driver+0x2a0/0x398
+  bus_for_each_drv+0x198/0x200
+  __device_attach+0x1c0/0x308
+  device_initial_probe+0x20/0x38
+  bus_probe_device+0x11c/0x1f8
+  deferred_probe_work_func+0x80/0x250
+  worker_thread+0x9b4/0x2780
+  kthread+0x274/0x350
+  ret_from_fork+0x10/0x20
+
+ The buggy address belongs to the object at ffffff80c4e9e000
+  which belongs to the cache kmalloc-4k of size 4096
+ The buggy address is located 256 bytes inside of
+  freed 4096-byte region [ffffff80c4e9e000, ffffff80c4e9f000)
+
+ The buggy address belongs to the physical page:
+ head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
+ flags: 0x8000000000000040(head|zone=2)
+ page_type: f5(slab)
+ page: refcount:1 mapcount:0 mapping:0000000000000000
+ index:0x0 pfn:0x104e98
+ raw: 8000000000000040 ffffff80c0003040 dead000000000122 0000000000000000
+ raw: 0000000000000000 0000000000040004 00000001f5000000 0000000000000000
+ head: 8000000000000040 ffffff80c0003040 dead000000000122 0000000000000000
+ head: 0000000000000000 0000000000040004 00000001f5000000 0000000000000000
+ head: 8000000000000003 fffffffec313a601 ffffffffffffffff 0000000000000000
+ head: 0000000000000008 0000000000000000 00000000ffffffff 0000000000000000
+ page dumped because: kasan: bad access detected
+
+ Memory state around the buggy address:
+  ffffff80c4e9e000: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+  ffffff80c4e9e080: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ >ffffff80c4e9e100: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+                    ^
+  ffffff80c4e9e180: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+  ffffff80c4e9e200: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+===================================================================
+
+Signed-off-by: Fei Shao <fshao@chromium.org>
 ---
- drivers/gpu/drm/mediatek/mtk_crtc.c             |  1 +
- drivers/gpu/drm/mediatek/mtk_ddp_comp.c         |  2 ++
- drivers/gpu/drm/mediatek/mtk_ddp_comp.h         | 10 ++++++++++
- drivers/gpu/drm/mediatek/mtk_disp_drv.h         |  2 ++
- drivers/gpu/drm/mediatek/mtk_disp_ovl.c         |  7 +++++++
- drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c |  7 +++++++
- drivers/gpu/drm/mediatek/mtk_ethdr.c            |  7 +++++++
- drivers/gpu/drm/mediatek/mtk_ethdr.h            |  1 +
- drivers/gpu/drm/mediatek/mtk_plane.c            | 15 +++++++--------
- drivers/gpu/drm/mediatek/mtk_plane.h            |  4 ++--
- 10 files changed, 46 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_crtc.c b/drivers/gpu/drm/mediatek/mtk_crtc.c
-index 175b00e5a253..b65f196f2015 100644
---- a/drivers/gpu/drm/mediatek/mtk_crtc.c
-+++ b/drivers/gpu/drm/mediatek/mtk_crtc.c
-@@ -913,6 +913,7 @@ static int mtk_crtc_init_comp_planes(struct drm_device *drm_dev,
- 				BIT(pipe),
- 				mtk_crtc_plane_type(mtk_crtc->layer_nr, num_planes),
- 				mtk_ddp_comp_supported_rotations(comp),
-+				mtk_ddp_comp_get_blend_modes(comp),
- 				mtk_ddp_comp_get_formats(comp),
- 				mtk_ddp_comp_get_num_formats(comp), i);
- 		if (ret)
-diff --git a/drivers/gpu/drm/mediatek/mtk_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
-index be66d94be361..edc6417639e6 100644
---- a/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
-@@ -363,6 +363,7 @@ static const struct mtk_ddp_comp_funcs ddp_ovl = {
- 	.layer_config = mtk_ovl_layer_config,
- 	.bgclr_in_on = mtk_ovl_bgclr_in_on,
- 	.bgclr_in_off = mtk_ovl_bgclr_in_off,
-+	.get_blend_modes = mtk_ovl_get_blend_modes,
- 	.get_formats = mtk_ovl_get_formats,
- 	.get_num_formats = mtk_ovl_get_num_formats,
- };
-@@ -416,6 +417,7 @@ static const struct mtk_ddp_comp_funcs ddp_ovl_adaptor = {
- 	.disconnect = mtk_ovl_adaptor_disconnect,
- 	.add = mtk_ovl_adaptor_add_comp,
- 	.remove = mtk_ovl_adaptor_remove_comp,
-+	.get_blend_modes = mtk_ovl_adaptor_get_blend_modes,
- 	.get_formats = mtk_ovl_adaptor_get_formats,
- 	.get_num_formats = mtk_ovl_adaptor_get_num_formats,
- 	.mode_valid = mtk_ovl_adaptor_mode_valid,
-diff --git a/drivers/gpu/drm/mediatek/mtk_ddp_comp.h b/drivers/gpu/drm/mediatek/mtk_ddp_comp.h
-index ecf6dc283cd7..39720b27f4e9 100644
---- a/drivers/gpu/drm/mediatek/mtk_ddp_comp.h
-+++ b/drivers/gpu/drm/mediatek/mtk_ddp_comp.h
-@@ -80,6 +80,7 @@ struct mtk_ddp_comp_funcs {
- 	void (*ctm_set)(struct device *dev,
- 			struct drm_crtc_state *state);
- 	struct device * (*dma_dev_get)(struct device *dev);
-+	u32 (*get_blend_modes)(struct device *dev);
- 	const u32 *(*get_formats)(struct device *dev);
- 	size_t (*get_num_formats)(struct device *dev);
- 	void (*connect)(struct device *dev, struct device *mmsys_dev, unsigned int next);
-@@ -266,6 +267,15 @@ static inline struct device *mtk_ddp_comp_dma_dev_get(struct mtk_ddp_comp *comp)
- 	return comp->dev;
+ drivers/gpu/drm/bridge/panel.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
+index 6e88339dec0f..352723c59c70 100644
+--- a/drivers/gpu/drm/bridge/panel.c
++++ b/drivers/gpu/drm/bridge/panel.c
+@@ -303,7 +303,7 @@ struct drm_bridge *drm_panel_bridge_add_typed(struct drm_panel *panel,
+ 	panel_bridge->bridge.ops = DRM_BRIDGE_OP_MODES;
+ 	panel_bridge->bridge.type = connector_type;
+ 
+-	drm_bridge_add(&panel_bridge->bridge);
++	devm_drm_bridge_add(panel->dev, &panel_bridge->bridge);
+ 
+ 	return &panel_bridge->bridge;
+ }
+@@ -327,7 +327,6 @@ void drm_panel_bridge_remove(struct drm_bridge *bridge)
+ 
+ 	panel_bridge = drm_bridge_to_panel_bridge(bridge);
+ 
+-	drm_bridge_remove(bridge);
+ 	devm_kfree(panel_bridge->panel->dev, bridge);
+ }
+ EXPORT_SYMBOL(drm_panel_bridge_remove);
+@@ -359,8 +358,6 @@ static void devm_drm_panel_bridge_release(struct device *dev, void *res)
+ 
+ 	if (!bridge)
+ 		return;
+-
+-	drm_bridge_remove(bridge);
  }
  
-+static inline
-+u32 mtk_ddp_comp_get_blend_modes(struct mtk_ddp_comp *comp)
-+{
-+	if (comp->funcs && comp->funcs->get_blend_modes)
-+		return comp->funcs->get_blend_modes(comp->dev);
-+
-+	return 0;
-+}
-+
- static inline
- const u32 *mtk_ddp_comp_get_formats(struct mtk_ddp_comp *comp)
- {
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-index 082ac18fe04a..04154db9085c 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-@@ -103,6 +103,7 @@ void mtk_ovl_register_vblank_cb(struct device *dev,
- void mtk_ovl_unregister_vblank_cb(struct device *dev);
- void mtk_ovl_enable_vblank(struct device *dev);
- void mtk_ovl_disable_vblank(struct device *dev);
-+u32 mtk_ovl_get_blend_modes(struct device *dev);
- const u32 *mtk_ovl_get_formats(struct device *dev);
- size_t mtk_ovl_get_num_formats(struct device *dev);
- 
-@@ -131,6 +132,7 @@ void mtk_ovl_adaptor_start(struct device *dev);
- void mtk_ovl_adaptor_stop(struct device *dev);
- unsigned int mtk_ovl_adaptor_layer_nr(struct device *dev);
- struct device *mtk_ovl_adaptor_dma_dev_get(struct device *dev);
-+u32 mtk_ovl_adaptor_get_blend_modes(struct device *dev);
- const u32 *mtk_ovl_adaptor_get_formats(struct device *dev);
- size_t mtk_ovl_adaptor_get_num_formats(struct device *dev);
- enum drm_mode_status mtk_ovl_adaptor_mode_valid(struct device *dev,
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-index fab23b1904bd..9786ce94de0e 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-@@ -215,6 +215,13 @@ void mtk_ovl_disable_vblank(struct device *dev)
- 	writel_relaxed(0x0, ovl->regs + DISP_REG_OVL_INTEN);
- }
- 
-+u32 mtk_ovl_get_blend_modes(struct device *dev)
-+{
-+	struct mtk_disp_ovl *ovl = dev_get_drvdata(dev);
-+
-+	return ovl->data->blend_modes;
-+}
-+
- const u32 *mtk_ovl_get_formats(struct device *dev)
- {
- 	struct mtk_disp_ovl *ovl = dev_get_drvdata(dev);
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
-index c6768210b08b..bf2546c4681a 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
-@@ -400,6 +400,13 @@ void mtk_ovl_adaptor_disable_vblank(struct device *dev)
- 	mtk_ethdr_disable_vblank(ovl_adaptor->ovl_adaptor_comp[OVL_ADAPTOR_ETHDR0]);
- }
- 
-+u32 mtk_ovl_adaptor_get_blend_modes(struct device *dev)
-+{
-+	struct mtk_disp_ovl_adaptor *ovl_adaptor = dev_get_drvdata(dev);
-+
-+	return mtk_ethdr_get_blend_modes(ovl_adaptor->ovl_adaptor_comp[OVL_ADAPTOR_ETHDR0]);
-+}
-+
- const u32 *mtk_ovl_adaptor_get_formats(struct device *dev)
- {
- 	struct mtk_disp_ovl_adaptor *ovl_adaptor = dev_get_drvdata(dev);
-diff --git a/drivers/gpu/drm/mediatek/mtk_ethdr.c b/drivers/gpu/drm/mediatek/mtk_ethdr.c
-index d1d9cf8b10e1..0f22e7d337cb 100644
---- a/drivers/gpu/drm/mediatek/mtk_ethdr.c
-+++ b/drivers/gpu/drm/mediatek/mtk_ethdr.c
-@@ -145,6 +145,13 @@ static irqreturn_t mtk_ethdr_irq_handler(int irq, void *dev_id)
- 	return IRQ_HANDLED;
- }
- 
-+u32 mtk_ethdr_get_blend_modes(struct device *dev)
-+{
-+	return BIT(DRM_MODE_BLEND_PREMULTI) |
-+	       BIT(DRM_MODE_BLEND_COVERAGE) |
-+	       BIT(DRM_MODE_BLEND_PIXEL_NONE);
-+}
-+
- void mtk_ethdr_layer_config(struct device *dev, unsigned int idx,
- 			    struct mtk_plane_state *state,
- 			    struct cmdq_pkt *cmdq_pkt)
-diff --git a/drivers/gpu/drm/mediatek/mtk_ethdr.h b/drivers/gpu/drm/mediatek/mtk_ethdr.h
-index 81af9edea3f7..a72aeee46829 100644
---- a/drivers/gpu/drm/mediatek/mtk_ethdr.h
-+++ b/drivers/gpu/drm/mediatek/mtk_ethdr.h
-@@ -13,6 +13,7 @@ void mtk_ethdr_clk_disable(struct device *dev);
- void mtk_ethdr_config(struct device *dev, unsigned int w,
- 		      unsigned int h, unsigned int vrefresh,
- 		      unsigned int bpc, struct cmdq_pkt *cmdq_pkt);
-+u32 mtk_ethdr_get_blend_modes(struct device *dev);
- void mtk_ethdr_layer_config(struct device *dev, unsigned int idx,
- 			    struct mtk_plane_state *state,
- 			    struct cmdq_pkt *cmdq_pkt);
-diff --git a/drivers/gpu/drm/mediatek/mtk_plane.c b/drivers/gpu/drm/mediatek/mtk_plane.c
-index 7d2cb4e0fafa..8a48b3b0a956 100644
---- a/drivers/gpu/drm/mediatek/mtk_plane.c
-+++ b/drivers/gpu/drm/mediatek/mtk_plane.c
-@@ -320,8 +320,8 @@ static const struct drm_plane_helper_funcs mtk_plane_helper_funcs = {
- 
- int mtk_plane_init(struct drm_device *dev, struct drm_plane *plane,
- 		   unsigned long possible_crtcs, enum drm_plane_type type,
--		   unsigned int supported_rotations, const u32 *formats,
--		   size_t num_formats, unsigned int plane_idx)
-+		   unsigned int supported_rotations, const u32 blend_modes,
-+		   const u32 *formats, size_t num_formats, unsigned int plane_idx)
- {
- 	int err;
- 
-@@ -366,12 +366,11 @@ int mtk_plane_init(struct drm_device *dev, struct drm_plane *plane,
- 	if (err)
- 		DRM_ERROR("failed to create property: alpha\n");
- 
--	err = drm_plane_create_blend_mode_property(plane,
--						   BIT(DRM_MODE_BLEND_PREMULTI) |
--						   BIT(DRM_MODE_BLEND_COVERAGE) |
--						   BIT(DRM_MODE_BLEND_PIXEL_NONE));
--	if (err)
--		DRM_ERROR("failed to create property: blend_mode\n");
-+	if (blend_modes) {
-+		err = drm_plane_create_blend_mode_property(plane, blend_modes);
-+		if (err)
-+			DRM_ERROR("failed to create property: blend_mode\n");
-+	}
- 
- 	drm_plane_helper_add(plane, &mtk_plane_helper_funcs);
- 
-diff --git a/drivers/gpu/drm/mediatek/mtk_plane.h b/drivers/gpu/drm/mediatek/mtk_plane.h
-index 5b177eac67b7..3b13b89989c7 100644
---- a/drivers/gpu/drm/mediatek/mtk_plane.h
-+++ b/drivers/gpu/drm/mediatek/mtk_plane.h
-@@ -48,6 +48,6 @@ to_mtk_plane_state(struct drm_plane_state *state)
- 
- int mtk_plane_init(struct drm_device *dev, struct drm_plane *plane,
- 		   unsigned long possible_crtcs, enum drm_plane_type type,
--		   unsigned int supported_rotations, const u32 *formats,
--		   size_t num_formats, unsigned int plane_idx);
-+		   unsigned int supported_rotations, const u32 blend_modes,
-+		   const u32 *formats, size_t num_formats, unsigned int plane_idx);
- #endif
+ /**
 -- 
-2.43.0
+2.47.0.rc1.288.g06298d1525-goog
 
