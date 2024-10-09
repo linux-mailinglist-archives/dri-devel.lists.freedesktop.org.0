@@ -2,44 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A81C995C50
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 02:33:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7F03995C69
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 02:43:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7ACD910E61A;
-	Wed,  9 Oct 2024 00:33:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B488B10E1A4;
+	Wed,  9 Oct 2024 00:43:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="ASvRRizW";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="OthLjeYw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71E4E10E61A;
- Wed,  9 Oct 2024 00:33:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
- ; s=bytemarkmx;
- h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
- :Subject; bh=d0S5cKEnjvXO92+dvjO8gom+d+982xMXQmKS/ifBGAM=; b=ASvRRizWp3/TXm15
- qfl/xUPo7aLOTwEp0tVSiazJzMvKakXyNb0W39rfSdxjtSm7qg5t7Rg3Zruz2KflZ7gs88fMYIle2
- 676qepJtltz/bEBqJVTFCVUnv+4TloHRUiZR7PgO6yOyDSi5L2Fxwr4DsIdFZkYvu/s/DuT52DNtu
- MVrnukn85CTG21NB4TSti8nLrecrcGWZAgLcVYynl3IWAd5sW5s0sQUEHZnrEjW7yVybb5p6C33XA
- Jsgs7k6TzZZODxUph74+0JB3pDnRXiCrsZ7DfY98Us7cF0dcAIdVH8CY5C+wk/ATDw+IaxDGm9OOM
- NOjcSbnCRj3rysRQOQ==;
-Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
- by mx.treblig.org with esmtp (Exim 4.96)
- (envelope-from <linux@treblig.org>) id 1syKdz-009q1s-0j;
- Wed, 09 Oct 2024 00:33:35 +0000
-From: linux@treblig.org
-To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
- alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com
-Cc: airlied@gmail.com, simona@ffwll.ch, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- "Dr. David Alan Gilbert" <linux@treblig.org>
-Subject: [PATCH] drm/amd/display: Remove unused
- cm3_helper_translate_curve_to_degamma_hw_format
-Date: Wed,  9 Oct 2024 01:33:34 +0100
-Message-ID: <20241009003334.254537-1-linux@treblig.org>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2CDB10E1A4
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 00:43:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=mj55nMgJ4C9CnxIrpURc2OTZxKP08I4C6TKy2y+ulUk=; b=OthLjeYwQzUEiWVGXOp+vqCr9k
+ Z4fBTWPuZPf6bLNj86zXmBTN8fb0h4Eq8Fyo13ODgTeNM1GtwqjzoZG+ZY5UCqPV0Ova9jEb7SnPj
+ N9sngkGKAxEfHN8QfQHCB40SrsM1L8XmtffMWNfFGLlNpmbj2dRbD0kUrOE7EWb4u5WhadjTtmKzF
+ d+gEhkcJqIj5EqwD5yCzvipbIKnHCtBdRXZVYQcYgLajYIbT5maly74rUm2HcVGy86uWkxXdBLxg1
+ d602+NcmmneZERle4pqwADqwOERINtUt5DzM2xWxPj6+/fdHL5IFXhPB6SzgrLPPjsGvnVQdRd74d
+ RWyQBOiQ==;
+Received: from [187.36.213.55] (helo=morissey..)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1syKnl-006lYD-85; Wed, 09 Oct 2024 02:43:41 +0200
+From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ Maxime Ripard <mripard@kernel.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+Subject: [PATCH] drm/vc4: Set `fbdev_probe` in `struct vc5_drm_driver`
+Date: Tue,  8 Oct 2024 21:40:14 -0300
+Message-ID: <20241009004332.1901833-1-mcanal@igalia.com>
 X-Mailer: git-send-email 2.46.2
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,197 +61,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
+Currently, when booting the RPi 4B, we get a NULL pointer dereference:
 
-cm3_helper_translate_curve_to_degamma_hw_format() since it was added in
-2020's commit
-03f54d7d3448 ("drm/amd/display: Add DCN3 DPP")
+[    7.642883] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000038
+[    7.642926] Mem abort info:
+[    7.642938]   ESR = 0x0000000096000044
+[    7.642951]   EC = 0x25: DABT (current EL), IL = 32 bits
+[    7.642968]   SET = 0, FnV = 0
+[    7.642981]   EA = 0, S1PTW = 0
+[    7.642993]   FSC = 0x04: level 0 translation fault
+[    7.643007] Data abort info:
+[    7.643017]   ISV = 0, ISS = 0x00000044, ISS2 = 0x00000000
+[    7.643032]   CM = 0, WnR = 1, TnD = 0, TagAccess = 0
+[    7.643046]   GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
+[    7.643063] user pgtable: 4k pages, 48-bit VAs, pgdp=0000000107487000
+[    7.643081] [0000000000000038] pgd=0000000000000000, p4d=0000000000000000
+[    7.643113] Internal error: Oops: 0000000096000044 [#1] PREEMPT SMP
+[    7.643131] Modules linked in: snd_bcm2835(C)  [...] vc4 v3d [...]
+drm_shmem_helper drm_dma_helper drm_kms_helper drm [...] ipv6
+[    7.643377] CPU: 1 UID: 0 PID: 48 Comm: kworker/u16:2 Tainted: G         C         6.12.0-rc1-00310-g2c34a5464007 #185
+[    7.643407] Tainted: [C]=CRAP
+[    7.643419] Hardware name: Raspberry Pi 4 Model B Rev 1.5 (DT)
+[    7.643438] Workqueue: events_unbound deferred_probe_work_func
+[    7.643477] pstate: 80000005 (Nzcv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[    7.643499] pc : __drm_fb_helper_initial_config_and_unlock+0x40c/0x588 [drm_kms_helper]
+[    7.643616] lr : __drm_fb_helper_initial_config_and_unlock+0x374/0x588 [drm_kms_helper]
+[    7.643710] sp : ffff8000806c3900
+[    7.643724] x29: ffff8000806c3950 x28: ffff431b01a3ec14 x27: 0000000000000010
+[    7.643758] x26: ffff431b0369f000 x25: 0000000036314752 x24: ffff431b003b6200
+[    7.643790] x23: ffff431b0369f000 x22: 00000000000002d0 x21: ffff431b003b6030
+[    7.643821] x20: ffff431b003b6030 x19: ffff431b003b6000 x18: ffff431b002e6e48
+[    7.643852] x17: 0000000000000001 x16: ffffb19c2f10614c x15: 0000000000000000
+[    7.643882] x14: 0000000000000000 x13: ffff431b003b62f0 x12: 0000000000000500
+[    7.643913] x11: 0000000000000000 x10: 0000000000000000 x9 : 005d6e6f6362665b
+[    7.643945] x8 : 0000000000000000 x7 : 0000000000000000 x6 : 000000000000003f
+[    7.643975] x5 : ffffb19bcb45c59c x4 : 0000000000001e00 x3 : ffffb19bcb420c20
+[    7.644005] x2 : 0000000000000000 x1 : 0000000000000001 x0 : ffff431b003b6000
+[    7.644036] Call trace:
+[    7.644049]  __drm_fb_helper_initial_config_and_unlock+0x40c/0x588 [drm_kms_helper]
+[    7.644149]  drm_fb_helper_initial_config+0x34/0x4c [drm_kms_helper]
+[    7.644240]  drm_fbdev_client_hotplug+0x74/0xc8 [drm_kms_helper]
+[    7.644331]  drm_client_register+0x58/0xa0 [drm]
+[    7.644571]  drm_fbdev_client_setup+0xc4/0x17c [drm_kms_helper]
+[    7.644664]  drm_client_setup_with_fourcc+0x28/0x60 [drm_kms_helper]
+[    7.644755]  vc4_drm_bind+0x218/0x264 [vc4]
+[    7.644855]  try_to_bring_up_aggregate_device+0x168/0x1b4
+[    7.644884]  __component_add+0xb8/0x158
+[    7.644905]  component_add+0x14/0x20
+[    7.644925]  vc4_hvs_dev_probe+0x1c/0x28 [vc4]
+[    7.645019]  platform_probe+0xa8/0xd0
+[    7.645045]  really_probe+0x128/0x2c8
+[    7.645065]  __driver_probe_device+0xa0/0x128
+[    7.645086]  driver_probe_device+0x3c/0x1f8
+[    7.645106]  __device_attach_driver+0x118/0x140
+[    7.645127]  bus_for_each_drv+0xf4/0x14c
+[    7.645145]  __device_attach+0xfc/0x194
+[    7.645164]  device_initial_probe+0x14/0x20
+[    7.645184]  bus_probe_device+0x94/0x100
+[    7.645202]  deferred_probe_work_func+0x88/0xc4
+[    7.645223]  process_scheduled_works+0x194/0x2c4
+[    7.645246]  worker_thread+0x290/0x39c
+[    7.645265]  kthread+0xfc/0x184
+[    7.645289]  ret_from_fork+0x10/0x20
+[    7.645317] Code: f2ac6c49 aa1303e0 f2cdcde9 f2e00ba9 (f9001d09)
+[    7.645338] ---[ end trace 0000000000000000 ]---
 
-Remove it.
+This happens because commit 45903624e9fc ("drm/vc4: Run DRM default client
+setup") only added DRM_FBDEV_DMA_DRIVER_OPS to `struct vc4_drm_driver`
+and didn't add it to `struct vc5_drm_driver`. The `struct vc4_drm_driver`
+is used in RPi 0-3, as VC4 is also a render node in those RPis. But RPi 4
+and 5 use V3D as the render node and VC4 as modeset node and therefore,
+use `struct vc5_drm_driver`.
 
-Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+This commit adds DRM_FBDEV_DMA_DRIVER_OPS to `struct vc5_drm_driver`,
+ensuring that `fbdev_probe` exists for all VC4 generations.
+
+Fixes: 45903624e9fc ("drm/vc4: Run DRM default client setup")
+Signed-off-by: Maíra Canal <mcanal@igalia.com>
 ---
- .../amd/display/dc/dcn30/dcn30_cm_common.c    | 151 ------------------
- .../display/dc/dwb/dcn30/dcn30_cm_common.h    |   4 -
- 2 files changed, 155 deletions(-)
+ drivers/gpu/drm/vc4/vc4_drv.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_cm_common.c b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_cm_common.c
-index f31f0e3abfc0..9118a0883f03 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_cm_common.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_cm_common.c
-@@ -285,157 +285,6 @@ bool cm3_helper_translate_curve_to_hw_format(
- 	return true;
- }
+diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
+index 13a1ecddbca3..a238f76a6073 100644
+--- a/drivers/gpu/drm/vc4/vc4_drv.c
++++ b/drivers/gpu/drm/vc4/vc4_drv.c
+@@ -238,6 +238,7 @@ const struct drm_driver vc5_drm_driver = {
+ #endif
  
--#define NUM_DEGAMMA_REGIONS    12
--
--
--bool cm3_helper_translate_curve_to_degamma_hw_format(
--				const struct dc_transfer_func *output_tf,
--				struct pwl_params *lut_params)
--{
--	struct curve_points3 *corner_points;
--	struct pwl_result_data *rgb_resulted;
--	struct pwl_result_data *rgb;
--	struct pwl_result_data *rgb_plus_1;
--
--	int32_t region_start, region_end;
--	int32_t i;
--	uint32_t j, k, seg_distr[MAX_REGIONS_NUMBER], increment, start_index, hw_points;
--
--	if (output_tf == NULL || lut_params == NULL || output_tf->type == TF_TYPE_BYPASS)
--		return false;
--
--	corner_points = lut_params->corner_points;
--	rgb_resulted = lut_params->rgb_resulted;
--	hw_points = 0;
--
--	memset(lut_params, 0, sizeof(struct pwl_params));
--	memset(seg_distr, 0, sizeof(seg_distr));
--
--	region_start = -NUM_DEGAMMA_REGIONS;
--	region_end   = 0;
--
--
--	for (i = region_end - region_start; i < MAX_REGIONS_NUMBER ; i++)
--		seg_distr[i] = -1;
--	/* 12 segments
--	 * segments are from 2^-12 to 0
--	 */
--	for (i = 0; i < NUM_DEGAMMA_REGIONS ; i++)
--		seg_distr[i] = 4;
--
--	for (k = 0; k < MAX_REGIONS_NUMBER; k++) {
--		if (seg_distr[k] != -1)
--			hw_points += (1 << seg_distr[k]);
--	}
--
--	j = 0;
--	for (k = 0; k < (region_end - region_start); k++) {
--		increment = NUMBER_SW_SEGMENTS / (1 << seg_distr[k]);
--		start_index = (region_start + k + MAX_LOW_POINT) *
--				NUMBER_SW_SEGMENTS;
--		for (i = start_index; i < start_index + NUMBER_SW_SEGMENTS;
--				i += increment) {
--			if (j == hw_points - 1)
--				break;
--			if (i >= TRANSFER_FUNC_POINTS)
--				return false;
--			rgb_resulted[j].red = output_tf->tf_pts.red[i];
--			rgb_resulted[j].green = output_tf->tf_pts.green[i];
--			rgb_resulted[j].blue = output_tf->tf_pts.blue[i];
--			j++;
--		}
--	}
--
--	/* last point */
--	start_index = (region_end + MAX_LOW_POINT) * NUMBER_SW_SEGMENTS;
--	rgb_resulted[hw_points - 1].red = output_tf->tf_pts.red[start_index];
--	rgb_resulted[hw_points - 1].green = output_tf->tf_pts.green[start_index];
--	rgb_resulted[hw_points - 1].blue = output_tf->tf_pts.blue[start_index];
--
--	corner_points[0].red.x = dc_fixpt_pow(dc_fixpt_from_int(2),
--					     dc_fixpt_from_int(region_start));
--	corner_points[0].green.x = corner_points[0].red.x;
--	corner_points[0].blue.x = corner_points[0].red.x;
--	corner_points[1].red.x = dc_fixpt_pow(dc_fixpt_from_int(2),
--					     dc_fixpt_from_int(region_end));
--	corner_points[1].green.x = corner_points[1].red.x;
--	corner_points[1].blue.x = corner_points[1].red.x;
--
--	corner_points[0].red.y = rgb_resulted[0].red;
--	corner_points[0].green.y = rgb_resulted[0].green;
--	corner_points[0].blue.y = rgb_resulted[0].blue;
--
--	/* see comment above, m_arrPoints[1].y should be the Y value for the
--	 * region end (m_numOfHwPoints), not last HW point(m_numOfHwPoints - 1)
--	 */
--	corner_points[1].red.y = rgb_resulted[hw_points - 1].red;
--	corner_points[1].green.y = rgb_resulted[hw_points - 1].green;
--	corner_points[1].blue.y = rgb_resulted[hw_points - 1].blue;
--	corner_points[1].red.slope = dc_fixpt_zero;
--	corner_points[1].green.slope = dc_fixpt_zero;
--	corner_points[1].blue.slope = dc_fixpt_zero;
--
--	if (output_tf->tf == TRANSFER_FUNCTION_PQ) {
--		/* for PQ, we want to have a straight line from last HW X point,
--		 * and the slope to be such that we hit 1.0 at 10000 nits.
--		 */
--		const struct fixed31_32 end_value =
--				dc_fixpt_from_int(125);
--
--		corner_points[1].red.slope = dc_fixpt_div(
--			dc_fixpt_sub(dc_fixpt_one, corner_points[1].red.y),
--			dc_fixpt_sub(end_value, corner_points[1].red.x));
--		corner_points[1].green.slope = dc_fixpt_div(
--			dc_fixpt_sub(dc_fixpt_one, corner_points[1].green.y),
--			dc_fixpt_sub(end_value, corner_points[1].green.x));
--		corner_points[1].blue.slope = dc_fixpt_div(
--			dc_fixpt_sub(dc_fixpt_one, corner_points[1].blue.y),
--			dc_fixpt_sub(end_value, corner_points[1].blue.x));
--	}
--
--	lut_params->hw_points_num = hw_points;
--
--	k = 0;
--	for (i = 1; i < MAX_REGIONS_NUMBER; i++) {
--		if (seg_distr[k] != -1) {
--			lut_params->arr_curve_points[k].segments_num =
--					seg_distr[k];
--			lut_params->arr_curve_points[i].offset =
--					lut_params->arr_curve_points[k].offset + (1 << seg_distr[k]);
--		}
--		k++;
--	}
--
--	if (seg_distr[k] != -1)
--		lut_params->arr_curve_points[k].segments_num = seg_distr[k];
--
--	rgb = rgb_resulted;
--	rgb_plus_1 = rgb_resulted + 1;
--
--	i = 1;
--	while (i != hw_points + 1) {
--		if (dc_fixpt_lt(rgb_plus_1->red, rgb->red))
--			rgb_plus_1->red = rgb->red;
--		if (dc_fixpt_lt(rgb_plus_1->green, rgb->green))
--			rgb_plus_1->green = rgb->green;
--		if (dc_fixpt_lt(rgb_plus_1->blue, rgb->blue))
--			rgb_plus_1->blue = rgb->blue;
--
--		rgb->delta_red   = dc_fixpt_sub(rgb_plus_1->red,   rgb->red);
--		rgb->delta_green = dc_fixpt_sub(rgb_plus_1->green, rgb->green);
--		rgb->delta_blue  = dc_fixpt_sub(rgb_plus_1->blue,  rgb->blue);
--
--		++rgb_plus_1;
--		++rgb;
--		++i;
--	}
--	cm3_helper_convert_to_custom_float(rgb_resulted,
--						lut_params->corner_points,
--						hw_points, false);
--
--	return true;
--}
--
- bool cm3_helper_convert_to_custom_float(
- 		struct pwl_result_data *rgb_resulted,
- 		struct curve_points3 *corner_points,
-diff --git a/drivers/gpu/drm/amd/display/dc/dwb/dcn30/dcn30_cm_common.h b/drivers/gpu/drm/amd/display/dc/dwb/dcn30/dcn30_cm_common.h
-index bd98b327a6c7..b86347c9b038 100644
---- a/drivers/gpu/drm/amd/display/dc/dwb/dcn30/dcn30_cm_common.h
-+++ b/drivers/gpu/drm/amd/display/dc/dwb/dcn30/dcn30_cm_common.h
-@@ -63,10 +63,6 @@ bool cm3_helper_translate_curve_to_hw_format(
- 	const struct dc_transfer_func *output_tf,
- 	struct pwl_params *lut_params, bool fixpoint);
+ 	DRM_GEM_DMA_DRIVER_OPS_WITH_DUMB_CREATE(vc5_dumb_create),
++	DRM_FBDEV_DMA_DRIVER_OPS,
  
--bool cm3_helper_translate_curve_to_degamma_hw_format(
--				const struct dc_transfer_func *output_tf,
--				struct pwl_params *lut_params);
--
- bool cm3_helper_convert_to_custom_float(
- 		struct pwl_result_data *rgb_resulted,
- 		struct curve_points3 *corner_points,
+ 	.fops = &vc4_drm_fops,
+ 
 -- 
 2.46.2
 
