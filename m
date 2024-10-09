@@ -2,76 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7EFD9968DC
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 13:32:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13C319968FF
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 13:40:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D241010E111;
-	Wed,  9 Oct 2024 11:32:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8ADCE10E163;
+	Wed,  9 Oct 2024 11:40:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="g7vkQ1op";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="T0P1zzGn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com
- [209.85.219.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CF0410E111
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 11:32:39 +0000 (UTC)
-Received: by mail-yb1-f175.google.com with SMTP id
- 3f1490d57ef6-e2908e8d45eso6435276.2
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Oct 2024 04:32:39 -0700 (PDT)
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
+ [209.85.218.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 238E710E163
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 11:40:42 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id
+ a640c23a62f3a-a86e9db75b9so1020549566b.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Oct 2024 04:40:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google; t=1728473558; x=1729078358;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=008a6k3ZxIHkOV0CVfLapnrZh0drWKWmGkJbRnXXaRQ=;
- b=g7vkQ1opHkK9Fu1ARd0jgrAq72YWV5QenxyaMHq81DEVf2wqWSMGnlPtY6/4p5+/BU
- Ny42Ksz/+rykprzJ5EVYsCZBOD5QvqGLg46lY9iaLAr1wBZNOU0oDIZxirEtYUuHcQou
- qXTL3o32OcmEBh1pcLSW7RJ4f3c+YsMrWNtX3mNpgo0UfNhlTaVlzt06D4iNmpMICWCY
- g3detzmdHOTj6UZmaTg3+dWV1V2WODMwFSeHHje0O12/elT+/0scTNBYigrkG/R0uViY
- yMbVZwSgMJqDcOBoX4IE1w6t79EX/RYbsEPS0s77j6zlFZtIMS2ex5njIK0ztSvxlrvj
- 1uJg==
+ d=linaro.org; s=google; t=1728474040; x=1729078840; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=n3tPa6oC3GkVBQqXt9lYWOj5WcXfTZQll2lZKEeta0s=;
+ b=T0P1zzGn9uPEefUhwNLG3JZc2jGYXuf5s3B1OTS+/ZvRKdeYHp+r0LSqg2RC/lgryo
+ oGdi0w4X3DaxQhP/sIyoOYn/R1ekWA3GrpJBGX5WIdvjsxI2yt/eFsXSP6E01j+CrWou
+ oM3WcnH5O1SougW0ppHH66OvvMRsWBVnVXV7DtCJ8SF6QwXbLpcQrteYrh6OZ9TLA5HF
+ M0gP/ts8ghXmCuZ1Acw8qXRh4NM8cm22pimLhAIGgaLbz2z7ZOe7FRT7apLp3VSLS7fl
+ q20WRAigZtFBLpjXtiprR5qvIh61I2BrAvRtaz4vNE4DJo7bG+tEdJkWTEv6f/kOqdd0
+ 5wvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728473558; x=1729078358;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=008a6k3ZxIHkOV0CVfLapnrZh0drWKWmGkJbRnXXaRQ=;
- b=MRTh1DP4b7s4qfGlSeNHdYSKvZtDp0mne6q3u6SAO2So0F/YOPW36eFeJpMMfIkmJ1
- vcukX3Phc8dwud9nYg50anmuoBtNUxQHsvRNO0xtaxDD5kSvVHTK56qBZfVq0JnSArly
- u11Ck3lmJhknw5ECqNQK8LkG58YMckOnHoQ58v8xA6uxdci21NDfBtSEwxKR85uR5oZe
- NhdKAkpYQd4bObLlSEIzpoF4XZg1Zc1DTWq4xo6RJzKbzfrH8e4aP8kI4P6xnITa37bd
- e8MAvpYxQ7keneECT+cCrrcIjXYz9HJk2guzCCPPXBJ6PjMvfCHlgeNq6q8sY+FA+BPS
- r0bw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX6JKzJDbNFZWHj00L4sGt442FxdtTyqwBiOXGkM3BOCYBs/AoUkcZ+28uP8hidduolLEdaCBHktnw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzd8x0qqfxcI9u+VNBEQFnfZ8rV2klKpsLoUQClxEjEeOedVjav
- lxppI8Jg2ziwoC0aU+GFLOxjULtR6OnHmM3c1hyllEVQOmfPTwOWtrFtQY9SZ0KkCeAaNjBtZdx
- UfO+38QB2Slg68we/Fx48K/084iKILY0TZbP0JA==
-X-Google-Smtp-Source: AGHT+IGF6K2rkk5aK8OxRzvwgQwEZfKkBm8BbIv2Dv+dz+zXDULDbCRgjuRxw3SCMfT8bzTBK44ZnD9sD3fVbMuBX7w=
-X-Received: by 2002:a05:6902:2b89:b0:e11:6348:5d95 with SMTP id
- 3f1490d57ef6-e28fe32e09amr1681374276.7.1728473558552; Wed, 09 Oct 2024
- 04:32:38 -0700 (PDT)
-MIME-Version: 1.0
-References: <20241008-drm-vc4-fixes-v1-0-9d0396ca9f42@raspberrypi.com>
- <20241008-drm-vc4-fixes-v1-3-9d0396ca9f42@raspberrypi.com>
- <a0922d76-0dc0-46a5-8408-a8eda3a07f26@igalia.com>
-In-Reply-To: <a0922d76-0dc0-46a5-8408-a8eda3a07f26@igalia.com>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Wed, 9 Oct 2024 12:32:21 +0100
-Message-ID: <CAPY8ntDTY-ybd8vViTP4vGuxT8DQsssTY_KJ2EQ6xhk2sV98UA@mail.gmail.com>
-Subject: Re: [PATCH 3/3] drm/vc4: Correct generation check in vc4_hvs_lut_load
-To: =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>
-Cc: Maxime Ripard <mripard@kernel.org>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+ d=1e100.net; s=20230601; t=1728474040; x=1729078840;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=n3tPa6oC3GkVBQqXt9lYWOj5WcXfTZQll2lZKEeta0s=;
+ b=mPB/SavVr2Jxqqpo6Dr/lxrAJFCw0oyuqWwWo/oxKa6Pmi34YvsuLdtpsc+Uvih3Jh
+ o3Ok4mi3sRQdMzr3Fo7N0uCsdkupVOejwzLJhmZcPmYhD6dACC9cnMhM4Sgw4X1aXzLN
+ 4rIRhF/u8PtWhL2sQoSoxq/G74QaI5wMYJWwHnlAiX0sWtGrUA80LHC9gIoYJCKogxaQ
+ w+juSa2ch2cSmcA6LtuEZh+cmiKosDWi7rc1CoH6gHwLBQix4Glua1acakynTID/oGOL
+ q4gjP74Y/oFQlQBQDz4tST9EcSCz84OtEICOqmMpJ3SInaV8l9BpG78xc1tK5I5QRbJx
+ N08g==
+X-Gm-Message-State: AOJu0YzxNV7zS9gBFqYEAbYx11jSVcK5jU57Ljqj9BHnLO5jtau3Ik8J
+ qR4YZ1h+a5Xq1r4swaMyAJSCmthT+xKqiTd+NEOzRuznRwp5xlQC8YHcRgz+58w=
+X-Google-Smtp-Source: AGHT+IHzp7sGsoG0E3MlQedOjt1RQsHdAF3ZWTsO4nfIOk1uH4nyTFSaTS2XpHphmCpbogKsgsVUTg==
+X-Received: by 2002:a17:907:e89:b0:a99:3f4e:6de8 with SMTP id
+ a640c23a62f3a-a998d3832e7mr182256566b.64.1728474040413; 
+ Wed, 09 Oct 2024 04:40:40 -0700 (PDT)
+Received: from linaro.org ([82.77.84.93]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a994a8da5d3sm495547966b.134.2024.10.09.04.40.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Oct 2024 04:40:40 -0700 (PDT)
+Date: Wed, 9 Oct 2024 14:40:37 +0300
+From: Abel Vesa <abel.vesa@linaro.org>
+To: Marek Vasut <marex@denx.de>
+Cc: dri-devel@lists.freedesktop.org, Abel Vesa <abelvesa@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, David Airlie <airlied@gmail.com>,
+ Fabio Estevam <festevam@gmail.com>,
+ Isaac Scott <isaac.scott@ideasonboard.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Marek Szyprowski <m.szyprowski@samsung.com>, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Maxime Ripard <mripard@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Peng Fan <peng.fan@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Robert Foss <rfoss@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Shawn Guo <shawnguo@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Stephen Boyd <sboyd@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, imx@lists.linux.dev,
+ kernel@dh-electronics.com, linux-arm-kernel@lists.infradead.org,
+ linux-clk@vger.kernel.org
+Subject: Re: [PATCH 1/2] clk: imx: clk-imx8mp: Allow LDB serializer clock
+ reconfigure parent rate
+Message-ID: <ZwZrtajvhpq50QPH@linaro.org>
+References: <20241008223846.337162-1-marex@denx.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241008223846.337162-1-marex@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,65 +95,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maira
+On 24-10-09 00:38:19, Marek Vasut wrote:
+> The media_ldb_root_clk supply LDB serializer. These clock are usually
+> shared with the LCDIFv3 pixel clock and supplied by the Video PLL on
+> i.MX8MP, but the LDB clock run at either x7 or x14 rate of the LCDIFv3
+> pixel clock. Allow the LDB to reconfigure Video PLL as needed, as that
+> results in accurate serializer clock.
+> 
+> Signed-off-by: Marek Vasut <marex@denx.de>
 
-Thanks for the review
+Any fixes tag needed ?
 
-On Wed, 9 Oct 2024 at 02:30, Ma=C3=ADra Canal <mcanal@igalia.com> wrote:
->
-> Hi Dave,
->
-> On 10/8/24 13:44, Dave Stevenson wrote:
-> > Commit 24c5ed3ddf27 ("drm/vc4: Introduce generation number enum")
-> > incorrectly swapped a check of hvs->vc4->is_vc5 to
-> > hvs->vc4->gen =3D=3D VC4_GEN_4 in vc4_hvs_lut_load, hence breaking
-> > loading the gamma look up table on Pi0-3.
-> >
-> > Correct that conditional.
-> >
-> > Fixes: 24c5ed3ddf27 ("drm/vc4: Introduce generation number enum")
-> > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > ---
-> >   drivers/gpu/drm/vc4/vc4_hvs.c | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hv=
-s.c
-> > index c5ebc317188a..1edf6e3fa7e6 100644
-> > --- a/drivers/gpu/drm/vc4/vc4_hvs.c
-> > +++ b/drivers/gpu/drm/vc4/vc4_hvs.c
-> > @@ -224,7 +224,7 @@ static void vc4_hvs_lut_load(struct vc4_hvs *hvs,
-> >       if (!drm_dev_enter(drm, &idx))
-> >               return;
-> >
-> > -     if (hvs->vc4->gen =3D=3D VC4_GEN_4)
-> > +     if (hvs->vc4->gen !=3D VC4_GEN_4)
->
-> Again, another nit: I believe `hvs->vc4->gen > VC4_GEN_4` is more
-> semantic and it's the standard I usually see around the driver.
+Otherwise, LGTM:
 
-With 24c5ed3ddf27 which this is fixing, all instances in vc4_hvs.c
-were changed to =3D=3D VC4_GEN_4 or =3D=3D VC4_GEN_5. So I guess =3D=3D VC4=
-_GEN_5
-would have been the better option here.
+Reviewed-by: Abel Vesa <abel.vesa@linaro.org>
 
-Yes downstream we now have GEN_6 (which I'm nearly at a point to send
-to the list), and I'll need to update this conditional when that's
-added.
-I'll leave it as is for now, and ensure I've done an audit of all of
-them before pushing GEN_6.
-
-Thanks
-  Dave
-
-> But this isn't critical, so:
->
-> Reviewed-by: Ma=C3=ADra Canal <mcanal@igalia.com>
->
-> Best Regards,
-> - Ma=C3=ADra
->
-> >               goto exit;
-> >
-> >       /* The LUT memory is laid out with each HVS channel in order,
-> >
+> ---
+> Cc: Abel Vesa <abelvesa@kernel.org>
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Fabio Estevam <festevam@gmail.com>
+> Cc: Isaac Scott <isaac.scott@ideasonboard.com>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Michael Turquette <mturquette@baylibre.com>
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Cc: Peng Fan <peng.fan@nxp.com>
+> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+> Cc: Robert Foss <rfoss@kernel.org>
+> Cc: Sascha Hauer <s.hauer@pengutronix.de>
+> Cc: Shawn Guo <shawnguo@kernel.org>
+> Cc: Simona Vetter <simona@ffwll.ch>
+> Cc: Stephen Boyd <sboyd@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: imx@lists.linux.dev
+> Cc: kernel@dh-electronics.com
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-clk@vger.kernel.org
+> ---
+>  drivers/clk/imx/clk-imx8mp.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/clk/imx/clk-imx8mp.c b/drivers/clk/imx/clk-imx8mp.c
+> index 516dbd170c8a3..2e61d340b8ab7 100644
+> --- a/drivers/clk/imx/clk-imx8mp.c
+> +++ b/drivers/clk/imx/clk-imx8mp.c
+> @@ -611,7 +611,7 @@ static int imx8mp_clocks_probe(struct platform_device *pdev)
+>  	hws[IMX8MP_CLK_MEDIA_MIPI_PHY1_REF] = imx8m_clk_hw_composite("media_mipi_phy1_ref", imx8mp_media_mipi_phy1_ref_sels, ccm_base + 0xbd80);
+>  	hws[IMX8MP_CLK_MEDIA_DISP1_PIX] = imx8m_clk_hw_composite_bus_flags("media_disp1_pix", imx8mp_media_disp_pix_sels, ccm_base + 0xbe00, CLK_SET_RATE_PARENT);
+>  	hws[IMX8MP_CLK_MEDIA_CAM2_PIX] = imx8m_clk_hw_composite("media_cam2_pix", imx8mp_media_cam2_pix_sels, ccm_base + 0xbe80);
+> -	hws[IMX8MP_CLK_MEDIA_LDB] = imx8m_clk_hw_composite("media_ldb", imx8mp_media_ldb_sels, ccm_base + 0xbf00);
+> +	hws[IMX8MP_CLK_MEDIA_LDB] = imx8m_clk_hw_composite_bus_flags("media_ldb", imx8mp_media_ldb_sels, ccm_base + 0xbf00, CLK_SET_RATE_PARENT);
+>  	hws[IMX8MP_CLK_MEMREPAIR] = imx8m_clk_hw_composite_critical("mem_repair", imx8mp_memrepair_sels, ccm_base + 0xbf80);
+>  	hws[IMX8MP_CLK_MEDIA_MIPI_TEST_BYTE] = imx8m_clk_hw_composite("media_mipi_test_byte", imx8mp_media_mipi_test_byte_sels, ccm_base + 0xc100);
+>  	hws[IMX8MP_CLK_ECSPI3] = imx8m_clk_hw_composite("ecspi3", imx8mp_ecspi3_sels, ccm_base + 0xc180);
+> -- 
+> 2.45.2
+> 
