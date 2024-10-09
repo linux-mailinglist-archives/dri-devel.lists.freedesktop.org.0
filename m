@@ -2,74 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB185996FF4
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 17:48:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C911F99701A
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 17:58:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F30C10E2A3;
-	Wed,  9 Oct 2024 15:48:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C5C310E77B;
+	Wed,  9 Oct 2024 15:58:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="aEV40TvV";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZLs2vOeX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
- [209.85.218.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D1FC10E2A3
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 15:48:41 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id
- a640c23a62f3a-a994c322aefso198708866b.1
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Oct 2024 08:48:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1728488920; x=1729093720; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=gpoA7U68G9HQgUGPUrZ+1IXl+YXLZClnFOv3Pi/HKVw=;
- b=aEV40TvVEERNH/7KDPXp2hsrVDsTFCS66xPz3ZmlYEVkpA55GwMXoC4PKTVVI0AL55
- +oRbWfnXxgfSfwa+Ug/jBt2dd0zZlFn2fqQv5de3Tkddt1/shlKSGizrqfpsD2PLbgsm
- U2DoB79Er+5CEpK31NCQb0BEHa3YRdvjQhfAvgz1IbL9uJ+TCmXIdw5MR7ke3biHMFU6
- rtTVejtxEInYsW0QO2Ws9T16YdvBHb4PwPckDstfAycajD6ZUA27J/KkCnJI1qVrD9fP
- +i4KVsMkHp29tCUxOC0QQ6UDlTRPQq8cB72sJyEfpwb2Y6jfUZlyexXUudk+rr24SlPE
- aGmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728488920; x=1729093720;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=gpoA7U68G9HQgUGPUrZ+1IXl+YXLZClnFOv3Pi/HKVw=;
- b=FXCxhIvvecsaebCArdG1m/EYzZq6rYMPwSKIwdV6UdhrHGDjRMsWocSkD67ZJlwA0m
- Ph/hrjbyP0YJ8OsQdKdhvtz1zirFozn7ygb8M9OdQjMatNCzVaLyYznuMxsL1urJFFrW
- Ft+Pj4Nex0IznLoCl2yw5iNxJZ66md+dkLdoIWYuGVOFokif6XtZtfPpwH8RpSnJ6tjV
- 0Ah01Catu8XElsXYbgLDna9oMW8udKnMxIX5VR2LN7pj9KSncWd+tRgfGXYq549O/ht2
- D3bcZfm7k6rjlkZIRKOpNV0iaYH/WpCpIjY3BoyWHnj7ax7qftaZ3Qe57cFcjZZJcTgs
- z1zA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVQ9f24hHubMRPm7yqah6WhEbAHCwTK+WsVwFTseZpUjOqfQ4GY9HRb8avyTWHXPsSWV0YyEVD9Z94=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzvX4a1uWQgRnF4cgS8Bc0Ck9DmjoHcdHOD6CplEoI0T6jtIZR1
- rLU7ExSBlTzeNGgjfkg+5SMTwjViuUr6xHSXH/V0aHeVyNhPmawi
-X-Google-Smtp-Source: AGHT+IHWOO9nOZunGvkay9i7X+SSjj74oEgJnI0FqGywprSGNAjDKmfmkGDdTyOfIJpukNiscRSlgA==
-X-Received: by 2002:a17:907:8f16:b0:a99:4e74:52aa with SMTP id
- a640c23a62f3a-a99a113b8f5mr5893266b.33.1728488919530; 
- Wed, 09 Oct 2024 08:48:39 -0700 (PDT)
-Received: from localhost
- (craw-09-b2-v4wan-169726-cust2117.vm24.cable.virginm.net. [92.238.24.70])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a993a0b33ffsm623897366b.69.2024.10.09.08.48.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Oct 2024 08:48:38 -0700 (PDT)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Helge Deller <deller@gmx.de>, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH][next] fbdev: clps711x-fb: remove redundant call to
- unregister_framebuffer
-Date: Wed,  9 Oct 2024 16:48:37 +0100
-Message-Id: <20241009154837.371757-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.39.5
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E69D10E77B
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 15:58:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1728489493; x=1760025493;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=DQ+UXJ6V9fAJtdAYV5JF+pZvbG+QV1OVa/sMvW/vdW8=;
+ b=ZLs2vOeXCBmraEroFPGo9Y6D76GxN41MOkAHP9DoNUJuz8BUeU11xugJ
+ gEdKEZ5dq+ovkIYywfqWzV8zOUGD5f3Yy4hkl0B75YwiHh5PI1NBxSLIk
+ rB+KUuR8lyE6cSX2a0IX1JS1MejNCohYkLRcgTX+YGu7ireT8ottsC1Pa
+ 7zfyGSLVaSNCkhJzmzYU2FR3ZiReJ1L5vHKMye5doPdN8iJZPGeXiJ+iB
+ e+xCDjMsfRRDwjGazgiycMGeKfaPqNpcYjmVTqOIkydt3HSL4swzHOu5O
+ nKc4iURaI8eIz+yYPDwJUoNelsdiGYE7s7rWEcMFl6MLOaY2YuEPnqVgx A==;
+X-CSE-ConnectionGUID: NDSaCF7uSySJQj36oSBkKA==
+X-CSE-MsgGUID: AMg5hVY8Qa+UA93q4CDvgQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="38448347"
+X-IronPort-AV: E=Sophos;i="6.11,190,1725346800"; d="scan'208";a="38448347"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Oct 2024 08:58:12 -0700
+X-CSE-ConnectionGUID: StWuh8uQR7yw7xUh157Y4Q==
+X-CSE-MsgGUID: ivsXANsTTq25vy/oUx1Bog==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,190,1725346800"; d="scan'208";a="76193122"
+Received: from ettammin-mobl2.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.80])
+ by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Oct 2024 08:58:09 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: R Sundar <prosunofficial@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, R Sundar
+ <prosunofficial@gmail.com>
+Subject: Re: [PATCH linux-next] drm: Fix for kernel doc warning
+In-Reply-To: <20241003023806.17537-1-prosunofficial@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20241003023806.17537-1-prosunofficial@gmail.com>
+Date: Wed, 09 Oct 2024 18:58:06 +0300
+Message-ID: <87frp58e0h.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,29 +72,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently the call to unregister_framebuffer is unreachable code because
-the previous statement returns from the function. The call is redundant
-and can be removed.
+On Thu, 03 Oct 2024, R Sundar <prosunofficial@gmail.com> wrote:
+> Added colon in kernel-doc comment to fix the warning.
+>
+> ./include/drm/drm_drv.h:372: warning: Incorrect use of kernel-doc format:          * @fbdev_probe
+> ./include/drm/drm_drv.h:435: warning: Function parameter or struct member 'fbdev_probe' not described in 'drm_driver'
+>
+> Signed-off-by: R Sundar <prosunofficial@gmail.com>
 
-Fixes: 36462ac19308 ("fbdev: clps711x-fb: Replace check_fb in favor of struct fb_info.lcd_dev")
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- drivers/video/fbdev/clps711x-fb.c | 2 --
- 1 file changed, 2 deletions(-)
+Pushed to drm-misc-next, thanks for the patch.
 
-diff --git a/drivers/video/fbdev/clps711x-fb.c b/drivers/video/fbdev/clps711x-fb.c
-index 5e61a349a4ab..c350340fb7b9 100644
---- a/drivers/video/fbdev/clps711x-fb.c
-+++ b/drivers/video/fbdev/clps711x-fb.c
-@@ -332,8 +332,6 @@ static int clps711x_fb_probe(struct platform_device *pdev)
- 
- 	return 0;
- 
--	unregister_framebuffer(info);
--
- out_fb_dealloc_cmap:
- 	regmap_update_bits(cfb->syscon, SYSCON_OFFSET, SYSCON1_LCDEN, 0);
- 	fb_dealloc_cmap(&info->cmap);
+BR,
+Jani.
+
+> ---
+>  include/drm/drm_drv.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
+> index 36a606af4ba1..1bbbcb8e2d23 100644
+> --- a/include/drm/drm_drv.h
+> +++ b/include/drm/drm_drv.h
+> @@ -369,7 +369,7 @@ struct drm_driver {
+>  			       uint64_t *offset);
+>  
+>  	/**
+> -	 * @fbdev_probe
+> +	 * @fbdev_probe:
+>  	 *
+>  	 * Allocates and initialize the fb_info structure for fbdev emulation.
+>  	 * Furthermore it also needs to allocate the DRM framebuffer used to
+
 -- 
-2.39.5
-
+Jani Nikula, Intel
