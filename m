@@ -2,80 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5E259967EB
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 13:02:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7EFD9968DC
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 13:32:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AF1210E293;
-	Wed,  9 Oct 2024 11:02:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D241010E111;
+	Wed,  9 Oct 2024 11:32:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="YrhmPYl/";
+	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="g7vkQ1op";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27C9B10E293
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 11:02:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=3PVCNHYJlb7GBI9J0fbaBNdjV24sYsfqiyDp2eG0xBQ=; b=YrhmPYl/qrXV94UAirrw7F00me
- CTkUlx5weY0Y9doFOpHNvtR/89SubnXP7aLsf9troYqblKRYkH6L71rsz2lTqm5i8ced91/r6dZhU
- SVFD23T+bhMK5NJ+JFYWDhOf+PKPqr4q8lB0p/4M0o2g3MjyiEPsiiHK/jZU4/eNz8gZ2Nm6yGl07
- fWBY3NAQgs9ex68wP1C6XdW490d9xcplM5l+PJ6bHqbakUwzRjCDCOz/LerSbSrp46qTVfx+fLEYZ
- ntN6dOVR+9kRzIIri7ZRM9tmWT31mZ2PyWY7k0FDPe/Ag4yurLPOyTPtP5hRl10k2lf93rnPtXldX
- l/y/UQeA==;
-Received: from [187.36.213.55] (helo=[192.168.1.212])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1syUSH-006ufT-HB; Wed, 09 Oct 2024 13:02:09 +0200
-Message-ID: <b1d76661-41b9-4841-80f4-452654d9cd6b@igalia.com>
-Date: Wed, 9 Oct 2024 08:02:03 -0300
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com
+ [209.85.219.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CF0410E111
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 11:32:39 +0000 (UTC)
+Received: by mail-yb1-f175.google.com with SMTP id
+ 3f1490d57ef6-e2908e8d45eso6435276.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Oct 2024 04:32:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google; t=1728473558; x=1729078358;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=008a6k3ZxIHkOV0CVfLapnrZh0drWKWmGkJbRnXXaRQ=;
+ b=g7vkQ1opHkK9Fu1ARd0jgrAq72YWV5QenxyaMHq81DEVf2wqWSMGnlPtY6/4p5+/BU
+ Ny42Ksz/+rykprzJ5EVYsCZBOD5QvqGLg46lY9iaLAr1wBZNOU0oDIZxirEtYUuHcQou
+ qXTL3o32OcmEBh1pcLSW7RJ4f3c+YsMrWNtX3mNpgo0UfNhlTaVlzt06D4iNmpMICWCY
+ g3detzmdHOTj6UZmaTg3+dWV1V2WODMwFSeHHje0O12/elT+/0scTNBYigrkG/R0uViY
+ yMbVZwSgMJqDcOBoX4IE1w6t79EX/RYbsEPS0s77j6zlFZtIMS2ex5njIK0ztSvxlrvj
+ 1uJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1728473558; x=1729078358;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=008a6k3ZxIHkOV0CVfLapnrZh0drWKWmGkJbRnXXaRQ=;
+ b=MRTh1DP4b7s4qfGlSeNHdYSKvZtDp0mne6q3u6SAO2So0F/YOPW36eFeJpMMfIkmJ1
+ vcukX3Phc8dwud9nYg50anmuoBtNUxQHsvRNO0xtaxDD5kSvVHTK56qBZfVq0JnSArly
+ u11Ck3lmJhknw5ECqNQK8LkG58YMckOnHoQ58v8xA6uxdci21NDfBtSEwxKR85uR5oZe
+ NhdKAkpYQd4bObLlSEIzpoF4XZg1Zc1DTWq4xo6RJzKbzfrH8e4aP8kI4P6xnITa37bd
+ e8MAvpYxQ7keneECT+cCrrcIjXYz9HJk2guzCCPPXBJ6PjMvfCHlgeNq6q8sY+FA+BPS
+ r0bw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX6JKzJDbNFZWHj00L4sGt442FxdtTyqwBiOXGkM3BOCYBs/AoUkcZ+28uP8hidduolLEdaCBHktnw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzd8x0qqfxcI9u+VNBEQFnfZ8rV2klKpsLoUQClxEjEeOedVjav
+ lxppI8Jg2ziwoC0aU+GFLOxjULtR6OnHmM3c1hyllEVQOmfPTwOWtrFtQY9SZ0KkCeAaNjBtZdx
+ UfO+38QB2Slg68we/Fx48K/084iKILY0TZbP0JA==
+X-Google-Smtp-Source: AGHT+IGF6K2rkk5aK8OxRzvwgQwEZfKkBm8BbIv2Dv+dz+zXDULDbCRgjuRxw3SCMfT8bzTBK44ZnD9sD3fVbMuBX7w=
+X-Received: by 2002:a05:6902:2b89:b0:e11:6348:5d95 with SMTP id
+ 3f1490d57ef6-e28fe32e09amr1681374276.7.1728473558552; Wed, 09 Oct 2024
+ 04:32:38 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] drm/vc4: Run default client setup for all variants.
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Maxime Ripard <mripard@kernel.org>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+References: <20241008-drm-vc4-fixes-v1-0-9d0396ca9f42@raspberrypi.com>
+ <20241008-drm-vc4-fixes-v1-3-9d0396ca9f42@raspberrypi.com>
+ <a0922d76-0dc0-46a5-8408-a8eda3a07f26@igalia.com>
+In-Reply-To: <a0922d76-0dc0-46a5-8408-a8eda3a07f26@igalia.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Wed, 9 Oct 2024 12:32:21 +0100
+Message-ID: <CAPY8ntDTY-ybd8vViTP4vGuxT8DQsssTY_KJ2EQ6xhk2sV98UA@mail.gmail.com>
+Subject: Re: [PATCH 3/3] drm/vc4: Correct generation check in vc4_hvs_lut_load
+To: =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>
+Cc: Maxime Ripard <mripard@kernel.org>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Javier Martinez Canillas <javierm@redhat.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20241002-vc4_fbdev_fix-v1-0-8737bd11b147@raspberrypi.com>
- <20241002-vc4_fbdev_fix-v1-1-8737bd11b147@raspberrypi.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Autocrypt: addr=mcanal@igalia.com; keydata=
- xsBNBGcCwywBCADgTji02Sv9zjHo26LXKdCaumcSWglfnJ93rwOCNkHfPIBll85LL9G0J7H8
- /PmEL9y0LPo9/B3fhIpbD8VhSy9Sqz8qVl1oeqSe/rh3M+GceZbFUPpMSk5pNY9wr5raZ63d
- gJc1cs8XBhuj1EzeE8qbP6JAmsL+NMEmtkkNPfjhX14yqzHDVSqmAFEsh4Vmw6oaTMXvwQ40
- SkFjtl3sr20y07cJMDe++tFet2fsfKqQNxwiGBZJsjEMO2T+mW7DuV2pKHr9aifWjABY5EPw
- G7qbrh+hXgfT+njAVg5+BcLz7w9Ju/7iwDMiIY1hx64Ogrpwykj9bXav35GKobicCAwHABEB
- AAHNIE1hw61yYSBDYW5hbCA8bWNhbmFsQGlnYWxpYS5jb20+wsCRBBMBCAA7FiEE+ORdfQEW
- dwcppnfRP/MOinaI+qoFAmcCwywCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQ
- P/MOinaI+qoUBQgAqz2gzUP7K3EBI24+a5FwFlruQGtim85GAJZXToBtzsfGLLVUSCL3aF/5
- O335Bh6ViSBgxmowIwVJlS/e+L95CkTGzIIMHgyUZfNefR2L3aZA6cgc9z8cfow62Wu8eXnq
- GM/+WWvrFQb/dBKKuohfBlpThqDWXxhozazCcJYYHradIuOM8zyMtCLDYwPW7Vqmewa+w994
- 7Lo4CgOhUXVI2jJSBq3sgHEPxiUBOGxvOt1YBg7H9C37BeZYZxFmU8vh7fbOsvhx7Aqu5xV7
- FG+1ZMfDkv+PixCuGtR5yPPaqU2XdjDC/9mlRWWQTPzg74RLEw5sz/tIHQPPm6ROCACFls7A
- TQRnAsMsAQgAxTU8dnqzK6vgODTCW2A6SAzcvKztxae4YjRwN1SuGhJR2isJgQHoOH6oCItW
- Xc1CGAWnci6doh1DJvbbB7uvkQlbeNxeIz0OzHSiB+pb1ssuT31Hz6QZFbX4q+crregPIhr+
- 0xeDi6Mtu+paYprI7USGFFjDUvJUf36kK0yuF2XUOBlF0beCQ7Jhc+UoI9Akmvl4sHUrZJzX
- LMeajARnSBXTcig6h6/NFVkr1mi1uuZfIRNCkxCE8QRYebZLSWxBVr3h7dtOUkq2CzL2kRCK
- T2rKkmYrvBJTqSvfK3Ba7QrDg3szEe+fENpL3gHtH6h/XQF92EOulm5S5o0I+ceREwARAQAB
- wsB2BBgBCAAgFiEE+ORdfQEWdwcppnfRP/MOinaI+qoFAmcCwywCGwwACgkQP/MOinaI+qpI
- zQf+NAcNDBXWHGA3lgvYvOU31+ik9bb30xZ7IqK9MIi6TpZqL7cxNwZ+FAK2GbUWhy+/gPkX
- it2gCAJsjo/QEKJi7Zh8IgHN+jfim942QZOkU+p/YEcvqBvXa0zqW0sYfyAxkrf/OZfTnNNE
- Tr+uBKNaQGO2vkn5AX5l8zMl9LCH3/Ieaboni35qEhoD/aM0Kpf93PhCvJGbD4n1DnRhrxm1
- uEdQ6HUjWghEjC+Jh9xUvJco2tUTepw4OwuPxOvtuPTUa1kgixYyG1Jck/67reJzMigeuYFt
- raV3P8t/6cmtawVjurhnCDuURyhUrjpRhgFp+lW8OGr6pepHol/WFIOQEg==
-In-Reply-To: <20241002-vc4_fbdev_fix-v1-1-8737bd11b147@raspberrypi.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Marek Szyprowski <m.szyprowski@samsung.com>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,36 +87,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave,
+Hi Maira
 
-On 10/2/24 12:06, Dave Stevenson wrote:
-> Commit 45903624e9fc ("drm/vc4: Run DRM default client setup")
-> only added DRM_FBDEV_DMA_DRIVER_OPS for the vc4 (Pi0-3) driver
-> definition, which caused an issue on vc5 (Pi4) as there was no
-> fbdev_probe function defined.
-> 
-> Fixes: 45903624e9fc ("drm/vc4: Run DRM default client setup")
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Thanks for the review
 
-Reviewed-by: Maíra Canal <mcanal@igalia.com>
+On Wed, 9 Oct 2024 at 02:30, Ma=C3=ADra Canal <mcanal@igalia.com> wrote:
+>
+> Hi Dave,
+>
+> On 10/8/24 13:44, Dave Stevenson wrote:
+> > Commit 24c5ed3ddf27 ("drm/vc4: Introduce generation number enum")
+> > incorrectly swapped a check of hvs->vc4->is_vc5 to
+> > hvs->vc4->gen =3D=3D VC4_GEN_4 in vc4_hvs_lut_load, hence breaking
+> > loading the gamma look up table on Pi0-3.
+> >
+> > Correct that conditional.
+> >
+> > Fixes: 24c5ed3ddf27 ("drm/vc4: Introduce generation number enum")
+> > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > ---
+> >   drivers/gpu/drm/vc4/vc4_hvs.c | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hv=
+s.c
+> > index c5ebc317188a..1edf6e3fa7e6 100644
+> > --- a/drivers/gpu/drm/vc4/vc4_hvs.c
+> > +++ b/drivers/gpu/drm/vc4/vc4_hvs.c
+> > @@ -224,7 +224,7 @@ static void vc4_hvs_lut_load(struct vc4_hvs *hvs,
+> >       if (!drm_dev_enter(drm, &idx))
+> >               return;
+> >
+> > -     if (hvs->vc4->gen =3D=3D VC4_GEN_4)
+> > +     if (hvs->vc4->gen !=3D VC4_GEN_4)
+>
+> Again, another nit: I believe `hvs->vc4->gen > VC4_GEN_4` is more
+> semantic and it's the standard I usually see around the driver.
 
-Best Regards,
-- Maíra
+With 24c5ed3ddf27 which this is fixing, all instances in vc4_hvs.c
+were changed to =3D=3D VC4_GEN_4 or =3D=3D VC4_GEN_5. So I guess =3D=3D VC4=
+_GEN_5
+would have been the better option here.
 
-> ---
->   drivers/gpu/drm/vc4/vc4_drv.c | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
-> index 13a1ecddbca3..a238f76a6073 100644
-> --- a/drivers/gpu/drm/vc4/vc4_drv.c
-> +++ b/drivers/gpu/drm/vc4/vc4_drv.c
-> @@ -238,6 +238,7 @@ const struct drm_driver vc5_drm_driver = {
->   #endif
->   
->   	DRM_GEM_DMA_DRIVER_OPS_WITH_DUMB_CREATE(vc5_dumb_create),
-> +	DRM_FBDEV_DMA_DRIVER_OPS,
->   
->   	.fops = &vc4_drm_fops,
->   
-> 
+Yes downstream we now have GEN_6 (which I'm nearly at a point to send
+to the list), and I'll need to update this conditional when that's
+added.
+I'll leave it as is for now, and ensure I've done an audit of all of
+them before pushing GEN_6.
+
+Thanks
+  Dave
+
+> But this isn't critical, so:
+>
+> Reviewed-by: Ma=C3=ADra Canal <mcanal@igalia.com>
+>
+> Best Regards,
+> - Ma=C3=ADra
+>
+> >               goto exit;
+> >
+> >       /* The LUT memory is laid out with each HVS channel in order,
+> >
