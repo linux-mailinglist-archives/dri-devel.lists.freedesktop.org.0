@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FD409963CC
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 10:51:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60E0B9963CD
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 10:51:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 808C010E6A1;
-	Wed,  9 Oct 2024 08:51:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF43D10E6A0;
+	Wed,  9 Oct 2024 08:51:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="eg8IQ6F5";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="F5zXvJup";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com
- [209.85.215.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 082C110E6A1
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 08:51:02 +0000 (UTC)
-Received: by mail-pg1-f169.google.com with SMTP id
- 41be03b00d2f7-7db238d07b3so5577766a12.2
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Oct 2024 01:51:02 -0700 (PDT)
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
+ [209.85.216.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93EA010E6A4
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 08:51:07 +0000 (UTC)
+Received: by mail-pj1-f45.google.com with SMTP id
+ 98e67ed59e1d1-2e28d7d44dbso1196083a91.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Oct 2024 01:51:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1728463861; x=1729068661; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1728463867; x=1729068667; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=1LPn0pitWd582eaxpygCPJ3KnkuQTc8TgGjrVLwJiU4=;
- b=eg8IQ6F5w07XTBSkiytCLKLzJZpbfxX/A67x6bO7Et/Kw7dgIEAGJF/19t1GoOyrZA
- 1EMLoCpX3XBgfMY/PQWwcueriJXtYW97Eonca1jqzXRZr3yxcdBctu4P4/vIew66QQ1k
- DavwTQyhUF5Rp/C0D9d92tYEV81hqAD5sI5TfTgNgh9rEziHHOcknQJ3mHBS3TaDr29l
- LiIdv8/5RiWetzOx4trn7uOLeCISXTBvD0TrWBRBMPI3XJ7HmmDyLhCO8fyYjJV8o1Cs
- 6M0M3cFsCyHBKoRvSWiqKu4SYemnEaAh/cuLNcSsMJC4SF1a19doFGCwNqbauXQvXemn
- +v0w==
+ :reply-to; bh=Xeuc89940OyZEzmfZGsShlcWun218secJztkD+/huVg=;
+ b=F5zXvJupvZbVwXkjSSIqKwLPw3YFevOhIzf0m//A5NP2XoA6BVb36FA0m5m49eG20t
+ BSnH8wIY071er8A6YLL5Zej82rKHW4G1VIQD+LxqGENvibVMxjlAwBudofGoSMyGDoUx
+ VO4n/S5DycuA3V+6A66MpG8DLs3gcCTYUzTONrSxoRWZlRcR7NDDd2iVYV+P44eChYId
+ y4XnXgvueRiSH0L/OBRCWTAl7kpmr3wNX1qoZ2iEQpZhKofOTSereDhKgtLz8KPfKqJQ
+ ux4dtD2zu4sTZb/6AOv3iGFRgVzZjSN5PFCW151pq0aOQ9ZxZeesBerVl6sC5rzkbyiT
+ wdhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728463861; x=1729068661;
+ d=1e100.net; s=20230601; t=1728463867; x=1729068667;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=1LPn0pitWd582eaxpygCPJ3KnkuQTc8TgGjrVLwJiU4=;
- b=LUDUMbyhbHAruixvVdeIOot7wRluAdkhWDYSGi5afME1qaidY7EtOr8zA/EhuxvTXB
- kB3nXAS59ipSfKP7XubwLalfClDkEL27PGw7difec07XYK/OfR3D39C+a4avAz8TsBYa
- i5wZjSi97KR4VhndSRWI/8SXCVBhmrrzeIuswbBP//lXDkpUXj6usw2ThWRmC14b7gxF
- mbbs/JzNJXdIu8EM0hy72SxdZDasXcr7QYgEXT0W/+y5fCYta+7tf8axziQ2qILOwmqe
- Aq0ga2Vk+9rObAbpNN07jsAFw69tjX9HohpFYeOWMCGPR4N82VdQvqUnE1NjGzqbBNK0
- TDkA==
+ bh=Xeuc89940OyZEzmfZGsShlcWun218secJztkD+/huVg=;
+ b=S+LJzJs970YQMyhwkoecToCgRJ8+Ws3u89FJgo/Tre9cQAy+N7r7DuBSIDKl9MvFsL
+ k24BZ8lGldNlw3xdceLFWPS3Gz1KM7knFItHLZfe9ckhrfibF2fyI0EahV22adwKdv4j
+ g1xID2D55ES3QMdlYdB0mmvuNbwVJ0gSi2tJ+YjqnXFzH5pOeqK1gufJKlspLbQpElow
+ cvnMfZCwZqFJ93+ykDrhJTUAo4CcKIVsi7COhnhkzoj0mt90jSh3OVEms58zuow4Tzj1
+ dwvgauXUbL2SlQlgnIGUE/gRTF93/PgfUBh+awdpTN7igFWsiYqPHF7DA2X1XBPFiOtf
+ TWPA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW+GuE/NIDTeUGBLT5VmozVeFwYP1YwquXqZ1tf6tJipJ7VFam+/m0N/AO17XsrQSGUuLHIkjTegPM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzgfQSEUD25aPrDH+J+5cH1ImwaliV9rL9S7FHCYFdt0eX4BB4A
- +pCC/VIQLa5Vu8ePrf9ArdvGmBcHMO6etDFtKkLmxhb85gKv8/ElrYj+CpG4ppg=
-X-Google-Smtp-Source: AGHT+IEuBbVEOzp/44KTvogO+2Pwv6ey+PCRNhpJDBXR48nTEps9zZhOE/C5TsBcWU49Kk9eDonz1w==
-X-Received: by 2002:a05:6a21:4006:b0:1d4:fd63:95bc with SMTP id
- adf61e73a8af0-1d8a3be149bmr3557677637.9.1728463861596; 
- Wed, 09 Oct 2024 01:51:01 -0700 (PDT)
+ AJvYcCVzliUm5fN3f4nxh24GHvEOh99szfwLfMIavciTILY/gxe3qgdO38BNlstIT3AwDRlc43DuvQWQQwA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwduczCtpgaEFnCTzBui/srMccigsNtvtXWd+mM1RCQBe9HVgZZ
+ Y1+12QLXKrZ3veWly81+4nzvDGubOpVik+i9nlg7taWtoygAzmvPeo76Jmy7AIw=
+X-Google-Smtp-Source: AGHT+IF0F7RtB5DS5euGqhy7U7rhzvEMjBeGrvubLOfvxfogUs8BIv6homsplq8ODB4C0o2n6DXgtQ==
+X-Received: by 2002:a17:90b:1104:b0:2e2:9522:279e with SMTP id
+ 98e67ed59e1d1-2e2a25247e0mr2201199a91.31.1728463867148; 
+ Wed, 09 Oct 2024 01:51:07 -0700 (PDT)
 Received: from [127.0.1.1] ([112.65.12.217]) by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-2e2abad236esm898157a91.10.2024.10.09.01.50.56
+ 98e67ed59e1d1-2e2abad236esm898157a91.10.2024.10.09.01.51.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Oct 2024 01:51:01 -0700 (PDT)
+ Wed, 09 Oct 2024 01:51:06 -0700 (PDT)
 From: Jun Nie <jun.nie@linaro.org>
-Date: Wed, 09 Oct 2024 16:50:20 +0800
-Subject: [PATCH v2 07/14] drm/msm/dpu: bind correct pingpong for quad pipe
+Date: Wed, 09 Oct 2024 16:50:21 +0800
+Subject: [PATCH v2 08/14] drm/msm/dpu: update mixer number info earlier
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241009-sm8650-v6-11-hmd-pocf-mdss-quad-upstream-21-v2-7-76d4f5d413bf@linaro.org>
+Message-Id: <20241009-sm8650-v6-11-hmd-pocf-mdss-quad-upstream-21-v2-8-76d4f5d413bf@linaro.org>
 References: <20241009-sm8650-v6-11-hmd-pocf-mdss-quad-upstream-21-v2-0-76d4f5d413bf@linaro.org>
 In-Reply-To: <20241009-sm8650-v6-11-hmd-pocf-mdss-quad-upstream-21-v2-0-76d4f5d413bf@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -72,11 +72,11 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Jun Nie <jun.nie@linaro.org>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1728463820; l=1834;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1728463820; l=1729;
  i=jun.nie@linaro.org; s=20240403; h=from:subject:message-id;
- bh=9RRYODS3A2d0Z0V8KOVcb66YQ53zyJFTZeiR1EUXh1U=;
- b=zI/fFfLWAz2Rx1/Bo0e+EbbQoShERiEAOqxWMBxb+PzQbh3DuBOpjimccwD4p8gsYHq+UnPTf
- qnLp6+iodCIDPeqPBs96CqtOwscwnDXQLGLGX3o192BuKvN1lM195gy
+ bh=zBBzWdWsfyqBIiT9wbwcVNQEKc8lnnOJ9lwiSkj7ngI=;
+ b=olKDHeGrWWSragjDEGtR+qG7l03ad9g8wQu7Scz79ICx2dg8oxIEAOpVwrukiQ+/+oPfeExdI
+ 7EvMgTVIa78DCYbucqzqXSwayrVfw07ZG1dzLBNsZo+LiJkdMYaFHoI
 X-Developer-Key: i=jun.nie@linaro.org; a=ed25519;
  pk=MNiBt/faLPvo+iJoP1hodyY2x6ozVXL8QMptmsKg3cc=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -94,52 +94,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are 2 interfaces and 4 pingpong in quad pipe. Map the 2nd
-interface to 3rd PP instead of the 2nd PP.
+Update mixer number info earlier so that the plane nopipe check
+can have the info to clip the plane. Otherwise, the first nonpipe
+check will have mixer number as 0 and plane is not checked.
 
 Signed-off-by: Jun Nie <jun.nie@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index bd2509985c4d0..dfe282c607933 100644
+index dfe282c607933..68655c8817bf8 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -1100,7 +1100,7 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
- 	struct dpu_hw_blk *hw_lm[MAX_CHANNELS_PER_ENC];
- 	struct dpu_hw_blk *hw_dspp[MAX_CHANNELS_PER_ENC] = { NULL };
- 	struct dpu_hw_blk *hw_dsc[MAX_CHANNELS_PER_ENC];
--	int num_lm, num_ctl, num_pp, num_dsc;
-+	int num_lm, num_ctl, num_pp, num_dsc, num_pp_per_intf;
- 	unsigned int dsc_mask = 0;
- 	int i;
+@@ -638,6 +638,7 @@ static int dpu_encoder_virt_atomic_check(
+ 	struct dpu_global_state *global_state;
+ 	struct drm_framebuffer *fb;
+ 	struct drm_dsc_config *dsc;
++	struct dpu_crtc_state *cstate;
+ 	int ret = 0;
  
-@@ -1171,9 +1171,14 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
+ 	if (!drm_enc || !crtc_state || !conn_state) {
+@@ -662,6 +663,8 @@ static int dpu_encoder_virt_atomic_check(
+ 	dsc = dpu_encoder_get_dsc_config(drm_enc);
+ 
+ 	topology = dpu_encoder_get_topology(dpu_enc, dpu_kms, adj_mode, crtc_state, dsc);
++	cstate = to_dpu_crtc_state(crtc_state);
++	cstate->num_mixers = topology.num_lm;
+ 
+ 	/*
+ 	 * Use CDM only for writeback or DP at the moment as other interfaces cannot handle it.
+@@ -1170,7 +1173,13 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
+ 	}
  
  	cstate->num_dscs = num_dsc;
- 	cstate->num_mixers = num_lm;
--
+-	cstate->num_mixers = num_lm;
++	if (cstate->num_mixers != num_lm) {
++		if (!cstate->num_mixers)
++			DPU_ERROR_ENC(dpu_enc,
++				      "mixer number %d is not as expected %d\n",
++				      num_lm, cstate->num_mixers);
++		cstate->num_mixers = num_lm;
++	}
  	dpu_enc->connector = conn_state->connector;
  
-+	/*
-+	 * There may be 4 PP and 2 INTF for quad pipe case, so INTF is not
-+	 * mapped to PP 1:1. Let's calculate the stride with pipe/INTF
-+	 */
-+	num_pp_per_intf = num_lm / dpu_enc->num_phys_encs;
-+
- 	for (i = 0; i < dpu_enc->num_phys_encs; i++) {
- 		struct dpu_encoder_phys *phys = dpu_enc->phys_encs[i];
- 		struct dpu_hw_ctl *ctl0 = to_dpu_hw_ctl(hw_ctl[0]);
-@@ -1195,7 +1200,7 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
- 			return;
- 		}
- 
--		phys->hw_pp = dpu_enc->hw_pp[i];
-+		phys->hw_pp = dpu_enc->hw_pp[num_pp_per_intf * i];
- 
- 		phys->cached_mode = crtc_state->adjusted_mode;
- 		if (phys->ops.atomic_mode_set)
+ 	/*
 
 -- 
 2.34.1
