@@ -2,74 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AE6B99767E
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 22:35:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A26A9976E7
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 22:50:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C918C10E7F7;
-	Wed,  9 Oct 2024 20:35:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8B0110E805;
+	Wed,  9 Oct 2024 20:50:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="V6XPQ8Pq";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=everestkc.com.np header.i=@everestkc.com.np header.b="hS++04Th";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5BB410E0CE
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 20:35:34 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id
- 5b1f17b1804b1-42cb806623eso1391395e9.2
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Oct 2024 13:35:34 -0700 (PDT)
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com
+ [209.85.208.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1605E10E802
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 20:50:09 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id
+ 4fb4d7f45d1cf-5c42f406e29so151265a12.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Oct 2024 13:50:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1728506133; x=1729110933; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=ZjYS14YTYv2OCMWHkLucdNx0+SeUm3LsT48uh8uJaRw=;
- b=V6XPQ8Pq/kjhSfh23VPB8uHURHTbIgudB6b+e9H+YmvubRSZ51ytM23ifS2GXD62yW
- OQ/YGhjTLfLHwEetbodDTfsX1TXTiwJGaH0vfd3MCE1+vcYDZ5mr6gwAOtFw7JL89Gk1
- MNnl1hEynNhRUTZzvoRe8GHD17xTlNLhJkzG8H/fGFHUHi8tD2tBN3dhwHzLR5nCwygG
- d3vm6CaspfyymyzrRKA1hkySJP8Wc0FMZDW0wAupNZfMgwzcC/2DvIlp/hyVcXYZQL8F
- wLcnJwNJqeJGskCv3Q1NnwgwULP6mKOpuXUpONciv+fNYg8WOkdNEJKXw2/d+JW+sT9R
- dGGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728506133; x=1729110933;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ d=everestkc.com.np; s=everest; t=1728507007; x=1729111807;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ZjYS14YTYv2OCMWHkLucdNx0+SeUm3LsT48uh8uJaRw=;
- b=g69PmNDEvYv/C/8C/kaViwxWuPDsZOyLmsXCF5TmOd4+4EacfVmZl9sG2BWzd3jP1O
- VBmLDIvoD8X8iddSLhgFgxUxd8/8IAJEhxJ0BFbCizS9yEjRcy7MkVOlq3xdt1TYBV/E
- t7XPqM2oqnUM+GaSXkndVOah+MO7mMWBjNQ2ps37O3ZiO89aVsVfBWz722003qRU/NSN
- tDYyRLDs6MjFylN+rP37G1+ssMB3B9D8tVohvPumbhobMme0GJSZ5OHstAj1d4oqx6ep
- Ko9Z8krem4uBqVgmyrkwDPd8BP/TNbT3tnn97bk7+jyxw+frHs+8o768ncmglXba7jqS
- Mm6g==
+ bh=U6AlyAiK8jIW99PS/mbC0CEBkjDKR+IRpZZi78iD0gY=;
+ b=hS++04ThniCCP8JGDGcAbqjynPPC5HBVvOZx/Qh3IdLn5Cn1RtRfF+WZMyJWdseAEn
+ 2o77xiykGMHebkyZjc9/ie/GgxvFeDIpVIVx8q8JErTML9tuBErMwY2nk32m1409LnoW
+ Vw5/qehYM+UItI0hhwuGQdzfW9muNTQUE0eV5q+4VZ57IAc3nUrapiR4M2cSWPkeJfBf
+ D1Fnn6ZxSixmJlOPEWG2rzBIcbgR8kpO2rD8+ChAlXWICod6EdTerUNcX0KVyFB/lQxb
+ mOGQ9OHiojNNbg7VxglNkWehhQU9lMiYSbWdETYU0/uEAJyIpHrhoFeabkPQzy6jwsI4
+ 2p5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1728507007; x=1729111807;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=U6AlyAiK8jIW99PS/mbC0CEBkjDKR+IRpZZi78iD0gY=;
+ b=lQQUPNybX6vJIMUfaYwmMx0V6EB2r8v1SQ/MoyNz71XPo8nbACoejmOd4Qw6422Xks
+ n2n5DI53IWHb/IyNHgMKrM9aA5ALi9Ub8FJbaYIiqWnzK/MjrOMJQKBm1FuqrndPgof4
+ 9RCsJFDJOyLVu0RemfJ62a7qTGuzWmAfIGd1BG+jcQIc+MHtemXqWxl9oAHQL/G1wSB9
+ sTZBMqdGc/neYlIQoFFQz8E6zX8rg/iDy9XtIYRHyvsu6V6B1Wk79KSkud4AUkzUPr81
+ WYZYOAC80Mjt/et2n55YT+6/fm52tVVeKiurn59wISLbC+672a+S/sMpIdNzCj2Z8EeY
+ t/hg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWuIaPa+0axBtfRvHH9ua5vagKRDZhh9qbrHsI2wFgK9ED4Y0Sa2vcBw/6lrLcDYcK3hrn98Pu1R1o=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwABouAP41s91vr50bEwH8GwPpSYbDSO73bBcShm+TIYJ9IFyfO
- VdcMAhZy3SF77VCYMeVBI9d/bG2lH3xfS8OzjBVpU+DHLh7UEBT4e1E9eYYJYkk=
-X-Google-Smtp-Source: AGHT+IFbfMwsabJqo51FxMyaKfk6sJ6eDGqAwAcM1939Wwk+xOhuo14+AUTXfblGExsREK8B+2rfDQ==
-X-Received: by 2002:a5d:6d48:0:b0:375:c4c7:c7ac with SMTP id
- ffacd0b85a97d-37d3aabfd1emr2434741f8f.49.1728506132947; 
- Wed, 09 Oct 2024 13:35:32 -0700 (PDT)
-Received: from localhost ([196.207.164.177]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-37d2e65d618sm4572798f8f.23.2024.10.09.13.35.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Oct 2024 13:35:31 -0700 (PDT)
-Date: Wed, 9 Oct 2024 23:35:27 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: "Everest K.C." <everestkc@everestkc.com.np>
-Cc: lucas.demarchi@intel.com, thomas.hellstrom@linux.intel.com,
- rodrigo.vivi@intel.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, skhan@linuxfoundation.org,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH][next] drm/xe/guc: Fix dereference before Null check
-Message-ID: <07d9eb6e-87d3-4428-aaa4-8721a6844404@stanley.mountain>
-References: <20241009184951.4991-1-everestkc@everestkc.com.np>
+ AJvYcCU0WqyAMAV2Z8eqhbqkk8Hi+A0bJBFjmdoLm53FzcI09E4w+d81R4lwfXhakQhv0h+AcfBeuSjaxyc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw9DZ9KXmM9KGLQZg0oatbE1zIkXRzzaa03pLf/lqEzx7knYiYK
+ Ijn79NF0iqA0tOVYCLaX0XSxIcmVbPsl/U5WB7w5oJp4jC5jBVckdCGxuW9sqT2FdCC8TasEjmj
+ /jeJo1d8kK+KMKtx/FbiV9IzeFgWFrp29i7YMng==
+X-Google-Smtp-Source: AGHT+IHZQ//C/LT9bz4MtZcmxJW5GzbBzoSV9zKUThFSFKoiavT+2C93cS1UjaGvXK3AnSkDwkQ7q5RXVs+r0/IWRVo=
+X-Received: by 2002:a17:907:7ba9:b0:a99:442e:34ac with SMTP id
+ a640c23a62f3a-a999e8c9f03mr127272866b.40.1728507007259; Wed, 09 Oct 2024
+ 13:50:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241009184951.4991-1-everestkc@everestkc.com.np>
+References: <20241009184951.4991-1-everestkc@everestkc.com.np>
+ <07d9eb6e-87d3-4428-aaa4-8721a6844404@stanley.mountain>
+In-Reply-To: <07d9eb6e-87d3-4428-aaa4-8721a6844404@stanley.mountain>
+From: "Everest K.C." <everestkc@everestkc.com.np>
+Date: Wed, 9 Oct 2024 14:49:55 -0600
+Message-ID: <CAEO-vhEGtBX1sb3MYm18+MBGEgrFfNpzatBT46kcN9_Wh=NFMQ@mail.gmail.com>
+Subject: Re: [PATCH][next] drm/xe/guc: Fix dereference before Null check
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: lucas.demarchi@intel.com, thomas.hellstrom@linux.intel.com, 
+ rodrigo.vivi@intel.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
+ skhan@linuxfoundation.org, intel-xe@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, kernel-janitors@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,45 +85,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 09, 2024 at 12:49:49PM -0600, Everest K.C. wrote:
-> The pointer list->list was derefrenced before the Null check
-> resulting in possibility of Null pointer derefrencing.
-> This patch moves the Null check outside the for loop, so that
-> the check is performed before the derefrencing.
-> 
-> This issue was reported by Coverity Scan.
-> 
-> Signed-off-by: Everest K.C. <everestkc@everestkc.com.np>
-
-You need to add a Fixes tag.
-
-> ---
->  drivers/gpu/drm/xe/xe_guc_capture.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/xe/xe_guc_capture.c b/drivers/gpu/drm/xe/xe_guc_capture.c
-> index 41262bda20ed..de63c622747d 100644
-> --- a/drivers/gpu/drm/xe/xe_guc_capture.c
-> +++ b/drivers/gpu/drm/xe/xe_guc_capture.c
-> @@ -1537,13 +1537,13 @@ read_reg_to_node(struct xe_hw_engine *hwe, const struct __guc_mmio_reg_descr_gro
->  	if (!regs)
->  		return;
->  
-> +	if (!list->list)
-> +		return;
-
-Could you merge this with the other sanity checks at the start of the function.
-
--       if (!list || list->num_regs == 0)
-+       if (!list || !list->list || list->num_regs == 0)
-
-The list->list pointer can't actually be NULL.  It comes from
-guc_capture_get_one_list(), so if the reglists[i].list pointer is NULL it
-returns NULL.  However, obviously checking for NULL after a dereference is not
-the correct so it's worth fixing and probably deserves a Fixes tag.  Although it
-doesn't affect runtime, adding a Fixes tag helps backporters know they can
-automatically ignore this one because the commit it's fixing is very recent.
-
-regards,
-dan carpenter
-
+On Wed, Oct 9, 2024 at 2:35=E2=80=AFPM Dan Carpenter <dan.carpenter@linaro.=
+org> wrote:
+>
+> On Wed, Oct 09, 2024 at 12:49:49PM -0600, Everest K.C. wrote:
+> > The pointer list->list was derefrenced before the Null check
+> > resulting in possibility of Null pointer derefrencing.
+> > This patch moves the Null check outside the for loop, so that
+> > the check is performed before the derefrencing.
+> >
+> > This issue was reported by Coverity Scan.
+> >
+> > Signed-off-by: Everest K.C. <everestkc@everestkc.com.np>
+>
+> You need to add a Fixes tag.
+Will add it and send a V2.
+> > ---
+> >  drivers/gpu/drm/xe/xe_guc_capture.c | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/xe/xe_guc_capture.c b/drivers/gpu/drm/xe/x=
+e_guc_capture.c
+> > index 41262bda20ed..de63c622747d 100644
+> > --- a/drivers/gpu/drm/xe/xe_guc_capture.c
+> > +++ b/drivers/gpu/drm/xe/xe_guc_capture.c
+> > @@ -1537,13 +1537,13 @@ read_reg_to_node(struct xe_hw_engine *hwe, cons=
+t struct __guc_mmio_reg_descr_gro
+> >       if (!regs)
+> >               return;
+> >
+> > +     if (!list->list)
+> > +             return;
+>
+> Could you merge this with the other sanity checks at the start of the fun=
+ction.
+>
+> -       if (!list || list->num_regs =3D=3D 0)
+> +       if (!list || !list->list || list->num_regs =3D=3D 0)
+That looks better. Will do that in V2 and send it.
+> The list->list pointer can't actually be NULL.  It comes from
+> guc_capture_get_one_list(), so if the reglists[i].list pointer is NULL it
+> returns NULL.  However, obviously checking for NULL after a dereference i=
+s not
+> the correct so it's worth fixing and probably deserves a Fixes tag.  Alth=
+ough it
+> doesn't affect runtime, adding a Fixes tag helps backporters know they ca=
+n
+> automatically ignore this one because the commit it's fixing is very rece=
+nt.
+>
+> regards,
+> dan carpenter
+>
