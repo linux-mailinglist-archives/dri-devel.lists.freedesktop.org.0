@@ -2,73 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A342B9977AC
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 23:40:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E9E09977B1
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 23:44:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D776010E813;
-	Wed,  9 Oct 2024 21:40:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4EE210E830;
+	Wed,  9 Oct 2024 21:44:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=everestkc.com.np header.i=@everestkc.com.np header.b="RufwUNJ3";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="IP7Vn03r";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
- [209.85.210.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BFB510E817
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 21:40:41 +0000 (UTC)
-Received: by mail-pf1-f196.google.com with SMTP id
- d2e1a72fcca58-71df67c67fcso210588b3a.2
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Oct 2024 14:40:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=everestkc.com.np; s=everest; t=1728510040; x=1729114840;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=/X1R7jziJAUOGlYud471jpMxA58653P4VmVwYBUwEFw=;
- b=RufwUNJ37r8Nb9Hql9pEJ4vZN5NDT905a4ST9lIPk883XRNIVnLi3ldxbrdOtZuB4l
- fvmwrVjJVLdsytbf0JF7Kwhy6aVRYZHPqZ/fNfUMerU5GM1oVT83Stjp6EcQfrHwbfHQ
- kyms+PvsQL2G/WoPbLer6RHMmxdwuShDOgz+blODJ8kxBi5FBjTebp0I7FYCrvxXByfe
- S7g/8a4ZfyWDAGPhYKA8jCQHxMB2GS32a6nSwiY/ZMTLHoaoLEmnooEmFI40aFBiDNyw
- /Rnz3iekwKYpAMt1itc9kMOsswnqpjnAKg0eXsgJtz0e1//mEBmU2ODHXCK8eSK3sSY2
- RQyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728510040; x=1729114840;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=/X1R7jziJAUOGlYud471jpMxA58653P4VmVwYBUwEFw=;
- b=eQB630cyjpomJGoEhhmsadvqXGx88P68Qq/CFSHr76erW/IigEAErdQR8NAVebWOmA
- x+j+CyP/xqJ1LIXs0D4IPZ46Sxq2Uk8Afa8p/F7G6/JsMVY4k1HlugqyXxptJeM74rtb
- 085GH5sNB+JOU0uMAaf/JLOQxDlBjcs5c100ot5ef5tsM8Z+GH023GO6So5dWXxctFSL
- Gx768TD0JZOX46xRQb9RzaV9u+YsgSrnToi8mNgRQueXKgIZ43k9ec1DqEhga3BqBmTv
- XcObAbmbVKiV0GRxYvX8Ox7RTOPu6YhNA3ZJIyysx1ZtrPQaNrRVRCd0G5Owtz2p/0yi
- Aegw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUVg5cDOJDTsvn/u3YlYGdZVCxNDd8EykWB9o9eCgq21EXdpmway/NssAi7HR4FAsm0bzWKzwII3Oo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwDHDmd+L5bh49U12ZHuot0V6wTBy7Qq3a9YpQ5UJ+ndwBjq5pg
- HWRHUgMnw+GsgGlc2wLC3QwmKInw4LUJq8k7D1LyjGF6v7iRDsFVRKYlYDqK4lY=
-X-Google-Smtp-Source: AGHT+IEVjxb8q3sxQHY7BRbeLePk3SvJC2jHMCY+loRxISySa+TSK3hZmXPkiAMN30Y1g+VBgiK0xw==
-X-Received: by 2002:a05:6a00:2394:b0:71e:1b6d:5a94 with SMTP id
- d2e1a72fcca58-71e1db64896mr6487949b3a.5.1728510040550; 
- Wed, 09 Oct 2024 14:40:40 -0700 (PDT)
-Received: from localhost.localdomain ([81.17.122.158])
- by smtp.googlemail.com with ESMTPSA id
- d2e1a72fcca58-71e03288a37sm5717000b3a.155.2024.10.09.14.40.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Oct 2024 14:40:40 -0700 (PDT)
-From: "Everest K.C." <everestkc@everestkc.com.np>
-To: lucas.demarchi@intel.com, thomas.hellstrom@linux.intel.com,
- rodrigo.vivi@intel.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
-Cc: "Everest K.C." <everestkc@everestkc.com.np>, skhan@linuxfoundation.org,
- dan.carpenter@linaro.org, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, kernel-janitors@vger.kernel.org,
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C82F610E818
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 21:44:07 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1728510238; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=RNpVt7PgbXAoEY9ef9PTTEqmkLcTC28ULUs6HOqzh1GF6iHuffhAAYYVswsNmevzhE/qmFBw95n8Kd8bDoM08xhJGbjREdSVyd91kgcz1luFbeKzBJtrETG3t+nu0+KZNTEdLQYanPZm/+nJHpp6JuhKSc4mJq5HYtrUF3teGaE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1728510238;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=YIlrE0fcMEPzbyHoxB6Wnq7KQhP7bhlB1XNHnfKuC+g=; 
+ b=WB+vWQfxbmW9Igb53vhVA8xgInqaObyCraR2r/lXoQSKq5ADwjyWws+G8VSfcNf+F4amsOGtPrGq6K7px+sfH/bAsVaSodQG07++oG/+XnXeLJF14VPMZyd2t3rLjfpJtkyFEdw6Bd+VNC07W3wRUE029oGcoemhofYosm5CSvE=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
+ dmarc=pass header.from=<adrian.larumbe@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1728510238; 
+ s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=YIlrE0fcMEPzbyHoxB6Wnq7KQhP7bhlB1XNHnfKuC+g=;
+ b=IP7Vn03rIc5lYG9cF81FXkBwzSB0pfvi1QCXO5SuW+Bec++6cDN6J7kM+GhzDYI7
+ Iz/hPJ9QR0GjxUFpsdYYLdSKJVwB3BYedpLcz/m68p4doOlg9rOTgu9H1DtdMoL2Kum
+ /eJd9kWY11iO/T8lVuAp2vPv5acBz/4L6/nLlqQY=
+Received: by mx.zohomail.com with SMTPS id 1728510237013233.51078949345924;
+ Wed, 9 Oct 2024 14:43:57 -0700 (PDT)
+From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>,
+ =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+Cc: kernel@collabora.com, Stephen Rothwell <sfr@canb.auug.org.au>,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH V2] drm/xe/guc: Fix dereference before Null check
-Date: Wed,  9 Oct 2024 15:39:20 -0600
-Message-ID: <20241009213922.37962-1-everestkc@everestkc.com.np>
-X-Mailer: git-send-email 2.43.0
+Subject: [PATCH] Documentation/gpu: Fix Panthor documentation build warnings
+Date: Wed,  9 Oct 2024 22:43:30 +0100
+Message-ID: <20241009214346.2308917-1-adrian.larumbe@collabora.com>
+X-Mailer: git-send-email 2.46.2
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -85,48 +70,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pointer list->list is derefrenced before the Null check.
-Fix this by moving the Null check outside the for loop, so that
-the check is performed before the derefrencing.
+Fix Panthor documentation build errors uncovered by the makedocs target
+when building with extra warnings enabled.
 
-This issue was reported by Coverity Scan.
-https://scan7.scan.coverity.com/#/project-view/51525/11354
-?selectedIssue=1600335
-
-Fixes: a18c696fa5cb ("drm/xe/guc: Fix dereference before Null check")
-
-Signed-off-by: Everest K.C. <everestkc@everestkc.com.np>
+Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+Fixes: f25044688b04 ("drm/panthor: add sysfs knob for enabling job profiling")
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
 ---
-V1 -> V2: - Combined the `!list->list` check in preexisting if statement
-	  - Added Fixes tag 
-	  - Added the link to the Coverity Scan report 
+ Documentation/gpu/drivers.rst         | 1 +
+ Documentation/gpu/drm-usage-stats.rst | 1 +
+ Documentation/gpu/panthor.rst         | 2 +-
+ 3 files changed, 3 insertions(+), 1 deletion(-)
 
- drivers/gpu/drm/xe/xe_guc_capture.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/xe/xe_guc_capture.c b/drivers/gpu/drm/xe/xe_guc_capture.c
-index 41262bda20ed..947c3a6d0e5a 100644
---- a/drivers/gpu/drm/xe/xe_guc_capture.c
-+++ b/drivers/gpu/drm/xe/xe_guc_capture.c
-@@ -1531,7 +1531,7 @@ read_reg_to_node(struct xe_hw_engine *hwe, const struct __guc_mmio_reg_descr_gro
- {
- 	int i;
+diff --git a/Documentation/gpu/drivers.rst b/Documentation/gpu/drivers.rst
+index b899cbc5c2b4..7b1282e2d807 100644
+--- a/Documentation/gpu/drivers.rst
++++ b/Documentation/gpu/drivers.rst
+@@ -22,6 +22,7 @@ GPU Driver Documentation
+    afbc
+    komeda-kms
+    panfrost
++   panthor
  
--	if (!list || list->num_regs == 0)
-+	if (!list || !list->list || list->num_regs == 0)
- 		return;
+ .. only::  subproject and html
  
- 	if (!regs)
-@@ -1541,9 +1541,6 @@ read_reg_to_node(struct xe_hw_engine *hwe, const struct __guc_mmio_reg_descr_gro
- 		struct __guc_mmio_reg_descr desc = list->list[i];
- 		u32 value;
+diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
+index a80f95ca1b2f..12ca3193bf15 100644
+--- a/Documentation/gpu/drm-usage-stats.rst
++++ b/Documentation/gpu/drm-usage-stats.rst
+@@ -186,4 +186,5 @@ Driver specific implementations
  
--		if (!list->list)
--			return;
--
- 		if (list->type == GUC_STATE_CAPTURE_TYPE_ENGINE_INSTANCE) {
- 			value = xe_hw_engine_mmio_read32(hwe, desc.reg);
- 		} else {
+ * :ref:`i915-usage-stats`
+ * :ref:`panfrost-usage-stats`
++* :ref:`panthor-usage-stats`
+ * :ref:`xe-usage-stats`
+diff --git a/Documentation/gpu/panthor.rst b/Documentation/gpu/panthor.rst
+index cbf5c4429a2d..3f8979fa2b86 100644
+--- a/Documentation/gpu/panthor.rst
++++ b/Documentation/gpu/panthor.rst
+@@ -4,7 +4,7 @@
+  drm/Panthor CSF driver
+ =========================
+ 
+-.. _panfrost-usage-stats:
++.. _panthor-usage-stats:
+ 
+ Panthor DRM client usage stats implementation
+ ==============================================
 -- 
-2.43.0
+2.46.2
 
