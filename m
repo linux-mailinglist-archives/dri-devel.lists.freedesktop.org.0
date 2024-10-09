@@ -2,82 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FB9D9969C2
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 14:17:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37DD49969CE
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 14:18:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD8FA10E2A0;
-	Wed,  9 Oct 2024 12:17:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 398E510E2A5;
+	Wed,  9 Oct 2024 12:18:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="gmamKuxC";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kXwrgTUs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D2DA10E2A0
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 12:16:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Ul4wqHlWKHkxyXVn9YSvRZPRBPmspkB7b0YSbuVoyMM=; b=gmamKuxCbhOj3r0IelmNOf1oGJ
- SgzJVUksFeYnbP3aRLZfVwAhrB0MLBX18mTZpnDOOeYA27Ohgzah3FgTVRu7QwPpZ6+JPw9tcQ/f+
- uUACSBHtImoyy3RsCiKS1/XVQ52srZWVtg6zmN7VVkmqJ8uEm12+uAY0zdtSeHaQyIuU5Hu9AXUZg
- SKdDqNFCD8ySIwB7j2ITqUfdxICCM4T4KWUVH6KRQPhOAk3TnIU/scj3RwGecj57xnxnsEP6jGk7b
- h8m6O0h6ULZw4N0m64urhX5cey8/p3zTqhUeRDifn8j6yDEeQwXExkiYsKWlFd+zdRUMXi5lVAZNW
- oURQ54gQ==;
-Received: from [187.36.213.55] (helo=[192.168.1.212])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1syVcT-006vzM-HV; Wed, 09 Oct 2024 14:16:45 +0200
-Message-ID: <566ae236-77a0-4dd7-9b09-5a31172240b5@igalia.com>
-Date: Wed, 9 Oct 2024 09:16:38 -0300
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V4 2/2] drm/vc4: v3d: add PM suspend/resume support
-To: Stefan Wahren <wahrenst@gmx.net>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Maxime Ripard <mripard@kernel.org>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CED8C10E2A5
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 12:18:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1728476335; x=1760012335;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=c2gFY4gtveL1XpFdSfORF1+tbN/JPlxEpuexOeTX9cU=;
+ b=kXwrgTUsWW4L7cihZJQ5WqkqBKHCLxR/mz4tZY48fHdqh7Xz93iGq6dt
+ bUZWLrc9wCJYxgF3uRnlzQWyaiuw4ZpdVtJ0r4YFMqI018ZP3okOhRlTK
+ Cbs4acj44/Un7fp6y7o6MdbSi2fw45y2Ni3VLyXpuosLPouAxuF0ECdmO
+ lbey4tc4NvyzHxUFTjniEEMFBw4AhPGz2KiL572fA5TiQC8xTZvpx0l49
+ 5UuLms2tj9FzlmFdorl5a/BfA+i4NHke6hRnm9RCugRkKYrlKfBkJFT1h
+ jEmPd9t+jljetVUbIKbQn6JjkpO/swgqm5B3+y4Y/KryX24FfUDZko+kI A==;
+X-CSE-ConnectionGUID: ETQhPneVSUerMeNfPvjyLg==
+X-CSE-MsgGUID: xI3DHP4uQF+IHe0n9T+/8w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="31563776"
+X-IronPort-AV: E=Sophos;i="6.11,189,1725346800"; d="scan'208";a="31563776"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Oct 2024 05:18:54 -0700
+X-CSE-ConnectionGUID: PbgVQfRNSVOsRuFInDbpIw==
+X-CSE-MsgGUID: qvIVTNMJRfizD8QMeqt59w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,189,1725346800"; d="scan'208";a="76188060"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+ by orviesa009.jf.intel.com with ESMTP; 09 Oct 2024 05:18:51 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1syVeS-0009C0-30;
+ Wed, 09 Oct 2024 12:18:48 +0000
+Date: Wed, 9 Oct 2024 20:18:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dzmitry Sankouski <dsankouski@gmail.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Peter Robinson <pbrobinson@gmail.com>,
- dri-devel@lists.freedesktop.org, kernel-list@raspberrypi.com
-References: <20241003124107.39153-1-wahrenst@gmx.net>
- <20241003124107.39153-3-wahrenst@gmx.net>
- <ce07a658-8e5c-4c9a-b0a5-77f1be54d524@igalia.com>
- <a04c4048-b8cb-4a8a-9fb7-00a5ed7bcd9d@gmx.net>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Autocrypt: addr=mcanal@igalia.com; keydata=
- xsBNBGcCwywBCADgTji02Sv9zjHo26LXKdCaumcSWglfnJ93rwOCNkHfPIBll85LL9G0J7H8
- /PmEL9y0LPo9/B3fhIpbD8VhSy9Sqz8qVl1oeqSe/rh3M+GceZbFUPpMSk5pNY9wr5raZ63d
- gJc1cs8XBhuj1EzeE8qbP6JAmsL+NMEmtkkNPfjhX14yqzHDVSqmAFEsh4Vmw6oaTMXvwQ40
- SkFjtl3sr20y07cJMDe++tFet2fsfKqQNxwiGBZJsjEMO2T+mW7DuV2pKHr9aifWjABY5EPw
- G7qbrh+hXgfT+njAVg5+BcLz7w9Ju/7iwDMiIY1hx64Ogrpwykj9bXav35GKobicCAwHABEB
- AAHNIE1hw61yYSBDYW5hbCA8bWNhbmFsQGlnYWxpYS5jb20+wsCRBBMBCAA7FiEE+ORdfQEW
- dwcppnfRP/MOinaI+qoFAmcCwywCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQ
- P/MOinaI+qoUBQgAqz2gzUP7K3EBI24+a5FwFlruQGtim85GAJZXToBtzsfGLLVUSCL3aF/5
- O335Bh6ViSBgxmowIwVJlS/e+L95CkTGzIIMHgyUZfNefR2L3aZA6cgc9z8cfow62Wu8eXnq
- GM/+WWvrFQb/dBKKuohfBlpThqDWXxhozazCcJYYHradIuOM8zyMtCLDYwPW7Vqmewa+w994
- 7Lo4CgOhUXVI2jJSBq3sgHEPxiUBOGxvOt1YBg7H9C37BeZYZxFmU8vh7fbOsvhx7Aqu5xV7
- FG+1ZMfDkv+PixCuGtR5yPPaqU2XdjDC/9mlRWWQTPzg74RLEw5sz/tIHQPPm6ROCACFls7A
- TQRnAsMsAQgAxTU8dnqzK6vgODTCW2A6SAzcvKztxae4YjRwN1SuGhJR2isJgQHoOH6oCItW
- Xc1CGAWnci6doh1DJvbbB7uvkQlbeNxeIz0OzHSiB+pb1ssuT31Hz6QZFbX4q+crregPIhr+
- 0xeDi6Mtu+paYprI7USGFFjDUvJUf36kK0yuF2XUOBlF0beCQ7Jhc+UoI9Akmvl4sHUrZJzX
- LMeajARnSBXTcig6h6/NFVkr1mi1uuZfIRNCkxCE8QRYebZLSWxBVr3h7dtOUkq2CzL2kRCK
- T2rKkmYrvBJTqSvfK3Ba7QrDg3szEe+fENpL3gHtH6h/XQF92EOulm5S5o0I+ceREwARAQAB
- wsB2BBgBCAAgFiEE+ORdfQEWdwcppnfRP/MOinaI+qoFAmcCwywCGwwACgkQP/MOinaI+qpI
- zQf+NAcNDBXWHGA3lgvYvOU31+ik9bb30xZ7IqK9MIi6TpZqL7cxNwZ+FAK2GbUWhy+/gPkX
- it2gCAJsjo/QEKJi7Zh8IgHN+jfim942QZOkU+p/YEcvqBvXa0zqW0sYfyAxkrf/OZfTnNNE
- Tr+uBKNaQGO2vkn5AX5l8zMl9LCH3/Ieaboni35qEhoD/aM0Kpf93PhCvJGbD4n1DnRhrxm1
- uEdQ6HUjWghEjC+Jh9xUvJco2tUTepw4OwuPxOvtuPTUa1kgixYyG1Jck/67reJzMigeuYFt
- raV3P8t/6cmtawVjurhnCDuURyhUrjpRhgFp+lW8OGr6pepHol/WFIOQEg==
-In-Reply-To: <a04c4048-b8cb-4a8a-9fb7-00a5ed7bcd9d@gmx.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Dzmitry Sankouski <dsankouski@gmail.com>
+Subject: Re: [PATCH v6 1/3] drm/mipi-dsi: add mipi_dsi_compression_mode_multi
+Message-ID: <202410092245.tfsuUllL-lkp@intel.com>
+References: <20241006-starqltechn_integration_upstream-v6-1-8336b9cd6c34@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241006-starqltechn_integration_upstream-v6-1-8336b9cd6c34@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,103 +79,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Stefan,
+Hi Dzmitry,
 
-On 10/8/24 13:05, Stefan Wahren wrote:
-> Hi Maíra,
-> 
-> Am 08.10.24 um 15:49 schrieb Maíra Canal:
->> Hi Stefan,
->>
->> On 10/3/24 09:41, Stefan Wahren wrote:
->>> Add suspend/resume support for the VC4 V3D component in order
->>> to handle suspend to idle properly.
->>>
->>> Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
->>> ---
->>>   drivers/gpu/drm/vc4/vc4_v3d.c | 7 +++----
->>>   1 file changed, 3 insertions(+), 4 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/vc4/vc4_v3d.c
->>> b/drivers/gpu/drm/vc4/vc4_v3d.c
->>> index 2423826c89eb..8057b06c1f16 100644
->>> --- a/drivers/gpu/drm/vc4/vc4_v3d.c
->>> +++ b/drivers/gpu/drm/vc4/vc4_v3d.c
->>> @@ -368,7 +368,6 @@ void vc4_v3d_bin_bo_put(struct vc4_dev *vc4)
->>>       mutex_unlock(&vc4->bin_bo_lock);
->>>   }
->>>
->>> -#ifdef CONFIG_PM
->>>   static int vc4_v3d_runtime_suspend(struct device *dev)
->>>   {
->>>       struct vc4_v3d *v3d = dev_get_drvdata(dev);
->>> @@ -397,7 +396,6 @@ static int vc4_v3d_runtime_resume(struct device
->>> *dev)
->>>
->>>       return 0;
->>>   }
->>> -#endif
->>>
->>>   int vc4_v3d_debugfs_init(struct drm_minor *minor)
->>>   {
->>> @@ -507,7 +505,8 @@ static void vc4_v3d_unbind(struct device *dev,
->>> struct device *master,
->>>   }
->>>
->>>   static const struct dev_pm_ops vc4_v3d_pm_ops = {
->>> -    SET_RUNTIME_PM_OPS(vc4_v3d_runtime_suspend,
->>> vc4_v3d_runtime_resume, NULL)
->>> +    RUNTIME_PM_OPS(vc4_v3d_runtime_suspend, vc4_v3d_runtime_resume,
->>> NULL)
->>> +    SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
->>> pm_runtime_force_resume)
->>
->> I have a question: How can we guarantee that no jobs are running when
->> the system is forced to suspend?
-> Not sure what do you mean with job. userspace task or v3d job within the
-> driver?
+kernel test robot noticed the following build warnings:
 
-I mean a V3D job. See, when we submit a CL to the GPU, we only know when
-it's done through a IRQ. I'm thinking in the case where:
+[auto build test WARNING on 58ca61c1a866bfdaa5e19fb19a2416764f847d75]
 
-1. We submitted a CL to the GPU
-2. We suspend but the job wasn't ended yet
+url:    https://github.com/intel-lab-lkp/linux/commits/Dzmitry-Sankouski/drm-mipi-dsi-add-mipi_dsi_compression_mode_multi/20241007-022151
+base:   58ca61c1a866bfdaa5e19fb19a2416764f847d75
+patch link:    https://lore.kernel.org/r/20241006-starqltechn_integration_upstream-v6-1-8336b9cd6c34%40gmail.com
+patch subject: [PATCH v6 1/3] drm/mipi-dsi: add mipi_dsi_compression_mode_multi
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241009/202410092245.tfsuUllL-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241009/202410092245.tfsuUllL-lkp@intel.com/reproduce)
 
-What happens to this job? Is the GPU going to be in a unstable state
-when we resume?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410092245.tfsuUllL-lkp@intel.com/
 
-> 
-> Do you have something specific in mind.
-> 
-> Why is there a difference between runtime pm and system pm?
->
-As far as I can see, for system PM, we need at least to suspend V3D in
-a stable state, without any jobs running and with IRQs disabled.
+All warnings (new ones prefixed by >>):
 
-Best Regards,
-- Maíra
+>> drivers/gpu/drm/drm_mipi_dsi.c:1533: warning: Function parameter or struct member 'ctx' not described in 'mipi_dsi_compression_mode_multi'
+>> drivers/gpu/drm/drm_mipi_dsi.c:1533: warning: Excess function parameter 'dsi' description in 'mipi_dsi_compression_mode_multi'
 
-> I must confess that i didn't test a system sleep while running a v3d
-> application.
-> 
-> Best regards
-> Stefan
->>
->> Best Regards,
->> - Maíra
->>
->>>   };
->>>
->>>   static const struct component_ops vc4_v3d_ops = {
->>> @@ -538,6 +537,6 @@ struct platform_driver vc4_v3d_driver = {
->>>       .driver = {
->>>           .name = "vc4_v3d",
->>>           .of_match_table = vc4_v3d_dt_match,
->>> -        .pm = &vc4_v3d_pm_ops,
->>> +        .pm = pm_ptr(&vc4_v3d_pm_ops),
->>>       },
->>>   };
->>> -- 
->>> 2.34.1
->>>
-> 
+
+vim +1533 drivers/gpu/drm/drm_mipi_dsi.c
+
+  1522	
+  1523	/**
+  1524	 * mipi_dsi_compression_mode_multi() - enable/disable DSC on the peripheral
+  1525	 * @dsi: DSI peripheral device
+  1526	 * @enable: Whether to enable or disable the DSC
+  1527	 *
+  1528	 * Enable or disable Display Stream Compression on the peripheral using the
+  1529	 * default Picture Parameter Set and VESA DSC 1.1 algorithm.
+  1530	 */
+  1531	void mipi_dsi_compression_mode_multi(struct mipi_dsi_multi_context *ctx,
+  1532					     bool enable)
+> 1533	{
+  1534		return mipi_dsi_compression_mode_ext_multi(ctx, enable,
+  1535							   MIPI_DSI_COMPRESSION_DSC, 0);
+  1536	}
+  1537	EXPORT_SYMBOL(mipi_dsi_compression_mode_multi);
+  1538	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
