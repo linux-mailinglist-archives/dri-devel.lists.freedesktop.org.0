@@ -2,52 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4EEC996189
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 09:55:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E489B99618B
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 09:55:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4795C10E675;
-	Wed,  9 Oct 2024 07:55:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C6C310E674;
+	Wed,  9 Oct 2024 07:55:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=damsy.net header.i=@damsy.net header.b="fcQN+lWM";
-	dkim=permerror (0-bit key) header.d=damsy.net header.i=@damsy.net header.b="3E1wWQRr";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uq9eBzkl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from jeth.damsy.net (jeth.damsy.net [51.159.152.102])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D69910E673;
- Wed,  9 Oct 2024 07:55:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; s=202408r; d=damsy.net; c=relaxed/relaxed; 
- h=From:To:Subject:Date:Message-ID; t=1728460372;
- bh=TwQFW9tPrHdFyxaB+VA5WYj
- aJwktX4894jgQc39gzPQ=; b=fcQN+lWMzFGyFZQQdW3LpVYf31OVE3RHeeYST3Z1ucz+pqEa5X
- 6pOf6ya/M7LY83rAfAcmEl4hOlbOgd+P5XPr6LL7MxxGDmiGeU9A4IBlDbfF+9BRLu/mQUIOkHg
- rmgQHOtQYSDHhwWEKlkDzaQyUj2ssA7/WN837Paw7+CIXwedcPsOmAvEtwjE4+QpYZ8svoWg/+9
- ge+qK+xSvGsS/ILevtTUawxHtj2/iPUDAP2tBq91/4q05t7g49T6943ys/OYD5cPg9eNaXMg44L
- tdOowp3OsiEwdIvOz4UcZBs+Kka2ZvtbKzLxxBVDLDWdfuw9xvpti0l4g/QrFtj+ySQ==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202408e; d=damsy.net;
- c=relaxed/relaxed; 
- h=From:To:Subject:Date:Message-ID; t=1728460372; bh=TwQFW9tPrHdFyxaB+VA5WYj
- aJwktX4894jgQc39gzPQ=; b=3E1wWQRr06qfLxKyLi/arn00Kg/n3CshjZnpuISsVfpOa0vg9F
- qYHHMIncFcNJ2qhVfFC/pD9MNllIloQcNTDg==;
-Content-Type: multipart/mixed; boundary="------------6Iyf9vcfP3VQ6Z0HVA5kbt5Z"
-Message-ID: <13d85e12-fa10-4dd9-8221-dfeb589f718c@damsy.net>
-Date: Wed, 9 Oct 2024 09:52:52 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F13E10E674
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 07:55:49 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 4C39E5C5806;
+ Wed,  9 Oct 2024 07:55:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E09C5C4CEC5;
+ Wed,  9 Oct 2024 07:55:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1728460548;
+ bh=Ls7OqrLkaPsaUNbbSAIYCwfHAycozI504hv239H9W6s=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=uq9eBzkl0EAIS0LZpNSSW2ZSeYlwEGHPLZ4P0heDHiY9T2pg/tsT627sY0L6goaSM
+ oA1ZYFqCtavrBNVzSoRgaKKWMDLC+QLEwnJzXXUd/JeV4TNk8HdhwubYsYUhDd6ImF
+ LHYN78KwfQkXuGxg4Sfkw5WtoYNLK22EqgR6wHqHLTNxX0btk8w7SDfv6HtZv5qNlk
+ Ktz/eMmNzc2b9wwETzNA/+fiicQR5i0S0cVRyf8S4s4f/TdYgFQs25uNvcldn1DdG4
+ s6lva+08g4ZqqBVx3+unvMAeGqCYEXzxqwqObYyqO2URvdrGUT6p0+onJ6C8D0BrYI
+ P8E5RcXG0vA8w==
+Date: Wed, 9 Oct 2024 09:55:45 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+ dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
+Subject: Re: [PATCH] drm/vc4: Set `fbdev_probe` in `struct vc5_drm_driver`
+Message-ID: <20241009-melodic-adorable-groundhog-2c01af@houat>
+References: <20241009004332.1901833-1-mcanal@igalia.com>
+ <164f5bd6-c240-42af-aef4-37db7e2041cc@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 4/6] drm/amdgpu: alloc and init vm::task_info from
- first submit
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- dmitry.osipenko@collabora.com, jani.nikula@linux.intel.com,
- tursulin@igalia.com, simona.vetter@ffwll.ch, robdclark@gmail.com,
- alexander.deucher@amd.com
-References: <20241003124506.470931-1-pierre-eric.pelloux-prayer@amd.com>
- <20241003124506.470931-5-pierre-eric.pelloux-prayer@amd.com>
- <45be3629-7d02-434d-ae2d-afd9b87bf036@amd.com>
-Content-Language: en-US
-From: Pierre-Eric Pelloux-Prayer <pierre-eric@damsy.net>
-In-Reply-To: <45be3629-7d02-434d-ae2d-afd9b87bf036@amd.com>
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="7wtlmzosbpgjzeu7"
+Content-Disposition: inline
+In-Reply-To: <164f5bd6-c240-42af-aef4-37db7e2041cc@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,166 +61,136 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---------------6Iyf9vcfP3VQ6Z0HVA5kbt5Z
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
+--7wtlmzosbpgjzeu7
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Oct 09, 2024 at 08:59:29AM GMT, Thomas Zimmermann wrote:
+> Hi
+>=20
+> Am 09.10.24 um 02:40 schrieb Ma=EDra Canal:
+> > Currently, when booting the RPi 4B, we get a NULL pointer dereference:
+> >=20
+> > [    7.642883] Unable to handle kernel NULL pointer dereference at virt=
+ual address 0000000000000038
+> > [    7.642926] Mem abort info:
+> > [    7.642938]   ESR =3D 0x0000000096000044
+> > [    7.642951]   EC =3D 0x25: DABT (current EL), IL =3D 32 bits
+> > [    7.642968]   SET =3D 0, FnV =3D 0
+> > [    7.642981]   EA =3D 0, S1PTW =3D 0
+> > [    7.642993]   FSC =3D 0x04: level 0 translation fault
+> > [    7.643007] Data abort info:
+> > [    7.643017]   ISV =3D 0, ISS =3D 0x00000044, ISS2 =3D 0x00000000
+> > [    7.643032]   CM =3D 0, WnR =3D 1, TnD =3D 0, TagAccess =3D 0
+> > [    7.643046]   GCS =3D 0, Overlay =3D 0, DirtyBit =3D 0, Xs =3D 0
+> > [    7.643063] user pgtable: 4k pages, 48-bit VAs, pgdp=3D0000000107487=
+000
+> > [    7.643081] [0000000000000038] pgd=3D0000000000000000, p4d=3D0000000=
+000000000
+> > [    7.643113] Internal error: Oops: 0000000096000044 [#1] PREEMPT SMP
+> > [    7.643131] Modules linked in: snd_bcm2835(C)  [...] vc4 v3d [...]
+> > drm_shmem_helper drm_dma_helper drm_kms_helper drm [...] ipv6
+> > [    7.643377] CPU: 1 UID: 0 PID: 48 Comm: kworker/u16:2 Tainted: G    =
+     C         6.12.0-rc1-00310-g2c34a5464007 #185
+> > [    7.643407] Tainted: [C]=3DCRAP
+> > [    7.643419] Hardware name: Raspberry Pi 4 Model B Rev 1.5 (DT)
+> > [    7.643438] Workqueue: events_unbound deferred_probe_work_func
+> > [    7.643477] pstate: 80000005 (Nzcv daif -PAN -UAO -TCO -DIT -SSBS BT=
+YPE=3D--)
+> > [    7.643499] pc : __drm_fb_helper_initial_config_and_unlock+0x40c/0x5=
+88 [drm_kms_helper]
+> > [    7.643616] lr : __drm_fb_helper_initial_config_and_unlock+0x374/0x5=
+88 [drm_kms_helper]
+> > [    7.643710] sp : ffff8000806c3900
+> > [    7.643724] x29: ffff8000806c3950 x28: ffff431b01a3ec14 x27: 0000000=
+000000010
+> > [    7.643758] x26: ffff431b0369f000 x25: 0000000036314752 x24: ffff431=
+b003b6200
+> > [    7.643790] x23: ffff431b0369f000 x22: 00000000000002d0 x21: ffff431=
+b003b6030
+> > [    7.643821] x20: ffff431b003b6030 x19: ffff431b003b6000 x18: ffff431=
+b002e6e48
+> > [    7.643852] x17: 0000000000000001 x16: ffffb19c2f10614c x15: 0000000=
+000000000
+> > [    7.643882] x14: 0000000000000000 x13: ffff431b003b62f0 x12: 0000000=
+000000500
+> > [    7.643913] x11: 0000000000000000 x10: 0000000000000000 x9 : 005d6e6=
+f6362665b
+> > [    7.643945] x8 : 0000000000000000 x7 : 0000000000000000 x6 : 0000000=
+00000003f
+> > [    7.643975] x5 : ffffb19bcb45c59c x4 : 0000000000001e00 x3 : ffffb19=
+bcb420c20
+> > [    7.644005] x2 : 0000000000000000 x1 : 0000000000000001 x0 : ffff431=
+b003b6000
+> > [    7.644036] Call trace:
+> > [    7.644049]  __drm_fb_helper_initial_config_and_unlock+0x40c/0x588 [=
+drm_kms_helper]
+> > [    7.644149]  drm_fb_helper_initial_config+0x34/0x4c [drm_kms_helper]
+> > [    7.644240]  drm_fbdev_client_hotplug+0x74/0xc8 [drm_kms_helper]
+> > [    7.644331]  drm_client_register+0x58/0xa0 [drm]
+> > [    7.644571]  drm_fbdev_client_setup+0xc4/0x17c [drm_kms_helper]
+> > [    7.644664]  drm_client_setup_with_fourcc+0x28/0x60 [drm_kms_helper]
+> > [    7.644755]  vc4_drm_bind+0x218/0x264 [vc4]
+> > [    7.644855]  try_to_bring_up_aggregate_device+0x168/0x1b4
+> > [    7.644884]  __component_add+0xb8/0x158
+> > [    7.644905]  component_add+0x14/0x20
+> > [    7.644925]  vc4_hvs_dev_probe+0x1c/0x28 [vc4]
+> > [    7.645019]  platform_probe+0xa8/0xd0
+> > [    7.645045]  really_probe+0x128/0x2c8
+> > [    7.645065]  __driver_probe_device+0xa0/0x128
+> > [    7.645086]  driver_probe_device+0x3c/0x1f8
+> > [    7.645106]  __device_attach_driver+0x118/0x140
+> > [    7.645127]  bus_for_each_drv+0xf4/0x14c
+> > [    7.645145]  __device_attach+0xfc/0x194
+> > [    7.645164]  device_initial_probe+0x14/0x20
+> > [    7.645184]  bus_probe_device+0x94/0x100
+> > [    7.645202]  deferred_probe_work_func+0x88/0xc4
+> > [    7.645223]  process_scheduled_works+0x194/0x2c4
+> > [    7.645246]  worker_thread+0x290/0x39c
+> > [    7.645265]  kthread+0xfc/0x184
+> > [    7.645289]  ret_from_fork+0x10/0x20
+> > [    7.645317] Code: f2ac6c49 aa1303e0 f2cdcde9 f2e00ba9 (f9001d09)
+> > [    7.645338] ---[ end trace 0000000000000000 ]---
+> >=20
+> > This happens because commit 45903624e9fc ("drm/vc4: Run DRM default cli=
+ent
+> > setup") only added DRM_FBDEV_DMA_DRIVER_OPS to `struct vc4_drm_driver`
+> > and didn't add it to `struct vc5_drm_driver`. The `struct vc4_drm_drive=
+r`
+> > is used in RPi 0-3, as VC4 is also a render node in those RPis. But RPi=
+ 4
+> > and 5 use V3D as the render node and VC4 as modeset node and therefore,
+> > use `struct vc5_drm_driver`.
+> >=20
+> > This commit adds DRM_FBDEV_DMA_DRIVER_OPS to `struct vc5_drm_driver`,
+> > ensuring that `fbdev_probe` exists for all VC4 generations.
+> >=20
+> > Fixes: 45903624e9fc ("drm/vc4: Run DRM default client setup")
+> > Signed-off-by: Ma=EDra Canal <mcanal@igalia.com>
+>=20
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Le 08/10/2024 à 10:13, Christian König a écrit :
-> Am 03.10.24 um 14:43 schrieb Pierre-Eric Pelloux-Prayer:
->> This will allow to use flexible array to store the process name and
->> other information.
->>
->> This also means that process name will be determined once and for all,
->> instead of at each submit.
->>
->> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
->> ---
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c | 29 ++++++++++++--------------
->>   1 file changed, 13 insertions(+), 16 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
->> index e20d19ae01b2..6cd5bd5362d4 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
->> @@ -2331,7 +2331,7 @@ amdgpu_vm_get_task_info_vm(struct amdgpu_vm *vm)
->>   {
->>       struct amdgpu_task_info *ti = NULL;
->> -    if (vm) {
->> +    if (vm && vm->task_info) {
->>           ti = vm->task_info;
->>           kref_get(&vm->task_info->refcount);
->>       }
->> @@ -2361,6 +2361,10 @@ static int amdgpu_vm_create_task_info(struct amdgpu_vm *vm)
->>       if (!vm->task_info)
->>           return -ENOMEM;
->> +    /* Set process attributes now. */
->> +    vm->task_info->tgid = current->group_leader->pid;
->> +    get_task_comm(vm->task_info->process_name, current->group_leader);
->> +
->>       kref_init(&vm->task_info->refcount);
->>       return 0;
->>   }
->> @@ -2372,20 +2376,16 @@ static int amdgpu_vm_create_task_info(struct amdgpu_vm *vm)
->>    */
->>   void amdgpu_vm_set_task_info(struct amdgpu_vm *vm)
->>   {
->> -    if (!vm->task_info)
->> -        return;
->> -
->> -    if (vm->task_info->pid == current->pid)
->> +    if (!vm->task_info) {
->> +        if (amdgpu_vm_create_task_info(vm))
->> +            return;
->> +    } else if (vm->task_info->pid == current->pid) {
->>           return;
->> +    }
->> +    /* Update task attributes. */
->>       vm->task_info->pid = current->pid;
->>       get_task_comm(vm->task_info->task_name, current);
->> -
->> -    if (current->group_leader->mm != current->mm)
->> -        return;
->> -
->> -    vm->task_info->tgid = current->group_leader->pid;
->> -    get_task_comm(vm->task_info->process_name, current->group_leader);
->>   }
->>   /**
->> @@ -2482,10 +2482,6 @@ int amdgpu_vm_init(struct amdgpu_device *adev, struct amdgpu_vm *vm,
->>       if (r)
->>           goto error_free_root;
->> -    r = amdgpu_vm_create_task_info(vm);
->> -    if (r)
->> -        DRM_DEBUG("Failed to create task info for VM\n");
->> -
->>       amdgpu_bo_unreserve(vm->root.bo);
->>       amdgpu_bo_unref(&root_bo);
->> @@ -2608,7 +2604,8 @@ void amdgpu_vm_fini(struct amdgpu_device *adev, struct amdgpu_vm *vm)
->>       root = amdgpu_bo_ref(vm->root.bo);
->>       amdgpu_bo_reserve(root, true);
->> -    amdgpu_vm_put_task_info(vm->task_info);
->> +    if (vm->task_info)
->> +        amdgpu_vm_put_task_info(vm->task_info);
-> 
-> That NULL check should probably be moved into amdgpu_vm_put_task_info().
-> 
-> Apart from that the patch is Reviewed-by: Christian König <christian.koenig@amd.com>.
+It's the third time it was sent:
 
-Fixed in attached patch.
+https://lore.kernel.org/dri-devel/20241002-vc4_fbdev_fix-v1-1-8737bd11b147@=
+raspberrypi.com/
+https://lore.kernel.org/dri-devel/20241003092826.1942901-3-m.szyprowski@sam=
+sung.com/
 
-Pierre-Eric
+Maxime
 
-> 
-> Regards,
-> Christian.
-> 
->>       amdgpu_vm_set_pasid(adev, vm, 0);
->>       dma_fence_wait(vm->last_unlocked, false);
->>       dma_fence_put(vm->last_unlocked);
+--7wtlmzosbpgjzeu7
+Content-Type: application/pgp-signature; name="signature.asc"
 
---------------6Iyf9vcfP3VQ6Z0HVA5kbt5Z
-Content-Type: text/x-patch; charset=UTF-8;
- name="0004-drm-amdgpu-alloc-and-init-vm-task_info-from-first-su.patch"
-Content-Disposition: attachment;
- filename*0="0004-drm-amdgpu-alloc-and-init-vm-task_info-from-first-su.pa";
- filename*1="tch"
-Content-Transfer-Encoding: base64
+-----BEGIN PGP SIGNATURE-----
 
-RnJvbSBmYmFmNTYxNWI2ZTBkOWI2YTA4MGE1NWU1MTYxNWMwMjE2ZDMzY2YzIE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBQaWVycmUtRXJpYyBQZWxsb3V4LVByYXllciA8cGll
-cnJlLWVyaWMucGVsbG91eC1wcmF5ZXJAYW1kLmNvbT4KRGF0ZTogVGh1LCAxOSBTZXAgMjAy
-NCAxNDozOTo0NiArMDIwMApTdWJqZWN0OiBbUEFUQ0ggNC82XSBkcm0vYW1kZ3B1OiBhbGxv
-YyBhbmQgaW5pdCB2bTo6dGFza19pbmZvIGZyb20gZmlyc3QKIHN1Ym1pdApNSU1FLVZlcnNp
-b246IDEuMApDb250ZW50LVR5cGU6IHRleHQvcGxhaW47IGNoYXJzZXQ9VVRGLTgKQ29udGVu
-dC1UcmFuc2Zlci1FbmNvZGluZzogOGJpdAoKVGhpcyB3aWxsIGFsbG93IHRvIHVzZSBmbGV4
-aWJsZSBhcnJheSB0byBzdG9yZSB0aGUgcHJvY2VzcyBuYW1lIGFuZApvdGhlciBpbmZvcm1h
-dGlvbi4KClRoaXMgYWxzbyBtZWFucyB0aGF0IHByb2Nlc3MgbmFtZSB3aWxsIGJlIGRldGVy
-bWluZWQgb25jZSBhbmQgZm9yIGFsbCwKaW5zdGVhZCBvZiBhdCBlYWNoIHN1Ym1pdC4KClJl
-dmlld2VkLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+
-ClNpZ25lZC1vZmYtYnk6IFBpZXJyZS1FcmljIFBlbGxvdXgtUHJheWVyIDxwaWVycmUtZXJp
-Yy5wZWxsb3V4LXByYXllckBhbWQuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1k
-Z3B1L2FtZGdwdV92bS5jIHwgMjkgKysrKysrKysrKysrLS0tLS0tLS0tLS0tLS0KIDEgZmls
-ZSBjaGFuZ2VkLCAxMyBpbnNlcnRpb25zKCspLCAxNiBkZWxldGlvbnMoLSkKCmRpZmYgLS1n
-aXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdm0uYyBiL2RyaXZlcnMv
-Z3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV92bS5jCmluZGV4IDYwMDUyODBmNWYzOC4uOWNi
-Y2NmYWJlYTlmIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRn
-cHVfdm0uYworKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdm0uYwpA
-QCAtMjMzMCw3ICsyMzMwLDggQEAgYW1kZ3B1X3ZtX2dldF92bV9mcm9tX3Bhc2lkKHN0cnVj
-dCBhbWRncHVfZGV2aWNlICphZGV2LCB1MzIgcGFzaWQpCiAgKi8KIHZvaWQgYW1kZ3B1X3Zt
-X3B1dF90YXNrX2luZm8oc3RydWN0IGFtZGdwdV90YXNrX2luZm8gKnRhc2tfaW5mbykKIHsK
-LQlrcmVmX3B1dCgmdGFza19pbmZvLT5yZWZjb3VudCwgYW1kZ3B1X3ZtX2Rlc3Ryb3lfdGFz
-a19pbmZvKTsKKwlpZiAodGFza19pbmZvKQorCQlrcmVmX3B1dCgmdGFza19pbmZvLT5yZWZj
-b3VudCwgYW1kZ3B1X3ZtX2Rlc3Ryb3lfdGFza19pbmZvKTsKIH0KIAogLyoqCkBAIC0yMzQ2
-LDcgKzIzNDcsNyBAQCBhbWRncHVfdm1fZ2V0X3Rhc2tfaW5mb192bShzdHJ1Y3QgYW1kZ3B1
-X3ZtICp2bSkKIHsKIAlzdHJ1Y3QgYW1kZ3B1X3Rhc2tfaW5mbyAqdGkgPSBOVUxMOwogCi0J
-aWYgKHZtKSB7CisJaWYgKHZtICYmIHZtLT50YXNrX2luZm8pIHsKIAkJdGkgPSB2bS0+dGFz
-a19pbmZvOwogCQlrcmVmX2dldCgmdm0tPnRhc2tfaW5mby0+cmVmY291bnQpOwogCX0KQEAg
-LTIzNzYsNiArMjM3NywxMCBAQCBzdGF0aWMgaW50IGFtZGdwdV92bV9jcmVhdGVfdGFza19p
-bmZvKHN0cnVjdCBhbWRncHVfdm0gKnZtKQogCWlmICghdm0tPnRhc2tfaW5mbykKIAkJcmV0
-dXJuIC1FTk9NRU07CiAKKwkvKiBTZXQgcHJvY2VzcyBhdHRyaWJ1dGVzIG5vdy4gKi8KKwl2
-bS0+dGFza19pbmZvLT50Z2lkID0gY3VycmVudC0+Z3JvdXBfbGVhZGVyLT5waWQ7CisJZ2V0
-X3Rhc2tfY29tbSh2bS0+dGFza19pbmZvLT5wcm9jZXNzX25hbWUsIGN1cnJlbnQtPmdyb3Vw
-X2xlYWRlcik7CisKIAlrcmVmX2luaXQoJnZtLT50YXNrX2luZm8tPnJlZmNvdW50KTsKIAly
-ZXR1cm4gMDsKIH0KQEAgLTIzODcsMjAgKzIzOTIsMTYgQEAgc3RhdGljIGludCBhbWRncHVf
-dm1fY3JlYXRlX3Rhc2tfaW5mbyhzdHJ1Y3QgYW1kZ3B1X3ZtICp2bSkKICAqLwogdm9pZCBh
-bWRncHVfdm1fc2V0X3Rhc2tfaW5mbyhzdHJ1Y3QgYW1kZ3B1X3ZtICp2bSkKIHsKLQlpZiAo
-IXZtLT50YXNrX2luZm8pCi0JCXJldHVybjsKLQotCWlmICh2bS0+dGFza19pbmZvLT5waWQg
-PT0gY3VycmVudC0+cGlkKQorCWlmICghdm0tPnRhc2tfaW5mbykgeworCQlpZiAoYW1kZ3B1
-X3ZtX2NyZWF0ZV90YXNrX2luZm8odm0pKQorCQkJcmV0dXJuOworCX0gZWxzZSBpZiAodm0t
-PnRhc2tfaW5mby0+cGlkID09IGN1cnJlbnQtPnBpZCkgewogCQlyZXR1cm47CisJfQogCisJ
-LyogVXBkYXRlIHRhc2sgYXR0cmlidXRlcy4gKi8KIAl2bS0+dGFza19pbmZvLT5waWQgPSBj
-dXJyZW50LT5waWQ7CiAJZ2V0X3Rhc2tfY29tbSh2bS0+dGFza19pbmZvLT50YXNrX25hbWUs
-IGN1cnJlbnQpOwotCi0JaWYgKGN1cnJlbnQtPmdyb3VwX2xlYWRlci0+bW0gIT0gY3VycmVu
-dC0+bW0pCi0JCXJldHVybjsKLQotCXZtLT50YXNrX2luZm8tPnRnaWQgPSBjdXJyZW50LT5n
-cm91cF9sZWFkZXItPnBpZDsKLQlnZXRfdGFza19jb21tKHZtLT50YXNrX2luZm8tPnByb2Nl
-c3NfbmFtZSwgY3VycmVudC0+Z3JvdXBfbGVhZGVyKTsKIH0KIAogLyoqCkBAIC0yNDkwLDEw
-ICsyNDkxLDYgQEAgaW50IGFtZGdwdV92bV9pbml0KHN0cnVjdCBhbWRncHVfZGV2aWNlICph
-ZGV2LCBzdHJ1Y3QgYW1kZ3B1X3ZtICp2bSwKIAlpZiAocikKIAkJZ290byBlcnJvcl9mcmVl
-X3Jvb3Q7CiAKLQlyID0gYW1kZ3B1X3ZtX2NyZWF0ZV90YXNrX2luZm8odm0pOwotCWlmIChy
-KQotCQlEUk1fREVCVUcoIkZhaWxlZCB0byBjcmVhdGUgdGFzayBpbmZvIGZvciBWTVxuIik7
-Ci0KIAlhbWRncHVfYm9fdW5yZXNlcnZlKHZtLT5yb290LmJvKTsKIAlhbWRncHVfYm9fdW5y
-ZWYoJnJvb3RfYm8pOwogCi0tIAoyLjQwLjEKCg==
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZwY2+QAKCRAnX84Zoj2+
+dhd3AX4rvxryKPmZIk3AVIx0+57eIFhjdncrheErfLFogoRQDjbqH2uG35+EzIM/
+vIn/BxkBgOsiu0mO7heMMNMYCH3+GIBGLHSksz1XIBEOi3GkpPK8h3VC717MVK/S
+uz2e/H5OdQ==
+=0adW
+-----END PGP SIGNATURE-----
 
---------------6Iyf9vcfP3VQ6Z0HVA5kbt5Z--
+--7wtlmzosbpgjzeu7--
