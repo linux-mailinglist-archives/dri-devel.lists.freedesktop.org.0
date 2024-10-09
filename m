@@ -2,74 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A26A9976E7
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 22:50:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 644A7997718
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Oct 2024 23:00:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8B0110E805;
-	Wed,  9 Oct 2024 20:50:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9610110E808;
+	Wed,  9 Oct 2024 21:00:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=everestkc.com.np header.i=@everestkc.com.np header.b="hS++04Th";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UL057BFp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com
- [209.85.208.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1605E10E802
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 20:50:09 +0000 (UTC)
-Received: by mail-ed1-f48.google.com with SMTP id
- 4fb4d7f45d1cf-5c42f406e29so151265a12.2
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Oct 2024 13:50:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=everestkc.com.np; s=everest; t=1728507007; x=1729111807;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=U6AlyAiK8jIW99PS/mbC0CEBkjDKR+IRpZZi78iD0gY=;
- b=hS++04ThniCCP8JGDGcAbqjynPPC5HBVvOZx/Qh3IdLn5Cn1RtRfF+WZMyJWdseAEn
- 2o77xiykGMHebkyZjc9/ie/GgxvFeDIpVIVx8q8JErTML9tuBErMwY2nk32m1409LnoW
- Vw5/qehYM+UItI0hhwuGQdzfW9muNTQUE0eV5q+4VZ57IAc3nUrapiR4M2cSWPkeJfBf
- D1Fnn6ZxSixmJlOPEWG2rzBIcbgR8kpO2rD8+ChAlXWICod6EdTerUNcX0KVyFB/lQxb
- mOGQ9OHiojNNbg7VxglNkWehhQU9lMiYSbWdETYU0/uEAJyIpHrhoFeabkPQzy6jwsI4
- 2p5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728507007; x=1729111807;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=U6AlyAiK8jIW99PS/mbC0CEBkjDKR+IRpZZi78iD0gY=;
- b=lQQUPNybX6vJIMUfaYwmMx0V6EB2r8v1SQ/MoyNz71XPo8nbACoejmOd4Qw6422Xks
- n2n5DI53IWHb/IyNHgMKrM9aA5ALi9Ub8FJbaYIiqWnzK/MjrOMJQKBm1FuqrndPgof4
- 9RCsJFDJOyLVu0RemfJ62a7qTGuzWmAfIGd1BG+jcQIc+MHtemXqWxl9oAHQL/G1wSB9
- sTZBMqdGc/neYlIQoFFQz8E6zX8rg/iDy9XtIYRHyvsu6V6B1Wk79KSkud4AUkzUPr81
- WYZYOAC80Mjt/et2n55YT+6/fm52tVVeKiurn59wISLbC+672a+S/sMpIdNzCj2Z8EeY
- t/hg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU0WqyAMAV2Z8eqhbqkk8Hi+A0bJBFjmdoLm53FzcI09E4w+d81R4lwfXhakQhv0h+AcfBeuSjaxyc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw9DZ9KXmM9KGLQZg0oatbE1zIkXRzzaa03pLf/lqEzx7knYiYK
- Ijn79NF0iqA0tOVYCLaX0XSxIcmVbPsl/U5WB7w5oJp4jC5jBVckdCGxuW9sqT2FdCC8TasEjmj
- /jeJo1d8kK+KMKtx/FbiV9IzeFgWFrp29i7YMng==
-X-Google-Smtp-Source: AGHT+IHZQ//C/LT9bz4MtZcmxJW5GzbBzoSV9zKUThFSFKoiavT+2C93cS1UjaGvXK3AnSkDwkQ7q5RXVs+r0/IWRVo=
-X-Received: by 2002:a17:907:7ba9:b0:a99:442e:34ac with SMTP id
- a640c23a62f3a-a999e8c9f03mr127272866b.40.1728507007259; Wed, 09 Oct 2024
- 13:50:07 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8263710E808
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Oct 2024 21:00:08 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 5EA215C5D52;
+ Wed,  9 Oct 2024 21:00:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23CD0C4CEC3;
+ Wed,  9 Oct 2024 21:00:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1728507607;
+ bh=5lbw1fw2F0YDO/Ghx0pIMUv4r43RfjdulBFeOF1eqBI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=UL057BFpi/mpH0RVD0VDU6ua6KJ7efybWqE6QHGA4RNfbdyyG2QhVejnrUHTyyhKd
+ iPx8NwWcLmiy5zxXSqEe9WgKjzQrtvmwmSd7Necg62Hm/OCNLNDQBRSztwbzRd3ONy
+ LcifS0XSvchrkkfeTsq2Jhem9s4wSz8itsuUyz9KlJj9pCExfRtY8KD31qtpqpC71k
+ R0sApesTcTY4x/fSeCOIVdt2Q2HDEAc0rRV16/6235YmRIbTglf7qeQCfz3Sogn6aV
+ BieWTl5TWrdVUsuRvUUdOWjiRtCiaikSD4F3lLyEuKSQre5o6EhihTCHRL2XLcrsiz
+ j5I2ybnt/SKmA==
+Date: Wed, 9 Oct 2024 16:00:06 -0500
+From: Rob Herring <robh@kernel.org>
+To: Shu-hsiang Yang <Shu-hsiang.Yang@mediatek.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian Konig <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ yaya.chang@mediatek.com, teddy.chen@mediatek.com,
+ hidenorik@chromium.org, yunkec@chromium.org, shun-yi.wang@mediatek.com
+Subject: Re: [PATCH v1 01/10] dt-bindings: media: mediatek: add camsys device
+Message-ID: <20241009210006.GA643988-robh@kernel.org>
+References: <20241009111551.27052-1-Shu-hsiang.Yang@mediatek.com>
+ <20241009111551.27052-2-Shu-hsiang.Yang@mediatek.com>
 MIME-Version: 1.0
-References: <20241009184951.4991-1-everestkc@everestkc.com.np>
- <07d9eb6e-87d3-4428-aaa4-8721a6844404@stanley.mountain>
-In-Reply-To: <07d9eb6e-87d3-4428-aaa4-8721a6844404@stanley.mountain>
-From: "Everest K.C." <everestkc@everestkc.com.np>
-Date: Wed, 9 Oct 2024 14:49:55 -0600
-Message-ID: <CAEO-vhEGtBX1sb3MYm18+MBGEgrFfNpzatBT46kcN9_Wh=NFMQ@mail.gmail.com>
-Subject: Re: [PATCH][next] drm/xe/guc: Fix dereference before Null check
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: lucas.demarchi@intel.com, thomas.hellstrom@linux.intel.com, 
- rodrigo.vivi@intel.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
- skhan@linuxfoundation.org, intel-xe@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, kernel-janitors@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241009111551.27052-2-Shu-hsiang.Yang@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,55 +70,232 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 9, 2024 at 2:35=E2=80=AFPM Dan Carpenter <dan.carpenter@linaro.=
-org> wrote:
->
-> On Wed, Oct 09, 2024 at 12:49:49PM -0600, Everest K.C. wrote:
-> > The pointer list->list was derefrenced before the Null check
-> > resulting in possibility of Null pointer derefrencing.
-> > This patch moves the Null check outside the for loop, so that
-> > the check is performed before the derefrencing.
-> >
-> > This issue was reported by Coverity Scan.
-> >
-> > Signed-off-by: Everest K.C. <everestkc@everestkc.com.np>
->
-> You need to add a Fixes tag.
-Will add it and send a V2.
-> > ---
-> >  drivers/gpu/drm/xe/xe_guc_capture.c | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/xe/xe_guc_capture.c b/drivers/gpu/drm/xe/x=
-e_guc_capture.c
-> > index 41262bda20ed..de63c622747d 100644
-> > --- a/drivers/gpu/drm/xe/xe_guc_capture.c
-> > +++ b/drivers/gpu/drm/xe/xe_guc_capture.c
-> > @@ -1537,13 +1537,13 @@ read_reg_to_node(struct xe_hw_engine *hwe, cons=
-t struct __guc_mmio_reg_descr_gro
-> >       if (!regs)
-> >               return;
-> >
-> > +     if (!list->list)
-> > +             return;
->
-> Could you merge this with the other sanity checks at the start of the fun=
-ction.
->
-> -       if (!list || list->num_regs =3D=3D 0)
-> +       if (!list || !list->list || list->num_regs =3D=3D 0)
-That looks better. Will do that in V2 and send it.
-> The list->list pointer can't actually be NULL.  It comes from
-> guc_capture_get_one_list(), so if the reglists[i].list pointer is NULL it
-> returns NULL.  However, obviously checking for NULL after a dereference i=
-s not
-> the correct so it's worth fixing and probably deserves a Fixes tag.  Alth=
-ough it
-> doesn't affect runtime, adding a Fixes tag helps backporters know they ca=
-n
-> automatically ignore this one because the commit it's fixing is very rece=
-nt.
->
-> regards,
-> dan carpenter
->
+On Wed, Oct 09, 2024 at 07:15:42PM +0800, Shu-hsiang Yang wrote:
+> 1. Add camera isp7x module device document
+> 2. Add camera interface device document
+> 
+> Signed-off-by: Shu-hsiang Yang <Shu-hsiang.Yang@mediatek.com>
+> ---
+>  .../media/mediatek/mediatek,cam-raw.yaml      | 169 ++++++++++++++++++
+>  .../media/mediatek/mediatek,cam-yuv.yaml      | 148 +++++++++++++++
+>  .../media/mediatek/mediatek,camisp.yaml       |  71 ++++++++
+>  .../media/mediatek/mediatek,seninf-core.yaml  | 106 +++++++++++
+>  .../media/mediatek/mediatek,seninf.yaml       |  88 +++++++++
+>  5 files changed, 582 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek/mediatek,cam-raw.yaml
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek/mediatek,cam-yuv.yaml
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek/mediatek,camisp.yaml
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek/mediatek,seninf-core.yaml
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek/mediatek,seninf.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/mediatek/mediatek,cam-raw.yaml b/Documentation/devicetree/bindings/media/mediatek/mediatek,cam-raw.yaml
+> new file mode 100644
+> index 000000000000..c709e4bf0a18
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/mediatek/mediatek,cam-raw.yaml
+> @@ -0,0 +1,169 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +# Copyright (c) 2024 MediaTek Inc.
+> +
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/mediatek/mediatek,cam-raw.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: The cam-raw unit of MediaTek ISP system
+> +
+> +maintainers:
+> +  - Shu-hsiang Yang <shu-hsiang.yang@mediatek.com>
+> +  - Shun-yi Wang <shun-yi.wang@mediatek.com>
+> +  - Teddy Chen <teddy.chen@mediatek.com>
+> +
+> +description:
+> +  MediaTek cam-raw is the camera RAW processing unit in MediaTek SoC.
+> +
+> +properties:
+> +  compatible:
+> +    const: mediatek,cam-raw
+
+Compatibles should be SoC specific.
+
+> +
+> +  "#address-cells":
+> +    const: 2
+> +
+> +  "#size-cells":
+> +    const: 2
+
+Don't need these. You don't have any child nodes with addresses.
+
+> +
+> +  reg:
+> +    items:
+> +      minItems: 2
+> +      maxItems: 4
+
+Drop items.
+
+> +    minItems: 1
+> +    maxItems: 2
+
+You have to specify what each region is.
+
+Why does it vary? A h/w block either has register region or it doesn't.
+
+> +
+> +  reg-names:
+> +    minItems: 1
+> +    maxItems: 2
+
+You must define the names.
+
+> +
+> +  mediatek,cam-id:
+> +    description:
+> +      Describes the index of MediaTek cam-raw unit for ISP
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    enum: [0, 1, 2]
+
+No, we don't put module indices in DT.
+
+> +
+> +  mediatek,larbs:
+> +    description:
+> +      Describes MediaTek bus infrastructure unit for ISP system.
+> +      List of phandle to the local arbiters in the current SoCs.
+> +      Refer to bindings/memory-controllers/mediatek,smi-larb.yaml.
+> +    $ref: /schemas/types.yaml#/definitions/phandle-array
+> +    minItems: 1
+> +    maxItems: 32
+> +
+> +  interrupts:
+> +    minItems: 1
+> +
+> +  dma-ranges:
+> +    description:
+> +      Describes the address information of IOMMU mapping to memory.
+> +      Defines six fields for the MediaTek IOMMU extended iova, pa, and size.
+> +    minItems: 1
+> +
+> +  power-domains:
+> +    minItems: 1
+> +
+> +  clocks:
+> +    minItems: 4
+> +    maxItems: 16
+
+You have to define what the clocks are.
+
+> +
+> +  clock-names:
+> +    minItems: 4
+> +    maxItems: 16
+> +
+> +  assigned-clocks:
+> +    maxItems: 1
+> +
+> +  assigned-clock-parents:
+> +    maxItems: 1
+
+Drop. You don't need to document assigned-clocks.
+
+> +
+> +  iommus:
+> +    description:
+> +      Points to the respective IOMMU block with master port as argument, see
+> +      Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml for details.
+> +      Ports are according to the HW.
+> +    minItems: 1
+> +    maxItems: 32
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - reg-names
+> +  - interrupts
+> +  - power-domains
+> +  - clocks
+> +  - clock-names
+> +  - iommus
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/power/mediatek,mt8188-power.h>
+> +    #include <dt-bindings/clock/mediatek,mt8188-clk.h>
+> +    #include <dt-bindings/memory/mediatek,mt8188-memory-port.h>
+> +
+> +    soc {
+> +      #address-cells = <2>;
+> +      #size-cells = <2>;
+> +
+> +      cam_raw_a@16030000 {
+> +        compatible = "mediatek,cam-raw";
+> +        reg = <0 0x16030000 0 0x8000>,
+> +              <0 0x16038000 0 0x8000>;
+> +        reg-names = "base", "inner_base";
+> +        mediatek,cam-id = <0>;
+> +        mediatek,larbs = <&larb16a>;
+> +        interrupts = <GIC_SPI 300 IRQ_TYPE_LEVEL_HIGH 0>;
+> +        #address-cells = <2>;
+> +        #size-cells = <2>;
+> +        dma-ranges = <0x2 0x0 0x0 0x40000000 0x1 0x0>;
+> +        power-domains = <&spm MT8188_POWER_DOMAIN_CAM_SUBA>;
+> +        clocks = <&camsys CLK_CAM_MAIN_CAM2MM0_GALS>,
+> +            <&camsys CLK_CAM_MAIN_CAM2MM1_GALS>,
+> +            <&camsys CLK_CAM_MAIN_CAM2SYS_GALS>,
+> +            <&camsys CLK_CAM_MAIN_CAM>,
+> +            <&camsys CLK_CAM_MAIN_CAMTG>,
+> +            <&camsys_rawa CLK_CAM_RAWA_LARBX>,
+> +            <&camsys_rawa CLK_CAM_RAWA_CAM>,
+> +            <&camsys_rawa CLK_CAM_RAWA_CAMTG>,
+> +            <&topckgen CLK_TOP_CAM>,
+> +            <&topckgen CLK_TOP_CAMTG>,
+> +            <&topckgen CLK_TOP_CAMTM>;
+> +        clock-names = "camsys_cam2mm0_cgpdn",
+> +            "camsys_cam2mm1_cgpdn",
+> +            "camsys_cam2sys_cgpdn",
+> +            "camsys_cam_cgpdn",
+> +            "camsys_camtg_cgpdn",
+> +            "camsys_rawa_larbx_cgpdn",
+> +            "camsys_rawa_cam_cgpdn",
+> +            "camsys_rawa_camtg_cgpdn",
+> +            "topckgen_top_cam",
+> +            "topckgen_top_camtg",
+> +            "topckgen_top_camtm";
+> +        assigned-clocks = <&topckgen CLK_TOP_CAM>;
+> +        assigned-clock-parents = <&topckgen CLK_TOP_UNIVPLL_D5>;
+> +        iommus = <&vpp_iommu M4U_PORT_L16A_IMGO_R1>,
+> +            <&vpp_iommu M4U_PORT_L16A_CQI_R1>,
+> +            <&vpp_iommu M4U_PORT_L16A_CQI_R2>,
+> +            <&vpp_iommu M4U_PORT_L16A_BPCI_R1>,
+> +            <&vpp_iommu M4U_PORT_L16A_LSCI_R1>,
+> +            <&vpp_iommu M4U_PORT_L16A_RAWI_R2>,
+> +            <&vpp_iommu M4U_PORT_L16A_RAWI_R3>,
+> +            <&vpp_iommu M4U_PORT_L16A_UFDI_R2>,
+> +            <&vpp_iommu M4U_PORT_L16A_UFDI_R3>,
+> +            <&vpp_iommu M4U_PORT_L16A_RAWI_R4>,
+> +            <&vpp_iommu M4U_PORT_L16A_RAWI_R5>,
+> +            <&vpp_iommu M4U_PORT_L16A_AAI_R1>,
+> +            <&vpp_iommu M4U_PORT_L16A_UFDI_R5>,
+> +            <&vpp_iommu M4U_PORT_L16A_FHO_R1>,
+> +            <&vpp_iommu M4U_PORT_L16A_AAO_R1>,
+> +            <&vpp_iommu M4U_PORT_L16A_TSFSO_R1>,
+> +            <&vpp_iommu M4U_PORT_L16A_FLKO_R1>;
+> +      };
+> +    };
+> +
+> +...
+> diff --git a/Documentation/devicetree/bindings/media/mediatek/mediatek,cam-yuv.yaml b/Documentation/devicetree/bindings/media/mediatek/mediatek,cam-yuv.yaml
+> new file mode 100644
+> index 000000000000..30dfd5e5ecb1
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/mediatek/mediatek,cam-yuv.yaml
+
+Similar comments on the rest.
+
+Rob
+
