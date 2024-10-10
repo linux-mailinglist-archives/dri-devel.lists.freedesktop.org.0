@@ -2,179 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70F82998705
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Oct 2024 15:02:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1568B998727
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Oct 2024 15:08:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E387A10E2CA;
-	Thu, 10 Oct 2024 13:02:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4D5910E8F5;
+	Thu, 10 Oct 2024 13:08:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="aM68kyIQ";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="xPr63R+s";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E1E110E2CA;
- Thu, 10 Oct 2024 13:02:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1728565345; x=1760101345;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=bTjpdXB+Qq5lgbn/f0uigOIn9HFXa7XRMu+lzBK8JpM=;
- b=aM68kyIQzowbzkCMh2+x6YxokDd1Rjl5cCxEuHU5Le1dMDIxGi+Qx3dl
- tlmzupIBgrJq2cHysMWg6dnihT3jNDh34OuEkgW3m9IWRAOfrx6Bm92ri
- urlgGHPYqQe3rgne6r7nkdSxz9eg95KWLtY005jyrHZplQCY4OA5iU+eu
- 3APBWw/IOI8rtudgopuJvmDNFoqj1AegVKWpSBMucR31qJf4kkPHp0s8n
- TNMQyNFvheTdZko4OgpW9b7Vw+7V7WJYMO1uRC+btoEjiblXy5EewOZg/
- VoklvMfcxx1oE+1z9MfNoiJdgbF/dKKCWm/riUZYBOVV+WfpONhroDC8g Q==;
-X-CSE-ConnectionGUID: X1CPdqyXQqa/lb6TrBlYCA==
-X-CSE-MsgGUID: e+BwN6hyTFGW+Jm8z2xcBw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="38563102"
-X-IronPort-AV: E=Sophos;i="6.11,193,1725346800"; d="scan'208";a="38563102"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Oct 2024 06:02:24 -0700
-X-CSE-ConnectionGUID: RH+ybDXLQF+dSa/btv7p0w==
-X-CSE-MsgGUID: R9XY52DMTiugB2ALa0M7cg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,193,1725346800"; d="scan'208";a="76496062"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by orviesa010.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 10 Oct 2024 06:02:24 -0700
-Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Thu, 10 Oct 2024 06:02:24 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Thu, 10 Oct 2024 06:02:23 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Thu, 10 Oct 2024 06:02:23 -0700
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.45) by
- edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Thu, 10 Oct 2024 06:02:23 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mQw0BcCl7vMQi9SuFwWWeV4BSP2IzS2JB0GYfffY+yUmGdDNBPdVnudQCxE0UGIUsmG4G5UXklw63TjIzNQiXwJ9GFKvzgyxgPC/6aPC6pHbVGRdplxrXNOx5/bVjL6OWbepiK9AEsr6Jb+Zb++wddzA2KaFPjGdVXwV/QL0g5wwOi1ZySFnj3H971UpEQ2zQxu4ufp2747jExNkNcbCRAL5nCf3g9PSxt3hXdGMcdT3FnkITv/ONWCB7HmtSyz+7Z0iTdr6bmiaIbjuG0A1zXZZWZWov2n/WwJVPnB8U4aK3WrOSsjfV9a/LLthxzFHk8x6ynPPLulZyOnRsgJeyg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=86muV/MUABfnGPmF2d4XA0CnJHixew1cd2+lW6pymq8=;
- b=gvJkz/XXw+vYwlSFsKXNCxeOSsZbaB1KXhma+UrTaeu845yBOAJ4/66B1oGkUu2s3LwlW1mSoFXTFnefnElNoGcAxL4IS6C7ty+aA8hiWV2Rbuin08gEcJUjVxmaIYHP3kI7/jCc4Q5YCqFU8+bYyF4cHqtTwKcQBNqQFo+gV64vqDDS6MiIVZ5n+Joi8sima4JTPVGYUDqO2t2u+IitzBOMkEs0B6JozAlPI0dZ/3dqRG39wV4mlQAEHxGIvbkkluVsXTb09JPlHIN1d5KXOyeqvKF1ANXqRj7X9W+6rTW4ZNH1SOio95iuYni2eNhC6jdc684C1WT7Qis0GiujHQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
- by SA0PR11MB4590.namprd11.prod.outlook.com (2603:10b6:806:96::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.18; Thu, 10 Oct
- 2024 13:02:16 +0000
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::7141:316f:77a0:9c44]) by CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::7141:316f:77a0:9c44%6]) with mapi id 15.20.8026.020; Thu, 10 Oct 2024
- 13:02:16 +0000
-Date: Thu, 10 Oct 2024 08:02:10 -0500
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Raag Jadav <raag.jadav@intel.com>
-CC: Michal Wajdeczko <michal.wajdeczko@intel.com>, <airlied@gmail.com>,
- <simona@ffwll.ch>, <thomas.hellstrom@linux.intel.com>,
- <rodrigo.vivi@intel.com>, <jani.nikula@linux.intel.com>,
- <andriy.shevchenko@linux.intel.com>, <joonas.lahtinen@linux.intel.com>,
- <tursulin@ursulin.net>, <lina@asahilina.net>,
- <intel-xe@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, <himal.prasad.ghimiray@intel.com>,
- <francois.dugast@intel.com>, <aravind.iddamsetty@linux.intel.com>,
- <anshuman.gupta@intel.com>, <andi.shyti@linux.intel.com>,
- <matthew.d.roper@intel.com>
-Subject: Re: [PATCH v7 1/5] drm: Introduce device wedged event
-Message-ID: <ghawgrgfbochcupnbq52q4ep6l5rfj32i4wcnmykah3zxmehts@r5eaynm4vocf>
-References: <20240930073845.347326-1-raag.jadav@intel.com>
- <20240930073845.347326-2-raag.jadav@intel.com>
- <26f90d12-6a04-445e-96ff-aafbe3dc8132@intel.com>
- <Zv6Ms7G4pSLdgUKo@black.fi.intel.com>
- <ZwVJk8ESEyxyemrG@black.fi.intel.com>
-Content-Type: text/plain; charset="us-ascii"; format=flowed
-Content-Disposition: inline
-In-Reply-To: <ZwVJk8ESEyxyemrG@black.fi.intel.com>
-X-ClientProxiedBy: MW4PR03CA0255.namprd03.prod.outlook.com
- (2603:10b6:303:b4::20) To CY5PR11MB6139.namprd11.prod.outlook.com
- (2603:10b6:930:29::17)
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
+ [209.85.208.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BA2D10E8F5
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Oct 2024 13:08:29 +0000 (UTC)
+Received: by mail-lj1-f175.google.com with SMTP id
+ 38308e7fff4ca-2fabc9bc5dfso8787431fa.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Oct 2024 06:08:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1728565707; x=1729170507; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=Jaq7liW82RR849pRI8XbbRkmC3ASF0tSU7ok70rJo+g=;
+ b=xPr63R+sMxSf/T3s1qXMNW71SBR8cxPHi6+81DSwhtV2PGHxGwNCzvtIvw7Aq50BQI
+ a1o8AN6jqaXpPg4eS02cWK/wBo0tGLxYSOH+76Gw62SdzP2kw5prE0IUSR3uJd43B25b
+ OHELxv8fSQg3OM1b4PWyRpdULmlUXq3mWrBPQh0dmw40XceU67RscGZTfHQgAx4Gjx+3
+ HbtffL0bUwbJ/PY1r9+c8nnJ+gtzDY2MzQfVTk45dFQLZLeb3U1k15n3I7w+ZgYsdnAh
+ 76pnV/6U42h+HPZ6GRpOIO6cBfLnVs+bwscjnlibd2XFqtkizP1gdyTt13NgZzzxAMU9
+ XLPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1728565707; x=1729170507;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Jaq7liW82RR849pRI8XbbRkmC3ASF0tSU7ok70rJo+g=;
+ b=ntvlq2N3tM5nxiC3n+vP/vG7BEJKYNixG3GXKSJJqbwbrrQFQjt39Jabatqnf5pgHa
+ xv7j5baT8hdISM1dYZffQEZb1X0h/LljOvPTEzfI2Oxv3S5XxMWPC0OOvmZoLCEB0GVu
+ /1j2gEGRSLTFwTz5I6P8dfzJb67ql+uDm6H+/FJEAyHf4NlR/P2zdtpQDqbTQvLMAlNB
+ 8hHY2rV/fQcN8UVoQikY7T/PS3zfD/pykhOW3xXulX5ScgZyld7r7YzGuclHRD1S05Az
+ wPq5+O8XIuJqHldA6AtbPanP7RZMHmPpN/9F66Kov4ovglVRabXckcxof++9P1lCLE9D
+ 3Liw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUxvbiLYpwHCl2PMRKGPnXYa2yMrwkwt0Fo/qUUq/PnWgKjpL0n2SsaX+BHvlJ5ZOw19OmhcRe8vI8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwEeJ2Ba4pwMosn/Dsrxfj61egDX8SbgXOFeGGvQ06hYY1QiOiL
+ mj3TGufyoSxsL6zHu0tqp4bD1puAJwWY7ea+6N1CyKknj3MMorgYOnUT+KkHg/g=
+X-Google-Smtp-Source: AGHT+IEICurksyoZuecP5FPvxp30drF7sqQ1tUGjdcEd7eGYqIX705ef4X3aCF43P7uAZ04K2hZdZQ==
+X-Received: by 2002:a2e:131a:0:b0:2fa:cd30:8e11 with SMTP id
+ 38308e7fff4ca-2fb187e65f0mr32540871fa.43.1728565706952; 
+ Thu, 10 Oct 2024 06:08:26 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-2fb24706462sm2009851fa.99.2024.10.10.06.08.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Oct 2024 06:08:25 -0700 (PDT)
+Date: Thu, 10 Oct 2024 16:08:23 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Jun Nie <jun.nie@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 05/14] drm/msm/dpu: handle pipes as array
+Message-ID: <kuvbcodnbgsgetkudbce32rajy6kg3lpxhcx6cvgm6bi7ekoki@smmnpdrwhbqn>
+References: <20241009-sm8650-v6-11-hmd-pocf-mdss-quad-upstream-21-v2-0-76d4f5d413bf@linaro.org>
+ <20241009-sm8650-v6-11-hmd-pocf-mdss-quad-upstream-21-v2-5-76d4f5d413bf@linaro.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|SA0PR11MB4590:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1a8d1d1c-afff-46d1-10eb-08dce92bc43e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|366016|376014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?TcZqfwJncQxMEvOzP3Y5TZ+o4tAKpM5LtSPVVrjU1Etjt51v10mL+mFAx/uX?=
- =?us-ascii?Q?uLjAcpyr3vtHrBe3VnEWQ6PiGzW3y0QwqNyDG2p0X2VuFvzHOnoprb6FFTHs?=
- =?us-ascii?Q?aHjWiS5a8F2CNhtsQU3evwYPA0tDebSEilGh2NzO/Tkz9ZWZd+LBxXi2Rby7?=
- =?us-ascii?Q?6jVXQlM7uGp/nb2NOxFN5s1NeVyKUVL7SZAJbWOSS+Ud3PqgLplKTL9HgHfP?=
- =?us-ascii?Q?kB+yGbGIzdbXC97l/Px9wCN81nLLI1ZPqBEHo8K+xs+HUCOhWh9GEJjLR0oA?=
- =?us-ascii?Q?z0GWAAD15YRaWdkXcDMwp9QxCX25LVAik2Eb8++NT+63SZw6ESkmrLD8CJ8H?=
- =?us-ascii?Q?/dIPasUPhre+W9CtWk0Sd/P3F3g579Xu2pcvdrRbKW1Kx6qoq58FvOrIdQKk?=
- =?us-ascii?Q?Tpg2tgTnGs7lCAxnxbUMYLCypwaH+h7q+OfM2irONsF6fKQKz+X6jdev4tHa?=
- =?us-ascii?Q?0JB+yFzj1EpBw8jXDTq6c7v9oJVPhnjsc185Okk3WOAWapaof46PXHZDv0HB?=
- =?us-ascii?Q?lAZhdYATFj3m0Rp+Gx2trmDqDMorjvLkYJmYokyvoeluG/BJ0maCB2QUaX95?=
- =?us-ascii?Q?ewCTXUTcXoyaW+n52THjq2oMxu1nKrrRcUNoZHcReXyqZKkwwgwfho9PX63M?=
- =?us-ascii?Q?8RSKjzTHRcw8+U3h02N1+YOfMniE1R4Y7nazrhkGx0XqzTHYgqY+6227Crat?=
- =?us-ascii?Q?xcDIXVzqVfSZw2e5s7HVRm6JIzzhdS+/XD4amf4OYZ1O+OL8OzfVNZBAZDgz?=
- =?us-ascii?Q?r5EOlf8dTSKjJtVfeAzaY4OSbT8qylj74CCPh+wxtuKri6kF5Dbo61C4Hc+h?=
- =?us-ascii?Q?pL/pB/iIIJ1kMlli0F5cYvTaAuOdDqqtAuRGGS9zSSzl1oy0nPNsiZgOQDoi?=
- =?us-ascii?Q?xeIbiA4eU/xfgxutWianI+KEDtMSMXymI3gMjcujU/OGM6XJC5Crhy0COy/L?=
- =?us-ascii?Q?+LJubzH7LUHQj7yEiD//fmHpi1EYBJaeEEhnesb+5b96yzRj5WBLNIJ5F25u?=
- =?us-ascii?Q?sFBdpFyEr+jXTbZkeKtX0wxaxC4croBZU+QbtlVKjs4jDX72nsHt3bgg51Eu?=
- =?us-ascii?Q?tz/tQbH6lcOskzt901NJOjqKbmVX/2cvCFpzL4G7PUjQxcDSZLeBvCXn45d+?=
- =?us-ascii?Q?prsxlCxVEnOaWHl8BM6TJ+VzmYD5Uck6w9U0VpgiUo1E2Mxf0cg9sZmBp73k?=
- =?us-ascii?Q?u3CAhh1b/wxSMX7xvvAAiwDvoYyhHxWx2VjoN3hn4qRvIY39TThZo6oxy8Mm?=
- =?us-ascii?Q?BcN8gkHTrVTVFJp504xj6uBsAfZMAMM9Yp4AFyhgIw=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(366016)(376014)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?pFB8+vjgHA/sKHRAgSp43e0LUgZro4o3yTyPJYwkfGbAkel/eYTBqGYqMuSF?=
- =?us-ascii?Q?X3U5zvx2gkCu3kPkpkQxCHkOLdOK03fMA6IYzK/sbLXaqVf4x0vpvqj4aP4/?=
- =?us-ascii?Q?ySoAK2tVly9N7vXTKFY40yDKcZDi07CdW0p3qNvtM7nWEYgwov7TUE4I6uGj?=
- =?us-ascii?Q?ddTho1un5OQ8Mv7kjfvtE9kjkbmd2wXzEpwLfZFaqDl4UQc2sCpies8ycPtY?=
- =?us-ascii?Q?VdZf9d+DXuRICsRD9uXzxyHkHTIUn5xRejpvNiR0GZzPICkpzUwo/7BhMeZV?=
- =?us-ascii?Q?bBSVRSPVrLohd8q0BpIxvkizSJALbMDIPJ5Hc++avHKNqEuk1JlPi8QsmWji?=
- =?us-ascii?Q?5SS8P2NFNZhqiEsBL1sKybW51UU+VoFdF0Z0BG27UtMKEakoWH1txZ0B0tBq?=
- =?us-ascii?Q?kwzYn06w2Jl/qdTPyz4ORKJ/v2bdvyXp19avfThf2uj3V5jI8WL/THQAZUXk?=
- =?us-ascii?Q?goeGUMG/Z+DpVwlLhliQTNERKpRmfvDKz2RNQQWBGw2xJfylTiSiTVHJNi5Z?=
- =?us-ascii?Q?qNtokeRC/qguyScPvA6zLImZD9y8hNxIFLdPekX6xCEUhO2OUmWd9lFaRkyX?=
- =?us-ascii?Q?9aXBUMQZCu1pLsFEmEhU+4l/nf7vVlP6O5E7U6CbDZqXJImRJDqMQ3GMNePX?=
- =?us-ascii?Q?xsSEDGjY1ghp60RLAW+OKEA1pSkCXIwQ3+HuS3gxdUwXJIAGtJUNv50Fy4zJ?=
- =?us-ascii?Q?b+40r4AnzQkOOGwJNRh+OG+muY6LYRLK+j8WvDdGDyv+k+dQyvWsuH6ckLJi?=
- =?us-ascii?Q?ERZfhu/TLYS4lfS3VQmPlg2EUyW12+Wh8Ay51WyB601xIuWi8gogSJD7HdBt?=
- =?us-ascii?Q?uwIR7DxI93dcbrwK4UBb4dC1Dj9c/OHMQpmcoveaDkkcReZrKpM2iVCQWiYp?=
- =?us-ascii?Q?ISEXjO/iow2/YPvZcm26rAMCzYoXnIe6SGD8tiCiXe9TpeIfiXK3o/8EgUsb?=
- =?us-ascii?Q?esABDPsOhx7CGUHdUw27eDCw6DWUcvmVJ88C9C7uMmepE6NYwg0MQTMsd+qP?=
- =?us-ascii?Q?qO4pA68cCHrVAqWImAnuHCpSdXS89eUec7afR1jo+7mC1UYvqho9MD2wzGW4?=
- =?us-ascii?Q?oqw0ISedTmanUpaFipGNJQ18eTaZiXHSZbom/anvxWOFVSHiSCYCPpmfwboy?=
- =?us-ascii?Q?WbhYo/Cn6EXzidmVzsnGD2wEO1EoSset5UEqG4TQ3hNC7ZDJd/fHby+AgXvk?=
- =?us-ascii?Q?dVJiy3mqePwxKM92PAR81eCt6y5hGu/97qgAOje7++fw00H/DYcx/9f0LrWx?=
- =?us-ascii?Q?HIGc+XLiIBR94ZKh6RnsCHBYYkpIGpS5EV3az1RlU9x2jJCUZmYJkBHUHavO?=
- =?us-ascii?Q?g9wuQglA8czy8oMy5SEXvL8p0sShsIaqrvST7k/ALnklg70HjWz29Ql+TtaV?=
- =?us-ascii?Q?hQO/zzNNKMK4/vHE2oO6zpjpWbNMsnVjsTOgl4RE/f/0t0qmgLzMCQdIzBXL?=
- =?us-ascii?Q?t8TWJKViWW1hkdg4kXWUYKzvptJRwLyX/gVLFodMyYUrJwzP2R2nHKwvSSxF?=
- =?us-ascii?Q?f0OHN6vDreBRSmcxrYtC1wfTj4oDV44luU49bT0BIUwSnN0YDj4dOIWF61tg?=
- =?us-ascii?Q?WrpTSc5vcvK7Gg4JIC+qCXYmhah9ca+5G1eJzCrKjlZ16s7JB6O6GJH9LyJC?=
- =?us-ascii?Q?bg=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1a8d1d1c-afff-46d1-10eb-08dce92bc43e
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2024 13:02:16.7232 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DOkrE7N4PQt8ZwpMjID/7Xbp1xYKhtg+ZyF5Agcq06Z5qZnOoQr30Q5i+uJcNbSJAQ+zp5G9GnjxVMBSbGDgTSOCvXNst0VGgHrC37KOqSY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR11MB4590
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241009-sm8650-v6-11-hmd-pocf-mdss-quad-upstream-21-v2-5-76d4f5d413bf@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -190,89 +89,499 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 08, 2024 at 06:02:43PM +0300, Raag Jadav wrote:
->On Thu, Oct 03, 2024 at 03:23:22PM +0300, Raag Jadav wrote:
->> On Tue, Oct 01, 2024 at 02:20:29PM +0200, Michal Wajdeczko wrote:
->> > On 30.09.2024 09:38, Raag Jadav wrote:
->> > >
->> > > +/**
->> > > + * enum drm_wedge_recovery - Recovery method for wedged device in order of
->> > > + * severity. To be set as bit fields in drm_device.wedge_recovery variable.
->> > > + * Drivers can choose to support any one or multiple of them depending on
->> > > + * their needs.
->> > > + */
->> > > +enum drm_wedge_recovery {
->> > > +	/** @DRM_WEDGE_RECOVERY_REBIND: unbind + rebind driver */
->> > > +	DRM_WEDGE_RECOVERY_REBIND,
->> > > +
->> > > +	/** @DRM_WEDGE_RECOVERY_BUS_RESET: unbind + reset bus device + rebind */
->> > > +	DRM_WEDGE_RECOVERY_BUS_RESET,
->> > > +
->> > > +	/** @DRM_WEDGE_RECOVERY_REBOOT: reboot system */
->> > > +	DRM_WEDGE_RECOVERY_REBOOT,
->> > > +
->> > > +	/** @DRM_WEDGE_RECOVERY_MAX: for bounds checking, do not use */
->> > > +	DRM_WEDGE_RECOVERY_MAX
->> > > +};
->> > > +
->> > >  /**
->> > >   * struct drm_device - DRM device structure
->> > >   *
->> > > @@ -317,6 +337,9 @@ struct drm_device {
->> > >  	 * Root directory for debugfs files.
->> > >  	 */
->> > >  	struct dentry *debugfs_root;
->> > > +
->> > > +	/** @wedge_recovery: Supported recovery methods for wedged device */
->> > > +	unsigned long wedge_recovery;
->> >
->> > hmm, so before the driver can ask for a reboot as a recovery method from
->> > wedge it has to somehow add 'reboot' as available method? why it that?
->>
->> It's for consumers to use as fallbacks in case the preferred recovery method
->> (sent along with uevent) don't workout. (patch 2/5)
->
->On second thought...
->
->Lucas, do we have a convincing enough usecase for fallback recovery?
->If <method> were to fail, I would expect there to be even bigger problems
->like kernel crash or unrecoverable hardware failure.
->
->At that point is it worth retrying?
+On Wed, Oct 09, 2024 at 04:50:18PM GMT, Jun Nie wrote:
+> Store pipes in array with removing dedicated r_pipe. There are
+> 2 pipes in a drm plane at most currently. While 4 pipes are
+> needed for new usage case. This change generalize the handling
+> to pipe pair and ease handling to another pipe pair later.
+> 
+> Signed-off-by: Jun Nie <jun.nie@linaro.org>
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c  |  34 +++---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 167 ++++++++++++++++--------------
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h |  12 +--
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h |  10 +-
+>  4 files changed, 111 insertions(+), 112 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> index 3e0e6e9757da5..9656b1df0f122 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> @@ -411,7 +411,7 @@ static void _dpu_crtc_blend_setup_pipe(struct drm_crtc *crtc,
+>  
+>  	trace_dpu_crtc_setup_mixer(DRMID(crtc), DRMID(plane),
+>  				   state, to_dpu_plane_state(state), stage_idx,
+> -				   format->pixel_format,
+> +				   format->pixel_format, pipe,
+>  				   modifier);
 
-when we were talking about this, I brought it up about allowing the
-driver to inform what was the supported wedge recovery mechanisms
-when the notification is sent. Not to be intended as fallback mechanism.
+Doesn't seem to be related.
 
-So if the driver sends a notification with:
+>  
+>  	DRM_DEBUG_ATOMIC("crtc %d stage:%d - plane %d sspp %d fb %d multirect_idx %d\n",
+> @@ -442,7 +442,7 @@ static void _dpu_crtc_blend_setup_mixer(struct drm_crtc *crtc,
+>  	const struct msm_format *format;
+>  	struct dpu_hw_ctl *ctl = mixer->lm_ctl;
+>  
+> -	uint32_t lm_idx;
+> +	uint32_t lm_idx, i;
+>  	bool bg_alpha_enable = false;
+>  	DECLARE_BITMAP(fetch_active, SSPP_MAX);
+>  
+> @@ -463,20 +463,15 @@ static void _dpu_crtc_blend_setup_mixer(struct drm_crtc *crtc,
+>  		if (pstate->stage == DPU_STAGE_BASE && format->alpha_enable)
+>  			bg_alpha_enable = true;
+>  
+> -		set_bit(pstate->pipe.sspp->idx, fetch_active);
+> -		_dpu_crtc_blend_setup_pipe(crtc, plane,
+> -					   mixer, cstate->num_mixers,
+> -					   pstate->stage,
+> -					   format, fb ? fb->modifier : 0,
+> -					   &pstate->pipe, 0, stage_cfg);
+> -
+> -		if (pstate->r_pipe.sspp) {
+> -			set_bit(pstate->r_pipe.sspp->idx, fetch_active);
+> +		for (i = 0; i < PIPES_PER_STAGE; i++) {
+> +			if (!pstate->pipe[i].sspp)
+> +				continue;
+> +			set_bit(pstate->pipe[i].sspp->idx, fetch_active);
+>  			_dpu_crtc_blend_setup_pipe(crtc, plane,
+>  						   mixer, cstate->num_mixers,
+>  						   pstate->stage,
+>  						   format, fb ? fb->modifier : 0,
+> -						   &pstate->r_pipe, 1, stage_cfg);
+> +						   &pstate->pipe[i], i, stage_cfg);
+>  		}
+>  
+>  		/* blend config update */
+> @@ -1387,15 +1382,12 @@ static int _dpu_debugfs_status_show(struct seq_file *s, void *data)
+>  		seq_printf(s, "\tdst x:%4d dst_y:%4d dst_w:%4d dst_h:%4d\n",
+>  			state->crtc_x, state->crtc_y, state->crtc_w,
+>  			state->crtc_h);
+> -		seq_printf(s, "\tsspp[0]:%s\n",
+> -			   pstate->pipe.sspp->cap->name);
+> -		seq_printf(s, "\tmultirect[0]: mode: %d index: %d\n",
+> -			pstate->pipe.multirect_mode, pstate->pipe.multirect_index);
+> -		if (pstate->r_pipe.sspp) {
+> -			seq_printf(s, "\tsspp[1]:%s\n",
+> -				   pstate->r_pipe.sspp->cap->name);
+> -			seq_printf(s, "\tmultirect[1]: mode: %d index: %d\n",
+> -				   pstate->r_pipe.multirect_mode, pstate->r_pipe.multirect_index);
+> +		if (pstate->pipe[i].sspp) {
+> +			seq_printf(s, "\tsspp[%d]:%s\n",
+> +				   i, pstate->pipe[i].sspp->cap->name);
+> +			seq_printf(s, "\tmultirect[%d]: mode: %d index: %d\n",
+> +				   i, pstate->pipe[i].multirect_mode,
+> +				   pstate->pipe[i].multirect_index);
+>  		}
 
-	DRM_WEDGE_RECOVERY_REBIND | DRM_WEDGE_RECOVERY_BUS_RESET | DRM_WEDGE_RECOVERY_REBOOT
+I don't expect that this will work.
 
-it means any of these would be suitable, with the first being the option
-with less side-effect. I don't think we are advising userspace to use
-fallback, just informing what the driver/device supports. Depending on
-the error, the driver may leave only
+>  
+>  		seq_puts(s, "\n");
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> index 4df7cfed4d230..e7006fb8c7734 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> @@ -429,7 +429,7 @@ static void _dpu_plane_setup_scaler3(struct dpu_hw_sspp *pipe_hw,
+>  		uint32_t chroma_subsmpl_h, uint32_t chroma_subsmpl_v,
+>  		unsigned int rotation)
+>  {
+> -	uint32_t i;
+> +	int i;
 
-	DRM_WEDGE_RECOVERY_REBOOT
+Why?
 
-That name could actually be DRM_WEDGE_RECOVERY_NONE. Because at that
-state the driver doesn't really know what can be done to recover.
-With that we can drop _MAX and use _NONE for bounding check. I think
-we can also omit it in the notification as it's clear:
+>  	bool inline_rotation = rotation & DRM_MODE_ROTATE_90;
+>  
+>  	/*
+> @@ -619,6 +619,7 @@ static void _dpu_plane_color_fill(struct dpu_plane *pdpu,
+>  	struct msm_drm_private *priv = plane->dev->dev_private;
+>  	struct dpu_plane_state *pstate = to_dpu_plane_state(plane->state);
+>  	u32 fill_color = (color & 0xFFFFFF) | ((alpha & 0xFF) << 24);
+> +	int i;
+>  
+>  	DPU_DEBUG_PLANE(pdpu, "\n");
+>  
+> @@ -632,12 +633,12 @@ static void _dpu_plane_color_fill(struct dpu_plane *pdpu,
+>  		return;
+>  
+>  	/* update sspp */
+> -	_dpu_plane_color_fill_pipe(pstate, &pstate->pipe, &pstate->pipe_cfg.dst_rect,
+> -				   fill_color, fmt);
+> -
+> -	if (pstate->r_pipe.sspp)
+> -		_dpu_plane_color_fill_pipe(pstate, &pstate->r_pipe, &pstate->r_pipe_cfg.dst_rect,
+> -					   fill_color, fmt);
+> +	for (i = 0; i < PIPES_PER_STAGE; i++) {
+> +		if (pstate->pipe[i].sspp)
+> +			_dpu_plane_color_fill_pipe(pstate, &pstate->pipe[i],
+> +						   &pstate->pipe_cfg[i].dst_rect,
+> +						   fill_color, fmt);
+> +	}
+>  }
+>  
+>  static int dpu_plane_prepare_fb(struct drm_plane *plane,
+> @@ -808,8 +809,8 @@ static int dpu_plane_atomic_check_nopipe(struct drm_plane *plane,
+>  	struct dpu_kms *kms = _dpu_plane_get_kms(&pdpu->base);
+>  	u64 max_mdp_clk_rate = kms->perf.max_core_clk_rate;
+>  	struct dpu_plane_state *pstate = to_dpu_plane_state(new_plane_state);
+> -	struct dpu_sw_pipe_cfg *pipe_cfg = &pstate->pipe_cfg;
+> -	struct dpu_sw_pipe_cfg *r_pipe_cfg = &pstate->r_pipe_cfg;
+> +	struct dpu_sw_pipe_cfg *pipe_cfg;
+> +	struct dpu_sw_pipe_cfg *r_pipe_cfg;
+>  	struct drm_rect fb_rect = { 0 };
+>  	uint32_t max_linewidth;
+>  
+> @@ -834,6 +835,9 @@ static int dpu_plane_atomic_check_nopipe(struct drm_plane *plane,
+>  		return -EINVAL;
+>  	}
+>  
+> +	/* move the assignment here, to ease handling to another pairs later */
+> +	pipe_cfg = &pstate->pipe_cfg[0];
+> +	r_pipe_cfg = &pstate->pipe_cfg[1];
+>  	/* state->src is 16.16, src_rect is not */
+>  	drm_rect_fp_to_int(&pipe_cfg->src_rect, &new_plane_state->src);
+>  
+> @@ -916,11 +920,11 @@ static int dpu_plane_atomic_check_pipes(struct drm_plane *plane,
+>  		drm_atomic_get_new_plane_state(state, plane);
+>  	struct dpu_plane *pdpu = to_dpu_plane(plane);
+>  	struct dpu_plane_state *pstate = to_dpu_plane_state(new_plane_state);
+> -	struct dpu_sw_pipe *pipe = &pstate->pipe;
+> -	struct dpu_sw_pipe *r_pipe = &pstate->r_pipe;
+>  	const struct msm_format *fmt;
+> -	struct dpu_sw_pipe_cfg *pipe_cfg = &pstate->pipe_cfg;
+> -	struct dpu_sw_pipe_cfg *r_pipe_cfg = &pstate->r_pipe_cfg;
+> +	struct dpu_sw_pipe *pipe = &pstate->pipe[0];
+> +	struct dpu_sw_pipe *r_pipe = &pstate->pipe[1];
+> +	struct dpu_sw_pipe_cfg *pipe_cfg = &pstate->pipe_cfg[0];
+> +	struct dpu_sw_pipe_cfg *r_pipe_cfg = &pstate->pipe_cfg[1];
+>  	uint32_t supported_rotations;
+>  	const struct dpu_sspp_cfg *pipe_hw_caps;
+>  	const struct dpu_sspp_sub_blks *sblk;
+> @@ -975,10 +979,10 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+>  	struct dpu_plane *pdpu = to_dpu_plane(plane);
+>  	struct dpu_plane_state *pstate = to_dpu_plane_state(new_plane_state);
+>  	struct dpu_kms *dpu_kms = _dpu_plane_get_kms(plane);
+> -	struct dpu_sw_pipe *pipe = &pstate->pipe;
+> -	struct dpu_sw_pipe *r_pipe = &pstate->r_pipe;
+> -	struct dpu_sw_pipe_cfg *pipe_cfg = &pstate->pipe_cfg;
+> -	struct dpu_sw_pipe_cfg *r_pipe_cfg = &pstate->r_pipe_cfg;
+> +	struct dpu_sw_pipe *pipe = &pstate->pipe[0];
+> +	struct dpu_sw_pipe *r_pipe = &pstate->pipe[1];
+> +	struct dpu_sw_pipe_cfg *pipe_cfg = &pstate->pipe_cfg[0];
+> +	struct dpu_sw_pipe_cfg *r_pipe_cfg = &pstate->pipe_cfg[1];
+>  	const struct drm_crtc_state *crtc_state = NULL;
+>  
+>  	if (new_plane_state->crtc)
+> @@ -1056,7 +1060,7 @@ static int dpu_plane_virtual_atomic_check(struct drm_plane *plane,
+>  		drm_atomic_get_old_plane_state(state, plane);
+>  	struct dpu_plane_state *pstate = to_dpu_plane_state(plane_state);
+>  	struct drm_crtc_state *crtc_state;
+> -	int ret;
+> +	int ret, i;
+>  
+>  	if (plane_state->crtc)
+>  		crtc_state = drm_atomic_get_new_crtc_state(state,
+> @@ -1071,8 +1075,8 @@ static int dpu_plane_virtual_atomic_check(struct drm_plane *plane,
+>  		 * resources are freed by dpu_crtc_assign_plane_resources(),
+>  		 * but clean them here.
+>  		 */
+> -		pstate->pipe.sspp = NULL;
+> -		pstate->r_pipe.sspp = NULL;
+> +		for (i = 0; i < PIPES_PER_STAGE; i++)
+> +			pstate->pipe[i].sspp = NULL;
+>  
+>  		return 0;
+>  	}
+> @@ -1110,19 +1114,22 @@ static int dpu_plane_virtual_assign_resources(struct drm_crtc *crtc,
+>  	struct dpu_sw_pipe_cfg *r_pipe_cfg;
+>  	const struct msm_format *fmt;
+>  	uint32_t max_linewidth;
+> +	int i;
+>  
+>  	if (plane_state->crtc)
+>  		crtc_state = drm_atomic_get_new_crtc_state(state,
+>  							   plane_state->crtc);
+>  
+>  	pstate = to_dpu_plane_state(plane_state);
+> -	pipe = &pstate->pipe;
+> -	r_pipe = &pstate->r_pipe;
+> -	pipe_cfg = &pstate->pipe_cfg;
+> -	r_pipe_cfg = &pstate->r_pipe_cfg;
+>  
+> -	pipe->sspp = NULL;
+> -	r_pipe->sspp = NULL;
+> +	/* loop below code for another pair later */
 
-	WEDGED
-	DRM_WEDGE_RECOVERY_REBIND | DRM_WEDGE_RECOVERY_BUS_RESET
+??
 
-This means the driver can use any of these options to recover
+> +	pipe = &pstate->pipe[0];
+> +	r_pipe = &pstate->pipe[1];
+> +	pipe_cfg = &pstate->pipe_cfg[0];
+> +	r_pipe_cfg = &pstate->pipe_cfg[1];
+> +
+> +	for (i = 0; i < PIPES_PER_STAGE; i++)
+> +		pstate->pipe[i].sspp = NULL;
+>  
+>  	if (!plane_state->fb)
+>  		return -EINVAL;
+> @@ -1228,6 +1235,7 @@ void dpu_plane_flush(struct drm_plane *plane)
+>  {
+>  	struct dpu_plane *pdpu;
+>  	struct dpu_plane_state *pstate;
+> +	int i;
+>  
+>  	if (!plane || !plane->state) {
+>  		DPU_ERROR("invalid plane\n");
+> @@ -1248,8 +1256,8 @@ void dpu_plane_flush(struct drm_plane *plane)
+>  		/* force 100% alpha */
+>  		_dpu_plane_color_fill(pdpu, pdpu->color_fill, 0xFF);
+>  	else {
+> -		dpu_plane_flush_csc(pdpu, &pstate->pipe);
+> -		dpu_plane_flush_csc(pdpu, &pstate->r_pipe);
+> +		for (i = 0; i < PIPES_PER_STAGE; i++)
+> +			dpu_plane_flush_csc(pdpu, &pstate->pipe[i]);
+>  	}
+>  
+>  	/* flag h/w flush complete */
+> @@ -1349,20 +1357,16 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
+>  	struct dpu_plane *pdpu = to_dpu_plane(plane);
+>  	struct drm_plane_state *state = plane->state;
+>  	struct dpu_plane_state *pstate = to_dpu_plane_state(state);
+> -	struct dpu_sw_pipe *pipe = &pstate->pipe;
+> -	struct dpu_sw_pipe *r_pipe = &pstate->r_pipe;
+>  	struct drm_crtc *crtc = state->crtc;
+>  	struct drm_framebuffer *fb = state->fb;
+>  	bool is_rt_pipe;
+>  	const struct msm_format *fmt =
+>  		msm_framebuffer_format(fb);
+> -	struct dpu_sw_pipe_cfg *pipe_cfg = &pstate->pipe_cfg;
+> -	struct dpu_sw_pipe_cfg *r_pipe_cfg = &pstate->r_pipe_cfg;
+>  	struct dpu_kms *kms = _dpu_plane_get_kms(&pdpu->base);
+>  	struct msm_gem_address_space *aspace = kms->base.aspace;
+>  	struct dpu_hw_fmt_layout layout;
+>  	bool layout_valid = false;
+> -	int ret;
+> +	int ret, i;
+>  
+>  	ret = dpu_format_populate_layout(aspace, fb, &layout);
+>  	if (ret)
+> @@ -1381,12 +1385,12 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
+>  			crtc->base.id, DRM_RECT_ARG(&state->dst),
+>  			&fmt->pixel_format, MSM_FORMAT_IS_UBWC(fmt));
+>  
+> -	dpu_plane_sspp_update_pipe(plane, pipe, pipe_cfg, fmt,
+> -				   drm_mode_vrefresh(&crtc->mode),
+> -				   layout_valid ? &layout : NULL);
+> -
+> -	if (r_pipe->sspp) {
+> -		dpu_plane_sspp_update_pipe(plane, r_pipe, r_pipe_cfg, fmt,
+> +	/* move the assignment here, to ease handling to another pairs later */
+> +	for (i = 0; i < PIPES_PER_STAGE; i++) {
+> +		if (!pstate->pipe[i].sspp)
+> +			continue;
+> +		dpu_plane_sspp_update_pipe(plane, &pstate->pipe[i],
+> +					   &pstate->pipe_cfg[i], fmt,
+>  					   drm_mode_vrefresh(&crtc->mode),
+>  					   layout_valid ? &layout : NULL);
+>  	}
+> @@ -1394,15 +1398,17 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
+>  	if (pstate->needs_qos_remap)
+>  		pstate->needs_qos_remap = false;
+>  
+> -	pstate->plane_fetch_bw = _dpu_plane_calc_bw(pdpu->catalog, fmt,
+> -						    &crtc->mode, pipe_cfg);
+> -
+> -	pstate->plane_clk = _dpu_plane_calc_clk(&crtc->mode, pipe_cfg);
+> -
+> -	if (r_pipe->sspp) {
+> -		pstate->plane_fetch_bw += _dpu_plane_calc_bw(pdpu->catalog, fmt, &crtc->mode, r_pipe_cfg);
+> +	pstate->plane_fetch_bw = 0;
+> +	pstate->plane_clk = 0;
+> +	for (i = 0; i < PIPES_PER_STAGE; i++) {
+> +		if (!pstate->pipe[i].sspp)
+> +			continue;
+> +		pstate->plane_fetch_bw += _dpu_plane_calc_bw(pdpu->catalog, fmt,
+> +							&crtc->mode, &pstate->pipe_cfg[i]);
 
-	WEDGED
-	DRM_WEDGE_RECOVERY_BUS_RESET
+Wrong indentation
 
-only bus reset would fix it
+>  
+> -		pstate->plane_clk = max(pstate->plane_clk, _dpu_plane_calc_clk(&crtc->mode, r_pipe_cfg));
+> +		pstate->plane_clk = max(pstate->plane_clk,
+> +					_dpu_plane_calc_clk(&crtc->mode,
+> +							    &pstate->pipe_cfg[i]));
+>  	}
+>  }
+>  
+> @@ -1410,17 +1416,24 @@ static void _dpu_plane_atomic_disable(struct drm_plane *plane)
+>  {
+>  	struct drm_plane_state *state = plane->state;
+>  	struct dpu_plane_state *pstate = to_dpu_plane_state(state);
+> -	struct dpu_sw_pipe *r_pipe = &pstate->r_pipe;
+> +	struct dpu_sw_pipe *pipe;
+> +	int i;
+> +
+> +	for (i = 0; i < PIPES_PER_STAGE; i += 1) {
+> +		pipe = &pstate->pipe[i];
+> +		if (!pipe->sspp)
+> +			continue;
+>  
+> -	trace_dpu_plane_disable(DRMID(plane), false,
+> -				pstate->pipe.multirect_mode);
+> +		trace_dpu_plane_disable(DRMID(plane), false,
+> +					pstate->pipe[i].multirect_mode);
+>  
+> -	if (r_pipe->sspp) {
+> -		r_pipe->multirect_index = DPU_SSPP_RECT_SOLO;
+> -		r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
+> +		if (pipe->sspp && pipe->multirect_index == DPU_SSPP_RECT_1) {
 
-	WEDGED
-	
-driver doesn't know anything that could fix it. It may be a soft-reboot,
-hard-reboot, firmware flashing etc... We just don't know.
+if (i > 1)
 
-Lucas De Marchi
+> +			pipe->multirect_index = DPU_SSPP_RECT_SOLO;
+> +			pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
+>  
+> -		if (r_pipe->sspp->ops.setup_multirect)
+> -			r_pipe->sspp->ops.setup_multirect(r_pipe);
+> +			if (pipe->sspp->ops.setup_multirect)
+> +				pipe->sspp->ops.setup_multirect(pipe);
+> +		}
+>  	}
+>  
+>  	pstate->pending = true;
+> @@ -1515,30 +1528,26 @@ static void dpu_plane_atomic_print_state(struct drm_printer *p,
+>  		const struct drm_plane_state *state)
+>  {
+>  	const struct dpu_plane_state *pstate = to_dpu_plane_state(state);
+> -	const struct dpu_sw_pipe *pipe = &pstate->pipe;
+> -	const struct dpu_sw_pipe_cfg *pipe_cfg = &pstate->pipe_cfg;
+> -	const struct dpu_sw_pipe *r_pipe = &pstate->r_pipe;
+> -	const struct dpu_sw_pipe_cfg *r_pipe_cfg = &pstate->r_pipe_cfg;
+> +	const struct dpu_sw_pipe *pipe;
+> +	const struct dpu_sw_pipe_cfg *pipe_cfg;
+> +	int i;
+>  
+>  	drm_printf(p, "\tstage=%d\n", pstate->stage);
+>  
+> -	if (pipe->sspp) {
+> -		drm_printf(p, "\tsspp[0]=%s\n", pipe->sspp->cap->name);
+> -		drm_printf(p, "\tmultirect_mode[0]=%s\n", dpu_get_multirect_mode(pipe->multirect_mode));
+> -		drm_printf(p, "\tmultirect_index[0]=%s\n",
+> +	for (i = 0; i < PIPES_PER_STAGE; i++) {
+> +		pipe = &pstate->pipe[i];
+> +		if (!pipe->sspp)
+> +			continue;
+> +		pipe_cfg = &pstate->pipe_cfg[i];
+> +		drm_printf(p, "\tsspp[%d]=%s\n", i, pipe->sspp->cap->name);
+> +		drm_printf(p, "\tmultirect_mode[%d]=%s\n", i,
+> +			   dpu_get_multirect_mode(pipe->multirect_mode));
+> +		drm_printf(p, "\tmultirect_index[%d]=%s\n", i,
+>  			   dpu_get_multirect_index(pipe->multirect_index));
+> -		drm_printf(p, "\tsrc[0]=" DRM_RECT_FMT "\n", DRM_RECT_ARG(&pipe_cfg->src_rect));
+> -		drm_printf(p, "\tdst[0]=" DRM_RECT_FMT "\n", DRM_RECT_ARG(&pipe_cfg->dst_rect));
+> -	}
+> -
+> -	if (r_pipe->sspp) {
+> -		drm_printf(p, "\tsspp[1]=%s\n", r_pipe->sspp->cap->name);
+> -		drm_printf(p, "\tmultirect_mode[1]=%s\n",
+> -			   dpu_get_multirect_mode(r_pipe->multirect_mode));
+> -		drm_printf(p, "\tmultirect_index[1]=%s\n",
+> -			   dpu_get_multirect_index(r_pipe->multirect_index));
+> -		drm_printf(p, "\tsrc[1]=" DRM_RECT_FMT "\n", DRM_RECT_ARG(&r_pipe_cfg->src_rect));
+> -		drm_printf(p, "\tdst[1]=" DRM_RECT_FMT "\n", DRM_RECT_ARG(&r_pipe_cfg->dst_rect));
+> +		drm_printf(p, "\tsrc[%d]=" DRM_RECT_FMT "\n", i,
+> +			   DRM_RECT_ARG(&pipe_cfg->src_rect));
+> +		drm_printf(p, "\tdst[%d]=" DRM_RECT_FMT "\n", i,
+> +			   DRM_RECT_ARG(&pipe_cfg->dst_rect));
+>  	}
+>  }
+>  
+> @@ -1576,14 +1585,16 @@ void dpu_plane_danger_signal_ctrl(struct drm_plane *plane, bool enable)
+>  	struct dpu_plane *pdpu = to_dpu_plane(plane);
+>  	struct dpu_plane_state *pstate = to_dpu_plane_state(plane->state);
+>  	struct dpu_kms *dpu_kms = _dpu_plane_get_kms(plane);
+> +	int i;
+>  
+>  	if (!pdpu->is_rt_pipe)
+>  		return;
+>  
+>  	pm_runtime_get_sync(&dpu_kms->pdev->dev);
+> -	_dpu_plane_set_qos_ctrl(plane, &pstate->pipe, enable);
+> -	if (pstate->r_pipe.sspp)
+> -		_dpu_plane_set_qos_ctrl(plane, &pstate->r_pipe, enable);
+> +	for (i = 0; i < PIPES_PER_STAGE; i++) {
+> +		if (pstate->pipe[i].sspp)
+> +			_dpu_plane_set_qos_ctrl(plane, &pstate->pipe[i], enable);
+> +	}
+>  	pm_runtime_put_sync(&dpu_kms->pdev->dev);
+>  }
+>  #endif
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
+> index e225d5baceb09..39945e0d1b851 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
+> @@ -18,10 +18,8 @@
+>   * struct dpu_plane_state: Define dpu extension of drm plane state object
+>   * @base:	base drm plane state object
+>   * @aspace:	pointer to address space for input/output buffers
+> - * @pipe:	software pipe description
+> - * @r_pipe:	software pipe description of the second pipe
+> - * @pipe_cfg:	software pipe configuration
+> - * @r_pipe_cfg:	software pipe configuration for the second pipe
+> + * @pipe:	software pipe description array
+> + * @pipe_cfg:	software pipe configuration array
+>   * @stage:	assigned by crtc blender
+>   * @needs_qos_remap: qos remap settings need to be updated
+>   * @multirect_index: index of the rectangle of SSPP
+> @@ -34,10 +32,8 @@
+>  struct dpu_plane_state {
+>  	struct drm_plane_state base;
+>  	struct msm_gem_address_space *aspace;
+> -	struct dpu_sw_pipe pipe;
+> -	struct dpu_sw_pipe r_pipe;
+> -	struct dpu_sw_pipe_cfg pipe_cfg;
+> -	struct dpu_sw_pipe_cfg r_pipe_cfg;
+> +	struct dpu_sw_pipe pipe[PIPES_PER_STAGE];
+> +	struct dpu_sw_pipe_cfg pipe_cfg[PIPES_PER_STAGE];
+>  	enum dpu_stage stage;
+>  	bool needs_qos_remap;
+>  	bool pending;
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h
+> index 5307cbc2007c5..cb24ad2a6d8d3 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h
+> @@ -651,9 +651,9 @@ TRACE_EVENT(dpu_crtc_setup_mixer,
+>  	TP_PROTO(uint32_t crtc_id, uint32_t plane_id,
+>  		 struct drm_plane_state *state, struct dpu_plane_state *pstate,
+>  		 uint32_t stage_idx, uint32_t pixel_format,
+> -		 uint64_t modifier),
+> +		 struct dpu_sw_pipe *pipe, uint64_t modifier),
+>  	TP_ARGS(crtc_id, plane_id, state, pstate, stage_idx,
+> -		pixel_format, modifier),
+> +		pixel_format, pipe, modifier),
+>  	TP_STRUCT__entry(
+>  		__field(	uint32_t,		crtc_id		)
+>  		__field(	uint32_t,		plane_id	)
+> @@ -676,9 +676,9 @@ TRACE_EVENT(dpu_crtc_setup_mixer,
+>  		__entry->dst_rect = drm_plane_state_dest(state);
+>  		__entry->stage_idx = stage_idx;
+>  		__entry->stage = pstate->stage;
+> -		__entry->sspp = pstate->pipe.sspp->idx;
+> -		__entry->multirect_idx = pstate->pipe.multirect_index;
+> -		__entry->multirect_mode = pstate->pipe.multirect_mode;
+> +		__entry->sspp = pipe->sspp->idx;
+> +		__entry->multirect_idx = pipe->multirect_index;
+> +		__entry->multirect_mode = pipe->multirect_mode;
+>  		__entry->pixel_format = pixel_format;
+>  		__entry->modifier = modifier;
+>  	),
+> 
+> -- 
+> 2.34.1
+> 
+
+-- 
+With best wishes
+Dmitry
