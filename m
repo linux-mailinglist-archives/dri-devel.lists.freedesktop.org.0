@@ -2,51 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79C1E997E86
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Oct 2024 09:31:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A633997E8C
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Oct 2024 09:36:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7119010E87C;
-	Thu, 10 Oct 2024 07:31:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21E0C10E05C;
+	Thu, 10 Oct 2024 07:36:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="a5nw1TDB";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gOwBeTUx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 019AB10E05C
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Oct 2024 07:31:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F56310E05C
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Oct 2024 07:36:54 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 65CE45C5D56;
- Thu, 10 Oct 2024 07:31:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CE9BC4CEC6;
- Thu, 10 Oct 2024 07:31:51 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id B565F5C56C8;
+ Thu, 10 Oct 2024 07:36:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5548CC4CEC5;
+ Thu, 10 Oct 2024 07:36:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1728545512;
- bh=fvdulN+HSluMHSv5RoD5Y2kJk9jbQpd12fEmlWe+beA=;
+ s=k20201202; t=1728545813;
+ bh=Ea4qSJvAdBfCrIwJhim3xJyP+57MaWINdYFbudKMjmc=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=a5nw1TDBar5Kfat7PRy1RkM9mNm+nkxhMLjzJiqBAzgXIWh4PPMj1+nTZf5VzBlQw
- Jmz8B0SVIi/T4J/x7FXra+C/qTfjo9iPIlWPwY0gPnRjWt75nuh15uH7PA/sklfvjC
- Nxi1+gVp3407yms/TXS6wj/ZJcYWF4vBMRBHfqrMCVlppOWL0dMi0M9gRKosJGf/gw
- KcIEfKtr5TYhxIsqvecmvwJVbprRmnfFzGO2siCIk0UbwvsiDGzu77Ga4lmFpKTBcL
- aV6j0yLlMUtfBPGmgy68fPWj8jyQY0mwWBtMxVTSUOqDbNGjs14HdUXRUxncCd2qVb
- GOCqUVcuAmBWw==
-Date: Thu, 10 Oct 2024 09:31:49 +0200
+ b=gOwBeTUxnFsqKIAHi6BybIAZj6t4XstPmCH7wtqpKxKXaiAzQcsmRRpf2IYLtvRZw
+ RaiEfJnlEQe9pNjsAOCOB3NCqFyrlue4n59JpCdtFVZbxAINXTkIfPHJoao56/PlL9
+ Ege/j2diggRChIpsApUvxHRwomIciHLXKONYUV/5qoVO1w5UWLL5FI8ITpG91RZkqB
+ tWBM5/f1iYgrJvZgEAU6EkYtNb2S+Vwzr+9Gajjg7vKyYBO1wqZ0Sh1E7Lk63vpV8Z
+ kBpR6n79M9uMsZDjJ89pnVL6nkb76sfK73aFLb0gNKSdDLKgeaPy+2oKv7KXCSA0oa
+ TUBd5/MTt3OUg==
+Date: Thu, 10 Oct 2024 09:36:50 +0200
 From: Maxime Ripard <mripard@kernel.org>
-To: Zichen Xie <zichenxie0106@gmail.com>
-Cc: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com, 
- maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, 
- dri-devel@lists.freedesktop.org, Zijie Zhao <zzjas98@gmail.com>, 
- Chenyuan Yang <chenyuan0y@gmail.com>
-Subject: Re: Question about possible NULL Pointer Dereference in
- hx83102_get_modes()
-Message-ID: <20241010-striped-tamarin-of-brotherhood-482d0e@houat>
-References: <CANdh5G6d823W0-LxWqWE8RnXc8iX97aHUEd2ZFL-=7++UpY04w@mail.gmail.com>
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
+Subject: Re: [PATCH 2/2] MAINTAINERS: Fix VC4's mailing lists
+Message-ID: <20241010-majestic-pronghorn-of-genius-d24067@houat>
+References: <20241009141240.1948482-1-mcanal@igalia.com>
+ <20241009141240.1948482-2-mcanal@igalia.com>
+ <CAPY8ntA4PwVbUUTiDxez7ooUegOKc=Hj1PnrXYP2KNrYJ2uLQA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="tma2kl2nhj4rzmsz"
+ protocol="application/pgp-signature"; boundary="ggxthl3ritsxvcat"
 Content-Disposition: inline
-In-Reply-To: <CANdh5G6d823W0-LxWqWE8RnXc8iX97aHUEd2ZFL-=7++UpY04w@mail.gmail.com>
+In-Reply-To: <CAPY8ntA4PwVbUUTiDxez7ooUegOKc=Hj1PnrXYP2KNrYJ2uLQA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,55 +62,55 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---tma2kl2nhj4rzmsz
-Content-Type: text/plain; charset=us-ascii
+--ggxthl3ritsxvcat
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Wed, Oct 09, 2024 at 04:13:01PM GMT, Dave Stevenson wrote:
+> Hi Ma=EDra
+>=20
+> On Wed, 9 Oct 2024 at 15:12, Ma=EDra Canal <mcanal@igalia.com> wrote:
+> >
+> > VC4 has two relevant mailing list: kernel-list@raspberrypi.com and
+> > dri-devel@lists.freedesktop.org. Therefore, list those two mailing
+> > lists in the VC4 section.
+>=20
+> dri-devel@lists.freedesktop.org is automatically picked up by
+> get_maintainer.pl due to vc4 living under /drivers/gpu/drm. Likewise
+> the DT bindings are covered. AIUI that means we don't need to list it
+> explicitly.
+>=20
+> > Actually, Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+> > was already listed in the VC4 section, but it was listed as a reviewer.
+> > List it as a mailing list.
+>=20
+> I had this debate with Maxime in v1 when I added this [1].
+> It's not an open list as most L: entries are. The top of MAINTAINERS
+> lists as "L: *Mailing list* that is relevant to this area". That
+> mailing list is dri-devel.
+> You also get "Broadcom internal kernel review list
+> <bcm-kernel-feedback-list@broadcom.com>" listed as R: in various
+> MAINTAINERS entries.
+>=20
+> I don't know the definitive answer here, but it seemed to fit reasonably =
+as R:.
 
-On Wed, Oct 09, 2024 at 02:38:22PM GMT, Zichen Xie wrote:
-> Dear Developers for DRM PANEL DRIVERS,
->=20
-> We are developing a static analyzer for Linux Kernel, and we are
-> curious about the function drm_mode_duplicate() in
-> hx83102_get_modes().
-> https://elixir.bootlin.com/linux/v6.12-rc2/source/drivers/gpu/drm/panel/p=
-anel-himax-hx83102.c#L567
->=20
-> ```
->=20
-> struct drm_display_mode *mode;
->=20
-> mode =3D drm_mode_duplicate(connector->dev, m);
->=20
-> mode->type =3D DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
->=20
-> ```
->=20
-> drm_mode_duplicate() will return NULL if it fails to allocate memory,
-> so NULL check is necessary for this function.
-> Directly accessing 'mode->type' may lead to NULL Pointer Dereference.
-
-Yes and no. drm_mode_create uses kzalloc to create the new mode
-structure, and any kmalloc (GFP, really) allocations below 8 pages
-cannot fail.
-
-So, from an API standpoint, you're right. From a practical one, it won't
-change anything.
+Yeah, I told you last time, it's going to be a recurring discussion
+because it's super unusual :)
 
 Maxime
 
---tma2kl2nhj4rzmsz
+--ggxthl3ritsxvcat
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZweC4AAKCRAnX84Zoj2+
-dqBxAX9Y/tcYtfCrMTjMj5gYMiQ/2tUW0pfAJzRqh7gA9+MrC9kPlmVodgyccHqH
-twJT8DYBfizjQVHdz+xs8rbMsi2A8VNsYTR5Mkpuo0WVd9CdLaootbenX7y5VARt
-ek/D5TaWAg==
-=gcqn
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZweEEgAKCRAnX84Zoj2+
+drkQAX0RBlSnqaSuX2iJH4aJRhnVae+7itAB8E3a0T4La0rNO1YZTWK3TgqzV4Wy
+JEoqH4sBf2DZGyA3tZaTnfl/0oqBZO1P/TkIniYgpKFatI84Hf0Dpsn4tyafsuZp
+eJJnslZ4eg==
+=PrrV
 -----END PGP SIGNATURE-----
 
---tma2kl2nhj4rzmsz--
+--ggxthl3ritsxvcat--
