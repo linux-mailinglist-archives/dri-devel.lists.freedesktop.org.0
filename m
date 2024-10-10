@@ -2,74 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67DA2999343
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Oct 2024 21:59:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93CDC9993C0
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Oct 2024 22:36:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E82A610E9C6;
-	Thu, 10 Oct 2024 19:59:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B376E10E9CD;
+	Thu, 10 Oct 2024 20:36:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="XFT5LgZG";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NJeVJQBo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com
- [209.85.219.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D00910E9C6
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Oct 2024 19:59:08 +0000 (UTC)
-Received: by mail-yb1-f172.google.com with SMTP id
- 3f1490d57ef6-e2918664a3fso66210276.0
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Oct 2024 12:59:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1728590347; x=1729195147;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=V/bc0MweznE39rPLaY3R7gQJcW93HabLZwOwmEd7zFU=;
- b=XFT5LgZGYQl8Ay+9er30Dzwu8yxFjvHlwcDkylwUEoMmO6Vru77CcevDjxD1/dC/rB
- 4koXkjgp+J8Qeg0Q6vo/BBBrZTQBz7T/3yxUSQUqiPUmqF2YkyAP/BenJMBf8PHRvl5N
- g1fGQ6UTa7KdCAf3bGCEhj+fbsT4uRAf8M0yA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728590347; x=1729195147;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=V/bc0MweznE39rPLaY3R7gQJcW93HabLZwOwmEd7zFU=;
- b=mWTfaxuwNY6TwZL489T1baKZJhqA3zsxU7iIQG606BFHpiGd+O31TLyREYkZZRcDcE
- wdfB0MDIJdQTCrIJhPjKko0IQS9FwK0FukUsQl+tmlRLcVN6x8iZT4dM84oXm2fffxbN
- fa538O+B02umoIb+ylVNGrwlSzziroa8bwIiJpHWsNLvaTvV65YJ3fsXHpflSFTQmvy/
- Yz/sxyblEMk4KQN5b1ZrLhLtlYUJsA/6pdB0sIVO7Ma/2Ms8SOe8ae2+Ue/foRoXkspk
- J6OZjRRKKDwBAr5+H57Wh9bWAhWa9juXNiwqOHqeSRmghdiDvtH+DxGFe0OB499HUQ9H
- C+DQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVqGsV4HBAMEl0rWHGj2o6J+JnylaxLcdlOwf47aYKbDR40sUYFL97cL1UFKSZ6zgFh1EvwG6eDwDc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyUFGxFMHfKORAUjSwtRpXVDiijtn4t3gKBCsYVz1W9aU4uhHkF
- 6Dc2HZGmDIyhrN3FR78lBUO3qG6AeO0TJvqn1h8CdD8lCAixmY+0ZH6abwQWIz0UvtX76YG1iCO
- V3xvKWjJc8+03VWfmqIAbEwQgRNXJFs4vp/JWOGoqBzwupcg=
-X-Google-Smtp-Source: AGHT+IHKdWo0J63T55tb5EKx4BupQmJDilI5bVOOroBGaVlaETEhyAGnkCjAUbgUWNG8Bn6WSbZNfqyk9zmB7YHCnLg=
-X-Received: by 2002:a05:6902:2403:b0:e29:552:42a7 with SMTP id
- 3f1490d57ef6-e2918379976mr312653276.13.1728590347036; Thu, 10 Oct 2024
- 12:59:07 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DC7110E9CD
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Oct 2024 20:36:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1728592599; x=1760128599;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=PEOrMed0XoOGSxfnnHoSuxxB2fcADkrYpaZ2gR/BVCE=;
+ b=NJeVJQBoM+m/SMtPOs5VxF/2nGDkZS8PCvuanjIRxWgCCe5CLVQE915F
+ 3w1VbwzOWXUFTZsnYJ4qQs4a03sXAJCiKZNp/h+G5E9ghb1NxKE3sVwqC
+ cS/tv4VRIvPejF6Jeh0P3BNiPnHZpO3JHSgd7W5PLo7zFGeZU1ReoW1r4
+ UuF/Yq2ai/vfiD1RMR4NH57fJffVQLuiJMchLWfeHIXDA/TBoLC/sotb/
+ pBuQpzEAPWdLNWLqRaQHqN07Y7XfF9yn6H2YVO8XeiIq1rkBa4omfPRJq
+ ipGNUid6q+KWtap8PCp3ToXR7gRuM5YHIJKga7MoanprYEvAAOh1iPXQS w==;
+X-CSE-ConnectionGUID: +fi7TZ/CTY+hEhICYnqL8A==
+X-CSE-MsgGUID: bmBs9YWCTHCDqhoxBYe8RA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11221"; a="39373356"
+X-IronPort-AV: E=Sophos;i="6.11,194,1725346800"; d="scan'208";a="39373356"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Oct 2024 13:36:38 -0700
+X-CSE-ConnectionGUID: zsUJwG1uSc2QB6hgk5nb5Q==
+X-CSE-MsgGUID: Mv/wsEi3Qfy8gL8addNwnA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,194,1725346800"; d="scan'208";a="81508557"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+ by orviesa005.jf.intel.com with ESMTP; 10 Oct 2024 13:36:32 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1syztd-000BEl-1o;
+ Thu, 10 Oct 2024 20:36:29 +0000
+Date: Fri, 11 Oct 2024 04:35:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: Louis Chauvet <louis.chauvet@bootlin.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Simona Vetter <simona@ffwll.ch>, rdunlap@infradead.org,
+ arthurgrillo@riseup.net, pekka.paalanen@haloniitty.fi
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ thomas.petazzoni@bootlin.com, jeremie.dautheribes@bootlin.com,
+ miquel.raynal@bootlin.com, seanpaul@google.com, marcheu@google.com,
+ nicolejadeyee@google.com, Pekka Paalanen <pekka.paalanen@collabora.com>
+Subject: Re: [PATCH v12 13/15] drm/vkms: Create KUnit tests for YUV conversions
+Message-ID: <202410110407.EHvadSaF-lkp@intel.com>
+References: <20241007-yuv-v12-13-01c1ada6fec8@bootlin.com>
 MIME-Version: 1.0
-References: <20241004205053.1068629-1-arnd@kernel.org>
-In-Reply-To: <20241004205053.1068629-1-arnd@kernel.org>
-From: Zack Rusin <zack.rusin@broadcom.com>
-Date: Thu, 10 Oct 2024 15:58:56 -0400
-Message-ID: <CABQX2QP49-KFTbtDkmR0qt_qFRAmCQ+4O7x3WON5P22S6Of1FQ@mail.gmail.com>
-Subject: Re: [PATCH] vmwgfx: allow building with CONFIG_HAS_IOPORT disabled
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Niklas Schnelle <schnelle@linux.ibm.com>, Arnd Bergmann <arnd@arndb.de>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Martin Krastev <martin.krastev@broadcom.com>,
- Javier Martinez Canillas <javierm@redhat.com>, 
- Ian Forbes <ian.forbes@broadcom.com>, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241007-yuv-v12-13-01c1ada6fec8@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,79 +83,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 4, 2024 at 4:50=E2=80=AFPM Arnd Bergmann <arnd@kernel.org> wrot=
-e:
->
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> The older version of the vmwgfx driver requires port I/O in order to work=
-:
->
-> In file included from arch/arm64/include/asm/io.h:298,
->                  from drivers/gpu/drm/vmwgfx/vmwgfx_kms.c:28:
-> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h: In function 'vmw_read':
-> include/asm-generic/io.h:626:15: error: call to '_outl' declared with att=
-ribute error: outl() requires CONFIG_HAS_IOPORT
->   626 | #define _outl _outl
-> include/asm-generic/io.h:663:14: note: in expansion of macro '_outl'
->   663 | #define outl _outl
->       |              ^~~~~
-> drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:692:17: note: in expansion of macro '=
-outl'
->   692 |                 outl(offset, dev_priv->io_start + SVGA_INDEX_PORT=
-);
->       |                 ^~~~
->
-> Change the version check to hardcode the v3 version and remove the PCI
-> ID for v2 in configurations that only support v3.
->
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  drivers/gpu/drm/vmwgfx/vmwgfx_drv.c | 2 ++
->  drivers/gpu/drm/vmwgfx/vmwgfx_drv.h | 5 ++++-
->  2 files changed, 6 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx=
-/vmwgfx_drv.c
-> index 2825dd3149ed..dfb4b2ba23c6 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-> @@ -262,7 +262,9 @@ static const struct drm_ioctl_desc vmw_ioctls[] =3D {
->  };
->
->  static const struct pci_device_id vmw_pci_id_list[] =3D {
-> +#ifdef CONFIG_HAS_IOPORT
->         { PCI_DEVICE(PCI_VENDOR_ID_VMWARE, VMWGFX_PCI_ID_SVGA2) },
-> +#endif
->         { PCI_DEVICE(PCI_VENDOR_ID_VMWARE, VMWGFX_PCI_ID_SVGA3) },
->         { }
->  };
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx=
-/vmwgfx_drv.h
-> index 3f4719b3c268..a2fda4d43b4e 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-> @@ -655,8 +655,11 @@ static inline struct vmw_fpriv *vmw_fpriv(struct drm=
-_file *file_priv)
->  /*
->   * SVGA v3 has mmio register access and lacks fifo cmds
->   */
-> -static inline bool vmw_is_svga_v3(const struct vmw_private *dev)
-> +static __always_inline bool vmw_is_svga_v3(const struct vmw_private *dev=
-)
->  {
-> +       if (!IS_ENABLED(CONFIG_HAS_IOPORT))
-> +               return true;
-> +
->         return dev->pci_id =3D=3D VMWGFX_PCI_ID_SVGA3;
->  }
->
-> --
-> 2.39.2
->
+Hi Louis,
 
-Thanks! Looks good. Would you like me to push this through drm-misc-fixes?
+kernel test robot noticed the following build errors:
 
-Reviewed-by: Zack Rusin <zack.rusin@broadcom.com>
+[auto build test ERROR on 82fe69e63d2b5a5e86ea94c7361c833d3848ab69]
 
-z
+url:    https://github.com/intel-lab-lkp/linux/commits/Louis-Chauvet/drm-vkms-Code-formatting/20241008-001316
+base:   82fe69e63d2b5a5e86ea94c7361c833d3848ab69
+patch link:    https://lore.kernel.org/r/20241007-yuv-v12-13-01c1ada6fec8%40bootlin.com
+patch subject: [PATCH v12 13/15] drm/vkms: Create KUnit tests for YUV conversions
+config: i386-randconfig-013-20241010 (https://download.01.org/0day-ci/archive/20241011/202410110407.EHvadSaF-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241011/202410110407.EHvadSaF-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410110407.EHvadSaF-lkp@intel.com/
+
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/slub_kunit.o
+>> ERROR: modpost: "drm_get_color_range_name" [drivers/gpu/drm/vkms/tests/vkms_format_test.ko] undefined!
+>> ERROR: modpost: "drm_get_color_encoding_name" [drivers/gpu/drm/vkms/tests/vkms_format_test.ko] undefined!
+>> ERROR: modpost: "get_conversion_matrix_to_argb_u16" [drivers/gpu/drm/vkms/tests/vkms_format_test.ko] undefined!
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [m]:
+   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
