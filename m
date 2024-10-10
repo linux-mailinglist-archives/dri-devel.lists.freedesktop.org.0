@@ -2,88 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FD399982CE
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Oct 2024 11:50:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EA359982F4
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Oct 2024 11:56:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E79010E099;
-	Thu, 10 Oct 2024 09:50:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26B1910E8B9;
+	Thu, 10 Oct 2024 09:56:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="aC6ES2aX";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZkBltsjY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AC3410E099
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Oct 2024 09:50:52 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id
- 5b1f17b1804b1-43057f4a16eso6125695e9.1
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Oct 2024 02:50:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1728553850; x=1729158650;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=FBHunO+Zz8TdiQTG9vtmDBYUCelVKI0y/eeya9uFaOU=;
- b=aC6ES2aXB06CEAjVsBMDgfqR0mrBeRumEmZvCW2OD30RJsjnw94ghb7sfnsvp/XeYJ
- XSHt9hGron26Y473K92g0GAG0vHTOdOmj2Zo/VsgYM0FpdqXoIFkQTcbh5gfdhLxp62G
- QI8HMryQBaQgAQCa1+LgwFXa9hPmD7/+gvA6/zzBwkpHxUm4Aow/yfckhRr56A0F51Rt
- bMQTBr3je/Nb+xu3dcSE46AnuOT35E/G95fvkpEyUSJYh08QlfWFEi4YUfW8+p3Z/U/J
- gJl+8aZXSc/gCRu0kusDI4alE4EIlTuntgcoW75mBdXcqNqhXIoy1KDNl/tvrZaaM2sN
- 86kQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728553850; x=1729158650;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=FBHunO+Zz8TdiQTG9vtmDBYUCelVKI0y/eeya9uFaOU=;
- b=XK3vx+0T0SYTmuJtnNFizM9BbhvRcHAZhaDV3bMnTy5EOSVcFDoYHhy19krPDtWeOV
- VJ7rm6MiJscRNJrJXGDc6uqzNcZ2X6a7wgF6kFerDJ7Qhp5NwOL5hHJxiXLhZ7gcIfQC
- wuVMm4wh9kJjBKuSW48aAySIQdICBkEeK3gkPXnan7eqS9JD8OE3lXANIaPjPXMiFkrJ
- QBDSgr0TeUUFQehno1Hb1Qw5XJhYa9qj+8af3wK+ilDyo8A0PIgmZCUI32ysFqcEffA1
- Bm6lRM07KVoy683RyyjdW/4RkwOa5o7rE0Hd34kKQQXJKrQ2VfwOFdi/Bt4AZS5C505p
- MKtg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXlQ9XxNweRcyIvQW9jY7Cr+h01ek2u5KKYluhT7K+odov8KVM+6rHFw6cMx3DMNvwGQEUc4swba/M=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzhW8EBudeX73WozpYaEL/cMQDUIygM96pWNIdiLPcQC+P1CpDL
- c7FBUbcs99sU3ljGE0CGXnEZ7pZx/gSyVS0opAEF0X/5XqWsslAlGnmascNTC6s=
-X-Google-Smtp-Source: AGHT+IFbMglBOaa77JYEQSIkwOuvW3U8Pg8Eka/aETTOJlI14e6FrPvdON50DpF1jbrure9vikjykw==
-X-Received: by 2002:a05:600c:a00a:b0:42c:b995:20d3 with SMTP id
- 5b1f17b1804b1-431157e55acmr27493495e9.26.1728553850511; 
- Thu, 10 Oct 2024 02:50:50 -0700 (PDT)
-Received: from [192.168.0.101] ([90.241.98.187])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-431182ffc75sm10971435e9.17.2024.10.10.02.50.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Oct 2024 02:50:50 -0700 (PDT)
-Message-ID: <87a21c19-8fd2-492a-a620-243cd9c642dc@ursulin.net>
-Date: Thu, 10 Oct 2024 10:50:49 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02DEC10E8AB;
+ Thu, 10 Oct 2024 09:56:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1728554208; x=1760090208;
+ h=date:from:to:cc:subject:message-id:mime-version:
+ content-transfer-encoding;
+ bh=TY9ePVg8u5qy9gBnmmQpvToIZFGIBxXE+ud4RRxmWms=;
+ b=ZkBltsjY0SIERndlFAsMoMq38yqg2/UiNYVvi1hcrM8E5o9k26/F+VW1
+ Na+tv8WBej6MPFhCf0uTCDCz2qT2zxoRavTKIS9YfFtB1OVfKrSPtNu8P
+ OqbCdDtRaGYApChHu43QPD9U/tpYrXmQ8PXK5omrOWowM+4pwNhNUtNCZ
+ mUMtjyqe/wtkKQP8iRKEcDqF6SVOSVM6C6z3bbh5uNDTfInoxpgHgt5+K
+ Zu1b36xnvXDODXZHoNvIDobkZdYnoqSwT2HnhNm2szQuVW6+FvkWiuISL
+ GuGtfJhjLC6s7kMzPl2GyJu+B+GfEPJwJyIBBG8PYhvt+cW7HNxhWPCGS g==;
+X-CSE-ConnectionGUID: DBZdBTuVSpWBBFCFOxUZ6g==
+X-CSE-MsgGUID: MqxngMrXSnKFPNK8W4JWiw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="38488125"
+X-IronPort-AV: E=Sophos;i="6.11,192,1725346800"; d="scan'208";a="38488125"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Oct 2024 02:56:48 -0700
+X-CSE-ConnectionGUID: EdO4aiSwQEe4+WvchPNCUw==
+X-CSE-MsgGUID: oCIsBP/WRAGMom8GeB511Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,192,1725346800"; d="scan'208";a="77018911"
+Received: from oandoniu-mobl3.ger.corp.intel.com (HELO fedora)
+ ([10.245.244.227])
+ by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Oct 2024 02:56:44 -0700
+Date: Thu, 10 Oct 2024 11:56:18 +0200
+From: Thomas Hellstrom <thomas.hellstrom@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-xe-next
+Message-ID: <Zwekwrak12c5SSgo@fedora>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 1/2] drm/drm_file: Add display of driver's internal
- memory size
-To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Melissa Wen <mwen@igalia.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
- <mcanal@igalia.com>, Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
-References: <20241002234531.3113431-1-adrian.larumbe@collabora.com>
- <20241002234531.3113431-2-adrian.larumbe@collabora.com>
- <6657b080-f41e-4c95-8895-e474f1ca5d57@ursulin.net>
- <p72rfjerzsg4wsp6rgfcoo5fmlu77jmzdynosflj2hlos63pql@mnetv3t66wsc>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <p72rfjerzsg4wsp6rgfcoo5fmlu77jmzdynosflj2hlos63pql@mnetv3t66wsc>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -100,209 +77,531 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Dave & Simona
 
-On 09/10/2024 23:55, AdriÃ¡n Larumbe wrote:
-> Hi Tvrtko,
-> 
-> On 04.10.2024 14:41, Tvrtko Ursulin wrote:
->>
->> Hi Adrian,
->>
->> On 03/10/2024 00:45, AdriÃ¡n Larumbe wrote:
->>> Some drivers must allocate a considerable amount of memory for bookkeeping
->>> structures and GPU's MCU-kernel shared communication regions. These are
->>> often created as a result of the invocation of the driver's ioctl()
->>> interface functions, so it is sensible to consider them as being owned by
->>> the render context associated with an open drm file.
->>>
->>> However, at the moment drm_show_memory_stats only traverses the UM-exposed
->>> drm objects for which a handle exists. Private driver objects and memory
->>> regions, though connected to a render context, are unaccounted for in their
->>> fdinfo numbers.
->>>
->>> Add a new drm_memory_stats 'internal' memory category.
->>>
->>> Because deciding what constitutes an 'internal' object and where to find
->>> these are driver-dependent, calculation of this size must be done through a
->>> driver-provided function pointer, which becomes the third argument of
->>> drm_show_memory_stats. Drivers which have no interest in exposing the size
->>> of internal memory objects can keep passing NULL for unaltered behaviour.
->>>
->>> Signed-off-by: AdriÃ¡n Larumbe <adrian.larumbe@collabora.com>
->>> Cc: Rob Clark <robdclark@gmail.com>
->>> Cc: Tvrtko Ursulin <tursulin@ursulin.net>
->>> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
->>> ---
->>>    drivers/gpu/drm/drm_file.c              | 6 +++++-
->>>    drivers/gpu/drm/msm/msm_drv.c           | 2 +-
->>>    drivers/gpu/drm/panfrost/panfrost_drv.c | 2 +-
->>>    drivers/gpu/drm/v3d/v3d_drv.c           | 2 +-
->>>    include/drm/drm_file.h                  | 7 ++++++-
->>>    5 files changed, 14 insertions(+), 5 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
->>> index ad1dc638c83b..937471339c9a 100644
->>> --- a/drivers/gpu/drm/drm_file.c
->>> +++ b/drivers/gpu/drm/drm_file.c
->>> @@ -856,6 +856,7 @@ void drm_print_memory_stats(struct drm_printer *p,
->>>    	print_size(p, "total", region, stats->private + stats->shared);
->>>    	print_size(p, "shared", region, stats->shared);
->>>    	print_size(p, "active", region, stats->active);
->>> +	print_size(p, "internal", region, stats->internal);
->>>    	if (supported_status & DRM_GEM_OBJECT_RESIDENT)
->>>    		print_size(p, "resident", region, stats->resident);
->>> @@ -873,7 +874,7 @@ EXPORT_SYMBOL(drm_print_memory_stats);
->>>     * Helper to iterate over GEM objects with a handle allocated in the specified
->>>     * file.
->>>     */
->>> -void drm_show_memory_stats(struct drm_printer *p, struct drm_file *file)
->>> +void drm_show_memory_stats(struct drm_printer *p, struct drm_file *file, internal_bos func)
->>>    {
->>>    	struct drm_gem_object *obj;
->>>    	struct drm_memory_stats status = {};
->>> @@ -919,6 +920,9 @@ void drm_show_memory_stats(struct drm_printer *p, struct drm_file *file)
->>>    	}
->>>    	spin_unlock(&file->table_lock);
->>> +	if (func)
->>> +		func(&status, file);
->>> +
->>>    	drm_print_memory_stats(p, &status, supported_status, "memory");
->>>    }
->>>    EXPORT_SYMBOL(drm_show_memory_stats);
->>> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
->>> index edbc1ab0fbc8..2b3feb79afc4 100644
->>> --- a/drivers/gpu/drm/msm/msm_drv.c
->>> +++ b/drivers/gpu/drm/msm/msm_drv.c
->>> @@ -880,7 +880,7 @@ static void msm_show_fdinfo(struct drm_printer *p, struct drm_file *file)
->>>    	msm_gpu_show_fdinfo(priv->gpu, file->driver_priv, p);
->>> -	drm_show_memory_stats(p, file);
->>> +	drm_show_memory_stats(p, file, NULL);
->>>    }
->>>    static const struct file_operations fops = {
->>> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
->>> index 04d615df5259..aaa8602bf00d 100644
->>> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
->>> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
->>> @@ -609,7 +609,7 @@ static void panfrost_show_fdinfo(struct drm_printer *p, struct drm_file *file)
->>>    	panfrost_gpu_show_fdinfo(pfdev, file->driver_priv, p);
->>> -	drm_show_memory_stats(p, file);
->>> +	drm_show_memory_stats(p, file, NULL);
->>>    }
->>>    static const struct file_operations panfrost_drm_driver_fops = {
->>> diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
->>> index fb35c5c3f1a7..314e77c67972 100644
->>> --- a/drivers/gpu/drm/v3d/v3d_drv.c
->>> +++ b/drivers/gpu/drm/v3d/v3d_drv.c
->>> @@ -195,7 +195,7 @@ static void v3d_show_fdinfo(struct drm_printer *p, struct drm_file *file)
->>>    			   v3d_queue_to_string(queue), jobs_completed);
->>>    	}
->>> -	drm_show_memory_stats(p, file);
->>> +	drm_show_memory_stats(p, file, NULL);
->>>    }
->>>    static const struct file_operations v3d_drm_fops = {
->>> diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
->>> index 8c0030c77308..661d00d5350e 100644
->>> --- a/include/drm/drm_file.h
->>> +++ b/include/drm/drm_file.h
->>> @@ -469,6 +469,7 @@ void drm_send_event_timestamp_locked(struct drm_device *dev,
->>>     * @resident: Total size of GEM objects backing pages
->>>     * @purgeable: Total size of GEM objects that can be purged (resident and not active)
->>>     * @active: Total size of GEM objects active on one or more engines
->>> + * @internal: Total size of GEM objects that aren't exposed to user space
->>>     *
->>>     * Used by drm_print_memory_stats()
->>>     */
->>> @@ -478,16 +479,20 @@ struct drm_memory_stats {
->>>    	u64 resident;
->>>    	u64 purgeable;
->>>    	u64 active;
->>> +	u64 internal;
->>
->> So equally as in the last round of discussion back in June, internal in my
->> mind still does not fit alongside the categories.
->>
->> Reason is that in some drivers, at least such as i915, "internal" can be:
->>
->> a) Backed by either system memory or device memory - so this does not provice
->> that visibility;
->>
->> b) They can also be resident or not, active or not, etc - so from that angle
->> it also does not fit.
->>
->> Do you lose anything if you add the internal objects into their respective
->> regions and under the existing categories? Like do you have an use case in
->> mind which needs to be able to distinguish between userspace and internal, or
->> the problem simply is internal are unaccounted for?
-> 
-> The main use case we have in mind is exposing the size of driver buffer
-> allocations that are triggered in respone to an ioctl(), and so linked to an
+First drm-xe-next pull request for 6.13
 
-Most of this and below is old and clear - but to this specific point - 
-so you do have an use case which specifically wants to know about the 
-internal allocations separately from the rest? Could you describe what 
-it is?
+Thanks,
+Thomas
 
-> open file. I gave a summary of what these could be in the patch description, but
-> in Panthor's case all these allocations are done with drm shmem functions
-> because it makes it easier to retrieve the sgtable that gives us their system
-> memory layout so that we can more easily map them onto the MMU's address space
-> for a Pantor VM. These BO's, though managed by the drm shmem API, are never
-> added to the open file list of user-exposed drm objects but we would still like
-> to tell UM how much memory they take up.
-> 
-> In the case of Panthor, they all add into the resident tally because all these
-> internal BO's are immediately pinned so that they can also be accessed by the
-> HW, but it doesn't have to be so for other drivers which might also keep track
-> of similar allocations.
-> 
-> I think maybe naming that tag as 'internal' is a bit of a misnomer and I could
-> pick one that more accurately represents its meaning? Something like 'file-internal'
-> or else 'file-private'.
-> 
-> Regarding a), I don't think where the allocations happen (system or device memory)
-> is relevant in this case, just that the allocations are tied to an open file, but
-> not exposed to UM through a DRM buffer object handle.
+drm-xe-next-2024-10-10:
+Cross-subsystem Changes:
+- Add drm_line_printer (Michal)
 
-On this last paragraph - right.. I possibly got confused on a). Which is 
-why I always say it is good to include example output at least in the 
-cover letter, if not the commit message.
+Driver Changes:
+- Fix an UAF (Matt Auld)
+- Sanity check compression and coherency mode (Matt Auld)
+- Some PIC-ID work (Jani)
+- Use IS_ENABLED() instead of defined() on config options.
+- gt powergating work (Riana)
+- Suppress missing out ter rpm protection warning (Rodrigo)
+- Fix a vm leak  (Dafna)
+- Clean up and update 'has_flat_ccs' handling (Lucas)
+- Fix arg to pci_iomap (Lucas)
+- Mark reserved engines in shapshot (Lucas)
+- Don't keep stale pointer (Michal)
+- Fix build warning with CONFIG_PM=n (Arnd)
+- Add a xe_bo subtest for shrinking / swapping (Thomas)
+- Add a warkaround (Tejas)
+- Some display PM work (Maarten)
+- Enable Xe2 + PES disaggregation (Ashutosh)
+- Large xe_mmio rework / cleanup (Matt Roper)
+- A couple of fixes / cleanups in the xe client code (Matt Auld)
+- Fix page-fault handling on closed VMs  (Matt Brost)
+- Fix overflow in OA batch buffer (José)
+- Style fixes (Lucas, Jiapeng, Nitin)
+- Fixes and new development around SRIOV (Michal)
+- Use devm_add_action_or_reset() in gt code (He)
+- Fix CCS offset calculation (Matt Auld)
+- Remove i915_drv.h include (Rodrigo)
+- Restore PCI state on resume (Rodrigo)
+- Fix DSB buffer coherency / Revert DSB disabling (Maarten / Animesh)
+- Convert USM lock to rwsem (Matt Brost)
+- Defer gt-mmio intialization (Matt Roper)
+- meemirq changes (Ilia)
+- Move some PVC related code out of xe-for-CI and to the driver (Rodrigo / Jani)
+- Use a helper for ASID->VM lookup (Matt Brost)
+- Add new PCI id for ARL (Dnyaneshwar)
+- Use Xe2_LPM steering tables for Xe2_HPM (Gustavo)
+- Performance tuning work for media GT and L3 cache flushing (Gustavo)
+- Clean up VM- and exec queue file lock usage (Matt Brost)
+- GuC locking fix (Matt Auld)
+- Fix UAF around queue destruction (Matt Auld)
+- Move IRQ-related registers to dedicated header (Matt Roper)
+- Resume TDR after GT reset (Matt Brost)
+- Move xa_alloc to prevent UAF (Matt Auld)
+- Fix OA stream close (José)
+- Remove unused i915_gpu_error.h (Jani)
+- Prevent null pointer access in xe_migrate_copy (Zhanjun)
+- Fix memory leak when aborting binds (Matt Brost)
+- Prevent UAF in send_recv() (Matt Auld)
+- Fix xa_store() error checking (Matt Auld)
+- drop irq disabling around xa_erase in guc code (Matt Auld)
+- Use fault injection infrastructure to find issues as probe time (Francois)
+- Fix a workaround implementation. (Vinay)
+- Mark wedged_mode debugfs writable (Matt Roper)
+- Fix for prviewous memirq work (Michal)
+- More SRIOV work (Michal)
+- Devcoredump work (John)
+- GuC logging + devcoredump support (John)
+- Don't report L3 bank availability on PTL (Shekhar)
+- Replicate Xe2 PAT settings on Xe2 (Matt Roper)
+- Define Xe3 feature flags (Haridhar)
+- Reuse Xe2 MOCS table on on PTL (Haridhar)
+- Add PTL platform definition (Haridhar)
+- Add MCR steering for Xe3 (Matt)
+- More work around GuC capture for devcoredump (Zhanjun)
+- Improve cache flushing behaviour on bmg (Matt Auld)
+- Fix shrinker test compiler warnings on 32-bit (Thomas)
+- Initial set of workarounds for Xe3 (Gustavo)
+- Extend workaround for xe2lpg (Aradhya)
+- Fix unbalanced rpm put x 2 (Matt Auld)
 
-How would it look on this driver?
+The following changes since commit 9852d85ec9d492ebef56dc5f229416c925758edc:
 
-drm-total-$what: ..
-drm-resident-$what: ..
-drm-internal-$what: ...
+  Linux 6.12-rc1 (2024-09-29 15:06:19 -0700)
 
-b) still stands though in that internal can be resident or not, 
-purgeable or not.. Which is why I would like to know about the use case.
+are available in the Git repository at:
 
-Also if you add drm-internal for any driver calling 
-drm_print_memory_stats I think you "break" at least i915. There internal 
-objects are already accounted in the existing categories. And printing 
-out internal with zero would be very misleading.
+  https://gitlab.freedesktop.org/drm/xe/kernel.git tags/drm-xe-next-2024-10-10
 
-Regards,
+for you to fetch changes up to a187c1b0a800565a4db6372268692aff99df7f53:
 
-Tvrtko
+  drm/xe: fix unbalanced rpm put() with declare_wedged() (2024-10-10 09:15:59 +0100)
 
-> 
-> Regards,
-> Adrian
-> 
->> Regards,
->>
->> Tvrtko
->>
->>>    };
->>>    enum drm_gem_object_status;
->>> +typedef void (*internal_bos)(struct drm_memory_stats *status,
->>> +			     struct drm_file *file);
->>> +
->>>    void drm_print_memory_stats(struct drm_printer *p,
->>>    			    const struct drm_memory_stats *stats,
->>>    			    enum drm_gem_object_status supported_status,
->>>    			    const char *region);
->>> -void drm_show_memory_stats(struct drm_printer *p, struct drm_file *file);
->>> +void drm_show_memory_stats(struct drm_printer *p, struct drm_file *file, internal_bos func);
->>>    void drm_show_fdinfo(struct seq_file *m, struct file *f);
->>>    struct file *mock_drm_getfile(struct drm_minor *minor, unsigned int flags);
+----------------------------------------------------------------
+Cross-subsystem Changes:
+- Add drm_line_printer (Michal)
+
+Driver Changes:
+- Fix an UAF (Matt Auld)
+- Sanity check compression and coherency mode (Matt Auld)
+- Some PIC-ID work (Jani)
+- Use IS_ENABLED() instead of defined() on config options.
+- gt powergating work (Riana)
+- Suppress missing out ter rpm protection warning (Rodrigo)
+- Fix a vm leak  (Dafna)
+- Clean up and update 'has_flat_ccs' handling (Lucas)
+- Fix arg to pci_iomap (Lucas)
+- Mark reserved engines in shapshot (Lucas)
+- Don't keep stale pointer (Michal)
+- Fix build warning with CONFIG_PM=n (Arnd)
+- Add a xe_bo subtest for shrinking / swapping (Thomas)
+- Add a warkaround (Tejas)
+- Some display PM work (Maarten)
+- Enable Xe2 + PES disaggregation (Ashutosh)
+- Large xe_mmio rework / cleanup (Matt Roper)
+- A couple of fixes / cleanups in the xe client code (Matt Auld)
+- Fix page-fault handling on closed VMs  (Matt Brost)
+- Fix overflow in OA batch buffer (José)
+- Style fixes (Lucas, Jiapeng, Nitin)
+- Fixes and new development around SRIOV (Michal)
+- Use devm_add_action_or_reset() in gt code (He)
+- Fix CCS offset calculation (Matt Auld)
+- Remove i915_drv.h include (Rodrigo)
+- Restore PCI state on resume (Rodrigo)
+- Fix DSB buffer coherency / Revert DSB disabling (Maarten / Animesh)
+- Convert USM lock to rwsem (Matt Brost)
+- Defer gt-mmio intialization (Matt Roper)
+- meemirq changes (Ilia)
+- Move some PVC related code out of xe-for-CI and to the driver (Rodrigo / Jani)
+- Use a helper for ASID->VM lookup (Matt Brost)
+- Add new PCI id for ARL (Dnyaneshwar)
+- Use Xe2_LPM steering tables for Xe2_HPM (Gustavo)
+- Performance tuning work for media GT and L3 cache flushing (Gustavo)
+- Clean up VM- and exec queue file lock usage (Matt Brost)
+- GuC locking fix (Matt Auld)
+- Fix UAF around queue destruction (Matt Auld)
+- Move IRQ-related registers to dedicated header (Matt Roper)
+- Resume TDR after GT reset (Matt Brost)
+- Move xa_alloc to prevent UAF (Matt Auld)
+- Fix OA stream close (José)
+- Remove unused i915_gpu_error.h (Jani)
+- Prevent null pointer access in xe_migrate_copy (Zhanjun)
+- Fix memory leak when aborting binds (Matt Brost)
+- Prevent UAF in send_recv() (Matt Auld)
+- Fix xa_store() error checking (Matt Auld)
+- drop irq disabling around xa_erase in guc code (Matt Auld)
+- Use fault injection infrastructure to find issues as probe time (Francois)
+- Fix a workaround implementation. (Vinay)
+- Mark wedged_mode debugfs writable (Matt Roper)
+- Fix for prviewous memirq work (Michal)
+- More SRIOV work (Michal)
+- Devcoredump work (John)
+- GuC logging + devcoredump support (John)
+- Don't report L3 bank availability on PTL (Shekhar)
+- Replicate Xe2 PAT settings on Xe2 (Matt Roper)
+- Define Xe3 feature flags (Haridhar)
+- Reuse Xe2 MOCS table on on PTL (Haridhar)
+- Add PTL platform definition (Haridhar)
+- Add MCR steering for Xe3 (Matt)
+- More work around GuC capture for devcoredump (Zhanjun)
+- Improve cache flushing behaviour on bmg (Matt Auld)
+- Fix shrinker test compiler warnings on 32-bit (Thomas)
+- Initial set of workarounds for Xe3 (Gustavo)
+- Extend workaround for xe2lpg (Aradhya)
+- Fix unbalanced rpm put x 2 (Matt Auld)
+
+----------------------------------------------------------------
+Animesh Manna (1):
+      drm/xe: Revert "drm/i915: Disable DSB in Xe KMD"
+
+Aradhya Bhatia (1):
+      drm/xe/xe2lpg: Extend Wa_15016589081 for xe2lpg
+
+Arnd Bergmann (1):
+      drm/xe: fix build warning with CONFIG_PM=n
+
+Ashutosh Dixit (1):
+      drm/xe/oa: Enable Xe2+ PES disaggregation
+
+Dafna Hirschfeld (1):
+      drm/xe: fix missing 'xe_vm_put'
+
+Dnyaneshwar Bhadane (1):
+      drm/xe/pciid: Add new PCI id for ARL
+
+Francois Dugast (1):
+      drm/xe: Use fault injection infrastructure to find issues at probe time
+
+Gustavo Sousa (5):
+      drm/xe/mcr: Use Xe2_LPM steering tables for Xe2_HPM
+      drm/xe/xe2: Extend performance tuning to media GT
+      drm/xe/xe2: Assume tuning settings also apply for future media GT
+      drm/xe/xe2: Add performance tuning for L3 cache flushing
+      drm/xe/xe3: Add initial set of workarounds
+
+Haridhar Kalvala (3):
+      drm/xe/xe3: Define Xe3 feature flags
+      drm/xe/ptl: PTL re-uses Xe2 MOCS table
+      drm/xe/ptl: Add PTL platform definition
+
+He Lugang (1):
+      drm/xe: use devm_add_action_or_reset() helper
+
+Ilia Levi (5):
+      drm/xe: Introduce dedicated config for memirq debug
+      drm/xe: Introduce xe_device_uses_memirq()
+      drm/xe: move memirq out of VF
+      drm/xe: memirq infra changes for MSI-X
+      drm/xe: memirq handler changes
+
+Jani Nikula (5):
+      drm/xe/pciids: add some missing ADL-N PCI IDs
+      drm/xe/pciids: separate RPL-U and RPL-P PCI IDs
+      drm/xe/pciids: separate ARL and MTL PCI IDs
+      drm/xe: use IS_ENABLED() instead of defined() on config options
+      drm/xe/compat: remove unused i915_gpu_error.h
+
+Jiapeng Chong (1):
+      drm/xe/irq: Remove unneeded semicolon
+
+John Harrison (10):
+      drm/xe/guc: Remove spurious line feed in debug print
+      drm/xe/devcoredump: Use drm_puts and already cached local variables
+      drm/xe/devcoredump: Improve section headings and add tile info
+      drm/xe/devcoredump: Add ASCII85 dump helper function
+      drm/xe/guc: Copy GuC log prior to dumping
+      drm/xe/guc: Use a two stage dump for GuC logs and add more info
+      drm/xe/guc: Dead CT helper
+      drm/xe/guc: Dump entire CTB on errors
+      drm/xe/guc: Add GuC log to devcoredump captures
+      drm/xe/guc: Add a helper function for dumping GuC log to dmesg
+
+José Roberto de Souza (2):
+      drm/xe/oa: Fix overflow in oa batch buffer
+      drm/xe/oa: Don't reset OAC_CONTEXT_ENABLE on OA stream close
+
+Lucas De Marchi (6):
+      drm/xe: Cleanup has_flat_ccs handling
+      drm/xe: Update runtime detection of has_flat_ccs
+      drm/xe: Fix arg to pci_iomap()
+      drm/xe: Mark reserved engines in snapshot
+      Merge drm/drm-next into drm-xe-next
+      drm/xe/rtp: Remove unneeded semicolon
+
+Maarten Lankhorst (4):
+      drm/xe: Fix missing conversion to xe_display_pm_runtime_resume
+      drm/xe: Remove runtime argument from display s/r functions
+      drm/xe: Wire up device shutdown handler
+      drm/xe: Fix DSB buffer coherency
+
+Matt Roper (48):
+      drm/xe: Move forcewake to 'gt.pm' substructure
+      drm/xe: Create dedicated xe_mmio structure
+      drm/xe: Clarify size of MMIO region
+      drm/xe: Move GSI offset adjustment fields into 'struct xe_mmio'
+      drm/xe: Populate GT's mmio iomap from tile during init
+      drm/xe: Switch mmio_ext to use 'struct xe_mmio'
+      drm/xe: Add xe_tile backpointer to xe_mmio
+      drm/xe: Adjust mmio code to pass VF substructure to SRIOV code
+      drm/xe: Switch MMIO interface to take xe_mmio instead of xe_gt
+      drm/xe/irq: Convert register access to use xe_mmio
+      drm/xe/pcode: Convert register access to use xe_mmio
+      drm/xe/hwmon: Convert register access to use xe_mmio
+      drm/xe/vram: Convert register access to use xe_mmio
+      drm/xe/compat-i915: Convert register access to use xe_mmio
+      drm/xe/lmtt: Convert register access to use xe_mmio
+      drm/xe/stolen: Convert register access to use xe_mmio
+      drm/xe/device: Convert register access to use xe_mmio
+      drm/xe/pci: Convert register access to use xe_mmio
+      drm/xe/wa: Convert register access to use xe_mmio
+      drm/xe/uc: Convert register access to use xe_mmio
+      drm/xe/guc: Convert register access to use xe_mmio
+      drm/xe/huc: Convert register access to use xe_mmio
+      drm/xe/gsc: Convert register access to use xe_mmio
+      drm/xe/query: Convert register access to use xe_mmio
+      drm/xe/mcr: Convert register access to use xe_mmio
+      drm/xe/mocs: Convert register access to use xe_mmio
+      drm/xe/hw_engine: Convert register access to use xe_mmio
+      drm/xe/gt_throttle: Convert register access to use xe_mmio
+      drm/xe/pat: Convert register access to use xe_mmio
+      drm/xe/wopcm: Convert register access to use xe_mmio
+      drm/xe/oa: Convert register access to use xe_mmio
+      drm/xe/topology: Convert register access to use xe_mmio
+      drm/xe/execlist: Convert register access to use xe_mmio
+      drm/xe/gt_clock: Convert register access to use xe_mmio
+      drm/xe/reg_sr: Convert register access to use xe_mmio
+      drm/xe/gt: Convert register access to use xe_mmio
+      drm/xe/sriov: Convert register access to use xe_mmio
+      drm/xe/tlb: Convert register access to use xe_mmio
+      drm/xe/gt_idle: Convert register access to use xe_mmio
+      drm/xe/forcewake: Convert register access to use xe_mmio
+      drm/xe/ggtt: Convert register access to use xe_mmio
+      drm/xe/ccs_mode: Convert register access to use xe_mmio
+      drm/xe/mmio: Drop compatibility macros
+      drm/xe: Defer gt->mmio initialization until after multi-tile setup
+      drm/xe: Move IRQ-related registers to dedicated header
+      drm/xe: Make wedged_mode debugfs writable
+      drm/xe/xe3: Xe3 uses the same PAT settings as Xe2
+      drm/xe/xe3lpm: Add new "instance0" steering table
+
+Matthew Auld (18):
+      drm/xe: prevent potential UAF in pf_provision_vf_ggtt()
+      drm/xe/pat: sanity check compression and coh_mode
+      drm/xe/client: fix deadlock in show_meminfo()
+      drm/xe/client: add missing bo locking in show_meminfo()
+      drm/xe/client: use mem_type from the current resource
+      drm/xe/bo: add some annotations in bo_put()
+      drm/xe/vram: fix ccs offset calculation
+      drm/xe/guc_submit: add missing locking in wedged_fini
+      drm/xe: fix UAF around queue destruction
+      drm/xe/vm: move xa_alloc to prevent UAF
+      drm/xe/queue: move xa_alloc to prevent UAF
+      drm/xe/ct: prevent UAF in send_recv()
+      drm/xe/ct: fix xa_store() error checking
+      drm/xe/guc_submit: fix xa_store() error checking
+      drm/xe/ct: drop irq usage of xa_erase()
+      drm/xe/bmg: improve cache flushing behaviour
+      drm/xe: fix unbalanced rpm put() with fence_fini()
+      drm/xe: fix unbalanced rpm put() with declare_wedged()
+
+Matthew Brost (6):
+      drm/xe: Do not run GPU page fault handler on a closed VM
+      drm/xe: Convert to USM lock to rwsem
+      drm/xe: Use helper for ASID -> VM in GPU faults and access counters
+      drm/xe: Clean up VM / exec queue file lock usage.
+      drm/xe: Resume TDR after GT reset
+      drm/xe: Fix memory leak when aborting binds
+
+Michal Wajdeczko (15):
+      drm/xe/pf: Sanitize VF scratch registers on FLR
+      drm/xe: Don't keep stale pointer to bo->ggtt_node
+      drm/xe/guc: Fix GUC_{SUBMIT,FIRMWARE}_VER helper macros
+      drm/xe/guc: Add PF2GUC_SAVE_RESTORE_VF to ABI
+      drm/xe/pf: Add functions to save and restore VF GuC state
+      drm/xe/pf: Save VF GuC state when pausing VF
+      drm/xe/pf: Allow to view and replace VF GuC state over debugfs
+      drm/xe/pf: Allow to trigger VF GuC state restore from debugfs
+      drm/xe: Add memirq report page address helpers
+      drm/xe/guc: Add yet another helper macro for threshold
+      drm/xe/pf: Update success code of pf_validate_vf_config()
+      drm/xe/pf: Allow to encode subset of VF configuration KLVs
+      drm/xe/pf: Add functions to save and restore VF configuration blob
+      drm/xe/pf: Allow to save and restore VF config blob from debugfs
+      drm/print: Introduce drm_line_printer
+
+Nitin Gote (1):
+      drm/xe: Replace double space with single space after comma
+
+Riana Tauro (2):
+      drm/xe/xe_gt_idle: modify powergate enable condition
+      drm/xe/xe_gt_idle: add debugfs entry for powergating info
+
+Rodrigo Vivi (4):
+      drm/xe: Suppress missing outer rpm protection warning
+      drm/xe/display: Remove i915_drv.h include
+      drm/xe: Restore pci state upon resume
+      drm/xe/pciids: Add PVC's PCI device ID macros
+
+Shekhar Chauhan (1):
+      drm/xe/ptl: L3bank mask is not available on the media GT
+
+Tejas Upadhyay (1):
+      drm/xe/xe2hpg: Add Wa_15016589081
+
+Thomas Hellström (3):
+      drm/xe: Add a xe_bo subtest for shrinking / swapping
+      Merge drm/drm-next into drm-xe-next
+      drm/xe/tests: Fix the shrinker test compiler warnings.
+
+Vinay Belgaumkar (1):
+      drm/xe: Restore GT freq on GSC load error
+
+Yu Jiaoliang (1):
+      drm/xe: Use ERR_CAST to return an error-valued pointer
+
+Zhanjun Dong (7):
+      drm/xe: Prevent null pointer access in xe_migrate_copy
+      drm/xe/guc: Prepare GuC register list and update ADS size for error capture
+      drm/xe/guc: Add XE_LP steered register lists
+      drm/xe/guc: Add capture size check in GuC log buffer
+      drm/xe/guc: Extract GuC error capture lists
+      drm/xe/guc: Plumb GuC-capture into dev coredump
+      drm/xe/guc: Save manual engine capture into capture list
+
+ drivers/gpu/drm/drm_print.c                        |   14 +
+ drivers/gpu/drm/i915/display/intel_dsb.c           |    4 -
+ drivers/gpu/drm/xe/Kconfig.debug                   |   12 +
+ drivers/gpu/drm/xe/Makefile                        |    2 +
+ drivers/gpu/drm/xe/abi/guc_actions_abi.h           |    8 +
+ drivers/gpu/drm/xe/abi/guc_actions_sriov_abi.h     |   61 +
+ drivers/gpu/drm/xe/abi/guc_capture_abi.h           |  186 ++
+ drivers/gpu/drm/xe/abi/guc_communication_ctb_abi.h |    1 +
+ drivers/gpu/drm/xe/abi/guc_log_abi.h               |   75 +
+ .../drm/xe/compat-i915-headers/i915_gpu_error.h    |   17 -
+ .../gpu/drm/xe/compat-i915-headers/intel_uncore.h  |   36 +-
+ drivers/gpu/drm/xe/display/xe_display.c            |   95 +-
+ drivers/gpu/drm/xe/display/xe_display.h            |   12 +-
+ drivers/gpu/drm/xe/display/xe_dsb_buffer.c         |    9 +-
+ drivers/gpu/drm/xe/regs/xe_engine_regs.h           |    1 +
+ drivers/gpu/drm/xe/regs/xe_gt_regs.h               |   81 +-
+ drivers/gpu/drm/xe/regs/xe_guc_regs.h              |    1 +
+ drivers/gpu/drm/xe/regs/xe_irq_regs.h              |   82 +
+ drivers/gpu/drm/xe/regs/xe_reg_defs.h              |    2 +-
+ drivers/gpu/drm/xe/regs/xe_regs.h                  |   14 -
+ drivers/gpu/drm/xe/tests/xe_bo.c                   |  240 +++
+ drivers/gpu/drm/xe/tests/xe_mocs.c                 |    4 +-
+ drivers/gpu/drm/xe/xe_assert.h                     |    2 +-
+ drivers/gpu/drm/xe/xe_bo.c                         |   38 +-
+ drivers/gpu/drm/xe/xe_debugfs.c                    |    2 +-
+ drivers/gpu/drm/xe/xe_devcoredump.c                |  157 +-
+ drivers/gpu/drm/xe/xe_devcoredump.h                |    6 +
+ drivers/gpu/drm/xe/xe_devcoredump_types.h          |   21 +-
+ drivers/gpu/drm/xe/xe_device.c                     |  118 +-
+ drivers/gpu/drm/xe/xe_device.h                     |   15 +-
+ drivers/gpu/drm/xe/xe_device_types.h               |   81 +-
+ drivers/gpu/drm/xe/xe_drm_client.c                 |    9 +-
+ drivers/gpu/drm/xe/xe_exec_queue.c                 |    6 +-
+ drivers/gpu/drm/xe/xe_execlist.c                   |   19 +-
+ drivers/gpu/drm/xe/xe_force_wake.c                 |    4 +-
+ drivers/gpu/drm/xe/xe_ggtt.c                       |   10 +-
+ drivers/gpu/drm/xe/xe_gpu_scheduler.c              |    5 +
+ drivers/gpu/drm/xe/xe_gpu_scheduler.h              |    2 +
+ drivers/gpu/drm/xe/xe_gsc.c                        |   24 +-
+ drivers/gpu/drm/xe/xe_gsc_proxy.c                  |    4 +-
+ drivers/gpu/drm/xe/xe_gt.c                         |   44 +-
+ drivers/gpu/drm/xe/xe_gt.h                         |    2 +
+ drivers/gpu/drm/xe/xe_gt_ccs_mode.c                |    2 +-
+ drivers/gpu/drm/xe/xe_gt_clock.c                   |    6 +-
+ drivers/gpu/drm/xe/xe_gt_debugfs.c                 |   13 +
+ drivers/gpu/drm/xe/xe_gt_freq.c                    |    6 +-
+ drivers/gpu/drm/xe/xe_gt_idle.c                    |  125 +-
+ drivers/gpu/drm/xe/xe_gt_idle.h                    |    2 +
+ drivers/gpu/drm/xe/xe_gt_idle_types.h              |    2 +
+ drivers/gpu/drm/xe/xe_gt_mcr.c                     |   68 +-
+ drivers/gpu/drm/xe/xe_gt_mcr.h                     |    1 +
+ drivers/gpu/drm/xe/xe_gt_pagefault.c               |   39 +-
+ drivers/gpu/drm/xe/xe_gt_printk.h                  |    2 +-
+ drivers/gpu/drm/xe/xe_gt_sriov_pf.c                |   56 +-
+ drivers/gpu/drm/xe/xe_gt_sriov_pf.h                |    1 +
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c         |  204 +-
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_config.h         |    4 +
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_control.c        |   44 +-
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_control_types.h  |    2 +
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_debugfs.c        |  127 ++
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.c      |  419 +++++
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.h      |   24 +
+ .../gpu/drm/xe/xe_gt_sriov_pf_migration_types.h    |   40 +
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_service.c        |    6 +-
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_types.h          |    6 +
+ drivers/gpu/drm/xe/xe_gt_sriov_vf.c                |    4 +-
+ drivers/gpu/drm/xe/xe_gt_sriov_vf_debugfs.c        |    2 +-
+ drivers/gpu/drm/xe/xe_gt_sysfs.c                   |    2 +-
+ drivers/gpu/drm/xe/xe_gt_throttle.c                |    4 +-
+ drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c        |   37 +-
+ drivers/gpu/drm/xe/xe_gt_tlb_invalidation.h        |    1 -
+ drivers/gpu/drm/xe/xe_gt_topology.c                |   22 +-
+ drivers/gpu/drm/xe/xe_gt_types.h                   |   22 +-
+ drivers/gpu/drm/xe/xe_guc.c                        |   72 +-
+ drivers/gpu/drm/xe/xe_guc.h                        |    5 +
+ drivers/gpu/drm/xe/xe_guc_ads.c                    |  164 +-
+ drivers/gpu/drm/xe/xe_guc_ads_types.h              |    2 +
+ drivers/gpu/drm/xe/xe_guc_capture.c                | 1972 ++++++++++++++++++++
+ drivers/gpu/drm/xe/xe_guc_capture.h                |   61 +
+ drivers/gpu/drm/xe/xe_guc_capture_types.h          |   68 +
+ drivers/gpu/drm/xe/xe_guc_ct.c                     |  486 +++--
+ drivers/gpu/drm/xe/xe_guc_ct.h                     |   10 +-
+ drivers/gpu/drm/xe/xe_guc_ct_types.h               |   29 +-
+ drivers/gpu/drm/xe/xe_guc_fwif.h                   |   26 +-
+ drivers/gpu/drm/xe/xe_guc_klv_thresholds_set.h     |    7 +
+ drivers/gpu/drm/xe/xe_guc_log.c                    |  320 +++-
+ drivers/gpu/drm/xe/xe_guc_log.h                    |   15 +-
+ drivers/gpu/drm/xe/xe_guc_log_types.h              |   34 +
+ drivers/gpu/drm/xe/xe_guc_pc.c                     |   34 +-
+ drivers/gpu/drm/xe/xe_guc_relay.c                  |    2 +
+ drivers/gpu/drm/xe/xe_guc_submit.c                 |  131 +-
+ drivers/gpu/drm/xe/xe_guc_submit.h                 |    2 +
+ drivers/gpu/drm/xe/xe_guc_types.h                  |    4 +
+ drivers/gpu/drm/xe/xe_huc.c                        |    6 +-
+ drivers/gpu/drm/xe/xe_hw_engine.c                  |  305 +--
+ drivers/gpu/drm/xe/xe_hw_engine.h                  |    6 +-
+ drivers/gpu/drm/xe/xe_hw_engine_types.h            |   68 +-
+ drivers/gpu/drm/xe/xe_hwmon.c                      |   16 +-
+ drivers/gpu/drm/xe/xe_irq.c                        |   78 +-
+ drivers/gpu/drm/xe/xe_lmtt.c                       |    2 +-
+ drivers/gpu/drm/xe/xe_lrc.c                        |   26 +-
+ drivers/gpu/drm/xe/xe_lrc.h                        |   19 +-
+ drivers/gpu/drm/xe/xe_memirq.c                     |  203 +-
+ drivers/gpu/drm/xe/xe_memirq.h                     |    6 +-
+ drivers/gpu/drm/xe/xe_memirq_types.h               |    4 +-
+ drivers/gpu/drm/xe/xe_mmio.c                       |  139 +-
+ drivers/gpu/drm/xe/xe_mmio.h                       |   35 +-
+ drivers/gpu/drm/xe/xe_mocs.c                       |   17 +-
+ drivers/gpu/drm/xe/xe_oa.c                         |   57 +-
+ drivers/gpu/drm/xe/xe_pat.c                        |   23 +-
+ drivers/gpu/drm/xe/xe_pci.c                        |   61 +-
+ drivers/gpu/drm/xe/xe_pcode.c                      |    4 +-
+ drivers/gpu/drm/xe/xe_platform_types.h             |    1 +
+ drivers/gpu/drm/xe/xe_pm.c                         |    8 +-
+ drivers/gpu/drm/xe/xe_pt.c                         |    2 +-
+ drivers/gpu/drm/xe/xe_query.c                      |   49 +-
+ drivers/gpu/drm/xe/xe_reg_sr.c                     |   17 +-
+ drivers/gpu/drm/xe/xe_rtp.c                        |    2 +-
+ drivers/gpu/drm/xe/xe_sa.c                         |    2 +-
+ drivers/gpu/drm/xe/xe_sriov.c                      |    5 +-
+ drivers/gpu/drm/xe/xe_tile.c                       |    3 +
+ drivers/gpu/drm/xe/xe_trace.h                      |    7 +-
+ drivers/gpu/drm/xe/xe_trace_bo.h                   |    2 +-
+ drivers/gpu/drm/xe/xe_ttm_stolen_mgr.c             |    8 +-
+ drivers/gpu/drm/xe/xe_tuning.c                     |   30 +-
+ drivers/gpu/drm/xe/xe_uc_fw.c                      |   19 +-
+ drivers/gpu/drm/xe/xe_vm.c                         |   36 +-
+ drivers/gpu/drm/xe/xe_vram.c                       |    7 +-
+ drivers/gpu/drm/xe/xe_wa.c                         |   57 +-
+ drivers/gpu/drm/xe/xe_wa_oob.rules                 |    2 +
+ drivers/gpu/drm/xe/xe_wopcm.c                      |   15 +-
+ include/drm/drm_print.h                            |   64 +
+ include/drm/intel/xe_pciids.h                      |   46 +-
+ include/uapi/drm/xe_drm.h                          |    4 +-
+ 134 files changed, 6402 insertions(+), 1322 deletions(-)
+ create mode 100644 drivers/gpu/drm/xe/abi/guc_capture_abi.h
+ create mode 100644 drivers/gpu/drm/xe/abi/guc_log_abi.h
+ delete mode 100644 drivers/gpu/drm/xe/compat-i915-headers/i915_gpu_error.h
+ create mode 100644 drivers/gpu/drm/xe/regs/xe_irq_regs.h
+ create mode 100644 drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.c
+ create mode 100644 drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.h
+ create mode 100644 drivers/gpu/drm/xe/xe_gt_sriov_pf_migration_types.h
+ create mode 100644 drivers/gpu/drm/xe/xe_guc_capture.c
+ create mode 100644 drivers/gpu/drm/xe/xe_guc_capture.h
+ create mode 100644 drivers/gpu/drm/xe/xe_guc_capture_types.h
