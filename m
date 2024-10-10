@@ -2,50 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2DE29989EC
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Oct 2024 16:40:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D432998969
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Oct 2024 16:26:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52BF510E921;
-	Thu, 10 Oct 2024 14:40:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C98110E938;
+	Thu, 10 Oct 2024 14:26:30 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fJqnlGyJ";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E1AA10E8DF
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Oct 2024 12:06:23 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.88.163])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4XPT3Q2V1Tz20q38;
- Thu, 10 Oct 2024 20:05:22 +0800 (CST)
-Received: from kwepemd500013.china.huawei.com (unknown [7.221.188.12])
- by mail.maildlp.com (Postfix) with ESMTPS id 08D9F18001B;
- Thu, 10 Oct 2024 20:06:00 +0800 (CST)
-Received: from [10.159.166.136] (10.159.166.136) by
- kwepemd500013.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.34; Thu, 10 Oct 2024 20:05:58 +0800
-Content-Type: multipart/alternative;
- boundary="------------KFpE20ltQ3piu55jRTKIjbZE"
-Message-ID: <aa1f4bb1-ce35-4f97-9b48-f9869e780c96@huawei.com>
-Date: Thu, 10 Oct 2024 20:05:57 +0800
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4402210E934;
+ Thu, 10 Oct 2024 14:26:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1728570390; x=1760106390;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=SfaVrHsyRDiiNLTeKYLLQ7EMDgSXlFmjaaTR7pxwo8Y=;
+ b=fJqnlGyJdDTH/jreRiBpj/v0bZzUyF4Cvb+gmt09E93+EOgktbiWMB4P
+ OIVNfzjtQxD9RhT/XpmJY/iJUBNDZS0+QxQ/XU/PANRl9U/y3x77/u1vQ
+ CgN+N7x5z+bcVsphpWiQSrQjN+pXnQJMBB1EIsggLdzJKr73iZt1P1x2Z
+ /hQ34f/Ie4jA82io1vGoDyrQ0gKXXdkOd+t+AQLUfjEP0NdxBSZhhxR2l
+ yOMqLi2k1IxYm25MMYNymDEbp3LlhLnqYVTm4aAOy7zz0EO49iPJOL/SV
+ qMM9G8PfRPm5EkwKjgymOQYqGX4AAOwPnJBHpOZEwgtEJ0t5D983mElTg g==;
+X-CSE-ConnectionGUID: bgUpjIG0R7GA6kyYzhagag==
+X-CSE-MsgGUID: E4wyEeUVQm233P6HtOwrlg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="39321544"
+X-IronPort-AV: E=Sophos;i="6.11,193,1725346800"; d="scan'208";a="39321544"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Oct 2024 07:26:29 -0700
+X-CSE-ConnectionGUID: 1qrtrVVuQaanVQ2qc+zrrA==
+X-CSE-MsgGUID: IYfkZglOQaGiQII4PHs77Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,193,1725346800"; d="scan'208";a="76928468"
+Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.245.160.182])
+ ([10.245.160.182])
+ by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Oct 2024 07:26:27 -0700
+Message-ID: <2dc60e45-7a9d-4fcf-acc1-43e5dcd7ce04@linux.intel.com>
+Date: Thu, 10 Oct 2024 16:26:24 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH drm-dp 2/4] drm/hisilicon/hibmc: add dp link moduel in
- hibmc drivers
-To: Jani Nikula <jani.nikula@linux.intel.com>
-CC: <liangjian010@huawei.com>, <chenjianmin@huawei.com>,
- <lidongming5@huawei.com>, <libaihan@huawei.com>, <shenjian15@huawei.com>,
- <shaojijie@huawei.com>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <kong.kongxinwei@hisilicon.com>,
- <daniel@ffwll.ch>, <airlied@gmail.com>, <tzimmermann@suse.de>,
- <mripard@kernel.org>, <maarten.lankhorst@linux.intel.com>,
- <tiantao6@hisilicon.com>, <xinliang.liu@linaro.org>
-References: <20240930100610.782363-1-shiyongbang@huawei.com>
- <20240930100610.782363-3-shiyongbang@huawei.com> <878quxbscj.fsf@intel.com>
-From: s00452708 <shiyongbang@huawei.com>
-In-Reply-To: <878quxbscj.fsf@intel.com>
-X-Originating-IP: [10.159.166.136]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- kwepemd500013.china.huawei.com (7.221.188.12)
-X-Mailman-Approved-At: Thu, 10 Oct 2024 14:40:55 +0000
+Subject: Re: [PATCH] drm/ttm: Fix incorrect use of kernel-doc format
+To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-xe@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Stephen Rothwell <sfr@canb.auug.org.au>
+References: <20241010124545.82023-1-thomas.hellstrom@linux.intel.com>
+Content-Language: en-US
+From: Nirmoy Das <nirmoy.das@linux.intel.com>
+In-Reply-To: <20241010124545.82023-1-thomas.hellstrom@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,63 +71,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---------------KFpE20ltQ3piu55jRTKIjbZE
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
 
-> On Mon, 30 Sep 2024, shiyongbang<shiyongbang@huawei.com> wrote:
->> From: baihan li<libaihan@huawei.com>
->>
->> Add link training process functions in this moduel.
-> Lots of duplication of drm_dp_helper.[ch] stuff here too. I'll mention a
-> few inline, but there's more.
+On 10/10/2024 2:45 PM, Thomas Hellström wrote:
+> Add a missing colon.
 >
-> BR,
-> Jani.
-
-   Ok. thanks.
-   Baihan Li.
-
-
---------------KFpE20ltQ3piu55jRTKIjbZE
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <blockquote type="cite" cite="mid:878quxbscj.fsf@intel.com">
-      <pre wrap="" class="moz-quote-pre">On Mon, 30 Sep 2024, shiyongbang <a class="moz-txt-link-rfc2396E" href="mailto:shiyongbang@huawei.com">&lt;shiyongbang@huawei.com&gt;</a> wrote:
-</pre>
-      <blockquote type="cite">
-        <pre wrap="" class="moz-quote-pre">From: baihan li <a class="moz-txt-link-rfc2396E" href="mailto:libaihan@huawei.com">&lt;libaihan@huawei.com&gt;</a>
-
-Add link training process functions in this moduel.
-</pre>
-      </blockquote>
-      <pre wrap="" class="moz-quote-pre">
-Lots of duplication of drm_dp_helper.[ch] stuff here too. I'll mention a
-few inline, but there's more.
-
-BR,
-Jani.
-</pre>
-    </blockquote>
-    <pre>  Ok. thanks.
-  Baihan Li.
-</pre>
-    <p><br>
-    </p>
-    <blockquote type="cite" cite="mid:878quxbscj.fsf@intel.com">
-      <pre wrap="" class="moz-quote-pre">
-</pre>
-      <pre wrap="" class="moz-quote-pre">
-</pre>
-    </blockquote>
-  </body>
-</html>
-
---------------KFpE20ltQ3piu55jRTKIjbZE--
+> Cc: dri-devel@lists.freedesktop.org
+> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> Closes: https://lore.kernel.org/linux-next/20241010160942.192caf60@canb.auug.org.au/
+> Fixes: fc5d96670eb2 ("drm/ttm: Move swapped objects off the manager's LRU list")
+> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
+> ---
+>  include/drm/ttm/ttm_device.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/include/drm/ttm/ttm_device.h b/include/drm/ttm/ttm_device.h
+> index 438358f72716..39b8636b1845 100644
+> --- a/include/drm/ttm/ttm_device.h
+> +++ b/include/drm/ttm/ttm_device.h
+> @@ -252,7 +252,7 @@ struct ttm_device {
+>  	spinlock_t lru_lock;
+>  
+>  	/**
+> -	 * @unevictable Buffer objects which are pinned or swapped and as such
+> +	 * @unevictable: Buffer objects which are pinned or swapped and as such
+>  	 * not on an LRU list.
+>  	 */
+>  	struct list_head unevictable;
