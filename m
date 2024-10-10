@@ -2,74 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0DF6997DAB
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Oct 2024 08:54:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C134997E28
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Oct 2024 09:02:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D702110E87A;
-	Thu, 10 Oct 2024 06:54:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F056810E87B;
+	Thu, 10 Oct 2024 07:02:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="LGQ45/Pi";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="WO3kbthG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
- [209.85.128.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1798110E879
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Oct 2024 06:54:23 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id
- 5b1f17b1804b1-4311420b675so4440445e9.2
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Oct 2024 23:54:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1728543261; x=1729148061; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=4m5R0JtPpfaojQZL3OlH+ec0WCCRm/TpTjzYrE2iFl4=;
- b=LGQ45/PiJmVTcPE7ngy5wWGos52rk5vfedWpMiYQ1pvOupWkd8wwJNVxE/D12u5ddR
- UExv3kPwN8RL5IzLlmDQWc7DgT3rasU+4Qu7Fwa6/Xdh6jWXPiQH9uHRcrTF7IPTCmJT
- bpiEIQ7N7jFcj1OCKmrvls9N81XwXKrzHmE1eD0A7LPMHl9WcIb35hYlbkbmxCiD63Vs
- x+n1xEYQJ65wbFY3zrkltoi7m4m5H3oa1mPNmPFxxe3DFeqAgr8eupG9wpaI+To/zCmX
- URTZ5+NWe0O2n2Hw81i+RR0NcKzCWp14MiopWL9Qfk0sqEO5UaGPcSLlfRxPapK8b1tJ
- +Kfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728543261; x=1729148061;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=4m5R0JtPpfaojQZL3OlH+ec0WCCRm/TpTjzYrE2iFl4=;
- b=G1KiMisuHsO+QkxzNgkY/B47j2DjuL+94ViiaPQk0SyZDtnpPovbVehW/ZW30zOadJ
- l+5Jm43dYeN+aF48T5x/hUQKaiBOEhO4rSVdXfx3Trze0uiCyB0DhW4+wx9k1p3HhPV1
- sTVJiYrtKhic3w/rwCpsESx946krzqC43boCEIENN7XgRRbPrYcFVeDvZ129REBwktDg
- p7ZD9+Aq3Z+khaz+fvJq3Vm0TpFmT2wE9tgETwbl4RyB4lQDlbaBo92zOv1oHbBjHW2u
- 8GGF8WFjpOs0tpx3OL+aiOTbeAYFfvKyHhtGStMAiN/E7c7VDvIg7QQdNMv7w7CKeYH7
- nAVA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXmudkJHmaui6GqzM3z77DVNXTypdUk6+JNAYl/iXvo5DCz/0S45Fvb5YEuw5NvaYvTZXupEaTxfhY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzKgbJ5AL/UWxeU7+1sP2WXfBaecGAELw+BfRswFqwn6rbrGtjO
- FdO5HdV83FtTbp5zRnlhhJA5o2H3NDEiKrVuUb0yZDTAJjbAixKBM7P66M1kXjk=
-X-Google-Smtp-Source: AGHT+IHT9IlJQF0bRhontqJBDQWsf+MVObv5bUTBsaOIzFmxsVdQfGzrmTIzPD0VfNHeePPUMsSx3Q==
-X-Received: by 2002:a05:600c:358d:b0:42c:b9c8:2bb0 with SMTP id
- 5b1f17b1804b1-430ccf03b0amr37644685e9.4.1728543261409; 
- Wed, 09 Oct 2024 23:54:21 -0700 (PDT)
-Received: from localhost ([196.207.164.177]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-37d4b9190dfsm640951f8f.116.2024.10.09.23.54.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Oct 2024 23:54:20 -0700 (PDT)
-Date: Thu, 10 Oct 2024 09:54:17 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: "Everest K.C." <everestkc@everestkc.com.np>
-Cc: lucas.demarchi@intel.com, thomas.hellstrom@linux.intel.com,
- rodrigo.vivi@intel.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, skhan@linuxfoundation.org,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V3] drm/xe/guc: Fix dereference before NULL check
-Message-ID: <1a5407c4-3b0f-48a1-940a-cc6b3ff3fb12@stanley.mountain>
-References: <20241010064636.3970-1-everestkc@everestkc.com.np>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3249510E2C2;
+ Thu, 10 Oct 2024 07:02:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1728543749; x=1760079749;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=dr0h6FzQjFzjUqCp0EFfweNOpBlRwgchgFaUs3yLRHM=;
+ b=WO3kbthGYaphA53oCg4FS/CoNDb2Rp246ICaDcca+TskndW7BF4nynPV
+ ha22wbQj0vwtgdaoz7Irau3AAauXrhhRGtLFSVfWpd1b4YkUfa+ciZVAz
+ vDhyvfve98dpPn40moNXtliIJ56AxvKS9wLicucnVnBUSuDYvyubDfQbQ
+ u1GTiXzpCh7MDUN8OES9xbU49a28OH1zP+40TXEwjwAGll8lCuiFmJvtQ
+ uM9klUTY4RWwR2r5h/NAg1/lF9HXTYxHHV7L664+c0AFJpAgo664AbI6O
+ /rDhhtWNmw4mpUq0baygs4nB3Y/4zW0QOnQbUFzIXB+XOOlFlhaJDw9CV w==;
+X-CSE-ConnectionGUID: wtI0GP/FROSBEcDUQKU+jQ==
+X-CSE-MsgGUID: HI7KKRF4R2q/Wr1RJUcTWw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="27327837"
+X-IronPort-AV: E=Sophos;i="6.11,192,1725346800"; d="scan'208";a="27327837"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Oct 2024 00:02:17 -0700
+X-CSE-ConnectionGUID: 9T9PnEPbSmOcDKu9eu1IAg==
+X-CSE-MsgGUID: rj6Aos9TSmuYBd5mj+lP6A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,192,1725346800"; d="scan'208";a="81316813"
+Received: from oandoniu-mobl3.ger.corp.intel.com (HELO localhost)
+ ([10.245.244.168])
+ by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Oct 2024 00:02:13 -0700
+Date: Thu, 10 Oct 2024 10:02:09 +0300
+From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-intel-fixes
+Message-ID: <Zwd78Tnw8t3w9F16@jlahtine-mobl.ger.corp.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241010064636.3970-1-everestkc@everestkc.com.np>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,24 +76,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 10, 2024 at 12:46:34AM -0600, Everest K.C. wrote:
-> The pointer list->list is dereferenced before the NULL check.
-> Fix this by moving the NULL check outside the for loop, so that
-> the check is performed before the dereferencing.
-> The list->list pointer cannot be NULL so this has no effect on runtime.
-> It's just a correctness issue.
-> 
-> This issue was reported by Coverity Scan.
-> https://scan7.scan.coverity.com/#/project-view/51525/11354?selectedIssue=1600335
-> 
-> Fixes: a18c696fa5cb ("drm/xe/guc: Fix dereference before Null check")
-> Signed-off-by: Everest K.C. <everestkc@everestkc.com.np>
-> ---
+Hi Dave & Sima,
 
-Perfect!  Thanks.
+Here goes drm-intel-fixes PR towards v6.12-rc3.
 
-Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+Just one HDCP refcount fix.
 
-regards,
-dan carpenter
+Regards, Joonas
 
+****
+
+drm-intel-fixes-2024-10-10:
+
+- HDCP refcount fix
+
+The following changes since commit 8cf0b93919e13d1e8d4466eb4080a4c4d9d66d7b:
+
+  Linux 6.12-rc2 (2024-10-06 15:32:27 -0700)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/i915/kernel.git tags/drm-intel-fixes-2024-10-10
+
+for you to fetch changes up to 4cc2718f621a6a57a02581125bb6d914ce74d23b:
+
+  drm/i915/hdcp: fix connector refcounting (2024-10-07 06:18:46 +0300)
+
+----------------------------------------------------------------
+- HDCP refcount fix
+
+----------------------------------------------------------------
+Jani Nikula (1):
+      drm/i915/hdcp: fix connector refcounting
+
+ drivers/gpu/drm/i915/display/intel_hdcp.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
