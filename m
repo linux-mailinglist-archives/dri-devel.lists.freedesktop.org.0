@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87DB099959B
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2024 01:11:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DA2F99959D
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2024 01:11:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 870B510E9FB;
-	Thu, 10 Oct 2024 23:11:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18A4310E9FC;
+	Thu, 10 Oct 2024 23:11:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="d79FmF4B";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lmrgOI7y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAF5310E9FB
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Oct 2024 23:11:16 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id
- 5b1f17b1804b1-43115887867so9708605e9.0
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Oct 2024 16:11:16 -0700 (PDT)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+ [209.85.128.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 441E210E9FB
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Oct 2024 23:11:18 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id
+ 5b1f17b1804b1-4305724c12eso10620955e9.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Oct 2024 16:11:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1728601875; x=1729206675; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1728601876; x=1729206676; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=QMBH9FWJx0l+KVOa+9SWfJtBbSYbCQsEEV5rTO8JJDE=;
- b=d79FmF4BDbBoNfF13f/c4ClDJ+ugHR+Ga/+7zUsaEmgx4/0tYM28jNZGKaCXEjnyj3
- EtYK6R+VeQUyiKoM9+kod3P1LsDgBJ6gSVQFkH5uW5/B51tcHyDJw0JHgdZi1IRRlbt/
- cAFXlLp9gqL/f9v1vT7XSOyVakjHOCXjWpwODhA5hRORIbdRrZZK1Uy67O8VGA/iUmv1
- VCyCr7cKQ/OaqjMxYywLK8bKp+18jaLIXvqsCNckdcDOwK4C6P/CG00IQDNHCkOavamQ
- xXvwLaKKTMc4kojjvPdQlvu0J/MCwL3uw6+oR3BIAI1yjNcgtzX0JddyMgLbKthcCLvy
- jlHw==
+ :reply-to; bh=s58+PumcrxFi8ai7328YyPN+Kl/m7WNPj0jROfEsr9E=;
+ b=lmrgOI7y5W7ndwlnZPUEsw0pEdFX6or5MhESygzPen0TXhL1xqCPvJr0DcBbTA+Zes
+ A35GtfIkhHp3vOLtZPEL/lUcQrAaWKJ2Ksnrovc7eJxSdFZoMd+6yhAEK5EGMnQipYsB
+ oEjxm/i+Xo1NTP55LBGXTl+pKtbagChfoNJuYFdFr62BO20GLVhj1MHzYR/wrwI1LCiA
+ wxHS3236Tt3xcNEfzXsRV5OR8gxbE7xZF/1xvDwOWPHmwwbTHUpFBBOLb89ZozOKqC96
+ dFTeI+sRhLETZS+kO0CdmVCT+WAA1vK9Az41PSdAmxGejmlGdg+rpV22Aw5a9nZ17Gs+
+ +xSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728601875; x=1729206675;
+ d=1e100.net; s=20230601; t=1728601876; x=1729206676;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=QMBH9FWJx0l+KVOa+9SWfJtBbSYbCQsEEV5rTO8JJDE=;
- b=VVYjvAyzmTipm0MESKXpfZrzEyHaxiZxzrsYmjlWWD5TD4j+fu7Exg/3eaLcjeX64w
- NLMXBQO1FhNmR/oE9eG4LoYfELy8jFy2edjCGF0IbwOr0DgAXl5SXP0l9hE0GIbOl0ci
- a3JmqoD+SacneUYPVsSfTm5voBcHfc88rFl/4f3alvQdqvq7AZJ5Q+a+zdrsHuHKANgO
- svgDdp6OOBE4kc+PnRpd0On/TpKgtqJzKjSQZUCUDT7+itKpJgpQYnTr/hQwr7zKhWAL
- VClGku8BABqjfrAj6cV5aKX+n2/3qLTw5wPmckrqiZ+StqJxYC3Z3zHidzvXk6J8GQA5
- 5Psw==
-X-Gm-Message-State: AOJu0YxvuHVY7fhkvPSDpTwtXk9jicfV6X3tG9qb9dY31gig6Qg6j+/y
- 5yQ0JiIn37BA4tBNk3y+Vq+VoAbDTpYm9S2xAafFrxmCn+qvTYGr
-X-Google-Smtp-Source: AGHT+IEYwIA6/NSQJaiEsBC2TPm1jMFPNq2BHxvPMOWmgWKUbfcxi0VUCUbp4n1lGpz6V5FTEpaF+Q==
-X-Received: by 2002:a05:600c:b9a:b0:42f:84ec:3f9 with SMTP id
- 5b1f17b1804b1-4311d884328mr5474175e9.3.1728601875208; 
- Thu, 10 Oct 2024 16:11:15 -0700 (PDT)
+ bh=s58+PumcrxFi8ai7328YyPN+Kl/m7WNPj0jROfEsr9E=;
+ b=Gst8nEkIc/MVZUi+4vef9NvBuSWyoqCqWtV7A4A8YQ8s4eKbwRPWQqs87QZkR165P2
+ QpQcVNh+D57s3tQ99xBesSuxpfOu6qVsT8K1zsigr7KI2ZDRwUFcuK+Wk8yMIMbm2vPD
+ AkW97Vp7tY65uEJUNUnqgSHyDEt+eTmHK2EGxrE9QSXJuHlglhRNSLS8ANn47d/Z6kF0
+ sLaAob2j0qi02JG3V21LRDZKFu0Hct6hbcbc0foB0iL08m5nLhv73qdns2HImpl53M9n
+ JXuiAu4oMRKy7M3dPuq8r21l+b2hgyHZzFYyAOMmbIL9USKOJ/b1/sn/S/ZwFuRNVF9Q
+ /P/g==
+X-Gm-Message-State: AOJu0YxgDxhcvOx4rOykEDeFUrr8D7vMjbLk4GIGDjPcCFR4cfS8o+3F
+ PKlcpZm+AVaTb5nO3ZxrdV2wN+ukSqdaDRXBsccZwZMSM9QW+onm
+X-Google-Smtp-Source: AGHT+IGNpxnYI2exDYItoqZ2fn7Mvrf6IGBS7K8vHBpTFS5m8Lm+n/fI9fTxQdc0xpXrIqe0VaPpNA==
+X-Received: by 2002:a05:600c:1c9e:b0:42f:8515:e479 with SMTP id
+ 5b1f17b1804b1-4311dea4233mr2599505e9.4.1728601876501; 
+ Thu, 10 Oct 2024 16:11:16 -0700 (PDT)
 Received: from [127.0.1.1]
  (2a02-8389-41cf-e200-3d08-841a-0562-b7b5.cable.dynamic.v6.surfer.at.
  [2a02:8389:41cf:e200:3d08:841a:562:b7b5])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-431182d7934sm27465325e9.3.2024.10.10.16.11.12
+ 5b1f17b1804b1-431182d7934sm27465325e9.3.2024.10.10.16.11.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Oct 2024 16:11:13 -0700 (PDT)
+ Thu, 10 Oct 2024 16:11:16 -0700 (PDT)
 From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Date: Fri, 11 Oct 2024 01:11:08 +0200
-Subject: [PATCH 1/3] drm: logicvc: fix missing of_node_put() in
- for_each_child_of_node()
+Date: Fri, 11 Oct 2024 01:11:09 +0200
+Subject: [PATCH 2/3] drm: logicvc: switch to
+ for_each_child_of_node_scoped()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241011-logicvc_layer_of_node_put-v1-1-1ec36bdca74f@gmail.com>
+Message-Id: <20241011-logicvc_layer_of_node_put-v1-2-1ec36bdca74f@gmail.com>
 References: <20241011-logicvc_layer_of_node_put-v1-0-1ec36bdca74f@gmail.com>
 In-Reply-To: <20241011-logicvc_layer_of_node_put-v1-0-1ec36bdca74f@gmail.com>
 To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>, 
@@ -70,13 +70,13 @@ To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Javier Carrasco <javier.carrasco.cruz@gmail.com>, stable@vger.kernel.org
+ Javier Carrasco <javier.carrasco.cruz@gmail.com>
 X-Mailer: b4 0.14-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1728601870; l=922;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1728601870; l=1408;
  i=javier.carrasco.cruz@gmail.com; s=20240312; h=from:subject:message-id;
- bh=IZsWutkwsQdz6JsfcZXxwWl/8k7REIn4zPH/HX5ytTs=;
- b=vDiJc06bbjTXqlJJzhKcNDKePYrX8gMJetxAA7AyKGfKL3+gRD8zjKO29PA/TVHrBnXaNElJE
- MALOBokxz/lBZTTCZiWJS0jsedVPf5SCf2JvwCx9ds9xzpFZVTm0NNu
+ bh=mdTdY9w48aKKYhBF3Ntc48k1ASEGObuZ88AuC7JugAw=;
+ b=R4bdEpUM8fPQRj1JiSQWFTkvdkMWF74Xsg1B14H1Vp8DgAWXnCmnzvrXo7Obi8t7B9VMNikVg
+ DIvUSqwtF/bDhfd3OwCcY9v+4wA6UnmtiziXgNLYpIxJWVFZNAmYoSe
 X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
  pk=lzSIvIzMz0JhJrzLXI0HAdPwsNPSSmEn6RbS+PTS9aQ=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -94,27 +94,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Early exits from the for_each_child_of_node() loop require explicit
-calls to of_node_put() for the child node.
+Use the scoped variant of the macro to avoid leaking memory upon early
+exits without the required call to of_node_put().
 
-Add the missing 'of_node_put(layer_node)' in the only error path.
-
-Cc: stable@vger.kernel.org
-Fixes: efeeaefe9be5 ("drm: Add support for the LogiCVC display controller")
 Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
 ---
- drivers/gpu/drm/logicvc/logicvc_layer.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/logicvc/logicvc_layer.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/logicvc/logicvc_layer.c b/drivers/gpu/drm/logicvc/logicvc_layer.c
-index 464000aea765..52dabacd42ee 100644
+index 52dabacd42ee..34caf5f0f619 100644
 --- a/drivers/gpu/drm/logicvc/logicvc_layer.c
 +++ b/drivers/gpu/drm/logicvc/logicvc_layer.c
-@@ -613,6 +613,7 @@ int logicvc_layers_init(struct logicvc_drm *logicvc)
+@@ -581,7 +581,6 @@ int logicvc_layers_init(struct logicvc_drm *logicvc)
+ 	struct drm_device *drm_dev = &logicvc->drm_dev;
+ 	struct device *dev = drm_dev->dev;
+ 	struct device_node *of_node = dev->of_node;
+-	struct device_node *layer_node = NULL;
+ 	struct device_node *layers_node;
+ 	struct logicvc_layer *layer;
+ 	struct logicvc_layer *next;
+@@ -594,7 +593,7 @@ int logicvc_layers_init(struct logicvc_drm *logicvc)
+ 		goto error;
+ 	}
+ 
+-	for_each_child_of_node(layers_node, layer_node) {
++	for_each_child_of_node_scoped(layers_node, layer_node) {
+ 		u32 index = 0;
+ 
+ 		if (!logicvc_of_node_is_layer(layer_node))
+@@ -613,7 +612,6 @@ int logicvc_layers_init(struct logicvc_drm *logicvc)
  
  		ret = logicvc_layer_init(logicvc, layer_node, index);
  		if (ret) {
-+			of_node_put(layer_node);
+-			of_node_put(layer_node);
  			of_node_put(layers_node);
  			goto error;
  		}
