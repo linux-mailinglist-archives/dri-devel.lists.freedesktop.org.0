@@ -2,62 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EE7299924E
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Oct 2024 21:28:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF1CE99932C
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Oct 2024 21:52:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 683BD10E9B9;
-	Thu, 10 Oct 2024 19:28:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A69310E9BF;
+	Thu, 10 Oct 2024 19:52:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="UdZ0L3HE";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="AGBl/TLy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B6A610E9B9;
- Thu, 10 Oct 2024 19:28:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1728588496; x=1760124496;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=zjCPX19HZWLXM6UD/xOw+yEVVVpZMpfRjy8JE3dxHq4=;
- b=UdZ0L3HE4h0YJpKPAKB+bnt1ZOIiuPuJe4cdMyiyPtJ9oR5Gunq6C7i8
- 1hW8/Ie02HtnTgp7pDVQ9n8ZJiKaC1CExBysO2DVHgBBloMXVuPX9JYN1
- roUEajvQA7Ud9P+CglPmP5gBmqnvTUGhJBvSSk1w0K+599AA5sncp4P8T
- UZxwhB/7dWh66BB4nXIJml20xchDRS7y60kMehsYpw3t3/opuvwOXCnyN
- hYdtpMUDOi1sozRNNkwzLQXxJ+UILOd8IlOQWzd7W+mYUjAuudjpyxNRz
- a2Mr7ZGW6BzCG7z4WtiAyrRdn79+odDc/vmWq6UsptAVN2jwywyuv+g5R w==;
-X-CSE-ConnectionGUID: rp1dhMx0TyiXxV6/6kjrxA==
-X-CSE-MsgGUID: SzO5cvzdTq2GcvpQCM9Y1w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11221"; a="39364990"
-X-IronPort-AV: E=Sophos;i="6.11,193,1725346800"; d="scan'208";a="39364990"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Oct 2024 12:28:15 -0700
-X-CSE-ConnectionGUID: aWS2LaMDRIK7UaKBeM/J3A==
-X-CSE-MsgGUID: UROcXiHfTG+GDYjHWSdlXQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,193,1725346800"; d="scan'208";a="76782588"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by fmviesa008.fm.intel.com with SMTP; 10 Oct 2024 12:28:12 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 10 Oct 2024 22:28:11 +0300
-Date: Thu, 10 Oct 2024 22:28:11 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH 4/8] drm/client: Make copies of modes
-Message-ID: <Zwgqy6jxFzCf7loL@intel.com>
-References: <20241003113304.11700-1-ville.syrjala@linux.intel.com>
- <20241003113304.11700-5-ville.syrjala@linux.intel.com>
- <d6678cad-7017-4d46-914f-27126d894b91@suse.de>
- <ZwWJGGh-ys9CtrsE@intel.com>
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com
+ [209.85.219.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 113EB10E9BF
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Oct 2024 19:52:21 +0000 (UTC)
+Received: by mail-yb1-f179.google.com with SMTP id
+ 3f1490d57ef6-e02c4983bfaso1418266276.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Oct 2024 12:52:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=broadcom.com; s=google; t=1728589941; x=1729194741;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=H0yQGGhTqw9cUKWuDIB0GQqeru7Zb3BCIasRnoNpl7I=;
+ b=AGBl/TLyT6vtso9R2FF0KjnM/eJ3MQ9B6YA9uIygh2/uR/PBNCbfLxYePy3az6+7wA
+ UMWDi8ASVQmtgN9IyNRx377wj/3+WBrtFj3nIRtbEDnGQNYxPFRs6L+cTVl5MmhntTdz
+ 3+W6CGhqbtvewQ0g9fkdIrwDEVlWGsZDInr/A=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1728589941; x=1729194741;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=H0yQGGhTqw9cUKWuDIB0GQqeru7Zb3BCIasRnoNpl7I=;
+ b=f9BZWbvs+ohx5KbQAL3z3bV1K05k1AvatTBnYe9mQ2DfrrIoG0e07ExI8+4eTStgC7
+ vJGUjkryTZLOBuGhIC37MM+cyDQtxdinZiEzFEE3gQDAa4Ew3bz/7A7x9F+eUpp95o8A
+ z6qI8hVQ0ySJu8GrLgK27INRVraI88XZX8b80gUToXDJm4YqQYX9dgxUdjKnCiF90mI3
+ BaZsDtTbYYI3Z2nBSBEBxeq9I/dG61+GGTxJYQcomE5g+sUKcToIZigzDLfMVF5LzAto
+ UBLBnPP+4uldFXlXkhFPb0I6EQvcW6xo4xjGxDIZH8Ad7C6z738TYN3Uv6AQaXmPS1yP
+ Xwsg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVDpVVveqO68eQcbcVN4ltZFKaU5NQEgAsw+k720xWP9dMEq5uXtZhRGJeEXGCykAIZlQ+oSGeES1w=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyuaOiTr5+mG/P2UqQFdpKJLwt8pU3CJJTuGobeWnGdflQa9eor
+ 1FeYZTjuYvYxncGDUk7FtynzDenrUt6EDpXkhXJ5doRCcmTNBX9RxnfdLgzLNQuIal6sF/HRw5p
+ 9557taYefixcy25j9TrgaEDEUNm19FW4nDGQORiEGD3JgZqU=
+X-Google-Smtp-Source: AGHT+IFWC5y7eMICyQT90+3RF+9SJuIQFBfyId6svCfqtZ8VV8P2OhLGTFKN0YGn+Iylgx5+atjoJZzkAL3VP4f/CE0=
+X-Received: by 2002:a05:6902:1589:b0:e28:30f5:f33 with SMTP id
+ 3f1490d57ef6-e2919dadd2amr106480276.28.1728589940760; Thu, 10 Oct 2024
+ 12:52:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZwWJGGh-ys9CtrsE@intel.com>
-X-Patchwork-Hint: comment
+References: <20241002122429.1981822-1-kniv@yandex-team.ru>
+In-Reply-To: <20241002122429.1981822-1-kniv@yandex-team.ru>
+From: Zack Rusin <zack.rusin@broadcom.com>
+Date: Thu, 10 Oct 2024 15:52:10 -0400
+Message-ID: <CABQX2QNVpaTqBDzBnwDgW=2fi4QxeywXZRsbhywLkph3JgAmjQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/vmwgfx: Handle surface check failure correctly
+To: Nikolay Kuratov <kniv@yandex-team.ru>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ stable@vger.kernel.org, lvc-project@linuxtesting.org, 
+ bcm-kernel-feedback-list@broadcom.com, Sinclair Yeh <syeh@vmware.com>, 
+ Thomas Hellstrom <thellstrom@vmware.com>, Simona Vetter <simona@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,53 +79,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 08, 2024 at 10:33:44PM +0300, Ville Syrjälä wrote:
-> On Mon, Oct 07, 2024 at 09:36:13AM +0200, Thomas Zimmermann wrote:
-> > Hi
-> > 
-> > Am 03.10.24 um 13:33 schrieb Ville Syrjala:
-> > > From: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> > >
-> > > drm_client_firmware_config() is currently picking up the current
-> > > mode of the crtc via the legacy crtc->mode, which is not supposed
-> > > to be used by atomic drivers at all. We can't simply switch over
-> > > to the proper crtc->state->mode because we drop the crtc->mutex
-> > > (which protects crtc->state) before the mode gets used.
-> > >
-> > > The most straightforward solution to extend the lifetime of
-> > > modes[] seem to be to make full copies of the modes instead
-> > > of just storing pointers. We do have to replace the NULL checks
-> > > with something else though. Checking that mode->clock!=0
-> > > should be sufficient.
-> > >
-> > > And with this we can undo also commit 3eadd887dbac
-> > > ("drm/client:Fully protect modes[] with dev->mode_config.mutex")
-> > > as the lifetime of modes[] no longer has anything to do with
-> > > that lock.
-> > 
-> > I think it would be a lot better to first build that mode list while 
-> > holding the mutex, and afterwards copy the resulting modes before 
-> > releasing the lock. The code below is convoluted with drm_mode_copy().
-> 
-> My first thought was to make copies but still keep track
-> of pointers. That idea was a complete disaster because you
-> now had to carefully free the modes on the list.
-> 
-> I then considred some kind of double list approach, but that
-> too seemed more complicated/confusing than the (IMO fairly
-> straightforward) apporach I ended up with. I'd prefer to reduce
-> the nummber of arrays this thing uses rather than increase them.
+On Wed, Oct 2, 2024 at 8:26=E2=80=AFAM Nikolay Kuratov <kniv@yandex-team.ru=
+> wrote:
+>
+> Currently if condition (!bo and !vmw_kms_srf_ok()) was met
+> we go to err_out with ret =3D=3D 0.
+> err_out dereferences vfb if ret =3D=3D 0, but in our case vfb is still NU=
+LL.
+>
+> Fix this by assigning sensible error to ret.
+>
+> Found by Linux Verification Center (linuxtesting.org) with SVACE
+>
+> Signed-off-by: Nikolay Kuratov <kniv@yandex-team.ru>
+> Cc: stable@vger.kernel.org
+> Fixes: 810b3e1683d0 ("drm/vmwgfx: Support topology greater than texture s=
+ize")
+> ---
+>  drivers/gpu/drm/vmwgfx/vmwgfx_kms.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx=
+/vmwgfx_kms.c
+> index 288ed0bb75cb..752510a11e1b 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+> @@ -1539,6 +1539,7 @@ static struct drm_framebuffer *vmw_kms_fb_create(st=
+ruct drm_device *dev,
+>                 DRM_ERROR("Surface size cannot exceed %dx%d\n",
+>                         dev_priv->texture_max_width,
+>                         dev_priv->texture_max_height);
+> +               ret =3D -EINVAL;
+>                 goto err_out;
+>         }
+>
+> --
+> 2.34.1
+>
 
-Had another look at the double array approach, and still
-tought the result would be quite disgusting.
+Thank you. I pushed it to drm-misc-fixes.
 
-So I think the only other viable option is to keep the single
-array of pointers, and stick copies onto it. But that introduces
-more ways to leak memory and/or access already freed memory.
-I don't really like the extra complexity that this requires.
-It'd perhaps be more palatable if the whole thing would be
-redesigned to be more AoS instead of SoA...
-
--- 
-Ville Syrjälä
-Intel
+z
