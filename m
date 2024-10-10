@@ -2,63 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD1C4998244
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Oct 2024 11:32:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 530ED998256
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Oct 2024 11:33:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63DF010E8A8;
-	Thu, 10 Oct 2024 09:32:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDDD610E8AE;
+	Thu, 10 Oct 2024 09:33:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="n6NBrxOl";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="INirg5Ug";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
- [68.232.153.233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2413D10E8A8
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Oct 2024 09:32:41 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EC7110E8AD;
+ Thu, 10 Oct 2024 09:33:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
- t=1728552761; x=1760088761;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=FUvEZdexLb0egQbluawfFMb4prI6pmJNwKqr+VU6HKk=;
- b=n6NBrxOlrxGlQMqfwfYXNIyz1TAEeJalk4Ecpgp/qyz0/ZnmRKQb0t6+
- 7aTRfC0S+KelFrhFW77v0Tkv4Ubwx8Thy/2JmMjjhldHHLGYLGLkN9LS3
- yD6okUahlROOtRwyVzhhsaTobxbo+mULyUu45oRdMKkRloZRqvdiNz0xe
- LKmphDbfw2cTA5Wq2EVGFTd/RjxR32v0o8QqGwQejBCVVxwRo6iy7w6M5
- 98h62I7zo77TBi8p+xn9gavd3eliY7WY92uz8A8Mzi529yeQkWvXNWgBp
- KTwW0njfPfWh0hglWIPyCMBD7FYWX8BRCHrSM4SRf8Z/bJX8ipDK5pxE6 g==;
-X-CSE-ConnectionGUID: BI64UNzWQKuKyeV/WF2pRg==
-X-CSE-MsgGUID: zJmBcTWPSqOC/FlSmuLgQw==
-X-IronPort-AV: E=Sophos;i="6.11,192,1725346800"; d="scan'208";a="32833320"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
- by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 10 Oct 2024 02:32:40 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Thu, 10 Oct 2024 02:31:44 -0700
-Received: from che-lt-i67131.microchip.com (10.10.85.11) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Thu, 10 Oct 2024 02:31:39 -0700
-From: Manikandan Muralidharan <manikandan.m@microchip.com>
-To: <sam@ravnborg.org>, <bbrezillon@kernel.org>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
- <nicolas.ferre@microchip.com>, <alexandre.belloni@bootlin.com>,
- <claudiu.beznea@tuxon.dev>, <lee@kernel.org>,
- <dri-devel@lists.freedesktop.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-kernel@vger.kernel.org>
-CC: Manikandan Muralidharan <manikandan.m@microchip.com>
-Subject: [PATCH] drm: atmel-hlcdc: bypass LCDC pixel clock divider when using
- LCDC Generic Clock
-Date: Thu, 10 Oct 2024 15:01:32 +0530
-Message-ID: <20241010093132.235177-1-manikandan.m@microchip.com>
-X-Mailer: git-send-email 2.25.1
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1728552833; x=1760088833;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=re5Q+qO/hHoNx+eKZZ1hEuECNny9DIdvg8+EGAFqVig=;
+ b=INirg5Ug+4+Ch0DdJMisIg58FBycSy7vUfj9mDBi9tOuXkxC7hsCt3f2
+ oU3Dhgg/6U19j7PSBr70wiGN27jtNr1BOKx3Ps9n02VVofn1mMTn+JGXt
+ z8J/FKOfXknV7J3ApkleUFRGFLQi6dFrb3Q/lYEH+NV9v5oALsNn/vCno
+ TvbRKvIintG4K9ZGJGzJxWHo5grXJxmADeBT1YU3ddhkxBPfCuHQMwlTk
+ pie09uYhx7QGG8PdrI5W3SSZO6nk9fow3WdOkSxwNhYyIoWVOtmzQ5rgU
+ GSgZjg8qHxC6SqmmAmuTgzy6q4s85LFPjm3s92cIpCo+mohkpY6OMxIvP A==;
+X-CSE-ConnectionGUID: E9m60TyVTHCowHL4K4CnLQ==
+X-CSE-MsgGUID: qZ46ZI7mQUS9Bg+6+BUz3A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="27710356"
+X-IronPort-AV: E=Sophos;i="6.11,192,1725346800"; d="scan'208";a="27710356"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Oct 2024 02:33:52 -0700
+X-CSE-ConnectionGUID: QgsLcRwqRKuJVaJxSY/Zcw==
+X-CSE-MsgGUID: SKqVmDLOQ/maIfi6mzE8lA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,192,1725346800"; d="scan'208";a="76143171"
+Received: from irvmail002.ir.intel.com ([10.43.11.120])
+ by fmviesa006.fm.intel.com with ESMTP; 10 Oct 2024 02:33:49 -0700
+Received: from [10.245.97.255] (unknown [10.245.97.255])
+ by irvmail002.ir.intel.com (Postfix) with ESMTP id E7C982876E;
+ Thu, 10 Oct 2024 10:33:46 +0100 (IST)
+Message-ID: <6f64b79b-391e-4c78-98ac-8741b82201b4@intel.com>
+Date: Thu, 10 Oct 2024 11:33:45 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V3] drm/xe/guc: Fix dereference before NULL check
+To: Dan Carpenter <dan.carpenter@linaro.org>,
+ "Everest K.C." <everestkc@everestkc.com.np>
+Cc: lucas.demarchi@intel.com, thomas.hellstrom@linux.intel.com,
+ rodrigo.vivi@intel.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ skhan@linuxfoundation.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, kernel-janitors@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20241010064636.3970-1-everestkc@everestkc.com.np>
+ <1a5407c4-3b0f-48a1-940a-cc6b3ff3fb12@stanley.mountain>
+Content-Language: en-US
+From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+In-Reply-To: <1a5407c4-3b0f-48a1-940a-cc6b3ff3fb12@stanley.mountain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,53 +78,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In sam9x7 SoC where XLCDC IP is used,add support to bypass the LCDC pixel
-clock divider when LCDC Generic clock is enabled.Used to match
-and drive the panel requested Pixel clock.
 
-Signed-off-by: Manikandan Muralidharan <manikandan.m@microchip.com>
----
- drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c | 8 +++++++-
- include/linux/mfd/atmel-hlcdc.h                | 1 +
- 2 files changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
-index 0f7ffb3ced20..c54770cecaa8 100644
---- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
-+++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
-@@ -146,13 +146,19 @@ static void atmel_hlcdc_crtc_mode_set_nofb(struct drm_crtc *c)
- 
- 		if (div_low >= 2 &&
- 		    (10 * (prate / div_low - mode_rate) <
--		     (mode_rate - prate / div)))
-+		     (mode_rate - prate / div))) {
- 			/*
- 			 * At least 10 times better when using a higher
- 			 * frequency than requested, instead of a lower.
- 			 * So, go with that.
- 			 */
- 			div = div_low;
-+		} else {
-+			if (crtc->dc->desc->is_xlcdc) {
-+				cfg |= ATMEL_XLCDC_CLKBYP;
-+				mask |= ATMEL_XLCDC_CLKBYP;
-+			}
-+		}
- 	}
- 
- 	cfg |= ATMEL_HLCDC_CLKDIV(div);
-diff --git a/include/linux/mfd/atmel-hlcdc.h b/include/linux/mfd/atmel-hlcdc.h
-index 80d675a03b39..982f494e6307 100644
---- a/include/linux/mfd/atmel-hlcdc.h
-+++ b/include/linux/mfd/atmel-hlcdc.h
-@@ -44,6 +44,7 @@
- #define ATMEL_XLCDC_HEO_UPDATE		BIT(3)
- 
- #define ATMEL_HLCDC_CLKPOL		BIT(0)
-+#define ATMEL_XLCDC_CLKBYP		BIT(1)
- #define ATMEL_HLCDC_CLKSEL		BIT(2)
- #define ATMEL_HLCDC_CLKPWMSEL		BIT(3)
- #define ATMEL_HLCDC_CGDIS(i)		BIT(8 + (i))
--- 
-2.25.1
+On 10.10.2024 08:54, Dan Carpenter wrote:
+> On Thu, Oct 10, 2024 at 12:46:34AM -0600, Everest K.C. wrote:
+>> The pointer list->list is dereferenced before the NULL check.
+>> Fix this by moving the NULL check outside the for loop, so that
+>> the check is performed before the dereferencing.
+>> The list->list pointer cannot be NULL so this has no effect on runtime.
+>> It's just a correctness issue.
+>>
+>> This issue was reported by Coverity Scan.
+>> https://scan7.scan.coverity.com/#/project-view/51525/11354?selectedIssue=1600335
+>>
+>> Fixes: a18c696fa5cb ("drm/xe/guc: Fix dereference before Null check")
+
+hmm, this seems wrong, shouldn't this be:
+
+Fixes: 0f1fdf559225 ("drm/xe/guc: Save manual engine capture into
+capture list")
+
+>> Signed-off-by: Everest K.C. <everestkc@everestkc.com.np>
+>> ---
+> 
+> Perfect!  Thanks.
+> 
+> Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+> 
+> regards,
+> dan carpenter
+> 
 
