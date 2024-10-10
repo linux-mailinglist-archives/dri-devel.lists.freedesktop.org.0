@@ -2,65 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85FA6998316
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Oct 2024 12:02:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78198998397
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Oct 2024 12:32:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1014210E8AB;
-	Thu, 10 Oct 2024 10:02:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D80F810E8BC;
+	Thu, 10 Oct 2024 10:32:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="V2Q5PY1e";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="eqY8zJwk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7503010E8AB
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Oct 2024 10:02:53 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id
- 5b1f17b1804b1-43118c9a955so3354785e9.3
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Oct 2024 03:02:53 -0700 (PDT)
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com
+ [209.85.208.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9874510E8BC
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Oct 2024 10:32:09 +0000 (UTC)
+Received: by mail-ed1-f52.google.com with SMTP id
+ 4fb4d7f45d1cf-5c9362c26d8so827586a12.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Oct 2024 03:32:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1728554572; x=1729159372; darn=lists.freedesktop.org;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :from:to:cc:subject:date:message-id:reply-to;
- bh=4kcHzjc7RQkdaDki732vmbHCZytgfZBIAOdQqD7SywE=;
- b=V2Q5PY1en2QcyidNWQW1UdoRzzkgis9SxNKNYkhG5FytRFYF91UAC/UQIJvvSNyUd+
- wqezQm2BHo9z53nbTqbTTqM1Q/NOSm5lvJ5YIZNfIdIt2a2/gIckF24e3XiQVm5ub6KB
- wCgqkCx9GQDyoYnGv5kr3tPRaX1dXKT3aF98e10871HE4K3YmH3yb+qjC3op3Ix6iVx4
- 4KQLKrRdAi2mq+4rglbyASLRefAQ0WFZwdOmZarVCICoG3abWZwcY3dOMV+mYug/wRzq
- xgHFccqPQ2t7HOEUIcG9j+iCj+z5C2/4XtNcpUyVQKqwN82TXhU5FLH9XNMaVx9w4B/o
- pV4g==
+ d=gmail.com; s=20230601; t=1728556328; x=1729161128; darn=lists.freedesktop.org;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=EKfCr8K8XATwTEc5LZiBxGmuNZQGRkSeS/Vp37hWSP4=;
+ b=eqY8zJwkkNlTbFwTN08U0sp9ipyDbNLBYzpAlcXU0TdQkO2Bt5Jq2+VtWsyVlgYnAS
+ 0VBTBMn7Hr4YzQhKd37dzoJqmXKJiz4tAMvETZxCIX41LBChbhrXctJFcMs+qLueF7KA
+ fR05c5xB3XopE2PPqEtSlhl8Vj8iNxvhL4txrsimUmr5QGsTu6k+6sNHw9MQXeRSYPG/
+ 5KFr+Mrd8YuP8J6ZNWhAkk3b0MNEocH6YLIF6lBOCZUw7s/E7TlNrBcJeqrzKJvH/q7D
+ leIXMjNXOE02xWUN4Tb61rnLX9XX0t9FvyRkRWzmM0Cu8qmlcfNrqZKzhoio6Sr3h+aD
+ 6dPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728554572; x=1729159372;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=4kcHzjc7RQkdaDki732vmbHCZytgfZBIAOdQqD7SywE=;
- b=QLTTSvjJ1CBChBW9/q8nc4R6BZXG+fAyVk8IKQWBBOnKdy5pr4t8tY5Hk2hO6p/ar2
- 1ndiLLhstXXAZvq1GgBCbtxit/3xa5PlZRSREJOapjF06KxrXCnkTwCWVDTKdGCZU7ux
- z+Ms6LLju7WU64qlXZneo4SDA6/PGYYehus72vevyOdNfxkDQ9c4eDVQsKkaUeHLAqzX
- 9rMYpPRZshO/G/d5hUSqTPlAheHnWTXJDOSo2c+7l3ParHJ0MYvi5Pa+jJHV7Gqnap0j
- 2HSgxqxvpsDJQ7AQeFzEaVwsJk2bZSDshPzYWbCWazOlMTW82rhdlebhtiYEZ4Yc3MNE
- oMXg==
-X-Gm-Message-State: AOJu0YxXmpvT/1p6IV9VDDuCu5dtJN3FT5EQ3OvPGcQlbTK0BsUX/+Gz
- lHlUuLLcrgyyoTSXEH5A+UhFziC+ZBc0xzVkOAAZQ7qCEYvAaDOxkvZzuAKl8AusNe9aon+lb0D
- r
-X-Google-Smtp-Source: AGHT+IHIkTEhdiY3xZpAyB/JkL/XvnYip5gPEWQ9NiFCnacCjaJ5Oe1T0gg7AW4f+UQ2xzXUMUE+ew==
-X-Received: by 2002:a05:600c:a015:b0:42c:b4f1:f2ad with SMTP id
- 5b1f17b1804b1-430d70b40d3mr47910045e9.33.1728554571661; 
- Thu, 10 Oct 2024 03:02:51 -0700 (PDT)
-Received: from localhost ([196.207.164.177]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-431182ffeb9sm11314315e9.11.2024.10.10.03.02.50
+ d=1e100.net; s=20230601; t=1728556328; x=1729161128;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=EKfCr8K8XATwTEc5LZiBxGmuNZQGRkSeS/Vp37hWSP4=;
+ b=PSIqAkrqc8Pjo+3Z8DzoXCii41bL8yd6P2NprEG1JUiPM2OwEMwD3PtLuHAtPWA9t/
+ 2MG2s5wrB3JN6HLmgbh/uKa42nWau0wG7TWRL9uz5yuhUp8F9pckbaUxRYny9Hmz8aQG
+ 1SzLt3QGnmjhz7qeFwQVgdW1Gb2f109tRR8VMgFXcHYRNGw7HyaijTNThLs607sv8vSY
+ UGY7aeinL5ODmHkGIwZV5Vnsr6efnfd8IuQiD5FRFt0kqHigDQkxO9+HGnGWAiGxaSmw
+ w9U2E3au8HEhy/U5wV+CST47IEAaPM13pMak70SYYXD0tPMnSDcNY9wzazLHkXnADZwf
+ j/YQ==
+X-Gm-Message-State: AOJu0YxU/C+HroXD96BbvJF0sezB+C0HkhZqHeHjTZ0VinE9eFkd2hsK
+ A1JBGt/g8baybWJn5Lv5weOY91P6kGJ62rJCQeAwfOLCXGTO65ZbUfgSPw==
+X-Google-Smtp-Source: AGHT+IGJ+FHXEoWNw2jQBNeAzKGmH/WOieImY89fddm17ppYNB7oLiViUmG4HFDkNWVkiKeN91bdCw==
+X-Received: by 2002:a05:6402:3508:b0:5c5:cda5:9328 with SMTP id
+ 4fb4d7f45d1cf-5c93353c8f1mr2301881a12.4.1728556327707; 
+ Thu, 10 Oct 2024 03:32:07 -0700 (PDT)
+Received: from [127.0.1.1] (leased-line-46-53-189-107.telecom.by.
+ [46.53.189.107]) by smtp.googlemail.com with ESMTPSA id
+ 4fb4d7f45d1cf-5c93715159csm597314a12.42.2024.10.10.03.32.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Oct 2024 03:02:51 -0700 (PDT)
-Date: Thu, 10 Oct 2024 13:02:47 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-Cc: dri-devel@lists.freedesktop.org
-Subject: [bug report] drm: add DRM_SET_CLIENT_NAME ioctl
-Message-ID: <d3f0d4ff-f14a-45f8-bd51-2d57159d919a@stanley.mountain>
+ Thu, 10 Oct 2024 03:32:07 -0700 (PDT)
+From: Dzmitry Sankouski <dsankouski@gmail.com>
+Date: Thu, 10 Oct 2024 13:31:42 +0300
+Subject: [PATCH] drm/mipi-dsi: fix kernel doc on
+ mipi_dsi_compression_mode_multi
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20241010-starqltechn_integration_upstream_drm_fix-v1-1-cf3cb1d1ce77@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAA2tB2cC/x2N0QrCMAxFf2Xk2UKbCk5/RaSULd0Crs4kE2Hs3
+ y0+ngvnnh2UhEnh1u0g9GHlV20QTh0Mc64TOR4bA3o8Bx+8U8vyfhoNc01cjSbJ1py0rWpCeUm
+ jLKnw110QY4w9lmtfoN2tQm3+p+6P4/gBybGUlHoAAAA=
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Neil Armstrong <neil.armstrong@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ kernel test robot <lkp@intel.com>, Dzmitry Sankouski <dsankouski@gmail.com>
+X-Mailer: b4 0.14.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1728556326; l=1225;
+ i=dsankouski@gmail.com; s=20240619; h=from:subject:message-id;
+ bh=U8Qpq6Kc34eBmGAV0KHkX48owBKgN62YeboZL5ZEL24=;
+ b=0IvFTL9sBSstv6QvX78a5xbC9GwOL1MGNboZNiXyqkJTGKUSlN9NQQkpBoLOL5fdnaeNOEkVh
+ eVqSaAam8fNDcU45aT0VMQ5EUCvJoP4JEZ8GynpFID4DaDrS2ZjnOVh
+X-Developer-Key: i=dsankouski@gmail.com; a=ed25519;
+ pk=YJcXFcN1EWrzBYuiE2yi5Mn6WLn6L1H71J+f7X8fMag=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,69 +93,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Pierre-Eric Pelloux-Prayer,
+Replace dsi parameter on ctx in kernel doc of
+mipi_dsi_compression_mode_multi function.
 
-Commit 56c594d8df64 ("drm: add DRM_SET_CLIENT_NAME ioctl") from Oct
-3, 2024 (linux-next), leads to the following Smatch static checker
-warning:
+Fixes: 975bdea8c470 ("drm/mipi-dsi: add mipi_dsi_compression_mode_multi")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202410092245.tfsuUllL-lkp@intel.com/
+Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
+---
+ drivers/gpu/drm/drm_mipi_dsi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-	drivers/gpu/drm/drm_debugfs.c:104 drm_clients_info()
-	warn: was precision intended? '64'
+diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.c
+index d8ee74701f1e..5e5c5f84daac 100644
+--- a/drivers/gpu/drm/drm_mipi_dsi.c
++++ b/drivers/gpu/drm/drm_mipi_dsi.c
+@@ -1522,7 +1522,7 @@ EXPORT_SYMBOL(mipi_dsi_compression_mode_ext_multi);
+ 
+ /**
+  * mipi_dsi_compression_mode_multi() - enable/disable DSC on the peripheral
+- * @dsi: DSI peripheral device
++ * @ctx: Context for multiple DSI transactions
+  * @enable: Whether to enable or disable the DSC
+  *
+  * Enable or disable Display Stream Compression on the peripheral using the
 
-drivers/gpu/drm/drm_debugfs.c
-    73 static int drm_clients_info(struct seq_file *m, void *data)
-    74 {
-    75         struct drm_debugfs_entry *entry = m->private;
-    76         struct drm_device *dev = entry->dev;
-    77         struct drm_file *priv;
-    78         kuid_t uid;
-    79 
-    80         seq_printf(m,
-    81                    "%20s %5s %3s master a %5s %10s %*s\n",
-                                                          ^^^
-this was probably intended to be %.*s
+---
+base-commit: 4c93ede2b0c73a7708f46a01669769d15d31e1d2
+change-id: 20241010-starqltechn_integration_upstream_drm_fix-72233382f98f
 
-    82                    "command",
-    83                    "tgid",
-    84                    "dev",
-    85                    "uid",
-    86                    "magic",
-    87                    DRM_CLIENT_NAME_MAX_LEN,
-    88                    "name");
-    89 
-    90         /* dev->filelist is sorted youngest first, but we want to present
-    91          * oldest first (i.e. kernel, servers, clients), so walk backwardss.
-    92          */
-    93         mutex_lock(&dev->filelist_mutex);
-    94         list_for_each_entry_reverse(priv, &dev->filelist, lhead) {
-    95                 bool is_current_master = drm_is_current_master(priv);
-    96                 struct task_struct *task;
-    97                 struct pid *pid;
-    98 
-    99                 mutex_lock(&priv->client_name_lock);
-    100                 rcu_read_lock(); /* Locks priv->pid and pid_task()->comm! */
-    101                 pid = rcu_dereference(priv->pid);
-    102                 task = pid_task(pid, PIDTYPE_TGID);
-    103                 uid = task ? __task_cred(task)->euid : GLOBAL_ROOT_UID;
---> 104                 seq_printf(m, "%20s %5d %3d   %c    %c %5d %10u %*s\n",
-                                                                         ^^
-And this as well.  But why bother?  We know these strings are NUL terminated.
+Best regards,
+-- 
+Dzmitry Sankouski <dsankouski@gmail.com>
 
-    105                            task ? task->comm : "<unknown>",
-    106                            pid_vnr(pid),
-    107                            priv->minor->index,
-    108                            is_current_master ? 'y' : 'n',
-    109                            priv->authenticated ? 'y' : 'n',
-    110                            from_kuid_munged(seq_user_ns(m), uid),
-    111                            priv->magic,
-    112                            DRM_CLIENT_NAME_MAX_LEN,
-    113                            priv->client_name ? priv->client_name : "<unset>");
-    114                 rcu_read_unlock();
-    115                 mutex_unlock(&priv->client_name_lock);
-    116         }
-    117         mutex_unlock(&dev->filelist_mutex);
-    118         return 0;
-    119 }
-
-regards,
-dan carpenter
