@@ -2,70 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A10709986DB
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Oct 2024 14:58:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8FEF9986EA
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Oct 2024 14:59:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8ABE10E8E1;
-	Thu, 10 Oct 2024 12:57:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A10610E8EB;
+	Thu, 10 Oct 2024 12:59:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lOg8+E/6";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="evn8u2fX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C526210E8E1;
- Thu, 10 Oct 2024 12:57:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1728565077; x=1760101077;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=T3JPdNWgqvuOuTKAeftYpFlj5uZXKBpVl1V80k/cnn0=;
- b=lOg8+E/6ORm1RvRjh67TBPeeU9Ws7SWr40YC6/TS9R296eLcQ1Eli4EV
- SwY6fdrJQRHHPc9DM4UOySbNisnnkKzwoe92kks9TfLY6bnzvXK6tpYsB
- sbxB3I6ut7JCLFREI6kBxReGy/EAzrJc3T7XVdAKzqyOHjGV1uE6HKXGB
- O0ZtS3cea24zE1c9Jhncq0rmcw6QXEtbanEzHPiQ9xkEPlYjSTzzof5MM
- enR0tN4bpIyveM+c2E5fUAdEiFADipjIl6SiWJkb90Lp8Ct59xqDJt661
- 0YNPVMPi2NvDnuWbdcLQVlCSu9UEcYnIpt49eU2kj3EnM3PAdcSbhLuSr w==;
-X-CSE-ConnectionGUID: +PNnxozpTbWrBX5HjLb1UQ==
-X-CSE-MsgGUID: Dp00lJZvSYiAU1WOMqq+Sw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="31617174"
-X-IronPort-AV: E=Sophos;i="6.11,193,1725346800"; d="scan'208";a="31617174"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Oct 2024 05:57:57 -0700
-X-CSE-ConnectionGUID: 7jc+Nv4dRmuik6D1op2Ydg==
-X-CSE-MsgGUID: BvLH9yeESWelwBLj91QW5A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,193,1725346800"; d="scan'208";a="114049337"
-Received: from oandoniu-mobl3.ger.corp.intel.com (HELO [10.245.244.227])
- ([10.245.244.227])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Oct 2024 05:57:55 -0700
-Message-ID: <648981da5fcf3118b10932eabc07b74c99bf53f4.camel@linux.intel.com>
-Subject: Re: [PATCH][next] drm/xe/guc: Fix inverted logic on snapshot->copy
- check
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: John Harrison <john.c.harrison@intel.com>, Colin Ian King
- <colin.i.king@gmail.com>, Lucas De Marchi <lucas.demarchi@intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Julia Filipchuk
- <julia.filipchuk@intel.com>, intel-xe@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Thu, 10 Oct 2024 14:57:52 +0200
-In-Reply-To: <7feb0520-0cd3-46fc-8b44-a78d1c3a65bf@intel.com>
-References: <20241009160510.372195-1-colin.i.king@gmail.com>
- <7feb0520-0cd3-46fc-8b44-a78d1c3a65bf@intel.com>
-Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
- keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com
+ [209.85.208.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64F0010E8E5
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Oct 2024 12:59:39 +0000 (UTC)
+Received: by mail-lj1-f169.google.com with SMTP id
+ 38308e7fff4ca-2fac63abf63so8974951fa.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Oct 2024 05:59:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1728565177; x=1729169977; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=36NOSeErwXpLnSIxfSSqwMj8Lcluu1V/I96m1cnaxMk=;
+ b=evn8u2fXwlEidbwa0xnj54BBjkqPJ78QJXI0UiqLV6tJF29Z6YePE2DffounN6gfwM
+ TEL1+kwa8kyfSeJix6aqtX14Fd4o6cY1+atfl/LgMjGcuI91DMcG2/CJN/ISlhfVF0Ov
+ /SR7y1tDSWv+1abLXzKgriDtx4TPE+k+xAE1LMwqPfN3V9W5mIBGN4yKRAkT3PsiWXK1
+ 6I13US1wp50n5xqMGptYYZG6SBUaZ60HqkorlaD7VcBOrLwLD8EgVrKI7LlLPi44vxMD
+ XZGBGcHnJPtsiUeHQSAMGPZZV9vsKnOXnjT0TdxwSON9Kh8lnXHe1NQcPNDr8ByWnGH9
+ UbTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1728565177; x=1729169977;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=36NOSeErwXpLnSIxfSSqwMj8Lcluu1V/I96m1cnaxMk=;
+ b=AdhhKmoKVI+2x/ZceTuwG6+8i9g+V9M3fZP6tN4GNKO3EIaT/ribK7LCpwF5ORkDLs
+ h5ISyUFjFjG96mP8SGmp2DCacmFGSog0fqck7fyY7s7ZxR8lQe60oepP0lmLvOzMtSMm
+ cHBEs84dvrdEeVwvmFfX7ijBvRwM0xnMxcSCEhSafyejrFLjDbR8qgqMBD/QlRKXwll7
+ 6UoL0iUdVmi1zGwlRW14/FGqhe6NeamfCr6V+CSXipalw0UMvJy6PDp34umVTwzDnaQs
+ WILsyCQJjTEjJZDeJ+g5qHgBnsHkEBjU3IjR/VGO47OAB0vWK3SKChqRmmVzXIBSJ1Cj
+ 0iIA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXPkZbupOeo2dB1QUTJwCFseciXQaI/Txk5e7EOSOHypugr5AXNH3lvS43xPMIkcwgwzceB4paMkhg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxQ15x+QYQJ3UGAt4RcVq5fWwqJs67R0gs7sPT2Z5FIP61cry+U
+ yikcwz2PFwlwvdt0ox4/ZDtQEH+3exBek0yZwlpSnoEiXhZ2tiDooekvJFRiK4Q=
+X-Google-Smtp-Source: AGHT+IFY7BZoKpY4gXXDowPZQJ9kCDf3g7HVgd9T5+NX2HqZudxIwPOU8AAV3qqHVLmN94N+juBEmw==
+X-Received: by 2002:a2e:a989:0:b0:2fa:cf5b:1ea7 with SMTP id
+ 38308e7fff4ca-2fb1872993amr43592271fa.6.1728565177250; 
+ Thu, 10 Oct 2024 05:59:37 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-2fb2457972esm1978601fa.20.2024.10.10.05.59.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Oct 2024 05:59:35 -0700 (PDT)
+Date: Thu, 10 Oct 2024 15:59:33 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Jun Nie <jun.nie@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 00/14] drm/msm/dpu: Support quad pipe with dual-DSI
+Message-ID: <twqjthrjzagqhvednxk2plwynxjbxwusvx7a3745mjv5foelh2@fhzyipmelvnv>
+References: <20241009-sm8650-v6-11-hmd-pocf-mdss-quad-upstream-21-v2-0-76d4f5d413bf@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241009-sm8650-v6-11-hmd-pocf-mdss-quad-upstream-21-v2-0-76d4f5d413bf@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,46 +88,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2024-10-09 at 09:32 -0700, John Harrison wrote:
-> On 10/9/2024 09:05, Colin Ian King wrote:
-> > Currently the check to see if snapshot->copy has been allocated is
-> > inverted and ends up dereferencing snapshot->copy when free'ing
-> > objects in the array when it is null or not free'ing the objects
-> > when snapshot->copy is allocated. Fix this by using the correct
-> > non-null pointer check logic.
-> >=20
-> > Fixes: d8ce1a977226 ("drm/xe/guc: Use a two stage dump for GuC logs
-> > and add more info")
-> > Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
-> Reviewed-by: John Harrison <John.C.Harrison@Intel.com>
->=20
-> Thanks for the fix.
+On Wed, Oct 09, 2024 at 04:50:13PM GMT, Jun Nie wrote:
+> 
+> ---
+> 2 or more SSPPs and dual-DSI interface are need for super wide DSI panel.
+> And 4 DSC are prefered for power optimal in this case. This patch set
+> extend number of pipes to 4 and revise related mixer blending logic
+> to support quad pipe.  All these changes depends on the virtual plane
+> feature to split a super wide drm plane horizontally into 2 or more sub
+> clip. Thus DMA of multiple SSPPs can share the effort of fetching the
+> whole drm plane.
+> 
+> The first pipe pair co-work with the first mixer pair to cover the left
+> half of screen and 2nd pair of pipes and mixers are for the right half
+> of screen. If a plane is only for the right half of screen, only one
+> or two of pipes in the 2nd pipe pair are valid, and no SSPP or mixer is
+> assinged for invalid pipe.
+> 
+> For those panel that does not require quad-pipe, only 1 or 2 pipes in
+> the 1st pipe pair will be used. There is no concept of right half of
+> screen.
+> 
+> For legacy non virtual plane mode, the first 1 or 2 pipes are used for
+> the single SSPP and its multi-rect mode.
+> 
+> This patch set depends on virtual plane patch set v5 and flexible
+> number of DSC patch set:
+> https://patchwork.freedesktop.org/series/135456/
+> 
+> Changes in v2:
+> - Revise the patch sequence with changing to 2 pipes topology first. Then
+>   prepare for quad-pipe setup, then enable quad-pipe at last.
 
-Pushed to drm-xe-next. Thanks.
+Is this the only change? Doesn't seem so. Please don't make it harder
+than it should be.
 
-/Thomas
+> - Link to v1: https://lore.kernel.org/all/20240829-sm8650-v6-11-hmd-pocf-mdss-quad-upstream-8-v1-0-bdb05b4b5a2e@linaro.org/
+> 
+> Signed-off-by: Jun Nie <jun.nie@linaro.org>
+> 
+> ---
+> Jun Nie (14):
+>       drm/msm/dpu: polish log for resource allocation
+>       drm/msm/dpu: decide right side per last bit
+>       drm/msm/dpu: fix mixer number counter on allocation
+>       drm/msm/dpu: switch RM to use crtc_id rather than enc_id for allocation
+>       drm/msm/dpu: handle pipes as array
+>       drm/msm/dpu: split PIPES_PER_STAGE definition per plane and mixer
+>       drm/msm/dpu: bind correct pingpong for quad pipe
+>       drm/msm/dpu: update mixer number info earlier
+>       drm/msm/dpu: blend pipes per mixer pairs config
+>       drm/msm/dpu: Support quad-pipe in SSPP checking
+>       drm/msm/dpu: Share SSPP info for multi-rect case
+>       drm/msm/dpu: support plane splitting in quad-pipe case
+>       drm/msm/dpu: support SSPP assignment for quad-pipe case
+>       drm/msm/dpu: Enable quad-pipe for DSC and dual-DSI case
+> 
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c         |  74 ++--
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h         |  12 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c      |  69 ++--
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h |   3 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h   |   1 +
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c       |   2 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h       |   4 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h      |   4 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h      |   2 +
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h          |  12 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c        | 408 +++++++++++++----------
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h        |  12 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c           | 210 ++++++------
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h           |  19 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h        |  10 +-
+>  15 files changed, 478 insertions(+), 364 deletions(-)
+> ---
+> base-commit: eac5b436019c2eeb005f7bdf3ca29d5e8f443d67
+> change-id: 20241009-sm8650-v6-11-hmd-pocf-mdss-quad-upstream-21-1142507692ba
+> 
+> Best regards,
+> -- 
+> Jun Nie <jun.nie@linaro.org>
+> 
 
-
-
->=20
-> > ---
-> > =C2=A0 drivers/gpu/drm/xe/xe_guc_log.c | 2 +-
-> > =C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/xe/xe_guc_log.c
-> > b/drivers/gpu/drm/xe/xe_guc_log.c
-> > index 93921f04153f..cc70f448d879 100644
-> > --- a/drivers/gpu/drm/xe/xe_guc_log.c
-> > +++ b/drivers/gpu/drm/xe/xe_guc_log.c
-> > @@ -122,7 +122,7 @@ void xe_guc_log_snapshot_free(struct
-> > xe_guc_log_snapshot *snapshot)
-> > =C2=A0=C2=A0	if (!snapshot)
-> > =C2=A0=C2=A0		return;
-> > =C2=A0=20
-> > -	if (!snapshot->copy) {
-> > +	if (snapshot->copy) {
-> > =C2=A0=C2=A0		for (i =3D 0; i < snapshot->num_chunks; i++)
-> > =C2=A0=C2=A0			kfree(snapshot->copy[i]);
-> > =C2=A0=C2=A0		kfree(snapshot->copy);
->=20
-
+-- 
+With best wishes
+Dmitry
