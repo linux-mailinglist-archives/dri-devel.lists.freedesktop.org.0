@@ -2,60 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C24F8999540
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2024 00:36:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77C14999567
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2024 00:43:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDE4710E9EE;
-	Thu, 10 Oct 2024 22:36:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D997B10E9F2;
+	Thu, 10 Oct 2024 22:43:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kP3HnD+p";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="fPr1HY53";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39F3C10E151;
- Thu, 10 Oct 2024 22:36:33 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id EBB625C0161;
- Thu, 10 Oct 2024 22:36:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73B96C4CEC5;
- Thu, 10 Oct 2024 22:36:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1728599791;
- bh=2mWGKo67DpHVHlPBRBwjISoktypQVqAGgZpcasr0OFQ=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=kP3HnD+p/ALWJIne5QXQB/acHwiuepBOQfXYzd0eCGXIH+jnCCXUf2G7b523XVZX0
- IGwHkPQ2zrO/Lr1kb9JILZpLncYkVhiA0gD0ANREITE1HH00nC9Jkj2UUqioBL/n+w
- 3OvEynB80KcyGi4AxPrFhdmXRppzgxAiMc21IgRRfdjo4L/Yyf9M8WajB7O4y3hN7U
- 4+nzrzQ+9hRg8KNQRDj5KR3AoZ4vgLxyxyiy04xPtcMD4TtPjt8RVNHBtaCy31nAPE
- OKbN47yZg2InzUH5/D8q+KMQxPK0Bcf6md8/An7y4yB+WEddn4LpTTw88iwbHIZcHn
- /Pi4LCFAC/W1A==
-Date: Thu, 10 Oct 2024 17:36:29 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>
-Cc: linux-pci@vger.kernel.org, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Bjorn Helgaas <bhelgaas@google.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
- Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Michal Wajdeczko <michal.wajdeczko@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Matt Roper <matthew.d.roper@intel.com>
-Subject: Re: [PATCH v3 3/5] PCI: Allow IOV resources to be resized in
- pci_resize_resource
-Message-ID: <20241010223629.GA581425@bhelgaas>
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com
+ [209.85.222.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3142510E151
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Oct 2024 22:43:37 +0000 (UTC)
+Received: by mail-qk1-f169.google.com with SMTP id
+ af79cd13be357-7b1141a3a2aso102984285a.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Oct 2024 15:43:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1728600216; x=1729205016;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:user-agent:from:references
+ :in-reply-to:mime-version:from:to:cc:subject:date:message-id
+ :reply-to; bh=+7kS0OwpIJ8lzGVa/z5he+FP7V/PyYuqC5d6o/YyS+0=;
+ b=fPr1HY53e4kJZDZh6sLlKCMHTpHc8Y3xgiGxbMp0toZAiiqrZGPZuDUtHJnAn/Tsjf
+ e9xXx8hA3MNcXxzCVjG7rKFZqCjbsg/IaTMH2/zD7cRPvCa97ZWu1HFq77oK6RoQQvT1
+ voj6myl38YTnHE6YPmohPUQvEyzLdhIuQDT6Q=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1728600216; x=1729205016;
+ h=cc:to:subject:message-id:date:user-agent:from:references
+ :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=+7kS0OwpIJ8lzGVa/z5he+FP7V/PyYuqC5d6o/YyS+0=;
+ b=kq4F0z305d2TA7o/HeCdnDaWpIRwMZzBUJfAbfFhw1nijDKEQeqFsrkolrxwYvk+p6
+ xLtK+/IufQymKqSbVsY/94GlNN7jNc76lMkAm0WmxyJz03S5wRtWsB60XnJkp3uDHYav
+ DUosb3SIV/28QZqQXdgJiOp+b9rvSvgN8v4GUjopZqcgaykwNsgIRWrVPVY6dyxYMfIu
+ iOSbxb3LtCxhImkaH2ieFEfxXkd8B77QYJZ+lKqK7JBoi8txZ5YMjc/T/kLLOEXD7pyf
+ cveqkTDtGq1h2h5ti+72FUnqREgSR3Vscaa0fTc1UlHfaKU1EN/f6tD7LsSCX9p4gxzr
+ iMfw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVGcy0FJfF7m8c6cKguA9ctoV7ouDdyYChKaBAx+vBZ+9Lc9FZJ27Qjp2esVlvT4iJHsHTFL7lMdBE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzufIydCVCTq2o9Rnc7+2aguG9kpYToXp6psLwCRdf1afwZwr8X
+ IROAz3F8CYea4Rg8HZ7Y1d2HKAPOG679sJanElBCKCtb4Adi7c2gFz8M42iWY8PWjyks+aQ1T6s
+ KRTRge0oq3k8/zrvCricXHmDJV0UpvBF46zcc
+X-Google-Smtp-Source: AGHT+IGgeD8OWkjTN2+txsFq08VyD7ih43EBc2xXYlKwMPaCKAPaVrQbOpHLD8TgOLBOWOgI5H4Qck7keHxdPo9DUQ0=
+X-Received: by 2002:a05:620a:460f:b0:7a9:aba6:d012 with SMTP id
+ af79cd13be357-7b11a37c515mr97106885a.22.1728600215870; Thu, 10 Oct 2024
+ 15:43:35 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 10 Oct 2024 18:43:35 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241010103203.382898-4-michal.winiarski@intel.com>
+In-Reply-To: <27acewh6h2xcwp63z5o3tgrjmimf4d3mftpnmkvhdhv273zgsp@i6i5ke4btdqx>
+References: <20240901040658.157425-1-swboyd@chromium.org>
+ <20240901040658.157425-14-swboyd@chromium.org>
+ <27acewh6h2xcwp63z5o3tgrjmimf4d3mftpnmkvhdhv273zgsp@i6i5ke4btdqx>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Thu, 10 Oct 2024 18:43:35 -0400
+Message-ID: <CAE-0n53S2dFz74_rgx22_1i_bbEC6kj1SL5LAEq_F2wrdCgBNg@mail.gmail.com>
+Subject: Re: [PATCH v4 13/18] dt-bindings: usb-switch: Extend for DisplayPort
+ altmode
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ patches@lists.linux.dev, devicetree@vger.kernel.org, 
+ Douglas Anderson <dianders@chromium.org>, Pin-yen Lin <treapking@chromium.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Benson Leung <bleung@chromium.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, 
+ dri-devel@lists.freedesktop.org, Guenter Roeck <groeck@chromium.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Lee Jones <lee@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Prashant Malani <pmalani@chromium.org>, 
+ Robert Foss <rfoss@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Daniel Scally <djrscally@gmail.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Ivan Orlov <ivan.orlov0322@gmail.com>, 
+ linux-acpi@vger.kernel.org, linux-usb@vger.kernel.org, 
+ Mika Westerberg <mika.westerberg@linux.intel.com>, 
+ "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,76 +107,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 10, 2024 at 12:32:01PM +0200, Michał Winiarski wrote:
-> Similar to regular resizable BAR, VF BAR can also be resized.
-> The structures are very similar, which means we can reuse most of the
-> implementation. See PCIe r4.0, sec 9.3.7.4.
+Quoting Dmitry Baryshkov (2024-09-19 03:40:19)
+> On Sat, Aug 31, 2024 at 09:06:51PM GMT, Stephen Boyd wrote:
+> > diff --git a/Documentation/devicetree/bindings/usb/usb-switch.yaml b/Documentation/devicetree/bindings/usb/usb-switch.yaml
+> > index f5dc7e23b134..816f295f322f 100644
+> > --- a/Documentation/devicetree/bindings/usb/usb-switch.yaml
+> > +++ b/Documentation/devicetree/bindings/usb/usb-switch.yaml
+> > @@ -52,6 +52,14 @@ properties:
+> >            endpoint:
+> >              $ref: '#/$defs/usbc-in-endpoint'
+> >
+> > +      port@2:
+> > +        $ref: /schemas/graph.yaml#/$defs/port-base
+> > +        unevaluatedProperties: false
+> > +
+> > +        properties:
+> > +          endpoint:
+> > +            $ref: '#/$defs/dp-endpoint'
+>
+> Is it a separate port or is it an endpoint of the same upstream-facing
+> (non-connector-facing) SS port?
 
-Add blank line between paragraphs.
+I don't quite follow this comment. This is an input DP endpoint/port.
 
-Add "()" after function name in subject.
+>
+> > +
+> >  oneOf:
+> >    - required:
+> >        - port
+> > @@ -65,6 +73,19 @@ $defs:
+> >      $ref: /schemas/graph.yaml#/$defs/endpoint-base
+> >      description: Super Speed (SS) output endpoint to a type-c connector
+> >      unevaluatedProperties: false
+> > +    properties:
+> > +      data-lanes:
+> > +        $ref: /schemas/types.yaml#/definitions/uint32-array
+> > +        description: |
+> > +          An array of physical USB Type-C data lane indexes.
+> > +          - 0 is SSRX1 lane
+> > +          - 1 is SSTX1 lane
+> > +          - 2 is SSTX2 lane
+> > +          - 3 is SSRX2 lane
+> > +        minItems: 4
+> > +        maxItems: 4
+> > +        items:
+> > +          maximum: 3
+>
+> What is the usecase to delare less than 4 lanes going to the USB-C
+> connector?
 
-Add what the patch does in the commit log, not just what can be done.
-
->  static int pci_rebar_find_pos(struct pci_dev *pdev, int bar)
->  {
-> +	int cap = PCI_EXT_CAP_ID_REBAR;
->  	unsigned int pos, nbars, i;
->  	u32 ctrl;
->  
-> -	pos = pci_find_ext_capability(pdev, PCI_EXT_CAP_ID_REBAR);
-> +#ifdef CONFIG_PCI_IOV
-> +	if (pci_resource_is_iov(bar)) {
-> +		cap = PCI_EXT_CAP_ID_VF_REBAR;
-> +		bar -= PCI_IOV_RESOURCES;
-> +	}
-> +#endif
-
-Personal preference, but I'd rather set "cap" directly here instead of
-setting a default and then overriding it in some cases.  Setting it
-here means both settings are in the same place.
-
-> +	pos = pci_find_ext_capability(pdev, cap);
->  	if (!pos)
->  		return -ENOTSUPP;
-
->  
-> diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
-> index c55f2d7a4f37e..e15fd8fe0f81f 100644
-> --- a/drivers/pci/pci.h
-> +++ b/drivers/pci/pci.h
-> @@ -584,6 +584,8 @@ static inline bool pci_resource_is_iov(int resno)
->  {
->  	return resno >= PCI_IOV_RESOURCES && resno <= PCI_IOV_RESOURCE_END;
->  }
-> +void pci_iov_resource_set_size(struct pci_dev *dev, int resno, resource_size_t size);
-> +bool pci_iov_is_memory_decoding_enabled(struct pci_dev *dev);
->  extern const struct attribute_group sriov_pf_dev_attr_group;
->  extern const struct attribute_group sriov_vf_dev_attr_group;
->  #else
-> @@ -607,6 +609,12 @@ static inline bool pci_resource_is_iov(int resno)
->  {
->  	return false;
->  }
-> +static inline void pci_iov_resource_set_size(struct pci_dev *dev, int resno,
-> +					     resource_size_t size) { }
-> +static inline bool pci_iov_is_memory_decoding_enabled(struct pci_dev *dev)
-> +{
-> +	return false;
-> +}
->  #endif /* CONFIG_PCI_IOV */
->  
->  #ifdef CONFIG_PCIE_PTM
-> diff --git a/drivers/pci/setup-res.c b/drivers/pci/setup-res.c
-> index e2cf79253ebda..95a13a5fa379c 100644
-> --- a/drivers/pci/setup-res.c
-> +++ b/drivers/pci/setup-res.c
-> @@ -425,13 +425,37 @@ void pci_release_resource(struct pci_dev *dev, int resno)
->  }
->  EXPORT_SYMBOL(pci_release_resource);
->  
-> +static bool pci_resize_is_memory_decoding_enabled(struct pci_dev *dev, int resno)
-
-Wrap this (and others) to fit in 80 columns like the rest of the file.
-
-Bjorn
+I'm not aware of any usecase. The 'maximum: 3' is the max value in the
+cell, i.e. 0, 1, 2, or 3.
