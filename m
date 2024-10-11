@@ -2,73 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2579C999D59
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2024 09:03:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6D84999D5C
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2024 09:03:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59D7110EA53;
-	Fri, 11 Oct 2024 07:03:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12CC510EA51;
+	Fri, 11 Oct 2024 07:03:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="BRK6DyQV";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="JaPgpOHk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com
- [209.85.128.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFED110EA53
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2024 07:03:03 +0000 (UTC)
-Received: by mail-yw1-f170.google.com with SMTP id
- 00721157ae682-6e305c2987bso16316877b3.0
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2024 00:03:03 -0700 (PDT)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
+ [209.85.208.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B641A10EA54
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2024 07:03:29 +0000 (UTC)
+Received: by mail-lj1-f177.google.com with SMTP id
+ 38308e7fff4ca-2fac9eaeafcso19110671fa.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2024 00:03:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1728630183; x=1729234983; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1728630208; x=1729235008; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=e/WrAkYmWTzQpnkkGqkA3T9eZ4D5Jk8JiEoDs0ZQrAM=;
- b=BRK6DyQV7mpvGa2hWMbhJDYwGa69COXLCOlGxGyjTUHCMUr0cTPt1Ai+azjsqXdGN1
- Xn/pZ7EybLJWnkodAOzc81ZN0czQWcbPCqgCZ5IPGft0Anwy5sh4KJndSF5ocATQnHa4
- cRZ3UoKQxpHGLg3r4YYp2M/94+0ex+TQqqJNv0eM550THQNomSy9Ij5kt55blhIq4zTt
- IZhROL7Wyi6geADLxGn8Iz1yeuV5dUC9M7b8VYAJURE/GO9Joq1F4R5Xhu3iPmR8LeO4
- /SmcxsSn5E3kzLzKPlzY7E5kNh7ODg6dTDQdwDf7RIkSASC++uhdre0mzAG+GOYsnV9G
- cc5g==
+ bh=cUYKvKXx3YacZEKlsfNYw4eUSZHyuCNL6LqQD01H25g=;
+ b=JaPgpOHkF648+QsGKc4vx3mniXI6x6akovWbeX11JGjURnX7v9+8QZfKm2lLWYe98R
+ 2ChqujHtUER5zpDIRzMAZuAGdsCWOpaADZ49CI+yAf/eL6Yv/nuAR+RxBpXjc5+S82lH
+ FHe4pJRovfGaOKceJdXi0KaadpmHYAJAP7UEIwzQ2R9/C+FlCJsh0JjcaqZ4soNQYpCI
+ Do0APCjN3vuZNOJXcdrzHOHJjb5vibdL/ndPThmXx8gzghb9pvUy2/Mamxh92wH0sxt7
+ 5E0CGitQpdAvGKc7Vu5KvkTG5Iq0WEb7f9rXzob9YHZt4MKP3QtSPvnw9cOJ4S56tfLl
+ Z/Ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728630183; x=1729234983;
+ d=1e100.net; s=20230601; t=1728630208; x=1729235008;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=e/WrAkYmWTzQpnkkGqkA3T9eZ4D5Jk8JiEoDs0ZQrAM=;
- b=RXZVuWSLKI6IwmgK4cuPUuljb49F1X003IaDqO4UNbmb1CHmrmomK5EsC6TRD+P1HV
- /AUv5gLYQx3fSmQ1BMHAxixR7NF/HFJbhzpE1LOpXY5LuDRArmDpBqCkzDBeT/V9JMCf
- rZQNTe9K91cYd7Uh0pJA8dX60hyv7R3NeSoI2lJJKDyRMCsABNzug/YP8ANIhvFOnxea
- LBs5w+TIOKqfsgqd0X/9nn1d4oIDyNUq3EVoX0IW1KP1c0qvc3dC2UURJEQhete/oQWs
- 3sCILWBdlk9UmelWQ5TPBe7rMuneUmzmd6LpMrZTZrzRZLeQrxlP3zfTTONwrvOMHw3M
- 85Zg==
+ bh=cUYKvKXx3YacZEKlsfNYw4eUSZHyuCNL6LqQD01H25g=;
+ b=wOiJ444NXPSWD7h0ql/IAX1Y8eqVdCfpedkoHkKY5zdcXiTY8vMRbWvh5Skut5RnBe
+ LyY6DAsq8RujjsgK28Nz+Qmq7MT49TgT7P287SH6jcIOu6ajvaUOiPbum7upwhFey0Kh
+ fYEmLGWtDc3aeqS6Y/l/dSet/NP/af1VQN/4vuEkONZh06DSQhBeK8yBUu46Dm+aX9a7
+ WdLn7tV8KFxasDXfMxaz78lh1HP9N+fzOuPI6pLUgt51Ij7Jmzy2BTCodnyx/983Umtw
+ i049mt9OQTdKeD1AnATqakydaU78CO0iBKAjojUZo2tWG9K5oGoEmpsWUiWro+b7T9UN
+ FGaQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWxtyBBSp96r/Z+BKkyRp1EIgqL/LJkQpYr+KchPXR1d+XxaIK7brPfzrw8lmy8ZHXrAHVGoGEnSU8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxxutx0x6LkV2krVtvY4NNEef1shT6YMeO0eKZ2McvNVzzuBSn2
- D2R9BwW3cGGbuVUDjotiMAg9cGSjbtBWOqH4+AVbXXR1C3hPGDf82qVPl6yzEAo6IMH8nXjx49u
- ymnQb66GNZ+9tOQYlGt2Z5/KutG1MayyezAt+Aw==
-X-Google-Smtp-Source: AGHT+IExrPlFUulHFd/PrfCfhS/4BHjHsolgjvVdCJaeB+YAMnpZ8ogCYZHPoFPVad1Xx04WRVGP4lRAtqTIlIKyqzc=
-X-Received: by 2002:a05:690c:4e09:b0:6dd:bbb4:bcc7 with SMTP id
- 00721157ae682-6e347c4de20mr8741367b3.44.1728630182736; Fri, 11 Oct 2024
- 00:03:02 -0700 (PDT)
+ AJvYcCXESylUfgpa5GBdwrCERRpqubqiPlso+R9q6pwzdk0t9RApW2QCg5A2Eb8PdTI9gVWSpIqpxS4DVvA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw7/YBdAfhiztUeo/u0f5A15m0qUzCQWl26jKT7yrNOZxXJSp2z
+ ZkCNcM43n1TPRdn+zbJr7B6bp4ZVK8XWlGKEyM13HPzpvLvLkg8left0XNW7YQgnPw5KlyiwOW/
+ k48LI8ghXg5OAFBJqQf+awKGey8SgWviy7er9xw==
+X-Google-Smtp-Source: AGHT+IEMLmWgU40XaEz7cg2fJjnrrvSFsX+Ixe67yUNnaZpe60YgcllCtweYxA726xWakmCHrvQLlc71P3K6O6pyHVY=
+X-Received: by 2002:a2e:4e11:0:b0:2fa:d4c1:3b71 with SMTP id
+ 38308e7fff4ca-2fb3272a9a1mr5139231fa.19.1728630207670; Fri, 11 Oct 2024
+ 00:03:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <20241009-sm8650-v6-11-hmd-pocf-mdss-quad-upstream-21-v2-0-76d4f5d413bf@linaro.org>
- <20241009-sm8650-v6-11-hmd-pocf-mdss-quad-upstream-21-v2-9-76d4f5d413bf@linaro.org>
- <zig5zuf6hjcrkwmsdiahtzz3t3mxrmwxj65l43xij3zhfcyidn@fuisasnavvo3>
- <CABymUCP7bVBSWXCNp33x_B8KaZSFU-Dx+bU5ctkgDGXrzURrXQ@mail.gmail.com>
-In-Reply-To: <CABymUCP7bVBSWXCNp33x_B8KaZSFU-Dx+bU5ctkgDGXrzURrXQ@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 11 Oct 2024 10:02:52 +0300
-Message-ID: <CAA8EJpovnEq_ciO0YmiREhwvxv6yGKnRMPx5=6G7R+Ob6Hy_hA@mail.gmail.com>
-Subject: Re: [PATCH v2 09/14] drm/msm/dpu: blend pipes per mixer pairs config
-To: Jun Nie <jun.nie@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
+References: <20241011020819.1254157-1-yangcong5@huaqin.corp-partner.google.com>
+In-Reply-To: <20241011020819.1254157-1-yangcong5@huaqin.corp-partner.google.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Fri, 11 Oct 2024 09:03:16 +0200
+Message-ID: <CACRpkdZR0UxF69rcuSpcfYR69FC-rGOakeOiUUbzJH6BWGVh=Q@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel: himax-hx83102: Adjust power and gamma to
+ optimize brightness
+To: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+Cc: sam@ravnborg.org, neil.armstrong@linaro.org, dianders@chromium.org, 
+ airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -86,108 +81,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 11 Oct 2024 at 09:40, Jun Nie <jun.nie@linaro.org> wrote:
+On Fri, Oct 11, 2024 at 4:08=E2=80=AFAM Cong Yang
+<yangcong5@huaqin.corp-partner.google.com> wrote:
+
+> The current panel brightness is only 360 nit. Adjust the power and gamma =
+to
+> optimize the panel brightness. The brightness after adjustment is 390 nit=
+.
 >
-> Dmitry Baryshkov <dmitry.baryshkov@linaro.org> =E4=BA=8E2024=E5=B9=B410=
-=E6=9C=8810=E6=97=A5=E5=91=A8=E5=9B=9B 21:15=E5=86=99=E9=81=93=EF=BC=9A
-> >
-> > On Wed, Oct 09, 2024 at 04:50:22PM GMT, Jun Nie wrote:
-> > > Blend pipes by set of mixer pair config. The first 2 pipes are for le=
-ft
-> > > half screen with the first set of mixer pair config. And the later 2 =
-pipes
-> > > are for right in quad pipe case.
-> > >
-> > > Signed-off-by: Jun Nie <jun.nie@linaro.org>
-> > > ---
-> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    | 38 ++++++++++++++++++-=
-----------
-> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h |  1 +
-> > >  2 files changed, 25 insertions(+), 14 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/d=
-rm/msm/disp/dpu1/dpu_crtc.c
-> > > index 43d9817cd858f..66f745399a602 100644
-> > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> > > @@ -442,7 +442,7 @@ static void _dpu_crtc_blend_setup_mixer(struct dr=
-m_crtc *crtc,
-> > >       const struct msm_format *format;
-> > >       struct dpu_hw_ctl *ctl =3D mixer->lm_ctl;
-> > >
-> > > -     uint32_t lm_idx, i;
-> > > +     uint32_t lm_idx, lm_pair, i, pipe_idx;
-> > >       bool bg_alpha_enable =3D false;
-> > >       DECLARE_BITMAP(fetch_active, SSPP_MAX);
-> > >
-> > > @@ -463,15 +463,20 @@ static void _dpu_crtc_blend_setup_mixer(struct =
-drm_crtc *crtc,
-> > >               if (pstate->stage =3D=3D DPU_STAGE_BASE && format->alph=
-a_enable)
-> > >                       bg_alpha_enable =3D true;
-> > >
-> > > -             for (i =3D 0; i < PIPES_PER_LM_PAIR; i++) {
-> > > -                     if (!pstate->pipe[i].sspp)
-> > > -                             continue;
-> > > -                     set_bit(pstate->pipe[i].sspp->idx, fetch_active=
-);
-> > > -                     _dpu_crtc_blend_setup_pipe(crtc, plane,
-> > > -                                                mixer, cstate->num_m=
-ixers,
-> > > -                                                pstate->stage,
-> > > -                                                format, fb ? fb->mod=
-ifier : 0,
-> > > -                                                &pstate->pipe[i], i,=
- stage_cfg);
-> > > +             /* loop pipe per mixer pair */
-> > > +             for (lm_pair =3D 0; lm_pair < PIPES_PER_PLANE / 2; lm_p=
-air++) {
-> > > +                     for (i =3D 0; i < PIPES_PER_LM_PAIR; i++) {
-> > > +                             pipe_idx =3D i + lm_pair * PIPES_PER_LM=
-_PAIR;
-> > > +                             if (!pstate->pipe[pipe_idx].sspp)
-> > > +                                     continue;
-> > > +                             set_bit(pstate->pipe[pipe_idx].sspp->id=
-x, fetch_active);
-> > > +                             _dpu_crtc_blend_setup_pipe(crtc, plane,
-> > > +                                                        mixer, cstat=
-e->num_mixers,
-> > > +                                                        pstate->stag=
-e,
-> > > +                                                        format, fb ?=
- fb->modifier : 0,
-> > > +                                                        &pstate->pip=
-e[pipe_idx], i,
-> > > +                                                        &stage_cfg[l=
-m_pair]);
-> > > +                     }
-> > >               }
-> > >
-> > >               /* blend config update */
-> > > @@ -503,7 +508,7 @@ static void _dpu_crtc_blend_setup(struct drm_crtc=
- *crtc)
-> > >       struct dpu_crtc_mixer *mixer =3D cstate->mixers;
-> > >       struct dpu_hw_ctl *ctl;
-> > >       struct dpu_hw_mixer *lm;
-> > > -     struct dpu_hw_stage_cfg stage_cfg;
-> > > +     struct dpu_hw_stage_cfg stage_cfg[LM_PAIRS_PER_PLANE];
-> >
-> > After seeing this code, can we define STAGES_PER_PLANE (and
-> > also keep PLANES_PER_STAGE defined to 2)?
-> >
-> Could you elaborate it? Stages describe how many layers to be blended.
-> Plane is a DRM concept that describe a buffer to be display in specific
-> display driver. Plane is already mapped to SSPP/multi-rect in DPU driver
->  in blending stage level. So I am confused here.
+> Fixes: 3179338750d8 ("drm/panel: Support for IVO t109nw41 MIPI-DSI panel"=
+)
+> Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
 
-We have dpu_hw_stage_cfg, you are adding a second instance of it. So
-we now have two stages per plane.
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
->
-> -  Jun
+If you look in panel-samsung-s6e63m0.c you can see how that driver actually
+uses a set of gamma+power (ACL) settings to regulate the "backlight",
+i.e. the brightness of the OLED display. You might want to implement
+something similar in your driver to actually provide the user with a
+brightness setting.
 
+It's a bit unfortunate that this is for historical reasons called "backligh=
+t"
+but the usecase is definitely the same.
 
-
---=20
-With best wishes
-Dmitry
+Yours,
+Linus Walleij
