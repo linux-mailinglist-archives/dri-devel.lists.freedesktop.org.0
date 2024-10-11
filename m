@@ -2,76 +2,147 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AC34999F0F
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2024 10:32:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BC81999F2D
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2024 10:40:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9849510EA73;
-	Fri, 11 Oct 2024 08:32:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED11B10EA7F;
+	Fri, 11 Oct 2024 08:40:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="xZmZ/dSg";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="bks3fA7L";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com
- [209.85.219.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3BEB10EA73
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2024 08:32:10 +0000 (UTC)
-Received: by mail-yb1-f173.google.com with SMTP id
- 3f1490d57ef6-e2915f00c12so899053276.0
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2024 01:32:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1728635530; x=1729240330; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=cXVKGFc9gKLnMRLCU5051n+iSbQkjJvfu9suJq/vAoM=;
- b=xZmZ/dSg6qL8/mGuQWPdMcFoKw0qH8k1QuDser+AjfSfc3Of94p5sZ4vlrDBQwBbP9
- q7L4a8YkBtHxi2dErDmGNxvdnmq3H3EsvApQ5WQn7F/2PN5FYA67Z7hLolW0DKtAV/3Y
- xgAAY+LX36wYRdrzGFxLi0jUk/vKrbt9Ty5C0+c3iG+Tqbp50/wZXnP3Tt2vKEAWxGQh
- WPh52d+DAqpaoPCpUVpVzPErXbunnZC4b3g4RzYsRmn7qP5rbLaNu6P/Lkt1Slf6ulcu
- y2HMBFiPaXESy2yk2NZkkIaQ/dt/7k13q3EHaFgP8laBtz8/jeqii/ct7ff7y4NGbt7L
- vIHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728635530; x=1729240330;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=cXVKGFc9gKLnMRLCU5051n+iSbQkjJvfu9suJq/vAoM=;
- b=qJTI/DgoKm4eMLglE8uXIOtaFyMXd6Cd2M6CLckJGhqVvMjFFYXT9ckcKy28AQngKP
- OH09eR7FJ39PsnTc65pcJ+venMZMFJcfw6cjT39FtIz9wqp0z3lU4EAP8c6flX3Qgike
- 4hPyR2GGVlC2ZvChqIx1CIClaP86D14qonJWZAsVnnakXgGeamQ4W+4B2IEJ4WlKeQZU
- 4QgjAM/R4z8iW5zV4/zeV+fFjPQV4rxB8N6kqgrr3YgkcXzj4ibIth+If1wmRvYwBnig
- d7/jE5pvHgDZLQQYqxv6bYBRQX8FdIBNEgIyBuq7Til0RRZksMu09KYq7ZXeJfrP2JAv
- rqpg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXIrHuSRLF9DQJze6SjnUaV/bAGXief5wlBpG/UdaJxhmnaVwW9UVAlupnrozpQtEP6gsBU/CTA+ek=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxjLFS6Ci+J8TdEPIMH4M6HvhWQZQvLFMsRjL0h2UIli0qXboaz
- cLn5H+xRNt3Rwp0TF8yVpbefDWtzJb7Nwg4kto/+bZxHytFxVE4MTlHvQEWHmDOjskcpLWHlDJG
- lYnR2rJ8s8PjJUAA92kB4IhUd+rcqRLdXoLOzHlnI7MYRmsj/
-X-Google-Smtp-Source: AGHT+IEJUKI65A/rweY0Hux0u/XG69HYFzj47ADpABUJrETKXzH1Ptdn0pcJiE/EizkK2wO4ndQGAf8eKGPjQWg32dQ=
-X-Received: by 2002:a05:690c:4148:b0:6e3:1050:5a46 with SMTP id
- 00721157ae682-6e3479e0c16mr8544877b3.22.1728635529707; Fri, 11 Oct 2024
- 01:32:09 -0700 (PDT)
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2063.outbound.protection.outlook.com [40.107.93.63])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C87D210EA7F;
+ Fri, 11 Oct 2024 08:40:31 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=G/+5GNvjFMW5c3Yk7Tsg+ygnn6iABwJkkht036+T2GA0SW0/yGae1Z8MX4eExW+bLZjWSYu+WRfI8bglGXb7n75xklfStoR/+pARfxUoFVO3FuyHBEzj+XGW/6BaMmpb4Kk/TYy56NxbuN5m2pAa5W2AHjl9s97y6N+tXmw3v0+3B+THHZFH+OhEb11ELD1EadA1nwZu4Un2Z1QwjnFp/8HqGHtX6mkwKSLv+dI+nTsY89TYnxKqrGkkEuani4tuUg5bC5LzSA1o2w4ybduYHkSjPQq6l4qRfmsMpK1X4b9yAuVP4AK49A0sMKFONjtAPdMRJHvHbvRyTbMnk57Evg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=54HyW5TZLL3qbUX1YVD/lnCyTTYsN63z7KiX1DSZzBg=;
+ b=xVAmL5wJsU0bqspblJQ5zanIznX3le67fqIi8xu3v+hgPf/fEWQASCFSjGFytygdIAI8ncCX5yYE5ad4Cpgtu4VfPJUfkdaHn7tQx+pv3u/+GfIDGWNEjXNPBGPiaHs7FyiLcxIimjjs7U4oZ3k0a9LQxKuULisFLZbwEOghHR+dtmAdX/bR9dd9FInzyd6R6S4VwWC7mnpYjAtyE1JfYlw4KDEUZdG5T9JrHKSGBeJoZD746qXPBggDiVP4g3xIDgVlUEPdMpwDpxAU8GmNXsFXy8cSDKH8utRG0ifOSpeZW9va3OPOLgr4UpsT+QEKEVCbE45ixqzCN5M62q+U3g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=54HyW5TZLL3qbUX1YVD/lnCyTTYsN63z7KiX1DSZzBg=;
+ b=bks3fA7LWEgGGGe1J40IxNmgsbqvYSeDMQTJD2uVygpkhQTqh3XNouT8X958RJ7DnHtP04eO4cfNpkBWlrTUOwACDQDvqjBjfCrn4lFZvnF+EQydymUzZ+PrP96fv/uR49tA8BC9xM8MG+qvWOxVrQE/FwjG9ozCSjdzvIcKies=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by DM4PR12MB6469.namprd12.prod.outlook.com (2603:10b6:8:b6::6) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8048.16; Fri, 11 Oct 2024 08:40:27 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%2]) with mapi id 15.20.8048.017; Fri, 11 Oct 2024
+ 08:40:25 +0000
+Message-ID: <db1694f2-031c-44e8-aa74-e6b002a136c5@amd.com>
+Date: Fri, 11 Oct 2024 10:40:20 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] drm/sched: adding a new scheduling policy
+To: jesse.zhang@amd.com, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+Cc: Alexander.Deucher@amd.com
+References: <20241011062136.1019695-1-jesse.zhang@amd.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20241011062136.1019695-1-jesse.zhang@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR4P281CA0004.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:c8::16) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-References: <20241009-sm8650-v6-11-hmd-pocf-mdss-quad-upstream-21-v2-0-76d4f5d413bf@linaro.org>
- <20241009-sm8650-v6-11-hmd-pocf-mdss-quad-upstream-21-v2-12-76d4f5d413bf@linaro.org>
- <fbqhq7zvusll377oxi4tcr4bpgwhab2xbnfw2izotua5me4ufe@syy4jundvccf>
- <CABymUCMcKwrUFZ=KJdS852-KkWPaGGigHr2Jo8B17_oZa6HEeA@mail.gmail.com>
-In-Reply-To: <CABymUCMcKwrUFZ=KJdS852-KkWPaGGigHr2Jo8B17_oZa6HEeA@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 11 Oct 2024 11:31:57 +0300
-Message-ID: <CAA8EJpq+8vWaV1ApGimC6E_i4FfOQvgNioV4tK=8eTkMZMiNWA@mail.gmail.com>
-Subject: Re: [PATCH v2 12/14] drm/msm/dpu: support plane splitting in
- quad-pipe case
-To: Jun Nie <jun.nie@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DM4PR12MB6469:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9c362e9b-9790-4cbc-39dd-08dce9d059e7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?dVhBTy9qaG9ZOVNZV0o2Yng0d3c0RzBLR3JRTTdhYjJqSVg1R3pGWjZPWHFC?=
+ =?utf-8?B?SEVxN29JeEZjcjFSUHlLc2RubU1tUUUyZW5INmpZNGF2SmwydGtNVU50NDRJ?=
+ =?utf-8?B?bGgwR1U3NGZnM2lvcVZmbmhRL20yYTJVcldsMVVmUXpiWlhBbUlVWUY5aFl5?=
+ =?utf-8?B?K2ZLZHI4VTVyQnpjNEtNV1BjcVF4L2xDVXFEK1lrZXJjSUFheTVyQnJqQkk5?=
+ =?utf-8?B?S1R2Qzlod3EvVm80T2FFYytReFFlUmNNNGFPY1l0dzZ5cEpvWHUzZm1RRUMr?=
+ =?utf-8?B?eW9pMzZ3UjcwZHB6aWtWaDR0K1VkU3o1UzJEaWQ0MkRRMGp3clBVZnBVZVpq?=
+ =?utf-8?B?T04wZEEweU85dlp6aVhzVHBuWDNmQkpLc0l0ZlVRWEpEelpsZHJjTlVHNVlj?=
+ =?utf-8?B?T09uQ3NLYk1yeEJVSDRuRk9OZUgyV2NDa09GbzhTbmFSZ2h1QkhuOURxc1NK?=
+ =?utf-8?B?ajlSK1lNZGZYTk1zYUZOZmVORVVVMUlOaWlBTVh6OGJKQjdYYnVQTFNyV1Vm?=
+ =?utf-8?B?NjNxR21TSFBKaVRCSWJqV2dPTUxFME9oQTRvZnZad2lYcElERmoyR3ZxTnht?=
+ =?utf-8?B?KzArVWRXMjNRT1B2RFhVVkNWQ3ZRZXBFeXpOUlEzanppVEM4d1F3T1RNalRv?=
+ =?utf-8?B?YXROM2hMUUVTa2RCT0IwMXRnbTBJT0hCeUxaUUxESEdVOXFNTytweDF0TGNH?=
+ =?utf-8?B?eVM0aGhyYVdpRFZtd1pHRUs3ZWZJQXdPY1gva2xiNGcyQWJORjlkT1gza0x5?=
+ =?utf-8?B?SFcraXA4YTBycGxQY0ltMHdTdXVuN0hpK3JmUURtWlBGUUpLd3hwbmh4K1E1?=
+ =?utf-8?B?eWxVYSs1ZUplci9yNXB0bWlZS2ZnTFZxZHVQTHF0YU1KSGxMZnI3L29XeXFs?=
+ =?utf-8?B?bUFMOSt3V3ZIRFBMWW8wR0FIbEJhcU1DYkJNd0ZxbldQNVBTK2JhVWY3ZGxS?=
+ =?utf-8?B?MDFhVWU0V29GYXkyaW5paWdRcjBKeHJoQjRLR21yR2UvdnJyZzZBTktEUElp?=
+ =?utf-8?B?NzR5MWROM0x0VjJQUjlQNlAwdzJSdExrVkxGaGw4bXg5VkNJVldEU3RzbC9G?=
+ =?utf-8?B?Vng5VlBCbTQzVWRmRHRGYWEvdU1BU2FEWGRBN0NaYXNOd3ZNaXJMUkg0THdI?=
+ =?utf-8?B?a2FqTFNxdGhTWGViQVpYWXJobWU2THc5eFFoaXdiYU9jQlc5SGovNnpJait2?=
+ =?utf-8?B?cUtxUkh1UFdyRUVuaVQ5dVM5dE9vWEtLclNldnk5WUkybjk0V2IvQUxhRGNV?=
+ =?utf-8?B?eS9lOVJOOUZ6OFBGODEzK0tBeXM2Tkg4ZGNGam1kblVuZEk0SlJ6T3FnTHFV?=
+ =?utf-8?B?Ly8vVWZ4TDBobS9aV3l4Skh1Q3VXTnFXSldrbUhURCtSUkRBS1Q5alk1UUZY?=
+ =?utf-8?B?eWx2WXhQVkg0ZTczZGg1WnV5Qmo2NU9xakhFV3BjbjNSUitML3pkSmNsS2tP?=
+ =?utf-8?B?U2oweXBtNzZEMmdpdlB0Y0RpRVlSellsd2crSWw1cHJ4WndxVGF5eU4xNEJ4?=
+ =?utf-8?B?Q2UrRXpZSzFUa3FBeGUwVmVRUHdHVGMxdEw1UDhyQXM5MUFtVVJiNW1ITmpV?=
+ =?utf-8?B?VWNQZDd5a0tMWDdDc0I0U0lXQytDaUF0RlNmcFVEZllwakdhMEp5aXp5cjE0?=
+ =?utf-8?B?YUhmNjYvMzllQm5sVGlUdGlrSCthNlBqc0ExaXRNSGovQ0Z6UzRBaHlGMUNw?=
+ =?utf-8?B?NFZnd2NKZ1RxL1prbUsxV2IycHh6M0s3dW9kQkRCa0psM0ozMnhMamlBPT0=?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aGwxWEViV2NPbDdDMVo1Zlgyanl0ODJGcU5mUExlYTZLVlpDZDMzeHljNE5a?=
+ =?utf-8?B?TDJSTU5HRFc4c2svTUlnaXJWUlpVTUpzcTV0RC9kT3NGWjlBVVV1TVNzTW1B?=
+ =?utf-8?B?WVd5RWhiaUpRR0o4eW5wWjRhWXZpUTdPUWpFZU9IWnppU0d2bWUyN2o1TkFV?=
+ =?utf-8?B?TFhacGs5aHpVNWYwUEZGUmlGR0FheDR2WHQxZ1hXOTh2eThWK3BkenphenY3?=
+ =?utf-8?B?cmNUdXhGZnYwMDBDZXhEbG5pUmVLdHlNaDZBZFBKdS9USENSMUFSVWdWMUw4?=
+ =?utf-8?B?VjNDd2s1YithSDM2SmpHUXpoSzRBbGpLOU8xbU1JaXNVZk9ad0QzN1BseFZH?=
+ =?utf-8?B?ZjcxTEdLVFJ6cU9iQ3BrOXA1bGFPaDZwcGVKQlk0eXhWWENJTXloVGNBS0Vv?=
+ =?utf-8?B?L1dvdGliWGlKZmJzM2ppaWlhd1cvZG5BamVZVmE1dGUwbHJpYUtsTTZ0VGdi?=
+ =?utf-8?B?eUYrZkI5bWZ0aEROazRGeUdMRlpMNmoyU1gwQ09TeG54NXIrQVhUeU5JZEJz?=
+ =?utf-8?B?SmtGZFF0OStZeWJZWkJiOVhEMXkrWnlNN2ovclBBQ0JzUk9ISENTeC9PdkJk?=
+ =?utf-8?B?V0hxQjdlNHlWbGtoL25SWGNuWkdDeUI3ZmhyeVV0d1poekVVWVIxT0pyd1lD?=
+ =?utf-8?B?V2d2bkVhN1cyZGNyTGpNMTYzclUwakZiOFl3YmthWVphdytudkNreTZ4R1Jm?=
+ =?utf-8?B?MjJIbXZsb1h1TkJzV290OWJKUEtKeGVyNm5sRU1VWEl2czBPWGFKSGREMGNv?=
+ =?utf-8?B?QXVjU2hLWXF6YnlSUVJpdC93L2dTQm92Wm92NGZZVWZyaW5Lc0JWT1JqdkYv?=
+ =?utf-8?B?NnVIYTZFUmVwMmlyWTBjUVdZNGc1NzJLckdteFRjN1dXUkZtVHcrOGlWVDVP?=
+ =?utf-8?B?QTA1QVBqVXdvQnVZaTZkMU5MdXJ4NVJhS3F5RGo4aGExVCtBb0RRNW9kZHpX?=
+ =?utf-8?B?RHRKWmI4VGExNkJoYVpmNWJ3QjBUVGhTK3p4MklBTUtleUNaVlNHaTdNVlI0?=
+ =?utf-8?B?RHVNUUN1c0lQS3duWjRibnJ4eG1WR3AwSDBzalVFUXVFcUhuZ2FFY0xTMWRL?=
+ =?utf-8?B?YlAzRjdQUWVYdmk2RzNOYjF6ZExwWXJnclIxZXI3aWJKdGg2MVNxMUF0MWp5?=
+ =?utf-8?B?RlNlR2ZiMkRVYzRYUEprZFlGemhzNEpzZ0FVdDRRVWVPSkJHaHNxN2lLVWV5?=
+ =?utf-8?B?NHBtQlhWSFJZeFZ3SStaTmVoWTRQcFNkUW5uNzdqWmhJVVBVSU1kaFcvcnRu?=
+ =?utf-8?B?WDQ3V25MQ3Q2Uk9iWTNIK3E0MndKWTlZWjBWR3pBbjNFQ3VFd3ZLcnJSNCtw?=
+ =?utf-8?B?aHpjUUN1NWcrYTNjNFlsQjVNejBGS1IycCsvdG1EenNqeno5dGh5bWt6RFNL?=
+ =?utf-8?B?YWtITTlxNkJJRjF5cHFmK0RHNFJsSGw1eHB3djduTGw2VlY4OFdZZU4vS3Zv?=
+ =?utf-8?B?bWNxVkJ6YWNOVGJ6NUhrUVQ0NkVrN3lvUkM3NmVSbjNabnZ5M1BZNTd6MEV6?=
+ =?utf-8?B?ejBhK3ZEWUJvZFdiN0x3c0I2NTFFeVNRYmloRElrQUVQNCtZMFpsa25TSVht?=
+ =?utf-8?B?Q210ZEd3TmdBbVNPVStqSFBZOTJxZy9MVVRZYzZ1WUZLeGhjbEFXWVZ2NnNz?=
+ =?utf-8?B?ZDRpd3pZbzFNbUwyQzBIU3VRTzNuK1VZVlpOcDI2RVlJWlBvYVlTVVJMa2ZD?=
+ =?utf-8?B?WUJvalFSVElNMVRoemRBcWdoTnY0VTd6Rkd5dGxYWkwxeU0vc2ROS1JHbkYv?=
+ =?utf-8?B?eGdlbXlrenlJNmIzWENXZmtXc3hzbEdEdUJvTnBzemZoTm96ZDA4TFVzdFF0?=
+ =?utf-8?B?aXB0c2sxVGUwSitDcmFOeFVCSGhpYkFXMWdqdGF6UmwwOTlPSXR2WUhHakRY?=
+ =?utf-8?B?eXMyTnIyMHpCVE5RZVdOR3R3Y1hnbkRhVWlOSWQ1K3pMbEZtOURya3Z3MTZB?=
+ =?utf-8?B?RTBmOVNhcWJwc3BFTy9yQXdHdEt0TEtEOUFiRXRuWEdSdnhtU2thN0Z1VG9l?=
+ =?utf-8?B?Mm44TkRKcHdKT1pKQkx2NzVDZjVlOVcwTktieUxFT0RoSFhxdnVsRWRGbE00?=
+ =?utf-8?B?T200WVNIOVNRWEgxUGZZK2YvU2RKVzRZWGxzR0FUT054dFdlTUdTQzVwOFNp?=
+ =?utf-8?Q?ncWU=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9c362e9b-9790-4cbc-39dd-08dce9d059e7
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Oct 2024 08:40:25.3357 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8lu9+LpnwdgYzHm8lhCII/1BXjC19uKVCD1NiwMLN8R+mYgYQH3ihF4TDSt39S8R
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6469
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,304 +158,224 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 11 Oct 2024 at 11:13, Jun Nie <jun.nie@linaro.org> wrote:
+Am 11.10.24 um 08:21 schrieb jesse.zhang@amd.com:
+> From: "Jesse.zhang@amd.com" <jesse.zhang@amd.com>
 >
-> Dmitry Baryshkov <dmitry.baryshkov@linaro.org> =E4=BA=8E2024=E5=B9=B410=
-=E6=9C=8810=E6=97=A5=E5=91=A8=E5=9B=9B 21:29=E5=86=99=E9=81=93=EF=BC=9A
-> >
-> > On Wed, Oct 09, 2024 at 04:50:25PM GMT, Jun Nie wrote:
-> > > Clip plane into pipes per left and right half screen ROI if topology
-> > > is quad pipe.
-> >
-> > Why? Please provide an explanation for the reviewers not knowing the
-> > details.
->
-> The content of every half of screen is sent out via one interface in
-> dual-DSI case. The content for every interface is blended by a LM
-> pair, thus no content of any pipe shall cross the LM pair. We need
-> to clip plane into pipes per left and right half screen ROI if topology
-> is quad pipe.
+> Added ring ID scheduling.
+> In some cases, userspace needs to run a job on a specific ring.
+> Instead of selecting the best ring to run based on the ring score.
+> For example, The user want to run a bad job on a specific ring to check
+> whether the ring can recover from a queue reset.
 
-=3D> commit message.
+Absolutely clearly a NAK, we don't want to expose the different HW rings 
+directly to userspace.
 
-> >
-> > > Then split the clipped rectangle by half if the rectangle
-> > > width still exceeds width limit.
-> > >
-> > > Signed-off-by: Jun Nie <jun.nie@linaro.org>
-> > > ---
-> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c  |  7 +++
-> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h  |  6 ++
-> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 99 +++++++++++++++++++++=
-+---------
-> > >  3 files changed, 84 insertions(+), 28 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/d=
-rm/msm/disp/dpu1/dpu_crtc.c
-> > > index 66f745399a602..d2aca0a9493d5 100644
-> > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> > > @@ -1310,6 +1310,13 @@ int dpu_crtc_vblank(struct drm_crtc *crtc, boo=
-l en)
-> > >       return 0;
-> > >  }
-> > >
-> > > +unsigned int dpu_crtc_get_lm_num(const struct drm_crtc_state *state)
-> >
-> > I think the DPU driver uses num_foo rather than foo_num
->
-> dpu_crtc_get_num_lm()
-> >
-> > > +{
-> > > +     struct dpu_crtc_state *cstate =3D to_dpu_crtc_state(state);
-> > > +
-> > > +     return cstate->num_mixers;
-> > > +}
-> > > +
-> > >  #ifdef CONFIG_DEBUG_FS
-> > >  static int _dpu_debugfs_status_show(struct seq_file *s, void *data)
-> > >  {
-> > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h b/drivers/gpu/d=
-rm/msm/disp/dpu1/dpu_crtc.h
-> > > index 5260e2440f059..ee7cf71f89fc7 100644
-> > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
-> > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
-> > > @@ -304,4 +304,10 @@ static inline enum dpu_crtc_client_type dpu_crtc=
-_get_client_type(
-> > >
-> > >  void dpu_crtc_frame_event_cb(struct drm_crtc *crtc, u32 event);
-> > >
-> > > +/**
-> > > + * dpu_crtc_get_lm_num - Get mixer number in this CRTC pipeline
-> > > + * state: Pointer to drm crtc state object
-> > > + */
-> > > +unsigned int dpu_crtc_get_lm_num(const struct drm_crtc_state *state)=
-;
-> > > +
-> > >  #endif /* _DPU_CRTC_H_ */
-> > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/=
-drm/msm/disp/dpu1/dpu_plane.c
-> > > index 898fc2937954e..480a1b46aba72 100644
-> > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> > > @@ -837,10 +837,12 @@ static int dpu_plane_atomic_check_nopipe(struct=
- drm_plane *plane,
-> > >       struct dpu_kms *kms =3D _dpu_plane_get_kms(&pdpu->base);
-> > >       u64 max_mdp_clk_rate =3D kms->perf.max_core_clk_rate;
-> > >       struct dpu_plane_state *pstate =3D to_dpu_plane_state(new_plane=
-_state);
-> > > -     struct dpu_sw_pipe_cfg *pipe_cfg;
-> > > -     struct dpu_sw_pipe_cfg *r_pipe_cfg;
-> > > +     struct dpu_sw_pipe_cfg pipe_cfg;
-> > >       struct drm_rect fb_rect =3D { 0 };
-> > > +     const struct drm_display_mode *mode =3D &crtc_state->adjusted_m=
-ode;
-> > >       uint32_t max_linewidth;
-> > > +     u32 lm_num;
-> > > +     int lmcfg_id, lmcfg_num;
-> > >
-> > >       min_scale =3D FRAC_16_16(1, MAX_UPSCALE_RATIO);
-> > >       max_scale =3D MAX_DOWNSCALE_RATIO << 16;
-> > > @@ -863,13 +865,10 @@ static int dpu_plane_atomic_check_nopipe(struct=
- drm_plane *plane,
-> > >               return -EINVAL;
-> > >       }
-> > >
-> > > -     /* move the assignment here, to ease handling to another pairs =
-later */
-> > > -     pipe_cfg =3D &pstate->pipe_cfg[0];
-> > > -     r_pipe_cfg =3D &pstate->pipe_cfg[1];
-> > > -     /* state->src is 16.16, src_rect is not */
-> > > -     drm_rect_fp_to_int(&pipe_cfg->src_rect, &new_plane_state->src);
-> > > +     lm_num =3D dpu_crtc_get_lm_num(crtc_state);
-> > >
-> > > -     pipe_cfg->dst_rect =3D new_plane_state->dst;
-> > > +     /* state->src is 16.16, src_rect is not */
-> > > +     drm_rect_fp_to_int(&pipe_cfg.src_rect, &new_plane_state->src);
-> > >
-> > >       fb_rect.x2 =3D new_plane_state->fb->width;
-> > >       fb_rect.y2 =3D new_plane_state->fb->height;
-> > > @@ -884,34 +883,78 @@ static int dpu_plane_atomic_check_nopipe(struct=
- drm_plane *plane,
-> > >
-> > >       max_linewidth =3D pdpu->catalog->caps->max_linewidth;
-> > >
-> > > -     drm_rect_rotate(&pipe_cfg->src_rect,
-> > > +     drm_rect_rotate(&pipe_cfg.src_rect,
-> > >                       new_plane_state->fb->width, new_plane_state->fb=
-->height,
-> > >                       new_plane_state->rotation);
-> > >
-> > > -     if ((drm_rect_width(&pipe_cfg->src_rect) > max_linewidth) ||
-> > > -          _dpu_plane_calc_clk(&crtc_state->adjusted_mode, pipe_cfg) =
-> max_mdp_clk_rate) {
-> > > -             if (drm_rect_width(&pipe_cfg->src_rect) > 2 * max_linew=
-idth) {
-> > > -                     DPU_DEBUG_PLANE(pdpu, "invalid src " DRM_RECT_F=
-MT " line:%u\n",
-> > > -                                     DRM_RECT_ARG(&pipe_cfg->src_rec=
-t), max_linewidth);
-> > > -                     return -E2BIG;
-> > > +     /*
-> > > +      * We have 1 mixer pair cfg for 1:1:1 and 2:2:1 topology, 2 mix=
-er pair
-> > > +      * configs for left and right half screen in case of 4:4:2 topo=
-logy.
-> > > +      * But we may have 2 rect to split plane with 1 config for 2:2:=
-1.
-> > > +      * So need to handle super wide plane splitting, and plane on r=
-ight half
-> > > +      * for quad-pipe case. Check dest rectangle left/right clipping
-> > > +      * first, then check super wide rectangle splitting in every ha=
-lf next.
-> > > +      */
-> > > +     lmcfg_num =3D (lm_num + 1) / 2;
-> >
-> > num_stages?
->
-> OK. Then lmcfg_id   ->   stage_id
-> >
-> > > +     /* iterate mixer configs for this plane, to separate left/right=
- with the id */
-> > > +     for (lmcfg_id =3D 0; lmcfg_id < lmcfg_num; lmcfg_id++) {
-> > > +             struct drm_rect mixer_rect =3D {lmcfg_id * mode->hdispl=
-ay / lmcfg_num, 0,
-> > > +                                     (lmcfg_id + 1) * mode->hdisplay=
- / lmcfg_num, mode->vdisplay};
-> > > +             int cfg_idx =3D lmcfg_id * PIPES_PER_LM_PAIR;
-> > > +             struct dpu_sw_pipe_cfg *cur_pipecfg =3D &pstate->pipe_c=
-fg[cfg_idx];
-> > > +
-> > > +             drm_rect_fp_to_int(&cur_pipecfg->src_rect, &new_plane_s=
-tate->src);
-> > > +             cur_pipecfg->dst_rect =3D new_plane_state->dst;
-> > > +
-> > > +             DPU_DEBUG_PLANE(pdpu, "checking src " DRM_RECT_FMT
-> > > +                             " vs clip window " DRM_RECT_FMT "\n",
-> > > +                             DRM_RECT_ARG(&cur_pipecfg->src_rect),
-> > > +                             DRM_RECT_ARG(&mixer_rect));
-> > > +
-> > > +             /* If this plane does not fall into mixer rect, check n=
-ext mixer rect */
-> > > +             if (!drm_rect_clip_scaled(&cur_pipecfg->src_rect, &cur_=
-pipecfg->dst_rect, &mixer_rect)) {
-> > > +                     memset(&pstate->pipe_cfg[cfg_idx], 0, 2 * sizeo=
-f(struct dpu_sw_pipe_cfg));
-> > > +                     memset(&pstate->pipe[cfg_idx], 0, 2 * sizeof(st=
-ruct dpu_sw_pipe));
-> > > +                     continue;
-> > >               }
-> > >
-> > > -             *r_pipe_cfg =3D *pipe_cfg;
-> > > -             pipe_cfg->src_rect.x2 =3D (pipe_cfg->src_rect.x1 + pipe=
-_cfg->src_rect.x2) >> 1;
-> > > -             pipe_cfg->dst_rect.x2 =3D (pipe_cfg->dst_rect.x1 + pipe=
-_cfg->dst_rect.x2) >> 1;
-> > > -             r_pipe_cfg->src_rect.x1 =3D pipe_cfg->src_rect.x2;
-> > > -             r_pipe_cfg->dst_rect.x1 =3D pipe_cfg->dst_rect.x2;
-> > > -     } else {
-> > > -             memset(r_pipe_cfg, 0, sizeof(*r_pipe_cfg));
-> > > -     }
-> > > +             cur_pipecfg->valid =3D true;
-> >
-> > ... and checks have been broken up to now. This isn't good.
->
-> Will move this patch before the plane checking patch.
-
-You might need to move related chunks as well.
-
-> >
-> > > +             cur_pipecfg->dst_rect.x1 -=3D mixer_rect.x1;
-> > > +             cur_pipecfg->dst_rect.x2 -=3D mixer_rect.x1;
-> > > +
-> > > +             DPU_DEBUG_PLANE(pdpu, "Got clip src:" DRM_RECT_FMT " ds=
-t: " DRM_RECT_FMT "\n",
-> > > +                             DRM_RECT_ARG(&cur_pipecfg->src_rect), D=
-RM_RECT_ARG(&cur_pipecfg->dst_rect));
-> > > +
-> > > +             /* Split super wide rect into 2 rect */
-> > > +             if ((drm_rect_width(&cur_pipecfg->src_rect) > max_linew=
-idth) ||
-> > > +                  _dpu_plane_calc_clk(mode, cur_pipecfg) > max_mdp_c=
-lk_rate) {
-> > > +                     struct dpu_sw_pipe_cfg *r_pipe_cfg =3D &pstate-=
->pipe_cfg[cfg_idx + 1];
-> > > +
-> > > +                     if (drm_rect_width(&cur_pipecfg->src_rect) > 2 =
-* max_linewidth) {
-> > > +                             DPU_DEBUG_PLANE(pdpu, "invalid src " DR=
-M_RECT_FMT " line:%u\n",
-> > > +                                             DRM_RECT_ARG(&cur_pipec=
-fg->src_rect), max_linewidth);
-> > > +                             return -E2BIG;
-> > > +                     }
-> > > +
-> > > +                     memcpy(r_pipe_cfg, cur_pipecfg, sizeof(struct d=
-pu_sw_pipe_cfg));
-> > > +                     cur_pipecfg->src_rect.x2 =3D (cur_pipecfg->src_=
-rect.x1 + cur_pipecfg->src_rect.x2) >> 1;
-> > > +                     cur_pipecfg->dst_rect.x2 =3D (cur_pipecfg->dst_=
-rect.x1 + cur_pipecfg->dst_rect.x2) >> 1;
-> >
-> > pipe_cfg. If you need, rename the topmost var name.
->
-> OK.  pipe_cfg_cur ?
-
-screen_pipe_cfg
+Regards,
+Christian.
 
 >
-> >
-> > > +                     r_pipe_cfg->src_rect.x1 =3D cur_pipecfg->src_re=
-ct.x2;
-> > > +                     r_pipe_cfg->dst_rect.x1 =3D cur_pipecfg->dst_re=
-ct.x2;
-> > > +                     r_pipe_cfg->valid =3D true;
-> > > +                     DPU_DEBUG_PLANE(pdpu, "Split super wide plane i=
-nto:"
-> > > +                                     DRM_RECT_FMT " and " DRM_RECT_F=
-MT "\n",
-> > > +                                     DRM_RECT_ARG(&cur_pipecfg->src_=
-rect),
-> > > +                                     DRM_RECT_ARG(&r_pipe_cfg->src_r=
-ect));
-> > > +             } else {
-> > > +                     memset(&pstate->pipe_cfg[cfg_idx + 1], 0, sizeo=
-f(struct dpu_sw_pipe_cfg));
-> > > +                     memset(&pstate->pipe[cfg_idx + 1], 0, sizeof(st=
-ruct dpu_sw_pipe));
-> >
-> > Please keep using r_pipe_cfg here.
+> Signed-off-by: Jesse Zhang <Jesse.Zhang@amd.com>
+> ---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c   |  2 +-
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_job.c  |  2 +-
+>   drivers/gpu/drm/etnaviv/etnaviv_sched.c  |  2 +-
+>   drivers/gpu/drm/imagination/pvr_queue.c  |  2 +-
+>   drivers/gpu/drm/lima/lima_sched.c        |  2 +-
+>   drivers/gpu/drm/msm/msm_gem_submit.c     |  2 +-
+>   drivers/gpu/drm/nouveau/nouveau_sched.c  |  2 +-
+>   drivers/gpu/drm/panfrost/panfrost_job.c  |  2 +-
+>   drivers/gpu/drm/scheduler/sched_entity.c | 11 +++++++++--
+>   drivers/gpu/drm/scheduler/sched_main.c   |  4 ++--
+>   drivers/gpu/drm/v3d/v3d_submit.c         |  2 +-
+>   include/drm/gpu_scheduler.h              |  4 ++--
+>   12 files changed, 22 insertions(+), 15 deletions(-)
 >
-> OK, will make r_pipe_cfg a variable in function scope, not bracket scope.
-> >
-> > > +             }
-> > >
-> > > -     drm_rect_rotate_inv(&pipe_cfg->src_rect,
-> > > -                         new_plane_state->fb->width, new_plane_state=
-->fb->height,
-> > > -                         new_plane_state->rotation);
-> > > -     if (drm_rect_width(&r_pipe_cfg->src_rect) !=3D 0)
-> > > -             drm_rect_rotate_inv(&r_pipe_cfg->src_rect,
-> > > +             drm_rect_rotate_inv(&cur_pipecfg->src_rect,
-> > >                                   new_plane_state->fb->width, new_pla=
-ne_state->fb->height,
-> > >                                   new_plane_state->rotation);
-> > > +     }
-> > >
-> > >       pstate->needs_qos_remap =3D drm_atomic_crtc_needs_modeset(crtc_=
-state);
-> > >
-> > >
-> > > --
-> > > 2.34.1
-> > >
-> >
-> > --
-> > With best wishes
-> > Dmitry
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+> index d891ab779ca7..18887128a973 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+> @@ -1286,7 +1286,7 @@ static int amdgpu_cs_submit(struct amdgpu_cs_parser *p,
+>   	int r;
+>   
+>   	for (i = 0; i < p->gang_size; ++i)
+> -		drm_sched_job_arm(&p->jobs[i]->base);
+> +		drm_sched_job_arm(&p->jobs[i]->base, -1);
+>   
+>   	for (i = 0; i < p->gang_size; ++i) {
+>   		struct dma_fence *fence;
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+> index 717adcedf096..8d75ffa9a097 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+> @@ -320,7 +320,7 @@ struct dma_fence *amdgpu_job_submit(struct amdgpu_job *job)
+>   {
+>   	struct dma_fence *f;
+>   
+> -	drm_sched_job_arm(&job->base);
+> +	drm_sched_job_arm(&job->base, -1);
+>   	f = dma_fence_get(&job->base.s_fence->finished);
+>   	amdgpu_job_free_resources(job);
+>   	drm_sched_entity_push_job(&job->base);
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+> index 62dcfdc7894d..98d003757af1 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+> @@ -107,7 +107,7 @@ int etnaviv_sched_push_job(struct etnaviv_gem_submit *submit)
+>   	 */
+>   	mutex_lock(&gpu->sched_lock);
+>   
+> -	drm_sched_job_arm(&submit->sched_job);
+> +	drm_sched_job_arm(&submit->sched_job, -1);
+>   
+>   	submit->out_fence = dma_fence_get(&submit->sched_job.s_fence->finished);
+>   	ret = xa_alloc_cyclic(&gpu->user_fences, &submit->out_fence_id,
+> diff --git a/drivers/gpu/drm/imagination/pvr_queue.c b/drivers/gpu/drm/imagination/pvr_queue.c
+> index 5ed9c98fb599..ed7398a0ff21 100644
+> --- a/drivers/gpu/drm/imagination/pvr_queue.c
+> +++ b/drivers/gpu/drm/imagination/pvr_queue.c
+> @@ -1115,7 +1115,7 @@ int pvr_queue_job_init(struct pvr_job *job)
+>    */
+>   struct dma_fence *pvr_queue_job_arm(struct pvr_job *job)
+>   {
+> -	drm_sched_job_arm(&job->base);
+> +	drm_sched_job_arm(&job->base, -1);
+>   
+>   	return &job->base.s_fence->finished;
+>   }
+> diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/lima_sched.c
+> index bbf3f8feab94..cc83b2aab9ce 100644
+> --- a/drivers/gpu/drm/lima/lima_sched.c
+> +++ b/drivers/gpu/drm/lima/lima_sched.c
+> @@ -130,7 +130,7 @@ int lima_sched_task_init(struct lima_sched_task *task,
+>   		return err;
+>   	}
+>   
+> -	drm_sched_job_arm(&task->base);
+> +	drm_sched_job_arm(&task->base, -1);
+>   
+>   	task->num_bos = num_bos;
+>   	task->vm = lima_vm_get(vm);
+> diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
+> index fba78193127d..74c4e1b4df78 100644
+> --- a/drivers/gpu/drm/msm/msm_gem_submit.c
+> +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+> @@ -831,7 +831,7 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+>   		goto out;
+>   	}
+>   
+> -	drm_sched_job_arm(&submit->base);
+> +	drm_sched_job_arm(&submit->base, -1);
+>   
+>   	submit->user_fence = dma_fence_get(&submit->base.s_fence->finished);
+>   
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.c b/drivers/gpu/drm/nouveau/nouveau_sched.c
+> index 32fa2e273965..3ff8142b5370 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_sched.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_sched.c
+> @@ -309,7 +309,7 @@ nouveau_job_submit(struct nouveau_job *job)
+>   	list_add(&job->entry, &sched->job.list.head);
+>   	spin_unlock(&sched->job.list.lock);
+>   
+> -	drm_sched_job_arm(&job->base);
+> +	drm_sched_job_arm(&job->base, -1);
+>   	job->done_fence = dma_fence_get(&job->base.s_fence->finished);
+>   	if (job->sync)
+>   		done_fence = dma_fence_get(job->done_fence);
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+> index a61ef0af9a4e..cc937420cd35 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+> @@ -301,7 +301,7 @@ int panfrost_job_push(struct panfrost_job *job)
+>   		return ret;
+>   
+>   	mutex_lock(&pfdev->sched_lock);
+> -	drm_sched_job_arm(&job->base);
+> +	drm_sched_job_arm(&job->base, -1);
+>   
+>   	job->render_done_fence = dma_fence_get(&job->base.s_fence->finished);
+>   
+> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+> index 58c8161289fe..f4669422b3f9 100644
+> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> @@ -525,7 +525,7 @@ struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
+>   	return sched_job;
+>   }
+>   
+> -void drm_sched_entity_select_rq(struct drm_sched_entity *entity)
+> +void drm_sched_entity_select_rq(struct drm_sched_entity *entity, int ring)
+>   {
+>   	struct dma_fence *fence;
+>   	struct drm_gpu_scheduler *sched;
+> @@ -554,7 +554,14 @@ void drm_sched_entity_select_rq(struct drm_sched_entity *entity)
+>   		return;
+>   
+>   	spin_lock(&entity->rq_lock);
+> -	sched = drm_sched_pick_best(entity->sched_list, entity->num_sched_list);
+> +	if(ring >= 0) {
+> +		if(entity->sched_list[ring] && entity->sched_list[ring]->ready)
+> +			sched = entity->sched_list[ring];
+> +		else
+> +			sched = drm_sched_pick_best(entity->sched_list, entity->num_sched_list);
+> +	}
+> +	else
+> +		sched = drm_sched_pick_best(entity->sched_list, entity->num_sched_list);
+>   	rq = sched ? sched->sched_rq[entity->priority] : NULL;
+>   	if (rq != entity->rq) {
+>   		drm_sched_rq_remove_entity(entity->rq, entity);
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index 7e90c9f95611..356adf510670 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -833,13 +833,13 @@ EXPORT_SYMBOL(drm_sched_job_init);
+>    *
+>    * This can only be called if drm_sched_job_init() succeeded.
+>    */
+> -void drm_sched_job_arm(struct drm_sched_job *job)
+> +void drm_sched_job_arm(struct drm_sched_job *job, int ring)
+>   {
+>   	struct drm_gpu_scheduler *sched;
+>   	struct drm_sched_entity *entity = job->entity;
+>   
+>   	BUG_ON(!entity);
+> -	drm_sched_entity_select_rq(entity);
+> +	drm_sched_entity_select_rq(entity, ring);
+>   	sched = entity->rq->sched;
+>   
+>   	job->sched = sched;
+> diff --git a/drivers/gpu/drm/v3d/v3d_submit.c b/drivers/gpu/drm/v3d/v3d_submit.c
+> index 88f63d526b22..d33749017f93 100644
+> --- a/drivers/gpu/drm/v3d/v3d_submit.c
+> +++ b/drivers/gpu/drm/v3d/v3d_submit.c
+> @@ -211,7 +211,7 @@ v3d_job_init(struct v3d_dev *v3d, struct drm_file *file_priv,
+>   static void
+>   v3d_push_job(struct v3d_job *job)
+>   {
+> -	drm_sched_job_arm(&job->base);
+> +	drm_sched_job_arm(&job->base, -1);
+>   
+>   	job->done_fence = dma_fence_get(&job->base.s_fence->finished);
+>   
+> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> index 5acc64954a88..0eab405a2683 100644
+> --- a/include/drm/gpu_scheduler.h
+> +++ b/include/drm/gpu_scheduler.h
+> @@ -553,7 +553,7 @@ void drm_sched_fini(struct drm_gpu_scheduler *sched);
+>   int drm_sched_job_init(struct drm_sched_job *job,
+>   		       struct drm_sched_entity *entity,
+>   		       u32 credits, void *owner);
+> -void drm_sched_job_arm(struct drm_sched_job *job);
+> +void drm_sched_job_arm(struct drm_sched_job *job, int ring);
+>   int drm_sched_job_add_dependency(struct drm_sched_job *job,
+>   				 struct dma_fence *fence);
+>   int drm_sched_job_add_syncobj_dependency(struct drm_sched_job *job,
+> @@ -603,7 +603,7 @@ int drm_sched_entity_init(struct drm_sched_entity *entity,
+>   long drm_sched_entity_flush(struct drm_sched_entity *entity, long timeout);
+>   void drm_sched_entity_fini(struct drm_sched_entity *entity);
+>   void drm_sched_entity_destroy(struct drm_sched_entity *entity);
+> -void drm_sched_entity_select_rq(struct drm_sched_entity *entity);
+> +void drm_sched_entity_select_rq(struct drm_sched_entity *entity, int ring);
+>   struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_entity *entity);
+>   void drm_sched_entity_push_job(struct drm_sched_job *sched_job);
+>   void drm_sched_entity_set_priority(struct drm_sched_entity *entity,
 
-
-
---=20
-With best wishes
-Dmitry
