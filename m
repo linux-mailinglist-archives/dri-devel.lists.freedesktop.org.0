@@ -2,78 +2,110 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48EC799A656
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2024 16:29:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B99BE99A6BD
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2024 16:46:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C18F510EAF8;
-	Fri, 11 Oct 2024 14:29:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 802E010E03D;
+	Fri, 11 Oct 2024 14:46:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="k4Gr/qNY";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="bdg9Hlye";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rXLE2Cn2";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rLWmoVbM";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4/U2vT2P";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
- [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BF6010EAF8
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2024 14:29:30 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 92379E0002;
- Fri, 11 Oct 2024 14:29:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1728656968;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=dxooFsfSP5WcF10uZh9IA27LMTRQH7j6L0q8CNYDpNM=;
- b=k4Gr/qNYHdODpez3/DCHZupSvlEjfo3N4RAaY2HahSkuKqldVKtl7BPPO0MxrtN+LPZ7EA
- 5Gyf6RhX+P9oR4YAZAl8jWTRWAjKTgrZvnwx3nENZKDgfVIHsht1LUiaUXostuQ6NvKCkK
- WcJ8nS4pmpvqKlBglmcfPAjOMKNKdG299UNBOGJmEe8f+j10Tn9ijloFpvcKup2pwaYujJ
- AOwLMi0Wk80drqgtOTS6j6tSft0exOSpgYuj7bnQYi3OTsrSm6+kKCYzOEpzpzaamOBmTP
- oLcfBeSUbuWOvQ/bhMTGyS8YGWRzFIHsSER4FwQW5Tvi1wesvYIoa1md7cxCzQ==
-Date: Fri, 11 Oct 2024 16:29:25 +0200
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>, Maaara Canal <mairacanal@riseup.net>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Simona Vetter <simona@ffwll.ch>, rdunlap@infradead.org,
- arthurgrillo@riseup.net, pekka.paalanen@haloniitty.fi,
- Simona Vetter <simona.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, thomas.petazzoni@bootlin.com,
- jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
- seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
- Pekka Paalanen <pekka.paalanen@collabora.com>
-Subject: Re: [PATCH v12 13/15] drm/vkms: Create KUnit tests for YUV conversions
-Message-ID: <Zwk2RSgfV75LVLpR@louis-chauvet-laptop>
-Mail-Followup-To: Maxime Ripard <mripard@kernel.org>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- Maaara Canal <mairacanal@riseup.net>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Simona Vetter <simona@ffwll.ch>, rdunlap@infradead.org,
- arthurgrillo@riseup.net, pekka.paalanen@haloniitty.fi,
- Simona Vetter <simona.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, thomas.petazzoni@bootlin.com,
- jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
- seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
- Pekka Paalanen <pekka.paalanen@collabora.com>
-References: <20241007-yuv-v12-0-01c1ada6fec8@bootlin.com>
- <20241007-yuv-v12-13-01c1ada6fec8@bootlin.com>
- <20241008-ingenious-calm-silkworm-3e99ba@houat>
- <ZwT6CnyYRKS9QxIS@louis-chauvet-laptop>
- <20241011-shiny-skua-of-authority-998ad3@houat>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B56F310EB00
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2024 14:46:35 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id D4FF41FF09;
+ Fri, 11 Oct 2024 14:46:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1728657994; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=05NTnmd3Dzla5sXvmN/4rGy6VLLRTRQIFGKV18p7Jss=;
+ b=bdg9HlyebQxiw+zyB5dqjCTeGhT3L2L1WncNKF+AQ4Qn22igmwGzNoS6aNY+oE9AScLH0c
+ iKHRWopbCaufCyW/7WZFMwOQNkXPCSX65sOK7D7jDuxNsd5j+D2wRACiKLEhgzF0B5EbUf
+ vYX43gaBorNDzRLIfX0k6pId4gxJVNY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1728657994;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=05NTnmd3Dzla5sXvmN/4rGy6VLLRTRQIFGKV18p7Jss=;
+ b=rXLE2Cn2fqDGuWBRRvbhE/wF/XxTsTYijR5fe/1neriIPvpEsccINVfC5RjQgXtT70S9ga
+ +YMD5JUTM9snDwAg==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=rLWmoVbM;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="4/U2vT2P"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1728657993; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=05NTnmd3Dzla5sXvmN/4rGy6VLLRTRQIFGKV18p7Jss=;
+ b=rLWmoVbMs/j9oY2KjD8ZNQ6bUtHTSys6lF34f1e3T0XKyg1VhXyPrFbZoOz5TwQpblaEl+
+ kmqpS+KW8q4VWKR2sSaBaDLPSeTvGLDe42nv+Kiz8h6gZSe8hvJ3CS1vv8As6kq/QWuVqL
+ K/wEzalJUAn2lGf5ROSrry/aiqONJlg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1728657993;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=05NTnmd3Dzla5sXvmN/4rGy6VLLRTRQIFGKV18p7Jss=;
+ b=4/U2vT2PkB4pXgQ4Aiwl/M6dl0dftEP7JsfgeaRXj6qrF7PPYb4NAaAvEBw6SKmp0DPHdK
+ Y7LV4rcOi/9QseBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A53C8136E0;
+ Fri, 11 Oct 2024 14:46:33 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 6iERJ0k6CWc/GwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 11 Oct 2024 14:46:33 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 0/6] drm: Trivial include fixes
+Date: Fri, 11 Oct 2024 16:41:18 +0200
+Message-ID: <20241011144632.90434-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.46.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241011-shiny-skua-of-authority-998ad3@houat>
-X-GND-Sasl: louis.chauvet@bootlin.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: D4FF41FF09
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; MIME_TRACE(0.00)[0:+];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ ARC_NA(0.00)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ TO_DN_SOME(0.00)[];
+ FREEMAIL_TO(0.00)[linux.intel.com,kernel.org,gmail.com,ffwll.ch];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCPT_COUNT_FIVE(0.00)[6];
+ RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ DKIM_TRACE(0.00)[suse.de:+]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ RCVD_TLS_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,
+ imap1.dmz-prg2.suse.org:rdns, suse.de:dkim, suse.de:mid]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.51
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,93 +121,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/10/24 - 12:49, Maxime Ripard wrote:
-> On Tue, Oct 08, 2024 at 11:23:22AM GMT, Louis Chauvet wrote:
-> > 
-> > Hi, 
-> > 
-> > > > + * The YUV color representation were acquired via the colour python framework.
-> > > > + * Below are the function calls used for generating each case.
-> > > > + *
-> > > > + * For more information got to the docs:
-> > > > + * https://colour.readthedocs.io/en/master/generated/colour.RGB_to_YCbCr.html
-> > > > + */
-> > > > +static struct yuv_u8_to_argb_u16_case yuv_u8_to_argb_u16_cases[] = {
-> > > > +	/*
-> > > > +	 * colour.RGB_to_YCbCr(<rgb color in 16 bit form>,
-> > > > +	 *                     K=colour.WEIGHTS_YCBCR["ITU-R BT.601"],
-> > > > +	 *                     in_bits = 16,
-> > > > +	 *                     in_legal = False,
-> > > > +	 *                     in_int = True,
-> > > > +	 *                     out_bits = 8,
-> > > > +	 *                     out_legal = False,
-> > > > +	 *                     out_int = True)
-> > > > +	 */
-> > > 
-> > > We should really detail what the intent and expected outcome is supposed
-> > > to be here. Relying on a third-party python library call for
-> > > documentation isn't great.
-> >
-> > This was requested by Pekka in the [v2] of this series.
-> 
-> Ok.
-> 
-> > I can add something like this before each tests, but I think having the 
-> > exact python code used may help people to understand what should be the 
-> > behavior, and refering to the python code to understand the conversion.
-> 
-> Help, sure. Be the *only* documentation, absolutely not.
-> 
-> Let's turn this around. You run kunit, one of these tests fail:
-> 
->  - It adds cognitive load to try to identify and make sense of an
->    unknown lib.
-> 
->  - How can we check that the arguments you provided there are the one
->    you actually wanted to provide, and you didn't make a typo?
-> 
-> > I can add something like this before each tests to clarify the tested 
-> > case:
-> > 
-> > 	Test cases for conversion between YUV BT601 limited range and 
-> > 	RGB using the ITU-R BT.601 weights.
-> > 
-> > Or maybe just documenting the structure yuv_u8_to_argb_u16_case:
-> > 
-> > 	@encoding: Encoding used to convert RGB to YUV
-> > 	@range: Range used to convert RGB to YUV
-> > 	@n_colors: Count of test colors in this case
-> > 	@format_pair.name: Name used for this color conversion, used to 
-> > 			   clarify the test results
-> > 	@format_pair.rgb: RGB color tested
-> > 	@format_pair.yuv: Same color as @format_pair.rgb, but converted to 
-> > 			  YUV using @encoding and @range.
-> > 
-> > What do you think?
-> 
-> That it's welcome, but it still doesn't allow to figure out what your
-> intent was with this test 2 years from now.
+Fix several proxy includes related to <linux/backlight.h>, which in
+turn includes <linux/fb.h>. This includes several more headers that
+declare interfaces used by drivers. As backlight.h is expected to not
+refer to fb.h soon, resolve the proxy includes by including required
+header files directly.
 
-I don't really understand what you want to add. Can you explain what you 
-expect here? Did you mean you want a description like this above the test 
-function?
+Thomas Zimmermann (6):
+  drm/fsl-dcu: Include <linux/of.h>
+  drm/panel: Include <linux/of.h>
+  drm/panel: panel-orisetech-otm8009a: Include <linux/mod_devicetable.h>
+  drm/panel: panel-samsung-s6e3ha2: Include <linux/mod_devicetable.h>
+  drm/panel: panel-samsung-s6e63m0: Include <linux/property.h>
+  drm/tiny: panel-mipi-dbi: Include <linux/of.h>
 
-/*
- * vkms_format_test_yuv_u8_to_argb_u16 - Testing the conversion between YUV
- * colors to ARGB colors in VKMS
- *
- * This test will use the functions get_conversion_matrix_to_argb_u16 and
- * argb_u16_from_yuv888 to convert YUV colors (stored in
- * yuv_u8_to_argb_u16_cases) into ARGB colors.
- *
- * As there is a different range between YUV input (8 bits) and RGB output (16
- * bits), the values are not checked exactly but ensured that they are within
- * the uncertainty range.
- */
+ drivers/gpu/drm/drm_panel.c                      | 1 +
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c        | 1 +
+ drivers/gpu/drm/panel/panel-orisetech-otm8009a.c | 1 +
+ drivers/gpu/drm/panel/panel-samsung-s6e63j0x03.c | 1 +
+ drivers/gpu/drm/panel/panel-samsung-s6e63m0.c    | 1 +
+ drivers/gpu/drm/tiny/panel-mipi-dbi.c            | 1 +
+ 6 files changed, 6 insertions(+)
 
-Thanks,
-Louis Chauvet
-
-> Maxime
-
+-- 
+2.46.0
 
