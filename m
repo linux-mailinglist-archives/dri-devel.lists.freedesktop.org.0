@@ -2,105 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C44E299A6C1
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2024 16:46:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5060799A771
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2024 17:23:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C45710EB06;
-	Fri, 11 Oct 2024 14:46:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A198C10E0F9;
+	Fri, 11 Oct 2024 15:23:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="2Obg1oD4";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rF8S+m/p";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2Obg1oD4";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rF8S+m/p";
+	dkim=pass (1024-bit key; unprotected) header.d=ucw.cz header.i=@ucw.cz header.b="BkKdV6cv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F036510EB00
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2024 14:46:36 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 927841FF11;
- Fri, 11 Oct 2024 14:46:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1728657995; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8050A10EB18
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2024 15:23:30 +0000 (UTC)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+ id EDC561C0087; Fri, 11 Oct 2024 17:23:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+ t=1728660207;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=vXnuOcfwoLdGB769Zn9mcQDXHB3tIyjwUYZnhozGJBg=;
- b=2Obg1oD4Brj+fF1IDnGF1yVZtoa1JZRtTEGc0b+1tAQbSPAvmWFjJ+hQJWZKtjrPAXAPNc
- 33P/LsGdh5U+I8Dgh33RDWThLjbGcrVdmxL5sZAnDvs+9RFCcKqGCFyUw2i/g5iXgm9UCx
- QxGWtZwgJYnDYmErxIErGZ8Gk+I79Hs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1728657995;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vXnuOcfwoLdGB769Zn9mcQDXHB3tIyjwUYZnhozGJBg=;
- b=rF8S+m/pZC6lwouhpw4eBqNaczrBhnu1RcfrR6c3l+gpAR4ATpwsUHSgLoh2O7OJM456c6
- tKIuzXf1DWbt7YDw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1728657995; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vXnuOcfwoLdGB769Zn9mcQDXHB3tIyjwUYZnhozGJBg=;
- b=2Obg1oD4Brj+fF1IDnGF1yVZtoa1JZRtTEGc0b+1tAQbSPAvmWFjJ+hQJWZKtjrPAXAPNc
- 33P/LsGdh5U+I8Dgh33RDWThLjbGcrVdmxL5sZAnDvs+9RFCcKqGCFyUw2i/g5iXgm9UCx
- QxGWtZwgJYnDYmErxIErGZ8Gk+I79Hs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1728657995;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vXnuOcfwoLdGB769Zn9mcQDXHB3tIyjwUYZnhozGJBg=;
- b=rF8S+m/pZC6lwouhpw4eBqNaczrBhnu1RcfrR6c3l+gpAR4ATpwsUHSgLoh2O7OJM456c6
- tKIuzXf1DWbt7YDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 55DBA13AAF;
- Fri, 11 Oct 2024 14:46:35 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id CLW2E0s6CWc/GwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 11 Oct 2024 14:46:35 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
-Subject: [PATCH 6/6] drm/tiny: panel-mipi-dbi: Include <linux/of.h>
-Date: Fri, 11 Oct 2024 16:41:24 +0200
-Message-ID: <20241011144632.90434-7-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20241011144632.90434-1-tzimmermann@suse.de>
-References: <20241011144632.90434-1-tzimmermann@suse.de>
+ bh=x+uzJgAZKr0aQskZeYDshW8VRu9nH9afBqYYtu8uge4=;
+ b=BkKdV6cvGSL2VVmCHgZHtvvMduAME43++YaCcGI1vW5aZhaCeH6rvzvpMZqanlABN0qGdI
+ TO5Eg6T+zPnoGSqe/eJ8Bi7AJD0AEsSm35xVOJKXHZPIxCKrIwOo9+ay2dty13XTksXixY
+ NdtBHZ5k9mYh3L9toHtex9VzwQHBipo=
+Date: Fri, 11 Oct 2024 17:23:27 +0200
+From: Pavel Machek <pavel@ucw.cz>
+To: Benjamin Tissoires <bentiss@kernel.org>
+Cc: Werner Sembach <wse@tuxedocomputers.com>, Armin Wolf <W_Armin@gmx.de>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
+ lee@kernel.org, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+ miguel.ojeda.sandonis@gmail.com, ojeda@kernel.org,
+ onitake@gmail.com, platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH 1/1] platform/x86/tuxedo: Add virtual LampArray for
+ TUXEDO NB04 devices
+Message-ID: <ZwlC750GojkprUKg@duo.ucw.cz>
+References: <b6f2244d-7567-49ac-b2db-23b632a4e181@tuxedocomputers.com>
+ <cflor5mz4flekn44ttlbanfigmwn5mmp3p54gkeeznzmzkyjqz@p2c6q7gulrdl>
+ <84b629c6-5b26-4285-9b2f-66dd1afa99e5@tuxedocomputers.com>
+ <zph6fnuaamhayivmzftowjw6klgcy2gb7vdub2v2yo7n665vpo@rkxtorfvmzph>
+ <Zvxjo/CYXmKw2jjM@duo.ucw.cz>
+ <rdo2yyy5dxsxrfm7bweuuvsqjzjelyevo5xvufixuiyrdlf7pc@mprc7pzbpnla>
+ <Zv0YI3qIEg88Dx4c@duo.ucw.cz>
+ <hdahq2vfi3bnvaqswwdtave2kc2qm3ngvcwn6cgfiirfjfbqnz@zk77mbs3yktp>
+ <Zv54/T+6znqZB3X9@duo.ucw.cz>
+ <ysidntvhwmqwe5o6rpshtoam674lwnkook747ni5dbf4z5sf3a@vdf44xu2ydjz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- ARC_NA(0.00)[]; RCPT_COUNT_SEVEN(0.00)[7];
- RCVD_VIA_SMTP_AUTH(0.00)[]; MIME_TRACE(0.00)[0:+];
- FREEMAIL_TO(0.00)[linux.intel.com,kernel.org,gmail.com,ffwll.ch];
- FREEMAIL_ENVRCPT(0.00)[gmail.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email, suse.de:mid,
- imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -3.30
-X-Spam-Flag: NO
+Content-Type: multipart/signed; micalg=pgp-sha1;
+ protocol="application/pgp-signature"; boundary="2TcMguCtEoo8TZyh"
+Content-Disposition: inline
+In-Reply-To: <ysidntvhwmqwe5o6rpshtoam674lwnkook747ni5dbf4z5sf3a@vdf44xu2ydjz>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,27 +70,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Include <linux/of.h> directly to get of_property_read_string_index().
-Avoids the proxy include via <linux/backlight.h>
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: "Noralf Trønnes" <noralf@tronnes.org>
----
- drivers/gpu/drm/tiny/panel-mipi-dbi.c | 1 +
- 1 file changed, 1 insertion(+)
+--2TcMguCtEoo8TZyh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/gpu/drm/tiny/panel-mipi-dbi.c b/drivers/gpu/drm/tiny/panel-mipi-dbi.c
-index e66729b31bd6..7f193a65b93f 100644
---- a/drivers/gpu/drm/tiny/panel-mipi-dbi.c
-+++ b/drivers/gpu/drm/tiny/panel-mipi-dbi.c
-@@ -10,6 +10,7 @@
- #include <linux/firmware.h>
- #include <linux/gpio/consumer.h>
- #include <linux/module.h>
-+#include <linux/of.h>
- #include <linux/property.h>
- #include <linux/regulator/consumer.h>
- #include <linux/spi/spi.h>
--- 
-2.46.0
+Hi!
 
+> > > There is a slight difference between mouse support and LEDs on your
+> > > keyboard. The former is actually required to bring up the machine and=
+ to
+> > > use it, the latter is nice to have.
+> >=20
+> > But that's not the difference that matters. Linux is not microkernel,
+> > and is trying to provide hardware abstractions. (Except for printers,
+> > I guess that's because printers are often network devices).
+> >=20
+> > Besides, mouse was not required to bring up a machine "back then".
+> >=20
+> > Besides,
+> >=20
+> > 1) using those keyboards in dark room without backlight is hard,
+> > because their labels are translucent and not having enough contrast.
+> >=20
+> > 2) rainbow effects make people ill.
+>=20
+> And I agree with you here. And that's also why I agree with Werner's
+> plan: have a minimum support in kernel for that with the already
+> supported LED class, which is supported by UPower and others, and let
+> the ones who want the fancy effects be in charge of their mess.
+
+But the patch being proposed does not match the this description,
+right?
+
+And for hardware I seen, "minimum driver" you describe would be
+already 90% of the full driver. (We can just use fbdev interface...)
+
+Anyway, lets do it. I have rgb keyboard, you have few, and we have
+Tuxedocomputers with machines where driver can't live in userspace.
+If you have working driver, lets see it. I have posted my copy, but I
+hae problem where keyboard functionality stops working when its
+loaded. Can you help?
+
+Then we can see how much of the driver is required for basic
+functionality. I suspect it will be fairly easy to turn it into "full"
+driver at that point.
+
+> > Note how we have drivers for audio, LEDs, cameras, dunno, iio sensors,
+> > none of that is required to bring system up.
+> >=20
+> > We need driver for the WMI stuff in kernel. And that point it should
+> > be pretty clear proper driver/subsystem should be done.
+>=20
+> Yes, and again, I never said we need to provide WMI to userspace.
+
+Good.
+
+> What I want is:
+> - provide a minimum support on Linux using already existing APIs (LED
+>   class)
+> - allow crazy people to do their thing if they want to have a rainbow
+>   initiated by every key press
+> - ensure the minimum support of the LED class is not messed up when
+>   people start using the HID LampArray API.
+>=20
+> HID LampArray is a ratified standard by a few hardware makers already[0]
+> (Acer, Asus, HP, Logitech, Razer, SteelSeries and Twinkly apparently).
+
+I have yet to see HID LampArray device.
+
+Best regards,
+									Pavel
+
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--2TcMguCtEoo8TZyh
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZwlC7wAKCRAw5/Bqldv6
+8qY2AKC+nAvGhkJI328sv8/1wPlLQa94/ACfdypXrZPZo6fWin1NoeaTgtYi2cc=
+=98+x
+-----END PGP SIGNATURE-----
+
+--2TcMguCtEoo8TZyh--
