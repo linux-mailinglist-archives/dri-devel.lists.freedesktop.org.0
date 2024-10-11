@@ -2,63 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EBC8999DD4
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2024 09:25:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7987D999DDD
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2024 09:26:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 209D710EA6A;
-	Fri, 11 Oct 2024 07:25:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E417B10EA6C;
+	Fri, 11 Oct 2024 07:26:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="EfZ01zOH";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="RobceiIt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0F0810EA6A
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2024 07:25:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1728631512; x=1760167512;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=ga19TDWAVXLp74B4e+M5voJ3hGpSU1u6zny4p1lqEbQ=;
- b=EfZ01zOHbiAzoO6wT08g4gQzWPuNacT3L7heHvVzQieogJ9E4ghKT3fQ
- JuTdiBWq3862EFECUSRxi2kARoqtnJXGZFTAxsj83QMEwRQv+XxhaG/xb
- Zmw5y8hyQn6ILljUzzuwOphdiB13nOXCtMC/zvLTZse2TBcLFKs63IBQq
- qDHVi3BuEpT6n0AahrWtmX0fuOFNNL9bgk05dH3Fd3EFV/0/DNAz1sm6f
- Zd8atru6YzEqE2lZrN58GXmkPrEpT04kc73p7YGFrCxLLkSPTWKVGGOo2
- BOwGZu4KI9hyWT53VimnlXswdAfGPIZA9DpwameYfVUpW3pssPj8kdD5K w==;
-X-CSE-ConnectionGUID: SoHU8PvzT/aP4iEX23RR9Q==
-X-CSE-MsgGUID: M7R5Qx0KR/ayj8PRTJoP9A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11221"; a="28114255"
-X-IronPort-AV: E=Sophos;i="6.11,195,1725346800"; d="scan'208";a="28114255"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Oct 2024 00:25:12 -0700
-X-CSE-ConnectionGUID: hIERh4JjQZeMd+2vbR2Rvg==
-X-CSE-MsgGUID: qw4eVT0rR76EohZifz4RvA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,195,1725346800"; d="scan'208";a="77306120"
-Received: from jwbates1-mobl.amr.corp.intel.com (HELO [10.245.100.202])
- ([10.245.100.202])
- by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Oct 2024 00:25:11 -0700
-Message-ID: <0587cd70-af62-41c9-acca-bbbab5b56659@linux.intel.com>
-Date: Fri, 11 Oct 2024 09:25:07 +0200
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com
+ [209.85.128.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92B0B10EA6C
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2024 07:26:31 +0000 (UTC)
+Received: by mail-yw1-f172.google.com with SMTP id
+ 00721157ae682-6db836c6bd7so16840957b3.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2024 00:26:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1728631590; x=1729236390; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=3KRuCN3Wszg2QXEKCcFwbTYEij+If8Oy9RBdgkJuqDs=;
+ b=RobceiItT/CtyXbg8a6ygde4ul+6eQ4CUE8n+qf1OgDY0JebOwbsQIkfvWfMtR5H5Z
+ sBzjnBsMz0H4tBp6NAXDXzGut9iBBbJ8Tlf0TRzJROmc4gBk+pwNb+j4jdLVr2qPeZdo
+ 9V/NhX6DB1gwvn+3476kLWhn7XAkoVZXzDxKqnCZK2NTjhC9lBNQUQnrnKFIK2UN/POm
+ YJD19597Hmbnx2xPTZcAjUEE2Oj1HjPTbsdIMQ6Ssp1kQq8EtD1qWotrLHufJUvSTnHo
+ 1wTO8vTYlaanF05BRSGmV8LFB3fEThudOSITLyW/JPJZ+ytnBdV/nsG1jJ1e2CDV9k5w
+ o/6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1728631590; x=1729236390;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=3KRuCN3Wszg2QXEKCcFwbTYEij+If8Oy9RBdgkJuqDs=;
+ b=RgnPgqhUtqjvcLHQt39njCF4l83PxHhtnwTIldO1lA9IsFKZw9WseNPWnygGNU+8jR
+ GrCwRIxGOHklh3M/2o8a4dtW29OyqQsQDTpaIFn9uPp6aRii++BXRUE0LNqldS83w25S
+ P+29FWSmASXXMXGfzHuWzfjz7lk7vGBTE+Q4wJmdwwE44DF6myKwAMEhzMiVZMmir2ky
+ G/jM5NCZAKT0f2Svilg31ZInk4JK9fhdFT2ZjYuwNAYuX9nJdShOwttgPlCidfK+K0gh
+ 4GzNw0jNzgQLE5AVGiCZBM74ULywVQ/C1fI1O9FWtdfXhyEXTjkEZ2uuXRaT2M3hYmMV
+ d7Ew==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXPm18WlxXldXt3EZ0Et/CJsaCLYrNWncgaNuS2YLbsQYaYkyGklMSqA6L3iLCNtehLaPdbcq9ybDs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxH6QQKsibMs1wEkTWxnFeIIoAKowHe7pz6x7pgS2mpXngiMQzF
+ lRpWrknJYk9AJIdPxhLLN2nNkK/LMtRE4dyapObdUcrjYUNtkOQyMC+hmsECTaxRjxE+bz0Jgn9
+ j2rkvrJuH0XJxBOJ/irePNxKtoiNmDD8bfRn6iw==
+X-Google-Smtp-Source: AGHT+IF9yE55X6l58J3RNnrTFZtOa9ykDPuHPCDzo0nhg8NLPI4TATmILM0MbYyzUxfj5WDMeIG3jJPO6IRzkfWrDI0=
+X-Received: by 2002:a05:690c:4a91:b0:6e2:b263:105b with SMTP id
+ 00721157ae682-6e347c4e3c8mr8932157b3.41.1728631590675; Fri, 11 Oct 2024
+ 00:26:30 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/qaic: Fix the for loop used to walk SG table
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>, quic_carlv@quicinc.com
-Cc: ogabbay@kernel.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
-References: <20241004193252.3888544-1-quic_jhugo@quicinc.com>
-Content-Language: en-US
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20241004193252.3888544-1-quic_jhugo@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20241009-sm8650-v6-11-hmd-pocf-mdss-quad-upstream-21-v2-0-76d4f5d413bf@linaro.org>
+ <20241009-sm8650-v6-11-hmd-pocf-mdss-quad-upstream-21-v2-5-76d4f5d413bf@linaro.org>
+ <kuvbcodnbgsgetkudbce32rajy6kg3lpxhcx6cvgm6bi7ekoki@smmnpdrwhbqn>
+ <CABymUCOFV0Ze=55Ne23nKrN_4ES6cUT3_av7Q2xxtxT3Hw7ZJg@mail.gmail.com>
+ <CAA8EJpqZ0X_DezzVPnWswwWoZCL8ZZJ4M-DHvUSo4qJXK6mQnQ@mail.gmail.com>
+ <CABymUCMBQq2iGdqcSBhokDo6McFn6xc63zVrEe+2CNX_a1ejng@mail.gmail.com>
+In-Reply-To: <CABymUCMBQq2iGdqcSBhokDo6McFn6xc63zVrEe+2CNX_a1ejng@mail.gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Fri, 11 Oct 2024 10:26:19 +0300
+Message-ID: <CAA8EJpqqeN3A3rfT+T9CRbhhOb_gzH7SNxTNGF9uh2jwBZrwQQ@mail.gmail.com>
+Subject: Re: [PATCH v2 05/14] drm/msm/dpu: handle pipes as array
+To: Jun Nie <jun.nie@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,68 +88,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+On Fri, 11 Oct 2024 at 10:18, Jun Nie <jun.nie@linaro.org> wrote:
+>
+> Dmitry Baryshkov <dmitry.baryshkov@linaro.org> =E4=BA=8E2024=E5=B9=B410=
+=E6=9C=8811=E6=97=A5=E5=91=A8=E4=BA=94 15:10=E5=86=99=E9=81=93=EF=BC=9A
+> >
+> > On Fri, 11 Oct 2024 at 09:49, Jun Nie <jun.nie@linaro.org> wrote:
+> > >
+> > > Dmitry Baryshkov <dmitry.baryshkov@linaro.org> =E4=BA=8E2024=E5=B9=B4=
+10=E6=9C=8810=E6=97=A5=E5=91=A8=E5=9B=9B 21:08=E5=86=99=E9=81=93=EF=BC=9A
+> > > >
+> > > > On Wed, Oct 09, 2024 at 04:50:18PM GMT, Jun Nie wrote:
+> > > > > Store pipes in array with removing dedicated r_pipe. There are
+> > > > > 2 pipes in a drm plane at most currently. While 4 pipes are
+> > > > > needed for new usage case. This change generalize the handling
+> > > > > to pipe pair and ease handling to another pipe pair later.
+> > > > >
+> > > > > Signed-off-by: Jun Nie <jun.nie@linaro.org>
+> > > > > ---
+> > > > >  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c  |  34 +++---
+> > > > >  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 167 ++++++++++++++++=
+--------------
+> > > > >  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h |  12 +--
+> > > > >  drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h |  10 +-
+> > > > >  4 files changed, 111 insertions(+), 112 deletions(-)
+> > > > >
 
-On 10/4/2024 9:32 PM, Jeffrey Hugo wrote:
-> From: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
-> 
-> Only for_each_sgtable_dma_sg() should be used to walk through a SG table
-> to grab correct bus address and length pair after calling DMA MAP API on
-> a SG table as DMA MAP APIs updates the SG table and for_each_sgtable_sg()
-> walks through the original SG table.
-> 
-> Fixes: ff13be830333 ("accel/qaic: Add datapath")
-> Fixes: 129776ac2e38 ("accel/qaic: Add control path")
-> Signed-off-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
-> Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> ---
->  drivers/accel/qaic/qaic_control.c | 2 +-
->  drivers/accel/qaic/qaic_data.c    | 6 +++---
->  2 files changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/accel/qaic/qaic_control.c b/drivers/accel/qaic/qaic_control.c
-> index 9e8a8cbadf6b..d8bdab69f800 100644
-> --- a/drivers/accel/qaic/qaic_control.c
-> +++ b/drivers/accel/qaic/qaic_control.c
-> @@ -496,7 +496,7 @@ static int encode_addr_size_pairs(struct dma_xfer *xfer, struct wrapper_list *wr
->  	nents = sgt->nents;
->  	nents_dma = nents;
->  	*size = QAIC_MANAGE_EXT_MSG_LENGTH - msg_hdr_len - sizeof(**out_trans);
-> -	for_each_sgtable_sg(sgt, sg, i) {
-> +	for_each_sgtable_dma_sg(sgt, sg, i) {
->  		*size -= sizeof(*asp);
->  		/* Save 1K for possible follow-up transactions. */
->  		if (*size < SZ_1K) {
-> diff --git a/drivers/accel/qaic/qaic_data.c b/drivers/accel/qaic/qaic_data.c
-> index e86e71c1cdd8..c20eb63750f5 100644
-> --- a/drivers/accel/qaic/qaic_data.c
-> +++ b/drivers/accel/qaic/qaic_data.c
-> @@ -184,7 +184,7 @@ static int clone_range_of_sgt_for_slice(struct qaic_device *qdev, struct sg_tabl
->  	nents = 0;
->  
->  	size = size ? size : PAGE_SIZE;
-> -	for (sg = sgt_in->sgl; sg; sg = sg_next(sg)) {
-> +	for_each_sgtable_dma_sg(sgt_in, sg, j) {
->  		len = sg_dma_len(sg);
->  
->  		if (!len)
-> @@ -221,7 +221,7 @@ static int clone_range_of_sgt_for_slice(struct qaic_device *qdev, struct sg_tabl
->  
->  	/* copy relevant sg node and fix page and length */
->  	sgn = sgf;
-> -	for_each_sgtable_sg(sgt, sg, j) {
-> +	for_each_sgtable_dma_sg(sgt, sg, j) {
->  		memcpy(sg, sgn, sizeof(*sg));
->  		if (sgn == sgf) {
->  			sg_dma_address(sg) += offf;
-> @@ -301,7 +301,7 @@ static int encode_reqs(struct qaic_device *qdev, struct bo_slice *slice,
->  	 * fence.
->  	 */
->  	dev_addr = req->dev_addr;
-> -	for_each_sgtable_sg(slice->sgt, sg, i) {
-> +	for_each_sgtable_dma_sg(slice->sgt, sg, i) {
->  		slice->reqs[i].cmd = cmd;
->  		slice->reqs[i].src_addr = cpu_to_le64(slice->dir == DMA_TO_DEVICE ?
->  						      sg_dma_address(sg) : dev_addr);
+> > > > > @@ -1410,17 +1416,24 @@ static void _dpu_plane_atomic_disable(str=
+uct drm_plane *plane)
+> > > > >  {
+> > > > >       struct drm_plane_state *state =3D plane->state;
+> > > > >       struct dpu_plane_state *pstate =3D to_dpu_plane_state(state=
+);
+> > > > > -     struct dpu_sw_pipe *r_pipe =3D &pstate->r_pipe;
+> > > > > +     struct dpu_sw_pipe *pipe;
+> > > > > +     int i;
+> > > > > +
+> > > > > +     for (i =3D 0; i < PIPES_PER_STAGE; i +=3D 1) {
+> > > > > +             pipe =3D &pstate->pipe[i];
+> > > > > +             if (!pipe->sspp)
+> > > > > +                     continue;
+> > > > >
+> > > > > -     trace_dpu_plane_disable(DRMID(plane), false,
+> > > > > -                             pstate->pipe.multirect_mode);
+> > > > > +             trace_dpu_plane_disable(DRMID(plane), false,
+> > > > > +                                     pstate->pipe[i].multirect_m=
+ode);
+> > > > >
+> > > > > -     if (r_pipe->sspp) {
+> > > > > -             r_pipe->multirect_index =3D DPU_SSPP_RECT_SOLO;
+> > > > > -             r_pipe->multirect_mode =3D DPU_SSPP_MULTIRECT_NONE;
+> > > > > +             if (pipe->sspp && pipe->multirect_index =3D=3D DPU_=
+SSPP_RECT_1) {
+> > > >
+> > > > if (i > 1)
+> > >
+> > > Is there any case that pipe->multirect_index =3D=3D DPU_SSPP_RECT_1 a=
+nd i =3D=3D 0 ?
+> >
+> > You are converting the code. Please don't change the logic. Original
+> > code had separate handling for r_pipe. After your conversion it should
+> > be if (i =3D=3D 1) or if (i > 0), which means a typo in my review comme=
+nt.
+> >
+> I see. You want to keep logic unchanged, with only handling the pipe in a=
+rray.
+> Handling to multiple pipe pairs can be added later.
 
+Yes. Please never mix "rewrite" and "change the logic" together. It
+complicates the review and is generally error-prone.
+
+--=20
+With best wishes
+Dmitry
