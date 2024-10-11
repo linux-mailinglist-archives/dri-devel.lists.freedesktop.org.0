@@ -2,164 +2,122 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71E7C999C7E
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2024 08:18:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD4CD999C8B
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2024 08:21:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BEAA10E142;
-	Fri, 11 Oct 2024 06:18:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2546E10EA3C;
+	Fri, 11 Oct 2024 06:21:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="f7Ss+ks/";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="qCCcAYVK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com
- (mail-vi1eur05on2040.outbound.protection.outlook.com [40.107.21.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15DFE10E142
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2024 06:18:32 +0000 (UTC)
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com
+ (mail-bn1nam02on2068.outbound.protection.outlook.com [40.107.212.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F273910EA3C;
+ Fri, 11 Oct 2024 06:21:49 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=baF+TirXiJhhJE9gR7v4edwwJvAbaYLemppXPlh6zZGSqyXK7AQNpJDQYFppJ7lLDPwTyx9SWa7RQK0yY6i7sWnkhbcgr60I90onwdG2w52+vX/xVKTkKoP9AZe3avxCd5qwSJSG96yL/OyPsJiHtfqwNT99tbU/EWtvLTlwwHYrrKKrOLpytfS9+d2gJG0x4T6Yl1o0f1v2fH2Cezb1sZ/38JnGVxE+/8Hk9waExyisI1y7CBhfRx5+Kdc1TN/w7lKUjkrV3avzSA8GCmpWtV+8Jdm9pwkY/f3KR3o0rvuthzar8+LBEMgtzWj7644X/BdAO55Y8NQTqD0qz1rp4w==
+ b=phGjLyZ993ygMwIisoyj2KLixj9tDbrPQBVMUwHQkPKwh6Ipu+aS9V9tVPfY3P4/dmWEKnUTuGuoRUtNG+L0Kj+T2HfOsuPduNKQXsOeYUMt0XxqsD/ZMUSycksAKfBPdfvZBXyY5xw5+zLdPAF6NCbyoLq86QJMAGNXjMlWxLoQ/4lr0FyTZUpa3RxBmlK0GWgvm9VSgzqHwAMfgWz0cu+lHraRBpHPBUlRkeS5fnkixKd5Osi+oQa77nvvnSBjPt3RyvT32rl1iPuT4ezxZve+dXUGxcXmPp38xY3obWLNC1WzgCpBeMVxAO1dPCYNCTIc1aVhHt/5hZseJ4dvaA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=q5Xa7pVl4mYsLMQjWrd2/xdQ5/mWgAPO4b0I0FxcbSE=;
- b=JLf12+dF0xnD08LIrJG4oZkVM48yRrNVwjF173ooIJwBY8j9yL0QqVwxvnhPXd9gSY4ke6WbbQ9ELVV6XxuRaeZH33X5O5UdTUoIVpsSLBC1UEm10BJnT5vPSLqovOTfeTKrobpSaZTOIQAitw6wfxiB16n4ZKWKp2vN8/Yy7UyiAerYEPFtkdVB9/JWfAZ+rwjb8nDyepLWv23TIW1DF67agyIuVXl0h3c6o+cs6pEsKbwuMNZO11i8GSOCht6Whw39hf38Xvj8T1pIvW+zEKCLAVBpuCUjsIEzC3YtUxCtW46IaIWFEkQIHZkq1SxzMBW7UtE19JQCn1B5aH3PrQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
+ bh=gwpw6Cu9eMG/YWYTshInBVNudSFdR0v8l6nnw+cjh+0=;
+ b=MIw78bNKuNRCWj5+0+U4Sp1uv+gCARmzboVA5YeJ+04L/poJs2yfz5LgKioDh/hpE39LOU4447AgzNtqFV01IEbmI2iezM3lC9k4dPGQgAsb+AObXu6YP7b+l0IB0opiL2NeFORAPvRoeh46plRQGTAETirs6bey+oeZrP0LlXjnsFfzlzBEPxM4hIKLALpPgRk2xET04vcTiMdzm94RFJKVKSZ3oGCEz5TveL5WZBh8HnYysuXysjAr8WW2fXgVhr8ufvi+z6WDWusRWITa7E2/kXjp1hlf+F+5wqs3nOXgSdAIAAosGswnz1nzncTFIhEJ97TG3Hmklh3bwNlfNw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=q5Xa7pVl4mYsLMQjWrd2/xdQ5/mWgAPO4b0I0FxcbSE=;
- b=f7Ss+ks/ymTZfsJ0WM3iXxrGHW5JRKTSt9/zOWGaegIlxi/xx0NHn9KsopL4jHW2el7M19eE3R5KeDGilmbmPBx7NuCteUA5sr9s5xxrAOF8g2ObKJ6dUVo7G2nMTLX5VRpREn/ARnLvt7zbx1//QZBJ6pFGcZJPATaljRpwfpOBGZL5x5+mozYcSiz0En/JUu3WpxyGJV1yITgPtAmVyxlj3iLIdQ7mT2FI+OCJ/C28D3F9F+uO73JWTDcwAnsM6y1gz1R4wZVb79dAgEmeXdv1txQIORMAFD4lXSHoe9Dl8TFM2cjXnCkp42PvLaMD4jOWKn6r6dikJHtVNpHzvg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by GV1PR04MB9198.eurprd04.prod.outlook.com (2603:10a6:150:29::11)
+ bh=gwpw6Cu9eMG/YWYTshInBVNudSFdR0v8l6nnw+cjh+0=;
+ b=qCCcAYVKaCGRZ7fcm1YpH9Kq/ctvpHEBQbaN6xuJCudbXdo17D7fLJB93c1W91aAt1H5TJse6P1ONxe6Ptc3v8zRe33l062j5WT6XiHrWh410ECREkTGKF+7yGdIeM6IEQx8ExVinuaY6FGBc/Y7QdA5qs0LVD5aK0zQn3G+h44=
+Received: from BN9PR03CA0787.namprd03.prod.outlook.com (2603:10b6:408:13f::12)
+ by SJ0PR12MB7065.namprd12.prod.outlook.com (2603:10b6:a03:4ae::19)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.16; Fri, 11 Oct
- 2024 06:18:24 +0000
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::d1ce:ea15:6648:6f90]) by AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::d1ce:ea15:6648:6f90%4]) with mapi id 15.20.8048.017; Fri, 11 Oct 2024
- 06:18:24 +0000
-Message-ID: <819380c3-d13f-4989-b305-388fc60d30e4@nxp.com>
-Date: Fri, 11 Oct 2024 14:18:49 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] clk: imx: clk-imx8mp: Allow LDB serializer clock
- reconfigure parent rate
-To: Marek Vasut <marex@denx.de>, dri-devel@lists.freedesktop.org
-Cc: Abel Vesa <abelvesa@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>, 
- David Airlie <airlied@gmail.com>, Fabio Estevam <festevam@gmail.com>,
- Isaac Scott <isaac.scott@ideasonboard.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Peng Fan <peng.fan@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Robert Foss <rfoss@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Shawn Guo <shawnguo@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Stephen Boyd <sboyd@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- imx@lists.linux.dev, kernel@dh-electronics.com,
- linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org
-References: <20241008223846.337162-1-marex@denx.de>
- <dbede671-c97b-4ad7-8a54-f1b381fea082@nxp.com>
- <00ffd38c-b01a-40cd-9130-19c35a387ca0@denx.de>
-From: Liu Ying <victor.liu@nxp.com>
-Content-Language: en-US
-In-Reply-To: <00ffd38c-b01a-40cd-9130-19c35a387ca0@denx.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SI1PR02CA0021.apcprd02.prod.outlook.com
- (2603:1096:4:1f4::14) To AM7PR04MB7046.eurprd04.prod.outlook.com
- (2603:10a6:20b:113::22)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.19; Fri, 11 Oct
+ 2024 06:21:45 +0000
+Received: from BN1PEPF00004683.namprd03.prod.outlook.com
+ (2603:10b6:408:13f:cafe::ef) by BN9PR03CA0787.outlook.office365.com
+ (2603:10b6:408:13f::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.20 via Frontend
+ Transport; Fri, 11 Oct 2024 06:21:45 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN1PEPF00004683.mail.protection.outlook.com (10.167.243.89) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8048.13 via Frontend Transport; Fri, 11 Oct 2024 06:21:45 +0000
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 11 Oct
+ 2024 01:21:44 -0500
+Received: from JesseDEV.guestwireless.amd.com (10.180.168.240) by
+ SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.39
+ via Frontend Transport; Fri, 11 Oct 2024 01:21:37 -0500
+From: <jesse.zhang@amd.com>
+To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
+CC: <Alexander.Deucher@amd.com>, Christian Koenig <christian.koenig@amd.com>, 
+ "Jesse.zhang@amd.com" <jesse.zhang@amd.com>, Jesse Zhang
+ <Jesse.Zhang@amd.com>
+Subject: [PATCH 1/2] drm/sched: adding a new scheduling policy
+Date: Fri, 11 Oct 2024 14:21:35 +0800
+Message-ID: <20241011062136.1019695-1-jesse.zhang@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+Received-SPF: None (SATLEXMB04.amd.com: jesse.zhang@amd.com does not designate
+ permitted sender hosts)
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|GV1PR04MB9198:EE_
-X-MS-Office365-Filtering-Correlation-Id: 081c5afb-bdeb-411a-8acc-08dce9bc8309
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-TrafficTypeDiagnostic: BN1PEPF00004683:EE_|SJ0PR12MB7065:EE_
+X-MS-Office365-Filtering-Correlation-Id: 72f10d2f-f835-442e-5002-08dce9bcfb01
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?NjVpKzFxZmthMkFJenZSSkZ6OXU3cnUxZS83ZUJHTnFGaHM5dnlqL3MreW82?=
- =?utf-8?B?OWVEanhWQ1BLYlBhalVCOGQvQU1aZDJJdDNvTDdKdjdBWlB4SWlKYnhpcHRG?=
- =?utf-8?B?NE4rcHhESG5lVVMrRGU5OEt1MDEwUXFQUVlnRHg0ektrejQyaEYwQm9DMnM5?=
- =?utf-8?B?RmNVZkppLyt6a0FuY3BjSnVIRGhDQWZ6R2tKVlRvUHJid2FPRm1haHl2Qk80?=
- =?utf-8?B?aUxlTnpUQ3hxWktUYzVnOUt1bXBHcmtnMVdYV3lWNUZWbEt5cUcvUngrRTRa?=
- =?utf-8?B?TnJqclhTTkhERnJXZ1k2d3lqWUlISHpnL2J2OVZJM2xkdzcwak1rSnVxR1RJ?=
- =?utf-8?B?cGZyUzg2RmVZSFlhb2lEWG0rUEk2OUU2d3FUdFh1akZFVUszYW4xeWpDayti?=
- =?utf-8?B?bGpMMFo3ckhYZ1JIQUtOL2tVa3RUaWllR1htSTMwQnhPWW53bTM0d3o5VklL?=
- =?utf-8?B?c1E3dmNXVHRWN1VjN1kyWXF2ZHhyc0J2cEQ0RGJpSGhKRVVkcGNBc1lwUlhy?=
- =?utf-8?B?YmQ1MVdoaGpTY3pOcnYzbUpmTkZHaUc2T0Nhb3RYcVc2NmRqSzBIdzh6Nks3?=
- =?utf-8?B?RVkydVhnUGd5dGhuZktmOFNEd2YxVEViYlQvejg1MEdUdmpib0JvZzllUk05?=
- =?utf-8?B?Z3RUZlhlTW9lUStDMGErQTVQeDlGeHpkRGJHQjZBTXNNbkVER0hrSXp2WWdh?=
- =?utf-8?B?WkYrUk5YR2NBT0ZETmd0S1NNd1NnKzdIVy83ZDlrTUxyN2J0bFZvUXRwQmMv?=
- =?utf-8?B?REc5TjBpOHA4RUFjLzYvdDJabHhrRDBpUFlIUkxCM25XWERmd3hmV0w0dkw3?=
- =?utf-8?B?Zm04S0R5WllBei9EMmk5dTJrYnNQUUFadTVDRk8wZndNNjZzZEx0dDZmQUln?=
- =?utf-8?B?aUg3bmJNeG5JbXB5Y0JVNVJvU1NYWUZmcVg1emxXQzY3c1plS2x6d2hrMTd4?=
- =?utf-8?B?b2ZEQTRNT1BZNmxBTzBxdUtlY2s1cFRZekhPN0FMQXF5U25HQVFaZy81SDdN?=
- =?utf-8?B?L3hzVHJCM1VtOE5lL05YMyt1RHc5dXlrZUVENTNxVkxSV3Z4S1JOVmFIZVhZ?=
- =?utf-8?B?NFY0ZkY3RTRLSVQ5SHRUOVR0bERtbjBtbTRNVVlWWTE0L2VxRzhSOFRNTmd2?=
- =?utf-8?B?WnE3QU9lUitCdHFsM0JydklyMUV4VGM3Q3FkWmx4ZTlqcDlxY1RaRjVSNzd4?=
- =?utf-8?B?WVVvUmM2MTRheVRUZjZnVjdKUE1pbiszZVRxNXYxZjlGQk5SaG1meVl2QWZh?=
- =?utf-8?B?ZzhvVGVJVUlMOVJMTEk3RDAza1QwWG9mUEQ4djBxZG5hUitjVHVTVktxSWxl?=
- =?utf-8?B?U2JMbmorQXVIQmtEWWs1eGh6Vk9PM3NidVdTTU9KYW5aZ2xPTzBhRFVGVVFH?=
- =?utf-8?B?SFhkc29GZURiYzNSYWZVdGJ1ckVrMndIQzhpT1lHSURYalZsQVBubmthL2tR?=
- =?utf-8?B?VjhVd2JRSmRrOVN0OTc1NzJIUnBISzZBeDZCSUc2WFJMNllMOUNSM3JJUTE0?=
- =?utf-8?B?MUtwczBweERublFsby9nM2hzMGJBdW1GVnNMVmNGQXZ2VFJYbkhYdlBDUzVu?=
- =?utf-8?B?OTg5ajUxTWlnTjM1WTE2UDNqMWJ5czF3SDcveHpaZ0pjNnlVS3QwbVJvL2Qx?=
- =?utf-8?B?VCs5cGFiVHN6Mkk5SVQxN1crZXNsL3lmdXhWUCtKZDVhNkFMSGU0Vm1GU25T?=
- =?utf-8?B?V1FkcXQ0QmREZE9vekpHMWFnY3U5Y3RNeFZabEw0WCtQdU1CejZ0NHVnPT0=?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(7416014)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TGFUVTRUMldQVEhDeGNXQmtsbCsxZjdOR2I1WGVJWlhGRW9TSERhRUI1UGY2?=
- =?utf-8?B?K0tzWmp6R0tuRHFFRzM4RFFNM2ZDUGJXSkxlWG9aSEVNTzZrdll4SDUvYUsx?=
- =?utf-8?B?RnJwZ0hFQWFzWE5ucTBrSzdqaGkxbExvdHlsVUNOa3J4WUx0emRQZEtLV2xX?=
- =?utf-8?B?RDhhNHVjdHE1cE5FZXRjSFFHK2lMRXRtY2FGcEQrTkFuR2dMY3dGbzV1Y2pX?=
- =?utf-8?B?VG5Uc2xZZUo4ZXliM0xPTC84QTBQSHpiN2dwTGRpYml2ZXhLeFJqQ3c2YjN0?=
- =?utf-8?B?MFhBYlM0aDI2cCtQWC9lY0ptdGFFaCttbWxhZmdHMUdLQmZlTHpwSmoxVkw1?=
- =?utf-8?B?WTl0RDJwc1NVNkZoYlk0TWEvdkVqMlF6OE1QWks5L1VSWjdWKzlqWHdXUGRL?=
- =?utf-8?B?bitCc2d0dW9QNGFIZnBDTDdoTDZhVHVEdDlvQUVLZ1NLNnhHYzdFWllYOS9S?=
- =?utf-8?B?YW1hN1AxL09WSGVtMENWSXhIUFJVTWRab2RFVEV3L0lYajdIZ05OdFV6US94?=
- =?utf-8?B?aC9ubUNOWUZJUVkxK1FDUGlscnE1ODVaS1ZFcWo5dUhrQVZyMDZySnR0ZlM3?=
- =?utf-8?B?VU5wdjc4LzZ5WjlKV3EydElnOUtERFE3bUZlKzhTTzljckxHczRCcm84Z0dS?=
- =?utf-8?B?dzRBNC9MMEIyODhHSFFoZlBsRStkZ2JsVlJVKzc5NENvZU5EV3FWR2kvVUZ1?=
- =?utf-8?B?N3VNMU04VkFZT2NkU1dicDI3dUVqSjA0Sm5ITDMxSXMzRjJSaGpHVWUrT2dM?=
- =?utf-8?B?NWZhelE1ZVZ4ckNsclczaWxwQXloM1FGQW9pN21UTjAwZkZKdGRubDRJUmJD?=
- =?utf-8?B?cmR0MzdVWE5MRlphUDNma3BaYVhacjVrOFRObmhmeHF3cU9TN09mZExURGhE?=
- =?utf-8?B?N2VCZUZKTytWbDFJNDhTOEk3SWl4TEkvc0FrNGtOWWEwV1doU3Q0dzVnYkU5?=
- =?utf-8?B?Yk5iWnVobE1hQnQxVFAxVVBxL0Q5ZUZEU2VSSlk4M3djNnM4WXovdVZSM1dU?=
- =?utf-8?B?UlhPZ0l2NmY2VHFSWlRUK0xLYjlOck5sTThTWUVzazVTdG9paVNUOUNiVUtN?=
- =?utf-8?B?SXZ4MTRCYVBCcDNBVTNENzdocDdlYTA0c25kZFpqU1JWV0VvL0FJN0E3QVZ3?=
- =?utf-8?B?cVV1c3NIOHZrUWNHaU5HM3FqLytRaVhiMFhISjJTS29KaUZsd0lrR2RQb1dl?=
- =?utf-8?B?azhKVGZUVzVXS0lJekQ0d2VIaHU2Y0JLV1JETjNwNlJFOVcvR2Z3c0RMdTlX?=
- =?utf-8?B?TjVDWjlMWEpLV2x1Ny9SSEdOYUpYTmxYODJCL1JpNEdkQ0owVkpSbTBETHJF?=
- =?utf-8?B?bmZhK1Q4VHNEWHlSZWNybldld2FMK0VsU0NDVnpMVlh2QSt3ZjhIdk1KenB3?=
- =?utf-8?B?OTZqZFdvRGRUcWIzVE4wMlBwajNib3Z4bWFpNHl0dHdLZjNmL3VVZ3lHOE11?=
- =?utf-8?B?cnkxUEV3VTFueXgvTzErZjdOQ3NpZ1hCdU9zSEVpdElsbS9lcFFKYitjMWJa?=
- =?utf-8?B?RkFhdjd1Z1REd3cyTGNxS1U4T1RvR2VVZmp5cjBnbXkyRWU4MUt2NlhqUDM4?=
- =?utf-8?B?ekNhekhxTHpURDNUVU54NXlhZWpnczZCYjF6emtNQkxpcE5wOEt5d2pUNWJX?=
- =?utf-8?B?Y2E0YUhpWnR2clNRaW9VWnFkbGVwTXhuN0lPQ1ZkUDBBcDNtWHVKMlpkYXdt?=
- =?utf-8?B?NUlCay9lcTdiajdqOC9jZHpTTGdjWWhzOHE4ZWFmeGZiSHlzZXNSd1RacHNS?=
- =?utf-8?B?OGpuR2daZ1RtdzJ2QWFTRE9PaFdNeTNhRjU1T0g4bUVaRGljVnhoRjMvNDNi?=
- =?utf-8?B?SDdqRkVoc2Z6UjdWREw2emh0S3FlVzhnRGp2NDhvSHdQQjZqc2xicDVrMzZi?=
- =?utf-8?B?Umc3M3RwaW9UenB0bHBBMHo3aUNSalVIN3NrdEZqa21ZSThzVGJIVmhKODJS?=
- =?utf-8?B?YzVva01XdUlDUFAvWDA5VDIrNC92M0tWbExiVlJIaUVNZU5ZMTY0dTc2NTN3?=
- =?utf-8?B?V0IrbWJsV0VvWm5Zb2p1bWZWTHFlcDI2bmdFanNPN0hpRDA1a2dremJrUFFE?=
- =?utf-8?B?bVFpT2dLVnVyQjBrWFFMRlBHZTYxd1gxOFJTTUl3dSs4RFRKOEJHcWtwU3lB?=
- =?utf-8?Q?HhAGCBvMMnALeJcjCCHIulC05?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 081c5afb-bdeb-411a-8acc-08dce9bc8309
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Oct 2024 06:18:24.2688 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: S7yTXFglk1DEeG/jBUvovOiyoPs3So7bcbRYBJb8QFsiJyvwwblxjiNI8IsKe38i94Vi0YPhZW6RCpy698m7GQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR04MB9198
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|376014|36860700013|82310400026; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?ZRYLHlHmz6V18vW62O7i9p3ds58Ld1ZnZX2q3Jm38Jb118SvOAdacpEm0Biy?=
+ =?us-ascii?Q?MjHmLcfLF4itSmGOw/ZAI/EtYnOOMopjuaFnKc/5N0LTFJ7ty4v9MiEmhDeD?=
+ =?us-ascii?Q?M186skxPV5TLFdTkoGBEt36rwY9tgUf3Shzxp3wwA2KTzE+Gck5zzWvIkwql?=
+ =?us-ascii?Q?9ZOpMeThR6k/pQXVaacqItzVmp4sRhrEsHlpB2L6PYIuJTc6HqshQqU/uOSP?=
+ =?us-ascii?Q?p/Jn7aEaRR78NTkC+N6PkR1mcFQ/lyV26v94oDMTO2z9qAo9BAX+17+HbTKp?=
+ =?us-ascii?Q?wB0CvbJH0C3L+MKc9kEqEGN8bcm5uLhusp+e7M7FY5JthUA4aNpWpz+AlAw6?=
+ =?us-ascii?Q?Y21Ul9Kuj7D+IdQbc9sMyikbZCrElXaj4Fb0GCH6xj8QpFvcjJB2SrtTxKcR?=
+ =?us-ascii?Q?9TIkXDBCSwzYeoWF2xuazsHt9tSssT00milvGUFWTQkPgA0Y3mXFWOzl9SLl?=
+ =?us-ascii?Q?kUZzm47JhN36i9xqxvcQG6vCwM6QhaGhEgAW8XHgYGXtNSl4rSATLGKMqXW/?=
+ =?us-ascii?Q?zlJiEKOP2sLTshu6j4neR4ug4y9cep7vLqsf94M81RLo2HfHDs7WnQhJ4w24?=
+ =?us-ascii?Q?zZdlZpnNRRGIjsvNT8EE/gCq8ouzM0aPh7zD5ErNb/iVsBt+JM40ZpJVNdUj?=
+ =?us-ascii?Q?0LTZreOYdRveYDgMeUo8EgNw06VsSKocyj1KeoyB6F7xBFT8bDFd1EKg/UXY?=
+ =?us-ascii?Q?AUzjO29sup7d6H5gzPKbO87zikYuGI30YnbE8KGop5+SpgOYMk97xHeAcioy?=
+ =?us-ascii?Q?YrTDUZLNgqc1jDiKFU9RyHEscdS384ozEAPWiM555ncwPubGLHNFKXMWBt8p?=
+ =?us-ascii?Q?y6g2IhXVZiWVUN0PFlRwuvtZm9ZWudCcKj/aeLkT7b6+MD4YdPWl9S4UpK4N?=
+ =?us-ascii?Q?vVRV0xrDxT5BZBfV6VSHq5/JQistAUJmvncmMPaLw5VO++YkZanHp8iPx+NI?=
+ =?us-ascii?Q?4irPjSF/A89tmGoBNZ7hpHrRfCGt7w2845Sb66LW2VsJtrmnQTl/LGeIaLAe?=
+ =?us-ascii?Q?BGB+cQ+0xyAzE/0MV1ie5+gOSC4y/G4VpIuPOflJIj74IOOrr1/LhNDlc6do?=
+ =?us-ascii?Q?V4cd28IwsJUvdBEWuTEQjy0BcUHzBHFYLlxIDS2bg02ymdHbJ7WHnebZbPR5?=
+ =?us-ascii?Q?WUgurnjMWBkzx6d8p6DA31Ohk2pHJBWqTMKT9b45Hw7Q3RHt05BdrpDJyt/k?=
+ =?us-ascii?Q?FQ/Np+WepQYr5+xh0sNxPXid4EZ4PZSp2RISurGHf5itPCtO+BZCIp8zuAiE?=
+ =?us-ascii?Q?RU30qo3gXrOaU0/Wn9gc+ithLfE1U9Y2cjLFUlBP8eZRJj3Z35H/tJ6qFA6Z?=
+ =?us-ascii?Q?fueU+m59KsNZ8s6adPCpPGdFBwpKCapSDDL7RUo0nIqEuDpTf6jyAUmTuLpg?=
+ =?us-ascii?Q?C+CVkD9/U1oqQzme+NTDpMskoKQA?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(36860700013)(82310400026); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Oct 2024 06:21:45.3277 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 72f10d2f-f835-442e-5002-08dce9bcfb01
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN1PEPF00004683.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB7065
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -175,127 +133,218 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/11/2024, Marek Vasut wrote:
-> On 10/10/24 7:22 AM, Liu Ying wrote:
->> On 10/09/2024, Marek Vasut wrote:
->>> The media_ldb_root_clk supply LDB serializer. These clock are usually
->>> shared with the LCDIFv3 pixel clock and supplied by the Video PLL on
->>> i.MX8MP, but the LDB clock run at either x7 or x14 rate of the LCDIFv3
->>> pixel clock. Allow the LDB to reconfigure Video PLL as needed, as that
->>> results in accurate serializer clock.
->>>
->>> Signed-off-by: Marek Vasut <marex@denx.de>
->>> ---
->>> Cc: Abel Vesa <abelvesa@kernel.org>
->>> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
->>> Cc: David Airlie <airlied@gmail.com>
->>> Cc: Fabio Estevam <festevam@gmail.com>
->>> Cc: Isaac Scott <isaac.scott@ideasonboard.com>
->>> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
->>> Cc: Jonas Karlman <jonas@kwiboo.se>
->>> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
->>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->>> Cc: Maxime Ripard <mripard@kernel.org>
->>> Cc: Michael Turquette <mturquette@baylibre.com>
->>> Cc: Neil Armstrong <neil.armstrong@linaro.org>
->>> Cc: Peng Fan <peng.fan@nxp.com>
->>> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
->>> Cc: Robert Foss <rfoss@kernel.org>
->>> Cc: Sascha Hauer <s.hauer@pengutronix.de>
->>> Cc: Shawn Guo <shawnguo@kernel.org>
->>> Cc: Simona Vetter <simona@ffwll.ch>
->>> Cc: Stephen Boyd <sboyd@kernel.org>
->>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->>> Cc: dri-devel@lists.freedesktop.org
->>> Cc: imx@lists.linux.dev
->>> Cc: kernel@dh-electronics.com
->>> Cc: linux-arm-kernel@lists.infradead.org
->>> Cc: linux-clk@vger.kernel.org
->>> ---
->>>   drivers/clk/imx/clk-imx8mp.c | 2 +-
->>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/clk/imx/clk-imx8mp.c b/drivers/clk/imx/clk-imx8mp.c
->>> index 516dbd170c8a3..2e61d340b8ab7 100644
->>> --- a/drivers/clk/imx/clk-imx8mp.c
->>> +++ b/drivers/clk/imx/clk-imx8mp.c
->>> @@ -611,7 +611,7 @@ static int imx8mp_clocks_probe(struct platform_device *pdev)
->>>       hws[IMX8MP_CLK_MEDIA_MIPI_PHY1_REF] = imx8m_clk_hw_composite("media_mipi_phy1_ref", imx8mp_media_mipi_phy1_ref_sels, ccm_base + 0xbd80);
->>>       hws[IMX8MP_CLK_MEDIA_DISP1_PIX] = imx8m_clk_hw_composite_bus_flags("media_disp1_pix", imx8mp_media_disp_pix_sels, ccm_base + 0xbe00, CLK_SET_RATE_PARENT);
->>>       hws[IMX8MP_CLK_MEDIA_CAM2_PIX] = imx8m_clk_hw_composite("media_cam2_pix", imx8mp_media_cam2_pix_sels, ccm_base + 0xbe80);
->>> -    hws[IMX8MP_CLK_MEDIA_LDB] = imx8m_clk_hw_composite("media_ldb", imx8mp_media_ldb_sels, ccm_base + 0xbf00);
->>> +    hws[IMX8MP_CLK_MEDIA_LDB] = imx8m_clk_hw_composite_bus_flags("media_ldb", imx8mp_media_ldb_sels, ccm_base + 0xbf00, CLK_SET_RATE_PARENT);
->>
->> This patch would cause the below in-flight LDB bridge driver
->> patch[1] fail to do display mode validation upon display modes
->> read from LVDS to HDMI converter IT6263's DDC I2C bus.
-> 
-> Why ?
+From: "Jesse.zhang@amd.com" <jesse.zhang@amd.com>
 
-Mode validation is affected only for dual LVDS link mode.
-For single LVDS link mode, this patch does open more display
-modes read from the DDC I2C bus.  The reason behind is that
-LVDS serial clock rate/pixel clock rate = 3.5 for dual LVDS
-link mode, while it's 7 for single LVDS link mode.
+Added ring ID scheduling.
+In some cases, userspace needs to run a job on a specific ring.
+Instead of selecting the best ring to run based on the ring score.
+For example, The user want to run a bad job on a specific ring to check
+whether the ring can recover from a queue reset.
 
-In my system, "video_pll1" clock rate is assigned to 1.0395GHz
-in imx8mp.dtsi.  For 1920x1080-60.00Hz with 148.5MHz pixel
-clock rate, "media_ldb" clock rate is 519.75MHz and
-"media_disp2_pix" clock rate is 148.5MHz, which is fine for
-dual LVDS link mode(x3.5).  For newly opened up 1920x1080-59.94Hz
-with 148.352MHz pixel clock rate, "video_pll1" clock rate will
-be changed to 519.232MHz, "media_ldb" clock rate is 519.232MHz
-and "media_disp2_pix" clock rate is wrongly set to 519.232MHz
-too because "media_disp2_pix" clock cannot handle the 3.5
-division ratio from "video_pll1_out" clock running at
-519.232MHz.  See the below clk_summary.
+Signed-off-by: Jesse Zhang <Jesse.Zhang@amd.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c   |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.c  |  2 +-
+ drivers/gpu/drm/etnaviv/etnaviv_sched.c  |  2 +-
+ drivers/gpu/drm/imagination/pvr_queue.c  |  2 +-
+ drivers/gpu/drm/lima/lima_sched.c        |  2 +-
+ drivers/gpu/drm/msm/msm_gem_submit.c     |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_sched.c  |  2 +-
+ drivers/gpu/drm/panfrost/panfrost_job.c  |  2 +-
+ drivers/gpu/drm/scheduler/sched_entity.c | 11 +++++++++--
+ drivers/gpu/drm/scheduler/sched_main.c   |  4 ++--
+ drivers/gpu/drm/v3d/v3d_submit.c         |  2 +-
+ include/drm/gpu_scheduler.h              |  4 ++--
+ 12 files changed, 22 insertions(+), 15 deletions(-)
 
-    video_pll1_ref_sel               1       1        0        24000000    0          0     50000      Y      deviceless                      no_connection_id         
-       video_pll1                    1       1        0        519232000   0          0     50000      Y         deviceless                      no_connection_id         
-          video_pll1_bypass          1       1        0        519232000   0          0     50000      Y            deviceless                      no_connection_id         
-             video_pll1_out          2       2        0        519232000   0          0     50000      Y               deviceless                      no_connection_id         
-                media_ldb            1       1        0        519232000   0          0     50000      Y                  deviceless                      no_connection_id         
-                   media_ldb_root_clk 1       1        0        519232000   0          0     50000      Y                     32ec0000.blk-ctrl:bridge@5c     ldb                      
-                                                                                                                             deviceless                      no_connection_id         
-                media_disp1_pix      0       0        0        129808000   0          0     50000      N                  deviceless                      no_connection_id         
-                   media_disp1_pix_root_clk 0       0        0        129808000   0          0     50000      N                     32e80000.display-controller     pix                      
-                                                                                                                             32ec0000.blk-ctrl               disp1                    
-                                                                                                                             deviceless                      no_connection_id         
-                media_disp2_pix      1       1        0        519232000   0          0     50000      Y                  deviceless                      no_connection_id         
-                   media_disp2_pix_root_clk 1       1        0        519232000   0          0     50000      Y                     32e90000.display-controller     pix                      
-                                                                                                                             32ec0000.blk-ctrl               disp2                    
-                                                                                                                             deviceless                      no_connection_id         
-
-Single LVDS link mode is not affected because "media_disp2_pix"
-clock can handle the 7 division ratio.
-
-To support the dual LVDS link mode, "video_pll1" clock rate needs
-to be x2 "media_ldb" clock rate so that "media_disp2_pix" clock
-can use 7 division ratio to achieve the /3.5 clock rate comparing
-to "media_ldb" clock rate.  However, "video_pll1" is not seen by
-LDB driver thus not directly controlled by it.  This is another
-reason why assigning a reasonable "video_pll1" clock rate in DT
-makes sense.
-
-> 
-> Also, please Cc me on fsl-ldb.c patches.
-
-Ok, will do.  BTW, if MAINTAINERS is updated, then you'll always
-receive fsl-ldb.c patches. 
-
-> 
->> Unsupported display modes cannot be ruled out.  Note that
->> "media_ldb" is derived from "video_pll1_out" by default as the
->> parent is set in imx8mp.dtsi.  And, the only 4 rates supported
->> by "video_pll1" are listed in imx_pll1443x_tbl[] - 1.0395GHz,
->> 650MHz, 594MHz and 519.75MHz.
-> I disagree with this part, since commit b09c68dc57c9 ("clk: imx: pll14xx: Support dynamic rates") the 1443x PLLs can be configured to arbitrary rates which for video PLL is desirable as those should produce accurate clock.
-
-Kinda ack - that commit does open up many more clock rates.
-But, the commit just says dynamic rates, not arbitrary rates or
-any rate.
-
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+index d891ab779ca7..18887128a973 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+@@ -1286,7 +1286,7 @@ static int amdgpu_cs_submit(struct amdgpu_cs_parser *p,
+ 	int r;
+ 
+ 	for (i = 0; i < p->gang_size; ++i)
+-		drm_sched_job_arm(&p->jobs[i]->base);
++		drm_sched_job_arm(&p->jobs[i]->base, -1);
+ 
+ 	for (i = 0; i < p->gang_size; ++i) {
+ 		struct dma_fence *fence;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+index 717adcedf096..8d75ffa9a097 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+@@ -320,7 +320,7 @@ struct dma_fence *amdgpu_job_submit(struct amdgpu_job *job)
+ {
+ 	struct dma_fence *f;
+ 
+-	drm_sched_job_arm(&job->base);
++	drm_sched_job_arm(&job->base, -1);
+ 	f = dma_fence_get(&job->base.s_fence->finished);
+ 	amdgpu_job_free_resources(job);
+ 	drm_sched_entity_push_job(&job->base);
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+index 62dcfdc7894d..98d003757af1 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+@@ -107,7 +107,7 @@ int etnaviv_sched_push_job(struct etnaviv_gem_submit *submit)
+ 	 */
+ 	mutex_lock(&gpu->sched_lock);
+ 
+-	drm_sched_job_arm(&submit->sched_job);
++	drm_sched_job_arm(&submit->sched_job, -1);
+ 
+ 	submit->out_fence = dma_fence_get(&submit->sched_job.s_fence->finished);
+ 	ret = xa_alloc_cyclic(&gpu->user_fences, &submit->out_fence_id,
+diff --git a/drivers/gpu/drm/imagination/pvr_queue.c b/drivers/gpu/drm/imagination/pvr_queue.c
+index 5ed9c98fb599..ed7398a0ff21 100644
+--- a/drivers/gpu/drm/imagination/pvr_queue.c
++++ b/drivers/gpu/drm/imagination/pvr_queue.c
+@@ -1115,7 +1115,7 @@ int pvr_queue_job_init(struct pvr_job *job)
+  */
+ struct dma_fence *pvr_queue_job_arm(struct pvr_job *job)
+ {
+-	drm_sched_job_arm(&job->base);
++	drm_sched_job_arm(&job->base, -1);
+ 
+ 	return &job->base.s_fence->finished;
+ }
+diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/lima_sched.c
+index bbf3f8feab94..cc83b2aab9ce 100644
+--- a/drivers/gpu/drm/lima/lima_sched.c
++++ b/drivers/gpu/drm/lima/lima_sched.c
+@@ -130,7 +130,7 @@ int lima_sched_task_init(struct lima_sched_task *task,
+ 		return err;
+ 	}
+ 
+-	drm_sched_job_arm(&task->base);
++	drm_sched_job_arm(&task->base, -1);
+ 
+ 	task->num_bos = num_bos;
+ 	task->vm = lima_vm_get(vm);
+diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
+index fba78193127d..74c4e1b4df78 100644
+--- a/drivers/gpu/drm/msm/msm_gem_submit.c
++++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+@@ -831,7 +831,7 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+ 		goto out;
+ 	}
+ 
+-	drm_sched_job_arm(&submit->base);
++	drm_sched_job_arm(&submit->base, -1);
+ 
+ 	submit->user_fence = dma_fence_get(&submit->base.s_fence->finished);
+ 
+diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.c b/drivers/gpu/drm/nouveau/nouveau_sched.c
+index 32fa2e273965..3ff8142b5370 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_sched.c
++++ b/drivers/gpu/drm/nouveau/nouveau_sched.c
+@@ -309,7 +309,7 @@ nouveau_job_submit(struct nouveau_job *job)
+ 	list_add(&job->entry, &sched->job.list.head);
+ 	spin_unlock(&sched->job.list.lock);
+ 
+-	drm_sched_job_arm(&job->base);
++	drm_sched_job_arm(&job->base, -1);
+ 	job->done_fence = dma_fence_get(&job->base.s_fence->finished);
+ 	if (job->sync)
+ 		done_fence = dma_fence_get(job->done_fence);
+diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+index a61ef0af9a4e..cc937420cd35 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_job.c
++++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+@@ -301,7 +301,7 @@ int panfrost_job_push(struct panfrost_job *job)
+ 		return ret;
+ 
+ 	mutex_lock(&pfdev->sched_lock);
+-	drm_sched_job_arm(&job->base);
++	drm_sched_job_arm(&job->base, -1);
+ 
+ 	job->render_done_fence = dma_fence_get(&job->base.s_fence->finished);
+ 
+diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+index 58c8161289fe..f4669422b3f9 100644
+--- a/drivers/gpu/drm/scheduler/sched_entity.c
++++ b/drivers/gpu/drm/scheduler/sched_entity.c
+@@ -525,7 +525,7 @@ struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
+ 	return sched_job;
+ }
+ 
+-void drm_sched_entity_select_rq(struct drm_sched_entity *entity)
++void drm_sched_entity_select_rq(struct drm_sched_entity *entity, int ring)
+ {
+ 	struct dma_fence *fence;
+ 	struct drm_gpu_scheduler *sched;
+@@ -554,7 +554,14 @@ void drm_sched_entity_select_rq(struct drm_sched_entity *entity)
+ 		return;
+ 
+ 	spin_lock(&entity->rq_lock);
+-	sched = drm_sched_pick_best(entity->sched_list, entity->num_sched_list);
++	if(ring >= 0) {
++		if(entity->sched_list[ring] && entity->sched_list[ring]->ready)
++			sched = entity->sched_list[ring];
++		else
++			sched = drm_sched_pick_best(entity->sched_list, entity->num_sched_list);
++	}
++	else
++		sched = drm_sched_pick_best(entity->sched_list, entity->num_sched_list);
+ 	rq = sched ? sched->sched_rq[entity->priority] : NULL;
+ 	if (rq != entity->rq) {
+ 		drm_sched_rq_remove_entity(entity->rq, entity);
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index 7e90c9f95611..356adf510670 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -833,13 +833,13 @@ EXPORT_SYMBOL(drm_sched_job_init);
+  *
+  * This can only be called if drm_sched_job_init() succeeded.
+  */
+-void drm_sched_job_arm(struct drm_sched_job *job)
++void drm_sched_job_arm(struct drm_sched_job *job, int ring)
+ {
+ 	struct drm_gpu_scheduler *sched;
+ 	struct drm_sched_entity *entity = job->entity;
+ 
+ 	BUG_ON(!entity);
+-	drm_sched_entity_select_rq(entity);
++	drm_sched_entity_select_rq(entity, ring);
+ 	sched = entity->rq->sched;
+ 
+ 	job->sched = sched;
+diff --git a/drivers/gpu/drm/v3d/v3d_submit.c b/drivers/gpu/drm/v3d/v3d_submit.c
+index 88f63d526b22..d33749017f93 100644
+--- a/drivers/gpu/drm/v3d/v3d_submit.c
++++ b/drivers/gpu/drm/v3d/v3d_submit.c
+@@ -211,7 +211,7 @@ v3d_job_init(struct v3d_dev *v3d, struct drm_file *file_priv,
+ static void
+ v3d_push_job(struct v3d_job *job)
+ {
+-	drm_sched_job_arm(&job->base);
++	drm_sched_job_arm(&job->base, -1);
+ 
+ 	job->done_fence = dma_fence_get(&job->base.s_fence->finished);
+ 
+diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+index 5acc64954a88..0eab405a2683 100644
+--- a/include/drm/gpu_scheduler.h
++++ b/include/drm/gpu_scheduler.h
+@@ -553,7 +553,7 @@ void drm_sched_fini(struct drm_gpu_scheduler *sched);
+ int drm_sched_job_init(struct drm_sched_job *job,
+ 		       struct drm_sched_entity *entity,
+ 		       u32 credits, void *owner);
+-void drm_sched_job_arm(struct drm_sched_job *job);
++void drm_sched_job_arm(struct drm_sched_job *job, int ring);
+ int drm_sched_job_add_dependency(struct drm_sched_job *job,
+ 				 struct dma_fence *fence);
+ int drm_sched_job_add_syncobj_dependency(struct drm_sched_job *job,
+@@ -603,7 +603,7 @@ int drm_sched_entity_init(struct drm_sched_entity *entity,
+ long drm_sched_entity_flush(struct drm_sched_entity *entity, long timeout);
+ void drm_sched_entity_fini(struct drm_sched_entity *entity);
+ void drm_sched_entity_destroy(struct drm_sched_entity *entity);
+-void drm_sched_entity_select_rq(struct drm_sched_entity *entity);
++void drm_sched_entity_select_rq(struct drm_sched_entity *entity, int ring);
+ struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_entity *entity);
+ void drm_sched_entity_push_job(struct drm_sched_job *sched_job);
+ void drm_sched_entity_set_priority(struct drm_sched_entity *entity,
 -- 
-Regards,
-Liu Ying
+2.25.1
 
