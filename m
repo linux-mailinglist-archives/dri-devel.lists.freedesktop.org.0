@@ -2,75 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99635999D9B
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2024 09:13:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61168999DB0
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2024 09:18:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9D6110EA5E;
-	Fri, 11 Oct 2024 07:13:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 530F410EA63;
+	Fri, 11 Oct 2024 07:18:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="MKlh8YFH";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UFfdnLWi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com
- [209.85.128.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B37DA10EA5E
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2024 07:13:18 +0000 (UTC)
-Received: by mail-yw1-f179.google.com with SMTP id
- 00721157ae682-6de14e0f050so14714707b3.0
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2024 00:13:18 -0700 (PDT)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
+ [209.85.167.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BADE10EA63
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2024 07:17:59 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id
+ 2adb3069b0e04-539e1543ab8so242321e87.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2024 00:17:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1728630798; x=1729235598; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1728631077; x=1729235877; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=pVy3cXzl86sH2JLHgiFtJxWYGEOPC7pnAO5jIndLRl4=;
- b=MKlh8YFHILPL24/5M6wnhif/Z0dgo8wTQgMf5NTEr5NHVlD2zfNfk/Is5YzSUZhJ4V
- RGSTPrEqO5D8SyodDpfvJLU93Kycxqvdi99adHpMpUjL2sHpo+HlcXmik2m7jAk5wHqv
- sZvB1cMd0GlcggBmhYAJvLApced6c2YSf0E7ZNp+O2joCPuHUUIHD5KjV3mDmLHObDeq
- bgcfi8/dlwNbSSwxVSVW8SjAJQxaIsks4kcO9D+iPiwErBDP6qKjYKl7iVw4HqMPEkck
- oKQhS8cKtpS8uqJm1K28tc/Dd6ACJLn34NNE3Ql2viatZxG1971F6aFMyicxSLWmwbjN
- fFqA==
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=6cy7cZf4Fx/waVp+aNE/ZvtmmKzyMs0V2HvQk1U00Uk=;
+ b=UFfdnLWiTrivthl49QekmXS9yXQRf4jwRLxmmiC5SzERcKFyrMicW8IZ71yUmg0XP3
+ UUjxfTTn1E/tm819OgHO2cLbKaukLq1mnMBxdyjtshnD40gfjrUQF2mTe5yxzqp8eUZG
+ RWsn/UUO4K9nYCSoyvqB2SFBR8+6QL40BnWVUvYmnIS+uFEhA6NKF6WJvy9S9CS5YOtx
+ /FDVsE2aZyVtcuHOHgZZsOtKG/3MzO4vFqNEBMcYHfox1s8R0beV171JBkpudi9NdWyt
+ zq32VlkuQSQmMfwnjAYTAN5ofVRPpZV7n0a0po2tp4mX652WNchUbFEoruO9QmeK+dlJ
+ 9mIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728630798; x=1729235598;
+ d=1e100.net; s=20230601; t=1728631077; x=1729235877;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=pVy3cXzl86sH2JLHgiFtJxWYGEOPC7pnAO5jIndLRl4=;
- b=pNl5DHOoLg91K0gxHN0r+7D5QACcjXd77GyZTNS+rNFGp3m1pe5KcO2AR4mE8ii6Ac
- yZUTRDzeJ3AkRw8Pb1bwK+hwbWlBkmsjCgMRsg/RbxgBZl2DFD3BVR8FnANN1IH40FEg
- q54HvR8I4CJZ9pYSpgXvT09d2brL2lOTL5ICkb1XxGwkvsvsQ1KA765f81hhlsNQ51et
- ZKzGknSUX3sE4OaPnHpbBny6JQWkxNz5wij/nQEXINpc3CF5fr01o+XIIoange6SLpSC
- yodPVMmalBWP+G+gFzNhsRs1QVpuUFWf0vb9Y//J4W0mHcocvs1u9PEKx9t/GvH6A4WA
- uWhw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWI2fKffntkWzUGo/YULTIJLXiE4z9bqwWtDRV8HgUWIm/6JpUVQUtjBYIOLzw4jQlFHdW+5Txhhc4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwIE72vWRfLLu7eGOTXGJE7t/W4rk9Gh5YJ/Ms/Mu0hJIOuPrNf
- jPRS8a4rfMHWZfC7nU+nL5KjYTns1DOrom7GyE2QJQ4ZLsW2jvmJvomBuoO5evSEsWAd7D7SGBX
- kbt1n8J3laNHU2SivQFTdueea1C47UE9EDJBbeA==
-X-Google-Smtp-Source: AGHT+IGDBtidaBjCA+V6TUtDSxl4XAawtegW2WS9EFKGFvRhSXTvKYz5awzj9XJntrNJqGu2AzyUvSFjTEPgOfOXMps=
-X-Received: by 2002:a05:690c:6085:b0:6e3:15ad:a560 with SMTP id
- 00721157ae682-6e3479b858amr12310937b3.12.1728630797790; Fri, 11 Oct 2024
- 00:13:17 -0700 (PDT)
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=6cy7cZf4Fx/waVp+aNE/ZvtmmKzyMs0V2HvQk1U00Uk=;
+ b=qfKvBnejZfR+5bkJG0pKC0Pai+xmYrIlm6AuQeN3WGHTd/6fuw5uugBjUqMIT5DJFH
+ 3rVx/Uz6Mc3KFYbPDO7lqU/g6oaoE4xXSThH2wyme/Ll1Qf1OIwh4JRDy1JtTf5t519Q
+ adQCnsNC4RPlIdLZX0pp68tUjyoB1wkFOHIaCaps/M/Wl+g+qZ7Gh4uxkKzTtG0UW0cI
+ VulrK9elWRUqoI2NGJZtlf7D0i6HJlKsSpKZ7E2R4uSHOYYZK+Rofz7QMhDHDBIQVHux
+ vV4e0f4Ter8V+Xv+rmde9vqqse6ekEapA1x75/YqlcAT/H3+Oz6h69aJQ6lF/AMDEGZg
+ uSOw==
+X-Gm-Message-State: AOJu0YyX6RPDdI1WJo97mPiqNGajmNwRSzUjYA9hbJYjvnin9MRkVcbG
+ KmSjwwpwihFq8XtDaq3yA1NGYF8eYIIONVwHXYkQ2c6CoynPnkXeo2MWZQVVfhKtwORUW5GS5Zc
+ /7hlLijecDeJEjga4itcGgP63d9c=
+X-Google-Smtp-Source: AGHT+IHlr3eLKcishdsjb5bOO9v15G9M4B7PfgNEFCXJmJfQ0Ll5KdyYXV6YFOtgcfEZSZuZFEOS3U4ch7qJ8ZI5EwU=
+X-Received: by 2002:a05:6512:10c4:b0:536:7377:7d23 with SMTP id
+ 2adb3069b0e04-539da564e36mr1145033e87.40.1728631076785; Fri, 11 Oct 2024
+ 00:17:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20241009-sm8650-v6-11-hmd-pocf-mdss-quad-upstream-21-v2-0-76d4f5d413bf@linaro.org>
- <20241009-sm8650-v6-11-hmd-pocf-mdss-quad-upstream-21-v2-9-76d4f5d413bf@linaro.org>
- <zig5zuf6hjcrkwmsdiahtzz3t3mxrmwxj65l43xij3zhfcyidn@fuisasnavvo3>
- <CABymUCP7bVBSWXCNp33x_B8KaZSFU-Dx+bU5ctkgDGXrzURrXQ@mail.gmail.com>
- <CAA8EJpovnEq_ciO0YmiREhwvxv6yGKnRMPx5=6G7R+Ob6Hy_hA@mail.gmail.com>
- <CABymUCPdu5+iz-amwv_O999sLUOmUMczo_v=1aUpJGpHo5f8CA@mail.gmail.com>
-In-Reply-To: <CABymUCPdu5+iz-amwv_O999sLUOmUMczo_v=1aUpJGpHo5f8CA@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 11 Oct 2024 10:13:07 +0300
-Message-ID: <CAA8EJppMu5o7juhKUN2Y_4CRYKtaWN9G01aPU2ZfksE_tzjqCQ@mail.gmail.com>
-Subject: Re: [PATCH v2 09/14] drm/msm/dpu: blend pipes per mixer pairs config
-To: Jun Nie <jun.nie@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 11 Oct 2024 17:17:44 +1000
+Message-ID: <CAPM=9tyf6kxBxT7H9aPK8y8RDDu7Bx-mLEVPT1zWkapNaXKpcg@mail.gmail.com>
+Subject: [git pull] drm fixes for 6.12-rc3
+To: Linus Torvalds <torvalds@linux-foundation.org>, Sima Vetter <sima@ffwll.ch>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -88,122 +74,197 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 11 Oct 2024 at 10:11, Jun Nie <jun.nie@linaro.org> wrote:
->
-> Dmitry Baryshkov <dmitry.baryshkov@linaro.org> =E4=BA=8E2024=E5=B9=B410=
-=E6=9C=8811=E6=97=A5=E5=91=A8=E4=BA=94 15:03=E5=86=99=E9=81=93=EF=BC=9A
-> >
-> > On Fri, 11 Oct 2024 at 09:40, Jun Nie <jun.nie@linaro.org> wrote:
-> > >
-> > > Dmitry Baryshkov <dmitry.baryshkov@linaro.org> =E4=BA=8E2024=E5=B9=B4=
-10=E6=9C=8810=E6=97=A5=E5=91=A8=E5=9B=9B 21:15=E5=86=99=E9=81=93=EF=BC=9A
-> > > >
-> > > > On Wed, Oct 09, 2024 at 04:50:22PM GMT, Jun Nie wrote:
-> > > > > Blend pipes by set of mixer pair config. The first 2 pipes are fo=
-r left
-> > > > > half screen with the first set of mixer pair config. And the late=
-r 2 pipes
-> > > > > are for right in quad pipe case.
-> > > > >
-> > > > > Signed-off-by: Jun Nie <jun.nie@linaro.org>
-> > > > > ---
-> > > > >  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    | 38 +++++++++++++++=
-+++-----------
-> > > > >  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h |  1 +
-> > > > >  2 files changed, 25 insertions(+), 14 deletions(-)
-> > > > >
-> > > > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/g=
-pu/drm/msm/disp/dpu1/dpu_crtc.c
-> > > > > index 43d9817cd858f..66f745399a602 100644
-> > > > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> > > > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> > > > > @@ -442,7 +442,7 @@ static void _dpu_crtc_blend_setup_mixer(struc=
-t drm_crtc *crtc,
-> > > > >       const struct msm_format *format;
-> > > > >       struct dpu_hw_ctl *ctl =3D mixer->lm_ctl;
-> > > > >
-> > > > > -     uint32_t lm_idx, i;
-> > > > > +     uint32_t lm_idx, lm_pair, i, pipe_idx;
-> > > > >       bool bg_alpha_enable =3D false;
-> > > > >       DECLARE_BITMAP(fetch_active, SSPP_MAX);
-> > > > >
-> > > > > @@ -463,15 +463,20 @@ static void _dpu_crtc_blend_setup_mixer(str=
-uct drm_crtc *crtc,
-> > > > >               if (pstate->stage =3D=3D DPU_STAGE_BASE && format->=
-alpha_enable)
-> > > > >                       bg_alpha_enable =3D true;
-> > > > >
-> > > > > -             for (i =3D 0; i < PIPES_PER_LM_PAIR; i++) {
-> > > > > -                     if (!pstate->pipe[i].sspp)
-> > > > > -                             continue;
-> > > > > -                     set_bit(pstate->pipe[i].sspp->idx, fetch_ac=
-tive);
-> > > > > -                     _dpu_crtc_blend_setup_pipe(crtc, plane,
-> > > > > -                                                mixer, cstate->n=
-um_mixers,
-> > > > > -                                                pstate->stage,
-> > > > > -                                                format, fb ? fb-=
->modifier : 0,
-> > > > > -                                                &pstate->pipe[i]=
-, i, stage_cfg);
-> > > > > +             /* loop pipe per mixer pair */
-> > > > > +             for (lm_pair =3D 0; lm_pair < PIPES_PER_PLANE / 2; =
-lm_pair++) {
-> > > > > +                     for (i =3D 0; i < PIPES_PER_LM_PAIR; i++) {
-> > > > > +                             pipe_idx =3D i + lm_pair * PIPES_PE=
-R_LM_PAIR;
-> > > > > +                             if (!pstate->pipe[pipe_idx].sspp)
-> > > > > +                                     continue;
-> > > > > +                             set_bit(pstate->pipe[pipe_idx].sspp=
-->idx, fetch_active);
-> > > > > +                             _dpu_crtc_blend_setup_pipe(crtc, pl=
-ane,
-> > > > > +                                                        mixer, c=
-state->num_mixers,
-> > > > > +                                                        pstate->=
-stage,
-> > > > > +                                                        format, =
-fb ? fb->modifier : 0,
-> > > > > +                                                        &pstate-=
->pipe[pipe_idx], i,
-> > > > > +                                                        &stage_c=
-fg[lm_pair]);
-> > > > > +                     }
-> > > > >               }
-> > > > >
-> > > > >               /* blend config update */
-> > > > > @@ -503,7 +508,7 @@ static void _dpu_crtc_blend_setup(struct drm_=
-crtc *crtc)
-> > > > >       struct dpu_crtc_mixer *mixer =3D cstate->mixers;
-> > > > >       struct dpu_hw_ctl *ctl;
-> > > > >       struct dpu_hw_mixer *lm;
-> > > > > -     struct dpu_hw_stage_cfg stage_cfg;
-> > > > > +     struct dpu_hw_stage_cfg stage_cfg[LM_PAIRS_PER_PLANE];
-> > > >
-> > > > After seeing this code, can we define STAGES_PER_PLANE (and
-> > > > also keep PLANES_PER_STAGE defined to 2)?
-> > > >
-> > > Could you elaborate it? Stages describe how many layers to be blended=
-.
-> > > Plane is a DRM concept that describe a buffer to be display in specif=
-ic
-> > > display driver. Plane is already mapped to SSPP/multi-rect in DPU dri=
-ver
-> > >  in blending stage level. So I am confused here.
-> >
-> > We have dpu_hw_stage_cfg, you are adding a second instance of it. So
-> > we now have two stages per plane.
->
-> So you suggest to replace LM_PAIRS_PER_PLANE with STAGES_PER_PLANE,
-> right? I assume a stage is coupled with a LM pair.
->
-> But for PLANES_PER_STAGE, I am still confused. A stage or a LM pair can
-> involve many SSPP layers. How it related to planes? Plane is a concepts f=
-rom
-> higher level.
+Hey Linus,
 
-PIPES_PER_STAGE, excuse me.
+Weekly fixes haul for drm, lots of small fixes all over, amdgpu, xe
+lead the way, some minor nouveau and radeon fixes, and then a bunch of
+misc all over.
 
---=20
-With best wishes
-Dmitry
+Nothing too scary or out of the unusual.
+
+Regards,
+Dave.
+
+drm-fixes-2024-10-11:
+drm fixes for 6.12-rc3
+
+sched:
+- Avoid leaking lockdep map
+
+fbdev-dma:
+- Only clean up deferred I/O if instanciated
+
+amdgpu:
+- Fix invalid UBSAN warnings
+- Fix artifacts in MPO transitions
+- Hibernation fix
+
+amdkfd:
+- Fix an eviction fence leak
+
+radeon:
+- Add late register for connectors
+- Always set GEM function pointers
+
+i915:
+- HDCP refcount fix
+
+nouveau:
+- dmem: Fix privileged error in copy engine channel; Fix possible
+  data leak in migrate_to_ram()
+- gsp: Fix coding style
+
+v3d:
+- Stop active perfmon before destroying it
+
+vc4:
+- Stop active perfmon before destroying it
+
+xe:
+- Drop GuC submit_wq pool
+- Fix error checking with xa_store()
+- Fix missing freq restore on GSC load error
+- Fix wedged_mode file permission
+- Fix use-after-free in ct communication
+The following changes since commit 8cf0b93919e13d1e8d4466eb4080a4c4d9d66d7b=
+:
+
+  Linux 6.12-rc2 (2024-10-06 15:32:27 -0700)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2024-10-11
+
+for you to fetch changes up to ac44ff7cec33d5c2d4b72d52603552ec64c1a8bf:
+
+  Merge tag 'drm-xe-fixes-2024-10-10' of
+https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
+(2024-10-11 13:54:10 +1000)
+
+----------------------------------------------------------------
+drm fixes for 6.12-rc3
+
+sched:
+- Avoid leaking lockdep map
+
+fbdev-dma:
+- Only clean up deferred I/O if instanciated
+
+amdgpu:
+- Fix invalid UBSAN warnings
+- Fix artifacts in MPO transitions
+- Hibernation fix
+
+amdkfd:
+- Fix an eviction fence leak
+
+radeon:
+- Add late register for connectors
+- Always set GEM function pointers
+
+i915:
+- HDCP refcount fix
+
+nouveau:
+- dmem: Fix privileged error in copy engine channel; Fix possible
+  data leak in migrate_to_ram()
+- gsp: Fix coding style
+
+v3d:
+- Stop active perfmon before destroying it
+
+vc4:
+- Stop active perfmon before destroying it
+
+xe:
+- Drop GuC submit_wq pool
+- Fix error checking with xa_store()
+- Fix missing freq restore on GSC load error
+- Fix wedged_mode file permission
+- Fix use-after-free in ct communication
+
+----------------------------------------------------------------
+Alex Deucher (1):
+      drm/amdgpu: partially revert powerplay `__counted_by` changes
+
+Christian K=C3=B6nig (1):
+      drm/radeon: always set GEM function pointer
+
+Colin Ian King (1):
+      drm/nouveau/gsp: remove extraneous ; after mutex
+
+Dave Airlie (4):
+      Merge tag 'amd-drm-fixes-6.12-2024-10-08' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
+      Merge tag 'drm-intel-fixes-2024-10-10' of
+https://gitlab.freedesktop.org/drm/i915/kernel into drm-fixes
+      Merge tag 'drm-misc-fixes-2024-10-10' of
+https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes
+      Merge tag 'drm-xe-fixes-2024-10-10' of
+https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
+
+Hamza Mahfooz (1):
+      drm/amd/display: fix hibernate entry for DCN35+
+
+Jani Nikula (1):
+      drm/i915/hdcp: fix connector refcounting
+
+Janne Grunau (1):
+      drm/fbdev-dma: Only cleanup deferred I/O if necessary
+
+Josip Pavic (1):
+      drm/amd/display: Clear update flags after update has been applied
+
+Lang Yu (1):
+      drm/amdkfd: Fix an eviction fence leak
+
+Matt Roper (1):
+      drm/xe: Make wedged_mode debugfs writable
+
+Matthew Auld (3):
+      drm/xe/ct: prevent UAF in send_recv()
+      drm/xe/ct: fix xa_store() error checking
+      drm/xe/guc_submit: fix xa_store() error checking
+
+Matthew Brost (2):
+      drm/sched: Use drm sched lockdep map for submit_wq
+      drm/xe: Drop GuC submit_wq pool
+
+Ma=C3=ADra Canal (2):
+      drm/v3d: Stop the active perfmon before being destroyed
+      drm/vc4: Stop the active perfmon before being destroyed
+
+Vinay Belgaumkar (1):
+      drm/xe: Restore GT freq on GSC load error
+
+Wu Hoi Pok (1):
+      drm/radeon: add late_register for connector
+
+Yonatan Maman (2):
+      nouveau/dmem: Fix privileged error in copy engine channel
+      nouveau/dmem: Fix vulnerability in migrate_to_ram upon copy error
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  |  4 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_process.c          |  7 +-
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  7 +-
+ drivers/gpu/drm/amd/display/dc/core/dc.c          | 45 +++++++++---
+ drivers/gpu/drm/amd/pm/powerplay/inc/hwmgr.h      | 26 +++----
+ drivers/gpu/drm/drm_fbdev_dma.c                   |  3 +-
+ drivers/gpu/drm/i915/display/intel_hdcp.c         | 10 ++-
+ drivers/gpu/drm/nouveau/include/nvkm/subdev/gsp.h |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_dmem.c            |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_drm.c             |  2 +-
+ drivers/gpu/drm/radeon/atombios_dp.c              |  9 +--
+ drivers/gpu/drm/radeon/radeon_connectors.c        | 17 +++++
+ drivers/gpu/drm/radeon/radeon_gem.c               |  3 -
+ drivers/gpu/drm/radeon/radeon_object.c            |  1 +
+ drivers/gpu/drm/scheduler/sched_main.c            | 11 +++
+ drivers/gpu/drm/v3d/v3d_perfmon.c                 |  9 ++-
+ drivers/gpu/drm/vc4/vc4_perfmon.c                 |  7 +-
+ drivers/gpu/drm/xe/xe_debugfs.c                   |  2 +-
+ drivers/gpu/drm/xe/xe_gt.c                        |  4 +-
+ drivers/gpu/drm/xe/xe_guc_ct.c                    | 44 +++++++-----
+ drivers/gpu/drm/xe/xe_guc_submit.c                | 85 ++-----------------=
+----
+ drivers/gpu/drm/xe/xe_guc_types.h                 |  7 --
+ 22 files changed, 149 insertions(+), 158 deletions(-)
