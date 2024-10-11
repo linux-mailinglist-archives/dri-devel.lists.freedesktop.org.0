@@ -2,61 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0226899A08B
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2024 11:57:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CED699A136
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2024 12:24:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B3C010EA9E;
-	Fri, 11 Oct 2024 09:57:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 334F810EAA7;
+	Fri, 11 Oct 2024 10:24:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="A6wc6itB";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=freemail.hu header.i=@freemail.hu header.b="jvt7JZkL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A271B10EA9E
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2024 09:57:32 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id BAF775C031B;
- Fri, 11 Oct 2024 09:57:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEEA2C4CECC;
- Fri, 11 Oct 2024 09:57:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1728640651;
- bh=2gk6wi1k4yh4eT4f1QLyt5TAGrsRtDo5kjnzPVa+0i4=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=A6wc6itBAOVHQ9eF/x8rnO99ux7oFb/Y4u4+GyMoH11r/HEnSR7YWT6ktOh1TlAyh
- c3Aw9leZhsTPfMYqggqoDzxAQvXkPwQE9tyfaPz1bgbdQC37uoej7U1vmQbrWaDtUC
- BOo14oZZ5/1XSrqbR4jEBC/CabDXay9B5/j4Mj4BgPxErjYPMNAo7Rz+CRMv1f0w8r
- 8qs5cYPAtlurYUjzO9gv+1n4AaIcAexjsHtYwRlWytP0Pas6jOjVbOFge4YKelANvg
- +VItf0w5Oqk4dqfG3NiEfS0ulkj3XLUpfhUQ1gyQkhopzKnqKbaMF/nlzq5vWyO+9f
- rZLZygIBfnj1Q==
-From: Simon Horman <horms@kernel.org>
-Date: Fri, 11 Oct 2024 10:57:12 +0100
-Subject: [PATCH net-next 3/3] accel/qaic: Pass string literal as format
- argument of alloc_workqueue()
+Received: from smtp-out.freemail.hu (fmfe36.freemail.hu [46.107.16.241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25CAB10E0A3;
+ Fri, 11 Oct 2024 10:24:45 +0000 (UTC)
+Received: from [192.168.0.16] (catv-178-48-208-49.catv.fixed.vodafone.hu
+ [178.48.208.49])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp.freemail.hu (Postfix) with ESMTPSA id 4XQ2mn4GPSzD8J;
+ Fri, 11 Oct 2024 12:24:41 +0200 (CEST)
+Message-ID: <264890a1-7234-407e-b7ba-078f32462afe@freemail.hu>
+Date: Fri, 11 Oct 2024 12:23:18 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241011-string-thing-v1-3-acc506568033@kernel.org>
-References: <20241011-string-thing-v1-0-acc506568033@kernel.org>
-In-Reply-To: <20241011-string-thing-v1-0-acc506568033@kernel.org>
-To: "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>
-Cc: Woojung Huh <woojung.huh@microchip.com>, Andrew Lunn <andrew@lunn.ch>, 
- Florian Fainelli <f.fainelli@gmail.com>, 
- Vladimir Oltean <olteanv@gmail.com>, 
- Richard Cochran <richardcochran@gmail.com>, 
- Jiawen Wu <jiawenwu@trustnetic.com>, 
- Mengyuan Lou <mengyuanlou@net-swift.com>, 
- Nathan Chancellor <nathan@kernel.org>, 
- Nick Desaulniers <ndesaulniers@google.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
- Jeffrey Hugo <quic_jhugo@quicinc.com>, 
- Carl Vanderlip <quic_carlv@quicinc.com>, Oded Gabbay <ogabbay@kernel.org>, 
- UNGLinuxDriver@microchip.com, netdev@vger.kernel.org, llvm@lists.linux.dev, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
-X-Mailer: b4 0.14.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/nouveau/i2c: rename aux.c and aux.h to auxch.c and
+ auxch.h
+To: Lyude Paul <lyude@redhat.com>, bskeggs@nvidia.com, kherbst@redhat.com,
+ airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20240603091558.35672-1-egyszeregy@freemail.hu>
+ <114482fe-0d91-4742-8ea1-5eaef8254c45@freemail.hu>
+ <40b4b653e8c0c15343e211ff88ac8fe3f4d53e20.camel@redhat.com>
+Content-Language: hu
+From: =?UTF-8?Q?Sz=C5=91ke_Benjamin?= <egyszeregy@freemail.hu>
+In-Reply-To: <40b4b653e8c0c15343e211ff88ac8fe3f4d53e20.camel@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=simple/relaxed; t=1728642282; 
+ s=20181004; d=freemail.hu;
+ h=Message-ID:Date:MIME-Version:Subject:To:References:From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+ l=8454; bh=wmH4MV95rwYFIztY5AXfM1HAtK2mdhjrRiZSZ1fyGyI=;
+ b=jvt7JZkLPIQ6RukzGrSHqrANt5slZDKVr7MCcTZk3XVh8rlmADWvccTnvoL7Joja
+ exzlJxeZwQfIsPtQbOv7VSxxCqwHrt+OkAHeoqRhq3hmy+buUqmvpsxPtHGRM/U9a76
+ KmF3kW39DsrugrYBUdcl/mHq0A8c0wap4I1362Zi+uHIZBSuMtU/LI8vzmRw5rCKuth
+ mQ8QxAQQe4VUoux6iTpECTDVzJjTHiYh+uMswQqlfvh6CGhd6El5pYBxB2zz36OFyyS
+ gSfNmIHJyCXUvhPbkAiEAREZSwynScVYylanCsTte4Ked3zCXjbuPAoRQn72MWvNuPQ
+ VlZ82Shwrg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,58 +64,210 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Recently I noticed that both gcc-14 and clang-18 report that passing
-a non-string literal as the format argument of alloc_workqueue()
-is potentially insecure.
+2024. 10. 10. 23:17 keltezéssel, Lyude Paul írta:
+> Hi - how did you send this message? This patch comes out looking quite strange
+> on my machine, perhaps you don't have the encoding set to UTF-8 or aren't
+> using git send-email?
+> 
+> On Mon, 2024-09-23 at 22:18 +0200, Szőke Benjamin wrote:
+>> 	s=20181004; d=freemail.hu;
+>> 	h=Message-ID:Date:MIME-Version:Subject:To:References:From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+>> 	l=6727; bh=sJL9AOsUJH2ovHr5PYMU/rHzKoMeXVYsbJRkD0TaT5E=;
+>> 	b=qY1DL1nlKnhWn0mpbbrefaus7g0fXuyQgL10k8YLW7EoFYdwaqOeDl6O+oQvVNmk
+>> 	SvFiAJ5gdZeuP+2ZqTy3J1GOrOWP4HE77uQ4mJh9vyF3orZv2QtyIksudyXdHHiWwSS
+>> 	IV7i4YkfUElv4+pFlUQ+hMRRXAOiqU/RVo1xBF0MBe/XGM1dt2UOj96u6lDp/vR7KP4
+>> 	Tc7OCbj3h2I+07VEElEunHRpDFgZer+RV3SBLWBjiYBFtuUj3+iMnO/z36DlNJyHAj5
+>> 	fySgG1IiRjIheKlzc5H7ikpMRfchALaeD+t1ayA7CERE4zDvIcBse8S5Oxkxvg7zwIW
+>> 	Elv65cjloA==
+>> Content-Transfer-Encoding: quoted-printable
+>>
+>> 2024. 06. 03. 11:15 keltez=C3=A9ssel, egyszeregy@freemail.hu =C3=ADrta:
+>>> From: Benjamin Sz=C5=91ke <egyszeregy@freemail.hu>
+>>> =20
+>>> The goal is to clean-up Linux repository from AUX file names, because
+>>> the use of such file names is prohibited on other operating systems
+>>> such as Windows, so the Linux repository cannot be cloned and
+>>> edited on them.
+>>> =20
+>>> Signed-off-by: Benjamin Sz=C5=91ke <egyszeregy@freemail.hu>
+>>> ---
+>>>    drivers/gpu/drm/nouveau/nvkm/subdev/i2c/Kbuild             | 2 +-
+>>>    drivers/gpu/drm/nouveau/nvkm/subdev/i2c/anx9805.c          | 2 +-
+>>>    drivers/gpu/drm/nouveau/nvkm/subdev/i2c/{aux.c =3D> auxch.c} | 2 +-
+>>>    drivers/gpu/drm/nouveau/nvkm/subdev/i2c/{aux.h =3D> auxch.h} | 0
+>>>    drivers/gpu/drm/nouveau/nvkm/subdev/i2c/auxg94.c           | 2 +-
+>>>    drivers/gpu/drm/nouveau/nvkm/subdev/i2c/auxgf119.c         | 2 +-
+>>>    drivers/gpu/drm/nouveau/nvkm/subdev/i2c/auxgm200.c         | 2 +-
+>>>    drivers/gpu/drm/nouveau/nvkm/subdev/i2c/base.c             | 2 +-
+>>>    drivers/gpu/drm/nouveau/nvkm/subdev/i2c/padg94.c           | 2 +-
+>>>    drivers/gpu/drm/nouveau/nvkm/subdev/i2c/padgf119.c         | 2 +-
+>>>    drivers/gpu/drm/nouveau/nvkm/subdev/i2c/padgm200.c         | 2 +-
+>>>    11 files changed, 10 insertions(+), 10 deletions(-)
+>>>    rename drivers/gpu/drm/nouveau/nvkm/subdev/i2c/{aux.c =3D> auxch.c} (=
+>> 99%)
+>>>    rename drivers/gpu/drm/nouveau/nvkm/subdev/i2c/{aux.h =3D> auxch.h} (=
+>> 100%)
+>>> =20
+>>> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/Kbuild b/drivers/g=
+>> pu/drm/nouveau/nvkm/subdev/i2c/Kbuild
+>>> index 819703913a00..2c551bdc9bc9 100644
+>>> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/Kbuild
+>>> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/Kbuild
+>>> @@ -25,7 +25,7 @@ nvkm-y +=3D nvkm/subdev/i2c/busnv50.o
+>>>    nvkm-y +=3D nvkm/subdev/i2c/busgf119.o
+>>>    nvkm-y +=3D nvkm/subdev/i2c/bit.o
+>>>   =20
+>>> -nvkm-y +=3D nvkm/subdev/i2c/aux.o
+>>> +nvkm-y +=3D nvkm/subdev/i2c/auxch.o
+>>>    nvkm-y +=3D nvkm/subdev/i2c/auxg94.o
+>>>    nvkm-y +=3D nvkm/subdev/i2c/auxgf119.o
+>>>    nvkm-y +=3D nvkm/subdev/i2c/auxgm200.o
+>>> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/anx9805.c b/driver=
+>> s/gpu/drm/nouveau/nvkm/subdev/i2c/anx9805.c
+>>> index dd391809fef7..6c76e5e14b75 100644
+>>> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/anx9805.c
+>>> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/anx9805.c
+>>> @@ -24,7 +24,7 @@
+>>>    #define anx9805_pad(p) container_of((p), struct anx9805_pad, base)
+>>>    #define anx9805_bus(p) container_of((p), struct anx9805_bus, base)
+>>>    #define anx9805_aux(p) container_of((p), struct anx9805_aux, base)
+>>> -#include "aux.h"
+>>> +#include "auxch.h"
+>>>    #include "bus.h"
+>>>   =20
+>>>    struct anx9805_pad {
+>>> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/aux.c b/drivers/gp=
+>> u/drm/nouveau/nvkm/subdev/i2c/auxch.c
+>>> similarity index 99%
+>>> rename from drivers/gpu/drm/nouveau/nvkm/subdev/i2c/aux.c
+>>> rename to drivers/gpu/drm/nouveau/nvkm/subdev/i2c/auxch.c
+>>> index d063d0dc13c5..fafc634acbf6 100644
+>>> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/aux.c
+>>> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/auxch.c
+>>> @@ -24,7 +24,7 @@
+>>>   =20
+>>>    #include <linux/string_helpers.h>
+>>>   =20
+>>> -#include "aux.h"
+>>> +#include "auxch.h"
+>>>    #include "pad.h"
+>>>   =20
+>>>    static int
+>>> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/aux.h b/drivers/gp=
+>> u/drm/nouveau/nvkm/subdev/i2c/auxch.h
+>>> similarity index 100%
+>>> rename from drivers/gpu/drm/nouveau/nvkm/subdev/i2c/aux.h
+>>> rename to drivers/gpu/drm/nouveau/nvkm/subdev/i2c/auxch.h
+>>> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/auxg94.c b/drivers=
+>> /gpu/drm/nouveau/nvkm/subdev/i2c/auxg94.c
+>>> index 47068f6f9c55..854bb4b5fdb4 100644
+>>> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/auxg94.c
+>>> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/auxg94.c
+>>> @@ -22,7 +22,7 @@
+>>>     * Authors: Ben Skeggs <bskeggs@redhat.com>
+>>>     */
+>>>    #define g94_i2c_aux(p) container_of((p), struct g94_i2c_aux, base)
+>>> -#include "aux.h"
+>>> +#include "auxch.h"
+>>>   =20
+>>>    struct g94_i2c_aux {
+>>>    	struct nvkm_i2c_aux base;
+>>> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/auxgf119.c b/drive=
+>> rs/gpu/drm/nouveau/nvkm/subdev/i2c/auxgf119.c
+>>> index dab40cd8fe3a..c17d5647cb99 100644
+>>> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/auxgf119.c
+>>> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/auxgf119.c
+>>> @@ -19,7 +19,7 @@
+>>>     * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE=
+>>   OR
+>>>     * OTHER DEALINGS IN THE SOFTWARE.
+>>>     */
+>>> -#include "aux.h"
+>>> +#include "auxch.h"
+>>>   =20
+>>>    static const struct nvkm_i2c_aux_func
+>>>    gf119_i2c_aux =3D {
+>>> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/auxgm200.c b/drive=
+>> rs/gpu/drm/nouveau/nvkm/subdev/i2c/auxgm200.c
+>>> index 8bd1d442e465..3c5005e3b330 100644
+>>> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/auxgm200.c
+>>> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/auxgm200.c
+>>> @@ -22,7 +22,7 @@
+>>>     * Authors: Ben Skeggs <bskeggs@redhat.com>
+>>>     */
+>>>    #define gm200_i2c_aux(p) container_of((p), struct gm200_i2c_aux, base=
+>> )
+>>> -#include "aux.h"
+>>> +#include "auxch.h"
+>>>   =20
+>>>    struct gm200_i2c_aux {
+>>>    	struct nvkm_i2c_aux base;
+>>> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/base.c b/drivers/g=
+>> pu/drm/nouveau/nvkm/subdev/i2c/base.c
+>>> index 976539de4220..ab86e11e7780 100644
+>>> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/base.c
+>>> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/base.c
+>>> @@ -22,7 +22,7 @@
+>>>     * Authors: Ben Skeggs
+>>>     */
+>>>    #include "priv.h"
+>>> -#include "aux.h"
+>>> +#include "auxch.h"
+>>>    #include "bus.h"
+>>>    #include "pad.h"
+>>>   =20
+>>> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/padg94.c b/drivers=
+>> /gpu/drm/nouveau/nvkm/subdev/i2c/padg94.c
+>>> index 5904bc5f2d2a..cc26cd677917 100644
+>>> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/padg94.c
+>>> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/padg94.c
+>>> @@ -22,7 +22,7 @@
+>>>     * Authors: Ben Skeggs
+>>>     */
+>>>    #include "pad.h"
+>>> -#include "aux.h"
+>>> +#include "auxch.h"
+>>>    #include "bus.h"
+>>>   =20
+>>>    void
+>>> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/padgf119.c b/drive=
+>> rs/gpu/drm/nouveau/nvkm/subdev/i2c/padgf119.c
+>>> index 3bc4d0310076..1797c6c65979 100644
+>>> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/padgf119.c
+>>> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/padgf119.c
+>>> @@ -22,7 +22,7 @@
+>>>     * Authors: Ben Skeggs
+>>>     */
+>>>    #include "pad.h"
+>>> -#include "aux.h"
+>>> +#include "auxch.h"
+>>>    #include "bus.h"
+>>>   =20
+>>>    static const struct nvkm_i2c_pad_func
+>>> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/padgm200.c b/drive=
+>> rs/gpu/drm/nouveau/nvkm/subdev/i2c/padgm200.c
+>>> index 7d417f6a816e..5afc1bf8e798 100644
+>>> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/padgm200.c
+>>> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/padgm200.c
+>>> @@ -22,7 +22,7 @@
+>>>     * Authors: Ben Skeggs
+>>>     */
+>>>    #include "pad.h"
+>>> -#include "aux.h"
+>>> +#include "auxch.h"
+>>>    #include "bus.h"
+>>>   =20
+>>>    static void
+>>
+>> @Ben Skeggs
+>> When it will be merged? Your hints was done and ready in this renaming pa=
+>> tch.
+>>
+> 
 
-E.g. clang-18 says:
+It was sent via git send-email and it used UTF-8 in default.
 
-.../qaic_drv.c:61:23: warning: format string is not a string literal (potentially insecure) [-Wformat-security]
-   61 |         wq = alloc_workqueue(fmt, WQ_UNBOUND, 0);
-      |                              ^~~
-.../qaic_drv.c:61:23: note: treat the string as an argument to avoid this
-   61 |         wq = alloc_workqueue(fmt, WQ_UNBOUND, 0);
-      |                              ^
-      |                              "%s",
-
-It is always the case where the contents of fmt is safe to pass as the
-format argument. That is, in my understanding, it never contains any
-format escape sequences.
-
-But, it seems better to be safe than sorry. And, as a bonus, compiler
-output becomes less verbose by addressing this issue as suggested by
-clang-18.
-
-Also, change the name of the parameter of qaicm_wq_init from
-fmt to name to better reflect it's purpose.
-
-Compile tested only.
-
-Signed-off-by: Simon Horman <horms@kernel.org>
----
- drivers/accel/qaic/qaic_drv.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/accel/qaic/qaic_drv.c b/drivers/accel/qaic/qaic_drv.c
-index bf10156c334e..30e6bf7897bd 100644
---- a/drivers/accel/qaic/qaic_drv.c
-+++ b/drivers/accel/qaic/qaic_drv.c
-@@ -53,12 +53,12 @@ static void qaicm_wq_release(struct drm_device *dev, void *res)
- 	destroy_workqueue(wq);
- }
- 
--static struct workqueue_struct *qaicm_wq_init(struct drm_device *dev, const char *fmt)
-+static struct workqueue_struct *qaicm_wq_init(struct drm_device *dev, const char *name)
- {
- 	struct workqueue_struct *wq;
- 	int ret;
- 
--	wq = alloc_workqueue(fmt, WQ_UNBOUND, 0);
-+	wq = alloc_workqueue("%s", WQ_UNBOUND, 0, name);
- 	if (!wq)
- 		return ERR_PTR(-ENOMEM);
- 	ret = drmm_add_action_or_reset(dev, qaicm_wq_release, wq);
-
--- 
-2.45.2
+In the patch website there is no any problem about encoding looks good, please 
+check your mailing client.
+https://lore.kernel.org/all/4fbfe84b-c092-4648-819f-4368add9ec4a@nvidia.com/T/
 
