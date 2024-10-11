@@ -2,63 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B02099ACA4
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2024 21:30:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33D8899ACBC
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2024 21:34:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE7D210E216;
-	Fri, 11 Oct 2024 19:30:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 661D110E056;
+	Fri, 11 Oct 2024 19:34:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IL32EvOC";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="s5pAlbG6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F7EF10E216
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2024 19:30:49 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7744E10E0AB
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2024 19:34:02 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 55B79A44BC0;
- Fri, 11 Oct 2024 19:30:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DDA7C4CEC3;
- Fri, 11 Oct 2024 19:30:43 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 64DD35C5FC3;
+ Fri, 11 Oct 2024 19:33:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E6F2C4CEC3;
+ Fri, 11 Oct 2024 19:34:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1728675047;
- bh=GI8Z5QK28ugDi2LmkOVVQMDWNM7/kSHzt1/iwKAILoU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=IL32EvOCkLzIod6EUgrbsRNf53vha4jN4nHCojZz8Q6w1fya1IDkb8L1vv7cWpeIn
- CK+InFlaJEHyi9dMHx+F3G9zyby4WblT/C253uaitHlXX9jnqeUDPpBQeI1hB/NWPa
- qkkJKNu6edJaXcmjmQP2eelcmFN/dCMLnZ+HAUxRwV8AbbJ+iKzBX0p14LFaik+hj8
- BCdsT1Wk74g3P5xsNewUi5+GSYVgyHLBDip/EhibfiG+RK+IYP96wVMryKBvTEiA7j
- zMa6wNPUMWfvz2P3Xf3+I/XtUf0kmlWh5H1tSf6Z4/taMMvdavCux3bgfSaTtYU5jm
- 2OVZcHUOJhyWw==
-Date: Fri, 11 Oct 2024 20:30:41 +0100
-From: Simon Horman <horms@kernel.org>
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Cc: "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Woojung Huh <woojung.huh@microchip.com>, Andrew Lunn <andrew@lunn.ch>,
- Florian Fainelli <f.fainelli@gmail.com>,
- Vladimir Oltean <olteanv@gmail.com>,
- Richard Cochran <richardcochran@gmail.com>,
- Jiawen Wu <jiawenwu@trustnetic.com>,
- Mengyuan Lou <mengyuanlou@net-swift.com>,
- Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- Carl Vanderlip <quic_carlv@quicinc.com>,
- Oded Gabbay <ogabbay@kernel.org>, UNGLinuxDriver@microchip.com,
- netdev@vger.kernel.org, llvm@lists.linux.dev,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH net-next 3/3] accel/qaic: Pass string literal as format
- argument of alloc_workqueue()
-Message-ID: <20241011193041.GC53629@kernel.org>
-References: <20241011-string-thing-v1-0-acc506568033@kernel.org>
- <20241011-string-thing-v1-3-acc506568033@kernel.org>
- <468f05e2-1717-3bd1-2ccb-280865180b0c@quicinc.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <468f05e2-1717-3bd1-2ccb-280865180b0c@quicinc.com>
+ s=k20201202; t=1728675241;
+ bh=YgCjjDO3uX4OroQ0xWe2A7Ve/fVrRQnGKrJmXP3HCSM=;
+ h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+ b=s5pAlbG63p7qvVDvj8tpwnJqfs0NBCYeR34bORp4z9AFKPcRXDZc6n/zSDQqKHVjS
+ bhICE+otxroEFPAVZy+hH7il+N/sPclYZeGKhgaYplF1fiB89vvFqPi8Sr/Y+0xViG
+ 9sOwEXcmdP/+eYz1eiWyAFwGo7ifAsMvS6oVrmxti4r7opcAplXN7T2y+Xsvp8TaXm
+ M/FuHrOtrQXXFinzV9EVDMdvEy0AtgWJderzFvvREW6dQI02fkRAWz4+pihDzt8u6/
+ xtyc3tH9fcRu62kyl7hYsYPCdYRHGA7kmdD6D4meNikc7uiKaM0ucgJEaxrOgmMOAm
+ J4RHTGAull+Gw==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+ by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id
+ 33CB338363FB; Fri, 11 Oct 2024 19:34:07 +0000 (UTC)
+Subject: Re: [git pull] drm fixes for 6.12-rc3
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <CAPM=9tyf6kxBxT7H9aPK8y8RDDu7Bx-mLEVPT1zWkapNaXKpcg@mail.gmail.com>
+References: <CAPM=9tyf6kxBxT7H9aPK8y8RDDu7Bx-mLEVPT1zWkapNaXKpcg@mail.gmail.com>
+X-PR-Tracked-List-Id: Direct Rendering Infrastructure - Development
+ <dri-devel.lists.freedesktop.org>
+X-PR-Tracked-Message-Id: <CAPM=9tyf6kxBxT7H9aPK8y8RDDu7Bx-mLEVPT1zWkapNaXKpcg@mail.gmail.com>
+X-PR-Tracked-Remote: https://gitlab.freedesktop.org/drm/kernel.git
+ tags/drm-fixes-2024-10-11
+X-PR-Tracked-Commit-Id: ac44ff7cec33d5c2d4b72d52603552ec64c1a8bf
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: befcc89362383208f62b15887592758165459e3d
+Message-Id: <172867524582.2975359.3347201287082078558.pr-tracker-bot@kernel.org>
+Date: Fri, 11 Oct 2024 19:34:05 +0000
+To: Dave Airlie <airlied@gmail.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Sima Vetter <sima@ffwll.ch>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,52 +67,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 11, 2024 at 08:27:43AM -0600, Jeffrey Hugo wrote:
-> On 10/11/2024 3:57 AM, Simon Horman wrote:
-> > Recently I noticed that both gcc-14 and clang-18 report that passing
-> > a non-string literal as the format argument of alloc_workqueue()
-> > is potentially insecure.
-> > 
-> > E.g. clang-18 says:
-> > 
-> > .../qaic_drv.c:61:23: warning: format string is not a string literal (potentially insecure) [-Wformat-security]
-> >     61 |         wq = alloc_workqueue(fmt, WQ_UNBOUND, 0);
-> >        |                              ^~~
-> > .../qaic_drv.c:61:23: note: treat the string as an argument to avoid this
-> >     61 |         wq = alloc_workqueue(fmt, WQ_UNBOUND, 0);
-> >        |                              ^
-> >        |                              "%s",
-> > 
-> > It is always the case where the contents of fmt is safe to pass as the
-> > format argument. That is, in my understanding, it never contains any
-> > format escape sequences.
-> > 
-> > But, it seems better to be safe than sorry. And, as a bonus, compiler
-> > output becomes less verbose by addressing this issue as suggested by
-> > clang-18.
-> > 
-> > Also, change the name of the parameter of qaicm_wq_init from
-> > fmt to name to better reflect it's purpose.
-> > 
-> > Compile tested only.
-> 
-> I'm not sure why this looks like it is targeted for net-next.  I'm not
-> seeing any dependencies on net code, nor is this a net driver.  My confusion
-> makes me think I might be missing something.
-> 
-> I'll plan on independently taking this through DRM, unless something is
-> brought to my attention.
->
-> Regarding the patch itself, looks sane to me.  I'll give it run through on
-> hardware soon.
+The pull request you sent on Fri, 11 Oct 2024 17:17:44 +1000:
 
-Sorry, the error is on my side.
-I should not targeted this patch at net-next.
-Let me know if I should repost it.
+> https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2024-10-11
 
-As the series isn't entirely for net-next, I'll mark
-it as changes requested in netdev patchwork. And plan
-on reposting the other two patches for net-next some time soon.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/befcc89362383208f62b15887592758165459e3d
+
+Thank you!
 
 -- 
-pw-bot: cr
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
