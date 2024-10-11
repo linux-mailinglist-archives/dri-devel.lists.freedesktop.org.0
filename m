@@ -2,72 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0634599A9B6
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2024 19:18:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E721899A9E0
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2024 19:25:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F054E10EBB4;
-	Fri, 11 Oct 2024 17:18:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E7E610EBB7;
+	Fri, 11 Oct 2024 17:25:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="cKvjmkw1";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="Khp9Sxfc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 458EC10EBB6
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2024 17:18:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BEA9D10EB12;
+ Fri, 11 Oct 2024 17:25:23 +0000 (UTC)
 Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49BFhQiS024074;
- Fri, 11 Oct 2024 17:17:59 GMT
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49BG0srI023945;
+ Fri, 11 Oct 2024 17:25:21 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 9Er+9IWq6PcBbaWxKcA/fefqTEe9x4G35ud7dwSVM+Y=; b=cKvjmkw1820T33vf
- TbOIBmJ9IKr7wPNgqm/JT5+YFK69rdiFwmUyHos3+HLmWPuKoT9vsSwCmZg/sW0D
- EMy4/ZY8Yjliyv2bpvxMHaHwqEs5snQuXVqG+L+ovQ0XSd+FcFOd0U1TMgA8mr28
- onWc82b4lKR+LtpQElNTWLJkT4sTtLlM0eXN4XnHEgRhhOWCnRkbWTW6aXjQtxBy
- bYVKtoLvrPoIT58TNnBOnNXpFr9WXkp06T+4w8SNZh/aCUIybmgyCAU8YbLSxIln
- rRqIrPQmhOWo7K6/z9WCH0Nn6wBRkKnpD/ZNOtkPzuEh7U28TyG/GeIOPUUJkHnN
- U33xgw==
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=USif0rGIKgTqepWQydU1/A
+ WW05Ve570RSc7Edg+BTy8=; b=Khp9SxfcY6C3KWZbSxMljDRaL42vvEGZGdryng
+ VJ8God/FiBKzMY49DNqqPxEz+ol+gSmIZ2g7cSoojhzY6XovesUqADBpazn0Urwo
+ rk1ZjLluxtpxQ4kOl+RKVBnUmNL6aP4ojK2eb7tK1BSwtMI7afXgMzEeBr+o3kjv
+ 8kd4zon4O1oR2PySgsjDpSwqYgX2aUnUN4/oXcaqjJFPfNEGZebFgpIYHkP6uEuI
+ UKPqvIg/x0mknbEOg5da8Xhmng4Y2mN47MbxhzTi8snTsvME+ooz7IKrhGnRkP4o
+ jEVMhXD/c8Vu/8YF5t+7nKpiuVR+RCc5ep1ZepZyWNYOehSA==
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
  [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 426y3vst81-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 426y3vstq9-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 11 Oct 2024 17:17:59 +0000 (GMT)
+ Fri, 11 Oct 2024 17:25:20 +0000 (GMT)
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
  [10.46.141.250])
- by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49BHHwsM022559
+ by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49BHPJb3014244
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 11 Oct 2024 17:17:58 GMT
-Received: from [10.110.78.155] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 11 Oct
- 2024 10:17:57 -0700
-Message-ID: <1e23cfa8-66c6-476b-927c-695172e76143@quicinc.com>
-Date: Fri, 11 Oct 2024 10:17:55 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] drm/panel: samsung-s6e88a0-ams427ap24: Add flip option
-To: Jakob Hauser <jahau@rocketmail.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-CC: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <~postmarketos/upstreaming@lists.sr.ht>
-References: <cover.1728582727.git.jahau@rocketmail.com>
- <70ea852342001779956905ed9002a977d1d95293.1728582727.git.jahau@rocketmail.com>
-Content-Language: en-US
+ Fri, 11 Oct 2024 17:25:19 GMT
+Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Fri, 11 Oct 2024 10:25:19 -0700
 From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <70ea852342001779956905ed9002a977d1d95293.1728582727.git.jahau@rocketmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Date: Fri, 11 Oct 2024 10:25:13 -0700
+Subject: [PATCH v2] drm/msm/dpu: don't always activate merge_3d block
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-ID: <20241011-merge3d-fix-v2-1-2082470f573c@quicinc.com>
+X-B4-Tracking: v=1; b=H4sIAHhfCWcC/1XMQQ6CMBCF4auQWVszHYqgK+9hWGA7wCyg2CrRk
+ N7dys7l/5L3bRA5CEe4FBsEXiWKn3PQoQA7dvPASlxuICSDDTVq4jBw6VQvb6W7xiFWXFJdQ34
+ sgfO8a7c29yjx6cNnx1f9W3dHI57/nFUrrdDh/dRXlozh6+MlVmZ7tH6CNqX0BcldeXCoAAAA
+X-Change-ID: 20240828-merge3d-fix-1a8d005e3277
+To: Rob Clark <robdclark@gmail.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Simona
+ Vetter" <simona@ffwll.ch>
+CC: <quic_abhinavk@quicinc.com>, Rob Clark <robdclark@chromium.org>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>, "Jessica
+ Zhang" <quic_jesszhan@quicinc.com>
+X-Mailer: b4 0.15-dev-2a633
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1728667519; l=1640;
+ i=quic_jesszhan@quicinc.com; s=20230329; h=from:subject:message-id;
+ bh=7gKo3yfQbtf682tI2CBMgRz5iYurKpzkmcCft6FC4gs=;
+ b=ReHRBe6XXxKBGEFfM5svE4kO+fJtHDfuZUvy7WK5tWqdTawQKQSN1duVqxxA5wYkCp0qovEzp
+ TJnKy90EnyMBGRqE3KO8TadCUjhKUvfEXGSXEWS9LjeFXhQ3uM1Ck69
+X-Developer-Key: i=quic_jesszhan@quicinc.com; a=ed25519;
+ pk=gAUCgHZ6wTJOzQa3U0GfeCDH7iZLlqIEPo4rrjfDpWE=
 X-Originating-IP: [10.80.80.8]
 X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-ORIG-GUID: fUkM-HGwwqDqadETGWFm-B_usaTNU1vd
-X-Proofpoint-GUID: fUkM-HGwwqDqadETGWFm-B_usaTNU1vd
+X-Proofpoint-ORIG-GUID: H6MuThEwCCo9shs5F3Rb_WaOAznXY87G
+X-Proofpoint-GUID: H6MuThEwCCo9shs5F3Rb_WaOAznXY87G
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
  definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
@@ -76,7 +85,7 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  suspectscore=0 bulkscore=0 lowpriorityscore=0 malwarescore=0 spamscore=0
  clxscore=1015 mlxscore=0 phishscore=0 impostorscore=0 adultscore=0
  mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2410110120
+ engine=8.19.0-2409260000 definitions=main-2410110121
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,96 +101,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Only enable the merge_3d block for the video phys encoder when the 3d
+blend mode is not *_NONE since there is no need to activate the merge_3d
+block for cases where merge_3d is not needed.
 
+Fixes: 3e79527a33a8 ("drm/msm/dpu: enable merge_3d support on sm8150/sm8250")
+Suggested-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+---
+Changes in v2:
+- Added more detailed commit message
+- Link to v1: https://lore.kernel.org/r/20241009-merge3d-fix-v1-1-0d0b6f5c244e@quicinc.com
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 10/10/2024 11:31 AM, Jakob Hauser wrote:
-> The way of implementing a flip option follows the existing
-> panel-samsung-s6e8aa0.c [1][2][3].
-> 
-> The value to flip the screen is taken from a downstream kernel file of
-> a similar but older panel [4]. The mipi clock [5] for the new panel
-> samsung-s6e88a0-ams427ap24 matches 461 MHz and a hardware read-out of the
-> 0xcb values corresponds to revision R01 of that older panel [6]. Although
-> for samsung-s6e88a0-ams427ap24 that's in non-flipped state while in this
-> older driver it seems to be the other way around. Further up there is a
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+index ba8878d21cf0e1945a393cca806cb64f03b16640..c5e27eeaff0423a69fad98122ffef7e041fbc68e 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+@@ -302,7 +302,7 @@ static void dpu_encoder_phys_vid_setup_timing_engine(
+ 	intf_cfg.stream_sel = 0; /* Don't care value for video mode */
+ 	intf_cfg.mode_3d = dpu_encoder_helper_get_3d_blend_mode(phys_enc);
+ 	intf_cfg.dsc = dpu_encoder_helper_get_dsc(phys_enc);
+-	if (phys_enc->hw_pp->merge_3d)
++	if (intf_cfg.mode_3d && phys_enc->hw_pp->merge_3d)
+ 		intf_cfg.merge_3d = phys_enc->hw_pp->merge_3d->idx;
+ 
+ 	spin_lock_irqsave(phys_enc->enc_spinlock, lock_flags);
 
-Hi Jakob,
+---
+base-commit: a20a91fb1bfac5d05ec5bcf9afe0c9363f6c8c93
+change-id: 20240828-merge3d-fix-1a8d005e3277
 
-I'm a bit confused by the wording here. Do you mean that even though the 
-downstream driver comments state the panel is in a non-flipped state by 
-default, your observations suggest that it's actually defaulting to a 
-flipped state?
-
-Thanks,
-
-Jessica Zhang
-
-> hint [7] basically saying for revision R01 to change the first word of the
-> 0xcb command from 0x06 to 0x0e, which is actually setting BIT(3) of that
-> word. This causes a horizontal flip.
-> 
-> [1] https://github.com/torvalds/linux/blob/v6.11/drivers/gpu/drm/panel/panel-samsung-s6e8aa0.c#L103
-> [2] https://github.com/torvalds/linux/blob/v6.11/drivers/gpu/drm/panel/panel-samsung-s6e8aa0.c#L207-L211
-> [3] https://github.com/torvalds/linux/blob/v6.11/drivers/gpu/drm/panel/panel-samsung-s6e8aa0.c#L954-L974
-> [4] https://github.com/LineageOS/android_kernel_samsung_msm8930-common/blob/lineage-15.1/drivers/video/msm/mipi_samsung_oled_video_qhd_pt-8930.c
-> [5] https://github.com/LineageOS/android_kernel_samsung_msm8930-common/blob/lineage-15.1/drivers/video/msm/mipi_samsung_oled_video_qhd_pt-8930.c#L2027-L2028
-> [6] https://github.com/LineageOS/android_kernel_samsung_msm8930-common/blob/lineage-15.1/drivers/video/msm/mipi_samsung_oled_video_qhd_pt-8930.c#L137-L151
-> [7] https://github.com/LineageOS/android_kernel_samsung_msm8930-common/blob/lineage-15.1/drivers/video/msm/mipi_samsung_oled_video_qhd_pt-8930.c#L66-L74
-> 
-> Signed-off-by: Jakob Hauser <jahau@rocketmail.com>
-> ---
->   .../drm/panel/panel-samsung-s6e88a0-ams427ap24.c | 16 ++++++++++++++++
->   1 file changed, 16 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams427ap24.c b/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams427ap24.c
-> index 657120d7dd33..4d5c494e03ae 100644
-> --- a/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams427ap24.c
-> +++ b/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams427ap24.c
-> @@ -32,6 +32,7 @@ struct s6e88a0_ams427ap24 {
->   	struct mipi_dsi_device *dsi;
->   	struct regulator_bulk_data *supplies;
->   	struct gpio_desc *reset_gpio;
-> +	bool flip_horizontal;
->   	bool prepared;
->   };
->   
-> @@ -539,6 +540,10 @@ static int s6e88a0_ams427ap24_on(struct s6e88a0_ams427ap24 *ctx)
->   	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xcc, 0x4c);
->   	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf2, 0x03, 0x0d);
->   	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf1, 0xa5, 0xa5);
-> +
-> +	if (ctx->flip_horizontal)
-> +		mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xcb, 0x0e);
-> +
->   	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0xa5, 0xa5);
->   	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfc, 0xa5, 0xa5);
->   
-> @@ -673,6 +678,15 @@ static int s6e88a0_ams427ap24_register_backlight(struct s6e88a0_ams427ap24 *ctx)
->   	return ret;
->   }
->   
-> +static void s6e88a0_ams427ap24_parse_dt(struct s6e88a0_ams427ap24 *ctx)
-> +{
-> +	struct mipi_dsi_device *dsi = ctx->dsi;
-> +	struct device *dev = &dsi->dev;
-> +	struct device_node *np = dev->of_node;
-> +
-> +	ctx->flip_horizontal = of_property_read_bool(np, "flip-horizontal");
-> +}
-> +
->   static int s6e88a0_ams427ap24_probe(struct mipi_dsi_device *dsi)
->   {
->   	struct device *dev = &dsi->dev;
-> @@ -707,6 +721,8 @@ static int s6e88a0_ams427ap24_probe(struct mipi_dsi_device *dsi)
->   		       DRM_MODE_CONNECTOR_DSI);
->   	ctx->panel.prepare_prev_first = true;
->   
-> +	s6e88a0_ams427ap24_parse_dt(ctx);
-> +
->   	ret = s6e88a0_ams427ap24_register_backlight(ctx);
->   	if (ret < 0)
->   		return ret;
-> -- 
-> 2.39.5
-> 
+Best regards,
+-- 
+Jessica Zhang <quic_jesszhan@quicinc.com>
 
