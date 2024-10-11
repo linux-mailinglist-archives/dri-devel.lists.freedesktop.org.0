@@ -2,60 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1655A99A782
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2024 17:26:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E60A99A789
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2024 17:27:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14BFA10EB14;
-	Fri, 11 Oct 2024 15:26:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E4C110EB15;
+	Fri, 11 Oct 2024 15:27:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ucw.cz header.i=@ucw.cz header.b="T9fDsFjR";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="I8L75zVt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E75010EB14
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2024 15:26:30 +0000 (UTC)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
- id E86621C0087; Fri, 11 Oct 2024 17:26:28 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
- t=1728660388;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=UcwpcOG8ou2eL058uLGZfB1UfmH7tSswN80Lv6moiw8=;
- b=T9fDsFjRt10r/lCr0AVd952sZi88eGqS8Lr6G/JoLCdJvaHwYLEvmLGQlZyej5maTEu6Hn
- pF6WVrtLS/nplqem0QYFMJ/9F5w8LAk2JFYprMXmdRdXv8CYXe84NZy1Psk1LUa9d9U7JO
- Ig+kDWTIyn+3ta+mn24xzEMg8Exw1a0=
-Date: Fri, 11 Oct 2024 17:26:28 +0200
-From: Pavel Machek <pavel@ucw.cz>
-To: Armin Wolf <W_Armin@gmx.de>
-Cc: Werner Sembach <wse@tuxedocomputers.com>,
- Benjamin Tissoires <bentiss@kernel.org>,
- Hans de Goede <hdegoede@redhat.com>,
- Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
- lee@kernel.org, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
- miguel.ojeda.sandonis@gmail.com, ojeda@kernel.org,
- onitake@gmail.com, platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH 1/1] platform/x86/tuxedo: Add virtual LampArray for
- TUXEDO NB04 devices
-Message-ID: <ZwlDpCPhieF3tezX@duo.ucw.cz>
-References: <7ce4470c-a502-416a-8472-a5b606bb8fd4@tuxedocomputers.com>
- <d7gk2mgihtg6242l3isnhw3xpdt745ehpu2kvim2xxgmxdhat7@g5cqei7uqujj>
- <39f84cfe-bb89-4194-81a9-e178c93e5309@tuxedocomputers.com>
- <sih5i2ausorlpiosifvj2vvlut4ok6bbgt6cympuxhdbjljjiw@gg2r5al552az>
- <82a6eca1-728c-436f-8c4d-073d8a43ee27@tuxedocomputers.com>
- <5crqia4gecxg62n2m2lf6haiifue4wlxrr3g35dyoaa3svjyuj@cd5bhouz5rlh>
- <4a761cd0-611a-4245-8353-5c66ba133715@tuxedocomputers.com>
- <rszv4p34oivysoyi337dxwooebipiikzd3pyq7rof5r3agbzce@xejutpd4jcfv>
- <06c58141-4aa9-4b54-8ae4-e27069561ac9@tuxedocomputers.com>
- <48a8d62f-ea3f-4f17-b917-ff3aaa83e89c@gmx.de>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD0F610EB15
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2024 15:27:12 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 40AA45C59EC;
+ Fri, 11 Oct 2024 15:27:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64E81C4CEC7;
+ Fri, 11 Oct 2024 15:27:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1728660431;
+ bh=sGWntrz3wIyVB8alp9rpncuZ1V1KDuURy3H+JpEcM7M=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=I8L75zVtrZx7w5SpRULZ/piL2MAHcg+XRpGLvOSuuaq79SJWN4Fma1eeimZ3TTbVB
+ s3Tj07SktC4NyMlxdWrHxkP9B09QxKjTACbn46Lcb7EZmhdJiFuU6u5LM0LB+VOnwB
+ ipxmM/V1tJE/lNo+oR0h67Z16lt34GSW47dbcRsA2Rcnm7hvFzitsQaVu0tDTBL7I1
+ XrWK27pP7SdJ/JUMi4LEQxyVwYXTQYUn1hmQM2ozZex/gG6pI4W/jWyE7zsMYDHYlF
+ b7b0dB6+vFHNuxfWZal17srhcGgebXOevLR69yA//3wjEvgTu0P9zbH1pTrGNR4W9m
+ VsL6bpzNsWhgg==
+Date: Fri, 11 Oct 2024 08:27:07 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Mina Almasry <almasrymina@google.com>
+Cc: "Lai, Yi" <yi1.lai@linux.intel.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, Donald Hunter
+ <donald.hunter@gmail.com>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan
+ Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge
+ Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>, Jesper
+ Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas
+ <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, Masami
+ Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, Arnd Bergmann <arnd@arndb.de>, Steffen
+ Klassert <steffen.klassert@secunet.com>, Herbert Xu
+ <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, Willem de
+ Bruijn <willemdebruijn.kernel@gmail.com>, =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?=
+ <bjorn@kernel.org>, Magnus Karlsson <magnus.karlsson@intel.com>, Maciej
+ Fijalkowski <maciej.fijalkowski@intel.com>, Jonathan Lemon
+ <jonathan.lemon@gmail.com>, Shuah Khan <shuah@kernel.org>, Alexei
+ Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, John
+ Fastabend <john.fastabend@gmail.com>, Sumit Semwal
+ <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
+ <christian.koenig@amd.com>, Pavel Begunkov <asml.silence@gmail.com>, David
+ Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin
+ <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, Harshitha
+ Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi
+ <pkaligineedi@google.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Christoph
+ Hellwig <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>,
+ Taehee Yoo <ap420073@gmail.com>, Willem de Bruijn <willemb@google.com>,
+ Kaiyuan Zhang <kaiyuanz@google.com>, yi1.lai@intel.com
+Subject: Re: [PATCH net-next v25 10/13] net: add SO_DEVMEM_DONTNEED
+ setsockopt to release RX frags
+Message-ID: <20241011082707.5de66f15@kernel.org>
+In-Reply-To: <CAHS8izPuEUA20BDXvwq2vW-24ez36YFJFMQok-oBDbgk6bajSA@mail.gmail.com>
+References: <20240909054318.1809580-1-almasrymina@google.com>
+ <20240909054318.1809580-11-almasrymina@google.com>
+ <Zwe3lWTN36IUaIdd@ly-workstation>
+ <CAHS8izPuEUA20BDXvwq2vW-24ez36YFJFMQok-oBDbgk6bajSA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
- protocol="application/pgp-signature"; boundary="zWKrZbw00MuOib0M"
-Content-Disposition: inline
-In-Reply-To: <48a8d62f-ea3f-4f17-b917-ff3aaa83e89c@gmx.de>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,52 +95,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, 10 Oct 2024 12:05:38 -0700 Mina Almasry wrote:
+> diff --git a/net/core/sock.c b/net/core/sock.c
+> index 083d438d8b6f..cb3d8b19de14 100644
+> --- a/net/core/sock.c
+> +++ b/net/core/sock.c
+> @@ -1071,11 +1071,11 @@ sock_devmem_dontneed(struct sock *sk,
+> sockptr_t optval, unsigned int optlen)
+>             optlen > sizeof(*tokens) * MAX_DONTNEED_TOKENS)
+>                 return -EINVAL;
+> 
+> -       tokens = kvmalloc_array(optlen, sizeof(*tokens), GFP_KERNEL);
+> +       num_tokens = optlen / sizeof(struct dmabuf_token);
+> +       tokens = kvmalloc_array(num_tokens, sizeof(*tokens), GFP_KERNEL);
+>         if (!tokens)
+>                 return -ENOMEM;
+> 
+> -       num_tokens = optlen / sizeof(struct dmabuf_token);
+>         if (copy_from_sockptr(tokens, optval, optlen)) {
+>                 kvfree(tokens);
+>                 return -EFAULT;
+> @@ -1083,6 +1083,10 @@ sock_devmem_dontneed(struct sock *sk, sockptr_t
+> optval, unsigned int optlen)
+> 
+>         xa_lock_bh(&sk->sk_user_frags);
+>         for (i = 0; i < num_tokens; i++) {
+> +
+> +               if (tokens[i].token_count > MAX_DONTNEED_TOKENS)
+> +                       continue;
 
---zWKrZbw00MuOib0M
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+For the real fix let's scan the tokens before we take the xa lock
+and return an error rather than silently skipping?
 
-Hi!
+>                 for (j = 0; j < tokens[i].token_count; j++) {
 
-> > 1.
-> > https://lore.kernel.org/all/6b32fb73-0544-4a68-95ba-e82406a4b188@gmx.de/
-> > -> Should be no problem? Because this is not generally exposing wmi
-> > calls, just mapping two explicitly with sanitized input (whitelisting
-> > basically).
->=20
-> It would be OK to expose a selected set of WMI calls to userspace and san=
-itizing the input of protect potentially buggy firmware from userspace.
->
-
-I don't believe this is good idea. Passthrough interfaces where
-userland talks directly to hardware are very tricky.
-
->=20
-> Regarding the basic idea of having a virtual HID interface: i would prefe=
-r to create a illumination subsystem instead, but i have to agree that we s=
-hould be doing this
-> only after enough drivers are inside the kernel, so we can design a
-> suitable interface for them. For now, creating a virtual HID
-> interface seems to be good enough.
-
-I have an RGB keyboard, and would like to get it supported. I already
-have kernel driver for LEDs (which breaks input functionality). I'd
-like to cooperate on "illumination" subsystem.
-
-Best regards,
-								Pavel
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
-
---zWKrZbw00MuOib0M
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZwlDpAAKCRAw5/Bqldv6
-8mh0AJ0aTptrc+f+mRYy54oz6nrCUGaV6wCfd1a2bQN7AH6mB0+NHPYlLYV1I2s=
-=eE0M
------END PGP SIGNATURE-----
-
---zWKrZbw00MuOib0M--
