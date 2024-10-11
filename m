@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECA1B99A44A
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2024 15:01:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA54F99A449
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2024 15:01:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C92AE10EAE1;
-	Fri, 11 Oct 2024 13:01:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4BF010EADE;
+	Fri, 11 Oct 2024 13:01:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="UvRmCfMt";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="nULeYxQi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
- [217.70.183.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C7D810EADE
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
+ [217.70.183.199])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3ECD10EAE1
  for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2024 13:01:50 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 1A69A1C000B;
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 4B53DFF80C;
  Fri, 11 Oct 2024 13:01:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1728651708;
+ t=1728651709;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=/9V1S9K1PNb5siPRfIuOMpQ1j/WvSIQ1rht6+3lqOlc=;
- b=UvRmCfMtz06kHn/XwG2cZswRr1EuhfMkVW/aAl0f4c6vX/ILdQHSgHBowHGrW8fvEg6lJ1
- m/kPekUvXJCB1/98Rmp+2+EkquQoW3jf62zO4OxjmJVKxymZYZkKU6lzBmbWBvgsv9LNXi
- q2eWwokNrxi2DHK3EgB/qpdlBKZykeb9sJ0ozvtOreWSNHd6VAAp/7QhY/fewF8SblaQyn
- yLA2/qfV584qXja9291pfhkURDRY0Mw4E4SZ75chPWKWmX3NQnOPK1wI3q01w+XiRGIL1U
- Djn9mgpqLidl27n+O+VERh6jEpdFyCQhKXJyuMLi2vF1clmlGy1jkiEcWPQvdA==
-Date: Fri, 11 Oct 2024 15:01:46 +0200
+ bh=+oFNLMLv8p4sn8aezkzdZsxU4A7uXahszFE92Xgr7dw=;
+ b=nULeYxQiiaHy9xULAwglppGuKTvhOc4Vqi14vrMTrxVfKtgB7ar8NsXa6tszOVWlCUMWs1
+ SUnz4uQrPqT5ju49zGJMOAHl+5IoS0pl0dQwxqVXWACcDTY3tPLoF/FtgC7tT52B5RRK1c
+ fmXsYoiWoPrjZvgYl8/zJFaJD45V29+sByb5MRGI60rCW5wgg+ZQNdLlCE3VFnTjxF2y+k
+ rHYSXlQmd4t7wqi6lIbV/SxiC3bm4nrAfAnsw+LKQZnTBnPuWxxoU8Bg9m0bcnD4+hgOYC
+ /r/HuPLC4HmEqeGTv87U7TdUhnPynI0q5XsAImqIH1bBhq5evf6/6R09+SC9+A==
+Date: Fri, 11 Oct 2024 15:01:47 +0200
 From: Louis Chauvet <louis.chauvet@bootlin.com>
 To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
 Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
@@ -38,9 +38,9 @@ Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] drm: logicvc: use automatic cleanup facility for
- layers_node
-Message-ID: <ZwkhuixQ8sM5pNs7@louis-chauvet-laptop>
+Subject: Re: [PATCH 2/3] drm: logicvc: switch to
+ for_each_child_of_node_scoped()
+Message-ID: <Zwkhuyq39LQSZCIN@louis-chauvet-laptop>
 Mail-Followup-To: Javier Carrasco <javier.carrasco.cruz@gmail.com>,
  Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -49,11 +49,11 @@ Mail-Followup-To: Javier Carrasco <javier.carrasco.cruz@gmail.com>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 References: <20241011-logicvc_layer_of_node_put-v1-0-1ec36bdca74f@gmail.com>
- <20241011-logicvc_layer_of_node_put-v1-3-1ec36bdca74f@gmail.com>
+ <20241011-logicvc_layer_of_node_put-v1-2-1ec36bdca74f@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241011-logicvc_layer_of_node_put-v1-3-1ec36bdca74f@gmail.com>
+In-Reply-To: <20241011-logicvc_layer_of_node_put-v1-2-1ec36bdca74f@gmail.com>
 X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,53 +70,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
+
+I think you can squash this commit with the prvious one, I don't think 
+this is needed to add of_node_put and remove it just after.
+
+Thanks,
+Louis Chauvet
+
 On 11/10/24 - 01:11, Javier Carrasco wrote:
-> Use the more robust approach provided by the __free() macro to
-> automatically call of_node_put() when the device node goes out of scope.
+> Use the scoped variant of the macro to avoid leaking memory upon early
+> exits without the required call to of_node_put().
 > 
 > Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-
-Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-
 > ---
->  drivers/gpu/drm/logicvc/logicvc_layer.c | 10 +++-------
->  1 file changed, 3 insertions(+), 7 deletions(-)
+>  drivers/gpu/drm/logicvc/logicvc_layer.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/logicvc/logicvc_layer.c b/drivers/gpu/drm/logicvc/logicvc_layer.c
-> index 34caf5f0f619..9d7d1b58b002 100644
+> index 52dabacd42ee..34caf5f0f619 100644
 > --- a/drivers/gpu/drm/logicvc/logicvc_layer.c
 > +++ b/drivers/gpu/drm/logicvc/logicvc_layer.c
-> @@ -581,12 +581,12 @@ int logicvc_layers_init(struct logicvc_drm *logicvc)
+> @@ -581,7 +581,6 @@ int logicvc_layers_init(struct logicvc_drm *logicvc)
 >  	struct drm_device *drm_dev = &logicvc->drm_dev;
 >  	struct device *dev = drm_dev->dev;
 >  	struct device_node *of_node = dev->of_node;
-> -	struct device_node *layers_node;
-> +	struct device_node *layers_node __free(device_node) =
-> +		of_get_child_by_name(of_node, "layers");
+> -	struct device_node *layer_node = NULL;
+>  	struct device_node *layers_node;
 >  	struct logicvc_layer *layer;
 >  	struct logicvc_layer *next;
->  	int ret = 0;
->  
-> -	layers_node = of_get_child_by_name(of_node, "layers");
->  	if (!layers_node) {
->  		drm_err(drm_dev, "No layers node found in the description\n");
->  		ret = -ENODEV;
-> @@ -611,14 +611,10 @@ int logicvc_layers_init(struct logicvc_drm *logicvc)
->  		}
->  
->  		ret = logicvc_layer_init(logicvc, layer_node, index);
-> -		if (ret) {
-> -			of_node_put(layers_node);
-> +		if (ret)
->  			goto error;
-> -		}
+> @@ -594,7 +593,7 @@ int logicvc_layers_init(struct logicvc_drm *logicvc)
+>  		goto error;
 >  	}
 >  
-> -	of_node_put(layers_node);
-> -
->  	return 0;
+> -	for_each_child_of_node(layers_node, layer_node) {
+> +	for_each_child_of_node_scoped(layers_node, layer_node) {
+>  		u32 index = 0;
 >  
->  error:
+>  		if (!logicvc_of_node_is_layer(layer_node))
+> @@ -613,7 +612,6 @@ int logicvc_layers_init(struct logicvc_drm *logicvc)
+>  
+>  		ret = logicvc_layer_init(logicvc, layer_node, index);
+>  		if (ret) {
+> -			of_node_put(layer_node);
+>  			of_node_put(layers_node);
+>  			goto error;
+>  		}
 > 
 > -- 
 > 2.43.0
