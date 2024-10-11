@@ -2,93 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7685D99A648
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2024 16:27:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48EC799A656
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2024 16:29:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F053A10EAF7;
-	Fri, 11 Oct 2024 14:27:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C18F510EAF8;
+	Fri, 11 Oct 2024 14:29:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="WHVjerdU";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="k4Gr/qNY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 132E210EAF7
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2024 14:27:53 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49BAw7hA006577;
- Fri, 11 Oct 2024 14:27:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- zLNY1QKiA67jtVorzKmEfKmwe+WAqPbBGq8S+bpyAzo=; b=WHVjerdUlVtW0KCl
- 4Mmxrn7fqWOKdGLTvuSQ7eOjr1shNhGb3FwZ3egWxs/g6Qlv+CKrtIvps+CbGtq3
- +BR/EvjprAGPDGkz7KJSqEJ67eI/2NAnvcYeai6duKssWbkx0cDiQwhz7mdblEc1
- AFZvnoHgBBwUw5qOZO2q5e+w5hVUy8v+G7FHAG5SMFHyVZRPHi3wTs6K7YvNotwZ
- faoXMu9wKCNQKjm0O9Ngk37uP0XA52Beojq2Hxn6M/Z1OFRIsJWbozEkBCbUhkSj
- 8/0BnYOcfOy86+1sVonlUI5IfkvFEyR46B9iQQU1LBEkVIlZCwTNXbQ2/vPFltBA
- NnsPMw==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 426t7st170-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 11 Oct 2024 14:27:46 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49BERjhn002310
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 11 Oct 2024 14:27:45 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 11 Oct
- 2024 07:27:44 -0700
-Message-ID: <468f05e2-1717-3bd1-2ccb-280865180b0c@quicinc.com>
-Date: Fri, 11 Oct 2024 08:27:43 -0600
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
+ [217.70.183.196])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BF6010EAF8
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2024 14:29:30 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 92379E0002;
+ Fri, 11 Oct 2024 14:29:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1728656968;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=dxooFsfSP5WcF10uZh9IA27LMTRQH7j6L0q8CNYDpNM=;
+ b=k4Gr/qNYHdODpez3/DCHZupSvlEjfo3N4RAaY2HahSkuKqldVKtl7BPPO0MxrtN+LPZ7EA
+ 5Gyf6RhX+P9oR4YAZAl8jWTRWAjKTgrZvnwx3nENZKDgfVIHsht1LUiaUXostuQ6NvKCkK
+ WcJ8nS4pmpvqKlBglmcfPAjOMKNKdG299UNBOGJmEe8f+j10Tn9ijloFpvcKup2pwaYujJ
+ AOwLMi0Wk80drqgtOTS6j6tSft0exOSpgYuj7bnQYi3OTsrSm6+kKCYzOEpzpzaamOBmTP
+ oLcfBeSUbuWOvQ/bhMTGyS8YGWRzFIHsSER4FwQW5Tvi1wesvYIoa1md7cxCzQ==
+Date: Fri, 11 Oct 2024 16:29:25 +0200
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>, Maaara Canal <mairacanal@riseup.net>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Simona Vetter <simona@ffwll.ch>, rdunlap@infradead.org,
+ arthurgrillo@riseup.net, pekka.paalanen@haloniitty.fi,
+ Simona Vetter <simona.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, thomas.petazzoni@bootlin.com,
+ jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
+ seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
+ Pekka Paalanen <pekka.paalanen@collabora.com>
+Subject: Re: [PATCH v12 13/15] drm/vkms: Create KUnit tests for YUV conversions
+Message-ID: <Zwk2RSgfV75LVLpR@louis-chauvet-laptop>
+Mail-Followup-To: Maxime Ripard <mripard@kernel.org>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Maaara Canal <mairacanal@riseup.net>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Simona Vetter <simona@ffwll.ch>, rdunlap@infradead.org,
+ arthurgrillo@riseup.net, pekka.paalanen@haloniitty.fi,
+ Simona Vetter <simona.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, thomas.petazzoni@bootlin.com,
+ jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
+ seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
+ Pekka Paalanen <pekka.paalanen@collabora.com>
+References: <20241007-yuv-v12-0-01c1ada6fec8@bootlin.com>
+ <20241007-yuv-v12-13-01c1ada6fec8@bootlin.com>
+ <20241008-ingenious-calm-silkworm-3e99ba@houat>
+ <ZwT6CnyYRKS9QxIS@louis-chauvet-laptop>
+ <20241011-shiny-skua-of-authority-998ad3@houat>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH net-next 3/3] accel/qaic: Pass string literal as format
- argument of alloc_workqueue()
-Content-Language: en-US
-To: Simon Horman <horms@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- "Paolo Abeni" <pabeni@redhat.com>
-CC: Woojung Huh <woojung.huh@microchip.com>, Andrew Lunn <andrew@lunn.ch>,
- Florian Fainelli <f.fainelli@gmail.com>,
- Vladimir Oltean <olteanv@gmail.com>,
- Richard Cochran <richardcochran@gmail.com>, Jiawen Wu
- <jiawenwu@trustnetic.com>, Mengyuan Lou <mengyuanlou@net-swift.com>,
- "Nathan Chancellor" <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- "Carl Vanderlip" <quic_carlv@quicinc.com>,
- Oded Gabbay <ogabbay@kernel.org>, <UNGLinuxDriver@microchip.com>,
- <netdev@vger.kernel.org>, <llvm@lists.linux.dev>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>
-References: <20241011-string-thing-v1-0-acc506568033@kernel.org>
- <20241011-string-thing-v1-3-acc506568033@kernel.org>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20241011-string-thing-v1-3-acc506568033@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: PSMKLJF5TTSph64DwS_tuqCkpSa_1WXE
-X-Proofpoint-ORIG-GUID: PSMKLJF5TTSph64DwS_tuqCkpSa_1WXE
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- mlxlogscore=999 malwarescore=0 phishscore=0 mlxscore=0 priorityscore=1501
- suspectscore=0 impostorscore=0 clxscore=1011 adultscore=0 bulkscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2410110100
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241011-shiny-skua-of-authority-998ad3@houat>
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,42 +89,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/11/2024 3:57 AM, Simon Horman wrote:
-> Recently I noticed that both gcc-14 and clang-18 report that passing
-> a non-string literal as the format argument of alloc_workqueue()
-> is potentially insecure.
+On 11/10/24 - 12:49, Maxime Ripard wrote:
+> On Tue, Oct 08, 2024 at 11:23:22AM GMT, Louis Chauvet wrote:
+> > 
+> > Hi, 
+> > 
+> > > > + * The YUV color representation were acquired via the colour python framework.
+> > > > + * Below are the function calls used for generating each case.
+> > > > + *
+> > > > + * For more information got to the docs:
+> > > > + * https://colour.readthedocs.io/en/master/generated/colour.RGB_to_YCbCr.html
+> > > > + */
+> > > > +static struct yuv_u8_to_argb_u16_case yuv_u8_to_argb_u16_cases[] = {
+> > > > +	/*
+> > > > +	 * colour.RGB_to_YCbCr(<rgb color in 16 bit form>,
+> > > > +	 *                     K=colour.WEIGHTS_YCBCR["ITU-R BT.601"],
+> > > > +	 *                     in_bits = 16,
+> > > > +	 *                     in_legal = False,
+> > > > +	 *                     in_int = True,
+> > > > +	 *                     out_bits = 8,
+> > > > +	 *                     out_legal = False,
+> > > > +	 *                     out_int = True)
+> > > > +	 */
+> > > 
+> > > We should really detail what the intent and expected outcome is supposed
+> > > to be here. Relying on a third-party python library call for
+> > > documentation isn't great.
+> >
+> > This was requested by Pekka in the [v2] of this series.
 > 
-> E.g. clang-18 says:
+> Ok.
 > 
-> .../qaic_drv.c:61:23: warning: format string is not a string literal (potentially insecure) [-Wformat-security]
->     61 |         wq = alloc_workqueue(fmt, WQ_UNBOUND, 0);
->        |                              ^~~
-> .../qaic_drv.c:61:23: note: treat the string as an argument to avoid this
->     61 |         wq = alloc_workqueue(fmt, WQ_UNBOUND, 0);
->        |                              ^
->        |                              "%s",
+> > I can add something like this before each tests, but I think having the 
+> > exact python code used may help people to understand what should be the 
+> > behavior, and refering to the python code to understand the conversion.
 > 
-> It is always the case where the contents of fmt is safe to pass as the
-> format argument. That is, in my understanding, it never contains any
-> format escape sequences.
+> Help, sure. Be the *only* documentation, absolutely not.
 > 
-> But, it seems better to be safe than sorry. And, as a bonus, compiler
-> output becomes less verbose by addressing this issue as suggested by
-> clang-18.
+> Let's turn this around. You run kunit, one of these tests fail:
 > 
-> Also, change the name of the parameter of qaicm_wq_init from
-> fmt to name to better reflect it's purpose.
+>  - It adds cognitive load to try to identify and make sense of an
+>    unknown lib.
 > 
-> Compile tested only.
+>  - How can we check that the arguments you provided there are the one
+>    you actually wanted to provide, and you didn't make a typo?
+> 
+> > I can add something like this before each tests to clarify the tested 
+> > case:
+> > 
+> > 	Test cases for conversion between YUV BT601 limited range and 
+> > 	RGB using the ITU-R BT.601 weights.
+> > 
+> > Or maybe just documenting the structure yuv_u8_to_argb_u16_case:
+> > 
+> > 	@encoding: Encoding used to convert RGB to YUV
+> > 	@range: Range used to convert RGB to YUV
+> > 	@n_colors: Count of test colors in this case
+> > 	@format_pair.name: Name used for this color conversion, used to 
+> > 			   clarify the test results
+> > 	@format_pair.rgb: RGB color tested
+> > 	@format_pair.yuv: Same color as @format_pair.rgb, but converted to 
+> > 			  YUV using @encoding and @range.
+> > 
+> > What do you think?
+> 
+> That it's welcome, but it still doesn't allow to figure out what your
+> intent was with this test 2 years from now.
 
-I'm not sure why this looks like it is targeted for net-next.  I'm not 
-seeing any dependencies on net code, nor is this a net driver.  My 
-confusion makes me think I might be missing something.
+I don't really understand what you want to add. Can you explain what you 
+expect here? Did you mean you want a description like this above the test 
+function?
 
-I'll plan on independently taking this through DRM, unless something is 
-brought to my attention.
+/*
+ * vkms_format_test_yuv_u8_to_argb_u16 - Testing the conversion between YUV
+ * colors to ARGB colors in VKMS
+ *
+ * This test will use the functions get_conversion_matrix_to_argb_u16 and
+ * argb_u16_from_yuv888 to convert YUV colors (stored in
+ * yuv_u8_to_argb_u16_cases) into ARGB colors.
+ *
+ * As there is a different range between YUV input (8 bits) and RGB output (16
+ * bits), the values are not checked exactly but ensured that they are within
+ * the uncertainty range.
+ */
 
-Regarding the patch itself, looks sane to me.  I'll give it run through 
-on hardware soon.
+Thanks,
+Louis Chauvet
 
--Jeff
+> Maxime
+
+
