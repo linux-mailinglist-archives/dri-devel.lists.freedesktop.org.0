@@ -2,56 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0882999AF8
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2024 05:11:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2825F999B00
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2024 05:11:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2330210EA1D;
-	Fri, 11 Oct 2024 03:11:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A043810EA1F;
+	Fri, 11 Oct 2024 03:11:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="eQhPoMzW";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="T0bFkIzo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3497D10EA1D
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2024 03:11:16 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 2625AA44E2F;
- Fri, 11 Oct 2024 03:11:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6473FC4CEC5;
- Fri, 11 Oct 2024 03:11:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1728616274;
- bh=/Is7oWoyxrLieInLOs7YT+uoBTtaioJ+iCMHS+28m4s=;
- h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
- b=eQhPoMzWy+8mZcr6AqdoEhJQ2JG3QFOjkZqiAMY3UCc9ocKoGVvKRaZH7K95KfGgH
- cw1QMpcCienCzG42y2tNFPSEl4pFAh0okp7/8znTfHwIl8RzEF3E7TLd9Sd4QwVrFB
- ACtTdRD8ivYtHDtQU3x3XYLdb2UDGYxudrH/YGgJC2diml20/DJyGUsFLEQncFlrO0
- txiXgX5WsCu5wwwKTQLPeEiTtT0US0CC31qmTiOcbRPmbhl3ZU5TigntIxxfSPnFhw
- HcD2qQD9wf+rlGZI+akwh2skB1vf92KF6jO8xwcNigSiVywwHHFUJVw60Jjqu3Py73
- pCsPg9VnwbF/g==
-Date: Thu, 10 Oct 2024 22:11:13 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com
+ [209.85.219.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75D4A10EA1F
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2024 03:11:31 +0000 (UTC)
+Received: by mail-yb1-f176.google.com with SMTP id
+ 3f1490d57ef6-e29218d34f8so98366276.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Oct 2024 20:11:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=broadcom.com; s=google; t=1728616290; x=1729221090;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Yfg3IT3RP0Jj2YAEw7pMI16TcSZXqOO49FYHCoqTWD0=;
+ b=T0bFkIzoDXOLT69a1T9MZUqwuiEY4hTDl7pGDERCrQstQw8ys4h4OyHaa0GY2Y9sXX
+ i0QteqwHf+j46+e+wSiw4EcsbHQJLmRSuRP7sYCOM08ATkOUxjxxNgLOfOt5WWlTNX3j
+ Ds/8L+bu+aE6HWo+PS3JOv28CldHgLrNcofDg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1728616290; x=1729221090;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Yfg3IT3RP0Jj2YAEw7pMI16TcSZXqOO49FYHCoqTWD0=;
+ b=AXmSq7lAWHEG73Al2ey8QOPcpjuyvUi+iAW+KkKCGewx3G1KtybeQeLq55qOAyCZSV
+ BFto4E+NIQ4yqhMmfLgU6+4BxgYffsVuHtp0FkhxxU1wjieMPXinp9/OEUHPelpMZKBj
+ kQNmiH9R1uQRyOgCKstH7nDEZ81XiWviSz6IQ3eq3qup9D6yhBNBgcksayfteyRhdOG7
+ dtTl5/yVxxBaVfPrvqLRaA2oSH+iC/P1amX08UzoEHercuI6glgTOu65ucUi3MgTxu3S
+ 0CwHHnQO/l4XEZLuQHqAvTe7VvzHNoTOwS8FnqNpO5gxybUVff5q8hIywpIWNmnHqEOv
+ RjOQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWfFHTv2iZNhdv08U37dasAvFqa1/3TiXQd4DBVw3BXrvROdkE34+akovOrYtjxlRnp9Imy0qSipyA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YziyCL6WJu9wwIfgt9pLwIi3xsOrsr9wP6Ge6yIM114AMyn0VH0
+ 1AYKtCf6wg9qBbPyo1/G3y4ulnzRLIeixsnbztJvTVrDmXaIwNEqYnSDoqXQj8Y7OEOtTkcKp+0
+ U2v8u5UnXulzDFCts8KcMD1hvc/AUOeQmbiEC
+X-Google-Smtp-Source: AGHT+IGKQvRqFgFQgz5sVkkkF+gNST5d53tOFeDyfCOSYPBwKNzEG6F1tBZI5gfWRc+y9JbypuiGU/gb8sDi758pHPw=
+X-Received: by 2002:a05:6902:2742:b0:e29:e15:25da with SMTP id
+ 3f1490d57ef6-e2918412aa8mr1131559276.23.1728616290371; Thu, 10 Oct 2024
+ 20:11:30 -0700 (PDT)
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- Pavel Machek <pavel@ucw.cz>, Wim Van Sebroeck <wim@linux-watchdog.org>, 
- linux-leds@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>, 
- linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
- Lee Jones <lee@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Guenter Roeck <linux@roeck-us.net>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Jingoo Han <jingoohan1@gmail.com>, 
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-watchdog@vger.kernel.org
-In-Reply-To: <20241010-zii_yaml-v2-2-0ab730607422@nxp.com>
-References: <20241010-zii_yaml-v2-0-0ab730607422@nxp.com>
- <20241010-zii_yaml-v2-2-0ab730607422@nxp.com>
-Message-Id: <172861627193.2232781.13972900744363458830.robh@kernel.org>
-Subject: Re: [PATCH v2 2/5] dt-bindings: backlight: convert
- zii,rave-sp-backlight.txt to yaml
+References: <20241007115131.1811-3-thorsten.blum@linux.dev>
+In-Reply-To: <20241007115131.1811-3-thorsten.blum@linux.dev>
+From: Zack Rusin <zack.rusin@broadcom.com>
+Date: Thu, 10 Oct 2024 23:11:19 -0400
+Message-ID: <CABQX2QP5HdCkfffiLGHUm16OT3_c_5LOzwfNv-gxs0ZxZVyGmQ@mail.gmail.com>
+Subject: Re: [RESEND PATCH] drm/vmwgfx: Remove unnecessary NULL checks before
+ kvfree()
+To: Thorsten Blum <thorsten.blum@linux.dev>
+Cc: Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,43 +83,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On Thu, 10 Oct 2024 11:42:39 -0400, Frank Li wrote:
-> Convert device tree binding doc zii,rave-sp-backlight.txt to yaml format.
-> Additional Changes:
-> - Remove mfd parent node at example.
-> - Ref to backlight's common.yaml
-> 
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+On Mon, Oct 7, 2024 at 7:52=E2=80=AFAM Thorsten Blum <thorsten.blum@linux.d=
+ev> wrote:
+>
+> Since kvfree() already checks if its argument is NULL, an additional
+> check before calling kvfree() is unnecessary and can be removed.
+>
+> Remove both and the following Coccinelle/coccicheck warnings reported by
+> ifnullfree.cocci:
+>
+>   WARNING: NULL check before some freeing functions is not needed
+>   WARNING: NULL check before some freeing functions is not needed
+>
+> Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
 > ---
->  .../leds/backlight/zii,rave-sp-backlight.txt       | 23 --------------
->  .../leds/backlight/zii,rave-sp-backlight.yaml      | 36 ++++++++++++++++++++++
->  2 files changed, 36 insertions(+), 23 deletions(-)
-> 
+>  drivers/gpu/drm/vmwgfx/vmwgfx_blit.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_blit.c b/drivers/gpu/drm/vmwgf=
+x/vmwgfx_blit.c
+> index 890a66a2361f..64bd7d74854e 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_blit.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_blit.c
+> @@ -635,10 +635,8 @@ int vmw_bo_cpu_blit(struct vmw_bo *vmw_dst,
+>                 kunmap_atomic(d.src_addr);
+>         if (d.dst_addr)
+>                 kunmap_atomic(d.dst_addr);
+> -       if (src_pages)
+> -               kvfree(src_pages);
+> -       if (dst_pages)
+> -               kvfree(dst_pages);
+> +       kvfree(src_pages);
+> +       kvfree(dst_pages);
+>
+>         return ret;
+>  }
+> --
+> 2.46.2
+>
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Thank you. Looks good. I went ahead and pushed it to drm-misc-fixes.
 
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-
-
-doc reference errors (make refcheckdocs):
-Warning: Documentation/devicetree/bindings/leds/backlight/zii,rave-sp-backlight.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/zii,rave-sp.yaml
-Documentation/devicetree/bindings/leds/backlight/zii,rave-sp-backlight.yaml: Documentation/devicetree/bindings/mfd/zii,rave-sp.yaml
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20241010-zii_yaml-v2-2-0ab730607422@nxp.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+z
