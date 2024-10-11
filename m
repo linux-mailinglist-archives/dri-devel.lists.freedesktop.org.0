@@ -2,73 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 957DC99A03B
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2024 11:36:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E64E299A085
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2024 11:57:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2B9310E1E4;
-	Fri, 11 Oct 2024 09:36:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A11410EA85;
+	Fri, 11 Oct 2024 09:57:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="GoFfH3pX";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Uu45pac7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
- [217.70.183.200])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74E2610E1E4
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2024 09:36:42 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 778932000A;
- Fri, 11 Oct 2024 09:36:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1728639400;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=DOr1y6bkl2ESGBEAuDHnJepThp32G9brhsEAe/glmCw=;
- b=GoFfH3pXCxEQ4cP0HBtTb/GeVfzPsPexPQ9F04GQ7cdvz7gVeh6Oanb3JYxWTGyNAdK1KX
- 9z7BVCEvmenpF+fYTIc7Zx4T0hkBQ6Bmc+HES5JROGHQS6OI/2wdC+5QGF7uqXey19YJv6
- Os2QsSuL1KJhpMXzLbdpflFV9HfZ6I4J9eJcEVfOAKwWZfKCdW61ggBKc2/YzhEbVnxjjG
- +dK3T7LoAUViCGsMTGz2DAoZkEKHzHmX6/SU1DI7hXlDpoNacFP6X73CGR2PHyDncpe6B9
- gABvipThp1v5nyYyolUdX5dwNhkk6WQ+zUdQWiHqKfCh2Thppou4rt7YD0jMEw==
-Date: Fri, 11 Oct 2024 11:36:35 +0200
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>, Maaara Canal <mairacanal@riseup.net>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Simona Vetter <simona@ffwll.ch>, rdunlap@infradead.org,
- arthurgrillo@riseup.net, pekka.paalanen@haloniitty.fi,
- Simona Vetter <simona.vetter@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, thomas.petazzoni@bootlin.com,
- jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
- seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com
-Subject: Re: [PATCH v12 09/15] drm/vkms: Remove useless drm_rotation_simplify
-Message-ID: <Zwjxo2TEAR3PelO9@louis-chauvet-laptop>
-Mail-Followup-To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- Maaara Canal <mairacanal@riseup.net>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Simona Vetter <simona@ffwll.ch>, rdunlap@infradead.org,
- arthurgrillo@riseup.net, pekka.paalanen@haloniitty.fi,
- Simona Vetter <simona.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, thomas.petazzoni@bootlin.com,
- jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
- seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com
-References: <20241007-yuv-v12-0-01c1ada6fec8@bootlin.com>
- <20241007-yuv-v12-9-01c1ada6fec8@bootlin.com>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3EC810EA85
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2024 09:57:19 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 2FC2BA4530C;
+ Fri, 11 Oct 2024 09:57:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F0D7C4CEC3;
+ Fri, 11 Oct 2024 09:57:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1728640638;
+ bh=Rz/W9QlH6CCASPfisYQo2Uxdr9sj88V+CDnZpNAOLWY=;
+ h=From:Subject:Date:To:Cc:From;
+ b=Uu45pac7QlRCjDze5nXkdD3zdJRa8iASemsM6nXnwldHPXwQ5b4L/JUsH+wbmbNDw
+ oDP2kOGu7RArTS+Fb33fCO2Gv8DpZAkRZVi1H9NwVfXsU605YwWCA9/aebTPMNdYql
+ EFW9ycJ7FMxOw64JIHx2n9Wkg0EZ+u4yHVWMsFwwDO4dQoZU3OLiFiw04z5TmlqAlU
+ 1ixVxAF0QTTeo83suulLa4SEDDi4zKY3gCc4Hy4P38PkPbr/U7KLysbkQS9eF7SY50
+ nJ4kZdICJgqAyx53rkUtiB6EOM6EVQsfqBH9gHUQJt2oesInVFBGMPKWm0lmz552IV
+ 0DWKPXb3dXhCQ==
+From: Simon Horman <horms@kernel.org>
+Subject: [PATCH net-next 0/3] net: String format safety updates
+Date: Fri, 11 Oct 2024 10:57:09 +0100
+Message-Id: <20241011-string-thing-v1-0-acc506568033@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241007-yuv-v12-9-01c1ada6fec8@bootlin.com>
-X-GND-Sasl: louis.chauvet@bootlin.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAHX2CGcC/x2MywqAIBAAfyX2nKBW9PiV6FC22V62UAlB/Pesy
+ 8AcZhJ4dIQepiqBw4c8XVxE1RWYc2WLgvbioKVulVRK+OCIrQjnRzOu7WB0tzX9ACW5HR4U/90
+ MjEEwxgBLzi/82WLDaAAAAA==
+To: "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>
+Cc: Woojung Huh <woojung.huh@microchip.com>, Andrew Lunn <andrew@lunn.ch>, 
+ Florian Fainelli <f.fainelli@gmail.com>, 
+ Vladimir Oltean <olteanv@gmail.com>, 
+ Richard Cochran <richardcochran@gmail.com>, 
+ Jiawen Wu <jiawenwu@trustnetic.com>, 
+ Mengyuan Lou <mengyuanlou@net-swift.com>, 
+ Nathan Chancellor <nathan@kernel.org>, 
+ Nick Desaulniers <ndesaulniers@google.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+ Jeffrey Hugo <quic_jhugo@quicinc.com>, 
+ Carl Vanderlip <quic_carlv@quicinc.com>, Oded Gabbay <ogabbay@kernel.org>, 
+ UNGLinuxDriver@microchip.com, netdev@vger.kernel.org, llvm@lists.linux.dev, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
+X-Mailer: b4 0.14.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,46 +72,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
-Hi all,
+This series addresses string format safety issues that are
+flagged by tooling in files touched by recent patches.
 
-Until this point, this series has not received any major comments since 
-v9. I will commit patches 1-9 next week if there are no further comments.
+I do not believe that any of these issues are bugs.
+Rather, I am providing these updates as I think there is a value
+in addressing such warnings so real problems stand out.
 
-For patches 10-15, I am currently waiting for feedback from Maxime to 
-send the next iteration with a fix for kunit tests.
+---
+Simon Horman (3):
+      net: dsa: microchip: copy string using strscpy
+      net: txgbe: Pass string literal as format argument of alloc_workqueue()
+      accel/qaic: Pass string literal as format argument of alloc_workqueue()
 
-Thanks,
-Louis Chauvet
+ drivers/accel/qaic/qaic_drv.c                  | 4 ++--
+ drivers/net/dsa/microchip/ksz_ptp.c            | 2 +-
+ drivers/net/ethernet/wangxun/txgbe/txgbe_phy.c | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
-On 07/10/24 - 18:10, Louis Chauvet wrote:
-> As all the rotation are now supported by VKMS, this simplification does
-> not make sense anymore, so remove it.
-> 
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> ---
->  drivers/gpu/drm/vkms/vkms_plane.c | 7 +------
->  1 file changed, 1 insertion(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-> index 8875bed76410..5a028ee96c91 100644
-> --- a/drivers/gpu/drm/vkms/vkms_plane.c
-> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
-> @@ -115,12 +115,7 @@ static void vkms_plane_atomic_update(struct drm_plane *plane,
->  	frame_info->fb = fb;
->  	memcpy(&frame_info->map, &shadow_plane_state->data, sizeof(frame_info->map));
->  	drm_framebuffer_get(frame_info->fb);
-> -	frame_info->rotation = drm_rotation_simplify(new_state->rotation, DRM_MODE_ROTATE_0 |
-> -									  DRM_MODE_ROTATE_90 |
-> -									  DRM_MODE_ROTATE_270 |
-> -									  DRM_MODE_REFLECT_X |
-> -									  DRM_MODE_REFLECT_Y);
-> -
-> +	frame_info->rotation = new_state->rotation;
->  
->  	vkms_plane_state->pixel_read_line = get_pixel_read_line_function(fmt);
->  }
-> 
-> -- 
-> 2.46.2
-> 
+base-commit: 59ae83dcf102710f097aa14de88ea5cb1396b866
+
