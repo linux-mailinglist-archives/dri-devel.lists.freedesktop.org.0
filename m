@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A8DF99AC8E
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2024 21:22:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EDE999AC90
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2024 21:22:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACF8A10EC29;
-	Fri, 11 Oct 2024 19:22:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77E1D10E1E1;
+	Fri, 11 Oct 2024 19:22:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="PRUJsmPY";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Jto2iA9u";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
- [209.85.221.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A90D10E1E1
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2024 19:22:26 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id
- ffacd0b85a97d-37d43a9bc03so1339408f8f.2
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2024 12:22:26 -0700 (PDT)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
+ [209.85.221.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9572F10E1E1
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2024 19:22:27 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id
+ ffacd0b85a97d-37d39d9f782so1467871f8f.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2024 12:22:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1728674544; x=1729279344; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1728674546; x=1729279346; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=4kBIYBhNJLveBi0X8buyeW3/XiOUmPsQpigk1+cdvIw=;
- b=PRUJsmPYdB25ZmYBXJD8dZpBynX0DTJZMNnSAeFcOR0rJPev2Jf8wmAfbyxxXf/E7a
- /mJr5BFU/dkoSIi3QGtrDzSjOHrntwCnZ5CnqeYvm3bCvGcIum2cndj6m/NPFtKHsB0M
- vR3r8f8dhzM6uq1OpH1w6GCRDVGHeyFXdEK4aDONAYUkPWRtFFoIlaAxYkB38fHkVhty
- gzrculOAfBpYNLTYpO+JyPOFI5jJvcbwLSgeQg12VAKc5bpY32hR3xtt6oeVtOSgvh3F
- LOOzTc3TAnc0HmQytxKjcmve8PVX32ewu1m/qIbkr/MmUb3P49c7jqomBFo8x147N9/h
- 2SxA==
+ :reply-to; bh=m894EEj8MKVIaKel5D8cwxspY83xIoj8l4L9T9MgTMM=;
+ b=Jto2iA9utD7mtd2vCtbss1KD2j3uIEzw49XnW0gPD8ssDig4oQ9bC2AoZcwWGogQoa
+ r2oaLhPFfVBaIwyz5lAAcxftt/kr0wq8+Y70KNxujAiwD7fSRVpq94vjuJXAryli8Pzc
+ fZT/Nlepx+7yDUsTT7AoCW1KsXYMarkLC0hnRisdBczy445YbIi/66GmN+/jYv2RwMYc
+ M8Co+J7rbXXjyRri2MqDPxS6WM9yKvf/DqwA4bbcPQp3g9nv0FBD6vNGcpswvUnWxePC
+ 50bgZl3SN+bTNAuT6L4n34TCe3A+BXvLtnqwzqZ6ckya+50t/G/disUBcXz0jv4s+NQy
+ KF8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728674544; x=1729279344;
+ d=1e100.net; s=20230601; t=1728674546; x=1729279346;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=4kBIYBhNJLveBi0X8buyeW3/XiOUmPsQpigk1+cdvIw=;
- b=vhhLy9vmbvmxF1ByElRkzyMEjRmb1QZyWrCtKPjReGDi7mBkFXFK52aCwvo69bswFI
- eQK8uUnC0mZ+zDfNnRTnpNnNy62gmV0Dm9Z8RA54ix6mV8rgEMn01NittlFKUmv81fP7
- XOiUOz4IKJrPHwVxrkrIgGex5zegjgCF+aQViM9exUSy1Phsi+M2xP4GBRDcTs6uDHtd
- begqvGo7lgyTY1OkMNfpUL1XjCEjSdpzu0ZaWjksr9JBoiMxMviCL3OWFmtJc54KgUjj
- EVbr88Jd4slixZZLvH3RdY45QUx/VhqI0FMykfZ/yHF+Z+swf91ZTrNYYz+SEgbK/UbS
- OjWA==
-X-Gm-Message-State: AOJu0YzwbCai38JSUiy11+3h7tBsvqJwMSaC0a7gF+0kXbKXosIkaj2H
- ykP1k+T6meAeVVUO1uj8HtgLN75VR32ub7dHmZeA1VGKaI9PMqMvGEvBr27J
-X-Google-Smtp-Source: AGHT+IEPObY61TTZUljSGVbxJ83DtlRp1vP8GuFprN167lb4Pr6rcaZZVUv+UkSSbZYzG56rZDvzaA==
-X-Received: by 2002:adf:cc8f:0:b0:37d:4937:c9eb with SMTP id
- ffacd0b85a97d-37d5feb13acmr443072f8f.21.1728674544198; 
- Fri, 11 Oct 2024 12:22:24 -0700 (PDT)
+ bh=m894EEj8MKVIaKel5D8cwxspY83xIoj8l4L9T9MgTMM=;
+ b=QR+tKogSMbpSd0FYUCAtsZ2RGg9ay0knJiKnZIh4zHSzqn7A7RoGmOFS3bc6rTUoPt
+ bAoSdMJMnMfrbo9nJHl3PcphFiB1SXlfLF7/QxUdCxBnlsPrKQ+/0V29B5wYADjY/7qZ
+ JynElD276kDa5hE0aGQNaQl9itiw+n9WfdpvMuBD+CrVlvUnHWhtCw7aGgV4e4Fui2Dd
+ TxoktaacNcIN7mUUBdt4PfzicbeWLzDECCfpmNdEdJI6WsYQGrVhoszFUgY4qMazzD++
+ xTOo3QocZYCDT4vxre12K+9KM+yuJW2Bbd10Ih1XeudPaI6M3tC6QyQvE1rs/wHfve7U
+ FLYA==
+X-Gm-Message-State: AOJu0Yx8jtoITL29Co1zOA5JrVCDwLjv3ud0q1yUYeSEoejak9IG5427
+ RuSk9fbFaCULblNOJXYR8jmcbE/pSlvyB3GG7qdgAqG28PMteQIe
+X-Google-Smtp-Source: AGHT+IET3Ck++IAbg8SE1O1j1TEiGtDgB9CXJmSO93us894bSYi9oAhFM+9i9y/jH/CFuKjQZAnQuA==
+X-Received: by 2002:a5d:4082:0:b0:37d:4d3f:51e9 with SMTP id
+ ffacd0b85a97d-37d5ffb98b0mr440582f8f.40.1728674545757; 
+ Fri, 11 Oct 2024 12:22:25 -0700 (PDT)
 Received: from [127.0.1.1]
  (2a02-8389-41cf-e200-55c0-165d-e76c-a019.cable.dynamic.v6.surfer.at.
  [2a02:8389:41cf:e200:55c0:165d:e76c:a019])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-37d4b7ee49bsm4581663f8f.100.2024.10.11.12.22.22
+ ffacd0b85a97d-37d4b7ee49bsm4581663f8f.100.2024.10.11.12.22.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Oct 2024 12:22:23 -0700 (PDT)
+ Fri, 11 Oct 2024 12:22:25 -0700 (PDT)
 From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Date: Fri, 11 Oct 2024 21:21:51 +0200
-Subject: [PATCH 1/2] drm/mediatek: Fix child node refcount handling in
- early exit
+Date: Fri, 11 Oct 2024 21:21:52 +0200
+Subject: [PATCH 2/2] drm/mediatek: Switch to
+ for_each_child_of_node_scoped()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241011-mtk_drm_drv_memleak-v1-1-2b40c74c8d75@gmail.com>
+Message-Id: <20241011-mtk_drm_drv_memleak-v1-2-2b40c74c8d75@gmail.com>
 References: <20241011-mtk_drm_drv_memleak-v1-0-2b40c74c8d75@gmail.com>
 In-Reply-To: <20241011-mtk_drm_drv_memleak-v1-0-2b40c74c8d75@gmail.com>
 To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
@@ -73,13 +73,13 @@ To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
  "Jason-JH.Lin" <jason-jh.lin@mediatek.com>
 Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- Javier Carrasco <javier.carrasco.cruz@gmail.com>, stable@vger.kernel.org
+ Javier Carrasco <javier.carrasco.cruz@gmail.com>
 X-Mailer: b4 0.14-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1728674541; l=1023;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1728674541; l=1436;
  i=javier.carrasco.cruz@gmail.com; s=20240312; h=from:subject:message-id;
- bh=GACFWz+z5+whIxiIEf5wTm2vjO+WqH2Y46iheppGzXc=;
- b=ctsLXzl8itXZ6YjbYlz1K50LW7nQRM1QFq2Ygrbx/fh9qsjr38w6zeU3uGz61wTvN3/n+WyDJ
- l0VO+LnC28wBFlo1TkzxIJ42L0f2a0eNe3vsDXXc4rOBCnHRlQ/or2M
+ bh=NIQyalFfWvXbrf5QDhsF9KSVr5abtwUFulTgkzyXOgM=;
+ b=rbU7FqAOUJAaaOiSLWdKxgwrbugJ/grvJuThgHTtqrrqNwfI9iTGPlHUx/XB89McOBEJe5dBu
+ yJhiWoNOe+BBmCJt5qEWcN0JkOJoUYWYGOxcxUVTsX0PA3p8LqE99pX
 X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
  pk=lzSIvIzMz0JhJrzLXI0HAdPwsNPSSmEn6RbS+PTS9aQ=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -97,33 +97,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Early exits (goto, break, return) from for_each_child_of_node() required
-an explicit call to of_node_put(), which was not introduced with the
-break if cnt == MAX_CRTC.
-
-Add the missing of_node_put() before the break.
-
-Cc: stable@vger.kernel.org
-Fixes: d761b9450e31 ("drm/mediatek: Add cnt checking for coverity issue")
+Introduce the scoped variant of the loop to automatically release the
+child node when it goes out of scope, which is more robust than the
+non-scoped variant, and accounts for new early exits that could be added
+in the future.
 
 Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
 ---
- drivers/gpu/drm/mediatek/mtk_drm_drv.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index a4594f8873d5..0878df832859 100644
+index 0878df832859..9ab656b10a49 100644
 --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
 +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -406,8 +406,10 @@ static bool mtk_drm_get_all_drm_priv(struct device *dev)
+@@ -372,12 +372,11 @@ static bool mtk_drm_get_all_drm_priv(struct device *dev)
+ 	struct mtk_drm_private *temp_drm_priv;
+ 	struct device_node *phandle = dev->parent->of_node;
+ 	const struct of_device_id *of_id;
+-	struct device_node *node;
+ 	struct device *drm_dev;
+ 	unsigned int cnt = 0;
+ 	int i, j;
+ 
+-	for_each_child_of_node(phandle->parent, node) {
++	for_each_child_of_node_scoped(phandle->parent, node) {
+ 		struct platform_device *pdev;
+ 
+ 		of_id = of_match_node(mtk_drm_of_ids, node);
+@@ -406,10 +405,8 @@ static bool mtk_drm_get_all_drm_priv(struct device *dev)
  		if (temp_drm_priv->mtk_drm_bound)
  			cnt++;
  
--		if (cnt == MAX_CRTC)
-+		if (cnt == MAX_CRTC) {
-+			of_node_put(node);
+-		if (cnt == MAX_CRTC) {
+-			of_node_put(node);
++		if (cnt == MAX_CRTC)
  			break;
-+		}
+-		}
  	}
  
  	if (drm_priv->data->mmsys_dev_num == cnt) {
