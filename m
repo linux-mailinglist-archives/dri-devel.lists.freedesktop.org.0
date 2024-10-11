@@ -2,41 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DAEC999B35
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2024 05:39:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0F5B999B36
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2024 05:39:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0297310EA2C;
-	Fri, 11 Oct 2024 03:39:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9459610EA26;
+	Fri, 11 Oct 2024 03:39:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="hJyethe3";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="MX3PNXS+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D31410EA26
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2024 03:39:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFF0110EA26
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2024 03:39:54 +0000 (UTC)
 Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id B3E24891FC;
- Fri, 11 Oct 2024 05:39:49 +0200 (CEST)
+ by phobos.denx.de (Postfix) with ESMTPSA id D5B038929F;
+ Fri, 11 Oct 2024 05:39:51 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1728617991;
- bh=fv/JN3MQljG4mzTl445+5tx3NcTRrnwGCG0aSAOrlwY=;
+ s=phobos-20191101; t=1728617993;
+ bh=uWS5slj0pT9o4QUSNSFv+mXM3NdSBsqdzN99/5GzSsI=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=hJyethe37grP0kHoQdjb2lmStpeUBI711TbqYzdVkmHuYU9EMvCu2sL64ftqkXLkS
- AcmBgDHQTZhDNk0XFu0BnO7/ElJA7yvZGsUP6OIdjkipSZeoY1rkKAwszNr/fDBq0X
- SSVB5mxwPjZH54xZ+UGf0SkjmMx7JdmpdbHNBFRA6WgCri/3pXMjmbnSrfZKuxmehL
- iFXtDwWVAD8vfnhmcNNM8nvTWGNb690MjVXMF4wVa1MxJHkwp6Zal+T84trlgfZW5e
- v0LJJkNMmZRP+V3I3DD8WnnudfMDibLfisiqwNpAMI1aeXgDyXbWb9ODTNMr5g++z5
- 4mVHMKGb3tNKA==
-Message-ID: <00ffd38c-b01a-40cd-9130-19c35a387ca0@denx.de>
-Date: Fri, 11 Oct 2024 03:55:00 +0200
+ b=MX3PNXS+eiZLSu2ARDGE8KT3QXoZ8UpYyqbaI4+/t5Xcq2UINcx5qSfXBoHNwscNy
+ plRX2h5fqQceTflwG9BexofGJCqKgr6bgO2Phf4vP+pnZcOer9lm+jVTMIlR5DgTgh
+ EdLRbfjcRUYlekgxznYz53Gt1hTankoGxiJbdzQb8NFuiCZpznT+0rV1dnnth2mPMS
+ POeYzTtAIvQ8g20GB/gh+rtMdkzzzGvGBuTcevngZWPNGmpGJEITfaQ13sSTEsVSdG
+ LLUZ/s7u3BYDZxV057utio3LfXw6I+5uGvN33gdjs+lf3RkmWCZZqj/e0qstMWwWK2
+ cJFasF63657Wg==
+Message-ID: <0e47b529-59f2-4d25-8c5d-30ca1dc4e964@denx.de>
+Date: Fri, 11 Oct 2024 03:59:30 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] clk: imx: clk-imx8mp: Allow LDB serializer clock
- reconfigure parent rate
+Subject: Re: [PATCH 2/2] drm: bridge: ldb: Configure LDB clock in .mode_set
 To: Liu Ying <victor.liu@nxp.com>, dri-devel@lists.freedesktop.org
 Cc: Abel Vesa <abelvesa@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>, 
  David Airlie <airlied@gmail.com>, Fabio Estevam <festevam@gmail.com>,
@@ -54,10 +53,11 @@ Cc: Abel Vesa <abelvesa@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
  imx@lists.linux.dev, kernel@dh-electronics.com,
  linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org
 References: <20241008223846.337162-1-marex@denx.de>
- <dbede671-c97b-4ad7-8a54-f1b381fea082@nxp.com>
+ <20241008223846.337162-2-marex@denx.de>
+ <d6a34efa-47ad-439b-8b0c-a427cf087cb3@nxp.com>
 Content-Language: en-US
 From: Marek Vasut <marex@denx.de>
-In-Reply-To: <dbede671-c97b-4ad7-8a54-f1b381fea082@nxp.com>
+In-Reply-To: <d6a34efa-47ad-439b-8b0c-a427cf087cb3@nxp.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
@@ -77,70 +77,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/10/24 7:22 AM, Liu Ying wrote:
+On 10/10/24 9:15 AM, Liu Ying wrote:
 > On 10/09/2024, Marek Vasut wrote:
->> The media_ldb_root_clk supply LDB serializer. These clock are usually
->> shared with the LCDIFv3 pixel clock and supplied by the Video PLL on
->> i.MX8MP, but the LDB clock run at either x7 or x14 rate of the LCDIFv3
->> pixel clock. Allow the LDB to reconfigure Video PLL as needed, as that
->> results in accurate serializer clock.
->>
->> Signed-off-by: Marek Vasut <marex@denx.de>
->> ---
->> Cc: Abel Vesa <abelvesa@kernel.org>
->> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
->> Cc: David Airlie <airlied@gmail.com>
->> Cc: Fabio Estevam <festevam@gmail.com>
->> Cc: Isaac Scott <isaac.scott@ideasonboard.com>
->> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
->> Cc: Jonas Karlman <jonas@kwiboo.se>
->> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
->> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->> Cc: Maxime Ripard <mripard@kernel.org>
->> Cc: Michael Turquette <mturquette@baylibre.com>
->> Cc: Neil Armstrong <neil.armstrong@linaro.org>
->> Cc: Peng Fan <peng.fan@nxp.com>
->> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
->> Cc: Robert Foss <rfoss@kernel.org>
->> Cc: Sascha Hauer <s.hauer@pengutronix.de>
->> Cc: Shawn Guo <shawnguo@kernel.org>
->> Cc: Simona Vetter <simona@ffwll.ch>
->> Cc: Stephen Boyd <sboyd@kernel.org>
->> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->> Cc: dri-devel@lists.freedesktop.org
->> Cc: imx@lists.linux.dev
->> Cc: kernel@dh-electronics.com
->> Cc: linux-arm-kernel@lists.infradead.org
->> Cc: linux-clk@vger.kernel.org
->> ---
->>   drivers/clk/imx/clk-imx8mp.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/clk/imx/clk-imx8mp.c b/drivers/clk/imx/clk-imx8mp.c
->> index 516dbd170c8a3..2e61d340b8ab7 100644
->> --- a/drivers/clk/imx/clk-imx8mp.c
->> +++ b/drivers/clk/imx/clk-imx8mp.c
->> @@ -611,7 +611,7 @@ static int imx8mp_clocks_probe(struct platform_device *pdev)
->>   	hws[IMX8MP_CLK_MEDIA_MIPI_PHY1_REF] = imx8m_clk_hw_composite("media_mipi_phy1_ref", imx8mp_media_mipi_phy1_ref_sels, ccm_base + 0xbd80);
->>   	hws[IMX8MP_CLK_MEDIA_DISP1_PIX] = imx8m_clk_hw_composite_bus_flags("media_disp1_pix", imx8mp_media_disp_pix_sels, ccm_base + 0xbe00, CLK_SET_RATE_PARENT);
->>   	hws[IMX8MP_CLK_MEDIA_CAM2_PIX] = imx8m_clk_hw_composite("media_cam2_pix", imx8mp_media_cam2_pix_sels, ccm_base + 0xbe80);
->> -	hws[IMX8MP_CLK_MEDIA_LDB] = imx8m_clk_hw_composite("media_ldb", imx8mp_media_ldb_sels, ccm_base + 0xbf00);
->> +	hws[IMX8MP_CLK_MEDIA_LDB] = imx8m_clk_hw_composite_bus_flags("media_ldb", imx8mp_media_ldb_sels, ccm_base + 0xbf00, CLK_SET_RATE_PARENT);
+>> The LDB serializer clock operate at either x7 or x14 rate of the input
 > 
-> This patch would cause the below in-flight LDB bridge driver
-> patch[1] fail to do display mode validation upon display modes
-> read from LVDS to HDMI converter IT6263's DDC I2C bus.
+> Isn't it either x7 or 3.5x?
 
-Why ?
+Is it 3.5 for the dual-link LVDS ?
+I don't have such a panel right now to test.
 
-Also, please Cc me on fsl-ldb.c patches.
+[...]
 
-> Unsupported display modes cannot be ruled out.  Note that
-> "media_ldb" is derived from "video_pll1_out" by default as the
-> parent is set in imx8mp.dtsi.  And, the only 4 rates supported
-> by "video_pll1" are listed in imx_pll1443x_tbl[] - 1.0395GHz,
-> 650MHz, 594MHz and 519.75MHz.
-I disagree with this part, since commit b09c68dc57c9 ("clk: imx: 
-pll14xx: Support dynamic rates") the 1443x PLLs can be configured to 
-arbitrary rates which for video PLL is desirable as those should produce 
-accurate clock.
+>> diff --git a/drivers/gpu/drm/bridge/fsl-ldb.c b/drivers/gpu/drm/bridge/fsl-ldb.c
+>> index 0e4bac7dd04ff..a3a31467fcc85 100644
+>> --- a/drivers/gpu/drm/bridge/fsl-ldb.c
+>> +++ b/drivers/gpu/drm/bridge/fsl-ldb.c
+>> @@ -278,6 +278,16 @@ fsl_ldb_mode_valid(struct drm_bridge *bridge,
+>>   	return MODE_OK;
+>>   }
+>>   
+>> +static void fsl_ldb_mode_set(struct drm_bridge *bridge,
+>> +			       const struct drm_display_mode *mode,
+>> +			       const struct drm_display_mode *adj)
+>> +{
+>> +	struct fsl_ldb *fsl_ldb = to_fsl_ldb(bridge);
+>> +	unsigned long requested_link_freq = fsl_ldb_link_frequency(fsl_ldb, mode->clock);
+>> +
+>> +	clk_set_rate(fsl_ldb->clk, requested_link_freq);
+> 
+> The mode_set callback won't be called when only crtc_state->active
+> is changed from false to true in an atomic commit, e.g., blanking
+> the emulated fbdev first and then unblanking it.  So, in this case,
+> the clk_set_rate() in fsl_ldb_atomic_enable() is still called after
+> those from mxsfb_kms or lcdif_kms.
+> 
+> Also, it doesn't look neat to call clk_set_rate() from both mode_set
+> callback and atomic_enable callback.
+
+I agree the mode_set callback is not the best place for this.
+Do you know of a better callback where to do this ? I couldn't find one.
+
+> The idea is to assign a reasonable PLL clock rate in DT to make
+> display drivers' life easier, especially for i.MX8MP where LDB,
+> Samsung MIPI DSI may use a single PLL at the same time.
+I would really like to avoid setting arbitrary clock in DT, esp. if it 
+can be avoided. And it surely can be avoided for this simple use case.
