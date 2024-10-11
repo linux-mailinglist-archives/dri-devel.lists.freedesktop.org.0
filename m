@@ -2,144 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC855999FA1
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2024 11:02:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5585999FBF
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Oct 2024 11:06:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D15A10EA9A;
-	Fri, 11 Oct 2024 09:02:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDD5A10E063;
+	Fri, 11 Oct 2024 09:05:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="iwvTTr6B";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Xrpx3FJb";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="iwvTTr6B";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Xrpx3FJb";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="TZ/UdyGp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4116D10EA9A
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2024 09:02:02 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 886DB22006;
- Fri, 11 Oct 2024 09:01:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1728637319; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=JQNsUTPzE7cSl/H/J9IE+MAPOI8hrmnYMEg2FqRj+Bo=;
- b=iwvTTr6BI26Xgx3po/OApYtts5dmArwg+jD5ntdn68ekfA6iZPftkjEy3/W7VtuYVaB7Wk
- rC23CRGo3vCyMbFV+Urp2eyJ6U3z3HT3CoecRkI8yLm434PbvH8CKIJ+1l1YJJdhw2HN82
- RKv3fl2sEKnpz08PB8rxCfc6DuGSi2Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1728637319;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=JQNsUTPzE7cSl/H/J9IE+MAPOI8hrmnYMEg2FqRj+Bo=;
- b=Xrpx3FJbhXIDPhz2UvqE02jmAonul6CO1PkHvkb06T3C6dHmHAIasOoip+4QRGEyPeE5m9
- CrCmPYNKP1i6dMCw==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=iwvTTr6B;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Xrpx3FJb
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1728637319; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=JQNsUTPzE7cSl/H/J9IE+MAPOI8hrmnYMEg2FqRj+Bo=;
- b=iwvTTr6BI26Xgx3po/OApYtts5dmArwg+jD5ntdn68ekfA6iZPftkjEy3/W7VtuYVaB7Wk
- rC23CRGo3vCyMbFV+Urp2eyJ6U3z3HT3CoecRkI8yLm434PbvH8CKIJ+1l1YJJdhw2HN82
- RKv3fl2sEKnpz08PB8rxCfc6DuGSi2Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1728637319;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=JQNsUTPzE7cSl/H/J9IE+MAPOI8hrmnYMEg2FqRj+Bo=;
- b=Xrpx3FJbhXIDPhz2UvqE02jmAonul6CO1PkHvkb06T3C6dHmHAIasOoip+4QRGEyPeE5m9
- CrCmPYNKP1i6dMCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 43170136E0;
- Fri, 11 Oct 2024 09:01:59 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id CnsfD4fpCGeMJgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 11 Oct 2024 09:01:59 +0000
-Message-ID: <83db9483-73a9-4580-b7f2-f4a5ff6c4b17@suse.de>
-Date: Fri, 11 Oct 2024 11:01:58 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/7] drm: Add physical status to connector
-To: Jani Nikula <jani.nikula@linux.intel.com>,
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6554710E063
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2024 09:05:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1728637558; x=1760173558;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=N7d99FJDeGoJr7lRCk/3GhTl4CFzlzEwGCKVRZT0ns0=;
+ b=TZ/UdyGpzMr/LolroMePmwupp2c03rNjNTWMWmMToPvOT43fxIO9BgUJ
+ u1xrbGmsOiJFPpJfKse+8UVL2mtQ11ZVfxsluP2iy6Xac91pOGjdN3UwY
+ 4+H0xbUeSl3um5zS//3cbRXAEXJanapTdUJSuuypNbcm33fr3suVJN39q
+ PX4ogzB0TVh6CsAd8V+WJ5aMGjGCpdLNiVTLqyHsmYwzfdLc+D1ReDV4j
+ nQ6hMAN0OfgpvX7dS2GJC0V4RA8LCzLN6YUZDhvJVHjSFfNbG8JTWCBn/
+ RZdholblN+Ch+6i1IouWUuLi3038j1ZCFvGYj+Gq2QMA8HkMBALGBh4NP w==;
+X-CSE-ConnectionGUID: meFAjr8+ROW/CW4rwwhJ4A==
+X-CSE-MsgGUID: gMHBMPUCRZaktGPVdYWP8A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11221"; a="45542080"
+X-IronPort-AV: E=Sophos;i="6.11,195,1725346800"; d="scan'208";a="45542080"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Oct 2024 02:05:58 -0700
+X-CSE-ConnectionGUID: BkhVHpiCTquA0UhCXkW7aQ==
+X-CSE-MsgGUID: 7DfKlYZ9SbyM9EDIPuO/zQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,195,1725346800"; d="scan'208";a="77674257"
+Received: from mwiniars-desk2.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.178])
+ by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Oct 2024 02:05:54 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
  simona@ffwll.ch, airlied@redhat.com, jfalempe@redhat.com
-Cc: dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 6/7] drm/ast: Track physical connector status in struct
+ drm_connector
+In-Reply-To: <20241011065705.6728-7-tzimmermann@suse.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 References: <20241011065705.6728-1-tzimmermann@suse.de>
- <20241011065705.6728-3-tzimmermann@suse.de> <874j5j6mzc.fsf@intel.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <874j5j6mzc.fsf@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 886DB22006
-X-Spam-Score: -4.51
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FREEMAIL_ENVRCPT(0.00)[gmail.com];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- FREEMAIL_TO(0.00)[linux.intel.com,kernel.org,gmail.com,ffwll.ch,redhat.com];
- ARC_NA(0.00)[];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- TO_DN_SOME(0.00)[]; MIME_TRACE(0.00)[0:+];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_TLS_ALL(0.00)[];
- DKIM_TRACE(0.00)[suse.de:+]; RCVD_COUNT_TWO(0.00)[2];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- MID_RHS_MATCH_FROM(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- RCPT_COUNT_SEVEN(0.00)[8]; RCVD_VIA_SMTP_AUTH(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[wikipedia.org:url, suse.de:dkim, suse.de:mid,
- suse.de:email, imap1.dmz-prg2.suse.org:rdns, imap1.dmz-prg2.suse.org:helo]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
+ <20241011065705.6728-7-tzimmermann@suse.de>
+Date: Fri, 11 Oct 2024 12:05:48 +0300
+Message-ID: <87y12v57rn.fsf@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,153 +72,365 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+On Fri, 11 Oct 2024, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> Set bmc_attached for all connectors and let DRM's probe helpers
+> track the physical and logical connector state. Remove such logic
+> and related data structures from ast.
 
-Am 11.10.24 um 10:51 schrieb Jani Nikula:
-> On Fri, 11 Oct 2024, Thomas Zimmermann <tzimmermann@suse.de> wrote:
->> Track the connector's physical status in addition to its logical
->> status. The latter is directly derived from the former and for most
->> connectors both values are in sync.
->>
->> Server chips with BMC, such as Aspeed, Matrox and HiSilicon, often
->> provide virtual outputs for remote management. Without a connected
->> display, fbcon or userspace compositors disabek the output and stop
->> displaying to the BMC.
-> Please don't assume people know what "BMC" means.
+Yeah, nice cleanups.
 
-Apologies. I'll include that information in any follow-up and the kernel 
-docs.
+Still, I think this emphasizes my point about improved documentation in
+earlier patches. I think people are going to cargo cult this, and if
+they don't have anything in the documentation to go by, they'll think
+"physical status" is the thing to use when it's about physically
+connecting displays.
 
-FTR it's the baseboard management controller.
-
-  https://en.wikipedia.org/wiki/Intelligent_Platform_Management_Interface#Baseboard_management_controller
-
-Best regards
-Thomas
+BR,
+Jani.
 
 >
->> Connectors have therefore to remain in connected status, even if the
->> display has been physically disconnected. Tracking both physical and
->> logical state in separate fields will enable that. The physical status
->> is transparent to drivers and clients, but changes update the epoch
->> counter. This generates a hotplug events for clients. Clients will then
->> pick up changes to resolutions supported, if any.
->>
->> The ast driver already contains code to track the physical status. This
->> commit generalizes the logic for use with other drivers. Candidates are
->> mgag200 and hibmc.
->>
->> This commit adds the physical status and makes the regular, logical
->> status a copy of it. A later change will add the flag for BMC support.
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> ---
->>   drivers/gpu/drm/drm_connector.c    |  1 +
->>   drivers/gpu/drm/drm_probe_helper.c | 13 ++++++++-----
->>   include/drm/drm_connector.h        |  7 +++++++
->>   3 files changed, 16 insertions(+), 5 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
->> index fc35f47e2849..901d73416f98 100644
->> --- a/drivers/gpu/drm/drm_connector.c
->> +++ b/drivers/gpu/drm/drm_connector.c
->> @@ -282,6 +282,7 @@ static int __drm_connector_init(struct drm_device *dev,
->>   	connector->edid_blob_ptr = NULL;
->>   	connector->epoch_counter = 0;
->>   	connector->tile_blob_ptr = NULL;
->> +	connector->physical_status = connector_status_unknown;
->>   	connector->status = connector_status_unknown;
->>   	connector->display_info.panel_orientation =
->>   		DRM_MODE_PANEL_ORIENTATION_UNKNOWN;
->> diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
->> index 62a2e5bcb315..df44be128e72 100644
->> --- a/drivers/gpu/drm/drm_probe_helper.c
->> +++ b/drivers/gpu/drm/drm_probe_helper.c
->> @@ -373,7 +373,7 @@ drm_helper_probe_detect_ctx(struct drm_connector *connector, bool force)
->>   	if (WARN_ON(ret < 0))
->>   		ret = connector_status_unknown;
->>   
->> -	if (ret != connector->status)
->> +	if (ret != connector->physical_status)
->>   		connector->epoch_counter += 1;
->>   
->>   	drm_modeset_drop_locks(&ctx);
->> @@ -409,7 +409,7 @@ drm_helper_probe_detect(struct drm_connector *connector,
->>   
->>   	ret = detect_connector_status(connector, ctx, force);
->>   
->> -	if (ret != connector->status)
->> +	if (ret != connector->physical_status)
->>   		connector->epoch_counter += 1;
->>   
->>   	return ret;
->> @@ -588,9 +588,11 @@ int drm_helper_probe_single_connector_modes(struct drm_connector *connector,
->>   	if (connector->force) {
->>   		if (connector->force == DRM_FORCE_ON ||
->>   		    connector->force == DRM_FORCE_ON_DIGITAL)
->> -			connector->status = connector_status_connected;
->> +			connector->physical_status = connector_status_connected;
->>   		else
->> -			connector->status = connector_status_disconnected;
->> +			connector->physical_status = connector_status_disconnected;
->> +		connector->status = connector->physical_status;
->> +
->>   		if (connector->funcs->force)
->>   			connector->funcs->force(connector);
->>   	} else {
->> @@ -602,7 +604,8 @@ int drm_helper_probe_single_connector_modes(struct drm_connector *connector,
->>   		} else if (WARN(ret < 0, "Invalid return value %i for connector detection\n", ret))
->>   			ret = connector_status_unknown;
->>   
->> -		connector->status = ret;
->> +		connector->physical_status = ret;
->> +		connector->status = connector->physical_status;
->>   	}
->>   
->>   	/*
->> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
->> index e3fa43291f44..37e951f04ae8 100644
->> --- a/include/drm/drm_connector.h
->> +++ b/include/drm/drm_connector.h
->> @@ -1817,6 +1817,13 @@ struct drm_connector {
->>   	 */
->>   	struct list_head modes;
->>   
->> +	/**
->> +	 * @physical_status:
->> +	 * One of the drm_connector_status enums (connected, not, or unknown).
->> +	 * Protected by &drm_mode_config.mutex.
->> +	 */
-> I don't think that's anywhere near enough documentation. It's just
-> copy-paste from status. The values aren't important, the difference
-> between status and physical_status is.
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/ast/ast_dp.c     | 21 ++++++---------------
+>  drivers/gpu/drm/ast/ast_dp501.c  | 17 ++++-------------
+>  drivers/gpu/drm/ast/ast_drv.h    | 24 ++++--------------------
+>  drivers/gpu/drm/ast/ast_sil164.c | 17 ++++-------------
+>  drivers/gpu/drm/ast/ast_vga.c    | 28 ++++------------------------
+>  5 files changed, 22 insertions(+), 85 deletions(-)
 >
-> And I think we need to have both status and physical_status
-> documentation explain what they mean, when they change, who can change
-> them, etc. And crucially, tell folks not to mess with physical_status
-> except in the narrow use case.
->
-> Side note, this probably indicates a few places where drivers are
-> messing with connector status in a way they shouldn't:
->
-> 	git grep "connector->status = " -- drivers/gpu/drm
->
-> BR,
-> Jani.
->
->
->> +	enum drm_connector_status physical_status;
->> +
->>   	/**
->>   	 * @status:
->>   	 * One of the drm_connector_status enums (connected, not, or unknown).
+> diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
+> index 0e282b7b167c..b62c39479367 100644
+> --- a/drivers/gpu/drm/ast/ast_dp.c
+> +++ b/drivers/gpu/drm/ast/ast_dp.c
+> @@ -328,9 +328,9 @@ static void ast_astdp_encoder_helper_atomic_enable(struct drm_encoder *encoder,
+>  						   struct drm_atomic_state *state)
+>  {
+>  	struct ast_device *ast = to_ast_device(encoder->dev);
+> -	struct ast_connector *ast_connector = &ast->output.astdp.connector;
+> +	struct drm_connector *connector = &ast->output.astdp.connector;
+>  
+> -	if (ast_connector->physical_status == connector_status_connected) {
+> +	if (connector->physical_status == connector_status_connected) {
+>  		ast_dp_set_phy_sleep(ast, false);
+>  		ast_dp_link_training(ast);
+>  
+> @@ -360,10 +360,9 @@ static const struct drm_encoder_helper_funcs ast_astdp_encoder_helper_funcs = {
+>  
+>  static int ast_astdp_connector_helper_get_modes(struct drm_connector *connector)
+>  {
+> -	struct ast_connector *ast_connector = to_ast_connector(connector);
+>  	int count;
+>  
+> -	if (ast_connector->physical_status == connector_status_connected) {
+> +	if (connector->physical_status == connector_status_connected) {
+>  		struct ast_device *ast = to_ast_device(connector->dev);
+>  		const struct drm_edid *drm_edid;
+>  
+> @@ -391,7 +390,6 @@ static int ast_astdp_connector_helper_detect_ctx(struct drm_connector *connector
+>  						 struct drm_modeset_acquire_ctx *ctx,
+>  						 bool force)
+>  {
+> -	struct ast_connector *ast_connector = to_ast_connector(connector);
+>  	struct ast_device *ast = to_ast_device(connector->dev);
+>  	enum drm_connector_status status = connector_status_disconnected;
+>  	bool phy_sleep;
+> @@ -410,11 +408,7 @@ static int ast_astdp_connector_helper_detect_ctx(struct drm_connector *connector
+>  
+>  	mutex_unlock(&ast->modeset_lock);
+>  
+> -	if (status != ast_connector->physical_status)
+> -		++connector->epoch_counter;
+> -	ast_connector->physical_status = status;
+> -
+> -	return connector_status_connected;
+> +	return status;
+>  }
+>  
+>  static const struct drm_connector_helper_funcs ast_astdp_connector_helper_funcs = {
+> @@ -439,7 +433,6 @@ int ast_astdp_output_init(struct ast_device *ast)
+>  	struct drm_device *dev = &ast->base;
+>  	struct drm_crtc *crtc = &ast->crtc;
+>  	struct drm_encoder *encoder;
+> -	struct ast_connector *ast_connector;
+>  	struct drm_connector *connector;
+>  	int ret;
+>  
+> @@ -456,8 +449,7 @@ int ast_astdp_output_init(struct ast_device *ast)
+>  
+>  	/* connector */
+>  
+> -	ast_connector = &ast->output.astdp.connector;
+> -	connector = &ast_connector->base;
+> +	connector = &ast->output.astdp.connector;
+>  	ret = drm_connector_init(dev, connector, &ast_astdp_connector_funcs,
+>  				 DRM_MODE_CONNECTOR_DisplayPort);
+>  	if (ret)
+> @@ -466,10 +458,9 @@ int ast_astdp_output_init(struct ast_device *ast)
+>  
+>  	connector->interlace_allowed = 0;
+>  	connector->doublescan_allowed = 0;
+> +	connector->bmc_attached = true;
+>  	connector->polled = DRM_CONNECTOR_POLL_CONNECT | DRM_CONNECTOR_POLL_DISCONNECT;
+>  
+> -	ast_connector->physical_status = connector->status;
+> -
+>  	ret = drm_connector_attach_encoder(connector, encoder);
+>  	if (ret)
+>  		return ret;
+> diff --git a/drivers/gpu/drm/ast/ast_dp501.c b/drivers/gpu/drm/ast/ast_dp501.c
+> index 9e19d8c17730..8ffe30c74d3d 100644
+> --- a/drivers/gpu/drm/ast/ast_dp501.c
+> +++ b/drivers/gpu/drm/ast/ast_dp501.c
+> @@ -503,10 +503,9 @@ static const struct drm_encoder_helper_funcs ast_dp501_encoder_helper_funcs = {
+>  
+>  static int ast_dp501_connector_helper_get_modes(struct drm_connector *connector)
+>  {
+> -	struct ast_connector *ast_connector = to_ast_connector(connector);
+>  	int count;
+>  
+> -	if (ast_connector->physical_status == connector_status_connected) {
+> +	if (connector->physical_status == connector_status_connected) {
+>  		struct ast_device *ast = to_ast_device(connector->dev);
+>  		const struct drm_edid *drm_edid;
+>  
+> @@ -534,18 +533,13 @@ static int ast_dp501_connector_helper_detect_ctx(struct drm_connector *connector
+>  						 struct drm_modeset_acquire_ctx *ctx,
+>  						 bool force)
+>  {
+> -	struct ast_connector *ast_connector = to_ast_connector(connector);
+>  	struct ast_device *ast = to_ast_device(connector->dev);
+>  	enum drm_connector_status status = connector_status_disconnected;
+>  
+>  	if (ast_dp501_is_connected(ast))
+>  		status = connector_status_connected;
+>  
+> -	if (status != ast_connector->physical_status)
+> -		++connector->epoch_counter;
+> -	ast_connector->physical_status = status;
+> -
+> -	return connector_status_connected;
+> +	return status;
+>  }
+>  
+>  static const struct drm_connector_helper_funcs ast_dp501_connector_helper_funcs = {
+> @@ -570,7 +564,6 @@ int ast_dp501_output_init(struct ast_device *ast)
+>  	struct drm_device *dev = &ast->base;
+>  	struct drm_crtc *crtc = &ast->crtc;
+>  	struct drm_encoder *encoder;
+> -	struct ast_connector *ast_connector;
+>  	struct drm_connector *connector;
+>  	int ret;
+>  
+> @@ -587,8 +580,7 @@ int ast_dp501_output_init(struct ast_device *ast)
+>  
+>  	/* connector */
+>  
+> -	ast_connector = &ast->output.dp501.connector;
+> -	connector = &ast_connector->base;
+> +	connector = &ast->output.dp501.connector;
+>  	ret = drm_connector_init(dev, connector, &ast_dp501_connector_funcs,
+>  				 DRM_MODE_CONNECTOR_DisplayPort);
+>  	if (ret)
+> @@ -597,10 +589,9 @@ int ast_dp501_output_init(struct ast_device *ast)
+>  
+>  	connector->interlace_allowed = 0;
+>  	connector->doublescan_allowed = 0;
+> +	connector->bmc_attached = true;
+>  	connector->polled = DRM_CONNECTOR_POLL_CONNECT | DRM_CONNECTOR_POLL_DISCONNECT;
+>  
+> -	ast_connector->physical_status = connector->status;
+> -
+>  	ret = drm_connector_attach_encoder(connector, encoder);
+>  	if (ret)
+>  		return ret;
+> diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
+> index 21ce3769bf0d..a6887e90dc17 100644
+> --- a/drivers/gpu/drm/ast/ast_drv.h
+> +++ b/drivers/gpu/drm/ast/ast_drv.h
+> @@ -141,22 +141,6 @@ static inline struct ast_plane *to_ast_plane(struct drm_plane *plane)
+>  	return container_of(plane, struct ast_plane, base);
+>  }
+>  
+> -/*
+> - * Connector
+> - */
+> -
+> -struct ast_connector {
+> -	struct drm_connector base;
+> -
+> -	enum drm_connector_status physical_status;
+> -};
+> -
+> -static inline struct ast_connector *
+> -to_ast_connector(struct drm_connector *connector)
+> -{
+> -	return container_of(connector, struct ast_connector, base);
+> -}
+> -
+>  /*
+>   * Device
+>   */
+> @@ -190,19 +174,19 @@ struct ast_device {
+>  	union {
+>  		struct {
+>  			struct drm_encoder encoder;
+> -			struct ast_connector connector;
+> +			struct drm_connector connector;
+>  		} vga;
+>  		struct {
+>  			struct drm_encoder encoder;
+> -			struct ast_connector connector;
+> +			struct drm_connector connector;
+>  		} sil164;
+>  		struct {
+>  			struct drm_encoder encoder;
+> -			struct ast_connector connector;
+> +			struct drm_connector connector;
+>  		} dp501;
+>  		struct {
+>  			struct drm_encoder encoder;
+> -			struct ast_connector connector;
+> +			struct drm_connector connector;
+>  		} astdp;
+>  	} output;
+>  
+> diff --git a/drivers/gpu/drm/ast/ast_sil164.c b/drivers/gpu/drm/ast/ast_sil164.c
+> index be01254dd48a..aba5b8aa4307 100644
+> --- a/drivers/gpu/drm/ast/ast_sil164.c
+> +++ b/drivers/gpu/drm/ast/ast_sil164.c
+> @@ -23,10 +23,9 @@ static const struct drm_encoder_funcs ast_sil164_encoder_funcs = {
+>  
+>  static int ast_sil164_connector_helper_get_modes(struct drm_connector *connector)
+>  {
+> -	struct ast_connector *ast_connector = to_ast_connector(connector);
+>  	int count;
+>  
+> -	if (ast_connector->physical_status == connector_status_connected) {
+> +	if (connector->physical_status == connector_status_connected) {
+>  		count = drm_connector_helper_get_modes(connector);
+>  	} else {
+>  		drm_edid_connector_update(connector, NULL);
+> @@ -48,16 +47,11 @@ static int ast_sil164_connector_helper_detect_ctx(struct drm_connector *connecto
+>  						  struct drm_modeset_acquire_ctx *ctx,
+>  						  bool force)
+>  {
+> -	struct ast_connector *ast_connector = to_ast_connector(connector);
+>  	enum drm_connector_status status;
+>  
+>  	status = drm_connector_helper_detect_from_ddc(connector, ctx, force);
+>  
+> -	if (status != ast_connector->physical_status)
+> -		++connector->epoch_counter;
+> -	ast_connector->physical_status = status;
+> -
+> -	return connector_status_connected;
+> +	return status;
+>  }
+>  
+>  static const struct drm_connector_helper_funcs ast_sil164_connector_helper_funcs = {
+> @@ -83,7 +77,6 @@ int ast_sil164_output_init(struct ast_device *ast)
+>  	struct drm_crtc *crtc = &ast->crtc;
+>  	struct i2c_adapter *ddc;
+>  	struct drm_encoder *encoder;
+> -	struct ast_connector *ast_connector;
+>  	struct drm_connector *connector;
+>  	int ret;
+>  
+> @@ -104,8 +97,7 @@ int ast_sil164_output_init(struct ast_device *ast)
+>  
+>  	/* connector */
+>  
+> -	ast_connector = &ast->output.sil164.connector;
+> -	connector = &ast_connector->base;
+> +	connector = &ast->output.sil164.connector;
+>  	ret = drm_connector_init_with_ddc(dev, connector, &ast_sil164_connector_funcs,
+>  					  DRM_MODE_CONNECTOR_DVII, ddc);
+>  	if (ret)
+> @@ -114,10 +106,9 @@ int ast_sil164_output_init(struct ast_device *ast)
+>  
+>  	connector->interlace_allowed = 0;
+>  	connector->doublescan_allowed = 0;
+> +	connector->bmc_attached = true;
+>  	connector->polled = DRM_CONNECTOR_POLL_CONNECT | DRM_CONNECTOR_POLL_DISCONNECT;
+>  
+> -	ast_connector->physical_status = connector->status;
+> -
+>  	ret = drm_connector_attach_encoder(connector, encoder);
+>  	if (ret)
+>  		return ret;
+> diff --git a/drivers/gpu/drm/ast/ast_vga.c b/drivers/gpu/drm/ast/ast_vga.c
+> index abe0fff8485c..d78f00c47cc5 100644
+> --- a/drivers/gpu/drm/ast/ast_vga.c
+> +++ b/drivers/gpu/drm/ast/ast_vga.c
+> @@ -23,10 +23,9 @@ static const struct drm_encoder_funcs ast_vga_encoder_funcs = {
+>  
+>  static int ast_vga_connector_helper_get_modes(struct drm_connector *connector)
+>  {
+> -	struct ast_connector *ast_connector = to_ast_connector(connector);
+>  	int count;
+>  
+> -	if (ast_connector->physical_status == connector_status_connected) {
+> +	if (connector->physical_status == connector_status_connected) {
+>  		count = drm_connector_helper_get_modes(connector);
+>  	} else {
+>  		drm_edid_connector_update(connector, NULL);
+> @@ -44,25 +43,9 @@ static int ast_vga_connector_helper_get_modes(struct drm_connector *connector)
+>  	return count;
+>  }
+>  
+> -static int ast_vga_connector_helper_detect_ctx(struct drm_connector *connector,
+> -					       struct drm_modeset_acquire_ctx *ctx,
+> -					       bool force)
+> -{
+> -	struct ast_connector *ast_connector = to_ast_connector(connector);
+> -	enum drm_connector_status status;
+> -
+> -	status = drm_connector_helper_detect_from_ddc(connector, ctx, force);
+> -
+> -	if (status != ast_connector->physical_status)
+> -		++connector->epoch_counter;
+> -	ast_connector->physical_status = status;
+> -
+> -	return connector_status_connected;
+> -}
+> -
+>  static const struct drm_connector_helper_funcs ast_vga_connector_helper_funcs = {
+>  	.get_modes = ast_vga_connector_helper_get_modes,
+> -	.detect_ctx = ast_vga_connector_helper_detect_ctx,
+> +	.detect_ctx = drm_connector_helper_detect_from_ddc,
+>  };
+>  
+>  static const struct drm_connector_funcs ast_vga_connector_funcs = {
+> @@ -83,7 +66,6 @@ int ast_vga_output_init(struct ast_device *ast)
+>  	struct drm_crtc *crtc = &ast->crtc;
+>  	struct i2c_adapter *ddc;
+>  	struct drm_encoder *encoder;
+> -	struct ast_connector *ast_connector;
+>  	struct drm_connector *connector;
+>  	int ret;
+>  
+> @@ -104,8 +86,7 @@ int ast_vga_output_init(struct ast_device *ast)
+>  
+>  	/* connector */
+>  
+> -	ast_connector = &ast->output.vga.connector;
+> -	connector = &ast_connector->base;
+> +	connector = &ast->output.vga.connector;
+>  	ret = drm_connector_init_with_ddc(dev, connector, &ast_vga_connector_funcs,
+>  					  DRM_MODE_CONNECTOR_VGA, ddc);
+>  	if (ret)
+> @@ -114,10 +95,9 @@ int ast_vga_output_init(struct ast_device *ast)
+>  
+>  	connector->interlace_allowed = 0;
+>  	connector->doublescan_allowed = 0;
+> +	connector->bmc_attached = true;
+>  	connector->polled = DRM_CONNECTOR_POLL_CONNECT | DRM_CONNECTOR_POLL_DISCONNECT;
+>  
+> -	ast_connector->physical_status = connector->status;
+> -
+>  	ret = drm_connector_attach_encoder(connector, encoder);
+>  	if (ret)
+>  		return ret;
 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
+Jani Nikula, Intel
