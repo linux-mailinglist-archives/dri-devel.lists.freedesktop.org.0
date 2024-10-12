@@ -2,41 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD2A699B72A
-	for <lists+dri-devel@lfdr.de>; Sat, 12 Oct 2024 23:26:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 501CF99B72C
+	for <lists+dri-devel@lfdr.de>; Sat, 12 Oct 2024 23:26:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2909810E366;
-	Sat, 12 Oct 2024 21:26:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2988D10E369;
+	Sat, 12 Oct 2024 21:26:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="gt4a5y0A";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="aCAQo/2Z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7424D10E366
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Oct 2024 21:26:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B47C110E368
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Oct 2024 21:26:13 +0000 (UTC)
 Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 3ACA188E0A;
- Sat, 12 Oct 2024 23:26:06 +0200 (CEST)
+ by phobos.denx.de (Postfix) with ESMTPSA id 3222488E0F;
+ Sat, 12 Oct 2024 23:26:08 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1728768367;
- bh=BPbjybVYso2SsvCjYT5dmUDnHzZPpdXSHwTTR6enMnU=;
+ s=phobos-20191101; t=1728768369;
+ bh=n0gUqPu0L9PwDtoZ6oud8EjC999D6KiLx0miig+Q668=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=gt4a5y0AtemogG14/BXObAu+4lMg5Gc5nNf0ht4KlJttecfVW13cV5dx60/JxXcHY
- hGskR8TPasXfxZnA626Q+MIjXzlc3sfMlETWOZ1Few2SMuxlfPD6qif+QNqWjiJjvj
- aXsHxax570VDWSJe2dvq12Xiwe2v+8eSRgpNcTyREIrukaDBEvhbJAr8OGW44lcoSr
- fPcSu4UD44X8t5eXhTbHBwxe9XJUVo2qXGjFEzFRhwZvO+F8e4HIYKGhKsZuM0KsFx
- sPk5IWkkmJklqbd+QBM7iIrL5RwVM0JL/BZ2PeMnj1Sgq+jRblnw5Z+XdlcegitBwI
- WqD/bUbyyEWQg==
-Message-ID: <d99e0021-3253-4312-9b50-6031ae0f8d8e@denx.de>
-Date: Sat, 12 Oct 2024 23:07:13 +0200
+ b=aCAQo/2Z3WzrkPFGWG9CNKR5Q8y+q1PTKmsVQjglOxSQ4VEP7zhzHKYNl8zufNiM8
+ krgEJs8JtZlB1vxP0UsKEEmf85k+YT/5Ic5rQP+i+2/zeyWQSZVkMRrYNSDAmpGvea
+ R78zdO11EmGongwbpEVDwMYXyTzLoJzILxU3BHtvkVq8W+wLbUxwLnR0IuYiyYFAOm
+ XwZpL36xvQk4R0qZwkeJ4M5qVR9fPQQqNXPWVBKyAWmMqXRrqj6Q1A8JB/3b0LhZl5
+ JR1pN7SSiKvYFtBLEkX8Qci0b38yHxq4SNf4RiWeXI4LIgyNadHbiMDwSXiXQKiFwi
+ qaQ0R7AGolbfQ==
+Message-ID: <207b20ff-cc7b-40aa-8dde-bc5aabdfb414@denx.de>
+Date: Sat, 12 Oct 2024 23:12:37 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] clk: imx: clk-imx8mp: Allow LDB serializer clock
- reconfigure parent rate
+Subject: Re: [PATCH 2/2] drm: bridge: ldb: Configure LDB clock in .mode_set
 To: Liu Ying <victor.liu@nxp.com>, dri-devel@lists.freedesktop.org
 Cc: Abel Vesa <abelvesa@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>, 
  David Airlie <airlied@gmail.com>, Fabio Estevam <festevam@gmail.com>,
@@ -54,12 +53,13 @@ Cc: Abel Vesa <abelvesa@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
  imx@lists.linux.dev, kernel@dh-electronics.com,
  linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org
 References: <20241008223846.337162-1-marex@denx.de>
- <dbede671-c97b-4ad7-8a54-f1b381fea082@nxp.com>
- <00ffd38c-b01a-40cd-9130-19c35a387ca0@denx.de>
- <819380c3-d13f-4989-b305-388fc60d30e4@nxp.com>
+ <20241008223846.337162-2-marex@denx.de>
+ <d6a34efa-47ad-439b-8b0c-a427cf087cb3@nxp.com>
+ <0e47b529-59f2-4d25-8c5d-30ca1dc4e964@denx.de>
+ <3341a6a7-ac0e-4594-a670-b3a6d583b344@nxp.com>
 Content-Language: en-US
 From: Marek Vasut <marex@denx.de>
-In-Reply-To: <819380c3-d13f-4989-b305-388fc60d30e4@nxp.com>
+In-Reply-To: <3341a6a7-ac0e-4594-a670-b3a6d583b344@nxp.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
@@ -79,134 +79,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/11/24 8:18 AM, Liu Ying wrote:
+On 10/11/24 8:49 AM, Liu Ying wrote:
 > On 10/11/2024, Marek Vasut wrote:
->> On 10/10/24 7:22 AM, Liu Ying wrote:
+>> On 10/10/24 9:15 AM, Liu Ying wrote:
 >>> On 10/09/2024, Marek Vasut wrote:
->>>> The media_ldb_root_clk supply LDB serializer. These clock are usually
->>>> shared with the LCDIFv3 pixel clock and supplied by the Video PLL on
->>>> i.MX8MP, but the LDB clock run at either x7 or x14 rate of the LCDIFv3
->>>> pixel clock. Allow the LDB to reconfigure Video PLL as needed, as that
->>>> results in accurate serializer clock.
->>>>
->>>> Signed-off-by: Marek Vasut <marex@denx.de>
->>>> ---
->>>> Cc: Abel Vesa <abelvesa@kernel.org>
->>>> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
->>>> Cc: David Airlie <airlied@gmail.com>
->>>> Cc: Fabio Estevam <festevam@gmail.com>
->>>> Cc: Isaac Scott <isaac.scott@ideasonboard.com>
->>>> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
->>>> Cc: Jonas Karlman <jonas@kwiboo.se>
->>>> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
->>>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->>>> Cc: Maxime Ripard <mripard@kernel.org>
->>>> Cc: Michael Turquette <mturquette@baylibre.com>
->>>> Cc: Neil Armstrong <neil.armstrong@linaro.org>
->>>> Cc: Peng Fan <peng.fan@nxp.com>
->>>> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
->>>> Cc: Robert Foss <rfoss@kernel.org>
->>>> Cc: Sascha Hauer <s.hauer@pengutronix.de>
->>>> Cc: Shawn Guo <shawnguo@kernel.org>
->>>> Cc: Simona Vetter <simona@ffwll.ch>
->>>> Cc: Stephen Boyd <sboyd@kernel.org>
->>>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->>>> Cc: dri-devel@lists.freedesktop.org
->>>> Cc: imx@lists.linux.dev
->>>> Cc: kernel@dh-electronics.com
->>>> Cc: linux-arm-kernel@lists.infradead.org
->>>> Cc: linux-clk@vger.kernel.org
->>>> ---
->>>>    drivers/clk/imx/clk-imx8mp.c | 2 +-
->>>>    1 file changed, 1 insertion(+), 1 deletion(-)
->>>>
->>>> diff --git a/drivers/clk/imx/clk-imx8mp.c b/drivers/clk/imx/clk-imx8mp.c
->>>> index 516dbd170c8a3..2e61d340b8ab7 100644
->>>> --- a/drivers/clk/imx/clk-imx8mp.c
->>>> +++ b/drivers/clk/imx/clk-imx8mp.c
->>>> @@ -611,7 +611,7 @@ static int imx8mp_clocks_probe(struct platform_device *pdev)
->>>>        hws[IMX8MP_CLK_MEDIA_MIPI_PHY1_REF] = imx8m_clk_hw_composite("media_mipi_phy1_ref", imx8mp_media_mipi_phy1_ref_sels, ccm_base + 0xbd80);
->>>>        hws[IMX8MP_CLK_MEDIA_DISP1_PIX] = imx8m_clk_hw_composite_bus_flags("media_disp1_pix", imx8mp_media_disp_pix_sels, ccm_base + 0xbe00, CLK_SET_RATE_PARENT);
->>>>        hws[IMX8MP_CLK_MEDIA_CAM2_PIX] = imx8m_clk_hw_composite("media_cam2_pix", imx8mp_media_cam2_pix_sels, ccm_base + 0xbe80);
->>>> -    hws[IMX8MP_CLK_MEDIA_LDB] = imx8m_clk_hw_composite("media_ldb", imx8mp_media_ldb_sels, ccm_base + 0xbf00);
->>>> +    hws[IMX8MP_CLK_MEDIA_LDB] = imx8m_clk_hw_composite_bus_flags("media_ldb", imx8mp_media_ldb_sels, ccm_base + 0xbf00, CLK_SET_RATE_PARENT);
+>>>> The LDB serializer clock operate at either x7 or x14 rate of the input
 >>>
->>> This patch would cause the below in-flight LDB bridge driver
->>> patch[1] fail to do display mode validation upon display modes
->>> read from LVDS to HDMI converter IT6263's DDC I2C bus.
+>>> Isn't it either x7 or 3.5x?
 >>
->> Why ?
+>> Is it 3.5 for the dual-link LVDS ?
 > 
-> Mode validation is affected only for dual LVDS link mode.
-> For single LVDS link mode, this patch does open more display
-> modes read from the DDC I2C bus.  The reason behind is that
-> LVDS serial clock rate/pixel clock rate = 3.5 for dual LVDS
-> link mode, while it's 7 for single LVDS link mode.
+> Yes.
 > 
-> In my system, "video_pll1" clock rate is assigned to 1.0395GHz
-> in imx8mp.dtsi.  For 1920x1080-60.00Hz with 148.5MHz pixel
-> clock rate, "media_ldb" clock rate is 519.75MHz and
-> "media_disp2_pix" clock rate is 148.5MHz, which is fine for
-> dual LVDS link mode(x3.5).  For newly opened up 1920x1080-59.94Hz
-> with 148.352MHz pixel clock rate, "video_pll1" clock rate will
-> be changed to 519.232MHz, "media_ldb" clock rate is 519.232MHz
-> and "media_disp2_pix" clock rate is wrongly set to 519.232MHz
-> too because "media_disp2_pix" clock cannot handle the 3.5
-> division ratio from "video_pll1_out" clock running at
-> 519.232MHz.  See the below clk_summary.
-
-Shouldn't this patch help exactly with that ?
-
-It should allow you to set video_pll1_out to whatever is necessary by 
-LDB first, fixate that frequency, and the LCDIFv3 would then be forced 
-to use /7 divider from faster Video PLL1 , right ?
-
->      video_pll1_ref_sel               1       1        0        24000000    0          0     50000      Y      deviceless                      no_connection_id
->         video_pll1                    1       1        0        519232000   0          0     50000      Y         deviceless                      no_connection_id
->            video_pll1_bypass          1       1        0        519232000   0          0     50000      Y            deviceless                      no_connection_id
->               video_pll1_out          2       2        0        519232000   0          0     50000      Y               deviceless                      no_connection_id
->                  media_ldb            1       1        0        519232000   0          0     50000      Y                  deviceless                      no_connection_id
->                     media_ldb_root_clk 1       1        0        519232000   0          0     50000      Y                     32ec0000.blk-ctrl:bridge@5c     ldb
->                                                                                                                               deviceless                      no_connection_id
->                  media_disp1_pix      0       0        0        129808000   0          0     50000      N                  deviceless                      no_connection_id
->                     media_disp1_pix_root_clk 0       0        0        129808000   0          0     50000      N                     32e80000.display-controller     pix
->                                                                                                                               32ec0000.blk-ctrl               disp1
->                                                                                                                               deviceless                      no_connection_id
->                  media_disp2_pix      1       1        0        519232000   0          0     50000      Y                  deviceless                      no_connection_id
->                     media_disp2_pix_root_clk 1       1        0        519232000   0          0     50000      Y                     32e90000.display-controller     pix
->                                                                                                                               32ec0000.blk-ctrl               disp2
->                                                                                                                               deviceless                      no_connection_id
+> static unsigned long fsl_ldb_link_frequency(struct fsl_ldb *fsl_ldb, int clock)
+> {
+>          if (fsl_ldb_is_dual(fsl_ldb))
+>                  return clock * 3500;
+>          else
+>                  return clock * 7000;
+> }
 > 
-> Single LVDS link mode is not affected because "media_disp2_pix"
-> clock can handle the 7 division ratio.
+>> I don't have such a panel right now to test.
 > 
-> To support the dual LVDS link mode, "video_pll1" clock rate needs
-> to be x2 "media_ldb" clock rate so that "media_disp2_pix" clock
-> can use 7 division ratio to achieve the /3.5 clock rate comparing
-> to "media_ldb" clock rate.  However, "video_pll1" is not seen by
-> LDB driver thus not directly controlled by it.  This is another
-> reason why assigning a reasonable "video_pll1" clock rate in DT
-> makes sense.
+> You can add a panel DT node for test to see the relationship
+> between the clocks, without a real dual-link LVDS panel.
 
-I agree that _right_now_, the DT clock assignment is the only option.
-I would like to see that DT part disappear and instead would prefer if 
-the LDB/LCDIF could figure out the clock tree configuration themselves.
+I'll take your word for this.
 
->> Also, please Cc me on fsl-ldb.c patches.
+>> [...]
+>>
+>>>> diff --git a/drivers/gpu/drm/bridge/fsl-ldb.c b/drivers/gpu/drm/bridge/fsl-ldb.c
+>>>> index 0e4bac7dd04ff..a3a31467fcc85 100644
+>>>> --- a/drivers/gpu/drm/bridge/fsl-ldb.c
+>>>> +++ b/drivers/gpu/drm/bridge/fsl-ldb.c
+>>>> @@ -278,6 +278,16 @@ fsl_ldb_mode_valid(struct drm_bridge *bridge,
+>>>>        return MODE_OK;
+>>>>    }
+>>>>    +static void fsl_ldb_mode_set(struct drm_bridge *bridge,
+>>>> +                   const struct drm_display_mode *mode,
+>>>> +                   const struct drm_display_mode *adj)
+>>>> +{
+>>>> +    struct fsl_ldb *fsl_ldb = to_fsl_ldb(bridge);
+>>>> +    unsigned long requested_link_freq = fsl_ldb_link_frequency(fsl_ldb, mode->clock);
+>>>> +
+>>>> +    clk_set_rate(fsl_ldb->clk, requested_link_freq);
+>>>
+>>> The mode_set callback won't be called when only crtc_state->active
+>>> is changed from false to true in an atomic commit, e.g., blanking
+>>> the emulated fbdev first and then unblanking it.  So, in this case,
+>>> the clk_set_rate() in fsl_ldb_atomic_enable() is still called after
+>>> those from mxsfb_kms or lcdif_kms.
+>>>
+>>> Also, it doesn't look neat to call clk_set_rate() from both mode_set
+>>> callback and atomic_enable callback.
+>>
+>> I agree the mode_set callback is not the best place for this.
+>> Do you know of a better callback where to do this ? I couldn't find one.
 > 
-> Ok, will do.  BTW, if MAINTAINERS is updated, then you'll always
-> receive fsl-ldb.c patches.
+> A wild idea is to change the order between the CRTC atomic_enable
+> callback and the bridge one by implementing your own
+> atomic_commit_tail...  I don't think there is any place to do this
+> other than atomic_enable callback.
 
-Thanks
+I will give that a try, thanks.
 
->>> Unsupported display modes cannot be ruled out.  Note that
->>> "media_ldb" is derived from "video_pll1_out" by default as the
->>> parent is set in imx8mp.dtsi.  And, the only 4 rates supported
->>> by "video_pll1" are listed in imx_pll1443x_tbl[] - 1.0395GHz,
->>> 650MHz, 594MHz and 519.75MHz.
->> I disagree with this part, since commit b09c68dc57c9 ("clk: imx: pll14xx: Support dynamic rates") the 1443x PLLs can be configured to arbitrary rates which for video PLL is desirable as those should produce accurate clock.
+> Anyway, I don't think it is necessary to manage the clk_set_rate()
+> function calls between this driver and mxsfb_kms or lcdif_kms
+> because "video_pll1" clock rate is supposed to be assigned in DT...
+
+I disagree with this part. I believe the assignment of clock in DT is 
+only a temporary workaround which should be removed. The drivers should 
+be able to figure out and set the clock tree configuration.
+
+>>> The idea is to assign a reasonable PLL clock rate in DT to make
+>>> display drivers' life easier, especially for i.MX8MP where LDB,
+>>> Samsung MIPI DSI may use a single PLL at the same time.
+>> I would really like to avoid setting arbitrary clock in DT, esp. if it can be avoided. And it surely can be avoided for this simple use case.
 > 
-> Kinda ack - that commit does open up many more clock rates.
-> But, the commit just says dynamic rates, not arbitrary rates or
-> any rate.
-I am fine with that.
+> ... just like I said in patch 1/2, "video_pll1" clock rate needs
+> to be x2 "media_ldb" clock rate for dual LVDS link mode. Without
+> an assigned "video_pll1" clock rate in DT, this driver cannot
+> achieve that.
+
+This is something the LDB driver can infer from DT and configure the 
+clock tree accordingly.
+
+> And, the i.MX8MP LDB + Samsung MIPI DSI case is
+> not simple considering using one single PLL and display modes
+> read from EDID.
+You could use separate PLLs for each LCDIF scanout engine in such a 
+deployment, I already ran into that, so I am aware of it. That is 
+probably the best way out of such a problem, esp. if accurate pixel 
+clock are the requirement.
+
+[...]
