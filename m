@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93DB499B1A5
-	for <lists+dri-devel@lfdr.de>; Sat, 12 Oct 2024 09:37:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 265F399B1A7
+	for <lists+dri-devel@lfdr.de>; Sat, 12 Oct 2024 09:37:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C08CC10E300;
-	Sat, 12 Oct 2024 07:37:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAA8E10E302;
+	Sat, 12 Oct 2024 07:37:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="DGtVcclc";
+	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="c/ocL+Cn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from EUR03-VI1-obe.outbound.protection.outlook.com
- (mail-vi1eur03on2081.outbound.protection.outlook.com [40.107.103.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FCCB10E300
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Oct 2024 07:37:22 +0000 (UTC)
+ (mail-vi1eur03on2089.outbound.protection.outlook.com [40.107.103.89])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9169410E301
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Oct 2024 07:37:34 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GcxCbNRjohnwrhlg7NbyvRer3I4RqFcJ+6kvvITLO4MOU8ooIZ4/PxviOuYfxZwJvkMXlzzN8WnVYKZlALwqHEN9+pfXv7H+pgW44zNLBrE3Za0ZSvRU+XES1zaNT3IgbKpDSZi7Ioolx1TYZSVW+JjcIiHsHvI1QAs220uY4Ihyf9TgB1vdFNojcU6+tBih8Pb9uomCogc+5IiyD0axKkLXLFDe+HzjZ4eDH0NNIIU9YCsFBt4jGN3/VTPqhJg1gtGvEUyLRMGS1PhUAgjM0CFxe9nQL/VKSFHu8guD2ZQZg81bi7cRLjQXduV6hpcTHOd7jg4spp3ifZMPP02vhw==
+ b=NO3OXT8jPSCNZKqKrhuR1ZJz77fkqlOYSI4nBw+vGWeei5MQtRmrjSAYZr34np3NGTEYR89RSDv773GCB5NV9YowUvQ/RBXwym7cWQHW12sD0Iohz0JEIuraa9lsDvhYVIAvMmjeSio1ucTukWviX5k34vFzq5hkYZUNCnWxIg5zg/Y4D9ZeWcmuT/yEGqmRWQ104m7MsAPzA0MpXij5wSkak5sE6gt2n4C+w/VXj4GX1s0v5piqV9ZlvU+nknxpt7alOc3qD96rvqFUjFiQdb+EWG5xqzvGn0WuzQKBbQuNEZ3N8EG/8CwEy3MIXiGfoX00DMg8CxI4L9qLjf82gA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=txhMIYL2GZzyI1GvUUGUsBaJujCliB8cy+8lF5hstFg=;
- b=BByyd8RtWyyv7NEzC5q8ZL24+GNziHVRv15L+Afs1+oCZWzLNlmDl9IA0ZCapFpQHwYSlOTIoY3E2s9cIdyzk8ZWt9altl2+f8dRdvNwZd5e9L3p2vtJYkIoL40bV8//HnSCNkS/h/xs6bi/0AZe5n7A0aB5sJqGp989FT+Z+a0B7ilMWCIWPGioR25p8nVaStT7LVOUSX5hx9ZB8RTtqtpM2JAwSj4qQLgs6ZrNs3XqnMVaBRnn1zLZG2PX6j6A+84jDJQUm8C2Oe1q6AJTkpFYKt0tTMSCBZS6zo8KgPunzUndi+1khZHno9jpKW85kam5PrQ3P19X2DQTtv9FAQ==
+ bh=XqmQl9n3MEBRz7/bWlLrxMgcGmirVscKRM6+IgsxO/0=;
+ b=csF+wMKkCxkyaL/WeayXS2llRLk3WCnmIqDKigOpbLjj0UufxgH2d4ca8zWCyh1ZNyunXV2dDOaIQZsizYBbkftMS9wws9L/Y+0fsVTyLrxn03h99DW8+1FBgp4AKFMAKhAoX89vGQbJIRnM5pL8uU8p92Fh0MjxwmaiIRgWi6cSmMIgWw2/nQYPLHgMDWgMh2CEbdDjDEphEtQECB1BzebGZnj1RvY/BUyzyDE9/wY/kyLgZh/jzsTluzGnRrdMVmgDxpg1Qg9rZjusrvToRexe7FkrDTaeemMAEzBGwalVXWCW6d5mpqErC+dKnxdDcBrBK3BN/ZVyE6oLWg49cQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=txhMIYL2GZzyI1GvUUGUsBaJujCliB8cy+8lF5hstFg=;
- b=DGtVcclc6dAF5lvWQBYsiIqXf3QSVG+W7PTk5Mbe2FP4zeGMVaX7ADoTH4scUkkDPifaiAPgReuV/bx4gsJvIiTDyLhqbtJrd0PAEXUG28cNly089hvw82zSfKKEfLIly6WsKvjzYCRqSkRljaUUbKIH1JO+SK8LrKKuHIdNIr4zqlCW3LvWJZU/fPb9XKc5jfDPX5v1q3MnIfGVPE3dF8IyaMzvBA+N3UkxFyUoLfQnUSX+ispcNJ3BMAMVSAk0Dox8l3iJEmlIQKs4bzL5TOrPJCM+kXqyoakIfg+nurPzw3ZurcjLFog9p1YhYzk760ZfQ3Ye7skJt2XW/wBV5A==
+ bh=XqmQl9n3MEBRz7/bWlLrxMgcGmirVscKRM6+IgsxO/0=;
+ b=c/ocL+Cn3zVS+4VUdNWWZIObvpJmDk4yG1AZR8Np0yYmviPRqYxNeQR+GeF3ATctDI3RVRDjcNQBY3ZcwxZz+EsZ0maJXvIFxbVTcgeVvId06MVSef9/cLFxHpXjuUb3KLMKHyOrTiIjRAtxE1wYD8BVcsNcEIxT2XjCaxuZ7ZoOs2Dzo5rTFMOdOPwpXphnwGs90Itn1yCGLEKcgSMcuqXc+yLLu6p9U47skHFlAZPFhe/aQ+2ZMC3OcxdWJcQpoopMxzideZ7WbmUUrW1uJFzTyISI6OKl3G749xiNcXuopmyK7E3/dksSewE/xyu1LwCqB2daaJOgSULTkysMIw==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
  by DB8PR04MB6986.eurprd04.prod.outlook.com (2603:10a6:10:116::13)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.22; Sat, 12 Oct
- 2024 07:37:19 +0000
+ 2024 07:37:29 +0000
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::d1ce:ea15:6648:6f90]) by AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::d1ce:ea15:6648:6f90%4]) with mapi id 15.20.8048.020; Sat, 12 Oct 2024
- 07:37:19 +0000
+ 07:37:29 +0000
 From: Liu Ying <victor.liu@nxp.com>
 To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, imx@lists.linux.dev,
@@ -56,10 +56,10 @@ Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
  dmitry.baryshkov@linaro.org, arnd@arndb.de, nfraprado@collabora.com,
  o.rempel@pengutronix.de, y.moog@phytec.de, marex@denx.de,
  isaac.scott@ideasonboard.com, biju.das.jz@bp.renesas.com
-Subject: [PATCH v2 4/9] drm/bridge: fsl-ldb: Use clk_round_rate() to validate
- "ldb" clock rate
-Date: Sat, 12 Oct 2024 15:35:38 +0800
-Message-Id: <20241012073543.1388069-5-victor.liu@nxp.com>
+Subject: [PATCH v2 5/9] dt-bindings: display: bridge: Add ITE IT6263 LVDS to
+ HDMI converter
+Date: Sat, 12 Oct 2024 15:35:39 +0800
+Message-Id: <20241012073543.1388069-6-victor.liu@nxp.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241012073543.1388069-1-victor.liu@nxp.com>
 References: <20241012073543.1388069-1-victor.liu@nxp.com>
@@ -71,76 +71,75 @@ X-ClientProxiedBy: SI2PR01CA0051.apcprd01.prod.exchangelabs.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|DB8PR04MB6986:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1f13943c-2a24-4651-97b6-08dcea90b3d7
+X-MS-Office365-Filtering-Correlation-Id: 7f421681-2de6-46ec-cbb7-08dcea90b980
 X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
  ARA:13230040|1800799024|7416014|376014|366016|52116014|38350700014; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?9QspTKpptgPs3aJLdmSwFH61tDpxNJxjGwDrVfZ5YTIb8e2BHBKd+CWArOq1?=
- =?us-ascii?Q?IB/Xjqd+cm4SUE7GR8l3tj8aQnVlhJ7rkM4dJrZSCZdDDljJfVdXMTYYiWca?=
- =?us-ascii?Q?MpuLa3oM73R8bmlqu6eSukmokrItaqWdPKWmRN3+ORYD9xVSg0FSUnKYKyDG?=
- =?us-ascii?Q?BcBffIcIIO3vDF7/n24nciRlSFVLykEt3XYMxaLW9duJZMGvsJVhvufickjg?=
- =?us-ascii?Q?KGcaJSvKKErBdXpwxT9w3VewblvGeLuJjRXOoPgL6KXDLHm6WEuKiS/367jP?=
- =?us-ascii?Q?Xzj0tLFng4lFLnVRjjue9Gl0vkpO0YkyV+xrQvEfcYCKFQSfwqYz3dVt7Fy5?=
- =?us-ascii?Q?1XQxG8OHjgiwxbnUAsTvxIrJCd/NEkcAByp+e7w2fxWAyoTRqNsoR7vSfPnZ?=
- =?us-ascii?Q?MJIVfeOZsiAMbsBi+tBkc921J47XSKWdsYBMmqQVR3qjjLxyVKZj98vu9sCr?=
- =?us-ascii?Q?/Fq38s5einGncj08BwOwfNwOhL1cj/vdYGMLP7sA70GEzuztp4sJt/vk5SWK?=
- =?us-ascii?Q?1OhO1SST8rfrTew9IWgqdNARKg8IYecdUT71vmXlfcP4NtF2UM9XsECHcMwY?=
- =?us-ascii?Q?Uwh+FJhZQOsC2vYudkdG4fo/KsVaDZMKnVxeoLsoL+CSCLpTq5rb7nahUtWe?=
- =?us-ascii?Q?zrXYTcur0Bp5IHNSZw6dR0rBDmV+VuL1QY5roIbidM8OlTMguP8yPLZ41YQC?=
- =?us-ascii?Q?UJE5jBqHSNdvUsN3/9AEIhgw88xRd7S2ZSSDNmaN/+OEaBCyH2f/JFeI4S3c?=
- =?us-ascii?Q?RWz2+xbKL/rgnWC0IJm/kIDmeXDl0KHlew6EP43OhEzY6wu18BSoDpS/mit/?=
- =?us-ascii?Q?892ZytVLW+/1hVzicY4Yrzi9+ccyvmuhDRafunjwkubuB7io4ACEfO5kbD9+?=
- =?us-ascii?Q?eWu0DRjBksuG8Qdf4saDmQa/UQzvtnCAlOisWTqyrfkFuhLgCNh3yQyMHbfB?=
- =?us-ascii?Q?8FHiRL1Hh1DK4ELA9Mim7y+ei5EYGQ6ASptEZjsJC15nqsRHtWR25579U7Dq?=
- =?us-ascii?Q?y0IZUGuLm3GpHtc0eb4mAtbRywJt5emusLRlXyMIJelD771kbSfaBLEFszmW?=
- =?us-ascii?Q?CKwrUpebX0XIdPjPkl3r4mhX15GLVj8swARyz69FgwlOgwUAtKyIEvzEkdrw?=
- =?us-ascii?Q?7rjHY0vwI/pLG8NK+3k7t964kYt8GDQEe+xlqgfYE3WGOidjhgMfucULh9Xs?=
- =?us-ascii?Q?KDDwTZuM4sowj2/hT4iANT1Ov34SIH5bGt4hEsPOKTcUX9eVe/BYoj9EzS3b?=
- =?us-ascii?Q?sMHeWjAcetVGQiZfZD8BbcyCHfDyFoGz4VXAA/CglurXBA0KF144v60bzDaO?=
- =?us-ascii?Q?+7I0prYQtsJqmch50jYoM4dJqu6hi8ZYpx5CYDs2UVvA4w=3D=3D?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?O4Lo4bgOHPz6/yPAyZYIn5x1oZ8yZvQi2Sv3tVjcKAQGgSGmdblar4GC2yvX?=
+ =?us-ascii?Q?piy1x/Md+CrSYjNfmkxIUJJNjEczDaKhT1LWthGlG0R10wFVWNSKKrYdn1R5?=
+ =?us-ascii?Q?h9Oeiwg04Da/cJyTw//A8JhopSJSaxYXlFcCVYr9UNxxKGpehiBeqkLn45/f?=
+ =?us-ascii?Q?fNGXhHYUhKrZIRjWec+vYBMtAhEM4FvNwszecKNFzDD4zrW4JWfjzbg60FNU?=
+ =?us-ascii?Q?CBq0Q/yGRtd5RWpxdOLFET3OdNjFaQbFsbrgYOrHQ8JDRhR1SMVSWC2bYLBS?=
+ =?us-ascii?Q?jrEgj1Uat7p2v1W3gKiB/MTmRS/8MnWzHPR6xZ4jKdd8hghmod7V8eIGSXjA?=
+ =?us-ascii?Q?SSh9X0QdCqLM0w6h+CARnFCRt1jVAUao5sFuwWHyVjhdql250GMpEkuH+DFS?=
+ =?us-ascii?Q?R94n7YAyZcD5jEvrcAV7vUcRsWxA2elhRu4KZb+X4eOVlomI9vY5seflC7hJ?=
+ =?us-ascii?Q?c9/N61jzm0drdsUqN5H4Behs0XYgwEOf+ua+4Go9yhQ6y2QkEfGJtxluye1W?=
+ =?us-ascii?Q?jweEpQKm05tpCexTbBuNp0THnBxZcd8Ig+p8UWbux/yzfBR+uVPdB1gf+0sN?=
+ =?us-ascii?Q?sUqQSSS4ogZD+rt5/Q3G+jFTAHdcuteJnnYZBTjjjAFkQWaUkjXcdMmYO1yz?=
+ =?us-ascii?Q?UFvsLBN0m+8FAr2/AW7sLYGo/7XC4Eb7G+KoxEpVav2bez9CG+KApA6Y60T9?=
+ =?us-ascii?Q?HrZKwuFKVCWyQaGH5GVkrlmToDnU9bk/RIeM8n6PMZ2VBVYqQr8Xn83UjO4R?=
+ =?us-ascii?Q?dmWlWMYPSLiukO/Ql1mO/BF/9wSI+RiO6wpeV1YKc84NELhyyKkdiw2IeRNa?=
+ =?us-ascii?Q?nGxJkQBFjgtHD24S60re93nwE36qAEGhfS0HbhE4Bww2wSiRkmsfV2o/5ew0?=
+ =?us-ascii?Q?NA2a080LKWcsrNALNNSII89AefOboSyPiZSPPYJeKjreK/HY3a6AnyDIwTfv?=
+ =?us-ascii?Q?EJFyEpcYDSANloCFB7Q2mJOdIfpKuFo+9a6eaq/CBjp1D9HW0PSsfyL9Rqht?=
+ =?us-ascii?Q?oz7B6BIPAMjrgF52Bb0vz4mDmxN0HrQPNagFrKIQGNCZWofVFv4Z2PuCgBMa?=
+ =?us-ascii?Q?nCdRR0c9YsnL0Ss6GUmlIiECPrcr1T4LhOS2e8Q2BUGHYyiM4FSpV9UcUHOz?=
+ =?us-ascii?Q?tf1P88tFytowcz6aNn3EqqXA+wjJcnqQrD3xCpqQoR+LPpHbRLT2F59H/1/S?=
+ =?us-ascii?Q?37+IMxnquycLUcdHAqyv9QWz/fXqpzYvn6SdiPzzEs98ijalbRm1Gy7aXkOw?=
+ =?us-ascii?Q?0J8QJBpyP38iJu7oWnp90Gc1EI9YD4PquGJvmnTuDQ=3D=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(1800799024)(7416014)(376014)(366016)(52116014)(38350700014);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?iMLaCIMEgWuCCASN1l7tDI8/8DLlezfml81MpJRZbI/ZVdkaXyw+6ejLs8DM?=
- =?us-ascii?Q?4nAR0mfq6BdQzmAk3c4uRsErvy3TCVLUUxrJsNfjTRblNJz58LhVeL+WycRB?=
- =?us-ascii?Q?lFfLpdVHrM5n2WUALs/wWWfy+vSeFNnaLemUcT0Li0vWuigqecux1JxeWRnC?=
- =?us-ascii?Q?Wi4d+8W+vKz7Eb8/moZ0YsItzvDIIG+ovnImf6Y8NiQ4go8z2yU8RbSBFj7v?=
- =?us-ascii?Q?rFEZ8Z2/Y1x0mZ9Qlij1WJUW5El9fpmZ5Dt7Fzvp8uAPhWQW5Tgw78uzg9mW?=
- =?us-ascii?Q?GgYxN9MQm5pLy/fGmoNhsJqvCYxqvdB0nxGDqPbALsJwnERnicqAdX6N4tsZ?=
- =?us-ascii?Q?06oZ7Ae3CXiW+ZWn9XdK/Q+BU4XQXswvwK+h+/McvpkaUBK3968cTkDQ1ulA?=
- =?us-ascii?Q?7aBmzgG9QBf2T4A5xjCTMYUe9NCvJ5G+aOCDC5E8bbbTZyZIhDura4PmGBuy?=
- =?us-ascii?Q?DM21ST/QIn0ZxBFGqr+urNPg1sbGWKqRIZCSX7IzOwh1EXOq+tyytvA5HtE9?=
- =?us-ascii?Q?YGAASxFHo30juR1e3mqp1ZrgkZTfstq6mUFXw9LrawKdnIZeFdD/bDNYERt1?=
- =?us-ascii?Q?6eRqFt5jaqQKgHs1YboP2VE6k/3bj0Mt7x/ZVEMocrIFFpdcK755d9hU4GCy?=
- =?us-ascii?Q?/5l77T0pmo+kJaZgEz/xwi0b3UjKFtA2LXQRWjfV29qAA+LWxiVfgyZc4ug6?=
- =?us-ascii?Q?J6T43aYDhjFZ4JipLYzZFeFBgyt8q7MG38MiH5+hvDrk2Ep3tX0VNQHOiyRy?=
- =?us-ascii?Q?EBr/5OOkh2i7mU4x7RXKI7KuT7xTd6htdUIBivhkZsO2meJHWDhLiy2xFe9j?=
- =?us-ascii?Q?GWG8DrDKsVwmyb7xhjsRN/bpbnVGGc5B6pCyTjp+BRrjhBrVmcNCm3Ucj8oV?=
- =?us-ascii?Q?xY7MUtjbcNKz4Bi+vJfYWpghr4MuTHsVOlvpo3Bi3vfNXgJLOUmg7uu5+nsx?=
- =?us-ascii?Q?UmVrc5VsJC91LT7F02rkvnIN6JslhBlenC8/lxBZEw4vAlb31oXPuGndkD7j?=
- =?us-ascii?Q?pTNIZNawEYokzZYzERuDcdVVZVHIw2I8MwqoWqmR/VJuPIzNBBgC4KndruwD?=
- =?us-ascii?Q?kujz95CDIH3Nn5p0EfTMXNLet2XGqmw50WEUyfediV4oGbAy7juam5rSbpeJ?=
- =?us-ascii?Q?mLasdeWyMCztbzp5ltfQF6MHd814LaJue+1scClMxr4VTFOwM/l2tuZohCPm?=
- =?us-ascii?Q?raXP/3f0ZvNNsjmCO6sGYax//jYPlDwSqYuof2GrjUle4G7GKT+okgB/+JNI?=
- =?us-ascii?Q?udmkkcptsl1+Ee7OK46ghy5P7k+o4C0XhNMD2Y9YjLd6ubZ7Qp8/huutKa9t?=
- =?us-ascii?Q?ByKbMbI/6uVgjuk5fnCz0tpjf3wAHHBfzsV2uQwaPD4byIPLpdLOzpY+29g4?=
- =?us-ascii?Q?O9gm1KKATyBV9dmDmZSNRhAFI9KoR/uC6WmZ1oFlKX9C1lDiksWNb0YjLI55?=
- =?us-ascii?Q?zmuh4jufVk5jhYiamwNaeUwA4Ca/6EUXu0yB75Jy0FiGc2h6J3GsMiy7ehvv?=
- =?us-ascii?Q?wWTCJDeUzR9Iw15V2wQwLnYK28Us4VdRCZ5mFDy9GFPnbCKcoPmIJh2wr8KY?=
- =?us-ascii?Q?QdqMfHByRRRl+NocRYwV0Za5mJJiebZ8iuF8wzHN?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?OPq5ra3XxUFTOhLZdYKc5EzmAndGgTq5rZq0yoKshg8U7mrSBxeDGSzhqiSo?=
+ =?us-ascii?Q?0vghuPTseTRLh0wFnWZv4owuA02vnJ5hiuwpqjdyOxVdWQIdMCVHhWqhy7Kt?=
+ =?us-ascii?Q?UWVuOaIW9RUySBhH37P6PS33KrlnOlKIttTkyXXo2tZ+oO0DrLfJTqR+2DMb?=
+ =?us-ascii?Q?t2ShGmSPYxm5Qs6UMx/kkEr3nHNXtIDVNgzhB/0z6xCdxe0peOqm7xPkQAuO?=
+ =?us-ascii?Q?0S5KH2r1RNYrp5znApYPsXzMoIjdcJ+y/biY/I2tTEsbV2e/Kq4rDsa4IV06?=
+ =?us-ascii?Q?Gh6p8MMKz1xTm0uTBEVALg0y6FgngvObDFYlSIkZYAYPakamz6xHwxQBbarG?=
+ =?us-ascii?Q?km3s2BBzKDhCSmxIRG9nGvbGJBXbRxB99zO7f/SAJ9wWlHIIujEjOmnJeOUZ?=
+ =?us-ascii?Q?2b4RXDGBNY1jAPd5juPYGUWXTwW+fTYRoc1KDUUExLA0WkfgSZ8VlKFn4HAm?=
+ =?us-ascii?Q?YflV/tnNyzxlBTvehHEIUMRa7dpi0+xyXhwnjPz7ViPwZzZJ2qt7gbo98dq0?=
+ =?us-ascii?Q?M2AdVFp3XYjYcljmokmSHACaYl9B6OMiUfLKI+S2vNoCbqCt1NaFVNe61xDz?=
+ =?us-ascii?Q?HbpWSunJ1TXkK1HNh0v6uOYmihi41tJt7uZ0uiIdK0JLzmRXouRItAzd4fhf?=
+ =?us-ascii?Q?hoRsbXwvVTH6qmhRJfNflxp66njtBGS45GM3W1fmB4741qM0Fs+yA5UebXKq?=
+ =?us-ascii?Q?6HLn2uR1GC0/5PVWiqUgAIU+3uw1/W/aKNI86v0uY/nlg7KifBmNQcxxHl1k?=
+ =?us-ascii?Q?c9Y/tYNueNJADCNppki3Jd0AmKkJSMElYX2z8EKu0Cke1rpVwDn6S2iHTT89?=
+ =?us-ascii?Q?8e5DFp7D8L/8BGMKAfnlV02YgooruPRMzIdYO5KkGw5BlQLtdCrmPE7sLp5r?=
+ =?us-ascii?Q?ByH3iGlqtW7AmsGuYMGy/tJMvAoMGAw+x3UHucCIVug9hacdPYXtrx9qK7eF?=
+ =?us-ascii?Q?sgAD188VyGJBWZSXwy+fXbDeBIrTheYo0FXqINLx02OzPEec5c2ebu5THmDW?=
+ =?us-ascii?Q?4vJ36d0iw0bAfv23pDUl6pM5BX1KpkYYtchZDqv0fPwoXnHqo3gOjXFnN/P+?=
+ =?us-ascii?Q?VTy1iNF5O02ZGOFb5ZoU30ewhqSITcKLreIKbZ0Y8MVeVBMU46Vhoqs2D321?=
+ =?us-ascii?Q?mKUfIL5+KbVqvm9lP87kBi3l/t/3Ne/zrh/XcfRUK2IKIPUenoJE8KcNywEW?=
+ =?us-ascii?Q?RYYmDha5IirakjUwlCvYIRXS3k83cggHgtNLO78ZQGU4LMn4rSGwdHiX5hQz?=
+ =?us-ascii?Q?sHzsgJIdpEVfHbsFmJi5pMs5wqK6X5bKQsYCbzDNHLVrI22zDnREfD6R3nNn?=
+ =?us-ascii?Q?D7BjIwu50ewYj8krm53Nowb3yNrNw1R/AbyrAa5lGWAQzlcJFidhGIBIZqh3?=
+ =?us-ascii?Q?EfVoIrQmNrhm2so0lUTrAhEcaVgVt1B7CQ1iNZmBJ23OydAliy197O1pnhGG?=
+ =?us-ascii?Q?X7Px30Xh2WwzRQ3McRm8SNnhkzmFRUvvYSKdsdy0YDzJPgLXfhOh215rGMzC?=
+ =?us-ascii?Q?CSeUzKS6GPpkFjebqhltHDPmQf9Je7RQWiTvvyioOT7BQNmNTvfWSoOO/wrs?=
+ =?us-ascii?Q?bMZRxLL/4r1Z9SubBW4COr/ilL5zZkLTyazIWxoY?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1f13943c-2a24-4651-97b6-08dcea90b3d7
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7f421681-2de6-46ec-cbb7-08dcea90b980
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Oct 2024 07:37:19.5858 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Oct 2024 07:37:28.9869 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZQdYeNYZrGRKRh+CoU7p9SQ6bmJvYrq7llft412JhBFYfAg+wlJry92QY+pFSIrBlChxPmhVZ04mKr4IhwyqEQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: T4+oIGH/A7pAZsmI0NDM5Rv3F9I3jUk6cKYYoJ32TjcR5SgmpKtdSDllKBEjdcfJO/7AdnCEGwMU6F4Vqc7OCA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR04MB6986
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -157,94 +156,303 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Multiple display modes could be read from a display device's EDID.
-Use clk_round_rate() to validate the "ldb" clock rate for each mode
-in drm_bridge_funcs::mode_valid() to filter unsupported modes out.
+Document ITE IT6263 LVDS to HDMI converter.
 
-Also, since this driver doesn't directly reference pixel clock, use
-clk_round_rate() to validate the pixel clock rate against the "ldb"
-clock if the "ldb" clock and the pixel clock are sibling in clock
-tree.  This is not done in display controller driver because
-drm_crtc_helper_funcs::mode_valid() may not decide to do the
-validation or not if multiple encoders are connected to the CRTC,
-e.g., i.MX93 LCDIF may connect with MIPI DSI controller, LDB and
-parallel display output simultaneously.
+Product link:
+https://www.ite.com.tw/en/product/cate1/IT6263
 
 Signed-off-by: Liu Ying <victor.liu@nxp.com>
 ---
 v2:
-* Add more comments in fsl-ldb.c and commit message about pixel clock
-  rate validation.  (Maxime)
+* Document number of LVDS link data lanes.  (Biju)
+* Simplify ports property by dropping "oneOf".  (Rob)
 
- drivers/gpu/drm/bridge/fsl-ldb.c | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+ .../bindings/display/bridge/ite,it6263.yaml   | 276 ++++++++++++++++++
+ 1 file changed, 276 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/ite,it6263.yaml
 
-diff --git a/drivers/gpu/drm/bridge/fsl-ldb.c b/drivers/gpu/drm/bridge/fsl-ldb.c
-index b559f3e0bef6..77afc169f0d3 100644
---- a/drivers/gpu/drm/bridge/fsl-ldb.c
-+++ b/drivers/gpu/drm/bridge/fsl-ldb.c
-@@ -11,6 +11,7 @@
- #include <linux/of_graph.h>
- #include <linux/platform_device.h>
- #include <linux/regmap.h>
-+#include <linux/units.h>
- 
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
-@@ -64,6 +65,7 @@ struct fsl_ldb_devdata {
- 	u32 lvds_ctrl;
- 	bool lvds_en_bit;
- 	bool single_ctrl_reg;
-+	bool ldb_clk_pixel_clk_sibling;
- };
- 
- static const struct fsl_ldb_devdata fsl_ldb_devdata[] = {
-@@ -74,11 +76,13 @@ static const struct fsl_ldb_devdata fsl_ldb_devdata[] = {
- 	[IMX8MP_LDB] = {
- 		.ldb_ctrl = 0x5c,
- 		.lvds_ctrl = 0x128,
-+		.ldb_clk_pixel_clk_sibling = true,
- 	},
- 	[IMX93_LDB] = {
- 		.ldb_ctrl = 0x20,
- 		.lvds_ctrl = 0x24,
- 		.lvds_en_bit = true,
-+		.ldb_clk_pixel_clk_sibling = true,
- 	},
- };
- 
-@@ -269,11 +273,31 @@ fsl_ldb_mode_valid(struct drm_bridge *bridge,
- 		   const struct drm_display_info *info,
- 		   const struct drm_display_mode *mode)
- {
-+	unsigned long link_freq, pclk_rate, rounded_pclk_rate;
- 	struct fsl_ldb *fsl_ldb = to_fsl_ldb(bridge);
- 
- 	if (mode->clock > (fsl_ldb_is_dual(fsl_ldb) ? 160000 : 80000))
- 		return MODE_CLOCK_HIGH;
- 
-+	/* Validate "ldb" clock rate. */
-+	link_freq = fsl_ldb_link_frequency(fsl_ldb, mode->clock);
-+	if (link_freq != clk_round_rate(fsl_ldb->clk, link_freq))
-+		return MODE_NOCLOCK;
+diff --git a/Documentation/devicetree/bindings/display/bridge/ite,it6263.yaml b/Documentation/devicetree/bindings/display/bridge/ite,it6263.yaml
+new file mode 100644
+index 000000000000..bc2bbec07623
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/bridge/ite,it6263.yaml
+@@ -0,0 +1,276 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/bridge/ite,it6263.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+	/*
-+	 * Since this driver doesn't directly reference pixel clock and
-+	 * display controller driver cannot validate pixel clock due to
-+	 * multiple types of encoders connected, use "ldb" clock to
-+	 * validate pixel clock rate, if the two clocks are sibling.
-+	 */
-+	if (fsl_ldb->devdata->ldb_clk_pixel_clk_sibling) {
-+		pclk_rate = mode->clock * HZ_PER_KHZ;
++title: ITE IT6263 LVDS to HDMI converter
 +
-+		rounded_pclk_rate = clk_round_rate(fsl_ldb->clk, pclk_rate);
-+		if (rounded_pclk_rate != pclk_rate)
-+			return MODE_NOCLOCK;
-+	}
++maintainers:
++  - Liu Ying <victor.liu@nxp.com>
 +
- 	return MODE_OK;
- }
- 
++description: |
++  The IT6263 is a high-performance single-chip De-SSC(De-Spread Spectrum) LVDS
++  to HDMI converter.  Combined with LVDS receiver and HDMI 1.4a transmitter,
++  the IT6263 supports LVDS input and HDMI 1.4 output by conversion function.
++  The built-in LVDS receiver can support single-link and dual-link LVDS inputs,
++  and the built-in HDMI transmitter is fully compliant with HDMI 1.4a/3D, HDCP
++  1.2 and backward compatible with DVI 1.0 specification.
++
++  The IT6263 also encodes and transmits up to 8 channels of I2S digital audio,
++  with sampling rate up to 192KHz and sample size up to 24 bits. In addition,
++  an S/PDIF input port takes in compressed audio of up to 192KHz frame rate.
++
++  The newly supported High-Bit Rate(HBR) audio by HDMI specifications v1.3 is
++  provided by the IT6263 in two interfaces: the four I2S input ports or the
++  S/PDIF input port.  With both interfaces the highest possible HBR frame rate
++  is supported at up to 768KHz.
++
++properties:
++  compatible:
++    const: ite,it6263
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++    description: audio master clock
++
++  clock-names:
++    const: mclk
++
++  reset-gpios:
++    maxItems: 1
++
++  ivdd-supply:
++    description: 1.8V digital logic power
++
++  ovdd-supply:
++    description: 3.3V I/O pin power
++
++  txavcc18-supply:
++    description: 1.8V HDMI analog frontend power
++
++  txavcc33-supply:
++    description: 3.3V HDMI analog frontend power
++
++  pvcc1-supply:
++    description: 1.8V HDMI frontend core PLL power
++
++  pvcc2-supply:
++    description: 1.8V HDMI frontend filter PLL power
++
++  avcc-supply:
++    description: 3.3V LVDS frontend power
++
++  anvdd-supply:
++    description: 1.8V LVDS frontend analog power
++
++  apvdd-supply:
++    description: 1.8V LVDS frontend PLL power
++
++  "#sound-dai-cells":
++    const: 0
++
++  ite,lvds-link-num-data-lanes:
++    $ref: /schemas/types.yaml#/definitions/uint8
++    enum: [3, 4, 5]
++    description: number of data lanes per LVDS link
++
++  ite,i2s-audio-fifo-sources:
++    $ref: /schemas/types.yaml#/definitions/uint32-array
++    minItems: 1
++    maxItems: 4
++    items:
++      enum: [0, 1, 2, 3]
++    description:
++      Each array element indicates the pin number of an I2S serial data input
++      line which is connected to an audio FIFO, from audio FIFO0 to FIFO3.
++
++  ite,rl-channel-swap-audio-sources:
++    $ref: /schemas/types.yaml#/definitions/uint32-array
++    minItems: 1
++    maxItems: 4
++    uniqueItems: true
++    items:
++      enum: [0, 1, 2, 3]
++    description:
++      Each array element indicates an audio source whose right channel and left
++      channel are swapped by this converter. For I2S, the element is the pin
++      number of an I2S serial data input line. For S/PDIF, the element is always
++      0.
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        unevaluatedProperties: false
++        description:
++          The first LVDS input link.
++          In dual-link LVDS mode, this link works together with the second LVDS
++          input link, and one link receives odd pixels while the other receives
++          even pixels. Specify the pixels with one of the dual-lvds-odd-pixels
++          and dual-lvds-even-pixels properties when and only when dual-link LVDS
++          mode is used.
++
++        properties:
++          dual-lvds-odd-pixels:
++            type: boolean
++            description: the first sink port for odd pixels
++
++          dual-lvds-even-pixels:
++            type: boolean
++            description: the first sink port for even pixels
++
++      port@1:
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        unevaluatedProperties: false
++        description: the second LVDS input link
++
++        properties:
++          dual-lvds-even-pixels:
++            type: boolean
++            description: the second sink port for even pixels
++
++          dual-lvds-odd-pixels:
++            type: boolean
++            description: the second sink port for odd pixels
++
++        oneOf:
++          - required: [dual-lvds-even-pixels]
++          - required: [dual-lvds-odd-pixels]
++
++      port@2:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: video port for the HDMI output
++
++      port@3:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: sound input port
++
++    required:
++      - port@0
++      - port@2
++
++required:
++  - compatible
++  - reg
++  - ivdd-supply
++  - ovdd-supply
++  - txavcc18-supply
++  - txavcc33-supply
++  - pvcc1-supply
++  - pvcc2-supply
++  - avcc-supply
++  - anvdd-supply
++  - apvdd-supply
++  - ite,lvds-link-num-data-lanes
++  - ports
++
++additionalProperties: false
++
++examples:
++  - |
++    /* single-link LVDS input */
++    #include <dt-bindings/gpio/gpio.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        hdmi@4c {
++            compatible = "ite,it6263";
++            reg = <0x4c>;
++            reset-gpios = <&gpio1 10 GPIO_ACTIVE_LOW>;
++            ivdd-supply = <&reg_buck5>;
++            ovdd-supply = <&reg_vext_3v3>;
++            txavcc18-supply = <&reg_buck5>;
++            txavcc33-supply = <&reg_vext_3v3>;
++            pvcc1-supply = <&reg_buck5>;
++            pvcc2-supply = <&reg_buck5>;
++            avcc-supply = <&reg_vext_3v3>;
++            anvdd-supply = <&reg_buck5>;
++            apvdd-supply = <&reg_buck5>;
++            ite,lvds-link-num-data-lanes = /bits/ 8 <4>;
++
++            ports {
++                #address-cells = <1>;
++                #size-cells = <0>;
++
++                port@0 {
++                    reg = <0>;
++
++                    it6263_lvds_link1: endpoint {
++                        remote-endpoint = <&ldb_lvds_ch0>;
++                    };
++                };
++
++                port@2 {
++                    reg = <2>;
++
++                    it6263_out: endpoint {
++                        remote-endpoint = <&hdmi_in>;
++                    };
++                };
++            };
++        };
++    };
++
++  - |
++    /* dual-link LVDS input */
++    #include <dt-bindings/gpio/gpio.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        hdmi@4c {
++            compatible = "ite,it6263";
++            reg = <0x4c>;
++            reset-gpios = <&gpio1 10 GPIO_ACTIVE_LOW>;
++            ivdd-supply = <&reg_buck5>;
++            ovdd-supply = <&reg_vext_3v3>;
++            txavcc18-supply = <&reg_buck5>;
++            txavcc33-supply = <&reg_vext_3v3>;
++            pvcc1-supply = <&reg_buck5>;
++            pvcc2-supply = <&reg_buck5>;
++            avcc-supply = <&reg_vext_3v3>;
++            anvdd-supply = <&reg_buck5>;
++            apvdd-supply = <&reg_buck5>;
++            ite,lvds-link-num-data-lanes = /bits/ 8 <4>;
++
++            ports {
++                #address-cells = <1>;
++                #size-cells = <0>;
++
++                port@0 {
++                    reg = <0>;
++                    dual-lvds-odd-pixels;
++
++                    it6263_lvds_link1_dual: endpoint {
++                        remote-endpoint = <&ldb_lvds_ch0>;
++                    };
++                };
++
++                port@1 {
++                    reg = <1>;
++                    dual-lvds-even-pixels;
++
++                    it6263_lvds_link2_dual: endpoint {
++                        remote-endpoint = <&ldb_lvds_ch1>;
++                    };
++                };
++
++                port@2 {
++                    reg = <2>;
++
++                    it6263_out_dual: endpoint {
++                        remote-endpoint = <&hdmi_in>;
++                    };
++                };
++            };
++        };
++    };
 -- 
 2.34.1
 
