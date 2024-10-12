@@ -2,40 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C71299AFB2
-	for <lists+dri-devel@lfdr.de>; Sat, 12 Oct 2024 02:42:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AFFD99AFC6
+	for <lists+dri-devel@lfdr.de>; Sat, 12 Oct 2024 02:53:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6908E10E0DA;
-	Sat, 12 Oct 2024 00:42:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C81BF10E088;
+	Sat, 12 Oct 2024 00:53:11 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="Heb7IHeX";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id E17B110E0DA
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Oct 2024 00:42:02 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0DCE8DA7
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2024 17:42:32 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 30B173F5A1
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2024 17:42:02 -0700 (PDT)
-Date: Sat, 12 Oct 2024 01:41:58 +0100
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
-Cc: Steven Price <steven.price@arm.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- dri-devel@lists.freedesktop.org, kernel@collabora.com
-Subject: Re: [PATCH] drm/panthor: Fix firmware initialization on systems with
- a page size > 4k
-Message-ID: <ZwnF1imyCE56KLSM@e110455-lin.cambridge.arm.com>
-References: <20241008084744.82688-1-boris.brezillon@collabora.com>
- <ff6196b6-f385-4d54-b34b-ce8f6d8d0f0a@arm.com>
- <ynenorrf3kf3a5hmxfocjge3ytbydx42dmat53ywqaphjuc56k@lcgbdggi63ve>
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
+ [209.85.218.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71E1510E088
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Oct 2024 00:53:10 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id
+ a640c23a62f3a-a9950d27234so368810266b.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Oct 2024 17:53:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1728694388; x=1729299188;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=fX8qbIl6yI0pe7Z7Ey3xMlNXl8QKMUUNG2vGHvdrAqQ=;
+ b=Heb7IHeXN/rfVdccHxjO+DR9DQVWXgBO/SpJghJLV9obQsUsoJV5hiIXxIrMkdY6Zz
+ mewaFhOT0OEZ7Wk0HmvQdsMiUZIOW7KeFUAS9tYCclTMigVUV5OjjGOzCurYaQzVL3lc
+ 5IJKiQN0DFxRl2FfjUnFHC6udS/bQJDfASEiqBV7SPkqhOhfoiA4yQpzsDJDFPlbDg7a
+ mfwFw3WHEfqRmY9UqUhxI4Kv0+ymeevRJHBzbLq/6Q5RKDVCa8rxd3UDOS5Zc4c1Tvxi
+ JXErXa8hQWVUiEOdQ0U2KUDa2vlQSOBITz3MKruCvrUd/jrQ04eT6KBOXMF7A3zU9G2m
+ 14Sw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1728694388; x=1729299188;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=fX8qbIl6yI0pe7Z7Ey3xMlNXl8QKMUUNG2vGHvdrAqQ=;
+ b=g6lWHnAZD4fPfKoaIknQ5zGQWFHigAHc3YJ+s0PqxVf4Fud2qfRIg9nczU7zSH1iz4
+ 3DePlsajpJWgbZdBdB4nzqA5zCu8+ZCKSy5MOo/3ZvG+G0OiwYwD5jDLa+mWEkV8EzpR
+ 9DeDS164RSAnlO4rwsBspjiiRp+kvx+ej8gkh76gFuO2Ox1Yb/wrCtorJsSuxeDDg1qq
+ P0+BvDiwl9JZ6QDBiMafSGvlyRp11KFK37tnskcUHqEbVkHExLYOOKSQpuOnV31xjqAI
+ pvfdrVXlaZT8jZhTxeWyyr1c39thnmptGWBAKagQfgyb1bqvDN8ApR/S9RqQwh2pOV4j
+ GtzA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVd+RgKn2foNam4FEeHVsysHZCztIxbgOgm+gYu5t+DbrWhrRKWDOFjH2LZAk/yHThr3DD/HK9yx3g=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzmjTaHIrpj81gxxtjaW+L+Rrk8gNRxO3Pd4ngk6K4WVoGdeIBt
+ bNBkIVNrTJb5x6jt724C34WPvnPmGJ82Cy2CcqOXI9mIiZWEVB8jIuTUJrU9G/DzmCtFzTamk9Y
+ GEpGkKSbt+E3swzmOSJIzoiUjiRVALvHAX4o=
+X-Google-Smtp-Source: AGHT+IHcGOMyjbUnqPtl1UM87h3YL87dZ2gYOIUO6wGlw/CCJ1mjQPIwZZ9PoqGjsv+QiY4iVj7yxWbnA0AL382mrFA=
+X-Received: by 2002:a17:907:ea3:b0:a99:4e8c:e5c9 with SMTP id
+ a640c23a62f3a-a99b937b7famr358020366b.20.1728694388307; Fri, 11 Oct 2024
+ 17:53:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ynenorrf3kf3a5hmxfocjge3ytbydx42dmat53ywqaphjuc56k@lcgbdggi63ve>
+References: <20241005180955.6523-1-quic_pintu@quicinc.com>
+In-Reply-To: <20241005180955.6523-1-quic_pintu@quicinc.com>
+From: John Stultz <jstultz@google.com>
+Date: Fri, 11 Oct 2024 17:52:56 -0700
+Message-ID: <CANDhNCpeJFn9NMQYwWT04x=HL2bUi71V6YpQG7Gg5PVVCbRfXw@mail.gmail.com>
+Subject: Re: [PATCH v2] dma-buf: fix S_IRUGO to 0444, block comments,
+ func declaration
+To: Pintu Kumar <quic_pintu@quicinc.com>
+Cc: sumit.semwal@linaro.org, benjamin.gaignard@collabora.com, 
+ Brian.Starkey@arm.com, tjmercier@google.com, christian.koenig@amd.com, 
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, joe@perches.com, 
+ skhan@linuxfoundation.org, pintu.ping@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,139 +84,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 11, 2024 at 06:58:45PM +0100, Adrián Larumbe wrote:
-> Hi Boris,
-> 
-> On 09.10.2024 09:10, Steven Price wrote:
-> > On 08/10/2024 09:47, Boris Brezillon wrote:
-> > > The system and GPU MMU page size might differ, which becomes a
-> > > problem for FW sections that need to be mapped at explicit address
-> > > since our PAGE_SIZE alignment might cover a VA range that's
-> > > expected to be used for another section.
-> > > 
-> > > Make sure we never map more than we need.
-> > > 
-> > > Fixes: 2718d91816ee ("drm/panthor: Add the FW logical block")
-> > > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > 
-> > Reviewed-by: Steven Price <steven.price@arm.com>
+On Sat, Oct 5, 2024 at 11:10=E2=80=AFAM Pintu Kumar <quic_pintu@quicinc.com=
+> wrote:
+>
+> These warnings/errors are reported by checkpatch.
+> Fix them with minor changes to make it clean.
+> No other functional changes.
+>
+> WARNING: Block comments use * on subsequent lines
+> +       /* only support discovering the end of the buffer,
+> +          but also allow SEEK_SET to maintain the idiomatic
+>
+> WARNING: Block comments use a trailing */ on a separate line
+> +          SEEK_END(0), SEEK_CUR(0) pattern */
+>
+> WARNING: Block comments use a trailing */ on a separate line
+> +        * before passing the sgt back to the exporter. */
+>
+> ERROR: "foo * bar" should be "foo *bar"
+> +static struct sg_table * __map_dma_buf(struct dma_buf_attachment *attach=
+,
+>
+> WARNING: Symbolic permissions 'S_IRUGO' are not preferred. Consider using=
+ octal permissions '0444'.
+> +       d =3D debugfs_create_file("bufinfo", S_IRUGO, dma_buf_debugfs_dir=
+,
+>
+> total: 1 errors, 4 warnings, 1746 lines checked
+>
+> Signed-off-by: Pintu Kumar <quic_pintu@quicinc.com>
 
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-
-> > 
-> > > ---
-> > >  drivers/gpu/drm/panthor/panthor_fw.c  |  3 +--
-> > >  drivers/gpu/drm/panthor/panthor_gem.c | 11 ++++++++---
-> > >  drivers/gpu/drm/panthor/panthor_mmu.c |  6 +++---
-> > >  3 files changed, 12 insertions(+), 8 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
-> > > index ef232c0c2049..293846400296 100644
-> > > --- a/drivers/gpu/drm/panthor/panthor_fw.c
-> > > +++ b/drivers/gpu/drm/panthor/panthor_fw.c
-> > > @@ -515,8 +515,7 @@ static int panthor_fw_load_section_entry(struct panthor_device *ptdev,
-> > >  		return -EINVAL;
-> > >  	}
-> > >  
-> > > -	if ((hdr.va.start & ~PAGE_MASK) != 0 ||
-> > > -	    (hdr.va.end & ~PAGE_MASK) != 0) {
-> > > +	if (!IS_ALIGNED(hdr.va.start, SZ_4K) || !IS_ALIGNED(hdr.va.end, SZ_4K)) {
-> > >  		drm_err(&ptdev->base, "Firmware corrupted, virtual addresses not page aligned: 0x%x-0x%x\n",
-> > >  			hdr.va.start, hdr.va.end);
-> > >  		return -EINVAL;
-> > > diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
-> > > index c60b599665d8..2c8d6e2c7232 100644
-> > > --- a/drivers/gpu/drm/panthor/panthor_gem.c
-> > > +++ b/drivers/gpu/drm/panthor/panthor_gem.c
-> > > @@ -44,8 +44,7 @@ void panthor_kernel_bo_destroy(struct panthor_kernel_bo *bo)
-> > >  			to_panthor_bo(bo->obj)->exclusive_vm_root_gem != panthor_vm_root_gem(vm)))
-> > >  		goto out_free_bo;
-> > >  
-> > > -	ret = panthor_vm_unmap_range(vm, bo->va_node.start,
-> > > -				     panthor_kernel_bo_size(bo));
-> > > +	ret = panthor_vm_unmap_range(vm, bo->va_node.start, bo->va_node.size);
-> > >  	if (ret)
-> > >  		goto out_free_bo;
-> > >  
-> > > @@ -95,10 +94,16 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
-> > >  	}
-> > >  	bo = to_panthor_bo(&obj->base);
-> > > -	size = obj->base.size;
-> > >  	kbo->obj = &obj->base;
-> > >  	bo->flags = bo_flags;
-> > >  
-> > > +	/* The system and GPU MMU page size might differ, which becomes a
-> > > +	 * problem for FW sections that need to be mapped at explicit address
-> > > +	 * since our PAGE_SIZE alignment might cover a VA range that's
-> > > +	 * expected to be used for another section.
-> > > +	 * Make sure we never map more than we need.
-> > > +	 */
-> 
-> I was wondering, this must be a relatively common situation for other DRM
-> drivers, so maybe the DRM shmem core should have a BO creation function that
-> lets you specify an exact page alignment?
-
-There are probably not that many DRM drivers that need specific alignment, but I think
-it's not a bad idea to add a function like that in a separate patch.
-
-> 
-> > > +	size = ALIGN(size, SZ_4K);
-> 
-> I was thinking, if we know that the FW's page size is always 4KiB, maybe we could do
-> 
-> #define CSF_FW_PAGESIZE SZ_4K
-> 
-> somewhere in panthor_fw.h to make things clearer?
-
-Until future comes in and the firmware page size changes :)
-But yeah, it could help in the future to search for firmware's page size when we will need to update it.
-
-Best regards,
-Liviu
-
-> 
-> Cheers,
-> Adrian
-> 
-> Reviewed-by: Adrian Larumbe <adrian.larumbe@collabora.com>
-> 
-> > >  	ret = panthor_vm_alloc_va(vm, gpu_va, size, &kbo->va_node);
-> > >  	if (ret)
-> > >  		goto err_put_obj;
-> > > diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
-> > > index 3cd2bce59edc..e53d131c53cc 100644
-> > > --- a/drivers/gpu/drm/panthor/panthor_mmu.c
-> > > +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-> > > @@ -1027,10 +1027,10 @@ panthor_vm_alloc_va(struct panthor_vm *vm, u64 va, u64 size,
-> > >  {
-> > >  	int ret;
-> > >  
-> > > -	if (!size || (size & ~PAGE_MASK))
-> > > +	if (!size || !IS_ALIGNED(size, SZ_4K))
-> > >  		return -EINVAL;
-> > >  
-> > > -	if (va != PANTHOR_VM_KERNEL_AUTO_VA && (va & ~PAGE_MASK))
-> > > +	if (va != PANTHOR_VM_KERNEL_AUTO_VA && !IS_ALIGNED(va, SZ_4K))
-> > >  		return -EINVAL;
-> > >  
-> > >  	mutex_lock(&vm->mm_lock);
-> > > @@ -2370,7 +2370,7 @@ panthor_vm_bind_prepare_op_ctx(struct drm_file *file,
-> > >  	int ret;
-> > >  
-> > >  	/* Aligned on page size. */
-> > > -	if ((op->va | op->size) & ~PAGE_MASK)
-> > > +	if (!IS_ALIGNED(op->va | op->size, SZ_4K))
-> > >  		return -EINVAL;
-> > >  
-> > >  	switch (op->flags & DRM_PANTHOR_VM_BIND_OP_TYPE_MASK) {
-> 
-
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+Looks ok to me. Thanks for sending these cleanups!
+Acked-by: John Stultz <jstultz@google.com>
