@@ -2,163 +2,143 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1ED799B13D
-	for <lists+dri-devel@lfdr.de>; Sat, 12 Oct 2024 08:18:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F6D499B19B
+	for <lists+dri-devel@lfdr.de>; Sat, 12 Oct 2024 09:36:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AA0510E2FB;
-	Sat, 12 Oct 2024 06:17:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 471B210E13A;
+	Sat, 12 Oct 2024 07:36:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="lmtHawoq";
+	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="cOdnq3JH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com
- (mail-db8eur05on2057.outbound.protection.outlook.com [40.107.20.57])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6CD110E2FB
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Oct 2024 06:17:57 +0000 (UTC)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com
+ (mail-vi1eur05on2051.outbound.protection.outlook.com [40.107.21.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27EB610E13A
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Oct 2024 07:36:47 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HX44UJS/xmq94cvxQ/pJbhJaFJ/ka/guAjjgtJfxZwFdmGHWCnEONk+CN623F0Hppykuj3etqzddcpN7BSZZP24rv83vJdbLYjRXJfIq3mM2ykfLrVuDZsAUPL3EQlCKk+Z3M5Vf5ltzSAKRtvZWZGbSao0CzQJTth5rgqJm7J03O93KxNUEfdNo+5lMFPs80qRLeGp/VwN8gg6Ezr5DyuZCLtzk5jsXL17sAHljNECuwU2srUnjMC6dMaOTCFK/5djVZW+n23gMPoYAd0yv/7SYBcr8bxChfq/0NZg9OPfauj5E119XFImPwN26Zi75CW04+OhpVgbzcuegAaFFEg==
+ b=uk6sKsZU11WtVbRgpBZP2PgaD/dYecNfX7ka6LtCaNtawUsDWsmwnEVfuB/hB5jsArvQm99q4sfSJbSmEfLJtih9hAru/BWq7OughRBx9CK++j8JTY58zUHschGsvkJX+U4Xq8aGALtkpKmwDdsi5YseK8CRyA9zb/F9vPLl7O88q5nbh5nRoJe2Sp4EieGdTG23yPkOXgAdvR/BDhk1AXikwd6c2GOCqOyyFyzKYgA8BTtcjvqon+fseNhvLVJF77Py0wQpi39SkG42H29+pJm28ia3iQve4G7m121UlAN935hONJR6B4u+4LzOTbu8IT/3T9CsJ+zKudgxFQmemA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sv1Co+exwwbx5vdzXdoPDIevOdPnNJvFOLXoJUsiJpk=;
- b=TcpjMpQyYTCDyJlcgjPeCeyyZuNfu9lnxSnACmdFflqWo9EfyjSZMitDzWVSF2omPHs9wVXvvc9qqMCcY1u3xo5ZEDL/6dfgv7wwH2dzJKHSo3Hpl5mBpjxFhCB8tWTi1/BuTdFiqnPDIK4gJy/bOZ8QEkn+rzu2WxSrZH0BQoKyqUGNxj704joMxTITS6T8HWQb38CU54bvYC455BNfEACNXM9jCK284ck1b78WL44WszvlnPaLPR8qPWSED4QBQziuNjxxhhXPuxf5KYg97FDJ25nafPNEPuPphoBfWLnwfQWFuUNe4wNINkpy0AupbPetggrcEZVAaADBFnEUsw==
+ bh=PakUKgPebLdmTKolLCYJs5cifQJN3owwREhVsV/LLEU=;
+ b=l3kvMC9ypSyoCPXruI8t+9hG0d0JfjRTyFhNmhOsHZtIjDee1215TE0a725vO88oMqxS0Wpu134X4pn49DkYqNV0EW1t7GEqrPiG9YVJstvVIsW5oeOz+Br/XMR48FjTvSyt6YD6u4MkiX1MvtoXWf9BDR7DKxx09S5Ru6THbcNiIPC8Bfs1lvY3Dlm3MezA0iNPwTxbyYxYl0Rn1XmzDhOFLbnH063H1IGx0gGkk/4F+dVDmUrLpWUyyuj3VQfG2HudeYE6gTz9W5zCzONwipbtZN5c7sI511HYM0elIMutS6ErzhyQhrlW7HdyXnxUqqu749uoY0RAVkwNInCUPw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sv1Co+exwwbx5vdzXdoPDIevOdPnNJvFOLXoJUsiJpk=;
- b=lmtHawoq7BbtZzZGCjBc63YqmhTyCBTbbZlmDS7lhGLGcm8YOmmYeNg21ZGlH88EV3EDJK0PjZb88Q0qkn81IBw24KX7Rn+4a2t7wkkSGTaKy/JIODZ/cyY8W2bQRZ7yKZrDLN1zgL0hpaSPGDwShQwG9nruXmOnlDEHER02kUKy46K9E5LbvSjsah+WNGnfXsRz90R6Sh3BGWTAZeWxGIVSK8/nLh+AzEnCxgrmKxPtbLRTh3zQvjD5tPZVDOl3udjZVByzvXHJmzaXnfMgPdXun0ch5fwqMKiydkKQx13jCAahQ5slxsh2lOQjdYuFqdCoo3HVaQT7KVzISQnQkA==
+ bh=PakUKgPebLdmTKolLCYJs5cifQJN3owwREhVsV/LLEU=;
+ b=cOdnq3JHqDppLI6fiI7qqZKMKNT/qa0FXeBQRsAzvgcxySBGs/SADxbFYkgADjpOln2Ueo06nptfHrk2daOotdGuZgfH1vRHfNJsBp7KlDXKWB6vE4AYtNVagGEtTgXcEQntyFUFc/FURfTdPlL8B8/eshbtqvnsZQ4WTkx+14Zd0hlebzlrpfuygjhTJT0h3GZxWQd2Zb0ZpAsUBXWW0C+5fuvDLzpv4d0gOc7k5gwrIHLAv2BOwGpStq8YMBI+q81f9sxEDf5zFkV2tmfkxuJJTzzgU6b9ndBAI/EyluHsBKQddqH6LykLiYC/MiD1oM+bx5MVIvCyLDMKGgBckA==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by VI0PR04MB11024.eurprd04.prod.outlook.com (2603:10a6:800:260::19)
+ by DB8PR04MB6986.eurprd04.prod.outlook.com (2603:10a6:10:116::13)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.18; Sat, 12 Oct
- 2024 06:17:52 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.22; Sat, 12 Oct
+ 2024 07:36:43 +0000
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::d1ce:ea15:6648:6f90]) by AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::d1ce:ea15:6648:6f90%4]) with mapi id 15.20.8048.020; Sat, 12 Oct 2024
- 06:17:52 +0000
-Message-ID: <6be9d2ac-7e0b-4b6a-885d-ad40158a2998@nxp.com>
-Date: Sat, 12 Oct 2024 14:18:16 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/8] drm/bridge: fsl-ldb: Use clk_round_rate() to validate
- "ldb" clock rate
-To: Maxime Ripard <mripard@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, shawnguo@kernel.org,
- s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
- catalin.marinas@arm.com, will@kernel.org, quic_bjorande@quicinc.com,
- geert+renesas@glider.be, dmitry.baryshkov@linaro.org, arnd@arndb.de,
- nfraprado@collabora.com, o.rempel@pengutronix.de, y.moog@phytec.de
-References: <20240930052903.168881-1-victor.liu@nxp.com>
- <20240930052903.168881-5-victor.liu@nxp.com>
- <2on4bu5jsxvaxckqz3wouwrf2z6nwbtv34ek4xda2dvobqhbsf@g7z7kxq5xrxi>
- <5fb80bf6-96be-4654-bd54-dc4f1d5136ae@nxp.com>
- <20241011-mottled-translucent-dodo-8877e6@houat>
+ 07:36:43 +0000
 From: Liu Ying <victor.liu@nxp.com>
-Content-Language: en-US
-In-Reply-To: <20241011-mottled-translucent-dodo-8877e6@houat>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SG2P153CA0019.APCP153.PROD.OUTLOOK.COM (2603:1096:4:c7::6)
- To AM7PR04MB7046.eurprd04.prod.outlook.com
+To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
+Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, airlied@gmail.com, simona@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+ festevam@gmail.com, catalin.marinas@arm.com, will@kernel.org,
+ quic_bjorande@quicinc.com, geert+renesas@glider.be,
+ dmitry.baryshkov@linaro.org, arnd@arndb.de, nfraprado@collabora.com,
+ o.rempel@pengutronix.de, y.moog@phytec.de, marex@denx.de,
+ isaac.scott@ideasonboard.com, biju.das.jz@bp.renesas.com
+Subject: [PATCH v2 0/9] Add ITE IT6263 LVDS to HDMI converter support
+Date: Sat, 12 Oct 2024 15:35:34 +0800
+Message-Id: <20241012073543.1388069-1-victor.liu@nxp.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI2PR01CA0051.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:193::6) To AM7PR04MB7046.eurprd04.prod.outlook.com
  (2603:10a6:20b:113::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|VI0PR04MB11024:EE_
-X-MS-Office365-Filtering-Correlation-Id: d8bb6140-0edd-4c22-cbed-08dcea859a38
+X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|DB8PR04MB6986:EE_
+X-MS-Office365-Filtering-Correlation-Id: 29ac3c75-0ef5-42b4-4e69-08dcea909e29
 X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|366016|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?VHJ3L05GUnQ2UVl5UEI0NEtwQkw0ZnF0ZUlHdkJCNWErdmtjeFV4dUxTbHd1?=
- =?utf-8?B?ZlVZNmtBdU9RZjRDakpicm1KYy9DRk5mMlkyeEwyZmJYMXpWSnRNcE1FZTM2?=
- =?utf-8?B?MXB2RTRTdEZXM1hwM3dVVy80cGRqcGZacmsvQzEwOEJGYUpYSGpGRFdXVy9t?=
- =?utf-8?B?M3VVdjcwV2YxSm12cEsxdkQwbTI0SngzQUIzS3VOdDU1MzdPMkwwb0xtRTJa?=
- =?utf-8?B?cmdWeUgvSmtjeVlvVFVzbEpCeVN3ODlrRHdTczFScE1nV0FKdVJXTHVzdEpl?=
- =?utf-8?B?WWQzc1FsUjRER3NpV2kwK2F4ZEJpMWl1UzNJaXVqbWRLakZDTmV4VW9nS3R2?=
- =?utf-8?B?WkhSNCtHZld3SDZRdlg2YVp1MHFiRlNvNk5zNUxmM2Yvb1NWaTVET09iVXdu?=
- =?utf-8?B?VkwzUHRHczhndS83d0pka1VQZUNMb2QwYks3TGpLYUZhN0p4MTRaQTF5b3FK?=
- =?utf-8?B?dnhFbHNONFhTYjFjcW5ZK0F0MHRET2FXeFEwTGJ5VmJWRXNTQ0Z6dVZkcVRD?=
- =?utf-8?B?YXZZM0RCbDZyUytIbWtrM0tNZjZjZ2VpQnJnSWdHOFVaMlU4U3Fvb0RwUW9s?=
- =?utf-8?B?WndHMlYrMnlOd3ppTWkzTEtBNTluR0Q0RHg5WTFzTCtGdE4zUmJpWUhRRTdw?=
- =?utf-8?B?WERsR3dGbnJVQkRMZTAxUGpIL3pROUVJUno2ZFBXeHE0YjJXN3IxcUtGcUxD?=
- =?utf-8?B?NVlBSHB2L2JoaDd2Q3pPYXRObUV2WFpRVjljbmg4NCtGYzhkVHp2MEZRelow?=
- =?utf-8?B?NG1PMUx4UUlOeDM3OVVaQjhWS2FGMWlvemt1b0xHaEE0aTU5TGQzSW5vZ2NL?=
- =?utf-8?B?TU4yYi9hNWZvd0RZQzRoUDlhbUJZR3RGSkVjTHhzeDh2akVyQ1JGdzBvenlr?=
- =?utf-8?B?NXNhKzJua3p2Z2pVTWRVbEV1d0M1SHBJQWF1UitQbGRxMzN4ZjFTaDZDV05E?=
- =?utf-8?B?b0xpZ2w1S3dSbzRqazQ5dnM1VWZmTkhJMHN0dkQwVVhWczErL0srcW9yYndY?=
- =?utf-8?B?bzM2bGp1R2lZV0hneVhNclNvdXExWWFhdm4zcHVBQVJwNlRmRng2UzdpREVQ?=
- =?utf-8?B?UTI1d2VUL2R5U2FCTngwVml6ZjVDdlVEOW9UL1hWOURURnA2akJjQVc0UTlu?=
- =?utf-8?B?RTkxb0k5bmsvdEZqaWJoK2dVNzdJbjZDaWlja0FIbXJXNTNtTlBvemMvdGU4?=
- =?utf-8?B?NWErdGpjOFRzS3h4SUlXajI1bVZKdWRoS0Jrc1lzdmlSdzA2TERWYjNDSEFa?=
- =?utf-8?B?RnZkRW4wa3ZGTUhIR3FOSXgwT0ZRSnNHZXlVNC9jNnNRMFVHdmhibGpmNFcv?=
- =?utf-8?B?NHBNTmhNUlhsdjB3WDhhNjUwOTcrVmxDOUhSSElxRDhPWGFTSnlsV3VZWE1t?=
- =?utf-8?B?WDZVVnJuRjUxVTcvb094aFlmWVVEQVE2Nm8yUjc4WVk1Q2JUcnZ6bjFtWFNS?=
- =?utf-8?B?NDcvdjdxWTZnMGxFekJkZVBMejZxV1pDaU5wSkQ3Qnd3UmlES2JpYjlxWVRh?=
- =?utf-8?B?T202N3JTQWJPZTFqcjFyRUxuN1FCcFhtNUhHL245LzZCMk80ZHpaUDU3NmRl?=
- =?utf-8?B?Y2Y3U3hFOHNHT2xEL2EvUnBWK0o3ZFg0NFZIVExJMm1UT1d6OFNsdS9sYUpN?=
- =?utf-8?B?WGQxQk9BWHJreXd3SHZqUk5OOVJkV0VnMnhNbHBDRmc4MzdhQXBGUkhUYkhz?=
- =?utf-8?B?RitFdEdVV2lJZ0MwS3VqQlR6Q0Q1VHNiMkhXblpRd1VkY3BTYkVCWXBBPT0=?=
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|7416014|376014|366016|52116014|38350700014; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?BSmK00zFzQ7f1LLb1HQYl7Its0zS+PBGp+T8WA5dW2mscD4FyU5mSyXBFPkL?=
+ =?us-ascii?Q?ZpavUiyXOTc/JXNl6M/IaJ+aG/ugbWnBuf0N4FacizHYQTW/QMNV5YueACUX?=
+ =?us-ascii?Q?IxGqKeLHLU8FRFanXTC2seqWp86I9hg2RO9L/md7LjcpEWJcC4seMGqEXq+e?=
+ =?us-ascii?Q?tqjYKLpkzvsAl6hpP698l1J+lcETO15Y4GQlzvZRraNEf9F3ODT42TSHHjO7?=
+ =?us-ascii?Q?m5osYBww2/FZMXg4z3STR8PWtqhsJ/hhX/F0PdPZjhWDkMrv+5TFY5J/c7C3?=
+ =?us-ascii?Q?shOHi5T3L9rhzGzDqCTdWY7aHbdMxwz1uhn4dYwM+0yurxJnDDOXta1JT2e8?=
+ =?us-ascii?Q?wXqEQTi8BBKtR3Rck2fMZrQqsHNlhk5KdlV7ix0Tse4rAM7ZZGQoUqNEpwjw?=
+ =?us-ascii?Q?TIVnw3F/oX6QRlGkHyjon6+1c0lkZbmfDBwQuTHa6sESdg2z6qVC0kqFVVes?=
+ =?us-ascii?Q?lcbL6XrSsaei45pCihJccQk/GhiI1ebmUppa2af8+SBnNh7nEYfryGFFyvSm?=
+ =?us-ascii?Q?Y/xdZkFqBzVjjWV5FyzuYofEtLPDPr8n5yCD2vMqtPjZVnN2OqiUUkHkY41D?=
+ =?us-ascii?Q?fbJRMmaEmJub+dPSqDMI6I7Lvc4oktOp7jLjCStibyNTIsfyvfzu8xwlnAO8?=
+ =?us-ascii?Q?aCaljDrdl8xTtt17OUnmpFsWWw9OmKHDEjOjBsUYAJaaP2NW3kzA2Cn6ZHJm?=
+ =?us-ascii?Q?pM4NYOAhxgNvQW6uGAvG9lAFCqSa5M0KXgvA1PudOOqx37zqzQhtn+vsFDEE?=
+ =?us-ascii?Q?eWqc4N5Ch4RS6VgUlacBw1B4oBw4cqqnAyn/rpkFn7BPUM0rCDP5AyVRc4hH?=
+ =?us-ascii?Q?uAapEl8FpG5QHdYbEF701FD4P4MjOtNntg5YI7jR4K56Ftv4RlcaxIVp4mA1?=
+ =?us-ascii?Q?JME3hVaQqbMfxuygJ+rYi3XMTrHy4W9kSItw9AK8z/LYDV9cQ2JNksLjUX9u?=
+ =?us-ascii?Q?APoS9M+m08A4y7l+Bq53iWMzWfEleJtS7dk/aACAZDkqqVAijjrOro1DreLV?=
+ =?us-ascii?Q?/vFiFAXWFxdzzw2XS/+dvRnft7q8DzrHbCU2oseeLS9h4ITZoRw+CyxlH9Hy?=
+ =?us-ascii?Q?dwEDFnDyv559K+MoZwkaIlGwiz2N1qvNTyt8pv++k6bVRq0DGbud2+QtGXGX?=
+ =?us-ascii?Q?u3vgSkkV0E833Z0xtp92pUPSlRdZWmJa+lEfWrlpds8PcERCd83fUmTcDkRJ?=
+ =?us-ascii?Q?AuM2qXOhq79LWv5LjA2q8y8/oGRpddgDym0SwuROMrfHzNztRQII/4nHn9xY?=
+ =?us-ascii?Q?j4IXaC8EklpKR5erHXMP33p8xLI4c0hkzO7uviRn7JGvPTHY+h/i5kOZ7imS?=
+ =?us-ascii?Q?hijp+4ZZx3PfSN694NGj3qos09Hl77bV7/ZXDCRHHffk2g=3D=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(366016)(1800799024)(376014); DIR:OUT; SFP:1101; 
+ SFS:(13230040)(1800799024)(7416014)(376014)(366016)(52116014)(38350700014);
+ DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Mll3aXFxU1piWldMTUxVN1JJcmRDMzVnM1FHS205WnphTEh6dWRpdGN3TWxs?=
- =?utf-8?B?elFLMUxuTWRzN25hbDhrQkgvdE5PdGlyTTNPUHdHdnhsRVVFc1AxTzhISWQv?=
- =?utf-8?B?UzZ1b3pGdW50bEg3dFY4S0ptKzdWZlhaWkxMTncvSW9KeVF4UFYrWVo0cHZC?=
- =?utf-8?B?TWVPWXJBNFVSclFtS0tERDNaKy9meFJhVERVTDJIWGpGVU9WU2F1VG9oNHZQ?=
- =?utf-8?B?ZkJFa04rNGlPYlI4UTkwU2R6Vmg1aVM3OWhNR3BpWC9EV1FwZWJMb293NnBv?=
- =?utf-8?B?WVErMGQ5S2tJcEh3eitkLzRFVnduOXlqUHpoNGpjdTZENXdXblJPdGJVN3Zs?=
- =?utf-8?B?NTVOSEtmZ1dJbFRYazN5akFZc2JCaEh0OXpDd0QvUlBtd3dIeEwvZjFIUzVC?=
- =?utf-8?B?UHJxQThIR1VnRXVHTXd5NGtYRnFJaEVnMVgzUVQwbEVqczU5dmV3blVVeWJW?=
- =?utf-8?B?dFFCZ1l0WHJSV0U0Mk1jU3BXZzNod2djZndaOWh6U0wwM3RWWnhwZVMrTkF3?=
- =?utf-8?B?Qms3SDdQNHd1VUtCM05SSHRMTlpwOER0ZFVlM0FSbndzT1kvYVFtTEVoVHVh?=
- =?utf-8?B?UTgzekl2U213NnY2K1ZwWUMzMVpMUW9RTHBIREdYaG1lbnZIbkdab0Y3OVZV?=
- =?utf-8?B?eE9kRWxyL21rN0tHK2srSjlMRnhYZXFQUEVoUWxrczB3Ri9TNGxJakthbEk5?=
- =?utf-8?B?bUJ4bDdrdEwxOG1lalhwaEUxUXhDSUpJNTFxNUlhRHpQb3lGMGNZWms3SHJi?=
- =?utf-8?B?NkpVb1hWaWxueU9kSXhFM0YxdzNha3czWGdKbzVNcHFGajdQTlVPNzBaSDZn?=
- =?utf-8?B?aEg1NDVsRVRSK0lxdGZVOFdZZTR5MWM3UWtHdmg0MnREV2I3STFRMkdwS3RL?=
- =?utf-8?B?QlliZmZwclVTemtNN3UrSnlDa3h3WFlrR29haEljdjNEQlN6ZVczQWJMOFJW?=
- =?utf-8?B?WEdKenVJRU1SS283Y1UrRVQzRk5PdkhiUnc3emtQRTZuZjVjNnlIaXp2OUgy?=
- =?utf-8?B?NFRTOW9IMGZWNW13czhIeHlXQkZBckQrMjhreGJNZUp6RGdpTW1ibVZoS2xq?=
- =?utf-8?B?dGlzenlKcmpyWE5OUW9tQzRlc0drczM0aTBMNk1aK1M0ZUd6cXl5bkk4ZWkv?=
- =?utf-8?B?a3hXK2ljL2RLU1U1alVsa2VZbDdxWHZoYkE4aUdVbEhCdUh3LzBScTJCbzRK?=
- =?utf-8?B?d2U2R3BTNi9QeCsrM25hSmhnc0F6WHp4VjV2Z0dvR2pZM2d1RnIwaUpCRmZP?=
- =?utf-8?B?cUx6SG1QZGNlQ0NNa3JLbHVOVHVTaDJTaUJrMjZCWlZNb05wUTZjb0FBOUQy?=
- =?utf-8?B?azZEVGd6VDlFbnMvY2FkSHNDUUJhenRtOHJjdHkvSmR4SXJPYXE3UzVVUERZ?=
- =?utf-8?B?TS9PYkdtQ2Z1MEpNcHZDTUJacmxHVmd3SDUvWVNRdEU2bWkzcGMvd1Q3Slor?=
- =?utf-8?B?ajE2Qk5HMThEOG1XQWpXWFN3UXUyVnliTnFSa09MTHdEMzhqNEliRGRHUEhz?=
- =?utf-8?B?YW1mWnpuWTUveHpFSjJOYVZIdGRVdnpnbk1HczZGVmIwZkF3aDNRUDZodnhv?=
- =?utf-8?B?dlNtaHhFMldyb1ZMNVNHMTdIU2k5a0l2WmlyWWp6VzZvSGcrZUNRcldmQ3NK?=
- =?utf-8?B?dFFNMnlIVGVHekZBdkI3Z3pZeU9MdWdLazZjK045bno3SW5sZkFkb09WSDRl?=
- =?utf-8?B?aytCNWc2ME9IcDFJTTZXT3hHQlVheEQ0bVNGT2VmbjFMRTd4dEZWYXp4ZC94?=
- =?utf-8?B?RTVhcURRV2hFMmF1M29xN2gyaFNoS09Qbkl6UDZLTU5zRTBldXQ0MGZDNVJl?=
- =?utf-8?B?blNIelNtVUJZTlRLalhRajFZUFlmaGltQUExUHF4cDdLM0NCQ2ppejBYTG53?=
- =?utf-8?B?a2NBTERWaStISWJUTzVNaEMxZzFSbEdLWE14R1FVTGJJcExYSytwL2I4MGsv?=
- =?utf-8?B?ZzlocStDaWtkTUdENHZXMmJGOVVjUTFUQzZCMm02SG15bEdpWHl1MG4rc2RI?=
- =?utf-8?B?cFRNZExIOGJnZVZOa0p1cWl6cHNLTDN0Yy9FYnpmWC9QVWllcW9rM1dRSXR1?=
- =?utf-8?B?ODhvTTRESnJhTHVLdVU3ZmdyZzhERW5JNzNGanJWd1d1MG5HSkZuQ1dWYWc0?=
- =?utf-8?Q?MNI4/n9Golnmt1uN+DxdEdAjl?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?I85sOnP21sJnH27BszWQYVM+a3CljttVvOco1pDeamsBm2iQBBy4g71wF0ne?=
+ =?us-ascii?Q?MbAM717lau65VWXpec8p3rqsue1wvmStJTIWmQEmfkREeNSD+EaZFt+100Pc?=
+ =?us-ascii?Q?wEQlUolUcHTggZ+L61vYV+xEm7941RhBno6jodkDWldEr6FgPRFT9uSP2CHR?=
+ =?us-ascii?Q?RFsXEe2NnUDBzUpiuTBz2KQtT7atB9mWO0NaNtiD0/aagyXafR1vHw9Ek/Mb?=
+ =?us-ascii?Q?uZfm4K1Xj99XWz51n/hDwOGq2Qpf9nNt1vSVwKCXbd5/EhRbwfT/mGZFgD4V?=
+ =?us-ascii?Q?DB8jkbQ2a20wJ0B65fsTOY32RqzEu8qS6V60fUQ6EmOmtl3q9hLuh7NBDuXG?=
+ =?us-ascii?Q?g8QEFr2/K9gfXfHFYrNtsDhGuxr/wj0PhVljfx+aq3iwLLpAhX4PbdKOYQE4?=
+ =?us-ascii?Q?hjmsp+cWXZ6RR89QLhnjNlvDEOXsAyox3ZOy6+22qC2Sb6Y9mMehI73UgMbO?=
+ =?us-ascii?Q?DqtLBmEgKPBnqenpThPU+dBcTAkp9XL4gJC4pPyPc7/WS9N870VuObS3IxyR?=
+ =?us-ascii?Q?6h/HtDHolEHY97V6OBwyI1t7SiOXweD9Tye5WXImDaKY/JlhR43F26ySURtR?=
+ =?us-ascii?Q?TU7l58l/nda4cd8SrGZWznnM6DdH8wWinsPJbv/mhNrcmjSmsuzbr3bWm5oF?=
+ =?us-ascii?Q?qJbdgCdzjmWYUT//alGm56jIvp6MpItu90ket15c8HpxW8g9GAcGSaEgH3+y?=
+ =?us-ascii?Q?Kv/DhZfwltSUTa4Vbf1nG1EgKltj2/wZQ7Xj6y9F6ffZCGo6Zu9wHqEOOf0f?=
+ =?us-ascii?Q?cRJ2OBT9rLVm1QXGV/upwU3s5/SdRevsl5w7cFBwT4ZucWHuUlNYNeUv7wdu?=
+ =?us-ascii?Q?t+V7jcpuscOOC4/nb8EdrPODfGq9PaJOZ/7LPXQ6KZ+mD3PPJvaD+8c+PY9S?=
+ =?us-ascii?Q?B1TFA0PBhzu1DuhVQKs9RscCjUuoR1NQarNHSrWGPjOtnwDkotpp35sDoBWG?=
+ =?us-ascii?Q?Ubq3kk3P9UM6RZct9co5Yd6Zqx+DWDqJVsLShZs50SZmWpoT50VZgNsaUiXS?=
+ =?us-ascii?Q?kA/gVAqBl3ZK95Q3WAjbmAUZdQY1fC6xL0tdXZWEtp2oBstfGNbYStCqkUPv?=
+ =?us-ascii?Q?bVoyEbmgqNw7h4qOwikbuL/wrfIDmOVo8m5/UGyCEQFauwYdV5/z6/CLUZ/N?=
+ =?us-ascii?Q?tFp8ZPFjic0z2YCj1gC8LqgO6bD+H/CBleyZyrP2dE/CZ0dpRj8Ou2VxvoUG?=
+ =?us-ascii?Q?nPPND3U+IbYvQsPQFov2VwfL3ZkuMHO4c+6wSQeZpRj8oRYe0jvwDBS9/5XJ?=
+ =?us-ascii?Q?up3djLTKEh1C33HJnsGyUJeDnAomMivrBKbi8X6M82N8pAZWu+6yYILY4TUf?=
+ =?us-ascii?Q?3y7nInvuJm9wZK4xFHnZAP6C9k3/Kpk7/vCV0mNhTdUcQ4gX4tMvpcGK719g?=
+ =?us-ascii?Q?uN0AQeAXmhHXrhkdQYF8D7YKXToLq0xsprgXgAVGdphqLYMWzxmHbSq+iKLO?=
+ =?us-ascii?Q?jP96NJ7hIoQdQLulm9POdWlzGi57xitg9yjxGXryB/OAp5luBGbluPJvuDVk?=
+ =?us-ascii?Q?165Pzz2mOm0A6IOtHe6NDmaElQ8n4ClhZ4lICVJ6wkojXBTJk541N4h+SPzo?=
+ =?us-ascii?Q?sRjnJQu2J5EtW8ndCMaUHuttIejEuDxvZqJw+fYU?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d8bb6140-0edd-4c22-cbed-08dcea859a38
+X-MS-Exchange-CrossTenant-Network-Message-Id: 29ac3c75-0ef5-42b4-4e69-08dcea909e29
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Oct 2024 06:17:52.0398 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Oct 2024 07:36:43.1257 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IJzXM9gcv6aD4i9mSlI1F4fwVYHxuDe2f5ovyES0D6+pO8MKWfma+Rn/u3HCjlwg4nVOmhUjQImUJVKTyEx6oQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB11024
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8N2cRsx5KXw0O2SKTLyKX94CkwpZjSX4aGtEMVCQ8+rrmRmO6wY1zz43Di1FH9Yu07EnLaB9ypRVO+VqAPmf9A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR04MB6986
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -174,169 +154,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/11/2024, Maxime Ripard wrote:
-> On Mon, Sep 30, 2024 at 03:55:30PM GMT, Liu Ying wrote:
->> On 09/30/2024, Maxime Ripard wrote:
->>> On Mon, Sep 30, 2024 at 01:28:59PM GMT, Liu Ying wrote:
->>>> Multiple display modes could be read from a display device's EDID.
->>>> Use clk_round_rate() to validate the "ldb" clock rate for each mode
->>>> in drm_bridge_funcs::mode_valid() to filter unsupported modes out.
->>>>
->>>> Also, if the "ldb" clock and the pixel clock are sibling in clock
->>>> tree, use clk_round_rate() to validate the pixel clock rate against
->>>> the "ldb" clock.  This is not done in display controller driver
->>>> because drm_crtc_helper_funcs::mode_valid() may not decide to do
->>>> the validation or not if multiple encoders are connected to the CRTC,
->>>> e.g., i.MX93 LCDIF may connect with MIPI DSI controller, LDB and
->>>> parallel display output simultaneously.
->>>>
->>>> Signed-off-by: Liu Ying <victor.liu@nxp.com>
->>>> ---
->>>>  drivers/gpu/drm/bridge/fsl-ldb.c | 22 ++++++++++++++++++++++
->>>>  1 file changed, 22 insertions(+)
->>>>
->>>> diff --git a/drivers/gpu/drm/bridge/fsl-ldb.c b/drivers/gpu/drm/bridge/fsl-ldb.c
->>>> index b559f3e0bef6..ee8471c86617 100644
->>>> --- a/drivers/gpu/drm/bridge/fsl-ldb.c
->>>> +++ b/drivers/gpu/drm/bridge/fsl-ldb.c
->>>> @@ -11,6 +11,7 @@
->>>>  #include <linux/of_graph.h>
->>>>  #include <linux/platform_device.h>
->>>>  #include <linux/regmap.h>
->>>> +#include <linux/units.h>
->>>>  
->>>>  #include <drm/drm_atomic_helper.h>
->>>>  #include <drm/drm_bridge.h>
->>>> @@ -64,6 +65,7 @@ struct fsl_ldb_devdata {
->>>>  	u32 lvds_ctrl;
->>>>  	bool lvds_en_bit;
->>>>  	bool single_ctrl_reg;
->>>> +	bool ldb_clk_pixel_clk_sibling;
->>>>  };
->>>>  
->>>>  static const struct fsl_ldb_devdata fsl_ldb_devdata[] = {
->>>> @@ -74,11 +76,13 @@ static const struct fsl_ldb_devdata fsl_ldb_devdata[] = {
->>>>  	[IMX8MP_LDB] = {
->>>>  		.ldb_ctrl = 0x5c,
->>>>  		.lvds_ctrl = 0x128,
->>>> +		.ldb_clk_pixel_clk_sibling = true,
->>>>  	},
->>>>  	[IMX93_LDB] = {
->>>>  		.ldb_ctrl = 0x20,
->>>>  		.lvds_ctrl = 0x24,
->>>>  		.lvds_en_bit = true,
->>>> +		.ldb_clk_pixel_clk_sibling = true,
->>>>  	},
->>>>  };
->>>>  
->>>> @@ -269,11 +273,29 @@ fsl_ldb_mode_valid(struct drm_bridge *bridge,
->>>>  		   const struct drm_display_info *info,
->>>>  		   const struct drm_display_mode *mode)
->>>>  {
->>>> +	unsigned long link_freq, pclk_rate, rounded_pclk_rate;
->>>>  	struct fsl_ldb *fsl_ldb = to_fsl_ldb(bridge);
->>>>  
->>>>  	if (mode->clock > (fsl_ldb_is_dual(fsl_ldb) ? 160000 : 80000))
->>>>  		return MODE_CLOCK_HIGH;
->>>>  
->>>> +	/* Validate "ldb" clock rate. */
->>>> +	link_freq = fsl_ldb_link_frequency(fsl_ldb, mode->clock);
->>>> +	if (link_freq != clk_round_rate(fsl_ldb->clk, link_freq))
->>>> +		return MODE_NOCLOCK;
->>>> +
->>>> +	/*
->>>> +	 * Use "ldb" clock to validate pixel clock rate,
->>>> +	 * if the two clocks are sibling.
->>>> +	 */
->>>> +	if (fsl_ldb->devdata->ldb_clk_pixel_clk_sibling) {
->>>> +		pclk_rate = mode->clock * HZ_PER_KHZ;
->>>> +
->>>> +		rounded_pclk_rate = clk_round_rate(fsl_ldb->clk, pclk_rate);
->>>> +		if (rounded_pclk_rate != pclk_rate)
->>>> +			return MODE_NOCLOCK;
->>>> +	}
->>>> +
->>>
->>> I guess this is to workaround the fact that the parent rate would be
->>> changed, and thus the sibling rate as well? This should be documented in
->>> a comment if so.
->>
->> This is to workaround the fact that the display controller driver
->> (lcdif_kms.c) cannot do the mode validation against pixel clock, as
->> the commit message mentions.
-> 
-> That part is still not super clear to me, but it's also not super
-> important to the discussion.
+Hi,
 
-As kerneldoc of drm_crtc_helper_funcs::mode_valid mentions that
-it is not allowed to look at anything else but the passed-in mode,
-it doesn't know of the connected encoder(s)/bridge(s) and thus
-cannot decide if it should do mode validation against pixel clock
-or not.  Encoder/bridge drivers could adjust pixel clock rates
-for display modes.  So, mode validation against pixel clock should
-be done in this bridge driver.
+This patch series aims to add ITE IT6263 LVDS to HDMI converter on
+i.MX8MP EVK.  Combined with LVDS receiver and HDMI 1.4a transmitter,
+the IT6263 supports LVDS input and HDMI 1.4 output by conversion
+function.  IT6263 product link can be found at [1].
 
-In fact, the pixel clock should have been defined as a DT property
-in fsl,ldb.yaml because the clock routes to LDB as an input signal.
-However, it's too late...  If the DT property was defined in the
-first place, then this driver can naturally do mode validation
-against pixel clock instead of this workaround.
+Patch 1&2 are preparation patches to allow display modes of two
+existing panels to pass the added mode validation logic in patch 4.
 
-> 
-> My point is: from a clock API standpoint, there's absolutely no reason
-> to consider sibling clocks. clk_round_rate() should give you the rate
+Patch 3 allows i.MX8MP LVDS Display Bridge(LDB) bridge driver to find
+the next non-panel bridge, that is the IT6263 in this case.
 
-Agree, but it's a workaround.
+Patch 4 adds mode validation logic to i.MX8MP LDB bridge driver against
+"ldb" clock so that it can filter out unsupported display modes read
+from EDID.
 
-> you want. If it affects other clocks it shouldn't, it's a clock driver
-> bug.
+Patch 5 adds DT binding for IT6263.
 
-The sibling clocks are the same type of clocks from HW design
-point of view and derived from the same clock parent/PLL.
-That's the reason why the workaround works.
+Patch 6 adds IT6263 bridge driver.  Only video output is supported.
 
-> 
-> You might want to workaround it, but this is definitely not something
-> you should gloss over: it's a hack, it needs to be documented as such.
+Patch 7 adds DT overlays to support NXP adapter cards[2][3] with IT6263
+populated.
 
-I can add some documentation in next version to clarify this
-a bit.
+Patch 8 enables the IT6263 bridge driver in defconfig.
 
-> 
->> The parent clock is IMX8MP_VIDEO_PLL1_OUT and it's clock rate is not
->> supposed to be changed any more once IMX8MP_VIDEO_PLL1 clock rate is
->> set by using DT assigned-clock-rates property.  For i.MX8MP EVK, the
->> clock rate is assigned to 1039500000Hz in imx8mp.dtsi in media_blk_ctrl
->> node.
-> 
-> There's two things wrong with what you just described:
-> 
->   - assigned-clock-rates never provided the guarantee that the clock
->     rate wouldn't change later on. So if you rely on that, here's your
->     first bug.
+Patch 9 updates MAINTAINERS to add maintainer for IT6263 driver.
 
-I'm not relying on that.  Instead, the PLL clock rate is not
-supposed to change since IMX8MP_CLK_MEDIA_LDB clock("ldb" clock
-parent clock) hasn't the CLK_SET_RATE_PARENT flag.  And, we don't
-want to change the PLL clock rate at runtime because the PLL can
-be used by i.MX8MP MIPI DSI and LDB display pipelines at the same
-time, driven by two LCDIFv3 display controllers respectively with
-two imx-lcdif KMS instances.  We don't want to see the two display
-pipelines to step on each other.
+[1] https://www.ite.com.tw/en/product/cate1/IT6263
+[2] https://www.nxp.com/part/IMX-LVDS-HDMI
+[3] https://www.nxp.com/part/IMX-DLVDS-HDMI
 
-> 
->   - If the parent clock rate must not change, why does that clock has
->     SET_RATE_PARENT then? Because that's the bug you're trying to work
->     around.
+v2:
+* Add more comments in fsl-ldb.c and commit message about pixel clock
+  rate validation for patch 4.  (Maxime)
+* Document number of LVDS link data lanes in patch 5.  (Biju)
+* Simplify ports property by dropping "oneOf" in patch 5.  (Rob)
+* Add AVI inforframe support in patch 6.  (Maxime)
+* Add DRM_MODE_CONNECTOR_HDMIA in patch 6.  (Biju)
+* Rename it6263_reset() to it6263_hw_reset() in patch 6.  (Biju)
+* Check number of LVDS link data lanes in patch 6.  (Biju)
+* Add ite,lvds-link-num-data-lanes properties in patch 7.
+* Update MAINTAINERS.  (Maxime)
 
-IMX8MP_CLK_MEDIA_LDB clock hasn't the CLK_SET_RATE_PARENT flag.
-I'm fine with the "ldb" clock tree from the current clock driver
-PoV - just trying to validate pixel clock rate as a workaround.
+Liu Ying (9):
+  arm64: dts: imx8mp-skov-revb-mi1010ait-1cp1: Add panel-timing node to
+    panel node
+  arm64: dts: imx8mp-phyboard-pollux-rdk: Add panel-timing node to
+    panel-lvds node
+  drm/bridge: fsl-ldb: Get the next non-panel bridge
+  drm/bridge: fsl-ldb: Use clk_round_rate() to validate "ldb" clock rate
+  dt-bindings: display: bridge: Add ITE IT6263 LVDS to HDMI converter
+  drm/bridge: Add ITE IT6263 LVDS to HDMI converter
+  arm64: dts: imx8mp-evk: Add NXP LVDS to HDMI adapter cards
+  arm64: defconfig: Enable ITE IT6263 driver
+  MAINTAINERS: Add maintainer for ITE IT6263 driver
 
-> 
-> Maxime
+ .../bindings/display/bridge/ite,it6263.yaml   | 276 ++++++
+ MAINTAINERS                                   |   8 +
+ arch/arm64/boot/dts/freescale/Makefile        |   8 +
+ .../imx8mp-evk-imx-lvds-hdmi-common.dtsi      |  29 +
+ ...8mp-evk-lvds0-imx-dlvds-hdmi-channel0.dtso |  44 +
+ ...imx8mp-evk-lvds0-imx-lvds-hdmi-common.dtsi |  43 +
+ .../imx8mp-evk-lvds0-imx-lvds-hdmi.dtso       |  28 +
+ ...8mp-evk-lvds1-imx-dlvds-hdmi-channel0.dtso |  44 +
+ ...imx8mp-evk-lvds1-imx-lvds-hdmi-common.dtsi |  43 +
+ .../imx8mp-evk-lvds1-imx-lvds-hdmi.dtso       |  28 +
+ arch/arm64/boot/dts/freescale/imx8mp-evk.dts  |   6 +
+ .../freescale/imx8mp-phyboard-pollux-rdk.dts  |  15 +
+ .../imx8mp-skov-revb-mi1010ait-1cp1.dts       |  15 +
+ arch/arm64/configs/defconfig                  |   1 +
+ drivers/gpu/drm/bridge/Kconfig                |   8 +
+ drivers/gpu/drm/bridge/Makefile               |   1 +
+ drivers/gpu/drm/bridge/fsl-ldb.c              |  55 +-
+ drivers/gpu/drm/bridge/ite-it6263.c           | 919 ++++++++++++++++++
+ 18 files changed, 1551 insertions(+), 20 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/ite,it6263.yaml
+ create mode 100644 arch/arm64/boot/dts/freescale/imx8mp-evk-imx-lvds-hdmi-common.dtsi
+ create mode 100644 arch/arm64/boot/dts/freescale/imx8mp-evk-lvds0-imx-dlvds-hdmi-channel0.dtso
+ create mode 100644 arch/arm64/boot/dts/freescale/imx8mp-evk-lvds0-imx-lvds-hdmi-common.dtsi
+ create mode 100644 arch/arm64/boot/dts/freescale/imx8mp-evk-lvds0-imx-lvds-hdmi.dtso
+ create mode 100644 arch/arm64/boot/dts/freescale/imx8mp-evk-lvds1-imx-dlvds-hdmi-channel0.dtso
+ create mode 100644 arch/arm64/boot/dts/freescale/imx8mp-evk-lvds1-imx-lvds-hdmi-common.dtsi
+ create mode 100644 arch/arm64/boot/dts/freescale/imx8mp-evk-lvds1-imx-lvds-hdmi.dtso
+ create mode 100644 drivers/gpu/drm/bridge/ite-it6263.c
 
 -- 
-Regards,
-Liu Ying
+2.34.1
 
