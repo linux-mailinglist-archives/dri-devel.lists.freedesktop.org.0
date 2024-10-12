@@ -2,63 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F058C99B5C5
-	for <lists+dri-devel@lfdr.de>; Sat, 12 Oct 2024 17:07:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A6A099B656
+	for <lists+dri-devel@lfdr.de>; Sat, 12 Oct 2024 19:35:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 221E610E208;
-	Sat, 12 Oct 2024 15:07:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 786DF10E1B0;
+	Sat, 12 Oct 2024 17:35:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="psqyFlPY";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="uNW5X8oQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27F3710E208
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Oct 2024 15:07:45 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 49CF7FdV056324;
- Sat, 12 Oct 2024 10:07:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1728745635;
- bh=NDMyxZPzrYRPkCPsqTcwywGY8k7U3keYr7b79HWcFDM=;
- h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=psqyFlPYz+8q2mKvzoq/DTsIVNmqa/qKE1Kk17HupGDw3TS22tz6zUkBiuVXRRY5d
- kMF3bS6RfHluzJmH9Qy6b/syAxV21R/Hm2uE7jcqCDLqbaY1mHH5tOpjMuagqLvEAd
- Vltz7VBY26SBplJNWDTxweM4QongyvTMsZ3sZRK4=
-Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTP id 49CF7FCx020072;
- Sat, 12 Oct 2024 10:07:15 -0500
-Received: from DLEE114.ent.ti.com (157.170.170.25) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Sat, 12
- Oct 2024 10:07:14 -0500
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Sat, 12 Oct 2024 10:07:14 -0500
-Received: from localhost (ti.dhcp.ti.com [172.24.227.95] (may be forged))
- by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 49CF7EDB114725;
- Sat, 12 Oct 2024 10:07:14 -0500
-From: Devarsh Thakkar <devarsht@ti.com>
-To: <jyri.sarha@iki.fi>, <tomi.valkeinen@ideasonboard.com>,
- <airlied@gmail.com>, <maarten.lankhorst@linux.intel.com>,
- <mripard@kernel.org>, <tzimmermann@suse.de>,
- <dri-devel@lists.freedesktop.org>, <simona@ffwll.ch>,
- <linux-kernel@vger.kernel.org>
-CC: <praneeth@ti.com>, <vigneshr@ti.com>, <aradhya.bhatia@linux.dev>,
- <s-jain1@ti.com>, <r-donadkar@ti.com>, <sam@ravnborg.org>,
- <bparrot@ti.com>, <jcormier@criticallink.com>, <devarsht@ti.com>
-Subject: [PATCH 2/2] drm/tidss: Avoid race condition while handling interrupt
- registers
-Date: Sat, 12 Oct 2024 20:37:10 +0530
-Message-ID: <20241012150710.261767-3-devarsht@ti.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20241012150710.261767-1-devarsht@ti.com>
-References: <20241012150710.261767-1-devarsht@ti.com>
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8347210E1B0
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Oct 2024 17:35:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
+ s=gloria202408;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:
+ References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=AQhSOcq/aIa70jmnVrqHrmUcq5CjjmXv02YVDlavj3k=; b=uNW5X8oQ7/TOXG/4sbWLaBuPTX
+ YhTRKIC5395aQiOZ1mAgpFu9zMCVrMdHEvsjMa+K18IBsUeUOB6PobQ3n8OZ+nPxV4Q27YkZe8coz
+ qcjrqQmwNZwMQU4iWqxW49gryiGIwmCUHim2VMqBPZ5+pSdfB2lOMP/SnEdQxAQExVutDL1hNZ3Mu
+ NkEmQDESZlZPLSRAbYtm/hH2zpiua1nLzyWmBXKnU00t5/6x0ArIsm6/OmjE/JZjOXRtGVoAN35nD
+ Q0rBgWgWdfCNun0FhYuVsoavbXds6RNJxe0OlHuDAA9JmVmDGwctciSJegyQVsH4FD7zdVQBf7iMF
+ uYUE3DvA==;
+Received: from i53875b34.versanet.de ([83.135.91.52] helo=phil.lan)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1szg1D-00019k-IQ; Sat, 12 Oct 2024 19:35:07 +0200
+From: Heiko Stuebner <heiko@sntech.de>
+To: linux-kernel@vger.kernel.org,
+ Detlev Casanova <detlev.casanova@collabora.com>
+Cc: Heiko Stuebner <heiko@sntech.de>, Jonas Karlman <jonas@kwiboo.se>,
+ Muhammed Efe Cetin <efectn@protonmail.com>,
+ Mark Brown <broonie@kernel.org>, Chris Morgan <macromorgan@hotmail.com>,
+ Elon Zhang <zhangzj@rock-chips.com>, Jagan Teki <jagan@edgeble.ai>,
+ Jimmy Hon <honyuenkwun@gmail.com>, linux-serial@vger.kernel.org,
+ Guenter Roeck <linux@roeck-us.net>, Conor Dooley <conor+dt@kernel.org>,
+ linux-watchdog@vger.kernel.org, devicetree@vger.kernel.org,
+ Simona Vetter <simona.vetter@ffwll.ch>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Jamie Iles <jamie@jamieiles.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>,
+ Yifeng Zhao <yifeng.zhao@rock-chips.com>,
+ Andi Shyti <andi.shyti@kernel.org>, Dragan Simic <dsimic@manjaro.org>,
+ Jiri Slaby <jirislaby@kernel.org>, Liang Chen <cl@rock-chips.com>,
+ dri-devel@lists.freedesktop.org, Alexey Charkov <alchark@gmail.com>,
+ linux-i2c@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Michael Riesch <michael.riesch@wolfvision.net>,
+ Maxime Ripard <mripard@kernel.org>, linux-spi@vger.kernel.org,
+ Ondrej Jirman <megi@xff.cz>, Andy Yan <andyshrk@163.com>,
+ kernel@collabora.com, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org,
+ Finley Xiao <finley.xiao@rock-chips.com>,
+ Elaine Zhang <zhangqing@rock-chips.com>, Rob Herring <robh@kernel.org>,
+ Tim Lunn <tim@feathertop.org>
+Subject: Re: (subset) [PATCH v4 0/9] Add device tree for ArmSoM Sige 5 board
+Date: Sat, 12 Oct 2024 19:35:04 +0200
+Message-ID: <172875437678.35125.9831204281305504545.b4-ty@sntech.de>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20240903152308.13565-1-detlev.casanova@collabora.com>
+References: <20240903152308.13565-1-detlev.casanova@collabora.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,51 +86,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is a possibility of a race condition between interrupt subroutine
-which accesses the interrupt related registers to clear the statuses before
-handling the interrupt and other functions such as display soft reset,
-runtime resume/suspend etc which also access the interrupt related
-registers.  To prevent such scenarioes, use a spinlock to serialize access
-to interrupt related registers.
+On Tue, 3 Sep 2024 11:22:30 -0400, Detlev Casanova wrote:
+> Add the rk3576-armsom-sige5 device tree as well as its rk3576.dtsi base
+> and pinctrl information in rk3576-pinctrl.dtsi.
+> 
+> The other commits add DT bindings documentation for the devices that
+> already work with the current corresponding drivers.
+> 
+> Note that as is, the rockchip gpio driver needs the gpio nodes
+> to be children of the pinctrl node, even though this is deprecated.
+> 
+> [...]
 
-Fixes: 32a1795f57ee ("drm/tidss: New driver for TI Keystone platform Display SubSystem")
-Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
----
- drivers/gpu/drm/tidss/tidss_dispc.c | 4 ++++
- drivers/gpu/drm/tidss/tidss_irq.c   | 2 ++
- 2 files changed, 6 insertions(+)
+Applied, thanks!
 
-diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
-index b04419b24863..cec59deff015 100644
---- a/drivers/gpu/drm/tidss/tidss_dispc.c
-+++ b/drivers/gpu/drm/tidss/tidss_dispc.c
-@@ -2767,8 +2767,12 @@ static void dispc_init_errata(struct dispc_device *dispc)
-  */
- static void dispc_softreset_k2g(struct dispc_device *dispc)
- {
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&dispc->tidss->wait_lock, flags);
- 	dispc_set_irqenable(dispc, 0);
- 	dispc_read_and_clear_irqstatus(dispc);
-+	spin_unlock_irqrestore(&dispc->tidss->wait_lock, flags);
- 
- 	for (unsigned int vp_idx = 0; vp_idx < dispc->feat->num_vps; ++vp_idx)
- 		VP_REG_FLD_MOD(dispc, vp_idx, DISPC_VP_CONTROL, 0, 0, 0);
-diff --git a/drivers/gpu/drm/tidss/tidss_irq.c b/drivers/gpu/drm/tidss/tidss_irq.c
-index 604334ef526a..d053dbb9d28c 100644
---- a/drivers/gpu/drm/tidss/tidss_irq.c
-+++ b/drivers/gpu/drm/tidss/tidss_irq.c
-@@ -60,7 +60,9 @@ static irqreturn_t tidss_irq_handler(int irq, void *arg)
- 	unsigned int id;
- 	dispc_irq_t irqstatus;
- 
-+	spin_lock(&tidss->wait_lock);
- 	irqstatus = dispc_read_and_clear_irqstatus(tidss->dispc);
-+	spin_unlock(&tidss->wait_lock);
- 
- 	for (id = 0; id < tidss->num_crtcs; id++) {
- 		struct drm_crtc *crtc = tidss->crtcs[id];
+[1/9] dt-bindings: arm: rockchip: Add ArmSoM Sige 5
+      commit: 78dee7b6ef085c6a1becad536035bdd39557c9b0
+[8/9] arm64: dts: rockchip: Add rk3576 SoC base DT
+      commit: 4b9dc5d536b988fbd84e68e8d8ac420752b185b6
+[9/9] arm64: dts: rockchip: Add rk3576-armsom-sige5 board
+      commit: 54a18f63eb1aaf50cad17dd64076293f2817e1d5
+
+changes:
+- added some lines between node
+- resortet regulator nodes
+- removed trailing whitespace from one line
+- drop clock-frequency from armsom sige5 rtc@51
+- drop rockchip,grf from cru (lookup is done via compatible)
+- order gpu interrupts like expected in the binding
+- adjust mmc compatible to binding
+
+
+Best regards,
 -- 
-2.39.1
-
+Heiko Stuebner <heiko@sntech.de>
