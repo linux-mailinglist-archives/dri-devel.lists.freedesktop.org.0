@@ -2,57 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 896ED99B36E
-	for <lists+dri-devel@lfdr.de>; Sat, 12 Oct 2024 13:26:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92ACB99B37B
+	for <lists+dri-devel@lfdr.de>; Sat, 12 Oct 2024 13:27:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7B0610E12B;
-	Sat, 12 Oct 2024 11:26:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 090E110E1EE;
+	Sat, 12 Oct 2024 11:27:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="glycJtuR";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="vDy13rao";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76FAD10E12B;
- Sat, 12 Oct 2024 11:26:49 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A535C10E1EE
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Oct 2024 11:27:43 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id D3CFCA40580;
- Sat, 12 Oct 2024 11:26:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E13AC4CECE;
- Sat, 12 Oct 2024 11:26:46 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 7920F5C5678;
+ Sat, 12 Oct 2024 11:27:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 413E6C4CEC6;
+ Sat, 12 Oct 2024 11:27:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1728732408;
- bh=atjmffrzZgLCNMCiFzOqBVE3wLBEiqWkaoBHeOfXNHU=;
+ s=k20201202; t=1728732462;
+ bh=gSSvy2dAew+hub5xIOIxQ3J5yTcYbohKu8RqJPZlqHQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=glycJtuRKya+u46WceaOwk5jKyZaicIPmpEVLAzSYmBZvxIJeDSshzrqrAtBGyL8B
- T9zKG/7KgeppoX9VI28D9Zy2D9SpAHSfZTniy0hncWsWjjE21TfQXCAdzvGe77/sTM
- TdUudb/WhLOKmhLLmsyQhoWH0DSiBsBlE+s+SbC8MISKcUF/NoI9Nwk9U5HTKL230B
- DG7z+8oJIRC01lw44uf1SaQW3APkn+BI6N52VEPX8NLC8oCVqCf51l/sKwaZR1l/D6
- CibjOGol89HUXLX8eD/JM+E64e3hWmavPMtae0OhXtU3e9J8wxOhXeMYFWyr1AkRsc
- YFL6Lpon794yw==
+ b=vDy13raotE2JQ+6s+/kNHOsZ1RaNdO2y/rotCX5GvaF+GwK3g+9qb+fKo/2M3Ji4L
+ IsMvpV8DYrzvjN6EAkYPN/tH4sjmzEPO/b+rgJutV4McQGnX2PWcAc1/25RzcCLaas
+ giajqOXvmeORViYkuIqE28ImPZw95zpkoMwjZARR5GkV4zl5TFsSe4DOcH8q93mnDK
+ +WtAQXC0teeZNUzrobns8GkX+dk8ABYJOuCU5pyYFPjXXNyOh+O8nF+xprqGV82yx8
+ VPtkISs9pMgRRuGcxLhHeHUil8sLBRPZ4WArUOSherxXcgSvvb6aPLCODTF1O9g9QL
+ LreXq3EayHlAg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Gustavo Sousa <gustavo.sousa@intel.com>,
- Matt Roper <matthew.d.roper@intel.com>,
- Tejas Upadhyay <tejas.upadhyay@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Sasha Levin <sashal@kernel.org>, thomas.hellstrom@linux.intel.com,
- rodrigo.vivi@intel.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- daniel@ffwll.ch, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.11 14/16] drm/xe/mcr: Use Xe2_LPM steering tables
- for Xe2_HPM
-Date: Sat, 12 Oct 2024 07:26:10 -0400
-Message-ID: <20241012112619.1762860-14-sashal@kernel.org>
+Cc: Bouke Sybren Haarsma <boukehaarsma23@gmail.com>,
+ Hans de Goede <hdegoede@redhat.com>, Sasha Levin <sashal@kernel.org>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.6 11/20] drm: panel-orientation-quirks: Add quirk
+ for Ayn Loki Zero
+Date: Sat, 12 Oct 2024 07:26:43 -0400
+Message-ID: <20241012112715.1763241-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241012112619.1762860-1-sashal@kernel.org>
-References: <20241012112619.1762860-1-sashal@kernel.org>
+In-Reply-To: <20241012112715.1763241-1-sashal@kernel.org>
+References: <20241012112715.1763241-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.11.3
+X-stable-base: Linux 6.6.56
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,39 +64,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Gustavo Sousa <gustavo.sousa@intel.com>
+From: Bouke Sybren Haarsma <boukehaarsma23@gmail.com>
 
-[ Upstream commit 7929ffce0f8b9c76cb5c2a67d1966beaed20ab61 ]
+[ Upstream commit b86aa4140f6a8f01f35bfb05af60e01a55b48803 ]
 
-According to Bspec, Xe2 steering tables must be used for Xe2_HPM, just
-as it is with Xe2_LPM. Update our driver to reflect that.
+Add quirk orientation for the Ayn Loki Zero.
 
-Bspec: 71186
-Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
-Signed-off-by: Gustavo Sousa <gustavo.sousa@intel.com>
-Reviewed-by: Tejas Upadhyay <tejas.upadhyay@intel.com>
-Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240920211459.255181-2-gustavo.sousa@intel.com
-(cherry picked from commit 21ae035ae5c33ef176f4062bd9d4aa973dde240b)
-Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+This also has been tested/used by the JELOS team.
+
+Signed-off-by: Bouke Sybren Haarsma <boukehaarsma23@gmail.com>
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20240728124731.168452-2-boukehaarsma23@gmail.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/xe/xe_gt_mcr.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/xe/xe_gt_mcr.c b/drivers/gpu/drm/xe/xe_gt_mcr.c
-index 6d948a4691264..d57a765a1a969 100644
---- a/drivers/gpu/drm/xe/xe_gt_mcr.c
-+++ b/drivers/gpu/drm/xe/xe_gt_mcr.c
-@@ -407,7 +407,7 @@ void xe_gt_mcr_init(struct xe_gt *gt)
- 	if (gt->info.type == XE_GT_TYPE_MEDIA) {
- 		drm_WARN_ON(&xe->drm, MEDIA_VER(xe) < 13);
- 
--		if (MEDIA_VER(xe) >= 20) {
-+		if (MEDIA_VERx100(xe) >= 1301) {
- 			gt->steering[OADDRM].ranges = xe2lpm_gpmxmt_steering_table;
- 			gt->steering[INSTANCE0].ranges = xe2lpm_instance0_steering_table;
- 		} else {
+diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+index 5db52d6c5c35c..21f2f3abf90f0 100644
+--- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
++++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+@@ -208,6 +208,12 @@ static const struct dmi_system_id orientation_data[] = {
+ 		  DMI_MATCH(DMI_BOARD_NAME, "KUN"),
+ 		},
+ 		.driver_data = (void *)&lcd1600x2560_rightside_up,
++	}, {	/* AYN Loki Zero */
++		.matches = {
++			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ayn"),
++			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Loki Zero"),
++		},
++		.driver_data = (void *)&lcd1080x1920_leftside_up,
+ 	}, {	/* Chuwi HiBook (CWI514) */
+ 		.matches = {
+ 			DMI_MATCH(DMI_BOARD_VENDOR, "Hampoo"),
 -- 
 2.43.0
 
