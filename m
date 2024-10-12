@@ -2,61 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6BF799B321
-	for <lists+dri-devel@lfdr.de>; Sat, 12 Oct 2024 12:45:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D17899B33C
+	for <lists+dri-devel@lfdr.de>; Sat, 12 Oct 2024 13:04:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7AEE310E31A;
-	Sat, 12 Oct 2024 10:45:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08CDF10E1F6;
+	Sat, 12 Oct 2024 11:04:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="P+ERUcBS";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="TzODIq22";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 893BB10E145;
- Sat, 12 Oct 2024 10:45:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1728729903; x=1760265903;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=dWbtaadhsATU2nHdEmLui+yfpl3m/ta9AAsQYa3ESVc=;
- b=P+ERUcBS7vQ/DCB2rM0yu5wXSkMO3LZROHyIdepLDM0+fAe6pFEP0t5J
- 4SXg5RGlZlcAm2NFQyA/wSleOSEsqAKNQOjQ+z55PW6SEiBb2Vuwzlimw
- TmT7zih7H1SXTdOXODwhz2pZsUTY5rr/8R8j4OZdy6O8pa/VyZC+doHj8
- 8gAUbEMaUTdtTc/LWjxapAf1O25jWa8WpR308EIZt38vZbfrxb2RoTgGg
- BKKRGqlAlNOR1pwpz4mMXx++Fz2QjSDxG+ImBTmoJqn7uJsWgTX8dkjR9
- QndFL4OyA1seJejr0vLYG9j+Z31MUOtaxZHuXhA2qbSWqclqOXcbuz9wA Q==;
-X-CSE-ConnectionGUID: N2iURAMSQxarp3+4YzgnpA==
-X-CSE-MsgGUID: JTPqXgMmQfWRy39WGQfSjg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28298551"
-X-IronPort-AV: E=Sophos;i="6.11,198,1725346800"; d="scan'208";a="28298551"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Oct 2024 03:45:03 -0700
-X-CSE-ConnectionGUID: +Mrk0biOSpSqHpRzh+4tcA==
-X-CSE-MsgGUID: grR35UEWSJSGv6WDfmGRsw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,198,1725346800"; d="scan'208";a="77608193"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
- by orviesa007.jf.intel.com with ESMTP; 12 Oct 2024 03:45:01 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1szZcI-000DHf-1l;
- Sat, 12 Oct 2024 10:44:58 +0000
-Date: Sat, 12 Oct 2024 18:44:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: jesse.zhang@amd.com, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, Alexander.Deucher@amd.com,
- Christian Koenig <christian.koenig@amd.com>,
- "Jesse.zhang@amd.com" <jesse.zhang@amd.com>
-Subject: Re: [PATCH 1/2] drm/sched: adding a new scheduling policy
-Message-ID: <202410121817.HUe5MN9d-lkp@intel.com>
-References: <20241011062136.1019695-1-jesse.zhang@amd.com>
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com
+ [209.85.210.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31D3710E1F6
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Oct 2024 11:04:35 +0000 (UTC)
+Received: by mail-pf1-f181.google.com with SMTP id
+ d2e1a72fcca58-71def8af0d9so341440b3a.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Oct 2024 04:04:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1728731074; x=1729335874; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=XroMpCi45CXQlHa3n5Z/flEDjCsFF8PBVEONJxRQYXA=;
+ b=TzODIq22OT89ZNkdqTWI0FXieWwIB2ppr7fKix/o/HfgZihvHCnu0frmb4WN7YKTVa
+ SY1tGxGstorNHI5SmS3lsG+VvenerlIuI2Ilig2OqHrIkT0x+akQhevZ0ON56y+N3Nzj
+ Ik54v4wE7WVJnSWRFGekdFYEhyS6nN3Y67/R9yVPkNP34m3bq2u2zNMJjx3usoAknI4+
+ cq6n1mBY9w5CFgxE4yruFkSye0X/nSSufnbei30SpgDpdb/RvSkTF22K51uAFNZBrpKy
+ NJAQNGvc0RV96J0FRI+qrdQBboToyCvQIVt4rBPWDbfR33vLxq614uWc2Oi/Izce2ai7
+ UKIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1728731074; x=1729335874;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=XroMpCi45CXQlHa3n5Z/flEDjCsFF8PBVEONJxRQYXA=;
+ b=sEigaeY3vYc43AHkixPOrx20H3SxlvB1iTV3t6hSNtP6wkr0eiTf5LFGV9NA4qZ4NN
+ mMPGr5qUe+4J0LvJ+ImLlMb1r3xQW/hJeE6Nv7qbqAhefUjCUktVrk7kSjNOWs7lfEjT
+ Q4X5Avz6qYfOKiXNjZZRKqBEGZSBMbK4+lnkKUBNH2Kjh63VlrmYSnN8/ZbCnorE7prC
+ MtsadWRMVtiqu0R0Ptk1uJ1TvKByMfFVsLN6AMyWCAqjKZbcFvlc42OECFX0B2pdYZ6Y
+ cBi8jJUF+DWGr7Qq/IJEzYyNfPe76BUXxajf1Y52oo6hbI0c7Jyq2J0x7pgSh5z1q7UD
+ mATA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXk0N9LOBhvi/Ki3HxHxlgSQ4P9nypS8NYDHZaZWj8BOmAknp7468QdLkBqOHyLZLx7M3apl286Y0U=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyu2iReTlkWicq8xHbg3NfYGYB63qsz2rfarPw7kvn0dKkNDCmq
+ dJCGgdIGwzRlOFmzUZgoLVAauMoJZ7+dLACe1VDac5yq6SJSkz57uQBU9MXhBIlqe9Ldo8ZquzX
+ o6oezQGUbBoL7NprNbQjzjuL1/A8=
+X-Google-Smtp-Source: AGHT+IEAt5tdtaeiDpoTuQ8z3jgt02TnSfq3bj5lSqXLETJJCu+grTgzCOvYTrYnuCyx/PBrK2fp1H4xRv/nRaoxmlM=
+X-Received: by 2002:a05:6a20:a106:b0:1cf:52f5:f5 with SMTP id
+ adf61e73a8af0-1d8bcef497bmr4471554637.2.1728731074631; Sat, 12 Oct 2024
+ 04:04:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241011062136.1019695-1-jesse.zhang@amd.com>
+References: <20241012075312.16342-1-witcher@wiredspace.de>
+In-Reply-To: <20241012075312.16342-1-witcher@wiredspace.de>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Sat, 12 Oct 2024 13:04:21 +0200
+Message-ID: <CANiq72kG0Ai2DHfERD0aPDVuEpLYrZ_2uYdw17=eeHRp+2Q1Rg@mail.gmail.com>
+Subject: Re: [PATCH 1/7] drm/panic: avoid reimplementing Iterator::find
+To: =?UTF-8?Q?Thomas_B=C3=B6hler?= <witcher@wiredspace.de>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+ Jocelyn Falempe <jfalempe@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>, 
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ rust-for-linux@vger.kernel.org, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,76 +89,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Thomas,
 
-kernel test robot noticed the following build errors:
+These commit logs are nicely explained -- thanks a lot for taking the
+time to write each!
 
-[auto build test ERROR on drm-exynos/exynos-drm-next]
-[also build test ERROR on drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip linus/master v6.12-rc2 next-20241011]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+A couple nits below.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/jesse-zhang-amd-com/drm-amdgpu-add-the-ring-id-schedule-module-parameter-for-amdgpu/20241011-142247
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
-patch link:    https://lore.kernel.org/r/20241011062136.1019695-1-jesse.zhang%40amd.com
-patch subject: [PATCH 1/2] drm/sched: adding a new scheduling policy
-config: sparc64-randconfig-r073-20241012 (https://download.01.org/0day-ci/archive/20241012/202410121817.HUe5MN9d-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241012/202410121817.HUe5MN9d-lkp@intel.com/reproduce)
+On Sat, Oct 12, 2024 at 9:53=E2=80=AFAM Thomas B=C3=B6hler <witcher@wiredsp=
+ace.de> wrote:
+>
+> implementing the same logic itself.
+> Clippy complains about this in the `manual_find` lint:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410121817.HUe5MN9d-lkp@intel.com/
+Typically commit messages use newlines between paragraphs.
 
-All error/warnings (new ones prefixed by >>):
+> Reported-by: Miguel Ojeda <ojeda@kernel.org>
+> Closes: https://github.com/Rust-for-Linux/linux/issues/1123
 
-   drivers/gpu/drm/panthor/panthor_drv.c: In function 'panthor_submit_ctx_add_deps_and_arm_jobs':
->> drivers/gpu/drm/panthor/panthor_drv.c:674:17: error: too few arguments to function 'drm_sched_job_arm'
-     674 |                 drm_sched_job_arm(ctx->jobs[i].job);
-         |                 ^~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/panthor/panthor_drv.c:20:
-   include/drm/gpu_scheduler.h:556:6: note: declared here
-     556 | void drm_sched_job_arm(struct drm_sched_job *job, int ring);
-         |      ^~~~~~~~~~~~~~~~~
---
-   drivers/gpu/drm/scheduler/sched_main.c:405: warning: Function parameter or struct member 'result' not described in 'drm_sched_job_done'
->> drivers/gpu/drm/scheduler/sched_main.c:828: warning: Function parameter or struct member 'ring' not described in 'drm_sched_job_arm'
+Since each of these commits fixes part of the issue, I think these are
+meant to be `Link:`s instead of `Closes:`s according to the docs:
 
+    https://docs.kernel.org/process/submitting-patches.html#using-reported-=
+by-tested-by-reviewed-by-suggested-by-and-fixes
 
-vim +/drm_sched_job_arm +674 drivers/gpu/drm/panthor/panthor_drv.c
+In addition, these should probably have a `Fixes:` tag too -- I should
+have mentioned that in the issue, sorry.
 
-4bdca11507928a Boris Brezillon 2024-02-29  655  
-4bdca11507928a Boris Brezillon 2024-02-29  656  /**
-4bdca11507928a Boris Brezillon 2024-02-29  657   * panthor_submit_ctx_add_deps_and_arm_jobs() - Add jobs dependencies and arm jobs
-4bdca11507928a Boris Brezillon 2024-02-29  658   * @ctx: Submit context.
-4bdca11507928a Boris Brezillon 2024-02-29  659   *
-4bdca11507928a Boris Brezillon 2024-02-29  660   * Must be called after the resv preparation has been taken care of.
-4bdca11507928a Boris Brezillon 2024-02-29  661   *
-4bdca11507928a Boris Brezillon 2024-02-29  662   * Return: 0 on success, a negative error code otherwise.
-4bdca11507928a Boris Brezillon 2024-02-29  663   */
-4bdca11507928a Boris Brezillon 2024-02-29  664  static int
-4bdca11507928a Boris Brezillon 2024-02-29  665  panthor_submit_ctx_add_deps_and_arm_jobs(struct panthor_submit_ctx *ctx)
-4bdca11507928a Boris Brezillon 2024-02-29  666  {
-4bdca11507928a Boris Brezillon 2024-02-29  667  	for (u32 i = 0; i < ctx->job_count; i++) {
-4bdca11507928a Boris Brezillon 2024-02-29  668  		int ret;
-4bdca11507928a Boris Brezillon 2024-02-29  669  
-4bdca11507928a Boris Brezillon 2024-02-29  670  		ret = panthor_submit_ctx_add_sync_deps_to_job(ctx, i);
-4bdca11507928a Boris Brezillon 2024-02-29  671  		if (ret)
-4bdca11507928a Boris Brezillon 2024-02-29  672  			return ret;
-4bdca11507928a Boris Brezillon 2024-02-29  673  
-4bdca11507928a Boris Brezillon 2024-02-29 @674  		drm_sched_job_arm(ctx->jobs[i].job);
-4bdca11507928a Boris Brezillon 2024-02-29  675  
-4bdca11507928a Boris Brezillon 2024-02-29  676  		ret = panthor_submit_ctx_update_job_sync_signal_fences(ctx, i);
-4bdca11507928a Boris Brezillon 2024-02-29  677  		if (ret)
-4bdca11507928a Boris Brezillon 2024-02-29  678  			return ret;
-4bdca11507928a Boris Brezillon 2024-02-29  679  	}
-4bdca11507928a Boris Brezillon 2024-02-29  680  
-4bdca11507928a Boris Brezillon 2024-02-29  681  	return 0;
-4bdca11507928a Boris Brezillon 2024-02-29  682  }
-4bdca11507928a Boris Brezillon 2024-02-29  683  
+Finally, as a suggestion for the future: for a series like this, it
+may make sense to have a small/quick cover letter saying something as
+simple as: "Clippy reports some issues in ... -- this series cleans
+them up.". Having a cover letter also allows you to give a title to
+the series.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks again!
+
+Cheers,
+Miguel
