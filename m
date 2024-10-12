@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92ACB99B37B
-	for <lists+dri-devel@lfdr.de>; Sat, 12 Oct 2024 13:27:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2113199B37C
+	for <lists+dri-devel@lfdr.de>; Sat, 12 Oct 2024 13:27:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 090E110E1EE;
-	Sat, 12 Oct 2024 11:27:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8038F10E31B;
+	Sat, 12 Oct 2024 11:27:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="vDy13rao";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UbUBLW9P";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A535C10E1EE
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Oct 2024 11:27:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EFD110E1FD
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Oct 2024 11:27:45 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 7920F5C5678;
- Sat, 12 Oct 2024 11:27:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 413E6C4CEC6;
- Sat, 12 Oct 2024 11:27:41 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 2C3B35C5682;
+ Sat, 12 Oct 2024 11:27:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3226C4CEC7;
+ Sat, 12 Oct 2024 11:27:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1728732462;
- bh=gSSvy2dAew+hub5xIOIxQ3J5yTcYbohKu8RqJPZlqHQ=;
+ s=k20201202; t=1728732464;
+ bh=a15rdXWBom+EVLMzVNGaBrVj+vIfKEsnXYhppLf8LRo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=vDy13raotE2JQ+6s+/kNHOsZ1RaNdO2y/rotCX5GvaF+GwK3g+9qb+fKo/2M3Ji4L
- IsMvpV8DYrzvjN6EAkYPN/tH4sjmzEPO/b+rgJutV4McQGnX2PWcAc1/25RzcCLaas
- giajqOXvmeORViYkuIqE28ImPZw95zpkoMwjZARR5GkV4zl5TFsSe4DOcH8q93mnDK
- +WtAQXC0teeZNUzrobns8GkX+dk8ABYJOuCU5pyYFPjXXNyOh+O8nF+xprqGV82yx8
- VPtkISs9pMgRRuGcxLhHeHUil8sLBRPZ4WArUOSherxXcgSvvb6aPLCODTF1O9g9QL
- LreXq3EayHlAg==
+ b=UbUBLW9PH13hXykO5rjQnQlXTjR4ox5xZiql3aLmK7Ir3tO2rD0aXENCL5khp1QSy
+ BRwnesgIUip5gCzVIYYhTZToCLpNh2cKjpJ7cVZZz+1VbIBEL1grJu+spsh9gm/gDB
+ dWBU/4ZPTGWXgZ2ND9/da0FPjLPxUPrDdP19G0uJC0aaaFMd4EXt2AiG26Pc1ABYYw
+ wfQZWaj2wNZzDk/KnISiODrMyaMtf1t72Z8W6D8rCedzEigXo8mXQvtDX0KC1x8ue1
+ jWstzfycO4Wr85U170cvV6nIDRzzGStcGMSgaPtrB0Wur7nF3Ou4WTkX+2C85q3uC0
+ zRfiJeXu4mSEQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -37,10 +37,10 @@ Cc: Bouke Sybren Haarsma <boukehaarsma23@gmail.com>,
  Hans de Goede <hdegoede@redhat.com>, Sasha Levin <sashal@kernel.org>,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.6 11/20] drm: panel-orientation-quirks: Add quirk
- for Ayn Loki Zero
-Date: Sat, 12 Oct 2024 07:26:43 -0400
-Message-ID: <20241012112715.1763241-11-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 12/20] drm: panel-orientation-quirks: Add quirk
+ for Ayn Loki Max
+Date: Sat, 12 Oct 2024 07:26:44 -0400
+Message-ID: <20241012112715.1763241-12-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241012112715.1763241-1-sashal@kernel.org>
 References: <20241012112715.1763241-1-sashal@kernel.org>
@@ -66,38 +66,40 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Bouke Sybren Haarsma <boukehaarsma23@gmail.com>
 
-[ Upstream commit b86aa4140f6a8f01f35bfb05af60e01a55b48803 ]
+[ Upstream commit 2c71c8459c8ca66bd8f597effaac892ee8448a9f ]
 
-Add quirk orientation for the Ayn Loki Zero.
+Add quirk orientation for Ayn Loki Max model.
 
-This also has been tested/used by the JELOS team.
+This has been tested by JELOS team that uses their
+own patched kernel for a while now and confirmed by
+users in the ChimeraOS discord servers.
 
 Signed-off-by: Bouke Sybren Haarsma <boukehaarsma23@gmail.com>
 Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240728124731.168452-2-boukehaarsma23@gmail.com
+Link: https://patchwork.freedesktop.org/patch/msgid/20240728124731.168452-3-boukehaarsma23@gmail.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
  drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
  1 file changed, 6 insertions(+)
 
 diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-index 5db52d6c5c35c..21f2f3abf90f0 100644
+index 21f2f3abf90f0..df402f6c5dc98 100644
 --- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
 +++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
 @@ -208,6 +208,12 @@ static const struct dmi_system_id orientation_data[] = {
  		  DMI_MATCH(DMI_BOARD_NAME, "KUN"),
  		},
  		.driver_data = (void *)&lcd1600x2560_rightside_up,
-+	}, {	/* AYN Loki Zero */
++	}, {    /* AYN Loki Max */
 +		.matches = {
 +			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ayn"),
-+			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Loki Zero"),
++			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Loki Max"),
 +		},
 +		.driver_data = (void *)&lcd1080x1920_leftside_up,
- 	}, {	/* Chuwi HiBook (CWI514) */
+ 	}, {	/* AYN Loki Zero */
  		.matches = {
- 			DMI_MATCH(DMI_BOARD_VENDOR, "Hampoo"),
+ 			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ayn"),
 -- 
 2.43.0
 
