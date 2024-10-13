@@ -2,71 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C111D99BB36
-	for <lists+dri-devel@lfdr.de>; Sun, 13 Oct 2024 21:12:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3414299BB38
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Oct 2024 21:21:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 673B610E113;
-	Sun, 13 Oct 2024 19:12:02 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="XuI5wLzX";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D5FC10E1BA;
+	Sun, 13 Oct 2024 19:21:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com
- [209.85.128.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2049B10E113
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Oct 2024 19:12:01 +0000 (UTC)
-Received: by mail-yw1-f181.google.com with SMTP id
- 00721157ae682-6e3881042dcso3955797b3.0
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Oct 2024 12:12:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google; t=1728846720; x=1729451520;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=fMAaQhnrjmLN62TPCFe5hpMUQXEGRMVAPcnKvhSQ2s8=;
- b=XuI5wLzX8+jb/x3yBDImBrKINg+n9vHKcEhFZhs3S1l7Je45Ob9P7VnS4o6YBLjFcY
- Bw/fdiZnJwZm4dfMm+4J9y7VyO1AhZmIyoueuQe0eiViE7B8XRTNg+TeaDNlgv87j5xn
- ZJxeXIoV60NixkEjfTKTVWOoJs+61erLj5cU8D+8YPGByqGzr87Zf0nU+EjCthlGSeQs
- 7lWIdl7ZXH/mD7ymUF4v5v7h6EBjhrNMzRSo4H8iPdIo/75sKsQSUcEq+NMRpbDpDFiF
- LVlwNq0zs0GZ8CnRL7m2nozXTZjA7/nFoXeQQ2OgCkLzU3ZUS3euxjJJPf2lcvOawNLt
- 63Bw==
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
+ [209.85.166.200])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22FC710E1BA
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Oct 2024 19:21:27 +0000 (UTC)
+Received: by mail-il1-f200.google.com with SMTP id
+ e9e14a558f8ab-3a3c5b90293so5182245ab.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Oct 2024 12:21:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728846720; x=1729451520;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=fMAaQhnrjmLN62TPCFe5hpMUQXEGRMVAPcnKvhSQ2s8=;
- b=a1GGXUvGdCNruKs+SEriespwsetyZhf5A8mItUUq2cmshDr9nl6cGSsfNm/jzV+Ab3
- T3K6gnCS5IQDSSbKtrpBFdLcnMOZ7pcD36BuSu65pdD7PqG5Zm9bu4qQLy/no26nDp22
- qEKsiLiuPnhXRl28lR4PN8RHBd2f9EuUwUFAvkaIpbt4bc/fu+3vK9nW1gwmmwQOhmwc
- EC4Eb4RSc+nhfD76xXOb8h0jt/p3dbgI2xqpOp5KDcNEiir/lYTZrc/DyMdOQFryg8Uc
- txxIPwCaGm3hCK76FidBQh4NIkLvLfQNSaQlhJMx6dMhT133wkfPWFlGp7i1VcTJN+vG
- ZJ7A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX2RyXk8Bzez8FX+wigvRUFu7Gcw90pnlaZVZRn/Z2GesCJtejJN07jO8QPaQXbaEddZa2hQJ8uvO0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwQH56zJE1Z351jnx3vUGv9vBncfYE0+mek2dcIVoZSZazHn7iM
- 937A7kU/u5+Jrz5oGAQp1E6ZxaNAIJ23GGxTnVqWRGGyBopi9xOYhYXLXFU0Q6MPNfOgjD1xS4D
- enCeOBwzb+4e+0pvBYPiriVBwKL1nfdMC0JyYcQ==
-X-Google-Smtp-Source: AGHT+IGjy1+n+lvx1Nv2tmB5zSbiTXF/o4E3RcdyZugd43eFXvGnbaIyN1glSzy6SR7TTBdzCdZ0vVvh0M5+Ui67lNQ=
-X-Received: by 2002:a05:690c:a98:b0:6db:de34:8049 with SMTP id
- 00721157ae682-6e364142ba3mr47155497b3.16.1728846719931; Sun, 13 Oct 2024
- 12:11:59 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1728847286; x=1729452086;
+ h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=4WU3kgEtTuMHg+8jTGa/m3Y0xT7Aassavqo9KaNTKhI=;
+ b=QB6q9z14QooI0eXq6T3aK7BM3kR8CjbCdgtCI6PxdC3IERZO+gjGvYUesjuUhrz132
+ 3k54fimrr73kYb13nFGUFEQhR8cw9DUS1rAA0AuSql9MbErJxBp6F6BTBzFm0dSrcLpo
+ ck18rZBpdpoPsmVKR3BAUYZUCXb6Yu4P4Cg/Q7GIuXAj7hOJG+f17WmfC04MEsCI5AHI
+ UoCTJyiRppzdu4FwxAJBL2M0oIRu1krfcUwfIpWC4i0YGGbnm73c82gU8nJ7dKVDVI0E
+ M+Z5YSKLGLUn2G+ARc96zQPMgu8IpfCjGoZ7BRcvGub313fRCum2zvBzQjP8quswLCTc
+ xkrw==
+X-Gm-Message-State: AOJu0YyKZ11Uwx17sVHJbs5qlksVNTpUAS40xwyFx7LUr2uATaQRly2/
+ PiAUud2/twVDJjJdzQhCypAKblMBDoiLlqaWFc7HrJy8zNqpuAPjo8Ejf/bzd9iEBXudIsH+Qfz
+ zKg69KaQSjv0fc9xA0Xo9Jh46+o7dPNqmyfMjDdyXraTjAi4+KiQujZ0=
+X-Google-Smtp-Source: AGHT+IGM4P8g+P/xqgXlXPSOvSrmB/PNQ5Z6EW/IhzqSts0VYfiRKjLcz9UzpoSi75CVfI2RA6WVolB06KQIoaS4L4eU0xTQFoId
 MIME-Version: 1.0
-References: <c657d3e9-e4fb-4dac-a611-45655511e500@gmx.net>
-In-Reply-To: <c657d3e9-e4fb-4dac-a611-45655511e500@gmx.net>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Sun, 13 Oct 2024 20:11:46 +0100
-Message-ID: <CAPY8ntDAMq_oTM+ua0pcFroTiWkDyhXSj++oGxOq+ODajm8++Q@mail.gmail.com>
-Subject: Re: vc4: HDMI Sink doesn't support RGB, something's wrong.
-To: Stefan Wahren <wahrenst@gmx.net>
-Cc: Maxime Ripard <mripard@kernel.org>,
- =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
- DRI Development <dri-devel@lists.freedesktop.org>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- Florian Fainelli <florian.fainelli@broadcom.com>
-Content-Type: multipart/alternative; boundary="0000000000009cecb90624607e7f"
+X-Received: by 2002:a05:6e02:1a8a:b0:3a0:c15f:7577 with SMTP id
+ e9e14a558f8ab-3a3b5f4976fmr78978865ab.9.1728847286172; Sun, 13 Oct 2024
+ 12:21:26 -0700 (PDT)
+Date: Sun, 13 Oct 2024 12:21:26 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <670c1db6.050a0220.3e960.0044.GAE@google.com>
+Subject: [syzbot] Monthly dri report (Oct 2024)
+From: syzbot <syzbot+list6f950335a4c56f56249b@syzkaller.appspotmail.com>
+To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,155 +59,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---0000000000009cecb90624607e7f
-Content-Type: text/plain; charset="UTF-8"
+Hello dri maintainers/developers,
 
-Hi Stefan.
+This is a 31-day syzbot report for the dri subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/dri
 
-On Sun, 13 Oct 2024, 18:19 Stefan Wahren, <wahrenst@gmx.net> wrote:
+During the period, 0 new issues were detected and 0 were fixed.
+In total, 18 issues are still open and 31 have been fixed so far.
 
-> Hi,
->
-> i recently switch for my suspend2idle tests from Raspberry Pi Bullseye
-> to Bookworm. After that testing suspend2idle shows a new warning which i
-> never saw before:
->
-> HDMI Sink doesn't support RGB, something's wrong.
->
+Some of the still happening issues:
 
-Can you provide the edid of your display please?
+Ref Crashes Repro Title
+<1> 650     Yes   WARNING in drm_syncobj_array_find
+                  https://syzkaller.appspot.com/bug?extid=95416f957d84e858b377
+<2> 298     Yes   WARNING in vkms_get_vblank_timestamp (2)
+                  https://syzkaller.appspot.com/bug?extid=93bd128a383695391534
+<3> 55      No    INFO: task hung in drm_atomic_get_plane_state
+                  https://syzkaller.appspot.com/bug?extid=eee643fdccb7c015b3a6
+<4> 18      Yes   WARNING in drm_gem_prime_fd_to_handle
+                  https://syzkaller.appspot.com/bug?extid=268d319a7bfd92f4ae01
+<5> 17      Yes   WARNING in drm_wait_one_vblank (2)
+                  https://syzkaller.appspot.com/bug?extid=147ba789658184f0ce04
+<6> 11      Yes   divide error in drm_mode_vrefresh
+                  https://syzkaller.appspot.com/bug?extid=622bba18029bcde672e1
+<7> 4       Yes   divide error in drm_mode_debug_printmodeline
+                  https://syzkaller.appspot.com/bug?extid=2e93e6fb36e6fdc56574
+<8> 3       Yes   KASAN: slab-use-after-free Read in drm_atomic_helper_wait_for_vblanks (2)
+                  https://syzkaller.appspot.com/bug?extid=0f999d26a4fd79c3a23b
+<9> 2       Yes   WARNING in drm_prime_destroy_file_private (2)
+                  https://syzkaller.appspot.com/bug?extid=59dcc2e7283a6f5f5ba1
 
-The last time I saw this type of error was when using the now removed built
-in edids that were declaring the display as analog rgb. That dropped out
-part way through the edid parsing and didn't set the flag for rgb support.
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-  Dave
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
 
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
 
-> Platform: Raspberry Pi 3 B+
-> Kernel: 6.12-rc1
-> Kernel config: arm/multi_v7_defconfig
->
-> I applied this downstream patch [1], but this doesn't help. Any ideas?
->
->
-> [1] -
->
-> https://github.com/raspberrypi/linux/commit/2559eae8cf2c060c7bb873209792077f20414fac
->
-> [  272.263134] PM: suspend entry (s2idle)
-> [  272.983317] Filesystems sync: 0.720 seconds
-> [  273.248665] Freezing user space processes
-> [  273.250547] Freezing user space processes completed (elapsed 0.001
-> seconds)
-> [  273.250574] OOM killer disabled.
-> [  273.250579] Freezing remaining freezable tasks
-> [  273.251774] Freezing remaining freezable tasks completed (elapsed
-> 0.001 seconds)
-> [  274.267355] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we have
-> nothing to do.
-> [  274.267372] ieee80211 phy0: brcmf_cfg80211_get_tx_power: error (-5)
-> [  290.989948] brcmfmac: brcmf_fw_alloc_request: using
-> brcm/brcmfmac43455-sdio for chip BCM4345/6
-> [  291.127611] brcmfmac: brcmf_c_process_txcap_blob: no txcap_blob
-> available (err=-2)
-> [  291.127974] brcmfmac: brcmf_c_preinit_dcmds: Firmware: BCM4345/6 wl0:
-> Apr 15 2021 03:03:20 version 7.45.234 (4ca95bb CY) FWID 01-996384e2
-> [  291.193655] OOM killer enabled.
-> [  291.193674] Restarting tasks ... done.
-> [  291.195010] random: crng reseeded on system resumption
-> [  291.203671] PM: suspend exit
-> [  291.209085] lan78xx 1-1.1.1:1.0 eth0: Link is Down
-> [  291.243499] vc4-drm soc:gpu: [drm] HDMI Sink doesn't support RGB,
-> something's wrong.
-> [  291.270561] vc4-drm soc:gpu: [drm] HDMI Sink doesn't support RGB,
-> something's wrong.
-> [  291.336887] vc4-drm soc:gpu: [drm] HDMI Sink doesn't support RGB,
-> something's wrong.
-> [  293.637295] lan78xx 1-1.1.1:1.0 eth0: Link is Up - 1Gbps/Full - flow
-> control rx/tx
->
-
---0000000000009cecb90624607e7f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div>Hi Stefan.=C2=A0<br><br><div class=3D"gmail_quote"><=
-div dir=3D"ltr" class=3D"gmail_attr">On Sun, 13 Oct 2024, 18:19 Stefan Wahr=
-en, &lt;<a href=3D"mailto:wahrenst@gmx.net">wahrenst@gmx.net</a>&gt; wrote:=
-<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
-er-left:1px #ccc solid;padding-left:1ex">Hi,<br>
-<br>
-i recently switch for my suspend2idle tests from Raspberry Pi Bullseye<br>
-to Bookworm. After that testing suspend2idle shows a new warning which i<br=
->
-never saw before:<br>
-<br>
-HDMI Sink doesn&#39;t support RGB, something&#39;s wrong.<br></blockquote><=
-/div></div><div dir=3D"auto"><br></div><div dir=3D"auto">Can you provide th=
-e edid of your display please?</div><div dir=3D"auto"><br></div><div dir=3D=
-"auto">The last time I saw this type of error was when using the now remove=
-d built in edids that were declaring the display as analog rgb. That droppe=
-d out part way through the edid parsing and didn&#39;t set the flag for rgb=
- support.</div><div dir=3D"auto"><br></div><div dir=3D"auto">=C2=A0 Dave</d=
-iv><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"=
-><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1=
-px #ccc solid;padding-left:1ex">
-<br>
-Platform: Raspberry Pi 3 B+<br>
-Kernel: 6.12-rc1<br>
-Kernel config: arm/multi_v7_defconfig<br>
-<br>
-I applied this downstream patch [1], but this doesn&#39;t help. Any ideas?<=
-br>
-<br>
-<br>
-[1] -<br>
-<a href=3D"https://github.com/raspberrypi/linux/commit/2559eae8cf2c060c7bb8=
-73209792077f20414fac" rel=3D"noreferrer noreferrer" target=3D"_blank">https=
-://github.com/raspberrypi/linux/commit/2559eae8cf2c060c7bb873209792077f2041=
-4fac</a><br>
-<br>
-[=C2=A0 272.263134] PM: suspend entry (s2idle)<br>
-[=C2=A0 272.983317] Filesystems sync: 0.720 seconds<br>
-[=C2=A0 273.248665] Freezing user space processes<br>
-[=C2=A0 273.250547] Freezing user space processes completed (elapsed 0.001<=
-br>
-seconds)<br>
-[=C2=A0 273.250574] OOM killer disabled.<br>
-[=C2=A0 273.250579] Freezing remaining freezable tasks<br>
-[=C2=A0 273.251774] Freezing remaining freezable tasks completed (elapsed<b=
-r>
-0.001 seconds)<br>
-[=C2=A0 274.267355] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we hav=
-e<br>
-nothing to do.<br>
-[=C2=A0 274.267372] ieee80211 phy0: brcmf_cfg80211_get_tx_power: error (-5)=
-<br>
-[=C2=A0 290.989948] brcmfmac: brcmf_fw_alloc_request: using<br>
-brcm/brcmfmac43455-sdio for chip BCM4345/6<br>
-[=C2=A0 291.127611] brcmfmac: brcmf_c_process_txcap_blob: no txcap_blob<br>
-available (err=3D-2)<br>
-[=C2=A0 291.127974] brcmfmac: brcmf_c_preinit_dcmds: Firmware: BCM4345/6 wl=
-0:<br>
-Apr 15 2021 03:03:20 version 7.45.234 (4ca95bb CY) FWID 01-996384e2<br>
-[=C2=A0 291.193655] OOM killer enabled.<br>
-[=C2=A0 291.193674] Restarting tasks ... done.<br>
-[=C2=A0 291.195010] random: crng reseeded on system resumption<br>
-[=C2=A0 291.203671] PM: suspend exit<br>
-[=C2=A0 291.209085] lan78xx 1-1.1.1:1.0 eth0: Link is Down<br>
-[=C2=A0 291.243499] vc4-drm soc:gpu: [drm] HDMI Sink doesn&#39;t support RG=
-B,<br>
-something&#39;s wrong.<br>
-[=C2=A0 291.270561] vc4-drm soc:gpu: [drm] HDMI Sink doesn&#39;t support RG=
-B,<br>
-something&#39;s wrong.<br>
-[=C2=A0 291.336887] vc4-drm soc:gpu: [drm] HDMI Sink doesn&#39;t support RG=
-B,<br>
-something&#39;s wrong.<br>
-[=C2=A0 293.637295] lan78xx 1-1.1.1:1.0 eth0: Link is Up - 1Gbps/Full - flo=
-w<br>
-control rx/tx<br>
-</blockquote></div></div></div>
-
---0000000000009cecb90624607e7f--
+You may send multiple commands in a single email message.
