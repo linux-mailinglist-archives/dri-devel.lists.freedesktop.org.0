@@ -2,49 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 558F099BA38
-	for <lists+dri-devel@lfdr.de>; Sun, 13 Oct 2024 17:58:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2374399BA84
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Oct 2024 19:19:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 949F110E37F;
-	Sun, 13 Oct 2024 15:58:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E910010E170;
+	Sun, 13 Oct 2024 17:19:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=emersion.fr header.i=@emersion.fr header.b="RYg8VvAK";
+	dkim=pass (2048-bit key; secure) header.d=gmx.net header.i=wahrenst@gmx.net header.b="BZt1uDhg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 2555 seconds by postgrey-1.36 at gabe;
- Sun, 13 Oct 2024 15:58:37 UTC
-Received: from mail-4022.proton.ch (mail-4022.proton.ch [185.70.40.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2C3210E37C;
- Sun, 13 Oct 2024 15:58:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail; t=1728835115; x=1729094315;
- bh=JltMR/85fzhL0RdMLc022qCfSKD2ptE/HJeBvbvaogQ=;
- h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
- Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
- Message-ID:BIMI-Selector;
- b=RYg8VvAKmGyczqkSbWEWbv4WEK5XcNCoaZqhZLW9R5YuSq9aW0ezGdJPKC6lZoyFv
- bc+gmZZy43P4D2A15aRALHz8f6dqZ/c1mAygs9nFcZps8YuV/S4giQjA4CWATRX4rk
- R2uL+OWUI28VtnIVFcbbc1Bu7vMRQKO2/1I6oO8O9hlKXM3kRZaWA6CFgzwPFV462L
- ON9IA2bylCe6y5aF+oA0kpOnrnReEjFLX97QawJmWfg9z07PDn7HWxMwBuT9fiiYdq
- weNDZR33cFzngKySj3hKSta46tyaPe5wX7+p/jiV5hGz0licCDRPkuJSC7/jdJrHeS
- fNfs1K8eZoywg==
-Date: Sun, 13 Oct 2024 15:58:33 +0000
-To: Harry Wentland <harry.wentland@amd.com>
-From: Simon Ser <contact@emersion.fr>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- wayland-devel@lists.freedesktop.org, Alex Hung <alex.hung@amd.com>
-Subject: Re: [PATCH v6 42/44] drm/colorop: Add 3D LUT supports to color
- pipeline
-Message-ID: <W3Axn6bFNOkhZFPsRFRYAbmZno5mB1cyoecUKsIjsKIK5PRuT5cqddb9rHDFqg5fTCU5m9wT13G4Bt1GNR4DVpSHrAFXVX1FR83pedIfzBs=@emersion.fr>
-In-Reply-To: <20241003200129.1732122-43-harry.wentland@amd.com>
-References: <20241003200129.1732122-1-harry.wentland@amd.com>
- <20241003200129.1732122-43-harry.wentland@amd.com>
-Feedback-ID: 1358184:user:proton
-X-Pm-Message-ID: a6ec4d0bc684b113168b9a38e354cf2f1832de7e
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8647110E170
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Oct 2024 17:19:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
+ s=s31663417; t=1728839974; x=1729444774; i=wahrenst@gmx.net;
+ bh=6vAjGeEU5+46BUCaF/d178gV4XisoGEvU2GrBtOPnYo=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:From:
+ Subject:Content-Type:Content-Transfer-Encoding:cc:
+ content-transfer-encoding:content-type:date:from:message-id:
+ mime-version:reply-to:subject:to;
+ b=BZt1uDhg/sOQxvBMpOW/jBfdBx0+JTX0C/0GenK7tZzq6NL4etgy4F81Eb87Aqja
+ QTIsDJ3DTPIrqEm9JwZ3RtP5t7tHnV3UtjtwyPkmF1IL0iwY0GAN2YezeQr1gZFPE
+ /Dzn9PVrt3X4vWiz4wBbaSQAfHixXUDfWIMFGHKz4qHfARqYuE5VaBrl5Qd//rRhm
+ 4ANEGfnEdNNtlK5Ro6n7JI9it0fYJb2zc0qa0b9QwvEp0Q8sYUlt9QfqRRLtlRFHP
+ p7tJAkjnMCwpDGPnsU+heTvn63grfSKOMKjLnnlyBITImXWBLIRgw5S5ppO8epBLR
+ uc1Slt4iyqqweDLsVg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.104] ([37.4.248.43]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MuUnA-1trai40IpW-00vJhJ; Sun, 13
+ Oct 2024 19:19:34 +0200
+Message-ID: <c657d3e9-e4fb-4dac-a611-45655511e500@gmx.net>
+Date: Sun, 13 Oct 2024 19:19:30 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Maxime Ripard <mripard@kernel.org>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
+ <mcanal@igalia.com>
+Cc: DRI Development <dri-devel@lists.freedesktop.org>,
+ kernel-list@raspberrypi.com, Thomas Zimmermann <tzimmermann@suse.de>,
+ Florian Fainelli <florian.fainelli@broadcom.com>
+From: Stefan Wahren <wahrenst@gmx.net>
+Subject: vc4: HDMI Sink doesn't support RGB, something's wrong.
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:nf4QyGlkqVZNJQmMdwnziBrvhD7f57r0EpN/TmDlSRjXKzVHCx1
+ w+JIIGmfbMqMNUk5o4FI+1+8jOj/PIjXcjFq3VS9zj215c1rmjtwnhp8eIvwe7kRbyz1cmy
+ Lfl25tectHTTAgREPiSnfwLdt1dD6GEqyWfPaBiiodf2PEAvlGSO6yPUw6lDC0VmgeBjb6N
+ thiQQKBpplcPYQVxB6aMg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:vZC3Demi7rw=;sG0ZlwO8/wnU/mMzDoVo8s0NbZR
+ EBUOZd73gw1hEW9gwssv/5Xl9MgO0VkfIezntkporaXd2wkIYwUO8ErRTKLbMB6h8K4UA3ZKy
+ tzNMb2L+H+M2B9rysUETzQC3Z+gJFTbWELHNZkxOcq5/GQ+dSJvsvNhY++dyC4+kBs2lPr5z8
+ E4TGnkoy3uvuEKX5pnov9hxfU2+DD29DrDt4zkXgdO24DD18/cdfm7RNM8idmrAoNCCcINzkm
+ t1j10KmhOas2QUZo1hiugmtdytuMD22CQUM6o6wr3EntmIhvJt6hl9wIvc+mAKW2hTq32MLa1
+ Rnng4U2X+Mp2/EuRokE2e0YjvelqFaldiHdFE7UTHY4hF9IH2Kanz18ODbf8X//hEad0jggXY
+ pbsgcDMA1Ny5RYXRtXUGHwtk5UwgSXE9B27ZfyJO+e/M7NXrmXVCyItt6q52k3jUnd3E4G2iv
+ s93umKw8nS+Nhr0rDbdohGNrvR6ieoYB8Lm/i732siDfXUm8NaD7874unm6J8xCVoR2fhWy4K
+ N+77EVzAI4SZQYSOfGe0+lSq/P0mkiJOA2jJHm/F0OJmVTMbsAH8EMF/Y6+Ix+x4ndSEEQ1MV
+ CVkNVZpMYKS5I/9mUnXu/6YAM3INATIcXBlewS4LZzzbH4+1VLMIvDnvNELxyDlLuvuxfaEhp
+ sWvBkKApjJ5UGV6gkm+WtqCMofZCAeYEVcrsrthxl8Xdoz95tJNjEaG4gNg5HYD/1jdnFvdhT
+ 3ZX3EqemF+15NAHnuLwGpjbhvnWQeZy1OzDkhSC2Cs7l60EJH6w4bi4/areDkX/Z/ClAw3Dwx
+ byJh7NXzwgptLPIiT40jfwzA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,170 +80,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thursday, October 3rd, 2024 at 22:01, Harry Wentland <harry.wentland@amd=
-.com> wrote:
+Hi,
 
-> From: Alex Hung <alex.hung@amd.com>
->=20
-> It is to be used to enable HDR by allowing userpace to create and pass
-> 3D LUTs to kernel and hardware.
->=20
-> 1. new drm_colorop_type: DRM_COLOROP_3D_LUT.
-> 2. 3D LUT modes define hardware capabilities to userspace applications.
-> 3. mode index points to current 3D LUT mode in lut_3d_modes.
+i recently switch for my suspend2idle tests from Raspberry Pi Bullseye
+to Bookworm. After that testing suspend2idle shows a new warning which i
+never saw before:
 
-Do we really need all of this complexity here?
+HDMI Sink doesn't support RGB, something's wrong.
 
-User-space needs to copy over its 3D LUT to the KMS blob. Kernel needs to
-copy from the KMS blob when programming hardware. Why do we need a list of
-different modes with negotiation?
+Platform: Raspberry Pi 3 B+
+Kernel: 6.12-rc1
+Kernel config: arm/multi_v7_defconfig
 
-I've heard that some of this complexity has been introduced to add in the
-future BO-backed LUTs. That would be a nice addition, but it's not here
-right now, so how can we design for that case when we haven't actually trie=
-d
-implementing it and made sure it actually works in practice?
+I applied this downstream patch [1], but this doesn't help. Any ideas?
 
-It would be easy to introduce "modes" (or something different) when the
-BO-based 3D LUT uAPI is introduced. There are many ways to handle backwards
-compatibility: new properties can have their defaults set to the previously
-fixed format/swizzle/etc, a new colorop can be introduced if there are
-too many conflicts, and worst case new functionality can be gated behind a
-DRM cap (although I don't think we'd need to resort to this here).
 
-I'd recommend just having one fixed supported format, like we have for
-1D LUTs. We can have a read-only props for the size and the color depth,
-as well as a read-write prop for the data blob.
+[1] -
+https://github.com/raspberrypi/linux/commit/2559eae8cf2c060c7bb87320979207=
+7f20414fac
 
-> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-> index 5ef87cb5b242..290c2e32f692 100644
-> --- a/include/uapi/drm/drm_mode.h
-> +++ b/include/uapi/drm/drm_mode.h
-> @@ -913,6 +913,90 @@ enum drm_colorop_type {
->  =09 * property.
->  =09 */
->  =09DRM_COLOROP_MULTIPLIER,
-> +=09/**
-> +=09 * @DRM_COLOROP_3D_LUT:
-> +=09 *
-> +=09 * A 3D LUT of &drm_color_lut entries,
-> +=09 * packed into a blob via the DATA property. The driver's expected
-> +=09 * LUT size is advertised via the SIZE property.
-> +=09 */
-> +=09DRM_COLOROP_3D_LUT,
-
-User-space docs are missing many details I believe.
-
-> +};
-> +
-> +/**
-> + * enum drm_colorop_lut3d_interpolation_type - type of 3DLUT interpolati=
-on
-> + *
-> + */
-> +enum drm_colorop_lut3d_interpolation_type {
-> +=09/**
-> +=09 * @DRM_COLOROP_LUT3D_INTERPOLATION_TETRAHEDRAL:
-> +=09 *
-> +=09 * Tetrahedral 3DLUT interpolation
-> +=09 */
-> +=09DRM_COLOROP_LUT3D_INTERPOLATION_TETRAHEDRAL,
-> +};
-> +
-> +/**
-> + * enum drm_colorop_lut3d_traversal_order - traversal order of the 3D LU=
-T
-> + *
-> + * This enum describes the order of traversal of 3DLUT elements.
-> + */
-> +enum drm_colorop_lut3d_traversal_order {
-> +=09/**
-> +=09 * @DRM_COLOROP_LUT3D_TRAVERSAL_RGB:
-> +=09 *
-> +=09 * the LUT elements are traversed like so:
-> +=09 *   for R in range 0..n
-> +=09 *     for G in range 0..n
-> +=09 *       for B in range 0..n
-> +=09 *         color =3D lut3d[R][G][B]
-> +=09 */
-> +=09DRM_COLOROP_LUT3D_TRAVERSAL_RGB,
-> +=09/**
-> +=09 * @DRM_COLOROP_LUT3D_TRAVERSAL_BGR:
-> +=09 *
-> +=09 * the LUT elements are traversed like so:
-> +=09 *   for R in range 0..n
-> +=09 *     for G in range 0..n
-> +=09 *       for B in range 0..n
-> +=09 *         color =3D lut3d[B][G][R]
-> +=09 */
-> +=09DRM_COLOROP_LUT3D_TRAVERSAL_BGR,
-> +};
-> +
-> +/**
-> + * struct drm_mode_3dlut_mode - 3D LUT mode
-> + *
-> + * The mode describes the supported and selected format of a 3DLUT.
-> + */
-> +struct drm_mode_3dlut_mode {
-> +=09/**
-> +=09 * @lut_size: 3D LUT size - can be 9, 17 or 33
-> +=09 */
-> +=09__u16 lut_size;
-
-Are "9, 17 or 33" just example values? Or does the kernel actually guarante=
-e
-that the advertised size can never be something else? It doesn't seem like
-there is a check, and enforcing it would hinder extensibility (adding new
-values would be a breaking uAPI change).
-
-> +=09/**
-> +=09 * @lut_stride: dimensions of 3D LUT. Must be larger than lut_size
-> +=09 */
-> +=09__u16 lut_stride[3];
-
-It sounds a bit weird to have the driver dictate the stride which must be u=
-sed.
-Usually user-space picks and sends the stride to the driver.
-
-> +=09/**
-> +=09 * @interpolation: interpolation algorithm for 3D LUT. See drm_coloro=
-p_lut3d_interpolation_type
-> +=09 */
-> +=09__u16 interpolation;
-> +=09/**
-> +=09 * @color_depth: color depth - can be 8, 10 or 12
-> +=09 */
-> +=09__u16 color_depth;
-
-Ditto: reading these docs, user-space might not handle any other value.
-
-It would be nice to better explain what this means exactly. Are the output
-color values truncated at this depth? Or are the LUT values truncated? Or
-something else?
-
-> +=09/**
-> +=09 * @color_format: color format specified by fourcc values
-> +=09 * ex. DRM_FORMAT_XRGB16161616 - color in order of RGB, each is 16bit=
-.
-> +=09 */
-> +=09__u32 color_format;
-
-Do we really need to support many different formats?
-
-User-space needs to perform a copy to the KMS blob anyways, so can easily
-convert to an arbitrary format while at it.
-
-Is there a use-case that I'm missing?
-
-> +=09/**
-> +=09 * @traversal_order:
-> +=09 *
-> +=09 * Traversal order when parsing/writing the 3D LUT. See enum drm_colo=
-rop_lut3d_traversal_order
-> +=09 */
-> +=09 __u16 traversal_order;
-
-DRM formats usually have variants for all of the supported/desirable swizzl=
-es.
-For instance we have DRM_FORMAT_XRGB16161616F and DRM_FORMAT_XBGR16161616F.
-Can't see why we couldn't add more if we need to.
+[=C2=A0 272.263134] PM: suspend entry (s2idle)
+[=C2=A0 272.983317] Filesystems sync: 0.720 seconds
+[=C2=A0 273.248665] Freezing user space processes
+[=C2=A0 273.250547] Freezing user space processes completed (elapsed 0.001
+seconds)
+[=C2=A0 273.250574] OOM killer disabled.
+[=C2=A0 273.250579] Freezing remaining freezable tasks
+[=C2=A0 273.251774] Freezing remaining freezable tasks completed (elapsed
+0.001 seconds)
+[=C2=A0 274.267355] ieee80211 phy0: brcmf_fil_cmd_data: bus is down. we ha=
+ve
+nothing to do.
+[=C2=A0 274.267372] ieee80211 phy0: brcmf_cfg80211_get_tx_power: error (-5=
+)
+[=C2=A0 290.989948] brcmfmac: brcmf_fw_alloc_request: using
+brcm/brcmfmac43455-sdio for chip BCM4345/6
+[=C2=A0 291.127611] brcmfmac: brcmf_c_process_txcap_blob: no txcap_blob
+available (err=3D-2)
+[=C2=A0 291.127974] brcmfmac: brcmf_c_preinit_dcmds: Firmware: BCM4345/6 w=
+l0:
+Apr 15 2021 03:03:20 version 7.45.234 (4ca95bb CY) FWID 01-996384e2
+[=C2=A0 291.193655] OOM killer enabled.
+[=C2=A0 291.193674] Restarting tasks ... done.
+[=C2=A0 291.195010] random: crng reseeded on system resumption
+[=C2=A0 291.203671] PM: suspend exit
+[=C2=A0 291.209085] lan78xx 1-1.1.1:1.0 eth0: Link is Down
+[=C2=A0 291.243499] vc4-drm soc:gpu: [drm] HDMI Sink doesn't support RGB,
+something's wrong.
+[=C2=A0 291.270561] vc4-drm soc:gpu: [drm] HDMI Sink doesn't support RGB,
+something's wrong.
+[=C2=A0 291.336887] vc4-drm soc:gpu: [drm] HDMI Sink doesn't support RGB,
+something's wrong.
+[=C2=A0 293.637295] lan78xx 1-1.1.1:1.0 eth0: Link is Up - 1Gbps/Full - fl=
+ow
+control rx/tx
