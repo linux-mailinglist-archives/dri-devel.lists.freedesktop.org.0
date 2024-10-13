@@ -2,73 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F3C299BB52
-	for <lists+dri-devel@lfdr.de>; Sun, 13 Oct 2024 21:58:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C49F99BBF5
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Oct 2024 23:10:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E9FC10E081;
-	Sun, 13 Oct 2024 19:58:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51E3A10E139;
+	Sun, 13 Oct 2024 21:10:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.net header.i=wahrenst@gmx.net header.b="k8Ebw6M1";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="POiuGuFX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BA6310E081
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Oct 2024 19:58:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
- s=s31663417; t=1728849479; x=1729454279; i=wahrenst@gmx.net;
- bh=ZrdbaJ5I1PTLbLhXDgRCXIzWkg9IFj2PsG5BfwQz9f4=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
- References:From:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=k8Ebw6M1OBMxgwa3j8QkhIk/sRFSWfKfwLzT0KJ5eqvPphC1kBU6cdHUT6zMgrPF
- QXFyb57Ft6qutXrz8b337vYkJVpLhMR1JG4nOvk5I2UKSeOgK+z7ut6XHLLy11liZ
- VILOcemzHk9fkTrReMPrdUMqAUKUfghv0dqd4ey6B9s/FACvv/GsxXn3n594hb9ET
- AaedDWSdAijcrvsfdoIXseNic30WjkxvykA/rL3/ngBe5XwiAgJhNy2QT5V4wOLfg
- JqshJCxVYLp2rkyD+hmzCU1fFHqNEGAMVddrnsskK2GMTHrm0XWIP23VyUc5ENWNp
- pO+kWLhjl0z192C2eg==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.104] ([37.4.248.43]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MD9X9-1t97Ha274T-00Cjeb; Sun, 13
- Oct 2024 21:57:59 +0200
-Message-ID: <3f35403e-f42f-4936-9297-68b56818aeee@gmx.net>
-Date: Sun, 13 Oct 2024 21:57:58 +0200
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 285CB10E139
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Oct 2024 21:10:45 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 5F1DB88E12;
+ Sun, 13 Oct 2024 23:10:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1728853843;
+ bh=CZADMR0UjWah1D08Xkik9RrEse5XEJUY2gNVHdcSY2Q=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=POiuGuFXncMQn2R7UV4zOZh/qw+pNUXkNvcUTrChJRD5Z4fXIsFJmIYtxCOCNrYy2
+ wdOfCk3t68Xo7lzcZMOq5kr2L33BirUWo03V69iQw+F77n+a+3xWDkFBMRsVDVwYwA
+ 8+wACntQITTb6Wphma2h9Hpdoksy/0RvxvIlm3SSdV9kkJ+yfIPPQsbIL28j78UDDO
+ 5rcY/tuqjSAZO1EZtjdAK2BYeAxPxs+RmRfjlrJ4FkOIpex5e5CSUjPpnBq2iQm1fb
+ 0TMedidrXZrE0CIynVVLhftSOICdoxa7ndVCR47ik1F7ABycsPjD6suP0Qch3TTEew
+ v1/nnNz6PeUIg==
+Message-ID: <5c355ec8-85e2-4c60-8573-4c21bc8a0d83@denx.de>
+Date: Sun, 13 Oct 2024 22:36:53 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: vc4: HDMI Sink doesn't support RGB, something's wrong.
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: Maxime Ripard <mripard@kernel.org>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
- <mcanal@igalia.com>, DRI Development <dri-devel@lists.freedesktop.org>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Florian Fainelli <florian.fainelli@broadcom.com>
-References: <c657d3e9-e4fb-4dac-a611-45655511e500@gmx.net>
- <CAPY8ntDAMq_oTM+ua0pcFroTiWkDyhXSj++oGxOq+ODajm8++Q@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: tc358767: fix missing of_node_put() in
+ for_each_endpoint_of_node()
+To: Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20241013-tc358767-of_node_put-v1-1-97431772c0ff@gmail.com>
 Content-Language: en-US
-From: Stefan Wahren <wahrenst@gmx.net>
-In-Reply-To: <CAPY8ntDAMq_oTM+ua0pcFroTiWkDyhXSj++oGxOq+ODajm8++Q@mail.gmail.com>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <20241013-tc358767-of_node_put-v1-1-97431772c0ff@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:rEnG7YTgt0moIgYwCvsXY/DexQe3mV3GqhoFvR0hpJshu0XauXP
- S4Y5YgbtFl9X9fXoXvnlYj0R8A2RCLgB8YTEeGK4JH3XX9w6DvZ2z0vuIzZq/M5NzHfRenQ
- /qpW9xBf3anxPsv14ynAjWErr47ee/SfVHdVMGyHtb7ebaWLSGvbt4SAwQXbkWakNQixKht
- d2QD1VJgIEiexHoyyCnQg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:ayjPrdnJwLg=;fagS3B9M7ALWLgOs8MJnn6e2rBC
- TdVXt43yG3Vq3cxqyWXBcCA6qLdWnCrLzK+5aH5Qk0IRyz1TiruIYC95jrSKuNWdf2oG9VgSA
- 6yfM6Iqb4eF9WB94bnZ4UXz/OcweetOU+9vMkUNf1cnsQwOoWSMNEhQp1n94RNBi57kPbI6dA
- dYvMDe8YRtOyp22EhqJO0cBzSfy3wBaZXy+hXcBHLjltlB5lRjmBWRwzX57dV//QSPFJ9rABD
- k156ssTiS4fcotcPfRcyOrASUCbp9H9O27gw34VFJsZHNmV734Co4tCzb6j6XyQa/11WWC3Ci
- 8RQEFF10PvniXyd92B3SQCsyIYqIzE6Yvy++iRCQMYzbSzXN388vJIiJIsXEn1VPu6JBo9j2O
- UyHgUG50OO9naDG4wIrRwozUbvfT9XJoZ9ruDC7PPXZYH0/ShHV3oDOR3mxaZn/ccjJUBz24P
- 1pBMOESGwPFEk/fN5QO0sqTCqs0DyS7pVQTsURY+ynDKkoWFmJcCogVeLDxDpR3aW61D+MKiy
- haSAdcCNRKrL3E5awYXziHLHZvzS+HizcNNWWoRy+0P5kr2iaEv4PnFkmGPpXJnBRJ3iHhA5N
- vwyvnI3GGEeKws9OuL++j16pXn5IAovE0kBrsK7RanwSiP9xFQf3aSJ/LzgMFAS7BzYScNGjl
- 40Q23yZd++43aTQZshVy+js1Jyk/6EogbSzXD8GVc3xRPkikhy9lDZhxwuw3wWa3Hxt/J8ftx
- MfM+c8SvJpbi29f7pyQUafhWQ29IpSstFnYFd1fWrVoAUdSmaqv7tZR3xmzu+xiWUnS0Kp57n
- 5pMpn0Zv2MdxyIXNjUjITu9Q==
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,69 +70,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 13.10.24 um 21:11 schrieb Dave Stevenson:
-> Hi Stefan.
->
-> On Sun, 13 Oct 2024, 18:19 Stefan Wahren, <wahrenst@gmx.net> wrote:
->
->     Hi,
->
->     i recently switch for my suspend2idle tests from Raspberry Pi Bullse=
-ye
->     to Bookworm. After that testing suspend2idle shows a new warning
->     which i
->     never saw before:
->
->     HDMI Sink doesn't support RGB, something's wrong.
->
->
-> Can you provide the edid of your display please?
+On 10/13/24 8:11 PM, Javier Carrasco wrote:
+> for_each_endpoint_of_node() requires a call to of_node_put() for every
+> early exit. A new error path was added to the loop without observing
+> this requirement.
+> 
+> Add the missing call to of_node_put() in the error path.
+> 
+> Fixes: 1fb4dceeedc5 ("drm/bridge: tc358767: Add configurable default preemphasis")
+> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+> ---
+>   drivers/gpu/drm/bridge/tc358767.c | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
+> index 159c95b26d33..942fbaa1413a 100644
+> --- a/drivers/gpu/drm/bridge/tc358767.c
+> +++ b/drivers/gpu/drm/bridge/tc358767.c
+> @@ -2405,6 +2405,7 @@ static int tc_probe_bridge_endpoint(struct tc_data *tc)
+>   			if (tc->pre_emphasis[0] < 0 || tc->pre_emphasis[0] > 2 ||
+>   			    tc->pre_emphasis[1] < 0 || tc->pre_emphasis[1] > 2) {
+>   				dev_err(dev, "Incorrect Pre-Emphasis setting, use either 0=0dB 1=3.5dB 2=6dB\n");
+> +				of_node_put(node);
+>   				return -EINVAL;
+Right, thanks!
 
-Sure
-
-[=C2=A0=C2=A0=C2=A0 27.145] (II) modeset(0): Monitor name: HP ZR2440w
-[=C2=A0=C2=A0=C2=A0 27.145] (II) modeset(0): Serial No: CN423402RL
-
-...
-
-[=C2=A0=C2=A0=C2=A0 27.146] (II) modeset(0): EDID (in hex):
-[=C2=A0=C2=A0=C2=A0 27.146] (II) modeset(0): =C2=A0=C2=A0=C2=A0 00ffffffff=
-ffff0022f0562901010101
-[=C2=A0=C2=A0=C2=A0 27.146] (II) modeset(0): =C2=A0=C2=A0=C2=A0 2216010380=
-3420782afc81a4554d9d25
-[=C2=A0=C2=A0=C2=A0 27.146] (II) modeset(0): =C2=A0=C2=A0=C2=A0 1250542108=
-00d1c081c0814081809500
-[=C2=A0=C2=A0=C2=A0 27.146] (II) modeset(0): =C2=A0=C2=A0=C2=A0 a940b30001=
-01283c80a070b023403020
-[=C2=A0=C2=A0=C2=A0 27.146] (II) modeset(0): =C2=A0=C2=A0=C2=A0 3600064421=
-00001a000000fd00183c18
-[=C2=A0=C2=A0=C2=A0 27.146] (II) modeset(0): =C2=A0=C2=A0=C2=A0 5011000a20=
-2020202020000000fc0048
-[=C2=A0=C2=A0=C2=A0 27.146] (II) modeset(0): =C2=A0=C2=A0=C2=A0 50205a5232=
-343430770a2020000000ff
-[=C2=A0=C2=A0=C2=A0 27.146] (II) modeset(0): =C2=A0=C2=A0=C2=A0 00434e3432=
-33343032524c0a2020015b
-[=C2=A0=C2=A0=C2=A0 27.146] (II) modeset(0): =C2=A0=C2=A0=C2=A0 02031ff14c=
-901f051404130302070612
-[=C2=A0=C2=A0=C2=A0 27.147] (II) modeset(0): =C2=A0=C2=A0=C2=A0 0165030c00=
-1000230907078301000002
-[=C2=A0=C2=A0=C2=A0 27.147] (II) modeset(0): =C2=A0=C2=A0=C2=A0 3a80187138=
-2d40582c45000644210000
-[=C2=A0=C2=A0=C2=A0 27.147] (II) modeset(0): =C2=A0=C2=A0=C2=A0 1e023a80d0=
-72382d40102c4580064421
-[=C2=A0=C2=A0=C2=A0 27.147] (II) modeset(0): =C2=A0=C2=A0=C2=A0 00001e011d=
-007251d01e206e28550006
-[=C2=A0=C2=A0=C2=A0 27.147] (II) modeset(0): =C2=A0=C2=A0=C2=A0 442100001e=
-011d00bc52d01e20b82855
-[=C2=A0=C2=A0=C2=A0 27.147] (II) modeset(0): =C2=A0=C2=A0=C2=A0 4006442100=
-001e8c0ad08a20e02d1010
-[=C2=A0=C2=A0=C2=A0 27.147] (II) modeset(0): =C2=A0=C2=A0=C2=A0 3e96000644=
-21000018000000000000c1
->
-> The last time I saw this type of error was when using the now removed
-> built in edids that were declaring the display as analog rgb. That
-> dropped out part way through the edid parsing and didn't set the flag
-> for rgb support.
->
-> =C2=A0 Dave
->
+Reviewed-by: Marek Vasut <marex@denx.de>
