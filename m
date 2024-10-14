@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4AC399C10A
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2024 09:17:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C45299C10C
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2024 09:17:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B62310E398;
-	Mon, 14 Oct 2024 07:17:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADDA710E39E;
+	Mon, 14 Oct 2024 07:17:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFE5710E394
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 07:17:28 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.163.174])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4XRpRD28xhz1T8b9;
- Mon, 14 Oct 2024 15:15:36 +0800 (CST)
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1237A10E39E
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 07:17:31 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.162.112])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4XRpRz2PCZz1j9rS;
+ Mon, 14 Oct 2024 15:16:15 +0800 (CST)
 Received: from kwepemh500013.china.huawei.com (unknown [7.202.181.146])
- by mail.maildlp.com (Postfix) with ESMTPS id EFF121400D8;
- Mon, 14 Oct 2024 15:17:25 +0800 (CST)
+ by mail.maildlp.com (Postfix) with ESMTPS id 97FD71400DA;
+ Mon, 14 Oct 2024 15:17:26 +0800 (CST)
 Received: from huawei.com (10.90.53.73) by kwepemh500013.china.huawei.com
  (7.202.181.146) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 14 Oct
@@ -32,10 +32,9 @@ To: <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
  <thomas.hellstrom@linux.intel.com>, <asomalap@amd.com>,
  <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
 CC: <ruanjinjie@huawei.com>
-Subject: [PATCH 1/3] drm/connector: hdmi: Fix memory leak in
- drm_display_mode_from_cea_vic()
-Date: Mon, 14 Oct 2024 15:16:30 +0800
-Message-ID: <20241014071632.989108-2-ruanjinjie@huawei.com>
+Subject: [PATCH 2/3] drm/ttm/tests: Fix memory leak in ttm_tt_simple_create()
+Date: Mon, 14 Oct 2024 15:16:31 +0800
+Message-ID: <20241014071632.989108-3-ruanjinjie@huawei.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241014071632.989108-1-ruanjinjie@huawei.com>
 References: <20241014071632.989108-1-ruanjinjie@huawei.com>
@@ -60,150 +59,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-modprobe drm_connector_test and then rmmod drm_connector_test,
-the following memory leak occurs.
+modprobe ttm_device_test and then rmmod ttm_device_test, the fllowing
+memory leaks occurs:
 
-The `mode` allocated in drm_mode_duplicate() called by
-drm_display_mode_from_cea_vic() is not freed, which cause the memory leak:
+The ttm->pages allocated in ttm_tt_init() is not freed after calling
+ttm_tt_simple_create(), which cause the memory leak:
 
-	unreferenced object 0xffffff80cb0ee400 (size 128):
-	  comm "kunit_try_catch", pid 1948, jiffies 4294950339
-	  hex dump (first 32 bytes):
-	    14 44 02 00 80 07 d8 07 04 08 98 08 00 00 38 04  .D............8.
-	    3c 04 41 04 65 04 00 00 05 00 00 00 00 00 00 00  <.A.e...........
-	  backtrace (crc 90e9585c):
-	    [<00000000ec42e3d7>] kmemleak_alloc+0x34/0x40
-	    [<00000000d0ef055a>] __kmalloc_cache_noprof+0x26c/0x2f4
-	    [<00000000c2062161>] drm_mode_duplicate+0x44/0x19c
-	    [<00000000f96c74aa>] drm_display_mode_from_cea_vic+0x88/0x98
-	    [<00000000d8f2c8b4>] 0xffffffdc982a4868
-	    [<000000005d164dbc>] kunit_try_run_case+0x13c/0x3ac
-	    [<000000006fb23398>] kunit_generic_run_threadfn_adapter+0x80/0xec
-	    [<000000006ea56ca0>] kthread+0x2e8/0x374
-	    [<000000000676063f>] ret_from_fork+0x10/0x20
+	unreferenced object 0xffffff80caf27750 (size 8):
+	  comm "kunit_try_catch", pid 2242, jiffies 4295055735
+	  hex dump (first 8 bytes):
+	    c0 1e 3d c3 fe ff ff ff                          ..=.....
+	  backtrace (crc 3d11615a):
+	    [<000000007f57312a>] kmemleak_alloc+0x34/0x40
+	    [<000000008c6c4c7e>] __kmalloc_node_noprof+0x304/0x3e4
+	    [<00000000679c1182>] __kvmalloc_node_noprof+0x1c/0x144
+	    [<000000006aed0a3d>] ttm_tt_init+0x138/0x28c [ttm]
+	    [<000000005c331998>] drm_gem_shmem_free+0x60/0x534 [drm_shmem_helper]
+	    [<0000000022b4f375>] kunit_try_run_case+0x13c/0x3ac
+	    [<00000000c525d725>] kunit_generic_run_threadfn_adapter+0x80/0xec
+	    [<000000002db94a1f>] kthread+0x2e8/0x374
+	    [<000000002c457ad7>] ret_from_fork+0x10/0x20
 	......
 
-Free `mode` by calling drm_mode_destroy() to fix it.
+Fix it by calling ttm_tt_fini() in the exit function.
 
 Cc: stable@vger.kernel.org
-Fixes: abb6f74973e2 ("drm/tests: Add HDMI TDMS character rate tests")
+Fixes: e6f7c641fae3 ("drm/ttm/tests: Add tests for ttm_tt")
 Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
 ---
- drivers/gpu/drm/tests/drm_connector_test.c | 24 ++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+ drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/tests/drm_connector_test.c b/drivers/gpu/drm/tests/drm_connector_test.c
-index 15e36a8db685..9c94d26b3486 100644
---- a/drivers/gpu/drm/tests/drm_connector_test.c
-+++ b/drivers/gpu/drm/tests/drm_connector_test.c
-@@ -1004,6 +1004,8 @@ static void drm_test_drm_hdmi_compute_mode_clock_rgb(struct kunit *test)
- 	rate = drm_hdmi_compute_mode_clock(mode, 8, HDMI_COLORSPACE_RGB);
- 	KUNIT_ASSERT_GT(test, rate, 0);
- 	KUNIT_EXPECT_EQ(test, mode->clock * 1000ULL, rate);
-+
-+	drm_mode_destroy(drm, mode);
+diff --git a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
+index b91c13f46225..9ff216ec58ef 100644
+--- a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
++++ b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
+@@ -54,6 +54,7 @@ static struct ttm_tt *ttm_tt_simple_create(struct ttm_buffer_object *bo, u32 pag
+ 
+ static void ttm_tt_simple_destroy(struct ttm_device *bdev, struct ttm_tt *ttm)
+ {
++	ttm_tt_fini(ttm);
+ 	kfree(ttm);
  }
  
- /*
-@@ -1025,6 +1027,8 @@ static void drm_test_drm_hdmi_compute_mode_clock_rgb_10bpc(struct kunit *test)
- 	rate = drm_hdmi_compute_mode_clock(mode, 10, HDMI_COLORSPACE_RGB);
- 	KUNIT_ASSERT_GT(test, rate, 0);
- 	KUNIT_EXPECT_EQ(test, mode->clock * 1250, rate);
-+
-+	drm_mode_destroy(drm, mode);
- }
- 
- /*
-@@ -1043,6 +1047,8 @@ static void drm_test_drm_hdmi_compute_mode_clock_rgb_10bpc_vic_1(struct kunit *t
- 
- 	rate = drm_hdmi_compute_mode_clock(mode, 10, HDMI_COLORSPACE_RGB);
- 	KUNIT_EXPECT_EQ(test, rate, 0);
-+
-+	drm_mode_destroy(drm, mode);
- }
- 
- /*
-@@ -1064,6 +1070,8 @@ static void drm_test_drm_hdmi_compute_mode_clock_rgb_12bpc(struct kunit *test)
- 	rate = drm_hdmi_compute_mode_clock(mode, 12, HDMI_COLORSPACE_RGB);
- 	KUNIT_ASSERT_GT(test, rate, 0);
- 	KUNIT_EXPECT_EQ(test, mode->clock * 1500, rate);
-+
-+	drm_mode_destroy(drm, mode);
- }
- 
- /*
-@@ -1082,6 +1090,8 @@ static void drm_test_drm_hdmi_compute_mode_clock_rgb_12bpc_vic_1(struct kunit *t
- 
- 	rate = drm_hdmi_compute_mode_clock(mode, 12, HDMI_COLORSPACE_RGB);
- 	KUNIT_EXPECT_EQ(test, rate, 0);
-+
-+	drm_mode_destroy(drm, mode);
- }
- 
- /*
-@@ -1103,6 +1113,8 @@ static void drm_test_drm_hdmi_compute_mode_clock_rgb_double(struct kunit *test)
- 	rate = drm_hdmi_compute_mode_clock(mode, 8, HDMI_COLORSPACE_RGB);
- 	KUNIT_ASSERT_GT(test, rate, 0);
- 	KUNIT_EXPECT_EQ(test, (mode->clock * 1000ULL) * 2, rate);
-+
-+	drm_mode_destroy(drm, mode);
- }
- 
- /*
-@@ -1126,6 +1138,8 @@ static void drm_test_connector_hdmi_compute_mode_clock_yuv420_valid(struct kunit
- 	rate = drm_hdmi_compute_mode_clock(mode, 8, HDMI_COLORSPACE_YUV420);
- 	KUNIT_ASSERT_GT(test, rate, 0);
- 	KUNIT_EXPECT_EQ(test, (mode->clock * 1000ULL) / 2, rate);
-+
-+	drm_mode_destroy(drm, mode);
- }
- 
- static const unsigned int drm_hdmi_compute_mode_clock_yuv420_vic_valid_tests[] = {
-@@ -1164,6 +1178,8 @@ static void drm_test_connector_hdmi_compute_mode_clock_yuv420_10_bpc(struct kuni
- 	KUNIT_ASSERT_GT(test, rate, 0);
- 
- 	KUNIT_EXPECT_EQ(test, mode->clock * 625, rate);
-+
-+	drm_mode_destroy(drm, mode);
- }
- 
- /*
-@@ -1189,6 +1205,8 @@ static void drm_test_connector_hdmi_compute_mode_clock_yuv420_12_bpc(struct kuni
- 	KUNIT_ASSERT_GT(test, rate, 0);
- 
- 	KUNIT_EXPECT_EQ(test, mode->clock * 750, rate);
-+
-+	drm_mode_destroy(drm, mode);
- }
- 
- /*
-@@ -1211,6 +1229,8 @@ static void drm_test_connector_hdmi_compute_mode_clock_yuv422_8_bpc(struct kunit
- 	rate = drm_hdmi_compute_mode_clock(mode, 8, HDMI_COLORSPACE_YUV422);
- 	KUNIT_ASSERT_GT(test, rate, 0);
- 	KUNIT_EXPECT_EQ(test, mode->clock * 1000, rate);
-+
-+	drm_mode_destroy(drm, mode);
- }
- 
- /*
-@@ -1233,6 +1253,8 @@ static void drm_test_connector_hdmi_compute_mode_clock_yuv422_10_bpc(struct kuni
- 	rate = drm_hdmi_compute_mode_clock(mode, 10, HDMI_COLORSPACE_YUV422);
- 	KUNIT_ASSERT_GT(test, rate, 0);
- 	KUNIT_EXPECT_EQ(test, mode->clock * 1000, rate);
-+
-+	drm_mode_destroy(drm, mode);
- }
- 
- /*
-@@ -1255,6 +1277,8 @@ static void drm_test_connector_hdmi_compute_mode_clock_yuv422_12_bpc(struct kuni
- 	rate = drm_hdmi_compute_mode_clock(mode, 12, HDMI_COLORSPACE_YUV422);
- 	KUNIT_ASSERT_GT(test, rate, 0);
- 	KUNIT_EXPECT_EQ(test, mode->clock * 1000, rate);
-+
-+	drm_mode_destroy(drm, mode);
- }
- 
- static struct kunit_case drm_hdmi_compute_mode_clock_tests[] = {
 -- 
 2.34.1
 
