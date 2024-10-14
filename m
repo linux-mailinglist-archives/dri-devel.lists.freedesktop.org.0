@@ -2,79 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1A3899CC2D
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2024 16:05:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1847399D08B
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2024 17:04:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BED5810E2B0;
-	Mon, 14 Oct 2024 14:05:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74F9D10E470;
+	Mon, 14 Oct 2024 15:04:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="BA7sOqXS";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="JRi5RuE7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com
- [209.85.208.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38D6C10E2B0
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 14:05:37 +0000 (UTC)
-Received: by mail-lj1-f178.google.com with SMTP id
- 38308e7fff4ca-2fb4ec17f5cso8603691fa.3
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 07:05:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1728914735; x=1729519535; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=I3ZWorb8+RZKagcCRZE5upz10RMDYXXfKqea7CqMPBA=;
- b=BA7sOqXSu0uExlxZE4fuyCfAQ4bt31sX+Z1UEo6YFl+ShHKXmyTKn2ZfWTBtS1kXRv
- h3zFFXRirwajz/7xSebQAPClwY/qakKCexZQR7L/UdCoLx71dtuuVw3ugGVvSjcgRd9V
- V3THCQGYpVyPWMWAKkpmPqFRpkOyP0rTp+1GRuWtl+atXpMUFjYbZoleLf2+aU0td+YE
- bVagc+MyqMFDJanlajibvzS0ugY09AFhYHfBAylUSAz2GijWu/DqDNHVY2+FJkhw/nsK
- +ADWuumVD7/Q2X10rxjObYK8pYcfjluxPeImAaf0FsN4JfcTCTa3iYouB0ZjBBabDkWF
- Zp2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728914735; x=1729519535;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=I3ZWorb8+RZKagcCRZE5upz10RMDYXXfKqea7CqMPBA=;
- b=sl3EsHvtRc2bo6AaaBqJN64nRHx4e/o6W+Akk0iCmEqG8CPzbbI+iT0Ct1wzliYEFB
- UGB+tMVjL7SRpYN4JBaKXW8fv6R5qTf0l+oJBuL3xMpxTErHmV/A+58LD2BLuqg4H1ET
- Yw+u0F80hGoURhZhWKCZBa+d9ilUZXQIRyhmrBYMHWRL3cgBOjRwY7jYOXZuGQD88AyI
- 7o9iDSVNWzqfWK/xPpMunimsWffxsDFjawLMM1cwjpT9z6vkOl8xkQ7vZEb3jeMs1yHA
- q9QkXEreXenrNrXO3Z+Oio1X9VR7oUmHtwmhQfyuFRFDFmjrOvUuTjcSTydb2pV+oGrr
- lgUA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWV71xp2S/uUm19VUxz5EzItsJ1rT1Lw37EsVw3CImYVuR8jCG5yGv8T/HnyDxwQ4bu6wtDIef1ELQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YybJSmUqV0myT6qsHveIj54InGYFL6QmzLX9z0HIHsBJ+qsqRgk
- V+OtSTcah+Mcd+a6G87QKXZSKeZ9/a5pjEnhu2dAhXX2pFeyONHHO+DqqEK8vx4=
-X-Google-Smtp-Source: AGHT+IGr3Nd5QXm3kjAkubtvYwT8DSFOO1CVmXbvWR421hBitV2drZZRqqgT48RCtHLlQbhkfWPYwg==
-X-Received: by 2002:a2e:131a:0:b0:2fa:d84a:bd83 with SMTP id
- 38308e7fff4ca-2fb32770fbamr41639751fa.24.1728914735111; 
- Mon, 14 Oct 2024 07:05:35 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2fb4c52d6dcsm4884491fa.103.2024.10.14.07.05.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Oct 2024 07:05:34 -0700 (PDT)
-Date: Mon, 14 Oct 2024 17:05:32 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Hermes Wu <Hermes.Wu@ite.com.tw>
-Cc: Pin-yen Lin <treapking@chromium.org>, 
- Kenneth Hung <Kenneth.hung@ite.com.tw>, Pet Weng <Pet.Weng@ite.com.tw>, 
- Allen Chen <allen.chen@ite.com.tw>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- open list <linux-kernel@vger.kernel.org>, Robert Foss <rfoss@kernel.org>
-Subject: Re: [PATCH v5 00/10]drm/bridge: it6505: fix HDCP CTS fail items and
- add MCCS support
-Message-ID: <jd2wxdsgcgqhiek557i32c7god3cb2ic6bovyrmwsljkqtdofb@lrerfednnobl>
-References: <20241001064305.32180-1-Hermes.Wu@ite.com.tw>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D9A110E470
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 15:04:48 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id B9C5F5C51A8;
+ Mon, 14 Oct 2024 15:04:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A865C4CEC7;
+ Mon, 14 Oct 2024 15:04:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1728918287;
+ bh=lL8P6y+vfq+DDSaRK1UlLe+ApoEHJRlUrSMOVGUJyak=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=JRi5RuE79qjEEv7QKUGnje/6tijPLZYV+jCHLAIQSoNNfc8IsWUGvopXsfwdkzmJZ
+ 19qq2vjZTVUWxudqytdmpEiWVP6aCqvePlrml4l1d688JRDgtObQOoGvoRnx2MbpBT
+ O/fHIDWpT7FgHZY1z4988IkSS2Ga2t/SzbtqedvY=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: stable@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ dri-devel@lists.freedesktop.org, Zack Rusin <zack.rusin@broadcom.com>,
+ Martin Krastev <martin.krastev@broadcom.com>,
+ Maaz Mombasawala <maaz.mombasawala@broadcom.com>,
+ Shivani Agarwal <shivani.agarwal@broadcom.com>
+Subject: [PATCH 6.1 278/798] drm/vmwgfx: Prevent unmapping active read buffers
+Date: Mon, 14 Oct 2024 16:13:52 +0200
+Message-ID: <20241014141228.865628242@linuxfoundation.org>
+X-Mailer: git-send-email 2.47.0
+In-Reply-To: <20241014141217.941104064@linuxfoundation.org>
+References: <20241014141217.941104064@linuxfoundation.org>
+User-Agent: quilt/0.67
+X-stable: review
+X-Patchwork-Hint: ignore
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241001064305.32180-1-Hermes.Wu@ite.com.tw>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,66 +61,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 01, 2024 at 02:42:59PM +0800, Hermes Wu wrote:
-> From: Hermes Wu <Hermes.wu@ite.com.tw>
-> 
-> This is a v5 patch-set.
+6.1-stable review patch.  If anyone has any objections, please let me know.
 
-Please check the way you are sending your patches. For some reason my
-email client lists patches 0-4 separately, patches 6-8 as a separate
-thread and patches 5, 9, 10 as individual patches. Please use single git
-send-email command to send the whole patchset.
+------------------
 
-> 
-> There are lots of failure items while running HDCP CTS using UNIGRAF DPR-100.
-> In Order to fix those failures, HDCP flow needs to be changed.
-> 
-> The DisplayPort AUX protocol supports I2C transport.
-> In Order to support MCCS via the aux channel, the aux-i2c operation is added.
-> 
-> v4 ->v5:
-> 	-add more messages for changes.
-> 	-[2/10] modified AUX transfer data size judgment.
-> 		change for-loop to do-while.
-> 	-[7/10] change for-loop to do-while.
-> 	-[9/10] change wait timer with timer_after()
-> 
-> 	links:
-> 	https://lore.kernel.org/all/20240926074755.22176-4-Hermes.Wu@ite.com.tw/
-> 	https://lore.kernel.org/all/20240926075134.22394-1-Hermes.Wu@ite.com.tw/
-> 
-> v3 ->v4:
-> 	-split changes  into patches.
-> 
-> v2- > v3:
-> 	-split aux read  KSV function to a patch.
-> 	-[1/3] new in v3
-> 	-[2/3] add description of patch
-> 
-> v1 -> v2 :
-> 	- ignored.
-> 
-> 
-> 
-> Hermes Wu (10):
->   drm/bridge: it6505: Change definition of AUX_FIFO_MAX_SIZE
->   drm/bridge: it6505: improve AUX operation for edid read
->   drm/bridge: it6505: add AUX operation for HDCP KSV list read
->   drm/bridge: it6505: Change definition MAX_HDCP_DOWN_STREAM_COUNT
->   drm/bridge: it6505: fix HDCP Bstatus check
->   drm/bridge: it6505: fix HDCP encryption when R0 ready
->   drm/bridge: it6505: fix HDCP CTS KSV list read with UNIGRAF DPR-100.
->   drm/bridge: it6505: fix HDCP CTS compare V matching
->   drm/bridge: it6505: fix HDCP CTS KSV list wait timer
->   drm/bridge: it6505: add I2C functionality on AUX
-> 
->  drivers/gpu/drm/bridge/ite-it6505.c | 334 +++++++++++++++++++++++-----
->  1 file changed, 277 insertions(+), 57 deletions(-)
-> 
-> -- 
-> 2.34.1
-> 
+From: Zack Rusin <zack.rusin@broadcom.com>
 
--- 
-With best wishes
-Dmitry
+commit aba07b9a0587f50e5d3346eaa19019cf3f86c0ea upstream.
+
+The kms paths keep a persistent map active to read and compare the cursor
+buffer. These maps can race with each other in simple scenario where:
+a) buffer "a" mapped for update
+b) buffer "a" mapped for compare
+c) do the compare
+d) unmap "a" for compare
+e) update the cursor
+f) unmap "a" for update
+At step "e" the buffer has been unmapped and the read contents is bogus.
+
+Prevent unmapping of active read buffers by simply keeping a count of
+how many paths have currently active maps and unmap only when the count
+reaches 0.
+
+Fixes: 485d98d472d5 ("drm/vmwgfx: Add support for CursorMob and CursorBypass 4")
+Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: <stable@vger.kernel.org> # v5.19+
+Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20240816183332.31961-2-zack.rusin@broadcom.com
+Reviewed-by: Martin Krastev <martin.krastev@broadcom.com>
+Reviewed-by: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
+[Shivani: Modified to apply on v6.1.y]
+Signed-off-by: Shivani Agarwal <shivani.agarwal@broadcom.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/gpu/drm/vmwgfx/vmwgfx_bo.c  |   12 +++++++++++-
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h |    3 +++
+ 2 files changed, 14 insertions(+), 1 deletion(-)
+
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
+@@ -348,6 +348,8 @@ void *vmw_bo_map_and_cache(struct vmw_bu
+ 	void *virtual;
+ 	int ret;
+ 
++	atomic_inc(&vbo->map_count);
++
+ 	virtual = ttm_kmap_obj_virtual(&vbo->map, &not_used);
+ 	if (virtual)
+ 		return virtual;
+@@ -370,10 +372,17 @@ void *vmw_bo_map_and_cache(struct vmw_bu
+  */
+ void vmw_bo_unmap(struct vmw_buffer_object *vbo)
+ {
++	int map_count;
++
+ 	if (vbo->map.bo == NULL)
+ 		return;
+ 
+-	ttm_bo_kunmap(&vbo->map);
++	map_count = atomic_dec_return(&vbo->map_count);
++
++	if (!map_count) {
++		ttm_bo_kunmap(&vbo->map);
++		vbo->map.bo = NULL;
++	}
+ }
+ 
+ 
+@@ -510,6 +519,7 @@ int vmw_bo_init(struct vmw_private *dev_
+ 	BUILD_BUG_ON(TTM_MAX_BO_PRIORITY <= 3);
+ 	vmw_bo->base.priority = 3;
+ 	vmw_bo->res_tree = RB_ROOT;
++	atomic_set(&vmw_bo->map_count, 0);
+ 
+ 	size = ALIGN(size, PAGE_SIZE);
+ 	drm_gem_private_object_init(vdev, &vmw_bo->base.base, size);
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+@@ -116,6 +116,8 @@ struct vmwgfx_hash_item {
+  * @base: The TTM buffer object
+  * @res_tree: RB tree of resources using this buffer object as a backing MOB
+  * @base_mapped_count: ttm BO mapping count; used by KMS atomic helpers.
++ * @map_count: The number of currently active maps. Will differ from the
++ * cpu_writers because it includes kernel maps.
+  * @cpu_writers: Number of synccpu write grabs. Protected by reservation when
+  * increased. May be decreased without reservation.
+  * @dx_query_ctx: DX context if this buffer object is used as a DX query MOB
+@@ -129,6 +131,7 @@ struct vmw_buffer_object {
+ 	/* For KMS atomic helpers: ttm bo mapping count */
+ 	atomic_t base_mapped_count;
+ 
++	atomic_t map_count;
+ 	atomic_t cpu_writers;
+ 	/* Not ref-counted.  Protected by binding_mutex */
+ 	struct vmw_resource *dx_query_ctx;
+
+
