@@ -2,67 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0620899D5AE
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2024 19:39:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E113999D614
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2024 20:04:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 028F210E027;
-	Mon, 14 Oct 2024 17:39:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBA6B10E060;
+	Mon, 14 Oct 2024 18:04:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="g+xzqXac";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="SIxBXtiP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD49F10E49A
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 17:39:08 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id BC460A42677
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 17:38:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AB3AC4CECE
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 17:39:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1728927547;
- bh=GSdP32UvF/3OTOvTrKWKCdA75fPSJyT8cZYVq5WuII0=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=g+xzqXacBIPl7JsHeHXFLj46QLlo9TKTjIvSkI1GrCtwWtFRROuWaru6uv/EvqxOP
- MBhWelqJUWvMayRlYGmZ28yzBFtnqgu1lGm0iJa4/4gBUnlXLUVeluB6fu98b1xR2G
- Cptlvy86kNxFJn1HKS0ZjwBeXdlFwoKUWe0Cc+6NROfnosjfLL71o5CO2gKti9i+d/
- IY2fvdAi9fKqZb3V8UvLgqn2rzW06i5T8i76C2s20EdpMKkXQ4CJhO9s7tYonv2NZ3
- lDgbM0YVplpA60w/3Z4EMLs/o4haWCCUVDFBA3KivRurCaW0fNE+YXZSTuCPOdaN8j
- CJ0HoiN543cbw==
-Received: by mail-lf1-f54.google.com with SMTP id
- 2adb3069b0e04-539f7606199so1285114e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 10:39:07 -0700 (PDT)
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com
+ [209.85.215.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BA9F10E060;
+ Mon, 14 Oct 2024 18:04:19 +0000 (UTC)
+Received: by mail-pg1-f170.google.com with SMTP id
+ 41be03b00d2f7-7ea535890e0so288295a12.2; 
+ Mon, 14 Oct 2024 11:04:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1728929059; x=1729533859; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Bvhwh3gLG6gcnOHuIbpfqhWVaibVg9c2c2Ldevdyqjw=;
+ b=SIxBXtiPMy9dHTSopK9CGFM9SLf/CezuGmG0YH6bQrpaNt57V7F1WhBXsk3V2goQ25
+ iNKQM1p9SzlqWX0selH9WDnp01/QzMQi3iLLb8U67xU0dozfkQHTZojVZQM5T7xKxUxF
+ hdJPzvzVU7pLqvyG2F6LXHL2T/wzXK0frJ4dvmY4U5KqGYyGRoU+MVpZeUaI8iLftjte
+ ZGmOVtmN7gH7Vuj14AxJ8bcshwVPyLPRWb0AKTSf+hxcQ26Mj+SPsJ0Dho+p12yrVZXl
+ TLFza9tRIVWyVWZMeH2Ih0I8Qg6iHhlvxeS5IUCC5IyuzJ8ygfUriWsRaw5UmGgyvXB7
+ H1DA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1728929059; x=1729533859;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Bvhwh3gLG6gcnOHuIbpfqhWVaibVg9c2c2Ldevdyqjw=;
+ b=Qrr3o5DwpK3QXBxMXgwwTDjZadGAVEAQY1A0nOL6hrE7+hLBkd/bCcGIDkHtalBu8/
+ gbKNLVZSBWegvQ0QGmW+ZPU2i1qRZqDsceoQoyfPiO6YZe7nVmtTvfPPg1A8zfV/SHOF
+ V2i2mnQKAOo6LjkgINYqwe03lV6adBqMw9MHO5d1P5SUiMsFUTypcu8lbtE006S4teFD
+ N5jQdwuyf9GEu58Vvknlr/p0Nhd6EZbH4Dg6lyOK2jbjMvilp9nnnlyzR8djGnwVXOxm
+ 9hPYv6Iot6+1GOv8dIwLi8fNCYMw1+f3exGlB98fm/lMtxuYna/hwO3U7aF8gLcCGkFb
+ MdRA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXTHK7Wn+omTpVoIM+m1RqsAqnTfvpGlomBJN7DTOoozQnEDpLXR3xfhdHkKKaJgzoxVJCmNBkXd2E=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzA077Kt1KfQv7UHsn7SfzeExseOYq89Ued4OXHDWOVh5/WQ+lw
- PwCLXUt0Wh3DVWu2Fq5TumLj+5GVXi6KM4pF7zixIwHMO05/dWPBYAPdaPn3QrpNAuW5m2cxrFf
- UZP4jOOHaFqZkV/2RyaO0HT0eKA==
-X-Google-Smtp-Source: AGHT+IGsfTRPyPm9+84ee+96fBbvWyKCzmA8qytZEXkaEUVRTaFfm7J3+vzBiqPzmo8azDKt+aN/qJ+sYpgh7e2h65c=
-X-Received: by 2002:a05:6512:10cc:b0:539:e97c:cb12 with SMTP id
- 2adb3069b0e04-539e97ccdadmr3183668e87.34.1728927545757; Mon, 14 Oct 2024
- 10:39:05 -0700 (PDT)
+ AJvYcCVZZX+WiqelVifA4Ui4mAlVbqc2FTCuq+Blma3EBurqnPo2tKoiASyuvHK2EuOhLl5yqFCkJdS3@lists.freedesktop.org,
+ AJvYcCX1tStemh0QOcdpCGOK9REKxlgl5tNSJD9n732fOif7OQano44iFkiintJsoTivqx9UnsaJR3BPrrBM@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwwGg2QggIoBKWK6Bn49b880FiWEq8ws61jAYyXd/5JMwQSlgOr
+ 5TAdnfAtcXVhgAaMNdT+JXPDXVQ3F0U553hnTqNTedIa23nqdYeYpgjgrKeINfWkXPnKeGVS8Ln
+ waAMZIBfmXvoe93zkaxVzhUmM4tdO+w==
+X-Google-Smtp-Source: AGHT+IGQSiVAhq5p2Nni7Nqi5xdR7AQXxhYJRI8o2X32oWs0TAqQmtICSbeIENaqYKnuwO6PNosi2vKWXoxwvpo5zSg=
+X-Received: by 2002:a17:90b:318:b0:2e2:a70a:f107 with SMTP id
+ 98e67ed59e1d1-2e2f0a11479mr6745183a91.1.1728929058628; Mon, 14 Oct 2024
+ 11:04:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240912144430.3161717-1-treapking@chromium.org>
- <20240912144430.3161717-3-treapking@chromium.org>
- <CAL_JsqJngFLbNtT3m--xi5nNt9o7M=se8Qkhf20TxRCj-G=6dA@mail.gmail.com>
-In-Reply-To: <CAL_JsqJngFLbNtT3m--xi5nNt9o7M=se8Qkhf20TxRCj-G=6dA@mail.gmail.com>
-From: Rob Herring <robh@kernel.org>
-Date: Mon, 14 Oct 2024 12:38:53 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqJM3sHECd9U1aJ+HGvTarLxmrNFkXq-k4jGU4S6h8nO3A@mail.gmail.com>
-Message-ID: <CAL_JsqJM3sHECd9U1aJ+HGvTarLxmrNFkXq-k4jGU4S6h8nO3A@mail.gmail.com>
-Subject: Re: [PATCH 2/2] arm64: dts: mt8183: Add port node to dpi node
-To: Pin-yen Lin <treapking@chromium.org>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- CK Hu <ck.hu@mediatek.com>, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, Fabien Parent <fparent@baylibre.com>, 
- Jitao shi <jitao.shi@mediatek.com>, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org, kernel test robot <lkp@intel.com>
+References: <f3cf409f-2b04-444f-88f0-9b4cfe290667@stanley.mountain>
+ <a1acb975-c29e-4c90-b7a9-5f50478ab946@amd.com>
+In-Reply-To: <a1acb975-c29e-4c90-b7a9-5f50478ab946@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 14 Oct 2024 14:04:06 -0400
+Message-ID: <CADnq5_M-Ccu8cN-aSx=Xu3+mSCx7HV1H8JftJk277u7qvCLXvw@mail.gmail.com>
+Subject: Re: [PATCH next] drm/amdgpu: Fix off by one in
+ current_memory_partition_show()
+To: "Lazar, Lijo" <lijo.lazar@amd.com>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>,
+ Alex Deucher <alexander.deucher@amd.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Hawking Zhang <Hawking.Zhang@amd.com>, Yunxiang Li <Yunxiang.Li@amd.com>, 
+ Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
+ "Dr. David Alan Gilbert" <linux@treblig.org>, 
+ Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ kernel-janitors@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -80,46 +91,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 13, 2024 at 4:37=E2=80=AFPM Rob Herring <robh@kernel.org> wrote=
-:
->
-> On Thu, Sep 12, 2024 at 9:44=E2=80=AFAM Pin-yen Lin <treapking@chromium.o=
-rg> wrote:
-> >
-> > Add the port node to fix the binding schema check.
->
-> The dsi node has the same issue.
+Applied.  Thanks!
 
-This is still causing warnings in the tree. Please respin the patch.
+Alex
 
+On Thu, Oct 10, 2024 at 11:18=E2=80=AFPM Lazar, Lijo <lijo.lazar@amd.com> w=
+rote:
 >
-> > Fixes: 009d855a26fd ("arm64: dts: mt8183: add dpi node to mt8183")
-> > Signed-off-by: Pin-yen Lin <treapking@chromium.org>
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Closes: https://lore.kernel.org/oe-kbuild-all/202409110843.Hm5W9upr-lkp=
-@intel.com/
+>
+>
+> On 10/11/2024 12:05 AM, Dan Carpenter wrote:
+> > The >=3D ARRAY_SIZE() should be > ARRAY_SIZE() to prevent an out of
+> > bounds read.
 > >
+> > Fixes: 012be6f22c01 ("drm/amdgpu: Add sysfs interfaces for NPS mode")
+> > Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+>
+> Reviewed-by: Lijo Lazar <lijo.lazar@amd.com>
+>
+> Thanks,
+> Lijo
+>
 > > ---
+> >  drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
 > >
-> >  arch/arm64/boot/dts/mediatek/mt8183.dtsi | 4 ++++
-> >  1 file changed, 4 insertions(+)
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c b/drivers/gpu/drm/=
+amd/amdgpu/amdgpu_gmc.c
+> > index ddf716d27f3a..75c9291ac3eb 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c
+> > @@ -1199,7 +1199,7 @@ static ssize_t current_memory_partition_show(
+> >       enum amdgpu_memory_partition mode;
 > >
-> > diff --git a/arch/arm64/boot/dts/mediatek/mt8183.dtsi b/arch/arm64/boot=
-/dts/mediatek/mt8183.dtsi
-> > index 266441e999f2..0a6578aacf82 100644
-> > --- a/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-> > +++ b/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-> > @@ -1845,6 +1845,10 @@ dpi0: dpi@14015000 {
-> >                                  <&mmsys CLK_MM_DPI_MM>,
-> >                                  <&apmixedsys CLK_APMIXED_TVDPLL>;
-> >                         clock-names =3D "pixel", "engine", "pll";
-> > +
-> > +                       port {
-> > +                               dpi_out: endpoint { };
-> > +                       };
-> >                 };
-> >
-> >                 mutex: mutex@14016000 {
-> > --
-> > 2.46.0.662.g92d0881bb0-goog
+> >       mode =3D adev->gmc.gmc_funcs->query_mem_partition_mode(adev);
+> > -     if ((mode > ARRAY_SIZE(nps_desc)) ||
+> > +     if ((mode >=3D ARRAY_SIZE(nps_desc)) ||
+> >           (BIT(mode) & AMDGPU_ALL_NPS_MASK) !=3D BIT(mode))
+> >               return sysfs_emit(buf, "UNKNOWN\n");
 > >
