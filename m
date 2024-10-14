@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40D5499C321
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2024 10:28:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C9F199C329
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2024 10:28:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C92A710E3C2;
-	Mon, 14 Oct 2024 08:28:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0778F10E3C7;
+	Mon, 14 Oct 2024 08:28:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="GwxeeJI1";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="DiPckcFV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
- [209.85.221.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97B8E10E3C2
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 08:28:04 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id
- ffacd0b85a97d-37d49a7207cso2515861f8f.0
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 01:28:04 -0700 (PDT)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+ [209.85.221.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C155410E3C7
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 08:28:25 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id
+ ffacd0b85a97d-37d4ba20075so2589649f8f.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 01:28:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1728894483; x=1729499283;
+ d=google.com; s=20230601; t=1728894504; x=1729499304;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=M24dNzd553xNHb5Y8IIcUeoG1f4DjGolZJ5waiH250E=;
- b=GwxeeJI1ltybjrI/ny7yxbGPXkdcSzgYAFygHmZpQRUKNhZMH86WaDnO2ejb6Goj+c
- 0NnDUf+Mml3MDUJIcStth9ZhcL0m8V7niy9tvM+ZYAhIRW/eGrZBMrPWX4CLXGj91bTF
- wGkwJ0pjUUN+CeO9PQBGU180gpB7TxGgnJV5ZQVgEI9PQfJAuK7Hn2dH9zTsr1LQaurB
- 5X3722v2vdCoQ/VW3TF4PeBjt7zFdsiVqRicgHFzw9+W52a/PnHFkwZIRJDr2CCshxZH
- IwODcaS4P5IHEJDSLjw5OwTFMfh3CXmM5bbMJ8bRb/jC0N6ckM3UwPLmWVNxsg61UzUE
- oIDw==
+ bh=BCeu5RGfQHD/7fNcARcJl4VtMP3O2J4piVgLgvXsU9c=;
+ b=DiPckcFVcO2450ryboUpHWPIr5thFfG3NujHW8IpWwGI2gA1rRH4nCtCYWNA2Qrao+
+ SKuiq6if1F4eE9oES64hO4tFRVKHzc6UCGsLGe8jXYQ+7IQ8NmXrpEB81HJmZYV3BYtY
+ Hk2hexr324qmCDdjg6WUN7NbvZTtJzy8uVGpt+NeCxFUgTgNJcjlvpYhmhi7yUkp+dfP
+ xJc+kxTVlSufBUC5g4Wfeiszo4tAvoK7L/f1dUEGsGNsp6bJc5VvcEdbzo/Rw2KaP4L8
+ 1w3K/WLeMIuiZ/tNqtSfDMv1Uhydc+1y3ZYZkVol3AyxMTbfOFzI5/yU2Eh1MEEoJLc8
+ BEDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728894483; x=1729499283;
+ d=1e100.net; s=20230601; t=1728894504; x=1729499304;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=M24dNzd553xNHb5Y8IIcUeoG1f4DjGolZJ5waiH250E=;
- b=iB9HQIwXfQF76bJ+YQeYLEtpufoZbcS5aj+TurvCB3WtUE+yJoQTE8sC19Wo5XIKua
- zUzmJ+EA/tKzCTzl4+EJaUeSvCrJXXzg08pDdRjxeURPuVj+tx7YpkLgr/XBKlO+yb+0
- 63BiK1TCWbYymxufKwfzc5yToIPuNJiMtwEKz3v5u2/iZdgP3ZnqenW2AhvrxfQl6WNw
- dRQfqBXfh0okFi/GOsxVEcJI9JUFyx36jkoKTaKQmZ/CbT+XK82KrrcHKsVeh1oRAzQV
- EXKxNjJCxeFDBRD6TeKJuy79dcxY2FnOuV5x1+lH8nTuW2biBYZlB2BJ6uE0sqUViEK0
- HBGA==
+ bh=BCeu5RGfQHD/7fNcARcJl4VtMP3O2J4piVgLgvXsU9c=;
+ b=VyXUD/RMayS4yMNDmPT460o8lykX0jWkAle+iH7+xqzDS2+ukWom4wnY5H8rt1NMkb
+ jX7wRUe2bT3puZZJjQ0frgMI72cqf126iHPHnfxDORlMQRkki8LoyfSBalsOX4TVKAx6
+ PjlXHi3rTyfYyavoN51GhtdgTbT3xou2Q8SVFG5Q6oe1c267PSuXBcHeVxLu3nKIArtt
+ a2ZRKjUho9hr3POC6blc/sfIjRxWn1lhcc6+RBVIE7aZya4pMheChDzn1UIX0v5wffnY
+ QrEgi2i7TfPcs7fBwNbWgMSV3jWAFrAHE1fHWoa0D00X8Bxx6Uoo9Uoe031WWFXzo9I+
+ sunA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUT1tMVku2yJqlQNl7TVeFuGygGLGFtg6fy5LYa1MD/XFBLtqZK7xlKFpfqbxRY3pphlKcq3hrw83U=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwNM3bf+eTBdcrxCldo/d8rJUFYwcZov/qGKAHGtxVB6vqc7GcF
- Lf2i3u28HdZWU6PasU+IgoCjjpMYwT4OmbpoObEfZ+FeNjXOtQxACf5w5KMpLIolj0Cx4obWre4
- oGMLcOK7y8hsJ/OZ8BrNZHz/EFgvqApSdqlS1
-X-Google-Smtp-Source: AGHT+IFB8FFfnlqFKW+nSLnk8WRApZWwjOS9gnyongi0gtF4ICZpB2dBUY9HOCSQhExNJfIuKbhQl4ZLD9UDKKJLEjY=
-X-Received: by 2002:adf:a1d7:0:b0:37d:4833:38fa with SMTP id
- ffacd0b85a97d-37d5ff2c01cmr4561294f8f.21.1728894482691; Mon, 14 Oct 2024
- 01:28:02 -0700 (PDT)
+ AJvYcCU0M3V9fBpwub6Opfn4gKsI/A0WeBvEE/6fUUh69m6PFMezzW6wXxmpHHlc0+jg2r/cR2M5Be8WmF0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyNL8/2+6iJtm8RidachksMvbbMrpN9ieTIbzx3R9iL5TxUf/C3
+ Cikd66hicdb2QPOfLsDLtWXlxazFwCS5C/rjz7t4DBF8TNCfusyAr/tatZanNhDU/5AeFM9mlR1
+ tjwHD2wgl7GPRm0vr5vZ4rfcP9ZZHLhDg9iEe
+X-Google-Smtp-Source: AGHT+IH/x/JFM80zXRfmFjrcoV8VAzGeOzIVfGAemlXaYAsnGiLYKVvSO5aPsLFdNUh4pRe7OfNdBBVD2cxfPVqv4pg=
+X-Received: by 2002:adf:ea49:0:b0:37d:5282:1339 with SMTP id
+ ffacd0b85a97d-37d551d39b3mr6997806f8f.22.1728894503943; Mon, 14 Oct 2024
+ 01:28:23 -0700 (PDT)
 MIME-Version: 1.0
 References: <20241012075312.16342-1-witcher@wiredspace.de>
  <20241012075312.16342-6-witcher@wiredspace.de>
 In-Reply-To: <20241012075312.16342-6-witcher@wiredspace.de>
 From: Alice Ryhl <aliceryhl@google.com>
-Date: Mon, 14 Oct 2024 10:27:49 +0200
-Message-ID: <CAH5fLgjU3bvDrOsvyxBcCuGOsmbuekrh0Ccy+La_MgHrMEncvQ@mail.gmail.com>
+Date: Mon, 14 Oct 2024 10:28:10 +0200
+Message-ID: <CAH5fLghusTK7M4om9X=_R6tXC_Ytc1TG=NfDXMsQkmfQ5SWUEw@mail.gmail.com>
 Subject: Re: [PATCH 6/7] drm/panic: allow verbose boolean for clarity
 To: =?UTF-8?Q?Thomas_B=C3=B6hler?= <witcher@wiredspace.de>
 Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
@@ -142,15 +142,6 @@ qr.rs
 > +        return (x < 8 && y < 8) || (x < 8 && y >=3D end) || (x >=3D end =
 && y < 8);
 
-Surely introducing a return statement causes another clippy error?
-
-You can do this:
-
-#[allow(clippy::nonminimal_bool)]
-{
-    (x < 8 && y < 8) || (x < 8 && y >=3D end) || (x >=3D end && y < 8)
-}
-
-or just put the allow on the function.
+This should be #[expect(...)] instead of #[allow(...)].
 
 Alice
