@@ -2,65 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09DB099C622
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2024 11:44:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2937399C666
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2024 11:50:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDB9310E116;
-	Mon, 14 Oct 2024 09:44:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC47910E22B;
+	Mon, 14 Oct 2024 09:50:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="C1iL++/G";
+	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="pDZF2zp1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
- [68.232.154.123])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2ABB610E116
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 09:44:04 +0000 (UTC)
+ [68.232.153.233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEDF710E22B
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 09:50:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
- t=1728899044; x=1760435044;
- h=message-id:date:mime-version:subject:to:references:from:
- in-reply-to:content-transfer-encoding;
- bh=d8mmBTMzQw0eATTs8K+Ognc0TOnmxw6QIf4V8eWf3h0=;
- b=C1iL++/GyXVryYfccoIetErDrpw0tlLqH9wWEV+qGwI/mL/AKZdXb8IN
- 8TGDUvjc14qxTJRyxUvmcfsBbogHhLvyhLIjmc+0jMqz8BzaDpGuVsqry
- OLCd9px+TKY17u+1e/yQEhn45s3xkAxRFyu+znLG1z/CZWY0VrH8CfEvT
- QrxBOxoSJmuLvMNyFUIlZR0Ff2sbicQylmucNorWHbTwmqg9J729FshWK
- OZZIJXxFXxUSwkrw8fU9F2M97YmFeuuBVjZw2l33p9EY8EO9ccekPHo6L
- x8lSTcu6AsE6/STsg/iWE2kbNvHzmZBxz8HH9GmU53FoLl6r8IJjXzVXJ Q==;
-X-CSE-ConnectionGUID: nSGur+sPSS29M1xsOrSxxQ==
-X-CSE-MsgGUID: sfdqwUpWRm6ZzStgyyQ/PA==
-X-IronPort-AV: E=Sophos;i="6.11,202,1725346800"; d="scan'208";a="32778525"
+ t=1728899426; x=1760435426;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=NkBDkiht3me8b2RWwXoEEEEvGTjmDHBukmLCCQGzqkI=;
+ b=pDZF2zp1EdjAiy2E12dLPkq5BVGByT66wlK2bXaSmtJ+MKesUUsjIxBL
+ W9InvrgvpGND6aT15rDWRznCimPbxCMtmUHCHC3Ds2mQ0gl1Pt/wsPcQ2
+ f0rdmRPp+K120sh2a77VEiH45r7lQpkMMHnLA9znNf1aO10m0BuYB5m7u
+ vp1wvhnq6OTlZLrIkJrZzZsz+4HworRnVszlDajlVWB5/5v19Dy7j/T2p
+ gxEZMdaM/7aYTFQ2JZYjItA9gy+9NCV0lHtrZfGUS7yieDVq1Y0A2PvAs
+ u06tPe6bggAeXpIjnWBt8BVGxk/Vkq7HoFFK1gzyajyb70xtr+HBHlR5A g==;
+X-CSE-ConnectionGUID: 6GkUoRpBTjazw9ZDotKAkg==
+X-CSE-MsgGUID: TPW6ZCp2TmCpx0urBWje2w==
+X-IronPort-AV: E=Sophos;i="6.11,202,1725346800"; d="scan'208";a="36319939"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
- by esa4.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 14 Oct 2024 02:44:02 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ by esa1.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 14 Oct 2024 02:50:25 -0700
+Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Mon, 14 Oct 2024 02:44:00 -0700
-Received: from [10.159.245.205] (10.10.85.11) by chn-vm-ex03.mchp-main.com
- (10.10.85.151) with Microsoft SMTP Server id 15.1.2507.35 via Frontend
- Transport; Mon, 14 Oct 2024 02:43:58 -0700
-Message-ID: <16e23ecd-24e3-4d6e-a336-da3c4308011d@microchip.com>
-Date: Mon, 14 Oct 2024 11:44:10 +0200
+ 15.1.2507.35; Mon, 14 Oct 2024 02:50:02 -0700
+Received: from che-lt-i67131.microchip.com (10.10.85.11) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server id
+ 15.1.2507.35 via Frontend Transport; Mon, 14 Oct 2024 02:49:56 -0700
+From: Manikandan Muralidharan <manikandan.m@microchip.com>
+To: <sam@ravnborg.org>, <bbrezillon@kernel.org>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
+ <nicolas.ferre@microchip.com>, <alexandre.belloni@bootlin.com>,
+ <claudiu.beznea@tuxon.dev>, <Hari.PrasathGE@microchip.com>,
+ <durai.manickamkr@microchip.com>, <manikandan.m@microchip.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-kernel@vger.kernel.org>
+CC: Cyrille Pitchen <cyrille.pitchen@microchip.com>
+Subject: [PATCH] drm: atmel-hlcdc: fix atmel_xlcdc_plane_setup_scaler()
+Date: Mon, 14 Oct 2024 15:19:42 +0530
+Message-ID: <20241014094942.325211-1-manikandan.m@microchip.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm: atmel-hlcdc: update the LCDC_ATTRE register in plane
- atomic_disable
-Content-Language: en-US, fr-FR
-To: Manikandan Muralidharan <manikandan.m@microchip.com>, <sam@ravnborg.org>, 
- <bbrezillon@kernel.org>, <maarten.lankhorst@linux.intel.com>,
- <mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
- <simona@ffwll.ch>, <alexandre.belloni@bootlin.com>,
- <claudiu.beznea@tuxon.dev>, <dri-devel@lists.freedesktop.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
-References: <20241014064644.292943-1-manikandan.m@microchip.com>
-From: Nicolas Ferre <nicolas.ferre@microchip.com>
-Organization: microchip
-In-Reply-To: <20241014064644.292943-1-manikandan.m@microchip.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,83 +74,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 14/10/2024 at 08:46, Manikandan Muralidharan wrote:
-> update the LCDC_ATTRE register in drm plane atomic_disable to handle
-> the configuration changes of each layer when a plane is disabled.
-> 
-> Signed-off-by: Manikandan Muralidharan <manikandan.m@microchip.com>
+From: Cyrille Pitchen <cyrille.pitchen@microchip.com>
 
-Reviewed-by: Nicolas Ferre <nicolas.ferre@microchip.com>
+On SoCs, like the SAM9X75, which embed the XLCDC ip, the registers that
+configure the unified scaling engine were not filled with proper values.
 
-Thanks Mani. Best regards,
-   Nicolas
+Indeed, for YCbCr formats, the VXSCFACT bitfield of the HEOCFG25
+register and the HXSCFACT bitfield of the HEOCFG27 register were
+incorrect.
 
-> ---
->   drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.h    |  3 ++-
->   drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c | 17 ++++++++++++++---
->   2 files changed, 16 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.h b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.h
-> index e1a0bb24b511..53d47f01db0b 100644
-> --- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.h
-> +++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.h
-> @@ -378,7 +378,8 @@ struct atmel_lcdc_dc_ops {
->   	void (*lcdc_update_buffers)(struct atmel_hlcdc_plane *plane,
->   				    struct atmel_hlcdc_plane_state *state,
->   				    u32 sr, int i);
-> -	void (*lcdc_atomic_disable)(struct atmel_hlcdc_plane *plane);
-> +	void (*lcdc_atomic_disable)(struct atmel_hlcdc_plane *plane,
-> +				    struct atmel_hlcdc_dc *dc);
->   	void (*lcdc_update_general_settings)(struct atmel_hlcdc_plane *plane,
->   					     struct atmel_hlcdc_plane_state *state);
->   	void (*lcdc_atomic_update)(struct atmel_hlcdc_plane *plane,
-> diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
-> index 4a7ba0918eca..4bcaf2cd7672 100644
-> --- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
-> +++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
-> @@ -816,7 +816,8 @@ static int atmel_hlcdc_plane_atomic_check(struct drm_plane *p,
->   	return 0;
->   }
->   
-> -static void atmel_hlcdc_atomic_disable(struct atmel_hlcdc_plane *plane)
-> +static void atmel_hlcdc_atomic_disable(struct atmel_hlcdc_plane *plane,
-> +				       struct atmel_hlcdc_dc *dc)
->   {
->   	/* Disable interrupts */
->   	atmel_hlcdc_layer_write_reg(&plane->layer, ATMEL_HLCDC_LAYER_IDR,
-> @@ -832,7 +833,8 @@ static void atmel_hlcdc_atomic_disable(struct atmel_hlcdc_plane *plane)
->   	atmel_hlcdc_layer_read_reg(&plane->layer, ATMEL_HLCDC_LAYER_ISR);
->   }
->   
-> -static void atmel_xlcdc_atomic_disable(struct atmel_hlcdc_plane *plane)
-> +static void atmel_xlcdc_atomic_disable(struct atmel_hlcdc_plane *plane,
-> +				       struct atmel_hlcdc_dc *dc)
->   {
->   	/* Disable interrupts */
->   	atmel_hlcdc_layer_write_reg(&plane->layer, ATMEL_XLCDC_LAYER_IDR,
-> @@ -842,6 +844,15 @@ static void atmel_xlcdc_atomic_disable(struct atmel_hlcdc_plane *plane)
->   	atmel_hlcdc_layer_write_reg(&plane->layer,
->   				    ATMEL_XLCDC_LAYER_ENR, 0);
->   
-> +	/*
-> +	 * Updating XLCDC_xxxCFGx, XLCDC_xxxFBA and XLCDC_xxxEN,
-> +	 * (where xxx indicates each layer) requires writing one to the
-> +	 * Update Attribute field for each layer in LCDC_ATTRE register for SAM9X7.
-> +	 */
-> +	regmap_write(dc->hlcdc->regmap, ATMEL_XLCDC_ATTRE, ATMEL_XLCDC_BASE_UPDATE |
-> +		     ATMEL_XLCDC_OVR1_UPDATE | ATMEL_XLCDC_OVR3_UPDATE |
-> +		     ATMEL_XLCDC_HEO_UPDATE);
-> +
->   	/* Clear all pending interrupts */
->   	atmel_hlcdc_layer_read_reg(&plane->layer, ATMEL_XLCDC_LAYER_ISR);
->   }
-> @@ -852,7 +863,7 @@ static void atmel_hlcdc_plane_atomic_disable(struct drm_plane *p,
->   	struct atmel_hlcdc_plane *plane = drm_plane_to_atmel_hlcdc_plane(p);
->   	struct atmel_hlcdc_dc *dc = plane->base.dev->dev_private;
->   
-> -	dc->desc->ops->lcdc_atomic_disable(plane);
-> +	dc->desc->ops->lcdc_atomic_disable(plane, dc);
->   }
->   
->   static void atmel_hlcdc_atomic_update(struct atmel_hlcdc_plane *plane,
+For 4:2:0 formats, both vertical and horizontal factors for
+chroma chanels should be divided by 2 from the factors for the luma
+channel. Hence:
+
+HEOCFG24.VXSYFACT = VFACTOR
+HEOCFG25.VSXCFACT = VFACTOR / 2
+HEOCFG26.HXSYFACT = HFACTOR
+HEOCFG27.HXSCFACT = HFACTOR / 2
+
+However, for 4:2:2 formats, only the horizontal factor for chroma
+chanels should be divided by 2 from the factor for the luma channel;
+the vertical factor is the same for all the luma and chroma channels.
+Hence:
+
+HEOCFG24.VXSYFACT = VFACTOR
+HEOCFG25.VXSCFACT = VFACTOR
+HEOCFG26.HXSYFACT = HFACTOR
+HEOCFG27.HXSCFACT = HFACTOR / 2
+
+Fixes: d498771b0b83 ("drm: atmel_hlcdc: Add support for XLCDC using IP specific driver ops")
+Signed-off-by: Cyrille Pitchen <cyrille.pitchen@microchip.com>
+---
+ .../gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c   | 27 ++++++++++++++++---
+ 1 file changed, 24 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
+index 4bcaf2cd7672..41c7351ae811 100644
+--- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
++++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
+@@ -365,13 +365,34 @@ void atmel_xlcdc_plane_setup_scaler(struct atmel_hlcdc_plane *plane,
+ 				    xfactor);
+ 
+ 	/*
+-	 * With YCbCr 4:2:2 and YCbYcr 4:2:0 window resampling, configuration
+-	 * register LCDC_HEOCFG25.VXSCFACT and LCDC_HEOCFG27.HXSCFACT is half
++	 * With YCbCr 4:2:0 window resampling, configuration register
++	 * LCDC_HEOCFG25.VXSCFACT and LCDC_HEOCFG27.HXSCFACT values are half
+ 	 * the value of yfactor and xfactor.
++	 *
++	 * On the other hand, with YCbCr 4:2:2 window resampling, only the
++	 * configuration register LCDC_HEOCFG27.HXSCFACT value is half the value
++	 * of the xfactor; the value of LCDC_HEOCFG25.VXSCFACT is yfactor (no
++	 * division by 2).
+ 	 */
+-	if (state->base.fb->format->format == DRM_FORMAT_YUV420) {
++	switch (state->base.fb->format->format) {
++	/* YCbCr 4:2:2 */
++	case DRM_FORMAT_YUYV:
++	case DRM_FORMAT_UYVY:
++	case DRM_FORMAT_YVYU:
++	case DRM_FORMAT_VYUY:
++	case DRM_FORMAT_YUV422:
++	case DRM_FORMAT_NV61:
++		xfactor /= 2;
++		break;
++
++	/* YCbCr 4:2:0 */
++	case DRM_FORMAT_YUV420:
++	case DRM_FORMAT_NV21:
+ 		yfactor /= 2;
+ 		xfactor /= 2;
++		break;
++	default:
++		break;
+ 	}
+ 
+ 	atmel_hlcdc_layer_write_cfg(&plane->layer, desc->layout.scaler_config + 2,
+-- 
+2.25.1
 
