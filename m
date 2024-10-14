@@ -2,93 +2,111 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 975B999C429
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2024 10:54:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B94899C44D
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2024 10:57:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D81410E3D7;
-	Mon, 14 Oct 2024 08:54:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F13C10E3E8;
+	Mon, 14 Oct 2024 08:57:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="VluBzpl4";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="hShu628d";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Hjm1nl9O";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hShu628d";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Hjm1nl9O";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DB2310E3DC
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 08:54:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1728896062;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=AAPK65oHQu3J50zOzXdJ8U1r5A0VvZcKfNK05jHZJ2c=;
- b=VluBzpl49aoyba/l6gk/2Cb2icpm2DGx6ahbcdS7oZdz8RCAuxw5FFeXcfhOoxAGiSOBfi
- RiOvpiTpO/fZw634HKHdGS2jTLDJ9CGUsRMOWF7DkD1Xtxn2yyupjweleJuZLTcxI5j3t+
- Pw3h5YnF5rZtp6VXG/90nXx99JDDkQc=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-568-X4UzAtoLMTqeMTJ3ZC3MdQ-1; Mon, 14 Oct 2024 04:54:21 -0400
-X-MC-Unique: X4UzAtoLMTqeMTJ3ZC3MdQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-431285dd196so11063255e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 01:54:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728896060; x=1729500860;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=AAPK65oHQu3J50zOzXdJ8U1r5A0VvZcKfNK05jHZJ2c=;
- b=RwE25qQFrYwBtKHr09S/FunnIJ4mA3izovWeU3R7emuN1rAfVEylJggMK9mfpS1OT9
- cW5s/5K6lkRkTKs6j+x3qDPL7vXzyzAXFEPnyLXVZ5ZYJddxiwwV1ppL8rKq7MBIsA5G
- Pf1nmhdgU7j66iiHT7t8ROqEOAsAA2nAP89UTZ/IrL7Fdv/JJkOhKNVUSgmEfKx0RaH5
- nhURmsMHMb1Dg9jNJfmV2jUO9GqKT6PeqI782c2f6rJCHaTTqesMQ3HLjoKUUrq/iNu9
- /s9sWtIisAxtIIzpDgcy4o/sTrMMd+rLmqyo19arab3ejp7AZ2IDR0zvrVcRZxQA65rI
- kk1g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU4mbl7mbnh4MwJT8pcKQvllmH/uyvwXtHMxoDdf3XRetN/ePqBzo/VEAyzyVVUB5o+rl/4lbuE+jk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxe/knApDr5US3MZYp7HX9N9rcYE9S0kNj8RX+4E2mhvXEVBrjx
- OEACDNNECn2W5GR3bBKhBK3fQQh/3m6ZMMnRHpZAXuFa5HDT81kG/lcc9McTmy0Racn3+574q/+
- 4btTdxKym/8DBw2pZ1ovqtelEbVT0CpjwPFYWytk8UWAdQXsbHBB5VNfcflKqRlNq/w==
-X-Received: by 2002:a05:600c:190d:b0:430:53f6:f20b with SMTP id
- 5b1f17b1804b1-4311df56f1amr97191965e9.23.1728896060175; 
- Mon, 14 Oct 2024 01:54:20 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHEo+wwhLLKeEcT9mtsJSQ+F8zv3iqBMb6ip3yhfZKGYz75i1oN0Ri8sKd/qmDLPCYq8GV+9Q==
-X-Received: by 2002:a05:600c:190d:b0:430:53f6:f20b with SMTP id
- 5b1f17b1804b1-4311df56f1amr97191725e9.23.1728896059688; 
- Mon, 14 Oct 2024 01:54:19 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-430ccf45df4sm146139445e9.13.2024.10.14.01.54.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Oct 2024 01:54:19 -0700 (PDT)
-Message-ID: <13f6f904-bd2c-4b0a-914e-0715d22a7ff5@redhat.com>
-Date: Mon, 14 Oct 2024 10:54:18 +0200
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C36610E3DC;
+ Mon, 14 Oct 2024 08:57:46 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 8268F1F769;
+ Mon, 14 Oct 2024 08:57:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1728896265; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=NWtfAUvX3Hz8ILsbZRU9Ol+0ojBcuObGZN7zP9Hb52k=;
+ b=hShu628d0kNEqwu6nU3uGFYIy/RLleq7RwTYDrPSb/4XUAm0NmxppE1FdsoIgnorc7utor
+ 1MZDPbjAYWDWkk/Ne1pWY96K94Bxm9SqAQ3t4dnuhkuMDAGVpVb/fPAiytltbYUOdeqjdV
+ SSq9x9m36GOdYwgXskVKzodTnOEwVNw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1728896265;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=NWtfAUvX3Hz8ILsbZRU9Ol+0ojBcuObGZN7zP9Hb52k=;
+ b=Hjm1nl9O1XUMLj+t8kWliRLcIUQ0dxrqAhg/RMeSiedyxLmphNVCmESA1K3fjgPBqgt8qd
+ Rxpp/hVK3qXKUZAA==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=hShu628d;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Hjm1nl9O
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1728896265; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=NWtfAUvX3Hz8ILsbZRU9Ol+0ojBcuObGZN7zP9Hb52k=;
+ b=hShu628d0kNEqwu6nU3uGFYIy/RLleq7RwTYDrPSb/4XUAm0NmxppE1FdsoIgnorc7utor
+ 1MZDPbjAYWDWkk/Ne1pWY96K94Bxm9SqAQ3t4dnuhkuMDAGVpVb/fPAiytltbYUOdeqjdV
+ SSq9x9m36GOdYwgXskVKzodTnOEwVNw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1728896265;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=NWtfAUvX3Hz8ILsbZRU9Ol+0ojBcuObGZN7zP9Hb52k=;
+ b=Hjm1nl9O1XUMLj+t8kWliRLcIUQ0dxrqAhg/RMeSiedyxLmphNVCmESA1K3fjgPBqgt8qd
+ Rxpp/hVK3qXKUZAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 36BDD13A42;
+ Mon, 14 Oct 2024 08:57:45 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id /9cADAndDGfXfAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 14 Oct 2024 08:57:45 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: simona@ffwll.ch, airlied@gmail.com, javierm@redhat.com, jfalempe@redhat.com
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v4 00/12] drm: Introduce DRM client library
+Date: Mon, 14 Oct 2024 10:55:14 +0200
+Message-ID: <20241014085740.582287-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.46.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/7] drm/panic: allow verbose boolean for clarity
-To: =?UTF-8?Q?Thomas_B=C3=B6hler?= <witcher@wiredspace.de>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>
-Cc: Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, rust-for-linux@vger.kernel.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20241012075312.16342-1-witcher@wiredspace.de>
- <20241012075312.16342-6-witcher@wiredspace.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20241012075312.16342-6-witcher@wiredspace.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 8268F1F769
+X-Spam-Score: -3.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ FREEMAIL_TO(0.00)[ffwll.ch,gmail.com,redhat.com];
+ ARC_NA(0.00)[];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ TO_DN_SOME(0.00)[]; MIME_TRACE(0.00)[0:+];
+ TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_TLS_ALL(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ RCPT_COUNT_SEVEN(0.00)[9]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ DKIM_TRACE(0.00)[suse.de:+];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,56 +122,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/10/2024 09:52, Thomas Böhler wrote:
-> Clippy complains about a non-minimal boolean expression with
-> `nonminimal_bool`:
-> 
->      error: this boolean expression can be simplified
->         --> drivers/gpu/drm/drm_panic_qr.rs:722:9
->          |
->      722 |         (x < 8 && y < 8) || (x < 8 && y >= end) || (x >= end && y < 8)
->          |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->          |
->          = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#nonminimal_bool
->          = note: `-D clippy::nonminimal-bool` implied by `-D warnings`
->          = help: to override `-D warnings` add `#[allow(clippy::nonminimal_bool)]`
->      help: try
->          |
->      722 |         !(x >= 8 || y >= 8 && y < end) || (x >= end && y < 8)
->          |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->      722 |         (y >= end || y < 8) && x < 8 || (x >= end && y < 8)
->          |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> 
-> While this can be useful in a lot of cases, it isn't here because the
-> line expresses clearly what the intention is. Simplifying the expression
-> means losing clarity, so opt-out of this lint for the offending line.
+With the next DRM client coming soon (drm_log) and most of DRM's
+fbdev emulation consolidated in a few places, it is time to provide
+a single place for the clients.
 
-Thanks, I also prefer to keep the non-minimal boolean.
+The base client code and client event handling is now optional. It
+still remains in the DRM core, which simplifies module dependencies.
+The new module drm_client_lib.ko stores most of the in-kernel client
+code. Drivers can opt into client support, but the presence of the
+client module depends on the user's kernel configuration. Without
+selected clients, no client module will be build.
 
-With the suggestions from Alice Ryhl to not introduce a return, and use 
-expect:
+DRM now forwards suspend and resume events to client helpers instead
+of calling fbdev emulation directly. This breaks a cyclic dependency
+among the involved modules. It also allows any client to process suspend
+and resume events.
 
-Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
-> 
-> Reported-by: Miguel Ojeda <ojeda@kernel.org>
-> Closes: https://github.com/Rust-for-Linux/linux/issues/1123
-> Signed-off-by: Thomas Böhler <witcher@wiredspace.de>
-> ---
->   drivers/gpu/drm/drm_panic_qr.rs | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_panic_qr.rs b/drivers/gpu/drm/drm_panic_qr.rs
-> index 58c46f366f76..226107c02679 100644
-> --- a/drivers/gpu/drm/drm_panic_qr.rs
-> +++ b/drivers/gpu/drm/drm_panic_qr.rs
-> @@ -719,7 +719,8 @@ fn draw_finders(&mut self) {
->   
->       fn is_finder(&self, x: u8, y: u8) -> bool {
->           let end = self.width - 8;
-> -        (x < 8 && y < 8) || (x < 8 && y >= end) || (x >= end && y < 8)
-> +        #[allow(clippy::nonminimal_bool)]
-> +        return (x < 8 && y < 8) || (x < 8 && y >= end) || (x >= end && y < 8);
->       }
->   
->       // Alignment pattern: 5x5 squares in a grid.
+v4:
+- improve commit descriptions (Jonathan)
+v3:
+- fix more corner Kconfig cases (kernel test robot)
+v2:
+- rework of the overall design
+- keep base client code in DRM core
+
+Thomas Zimmermann (12):
+  drm/i915: Select DRM_CLIENT_SELECTION
+  drm/xe: Select DRM_CLIENT_SELECTION
+  drm/fbdev-dma: Select FB_DEFERRED_IO
+  drm/fbdev: Select fbdev I/O helpers from modules that require them
+  drm/fbdev: Store fbdev module parameters in separate file
+  drm/client: Move client event handlers to drm_client_event.c
+  drm/client: Move suspend/resume into DRM client callbacks
+  drm/amdgpu: Suspend and resume internal clients with client helpers
+  drm/nouveau: Suspend and resume clients with client helpers
+  drm/radeon: Suspend and resume clients with client helpers
+  drm/client: Make client support optional
+  drm/client: Add client-lib module
+
+ Documentation/gpu/drm-client.rst              |   3 +
+ drivers/gpu/drm/Kconfig                       |  41 +++-
+ drivers/gpu/drm/Makefile                      |  20 +-
+ drivers/gpu/drm/amd/amdgpu/Kconfig            |   1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c    |  22 +-
+ drivers/gpu/drm/drm_client.c                  | 121 -----------
+ drivers/gpu/drm/drm_client_event.c            | 197 ++++++++++++++++++
+ drivers/gpu/drm/drm_client_setup.c            |   3 +
+ drivers/gpu/drm/drm_debugfs.c                 |   1 -
+ drivers/gpu/drm/drm_drv.c                     |   2 +-
+ drivers/gpu/drm/drm_fb_helper.c               |  31 ---
+ drivers/gpu/drm/drm_fbdev_client.c            |  30 ++-
+ drivers/gpu/drm/drm_file.c                    |   2 +-
+ drivers/gpu/drm/drm_internal.h                |  15 ++
+ drivers/gpu/drm/drm_kms_helper_common.c       |  38 ++++
+ drivers/gpu/drm/drm_modeset_helper.c          |  14 +-
+ drivers/gpu/drm/drm_probe_helper.c            |   2 +-
+ drivers/gpu/drm/i915/Kconfig                  |   1 +
+ .../drm/i915/display/intel_display_driver.c   |   2 +-
+ drivers/gpu/drm/nouveau/nouveau_display.c     |   8 +-
+ drivers/gpu/drm/nouveau/nouveau_vga.c         |   2 +-
+ drivers/gpu/drm/radeon/radeon_device.c        |  19 +-
+ drivers/gpu/drm/radeon/radeon_fbdev.c         |   6 -
+ drivers/gpu/drm/radeon/radeon_mode.h          |   3 -
+ drivers/gpu/drm/xe/Kconfig                    |   1 +
+ include/drm/drm_client.h                      |  41 +++-
+ include/drm/drm_client_event.h                |  27 +++
+ 27 files changed, 434 insertions(+), 219 deletions(-)
+ create mode 100644 drivers/gpu/drm/drm_client_event.c
+ create mode 100644 include/drm/drm_client_event.h
+
+-- 
+2.46.0
 
