@@ -2,46 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCC1399D85F
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2024 22:37:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE83799D868
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2024 22:38:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A10D110E4C6;
-	Mon, 14 Oct 2024 20:37:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D08010E4CF;
+	Mon, 14 Oct 2024 20:38:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="f3EpZmFk";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="t1ByILJu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F66110E4C6
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 20:37:27 +0000 (UTC)
+X-Greylist: delayed 345 seconds by postgrey-1.36 at gabe;
+ Mon, 14 Oct 2024 20:38:01 UTC
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CDD210E4CF
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 20:38:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1728938245; x=1729543045; i=deller@gmx.de;
- bh=ouPa/eowB9jLl4VY4WQM/q/N495B53tdPkxq+TDntcM=;
+ s=s31663417; t=1728938279; x=1729543079; i=deller@gmx.de;
+ bh=8iK/lwusazoVmWDx14MxRKCz0zzqnH40q8KQDzTJg8k=;
  h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
  References:From:In-Reply-To:Content-Type:
  Content-Transfer-Encoding:cc:content-transfer-encoding:
  content-type:date:from:message-id:mime-version:reply-to:subject:
  to;
- b=f3EpZmFkFE2Xu/JYI3Xxy0jygVuLDi/0K7X82Khulr4H/GCjdHSWdL8RTWid5Fmt
- /kMODK8s26KmQ/mAyYxpoX3UDKCLO6Jp0MUkYtgzHXN00dlVk8xowbAETGPvLpxWU
- J/Wt7APGIeO4SIAKoQT4gl6FerVsTEDQqAJHTzLyLJQESqUMNVJ7wzHU9NO70gw9I
- +AhVXIN8dW9bOlZCSGfd20+M4cNeEhQ7jFv9qXFSxrm1iTqPtez9GJkLwohAWvZ2B
- VI3J69uhZFMv3DkyrcX4ALvPGqNK+fCT+XCiFVSImgGwwd8xDXxJKFT6DfoyasdBX
- 7NpWuyVt77g8hboP9Q==
+ b=t1ByILJuGD/c0ag/vQkQyUGAeutpYETZ4XwPFUha3aI5qdZI3i0A4duFteNZTyZV
+ BQnJw6Dscyu+XafoPIuYoDYJzFglIk5jxJrhOSRXZg5YghKUxaatufNV25DFopD3j
+ Fn4doWYEdfzvpu5QzqN5YrvdDrK7TKsslsW3ihhXA1h7e5XXUr0L2qpEORteEKigD
+ OelQeSSCeCluxpufJ3iCfq+762gUiMrgju4OHrJOZzd2RtO2Oru8qGFflB9Ez4hf0
+ RaGj8b5l5nVjjOqRjY2XqSuqeEA0RmZ/5XktSKzzdGqvrPxiOYKUFINqbg4iTUHMI
+ G55GlpHNLNQtA3a9dg==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from [192.168.20.55] ([109.250.63.79]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MG9kC-1tAHVi05PQ-00Bx96; Mon, 14
- Oct 2024 22:32:14 +0200
-Message-ID: <aa4bf800-1bd9-4af4-8403-aa9ff6d30ae1@gmx.de>
-Date: Mon, 14 Oct 2024 22:32:13 +0200
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MZkpb-1tUI7g1XCJ-00QS0r; Mon, 14
+ Oct 2024 22:32:51 +0200
+Message-ID: <fab752c8-0193-4d97-bbe5-40c426ede668@gmx.de>
+Date: Mon, 14 Oct 2024 22:32:50 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fbdev: Constify struct sbus_mmap_map
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <67883bfad5c2c395438bfcef7a319394caca4155.1728820047.git.christophe.jaillet@wanadoo.fr>
+Subject: Re: [PATCH] video: fix inconsistent indentation warning
+To: SurajSonawane2415 <surajsonawane0215@gmail.com>, adaplas@gmail.com
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20241006071514.5577-1-surajsonawane0215@gmail.com>
 Content-Language: en-US
 From: Helge Deller <deller@gmx.de>
 Autocrypt: addr=deller@gmx.de; keydata=
@@ -87,27 +89,27 @@ Autocrypt: addr=deller@gmx.de; keydata=
  FwRDcGV6nxanxZGKEkSHHOm8jHwvQWvPP73pvuPBEPtKGLzbgd7OOcGZWtq2hNC6cRtsRdDx
  4TAGMCz4j238m+2mdbdhRh3iBnWT5yPFfnv/2IjFAk+sdix1Mrr+LIDF++kiekeq0yUpDdc4
  ExBy2xf6dd+tuFFBp3/VDN4U0UfG4QJ2fg19zE5Z8dS4jGIbLg==
-In-Reply-To: <67883bfad5c2c395438bfcef7a319394caca4155.1728820047.git.christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20241006071514.5577-1-surajsonawane0215@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:QV9ejFkm+fuf9o/1WeaP3AyqUgGmGSyP+CHW6qaUC2nAhVB0Skj
- Gye27Ca9JUvAhLeU+OwapNp4WvKKE7gS5dhhOIHDq564iXDHBoTHX4fkVKSHEzpnplqY6IH
- 4eVf1Q1tDLfxRQ6XxZxBn6oWR40Pax4NLcHFZAeLjVTqDcDMJX5IvRrbEclhMK+mNeSBkbD
- XHtm2TfEFQdjnhaob/sVw==
+X-Provags-ID: V03:K1:mNj/a86cD8apEWRxcMjWatukRifswok09XShWf9Q7PfLVTiUZ2G
+ 5bV5pTEgV7HclerciNJVDVklKnQKE6J/4jqeNQsA8wOv0190uLu1EJXDUeXPh+IjBO+XRNd
+ KQt6Wz5Q1O3O9qNIIKpjwHxhflpNkta8AD7YxyF0zroGSPODBeH3dhdMYMowW1xeOTcElJ5
+ 4WcvEM25c/vzdPoZpKN8g==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:gkfhBfQBFCs=;sXBIrOGT27NxbWail3pZ0ULoTYA
- 4Xd9pzdngH5FjvZX1U4mIQkBqWle6M3gkGua26zeAN9bzJHzCkKTUOdNoYejBChDh8HPVuiJo
- E1gVKikclGGQTk5DuAGyW4U/snilb8Cytfyok9vbGmH9m3ZWgBdcjEsVsbQxzogI6zyuV8MoX
- ectB/ufQkYWedHccuVI2xuJOKQlicjTf9OI8k5bEQZuY9NrWvPhFoemPPHXDNovtMI7B3lqOS
- k1JOiGVqBoerlhd3TQ7Lsxs4C1FiY5nMTL6QdrfZ+w6MMcj6pv8mWOS4KD7PjkEqRM/lJM4AL
- xabvYEhJj3oB9vt9QuUuDfHiDmVnp+wxek7tkqkE8O3lsnA3GghgmFZQtOvzF4KzIjme/x/au
- wIDBM5Tn4fc0cewd2sBNSiayxT0ZOi5IOj3Ed38eMoM786vnWGwXdJqc2inPsHHCabgaIyYsa
- 2QjOpbUqoN8IErEHWCQOmLyxa9uJRAsYBpPkx7jGwWzinQsVinJA3cFIetLhCUQvaEFVrMHKV
- 00ToTupEzr098seUDCS0k6JUPRGKDI3cxwT1lo8xIFhdW84MeiidJqsn8r8693aRtA2Gqx25y
- tSizV+LgS+rN+Uzdqnv5sC1u6xXWZRGvREliB7XChLPeYJIBdeM8O++hKN54dYEsksIiAqZ+R
- /BY+nKFGnItnBGBoWE3CIfeaX6cswDrOyg/4zZpyWaeY/1A+4bcqVPhneseEzdfWAy2vH/MrP
- zbvw8RRpd64KlFAP+NHVgi1EugKPpI7sXzfYe+Hpqq3k1bkXp6k2SoYVfgihw0pgjzpRcRP5Q
- JButsNoI+RO9RLWzFsMtGA5w==
+UI-OutboundReport: notjunk:1;M01:P0:9wb3bacMI/w=;mEwcxF1IuGJuQkYK3xGiHEs+BcO
+ tAOb+0ratVX59hyIHwnQIZQYtDR+HE6BO7Y3RzHW4L6oiGniQfoKWOJl87jPym2C10FKJ2eDu
+ MM7y3o87SKwtSn8AG+KB3cpGIt9D/qpD/3GohL4GID0TvaLWcUfqQEpwvEhZY2H4pF0RAO4ce
+ BevvWdJj9jHrys4gwDnRgdo5S1IrWm1VoS4X/Gf6bii9sBOB92WIzfDfk3W5mVwDV4GRuqq+O
+ fwrn9fJLkGiUD7X3h89ituQMBTCbwoCcskbskRqDbMuXdkNlgGVdbOUF8wccYFpKn03dfaSTu
+ uJcxVUl/Ble8CXkB8gouGMRADP/BfRg8SnF9yVmyPBOSl3uTCGvTIYHvzMVrszTpAMluAFBZ7
+ xpGhqIlgIefb/H1/6ipdZdAIf7jzMD6AS5kOr0Og0IrjbCEG4e1kofC5tX499zHsW81cpXEoJ
+ bcflxKsXEPXaCnVDqWSZRHgGrkI8RdUT4OcNBnk9PdTUufo9W0wPnyUvi84T/Risa8LIWNZ6g
+ N9bTof9SbKeXysRokVPk6u7n+Ybu7RqcX7ebCemaxBAD9GnTsllb037PwjYdEFH5DEkAj7JjQ
+ wkTLWiu2ARtC6hOkpeA9+27gn/0Wy8NWo/0QHnHjrNDz3TewtM5NtpdhMXCU/spk0K9YMnCZ8
+ b09xl7ggpkylAmu+3Ctb3FXWmhO1KbDxYJ4q5ovw2j7ZkJllPvSKxLmmlxTielE4QnvbfogEK
+ CjB5wb37UddCAU4z5FRLrm97dgYzQqMZohzSFwxGJC8ZT5u7/CyUtRSrJ8STFZVmSNuG/avpv
+ 1KRzVo82v2JvmlBkwLxWJqqg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,40 +125,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/13/24 13:48, Christophe JAILLET wrote:
-> 'struct sbus_mmap_map' are not modified in these drivers.
+On 10/6/24 09:15, SurajSonawane2415 wrote:
+> Fix the indentation to ensure consistent code style and improve
+> readability, and to fix this warning:
+> drivers/video/fbdev/nvidia/nv_hw.c:1512 NVLoadStateExt() warn:
+> inconsistent indenting
 >
-> Constifying this structure moves some data to a read-only section, so
-> increases overall security.
->
-> Update sbusfb_mmap_helper() accordingly.
->
-> On a x86_64, with allmodconfig, as an example:
-> Before:
-> =3D=3D=3D=3D=3D=3D
->     text	   data	    bss	    dec	    hex	filename
->     2452	    536	     16	   3004	    bbc	drivers/video/fbdev/bw2.o
->
-> After:
-> =3D=3D=3D=3D=3D
->     text	   data	    bss	    dec	    hex	filename
->     2500	    483	     16	   2999	    bb7	drivers/video/fbdev/bw2.o
->
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> Signed-off-by: SurajSonawane2415 <surajsonawane0215@gmail.com>
 > ---
-> Compile tested only with a cross compiler for sparc.
-> ---
->   drivers/video/fbdev/bw2.c     | 2 +-
->   drivers/video/fbdev/cg14.c    | 2 +-
->   drivers/video/fbdev/cg3.c     | 2 +-
->   drivers/video/fbdev/cg6.c     | 2 +-
->   drivers/video/fbdev/ffb.c     | 2 +-
->   drivers/video/fbdev/leo.c     | 2 +-
->   drivers/video/fbdev/p9100.c   | 2 +-
->   drivers/video/fbdev/sbuslib.c | 2 +-
->   drivers/video/fbdev/sbuslib.h | 2 +-
->   drivers/video/fbdev/tcx.c     | 2 +-
->   10 files changed, 10 insertions(+), 10 deletions(-)
+>   drivers/video/fbdev/nvidia/nv_hw.c | 8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
 
 applied.
 
