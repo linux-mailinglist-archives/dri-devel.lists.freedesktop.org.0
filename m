@@ -2,96 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ECB799D745
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2024 21:23:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78AE499D750
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2024 21:25:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B55310E4AE;
-	Mon, 14 Oct 2024 19:23:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4F1210E4B0;
+	Mon, 14 Oct 2024 19:25:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="RxkXuchT";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="eYN2letm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A62710E4AE
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 19:23:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1728933816;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pr8kBiDDyEnpolDm4TeW3ziQndwc2QwIlDCytPXA2jo=;
- b=RxkXuchTfZ5ulJRJnyqc8o+w67SuYSdW2+c2W5HVr6MBrV2gfLbjZIt6Vl1A2liCsykXpm
- +veJqbq8K8KigzFGrX4ajx5dkDOMQjgRqOBx1D71P7C1BcFt76TSxRHNa94jtiwljoCubo
- PHevHkZPrIh7VtG6ycswpLTIDZmlDz0=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-596-9zmYn1oQPeiL2anwCBm-eA-1; Mon, 14 Oct 2024 15:23:34 -0400
-X-MC-Unique: 9zmYn1oQPeiL2anwCBm-eA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-431159f2864so24026775e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 12:23:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728933813; x=1729538613;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=pr8kBiDDyEnpolDm4TeW3ziQndwc2QwIlDCytPXA2jo=;
- b=iAS9xijGzBs32x5u8wYYxiB0KWSI7PCLLXWz8EUGA/MOnxLla4RIGD4cgndeGBU8PR
- GvyH69STHqjOJCJvrg/TDv/e/UoE6/uMixEIQEDXR62tmZhx4TlFSx/XDg/Fh375m5WI
- cxFG1IK7Fe+61OL+G9xd74NXvNA7pH95pYNAjX/m9VitYNQBIm7DtZaP5vnHGaAFKm03
- /0Mco0Qz9Hijw369eHarlA10KWbXDsCMNchOtrwWxBmFW5VbXyOrwL7NtiHJ5W1Pufv0
- zTJvywk5aNac8xo9/zhrlmTp7/UVkojqimyyOf8aXvqGQf/iiMUvCBnX239MYnp/IKo5
- 1ZkQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW0CiHNuIn0ninPMdBLZmFF4g2REsSezklfVn7h1BPmB3TbQIrU9OiCPCs6DyAHDhO4PnknasVCwAU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxv73jk1mhHrpRQX4c0wIZw2biOhGVY+8lXGrFQwdGPqsl2CoiK
- Rf0dcCiW7zWllc5+aH9BIWTMdlGseWdM4iN1mAAdEwV1/43LHn5Y1mcP5Ei6SPbwARL2bvSefiT
- jH/AKWkHDoicj6K6brQJ7k54P2U07ZYfjiUPybyRra3Zl7O7MWy5ZS9K81SoT4FpD1A==
-X-Received: by 2002:a05:600c:1e88:b0:426:5e91:3920 with SMTP id
- 5b1f17b1804b1-4311df5875fmr105232585e9.29.1728933812985; 
- Mon, 14 Oct 2024 12:23:32 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHbTqTqdJ+uV85hzvy4tOJlJO5ZFnRlJoc3kwSn95A8eOaOkt0awKgBPBHzu+zMwf2VvN13PQ==
-X-Received: by 2002:a05:600c:1e88:b0:426:5e91:3920 with SMTP id
- 5b1f17b1804b1-4311df5875fmr105232285e9.29.1728933812596; 
- Mon, 14 Oct 2024 12:23:32 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-431182d794asm129792535e9.1.2024.10.14.12.23.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Oct 2024 12:23:31 -0700 (PDT)
-Message-ID: <2e5e6280-eaa2-480f-b89c-c9b832328d07@redhat.com>
-Date: Mon, 14 Oct 2024 21:23:30 +0200
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35ADE10E4B0
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 19:25:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=KbqNdN2Y5HnLjsHleGHb9I+pHDMIFEfOOXdWTLleOyI=; b=eYN2letm418fcZiIF65uMquWvb
+ R0KLEgeRSkwzeA3ZJlC8gArHw7qAdWi7vGWHZ3qM/Y+P6S4avLoPMr75+oe242O3Q/2C+TGa2yYON
+ GJLwBy4u3OrSjKqyNe+0WYLSJG08ZVpb4AMl7V2rAiNU6uQs2T7Od0PWvu9Ek3FxGjb1/zuVfWyI2
+ HZF9rwgRYGDgT1Mm/IsXANR8IrKunRiAiZ8EOkoefWAd2wbH+2BZRV/UiIh4Be74vmvYA4zKfLfMq
+ EdGDdk5jQVklL5DeNsvziYwTOUL4dwnR6lH4GHf+CBnw1qB6rQfDT7LywxMwL9ujLiFzr0Ff/v1zX
+ DIfsshBg==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84]
+ helo=noisy.programming.kicks-ass.net)
+ by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+ id 1t0Qgx-00000002ZWn-447K; Mon, 14 Oct 2024 19:25:20 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+ id 503D13004AF; Mon, 14 Oct 2024 21:25:19 +0200 (CEST)
+Date: Mon, 14 Oct 2024 21:25:19 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
+ Ian Rogers <irogers@google.com>, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Subject: Re: [PATCH 3/5] perf: Add pmu get/put
+Message-ID: <20241014192519.GN16066@noisy.programming.kicks-ass.net>
+References: <20241008183501.1354695-1-lucas.demarchi@intel.com>
+ <20241008183501.1354695-4-lucas.demarchi@intel.com>
+ <20241014173246.GI16066@noisy.programming.kicks-ass.net>
+ <lunkl4llip7aafnyctwztggum37wsiznktb7z3ly73batmt6bu@m75kow4b4u6y>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/7] drm/panic: allow verbose boolean for clarity
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: =?UTF-8?Q?Thomas_B=C3=B6hler?= <witcher@wiredspace.de>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, rust-for-linux@vger.kernel.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20241012075312.16342-1-witcher@wiredspace.de>
- <20241012075312.16342-6-witcher@wiredspace.de>
- <13f6f904-bd2c-4b0a-914e-0715d22a7ff5@redhat.com>
- <CANiq72kE0QtiC6OjyV32r_0V2KxhtPk+-8mQGkCvtexif+04vg@mail.gmail.com>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <CANiq72kE0QtiC6OjyV32r_0V2KxhtPk+-8mQGkCvtexif+04vg@mail.gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <lunkl4llip7aafnyctwztggum37wsiznktb7z3ly73batmt6bu@m75kow4b4u6y>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,29 +63,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 14/10/2024 18:59, Miguel Ojeda wrote:
-> On Mon, Oct 14, 2024 at 10:54 AM Jocelyn Falempe <jfalempe@redhat.com> wrote:
->>
->> With the suggestions from Alice Ryhl to not introduce a return, and use
->> expect:
-> 
-> +1 to both.
-> 
-> `expect` (here and the other ones I suggested) require `rust-next`, so
-> if this goes through DRM, then we can clean this up later. Otherwise,
-> if you prefer `rust-next`, we can change them to `expect` already.
+On Mon, Oct 14, 2024 at 01:20:34PM -0500, Lucas De Marchi wrote:
+> On Mon, Oct 14, 2024 at 07:32:46PM +0200, Peter Zijlstra wrote:
 
-I don't plan to touch drm_panic_qr.rs, so I think it's better if this 
-series goes through rust-next, to avoid an extra cleanup step later.
-
--- 
-
-Jocelyn
-
+> > I'm confused.. probably because I still don't have any clue about
+> > drivers and the above isn't really telling me much either.
+> > 
+> > I don't see how you get rid of the try_module_get() we do per event;
+> > without that you can't unload the module.
 > 
-> Thanks!
+> I don't get rid of the try_module_get(). They serve diffeerent purposes.
+> Having a reference to the module prevents the _module_ going away (and
+> hence the function pointers we call into from perf). It doesn't prevent
+> the module unbinding from the HW.  A module may have N instances if it's
+> bound to N devices.
 > 
-> Cheers,
-> Miguel
+> This can be done today to unbind the HW (integrated graphics) from the
+> i915 module:
 > 
+> 	# echo 0000:00:02.0 > /sys/bus/pci/drivers/i915/unbind
+> 
+> The ref taken by these new get()/put() are related to preventing the
+> data going away - the driver can use that to take a ref on something
+> that will survive the unbind.
+
+OK, for some reason I thought to remember that you wanted to be able to
+unload the module too.
+
+> > And I don't see how you think it is safe to free a pmu while there are
+> > still events around.
+> 
+> so, we don't actually free it - the pmu is unregistered but the
+> `struct pmu` and (possibly) its container are still around after unregister.
+> When the get/put are used, the driver can keep the data around, which is
+> then free'd when the last reference is put.
+
+Aaaaah, okay. So the implementation knows to nop out all device
+interaction when it gets unbound, but the events and pmu data stick
+around until they're naturally killed off?
+
+Ah, reading the below patches that is indeed what i915 does. pmu->closed
+makes this so.
+
+The dummy thing you posted in this thread, does perf_event_disable() on
+all previously created events, and this is not sound. Userspace can do
+PERF_EVENT_IOC_ENABLE on them and then things will go side-ways fast.
+And I was afraid i915 was doing this same.
+
+> - Subject: [PATCH 3/8] drm/i915/pmu: Fix crash due to use-after-free
+
+So reading that Changelog, you would like a replacement for pmu->closed
+as well.
+
+I suppose, one way to go about doing this is to have
+perf_pmu_unregister() replace a bunch of methods. Notably you have
+pmu->closed in:
+
+  - event_init()
+  - read()
+  - start()
+  - stop()
+  - add()
+
+Having perf_pmu_unregister() overwrite those function pointers with
+something akin to your pmu->closed would go a long way, right? It would
+require using READ_ONCE() for calling the methods, which would make
+things a little ugly :/
+
+But I also think we want to force all the events into STATE_ERROR, and
+I'm not immediately sure how best to go about doing that. Adding better
+return value handling to ->add() is trivial enough, and perhaps calling
+perf_pmu_resched() is sufficient to cycle everything.
+
+Let me ponder that a little bit.
 
