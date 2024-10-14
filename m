@@ -2,87 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A259A99C920
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2024 13:38:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B36A99C954
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2024 13:50:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F4CB10E43E;
-	Mon, 14 Oct 2024 11:38:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B56CE10E250;
+	Mon, 14 Oct 2024 11:50:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Wz19Wu8U";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="UtWJEqg+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0308A10E43E
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 11:38:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1728905881;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IhD6G6kmrvI8QyDxA5P+7TuT7pa9CuRPCdH6vZs1liA=;
- b=Wz19Wu8UGn2QngTZnk//9P5iFCA0N3SnNqEqgjVjHpybP/VvzD8I/hYYN9pCgvR9saysfC
- K5+QH2marcq5wlZjmii0u+pM7i9UJxAiIKpkYBW/AEWX5U3gSIX+gPOO01jmxo6UU7SBzn
- 0/5/aoBlsugExjve4yEQZqW7xFz4PKs=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-163-LZz2UdyEPhylP1hBv0va6Q-1; Mon, 14 Oct 2024 07:37:59 -0400
-X-MC-Unique: LZz2UdyEPhylP1hBv0va6Q-1
-Received: by mail-ej1-f70.google.com with SMTP id
- a640c23a62f3a-a9a04210851so80417766b.2
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 04:37:59 -0700 (PDT)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
+ [209.85.167.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7AC910E250
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 11:50:01 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id
+ 2adb3069b0e04-5369f1c7cb8so5182616e87.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 04:50:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1728906600; x=1729511400; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=iew+RP5Fy2E/40HugkpA9EDa/gYy4wZkIO70iXxUijM=;
+ b=UtWJEqg+8wvZRQxxK40ZEOH6c5vLmIHmBXvqo+bDAE+kdmgOrUo4kFrERwxVE+hP4V
+ 87+CcQDnL3LIbbbOBBRugbrDKlRUrBeIm3juOYoaeruWxU7M2nfq7oOeUz3rz6j5bkn7
+ dRIjLRfBiE6bMCA8HQ+3kKN06b4mHymlvW9Fb5IUYuW1rxuxhZEls6kcKRusC38XA/QJ
+ GpJcw1T3ciFN3Lij/NuTXvtrLbC1nxkI9I8QARFW9l0R2Y/0aaDPX15RW6ck1Zh6+vxm
+ vf4iH7hVEYVA5J8vyZYfJ6c7CdvIi76aCYwqk7m/UkDgeLtqV6g8k1J4HDtUuXejJF/k
+ HrBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728905878; x=1729510678;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=zyGsYySSd0DnSlvi7zjOoyKBQa6z2f9aP+81Ong915U=;
- b=A+3UrbI7mtqpH9mKWrFs3cR6n/yL6lYHGECoZKHPr5UsqqdoFcLVTiA7thQzEH4YqM
- aqVneaH4257OwAhswv9WECB3C1y7h+tjBSrsCprrCF9InYoXcZy7eNZji3Pzo2OMYOf/
- Htpop8PkWKUBxRDcVjJD7M4aUD3P2SYpqj9VMjE2S4jmfxQ0B9ZM7L+J+rm9YbfHHbUh
- Akriy/VpwqRDrULOJN1vuOm/KJFP/4GAgq5/cXxiL3XTaod7Pt3OhFbsOBeuzHP3Bsdv
- s2RPbKo++dVydCVKGpToXJ+b3q9DqYwRcNvbvweHluMpquJIqz/MZT4FKe43247LOf12
- 9HdA==
+ d=1e100.net; s=20230601; t=1728906600; x=1729511400;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=iew+RP5Fy2E/40HugkpA9EDa/gYy4wZkIO70iXxUijM=;
+ b=cPDxOFql8uz/iDiy26zzNzfanBp3QVk/R/hjjQvr+IYoNUnumuc2GCVrJRMjKs3jfL
+ ihxt+maUufzkzRlQQN5fWfxvIl+MqETC2gzjsxrHagGYc5xujjA2XneFUtgqHZvIcpEy
+ eEYUkQCSXMiOTed4esZX6tmZyTwX5l8DtAH5vr2e1XED/tgMTmb45SuWga4NQiGwjDrh
+ Cd+b7Z3ztJUKzYqMyPvqDupub+LEj8Gsw+nOlPEE1/glXfRfTo/m7lvXJXCKdqacp6L0
+ gGN9A+uDLFmiCcyFq5ZogaVqLPGoPWkKNBhf1Z1wxvaWWCiNliR1ha17sYcZpRX7UbxA
+ ddoA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU0N2Pl8DMIkYroOfnXHhucOCIQXqpfa8OuHqHs2udr0xauQ3vwUHN+je90m3d9MWw+9yH7E87+G+8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx+Zy43JQ6SI32kMedRDygMTzhNMdRcDJg15r2iwI519v4cVrzr
- H+60tIqm1ChIxiSI/svsrGlG9Nj5RDvN+4zIPQlpTf9558fuvC6nggwqwT84Y6fOgRY2EmAQZdn
- URmOqjzTPSWHo1akZT3idh7sf1H21xUvikkpZ3yixyXepeHMzEPPWzrxQyLpT7PpdbA==
-X-Received: by 2002:a17:907:6ea6:b0:a9a:1e4d:856d with SMTP id
- a640c23a62f3a-a9a1e4d96d7mr32783166b.22.1728905878534; 
- Mon, 14 Oct 2024 04:37:58 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE6q6Wb3LD++CKbq5ijy/YsNcblGRNhqLvkjnxHps67Jr2C9xdZYvr7J37TwCLTihS6Xp7ZLA==
-X-Received: by 2002:a17:907:6ea6:b0:a9a:1e4d:856d with SMTP id
- a640c23a62f3a-a9a1e4d96d7mr32781166b.22.1728905878172; 
- Mon, 14 Oct 2024 04:37:58 -0700 (PDT)
-Received: from ?IPv6:2001:16b8:2d37:9800:1d57:78cf:c1ae:b0b3?
- (200116b82d3798001d5778cfc1aeb0b3.dip.versatel-1u1.de.
- [2001:16b8:2d37:9800:1d57:78cf:c1ae:b0b3])
+ AJvYcCWSQm56SOKZr3Gs//lDY4w8iTgW1GZzNdTm3+6pOaYe7RFjJC8z4D1VgjzJ2F0OP+VxP0PPQXaNMBo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy76dGPQ4HukHNYAha6tajK/j3Peg/kwk5Kd6zHQi+deiS2zrHo
+ 7YQObtl1e59CEUQaXeKS4r0vPBxg0EXstZPMf+3gVfxpZcqs+coMvfkKnSRyNP4=
+X-Google-Smtp-Source: AGHT+IHeZFlUvv6UeKWga3KrcKpVyfEpfE58+7vHUSg0GUxX8MLLjQZt1fSXn5N5ExlcM614tFbcJA==
+X-Received: by 2002:a05:6512:ad3:b0:539:d428:fbdd with SMTP id
+ 2adb3069b0e04-539e574b00emr2705259e87.53.1728906599992; 
+ Mon, 14 Oct 2024 04:49:59 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a9a09af1915sm180690266b.0.2024.10.14.04.37.57
+ 2adb3069b0e04-539efe446c7sm585904e87.271.2024.10.14.04.49.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Oct 2024 04:37:57 -0700 (PDT)
-Message-ID: <63fef60508673243104b127e77940ab38c68a9e4.camel@redhat.com>
-Subject: Re: [PATCH 2/5] drm/sched: Stop setting current entity in FIFO mode
-From: Philipp Stanner <pstanner@redhat.com>
-To: Tvrtko Ursulin <tursulin@igalia.com>, dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, 
- Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Alex Deucher
- <alexander.deucher@amd.com>, Luben Tuikov <ltuikov89@gmail.com>, Matthew
- Brost <matthew.brost@intel.com>
-Date: Mon, 14 Oct 2024 13:37:55 +0200
-In-Reply-To: <20241014104637.83209-3-tursulin@igalia.com>
-References: <20241014104637.83209-1-tursulin@igalia.com>
- <20241014104637.83209-3-tursulin@igalia.com>
-User-Agent: Evolution 3.52.4 (3.52.4-1.fc40)
+ Mon, 14 Oct 2024 04:49:59 -0700 (PDT)
+Date: Mon, 14 Oct 2024 14:49:57 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Hermes Wu <Hermes.Wu@ite.com.tw>
+Cc: Pin-yen Lin <treapking@chromium.org>, 
+ Kenneth Hung <Kenneth.hung@ite.com.tw>, Pet Weng <Pet.Weng@ite.com.tw>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Allen Chen <allen.chen@ite.com.tw>, 
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v5 01/10] drm/bridge: it6505: Change definition of
+ AUX_FIFO_MAX_SIZE
+Message-ID: <2wi23no7jee5hpiyplipjhdmze6a2rulnmhrmukchlp3zui4np@c5yacstbzuxl>
+References: <20241001064305.32180-1-Hermes.Wu@ite.com.tw>
+ <20241001064305.32180-2-Hermes.Wu@ite.com.tw>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241001064305.32180-2-Hermes.Wu@ite.com.tw>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,53 +98,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2024-10-14 at 11:46 +0100, Tvrtko Ursulin wrote:
-> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->=20
-> It does not seem there is a need to set the current entity in FIFO
-> mode
-> since ot only serves as being a "cursor" in round-robin mode. Even if
-
-s/ot/it
-
-
-> scheduling mode is changed at runtime the change in behaviour is
-> simply
-> to restart from the first entity, instead of continuing in RR mode
-> from
-> where FIFO left it, and that sounds completely fine.
-
-Imperative sentence: "Remove setting the cursor from
-drm_sched_rq_select_entity_fifo()"
-
-Thx
-P.
-
->=20
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: Luben Tuikov <ltuikov89@gmail.com>
-> Cc: Matthew Brost <matthew.brost@intel.com>
-> Cc: Philipp Stanner <pstanner@redhat.com>
-> Acked-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> Reviewed-by: Philipp Stanner <pstanner@redhat.com>
+On Tue, Oct 01, 2024 at 02:43:00PM +0800, Hermes Wu wrote:
+> From: Hermes Wu <Hermes.wu@ite.com.tw>
+> 
+> The hardware AUX FIFO is 16 bytes
+> Change definition of AUX_FIFO_MAX_SIZE to 16
+> 
+> Fixes: b5c84a9edcd4 ("drm/bridge: add it6505 driver")
+> Signed-off-by: Hermes Wu <Hermes.wu@ite.com.tw>
 > ---
-> =C2=A0drivers/gpu/drm/scheduler/sched_main.c | 1 -
-> =C2=A01 file changed, 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
-> b/drivers/gpu/drm/scheduler/sched_main.c
-> index bbd1630407e4..07ee386b8e4b 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -355,7 +355,6 @@ drm_sched_rq_select_entity_fifo(struct
-> drm_gpu_scheduler *sched,
-> =C2=A0=09=09=09=09return ERR_PTR(-ENOSPC);
-> =C2=A0=09=09=09}
-> =C2=A0
-> -=09=09=09rq->current_entity =3D entity;
-> =C2=A0=09=09=09reinit_completion(&entity->entity_idle);
-> =C2=A0=09=09=09break;
-> =C2=A0=09=09}
+>  drivers/gpu/drm/bridge/ite-it6505.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
 
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+-- 
+With best wishes
+Dmitry
