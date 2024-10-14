@@ -2,161 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DFEF99C326
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2024 10:28:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D15199C339
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2024 10:29:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4E1610E3B3;
-	Mon, 14 Oct 2024 08:28:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C322C10E3C8;
+	Mon, 14 Oct 2024 08:29:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="Km3P7FMe";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="dhpXi1vd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com
- (mail-am6eur05on2049.outbound.protection.outlook.com [40.107.22.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA2B410E3B3
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 08:28:15 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DST5dka0bObE1dGB/Zi5X/9suxzZ1HEyr9r78hnNS2nqM4RTpVPEmNGlf0xyrVexfvCQjk5ct+y4JqZqN5tzoOBVM6fzSU9/v/AAHVVDLpBz2D/NszBiJFmkuhc5WuhdbYiZQNqPs0al6RpioF7ITg7g35lB5iosfrNvwW2kfr+F+HEL11Edp0UqRyLPcg/BlUh4mLwcBng6hs44B3RMncbLpBA9cq3Vg0dTlw8CjCY5V02STfCKM+jDALJBnT4ExFSqOH3cj60CaXJ+6QJUESthopH6SrWdTQb7zNOubqb7hfHqXo/sKtP6whKGw5oA9GtD3Vk5rnQcCFjC8OeLsA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=z8zt7bLNPmwHZdp6oavDy0/TIiEE4vH9XUkEO+fSD4A=;
- b=WBFBshXb0WS+Vf27gkA+SYMHoClqNA4Zh9mxBYMNaKJ1u5SPYmMNpEtXstzCUTP62rX6eekBSSCxQIwI1KbDg2bPYejd2l1Oy89iCUDVvppIFBiNLKKoZy4l1hhCYrH3mZD60iD22gqs8n/9awPt75jFf/jbUzmNBrHtsdg6+wSgKiuDALrDJtghsIM/T+0mhqApg+kMzWQlPJVkMeAOaQOlvKq1fkSg129NSOQSjmSqccAnldyJA6xx+S1PEBRMNN07BbZCwjHcxz9QjvXYSq1zFoEvQ+ozn8eGz0V8/NmaJ486F/CYJt8pBa4h6rzzNfB0uovmSsQoYlkWrJVVpg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=z8zt7bLNPmwHZdp6oavDy0/TIiEE4vH9XUkEO+fSD4A=;
- b=Km3P7FMesbTlKx5ftvon7JP1746jrc77oY9THDUtPfhLtmq4quugJ4vQGzJ9NxSf9IvBMbSkWu84gvHc+kdLa+AOROzQzA2/qHB3papKkvE5dkVOclJnmuASynn+mBxLoweIglbMYwlBuoETRDH8EerNrfD1PHHeZWjLBg31IlChQVEH7BDIK8lIfORoo5MTMMo1bLgvFLJafS+RuuHkIHhWrzCSSQD/joSJ8scJMFNF6DKo5PoFcauGD3Za9KkKDPl4XMqQgk3l3o1nVaYzJDu3HwkzofMrLs43xzcRWseznAK/P0eA98cEhv4GR6cSwD6FrQLwSYiEe81MODSEvw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by AS8PR04MB8756.eurprd04.prod.outlook.com (2603:10a6:20b:42f::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.27; Mon, 14 Oct
- 2024 08:28:07 +0000
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::d1ce:ea15:6648:6f90]) by AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::d1ce:ea15:6648:6f90%4]) with mapi id 15.20.8048.020; Mon, 14 Oct 2024
- 08:28:07 +0000
-Message-ID: <91d1e176-f578-466b-991b-2df1728e2f78@nxp.com>
-Date: Mon, 14 Oct 2024 16:28:29 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 6/9] drm/bridge: Add ITE IT6263 LVDS to HDMI converter
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, airlied@gmail.com, simona@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
- festevam@gmail.com, catalin.marinas@arm.com, will@kernel.org,
- quic_bjorande@quicinc.com, geert+renesas@glider.be, arnd@arndb.de,
- nfraprado@collabora.com, o.rempel@pengutronix.de, y.moog@phytec.de,
- marex@denx.de, isaac.scott@ideasonboard.com, biju.das.jz@bp.renesas.com
-References: <20241012073543.1388069-1-victor.liu@nxp.com>
- <20241012073543.1388069-7-victor.liu@nxp.com>
- <dtloyyghjep5rm34qjjinvhvrar5jzj3n24czvpdmnkfesntjq@t2uijuez7myj>
- <f47bc3f1-20d9-4f7e-acdd-85eabdb8d743@nxp.com>
- <kaoqse23we5lyhaawk6xe2ouxwwjtjfpkiqb3j7xe64o2jscny@3yswlkjhuuxw>
-From: Liu Ying <victor.liu@nxp.com>
-Content-Language: en-US
-In-Reply-To: <kaoqse23we5lyhaawk6xe2ouxwwjtjfpkiqb3j7xe64o2jscny@3yswlkjhuuxw>
-Content-Type: text/plain; charset=UTF-8
-X-ClientProxiedBy: SG2PR04CA0164.apcprd04.prod.outlook.com (2603:1096:4::26)
- To AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79A6F10E3C8
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 08:29:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1728894564;
+ bh=d44iAApkHbHUaqr0Lvh6l/AFyEic1RG5QSIxu1AFnWQ=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=dhpXi1vdUXKHPOdOIkN5+DfgSfeLZ+kZ9C/61goN4tDpgL18OWO46Tr7BtYavAmTO
+ 1QjWfxKu15m6+05fXFQWtozeVWjtj9D2PUid1WqgyqfoO0WD71ucBKTGfG6VQs8sMJ
+ KhpQ1HC9JD257maUsHEocr01GOULoiwwphnOJluzK0nnLmgemIh9TXn8K9D+RqViJg
+ UP5DxeQI7+A0o5oxkNwcsTkuKky/pIX22PDRKzMt7BtC8zF5wE9JY+jXfxUH+qy8nE
+ 5Kaco4l61eVYOqwQanXONsKwebHP2QEvhzhatA7tqfvHLT8qdID5V5ulFxZZpRrzTi
+ uJonu9nLZ6rtA==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id D8BCE17E10A0;
+ Mon, 14 Oct 2024 10:29:22 +0200 (CEST)
+Message-ID: <e8182cff-7d67-4e99-9ec1-1943e9c82a12@collabora.com>
+Date: Mon, 14 Oct 2024 10:29:22 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|AS8PR04MB8756:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7a2f6162-d592-4dd1-af69-08dcec2a2104
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|366016|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?ZytuNUtoMmMyQ3Vvc0p1ZEN5djYrOEY0ckhQNTN5U3BraW15ay9DSWRId29T?=
- =?utf-8?B?cWNQQXZwdG5EU3VJS1orSURMYXRCN1RXZFIxMFB0N1dQVlcxTk1KaHV2dkFR?=
- =?utf-8?B?OUFEQ0dtNzY4RkxJNUwyZUxQSUtwdnNNZDd2S3ZiQk4vQktjSjROa3pQTWtt?=
- =?utf-8?B?WnhoWFRhMmVyc3BaVitFSC9XSHRIdWdvcGFiZlgydFROeTNJVVpYaWVVMXBW?=
- =?utf-8?B?VWlRaUJ3ei92Q0sydXhoRlZ0bzNjUGVZR3ZMSUlHUlVlSERTYzZDQ3crU0RL?=
- =?utf-8?B?M2kwVmJmRXVRY3M2T3o3eEpmVmJObnYwenpKTWJGS3RQZzRVZ0VYTjVyM3ly?=
- =?utf-8?B?Mi9JejdWUE1hYjVGczg3VHhwYVk4UnZPSzNMSGFHVUVFMWc2UStSc0VVMkFl?=
- =?utf-8?B?cXh2QkhpcFVvM1V6QkRKcmxrNjkwZ2ZMWWdpU3FyY0g3WjI0NWppWUNwRHRl?=
- =?utf-8?B?djdzYmxvSmw2RGlYSU1RQjF6SmYwSnZnUjBrZU9DZis0cVF3cDk2ZmF2Y2lY?=
- =?utf-8?B?WFR3Zk1WUHk3SEMxaEtOd2pyaTAvU2dvMmhqUmxCS000VVZFTlk2M3A5VTg0?=
- =?utf-8?B?UE1XYkpuTXVmdnhwU2Vla0NST2JOWDROUVMya2Zac3VDdDhCS1NVYVdhWTBm?=
- =?utf-8?B?aXNaUmt3ZWdKVlMxYWFGV2lJaHdhaVVqRFppZTZEQVdZaDhaVk9HTTZPZFZM?=
- =?utf-8?B?dnRRUUxtN3o5a3hqcXJsaFNCOHprelRiU29sZXo3anQ5elpnR0tQSTFIZjBE?=
- =?utf-8?B?UDBiVVJLK24xUEI5RHpJa2ZiK1YvbEkyT2ZYMnFnMWEvd0ZOQS9wT1RlWXFW?=
- =?utf-8?B?UHBwc3dEZVlMTlB2TmJJdngvMjE1NFMvVy9ReXl2ejZxLzNZZEVLaFozcG9J?=
- =?utf-8?B?aGVrN1BwNTRCSWpYQ293UlVsYy9KUGhvckw0MkVvcHhhVlkxZlNRalA0c0xk?=
- =?utf-8?B?bTFhUk50NS9iODNiVTczM0pKRzFwcmhwYURUUTFHWEVqOVZSMzFJMzR1ZWE1?=
- =?utf-8?B?REtSM3htVDc3dUc1WmhoaE02RE5FUFZuY3AxdEZ4aWpNTFFjZisvRnVhWi9N?=
- =?utf-8?B?WHlFRjNpWFJRajlEdENxekUzS3pHbGxCKzJXeEFLenZ3dnNuZTdUZkRHci9n?=
- =?utf-8?B?bFA1bHVVRWlYelFLRkprdUJud2Z5b05PN0kydnFmcWF2ZmxtK3p1WENDTlY1?=
- =?utf-8?B?SXo0eXJiN1Z0a0tuWklZbE9CU2VHTlh4TGZCeFhUYm9ibElSRVY4bUNSNFdz?=
- =?utf-8?B?ems5SXJ0VXBFOGdBYlByRWRhNkUzcm9lZG40N2FRWGRUL09GS2RMeU5qTVVO?=
- =?utf-8?B?WUlpa2d4dnRSK2tWK2tTZ1I1MVBzZ3J3RmhXZG1Ib1dNUy9pTFZNRit0SDRz?=
- =?utf-8?B?bS8yWVZPNGVIV2oyaWdublh0ZkZjRFpGcmNpSWFYNlJEWTNTc0RVZGdDdURy?=
- =?utf-8?B?RW1uUXJZWTZnL2tUK2xtVWN1NFprdDlIRm5zZkVjVTlmM0RRTC9YVFZENkFD?=
- =?utf-8?B?aksyTThVTm1TWnhVWGdkSWMyV2NibysvUTZSWlJIb1JPb0xKNS96emo5N0J6?=
- =?utf-8?B?dXR6K00ycWN5OGFMZllwa3ViaE9OOWdTNkFDTXd4bkxDSjd2ZG5uZEphdGdz?=
- =?utf-8?B?VTdkdE1DZFc0c3JkREt6aFprbExlSXVtbW1PN0RVWi9NazJOek5sbTdTb21C?=
- =?utf-8?B?Y3F6VTBvaTdSYkxzOWVxcHZ1SkpQelVQZk90MzYxRVBBQzllcG11QzVRPT0=?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(7416014)(366016)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VjUvcWVJaGwrRmpONEdFbStWeHY5eVNaSFRDckJiMFZlK1JRK25CeFlERnB2?=
- =?utf-8?B?YnQxSFN6djRCQ1dJNUFvcDNWVjBCNjh1dkMrTXphTW0yaGZIOTlxTGFGbG9s?=
- =?utf-8?B?NXAvM2VJSzlhZFhiWGxSc3MvL2ZkdEkwSzByYzRkQkpzcnU5NWdVUnZLeEUy?=
- =?utf-8?B?ZkszNHJWRzNHWDFjc1BpYjhBQzhlWWdsSXBlWFk0bkpzd2wzMmtZNzE3ZXZw?=
- =?utf-8?B?Q1FDTm43VGp2aVNDWlpFSlZUQTBDODk3eStsenhma0huY0JFak5ySEs4QXZo?=
- =?utf-8?B?NTdhSEU4SXQ5U3hFN0ZDU25kU0VDMFJyWWJSTFN4dEFCZzdHZmM3Ri9jc2wx?=
- =?utf-8?B?TE9xOFB3ekNISGZETkVxeGNPbzMvc0xVckM1UFp6Y0NjTDZRMHJ5MXBNWVBI?=
- =?utf-8?B?Zis3QlRnWjNWTWxVV2Rkc0N4WVp0L0x3UWY1cmErc0dvanZJd1FncFlrSkFo?=
- =?utf-8?B?TkJtQTdYV3hoRzByNTkrRnhBQ2dJOWhVYmFXWFA4clZJZC9VOGdpTGpRMHJa?=
- =?utf-8?B?d3QvRkJqbWZVN3EzeTA1NUJ6N3I2S2FKeG1lSkZNWjdnU0hWcThBZTcwNXd1?=
- =?utf-8?B?ZkNFNWlHelIzQ05WaW5xd29TRnMrZU0zM2lITmdHTVRTWDZiU0E1aGp2S29x?=
- =?utf-8?B?aEtnOEF1cDc1eUN0TjhHL1ZPMDZLbURLRkkvSnJyUUh4MjVPb0xRV3cvVFhX?=
- =?utf-8?B?Qjh5bjBxMHp2WVFDTitFdUFrZFBSMmVSSUdJci9pcjZuN2drdXdiWXphaWYy?=
- =?utf-8?B?bnJPcHl3aTlNbE9XdFRWM2x4TlZsZEY0cFVVLzhDQ3dwYU1OTzExZTBRSFRM?=
- =?utf-8?B?dXlYZVVIRXpDa0NSQzc0OVAvdExuUGZsMTRNOUlqelN0NGtrNDJ0NTFBYks5?=
- =?utf-8?B?Y1hrdzlCQjB0cXBIdFVBN0ZnVVIxMjdzTUQ4ODc3N3hjQSt2dWhFY0UyUGZQ?=
- =?utf-8?B?MXRacHNzL1dybHE1cmRPTFljQ2ptWHhVNENwK0RLZnROT3NsZTNaMTNNR1V1?=
- =?utf-8?B?bkt1OXRTZlIyU0FSL2xxZUNDaGEwMnd3Q1NZUG0yN2IyTGkxSnFuWUZsN1dk?=
- =?utf-8?B?TUt3dVlTSWxWWXJ0SUhIcnlNcjY0OTVsMERsc0hIaWlkT0FidXI1bDhIaWhx?=
- =?utf-8?B?cTgydVVIZ2d2TFQ0TERnVWp3RUg3akZWQUpyemJJYWY5bFFoUzRZM2NRREJL?=
- =?utf-8?B?WnIya2c2dDFZTWxwRVkzdUJxR3JmM2lpcHhmUE5tb3VNTitFVmJhbHpXY3g0?=
- =?utf-8?B?UW11aWRSTUIwZ0paZHdFWkhxbWJENXlYQ3lUMCs2enJPdCtUT2MwT1BrZTRp?=
- =?utf-8?B?QlNkMTJTcEFEUElvdUdsTFdMMFFLdjFTQitncVFxZCttRzg0TEtwNzB0NUVo?=
- =?utf-8?B?Qy92cUNRWGFoS0xveWYybXA3cFduL1JkTzhPZmxqZ29sQUovNFlzRmVPdnhF?=
- =?utf-8?B?M3pNKzdKZXdsSHV2WngzZklsZlFtTkFoREhVUDMwb2lrOXBKNGJnb1ZuVFZn?=
- =?utf-8?B?d3d5bDY1dXE2RzcwVm5Md3g2RC9WVSt1Smk2MjhhM1BnTHNpM1Y1Y0Fic01J?=
- =?utf-8?B?d1gzNUE2eG8vVHVKWk1WRjRPV3lKcnJTYkFPbXk0ZERrKzBrZ3MzSHpjTnhC?=
- =?utf-8?B?TW1TS0xBZE1wc3Vmdkd6ZjQ2ckROemZQUzl6MkdNUUhCWmgraHJzUjNuaWs5?=
- =?utf-8?B?WC9Tb0lxNGJ4aUZZTjB5YUhJQXFOaWQzSnFNMlhGbG56dDV4WlcrekZEZWha?=
- =?utf-8?B?MzZ6QWo1cTNqQUxwYWU1T2xrVXRBMEZCWjNaSU83eG9rQzB6ell4aDI4ZElF?=
- =?utf-8?B?RFNaVERMMWFrbGE3bzcwZ0JQandXVVR6YUxaZ0V0dlpyL1hEYVVxemw2cnJG?=
- =?utf-8?B?MDRhRTJoVUhtSGtTNWNNSjdFakltaDA1RWh2WjBINHlmSXRiNVdZSVhsb2NT?=
- =?utf-8?B?SnpuVWtBL1pYMjd0VkllRVltbmdKYkZER1lBN1FtRTlNbHdMY1Brc0hQaUl4?=
- =?utf-8?B?eU9kaXdwVENMUkJhTEpscm9IUkJlNkUwaDZyRmd4cUp4dmwyd1I0M1ZRT0tn?=
- =?utf-8?B?VDlUYUptR2xySUlUOURsQ1RoZjNYdEU0RTREMHBKYkVLeE1iNUpBWklEMjN3?=
- =?utf-8?Q?dKW3nnhzs4I/2IRGqk62Ls3ES?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7a2f6162-d592-4dd1-af69-08dcec2a2104
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2024 08:28:06.8760 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4Phnuo7AwonzLZtrr55fMZHqPgVxAN/Qt3H6buFvwlFZjIPtL47DHk+XqNdT/gbOFsdrGc0wkXuOKJvDfQwSPQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8756
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v11 3/3] drm/mediatek: Implement OF graphs support for
+ display paths
+To: =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "sui.jingfeng@linux.dev" <sui.jingfeng@linux.dev>,
+ "wenst@chromium.org" <wenst@chromium.org>,
+ Sjoerd Simons <sjoerd@collabora.com>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ =?UTF-8?B?U2hhd24gU3VuZyAo5a6L5a2d6KyZKQ==?= <Shawn.Sung@mediatek.com>,
+ "mripard@kernel.org" <mripard@kernel.org>,
+ =?UTF-8?B?Sml0YW8gU2hpICjnn7PorrDmtpsp?= <jitao.shi@mediatek.com>,
+ "michael@walle.cc" <michael@walle.cc>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
+ "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "robh@kernel.org" <robh@kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "airlied@gmail.com" <airlied@gmail.com>,
+ "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+ "kernel@collabora.com" <kernel@collabora.com>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ =?UTF-8?B?WXUtY2hhbmcgTGVlICjmnY7nprnnkosp?= <Yu-chang.Lee@mediatek.com>,
+ "mwalle@kernel.org" <mwalle@kernel.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ Alexandre Mergnat <amergnat@baylibre.com>
+References: <20241007093114.35332-1-angelogioacchino.delregno@collabora.com>
+ <20241007093114.35332-4-angelogioacchino.delregno@collabora.com>
+ <a7fd78a9fb858552e48339bc4bf3d3423d428f3b.camel@mediatek.com>
+ <6415a3a1-f00d-428e-b607-ae27ac63c11a@collabora.com>
+ <13aad68b2473b5848fd9172e75501d51dc8c8d91.camel@mediatek.com>
+ <0dca529a-85f2-4ed3-b3f4-132e6b233f5c@collabora.com>
+ <39090cb8ea0468252e53712553d483b696d83754.camel@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <39090cb8ea0468252e53712553d483b696d83754.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -172,159 +93,336 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/14/2024, Dmitry Baryshkov wrote:
-> On Mon, Oct 14, 2024 at 03:18:15PM +0800, Liu Ying wrote:
->> On 10/14/2024, Dmitry Baryshkov wrote:
->>> On Sat, Oct 12, 2024 at 03:35:40PM +0800, Liu Ying wrote:
->>>> Add basic HDMI video output support. Currently, only RGB888 output
->>>> pixel format is supported.  At the LVDS input side, the driver
->>>> supports single LVDS link and dual LVDS links with "jeida-24" LVDS
->>>> mapping.
->>>>
->>>> Product link:
->>>> https://www.ite.com.tw/en/product/cate1/IT6263
->>>>
->>>> Signed-off-by: Liu Ying <victor.liu@nxp.com>
->>>> ---
->>>> v2:
->>>> * Add AVI inforframe support.  (Maxime)
->>>> * Add DRM_MODE_CONNECTOR_HDMIA.  (Biju)
->>>> * Rename it6263_reset() to it6263_hw_reset().  (Biju)
->>>> * Check number of LVDS link data lanes.  (Biju)
->>>>
->>>>  drivers/gpu/drm/bridge/Kconfig      |   8 +
->>>>  drivers/gpu/drm/bridge/Makefile     |   1 +
->>>>  drivers/gpu/drm/bridge/ite-it6263.c | 919 ++++++++++++++++++++++++++++
->>>>  3 files changed, 928 insertions(+)
->>>>  create mode 100644 drivers/gpu/drm/bridge/ite-it6263.c
->>>>
->>>
->>> [...]
->>>
->>>> +static int it6263_parse_dt(struct it6263 *it)
->>>> +{
->>>> +	struct device *dev = it->dev;
->>>> +	struct device_node *port0, *port1;
->>>> +	int ret;
->>>> +
->>>> +	ret = of_property_read_u8(dev->of_node, "ite,lvds-link-num-data-lanes",
->>>> +				  &it->lvds_link_num_dlanes);
->>>> +	if (ret) {
->>>> +		dev_err(dev, "failed to get LVDS link number of data lanes: %d\n",
->>>> +			ret);
->>>> +		return ret;
->>>> +	}
->>>> +
->>>> +	it->next_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 2, 0);
->>>> +	if (IS_ERR(it->next_bridge))
->>>> +		return dev_err_probe(dev, PTR_ERR(it->next_bridge),
->>>> +				     "failed to get next bridge\n");
->>>> +
->>>> +	port0 = of_graph_get_port_by_id(dev->of_node, 0);
->>>> +	port1 = of_graph_get_port_by_id(dev->of_node, 1);
->>>> +	if (port0 && port1) {
->>>> +		if (of_property_read_bool(port0, "dual-lvds-even-pixels") &&
->>>> +		    of_property_read_bool(port1, "dual-lvds-odd-pixels")) {
->>>> +			it->lvds_dual_link = true;
->>>> +			it->lvds_link12_swap = true;
->>>> +		} else if (of_property_read_bool(port0, "dual-lvds-odd-pixels") &&
->>>> +			   of_property_read_bool(port1, "dual-lvds-even-pixels")) {
->>>> +			it->lvds_dual_link = true;
->>>> +		}
->>>> +
->>>> +		if (!it->lvds_dual_link) {
->>>> +			dev_err(dev,
->>>> +				"failed to get LVDS dual link pixel order\n");
->>>> +			ret = -EINVAL;
->>>> +		}
->>>
->>> Please use drm_of_lvds_get_dual_link_pixel_order(), it validates that
->>> the DT definition is sound: one port for odd pixels, one port for even
->>> pixels.
->>
->> It cannot be used, because it get the pixel order for the LVDS
->> source not sink. IT6263 is the LVDS sink.
+Il 14/10/24 10:19, CK Hu (胡俊光) ha scritto:
+> Hi, Angelo:
 > 
-> Then you need a similar function for the sink side. Add it to the
-> drm_of.c
+> On Wed, 2024-10-09 at 12:10 +0200, AngeloGioacchino Del Regno wrote:
+>> Il 09/10/24 10:43, CK Hu (胡俊光) ha scritto:
+>>> Hi, Angelo:
+>>>
+>>> On Tue, 2024-10-08 at 10:03 +0200, AngeloGioacchino Del Regno wrote:
+>>>> Il 08/10/24 09:41, CK Hu (胡俊光) ha scritto:
+>>>>> Hi, Angelo:
+>>>>>
+>>>>> On Mon, 2024-10-07 at 11:31 +0200, AngeloGioacchino Del Regno wrote:
+>>>>>> It is impossible to add each and every possible DDP path combination
+>>>>>> for each and every possible combination of SoC and board: right now,
+>>>>>> this driver hardcodes configuration for 10 SoCs and this is going to
+>>>>>> grow larger and larger, and with new hacks like the introduction of
+>>>>>> mtk_drm_route which is anyway not enough for all final routes as the
+>>>>>> DSI cannot be connected to MERGE if it's not a dual-DSI, or enabling
+>>>>>> DSC preventively doesn't work if the display doesn't support it, or
+>>>>>> others.
+>>>>>>
+>>>>>> Since practically all display IPs in MediaTek SoCs support being
+>>>>>> interconnected with different instances of other, or the same, IPs
+>>>>>> or with different IPs and in different combinations, the final DDP
+>>>>>> pipeline is effectively a board specific configuration.
+>>>>>>
+>>>>>> Implement OF graphs support to the mediatek-drm drivers, allowing to
+>>>>>> stop hardcoding the paths, and preventing this driver to get a huge
+>>>>>> amount of arrays for each board and SoC combination, also paving the
+>>>>>> way to share the same mtk_mmsys_driver_data between multiple SoCs,
+>>>>>> making it more straightforward to add support for new chips.
+>>>>>>
+>>>>>> Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
+>>>>>> Tested-by: Alexandre Mergnat <amergnat@baylibre.com>
+>>>>>> Acked-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+>>>>>> Tested-by: Michael Walle <mwalle@kernel.org> # on kontron-sbc-i1200
+>>>>>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>>>>>> ---
+>>>>>
+>>>>> [snip]
+>>>>>
+>>>>>> +
+>>>>>> +bool mtk_ovl_adaptor_is_comp_present(struct device_node *node)
+>>>>>> +{
+>>>>>> +	enum mtk_ovl_adaptor_comp_type type;
+>>>>>> +	int ret;
+>>>>>> +
+>>>>>> +	ret = ovl_adaptor_of_get_ddp_comp_type(node, &type);
+>>>>>> +	if (ret)
+>>>>>> +		return false;
+>>>>>> +
+>>>>>> +	if (type >= OVL_ADAPTOR_TYPE_NUM)
+>>>>>> +		return false;
+>>>>>> +
+>>>>>> +	/*
+>>>>>> +	 * In the context of mediatek-drm, ETHDR, MDP_RDMA and Padding are
+>>>>>> +	 * used exclusively by OVL Adaptor: if this component is not one of
+>>>>>> +	 * those, it's likely not an OVL Adaptor path.
+>>>>>> +	 */
+>>>>>> +	return type == OVL_ADAPTOR_TYPE_ETHDR ||
+>>>>>> +	       type == OVL_ADAPTOR_TYPE_MDP_RDMA ||
+>>>>>> +	       type == OVL_ADAPTOR_TYPE_PADDING;
+>>>>>> +}
+>>>>>> +
+>>>>>
+>>>>> [snip]
+>>>>>
+>>>>>> +
+>>>>>> +static int mtk_drm_of_get_ddp_ep_cid(struct device_node *node,
+>>>>>> +				     int output_port, enum mtk_crtc_path crtc_path,
+>>>>>> +				     struct device_node **next, unsigned int *cid)
+>>>>>> +{
+>>>>>> +	struct device_node *ep_dev_node, *ep_out;
+>>>>>> +	enum mtk_ddp_comp_type comp_type;
+>>>>>> +	int ret;
+>>>>>> +
+>>>>>> +	ep_out = of_graph_get_endpoint_by_regs(node, output_port, crtc_path);
+>>>>>> +	if (!ep_out)
+>>>>>> +		return -ENOENT;
+>>>>>> +
+>>>>>> +	ep_dev_node = of_graph_get_remote_port_parent(ep_out);
+>>>>>> +	of_node_put(ep_out);
+>>>>>> +	if (!ep_dev_node)
+>>>>>> +		return -EINVAL;
+>>>>>> +
+>>>>>> +	/*
+>>>>>> +	 * Pass the next node pointer regardless of failures in the later code
+>>>>>> +	 * so that if this function is called in a loop it will walk through all
+>>>>>> +	 * of the subsequent endpoints anyway.
+>>>>>> +	 */
+>>>>>> +	*next = ep_dev_node;
+>>>>>> +
+>>>>>> +	if (!of_device_is_available(ep_dev_node))
+>>>>>> +		return -ENODEV;
+>>>>>> +
+>>>>>> +	ret = mtk_drm_of_get_ddp_comp_type(ep_dev_node, &comp_type);
+>>>>>> +	if (ret) {
+>>>>>> +		if (mtk_ovl_adaptor_is_comp_present(ep_dev_node)) {
+>>>>>> +			*cid = (unsigned int)DDP_COMPONENT_DRM_OVL_ADAPTOR;
+>>>>>> +			return 0;
+>>>>>> +		}
+>>>>>> +		return ret;
+>>>>>> +	}
+>>>>>> +
+>>>>>> +	ret = mtk_ddp_comp_get_id(ep_dev_node, comp_type);
+>>>>>> +	if (ret < 0)
+>>>>>> +		return ret;
+>>>>>> +
+>>>>>> +	/* All ok! Pass the Component ID to the caller. */
+>>>>>> +	*cid = (unsigned int)ret;
+>>>>>> +
+>>>>>> +	return 0;
+>>>>>> +}
+>>>>>> +
+>>>>>> +/**
+>>>>>> + * mtk_drm_of_ddp_path_build_one - Build a Display HW Pipeline for a CRTC Path
+>>>>>> + * @dev:          The mediatek-drm device
+>>>>>> + * @cpath:        CRTC Path relative to a VDO or MMSYS
+>>>>>> + * @out_path:     Pointer to an array that will contain the new pipeline
+>>>>>> + * @out_path_len: Number of entries in the pipeline array
+>>>>>> + *
+>>>>>> + * MediaTek SoCs can use different DDP hardware pipelines (or paths) depending
+>>>>>> + * on the board-specific desired display configuration; this function walks
+>>>>>> + * through all of the output endpoints starting from a VDO or MMSYS hardware
+>>>>>> + * instance and builds the right pipeline as specified in device trees.
+>>>>>> + *
+>>>>>> + * Return:
+>>>>>> + * * %0       - Display HW Pipeline successfully built and validated
+>>>>>> + * * %-ENOENT - Display pipeline was not specified in device tree
+>>>>>> + * * %-EINVAL - Display pipeline built but validation failed
+>>>>>> + * * %-ENOMEM - Failure to allocate pipeline array to pass to the caller
+>>>>>> + */
+>>>>>> +static int mtk_drm_of_ddp_path_build_one(struct device *dev, enum mtk_crtc_path cpath,
+>>>>>> +					 const unsigned int **out_path,
+>>>>>> +					 unsigned int *out_path_len)
+>>>>>> +{
+>>>>>> +	struct device_node *next, *prev, *vdo = dev->parent->of_node;
+>>>>>> +	unsigned int temp_path[DDP_COMPONENT_DRM_ID_MAX] = { 0 };
+>>>>>> +	unsigned int *final_ddp_path;
+>>>>>> +	unsigned short int idx = 0;
+>>>>>> +	bool ovl_adaptor_comp_added = false;
+>>>>>> +	int ret;
+>>>>>> +
+>>>>>> +	/* Get the first entry for the temp_path array */
+>>>>>> +	ret = mtk_drm_of_get_ddp_ep_cid(vdo, 0, cpath, &next, &temp_path[idx]);
+>>>>>> +	if (ret) {
+>>>>>> +		if (next && temp_path[idx] == DDP_COMPONENT_DRM_OVL_ADAPTOR) {
+>>>>>> +			dev_dbg(dev, "Adding OVL Adaptor for %pOF\n", next);
+>>>>>> +			ovl_adaptor_comp_added = true;
+>>>>>> +		} else {
+>>>>>> +			if (next)
+>>>>>> +				dev_err(dev, "Invalid component %pOF\n", next);
+>>>>>> +			else
+>>>>>> +				dev_err(dev, "Cannot find first endpoint for path %d\n", cpath);
+>>>>>> +
+>>>>>> +			return ret;
+>>>>>> +		}
+>>>>>> +	}
+>>>>>> +	idx++;
+>>>>>> +
+>>>>>> +	/*
+>>>>>> +	 * Walk through port outputs until we reach the last valid mediatek-drm component.
+>>>>>> +	 * To be valid, this must end with an "invalid" component that is a display node.
+>>>>>> +	 */
+>>>>>> +	do {
+>>>>>> +		prev = next;
+>>>>>> +		ret = mtk_drm_of_get_ddp_ep_cid(next, 1, cpath, &next, &temp_path[idx]);
+>>>>>> +		of_node_put(prev);
+>>>>>> +		if (ret) {
+>>>>>> +			of_node_put(next);
+>>>>>> +			break;
+>>>>>> +		}
+>>>>>> +
+>>>>>> +		/*
+>>>>>> +		 * If this is an OVL adaptor exclusive component and one of those
+>>>>>> +		 * was already added, don't add another instance of the generic
+>>>>>> +		 * DDP_COMPONENT_OVL_ADAPTOR, as this is used only to decide whether
+>>>>>> +		 * to probe that component master driver of which only one instance
+>>>>>> +		 * is needed and possible.
+>>>>>> +		 */
+>>>>>> +		if (temp_path[idx] == DDP_COMPONENT_DRM_OVL_ADAPTOR) {
+>>>>>> +			if (!ovl_adaptor_comp_added)
+>>>>>> +				ovl_adaptor_comp_added = true;
+>>>>>> +			else
+>>>>>> +				idx--;
+>>>>>> +		}
+>>>>>> +	} while (++idx < DDP_COMPONENT_DRM_ID_MAX);
+>>>>>
+>>>>> For the mt8195 external display path, the OF graph is
+>>>>>
+>>>>> mdp_rdma (0 ~ 7) -> padding (0 ~ 7) -> merge (1 ~ 4) -> ethdr -> merge5
+>>>>>
+>>>>> and this function would generate the path as
+>>>>>
+>>>>> ovl_adaptor -> merge (1 ~ 4) -> merge 5
+>>>>>
+>>>>> This is not what I expect.
+>>>>> Is any thing wrong with me?
+>>>>>
+>>>>
+>>>> I mean no offense, really, but your reply here is a contradiction...
+>>>>
+>>>> In [1], you explained what the path for the external display should look like
+>>>> and said that the graph in DT should generate a path which, in the driver, shall
+>>>> look like the current mt8195_mtk_ddp_ext[] hardcoded array.
+>>>>
+>>>> In [2], you repeated that you "just want the path to be like mt8195_mtk_ddp_ext[]".
+>>>>
+>>>> Now you're saying that this is not what you expect.
+>>>> I don't understand your intention.
+>>>
+>>> In [1] & [2], I want the path to be like mt8195_mtk_ddp_ext[]. I don't know where is the contradiction?
+>>> mt8195_mtk_ddp_ext[] is:
+>>>
+>>> ovl_adaptor -> merge5
+>>>
+>>> but this patch generate the path as
+>>>
+>>> ovl_adaptor -> merge (1 ~ 4) -> merge5
+>>>
+>>> it's not the same and this may cause something wrong.
+>>> I'm sorry my expression make you confused.
+>>> So what I want is to generate the path as
+>>>
+>>> ovl_adaptor -> merge5
+>>
+>> Ah, okay, no - you're misunderstanding how the OVL_ADAPTOR is treated here, hence
+>> we misunderstood each other in the end!
+>>
+>> The resulting path in mt8195_mtk_ddp_ext[] will be ovl_adaptor->merge5, because
+>> the merge1-4 are already taken dynamically by the ovl_adaptor driver so these
+>> will be *temporarily omitted* in the graph for MT8195.
+> 
+> For "*temporarily omitted* in the graph for MT8195", do you mean the OF graph is
+> 
+> mdp_rdma (0 ~ 7) -> padding (0 ~ 7) -> ethdr -> merge5
+> 
 
-How about getting remote LVDS source ports first and use
-drm_of_lvds_get_dual_link_pixel_order() like the snippet below?
-This way, no need to add a similar function or modify
-drm_of_lvds_get_dual_link_pixel_order() implementation.
+Yes.
 
-If you don't like this, can you please suggest a similar function
-name or maybe an additional parameter(with type and name) for
-drm_of_lvds_get_dual_link_pixel_order()?
+> So the path would be
+> 
+> ovl_adaptor -> merge5.
+> 
 
----8<---
-        port0_ep = of_graph_get_endpoint_by_regs(dev->of_node, 0, -1);           
-        if (port0_ep) {                                                          
-                remote_port0 = of_graph_get_remote_port(port0_ep);               
-                of_node_put(port0_ep);                                           
-        }                                                                        
-        port1_ep = of_graph_get_endpoint_by_regs(dev->of_node, 1, -1);           
-        if (port1_ep) {                                                          
-                remote_port1 = of_graph_get_remote_port(port1_ep);               
-                of_node_put(port1_ep);                                           
-        }                                                                        
-                                                                                 
-        if (remote_port0 && remote_port1) {                                      
-                order = drm_of_lvds_get_dual_link_pixel_order(remote_port0,      
-                                                              remote_port1);     
-                if (order < 0) {                                                 
-                        dev_err(dev,                                             
-                                "failed to get dual link pixel order: %d\n",     
-                                order);                                          
-                        ret = order;                                             
-                } else if (order == DRM_LVDS_DUAL_LINK_ODD_EVEN_PIXELS) {        
-                        it->lvds_dual_link = true;                               
-                } else if (order == DRM_LVDS_DUAL_LINK_EVEN_ODD_PIXELS) {        
-                        it->lvds_dual_link = true;                               
-                        it->lvds_link12_swap = true;                             
-                }                                                                
-        } else if (remote_port1) {                                               
-                ret = -EINVAL;                                                   
-                dev_err(dev, "single input LVDS port1 is not supported\n");      
-        } else if (!remote_port0) {                                              
-                ret = -EINVAL;                                                   
-                dev_err(dev, "no input LVDS port\n");                            
-        }                                                                        
-                                                                                 
-        of_node_put(remote_port0);                                               
-        of_node_put(remote_port1); 
----8<---
+Yes, exactly!
+
+> So this patch work fine depending on the tricky way of OF graph.
+> Add comment to describe the tricky way of OF graph. After this,
+> 
+> Reviewed-by: CK Hu <ck.hu@mediatek.com>
+
+Thank you! :-)
+
+Cheers,
+Angelo
 
 > 
 >>
->>  * drm_of_lvds_get_dual_link_pixel_order - Get LVDS dual-link pixel order        
->>  * @port1: First DT port node of the Dual-link LVDS source                       
->>  * @port2: Second DT port node of the Dual-link LVDS source      
+>> My intention is to add handling for the additional merge1-4 (and similar) selection
+>> with OF Graph support *later*, not in this series (please be aware that it will
+>> *not be needed* to change any bindings, and compatibility will be guaranteed with
+>> no additional effort).
 >>
->>>
->>>> +	} else if (port1) {
->>>> +		ret = -EINVAL;
->>>> +		dev_err(dev, "single input LVDS port1 is not supported\n");
->>>> +	} else if (!port0) {
->>>> +		ret = -EINVAL;
->>>> +		dev_err(dev, "no input LVDS port\n");
->>>> +	}
->>>> +
->>>> +	of_node_put(port0);
->>>> +	of_node_put(port1);
->>>> +
->>>> +	return ret;
->>>> +}
->>>> +
->>>
+>> This is because I believe that the ovl_adaptor driver needs more changes than just
+>> a basic OF Graph implementation: as of now, that driver is practically specific to
+>> just MT8195 and MT8188, as the OVL_ADAPTOR specific MERGE paths are hardcoded.
 >>
->> -- 
+>> So, I am planning to improve the ovl_adaptor driver, but that will be a separated
+>> series as it's probably going to be a relatively (in relation to the size of the
+>> ovl_adaptor driver) big set of changes.
+>>
 >> Regards,
->> Liu Ying
+>> Angelo
 >>
-> 
-
--- 
-Regards,
-Liu Ying
+>>>
+>>> Regards,
+>>> CK
+>>>
+>>>>
+>>>> [1]:
+>>>> https://lore.kernel.org/all/58ee09aeb5a224dbc8faee236ed1a77ce3fbd011.camel@mediatek.com/
+>>>>
+>>>> [2]:
+>>>> https://lore.kernel.org/all/04f1506b23b41c775e0735b5b3189b4118500715.camel@mediatek.com/
+>>>>
+>>>> Regards,
+>>>> Angelo
+>>>>
+>>>>>
+>>>>>> +
+>>>>>> +	/*
+>>>>>> +	 * The device component might not be enabled: in that case, don't
+>>>>>> +	 * check the last entry and just report that the device is missing.
+>>>>>> +	 */
+>>>>>> +	if (ret == -ENODEV)
+>>>>>> +		return ret;
+>>>>>> +
+>>>>>> +	/* If the last entry is not a final display output, the configuration is wrong */
+>>>>>> +	switch (temp_path[idx - 1]) {
+>>>>>> +	case DDP_COMPONENT_DP_INTF0:
+>>>>>> +	case DDP_COMPONENT_DP_INTF1:
+>>>>>> +	case DDP_COMPONENT_DPI0:
+>>>>>> +	case DDP_COMPONENT_DPI1:
+>>>>>> +	case DDP_COMPONENT_DSI0:
+>>>>>> +	case DDP_COMPONENT_DSI1:
+>>>>>> +	case DDP_COMPONENT_DSI2:
+>>>>>> +	case DDP_COMPONENT_DSI3:
+>>>>>> +		break;
+>>>>>> +	default:
+>>>>>> +		dev_err(dev, "Invalid display hw pipeline. Last component: %d (ret=%d)\n",
+>>>>>> +			temp_path[idx - 1], ret);
+>>>>>> +		return -EINVAL;
+>>>>>> +	}
+>>>>>> +
+>>>>>> +	final_ddp_path = devm_kmemdup(dev, temp_path, idx * sizeof(temp_path[0]), GFP_KERNEL);
+>>>>>> +	if (!final_ddp_path)
+>>>>>> +		return -ENOMEM;
+>>>>>> +
+>>>>>> +	dev_dbg(dev, "Display HW Pipeline built with %d components.\n", idx);
+>>>>>> +
+>>>>>> +	/* Pipeline built! */
+>>>>>> +	*out_path = final_ddp_path;
+>>>>>> +	*out_path_len = idx;
+>>>>>> +
+>>>>>> +	return 0;
+>>>>>> +}
+>>>>>> +
+>>>>
+>>>>
+>>
+>>
 
