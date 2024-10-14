@@ -2,84 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86E7C99D73E
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2024 21:22:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ECB799D745
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2024 21:23:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A87CD10E4AF;
-	Mon, 14 Oct 2024 19:22:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B55310E4AE;
+	Mon, 14 Oct 2024 19:23:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="KH1RNvPZ";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="RxkXuchT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0086B10E4AE;
- Mon, 14 Oct 2024 19:22:49 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49EB551u004976;
- Mon, 14 Oct 2024 19:22:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- +IFnL4mUMiitkJabSAAeUc+H/UvzVDoulSrPcPlL1KI=; b=KH1RNvPZcZ/qRI6t
- gC2ACP2gFUsltxUqhfnsJACkT4/US0zycLAHi2KhWFrF9hqBHc0UEuTSXEb94PCT
- iw+Y6NqB2fXuMHAt7swgGiBRKuWp4jD2Ovse2FQ04sQfw4WfjghkJ8DgQj3pS4eq
- 5S9PN54vnMa7uOrpDT6VlN0t8a6ZrK6mATgRkFMHp0seqJkSS9UmIWDZgvz3C+xt
- s3NLDohSHGrETzwVlzae2ZqGamYGz/rtovuO1vmXLVCTrrd9Pi44FSbwvCT5CwaO
- jpf9Y9xhNsTqC5xyO6xBkytXyaiV7wREJrY9kfvgLVraLojRG1+dpMP7C5EPmbbU
- qQOfPA==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 427jd8waer-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 14 Oct 2024 19:22:40 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49EJMeFO026699
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 14 Oct 2024 19:22:40 GMT
-Received: from [10.110.109.95] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 14 Oct
- 2024 12:22:39 -0700
-Message-ID: <e938ac3d-48f3-488a-96df-80c94b7686cf@quicinc.com>
-Date: Mon, 14 Oct 2024 12:22:38 -0700
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A62710E4AE
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 19:23:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1728933816;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pr8kBiDDyEnpolDm4TeW3ziQndwc2QwIlDCytPXA2jo=;
+ b=RxkXuchTfZ5ulJRJnyqc8o+w67SuYSdW2+c2W5HVr6MBrV2gfLbjZIt6Vl1A2liCsykXpm
+ +veJqbq8K8KigzFGrX4ajx5dkDOMQjgRqOBx1D71P7C1BcFt76TSxRHNa94jtiwljoCubo
+ PHevHkZPrIh7VtG6ycswpLTIDZmlDz0=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-596-9zmYn1oQPeiL2anwCBm-eA-1; Mon, 14 Oct 2024 15:23:34 -0400
+X-MC-Unique: 9zmYn1oQPeiL2anwCBm-eA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-431159f2864so24026775e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 12:23:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1728933813; x=1729538613;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=pr8kBiDDyEnpolDm4TeW3ziQndwc2QwIlDCytPXA2jo=;
+ b=iAS9xijGzBs32x5u8wYYxiB0KWSI7PCLLXWz8EUGA/MOnxLla4RIGD4cgndeGBU8PR
+ GvyH69STHqjOJCJvrg/TDv/e/UoE6/uMixEIQEDXR62tmZhx4TlFSx/XDg/Fh375m5WI
+ cxFG1IK7Fe+61OL+G9xd74NXvNA7pH95pYNAjX/m9VitYNQBIm7DtZaP5vnHGaAFKm03
+ /0Mco0Qz9Hijw369eHarlA10KWbXDsCMNchOtrwWxBmFW5VbXyOrwL7NtiHJ5W1Pufv0
+ zTJvywk5aNac8xo9/zhrlmTp7/UVkojqimyyOf8aXvqGQf/iiMUvCBnX239MYnp/IKo5
+ 1ZkQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW0CiHNuIn0ninPMdBLZmFF4g2REsSezklfVn7h1BPmB3TbQIrU9OiCPCs6DyAHDhO4PnknasVCwAU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxv73jk1mhHrpRQX4c0wIZw2biOhGVY+8lXGrFQwdGPqsl2CoiK
+ Rf0dcCiW7zWllc5+aH9BIWTMdlGseWdM4iN1mAAdEwV1/43LHn5Y1mcP5Ei6SPbwARL2bvSefiT
+ jH/AKWkHDoicj6K6brQJ7k54P2U07ZYfjiUPybyRra3Zl7O7MWy5ZS9K81SoT4FpD1A==
+X-Received: by 2002:a05:600c:1e88:b0:426:5e91:3920 with SMTP id
+ 5b1f17b1804b1-4311df5875fmr105232585e9.29.1728933812985; 
+ Mon, 14 Oct 2024 12:23:32 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHbTqTqdJ+uV85hzvy4tOJlJO5ZFnRlJoc3kwSn95A8eOaOkt0awKgBPBHzu+zMwf2VvN13PQ==
+X-Received: by 2002:a05:600c:1e88:b0:426:5e91:3920 with SMTP id
+ 5b1f17b1804b1-4311df5875fmr105232285e9.29.1728933812596; 
+ Mon, 14 Oct 2024 12:23:32 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-431182d794asm129792535e9.1.2024.10.14.12.23.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 14 Oct 2024 12:23:31 -0700 (PDT)
+Message-ID: <2e5e6280-eaa2-480f-b89c-c9b832328d07@redhat.com>
+Date: Mon, 14 Oct 2024 21:23:30 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/msm/hdmi: drop pll_cmp_to_fdata from hdmi_phy_8998
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, Simona
- Vetter <simona@ffwll.ch>, Nathan Chancellor <nathan@kernel.org>, Nick
- Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>,
- Justin Stitt <justinstitt@google.com>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <llvm@lists.linux.dev>, Jani Nikula <jani.nikula@intel.com>
-References: <20240922-msm-drop-unused-func-v1-1-c5dc083415b8@linaro.org>
-Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20240922-msm-drop-unused-func-v1-1-c5dc083415b8@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: qdud2PHy7wMKhm9ZGVxgrNFYTxrpsi4i
-X-Proofpoint-ORIG-GUID: qdud2PHy7wMKhm9ZGVxgrNFYTxrpsi4i
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0
- lowpriorityscore=0 phishscore=0 suspectscore=0 impostorscore=0 bulkscore=0
- mlxscore=0 mlxlogscore=887 malwarescore=0 priorityscore=1501 adultscore=0
- clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2410140137
+Subject: Re: [PATCH 6/7] drm/panic: allow verbose boolean for clarity
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: =?UTF-8?Q?Thomas_B=C3=B6hler?= <witcher@wiredspace.de>,
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross <tmgross@umich.edu>, rust-for-linux@vger.kernel.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20241012075312.16342-1-witcher@wiredspace.de>
+ <20241012075312.16342-6-witcher@wiredspace.de>
+ <13f6f904-bd2c-4b0a-914e-0715d22a7ff5@redhat.com>
+ <CANiq72kE0QtiC6OjyV32r_0V2KxhtPk+-8mQGkCvtexif+04vg@mail.gmail.com>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <CANiq72kE0QtiC6OjyV32r_0V2KxhtPk+-8mQGkCvtexif+04vg@mail.gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,26 +107,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 9/21/2024 2:14 PM, Dmitry Baryshkov wrote:
-> The pll_cmp_to_fdata() was never used by the working code. Drop it to
-> prevent warnings with W=1 and clang.
+On 14/10/2024 18:59, Miguel Ojeda wrote:
+> On Mon, Oct 14, 2024 at 10:54 AM Jocelyn Falempe <jfalempe@redhat.com> wrote:
+>>
+>> With the suggestions from Alice Ryhl to not introduce a return, and use
+>> expect:
 > 
-> Reported-by: Jani Nikula <jani.nikula@intel.com>
-> Closes: https://lore.kernel.org/dri-devel/3553b1db35665e6ff08592e35eb438a574d1ad65.1725962479.git.jani.nikula@intel.com
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   drivers/gpu/drm/msm/hdmi/hdmi_phy_8998.c | 9 ---------
->   1 file changed, 9 deletions(-)
+> +1 to both.
 > 
-> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_phy_8998.c b/drivers/gpu/drm/msm/hdmi/hdmi_phy_8998.c
-> index 0e3a2b16a2ce..e6ffaf92d26d 100644
-> --- a/drivers/gpu/drm/msm/hdmi/hdmi_phy_8998.c
-> +++ b/drivers/gpu/drm/msm/hdmi/hdmi_phy_8998.c
-> @@ -153,15 +153,6 @@ static inline u32 pll_get_pll_cmp(u64 fdata, unsigned long ref_clk)
->   	return dividend - 1;
->   }
->   
+> `expect` (here and the other ones I suggested) require `rust-next`, so
+> if this goes through DRM, then we can clean this up later. Otherwise,
+> if you prefer `rust-next`, we can change them to `expect` already.
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+I don't plan to touch drm_panic_qr.rs, so I think it's better if this 
+series goes through rust-next, to avoid an extra cleanup step later.
+
+-- 
+
+Jocelyn
+
+> 
+> Thanks!
+> 
+> Cheers,
+> Miguel
+> 
+
