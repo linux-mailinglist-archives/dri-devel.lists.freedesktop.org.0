@@ -2,83 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F4CD99C994
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2024 13:58:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C97F99C9B0
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2024 14:07:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B716710E447;
-	Mon, 14 Oct 2024 11:58:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A41E510E449;
+	Mon, 14 Oct 2024 12:07:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ClFJ83Eq";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Bu2lFCD7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
- [209.85.167.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78EAD10E447
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 11:58:06 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id
- 2adb3069b0e04-5366fd6fdf1so4748786e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 04:58:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1728907085; x=1729511885; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=ZDXxdgxZ7Ma3MW/R3VAkR8+WvVIPMHEYqKawEAYgO5M=;
- b=ClFJ83EqSgMrBOPKN1x+cikxnoxC9yPuX7JsF+IhInFERzI2t61K5pCF3XWDQMgmdl
- LZsENTMqtlsljl9u/SSPavuriTjVxaj1PZCI33XHLt+g1CAWcHLQFJWNMeQY+WVeclVF
- 6OFKoLAXwOrPG+J2csQy+y2Yh7GguuZSUYBpbfiBbgRnaozvSULufy6EJ29WK9sdsrup
- VMJc68dj86Gc0BCR1lRtLaraF8kAheISQvCHaJygCmzNwoYLTHGYwW4B3Gz1OtzkoGIS
- ckHRiSGABcWeS1MA2bddpKyunj+OMMyCpsQs7TY/yMGmLjrAwqbXFyqXgydSoYOiH3o8
- rxLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728907085; x=1729511885;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ZDXxdgxZ7Ma3MW/R3VAkR8+WvVIPMHEYqKawEAYgO5M=;
- b=rHNB+7iKONOVEh8V224o0miw5rpk2X+S093W+l9SJDaWViaELCSIOyW0qTUzcJbQ02
- SEa1/ovwk304Wodk6ebqoUvCuk2tzcnMWwVHu/oc/+rxr1OU/pGQ2132mkZtMAe+L8Bg
- 1sk+C1i+MZg/hV4eDyQb9BcO3zK4BsLFDzFAwkYvfBFWVUWtM+6RrhMGMcDQIveRWxtW
- E/jkato/2bOVtqyQ6iPKBUlaHpGiP2iD3MC1xm1Hm6+GaAScKH6Stpdb3qvursKysAmk
- 42Cf8iV1btB6kus0d/QX6Yu7fvTXk0n5E4IuqmV/up3sz3f6QErQksDdngOywvMhk0XK
- xtLA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV5BB0khqDKcxMTjYsvNfR8bWvA6vAoR2xXCupEJHPclCJRCYlSqtXHD74MSbr0HXpkXs6y3t+dQNM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxyOmb9pEE0hkfJ3+cf5VC42Yqa/eX7jJqlzWlug7SHvvqNhq8A
- weYgJ7PpbORgC5kEsICSvdpsenB55ZP0nLmnh8iAaq6mYndiFzIKjwa4y3bnUL4=
-X-Google-Smtp-Source: AGHT+IGpKf2Jj53ywJPZ7vdG/vfbYbMz3qeVmODq89yS2wggv0OB2B9rq7/JAAy4YSsa7bjVk2K5ew==
-X-Received: by 2002:a05:6512:b21:b0:539:9524:92bc with SMTP id
- 2adb3069b0e04-539da57b1ebmr5294838e87.55.1728907084604; 
- Mon, 14 Oct 2024 04:58:04 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-539fbfe4324sm108550e87.113.2024.10.14.04.58.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Oct 2024 04:58:03 -0700 (PDT)
-Date: Mon, 14 Oct 2024 14:58:01 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Hermes Wu <Hermes.Wu@ite.com.tw>
-Cc: Pin-yen Lin <treapking@chromium.org>, 
- Kenneth Hung <Kenneth.hung@ite.com.tw>, Pet Weng <Pet.Weng@ite.com.tw>, 
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>, 
- open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v5 10/10] drm/bridge: it6505: add I2C functionality on AUX
-Message-ID: <3s2bl6zruppjldqrjyfcn2pkrwptbwxo2rkrludczvtbnivdiw@6cy7523bmaww>
-References: <20241001064550.32375-1-Hermes.Wu@ite.com.tw>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C94A810E449
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 12:07:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=U1WgkET0nba9L4PDZk0GwA7PkGRTt8+k2dnwoSZXcOI=; b=Bu2lFCD7v13KWkN45nAs7p0oQI
+ sRlg4Ja6ZmUlSJA6lpW4FMIBYW7Tgkteuy1+gDWSbMAYb6MaDsE8/iiIRXLs/Q8thzXbsY+ywaKnb
+ yf2mukVgIkyROlLUTXhkCVJd09vEKihxNsVPmdqKLqkDoes80MqKRDdvsgCq39v+HYjT9YHPYVO9w
+ MXddVuT+VqI1D1m54+DlINFvmyyq2u64rCwhn0g5ymuh9S82enD3qHQdA3YGO7C+zKNrEKsPMQ7Kk
+ kV9j4PeRkY4IzOwA5av2pqCj9a07OkMnOgft2r6eP1v/RrCKY5ci5GAzXbgIpr422UnBftpHYKNYP
+ d3FKYrqg==;
+Received: from [90.241.98.187] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1t0Jr5-009KkV-Ax; Mon, 14 Oct 2024 14:07:19 +0200
+Message-ID: <8c038f91-716c-4a3d-8c70-10859d28d77f@igalia.com>
+Date: Mon, 14 Oct 2024 13:07:18 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241001064550.32375-1-Hermes.Wu@ite.com.tw>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/5] drm/sched: Optimise drm_sched_entity_push_job
+To: Philipp Stanner <pstanner@redhat.com>,
+ Tvrtko Ursulin <tursulin@igalia.com>, dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Luben Tuikov <ltuikov89@gmail.com>, Matthew Brost <matthew.brost@intel.com>
+References: <20241014104637.83209-1-tursulin@igalia.com>
+ <20241014104637.83209-2-tursulin@igalia.com>
+ <0df6b855b0974a88a3f6af42108e2596bd285898.camel@redhat.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <0df6b855b0974a88a3f6af42108e2596bd285898.camel@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,22 +65,188 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 01, 2024 at 02:45:50PM +0800, Hermes Wu wrote:
-> From: Hermes Wu <Hermes.wu@ite.com.tw>
-> 
-> DisplayPort AUX protocol supports I2C transport which is capable of reading EDID or supports MCCS.
-> 
-> In drm_dp_helper, drm_dp_i2c_xfer() packs I2C requests into a sequence of AUX requests.
-> it6505_aux_i2c_operation() is implemented to match drm_dp_i2c_xfer() behavior.
-> it6505_aux_i2c_transfer() adds I2C functionality for  it6505_aux_transfer().
-> 
-> Signed-off-by: Hermes Wu <Hermes.wu@ite.com.tw>
-> ---
->  drivers/gpu/drm/bridge/ite-it6505.c | 177 +++++++++++++++++++++++++++-
->  1 file changed, 175 insertions(+), 2 deletions(-)
-> 
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
--- 
-With best wishes
-Dmitry
+On 14/10/2024 12:32, Philipp Stanner wrote:
+> Hi,
+> 
+> On Mon, 2024-10-14 at 11:46 +0100, Tvrtko Ursulin wrote:
+>> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>>
+>> In FIFO mode We can avoid dropping the lock only to immediately re-
+>> acquire
+>> by adding a new drm_sched_rq_update_fifo_locked() helper.
+>>
+> 
+> Please write detailed commit messages, as described here [1].
+>     1. Describe the problem: current state and why it's bad.
+>     2. Then, describe in imperative (present tense) form what the commit
+>        does about the problem.
+
+Both pieces of info are already there:
+
+1. Drops the lock to immediately re-acquire it.
+2. We avoid that by by adding a locked helper.
+> Optionally, in between can be information about why it's solved this
+> way and not another etc.
+> 
+> Applies to the other patches, too.
+> 
+> 
+> [1] https://www.kernel.org/doc/html/latest/process/submitting-patches.html#describe-your-changes
+
+Thanks I am new here and did not know this.
+
+Seriosuly, lets not be too blindly strict about this because it can get 
+IMO ridiculous.
+
+One example when I previously accomodated your request is patch 3/5 from 
+this series:
+
+"""
+Current kerneldoc for struct drm_sched_rq incompletely documents what
+fields are protected by the lock.
+
+This is not good because it is misleading.
+
+Lets fix it by listing all the elements which are protected by the lock.
+"""
+
+While this was the original commit text you weren't happy with:
+
+"""
+drm/sched: Re-order struct drm_sched_rq members for clarity
+
+Lets re-order the members to make it clear which are protected by the
+lock
+and at the same time document it via kerneldoc.
+"""
+
+I maintain the original text was passable.
+
+On top, this was just a respin to accomodate the merge process. All 
+approvals were done and dusted couple weeks or so ago so asking for yet 
+another respin for such trivial objections is not great.
+
+Regards,
+
+Tvrtko
+
+>> v2:
+>>   * Remove drm_sched_rq_update_fifo() altogether. (Christian)
+>>
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>> Cc: Christian König <christian.koenig@amd.com>
+>> Cc: Alex Deucher <alexander.deucher@amd.com>
+>> Cc: Luben Tuikov <ltuikov89@gmail.com>
+>> Cc: Matthew Brost <matthew.brost@intel.com>
+>> Cc: Philipp Stanner <pstanner@redhat.com>
+>> Reviewed-by: Christian König <christian.koenig@amd.com>
+>> ---
+>>   drivers/gpu/drm/scheduler/sched_entity.c | 13 +++++++++----
+>>   drivers/gpu/drm/scheduler/sched_main.c   |  6 +++---
+>>   include/drm/gpu_scheduler.h              |  2 +-
+>>   3 files changed, 13 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c
+>> b/drivers/gpu/drm/scheduler/sched_entity.c
+>> index 2951fcc2e6b1..b72cba292839 100644
+>> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+>> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+>> @@ -514,8 +514,12 @@ struct drm_sched_job
+>> *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
+>>    struct drm_sched_job *next;
+>>   
+>>    next = to_drm_sched_job(spsc_queue_peek(&entity->job_queue));
+>> - if (next)
+>> - drm_sched_rq_update_fifo(entity, next->submit_ts);
+>> + if (next) {
+>> + spin_lock(&entity->rq_lock);
+>> + drm_sched_rq_update_fifo_locked(entity,
+>> + next->submit_ts);
+>> + spin_unlock(&entity->rq_lock);
+>> + }
+>>    }
+>>   
+>>    /* Jobs and entities might have different lifecycles. Since we're
+>> @@ -613,10 +617,11 @@ void drm_sched_entity_push_job(struct
+>> drm_sched_job *sched_job)
+>>    sched = rq->sched;
+>>   
+>>    drm_sched_rq_add_entity(rq, entity);
+>> - spin_unlock(&entity->rq_lock);
+>>   
+>>    if (drm_sched_policy == DRM_SCHED_POLICY_FIFO)
+>> - drm_sched_rq_update_fifo(entity, submit_ts);
+>> + drm_sched_rq_update_fifo_locked(entity, submit_ts);
+>> +
+>> + spin_unlock(&entity->rq_lock);
+>>   
+>>    drm_sched_wakeup(sched);
+>>    }
+>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
+>> b/drivers/gpu/drm/scheduler/sched_main.c
+>> index e32b0f7d7e94..bbd1630407e4 100644
+>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>> @@ -169,14 +169,15 @@ static inline void
+>> drm_sched_rq_remove_fifo_locked(struct drm_sched_entity *enti
+>>    }
+>>   }
+>>   
+>> -void drm_sched_rq_update_fifo(struct drm_sched_entity *entity,
+>> ktime_t ts)
+>> +void drm_sched_rq_update_fifo_locked(struct drm_sched_entity
+>> *entity, ktime_t ts)
+> 
+> Since you touch function name / signature already, would you mind
+> writing a small doc string that also mentions the locking requirements
+> or lack of the same?
+> 
+>>   {
+>>    /*
+>>    * Both locks need to be grabbed, one to protect from entity->rq
+>> change
+>>    * for entity from within concurrent drm_sched_entity_select_rq and
+>> the
+>>    * other to update the rb tree structure.
+>>    */
+> 
+> It seems to me that the comment above is now out of date, no?
+> 
+> 
+> Thx for your efforts,
+> P.
+> 
+>> - spin_lock(&entity->rq_lock);
+>> + lockdep_assert_held(&entity->rq_lock);
+>> +
+>>    spin_lock(&entity->rq->lock);
+>>   
+>>    drm_sched_rq_remove_fifo_locked(entity);
+>> @@ -187,7 +188,6 @@ void drm_sched_rq_update_fifo(struct
+>> drm_sched_entity *entity, ktime_t ts)
+>>          drm_sched_entity_compare_before);
+>>   
+>>    spin_unlock(&entity->rq->lock);
+>> - spin_unlock(&entity->rq_lock);
+>>   }
+>>   
+>>   /**
+>> diff --git a/include/drm/gpu_scheduler.h
+>> b/include/drm/gpu_scheduler.h
+>> index e9f075f51db3..3658a6cb048e 100644
+>> --- a/include/drm/gpu_scheduler.h
+>> +++ b/include/drm/gpu_scheduler.h
+>> @@ -593,7 +593,7 @@ void drm_sched_rq_add_entity(struct drm_sched_rq
+>> *rq,
+>>   void drm_sched_rq_remove_entity(struct drm_sched_rq *rq,
+>>    struct drm_sched_entity *entity);
+>>   
+>> -void drm_sched_rq_update_fifo(struct drm_sched_entity *entity,
+>> ktime_t ts);
+>> +void drm_sched_rq_update_fifo_locked(struct drm_sched_entity
+>> *entity, ktime_t ts);
+>>   
+>>   int drm_sched_entity_init(struct drm_sched_entity *entity,
+>>      enum drm_sched_priority priority,
+> 
