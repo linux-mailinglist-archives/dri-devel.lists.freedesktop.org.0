@@ -2,73 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6592599C3E7
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2024 10:46:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3250F99C3F0
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2024 10:47:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE60010E3D2;
-	Mon, 14 Oct 2024 08:46:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A79C610E3D3;
+	Mon, 14 Oct 2024 08:46:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Saq8aIYZ";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="XrxrFZMY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64F0F10E3D2
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 08:46:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 662AA10E3D3
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 08:46:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1728895590;
+ s=mimecast20190719; t=1728895617;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8yMw1kZ4wSYjtEjMJHnAEl230IFSdVbMJQeMPPAW0b8=;
- b=Saq8aIYZwbX1e/J0WhCs0u/D4QK2nJa3ytnHvTuosdfKBiRdV2mJGq6pnXOj2hK9CswgNd
- E7+i73R4uorgp88KOpS729LIW9rXvMjrfYT1o+PDT35MxiEupAup9U/d+qyqM6yyEOCDu8
- OFZyrtaRwwezOvjB6jXRtFMpQLsTCgk=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=/17f4khffk+a9y0XW4KJellwKrhnUx2dF476/iSdd00=;
+ b=XrxrFZMYPdgwZWqaEKFjgWG2B1bj7iXy4Uyn820FDcbCVgx0TUn4JTnaYeXYsh+iW+TnKi
+ um54tK2yrHDAlJUynicA7x45CChWtD5mciadwnO/yzHmLoiR8AjgtZoYI/E7/+wq9oBF9z
+ 6QreLKmNbjL+ABIx/qqwO0vv05Mh4rs=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-564-Om-KG3FxOTOXHTERcwZO_w-1; Mon, 14 Oct 2024 04:46:29 -0400
-X-MC-Unique: Om-KG3FxOTOXHTERcwZO_w-1
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-37d4af408dcso1629614f8f.0
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 01:46:28 -0700 (PDT)
+ us-mta-480-CQJckxI0MpaFygUSanoETQ-1; Mon, 14 Oct 2024 04:46:56 -0400
+X-MC-Unique: CQJckxI0MpaFygUSanoETQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-4311cf79381so19208785e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 01:46:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728895588; x=1729500388;
+ d=1e100.net; s=20230601; t=1728895615; x=1729500415;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=8yMw1kZ4wSYjtEjMJHnAEl230IFSdVbMJQeMPPAW0b8=;
- b=gsGzJ44GBGGnUxr2aGDnPlTlqYGaSZld8BEE2DlqicErIgeBqSd576OJBM7nEHJzPg
- Nvowom2uVi7Fpc6IWhV7G76pRT0hd8xd6WgNAjiAgWIBZ02Oh+uSGfIJdNFBFMJz2Bjo
- UQd5Ree/KMYHU8qhRwXo+Pm/eduh6/cW9NDMQOMRUZWwIEVc7cl0wk/996ACbixCJRBn
- k2/2Ejsz/cN6eSpWOjWcPh8VVgB51OCvTaIznq+LON/lHZJU4dAu2+aTHjmVFxUmqc+m
- s+TpyqERrSvBWOwi2ieI+X5NEUD9s34oMZQaSLeIQpXU9kGXYTP4J3W5IyI+//hDLBra
- 3oYQ==
+ bh=/17f4khffk+a9y0XW4KJellwKrhnUx2dF476/iSdd00=;
+ b=bHhrHiAjmJUYRh9HNQTh+tJ/D1tQojS/KogX7GAkfI+Y+MkNzOu3reWHvxEcW5jp5j
+ I/KwzPM/dhzABXj8u8QlJ09XvSrzeMcpd772UCMumMGnQnz4dQapEMs6TfcnmGoVODGz
+ wvNynY7zOWO7y2d+kFLTEB2pIluz3umdRq5Ke+l3oBL7JjZEd05DDjRlmcgWl64kwKXT
+ VixDPZwavT9mSBQ4NbTxsif1Rq7UVW/JBDD411G1hXb6is/HAiausPkidnyWtmMFf5NC
+ READ4syknijtgbjehgXpnTVvqQYETw4XXmactZJI8xSj8lgiKoPeUNq5GkkXx2a8F4x4
+ svBQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVn56feBrGNnbcNb4LeFXasj29gihF3OWzHXcuJoE88I6McidM+3Dk8Px9Si9R2K7/RAAlLD3X5ZWE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzmJmNimKAub1Ah/w61G9Ur+UHryb0E2cQ1T5Ota2/Saz9HL7Zp
- Y1Fy1NLffaJNZwWbzd92I+KARtJxR62LrTwvGeIXzScbqg9ShFUhi5WwlI8I5bEsfHbf1TEPvkJ
- bukbfmslGtwhznSD4tpgU/HyR/OHVCfhFtFnu6AReo/rBjojUlMEvnZ0fdiyJftz0IA==
-X-Received: by 2002:adf:b30c:0:b0:37d:39c1:4d3 with SMTP id
- ffacd0b85a97d-37d5518e694mr6473273f8f.6.1728895587693; 
- Mon, 14 Oct 2024 01:46:27 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGFLIWKqOZJqqYjX4EN/6TkBMgfY/lAKwXdtrnkKX4U6krTF6dTWMvOHBK9y+++vFukzWCiZg==
-X-Received: by 2002:adf:b30c:0:b0:37d:39c1:4d3 with SMTP id
- ffacd0b85a97d-37d5518e694mr6473245f8f.6.1728895587279; 
- Mon, 14 Oct 2024 01:46:27 -0700 (PDT)
+ AJvYcCU/DvTwOK8hY69c5mzDjY1kroSGFREIOlGuP0SV9dTeMXBDq9A7LQCpCe+cfEW/WzNvTO2KxMLH1F0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyTz5uSsCC4x8IoqELnEQ5olu4cGshA7M8PlXum/Bl+XgZtdQEG
+ AA65CKMr018lZIo4xfyF/4G9EFGE1Gn9tZmMsfbJdA0JaytG9zRyZ7h+dzu5XW4pA6q7jxK6XuG
+ QErORmkAVKAZMvn7LtNfn09+KTm/9cKoBU1jrkWWexiLXc5T2kjDjJlhPcY95l577Cw==
+X-Received: by 2002:a05:600c:5122:b0:42f:8d36:855e with SMTP id
+ 5b1f17b1804b1-4311deb5f47mr107761145e9.5.1728895614956; 
+ Mon, 14 Oct 2024 01:46:54 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEP5+HN0adeJaut1njpYq1VgQZ9Iv8AmOEw6fVQ/n2dMmXK2yIQhe+TWXeg5VBlE+i0XklLQA==
+X-Received: by 2002:a05:600c:5122:b0:42f:8d36:855e with SMTP id
+ 5b1f17b1804b1-4311deb5f47mr107760845e9.5.1728895614550; 
+ Mon, 14 Oct 2024 01:46:54 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
  ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-37d4b6d0071sm10661282f8f.62.2024.10.14.01.46.26
+ 5b1f17b1804b1-4311835d8f6sm114344035e9.44.2024.10.14.01.46.53
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Oct 2024 01:46:26 -0700 (PDT)
-Message-ID: <567d7f67-291f-4483-921f-a03ecdf83c9d@redhat.com>
-Date: Mon, 14 Oct 2024 10:46:25 +0200
+ Mon, 14 Oct 2024 01:46:54 -0700 (PDT)
+Message-ID: <15e27af8-6ad2-4e53-9503-5f1b8904baa1@redhat.com>
+Date: Mon, 14 Oct 2024 10:46:53 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/7] drm/panic: prefer eliding lifetimes
+Subject: Re: [PATCH 4/7] drm/panic: remove redundant field when assigning value
 To: =?UTF-8?Q?Thomas_B=C3=B6hler?= <witcher@wiredspace.de>,
  Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>
 Cc: Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
@@ -81,9 +81,9 @@ Cc: Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 References: <20241012075312.16342-1-witcher@wiredspace.de>
- <20241012075312.16342-3-witcher@wiredspace.de>
+ <20241012075312.16342-4-witcher@wiredspace.de>
 From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20241012075312.16342-3-witcher@wiredspace.de>
+In-Reply-To: <20241012075312.16342-4-witcher@wiredspace.de>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US, fr
@@ -105,32 +105,17 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 12/10/2024 09:52, Thomas Böhler wrote:
-> Eliding lifetimes when possible instead of specifying them directly is
-> both shorter and easier to read. Clippy notes this in the
-> `needless_lifetimes` lint:
-> 
->      error: the following explicit lifetimes could be elided: 'b
->         --> drivers/gpu/drm/drm_panic_qr.rs:479:16
->          |
->      479 |     fn new<'a, 'b>(segments: &[&Segment<'b>], data: &'a mut [u8]) -> Option<EncodedMsg<'a>> {
->          |                ^^                       ^^
->          |
->          = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#needless_lifetimes
->          = note: `-D clippy::needless-lifetimes` implied by `-D warnings`
->          = help: to override `-D warnings` add `#[allow(clippy::needless_lifetimes)]`
->      help: elide the lifetimes
->          |
->      479 -     fn new<'a, 'b>(segments: &[&Segment<'b>], data: &'a mut [u8]) -> Option<EncodedMsg<'a>> {
->      479 +     fn new<'a>(segments: &[&Segment<'_>], data: &'a mut [u8]) -> Option<EncodedMsg<'a>> {
->          |
-> 
-> Remove the explicit lifetime annotation in favour of an elided lifetime.
-> 
+> Rust allows initializing fields of a struct without specifying the
+> attribute that is assigned if the variable has the same name. In this
+> instance this is done for all other attributes of the struct except for
+> `data`.
+> Remove the redundant `data` in the assignment to be consistent.
 
 Thanks, it looks good to me.
 
 Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
 
+> 
 > Reported-by: Miguel Ojeda <ojeda@kernel.org>
 > Closes: https://github.com/Rust-for-Linux/linux/issues/1123
 > Signed-off-by: Thomas Böhler <witcher@wiredspace.de>
@@ -139,16 +124,16 @@ Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
 >   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 > diff --git a/drivers/gpu/drm/drm_panic_qr.rs b/drivers/gpu/drm/drm_panic_qr.rs
-> index 7adfaa3d6222..767a8eb0acec 100644
+> index 767a8eb0acec..5b2386a515fa 100644
 > --- a/drivers/gpu/drm/drm_panic_qr.rs
 > +++ b/drivers/gpu/drm/drm_panic_qr.rs
-> @@ -476,7 +476,7 @@ struct EncodedMsg<'a> {
->   /// Data to be put in the QR code, with correct segment encoding, padding, and
->   /// Error Code Correction.
->   impl EncodedMsg<'_> {
-> -    fn new<'a, 'b>(segments: &[&Segment<'b>], data: &'a mut [u8]) -> Option<EncodedMsg<'a>> {
-> +    fn new<'a>(segments: &[&Segment<'_>], data: &'a mut [u8]) -> Option<EncodedMsg<'a>> {
->           let version = Version::from_segments(segments)?;
->           let ec_size = version.ec_size();
->           let g1_blocks = version.g1_blocks();
+> @@ -489,7 +489,7 @@ fn new<'a>(segments: &[&Segment<'_>], data: &'a mut [u8]) -> Option<EncodedMsg<'
+>           data.fill(0);
+>   
+>           let mut em = EncodedMsg {
+> -            data: data,
+> +            data,
+>               ec_size,
+>               g1_blocks,
+>               g2_blocks,
 
