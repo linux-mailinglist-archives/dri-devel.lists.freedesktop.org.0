@@ -2,18 +2,18 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C72199C767
+	by mail.lfdr.de (Postfix) with ESMTPS id 96A8799C769
 	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2024 12:47:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A176B10E40F;
-	Mon, 14 Oct 2024 10:46:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4825A10E411;
+	Mon, 14 Oct 2024 10:46:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="YzKI8vvF";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="OT6ZxoZO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1DEF10E40F
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CAA1810E40D
  for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 10:46:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
@@ -22,16 +22,16 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=vAC6GTDQVsfVG4RLYC7/WtTk3RW5UAcJJm7CAoDhehM=; b=YzKI8vvFgicudeNTrSJ4C9YOYo
- mmFyi6BET2YYADx4PNFJa7gCJjQ72ZOV1gXFT2TsmSjdXiHSdktybx6I6OUY58oeHU9MrX54/j2aV
- NA5V9mEw1c0tBPYWq0khE/0lboXjYzn+zVqjdk4xBTFzZ/vgAxGL5nU6YBmpwOIREQaysKOirBooW
- fLwek7v8iM1/VSVd65dUwgslyAUzlNxHNQma1NoVZZUYSyWu6Tb5+ObXG+e1GTlVDnIi0vDLJkLKJ
- mqXywdNFq2ndu09Hr2YIs2kzpPZEXVALoH4HGOj1nanTao+ve9JGbmGwL2vaDt1Y8FwiIWk09DI9Z
- MfzZCgFQ==;
+ bh=4QMAFCZ6I6fcS8mAh/uyYLlgonaAHrW8ni2Psawcgoo=; b=OT6ZxoZOovj0wPkXf5pdOWuKL0
+ P26P7VB3Iy+XPIYW3ls+sK9UNWkPc87bVClX5rBeIpTBKj5jawmgS4RMHemjvOcDBtrpwMCVv3Y6j
+ 9x9jex8NkejGtpjD2hCLblmzVAXZ1A80VK2qj+Hz5eJYM+c43EnhiydI5+AAIZvHL8XpifSTke0LL
+ VN8mQme+VZIVOsfBRt0C870YwCWvckPplDCxaXWbhVpESohRP5ix48gHW3DwoMETiy94rtK4wUguJ
+ GZhMR0HwsNEsAb6JgBsPl1LJZRKjgluY2ofi9LlVoCZOsCYRQq/pP53jBjbEYct0mwR/U1HZjntmo
+ nWloSo+w==;
 Received: from [90.241.98.187] (helo=localhost)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1t0Ib2-009J6e-9t; Mon, 14 Oct 2024 12:46:40 +0200
+ id 1t0Ib3-009J6i-0c; Mon, 14 Oct 2024 12:46:41 +0200
 From: Tvrtko Ursulin <tursulin@igalia.com>
 To: dri-devel@lists.freedesktop.org
 Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
@@ -40,9 +40,9 @@ Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
  Luben Tuikov <ltuikov89@gmail.com>,
  Matthew Brost <matthew.brost@intel.com>,
  Philipp Stanner <pstanner@redhat.com>
-Subject: [PATCH 1/5] drm/sched: Optimise drm_sched_entity_push_job
-Date: Mon, 14 Oct 2024 11:46:33 +0100
-Message-ID: <20241014104637.83209-2-tursulin@igalia.com>
+Subject: [PATCH 2/5] drm/sched: Stop setting current entity in FIFO mode
+Date: Mon, 14 Oct 2024 11:46:34 +0100
+Message-ID: <20241014104637.83209-3-tursulin@igalia.com>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20241014104637.83209-1-tursulin@igalia.com>
 References: <20241014104637.83209-1-tursulin@igalia.com>
@@ -66,11 +66,11 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 
-In FIFO mode We can avoid dropping the lock only to immediately re-acquire
-by adding a new drm_sched_rq_update_fifo_locked() helper.
-
-v2:
- * Remove drm_sched_rq_update_fifo() altogether. (Christian)
+It does not seem there is a need to set the current entity in FIFO mode
+since ot only serves as being a "cursor" in round-robin mode. Even if
+scheduling mode is changed at runtime the change in behaviour is simply
+to restart from the first entity, instead of continuing in RR mode from
+where FIFO left it, and that sounds completely fine.
 
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 Cc: Christian König <christian.koenig@amd.com>
@@ -78,89 +78,24 @@ Cc: Alex Deucher <alexander.deucher@amd.com>
 Cc: Luben Tuikov <ltuikov89@gmail.com>
 Cc: Matthew Brost <matthew.brost@intel.com>
 Cc: Philipp Stanner <pstanner@redhat.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
+Acked-by: Christian König <christian.koenig@amd.com>
+Reviewed-by: Philipp Stanner <pstanner@redhat.com>
 ---
- drivers/gpu/drm/scheduler/sched_entity.c | 13 +++++++++----
- drivers/gpu/drm/scheduler/sched_main.c   |  6 +++---
- include/drm/gpu_scheduler.h              |  2 +-
- 3 files changed, 13 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/scheduler/sched_main.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-index 2951fcc2e6b1..b72cba292839 100644
---- a/drivers/gpu/drm/scheduler/sched_entity.c
-+++ b/drivers/gpu/drm/scheduler/sched_entity.c
-@@ -514,8 +514,12 @@ struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
- 		struct drm_sched_job *next;
- 
- 		next = to_drm_sched_job(spsc_queue_peek(&entity->job_queue));
--		if (next)
--			drm_sched_rq_update_fifo(entity, next->submit_ts);
-+		if (next) {
-+			spin_lock(&entity->rq_lock);
-+			drm_sched_rq_update_fifo_locked(entity,
-+							next->submit_ts);
-+			spin_unlock(&entity->rq_lock);
-+		}
- 	}
- 
- 	/* Jobs and entities might have different lifecycles. Since we're
-@@ -613,10 +617,11 @@ void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
- 		sched = rq->sched;
- 
- 		drm_sched_rq_add_entity(rq, entity);
--		spin_unlock(&entity->rq_lock);
- 
- 		if (drm_sched_policy == DRM_SCHED_POLICY_FIFO)
--			drm_sched_rq_update_fifo(entity, submit_ts);
-+			drm_sched_rq_update_fifo_locked(entity, submit_ts);
-+
-+		spin_unlock(&entity->rq_lock);
- 
- 		drm_sched_wakeup(sched);
- 	}
 diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index e32b0f7d7e94..bbd1630407e4 100644
+index bbd1630407e4..07ee386b8e4b 100644
 --- a/drivers/gpu/drm/scheduler/sched_main.c
 +++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -169,14 +169,15 @@ static inline void drm_sched_rq_remove_fifo_locked(struct drm_sched_entity *enti
- 	}
- }
+@@ -355,7 +355,6 @@ drm_sched_rq_select_entity_fifo(struct drm_gpu_scheduler *sched,
+ 				return ERR_PTR(-ENOSPC);
+ 			}
  
--void drm_sched_rq_update_fifo(struct drm_sched_entity *entity, ktime_t ts)
-+void drm_sched_rq_update_fifo_locked(struct drm_sched_entity *entity, ktime_t ts)
- {
- 	/*
- 	 * Both locks need to be grabbed, one to protect from entity->rq change
- 	 * for entity from within concurrent drm_sched_entity_select_rq and the
- 	 * other to update the rb tree structure.
- 	 */
--	spin_lock(&entity->rq_lock);
-+	lockdep_assert_held(&entity->rq_lock);
-+
- 	spin_lock(&entity->rq->lock);
- 
- 	drm_sched_rq_remove_fifo_locked(entity);
-@@ -187,7 +188,6 @@ void drm_sched_rq_update_fifo(struct drm_sched_entity *entity, ktime_t ts)
- 		      drm_sched_entity_compare_before);
- 
- 	spin_unlock(&entity->rq->lock);
--	spin_unlock(&entity->rq_lock);
- }
- 
- /**
-diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index e9f075f51db3..3658a6cb048e 100644
---- a/include/drm/gpu_scheduler.h
-+++ b/include/drm/gpu_scheduler.h
-@@ -593,7 +593,7 @@ void drm_sched_rq_add_entity(struct drm_sched_rq *rq,
- void drm_sched_rq_remove_entity(struct drm_sched_rq *rq,
- 				struct drm_sched_entity *entity);
- 
--void drm_sched_rq_update_fifo(struct drm_sched_entity *entity, ktime_t ts);
-+void drm_sched_rq_update_fifo_locked(struct drm_sched_entity *entity, ktime_t ts);
- 
- int drm_sched_entity_init(struct drm_sched_entity *entity,
- 			  enum drm_sched_priority priority,
+-			rq->current_entity = entity;
+ 			reinit_completion(&entity->entity_idle);
+ 			break;
+ 		}
 -- 
 2.46.0
 
