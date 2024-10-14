@@ -2,83 +2,112 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64C1199D835
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2024 22:30:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCC1399D85F
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2024 22:37:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EDB110E4CA;
-	Mon, 14 Oct 2024 20:30:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A10D110E4C6;
+	Mon, 14 Oct 2024 20:37:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="SqU6ttWe";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="f3EpZmFk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BF0310E4C6;
- Mon, 14 Oct 2024 20:30:12 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49EBg7k3004277;
- Mon, 14 Oct 2024 20:30:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- Flkc8xdLhw7m3kui7WKGf/UuDHyxIcdWYPZ31ewDcAk=; b=SqU6ttWeOHuOlGPj
- 0D14ycFcARRNAPDAfi46rX/D1gNfOa2NoJzHUdF8yMiG1uwOwymG7MFbjBUdzm1v
- JYaL5ubV0r+pLNqWcVdf8UJDLZ3jT61rH1FFFClE3qBxTmzuXBu6KyKSUHxalTmI
- U8VPbbsscaDCbVgkjp/T5yYrm4KbrMvrk2No2by4Uz/MuQdROO77nmR/Jv4IvU6x
- k3s6zvexXc/JTNprtAI6n/pF4JQLbNY5WwMuHQpuyPEbCxsvPHVl1HmskgdS3hHt
- cuhOJZT7Up1e2wAsfvYMZbd/nRHVOo85TSlLofm3xwC/KGj5N6m4mAYRJmJaR7xw
- ZzZHEA==
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 427hvfwc99-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 14 Oct 2024 20:30:06 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49EKU5nE005175
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 14 Oct 2024 20:30:05 GMT
-Received: from [10.134.70.212] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 14 Oct
- 2024 13:30:05 -0700
-Message-ID: <9cfae7b6-f05e-4db6-ac86-9236e786fbf4@quicinc.com>
-Date: Mon, 14 Oct 2024 13:30:04 -0700
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F66110E4C6
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 20:37:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+ s=s31663417; t=1728938245; x=1729543045; i=deller@gmx.de;
+ bh=ouPa/eowB9jLl4VY4WQM/q/N495B53tdPkxq+TDntcM=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+ References:From:In-Reply-To:Content-Type:
+ Content-Transfer-Encoding:cc:content-transfer-encoding:
+ content-type:date:from:message-id:mime-version:reply-to:subject:
+ to;
+ b=f3EpZmFkFE2Xu/JYI3Xxy0jygVuLDi/0K7X82Khulr4H/GCjdHSWdL8RTWid5Fmt
+ /kMODK8s26KmQ/mAyYxpoX3UDKCLO6Jp0MUkYtgzHXN00dlVk8xowbAETGPvLpxWU
+ J/Wt7APGIeO4SIAKoQT4gl6FerVsTEDQqAJHTzLyLJQESqUMNVJ7wzHU9NO70gw9I
+ +AhVXIN8dW9bOlZCSGfd20+M4cNeEhQ7jFv9qXFSxrm1iTqPtez9GJkLwohAWvZ2B
+ VI3J69uhZFMv3DkyrcX4ALvPGqNK+fCT+XCiFVSImgGwwd8xDXxJKFT6DfoyasdBX
+ 7NpWuyVt77g8hboP9Q==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.55] ([109.250.63.79]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MG9kC-1tAHVi05PQ-00Bx96; Mon, 14
+ Oct 2024 22:32:14 +0200
+Message-ID: <aa4bf800-1bd9-4af4-8403-aa9ff6d30ae1@gmx.de>
+Date: Mon, 14 Oct 2024 22:32:13 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/msm/dpu: Don't always set merge_3d pending flush
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, "Marijn
- Suijten" <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- <quic_abhinavk@quicinc.com>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, Rob Clark <robdclark@chromium.org>
-References: <20241009-mode3d-fix-v1-1-c0258354fadc@quicinc.com>
- <5scqahnsr5i26rkumg5eqdiwrg5n7rrnrp5642c6moxucf6w3r@xcgrxtjhj3pz>
+Subject: Re: [PATCH] fbdev: Constify struct sbus_mmap_map
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <67883bfad5c2c395438bfcef7a319394caca4155.1728820047.git.christophe.jaillet@wanadoo.fr>
 Content-Language: en-US
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <5scqahnsr5i26rkumg5eqdiwrg5n7rrnrp5642c6moxucf6w3r@xcgrxtjhj3pz>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: UbI4AwVLSzHCdqwk1lPXUGOwXCGgf12l
-X-Proofpoint-ORIG-GUID: UbI4AwVLSzHCdqwk1lPXUGOwXCGgf12l
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- phishscore=0 bulkscore=0 mlxlogscore=999 malwarescore=0 mlxscore=0
- clxscore=1015 adultscore=0 spamscore=0 suspectscore=0 lowpriorityscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2410140145
+From: Helge Deller <deller@gmx.de>
+Autocrypt: addr=deller@gmx.de; keydata=
+ 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
+In-Reply-To: <67883bfad5c2c395438bfcef7a319394caca4155.1728820047.git.christophe.jaillet@wanadoo.fr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:QV9ejFkm+fuf9o/1WeaP3AyqUgGmGSyP+CHW6qaUC2nAhVB0Skj
+ Gye27Ca9JUvAhLeU+OwapNp4WvKKE7gS5dhhOIHDq564iXDHBoTHX4fkVKSHEzpnplqY6IH
+ 4eVf1Q1tDLfxRQ6XxZxBn6oWR40Pax4NLcHFZAeLjVTqDcDMJX5IvRrbEclhMK+mNeSBkbD
+ XHtm2TfEFQdjnhaob/sVw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:gkfhBfQBFCs=;sXBIrOGT27NxbWail3pZ0ULoTYA
+ 4Xd9pzdngH5FjvZX1U4mIQkBqWle6M3gkGua26zeAN9bzJHzCkKTUOdNoYejBChDh8HPVuiJo
+ E1gVKikclGGQTk5DuAGyW4U/snilb8Cytfyok9vbGmH9m3ZWgBdcjEsVsbQxzogI6zyuV8MoX
+ ectB/ufQkYWedHccuVI2xuJOKQlicjTf9OI8k5bEQZuY9NrWvPhFoemPPHXDNovtMI7B3lqOS
+ k1JOiGVqBoerlhd3TQ7Lsxs4C1FiY5nMTL6QdrfZ+w6MMcj6pv8mWOS4KD7PjkEqRM/lJM4AL
+ xabvYEhJj3oB9vt9QuUuDfHiDmVnp+wxek7tkqkE8O3lsnA3GghgmFZQtOvzF4KzIjme/x/au
+ wIDBM5Tn4fc0cewd2sBNSiayxT0ZOi5IOj3Ed38eMoM786vnWGwXdJqc2inPsHHCabgaIyYsa
+ 2QjOpbUqoN8IErEHWCQOmLyxa9uJRAsYBpPkx7jGwWzinQsVinJA3cFIetLhCUQvaEFVrMHKV
+ 00ToTupEzr098seUDCS0k6JUPRGKDI3cxwT1lo8xIFhdW84MeiidJqsn8r8693aRtA2Gqx25y
+ tSizV+LgS+rN+Uzdqnv5sC1u6xXWZRGvREliB7XChLPeYJIBdeM8O++hKN54dYEsksIiAqZ+R
+ /BY+nKFGnItnBGBoWE3CIfeaX6cswDrOyg/4zZpyWaeY/1A+4bcqVPhneseEzdfWAy2vH/MrP
+ zbvw8RRpd64KlFAP+NHVgi1EugKPpI7sXzfYe+Hpqq3k1bkXp6k2SoYVfgihw0pgjzpRcRP5Q
+ JButsNoI+RO9RLWzFsMtGA5w==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,51 +123,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 10/13/24 13:48, Christophe JAILLET wrote:
+> 'struct sbus_mmap_map' are not modified in these drivers.
+>
+> Constifying this structure moves some data to a read-only section, so
+> increases overall security.
+>
+> Update sbusfb_mmap_helper() accordingly.
+>
+> On a x86_64, with allmodconfig, as an example:
+> Before:
+> =3D=3D=3D=3D=3D=3D
+>     text	   data	    bss	    dec	    hex	filename
+>     2452	    536	     16	   3004	    bbc	drivers/video/fbdev/bw2.o
+>
+> After:
+> =3D=3D=3D=3D=3D
+>     text	   data	    bss	    dec	    hex	filename
+>     2500	    483	     16	   2999	    bb7	drivers/video/fbdev/bw2.o
+>
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> ---
+> Compile tested only with a cross compiler for sparc.
+> ---
+>   drivers/video/fbdev/bw2.c     | 2 +-
+>   drivers/video/fbdev/cg14.c    | 2 +-
+>   drivers/video/fbdev/cg3.c     | 2 +-
+>   drivers/video/fbdev/cg6.c     | 2 +-
+>   drivers/video/fbdev/ffb.c     | 2 +-
+>   drivers/video/fbdev/leo.c     | 2 +-
+>   drivers/video/fbdev/p9100.c   | 2 +-
+>   drivers/video/fbdev/sbuslib.c | 2 +-
+>   drivers/video/fbdev/sbuslib.h | 2 +-
+>   drivers/video/fbdev/tcx.c     | 2 +-
+>   10 files changed, 10 insertions(+), 10 deletions(-)
 
+applied.
 
-On 10/10/2024 8:20 AM, Dmitry Baryshkov wrote:
-> On Wed, Oct 09, 2024 at 08:41:13PM GMT, Jessica Zhang wrote:
->> Don't set the merge_3d pending flush bits if the mode_3d is
->> BLEND_3D_NONE.
->>
->> Always flushing merge_3d can cause timeout issues when there are
->> multiple commits with concurrent writeback enabled.
->>
->> This is because the video phys enc waits for the hw_ctl flush register
->> to be completely cleared [1] in its wait_for_commit_done(), but the WB
->> encoder always sets the merge_3d pending flush during each commit
->> regardless of if the merge_3d is actually active.
->>
->> This means that the hw_ctl flush register will never be 0 when there are
->> multiple CWB commits and the video phys enc will hit vblank timeout
->> errors after the first CWB commit.
-> 
->  From this description, wouldn't it be more correct to always set
-> intf_cfg.merge_3d in WB code (even if mode_3d is NONE)?
-
-Hi Dmitry,
-
-This discussion should be addressed in [1].
-
-Thanks,
-
-Jessica Zhang
-
-[1] https://patchwork.freedesktop.org/series/139824/
-
-> 
->> [1] commit fe9df3f50c39 ("drm/msm/dpu: add real wait_for_commit_done()")
->>
->> Fixes: 3e79527a33a8 ("drm/msm/dpu: enable merge_3d support on sm8150/sm8250")
->> Fixes: d7d0e73f7de3 ("drm/msm/dpu: introduce the dpu_encoder_phys_* for writeback")
->> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
->> ---
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c | 5 ++++-
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c  | 5 ++++-
->>   2 files changed, 8 insertions(+), 2 deletions(-)
->>
-> 
-> -- 
-> With best wishes
-> Dmitry
+Thanks!
+Helge
 
