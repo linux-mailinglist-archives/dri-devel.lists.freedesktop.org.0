@@ -2,93 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19E6299C434
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2024 10:55:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B81999C4A2
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2024 11:04:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8884510E3DB;
-	Mon, 14 Oct 2024 08:55:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24A0210E3E6;
+	Mon, 14 Oct 2024 09:04:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="HP2mzy2x";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="b8twdiBU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C90210E3DC
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 08:55:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1728896140;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SZZV3eCjwH17+qwXquSijSlOfzm3AowdcidnwQs1e80=;
- b=HP2mzy2xtdMmOSnu8DmWxwda1zdVy7IHCbzxGvcWJ3fGf2eRBObNn0V8KKj6kjEdhIUxPV
- T4j1XU1kjnKx73yoqoWsOW+GeQ0Grcu+JhwItFSXI1bck2xDno2zPyKqgPuMpqGw37nMml
- KGuiOtW88aTXQoN+K8bHw7jiajXWUy0=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-175-xCOGLbb-NAGEp0CRD4oG_g-1; Mon, 14 Oct 2024 04:55:37 -0400
-X-MC-Unique: xCOGLbb-NAGEp0CRD4oG_g-1
-Received: by mail-lf1-f69.google.com with SMTP id
- 2adb3069b0e04-539e294566dso1805886e87.3
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 01:55:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728896136; x=1729500936;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=SZZV3eCjwH17+qwXquSijSlOfzm3AowdcidnwQs1e80=;
- b=O974CHNwvhBSuEaHmDJVZqPC2/roCe8OQowqGRR1cySFPxl4C2pTGMhmLqgsnvINQR
- eA9l5xkhGu/lwMZbstDRUCi7LvTNlxTCEXngw5NjXtuDbUuYqDXrDtV5+uQIkLOpM0Z5
- d+mEAdMWs0mYs8EiMPjFTarpY42Im7HKXq8DRm4qRrKH/SW6Z1MmOOxY1KfIQpU7tKft
- +95WQygJX8lqie0e4pKPhRk/huybnxYTjFu04EQ2mhI0wYiTasx250qgf/kazn22APOf
- jr+W1NZwhBGcVGw2pwea+Fk8pl2w5MJpjXn7qVcwrzGLCy6ff0qPWYgbenClMsIFgUxf
- p/Jw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXgOffZEmTsy4hgS+JE0N/gBuy96tLJIrX45jEaOWE8ZZ+MaJVAa2E2Ijh9FR0pkeQ3IMbsDZ7pxYk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzTtCro/c5dFDH0oXVpxwWPryIiiBMAVJCCuUMA9xF+E8XFdA+N
- lRBrVyfpGl43m26ceCL5V3qCdtImT8hQnSrbwpV8UIj6pkL6Hz6AMrsKpDUZBskurHIBkwixhq2
- a+66YOydEqBvTPJsmRhzoXe0PGQ9RHUk8Ov3wsrv5aa5oAUlHel8oxaCtm6OycSFdOQ==
-X-Received: by 2002:a05:6512:3196:b0:539:89f7:3187 with SMTP id
- 2adb3069b0e04-539da583db0mr4542266e87.47.1728896135547; 
- Mon, 14 Oct 2024 01:55:35 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHsnAdyTUOwoRixLAd99Kcrm/Heu2DZ1kp3SFQWf3sDK6kM96X3+KpLcEanEEOaqVXM5IPHrw==
-X-Received: by 2002:a05:6512:3196:b0:539:89f7:3187 with SMTP id
- 2adb3069b0e04-539da583db0mr4542248e87.47.1728896135047; 
- Mon, 14 Oct 2024 01:55:35 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-37d4b9190f7sm10761253f8f.114.2024.10.14.01.55.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Oct 2024 01:55:34 -0700 (PDT)
-Message-ID: <8d1c8667-e032-4d9f-bc8c-f12d71070a11@redhat.com>
-Date: Mon, 14 Oct 2024 10:55:33 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8412010E3E6
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 09:04:34 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 538AC5C59A1;
+ Mon, 14 Oct 2024 09:04:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1ACB4C4CEC3;
+ Mon, 14 Oct 2024 09:04:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1728896673;
+ bh=D7pzpmtRku9kVKi0BIWuLpRY1+VRB0PYNkEA2GQugVA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=b8twdiBUCi3NxOAmULGgO/9zPnQIuyqn89po64RDuIuLWhHs1oHqyRx7gkwf9TdCI
+ KPUN89aJqwCsPV3zsi/x26YYeIzu8yUPli/HDBuy6HyE0bTVfnuUwef48AW9Grr3Ci
+ 7ljBcIfMjJU3UHKe+o6xQ7l3iFFxAtKoOL7uNcjL+aolA98rLMNg09ALRwB1jL93lu
+ OV5ke3dRCIi0lOChvov26zAfMHt5k1k9AIqsxqF0yU2V6PVmThpQvWDZY0WYKRaY0x
+ /BZbMKYwj2IHljqvflFmmWCBbhChXiyMZxAdJDJdQWe0zMmEUM8H/Gyfjatz78iitv
+ gDccXaR6zkz+A==
+Date: Mon, 14 Oct 2024 11:04:30 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Stefan Wahren <wahrenst@gmx.net>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ Florian Fainelli <florian.fainelli@broadcom.com>
+Subject: Re: vc4: HDMI Sink doesn't support RGB, something's wrong.
+Message-ID: <20241014-warm-savvy-wrasse-ed984e@houat>
+References: <c657d3e9-e4fb-4dac-a611-45655511e500@gmx.net>
+ <CAPY8ntDAMq_oTM+ua0pcFroTiWkDyhXSj++oGxOq+ODajm8++Q@mail.gmail.com>
+ <3f35403e-f42f-4936-9297-68b56818aeee@gmx.net>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 7/7] drm/panic: allow verbose version check
-To: =?UTF-8?Q?Thomas_B=C3=B6hler?= <witcher@wiredspace.de>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>
-Cc: Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, rust-for-linux@vger.kernel.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20241012075312.16342-1-witcher@wiredspace.de>
- <20241012075312.16342-7-witcher@wiredspace.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20241012075312.16342-7-witcher@wiredspace.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="dknokeuqumfqwopv"
+Content-Disposition: inline
+In-Reply-To: <3f35403e-f42f-4936-9297-68b56818aeee@gmx.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,44 +64,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/10/2024 09:52, Thomas Böhler wrote:
-> Clippy warns about a reimplementation of `RangeInclusive::contains`:
-> 
->      error: manual `!RangeInclusive::contains` implementation
->         --> drivers/gpu/drm/drm_panic_qr.rs:986:8
->          |
->      986 |     if version < 1 || version > 40 {
->          |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: use: `!(1..=40).contains(&version)`
->          |
->          = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#manual_range_contains
->          = note: `-D clippy::manual-range-contains` implied by `-D warnings`
->          = help: to override `-D warnings` add `#[allow(clippy::manual_range_contains)]`
-> 
-> Ignore this and keep the current implementation as that makes it easier
-> to read.
 
-Thanks, it looks good to me.
+--dknokeuqumfqwopv
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+Hi,
 
-> 
-> Reported-by: Miguel Ojeda <ojeda@kernel.org>
-> Closes: https://github.com/Rust-for-Linux/linux/issues/1123
-> Signed-off-by: Thomas Böhler <witcher@wiredspace.de>
-> ---
->   drivers/gpu/drm/drm_panic_qr.rs | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_panic_qr.rs b/drivers/gpu/drm/drm_panic_qr.rs
-> index 226107c02679..fe842466d8d6 100644
-> --- a/drivers/gpu/drm/drm_panic_qr.rs
-> +++ b/drivers/gpu/drm/drm_panic_qr.rs
-> @@ -981,6 +981,7 @@ fn draw_all(&mut self, data: impl Iterator<Item = u8>) {
->   /// * If `url_len` = 0, only removes 3 bytes for 1 binary segment.
->   #[no_mangle]
->   pub extern "C" fn drm_panic_qr_max_data_size(version: u8, url_len: usize) -> usize {
-> +    #[allow(clippy::manual_range_contains)]
->       if version < 1 || version > 40 {
->           return 0;
->       }
+On Sun, Oct 13, 2024 at 09:57:58PM GMT, Stefan Wahren wrote:
+> Am 13.10.24 um 21:11 schrieb Dave Stevenson:
+> > Hi Stefan.
+> >=20
+> > On Sun, 13 Oct 2024, 18:19 Stefan Wahren, <wahrenst@gmx.net> wrote:
+> >=20
+> >     Hi,
+> >=20
+> >     i recently switch for my suspend2idle tests from Raspberry Pi Bulls=
+eye
+> >     to Bookworm. After that testing suspend2idle shows a new warning
+> >     which i
+> >     never saw before:
+> >=20
+> >     HDMI Sink doesn't support RGB, something's wrong.
+> >=20
+> >=20
+> > Can you provide the edid of your display please?
+>=20
+> Sure
+>=20
+> [=A0=A0=A0 27.145] (II) modeset(0): Monitor name: HP ZR2440w
+> [=A0=A0=A0 27.145] (II) modeset(0): Serial No: CN423402RL
+>=20
+> ...
+>=20
+> [=A0=A0=A0 27.146] (II) modeset(0): EDID (in hex):
+> [=A0=A0=A0 27.146] (II) modeset(0): =A0=A0=A0 00ffffffffffff0022f05629010=
+10101
+> [=A0=A0=A0 27.146] (II) modeset(0): =A0=A0=A0 22160103803420782afc81a4554=
+d9d25
+> [=A0=A0=A0 27.146] (II) modeset(0): =A0=A0=A0 125054210800d1c081c08140818=
+09500
+> [=A0=A0=A0 27.146] (II) modeset(0): =A0=A0=A0 a940b3000101283c80a070b0234=
+03020
+> [=A0=A0=A0 27.146] (II) modeset(0): =A0=A0=A0 360006442100001a000000fd001=
+83c18
+> [=A0=A0=A0 27.146] (II) modeset(0): =A0=A0=A0 5011000a202020202020000000f=
+c0048
+> [=A0=A0=A0 27.146] (II) modeset(0): =A0=A0=A0 50205a5232343430770a2020000=
+000ff
+> [=A0=A0=A0 27.146] (II) modeset(0): =A0=A0=A0 00434e343233343032524c0a202=
+0015b
+> [=A0=A0=A0 27.146] (II) modeset(0): =A0=A0=A0 02031ff14c901f0514041303020=
+70612
+> [=A0=A0=A0 27.147] (II) modeset(0): =A0=A0=A0 0165030c0010002309070783010=
+00002
+> [=A0=A0=A0 27.147] (II) modeset(0): =A0=A0=A0 3a801871382d40582c450006442=
+10000
+> [=A0=A0=A0 27.147] (II) modeset(0): =A0=A0=A0 1e023a80d072382d40102c45800=
+64421
+> [=A0=A0=A0 27.147] (II) modeset(0): =A0=A0=A0 00001e011d007251d01e206e285=
+50006
+> [=A0=A0=A0 27.147] (II) modeset(0): =A0=A0=A0 442100001e011d00bc52d01e20b=
+82855
+> [=A0=A0=A0 27.147] (II) modeset(0): =A0=A0=A0 4006442100001e8c0ad08a20e02=
+d1010
+> [=A0=A0=A0 27.147] (II) modeset(0): =A0=A0=A0 3e9600064421000018000000000=
+000c1
 
+It's a bit hard to extract, could you provide the output of
+
+cat /sys/class/drm/card/cardX-HDMI-A-X/edid | edid-decode --check
+
+Thanks!
+Maxime
+
+--dknokeuqumfqwopv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZwzelwAKCRAnX84Zoj2+
+dgCkAX4toEIDWnZ2mX+r6YKU1DEtTctA/g2HjNhkum7Yt+BNVF6Lif0awo0zjErV
+F+071S0BgJdEiy08d9pbJXwERu/+F++PLzJ3LUtKusnEpL+PxKC8C3QL3m41Wijz
+B8NpRl+A2A==
+=aaTv
+-----END PGP SIGNATURE-----
+
+--dknokeuqumfqwopv--
