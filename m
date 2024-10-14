@@ -2,114 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE83799D868
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2024 22:38:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1108E99D8E2
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2024 23:17:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D08010E4CF;
-	Mon, 14 Oct 2024 20:38:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58E3910E4D2;
+	Mon, 14 Oct 2024 21:17:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="t1ByILJu";
+	dkim=pass (2048-bit key; secure) header.d=gmx.net header.i=wahrenst@gmx.net header.b="lIv64s39";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 345 seconds by postgrey-1.36 at gabe;
- Mon, 14 Oct 2024 20:38:01 UTC
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CDD210E4CF
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 20:38:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1728938279; x=1729543079; i=deller@gmx.de;
- bh=8iK/lwusazoVmWDx14MxRKCz0zzqnH40q8KQDzTJg8k=;
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 615DA10E4D2
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 21:17:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
+ s=s31663417; t=1728940614; x=1729545414; i=wahrenst@gmx.net;
+ bh=S7RIjL7l608kr10EKJod1atr94lXMVG7hjN31XMFk4s=;
  h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
  References:From:In-Reply-To:Content-Type:
  Content-Transfer-Encoding:cc:content-transfer-encoding:
  content-type:date:from:message-id:mime-version:reply-to:subject:
  to;
- b=t1ByILJuGD/c0ag/vQkQyUGAeutpYETZ4XwPFUha3aI5qdZI3i0A4duFteNZTyZV
- BQnJw6Dscyu+XafoPIuYoDYJzFglIk5jxJrhOSRXZg5YghKUxaatufNV25DFopD3j
- Fn4doWYEdfzvpu5QzqN5YrvdDrK7TKsslsW3ihhXA1h7e5XXUr0L2qpEORteEKigD
- OelQeSSCeCluxpufJ3iCfq+762gUiMrgju4OHrJOZzd2RtO2Oru8qGFflB9Ez4hf0
- RaGj8b5l5nVjjOqRjY2XqSuqeEA0RmZ/5XktSKzzdGqvrPxiOYKUFINqbg4iTUHMI
- G55GlpHNLNQtA3a9dg==
+ b=lIv64s39+AlzfDa9juEGtS9pRXPN9B/SZqr7cmD0+TVtUTGW9aK/oYkmMMSyJIU3
+ 63tU9c6mNBh4h+PzJiXO5de9ed54RhTUC2XGYMsTzHurLhbF0Dk+8Tq6nmtDyIvBi
+ xSS86SUWj6ro5tPmEIgUsKkFZC8kEqN3i7dDPy1e468zbyX/n5z6iltn8hSbtw9fe
+ 1vYiyyvwbkTowYiakXm5rc2LS2Y0tM3RuRPrvhtBOwxTzY/nVFmXpIlopQzU6Ued3
+ hVc4xyPrdVhgeh/agF6MuRhokc9RRcrcKE4xRBCG2s1zRQyKhWkIu3WNdgiKfuwZM
+ /pPVEep3hxzQxtNt5g==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.55] ([109.250.63.79]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MZkpb-1tUI7g1XCJ-00QS0r; Mon, 14
- Oct 2024 22:32:51 +0200
-Message-ID: <fab752c8-0193-4d97-bbe5-40c426ede668@gmx.de>
-Date: Mon, 14 Oct 2024 22:32:50 +0200
+Received: from [192.168.1.104] ([37.4.248.43]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MzhnH-1tvKRr18JV-00zFSH; Mon, 14
+ Oct 2024 23:16:54 +0200
+Message-ID: <17f8f497-1238-4555-824b-b5a3fb699a98@gmx.net>
+Date: Mon, 14 Oct 2024 23:16:53 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] video: fix inconsistent indentation warning
-To: SurajSonawane2415 <surajsonawane0215@gmail.com>, adaplas@gmail.com
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20241006071514.5577-1-surajsonawane0215@gmail.com>
+Subject: Re: vc4: HDMI Sink doesn't support RGB, something's wrong.
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Maxime Ripard <mripard@kernel.org>
+Cc: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Florian Fainelli <florian.fainelli@broadcom.com>
+References: <c657d3e9-e4fb-4dac-a611-45655511e500@gmx.net>
+ <CAPY8ntDAMq_oTM+ua0pcFroTiWkDyhXSj++oGxOq+ODajm8++Q@mail.gmail.com>
+ <3f35403e-f42f-4936-9297-68b56818aeee@gmx.net>
+ <20241014-warm-savvy-wrasse-ed984e@houat>
+ <CAPY8ntAFzT4uBT47kDnDjEcSZXLonV-n_ixZ6L1_LAcfQPwS8Q@mail.gmail.com>
 Content-Language: en-US
-From: Helge Deller <deller@gmx.de>
-Autocrypt: addr=deller@gmx.de; keydata=
- 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
-In-Reply-To: <20241006071514.5577-1-surajsonawane0215@gmail.com>
+From: Stefan Wahren <wahrenst@gmx.net>
+In-Reply-To: <CAPY8ntAFzT4uBT47kDnDjEcSZXLonV-n_ixZ6L1_LAcfQPwS8Q@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:mNj/a86cD8apEWRxcMjWatukRifswok09XShWf9Q7PfLVTiUZ2G
- 5bV5pTEgV7HclerciNJVDVklKnQKE6J/4jqeNQsA8wOv0190uLu1EJXDUeXPh+IjBO+XRNd
- KQt6Wz5Q1O3O9qNIIKpjwHxhflpNkta8AD7YxyF0zroGSPODBeH3dhdMYMowW1xeOTcElJ5
- 4WcvEM25c/vzdPoZpKN8g==
+X-Provags-ID: V03:K1:GI9WaddBO8+MyMlwQodyw5G8HpzdEaHjrD9gDSYsff4+K+geQIV
+ 5gT1MD+pCjtKJtB0X3/NkTFQKUxqaz5bZWtJULkByXiGDpG2SOH1iwvVR1SxLfkLny0vK5A
+ ++ybCGMjmvPi25nJlYiGvOuejyzXCuf0/hGGQXKq5RwfWUQoF58Uv7kg2t1GjY6vvnTGH3b
+ 7IxsRRFjdoRHT+xaxLV0g==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:9wb3bacMI/w=;mEwcxF1IuGJuQkYK3xGiHEs+BcO
- tAOb+0ratVX59hyIHwnQIZQYtDR+HE6BO7Y3RzHW4L6oiGniQfoKWOJl87jPym2C10FKJ2eDu
- MM7y3o87SKwtSn8AG+KB3cpGIt9D/qpD/3GohL4GID0TvaLWcUfqQEpwvEhZY2H4pF0RAO4ce
- BevvWdJj9jHrys4gwDnRgdo5S1IrWm1VoS4X/Gf6bii9sBOB92WIzfDfk3W5mVwDV4GRuqq+O
- fwrn9fJLkGiUD7X3h89ituQMBTCbwoCcskbskRqDbMuXdkNlgGVdbOUF8wccYFpKn03dfaSTu
- uJcxVUl/Ble8CXkB8gouGMRADP/BfRg8SnF9yVmyPBOSl3uTCGvTIYHvzMVrszTpAMluAFBZ7
- xpGhqIlgIefb/H1/6ipdZdAIf7jzMD6AS5kOr0Og0IrjbCEG4e1kofC5tX499zHsW81cpXEoJ
- bcflxKsXEPXaCnVDqWSZRHgGrkI8RdUT4OcNBnk9PdTUufo9W0wPnyUvi84T/Risa8LIWNZ6g
- N9bTof9SbKeXysRokVPk6u7n+Ybu7RqcX7ebCemaxBAD9GnTsllb037PwjYdEFH5DEkAj7JjQ
- wkTLWiu2ARtC6hOkpeA9+27gn/0Wy8NWo/0QHnHjrNDz3TewtM5NtpdhMXCU/spk0K9YMnCZ8
- b09xl7ggpkylAmu+3Ctb3FXWmhO1KbDxYJ4q5ovw2j7ZkJllPvSKxLmmlxTielE4QnvbfogEK
- CjB5wb37UddCAU4z5FRLrm97dgYzQqMZohzSFwxGJC8ZT5u7/CyUtRSrJ8STFZVmSNuG/avpv
- 1KRzVo82v2JvmlBkwLxWJqqg==
+UI-OutboundReport: notjunk:1;M01:P0:1jKouSN5DRo=;cMFZ38qki7vzdx1jtP/wk1rjAOQ
+ jxul6dqaoFSxPXPuZfJCXgbFDMT4XPw4kJxjqdJaVWN4OfbtH4FLwb+lgcbBT4XI62qRBhLx5
+ 0kB8gZIJ1MVbcQvjiic8VC/PBdPnIBCfPigsQu82f0v3/yIZPxk5NFCPd5z84//lw7TDFuull
+ E5ntcUwl6P0r2rsKi33z7H1j3mPyqrbZ12INdOCuaG51AczaqG61LLJ0OIWKbp2BPZXpExmuM
+ 4jvqz4n1xkG3Jd9/BAAVkHgRVg3bgj7gDwsPFvnFIYLX8GzLOyLlB1QcPzgCUar/1Po2jOj6r
+ 8scRLYKeoDk/yfZPVICsLq8v0v5JbGJf1oYWMoN27RdyoRdeYSDv2HqMwqCctw3z/gRZ0weRk
+ n+FEueW+U2G2kCxquTePYFnc1eUXDpeNYQLJO/f5/oEyNaZ46ehRo8nEc8m89Uv2fze/bc+Zn
+ LT/LJu00+/HZAYaRr4l5bav04OHrUfRPHuLocRHvGcL/duUbRWYOam09iOH9MMyrtvy+ab1nb
+ sm1QVFjOKruHywRekavRbmlQJgPWceNx0GdqY9+zYBRW1gyVSTkIXPixjXJVGNGqfwBBvga/n
+ gkBWbss2YglRQFMFtkab0xmzcrzMIHLogkIPjDzAwr00mQVQ4boRftpU5jgAaeLJM0cKzgzKA
+ RfwLnxv0WYCoBXZO7Qq2u6bu4jrQUvOfP9KITHETFDbMg2HVlJQJTEsVHzwiZ3BJ+cZbpIbuu
+ +0tPy08fyirzIAdEcLfeZsG+FSBwTkbZxSF7xriMAzm5/MFNCzcfe8caLW6g1M2z1KWwV0pWr
+ dUkZiaWG2GT1TvxntIVDglZw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,19 +88,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/6/24 09:15, SurajSonawane2415 wrote:
-> Fix the indentation to ensure consistent code style and improve
-> readability, and to fix this warning:
-> drivers/video/fbdev/nvidia/nv_hw.c:1512 NVLoadStateExt() warn:
-> inconsistent indenting
->
-> Signed-off-by: SurajSonawane2415 <surajsonawane0215@gmail.com>
-> ---
->   drivers/video/fbdev/nvidia/nv_hw.c | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
 
-applied.
-
-Thanks!
-Helge
+Am 14.10.24 um 12:54 schrieb Dave Stevenson:
+> On Mon, 14 Oct 2024 at 10:04, Maxime Ripard <mripard@kernel.org> wrote:
+>> Hi,
+>>
+>> On Sun, Oct 13, 2024 at 09:57:58PM GMT, Stefan Wahren wrote:
+>>> Am 13.10.24 um 21:11 schrieb Dave Stevenson:
+>>>> Hi Stefan.
+>>>>
+>>>> On Sun, 13 Oct 2024, 18:19 Stefan Wahren, <wahrenst@gmx.net> wrote:
+>>>>
+>>>>      Hi,
+>>>>
+>>>>      i recently switch for my suspend2idle tests from Raspberry Pi Bu=
+llseye
+>>>>      to Bookworm. After that testing suspend2idle shows a new warning
+>>>>      which i
+>>>>      never saw before:
+>>>>
+>>>>      HDMI Sink doesn't support RGB, something's wrong.
+>>>>
+>>>>
+>>>> Can you provide the edid of your display please?
+...
+>>>
+>>>
+>>> The failure is coming from sink_supports_format_bpc()[1], but the flag
+>>> for DRM_COLOR_FORMAT_RGB444 should have been set from
+>>> update_display_info()[2] parsing the EDID.
+>>>
+>>> Loading that EDID in via drm.edid_firmware has given me a console at
+>>> 1920x1200@60 without any issues, so I'm a little confused as to what
+>>> is going on.
+Since this warning only occurs on resume and not during normal boot, i
+would assume there is no issue with EDID. Maybe the flag get lost. I
+should have mention that X11 doesn't recover in this case and the
+display stays black.
+>>>
+>>>    Dave
+>>>
+>>> [1] https://elixir.bootlin.com/linux/v6.12-rc2/source/drivers/gpu/drm/=
+display/drm_hdmi_state_helper.c#L130
+>>> [2] https://elixir.bootlin.com/linux/v6.12-rc2/source/drivers/gpu/drm/=
+drm_edid.c#L6669
 
