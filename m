@@ -2,78 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEE9499D51A
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2024 19:00:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 206E199D539
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2024 19:03:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBB1110E48E;
-	Mon, 14 Oct 2024 17:00:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 187A710E491;
+	Mon, 14 Oct 2024 17:03:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BQXbmJtb";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="cpBAWhK8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
- [209.85.214.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DBA510E48E
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 17:00:07 +0000 (UTC)
-Received: by mail-pl1-f182.google.com with SMTP id
- d9443c01a7336-20cb8954ec9so1199025ad.3
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 10:00:07 -0700 (PDT)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
+ [209.85.167.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8EDA810E492
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 17:03:53 +0000 (UTC)
+Received: by mail-lf1-f52.google.com with SMTP id
+ 2adb3069b0e04-539e1543ab8so4442051e87.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 10:03:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1728925207; x=1729530007; darn=lists.freedesktop.org;
+ d=chromium.org; s=google; t=1728925431; x=1729530231;
+ darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=l+IkmYOY1emvpWEhAH8hN1Dn1l4FLfVFJ+8YBVygnlo=;
- b=BQXbmJtbf8mVSPlWcQMT0MBzhuPC4iYpiF+q7BWdb/uinRyfWGVFVw/Dc1X2mHv+5O
- mvaSFakvkKz7Jzi4I1SlIuF80lcJebCwUHwg8LvjsZJJgWPOh/xgKkFCEYrUY4zq20Ha
- L8VR5zibgQK32Mc4WzepW7v3ysg3pApli+1s0M+Kr4I58topyIua5eYhZFZ7BPKRSFet
- 0QjzgvXx5+xzf0Cu1gbYwV4Lv5AGlGv7iIsyBl6btjhdWpYXDN8pJGPFOni+cdYya1N/
- 0CMZ9j2yfhPPsEDdhqx88Feqniaznq7v5H49UXDiFi2tRf1gMhFToVLmVOIG9bGbsLUr
- unUw==
+ bh=WpqfZpy0KhNOi4dX7TpD4nUG6HhaVwhIk+AiVaYBRNs=;
+ b=cpBAWhK893UTYddxwCY0Zi2Lvj8RA86WdP6nCS4hB5y0zsrfCGwDzvRo0QucC7LPlE
+ LZfiAM08Lpl99EC66nipXIvoAOPciaZcN+qz/jnytqqQGnIcjaM3FOKwan0qk+i8BZ0q
+ ucjM+d36LrgDJmMzT1aISl7eInPcU+XyqPZp8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728925207; x=1729530007;
+ d=1e100.net; s=20230601; t=1728925431; x=1729530231;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=l+IkmYOY1emvpWEhAH8hN1Dn1l4FLfVFJ+8YBVygnlo=;
- b=uWCxGkoet/kctHnPmPL8Sq4udhsP7oghpLvxTZ4knoMOxk+clI+LSQuBRd/sfHuPq8
- U94kLUE1mM4aQ1hQGc0vuiFPQP6kfBIcVu8yfccuXFsSfXb/AFoQGGfCQ+Q8M0SZ+Eaz
- u9zhL+T0+vutg31lRBvPhr7aOqV2F5Hb7m62R56TM+tP5ikyse6MavtXtdCDC1D/YF+u
- e1HbsVzmRX1xNsoTxzQOb2tnVLc8jLu6oCi4ydrYhK+e4UzguFIIEL28icUbch9a2tBB
- MKVjaK+dBAPB3Ea2odmL8xmHMn44Ec3aAryVqk6K0V3tymblcoQabn1BR/fGIpydHstf
- aB3g==
+ bh=WpqfZpy0KhNOi4dX7TpD4nUG6HhaVwhIk+AiVaYBRNs=;
+ b=JHatXzPwrKkK7E2TqBY4weJOvCc1seUkptnkap2gmbUIeYwGfjj7ra45SPrOFxQ5R5
+ 4eqEJFfNEotpRMkW9yKmDMm4S2LHEWbe8N5m/uPPvZg1hYnTIqa6sUcx6pr9t89hOutj
+ O6fgEHwQCVq+aFKQZwqy8y3XUCPWWCs+jVM/2dGUsJfhSITLtFmIKIb08c/TZwQ0EVOt
+ u5lWTXSS6zqRa8TDxEob4gRmqizChwimP7VQ/V6TOALxJ/DWa+arZs5U2Y+suCdgvgQ2
+ tanCcgEh2iXuosMhvDaooPfibUoCU3H++NaLBBtlzrciD3rmXVpvf52xhGB+S9UAD+fX
+ z2Og==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWzU5C/bQh0nJepRASVKXAuNzcAVxAFjLS5Idtu7n2vPcmek6mG3nMyOcqCyc3FwHGDgyntxHue3y0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxKi0/Ag1gABY22AJVRbXga2Wh/3+/iOSK3hoNuD7aqtp4wS+qg
- XBThVk2kjkInhtrKPyJbWAasLBCKUWeETb3wKJWQqaft/Pr1r5YWpG4zbj+9mgUbKLnbHLsKrFB
- m16h5ThxD7eKOeK1ebuMgazYkKjI=
-X-Google-Smtp-Source: AGHT+IHK7lgNU2cqHnJklHE865k53HsTuHdHwY3kT9CtZVScB0WjQJlMOR5ix+y9Y3xweVzDqJV2SHjwy23kRy1Rx0o=
-X-Received: by 2002:a17:902:e845:b0:20c:92ce:35b3 with SMTP id
- d9443c01a7336-20ca1429fdbmr66874725ad.2.1728925206043; Mon, 14 Oct 2024
- 10:00:06 -0700 (PDT)
+ AJvYcCWw9/4K73NW4p5FCYxcvRNEsNKYPwg+91rxP7kBHe9un11Ngt8Aktlv/PnR2Om6O+Wqr8SfKBN2B4Y=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzxnwHFpjLfOEzgYrdYCbj8uDNzVx2PBn6wZiYm4nSG7RphAo41
+ WCg0JJlf9Pf5PfaWXfxBtcr5i3rnF/Sr8ji1rbRRVpP9F6gOsvF+mgNUIoNzqAsrn54RoGJjn0f
+ +lw==
+X-Google-Smtp-Source: AGHT+IHdb2AjZAopM+CSL9Xamg+51hivZnNhs/BmtGbTGBqaDwwjUeHiN2i7ctepwYYzNWIBADUA2Q==
+X-Received: by 2002:a05:6512:1598:b0:530:b773:b4ce with SMTP id
+ 2adb3069b0e04-539e551a25emr4813880e87.33.1728925430246; 
+ Mon, 14 Oct 2024 10:03:50 -0700 (PDT)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com.
+ [209.85.167.49]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-539cb8f0ea9sm1698468e87.186.2024.10.14.10.03.49
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 14 Oct 2024 10:03:49 -0700 (PDT)
+Received: by mail-lf1-f49.google.com with SMTP id
+ 2adb3069b0e04-539f58c68c5so2013894e87.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 10:03:49 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW7mOk0iWb7DLsmPgpvp+x447w8o9522l9C99RHNTAOlmK7mUpO9pT1vgmY98aU9zQ+bBVZ8U22dFU=@lists.freedesktop.org
+X-Received: by 2002:a05:6512:39c7:b0:531:8f2f:8ae7 with SMTP id
+ 2adb3069b0e04-539e550179cmr5026613e87.25.1728925429365; Mon, 14 Oct 2024
+ 10:03:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20241012075312.16342-1-witcher@wiredspace.de>
- <20241012075312.16342-6-witcher@wiredspace.de>
- <13f6f904-bd2c-4b0a-914e-0715d22a7ff5@redhat.com>
-In-Reply-To: <13f6f904-bd2c-4b0a-914e-0715d22a7ff5@redhat.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 14 Oct 2024 18:59:54 +0200
-Message-ID: <CANiq72kE0QtiC6OjyV32r_0V2KxhtPk+-8mQGkCvtexif+04vg@mail.gmail.com>
-Subject: Re: [PATCH 6/7] drm/panic: allow verbose boolean for clarity
-To: Jocelyn Falempe <jfalempe@redhat.com>
-Cc: =?UTF-8?Q?Thomas_B=C3=B6hler?= <witcher@wiredspace.de>, 
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- rust-for-linux@vger.kernel.org, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20241011020819.1254157-1-yangcong5@huaqin.corp-partner.google.com>
+ <CAD=FV=XfHtdc9RpEwAtVHNYwBGJGhHUAoHaJhP+ZPWuUHAASFQ@mail.gmail.com>
+In-Reply-To: <CAD=FV=XfHtdc9RpEwAtVHNYwBGJGhHUAoHaJhP+ZPWuUHAASFQ@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 14 Oct 2024 10:03:34 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=UMaAo9x0URaaVNxzx+ztLreAcbiAfLFvDFNcHut5srvg@mail.gmail.com>
+Message-ID: <CAD=FV=UMaAo9x0URaaVNxzx+ztLreAcbiAfLFvDFNcHut5srvg@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel: himax-hx83102: Adjust power and gamma to
+ optimize brightness
+To: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+Cc: sam@ravnborg.org, neil.armstrong@linaro.org, linus.walleij@linaro.org, 
+ airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -91,19 +95,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 14, 2024 at 10:54=E2=80=AFAM Jocelyn Falempe <jfalempe@redhat.c=
-om> wrote:
+Hi,
+
+On Fri, Oct 11, 2024 at 7:20=E2=80=AFAM Doug Anderson <dianders@chromium.or=
+g> wrote:
 >
-> With the suggestions from Alice Ryhl to not introduce a return, and use
-> expect:
+> Hi,
+>
+> On Thu, Oct 10, 2024 at 7:08=E2=80=AFPM Cong Yang
+> <yangcong5@huaqin.corp-partner.google.com> wrote:
+> >
+> > The current panel brightness is only 360 nit. Adjust the power and gamm=
+a to
+> > optimize the panel brightness. The brightness after adjustment is 390 n=
+it.
+> >
+> > Fixes: 3179338750d8 ("drm/panel: Support for IVO t109nw41 MIPI-DSI pane=
+l")
 
-+1 to both.
+When applying your patch, I got a yell about your "Fixes" line. It
+turns out you didn't copy the subject of the patch you're fixing
+exactly. The above should be:
 
-`expect` (here and the other ones I suggested) require `rust-next`, so
-if this goes through DRM, then we can clean this up later. Otherwise,
-if you prefer `rust-next`, we can change them to `expect` already.
+Fixes: 3179338750d8 ("drm/panel: himax-hx83102: Support for IVO
+t109nw41 MIPI-DSI panel")
 
-Thanks!
+I'll fix that when applying. Please make sure you get the commit
+subject exactly in the future.
 
-Cheers,
-Miguel
+
+> > Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+> > ---
+> >  drivers/gpu/drm/panel/panel-himax-hx83102.c | 12 ++++++------
+> >  1 file changed, 6 insertions(+), 6 deletions(-)
+>
+> No objection on my part. This is just modification of some constants,
+> is well described, and is to a panel that you added so I don't think
+> it needs a long bake time on the list. I'll plan to apply this on
+> Monday unless there are comments or someone beats me to applying.
+>
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+
+I've applied and pushed to drm-misc-fixes:
+
+[1/1] drm/panel: himax-hx83102: Adjust power and gamma to optimize brightne=
+ss
+      commit: fcf38bc321fbc87dfcd829f42e64e541f17599f7
+
+-Doug
