@@ -2,112 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B94699C466
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2024 10:58:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ECC099C45B
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2024 10:58:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27D0410E412;
-	Mon, 14 Oct 2024 08:57:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B53810E3FD;
+	Mon, 14 Oct 2024 08:57:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="SeLfbJY2";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Yxj01ZOp";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SeLfbJY2";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Yxj01ZOp";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="xYdXVjZe";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PrZWmRuu";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xYdXVjZe";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PrZWmRuu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0EE1910E3E6;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E13E10E3EA;
  Mon, 14 Oct 2024 08:57:49 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id C41A921C31;
- Mon, 14 Oct 2024 08:57:47 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 1B65B21C36;
+ Mon, 14 Oct 2024 08:57:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1728896267; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+ t=1728896268; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yB8b494BlPF/n52u2yVlYs69h2orQqpBVOhztL/hQlc=;
- b=SeLfbJY2c3Afq+2PYYD5FdH9G8us0XETMVgQPkYlDW2lpTRCsAVRUe6AzG8Ir6Kmo6Mlri
- lBA/zETBK9afci5gMVpZjVbyLltqABaX3kpNZq60gl/XtrI3fnW2QALza1BAh7tv5a/fvw
- x/IH+dMCTIYoJmNJYuFhMGnfUP/oWNs=
+ bh=3szjnAHWrG6zV13o5SF+WK9fyL5tCBRyGd0lY13/Dok=;
+ b=xYdXVjZewZS3CUcLGBquvh/5N3bctJMmCxz5ecMeqUtGr+8XXDyv/W9CSslz+odXDSApXc
+ spRDh9tsmvUSy11PPVm3zEt9cxZ+wYKWXZ9WKQ9Pw2nuwPbMbK2ow2/AOGhC4Rpzjxaupn
+ 8aB4IDVXUUDmlsxPHU9y6RGMGX6BCdk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1728896267;
+ s=susede2_ed25519; t=1728896268;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+ mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yB8b494BlPF/n52u2yVlYs69h2orQqpBVOhztL/hQlc=;
- b=Yxj01ZOpl0ijt2zAYIREY6XFBMjK7T4ioWNUxmm2gp5nuFOBIv1hSjWk2ZkPeXxChiTmMZ
- LZT6sDDQZ4QOU4Bw==
+ bh=3szjnAHWrG6zV13o5SF+WK9fyL5tCBRyGd0lY13/Dok=;
+ b=PrZWmRuubob8H3QAOSx5a50axUlDzFWEmPhsBU5XHhI+PXX5Ankd4lsUxGYiMejsC726OW
+ zcTc9I6Re9L95JAA==
 Authentication-Results: smtp-out1.suse.de;
-	none
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=xYdXVjZe;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=PrZWmRuu
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1728896267; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+ t=1728896268; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yB8b494BlPF/n52u2yVlYs69h2orQqpBVOhztL/hQlc=;
- b=SeLfbJY2c3Afq+2PYYD5FdH9G8us0XETMVgQPkYlDW2lpTRCsAVRUe6AzG8Ir6Kmo6Mlri
- lBA/zETBK9afci5gMVpZjVbyLltqABaX3kpNZq60gl/XtrI3fnW2QALza1BAh7tv5a/fvw
- x/IH+dMCTIYoJmNJYuFhMGnfUP/oWNs=
+ bh=3szjnAHWrG6zV13o5SF+WK9fyL5tCBRyGd0lY13/Dok=;
+ b=xYdXVjZewZS3CUcLGBquvh/5N3bctJMmCxz5ecMeqUtGr+8XXDyv/W9CSslz+odXDSApXc
+ spRDh9tsmvUSy11PPVm3zEt9cxZ+wYKWXZ9WKQ9Pw2nuwPbMbK2ow2/AOGhC4Rpzjxaupn
+ 8aB4IDVXUUDmlsxPHU9y6RGMGX6BCdk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1728896267;
+ s=susede2_ed25519; t=1728896268;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+ mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yB8b494BlPF/n52u2yVlYs69h2orQqpBVOhztL/hQlc=;
- b=Yxj01ZOpl0ijt2zAYIREY6XFBMjK7T4ioWNUxmm2gp5nuFOBIv1hSjWk2ZkPeXxChiTmMZ
- LZT6sDDQZ4QOU4Bw==
+ bh=3szjnAHWrG6zV13o5SF+WK9fyL5tCBRyGd0lY13/Dok=;
+ b=PrZWmRuubob8H3QAOSx5a50axUlDzFWEmPhsBU5XHhI+PXX5Ankd4lsUxGYiMejsC726OW
+ zcTc9I6Re9L95JAA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 57FDF13A42;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CAB9F13A79;
  Mon, 14 Oct 2024 08:57:47 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 0EA6FAvdDGfXfAAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id YLA3MAvdDGfXfAAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Mon, 14 Oct 2024 08:57:47 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: simona@ffwll.ch, airlied@gmail.com, javierm@redhat.com, jfalempe@redhat.com
 Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  Thomas Zimmermann <tzimmermann@suse.de>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, Karol Herbst <kherbst@redhat.com>,
- Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@redhat.com>,
  Jonathan Cavitt <jonathan.cavitt@intel.com>
-Subject: [PATCH v4 06/12] drm/client: Move client event handlers to
- drm_client_event.c
-Date: Mon, 14 Oct 2024 10:55:20 +0200
-Message-ID: <20241014085740.582287-7-tzimmermann@suse.de>
+Subject: [PATCH v4 07/12] drm/client: Move suspend/resume into DRM client
+ callbacks
+Date: Mon, 14 Oct 2024 10:55:21 +0200
+Message-ID: <20241014085740.582287-8-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20241014085740.582287-1-tzimmermann@suse.de>
 References: <20241014085740.582287-1-tzimmermann@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+X-Rspamd-Queue-Id: 1B65B21C36
+X-Spam-Score: -3.01
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_MISSING_CHARSET(0.50)[];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
  NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- RCVD_VIA_SMTP_AUTH(0.00)[]; TO_DN_SOME(0.00)[]; ARC_NA(0.00)[];
- FREEMAIL_TO(0.00)[ffwll.ch,gmail.com,redhat.com];
- RCPT_COUNT_TWELVE(0.00)[17]; MIME_TRACE(0.00)[0:+];
- FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ MX_GOOD(-0.01)[]; TO_MATCH_ENVRCPT_ALL(0.00)[]; ARC_NA(0.00)[];
  DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- R_RATELIMIT(0.00)[to_ip_from(RLqirfcw6gnbcr9a9yhi49fhi6)];
- RCVD_TLS_ALL(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; FUZZY_BLOCKED(0.00)[rspamd.com];
- DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,suse.de:email,suse.de:mid]
-X-Spam-Score: -3.30
+ FUZZY_BLOCKED(0.00)[rspamd.com]; MIME_TRACE(0.00)[0:+];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ TO_DN_SOME(0.00)[];
+ FREEMAIL_TO(0.00)[ffwll.ch,gmail.com,redhat.com];
+ RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
+ RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,suse.de:dkim,suse.de:mid,suse.de:email];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ RCPT_COUNT_SEVEN(0.00)[10];
+ R_RATELIMIT(0.00)[to_ip_from(RLqtkr6cif1ebgurukgmwdm7xc)];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Flag: NO
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,445 +129,281 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A number of DRM-client functions serve as entry points from device
-operations to client code. Moving them info a separate file will later
-allow for a more fine-grained kernel configuration. For most of the
-users it is sufficient to include <drm/drm_client_event.h> instead of
-the full driver-side interface in <drm/drm_client.h>
+Suspend and resume is still tied to fbdev emulation. Modeset helpers
+and several drivers call drm_fb_helper_set_suspend_unlocked() to inform
+the fbdev client about suspend/resume events.
 
-v2:
-- rename new files to drm_client_event.{c,h}
+To make it work with arbitrary clients, add per-client callback
+functions for suspend and resume. Implement them for fbdev emulation
+with the existing drm_fb_helper_set_suspend_unlocked(). Then update
+DRM's modeset helpers to call the new interface.
+
+Clients that are not fbdev can now implement suspend/resume to their
+requirements.
+
+The callback parameter holds_console_lock is a workaround for i915,
+radeon and xe, which possibly call the interface while having the
+console lock acquired. Even though the commit doesn't modify these
+drivers, it already adds the flag to avoid churn later on. New code
+should not hold the console lock.
+
+v4:
+- clarify holds_console_lock in commit description (Jonathan)
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Tvrtko Ursulin <tursulin@ursulin.net>
-Cc: Karol Herbst <kherbst@redhat.com>
-Cc: Lyude Paul <lyude@redhat.com>
-Cc: Danilo Krummrich <dakr@redhat.com>
 Reviewed-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
 ---
- Documentation/gpu/drm-client.rst              |   3 +
- drivers/gpu/drm/Makefile                      |   1 +
- drivers/gpu/drm/drm_client.c                  | 121 ----------------
- drivers/gpu/drm/drm_client_event.c            | 135 ++++++++++++++++++
- drivers/gpu/drm/drm_drv.c                     |   2 +-
- drivers/gpu/drm/drm_file.c                    |   2 +-
- drivers/gpu/drm/drm_probe_helper.c            |   2 +-
- .../drm/i915/display/intel_display_driver.c   |   2 +-
- drivers/gpu/drm/nouveau/nouveau_vga.c         |   2 +-
- include/drm/drm_client.h                      |   4 -
- include/drm/drm_client_event.h                |  12 ++
- 11 files changed, 156 insertions(+), 130 deletions(-)
- create mode 100644 drivers/gpu/drm/drm_client_event.c
- create mode 100644 include/drm/drm_client_event.h
+ drivers/gpu/drm/drm_client_event.c   | 60 ++++++++++++++++++++++++++++
+ drivers/gpu/drm/drm_fbdev_client.c   | 30 +++++++++++++-
+ drivers/gpu/drm/drm_modeset_helper.c | 14 ++++---
+ include/drm/drm_client.h             | 35 ++++++++++++++++
+ include/drm/drm_client_event.h       |  2 +
+ 5 files changed, 133 insertions(+), 8 deletions(-)
 
-diff --git a/Documentation/gpu/drm-client.rst b/Documentation/gpu/drm-client.rst
-index 58b5a1d1219d..cbcfe30de777 100644
---- a/Documentation/gpu/drm-client.rst
-+++ b/Documentation/gpu/drm-client.rst
-@@ -13,3 +13,6 @@ Kernel clients
- 
- .. kernel-doc:: drivers/gpu/drm/drm_client_modeset.c
-    :export:
-+
-+.. kernel-doc:: drivers/gpu/drm/drm_client_event.c
-+   :export:
-diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index 3894f43f6d47..6b7d168ca790 100644
---- a/drivers/gpu/drm/Makefile
-+++ b/drivers/gpu/drm/Makefile
-@@ -42,6 +42,7 @@ drm-y := \
- 	drm_bridge.o \
- 	drm_cache.o \
- 	drm_client.o \
-+	drm_client_event.o \
- 	drm_client_modeset.o \
- 	drm_color_mgmt.o \
- 	drm_connector.o \
-diff --git a/drivers/gpu/drm/drm_client.c b/drivers/gpu/drm/drm_client.c
-index bfedcbf516db..549b28a5918c 100644
---- a/drivers/gpu/drm/drm_client.c
-+++ b/drivers/gpu/drm/drm_client.c
-@@ -10,7 +10,6 @@
- #include <linux/slab.h>
- 
- #include <drm/drm_client.h>
--#include <drm/drm_debugfs.h>
- #include <drm/drm_device.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_file.h>
-@@ -172,99 +171,6 @@ void drm_client_release(struct drm_client_dev *client)
- }
- EXPORT_SYMBOL(drm_client_release);
- 
--/**
-- * drm_client_dev_unregister - Unregister clients
-- * @dev: DRM device
-- *
-- * This function releases all clients by calling each client's
-- * &drm_client_funcs.unregister callback. The callback function
-- * is responsibe for releaseing all resources including the client
-- * itself.
-- *
-- * The helper drm_dev_unregister() calls this function. Drivers
-- * that use it don't need to call this function themselves.
-- */
--void drm_client_dev_unregister(struct drm_device *dev)
--{
--	struct drm_client_dev *client, *tmp;
--
--	if (!drm_core_check_feature(dev, DRIVER_MODESET))
--		return;
--
--	mutex_lock(&dev->clientlist_mutex);
--	list_for_each_entry_safe(client, tmp, &dev->clientlist, list) {
--		list_del(&client->list);
--		if (client->funcs && client->funcs->unregister) {
--			client->funcs->unregister(client);
--		} else {
--			drm_client_release(client);
--			kfree(client);
--		}
--	}
--	mutex_unlock(&dev->clientlist_mutex);
--}
--EXPORT_SYMBOL(drm_client_dev_unregister);
--
--/**
-- * drm_client_dev_hotplug - Send hotplug event to clients
-- * @dev: DRM device
-- *
-- * This function calls the &drm_client_funcs.hotplug callback on the attached clients.
-- *
-- * drm_kms_helper_hotplug_event() calls this function, so drivers that use it
-- * don't need to call this function themselves.
-- */
--void drm_client_dev_hotplug(struct drm_device *dev)
--{
--	struct drm_client_dev *client;
--	int ret;
--
--	if (!drm_core_check_feature(dev, DRIVER_MODESET))
--		return;
--
--	if (!dev->mode_config.num_connector) {
--		drm_dbg_kms(dev, "No connectors found, will not send hotplug events!\n");
--		return;
--	}
--
--	mutex_lock(&dev->clientlist_mutex);
--	list_for_each_entry(client, &dev->clientlist, list) {
--		if (!client->funcs || !client->funcs->hotplug)
--			continue;
--
--		if (client->hotplug_failed)
--			continue;
--
--		ret = client->funcs->hotplug(client);
--		drm_dbg_kms(dev, "%s: ret=%d\n", client->name, ret);
--		if (ret)
--			client->hotplug_failed = true;
--	}
--	mutex_unlock(&dev->clientlist_mutex);
--}
--EXPORT_SYMBOL(drm_client_dev_hotplug);
--
--void drm_client_dev_restore(struct drm_device *dev)
--{
--	struct drm_client_dev *client;
--	int ret;
--
--	if (!drm_core_check_feature(dev, DRIVER_MODESET))
--		return;
--
--	mutex_lock(&dev->clientlist_mutex);
--	list_for_each_entry(client, &dev->clientlist, list) {
--		if (!client->funcs || !client->funcs->restore)
--			continue;
--
--		ret = client->funcs->restore(client);
--		drm_dbg_kms(dev, "%s: ret=%d\n", client->name, ret);
--		if (!ret) /* The first one to return zero gets the privilege to restore */
--			break;
--	}
--	mutex_unlock(&dev->clientlist_mutex);
--}
--
- static void drm_client_buffer_delete(struct drm_client_buffer *buffer)
- {
- 	if (buffer->gem) {
-@@ -584,30 +490,3 @@ int drm_client_framebuffer_flush(struct drm_client_buffer *buffer, struct drm_re
- 					0, 0, NULL, 0);
- }
- EXPORT_SYMBOL(drm_client_framebuffer_flush);
--
--#ifdef CONFIG_DEBUG_FS
--static int drm_client_debugfs_internal_clients(struct seq_file *m, void *data)
--{
--	struct drm_debugfs_entry *entry = m->private;
--	struct drm_device *dev = entry->dev;
--	struct drm_printer p = drm_seq_file_printer(m);
--	struct drm_client_dev *client;
--
--	mutex_lock(&dev->clientlist_mutex);
--	list_for_each_entry(client, &dev->clientlist, list)
--		drm_printf(&p, "%s\n", client->name);
--	mutex_unlock(&dev->clientlist_mutex);
--
--	return 0;
--}
--
--static const struct drm_debugfs_info drm_client_debugfs_list[] = {
--	{ "internal_clients", drm_client_debugfs_internal_clients, 0 },
--};
--
--void drm_client_debugfs_init(struct drm_device *dev)
--{
--	drm_debugfs_add_files(dev, drm_client_debugfs_list,
--			      ARRAY_SIZE(drm_client_debugfs_list));
--}
--#endif
 diff --git a/drivers/gpu/drm/drm_client_event.c b/drivers/gpu/drm/drm_client_event.c
-new file mode 100644
-index 000000000000..d13d44320c5c
---- /dev/null
+index d13d44320c5c..c52e93643672 100644
+--- a/drivers/gpu/drm/drm_client_event.c
 +++ b/drivers/gpu/drm/drm_client_event.c
-@@ -0,0 +1,135 @@
-+// SPDX-License-Identifier: GPL-2.0 or MIT
-+/*
-+ * Copyright 2018 Noralf Trønnes
-+ */
-+
-+#include <linux/list.h>
-+#include <linux/mutex.h>
-+#include <linux/seq_file.h>
-+
-+#include <drm/drm_client.h>
-+#include <drm/drm_client_event.h>
-+#include <drm/drm_debugfs.h>
-+#include <drm/drm_device.h>
-+#include <drm/drm_drv.h>
-+#include <drm/drm_print.h>
-+
-+/**
-+ * drm_client_dev_unregister - Unregister clients
-+ * @dev: DRM device
-+ *
-+ * This function releases all clients by calling each client's
-+ * &drm_client_funcs.unregister callback. The callback function
-+ * is responsibe for releaseing all resources including the client
-+ * itself.
-+ *
-+ * The helper drm_dev_unregister() calls this function. Drivers
-+ * that use it don't need to call this function themselves.
-+ */
-+void drm_client_dev_unregister(struct drm_device *dev)
+@@ -107,6 +107,66 @@ void drm_client_dev_restore(struct drm_device *dev)
+ 	mutex_unlock(&dev->clientlist_mutex);
+ }
+ 
++static int drm_client_suspend(struct drm_client_dev *client, bool holds_console_lock)
 +{
-+	struct drm_client_dev *client, *tmp;
++	struct drm_device *dev = client->dev;
++	int ret = 0;
 +
-+	if (!drm_core_check_feature(dev, DRIVER_MODESET))
-+		return;
++	if (drm_WARN_ON_ONCE(dev, client->suspended))
++		return 0;
 +
-+	mutex_lock(&dev->clientlist_mutex);
-+	list_for_each_entry_safe(client, tmp, &dev->clientlist, list) {
-+		list_del(&client->list);
-+		if (client->funcs && client->funcs->unregister) {
-+			client->funcs->unregister(client);
-+		} else {
-+			drm_client_release(client);
-+			kfree(client);
-+		}
-+	}
-+	mutex_unlock(&dev->clientlist_mutex);
++	if (client->funcs && client->funcs->suspend)
++		ret = client->funcs->suspend(client, holds_console_lock);
++	drm_dbg_kms(dev, "%s: ret=%d\n", client->name, ret);
++
++	client->suspended = true;
++
++	return ret;
 +}
-+EXPORT_SYMBOL(drm_client_dev_unregister);
 +
-+/**
-+ * drm_client_dev_hotplug - Send hotplug event to clients
-+ * @dev: DRM device
-+ *
-+ * This function calls the &drm_client_funcs.hotplug callback on the attached clients.
-+ *
-+ * drm_kms_helper_hotplug_event() calls this function, so drivers that use it
-+ * don't need to call this function themselves.
-+ */
-+void drm_client_dev_hotplug(struct drm_device *dev)
++void drm_client_dev_suspend(struct drm_device *dev, bool holds_console_lock)
 +{
 +	struct drm_client_dev *client;
-+	int ret;
-+
-+	if (!drm_core_check_feature(dev, DRIVER_MODESET))
-+		return;
-+
-+	if (!dev->mode_config.num_connector) {
-+		drm_dbg_kms(dev, "No connectors found, will not send hotplug events!\n");
-+		return;
-+	}
 +
 +	mutex_lock(&dev->clientlist_mutex);
 +	list_for_each_entry(client, &dev->clientlist, list) {
-+		if (!client->funcs || !client->funcs->hotplug)
-+			continue;
-+
-+		if (client->hotplug_failed)
-+			continue;
-+
-+		ret = client->funcs->hotplug(client);
-+		drm_dbg_kms(dev, "%s: ret=%d\n", client->name, ret);
-+		if (ret)
-+			client->hotplug_failed = true;
++		if (!client->suspended)
++			drm_client_suspend(client, holds_console_lock);
 +	}
 +	mutex_unlock(&dev->clientlist_mutex);
 +}
-+EXPORT_SYMBOL(drm_client_dev_hotplug);
++EXPORT_SYMBOL(drm_client_dev_suspend);
 +
-+void drm_client_dev_restore(struct drm_device *dev)
++static int drm_client_resume(struct drm_client_dev *client, bool holds_console_lock)
++{
++	struct drm_device *dev = client->dev;
++	int ret = 0;
++
++	if (drm_WARN_ON_ONCE(dev, !client->suspended))
++		return 0;
++
++	if (client->funcs && client->funcs->resume)
++		ret = client->funcs->resume(client, holds_console_lock);
++	drm_dbg_kms(dev, "%s: ret=%d\n", client->name, ret);
++
++	client->suspended = false;
++
++	return ret;
++}
++
++void drm_client_dev_resume(struct drm_device *dev, bool holds_console_lock)
 +{
 +	struct drm_client_dev *client;
-+	int ret;
-+
-+	if (!drm_core_check_feature(dev, DRIVER_MODESET))
-+		return;
 +
 +	mutex_lock(&dev->clientlist_mutex);
 +	list_for_each_entry(client, &dev->clientlist, list) {
-+		if (!client->funcs || !client->funcs->restore)
-+			continue;
-+
-+		ret = client->funcs->restore(client);
-+		drm_dbg_kms(dev, "%s: ret=%d\n", client->name, ret);
-+		if (!ret) /* The first one to return zero gets the privilege to restore */
-+			break;
++		if  (client->suspended)
++			drm_client_resume(client, holds_console_lock);
 +	}
 +	mutex_unlock(&dev->clientlist_mutex);
 +}
++EXPORT_SYMBOL(drm_client_dev_resume);
 +
-+#ifdef CONFIG_DEBUG_FS
-+static int drm_client_debugfs_internal_clients(struct seq_file *m, void *data)
+ #ifdef CONFIG_DEBUG_FS
+ static int drm_client_debugfs_internal_clients(struct seq_file *m, void *data)
+ {
+diff --git a/drivers/gpu/drm/drm_fbdev_client.c b/drivers/gpu/drm/drm_fbdev_client.c
+index a09382afe2fb..246fb63ab250 100644
+--- a/drivers/gpu/drm/drm_fbdev_client.c
++++ b/drivers/gpu/drm/drm_fbdev_client.c
+@@ -61,11 +61,37 @@ static int drm_fbdev_client_hotplug(struct drm_client_dev *client)
+ 	return ret;
+ }
+ 
++static int drm_fbdev_client_suspend(struct drm_client_dev *client, bool holds_console_lock)
 +{
-+	struct drm_debugfs_entry *entry = m->private;
-+	struct drm_device *dev = entry->dev;
-+	struct drm_printer p = drm_seq_file_printer(m);
-+	struct drm_client_dev *client;
++	struct drm_fb_helper *fb_helper = drm_fb_helper_from_client(client);
 +
-+	mutex_lock(&dev->clientlist_mutex);
-+	list_for_each_entry(client, &dev->clientlist, list)
-+		drm_printf(&p, "%s\n", client->name);
-+	mutex_unlock(&dev->clientlist_mutex);
++	if (holds_console_lock)
++		drm_fb_helper_set_suspend(fb_helper, true);
++	else
++		drm_fb_helper_set_suspend_unlocked(fb_helper, true);
 +
 +	return 0;
 +}
 +
-+static const struct drm_debugfs_info drm_client_debugfs_list[] = {
-+	{ "internal_clients", drm_client_debugfs_internal_clients, 0 },
-+};
-+
-+void drm_client_debugfs_init(struct drm_device *dev)
++static int drm_fbdev_client_resume(struct drm_client_dev *client, bool holds_console_lock)
 +{
-+	drm_debugfs_add_files(dev, drm_client_debugfs_list,
-+			      ARRAY_SIZE(drm_client_debugfs_list));
++	struct drm_fb_helper *fb_helper = drm_fb_helper_from_client(client);
++
++	if (holds_console_lock)
++		drm_fb_helper_set_suspend(fb_helper, false);
++	else
++		drm_fb_helper_set_suspend_unlocked(fb_helper, false);
++
++	return 0;
 +}
-+#endif
-diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-index ac30b0ec9d93..c2c172eb25df 100644
---- a/drivers/gpu/drm/drm_drv.c
-+++ b/drivers/gpu/drm/drm_drv.c
-@@ -38,7 +38,7 @@
++
+ static const struct drm_client_funcs drm_fbdev_client_funcs = {
+ 	.owner		= THIS_MODULE,
+ 	.unregister	= drm_fbdev_client_unregister,
+ 	.restore	= drm_fbdev_client_restore,
+ 	.hotplug	= drm_fbdev_client_hotplug,
++	.suspend	= drm_fbdev_client_suspend,
++	.resume		= drm_fbdev_client_resume,
+ };
  
- #include <drm/drm_accel.h>
- #include <drm/drm_cache.h>
--#include <drm/drm_client.h>
-+#include <drm/drm_client_event.h>
- #include <drm/drm_color_mgmt.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_file.h>
-diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-index 2ee1c3233b0c..9011f8e16099 100644
---- a/drivers/gpu/drm/drm_file.c
-+++ b/drivers/gpu/drm/drm_file.c
-@@ -40,7 +40,7 @@
- #include <linux/slab.h>
- #include <linux/vga_switcheroo.h>
+ /**
+@@ -76,8 +102,8 @@ static const struct drm_client_funcs drm_fbdev_client_funcs = {
+  *
+  * This function sets up fbdev emulation. Restore, hotplug events and
+  * teardown are all taken care of. Drivers that do suspend/resume need
+- * to call drm_fb_helper_set_suspend_unlocked() themselves. Simple
+- * drivers might use drm_mode_config_helper_suspend().
++ * to call drm_client_dev_suspend() and drm_client_dev_resume() by
++ * themselves. Simple drivers might use drm_mode_config_helper_suspend().
+  *
+  * This function is safe to call even when there are no connectors present.
+  * Setup will be retried on the next hotplug event.
+diff --git a/drivers/gpu/drm/drm_modeset_helper.c b/drivers/gpu/drm/drm_modeset_helper.c
+index 2c582020cb42..5565464c1734 100644
+--- a/drivers/gpu/drm/drm_modeset_helper.c
++++ b/drivers/gpu/drm/drm_modeset_helper.c
+@@ -21,7 +21,7 @@
+  */
  
--#include <drm/drm_client.h>
-+#include <drm/drm_client_event.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_file.h>
- #include <drm/drm_gem.h>
-diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
-index 92f21764246f..96b266b37ba4 100644
---- a/drivers/gpu/drm/drm_probe_helper.c
-+++ b/drivers/gpu/drm/drm_probe_helper.c
-@@ -33,7 +33,7 @@
- #include <linux/moduleparam.h>
- 
- #include <drm/drm_bridge.h>
--#include <drm/drm_client.h>
-+#include <drm/drm_client_event.h>
- #include <drm/drm_crtc.h>
- #include <drm/drm_edid.h>
- #include <drm/drm_fourcc.h>
-diff --git a/drivers/gpu/drm/i915/display/intel_display_driver.c b/drivers/gpu/drm/i915/display/intel_display_driver.c
-index c106fb2dd20b..673f9b965494 100644
---- a/drivers/gpu/drm/i915/display/intel_display_driver.c
-+++ b/drivers/gpu/drm/i915/display/intel_display_driver.c
-@@ -11,7 +11,7 @@
- #include <acpi/video.h>
- #include <drm/display/drm_dp_mst_helper.h>
  #include <drm/drm_atomic_helper.h>
--#include <drm/drm_client.h>
-+#include <drm/drm_client_event.h>
- #include <drm/drm_mode_config.h>
- #include <drm/drm_privacy_screen_consumer.h>
- #include <drm/drm_probe_helper.h>
-diff --git a/drivers/gpu/drm/nouveau/nouveau_vga.c b/drivers/gpu/drm/nouveau/nouveau_vga.c
-index ab4e11dc0b8a..a6c375a24154 100644
---- a/drivers/gpu/drm/nouveau/nouveau_vga.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_vga.c
-@@ -2,7 +2,7 @@
- #include <linux/vgaarb.h>
- #include <linux/vga_switcheroo.h>
- 
 -#include <drm/drm_fb_helper.h>
 +#include <drm/drm_client_event.h>
+ #include <drm/drm_fourcc.h>
+ #include <drm/drm_framebuffer.h>
+ #include <drm/drm_modeset_helper.h>
+@@ -185,7 +185,7 @@ EXPORT_SYMBOL(drm_crtc_init);
+  * Zero on success, negative error code on error.
+  *
+  * See also:
+- * drm_kms_helper_poll_disable() and drm_fb_helper_set_suspend_unlocked().
++ * drm_kms_helper_poll_disable() and drm_client_dev_suspend().
+  */
+ int drm_mode_config_helper_suspend(struct drm_device *dev)
+ {
+@@ -199,10 +199,11 @@ int drm_mode_config_helper_suspend(struct drm_device *dev)
+ 	if (dev->mode_config.poll_enabled)
+ 		drm_kms_helper_poll_disable(dev);
  
- #include "nouveau_drv.h"
- #include "nouveau_acpi.h"
+-	drm_fb_helper_set_suspend_unlocked(dev->fb_helper, 1);
++	drm_client_dev_suspend(dev, false);
+ 	state = drm_atomic_helper_suspend(dev);
+ 	if (IS_ERR(state)) {
+-		drm_fb_helper_set_suspend_unlocked(dev->fb_helper, 0);
++		drm_client_dev_resume(dev, false);
++
+ 		/*
+ 		 * Don't enable polling if it was never initialized
+ 		 */
+@@ -230,7 +231,7 @@ EXPORT_SYMBOL(drm_mode_config_helper_suspend);
+  * Zero on success, negative error code on error.
+  *
+  * See also:
+- * drm_fb_helper_set_suspend_unlocked() and drm_kms_helper_poll_enable().
++ * drm_client_dev_resume() and drm_kms_helper_poll_enable().
+  */
+ int drm_mode_config_helper_resume(struct drm_device *dev)
+ {
+@@ -247,7 +248,8 @@ int drm_mode_config_helper_resume(struct drm_device *dev)
+ 		DRM_ERROR("Failed to resume (%d)\n", ret);
+ 	dev->mode_config.suspend_state = NULL;
+ 
+-	drm_fb_helper_set_suspend_unlocked(dev->fb_helper, 0);
++	drm_client_dev_resume(dev, false);
++
+ 	/*
+ 	 * Don't enable polling if it is not initialized
+ 	 */
 diff --git a/include/drm/drm_client.h b/include/drm/drm_client.h
-index bc0e66f9c425..dfd5afcc9463 100644
+index dfd5afcc9463..c03c4b0f3e94 100644
 --- a/include/drm/drm_client.h
 +++ b/include/drm/drm_client.h
-@@ -121,10 +121,6 @@ int drm_client_init(struct drm_device *dev, struct drm_client_dev *client,
- void drm_client_release(struct drm_client_dev *client);
- void drm_client_register(struct drm_client_dev *client);
+@@ -63,6 +63,34 @@ struct drm_client_funcs {
+ 	 * This callback is optional.
+ 	 */
+ 	int (*hotplug)(struct drm_client_dev *client);
++
++	/**
++	 * @suspend:
++	 *
++	 * Called when suspending the device.
++	 *
++	 * This callback is optional.
++	 *
++	 * FIXME: Some callers hold the console lock when invoking this
++	 *        function. This interferes with fbdev emulation, which
++	 *        also tries to acquire the lock. Push the console lock
++	 *        into the callback and remove 'holds_console_lock'.
++	 */
++	int (*suspend)(struct drm_client_dev *client, bool holds_console_lock);
++
++	/**
++	 * @resume:
++	 *
++	 * Called when resuming the device from suspend.
++	 *
++	 * This callback is optional.
++	 *
++	 * FIXME: Some callers hold the console lock when invoking this
++	 *        function. This interferes with fbdev emulation, which
++	 *        also tries to acquire the lock. Push the console lock
++	 *        into the callback and remove 'holds_console_lock'.
++	 */
++	int (*resume)(struct drm_client_dev *client, bool holds_console_lock);
+ };
  
--void drm_client_dev_unregister(struct drm_device *dev);
--void drm_client_dev_hotplug(struct drm_device *dev);
--void drm_client_dev_restore(struct drm_device *dev);
--
  /**
-  * struct drm_client_buffer - DRM client buffer
-  */
+@@ -107,6 +135,13 @@ struct drm_client_dev {
+ 	 */
+ 	struct drm_mode_set *modesets;
+ 
++	/**
++	 * @suspended:
++	 *
++	 * The client has been suspended.
++	 */
++	bool suspended;
++
+ 	/**
+ 	 * @hotplug_failed:
+ 	 *
 diff --git a/include/drm/drm_client_event.h b/include/drm/drm_client_event.h
-new file mode 100644
-index 000000000000..2c8915241120
---- /dev/null
+index 2c8915241120..72c97d111169 100644
+--- a/include/drm/drm_client_event.h
 +++ b/include/drm/drm_client_event.h
-@@ -0,0 +1,12 @@
-+/* SPDX-License-Identifier: GPL-2.0 or MIT */
-+
-+#ifndef _DRM_CLIENT_EVENT_H_
-+#define _DRM_CLIENT_EVENT_H_
-+
-+struct drm_device;
-+
-+void drm_client_dev_unregister(struct drm_device *dev);
-+void drm_client_dev_hotplug(struct drm_device *dev);
-+void drm_client_dev_restore(struct drm_device *dev);
-+
-+#endif
+@@ -8,5 +8,7 @@ struct drm_device;
+ void drm_client_dev_unregister(struct drm_device *dev);
+ void drm_client_dev_hotplug(struct drm_device *dev);
+ void drm_client_dev_restore(struct drm_device *dev);
++void drm_client_dev_suspend(struct drm_device *dev, bool holds_console_lock);
++void drm_client_dev_resume(struct drm_device *dev, bool holds_console_lock);
+ 
+ #endif
 -- 
 2.46.0
 
