@@ -2,111 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C11799C27A
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2024 10:04:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9F6199C291
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Oct 2024 10:08:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB7FD10E3B5;
-	Mon, 14 Oct 2024 08:04:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CD9910E3BF;
+	Mon, 14 Oct 2024 08:08:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="kGtYj+Gh";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Ze+y4oRI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
- [209.85.167.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3EF7610E3B5
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 08:04:13 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id
- 2adb3069b0e04-539f8490856so498858e87.2
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 01:04:13 -0700 (PDT)
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
+ [209.85.167.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 313A010E3C2
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 08:08:30 +0000 (UTC)
+Received: by mail-lf1-f51.google.com with SMTP id
+ 2adb3069b0e04-539fb49c64aso371896e87.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 01:08:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1728893051; x=1729497851; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1728893308; x=1729498108; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=gRbPdgNIVrqSTf/1E3KOMlBjVq1ghJobEnRvorOgv2Y=;
- b=kGtYj+Gh2yiJLdBcEYYykNRk8ZWoaCY9aHs9vwpfFfmmqnrMWKQ+QXmk9QPSuN6/vF
- 623ifEqRYZezH1ddY7m3ku7EovWVKyBOWDKjMHUk0q8ys4ChbO5Lhy8UWoIKcso4imod
- yhw83CVtSLQjOktjIlNIzOP82M00/235uevSDc5npD4CIYopx9nfa+x4BsUk/37jVzic
- gGvHXyoYB+vClgPDckKpCoRhU45htnt5Jfx+WxUlo3GQBnykoxiXMpT6c4IULhqQ+UQB
- i0Utuq9qgevhNFq6h+bmynDfKavhNFk6FdX2hvf8c/9Vey8rToDuNopr69mlHSrmeh5G
- qyow==
+ bh=ek0HXgVJ4lRKUDparv2Fn/Dq7h99tILCL07wJuqwxgc=;
+ b=Ze+y4oRIcw+E5KgbDlNHKWlCS3WqwLjAIHmuUBIj+nN9IhajmXw8W/vlU67rperR+U
+ rOaU96hxPbL4WwOzDZsMZzYxKUSmryaSAAJzBcFA9tpv4K5/2+5UKPkEuNYfS9SAdgeo
+ ol2PWZCp31CBHTkR9psY/aSJPzqGj38wkcvSB7vsi6HyzshzdXhILXJeLFHFSczww+e2
+ 8Q5yHMgcmEIrYiTbF6/l0T5nA1rEOEoBh3xgucaJHZaR9eYpLd22F0EMtUw5e1GOZ8iR
+ GptttVSGpDh7nyoCW/izRZpM+q8NjxDgL+y1iQ20JrlgBSOICPWhymtCulsGmRDZ5tKV
+ smUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728893051; x=1729497851;
+ d=1e100.net; s=20230601; t=1728893308; x=1729498108;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=gRbPdgNIVrqSTf/1E3KOMlBjVq1ghJobEnRvorOgv2Y=;
- b=qKZKW5ReUGC3HtBAMlmK0agwfPmJe21xdTGUSXwvCUfJXbfJ5ibf1cP5PwaSqS5DDA
- egrlpN7YOFrum6D7gsnTkdKLFUo3/SleptO8TJjlwhuMTLaZNtOaHhxT2NfIrRi/ty40
- OqU9wCTDQoPPs8io+k0OLTgwitgNs5vA2mYiZPmLB4X38nqY7zL7Trq682LNfPYV5u55
- G1dM1MjfhuBsaNTsJ4G4gzsbzVskNzGBeK4x2Bi/C/t9Bv0Y8+xOuy/7igzTV0GGYmtR
- MSfpnItDOdmPHe6K27sOp1NqMEH1J/ZLCW2uXLqqHVIDb+XklbUliFXATB/6u95n2W78
- ZXzQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW/D3BOfZpYK/qkbe7pD3H9Cpob3oMY1UUB36ak0o+em2BHI2dk2e1G0psF8Q+vmt2ZHXdZBv1FYUY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyGkI7Bqaj8dZFAxGWxro4d2WIn3gtGRxYTBA4kVBZqcjqqduAW
- IO7TtW4HU7GiuDFW1L6h3cMkBcNmKzy6yWmOJyQVqtSFBM26VuNsF2EgFJnVZekBd3fXMxQPZ/t
- Z2os=
-X-Google-Smtp-Source: AGHT+IGMVMiVX34iHP51EtutG0xflfB9SX3ApfsR35FJAr5dmbDQdsvuJ7+4vRPFrG4oPA0bt0o7Hg==
-X-Received: by 2002:a05:6512:114f:b0:535:6992:f2cb with SMTP id
- 2adb3069b0e04-539da586e45mr4472475e87.42.1728893051314; 
- Mon, 14 Oct 2024 01:04:11 -0700 (PDT)
+ bh=ek0HXgVJ4lRKUDparv2Fn/Dq7h99tILCL07wJuqwxgc=;
+ b=i3hvzd9VT+ISXtQ5JqHOXUhi0a17XESoRzwrQBLW1vF6Z1DyUqN4hG4FwUOsccw25/
+ AAzEFbFH1ujI275Wcw+VsYBKj1jmzH3Zt5hEzEJwFpTmMdLcbaimPSxoYpn/KP0a5wEn
+ UKvDWCmx1yucGnB/IynmjRyAziZcKDREEWhPMtLVadYs451p/KLZ6q34mEb9ogueMTxh
+ 9jPab/xOTUThVegAzVAgbY9xL0RzGExK7G4AVizoGkaaL7cNuniX3PcVM2nAlp/Bx1d3
+ eEi71kAyCv4AMg3J1EdfJHc1/9THDaxPy/WLtolDWC5cGvMtivJEhA83VPunxwMpELCa
+ xmew==
+X-Gm-Message-State: AOJu0YyVnneAmxT7LGsYgPlvf5oVJTnMyqpR5v6PIB2hAhEwh4f1Nf5R
+ Eh+YfrJRF/tikZpB1V6qEJpUin5tchfQUQsGr66rxVZzHSXsii9/g4cg07bs1KE=
+X-Google-Smtp-Source: AGHT+IFpFvXZahYY/UpYBX+J7gf2zLmfnqUfbFEK4OpIA/RZWgJpkF79yAmXBTPYrW3Wtz6MqCpslw==
+X-Received: by 2002:a05:6512:3402:b0:533:4505:5b2a with SMTP id
+ 2adb3069b0e04-539e5515238mr3224426e87.28.1728893308189; 
+ Mon, 14 Oct 2024 01:08:28 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-539e9b46546sm738844e87.301.2024.10.14.01.04.10
+ 2adb3069b0e04-539f2d2d05dsm453157e87.98.2024.10.14.01.08.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Oct 2024 01:04:10 -0700 (PDT)
-Date: Mon, 14 Oct 2024 11:04:09 +0300
+ Mon, 14 Oct 2024 01:08:26 -0700 (PDT)
+Date: Mon, 14 Oct 2024 11:08:24 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Liu Ying <victor.liu@nxp.com>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "imx@lists.linux.dev" <imx@lists.linux.dev>, 
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>, 
- "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
- "rfoss@kernel.org" <rfoss@kernel.org>, 
- "laurent.pinchart" <laurent.pinchart@ideasonboard.com>,
- "jonas@kwiboo.se" <jonas@kwiboo.se>, 
- "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
- "airlied@gmail.com" <airlied@gmail.com>, 
- "simona@ffwll.ch" <simona@ffwll.ch>, 
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "mripard@kernel.org" <mripard@kernel.org>, 
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "robh@kernel.org" <robh@kernel.org>, 
- "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>, 
- "shawnguo@kernel.org" <shawnguo@kernel.org>,
- "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>, 
- "kernel@pengutronix.de" <kernel@pengutronix.de>,
- "festevam@gmail.com" <festevam@gmail.com>, 
- "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
- "will@kernel.org" <will@kernel.org>, 
- "quic_bjorande@quicinc.com" <quic_bjorande@quicinc.com>,
- "geert+renesas@glider.be" <geert+renesas@glider.be>, 
- "arnd@arndb.de" <arnd@arndb.de>,
- "nfraprado@collabora.com" <nfraprado@collabora.com>, 
- "o.rempel@pengutronix.de" <o.rempel@pengutronix.de>,
- "y.moog@phytec.de" <y.moog@phytec.de>, "marex@denx.de" <marex@denx.de>,
- "isaac.scott@ideasonboard.com" <isaac.scott@ideasonboard.com>
-Subject: Re: [PATCH v2 5/9] dt-bindings: display: bridge: Add ITE IT6263 LVDS
- to HDMI converter
-Message-ID: <ki7zj2qvf64oi45kcnxl4maoxfvxtawko3vcdikg7dc5q6gw7u@5obyfvyylb3w>
-References: <20241012073543.1388069-1-victor.liu@nxp.com>
- <20241012073543.1388069-6-victor.liu@nxp.com>
- <4a7rwguypyaspgr5akpxgw4c45gph4h3lx6nkjv3znn32cldrk@k7qskts7ws73>
- <07b47f70-5dab-4813-97fa-388a0c0f42e9@nxp.com>
- <dvcdy32dig3w3r3a7eib576zaumsoxw4xb5iw6u6b2rds3zaov@lvdevbyl6skf>
- <90e0c4ac-1636-4936-ba40-2f7693bc6b32@nxp.com>
- <TY3PR01MB11346530A53C8085561713B6086442@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+To: Raymond Jay Golo <rjgolo@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm: panel-orientation-quirks: Add quirk for Chuwi Hi10x
+Message-ID: <xc66pugymub6b2fjal4q7lopq3t3yaporkclaj5fslf57u3v4w@tnxsmybjujg6>
+References: <20241007020258.2202786-1-rjgolo@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <TY3PR01MB11346530A53C8085561713B6086442@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+In-Reply-To: <20241007020258.2202786-1-rjgolo@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,108 +84,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 14, 2024 at 07:39:16AM +0000, Biju Das wrote:
-> Hi Liu and Dmitry,
+On Mon, Oct 07, 2024 at 10:02:23AM +0800, Raymond Jay Golo wrote:
+> The Chuwi Hi10x uses a panel which has been mounted
+> 90 degrees rotated. Add a quirk for this.
 > 
-> > -----Original Message-----
-> > From: Liu Ying <victor.liu@nxp.com>
-> > Sent: Monday, October 14, 2024 6:34 AM
-> > Subject: Re: [PATCH v2 5/9] dt-bindings: display: bridge: Add ITE IT6263 LVDS to HDMI converter
-> > 
-> > On 10/14/2024, Dmitry Baryshkov wrote:
-> > > On Sat, Oct 12, 2024 at 05:14:13PM +0800, Liu Ying wrote:
-> > >> On 10/12/2024, Dmitry Baryshkov wrote:
-> > >>> On Sat, Oct 12, 2024 at 03:35:39PM +0800, Liu Ying wrote:
-> > >>>> Document ITE IT6263 LVDS to HDMI converter.
-> > >>>>
-> > >>>> Product link:
-> > >>>> https://www.ite.com.tw/en/product/cate1/IT6263
-> > >>>>
-> > >>>> Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> > >>>> ---
-> > >>>> v2:
-> > >>>> * Document number of LVDS link data lanes.  (Biju)
-> > >>>> * Simplify ports property by dropping "oneOf".  (Rob)
-> > >>>>
-> > >>>>  .../bindings/display/bridge/ite,it6263.yaml   | 276 ++++++++++++++++++
-> > >>>>  1 file changed, 276 insertions(+)
-> > >>>>  create mode 100644
-> > >>>> Documentation/devicetree/bindings/display/bridge/ite,it6263.yaml
-> > >>>>
-> > >>>> diff --git
-> > >>>> a/Documentation/devicetree/bindings/display/bridge/ite,it6263.yaml
-> > >>>> b/Documentation/devicetree/bindings/display/bridge/ite,it6263.yaml
-> > >>>> new file mode 100644
-> > >>>> index 000000000000..bc2bbec07623
-> > >>>> --- /dev/null
-> > >>>> +++ b/Documentation/devicetree/bindings/display/bridge/ite,it6263.y
-> > >>>> +++ aml
-> > >>>> @@ -0,0 +1,276 @@
-> > >>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) %YAML
-> > >>>> +1.2
-> > >>>> +---
-> > >>>> +$id: http://devicetree.org/schemas/display/bridge/ite,it6263.yaml#
-> > >>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > >>>> +
-> > >>>> +title: ITE IT6263 LVDS to HDMI converter
-> > >>>> +
-> > >>>> +maintainers:
-> > >>>> +  - Liu Ying <victor.liu@nxp.com>
-> > >>>> +
-> > >>>> +description: |
-> > >>>> +  The IT6263 is a high-performance single-chip De-SSC(De-Spread
-> > >>>> +Spectrum) LVDS
-> > >>>> +  to HDMI converter.  Combined with LVDS receiver and HDMI 1.4a
-> > >>>> +transmitter,
-> > >>>> +  the IT6263 supports LVDS input and HDMI 1.4 output by conversion function.
-> > >>>> +  The built-in LVDS receiver can support single-link and dual-link
-> > >>>> +LVDS inputs,
-> > >>>> +  and the built-in HDMI transmitter is fully compliant with HDMI
-> > >>>> +1.4a/3D, HDCP
-> > >>>> +  1.2 and backward compatible with DVI 1.0 specification.
-> > >>>> +
-> > >>>> +  The IT6263 also encodes and transmits up to 8 channels of I2S
-> > >>>> + digital audio,  with sampling rate up to 192KHz and sample size
-> > >>>> + up to 24 bits. In addition,  an S/PDIF input port takes in compressed audio of up to 192KHz
-> > frame rate.
-> > >>>> +
-> > >>>> +  The newly supported High-Bit Rate(HBR) audio by HDMI
-> > >>>> + specifications v1.3 is  provided by the IT6263 in two interfaces:
-> > >>>> + the four I2S input ports or the  S/PDIF input port.  With both
-> > >>>> + interfaces the highest possible HBR frame rate  is supported at up to 768KHz.
-> > >>>> +
-> > >>>> +properties:
-> > >>>
-> > >>> No LVDS data-mapping support?
-> > >>
-> > >> It is enough to document number of LVDS link data lanes because OS
-> > >> should be able to determine the data-mapping by looking at the number
-> > >> and the data-mapping capability of the other side of the LVDS link.
-> > >
-> > > From what I can see, data-mapping is specified on the consumer sink
-> > > side of the LVDS link. This means it should go to the bridge's device node.
-> > 
-> > Then, I won't define data-lanes, because data-mapping implies it, e.g., jeida-24 implies data lanes
-> > 0/1/2/3, see lvds-data-mapping.yaml.
-> > 
-> > Please let me know which one you prefer.
+> Signed-off-by: Raymond Jay Golo <rjgolo@gmail.com>
+> ---
+>  drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
 > 
-> Assume a top level use case where a user changes the format from JEDAI to VESA using On screen 
-> display or modetest(if some one adds support for lvds-mapping) then setting of the lvds data mapping
-> should be dynamic.
-> 
-> Maybe for initial version hardcode with JEDAI or VESA as default and provide a way to override
-> the host driver and bridge with requested lvds-data mapping dynamically later??
 
-The ite,lvds-link-num-data-lanes property should be removed, it is not
-standard. I foresee two ways to specify the number of lanes used: either
-the data-lanes property or the data-mapping property. Granted that
-data-mapping replaces the data-lanes functionality for LVDS links, I
-think it's better to use it from the start.
-
-Frankly speaking, what is the usecase for specifying the data mapping
-dynamically? What kind of uAPI do you have in mind and what is the
-usecase for it?
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 -- 
 With best wishes
