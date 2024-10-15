@@ -2,76 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D532399E2D7
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 11:33:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62FE899E38B
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 12:13:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5164910E2CE;
-	Tue, 15 Oct 2024 09:33:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 386B210E220;
+	Tue, 15 Oct 2024 10:13:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="AnVFEawz";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HfjL7TtX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com
- [209.85.128.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09CB210E2CE
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 09:33:11 +0000 (UTC)
-Received: by mail-yw1-f170.google.com with SMTP id
- 00721157ae682-6e2e4237da4so42626547b3.1
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 02:33:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google; t=1728984791; x=1729589591;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=eNz9E/ZbYToPEHGGNEmmAdKDEa9b78YRVmnC3SHI02Q=;
- b=AnVFEawzFtCWk0iO4uwn89iNrWhRCwlw2z7facT7F7t1BIl3ovak146vBP4pYRpYz8
- 3iltziRTH2kR20nuhAMGYhKzkvz/zMO7Zfj9cgQ8PZY9hbRGk2/cxRwK3d+CkmU710xj
- cnbpxNMeNCZlrziI8ZXjivOHM2DTPqI/unbLWwpmllXQKbhgY52OxbeAqsuP5kE/mdWk
- bp8rBpf3rYcH1yrGBRVLXv+vefZz109Y7YYAvoBDy7LzLleBnvVVjJeAxLk3DoMRYygD
- t1KaL0/5cyp8u8xpdETKUMeF0/ypbjgZMDgQc+IQvfRoBId/4jtjZLfb5aNEbokmRiIZ
- mq+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728984791; x=1729589591;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=eNz9E/ZbYToPEHGGNEmmAdKDEa9b78YRVmnC3SHI02Q=;
- b=AnKXpZ2u4ZkMRd1EF76hDiPfCyGRvZDznoungnot1M1lh3vb6PTn8ldjxuPgqewPW1
- HJ17PbMxz4UL+01juOf+jddlnuTeqpnqaL0jM/0SOsB/4tc5DCd59vdzQdsM9mw1D3do
- dyB8cOVmWU8ds3/xPtRO46+hmW4KDUsrlEvgJx3tdFU8W7kmMC2fO37xapEGubnvPiWb
- F0knxbB/RuhM+97mp/RqWd1jINJukcgxw2y4dAtSoFjyVIYCg04CXG9qiuimcx8H7Xcb
- O0WwtQkFkHAwkUMivpGV/Zq9QmApYhwRnIP5EsdRDqSLNILBmW8o4cBMZsz2sET0ag20
- GPsA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV0od/t++ra612pbnIHmIbI8gatHNi/E4DNlyVfxGMzvjNMogZQfEjGAxclHNgWNkmSMkV/XLRS9xs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzsZ3T5hNPpgOnRz3IjYs5NCGQ6ecFF8ltBj0WEccyx+XkmICmt
- f3t70rK9jSwf9VuvEumbADs0nNRQ/Gw4VZh8DEBKE3Z6uo6OmRVe19dCcDqcuHgr0rv/6DvkNAM
- 5Q0ZwuGsJrVZp0sguipnQ+zhPCgqLZJNUkrfR8Q==
-X-Google-Smtp-Source: AGHT+IEhghAevnU2eSa7UKlVV78niFZT5nALF0UAJU2RYBJo5PtnOPChegfHNGRHZRY4C8+wPSYjrt8wGBMXDy7nmA8=
-X-Received: by 2002:a05:690c:4489:b0:6af:6762:eba1 with SMTP id
- 00721157ae682-6e3479c1971mr120439917b3.20.1728984790794; Tue, 15 Oct 2024
- 02:33:10 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7578710E220;
+ Tue, 15 Oct 2024 10:13:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1728987229; x=1760523229;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=jBNLiiDQztK8tDxklcBbYNKZ4i3UWrSzPxw5rOzncRg=;
+ b=HfjL7TtXY+R1B+LoVwVId9KVtVtSyKcx5/aOP0Fc+yV0iY8GmibPhI4I
+ 8hnwzr5uWIZm4RON3HockQ05rvAf5mwhAbGa8SC9tVEfjJlkjfT9DxX1A
+ 5sGXBRDBHJEReqgQHLCq22YiReGFeHmOYyEeAPpA0Comud/3FMXdGcmr2
+ qmr4FzmOdIESW9I+U43Ei7e6p/ZuONCjVQQVL5RL8by0yIrGg+Ndud9g/
+ 5R2OYmQf/uwrTQbJszw9BgQJvBw+k4+8M4fuvhQBemQBZ4OD21eZsgxzb
+ H6uKK0+LEOtPTJ0kLmjWtiDZs5ejEpHghFjftbyZcmmOahdwlVubSjvcS g==;
+X-CSE-ConnectionGUID: PMf7idySSc2AahkdCevE4Q==
+X-CSE-MsgGUID: IfdHWJeTSEevk4yk2xgcug==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28158113"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="28158113"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Oct 2024 03:13:48 -0700
+X-CSE-ConnectionGUID: USzd0He1RrSE+DO0OgbOWg==
+X-CSE-MsgGUID: Iwu0yHTATwuaRIQb8BI1Fw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,204,1725346800"; d="scan'208";a="108574767"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+ by fmviesa001.fm.intel.com with ESMTP; 15 Oct 2024 03:13:44 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1t0eYg-000Hx3-0G;
+ Tue, 15 Oct 2024 10:13:42 +0000
+Date: Tue, 15 Oct 2024 18:13:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: Giedrius =?utf-8?Q?Statkevi=C4=8Dius?= <giedriuswork@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Giedrius =?utf-8?Q?Statkevi=C4=8Dius?= <giedriuswork@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Subject: Re: [PATCH] drm/i915/lspcon: do not hardcode settle timeout
+Message-ID: <202410151813.Hw9oCTae-lkp@intel.com>
+References: <20241014093914.109162-1-giedriuswork@gmail.com>
 MIME-Version: 1.0
-References: <c657d3e9-e4fb-4dac-a611-45655511e500@gmx.net>
- <CAPY8ntDAMq_oTM+ua0pcFroTiWkDyhXSj++oGxOq+ODajm8++Q@mail.gmail.com>
- <3f35403e-f42f-4936-9297-68b56818aeee@gmx.net>
- <20241014-warm-savvy-wrasse-ed984e@houat>
- <CAPY8ntAFzT4uBT47kDnDjEcSZXLonV-n_ixZ6L1_LAcfQPwS8Q@mail.gmail.com>
- <17f8f497-1238-4555-824b-b5a3fb699a98@gmx.net>
-In-Reply-To: <17f8f497-1238-4555-824b-b5a3fb699a98@gmx.net>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Tue, 15 Oct 2024 10:32:55 +0100
-Message-ID: <CAPY8ntBegA_L58s30F4FSO+=q78Xt5XA4kvYq38zAvsgR2DSrQ@mail.gmail.com>
-Subject: Re: vc4: HDMI Sink doesn't support RGB, something's wrong.
-To: Stefan Wahren <wahrenst@gmx.net>
-Cc: Maxime Ripard <mripard@kernel.org>,
- =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
- DRI Development <dri-devel@lists.freedesktop.org>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- Florian Fainelli <florian.fainelli@broadcom.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241014093914.109162-1-giedriuswork@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,52 +81,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 14 Oct 2024 at 22:16, Stefan Wahren <wahrenst@gmx.net> wrote:
->
->
-> Am 14.10.24 um 12:54 schrieb Dave Stevenson:
-> > On Mon, 14 Oct 2024 at 10:04, Maxime Ripard <mripard@kernel.org> wrote:
-> >> Hi,
-> >>
-> >> On Sun, Oct 13, 2024 at 09:57:58PM GMT, Stefan Wahren wrote:
-> >>> Am 13.10.24 um 21:11 schrieb Dave Stevenson:
-> >>>> Hi Stefan.
-> >>>>
-> >>>> On Sun, 13 Oct 2024, 18:19 Stefan Wahren, <wahrenst@gmx.net> wrote:
-> >>>>
-> >>>>      Hi,
-> >>>>
-> >>>>      i recently switch for my suspend2idle tests from Raspberry Pi Bullseye
-> >>>>      to Bookworm. After that testing suspend2idle shows a new warning
-> >>>>      which i
-> >>>>      never saw before:
-> >>>>
-> >>>>      HDMI Sink doesn't support RGB, something's wrong.
-> >>>>
-> >>>>
-> >>>> Can you provide the edid of your display please?
-> ...
-> >>>
-> >>>
-> >>> The failure is coming from sink_supports_format_bpc()[1], but the flag
-> >>> for DRM_COLOR_FORMAT_RGB444 should have been set from
-> >>> update_display_info()[2] parsing the EDID.
-> >>>
-> >>> Loading that EDID in via drm.edid_firmware has given me a console at
-> >>> 1920x1200@60 without any issues, so I'm a little confused as to what
-> >>> is going on.
-> Since this warning only occurs on resume and not during normal boot, i
-> would assume there is no issue with EDID. Maybe the flag get lost. I
-> should have mention that X11 doesn't recover in this case and the
-> display stays black.
+Hi Giedrius,
 
-Ah, I hadn't realised you meant it was only on resume that it didn't
-come back up.
+kernel test robot noticed the following build warnings:
 
-I suspect you're right that the state gets lost somehow. It may be
-triggered by the returning of connector_status_unknown on the
-connector, but haven't traced it back.
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.12-rc3 next-20241015]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-If I pick up your patches, what do I need to add to replicate this?
+url:    https://github.com/intel-lab-lkp/linux/commits/Giedrius-Statkevi-ius/drm-i915-lspcon-do-not-hardcode-settle-timeout/20241014-174131
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20241014093914.109162-1-giedriuswork%40gmail.com
+patch subject: [PATCH] drm/i915/lspcon: do not hardcode settle timeout
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20241015/202410151813.Hw9oCTae-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241015/202410151813.Hw9oCTae-lkp@intel.com/reproduce)
 
-  Dave
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410151813.Hw9oCTae-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/display/drm_dp_dual_mode_helper.c:495: warning: Function parameter or struct member 'time_out' not described in 'drm_lspcon_set_mode'
+
+
+vim +495 drivers/gpu/drm/display/drm_dp_dual_mode_helper.c
+
+056996b9568632 drivers/gpu/drm/drm_dp_dual_mode_helper.c         Shashank Sharma       2016-10-17  482  
+056996b9568632 drivers/gpu/drm/drm_dp_dual_mode_helper.c         Shashank Sharma       2016-10-17  483  /**
+613a308159e5dd drivers/gpu/drm/drm_dp_dual_mode_helper.c         Jani Nikula           2016-10-19  484   * drm_lspcon_set_mode: Change LSPCON's mode of operation by
+613a308159e5dd drivers/gpu/drm/drm_dp_dual_mode_helper.c         Jani Nikula           2016-10-19  485   * writing offset (0x80, 0x40)
+318fbd7dfedd67 drivers/gpu/drm/drm_dp_dual_mode_helper.c         Lyude Paul            2021-04-23  486   * @dev: &drm_device to use
+613a308159e5dd drivers/gpu/drm/drm_dp_dual_mode_helper.c         Jani Nikula           2016-10-19  487   * @adapter: I2C-over-aux adapter
+613a308159e5dd drivers/gpu/drm/drm_dp_dual_mode_helper.c         Jani Nikula           2016-10-19  488   * @mode: required mode of operation
+056996b9568632 drivers/gpu/drm/drm_dp_dual_mode_helper.c         Shashank Sharma       2016-10-17  489   *
+056996b9568632 drivers/gpu/drm/drm_dp_dual_mode_helper.c         Shashank Sharma       2016-10-17  490   * Returns:
+056996b9568632 drivers/gpu/drm/drm_dp_dual_mode_helper.c         Shashank Sharma       2016-10-17  491   * 0 on success, -error on failure/timeout
+056996b9568632 drivers/gpu/drm/drm_dp_dual_mode_helper.c         Shashank Sharma       2016-10-17  492   */
+318fbd7dfedd67 drivers/gpu/drm/drm_dp_dual_mode_helper.c         Lyude Paul            2021-04-23  493  int drm_lspcon_set_mode(const struct drm_device *dev, struct i2c_adapter *adapter,
+3d7a1094af9e7e drivers/gpu/drm/display/drm_dp_dual_mode_helper.c Giedrius Statkevičius 2024-10-14  494  			enum drm_lspcon_mode mode, int time_out)
+056996b9568632 drivers/gpu/drm/drm_dp_dual_mode_helper.c         Shashank Sharma       2016-10-17 @495  {
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
