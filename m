@@ -2,88 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9799099F75C
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 21:36:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14A5299F7D7
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 22:05:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A615E10E2C7;
-	Tue, 15 Oct 2024 19:35:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABD1D10E602;
+	Tue, 15 Oct 2024 20:05:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="eWpDT7c/";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="AvppcI9V";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C59FE10E0CD;
- Tue, 15 Oct 2024 19:35:57 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49FJG98i003922;
- Tue, 15 Oct 2024 19:35:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=BzxR5MapksOFSxWMTr/4z/kV
- 829dI/XWKgMoMwEKyjY=; b=eWpDT7c/SlyPwJHOAqJcDfikZCzoh5F5d+Xb1pv5
- szDZhmyXcp8VpsqnBz2yxCtjP/5MHTb8JUnXXZvFDpMu+NH0VATxNvk/xwqa/qCE
- G9YC4dptQ1FU8Vf+k+NP3knmiy36nLWJ33DJkDLdUG2RGwZSbqXtePKQRG+hBrpL
- yi69GbQA2VqhffTwsCibJu2EY8tH4BhmXNo0zD1T7CUzy9TEGbVv17f+rLhmAi1A
- 1iPB/gzzLaQkSVUE38yZOE7nTjJiDVG0EoaAmA7zSzfzYlIWJMNfWs7SjmBlto20
- xkZ7vmTcFRGBnahQFixTTROVEDYucemVFRCz5sULuDfWHg==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 429xdb81gn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Oct 2024 19:35:51 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49FJZo9b012051
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Oct 2024 19:35:50 GMT
-Received: from hu-akhilpo-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Tue, 15 Oct 2024 12:35:44 -0700
-Date: Wed, 16 Oct 2024 01:05:40 +0530
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, "Konrad
- Dybcio" <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Simona
- Vetter" <simona@ffwll.ch>,
- Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
- Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <linux-pm@vger.kernel.org>, <devicetree@vger.kernel.org>
-Subject: Re: [PATCH RFC 3/3] arm64: dts: qcom: x1e80100: Add ACD levels for GPU
-Message-ID: <20241015193540.mcpp2dvkmikruncj@hu-akhilpo-hyd.qualcomm.com>
-References: <20241012-gpu-acd-v1-0-1e5e91aa95b6@quicinc.com>
- <20241012-gpu-acd-v1-3-1e5e91aa95b6@quicinc.com>
- <5axuqj4hetfkgg2f53ph4um24b7xfyumktreglxqyzfsdhy25e@deucq7vqxq5l>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 053D210E602
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 20:05:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1729022752; x=1760558752;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=dX1g8jSzU+VXezh2f98dU2JeKi1rg/GRDajYDlMn9PA=;
+ b=AvppcI9VCI+6ZNsxOmhnG2LshdDcx1VapiAdQC5YdiUr1PWGB3gJxJFr
+ Xb5AUkP0pRbGJimZICe0svgb4SOJmPq4EqzV1gFJSyZF8rpDMjjzkm8U/
+ brgE6DqFcphnZ24CsnJoMmiPcSeYaf1roMyRBEG7JlpB4hFSr4LVV3KJi
+ jxk1KdY6L2xpjBm2ACdJD+Nrj19ngepc0B8a6smIxN3ZHfgtzq0kqYQDz
+ 04AkJwvQGkaETQsQx9sJqmeD2Sd15H26wkUhhkGL8w4S+j9Pr86FyekVP
+ XEt9MV/GpHs/a8wT9f0w3ksHmSmGv1WQnjKmzUbewq2YEwB/cz77bmCdP g==;
+X-CSE-ConnectionGUID: w2uhAli6RBm1l8swNKDVZA==
+X-CSE-MsgGUID: jtzJAmweTt2384orG6JnYA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28230126"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="28230126"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Oct 2024 13:05:52 -0700
+X-CSE-ConnectionGUID: 1C/qME2AT76iW7Hx1up+UA==
+X-CSE-MsgGUID: bI9P401BTACr5r2atWDXUg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,206,1725346800"; d="scan'208";a="78834721"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+ by orviesa008.jf.intel.com with ESMTP; 15 Oct 2024 13:05:48 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1t0nnd-000JsT-2V;
+ Tue, 15 Oct 2024 20:05:45 +0000
+Date: Wed, 16 Oct 2024 04:05:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jocelyn Falempe <jfalempe@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ John Ogness <john.ogness@linutronix.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+ bluescreen_avenger@verizon.net, Caleb Connolly <caleb.connolly@linaro.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Jocelyn Falempe <jfalempe@redhat.com>
+Subject: Re: [PATCH v4 3/7] drm/log: Introduce a new boot logger to draw the
+ kmsg on the screen
+Message-ID: <202410160342.rkkekxWK-lkp@intel.com>
+References: <20241011105526.615812-4-jfalempe@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5axuqj4hetfkgg2f53ph4um24b7xfyumktreglxqyzfsdhy25e@deucq7vqxq5l>
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: Aa7T5W5Dx2WnVo5UT2UtkY0dOfJqeYDz
-X-Proofpoint-GUID: Aa7T5W5Dx2WnVo5UT2UtkY0dOfJqeYDz
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0
- priorityscore=1501 lowpriorityscore=0 mlxlogscore=932 impostorscore=0
- phishscore=0 clxscore=1015 adultscore=0 mlxscore=0 malwarescore=0
- bulkscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2410150131
+In-Reply-To: <20241011105526.615812-4-jfalempe@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,39 +79,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 14, 2024 at 09:40:13AM +0200, Krzysztof Kozlowski wrote:
-> On Sat, Oct 12, 2024 at 01:59:30AM +0530, Akhil P Oommen wrote:
-> > Update GPU node to include acd level values.
-> > 
-> > Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
-> > ---
-> >  arch/arm64/boot/dts/qcom/x1e80100.dtsi | 11 ++++++++++-
-> >  1 file changed, 10 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/arch/arm64/boot/dts/qcom/x1e80100.dtsi b/arch/arm64/boot/dts/qcom/x1e80100.dtsi
-> > index a36076e3c56b..e6c500480eb1 100644
-> > --- a/arch/arm64/boot/dts/qcom/x1e80100.dtsi
-> > +++ b/arch/arm64/boot/dts/qcom/x1e80100.dtsi
-> > @@ -3323,60 +3323,69 @@ zap-shader {
-> >  			};
-> >  
-> >  			gpu_opp_table: opp-table {
-> > -				compatible = "operating-points-v2";
-> > +				compatible = "operating-points-v2-adreno";
-> 
-> This nicely breaks all existing users of this DTS. Sorry, no. We are way
-> past initial bringup/development. One year past.
+Hi Jocelyn,
 
-It is not obvious to me how it breaks backward compatibility. Could you
-please elaborate a bit? I am aware that drivers should be backward
-compatible with DT, but not the other way. Are we talking about kernels other
-than Linux?
+kernel test robot noticed the following build errors:
 
-Also, does including "operating-points-v2" too here help?
+[auto build test ERROR on 33c255312660653cf54f8019896b5dca28e3c580]
 
--Akhil.
+url:    https://github.com/intel-lab-lkp/linux/commits/Jocelyn-Falempe/drm-client-squash-of-drm-client-pending-series/20241011-225715
+base:   33c255312660653cf54f8019896b5dca28e3c580
+patch link:    https://lore.kernel.org/r/20241011105526.615812-4-jfalempe%40redhat.com
+patch subject: [PATCH v4 3/7] drm/log: Introduce a new boot logger to draw the kmsg on the screen
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20241016/202410160342.rkkekxWK-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241016/202410160342.rkkekxWK-lkp@intel.com/reproduce)
 
-> 
-> Best regards,
-> Krzysztof
-> 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410160342.rkkekxWK-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/gpu/drm/drm_log.c:347:6: error: redefinition of 'drm_log_register'
+     347 | void drm_log_register(struct drm_device *dev)
+         |      ^~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/drm_log.c:21:
+   drivers/gpu/drm/drm_log.h:8:20: note: previous definition of 'drm_log_register' with type 'void(struct drm_device *)'
+       8 | static inline void drm_log_register(struct drm_device *dev) {}
+         |                    ^~~~~~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for MODVERSIONS
+   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
+   Selected by [y]:
+   - RANDSTRUCT_FULL [=y] && (CC_HAS_RANDSTRUCT [=n] || GCC_PLUGINS [=y]) && MODULES [=y]
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [m]:
+   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
+
+
+vim +/drm_log_register +347 drivers/gpu/drm/drm_log.c
+
+   342	
+   343	/**
+   344	 * drm_log_register() - Register a drm device to drm_log
+   345	 * @dev: the drm device to register.
+   346	 */
+ > 347	void drm_log_register(struct drm_device *dev)
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
