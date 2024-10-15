@@ -2,79 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21A4C99E1C9
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 10:57:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DA4999E1CB
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 10:57:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE14910E2C5;
-	Tue, 15 Oct 2024 08:57:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09AD510E54D;
+	Tue, 15 Oct 2024 08:57:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="arGXEI5i";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="BzVJbOYd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 942DC10E2C5
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 08:57:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C712110E54D
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 08:57:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1728982651;
+ s=mimecast20190719; t=1728982662;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lN1w+oTyoh68Pt0AyAXIrg28wrwkyFK6MwJ1KcYrvaA=;
- b=arGXEI5iFv1nHPvAMXWXC7DtalB581MmsHPm0PeUslVzV24mRPVOFLLpbksTh5umtud438
- LCJmrQXuoCyFvXTsW1PVo3KG4mW2YT8itdc00eU8//kAj7aJNSFSLoqd7BY3k9BAbu6HL1
- MR7Knr+UgaWuqBLd+5NFhIhcAiEVoa4=
-Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
- [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=VRMMJSL6kFXs5LDgVbbG2fK/PPTFGjQ0lTDfZnD66D8=;
+ b=BzVJbOYd9nQdlHLKCeXcM1xOzt/Kf/vSa17bhhAAOdoVgyn8iJyPbhepQEvm241F5kkgvS
+ zhchXfGg20d8o/TR2tl5cin/fODRgcLHHQUQNn8va7oZ3K8WGa+Kp6ha1SK9LRhCj1tH+9
+ VNb7QCSi2mRQFP99bhlRa5iZCsEi7js=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-619-l2gKBzTmOtSwKZetLuMGYQ-1; Tue, 15 Oct 2024 04:57:30 -0400
-X-MC-Unique: l2gKBzTmOtSwKZetLuMGYQ-1
-Received: by mail-lj1-f199.google.com with SMTP id
- 38308e7fff4ca-2fb50150039so9788091fa.2
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 01:57:30 -0700 (PDT)
+ us-mta-331-QXAldT2aMsSt23PoR2aOmw-1; Tue, 15 Oct 2024 04:57:41 -0400
+X-MC-Unique: QXAldT2aMsSt23PoR2aOmw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-43056c979c9so31373215e9.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 01:57:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728982649; x=1729587449;
+ d=1e100.net; s=20230601; t=1728982660; x=1729587460;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=lN1w+oTyoh68Pt0AyAXIrg28wrwkyFK6MwJ1KcYrvaA=;
- b=gtgb6bODN5a9ova5DcIxcGyXYcvh82ZdYNlczrCXomagsoTJJk02RLqIPqJ+7XtalW
- nO3h+TJfJVHYsdcZzYgDMvtIGiTVYqiNlOaBEP+2gY92PlFPy9Fz5hvHgw9RIWCzD5Mq
- TVnZ5Dpiyv6LBA7Jf1qYscSwl2Ax2flwM4yeiw74+ZRZIkVjmkhGL9vBd4jdnHGzbM3Z
- 7cEfiHBwG7wMb4xA5WwS/gV1VC6ETD54ZZvUlg8+2JEXQk3EYfpDx+KVBvbwknslgmOD
- QdpugxFVnTirUPkQn6G91DPSp/gtZlHYSzzEUYnfuA1v4RNwn+Q/keebWOinFLa1panQ
- WdwQ==
-X-Gm-Message-State: AOJu0Yy/M0aizX4fEvITY3mbozp8U6czK5FJIXIDZEJxOGstEpKexPTr
- KxZPS8Ehzo/9l654dxv+NBh5XrEtYgP9XYVTsDJKUV9XT4Mk5IMrTK/cP51LziTvOsOypX5Eu1m
- exQiXxhW2QySixuZ2FSf3cjjei9LlfhOGJbCUww+buYyLgRxT8MZz2zULdaKtTPqerw==
-X-Received: by 2002:a2e:130a:0:b0:2fa:d31a:1b8c with SMTP id
- 38308e7fff4ca-2fb3f16f935mr42952271fa.2.1728982648729; 
- Tue, 15 Oct 2024 01:57:28 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEWexGH9n1i0TzrjW3+vpth2/ALQLh5ize2Vn2REujJnaHhkd9k0f5I/TckTVLjrXhVRdqf3g==
-X-Received: by 2002:a2e:130a:0:b0:2fa:d31a:1b8c with SMTP id
- 38308e7fff4ca-2fb3f16f935mr42952151fa.2.1728982648263; 
- Tue, 15 Oct 2024 01:57:28 -0700 (PDT)
+ bh=VRMMJSL6kFXs5LDgVbbG2fK/PPTFGjQ0lTDfZnD66D8=;
+ b=QqR1BI+DnnB8Po6ZnbYh3tn41/Y5rWW06WmY/CJNsW13ORaH8SnwNwSoILkxwUb8NT
+ J5WSvrcGDhZLg3cz/JV8BKHep0G4F1ZZZeAzgA6P4YI4vumhFwNIDCxQQ6DQjnYWCLoH
+ wk5jPL5XWV1ZISJ/okzJvpjO/Jr4Krrlp2FDTHZ/tuEc1+rDevjW92UaVeui7c1kPoPc
+ XEDVDETS2gdIrfOn/DgFFpS2ALd8YJjDU/mc2B+SirGhX9pL4w2r5tZGm4chNZpSmDA8
+ VQX7GZ734b032/bQ9l3CJnhrcwlMSJV2c3I/chvs9pDuWiiOvD263QcOeMK4+nlBo22Y
+ /TKg==
+X-Gm-Message-State: AOJu0YxPjw/YQBpOJBmg86/Ttw5RKJBxSqS6C73Fng54KEPn6sKxI19k
+ iN1XjaEzR0ZGCcV6QqAcmVy+t+3z5nmN3VnD0LAWxElpZYmRoRqVouLJVQqCvrlKONjxmLLIQxY
+ ZlMj4DLm18VZcElt63vapy9YRPfEWNeZBPLKMkfSVhPRndLQ+y1A73/pVPtQbghkFkw==
+X-Received: by 2002:a05:600c:470e:b0:430:5356:ac8e with SMTP id
+ 5b1f17b1804b1-4311dea3938mr141668845e9.5.1728982659900; 
+ Tue, 15 Oct 2024 01:57:39 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFjTvM0NxSgWxhq8wXe+yzo4wjN1blQOXijQUFk3XX69xEXV7inQMpz4iS6vS6V9OSgVaSdgQ==
+X-Received: by 2002:a05:600c:470e:b0:430:5356:ac8e with SMTP id
+ 5b1f17b1804b1-4311dea3938mr141668615e9.5.1728982659535; 
+ Tue, 15 Oct 2024 01:57:39 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
  ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-43143c952d5sm5464025e9.0.2024.10.15.01.57.27
+ 5b1f17b1804b1-4313f6b1eb2sm11090725e9.29.2024.10.15.01.57.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Oct 2024 01:57:27 -0700 (PDT)
-Message-ID: <94ae5d9f-e665-49a9-8b50-8c9052df83d3@redhat.com>
-Date: Tue, 15 Oct 2024 10:57:26 +0200
+ Tue, 15 Oct 2024 01:57:39 -0700 (PDT)
+Message-ID: <e20fed57-a03f-408b-8d19-86ed86006a85@redhat.com>
+Date: Tue, 15 Oct 2024 10:57:38 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] drm/ast: sil164: Clear EDID if no display is connected
+Subject: Re: [PATCH 2/2] drm/ast: vga: Clear EDID if no display is connected
 To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
  simona@ffwll.ch
 Cc: dri-devel@lists.freedesktop.org
 References: <20241015065113.11790-1-tzimmermann@suse.de>
- <20241015065113.11790-2-tzimmermann@suse.de>
+ <20241015065113.11790-3-tzimmermann@suse.de>
 From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20241015065113.11790-2-tzimmermann@suse.de>
+In-Reply-To: <20241015065113.11790-3-tzimmermann@suse.de>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US, fr
@@ -105,20 +105,20 @@ Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
 
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Fixes: d20c2f846428 ("drm/ast: sil164: Transparently handle BMC support")
+> Fixes: 2a2391f857cd ("drm/ast: vga: Transparently handle BMC support")
 > Cc: Thomas Zimmermann <tzimmermann@suse.de>
 > Cc: Jocelyn Falempe <jfalempe@redhat.com>
 > Cc: Dave Airlie <airlied@redhat.com>
 > Cc: dri-devel@lists.freedesktop.org
 > ---
->   drivers/gpu/drm/ast/ast_sil164.c | 2 ++
+>   drivers/gpu/drm/ast/ast_vga.c | 2 ++
 >   1 file changed, 2 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/ast/ast_sil164.c b/drivers/gpu/drm/ast/ast_sil164.c
-> index 6a72268d2314..be01254dd48a 100644
-> --- a/drivers/gpu/drm/ast/ast_sil164.c
-> +++ b/drivers/gpu/drm/ast/ast_sil164.c
-> @@ -29,6 +29,8 @@ static int ast_sil164_connector_helper_get_modes(struct drm_connector *connector
+> diff --git a/drivers/gpu/drm/ast/ast_vga.c b/drivers/gpu/drm/ast/ast_vga.c
+> index 5c79b773af57..abe0fff8485c 100644
+> --- a/drivers/gpu/drm/ast/ast_vga.c
+> +++ b/drivers/gpu/drm/ast/ast_vga.c
+> @@ -29,6 +29,8 @@ static int ast_vga_connector_helper_get_modes(struct drm_connector *connector)
 >   	if (ast_connector->physical_status == connector_status_connected) {
 >   		count = drm_connector_helper_get_modes(connector);
 >   	} else {
