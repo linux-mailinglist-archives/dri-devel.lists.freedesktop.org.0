@@ -2,58 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DE0C99F667
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 20:56:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D380199F4EF
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 20:13:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E7D610E5EF;
-	Tue, 15 Oct 2024 18:56:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1084810E5CD;
+	Tue, 15 Oct 2024 18:13:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=leemhuis.info header.i=@leemhuis.info header.b="PfXrujZD";
+	dkim=pass (2048-bit key; unprotected) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="d8H0Byao";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 2555 seconds by postgrey-1.36 at gabe;
- Tue, 15 Oct 2024 18:56:00 UTC
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
- [80.237.130.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D16E10E121;
- Tue, 15 Oct 2024 18:56:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
- Message-ID:From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:
- Content-Type:Content-Transfer-Encoding:Content-ID:Content-Description:
- In-Reply-To:References; bh=gTV2WyhAptOPtQpq1eQKhlZnoaCfGwfjJaHbKBok3Oo=;
- t=1729018560; x=1729450560; b=PfXrujZDP4NWosslFs7jVgTiN7CfGA7z71Ppv/QL9MF/EzF
- Jnd+a4TzdXpg8TTq2yJE0ZK+SA/IjY0XwitnucEu8JiEd8kkEvyjAMlIvBymxi5VmcTkR21pEuJLg
- L30ddeD8shqqBG8DDEaLj7STuPURFfg4wRyIDUoZ2Xd+k3/P9dxAM/m9+HYumzVaoSu0x+qV2sVrK
- 7EkVdVzFZp18mAvaDGPTK9yUJWV2S620ZStzf1MV2Qsf+0h2xCneMHYc8+vYhhoqgSLJeD4gFG6If
- 0u2ghlO8LNzsq9E7SoqyXiibsMlNllodFyCk+aCxCowNrBr+y+cM1fTTKOA7PH+Q==;
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
- by wp530.webpack.hosteurope.de running ExIM with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- id 1t0m2m-0004mf-L7; Tue, 15 Oct 2024 20:13:16 +0200
-Message-ID: <041511ee-4556-422a-8604-30b5e0dfd21c@leemhuis.info>
-Date: Tue, 15 Oct 2024 20:13:00 +0200
+Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com
+ [209.85.161.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 200F310E5CD
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 18:13:10 +0000 (UTC)
+Received: by mail-oo1-f49.google.com with SMTP id
+ 006d021491bc7-5e5a0519d00so2321142eaf.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 11:13:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1729015989; x=1729620789;
+ darn=lists.freedesktop.org; 
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=5oxml2lN+ntX74kObb20hwl1g01p5AhViL60OxChXmk=;
+ b=d8H0ByaoN7CdFNlq2qW8wYv9OLYKrn+UjOPo87EAGfkVRIYrkKxAV6W/Q2oaRClHOl
+ KXcOMx31llYThGsxBfGwOnr4EaEPhrw+OpZqTgJVEMFBs1U3s3XY8/D2ykPiLz0E5qo3
+ Imcm+32Z7LqRCl8zD0gBj60czqLacWNChwstODp4P4+vBNEFSTb4rhtxj7UKTqoqhXKw
+ QcD6BsVWgQFNCwJ9MhFp9nk2qxZw1QrFLFIragp2usIcBKxVeSI4ySoMH1HBbfAhNPDE
+ OHWhaTA9blUm2HDJKyWS0LGWtM+t4ONdSCMPOXTPe3Hxzjy4YJWmyIg14Tg+uZH4JMTD
+ xG7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1729015989; x=1729620789;
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=5oxml2lN+ntX74kObb20hwl1g01p5AhViL60OxChXmk=;
+ b=kqKecv9nJNvPg7nLia9HHAA9EL64HEj//EKkYqrM4wd7SiN/o91j3EpDvL/ivuaKxX
+ 1Q+TZkk6PRqUrilT4QUBxdGY/ZY6xzwhMntGR2iYx2rZyptt9f021mHvgFQ0bOkxfdxz
+ /HrCCXumjTjh0I5QRHoB1Htk/rvkleJd4wEQNzpbgRq8c2F2rR2E1xU6RSXdnniNvVk/
+ fjHvgC9Oh4R0cqv23kkDcEbtauGda072iyjuVCfEheXs2XiatxtkVbWlWxjFwevDjw41
+ vlSEaXRxLZZCA6F6sua31YArVJOEr2zjAm7m0Gv4gZOdaqjMHYwGUSnZaM7Jhp85hsde
+ aUyg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWR5pr3WrIg1wB780X7lg+2y7RU8vLP+1Fzc7pUTpCFYbEM0xP+Gryhx/RHgOaFF/2o3UsdfEEhKOE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwS4X0Mx3hm/wv/dWn8RDQkB+53cxtLNM2paUE/D/IfyLRSSWbA
+ U2DrxuKVf5nvscKliyTEeEIj2kao2MAiIc1gZuf1OQVaxbcyCKq2boFOTc83d7E=
+X-Google-Smtp-Source: AGHT+IE/1zf76YUX911aLGIJHXfaOZW556q/vVashhOD3oqJyrmYteHGq4kOCjf4Niews2uJm4FHLQ==
+X-Received: by 2002:a05:6358:248e:b0:1b8:f18:3e6e with SMTP id
+ e5c5f4694b2df-1c340d1aef5mr251119055d.12.1729015988990; 
+ Tue, 15 Oct 2024 11:13:08 -0700 (PDT)
+Received: from nicolas-tpx395.lan ([2606:6d00:15:862e::7a9])
+ by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-6cc22959b42sm9345366d6.76.2024.10.15.11.13.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 15 Oct 2024 11:13:08 -0700 (PDT)
+Message-ID: <5be2dbb2a0a3a7964a064013a5271f585247ec22.camel@ndufresne.ca>
+Subject: Re: [PATCH v2 2/2] media: imx: vdic: Introduce mem2mem VDI
+ deinterlacer driver
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Marek Vasut <marex@denx.de>, Philipp Zabel <p.zabel@pengutronix.de>, 
+ linux-media@vger.kernel.org
+Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, Fabio
+ Estevam <festevam@gmail.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>, Mauro Carvalho
+ Chehab <mchehab@kernel.org>, Pengutronix Kernel Team
+ <kernel@pengutronix.de>, Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo
+ <shawnguo@kernel.org>,  Steve Longerbeam <slongerbeam@gmail.com>,
+ dri-devel@lists.freedesktop.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org, 
+ linux-staging@lists.linux.dev
+Date: Tue, 15 Oct 2024 14:13:06 -0400
+In-Reply-To: <0da39b8f-4cca-438f-9a39-40da7c34c895@denx.de>
+References: <20240724002044.112544-1-marex@denx.de>
+ <20240724002044.112544-2-marex@denx.de>
+ <85a5a42667e5867bc45da31baf045d4c9557f5f1.camel@ndufresne.ca>
+ <6b45e30c-b215-4f7a-91a4-fde05d78f737@denx.de>
+ <b1c5fb155c77355ef2889b6e054a5c0696481ebd.camel@pengutronix.de>
+ <0da39b8f-4cca-438f-9a39-40da7c34c895@denx.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 (3.52.4-1.fc40) 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [REGRESSION] GM20B pmu timeout
-To: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>, kherbst@redhat.com,
- lyude@redhat.com, dakr@redhat.com, airlied@gmail.com, simona@ffwll.ch,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,
- Linux kernel regressions list <regressions@lists.linux.dev>
-Cc: regressions@lists.linux.dev
-References: <20241010133253.30311-1-diogo.ivo@tecnico.ulisboa.pt>
-From: "Linux regression tracking (Thorsten Leemhuis)"
- <regressions@leemhuis.info>
-Content-Language: en-US, de-DE
-In-Reply-To: <20241010133253.30311-1-diogo.ivo@tecnico.ulisboa.pt>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1729018560;
- 92706003; 
-X-HE-SMSGID: 1t0m2m-0004mf-L7
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,237 +96,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Thorsten here, the Linux kernel's regression tracker.
+Le jeudi 03 octobre 2024 =C3=A0 16:57 +0200, Marek Vasut a =C3=A9crit=C2=A0=
+:
+> On 9/26/24 1:16 PM, Philipp Zabel wrote:
+> > On Mi, 2024-09-25 at 22:45 +0200, Marek Vasut wrote:
+> > [...]
+> > > > The driver is not taking ownership of prev_buf, only curr_buf is gu=
+aranteed to
+> > > > exist until v4l2_m2m_job_finish() is called. Usespace could streamo=
+ff, allocate
+> > > > new buffers, and then an old freed buffer may endup being used.
+> > >=20
+> > > So, what should I do about this ? Is there some way to ref the buffer=
+ to
+> > > keep it around ?
+> >=20
+> > Have a look how other deinterlacers with temporal filtering do it.
+> > sunxi/sun8i-di or ti/vpe look like candidates.
+> I don't see exactly what those drivers are doing differently to protect=
+=20
+> the prev buffer during deinterlacing . Can you be more specific ?
 
-On 10.10.24 15:32, Diogo Ivo wrote:
-> 
-> Somewhere between 6.11-rc4 and 6.11-rc5 the following error message is displayed
-> when trying to initialize a nvc0_screen on the Tegra X1's GM20B:
-> 
-> [ 34.431210] nouveau 57000000.gpu: pmu:hpq: timeout waiting for queue ready
-> [ 34.438145] nouveau 57000000.gpu: gr: init failed, -110
-> nvc0_screen_create:1075 - Error allocating PGRAPH context for M2MF: -110
-> failed to create GPU screen
+drivers/media/platform/sunxi/sun8i-di/sun8i-di.c:
 
-Thx for the report. Hmmm. No reply so far. :-/
+                src =3D v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
+                if (ctx->prev)
+                        v4l2_m2m_buf_done(ctx->prev, state);
+                ctx->prev =3D src;
 
-Diogo, maybe report this here as well:
-https://gitlab.freedesktop.org/drm/nouveau/-/issues/
 
-Afterwards drop a link to the ticket here. Reporting nouveau issues via
-email should work, but maybe you have more luck there.
+What that does is that whenever a src buffer has been processed and needs t=
+o be
+kept has prev, it is removed from the m2m pending queue
+(v4l2_m2m_src_buf_remove()), but not marked done. At the VB2 level it means=
+ that
+buffer will keep its ACTIVE/QUEUED state, meaning is currently under driver
+ownership. I also expect the driver to start producing frame on the second
+device run, but I didn't spend the extra time to check if that is the case =
+for
+sun8i-di driver.
 
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+As for GStreamer wrapper, since it does not support deinterlaced, it does n=
+ot
+always allocate this one extra buffer for prev. If the driver implement the
+MIN_BUFFERS_FOR_OUTPUT CID though, it will allocate matching number of extr=
+as.
+Though, this has a side effect at driver level, since start streaming will =
+be
+delayed until 2 buffers has been queued and any way you need to queue 2 buf=
+fers
+before the driver will produces its first buffer.
 
-> If we then try a second time we get a more detailed error message:
-> 
-> [   27.432391] ------------[ cut here ]------------
-> [   27.437019] nouveau 57000000.gpu: timeout
-> [   27.441083] WARNING: CPU: 2 PID: 307 at drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c:840 gf100_gr_fecs_bind_pointer+0x140/0x158 [nouveau]
-> [   27.453897] Modules linked in: nouveau drm_ttm_helper ttm backlight gpu_sched i2c_algo_bit drm_gpuvm drm_exec efivarfs
-> [   27.464592] CPU: 2 UID: 0 PID: 307 Comm: loadjpeg Not tainted 6.11.0-rc4+ #1
-> [   27.471628] Hardware name: nvidia NVIDIA P2371-2180/NVIDIA P2371-2180, BIOS 2024.10-rc5-00018-g56b47b8b6a09 10/01/2024
-> [   27.482303] pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> [   27.489251] pc : gf100_gr_fecs_bind_pointer+0x140/0x158 [nouveau]
-> [   27.495535] lr : gf100_gr_fecs_bind_pointer+0x140/0x158 [nouveau]
-> [   27.501794] sp : ffffffc082473810
-> [   27.505100] x29: ffffffc082473840 x28: ffffff80c56fe500 x27: ffffff80c6f3be40
-> [   27.512227] x26: 00000000804001ea x25: 0000000000000001 x24: 0000000000000000
-> [   27.519351] x23: ffffff80c5516808 x22: ffffffc079d08350 x21: ffffff80c16bae40
-> [   27.526476] x20: 0000000000409800 x19: ffffff80c5516808 x18: ffffffffffffffff
-> [   27.533599] x17: 0000000000000000 x16: 0000000000000000 x15: 0000000000000006
-> [   27.540724] x14: ffffffc0817defc8 x13: 74756f656d697420 x12: 3a7570672e303030
-> [   27.547848] x11: ffffffc0817defc8 x10: 00000000000003f1 x9 : ffffffc081836fc8
-> [   27.554972] x8 : 0000000000017fe8 x7 : 00000000fffff000 x6 : 0000000000000001
-> [   27.562096] x5 : 0000000000000000 x4 : 0000000000000000 x3 : 0000000000000000
-> [   27.569218] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffffff80d578c600
-> [   27.576341] Call trace:
-> [   27.578780]  gf100_gr_fecs_bind_pointer+0x140/0x158 [nouveau]
-> [   27.584698]  gf100_grctx_generate+0x54c/0x6f4 [nouveau]
-> [   27.590093]  gf100_gr_chan_new+0x3f8/0x430 [nouveau]
-> [   27.595223]  nvkm_gr_cclass_new+0x34/0x48 [nouveau]
-> [   27.600269]  nvkm_cgrp_ectx_get+0x134/0x224 [nouveau]
-> [   27.605485]  nvkm_cgrp_vctx_get+0x11c/0x300 [nouveau]
-> [   27.610704]  nvkm_chan_cctx_get+0x144/0x25c [nouveau]
-> [   27.615920]  nvkm_uchan_object_new+0xd8/0x1e0 [nouveau]
-> [   27.621311]  nvkm_ioctl_new+0x14c/0x24c [nouveau]
-> [   27.626167]  nvkm_ioctl+0xd0/0x280 [nouveau]
-> [   27.630590]  nvkm_client_ioctl+0x10/0x1c [nouveau]
-> [   27.635551]  nvif_client_ioctl+0x20/0x2c [nouveau]
-> [   27.640493]  usif_ioctl+0x294/0x420 [nouveau]
-> [   27.645021]  nouveau_drm_ioctl+0xb0/0xe0 [nouveau]
-> [   27.649982]  __arm64_sys_ioctl+0xac/0xf0
-> [   27.653900]  invoke_syscall+0x48/0x104
-> [   27.657645]  el0_svc_common.constprop.0+0x40/0xe0
-> [   27.662341]  do_el0_svc+0x1c/0x28
-> [   27.665650]  el0_svc+0x3c/0x108
-> [   27.668787]  el0t_64_sync_handler+0x120/0x12c
-> [   27.673133]  el0t_64_sync+0x190/0x194
-> [   27.676789] ---[ end trace 0000000000000000 ]---
-> [   27.681937] nouveau 57000000.gpu: gr: failed to construct context
-> [   27.688126] nouveau 57000000.gpu: fifo:000000:0002:[loadjpeg[307]] ectx 0[gr]: -110
-> [   27.695786] nouveau 57000000.gpu: fifo:000000:0002:0002:[loadjpeg[307]] vctx 0[gr]: -110
-> nvc0_screen_create:1075 - Error allocating PGRAPH context for M2MF: -110
-> failed to create GPU screen
-> 
-> but I am not sure if this is connected to the fact that the first attempt
-> failed or not.
-> 
-> When trying to bissect the issue the "bad" commit I obtained was 9b340aeb26d5.
-> However, checking out this commit and compiling the kernel leads to a different
-> error where we have a boot regression:
-> 
-> [   19.146693] nouveau 57000000.gpu: Adding to iommu group 3
-> [   19.155581] nouveau 57000000.gpu: NVIDIA GM20B (12b000a1)
-> [   19.161025] nouveau 57000000.gpu: imem: using IOMMU
-> [   22.451833] ------------[ cut here ]------------
-> [   22.456460] nouveau 57000000.gpu: timeout
-> [   22.460508] WARNING: CPU: 0 PID: 201 at drivers/gpu/drm/nouveau/nvkm/falcon/gm200.c:231 gm200_flcn_fw_boot+0x2a4/0x428 [nouveau]
-> [   22.472384] Modules linked in: nouveau(+) drm_ttm_helper ttm backlight gpu_sched i2c_algo_bit drm_gpuvm drm_exec efivarfs
-> [   22.483342] CPU: 0 UID: 0 PID: 201 Comm: (udev-worker) Not tainted 6.11.0-rc1+ #4
-> [   22.490811] Hardware name: nvidia NVIDIA P2371-2180/NVIDIA P2371-2180, BIOS 2024.10-rc5-00018-g56b47b8b6a09 10/01/2024
-> [   22.501485] pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> [   22.508434] pc : gm200_flcn_fw_boot+0x2a4/0x428 [nouveau]
-> [   22.514063] lr : gm200_flcn_fw_boot+0x2a4/0x428 [nouveau]
-> [   22.519656] sp : ffffffc0822fb3e0
-> [   22.522961] x29: ffffffc0822fb410 x28: ffffff80c7bf0008 x27: ffffff80d5625208
-> [   22.530088] x26: 0000000000000001 x25: 0000000000000010 x24: 0000000000000000
-> [   22.537213] x23: ffffff80c4e920b8 x22: 0000000000000000 x21: 0000000000000000
-> [   22.544336] x20: 0000000000000010 x19: ffffff80c4e920b8 x18: ffffffffffffffff
-> [   22.551460] x17: 000000000000d000 x16: 0000000000000000 x15: 0000000000000006
-> [   22.558585] x14: ffffffc08181efa8 x13: 74756f656d697420 x12: 3a7570672e303030
-> [   22.565709] x11: ffffffc08181efa8 x10: 00000000000003fd x9 : ffffffc081876fa8
-> [   22.572834] x8 : 0000000000017fe8 x7 : 00000000fffff000 x6 : 0000000000000001
-> [   22.579958] x5 : 0000000000000000 x4 : 0000000000000000 x3 : 0000000000000000
-> [   22.587083] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffffff80c2f98000
-> [   22.594208] Call trace:
-> [   22.596647]  gm200_flcn_fw_boot+0x2a4/0x428 [nouveau]
-> [   22.601904]  nvkm_falcon_fw_boot+0x1b4/0x598 [nouveau]
-> [   22.607237]  nvkm_acr_hsfw_boot+0x78/0xa4 [nouveau]
-> [   22.612309]  gm200_acr_init+0x18/0x24 [nouveau]
-> [   22.617034]  nvkm_acr_load+0x7c/0x18c [nouveau]
-> [   22.621760]  nvkm_acr_init+0x54/0x70 [nouveau]
-> [   22.626400]  nvkm_subdev_init_+0x5c/0x12c [nouveau]
-> [   22.631471]  nvkm_subdev_init+0x60/0xa0 [nouveau]
-> [   22.636370]  nvkm_device_init+0x160/0x2a0 [nouveau]
-> [   22.641448]  nvkm_udevice_init+0x60/0xa0 [nouveau]
-> [   22.646439]  nvkm_object_init+0x48/0x1c0 [nouveau]
-> [   22.651426]  nvkm_ioctl_new+0x164/0x24c [nouveau]
-> [   22.656323]  nvkm_ioctl+0xd0/0x280 [nouveau]
-> [   22.660787]  nvkm_client_ioctl+0x10/0x1c [nouveau]
-> [   22.665784]  nvif_object_ctor+0xe8/0x1b8 [nouveau]
-> [   22.670769]  nvif_device_ctor+0x28/0x78 [nouveau]
-> [   22.675667]  nouveau_cli_init+0x154/0x5e0 [nouveau]
-> [   22.680749]  nouveau_drm_device_init+0x84/0x2e0 [nouveau]
-> [   22.686352]  nouveau_platform_device_create+0x90/0xe0 [nouveau]
-> [   22.692476]  nouveau_platform_probe+0x40/0xc0 [nouveau]
-> [   22.697904]  platform_probe+0x68/0xd8
-> [   22.701564]  really_probe+0xbc/0x2c0
-> [   22.705133]  __driver_probe_device+0x78/0x120
-> [   22.709480]  driver_probe_device+0x3c/0x160
-> [   22.713654]  __driver_attach+0x90/0x1a0
-> [   22.717481]  bus_for_each_dev+0x78/0xd8
-> [   22.721309]  driver_attach+0x24/0x30
-> [   22.724875]  bus_add_driver+0xe4/0x208
-> [   22.728615]  driver_register+0x68/0x124
-> [   22.732443]  __platform_driver_register+0x28/0x40
-> [   22.737137]  nouveau_drm_init+0x90/0x1000 [nouveau]
-> [   22.742217]  do_one_initcall+0x44/0x230
-> [   22.746047]  do_init_module+0x5c/0x220
-> [   22.749788]  load_module+0x748/0x87c
-> [   22.753355]  init_module_from_file+0x88/0xcc
-> [   22.757617]  __arm64_sys_finit_module+0x164/0x328
-> [   22.762310]  invoke_syscall+0x48/0x104
-> [   22.766054]  el0_svc_common+0xc8/0xe8
-> [   22.769710]  do_el0_svc+0x20/0x34
-> [   22.773017]  el0_svc+0x3c/0x108
-> [   22.776155]  el0t_64_sync_handler+0x120/0x12c
-> [   22.780502]  el0t_64_sync+0x190/0x194
-> [   22.784156] ---[ end trace 0000000000000000 ]---
-> [   22.788838] nouveau 57000000.gpu: pmu(acr): mbox 00000001 00000000
-> [   22.795033] nouveau 57000000.gpu: pmu(acr):load: boot failed: -110
-> [   22.801235] nouveau 57000000.gpu: acr: init failed, -110
-> [   22.806858] nouveau 57000000.gpu: init failed with -110
-> [   22.812084] nouveau: DRM-master:00000000:00000080: init failed with -110
-> [   22.818793] nouveau 57000000.gpu: DRM-master: Device allocation failed: -110
-> [   22.826368] ------------[ cut here ]------------
-> [   22.830980] WARNING: CPU: 2 PID: 201 at drivers/gpu/drm/nouveau/nvkm/subdev/mmu/base.c:239 nvkm_mmu_dtor+0xac/0xc0 [nouveau]
-> [   22.842573] Modules linked in: nouveau(+) drm_ttm_helper ttm backlight gpu_sched i2c_algo_bit drm_gpuvm drm_exec efivarfs
-> [   22.853529] CPU: 2 UID: 0 PID: 201 Comm: (udev-worker) Tainted: G        W          6.11.0-rc1+ #4
-> [   22.862475] Tainted: [W]=WARN
-> [   22.865433] Hardware name: nvidia NVIDIA P2371-2180/NVIDIA P2371-2180, BIOS 2024.10-rc5-00018-g56b47b8b6a09 10/01/2024
-> [   22.876107] pstate: 20000005 (nzCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> [   22.883055] pc : nvkm_mmu_dtor+0xac/0xc0 [nouveau]
-> [   22.888063] lr : nvkm_mmu_dtor+0x24/0xc0 [nouveau]
-> [   22.893057] sp : ffffffc0822fb7f0
-> [   22.896362] x29: ffffffc0822fb7f0 x28: 0000000000000000 x27: ffffffc079c69a18
-> [   22.903488] x26: ffffffc079c69d38 x25: ffffffc081892ce8 x24: ffffff80d5624e00
-> [   22.910613] x23: ffffff80d5624e08 x22: dead000000000122 x21: dead000000000100
-> [   22.917737] x20: ffffff80d5624f50 x19: ffffff80c4e07500 x18: ffffffffffffffff
-> [   22.924861] x17: 0000000000001000 x16: 0000000000000000 x15: 0000000000000000
-> [   22.931985] x14: 0000000000000000 x13: dead000000000122 x12: 0000000000000001
-> [   22.939109] x11: 0000000080000000 x10: 0000000000000000 x9 : 0000000000000001
-> [   22.946233] x8 : 00000000000007e0 x7 : 0000000000000000 x6 : 0000000000000239
-> [   22.953357] x5 : 000000000010000c x4 : dead000000000122 x3 : ffffff80c2fa5b38
-> [   22.960481] x2 : ffffff80d519a320 x1 : ffffff80d519a2d0 x0 : ffffff80d519a2c0
-> [   22.967604] Call trace:
-> [   22.970042]  nvkm_mmu_dtor+0xac/0xc0 [nouveau]
-> [   22.974690]  nvkm_subdev_del+0x6c/0xf8 [nouveau]
-> [   22.979504]  nvkm_device_del+0x78/0x120 [nouveau]
-> [   22.984410]  nouveau_platform_device_create+0x54/0xe0 [nouveau]
-> [   22.990534]  nouveau_platform_probe+0x40/0xc0 [nouveau]
-> [   22.995966]  platform_probe+0x68/0xd8
-> [   22.999624]  really_probe+0xbc/0x2c0
-> [   23.003192]  __driver_probe_device+0x78/0x120
-> [   23.007540]  driver_probe_device+0x3c/0x160
-> [   23.011714]  __driver_attach+0x90/0x1a0
-> [   23.015542]  bus_for_each_dev+0x78/0xd8
-> [   23.019369]  driver_attach+0x24/0x30
-> [   23.022937]  bus_add_driver+0xe4/0x208
-> [   23.026676]  driver_register+0x68/0x124
-> [   23.030503]  __platform_driver_register+0x28/0x40
-> [   23.035197]  nouveau_drm_init+0x90/0x1000 [nouveau]
-> [   23.040274]  do_one_initcall+0x44/0x230
-> [   23.044103]  do_init_module+0x5c/0x220
-> [   23.047844]  load_module+0x748/0x87c
-> [   23.051412]  init_module_from_file+0x88/0xcc
-> [   23.055672]  __arm64_sys_finit_module+0x164/0x328
-> [   23.060367]  invoke_syscall+0x48/0x104
-> [   23.064110]  el0_svc_common+0xc8/0xe8
-> [   23.067765]  do_el0_svc+0x20/0x34
-> [   23.071073]  el0_svc+0x3c/0x108
-> [   23.074206]  el0t_64_sync_handler+0x120/0x12c
-> [   23.078553]  el0t_64_sync+0x190/0x194
-> [   23.082206] ---[ end trace 0000000000000000 ]---
-> [   23.087065] nouveau 57000000.gpu: imem: instobj LRU not empty!
-> [   23.092906] nouveau 57000000.gpu: imem: instobj vmap area not empty! 0x40000 bytes still mapped
-> [   23.101958] nvkm: mm not clean!
-> [   23.105095] nvkm: node list:
-> [   23.107994] nvkm: 	00000000 00000074 0
-> [   23.111750] nvkm: 	00400074 00000040 1
-> [   23.115496] nvkm: 	000000b4 003fff4c 0
-> [   23.119248] nvkm: free list:
-> [   23.122128] nvkm: 	00000000 00000074 0
-> [   23.125880] nvkm: 	000000b4 003fff4c 0
-> [   23.129643] nouveau 57000000.gpu: probe with driver nouveau failed with error -110
-> 
-> so I am not sure that this is the actual commit that introduces the breakage.
-> I have also tried to manually checkout some commits to see where the problem
-> could be but unfortunately nothing came out of it.
-> 
-> Best regards,
-> Diogo
-> 
-> #regzbot introduced: v6.11-rc4..v6.11-rc5 
-> 
-> 
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-If I did something stupid, please tell me, as explained on that page.
+This comes to the next reason why the wrapper will fail, since for each buf=
+fer
+that is pushed, it synchronously wait for the output. So it systematically =
+stall
+on first frame. As the author of that wrapper, I'm well aware of that, but =
+never
+had a use case where I needed to fix it. I will be happy to accept support =
+for
+that, though in current mainline state, there is no generic way to actually
+know. One way is to thread the transform, but then GstBasetransform class c=
+an't
+be used, its a lot of work and adds complexity.
 
-#regzbot poke
+We can certainly fix gstv4l2transform.c behaviour with adding
+MIN_BUFFERS_FOR_OUTPUT in upstream drivers. That would be easy to handle wi=
+th
+adding a matching buffering delay. These deinterlacers works for Kodi, sinc=
+e the
+userspace code they have is not generic and have internal knowledge of the
+hardware it is running on.
+
+Nicolas
