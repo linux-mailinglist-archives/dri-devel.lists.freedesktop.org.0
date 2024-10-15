@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 121DB99EC1E
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 15:14:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B00F99EC3D
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 15:16:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8936710E008;
-	Tue, 15 Oct 2024 13:14:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7C6D10E2CD;
+	Tue, 15 Oct 2024 13:16:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="mTvYhQLs";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="YqAOHcpM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5891110E008
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 13:14:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 456B210E2CD
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 13:16:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
@@ -22,36 +22,33 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=6+x3ZSo7xrbeVZlD2nhCMHMjQWkxC4aPSe1fV5ILgyE=; b=mTvYhQLsc2E+vMxV8MK6pCBFjh
- 0uhOy+gkWubXTAssbFSqHynIgmXC/RxWr2u0rS3t+oEa6JJAyphG/VQuaTFfdQWW3gt17dJvUsTDa
- we3/1FMFtY4gEqxT2diZ8SYV2o1E+Te3X6c6EabSJwlXNY/t+a5FY6kb2BUTP1KanmgN5Fmb/TMhL
- T2UOn/3LCJojUZMzR5Wze9N2ieA3c+2xJUfOcfDqNxM48eb/j3bMu9tGLU5N+jpYmgbT/2DoLSZNA
- d4+qCj05EJ4zWC5NY5VZXE6GP0mGbScrjBYRx36WVIOlDhl0z9Pr+PKcqtmPZM3zUCNFaevIFtgXk
- 34F3NxjA==;
+ bh=6R5OAWENthSxynw5iixzyu/53uuwEtHXURRYlDWbWmk=; b=YqAOHcpMAx6ZDqJ6z5TY1FcdNp
+ Idupu0B0jXFshhkL26XE0Ibi9JtBzRTGXu9eyv6pScunJ89EdBB9butVN1YcWOU6AxEOzWYWW6UGN
+ UQaMKdIwPPabnasrlx0oolX9hzZMBd0QP13sjwV9SiXRRBnXMLCg/8o8s4Oq3lhIpoziLzdxFwVZw
+ KahPSCP+2pkYQqJpf3WXHVBosjhyEi4Dap61igye7g2MWBVqZ7LbFDlUYDO1t8TOgqsexYEYHqtr5
+ XZn48dmP6980i0270SjkXUc6RolGvozqC2jj4MBm60oBDKVWROVipi8KGy2GX0YuAvn5USfSUbOch
+ fn/iVKww==;
 Received: from [90.241.98.187] (helo=[192.168.0.101])
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1t0hNk-00ADt1-Kz; Tue, 15 Oct 2024 15:14:36 +0200
-Message-ID: <18e9dd02-2cdd-42a2-9e7f-271c685d9f93@igalia.com>
-Date: Tue, 15 Oct 2024 14:14:35 +0100
+ id 1t0hPQ-00ADve-MF; Tue, 15 Oct 2024 15:16:20 +0200
+Message-ID: <db2904b2-25f8-4c30-ae4b-d1c69cccc655@igalia.com>
+Date: Tue, 15 Oct 2024 14:16:19 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/5] drm/sched: Optimise drm_sched_entity_push_job
+Subject: Re: [PATCH 4/5] drm/sched: Re-group and rename the entity run-queue
+ lock
 To: Philipp Stanner <pstanner@redhat.com>,
  Tvrtko Ursulin <tursulin@igalia.com>, dri-devel@lists.freedesktop.org
 Cc: kernel-dev@igalia.com, =?UTF-8?Q?Christian_K=C3=B6nig?=
  <christian.koenig@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
  Luben Tuikov <ltuikov89@gmail.com>, Matthew Brost <matthew.brost@intel.com>
 References: <20241014104637.83209-1-tursulin@igalia.com>
- <20241014104637.83209-2-tursulin@igalia.com>
- <0df6b855b0974a88a3f6af42108e2596bd285898.camel@redhat.com>
- <8c038f91-716c-4a3d-8c70-10859d28d77f@igalia.com>
- <587ac0260e9c843ccd0e7d449fc6b6c9270ec741.camel@redhat.com>
- <a3cb9eba-a13e-4f56-8e81-7a06eb655e3b@igalia.com>
- <33ebe52c5df76611451685261f046d77efc44134.camel@redhat.com>
+ <20241014104637.83209-5-tursulin@igalia.com>
+ <38ec8fa17b8e1ee2f6d409ed0a472f0fcc006fd6.camel@redhat.com>
 Content-Language: en-GB
 From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <33ebe52c5df76611451685261f046d77efc44134.camel@redhat.com>
+In-Reply-To: <38ec8fa17b8e1ee2f6d409ed0a472f0fcc006fd6.camel@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,188 +67,260 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 15/10/2024 12:38, Philipp Stanner wrote:
-> On Tue, 2024-10-15 at 09:12 +0100, Tvrtko Ursulin wrote:
+On 15/10/2024 12:56, Philipp Stanner wrote:
+> On Mon, 2024-10-14 at 11:46 +0100, Tvrtko Ursulin wrote:
+>> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 >>
->> On 15/10/2024 08:11, Philipp Stanner wrote:
->>> On Mon, 2024-10-14 at 13:07 +0100, Tvrtko Ursulin wrote:
->>>>
->>>> On 14/10/2024 12:32, Philipp Stanner wrote:
->>>>> Hi,
->>>>>
->>>>> On Mon, 2024-10-14 at 11:46 +0100, Tvrtko Ursulin wrote:
->>>>>> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->>>>>>
->>>>>> In FIFO mode We can avoid dropping the lock only to
->>>>>> immediately
->>>>>> re-
->>>>>> acquire
->>>>>> by adding a new drm_sched_rq_update_fifo_locked() helper.
->>>>>>
->>>>>
->>>>> Please write detailed commit messages, as described here [1].
->>>>>       1. Describe the problem: current state and why it's bad.
->>>>>       2. Then, describe in imperative (present tense) form what
->>>>> the
->>>>> commit
->>>>>          does about the problem.
->>>>
->>>> Both pieces of info are already there:
->>>>
->>>> 1. Drops the lock to immediately re-acquire it.
->>>> 2. We avoid that by by adding a locked helper.
->>>>> Optionally, in between can be information about why it's solved
->>>>> this
->>>>> way and not another etc.
->>>>>
->>>>> Applies to the other patches, too.
->>>>>
->>>>>
->>>>> [1]
->>>>> https://www.kernel.org/doc/html/latest/process/submitting-patches.html#describe-your-changes
->>>>
->>>> Thanks I am new here and did not know this.
->>>>
->>>> Seriosuly, lets not be too blindly strict about this because it
->>>> can
->>>> get
->>>> IMO ridiculous.
->>>>
->>>> One example when I previously accomodated your request is patch
->>>> 3/5
->>>> from
->>>> this series:
->>>>
->>>> """
->>>> Current kerneldoc for struct drm_sched_rq incompletely documents
->>>> what
->>>> fields are protected by the lock.
->>>>
->>>> This is not good because it is misleading.
->>>>
->>>> Lets fix it by listing all the elements which are protected by
->>>> the
->>>> lock.
->>>> """
->>>>
->>>> While this was the original commit text you weren't happy with:
->>>>
->>>> """
->>>> drm/sched: Re-order struct drm_sched_rq members for clarity
->>>>
->>>> Lets re-order the members to make it clear which are protected by
->>>> the
->>>> lock
->>>> and at the same time document it via kerneldoc.
->>>> """
->>>>
->>>> I maintain the original text was passable.
->>>>
->>>> On top, this was just a respin to accomodate the merge process.
->>>> All
->>>> approvals were done and dusted couple weeks or so ago so asking
->>>> for
->>>> yet
->>>> another respin for such trivial objections is not great.
->>>
->>> I understand that you're unhappy, but please understand the
->>> position
->>> I'm coming from. As you know, since you sent these patches within a
->>> different series (and, thus, since I reviewed them), I was trusted
->>> with
->>> co-maintaining this piece of shared infrastructure.
->>>
->>> And since you've worked on it a bit now, I suppose you also know
->>> that
->>> the GPU Scheduler is arguably in quite a bad shape, has far too
->>> little
->>> documentation, has leaks, maybe race conditions, parts *where the
->>> locking rules are unclear* and is probably only fully understood by
->>> a
->>> small hand full of people. I also argue that this is a *very*
->>> complicated piece of software.
+>> Christian suggested to rename the lock and improve the documentation
+> 
+> Let's move it to Annotators:
+> Suggested-by: Christian König <christian.koenig@amd.com>
+
+Ack.
+
+> (Otherwise some time in the future a Christian Kaiser might start
+> working on the scheduler on steal the praise ^^)
+> 
+>> of
+>> what it protects.
+> 
+> So without Christian's name here I'd phrase it as:
+> "When writing to a drm_sched_entity's run-queue, writers are protected
+> through the lock drm_sched_entity.rq_lock. This naming, however,
+> frequently collides with the separate internal lock of struct
+> drm_sched_rq, resulting in uses like this:
+> 
+> 	spin_lock(&entity->rq_lock);
+> 	spin_lock(&entity->rq->lock);
+> 
+> Rename drm_sched_entity.rq_lock to improve readability. While at it,
+> re-order that struct's members to make it more obvious what the lock
+> protects.
+
+Will copy&paste - thanks for typing it out.
+
+>> And to also re-order the structure members so all
+>> protected by the lock are together in a block.
+> 
+> 
 >>
->> We already went over that and agreed. Not least I agreed the base is
->> shaky since few years  ago. :)
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>> Cc: Christian König <christian.koenig@amd.com>
+>> Cc: Alex Deucher <alexander.deucher@amd.com>
+>> Cc: Luben Tuikov <ltuikov89@gmail.com>
+>> Cc: Matthew Brost <matthew.brost@intel.com>
+>> Cc: Philipp Stanner <pstanner@redhat.com>
+>> Reviewed-by: Christian König <christian.koenig@amd.com>
+>> ---
+>>   drivers/gpu/drm/scheduler/sched_entity.c | 28 ++++++++++++----------
+>> --
+>>   drivers/gpu/drm/scheduler/sched_main.c   |  2 +-
+>>   include/drm/gpu_scheduler.h              | 15 +++++++------
+>>   3 files changed, 23 insertions(+), 22 deletions(-)
 >>
->> Btw if things align, I hope you will at some point see a follow up
->> series from me which makes some significant simplifications and
->> improvements at the same time.
+>> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c
+>> b/drivers/gpu/drm/scheduler/sched_entity.c
+>> index b72cba292839..c013c2b49aa5 100644
+>> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+>> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+>> @@ -105,7 +105,7 @@ int drm_sched_entity_init(struct drm_sched_entity
+>> *entity,
+>>   	/* We start in an idle state. */
+>>   	complete_all(&entity->entity_idle);
+>>   
+>> -	spin_lock_init(&entity->rq_lock);
+>> +	spin_lock_init(&entity->lock);
+>>   	spsc_queue_init(&entity->job_queue);
+>>   
+>>   	atomic_set(&entity->fence_seq, 0);
+>> @@ -133,10 +133,10 @@ void drm_sched_entity_modify_sched(struct
+>> drm_sched_entity *entity,
+>>   {
+>>   	WARN_ON(!num_sched_list || !sched_list);
+>>   
+>> -	spin_lock(&entity->rq_lock);
+>> +	spin_lock(&entity->lock);
+>>   	entity->sched_list = sched_list;
+>>   	entity->num_sched_list = num_sched_list;
+>> -	spin_unlock(&entity->rq_lock);
+>> +	spin_unlock(&entity->lock);
+>>   }
+>>   EXPORT_SYMBOL(drm_sched_entity_modify_sched);
+>>   
+>> @@ -244,10 +244,10 @@ static void drm_sched_entity_kill(struct
+>> drm_sched_entity *entity)
+>>   	if (!entity->rq)
+>>   		return;
+>>   
+>> -	spin_lock(&entity->rq_lock);
+>> +	spin_lock(&entity->lock);
+>>   	entity->stopped = true;
+>>   	drm_sched_rq_remove_entity(entity->rq, entity);
+>> -	spin_unlock(&entity->rq_lock);
+>> +	spin_unlock(&entity->lock);
+>>   
+>>   	/* Make sure this entity is not used by the scheduler at the
+>> moment */
+>>   	wait_for_completion(&entity->entity_idle);
+>> @@ -396,9 +396,9 @@ static void drm_sched_entity_wakeup(struct
+>> dma_fence *f,
+>>   void drm_sched_entity_set_priority(struct drm_sched_entity *entity,
+>>   				   enum drm_sched_priority priority)
+>>   {
+>> -	spin_lock(&entity->rq_lock);
+>> +	spin_lock(&entity->lock);
+>>   	entity->priority = priority;
+>> -	spin_unlock(&entity->rq_lock);
+>> +	spin_unlock(&entity->lock);
+>>   }
+>>   EXPORT_SYMBOL(drm_sched_entity_set_priority);
+>>   
+>> @@ -515,10 +515,10 @@ struct drm_sched_job
+>> *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
+>>   
+>>   		next = to_drm_sched_job(spsc_queue_peek(&entity-
+>>> job_queue));
+>>   		if (next) {
+>> -			spin_lock(&entity->rq_lock);
+>> +			spin_lock(&entity->lock);
+>>   			drm_sched_rq_update_fifo_locked(entity,
+>>   							next-
+>>> submit_ts);
+>> -			spin_unlock(&entity->rq_lock);
+>> +			spin_unlock(&entity->lock);
+>>   		}
+>>   	}
+>>   
+>> @@ -559,14 +559,14 @@ void drm_sched_entity_select_rq(struct
+>> drm_sched_entity *entity)
+>>   	if (fence && !dma_fence_is_signaled(fence))
+>>   		return;
+>>   
+>> -	spin_lock(&entity->rq_lock);
+>> +	spin_lock(&entity->lock);
+>>   	sched = drm_sched_pick_best(entity->sched_list, entity-
+>>> num_sched_list);
+>>   	rq = sched ? sched->sched_rq[entity->priority] : NULL;
+>>   	if (rq != entity->rq) {
+>>   		drm_sched_rq_remove_entity(entity->rq, entity);
+>>   		entity->rq = rq;
+>>   	}
+>> -	spin_unlock(&entity->rq_lock);
+>> +	spin_unlock(&entity->lock);
+>>   
+>>   	if (entity->num_sched_list == 1)
+>>   		entity->sched_list = NULL;
+>> @@ -605,9 +605,9 @@ void drm_sched_entity_push_job(struct
+>> drm_sched_job *sched_job)
+>>   		struct drm_sched_rq *rq;
+>>   
+>>   		/* Add the entity to the run queue */
+>> -		spin_lock(&entity->rq_lock);
+>> +		spin_lock(&entity->lock);
+>>   		if (entity->stopped) {
+>> -			spin_unlock(&entity->rq_lock);
+>> +			spin_unlock(&entity->lock);
+>>   
+>>   			DRM_ERROR("Trying to push to a killed
+>> entity\n");
+>>   			return;
+>> @@ -621,7 +621,7 @@ void drm_sched_entity_push_job(struct
+>> drm_sched_job *sched_job)
+>>   		if (drm_sched_policy == DRM_SCHED_POLICY_FIFO)
+>>   			drm_sched_rq_update_fifo_locked(entity,
+>> submit_ts);
+>>   
+>> -		spin_unlock(&entity->rq_lock);
+>> +		spin_unlock(&entity->lock);
+>>   
+>>   		drm_sched_wakeup(sched);
+>>   	}
+>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
+>> b/drivers/gpu/drm/scheduler/sched_main.c
+>> index 07ee386b8e4b..2670bf9f34b2 100644
+>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>> @@ -176,7 +176,7 @@ void drm_sched_rq_update_fifo_locked(struct
+>> drm_sched_entity *entity, ktime_t ts
+>>   	 * for entity from within concurrent
+>> drm_sched_entity_select_rq and the
+>>   	 * other to update the rb tree structure.
+>>   	 */
+>> -	lockdep_assert_held(&entity->rq_lock);
+>> +	lockdep_assert_held(&entity->lock);
+>>   
+>>   	spin_lock(&entity->rq->lock);
+>>   
+>> diff --git a/include/drm/gpu_scheduler.h
+>> b/include/drm/gpu_scheduler.h
+>> index b6d095074c19..683fff8939e4 100644
+>> --- a/include/drm/gpu_scheduler.h
+>> +++ b/include/drm/gpu_scheduler.h
+>> @@ -96,6 +96,14 @@ struct drm_sched_entity {
+>>   	 */
+>>   	struct list_head		list;
+>>   
 > 
-> Cool, good to hear!
-> (Would be even cooler if simplifications and improvements can be
-> delivered through separate patch series to be easier to review etc.)
-
-Yes, when I spot something I pull it ahead and/or standalone when it 
-makes sense. But it is early days and a big job.
-
->>> So I might be or appear to be a bit pedantic, but I'm not doing
->>> that to
->>> terrorize you, but because I want this thing to become well
->>> documented,
->>> understandable, and bisectable. Working towards a canonical, idiot-
->>> proof commit style is one measure that will help with that.
->>>
->>> I want to offer you the following: I can be more relaxed with
->>> things
->>> universally recognized as trivial (comment changes, struct member
->>> reordering) – but when something like a lock is touched in any way,
->>> we
->>> shall document that in the commit message as canonically as
->>> possible,
->>> so someone who's less experienced and just bisected the commit
->>> immediately understands what has been done (or rather: was supposed
->>> to
->>> be done).
->>
->> So how would you suggest to expand this commit text so it doesn't
->> read
->> too self-repeating?
+> Uh, btw, while reviewing, I just saw that we still have that FIXME
+> further up:
 > 
-> My issue with this particular commit message is mainly that it doesn't
-> make it obvious what the patch is supposed to do. So one can make it
-> quicker and better to review by detailing it a bit more, so the
-> reviewer then can compare commit message vs. what the code does. It
-> seems to me for example that the actual optimization is being done in
-> drm_sched_entity_push_job(), and drm_sched_entity_pop_job() had to be
-> ported, too, for correctness
-
-"It seems" aka the commit title says so. ;)
-
-> Another small thing that might be cool is something that makes it a bit
-> more obvious that this is an optimization, not a fix.
+> 	/**
+> 	 * @rq:
+> 	 *
+> 	 * Runqueue on which this entity is currently scheduled.
+> 	 *
+> 	 * FIXME: Locking is very unclear for this. Writers are protected by
+> 	 * @rq_lock, but readers are generally lockless and seem to just race
+> 	 * with not even a READ_ONCE.
+> 	 */
+> 	struct drm_sched_rq		*rq;
 > 
-> So I would probably write:
-> 
-> "So far, drm_sched_rq_update_fifo() automatically takes
-> drm_sched_entity.rq_lock. For DRM_SCHED_POLICY_FIFO, this is
-> inefficient because that lock is then taken, released and retaken in
-> drm_sched_entity_push_job().
-> 
-> Improve performance by moving the locking out of
-> drm_sched_rq_update_fifo()."
-> 
-> Not that much longer but makes it far more obvious what shall be
-> achieved where :]
+> At the very least, rq_lock should be renamed here, too. AFAICS the
 
-How about this:
+Good catch!
 
-"""
-In FIFO mode (which is the default), both drm_sched_entity_push_job() 
-and drm_sched_rq_update_fifo(), where the latter calls the former, are 
-currently taking and releasing the same entity->rq_lock.
+> series doesn't solve the FIXME, so we keep it, agreed?
 
-We can avoid that design inelegance, and also have a miniscule 
-efficiency improvement on the idle submit path, by introducing a new 
-drm_sched_rq_update_fifo_locked() helper and pulling up the lock taking 
-to its callers.
-"""
-
-> (Let me read through the other patches briefly. Then we should be good
-> with v2 of this series.. or would it be v3 then?)
-
-Depends how you count. By unique series titles or by fundamental content.
+Yep.
 
 Regards,
 
 Tvrtko
+
+>> +	/**
+>> +	 * @lock:
+>> +	 *
+>> +	 * Lock protecting the run-queue (@rq) to which this entity
+>> belongs,
+>> +	 * @priority and the list of schedulers (@sched_list,
+>> @num_sched_list).
+>> +	 */
+>> +	spinlock_t			lock;
+>> +
+>>   	/**
+>>   	 * @rq:
+>>   	 *
+>> @@ -140,13 +148,6 @@ struct drm_sched_entity {
+>>   	 */
+> 
+> I think this comment here above also uses the term "rq_lock". While
+> you're fixing it, maybe also do a quick grep for "rq_lock" in case I
+> overlooked it somewhere else. I stopped drinking coffee today, so...
+> 
+> 
+> Thx,
+> P.
+> 
+>>   	enum drm_sched_priority         priority;
+>>   
+>> -	/**
+>> -	 * @rq_lock:
+>> -	 *
+>> -	 * Lock to modify the runqueue to which this entity belongs.
+>> -	 */
+>> -	spinlock_t			rq_lock;
+>> -
+>>   	/**
+>>   	 * @job_queue: the list of jobs of this entity.
+>>   	 */
+> 
