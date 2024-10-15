@@ -2,83 +2,130 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD87499F7A9
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 22:00:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6088999F7B4
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 22:00:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC9E610E5F1;
-	Tue, 15 Oct 2024 20:00:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66CBB10E5FE;
+	Tue, 15 Oct 2024 20:00:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="UQ8nc6OV";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="hyqXcJmb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 402AD10E575
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 12:08:47 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49FBVKeL028539;
- Tue, 15 Oct 2024 12:08:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=0o+CFFxLvBXPtKGJfpW0Lc+u
- 4Hdpi4klAbpdj7dOxbo=; b=UQ8nc6OVoj2T1cUFmbiFhoDzX1VPgK2JurHgv3CV
- 2xWxpnx7o3xe7q7gMEXPWTb51sCwhJOog74LEaE6w0C6x/myR6wWkvmgkSV8l0UW
- 9wrhgn9culQTSVYb89NVrDnkN/Y45fE0G2Z7FCgIPZErAXhV8kyWCoyPrxnAR87c
- 4e2KjBY5IlegTpkQ1b0y7jRYDy9lqot7t5asdpzuPUdrZusbiTUOtMgxTr+nVrsd
- INGt1FFpqOsghmUtTTms3zrzhEtBAQD5PsVm83/c3fxJs8yjSC5NRton/W/holIl
- YNh0K5yeiTfzr0zuANdfJE9ubzh2bobm1hE/WDP8EcALyg==
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4292evk69c-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Oct 2024 12:08:39 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49FC8c79011440
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Oct 2024 12:08:38 GMT
-Received: from hu-jseerapu-hyd.qualcomm.com (10.80.80.8) by
- nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam04on2063.outbound.protection.outlook.com [40.107.102.63])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3476410E598;
+ Tue, 15 Oct 2024 15:24:12 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=K2evHHOJ26ThGW8sUtyaCQegNc1PJd6s/dYQ/w+XwPV6GZKYGrcApa+QfgLzVUiZrEKzBoOqUbiAuAePOrH2rXkw5L3L1YioNNL+TH1EhynHkchXUS7p0w7/LYfGZfrNBzRJcDpaP+cp49kVeJx9bh1hpEZ0gNAorLAVfzasolkuV3uiWx+BbeuTel1mpJW63+dVK+INFczqDCJijxiuN9EcjiKnntZqUMv4R5/e+X5TuvwF0fh8MoQ0Rx6gH+Ou7k9R1o7hn3F4T2lN8RvEe+WTzJfhQAi5UhekPqjwJh1t8TKNmQNrx+UxHTenWbdK0qLcvWHp4ae92BYa7o2rlg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wE5tQ0PgpoSdnn+RUVbHJmE1TQA5QsSTlbYjB79bN/4=;
+ b=QtddrZIwFCcRt0e/Bfp8KgmP5cDjCq3Ph+6C4NGukTkJxFuRq1+qe22OQcI4kPvP2M7YbxSenolOPWZnhSSZiujKrdXYS0LL4r/2hcQ7JXViKcBD07NyX8M7HI4SLbqNzybLobZkO33jqFEfsOiyMVzgbpNHAUPkdf9tHMsKY1CTbA2FQjLC+vqZ+fzNaUI0POM4V4mpKMyrQxYQGaOg8g8uHmBU9aUsbIsqVP4/7FQ1Sb/0IFa7VxNqXWgCydBRxay5mXWTdMjfiDIRNdhQBa3Lh1f7J4rvbFK2d2hQxra3g6MC8EvnwhSeUKnmW4Sw1ml3u+v8o23ZUri2ulN7Mg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.118.232) smtp.rcpttodomain=lists.freedesktop.org
+ smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
+ header.from=nvidia.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wE5tQ0PgpoSdnn+RUVbHJmE1TQA5QsSTlbYjB79bN/4=;
+ b=hyqXcJmbMfvgLNAaVqlQ4p50SxUNqZzgpcPTFh3xidmRQUx7BdoUnfT/GQuk0/oqWxvh3yYu+3iaKh15FcYAmrhLi5rFFl5XWwcEFTrIKw/xKARQhkF9xEmpyWX6NKljSWCQmTz7QepwC+9Yu/YayOhiQH4waNb2sLQi6bBGAbtRZstoYNpO2AWUAjkn+2fVnbKNS16kb6jZsCqF9Iz196V0XmGUn9Pwn2XWOP/jp6XjD1Jno+Y4i4NG2/C+fa6/n9dE5pj0wfCb4uKkXkd5k7hxf384LltRN529+jcwtlGRXDQ/A+FKm8ZSRYYYSiCJuzL7BhBJQxegNYIJ/FQfWQ==
+Received: from CH0P220CA0028.NAMP220.PROD.OUTLOOK.COM (2603:10b6:610:ef::7) by
+ CH2PR12MB4294.namprd12.prod.outlook.com (2603:10b6:610:a9::11) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8048.27; Tue, 15 Oct 2024 15:24:07 +0000
+Received: from CH2PEPF0000013F.namprd02.prod.outlook.com
+ (2603:10b6:610:ef:cafe::be) by CH0P220CA0028.outlook.office365.com
+ (2603:10b6:610:ef::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.27 via Frontend
+ Transport; Tue, 15 Oct 2024 15:24:07 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.232)
+ smtp.mailfrom=nvidia.com;
+ dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.232 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.232; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.232) by
+ CH2PEPF0000013F.mail.protection.outlook.com (10.167.244.71) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8069.17 via Frontend Transport; Tue, 15 Oct 2024 15:24:07 +0000
+Received: from drhqmail202.nvidia.com (10.126.190.181) by mail.nvidia.com
+ (10.127.129.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Tue, 15 Oct
+ 2024 08:23:56 -0700
+Received: from drhqmail202.nvidia.com (10.126.190.181) by
+ drhqmail202.nvidia.com (10.126.190.181) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Tue, 15 Oct 2024 05:08:33 -0700
-From: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
-To: Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>, "Krzysztof
- Kozlowski" <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, "Bjorn
- Andersson" <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
- Andi Shyti <andi.shyti@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-CC: <cros-qcom-dts-watchers@chromium.org>, <linux-arm-msm@vger.kernel.org>,
- <dmaengine@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
- <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linaro-mm-sig@lists.linaro.org>, <quic_msavaliy@quicinc.com>,
- <quic_vtanuku@quicinc.com>
-Subject: [PATCH v1 5/5] i2c: i2c-qcom-geni: Add Block event interrupt support
-Date: Tue, 15 Oct 2024 17:37:50 +0530
-Message-ID: <20241015120750.21217-6-quic_jseerapu@quicinc.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20241015120750.21217-1-quic_jseerapu@quicinc.com>
-References: <20241015120750.21217-1-quic_jseerapu@quicinc.com>
+ 15.2.1544.4; Tue, 15 Oct 2024 08:23:56 -0700
+Received: from vdi.nvidia.com (10.127.8.9) by mail.nvidia.com (10.126.190.181)
+ with Microsoft SMTP Server id 15.2.1544.4 via Frontend Transport;
+ Tue, 15 Oct 2024 08:23:52 -0700
+From: Yonatan Maman <ymaman@nvidia.com>
+To: <nouveau@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <linux-rdma@vger.kernel.org>, <linux-mm@kvack.org>, <herbst@redhat.com>,
+ <lyude@redhat.com>, <dakr@redhat.com>, <airlied@gmail.com>,
+ <simona@ffwll.ch>, <jgg@ziepe.ca>, <leon@kernel.org>, <jglisse@redhat.com>,
+ <akpm@linux-foundation.org>, <dri-devel@lists.freedesktop.org>,
+ <apopple@nvidia.com>, <bskeggs@nvidia.com>
+CC: Yonatan Maman <Ymaman@Nvidia.com>
+Subject: [PATCH v1 0/4] GPU Direct RDMA (P2P DMA) for Device Private Pages
+Date: Tue, 15 Oct 2024 18:23:44 +0300
+Message-ID: <20241015152348.3055360-1-ymaman@nvidia.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: igqfXn0az7sxVPtrNFgXme81UVCGm5Qq
-X-Proofpoint-ORIG-GUID: igqfXn0az7sxVPtrNFgXme81UVCGm5Qq
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0
- priorityscore=1501 malwarescore=0 mlxlogscore=999 lowpriorityscore=0
- phishscore=0 adultscore=0 bulkscore=0 mlxscore=0 impostorscore=0
- suspectscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2409260000 definitions=main-2410150083
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PEPF0000013F:EE_|CH2PR12MB4294:EE_
+X-MS-Office365-Filtering-Correlation-Id: 02c3d9b1-ad89-47dd-abb5-08dced2d694b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|82310400026|7416014|1800799024|376014|36860700013|921020; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?H1voHeiAKH2orGQxiONk1KWZ2YdElyHQMkT1nfw3A1sz5iGZNh8E4f9YIyB3?=
+ =?us-ascii?Q?C/Wu+CfxKn8GUbR/TgmqFXG2wS4yT1t+iAyw9WJMVPJ9IouTs8DmPKgcVB90?=
+ =?us-ascii?Q?m4PsbLV1QkAKjXFRL1Mm1Ak4PMA2FKoXc3Mx5hqh44HuqfprMHsQF7LaeSkb?=
+ =?us-ascii?Q?hG5s7zZbuCn/niMC19dbzCkBt7zv43MdJFcCrN21ww9rWEmO7eT72mFX2XEm?=
+ =?us-ascii?Q?ATcv6R4wh2/wVZ61jzJ5J63ju/ZCbfefzOjJTc7uitYy3xEIwW/4PF4ljgY4?=
+ =?us-ascii?Q?M2mtApRKXtQJsLNaSXjanX6/NAxKnx5DycDFD2zOOHkLEDcb/pIKRpZjsoaz?=
+ =?us-ascii?Q?j893fNM4lDrJ68KEsa6H6GbgfBRwZ8hy33IVImFJx1QWBG3iAiZpoHyq24kZ?=
+ =?us-ascii?Q?Hr0ickaXnp8k2VzhkczoWArwFLI2ZbGxSn7GKmnqD4BN+Jgk7rKszrBcjcv6?=
+ =?us-ascii?Q?ku8czYLwu1q8HgcNQ5Z/eyXobelSSXhGXMQdYAbsR1W4/GThKRyUVYsPpxzr?=
+ =?us-ascii?Q?TPkF55FKzp3xCe6SVjvOTfDU2BXEmRrFDuZiWtefDg0Up8xK6Aeb44ouys63?=
+ =?us-ascii?Q?gpPaFSLVPo+zjKc1fPQj7kTp15uAzlFlO/ejC+vu4zXjzi1nn0ztYn7XPF+e?=
+ =?us-ascii?Q?2QE6erKaTMw11TrG6WQobBHMyD60zAeILRmehCXGoTrWaRWwXfPahXIgZmvb?=
+ =?us-ascii?Q?8alGG21fSvbv7f5E+MYKVLevXuJmxRF04Mq2EnoR2YwY/X7nsjHpoOhDnELv?=
+ =?us-ascii?Q?okiDmW89t9KSHULLW//ayTdhA/whA9mcPhgn0k7aLmYGuVLGUwSJHz9RcNdA?=
+ =?us-ascii?Q?GZtZ0VGnSdLnZU6+BgBn1i8EGkETI2SzO0IpAnmZJDy4SDzRmuoyiTHoZ6Ot?=
+ =?us-ascii?Q?mnEDPuRLRkJBQ0+NggOAhTS6Ffe0r/48ObEyNy4XGVfMcYtE6ypqWK40ENjl?=
+ =?us-ascii?Q?SfnpRyqK5kKS4dkNGzbzV2BH14FWaRmZ1tBLlL787Bmfjy2+9MH2HwgXgpn3?=
+ =?us-ascii?Q?Jfwupw0nX2Jmh1Opjpo3QOLmPNhOZ/89Fuujyj1oDM7Lbgd/XRnApO2NeX16?=
+ =?us-ascii?Q?r/aEQVlCmzbrvGtmxK0pVFTFrncWJeLFtXnFDT6CsfjUkqridhNPLP69mF2p?=
+ =?us-ascii?Q?H5pf1H2GzEWxX5tT7mGcnD2aYrYh5geara0C5rKBdKJPAcjTC4AB/Q+M5u5m?=
+ =?us-ascii?Q?xb5URZtMpYHdvLRJhXBTlDdnuJ7m8yCwsN2CRdMM6J2rlV9c1heS5vm/3Lfc?=
+ =?us-ascii?Q?WiN8voIH+0JSp+H/XG0nnL8xI5zViUbbQmqvLM4jvP17UnrHDjqqOSBWzWKm?=
+ =?us-ascii?Q?CdNsbyzrvOL9u9WOm1fJqv487TOqSkttgKIRiyjC6JatCg6+an9d7nNqmLao?=
+ =?us-ascii?Q?hOdKJhR7LgYB6oYkBu+R+5pwd3iG?=
+X-Forefront-Antispam-Report: CIP:216.228.118.232; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc7edge1.nvidia.com; CAT:NONE;
+ SFS:(13230040)(82310400026)(7416014)(1800799024)(376014)(36860700013)(921020);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Oct 2024 15:24:07.4239 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 02c3d9b1-ad89-47dd-abb5-08dced2d694b
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.118.232];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CH2PEPF0000013F.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4294
 X-Mailman-Approved-At: Tue, 15 Oct 2024 20:00:36 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -95,354 +142,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The I2C driver gets an interrupt upon transfer completion.
-For multiple messages in a single transfer, N interrupts will be
-received for N messages, leading to significant software interrupt
-latency. To mitigate this latency, utilize Block Event Interrupt (BEI)
-only when an interrupt is necessary. This means large transfers can be
-split into multiple chunks of 64 messages internally, without expecting
-interrupts for the first 63 transfers, only the last one will trigger
-an interrupt indicating 64 transfers completed.
+From: Yonatan Maman <Ymaman@Nvidia.com>
 
-By implementing BEI, multi-message transfers can be divided into
-chunks of 64 messages, improving overall transfer time.
-This optimization reduces transfer time from 168 ms to 48 ms for a
-series of 200 I2C write messages in a single transfer, with a
-clock frequency support of 100 kHz.
+This patch series aims to enable Peer-to-Peer (P2P) DMA access in
+GPU-centric applications that utilize RDMA and private device pages. This
+enhancement is crucial for minimizing data transfer overhead by allowing
+the GPU to directly expose device private page data to devices such as
+NICs, eliminating the need to traverse system RAM, which is the native
+method for exposing device private page data.
 
-BEI optimizations are currently implemented for I2C write transfers only,
-as there is no use case for multiple I2C read messages in a single transfer
-at this time.
+To fully support Peer-to-Peer for device private pages, the following
+changes are proposed:
 
-Signed-off-by: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
----
- drivers/i2c/busses/i2c-qcom-geni.c | 205 +++++++++++++++++++++++++----
- 1 file changed, 181 insertions(+), 24 deletions(-)
+`Memory Management (MM)`
+ * Leverage struct pagemap_ops to support P2P page operations: This
+modification ensures that the GPU can directly map device private pages
+for P2P DMA.
+ * Utilize hmm_range_fault to support P2P connections for device private
+pages (instead of Page fault)
 
-diff --git a/drivers/i2c/busses/i2c-qcom-geni.c b/drivers/i2c/busses/i2c-qcom-geni.c
-index 212336f724a6..a73dc1738a62 100644
---- a/drivers/i2c/busses/i2c-qcom-geni.c
-+++ b/drivers/i2c/busses/i2c-qcom-geni.c
-@@ -99,6 +99,10 @@ struct geni_i2c_dev {
- 	struct dma_chan *rx_c;
- 	bool gpi_mode;
- 	bool abort_done;
-+	bool is_tx_multi_xfer;
-+	u32 num_msgs;
-+	u32 tx_irq_cnt;
-+	struct gpi_i2c_config *gpi_config;
- };
- 
- struct geni_i2c_desc {
-@@ -485,6 +489,7 @@ static int geni_i2c_tx_one_msg(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
- static void i2c_gpi_cb_result(void *cb, const struct dmaengine_result *result)
- {
- 	struct geni_i2c_dev *gi2c = cb;
-+	struct gpi_multi_xfer *tx_multi_xfer;
- 
- 	if (result->result != DMA_TRANS_NOERROR) {
- 		dev_err(gi2c->se.dev, "DMA txn failed:%d\n", result->result);
-@@ -493,7 +498,21 @@ static void i2c_gpi_cb_result(void *cb, const struct dmaengine_result *result)
- 		dev_dbg(gi2c->se.dev, "DMA xfer has pending: %d\n", result->residue);
- 	}
- 
--	complete(&gi2c->done);
-+	if (gi2c->is_tx_multi_xfer) {
-+		tx_multi_xfer = &gi2c->gpi_config->multi_xfer;
-+
-+		/*
-+		 * Send Completion for last message or multiple of NUM_MSGS_PER_IRQ.
-+		 */
-+		if ((tx_multi_xfer->irq_msg_cnt == gi2c->num_msgs - 1) ||
-+		    (!((tx_multi_xfer->irq_msg_cnt + 1) % NUM_MSGS_PER_IRQ))) {
-+			tx_multi_xfer->irq_cnt++;
-+			complete(&gi2c->done);
-+		}
-+		tx_multi_xfer->irq_msg_cnt++;
-+	} else {
-+		complete(&gi2c->done);
-+	}
- }
- 
- static void geni_i2c_gpi_unmap(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
-@@ -511,7 +530,41 @@ static void geni_i2c_gpi_unmap(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
- 	}
- }
- 
--static int geni_i2c_gpi(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
-+/**
-+ * gpi_i2c_multi_desc_unmap() - unmaps the buffers post multi message TX transfers
-+ * @dev: pointer to the corresponding dev node
-+ * @gi2c: i2c dev handle
-+ * @msgs: i2c messages array
-+ * @peripheral: pointer to the gpi_i2c_config
-+ */
-+static void gpi_i2c_multi_desc_unmap(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[],
-+				     struct gpi_i2c_config *peripheral)
-+{
-+	u32 msg_xfer_cnt, wr_idx = 0;
-+	struct gpi_multi_xfer *tx_multi_xfer = &peripheral->multi_xfer;
-+
-+	/*
-+	 * In error case, need to unmap all messages based on the msg_idx_cnt.
-+	 * Non-error case unmap all the processed messages.
-+	 */
-+	if (gi2c->err)
-+		msg_xfer_cnt = tx_multi_xfer->msg_idx_cnt;
-+	else
-+		msg_xfer_cnt = tx_multi_xfer->irq_cnt * NUM_MSGS_PER_IRQ;
-+
-+	/* Unmap the processed DMA buffers based on the received interrupt count */
-+	for (; tx_multi_xfer->unmap_msg_cnt < msg_xfer_cnt; tx_multi_xfer->unmap_msg_cnt++) {
-+		if (tx_multi_xfer->unmap_msg_cnt == gi2c->num_msgs)
-+			break;
-+		wr_idx = tx_multi_xfer->unmap_msg_cnt % QCOM_GPI_MAX_NUM_MSGS;
-+		geni_i2c_gpi_unmap(gi2c, &msgs[tx_multi_xfer->unmap_msg_cnt],
-+				   tx_multi_xfer->dma_buf[wr_idx],
-+				   tx_multi_xfer->dma_addr[wr_idx], NULL, NULL);
-+		tx_multi_xfer->freed_msg_cnt++;
-+	}
-+}
-+
-+static int geni_i2c_gpi(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[], int cur_msg_idx,
- 			struct dma_slave_config *config, dma_addr_t *dma_addr_p,
- 			void **buf, unsigned int op, struct dma_chan *dma_chan)
- {
-@@ -523,26 +576,49 @@ static int geni_i2c_gpi(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
- 	enum dma_transfer_direction dma_dirn;
- 	struct dma_async_tx_descriptor *desc;
- 	int ret;
-+	struct gpi_multi_xfer *gi2c_gpi_xfer;
-+	dma_cookie_t cookie;
- 
- 	peripheral = config->peripheral_config;
--
--	dma_buf = i2c_get_dma_safe_msg_buf(msg, 1);
--	if (!dma_buf)
-+	gi2c_gpi_xfer = &peripheral->multi_xfer;
-+	gi2c_gpi_xfer->msg_idx_cnt = cur_msg_idx;
-+	dma_buf = gi2c_gpi_xfer->dma_buf[gi2c_gpi_xfer->buf_idx];
-+	addr = gi2c_gpi_xfer->dma_addr[gi2c_gpi_xfer->buf_idx];
-+
-+	dma_buf = i2c_get_dma_safe_msg_buf(&msgs[gi2c_gpi_xfer->msg_idx_cnt], 1);
-+	if (!dma_buf) {
-+		gi2c->err = -ENOMEM;
- 		return -ENOMEM;
-+	}
- 
- 	if (op == I2C_WRITE)
- 		map_dirn = DMA_TO_DEVICE;
- 	else
- 		map_dirn = DMA_FROM_DEVICE;
- 
--	addr = dma_map_single(gi2c->se.dev->parent, dma_buf, msg->len, map_dirn);
-+	addr = dma_map_single(gi2c->se.dev->parent,
-+			      dma_buf, msgs[gi2c_gpi_xfer->msg_idx_cnt].len,
-+			      map_dirn);
- 	if (dma_mapping_error(gi2c->se.dev->parent, addr)) {
--		i2c_put_dma_safe_msg_buf(dma_buf, msg, false);
-+		i2c_put_dma_safe_msg_buf(dma_buf, &msgs[gi2c_gpi_xfer->msg_idx_cnt],
-+					 false);
-+		gi2c->err = -ENOMEM;
- 		return -ENOMEM;
- 	}
- 
-+	if (gi2c->is_tx_multi_xfer) {
-+		if (((gi2c_gpi_xfer->msg_idx_cnt + 1) % NUM_MSGS_PER_IRQ))
-+			peripheral->flags |= QCOM_GPI_BLOCK_EVENT_IRQ;
-+		else
-+			peripheral->flags &= ~QCOM_GPI_BLOCK_EVENT_IRQ;
-+
-+		/* BEI bit to be cleared for last TRE */
-+		if (gi2c_gpi_xfer->msg_idx_cnt == gi2c->num_msgs - 1)
-+			peripheral->flags &= ~QCOM_GPI_BLOCK_EVENT_IRQ;
-+	}
-+
- 	/* set the length as message for rx txn */
--	peripheral->rx_len = msg->len;
-+	peripheral->rx_len = msgs[gi2c_gpi_xfer->msg_idx_cnt].len;
- 	peripheral->op = op;
- 
- 	ret = dmaengine_slave_config(dma_chan, config);
-@@ -560,25 +636,56 @@ static int geni_i2c_gpi(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
- 	else
- 		dma_dirn = DMA_DEV_TO_MEM;
- 
--	desc = dmaengine_prep_slave_single(dma_chan, addr, msg->len, dma_dirn, flags);
-+	desc = dmaengine_prep_slave_single(dma_chan, addr,
-+					   msgs[gi2c_gpi_xfer->msg_idx_cnt].len,
-+					   dma_dirn, flags);
- 	if (!desc) {
- 		dev_err(gi2c->se.dev, "prep_slave_sg failed\n");
--		ret = -EIO;
-+		gi2c->err = -EIO;
- 		goto err_config;
- 	}
- 
- 	desc->callback_result = i2c_gpi_cb_result;
- 	desc->callback_param = gi2c;
- 
--	dmaengine_submit(desc);
--	*buf = dma_buf;
--	*dma_addr_p = addr;
-+	if (!((msgs[cur_msg_idx].flags & I2C_M_RD) && op == I2C_WRITE)) {
-+		gi2c_gpi_xfer->msg_idx_cnt++;
-+		gi2c_gpi_xfer->buf_idx = (cur_msg_idx + 1) % QCOM_GPI_MAX_NUM_MSGS;
-+	}
-+	cookie = dmaengine_submit(desc);
-+	if (dma_submit_error(cookie)) {
-+		dev_err(gi2c->se.dev,
-+			"%s: dmaengine_submit failed (%d)\n", __func__, cookie);
-+		return -EINVAL;
-+	}
- 
-+	if (gi2c->is_tx_multi_xfer) {
-+		dma_async_issue_pending(gi2c->tx_c);
-+		if ((cur_msg_idx == (gi2c->num_msgs - 1)) ||
-+		    (gi2c_gpi_xfer->msg_idx_cnt >=
-+		     QCOM_GPI_MAX_NUM_MSGS + gi2c_gpi_xfer->freed_msg_cnt)) {
-+			ret = gpi_multi_desc_process(gi2c->se.dev, gi2c_gpi_xfer,
-+						     gi2c->num_msgs, XFER_TIMEOUT,
-+						     &gi2c->done);
-+			if (ret) {
-+				dev_dbg(gi2c->se.dev,
-+					"I2C multi write msg transfer timeout: %d\n",
-+					ret);
-+				gi2c->err = -ETIMEDOUT;
-+				goto err_config;
-+			}
-+		}
-+	} else {
-+		/* Non multi descriptor message transfer */
-+		*buf = dma_buf;
-+		*dma_addr_p = addr;
-+	}
- 	return 0;
- 
- err_config:
--	dma_unmap_single(gi2c->se.dev->parent, addr, msg->len, map_dirn);
--	i2c_put_dma_safe_msg_buf(dma_buf, msg, false);
-+	dma_unmap_single(gi2c->se.dev->parent, addr,
-+			 msgs[cur_msg_idx].len, map_dirn);
-+	i2c_put_dma_safe_msg_buf(dma_buf, &msgs[cur_msg_idx], false);
- 	return ret;
- }
- 
-@@ -590,6 +697,7 @@ static int geni_i2c_gpi_xfer(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[], i
- 	unsigned long time_left;
- 	dma_addr_t tx_addr, rx_addr;
- 	void *tx_buf = NULL, *rx_buf = NULL;
-+	struct gpi_multi_xfer *tx_multi_xfer;
- 	const struct geni_i2c_clk_fld *itr = gi2c->clk_fld;
- 
- 	config.peripheral_config = &peripheral;
-@@ -603,6 +711,39 @@ static int geni_i2c_gpi_xfer(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[], i
- 	peripheral.set_config = 1;
- 	peripheral.multi_msg = false;
- 
-+	gi2c->gpi_config = &peripheral;
-+	gi2c->num_msgs = num;
-+	gi2c->is_tx_multi_xfer = false;
-+	gi2c->tx_irq_cnt = 0;
-+
-+	tx_multi_xfer = &peripheral.multi_xfer;
-+	tx_multi_xfer->msg_idx_cnt = 0;
-+	tx_multi_xfer->buf_idx = 0;
-+	tx_multi_xfer->unmap_msg_cnt = 0;
-+	tx_multi_xfer->freed_msg_cnt = 0;
-+	tx_multi_xfer->irq_msg_cnt = 0;
-+	tx_multi_xfer->irq_cnt = 0;
-+
-+	/*
-+	 * If number of write messages are four and higher then
-+	 * configure hardware for multi descriptor transfers with BEI.
-+	 */
-+	if (num >= MIN_NUM_OF_MSGS_MULTI_DESC) {
-+		gi2c->is_tx_multi_xfer = true;
-+		for (i = 0; i < num; i++) {
-+			if (msgs[i].flags & I2C_M_RD) {
-+				/*
-+				 * Multi descriptor transfer with BEI
-+				 * support is enabled for write transfers.
-+				 * Add BEI optimization support for read
-+				 * transfers later.
-+				 */
-+				gi2c->is_tx_multi_xfer = false;
-+				break;
-+			}
-+		}
-+	}
-+
- 	for (i = 0; i < num; i++) {
- 		gi2c->cur = &msgs[i];
- 		gi2c->err = 0;
-@@ -613,14 +754,16 @@ static int geni_i2c_gpi_xfer(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[], i
- 			peripheral.stretch = 1;
- 
- 		peripheral.addr = msgs[i].addr;
-+		if (i > 0 && (!(msgs[i].flags & I2C_M_RD)))
-+			peripheral.multi_msg = false;
- 
--		ret =  geni_i2c_gpi(gi2c, &msgs[i], &config,
-+		ret =  geni_i2c_gpi(gi2c, msgs, i, &config,
- 				    &tx_addr, &tx_buf, I2C_WRITE, gi2c->tx_c);
- 		if (ret)
- 			goto err;
- 
- 		if (msgs[i].flags & I2C_M_RD) {
--			ret =  geni_i2c_gpi(gi2c, &msgs[i], &config,
-+			ret =  geni_i2c_gpi(gi2c, msgs, i, &config,
- 					    &rx_addr, &rx_buf, I2C_READ, gi2c->rx_c);
- 			if (ret)
- 				goto err;
-@@ -628,18 +771,28 @@ static int geni_i2c_gpi_xfer(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[], i
- 			dma_async_issue_pending(gi2c->rx_c);
- 		}
- 
--		dma_async_issue_pending(gi2c->tx_c);
--
--		time_left = wait_for_completion_timeout(&gi2c->done, XFER_TIMEOUT);
--		if (!time_left)
--			gi2c->err = -ETIMEDOUT;
-+		if (!gi2c->is_tx_multi_xfer) {
-+			dma_async_issue_pending(gi2c->tx_c);
-+			time_left = wait_for_completion_timeout(&gi2c->done, XFER_TIMEOUT);
-+			if (!time_left) {
-+				dev_err(gi2c->se.dev, "%s:I2C timeout\n", __func__);
-+				gi2c->err = -ETIMEDOUT;
-+			}
-+		}
- 
- 		if (gi2c->err) {
- 			ret = gi2c->err;
- 			goto err;
- 		}
- 
--		geni_i2c_gpi_unmap(gi2c, &msgs[i], tx_buf, tx_addr, rx_buf, rx_addr);
-+		if (!gi2c->is_tx_multi_xfer) {
-+			geni_i2c_gpi_unmap(gi2c, &msgs[i], tx_buf, tx_addr, rx_buf, rx_addr);
-+		} else {
-+			if (gi2c->tx_irq_cnt != tx_multi_xfer->irq_cnt) {
-+				gi2c->tx_irq_cnt = tx_multi_xfer->irq_cnt;
-+				gpi_i2c_multi_desc_unmap(gi2c, msgs, &peripheral);
-+			}
-+		}
- 	}
- 
- 	return num;
-@@ -648,7 +801,11 @@ static int geni_i2c_gpi_xfer(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[], i
- 	dev_err(gi2c->se.dev, "GPI transfer failed: %d\n", ret);
- 	dmaengine_terminate_sync(gi2c->rx_c);
- 	dmaengine_terminate_sync(gi2c->tx_c);
--	geni_i2c_gpi_unmap(gi2c, &msgs[i], tx_buf, tx_addr, rx_buf, rx_addr);
-+	if (gi2c->is_tx_multi_xfer)
-+		gpi_i2c_multi_desc_unmap(gi2c, msgs, &peripheral);
-+	else
-+		geni_i2c_gpi_unmap(gi2c, &msgs[i], tx_buf, tx_addr, rx_buf, rx_addr);
-+
- 	return ret;
- }
- 
+`IB Drivers`
+Add TRY_P2P_REQ flag for the hmm_range_fault call: This flag indicates the
+need for P2P mapping, enabling IB drivers to efficiently handle P2P DMA
+requests.
+
+`Nouveau driver`
+Add support for the Nouveau p2p_page callback function: This update
+integrates P2P DMA support into the Nouveau driver, allowing it to handle
+P2P page operations seamlessly.
+
+`MLX5 Driver`
+Optimize PCI Peer-to-Peer for private device pages, by enabling Address
+Translation service(ATS) for ODP memory.
+
+Yonatan Maman (4):
+  mm/hmm: HMM API for P2P DMA to device zone pages
+  nouveau/dmem: HMM P2P DMA for private dev pages
+  IB/core: P2P DMA for device private pages
+  RDMA/mlx5: Enabling ATS for ODP memory
+
+ drivers/gpu/drm/nouveau/nouveau_dmem.c | 117 ++++++++++++++++++++++++-
+ drivers/infiniband/core/umem_odp.c     |   2 +-
+ drivers/infiniband/hw/mlx5/mlx5_ib.h   |   6 +-
+ include/linux/hmm.h                    |   2 +
+ include/linux/memremap.h               |   7 ++
+ mm/hmm.c                               |  28 ++++++
+ 6 files changed, 156 insertions(+), 6 deletions(-)
+
 -- 
-2.17.1
+2.34.1
 
