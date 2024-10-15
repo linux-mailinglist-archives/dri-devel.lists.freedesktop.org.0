@@ -2,77 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00D9799EA26
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 14:44:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCB4199EC15
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 15:14:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F76A10E57D;
-	Tue, 15 Oct 2024 12:44:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65EAE10E582;
+	Tue, 15 Oct 2024 13:14:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="S5hE3wMZ";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="LTRMC9SF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
- [209.85.167.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A37E410E0B1
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 12:44:02 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id
- 2adb3069b0e04-539e5c15fd3so2895810e87.3
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 05:44:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1728996241; x=1729601041; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=3SQaNBGN1mxZVAMjEtaA/BhZGMt2iLPd/VivsuWhVfA=;
- b=S5hE3wMZSdtJpnV+/WtGp+DSOz5qcYE3UPB+/Vz+oxEXbIUcA7qu+pbws1yZwIu62r
- XAypkyIuU8pbpSv1DsTKUb+dww1ZvNGWo6pidYGM2Y2izI5zWHa5CTEeiEW68YI6f6e8
- p3lLrf6fCDBjfn4jQEd3yhDnlmvQB951uAwHBNPmV8GUh7wzHieBdMNWsgKNHaijsqOb
- 6K6an5cQvQI+nAPtjF9nBkgRhIDuCRbt7XbLfagbs18S8mz/jm6p+JRMG5hcs+0SecLx
- rdZ0M+2GGlLYr8pZi+vbQXY/a0WwECCIHWAmqX3Ax5fXclT856nc6XDdRPTTp0MmdCbA
- qiYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728996241; x=1729601041;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=3SQaNBGN1mxZVAMjEtaA/BhZGMt2iLPd/VivsuWhVfA=;
- b=r0kHstXwRoZfQVUY60r1oX1+ozEYzAJraxHbCf9s9+g2uM4jOvZAGq4jyBsCdzSTqP
- EHH3jx4jdIflUsATVuJ+EgCD9zsz9AzbsG7EqOZvfeKznV5KNKI5azBdx01WNZOmWfuE
- VWIMxGIzZcyJsQku11Pvv5scQXgQqiLnBzEnBMn1LkbB8pKCWThn5ea+BS7yoDtRqCAB
- qVuYkAGz4e/UGYVbJRr7X6dt4GCO5eySL5N6f9PXw6kaem53tFIyS/j/orX/rJVBPLQE
- BB3CWEtASfJzUYVydxftdFvXiKLDZ8D21XMgInMCx5lYiWWzeiVVFFPHIjoAu5gQjDoZ
- q8Ag==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW7G8XsSGCx3NIvHmxFbMy93LhIcjOsgBK/HrRa50PzZ6d6Ey6XslI1ZwPmPaEbqoHd9+mbxYWknTw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwwItocALZvSMOTxIzBubIEq2e7l04aK0geZQX337hfpEDlzuRD
- df2aKnCXTHbJn7TPXv8Nz5baAGy8/NooTqg6JgA1tBpRvcfv47hOCW6woxiHAjk=
-X-Google-Smtp-Source: AGHT+IEtf1bxgczpfiNA8NzJb5A9RmLJNMO353LaV7Pw7z3bEbJ44JZ2pT+RaReMTzzfnefZ/EOInA==
-X-Received: by 2002:a2e:b164:0:b0:2fb:5504:7966 with SMTP id
- 38308e7fff4ca-2fb61bacc4fmr1979851fa.30.1728996240652; 
- Tue, 15 Oct 2024 05:44:00 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2fb5d126dd6sm1575741fa.52.2024.10.15.05.43.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Oct 2024 05:44:00 -0700 (PDT)
-Date: Tue, 15 Oct 2024 15:43:58 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Jessica Zhang <quic_jesszhan@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, quic_abhinavk@quicinc.com,
- linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Rob Clark <robdclark@chromium.org>
-Subject: Re: [PATCH] drm/msm/dpu: Don't always set merge_3d pending flush
-Message-ID: <mkuayois4t463oqpxi47tl5npjdsafovivmx3pscnmxy3i4v3w@xt4omvobamim>
-References: <20241009-mode3d-fix-v1-1-c0258354fadc@quicinc.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E17A810E585
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 13:14:21 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 7E8695C55F6;
+ Tue, 15 Oct 2024 13:14:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAA4BC4CEC6;
+ Tue, 15 Oct 2024 13:14:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1728998060;
+ bh=pbPdtcEEb8oRMKu+BYspEqur8E4y6pX4UYyPTtMUZ+0=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=LTRMC9SF2D8iP/2wFee9yNSLAv0Pj2i+7+WV/OHvBT6C/8UvNj+aMHwxtJrDX+OzF
+ v09/yzQjgQ7VPg2v1OAaRkjfHwbaNsZ7rz8DdYj9h9Paz6l3SkXqDc2XpEPc+M4tdL
+ tgMk+Dq+Hd1vRTmPEBCNBG+Hyz5BgLG0MrtBXYqU=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: stable@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
+ =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Lukasz Spintzyk <lukasz.spintzyk@displaylink.com>,
+ Deepak Rawat <drawat@vmware.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Thomas Hellstrom <thellstrom@vmware.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [PATCH 5.10 366/518] drm: Consistently use struct drm_mode_rect for
+ FB_DAMAGE_CLIPS
+Date: Tue, 15 Oct 2024 14:44:30 +0200
+Message-ID: <20241015123931.099415996@linuxfoundation.org>
+X-Mailer: git-send-email 2.47.0
+In-Reply-To: <20241015123916.821186887@linuxfoundation.org>
+References: <20241015123916.821186887@linuxfoundation.org>
+User-Agent: quilt/0.67
+X-stable: review
+X-Patchwork-Hint: ignore
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241009-mode3d-fix-v1-1-c0258354fadc@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,35 +67,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 09, 2024 at 08:41:13PM -0700, Jessica Zhang wrote:
-> Don't set the merge_3d pending flush bits if the mode_3d is
-> BLEND_3D_NONE.
-> 
-> Always flushing merge_3d can cause timeout issues when there are
-> multiple commits with concurrent writeback enabled.
-> 
-> This is because the video phys enc waits for the hw_ctl flush register
-> to be completely cleared [1] in its wait_for_commit_done(), but the WB
-> encoder always sets the merge_3d pending flush during each commit
-> regardless of if the merge_3d is actually active.
-> 
-> This means that the hw_ctl flush register will never be 0 when there are
-> multiple CWB commits and the video phys enc will hit vblank timeout
-> errors after the first CWB commit.
-> 
-> [1] commit fe9df3f50c39 ("drm/msm/dpu: add real wait_for_commit_done()")
-> 
-> Fixes: 3e79527a33a8 ("drm/msm/dpu: enable merge_3d support on sm8150/sm8250")
-> Fixes: d7d0e73f7de3 ("drm/msm/dpu: introduce the dpu_encoder_phys_* for writeback")
-> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c | 5 ++++-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c  | 5 ++++-
->  2 files changed, 8 insertions(+), 2 deletions(-)
-> 
+5.10-stable review patch.  If anyone has any objections, please let me know.
 
+------------------
+
+From: Thomas Zimmermann <tzimmermann@suse.de>
+
+commit 8b0d2f61545545ab5eef923ed6e59fc3be2385e0 upstream.
+
+FB_DAMAGE_CLIPS is a plane property for damage handling. Its UAPI
+should only use UAPI types. Hence replace struct drm_rect with
+struct drm_mode_rect in drm_atomic_plane_set_property(). Both types
+are identical in practice, so there's no change in behavior.
+
+Reported-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Closes: https://lore.kernel.org/dri-devel/Zu1Ke1TuThbtz15E@intel.com/
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Fixes: d3b21767821e ("drm: Add a new plane property to send damage during plane update")
+Cc: Lukasz Spintzyk <lukasz.spintzyk@displaylink.com>
+Cc: Deepak Rawat <drawat@vmware.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Thomas Hellstrom <thellstrom@vmware.com>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Simona Vetter <simona@ffwll.ch>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org
+Cc: <stable@vger.kernel.org> # v5.0+
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20240923075841.16231-1-tzimmermann@suse.de
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/gpu/drm/drm_atomic_uapi.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
--- 
-With best wishes
-Dmitry
+--- a/drivers/gpu/drm/drm_atomic_uapi.c
++++ b/drivers/gpu/drm/drm_atomic_uapi.c
+@@ -584,7 +584,7 @@ static int drm_atomic_plane_set_property
+ 					&state->fb_damage_clips,
+ 					val,
+ 					-1,
+-					sizeof(struct drm_rect),
++					sizeof(struct drm_mode_rect),
+ 					&replaced);
+ 		return ret;
+ 	} else if (plane->funcs->atomic_set_property) {
+
+
