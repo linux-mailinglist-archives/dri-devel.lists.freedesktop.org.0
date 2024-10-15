@@ -2,68 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14A5299F7D7
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 22:05:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5377F99F7F8
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 22:14:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABD1D10E602;
-	Tue, 15 Oct 2024 20:05:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9ABAA10E24E;
+	Tue, 15 Oct 2024 20:14:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="AvppcI9V";
+	dkim=pass (2048-bit key; secure) header.d=proton.me header.i=@proton.me header.b="N3q2vmdC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 053D210E602
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 20:05:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1729022752; x=1760558752;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=dX1g8jSzU+VXezh2f98dU2JeKi1rg/GRDajYDlMn9PA=;
- b=AvppcI9VCI+6ZNsxOmhnG2LshdDcx1VapiAdQC5YdiUr1PWGB3gJxJFr
- Xb5AUkP0pRbGJimZICe0svgb4SOJmPq4EqzV1gFJSyZF8rpDMjjzkm8U/
- brgE6DqFcphnZ24CsnJoMmiPcSeYaf1roMyRBEG7JlpB4hFSr4LVV3KJi
- jxk1KdY6L2xpjBm2ACdJD+Nrj19ngepc0B8a6smIxN3ZHfgtzq0kqYQDz
- 04AkJwvQGkaETQsQx9sJqmeD2Sd15H26wkUhhkGL8w4S+j9Pr86FyekVP
- XEt9MV/GpHs/a8wT9f0w3ksHmSmGv1WQnjKmzUbewq2YEwB/cz77bmCdP g==;
-X-CSE-ConnectionGUID: w2uhAli6RBm1l8swNKDVZA==
-X-CSE-MsgGUID: jtzJAmweTt2384orG6JnYA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28230126"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="28230126"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Oct 2024 13:05:52 -0700
-X-CSE-ConnectionGUID: 1C/qME2AT76iW7Hx1up+UA==
-X-CSE-MsgGUID: bI9P401BTACr5r2atWDXUg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,206,1725346800"; d="scan'208";a="78834721"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
- by orviesa008.jf.intel.com with ESMTP; 15 Oct 2024 13:05:48 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1t0nnd-000JsT-2V;
- Tue, 15 Oct 2024 20:05:45 +0000
-Date: Wed, 16 Oct 2024 04:05:02 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jocelyn Falempe <jfalempe@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- John Ogness <john.ogness@linutronix.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
- bluescreen_avenger@verizon.net, Caleb Connolly <caleb.connolly@linaro.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Jocelyn Falempe <jfalempe@redhat.com>
-Subject: Re: [PATCH v4 3/7] drm/log: Introduce a new boot logger to draw the
- kmsg on the screen
-Message-ID: <202410160342.rkkekxWK-lkp@intel.com>
-References: <20241011105526.615812-4-jfalempe@redhat.com>
+X-Greylist: delayed 29886 seconds by postgrey-1.36 at gabe;
+ Tue, 15 Oct 2024 20:13:56 UTC
+Received: from mail-4322.protonmail.ch (mail-4322.protonmail.ch [185.70.43.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00BC810E24E
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 20:13:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+ s=protonmail; t=1729023234; x=1729282434;
+ bh=oWZAEWmWn11pICS2WghDTqvtxTlwbis+AKwY8WLaaII=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID:BIMI-Selector;
+ b=N3q2vmdCHEAzWfagD0SM+pZXcpUTWCzquQH0AbCpxZsxZolcyASpe6qALHsApCvzz
+ fMmbnbAxPk3OpMQBg5kjZKRlUVT49Kd/Yo08Q9Ny5sUbUV0jX9/xbWDIH3tL8n291d
+ GAMWj0pFpnMrQnKbeDuJFNEUkr5rlR5ZRPux5cGyrqkeEjOoHsWKg7p+hWerSWt+iS
+ RLx/sOeAee0DWR6ZDooP1b3G1A3Obq6adcwyK8XftOREDpCrmc2x7Ylg2F9IWTRvuB
+ NE/ltpZ+2dtazvzEWM4MYLC1UXGVADuQFVyrzLmaUGomvY7xeB1oTT/xo/U4P0Btk5
+ rjcTlzl9Bso6Q==
+Date: Tue, 15 Oct 2024 20:13:40 +0000
+To: Andy Yan <andyshrk@163.com>
+From: Piotr Zalewski <pZ010001011111@proton.me>
+Cc: hjc@rock-chips.com, heiko@sntech.de, andy.yan@rock-chips.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+ Daniel Stone <daniel@fooishbar.org>, Dragan Simic <dsimic@manjaro.org>,
+ Diederik de Haas <didi.debian@cknow.org>
+Subject: Re:Re:[PATCH v5] rockchip/drm: vop2: add support for gamma LUT
+Message-ID: <1974DYrs9gLrQrZ5VwCglFgKDDK686iyqnS_g6uPB-s9wZ_4CqfZXPjmYWihLgrkRu7ptNjpkFeqB0uTt73RFId6cL8FowQ8LFltPmaKCoI=@proton.me>
+In-Reply-To: <30940542.b36d.19290215124.Coremail.andyshrk@163.com>
+References: <20241014222022.571819-4-pZ010001011111@proton.me>
+ <7b45f190.452f.1928e41b746.Coremail.andyshrk@163.com>
+ <o_Cyz_ARcHj4zNlovv75MBwslIRhn3YWlscoNrlpLVobh7eWIMEQR5bNv0yhHx2KEx_gbYi_gH-8Y-CdvRZs9lZscz3-lhAbM50GXUdtSKY=@proton.me>
+ <30940542.b36d.19290215124.Coremail.andyshrk@163.com>
+Feedback-ID: 53478694:user:proton
+X-Pm-Message-ID: 932c22f934c19cba4c98a2e1488d80d40e7faf7a
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241011105526.615812-4-jfalempe@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,55 +66,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jocelyn,
+Hi Andy
 
-kernel test robot noticed the following build errors:
+On Tuesday, October 15th, 2024 at 2:22 PM, Andy Yan <andyshrk@163.com> wrot=
+e:
 
-[auto build test ERROR on 33c255312660653cf54f8019896b5dca28e3c580]
+> > > > + struct vop2_video_port *vp,
+> > > > + struct drm_crtc *crtc,
+> > > > + struct drm_crtc_state *crtc_state)
+> > > > +{
+> > > > +
+> > > > + if (vop2->lut_regs && crtc_state->color_mgmt_changed) {
+> > > > + if (!crtc_state->gamma_lut) {
+> > > > + vop2_vp_dsp_lut_disable(vp);
+> > > > + return;
+> > > > + }
+> > > > +
+> > > > + if (vop2_supports_seamless_gamma_lut_update(vop2)) {
+> > >=20
+> > > I think it's bettery to check for rk3568/rk3566 here, the newer soc w=
+ill all follow
+> > > rk3588 support seamless gamma lut update.
+> >=20
+> > I will change in the next version.
+> >=20
+> > > > + vop2_writel(vop2, RK3568_LUT_PORT_SEL, FIELD_PREP(
+> > > > + RK3588_LUT_PORT_SEL__GAMMA_AHB_WRITE_SEL,
+> > > > + vp->id));
+> > > > + vop2_crtc_write_gamma_lut(vop2, crtc);
+> > > > + vop2_vp_dsp_lut_enable(vp);
+> > > > + vop2_vp_dsp_lut_update_enable(vp);
+> > > > + } else {
+> > >=20
+> > > As for rk3566/68, we should do exclusive check here, because there is=
+ only
+> > > one gamma , only one VP can use it at a time. See my comments in V3:
+> >=20
+> > What do you mean exactly by exclusive check in this case.It's true that
+> > gamma LUT is shared across video ports in rk356x but, if I correctly
+> > understand, this doesn't forbid to reprogram LUT port sel and allow oth=
+er
+> > VP to use gamma LUT.
+>=20
+>=20
+> Yes, we can reprogram LUT port sel, but we need to make sure the the dsp_=
+lut_en bit in VPx is cleared if we
+> want reprogram LUT port sel form VPx to VPy.
+>=20
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jocelyn-Falempe/drm-client-squash-of-drm-client-pending-series/20241011-225715
-base:   33c255312660653cf54f8019896b5dca28e3c580
-patch link:    https://lore.kernel.org/r/20241011105526.615812-4-jfalempe%40redhat.com
-patch subject: [PATCH v4 3/7] drm/log: Introduce a new boot logger to draw the kmsg on the screen
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20241016/202410160342.rkkekxWK-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241016/202410160342.rkkekxWK-lkp@intel.com/reproduce)
+Ok I get it now. Is such rework correct? - when gamma LUT for rk356x is
+being set, instead of disabling the LUT before the gamma LUT write for the
+current CRTC's video port, active video port is selected. Selection is=20
+based on if DSP LUT EN bit is set for particular video port. eg:
+```
+static struct vop2_video_port *vop2_vp_dsp_lut_get_active_vp(struct vop2 *v=
+op2)
+{
+=09struct vop2_video_port *vp;
+=09int i;
+=09for (i =3D 0; i < vop2->data->nr_vps; i++) {
+=09=09vp =3D &vop2->vps[i];
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410160342.rkkekxWK-lkp@intel.com/
+=09=09if (vp->crtc.dev !=3D NULL && vop2_vp_dsp_lut_is_enabled(vp)) {
+=09=09=09return vp;
+=09=09}
+=09}
+=09return NULL;
+}
 
-All errors (new ones prefixed by >>):
+(...)
 
->> drivers/gpu/drm/drm_log.c:347:6: error: redefinition of 'drm_log_register'
-     347 | void drm_log_register(struct drm_device *dev)
-         |      ^~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/drm_log.c:21:
-   drivers/gpu/drm/drm_log.h:8:20: note: previous definition of 'drm_log_register' with type 'void(struct drm_device *)'
-       8 | static inline void drm_log_register(struct drm_device *dev) {}
-         |                    ^~~~~~~~~~~~~~~~
+struct vop2_video_port *active_vp =3D vop2_vp_dsp_lut_get_active_vp(vop2);
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for MODVERSIONS
-   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
-   Selected by [y]:
-   - RANDSTRUCT_FULL [=y] && (CC_HAS_RANDSTRUCT [=n] || GCC_PLUGINS [=y]) && MODULES [=y]
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [m]:
-   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
+if (active_vp) {
+=09vop2_vp_dsp_lut_disable(active_vp);
+=09vop2_cfg_done(active_vp);
+=09if (!vop2_vp_dsp_lut_poll_disable(active_vp))
+=09=09return;
+}
+
+vop2_writel(vop2, RK3568_LUT_PORT_SEL, vp->id);
+vop2_crtc_write_gamma_lut(vop2, crtc);
+vop2_vp_dsp_lut_enable(vp);
+```
 
 
-vim +/drm_log_register +347 drivers/gpu/drm/drm_log.c
+> > > >=20
+> > > > drm_crtc_helper_add(&vp->crtc, &vop2_crtc_helper_funcs);
+> > > > + if (vop2->lut_regs && vp->crtc.dev !=3D NULL) {
+> > > > + const struct vop2_video_port_data *vp_data =3D &vop2_data->vp[vp-=
+>id];
+> > > >=20
+> > > > + drm_mode_crtc_set_gamma_size(&vp->crtc, vp_data->gamma_lut_len);
+> > > > + drm_crtc_enable_color_mgmt(&vp->crtc, 0, false,
+> > > > + vp_data->gamma_lut_len);
+> > >=20
+> > > It seems that we can keep it in one line, the default limit of linux =
+kernel coding style is 100 characters now.
+> >=20
+> > Thanks. I didn't know, I will amend it.
+>=20
+>=20
+> See bdc48fa11e46("checkpatch/coding-style: deprecate 80-column warning")
+>=20
 
-   342	
-   343	/**
-   344	 * drm_log_register() - Register a drm device to drm_log
-   345	 * @dev: the drm device to register.
-   346	 */
- > 347	void drm_log_register(struct drm_device *dev)
+Interesting.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards, Piotr Zalewski
