@@ -2,78 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA1B099E0FD
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 10:27:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5C3099E121
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 10:32:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CA9E10E543;
-	Tue, 15 Oct 2024 08:27:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D084010E54A;
+	Tue, 15 Oct 2024 08:32:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="vgr2yqBl";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="IKWy0XSJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com
- [209.85.219.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CBAD10E543
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 08:27:24 +0000 (UTC)
-Received: by mail-yb1-f173.google.com with SMTP id
- 3f1490d57ef6-e2908e8d45eso4255227276.2
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 01:27:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1728980843; x=1729585643; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Kh7NkmDAM9m5O1uSrySh2RZX18Uua/RhFygWOGIe73E=;
- b=vgr2yqBlXLIu/3QpgZXGMlvVcjGMCd5s/rUh0X205F7bFHwirpiX1aJ0eKOiyyqeDO
- u1fYF1K1bTWTAAtSFy8UvNR9VClOZOjJxSQ2sYG/xg+Ok0vxLNCTjXjxZfIU5MSzUIGo
- 4rCIDOofT7/JIDyi/OPLyvzc/VL1+zO3ywWCHKv8V5Mqe3zu2FVWTztLKwWK4LdhLziL
- wfIC1E6drnHfQW1oUhHkF1dg9teGc/Z3WhuTWVHGowQ9eIOh2+X5t/pXNW8GZc4Q2d6F
- TyJIhdNj0r4acL6pIlvoazc9otjonU1j39flafeosIpiRpfhmUHBb7VWruHIERwAset3
- UfVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728980843; x=1729585643;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Kh7NkmDAM9m5O1uSrySh2RZX18Uua/RhFygWOGIe73E=;
- b=kG9691zTB8+mCVTrCSv+oZ/4HqFBl/XXqRhunSo1qd9jnczo89TrVV680GK+l08doe
- bMwyrlij93kqwJhdisTi3tv6RFmkcRo6xvm2/08vy0P4rpaZSeUpsTFxGQOvGZpwzyRs
- 4LgYRQgUoloImN2kLAULFN6cFT3liH2hvAU44XNgkxuFl4cqSZFUYEdqVN9t7aCbqBe5
- 8MgeJSTvNpoWbbQo0NVLFOuhKnu3u1JI3urepg8vD8mX24g4gjVPFT+5d/ltIPYwFGui
- 5mCIeDFxmYSPHuD6zSXDtEPfYdbGhPmbHBcIne/2fwC8e5m678wWrBKborlJeGBMwf+b
- AH/w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXUJLG45/0Poi+LqWLQIcPYmR1ufPUQsL7dKFplvMjv+vcBCzie1owLCVpUf12EK5C0HFTJNM+hCQU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzE8foqU52tJlBUcZMAwcB2EV4tvGPuwK0sIP5+lhV8dUjZbEZJ
- xPbiaDt0cH6Uh+TLHDx68wL1zXphhiBrLrYwx5oekLB1RJWg+GGS12/kv1pg3SYXDRaQp54lpgO
- DndiQUcbiEa4wTW0d04LvjM0H1zqWRq4GdwH7Ow==
-X-Google-Smtp-Source: AGHT+IFkKg4baqyI1mR+ynKg6uqf1M6RVbil+T3rXQaW6Bdg4AXGejHp/kAEANso21Z43EVZ9cmSocT4SYoeks7pIAU=
-X-Received: by 2002:a05:6902:1893:b0:e29:2f00:803e with SMTP id
- 3f1490d57ef6-e292f00c843mr9386451276.33.1728980843258; Tue, 15 Oct 2024
- 01:27:23 -0700 (PDT)
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 720A110E54A
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 08:32:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1728981144;
+ bh=eMW8EjjwuwKL17lg6mUe8z5V+A79HnETBq1x82o1lRM=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=IKWy0XSJTkylJf2doma/EkPSBwBDkKAGlaqVbw93ZgC1nB4982rafrfAUkleJjuEC
+ YylQC9BNqLr9nW0VU5Xey1GPpbgw2m5GLEy6UQxhbRRKVxVY1nn0u/FC0uTHp1bG7a
+ LLlCPk6CPpVmURekrFWpuqhcIFl7idMbosWbDa629vG8/02z8YkrDvE8Wsls3i8Qyk
+ joOw/gRfVWLXwA320NK0r671wUDGJGb0s5heMxOFoai6+X30XZ/8v5L8uco0xBttS8
+ GH7oa1vMbkvcaT5P3+BZLHCJagryAxz5JGnR1OjJishUN2IyVp3PhhSuzY9h9EpDqX
+ /cLNdr5pvjUkw==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 2C1A417E1134;
+ Tue, 15 Oct 2024 10:32:23 +0200 (CEST)
+Message-ID: <ec14b01e-7237-4f52-82a6-b8de42fb120b@collabora.com>
+Date: Tue, 15 Oct 2024 10:32:22 +0200
 MIME-Version: 1.0
-References: <20241009-sm8650-v6-11-hmd-pocf-mdss-quad-upstream-21-v2-0-76d4f5d413bf@linaro.org>
- <20241009-sm8650-v6-11-hmd-pocf-mdss-quad-upstream-21-v2-9-76d4f5d413bf@linaro.org>
- <zig5zuf6hjcrkwmsdiahtzz3t3mxrmwxj65l43xij3zhfcyidn@fuisasnavvo3>
- <CABymUCP7bVBSWXCNp33x_B8KaZSFU-Dx+bU5ctkgDGXrzURrXQ@mail.gmail.com>
- <CAA8EJpovnEq_ciO0YmiREhwvxv6yGKnRMPx5=6G7R+Ob6Hy_hA@mail.gmail.com>
- <CABymUCPdu5+iz-amwv_O999sLUOmUMczo_v=1aUpJGpHo5f8CA@mail.gmail.com>
- <CAA8EJppMu5o7juhKUN2Y_4CRYKtaWN9G01aPU2ZfksE_tzjqCQ@mail.gmail.com>
-In-Reply-To: <CAA8EJppMu5o7juhKUN2Y_4CRYKtaWN9G01aPU2ZfksE_tzjqCQ@mail.gmail.com>
-From: Jun Nie <jun.nie@linaro.org>
-Date: Tue, 15 Oct 2024 16:27:12 +0800
-Message-ID: <CABymUCNbwY5hoaOxydPccFAdbnCQgUMspJLHkNziQyf=NxOj2A@mail.gmail.com>
-Subject: Re: [PATCH v2 09/14] drm/msm/dpu: blend pipes per mixer pairs config
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v12 1/3] dt-bindings: display: mediatek: Add OF graph
+ support for board path
+To: Rob Herring <robh@kernel.org>
+Cc: chunkuang.hu@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ conor+dt@kernel.org, p.zabel@pengutronix.de, airlied@gmail.com,
+ daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, matthias.bgg@gmail.com, shawn.sung@mediatek.com,
+ yu-chang.lee@mediatek.com, ck.hu@mediatek.com, jitao.shi@mediatek.com,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, wenst@chromium.org,
+ kernel@collabora.com, sui.jingfeng@linux.dev, michael@walle.cc,
+ sjoerd@collabora.com, Alexandre Mergnat <amergnat@baylibre.com>,
+ Michael Walle <mwalle@kernel.org>
+References: <20241014085148.71105-1-angelogioacchino.delregno@collabora.com>
+ <20241014085148.71105-2-angelogioacchino.delregno@collabora.com>
+ <CAL_Jsq+hpTPCkuXoCF88nyS_D+iFZB5osrt1q04RxffDsY7cXw@mail.gmail.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <CAL_Jsq+hpTPCkuXoCF88nyS_D+iFZB5osrt1q04RxffDsY7cXw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,134 +74,321 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org> =E4=BA=8E2024=E5=B9=B410=E6=
-=9C=8811=E6=97=A5=E5=91=A8=E4=BA=94 15:13=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Fri, 11 Oct 2024 at 10:11, Jun Nie <jun.nie@linaro.org> wrote:
-> >
-> > Dmitry Baryshkov <dmitry.baryshkov@linaro.org> =E4=BA=8E2024=E5=B9=B410=
-=E6=9C=8811=E6=97=A5=E5=91=A8=E4=BA=94 15:03=E5=86=99=E9=81=93=EF=BC=9A
-> > >
-> > > On Fri, 11 Oct 2024 at 09:40, Jun Nie <jun.nie@linaro.org> wrote:
-> > > >
-> > > > Dmitry Baryshkov <dmitry.baryshkov@linaro.org> =E4=BA=8E2024=E5=B9=
-=B410=E6=9C=8810=E6=97=A5=E5=91=A8=E5=9B=9B 21:15=E5=86=99=E9=81=93=EF=BC=
-=9A
-> > > > >
-> > > > > On Wed, Oct 09, 2024 at 04:50:22PM GMT, Jun Nie wrote:
-> > > > > > Blend pipes by set of mixer pair config. The first 2 pipes are =
-for left
-> > > > > > half screen with the first set of mixer pair config. And the la=
-ter 2 pipes
-> > > > > > are for right in quad pipe case.
-> > > > > >
-> > > > > > Signed-off-by: Jun Nie <jun.nie@linaro.org>
-> > > > > > ---
-> > > > > >  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    | 38 +++++++++++++=
-+++++-----------
-> > > > > >  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h |  1 +
-> > > > > >  2 files changed, 25 insertions(+), 14 deletions(-)
-> > > > > >
-> > > > > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers=
-/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> > > > > > index 43d9817cd858f..66f745399a602 100644
-> > > > > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> > > > > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> > > > > > @@ -442,7 +442,7 @@ static void _dpu_crtc_blend_setup_mixer(str=
-uct drm_crtc *crtc,
-> > > > > >       const struct msm_format *format;
-> > > > > >       struct dpu_hw_ctl *ctl =3D mixer->lm_ctl;
-> > > > > >
-> > > > > > -     uint32_t lm_idx, i;
-> > > > > > +     uint32_t lm_idx, lm_pair, i, pipe_idx;
-> > > > > >       bool bg_alpha_enable =3D false;
-> > > > > >       DECLARE_BITMAP(fetch_active, SSPP_MAX);
-> > > > > >
-> > > > > > @@ -463,15 +463,20 @@ static void _dpu_crtc_blend_setup_mixer(s=
-truct drm_crtc *crtc,
-> > > > > >               if (pstate->stage =3D=3D DPU_STAGE_BASE && format=
-->alpha_enable)
-> > > > > >                       bg_alpha_enable =3D true;
-> > > > > >
-> > > > > > -             for (i =3D 0; i < PIPES_PER_LM_PAIR; i++) {
-> > > > > > -                     if (!pstate->pipe[i].sspp)
-> > > > > > -                             continue;
-> > > > > > -                     set_bit(pstate->pipe[i].sspp->idx, fetch_=
-active);
-> > > > > > -                     _dpu_crtc_blend_setup_pipe(crtc, plane,
-> > > > > > -                                                mixer, cstate-=
->num_mixers,
-> > > > > > -                                                pstate->stage,
-> > > > > > -                                                format, fb ? f=
-b->modifier : 0,
-> > > > > > -                                                &pstate->pipe[=
-i], i, stage_cfg);
-> > > > > > +             /* loop pipe per mixer pair */
-> > > > > > +             for (lm_pair =3D 0; lm_pair < PIPES_PER_PLANE / 2=
-; lm_pair++) {
-> > > > > > +                     for (i =3D 0; i < PIPES_PER_LM_PAIR; i++)=
- {
-> > > > > > +                             pipe_idx =3D i + lm_pair * PIPES_=
-PER_LM_PAIR;
-> > > > > > +                             if (!pstate->pipe[pipe_idx].sspp)
-> > > > > > +                                     continue;
-> > > > > > +                             set_bit(pstate->pipe[pipe_idx].ss=
-pp->idx, fetch_active);
-> > > > > > +                             _dpu_crtc_blend_setup_pipe(crtc, =
-plane,
-> > > > > > +                                                        mixer,=
- cstate->num_mixers,
-> > > > > > +                                                        pstate=
-->stage,
-> > > > > > +                                                        format=
-, fb ? fb->modifier : 0,
-> > > > > > +                                                        &pstat=
-e->pipe[pipe_idx], i,
-> > > > > > +                                                        &stage=
-_cfg[lm_pair]);
-> > > > > > +                     }
-> > > > > >               }
-> > > > > >
-> > > > > >               /* blend config update */
-> > > > > > @@ -503,7 +508,7 @@ static void _dpu_crtc_blend_setup(struct dr=
-m_crtc *crtc)
-> > > > > >       struct dpu_crtc_mixer *mixer =3D cstate->mixers;
-> > > > > >       struct dpu_hw_ctl *ctl;
-> > > > > >       struct dpu_hw_mixer *lm;
-> > > > > > -     struct dpu_hw_stage_cfg stage_cfg;
-> > > > > > +     struct dpu_hw_stage_cfg stage_cfg[LM_PAIRS_PER_PLANE];
-> > > > >
-> > > > > After seeing this code, can we define STAGES_PER_PLANE (and
-> > > > > also keep PLANES_PER_STAGE defined to 2)?
-> > > > >
-> > > > Could you elaborate it? Stages describe how many layers to be blend=
-ed.
-> > > > Plane is a DRM concept that describe a buffer to be display in spec=
-ific
-> > > > display driver. Plane is already mapped to SSPP/multi-rect in DPU d=
-river
-> > > >  in blending stage level. So I am confused here.
-> > >
-> > > We have dpu_hw_stage_cfg, you are adding a second instance of it. So
-> > > we now have two stages per plane.
-> >
-> > So you suggest to replace LM_PAIRS_PER_PLANE with STAGES_PER_PLANE,
-> > right? I assume a stage is coupled with a LM pair.
-> >
-> > But for PLANES_PER_STAGE, I am still confused. A stage or a LM pair can
-> > involve many SSPP layers. How it related to planes? Plane is a concepts=
- from
-> > higher level.
->
-> PIPES_PER_STAGE, excuse me.
+Il 14/10/24 19:36, Rob Herring ha scritto:
+> On Mon, Oct 14, 2024 at 3:51 AM AngeloGioacchino Del Regno
+> <angelogioacchino.delregno@collabora.com> wrote:
+>>
+>> The display IPs in MediaTek SoCs support being interconnected with
+>> different instances of DDP IPs (for example, merge0 or merge1) and/or
+>> with different DDP IPs (for example, rdma can be connected with either
+>> color, dpi, dsi, merge, etc), forming a full Display Data Path that
+>> ends with an actual display.
+>>
+>> The final display pipeline is effectively board specific, as it does
+>> depend on the display that is attached to it, and eventually on the
+>> sensors supported by the board (for example, Adaptive Ambient Light
+>> would need an Ambient Light Sensor, otherwise it's pointless!), other
+>> than the output type.
+>>
+>> Add support for OF graphs to most of the MediaTek DDP (display) bindings
+>> to add flexibility to build custom hardware paths, hence enabling board
+>> specific configuration of the display pipeline and allowing to finally
+>> migrate away from using hardcoded paths.
+>>
+>> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+>> Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
+>> Tested-by: Alexandre Mergnat <amergnat@baylibre.com>
+>> Reviewed-by: CK Hu <ck.hu@mediatek.com>
+>> Tested-by: Michael Walle <mwalle@kernel.org> # on kontron-sbc-i1200
+>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>> ---
+>>   .../display/mediatek/mediatek,aal.yaml        | 40 +++++++++++++++++++
+>>   .../display/mediatek/mediatek,ccorr.yaml      | 21 ++++++++++
+>>   .../display/mediatek/mediatek,color.yaml      | 22 ++++++++++
+>>   .../display/mediatek/mediatek,dither.yaml     | 22 ++++++++++
+>>   .../display/mediatek/mediatek,dpi.yaml        | 25 +++++++++++-
+>>   .../display/mediatek/mediatek,dsc.yaml        | 24 +++++++++++
+>>   .../display/mediatek/mediatek,dsi.yaml        | 27 ++++++++++++-
+>>   .../display/mediatek/mediatek,ethdr.yaml      | 22 ++++++++++
+>>   .../display/mediatek/mediatek,gamma.yaml      | 19 +++++++++
+>>   .../display/mediatek/mediatek,merge.yaml      | 23 +++++++++++
+>>   .../display/mediatek/mediatek,od.yaml         | 22 ++++++++++
+>>   .../display/mediatek/mediatek,ovl-2l.yaml     | 22 ++++++++++
+>>   .../display/mediatek/mediatek,ovl.yaml        | 22 ++++++++++
+>>   .../display/mediatek/mediatek,postmask.yaml   | 21 ++++++++++
+>>   .../display/mediatek/mediatek,rdma.yaml       | 22 ++++++++++
+>>   .../display/mediatek/mediatek,ufoe.yaml       | 21 ++++++++++
+>>   16 files changed, 372 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yaml
+>> index cf24434854ff..47ddba5c41af 100644
+>> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yaml
+>> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yaml
+>> @@ -62,6 +62,27 @@ properties:
+>>       $ref: /schemas/types.yaml#/definitions/phandle-array
+>>       maxItems: 1
+>>
+>> +  ports:
+>> +    $ref: /schemas/graph.yaml#/properties/ports
+>> +    description:
+>> +      Input and output ports can have multiple endpoints, each of those
+>> +      connects to either the primary, secondary, etc, display pipeline.
+>> +
+>> +    properties:
+>> +      port@0:
+>> +        $ref: /schemas/graph.yaml#/properties/port
+>> +        description: AAL input port
+>> +
+>> +      port@1:
+>> +        $ref: /schemas/graph.yaml#/properties/port
+>> +        description:
+>> +          AAL output to the next component's input, for example could be one
+>> +          of many gamma, overdrive or other blocks.
+>> +
+>> +    required:
+>> +      - port@0
+>> +      - port@1
+>> +
+>>   required:
+>>     - compatible
+>>     - reg
+>> @@ -89,5 +110,24 @@ examples:
+>>              power-domains = <&scpsys MT8173_POWER_DOMAIN_MM>;
+>>              clocks = <&mmsys CLK_MM_DISP_AAL>;
+>>              mediatek,gce-client-reg = <&gce SUBSYS_1401XXXX 0x5000 0x1000>;
+>> +
+>> +           ports {
+>> +               #address-cells = <1>;
+>> +               #size-cells = <0>;
+>> +
+>> +               port@0 {
+>> +                   reg = <0>;
+>> +                   aal0_in: endpoint {
+>> +                       remote-endpoint = <&ccorr0_out>;
+>> +                   };
+>> +               };
+>> +
+>> +               port@1 {
+>> +                   reg = <1>;
+>> +                   aal0_out: endpoint {
+>> +                       remote-endpoint = <&gamma0_in>;
+>> +                   };
+>> +               };
+>> +           };
+>>          };
+>>       };
+>> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.yaml
+>> index 9f8366763831..fca8e7bb0cbc 100644
+>> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.yaml
+>> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.yaml
+>> @@ -57,6 +57,27 @@ properties:
+>>       $ref: /schemas/types.yaml#/definitions/phandle-array
+>>       maxItems: 1
+>>
+>> +  ports:
+>> +    $ref: /schemas/graph.yaml#/properties/ports
+>> +    description:
+>> +      Input and output ports can have multiple endpoints, each of those
+>> +      connects to either the primary, secondary, etc, display pipeline.
+>> +
+>> +    properties:
+>> +      port@0:
+>> +        $ref: /schemas/graph.yaml#/properties/port
+>> +        description: CCORR input port
+>> +
+>> +      port@1:
+>> +        $ref: /schemas/graph.yaml#/properties/port
+>> +        description:
+>> +          CCORR output to the input of the next desired component in the
+>> +          display pipeline, usually only one of the available AAL blocks.
+>> +
+>> +    required:
+>> +      - port@0
+>> +      - port@1
+>> +
+>>   required:
+>>     - compatible
+>>     - reg
+>> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,color.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,color.yaml
+>> index 7df786bbad20..6160439ce4d7 100644
+>> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,color.yaml
+>> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,color.yaml
+>> @@ -65,6 +65,28 @@ properties:
+>>       $ref: /schemas/types.yaml#/definitions/phandle-array
+>>       maxItems: 1
+>>
+>> +  ports:
+>> +    $ref: /schemas/graph.yaml#/properties/ports
+>> +    description:
+>> +      Input and output ports can have multiple endpoints, each of those
+>> +      connects to either the primary, secondary, etc, display pipeline.
+>> +
+>> +    properties:
+>> +      port@0:
+>> +        $ref: /schemas/graph.yaml#/properties/port
+>> +        description: COLOR input port
+>> +
+>> +      port@1:
+>> +        $ref: /schemas/graph.yaml#/properties/port
+>> +        description:
+>> +          COLOR output to the input of the next desired component in the
+>> +          display pipeline, for example one of the available CCORR or AAL
+>> +          blocks.
+>> +
+>> +    required:
+>> +      - port@0
+>> +      - port@1
+>> +
+>>   required:
+>>     - compatible
+>>     - reg
+>> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dither.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dither.yaml
+>> index 6fceb1f95d2a..abaf27916d13 100644
+>> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dither.yaml
+>> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dither.yaml
+>> @@ -56,6 +56,28 @@ properties:
+>>       $ref: /schemas/types.yaml#/definitions/phandle-array
+>>       maxItems: 1
+>>
+>> +  ports:
+>> +    $ref: /schemas/graph.yaml#/properties/ports
+>> +    description:
+>> +      Input and output ports can have multiple endpoints, each of those
+>> +      connects to either the primary, secondary, etc, display pipeline.
+>> +
+>> +    properties:
+>> +      port@0:
+>> +        $ref: /schemas/graph.yaml#/properties/port
+>> +        description: DITHER input, usually from a POSTMASK or GAMMA block.
+>> +
+>> +      port@1:
+>> +        $ref: /schemas/graph.yaml#/properties/port
+>> +        description:
+>> +          DITHER output to the input of the next desired component in the
+>> +          display pipeline, for example one of the available DSC compressors,
+>> +          DP_INTF, DSI, LVDS or others.
+>> +
+>> +    required:
+>> +      - port@0
+>> +      - port@1
+>> +
+>>   required:
+>>     - compatible
+>>     - reg
+>> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
+>> index 3a82aec9021c..b567e3d58aa1 100644
+>> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
+>> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
+>> @@ -71,13 +71,34 @@ properties:
+>>         Output port node. This port should be connected to the input port of an
+>>         attached HDMI, LVDS or DisplayPort encoder chip.
+>>
+>> +  ports:
+>> +    $ref: /schemas/graph.yaml#/properties/ports
+>> +
+>> +    properties:
+>> +      port@0:
+>> +        $ref: /schemas/graph.yaml#/properties/port
+>> +        description: DPI input port
+>> +
+>> +      port@1:
+>> +        $ref: /schemas/graph.yaml#/properties/port
+>> +        description: DPI output to an HDMI, LVDS or DisplayPort encoder input
+> 
+> This is wrong. The existing 'port' is the output. 'port' and 'port@0'
+> are treated as the same thing. Since you are adding an input port, the
+> new port has to be 'port@1' (or any number but 0).
+> 
+> I haven't looked at the driver code, but it should request port 0 and
+> always get the output port. And requesting port 1 will return an error
+> or the input port.
 
-Do you mean to keep PIPES_PER_STAGE and do not introduce PIPES_PER_LM_PAIR,
-or use both? Looks like they are equal in hardware nature. A stage
-structure serves
-a mixer pair with 2 pipes. We can use PIPES_PER_LM_PAIR and add comment to
- indicate it, thus avoid defining too many macro.
+Hello Rob,
 
->
-> --
-> With best wishes
-> Dmitry
+I want to remind you that in v2 of this series you said that it'd be wrong for
+port@0 to be an output, I replied that you misread that as I had modeled it indeed
+as an input, and then you gave me your Reviewed-by tag.
+
+Anyway - I get your concern about the previous behavior of `port`, but I chose to
+model this that way purely for consistency.
+
+First of all - the driver(s) will check if we're feeding a full graph, as it will
+indeed first check if port@1 is present: if it is, then it follows this scheme with
+port@0 as INPUT and port@1 as OUTPUT.
+If the component in port@0 is an OUTPUT, the bridge attach will fail.
+
+Getting to bindings themselves, then... it would be a mistake to model port@0 as an
+output and port@1 as an input, because that would be not only inconsistent with the
+DRM Bridge bindings, but would be highly confusing when reading the devicetree.
+
+Please note that the bridge bindings are always declaring port@0 as an INPUT and
+other ports as OUTPUT(s).
+
+As an example, you can check display/bridge/analogix,anx7625.yaml or
+display/bridge/samsung,mipi-dsim.yaml (and others) for bridges, otherwise
+display/st,stm32mp25-lvds.yaml or display/allwinner,sun4i-a10-display-frontend.yaml
+(and others) for display controllers, which do all conform to this logic, where
+the input is always @0, and the output is @1.
+
+Of course, doing this required me to do extra changes to the MTK DRM drivers to
+actually be retro-compatible with the old devicetrees as I explained before.
+
+Just for clarity, if I were to model this with port@0 OUTPUT and @1 INPUT, we would
+see in devicetree something like:
+
+dpi-node@somewhere {
+	ports {
+		some_output_1: port@0 {
+			remote-endpoint = <&some_input_2>;
+		};
+		some_input_1: port@1 {
+			remote-endpoint = <&some_output_0>;
+		};
+};
+
+/* already existing bridge binding, not touched by this commit */
+bridge@somewhere-else {
+	ports {
+		some_input_2: port@0 {
+			remote-endpoint = <&some_output_1>;
+		};
+		some_output_2: port@1 {
+			remote-endpoint = <&to_display_input>;
+		};
+};
+
+...and I think that you agree with me that this would be at least confusing for
+whoever reads the DT (and again, IMO, inconsistent and simply wrong).
+
+Instead, with the model proposed in this commit, we will have consistency:
+
+dpi-node@somewhere {
+	ports {
+		some_input_1: port@1 {
+			remote-endpoint = <&some_output_0>;
+		};
+		some_output_1: port@0 {
+			remote-endpoint = <&some_input_2>;
+		};
+};
+
+/* already existing bridge binding, not touched by this commit */
+bridge@somewhere-else {
+	ports {
+		some_input_2: port@0 {
+			remote-endpoint = <&some_output_1>;
+		};
+		some_output_2: port@1 {
+			remote-endpoint = <&to_display_input>;
+		};
+};
+
+...still, again, all this while still supporting the old device trees (which I plan
+to update as soon as possible anyway, so that they're all using the full graph
+instead of hardcoding board specific paths in the drivers).
+
+Does this clarify to you the reasons why this was done like that?
+If you have any other questions, I will be happy to clarify.
+
+Cheers,
+Angelo
