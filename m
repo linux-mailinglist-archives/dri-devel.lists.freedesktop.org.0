@@ -2,63 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 666FF99DA37
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 01:38:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96DBB99DAAA
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 02:26:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9252010E4E2;
-	Mon, 14 Oct 2024 23:38:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5FA610E047;
+	Tue, 15 Oct 2024 00:26:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="k8FYe19t";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="HUHOWLOh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D6DE10E047
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 23:38:53 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1728949122; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=Trc2Idtro993SdRiJRRsUWAruhN7ksIL40EcnC6SDLrSpXBqDVOeorjuq2bG1I7FDfKiaxdpHUsy535a5f3dDtd3NX4j6xhEn2pjj7iW52ahmk1fD6l5qRzH8yOxjYWfc/HLr+nzESWBKb6R6otmTh4iNsxgTQb6VJgFvEJUXh8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1728949122;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=mCtIoUK67xJwWEiLaC1u8aGeTl4l8YjZQ3chLiNR3Jk=; 
- b=eoeQYuz+/MLbddeSpUJvWELHMBc8o/owJoyIElRyWZyP3q8fRGeq8vo9BRz15vqZcN/kWELrGR8dQQ6k1J7kaW/NocYiBAKHeYSNS5TZytnP2Y3qpfxb66LpP8zNj2nUbl+8efxm0rAfH2uCOrko5aYMvO+XSuRc7uOYNnqGRKA=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
- dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1728949122; 
- s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=mCtIoUK67xJwWEiLaC1u8aGeTl4l8YjZQ3chLiNR3Jk=;
- b=k8FYe19tXvTaMmdqF2Cm7Vc1qG3gHI1JOzT2F69SJlhaZZg2uR6JiB2Ag7YpqnIU
- n7m+2evjCR2d+IWsX65RZnZ2EYeoKmuC8m1P9abWRkREPGVgfxLDkKEv0T3MlAYabR+
- SNa62h98ReFoe2t26sELg9HFj1keh72dfL8mR9ng=
-Received: by mx.zohomail.com with SMTPS id 1728949121244283.00947506086504;
- Mon, 14 Oct 2024 16:38:41 -0700 (PDT)
-From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Philipp Zabel <p.zabel@pengutronix.de>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: kernel@collabora.com,
- =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 9/9] drm/panfrost: Explicitly clean up panfrost fence
-Date: Tue, 15 Oct 2024 00:31:44 +0100
-Message-ID: <20241014233758.994861-9-adrian.larumbe@collabora.com>
-X-Mailer: git-send-email 2.46.2
-In-Reply-To: <20241014233758.994861-1-adrian.larumbe@collabora.com>
-References: <20241014233758.994861-1-adrian.larumbe@collabora.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F5E010E047
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 00:26:41 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49ELo3Np017312;
+ Tue, 15 Oct 2024 00:26:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ l4zLxvDJsAVS/At3mKrydveMz39oTLBR5MChkTaUs60=; b=HUHOWLOh/95XhD05
+ H0VywCiBYUtc3dkwYOtv5SxmQ0V6g6v+YqrcxINeeTKEgduwYhTtLNv1BiSj0Zau
+ oxMCNUC/L0B8yv2D95+895mUgIBqb+MrCYF+CZw9xQEvfbyZMN7PGSxJpvXGIBGg
+ wNZQ9A5jLUJUHhXW/ANWwFTUetTmfkEVPHYIArPUxm5oVWYQSHmBjE5IgsP1W5us
+ SECekHtlVx6sHcwh8fR+kRvbP0H9PO7xr17KVvy68QTOjLXxlVge8Sic9wTUM17K
+ ks2/1N6roF7T6bSg5Pe79p7S4FWaZ65zEgCBVgr6tX1Fr5zKNN1zndVn7e3qvHyd
+ rLWgTQ==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 427hvfwsg0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 15 Oct 2024 00:26:20 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49F0QKDk014433
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 15 Oct 2024 00:26:20 GMT
+Received: from [10.81.24.74] (10.49.16.6) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 14 Oct
+ 2024 17:26:19 -0700
+Message-ID: <1ad917db-6039-4269-8f59-a6d03557d27c@quicinc.com>
+Date: Mon, 14 Oct 2024 17:26:19 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/5] perf: Add dummy pmu module
+To: Lucas De Marchi <lucas.demarchi@intel.com>, <linux-kernel@vger.kernel.org>
+CC: <dri-devel@lists.freedesktop.org>, Peter Zijlstra <peterz@infradead.org>, 
+ Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>, Ian Rogers
+ <irogers@google.com>, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+References: <20241008183501.1354695-1-lucas.demarchi@intel.com>
+ <20241008183501.1354695-2-lucas.demarchi@intel.com>
+From: Jeff Johnson <quic_jjohnson@quicinc.com>
+Content-Language: en-US
+In-Reply-To: <20241008183501.1354695-2-lucas.demarchi@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.49.16.6]
+X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: myxkk0DnE2wv0ZQXmPwC3wSJAQDLWDBK
+X-Proofpoint-ORIG-GUID: myxkk0DnE2wv0ZQXmPwC3wSJAQDLWDBK
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ phishscore=0 bulkscore=0 mlxlogscore=927 malwarescore=0 mlxscore=0
+ clxscore=1011 adultscore=0 spamscore=0 suspectscore=0 lowpriorityscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410150001
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,34 +92,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Doesn't make any functional difference because generic dma_fence is the
-first panfrost_fence structure member, but I guess it doesn't hurt either.
+On 10/8/24 11:34, Lucas De Marchi wrote:
+...
+> +module_init(dummy_init);
+> +module_exit(dummy_exit);
+> +
+> +MODULE_AUTHOR("Lucas De Marchi <lucas.demarchi@intel.com>");
+> +MODULE_LICENSE("GPL");
 
-Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
----
- drivers/gpu/drm/panfrost/panfrost_job.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+Since commit 1fffe7a34c89 ("script: modpost: emit a warning when the
+description is missing"), a module without a MODULE_DESCRIPTION() will
+result in a warning when built with make W=1. Recently, multiple
+developers have been eradicating these warnings treewide, and very few
+(if any) are left, so please don't introduce a new one :)
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-index 5d83c6a148ec..fa219f719bdc 100644
---- a/drivers/gpu/drm/panfrost/panfrost_job.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-@@ -85,9 +85,15 @@ static const char *panfrost_fence_get_timeline_name(struct dma_fence *fence)
- 	}
- }
- 
-+static void panfrost_fence_release(struct dma_fence *fence)
-+{
-+	kfree(to_panfrost_fence(fence));
-+}
-+
- static const struct dma_fence_ops panfrost_fence_ops = {
- 	.get_driver_name = panfrost_fence_get_driver_name,
- 	.get_timeline_name = panfrost_fence_get_timeline_name,
-+	.release = panfrost_fence_release,
- };
- 
- static struct dma_fence *panfrost_fence_create(struct panfrost_device *pfdev, int js_num)
--- 
-2.46.2
+Please add the missing MODULE_DESCRIPTION()
 
