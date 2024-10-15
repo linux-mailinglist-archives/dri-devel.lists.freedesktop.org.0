@@ -2,57 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3B0099EE88
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 16:01:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A469199EEDB
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 16:10:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 270EB10E2CA;
-	Tue, 15 Oct 2024 14:01:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FCAE10E58E;
+	Tue, 15 Oct 2024 14:10:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="V9Tie2A9";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="LQjA6VEe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E11C10E2CA
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 14:01:13 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 964ABA43177;
- Tue, 15 Oct 2024 14:01:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58FACC4CEC6;
- Tue, 15 Oct 2024 14:01:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1729000872;
- bh=Hpil3qyQcxL9gsLtmpPaNlPIYSn4ilHSo8PamVfpP08=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=V9Tie2A9vA28PhwfDTXNKAcPnNGLrT3HXxaEyaWy2os+EaFKTTanPL5kiJ4APiYGR
- tWaHsYJdBf8ACz5Vk+gnHz161+dD+aTlYk6EZeUslnvgUk5CZHWZIMn9memCtOKOPL
- DksBb6zZw00dbCJMqFIEOVbY18wxPYUn/oCxY6DCar20yBEVGqx2MXIV7J8LyIkQdY
- sIGxramwOtYWD195TWOJsrQ/80wkInxupx3sBvWTm1g7y1PwUT+Tq8NZ9ocUQ2HL+e
- qCywX612tyM1dK2+7Q+UFVaQXDLWI/F2oa1PPJUX6ql+9v+uEODDOAYA4V82Hlwmou
- IBBdcDHmtv2GA==
-Date: Tue, 15 Oct 2024 09:01:08 -0500
-From: Rob Herring <robh@kernel.org>
-To: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
-Cc: Vinod Koul <vkoul@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- cros-qcom-dts-watchers@chromium.org, linux-arm-msm@vger.kernel.org,
- dmaengine@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, quic_msavaliy@quicinc.com,
- quic_vtanuku@quicinc.com
-Subject: Re: [PATCH v1 1/5] dt-bindings: dmaengine: qcom: gpi: Add additional
- arg to dma-cell property
-Message-ID: <20241015140108.GA620512-robh@kernel.org>
-References: <20241015120750.21217-1-quic_jseerapu@quicinc.com>
- <20241015120750.21217-2-quic_jseerapu@quicinc.com>
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+ [209.85.128.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28FCD10E58E
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 14:10:16 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id
+ 5b1f17b1804b1-430ee5c9570so63995115e9.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 07:10:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1729001414; x=1729606214; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=d0S6YMoGPkQS3jMGBGZ20kgoq+vZUxOnC0t6FsdhxLU=;
+ b=LQjA6VEel7SoW2aF1xZiD9VLLmyCx5j5tM6j3595d74zMVQziz5Cy/nSY85b3zyjyS
+ F2tU8cRfD30KgQ3rkQAbAAsLqz5iAq8DWV1q4N3DuebMFrJbBNoD+AoXfVnQtItRkTOB
+ 55zQqIZF3FmmodK2e8X2a+wi/3cKaW6j5R9hoV43gsLqEPsBStU22SuevYWzjyHsJv4e
+ s+bfuHC+Ylr1mnse0p7KXy+golkk0RIJFoVF1l1eVZKmPSRI/UeCnjMv7Bi2B2fdVnZW
+ QM0x0amioX4uZZdD0CbnX6Rw20a1FnMrRxgQsb+U889xUs8P1CkAUA5ximsDmSU9/mkf
+ fRZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1729001414; x=1729606214;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=d0S6YMoGPkQS3jMGBGZ20kgoq+vZUxOnC0t6FsdhxLU=;
+ b=UAMtKXdUoObnP6I53TAVaMMk8z/fzM1oWsFNG4kD7TilbB4X6Afh25+zuiHyvwLAeK
+ x0ZITb9b+2qWPC8Jyd4Z9102gaLQOb8PJC1EcirD4z0pEqD6yg9sZ8Wz1e3bgS6kN8wQ
+ JpmjEVAFtq6thbd65kAKEdDFzZFZ0F2uQq7PmuferxxIifBUS5snYdZhFQba80H81Jc4
+ fQngnfaCI8WcCU71Y603ma97qx5dRHCq98HlRTc2+BWHu+9Du56937Viz5yxwizvntx3
+ oXyytr1hlDdYmM1UMBsrN0jdclU/2//lWSIAZvKsSleioVhr8v5Sn5p8J8tLoukdp3B1
+ xOJQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUUvVkyAYsds+vcuk2sIzqV3Xqt2rqFP4VIdvFat09E+/FZ/EZbQS1acJb4USgVb0PJtnpHUPxmV08=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxiPsCzNXx/Aq4JpPG/qy5zqYnNTx3X42479SsZXHU/yg/c+BNR
+ TpcQffpwJBc6pKIbvcM+Ibl1F0YVS9AhkzFUFmrGN4w2CZStllXd
+X-Google-Smtp-Source: AGHT+IHp4e5RHLdoduJkY+KzguH7RjGzLSJHN735+mjgkEary+e1KlddLzkEUjNNgR+FRgq+djFEUw==
+X-Received: by 2002:a05:600c:3acd:b0:42c:df29:2366 with SMTP id
+ 5b1f17b1804b1-431256166e5mr131924165e9.33.1729001414085; 
+ Tue, 15 Oct 2024 07:10:14 -0700 (PDT)
+Received: from localhost ([194.120.133.34]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4313f55defbsm19257855e9.7.2024.10.15.07.10.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 15 Oct 2024 07:10:13 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] drm/omap: clean up error exit path on omap_encoder
+ allocation failure
+Date: Tue, 15 Oct 2024 15:10:12 +0100
+Message-Id: <20241015141012.155559-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241015120750.21217-2-quic_jseerapu@quicinc.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,56 +85,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 15, 2024 at 05:37:46PM +0530, Jyothi Kumar Seerapu wrote:
-> When high performance with multiple i2c messages in a single transfer
-> is required, employ Block Event Interrupt (BEI) to trigger interrupts
-> after specific messages transfer and the last message transfer,
-> thereby reducing interrupts.
-> 
-> For each i2c message transfer, a series of Transfer Request Elements(TREs)
-> must be programmed, including config tre for frequency configuration,
-> go tre for holding i2c address and dma tre for holding dma buffer address,
-> length as per the hardware programming guide. For transfer using BEI,
-> multiple I2C messages may necessitate the preparation of config, go,
-> and tx DMA TREs. However, a channel TRE size of 64 is often insufficient,
-> potentially leading to failures due to inadequate memory space.
-> 
-> Add additional argument to dma-cell property for channel TRE size.
+Currently when an allocation failure occurs for omap_encoder the exit
+path will destroy encoder via omap_encoder_destroy  if it is not null.
+However, encoder is always null at this point, so the check and destroy
+is redundant and can be removed. Clean up the code by removing the exit
+path and redundant omap_encoder_destroy call, and just return NULL.
 
-No such property 'dma-cell'
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/gpu/drm/omapdrm/omap_encoder.c | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
-> With this, adjust the channel TRE size via the device tree.
-> The default size is 64, but clients can modify this value based on
-> their specific requirements.
-> 
-> Signed-off-by: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
-> ---
->  Documentation/devicetree/bindings/dma/qcom,gpi.yaml | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/dma/qcom,gpi.yaml b/Documentation/devicetree/bindings/dma/qcom,gpi.yaml
-> index 4df4e61895d2..002495921643 100644
-> --- a/Documentation/devicetree/bindings/dma/qcom,gpi.yaml
-> +++ b/Documentation/devicetree/bindings/dma/qcom,gpi.yaml
-> @@ -54,14 +54,16 @@ properties:
->      maxItems: 13
->  
->    "#dma-cells":
-> -    const: 3
-> +    minItems: 3
-> +    maxItems: 4
->      description: >
->        DMA clients must use the format described in dma.txt, giving a phandle
-> -      to the DMA controller plus the following 3 integer cells:
-> +      to the DMA controller plus the following 4 integer cells:
->        - channel: if set to 0xffffffff, any available channel will be allocated
->          for the client. Otherwise, the exact channel specified will be used.
->        - seid: serial id of the client as defined in the SoC documentation.
->        - client: type of the client as defined in dt-bindings/dma/qcom-gpi.h
-> +      - channel-tre-size: size of the channel TRE (transfer ring element)
->  
->    iommus:
->      maxItems: 1
-> -- 
-> 2.17.1
-> 
+diff --git a/drivers/gpu/drm/omapdrm/omap_encoder.c b/drivers/gpu/drm/omapdrm/omap_encoder.c
+index 4dd05bc732da..a99022638a2c 100644
+--- a/drivers/gpu/drm/omapdrm/omap_encoder.c
++++ b/drivers/gpu/drm/omapdrm/omap_encoder.c
+@@ -126,21 +126,15 @@ struct drm_encoder *omap_encoder_init(struct drm_device *dev,
+ 
+ 	omap_encoder = kzalloc(sizeof(*omap_encoder), GFP_KERNEL);
+ 	if (!omap_encoder)
+-		goto fail;
++		return NULL;
+ 
+ 	omap_encoder->output = output;
+ 
+ 	encoder = &omap_encoder->base;
+ 
+ 	drm_encoder_init(dev, encoder, &omap_encoder_funcs,
+ 			 DRM_MODE_ENCODER_TMDS, NULL);
+ 	drm_encoder_helper_add(encoder, &omap_encoder_helper_funcs);
+ 
+ 	return encoder;
+-
+-fail:
+-	if (encoder)
+-		omap_encoder_destroy(encoder);
+-
+-	return NULL;
+ }
+-- 
+2.39.5
+
