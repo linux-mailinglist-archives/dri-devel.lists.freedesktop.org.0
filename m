@@ -2,81 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96DBB99DAAA
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 02:26:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D968E99DB19
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 03:08:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5FA610E047;
-	Tue, 15 Oct 2024 00:26:42 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="HUHOWLOh";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD24D10E0A5;
+	Tue, 15 Oct 2024 01:08:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F5E010E047
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 00:26:41 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49ELo3Np017312;
- Tue, 15 Oct 2024 00:26:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- l4zLxvDJsAVS/At3mKrydveMz39oTLBR5MChkTaUs60=; b=HUHOWLOh/95XhD05
- H0VywCiBYUtc3dkwYOtv5SxmQ0V6g6v+YqrcxINeeTKEgduwYhTtLNv1BiSj0Zau
- oxMCNUC/L0B8yv2D95+895mUgIBqb+MrCYF+CZw9xQEvfbyZMN7PGSxJpvXGIBGg
- wNZQ9A5jLUJUHhXW/ANWwFTUetTmfkEVPHYIArPUxm5oVWYQSHmBjE5IgsP1W5us
- SECekHtlVx6sHcwh8fR+kRvbP0H9PO7xr17KVvy68QTOjLXxlVge8Sic9wTUM17K
- ks2/1N6roF7T6bSg5Pe79p7S4FWaZ65zEgCBVgr6tX1Fr5zKNN1zndVn7e3qvHyd
- rLWgTQ==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 427hvfwsg0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Oct 2024 00:26:20 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49F0QKDk014433
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Oct 2024 00:26:20 GMT
-Received: from [10.81.24.74] (10.49.16.6) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 14 Oct
- 2024 17:26:19 -0700
-Message-ID: <1ad917db-6039-4269-8f59-a6d03557d27c@quicinc.com>
-Date: Mon, 14 Oct 2024 17:26:19 -0700
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 29668892D3
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 01:08:51 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2B92C1007
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 18:09:20 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 557A63F71E
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Oct 2024 18:08:50 -0700 (PDT)
+Date: Tue, 15 Oct 2024 02:08:46 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Steven Price <steven.price@arm.com>,
+ =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>,
+ dri-devel@lists.freedesktop.org, kernel@collabora.com
+Subject: Re: [PATCH v2] drm/panthor: Fix firmware initialization on systems
+ with a page size > 4k
+Message-ID: <Zw3Anj_54VAcZiA-@e110455-lin.cambridge.arm.com>
+References: <20241014093134.464059-1-boris.brezillon@collabora.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/5] perf: Add dummy pmu module
-To: Lucas De Marchi <lucas.demarchi@intel.com>, <linux-kernel@vger.kernel.org>
-CC: <dri-devel@lists.freedesktop.org>, Peter Zijlstra <peterz@infradead.org>, 
- Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>,
- Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>, Ian Rogers
- <irogers@google.com>, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-References: <20241008183501.1354695-1-lucas.demarchi@intel.com>
- <20241008183501.1354695-2-lucas.demarchi@intel.com>
-From: Jeff Johnson <quic_jjohnson@quicinc.com>
-Content-Language: en-US
-In-Reply-To: <20241008183501.1354695-2-lucas.demarchi@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.49.16.6]
-X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: myxkk0DnE2wv0ZQXmPwC3wSJAQDLWDBK
-X-Proofpoint-ORIG-GUID: myxkk0DnE2wv0ZQXmPwC3wSJAQDLWDBK
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- phishscore=0 bulkscore=0 mlxlogscore=927 malwarescore=0 mlxscore=0
- clxscore=1011 adultscore=0 spamscore=0 suspectscore=0 lowpriorityscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2410150001
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241014093134.464059-1-boris.brezillon@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,19 +49,172 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/8/24 11:34, Lucas De Marchi wrote:
-...
-> +module_init(dummy_init);
-> +module_exit(dummy_exit);
+Hi Boris,
+
+I'm a bit confused, I thought the plan was to separate the FW_PAGE_SIZE
+from the rest of Panthor's PAGE_SIZE.
+
+On Mon, Oct 14, 2024 at 11:31:34AM +0200, Boris Brezillon wrote:
+> The system and GPU MMU page size might differ, which becomes a
+> problem for FW sections that need to be mapped at explicit address
+> since our PAGE_SIZE alignment might cover a VA range that's
+> expected to be used for another section.
+> 
+> Make sure we never map more than we need.
+
+This ^
+
+> 
+> Fixes: 2718d91816ee ("drm/panthor: Add the FW logical block")
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> ---
+> Steve, Liviu, Adrian, I intentionally dropped the R-b because of
+> the panthor_vm_page_size() change. Feel free to add it back if
+> you're happy with the new version.
+> ---
+>  drivers/gpu/drm/panthor/panthor_fw.c  |  4 ++--
+>  drivers/gpu/drm/panthor/panthor_gem.c | 11 ++++++++---
+>  drivers/gpu/drm/panthor/panthor_mmu.c | 16 +++++++++++++---
+>  drivers/gpu/drm/panthor/panthor_mmu.h |  1 +
+>  4 files changed, 24 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
+> index ef232c0c2049..4e2d3a02ea06 100644
+> --- a/drivers/gpu/drm/panthor/panthor_fw.c
+> +++ b/drivers/gpu/drm/panthor/panthor_fw.c
+> @@ -487,6 +487,7 @@ static int panthor_fw_load_section_entry(struct panthor_device *ptdev,
+>  					 struct panthor_fw_binary_iter *iter,
+>  					 u32 ehdr)
+>  {
+> +	ssize_t vm_pgsz = panthor_vm_page_size(ptdev->fw->vm);
+>  	struct panthor_fw_binary_section_entry_hdr hdr;
+>  	struct panthor_fw_section *section;
+>  	u32 section_size;
+> @@ -515,8 +516,7 @@ static int panthor_fw_load_section_entry(struct panthor_device *ptdev,
+>  		return -EINVAL;
+>  	}
+>  
+> -	if ((hdr.va.start & ~PAGE_MASK) != 0 ||
+> -	    (hdr.va.end & ~PAGE_MASK) != 0) {
+> +	if (!IS_ALIGNED(hdr.va.start, vm_pgsz) || !IS_ALIGNED(hdr.va.end, vm_pgsz)) {
+
+is falsified by this.
+
+I think panthor_vm_page_size() is an useful helper to have, but in panthor_fw.c we should use
+the 4K page mask for allocating firmware sections.
+
+I've asked for confirmation from the firmware team regarding plans for the future wrt section's page size
+and will get back to you if my assumption that is going to stay at 4K is wrong.
+
+Best regards,
+Liviu
+
+>  		drm_err(&ptdev->base, "Firmware corrupted, virtual addresses not page aligned: 0x%x-0x%x\n",
+>  			hdr.va.start, hdr.va.end);
+>  		return -EINVAL;
+> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
+> index c60b599665d8..8244a4e6c2a2 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gem.c
+> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
+> @@ -44,8 +44,7 @@ void panthor_kernel_bo_destroy(struct panthor_kernel_bo *bo)
+>  			to_panthor_bo(bo->obj)->exclusive_vm_root_gem != panthor_vm_root_gem(vm)))
+>  		goto out_free_bo;
+>  
+> -	ret = panthor_vm_unmap_range(vm, bo->va_node.start,
+> -				     panthor_kernel_bo_size(bo));
+> +	ret = panthor_vm_unmap_range(vm, bo->va_node.start, bo->va_node.size);
+>  	if (ret)
+>  		goto out_free_bo;
+>  
+> @@ -95,10 +94,16 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
+>  	}
+>  
+>  	bo = to_panthor_bo(&obj->base);
+> -	size = obj->base.size;
+>  	kbo->obj = &obj->base;
+>  	bo->flags = bo_flags;
+>  
+> +	/* The system and GPU MMU page size might differ, which becomes a
+> +	 * problem for FW sections that need to be mapped at explicit address
+> +	 * since our PAGE_SIZE alignment might cover a VA range that's
+> +	 * expected to be used for another section.
+> +	 * Make sure we never map more than we need.
+> +	 */
+> +	size = ALIGN(size, panthor_vm_page_size(vm));
+>  	ret = panthor_vm_alloc_va(vm, gpu_va, size, &kbo->va_node);
+>  	if (ret)
+>  		goto err_put_obj;
+> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+> index 3cd2bce59edc..f009501e4c68 100644
+> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> @@ -826,6 +826,14 @@ void panthor_vm_idle(struct panthor_vm *vm)
+>  	mutex_unlock(&ptdev->mmu->as.slots_lock);
+>  }
+>  
+> +u32 panthor_vm_page_size(struct panthor_vm *vm)
+> +{
+> +	const struct io_pgtable *pgt = container_of(vm->pgtbl_ops, struct io_pgtable, ops);
+> +	u32 pg_shift = ffs(pgt->cfg.pgsize_bitmap) - 1;
 > +
-> +MODULE_AUTHOR("Lucas De Marchi <lucas.demarchi@intel.com>");
-> +MODULE_LICENSE("GPL");
+> +	return 1u << pg_shift;
+> +}
+> +
+>  static void panthor_vm_stop(struct panthor_vm *vm)
+>  {
+>  	drm_sched_stop(&vm->sched, NULL);
+> @@ -1025,12 +1033,13 @@ int
+>  panthor_vm_alloc_va(struct panthor_vm *vm, u64 va, u64 size,
+>  		    struct drm_mm_node *va_node)
+>  {
+> +	ssize_t vm_pgsz = panthor_vm_page_size(vm);
+>  	int ret;
+>  
+> -	if (!size || (size & ~PAGE_MASK))
+> +	if (!size || !IS_ALIGNED(size, vm_pgsz))
+>  		return -EINVAL;
+>  
+> -	if (va != PANTHOR_VM_KERNEL_AUTO_VA && (va & ~PAGE_MASK))
+> +	if (va != PANTHOR_VM_KERNEL_AUTO_VA && !IS_ALIGNED(va, vm_pgsz))
+>  		return -EINVAL;
+>  
+>  	mutex_lock(&vm->mm_lock);
+> @@ -2366,11 +2375,12 @@ panthor_vm_bind_prepare_op_ctx(struct drm_file *file,
+>  			       const struct drm_panthor_vm_bind_op *op,
+>  			       struct panthor_vm_op_ctx *op_ctx)
+>  {
+> +	ssize_t vm_pgsz = panthor_vm_page_size(vm);
+>  	struct drm_gem_object *gem;
+>  	int ret;
+>  
+>  	/* Aligned on page size. */
+> -	if ((op->va | op->size) & ~PAGE_MASK)
+> +	if (!IS_ALIGNED(op->va | op->size, vm_pgsz))
+>  		return -EINVAL;
+>  
+>  	switch (op->flags & DRM_PANTHOR_VM_BIND_OP_TYPE_MASK) {
+> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.h b/drivers/gpu/drm/panthor/panthor_mmu.h
+> index 6788771071e3..8d21e83d8aba 100644
+> --- a/drivers/gpu/drm/panthor/panthor_mmu.h
+> +++ b/drivers/gpu/drm/panthor/panthor_mmu.h
+> @@ -30,6 +30,7 @@ panthor_vm_get_bo_for_va(struct panthor_vm *vm, u64 va, u64 *bo_offset);
+>  
+>  int panthor_vm_active(struct panthor_vm *vm);
+>  void panthor_vm_idle(struct panthor_vm *vm);
+> +u32 panthor_vm_page_size(struct panthor_vm *vm);
+>  int panthor_vm_as(struct panthor_vm *vm);
+>  int panthor_vm_flush_all(struct panthor_vm *vm);
+>  
+> -- 
+> 2.46.2
+> 
 
-Since commit 1fffe7a34c89 ("script: modpost: emit a warning when the
-description is missing"), a module without a MODULE_DESCRIPTION() will
-result in a warning when built with make W=1. Recently, multiple
-developers have been eradicating these warnings treewide, and very few
-(if any) are left, so please don't introduce a new one :)
-
-Please add the missing MODULE_DESCRIPTION()
-
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
