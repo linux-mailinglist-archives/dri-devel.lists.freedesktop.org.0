@@ -2,118 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C52C99E079
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 10:11:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D736A99E089
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 10:12:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2D2710E53B;
-	Tue, 15 Oct 2024 08:11:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AE6310E533;
+	Tue, 15 Oct 2024 08:12:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="kEhLKthX";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="EXPwX8tR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC64810E533
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 08:11:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1728979822; x=1729584622; i=deller@gmx.de;
- bh=mQWMACPtiDci8G7WcpMi/jiFarITfO4k7sfUpetIOeY=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
- References:From:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=kEhLKthXHetj7wJfQVwcEaoKB9ONI+iIp1bapaxkZrQ6tB21eJ/dFrdvwUtMtcC1
- MRnIClo3fGa7GOmTto/F6alBJZZLKxvzOkPKi8ojt2c7DVQRZbpXd9VIgDSup8hZ3
- Qi0IFcDubkuwazkgiAlFpZfiF1JmncgXGb53JYi7uywqPcAjXrhNcSfmb+0QMBTYg
- +XiMtf4Z0bEGJFQb/rA5OUgHbm9L1N0s8NQ2iAT9NX6G0354MyhZuBfLvDndsyHpm
- NoWyN4r7D13REQEl20lx+kBaf8AiRNMS08KifNR6z/79mSEckBxIAvtD0YvqPenoA
- bkzDynEtiCZ1599yfw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.55] ([109.250.63.79]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1M9Fjb-1t3fJ44BT5-0005aP; Tue, 15
- Oct 2024 10:10:22 +0200
-Message-ID: <8b15aa5d-f768-4778-8246-eda704e7c7a2@gmx.de>
-Date: Tue, 15 Oct 2024 10:10:20 +0200
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3745B10E533
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 08:12:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=FWx8OCj6anZzATGuGVy9lYL8DgbKGPaY6Y2rg7OTtm8=; b=EXPwX8tRpIBhlvlBPc0A6SyI0f
+ nGc+besWGooB0Yl5mtF5nLbRmgNgz5KnVJDRvN/89KqvKj2D0JSG4bx7sgm8be+uycFZhhaGIVfZF
+ TKPAT+nfraePgbEnkpQ8A9DLbIcGTOBHFXYYvYnRsS8NXdFrN/mGDENN6dj460z/Xhk3uiH8O9eIg
+ qeti9ewu0/ZugpflWrMDf8bW3mCw3Itf6i8XgIg9843M009fHgtLv8QpU9166qG6OJrlTv3x2mOWU
+ AOuN5g8Bm/Oz9n9wBPuuGXIfGMoz7s05hMRyxzqdgbVw/boSfVrJhEteyMA4c3zQAzvZqMcKFe/Uy
+ xSZA2tnw==;
+Received: from [90.241.98.187] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1t0cfa-00A7Ma-T3; Tue, 15 Oct 2024 10:12:42 +0200
+Message-ID: <a3cb9eba-a13e-4f56-8e81-7a06eb655e3b@igalia.com>
+Date: Tue, 15 Oct 2024 09:12:41 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fbdev: da8xx: remove the driver
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, David Lechner <david@lechnology.com>,
- linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-References: <20241015065329.12732-1-brgl@bgdev.pl>
- <4cdde7d6-e0ad-44a4-bb8f-1df5cd3b1874@suse.de>
-Content-Language: en-US
-From: Helge Deller <deller@gmx.de>
-Autocrypt: addr=deller@gmx.de; keydata=
- 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
-In-Reply-To: <4cdde7d6-e0ad-44a4-bb8f-1df5cd3b1874@suse.de>
+Subject: Re: [PATCH 1/5] drm/sched: Optimise drm_sched_entity_push_job
+To: Philipp Stanner <pstanner@redhat.com>,
+ Tvrtko Ursulin <tursulin@igalia.com>, dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Luben Tuikov <ltuikov89@gmail.com>, Matthew Brost <matthew.brost@intel.com>
+References: <20241014104637.83209-1-tursulin@igalia.com>
+ <20241014104637.83209-2-tursulin@igalia.com>
+ <0df6b855b0974a88a3f6af42108e2596bd285898.camel@redhat.com>
+ <8c038f91-716c-4a3d-8c70-10859d28d77f@igalia.com>
+ <587ac0260e9c843ccd0e7d449fc6b6c9270ec741.camel@redhat.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <587ac0260e9c843ccd0e7d449fc6b6c9270ec741.camel@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:DGDxZHuhnqs53RL0iCKK0AY2nwxQt9QhUMglCt2CTckGP+6IxIV
- L+8+juqTUjmo950QNy7J4vn22//2fsKuXBw8IU1xOlVRKYm9EOyYwjrzl3hi5VUm1EuH19N
- QditLxnjjeXpQUAL9+gf1EvyJBJkffGxpMCyu1B60FVWCw290VPHt5Hu7I+dKobymolmtCc
- rgAA+YzHE6dTuVrE1n9sg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:/25xlcbN1QU=;P7NDhGTyrT6yTj2fLg5HEeESMBD
- qT8b3LEXXFUNA1icwlxE3++/9d5qRAOzmTE6IVI37MNGSyLwDkPzSDdospbrZ/3IAqUJyqBUB
- nG7vynyqlsKkkuddyRq9VnyICwMmXVmiSTHVazymO0Je5xfRoPqd9TraB2HP15gtZoxyAKE7y
- H0KBGkuOhsToWDXKXTBM/xji6BxCQMmj2itci9w/IKszS/Y7kPodiZ4vS7s55bGqXGbDx1rHA
- izPrJ5aMphKf1zv5DQC3RBt0vNk41/mkwalPvgxI9Gpi90FnCOZHuk6oJGmMJvkRtnsmvgZEu
- wGnQ6JT63AtVDZUSq5YGjg1KMENllcFr7zUtGYqMFCYvQOFri/50asT2p3C70TTB8Y0/3hyYh
- 4nv7H2yGHE1kkhZ4xHs3KZuCmZCkrX+nd0pInUrYU0t7x0Fp61Kpp6WMBa8O+wl08lGifkzBD
- WZOepmmORV/kn2yx6bPjQh8/qMZCRaa3urR6hCZfYFqiNRhMozqwUd11L36GlnYPcfluFkZTV
- 864yaHdHsoz66XqgXvdUkrwnMYiKqsFRyjrv/bmzUst0m21YWz+2cV/BtiLoZMoTDmSlKJW/3
- mYrZ26DqSl4tbkdtG4bLARSXmYVNBh7YH24HycUw7W4U6RNhFipEehYmVQjP5KQFtZU4GMYnG
- lOA0ah8p43n1ZZSAkbYxmmeTc9sn9zJIlE8pNk+9Bez+ZRzP7txjZHI/Ef4CeufgsMdREdBjc
- HNQ1Jb+3SEGEQj/PUIW2FUBM94jUBNp9/5XwoShmMRZh78O7P6bqjeVT8wutyObq/3iblm+lP
- llvDtcP1yTVcpcBeb9nXgPDQ==
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,31 +67,113 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/15/24 09:16, Thomas Zimmermann wrote:
-> Am 15.10.24 um 08:53 schrieb Bartosz Golaszewski:
->> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+
+On 15/10/2024 08:11, Philipp Stanner wrote:
+> On Mon, 2024-10-14 at 13:07 +0100, Tvrtko Ursulin wrote:
 >>
->> This driver is no longer used on any platform. It has been replaced by
->> tilcdc on the two DaVinci boards we still support and can be removed.
+>> On 14/10/2024 12:32, Philipp Stanner wrote:
+>>> Hi,
+>>>
+>>> On Mon, 2024-10-14 at 11:46 +0100, Tvrtko Ursulin wrote:
+>>>> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>>>>
+>>>> In FIFO mode We can avoid dropping the lock only to immediately
+>>>> re-
+>>>> acquire
+>>>> by adding a new drm_sched_rq_update_fifo_locked() helper.
+>>>>
+>>>
+>>> Please write detailed commit messages, as described here [1].
+>>>      1. Describe the problem: current state and why it's bad.
+>>>      2. Then, describe in imperative (present tense) form what the
+>>> commit
+>>>         does about the problem.
 >>
->> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
->
-> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Both pieces of info are already there:
+>>
+>> 1. Drops the lock to immediately re-acquire it.
+>> 2. We avoid that by by adding a locked helper.
+>>> Optionally, in between can be information about why it's solved
+>>> this
+>>> way and not another etc.
+>>>
+>>> Applies to the other patches, too.
+>>>
+>>>
+>>> [1]
+>>> https://www.kernel.org/doc/html/latest/process/submitting-patches.html#describe-your-changes
+>>
+>> Thanks I am new here and did not know this.
+>>
+>> Seriosuly, lets not be too blindly strict about this because it can
+>> get
+>> IMO ridiculous.
+>>
+>> One example when I previously accomodated your request is patch 3/5
+>> from
+>> this series:
+>>
+>> """
+>> Current kerneldoc for struct drm_sched_rq incompletely documents what
+>> fields are protected by the lock.
+>>
+>> This is not good because it is misleading.
+>>
+>> Lets fix it by listing all the elements which are protected by the
+>> lock.
+>> """
+>>
+>> While this was the original commit text you weren't happy with:
+>>
+>> """
+>> drm/sched: Re-order struct drm_sched_rq members for clarity
+>>
+>> Lets re-order the members to make it clear which are protected by the
+>> lock
+>> and at the same time document it via kerneldoc.
+>> """
+>>
+>> I maintain the original text was passable.
+>>
+>> On top, this was just a respin to accomodate the merge process. All
+>> approvals were done and dusted couple weeks or so ago so asking for
+>> yet
+>> another respin for such trivial objections is not great.
+> 
+> I understand that you're unhappy, but please understand the position
+> I'm coming from. As you know, since you sent these patches within a
+> different series (and, thus, since I reviewed them), I was trusted with
+> co-maintaining this piece of shared infrastructure.
+> 
+> And since you've worked on it a bit now, I suppose you also know that
+> the GPU Scheduler is arguably in quite a bad shape, has far too little
+> documentation, has leaks, maybe race conditions, parts *where the
+> locking rules are unclear* and is probably only fully understood by a
+> small hand full of people. I also argue that this is a *very*
+> complicated piece of software.
 
-applied.
+We already went over that and agreed. Not least I agreed the base is 
+shaky since few years  ago. :)
 
-Thanks!
-Helge
+Btw if things align, I hope you will at some point see a follow up 
+series from me which makes some significant simplifications and 
+improvements at the same time.
+> So I might be or appear to be a bit pedantic, but I'm not doing that to
+> terrorize you, but because I want this thing to become well documented,
+> understandable, and bisectable. Working towards a canonical, idiot-
+> proof commit style is one measure that will help with that.
+> 
+> I want to offer you the following: I can be more relaxed with things
+> universally recognized as trivial (comment changes, struct member
+> reordering) – but when something like a lock is touched in any way, we
+> shall document that in the commit message as canonically as possible,
+> so someone who's less experienced and just bisected the commit
+> immediately understands what has been done (or rather: was supposed to
+> be done).
 
+So how would you suggest to expand this commit text so it doesn't read 
+too self-repeating?
 
->> ---
->> =C2=A0 drivers/video/fbdev/Kconfig=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 13 -
->> =C2=A0 drivers/video/fbdev/Makefile=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 1 -
->> =C2=A0 drivers/video/fbdev/da8xx-fb.c | 1665 --------------------------=
-------
->> =C2=A0 include/video/da8xx-fb.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=
-=C2=A0=C2=A0 94 --
->> =C2=A0 4 files changed, 1773 deletions(-)
->> =C2=A0 delete mode 100644 drivers/video/fbdev/da8xx-fb.c
->> =C2=A0 delete mode 100644 include/video/da8xx-fb.h
+Regards,
 
+Tvrtko
