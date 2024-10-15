@@ -2,57 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ADDA99ED40
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 15:26:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F0C299ED7D
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 15:29:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9732110E5A0;
-	Tue, 15 Oct 2024 13:26:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8D6310E58A;
+	Tue, 15 Oct 2024 13:28:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="BEe1tpbR";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LaqqREsu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D95010E58C
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 13:26:19 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 293B710E58A
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 13:28:58 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id E08A85C5D08;
- Tue, 15 Oct 2024 13:26:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BBC9C4CECF;
- Tue, 15 Oct 2024 13:26:17 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id CA8F9A4293B;
+ Tue, 15 Oct 2024 13:28:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AD65C4CEC6;
+ Tue, 15 Oct 2024 13:28:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1728998778;
- bh=UpHokupAtjlDauqa70fE2fQJZrcfyQZ3EvXkwOwsheY=;
- h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
- b=BEe1tpbRQRTtSRuN4OXaCHRF+kwB/JEnlK1e/0lPAhiN0YN4QMigvsa2wPcYIuu0y
- 5Z4fF/34tOfOcT+q8jRDPt8zcbw+sZmcoSmA3bn+SpVELbN1S/HbIJ4BRENhzmJUQE
- ZRUjsqs8i0l3XL1Pr9TJG0ib8x8fQOJpzC9Nj9UX+slS1Yjq6MYT+sUBmac5f2A37t
- CZy4AMcw1F2wea9wIJNRv9tFdITShoS5V+0AodawCMRFnfiT5MuDecr2D+r2SwJ39L
- kAUce5JOBmW7mvu80X7v3iUmv1kXciem1B3RyORsAjONhurY1RBBtDKBzQ62oUSSmB
- 3DuPKnnx8D0gw==
-Date: Tue, 15 Oct 2024 08:26:14 -0500
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ s=k20201202; t=1728998936;
+ bh=zUwTrKN0oQ0wy9QEgh6NABXj+aSGYvr0Rr+dlkJF1v8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=LaqqREsugPmm6nBfyAHVvUAChx4/+jw7g38Sn5whj+y5yB1UxVI1BZfDnC/3Zp1hQ
+ MT4hJRqMfc+oLcaUrkCNF5Ycnc1/Ze5wMnDsJLNKYbxvEpY0LHzXPenFcTOIF2g7wx
+ pqB1OEnvaPlQaYYfJ2pWDgfH2wUeHylQTR9W+71+xgXA7LpykXuvVi/n5UjJ+WVTAc
+ YJ0n713dYC+geDne+a9xFJJg0uFtHNxBHAboRCeW4BMQ0x12K6MktICzoIk0b2+wdg
+ Z3DHnZqds4v8Zi15/wkFYuoHTa1AEYp+qrp7oIL5GNcUe5Ge/11P5Bg0eGemUfZmbx
+ 8nZHK9JI1zsgQ==
+Date: Tue, 15 Oct 2024 08:28:49 -0500
+From: Rob Herring <robh@kernel.org>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: chunkuang.hu@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ conor+dt@kernel.org, p.zabel@pengutronix.de, airlied@gmail.com,
+ daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, matthias.bgg@gmail.com,
+ shawn.sung@mediatek.com, yu-chang.lee@mediatek.com,
+ ck.hu@mediatek.com, jitao.shi@mediatek.com,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, wenst@chromium.org,
+ kernel@collabora.com, sui.jingfeng@linux.dev, michael@walle.cc,
+ sjoerd@collabora.com, Alexandre Mergnat <amergnat@baylibre.com>,
+ Michael Walle <mwalle@kernel.org>
+Subject: Re: [PATCH v12 3/3] drm/mediatek: Implement OF graphs support for
+ display paths
+Message-ID: <20241015132849.GA447702-robh@kernel.org>
+References: <20241014085148.71105-1-angelogioacchino.delregno@collabora.com>
+ <20241014085148.71105-4-angelogioacchino.delregno@collabora.com>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, linux-i2c@vger.kernel.org, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, quic_vtanuku@quicinc.com, 
- Bjorn Andersson <andersson@kernel.org>, dmaengine@vger.kernel.org, 
- Andi Shyti <andi.shyti@kernel.org>, linaro-mm-sig@lists.linaro.org, 
- linux-media@vger.kernel.org, quic_msavaliy@quicinc.com, 
- devicetree@vger.kernel.org, cros-qcom-dts-watchers@chromium.org, 
- Conor Dooley <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org, 
- Vinod Koul <vkoul@kernel.org>
-In-Reply-To: <20241015120750.21217-2-quic_jseerapu@quicinc.com>
-References: <20241015120750.21217-1-quic_jseerapu@quicinc.com>
- <20241015120750.21217-2-quic_jseerapu@quicinc.com>
-Message-Id: <172899877472.523926.14548368912530185631.robh@kernel.org>
-Subject: Re: [PATCH v1 1/5] dt-bindings: dmaengine: qcom: gpi: Add
- additional arg to dma-cell property
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241014085148.71105-4-angelogioacchino.delregno@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,56 +69,522 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On Tue, 15 Oct 2024 17:37:46 +0530, Jyothi Kumar Seerapu wrote:
-> When high performance with multiple i2c messages in a single transfer
-> is required, employ Block Event Interrupt (BEI) to trigger interrupts
-> after specific messages transfer and the last message transfer,
-> thereby reducing interrupts.
+On Mon, Oct 14, 2024 at 10:51:48AM +0200, AngeloGioacchino Del Regno wrote:
+> It is impossible to add each and every possible DDP path combination
+> for each and every possible combination of SoC and board: right now,
+> this driver hardcodes configuration for 10 SoCs and this is going to
+> grow larger and larger, and with new hacks like the introduction of
+> mtk_drm_route which is anyway not enough for all final routes as the
+> DSI cannot be connected to MERGE if it's not a dual-DSI, or enabling
+> DSC preventively doesn't work if the display doesn't support it, or
+> others.
 > 
-> For each i2c message transfer, a series of Transfer Request Elements(TREs)
-> must be programmed, including config tre for frequency configuration,
-> go tre for holding i2c address and dma tre for holding dma buffer address,
-> length as per the hardware programming guide. For transfer using BEI,
-> multiple I2C messages may necessitate the preparation of config, go,
-> and tx DMA TREs. However, a channel TRE size of 64 is often insufficient,
-> potentially leading to failures due to inadequate memory space.
+> Since practically all display IPs in MediaTek SoCs support being
+> interconnected with different instances of other, or the same, IPs
+> or with different IPs and in different combinations, the final DDP
+> pipeline is effectively a board specific configuration.
 > 
-> Add additional argument to dma-cell property for channel TRE size.
-> With this, adjust the channel TRE size via the device tree.
-> The default size is 64, but clients can modify this value based on
-> their specific requirements.
+> Implement OF graphs support to the mediatek-drm drivers, allowing to
+> stop hardcoding the paths, and preventing this driver to get a huge
+> amount of arrays for each board and SoC combination, also paving the
+> way to share the same mtk_mmsys_driver_data between multiple SoCs,
+> making it more straightforward to add support for new chips.
 > 
-> Signed-off-by: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
+> Note that the OVL_ADAPTOR software component driver needs relatively
+> big changes in order to fully support OF Graphs (and more SoCs anyway)
+> and such changes will come at a later time.
+> As of now, the mtk_disp_ovl_adaptor driver takes the MERGE components
+> (for example, on mt8195, merge 1 to 4) dynamically so, even though
+> later updates to the ovl-adaptor driver will *not* require bindings
+> changes, the merge1-4 will be temporarily omitted in the graph for the
+> MT8195 SoC.
+> 
+> This means that an example graph for this SoC looks like:
+> 
+> mdp_rdma (0 ~ 7) -> padding (0 ~ 7) -> ethdr -> merge5
+> 
+> and the resulting path in this driver will be `ovl_adaptor -> merge5`
+> 
+> Later updates to the ovl adaptor will expand it to support more SoCs
+> and, in turn, to also fully support graphs.
+> 
+> Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
+> Tested-by: Alexandre Mergnat <amergnat@baylibre.com>
+> Acked-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+> Tested-by: Michael Walle <mwalle@kernel.org> # on kontron-sbc-i1200
+> Reviewed-by: CK Hu <ck.hu@mediatek.com>
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 > ---
->  Documentation/devicetree/bindings/dma/qcom,gpi.yaml | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/mediatek/mtk_disp_drv.h       |   1 +
+>  .../gpu/drm/mediatek/mtk_disp_ovl_adaptor.c   |  43 ++-
+>  drivers/gpu/drm/mediatek/mtk_dpi.c            |  21 +-
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.c        | 253 +++++++++++++++++-
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.h        |   2 +-
+>  drivers/gpu/drm/mediatek/mtk_dsi.c            |  14 +-
+>  6 files changed, 312 insertions(+), 22 deletions(-)
 > 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+> index 082ac18fe04a..94843974851f 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+> +++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+> @@ -108,6 +108,7 @@ size_t mtk_ovl_get_num_formats(struct device *dev);
+>  
+>  void mtk_ovl_adaptor_add_comp(struct device *dev, struct mtk_mutex *mutex);
+>  void mtk_ovl_adaptor_remove_comp(struct device *dev, struct mtk_mutex *mutex);
+> +bool mtk_ovl_adaptor_is_comp_present(struct device_node *node);
+>  void mtk_ovl_adaptor_connect(struct device *dev, struct device *mmsys_dev,
+>  			     unsigned int next);
+>  void mtk_ovl_adaptor_disconnect(struct device *dev, struct device *mmsys_dev,
+> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
+> index c6768210b08b..4e064d3c97cc 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
+> @@ -490,6 +490,41 @@ static int compare_of(struct device *dev, void *data)
+>  	return dev->of_node == data;
+>  }
+>  
+> +static int ovl_adaptor_of_get_ddp_comp_type(struct device_node *node,
+> +					    enum mtk_ovl_adaptor_comp_type *ctype)
+> +{
+> +	const struct of_device_id *of_id = of_match_node(mtk_ovl_adaptor_comp_dt_ids, node);
+> +
+> +	if (!of_id)
+> +		return -EINVAL;
+> +
+> +	*ctype = (enum mtk_ovl_adaptor_comp_type)((uintptr_t)of_id->data);
+> +
+> +	return 0;
+> +}
+> +
+> +bool mtk_ovl_adaptor_is_comp_present(struct device_node *node)
+> +{
+> +	enum mtk_ovl_adaptor_comp_type type;
+> +	int ret;
+> +
+> +	ret = ovl_adaptor_of_get_ddp_comp_type(node, &type);
+> +	if (ret)
+> +		return false;
+> +
+> +	if (type >= OVL_ADAPTOR_TYPE_NUM)
+> +		return false;
+> +
+> +	/*
+> +	 * In the context of mediatek-drm, ETHDR, MDP_RDMA and Padding are
+> +	 * used exclusively by OVL Adaptor: if this component is not one of
+> +	 * those, it's likely not an OVL Adaptor path.
+> +	 */
+> +	return type == OVL_ADAPTOR_TYPE_ETHDR ||
+> +	       type == OVL_ADAPTOR_TYPE_MDP_RDMA ||
+> +	       type == OVL_ADAPTOR_TYPE_PADDING;
+> +}
+> +
+>  static int ovl_adaptor_comp_init(struct device *dev, struct component_match **match)
+>  {
+>  	struct mtk_disp_ovl_adaptor *priv = dev_get_drvdata(dev);
+> @@ -499,12 +534,11 @@ static int ovl_adaptor_comp_init(struct device *dev, struct component_match **ma
+>  	parent = dev->parent->parent->of_node->parent;
+>  
+>  	for_each_child_of_node_scoped(parent, node) {
+> -		const struct of_device_id *of_id;
+>  		enum mtk_ovl_adaptor_comp_type type;
+> -		int id;
+> +		int id, ret;
+>  
+> -		of_id = of_match_node(mtk_ovl_adaptor_comp_dt_ids, node);
+> -		if (!of_id)
+> +		ret = ovl_adaptor_of_get_ddp_comp_type(node, &type);
+> +		if (ret)
+>  			continue;
+>  
+>  		if (!of_device_is_available(node)) {
+> @@ -513,7 +547,6 @@ static int ovl_adaptor_comp_init(struct device *dev, struct component_match **ma
+>  			continue;
+>  		}
+>  
+> -		type = (enum mtk_ovl_adaptor_comp_type)(uintptr_t)of_id->data;
+>  		id = ovl_adaptor_comp_get_id(dev, node, type);
+>  		if (id < 0) {
+>  			dev_warn(dev, "Skipping unknown component %pOF\n",
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> index e4da5cc75e60..ad37b0ecafb9 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> @@ -755,6 +755,20 @@ static int mtk_dpi_bridge_attach(struct drm_bridge *bridge,
+>  				 enum drm_bridge_attach_flags flags)
+>  {
+>  	struct mtk_dpi *dpi = bridge_to_dpi(bridge);
+> +	int ret;
+> +
+> +	dpi->next_bridge = devm_drm_of_get_bridge(dpi->dev, dpi->dev->of_node, 1, -1);
+> +	if (IS_ERR(dpi->next_bridge)) {
+> +		ret = PTR_ERR(dpi->next_bridge);
+> +		if (ret == -EPROBE_DEFER)
+> +			return ret;
+> +
+> +		/* Old devicetree has only one endpoint */
+> +		dpi->next_bridge = devm_drm_of_get_bridge(dpi->dev, dpi->dev->of_node, 0, 0);
+> +		if (IS_ERR(dpi->next_bridge))
+> +			return dev_err_probe(dpi->dev, PTR_ERR(dpi->next_bridge),
+> +					     "Failed to get bridge\n");
+> +	}
+>  
+>  	return drm_bridge_attach(bridge->encoder, dpi->next_bridge,
+>  				 &dpi->bridge, flags);
+> @@ -1162,13 +1176,6 @@ static int mtk_dpi_probe(struct platform_device *pdev)
+>  	if (dpi->irq < 0)
+>  		return dpi->irq;
+>  
+> -	dpi->next_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 0, 0);
+> -	if (IS_ERR(dpi->next_bridge))
+> -		return dev_err_probe(dev, PTR_ERR(dpi->next_bridge),
+> -				     "Failed to get bridge\n");
+> -
+> -	dev_info(dev, "Found bridge node: %pOF\n", dpi->next_bridge->of_node);
+> -
+>  	platform_set_drvdata(pdev, dpi);
+>  
+>  	dpi->bridge.funcs = &mtk_dpi_bridge_funcs;
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> index a4594f8873d5..85be035a209a 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> @@ -27,6 +27,7 @@
+>  
+>  #include "mtk_crtc.h"
+>  #include "mtk_ddp_comp.h"
+> +#include "mtk_disp_drv.h"
+>  #include "mtk_drm_drv.h"
+>  #include "mtk_gem.h"
+>  
+> @@ -820,12 +821,235 @@ static const struct of_device_id mtk_ddp_comp_dt_ids[] = {
+>  	{ }
+>  };
+>  
+> +static int mtk_drm_of_get_ddp_comp_type(struct device_node *node, enum mtk_ddp_comp_type *ctype)
+> +{
+> +	const struct of_device_id *of_id = of_match_node(mtk_ddp_comp_dt_ids, node);
+> +
+> +	if (!of_id)
+> +		return -EINVAL;
+> +
+> +	*ctype = (enum mtk_ddp_comp_type)((uintptr_t)of_id->data);
+> +
+> +	return 0;
+> +}
+> +
+> +static int mtk_drm_of_get_ddp_ep_cid(struct device_node *node,
+> +				     int output_port, enum mtk_crtc_path crtc_path,
+> +				     struct device_node **next, unsigned int *cid)
+> +{
+> +	struct device_node *ep_dev_node, *ep_out;
+> +	enum mtk_ddp_comp_type comp_type;
+> +	int ret;
+> +
+> +	ep_out = of_graph_get_endpoint_by_regs(node, output_port, crtc_path);
+> +	if (!ep_out)
+> +		return -ENOENT;
+> +
+> +	ep_dev_node = of_graph_get_remote_port_parent(ep_out);
+> +	of_node_put(ep_out);
+> +	if (!ep_dev_node)
+> +		return -EINVAL;
+> +
+> +	/*
+> +	 * Pass the next node pointer regardless of failures in the later code
+> +	 * so that if this function is called in a loop it will walk through all
+> +	 * of the subsequent endpoints anyway.
+> +	 */
+> +	*next = ep_dev_node;
+> +
+> +	if (!of_device_is_available(ep_dev_node))
+> +		return -ENODEV;
+> +
+> +	ret = mtk_drm_of_get_ddp_comp_type(ep_dev_node, &comp_type);
+> +	if (ret) {
+> +		if (mtk_ovl_adaptor_is_comp_present(ep_dev_node)) {
+> +			*cid = (unsigned int)DDP_COMPONENT_DRM_OVL_ADAPTOR;
+> +			return 0;
+> +		}
+> +		return ret;
+> +	}
+> +
+> +	ret = mtk_ddp_comp_get_id(ep_dev_node, comp_type);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	/* All ok! Pass the Component ID to the caller. */
+> +	*cid = (unsigned int)ret;
+> +
+> +	return 0;
+> +}
+> +
+> +/**
+> + * mtk_drm_of_ddp_path_build_one - Build a Display HW Pipeline for a CRTC Path
+> + * @dev:          The mediatek-drm device
+> + * @cpath:        CRTC Path relative to a VDO or MMSYS
+> + * @out_path:     Pointer to an array that will contain the new pipeline
+> + * @out_path_len: Number of entries in the pipeline array
+> + *
+> + * MediaTek SoCs can use different DDP hardware pipelines (or paths) depending
+> + * on the board-specific desired display configuration; this function walks
+> + * through all of the output endpoints starting from a VDO or MMSYS hardware
+> + * instance and builds the right pipeline as specified in device trees.
+> + *
+> + * Return:
+> + * * %0       - Display HW Pipeline successfully built and validated
+> + * * %-ENOENT - Display pipeline was not specified in device tree
+> + * * %-EINVAL - Display pipeline built but validation failed
+> + * * %-ENOMEM - Failure to allocate pipeline array to pass to the caller
+> + */
+> +static int mtk_drm_of_ddp_path_build_one(struct device *dev, enum mtk_crtc_path cpath,
+> +					 const unsigned int **out_path,
+> +					 unsigned int *out_path_len)
+> +{
+> +	struct device_node *next, *prev, *vdo = dev->parent->of_node;
+> +	unsigned int temp_path[DDP_COMPONENT_DRM_ID_MAX] = { 0 };
+> +	unsigned int *final_ddp_path;
+> +	unsigned short int idx = 0;
+> +	bool ovl_adaptor_comp_added = false;
+> +	int ret;
+> +
+> +	/* Get the first entry for the temp_path array */
+> +	ret = mtk_drm_of_get_ddp_ep_cid(vdo, 0, cpath, &next, &temp_path[idx]);
+> +	if (ret) {
+> +		if (next && temp_path[idx] == DDP_COMPONENT_DRM_OVL_ADAPTOR) {
+> +			dev_dbg(dev, "Adding OVL Adaptor for %pOF\n", next);
+> +			ovl_adaptor_comp_added = true;
+> +		} else {
+> +			if (next)
+> +				dev_err(dev, "Invalid component %pOF\n", next);
+> +			else
+> +				dev_err(dev, "Cannot find first endpoint for path %d\n", cpath);
+> +
+> +			return ret;
+> +		}
+> +	}
+> +	idx++;
+> +
+> +	/*
+> +	 * Walk through port outputs until we reach the last valid mediatek-drm component.
+> +	 * To be valid, this must end with an "invalid" component that is a display node.
+> +	 */
+> +	do {
+> +		prev = next;
+> +		ret = mtk_drm_of_get_ddp_ep_cid(next, 1, cpath, &next, &temp_path[idx]);
+> +		of_node_put(prev);
+> +		if (ret) {
+> +			of_node_put(next);
+> +			break;
+> +		}
+> +
+> +		/*
+> +		 * If this is an OVL adaptor exclusive component and one of those
+> +		 * was already added, don't add another instance of the generic
+> +		 * DDP_COMPONENT_OVL_ADAPTOR, as this is used only to decide whether
+> +		 * to probe that component master driver of which only one instance
+> +		 * is needed and possible.
+> +		 */
+> +		if (temp_path[idx] == DDP_COMPONENT_DRM_OVL_ADAPTOR) {
+> +			if (!ovl_adaptor_comp_added)
+> +				ovl_adaptor_comp_added = true;
+> +			else
+> +				idx--;
+> +		}
+> +	} while (++idx < DDP_COMPONENT_DRM_ID_MAX);
+> +
+> +	/*
+> +	 * The device component might not be enabled: in that case, don't
+> +	 * check the last entry and just report that the device is missing.
+> +	 */
+> +	if (ret == -ENODEV)
+> +		return ret;
+> +
+> +	/* If the last entry is not a final display output, the configuration is wrong */
+> +	switch (temp_path[idx - 1]) {
+> +	case DDP_COMPONENT_DP_INTF0:
+> +	case DDP_COMPONENT_DP_INTF1:
+> +	case DDP_COMPONENT_DPI0:
+> +	case DDP_COMPONENT_DPI1:
+> +	case DDP_COMPONENT_DSI0:
+> +	case DDP_COMPONENT_DSI1:
+> +	case DDP_COMPONENT_DSI2:
+> +	case DDP_COMPONENT_DSI3:
+> +		break;
+> +	default:
+> +		dev_err(dev, "Invalid display hw pipeline. Last component: %d (ret=%d)\n",
+> +			temp_path[idx - 1], ret);
+> +		return -EINVAL;
+> +	}
+> +
+> +	final_ddp_path = devm_kmemdup(dev, temp_path, idx * sizeof(temp_path[0]), GFP_KERNEL);
+> +	if (!final_ddp_path)
+> +		return -ENOMEM;
+> +
+> +	dev_dbg(dev, "Display HW Pipeline built with %d components.\n", idx);
+> +
+> +	/* Pipeline built! */
+> +	*out_path = final_ddp_path;
+> +	*out_path_len = idx;
+> +
+> +	return 0;
+> +}
+> +
+> +static int mtk_drm_of_ddp_path_build(struct device *dev, struct device_node *node,
+> +				     struct mtk_mmsys_driver_data *data)
+> +{
+> +	struct device_node *ep_node;
+> +	struct of_endpoint of_ep;
+> +	bool output_present[MAX_CRTC] = { false };
+> +	int ret;
+> +
+> +	for_each_endpoint_of_node(node, ep_node) {
+> +		ret = of_graph_parse_endpoint(ep_node, &of_ep);
+> +		if (ret) {
+> +			dev_err_probe(dev, ret, "Cannot parse endpoint\n");
+> +			break;
+> +		}
+> +
+> +		if (of_ep.id >= MAX_CRTC) {
+> +			ret = dev_err_probe(dev, -EINVAL,
+> +					    "Invalid endpoint%u number\n", of_ep.port);
+> +			break;
+> +		}
+> +
+> +		output_present[of_ep.id] = true;
+> +	}
+> +
+> +	if (ret) {
+> +		of_node_put(ep_node);
+> +		return ret;
+> +	}
+> +
+> +	if (output_present[CRTC_MAIN]) {
+> +		ret = mtk_drm_of_ddp_path_build_one(dev, CRTC_MAIN,
+> +						    &data->main_path, &data->main_len);
+> +		if (ret && ret != -ENODEV)
+> +			return ret;
+> +	}
+> +
+> +	if (output_present[CRTC_EXT]) {
+> +		ret = mtk_drm_of_ddp_path_build_one(dev, CRTC_EXT,
+> +						    &data->ext_path, &data->ext_len);
+> +		if (ret && ret != -ENODEV)
+> +			return ret;
+> +	}
+> +
+> +	if (output_present[CRTC_THIRD]) {
+> +		ret = mtk_drm_of_ddp_path_build_one(dev, CRTC_THIRD,
+> +						    &data->third_path, &data->third_len);
+> +		if (ret && ret != -ENODEV)
+> +			return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  static int mtk_drm_probe(struct platform_device *pdev)
+>  {
+>  	struct device *dev = &pdev->dev;
+>  	struct device_node *phandle = dev->parent->of_node;
+>  	const struct of_device_id *of_id;
+>  	struct mtk_drm_private *private;
+> +	struct mtk_mmsys_driver_data *mtk_drm_data;
+>  	struct device_node *node;
+>  	struct component_match *match = NULL;
+>  	struct platform_device *ovl_adaptor;
+> @@ -846,7 +1070,27 @@ static int mtk_drm_probe(struct platform_device *pdev)
+>  	if (!of_id)
+>  		return -ENODEV;
+>  
+> -	private->data = of_id->data;
+> +	mtk_drm_data = (struct mtk_mmsys_driver_data *)of_id->data;
+> +	if (!mtk_drm_data)
+> +		return -EINVAL;
+> +
+> +	/* Try to build the display pipeline from devicetree graphs */
+> +	if (of_graph_is_present(phandle)) {
+> +		dev_dbg(dev, "Building display pipeline for MMSYS %u\n",
+> +			mtk_drm_data->mmsys_id);
+> +		private->data = devm_kmemdup(dev, mtk_drm_data,
+> +					     sizeof(*mtk_drm_data), GFP_KERNEL);
+> +		if (!private->data)
+> +			return -ENOMEM;
+> +
+> +		ret = mtk_drm_of_ddp_path_build(dev, phandle, private->data);
+> +		if (ret)
+> +			return ret;
+> +	} else {
+> +		/* No devicetree graphs support: go with hardcoded paths if present */
+> +		dev_dbg(dev, "Using hardcoded paths for MMSYS %u\n", mtk_drm_data->mmsys_id);
+> +		private->data = mtk_drm_data;
+> +	};
+>  
+>  	private->all_drm_private = devm_kmalloc_array(dev, private->data->mmsys_dev_num,
+>  						      sizeof(*private->all_drm_private),
+> @@ -868,12 +1112,11 @@ static int mtk_drm_probe(struct platform_device *pdev)
+>  
+>  	/* Iterate over sibling DISP function blocks */
+>  	for_each_child_of_node(phandle->parent, node) {
+> -		const struct of_device_id *of_id;
+>  		enum mtk_ddp_comp_type comp_type;
+>  		int comp_id;
+>  
+> -		of_id = of_match_node(mtk_ddp_comp_dt_ids, node);
+> -		if (!of_id)
+> +		ret = mtk_drm_of_get_ddp_comp_type(node, &comp_type);
+> +		if (ret)
+>  			continue;
+>  
+>  		if (!of_device_is_available(node)) {
+> @@ -882,8 +1125,6 @@ static int mtk_drm_probe(struct platform_device *pdev)
+>  			continue;
+>  		}
+>  
+> -		comp_type = (enum mtk_ddp_comp_type)(uintptr_t)of_id->data;
+> -
+>  		if (comp_type == MTK_DISP_MUTEX) {
+>  			int id;
+>  
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.h b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
+> index ce897984de51..675cdc90a440 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.h
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
+> @@ -63,7 +63,7 @@ struct mtk_drm_private {
+>  	struct device *mmsys_dev;
+>  	struct device_node *comp_node[DDP_COMPONENT_DRM_ID_MAX];
+>  	struct mtk_ddp_comp ddp_comp[DDP_COMPONENT_DRM_ID_MAX];
+> -	const struct mtk_mmsys_driver_data *data;
+> +	struct mtk_mmsys_driver_data *data;
+>  	struct drm_atomic_state *suspend_state;
+>  	unsigned int mbox_index;
+>  	struct mtk_drm_private **all_drm_private;
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> index eeec641cab60..33ceeb8d6925 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> @@ -988,9 +988,17 @@ static int mtk_dsi_host_attach(struct mipi_dsi_host *host,
+>  	dsi->lanes = device->lanes;
+>  	dsi->format = device->format;
+>  	dsi->mode_flags = device->mode_flags;
+> -	dsi->next_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 0, 0);
+> -	if (IS_ERR(dsi->next_bridge))
+> -		return PTR_ERR(dsi->next_bridge);
+> +	dsi->next_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 1, 0);
+> +	if (IS_ERR(dsi->next_bridge)) {
+> +		ret = PTR_ERR(dsi->next_bridge);
+> +		if (ret == -EPROBE_DEFER)
+> +			return ret;
+> +
+> +		/* Old devicetree has only one endpoint */
+> +		dsi->next_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 0, 0);
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Here's the problem with your binding change.
 
-yamllint warnings/errors:
+next_bridge was port 0, and now it is port 1. Yes, you have a fallback 
+for an old DT, but what happens with a new DT passed to a kernel without 
+the change here? 
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/dma/qcom,gpi.yaml: properties:#dma-cells: 'minItems' is not one of ['description', 'deprecated', 'const', 'enum', 'minimum', 'maximum', 'multipleOf', 'default', '$ref', 'oneOf']
-	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/dma/qcom,gpi.yaml: properties:#dma-cells: 'maxItems' is not one of ['description', 'deprecated', 'const', 'enum', 'minimum', 'maximum', 'multipleOf', 'default', '$ref', 'oneOf']
-	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
+Plus now we've got to carry this fallback code path when it's completely 
+avoidable.
 
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20241015120750.21217-2-quic_jseerapu@quicinc.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+Rob
