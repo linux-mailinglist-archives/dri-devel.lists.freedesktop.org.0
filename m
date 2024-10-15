@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2260599ED90
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 15:31:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABDAB99EDA3
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 15:33:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FFD810E588;
-	Tue, 15 Oct 2024 13:31:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E58C10E58C;
+	Tue, 15 Oct 2024 13:33:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IcWr2fy2";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qY1mh+1L";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFFA710E588
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 13:31:44 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1688310E58C
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 13:33:07 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id E85FCA418B5;
- Tue, 15 Oct 2024 13:31:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38990C4CEC6;
- Tue, 15 Oct 2024 13:31:39 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 171695C5D9C;
+ Tue, 15 Oct 2024 13:33:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC6B8C4CEC6;
+ Tue, 15 Oct 2024 13:33:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1728999103;
- bh=7NIIQSocGtey1EN503Hx3XU/J94h8trNw1uqrKWlEC8=;
+ s=k20201202; t=1728999186;
+ bh=GHyPHJVzyZd8ZM4LZypRlrrgBnlS1b8lfXtOUdWOHeA=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=IcWr2fy2tjNMgJp0Uel2cHnBAmeSl7DEGRGaeCRrFHdke0K3Wh4WO6cZ18xpOPrN4
- RNO0X5dGTiY08ixs5LMQwSzeO4EIOZvo87A6Jo4fDnxIJKiz1BnKc8c0tetHAYunr7
- em0cAVwWPQMr3Gx2qEoXkJ9tc4DVJVfTGGd54n/sDbYMmw9P/PuDfXTytdLaGDG3yD
- AjSLmEaoTO8Y068OllqtDnbZcKOCNSWHrxHdPMXtkVfgUOSbGdagN0zxd5Gpalbsr+
- IAxqkaqXlhcGcyNCdrTumDE7WKlZscszTwL5RUmHihqtQwvGZYf9G0Zcnf7PaWNalR
- HyIyCsq5rsvHA==
-Message-ID: <0c304de2-26c6-49b3-9809-bf1e7619e5b8@kernel.org>
-Date: Tue, 15 Oct 2024 15:31:37 +0200
+ b=qY1mh+1L9ZCh74km29cUBEJ231pdgihcWdxTU5NGSvUp0T+6/XxeRnlz223xhAuH2
+ 0vVZsMVhoUu++wVwPVjSd22kCSuzOE/g8Ql0AbMl9tU+ATAr+ykZZ9oR4nN4GFl5ev
+ fw6HvQesa+fuyRUukrOtD58c2FWU3U7P0X/FRRXPnDBIJEEdnMUWwvoAi6GbDaWwIW
+ pkCIw2r4aq579Qry7JbiEBXZ+qyg60W2qDvcM3/SQLs8dQ7iQJqxa/cmKKQEhiqy7c
+ kKDRcWgBgxRii0Mz6gmcftFKjQLAh+5Tfl5+jT4bBJnrdh+yv014QfpMU8qsVx7BNo
+ sunx9TQjaYRsw==
+Message-ID: <78a1c5c8-53c8-4144-b311-c34b155ca27c@kernel.org>
+Date: Tue, 15 Oct 2024 15:33:00 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/5] dt-bindings: dmaengine: qcom: gpi: Add additional
- arg to dma-cell property
+Subject: Re: [PATCH v1 2/5] arm64: dts: qcom: Add support for configuring
+ channel TRE size
 To: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>,
  Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
@@ -50,7 +50,7 @@ Cc: cros-qcom-dts-watchers@chromium.org, linux-arm-msm@vger.kernel.org,
  linaro-mm-sig@lists.linaro.org, quic_msavaliy@quicinc.com,
  quic_vtanuku@quicinc.com
 References: <20241015120750.21217-1-quic_jseerapu@quicinc.com>
- <20241015120750.21217-2-quic_jseerapu@quicinc.com>
+ <20241015120750.21217-3-quic_jseerapu@quicinc.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -96,7 +96,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20241015120750.21217-2-quic_jseerapu@quicinc.com>
+In-Reply-To: <20241015120750.21217-3-quic_jseerapu@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -119,7 +119,6 @@ On 15/10/2024 14:07, Jyothi Kumar Seerapu wrote:
 > is required, employ Block Event Interrupt (BEI) to trigger interrupts
 > after specific messages transfer and the last message transfer,
 > thereby reducing interrupts.
-> 
 > For each i2c message transfer, a series of Transfer Request Elements(TREs)
 > must be programmed, including config tre for frequency configuration,
 > go tre for holding i2c address and dma tre for holding dma buffer address,
@@ -127,9 +126,39 @@ On 15/10/2024 14:07, Jyothi Kumar Seerapu wrote:
 > multiple I2C messages may necessitate the preparation of config, go,
 > and tx DMA TREs. However, a channel TRE size of 64 is often insufficient,
 > potentially leading to failures due to inadequate memory space.
+> 
+> Adjust the channel TRE size through the device tree.
+> The default size is 64, but clients can modify this value based on
+> their heigher channel TRE size requirements.
+> 
+> Signed-off-by: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
+> ---
+>  arch/arm64/boot/dts/qcom/sc7280.dtsi | 132 +++++++++++++--------------
+>  1 file changed, 66 insertions(+), 66 deletions(-)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+> index 3d8410683402..c7c0e15ff9d3 100644
+> --- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+> @@ -1064,7 +1064,7 @@
+>  		};
+>  
+>  		gpi_dma0: dma-controller@900000 {
+> -			#dma-cells = <3>;
+> +			#dma-cells = <4>;
+>  			compatible = "qcom,sc7280-gpi-dma", "qcom,sm6350-gpi-dma";
+>  			reg = <0 0x00900000 0 0x60000>;
+>  			interrupts = <GIC_SPI 244 IRQ_TYPE_LEVEL_HIGH>,
+> @@ -1114,8 +1114,8 @@
+>  							"qup-memory";
+>  				power-domains = <&rpmhpd SC7280_CX>;
+>  				required-opps = <&rpmhpd_opp_low_svs>;
+> -				dmas = <&gpi_dma0 0 0 QCOM_GPI_I2C>,
+> -				       <&gpi_dma0 1 0 QCOM_GPI_I2C>;
+> +				dmas = <&gpi_dma0 0 0 QCOM_GPI_I2C 64>,
+> +				       <&gpi_dma0 1 0 QCOM_GPI_I2C 64>;
 
-Please kindly test the patches before you sent them. Upstream is not a
-testing service.
+So everywhere is 64, thus this is fixed. Deduce it from the compatible
 
 Best regards,
 Krzysztof
