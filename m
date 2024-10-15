@@ -2,95 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D65FE99F6B9
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 21:04:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8382A99F6BB
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 21:05:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CFB110E11B;
-	Tue, 15 Oct 2024 19:04:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDC1010E122;
+	Tue, 15 Oct 2024 19:05:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="g2kTk8hi";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="SedXyKGs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AF4B10E11B
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 19:04:30 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49FIj18G020410
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 19:04:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=H0rA9hYqTw4IoN8sT1E6A2pi
- 7Weid7AxHTd6PQjwrM4=; b=g2kTk8hidkk6xD7dY4X+33ZxzVBA+qPJLhGzLQXD
- +rZ//JG1N4c80iUtUguv1DDn33ezrZbV1EvWPAM24ynIaPK0olhQXY4euP7GyyxY
- XOKkQzEfCzE1EC0qR0yvdrRqVMBHuc3/k7q0YqwEGRCqQK1eVUAMc601UWpoqBfm
- YMg+7q9D+TqqqL7NwvxX+l1Qfu3vjCzjfEIgj6GW6yCgiUNXPnVmUTyCpRLgisB+
- W1sZeHp6H0PzI0voFIvenKkCuZHv2geHyL34f9CIcYuhmLXMcP1eEv9aLgJsTeri
- 3KRYWvCWj9w1OAH0PQhiZI6lpJ1fK1jqHAGSkS150s4byw==
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
- [209.85.214.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 429nm3hq5y-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 19:04:29 +0000 (GMT)
-Received: by mail-pl1-f200.google.com with SMTP id
- d9443c01a7336-20ca7d8670cso51753695ad.2
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 12:04:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729019054; x=1729623854;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=H0rA9hYqTw4IoN8sT1E6A2pi7Weid7AxHTd6PQjwrM4=;
- b=erybzhGGv80CxH+OGPLkIcK24Z06lvLwrGFzEaBrpQnTm/s574vXj2Dq1/OTR/v7F3
- 3MQ40EJD4+TsxSqpOlZV1Cdpd+0jH9Pfk7oPZEKPA2UE5Q7FuKloiJR3WqpHE2fYEqLh
- yrMgAmAt4v/5IFSDq8TUoqwL5qVXBmBtIPnijYarlAPifzVcEifZheZ+zSA7blopR1nF
- c9+l8QdK9pAgQZ+0OnyF+wZtbuSX4n75zo0v/e+hcHhJrqoUU9AiPwMbbu4Cjrxdrio+
- Qjy8zKUEPHHMS3LnDs/pEkPbWxUzkZE+yLLnsvgTO091P8ocYsYcpvKUwNRvbfftTq5c
- yO3Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWRRQ0pP97i+le5985pWlH37lP6WPUwMCHcY7mcnxvEx6JK2fDBV5Wdm6GpvaNJgDjfxLBTqwp2FyA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwiAXuP0s4mkroGIgN0wFEWkZCIi7xN4gcvIbpPTSefM4BpQUf2
- 8klPQ4zzvuFAV1X+6DL8vmaqBEi9ecq+W67xIYAm8+yEa44jaDpVE++hBJSI4LhOK8hfvVVj/z1
- 4T2zoEtgQ8Qm4JLe7UiFVGUfWRiQJ5mlpDpVaZbyRkA+j7Hv2AeBRwg/9iwSEUM/2juo=
-X-Received: by 2002:a17:902:f786:b0:20c:aae9:7bd7 with SMTP id
- d9443c01a7336-20cbb283458mr171677545ad.39.1729019053618; 
- Tue, 15 Oct 2024 12:04:13 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF+6IzWY4vtET2GUIT13LBq7aGu4XNkMv36Ciihb4WAIQTlFIs1yw0QlCpCIHTAtkrv/O4iWw==
-X-Received: by 2002:a17:902:f786:b0:20c:aae9:7bd7 with SMTP id
- d9443c01a7336-20cbb283458mr171677165ad.39.1729019053117; 
- Tue, 15 Oct 2024 12:04:13 -0700 (PDT)
-Received: from hu-bjorande-lv.qualcomm.com (Global_NAT1.qualcomm.com.
- [129.46.96.20]) by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-2e392edacdfsm2231080a91.24.2024.10.15.12.04.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Oct 2024 12:04:11 -0700 (PDT)
-Date: Tue, 15 Oct 2024 12:04:09 -0700
-From: Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Cc: andersson@kernel.org, jacek.lawrynowicz@linux.intel.com,
- quic_carlv@quicinc.com, ogabbay@kernel.org,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] accel/qaic: Add crashdump to Sahara
-Message-ID: <Zw68qSk8n+Izrevg@hu-bjorande-lv.qualcomm.com>
-References: <20240918155254.3186031-1-quic_jhugo@quicinc.com>
- <Zw2SjWn43zeFjBtR@hu-bjorande-lv.qualcomm.com>
- <6a2fe39b-eb7a-4b6d-9ce3-20685663cffd@quicinc.com>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65C3C10E122;
+ Tue, 15 Oct 2024 19:05:50 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1729019147; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=dB1vlzJPn4ZQ9O+yJ3xePEbvZOkN4EjPA6hUzpPQgt6DEN19OmLbv2RsgLNszKADe30OX/QA6dhvq33Yr7Vfatb1PotiEmWedb4oeE54xBMZ7eDPvIlPqhaWZ411QH6XsBzaRPLYDxKHgUxhcx9WVM7mvT0cFtwbyDZ76L3cnks=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1729019147;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=wDPu8Hrc9URjHX/IjEjHZZ5zhMpMQLyvAxJls66kHv8=; 
+ b=HmflID4oApGQv5At/vq+zdX+oEH1qi4AihKG1O/fzJsTLcq9PyihhjoiB0qFuHdVReG7c/5rCCOSYN+laqxFHLd+s4plN/bF1A26QlaryCTBzh6HX3woP4W2ex4yIy9Cu/fHwG8RagDKnkCfdez2AcD0HOQZ5AVqAWcJOg2n2N4=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
+ dmarc=pass header.from=<adrian.larumbe@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1729019147; 
+ s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
+ h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
+ bh=wDPu8Hrc9URjHX/IjEjHZZ5zhMpMQLyvAxJls66kHv8=;
+ b=SedXyKGs5Iry/O4Y7FG1ui3dQYsY0YavLWQFDO7UAxLusfYLLOQRgLEypDqr/roA
+ TqqNW+DaCgxBNigxqyCL9IbDo+gAaCvIKJ7JuHsYCC/dEUdDUzB5aHWjHWKp6JYXdtK
+ +3uYOUvAcP2Zp7II3ml6zB8oo3WryGLZQ2Ch3UmE=
+Received: by mx.zohomail.com with SMTPS id 1729019145808902.2055791020094;
+ Tue, 15 Oct 2024 12:05:45 -0700 (PDT)
+Date: Tue, 15 Oct 2024 20:05:40 +0100
+From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
+To: Tvrtko Ursulin <tursulin@ursulin.net>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ Boris Brezillon <boris.brezillon@collabora.com>, Rob Herring <robh@kernel.org>,
+ Steven Price <steven.price@arm.com>, Melissa Wen <mwen@igalia.com>, 
+ =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
+Subject: Re: [RFC PATCH 1/2] drm/drm_file: Add display of driver's internal
+ memory size
+Message-ID: <5h4vxk6hw7fkw4rebqprfdf3tmz7skdxfh6qgljcd4thxkpobu@jly67q62us4b>
+References: <20241002234531.3113431-1-adrian.larumbe@collabora.com>
+ <20241002234531.3113431-2-adrian.larumbe@collabora.com>
+ <6657b080-f41e-4c95-8895-e474f1ca5d57@ursulin.net>
+ <p72rfjerzsg4wsp6rgfcoo5fmlu77jmzdynosflj2hlos63pql@mnetv3t66wsc>
+ <87a21c19-8fd2-492a-a620-243cd9c642dc@ursulin.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <6a2fe39b-eb7a-4b6d-9ce3-20685663cffd@quicinc.com>
-X-Proofpoint-GUID: EJPxlZsMIg8dQeL3W6-BlGyaA2QY3ltp
-X-Proofpoint-ORIG-GUID: EJPxlZsMIg8dQeL3W6-BlGyaA2QY3ltp
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 clxscore=1015
- lowpriorityscore=0 malwarescore=0 adultscore=0 phishscore=0
- priorityscore=1501 mlxscore=0 spamscore=0 suspectscore=0 bulkscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2410150128
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87a21c19-8fd2-492a-a620-243cd9c642dc@ursulin.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,227 +81,269 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 15, 2024 at 12:34:29PM -0600, Jeffrey Hugo wrote:
-> On 10/14/2024 3:52 PM, Bjorn Andersson wrote:
-> > On Wed, Sep 18, 2024 at 09:52:54AM -0600, Jeffrey Hugo wrote:
-[..]
-> > >   struct sahara_context {
-> > >   	struct sahara_packet		*tx[SAHARA_NUM_TX_BUF];
-> > >   	struct sahara_packet		*rx;
-> > > -	struct work_struct		work;
-> > > +	struct work_struct		fw_work;
-> > > +	struct work_struct		dump_work;
-> > >   	struct mhi_device		*mhi_dev;
-> > >   	const char			**image_table;
-> > >   	u32				table_size;
-> > >   	u32				active_image_id;
-> > >   	const struct firmware		*firmware;
-> > > +	u64				dump_table_address;
-> > > +	u64				dump_table_length;
-> > > +	size_t				rx_size;
-> > > +	size_t				rx_size_requested;
-> > > +	void				*mem_dump;
-> > > +	size_t				mem_dump_sz;
-> > > +	struct sahara_dump_table_entry	*dump_image;
-> > > +	u64				dump_image_offset;
-> > > +	void				*mem_dump_freespace;
-> > > +	u64				dump_images_left;
+Hi Tvrtko,
+
+On 10.10.2024 10:50, Tvrtko Ursulin wrote:
+> 
+> On 09/10/2024 23:55, Adrián Larumbe wrote:
+> > Hi Tvrtko,
 > > 
-> > That's a lot of images; and it's just a natural number. How about
-> > "unsigned int" instead to convey that the size "doesn't matter"?
-> 
-> Hmm, this is derived from a 64-bit value that comes from the device.  If we
-> downgrade this to uint (32-bit) we'd need to do some overflow checking.
-> Having a matched type and not worrying about the conversion makes me feel
-> better.
-> 
-> You still prefer uint?
-> 
-
-I'm fine with this motivation.
-
+> > On 04.10.2024 14:41, Tvrtko Ursulin wrote:
+> > > 
+> > > Hi Adrian,
+> > > 
+> > > On 03/10/2024 00:45, Adrián Larumbe wrote:
+> > > > Some drivers must allocate a considerable amount of memory for bookkeeping
+> > > > structures and GPU's MCU-kernel shared communication regions. These are
+> > > > often created as a result of the invocation of the driver's ioctl()
+> > > > interface functions, so it is sensible to consider them as being owned by
+> > > > the render context associated with an open drm file.
+> > > > 
+> > > > However, at the moment drm_show_memory_stats only traverses the UM-exposed
+> > > > drm objects for which a handle exists. Private driver objects and memory
+> > > > regions, though connected to a render context, are unaccounted for in their
+> > > > fdinfo numbers.
+> > > > 
+> > > > Add a new drm_memory_stats 'internal' memory category.
+> > > > 
+> > > > Because deciding what constitutes an 'internal' object and where to find
+> > > > these are driver-dependent, calculation of this size must be done through a
+> > > > driver-provided function pointer, which becomes the third argument of
+> > > > drm_show_memory_stats. Drivers which have no interest in exposing the size
+> > > > of internal memory objects can keep passing NULL for unaltered behaviour.
+> > > > 
+> > > > Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+> > > > Cc: Rob Clark <robdclark@gmail.com>
+> > > > Cc: Tvrtko Ursulin <tursulin@ursulin.net>
+> > > > Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+> > > > ---
+> > > >    drivers/gpu/drm/drm_file.c              | 6 +++++-
+> > > >    drivers/gpu/drm/msm/msm_drv.c           | 2 +-
+> > > >    drivers/gpu/drm/panfrost/panfrost_drv.c | 2 +-
+> > > >    drivers/gpu/drm/v3d/v3d_drv.c           | 2 +-
+> > > >    include/drm/drm_file.h                  | 7 ++++++-
+> > > >    5 files changed, 14 insertions(+), 5 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
+> > > > index ad1dc638c83b..937471339c9a 100644
+> > > > --- a/drivers/gpu/drm/drm_file.c
+> > > > +++ b/drivers/gpu/drm/drm_file.c
+> > > > @@ -856,6 +856,7 @@ void drm_print_memory_stats(struct drm_printer *p,
+> > > >    	print_size(p, "total", region, stats->private + stats->shared);
+> > > >    	print_size(p, "shared", region, stats->shared);
+> > > >    	print_size(p, "active", region, stats->active);
+> > > > +	print_size(p, "internal", region, stats->internal);
+> > > >    	if (supported_status & DRM_GEM_OBJECT_RESIDENT)
+> > > >    		print_size(p, "resident", region, stats->resident);
+> > > > @@ -873,7 +874,7 @@ EXPORT_SYMBOL(drm_print_memory_stats);
+> > > >     * Helper to iterate over GEM objects with a handle allocated in the specified
+> > > >     * file.
+> > > >     */
+> > > > -void drm_show_memory_stats(struct drm_printer *p, struct drm_file *file)
+> > > > +void drm_show_memory_stats(struct drm_printer *p, struct drm_file *file, internal_bos func)
+> > > >    {
+> > > >    	struct drm_gem_object *obj;
+> > > >    	struct drm_memory_stats status = {};
+> > > > @@ -919,6 +920,9 @@ void drm_show_memory_stats(struct drm_printer *p, struct drm_file *file)
+> > > >    	}
+> > > >    	spin_unlock(&file->table_lock);
+> > > > +	if (func)
+> > > > +		func(&status, file);
+> > > > +
+> > > >    	drm_print_memory_stats(p, &status, supported_status, "memory");
+> > > >    }
+> > > >    EXPORT_SYMBOL(drm_show_memory_stats);
+> > > > diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+> > > > index edbc1ab0fbc8..2b3feb79afc4 100644
+> > > > --- a/drivers/gpu/drm/msm/msm_drv.c
+> > > > +++ b/drivers/gpu/drm/msm/msm_drv.c
+> > > > @@ -880,7 +880,7 @@ static void msm_show_fdinfo(struct drm_printer *p, struct drm_file *file)
+> > > >    	msm_gpu_show_fdinfo(priv->gpu, file->driver_priv, p);
+> > > > -	drm_show_memory_stats(p, file);
+> > > > +	drm_show_memory_stats(p, file, NULL);
+> > > >    }
+> > > >    static const struct file_operations fops = {
+> > > > diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> > > > index 04d615df5259..aaa8602bf00d 100644
+> > > > --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
+> > > > +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> > > > @@ -609,7 +609,7 @@ static void panfrost_show_fdinfo(struct drm_printer *p, struct drm_file *file)
+> > > >    	panfrost_gpu_show_fdinfo(pfdev, file->driver_priv, p);
+> > > > -	drm_show_memory_stats(p, file);
+> > > > +	drm_show_memory_stats(p, file, NULL);
+> > > >    }
+> > > >    static const struct file_operations panfrost_drm_driver_fops = {
+> > > > diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
+> > > > index fb35c5c3f1a7..314e77c67972 100644
+> > > > --- a/drivers/gpu/drm/v3d/v3d_drv.c
+> > > > +++ b/drivers/gpu/drm/v3d/v3d_drv.c
+> > > > @@ -195,7 +195,7 @@ static void v3d_show_fdinfo(struct drm_printer *p, struct drm_file *file)
+> > > >    			   v3d_queue_to_string(queue), jobs_completed);
+> > > >    	}
+> > > > -	drm_show_memory_stats(p, file);
+> > > > +	drm_show_memory_stats(p, file, NULL);
+> > > >    }
+> > > >    static const struct file_operations v3d_drm_fops = {
+> > > > diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
+> > > > index 8c0030c77308..661d00d5350e 100644
+> > > > --- a/include/drm/drm_file.h
+> > > > +++ b/include/drm/drm_file.h
+> > > > @@ -469,6 +469,7 @@ void drm_send_event_timestamp_locked(struct drm_device *dev,
+> > > >     * @resident: Total size of GEM objects backing pages
+> > > >     * @purgeable: Total size of GEM objects that can be purged (resident and not active)
+> > > >     * @active: Total size of GEM objects active on one or more engines
+> > > > + * @internal: Total size of GEM objects that aren't exposed to user space
+> > > >     *
+> > > >     * Used by drm_print_memory_stats()
+> > > >     */
+> > > > @@ -478,16 +479,20 @@ struct drm_memory_stats {
+> > > >    	u64 resident;
+> > > >    	u64 purgeable;
+> > > >    	u64 active;
+> > > > +	u64 internal;
+> > > 
+> > > So equally as in the last round of discussion back in June, internal in my
+> > > mind still does not fit alongside the categories.
+> > > 
+> > > Reason is that in some drivers, at least such as i915, "internal" can be:
+> > > 
+> > > a) Backed by either system memory or device memory - so this does not provice
+> > > that visibility;
+> > > 
+> > > b) They can also be resident or not, active or not, etc - so from that angle
+> > > it also does not fit.
+> > > 
+> > > Do you lose anything if you add the internal objects into their respective
+> > > regions and under the existing categories? Like do you have an use case in
+> > > mind which needs to be able to distinguish between userspace and internal, or
+> > > the problem simply is internal are unaccounted for?
 > > 
-> > > +	bool				is_mem_dump_mode;
-> > >   };
-> > >   static const char *aic100_image_table[] = {
-> > > @@ -153,6 +236,8 @@ static void sahara_send_reset(struct sahara_context *context)
-> > >   {
-> > >   	int ret;
-> > > +	context->is_mem_dump_mode = false;
-> > > +
-> > >   	context->tx[0]->cmd = cpu_to_le32(SAHARA_RESET_CMD);
-> > >   	context->tx[0]->length = cpu_to_le32(SAHARA_RESET_LENGTH);
-> > > @@ -186,7 +271,8 @@ static void sahara_hello(struct sahara_context *context)
-> > >   	}
-> > >   	if (le32_to_cpu(context->rx->hello.mode) != SAHARA_MODE_IMAGE_TX_PENDING &&
-> > > -	    le32_to_cpu(context->rx->hello.mode) != SAHARA_MODE_IMAGE_TX_COMPLETE) {
-> > > +	    le32_to_cpu(context->rx->hello.mode) != SAHARA_MODE_IMAGE_TX_COMPLETE &&
-> > > +	    le32_to_cpu(context->rx->hello.mode) != SAHARA_MODE_MEMORY_DEBUG) {
-> > >   		dev_err(&context->mhi_dev->dev, "Unsupported hello packet - mode %d\n",
-> > >   			le32_to_cpu(context->rx->hello.mode));
-> > >   		return;
-> > > @@ -320,9 +406,70 @@ static void sahara_end_of_image(struct sahara_context *context)
-> > >   		dev_dbg(&context->mhi_dev->dev, "Unable to send done response %d\n", ret);
-> > >   }
-> > > +static void sahara_memory_debug64(struct sahara_context *context)
-> > > +{
-> > > +	int ret;
-> > > +
-> > > +	dev_dbg(&context->mhi_dev->dev,
-> > > +		"MEMORY DEBUG64 cmd received. length:%d table_address:%#llx table_length:%#llx\n",
-> > > +		le32_to_cpu(context->rx->length),
-> > > +		le64_to_cpu(context->rx->memory_debug64.table_address),
-> > > +		le64_to_cpu(context->rx->memory_debug64.table_length));
-> > > +
-> > > +	if (le32_to_cpu(context->rx->length) != SAHARA_MEM_DEBUG64_LENGTH) {
-> > > +		dev_err(&context->mhi_dev->dev, "Malformed memory debug64 packet - length %d\n",
-> > > +			le32_to_cpu(context->rx->length));
+> > The main use case we have in mind is exposing the size of driver buffer
+> > allocations that are triggered in respone to an ioctl(), and so linked to an
+> 
+> Most of this and below is old and clear - but to this specific point - so you
+> do have an use case which specifically wants to know about the internal
+> allocations separately from the rest? Could you describe what it is?
+> 
+> > open file. I gave a summary of what these could be in the patch description, but
+> > in Panthor's case all these allocations are done with drm shmem functions
+> > because it makes it easier to retrieve the sgtable that gives us their system
+> > memory layout so that we can more easily map them onto the MMU's address space
+> > for a Pantor VM. These BO's, though managed by the drm shmem API, are never
+> > added to the open file list of user-exposed drm objects but we would still like
+> > to tell UM how much memory they take up.
 > > 
-> > Any particular reason why you choose not to attempt a reset in these two
-> > error cases?
-> 
-> Undefined behavior.  The spec doesn't address this condition - I guess the
-> assumption is that the device provides valid values.
-> 
-> The spec places limits on reset -
-> "The host sends a reset packet to reset the target. The target services a
-> reset request only if it is in a state where reset requests are valid.
-> 
-> If the target receives an invalid reset request, the target sends an error
-> in an end of image transfer packet"
-> 
-> From there the spec doesn't clarify how to proceed.
-> 
-> So, it seems possible that we send a reset here, the device rejects it, we
-> get an error back, and cannot really proceed, which feels like a "back to
-> square 1" situation.  Less complex to not send a reset and end up in the
-> same place.
-> 
-
-No concerns with this.
-
+> > In the case of Panthor, they all add into the resident tally because all these
+> > internal BO's are immediately pinned so that they can also be accessed by the
+> > HW, but it doesn't have to be so for other drivers which might also keep track
+> > of similar allocations.
 > > 
-> > > +		return;
-> > > +	}
-> > > +
-> > > +	context->dump_table_address = le64_to_cpu(context->rx->memory_debug64.table_address);
-> > > +	context->dump_table_length = le64_to_cpu(context->rx->memory_debug64.table_length);
-> > > +
-[..]
-> > >   static void sahara_processing(struct work_struct *work)
-> > >   {
-> > > -	struct sahara_context *context = container_of(work, struct sahara_context, work);
-> > > +	struct sahara_context *context = container_of(work, struct sahara_context, fw_work);
-> > >   	int ret;
-> > >   	switch (le32_to_cpu(context->rx->cmd)) {
-> > > @@ -338,6 +485,12 @@ static void sahara_processing(struct work_struct *work)
-> > >   	case SAHARA_DONE_RESP_CMD:
-> > >   		/* Intentional do nothing as we don't need to exit an app */
-> > >   		break;
-> > > +	case SAHARA_RESET_RESP_CMD:
-> > > +		/* Intentional do nothing as we don't need to exit an app */
+> > I think maybe naming that tag as 'internal' is a bit of a misnomer and I could
+> > pick one that more accurately represents its meaning? Something like 'file-internal'
+> > or else 'file-private'.
 > > 
-> > For this patch I don't have any concern, but should we do something to
-> > track that we should not handle any further requests?
+> > Regarding a), I don't think where the allocations happen (system or device memory)
+> > is relevant in this case, just that the allocations are tied to an open file, but
+> > not exposed to UM through a DRM buffer object handle.
 > 
-> The spec says that the device will (warm) reset after sending this.  It is
-> actually a bit of a race condition as the AIC100 implementation will send
-> this packet, and then force a watchdog bite to reset.  If that watchdog
-> processing is very quick, we won't even see this.
+> On this last paragraph - right.. I possibly got confused on a). Which is why I
+> always say it is good to include example output at least in the cover letter,
+> if not the commit message.
 > 
-
-I see the same race on the MSM side...
-
-> Another spec ambigiuity on what happens if the device doesn't reset after
-> this command.  Tracking this feels like complexity for little gain.
+> How would it look on this driver?
 > 
+> drm-total-$what: ..
+> drm-resident-$what: ..
+> drm-internal-$what: ...
 
-Fair enough.
+In the case of Panthor, it would look like this:
 
+drm-driver:     panthor
+drm-client-id:  3
+drm-engine-panthor:     611046570346 ns
+drm-cycles-panthor:     1172733302061
+drm-maxfreq-panthor:    1000000000 Hz
+drm-curfreq-panthor:    1000000000 Hz
+drm-total-memory:       16480 KiB
+drm-shared-memory:      0
+drm-active-memory:      16200 KiB
+drm-internal-memory:    10396 KiB
+drm-resident-memory:    26876 KiB
+drm-purgeable-memory:   0
+
+Then in Panfrost:
+
+drm-driver:     panfrost
+drm-client-id:  6
+drm-engine-fragment:    481941638 ns
+drm-cycles-fragment:    60243117
+drm-maxfreq-fragment:   799999987 Hz
+drm-curfreq-fragment:   124999998 Hz
+drm-engine-vertex-tiler:        55546675 ns
+drm-cycles-vertex-tiler:        6943796
+drm-maxfreq-vertex-tiler:       799999987 Hz
+drm-curfreq-vertex-tiler:       124999998 Hz
+drm-total-memory:       138420 KiB
+drm-shared-memory:      7200 KiB
+drm-active-memory:      0
+drm-internal-memory:    0
+drm-resident-memory:    2196 KiB
+drm-purgeable-memory:   128 KiB
+
+
+> b) still stands though in that internal can be resident or not, purgeable or
+> not.. Which is why I would like to know about the use case.
+
+This is true, DRM file-internal objects or memory allocations could fall
+into any of these categories, and adding their sizes to the right one would
+be the responsibility of the function pointer passed to drm_show_memory_stats(),
+because that decision would have to be made on a per-driver basis.
+
+> Also if you add drm-internal for any driver calling drm_print_memory_stats I
+> think you "break" at least i915. There internal objects are already accounted
+> in the existing categories. And printing out internal with zero would be very
+> misleading.
+
+I wasn't aware of this. So i915 is already doing this kind of accounting for internal
+memory allocations. In that case, maybe printing of the 'drm-internal-memory' could
+be done conditionally when it's greater than 0 to avoid 'breaking' existing drivers,
+or else renaming it to 'drm-file-memory' would be seen as less invasive?
+
+I'm asking this because if, at the end of the day, making this change part of the 
+drm fdinfo core is going to clash with existing accounting in other DRM drivers, perhaps
+it'd be easier to keep it Panthor-specific and add that tag together with its meaning
+to Documentation/gpu/panfrost.rst.
+
+I thought about this at first, but it also struck me as something other drivers might
+want to do in the future in a sort of unified way, since internal allocations happening
+in response to an ioctl() is a common thing.
+
+Cheers,
+Adrian
+
+> Regards,
+> 
+> Tvrtko
+> 
 > > 
-> > > +		break;
-> > > +	case SAHARA_MEM_DEBUG64_CMD:
-> > > +		sahara_memory_debug64(context);
-> > > +		break;
-> > >   	default:
-> > >   		dev_err(&context->mhi_dev->dev, "Unknown command %d\n",
-> > >   			le32_to_cpu(context->rx->cmd));
-> > > @@ -350,6 +503,223 @@ static void sahara_processing(struct work_struct *work)
-> > >   		dev_err(&context->mhi_dev->dev, "Unable to requeue rx buf %d\n", ret);
-> > >   }
-> > > +static void sahara_parse_dump_table(struct sahara_context *context)
-> > > +{
-[..]
-> > > +	image_out_table_entry = (struct sahara_dump_table_entry *)(context->mem_dump +
-> > > +								sizeof(*dump_meta));
+> > Regards,
+> > Adrian
 > > 
-> > Isn't this cast unnecessary?
-> 
-> I thought there was a compiler warning, but I'm not seeing it.  Will fix.
-> 
+> > > Regards,
+> > > 
+> > > Tvrtko
+> > > 
+> > > >    };
+> > > >    enum drm_gem_object_status;
+> > > > +typedef void (*internal_bos)(struct drm_memory_stats *status,
+> > > > +			     struct drm_file *file);
+> > > > +
+> > > >    void drm_print_memory_stats(struct drm_printer *p,
+> > > >    			    const struct drm_memory_stats *stats,
+> > > >    			    enum drm_gem_object_status supported_status,
+> > > >    			    const char *region);
+> > > > -void drm_show_memory_stats(struct drm_printer *p, struct drm_file *file);
+> > > > +void drm_show_memory_stats(struct drm_printer *p, struct drm_file *file, internal_bos func);
+> > > >    void drm_show_fdinfo(struct seq_file *m, struct file *f);
+> > > >    struct file *mock_drm_getfile(struct drm_minor *minor, unsigned int flags);
 
-mem_dump is void *, so you should be fine an implicit cast.
-
-> > 
-> > > +	dev_table_entry = (struct sahara_debug_table_entry64 *)(context->rx);
-> > > +	for (i = 0; i < table_nents; ++i, ++image_out_table_entry, ++dev_table_entry) {
-> > > +		image_out_table_entry->type = le64_to_cpu(dev_table_entry->type);
-> > > +		image_out_table_entry->address = le64_to_cpu(dev_table_entry->address);
-> > > +		image_out_table_entry->length = le64_to_cpu(dev_table_entry->length);
-> > > +		strscpy(image_out_table_entry->description, dev_table_entry->description,
-> > > +			SAHARA_TABLE_ENTRY_STR_LEN);
-> > > +		strscpy(image_out_table_entry->filename,
-> > > +			dev_table_entry->filename,
-> > > +			SAHARA_TABLE_ENTRY_STR_LEN);
-> > > +	}
-> > > +
-> > > +	context->mem_dump_freespace = image_out_table_entry;
-> > > +
-> > > +	/* Done parsing the table, switch to image dump mode */
-> > > +	context->dump_table_length = 0;
-> > > +
-> > > +	/* Request the first chunk of the first image */
-> > > +	context->dump_image = (struct sahara_dump_table_entry *)(context->mem_dump +
-> > > +								sizeof(*dump_meta));
-> > 
-> > I would have preferred to see this (and above) written such that it's
-> > explicitly clear that you're filling out an array of entries and then
-> > point this to the first entry in that array.
-> 
-> I'm not sure I understand what you would like to see here.  Can you perhaps
-> give an example?
-> 
-
-Per your devcoredump definition at the top, image_out_table_entry is an
-array of struct sahara_dump_table_entry, which you fill out by sliding a
-pointer starting at mem_dump + sizeof(*dump_meta).
-
-You then have context->dump_image to be a pointer to each element in
-this array, except that it's not expressed as an array...
-
-But it took me a minute to understand that this was what the code is
-doing.
-
-If you instead wrote it as:
-
-  for (i = 0..table_nents) {
-  	image_out_table[i].foo = bar;
-	...;
-  }
-
-  context->dump_image = &image_out_table[0];
-
-(Or perhaps even make dump_image an index into image_out_table)
-
-It would have been obvious to me when I looked at the code that you're
-setting up an array and then looping over each entry in the array.
-
-
-So, I don't see anything wrong with the logic, but it would have been
-easier for me if the code manifested this array, as an array...
-
-Perhaps I'm missing some detail which complicates things, as far as I
-can tell the logic presented is reasonable.
-
-Regards,
-Bjorn
