@@ -2,90 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51B2C99DEFF
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 09:02:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E43499DF07
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 09:04:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D928D10E50F;
-	Tue, 15 Oct 2024 07:02:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B944D10E512;
+	Tue, 15 Oct 2024 07:03:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="gHO0Krzv";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="adGzHvaI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B300910E51C;
- Tue, 15 Oct 2024 07:02:54 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49F0nqXK028943;
- Tue, 15 Oct 2024 07:02:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- MNxcovHaCZr4YyZwbkPjdIHNQ44b3u3Z8IXuc9mgySg=; b=gHO0KrzvEjmG+I38
- XvZ3iZIgIEfDAGnxjJ9THEildcaXiNRUlTLyVIepkEyRPRZZB/BhJ6aTkmlh+dKc
- lkXIZZhlBCyJh6JrIoUlQMeI0v3ED9EBc85hCtalLswsLq213f0gGeUC1V5ZGeqP
- fd9maBH5bwIn6Wl/dXbXaXVWSf7dIlIypsimDAK7XSsmFT73qFBihmy/hD0Ujvfb
- NMsxq9yox3t9yLuwgpkFA0b82hY5sbL6PfYsI735xRObr0+oNQ13HDtn6y5CVNTw
- 9hS+4UCrYCX2c7s0YnnWEFhSmcT50V2IzUa/tCVlRAWyj8NakRNGgtnCRBg5Gj1q
- 9Im+FA==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4292evjdhm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Oct 2024 07:02:46 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49F72io5000952
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Oct 2024 07:02:44 GMT
-Received: from [10.204.67.70] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 15 Oct
- 2024 00:02:36 -0700
-Message-ID: <2a2b1373-6cb4-4813-8736-dd7b12c90c0a@quicinc.com>
-Date: Tue, 15 Oct 2024 12:32:33 +0530
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3675410E512
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 07:03:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1728975836;
+ bh=Mw4fakRWtxMujc0unJLXzwWDSCQ4C7hlb7eEQrPyoRk=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=adGzHvaIUmbF3K9fJiNFzY3pDFhc575HCxUqABJKc+hlnloi9GBwsBpS/ERhXln3F
+ JHObbsxYrf91Z51ALCj89vfIXlK0vs5cU915PSGKewaYycuNTersndfDQKhIofTSfd
+ +FpmtVdrpJhgCz2wYAuj6WVD7vKFIdvnn4+aUnpOokd1mvHjmxMAqZPOMkq8iwFVk+
+ n6p4eqISP8mUB4Qj1FP7kHFvwLY2AZdvYYkFp5RhZCJ4QXEQrBWhASaGJaoiRXajhB
+ aYcU2a/6DcLF0i5EbkAUjlyFWcC/E6DqUs8RBUkXebcmh05DJ7gM/5DXnByzP3hloS
+ 8tvG0+ydaofiw==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 7163417E1088;
+ Tue, 15 Oct 2024 09:03:56 +0200 (CEST)
+Date: Tue, 15 Oct 2024 09:03:51 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Liviu Dudau <liviu.dudau@arm.com>
+Cc: Steven Price <steven.price@arm.com>, =?UTF-8?B?QWRyacOhbg==?= Larumbe
+ <adrian.larumbe@collabora.com>, dri-devel@lists.freedesktop.org,
+ kernel@collabora.com
+Subject: Re: [PATCH v2] drm/panthor: Fix firmware initialization on systems
+ with a page size > 4k
+Message-ID: <20241015090351.0838fca7@collabora.com>
+In-Reply-To: <Zw3Anj_54VAcZiA-@e110455-lin.cambridge.arm.com>
+References: <20241014093134.464059-1-boris.brezillon@collabora.com>
+ <Zw3Anj_54VAcZiA-@e110455-lin.cambridge.arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/5] Add support for DisplayPort on SA8775P platform
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: <vkoul@kernel.org>, <kishon@kernel.org>, <konradybcio@kernel.org>,
- <andersson@kernel.org>, <simona@ffwll.ch>, <abel.vesa@linaro.org>,
- <robdclark@gmail.com>, <quic_abhinavk@quicinc.com>, <sean@poorly.run>,
- <marijn.suijten@somainline.org>, <airlied@gmail.com>,
- <daniel@ffwll.ch>, <maarten.lankhorst@linux.intel.com>,
- <mripard@kernel.org>, <tzimmermann@suse.de>, <robh@kernel.org>,
- <krzk+dt@kernel.org>, <conor+dt@kernel.org>, <quic_khsieh@quicinc.com>,
- <konrad.dybcio@linaro.org>, <quic_parellan@quicinc.com>,
- <quic_bjorande@quicinc.com>, <linux-arm-msm@vger.kernel.org>,
- <linux-phy@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
- <devicetree@vger.kernel.org>, <quic_riteshk@quicinc.com>,
- <quic_vproddut@quicinc.com>
-References: <20241004103046.22209-1-quic_mukhopad@quicinc.com>
- <CAA8EJprNz-Byy6T3qkkUyZnTkyb_7osyuevP8E-xYzzPSmQjUw@mail.gmail.com>
-From: Soutrik Mukhopadhyay <quic_mukhopad@quicinc.com>
-In-Reply-To: <CAA8EJprNz-Byy6T3qkkUyZnTkyb_7osyuevP8E-xYzzPSmQjUw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: sX5TkqqPVxeTca0Ty3eh-82zg5gY4O8X
-X-Proofpoint-ORIG-GUID: sX5TkqqPVxeTca0Ty3eh-82zg5gY4O8X
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0
- priorityscore=1501 malwarescore=0 mlxlogscore=999 lowpriorityscore=0
- phishscore=0 adultscore=0 bulkscore=0 mlxscore=0 impostorscore=0
- suspectscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2409260000 definitions=main-2410150047
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,55 +64,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Liviu,
 
-On 10/6/2024 8:30 PM, Dmitry Baryshkov wrote:
-> On Fri, 4 Oct 2024 at 12:30, Soutrik Mukhopadhyay
-> <quic_mukhopad@quicinc.com> wrote:
->> This series adds support for the DisplayPort controller
->> and eDP PHY v5 found on the Qualcomm SA8775P platform.
->>
->> ---
->> v2: Fixed review comments from Dmitry and Bjorn
->>          - Made aux_cfg array as const.
->>          - Reused edp_swing_hbr_rbr and edp_swing_hbr2_hbr3 for v5.
->>
->> v3: Fixed review comments from Dmitry, Konrad and Bjorn
->>          - Used a for loop to write the dp_phy_aux_cfg registers.
->>          - Pre-defined the aux_cfg size to prevent any magic numbers.
->>          - Added all the necessary DPTX controllers for this platform.
->>
->> v4: Fixed review comments from Dmitry and Krzysztof
->>          - Updated commit message.
-> For which patches? How?
+On Tue, 15 Oct 2024 02:08:46 +0100
+Liviu Dudau <liviu.dudau@arm.com> wrote:
 
+> Hi Boris,
+> 
+> I'm a bit confused, I thought the plan was to separate the FW_PAGE_SIZE
+> from the rest of Panthor's PAGE_SIZE.
+> 
+> On Mon, Oct 14, 2024 at 11:31:34AM +0200, Boris Brezillon wrote:
+> > The system and GPU MMU page size might differ, which becomes a
+> > problem for FW sections that need to be mapped at explicit address
+> > since our PAGE_SIZE alignment might cover a VA range that's
+> > expected to be used for another section.
+> > 
+> > Make sure we never map more than we need.  
+> 
+> This ^
+> 
+> > 
+> > Fixes: 2718d91816ee ("drm/panthor: Add the FW logical block")
+> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > ---
+> > Steve, Liviu, Adrian, I intentionally dropped the R-b because of
+> > the panthor_vm_page_size() change. Feel free to add it back if
+> > you're happy with the new version.
+> > ---
+> >  drivers/gpu/drm/panthor/panthor_fw.c  |  4 ++--
+> >  drivers/gpu/drm/panthor/panthor_gem.c | 11 ++++++++---
+> >  drivers/gpu/drm/panthor/panthor_mmu.c | 16 +++++++++++++---
+> >  drivers/gpu/drm/panthor/panthor_mmu.h |  1 +
+> >  4 files changed, 24 insertions(+), 8 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
+> > index ef232c0c2049..4e2d3a02ea06 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_fw.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_fw.c
+> > @@ -487,6 +487,7 @@ static int panthor_fw_load_section_entry(struct panthor_device *ptdev,
+> >  					 struct panthor_fw_binary_iter *iter,
+> >  					 u32 ehdr)
+> >  {
+> > +	ssize_t vm_pgsz = panthor_vm_page_size(ptdev->fw->vm);
+> >  	struct panthor_fw_binary_section_entry_hdr hdr;
+> >  	struct panthor_fw_section *section;
+> >  	u32 section_size;
+> > @@ -515,8 +516,7 @@ static int panthor_fw_load_section_entry(struct panthor_device *ptdev,
+> >  		return -EINVAL;
+> >  	}
+> >  
+> > -	if ((hdr.va.start & ~PAGE_MASK) != 0 ||
+> > -	    (hdr.va.end & ~PAGE_MASK) != 0) {
+> > +	if (!IS_ALIGNED(hdr.va.start, vm_pgsz) || !IS_ALIGNED(hdr.va.end, vm_pgsz)) {  
+> 
+> is falsified by this.
 
-We have removed the "reviewed by" and kept only the "acked by" for patch 
-1. We have updated
+I don't think it is. panthor_vm_page_size() is returning SZ_4K since
+pgsize_bitmap is set to SZ_4K | SZ_2M in panthor_vm_create().
 
-the commit message of patch 5 , to mention specifically about the 
-validation of 'only' MDSS0 DPTX0 and
+> 
+> I think panthor_vm_page_size() is an useful helper to have, but in panthor_fw.c we should use
+> the 4K page mask for allocating firmware sections.
 
-DPTX1.
+That's something we pick at VM creation time. Right now everyone is
+using 4K pages, but I can see a future where user VMs would have a page
+size selected based on the system page size. Basically something like
+that in panthor_vm_create():
 
+   if (PAGE_SIZE < SZ_64K || for_mcu)
+      pgsize_bitmap = SZ_4K | SZ_2M;
+   else
+      pgsize_bitmap = SZ_64K;
 
->
->> ---
->>
->> Soutrik Mukhopadhyay (5):
->>    dt-bindings: phy: Add eDP PHY compatible for sa8775p
->>    phy: qcom: edp: Introduce aux_cfg array for version specific aux
->>      settings
->>    phy: qcom: edp: Add support for eDP PHY on SA8775P
->>    dt-bindings: display: msm: dp-controller: document SA8775P compatible
->>    drm/msm/dp: Add DisplayPort controller for SA8775P
->>
->>   .../bindings/display/msm/dp-controller.yaml   |  1 +
->>   .../devicetree/bindings/phy/qcom,edp-phy.yaml |  1 +
->>   drivers/gpu/drm/msm/dp/dp_display.c           |  9 +++
->>   drivers/phy/qualcomm/phy-qcom-edp.c           | 74 +++++++++++++------
->>   4 files changed, 61 insertions(+), 24 deletions(-)
->>
->> --
->> 2.17.1
->>
->
+> 
+> I've asked for confirmation from the firmware team regarding plans for the future wrt section's page size
+> and will get back to you if my assumption that is going to stay at 4K is wrong.
+
+My intention has never been to use 64K pages for the MCU page table.
+Given the size of the sections mapped there, I don't think it'd make
+sense. What we could do though, is use a kmem_cache cache for such
+allocations, to avoid losing the remaining of the PAGE_SIZE when FW
+sections/allocations are not 4K aligned, but that's a different kind of
+optimization.
+
+Regards,
+
+Boris
