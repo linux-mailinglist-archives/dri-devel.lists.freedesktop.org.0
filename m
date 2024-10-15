@@ -2,106 +2,139 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC83099DE90
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 08:39:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2C7199DEA5
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 08:43:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2D5310E128;
-	Tue, 15 Oct 2024 06:39:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0611A10E504;
+	Tue, 15 Oct 2024 06:43:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="GZLz+I1z";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/Jp0zK4P";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GZLz+I1z";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/Jp0zK4P";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="nH0hT9yl";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="kjNxbJfI";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ARUMLGw1";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qhWduwB/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA17110E128
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 06:39:35 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A12F710E504
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 06:43:47 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
  [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 4E74C1FD89;
- Tue, 15 Oct 2024 06:39:34 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id DC32921C94;
+ Tue, 15 Oct 2024 06:43:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1728974374; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=nLi8kIJ4ZsWin+P6ypSo3CR+rzZUlPN15V3AzxuqhzM=;
- b=GZLz+I1zDRi2AqHNi2erHRmNO4RjDHvcAm65HcSqvMP7T7VCqLOUG0T8sfROdcRZz3SmpE
- TkzJCRzIlP7xFqfQC1y2xNNdMiYOr1peGMCjAwUh6wYWpyP3ODAwXW3HXqCVgQJoXNGbOr
- pQpZhQQ7IpnhnEkPIiGOFKIyfAcbqPQ=
+ t=1728974626; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=OdTBIW7f+j9B4+2XAjBRb8JDYu9AbT2aLwrZYRVzlLg=;
+ b=nH0hT9ylrgBU8bV3/5eA6/OtjzZ2vDlJYNTz0I/xniNgRevnZ6nDiZ2fNpLSKQl2bIK/x/
+ P7jRHiFvxA5QsxRW9Bh5oQX2H+tGi/nDcZzK44VfDjhY3Ftasw4rqFBqPYpbp1bV1oHIrh
+ FKsyltbLoP2HZgUNDbrllCRI4YqsGI8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1728974374;
+ s=susede2_ed25519; t=1728974626;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=nLi8kIJ4ZsWin+P6ypSo3CR+rzZUlPN15V3AzxuqhzM=;
- b=/Jp0zK4PTRc2SYu97Dl0gezt3vcjdFLUoZIL2arlRxRbF34AL92v1FzpA2WCeU3Rgd4U2D
- r0UJCOhGOQCFbsBQ==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=GZLz+I1z;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="/Jp0zK4P"
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=OdTBIW7f+j9B4+2XAjBRb8JDYu9AbT2aLwrZYRVzlLg=;
+ b=kjNxbJfI2tDzc3P0fuixz301U+s3iicdhg+MJx7w4aQXikB/NZ33RgGT8ThhmjYGuTKbw8
+ OtsakaanjAf1PxAg==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ARUMLGw1;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="qhWduwB/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1728974374; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=nLi8kIJ4ZsWin+P6ypSo3CR+rzZUlPN15V3AzxuqhzM=;
- b=GZLz+I1zDRi2AqHNi2erHRmNO4RjDHvcAm65HcSqvMP7T7VCqLOUG0T8sfROdcRZz3SmpE
- TkzJCRzIlP7xFqfQC1y2xNNdMiYOr1peGMCjAwUh6wYWpyP3ODAwXW3HXqCVgQJoXNGbOr
- pQpZhQQ7IpnhnEkPIiGOFKIyfAcbqPQ=
+ t=1728974625; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=OdTBIW7f+j9B4+2XAjBRb8JDYu9AbT2aLwrZYRVzlLg=;
+ b=ARUMLGw17vCqf1lYbEHEnRN4KUEDz8gSZQBf2YmjqBhA7FQmHS44NuR2s9t00XADe4/ShX
+ e14om/bGnrBqvQ+61E1u6I0Th+aP1hQrYKEi+IkonCTYZCWIUDwpInjVG2YuQdg7qosPyo
+ xR8j+3Y92V5A2YcovG6z2BsYk4IxShs=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1728974374;
+ s=susede2_ed25519; t=1728974625;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=nLi8kIJ4ZsWin+P6ypSo3CR+rzZUlPN15V3AzxuqhzM=;
- b=/Jp0zK4PTRc2SYu97Dl0gezt3vcjdFLUoZIL2arlRxRbF34AL92v1FzpA2WCeU3Rgd4U2D
- r0UJCOhGOQCFbsBQ==
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=OdTBIW7f+j9B4+2XAjBRb8JDYu9AbT2aLwrZYRVzlLg=;
+ b=qhWduwB/Djk3MwSd2udCehl5Gy2MkGlnQ24z1ZqUa+vD4yFKhWbwKfmv7OgsAkc5X4Kk1S
+ C2WOhC0VpbPGlpCA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 127BB13A53;
- Tue, 15 Oct 2024 06:39:34 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AF1A513A42;
+ Tue, 15 Oct 2024 06:43:45 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id xC0vAyYODmfzbQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 15 Oct 2024 06:39:34 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: jfalempe@redhat.com, kraxel@redhat.com, airlied@redhat.com,
- tony.luck@intel.com
-Cc: dri-devel@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH] Revert "drm/mgag200: Add vblank support"
-Date: Tue, 15 Oct 2024 08:37:13 +0200
-Message-ID: <20241015063932.8620-1-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.46.0
+ by imap1.dmz-prg2.suse.org with ESMTPSA id /tMWKSEPDmcMbwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 15 Oct 2024 06:43:45 +0000
+Message-ID: <c6ace627-553d-4aef-ad61-fb21efbc5e9a@suse.de>
+Date: Tue, 15 Oct 2024 08:43:45 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 4E74C1FD89
+User-Agent: Mozilla Thunderbird
+Subject: Re: [linux-next:master] [drm/ast] 4e29cc7c5c:
+ WARNING:at_drivers/gpu/drm/ast/ast_dp.c:#ast_dp_set_enable[ast]
+To: kernel test robot <oliver.sang@intel.com>
+Cc: oe-lkp@lists.linux.dev, lkp@intel.com,
+ Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org
+References: <202410151028.f9a3ee37-lkp@intel.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <202410151028.f9a3ee37-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: DC32921C94
 X-Spam-Level: 
-X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_MISSING_CHARSET(0.50)[];
+X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
  R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
  NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; MIME_TRACE(0.00)[0:+];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- TO_DN_SOME(0.00)[];
+ MX_GOOD(-0.01)[]; RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
  RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- ARC_NA(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; FROM_HAS_DN(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- FROM_EQ_ENVFROM(0.00)[];
+ RCVD_TLS_ALL(0.00)[]; MIME_TRACE(0.00)[0:+];
  ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
- RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
- RCPT_COUNT_FIVE(0.00)[6];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email, suse.de:dkim, suse.de:mid,
- intel.com:email, imap1.dmz-prg2.suse.org:helo, imap1.dmz-prg2.suse.org:rdns]
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ TO_DN_SOME(0.00)[];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ MID_RHS_MATCH_FROM(0.00)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ RCPT_COUNT_FIVE(0.00)[5]; RCVD_COUNT_TWO(0.00)[2];
+ TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,intel.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ DKIM_TRACE(0.00)[suse.de:+]
 X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-Rspamd-Action: no action
-X-Spam-Score: -3.01
+X-Spam-Score: -4.51
 X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -118,515 +151,149 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This reverts commit 6c9e14ee9f519ee605a3694fbfa4711284781d22.
-This reverts commit d5070c9b29440c270b534bbacd636b8fa558e82b.
-This reverts commit 89c6ea2006e2d39b125848fb0195c08fa0b354be.
 
-The VLINE interrupt doesn't work correctly on G200SE-A (at least). We
-have also seen missing interrupts on G200ER. So revert vblank support.
-Fixes frozen displays and warnings about missed vblanks.
 
-[   33.818362] [CRTC:34:crtc-0] vblank wait timed out
+Am 15.10.24 um 04:44 schrieb kernel test robot:
+>
+> Hello,
+>
+> kernel test robot noticed "WARNING:at_drivers/gpu/drm/ast/ast_dp.c:#ast_dp_set_enable[ast]" on:
+>
+> commit: 4e29cc7c5c673299cfbaf4982fc8b6a72c9f706f ("drm/ast: astdp: Replace ast_dp_set_on_off()")
+> https://git.kernel.org/cgit/linux/kernel/git/next/linux-next.git master
+>
+> [test failed on linux-next/master d61a00525464bfc5fe92c6ad713350988e492b88]
+>
+> in testcase: lkvs
+> version: lkvs-x86_64-8e3b482-1_20241008
+> with following parameters:
+>
+> 	test: rapl-server
+>
+>
+>
+> config: x86_64-rhel-8.3-func
+> compiler: gcc-12
+> test machine: 384 threads 4 sockets GENUINE INTEL(R) XEON(R) (Granite Rapids) with 128G memory
+>
+> (please refer to attached dmesg/kmsg for entire log/backtrace)
+>
+>
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <oliver.sang@intel.com>
+> | Closes: https://lore.kernel.org/oe-lkp/202410151028.f9a3ee37-lkp@intel.com
+>
+>
+> The kernel config and materials to reproduce are available at:
+> https://download.01.org/0day-ci/archive/20241015/202410151028.f9a3ee37-lkp@intel.com
+>
+>
+>
+> kern  :err   : [  234.161306] ast 0000:2d:00.0: [drm] *ERROR* Link training failed
+> kern  :warn  : [  234.375338] ------------[ cut here ]------------
+> kern  :warn  : [  234.375347] ast 0000:2d:00.0: [drm] drm_WARN_ON(!__ast_dp_wait_enable(ast, enabled))
+> kern  :warn  : [  234.375489] WARNING: CPU: 0 PID: 8 at drivers/gpu/drm/ast/ast_dp.c:221 ast_dp_set_enable+0x153/0x1c0 [ast]
 
-From the vblank code, the driver only keeps the register constants and
-the line that disables all interrupts in mgag200_device_init(). Both
-is still useful without vblank handling.
+That's a HW issue. Aspeed isn't 100% DP compatible and therefore not all 
+displays work. The link training happens internally in firmware; all we 
+see is a status bit with the result.
 
-Reported-by: Tony Luck <tony.luck@intel.com>
-Closes: https://lore.kernel.org/dri-devel/Zvx6lSi7oq5xvTZb@agluck-desk3.sc.intel.com/raw
-Tested-by: Tony Luck <tony.luck@intel.com>
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/mgag200/mgag200_drv.c     | 38 -----------
- drivers/gpu/drm/mgag200/mgag200_drv.h     | 14 +----
- drivers/gpu/drm/mgag200/mgag200_g200.c    |  5 --
- drivers/gpu/drm/mgag200/mgag200_g200eh.c  |  5 --
- drivers/gpu/drm/mgag200/mgag200_g200eh3.c |  5 --
- drivers/gpu/drm/mgag200/mgag200_g200er.c  | 10 +--
- drivers/gpu/drm/mgag200/mgag200_g200ev.c  | 10 +--
- drivers/gpu/drm/mgag200/mgag200_g200ew3.c |  5 --
- drivers/gpu/drm/mgag200/mgag200_g200se.c  | 10 +--
- drivers/gpu/drm/mgag200/mgag200_g200wb.c  |  5 --
- drivers/gpu/drm/mgag200/mgag200_mode.c    | 77 +----------------------
- 11 files changed, 6 insertions(+), 178 deletions(-)
+> kern  :warn  : [  234.375541] Modules linked in: intel_uncore_frequency_tpmi ast(+) nvme intel_uncore_frequency_common intel_cstate intel_vsec_tpmi drm_shmem_helper intel_uncore dax_hmem drm_kms_helper qat_4xxx intel_th_gth nvme_core intel_qat dh_generic idxd intel_th_pci crc8 i2c_i801 intel_vsec i2c_smbus intel_th authenc idxd_bus wmi ipmi_ssif joydev acpi_ipmi ipmi_si ipmi_devintf ipmi_msghandler binfmt_misc loop fuse drm dm_mod ip_tables
+> kern  :warn  : [  234.375610] CPU: 0 UID: 0 PID: 8 Comm: kworker/0:0 Not tainted 6.11.0-rc7-01434-g4e29cc7c5c67 #1
+> kern  :warn  : [  234.375622] Workqueue: events work_for_cpu_fn
+> kern  :warn  : [  234.375657] RIP: 0010:ast_dp_set_enable+0x153/0x1c0 [ast]
+> kern  :warn  : [  234.375667] Code: 48 8b 6b 50 48 85 ed 74 32 48 89 df e8 f6 73 1f bd 48 c7 c1 20 e4 80 c5 48 89 ea 48 c7 c7 80 e4 80 c5 48 89 c6 e8 6d a2 9e bb <0f> 0b 5b 5d 41 5c 41 5d 41 5e 41 5f c3 cc cc cc cc 48 b8 00 00 00
+> kern  :warn  : [  234.375675] RSP: 0018:ffa0000000f87480 EFLAGS: 00010286
+> kern  :warn  : [  234.375684] RAX: 0000000000000000 RBX: ff110910893960c8 RCX: 0000000000000027
+> kern  :warn  : [  234.375687] RDX: 0000000000000027 RSI: 0000000000000004 RDI: ff1100081d030b08
+> kern  :warn  : [  234.375692] RBP: ff110910898e8e40 R08: 0000000000000001 R09: ffe21c0103a06161
+> kern  :warn  : [  234.375696] R10: ff1100081d030b0b R11: 0000000000000016 R12: 0000000000000010
+> kern  :warn  : [  234.375699] R13: ff11000171490000 R14: ffe21c002e2920c4 R15: ff11000171490620
+> kern  :warn  : [  234.375702] FS:  0000000000000000(0000) GS:ff1100081d000000(0000) knlGS:0000000000000000
+> kern  :warn  : [  234.375706] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> kern  :warn  : [  234.375708] CR2: 00007f5f08e5e423 CR3: 000000017b5a2002 CR4: 0000000000f71ef0
+> kern  :warn  : [  234.375710] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+> kern  :warn  : [  234.375712] DR3: 0000000000000000 DR6: 00000000fffe07f0 DR7: 0000000000000400
+> kern  :warn  : [  234.375714] PKRU: 55555554
+> kern  :warn  : [  234.375716] Call Trace:
+> kern  :warn  : [  234.375722]  <TASK>
+> kern  :warn  : [  234.375727]  ? __warn+0xcc/0x260
+> kern  :warn  : [  234.375740]  ? ast_dp_set_enable+0x153/0x1c0 [ast]
+> kern  :warn  : [  234.375749]  ? report_bug+0x261/0x2c0
+> kern  :warn  : [  234.375772]  ? handle_bug+0x3c/0x70
+> kern  :warn  : [  234.375789]  ? exc_invalid_op+0x17/0x40
+> kern  :warn  : [  234.375793]  ? asm_exc_invalid_op+0x1a/0x20
+> kern  :warn  : [  234.375813]  ? ast_dp_set_enable+0x153/0x1c0 [ast]
+> kern  :warn  : [  234.375822]  ast_astdp_encoder_helper_atomic_enable+0x215/0x280 [ast]
+> kern  :warn  : [  234.375831]  ? __pfx_ast_astdp_encoder_helper_atomic_enable+0x10/0x10 [ast]
+> kern  :warn  : [  234.375841]  drm_atomic_helper_commit_modeset_enables+0x52a/0xb20 [drm_kms_helper]
+> kern  :warn  : [  234.375891]  ? drm_atomic_helper_wait_for_dependencies+0x45f/0x7d0 [drm_kms_helper]
+> kern  :warn  : [  234.375912]  drm_atomic_helper_commit_tail+0x72/0xd0 [drm_kms_helper]
+> kern  :warn  : [  234.375934]  ast_mode_config_helper_atomic_commit_tail+0x44/0x60 [ast]
+> kern  :warn  : [  234.375945]  commit_tail+0x227/0x4b0 [drm_kms_helper]
+> kern  :warn  : [  234.375969]  drm_atomic_helper_commit+0x1ff/0x280 [drm_kms_helper]
+> kern  :warn  : [  234.375991]  ? __pfx_drm_atomic_helper_commit+0x10/0x10 [drm_kms_helper]
+> kern  :warn  : [  234.376014]  drm_atomic_commit+0x1ec/0x2b0 [drm]
+> kern  :warn  : [  234.376114]  ? __drm_atomic_helper_set_config+0x49f/0x6c0 [drm]
+> kern  :warn  : [  234.376164]  ? __pfx_drm_atomic_commit+0x10/0x10 [drm]
+> kern  :warn  : [  234.376214]  ? __pfx___drm_atomic_helper_set_config+0x10/0x10 [drm]
+> kern  :warn  : [  234.376263]  ? __pfx___drm_printfn_info+0x10/0x10 [drm]
+> kern  :warn  : [  234.376350]  ? drm_atomic_set_fb_for_plane+0x1bf/0x280 [drm]
+> kern  :warn  : [  234.376404]  drm_client_modeset_commit_atomic+0x528/0x680 [drm]
+> kern  :warn  : [  234.376460]  ? __pfx_drm_client_modeset_commit_atomic+0x10/0x10 [drm]
+> kern  :warn  : [  234.376517]  ? __pfx___might_resched+0x10/0x10
+> kern  :warn  : [  234.376534]  ? __pfx_mutex_lock+0x10/0x10
+> kern  :warn  : [  234.376552]  ? __pfx_mutex_lock+0x10/0x10
+> kern  :warn  : [  234.376556]  drm_client_modeset_commit_locked+0x125/0x440 [drm]
+> kern  :warn  : [  234.376616]  drm_client_modeset_commit+0x3c/0x60 [drm]
+> kern  :warn  : [  234.376671]  __drm_fb_helper_restore_fbdev_mode_unlocked+0xd5/0x120 [drm_kms_helper]
+> kern  :warn  : [  234.376693]  drm_fb_helper_set_par+0xae/0xe0 [drm_kms_helper]
+> kern  :warn  : [  234.376719]  fbcon_init+0x77d/0x1760
+> kern  :warn  : [  234.376742]  visual_init+0x2ff/0x5e0
+> kern  :warn  : [  234.376771]  do_bind_con_driver+0x4b3/0xb50
+> kern  :warn  : [  234.376783]  ? do_register_con_driver+0x3ab/0x5b0
+> kern  :warn  : [  234.376788]  ? _raw_spin_lock_irqsave+0x8b/0xf0
+> kern  :warn  : [  234.376797]  do_take_over_console+0x37/0x50
+> kern  :warn  : [  234.376801]  do_fbcon_takeover+0xaa/0x1b0
+> kern  :warn  : [  234.376805]  fbcon_fb_registered+0x23/0x80
+> kern  :warn  : [  234.376809]  do_register_framebuffer+0x39d/0x710
+> kern  :warn  : [  234.376821]  ? __pfx_do_register_framebuffer+0x10/0x10
+> kern  :warn  : [  234.376824]  ? __pfx_mutex_lock+0x10/0x10
+> kern  :warn  : [  234.376827]  ? __pfx_mutex_unlock+0x10/0x10
+> kern  :warn  : [  234.376831]  register_framebuffer+0x21/0x40
+> kern  :warn  : [  234.376834]  __drm_fb_helper_initial_config_and_unlock+0x173/0x3e0 [drm_kms_helper]
+> kern  :warn  : [  234.376858]  drm_fbdev_shmem_client_hotplug+0x161/0x220 [drm_shmem_helper]
+> kern  :warn  : [  234.376872]  drm_client_register+0x168/0x240 [drm]
+> kern  :warn  : [  234.376927]  ast_pci_probe+0x2f9/0x4b0 [ast]
+> kern  :warn  : [  234.376941]  ? __pfx_ast_pci_probe+0x10/0x10 [ast]
+> kern  :warn  : [  234.376950]  ? __pfx__raw_spin_lock_irqsave+0x10/0x10
+> kern  :warn  : [  234.376956]  ? __schedule+0x7ec/0x1950
+> kern  :warn  : [  234.376972]  ? __pfx_ast_pci_probe+0x10/0x10 [ast]
+> kern  :warn  : [  234.376979]  local_pci_probe+0xda/0x190
+> kern  :warn  : [  234.376999]  ? __pfx_local_pci_probe+0x10/0x10
+> kern  :warn  : [  234.377002]  work_for_cpu_fn+0x52/0xa0
+> kern  :warn  : [  234.377006]  process_one_work+0x676/0x1000
+> kern  :warn  : [  234.377021]  worker_thread+0x714/0xf10
+> kern  :warn  : [  234.377024]  ? __pfx_worker_thread+0x10/0x10
+> kern  :warn  : [  234.377027]  kthread+0x2d8/0x3c0
+> kern  :warn  : [  234.377041]  ? __pfx_kthread+0x10/0x10
+> kern  :warn  : [  234.377044]  ret_from_fork+0x31/0x70
+> kern  :warn  : [  234.377063]  ? __pfx_kthread+0x10/0x10
+> kern  :warn  : [  234.377066]  ret_from_fork_asm+0x1a/0x30
+> kern  :warn  : [  234.377080]  </TASK>
+> kern  :warn  : [  234.377084] ---[ end trace 0000000000000000 ]---
+> kern  :info  : [  234.377496] Console: switching to colour frame buffer device 80x30
+> kern  :info  : [  235.421603] ast 0000:2d:00.0: [drm] fb0: astdrmfb frame buffer device
+>
 
-diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.c b/drivers/gpu/drm/mgag200/mgag200_drv.c
-index 42fabe817e21..97fd7eb765b4 100644
---- a/drivers/gpu/drm/mgag200/mgag200_drv.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_drv.c
-@@ -20,7 +20,6 @@
- #include <drm/drm_managed.h>
- #include <drm/drm_module.h>
- #include <drm/drm_pciids.h>
--#include <drm/drm_vblank.h>
- 
- #include "mgag200_drv.h"
- 
-@@ -87,34 +86,6 @@ resource_size_t mgag200_probe_vram(void __iomem *mem, resource_size_t size)
- 	return offset - 65536;
- }
- 
--static irqreturn_t mgag200_irq_handler(int irq, void *arg)
--{
--	struct drm_device *dev = arg;
--	struct mga_device *mdev = to_mga_device(dev);
--	struct drm_crtc *crtc;
--	u32 status, ien;
--
--	status = RREG32(MGAREG_STATUS);
--
--	if (status & MGAREG_STATUS_VLINEPEN) {
--		ien = RREG32(MGAREG_IEN);
--		if (!(ien & MGAREG_IEN_VLINEIEN))
--			goto out;
--
--		crtc = drm_crtc_from_index(dev, 0);
--		if (WARN_ON_ONCE(!crtc))
--			goto out;
--		drm_crtc_handle_vblank(crtc);
--
--		WREG32(MGAREG_ICLEAR, MGAREG_ICLEAR_VLINEICLR);
--
--		return IRQ_HANDLED;
--	}
--
--out:
--	return IRQ_NONE;
--}
--
- /*
-  * DRM driver
-  */
-@@ -199,7 +170,6 @@ int mgag200_device_init(struct mga_device *mdev,
- 			const struct mgag200_device_funcs *funcs)
- {
- 	struct drm_device *dev = &mdev->base;
--	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 	u8 crtcext3, misc;
- 	int ret;
- 
-@@ -226,14 +196,6 @@ int mgag200_device_init(struct mga_device *mdev,
- 	mutex_unlock(&mdev->rmmio_lock);
- 
- 	WREG32(MGAREG_IEN, 0);
--	WREG32(MGAREG_ICLEAR, MGAREG_ICLEAR_VLINEICLR);
--
--	ret = devm_request_irq(&pdev->dev, pdev->irq, mgag200_irq_handler, IRQF_SHARED,
--			       dev->driver->name, dev);
--	if (ret) {
--		drm_err(dev, "Failed to acquire interrupt, error %d\n", ret);
--		return ret;
--	}
- 
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mgag200/mgag200_drv.h
-index 4760ba92871b..988967eafbf2 100644
---- a/drivers/gpu/drm/mgag200/mgag200_drv.h
-+++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
-@@ -391,24 +391,17 @@ int mgag200_crtc_helper_atomic_check(struct drm_crtc *crtc, struct drm_atomic_st
- void mgag200_crtc_helper_atomic_flush(struct drm_crtc *crtc, struct drm_atomic_state *old_state);
- void mgag200_crtc_helper_atomic_enable(struct drm_crtc *crtc, struct drm_atomic_state *old_state);
- void mgag200_crtc_helper_atomic_disable(struct drm_crtc *crtc, struct drm_atomic_state *old_state);
--bool mgag200_crtc_helper_get_scanout_position(struct drm_crtc *crtc, bool in_vblank_irq,
--					      int *vpos, int *hpos,
--					      ktime_t *stime, ktime_t *etime,
--					      const struct drm_display_mode *mode);
- 
- #define MGAG200_CRTC_HELPER_FUNCS \
- 	.mode_valid = mgag200_crtc_helper_mode_valid, \
- 	.atomic_check = mgag200_crtc_helper_atomic_check, \
- 	.atomic_flush = mgag200_crtc_helper_atomic_flush, \
- 	.atomic_enable = mgag200_crtc_helper_atomic_enable, \
--	.atomic_disable = mgag200_crtc_helper_atomic_disable, \
--	.get_scanout_position = mgag200_crtc_helper_get_scanout_position
-+	.atomic_disable = mgag200_crtc_helper_atomic_disable
- 
- void mgag200_crtc_reset(struct drm_crtc *crtc);
- struct drm_crtc_state *mgag200_crtc_atomic_duplicate_state(struct drm_crtc *crtc);
- void mgag200_crtc_atomic_destroy_state(struct drm_crtc *crtc, struct drm_crtc_state *crtc_state);
--int mgag200_crtc_enable_vblank(struct drm_crtc *crtc);
--void mgag200_crtc_disable_vblank(struct drm_crtc *crtc);
- 
- #define MGAG200_CRTC_FUNCS \
- 	.reset = mgag200_crtc_reset, \
-@@ -416,10 +409,7 @@ void mgag200_crtc_disable_vblank(struct drm_crtc *crtc);
- 	.set_config = drm_atomic_helper_set_config, \
- 	.page_flip = drm_atomic_helper_page_flip, \
- 	.atomic_duplicate_state = mgag200_crtc_atomic_duplicate_state, \
--	.atomic_destroy_state = mgag200_crtc_atomic_destroy_state, \
--	.enable_vblank = mgag200_crtc_enable_vblank, \
--	.disable_vblank = mgag200_crtc_disable_vblank, \
--	.get_vblank_timestamp = drm_crtc_vblank_helper_get_vblank_timestamp
-+	.atomic_destroy_state = mgag200_crtc_atomic_destroy_state
- 
- void mgag200_set_mode_regs(struct mga_device *mdev, const struct drm_display_mode *mode,
- 			   bool set_vidrst);
-diff --git a/drivers/gpu/drm/mgag200/mgag200_g200.c b/drivers/gpu/drm/mgag200/mgag200_g200.c
-index 77ce8d36cef0..f874e2949840 100644
---- a/drivers/gpu/drm/mgag200/mgag200_g200.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_g200.c
-@@ -8,7 +8,6 @@
- #include <drm/drm_drv.h>
- #include <drm/drm_gem_atomic_helper.h>
- #include <drm/drm_probe_helper.h>
--#include <drm/drm_vblank.h>
- 
- #include "mgag200_drv.h"
- 
-@@ -404,9 +403,5 @@ struct mga_device *mgag200_g200_device_create(struct pci_dev *pdev, const struct
- 	drm_mode_config_reset(dev);
- 	drm_kms_helper_poll_init(dev);
- 
--	ret = drm_vblank_init(dev, 1);
--	if (ret)
--		return ERR_PTR(ret);
--
- 	return mdev;
- }
-diff --git a/drivers/gpu/drm/mgag200/mgag200_g200eh.c b/drivers/gpu/drm/mgag200/mgag200_g200eh.c
-index 09ced65c1d2f..e2305f8e00f8 100644
---- a/drivers/gpu/drm/mgag200/mgag200_g200eh.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_g200eh.c
-@@ -8,7 +8,6 @@
- #include <drm/drm_drv.h>
- #include <drm/drm_gem_atomic_helper.h>
- #include <drm/drm_probe_helper.h>
--#include <drm/drm_vblank.h>
- 
- #include "mgag200_drv.h"
- 
-@@ -276,9 +275,5 @@ struct mga_device *mgag200_g200eh_device_create(struct pci_dev *pdev, const stru
- 	drm_mode_config_reset(dev);
- 	drm_kms_helper_poll_init(dev);
- 
--	ret = drm_vblank_init(dev, 1);
--	if (ret)
--		return ERR_PTR(ret);
--
- 	return mdev;
- }
-diff --git a/drivers/gpu/drm/mgag200/mgag200_g200eh3.c b/drivers/gpu/drm/mgag200/mgag200_g200eh3.c
-index 5daa469137bd..11ae76eb081d 100644
---- a/drivers/gpu/drm/mgag200/mgag200_g200eh3.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_g200eh3.c
-@@ -7,7 +7,6 @@
- #include <drm/drm_drv.h>
- #include <drm/drm_gem_atomic_helper.h>
- #include <drm/drm_probe_helper.h>
--#include <drm/drm_vblank.h>
- 
- #include "mgag200_drv.h"
- 
-@@ -181,9 +180,5 @@ struct mga_device *mgag200_g200eh3_device_create(struct pci_dev *pdev,
- 	drm_mode_config_reset(dev);
- 	drm_kms_helper_poll_init(dev);
- 
--	ret = drm_vblank_init(dev, 1);
--	if (ret)
--		return ERR_PTR(ret);
--
- 	return mdev;
- }
-diff --git a/drivers/gpu/drm/mgag200/mgag200_g200er.c b/drivers/gpu/drm/mgag200/mgag200_g200er.c
-index 09cfffafe130..c20ed0ab50ec 100644
---- a/drivers/gpu/drm/mgag200/mgag200_g200er.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_g200er.c
-@@ -8,7 +8,6 @@
- #include <drm/drm_drv.h>
- #include <drm/drm_gem_atomic_helper.h>
- #include <drm/drm_probe_helper.h>
--#include <drm/drm_vblank.h>
- 
- #include "mgag200_drv.h"
- 
-@@ -206,8 +205,6 @@ static void mgag200_g200er_crtc_helper_atomic_enable(struct drm_crtc *crtc,
- 		mgag200_crtc_set_gamma_linear(mdev, format);
- 
- 	mgag200_enable_display(mdev);
--
--	drm_crtc_vblank_on(crtc);
- }
- 
- static const struct drm_crtc_helper_funcs mgag200_g200er_crtc_helper_funcs = {
-@@ -215,8 +212,7 @@ static const struct drm_crtc_helper_funcs mgag200_g200er_crtc_helper_funcs = {
- 	.atomic_check = mgag200_crtc_helper_atomic_check,
- 	.atomic_flush = mgag200_crtc_helper_atomic_flush,
- 	.atomic_enable = mgag200_g200er_crtc_helper_atomic_enable,
--	.atomic_disable = mgag200_crtc_helper_atomic_disable,
--	.get_scanout_position = mgag200_crtc_helper_get_scanout_position,
-+	.atomic_disable = mgag200_crtc_helper_atomic_disable
- };
- 
- static const struct drm_crtc_funcs mgag200_g200er_crtc_funcs = {
-@@ -312,9 +308,5 @@ struct mga_device *mgag200_g200er_device_create(struct pci_dev *pdev, const stru
- 	drm_mode_config_reset(dev);
- 	drm_kms_helper_poll_init(dev);
- 
--	ret = drm_vblank_init(dev, 1);
--	if (ret)
--		return ERR_PTR(ret);
--
- 	return mdev;
- }
-diff --git a/drivers/gpu/drm/mgag200/mgag200_g200ev.c b/drivers/gpu/drm/mgag200/mgag200_g200ev.c
-index 3d48baa91d8b..78be964eb97c 100644
---- a/drivers/gpu/drm/mgag200/mgag200_g200ev.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_g200ev.c
-@@ -8,7 +8,6 @@
- #include <drm/drm_drv.h>
- #include <drm/drm_gem_atomic_helper.h>
- #include <drm/drm_probe_helper.h>
--#include <drm/drm_vblank.h>
- 
- #include "mgag200_drv.h"
- 
-@@ -207,8 +206,6 @@ static void mgag200_g200ev_crtc_helper_atomic_enable(struct drm_crtc *crtc,
- 		mgag200_crtc_set_gamma_linear(mdev, format);
- 
- 	mgag200_enable_display(mdev);
--
--	drm_crtc_vblank_on(crtc);
- }
- 
- static const struct drm_crtc_helper_funcs mgag200_g200ev_crtc_helper_funcs = {
-@@ -216,8 +213,7 @@ static const struct drm_crtc_helper_funcs mgag200_g200ev_crtc_helper_funcs = {
- 	.atomic_check = mgag200_crtc_helper_atomic_check,
- 	.atomic_flush = mgag200_crtc_helper_atomic_flush,
- 	.atomic_enable = mgag200_g200ev_crtc_helper_atomic_enable,
--	.atomic_disable = mgag200_crtc_helper_atomic_disable,
--	.get_scanout_position = mgag200_crtc_helper_get_scanout_position,
-+	.atomic_disable = mgag200_crtc_helper_atomic_disable
- };
- 
- static const struct drm_crtc_funcs mgag200_g200ev_crtc_funcs = {
-@@ -317,9 +313,5 @@ struct mga_device *mgag200_g200ev_device_create(struct pci_dev *pdev, const stru
- 	drm_mode_config_reset(dev);
- 	drm_kms_helper_poll_init(dev);
- 
--	ret = drm_vblank_init(dev, 1);
--	if (ret)
--		return ERR_PTR(ret);
--
- 	return mdev;
- }
-diff --git a/drivers/gpu/drm/mgag200/mgag200_g200ew3.c b/drivers/gpu/drm/mgag200/mgag200_g200ew3.c
-index dabc778e64e8..31624c9ab7b7 100644
---- a/drivers/gpu/drm/mgag200/mgag200_g200ew3.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_g200ew3.c
-@@ -7,7 +7,6 @@
- #include <drm/drm_drv.h>
- #include <drm/drm_gem_atomic_helper.h>
- #include <drm/drm_probe_helper.h>
--#include <drm/drm_vblank.h>
- 
- #include "mgag200_drv.h"
- 
-@@ -199,9 +198,5 @@ struct mga_device *mgag200_g200ew3_device_create(struct pci_dev *pdev,
- 	drm_mode_config_reset(dev);
- 	drm_kms_helper_poll_init(dev);
- 
--	ret = drm_vblank_init(dev, 1);
--	if (ret)
--		return ERR_PTR(ret);
--
- 	return mdev;
- }
-diff --git a/drivers/gpu/drm/mgag200/mgag200_g200se.c b/drivers/gpu/drm/mgag200/mgag200_g200se.c
-index 9dcbe8304271..7a32d3b1d226 100644
---- a/drivers/gpu/drm/mgag200/mgag200_g200se.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_g200se.c
-@@ -8,7 +8,6 @@
- #include <drm/drm_drv.h>
- #include <drm/drm_gem_atomic_helper.h>
- #include <drm/drm_probe_helper.h>
--#include <drm/drm_vblank.h>
- 
- #include "mgag200_drv.h"
- 
-@@ -338,8 +337,6 @@ static void mgag200_g200se_crtc_helper_atomic_enable(struct drm_crtc *crtc,
- 		mgag200_crtc_set_gamma_linear(mdev, format);
- 
- 	mgag200_enable_display(mdev);
--
--	drm_crtc_vblank_on(crtc);
- }
- 
- static const struct drm_crtc_helper_funcs mgag200_g200se_crtc_helper_funcs = {
-@@ -347,8 +344,7 @@ static const struct drm_crtc_helper_funcs mgag200_g200se_crtc_helper_funcs = {
- 	.atomic_check = mgag200_crtc_helper_atomic_check,
- 	.atomic_flush = mgag200_crtc_helper_atomic_flush,
- 	.atomic_enable = mgag200_g200se_crtc_helper_atomic_enable,
--	.atomic_disable = mgag200_crtc_helper_atomic_disable,
--	.get_scanout_position = mgag200_crtc_helper_get_scanout_position,
-+	.atomic_disable = mgag200_crtc_helper_atomic_disable
- };
- 
- static const struct drm_crtc_funcs mgag200_g200se_crtc_funcs = {
-@@ -517,9 +513,5 @@ struct mga_device *mgag200_g200se_device_create(struct pci_dev *pdev, const stru
- 	drm_mode_config_reset(dev);
- 	drm_kms_helper_poll_init(dev);
- 
--	ret = drm_vblank_init(dev, 1);
--	if (ret)
--		return ERR_PTR(ret);
--
- 	return mdev;
- }
-diff --git a/drivers/gpu/drm/mgag200/mgag200_g200wb.c b/drivers/gpu/drm/mgag200/mgag200_g200wb.c
-index 83a24aedbf2f..a0e7b9ad46cd 100644
---- a/drivers/gpu/drm/mgag200/mgag200_g200wb.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_g200wb.c
-@@ -8,7 +8,6 @@
- #include <drm/drm_drv.h>
- #include <drm/drm_gem_atomic_helper.h>
- #include <drm/drm_probe_helper.h>
--#include <drm/drm_vblank.h>
- 
- #include "mgag200_drv.h"
- 
-@@ -323,9 +322,5 @@ struct mga_device *mgag200_g200wb_device_create(struct pci_dev *pdev, const stru
- 	drm_mode_config_reset(dev);
- 	drm_kms_helper_poll_init(dev);
- 
--	ret = drm_vblank_init(dev, 1);
--	if (ret)
--		return ERR_PTR(ret);
--
- 	return mdev;
- }
-diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
-index 7159909aca1e..fb71658c3117 100644
---- a/drivers/gpu/drm/mgag200/mgag200_mode.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
-@@ -22,7 +22,6 @@
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_panic.h>
- #include <drm/drm_print.h>
--#include <drm/drm_vblank.h>
- 
- #include "mgag200_ddc.h"
- #include "mgag200_drv.h"
-@@ -227,14 +226,7 @@ void mgag200_set_mode_regs(struct mga_device *mdev, const struct drm_display_mod
- 	vblkstr = mode->crtc_vblank_start;
- 	vblkend = vtotal + 1;
- 
--	/*
--	 * There's no VBLANK interrupt on Matrox chipsets, so we use
--	 * the VLINE interrupt instead. It triggers when the current
--	 * <linecomp> has been reached. For VBLANK, this is the first
--	 * non-visible line at the bottom of the screen. Therefore,
--	 * keep <linecomp> in sync with <vblkstr>.
--	 */
--	linecomp = vblkstr;
-+	linecomp = vdispend;
- 
- 	misc = RREG8(MGA_MISC_IN);
- 
-@@ -645,8 +637,6 @@ void mgag200_crtc_helper_atomic_flush(struct drm_crtc *crtc, struct drm_atomic_s
- 	struct mgag200_crtc_state *mgag200_crtc_state = to_mgag200_crtc_state(crtc_state);
- 	struct drm_device *dev = crtc->dev;
- 	struct mga_device *mdev = to_mga_device(dev);
--	struct drm_pending_vblank_event *event;
--	unsigned long flags;
- 
- 	if (crtc_state->enable && crtc_state->color_mgmt_changed) {
- 		const struct drm_format_info *format = mgag200_crtc_state->format;
-@@ -656,18 +646,6 @@ void mgag200_crtc_helper_atomic_flush(struct drm_crtc *crtc, struct drm_atomic_s
- 		else
- 			mgag200_crtc_set_gamma_linear(mdev, format);
- 	}
--
--	event = crtc->state->event;
--	if (event) {
--		crtc->state->event = NULL;
--
--		spin_lock_irqsave(&dev->event_lock, flags);
--		if (drm_crtc_vblank_get(crtc) != 0)
--			drm_crtc_send_vblank_event(crtc, event);
--		else
--			drm_crtc_arm_vblank_event(crtc, event);
--		spin_unlock_irqrestore(&dev->event_lock, flags);
--	}
- }
- 
- void mgag200_crtc_helper_atomic_enable(struct drm_crtc *crtc, struct drm_atomic_state *old_state)
-@@ -692,44 +670,15 @@ void mgag200_crtc_helper_atomic_enable(struct drm_crtc *crtc, struct drm_atomic_
- 		mgag200_crtc_set_gamma_linear(mdev, format);
- 
- 	mgag200_enable_display(mdev);
--
--	drm_crtc_vblank_on(crtc);
- }
- 
- void mgag200_crtc_helper_atomic_disable(struct drm_crtc *crtc, struct drm_atomic_state *old_state)
- {
- 	struct mga_device *mdev = to_mga_device(crtc->dev);
- 
--	drm_crtc_vblank_off(crtc);
--
- 	mgag200_disable_display(mdev);
- }
- 
--bool mgag200_crtc_helper_get_scanout_position(struct drm_crtc *crtc, bool in_vblank_irq,
--					      int *vpos, int *hpos,
--					      ktime_t *stime, ktime_t *etime,
--					      const struct drm_display_mode *mode)
--{
--	struct mga_device *mdev = to_mga_device(crtc->dev);
--	u32 vcount;
--
--	if (stime)
--		*stime = ktime_get();
--
--	if (vpos) {
--		vcount = RREG32(MGAREG_VCOUNT);
--		*vpos = vcount & GENMASK(11, 0);
--	}
--
--	if (hpos)
--		*hpos = mode->htotal >> 1; // near middle of scanline on average
--
--	if (etime)
--		*etime = ktime_get();
--
--	return true;
--}
--
- void mgag200_crtc_reset(struct drm_crtc *crtc)
- {
- 	struct mgag200_crtc_state *mgag200_crtc_state;
-@@ -774,30 +723,6 @@ void mgag200_crtc_atomic_destroy_state(struct drm_crtc *crtc, struct drm_crtc_st
- 	kfree(mgag200_crtc_state);
- }
- 
--int mgag200_crtc_enable_vblank(struct drm_crtc *crtc)
--{
--	struct mga_device *mdev = to_mga_device(crtc->dev);
--	u32 ien;
--
--	WREG32(MGAREG_ICLEAR, MGAREG_ICLEAR_VLINEICLR);
--
--	ien = RREG32(MGAREG_IEN);
--	ien |= MGAREG_IEN_VLINEIEN;
--	WREG32(MGAREG_IEN, ien);
--
--	return 0;
--}
--
--void mgag200_crtc_disable_vblank(struct drm_crtc *crtc)
--{
--	struct mga_device *mdev = to_mga_device(crtc->dev);
--	u32 ien;
--
--	ien = RREG32(MGAREG_IEN);
--	ien &= ~(MGAREG_IEN_VLINEIEN);
--	WREG32(MGAREG_IEN, ien);
--}
--
- /*
-  * Mode config
-  */
 -- 
-2.46.0
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
