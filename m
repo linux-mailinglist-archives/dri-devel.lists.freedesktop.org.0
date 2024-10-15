@@ -2,55 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B00F99EC3D
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 15:16:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88B5099EC52
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 15:17:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7C6D10E2CD;
-	Tue, 15 Oct 2024 13:16:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0306910E585;
+	Tue, 15 Oct 2024 13:17:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="YqAOHcpM";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="E33aBxat";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 456B210E2CD
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 13:16:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=6R5OAWENthSxynw5iixzyu/53uuwEtHXURRYlDWbWmk=; b=YqAOHcpMAx6ZDqJ6z5TY1FcdNp
- Idupu0B0jXFshhkL26XE0Ibi9JtBzRTGXu9eyv6pScunJ89EdBB9butVN1YcWOU6AxEOzWYWW6UGN
- UQaMKdIwPPabnasrlx0oolX9hzZMBd0QP13sjwV9SiXRRBnXMLCg/8o8s4Oq3lhIpoziLzdxFwVZw
- KahPSCP+2pkYQqJpf3WXHVBosjhyEi4Dap61igye7g2MWBVqZ7LbFDlUYDO1t8TOgqsexYEYHqtr5
- XZn48dmP6980i0270SjkXUc6RolGvozqC2jj4MBm60oBDKVWROVipi8KGy2GX0YuAvn5USfSUbOch
- fn/iVKww==;
-Received: from [90.241.98.187] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1t0hPQ-00ADve-MF; Tue, 15 Oct 2024 15:16:20 +0200
-Message-ID: <db2904b2-25f8-4c30-ae4b-d1c69cccc655@igalia.com>
-Date: Tue, 15 Oct 2024 14:16:19 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34FAB10E581;
+ Tue, 15 Oct 2024 13:17:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1728998263; x=1760534263;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=qgUG7mUO/Q61vFMkgqWq/P8BxIx1EByyJ7fGxhh6WYs=;
+ b=E33aBxat9BugsCJwNzxRhar7fmmIj8BNPfgpl+bSx12Mja+NxRH2k18K
+ EQ9YRCe2hxngqTq0cStQvhBHIOLW2ETr+hoCz4BlH13y4kO/Nu4x1xyCh
+ Kt+gfouIzb57VkGTpQanYvI/Qn+Bz/yZbPfMNl8u6qybWlrPhiBZtAniF
+ z4aqWRdd49dDjUdKxeYT23OW/Q0TfGPseC1y1EjH6lvEJmORY5zasT/ks
+ 3jhpE9OhDDae6EOjXvSu2aIAV+nLhhapOEjPjb1VdndWoEoEO6mTC+alo
+ 4s8m1LSOrmW9GeyNxWLOkhXgL+4q3KV9mmr3IQou/m+ah0zVVP1/kgWUV g==;
+X-CSE-ConnectionGUID: SPmk1/yZQ4Wh0LQcFTc5sg==
+X-CSE-MsgGUID: L0vK4d6lSjm3JAdvtAHKDA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11225"; a="39022658"
+X-IronPort-AV: E=Sophos;i="6.11,205,1725346800"; d="scan'208";a="39022658"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Oct 2024 06:17:43 -0700
+X-CSE-ConnectionGUID: pVrQG5LGS2OpD9jjiHNQwQ==
+X-CSE-MsgGUID: FITRH2q/SSmbQVhGr0vC9Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,205,1725346800"; d="scan'208";a="81874750"
+Received: from cpetruta-mobl1.ger.corp.intel.com (HELO [10.245.246.43])
+ ([10.245.246.43])
+ by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Oct 2024 06:17:40 -0700
+Message-ID: <67d855c26e95d89997f0ae5a0e1a5fdc636f6b95.camel@linux.intel.com>
+Subject: Re: [RFC PATCH] mm/hmm, mm/migrate_device: Allow p2p access and p2p
+ migration
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: intel-xe@lists.freedesktop.org, Matthew Brost <matthew.brost@intel.com>,
+ Simona Vetter <simona.vetter@ffwll.ch>, DRI-devel
+ <dri-devel@lists.freedesktop.org>, Linux Memory Management List
+ <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>
+Date: Tue, 15 Oct 2024 15:17:37 +0200
+In-Reply-To: <20241015130221.GK3394334@nvidia.com>
+References: <20241015111322.97514-1-thomas.hellstrom@linux.intel.com>
+ <20241015121759.GG3394334@nvidia.com>
+ <19fb79c069b812b164abd4f79d38bb12d2f5afa4.camel@linux.intel.com>
+ <20241015130221.GK3394334@nvidia.com>
+Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
+ keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/5] drm/sched: Re-group and rename the entity run-queue
- lock
-To: Philipp Stanner <pstanner@redhat.com>,
- Tvrtko Ursulin <tursulin@igalia.com>, dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- Luben Tuikov <ltuikov89@gmail.com>, Matthew Brost <matthew.brost@intel.com>
-References: <20241014104637.83209-1-tursulin@igalia.com>
- <20241014104637.83209-5-tursulin@igalia.com>
- <38ec8fa17b8e1ee2f6d409ed0a472f0fcc006fd6.camel@redhat.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <38ec8fa17b8e1ee2f6d409ed0a472f0fcc006fd6.camel@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,261 +79,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, 2024-10-15 at 10:02 -0300, Jason Gunthorpe wrote:
+> On Tue, Oct 15, 2024 at 02:41:24PM +0200, Thomas Hellstr=C3=B6m wrote:
+> > > It has nothing to do with kernel P2P, you are just allowing more
+> > > selective filtering of dev_private_owner. You should focus on
+> > > that in
+> > > the naming, not p2p. ie allow_dev_private()
+> > >=20
+> > > P2P is stuff that is dealing with MEMORY_DEVICE_PCI_P2PDMA.
+> >=20
+> > Yes, although the intention was to incorporate also other fast
+> > interconnects in "P2P", not just "PCIe P2P", but I'll definitely
+> > take a
+> > look at the naming.
+>=20
+> It has nothing to do with that, you are just filtering the device
+> private pages differently than default.
+>=20
+> Your end use might be P2P, but at this API level it certainly is not.
 
-On 15/10/2024 12:56, Philipp Stanner wrote:
-> On Mon, 2024-10-14 at 11:46 +0100, Tvrtko Ursulin wrote:
->> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->>
->> Christian suggested to rename the lock and improve the documentation
-> 
-> Let's move it to Annotators:
-> Suggested-by: Christian König <christian.koenig@amd.com>
+Sure. Will find something more suitable.
 
-Ack.
+>=20
+> > > This is just allowing more instances of the same driver to co-
+> > > ordinate
+> > > their device private memory handle, for whatever purpose.
+> >=20
+> > Exactly, or theoretically even cross-driver.
+>=20
+> I don't want to see things like drivers changing their pgmap handles
+> privately somehow. If we are going to make it cross driver then it
+> needs to be generalized alot more.
 
-> (Otherwise some time in the future a Christian Kaiser might start
-> working on the scheduler on steal the praise ^^)
-> 
->> of
->> what it protects.
-> 
-> So without Christian's name here I'd phrase it as:
-> "When writing to a drm_sched_entity's run-queue, writers are protected
-> through the lock drm_sched_entity.rq_lock. This naming, however,
-> frequently collides with the separate internal lock of struct
-> drm_sched_rq, resulting in uses like this:
-> 
-> 	spin_lock(&entity->rq_lock);
-> 	spin_lock(&entity->rq->lock);
-> 
-> Rename drm_sched_entity.rq_lock to improve readability. While at it,
-> re-order that struct's members to make it more obvious what the lock
-> protects.
+Cross-driver is initially not a thing, so let's worry about that later.
+My impression though is that this is the only change required for
+hmm_range_fault() and that infrastructure for opt-in and dma-mapping
+would need to be provided elsewhere?
 
-Will copy&paste - thanks for typing it out.
+>=20
+> > >=20
+> > > Otherwise I don't see a particular problem, though we have talked
+> > > about widening the matching for device_private more broadly using
+> > > some
+> > > kind of grouping tag or something like that instead of a
+> > > callback.
+> > > You
+> > > may consider that as an alternative
+> >=20
+> > Yes. Looked at that, but (if I understand you correctly) that would
+> > be
+> > the case mentioned in the commit message where the group would be
+> > set
+> > up statically at dev_pagemap creation time?
+>=20
+> Not necessarily statically, but the membership would be stored in the
+> pagemap and by updated during hotplug/etc
+>=20
+> If this is for P2P then the dynamic behavior is pretty limited, some
+> kind of NxN bitmap.
+>=20
+> > > hmm_range struct inside a caller private data struct and use that
+> > > instead if inventing a whole new struct and pointer.
+> >=20
+> > Our first attempt was based on that but then that wouldn't be
+> > reusable
+> > in the migrate_device.c code. Hence the extra indirection.
+>=20
+> It is performance path, you should prefer duplication rather than
+> slowing it down..
 
->> And to also re-order the structure members so all
->> protected by the lock are together in a block.
-> 
-> 
->>
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->> Cc: Christian König <christian.koenig@amd.com>
->> Cc: Alex Deucher <alexander.deucher@amd.com>
->> Cc: Luben Tuikov <ltuikov89@gmail.com>
->> Cc: Matthew Brost <matthew.brost@intel.com>
->> Cc: Philipp Stanner <pstanner@redhat.com>
->> Reviewed-by: Christian König <christian.koenig@amd.com>
->> ---
->>   drivers/gpu/drm/scheduler/sched_entity.c | 28 ++++++++++++----------
->> --
->>   drivers/gpu/drm/scheduler/sched_main.c   |  2 +-
->>   include/drm/gpu_scheduler.h              | 15 +++++++------
->>   3 files changed, 23 insertions(+), 22 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c
->> b/drivers/gpu/drm/scheduler/sched_entity.c
->> index b72cba292839..c013c2b49aa5 100644
->> --- a/drivers/gpu/drm/scheduler/sched_entity.c
->> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
->> @@ -105,7 +105,7 @@ int drm_sched_entity_init(struct drm_sched_entity
->> *entity,
->>   	/* We start in an idle state. */
->>   	complete_all(&entity->entity_idle);
->>   
->> -	spin_lock_init(&entity->rq_lock);
->> +	spin_lock_init(&entity->lock);
->>   	spsc_queue_init(&entity->job_queue);
->>   
->>   	atomic_set(&entity->fence_seq, 0);
->> @@ -133,10 +133,10 @@ void drm_sched_entity_modify_sched(struct
->> drm_sched_entity *entity,
->>   {
->>   	WARN_ON(!num_sched_list || !sched_list);
->>   
->> -	spin_lock(&entity->rq_lock);
->> +	spin_lock(&entity->lock);
->>   	entity->sched_list = sched_list;
->>   	entity->num_sched_list = num_sched_list;
->> -	spin_unlock(&entity->rq_lock);
->> +	spin_unlock(&entity->lock);
->>   }
->>   EXPORT_SYMBOL(drm_sched_entity_modify_sched);
->>   
->> @@ -244,10 +244,10 @@ static void drm_sched_entity_kill(struct
->> drm_sched_entity *entity)
->>   	if (!entity->rq)
->>   		return;
->>   
->> -	spin_lock(&entity->rq_lock);
->> +	spin_lock(&entity->lock);
->>   	entity->stopped = true;
->>   	drm_sched_rq_remove_entity(entity->rq, entity);
->> -	spin_unlock(&entity->rq_lock);
->> +	spin_unlock(&entity->lock);
->>   
->>   	/* Make sure this entity is not used by the scheduler at the
->> moment */
->>   	wait_for_completion(&entity->entity_idle);
->> @@ -396,9 +396,9 @@ static void drm_sched_entity_wakeup(struct
->> dma_fence *f,
->>   void drm_sched_entity_set_priority(struct drm_sched_entity *entity,
->>   				   enum drm_sched_priority priority)
->>   {
->> -	spin_lock(&entity->rq_lock);
->> +	spin_lock(&entity->lock);
->>   	entity->priority = priority;
->> -	spin_unlock(&entity->rq_lock);
->> +	spin_unlock(&entity->lock);
->>   }
->>   EXPORT_SYMBOL(drm_sched_entity_set_priority);
->>   
->> @@ -515,10 +515,10 @@ struct drm_sched_job
->> *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
->>   
->>   		next = to_drm_sched_job(spsc_queue_peek(&entity-
->>> job_queue));
->>   		if (next) {
->> -			spin_lock(&entity->rq_lock);
->> +			spin_lock(&entity->lock);
->>   			drm_sched_rq_update_fifo_locked(entity,
->>   							next-
->>> submit_ts);
->> -			spin_unlock(&entity->rq_lock);
->> +			spin_unlock(&entity->lock);
->>   		}
->>   	}
->>   
->> @@ -559,14 +559,14 @@ void drm_sched_entity_select_rq(struct
->> drm_sched_entity *entity)
->>   	if (fence && !dma_fence_is_signaled(fence))
->>   		return;
->>   
->> -	spin_lock(&entity->rq_lock);
->> +	spin_lock(&entity->lock);
->>   	sched = drm_sched_pick_best(entity->sched_list, entity-
->>> num_sched_list);
->>   	rq = sched ? sched->sched_rq[entity->priority] : NULL;
->>   	if (rq != entity->rq) {
->>   		drm_sched_rq_remove_entity(entity->rq, entity);
->>   		entity->rq = rq;
->>   	}
->> -	spin_unlock(&entity->rq_lock);
->> +	spin_unlock(&entity->lock);
->>   
->>   	if (entity->num_sched_list == 1)
->>   		entity->sched_list = NULL;
->> @@ -605,9 +605,9 @@ void drm_sched_entity_push_job(struct
->> drm_sched_job *sched_job)
->>   		struct drm_sched_rq *rq;
->>   
->>   		/* Add the entity to the run queue */
->> -		spin_lock(&entity->rq_lock);
->> +		spin_lock(&entity->lock);
->>   		if (entity->stopped) {
->> -			spin_unlock(&entity->rq_lock);
->> +			spin_unlock(&entity->lock);
->>   
->>   			DRM_ERROR("Trying to push to a killed
->> entity\n");
->>   			return;
->> @@ -621,7 +621,7 @@ void drm_sched_entity_push_job(struct
->> drm_sched_job *sched_job)
->>   		if (drm_sched_policy == DRM_SCHED_POLICY_FIFO)
->>   			drm_sched_rq_update_fifo_locked(entity,
->> submit_ts);
->>   
->> -		spin_unlock(&entity->rq_lock);
->> +		spin_unlock(&entity->lock);
->>   
->>   		drm_sched_wakeup(sched);
->>   	}
->> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
->> b/drivers/gpu/drm/scheduler/sched_main.c
->> index 07ee386b8e4b..2670bf9f34b2 100644
->> --- a/drivers/gpu/drm/scheduler/sched_main.c
->> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->> @@ -176,7 +176,7 @@ void drm_sched_rq_update_fifo_locked(struct
->> drm_sched_entity *entity, ktime_t ts
->>   	 * for entity from within concurrent
->> drm_sched_entity_select_rq and the
->>   	 * other to update the rb tree structure.
->>   	 */
->> -	lockdep_assert_held(&entity->rq_lock);
->> +	lockdep_assert_held(&entity->lock);
->>   
->>   	spin_lock(&entity->rq->lock);
->>   
->> diff --git a/include/drm/gpu_scheduler.h
->> b/include/drm/gpu_scheduler.h
->> index b6d095074c19..683fff8939e4 100644
->> --- a/include/drm/gpu_scheduler.h
->> +++ b/include/drm/gpu_scheduler.h
->> @@ -96,6 +96,14 @@ struct drm_sched_entity {
->>   	 */
->>   	struct list_head		list;
->>   
-> 
-> Uh, btw, while reviewing, I just saw that we still have that FIXME
-> further up:
-> 
-> 	/**
-> 	 * @rq:
-> 	 *
-> 	 * Runqueue on which this entity is currently scheduled.
-> 	 *
-> 	 * FIXME: Locking is very unclear for this. Writers are protected by
-> 	 * @rq_lock, but readers are generally lockless and seem to just race
-> 	 * with not even a READ_ONCE.
-> 	 */
-> 	struct drm_sched_rq		*rq;
-> 
-> At the very least, rq_lock should be renamed here, too. AFAICS the
+OK. Will look at duplicating.
 
-Good catch!
+Thanks,
+Thomas
 
-> series doesn't solve the FIXME, so we keep it, agreed?
 
-Yep.
+>=20
+> Jason
 
-Regards,
-
-Tvrtko
-
->> +	/**
->> +	 * @lock:
->> +	 *
->> +	 * Lock protecting the run-queue (@rq) to which this entity
->> belongs,
->> +	 * @priority and the list of schedulers (@sched_list,
->> @num_sched_list).
->> +	 */
->> +	spinlock_t			lock;
->> +
->>   	/**
->>   	 * @rq:
->>   	 *
->> @@ -140,13 +148,6 @@ struct drm_sched_entity {
->>   	 */
-> 
-> I think this comment here above also uses the term "rq_lock". While
-> you're fixing it, maybe also do a quick grep for "rq_lock" in case I
-> overlooked it somewhere else. I stopped drinking coffee today, so...
-> 
-> 
-> Thx,
-> P.
-> 
->>   	enum drm_sched_priority         priority;
->>   
->> -	/**
->> -	 * @rq_lock:
->> -	 *
->> -	 * Lock to modify the runqueue to which this entity belongs.
->> -	 */
->> -	spinlock_t			rq_lock;
->> -
->>   	/**
->>   	 * @job_queue: the list of jobs of this entity.
->>   	 */
-> 
