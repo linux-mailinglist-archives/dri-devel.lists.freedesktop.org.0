@@ -2,86 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9472E99F456
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 19:46:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27F0899F49E
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 20:00:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BBD310E0E3;
-	Tue, 15 Oct 2024 17:46:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E924510E0EC;
+	Tue, 15 Oct 2024 18:00:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="xeDE8vzV";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Nfrx72lp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com
- [209.85.219.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A164C10E0E3
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 17:46:16 +0000 (UTC)
-Received: by mail-qv1-f49.google.com with SMTP id
- 6a1803df08f44-6cbf347dc66so27928866d6.3
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 10:46:16 -0700 (PDT)
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com
+ [209.85.222.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5ADC710E0EC;
+ Tue, 15 Oct 2024 18:00:27 +0000 (UTC)
+Received: by mail-qk1-f182.google.com with SMTP id
+ af79cd13be357-7b12a02596aso147903085a.2; 
+ Tue, 15 Oct 2024 11:00:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1729014375; x=1729619175;
- darn=lists.freedesktop.org; 
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
- :date:message-id:reply-to;
- bh=RSk5uYcCy+FLlh7zsInOY2RY42vRmp22AB3rNGiZhn0=;
- b=xeDE8vzV0i2DsuTP03zhWVIuRI9OyPOe2QZR0I3LSo0h7abreXi4MkmSYMLq6pcTkD
- JzvaKCE+SYxC8s4Q1SJY0tlPEuaEcJbe/F5C9QOzIyWBVGRq/3PuZlF8dnPfLXrbqQUa
- XNQnciUCXsByuZ/LvqtEnDoQeVO+xgWwTVGgi8IW7CvxcKoGq+pI4NvPt65dOUgMct9h
- 1QL/rltz2evU6cosLdEulmEiVTDX+fPAAgl0mCiiTXYnHw/FN4retyaigsfIIbqm2QZe
- FBkfAXKpTShyRHbWYsYA5mFNqYMsjmx4a5ZSg3Hkgv8PHgn7L1NVsKccWiYQqRXBRQ9U
- 76cQ==
+ d=gmail.com; s=20230601; t=1729015226; x=1729620026; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :feedback-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=S1BxdHEZWEliogyG1J+QY5fDw9FHV13egUIB/DvmL3U=;
+ b=Nfrx72lpD6gu4JUsnyYssST1yPr0fB4DSrdDD9oMCKLC+1KACSTLx/RM8PtyRTdOr9
+ 7+G949gNWI0SwsteCWL7ENvyI0C+tfL7rVKpI+WNGY2P0OlmUcVvNxS1yi8dBocjM2DP
+ V1VvHulxfw2fYKRsP3Vv2AHxLx0ABT0XxnJngw7oL56Bjcfwf5zYe79t/AudznJJNUTh
+ mxinKo4fdCEeN1AB/MSiUhMkwh7DouWDx5DXK9mZIyek95XSnbqsermiviLflZ8mJvMf
+ MrCHn1OakDYfwdnuVeHbdMIQfcs9nkSKb2l+6tol8lPFT7cw11JEHZCap4O7ESLcP9oh
+ 3mOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729014375; x=1729619175;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=RSk5uYcCy+FLlh7zsInOY2RY42vRmp22AB3rNGiZhn0=;
- b=AEQkosx+rF1SRByqnOcGcNMggjjYl9Utg4WY/wn+0NLogfQuOBhiS1V4HhmAnBGSjT
- Zua7yGVYPdxnXR2skGm7XRuem/LQCZ6JvRedGq2kX8kTAOUepdM3Gz3MJBLDUURegkEV
- m99FVBnnC1+EbgNHWHf5LVHijbnQjsseoqUfnm9WKFa3x0x/3dP/H2hdXwtRQqxTlnVx
- PDlBTAEG6tIV/MytIesqASyPv6+Lg1IQQA2RjYUC1ja55yGv8aakAGuGqcFICQElcVng
- ExIawyOPzDrlufz6Yi9ngaUfKOFxtlWVhR6qqUQJA+Mi09hCTzBxECcxqvIAA+1udGF6
- j1eQ==
+ d=1e100.net; s=20230601; t=1729015226; x=1729620026;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :feedback-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=S1BxdHEZWEliogyG1J+QY5fDw9FHV13egUIB/DvmL3U=;
+ b=RSIk3AVgEeN6u+CcuBkry6sU4EaY8/8zm2wNuDosUqC1K7axshRY+mrcFvuKaH/VIE
+ v+HXJPS/XIzK7bQz55ihkQHYd9hCwU6NgTUJ29ncpvkFZp4AwmPBipBME5sljitNpRur
+ XL/O0vbYnwUJxoU0HusHczZ9wHy11hmrvahvGgwPD7d8Mk7tw096q49mmy7V3JfoR0oa
+ H5JZFE1Lusb2SEuMuAMzZPh1d8QAmUteYQUrRjx03UqIvspuBqZZca3GY6xsnzeacXCx
+ PkWhKUxG9psxoYAHnLf+GFagPJ8azIvmOOWYp8QNvsn26ejXfmsyc6V9rYJC6OKQIORK
+ wb8w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUcJ8BF68Wz0LFmllj+4+i9/r5sR0LXi3pGN/s09lJ3PAhCVwX7zPiK+rrN58raPnI2Vdext1RnWb4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxpMPMkkmOtg016evG0enOR0zY4UrCcM3SH/lwTognpLaXd8Bod
- Xm275XKDVy3/A13Iyf+Ix/ddLdQgft9oxg50zQuThbuwABSHY5b9v4NjjasySg4=
-X-Google-Smtp-Source: AGHT+IF2NsPjYnboGZj84FGrk0mXRkgKBiWKgqr+y3Ct19RtWGhxwUJt0HZdn9YAFlpRJUID3WDxJg==
-X-Received: by 2002:a05:6214:488f:b0:6cb:eba0:267f with SMTP id
- 6a1803df08f44-6cbf9d2173amr138661976d6.16.1729014375517; 
- Tue, 15 Oct 2024 10:46:15 -0700 (PDT)
-Received: from nicolas-tpx395.lan ([2606:6d00:15:862e::7a9])
+ AJvYcCUFldBhMSJNHWJitP/0dFUORJAmnPcGnJtBFFDHsxwg7/LOJOi9q2s6JZz0BrMsZM+8dSI59uZMD8Q=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxCF9drE3AYZoEDil731qoOS0pba9d6OhuDcldT+24MHxnBlfuI
+ R5vSnya3F07+Z8XfT5f38WKkrQ7IjBqP09fKZvzI/XoVEZUtNbAo
+X-Google-Smtp-Source: AGHT+IG3qUIEHF+/l4+dB9oEUoz9L9Ss69/+kPyUP9BPLldKpPPv3PHWPLqsDBOOWldQqXN+GALvpg==
+X-Received: by 2002:a05:620a:2682:b0:7ae:6ba2:faba with SMTP id
+ af79cd13be357-7b1417f7c6emr131030985a.28.1729015225780; 
+ Tue, 15 Oct 2024 11:00:25 -0700 (PDT)
+Received: from fauth-a2-smtp.messagingengine.com
+ (fauth-a2-smtp.messagingengine.com. [103.168.172.201])
  by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6cc2290f902sm9175586d6.17.2024.10.15.10.46.14
+ af79cd13be357-7b13639a509sm97324085a.92.2024.10.15.11.00.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Oct 2024 10:46:14 -0700 (PDT)
-Message-ID: <7098d355fa12c6e6d6255470f2bd513898764c57.camel@ndufresne.ca>
-Subject: Re: [PATCH v2 2/2] media: imx: vdic: Introduce mem2mem VDI
- deinterlacer driver
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Marek Vasut <marex@denx.de>, Philipp Zabel <p.zabel@pengutronix.de>, 
- linux-media@vger.kernel.org
-Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, Fabio
- Estevam <festevam@gmail.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>, Mauro Carvalho
- Chehab <mchehab@kernel.org>, Pengutronix Kernel Team
- <kernel@pengutronix.de>, Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo
- <shawnguo@kernel.org>,  Steve Longerbeam <slongerbeam@gmail.com>,
- dri-devel@lists.freedesktop.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org, 
- linux-staging@lists.linux.dev
-Date: Tue, 15 Oct 2024 13:46:13 -0400
-In-Reply-To: <3e850259-9349-4215-947a-ce192fa95f14@denx.de>
-References: <20240724002044.112544-1-marex@denx.de>
- <20240724002044.112544-2-marex@denx.de>
- <a66a2eaf30e21ff7c87f140e97ed4639640121ba.camel@pengutronix.de>
- <3e850259-9349-4215-947a-ce192fa95f14@denx.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.4 (3.52.4-1.fc40) 
+ Tue, 15 Oct 2024 11:00:24 -0700 (PDT)
+Received: from phl-compute-10.internal (phl-compute-10.phl.internal
+ [10.202.2.50])
+ by mailfauth.phl.internal (Postfix) with ESMTP id 180961200043;
+ Tue, 15 Oct 2024 14:00:24 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+ by phl-compute-10.internal (MEProxy); Tue, 15 Oct 2024 14:00:24 -0400
+X-ME-Sender: <xms:t60OZ4He3l78Rere98IL9sk648DpUykLLWYo1PkgYz3NjttLnYgCzw>
+ <xme:t60OZxW_ruVhCEM6HbM-1xuMl-Jba2kE2hRUtMrFwVT1WRv6V_0psCYsQ47aZ2Wo1
+ sZg6gmZ2jo8FoKnOQ>
+X-ME-Received: <xmr:t60OZyKS0B_fFwyCiTFP3AQFOklDMc-NBb87cR0ZJkdmXXWG8da1fqs3c3fx7A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdegjedguddulecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+ uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+ hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddt
+ udenucfhrhhomhepuehoqhhunhcuhfgvnhhguceosghoqhhunhdrfhgvnhhgsehgmhgrih
+ hlrdgtohhmqeenucggtffrrghtthgvrhhnpedtgeehleevffdujeffgedvlefghffhleek
+ ieeifeegveetjedvgeevueffieehhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
+ grmhepmhgrihhlfhhrohhmpegsohhquhhnodhmvghsmhhtphgruhhthhhpvghrshhonhgr
+ lhhithihqdeiledvgeehtdeigedqudejjeekheehhedvqdgsohhquhhnrdhfvghngheppe
+ hgmhgrihhlrdgtohhmsehfihigmhgvrdhnrghmvgdpnhgspghrtghpthhtohepuddupdhm
+ ohguvgepshhmthhpohhuthdprhgtphhtthhopehthhhomhgrshdrhhgvlhhlshhtrhhomh
+ eslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehinhhtvghlqdigvgeslhhi
+ shhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopehpvghtvghriiesih
+ hnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehmihhnghhosehrvgguhhgrthdrtgho
+ mhdprhgtphhtthhopeifihhllheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhonh
+ hgmhgrnhesrhgvughhrghtrdgtohhmpdhrtghpthhtohepmhgrrghrthgvnheslhgrnhhk
+ hhhorhhsthdrshgvpdhrtghpthhtoheptghhrhhishhtihgrnhdrkhhovghnihhgsegrmh
+ gurdgtohhmpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggv
+ shhkthhophdrohhrgh
+X-ME-Proxy: <xmx:t60OZ6EwVGcgW-7BBveew-JkT-pzRsbM721e4VZvFbKiMl41Udmktg>
+ <xmx:uK0OZ-UeOVHeI6lvilkV1RVJb6mqx6GvYf5oOQ8fbg6g4wQb2zQ9Xg>
+ <xmx:uK0OZ9OBFnkkdO95VyZmG5C5kiAz2xwvCH-QKpuf1-7okldiSQuaGw>
+ <xmx:uK0OZ11qWuL0yF0xQ2AzlVN6sLin5YJbg3CyHvZ7H0VK5mGz2uXcmQ>
+ <xmx:uK0OZ3Wke1iSBapnGNHHSRKHk_-o2mCf0u-Fcy6SiJyt_-fQnTHS-S65>
+Feedback-ID: iad51458e:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 15 Oct 2024 14:00:23 -0400 (EDT)
+Date: Tue, 15 Oct 2024 11:00:02 -0700
+From: Boqun Feng <boqun.feng@gmail.com>
+To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+Cc: intel-xe@lists.freedesktop.org, Peter Zijlstra <peterz@infradead.org>,
+ Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+ Waiman Long <longman@redhat.com>, Maarten Lankhorst <maarten@lankhorst.se>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] locking/ww_mutex: Adjust to lockdep nest_lock
+ requirements
+Message-ID: <Zw6touohNwfqs3T0@boqun-archlinux>
+References: <20241009092031.6356-1-thomas.hellstrom@linux.intel.com>
+ <Zw19sMtnKdyOVQoh@boqun-archlinux>
+ <bf7632b74c075f2c430fdb98cefed486b4d9e74f.camel@linux.intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <bf7632b74c075f2c430fdb98cefed486b4d9e74f.camel@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,288 +129,234 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Le mardi 24 septembre 2024 =C3=A0 17:28 +0200, Marek Vasut a =C3=A9crit=C2=
-=A0:
-> On 9/6/24 11:01 AM, Philipp Zabel wrote:
->=20
-> Hi,
->=20
-> > > diff --git a/drivers/staging/media/imx/imx-media-dev.c b/drivers/stag=
-ing/media/imx/imx-media-dev.c
-> > > index be54dca11465d..a841fdb4c2394 100644
-> > > --- a/drivers/staging/media/imx/imx-media-dev.c
-> > > +++ b/drivers/staging/media/imx/imx-media-dev.c
-> > > @@ -57,7 +57,52 @@ static int imx6_media_probe_complete(struct v4l2_a=
-sync_notifier *notifier)
-> > >   		goto unlock;
-> > >   	}
-> > >  =20
-> > > +	imxmd->m2m_vdic[0] =3D imx_media_mem2mem_vdic_init(imxmd, 0);
-> > > +	if (IS_ERR(imxmd->m2m_vdic[0])) {
-> > > +		ret =3D PTR_ERR(imxmd->m2m_vdic[0]);
-> > > +		imxmd->m2m_vdic[0] =3D NULL;
-> > > +		goto unlock;
-> > > +	}
-> > > +
-> > > +	/* MX6S/DL has one IPUv3, init second VDI only on MX6Q/QP */
-> > > +	if (imxmd->ipu[1]) {
-> > > +		imxmd->m2m_vdic[1] =3D imx_media_mem2mem_vdic_init(imxmd, 1);
-> > > +		if (IS_ERR(imxmd->m2m_vdic[1])) {
-> > > +			ret =3D PTR_ERR(imxmd->m2m_vdic[1]);
-> > > +			imxmd->m2m_vdic[1] =3D NULL;
-> > > +			goto uninit_vdi0;
-> > > +		}
-> > > +	}
-> >=20
-> > Instead of presenting two devices to userspace, it would be better to
-> > have a single video device that can distribute work to both IPUs.
->=20
-> Why do you think so ?
->=20
-> I think it is better to keep the kernel code as simple as possible, i.e.=
-=20
-> provide the device node for each m2m device to userspace and handle the=
-=20
-> m2m device hardware interaction in the kernel driver, but let userspace=
-=20
-> take care of policy like job scheduling, access permissions assignment=
-=20
-> to each device (e.g. if different user accounts should have access to=20
-> different VDICs), or other such topics.
+On Tue, Oct 15, 2024 at 05:27:28PM +0200, Thomas Hellström wrote:
+[..]
+> > diff --git a/lib/locking-selftest.c b/lib/locking-selftest.c
+> > index 6f6a5fc85b42..6750321e3e9a 100644
+> > --- a/lib/locking-selftest.c
+> > +++ b/lib/locking-selftest.c
+> > @@ -1720,8 +1720,6 @@ static void ww_test_normal(void)
+> >  {
+> >         int ret;
+> > 
+> > -       WWAI(&t);
+> > -
+> >         /*
+> >          * None of the ww_mutex codepaths should be taken in the
+> > 'normal'
+> >          * mutex calls. The easiest way to verify this is by using
+> > the
+> > @@ -1770,6 +1768,8 @@ static void ww_test_normal(void)
+> >         ww_mutex_base_unlock(&o.base);
+> >         WARN_ON(o.ctx != (void *)~0UL);
+> > 
+> > +       WWAI(&t);
+> > +
+> >         /* nest_lock */
+> >         o.ctx = (void *)~0UL;
+> >         ww_mutex_base_lock_nest_lock(&o.base, &t);
+> > 
+> > Please confirm whether this change is intended.
+> 
+> This fix looks correct and while this change was not intended, I think
+> it makes sense and if this locking order is present in existing code
+> apart from this selftest, it's probably easily fixable.
+> 
+> > 
+> > The second is a case as follow:
+> > 
+> > 	ww_acquire_init(...);
+> > 	spin_lock(...);
+> > 	ww_mutex_lock(...); // this should trigger a context
+> > 			    // invalidation. But the mutex was
+> > 			    // initialized by ww_acquire_init() as a
+> > 			    // LD_WAIT_INV lock.
+> > 
+> > The following could fix this:
+> > 
+> > diff --git a/include/linux/ww_mutex.h b/include/linux/ww_mutex.h
+> > index a401a2f31a77..45ff6f7a872b 100644
+> > --- a/include/linux/ww_mutex.h
+> > +++ b/include/linux/ww_mutex.h
+> > @@ -156,8 +156,8 @@ static inline void ww_acquire_init(struct
+> > ww_acquire_ctx *ctx,
+> >         debug_check_no_locks_freed((void *)ctx, sizeof(*ctx));
+> >         lockdep_init_map(&ctx->dep_map, ww_class->acquire_name,
+> >                          &ww_class->acquire_key, 0);
+> > -       lockdep_init_map(&ctx->first_lock_dep_map, ww_class-
+> > >mutex_name,
+> > -                        &ww_class->mutex_key, 0);
+> > +       lockdep_init_map_wait(&ctx->first_lock_dep_map, ww_class-
+> > >mutex_name,
+> > +                             &ww_class->mutex_key, 0,
+> > LD_WAIT_SLEEP);
+> >         mutex_acquire(&ctx->dep_map, 0, 0, _RET_IP_);
+> >         mutex_acquire_nest(&ctx->first_lock_dep_map, 0, 0, &ctx-
+> > >dep_map, _RET_IP_);
+> >  #endif
+> > 
+> > A v3 with all these fixed would look good to me, and I can add a
+> > Tested-by tag to it. Thanks!
+> 
+> The fix here is a bit confusing. It looks like this test is crafted to
+> fail because we take a sleeping ww_mutex inside a spinlock. But the
+> ww_mutex lockdep map is already initialized as LD_WAIT_SLEEP. How come
+> the first_lock_dep_map locking mode LD_WAIT_INV is used in the
+> ww_mutex_lock()? Is that because of the lockdep hlock refcounting?
+> 
 
-We have run through this topic already for multi-core stateless CODECs. It =
-is
-preferable to schedule interchangeable cores inside the Linux kernel.
->=20
-> > To be fair, we never implemented that for the CSC/scaler mem2mem device
-> > either.
->=20
-> I don't think that is actually a good idea. Instead, it would be better=
-=20
-> to have two scaler nodes in userspace.
+No, it's not because of refcounting, actually in this case refcounting
+won't happen because there is a spin_lock sitting in between:
 
-It is impossible for userspace to properly dispatch the work and ensure max=
-imal
-performance across multiple process. A long as there is no state that can r=
-eside
-on the chip of course.
+held_locks stack:
 
-Nicolas
+	ww_lockdep_acquire
+	  ww_lockdep_mutex
+	    lock_A
 
->=20
-> [...]
->=20
-> > > +++ b/drivers/staging/media/imx/imx-media-mem2mem-vdic.c
-> > > @@ -0,0 +1,997 @@
-> > > +// SPDX-License-Identifier: GPL-2.0-or-later
-> > > +/*
-> > > + * i.MX VDIC mem2mem de-interlace driver
-> > > + *
-> > > + * Copyright (c) 2024 Marek Vasut <marex@denx.de>
-> > > + *
-> > > + * Based on previous VDIC mem2mem work by Steve Longerbeam that is:
-> > > + * Copyright (c) 2018 Mentor Graphics Inc.
-> > > + */
-> > > +
-> > > +#include <linux/delay.h>
-> > > +#include <linux/fs.h>
-> > > +#include <linux/module.h>
-> > > +#include <linux/sched.h>
-> > > +#include <linux/slab.h>
-> > > +#include <linux/version.h>
-> > > +
-> > > +#include <media/media-device.h>
-> > > +#include <media/v4l2-ctrls.h>
-> > > +#include <media/v4l2-device.h>
-> > > +#include <media/v4l2-event.h>
-> > > +#include <media/v4l2-ioctl.h>
-> > > +#include <media/v4l2-mem2mem.h>
-> > > +#include <media/videobuf2-dma-contig.h>
-> > > +
-> > > +#include "imx-media.h"
-> > > +
-> > > +#define fh_to_ctx(__fh)	container_of(__fh, struct ipu_mem2mem_vdic_c=
-tx, fh)
-> > > +
-> > > +#define to_mem2mem_priv(v) container_of(v, struct ipu_mem2mem_vdic_p=
-riv, vdev)
-> >=20
-> > These could be inline functions for added type safety.
->=20
-> Fixed in v3
->=20
-> [...]
->=20
-> > > +static void ipu_mem2mem_vdic_device_run(void *_ctx)
-> > > +{
-> > > +	struct ipu_mem2mem_vdic_ctx *ctx =3D _ctx;
-> > > +	struct ipu_mem2mem_vdic_priv *priv =3D ctx->priv;
-> > > +	struct vb2_v4l2_buffer *curr_buf, *dst_buf;
-> > > +	dma_addr_t prev_phys, curr_phys, out_phys;
-> > > +	struct v4l2_pix_format *infmt;
-> > > +	u32 phys_offset =3D 0;
-> > > +	unsigned long flags;
-> > > +
-> > > +	infmt =3D ipu_mem2mem_vdic_get_format(priv, V4L2_BUF_TYPE_VIDEO_OUT=
-PUT);
-> > > +	if (V4L2_FIELD_IS_SEQUENTIAL(infmt->field))
-> > > +		phys_offset =3D infmt->sizeimage / 2;
-> > > +	else if (V4L2_FIELD_IS_INTERLACED(infmt->field))
-> > > +		phys_offset =3D infmt->bytesperline;
-> > > +	else
-> > > +		dev_err(priv->dev, "Invalid field %d\n", infmt->field);
-> > > +
-> > > +	dst_buf =3D v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
-> > > +	out_phys =3D vb2_dma_contig_plane_dma_addr(&dst_buf->vb2_buf, 0);
-> > > +
-> > > +	curr_buf =3D v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
-> > > +	if (!curr_buf) {
-> > > +		dev_err(priv->dev, "Not enough buffers\n");
-> > > +		return;
-> > > +	}
-> > > +
-> > > +	spin_lock_irqsave(&priv->irqlock, flags);
-> > > +
-> > > +	if (ctx->curr_buf) {
-> > > +		ctx->prev_buf =3D ctx->curr_buf;
-> > > +		ctx->curr_buf =3D curr_buf;
-> > > +	} else {
-> > > +		ctx->prev_buf =3D curr_buf;
-> > > +		ctx->curr_buf =3D curr_buf;
-> > > +		dev_warn(priv->dev, "Single-buffer mode, fix your userspace\n");
-> > > +	}
-> > > +
-> > > +	prev_phys =3D vb2_dma_contig_plane_dma_addr(&ctx->prev_buf->vb2_buf=
-, 0);
-> > > +	curr_phys =3D vb2_dma_contig_plane_dma_addr(&ctx->curr_buf->vb2_buf=
-, 0);
-> > > +
-> > > +	priv->curr_ctx =3D ctx;
-> > > +	spin_unlock_irqrestore(&priv->irqlock, flags);
-> > > +
-> > > +	ipu_cpmem_set_buffer(priv->vdi_out_ch,  0, out_phys);
-> > > +	ipu_cpmem_set_buffer(priv->vdi_in_ch_p, 0, prev_phys + phys_offset)=
-;
-> > > +	ipu_cpmem_set_buffer(priv->vdi_in_ch,   0, curr_phys);
-> > > +	ipu_cpmem_set_buffer(priv->vdi_in_ch_n, 0, curr_phys + phys_offset)=
-;
-> >=20
-> > This always outputs at a frame rate of half the field rate, and only
-> > top fields are ever used as current field, and bottom fields as
-> > previous/next fields, right?
->=20
-> Yes, currently the driver extracts 1 frame from two consecutive incoming=
-=20
-> fields (previous Bottom, and current Top and Bottom):
->=20
-> (frame 1 and 3 below is omitted)
->=20
->      1  2  3  4
-> ...|T |T |T |T |...
-> ...| B| B| B| B|...
->       | ||  | ||
->       '-''  '-''
->        ||    ||
->        ||    \/
->        \/  Frame#4
->      Frame#2
->=20
-> As far as I understand it, this is how the current VDI implementation=20
-> behaves too, right ?
->=20
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/d=
-rivers/staging/media/imx/imx-media-vdic.c#n207
->=20
-> > I think it would be good to add a mode that doesn't drop the
-> >=20
-> > 	ipu_cpmem_set_buffer(priv->vdi_in_ch_p, 0, prev_phys);
-> > 	ipu_cpmem_set_buffer(priv->vdi_in_ch,   0, prev_phys + phys_offset);
-> > 	ipu_cpmem_set_buffer(priv->vdi_in_ch_n, 0, curr_phys);
-> >=20
-> > output frames, right from the start.
->=20
-> This would make the VDI act as a frame-rate doubler, which would spend a=
-=20
-> lot more memory bandwidth, which is limited on MX6, so I would also like=
-=20
-> to have a frame-drop mode (i.e. current behavior).
->=20
-> Can we make that behavior configurable ? Since this is a mem2mem device,=
-=20
-> we do not really have any notion of input and output frame-rate, so I=20
-> suspect this would need some VIDIOC_* ioctl ?
->=20
-> > If we don't start with that supported, I fear userspace will make
-> > assumptions and be surprised when a full rate mode is added later.
->=20
-> I'm afraid that since the current VDI already does retain input frame=20
-> rate instead of doubling it, the userspace already makes an assumption,=
-=20
-> so that ship has sailed.
->=20
-> But I think we can make the frame doubling configurable ?
->=20
-> > > +	/* No double buffering, always pick buffer 0 */
-> > > +	ipu_idmac_select_buffer(priv->vdi_out_ch, 0);
-> > > +	ipu_idmac_select_buffer(priv->vdi_in_ch_p, 0);
-> > > +	ipu_idmac_select_buffer(priv->vdi_in_ch, 0);
-> > > +	ipu_idmac_select_buffer(priv->vdi_in_ch_n, 0);
-> > > +
-> > > +	/* Enable the channels */
-> > > +	ipu_idmac_enable_channel(priv->vdi_out_ch);
-> > > +	ipu_idmac_enable_channel(priv->vdi_in_ch_p);
-> > > +	ipu_idmac_enable_channel(priv->vdi_in_ch);
-> > > +	ipu_idmac_enable_channel(priv->vdi_in_ch_n);
-> > > +}
->=20
-> [...]
->=20
-> > > +static int ipu_mem2mem_vdic_setup_hardware(struct ipu_mem2mem_vdic_p=
-riv *priv)
-> > > +{
-> > > +	struct v4l2_pix_format *infmt, *outfmt;
-> > > +	struct ipu_ic_csc csc;
-> > > +	bool in422, outyuv;
-> > > +	int ret;
-> > > +
-> > > +	infmt =3D ipu_mem2mem_vdic_get_format(priv, V4L2_BUF_TYPE_VIDEO_OUT=
-PUT);
-> > > +	outfmt =3D ipu_mem2mem_vdic_get_format(priv, V4L2_BUF_TYPE_VIDEO_CA=
-PTURE);
-> > > +	in422 =3D ipu_mem2mem_vdic_format_is_yuv422(infmt->pixelformat);
-> > > +	outyuv =3D ipu_mem2mem_vdic_format_is_yuv(outfmt->pixelformat);
-> > > +
-> > > +	ipu_vdi_setup(priv->vdi, in422, infmt->width, infmt->height);
-> > > +	ipu_vdi_set_field_order(priv->vdi, V4L2_STD_UNKNOWN, infmt->field);
-> > > +	ipu_vdi_set_motion(priv->vdi, HIGH_MOTION);
-> >=20
-> > This maps to VDI_C_MOT_SEL_FULL aka VDI_MOT_SEL=3D2, which is documente=
-d
-> > as "full motion, only vertical filter is used". Doesn't this completely
-> > ignore the previous/next fields and only use the output of the di_vfilt
-> > four tap vertical filter block to fill in missing lines from the
-> > surrounding pixels (above and below) of the current field?
->=20
-> Is there a suitable knob for this or shall I introduce a device specific=
-=20
-> one, like the vdic_ctrl_motion_menu for the current VDIC direct driver ?
->=20
-> If we introduce such a knob, then it is all the more reason to provide=
-=20
-> one device node per one VDIC hardware instance, since each can be=20
-> configured for different motion settings.
->=20
-> > I think this should at least be configurable, and probably default to
-> > MED_MOTION.
->=20
-> I think to be compatible with the current VDI behavior and to reduce=20
-> memory bandwidth usage, let's default to the HIGH/full mode. That one=20
-> produces reasonably good results without spending too much memory=20
-> bandwidth which is constrained already on the MX6, and if the user needs=
-=20
-> better image quality, they can configure another mode using the V4L2=20
-> control.
->=20
-> [...]
->=20
+because there is a lock_A here, the following "if" will be false for
+ww_mutex_lock() in the test case:
 
+	hlock = curr->held_locks + depth - 1;
+	if (hlock->class_idx == class_idx && nest_lock) {
+
+The reason why the wait types of 'first_lock_dep_map' matter is because
+the lock class it shares with ww_mutex_lock() are registered at
+*acquire* time. So because we do
+
+	ww_acquire_init():
+	  ...
+	  lockdep_init_map(...);
+	  ...
+	  mutex_acquire_nest(...);
+	...
+	ww_mutex_lock():
+	  __mutex_lock_common():
+	    mutex_acquire_nest(...);
+
+in the test case, these two mutex_acquire_nest()s use different
+lockdep_maps but share the same key, therefore whoever call
+mutex_acquire_nest() registers the lock class with its wait types.
+
+So even though first_lock_dep_map is a fake lock, it has to have the
+same wait types as a real mutex.
+
+Does this make sense?
+
+Regards,
+Boqun
+
+> Thanks,
+> Thomas
+> 
+> 
+> 
+> > 
+> > Regards,
+> > Boqun
+> > 
+> > > Cc: Peter Zijlstra <peterz@infradead.org>
+> > > Cc: Ingo Molnar <mingo@redhat.com>
+> > > Cc: Will Deacon <will@kernel.org>
+> > > Cc: Waiman Long <longman@redhat.com>
+> > > Cc: Boqun Feng <boqun.feng@gmail.com>
+> > > Cc: Maarten Lankhorst <maarten@lankhorst.se>
+> > > Cc: Christian König <christian.koenig@amd.com>
+> > > Cc: dri-devel@lists.freedesktop.org
+> > > Cc: linux-kernel@vger.kernel.org
+> > > Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> > > ---
+> > >  include/linux/ww_mutex.h       | 14 ++++++++++++++
+> > >  kernel/locking/test-ww_mutex.c |  8 +++++---
+> > >  2 files changed, 19 insertions(+), 3 deletions(-)
+> > > 
+> > > diff --git a/include/linux/ww_mutex.h b/include/linux/ww_mutex.h
+> > > index bb763085479a..a401a2f31a77 100644
+> > > --- a/include/linux/ww_mutex.h
+> > > +++ b/include/linux/ww_mutex.h
+> > > @@ -65,6 +65,16 @@ struct ww_acquire_ctx {
+> > >  #endif
+> > >  #ifdef CONFIG_DEBUG_LOCK_ALLOC
+> > >  	struct lockdep_map dep_map;
+> > > +	/**
+> > > +	 * @first_lock_dep_map: fake lockdep_map for first locked
+> > > ww_mutex.
+> > > +	 *
+> > > +	 * lockdep requires the lockdep_map for the first locked
+> > > ww_mutex
+> > > +	 * in a ww transaction to remain in memory until all
+> > > ww_mutexes of
+> > > +	 * the transaction have been unlocked. Ensure this by
+> > > keeping a
+> > > +	 * fake locked ww_mutex lockdep map between
+> > > ww_acquire_init() and
+> > > +	 * ww_acquire_fini().
+> > > +	 */
+> > > +	struct lockdep_map first_lock_dep_map;
+> > >  #endif
+> > >  #ifdef CONFIG_DEBUG_WW_MUTEX_SLOWPATH
+> > >  	unsigned int deadlock_inject_interval;
+> > > @@ -146,7 +156,10 @@ static inline void ww_acquire_init(struct
+> > > ww_acquire_ctx *ctx,
+> > >  	debug_check_no_locks_freed((void *)ctx, sizeof(*ctx));
+> > >  	lockdep_init_map(&ctx->dep_map, ww_class->acquire_name,
+> > >  			 &ww_class->acquire_key, 0);
+> > > +	lockdep_init_map(&ctx->first_lock_dep_map, ww_class-
+> > > >mutex_name,
+> > > +			 &ww_class->mutex_key, 0);
+> > >  	mutex_acquire(&ctx->dep_map, 0, 0, _RET_IP_);
+> > > +	mutex_acquire_nest(&ctx->first_lock_dep_map, 0, 0, &ctx-
+> > > >dep_map, _RET_IP_);
+> > >  #endif
+> > >  #ifdef CONFIG_DEBUG_WW_MUTEX_SLOWPATH
+> > >  	ctx->deadlock_inject_interval = 1;
+> > > @@ -185,6 +198,7 @@ static inline void ww_acquire_done(struct
+> > > ww_acquire_ctx *ctx)
+> > >  static inline void ww_acquire_fini(struct ww_acquire_ctx *ctx)
+> > >  {
+> > >  #ifdef CONFIG_DEBUG_LOCK_ALLOC
+> > > +	mutex_release(&ctx->first_lock_dep_map, _THIS_IP_);
+> > >  	mutex_release(&ctx->dep_map, _THIS_IP_);
+> > >  #endif
+> > >  #ifdef DEBUG_WW_MUTEXES
+> > > diff --git a/kernel/locking/test-ww_mutex.c b/kernel/locking/test-
+> > > ww_mutex.c
+> > > index 10a5736a21c2..5d58b2c0ef98 100644
+> > > --- a/kernel/locking/test-ww_mutex.c
+> > > +++ b/kernel/locking/test-ww_mutex.c
+> > > @@ -62,7 +62,8 @@ static int __test_mutex(unsigned int flags)
+> > >  	int ret;
+> > >  
+> > >  	ww_mutex_init(&mtx.mutex, &ww_class);
+> > > -	ww_acquire_init(&ctx, &ww_class);
+> > > +	if (flags & TEST_MTX_CTX)
+> > > +		ww_acquire_init(&ctx, &ww_class);
+> > >  
+> > >  	INIT_WORK_ONSTACK(&mtx.work, test_mutex_work);
+> > >  	init_completion(&mtx.ready);
+> > > @@ -90,7 +91,8 @@ static int __test_mutex(unsigned int flags)
+> > >  		ret = wait_for_completion_timeout(&mtx.done,
+> > > TIMEOUT);
+> > >  	}
+> > >  	ww_mutex_unlock(&mtx.mutex);
+> > > -	ww_acquire_fini(&ctx);
+> > > +	if (flags & TEST_MTX_CTX)
+> > > +		ww_acquire_fini(&ctx);
+> > >  
+> > >  	if (ret) {
+> > >  		pr_err("%s(flags=%x): mutual exclusion failure\n",
+> > > @@ -679,7 +681,7 @@ static int __init test_ww_mutex_init(void)
+> > >  	if (ret)
+> > >  		return ret;
+> > >  
+> > > -	ret = stress(2047, hweight32(STRESS_ALL)*ncpus,
+> > > STRESS_ALL);
+> > > +	ret = stress(2046, hweight32(STRESS_ALL)*ncpus,
+> > > STRESS_ALL);
+> > >  	if (ret)
+> > >  		return ret;
+> > >  
+> > > -- 
+> > > 2.46.0
+> > > 
+> 
