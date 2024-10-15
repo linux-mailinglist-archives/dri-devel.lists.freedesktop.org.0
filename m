@@ -2,81 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EACB399F415
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 19:31:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9472E99F456
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 19:46:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7561110E04D;
-	Tue, 15 Oct 2024 17:31:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BBD310E0E3;
+	Tue, 15 Oct 2024 17:46:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="s0S1K/sV";
+	dkim=pass (2048-bit key; unprotected) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="xeDE8vzV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com
- [209.85.160.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79CE910E04D
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 17:31:12 +0000 (UTC)
-Received: by mail-qt1-f169.google.com with SMTP id
- d75a77b69052e-460391553ecso52162791cf.1
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 10:31:12 -0700 (PDT)
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com
+ [209.85.219.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A164C10E0E3
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 17:46:16 +0000 (UTC)
+Received: by mail-qv1-f49.google.com with SMTP id
+ 6a1803df08f44-6cbf347dc66so27928866d6.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 10:46:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1729013471; x=1729618271;
+ d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1729014375; x=1729619175;
  darn=lists.freedesktop.org; 
  h=mime-version:user-agent:content-transfer-encoding:references
  :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
  :date:message-id:reply-to;
- bh=Nlkt2Fthyuj+02wChbrIoEHBospBClzz0I96zymXtIg=;
- b=s0S1K/sVnlBZcoO8ozI1vC2105F4jtVzhoxWPsYFW693ILbhaPT+5TPhuWQXSMfGPY
- Td8M+5PpcwBoIW2hSKo9m75ZGNlMK120qXi6lpagw4yzsB7NVl0QZQ3xUm3n/BONIurs
- p71N1rPTy7cK7nyxCVZlvx9d6egG2Sy/ZX61er9D0MsHdGpp0dlJDmx44uTFxVKXTxtQ
- 0flpbDO9L3GN9I0d3yXmWcaQLwkfUByYa6DHIOeFogDNG9lEr8oI7+xjGfFSVod7roh5
- FnWacHrsefv/I/jkbVKk4ZWCDcsc1dWWYxWje3zNWfnrrMGObw+GubDgl2HUP4TddJ0w
- y1wA==
+ bh=RSk5uYcCy+FLlh7zsInOY2RY42vRmp22AB3rNGiZhn0=;
+ b=xeDE8vzV0i2DsuTP03zhWVIuRI9OyPOe2QZR0I3LSo0h7abreXi4MkmSYMLq6pcTkD
+ JzvaKCE+SYxC8s4Q1SJY0tlPEuaEcJbe/F5C9QOzIyWBVGRq/3PuZlF8dnPfLXrbqQUa
+ XNQnciUCXsByuZ/LvqtEnDoQeVO+xgWwTVGgi8IW7CvxcKoGq+pI4NvPt65dOUgMct9h
+ 1QL/rltz2evU6cosLdEulmEiVTDX+fPAAgl0mCiiTXYnHw/FN4retyaigsfIIbqm2QZe
+ FBkfAXKpTShyRHbWYsYA5mFNqYMsjmx4a5ZSg3Hkgv8PHgn7L1NVsKccWiYQqRXBRQ9U
+ 76cQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729013471; x=1729618271;
+ d=1e100.net; s=20230601; t=1729014375; x=1729619175;
  h=mime-version:user-agent:content-transfer-encoding:references
  :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Nlkt2Fthyuj+02wChbrIoEHBospBClzz0I96zymXtIg=;
- b=Bc4e2Bq5EqF0jC7Ni5BKK4WEJLqsLh0Jggf3Z45VlBdPNrYa3LyIbMwojzkBFLOhcn
- buAk7z1+u9Z1XpFyG6/uCHMG4OkfnGcDkHzBYs2GDZkrcAk3vTxOmQjtYjoGOKTkeszr
- bKwgvz0CcDZVlGeM6KsCw/vtswu/9xSikLh0xyYTMZzpySmJxHILLEW/iXhy9K7xCqN3
- TSP9XU1u5YXCMdX0l8lu6d7WHzMzKT+ugSwsZ915NTnouA8sXpugBw1tykcOlDnYUBdi
- PLWcFyhI+1CX+qmBcAcfN5IPwmmthzUVvBWKV8JZ2sCNsuAOTWX5VQOhj1990ZnjKgBM
- 5Fvw==
+ bh=RSk5uYcCy+FLlh7zsInOY2RY42vRmp22AB3rNGiZhn0=;
+ b=AEQkosx+rF1SRByqnOcGcNMggjjYl9Utg4WY/wn+0NLogfQuOBhiS1V4HhmAnBGSjT
+ Zua7yGVYPdxnXR2skGm7XRuem/LQCZ6JvRedGq2kX8kTAOUepdM3Gz3MJBLDUURegkEV
+ m99FVBnnC1+EbgNHWHf5LVHijbnQjsseoqUfnm9WKFa3x0x/3dP/H2hdXwtRQqxTlnVx
+ PDlBTAEG6tIV/MytIesqASyPv6+Lg1IQQA2RjYUC1ja55yGv8aakAGuGqcFICQElcVng
+ ExIawyOPzDrlufz6Yi9ngaUfKOFxtlWVhR6qqUQJA+Mi09hCTzBxECcxqvIAA+1udGF6
+ j1eQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWJmVTa5s4SVMC0W8nw1HNtNjnsRVbMJBQR1Rlt70puDqossV2izZbJawcNpRq3Go23UJ+x4p/ZGdQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxhKaZMX33UaSI6Yh2HfPVx3mMI62vw0+OSCKI23UfOuF9eZ3wN
- cUerLHzccP47NS1aysWjhucP3dxQJSnsVV5pZVNrvp9mAixjlRI85rT0Yu0M/Tw=
-X-Google-Smtp-Source: AGHT+IHQTEqtyG1hqwhDEXmkug0vsLn7tK0TUCZGlPkVwJk5Fmx3FpOukVPbin+a6nZZiv9VlOtyKA==
-X-Received: by 2002:a05:6214:33c3:b0:6cc:1dd9:296 with SMTP id
- 6a1803df08f44-6cc1dd9048bmr55656576d6.0.1729013471113; 
- Tue, 15 Oct 2024 10:31:11 -0700 (PDT)
+ AJvYcCUcJ8BF68Wz0LFmllj+4+i9/r5sR0LXi3pGN/s09lJ3PAhCVwX7zPiK+rrN58raPnI2Vdext1RnWb4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxpMPMkkmOtg016evG0enOR0zY4UrCcM3SH/lwTognpLaXd8Bod
+ Xm275XKDVy3/A13Iyf+Ix/ddLdQgft9oxg50zQuThbuwABSHY5b9v4NjjasySg4=
+X-Google-Smtp-Source: AGHT+IF2NsPjYnboGZj84FGrk0mXRkgKBiWKgqr+y3Ct19RtWGhxwUJt0HZdn9YAFlpRJUID3WDxJg==
+X-Received: by 2002:a05:6214:488f:b0:6cb:eba0:267f with SMTP id
+ 6a1803df08f44-6cbf9d2173amr138661976d6.16.1729014375517; 
+ Tue, 15 Oct 2024 10:46:15 -0700 (PDT)
 Received: from nicolas-tpx395.lan ([2606:6d00:15:862e::7a9])
  by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6cc229245f1sm8990646d6.57.2024.10.15.10.31.09
+ 6a1803df08f44-6cc2290f902sm9175586d6.17.2024.10.15.10.46.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Oct 2024 10:31:10 -0700 (PDT)
-Message-ID: <c31b33f9c4c0a42e66249e2a108f4eadaf105ce2.camel@ndufresne.ca>
+ Tue, 15 Oct 2024 10:46:14 -0700 (PDT)
+Message-ID: <7098d355fa12c6e6d6255470f2bd513898764c57.camel@ndufresne.ca>
 Subject: Re: [PATCH v2 2/2] media: imx: vdic: Introduce mem2mem VDI
  deinterlacer driver
 From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Marek Vasut <marex@denx.de>, linux-media@vger.kernel.org
+To: Marek Vasut <marex@denx.de>, Philipp Zabel <p.zabel@pengutronix.de>, 
+ linux-media@vger.kernel.org
 Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, Fabio
  Estevam <festevam@gmail.com>, Greg Kroah-Hartman
  <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>, Mauro Carvalho
  Chehab <mchehab@kernel.org>, Pengutronix Kernel Team
- <kernel@pengutronix.de>, Philipp Zabel <p.zabel@pengutronix.de>, Sascha
- Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, Steve
- Longerbeam <slongerbeam@gmail.com>, dri-devel@lists.freedesktop.org,
- imx@lists.linux.dev,  linux-arm-kernel@lists.infradead.org,
- linux-fbdev@vger.kernel.org,  linux-staging@lists.linux.dev
-Date: Tue, 15 Oct 2024 13:31:09 -0400
-In-Reply-To: <8aea6cc0-10bf-48b8-add9-eb3f1caa2d66@denx.de>
+ <kernel@pengutronix.de>, Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo
+ <shawnguo@kernel.org>,  Steve Longerbeam <slongerbeam@gmail.com>,
+ dri-devel@lists.freedesktop.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org, 
+ linux-staging@lists.linux.dev
+Date: Tue, 15 Oct 2024 13:46:13 -0400
+In-Reply-To: <3e850259-9349-4215-947a-ce192fa95f14@denx.de>
 References: <20240724002044.112544-1-marex@denx.de>
  <20240724002044.112544-2-marex@denx.de>
- <5e5fba4fd6c3c0c9df23697bd328367e5fdfa923.camel@ndufresne.ca>
- <8aea6cc0-10bf-48b8-add9-eb3f1caa2d66@denx.de>
+ <a66a2eaf30e21ff7c87f140e97ed4639640121ba.camel@pengutronix.de>
+ <3e850259-9349-4215-947a-ce192fa95f14@denx.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.52.4 (3.52.4-1.fc40) 
@@ -96,67 +97,288 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Le lundi 29 juillet 2024 =C3=A0 04:16 +0200, Marek Vasut a =C3=A9crit=C2=A0=
-:
-> On 7/24/24 6:08 PM, Nicolas Dufresne wrote:
-> > Hi Marek,
+Le mardi 24 septembre 2024 =C3=A0 17:28 +0200, Marek Vasut a =C3=A9crit=C2=
+=A0:
+> On 9/6/24 11:01 AM, Philipp Zabel wrote:
 >=20
 > Hi,
 >=20
-> > Le mercredi 24 juillet 2024 =C3=A0 02:19 +0200, Marek Vasut a =C3=A9cri=
-t=C2=A0:
-> > > Introduce dedicated memory-to-memory IPUv3 VDI deinterlacer driver.
-> > > Currently the IPUv3 can operate VDI in DIRECT mode, from sensor to
-> > > memory. This only works for single stream, that is, one input from
-> > > one camera is deinterlaced on the fly with a helper buffer in DRAM
-> > > and the result is written into memory.
-> > >=20
-> > > The i.MX6Q/QP does support up to four analog cameras via two IPUv3
-> > > instances, each containing one VDI deinterlacer block. In order to
-> > > deinterlace all four streams from all four analog cameras live, it
-> > > is necessary to operate VDI in INDIRECT mode, where the interlaced
-> > > streams are written to buffers in memory, and then deinterlaced in
-> > > memory using VDI in INDIRECT memory-to-memory mode.
+> > > diff --git a/drivers/staging/media/imx/imx-media-dev.c b/drivers/stag=
+ing/media/imx/imx-media-dev.c
+> > > index be54dca11465d..a841fdb4c2394 100644
+> > > --- a/drivers/staging/media/imx/imx-media-dev.c
+> > > +++ b/drivers/staging/media/imx/imx-media-dev.c
+> > > @@ -57,7 +57,52 @@ static int imx6_media_probe_complete(struct v4l2_a=
+sync_notifier *notifier)
+> > >   		goto unlock;
+> > >   	}
+> > >  =20
+> > > +	imxmd->m2m_vdic[0] =3D imx_media_mem2mem_vdic_init(imxmd, 0);
+> > > +	if (IS_ERR(imxmd->m2m_vdic[0])) {
+> > > +		ret =3D PTR_ERR(imxmd->m2m_vdic[0]);
+> > > +		imxmd->m2m_vdic[0] =3D NULL;
+> > > +		goto unlock;
+> > > +	}
+> > > +
+> > > +	/* MX6S/DL has one IPUv3, init second VDI only on MX6Q/QP */
+> > > +	if (imxmd->ipu[1]) {
+> > > +		imxmd->m2m_vdic[1] =3D imx_media_mem2mem_vdic_init(imxmd, 1);
+> > > +		if (IS_ERR(imxmd->m2m_vdic[1])) {
+> > > +			ret =3D PTR_ERR(imxmd->m2m_vdic[1]);
+> > > +			imxmd->m2m_vdic[1] =3D NULL;
+> > > +			goto uninit_vdi0;
+> > > +		}
+> > > +	}
 > >=20
-> > Just a quick design question. Is it possible to chain the deinterlacer =
-and the
-> > csc-scaler ?
+> > Instead of presenting two devices to userspace, it would be better to
+> > have a single video device that can distribute work to both IPUs.
 >=20
-> I think you could do that.
+> Why do you think so ?
 >=20
-> > If so, it would be much more efficient if all this could be
-> > combined into the existing m2m driver, since you could save a memory ro=
-untrip
-> > when needing to deinterlace, change the colorspace and possibly scale t=
-oo.
->=20
-> The existing PRP/IC driver is similar to what this driver does, yes, but=
+> I think it is better to keep the kernel code as simple as possible, i.e.=
 =20
-> it uses a different DMA path , I believe it is IDMAC->PRP->IC->IDMAC .=
+> provide the device node for each m2m device to userspace and handle the=
 =20
-> This driver uses IDMAC->VDI->IC->IDMAC . I am not convinced mixing the=
+> m2m device hardware interaction in the kernel driver, but let userspace=
 =20
-> two paths into a single driver would be beneficial, but I am reasonably=
+> take care of policy like job scheduling, access permissions assignment=
 =20
-> sure it would be very convoluted. Instead, this driver could be extended=
-=20
-> to do deinterlacing and scaling using the IC if that was needed. I think=
-=20
-> that would be the cleaner approach.
+> to each device (e.g. if different user accounts should have access to=20
+> different VDICs), or other such topics.
 
-No strong opinion, in an ideal world all these hacks are removed and we do =
-a
-single multi-context / m2m media controller, that let user pick the path th=
-ey
-need for their task. When I look at the hardware documentation, you can do
-inline from VDI to IC, and having IC in both drivers duplicates the CSC
-handling. If you allow bypassing the VDI, then you have a duplicated driver=
- and
-highly confused users. The fact the ipuv3 (internal) drm driver does not ha=
-ve
-the VDI already seems because the display controller driver is missing
-interlaced video support, but I could be wrong. Same if you want to support=
- IRT
-(even though that is not inline, but using a custom memory protocol).
+We have run through this topic already for multi-core stateless CODECs. It =
+is
+preferable to schedule interchangeable cores inside the Linux kernel.
+>=20
+> > To be fair, we never implemented that for the CSC/scaler mem2mem device
+> > either.
+>=20
+> I don't think that is actually a good idea. Instead, it would be better=
+=20
+> to have two scaler nodes in userspace.
+
+It is impossible for userspace to properly dispatch the work and ensure max=
+imal
+performance across multiple process. A long as there is no state that can r=
+eside
+on the chip of course.
 
 Nicolas
+
+>=20
+> [...]
+>=20
+> > > +++ b/drivers/staging/media/imx/imx-media-mem2mem-vdic.c
+> > > @@ -0,0 +1,997 @@
+> > > +// SPDX-License-Identifier: GPL-2.0-or-later
+> > > +/*
+> > > + * i.MX VDIC mem2mem de-interlace driver
+> > > + *
+> > > + * Copyright (c) 2024 Marek Vasut <marex@denx.de>
+> > > + *
+> > > + * Based on previous VDIC mem2mem work by Steve Longerbeam that is:
+> > > + * Copyright (c) 2018 Mentor Graphics Inc.
+> > > + */
+> > > +
+> > > +#include <linux/delay.h>
+> > > +#include <linux/fs.h>
+> > > +#include <linux/module.h>
+> > > +#include <linux/sched.h>
+> > > +#include <linux/slab.h>
+> > > +#include <linux/version.h>
+> > > +
+> > > +#include <media/media-device.h>
+> > > +#include <media/v4l2-ctrls.h>
+> > > +#include <media/v4l2-device.h>
+> > > +#include <media/v4l2-event.h>
+> > > +#include <media/v4l2-ioctl.h>
+> > > +#include <media/v4l2-mem2mem.h>
+> > > +#include <media/videobuf2-dma-contig.h>
+> > > +
+> > > +#include "imx-media.h"
+> > > +
+> > > +#define fh_to_ctx(__fh)	container_of(__fh, struct ipu_mem2mem_vdic_c=
+tx, fh)
+> > > +
+> > > +#define to_mem2mem_priv(v) container_of(v, struct ipu_mem2mem_vdic_p=
+riv, vdev)
+> >=20
+> > These could be inline functions for added type safety.
+>=20
+> Fixed in v3
+>=20
+> [...]
+>=20
+> > > +static void ipu_mem2mem_vdic_device_run(void *_ctx)
+> > > +{
+> > > +	struct ipu_mem2mem_vdic_ctx *ctx =3D _ctx;
+> > > +	struct ipu_mem2mem_vdic_priv *priv =3D ctx->priv;
+> > > +	struct vb2_v4l2_buffer *curr_buf, *dst_buf;
+> > > +	dma_addr_t prev_phys, curr_phys, out_phys;
+> > > +	struct v4l2_pix_format *infmt;
+> > > +	u32 phys_offset =3D 0;
+> > > +	unsigned long flags;
+> > > +
+> > > +	infmt =3D ipu_mem2mem_vdic_get_format(priv, V4L2_BUF_TYPE_VIDEO_OUT=
+PUT);
+> > > +	if (V4L2_FIELD_IS_SEQUENTIAL(infmt->field))
+> > > +		phys_offset =3D infmt->sizeimage / 2;
+> > > +	else if (V4L2_FIELD_IS_INTERLACED(infmt->field))
+> > > +		phys_offset =3D infmt->bytesperline;
+> > > +	else
+> > > +		dev_err(priv->dev, "Invalid field %d\n", infmt->field);
+> > > +
+> > > +	dst_buf =3D v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
+> > > +	out_phys =3D vb2_dma_contig_plane_dma_addr(&dst_buf->vb2_buf, 0);
+> > > +
+> > > +	curr_buf =3D v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
+> > > +	if (!curr_buf) {
+> > > +		dev_err(priv->dev, "Not enough buffers\n");
+> > > +		return;
+> > > +	}
+> > > +
+> > > +	spin_lock_irqsave(&priv->irqlock, flags);
+> > > +
+> > > +	if (ctx->curr_buf) {
+> > > +		ctx->prev_buf =3D ctx->curr_buf;
+> > > +		ctx->curr_buf =3D curr_buf;
+> > > +	} else {
+> > > +		ctx->prev_buf =3D curr_buf;
+> > > +		ctx->curr_buf =3D curr_buf;
+> > > +		dev_warn(priv->dev, "Single-buffer mode, fix your userspace\n");
+> > > +	}
+> > > +
+> > > +	prev_phys =3D vb2_dma_contig_plane_dma_addr(&ctx->prev_buf->vb2_buf=
+, 0);
+> > > +	curr_phys =3D vb2_dma_contig_plane_dma_addr(&ctx->curr_buf->vb2_buf=
+, 0);
+> > > +
+> > > +	priv->curr_ctx =3D ctx;
+> > > +	spin_unlock_irqrestore(&priv->irqlock, flags);
+> > > +
+> > > +	ipu_cpmem_set_buffer(priv->vdi_out_ch,  0, out_phys);
+> > > +	ipu_cpmem_set_buffer(priv->vdi_in_ch_p, 0, prev_phys + phys_offset)=
+;
+> > > +	ipu_cpmem_set_buffer(priv->vdi_in_ch,   0, curr_phys);
+> > > +	ipu_cpmem_set_buffer(priv->vdi_in_ch_n, 0, curr_phys + phys_offset)=
+;
+> >=20
+> > This always outputs at a frame rate of half the field rate, and only
+> > top fields are ever used as current field, and bottom fields as
+> > previous/next fields, right?
+>=20
+> Yes, currently the driver extracts 1 frame from two consecutive incoming=
+=20
+> fields (previous Bottom, and current Top and Bottom):
+>=20
+> (frame 1 and 3 below is omitted)
+>=20
+>      1  2  3  4
+> ...|T |T |T |T |...
+> ...| B| B| B| B|...
+>       | ||  | ||
+>       '-''  '-''
+>        ||    ||
+>        ||    \/
+>        \/  Frame#4
+>      Frame#2
+>=20
+> As far as I understand it, this is how the current VDI implementation=20
+> behaves too, right ?
+>=20
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/d=
+rivers/staging/media/imx/imx-media-vdic.c#n207
+>=20
+> > I think it would be good to add a mode that doesn't drop the
+> >=20
+> > 	ipu_cpmem_set_buffer(priv->vdi_in_ch_p, 0, prev_phys);
+> > 	ipu_cpmem_set_buffer(priv->vdi_in_ch,   0, prev_phys + phys_offset);
+> > 	ipu_cpmem_set_buffer(priv->vdi_in_ch_n, 0, curr_phys);
+> >=20
+> > output frames, right from the start.
+>=20
+> This would make the VDI act as a frame-rate doubler, which would spend a=
+=20
+> lot more memory bandwidth, which is limited on MX6, so I would also like=
+=20
+> to have a frame-drop mode (i.e. current behavior).
+>=20
+> Can we make that behavior configurable ? Since this is a mem2mem device,=
+=20
+> we do not really have any notion of input and output frame-rate, so I=20
+> suspect this would need some VIDIOC_* ioctl ?
+>=20
+> > If we don't start with that supported, I fear userspace will make
+> > assumptions and be surprised when a full rate mode is added later.
+>=20
+> I'm afraid that since the current VDI already does retain input frame=20
+> rate instead of doubling it, the userspace already makes an assumption,=
+=20
+> so that ship has sailed.
+>=20
+> But I think we can make the frame doubling configurable ?
+>=20
+> > > +	/* No double buffering, always pick buffer 0 */
+> > > +	ipu_idmac_select_buffer(priv->vdi_out_ch, 0);
+> > > +	ipu_idmac_select_buffer(priv->vdi_in_ch_p, 0);
+> > > +	ipu_idmac_select_buffer(priv->vdi_in_ch, 0);
+> > > +	ipu_idmac_select_buffer(priv->vdi_in_ch_n, 0);
+> > > +
+> > > +	/* Enable the channels */
+> > > +	ipu_idmac_enable_channel(priv->vdi_out_ch);
+> > > +	ipu_idmac_enable_channel(priv->vdi_in_ch_p);
+> > > +	ipu_idmac_enable_channel(priv->vdi_in_ch);
+> > > +	ipu_idmac_enable_channel(priv->vdi_in_ch_n);
+> > > +}
+>=20
+> [...]
+>=20
+> > > +static int ipu_mem2mem_vdic_setup_hardware(struct ipu_mem2mem_vdic_p=
+riv *priv)
+> > > +{
+> > > +	struct v4l2_pix_format *infmt, *outfmt;
+> > > +	struct ipu_ic_csc csc;
+> > > +	bool in422, outyuv;
+> > > +	int ret;
+> > > +
+> > > +	infmt =3D ipu_mem2mem_vdic_get_format(priv, V4L2_BUF_TYPE_VIDEO_OUT=
+PUT);
+> > > +	outfmt =3D ipu_mem2mem_vdic_get_format(priv, V4L2_BUF_TYPE_VIDEO_CA=
+PTURE);
+> > > +	in422 =3D ipu_mem2mem_vdic_format_is_yuv422(infmt->pixelformat);
+> > > +	outyuv =3D ipu_mem2mem_vdic_format_is_yuv(outfmt->pixelformat);
+> > > +
+> > > +	ipu_vdi_setup(priv->vdi, in422, infmt->width, infmt->height);
+> > > +	ipu_vdi_set_field_order(priv->vdi, V4L2_STD_UNKNOWN, infmt->field);
+> > > +	ipu_vdi_set_motion(priv->vdi, HIGH_MOTION);
+> >=20
+> > This maps to VDI_C_MOT_SEL_FULL aka VDI_MOT_SEL=3D2, which is documente=
+d
+> > as "full motion, only vertical filter is used". Doesn't this completely
+> > ignore the previous/next fields and only use the output of the di_vfilt
+> > four tap vertical filter block to fill in missing lines from the
+> > surrounding pixels (above and below) of the current field?
+>=20
+> Is there a suitable knob for this or shall I introduce a device specific=
+=20
+> one, like the vdic_ctrl_motion_menu for the current VDIC direct driver ?
+>=20
+> If we introduce such a knob, then it is all the more reason to provide=
+=20
+> one device node per one VDIC hardware instance, since each can be=20
+> configured for different motion settings.
+>=20
+> > I think this should at least be configurable, and probably default to
+> > MED_MOTION.
+>=20
+> I think to be compatible with the current VDI behavior and to reduce=20
+> memory bandwidth usage, let's default to the HIGH/full mode. That one=20
+> produces reasonably good results without spending too much memory=20
+> bandwidth which is constrained already on the MX6, and if the user needs=
+=20
+> better image quality, they can configure another mode using the V4L2=20
+> control.
+>=20
+> [...]
+>=20
+
