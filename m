@@ -2,57 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 896EA99EFD7
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 16:40:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 633E199F0EF
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 17:22:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A76210E59A;
-	Tue, 15 Oct 2024 14:40:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0198D10E5A1;
+	Tue, 15 Oct 2024 15:22:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lEOwdjsw";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ah+u9Blw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 626D510E5A1
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 14:40:57 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4942010E598;
+ Tue, 15 Oct 2024 15:22:04 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 62B0F5C117C;
- Tue, 15 Oct 2024 14:40:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B2FAC4CEC6;
- Tue, 15 Oct 2024 14:40:53 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 4BEB4A431E8;
+ Tue, 15 Oct 2024 15:21:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08B9FC4CEC6;
+ Tue, 15 Oct 2024 15:21:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1729003256;
- bh=h45voZ3l33ty37RQF0W2WNSzAywOCLZGEWusIeq6Kuc=;
- h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=lEOwdjswxHb/fngcBMbmH7c/lymo/+exHYs4FoQWCtL8YM2yFNgoHs9PMaEikcpVP
- wnw/Kc2BRu9HA2JAfAuLUEu0jQHC42neuZ4a0RnNYHbj9dGwY3kMzhjjDRI0+5TgnE
- bw/uO3oPYyMCSIc1tyu5Uxw+1nVpFVRS7X8nZs0iZkDH9kgyDW31L1BD8XntFm3aSB
- b6DMdndcSmtkStcUkcl0UTtieiBa6G/GyVCBJFYKuABmWs5DFO2/O/6fump97C8NMf
- 7GsbArSpUUdjpkYCuHQ3X3rh8RDCPpTd+V/G74IYBHrPdO+gCMBpjDZ3t0YjbLVYNo
- aH/916hbn5ZDg==
-From: Lee Jones <lee@kernel.org>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>, 
- Daniel Thompson <daniel.thompson@linaro.org>, 
- Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>, 
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- Wim Van Sebroeck <wim@linux-watchdog.org>, 
- Guenter Roeck <linux@roeck-us.net>, Frank Li <Frank.Li@nxp.com>
-Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-leds@vger.kernel.org, linux-watchdog@vger.kernel.org
-In-Reply-To: <20241010-zii_yaml-v2-2-0ab730607422@nxp.com>
-References: <20241010-zii_yaml-v2-0-0ab730607422@nxp.com>
- <20241010-zii_yaml-v2-2-0ab730607422@nxp.com>
-Subject: Re: (subset) [PATCH v2 2/5] dt-bindings: backlight: convert
- zii,rave-sp-backlight.txt to yaml
-Message-Id: <172900325306.630549.2100737513482910527.b4-ty@kernel.org>
-Date: Tue, 15 Oct 2024 15:40:53 +0100
+ s=k20201202; t=1729005722;
+ bh=yVHQVnLXAPgaiT2VfMOI4wCdmR3MlSS3dJqOw76r070=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Ah+u9BlwEeMsK35/m9vXnwHg5M6rbCCwJT0FOQAOBL1y2lckeGspKXg9+tYfRmY0T
+ OGwd0vylfg3ZPeMYfCvtBY6TvbXQMm2r3B8UtLJ/AmqXgL3IntrvKqTYp0f1HrMUEl
+ HKT5RhMvWTrJmkAh3ssPnPo7YI/XVHQl+/wFT0qWR3E7HNwX+uq7Sr6ncmdR0XLjGK
+ MwUemd1PrPQOUVpyImomxNMLtrDeNBZ3G7cfSDcIPlVaJ+sa29ntuuSbjGeP0c8zsC
+ pVmnYjUqLS8wiq9UwfIEL50k7q7lOeacvJmNKxXovuY14/WkK7emdK5hu5Bh6mHbZ+
+ 5ldYgiA63Z30g==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Maxime Ripard <mripard@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Imre Deak <imre.deak@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] i915: fix DRM_I915_GVT_KVMGT dependencies
+Date: Tue, 15 Oct 2024 15:21:48 +0000
+Message-Id: <20241015152157.2955229-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.13.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,19 +61,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 10 Oct 2024 11:42:39 -0400, Frank Li wrote:
-> Convert device tree binding doc zii,rave-sp-backlight.txt to yaml format.
-> Additional Changes:
-> - Remove mfd parent node at example.
-> - Ref to backlight's common.yaml
-> 
-> 
+From: Arnd Bergmann <arnd@arndb.de>
 
-Applied, thanks!
+Depending on x86 and KVM is not enough, as the kvm helper functions
+that get called here are controlled by CONFIG_KVM_X86, which is
+disabled if both KVM_INTEL and KVM_AMD are turned off.
 
-[2/5] dt-bindings: backlight: convert zii,rave-sp-backlight.txt to yaml
-      commit: 0eda30af58809224d80dc3bf3f368fc677fe8c08
+ERROR: modpost: "kvm_write_track_remove_gfn" [drivers/gpu/drm/i915/kvmgt.ko] undefined!
+ERROR: modpost: "kvm_page_track_register_notifier" [drivers/gpu/drm/i915/kvmgt.ko] undefined!
+ERROR: modpost: "kvm_page_track_unregister_notifier" [drivers/gpu/drm/i915/kvmgt.ko] undefined!
+ERROR: modpost: "kvm_write_track_add_gfn" [drivers/gpu/drm/i915/kvmgt.ko] undefined!
 
---
-Lee Jones [李琼斯]
+Change the dependency to CONFIG_KVM_X86 instead.
+
+Fixes: ea4290d77bda ("KVM: x86: leave kvm.ko out of the build if no vendor module is requested")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/gpu/drm/i915/Kconfig | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/Kconfig b/drivers/gpu/drm/i915/Kconfig
+index 46301c06d18a..985cb78d8256 100644
+--- a/drivers/gpu/drm/i915/Kconfig
++++ b/drivers/gpu/drm/i915/Kconfig
+@@ -118,9 +118,8 @@ config DRM_I915_USERPTR
+ config DRM_I915_GVT_KVMGT
+ 	tristate "Enable KVM host support Intel GVT-g graphics virtualization"
+ 	depends on DRM_I915
+-	depends on X86
++	depends on KVM_X86
+ 	depends on 64BIT
+-	depends on KVM
+ 	depends on VFIO
+ 	select DRM_I915_GVT
+ 	select KVM_EXTERNAL_WRITE_TRACKING
+-- 
+2.39.5
 
