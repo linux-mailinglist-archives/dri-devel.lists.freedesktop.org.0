@@ -2,51 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D21E699F637
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 20:53:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6811C99F652
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 20:55:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD05710E5EE;
-	Tue, 15 Oct 2024 18:53:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3E7710E0FD;
+	Tue, 15 Oct 2024 18:55:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="XhIh3es0";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="nGjlF9Cd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EFCA10E5FB
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 18:53:26 +0000 (UTC)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF95510E0FD
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 18:55:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1729018395; x=1729623195; i=deller@gmx.de;
- bh=/4lCssT+YxgQtaLjUjFf7pmDtxcsWNYEpDD9ZxoWbWE=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:
+ s=s31663417; t=1729018474; x=1729623274; i=deller@gmx.de;
+ bh=91lKyLXYNbffBLJOzGVYrJfP7I4FaiD9ad6tG5KIXl4=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
  References:From:In-Reply-To:Content-Type:
  Content-Transfer-Encoding:cc:content-transfer-encoding:
  content-type:date:from:message-id:mime-version:reply-to:subject:
  to;
- b=XhIh3es0T3mmY4YPODzwoJg50iq7lLmBh5XdP6N9t7qV/6wbsnAU8+5UxbKsez4V
- ooqxT+w02b1AcpMyTQbN6J9fw2qtgSSKlQZsuVBhDWGb3wn82mteL3Xiuw6pfetgL
- sYESuKkjlMZMsPaGlL0P/H0s3HTSwLYEJzy+5nPw7Rz1Lxl9Ux2x8cEItcIqCIAn/
- qu/idri56jSff+qkIKE3Hxn3AjMfc2QEKB1T1657Usva+UXlJFFDJoWSqRJSJ3cXd
- iOAHe5C2R8CB5zZGwcGVX9CwolZB5JC6Fhu05+uibmo9OJhwMEW3xT8nXYzdKJ9cr
- Y8yLMbwSITYnaCf2gg==
+ b=nGjlF9CdtAG0c98YK/ciOgKpebINerQcE3LXXTTea8ZejCdSyl/1Bv4CvxYs+xPM
+ cwaj0jR1/ci4SMrMa9d6lknUwm5FMmEg3K7MiDlRR2yTdZ9282mynazKMh598tviQ
+ tj6pdL0SiFVFiaQ6nUTAcXfTwb+blIAxv7DY5EgzRPaFrFO3Wmb7OY+eI5xzXuUp3
+ mGA8Jlr7QTBuDn8Cz7qE+F/dvCMIlBsJXF48Rccq26CB6Db+Bo5Vdyq+5hgzVB0sm
+ C1O0cPfyELC0IdMiC/cc+4DKb/Ts6iGEvvVCbZGr2vA3tAMOvZgVWlVHaLNJ9crx/
+ D3iPwIRAADAgXAkF2Q==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from [192.168.20.55] ([109.250.63.79]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1Ma24s-1tUVIt2oVw-00SG6H; Tue, 15
- Oct 2024 20:53:15 +0200
-Message-ID: <2981d860-ea1e-4973-839b-1c5bbfe9a1b2@gmx.de>
-Date: Tue, 15 Oct 2024 20:53:14 +0200
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MPog5-1tMYfZ2qN1-00I7Hx; Tue, 15
+ Oct 2024 20:54:34 +0200
+Message-ID: <5225783c-dd8f-40fd-b2de-03950303cf69@gmx.de>
+Date: Tue, 15 Oct 2024 20:54:32 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 7/9] gpu: drm: omapdrm: use new of_graph functions
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
+Subject: Re: [PATCH v7 0/9] of: property: add
+ of_graph_get_next_port/port_endpoint()
+To: Rob Herring <robh@kernel.org>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Jaroslav Kysela <perex@perex.cz>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Mark Brown <broonie@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>, Michal Simek <michal.simek@amd.com>,
+ Saravana Kannan <saravanak@google.com>, Takashi Iwai <tiwai@suse.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
  devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
  linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-sound@vger.kernel.org
+ linux-sound@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>
 References: <87wmiirqwy.wl-kuninori.morimoto.gx@renesas.com>
- <87msjerqvc.wl-kuninori.morimoto.gx@renesas.com>
+ <20241015154912.GA1152221-robh@kernel.org>
 Content-Language: en-US
 From: Helge Deller <deller@gmx.de>
 Autocrypt: addr=deller@gmx.de; keydata=
@@ -92,27 +102,27 @@ Autocrypt: addr=deller@gmx.de; keydata=
  FwRDcGV6nxanxZGKEkSHHOm8jHwvQWvPP73pvuPBEPtKGLzbgd7OOcGZWtq2hNC6cRtsRdDx
  4TAGMCz4j238m+2mdbdhRh3iBnWT5yPFfnv/2IjFAk+sdix1Mrr+LIDF++kiekeq0yUpDdc4
  ExBy2xf6dd+tuFFBp3/VDN4U0UfG4QJ2fg19zE5Z8dS4jGIbLg==
-In-Reply-To: <87msjerqvc.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <20241015154912.GA1152221-robh@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:GMZwETlnB80Lx7Otxy4eciy8ZRlWTkiD3kOGYHPUY+DW0DX7Sk+
- Nz6yJ7efbum5vN1tDD9Dlnt3UHEYyic6GqUmkj3eTC/O8W4/oQWqn2rgHU+WD0O/MyExG7g
- BGCxHyUr/MRxQEpBhCWHW18JGepRdF5WOgiMozEECgHYSFbeux3Imoh7ATBpwX5l+1LWC7z
- TBfrKEKBmeiVYnnvdeR/w==
+X-Provags-ID: V03:K1:GJiBUxtzYl2oqmHV1d9isoAr9PnsJlZ8OkBgA62GkofDv5+Ijl/
+ xilD91oGq42yO3+wq5saZ8tKGwOdDI/qUjLyk4C7kreQ+AND1b82W8c7o6tp6AyeT0T6KW6
+ nKJNfyrpFHZnAEepEaqXM5z88v7T+EtGBnHq7nVAR6o6q8unsPkLYsxBrL6pBNo0skxIt0P
+ uZWGFU82Nu+R41bpoCcdg==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:M9nxfO0ieLk=;HGpKT2hr0ywTMcNBYmZ+kEtFgPm
- 7yWjFAi4wPel1wpdJCNOCFD7cujb7i990YvEaLXWRoOMMW15ikXUtwZDYGroLrMYl6V5xkOou
- uBvAIX+ICdneoSBA+TUqF3VR4QD5JAxOueXxE0KgCGqla2Vy1k5MFoZ07dKEIcOIuz+S8I73j
- JSbSPRIs8G2OExkpprbfKl1mveT5gB19g2y9lNY5VA8WeHS3car+FjtG0cSEe3XT1wZVxo3gl
- gBKhJEIW+JPkSinFxxwv3U6Dq0l+TolXSxTg+Y7AGCamH2z1tIh1faox0C6o8UI2C9/6Hj89I
- zY1bwK1/FmRwcXODy2o1XfbUKoOg8ppWGpxKGtAwAdeeKz7j1b3znSu0lpmFxk4+FeKNJIkSL
- kFSZgvXNbPoXKapj97w7ilZlXsso0ut8HBZsiMWuOPDXXOnonrgXuRvoYK9We+ooY/zWwIpCm
- TVscp0UrQrNvAgl4FJTM9E13pHJcNdONEVuCwEOymoMwmaRwDw3nNQPEDtjK2oLOt5cGECrA0
- WQbQtLrX/eH77zyMeuuuUPMt8KnfKTRbPtwd1c2Cr34NoEUf5vU0R1fDBrdA2TkHdQtfZJJ30
- sORoRqXJqhP0FYVJcjunFt94vCO/T+NEvadP0EFx+LYyqIJZ3gIMjTOAvqYZ7xz1E5uySvdTy
- tJq1Oc8azbYP6YmkJdvbUcfwjzOe7K1TkAXjsiWpVATxID1oECLpj+0XMZlph1BjtdhKSh2Dg
- Rjb0Upa/keHA24ZDq27eA2H/A23xrbmoSUXwICQnhLCBl3b0fjEMQVt6X8kHMfU52Qgozs2QR
- f4+Ma3DKCwORYv9FIKP+Px4A==
+UI-OutboundReport: notjunk:1;M01:P0:keeA0EklhAU=;h2mjlKCsFABIuU2aK1/aBwRZbxC
+ IC28uf6WtuK7YC0U+ZszY34hB8rIT4BQAWq9wkS9KSnBf26hSyRFMtApi2BcSx6dAZe/FBKIN
+ 2zjCBrMtetsVBhjpOMXtWvIbHAbMTNp1vJdheeTylcK4a2XphAqNJz6441x0Umxf31nWtwtu+
+ 4zs8ckYo0h6GPnMi1h0fFjQgXgcxqrCPA+HpNJ/+Ir0OixR1WosWBDWV+mI0Fiw+CaIeFPqy8
+ MJNQDdpaMx0oeGEmxmhvCKkiW77nK5u/q2trXFE/isjJ52iyi4QqudGKDUv3V9894BYoAoRHC
+ K7iDQl9SLBfJeo97fm+uYxO9MxztGkpzupied7+QzS6TwdHdpWqTLnNIxz2iE/0hxu2T3UPOx
+ F7I8qbq7jf6e3RnhzA8UXMjFRJB2nUawchKLM2DAoUapYZz+JLo40Eh/cVR0PKODKLZMOssfG
+ jf/NzXXlv9BiLXE6k+FoTEQouWOqZ99KXW6saKhRFGQCwfItw8ev4uKzSdarEEEkhXuQYX6y4
+ RMq0RmIOEgKxDfrowwL7eKUgP3rAUhyOYkuQjnqrCmw1ulXeXa9HmbqVQl5YpucYwEdcj9JHC
+ fe9fCKdAL7sAtoNvNn4z3G4RWbUMxnTq+PdtDG2owMHgEUtsas5ljAj2cHw6GtJFryExs5JU8
+ NDmDCkCL+LYiTGcevmpFHxH1a5MSNDb+gLqTMRzzY5UxPVuFbX2ShgcC7hl52QKtb3umaFNCD
+ i458Qzp4dj/236ItE8T5kBKTRVtiSj5hL2kS7V9XeZo5iKwtGUi3nghyyozdOd6ZShSRkMQ+Q
+ iM6mlWHl2NpA7GcgrdaQprdA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,62 +138,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/9/24 03:45, Kuninori Morimoto wrote:
-> Now we can use new port related functions for port parsing. Use it.
+On 10/15/24 17:49, Rob Herring wrote:
+> On Wed, Oct 09, 2024 at 01:44:30AM +0000, Kuninori Morimoto wrote:
+>>
+>> Hi Rob, Saravana, Tomi, Laurent, Sakari, Mark
+>>
+>> This is v7 patch-set
+>>
+>> Current Of-graph has "endpoint base" for loop, but doesn't have
+>> "port base" loop. "endpoint base" loop only is not enough.
+>> This patch-set add new "port base" for loop, and use it.
+>>
+>> v6 -> v7
+>> 	- based on latest linus/master branch
+>> 	- remove "ports" base functions
+>> 	- use "port" base function on "endpoint" function ([3/9])
+>> 	- tidyup [1/9] explanation
+>>
+>> v5 -> v6
+>> 	- based on latest linus/master branch
+>> 	- [9/9]: fixed compile warrning
+>>
+>> v4 -> v5
+>> 	- tidyup comments
+>> 	- [8/9]: parent NULL check was removed
+>> 	- [9/9]: use for_each_of_graph_port()
+>>
+>> v3 -> v4
+>> 	- new for_each loop includes __free()
+>> 	 - comment indicates to use return_ptr() or no_free_ptr() if
+>> 	   it need to continue to use node
+>> 	 - each driver based on it
+>> 	- care "prev" leak on of_graph_get_next_ports()
+>> 	- of_graph_get_next_port_endpoint() indicates WARN() if port
+>> 	  has non-endpoint node
+>> 	- tidyup each git-log
+>>
+>> v2 -> v3
+>> 	- return NULL if it it doesn't have ports / port
+>> 	- add visible comment on of_graph_get_next_ports()
+>>
+>> v1 -> v2
+>> 	- add each Reviewed-by / Acked-by
+>> 	- tidyup/update Kernel Docs
+>> 	- use prev as parameter
+>> 	- update git-log explanation
+>> 	- remove extra changes
+>>
+>> Kuninori Morimoto (9):
+>>    of: property: add of_graph_get_next_port()
+>>    of: property: add of_graph_get_next_port_endpoint()
+>>    of: property: use new of_graph functions
+>>    ASoC: test-component: use new of_graph functions
+>>    ASoC: audio-graph-card: use new of_graph functions
+>>    ASoC: audio-graph-card2: use new of_graph functions
+>>    gpu: drm: omapdrm: use new of_graph functions
+>>    fbdev: omapfb: use new of_graph functions
+>>    media: xilinx-tpg: use new of_graph functions
 >
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Acked-by: Helge Deller <deller@gmx.de>
+> The DT parts look fine to me now. I see Mark acked this so he's not
+> expecting to take it. I can take it,
 
-> ---
->   drivers/gpu/drm/omapdrm/dss/dpi.c | 3 ++-
->   drivers/gpu/drm/omapdrm/dss/sdi.c | 3 ++-
->   2 files changed, 4 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/omapdrm/dss/dpi.c b/drivers/gpu/drm/omapdrm=
-/dss/dpi.c
-> index 030f997eccd0..b17e77f700dd 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/dpi.c
-> +++ b/drivers/gpu/drm/omapdrm/dss/dpi.c
-> @@ -16,6 +16,7 @@
->   #include <linux/export.h>
->   #include <linux/kernel.h>
->   #include <linux/of.h>
-> +#include <linux/of_graph.h>
->   #include <linux/platform_device.h>
->   #include <linux/regulator/consumer.h>
->   #include <linux/string.h>
-> @@ -709,7 +710,7 @@ int dpi_init_port(struct dss_device *dss, struct pla=
-tform_device *pdev,
->   	if (!dpi)
->   		return -ENOMEM;
->
-> -	ep =3D of_get_next_child(port, NULL);
-> +	ep =3D of_graph_get_next_port_endpoint(port, NULL);
->   	if (!ep)
->   		return 0;
->
-> diff --git a/drivers/gpu/drm/omapdrm/dss/sdi.c b/drivers/gpu/drm/omapdrm=
-/dss/sdi.c
-> index 91eaae3b9481..f9ae358e8e52 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/sdi.c
-> +++ b/drivers/gpu/drm/omapdrm/dss/sdi.c
-> @@ -11,6 +11,7 @@
->   #include <linux/export.h>
->   #include <linux/kernel.h>
->   #include <linux/of.h>
-> +#include <linux/of_graph.h>
->   #include <linux/platform_device.h>
->   #include <linux/regulator/consumer.h>
->   #include <linux/string.h>
-> @@ -346,7 +347,7 @@ int sdi_init_port(struct dss_device *dss, struct pla=
-tform_device *pdev,
->   	if (!sdi)
->   		return -ENOMEM;
->
-> -	ep =3D of_get_next_child(port, NULL);
-> +	ep =3D of_graph_get_next_port_endpoint(port, NULL);
->   	if (!ep) {
->   		r =3D 0;
->   		goto err_free;
+Speaking for fbdev, I'd be happy if you take them.
 
+> but need acks on the fbdev and media patches.
+
+I just sent Ack for fbdev/drm.
+
+Helge
