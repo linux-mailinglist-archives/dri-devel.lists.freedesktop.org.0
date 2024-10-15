@@ -2,82 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2784B99E23A
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 11:07:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B35199E2B8
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 11:23:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09A3110E54E;
-	Tue, 15 Oct 2024 09:07:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA1D510E051;
+	Tue, 15 Oct 2024 09:23:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="BKqWciGK";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Dqjpa9JH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EEF5F10E54E
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 09:07:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1728983262;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jjGw7BC5yPkJol2Q0/adNIjIobCUopJGouHu+FLRflU=;
- b=BKqWciGKuQPKzX4mFPgY/U5QeLhtJabbmrHsniaymIWWtSDNFddhlfom897wRaKGHr6k7U
- fs77148kLNZOpGloh5yLnyW3/TeRn0IG8OW4Ht3GVmXHWMLCWLJZTJ6Czl9VProvJSvkaH
- iiPiXAb3Qmo/vyRI/TgZ8eV1cbDyMQo=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-546-PmSwUHPqOwSsurie38ALMw-1; Tue, 15 Oct 2024 05:07:41 -0400
-X-MC-Unique: PmSwUHPqOwSsurie38ALMw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-37d504759d0so2853501f8f.0
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 02:07:41 -0700 (PDT)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
+ [209.85.167.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 595BE10E051
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 09:23:37 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id
+ 2adb3069b0e04-5366fd6fdf1so5952866e87.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 02:23:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1728984215; x=1729589015;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=KYwNqTPtJJwCGBZRPO/H4MGldhIszpAIUEyOWLkI9lQ=;
+ b=Dqjpa9JHlsSyPnX9OK+wgY2B0OQCAWUkBFEu7DDt9ZI4U/x/eaRBZ7+u8OwRJnHFAK
+ U8rbFSA4NnZGlGvzFydS0cxhOOjqA4iKBDGZZud5pEexeeop6KAwak/4+gc5TgkUNKu8
+ NU3oaKg8SzK2s+7EAcH41TJCBSJBRofKTCthk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1728983260; x=1729588060;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=jjGw7BC5yPkJol2Q0/adNIjIobCUopJGouHu+FLRflU=;
- b=E8F9JJidnT4L9s11MBrxhEyvgSgVhpuOPgXecZunBrGJxR56a5GyyYrV6AVow8nVo7
- 28JTxxb16QuAvsUNK6Bo4dF+TV8TmRHoLUrYh/VJwPHQS5HXVJZg59Tgf0w52ZU7L/yl
- CiuRElBgmnjrz7zcvCF4rqu6NeJ3Cg9WkQGobZSF1h2fE7IohDXJvobkrFD/OPlB4f1V
- 9QOYbIJmD2Tg9RPFQAqfygRwgfzUBschmMtvtzh5rbSiUJjJj52A7CZjihIu62x8fzW4
- 6GnefMuvqn+rvAzAaCDEodK1fgYE33FInCah7UXqxgtj62OH4xiZBUfbZMYZ4sPAxod2
- HByQ==
-X-Gm-Message-State: AOJu0Yw7QcWpz3yr3rXPR0kX1ZeCpf3kD/1AzFAEyZLHeD/igW0uMvDI
- Ip6JkrWppRvA1vBS9Aux9nyLcxXx1oxm9VA8MRrVlSoqYFqBinVisy8ySboBaAw/Gi9lg7V94kJ
- DYtA33Is7fBZNrHF8WQTxL+W8vqXpJ+qOZQAl3ngLm6dNz6cC8HaZBm2Wi1snWZhA+w==
-X-Received: by 2002:adf:fcc3:0:b0:37d:542a:7995 with SMTP id
- ffacd0b85a97d-37d5ffb63d0mr9278121f8f.34.1728983260241; 
- Tue, 15 Oct 2024 02:07:40 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHqyXyLWTgKSr22YKnV6WRRDaCF0Keu4NYC5SEmyTK+fUco+HwbuBN/MdxhYR8iKQByb5GLHQ==
-X-Received: by 2002:adf:fcc3:0:b0:37d:542a:7995 with SMTP id
- ffacd0b85a97d-37d5ffb63d0mr9278091f8f.34.1728983259672; 
- Tue, 15 Oct 2024 02:07:39 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-37d7fbf81b4sm1023867f8f.79.2024.10.15.02.07.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Oct 2024 02:07:39 -0700 (PDT)
-Message-ID: <25261b8b-1355-4387-b98b-5273cae59e6c@redhat.com>
-Date: Tue, 15 Oct 2024 11:07:38 +0200
+ d=1e100.net; s=20230601; t=1728984215; x=1729589015;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=KYwNqTPtJJwCGBZRPO/H4MGldhIszpAIUEyOWLkI9lQ=;
+ b=miqxxNPJxixXdZaXhK+cJH0SE8q5vg/yNonRy2yHd3yOtInkNkIVXDozX8zOTPp/f2
+ gFcInatCQjjiEF/Dd9i+gbaqoR+9l8B3krkrgtKB1bN4wcFjQcPkON72CISDHqFjknj3
+ +3EwmnCVmCUcmP53m592FHFn0tZlRGK1sgDntYi2eT7oXLmHYgYBQsvK9Wn6GP5kFecq
+ AUQsQ/N37pQx7ikuGy2TXPy6LPDpI6kLyHbWP6mx4/usNU6tcagd0FATrnGLpLmQ1tqe
+ 0g23TSuviZG3JuRqVTG8gfDYXWqG39HqAUABvFzcI+yIjiOp+E6iQoVFEYaIEkNEBHP4
+ B2ag==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWAixRedaperWLVtjFjWiV7LOhKBZ1khg2iwLmkQaFA090tAApZz4oOs/SbhQsOzbJiIxDcEkdMJIk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzX0Kac6JC/kx+fq15O0k9VN6QwH+sVDnwERLAzF+GSx93HnqEu
+ 17+zLxk1qB20ApJEm75VL6yRg4hFRbkEcixxFMCPdtPgeXc5GYs/eqMZVOvjW9EXkd7OlyOb7wO
+ AfDCzJhjqJaQvqK5vTFKoaOLE/d/FVTioIrSq
+X-Google-Smtp-Source: AGHT+IFV47hnuZqPU8RhR//utkV871fOcHo5TpPMUNV3121IIX2DLWmCimjvd/SSV+fw/mzvFLAzm1XuhrgWhYzEIyM=
+X-Received: by 2002:a05:6512:3344:b0:539:9746:2d77 with SMTP id
+ 2adb3069b0e04-539da5992a2mr5287207e87.61.1728984215195; Tue, 15 Oct 2024
+ 02:23:35 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Revert "drm/mgag200: Add vblank support"
-To: Thomas Zimmermann <tzimmermann@suse.de>, kraxel@redhat.com,
- airlied@redhat.com, tony.luck@intel.com
-Cc: dri-devel@lists.freedesktop.org
-References: <20241015063932.8620-1-tzimmermann@suse.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20241015063932.8620-1-tzimmermann@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20241009052402.411978-1-fshao@chromium.org>
+In-Reply-To: <20241009052402.411978-1-fshao@chromium.org>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Tue, 15 Oct 2024 17:23:23 +0800
+Message-ID: <CAGXv+5GWf=9TZw1im1+uF1biWgdhV4fKVkTu-xUHmk5qcLebBQ@mail.gmail.com>
+Subject: Re: [RFC PATCH] drm/bridge: panel: Use devm_drm_bridge_add()
+To: Fei Shao <fshao@chromium.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Maxime Ripard <mripard@kernel.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ David Airlie <airlied@gmail.com>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,521 +87,232 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15/10/2024 08:37, Thomas Zimmermann wrote:
-> This reverts commit 6c9e14ee9f519ee605a3694fbfa4711284781d22.
-> This reverts commit d5070c9b29440c270b534bbacd636b8fa558e82b.
-> This reverts commit 89c6ea2006e2d39b125848fb0195c08fa0b354be.
-> 
-> The VLINE interrupt doesn't work correctly on G200SE-A (at least). We
-> have also seen missing interrupts on G200ER. So revert vblank support.
-> Fixes frozen displays and warnings about missed vblanks.
-> 
-> [   33.818362] [CRTC:34:crtc-0] vblank wait timed out
-> 
->  From the vblank code, the driver only keeps the register constants and
-> the line that disables all interrupts in mgag200_device_init(). Both
-> is still useful without vblank handling.
+On Wed, Oct 9, 2024 at 1:24=E2=80=AFPM Fei Shao <fshao@chromium.org> wrote:
+>
+> In the mtk_dsi driver, its DSI host attach callback calls
+> devm_drm_of_get_bridge() to get the next bridge. If that next bridge is
+> a panel bridge, a panel_bridge object is allocated and managed by the
+> panel device.
+>
+> Later, if the attach callback fails with -EPROBE_DEFER from subsequent
+> component_add(), the panel device invoking the callback at probe time
+> also fails, and all device-managed resources are freed accordingly.
+>
+> This exposes a drm_bridge bridge_list corruption due to the unbalanced
+> lifecycle between the DSI host and the panel devices: the panel_bridge
+> object managed by panel device is freed, while drm_bridge_remove() is
+> bound to DSI host device and never gets called.
+> The next drm_bridge_add() will trigger UAF against the freed bridge list
+> object and result in kernel panic.
 
-Thanks, it looks good to me.
-As there are broken hardware, that's the only solution left.
+I think this comes back to Laurent's comment [1] when devm_drm_of_get_bridg=
+e()
+was first introduced. Maybe it's best to let the panel core always register
+a bridge.
 
-Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+https://lore.kernel.org/dri-devel/YUvKcTv2hSrUqIvF@pendragon.ideasonboard.c=
+om/
 
-
-> 
-> Reported-by: Tony Luck <tony.luck@intel.com>
-> Closes: https://lore.kernel.org/dri-devel/Zvx6lSi7oq5xvTZb@agluck-desk3.sc.intel.com/raw
-> Tested-by: Tony Luck <tony.luck@intel.com>
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> This bug is observed on a MediaTek MT8188-based Chromebook with MIPI DSI
+> outputting to a DSI panel (DT is WIP for upstream).
+>
+> As a fix, using devm_drm_bridge_add() with the panel device in the panel
+> path seems reasonable. This also implies a chain of potential cleanup
+> actions:
+>
+> 1. Removing drm_bridge_remove() means devm_drm_panel_bridge_release()
+>    becomes hollow and can be removed.
+>
+> 2. devm_drm_panel_bridge_add_typed() is almost emptied except for the
+>    `bridge->pre_enable_prev_first` line. Itself can be also removed if
+>    we move the line into drm_panel_bridge_add_typed(). (maybe?)
+>
+> 3. drm_panel_bridge_add_typed() now calls all the needed devm_* calls,
+>    so it's essentially the new devm_drm_panel_bridge_add_typed().
+>
+> 4. drmm_panel_bridge_add() needs to be updated accordingly since it
+>    calls drm_panel_bridge_add_typed(). But now there's only one bridge
+>    object to be freed, and it's already being managed by panel device.
+>    I wonder if we still need both drmm_ and devm_ version in this case.
+>    (maybe yes from DRM PoV, I don't know much about the context)
+>
+> This is a RFC patch since I'm not sure if my understanding is correct
+> (for both the fix and the cleanup). It fixes the issue I encountered,
+> but I don't expect it to be picked up directly due to the redundant
+> commit message and the dangling devm_drm_panel_bridge_release().
+> I plan to resend the official patch(es) once I know what I supposed to
+> do next.
+>
+> For reference, here's the KASAN report from the device:
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>  BUG: KASAN: slab-use-after-free in drm_bridge_add+0x98/0x230
+>  Read of size 8 at addr ffffff80c4e9e100 by task kworker/u32:1/69
+>
+>  CPU: 1 UID: 0 PID: 69 Comm: kworker/u32:1 Not tainted 6.12.0-rc1-next-20=
+241004-kasan-00030-g062135fa4046 #1
+>  Hardware name: Google Ciri sku0/unprovisioned board (DT)
+>  Workqueue: events_unbound deferred_probe_work_func
+>  Call trace:
+>   dump_backtrace+0xfc/0x140
+>   show_stack+0x24/0x38
+>   dump_stack_lvl+0x40/0xc8
+>   print_report+0x140/0x700
+>   kasan_report+0xcc/0x130
+>   __asan_report_load8_noabort+0x20/0x30
+>   drm_bridge_add+0x98/0x230
+>   devm_drm_panel_bridge_add_typed+0x174/0x298
+>   devm_drm_of_get_bridge+0xe8/0x190
+>   mtk_dsi_host_attach+0x130/0x2b0
+>   mipi_dsi_attach+0x8c/0xe8
+>   hx83102_probe+0x1a8/0x368
+>   mipi_dsi_drv_probe+0x6c/0x88
+>   really_probe+0x1c4/0x698
+>   __driver_probe_device+0x160/0x298
+>   driver_probe_device+0x7c/0x2a8
+>   __device_attach_driver+0x2a0/0x398
+>   bus_for_each_drv+0x198/0x200
+>   __device_attach+0x1c0/0x308
+>   device_initial_probe+0x20/0x38
+>   bus_probe_device+0x11c/0x1f8
+>   deferred_probe_work_func+0x80/0x250
+>   worker_thread+0x9b4/0x2780
+>   kthread+0x274/0x350
+>   ret_from_fork+0x10/0x20
+>
+>  Allocated by task 69:
+>   kasan_save_track+0x40/0x78
+>   kasan_save_alloc_info+0x44/0x58
+>   __kasan_kmalloc+0x84/0xa0
+>   __kmalloc_node_track_caller_noprof+0x228/0x450
+>   devm_kmalloc+0x6c/0x288
+>   devm_drm_panel_bridge_add_typed+0xa0/0x298
+>   devm_drm_of_get_bridge+0xe8/0x190
+>   mtk_dsi_host_attach+0x130/0x2b0
+>   mipi_dsi_attach+0x8c/0xe8
+>   hx83102_probe+0x1a8/0x368
+>   mipi_dsi_drv_probe+0x6c/0x88
+>   really_probe+0x1c4/0x698
+>   __driver_probe_device+0x160/0x298
+>   driver_probe_device+0x7c/0x2a8
+>   __device_attach_driver+0x2a0/0x398
+>   bus_for_each_drv+0x198/0x200
+>   __device_attach+0x1c0/0x308
+>   device_initial_probe+0x20/0x38
+>   bus_probe_device+0x11c/0x1f8
+>   deferred_probe_work_func+0x80/0x250
+>   worker_thread+0x9b4/0x2780
+>   kthread+0x274/0x350
+>   ret_from_fork+0x10/0x20
+>
+>  Freed by task 69:
+>   kasan_save_track+0x40/0x78
+>   kasan_save_free_info+0x58/0x78
+>   __kasan_slab_free+0x48/0x68
+>   kfree+0xd4/0x750
+>   devres_release_all+0x144/0x1e8
+>   really_probe+0x48c/0x698
+>   __driver_probe_device+0x160/0x298
+>   driver_probe_device+0x7c/0x2a8
+>   __device_attach_driver+0x2a0/0x398
+>   bus_for_each_drv+0x198/0x200
+>   __device_attach+0x1c0/0x308
+>   device_initial_probe+0x20/0x38
+>   bus_probe_device+0x11c/0x1f8
+>   deferred_probe_work_func+0x80/0x250
+>   worker_thread+0x9b4/0x2780
+>   kthread+0x274/0x350
+>   ret_from_fork+0x10/0x20
+>
+>  The buggy address belongs to the object at ffffff80c4e9e000
+>   which belongs to the cache kmalloc-4k of size 4096
+>  The buggy address is located 256 bytes inside of
+>   freed 4096-byte region [ffffff80c4e9e000, ffffff80c4e9f000)
+>
+>  The buggy address belongs to the physical page:
+>  head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
+>  flags: 0x8000000000000040(head|zone=3D2)
+>  page_type: f5(slab)
+>  page: refcount:1 mapcount:0 mapping:0000000000000000
+>  index:0x0 pfn:0x104e98
+>  raw: 8000000000000040 ffffff80c0003040 dead000000000122 0000000000000000
+>  raw: 0000000000000000 0000000000040004 00000001f5000000 0000000000000000
+>  head: 8000000000000040 ffffff80c0003040 dead000000000122 000000000000000=
+0
+>  head: 0000000000000000 0000000000040004 00000001f5000000 000000000000000=
+0
+>  head: 8000000000000003 fffffffec313a601 ffffffffffffffff 000000000000000=
+0
+>  head: 0000000000000008 0000000000000000 00000000ffffffff 000000000000000=
+0
+>  page dumped because: kasan: bad access detected
+>
+>  Memory state around the buggy address:
+>   ffffff80c4e9e000: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>   ffffff80c4e9e080: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>  >ffffff80c4e9e100: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>                     ^
+>   ffffff80c4e9e180: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>   ffffff80c4e9e200: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> Signed-off-by: Fei Shao <fshao@chromium.org>
 > ---
->   drivers/gpu/drm/mgag200/mgag200_drv.c     | 38 -----------
->   drivers/gpu/drm/mgag200/mgag200_drv.h     | 14 +----
->   drivers/gpu/drm/mgag200/mgag200_g200.c    |  5 --
->   drivers/gpu/drm/mgag200/mgag200_g200eh.c  |  5 --
->   drivers/gpu/drm/mgag200/mgag200_g200eh3.c |  5 --
->   drivers/gpu/drm/mgag200/mgag200_g200er.c  | 10 +--
->   drivers/gpu/drm/mgag200/mgag200_g200ev.c  | 10 +--
->   drivers/gpu/drm/mgag200/mgag200_g200ew3.c |  5 --
->   drivers/gpu/drm/mgag200/mgag200_g200se.c  | 10 +--
->   drivers/gpu/drm/mgag200/mgag200_g200wb.c  |  5 --
->   drivers/gpu/drm/mgag200/mgag200_mode.c    | 77 +----------------------
->   11 files changed, 6 insertions(+), 178 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.c b/drivers/gpu/drm/mgag200/mgag200_drv.c
-> index 42fabe817e21..97fd7eb765b4 100644
-> --- a/drivers/gpu/drm/mgag200/mgag200_drv.c
-> +++ b/drivers/gpu/drm/mgag200/mgag200_drv.c
-> @@ -20,7 +20,6 @@
->   #include <drm/drm_managed.h>
->   #include <drm/drm_module.h>
->   #include <drm/drm_pciids.h>
-> -#include <drm/drm_vblank.h>
->   
->   #include "mgag200_drv.h"
->   
-> @@ -87,34 +86,6 @@ resource_size_t mgag200_probe_vram(void __iomem *mem, resource_size_t size)
->   	return offset - 65536;
->   }
->   
-> -static irqreturn_t mgag200_irq_handler(int irq, void *arg)
-> -{
-> -	struct drm_device *dev = arg;
-> -	struct mga_device *mdev = to_mga_device(dev);
-> -	struct drm_crtc *crtc;
-> -	u32 status, ien;
-> -
-> -	status = RREG32(MGAREG_STATUS);
-> -
-> -	if (status & MGAREG_STATUS_VLINEPEN) {
-> -		ien = RREG32(MGAREG_IEN);
-> -		if (!(ien & MGAREG_IEN_VLINEIEN))
-> -			goto out;
-> -
-> -		crtc = drm_crtc_from_index(dev, 0);
-> -		if (WARN_ON_ONCE(!crtc))
-> -			goto out;
-> -		drm_crtc_handle_vblank(crtc);
-> -
-> -		WREG32(MGAREG_ICLEAR, MGAREG_ICLEAR_VLINEICLR);
-> -
-> -		return IRQ_HANDLED;
-> -	}
-> -
-> -out:
-> -	return IRQ_NONE;
-> -}
-> -
->   /*
->    * DRM driver
->    */
-> @@ -199,7 +170,6 @@ int mgag200_device_init(struct mga_device *mdev,
->   			const struct mgag200_device_funcs *funcs)
->   {
->   	struct drm_device *dev = &mdev->base;
-> -	struct pci_dev *pdev = to_pci_dev(dev->dev);
->   	u8 crtcext3, misc;
->   	int ret;
->   
-> @@ -226,14 +196,6 @@ int mgag200_device_init(struct mga_device *mdev,
->   	mutex_unlock(&mdev->rmmio_lock);
->   
->   	WREG32(MGAREG_IEN, 0);
-> -	WREG32(MGAREG_ICLEAR, MGAREG_ICLEAR_VLINEICLR);
-> -
-> -	ret = devm_request_irq(&pdev->dev, pdev->irq, mgag200_irq_handler, IRQF_SHARED,
-> -			       dev->driver->name, dev);
-> -	if (ret) {
-> -		drm_err(dev, "Failed to acquire interrupt, error %d\n", ret);
-> -		return ret;
-> -	}
->   
->   	return 0;
->   }
-> diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mgag200/mgag200_drv.h
-> index 4760ba92871b..988967eafbf2 100644
-> --- a/drivers/gpu/drm/mgag200/mgag200_drv.h
-> +++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
-> @@ -391,24 +391,17 @@ int mgag200_crtc_helper_atomic_check(struct drm_crtc *crtc, struct drm_atomic_st
->   void mgag200_crtc_helper_atomic_flush(struct drm_crtc *crtc, struct drm_atomic_state *old_state);
->   void mgag200_crtc_helper_atomic_enable(struct drm_crtc *crtc, struct drm_atomic_state *old_state);
->   void mgag200_crtc_helper_atomic_disable(struct drm_crtc *crtc, struct drm_atomic_state *old_state);
-> -bool mgag200_crtc_helper_get_scanout_position(struct drm_crtc *crtc, bool in_vblank_irq,
-> -					      int *vpos, int *hpos,
-> -					      ktime_t *stime, ktime_t *etime,
-> -					      const struct drm_display_mode *mode);
->   
->   #define MGAG200_CRTC_HELPER_FUNCS \
->   	.mode_valid = mgag200_crtc_helper_mode_valid, \
->   	.atomic_check = mgag200_crtc_helper_atomic_check, \
->   	.atomic_flush = mgag200_crtc_helper_atomic_flush, \
->   	.atomic_enable = mgag200_crtc_helper_atomic_enable, \
-> -	.atomic_disable = mgag200_crtc_helper_atomic_disable, \
-> -	.get_scanout_position = mgag200_crtc_helper_get_scanout_position
-> +	.atomic_disable = mgag200_crtc_helper_atomic_disable
->   
->   void mgag200_crtc_reset(struct drm_crtc *crtc);
->   struct drm_crtc_state *mgag200_crtc_atomic_duplicate_state(struct drm_crtc *crtc);
->   void mgag200_crtc_atomic_destroy_state(struct drm_crtc *crtc, struct drm_crtc_state *crtc_state);
-> -int mgag200_crtc_enable_vblank(struct drm_crtc *crtc);
-> -void mgag200_crtc_disable_vblank(struct drm_crtc *crtc);
->   
->   #define MGAG200_CRTC_FUNCS \
->   	.reset = mgag200_crtc_reset, \
-> @@ -416,10 +409,7 @@ void mgag200_crtc_disable_vblank(struct drm_crtc *crtc);
->   	.set_config = drm_atomic_helper_set_config, \
->   	.page_flip = drm_atomic_helper_page_flip, \
->   	.atomic_duplicate_state = mgag200_crtc_atomic_duplicate_state, \
-> -	.atomic_destroy_state = mgag200_crtc_atomic_destroy_state, \
-> -	.enable_vblank = mgag200_crtc_enable_vblank, \
-> -	.disable_vblank = mgag200_crtc_disable_vblank, \
-> -	.get_vblank_timestamp = drm_crtc_vblank_helper_get_vblank_timestamp
-> +	.atomic_destroy_state = mgag200_crtc_atomic_destroy_state
->   
->   void mgag200_set_mode_regs(struct mga_device *mdev, const struct drm_display_mode *mode,
->   			   bool set_vidrst);
-> diff --git a/drivers/gpu/drm/mgag200/mgag200_g200.c b/drivers/gpu/drm/mgag200/mgag200_g200.c
-> index 77ce8d36cef0..f874e2949840 100644
-> --- a/drivers/gpu/drm/mgag200/mgag200_g200.c
-> +++ b/drivers/gpu/drm/mgag200/mgag200_g200.c
-> @@ -8,7 +8,6 @@
->   #include <drm/drm_drv.h>
->   #include <drm/drm_gem_atomic_helper.h>
->   #include <drm/drm_probe_helper.h>
-> -#include <drm/drm_vblank.h>
->   
->   #include "mgag200_drv.h"
->   
-> @@ -404,9 +403,5 @@ struct mga_device *mgag200_g200_device_create(struct pci_dev *pdev, const struct
->   	drm_mode_config_reset(dev);
->   	drm_kms_helper_poll_init(dev);
->   
-> -	ret = drm_vblank_init(dev, 1);
-> -	if (ret)
-> -		return ERR_PTR(ret);
-> -
->   	return mdev;
->   }
-> diff --git a/drivers/gpu/drm/mgag200/mgag200_g200eh.c b/drivers/gpu/drm/mgag200/mgag200_g200eh.c
-> index 09ced65c1d2f..e2305f8e00f8 100644
-> --- a/drivers/gpu/drm/mgag200/mgag200_g200eh.c
-> +++ b/drivers/gpu/drm/mgag200/mgag200_g200eh.c
-> @@ -8,7 +8,6 @@
->   #include <drm/drm_drv.h>
->   #include <drm/drm_gem_atomic_helper.h>
->   #include <drm/drm_probe_helper.h>
-> -#include <drm/drm_vblank.h>
->   
->   #include "mgag200_drv.h"
->   
-> @@ -276,9 +275,5 @@ struct mga_device *mgag200_g200eh_device_create(struct pci_dev *pdev, const stru
->   	drm_mode_config_reset(dev);
->   	drm_kms_helper_poll_init(dev);
->   
-> -	ret = drm_vblank_init(dev, 1);
-> -	if (ret)
-> -		return ERR_PTR(ret);
-> -
->   	return mdev;
->   }
-> diff --git a/drivers/gpu/drm/mgag200/mgag200_g200eh3.c b/drivers/gpu/drm/mgag200/mgag200_g200eh3.c
-> index 5daa469137bd..11ae76eb081d 100644
-> --- a/drivers/gpu/drm/mgag200/mgag200_g200eh3.c
-> +++ b/drivers/gpu/drm/mgag200/mgag200_g200eh3.c
-> @@ -7,7 +7,6 @@
->   #include <drm/drm_drv.h>
->   #include <drm/drm_gem_atomic_helper.h>
->   #include <drm/drm_probe_helper.h>
-> -#include <drm/drm_vblank.h>
->   
->   #include "mgag200_drv.h"
->   
-> @@ -181,9 +180,5 @@ struct mga_device *mgag200_g200eh3_device_create(struct pci_dev *pdev,
->   	drm_mode_config_reset(dev);
->   	drm_kms_helper_poll_init(dev);
->   
-> -	ret = drm_vblank_init(dev, 1);
-> -	if (ret)
-> -		return ERR_PTR(ret);
-> -
->   	return mdev;
->   }
-> diff --git a/drivers/gpu/drm/mgag200/mgag200_g200er.c b/drivers/gpu/drm/mgag200/mgag200_g200er.c
-> index 09cfffafe130..c20ed0ab50ec 100644
-> --- a/drivers/gpu/drm/mgag200/mgag200_g200er.c
-> +++ b/drivers/gpu/drm/mgag200/mgag200_g200er.c
-> @@ -8,7 +8,6 @@
->   #include <drm/drm_drv.h>
->   #include <drm/drm_gem_atomic_helper.h>
->   #include <drm/drm_probe_helper.h>
-> -#include <drm/drm_vblank.h>
->   
->   #include "mgag200_drv.h"
->   
-> @@ -206,8 +205,6 @@ static void mgag200_g200er_crtc_helper_atomic_enable(struct drm_crtc *crtc,
->   		mgag200_crtc_set_gamma_linear(mdev, format);
->   
->   	mgag200_enable_display(mdev);
-> -
-> -	drm_crtc_vblank_on(crtc);
->   }
->   
->   static const struct drm_crtc_helper_funcs mgag200_g200er_crtc_helper_funcs = {
-> @@ -215,8 +212,7 @@ static const struct drm_crtc_helper_funcs mgag200_g200er_crtc_helper_funcs = {
->   	.atomic_check = mgag200_crtc_helper_atomic_check,
->   	.atomic_flush = mgag200_crtc_helper_atomic_flush,
->   	.atomic_enable = mgag200_g200er_crtc_helper_atomic_enable,
-> -	.atomic_disable = mgag200_crtc_helper_atomic_disable,
-> -	.get_scanout_position = mgag200_crtc_helper_get_scanout_position,
-> +	.atomic_disable = mgag200_crtc_helper_atomic_disable
->   };
->   
->   static const struct drm_crtc_funcs mgag200_g200er_crtc_funcs = {
-> @@ -312,9 +308,5 @@ struct mga_device *mgag200_g200er_device_create(struct pci_dev *pdev, const stru
->   	drm_mode_config_reset(dev);
->   	drm_kms_helper_poll_init(dev);
->   
-> -	ret = drm_vblank_init(dev, 1);
-> -	if (ret)
-> -		return ERR_PTR(ret);
-> -
->   	return mdev;
->   }
-> diff --git a/drivers/gpu/drm/mgag200/mgag200_g200ev.c b/drivers/gpu/drm/mgag200/mgag200_g200ev.c
-> index 3d48baa91d8b..78be964eb97c 100644
-> --- a/drivers/gpu/drm/mgag200/mgag200_g200ev.c
-> +++ b/drivers/gpu/drm/mgag200/mgag200_g200ev.c
-> @@ -8,7 +8,6 @@
->   #include <drm/drm_drv.h>
->   #include <drm/drm_gem_atomic_helper.h>
->   #include <drm/drm_probe_helper.h>
-> -#include <drm/drm_vblank.h>
->   
->   #include "mgag200_drv.h"
->   
-> @@ -207,8 +206,6 @@ static void mgag200_g200ev_crtc_helper_atomic_enable(struct drm_crtc *crtc,
->   		mgag200_crtc_set_gamma_linear(mdev, format);
->   
->   	mgag200_enable_display(mdev);
-> -
-> -	drm_crtc_vblank_on(crtc);
->   }
->   
->   static const struct drm_crtc_helper_funcs mgag200_g200ev_crtc_helper_funcs = {
-> @@ -216,8 +213,7 @@ static const struct drm_crtc_helper_funcs mgag200_g200ev_crtc_helper_funcs = {
->   	.atomic_check = mgag200_crtc_helper_atomic_check,
->   	.atomic_flush = mgag200_crtc_helper_atomic_flush,
->   	.atomic_enable = mgag200_g200ev_crtc_helper_atomic_enable,
-> -	.atomic_disable = mgag200_crtc_helper_atomic_disable,
-> -	.get_scanout_position = mgag200_crtc_helper_get_scanout_position,
-> +	.atomic_disable = mgag200_crtc_helper_atomic_disable
->   };
->   
->   static const struct drm_crtc_funcs mgag200_g200ev_crtc_funcs = {
-> @@ -317,9 +313,5 @@ struct mga_device *mgag200_g200ev_device_create(struct pci_dev *pdev, const stru
->   	drm_mode_config_reset(dev);
->   	drm_kms_helper_poll_init(dev);
->   
-> -	ret = drm_vblank_init(dev, 1);
-> -	if (ret)
-> -		return ERR_PTR(ret);
-> -
->   	return mdev;
->   }
-> diff --git a/drivers/gpu/drm/mgag200/mgag200_g200ew3.c b/drivers/gpu/drm/mgag200/mgag200_g200ew3.c
-> index dabc778e64e8..31624c9ab7b7 100644
-> --- a/drivers/gpu/drm/mgag200/mgag200_g200ew3.c
-> +++ b/drivers/gpu/drm/mgag200/mgag200_g200ew3.c
-> @@ -7,7 +7,6 @@
->   #include <drm/drm_drv.h>
->   #include <drm/drm_gem_atomic_helper.h>
->   #include <drm/drm_probe_helper.h>
-> -#include <drm/drm_vblank.h>
->   
->   #include "mgag200_drv.h"
->   
-> @@ -199,9 +198,5 @@ struct mga_device *mgag200_g200ew3_device_create(struct pci_dev *pdev,
->   	drm_mode_config_reset(dev);
->   	drm_kms_helper_poll_init(dev);
->   
-> -	ret = drm_vblank_init(dev, 1);
-> -	if (ret)
-> -		return ERR_PTR(ret);
-> -
->   	return mdev;
->   }
-> diff --git a/drivers/gpu/drm/mgag200/mgag200_g200se.c b/drivers/gpu/drm/mgag200/mgag200_g200se.c
-> index 9dcbe8304271..7a32d3b1d226 100644
-> --- a/drivers/gpu/drm/mgag200/mgag200_g200se.c
-> +++ b/drivers/gpu/drm/mgag200/mgag200_g200se.c
-> @@ -8,7 +8,6 @@
->   #include <drm/drm_drv.h>
->   #include <drm/drm_gem_atomic_helper.h>
->   #include <drm/drm_probe_helper.h>
-> -#include <drm/drm_vblank.h>
->   
->   #include "mgag200_drv.h"
->   
-> @@ -338,8 +337,6 @@ static void mgag200_g200se_crtc_helper_atomic_enable(struct drm_crtc *crtc,
->   		mgag200_crtc_set_gamma_linear(mdev, format);
->   
->   	mgag200_enable_display(mdev);
-> -
-> -	drm_crtc_vblank_on(crtc);
->   }
->   
->   static const struct drm_crtc_helper_funcs mgag200_g200se_crtc_helper_funcs = {
-> @@ -347,8 +344,7 @@ static const struct drm_crtc_helper_funcs mgag200_g200se_crtc_helper_funcs = {
->   	.atomic_check = mgag200_crtc_helper_atomic_check,
->   	.atomic_flush = mgag200_crtc_helper_atomic_flush,
->   	.atomic_enable = mgag200_g200se_crtc_helper_atomic_enable,
-> -	.atomic_disable = mgag200_crtc_helper_atomic_disable,
-> -	.get_scanout_position = mgag200_crtc_helper_get_scanout_position,
-> +	.atomic_disable = mgag200_crtc_helper_atomic_disable
->   };
->   
->   static const struct drm_crtc_funcs mgag200_g200se_crtc_funcs = {
-> @@ -517,9 +513,5 @@ struct mga_device *mgag200_g200se_device_create(struct pci_dev *pdev, const stru
->   	drm_mode_config_reset(dev);
->   	drm_kms_helper_poll_init(dev);
->   
-> -	ret = drm_vblank_init(dev, 1);
-> -	if (ret)
-> -		return ERR_PTR(ret);
-> -
->   	return mdev;
->   }
-> diff --git a/drivers/gpu/drm/mgag200/mgag200_g200wb.c b/drivers/gpu/drm/mgag200/mgag200_g200wb.c
-> index 83a24aedbf2f..a0e7b9ad46cd 100644
-> --- a/drivers/gpu/drm/mgag200/mgag200_g200wb.c
-> +++ b/drivers/gpu/drm/mgag200/mgag200_g200wb.c
-> @@ -8,7 +8,6 @@
->   #include <drm/drm_drv.h>
->   #include <drm/drm_gem_atomic_helper.h>
->   #include <drm/drm_probe_helper.h>
-> -#include <drm/drm_vblank.h>
->   
->   #include "mgag200_drv.h"
->   
-> @@ -323,9 +322,5 @@ struct mga_device *mgag200_g200wb_device_create(struct pci_dev *pdev, const stru
->   	drm_mode_config_reset(dev);
->   	drm_kms_helper_poll_init(dev);
->   
-> -	ret = drm_vblank_init(dev, 1);
-> -	if (ret)
-> -		return ERR_PTR(ret);
-> -
->   	return mdev;
->   }
-> diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
-> index 7159909aca1e..fb71658c3117 100644
-> --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
-> +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
-> @@ -22,7 +22,6 @@
->   #include <drm/drm_gem_framebuffer_helper.h>
->   #include <drm/drm_panic.h>
->   #include <drm/drm_print.h>
-> -#include <drm/drm_vblank.h>
->   
->   #include "mgag200_ddc.h"
->   #include "mgag200_drv.h"
-> @@ -227,14 +226,7 @@ void mgag200_set_mode_regs(struct mga_device *mdev, const struct drm_display_mod
->   	vblkstr = mode->crtc_vblank_start;
->   	vblkend = vtotal + 1;
->   
-> -	/*
-> -	 * There's no VBLANK interrupt on Matrox chipsets, so we use
-> -	 * the VLINE interrupt instead. It triggers when the current
-> -	 * <linecomp> has been reached. For VBLANK, this is the first
-> -	 * non-visible line at the bottom of the screen. Therefore,
-> -	 * keep <linecomp> in sync with <vblkstr>.
-> -	 */
-> -	linecomp = vblkstr;
-> +	linecomp = vdispend;
->   
->   	misc = RREG8(MGA_MISC_IN);
->   
-> @@ -645,8 +637,6 @@ void mgag200_crtc_helper_atomic_flush(struct drm_crtc *crtc, struct drm_atomic_s
->   	struct mgag200_crtc_state *mgag200_crtc_state = to_mgag200_crtc_state(crtc_state);
->   	struct drm_device *dev = crtc->dev;
->   	struct mga_device *mdev = to_mga_device(dev);
-> -	struct drm_pending_vblank_event *event;
-> -	unsigned long flags;
->   
->   	if (crtc_state->enable && crtc_state->color_mgmt_changed) {
->   		const struct drm_format_info *format = mgag200_crtc_state->format;
-> @@ -656,18 +646,6 @@ void mgag200_crtc_helper_atomic_flush(struct drm_crtc *crtc, struct drm_atomic_s
->   		else
->   			mgag200_crtc_set_gamma_linear(mdev, format);
->   	}
-> -
-> -	event = crtc->state->event;
-> -	if (event) {
-> -		crtc->state->event = NULL;
-> -
-> -		spin_lock_irqsave(&dev->event_lock, flags);
-> -		if (drm_crtc_vblank_get(crtc) != 0)
-> -			drm_crtc_send_vblank_event(crtc, event);
-> -		else
-> -			drm_crtc_arm_vblank_event(crtc, event);
-> -		spin_unlock_irqrestore(&dev->event_lock, flags);
-> -	}
->   }
->   
->   void mgag200_crtc_helper_atomic_enable(struct drm_crtc *crtc, struct drm_atomic_state *old_state)
-> @@ -692,44 +670,15 @@ void mgag200_crtc_helper_atomic_enable(struct drm_crtc *crtc, struct drm_atomic_
->   		mgag200_crtc_set_gamma_linear(mdev, format);
->   
->   	mgag200_enable_display(mdev);
-> -
-> -	drm_crtc_vblank_on(crtc);
->   }
->   
->   void mgag200_crtc_helper_atomic_disable(struct drm_crtc *crtc, struct drm_atomic_state *old_state)
->   {
->   	struct mga_device *mdev = to_mga_device(crtc->dev);
->   
-> -	drm_crtc_vblank_off(crtc);
-> -
->   	mgag200_disable_display(mdev);
->   }
->   
-> -bool mgag200_crtc_helper_get_scanout_position(struct drm_crtc *crtc, bool in_vblank_irq,
-> -					      int *vpos, int *hpos,
-> -					      ktime_t *stime, ktime_t *etime,
-> -					      const struct drm_display_mode *mode)
-> -{
-> -	struct mga_device *mdev = to_mga_device(crtc->dev);
-> -	u32 vcount;
-> -
-> -	if (stime)
-> -		*stime = ktime_get();
-> -
-> -	if (vpos) {
-> -		vcount = RREG32(MGAREG_VCOUNT);
-> -		*vpos = vcount & GENMASK(11, 0);
-> -	}
-> -
-> -	if (hpos)
-> -		*hpos = mode->htotal >> 1; // near middle of scanline on average
-> -
-> -	if (etime)
-> -		*etime = ktime_get();
-> -
-> -	return true;
-> -}
-> -
->   void mgag200_crtc_reset(struct drm_crtc *crtc)
->   {
->   	struct mgag200_crtc_state *mgag200_crtc_state;
-> @@ -774,30 +723,6 @@ void mgag200_crtc_atomic_destroy_state(struct drm_crtc *crtc, struct drm_crtc_st
->   	kfree(mgag200_crtc_state);
->   }
->   
-> -int mgag200_crtc_enable_vblank(struct drm_crtc *crtc)
-> -{
-> -	struct mga_device *mdev = to_mga_device(crtc->dev);
-> -	u32 ien;
-> -
-> -	WREG32(MGAREG_ICLEAR, MGAREG_ICLEAR_VLINEICLR);
-> -
-> -	ien = RREG32(MGAREG_IEN);
-> -	ien |= MGAREG_IEN_VLINEIEN;
-> -	WREG32(MGAREG_IEN, ien);
-> -
-> -	return 0;
-> -}
-> -
-> -void mgag200_crtc_disable_vblank(struct drm_crtc *crtc)
-> -{
-> -	struct mga_device *mdev = to_mga_device(crtc->dev);
-> -	u32 ien;
-> -
-> -	ien = RREG32(MGAREG_IEN);
-> -	ien &= ~(MGAREG_IEN_VLINEIEN);
-> -	WREG32(MGAREG_IEN, ien);
-> -}
-> -
->   /*
->    * Mode config
->    */
+>
+>  drivers/gpu/drm/bridge/panel.c | 5 +----
+>  1 file changed, 1 insertion(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/pane=
+l.c
+> index 6e88339dec0f..352723c59c70 100644
+> --- a/drivers/gpu/drm/bridge/panel.c
+> +++ b/drivers/gpu/drm/bridge/panel.c
+> @@ -303,7 +303,7 @@ struct drm_bridge *drm_panel_bridge_add_typed(struct =
+drm_panel *panel,
+>         panel_bridge->bridge.ops =3D DRM_BRIDGE_OP_MODES;
+>         panel_bridge->bridge.type =3D connector_type;
+>
+> -       drm_bridge_add(&panel_bridge->bridge);
+> +       devm_drm_bridge_add(panel->dev, &panel_bridge->bridge);
+>
+>         return &panel_bridge->bridge;
+>  }
+> @@ -327,7 +327,6 @@ void drm_panel_bridge_remove(struct drm_bridge *bridg=
+e)
+>
+>         panel_bridge =3D drm_bridge_to_panel_bridge(bridge);
+>
+> -       drm_bridge_remove(bridge);
 
+I believe this is incorrect, because the bridge object is still freed
+on the next line. If one calls drm_panel_bridge_remove() explicitly,
+or somehow the interface device is unbound before the panel device
+(which can happen for RGB or LVDS panels where the panel is not a
+sub-device of the interface), it will still blow up. Also, some
+drivers choose to manage the lifetime themselves with
+drm_panel_bridge_add_typed() and drm_panel_bridge_remove(). A new
+devm_drm_bridge_remove() function needs to be added and used here.
+
+
+ChenYu
+
+
+>         devm_kfree(panel_bridge->panel->dev, bridge);
+>  }
+>  EXPORT_SYMBOL(drm_panel_bridge_remove);
+> @@ -359,8 +358,6 @@ static void devm_drm_panel_bridge_release(struct devi=
+ce *dev, void *res)
+>
+>         if (!bridge)
+>                 return;
+> -
+> -       drm_bridge_remove(bridge);
+>  }
+>
+>  /**
+> --
+> 2.47.0.rc1.288.g06298d1525-goog
+>
