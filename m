@@ -2,88 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09FF899F343
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 18:50:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC86999F348
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 18:51:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D42DE10E09E;
-	Tue, 15 Oct 2024 16:50:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46E6110E0B5;
+	Tue, 15 Oct 2024 16:51:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="O+QTdlfW";
+	dkim=pass (2048-bit key; unprotected) header.d=emersion.fr header.i=@emersion.fr header.b="aGJ5BPjL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 425E010E09E
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 16:50:14 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49FFk7jp012970;
- Tue, 15 Oct 2024 16:49:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- ujyBCPa3GayROeLLvHeKHHHN+7AEfBzvB6jZL4sLn6A=; b=O+QTdlfWdfDwt+Bs
- u07V/Y0D5mhGHCnvSv/fTlMxisPrEUgs8BCPvSQTIpK8s20k4hDGDXzsDmkV/rId
- fGvDuZo2pfboCXvvQyUOFjtWCvSkwC+8A65dYJLaydgyBCz92PnFji9j1qbDuvHP
- x2yODPniTcoOzD+7HLcxUw6qGiH2iWIRC2EI2Jj82z1IDr67tfUnP8hlbz4nLuko
- fTUeVig62b0VAvBPu/x3AFYX8qIXBJ4e6W2351sD2f7cdSR8YFaKh6zqhgEUpIBS
- qAXLr+W2QGosJ78SBcfgiqPHQTMaph1H7KqGkpWC9N4yA70xwxrgKtW5wZMKQ7K5
- qtPb+Q==
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 429uap86rt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Oct 2024 16:49:57 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49FGnuWC027907
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Oct 2024 16:49:56 GMT
-Received: from [10.134.70.212] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 15 Oct
- 2024 09:49:56 -0700
-Message-ID: <d97f803f-7eb2-481f-b40f-5784c74aa29e@quicinc.com>
-Date: Tue, 15 Oct 2024 09:49:54 -0700
+Received: from mail-4018.proton.ch (mail-4018.proton.ch [185.70.40.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F12E410E0B5
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 16:51:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail; t=1729011065; x=1729270265;
+ bh=/bSWJYO4jW7IlsgZs8Xi6kcObbXH0r2hB0HglOrjTuw=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID:BIMI-Selector;
+ b=aGJ5BPjLAs7XwbC6ugF3VgTww7pp1P1H2zQLb+AnPKtd+AiOKgQEPLORa2E2Dx/nP
+ RZTE3MKHNMbXgRzVLKD337nnAv0PRWvyUdxx2AuKWh5gWWaMkVMOoEGqlZnryRLUE6
+ 8gQd0FP1IxW2zKGDu07XSS4CNITAVf6+bAcYQ9ypeiJQP3q12Q2B8fNr1xOVsAMS66
+ 6BrpS4yYtNcPJ7yw+8jCahkDuNDF8bVZamZ5fgqaL048EslcvRc3vAmq4mAGkvi78v
+ ofK70WbnA5SzjSrsOX7IcG1xpu7UkDchgD9LoUK0EcauxR3cX/KCR3hqNNiNTYAhCs
+ JaTJ3bDex03mQ==
+Date: Tue, 15 Oct 2024 16:50:59 +0000
+To: Ville Syrjala <ville.syrjala@linux.intel.com>
+From: Simon Ser <contact@emersion.fr>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ Daniel Stone <daniels@collabora.com>
+Subject: Re: [PATCH 2/2] drm/doc: Document that userspace should utilize CRTCs
+ bottom up
+Message-ID: <RAc9ufoHQcVRB3GfOjFuj-1MX1XXX1PzpCRW3DDB22k90I5dXkOgOssiYYFHOJ_k26DGGLZUThMx4B0vgVvNJbxU-BQ6NANJzfhNVv0wvk8=@emersion.fr>
+In-Reply-To: <4S8WQcK5RB97ooUl9a2VlW9-9ZrzsD-n7-UQ2uuv_BKyviTS_jBhh1rVeGOq45_RyksdFJYLdNxml_H6qtvV9ih_-x4PZ-aCVQ20ymzXcus=@emersion.fr>
+References: <20240612141903.17219-1-ville.syrjala@linux.intel.com>
+ <20240612141903.17219-2-ville.syrjala@linux.intel.com>
+ <4S8WQcK5RB97ooUl9a2VlW9-9ZrzsD-n7-UQ2uuv_BKyviTS_jBhh1rVeGOq45_RyksdFJYLdNxml_H6qtvV9ih_-x4PZ-aCVQ20ymzXcus=@emersion.fr>
+Feedback-ID: 1358184:user:proton
+X-Pm-Message-ID: dddc226c765843ecbaed66e8a5ab3f558635c02f
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] [v2] drm/panel: s6e3ha8: select
- CONFIG_DRM_DISPLAY_DSC_HELPER
-To: Arnd Bergmann <arnd@kernel.org>, Neil Armstrong
- <neil.armstrong@linaro.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Dzmitry Sankouski <dsankouski@gmail.com>
-CC: Arnd Bergmann <arnd@arndb.de>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Cong Yang <yangcong5@huaqin.corp-partner.google.com>, Michael Trimarchi
- <michael@amarulasolutions.com>, Randy Dunlap <rdunlap@infradead.org>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20241015153442.3757061-1-arnd@kernel.org>
-Content-Language: en-US
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <20241015153442.3757061-1-arnd@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: 2_AUkrDNuKEuiI6ixM-PQfwl6z-XlcMe
-X-Proofpoint-GUID: 2_AUkrDNuKEuiI6ixM-PQfwl6z-XlcMe
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 mlxscore=0
- spamscore=0 bulkscore=0 clxscore=1011 malwarescore=0 mlxlogscore=999
- phishscore=0 priorityscore=1501 suspectscore=0 adultscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2410150115
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,48 +59,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tuesday, August 20th, 2024 at 22:27, Simon Ser <contact@emersion.fr> wro=
+te:
 
+> Sorry for the huge delay. Generally this looks good but maybe we
+> could explain a bit more what "bottom up" means exactly since it
+> may not be super obvious.
+>=20
+> Maybe something among these lines?
+>=20
+> Bottom up means that the first CRTCs in the array should be used
+> first. For instance, if the driver exposes 4 CRTCs and user-space
+> needs 2, it should prioritize CRTCs with indices 0 and 1.
 
-On 10/15/2024 8:34 AM, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> The new driver needs the dsc helper code to be available:
-> 
-> x86_64-linux-ld: vmlinux.o: in function `s6e3ha8_amb577px01_wqhd_prepare':
-> panel-samsung-s6e3ha8.c:(.text+0x16b1e65): undefined reference to `drm_dsc_pps_payload_pack'
-> 
-> Select it from Kconfig as we do for other similar drivers.
-> 
-> Fixes: 779679d3c164 ("drm/panel: Add support for S6E3HA8 panel driver")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-
-Hi Arnd,
-
-Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-
-Thanks,
-
-Jessica Zhang
-
-> ---
-> v2: add dependency to the correct driver
-> ---
->   drivers/gpu/drm/panel/Kconfig | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-> index ddfaa99ea9dd..128c12e8b84f 100644
-> --- a/drivers/gpu/drm/panel/Kconfig
-> +++ b/drivers/gpu/drm/panel/Kconfig
-> @@ -703,6 +703,7 @@ config DRM_PANEL_SAMSUNG_S6E3HA8
->   	depends on OF
->   	depends on DRM_MIPI_DSI
->   	depends on BACKLIGHT_CLASS_DEVICE
-> +	select DRM_DISPLAY_DSC_HELPER
->   	select VIDEOMODE_HELPERS
->   
->   config DRM_PANEL_SAMSUNG_S6E63J0X03
-> -- 
-> 2.39.5
-> 
-
+Gentle ping - what do you think, Ville?
