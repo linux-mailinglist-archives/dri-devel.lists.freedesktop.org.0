@@ -2,72 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF89E99E46B
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 12:45:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93CA499E476
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Oct 2024 12:47:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57C5F10E0D2;
-	Tue, 15 Oct 2024 10:45:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AFB010E567;
+	Tue, 15 Oct 2024 10:47:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ite.com.tw header.i=@ite.com.tw header.b="HHSFu0Zb";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="JgdiIG11";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ironport.ite.com.tw (60-251-196-230.hinet-ip.hinet.net
- [60.251.196.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12BAB10E0D2
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 10:44:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ite.com.tw; s=dkim;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=w/WDsGlXUC4WQB+TvCOJP04BD85zjGZUzm0yF1i3HlA=;
- b=HHSFu0Zb5BIX+7jgFzIkoZwMbWbmVAZBaNesch89kC1a2TLfEUKR/1nw
- C/AhXw7VfgRZoC/RtHgp+I5wglBwE0KCA364TA9hupNV1ZT8xfsGZ7usk
- 2ewg+MROIwAUSHkeWxPISlI82PAYVmjIxnJVbNbPpOqJ0E7Piy/Mk0XQm
- O8jxgg8U+Hb4xG0kfV6cfQOKqIFoLo6w34Gj76N3s1Z43/PoO/dxW7uVF
- qhdypndP/EhqBq5p783ZslbC9N0hjn0KtPDDrkgqVc//A3KauphQbCVr/
- fPKKx8iEkJHstwTPcmVvfxmWhh1QRX9YuzWmSrGdrBu6lpIWiZQOkv9ma g==;
-X-CSE-ConnectionGUID: MceUQWIbQ+aXS067n3EL8A==
-X-CSE-MsgGUID: Fj+CEXsvQ++Jea+32boxBw==
-Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
- by ironport.ite.com.tw with ESMTP; 15 Oct 2024 18:44:57 +0800
-Received: from tpemail1.internal.ite.com.tw (TPEMAIL1.internal.ite.com.tw
- [192.168.15.58]) by mse.ite.com.tw with ESMTP id 49FAir1k051183;
- Tue, 15 Oct 2024 18:44:53 +0800 (GMT-8)
- (envelope-from Hermes.Wu@ite.com.tw)
-Received: from TPEMAIL1.internal.ite.com.tw (192.168.15.58) by
- TPEMAIL1.internal.ite.com.tw (192.168.15.58) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Tue, 15 Oct 2024 18:44:52 +0800
-Received: from TPEMAIL1.internal.ite.com.tw ([fe80::dd6d:92:8773:b68]) by
- TPEMAIL1.internal.ite.com.tw ([fe80::dd6d:92:8773:b68%6]) with mapi id
- 15.01.2507.039; Tue, 15 Oct 2024 18:44:52 +0800
-From: <Hermes.Wu@ite.com.tw>
-To: <dmitry.baryshkov@linaro.org>
-CC: <treapking@chromium.org>, <Kenneth.Hung@ite.com.tw>, <Pet.Weng@ite.com.tw>,
- <angelogioacchino.delregno@collabora.com>,
- <dri-devel@lists.freedesktop.org>, <jernej.skrabec@gmail.com>,
- <jonas@kwiboo.se>, <Laurent.pinchart@ideasonboard.com>,
- <linux-kernel@vger.kernel.org>, <rfoss@kernel.org>
-Subject: RE: [PATCH v5 00/10]drm/bridge: it6505: fix HDCP CTS fail items and
- add MCCS support
-Thread-Topic: [PATCH v5 00/10]drm/bridge: it6505: fix HDCP CTS fail items and
- add MCCS support
-Thread-Index: AQHbHkIrffFY0R32qUmdgv9WFdJjGbKHoDVA
-Date: Tue, 15 Oct 2024 10:44:52 +0000
-Message-ID: <145004ad363c42eb87e321cd88b00eea@ite.com.tw>
-References: <20241001064305.32180-1-Hermes.Wu@ite.com.tw>
- <jd2wxdsgcgqhiek557i32c7god3cb2ic6bovyrmwsljkqtdofb@lrerfednnobl>
-In-Reply-To: <jd2wxdsgcgqhiek557i32c7god3cb2ic6bovyrmwsljkqtdofb@lrerfednnobl>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [192.168.80.25]
-x-tm-snts-smtp: 52B9A7E3246D09DEEC1EFEB01942D9790D5F17591F9EFEB804913B1A1BEEEBD52002:8
-Content-Type: text/plain; charset="big5"
-Content-Transfer-Encoding: base64
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2458710E567
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Oct 2024 10:47:15 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::202])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4XSW4v3SfGz9tM8;
+ Tue, 15 Oct 2024 12:47:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1728989231;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zNvT+iVmdZpp8gY6AFMUKaKzKZ+fcMEWk1tBfKmtOD8=;
+ b=JgdiIG11Zsz5xt69PR9KrWkkaP/RD/+z1s/YCa7rerJCspNfbrWrvtaOhtp8PjkjMLSj8h
+ 5tNDRb1c7XDzLb2c6sx3W0yzSvkeyYQyDDliKLBmZ3d698dPR4hejazJoCtmhlZo3FBE/E
+ 4vmwDL7HHKzFYrsRV54terlMGXzz95FTtFTlgu4kHrHQ8+djYWcbfQpE7hUKlotXoI/RR9
+ Hj2ipFb4JtksG88xmROMkAbQt1XIDFOb6+sh0ZyprlSxJjTfi/J6aMUCeges1i9ddkboA9
+ Q/vhrok79Eqn87NCVZydt/abDWEi5WgWF4UUP/BsnZMPSwNZqAls/FgtQEBq+Q==
+Message-ID: <a55560b2-288f-48a5-ba79-8074e61f13fc@mailbox.org>
+Date: Tue, 15 Oct 2024 12:47:08 +0200
 MIME-Version: 1.0
-X-MAIL: mse.ite.com.tw 49FAir1k051183
+Subject: Re: [RFC PATCH] drm/prime: introduce DRM_PRIME_FD_TO_HANDLE_NO_MOVE
+To: Simon Ser <contact@emersion.fr>, dri-devel@lists.freedesktop.org
+Cc: Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Daniel Stone <daniel@fooishbar.org>,
+ Victoria Brekenfeld <victoria@system76.com>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <mdaenzer@redhat.com>,
+ Xaver Hugl <xaver.hugl@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>,
+ Austin Shafer <ashafer@nvidia.com>
+References: <20241013133431.1356874-1-contact@emersion.fr>
+From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
+Content-Language: en-CA, de-CH-frami
+In-Reply-To: <20241013133431.1356874-1-contact@emersion.fr>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: c6ae83dd54f26e872eb
+X-MBO-RS-META: jnfrj1x659azynhgm5dxjpiyccrsae65
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,63 +69,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Pg0KPi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+RnJvbTogRG1pdHJ5IEJhcnlzaGtvdiA8
-ZG1pdHJ5LmJhcnlzaGtvdkBsaW5hcm8ub3JnPiANCj5TZW50OiBNb25kYXksIE9jdG9iZXIgMTQs
-IDIwMjQgMTA6MDYgUE0NCj5UbzogSGVybWVzIFd1ICinZKjOp7spIDxIZXJtZXMuV3VAaXRlLmNv
-bS50dz4NCj5DYzogUGluLXllbiBMaW4gPHRyZWFwa2luZ0BjaHJvbWl1bS5vcmc+OyBLZW5uZXRo
-IEh1bmcgKKx4rmGt2ykgPEtlbm5ldGguSHVuZ0BpdGUuY29tLnR3PjsgUGV0IFdlbmcgKK/Opcmq
-4ikgPFBldC5XZW5nQGl0ZS5jb20udHc+OyBBbGxlbiBDaGVuIDxhbGxlbi5jaGVuQGl0ZS5jb20u
-dHc+OyBBbmdlbG9HaW9hY2NoaW5vIERlbCBSZWdubyA8YW5nZWxvZ2lvYWNjaGluby5kZWxyZWdu
-b0Bjb2xsYWJvcmEuY29tPjsgb3BlbiBsaXN0OkRSTSBEUklWRVJTIDxkcmktZGV2ZWxAbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnPjsgSmVybmVqIFNrcmFiZWMgPGplcm5lai5za3JhYmVjQGdtYWlsLmNv
-bT47IEpvbmFzIEthcmxtYW4gPGpvbmFzQGt3aWJvby5zZT47IExhdXJlbnQgUGluY2hhcnQgPExh
-dXJlbnQucGluY2hhcnRAaWRlYXNvbmJvYXJkLmNvbT47IG9wZW4gbGlzdCA8bGludXgta2VybmVs
-QHZnZXIua2VybmVsLm9yZz47IFJvYmVydCBGb3NzIDxyZm9zc0BrZXJuZWwub3JnPg0KPlN1Ympl
-Y3Q6IFJlOiBbUEFUQ0ggdjUgMDAvMTBdZHJtL2JyaWRnZTogaXQ2NTA1OiBmaXggSERDUCBDVFMg
-ZmFpbCBpdGVtcyBhbmQgYWRkIE1DQ1Mgc3VwcG9ydA0KPg0KPk9uIFR1ZSwgT2N0IDAxLCAyMDI0
-IGF0IDAyOjQyOjU5UE0gKzA4MDAsIEhlcm1lcyBXdSB3cm90ZToNCj4+IEZyb206IEhlcm1lcyBX
-dSA8SGVybWVzLnd1QGl0ZS5jb20udHc+DQo+PiANCj4+IFRoaXMgaXMgYSB2NSBwYXRjaC1zZXQu
-DQo+DQo+UGxlYXNlIGNoZWNrIHRoZSB3YXkgeW91IGFyZSBzZW5kaW5nIHlvdXIgcGF0Y2hlcy4g
-Rm9yIHNvbWUgcmVhc29uIG15DQo+ZW1haWwgY2xpZW50IGxpc3RzIHBhdGNoZXMgMC00IHNlcGFy
-YXRlbHksIHBhdGNoZXMgNi04IGFzIGEgc2VwYXJhdGUNCj50aHJlYWQgYW5kIHBhdGNoZXMgNSwg
-OSwgMTAgYXMgaW5kaXZpZHVhbCBwYXRjaGVzLiBQbGVhc2UgdXNlIHNpbmdsZSBnaXQNCj5zZW5k
-LWVtYWlsIGNvbW1hbmQgdG8gc2VuZCB0aGUgd2hvbGUgcGF0Y2hzZXQuDQoNClNlbmRpbmcgcGF0
-Y2hlcyB1c2UgZ2l0IHNlbmQtZW1haWwgdmlhIHNtdHAgc2VydmVyIGluIGEgc2hvcnQgcGVyaW9k
-IG9mIHRpbWUNCnJlYWNoIGxpbWl0cy4NCg0KTmV4dCBwYXRjaGVzIHdpbGwgdHJ5IHRvIHVzZSB3
-ZWIgc3VibWlzc2lvbiBlbmRwb2ludA0KDQo+PiANCj4+IFRoZXJlIGFyZSBsb3RzIG9mIGZhaWx1
-cmUgaXRlbXMgd2hpbGUgcnVubmluZyBIRENQIENUUyB1c2luZyBVTklHUkFGIERQUi0xMDAuDQo+
-PiBJbiBPcmRlciB0byBmaXggdGhvc2UgZmFpbHVyZXMsIEhEQ1AgZmxvdyBuZWVkcyB0byBiZSBj
-aGFuZ2VkLg0KPj4gDQo+PiBUaGUgRGlzcGxheVBvcnQgQVVYIHByb3RvY29sIHN1cHBvcnRzIEky
-QyB0cmFuc3BvcnQuDQo+PiBJbiBPcmRlciB0byBzdXBwb3J0IE1DQ1MgdmlhIHRoZSBhdXggY2hh
-bm5lbCwgdGhlIGF1eC1pMmMgb3BlcmF0aW9uIGlzIGFkZGVkLg0KPj4gDQo+PiB2NCAtPnY1Og0K
-Pj4gCS1hZGQgbW9yZSBtZXNzYWdlcyBmb3IgY2hhbmdlcy4NCj4+IAktWzIvMTBdIG1vZGlmaWVk
-IEFVWCB0cmFuc2ZlciBkYXRhIHNpemUganVkZ21lbnQuDQo+PiAJCWNoYW5nZSBmb3ItbG9vcCB0
-byBkby13aGlsZS4NCj4+IAktWzcvMTBdIGNoYW5nZSBmb3ItbG9vcCB0byBkby13aGlsZS4NCj4+
-IAktWzkvMTBdIGNoYW5nZSB3YWl0IHRpbWVyIHdpdGggdGltZXJfYWZ0ZXIoKQ0KPj4gDQo+PiAJ
-bGlua3M6DQo+PiAJaHR0cHM6Ly91cmxkZWZlbnNlLmNvbS92My9fX2h0dHBzOi8vbG9yZS5rZXJu
-ZWwub3JnL2FsbC8yMDI0MDkyNjA3NDc1NS4yMjE3Ni00LUhlcm1lcy5XdUBpdGUuY29tLnR3L19f
-OyEhSHRuTEU4QSFBSEd3aEx1VTZheEczRTYwLUZjMU01Y1FWY19FVXdna2xuTjFuYzRZZURQM3d2
-dFZ6VENvOEkydEVjdy1hRlNETHhFLVRERGpKZ1FIdzZSWUlmZUpmNEI0SkVURSQgDQo+PiAJaHR0
-cHM6Ly91cmxkZWZlbnNlLmNvbS92My9fX2h0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2FsbC8yMDI0
-MDkyNjA3NTEzNC4yMjM5NC0xLUhlcm1lcy5XdUBpdGUuY29tLnR3L19fOyEhSHRuTEU4QSFBSEd3
-aEx1VTZheEczRTYwLUZjMU01Y1FWY19FVXdna2xuTjFuYzRZZURQM3d2dFZ6VENvOEkydEVjdy1h
-RlNETHhFLVRERGpKZ1FIdzZSWUlmZUpmMWVwX2Q0WCQgDQo+PiANCj4+IHYzIC0+djQ6DQo+PiAJ
-LXNwbGl0IGNoYW5nZXMgIGludG8gcGF0Y2hlcy4NCj4+IA0KPj4gdjItID4gdjM6DQo+PiAJLXNw
-bGl0IGF1eCByZWFkICBLU1YgZnVuY3Rpb24gdG8gYSBwYXRjaC4NCj4+IAktWzEvM10gbmV3IGlu
-IHYzDQo+PiAJLVsyLzNdIGFkZCBkZXNjcmlwdGlvbiBvZiBwYXRjaA0KPj4gDQo+PiB2MSAtPiB2
-MiA6DQo+PiAJLSBpZ25vcmVkLg0KPj4gDQo+PiANCj4+IA0KPj4gSGVybWVzIFd1ICgxMCk6DQo+
-PiAgIGRybS9icmlkZ2U6IGl0NjUwNTogQ2hhbmdlIGRlZmluaXRpb24gb2YgQVVYX0ZJRk9fTUFY
-X1NJWkUNCj4+ICAgZHJtL2JyaWRnZTogaXQ2NTA1OiBpbXByb3ZlIEFVWCBvcGVyYXRpb24gZm9y
-IGVkaWQgcmVhZA0KPj4gICBkcm0vYnJpZGdlOiBpdDY1MDU6IGFkZCBBVVggb3BlcmF0aW9uIGZv
-ciBIRENQIEtTViBsaXN0IHJlYWQNCj4+ICAgZHJtL2JyaWRnZTogaXQ2NTA1OiBDaGFuZ2UgZGVm
-aW5pdGlvbiBNQVhfSERDUF9ET1dOX1NUUkVBTV9DT1VOVA0KPj4gICBkcm0vYnJpZGdlOiBpdDY1
-MDU6IGZpeCBIRENQIEJzdGF0dXMgY2hlY2sNCj4+ICAgZHJtL2JyaWRnZTogaXQ2NTA1OiBmaXgg
-SERDUCBlbmNyeXB0aW9uIHdoZW4gUjAgcmVhZHkNCj4+ICAgZHJtL2JyaWRnZTogaXQ2NTA1OiBm
-aXggSERDUCBDVFMgS1NWIGxpc3QgcmVhZCB3aXRoIFVOSUdSQUYgRFBSLTEwMC4NCj4+ICAgZHJt
-L2JyaWRnZTogaXQ2NTA1OiBmaXggSERDUCBDVFMgY29tcGFyZSBWIG1hdGNoaW5nDQo+PiAgIGRy
-bS9icmlkZ2U6IGl0NjUwNTogZml4IEhEQ1AgQ1RTIEtTViBsaXN0IHdhaXQgdGltZXINCj4+ICAg
-ZHJtL2JyaWRnZTogaXQ2NTA1OiBhZGQgSTJDIGZ1bmN0aW9uYWxpdHkgb24gQVVYDQo+PiANCj4+
-ICBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2l0ZS1pdDY1MDUuYyB8IDMzNCArKysrKysrKysrKysr
-KysrKysrKysrKy0tLS0tDQo+PiAgMSBmaWxlIGNoYW5nZWQsIDI3NyBpbnNlcnRpb25zKCspLCA1
-NyBkZWxldGlvbnMoLSkNCj4+IA0KPj4gLS0gDQo+PiAyLjM0LjENCj4+IA0KPg0KPi0tIA0KPldp
-dGggYmVzdCB3aXNoZXMNCj5EbWl0cnkNCj4NCj4NCkJSLA0KSGVybWVzDQo=
+On 2024-10-13 15:34, Simon Ser wrote:
+> This is a flag to opt-out of the automagic buffer migration to
+> system memory when importing a DMA-BUF.
+> 
+> In multi-GPU scenarii, a Wayland client might allocate on any
+> device. The Wayland compositor receiving the DMA-BUF has no clue
+> where the buffer has been allocated from. The compositor will
+> typically try to import the buffer into its "primary" device,
+> although it would be capable of importing into any DRM device.
+> 
+> This causes issues in case buffer imports implicitly result in
+> the buffer being moved to system memory. For instance, on a
+> system with an Intel iGPU and an AMD dGPU, a client rendering
+> with the dGPU and whose window is displayed on a screen
+> connected to the dGPU would ideally not need any roundtrip
+> to the iGPU. However, any attempt at figuring out where the
+> DMA-BUF could be accessed from will move the buffer into system
+> memory, degrading performance for the rest of the lifetime of the
+> buffer.
+> 
+> Describing on which device the buffer has been allocated on is
+> not enough: on some setups the buffer may have been allocated on
+> one device but may still be directly accessible without any move
+> on another device. For instance, on a split render/display system,
+> a buffer allocated on the display device can be directly rendered
+> to from the render device.
+> 
+> With this new flag, a compositor can try to import on all DRM
+> devices without any side effects. If it finds a device which can
+> access the buffer without a move, it can use that device to render
+> the buffer. If it doesn't, it can fallback to the previous
+> behavior: try to import without the flag to the "primary" device,
+> knowing this could result in a move to system memory.
+
+One problem with this approach is that even if a buffer is originally created in / intended for local VRAM of a dGPU, it may get temporarily migrated to system RAM for other reasons, e.g. to make room for other buffers in VRAM. While it resides in system RAM, importing into another device with DRM_PRIME_FD_TO_HANDLE_NO_MOVE will work, but will result in pinning the buffer to system RAM, even though this isn't optimal for the intended buffer usage.
+
+In other words, the new flag only gives the compositor information about the current state, not about the intention of the client. Another mechanism like https://gitlab.freedesktop.org/wayland/wayland-protocols/-/merge_requests/268 is needed for the latter.
+
+So while this flag might be useful to prevent unintended buffer migration in some cases, it can't solve all multi-GPU issues for compositors.
+
+
+-- 
+Earthling Michel Dänzer       \        GNOME / Xwayland / Mesa developer
+https://redhat.com             \               Libre software enthusiast
