@@ -2,39 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4936F9A0308
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Oct 2024 09:50:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AF7A9A0329
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Oct 2024 09:54:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0EA710E0DE;
-	Wed, 16 Oct 2024 07:50:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9AE3810E123;
+	Wed, 16 Oct 2024 07:54:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="G5faxUpb";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DCFfpoWa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B20810E0DE;
- Wed, 16 Oct 2024 07:50:17 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5C4D10E123;
+ Wed, 16 Oct 2024 07:54:09 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 04CB0A40A44;
- Wed, 16 Oct 2024 07:50:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F307C4CECE;
- Wed, 16 Oct 2024 07:50:06 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 7AEE15C5A5A;
+ Wed, 16 Oct 2024 07:54:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D055EC4CEC5;
+ Wed, 16 Oct 2024 07:54:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1729065015;
- bh=a5bL9GkgEINnsaPtdhyx300M2FZuDjH58V7+HBKJ0Bw=;
+ s=k20201202; t=1729065248;
+ bh=nSnk6F/Qg9kwlRfzoeNCv4lXQf3Gz1lsGHi2kPhLZ54=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=G5faxUpbSfeTtpQGRBahN39kZ4yGcZEvih6Qq8T9Ms1NAB3okRD4SOUWkO4Pcrvdr
- sem3LRa1J6cH9C/ROiHNveUSFgXyPBtFl4+PdrkmqEvW9v4t7UgIlQTOUNKorZ+h0G
- aIRaoZGhND7fuRi95tYxdN4HGZCUlmHwmkoktYMSQ6D/mzQnH6U5GHeGNhGHP84PLp
- Aq1MjWDIBUd/X0W6tLaCvhg2qFrLhJnV91KDAUphOhJ6TXPhqT448BvpDh/W2jTVMW
- A/trzBP0nhiSVEeF6I9NyEpT5YrQG0mIvREyAScaBk+W3bcQIU7IjMrfeMbRN+i+EJ
- Blc379unz8XzQ==
-Message-ID: <921d3a39-d95c-4156-b376-44e8dc6a6467@kernel.org>
-Date: Wed, 16 Oct 2024 09:50:04 +0200
+ b=DCFfpoWaUFN06ZS2y5Po02RE85ejdu3wDTTXJYQssi6TXQX46pYJr0UdUbcKL5q5p
+ LCH2Rm8eeYb1KLoG0mLfzbs71VGcipeWxmBQkJCf1d5Q1UCA3cJgvAFBk2/HFLakdp
+ LbyNSq/XHrXN6zi69Z2ySU9XyAI22Mx0mzWtI48g4n9TFG28ko/2DyLPtAhfGUFwp+
+ nIiW1Jst3fbd3X22+Z5UXResE58C2j/16igbLoIqpAx9CppOoPkO2Q4owFs9KK6OyJ
+ dPH0dd7Itw2cP72TlXcjJsWL8twUecTxuR/oj4Y5nzSK8nPA3oAhQZIduk+ZwLfD7R
+ 0BdtMcLVa2jKA==
+Message-ID: <294bf353-4aff-4d89-a5d7-5d2d19b089c1@kernel.org>
+Date: Wed, 16 Oct 2024 09:53:58 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 3/3] arm64: dts: qcom: x1e80100: Add ACD levels for GPU
+Subject: Re: [PATCH RFC 2/3] dt-bindings: opp: Add v2-qcom-adreno vendor
+ bindings
 To: Akhil P Oommen <quic_akhilpo@quicinc.com>
 Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Konrad Dybcio <konradybcio@kernel.org>,
@@ -50,9 +51,9 @@ Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-pm@vger.kernel.org, devicetree@vger.kernel.org
 References: <20241012-gpu-acd-v1-0-1e5e91aa95b6@quicinc.com>
- <20241012-gpu-acd-v1-3-1e5e91aa95b6@quicinc.com>
- <5axuqj4hetfkgg2f53ph4um24b7xfyumktreglxqyzfsdhy25e@deucq7vqxq5l>
- <20241015193540.mcpp2dvkmikruncj@hu-akhilpo-hyd.qualcomm.com>
+ <20241012-gpu-acd-v1-2-1e5e91aa95b6@quicinc.com>
+ <he6cfrofgmdw2se4mcok25c54sboovevmlli42xh6ttnqiogat@ja6el35jyd65>
+ <20241015191314.pbz5v5u65gbpjheg@hu-akhilpo-hyd.qualcomm.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -98,7 +99,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20241015193540.mcpp2dvkmikruncj@hu-akhilpo-hyd.qualcomm.com>
+In-Reply-To: <20241015191314.pbz5v5u65gbpjheg@hu-akhilpo-hyd.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -116,49 +117,143 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15/10/2024 21:35, Akhil P Oommen wrote:
-> On Mon, Oct 14, 2024 at 09:40:13AM +0200, Krzysztof Kozlowski wrote:
->> On Sat, Oct 12, 2024 at 01:59:30AM +0530, Akhil P Oommen wrote:
->>> Update GPU node to include acd level values.
+On 15/10/2024 21:13, Akhil P Oommen wrote:
+> On Mon, Oct 14, 2024 at 09:39:01AM +0200, Krzysztof Kozlowski wrote:
+>> On Sat, Oct 12, 2024 at 01:59:29AM +0530, Akhil P Oommen wrote:
+>>> Add a new schema which extends opp-v2 to support a new vendor specific
+>>> property required for Adreno GPUs found in Qualcomm's SoCs. The new
+>>> property called "qcom,opp-acd-level" carries a u32 value recommended
+>>> for each opp needs to be shared to GMU during runtime.
 >>>
 >>> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
 >>> ---
->>>  arch/arm64/boot/dts/qcom/x1e80100.dtsi | 11 ++++++++++-
->>>  1 file changed, 10 insertions(+), 1 deletion(-)
+>>>  .../bindings/opp/opp-v2-qcom-adreno.yaml           | 84 ++++++++++++++++++++++
+>>>  1 file changed, 84 insertions(+)
 >>>
->>> diff --git a/arch/arm64/boot/dts/qcom/x1e80100.dtsi b/arch/arm64/boot/dts/qcom/x1e80100.dtsi
->>> index a36076e3c56b..e6c500480eb1 100644
->>> --- a/arch/arm64/boot/dts/qcom/x1e80100.dtsi
->>> +++ b/arch/arm64/boot/dts/qcom/x1e80100.dtsi
->>> @@ -3323,60 +3323,69 @@ zap-shader {
->>>  			};
->>>  
->>>  			gpu_opp_table: opp-table {
->>> -				compatible = "operating-points-v2";
->>> +				compatible = "operating-points-v2-adreno";
+>>> diff --git a/Documentation/devicetree/bindings/opp/opp-v2-qcom-adreno.yaml b/Documentation/devicetree/bindings/opp/opp-v2-qcom-adreno.yaml
+>>> new file mode 100644
+>>> index 000000000000..9fb828e9da86
+>>> --- /dev/null
+>>> +++ b/Documentation/devicetree/bindings/opp/opp-v2-qcom-adreno.yaml
+>>> @@ -0,0 +1,84 @@
+>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>>> +%YAML 1.2
+>>> +---
+>>> +$id: http://devicetree.org/schemas/opp/opp-v2-qcom-adreno.yaml#
+>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>> +
+>>> +title: Qualcomm Adreno compatible OPP supply
+>>> +
+>>> +description:
+>>> +  Adreno GPUs present in Qualcomm's Snapdragon chipsets uses an OPP specific
+>>> +  ACD related information tailored for the specific chipset. This binding
+>>> +  provides the information needed to describe such a hardware value.
+>>> +
+>>> +maintainers:
+>>> +  - Rob Clark <robdclark@gmail.com>
+>>> +
+>>> +allOf:
+>>> +  - $ref: opp-v2-base.yaml#
+>>> +
+>>> +properties:
+>>> +  compatible:
+>>> +    const: operating-points-v2-adreno
+>>> +
+>>> +patternProperties:
+>>> +  '^opp-?[0-9]+$':
+>>> +    type: object
+>>> +    additionalProperties: false
+>>> +
+>>> +    properties:
+>>> +      opp-hz: true
+>>> +
+>>> +      opp-level: true
+>>> +
+>>> +      opp-peak-kBps: true
+>>> +
+>>> +      opp-supported-hw: true
+>>> +
+>>> +      qcom,opp-acd-level:
+>>> +        description: |
+>>> +          A positive value representing the acd level associated with this
 >>
->> This nicely breaks all existing users of this DTS. Sorry, no. We are way
->> past initial bringup/development. One year past.
+>> What is acd?
 > 
-> It is not obvious to me how it breaks backward compatibility. Could you
-
-I did not say "backward compatibility". I said existing users.
-
-> please elaborate a bit? I am aware that drivers should be backward
-> compatible with DT, but not the other way. Are we talking about kernels other
-> than Linux?
+> Adaptive Clock Distribution, a fancy name for clock throttling during voltage
+> droop. I will update the description to capture this.
 > 
+>>
+>>> +          OPP node. This value is shared to GMU during GPU wake up. It may
+>>
+>> What is GMU?
+> 
+> A co-processor which does power management for Adreno GPU.
 
-Boot OpenBSD with new DTS. Previously: worked fine. Now: works less fine.
+Everything, except obvious GPU, should be explained. GMU is not really
+that obvious:
+https://en.wikipedia.org/wiki/GMU
 
-We had exact talk about this during LPC.
+> 
+>>
+>>> +          not be present for some OPPs and GMU will disable ACD while
+>>
+>> acd or ACD?
+> 
+> should be uppercase everywhere in description.
+> 
+>>
+>>> +          transitioning to that OPP.
+>>> +        $ref: /schemas/types.yaml#/definitions/uint32
+>>> +
+>>> +    required:
+>>> +      - opp-hz
+>>> +      - opp-level
+>>> +
+>>> +required:
+>>> +  - compatible
+>>> +
+>>> +additionalProperties: false
+>>> +
+>>> +examples:
+>>> +  - |
+>>> +
+>>
+>> Drop blank line
+>>
+>>> +    #include <dt-bindings/power/qcom-rpmpd.h>
+>>> +
+>>> +    gpu_opp_table: opp-table {
+>>> +        compatible = "operating-points-v2-adreno";
+>>> +
+>>> +        opp-550000000 {
+>>> +                opp-hz = /bits/ 64 <550000000>;
+>>> +                opp-level = <RPMH_REGULATOR_LEVEL_SVS>;
+>>> +                opp-peak-kBps = <6074219>;
+>>> +                qcom,opp-acd-level = <0xc0285ffd>;
+>>> +        };
+>>> +
+>>> +        opp-390000000 {
+>>> +                opp-hz = /bits/ 64 <390000000>;
+>>> +                opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS>;
+>>> +                opp-peak-kBps = <3000000>;
+>>> +                qcom,opp-acd-level = <0xc0285ffd>;
+>>
+>> That's the same value used everywhere. What's the point? Just encode it
+>> in the driver.
+> 
+> I will update this to keep a different value. In a real implmentation,
+> these values may vary between OPPs. For eg:, please check the DT patch
+> in this series:
+> 
+> https://patchwork.freedesktop.org/patch/619413/
 
-> Also, does including "operating-points-v2" too here help?
+OK. I still have concerns that it is just some magic hex value. Which
+looks exactly how downstream code. No explanation, no meaning: neither
+in property description nor in actual value (at least I could not spot it).
 
-Fallback? Yes, assuming these are compatible. Not much is explained in
-the commit msg, except duplicating diff. That's not what the commit msg
-is for.
-
+And why this is hex? Unit of "level" is either some logical meaning,
+like "high" or "low", or some unit, e.g. Hertz or kBps. None of them are
+hex values in real world.
 
 Best regards,
 Krzysztof
