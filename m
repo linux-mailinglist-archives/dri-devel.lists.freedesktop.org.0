@@ -2,162 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0BEF9A10E7
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Oct 2024 19:47:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E20109A1163
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Oct 2024 20:17:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A36DA10E74B;
-	Wed, 16 Oct 2024 17:47:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8468710E75E;
+	Wed, 16 Oct 2024 18:17:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="GqmuGOC7";
+	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="tzhx3q5b";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2083.outbound.protection.outlook.com [40.107.243.83])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3040310E74B;
- Wed, 16 Oct 2024 17:47:10 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UD+x9hRY0eUxwfIX2P12Zz+chIf6JmMiiO+N6Qp3wk63tQbWjCp+U+rD6ZBNEoxqEFcUAIDLLec29uEQ5Eef/jcP30sum8A2nNnnMtR03ns1Dqr6cWxuzIs4QpJGtd82meUmqR2hBB9SPFBS6s67DBtodD1nIruA98jHx6JSoLYJPVKCCySMbIPu/hTv84YcSQBZ4rtXiSwKltKXi4ThgpR8zAZjl48EUZ6M265Fb9wZYmCm90+4wCEpdmMJkhL8+OVcYmpUbuz2bwmpXfowAhz/HFY7yUMcqhv/RP/UZnYnQudC2qCiWbKgliQcRu9ky9hL5ssfVRcQ+dSuMMegYQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QThl1MHsS7cxfv0IhbTiQEm5a0rJvS3BQ7qJbLx53SE=;
- b=lxmF4BYrR2oymyOG5rWmFL6uz0fTj2d/+7xiGIg5oWbXEGTnyMzVxoXSbcAg/nIrPyPiT31y7SU3aYauYH2sXz4ForRjlHhXNdsxKNi18Rh56E2ekXuVJGdekZUX8FIF4tFo6w4C0CJOYgWDE7R0lYqDuw11nVrMi1NjyjRwgb4sXcXqqC2G2g+c6EQAIpNXsC+0DKMe3Cp+gySrXlrRMfBWfVA446orV99rYhGHZp7qzGYP67ETILexys06lzYdCndcLsiWGGTPnuRcysllQ+YUzzG4l1eQJz2Kh3J9flkaPdDpTOTAg+Qo4HrAMwPEBAdmsOkxhri22H8gcUCHPQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QThl1MHsS7cxfv0IhbTiQEm5a0rJvS3BQ7qJbLx53SE=;
- b=GqmuGOC7THTnPGEeeTVHGgmeq0AoR3s3BnC6K46+1VskPjnPnoHNLcxGGdz0m2Wu/DiAJJVciarjjXlFwkS/Pyz8iWq92nqKcTAC7DKGoymfT5D2uNit53iC88txd7ZLlcpn5qJwmB+mCKjAZa5f3m2PsByhTDJBQTHvkenhpXg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from SJ0PR12MB5438.namprd12.prod.outlook.com (2603:10b6:a03:3ba::23)
- by IA0PR12MB8207.namprd12.prod.outlook.com (2603:10b6:208:401::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.25; Wed, 16 Oct
- 2024 17:47:04 +0000
-Received: from SJ0PR12MB5438.namprd12.prod.outlook.com
- ([fe80::65b2:12d5:96ba:dd44]) by SJ0PR12MB5438.namprd12.prod.outlook.com
- ([fe80::65b2:12d5:96ba:dd44%7]) with mapi id 15.20.8048.029; Wed, 16 Oct 2024
- 17:47:04 +0000
-Message-ID: <5b1c8688-8154-436e-ba8f-f5a9087d2c85@amd.com>
-Date: Wed, 16 Oct 2024 13:46:58 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 0/4] drm: Minimum backlight overrides and
- implementation for amdgpu
-To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
- Leo Li <sunpeng.li@amd.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Matt Hartley <matt.hartley@gmail.com>, Kieran Levin <ktl@framework.net>,
- Hans de Goede <hdegoede@redhat.com>,
- Jani Nikula <jani.nikula@linux.intel.com>, Xinhui Pan <Xinhui.Pan@amd.com>,
- Jonathan Corbet <corbet@lwn.net>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Dustin Howett <dustin@howett.net>, linux-doc@vger.kernel.org
-References: <20240824-amdgpu-min-backlight-quirk-v6-0-1ed776a17fb3@weissschuh.net>
- <cfec358a-ff42-49c3-a174-149bee7a461c@t-8ch.de>
-Content-Language: en-US
-From: Harry Wentland <harry.wentland@amd.com>
-In-Reply-To: <cfec358a-ff42-49c3-a174-149bee7a461c@t-8ch.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YQZPR01CA0174.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:8b::23) To SJ0PR12MB5438.namprd12.prod.outlook.com
- (2603:10b6:a03:3ba::23)
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com
+ [209.85.128.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C038910E75E
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Oct 2024 18:16:59 +0000 (UTC)
+Received: by mail-yw1-f181.google.com with SMTP id
+ 00721157ae682-6e330b7752cso9278597b3.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Oct 2024 11:16:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google; t=1729102619; x=1729707419;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=g3HglY1GTFqNadxgbdOl+92uQVdMxV3swkJcCWuLvNg=;
+ b=tzhx3q5bOMaJe8RnVG4C/BoZNUbTyj9EwoCthvVLfyqecS7iwKI0uQ8lPare0MDdJi
+ nZe4uZ5EfB107067XqtTCYiANDNwbGAD0GAk78X0ZEk+rS2MIKwCZ7oOkw47hUjOIPpv
+ heKSYsNGQ+phvb/48lziyjIt5Whh9wcmQwfk8tLVMem5qUGeKA3g5ysN2OjuQvhN8mXD
+ Fyvk3tw+rLV5HeLeD4bY2yhj20h+0gb50y9oC078YrM9FThvcxZv6aBWyG4VDeNczOq1
+ DZjr0qfxKQImePo+UjyR2gn13tu3bhJVN1tJ/9UzMvXeu2lIpjzFvKSLndzD41NB+rdA
+ xTvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1729102619; x=1729707419;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=g3HglY1GTFqNadxgbdOl+92uQVdMxV3swkJcCWuLvNg=;
+ b=nbp+oYY+wOMi96NzXDcp5XIiZaMj2+jDpQd1bOMCNoyp57rdWxH+Gnao9VJLfUXXNc
+ 6gd9c+u33pOAgvU2td2lG3qizMgJaHNvxsJKKj4VlPcl0EzLy5MBKCEbexkxgIl0xG59
+ WHgs/bgpK7PxVuQnBWSqH3HJT8yD0wbzEZz1xN2/I/b4aS6KTJGcjQo2jAvSS+DVjFmR
+ PHmGXEp4m2SftRfPnYo0RWAQ4WRC+dIbowFRe7b9TDCminhgJZHKnx51UUuZY58RjE9G
+ 0qIz2JpL1dLIdGVpR+O11xYyOiHv5u3xQP4Ro+uv0vd80urAosGWHbGfWCUsnVjD4Nzf
+ 8jKg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVZxPyaLTqYFrVTjh3mTynzjvhwzfGRFVXGYLaIzI3UMkAG0fESDsrlti8Xx/P7IxT+hRm18KJ9XJI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy44MstnvBfhOUKic0SDp64HW/BMkHMuqpypOfHwkCIcVgD/30X
+ DbIpcq72puKAcUQAiTe+xIbj0qepJR546ALgHvj4s8QZX9+AkFthzwcfNJULtCILSbQn1kWR3vL
+ YRnAYLeLLxJIh19b5Cm9JyevGz+Y38o3ofjBaTA==
+X-Google-Smtp-Source: AGHT+IFFDoWWqiv9q5vT0z+7Gqw6F6FicdHzgQ548NMk+8CNmOko6iXyh9Ziir73QlZOJdLMiz6AZmnXo06YAwY7YoE=
+X-Received: by 2002:a05:690c:e07:b0:6e2:1c94:41f8 with SMTP id
+ 00721157ae682-6e5a3d931demr6862777b3.10.1729102618789; Wed, 16 Oct 2024
+ 11:16:58 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR12MB5438:EE_|IA0PR12MB8207:EE_
-X-MS-Office365-Filtering-Correlation-Id: df13ea2c-6a34-415a-8b78-08dcee0a8b68
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016|7416014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?eUN4OEhkT3doaG1aRUNEalZIVjNOVkRwQW9neWplZVM5RWdQMVBkSWRUbXJs?=
- =?utf-8?B?R1BOeGZTSnVydTlFUWN5eXo0cHJqNjQzL3BKcUxrb1AyQnZBT0o1eTZkZHhh?=
- =?utf-8?B?MkIzVlFkMWFXRWFGcEZ3UU0zdEdjNllBQ1NLVGQ1djdGM3Yzc0tCYm9VYWll?=
- =?utf-8?B?cVNMRnFGVlJyNExIendueGVGYXpQUGFMcWtHcWlTeXIxYmlYVXM3ZXZUbFc0?=
- =?utf-8?B?N2pJaHlOcnRMLzdHTWoxblJ4eEJBUC82NXM2ek5QRHVzb1VsbFFQaDBncUkw?=
- =?utf-8?B?WlRaMnNBTlBEdk9kSUgwUTdRUnMxRmFuN21OZm11MnNBWW04NDVMc3RvTTVo?=
- =?utf-8?B?WWNzejZBaXlCVDF4L1oxSHdIYzRTTE80OHU4VjJRZmFoaHA3bHVpNklpRWFK?=
- =?utf-8?B?T2hoa2xrVXRzczdERy9nSktWTzUwZTQ0REpsZ1F0aVpSSzZuSnFFVStyVk9D?=
- =?utf-8?B?ekNsODRCZ3Vaa0N2RWV5SmtSakF1QWJ0RHhpc0FqNHh6R2YyTWErcWVFVmpl?=
- =?utf-8?B?YjhBOUxSd3JGQytBZkN0TGh3M1NMdG9Kd3YrQ3Zsa1BaZVBLV3I3bDlJSkor?=
- =?utf-8?B?aStkYnJUVTB3TlpURHRJR0MzdG9aYW1hR0xUSlBUZzNaZEZKajNsZ0Z5ZzlE?=
- =?utf-8?B?Qk9WRFdkQnkzSXo5RWhkZ2lMdDhZUzhZakJLZldXb1ZwcUV3a1ZxMUxtWmxl?=
- =?utf-8?B?dXZhZTJNM0ViWDZLVDFDZjhTUkt6NzNWSzA0c0VEQm5sU3lyK0tqeThvRnk5?=
- =?utf-8?B?U0o1RnRpWUpBb2IxSXRzWmpPYWRRc1VqQ3lscTc2UTZmb0hIemNyaG9vVE0w?=
- =?utf-8?B?Q0dhWFRxRFNNaEc2c0NPRXRvcktXc2VoMDFOS3dnUTkxMWNqSzFpcnIwMHFa?=
- =?utf-8?B?Y0wvMGpzejE1ZjRienQ1V3RhSmMrY1ExVHRLb2Z5MFZmT3N1bEtFaXF4eXAr?=
- =?utf-8?B?TWFXUllndUtiNkE5M3JSdjN2YVFUczdRejI0WmNiOTNxUlRocVoyVHVnTEtj?=
- =?utf-8?B?TW5xRHZuOFhKaFZVUmM1RDF3YnFHL2VrREdvWTA0cVJ5Z2RUU0Jnd0ZyYndI?=
- =?utf-8?B?Z0tIYWkyVXRCdGxwYUU2RzFYMXZuZk1VdXFrQ3NvQlJOSTlpYVNZcEZQM3Vq?=
- =?utf-8?B?M0N5cFUxQTdKc0JDbC9JckhCN0Q0TUtUL0FzOEZ0azd5VEJEaXZSY0VEOWpF?=
- =?utf-8?B?bGpLVWlCL0xUcmppejluYnVtNzI3eVlaNnhVYUJxNEpaVzBEWWRRb2ZCdzVa?=
- =?utf-8?B?ZHk5aVl4bHBJSnFwMzVYMmNiNWpHNk5WNDBiam4vSHZEazV2NzdkQmsvSWtQ?=
- =?utf-8?B?RXZoYTBtUml0SmkrdnFGcUd1WStaTzRwM09ldHN6K2dXbmwyNnEreTBUVzZF?=
- =?utf-8?B?akF0dkxVZ3FFUnF4Z2ROclZtR2hXdTEvMlUrbVFGSnBjZnY4Q2NiUHJBekMr?=
- =?utf-8?B?NEgxeVhMeEJTaHJlTkZoNFBrK2o3cnk5K0YybklpSXFBdDJlYys0Z3NPdmRN?=
- =?utf-8?B?YkUxTThXZWhvdWN0Tm1xWi9NcHBpUGZZeWttV1gxSUtWaG1EbnlKay9iRU1Y?=
- =?utf-8?B?eTdLQjFGS0pVeU5hajZYUGlWaFlwdXJGZXpUWjBYOC8xRlB6TlBtSjhRRzd0?=
- =?utf-8?B?c1ZTYXZJWERWQ3Zka2J1VUxBeUpZQmN4QjFRZm9DZ2s4eUk4ZkJ0eFJSd0sx?=
- =?utf-8?B?Q2Uxa0MwUm9CM2dRRndObDJwTm5xYXF0OFBnTEVtbGZsMzhNT0ZIcEZhVWVk?=
- =?utf-8?Q?p1z1Mcdjskki9BTwsk=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SJ0PR12MB5438.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(366016)(7416014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OXhZWmcxSFpNUStVMG9yMGxYQ2xObnJOSTlGQXRTWkh2aEVHZ1duaEJEUHFx?=
- =?utf-8?B?MytteUwvMk5IV3JuOWFkc29wcmFlZlZCa05IRVYrZ3FsekZSVXNSNm1aT1Bq?=
- =?utf-8?B?RTV4bnpSdkY1WnJ0NTVadDdwb1FJMHZuTHFzcFQ3OEdma2tVUWVTcEs5VFRZ?=
- =?utf-8?B?MnFYdlQvdjE3czQzRXhIYUZQMjY3R2dUQTlCRjFza2JxM3JYZjBzbm84QjJ1?=
- =?utf-8?B?U3hHVm03dlBoSmZYaFpZdlZGR3ZFdEF4blE1MS80MG1rUklBU0pSTTdNN2tx?=
- =?utf-8?B?d2FLT2pOOGhWNzBqUzRXZ2JKREdJK0ZYVVFFUGJnZ2RhRi9SR0lxbWcvQldP?=
- =?utf-8?B?VStKR1pnbWtGbUg5amRwZUlUQzBKN2VURnk1QkNsY0hmRHVKQit4TlZ1Y0V5?=
- =?utf-8?B?K2haMkNKT0NDa3gxTkJNUXFseFJVTm5aMnBqNDZGSVQrVW9SQTVxeFNJdlF4?=
- =?utf-8?B?OE5nUkdzeldZRTBJczVvNk1ySVYra3hBWVFHZVdTeFBkU1h0OWxNOThLczNr?=
- =?utf-8?B?ZWFWQlB5R1RWMGlBaGVWT2U4T2JRbVhqNEpPMlF6aUZDSUs1OXpEczFmZFhC?=
- =?utf-8?B?NnBUWFkzcVBGWFBHYzlNOCt0YlkvN0FZcFpEQ2hyQUl3cExGSndWU2hWalpK?=
- =?utf-8?B?dVpHWXFMNFpZMzdiaXF5cVNhZ1Btc2JzdnEyZFAzS01mWkYzaDgyMjBJZjlG?=
- =?utf-8?B?ZDFXT3krRnN2RnJJdDlCNVBZSUdUZnZPd0NLRlhYM2ppMFZSTEZhOFZ6S1Ez?=
- =?utf-8?B?dC92NWRRNS8yMld2bWhDcVE1eDUzdHBtZXk4WHVEUzBkOXpKQzBWVmhnZ2ln?=
- =?utf-8?B?MXgwZVpENGRwZWQ3RGRpbncwaHdYM2QzMjBoUFBxSDF6c2VqZ1ZsMWlhL1Ra?=
- =?utf-8?B?dUpSUHZWdTFTQnRHWTQ2c2x6eUlXRUJwSE9wbWU4eXA5VWxuNisrY2ZuVHAz?=
- =?utf-8?B?aWtka1JUVklDclFXNDU0TkdSSWZUQ3BrUk5kOGNKNzgvN0htcWhwSk1sMG1h?=
- =?utf-8?B?RDlCTVFmTUZyU3lDd0tzeWhkaVhFWlFaMm91QytrRUlMUXQzR1h6WngwMnFB?=
- =?utf-8?B?VlBBRit0bFQ1NGZjS3VVV1gvQmx6VzhXaDhwclhremlzMTF6L2VBMkZGUU5S?=
- =?utf-8?B?b3hHbjVUendGd29XVmc5WlNocWRmVFpVNWs2b0NoN3N0cFNpZGNTQTljQjZX?=
- =?utf-8?B?cWcwSjhoeUxIRjNLcnVhKzF6WXZyQmdMdmN5MHZXeks0SHQxQ2VFNWhnZVZ3?=
- =?utf-8?B?TFNxV2RQWnRrU1lKTVhaWkdCYTRISHdkL3Zqc1M3QkdMaW1oZEJyTGU1ckNW?=
- =?utf-8?B?OEdDRVJIZ1czRW5qMkVhZVVQaXg3bVh1aFJCeVFoK09DYVp4T1RWODBUMi9S?=
- =?utf-8?B?UjgreWFkSGpMUDkzZHBXdFRRSXNDblRXSG5ZWFlVT3BGR1dCTXdKMDNtdERQ?=
- =?utf-8?B?Y2tHS2xpRnpnVVRLZ2dwMG1iaDUyVlp5cFJrd3p0R0RFVjVRNnZJM0M2aExZ?=
- =?utf-8?B?Qmd2WDRQazVZTmtqVFJXMGU3YlY3RGk4TGJ6NFJ1cWlHVmQwVFpTOG1rdUJ3?=
- =?utf-8?B?RTZGTjJ1T3JSaW83Ymw3ZGZHK2dqd1JuVy9aV0JucTN1SThoLy8yUDdaUnRB?=
- =?utf-8?B?d1JIOHcyNXpqb2Jrbm9uNmhORGtCOS9rM2ZvMHc3Z2ZWc3lzajM4U3VKQjhH?=
- =?utf-8?B?R0o1aVFBcEFTYk1ISlNhUDVIenpJOVFLaC9KeFczTXhoMHlKcnFYbk1vK2Zm?=
- =?utf-8?B?N0t3RnNkS0IzT3pZSWZUMFRpQVEyOWxURThvMnFsdFROMDJCTG5LdGdQUytK?=
- =?utf-8?B?b256YXFUREtWZEozS1RmZFNJU0p3S0FVaXI4RTRGS1IvTU9BR3ZreGhwVldx?=
- =?utf-8?B?Q0dFa0VEb3F4dFRuQ3VjYWN4N1ZnK3B5U1BEY1h1dFZVdDk4a012OVlxRVpL?=
- =?utf-8?B?Y05kREsrWUZYR2NGVlBBTFREUkxmeVNTajI3djQzL1VOY1pxZ0hMTWFXOFFD?=
- =?utf-8?B?QVk4cFlhQWk1VUFtS1RCQ0JkVUFrTHhPOGxjVEYwZCt4ZlRZRStUU2l5WGRl?=
- =?utf-8?B?aTBOYVBpa0xsbUpoQmtWYXN5UzRVRXBZZTZZR0xUZzVWMUlJS012WE01OWkr?=
- =?utf-8?Q?+FZbn03TzaYCrF3DtZjrU5JCa?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: df13ea2c-6a34-415a-8b78-08dcee0a8b68
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR12MB5438.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2024 17:47:04.0007 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9wXqHvadtE8o9IcxbAw17pQdm3respTBGgkKB8dR3FTyVsOIedYKwhm0qsXAnTUs+lSqqbota//p34iAXpsG5g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8207
+References: <c657d3e9-e4fb-4dac-a611-45655511e500@gmx.net>
+ <CAPY8ntDAMq_oTM+ua0pcFroTiWkDyhXSj++oGxOq+ODajm8++Q@mail.gmail.com>
+ <3f35403e-f42f-4936-9297-68b56818aeee@gmx.net>
+ <20241014-warm-savvy-wrasse-ed984e@houat>
+ <CAPY8ntAFzT4uBT47kDnDjEcSZXLonV-n_ixZ6L1_LAcfQPwS8Q@mail.gmail.com>
+ <17f8f497-1238-4555-824b-b5a3fb699a98@gmx.net>
+ <CAPY8ntBegA_L58s30F4FSO+=q78Xt5XA4kvYq38zAvsgR2DSrQ@mail.gmail.com>
+ <6465bac6-9841-4f38-b9e1-48e236ada910@gmx.net>
+In-Reply-To: <6465bac6-9841-4f38-b9e1-48e236ada910@gmx.net>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Wed, 16 Oct 2024 19:16:43 +0100
+Message-ID: <CAPY8ntCzg-2vCuX0uaRD1kK5=qhH79hmtvQc=g44bD5iGwi7_w@mail.gmail.com>
+Subject: Re: vc4: HDMI Sink doesn't support RGB, something's wrong.
+To: Stefan Wahren <wahrenst@gmx.net>
+Cc: Maxime Ripard <mripard@kernel.org>,
+ =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
+ DRI Development <dri-devel@lists.freedesktop.org>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ Florian Fainelli <florian.fainelli@broadcom.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -173,87 +89,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Stefan
 
+On Tue, 15 Oct 2024 at 22:13, Stefan Wahren <wahrenst@gmx.net> wrote:
+>
+> Hi Dave,
+>
+> Am 15.10.24 um 11:32 schrieb Dave Stevenson:
+> > On Mon, 14 Oct 2024 at 22:16, Stefan Wahren <wahrenst@gmx.net> wrote:
+> >>
+> >> Am 14.10.24 um 12:54 schrieb Dave Stevenson:
+> >>> On Mon, 14 Oct 2024 at 10:04, Maxime Ripard <mripard@kernel.org> wrote:
+> >>>> Hi,
+> >>>>
+> >>>> On Sun, Oct 13, 2024 at 09:57:58PM GMT, Stefan Wahren wrote:
+> >>>>> Am 13.10.24 um 21:11 schrieb Dave Stevenson:
+> >>>>>> Hi Stefan.
+> >>>>>>
+> >>>>>> On Sun, 13 Oct 2024, 18:19 Stefan Wahren, <wahrenst@gmx.net> wrote:
+> >>>>>>
+> >>>>>>       Hi,
+> >>>>>>
+> >>>>>>       i recently switch for my suspend2idle tests from Raspberry Pi Bullseye
+> >>>>>>       to Bookworm. After that testing suspend2idle shows a new warning
+> >>>>>>       which i
+> >>>>>>       never saw before:
+> >>>>>>
+> >>>>>>       HDMI Sink doesn't support RGB, something's wrong.
+> >>>>>>
+> >>>>>>
+> >>>>>> Can you provide the edid of your display please?
+> >> ...
+> >>>>>
+> >>>>> The failure is coming from sink_supports_format_bpc()[1], but the flag
+> >>>>> for DRM_COLOR_FORMAT_RGB444 should have been set from
+> >>>>> update_display_info()[2] parsing the EDID.
+> >>>>>
+> >>>>> Loading that EDID in via drm.edid_firmware has given me a console at
+> >>>>> 1920x1200@60 without any issues, so I'm a little confused as to what
+> >>>>> is going on.
+> >> Since this warning only occurs on resume and not during normal boot, i
+> >> would assume there is no issue with EDID. Maybe the flag get lost. I
+> >> should have mention that X11 doesn't recover in this case and the
+> >> display stays black.
+> > Ah, I hadn't realised you meant it was only on resume that it didn't
+> > come back up.
+> >
+> > I suspect you're right that the state gets lost somehow. It may be
+> > triggered by the returning of connector_status_unknown on the
+> > connector, but haven't traced it back.
+> >
+> > If I pick up your patches, what do I need to add to replicate this?
+> i prepared a branch for you, which contains the latest suspend2idle patches:
+>
+> https://github.com/lategoodbye/linux-dev/commits/v6.12-pm/
+>
+> Steps:
+> 1. Flash latest Raspberry Pi OS (32 bit) on SD card
+> 2. Build Kernel from repo above with arm/multi_v7_defconfig
+> 3. Replace Kernel, modules + DTB on SD card with build ones
+> 4. add the following to confix.txt
+> device_tree=bcm2837-rpi-3-b-plus.dtb
+> enable_uart=1
+> 5. change/add the following to cmdline.txt
+> console=ttyS1,115200
+> no_console_suspend=1
+> 6. connect the following devices to Raspberry Pi 3 B+ :
+> USB mouse
+> USB keyboard
+> HDMI monitor
+> Debug UART adapter (USB side to PC)
+> 7. Power on board and boot into X11
+> 8. Change to root
+> 9. Enable wakeup for ttyS1
 
-On 2024-09-16 14:23, Thomas Weißschuh wrote:
-> Hi Harry, Leo and other amdgpu maintainers,
-> 
-> On 2024-08-24 20:33:53+0000, Thomas Weißschuh wrote:
->> The value of "min_input_signal" returned from ATIF on a Framework AMD 13
->> is "12". This leads to a fairly bright minimum display backlight.
->>
->> Introduce a quirk to override "min_input_signal" to "0" which leads to a
->> much lower minimum brightness, which is still readable even in daylight.
-> 
-> could you take another look at the series?
-> The issues around panel power are not specific to the low pwm values,
-> so shouldn't have an impact on this series.
-> (And are nearly imperceptible anyways)
-> 
+So I remember for next time
+echo enabled > /sys/class/tty/ttyS1/power/wakeup
 
-I think these patches are good.
+> 10. Trigger suspend to idle via X11 (echo freeze > /sys/power/state)
+> 11. Wakeup Raspberry Pi via Debug UART
 
-Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+I don't get the error you are seeing, but I also don't get the display resuming.
+pm has obviously killed the power to the HDMI block, and it has the
+reset values in as can be seen via /sys/kernel/debug/dri/0/hdmi_regs.
+Nothing in the driver restores these registers, and I'm not sure if it
+is meant to do so.
+Run kmstest or similar from this state and the change of mode
+reprogrammes the blocks so we get the display back again.
 
-Harry
+I've also enabled CONFIG_DRM_LOAD_EDID_FIRMWARE so that I can use your
+EDID, and get the same results.
 
->> One solution would be a fixed firmware version, which was announced but
->> has no timeline.
->>
->> ---
->> Changes in v6:
->> - Clean up cover letter and commit messages
->> - Add my S-o-b to patch from Dustin
->> - Mention testing in combination with "panel_power_savings"
->> - Link to v5: https://lore.kernel.org/r/20240818-amdgpu-min-backlight-quirk-v5-0-b6c0ead0c73d@weissschuh.net
->>
->> Changes in v5:
->> - Forward-declare struct drm_edid
->> - Reorder patches, quirk entries are last
->> - Add patch from Dustin for additional quirk entries
->> - Link to v4: https://lore.kernel.org/r/20240812-amdgpu-min-backlight-quirk-v4-0-56a63ff897b7@weissschuh.net
->>
->> Changes in v4:
->> - Switch back to v2 implementation
->> - Add MODULE_DESCRIPTION()
->> - Simplify quirk infrastructure to only handle min backlight quirks.
->>   It can be extended if necessary.
->> - Expand documentation.
->> - Link to v3: https://lore.kernel.org/r/20240731-amdgpu-min-backlight-quirk-v3-0-46d40bb21a62@weissschuh.net
->>
->> Changes in v3:
->> - Switch to cmdline override parameter
->> - Link to v2: https://lore.kernel.org/r/20240623-amdgpu-min-backlight-quirk-v2-0-cecf7f49da9b@weissschuh.net
->>
->> Changes in v2:
->> - Introduce proper drm backlight quirk infrastructure
->> - Quirk by EDID and DMI instead of only DMI
->> - Limit quirk to only single Framework 13 matte panel
->> - Link to v1: https://lore.kernel.org/r/20240610-amdgpu-min-backlight-quirk-v1-1-8459895a5b2a@weissschuh.net
->>
->> ---
->> Dustin L. Howett (1):
->>       drm: panel-backlight-quirks: Add Framework 13 glossy and 2.8k panels
->>
->> Thomas Weißschuh (3):
->>       drm: Add panel backlight quirks
->>       drm/amd/display: Add support for minimum backlight quirk
->>       drm: panel-backlight-quirks: Add Framework 13 matte panel
->>
->>  Documentation/gpu/drm-kms-helpers.rst             |  3 +
->>  drivers/gpu/drm/Kconfig                           |  4 +
->>  drivers/gpu/drm/Makefile                          |  1 +
->>  drivers/gpu/drm/amd/amdgpu/Kconfig                |  1 +
->>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 10 +++
->>  drivers/gpu/drm/drm_panel_backlight_quirks.c      | 94 +++++++++++++++++++++++
->>  include/drm/drm_utils.h                           |  4 +
->>  7 files changed, 117 insertions(+)
->> ---
->> base-commit: d2bafcf224f3911b183113b2fcb536c9e90684a3
->> change-id: 20240610-amdgpu-min-backlight-quirk-8402fd8e736a
->>
->> Best regards,
->> -- 
->> Thomas Weißschuh <linux@weissschuh.net>
->>
+Knee-capping the HDMI block on suspend seems an unlikely mechanism to
+work reliably. On the more recent Pis there is a need to be quite
+careful in disabling the pipeline to avoid getting data stuck in
+FIFOs.
+I feel I must be missing something here.
 
+  Dave
