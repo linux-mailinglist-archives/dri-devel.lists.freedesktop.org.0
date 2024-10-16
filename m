@@ -2,74 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2803D9A0C2A
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Oct 2024 16:00:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94E689A0C30
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Oct 2024 16:01:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9947F10E714;
-	Wed, 16 Oct 2024 14:00:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00ECF10E716;
+	Wed, 16 Oct 2024 14:01:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="la6L1nZ8";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XIVeEjPZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1702610E714
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Oct 2024 14:00:43 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id B7DC25C537D
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Oct 2024 14:00:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25230C4CEDC
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Oct 2024 14:00:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1729087241;
- bh=BK+m1uMt60o3i/gpdeSpzqCx2kCyhlvBP3c0lem4WOI=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=la6L1nZ8A/M8d3ZhCf0yfHlWopy06/p5gHBlv+bsqEttIao/9pPVxOZyI3/8T5l3z
- SlyyNhZc3DMDOwxC4WYFEqNUch9xQ0Nu8ZOazIyHK3Yy3/xXfW3ednwG1MMQC/Op0V
- zvdcFCU+cvDHtOCz1cmR7211ImMEdGy3u2b143i0jnnxcB9+9QUYlCQx/SE6cw5xnU
- YgSKxxT/pzO8GI1Tf+TD4jeNzwDpUfp4GmrlX69LoiGHibnAFqTC0SfYh0ginaDAGn
- 2gu0GZyboaeGE6X9gSLDBKHi4kgdk8mwstCLS2x74wGnGBGpeO81Ve/k9uNcufnLzj
- h+Gh2XsRTrOqQ==
-Received: by mail-lf1-f54.google.com with SMTP id
- 2adb3069b0e04-539fbbadf83so4103461e87.0
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Oct 2024 07:00:41 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUmk8E7wDj9oV8K4hjpM8f9Ydq3poaYoerxHFywjOSQ1rp+5y6lC3cFAJijrvzoEQn6/UNVqqtDuZg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxL5en54vGVKroYrRmQkwf3KEf4mJsNiBSCRtm26QDe6g5XoSsX
- nZYJxpc89VGuAqM8VIFbwkNB/8XsTGJ54Jc7dcxFhzublffu0fcW5UVPWQ1IgdaSPAtoyS+k/zB
- vNMAQwYYcbWcQgeFUi7unxfjT8Q==
-X-Google-Smtp-Source: AGHT+IHPNCs8MLQVCkQZQoxybDWunU9F2SX3BzDcHCSDYdOE+qgMEiK6HJiUfa4Hxo6OfVwl0wtqw2rR+HzDyvgDK+M=
-X-Received: by 2002:a05:6512:1317:b0:536:52c4:e45c with SMTP id
- 2adb3069b0e04-539da4eb323mr9683702e87.31.1729087238930; Wed, 16 Oct 2024
- 07:00:38 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 934CB10E715;
+ Wed, 16 Oct 2024 14:01:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1729087278; x=1760623278;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=JZ60b3KLOBWJAC5gGErz2xLEh1rCI5XIBOXVymbehLg=;
+ b=XIVeEjPZHzE+PCsMICohiqnqE7hfY8cu/KFrV/JlgrEiRgsUVY7uBqmR
+ JNrap8fOfNrYMt2vyct+g8TkUX90unAzdH0yVdyxNn/X00zKryMYhCmsK
+ GxM8JwDM3CmLLql4RIkYX60ujUlB4PHVzMH2oRQtNrBZKptOC03I88mPj
+ oYs/N+csL1u2Un34Xoa4qd+1nf8JqBr1+SCG9M6c26c/PFFsHIRpAIC+/
+ zYzpesNCMWRxPh8pnXyKRiTyu9Rl2Gb1opIWGpAsR7MTPDwYMMgt5M3oR
+ AfyQn+l7JxZR7kH2r6dcAsJIbusqGoKhupbbTWW0p9M1ffOQQc0fWf+vY Q==;
+X-CSE-ConnectionGUID: ZuzWxHcLRQS2ySGsxvkNTA==
+X-CSE-MsgGUID: Vo5QSFCkRcikkZiLHoccUA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11226"; a="32336275"
+X-IronPort-AV: E=Sophos;i="6.11,208,1725346800"; d="scan'208";a="32336275"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Oct 2024 07:01:06 -0700
+X-CSE-ConnectionGUID: 2kH5F2wmT2GSBeHH0Kymkg==
+X-CSE-MsgGUID: MygklSySSom16wCBqnx0/A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,208,1725346800"; d="scan'208";a="78284921"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by fmviesa008.fm.intel.com with SMTP; 16 Oct 2024 07:01:03 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 16 Oct 2024 17:01:02 +0300
+Date: Wed, 16 Oct 2024 17:01:02 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Arun R Murthy <arun.r.murthy@intel.com>
+Cc: intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/i915/display: plane property for async supported
+ modifiers
+Message-ID: <Zw_HHn42gYFvjWmP@intel.com>
+References: <20241016053626.2850384-1-arun.r.murthy@intel.com>
+ <Zw-_6yuy139Zmir3@intel.com> <Zw_FgeZFATAk-aMf@intel.com>
 MIME-Version: 1.0
-References: <20241014085148.71105-1-angelogioacchino.delregno@collabora.com>
- <20241014085148.71105-2-angelogioacchino.delregno@collabora.com>
- <CAL_Jsq+hpTPCkuXoCF88nyS_D+iFZB5osrt1q04RxffDsY7cXw@mail.gmail.com>
- <ec14b01e-7237-4f52-82a6-b8de42fb120b@collabora.com>
- <20241015134802.GB447702-robh@kernel.org>
- <e5612a1d-b609-4f4a-aec4-601f7060e4cf@collabora.com>
-In-Reply-To: <e5612a1d-b609-4f4a-aec4-601f7060e4cf@collabora.com>
-From: Rob Herring <robh@kernel.org>
-Date: Wed, 16 Oct 2024 09:00:23 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqLsFbJbLn76QYwzCfu+bmpjfsxCDp_OuKAFnktMXMbTBA@mail.gmail.com>
-Message-ID: <CAL_JsqLsFbJbLn76QYwzCfu+bmpjfsxCDp_OuKAFnktMXMbTBA@mail.gmail.com>
-Subject: Re: [PATCH v12 1/3] dt-bindings: display: mediatek: Add OF graph
- support for board path
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: Matthias Brugger <matthias.bgg@gmail.com>, matthias.bgg@kernel.org, 
- chunkuang.hu@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
- conor+dt@kernel.org, p.zabel@pengutronix.de, airlied@gmail.com, 
- daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
- tzimmermann@suse.de, shawn.sung@mediatek.com, yu-chang.lee@mediatek.com, 
- ck.hu@mediatek.com, jitao.shi@mediatek.com, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
- wenst@chromium.org, kernel@collabora.com, sui.jingfeng@linux.dev, 
- michael@walle.cc, sjoerd@collabora.com, 
- Alexandre Mergnat <amergnat@baylibre.com>, Michael Walle <mwalle@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Zw_FgeZFATAk-aMf@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,437 +73,189 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 16, 2024 at 4:23=E2=80=AFAM AngeloGioacchino Del Regno
-<angelogioacchino.delregno@collabora.com> wrote:
->
-> Il 15/10/24 15:48, Rob Herring ha scritto:
-> > On Tue, Oct 15, 2024 at 10:32:22AM +0200, AngeloGioacchino Del Regno wr=
-ote:
-> >> Il 14/10/24 19:36, Rob Herring ha scritto:
-> >>> On Mon, Oct 14, 2024 at 3:51=E2=80=AFAM AngeloGioacchino Del Regno
-> >>> <angelogioacchino.delregno@collabora.com> wrote:
-> >>>>
-> >>>> The display IPs in MediaTek SoCs support being interconnected with
-> >>>> different instances of DDP IPs (for example, merge0 or merge1) and/o=
-r
-> >>>> with different DDP IPs (for example, rdma can be connected with eith=
-er
-> >>>> color, dpi, dsi, merge, etc), forming a full Display Data Path that
-> >>>> ends with an actual display.
-> >>>>
-> >>>> The final display pipeline is effectively board specific, as it does
-> >>>> depend on the display that is attached to it, and eventually on the
-> >>>> sensors supported by the board (for example, Adaptive Ambient Light
-> >>>> would need an Ambient Light Sensor, otherwise it's pointless!), othe=
-r
-> >>>> than the output type.
-> >>>>
-> >>>> Add support for OF graphs to most of the MediaTek DDP (display) bind=
-ings
-> >>>> to add flexibility to build custom hardware paths, hence enabling bo=
-ard
-> >>>> specific configuration of the display pipeline and allowing to final=
-ly
-> >>>> migrate away from using hardcoded paths.
-> >>>>
-> >>>> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
-> >>>> Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
-> >>>> Tested-by: Alexandre Mergnat <amergnat@baylibre.com>
-> >>>> Reviewed-by: CK Hu <ck.hu@mediatek.com>
-> >>>> Tested-by: Michael Walle <mwalle@kernel.org> # on kontron-sbc-i1200
-> >>>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno=
-@collabora.com>
-> >>>> ---
-> >>>>    .../display/mediatek/mediatek,aal.yaml        | 40 ++++++++++++++=
-+++++
-> >>>>    .../display/mediatek/mediatek,ccorr.yaml      | 21 ++++++++++
-> >>>>    .../display/mediatek/mediatek,color.yaml      | 22 ++++++++++
-> >>>>    .../display/mediatek/mediatek,dither.yaml     | 22 ++++++++++
-> >>>>    .../display/mediatek/mediatek,dpi.yaml        | 25 +++++++++++-
-> >>>>    .../display/mediatek/mediatek,dsc.yaml        | 24 +++++++++++
-> >>>>    .../display/mediatek/mediatek,dsi.yaml        | 27 ++++++++++++-
-> >>>>    .../display/mediatek/mediatek,ethdr.yaml      | 22 ++++++++++
-> >>>>    .../display/mediatek/mediatek,gamma.yaml      | 19 +++++++++
-> >>>>    .../display/mediatek/mediatek,merge.yaml      | 23 +++++++++++
-> >>>>    .../display/mediatek/mediatek,od.yaml         | 22 ++++++++++
-> >>>>    .../display/mediatek/mediatek,ovl-2l.yaml     | 22 ++++++++++
-> >>>>    .../display/mediatek/mediatek,ovl.yaml        | 22 ++++++++++
-> >>>>    .../display/mediatek/mediatek,postmask.yaml   | 21 ++++++++++
-> >>>>    .../display/mediatek/mediatek,rdma.yaml       | 22 ++++++++++
-> >>>>    .../display/mediatek/mediatek,ufoe.yaml       | 21 ++++++++++
-> >>>>    16 files changed, 372 insertions(+), 3 deletions(-)
-> >>>>
-> >>>> diff --git a/Documentation/devicetree/bindings/display/mediatek/medi=
-atek,aal.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek=
-,aal.yaml
-> >>>> index cf24434854ff..47ddba5c41af 100644
-> >>>> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,aa=
-l.yaml
-> >>>> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,aa=
-l.yaml
-> >>>> @@ -62,6 +62,27 @@ properties:
-> >>>>        $ref: /schemas/types.yaml#/definitions/phandle-array
-> >>>>        maxItems: 1
-> >>>>
-> >>>> +  ports:
-> >>>> +    $ref: /schemas/graph.yaml#/properties/ports
-> >>>> +    description:
-> >>>> +      Input and output ports can have multiple endpoints, each of t=
-hose
-> >>>> +      connects to either the primary, secondary, etc, display pipel=
-ine.
-> >>>> +
-> >>>> +    properties:
-> >>>> +      port@0:
-> >>>> +        $ref: /schemas/graph.yaml#/properties/port
-> >>>> +        description: AAL input port
-> >>>> +
-> >>>> +      port@1:
-> >>>> +        $ref: /schemas/graph.yaml#/properties/port
-> >>>> +        description:
-> >>>> +          AAL output to the next component's input, for example cou=
-ld be one
-> >>>> +          of many gamma, overdrive or other blocks.
-> >>>> +
-> >>>> +    required:
-> >>>> +      - port@0
-> >>>> +      - port@1
-> >>>> +
-> >>>>    required:
-> >>>>      - compatible
-> >>>>      - reg
-> >>>> @@ -89,5 +110,24 @@ examples:
-> >>>>               power-domains =3D <&scpsys MT8173_POWER_DOMAIN_MM>;
-> >>>>               clocks =3D <&mmsys CLK_MM_DISP_AAL>;
-> >>>>               mediatek,gce-client-reg =3D <&gce SUBSYS_1401XXXX 0x50=
-00 0x1000>;
-> >>>> +
-> >>>> +           ports {
-> >>>> +               #address-cells =3D <1>;
-> >>>> +               #size-cells =3D <0>;
-> >>>> +
-> >>>> +               port@0 {
-> >>>> +                   reg =3D <0>;
-> >>>> +                   aal0_in: endpoint {
-> >>>> +                       remote-endpoint =3D <&ccorr0_out>;
-> >>>> +                   };
-> >>>> +               };
-> >>>> +
-> >>>> +               port@1 {
-> >>>> +                   reg =3D <1>;
-> >>>> +                   aal0_out: endpoint {
-> >>>> +                       remote-endpoint =3D <&gamma0_in>;
-> >>>> +                   };
-> >>>> +               };
-> >>>> +           };
-> >>>>           };
-> >>>>        };
-> >>>> diff --git a/Documentation/devicetree/bindings/display/mediatek/medi=
-atek,ccorr.yaml b/Documentation/devicetree/bindings/display/mediatek/mediat=
-ek,ccorr.yaml
-> >>>> index 9f8366763831..fca8e7bb0cbc 100644
-> >>>> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,cc=
-orr.yaml
-> >>>> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,cc=
-orr.yaml
-> >>>> @@ -57,6 +57,27 @@ properties:
-> >>>>        $ref: /schemas/types.yaml#/definitions/phandle-array
-> >>>>        maxItems: 1
-> >>>>
-> >>>> +  ports:
-> >>>> +    $ref: /schemas/graph.yaml#/properties/ports
-> >>>> +    description:
-> >>>> +      Input and output ports can have multiple endpoints, each of t=
-hose
-> >>>> +      connects to either the primary, secondary, etc, display pipel=
-ine.
-> >>>> +
-> >>>> +    properties:
-> >>>> +      port@0:
-> >>>> +        $ref: /schemas/graph.yaml#/properties/port
-> >>>> +        description: CCORR input port
-> >>>> +
-> >>>> +      port@1:
-> >>>> +        $ref: /schemas/graph.yaml#/properties/port
-> >>>> +        description:
-> >>>> +          CCORR output to the input of the next desired component i=
-n the
-> >>>> +          display pipeline, usually only one of the available AAL b=
-locks.
-> >>>> +
-> >>>> +    required:
-> >>>> +      - port@0
-> >>>> +      - port@1
-> >>>> +
-> >>>>    required:
-> >>>>      - compatible
-> >>>>      - reg
-> >>>> diff --git a/Documentation/devicetree/bindings/display/mediatek/medi=
-atek,color.yaml b/Documentation/devicetree/bindings/display/mediatek/mediat=
-ek,color.yaml
-> >>>> index 7df786bbad20..6160439ce4d7 100644
-> >>>> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,co=
-lor.yaml
-> >>>> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,co=
-lor.yaml
-> >>>> @@ -65,6 +65,28 @@ properties:
-> >>>>        $ref: /schemas/types.yaml#/definitions/phandle-array
-> >>>>        maxItems: 1
-> >>>>
-> >>>> +  ports:
-> >>>> +    $ref: /schemas/graph.yaml#/properties/ports
-> >>>> +    description:
-> >>>> +      Input and output ports can have multiple endpoints, each of t=
-hose
-> >>>> +      connects to either the primary, secondary, etc, display pipel=
-ine.
-> >>>> +
-> >>>> +    properties:
-> >>>> +      port@0:
-> >>>> +        $ref: /schemas/graph.yaml#/properties/port
-> >>>> +        description: COLOR input port
-> >>>> +
-> >>>> +      port@1:
-> >>>> +        $ref: /schemas/graph.yaml#/properties/port
-> >>>> +        description:
-> >>>> +          COLOR output to the input of the next desired component i=
-n the
-> >>>> +          display pipeline, for example one of the available CCORR =
-or AAL
-> >>>> +          blocks.
-> >>>> +
-> >>>> +    required:
-> >>>> +      - port@0
-> >>>> +      - port@1
-> >>>> +
-> >>>>    required:
-> >>>>      - compatible
-> >>>>      - reg
-> >>>> diff --git a/Documentation/devicetree/bindings/display/mediatek/medi=
-atek,dither.yaml b/Documentation/devicetree/bindings/display/mediatek/media=
-tek,dither.yaml
-> >>>> index 6fceb1f95d2a..abaf27916d13 100644
-> >>>> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,di=
-ther.yaml
-> >>>> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,di=
-ther.yaml
-> >>>> @@ -56,6 +56,28 @@ properties:
-> >>>>        $ref: /schemas/types.yaml#/definitions/phandle-array
-> >>>>        maxItems: 1
-> >>>>
-> >>>> +  ports:
-> >>>> +    $ref: /schemas/graph.yaml#/properties/ports
-> >>>> +    description:
-> >>>> +      Input and output ports can have multiple endpoints, each of t=
-hose
-> >>>> +      connects to either the primary, secondary, etc, display pipel=
-ine.
-> >>>> +
-> >>>> +    properties:
-> >>>> +      port@0:
-> >>>> +        $ref: /schemas/graph.yaml#/properties/port
-> >>>> +        description: DITHER input, usually from a POSTMASK or GAMMA=
- block.
-> >>>> +
-> >>>> +      port@1:
-> >>>> +        $ref: /schemas/graph.yaml#/properties/port
-> >>>> +        description:
-> >>>> +          DITHER output to the input of the next desired component =
-in the
-> >>>> +          display pipeline, for example one of the available DSC co=
-mpressors,
-> >>>> +          DP_INTF, DSI, LVDS or others.
-> >>>> +
-> >>>> +    required:
-> >>>> +      - port@0
-> >>>> +      - port@1
-> >>>> +
-> >>>>    required:
-> >>>>      - compatible
-> >>>>      - reg
-> >>>> diff --git a/Documentation/devicetree/bindings/display/mediatek/medi=
-atek,dpi.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek=
-,dpi.yaml
-> >>>> index 3a82aec9021c..b567e3d58aa1 100644
-> >>>> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dp=
-i.yaml
-> >>>> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dp=
-i.yaml
-> >>>> @@ -71,13 +71,34 @@ properties:
-> >>>>          Output port node. This port should be connected to the inpu=
-t port of an
-> >>>>          attached HDMI, LVDS or DisplayPort encoder chip.
-> >>>>
-> >>>> +  ports:
-> >>>> +    $ref: /schemas/graph.yaml#/properties/ports
-> >>>> +
-> >>>> +    properties:
-> >>>> +      port@0:
-> >>>> +        $ref: /schemas/graph.yaml#/properties/port
-> >>>> +        description: DPI input port
-> >>>> +
-> >>>> +      port@1:
-> >>>> +        $ref: /schemas/graph.yaml#/properties/port
-> >>>> +        description: DPI output to an HDMI, LVDS or DisplayPort enc=
-oder input
-> >>>
-> >>> This is wrong. The existing 'port' is the output. 'port' and 'port@0'
-> >>> are treated as the same thing. Since you are adding an input port, th=
-e
-> >>> new port has to be 'port@1' (or any number but 0).
-> >>>
-> >>> I haven't looked at the driver code, but it should request port 0 and
-> >>> always get the output port. And requesting port 1 will return an erro=
-r
-> >>> or the input port.
-> >>
-> >> Hello Rob,
-> >>
-> >> I want to remind you that in v2 of this series you said that it'd be w=
-rong for
-> >> port@0 to be an output, I replied that you misread that as I had model=
-ed it indeed
-> >> as an input, and then you gave me your Reviewed-by tag.
-> >
-> > I have not misread it. Then I guess I forgot about it and missed it the
-> > next time on v3.
-> >
->
-> Okay, that was some misunderstanding then - it's fine, no problem.
->
-> >> Anyway - I get your concern about the previous behavior of `port`, but=
- I chose to
-> >> model this that way purely for consistency.
-> >>
-> >> First of all - the driver(s) will check if we're feeding a full graph,=
- as it will
-> >> indeed first check if port@1 is present: if it is, then it follows thi=
-s scheme with
-> >> port@0 as INPUT and port@1 as OUTPUT.
-> >> If the component in port@0 is an OUTPUT, the bridge attach will fail.
-> >>
-> >> Getting to bindings themselves, then... it would be a mistake to model=
- port@0 as an
-> >> output and port@1 as an input, because that would be not only inconsis=
-tent with the
-> >> DRM Bridge bindings, but would be highly confusing when reading the de=
-vicetree.
-> >
-> > Somewhat confusing, yes. Highly, no. Put a comment in the DT.
-> >
->
-> "Somewhat or highly" boils down to personal opinion, so I still go for "h=
-ighly"
-> but won't argue about that as wouldn't be productive and would bring us n=
-owhere
-> anyway, so, whatever :-)
->
-> Putting a comment in DT is an option, yes, but that comment would need to=
- be put
-> on all of the MediaTek SoC device trees - current and future - and IMO wo=
-uld scream
-> "inconsistency warning" (in different words, of course) all over, which h=
-onestly
-> doesn't really look clean... at least to my eyes...
+On Wed, Oct 16, 2024 at 04:54:09PM +0300, Ville Syrjälä wrote:
+> On Wed, Oct 16, 2024 at 04:30:19PM +0300, Ville Syrjälä wrote:
+> > On Wed, Oct 16, 2024 at 11:06:26AM +0530, Arun R Murthy wrote:
+> > > Create a i915 private plane property for sharing the async supported
+> > > modifiers to the user.
+> > > UMD related discussion requesting the same
+> > > https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/29618#note_2487123
+> > > 
+> > > Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
+> > > ---
+> > >  .../gpu/drm/i915/display/intel_atomic_plane.c |  6 +++
+> > >  .../drm/i915/display/intel_display_types.h    |  4 ++
+> > >  .../drm/i915/display/skl_universal_plane.c    | 49 ++++++++++++++++++-
+> > 
+> > This whole thing belongs in the drm core.
+> 
+> And I don't even see an actual implementation of anything here.
+> Why did you even post this when it doesn't do anything?
+> 
+> Anyways, thinking about how we might actually implement this,
+> we can probably leverage
+> https://patchwork.freedesktop.org/patch/619047/?series=139807&rev=3
 
-What I find more confusing is my updated DT doesn't work with my
-existing kernel...
+Although we should probably pass the format to that as well...
 
-> >> Please note that the bridge bindings are always declaring port@0 as an=
- INPUT and
-> >> other ports as OUTPUT(s).
-> >
-> > There is no guarantee on that. Port numbering is local to the bridge an=
-d
-> > opaque to anything outside that bridge. That is why you have to documen=
-t
-> > what each port represents.
-> >
->
-> I know and I agree that there's no guarantee on the numbering. I can see =
-that in
-> other non-drm-bridge bindings, and that's fine.
->
-> > Would we have followed that convention if all the ports were defined
-> > from the start? Certainly. But that didn't happen and you are stuck wit=
-h
-> > the existing binding and ABI.
-> >
->
-> I thought about adding a new compatible for the new port scheme, but that=
- looked
-> even worse to me as, after doing that (yeah, I actually went for it in th=
-e first
-> version that I have never sent upstream) during my own proof-read I start=
-ed
-> screaming "HACK! HACK! NOOO!" all over, and rewritten the entire thing.
->
-> >> As an example, you can check display/bridge/analogix,anx7625.yaml or
-> >> display/bridge/samsung,mipi-dsim.yaml (and others) for bridges, otherw=
-ise
-> >> display/st,stm32mp25-lvds.yaml or display/allwinner,sun4i-a10-display-=
-frontend.yaml
-> >> (and others) for display controllers, which do all conform to this log=
-ic, where
-> >> the input is always @0, and the output is @1.
-> >>
-> >> Of course, doing this required me to do extra changes to the MTK DRM d=
-rivers to
-> >> actually be retro-compatible with the old devicetrees as I explained b=
-efore.
-> >
-> > You can't fix existing software...
-> >
->
-> That's true, but I don't see that as an "excuse" (grant me this term plea=
-se) to
-> "carelessly" keep it in a suboptimal state.
->
-> This driver has been growing almost uncontrollably with (wrong, anyway!)
-> board-specific component vectors - and writing a new one would just add u=
-p
-> more code duplication to the mix and/or worsen the maintainability of old=
-er
-> MediaTek SoCs (as the "old" driver will get forgotten and never updated a=
-nymore).
->
-> > If you want to break the ABI, then that's ultimately up to you and
-> > Mediatek maintainers to decide0. This case is easy to avoid, why would
-> > you knowingly break the ABI here.
->
-> Because if we don't do this, we condemn (forever) this driver, or part of=
- it
-> to have an inverted port scheme compared to either:
->   A. The other drm/mediatek components; or
->   B. The other bridge drivers (of which, some are used with MTK as well)
->
-> ...and we also condemn (forever, again) all MediaTek device trees to scre=
-am
-> "port inconsistency warning: A for drm/mediatek components, B for every o=
-ther
-> thing", which would scream "drm/mediatek is somewhat broken", which can b=
-e
-> avoided.
+> 
+> > >  3 files changed, 58 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/i915/display/intel_atomic_plane.c b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
+> > > index b7e462075ded..ef41b50cc765 100644
+> > > --- a/drivers/gpu/drm/i915/display/intel_atomic_plane.c
+> > > +++ b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
+> > > @@ -117,6 +117,9 @@ intel_plane_duplicate_state(struct drm_plane *plane)
+> > >  	intel_state->dpt_vma = NULL;
+> > >  	intel_state->flags = 0;
+> > >  
+> > > +	if (intel_state->async_sup_modifiers)
+> > > +		drm_property_blob_get(intel_state->async_sup_modifiers);
+> > > +
+> > >  	/* add reference to fb */
+> > >  	if (intel_state->hw.fb)
+> > >  		drm_framebuffer_get(intel_state->hw.fb);
+> > > @@ -141,6 +144,9 @@ intel_plane_destroy_state(struct drm_plane *plane,
+> > >  	drm_WARN_ON(plane->dev, plane_state->ggtt_vma);
+> > >  	drm_WARN_ON(plane->dev, plane_state->dpt_vma);
+> > >  
+> > > +	if (plane_state->async_sup_modifiers)
+> > > +		drm_property_blob_put(plane_state->async_sup_modifiers);
+> > > +
+> > >  	__drm_atomic_helper_plane_destroy_state(&plane_state->uapi);
+> > >  	if (plane_state->hw.fb)
+> > >  		drm_framebuffer_put(plane_state->hw.fb);
+> > > diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
+> > > index 2bb1fa64da2f..a5a301ca521a 100644
+> > > --- a/drivers/gpu/drm/i915/display/intel_display_types.h
+> > > +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
+> > > @@ -683,6 +683,8 @@ struct intel_plane_state {
+> > >  	u64 ccval;
+> > >  
+> > >  	const char *no_fbc_reason;
+> > > +
+> > > +	struct drm_property_blob *async_sup_modifiers;
+> > >  };
+> > >  
+> > >  struct intel_initial_plane_config {
+> > > @@ -1435,6 +1437,8 @@ struct intel_plane {
+> > >  
+> > >  	struct intel_fbc *fbc;
+> > >  
+> > > +	struct drm_property *async_modifiers_property;
+> > > +
+> > >  	/*
+> > >  	 * NOTE: Do not place new plane state fields here (e.g., when adding
+> > >  	 * new plane properties).  New runtime state should now be placed in
+> > > diff --git a/drivers/gpu/drm/i915/display/skl_universal_plane.c b/drivers/gpu/drm/i915/display/skl_universal_plane.c
+> > > index 9557b08ca2e2..6790bdf00c8f 100644
+> > > --- a/drivers/gpu/drm/i915/display/skl_universal_plane.c
+> > > +++ b/drivers/gpu/drm/i915/display/skl_universal_plane.c
+> > > @@ -2383,6 +2383,29 @@ static bool icl_plane_format_mod_supported(struct drm_plane *_plane,
+> > >  	}
+> > >  }
+> > >  
+> > > +static int intel_plane_get_property(struct drm_plane *plane,
+> > > +				    const struct drm_plane_state *state,
+> > > +				    struct drm_property *property,
+> > > +				    uint64_t *val)
+> > > +{
+> > > +	struct drm_i915_private *i915 = to_i915(plane->dev);
+> > > +	const struct intel_plane_state *intel_plane_state =
+> > > +		to_intel_plane_state(state);
+> > > +	struct intel_plane *intel_plane = to_intel_plane(plane);
+> > > +
+> > > +	if (property == intel_plane->async_modifiers_property) {
+> > > +		*val = intel_plane_state->async_sup_modifiers ?
+> > > +			intel_plane_state->async_sup_modifiers->base.id : 0;
+> > > +	} else {
+> > > +		drm_err(&i915->drm,
+> > > +			"Unknown property [PROP:%d:%s]\n",
+> > > +			property->base.id, property->name);
+> > > +		return -EINVAL;
+> > > +	}
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > >  static bool tgl_plane_format_mod_supported(struct drm_plane *_plane,
+> > >  					   u32 format, u64 modifier)
+> > >  {
+> > > @@ -2442,6 +2465,7 @@ static const struct drm_plane_funcs skl_plane_funcs = {
+> > >  	.atomic_duplicate_state = intel_plane_duplicate_state,
+> > >  	.atomic_destroy_state = intel_plane_destroy_state,
+> > >  	.format_mod_supported = skl_plane_format_mod_supported,
+> > > +	.atomic_get_property = intel_plane_get_property,
+> > >  };
+> > >  
+> > >  static const struct drm_plane_funcs icl_plane_funcs = {
+> > > @@ -2451,6 +2475,7 @@ static const struct drm_plane_funcs icl_plane_funcs = {
+> > >  	.atomic_duplicate_state = intel_plane_duplicate_state,
+> > >  	.atomic_destroy_state = intel_plane_destroy_state,
+> > >  	.format_mod_supported = icl_plane_format_mod_supported,
+> > > +	.atomic_get_property = intel_plane_get_property,
+> > >  };
+> > >  
+> > >  static const struct drm_plane_funcs tgl_plane_funcs = {
+> > > @@ -2460,6 +2485,7 @@ static const struct drm_plane_funcs tgl_plane_funcs = {
+> > >  	.atomic_duplicate_state = intel_plane_duplicate_state,
+> > >  	.atomic_destroy_state = intel_plane_destroy_state,
+> > >  	.format_mod_supported = tgl_plane_format_mod_supported,
+> > > +	.atomic_get_property = intel_plane_get_property,
+> > >  };
+> > >  
+> > >  static void
+> > > @@ -2549,6 +2575,25 @@ static u8 skl_get_plane_caps(struct drm_i915_private *i915,
+> > >  	return caps;
+> > >  }
+> > >  
+> > > +static void intel_plane_attach_async_modifiers_property(struct intel_plane *intel_plane)
+> > > +{
+> > > +	struct drm_plane *plane = &intel_plane->base;
+> > > +	struct drm_device *dev = plane->dev;
+> > > +	struct drm_property *prop;
+> > > +
+> > > +	prop = intel_plane->async_modifiers_property;
+> > > +	if (!prop) {
+> > > +		prop = drm_property_create(dev, DRM_MODE_PROP_BLOB | DRM_MODE_PROP_ATOMIC,
+> > > +					   "Async Supported Modifiers", 0);
+> > > +		if (!prop)
+> > > +			return;
+> > > +
+> > > +		intel_plane->async_modifiers_property = prop;
+> > > +	}
+> > > +
+> > > +	drm_object_attach_property(&plane->base, prop, 0);
+> > > +}
+> > > +
+> > >  struct intel_plane *
+> > >  skl_universal_plane_create(struct drm_i915_private *dev_priv,
+> > >  			   enum pipe pipe, enum plane_id plane_id)
+> > > @@ -2694,10 +2739,12 @@ skl_universal_plane_create(struct drm_i915_private *dev_priv,
+> > >  	if (DISPLAY_VER(dev_priv) >= 12)
+> > >  		drm_plane_enable_fb_damage_clips(&plane->base);
+> > >  
+> > > -	if (DISPLAY_VER(dev_priv) >= 11)
+> > > +	if (DISPLAY_VER(dev_priv) >= 11) {
+> > >  		drm_plane_create_scaling_filter_property(&plane->base,
+> > >  						BIT(DRM_SCALING_FILTER_DEFAULT) |
+> > >  						BIT(DRM_SCALING_FILTER_NEAREST_NEIGHBOR));
+> > > +		intel_plane_attach_async_modifiers_property(plane);
+> > > +	}
+> > >  
+> > >  	intel_plane_helper_add(plane);
+> > >  
+> > > -- 
+> > > 2.25.1
+> > 
+> > -- 
+> > Ville Syrjälä
+> > Intel
+> 
+> -- 
+> Ville Syrjälä
+> Intel
 
-Sure. The cost is just an ABI break to do that.
-
-> > OTOH, this seems like a big enough
-> > change I would imagine it is a matter of time before supporting a
-> > missing OF graph for the components will be a problem.
-> >
->
-> Sorry I didn't understand this part, can you please-please-please reword?
-
-I think keeping the kernel working with the old and new binding will
-be a challenge. Partly because testing with the old binding won't
-happen, but also if the binding and drivers continue to evolve. So
-while maintaining old ABI might be possible with this change, it will
-continue to be an issue with each change. BTW, did you actually test
-backwards compatibility with this? I can see you fallback to the old
-binding, but there's a lot of other changes in there I can't really
-tell by looking at it.
-
-What I haven't heard from you is "yes, we need to maintain the ABI" or
-"no, we can break it". Decide that, then the path here is simple.
-
-Rob
+-- 
+Ville Syrjälä
+Intel
