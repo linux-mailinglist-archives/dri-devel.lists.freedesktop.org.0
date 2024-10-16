@@ -2,66 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0318E9A1009
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Oct 2024 18:48:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1E8C9A1061
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Oct 2024 19:12:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7608D10E14C;
-	Wed, 16 Oct 2024 16:48:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BFAE10E0F9;
+	Wed, 16 Oct 2024 17:12:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Fa1SAsvM";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="W9NqZ8a1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f178.google.com (mail-il1-f178.google.com
- [209.85.166.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D73E110E14C;
- Wed, 16 Oct 2024 16:48:19 +0000 (UTC)
-Received: by mail-il1-f178.google.com with SMTP id
- e9e14a558f8ab-3a3b4663e40so326285ab.2; 
- Wed, 16 Oct 2024 09:48:19 -0700 (PDT)
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com
+ [209.85.222.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D8C8810E0F9;
+ Wed, 16 Oct 2024 17:12:24 +0000 (UTC)
+Received: by mail-qk1-f170.google.com with SMTP id
+ af79cd13be357-7b1418058bbso3467885a.3; 
+ Wed, 16 Oct 2024 10:12:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1729097299; x=1729702099; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=FnOzc/HN0SAiUbTsStSbFnNR06opn4+9p90Mwo7rsHM=;
- b=Fa1SAsvMz/2p/CdVNxLGFIZ4vBova8EhO1VZQI9k262rbZhcGXPNYXrJR4EMNskrNc
- VXeIePPNfNy51ETQkO2R7pbVX3uE2tIlJaniQYtzzfOVbcBxTZ718Ca6OFBrZXotbznJ
- 4kF/q9O7DO9qyXI75ks5qyTypghkAAek+mkJrQHrc6CCicQkoItPYrOc7tqQuiTIaKMQ
- MWx/eVldNWbSexfXoxxrXsSErTCED6meq0+BlvxwHAoF37Dbhib2sI478/KjQrAjGjzK
- glc2ZiWKHpHTAnRrTHnIaYM4MccDpEHiEHtte8jktLyCCyQV37CFqlOAg8HxghfLzeyl
- gI+g==
+ d=gmail.com; s=20230601; t=1729098744; x=1729703544; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :feedback-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=SDw5CET4Wn2irdms8nAGtAOJ9ALGwQBRH1hXBGlKz1Q=;
+ b=W9NqZ8a1ZsNPZdp31z09Y8jz0fYi/+BPYzfInmjXgNzhQpZNJHKuI4vr10CJAjq1Ds
+ v420ZgCY1EE41xa1QCdHHt80r+fynaQdlDFQJam2Jw0qJRyBzRWRoaf34vaIG1yazxyI
+ X7EB3rBVxC4g8r5ElMw0CnZput7ORXnvAbF9vnsfSdsS6G6iKThYnI3etEfyxdEzHCWs
+ WmXB3QeIokV0xz6T4RQtW0Oyr4RsIaiS0GB0rikU6MqVqIkwyxxmK8b31YJNDrHkeNSn
+ 3MRt+jwHXLQknGf93YbtLUVsee9K/SXB4e46pAqJ4SS8J/VOBcs8QiEQuNSn4P0RvJSE
+ qcmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729097299; x=1729702099;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=FnOzc/HN0SAiUbTsStSbFnNR06opn4+9p90Mwo7rsHM=;
- b=Ftwok5wOqX8fwL+QyUO/IB35fsMAlK2a5GSGebDf6es2kcORrObKoHB4KeB/YLZmNK
- bnOVmdEVQn1DTlsmiQAO2dV4Vts/ybcHnJPBSWj5LLBg9/cory55gf4ifCi9MhB4vdWm
- 7ps3cPFdgDM4Pol38lJ5kXeopqeyOS+PdbFrUBaM9b23efKmOp9bnqvUbBWH7MDu4iDg
- JU6Wzgln+QrcIMxIEXwmTjqg0G8ZObqnu68R3aNnLCw0qJlugALQvG5ketcQW+nIMht8
- ZNGIDSAxLu/Ph98wne0ekGZd11ZM8/2Fw2TKDPjVgRgIb4WxaHPiedtzyP2H90c2fU8u
- OaPw==
+ d=1e100.net; s=20230601; t=1729098744; x=1729703544;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :feedback-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=SDw5CET4Wn2irdms8nAGtAOJ9ALGwQBRH1hXBGlKz1Q=;
+ b=c++767RfIAG3wgP2tC/9VQ4laa4+Qe2jABx1UWB4Co8A/Oz8LIHyoqePeBFcgi2GGo
+ J3vJxTwiub0oQvRsqsHIXlJ9bPAvRa5jHs+uZNlPDoLOrHJVZYy/myTo60DRbTL7o3fm
+ cWUo+z/l9pKcRXjK425N7P4u7UmmLNPxdf7wTqznL3sG5kLnPCDXgqVdJ66uUkt1xmgx
+ wkiMXd9lvN1MM2tHIf6fHXrmz+7w6VJ4CTx/sSRftH7XvyLRDB5xgCLQJKZs6zYhs6Oe
+ gHfaUNPvPtl46vyW7XwwMSAWWWfx6UW1sBjvKJvsX71o97aBUFA2JsQp9hCWJJwfCmQl
+ z4Xw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVE4N4+bpooPt+/5IvHHN3FqGqgTvNc2sHlr9C0gzfQUmfmtyx3WhC8IVrbgKF3HxcdkJoy0P1m+hQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwUNzb9pVw9t2pUErJD2iBNop5DXuUjY9/KW+ozVEgnrRe35+9a
- Q/NpznUS+AqXyPiGAYqtFFXCMuh7q3RtXlJ6lJ1OUgZOVfywB6q4EkkS/UXO4qtS8V7Ah5NxWF7
- hdo98O0b+rNnPPCGSMzHI710+STb219lv
-X-Google-Smtp-Source: AGHT+IHNIu60KcbuEcAqnZIAwcjakWjSZZvuFyc4t/al0ks/MvRG1vvC7yPjvgTLtnB88tUv1khfr1F0DM7GNiWgBao=
-X-Received: by 2002:a05:6e02:20c2:b0:3a3:4164:eec9 with SMTP id
- e9e14a558f8ab-3a3bcdd63b4mr152137705ab.14.1729097298826; Wed, 16 Oct 2024
- 09:48:18 -0700 (PDT)
+ AJvYcCVaapKLfjV51uwSDqeKmS+xQ6WgTITLdlqPtcE/fLgyBFi/+IMUTHb7+VOMar5ow0yxieEq0xAkRHg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YymCg9/+ZQlWCrahtADeOi3I6yoU0bn9kHRsHfmbHh00nOlE+SO
+ yHg00vZw3auv8dmvQhO+eLZBfJkqc/508Ml00GTnINH1f3YJLekz
+X-Google-Smtp-Source: AGHT+IFZ3MGkp6pu06I/SQifhf7IL5905+DLPEdIRaBkpNinqRAdXE/2uh9rFD27+PcdRFQ+MW/9jQ==
+X-Received: by 2002:a05:620a:2684:b0:7af:c632:dac0 with SMTP id
+ af79cd13be357-7b12100893emr3008154985a.50.1729098743561; 
+ Wed, 16 Oct 2024 10:12:23 -0700 (PDT)
+Received: from fauth-a1-smtp.messagingengine.com
+ (fauth-a1-smtp.messagingengine.com. [103.168.172.200])
+ by smtp.gmail.com with ESMTPSA id
+ af79cd13be357-7b1361661fesm209276785a.11.2024.10.16.10.12.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 16 Oct 2024 10:12:23 -0700 (PDT)
+Received: from phl-compute-05.internal (phl-compute-05.phl.internal
+ [10.202.2.45])
+ by mailfauth.phl.internal (Postfix) with ESMTP id 878EF1200070;
+ Wed, 16 Oct 2024 13:12:22 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+ by phl-compute-05.internal (MEProxy); Wed, 16 Oct 2024 13:12:22 -0400
+X-ME-Sender: <xms:9vMPZ4diqAOMH0KL40T0lqQ6pbY2L89neeQfaE4U_Z_zLZeyHYpI-w>
+ <xme:9vMPZ6NZoQVivAXT5KQf8zGfMwPPu3Y69Omsa7E8SS9QegIOAient2mCPRROeHn_U
+ A59oE7nkgfjXYNDXQ>
+X-ME-Received: <xmr:9vMPZ5j030-43YgXkSTNB1utINefPWWJNFlgYpk_IRoaqZnT0cNSKxBBP2s>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdegledguddutdcutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+ uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+ hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddt
+ udenucfhrhhomhepuehoqhhunhcuhfgvnhhguceosghoqhhunhdrfhgvnhhgsehgmhgrih
+ hlrdgtohhmqeenucggtffrrghtthgvrhhnpedtgeehleevffdujeffgedvlefghffhleek
+ ieeifeegveetjedvgeevueffieehhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
+ grmhepmhgrihhlfhhrohhmpegsohhquhhnodhmvghsmhhtphgruhhthhhpvghrshhonhgr
+ lhhithihqdeiledvgeehtdeigedqudejjeekheehhedvqdgsohhquhhnrdhfvghngheppe
+ hgmhgrihhlrdgtohhmsehfihigmhgvrdhnrghmvgdpnhgspghrtghpthhtohepuddupdhm
+ ohguvgepshhmthhpohhuthdprhgtphhtthhopehthhhomhgrshdrhhgvlhhlshhtrhhomh
+ eslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehinhhtvghlqdigvgeslhhi
+ shhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopehpvghtvghriiesih
+ hnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehmihhnghhosehrvgguhhgrthdrtgho
+ mhdprhgtphhtthhopeifihhllheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhonh
+ hgmhgrnhesrhgvughhrghtrdgtohhmpdhrtghpthhtohepmhgrrghrthgvnheslhgrnhhk
+ hhhorhhsthdrshgvpdhrtghpthhtoheptghhrhhishhtihgrnhdrkhhovghnihhgsegrmh
+ gurdgtohhmpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggv
+ shhkthhophdrohhrgh
+X-ME-Proxy: <xmx:9vMPZ98gH8mHBf3SkD01Mzeya0JOYRAdHpKaVAK79pk5ActtZ7WZCQ>
+ <xmx:9vMPZ0sdoYVujZ3fBf80WV7ZB3k7L-mB7f5j2ya7JZTdQGRfLmj3ew>
+ <xmx:9vMPZ0F39TGltIGg2tumc9mJzaQ9IUg8IiRKfLZKRg_yiKFnPosfpg>
+ <xmx:9vMPZzO-MY_hLaAgrCLYGUuxTenWmZxq4j4akzAKvVDA1S2gn05BdQ>
+ <xmx:9vMPZ5OaxEKMCIb5pWgWeVHz4bTG0sHVFfWhyA4f0NEPrqtUKx2odSBH>
+Feedback-ID: iad51458e:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 16 Oct 2024 13:12:21 -0400 (EDT)
+Date: Wed, 16 Oct 2024 10:12:20 -0700
+From: Boqun Feng <boqun.feng@gmail.com>
+To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+Cc: intel-xe@lists.freedesktop.org, Peter Zijlstra <peterz@infradead.org>,
+ Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+ Waiman Long <longman@redhat.com>, Maarten Lankhorst <maarten@lankhorst.se>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] locking/ww_mutex: Adjust to lockdep nest_lock
+ requirements
+Message-ID: <Zw_z9FaTiXV090-b@Boquns-Mac-mini.local>
+References: <20241009092031.6356-1-thomas.hellstrom@linux.intel.com>
+ <Zw19sMtnKdyOVQoh@boqun-archlinux>
+ <bf7632b74c075f2c430fdb98cefed486b4d9e74f.camel@linux.intel.com>
+ <Zw6touohNwfqs3T0@boqun-archlinux>
+ <ee955c4d3e63edd3d1e37b6467bf01c2c4efc827.camel@linux.intel.com>
 MIME-Version: 1.0
-From: Rob Clark <robdclark@gmail.com>
-Date: Wed, 16 Oct 2024 09:48:06 -0700
-Message-ID: <CAF6AEGsp3Zbd_H3FhHdRz9yCYA4wxX4SenpYRSk=Mx2d8GMSuQ@mail.gmail.com>
-Subject: [pull] drm/msm: drm-msm-fixes-2024-10-16 for v6.12-rc4
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>, 
- freedreno <freedreno@lists.freedesktop.org>, 
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ee955c4d3e63edd3d1e37b6467bf01c2c4efc827.camel@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,70 +131,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave,
+On Wed, Oct 16, 2024 at 08:17:50AM +0200, Thomas Hellström wrote:
+[...]
+> > 
+> > So even though first_lock_dep_map is a fake lock, it has to have the
+> > same wait types as a real mutex.
+> 
+> Understood.
+> > 
+> > Does this make sense?
+> 
+> Yes it does. I'll update to a v3, and add a Tested-by: tag. Would you
 
-A few fixes for v6.12, see description below
+I think you should send a v3 then after I test, I will send my
+Tested-by.
 
-The following changes since commit 15302579373ed2c8ada629e9e7bcf9569393a48d:
+> like a Co-developed-by: tag as well?
 
-  drm/msm/dpu: enable writeback on SM6350 (2024-09-02 02:53:44 +0300)
+It's not a big change onto yours, but feel free to add it.
 
-are available in the Git repository at:
+Regards,
+Boqun
 
-  https://gitlab.freedesktop.org/drm/msm.git tags/drm-msm-fixes-2024-10-16
-
-for you to fetch changes up to 77ad507dbb7ec1ecd60fc081d03616960ef596fd:
-
-  drm/msm/a6xx+: Insert a fence wait before SMMU table update
-(2024-10-15 17:18:16 -0700)
-
-----------------------------------------------------------------
-Fixes for v6.12
-
-Display:
-- move CRTC resource assignment to atomic_check otherwise to make
-  consecutive calls to atomic_check() consistent
-- fix rounding / sign-extension issues with pclk calculation in
-  case of DSC
-- cleanups to drop incorrect null checks in dpu snapshots
-- fix to use kvzalloc in dpu snapshot to avoid allocation issues
-  in heavily loaded system cases
-- Fix to not program merge_3d block if dual LM is not being used
-- Fix to not flush merge_3d block if its not enabled otherwise
-  this leads to false timeouts
-
-GPU:
-- a7xx: add a fence wait before SMMU table update
-
-----------------------------------------------------------------
-Dmitry Baryshkov (4):
-      drm/msm/dpu: make sure phys resources are properly initialized
-      drm/msm/dpu: move CRTC resource assignment to
-dpu_encoder_virt_atomic_check
-      drm/msm/dpu: check for overflow in _dpu_crtc_setup_lm_bounds()
-      drm/msm/hdmi: drop pll_cmp_to_fdata from hdmi_phy_8998
-
-Douglas Anderson (2):
-      drm/msm: Avoid NULL dereference in msm_disp_state_print_regs()
-      drm/msm: Allocate memory for disp snapshot with kvzalloc()
-
-Jessica Zhang (2):
-      drm/msm/dpu: Don't always set merge_3d pending flush
-      drm/msm/dpu: don't always program merge_3d block
-
-Jonathan Marek (2):
-      drm/msm/dsi: improve/fix dsc pclk calculation
-      drm/msm/dsi: fix 32-bit signed integer extension in pclk_rate calculation
-
-Rob Clark (1):
-      drm/msm/a6xx+: Insert a fence wait before SMMU table update
-
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c              | 16 ++++-
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c           | 20 ++++---
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        | 68 +++++++++++++---------
- .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c   |  7 ++-
- .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c    |  5 +-
- drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c  | 19 +++---
- drivers/gpu/drm/msm/dsi/dsi_host.c                 |  4 +-
- drivers/gpu/drm/msm/hdmi/hdmi_phy_8998.c           |  9 ---
- 8 files changed, 89 insertions(+), 59 deletions(-)
+> 
+> Thanks,
+> Thomas
+> 
+> 
+[...]
