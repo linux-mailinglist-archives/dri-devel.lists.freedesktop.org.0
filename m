@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF9CE99FF70
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Oct 2024 05:25:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D72ED99FF75
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Oct 2024 05:25:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 201EF10E650;
-	Wed, 16 Oct 2024 03:25:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 532EF10E679;
+	Wed, 16 Oct 2024 03:25:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YLHFyGcB";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="IysFok7g";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94A5A10E65A;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B03E10E655;
  Wed, 16 Oct 2024 03:25:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1729049101; x=1760585101;
+ t=1729049100; x=1760585100;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=0/WMZvPOHopheOFLZcaLkL05mgv9PLVtBY6jcstOOrU=;
- b=YLHFyGcBH6jBuylPhI4yLG4SiZ3ysz54qtCURRNlv9gYGVkAur2BfqTw
- wlQvmnudSvJr77/H5QKJiR6LV1Wv72Z5csakB3rcSxu5zWQMP+Ekncw7g
- QXNDarC5OiRuOZqhT+rMWXFEhxTmCpIIrdudeRxHrJVK8skmEoh/M9O/E
- JYe8Z5z4lh856KrQWfnvooGkqCdOY/VMOYJPC2r+z4YBMm+kSaZngj0vN
- ohREfVsC3Mu/7Kp6UGkF1QNTHWSXlf/js6rLaZ6ky2AG4tZCafDdyJLu7
- E1ACcbqd4DaJcmx03hRbtxF7L5LKVvL9RRLY3UQYr9202FcMn1/kN7s49 Q==;
-X-CSE-ConnectionGUID: JOWhFSUFTiaWnmXVAjLU/A==
-X-CSE-MsgGUID: 10XpccESQoO1GR3LISsADA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11225"; a="39056454"
-X-IronPort-AV: E=Sophos;i="6.11,206,1725346800"; d="scan'208";a="39056454"
+ bh=JPDahZu0li5bjPvSiy3nWAji9ySJZFrS0qUJ+LsDo3Y=;
+ b=IysFok7g4kQ7Kd/dfMo95v1oLP1A5MlixhlbmVclKNxw+Vs5nH6OOYnX
+ MQFuBxPVM/DRtywfEp9muj6Y2DE1D1tbBmMLXwZ1BzH9EDU0XTjSD0QXQ
+ Bg1C/e23PNZCSORTbzPTESwugT+su7o6J8wX0yuhvXgUDK7Hd8PGk9EIB
+ 2z9AhMrjQixnONBXQy4+cYVG3O2cAO0+E2qYr8eSQwo86skhAsXyvOE6d
+ uDSYu1dZXsbq31GqWKZmOTWqSjW2jmSqppRGxa2Ucx1+EPRbSBk3AXv0G
+ GYL09QjUA4vsMyjv6GxQj5bjs/mrXJzDloUV4y2fAO/SOIri02pEkqe7W w==;
+X-CSE-ConnectionGUID: LjIHMsuYSvCkUtzMVs+hmw==
+X-CSE-MsgGUID: gwp4koSqQdShpdQYmF4+zg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11225"; a="39056446"
+X-IronPort-AV: E=Sophos;i="6.11,206,1725346800"; d="scan'208";a="39056446"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  15 Oct 2024 20:24:59 -0700
-X-CSE-ConnectionGUID: gvFcycOKTdyEFRdY4Hx1jQ==
-X-CSE-MsgGUID: Lh07rNieRVuo5bR0oo9FhQ==
+X-CSE-ConnectionGUID: 4RXrR2pYQqO6B5yYRutoTQ==
+X-CSE-MsgGUID: 0RzearjGR5eWdwdckrjoPw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,206,1725346800"; d="scan'208";a="78930271"
+X-IronPort-AV: E=Sophos;i="6.11,206,1725346800"; d="scan'208";a="78930272"
 Received: from lstrano-desk.jf.intel.com ([10.54.39.91])
  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  15 Oct 2024 20:24:58 -0700
@@ -47,14 +47,13 @@ To: intel-xe@lists.freedesktop.org,
 Cc: apopple@nvidia.com, airlied@gmail.com, christian.koenig@amd.com,
  thomas.hellstrom@linux.intel.com, simona.vetter@ffwll.ch,
  felix.kuehling@amd.com, dakr@kernel.org
-Subject: [PATCH v2 20/29] drm/xe: Add drm_pagemap ops to SVM
-Date: Tue, 15 Oct 2024 20:25:09 -0700
-Message-Id: <20241016032518.539495-21-matthew.brost@intel.com>
+Subject: [PATCH v2 21/29] drm/xe: Add Xe SVM populate_devmem_pfn vfunc
+Date: Tue, 15 Oct 2024 20:25:10 -0700
+Message-Id: <20241016032518.539495-22-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241016032518.539495-1-matthew.brost@intel.com>
 References: <20241016032518.539495-1-matthew.brost@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,90 +70,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Get VRAM pfns from BO's buddy blocks.
 
-Add support for mapping device pages to Xe SVM.
+v2:
+ - Use new drm_gpusvm_devmem_ops
 
+Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+Signed-off-by: Oak Zeng <oak.zeng@intel.com>
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 ---
- drivers/gpu/drm/xe/xe_device_types.h |  7 +++++++
- drivers/gpu/drm/xe/xe_svm.c          | 30 ++++++++++++++++++++++++++++
- 2 files changed, 37 insertions(+)
+ drivers/gpu/drm/xe/xe_svm.c | 40 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 40 insertions(+)
 
-diff --git a/drivers/gpu/drm/xe/xe_device_types.h b/drivers/gpu/drm/xe/xe_device_types.h
-index 2ac5de7751c9..72264f9f64d7 100644
---- a/drivers/gpu/drm/xe/xe_device_types.h
-+++ b/drivers/gpu/drm/xe/xe_device_types.h
-@@ -12,6 +12,8 @@
- #include <drm/drm_file.h>
- #include <drm/ttm/ttm_device.h>
- 
-+#include "drm_pagemap.h"
-+
- #include "xe_devcoredump_types.h"
- #include "xe_heci_gsc.h"
- #include "xe_lmtt_types.h"
-@@ -106,6 +108,11 @@ struct xe_mem_region {
- 	void __iomem *mapping;
- 	/** @pagemap: Used to remap device memory as ZONE_DEVICE */
- 	struct dev_pagemap pagemap;
-+	/**
-+	 * @dpagemap: The struct drm_pagemap of the ZONE_DEVICE memory
-+	 * pages of this tile.
-+	 */
-+	struct drm_pagemap dpagemap;
- 	/**
- 	 * @hpa_base: base host physical address
- 	 *
 diff --git a/drivers/gpu/drm/xe/xe_svm.c b/drivers/gpu/drm/xe/xe_svm.c
-index b33fd42d035b..4f01941b2cc2 100644
+index 4f01941b2cc2..19fcb8f71791 100644
 --- a/drivers/gpu/drm/xe/xe_svm.c
 +++ b/drivers/gpu/drm/xe/xe_svm.c
-@@ -431,6 +431,32 @@ static const u64 fault_chunk_sizes[] = {
- 	SZ_4K,
- };
+@@ -9,6 +9,7 @@
+ #include "xe_migrate.h"
+ #include "xe_pt.h"
+ #include "xe_svm.h"
++#include "xe_ttm_vram_mgr.h"
+ #include "xe_vm.h"
+ #include "xe_vm_types.h"
  
-+static struct drm_pagemap_dma_addr
-+xe_drm_pagemap_map_dma(struct drm_pagemap *dpagemap,
-+		       struct device *dev,
-+		       struct page *page,
-+		       unsigned int order,
-+		       enum dma_data_direction dir)
+@@ -413,8 +414,47 @@ static int xe_svm_copy_to_ram(struct page **pages, dma_addr_t *dma_addr,
+ 	return xe_svm_copy(pages, dma_addr, npages, XE_SVM_COPY_TO_SRAM);
+ }
+ 
++static struct xe_bo *to_xe_bo(struct drm_gpusvm_devmem *devmem_allocation)
 +{
-+	struct device *pgmap_dev = dpagemap->dev;
-+	dma_addr_t addr;
-+	enum drm_interconnect_protocol prot;
-+
-+	if (pgmap_dev == dev) {
-+		addr = xe_mem_region_page_to_dpa(page_to_mr(page), page);
-+		prot = XE_INTERCONNECT_VRAM;
-+	} else {
-+		addr = DMA_MAPPING_ERROR;
-+		prot = 0;
-+	}
-+
-+	return drm_pagemap_dma_addr_encode(addr, prot, order, dir);
++	return container_of(devmem_allocation, struct xe_bo, devmem_allocation);
 +}
 +
-+static const struct drm_pagemap_ops xe_drm_pagemap_ops = {
-+	.map_dma = xe_drm_pagemap_map_dma,
-+};
++static u64 block_offset_to_pfn(struct xe_mem_region *mr, u64 offset)
++{
++	return PHYS_PFN(offset + mr->hpa_base);
++}
 +
- int xe_svm_init(struct xe_vm *vm)
- {
- 	spin_lock_init(&vm->svm.garbage_collector.lock);
-@@ -572,6 +598,10 @@ int xe_devm_add(struct xe_tile *tile, struct xe_mem_region *mr)
- 	mr->pagemap.ops = drm_gpusvm_pagemap_ops_get();
- 	mr->pagemap.owner = xe_svm_devm_owner(xe);
- 	addr = devm_memremap_pages(dev, &mr->pagemap);
++static struct drm_buddy *tile_to_buddy(struct xe_tile *tile)
++{
++	return &tile->mem.vram_mgr->mm;
++}
 +
-+	mr->dpagemap.dev = dev;
-+	mr->dpagemap.ops = &xe_drm_pagemap_ops;
++static int xe_svm_populate_devmem_pfn(struct drm_gpusvm_devmem *devmem_allocation,
++				      unsigned long npages, unsigned long *pfn)
++{
++	struct xe_bo *bo = to_xe_bo(devmem_allocation);
++	struct ttm_resource *res = bo->ttm.resource;
++	struct list_head *blocks = &to_xe_ttm_vram_mgr_resource(res)->blocks;
++	struct drm_buddy_block *block;
++	int j =0;
 +
- 	if (IS_ERR(addr)) {
- 		devm_release_mem_region(dev, res->start, resource_size(res));
- 		ret = PTR_ERR(addr);
++	list_for_each_entry(block, blocks, link) {
++		struct xe_mem_region *mr = block->private;
++		struct xe_tile *tile = mr_to_tile(mr);
++		struct drm_buddy *buddy = tile_to_buddy(tile);
++		u64 block_pfn = block_offset_to_pfn(mr, drm_buddy_block_offset(block));
++		int i;
++
++		for(i = 0; i < drm_buddy_block_size(buddy, block) >> PAGE_SHIFT; ++i)
++			pfn[j++] = block_pfn + i;
++	}
++
++	return 0;
++}
++
+ __maybe_unused
+ static const struct drm_gpusvm_devmem_ops gpusvm_devmem_ops = {
++	.populate_devmem_pfn = xe_svm_populate_devmem_pfn,
+ 	.copy_to_devmem = xe_svm_copy_to_devmem,
+ 	.copy_to_ram = xe_svm_copy_to_ram,
+ };
 -- 
 2.34.1
 
