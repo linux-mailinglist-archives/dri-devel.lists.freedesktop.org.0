@@ -2,154 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AA879A15C9
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2024 00:26:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 330819A15D6
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2024 00:36:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9A8310E281;
-	Wed, 16 Oct 2024 22:26:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1169310E068;
+	Wed, 16 Oct 2024 22:36:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="o5kcccrU";
+	dkim=pass (2048-bit key; secure) header.d=proton.me header.i=@proton.me header.b="ee0Idz96";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2055.outbound.protection.outlook.com [40.107.93.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 318D310E1C3;
- Wed, 16 Oct 2024 22:26:40 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dof8osSrj+q7miEkFQMzeSa+c7hVHJl+xtq11Rn0W2jZIbkh6cwlaGZX69RFVcNtHfYWryJpBD5hz+wGCco8LImyHRrQiTg65XiXbgU60aUDrp4VIMPhG5bebnxaSpSY8/6z9sSCyPZNI8dpq14//iuUFWZPCYD0g/Bmi3dyb3x1GKAPJ+bEmN0VjTN4uRBmdBZpPm+LS4oguoepre9P+N8zk8q0RNBV9DGxV7cpB6IpD4cGYmziYyj5Hi6g3DzJRYJo0VvtpFR+T06JZ82KSwFd7TnslZm+idK1h1Q31+yu4Ld/Hp2CcKyVnoc6f6JdK8p4J1bW6yH0QyZ4qHTVNg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NaZba5JK6rHhx/YTHBEdS2QhUft+F3IbNvnDh9NckIo=;
- b=Rqhs666tS134HnAKf3OufvtRVhfFOcE2r2IiXTpWteIwNgh7RBaTys8ZbeEOLkwcMF20nbg406YxIPlKs/zZ8CD7Ckew/bWxolZfWbEchnm5u6YYsL8SV2unt4xUd6MRrr/HgiXRGnV+5t4OGoEapc3HRmit55tx6avqxYBOfpnJA8MhRSoO+OOLAw6GAxY5n05V8JTDsUsU9g5dBI0GgTGCJ4MBGNHpXzVVZVUW8zDDCgdr11BXqAaf+iPwGYiuphQtyXdM4LEtB+kC+h24bl0Dl1mDqe96z/1DLCOcGYOhJp/EWe269od7V7j+vVtSdr1ussouymkIq/TXycIlXg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NaZba5JK6rHhx/YTHBEdS2QhUft+F3IbNvnDh9NckIo=;
- b=o5kcccrUt0yixLYLZeBrfxhMcx6DpN5+ByGBoYCcDfQsDQ6E8LR6EJdf8C/Lgh+w7kwDbkfwyM8HijEcVh+pGhfrVodyDNqesy1IEUyp4rGEA7KPkXyeEOxp/mGYkNoZBCCowTSGbX+sPBmFIDVeutBBGX2xOsWRnNG7nSPlCvTF3MrQIwsVl0/Tt1+/CtEw3457XFJZanLP9LszT9+Z7ZG4/UQoEvSt7IEKiM6u/FPeZL8x+cmyxIR9DH9sYrTe4xt07a28VpFiZGuSi+uyBhCSw9na0m19BFXrTOJq9PtVh6sQa+kB1zVsSLQ346RJPUyWrUBEEFS8KsrgJC4slQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS0PR12MB7726.namprd12.prod.outlook.com (2603:10b6:8:130::6) by
- SA1PR12MB7128.namprd12.prod.outlook.com (2603:10b6:806:29c::6) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8048.26; Wed, 16 Oct 2024 22:26:34 +0000
-Received: from DS0PR12MB7726.namprd12.prod.outlook.com
- ([fe80::953f:2f80:90c5:67fe]) by DS0PR12MB7726.namprd12.prod.outlook.com
- ([fe80::953f:2f80:90c5:67fe%3]) with mapi id 15.20.8069.016; Wed, 16 Oct 2024
- 22:26:34 +0000
-References: <20241015152348.3055360-1-ymaman@nvidia.com>
- <Zw8_x0Tvux9IMbly@infradead.org>
- <1a667504-72bd-445b-8bf8-a6604b7beb2b@nvidia.com>
-User-agent: mu4e 1.10.8; emacs 29.1
-From: Alistair Popple <apopple@nvidia.com>
-To: Yonatan Maman <ymaman@nvidia.com>
-Cc: Christoph Hellwig <hch@infradead.org>, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
- linux-mm@kvack.org, herbst@redhat.com, lyude@redhat.com, dakr@redhat.com,
- airlied@gmail.com, simona@ffwll.ch, jgg@ziepe.ca, leon@kernel.org,
- jglisse@redhat.com, akpm@linux-foundation.org,
- dri-devel@lists.freedesktop.org, bskeggs@nvidia.com
-Subject: Re: [PATCH v1 0/4] GPU Direct RDMA (P2P DMA) for Device Private Pages
-Date: Thu, 17 Oct 2024 09:22:19 +1100
-In-reply-to: <1a667504-72bd-445b-8bf8-a6604b7beb2b@nvidia.com>
-Message-ID: <87plnzofah.fsf@nvdebian.thelocal>
+Received: from mail-40133.protonmail.ch (mail-40133.protonmail.ch
+ [185.70.40.133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9EE2F10E068
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Oct 2024 22:36:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+ s=w2xjyq5xrzenxa7sla6e7n5vra.protonmail; t=1729118204; x=1729377404;
+ bh=p3qUpYzsETrLtS2wA7XGfD7P3DQeW9BZBjw7bL1yYmY=;
+ h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+ Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+ b=ee0Idz96MY342PhzbSMltuqhkLgoD1CFYTf8l1NdXYtaKviruIFFWjE7+wQ8VAQVp
+ ULsAlxUEy7P2G38vnTdC2CtuH2MbdiS0IGx1HQLhR7uI7h/eSBPoJnd5CIYpkI+Dmk
+ 7WlfKNE7XOKcD6FkQ0keDpn9zD9OQQQ3p8lqSTRzg9SKbmfrknVg89HcYZYJMHcwCy
+ LFLudIpHfPfejhcXaJlejK/9Sj3cD6xGDTFJbm1xiEOmBh4dCsMqI42ueyajl3Pprk
+ GuPiciztGYxmwbUcn1/Miln/8z7AmIEKQajOB4uhs8wPSKxxvzKpNI3Kj81HzzUXTk
+ FmdGsza/7o7rA==
+Date: Wed, 16 Oct 2024 22:36:41 +0000
+To: hjc@rock-chips.com, heiko@sntech.de, andy.yan@rock-chips.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+From: Piotr Zalewski <pZ010001011111@proton.me>
+Cc: skhan@linuxfoundation.org, Piotr Zalewski <pZ010001011111@proton.me>,
+ Daniel Stone <daniel@fooishbar.org>, Dragan Simic <dsimic@manjaro.org>,
+ Diederik de Haas <didi.debian@cknow.org>
+Subject: [PATCH v6] rockchip/drm: vop2: add support for gamma LUT
+Message-ID: <20241016223558.673145-2-pZ010001011111@proton.me>
+Feedback-ID: 53478694:user:proton
+X-Pm-Message-ID: 9ae115d0182f36af6df9b4331c7b182bf242d281
+MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: SY5P300CA0060.AUSP300.PROD.OUTLOOK.COM
- (2603:10c6:10:1fe::15) To DS0PR12MB7726.namprd12.prod.outlook.com
- (2603:10b6:8:130::6)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB7726:EE_|SA1PR12MB7128:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5dce6734-b671-4cfc-c5aa-08dcee31978d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?dG5kN0V5UFd1N2haY2VTN2kyeEJQdk1paDkzMGZRMmJuY040Q3JIV2JseWpi?=
- =?utf-8?B?eno4TTkzNXVEc0ZQNHhaRUJOZDRZdlVTRkhYOHo3TU1uVElHL0FNakFTKzI0?=
- =?utf-8?B?NnpRak8yTWlid1dtYU11a05UWXpNcW1xbFQ1QTE4YTFBZFBiY3AzRnZBSWVw?=
- =?utf-8?B?OFpWQzBOV3ByOHJEeTRvSHdlamUyQ21VcytTTHdFSjJ5eHRGTXJhU3JxSDUw?=
- =?utf-8?B?Q21kL0F3U2V5aXNCKzhJOEhza1p4MlZuUzljT29lTlJPUlhtZm1TMmtUSTdR?=
- =?utf-8?B?S1htL2ZSZGN3Y0RlQm5tVjBiTkV1MkVwS3gyek5qYndISnYyYWZ4a1I0bXpI?=
- =?utf-8?B?Nk1ML2FKUXcyeXJRbW9WQWVBbW9nRWJ0eFFEQ0JXdFUzTGt2QUpNd2dvb1gw?=
- =?utf-8?B?WitSVjVDdnRIMGlENnFUSENvNkFVTGZNeDFOdFFFWm9yYmo2UzFDYkZqQjll?=
- =?utf-8?B?bjlnRVNNemFqamxDY3U2VFVKUGdJTDdqRDNaMmVUMzJIK3NJN1d3d2lSbERH?=
- =?utf-8?B?bU02SjhjeStLbVBiT0hQV2h4dDhlNnB0T3F4RTlYYk1zUGJEdTIzTW85cm5l?=
- =?utf-8?B?TExvMXdDOWd3QUUxdlQwemZqSk8rWktBVVpwN3JEMUtyaW44eHdrQkVhRUlM?=
- =?utf-8?B?UzhTbVhWTnNMWHkxVUpOTHRCektwa0VkSkJTd3NhNGdwNWZxOVFkNVN3aXA4?=
- =?utf-8?B?WGpJQnQ3OTk1R3JWQm9QVG8zQ1V2dEdPMnJ5THNRRkJJNzIvYXB3NWlQL1ZF?=
- =?utf-8?B?c1FRZnp0UllaVTI1amRiQWdaM1VYbnRGdEdWOGRZK0lEaGEzR0NBdk5PRURD?=
- =?utf-8?B?Wkk2THo3V2F1NDE3b29GUkJnRXlyRlU3NjVPZ1p1R0xFOEh0RW8vSHdzV0tY?=
- =?utf-8?B?eDVXWlg0YTMrV24wcGtrTktWdnI5S0E2bnhjdytINWtObzdVR0NzaWR3TFND?=
- =?utf-8?B?TDdoZThmcmgrd0NPQWo2NWpSOHNrZ0dSdXE0c1F5SUh4SnBzSTlLcEl2RDc2?=
- =?utf-8?B?eDFZdkVIdWhVMHhXeUNQN3dzdFgrY0NUcGJhZlVDYnhZM09KdGIzcGFldURj?=
- =?utf-8?B?ZmhEVExOMk1NQ2N4c21sbnFWTFBpdi9pYkNrdzZTVU51eG5PemUwS29CeHFD?=
- =?utf-8?B?eGd3SmV0a2F0aUsxMUlXNnhBUXg4aWE4aHQwVTNzWTNtTTcrdklrZkNBaDlt?=
- =?utf-8?B?YUQ3QTJyUHZneG9HWWE3b2t1dG1SeVJiaXpwY0l3ZXZIeVc2M0FiN0dpVEQ1?=
- =?utf-8?B?dXhXOUt4VnE1WGRjTFJ6TnI2L0hMVDVWNU80c25nNURNY2ZUSnVwdU16NU1H?=
- =?utf-8?B?VWZ1QXZ6a3RZZGRBL1RNbmRFVGhMR2dreWdpL09yOVJnSFIveVh5aXFaN2VG?=
- =?utf-8?B?aDBTblpwaWtRZUdNLzQrTmdCazZYWlZIQThCbG92UVRVWThSVUZORFVOblhP?=
- =?utf-8?B?VU1hR0w1QS9vZTVScWtTek1NTTBraExGcjhTNWdXNmQ4RWpVSUFBZWR3VzAz?=
- =?utf-8?B?blFudk8yN1JxSWk1Y2p1WGlNcy85cStOSVNEN25xSE5SS0JMbXBKMEt0WUJ4?=
- =?utf-8?B?YTBIMHVIcm1Xdytkb3pMdkMxeTBvczhpSjZKWjIvR3hSeUM4WUhhL3IwMkxN?=
- =?utf-8?B?MW84Z29BOGZRZ3ROeVF2RmFlT3NsNGcxMUp2eTl0RUpUZWM2ZW82RnBEUlhP?=
- =?utf-8?B?OUZBVlU2dUt3d2tSOXZwS29sMkxRWitwdy9wMlJyMXJQVy91WkRYcW9xMFEy?=
- =?utf-8?Q?ZdAuXQmPK4fVz7gLQ3JDPeMmd8/K96nWRGyRZJ+?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DS0PR12MB7726.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(7416014)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eGcrKzJvTjIzNTFNZ2drd3cwTzg4bm9mZHc5Y0JqbVcxMnlqVC9xa0lXZkJy?=
- =?utf-8?B?S0hwdEx2VVdyVDY5cVllR0hIQy9RWFUzR0QvYXZ2Smt4dTFpb1pXRHZ4VnFm?=
- =?utf-8?B?SHA5VlR1OFFrU09tVE16Qi9GYWpORUlML3JmbjNnVjhnTU9LcGs0azZDTXdx?=
- =?utf-8?B?RnNWQ3VXMXFSQlU1OW1yaVpwR1JvdVpsZVVOZkM1dXhoZzdpV2ZFamFrNnZE?=
- =?utf-8?B?R1JpQVBVOVNKTStVTk9UQVJURzIxckVsK25LRjRrbjY4WVBzdlljQTV6Wktn?=
- =?utf-8?B?RExBMTNXRjNpRUo0WG5scUVFemJqSXpwa0xkVVRWSHFITHdWTXhPUmpQZHdp?=
- =?utf-8?B?U1l2UnFmY29VcTJ6R25wWmxtTlZSa1A3UUlKNkpwb3d0ZytaVWxOTUNvZ2Mr?=
- =?utf-8?B?NjdBbXg2R24vMWFlYnF2Rmg4a3hzQ0t4SVBLUkNPWUxoTys1SS9ZcnUxeE8y?=
- =?utf-8?B?Q1VNTG9Yako5dlc0RWxMK09SSGV0dFMvRC9pWldXUE9rRTFYUXhqd1NVN0RR?=
- =?utf-8?B?UWJldzc2Rmc1alQzVjg1dlQyS3NhaHlyclo1ZHdxR1Fpa1RnUjFJSkxBYlpN?=
- =?utf-8?B?YVZSYmxlZFJSQ2xXMVc1UXlKc3FtMmdhcVp0a3I2MlJvTXpHQXp1RmdFa2VI?=
- =?utf-8?B?bGZLUFAyNzVDV2dEbmNzVWQwZHpzb1lwMld2eTZBTUpWNTJqWktIZThsM3pB?=
- =?utf-8?B?UlFEeDdEcE5BeXBadTdRUi92K25EMllEcTc1cFBLejVJbTR5MmxoNVJCZkEr?=
- =?utf-8?B?S0ZUZm4zYkdlbFpMWDBDM2JLVnZKcjVGN2RYV1Iwb3BCaXlSVjcvWkxsWVlJ?=
- =?utf-8?B?TGRCN1ZwQXNQNk1GZzl4NkNZY0lreWJSVUJPUXl5ZThHWWVKMlRzNHBac1l2?=
- =?utf-8?B?aHlBZEF5Y2hUeUdwMEY1M3VBR0FvcWNWL3VzMU55RHZ2TnhUVWx4ZytodU9O?=
- =?utf-8?B?UjZmc0hHdHNmSzNsQUowK0VVb1dEdlhhRDB2SWNNRm51OTl2ZE16V1ZSR0pT?=
- =?utf-8?B?SGNYbFdSTDNYV0hWLzc3MjhrNUpLd0FXRW9tRkc2ejNlaHJGZEV3K3pBei9m?=
- =?utf-8?B?ZTZXQTErbWIvUXBMaXI1N1dOMGozSzJvVklJcUtqV3ZEVXd2MUFCd1VISWUx?=
- =?utf-8?B?VFBqa1ZSSko3M3EyZVNwa2hEWjFhN3RsQkUrVklxQ2ZLRE50L0Y2VWp0Z3Fz?=
- =?utf-8?B?VkR0NXVoZWUvU2dVMGpGWUllR1Q5MmtmYnRWb245RW5QVGpxaTVxTUxYMzNU?=
- =?utf-8?B?UDJVVXZ0eVIzNlFDY1o1UURMeVZtazZKRnRrNVBnS25nWUlTWGJjUzFlSnVn?=
- =?utf-8?B?M1FDRGFLMU8rTUhuTVlmY2cramw1YnZFMFJ5cTBEWVNNMEV5Vkx0bkdRRFZI?=
- =?utf-8?B?SnJjbWNSdjkzbHpXY0NJMElFK04wdklZaXFIVTlOVkZVU1BQMk92WGh3Zmgr?=
- =?utf-8?B?TnVrdlo4VVZ1K04rYS9rYjk3azZtRlA1OCtrbStVZXB5dkZoUjB6REtDbytZ?=
- =?utf-8?B?aitEbThuaThBS01GNmxXNFc5dUZWZDc4SWFiS1pocTA0amI3TDVKVGRLWk4x?=
- =?utf-8?B?N0MxNVpkQXU4NFJYK2Fsalp0Sm9zS0pqRFI4Y1c1aFVBMGp0Z0h5bFI2UmJh?=
- =?utf-8?B?WnJ2Nkp3UWpDa3NUL1drbnRFVDJvNXJvbzJRRkl3anBFSTVoS0xMbWFJek1N?=
- =?utf-8?B?QjQzRG1aTjIvSHFqcVl6dGJ6TkZhRWs5bmdpTW9uTjdQSWVKM3lNSmV2NjJP?=
- =?utf-8?B?UkRpNVdjZWNSay9ERzdYV1NybHg5QmRLdldlcWFCQVUrL1hFdFV5bnAvRWdB?=
- =?utf-8?B?YW8rSTIzZzdia2pjYmQxN1lGMkk0L0RyUm1ZMUxRcjZHQWhJQUxPVTJpTndx?=
- =?utf-8?B?UHVEMmVWY05vRXpvVlNMT2hqSllzK3NsM3VrQUhmZU1MNC96UXpVZHd4N1No?=
- =?utf-8?B?eStsNTNleWFKQStkMEJKakt4czh2bVZ2SkJub3FsaXozTGZhY1FLa0czWmI4?=
- =?utf-8?B?bktWa2RhZDVZUmMxSlNhQXB4WFZCemY4WGlLYUhNQzBvMHhnSjVodTltUG9x?=
- =?utf-8?B?c1E1aUEyY2lHTEY1Sy95bWNTY2MvNlpTUDlKMm1LMXJTcnVtZVJ1THRMWTBy?=
- =?utf-8?Q?wZvtn64/rJVOIPYOIqX3O1M1m?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5dce6734-b671-4cfc-c5aa-08dcee31978d
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB7726.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2024 22:26:34.4393 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: t0sPSraRjpTYOkXnuqxJuEHVy4RSa1abWGC+AGxOxZp6LMpACdbBcEb4aYL/K76ynvl+MgoBmgwOYY0jw2ayOA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7128
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -165,30 +59,432 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Add support for gamma LUT in VOP2 driver. The implementation was inspired
+by one found in VOP1 driver. Blue and red channels in gamma LUT register
+write were swapped with respect to how gamma LUT values are written in
+VOP1. Gamma LUT port selection was added before the write of new gamma LUT
+table.=20
 
-Yonatan Maman <ymaman@nvidia.com> writes:
+If the current SoC is rk356x, check if no other CRTC has gamma LUT enabled
+in atomic_check (only one video port can use gamma LUT at a time) and=20
+disable gamma LUT before the LUT table write.
 
-> On 16/10/2024 7:23, Christoph Hellwig wrote:
->> On Tue, Oct 15, 2024 at 06:23:44PM +0300, Yonatan Maman wrote:
->>> From: Yonatan Maman <Ymaman@Nvidia.com>
->>>
->>> This patch series aims to enable Peer-to-Peer (P2P) DMA access in
->>> GPU-centric applications that utilize RDMA and private device pages. Th=
-is
->>> enhancement is crucial for minimizing data transfer overhead by allowin=
-g
->>> the GPU to directly expose device private page data to devices such as
->>> NICs, eliminating the need to traverse system RAM, which is the native
->>> method for exposing device private page data.
->> Please tone down your marketing language and explain your factual
->> changes.  If you make performance claims back them by numbers.
->>=20
->
-> Got it, thanks! I'll fix that. Regarding performance, we=E2=80=99re achie=
-ving
-> over 10x higher bandwidth and 10x lower latency using perftest-rdma,
-> especially (with a high rate of GPU memory access).
+If the current SoC isn't rk356x, "seamless" gamma lut update is performed
+similarly to how it was done in the case of RK3399 in VOP1[1]. In seamless
+update gamma LUT disable before the write isn't necessary, check if no=20
+other CRTC has gamma LUT enabled is also not necessary, different register
+is being used to select gamma LUT port[2] and after setting DSP_LUT_EN bit,
+GAMMA_UPDATE_EN bit is set[3].
 
-The performance claims still sound a bit vague. Please make sure you
-include actual perftest-rdma performance numbers from before and after
-applying this series when you repost.
+Gamma size is set and drm color management is enabled for each video port's=
+=20
+CRTC except ones which have no associated device.
+
+Solution was tested on RK3566 (Pinetab2). When using userspace tools
+which set eg. constant color temperature no issues were noticed. When
+using userspace tools which adjust eg. color temperature the slight screen
+flicker is visible probably because of gamma LUT disable.
+
+Compare behaviour of eg.:
+```
+gammastep -O 3000
+```
+
+To eg.:
+```
+gammastep -l 53:23 -t 6000:3000
+```
+
+In latter case color temperature is slowly adjusted at the beginning which
+causes screen to slighly flicker. Then it adjusts every few seconds which=
+=20
+also causes slight screen flicker.
+
+[1] https://lists.infradead.org/pipermail/linux-rockchip/2021-October/02813=
+2.html
+[2] https://lore.kernel.org/linux-rockchip/48249708-8c05-40d2-a5d8-23de960c=
+5a77@rock-chips.com/
+[3] https://github.com/radxa/kernel/blob/linux-6.1-stan-rkr1/drivers/gpu/dr=
+m/rockchip/rockchip_drm_vop2.c#L3437
+
+Helped-by: Daniel Stone <daniel@fooishbar.org>
+Helped-by: Dragan Simic <dsimic@manjaro.org>
+Helped-by: Diederik de Haas <didi.debian@cknow.org>
+Helped-by: Andy Yan <andy.yan@rock-chips.com>
+Signed-off-by: Piotr Zalewski <pZ010001011111@proton.me>
+---
+
+Notes:
+    Changes in v6:
+        - Move gamma lut write to atomic_flush[4].
+        - In atomic_check if any other than the currently updated CRTC has
+          gamma lut enabled, return -EINVAL [5] (perform a check only if
+          device is rk356x).
+        - Instead of checking for rk3588 to determine seamless gamma
+          update availability check for rk3566/rk3568.
+        - remove null check in vop2_create_crtcs
+        - Move some code to separate functions to increase readability.
+
+    Changes in v5:
+        - Do not trigger full modeset in case seamless gamma lut update
+          isn't possible (eg. rk356x case). It was discovered that with
+          full modeset, userspace tools which adjust color temperature with
+          high frequency cause screen to go black and reduce overall
+          performance. Instead, revert to previous behaviour of lut update
+          happening in atomic_begin or (in case there is a modeset) in
+          atomic_enable. Also, add unrelated to modeset trigger
+          changes/improvements from v4 on top. Improve code readability
+          too.
+
+    Changes in v4:
+        - rework the implementation to better utilize DRM atomic updates[2]
+        - handle the RK3588 case[2][3]
+
+    Changes in v3:
+        - v3 is patch v2 "resend", by mistake the incremental patch was
+        sent in v2
+
+    Changes in v2:
+        - Apply code styling corrections[1]
+        - Move gamma LUT write inside the vop2 lock
+
+    Link to v5: https://lore.kernel.org/linux-rockchip/20241014222022.57181=
+9-4-pZ010001011111@proton.me/
+    Link to v4: https://lore.kernel.org/linux-rockchip/20240815124306.18928=
+2-2-pZ010001011111@proton.me/
+    Link to v3: https://lore.kernel.org/linux-rockchip/TkgKVivuaLFLILPY-n3i=
+Zo_8KF-daKdqdu-0_e0HP-5Ar_8DALDeNWog2suwWKjX7eomcbGET0KZe7DlzdhK2YM6CbLbeKe=
+FZr-MJzJMtw0=3D@proton.me/
+    Link to v2: https://lore.kernel.org/linux-rockchip/Hk03HDb6wSSHWtEFZHUy=
+e06HR0-9YzP5nCHx9A8_kHzWSZawDrU1o1pjEGkCOJFoRg0nTB4BWEv6V0XBOjF4-0Mj44lp2Tr=
+jaQfnytzp-Pk=3D@proton.me/
+    Link to v1: https://lore.kernel.org/linux-rockchip/ZVMxgcrtgHui9fJpnhbN=
+6TSPhofHbbXElh241lImrzzTUl-8WejGpaR8CPzYhBgoqe_xj7N6En8Ny7Z-gsCr0kaFs7apwjY=
+V1MBJJLmLHxs=3D@proton.me/
+
+    [1] https://lore.kernel.org/linux-rockchip/d019761504b540600d9fc7a585d6=
+f95f@manjaro.org
+    [2] https://lore.kernel.org/linux-rockchip/CAPj87rOM=3Dj0zmuWL9frGKV1xz=
+PbJrk=3DQ9ip7F_HAPYnbCqPouw@mail.gmail.com
+    [3] https://lore.kernel.org/linux-rockchip/7d998e4c-e1d3-4e8b-af76-c5bc=
+83b43647@rock-chips.com
+    [4] https://lore.kernel.org/linux-rockchip/7b45f190.452f.1928e41b746.Co=
+remail.andyshrk@163.com/
+    [5] https://lore.kernel.org/linux-rockchip/CAPj87rOdQPsuH9qB_ZLfC9S=3Dc=
+O2noNi1mOGW0ZmQ6SHCugb9=3Dw@mail.gmail.com/
+
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 189 +++++++++++++++++++
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.h |   5 +
+ 2 files changed, 194 insertions(+)
+
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm=
+/rockchip/rockchip_drm_vop2.c
+index 9873172e3fd3..6018c353e66b 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+@@ -278,6 +278,15 @@ static u32 vop2_readl(struct vop2 *vop2, u32 offset)
+ =09return val;
+ }
+=20
++static u32 vop2_vp_read(struct vop2_video_port *vp, u32 offset)
++{
++=09u32 val;
++
++=09regmap_read(vp->vop2->map, vp->data->offset + offset, &val);
++
++=09return val;
++}
++
+ static void vop2_win_write(const struct vop2_win *win, unsigned int reg, u=
+32 v)
+ {
+ =09regmap_field_write(win->reg[reg], v);
+@@ -998,6 +1007,65 @@ static void vop2_disable(struct vop2 *vop2)
+ =09clk_disable_unprepare(vop2->hclk);
+ }
+=20
++static bool vop2_vp_dsp_lut_is_enabled(struct vop2_video_port *vp)
++{
++=09return (u32) (vop2_vp_read(vp, RK3568_VP_DSP_CTRL) & RK3568_VP_DSP_CTRL=
+__DSP_LUT_EN) >
++=09    0;
++}
++
++static void vop2_vp_dsp_lut_disable(struct vop2_video_port *vp)
++{
++=09u32 dsp_ctrl =3D vop2_vp_read(vp, RK3568_VP_DSP_CTRL);
++
++=09dsp_ctrl &=3D ~RK3568_VP_DSP_CTRL__DSP_LUT_EN;
++=09vop2_vp_write(vp, RK3568_VP_DSP_CTRL, dsp_ctrl);
++}
++
++static bool vop2_vp_dsp_lut_poll_disable(struct vop2_video_port *vp)
++{
++=09u32 dsp_ctrl;
++=09int ret =3D readx_poll_timeout(vop2_vp_dsp_lut_is_enabled, vp, dsp_ctrl=
+,
++=09=09=09=09!dsp_ctrl, 5, 30 * 1000);
++=09if (ret) {
++=09=09drm_err(vp->vop2->drm, "display LUT RAM enable timeout!\n");
++=09=09return false;
++=09}
++
++=09return true;
++}
++
++static void vop2_vp_dsp_lut_enable(struct vop2_video_port *vp)
++{
++=09u32 dsp_ctrl =3D vop2_vp_read(vp, RK3568_VP_DSP_CTRL);
++
++=09dsp_ctrl |=3D RK3568_VP_DSP_CTRL__DSP_LUT_EN;
++=09vop2_vp_write(vp, RK3568_VP_DSP_CTRL, dsp_ctrl);
++}
++
++static void vop2_vp_dsp_lut_update_enable(struct vop2_video_port *vp)
++{
++=09u32 dsp_ctrl =3D vop2_vp_read(vp, RK3568_VP_DSP_CTRL);
++
++=09dsp_ctrl |=3D RK3588_VP_DSP_CTRL__GAMMA_UPDATE_EN;
++=09vop2_vp_write(vp, RK3568_VP_DSP_CTRL, dsp_ctrl);
++}
++
++static inline bool vop2_supports_seamless_gamma_lut_update(struct vop2 *vo=
+p2)
++{
++=09return (vop2->data->soc_id !=3D 3566 && vop2->data->soc_id !=3D 3568);
++}
++
++static bool vop2_gamma_lut_in_use(struct vop2 *vop2, struct vop2_video_por=
+t *vp)
++{
++=09const int nr_vps =3D vop2->data->nr_vps;
++=09int gamma_en_vp_id;
++=09for (gamma_en_vp_id =3D 0; gamma_en_vp_id < nr_vps; gamma_en_vp_id++)
++=09=09if (vop2_vp_dsp_lut_is_enabled(&vop2->vps[gamma_en_vp_id]))
++=09=09=09break;
++
++=09return gamma_en_vp_id !=3D nr_vps && gamma_en_vp_id !=3D vp->id;
++}
++
+ static void vop2_crtc_atomic_disable(struct drm_crtc *crtc,
+ =09=09=09=09     struct drm_atomic_state *state)
+ {
+@@ -1482,6 +1550,80 @@ static bool vop2_crtc_mode_fixup(struct drm_crtc *cr=
+tc,
+ =09return true;
+ }
+=20
++static void vop2_crtc_write_gamma_lut(struct vop2 *vop2, struct drm_crtc *=
+crtc)
++{
++=09const struct vop2_video_port *vp =3D to_vop2_video_port(crtc);
++=09const struct vop2_video_port_data *vp_data =3D &vop2->data->vp[vp->id];
++
++=09struct drm_color_lut *lut =3D crtc->state->gamma_lut->data;
++=09unsigned int i, bpc =3D ilog2(vp_data->gamma_lut_len);
++=09u32 word;
++
++=09for (i =3D 0; i < crtc->gamma_size; i++) {
++=09=09word =3D (drm_color_lut_extract(lut[i].blue, bpc) << (2 * bpc)) |
++=09=09    (drm_color_lut_extract(lut[i].green, bpc) << bpc) |
++=09=09    drm_color_lut_extract(lut[i].red, bpc);
++
++=09=09writel(word, vop2->lut_regs + i * 4);
++=09}
++}
++
++static void vop2_crtc_atomic_set_gamma_seamless(struct vop2 *vop2,
++=09=09=09=09=09struct vop2_video_port *vp,
++=09=09=09=09=09struct drm_crtc *crtc)
++{
++=09vop2_writel(vop2, RK3568_LUT_PORT_SEL, FIELD_PREP(
++=09=09RK3588_LUT_PORT_SEL__GAMMA_AHB_WRITE_SEL,
++=09=09vp->id));
++=09vop2_vp_dsp_lut_enable(vp);
++=09vop2_crtc_write_gamma_lut(vop2, crtc);
++=09vop2_vp_dsp_lut_update_enable(vp);
++}
++
++static void vop2_crtc_atomic_set_gamma_rk356x(struct vop2 *vop2,
++=09=09=09=09=09struct vop2_video_port *vp,
++=09=09=09=09=09struct drm_crtc *crtc)
++{
++=09vop2_vp_dsp_lut_disable(vp);
++=09vop2_cfg_done(vp);
++=09if (!vop2_vp_dsp_lut_poll_disable(vp))
++=09=09return;
++
++=09vop2_writel(vop2, RK3568_LUT_PORT_SEL, vp->id);
++=09vop2_crtc_write_gamma_lut(vop2, crtc);
++=09vop2_vp_dsp_lut_enable(vp);
++}
++
++static void vop2_crtc_atomic_try_set_gamma(struct vop2 *vop2,
++=09=09=09=09=09struct vop2_video_port *vp,
++=09=09=09=09=09struct drm_crtc *crtc,
++=09=09=09=09=09struct drm_crtc_state *crtc_state)
++{
++
++=09if (!vop2->lut_regs || !crtc_state->color_mgmt_changed)
++=09=09return;
++
++=09if (!crtc_state->gamma_lut) {
++=09=09vop2_vp_dsp_lut_disable(vp);
++=09=09return;
++=09}
++
++=09if (vop2_supports_seamless_gamma_lut_update(vop2))
++=09=09vop2_crtc_atomic_set_gamma_seamless(vop2, vp, crtc);
++=09else
++=09=09vop2_crtc_atomic_set_gamma_rk356x(vop2, vp, crtc);
++}
++
++static inline void vop2_crtc_atomic_try_set_gamma_locked(struct vop2 *vop2=
+,
++=09=09=09=09=09struct vop2_video_port *vp,
++=09=09=09=09=09struct drm_crtc *crtc,
++=09=09=09=09=09struct drm_crtc_state *crtc_state)
++{
++=09vop2_lock(vop2);
++=09vop2_crtc_atomic_try_set_gamma(vop2, vp, crtc, crtc_state);
++=09vop2_unlock(vop2);
++}
++
+ static void vop2_dither_setup(struct drm_crtc *crtc, u32 *dsp_ctrl)
+ {
+ =09struct rockchip_crtc_state *vcstate =3D to_rockchip_crtc_state(crtc->st=
+ate);
+@@ -2057,11 +2199,40 @@ static void vop2_crtc_atomic_enable(struct drm_crtc=
+ *crtc,
+=20
+ =09vop2_vp_write(vp, RK3568_VP_DSP_CTRL, dsp_ctrl);
+=20
++=09vop2_crtc_atomic_try_set_gamma(vop2, vp, crtc, crtc_state);
++
+ =09drm_crtc_vblank_on(crtc);
+=20
+ =09vop2_unlock(vop2);
+ }
+=20
++static int vop2_crtc_atomic_check_gamma(struct vop2_video_port *vp,
++=09=09=09=09=09struct drm_crtc *crtc,
++=09=09=09=09=09struct drm_atomic_state *state,
++=09=09=09=09=09struct drm_crtc_state *crtc_state)
++{
++=09struct vop2 *vop2 =3D vp->vop2;
++=09unsigned int len;
++
++=09if (!vp->vop2->lut_regs || !crtc_state->color_mgmt_changed ||
++=09    !crtc_state->gamma_lut)
++=09=09return 0;
++
++=09len =3D drm_color_lut_size(crtc_state->gamma_lut);
++=09if (len !=3D crtc->gamma_size) {
++=09=09drm_dbg(vop2->drm, "Invalid LUT size; got %d, expected %d\n",
++=09=09=09=09      len, crtc->gamma_size);
++=09=09return -EINVAL;
++=09}
++
++=09if (!vop2_supports_seamless_gamma_lut_update(vop2) && vop2_gamma_lut_in=
+_use(vop2, vp)) {
++=09=09drm_info(vop2->drm, "Gamma LUT can be enabled for only one CRTC at a=
+ time\n");
++=09=09return -EINVAL;
++=09}
++
++=09return 0;
++}
++
+ static int vop2_crtc_atomic_check(struct drm_crtc *crtc,
+ =09=09=09=09  struct drm_atomic_state *state)
+ {
+@@ -2069,6 +2240,11 @@ static int vop2_crtc_atomic_check(struct drm_crtc *c=
+rtc,
+ =09struct drm_plane *plane;
+ =09int nplanes =3D 0;
+ =09struct drm_crtc_state *crtc_state =3D drm_atomic_get_new_crtc_state(sta=
+te, crtc);
++=09int ret;
++
++=09ret =3D vop2_crtc_atomic_check_gamma(vp, crtc, state, crtc_state);
++=09if (ret)
++=09=09return ret;
+=20
+ =09drm_atomic_crtc_state_for_each_plane(plane, crtc_state)
+ =09=09nplanes++;
+@@ -2456,6 +2632,7 @@ static void vop2_setup_dly_for_windows(struct vop2 *v=
+op2)
+ =09vop2_writel(vop2, RK3568_SMART_DLY_NUM, sdly);
+ }
+=20
++
+ static void vop2_crtc_atomic_begin(struct drm_crtc *crtc,
+ =09=09=09=09   struct drm_atomic_state *state)
+ {
+@@ -2487,7 +2664,14 @@ static void vop2_crtc_atomic_begin(struct drm_crtc *=
+crtc,
+ static void vop2_crtc_atomic_flush(struct drm_crtc *crtc,
+ =09=09=09=09   struct drm_atomic_state *state)
+ {
++=09struct drm_crtc_state *crtc_state =3D drm_atomic_get_new_crtc_state(sta=
+te, crtc);
+ =09struct vop2_video_port *vp =3D to_vop2_video_port(crtc);
++=09struct vop2 *vop2 =3D vp->vop2;
++
++=09// NOTE: in case of modeset gamma lut update
++=09// already happened in atomic enable
++=09if (!drm_atomic_crtc_needs_modeset(crtc_state))
++=09=09vop2_crtc_atomic_try_set_gamma_locked(vop2, vp, crtc, crtc_state);
+=20
+ =09vop2_post_config(crtc);
+=20
+@@ -2790,7 +2974,12 @@ static int vop2_create_crtcs(struct vop2 *vop2)
+ =09=09}
+=20
+ =09=09drm_crtc_helper_add(&vp->crtc, &vop2_crtc_helper_funcs);
++=09=09if (vop2->lut_regs) {
++=09=09=09const struct vop2_video_port_data *vp_data =3D &vop2_data->vp[vp-=
+>id];
+=20
++=09=09=09drm_mode_crtc_set_gamma_size(&vp->crtc, vp_data->gamma_lut_len);
++=09=09=09drm_crtc_enable_color_mgmt(&vp->crtc, 0, false, vp_data->gamma_lu=
+t_len);
++=09=09}
+ =09=09init_completion(&vp->dsp_hold_completion);
+ =09}
+=20
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h b/drivers/gpu/drm=
+/rockchip/rockchip_drm_vop2.h
+index 615a16196aff..510dda6f9092 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
+@@ -394,6 +394,7 @@ enum dst_factor_mode {
+ #define RK3568_REG_CFG_DONE__GLB_CFG_DONE_EN=09=09BIT(15)
+=20
+ #define RK3568_VP_DSP_CTRL__STANDBY=09=09=09BIT(31)
++#define RK3568_VP_DSP_CTRL__DSP_LUT_EN=09=09=09BIT(28)
+ #define RK3568_VP_DSP_CTRL__DITHER_DOWN_MODE=09=09BIT(20)
+ #define RK3568_VP_DSP_CTRL__DITHER_DOWN_SEL=09=09GENMASK(19, 18)
+ #define RK3568_VP_DSP_CTRL__DITHER_DOWN_EN=09=09BIT(17)
+@@ -408,6 +409,8 @@ enum dst_factor_mode {
+ #define RK3568_VP_DSP_CTRL__CORE_DCLK_DIV=09=09BIT(4)
+ #define RK3568_VP_DSP_CTRL__OUT_MODE=09=09=09GENMASK(3, 0)
+=20
++#define RK3588_VP_DSP_CTRL__GAMMA_UPDATE_EN=09=09BIT(22)
++
+ #define RK3588_VP_CLK_CTRL__DCLK_OUT_DIV=09=09GENMASK(3, 2)
+ #define RK3588_VP_CLK_CTRL__DCLK_CORE_DIV=09=09GENMASK(1, 0)
+=20
+@@ -460,6 +463,8 @@ enum dst_factor_mode {
+ #define RK3588_DSP_IF_POL__DP1_PIN_POL=09=09=09GENMASK(14, 12)
+ #define RK3588_DSP_IF_POL__DP0_PIN_POL=09=09=09GENMASK(10, 8)
+=20
++#define RK3588_LUT_PORT_SEL__GAMMA_AHB_WRITE_SEL=09GENMASK(13, 12)
++
+ #define RK3568_VP0_MIPI_CTRL__DCLK_DIV2_PHASE_LOCK=09BIT(5)
+ #define RK3568_VP0_MIPI_CTRL__DCLK_DIV2=09=09=09BIT(4)
+=20
+--=20
+2.47.0
+
+
