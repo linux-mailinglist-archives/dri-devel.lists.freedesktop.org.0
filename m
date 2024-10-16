@@ -2,50 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FC339A0335
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Oct 2024 09:54:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7813F9A032E
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Oct 2024 09:54:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0284610E6B1;
-	Wed, 16 Oct 2024 07:54:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A427310E6AD;
+	Wed, 16 Oct 2024 07:54:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NQ1dKIX8";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZhaTvycV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2420510E6A6
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE24E10E6A9
  for <dri-devel@lists.freedesktop.org>; Wed, 16 Oct 2024 07:54:13 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 2374D5C5A9A;
+ by dfw.source.kernel.org (Postfix) with ESMTP id 5E2835C5ADF;
  Wed, 16 Oct 2024 07:54:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4FE90C4CECF;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 6965DC4AF09;
  Wed, 16 Oct 2024 07:54:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1729065252;
- bh=0mS2QsnFjEWDx86A7WNGJteaAIrzem/xgIboic3tva4=;
- h=From:Subject:Date:To:Cc:Reply-To:From;
- b=NQ1dKIX8W9tyo73h96I324c5M/GRoIgs1ndYbRC72atRfqTssQobqlyd65avMHJ0X
- XIu01Y4TJg9KARiOabj7BeI+PLXKvGuxgOyhWdi+pHAnMVi3FpLu+BSqNqEtyKABMh
- o8ZTPNp05foX1DaKJmNAV1wjNPRl5vhNv1dqgcQZ8oawoG2HWpm2hpAgJpe8Hvu3IT
- VEaWvmoHLazGx19K3k335CLC7pJMGuB1y64Y47MCjqb1rz93Tx8yzI5uyG+HFLPaLD
- W/5dBqacriGn6Tnzj3u7pCtzJ3WOZ4o+wiEPduXffIKpEBw0quYdyOm8e3C+GuUlG8
- 03YARZutI8emQ==
+ bh=OSwFL9mlnhjJaXGcg2Cq/PchumX9pUvEZoNUhnGlojE=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+ b=ZhaTvycVF+SuSaGailU+cxW20qvoL4Jo/5hPU23XDs+Hy5N82L8ZPu+19WHAgKUpj
+ syrHCX0F+Jf785AbUKCj5vSdZOro5jU4pOk0s9CC3Gn5hZSTHBfIt1ITEmt6Piqdkx
+ H0aNJLtmlYZKWycF4UUmUbfHzrVO662bLjAhXoURb9y5P6t7ryDyuVE0Qw1C3uDm+W
+ /CuCu0UjBRis+p+fXm2o99p+KnNx/Ov+9aWy0GFpH8wnBDyoYZY33bFJ1S6ynXFojw
+ +Beay6b21sJxsGeN8SYC9sZGb1S9UBFF6Z10FykTAcFpnID7FVxHILHpJxYa9fMpj5
+ GNmnDXT4qZsoQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 3BA20D20684;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 52B92D206AB;
  Wed, 16 Oct 2024 07:54:12 +0000 (UTC)
 From: Hermes Wu via B4 Relay <devnull+Hermes.wu.ite.com.tw@kernel.org>
-Subject: [PATCH v6 00/10] drm/bridge: it6505: fix HDCP CTS fail items and
- add MCCS support
-Date: Wed, 16 Oct 2024 15:54:12 +0800
-Message-Id: <20241016-upstream-v6-v6-0-4d93a0c46de1@ite.com.tw>
+Date: Wed, 16 Oct 2024 15:54:13 +0800
+Subject: [PATCH v6 01/10] drm/bridge: it6505: Change definition of
+ AUX_FIFO_MAX_SIZE
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIACRxD2cC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyzHQUlJIzE
- vPSU3UzU4B8JSMDIxNDA0NT3dKC4pKi1MRc3TIzXcs0kySgWFpqcpq5ElBHQVFqWmYF2LTo2Np
- aAF1IP8FdAAAA
-X-Change-ID: 20241015-upstream-v6-9f4b015fecf7
+Message-Id: <20241016-upstream-v6-v6-1-4d93a0c46de1@ite.com.tw>
+References: <20241016-upstream-v6-v6-0-4d93a0c46de1@ite.com.tw>
+In-Reply-To: <20241016-upstream-v6-v6-0-4d93a0c46de1@ite.com.tw>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
@@ -59,11 +57,11 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Kenneth Hung <Kenneth.hung@ite.com.tw>, Pet Weng <Pet.Weng@ite.com.tw>, 
  Hermes Wu <Hermes.wu@ite.com.tw>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1729065263; l=2652;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1729065263; l=842;
  i=Hermes.wu@ite.com.tw; s=20241016; h=from:subject:message-id;
- bh=0mS2QsnFjEWDx86A7WNGJteaAIrzem/xgIboic3tva4=;
- b=gzqV8xnlDztsLFNNGm32Jggeb0RcJidEYBbwujDBbugy7ttmgHRkDYSobIzp2vyKZf7WPLgFj
- jwpa2e2PbmuDqXO/WBhy/24hhQjkjPfb26fnlTGKsgnvtXvy77nigUl
+ bh=/GxCXKfDVzA54tJySiQh9RTDiRxXSmoD1seNualt4Bc=;
+ b=Iav1qrUpaoLa1HrMvzluz9qcafJhiQ3CBIo3wUzLV1IaZlQfhspjaHRIMQvIztFRr0yR9i6TI
+ jrVHvH/4iz3C929mC+TAU3Rf/G3EJrH7Mil1PMQEdGL+2X97RwC7L/b
 X-Developer-Key: i=Hermes.wu@ite.com.tw; a=ed25519;
  pk=kV18uQEXox+1WccdQceCbMlJKN+BBNUk3N8VsoULcQ0=
 X-Endpoint-Received: by B4 Relay for Hermes.wu@ite.com.tw/20241016 with
@@ -85,75 +83,32 @@ Reply-To: Hermes.wu@ite.com.tw
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a v6 patch-set.
+From: Hermes Wu <Hermes.wu@ite.com.tw>
 
-There are lots of failure items while running HDCP CTS using UNIGRAF DPR-100.
-In Order to fix those failures, HDCP flow needs to be changed.
+The hardware AUX FIFO is 16 bytes
+Change definition of AUX_FIFO_MAX_SIZE to 16
 
-The DisplayPort AUX protocol supports I2C transport.
-In Order to support MCCS via the aux channel, the aux-i2c operation is added.
-
-v5->v6:
-	-keep the commit message wrapped at 72-75 chars.
-	-[10/10] fix return variable being used without being initialized
-
-v4->v5:
-	-add more messages for changes.
-	-[2/10] modified AUX transfer data size judgment.
-		change for-loop to do-while.
-	-[7/10] change for-loop to do-while.
-	-[9/10] change wait timer with timer_after()
-
-	links:
-	https://lore.kernel.org/all/20240926074755.22176-4-Hermes.Wu@ite.com.tw/
-	https://lore.kernel.org/all/20240926075134.22394-1-Hermes.Wu@ite.com.tw/
-
-v3->v4:
-	-split changes  into patches.
-
-v2->v3:
-	-split aux read  KSV function to a patch.
-	-[1/3] new in v3
-	-[2/3] add description of patch
-
-v1->v2:
-	- ignored.
-
-Hermes Wu (10):
-  drm/bridge: it6505: Change definition of AUX_FIFO_MAX_SIZE
-  drm/bridge: it6505: improve AUX operation for edid read
-  drm/bridge: it6505: add AUX operation for HDCP KSV list read
-  drm/bridge: it6505: Change definition MAX_HDCP_DOWN_STREAM_COUNT
-  drm/bridge: it6505: fix HDCP Bstatus check
-  drm/bridge: it6505: fix HDCP encryption when R0 ready
-  drm/bridge: it6505: fix HDCP CTS KSV list read with UNIGRAF DPR-100.
-  drm/bridge: it6505: fix HDCP CTS compare V matching
-  drm/bridge: it6505: fix HDCP CTS KSV list wait timer
-  drm/bridge: it6505: add I2C functionality on AUX
-
-Change-Id: Iad0c056d72abf2655081357cf40c3b0d3df916b5
+Fixes: b5c84a9edcd4 ("drm/bridge: add it6505 driver")
 Signed-off-by: Hermes Wu <Hermes.wu@ite.com.tw>
 ---
-Hermes Wu (10):
-      drm/bridge: it6505: Change definition of AUX_FIFO_MAX_SIZE
-      drm/bridge: it6505: improve AUX operation for edid read
-      drm/bridge: it6505: add AUX operation for HDCP KSV list read
-      drm/bridge: it6505: Change definition MAX_HDCP_DOWN_STREAM_COUNT
-      drm/bridge: it6505: fix HDCP Bstatus check
-      drm/bridge: it6505: fix HDCP encryption when R0 ready
-      drm/bridge: it6505: fix HDCP CTS KSV list read with UNIGRAF DPR-100.
-      drm/bridge: it6505: fix HDCP CTS compare V matching
-      drm/bridge: it6505: fix HDCP CTS KSV list wait timer
-      drm/bridge: it6505: add I2C functionality on AUX
+ drivers/gpu/drm/bridge/ite-it6505.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- drivers/gpu/drm/bridge/ite-it6505.c | 334 ++++++++++++++++++++++++++++++------
- 1 file changed, 277 insertions(+), 57 deletions(-)
----
-base-commit: b8128f7815ff135f0333c1b46dcdf1543c41b860
-change-id: 20241015-upstream-v6-9f4b015fecf7
+diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
+index 7ff17aa14b01e4d9f626424e065131ae2b195c62..3272ca6951f2585f9592834869de23ac50ce41a4 100644
+--- a/drivers/gpu/drm/bridge/ite-it6505.c
++++ b/drivers/gpu/drm/bridge/ite-it6505.c
+@@ -300,7 +300,7 @@
+ #define MAX_CR_LEVEL 0x03
+ #define MAX_EQ_LEVEL 0x03
+ #define AUX_WAIT_TIMEOUT_MS 15
+-#define AUX_FIFO_MAX_SIZE 32
++#define AUX_FIFO_MAX_SIZE 16
+ #define PIXEL_CLK_DELAY 1
+ #define PIXEL_CLK_INVERSE 0
+ #define ADJUST_PHASE_THRESHOLD 80000
 
-Best regards,
 -- 
-Hermes Wu <Hermes.wu@ite.com.tw>
+2.34.1
 
 
