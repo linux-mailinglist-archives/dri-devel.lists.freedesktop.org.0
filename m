@@ -2,60 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 127F59A02D8
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Oct 2024 09:41:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF4C19A02DB
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Oct 2024 09:43:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DEC810E6A8;
-	Wed, 16 Oct 2024 07:41:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 773C410E6A4;
+	Wed, 16 Oct 2024 07:43:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="cxQ39J/J";
+	dkim=pass (2048-bit key; secure) header.d=proton.me header.i=@proton.me header.b="CCtwvnSJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AE1310E6A4
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Oct 2024 07:41:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=qeHza77mGlwARQ8xN9RR0YFV0a58PqCev0MNO21raUs=; b=cxQ39J/J1bbNrgtSk7pacgj6Gu
- I4FA2QUuCnBGVwSk3SAm/6KLaVWA8uiU7GBIQ0V1KSJYFkh2Q+2oMQqaJYKwpPsarmIvgXk/YMeh2
- vxULAZWb0gU0UAArNmduoDLchwg4BZjac/Drl6HgcsLoDKHZDEPJz/jLfbaWoqh6tZiTgELCLnLTr
- coFHHFlQF1NQCDI318un5MbZYTvixt9ytJxNi6Otijp+PA8BZrOhUKAD8mw6gC1pIHwNTVzssJ5bB
- 1SMwPFPmwQc89Wwd/b7wqc9GtiEg4s60I9z1svFIQ0C9IvgA2OkPgjPkQUEnjiTDAHUy8S6pUCdeQ
- lE9FrWcg==;
-Received: from [90.241.98.187] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1t0yes-00AddO-EE; Wed, 16 Oct 2024 09:41:26 +0200
-Message-ID: <8816667f-a272-4ef9-87f0-880c47476a9f@igalia.com>
-Date: Wed, 16 Oct 2024 08:41:25 +0100
+Received: from mail-4322.protonmail.ch (mail-4322.protonmail.ch [185.70.43.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F92510E6A4
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Oct 2024 07:43:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+ s=protonmail; t=1729064595; x=1729323795;
+ bh=/RcCAilO9pgxTRMKsQDDzVlxiLUl3ImBOZ+NYjOQwQg=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID:BIMI-Selector;
+ b=CCtwvnSJ08C4NQqidF9KCDwQc/VpccIPijK1BeQo/KRRwd2V+jvGPtjBQCz7KpJDf
+ oAzfoQ8x/CfxQ2rOIpvj7qKS7DRRxZwd69uljTyvDFVVucbt2/Yozsyqt5NRmXt6EG
+ QwXVSIry5s9Q7vsf9cOB+YI/dGf3gfE3dvWrPlwh4WSpX08Lz/XOV9a/rhvJcQCIR/
+ 4kzZ01nUvjHFa13nqV8REUUnfVaboRry1kaagDrU8EorXAWGDpVwJm4FG7CNxrZV3/
+ U0F0wy33bbDaMWi68ZSCG+cwuTg7ThAUmNtCGIXueMUYyoTUllbHCwo3jctS4pYjRo
+ Rvqmnz5Ti5z1Q==
+Date: Wed, 16 Oct 2024 07:43:12 +0000
+To: Andy Yan <andyshrk@163.com>
+From: Piotr Zalewski <pZ010001011111@proton.me>
+Cc: hjc@rock-chips.com, heiko@sntech.de, andy.yan@rock-chips.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+ Daniel Stone <daniel@fooishbar.org>, Dragan Simic <dsimic@manjaro.org>,
+ Diederik de Haas <didi.debian@cknow.org>
+Subject: Re:Re:Re:[PATCH v5] rockchip/drm: vop2: add support for gamma LUT
+Message-ID: <NxE_v2487UegHySoZJi6ZnC6t8tn63tH7DDaCBVIsShJHz1_dH_6o1pRHqGBhHq7LWIKlWitYH7Fbh0YDyEBNN8Pt0u27irk1VwuqMj8Y9c=@proton.me>
+In-Reply-To: <rCXfMQ7epSo6CgnBpBcowcSa1ndRRyfEaDJLFhS4w2-S047bVknK4vU1_qPR7h1ho8SznXj5dYrBHRUmQe-MICdSB0OLm0P-N48lQzgWnfI=@proton.me>
+References: <20241014222022.571819-4-pZ010001011111@proton.me>
+ <7b45f190.452f.1928e41b746.Coremail.andyshrk@163.com>
+ <o_Cyz_ARcHj4zNlovv75MBwslIRhn3YWlscoNrlpLVobh7eWIMEQR5bNv0yhHx2KEx_gbYi_gH-8Y-CdvRZs9lZscz3-lhAbM50GXUdtSKY=@proton.me>
+ <30940542.b36d.19290215124.Coremail.andyshrk@163.com>
+ <1974DYrs9gLrQrZ5VwCglFgKDDK686iyqnS_g6uPB-s9wZ_4CqfZXPjmYWihLgrkRu7ptNjpkFeqB0uTt73RFId6cL8FowQ8LFltPmaKCoI=@proton.me>
+ <1ae9f15d.e52.19292e05e73.Coremail.andyshrk@163.com>
+ <rCXfMQ7epSo6CgnBpBcowcSa1ndRRyfEaDJLFhS4w2-S047bVknK4vU1_qPR7h1ho8SznXj5dYrBHRUmQe-MICdSB0OLm0P-N48lQzgWnfI=@proton.me>
+Feedback-ID: 53478694:user:proton
+X-Pm-Message-ID: fbe0cdd32c280e3064ebe9989c10d3a295b445a0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/5] drm/sched: Optimise drm_sched_entity_push_job
-To: Philipp Stanner <pstanner@redhat.com>,
- Tvrtko Ursulin <tursulin@igalia.com>, dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- Luben Tuikov <ltuikov89@gmail.com>, Matthew Brost <matthew.brost@intel.com>
-References: <20241014104637.83209-1-tursulin@igalia.com>
- <20241014104637.83209-2-tursulin@igalia.com>
- <0df6b855b0974a88a3f6af42108e2596bd285898.camel@redhat.com>
- <8c038f91-716c-4a3d-8c70-10859d28d77f@igalia.com>
- <587ac0260e9c843ccd0e7d449fc6b6c9270ec741.camel@redhat.com>
- <a3cb9eba-a13e-4f56-8e81-7a06eb655e3b@igalia.com>
- <33ebe52c5df76611451685261f046d77efc44134.camel@redhat.com>
- <18e9dd02-2cdd-42a2-9e7f-271c685d9f93@igalia.com>
- <9b9378581aa75fc39117a03a573199920c832b31.camel@redhat.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <9b9378581aa75fc39117a03a573199920c832b31.camel@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,242 +67,133 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Andy, Ignore the message I'm answering to. I accidentally sent it premat=
+urely.=20
 
-On 15/10/2024 15:00, Philipp Stanner wrote:
-> On Tue, 2024-10-15 at 14:14 +0100, Tvrtko Ursulin wrote:
->>
->> On 15/10/2024 12:38, Philipp Stanner wrote:
->>> On Tue, 2024-10-15 at 09:12 +0100, Tvrtko Ursulin wrote:
->>>>
->>>> On 15/10/2024 08:11, Philipp Stanner wrote:
->>>>> On Mon, 2024-10-14 at 13:07 +0100, Tvrtko Ursulin wrote:
->>>>>>
->>>>>> On 14/10/2024 12:32, Philipp Stanner wrote:
->>>>>>> Hi,
->>>>>>>
->>>>>>> On Mon, 2024-10-14 at 11:46 +0100, Tvrtko Ursulin wrote:
->>>>>>>> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->>>>>>>>
->>>>>>>> In FIFO mode We can avoid dropping the lock only to
->>>>>>>> immediately
->>>>>>>> re-
->>>>>>>> acquire
->>>>>>>> by adding a new drm_sched_rq_update_fifo_locked() helper.
->>>>>>>>
->>>>>>>
->>>>>>> Please write detailed commit messages, as described here
->>>>>>> [1].
->>>>>>>        1. Describe the problem: current state and why it's
->>>>>>> bad.
->>>>>>>        2. Then, describe in imperative (present tense) form
->>>>>>> what
->>>>>>> the
->>>>>>> commit
->>>>>>>           does about the problem.
->>>>>>
->>>>>> Both pieces of info are already there:
->>>>>>
->>>>>> 1. Drops the lock to immediately re-acquire it.
->>>>>> 2. We avoid that by by adding a locked helper.
->>>>>>> Optionally, in between can be information about why it's
->>>>>>> solved
->>>>>>> this
->>>>>>> way and not another etc.
->>>>>>>
->>>>>>> Applies to the other patches, too.
->>>>>>>
->>>>>>>
->>>>>>> [1]
->>>>>>> https://www.kernel.org/doc/html/latest/process/submitting-patches.html#describe-your-changes
->>>>>>
->>>>>> Thanks I am new here and did not know this.
->>>>>>
->>>>>> Seriosuly, lets not be too blindly strict about this because
->>>>>> it
->>>>>> can
->>>>>> get
->>>>>> IMO ridiculous.
->>>>>>
->>>>>> One example when I previously accomodated your request is
->>>>>> patch
->>>>>> 3/5
->>>>>> from
->>>>>> this series:
->>>>>>
->>>>>> """
->>>>>> Current kerneldoc for struct drm_sched_rq incompletely
->>>>>> documents
->>>>>> what
->>>>>> fields are protected by the lock.
->>>>>>
->>>>>> This is not good because it is misleading.
->>>>>>
->>>>>> Lets fix it by listing all the elements which are protected
->>>>>> by
->>>>>> the
->>>>>> lock.
->>>>>> """
->>>>>>
->>>>>> While this was the original commit text you weren't happy
->>>>>> with:
->>>>>>
->>>>>> """
->>>>>> drm/sched: Re-order struct drm_sched_rq members for clarity
->>>>>>
->>>>>> Lets re-order the members to make it clear which are
->>>>>> protected by
->>>>>> the
->>>>>> lock
->>>>>> and at the same time document it via kerneldoc.
->>>>>> """
->>>>>>
->>>>>> I maintain the original text was passable.
->>>>>>
->>>>>> On top, this was just a respin to accomodate the merge
->>>>>> process.
->>>>>> All
->>>>>> approvals were done and dusted couple weeks or so ago so
->>>>>> asking
->>>>>> for
->>>>>> yet
->>>>>> another respin for such trivial objections is not great.
->>>>>
->>>>> I understand that you're unhappy, but please understand the
->>>>> position
->>>>> I'm coming from. As you know, since you sent these patches
->>>>> within a
->>>>> different series (and, thus, since I reviewed them), I was
->>>>> trusted
->>>>> with
->>>>> co-maintaining this piece of shared infrastructure.
->>>>>
->>>>> And since you've worked on it a bit now, I suppose you also
->>>>> know
->>>>> that
->>>>> the GPU Scheduler is arguably in quite a bad shape, has far too
->>>>> little
->>>>> documentation, has leaks, maybe race conditions, parts *where
->>>>> the
->>>>> locking rules are unclear* and is probably only fully
->>>>> understood by
->>>>> a
->>>>> small hand full of people. I also argue that this is a *very*
->>>>> complicated piece of software.
->>>>
->>>> We already went over that and agreed. Not least I agreed the base
->>>> is
->>>> shaky since few years  ago. :)
->>>>
->>>> Btw if things align, I hope you will at some point see a follow
->>>> up
->>>> series from me which makes some significant simplifications and
->>>> improvements at the same time.
->>>
->>> Cool, good to hear!
->>> (Would be even cooler if simplifications and improvements can be
->>> delivered through separate patch series to be easier to review
->>> etc.)
->>
->> Yes, when I spot something I pull it ahead and/or standalone when it
->> makes sense. But it is early days and a big job.
->>
->>>>> So I might be or appear to be a bit pedantic, but I'm not doing
->>>>> that to
->>>>> terrorize you, but because I want this thing to become well
->>>>> documented,
->>>>> understandable, and bisectable. Working towards a canonical,
->>>>> idiot-
->>>>> proof commit style is one measure that will help with that.
->>>>>
->>>>> I want to offer you the following: I can be more relaxed with
->>>>> things
->>>>> universally recognized as trivial (comment changes, struct
->>>>> member
->>>>> reordering) – but when something like a lock is touched in any
->>>>> way,
->>>>> we
->>>>> shall document that in the commit message as canonically as
->>>>> possible,
->>>>> so someone who's less experienced and just bisected the commit
->>>>> immediately understands what has been done (or rather: was
->>>>> supposed
->>>>> to
->>>>> be done).
->>>>
->>>> So how would you suggest to expand this commit text so it doesn't
->>>> read
->>>> too self-repeating?
->>>
->>> My issue with this particular commit message is mainly that it
->>> doesn't
->>> make it obvious what the patch is supposed to do. So one can make
->>> it
->>> quicker and better to review by detailing it a bit more, so the
->>> reviewer then can compare commit message vs. what the code does. It
->>> seems to me for example that the actual optimization is being done
->>> in
->>> drm_sched_entity_push_job(), and drm_sched_entity_pop_job() had to
->>> be
->>> ported, too, for correctness
->>
->> "It seems" aka the commit title says so. ;)
->>
->>> Another small thing that might be cool is something that makes it a
->>> bit
->>> more obvious that this is an optimization, not a fix.
->>>
->>> So I would probably write:
->>>
->>> "So far, drm_sched_rq_update_fifo() automatically takes
->>> drm_sched_entity.rq_lock. For DRM_SCHED_POLICY_FIFO, this is
->>> inefficient because that lock is then taken, released and retaken
->>> in
->>> drm_sched_entity_push_job().
->>>
->>> Improve performance by moving the locking out of
->>> drm_sched_rq_update_fifo()."
->>>
->>> Not that much longer but makes it far more obvious what shall be
->>> achieved where :]
->>
->> How about this:
->>
->> """
->> In FIFO mode (which is the default), both drm_sched_entity_push_job()
->> and drm_sched_rq_update_fifo(), where the latter calls the former,
->> are
->> currently taking and releasing the same entity->rq_lock.
->>
->> We can avoid that design inelegance, and also have a miniscule
->> efficiency improvement on the idle submit path, by introducing a new
->> drm_sched_rq_update_fifo_locked() helper and pulling up the lock
->> taking
->> to its callers.
->> """
-> 
-> That looks good to me
+On Wednesday, October 16th, 2024 at 9:41 AM, Piotr Zalewski <pZ010001011111=
+@proton.me> wrote:
 
-Cool. So this for 1/5, your text and some tweaks for 4/5, anything else 
-or I can respin with that?
-
-Regards,
-
-Tvrtko
-
-> 
-> P.
-> 
-> 
->>
->>> (Let me read through the other patches briefly. Then we should be
->>> good
->>> with v2 of this series.. or would it be v3 then?)
->>
->> Depends how you count. By unique series titles or by fundamental
->> content.
->>
->> Regards,
->>
->> Tvrtko
->>
-> 
+> Hi Andy,
+>=20
+> On Wednesday, October 16th, 2024 at 3:10 AM, Andy Yan andyshrk@163.com wr=
+ote:
+>=20
+> > Hi Piotr,
+> >=20
+> > At 2024-10-16 04:13:40, "Piotr Zalewski" pZ010001011111@proton.me wrote=
+:
+> >=20
+> > > Hi Andy
+> > >=20
+> > > On Tuesday, October 15th, 2024 at 2:22 PM, Andy Yan andyshrk@163.com =
+wrote:
+> > >=20
+> > > > > > > + struct vop2_video_port *vp,
+> > > > > > > + struct drm_crtc *crtc,
+> > > > > > > + struct drm_crtc_state *crtc_state)
+> > > > > > > +{
+> > > > > > > +
+> > > > > > > + if (vop2->lut_regs && crtc_state->color_mgmt_changed) {
+> > > > > > > + if (!crtc_state->gamma_lut) {
+> > > > > > > + vop2_vp_dsp_lut_disable(vp);
+> > > > > > > + return;
+> > > > > > > + }
+> > > > > > > +
+> > > > > > > + if (vop2_supports_seamless_gamma_lut_update(vop2)) {
+> > > > > >=20
+> > > > > > I think it's bettery to check for rk3568/rk3566 here, the newer=
+ soc will all follow
+> > > > > > rk3588 support seamless gamma lut update.
+> > > > >=20
+> > > > > I will change in the next version.
+> > > > >=20
+> > > > > > > + vop2_writel(vop2, RK3568_LUT_PORT_SEL, FIELD_PREP(
+> > > > > > > + RK3588_LUT_PORT_SEL__GAMMA_AHB_WRITE_SEL,
+> > > > > > > + vp->id));
+> > > > > > > + vop2_crtc_write_gamma_lut(vop2, crtc);
+> > > > > > > + vop2_vp_dsp_lut_enable(vp);
+> > > > > > > + vop2_vp_dsp_lut_update_enable(vp);
+> > > > > > > + } else {
+> > > > > >=20
+> > > > > > As for rk3566/68, we should do exclusive check here, because th=
+ere is only
+> > > > > > one gamma , only one VP can use it at a time. See my comments i=
+n V3:
+> > > > >=20
+> > > > > What do you mean exactly by exclusive check in this case.It's tru=
+e that
+> > > > > gamma LUT is shared across video ports in rk356x but, if I correc=
+tly
+> > > > > understand, this doesn't forbid to reprogram LUT port sel and all=
+ow other
+> > > > > VP to use gamma LUT.
+> > > >=20
+> > > > Yes, we can reprogram LUT port sel, but we need to make sure the th=
+e dsp_lut_en bit in VPx is cleared if we
+> > > > want reprogram LUT port sel form VPx to VPy.
+> > >=20
+> > > Ok I get it now. Is such rework correct? - when gamma LUT for rk356x =
+is
+> > > being set, instead of disabling the LUT before the gamma LUT write fo=
+r the
+> > > current CRTC's video port, active video port is selected. Selection i=
+s
+> > > based on if DSP LUT EN bit is set for particular video port. eg:
+> >=20
+> > If the userspace want to set gamma for CRTCx, then that is indeed where=
+ they want to set the
+> > gamma on=E3=80=82The driver silently sets the gamma on another CRTC, wh=
+ich is not what the user wants.
+>=20
+>=20
+> Hello maybe there is some misunderstanding, here is full version of my re=
+work
+> ```
+>=20
+> > I think there are two options=EF=BC=9A
+> > =EF=BC=881=EF=BC=89return a error if gamma is enable on other CRTC=
+=EF=BC=8C this is what we done in our BSP code[1]
+> > (2) disable the dsp_lut on privious CRTC, then switch to the current CR=
+TC which userspace wants.
+> >=20
+> > [1]https://github.com/armbian/linux-rockchip/blob/rk3576-6.1-dev-2024_0=
+4_19/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c#L3666
+>=20
+>=20
+> Hmm ok in my solution I supposedo
+>=20
+> > > ```
+> > > static struct vop2_video_port *vop2_vp_dsp_lut_get_active_vp(struct v=
+op2 *vop2)
+> > > {
+> > > struct vop2_video_port *vp;
+> > > int i;
+> > > for (i =3D 0; i < vop2->data->nr_vps; i++) {
+> > > vp =3D &vop2->vps[i];
+> > >=20
+> > > if (vp->crtc.dev !=3D NULL && vop2_vp_dsp_lut_is_enabled(vp)) {
+> > > return vp;
+> > > }
+> > > }
+> > > return NULL;
+> > > }
+> > >=20
+> > > (...)
+> > >=20
+> > > struct vop2_video_port *active_vp =3D vop2_vp_dsp_lut_get_active_vp(v=
+op2);
+> > >=20
+> > > if (active_vp) {
+> > > vop2_vp_dsp_lut_disable(active_vp);
+> > > vop2_cfg_done(active_vp);
+> > > if (!vop2_vp_dsp_lut_poll_disable(active_vp))
+> > > return;
+> > > }
+> > >=20
+> > > vop2_writel(vop2, RK3568_LUT_PORT_SEL, vp->id);
+> > > vop2_crtc_write_gamma_lut(vop2, crtc);
+> > > vop2_vp_dsp_lut_enable(vp);
+> > > ```
+>=20
+>=20
+> Best Regards, Piotr Zalewski
