@@ -2,58 +2,153 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C5F69A0D9A
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Oct 2024 17:06:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C7CE9A0DD6
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Oct 2024 17:16:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 973A710E72C;
-	Wed, 16 Oct 2024 15:06:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DAD010E72A;
+	Wed, 16 Oct 2024 15:16:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NgZRHaya";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="JAujxf0J";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EFD810E72C
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Oct 2024 15:06:10 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id B4C4AA43B28;
- Wed, 16 Oct 2024 15:06:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3BE4C4CEC5;
- Wed, 16 Oct 2024 15:06:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1729091169;
- bh=EXkQTy+esDkHCy1HoIdQHjQpp+JpP3wE0dYye/s4/Yg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=NgZRHayaM+JGLjWE2uwLdCnxLb0IuXMIcOv0PxCYNb9zcxlce5A7OsX3LfYIJDvqn
- WpnjbBu19txBaOA7MlWwCn3uG6MBIN2uquksFcQXJzpGA83AmObrUxAKjok8nYfUh5
- c0YHbG5h2R+dyNzdmkoFUSSP8M9jvDE6MdJzJAWzGSOJWVLcsJjjBoje9vcKN7mDeM
- Z0y1gG03/NjWiSmsu7/Mrck0ESs4Vzs70hX9E09n8hegY2Y1gsNtItSS9kef2+bICB
- HfPafuM/2TWUZfjuuKT+iUr6IDVsfwyXGAJDVw6vFk2oUBENBDu40getSvQRJ7wRo0
- 78/yYvzAgH7hw==
-Date: Wed, 16 Oct 2024 17:06:03 +0200
-From: Andi Shyti <andi.shyti@kernel.org>
-To: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
-Cc: Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
- cros-qcom-dts-watchers@chromium.org, linux-arm-msm@vger.kernel.org,
- dmaengine@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-i2c@vger.kernel.org, 
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, 
- quic_msavaliy@quicinc.com, quic_vtanuku@quicinc.com
-Subject: Re: [PATCH v1 5/5] i2c: i2c-qcom-geni: Add Block event interrupt
- support
-Message-ID: <d2kffhvai5syxolobrk4g27w3f35p7v5azdy4tyvryfqnd4ohz@jxfgsubojysg>
-References: <20241015120750.21217-1-quic_jseerapu@quicinc.com>
- <20241015120750.21217-6-quic_jseerapu@quicinc.com>
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam04on2041.outbound.protection.outlook.com [40.107.101.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BDE310E72F;
+ Wed, 16 Oct 2024 15:16:39 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=zEyIMZ78rIkV6aZ4IpCpcQ7OnEKFL+W1bVlme0jDVNFLd8o++wF+1pF4dpTdpQ/4ECNkAYf3+VbPuI7W8mxIAJ4lx/ROqj8d4AEdzlZ0EQAZ4I3thWLJaVpqu7Ikf2IOX7g23xjiWxEPjFf0UYgEgOgi2h6vEWPkvSfbMgNFZUoMARjNwQxZryJtHGwtlY9zyOqoacbuRYbgeVCEm0ZHKMM1YUD9bLR9SUkpuU4uyzTkd2yV1fhUcrgcw/6rf83549bPSsQAMEMZV9PpZyyPdqVsloRSD3E0lZ21Og9oTBGkHiIqXnJEM3Y6Kwnxp2DG9nRApCqEILurnbg3YtGAvA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pGDwgZxUF0hUviyyiK9unu5OqHtKdOxwcpBQrvL/G8I=;
+ b=xLv1J1oQDex9U6r7B//WnTUuzGejG3pmr69tfkeg/g9weDQqxw2QOptGQWNq4M/AdBS6UaOJH11MeCTF8hBMLEGBlS17OAlLhH9yIHZwpzv3kz9znTn+U3xFeMTFLg+W6ifIUVSZ00i1Kg/kYiSa2VWikowqpmP/oP/gohkrkaG+hLUaY6p0muTZLhRBdmtwUValWMpinREQi+eSNyguyElDP225I8a4r8A27RMzbLdiMTOfzHH6iVtLNKYS21zQCQl78gjjzMgc4FMChiIrC0lCcOrlfs1NADx5pn0d3a67JuH2VM7XPAY1OndbRUw4K6TKKwgamPh7CnP3Jk4PJg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pGDwgZxUF0hUviyyiK9unu5OqHtKdOxwcpBQrvL/G8I=;
+ b=JAujxf0JqH8rWeUGqoCEuxUjr+vWxQgTpB39XYXjExC2ml5unCK3m09Z1LqDvWeNaL1zeSiop+9FmgxmhgwCrC2eQtrQndWuIknZfxCyYesRlGuVU9b06081alU+Z5WznYUfZc0y/RbfmlP9rkZw4CwzfP0qUp+EFdulz1VJVKui0OT03h/Hf335O96qFTJWJLvjRpw4aB/MjDQ9HhgMehKHFAtewgYnNbbUWJxX+VgnFvHW61B/MT0L0+Irs6kkNwcPS8Gf+ZSnlSv7xhP1pU5rZOOxJmi6l5O1426eN8ubxstq/mXJtdnz9uLNnN2qxXVt5bH5xannmBBJziNq5g==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BL1PR12MB5851.namprd12.prod.outlook.com (2603:10b6:208:396::13)
+ by MN0PR12MB6002.namprd12.prod.outlook.com (2603:10b6:208:37e::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.18; Wed, 16 Oct
+ 2024 15:16:35 +0000
+Received: from BL1PR12MB5851.namprd12.prod.outlook.com
+ ([fe80::d4a:9ce3:c92e:e938]) by BL1PR12MB5851.namprd12.prod.outlook.com
+ ([fe80::d4a:9ce3:c92e:e938%6]) with mapi id 15.20.8048.020; Wed, 16 Oct 2024
+ 15:16:35 +0000
+Message-ID: <1a667504-72bd-445b-8bf8-a6604b7beb2b@nvidia.com>
+Date: Wed, 16 Oct 2024 18:16:28 +0300
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 0/4] GPU Direct RDMA (P2P DMA) for Device Private Pages
+To: Christoph Hellwig <hch@infradead.org>
+Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-rdma@vger.kernel.org, linux-mm@kvack.org, herbst@redhat.com,
+ lyude@redhat.com, dakr@redhat.com, airlied@gmail.com, simona@ffwll.ch,
+ jgg@ziepe.ca, leon@kernel.org, jglisse@redhat.com,
+ akpm@linux-foundation.org, dri-devel@lists.freedesktop.org,
+ apopple@nvidia.com, bskeggs@nvidia.com
+References: <20241015152348.3055360-1-ymaman@nvidia.com>
+ <Zw8_x0Tvux9IMbly@infradead.org>
+Content-Language: en-US
+From: Yonatan Maman <ymaman@nvidia.com>
+In-Reply-To: <Zw8_x0Tvux9IMbly@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR2P281CA0181.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9f::17) To BL1PR12MB5851.namprd12.prod.outlook.com
+ (2603:10b6:208:396::13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241015120750.21217-6-quic_jseerapu@quicinc.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5851:EE_|MN0PR12MB6002:EE_
+X-MS-Office365-Filtering-Correlation-Id: a4741652-2e00-4d5f-ea20-08dcedf585d5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?a0ZWRktKem51amtJVW52OGd1MTRKdDdRekJVOWFxS2Jpck9hVGxBRjFtTlRo?=
+ =?utf-8?B?TEVKZXlPczR6Nmo5ODFSbGVTQitDMWd2NFRqdnV5Y1Ruc3cvblZXM0dJdUlS?=
+ =?utf-8?B?N1JwNFovL2ZGSGZyUGc4WGh4M0FINzBxVXk5blZrNFNTeDZWaWlidkQ2NjhV?=
+ =?utf-8?B?YlRHNnluQVVXRUZVSjVIaFNVVnlSVUpVbEp3d2ZuVy9wSUpTb0pkMndlKzUv?=
+ =?utf-8?B?YVp4STZuaEdwVEl3TFdwZ2gvcDE0NWRLNTFUcXBObkY0a1A0d3RIdHluT2py?=
+ =?utf-8?B?clFiNDZ2MnFYMW5uWmVYWm5QNE4veGJkZlpveFdJRzBlRWs1ekZ1OFluUWp0?=
+ =?utf-8?B?U0FoZkJGa2dKOFdlTU9uZDJieldUNHBCZ3oyM3NjcVR6aTRodDBiU0dBTU1B?=
+ =?utf-8?B?N205VlE3TmV2RDZxOXNraVN5cWUrWVNLQTdtWlRLWDF2Qlc5cHQ3TDNhcHNJ?=
+ =?utf-8?B?dXhEU1o3cFE0UFJERTNBR2tWVlVVMmUyY3FCOXMzYjFDZGFzRHhUZ0NTdW1G?=
+ =?utf-8?B?VGxmYStxd2N1ZmlQYkFwSU1mOHhUMUI5SDAxYnZsUUM2MlZDSThCbklYd253?=
+ =?utf-8?B?V3VTSE9kdTkxOHZYZGhtTGF6NkhDQUVCM2tFNTNWYnA5Z3NKSk1RVWFlUTlp?=
+ =?utf-8?B?Nkc1c1g2S3F3RWRvdnBOUFJ0OWRhUlRYM01TT2h4VGNtQzZmNDVhUlZsMUxE?=
+ =?utf-8?B?WUF5YUowR1FTL3JDNkU3dlhncWJUeDFaY25jb0VpQVFOUTJKd0M1ZlI3S0hB?=
+ =?utf-8?B?Ym05bTBhZzI3bjJYZUFzbDhTV0kwZXcwTXByMnZsNk9FY0UrR0I4VElRZzBT?=
+ =?utf-8?B?SzgvQUp1emxIaUtvc0VHR1FOd0dMYjluWGI3Vm9hVm1wSXN5S0VMeGlHeFNi?=
+ =?utf-8?B?eEZQSGY3NkFZcHZpc2xyTXQxamZBbHJYVWJoZHhaZmVlV2gwV0lqeXZ6dlBx?=
+ =?utf-8?B?YU9IOHlPcEQvQUhqbW5XZW9PMTZFbW1XSTlaMnpCS3Bvb2NQQlRqT2dFbUVZ?=
+ =?utf-8?B?dUdlcGpwU3loWlBGWm9zUUtwOXBQa1ZsbXJBd0ZQN3V6VkNlV0tVTlk5dGIx?=
+ =?utf-8?B?YVJmQUtFcmlsaUwzeFNxTFVvUWl4RDNlaGhlQ2VnTnlLcTdjY2Yyajl5Szky?=
+ =?utf-8?B?WHBXc1ovZXcxVkhpUlVHRDF1OFNqY21tTFhZcUpLbUE5SlFuY0xVbzd2SUo5?=
+ =?utf-8?B?V2xvT3NYMk1aRk52d3RaUHN5emowbUZHSkF2WmgzR0tXMGtpR3RJbEFWd1Vz?=
+ =?utf-8?B?YlNacmNOZ3EzTHV5TTVXYlhUYnV1UUdpc2oyUDlNWkl5NFVsaVgyL25aTjJL?=
+ =?utf-8?B?RVBlcXNnaWZLTG9mNDgzSkdHQjNzM2h2MzNOdERGNG9lejRibm5LZzlUWStJ?=
+ =?utf-8?B?TDFObEpYOEFlQ0lzNkNySDZtNVBzc2xVR2tNOGZxZnY5cU4rM3hobVBmZk9N?=
+ =?utf-8?B?cUNReVdtT3VkQVhKNldRTW8xVjN0ckk5ZDRuUnI3aSt2eWNsZDlSQVljZWVl?=
+ =?utf-8?B?STVOQ1BjcFFnTGdPV2JsVyt3ZFVkU3hOczFUWFVGZDdka1A3SDUwZWVOZVFv?=
+ =?utf-8?B?MjVJQWd2U0t2OVcra3lnNzNLWVh6TnZpTklHbzlZOU1Cb1YycWVQZjhUNUtS?=
+ =?utf-8?B?cjR5dTJLRXVwZE12Qzl2czJ6dTBJQzNNeDBJQ0R6aytlWXRraE9CRkNXN0pK?=
+ =?utf-8?B?RVM2ZklLdm9QMXFDRTNma2RKcmhjS1lUbHJaU1hObFR6andWZnoySDF3PT0=?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL1PR12MB5851.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(366016)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ekZ2RTRCUWZZNXg5ZXIxQVcvTEsrN2lybGRaMUFxYmswTjRsRmJWYkxjQUtW?=
+ =?utf-8?B?S3EvMHFKay9idUUzUW40TDdaZGJjcFpaaU1rZFczOHNlSnk0U0x0eDhlaEE1?=
+ =?utf-8?B?WWRKaTdJWlorR3dvd2M0Y05BSEhOK2NKaGY4aHpmRFVkdCswNEsyK3BsclNq?=
+ =?utf-8?B?a0JxbmZmeUZIc3dzY0dKOG5rR000TWZ6Ym1za0ZxSGo5VkxkOTBCSmxKZ3E0?=
+ =?utf-8?B?K2JVVDJkRXYrTTRWb0dpOHUrb2xleFFITFg0MmFhSlRkK0NMSG1jQVNaLy9D?=
+ =?utf-8?B?MDF1ZHVELzJqQWYxNWxaSHIxOVVLK0o2eGI5MGJleFlGYmpraFVNNEEzRlJI?=
+ =?utf-8?B?cU9HSC83aWxyYWpNVDA3MGhMZkVPT25McUJKU2ZqZHVIbWZkMVg5MEV5Qmpk?=
+ =?utf-8?B?QXVwYzFwYWFNTUZHSXBpZVg2RUJmRTQ0TVNlcmdHM0pMUURPeTNxNFozK2RI?=
+ =?utf-8?B?MCsxRGl3MW1yWnVKcHFUTCtlTE9kWkVDeERTVDkxWnBNdFFlZS9QQ0JJbGpV?=
+ =?utf-8?B?bU51cFptTEliRkVVVzBGZ3dKSUFFNFNtRnpYR01WUWc5WHlhbGp2QnJ2VFdG?=
+ =?utf-8?B?dytEZzVvdE1yM0pNaFcycmtYb1VxYXljVmRPdlhyMlBUK1ZVaWNVN04zUFll?=
+ =?utf-8?B?L2lQUGIyb3Q1VUlROHg4VEdUTlBOQlJoMmVranZIaVdoelhqbzA4VXVmejRo?=
+ =?utf-8?B?SHBGVlhyTVRaakFSVUx5QUFDUzU3SCt0QVJXSHo4UE82YTlBVS80bGU1THMx?=
+ =?utf-8?B?Q2tISUR6RTF6QzdPKzc3SUpqaDJZTXdVQkNLMnY2L1pEV1daOENsd2QvNkEv?=
+ =?utf-8?B?blRtY0h0dUFoT2dCeTZEU0d6SUV4TGJaVGlqalg5THZOQnpPOXloVEJFMTM3?=
+ =?utf-8?B?TlVGSFRUTzJRcGllTGNIYWlqL2MwYUM2akJIbmdpZlBRSkhEaWQyeFhmMGZF?=
+ =?utf-8?B?dC9USlliaS9ORGR3K3BDSUhXR3FNQ0xwNkwybFJzaHVHZ0JyK3JOcXovZm5r?=
+ =?utf-8?B?Tk5kWTF0YzVadktBNng2N1VtSkQyNi94dUlqOGxWTlVPampNeFNvRlpQU2VH?=
+ =?utf-8?B?UUo4R3VxRGlZNTFTODZ0eUd2TlN6K2tmQ3l4dXRERHdoblBCdU5zMjd1Q1RX?=
+ =?utf-8?B?NHhqOGNkV3ZIU0hkM0xzdzNvMjY1Mk9NajJydzlIMG0xYis5WkJkNjd4ZTZX?=
+ =?utf-8?B?aXllcFN0OURVS1dGS1BYRW9BUExWV0ppN0FJUWR0ZVRTZlp6V2l4SzFVa3pG?=
+ =?utf-8?B?bUE3bkZZWGFjZ2tCWVBLbHV0NzFOS0prcXMxRUZyRk1zV05BYXVWQzcyYWZN?=
+ =?utf-8?B?aHN5MGNRMC81S1lnbGp6VzdWejFEa1dpR1Z1Z1R4TURVRXRLdndaOGJPdHdG?=
+ =?utf-8?B?d1hxcUswaEZDL0J4ci94aDRNMHNOTGZZWUEwYTRWZ1FKUHRLRVoxaDNyUVdT?=
+ =?utf-8?B?Ylg0UHNqbE5yMkxuOE1OTENEQzd6VGM5UU82VU5ZZ05YV2xxbXk0NG1YaENh?=
+ =?utf-8?B?Zm50Q0Q2TDgxeVdFS3NtQ2g0UHFCVE1RSFVwbnhPbGE2YmJKVExNRExHaWxU?=
+ =?utf-8?B?cVJTMVlPWlhJL25jdFMzcVhXQ202QU9nVXA4VE4rMHBhV045b3l3SXcxaU51?=
+ =?utf-8?B?S0traXN5SDhuRHkwRzIyUkZ3VkNNZkR3a0s4dTlXMjh6cG1wNmRxRnFNNE5Z?=
+ =?utf-8?B?ck9JTXF2K2dpRmxwbkVNdlhIQkRuU0d1V1NLM1FkNHEyT0pNcGR6MGVqb2VH?=
+ =?utf-8?B?UzBybEhTQ0RmeDl0RW1USTdiWExwSnl2cmhLSlVVaDNzT3FqeHVXdUYyMnBJ?=
+ =?utf-8?B?a2M0Wm5sOTRxakdZOUhqWGhwNWptTkV5QUVQOS9nNmFIUW9IT2Npd3YzOXhM?=
+ =?utf-8?B?RjhiTVh1NGtQeVQzMm1DSGFEejZ4NTVKcVM4cUZIdmlMaVBaZzZWQTU3MnZZ?=
+ =?utf-8?B?VEJuZzg5VHhGQmpzV1E0dlcrTHlkZzFXMkxxYnkvZjZkMWUyaTZ4Q210bWNW?=
+ =?utf-8?B?cnBKNGhMUVhmY0NUWVZMaWNleTBNdUxQT2FRbVIybENuQTBQdWcrWDhTQXJQ?=
+ =?utf-8?B?ZmlRSXNQOUl1NzFNWmpzRE5XL25zbjZlUkJ1cDZtL1ZKSHpHRGIzSlZoOUVn?=
+ =?utf-8?Q?U77aKGGXXJjnosFWBHf8+bCLi?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a4741652-2e00-4d5f-ea20-08dcedf585d5
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5851.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2024 15:16:35.0116 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3iXYNIzDQ946eEJIYseuA3E24Q66vPxgQ9UUGYa/t+f2ChXV0oSNfZldBIE704GEGbHNIX0roEXkSGdYB8twFg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6002
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,259 +164,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jyothi,
 
-...
 
-> @@ -523,26 +576,49 @@ static int geni_i2c_gpi(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
->  	enum dma_transfer_direction dma_dirn;
->  	struct dma_async_tx_descriptor *desc;
->  	int ret;
-> +	struct gpi_multi_xfer *gi2c_gpi_xfer;
-> +	dma_cookie_t cookie;
->  
->  	peripheral = config->peripheral_config;
-> -
-> -	dma_buf = i2c_get_dma_safe_msg_buf(msg, 1);
-> -	if (!dma_buf)
-> +	gi2c_gpi_xfer = &peripheral->multi_xfer;
-> +	gi2c_gpi_xfer->msg_idx_cnt = cur_msg_idx;
-> +	dma_buf = gi2c_gpi_xfer->dma_buf[gi2c_gpi_xfer->buf_idx];
-> +	addr = gi2c_gpi_xfer->dma_addr[gi2c_gpi_xfer->buf_idx];
-> +
-> +	dma_buf = i2c_get_dma_safe_msg_buf(&msgs[gi2c_gpi_xfer->msg_idx_cnt], 1);
-> +	if (!dma_buf) {
-> +		gi2c->err = -ENOMEM;
->  		return -ENOMEM;
-> +	}
->  
->  	if (op == I2C_WRITE)
->  		map_dirn = DMA_TO_DEVICE;
->  	else
->  		map_dirn = DMA_FROM_DEVICE;
->  
-> -	addr = dma_map_single(gi2c->se.dev->parent, dma_buf, msg->len, map_dirn);
-> +	addr = dma_map_single(gi2c->se.dev->parent,
-> +			      dma_buf, msgs[gi2c_gpi_xfer->msg_idx_cnt].len,
+On 16/10/2024 7:23, Christoph Hellwig wrote:
+> On Tue, Oct 15, 2024 at 06:23:44PM +0300, Yonatan Maman wrote:
+>> From: Yonatan Maman <Ymaman@Nvidia.com>
+>>
+>> This patch series aims to enable Peer-to-Peer (P2P) DMA access in
+>> GPU-centric applications that utilize RDMA and private device pages. This
+>> enhancement is crucial for minimizing data transfer overhead by allowing
+>> the GPU to directly expose device private page data to devices such as
+>> NICs, eliminating the need to traverse system RAM, which is the native
+>> method for exposing device private page data.
+> 
+> Please tone down your marketing language and explain your factual
+> changes.  If you make performance claims back them by numbers.
+> 
 
-You could save msgs[gi2c_gpi_xfer->msg_idx_cnt] in a separate
-variable to avoid this extra indexing.
-
-> +			      map_dirn);
->  	if (dma_mapping_error(gi2c->se.dev->parent, addr)) {
-> -		i2c_put_dma_safe_msg_buf(dma_buf, msg, false);
-> +		i2c_put_dma_safe_msg_buf(dma_buf, &msgs[gi2c_gpi_xfer->msg_idx_cnt],
-> +					 false);
-> +		gi2c->err = -ENOMEM;
->  		return -ENOMEM;
->  	}
->  
-> +	if (gi2c->is_tx_multi_xfer) {
-> +		if (((gi2c_gpi_xfer->msg_idx_cnt + 1) % NUM_MSGS_PER_IRQ))
-> +			peripheral->flags |= QCOM_GPI_BLOCK_EVENT_IRQ;
-> +		else
-> +			peripheral->flags &= ~QCOM_GPI_BLOCK_EVENT_IRQ;
-> +
-> +		/* BEI bit to be cleared for last TRE */
-> +		if (gi2c_gpi_xfer->msg_idx_cnt == gi2c->num_msgs - 1)
-> +			peripheral->flags &= ~QCOM_GPI_BLOCK_EVENT_IRQ;
-> +	}
-> +
->  	/* set the length as message for rx txn */
-> -	peripheral->rx_len = msg->len;
-> +	peripheral->rx_len = msgs[gi2c_gpi_xfer->msg_idx_cnt].len;
->  	peripheral->op = op;
->  
->  	ret = dmaengine_slave_config(dma_chan, config);
-> @@ -560,25 +636,56 @@ static int geni_i2c_gpi(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
->  	else
->  		dma_dirn = DMA_DEV_TO_MEM;
->  
-> -	desc = dmaengine_prep_slave_single(dma_chan, addr, msg->len, dma_dirn, flags);
-> +	desc = dmaengine_prep_slave_single(dma_chan, addr,
-> +					   msgs[gi2c_gpi_xfer->msg_idx_cnt].len,
-> +					   dma_dirn, flags);
->  	if (!desc) {
->  		dev_err(gi2c->se.dev, "prep_slave_sg failed\n");
-> -		ret = -EIO;
-> +		gi2c->err = -EIO;
->  		goto err_config;
->  	}
->  
->  	desc->callback_result = i2c_gpi_cb_result;
->  	desc->callback_param = gi2c;
->  
-> -	dmaengine_submit(desc);
-> -	*buf = dma_buf;
-> -	*dma_addr_p = addr;
-> +	if (!((msgs[cur_msg_idx].flags & I2C_M_RD) && op == I2C_WRITE)) {
-> +		gi2c_gpi_xfer->msg_idx_cnt++;
-> +		gi2c_gpi_xfer->buf_idx = (cur_msg_idx + 1) % QCOM_GPI_MAX_NUM_MSGS;
-> +	}
-> +	cookie = dmaengine_submit(desc);
-> +	if (dma_submit_error(cookie)) {
-> +		dev_err(gi2c->se.dev,
-> +			"%s: dmaengine_submit failed (%d)\n", __func__, cookie);
-> +		return -EINVAL;
-
-goto err_config?
-
-> +	}
->  
-> +	if (gi2c->is_tx_multi_xfer) {
-> +		dma_async_issue_pending(gi2c->tx_c);
-> +		if ((cur_msg_idx == (gi2c->num_msgs - 1)) ||
-> +		    (gi2c_gpi_xfer->msg_idx_cnt >=
-> +		     QCOM_GPI_MAX_NUM_MSGS + gi2c_gpi_xfer->freed_msg_cnt)) {
-> +			ret = gpi_multi_desc_process(gi2c->se.dev, gi2c_gpi_xfer,
-> +						     gi2c->num_msgs, XFER_TIMEOUT,
-> +						     &gi2c->done);
-> +			if (ret) {
-> +				dev_dbg(gi2c->se.dev,
-> +					"I2C multi write msg transfer timeout: %d\n",
-> +					ret);
-
-if you are returning an error, then print an error.
-
-> +				gi2c->err = -ETIMEDOUT;
-
-gi2c->err = ret?
-
-> +				goto err_config;
-> +			}
-> +		}
-> +	} else {
-> +		/* Non multi descriptor message transfer */
-> +		*buf = dma_buf;
-> +		*dma_addr_p = addr;
-> +	}
->  	return 0;
->  
->  err_config:
-> -	dma_unmap_single(gi2c->se.dev->parent, addr, msg->len, map_dirn);
-> -	i2c_put_dma_safe_msg_buf(dma_buf, msg, false);
-> +	dma_unmap_single(gi2c->se.dev->parent, addr,
-> +			 msgs[cur_msg_idx].len, map_dirn);
-> +	i2c_put_dma_safe_msg_buf(dma_buf, &msgs[cur_msg_idx], false);
->  	return ret;
-
-I would have one more label here:
-
-   out:
-	gi2c->err = ret;
-
-	return ret;
-
-in order to avoid always assigning twice
-
->  }
->  
-> @@ -590,6 +697,7 @@ static int geni_i2c_gpi_xfer(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[], i
->  	unsigned long time_left;
->  	dma_addr_t tx_addr, rx_addr;
->  	void *tx_buf = NULL, *rx_buf = NULL;
-> +	struct gpi_multi_xfer *tx_multi_xfer;
->  	const struct geni_i2c_clk_fld *itr = gi2c->clk_fld;
->  
->  	config.peripheral_config = &peripheral;
-> @@ -603,6 +711,39 @@ static int geni_i2c_gpi_xfer(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[], i
->  	peripheral.set_config = 1;
->  	peripheral.multi_msg = false;
->  
-> +	gi2c->gpi_config = &peripheral;
-> +	gi2c->num_msgs = num;
-> +	gi2c->is_tx_multi_xfer = false;
-> +	gi2c->tx_irq_cnt = 0;
-> +
-> +	tx_multi_xfer = &peripheral.multi_xfer;
-> +	tx_multi_xfer->msg_idx_cnt = 0;
-> +	tx_multi_xfer->buf_idx = 0;
-> +	tx_multi_xfer->unmap_msg_cnt = 0;
-> +	tx_multi_xfer->freed_msg_cnt = 0;
-> +	tx_multi_xfer->irq_msg_cnt = 0;
-> +	tx_multi_xfer->irq_cnt = 0;
-
-you can initialize tx_multi_xfer to "{ };" to avoid all these
-" = 0"
-
-> +
-> +	/*
-> +	 * If number of write messages are four and higher then
-> +	 * configure hardware for multi descriptor transfers with BEI.
-> +	 */
-> +	if (num >= MIN_NUM_OF_MSGS_MULTI_DESC) {
-> +		gi2c->is_tx_multi_xfer = true;
-> +		for (i = 0; i < num; i++) {
-> +			if (msgs[i].flags & I2C_M_RD) {
-> +				/*
-> +				 * Multi descriptor transfer with BEI
-> +				 * support is enabled for write transfers.
-> +				 * Add BEI optimization support for read
-> +				 * transfers later.
-> +				 */
-> +				gi2c->is_tx_multi_xfer = false;
-> +				break;
-> +			}
-> +		}
-> +	}
-> +
->  	for (i = 0; i < num; i++) {
->  		gi2c->cur = &msgs[i];
->  		gi2c->err = 0;
-> @@ -613,14 +754,16 @@ static int geni_i2c_gpi_xfer(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[], i
->  			peripheral.stretch = 1;
->  
->  		peripheral.addr = msgs[i].addr;
-> +		if (i > 0 && (!(msgs[i].flags & I2C_M_RD)))
-> +			peripheral.multi_msg = false;
->  
-> -		ret =  geni_i2c_gpi(gi2c, &msgs[i], &config,
-> +		ret =  geni_i2c_gpi(gi2c, msgs, i, &config,
-
-what is the point of passing 'i' if you always refer to msgs[i]
-in geni_i2c_gpi()?
-
->  				    &tx_addr, &tx_buf, I2C_WRITE, gi2c->tx_c);
->  		if (ret)
->  			goto err;
->  
->  		if (msgs[i].flags & I2C_M_RD) {
-> -			ret =  geni_i2c_gpi(gi2c, &msgs[i], &config,
-> +			ret =  geni_i2c_gpi(gi2c, msgs, i, &config,
->  					    &rx_addr, &rx_buf, I2C_READ, gi2c->rx_c);
->  			if (ret)
->  				goto err;
-> @@ -628,18 +771,28 @@ static int geni_i2c_gpi_xfer(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[], i
->  			dma_async_issue_pending(gi2c->rx_c);
->  		}
->  
-> -		dma_async_issue_pending(gi2c->tx_c);
-> -
-> -		time_left = wait_for_completion_timeout(&gi2c->done, XFER_TIMEOUT);
-> -		if (!time_left)
-> -			gi2c->err = -ETIMEDOUT;
-> +		if (!gi2c->is_tx_multi_xfer) {
-> +			dma_async_issue_pending(gi2c->tx_c);
-> +			time_left = wait_for_completion_timeout(&gi2c->done, XFER_TIMEOUT);
-> +			if (!time_left) {
-> +				dev_err(gi2c->se.dev, "%s:I2C timeout\n", __func__);
-> +				gi2c->err = -ETIMEDOUT;
-> +			}
-> +		}
->  
->  		if (gi2c->err) {
->  			ret = gi2c->err;
->  			goto err;
->  		}
->  
-> -		geni_i2c_gpi_unmap(gi2c, &msgs[i], tx_buf, tx_addr, rx_buf, rx_addr);
-> +		if (!gi2c->is_tx_multi_xfer) {
-> +			geni_i2c_gpi_unmap(gi2c, &msgs[i], tx_buf, tx_addr, rx_buf, rx_addr);
-> +		} else {
-> +			if (gi2c->tx_irq_cnt != tx_multi_xfer->irq_cnt) {
-
-   else if (...) {
-   	...
-   }
-
-Andi
+Got it, thanks! I'll fix that. Regarding performance, we’re achieving 
+over 10x higher bandwidth and 10x lower latency using perftest-rdma, 
+especially (with a high rate of GPU memory access).
