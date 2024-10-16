@@ -2,87 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34E929A0B77
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Oct 2024 15:30:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45BDF9A0B73
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Oct 2024 15:30:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A70E610E2DD;
-	Wed, 16 Oct 2024 13:30:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA8C410E6F6;
+	Wed, 16 Oct 2024 13:30:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Ge5nM35s";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nWKO7hZY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com
- [209.85.222.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 478CB10E2DD
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Oct 2024 13:30:51 +0000 (UTC)
-Received: by mail-ua1-f43.google.com with SMTP id
- a1e0cc1a2514c-84fe06fbdc6so1684708241.0
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Oct 2024 06:30:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1729085449; x=1729690249;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=TREUo1lQfvBhTYNzvxLnSAftCI9jNyXaG87hpbR/7a8=;
- b=Ge5nM35sWU0gCZ8/DvbThpj4UC9MiyYf259pBd3uVQSp0Y1U4u8uU8iZq1yYSxUJec
- 5hvVA3O2O084AKSruYO48hI4No/Yj+HXPPfsY12v9mEnmTC2ebxgILZaT2mG7U7EB+oB
- fcmuMcgfrB/EnCx3od+xW6egvV/1nlr2L0a9I=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729085449; x=1729690249;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=TREUo1lQfvBhTYNzvxLnSAftCI9jNyXaG87hpbR/7a8=;
- b=jbgCcEr0wovi7MlbRTXTPQhmEb1VjaVBjntoM5ZDML76fxf0svKOqL3563d8GIQt6S
- Hh9I1n2kPh2LizP/4BOUV5cqjsIPJbTymDY7Eu+/pVt/WFhde3CUjlU8041NuPb6HmO7
- n6zLqPes9g7UidSgT8LSaLd9jffIaPRA1wJua9ekw21KbhqqzYq2L7Vf1fUUtHfGjLyX
- b+F6C6HgyECPVarOz2WBynqzsCs3ozDVl9+5lof5tf+jnSnUQJpQByse9YEAbEbzox5q
- f2LvBmNz8cFTnBYp+K2YZwrYY4PKtAUTc/Y0PkEQbam3TiCH9HQMwaBV7KlQzNTVxk8E
- KTsg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXrn4Qaboz0/68LHuMMBwrJ1E5zeIkueXQGg4+Is7jBzSLZ8NQxxHtGvnHHdUycXxfx8JxR4Iuy19o=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz+j2t7tJFB6FnGEv2Fe0qvmC30jQwcDjYm2S5nPnqc8RnFLFhL
- HfbNtx7PzNdW+Hhha5MNCs4ceIq4ZZ1Sc+GQbSi2NsPVmMmqpslimtV0KGpt+sYZBbg7nOBjuow
- =
-X-Google-Smtp-Source: AGHT+IEMNV62vkVQBXPuvJ3poVJG7k9WIE1dU1wc2AjOW+7gVBarxM5oTPCHa5pdwTsf5/mvNrLO9g==
-X-Received: by 2002:a05:6102:41ab:b0:4a5:6f41:211a with SMTP id
- ada2fe7eead31-4a56f412d7dmr8150311137.25.1729085448923; 
- Wed, 16 Oct 2024 06:30:48 -0700 (PDT)
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com.
- [209.85.222.49]) by smtp.gmail.com with ESMTPSA id
- ada2fe7eead31-4a5acedd632sm537946137.22.2024.10.16.06.30.48
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Oct 2024 06:30:48 -0700 (PDT)
-Received: by mail-ua1-f49.google.com with SMTP id
- a1e0cc1a2514c-84fd057a993so1963551241.3
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Oct 2024 06:30:48 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCULMmeiPtBcut4kgeLsnI/q/nOtB1QQ0dzqx/2jXn1s6cYZf/lJ9SUL+CdeOeX4i2QtWRVII42YhQI=@lists.freedesktop.org
-X-Received: by 2002:a05:6122:469b:b0:50d:5be4:c39d with SMTP id
- 71dfb90a1353d-50d5be4c7a8mr9674315e0c.0.1729085447232; Wed, 16 Oct 2024
- 06:30:47 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05B3210E2DD;
+ Wed, 16 Oct 2024 13:30:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1729085423; x=1760621423;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=U7HGvL7PEU9CKc6sj4d3REeSNVMURtrPx91kShnPIxg=;
+ b=nWKO7hZYl6W/IkDB+k1BitMcTGdUOirPFKtPG9kQdjcS9VJqtZMhLJfF
+ QsTyOrJKfw3Njz7+GxrxsYnYbzhwKq8PHPitfkZjnXgWICe4ZZ0LXTkSX
+ ojCHthBayT42KSWaRcXRS/Et+3aNDvSn4h+JJi0FFdsheM9KzBuDQjZh6
+ iV7YKlHir63mFud9aDz+JMhNSVbbNnOKAFYZi81Q7TNUcH38EuoJpfeGw
+ 9m6NHCUscS9yqXY0ENt7qozC/RgRMVgP0GRIBollWCLd5rtORbG4GgyaM
+ gZLtpW7VkWqYNApWnbT9solaLOc6fldmfnWI/RTFyfFo1xwYShOXBeoYO Q==;
+X-CSE-ConnectionGUID: A9xoZMcdSoisG3i1O9aXJQ==
+X-CSE-MsgGUID: +8HTWfq5T6mX3aAo4j2YAw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11226"; a="46029515"
+X-IronPort-AV: E=Sophos;i="6.11,208,1725346800"; d="scan'208";a="46029515"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Oct 2024 06:30:23 -0700
+X-CSE-ConnectionGUID: jNEHQ44LQ1G5Xu0Y0mlVLw==
+X-CSE-MsgGUID: gZ3Qbi1iTB65Fy1vVvwFqA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,208,1725346800"; d="scan'208";a="78281223"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by fmviesa008.fm.intel.com with SMTP; 16 Oct 2024 06:30:20 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 16 Oct 2024 16:30:19 +0300
+Date: Wed, 16 Oct 2024 16:30:19 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Arun R Murthy <arun.r.murthy@intel.com>
+Cc: intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/i915/display: plane property for async supported
+ modifiers
+Message-ID: <Zw-_6yuy139Zmir3@intel.com>
+References: <20241016053626.2850384-1-arun.r.murthy@intel.com>
 MIME-Version: 1.0
-References: <20241016-color-v2-1-46db5c78a54f@chromium.org>
-In-Reply-To: <20241016-color-v2-1-46db5c78a54f@chromium.org>
-From: Fei Shao <fshao@chromium.org>
-Date: Wed, 16 Oct 2024 21:30:10 +0800
-X-Gmail-Original-Message-ID: <CAC=S1niFFuKiw1hC-pV-dSVP_cd6YiAU+7a7xLYgokLc-DtOcQ@mail.gmail.com>
-Message-ID: <CAC=S1niFFuKiw1hC-pV-dSVP_cd6YiAU+7a7xLYgokLc-DtOcQ@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/mediatek: Fix color format MACROs in OVL
-To: Hsin-Te Yuan <yuanhsinte@chromium.org>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- dri-devel@lists.freedesktop.org, 
- linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, dianders@chromium.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241016053626.2850384-1-arun.r.murthy@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,64 +72,169 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 16, 2024 at 7:10=E2=80=AFPM Hsin-Te Yuan <yuanhsinte@chromium.o=
-rg> wrote:
->
-> In commit 9f428b95ac89 ("drm/mediatek: Add new color format MACROs in
-> OVL"), some new color formats are defined in the MACROs to make the
-> switch statement more concise. That commit was intended to be a no-op
-> cleanup. However, there are typos in these formats MACROs, which cause
-> the return value to be incorrect. Fix the typos to ensure the return
-> value remains unchanged.
->
-> Fixes: 9f428b95ac89 ("drm/mediatek: Add new color format MACROs in OVL")
-> Signed-off-by: Hsin-Te Yuan <yuanhsinte@chromium.org>
+On Wed, Oct 16, 2024 at 11:06:26AM +0530, Arun R Murthy wrote:
+> Create a i915 private plane property for sharing the async supported
+> modifiers to the user.
+> UMD related discussion requesting the same
+> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/29618#note_2487123
+> 
+> Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
 > ---
-> Changes in v2:
-> - Clarify that the commit get fixed was intended to be a no-op cleanup
-> - Fix the typo in tag
-> - Link to v1: https://lore.kernel.org/r/20241015-color-v1-1-35b01fa0a826@=
-chromium.org
-> ---
->  drivers/gpu/drm/mediatek/mtk_disp_ovl.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/me=
-diatek/mtk_disp_ovl.c
-> index 89b439dcf3a6af9f5799487fdc0f128a9b5cbe4a..1632ac5c23d87e1cdc41013a9=
-cf7864728dcb63b 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-> @@ -65,8 +65,8 @@
->  #define OVL_CON_CLRFMT_RGB     (1 << 12)
->  #define OVL_CON_CLRFMT_ARGB8888        (2 << 12)
->  #define OVL_CON_CLRFMT_RGBA8888        (3 << 12)
-> -#define OVL_CON_CLRFMT_ABGR8888        (OVL_CON_CLRFMT_RGBA8888 | OVL_CO=
-N_BYTE_SWAP)
-> -#define OVL_CON_CLRFMT_BGRA8888        (OVL_CON_CLRFMT_ARGB8888 | OVL_CO=
-N_BYTE_SWAP)
-> +#define OVL_CON_CLRFMT_ABGR8888        (OVL_CON_CLRFMT_ARGB8888 | OVL_CO=
-N_BYTE_SWAP)
-> +#define OVL_CON_CLRFMT_BGRA8888        (OVL_CON_CLRFMT_RGBA8888 | OVL_CO=
-N_BYTE_SWAP)
->  #define OVL_CON_CLRFMT_UYVY    (4 << 12)
->  #define OVL_CON_CLRFMT_YUYV    (5 << 12)
->  #define OVL_CON_MTX_YUV_TO_RGB (6 << 16)
->
-> ---
-> base-commit: 75b607fab38d149f232f01eae5e6392b394dd659
-> change-id: 20241015-color-e205e75b64aa
->
-> Best regards,
-> --
-> Hsin-Te Yuan <yuanhsinte@chromium.org>
->
+>  .../gpu/drm/i915/display/intel_atomic_plane.c |  6 +++
+>  .../drm/i915/display/intel_display_types.h    |  4 ++
+>  .../drm/i915/display/skl_universal_plane.c    | 49 ++++++++++++++++++-
 
-You missed Doug's R-b tag in v1:
-https://lore.kernel.org/all/CAD=3DFV=3DXrrhUoB9=3DJuPY2erLMA7S-EREqvP5t8NNu=
-BuUiA4rZjQ@mail.gmail.com/
+This whole thing belongs in the drm core.
 
-Can you resend v3 with both R-b tags this time?
+>  3 files changed, 58 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_atomic_plane.c b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
+> index b7e462075ded..ef41b50cc765 100644
+> --- a/drivers/gpu/drm/i915/display/intel_atomic_plane.c
+> +++ b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
+> @@ -117,6 +117,9 @@ intel_plane_duplicate_state(struct drm_plane *plane)
+>  	intel_state->dpt_vma = NULL;
+>  	intel_state->flags = 0;
+>  
+> +	if (intel_state->async_sup_modifiers)
+> +		drm_property_blob_get(intel_state->async_sup_modifiers);
+> +
+>  	/* add reference to fb */
+>  	if (intel_state->hw.fb)
+>  		drm_framebuffer_get(intel_state->hw.fb);
+> @@ -141,6 +144,9 @@ intel_plane_destroy_state(struct drm_plane *plane,
+>  	drm_WARN_ON(plane->dev, plane_state->ggtt_vma);
+>  	drm_WARN_ON(plane->dev, plane_state->dpt_vma);
+>  
+> +	if (plane_state->async_sup_modifiers)
+> +		drm_property_blob_put(plane_state->async_sup_modifiers);
+> +
+>  	__drm_atomic_helper_plane_destroy_state(&plane_state->uapi);
+>  	if (plane_state->hw.fb)
+>  		drm_framebuffer_put(plane_state->hw.fb);
+> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
+> index 2bb1fa64da2f..a5a301ca521a 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
+> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
+> @@ -683,6 +683,8 @@ struct intel_plane_state {
+>  	u64 ccval;
+>  
+>  	const char *no_fbc_reason;
+> +
+> +	struct drm_property_blob *async_sup_modifiers;
+>  };
+>  
+>  struct intel_initial_plane_config {
+> @@ -1435,6 +1437,8 @@ struct intel_plane {
+>  
+>  	struct intel_fbc *fbc;
+>  
+> +	struct drm_property *async_modifiers_property;
+> +
+>  	/*
+>  	 * NOTE: Do not place new plane state fields here (e.g., when adding
+>  	 * new plane properties).  New runtime state should now be placed in
+> diff --git a/drivers/gpu/drm/i915/display/skl_universal_plane.c b/drivers/gpu/drm/i915/display/skl_universal_plane.c
+> index 9557b08ca2e2..6790bdf00c8f 100644
+> --- a/drivers/gpu/drm/i915/display/skl_universal_plane.c
+> +++ b/drivers/gpu/drm/i915/display/skl_universal_plane.c
+> @@ -2383,6 +2383,29 @@ static bool icl_plane_format_mod_supported(struct drm_plane *_plane,
+>  	}
+>  }
+>  
+> +static int intel_plane_get_property(struct drm_plane *plane,
+> +				    const struct drm_plane_state *state,
+> +				    struct drm_property *property,
+> +				    uint64_t *val)
+> +{
+> +	struct drm_i915_private *i915 = to_i915(plane->dev);
+> +	const struct intel_plane_state *intel_plane_state =
+> +		to_intel_plane_state(state);
+> +	struct intel_plane *intel_plane = to_intel_plane(plane);
+> +
+> +	if (property == intel_plane->async_modifiers_property) {
+> +		*val = intel_plane_state->async_sup_modifiers ?
+> +			intel_plane_state->async_sup_modifiers->base.id : 0;
+> +	} else {
+> +		drm_err(&i915->drm,
+> +			"Unknown property [PROP:%d:%s]\n",
+> +			property->base.id, property->name);
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  static bool tgl_plane_format_mod_supported(struct drm_plane *_plane,
+>  					   u32 format, u64 modifier)
+>  {
+> @@ -2442,6 +2465,7 @@ static const struct drm_plane_funcs skl_plane_funcs = {
+>  	.atomic_duplicate_state = intel_plane_duplicate_state,
+>  	.atomic_destroy_state = intel_plane_destroy_state,
+>  	.format_mod_supported = skl_plane_format_mod_supported,
+> +	.atomic_get_property = intel_plane_get_property,
+>  };
+>  
+>  static const struct drm_plane_funcs icl_plane_funcs = {
+> @@ -2451,6 +2475,7 @@ static const struct drm_plane_funcs icl_plane_funcs = {
+>  	.atomic_duplicate_state = intel_plane_duplicate_state,
+>  	.atomic_destroy_state = intel_plane_destroy_state,
+>  	.format_mod_supported = icl_plane_format_mod_supported,
+> +	.atomic_get_property = intel_plane_get_property,
+>  };
+>  
+>  static const struct drm_plane_funcs tgl_plane_funcs = {
+> @@ -2460,6 +2485,7 @@ static const struct drm_plane_funcs tgl_plane_funcs = {
+>  	.atomic_duplicate_state = intel_plane_duplicate_state,
+>  	.atomic_destroy_state = intel_plane_destroy_state,
+>  	.format_mod_supported = tgl_plane_format_mod_supported,
+> +	.atomic_get_property = intel_plane_get_property,
+>  };
+>  
+>  static void
+> @@ -2549,6 +2575,25 @@ static u8 skl_get_plane_caps(struct drm_i915_private *i915,
+>  	return caps;
+>  }
+>  
+> +static void intel_plane_attach_async_modifiers_property(struct intel_plane *intel_plane)
+> +{
+> +	struct drm_plane *plane = &intel_plane->base;
+> +	struct drm_device *dev = plane->dev;
+> +	struct drm_property *prop;
+> +
+> +	prop = intel_plane->async_modifiers_property;
+> +	if (!prop) {
+> +		prop = drm_property_create(dev, DRM_MODE_PROP_BLOB | DRM_MODE_PROP_ATOMIC,
+> +					   "Async Supported Modifiers", 0);
+> +		if (!prop)
+> +			return;
+> +
+> +		intel_plane->async_modifiers_property = prop;
+> +	}
+> +
+> +	drm_object_attach_property(&plane->base, prop, 0);
+> +}
+> +
+>  struct intel_plane *
+>  skl_universal_plane_create(struct drm_i915_private *dev_priv,
+>  			   enum pipe pipe, enum plane_id plane_id)
+> @@ -2694,10 +2739,12 @@ skl_universal_plane_create(struct drm_i915_private *dev_priv,
+>  	if (DISPLAY_VER(dev_priv) >= 12)
+>  		drm_plane_enable_fb_damage_clips(&plane->base);
+>  
+> -	if (DISPLAY_VER(dev_priv) >= 11)
+> +	if (DISPLAY_VER(dev_priv) >= 11) {
+>  		drm_plane_create_scaling_filter_property(&plane->base,
+>  						BIT(DRM_SCALING_FILTER_DEFAULT) |
+>  						BIT(DRM_SCALING_FILTER_NEAREST_NEIGHBOR));
+> +		intel_plane_attach_async_modifiers_property(plane);
+> +	}
+>  
+>  	intel_plane_helper_add(plane);
+>  
+> -- 
+> 2.25.1
 
-Thanks,
-Fei
+-- 
+Ville Syrjälä
+Intel
