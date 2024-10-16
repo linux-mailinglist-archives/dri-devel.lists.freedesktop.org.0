@@ -2,70 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E1109A135F
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Oct 2024 22:08:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 152E19A137B
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Oct 2024 22:12:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFE3010E769;
-	Wed, 16 Oct 2024 20:08:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD6C210E77A;
+	Wed, 16 Oct 2024 20:11:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Ee6OGQQy";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="GQUKy8HH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com
- [209.85.222.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B29310E769
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Oct 2024 20:08:14 +0000 (UTC)
-Received: by mail-qk1-f196.google.com with SMTP id
- af79cd13be357-7b115d0d7f8so111435585a.0
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Oct 2024 13:08:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1729109293; x=1729714093; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=xo/VBxOKFH/TmGJuUnZWn7QS7QFDBk9dtLuBtP6fhKE=;
- b=Ee6OGQQyLfB8KqkVCLlAPTiWXfWUnLFQ+ftMCjwzCAeENtHr85/m6iutJ1DcZx47Kp
- 0lNXi0oIjQO3Q2xhBUYwfAokFJTdunnDL7LKjXskWWRdc3Q/YwE8Y/sKdGVSzrdwmFAv
- XB22rS2fjXt1Ha5ofWwJn8aHdKPEN9yhkn40xlLt5QJXkuZ3kz+Jy2TZrbm+TkQ638LO
- i9uJ9r3G+HNV2NWozlMikHxyu26nDGy4Hziicv+Q457xyAI3yNitwsQkThoUy2dfmFTJ
- t2yJHeJQfnirlvzqNZt9fVeik0buRY349fKw6OZUKbY0tsMDGRAagmCz9pTRCu51wqg3
- lV4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729109293; x=1729714093;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=xo/VBxOKFH/TmGJuUnZWn7QS7QFDBk9dtLuBtP6fhKE=;
- b=BsawUWQxsgoj/rbcNYgO6vhLex4K7EqmmSa8VOD7O8btxc7uJvWxxtk05g5RU5tvh9
- uXH1UBDwpFn+zbMLQngTsmRtU+Tn91nST2w5uy2wEzAqdqcF2ZA2u1f/25Xb1Ncdh3mL
- 9JhHxKVeqwrOa61+ZMh3kymcnNb8/BFhWinK/wloi6ApvWG4cU230av4dIpQEizfWmMS
- KySEmOxlImED7tH4dSgcdsj/sNxDlZzk/Zy5eQeEwEglm1WjcaOKnoJKQoCI+0u/0sjq
- hKO+KcTKQCDOtcjndlp1846qcWvQfkjT0tmlYeu8OOq+g5+oVcN1auC/LmJb77Qbtokb
- zwPA==
-X-Gm-Message-State: AOJu0YxjuJJU0NeVvz1NE4robptZr/Oq7hDM+4O8QZWsaF5RY/kC9DND
- 7uGMluWuS4TiwULlJ08G9UyyY8cmVutzoJ9BytFF0V9HpOC4/IU2
-X-Google-Smtp-Source: AGHT+IGqzpMWnAtWSKXsmhZf+cVv4uS+uDJF6vqc9SzgpRrXL8Am/lH5oizptIoGSFk3X614I1khTQ==
-X-Received: by 2002:a05:620a:3181:b0:7a6:6b97:4da2 with SMTP id
- af79cd13be357-7b14d4f6069mr131156685a.11.1729109293178; 
- Wed, 16 Oct 2024 13:08:13 -0700 (PDT)
-Received: from localhost.localdomain (mobile-130-126-255-54.near.illinois.edu.
- [130.126.255.54]) by smtp.gmail.com with ESMTPSA id
- af79cd13be357-7b136397252sm223113285a.80.2024.10.16.13.08.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Oct 2024 13:08:12 -0700 (PDT)
-From: Gax-c <zichenxie0106@gmail.com>
-To: hjc@rock-chips.com, heiko@sntech.de, andy.yan@rock-chips.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, markyao0591@gmail.com
-Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, chenyuan0y@gmail.com,
- zzjas98@gmail.com, Zichen Xie <zichenxie0106@gmail.com>
-Subject: [PATCH] drm/rockchip: fix potential integer overflow in
- rockchip_gem_dumb_create()
-Date: Wed, 16 Oct 2024 15:06:55 -0500
-Message-Id: <20241016200654.13472-1-zichenxie0106@gmail.com>
-X-Mailer: git-send-email 2.25.1
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91D9C10E770
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Oct 2024 20:11:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1729109515;
+ bh=wMMMSBEtO//hNRrqnvuJxHE7i3VytWAet/SFOjJlcPg=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=GQUKy8HHXHg7k/uaFBtaX446bbWo/EEXU6VejI+SL02D40oY3f7hd8BrPBJneJ49n
+ nIqJEy+sYkmmtf7b1az/b7AqehAGL7655wy8z9kKk8mFlswhgOVESkCcB9hlYIPxKt
+ UNo2Y/MYZq/OniClYOj+6fyg0U7ZR4wXwaSJjEExoyZRgNcLklnlTqwsDVGe/hFHfW
+ uoCc5Q2knfDiTQU93gJipKttIHVonkViRijZ854hekKLuMg0hSJ8IWae4vj0pxSGrF
+ kMEP+25j9Ezqu3ryUSSoy0YQR/TyNzCqPMnaHC+uV2QLPLLgUuyzUWZU9IytQ05024
+ NvbjuwNpSueUg==
+Received: from [192.168.1.90] (unknown [188.24.146.62])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: cristicc)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id F1F5D17E36CA;
+ Wed, 16 Oct 2024 22:11:53 +0200 (CEST)
+Message-ID: <e5f1d4ea-4b8d-4f42-9025-5291baddf7e5@collabora.com>
+Date: Wed, 16 Oct 2024 23:11:53 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 3/3] drm/rockchip: Add basic RK3588 HDMI output support
+To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
+ =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Mark Yao <markyao0591@gmail.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Simona Vetter <simona@ffwll.ch>,
+ Simona Vetter <simona.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
+ kernel@collabora.com, Alexandre ARNOUD <aarnoud@me.com>,
+ Luis de Arquer <ldearquer@gmail.com>, Algea Cao <algea.cao@rock-chips.com>
+References: <20241010-b4-rk3588-bridge-upstream-v9-0-68c47dde0410@collabora.com>
+ <20241010-b4-rk3588-bridge-upstream-v9-3-68c47dde0410@collabora.com>
+ <3wjk75z2ozz2lg7qx6by3phjoe2brov6rz4jezpowrreedjua6@wt2js5hzqqdi>
+Content-Language: en-US
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+In-Reply-To: <3wjk75z2ozz2lg7qx6by3phjoe2brov6rz4jezpowrreedjua6@wt2js5hzqqdi>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -82,36 +78,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Zichen Xie <zichenxie0106@gmail.com>
+Hi,
 
-There may be potential integer overflow issue in
-rockchip_gem_dumb_create(). args->size is defined
-as "__u64" while args->pitch and args->height are
-both defined as "__u32". The result of
-"args->pitch * args->height" will be limited to
-"__u32" without correct casting.
-Cast it to "__u64" first to avoid possible
-integer overflow.
+On 10/16/24 12:27 PM, Uwe Kleine-König wrote:
+> Hello,
+> 
+> On Thu, Oct 10, 2024 at 01:40:51AM +0300, Cristian Ciocaltea wrote:
+>> +struct platform_driver dw_hdmi_qp_rockchip_pltfm_driver = {
+>> +	.probe  = dw_hdmi_qp_rockchip_probe,
+>> +	.remove_new = dw_hdmi_qp_rockchip_remove,
+>> +	.driver = {
+>> +		.name = "dwhdmiqp-rockchip",
+>> +		.pm = &dw_hdmi_qp_rockchip_pm,
+>> +		.of_match_table = dw_hdmi_qp_rockchip_dt_ids,
+>> +	},
+>> +};
+> 
+> After commit 0edb555a65d1 ("platform: Make platform_driver::remove()
+> return void") .remove() is (again) the right callback to implement for
+> platform drivers. Please just drop "_new".
+> 
+> Additionally I suggest to drop one of the white spaces between .probe
+> and =.
 
-Fixes: e3c4abdb3bc9 ("drm/rockchip: fix wrong pitch/size using on gem")
-Signed-off-by: Zichen Xie <zichenxie0106@gmail.com>
----
- drivers/gpu/drm/rockchip/rockchip_drm_gem.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Handled both in v10 [1].
 
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_gem.c b/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
-index 93ed841f5dce..76dea12fe394 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
-@@ -409,7 +409,7 @@ int rockchip_gem_dumb_create(struct drm_file *file_priv,
- 	 * align to 64 bytes since Mali requires it.
- 	 */
- 	args->pitch = ALIGN(min_pitch, 64);
--	args->size = args->pitch * args->height;
-+	args->size = (__u64)args->pitch * args->height;
- 
- 	rk_obj = rockchip_gem_create_with_handle(file_priv, dev, args->size,
- 						 &args->handle);
--- 
-2.25.1
+Thanks,
+Cristian
 
+[1] https://lore.kernel.org/all/20241016-b4-rk3588-bridge-upstream-v10-0-87ef92a6d14e@collabora.com/
