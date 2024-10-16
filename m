@@ -2,53 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AA2F9A0939
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Oct 2024 14:20:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F0A29A099C
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Oct 2024 14:27:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DCF410E606;
-	Wed, 16 Oct 2024 12:20:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9744310E054;
+	Wed, 16 Oct 2024 12:26:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="mkxBI8u7";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WaL1lnYN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A265210E5BA
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Oct 2024 12:20:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=iOkftygLPLPVbbvsxtoHAGwq1rn6j8Q73fLTTY1s9Qo=; b=mkxBI8u7bR0/czx21cNK9A/kzt
- 1xxyiN54/1fA6mMQQGYDKfPlfr/5t7kePNMUBRlAOZt0NtNcUO1wbOasRqmBByqyygGEQ5W84b7Mv
- yWYxNPOeaJAVsrse01uJJIOxSNkVNPS4z+iLScd1mLHu94aYfsWar06YtiOolhVvKEmFq5VB1HaIx
- dHnGMgqnv8vSQmK5yj5mpmanw40qapOsNz2AHCDWsRNhH+tz4AKuObHqjnq81XbFXWDwY72FfNQ1y
- kzJcnWwObZ1l0wvf2kpGjGI8uh/lHs+LHu5EDYRCXFlGxV/wT1P1se0UR6MW0CZA6WiQdSlZ8mCbd
- WloIlesQ==;
-Received: from [90.241.98.187] (helo=localhost)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1t130l-00Ajj0-QL; Wed, 16 Oct 2024 14:20:19 +0200
-From: Tvrtko Ursulin <tursulin@igalia.com>
-To: dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Luben Tuikov <ltuikov89@gmail.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Philipp Stanner <pstanner@redhat.com>
-Subject: [PATCH 5/5] drm/sched: Further optimise drm_sched_entity_push_job
-Date: Wed, 16 Oct 2024 13:20:13 +0100
-Message-ID: <20241016122013.7857-6-tursulin@igalia.com>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20241016122013.7857-1-tursulin@igalia.com>
-References: <20241016122013.7857-1-tursulin@igalia.com>
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
+ [209.85.208.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9764210E054
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Oct 2024 12:26:57 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id
+ 4fb4d7f45d1cf-5c9709c9b0cso5283333a12.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Oct 2024 05:26:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1729081616; x=1729686416; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=o5XkYbhD7GQ/UM3/ZFxDvMxdDBYYQYu99C2uqRsaiV8=;
+ b=WaL1lnYNfhI4tYvWB3TBR8JCSWDmj1Drh+u1zo4pc1ecJ87YuSdQfxuLmSO2ChTLjp
+ pGdlO6Lk4G5D+sgOj2qtOy6eaGVphdNUKCJh4sgKeBT0KH52gjbe/x67oX60aj4+aN5m
+ rCzwr4UAD1JgjE57pEILALxPGbvu/tnFbl2N0bvh0663VhOfIGPHDWAEPjqqgp/OtjZt
+ Lc3ECLeL7fbbIaz49JEZkqYi2FSDcz141z9fKiLaaSmZBrnNBWedrbSiqC8vQFg6Oq2D
+ Vg/VH8fVBOddbXv8gRrEVdYj1CZi3xQSlTQBxi83bu0iEv3zyLcwpyLLKMVTdpxpM4MU
+ zCCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1729081616; x=1729686416;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=o5XkYbhD7GQ/UM3/ZFxDvMxdDBYYQYu99C2uqRsaiV8=;
+ b=Rhw2JJeqh0F3R+XyjW8Z5GZ9Li2TDsZmcRRyyFXb0fg9qJnLCN2Y+bLDPHqc7vWowj
+ q0en464AR9z638d8nlURo4RncXqeAyCFxrIkJeoTiODynGjKb2P6cgObrlXzQWAZSLpX
+ xIX1RJxqeh5CUxG4DeFTw0pH7K1OwRhDxpZpCxdSBR4dBEVHLrbADFkSjeNeYLjRCaqq
+ /49uvZbANuTG/Lm1XMynZ0O/VYlDud58DOzsgw6ekKo/xDSUPnPxo+zF6bGkh6TqxEQa
+ wPrNGTuSo0B7adGGcxBeJyR7wbkf1wdKJYLEhPdoWBE1+lzyEQ/sH2RyxvJHshs59gzH
+ aXzA==
+X-Gm-Message-State: AOJu0YzqSmWAeAumkBdgHWl+VG/EkHBCf2nEZz7K92FNp9Al3N4w9zFI
+ Nj0a1brJCi5jIobFmrDT92aY/pH2p4pdvsuctZtBS9Fpg2iomKIR
+X-Google-Smtp-Source: AGHT+IFcnPGvv+07WP6skyv4hg/FfgbGscqMu7BmRbPY69IWoa1LmdxhGPZoAcM+AnYli8pZGFn0ow==
+X-Received: by 2002:a05:6402:5210:b0:5c9:4a36:8f4e with SMTP id
+ 4fb4d7f45d1cf-5c94a369527mr13528544a12.25.1729081615530; 
+ Wed, 16 Oct 2024 05:26:55 -0700 (PDT)
+Received: from [192.168.42.132] ([81.95.8.245])
+ by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-5c98d4d63fesm1659905a12.13.2024.10.16.05.26.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Oct 2024 05:26:53 -0700 (PDT)
+Message-ID: <8d35081d-74cd-4d4c-ae31-b3b4e8ce65de@gmail.com>
+Date: Wed, 16 Oct 2024 14:26:51 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/mediatek: Fix color format MACROs in OVL
+To: Hsin-Te Yuan <yuanhsinte@chromium.org>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ dianders@chromium.org
+References: <20241016-color-v2-1-46db5c78a54f@chromium.org>
+Content-Language: en-US
+From: Matthias Brugger <matthias.bgg@gmail.com>
+In-Reply-To: <20241016-color-v2-1-46db5c78a54f@chromium.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,174 +88,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 
-Having removed one re-lock cycle on the entity->lock in a patch titled
-"drm/sched: Optimise drm_sched_entity_push_job", with only a tiny bit
-larger refactoring we can do the same optimisation on the rq->lock.
-(Currently both drm_sched_rq_add_entity() and
-drm_sched_rq_update_fifo_locked() take and release the same lock.)
 
-To achieve this we make drm_sched_rq_update_fifo_locked() and
-drm_sched_rq_add_entity() expect the rq->lock to be held.
+On 10/16/24 13:08, Hsin-Te Yuan wrote:
+> In commit 9f428b95ac89 ("drm/mediatek: Add new color format MACROs in
+> OVL"), some new color formats are defined in the MACROs to make the
+> switch statement more concise. That commit was intended to be a no-op
+> cleanup. However, there are typos in these formats MACROs, which cause
+> the return value to be incorrect. Fix the typos to ensure the return
+> value remains unchanged.
+> 
+> Fixes: 9f428b95ac89 ("drm/mediatek: Add new color format MACROs in OVL")
+> Signed-off-by: Hsin-Te Yuan <yuanhsinte@chromium.org>
 
-We also align drm_sched_rq_update_fifo_locked(),
-drm_sched_rq_add_entity() and
-drm_sched_rq_remove_fifo_locked() function signatures, by adding rq as a
-parameter to the latter.
+Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
 
-v2:
- * Fix after rebase of the series.
- * Avoid naming inconsistency between drm_sched_rq_add/remove. (Christian)
-
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: Luben Tuikov <ltuikov89@gmail.com>
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: Philipp Stanner <pstanner@redhat.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
-Reviewed-by: Philipp Stanner <pstanner@redhat.com>
----
- drivers/gpu/drm/scheduler/sched_entity.c | 11 +++++++--
- drivers/gpu/drm/scheduler/sched_main.c   | 29 ++++++++++++------------
- include/drm/gpu_scheduler.h              |  3 ++-
- 3 files changed, 25 insertions(+), 18 deletions(-)
-
-diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-index c013c2b49aa5..69bcf0e99d57 100644
---- a/drivers/gpu/drm/scheduler/sched_entity.c
-+++ b/drivers/gpu/drm/scheduler/sched_entity.c
-@@ -515,9 +515,14 @@ struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
- 
- 		next = to_drm_sched_job(spsc_queue_peek(&entity->job_queue));
- 		if (next) {
-+			struct drm_sched_rq *rq;
-+
- 			spin_lock(&entity->lock);
--			drm_sched_rq_update_fifo_locked(entity,
-+			rq = entity->rq;
-+			spin_lock(&rq->lock);
-+			drm_sched_rq_update_fifo_locked(entity, rq,
- 							next->submit_ts);
-+			spin_unlock(&rq->lock);
- 			spin_unlock(&entity->lock);
- 		}
- 	}
-@@ -616,11 +621,13 @@ void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
- 		rq = entity->rq;
- 		sched = rq->sched;
- 
-+		spin_lock(&rq->lock);
- 		drm_sched_rq_add_entity(rq, entity);
- 
- 		if (drm_sched_policy == DRM_SCHED_POLICY_FIFO)
--			drm_sched_rq_update_fifo_locked(entity, submit_ts);
-+			drm_sched_rq_update_fifo_locked(entity, rq, submit_ts);
- 
-+		spin_unlock(&rq->lock);
- 		spin_unlock(&entity->lock);
- 
- 		drm_sched_wakeup(sched);
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index 2670bf9f34b2..6e4d004d09ce 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -159,17 +159,18 @@ static __always_inline bool drm_sched_entity_compare_before(struct rb_node *a,
- 	return ktime_before(ent_a->oldest_job_waiting, ent_b->oldest_job_waiting);
- }
- 
--static inline void drm_sched_rq_remove_fifo_locked(struct drm_sched_entity *entity)
-+static void drm_sched_rq_remove_fifo_locked(struct drm_sched_entity *entity,
-+					    struct drm_sched_rq *rq)
- {
--	struct drm_sched_rq *rq = entity->rq;
--
- 	if (!RB_EMPTY_NODE(&entity->rb_tree_node)) {
- 		rb_erase_cached(&entity->rb_tree_node, &rq->rb_tree_root);
- 		RB_CLEAR_NODE(&entity->rb_tree_node);
- 	}
- }
- 
--void drm_sched_rq_update_fifo_locked(struct drm_sched_entity *entity, ktime_t ts)
-+void drm_sched_rq_update_fifo_locked(struct drm_sched_entity *entity,
-+				     struct drm_sched_rq *rq,
-+				     ktime_t ts)
- {
- 	/*
- 	 * Both locks need to be grabbed, one to protect from entity->rq change
-@@ -177,17 +178,14 @@ void drm_sched_rq_update_fifo_locked(struct drm_sched_entity *entity, ktime_t ts
- 	 * other to update the rb tree structure.
- 	 */
- 	lockdep_assert_held(&entity->lock);
-+	lockdep_assert_held(&rq->lock);
- 
--	spin_lock(&entity->rq->lock);
--
--	drm_sched_rq_remove_fifo_locked(entity);
-+	drm_sched_rq_remove_fifo_locked(entity, rq);
- 
- 	entity->oldest_job_waiting = ts;
- 
--	rb_add_cached(&entity->rb_tree_node, &entity->rq->rb_tree_root,
-+	rb_add_cached(&entity->rb_tree_node, &rq->rb_tree_root,
- 		      drm_sched_entity_compare_before);
--
--	spin_unlock(&entity->rq->lock);
- }
- 
- /**
-@@ -219,15 +217,14 @@ static void drm_sched_rq_init(struct drm_gpu_scheduler *sched,
- void drm_sched_rq_add_entity(struct drm_sched_rq *rq,
- 			     struct drm_sched_entity *entity)
- {
-+	lockdep_assert_held(&entity->lock);
-+	lockdep_assert_held(&rq->lock);
-+
- 	if (!list_empty(&entity->list))
- 		return;
- 
--	spin_lock(&rq->lock);
--
- 	atomic_inc(rq->sched->score);
- 	list_add_tail(&entity->list, &rq->entities);
--
--	spin_unlock(&rq->lock);
- }
- 
- /**
-@@ -241,6 +238,8 @@ void drm_sched_rq_add_entity(struct drm_sched_rq *rq,
- void drm_sched_rq_remove_entity(struct drm_sched_rq *rq,
- 				struct drm_sched_entity *entity)
- {
-+	lockdep_assert_held(&entity->lock);
-+
- 	if (list_empty(&entity->list))
- 		return;
- 
-@@ -253,7 +252,7 @@ void drm_sched_rq_remove_entity(struct drm_sched_rq *rq,
- 		rq->current_entity = NULL;
- 
- 	if (drm_sched_policy == DRM_SCHED_POLICY_FIFO)
--		drm_sched_rq_remove_fifo_locked(entity);
-+		drm_sched_rq_remove_fifo_locked(entity, rq);
- 
- 	spin_unlock(&rq->lock);
- }
-diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index 8ef33765b3b8..e29960c724eb 100644
---- a/include/drm/gpu_scheduler.h
-+++ b/include/drm/gpu_scheduler.h
-@@ -596,7 +596,8 @@ void drm_sched_rq_add_entity(struct drm_sched_rq *rq,
- void drm_sched_rq_remove_entity(struct drm_sched_rq *rq,
- 				struct drm_sched_entity *entity);
- 
--void drm_sched_rq_update_fifo_locked(struct drm_sched_entity *entity, ktime_t ts);
-+void drm_sched_rq_update_fifo_locked(struct drm_sched_entity *entity,
-+				     struct drm_sched_rq *rq, ktime_t ts);
- 
- int drm_sched_entity_init(struct drm_sched_entity *entity,
- 			  enum drm_sched_priority priority,
--- 
-2.46.0
+> ---
+> Changes in v2:
+> - Clarify that the commit get fixed was intended to be a no-op cleanup
+> - Fix the typo in tag
+> - Link to v1: https://lore.kernel.org/r/20241015-color-v1-1-35b01fa0a826@chromium.org
+> ---
+>   drivers/gpu/drm/mediatek/mtk_disp_ovl.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
+> index 89b439dcf3a6af9f5799487fdc0f128a9b5cbe4a..1632ac5c23d87e1cdc41013a9cf7864728dcb63b 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
+> @@ -65,8 +65,8 @@
+>   #define OVL_CON_CLRFMT_RGB	(1 << 12)
+>   #define OVL_CON_CLRFMT_ARGB8888	(2 << 12)
+>   #define OVL_CON_CLRFMT_RGBA8888	(3 << 12)
+> -#define OVL_CON_CLRFMT_ABGR8888	(OVL_CON_CLRFMT_RGBA8888 | OVL_CON_BYTE_SWAP)
+> -#define OVL_CON_CLRFMT_BGRA8888	(OVL_CON_CLRFMT_ARGB8888 | OVL_CON_BYTE_SWAP)
+> +#define OVL_CON_CLRFMT_ABGR8888	(OVL_CON_CLRFMT_ARGB8888 | OVL_CON_BYTE_SWAP)
+> +#define OVL_CON_CLRFMT_BGRA8888	(OVL_CON_CLRFMT_RGBA8888 | OVL_CON_BYTE_SWAP)
+>   #define OVL_CON_CLRFMT_UYVY	(4 << 12)
+>   #define OVL_CON_CLRFMT_YUYV	(5 << 12)
+>   #define OVL_CON_MTX_YUV_TO_RGB	(6 << 16)
+> 
+> ---
+> base-commit: 75b607fab38d149f232f01eae5e6392b394dd659
+> change-id: 20241015-color-e205e75b64aa
+> 
+> Best regards,
 
