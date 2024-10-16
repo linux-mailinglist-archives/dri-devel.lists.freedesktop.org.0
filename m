@@ -2,56 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD3229A1261
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Oct 2024 21:19:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C8D29A1288
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Oct 2024 21:29:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E557B10E181;
-	Wed, 16 Oct 2024 19:19:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5CFF10E756;
+	Wed, 16 Oct 2024 19:29:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=proton.me header.i=@proton.me header.b="es/QFLE+";
+	dkim=pass (2048-bit key; unprotected) header.d=deltatee.com header.i=@deltatee.com header.b="ZjyhWYi3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5475410E181
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Oct 2024 19:19:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
- s=bylu2pig5vgtbgkyzos4fvvlim.protonmail; t=1729106348; x=1729365548;
- bh=VokmqUex0gxEbClNcfMI1HcrZ3mz/pDmExmI02fcrHU=;
- h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
- Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
- Message-ID:BIMI-Selector;
- b=es/QFLE+trj1jXjWwLbJDsxsgI6ZpXekFOwUB1GMPjFzmxT/lMlj5WU5LusWoHXSO
- a4e1S8jOD+75MoYRIC4FnwAc/TL/K72JOgBs1DhuH+LO7uDKTRHjCb1XWDWOzvxnSy
- V4pARN5UhVZjSQy+3HEVoyr22Kh8i5gEmLohrBQekUv6jVnOajDkY0o1KDIdfehT04
- AjwkY16weo6/bzFDXceDOtu2A+Gx9zDvou/+hFrg5gPq8TRdSTw+7JdX1PpZPBvzDG
- bAGQjHey8YX0i8uEquxoRlM1I/ATn3R8Q7ZblplwlKCN96NvPrifWeiOjVNAjvJbA3
- 2hG6WQIa2FNdw==
-Date: Wed, 16 Oct 2024 19:19:05 +0000
-To: Daniel Stone <daniel@fooishbar.org>
-From: Piotr Zalewski <pZ010001011111@proton.me>
-Cc: Andy Yan <andyshrk@163.com>, hjc@rock-chips.com, heiko@sntech.de,
- andy.yan@rock-chips.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- skhan@linuxfoundation.org, Dragan Simic <dsimic@manjaro.org>,
- Diederik de Haas <didi.debian@cknow.org>
-Subject: Re: Re:Re:[PATCH v5] rockchip/drm: vop2: add support for gamma LUT
-Message-ID: <kYKfHO8oonY1wP8ZvanmTnvgjGfw0uek8cmMIV99Bc6zO3EE32B2LKaypAphAxVJKx2I-Lnd3CzvyTRVAaM4xhj75z7dOzlp7xPMlFQKRN0=@proton.me>
-In-Reply-To: <CAPj87rOmPyat12S4WUixiUBAsuAEEbyNX5VY2JS+wn5a1jux0A@mail.gmail.com>
-References: <20241014222022.571819-4-pZ010001011111@proton.me>
- <7b45f190.452f.1928e41b746.Coremail.andyshrk@163.com>
- <o_Cyz_ARcHj4zNlovv75MBwslIRhn3YWlscoNrlpLVobh7eWIMEQR5bNv0yhHx2KEx_gbYi_gH-8Y-CdvRZs9lZscz3-lhAbM50GXUdtSKY=@proton.me>
- <30940542.b36d.19290215124.Coremail.andyshrk@163.com>
- <1974DYrs9gLrQrZ5VwCglFgKDDK686iyqnS_g6uPB-s9wZ_4CqfZXPjmYWihLgrkRu7ptNjpkFeqB0uTt73RFId6cL8FowQ8LFltPmaKCoI=@proton.me>
- <1ae9f15d.e52.19292e05e73.Coremail.andyshrk@163.com>
- <CAPj87rOmPyat12S4WUixiUBAsuAEEbyNX5VY2JS+wn5a1jux0A@mail.gmail.com>
-Feedback-ID: 53478694:user:proton
-X-Pm-Message-ID: e2497491b4b02a9caaaac23dabf6ca08f7b82d0a
+Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 607A610E756;
+ Wed, 16 Oct 2024 19:29:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=deltatee.com; s=20200525; h=Subject:In-Reply-To:From:References:Cc:To:
+ MIME-Version:Date:Message-ID:content-disposition;
+ bh=E3pz5NktMcCGwJTcSzoyiX83mvd/y+YLGX6taQ43k9c=; b=ZjyhWYi3kKoj0lDPInjmIHNWv7
+ p1AGmi/U/v97PQhWcRgzXCPMQh00dWWn/8/kL7Z58Qfo1O8tScKSDWfjUsraLS3DyEWS+wzMRpUva
+ P/gtgxpxc4WWEfLVSXgYjagpzFjp83q9HMYkGWmyOmHnmOPr/ZVKnmNwdrRj1ba81yUyDHKg8Ew1f
+ iCVTXV4naH5KrdUbVqzKX7ZYbXv5JW5uIDWnKwcmFtjQVCy8+DzZs8zcVeoSv/P/TrgzzfATPv/Jw
+ xMUq2+xJILS5YrLd3pnTdQcvDidGP468q42h8lG32MOItfYsevprrtqH2s6FNlDLr90Sji0ujVjCK
+ 1V4E2kXQ==;
+Received: from d104-157-31-28.abhsia.telus.net ([104.157.31.28]
+ helo=[192.168.1.250]) by ale.deltatee.com with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.96)
+ (envelope-from <logang@deltatee.com>) id 1t19i8-00AvqA-2C;
+ Wed, 16 Oct 2024 13:29:33 -0600
+Message-ID: <d115cc88-cc0c-41fc-840e-e11b783919cc@deltatee.com>
+Date: Wed, 16 Oct 2024 13:29:30 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>
+Cc: Bjorn Helgaas <bhelgaas@google.com>,
+ "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>
+References: <20241012024524.1377836-1-vivek.kasireddy@intel.com>
+ <20241012024524.1377836-2-vivek.kasireddy@intel.com>
+ <eddb423c-945f-40c9-b904-43ea8371f1c4@deltatee.com>
+ <IA0PR11MB71855AF581EAA8EE8F43E820F8462@IA0PR11MB7185.namprd11.prod.outlook.com>
+Content-Language: en-CA
+From: Logan Gunthorpe <logang@deltatee.com>
+In-Reply-To: <IA0PR11MB71855AF581EAA8EE8F43E820F8462@IA0PR11MB7185.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 104.157.31.28
+X-SA-Exim-Rcpt-To: vivek.kasireddy@intel.com, dri-devel@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, bhelgaas@google.com, linux-pci@vger.kernel.org
+X-SA-Exim-Mail-From: logang@deltatee.com
+X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on ale.deltatee.com
+X-Spam-Level: 
+X-Spam-Status: No, score=-6.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
+ autolearn=ham autolearn_force=no version=4.0.0
+Subject: Re: [PATCH v1 1/5] PCI/P2PDMA: Don't enforce ACS check for functions
+ of same device
+X-SA-Exim-Version: 4.2.1 (built Wed, 06 Jul 2022 17:57:39 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,52 +74,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
 
-On Wednesday, October 16th, 2024 at 2:27 PM, Daniel Stone <daniel@fooishbar=
-.org> wrote:
 
-> Hi all,
->
-> On Wed, 16 Oct 2024 at 02:11, Andy Yan andyshrk@163.com wrote:
->
-> > At 2024-10-16 04:13:40, "Piotr Zalewski" pZ010001011111@proton.me wrote=
-:
-> >
-> > > Ok I get it now. Is such rework correct? - when gamma LUT for rk356x =
-is
-> > > being set, instead of disabling the LUT before the gamma LUT write fo=
-r the
-> > > current CRTC's video port, active video port is selected. Selection i=
-s
-> > > based on if DSP LUT EN bit is set for particular video port. eg:
-> >
-> > If the userspace want to set gamma for CRTCx, then that is indeed where=
- they want to set the
-> > gamma on=E3=80=82The driver silently sets the gamma on another CRTC, wh=
-ich is not what the user wants.
-> >
-> > I think there are two options=EF=BC=9A
-> > =EF=BC=881=EF=BC=89return a error if gamma is enable on other CRTC=
-=EF=BC=8C this is what we done in our BSP code[1]
-> > (2) disable the dsp_lut on privious CRTC, then switch to the current CR=
-TC which userspace wants.
->
->
-> 1 is the only solution that can work. Silently changing the colour
-> properties of a separate CRTC is not OK, since this can lead to
-> displaying incorrect content.
+On 2024-10-15 23:29, Kasireddy, Vivek wrote:
+> I think it would make sense to limit the passing criteria for device functions'
+> compatibility to Intel GPUs for now. These are the devices I am currently
+> testing that we know are P2P compatible. Would this be OK?
 
-Ok right kernel keeps track of the state and sees gamma as enabled even if=
-=20
-dsp lut en bit was cleared.
+Yes, this sounds good to me. We can reconsider if we get more rules like
+it in the future.
 
-Would it be better to check if gamma is already enabled on another CRTC in=
-=20
-atomic_check rather than atomic_begin/atomic_flush (and silently fail) like
-in[1]?
+Thanks,
 
-[1] https://github.com/armbian/linux-rockchip/blob/rk3576-6.1-dev-2024_04_1=
-9/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c#L3666
-
-Best regards, Piotr Zalewski
+Logan
