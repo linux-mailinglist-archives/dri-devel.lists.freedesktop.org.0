@@ -2,61 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9C4B9A0B7A
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Oct 2024 15:31:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34E929A0B77
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Oct 2024 15:30:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4117C10E707;
-	Wed, 16 Oct 2024 13:31:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A70E610E2DD;
+	Wed, 16 Oct 2024 13:30:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=erik.faye-lund@collabora.com header.b="C9XYVgPB";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Ge5nM35s";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 903 seconds by postgrey-1.36 at gabe;
- Wed, 16 Oct 2024 13:31:39 UTC
-Received: from sender4-op-o10.zoho.com (sender4-op-o10.zoho.com
- [136.143.188.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 033F410E70C
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Oct 2024 13:31:38 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1729084588; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=dRLgIsVFjqSUpK1MeaR+VbXDOwJJV1YGeC5DuzcfvLMaRzStUqXui12ngZuBKYEx/hIanNu7HO7fB1DSg5vxLoCooT2lCfyDPzs2Do2FUtOHdcKv32l4jprSO8KhxdBAaXZ4lGJpZkMn8Gggc3U3nVjqDy1l6OT7Ul5N3jAd3sE=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1729084588;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=cD5dw/JYl9rw/17srIoEYRWj3Jq+3lrXtAPtf9Ox2Yg=; 
- b=SyAxzOE+dt5hN+zzV16NfJYy6LaprWWi4iQx8Bs7xmqIR0uYQ5aO7IfhLyQsMZ+973GxKQ7ETlZfv0/OUnVdFJsUz5P8OA6Ev3S+oo9r9Hg4mMmoCpinQJ6lxrMcDdvl2M82Y0ot6GkcFhZE+QBHAGhiyO24qsUR4ec5Zwt2SaA=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=erik.faye-lund@collabora.com;
- dmarc=pass header.from=<erik.faye-lund@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1729084588; 
- s=zohomail; d=collabora.com; i=erik.faye-lund@collabora.com;
- h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
- bh=cD5dw/JYl9rw/17srIoEYRWj3Jq+3lrXtAPtf9Ox2Yg=;
- b=C9XYVgPBmfFUZwxjPwb1ODuS8ChCrttVFF/N1IsZ9kylmU0CNIlWQ466Tlqwocmr
- NpiVDUGbboELfMfCxSF8vfcV8D00TuzbDU1/kSwcWANlN8SXWyv9bUXiJY8QSFz2Zt1
- qAVr5y/6L5Iag1qgGdnDvB9aEbNErsvp3+Fh5ZMM=
-Received: by mx.zohomail.com with SMTPS id 1729084586866698.4160681009033;
- Wed, 16 Oct 2024 06:16:26 -0700 (PDT)
-Message-ID: <64ff75ddede7623c16ed0272eef5e950ae34e7d5.camel@collabora.com>
-Subject: Re: [PATCH v6 01/14] drm/panthor: Add uAPI
-From: Erik Faye-Lund <erik.faye-lund@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>, 
- dri-devel@lists.freedesktop.org
-Cc: Daniel Stone <daniels@collabora.com>, Liviu Dudau <Liviu.Dudau@arm.com>,
- Steven Price <steven.price@arm.com>, Robin Murphy <robin.murphy@arm.com>,
- kernel@collabora.com, Chris Diamand	 <chris.diamand@foss.arm.com>, Ketil
- Johnsen <ketil.johnsen@arm.com>
-Date: Wed, 16 Oct 2024 15:16:22 +0200
-In-Reply-To: <20240229162230.2634044-2-boris.brezillon@collabora.com>
-References: <20240229162230.2634044-1-boris.brezillon@collabora.com>
- <20240229162230.2634044-2-boris.brezillon@collabora.com>
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com
+ [209.85.222.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 478CB10E2DD
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Oct 2024 13:30:51 +0000 (UTC)
+Received: by mail-ua1-f43.google.com with SMTP id
+ a1e0cc1a2514c-84fe06fbdc6so1684708241.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Oct 2024 06:30:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1729085449; x=1729690249;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=TREUo1lQfvBhTYNzvxLnSAftCI9jNyXaG87hpbR/7a8=;
+ b=Ge5nM35sWU0gCZ8/DvbThpj4UC9MiyYf259pBd3uVQSp0Y1U4u8uU8iZq1yYSxUJec
+ 5hvVA3O2O084AKSruYO48hI4No/Yj+HXPPfsY12v9mEnmTC2ebxgILZaT2mG7U7EB+oB
+ fcmuMcgfrB/EnCx3od+xW6egvV/1nlr2L0a9I=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1729085449; x=1729690249;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=TREUo1lQfvBhTYNzvxLnSAftCI9jNyXaG87hpbR/7a8=;
+ b=jbgCcEr0wovi7MlbRTXTPQhmEb1VjaVBjntoM5ZDML76fxf0svKOqL3563d8GIQt6S
+ Hh9I1n2kPh2LizP/4BOUV5cqjsIPJbTymDY7Eu+/pVt/WFhde3CUjlU8041NuPb6HmO7
+ n6zLqPes9g7UidSgT8LSaLd9jffIaPRA1wJua9ekw21KbhqqzYq2L7Vf1fUUtHfGjLyX
+ b+F6C6HgyECPVarOz2WBynqzsCs3ozDVl9+5lof5tf+jnSnUQJpQByse9YEAbEbzox5q
+ f2LvBmNz8cFTnBYp+K2YZwrYY4PKtAUTc/Y0PkEQbam3TiCH9HQMwaBV7KlQzNTVxk8E
+ KTsg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXrn4Qaboz0/68LHuMMBwrJ1E5zeIkueXQGg4+Is7jBzSLZ8NQxxHtGvnHHdUycXxfx8JxR4Iuy19o=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz+j2t7tJFB6FnGEv2Fe0qvmC30jQwcDjYm2S5nPnqc8RnFLFhL
+ HfbNtx7PzNdW+Hhha5MNCs4ceIq4ZZ1Sc+GQbSi2NsPVmMmqpslimtV0KGpt+sYZBbg7nOBjuow
+ =
+X-Google-Smtp-Source: AGHT+IEMNV62vkVQBXPuvJ3poVJG7k9WIE1dU1wc2AjOW+7gVBarxM5oTPCHa5pdwTsf5/mvNrLO9g==
+X-Received: by 2002:a05:6102:41ab:b0:4a5:6f41:211a with SMTP id
+ ada2fe7eead31-4a56f412d7dmr8150311137.25.1729085448923; 
+ Wed, 16 Oct 2024 06:30:48 -0700 (PDT)
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com.
+ [209.85.222.49]) by smtp.gmail.com with ESMTPSA id
+ ada2fe7eead31-4a5acedd632sm537946137.22.2024.10.16.06.30.48
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Oct 2024 06:30:48 -0700 (PDT)
+Received: by mail-ua1-f49.google.com with SMTP id
+ a1e0cc1a2514c-84fd057a993so1963551241.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Oct 2024 06:30:48 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCULMmeiPtBcut4kgeLsnI/q/nOtB1QQ0dzqx/2jXn1s6cYZf/lJ9SUL+CdeOeX4i2QtWRVII42YhQI=@lists.freedesktop.org
+X-Received: by 2002:a05:6122:469b:b0:50d:5be4:c39d with SMTP id
+ 71dfb90a1353d-50d5be4c7a8mr9674315e0c.0.1729085447232; Wed, 16 Oct 2024
+ 06:30:47 -0700 (PDT)
+MIME-Version: 1.0
+References: <20241016-color-v2-1-46db5c78a54f@chromium.org>
+In-Reply-To: <20241016-color-v2-1-46db5c78a54f@chromium.org>
+From: Fei Shao <fshao@chromium.org>
+Date: Wed, 16 Oct 2024 21:30:10 +0800
+X-Gmail-Original-Message-ID: <CAC=S1niFFuKiw1hC-pV-dSVP_cd6YiAU+7a7xLYgokLc-DtOcQ@mail.gmail.com>
+Message-ID: <CAC=S1niFFuKiw1hC-pV-dSVP_cd6YiAU+7a7xLYgokLc-DtOcQ@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/mediatek: Fix color format MACROs in OVL
+To: Hsin-Te Yuan <yuanhsinte@chromium.org>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ dri-devel@lists.freedesktop.org, 
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, dianders@chromium.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.0 (by Flathub.org) 
-MIME-Version: 1.0
-X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,41 +98,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2024-02-29 at 17:22 +0100, Boris Brezillon wrote:
-> +/**
-> + * enum drm_panthor_sync_op_flags - Synchronization operation flags.
-> + */
-> +enum drm_panthor_sync_op_flags {
-> +	/** @DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_MASK: Synchronization
-> handle type mask. */
-> +	DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_MASK =3D 0xff,
-> +
-> +	/** @DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_SYNCOBJ:
-> Synchronization object type. */
-> +	DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_SYNCOBJ =3D 0,
-> +
-> +	/**
-> +	 * @DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_TIMELINE_SYNCOBJ:
-> Timeline synchronization
-> +	 * object type.
-> +	 */
-> +	DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_TIMELINE_SYNCOBJ =3D 1,
-> +
-> +	/** @DRM_PANTHOR_SYNC_OP_WAIT: Wait operation. */
-> +	DRM_PANTHOR_SYNC_OP_WAIT =3D 0 << 31,
-> +
-> +	/** @DRM_PANTHOR_SYNC_OP_SIGNAL: Signal operation. */
-> +	DRM_PANTHOR_SYNC_OP_SIGNAL =3D (int)(1u << 31),
+On Wed, Oct 16, 2024 at 7:10=E2=80=AFPM Hsin-Te Yuan <yuanhsinte@chromium.o=
+rg> wrote:
+>
+> In commit 9f428b95ac89 ("drm/mediatek: Add new color format MACROs in
+> OVL"), some new color formats are defined in the MACROs to make the
+> switch statement more concise. That commit was intended to be a no-op
+> cleanup. However, there are typos in these formats MACROs, which cause
+> the return value to be incorrect. Fix the typos to ensure the return
+> value remains unchanged.
+>
+> Fixes: 9f428b95ac89 ("drm/mediatek: Add new color format MACROs in OVL")
+> Signed-off-by: Hsin-Te Yuan <yuanhsinte@chromium.org>
+> ---
+> Changes in v2:
+> - Clarify that the commit get fixed was intended to be a no-op cleanup
+> - Fix the typo in tag
+> - Link to v1: https://lore.kernel.org/r/20241015-color-v1-1-35b01fa0a826@=
+chromium.org
+> ---
+>  drivers/gpu/drm/mediatek/mtk_disp_ovl.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/me=
+diatek/mtk_disp_ovl.c
+> index 89b439dcf3a6af9f5799487fdc0f128a9b5cbe4a..1632ac5c23d87e1cdc41013a9=
+cf7864728dcb63b 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
+> @@ -65,8 +65,8 @@
+>  #define OVL_CON_CLRFMT_RGB     (1 << 12)
+>  #define OVL_CON_CLRFMT_ARGB8888        (2 << 12)
+>  #define OVL_CON_CLRFMT_RGBA8888        (3 << 12)
+> -#define OVL_CON_CLRFMT_ABGR8888        (OVL_CON_CLRFMT_RGBA8888 | OVL_CO=
+N_BYTE_SWAP)
+> -#define OVL_CON_CLRFMT_BGRA8888        (OVL_CON_CLRFMT_ARGB8888 | OVL_CO=
+N_BYTE_SWAP)
+> +#define OVL_CON_CLRFMT_ABGR8888        (OVL_CON_CLRFMT_ARGB8888 | OVL_CO=
+N_BYTE_SWAP)
+> +#define OVL_CON_CLRFMT_BGRA8888        (OVL_CON_CLRFMT_RGBA8888 | OVL_CO=
+N_BYTE_SWAP)
+>  #define OVL_CON_CLRFMT_UYVY    (4 << 12)
+>  #define OVL_CON_CLRFMT_YUYV    (5 << 12)
+>  #define OVL_CON_MTX_YUV_TO_RGB (6 << 16)
+>
+> ---
+> base-commit: 75b607fab38d149f232f01eae5e6392b394dd659
+> change-id: 20241015-color-e205e75b64aa
+>
+> Best regards,
+> --
+> Hsin-Te Yuan <yuanhsinte@chromium.org>
+>
 
-Why do we cast to int here? 1u << 31 doesn't fit in a 32-bit signed
-integer, so isn't this undefined behavior in C?
+You missed Doug's R-b tag in v1:
+https://lore.kernel.org/all/CAD=3DFV=3DXrrhUoB9=3DJuPY2erLMA7S-EREqvP5t8NNu=
+BuUiA4rZjQ@mail.gmail.com/
 
-I'm asking, because Coverity complains about overflows when we assign
-the value to drm_panthor_sync_op::flags in Mesa, and looking at it...
-it seems to be right in complaining!
+Can you resend v3 with both R-b tags this time?
 
-For reference, here's the Coverity issue (requires login,
-unfortunately):
-https://scan5.scan.coverity.com/#/project-view/59795/10037?selectedIssue=3D=
-1605083
-
+Thanks,
+Fei
