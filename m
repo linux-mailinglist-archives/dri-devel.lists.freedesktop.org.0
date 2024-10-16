@@ -2,53 +2,150 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 736D49A08FA
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Oct 2024 14:03:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 793AE9A0900
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Oct 2024 14:05:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95BD610E08F;
-	Wed, 16 Oct 2024 12:03:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80EBD10E5A5;
+	Wed, 16 Oct 2024 12:05:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="h117pxWI";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="foxzjcG4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFBD910E08F
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Oct 2024 12:03:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=fQwte2Pq5sfQjXvRZtawm/4SKy+5okgSAZtXCSQMGaI=; b=h117pxWIw6t9/QalicXzjBy8uK
- glMU8yI81X7+khpF6I12sQtK5PHDndWqMAGk0YG1/3Us2CzbXJDxK/Io+unUwRO+Tea6Jwfj4QQ/q
- KKz2o5fcicXtGHSZ/KBW8vxY9Hd4oXzCRrsRHZsKtISQfnut//1VNKoSeN/iZUntwxD4l0/wkIQLN
- m/JnQS0W9Or8ALAV4k7YJeq2AtuqI678zQZn/MeBoHhJ4PHY1lkeYsQdUMInmqoedHbczecd5PZfd
- vB9WAma+647xPUinTYd9Tg/bvbJqwEXvXBbev6qABqr1JTYrUz/thbwQWwBmLp7fTobq+sboTKhnJ
- FloCYweA==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84]
- helo=noisy.programming.kicks-ass.net)
- by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
- id 1t12k3-00000007qYy-0q86; Wed, 16 Oct 2024 12:03:04 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
- id EEC51300777; Wed, 16 Oct 2024 14:03:02 +0200 (CEST)
-Date: Wed, 16 Oct 2024 14:03:02 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>,
- Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
- Ian Rogers <irogers@google.com>, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Subject: Re: [PATCH 3/5] perf: Add pmu get/put
-Message-ID: <20241016120302.GP33184@noisy.programming.kicks-ass.net>
-References: <20241008183501.1354695-1-lucas.demarchi@intel.com>
- <20241008183501.1354695-4-lucas.demarchi@intel.com>
- <20241014173246.GI16066@noisy.programming.kicks-ass.net>
- <lunkl4llip7aafnyctwztggum37wsiznktb7z3ly73batmt6bu@m75kow4b4u6y>
- <20241014192519.GN16066@noisy.programming.kicks-ass.net>
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2053.outbound.protection.outlook.com [40.107.243.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 171EA10E115;
+ Wed, 16 Oct 2024 12:05:22 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=o8L0UaOAx6mHGu9VJheNfTku8OJa6vVqQW+CWuKD4BeFPreAt+/sTtcQMAM0egPoKgyh7wzdAJk2jfhDdqFRgF3BSaUpTfo/9ba/OiP9FeO2AKrgXsIwT4u1xH3ycRuTrmj0mFBfDu4T1R0Gq1Ufsze801qH2Ok8G2NOBY2SKuIwI9Cd1pIRdTpTAmEJG1dsw2vQ3EX2l0zwLuIrFS5Q1JwMZ7MchE5Sz4iTZnnzU6nbfBP5sEyy2IHMb0Ef9ZaYqc1JqecCBnBNK4XU4rh7goSO1TggX9Aklr987xVZ24gEcwHKikiNM7+IYnfZzT0CaLOAyA9J325sUv2Xd0EHxA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PwrYvAT6SFz8Mh9PPW9fLiuMSZyAgHX/RWXDd84BIwc=;
+ b=TJS8r2K414ogy6E10olmroBif9WorBrRqurLFELGtzol+ns80mHEZ8/PSj+ejEMg5Jk6jeFo0LeltijSjqirN+2cL1SMl4i7poVWhaSSsc5vCafV2buzEMkt7h2u7tDhBllZp/7MrY8yQ2KqNInXwqIik6hQOY/lBr2kU3s1OVS8hsBMNvadl8wJaTMIOsLdDZweoA5liM0aWZLum9lBILHF43dkx8wq2+WRXJv8ZLL3GMqRvnTAt9wUwC+fUTYSCap52MtsNrDDCuRONqwwAvjcEicydGZ2iVqnOzR+JM6eITwBTKjxxxSns4HQY7CL+gS9bfPF/FTeI9bPDvw/2Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PwrYvAT6SFz8Mh9PPW9fLiuMSZyAgHX/RWXDd84BIwc=;
+ b=foxzjcG4PSWKi8OzB9Nr9bMGA/H/EpgykmuecOhLR01JBvs9LIpzSJchWhqov75NMQ+C5gSPaakUyrhbs1ruRIWqcZswNWJkbU8A9VJxPypeY9VQJElBa/I8cb0R/77pm8LGEnpqRNCCZgOGVBxBdFeZ8fLj9EfXgeJqyLjh/+Y=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from SJ0PR12MB5673.namprd12.prod.outlook.com (2603:10b6:a03:42b::13)
+ by PH7PR12MB8037.namprd12.prod.outlook.com (2603:10b6:510:27d::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.17; Wed, 16 Oct
+ 2024 12:05:18 +0000
+Received: from SJ0PR12MB5673.namprd12.prod.outlook.com
+ ([fe80::ec7a:dd71:9d6c:3062]) by SJ0PR12MB5673.namprd12.prod.outlook.com
+ ([fe80::ec7a:dd71:9d6c:3062%6]) with mapi id 15.20.8048.020; Wed, 16 Oct 2024
+ 12:05:18 +0000
+Message-ID: <420212a1-dc5c-492b-a9b1-8f7a4036a942@amd.com>
+Date: Wed, 16 Oct 2024 14:05:11 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] drm/sched: adding a new scheduling policy
+To: "Deucher, Alexander" <Alexander.Deucher@amd.com>,
+ "Zhang, Jesse(Jie)" <Jesse.Zhang@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
+References: <20241011062136.1019695-1-jesse.zhang@amd.com>
+ <db1694f2-031c-44e8-aa74-e6b002a136c5@amd.com>
+ <DM4PR12MB51529D851091E72DE52F2E50E37A2@DM4PR12MB5152.namprd12.prod.outlook.com>
+ <BL1PR12MB5144CF902B41761ACF3767F0F7442@BL1PR12MB5144.namprd12.prod.outlook.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <BL1PR12MB5144CF902B41761ACF3767F0F7442@BL1PR12MB5144.namprd12.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR4P281CA0382.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:f7::20) To SJ0PR12MB5673.namprd12.prod.outlook.com
+ (2603:10b6:a03:42b::13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241014192519.GN16066@noisy.programming.kicks-ass.net>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR12MB5673:EE_|PH7PR12MB8037:EE_
+X-MS-Office365-Filtering-Correlation-Id: 660e7814-951f-4a0a-171b-08dceddacd2c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?WTFYMWQ0WThqZFdkR1ZjOFc0UTNsUjF2SThCbHNHZHRvSHo4UVRiVGRrNGtF?=
+ =?utf-8?B?akdaL0xTRUpEMnFUL1ArbjlxeFdzaDVvaGFBMnh5Yy9lbnY3S2ZkMTFGejBw?=
+ =?utf-8?B?bDg4eHZhWTk4ZmlzMmlHN3BZL3FZQm5mc3RHNGJsamNnaDdHdFJMT3dYVlJ5?=
+ =?utf-8?B?RmdIaWVDRk1lbFpKUG5RbU1vRjEwcFhXY096SlJ4bDlGUmFJeHAyU3l0UHdN?=
+ =?utf-8?B?REk4VDNyK1RkRHRDYzVNRmNUSWtCaXNYZ1RudVk0N09oYnhVdGFhNm5qQzIr?=
+ =?utf-8?B?ZjhjUm1kVExDWThXeEcxVERtNGFYZWUwdVVmSE9GK25FUDIwQ29LVDFJbmRI?=
+ =?utf-8?B?S2hXUlFlWEhlYVdYdzlkWEVsM0h0UlBMNWdWVDVPNCtOUS9PdDZPUk5VN0Ev?=
+ =?utf-8?B?Z3d6QmtQdkx5VGJhRmhKTmhIUTZIdkpnc2JVS3NmalAyeXR4ODFUVWRLc3RV?=
+ =?utf-8?B?cm5oc1I5NFA4MjBCZUNSclBFUkp5RFlHdEI2dVFWZzNUOFRhZzB3VlRUWTNi?=
+ =?utf-8?B?SjJENElPdU12OE1xZUMxa3I3VGRramZURURjSVFINTMzc0NBSEZnQy96TjhL?=
+ =?utf-8?B?ZW5KYVBidm1mMytoSWgzMlZLTVR6RGRveElYWVI0TXY0RlBhV1BZb29RUFpC?=
+ =?utf-8?B?UXdmMmdXNWd4cVoydkNJNzAxQmMydFFlRCtoYzQ2UWYzZGdRcnVoajlrRzVi?=
+ =?utf-8?B?SVgwekkxNUFPbTlObFJHdlczb2lFbzlQZllSNWtzS01LT01SY3psVDkvaE16?=
+ =?utf-8?B?dCtHcEJORkxqa0tldkEzQmxZc0pVU2Y3bXVzVTZUd25kNVpaMkJQT2VmNmdr?=
+ =?utf-8?B?UXo4Rm50TnJ1dC8vd200czZ4ZXVtY3VuK001ak1Sd3dZaTBmUk1kR3AxMlFy?=
+ =?utf-8?B?T1ZWck1tclB4bml5RExOYUpDTEFSakdmUUw4K1lJaFprVktSeWtaOGJ0MzZz?=
+ =?utf-8?B?a1ZzY09xZytOcnVEaVdyVmo5UHkwK2lMbGJvNTJqRmJqTlB5SWN0ZlBuaHA5?=
+ =?utf-8?B?ZUZTN0tKSDJnVUNwS0tFV2ZmZHlSaVdUcS9iN2VzQ1lYNHN4RnFoMUpHRzdy?=
+ =?utf-8?B?NW1UVWVwcGgyWXRjbXlVL3FneXRocEFZY2U0ckZHbkdXbXAzczEyRG5oUHBw?=
+ =?utf-8?B?Y3ZLYlcycExwNm5sN0crejJURmJYOHRVRG5Qc005UDltK0JsNWhyOHh6T29j?=
+ =?utf-8?B?b2VrVUVzY0YxYzUrUG9iZ2xkQnFyZy9tSFl1d3dwZTNZYW1QTkVaZ1JMM2xk?=
+ =?utf-8?B?bk9tQUJsY2NleXVmQnIxazRpZ3ZtWG5Ca2htN0pCTlc1bGo1Wk1ERjk2MTAw?=
+ =?utf-8?B?czFadnVKRHBta1NjSGxPUjM5aFJyYnJjeWQvckw2dUhaamhLT3ExUThZTFNx?=
+ =?utf-8?B?alN5WUVrb1I3Q1FIWjNjdGF3WXNkUkd3QnFtWUV4NkUvdlcxcndzemFFejBw?=
+ =?utf-8?B?SXk4Rm4vMWpwVXoxaXBBZXVCVVdzSWtEejBlVW02ZnJBOFRJYUswSVRoM1Vo?=
+ =?utf-8?B?ZCt5UlJuVGxkb0ZtaHFuM0FQRWVMdHJJTTkyMmxWWU1qRUlldTBCV2w5R20w?=
+ =?utf-8?B?akRKejgzeXV3UzJXbUlwYTVpb1BxellTaXNuWjZCMHJQaENHT2h6eTRqMStq?=
+ =?utf-8?Q?Jgm9m9FmiEeIUh75HxH+Blt7am/WoG9KCGo7cO4xfpGY=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SJ0PR12MB5673.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UmhzSW9zSjlmNTkwQ0NmOTRwMkRObnB3WFNwSEQ1cWNlbnJwKzdkdkhCb1Bt?=
+ =?utf-8?B?bktFZGl4RytQK1k4YkFVSVVjUFNOVDhudlFtWlVKOEgvOHVxSjcxMUFtTVY3?=
+ =?utf-8?B?aHByQVZ6VkpqL3VPOVVvZW9TL1g0dDRETTVYeit1TXdibUsrSEZ2S0xvZHpF?=
+ =?utf-8?B?Uk1neXZwMTlLRmNwN3VacHdYVEpoSDROODZKNDRQMzlHanFoS3pMdXFSOXNm?=
+ =?utf-8?B?YkVKcWxZMm55R1BmbkM3cWhFaGQzWmZpMEZ4UkpXYitnNWVycGdPdTVSR0JG?=
+ =?utf-8?B?WXZ6UGJRZWZpd09RdTNpNXRQTHI2MUtTc3BxVEtIT202b3pzdEFTeXp6TDB3?=
+ =?utf-8?B?TzcrVlFxaTBlTng5c2pvOEpMbS9ITXNIQTFQMlNjYzBtaHduV2lpazNkQUhC?=
+ =?utf-8?B?MjJkNjFoaEh6MkJNQjI2M3BBV28xc2J0dWhWdnorZWdMUXhtamRQZ09xZ3dz?=
+ =?utf-8?B?UEJUQjVnOFgvRjhIbXpOTStDaEc2d3N2WkhWSTBUYWg0NTR0RjdZend5MjYx?=
+ =?utf-8?B?ak5wSjlGUyt6N0ozTWpxK1NObTBQS2pZeUZ1dGxsSGRDRnAvWjZyWkR1M2h1?=
+ =?utf-8?B?NmIrUTZQcnEyekVSL1IzWHpyQzhBMml1b0Y3cGoxVUpHdXNnUlFnblBQYzJY?=
+ =?utf-8?B?aUU2YmtUVXhhNEIyRXJZVkZydjUzV2h1ZzBYSXFxcUI4eTF0R2JPSHhub3pX?=
+ =?utf-8?B?ZjNpcXNuWmowcE1rNTU1R2lMczlMUHJjVmUzdEFhT1pPSmR0N3lhK0JxS2Zh?=
+ =?utf-8?B?U3F3MlRVTGdQMUF1T2FYQWdoWDJ0c2dzMVhJRXRLR1VuUTRqYUpzaUhmUVlt?=
+ =?utf-8?B?N2p0MllVbXFQN2F6bHNsQWk2WU1BOTFGUkFyWDZnK3o5YzJZQ0UzTEVWOVN6?=
+ =?utf-8?B?WmVJZStUL1pkTlRFcHVIdGlDdzR4Mis1am0vQktDc0prUFc0aTNjenhxZTRF?=
+ =?utf-8?B?S2ZMb1JYMTdWeUpXWmNDQ055cjUyODhlazZVSHlBM2RkVHQxZEtkOUYzMVg2?=
+ =?utf-8?B?USttQ1UySnVHV3UxT2c4OUhqeG1jWk9QTEZpbG5sMHBWdmhNOVpOTkkwRUF0?=
+ =?utf-8?B?K2ZEWU9DOUlGb0hhZlphYlF6b1BuS0JEdnhidXJSSXVlc1pCMlYreGNWSUdG?=
+ =?utf-8?B?N2xvSm8xai9QQlpZbzlQTWpMTXNYbEdpbFZNRzNuZ0hYaXNncWtQV0pxc2lq?=
+ =?utf-8?B?N2R5c20zcDhub01DVkRLSCtzVHgxMHN3YlptOThkbDNuYWhTOGIwcDZReVNi?=
+ =?utf-8?B?NmJJdDJiaSthMjhmMFRQMGZFMElkVVZFMHpoWVI5REFRVE1wN1NoL2pFZld3?=
+ =?utf-8?B?ZS9uczVSZTJ3WGEwbWE3bzVNSWx5UVZXS0ZEOTNvbWl5eXRLR01pZGxobnR2?=
+ =?utf-8?B?MlFxclJzWjI4SWlrSzdaWWM2UlIvTCtrTDVTRVh5QWJUd1dIVzExNDZQd2E0?=
+ =?utf-8?B?eXVjb01YdVZoODdMNHhaVGF5dTNtdzJia2kxN0haaEdjMnl6U0RXUkxLMUxr?=
+ =?utf-8?B?OE5jRWNNenRzOHNjNW1TZkVPR1p1b0pzaDRTNlhGTFdWOUMrYkRwL05NYzJ4?=
+ =?utf-8?B?cEtGNnVSZVJaY0ZoTmw1ZWNCVDZMajhFZHZ6cjUzS3ZXZnhtMU1jQVM1QUND?=
+ =?utf-8?B?em9BckpHNzQ4d2w5dDVYc2hlWkV2Z1F6S0lYb2VDMUk5Nk1NZlIvTHNna0Qw?=
+ =?utf-8?B?WWtjMXYxc2RsMmJKMUZNSkcxcElRYkZqNmxRVjdDcU8vRWJZVFA0aVJEVnh3?=
+ =?utf-8?B?UU1Wa2YveU40UWNjNEJFb25vbVIrVG9LcVFQL1lmL052eEd0UVJ4OGw2dmtx?=
+ =?utf-8?B?c1p4c252RXNPQ2QvN1JBK0l0cUlpd0c0a2xhb1lSVzVndVJxSitlSm10VXI3?=
+ =?utf-8?B?eWcwNlpGbGlXVmlBOWk5VUhFWkFCM0R6UnA4QlhvZzV1VUltVCtWVzBZR2Ez?=
+ =?utf-8?B?bC9rRWdGcVFBUi93UGpNZW5WbWJGMkttd0FQSEdPNzNZVVB3MVUrV0xwbjhx?=
+ =?utf-8?B?Tkx3TDNmTGxKVExmT2JTWHZCM1NaT28vcnpQaWpXemFuZXpXK1FNa1pVYURD?=
+ =?utf-8?B?bnBwTHpGWWt0b3pGVWVWbmplVHZTVmQ1NWt6dTdtUzExclhBV0c4QnlhdW1z?=
+ =?utf-8?Q?bf7vrM9VxMdt3YKzgjUs/Hds+?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 660e7814-951f-4a0a-171b-08dceddacd2c
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR12MB5673.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2024 12:05:18.1987 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: lBsyBMIElW5q9o86P9n7FH/l3CI0mP+BL+Lu5C1CTw1ZKdvEnkxF7x0ETNoXh/Db
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB8037
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,609 +161,284 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 14, 2024 at 09:25:19PM +0200, Peter Zijlstra wrote:
+Am 14.10.24 um 23:56 schrieb Deucher, Alexander:
+> [AMD Official Use Only - AMD Internal Distribution Only]
+>
+>> -----Original Message-----
+>> From: Zhang, Jesse(Jie) <Jesse.Zhang@amd.com>
+>> Sent: Friday, October 11, 2024 9:45 PM
+>> To: Koenig, Christian <Christian.Koenig@amd.com>; dri-
+>> devel@lists.freedesktop.org; amd-gfx@lists.freedesktop.org
+>> Cc: Deucher, Alexander <Alexander.Deucher@amd.com>
+>> Subject: RE: [PATCH 1/2] drm/sched: adding a new scheduling policy
+>>
+>> [AMD Official Use Only - AMD Internal Distribution Only]
+>>
+>> Hi Christian,
+>>
+>> -----Original Message-----
+>> From: Koenig, Christian <Christian.Koenig@amd.com>
+>> Sent: Friday, October 11, 2024 4:40 PM
+>> To: Zhang, Jesse(Jie) <Jesse.Zhang@amd.com>; dri-devel@lists.freedesktop.org;
+>> amd-gfx@lists.freedesktop.org
+>> Cc: Deucher, Alexander <Alexander.Deucher@amd.com>
+>> Subject: Re: [PATCH 1/2] drm/sched: adding a new scheduling policy
+>>
+>> Am 11.10.24 um 08:21 schrieb jesse.zhang@amd.com:
+>>> From: "Jesse.zhang@amd.com" <jesse.zhang@amd.com>
+>>>
+>>> Added ring ID scheduling.
+>>> In some cases, userspace needs to run a job on a specific ring.
+>>> Instead of selecting the best ring to run based on the ring score.
+>>> For example, The user want to run a bad job on a specific ring to
+>>> check whether the ring can recover from a queue reset.
+>> Absolutely clearly a NAK, we don't want to expose the different HW rings directly to
+>> userspace.
+>>
+>> Thanks for the confirmation. It was a bit confusing.
+>> But now userspace can get the number of hardware rings directly via amdgpu info
+>> ioctl.
+> That number does not align with the actual number of rings on the IP.  It's just used for allowing userspace to schedule things in parallel.  The kernel driver still decides which actual rings to use based on load.  If you want to target specific rings, you might want to consider doing something like this:
+> https://gitlab.freedesktop.org/agd5f/linux/-/commit/08c517d5a923628de50f93e8a9fedd647d3eefbb
 
-> Let me ponder that a little bit.
+Yeah that looks like a good solution to me as well.
 
-So I did the thing on top of the get/put thing that would allow you to
-get rid of the ->closed thing, and before I was finished I already hated
-all of it :-(
+Christian.
 
-The thing is, if you're going to the effort of adding get/put and
-putting the responsibility on the implementation, then the ->closed
-thing is only a little extra ask.
+>
+> Alex
+>
+>> Regards
+>> Jesse
+>>
+>> Regards,
+>> Christian.
+>>
+>>> Signed-off-by: Jesse Zhang <Jesse.Zhang@amd.com>
+>>> ---
+>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c   |  2 +-
+>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_job.c  |  2 +-
+>>>    drivers/gpu/drm/etnaviv/etnaviv_sched.c  |  2 +-
+>>>    drivers/gpu/drm/imagination/pvr_queue.c  |  2 +-
+>>>    drivers/gpu/drm/lima/lima_sched.c        |  2 +-
+>>>    drivers/gpu/drm/msm/msm_gem_submit.c     |  2 +-
+>>>    drivers/gpu/drm/nouveau/nouveau_sched.c  |  2 +-
+>>>    drivers/gpu/drm/panfrost/panfrost_job.c  |  2 +-
+>>>    drivers/gpu/drm/scheduler/sched_entity.c | 11 +++++++++--
+>>>    drivers/gpu/drm/scheduler/sched_main.c   |  4 ++--
+>>>    drivers/gpu/drm/v3d/v3d_submit.c         |  2 +-
+>>>    include/drm/gpu_scheduler.h              |  4 ++--
+>>>    12 files changed, 22 insertions(+), 15 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+>>> index d891ab779ca7..18887128a973 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+>>> @@ -1286,7 +1286,7 @@ static int amdgpu_cs_submit(struct amdgpu_cs_parser
+>> *p,
+>>>        int r;
+>>>
+>>>        for (i = 0; i < p->gang_size; ++i)
+>>> -             drm_sched_job_arm(&p->jobs[i]->base);
+>>> +             drm_sched_job_arm(&p->jobs[i]->base, -1);
+>>>
+>>>        for (i = 0; i < p->gang_size; ++i) {
+>>>                struct dma_fence *fence; diff --git
+>>> a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+>>> index 717adcedf096..8d75ffa9a097 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+>>> @@ -320,7 +320,7 @@ struct dma_fence *amdgpu_job_submit(struct
+>> amdgpu_job *job)
+>>>    {
+>>>        struct dma_fence *f;
+>>>
+>>> -     drm_sched_job_arm(&job->base);
+>>> +     drm_sched_job_arm(&job->base, -1);
+>>>        f = dma_fence_get(&job->base.s_fence->finished);
+>>>        amdgpu_job_free_resources(job);
+>>>        drm_sched_entity_push_job(&job->base);
+>>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+>>> b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+>>> index 62dcfdc7894d..98d003757af1 100644
+>>> --- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+>>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+>>> @@ -107,7 +107,7 @@ int etnaviv_sched_push_job(struct etnaviv_gem_submit
+>> *submit)
+>>>         */
+>>>        mutex_lock(&gpu->sched_lock);
+>>>
+>>> -     drm_sched_job_arm(&submit->sched_job);
+>>> +     drm_sched_job_arm(&submit->sched_job, -1);
+>>>
+>>>        submit->out_fence = dma_fence_get(&submit->sched_job.s_fence->finished);
+>>>        ret = xa_alloc_cyclic(&gpu->user_fences, &submit->out_fence_id,
+>>> diff --git a/drivers/gpu/drm/imagination/pvr_queue.c
+>>> b/drivers/gpu/drm/imagination/pvr_queue.c
+>>> index 5ed9c98fb599..ed7398a0ff21 100644
+>>> --- a/drivers/gpu/drm/imagination/pvr_queue.c
+>>> +++ b/drivers/gpu/drm/imagination/pvr_queue.c
+>>> @@ -1115,7 +1115,7 @@ int pvr_queue_job_init(struct pvr_job *job)
+>>>     */
+>>>    struct dma_fence *pvr_queue_job_arm(struct pvr_job *job)
+>>>    {
+>>> -     drm_sched_job_arm(&job->base);
+>>> +     drm_sched_job_arm(&job->base, -1);
+>>>
+>>>        return &job->base.s_fence->finished;
+>>>    }
+>>> diff --git a/drivers/gpu/drm/lima/lima_sched.c
+>>> b/drivers/gpu/drm/lima/lima_sched.c
+>>> index bbf3f8feab94..cc83b2aab9ce 100644
+>>> --- a/drivers/gpu/drm/lima/lima_sched.c
+>>> +++ b/drivers/gpu/drm/lima/lima_sched.c
+>>> @@ -130,7 +130,7 @@ int lima_sched_task_init(struct lima_sched_task *task,
+>>>                return err;
+>>>        }
+>>>
+>>> -     drm_sched_job_arm(&task->base);
+>>> +     drm_sched_job_arm(&task->base, -1);
+>>>
+>>>        task->num_bos = num_bos;
+>>>        task->vm = lima_vm_get(vm);
+>>> diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c
+>>> b/drivers/gpu/drm/msm/msm_gem_submit.c
+>>> index fba78193127d..74c4e1b4df78 100644
+>>> --- a/drivers/gpu/drm/msm/msm_gem_submit.c
+>>> +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+>>> @@ -831,7 +831,7 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void
+>> *data,
+>>>                goto out;
+>>>        }
+>>>
+>>> -     drm_sched_job_arm(&submit->base);
+>>> +     drm_sched_job_arm(&submit->base, -1);
+>>>
+>>>        submit->user_fence =
+>>> dma_fence_get(&submit->base.s_fence->finished);
+>>>
+>>> diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.c
+>>> b/drivers/gpu/drm/nouveau/nouveau_sched.c
+>>> index 32fa2e273965..3ff8142b5370 100644
+>>> --- a/drivers/gpu/drm/nouveau/nouveau_sched.c
+>>> +++ b/drivers/gpu/drm/nouveau/nouveau_sched.c
+>>> @@ -309,7 +309,7 @@ nouveau_job_submit(struct nouveau_job *job)
+>>>        list_add(&job->entry, &sched->job.list.head);
+>>>        spin_unlock(&sched->job.list.lock);
+>>>
+>>> -     drm_sched_job_arm(&job->base);
+>>> +     drm_sched_job_arm(&job->base, -1);
+>>>        job->done_fence = dma_fence_get(&job->base.s_fence->finished);
+>>>        if (job->sync)
+>>>                done_fence = dma_fence_get(job->done_fence); diff --git
+>>> a/drivers/gpu/drm/panfrost/panfrost_job.c
+>>> b/drivers/gpu/drm/panfrost/panfrost_job.c
+>>> index a61ef0af9a4e..cc937420cd35 100644
+>>> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+>>> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+>>> @@ -301,7 +301,7 @@ int panfrost_job_push(struct panfrost_job *job)
+>>>                return ret;
+>>>
+>>>        mutex_lock(&pfdev->sched_lock);
+>>> -     drm_sched_job_arm(&job->base);
+>>> +     drm_sched_job_arm(&job->base, -1);
+>>>
+>>>        job->render_done_fence =
+>>> dma_fence_get(&job->base.s_fence->finished);
+>>>
+>>> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c
+>>> b/drivers/gpu/drm/scheduler/sched_entity.c
+>>> index 58c8161289fe..f4669422b3f9 100644
+>>> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+>>> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+>>> @@ -525,7 +525,7 @@ struct drm_sched_job *drm_sched_entity_pop_job(struct
+>> drm_sched_entity *entity)
+>>>        return sched_job;
+>>>    }
+>>>
+>>> -void drm_sched_entity_select_rq(struct drm_sched_entity *entity)
+>>> +void drm_sched_entity_select_rq(struct drm_sched_entity *entity, int
+>>> +ring)
+>>>    {
+>>>        struct dma_fence *fence;
+>>>        struct drm_gpu_scheduler *sched; @@ -554,7 +554,14 @@ void
+>>> drm_sched_entity_select_rq(struct drm_sched_entity *entity)
+>>>                return;
+>>>
+>>>        spin_lock(&entity->rq_lock);
+>>> -     sched = drm_sched_pick_best(entity->sched_list, entity->num_sched_list);
+>>> +     if(ring >= 0) {
+>>> +             if(entity->sched_list[ring] && entity->sched_list[ring]->ready)
+>>> +                     sched = entity->sched_list[ring];
+>>> +             else
+>>> +                     sched = drm_sched_pick_best(entity->sched_list, entity-
+>>> num_sched_list);
+>>> +     }
+>>> +     else
+>>> +             sched = drm_sched_pick_best(entity->sched_list,
+>>> +entity->num_sched_list);
+>>>        rq = sched ? sched->sched_rq[entity->priority] : NULL;
+>>>        if (rq != entity->rq) {
+>>>                drm_sched_rq_remove_entity(entity->rq, entity); diff
+>>> --git a/drivers/gpu/drm/scheduler/sched_main.c
+>>> b/drivers/gpu/drm/scheduler/sched_main.c
+>>> index 7e90c9f95611..356adf510670 100644
+>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>>> @@ -833,13 +833,13 @@ EXPORT_SYMBOL(drm_sched_job_init);
+>>>     *
+>>>     * This can only be called if drm_sched_job_init() succeeded.
+>>>     */
+>>> -void drm_sched_job_arm(struct drm_sched_job *job)
+>>> +void drm_sched_job_arm(struct drm_sched_job *job, int ring)
+>>>    {
+>>>        struct drm_gpu_scheduler *sched;
+>>>        struct drm_sched_entity *entity = job->entity;
+>>>
+>>>        BUG_ON(!entity);
+>>> -     drm_sched_entity_select_rq(entity);
+>>> +     drm_sched_entity_select_rq(entity, ring);
+>>>        sched = entity->rq->sched;
+>>>
+>>>        job->sched = sched;
+>>> diff --git a/drivers/gpu/drm/v3d/v3d_submit.c
+>>> b/drivers/gpu/drm/v3d/v3d_submit.c
+>>> index 88f63d526b22..d33749017f93 100644
+>>> --- a/drivers/gpu/drm/v3d/v3d_submit.c
+>>> +++ b/drivers/gpu/drm/v3d/v3d_submit.c
+>>> @@ -211,7 +211,7 @@ v3d_job_init(struct v3d_dev *v3d, struct drm_file *file_priv,
+>>>    static void
+>>>    v3d_push_job(struct v3d_job *job)
+>>>    {
+>>> -     drm_sched_job_arm(&job->base);
+>>> +     drm_sched_job_arm(&job->base, -1);
+>>>
+>>>        job->done_fence = dma_fence_get(&job->base.s_fence->finished);
+>>>
+>>> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+>>> index 5acc64954a88..0eab405a2683 100644
+>>> --- a/include/drm/gpu_scheduler.h
+>>> +++ b/include/drm/gpu_scheduler.h
+>>> @@ -553,7 +553,7 @@ void drm_sched_fini(struct drm_gpu_scheduler *sched);
+>>>    int drm_sched_job_init(struct drm_sched_job *job,
+>>>                       struct drm_sched_entity *entity,
+>>>                       u32 credits, void *owner); -void
+>>> drm_sched_job_arm(struct drm_sched_job *job);
+>>> +void drm_sched_job_arm(struct drm_sched_job *job, int ring);
+>>>    int drm_sched_job_add_dependency(struct drm_sched_job *job,
+>>>                                 struct dma_fence *fence);
+>>>    int drm_sched_job_add_syncobj_dependency(struct drm_sched_job *job,
+>>> @@ -603,7 +603,7 @@ int drm_sched_entity_init(struct drm_sched_entity *entity,
+>>>    long drm_sched_entity_flush(struct drm_sched_entity *entity, long timeout);
+>>>    void drm_sched_entity_fini(struct drm_sched_entity *entity);
+>>>    void drm_sched_entity_destroy(struct drm_sched_entity *entity);
+>>> -void drm_sched_entity_select_rq(struct drm_sched_entity *entity);
+>>> +void drm_sched_entity_select_rq(struct drm_sched_entity *entity, int
+>>> +ring);
+>>>    struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_entity
+>> *entity);
+>>>    void drm_sched_entity_push_job(struct drm_sched_job *sched_job);
+>>>    void drm_sched_entity_set_priority(struct drm_sched_entity *entity,
 
-So... I wondered, how hard it would be for perf_pmu_unregister() to do
-what you want.
-
-Time passed, hacks were done...
-
-and while what I have is still riddled with holes (more work is
-definitely required), it does pass your dummy_pmu test scipt.
-
-I'll poke at this a little longer. Afaict it should be possible to make
-this good enough for what you want. Just needs more holes filled.
-
----
- include/linux/perf_event.h |  13 ++-
- kernel/events/core.c       | 260 ++++++++++++++++++++++++++++++++++++++-------
- 2 files changed, 228 insertions(+), 45 deletions(-)
-
-diff --git a/include/linux/perf_event.h b/include/linux/perf_event.h
-index fb908843f209..20995d33d27e 100644
---- a/include/linux/perf_event.h
-+++ b/include/linux/perf_event.h
-@@ -318,6 +318,9 @@ struct perf_output_handle;
- struct pmu {
- 	struct list_head		entry;
- 
-+	spinlock_t			events_lock;
-+	struct list_head		events;
-+
- 	struct module			*module;
- 	struct device			*dev;
- 	struct device			*parent;
-@@ -612,9 +615,10 @@ struct perf_addr_filter_range {
-  * enum perf_event_state - the states of an event:
-  */
- enum perf_event_state {
--	PERF_EVENT_STATE_DEAD		= -4,
--	PERF_EVENT_STATE_EXIT		= -3,
--	PERF_EVENT_STATE_ERROR		= -2,
-+	PERF_EVENT_STATE_DEAD		= -5,
-+	PERF_EVENT_STATE_REVOKED	= -4, /* pmu gone, must not touch */
-+	PERF_EVENT_STATE_EXIT		= -3, /* task died, still inherit */
-+	PERF_EVENT_STATE_ERROR		= -2, /* scheduling error, can enable */
- 	PERF_EVENT_STATE_OFF		= -1,
- 	PERF_EVENT_STATE_INACTIVE	=  0,
- 	PERF_EVENT_STATE_ACTIVE		=  1,
-@@ -853,6 +857,7 @@ struct perf_event {
- 	void *security;
- #endif
- 	struct list_head		sb_list;
-+	struct list_head		pmu_list;
- 
- 	/*
- 	 * Certain events gets forwarded to another pmu internally by over-
-@@ -1103,7 +1108,7 @@ extern void perf_aux_output_flag(struct perf_output_handle *handle, u64 flags);
- extern void perf_event_itrace_started(struct perf_event *event);
- 
- extern int perf_pmu_register(struct pmu *pmu, const char *name, int type);
--extern void perf_pmu_unregister(struct pmu *pmu);
-+extern int perf_pmu_unregister(struct pmu *pmu);
- 
- extern void __perf_event_task_sched_in(struct task_struct *prev,
- 				       struct task_struct *task);
-diff --git a/kernel/events/core.c b/kernel/events/core.c
-index cdd09769e6c5..e66827367a97 100644
---- a/kernel/events/core.c
-+++ b/kernel/events/core.c
-@@ -2406,7 +2406,9 @@ ctx_time_update_event(struct perf_event_context *ctx, struct perf_event *event)
- 
- #define DETACH_GROUP	0x01UL
- #define DETACH_CHILD	0x02UL
--#define DETACH_DEAD	0x04UL
-+#define DETACH_EXIT	0x04UL
-+#define DETACH_REVOKE	0x08UL
-+#define DETACH_DEAD	0x10UL
- 
- /*
-  * Cross CPU call to remove a performance event
-@@ -2421,6 +2423,7 @@ __perf_remove_from_context(struct perf_event *event,
- 			   void *info)
- {
- 	struct perf_event_pmu_context *pmu_ctx = event->pmu_ctx;
-+	enum perf_event_state state = PERF_EVENT_STATE_OFF;
- 	unsigned long flags = (unsigned long)info;
- 
- 	ctx_time_update(cpuctx, ctx);
-@@ -2429,16 +2432,22 @@ __perf_remove_from_context(struct perf_event *event,
- 	 * Ensure event_sched_out() switches to OFF, at the very least
- 	 * this avoids raising perf_pending_task() at this time.
- 	 */
--	if (flags & DETACH_DEAD)
-+	if (flags & DETACH_EXIT)
-+		state = PERF_EVENT_STATE_EXIT;
-+	if (flags & DETACH_REVOKE)
-+		state = PERF_EVENT_STATE_REVOKED;
-+	if (flags & DETACH_DEAD) {
- 		event->pending_disable = 1;
-+		state = PERF_EVENT_STATE_DEAD;
-+	}
- 	event_sched_out(event, ctx);
- 	if (flags & DETACH_GROUP)
- 		perf_group_detach(event);
- 	if (flags & DETACH_CHILD)
- 		perf_child_detach(event);
- 	list_del_event(event, ctx);
--	if (flags & DETACH_DEAD)
--		event->state = PERF_EVENT_STATE_DEAD;
-+
-+	event->state = state;
- 
- 	if (!pmu_ctx->nr_events) {
- 		pmu_ctx->rotate_necessary = 0;
-@@ -4508,7 +4517,8 @@ static void perf_event_enable_on_exec(struct perf_event_context *ctx)
- 
- static void perf_remove_from_owner(struct perf_event *event);
- static void perf_event_exit_event(struct perf_event *event,
--				  struct perf_event_context *ctx);
-+				  struct perf_event_context *ctx,
-+				  bool revoke);
- 
- /*
-  * Removes all events from the current task that have been marked
-@@ -4535,7 +4545,7 @@ static void perf_event_remove_on_exec(struct perf_event_context *ctx)
- 
- 		modified = true;
- 
--		perf_event_exit_event(event, ctx);
-+		perf_event_exit_event(event, ctx, false);
- 	}
- 
- 	raw_spin_lock_irqsave(&ctx->lock, flags);
-@@ -5121,6 +5131,7 @@ static bool is_sb_event(struct perf_event *event)
- 	    attr->context_switch || attr->text_poke ||
- 	    attr->bpf_event)
- 		return true;
-+
- 	return false;
- }
- 
-@@ -5321,6 +5332,8 @@ static void perf_pending_task_sync(struct perf_event *event)
- 
- static void _free_event(struct perf_event *event)
- {
-+	struct pmu *pmu = event->pmu;
-+
- 	irq_work_sync(&event->pending_irq);
- 	irq_work_sync(&event->pending_disable_irq);
- 	perf_pending_task_sync(event);
-@@ -5330,6 +5343,7 @@ static void _free_event(struct perf_event *event)
- 	security_perf_event_free(event);
- 
- 	if (event->rb) {
-+		WARN_ON_ONCE(!pmu);
- 		/*
- 		 * Can happen when we close an event with re-directed output.
- 		 *
-@@ -5349,12 +5363,16 @@ static void _free_event(struct perf_event *event)
- 			put_callchain_buffers();
- 	}
- 
--	perf_event_free_bpf_prog(event);
--	perf_addr_filters_splice(event, NULL);
--	kfree(event->addr_filter_ranges);
-+	if (pmu) {
-+		perf_event_free_bpf_prog(event);
-+		perf_addr_filters_splice(event, NULL);
-+		kfree(event->addr_filter_ranges);
-+	}
- 
--	if (event->destroy)
-+	if (event->destroy) {
-+		WARN_ON_ONCE(!pmu);
- 		event->destroy(event);
-+	}
- 
- 	/*
- 	 * Must be after ->destroy(), due to uprobe_perf_close() using
-@@ -5363,8 +5381,10 @@ static void _free_event(struct perf_event *event)
- 	if (event->hw.target)
- 		put_task_struct(event->hw.target);
- 
--	if (event->pmu_ctx)
-+	if (event->pmu_ctx) {
-+		WARN_ON_ONCE(!pmu);
- 		put_pmu_ctx(event->pmu_ctx);
-+	}
- 
- 	/*
- 	 * perf_event_free_task() relies on put_ctx() being 'last', in particular
-@@ -5373,8 +5393,14 @@ static void _free_event(struct perf_event *event)
- 	if (event->ctx)
- 		put_ctx(event->ctx);
- 
--	exclusive_event_destroy(event);
--	module_put(event->pmu->module);
-+	if (pmu) {
-+		exclusive_event_destroy(event);
-+		module_put(pmu->module);
-+		scoped_guard(spinlock, &pmu->events_lock) {
-+			list_del(&event->pmu_list);
-+			wake_up_var(pmu);
-+		}
-+	}
- 
- 	call_rcu(&event->rcu_head, free_event_rcu);
- }
-@@ -5492,7 +5518,11 @@ int perf_event_release_kernel(struct perf_event *event)
- 	 * Thus this guarantees that we will in fact observe and kill _ALL_
- 	 * child events.
- 	 */
--	perf_remove_from_context(event, DETACH_GROUP|DETACH_DEAD);
-+	if (event->state > PERF_EVENT_STATE_REVOKED) {
-+		perf_remove_from_context(event, DETACH_GROUP|DETACH_DEAD);
-+	} else {
-+		event->state = PERF_EVENT_STATE_DEAD;
-+	}
- 
- 	perf_event_ctx_unlock(event, ctx);
- 
-@@ -5803,7 +5833,7 @@ __perf_read(struct perf_event *event, char __user *buf, size_t count)
- 	 * error state (i.e. because it was pinned but it couldn't be
- 	 * scheduled on to the CPU at some point).
- 	 */
--	if (event->state == PERF_EVENT_STATE_ERROR)
-+	if (event->state <= PERF_EVENT_STATE_ERROR)
- 		return 0;
- 
- 	if (count < event->read_size)
-@@ -5842,8 +5872,14 @@ static __poll_t perf_poll(struct file *file, poll_table *wait)
- 	struct perf_buffer *rb;
- 	__poll_t events = EPOLLHUP;
- 
-+	if (event->state <= PERF_EVENT_STATE_REVOKED)
-+		return EPOLLERR;
-+
- 	poll_wait(file, &event->waitq, wait);
- 
-+	if (event->state <= PERF_EVENT_STATE_REVOKED)
-+		return EPOLLERR;
-+
- 	if (is_event_hup(event))
- 		return events;
- 
-@@ -6013,7 +6049,7 @@ static inline int perf_fget_light(int fd, struct fd *p)
- }
- 
- static int perf_event_set_output(struct perf_event *event,
--				 struct perf_event *output_event);
-+				 struct perf_event *output_event, bool force);
- static int perf_event_set_filter(struct perf_event *event, void __user *arg);
- static int perf_copy_attr(struct perf_event_attr __user *uattr,
- 			  struct perf_event_attr *attr);
-@@ -6023,6 +6059,9 @@ static long _perf_ioctl(struct perf_event *event, unsigned int cmd, unsigned lon
- 	void (*func)(struct perf_event *);
- 	u32 flags = arg;
- 
-+	if (event->state <= PERF_EVENT_STATE_REVOKED)
-+		return -ENODEV;
-+
- 	switch (cmd) {
- 	case PERF_EVENT_IOC_ENABLE:
- 		func = _perf_event_enable;
-@@ -6065,10 +6104,10 @@ static long _perf_ioctl(struct perf_event *event, unsigned int cmd, unsigned lon
- 			if (ret)
- 				return ret;
- 			output_event = fd_file(output)->private_data;
--			ret = perf_event_set_output(event, output_event);
-+			ret = perf_event_set_output(event, output_event, false);
- 			fdput(output);
- 		} else {
--			ret = perf_event_set_output(event, NULL);
-+			ret = perf_event_set_output(event, NULL, false);
- 		}
- 		return ret;
- 	}
-@@ -6472,6 +6511,7 @@ static void perf_mmap_close(struct vm_area_struct *vma)
- 	unsigned long size = perf_data_size(rb);
- 	bool detach_rest = false;
- 
-+	/* FIXIES vs perf_pmu_unregister() */
- 	if (event->pmu->event_unmapped)
- 		event->pmu->event_unmapped(event, vma->vm_mm);
- 
-@@ -6591,7 +6631,15 @@ static int perf_mmap(struct file *file, struct vm_area_struct *vma)
- 	unsigned long vma_size;
- 	unsigned long nr_pages;
- 	long user_extra = 0, extra = 0;
--	int ret = 0, flags = 0;
-+	int ret, flags = 0;
-+
-+	ret = security_perf_event_read(event);
-+	if (ret)
-+		return ret;
-+
-+	/* XXX needs event->mmap_mutex? */
-+	if (event->state <= PERF_EVENT_STATE_REVOKED)
-+		return -ENODEV;
- 
- 	/*
- 	 * Don't allow mmap() of inherited per-task counters. This would
-@@ -6604,10 +6652,6 @@ static int perf_mmap(struct file *file, struct vm_area_struct *vma)
- 	if (!(vma->vm_flags & VM_SHARED))
- 		return -EINVAL;
- 
--	ret = security_perf_event_read(event);
--	if (ret)
--		return ret;
--
- 	vma_size = vma->vm_end - vma->vm_start;
- 
- 	if (vma->vm_pgoff == 0) {
-@@ -6810,6 +6854,9 @@ static int perf_fasync(int fd, struct file *filp, int on)
- 	struct perf_event *event = filp->private_data;
- 	int retval;
- 
-+	if (event->state <= PERF_EVENT_STATE_REVOKED)
-+		return -ENODEV;
-+
- 	inode_lock(inode);
- 	retval = fasync_helper(fd, filp, on, &event->fasync);
- 	inode_unlock(inode);
-@@ -11513,6 +11560,7 @@ static int perf_event_idx_default(struct perf_event *event)
- 
- static void free_pmu_context(struct pmu *pmu)
- {
-+	free_percpu(pmu->pmu_disable_count);
- 	free_percpu(pmu->cpu_pmu_context);
- }
- 
-@@ -11753,6 +11801,7 @@ int perf_pmu_register(struct pmu *pmu, const char *name, int type)
- 	if (type >= 0)
- 		max = type;
- 
-+	// XXX broken vs perf_init_event(), this publishes before @pmu is finalized
- 	ret = idr_alloc(&pmu_idr, pmu, max, 0, GFP_KERNEL);
- 	if (ret < 0)
- 		goto free_pdc;
-@@ -11809,8 +11858,14 @@ int perf_pmu_register(struct pmu *pmu, const char *name, int type)
- 	if (!pmu->event_idx)
- 		pmu->event_idx = perf_event_idx_default;
- 
--	list_add_rcu(&pmu->entry, &pmus);
- 	atomic_set(&pmu->exclusive_cnt, 0);
-+	INIT_LIST_HEAD(&pmu->events);
-+	spin_lock_init(&pmu->events_lock);
-+
-+	/*
-+	 * Publish the pmu after it is fully initialized.
-+	 */
-+	list_add_rcu(&pmu->entry, &pmus);
- 	ret = 0;
- unlock:
- 	mutex_unlock(&pmus_lock);
-@@ -11832,10 +11887,110 @@ int perf_pmu_register(struct pmu *pmu, const char *name, int type)
- }
- EXPORT_SYMBOL_GPL(perf_pmu_register);
- 
--void perf_pmu_unregister(struct pmu *pmu)
-+static void __pmu_detach_event(struct pmu *pmu, struct perf_event *event,
-+			       struct perf_event_context *ctx)
- {
-+	/*
-+	 * De-schedule the event and mark it EXIT_PMU.
-+	 */
-+	perf_event_exit_event(event, ctx, true);
-+
-+	/*
-+	 * All _free_event() bits that rely on event->pmu:
-+	 */
-+	perf_event_set_output(event, NULL, true);
-+
-+	perf_event_free_bpf_prog(event);
-+	perf_addr_filters_splice(event, NULL);
-+	kfree(event->addr_filter_ranges);
-+
-+	if (event->destroy) {
-+		event->destroy(event);
-+		event->destroy = NULL;
-+	}
-+
-+	if (event->pmu_ctx) {
-+		/*
-+		 * Make sure pmu->cpu_pmu_context is unused. An alternative is
-+		 * to have it be pointers and make put_pmu_ctx()'s
-+		 * epc->embedded case be another RCU free case.
-+		 */
-+		put_pmu_ctx(event->pmu_ctx);
-+		event->pmu_ctx = NULL;
-+	}
-+
-+	exclusive_event_destroy(event);
-+	module_put(pmu->module);
-+
-+	event->pmu = NULL; /* force fault instead of UAF */
-+}
-+
-+static void pmu_detach_event(struct pmu *pmu, struct perf_event *event)
-+{
-+	struct perf_event_context *ctx;
-+
-+	ctx = perf_event_ctx_lock(event);
-+	__pmu_detach_event(pmu, event, ctx);
-+	perf_event_ctx_unlock(event, ctx);
-+
-+	scoped_guard(spinlock, &pmu->events_lock)
-+		list_del(&event->pmu_list);
-+}
-+
-+static struct perf_event *pmu_get_event(struct pmu *pmu)
-+{
-+	struct perf_event *event;
-+
-+	guard(spinlock)(&pmu->events_lock);
-+	list_for_each_entry(event, &pmu->events, pmu_list) {
-+		if (atomic_long_inc_not_zero(&event->refcount))
-+			return event;
-+	}
-+
-+	return NULL;
-+}
-+
-+static bool pmu_empty(struct pmu *pmu)
-+{
-+	guard(spinlock)(&pmu->events_lock);
-+	return list_empty(&pmu->events);
-+}
-+
-+static void pmu_detach_events(struct pmu *pmu)
-+{
-+	struct perf_event *event;
-+
-+	for (;;) {
-+		event = pmu_get_event(pmu);
-+		if (!event)
-+			break;
-+
-+		pmu_detach_event(pmu, event);
-+		put_event(event);
-+	}
-+
-+	/*
-+	 * wait for pending _free_event()s
-+	 */
-+	wait_var_event(pmu, pmu_empty(pmu));
-+}
-+
-+int perf_pmu_unregister(struct pmu *pmu)
-+{
-+	/*
-+	 * FIXME!
-+	 *
-+	 *   perf_mmap_close(); event->pmu->event_unmapped()
-+	 *
-+	 * XXX this check is racy vs perf_event_alloc()
-+	 */
-+	if (pmu->event_unmapped && !pmu_empty(pmu))
-+		return -EBUSY;
-+
- 	mutex_lock(&pmus_lock);
- 	list_del_rcu(&pmu->entry);
-+	idr_remove(&pmu_idr, pmu->type);
-+	mutex_unlock(&pmus_lock);
- 
- 	/*
- 	 * We dereference the pmu list under both SRCU and regular RCU, so
-@@ -11844,16 +11999,29 @@ void perf_pmu_unregister(struct pmu *pmu)
- 	synchronize_srcu(&pmus_srcu);
- 	synchronize_rcu();
- 
--	free_percpu(pmu->pmu_disable_count);
--	idr_remove(&pmu_idr, pmu->type);
-+	/*
-+	 * PMU is removed from the pmus list, so no new events will
-+	 * be created, now take care of the existing ones.
-+	 */
-+	pmu_detach_events(pmu);
-+
-+	/*
-+	 * PMU is unused, make it go away.
-+	 */
- 	if (pmu_bus_running && pmu->dev && pmu->dev != PMU_NULL_DEV) {
- 		if (pmu->nr_addr_filters)
- 			device_remove_file(pmu->dev, &dev_attr_nr_addr_filters);
- 		device_del(pmu->dev);
- 		put_device(pmu->dev);
- 	}
-+
-+	/* 
-+	 * XXX -- broken? can still contain SW events at this point?
-+	 * audit more, make sure DETACH_GROUP DTRT
-+	 */
- 	free_pmu_context(pmu);
--	mutex_unlock(&pmus_lock);
-+
-+	return 0;
- }
- EXPORT_SYMBOL_GPL(perf_pmu_unregister);
- 
-@@ -12330,6 +12498,9 @@ perf_event_alloc(struct perf_event_attr *attr, int cpu,
- 	/* symmetric to unaccount_event() in _free_event() */
- 	account_event(event);
- 
-+	scoped_guard(spinlock, &pmu->events_lock)
-+		list_add(&event->pmu_list, &pmu->events);
-+
- 	return event;
- 
- err_callchain_buffer:
-@@ -12493,7 +12664,7 @@ static void mutex_lock_double(struct mutex *a, struct mutex *b)
- }
- 
- static int
--perf_event_set_output(struct perf_event *event, struct perf_event *output_event)
-+perf_event_set_output(struct perf_event *event, struct perf_event *output_event, bool force)
- {
- 	struct perf_buffer *rb = NULL;
- 	int ret = -EINVAL;
-@@ -12549,8 +12720,12 @@ perf_event_set_output(struct perf_event *event, struct perf_event *output_event)
- 	mutex_lock_double(&event->mmap_mutex, &output_event->mmap_mutex);
- set:
- 	/* Can't redirect output if we've got an active mmap() */
--	if (atomic_read(&event->mmap_count))
--		goto unlock;
-+	if (atomic_read(&event->mmap_count)) {
-+		if (!force)
-+			goto unlock;
-+
-+		WARN_ON_ONCE(event->pmu->event_unmapped);
-+	}
- 
- 	if (output_event) {
- 		/* get the rb we want to redirect to */
-@@ -12740,6 +12915,10 @@ SYSCALL_DEFINE5(perf_event_open,
- 		if (err)
- 			goto err_fd;
- 		group_leader = fd_file(group)->private_data;
-+		if (group_leader->state <= PERF_EVENT_STATE_REVOKED) {
-+			err = -ENODEV;
-+			goto err_group_fd;
-+		}
- 		if (flags & PERF_FLAG_FD_OUTPUT)
- 			output_event = group_leader;
- 		if (flags & PERF_FLAG_FD_NO_GROUP)
-@@ -12916,7 +13095,7 @@ SYSCALL_DEFINE5(perf_event_open,
- 	event->pmu_ctx = pmu_ctx;
- 
- 	if (output_event) {
--		err = perf_event_set_output(event, output_event);
-+		err = perf_event_set_output(event, output_event, false);
- 		if (err)
- 			goto err_context;
- 	}
-@@ -13287,10 +13466,11 @@ static void sync_child_event(struct perf_event *child_event)
- }
- 
- static void
--perf_event_exit_event(struct perf_event *event, struct perf_event_context *ctx)
-+perf_event_exit_event(struct perf_event *event,
-+		      struct perf_event_context *ctx, bool revoke)
- {
- 	struct perf_event *parent_event = event->parent;
--	unsigned long detach_flags = 0;
-+	unsigned long detach_flags = DETACH_EXIT;
- 
- 	if (parent_event) {
- 		/*
-@@ -13305,16 +13485,14 @@ perf_event_exit_event(struct perf_event *event, struct perf_event_context *ctx)
- 		 * Do destroy all inherited groups, we don't care about those
- 		 * and being thorough is better.
- 		 */
--		detach_flags = DETACH_GROUP | DETACH_CHILD;
-+		detach_flags |= DETACH_GROUP | DETACH_CHILD;
- 		mutex_lock(&parent_event->child_mutex);
- 	}
- 
--	perf_remove_from_context(event, detach_flags);
-+	if (revoke)
-+		detach_flags |= DETACH_GROUP | DETACH_REVOKE;
- 
--	raw_spin_lock_irq(&ctx->lock);
--	if (event->state > PERF_EVENT_STATE_EXIT)
--		perf_event_set_state(event, PERF_EVENT_STATE_EXIT);
--	raw_spin_unlock_irq(&ctx->lock);
-+	perf_remove_from_context(event, detach_flags);
- 
- 	/*
- 	 * Child events can be freed.
-@@ -13390,7 +13568,7 @@ static void perf_event_exit_task_context(struct task_struct *child)
- 	perf_event_task(child, child_ctx, 0);
- 
- 	list_for_each_entry_safe(child_event, next, &child_ctx->event_list, event_entry)
--		perf_event_exit_event(child_event, child_ctx);
-+		perf_event_exit_event(child_event, child_ctx, false);
- 
- 	mutex_unlock(&child_ctx->mutex);
- 
