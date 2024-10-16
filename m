@@ -2,57 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 307AE9A0C66
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Oct 2024 16:18:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 392A19A0CCD
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Oct 2024 16:36:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A662F10E0AE;
-	Wed, 16 Oct 2024 14:18:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F14610E044;
+	Wed, 16 Oct 2024 14:35:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Osw11/Qa";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="doT98/NT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87E2210E0AE
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Oct 2024 14:18:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1729088318;
- bh=NABsgyIOWHP+iLDQJhvWhlSE0nvmcrftRvz/MLXs7H4=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=Osw11/QaYvfmwX+1gndJi0VC2y4cjPMyhcJw3qXygzCtSk4I569tEtGU4pcMlcVBR
- dbWdo4HFwAKnngj5lHDQr0TIh546TXdjBIzkRMFGLsbWb72BLYtSDToGSGEtvVcoon
- 6/8owYW1i75/kqwOfkc8Qif7XbokRfkzd1Q5caUdmSWyQJpjuaDVoQA/PYLawdwKjs
- c7rGqLOZA3jIenZy2DCbuVaPTPYfBv/ZsIZV7YKeSCPW2nCePDW88Kh8yBnzvRxbYN
- G5oIl7Ayimo//Qr7wK8Pg79tETbrn0GEhrCl08hwNg/dnzXkNmNjVtIIzIQKXefDIB
- gGD85TIZDUFYg==
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id CA4C117E3613;
- Wed, 16 Oct 2024 16:18:37 +0200 (CEST)
-Date: Wed, 16 Oct 2024 16:18:33 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Erik Faye-Lund <erik.faye-lund@collabora.com>
-Cc: Robin Murphy <robin.murphy@arm.com>, dri-devel@lists.freedesktop.org,
- Daniel Stone <daniels@collabora.com>, Liviu Dudau <Liviu.Dudau@arm.com>,
- Steven Price <steven.price@arm.com>, kernel@collabora.com, Chris Diamand
- <chris.diamand@foss.arm.com>, Ketil Johnsen <ketil.johnsen@arm.com>
-Subject: Re: [PATCH v6 01/14] drm/panthor: Add uAPI
-Message-ID: <20241016161833.574494ee@collabora.com>
-In-Reply-To: <da2c1dcbefcc25760d6a452e04d870987daf0a27.camel@collabora.com>
-References: <20240229162230.2634044-1-boris.brezillon@collabora.com>
- <20240229162230.2634044-2-boris.brezillon@collabora.com>
- <64ff75ddede7623c16ed0272eef5e950ae34e7d5.camel@collabora.com>
- <1bd37b18455607b709529c8def963c4561e2ff1e.camel@collabora.com>
- <abded30f-3333-49e5-aac2-8da6ac64903b@arm.com>
- <da2c1dcbefcc25760d6a452e04d870987daf0a27.camel@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13DA410E044
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Oct 2024 14:35:56 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 0C91EA43E0C;
+ Wed, 16 Oct 2024 14:35:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50854C4CEC5;
+ Wed, 16 Oct 2024 14:35:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1729089354;
+ bh=NXK/fPhGl4mqtfjEA+PZpwSNsIwN2iaBtslPz058mG4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=doT98/NT4FM40wYqR+SAm4CK3i00eE0ELNQ2AAFfLrDWK15sN8WmePaZVqR1S8G+j
+ f/wMm2JKvoAX1cNiI0SVJyVRDEw9N7C4ZyZR3sXHYxmFbcZZoZZ4ggESnvaMDP3m+n
+ aZs3c/6MfoMmv7cY/AhJ6GBa9B7VFynlW2FBe5HdJU2Y509EyQ7TFYzSX1BBiyVDMd
+ yIPUARKazo11AoVwVfGg5nfeOtRqbU/UM+3t9IoqUcg9J1ywBE7XTXz+/bA5f61Koj
+ psv6t/QnwXD4pMnPISVPDLyxbHEIaAVEYqLekUPdyyTejmdHulsiUBlHGGI5tskbEs
+ ddma1Se1F5KQg==
+Date: Wed, 16 Oct 2024 09:35:59 -0500
+From: Bjorn Andersson <andersson@kernel.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>, 
+ Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, 
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+ cros-qcom-dts-watchers@chromium.org, linux-arm-msm@vger.kernel.org,
+ dmaengine@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-i2c@vger.kernel.org, 
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, 
+ quic_msavaliy@quicinc.com, quic_vtanuku@quicinc.com
+Subject: Re: [PATCH v1 2/5] arm64: dts: qcom: Add support for configuring
+ channel TRE size
+Message-ID: <7e7ksit5ptjrcnct66v75mbxuabnzzloungockdal2dl2y6nn5@ge4mrsjmd746>
+References: <20241015120750.21217-1-quic_jseerapu@quicinc.com>
+ <20241015120750.21217-3-quic_jseerapu@quicinc.com>
+ <78a1c5c8-53c8-4144-b311-c34b155ca27c@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <78a1c5c8-53c8-4144-b311-c34b155ca27c@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,86 +71,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 16 Oct 2024 16:05:55 +0200
-Erik Faye-Lund <erik.faye-lund@collabora.com> wrote:
-
-> On Wed, 2024-10-16 at 15:02 +0100, Robin Murphy wrote:
-> > On 2024-10-16 2:50 pm, Erik Faye-Lund wrote:  
-> > > On Wed, 2024-10-16 at 15:16 +0200, Erik Faye-Lund wrote:  
-> > > > On Thu, 2024-02-29 at 17:22 +0100, Boris Brezillon wrote:  
-> > > > > +/**
-> > > > > + * enum drm_panthor_sync_op_flags - Synchronization operation
-> > > > > flags.
-> > > > > + */
-> > > > > +enum drm_panthor_sync_op_flags {
-> > > > > +	/** @DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_MASK:
-> > > > > Synchronization
-> > > > > handle type mask. */
-> > > > > +	DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_MASK = 0xff,
-> > > > > +
-> > > > > +	/** @DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_SYNCOBJ:
-> > > > > Synchronization object type. */
-> > > > > +	DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_SYNCOBJ = 0,
-> > > > > +
-> > > > > +	/**
-> > > > > +	 * @DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_TIMELINE_SYNCOBJ:
-> > > > > Timeline synchronization
-> > > > > +	 * object type.
-> > > > > +	 */
-> > > > > +	DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_TIMELINE_SYNCOBJ = 1,
-> > > > > +
-> > > > > +	/** @DRM_PANTHOR_SYNC_OP_WAIT: Wait operation. */
-> > > > > +	DRM_PANTHOR_SYNC_OP_WAIT = 0 << 31,
-> > > > > +
-> > > > > +	/** @DRM_PANTHOR_SYNC_OP_SIGNAL: Signal operation. */
-> > > > > +	DRM_PANTHOR_SYNC_OP_SIGNAL = (int)(1u << 31),  
-> > > > 
-> > > > Why do we cast to int here? 1u << 31 doesn't fit in a 32-bit
-> > > > signed
-> > > > integer, so isn't this undefined behavior in C?
-> > > >   
-> > > 
-> > > Seems this was proposed here:
-> > > https://lore.kernel.org/dri-devel/89be8f8f-7c4e-4efd-0b7b-c30bcfbf1d23@arm.com/
-> > > 
-> > > ...that kinda sounds like bad advice to me.
-> > > 
-> > > Also, it's been pointed out to me elsewhere that this isn't
-> > > *technically speaking* undefined, it's "implementation defined".
-> > > But as
-> > > far as kernel interfaces goes, that's pretty much the same; we
-> > > can't
-> > > guarantee that the kernel and the user-space is using the same
-> > > implementation.
-> > > 
-> > > Here's the quote from the C99 spec, section 6.3.1.3 "Signed and
-> > > unsigned integers":
-> > > 
-> > > """
-> > > Otherwise, the new type is signed and the value cannot be
-> > > represented
-> > > in it; either the result is implementation-defined or an
-> > > implementation-defined signal is raised
-> > > """"
-> > > 
-> > > I think a better approach be to use -1 << 31, which is well-
-> > > defined.
-> > > But the problem then becomes assigning it into
-> > > drm_panthor_sync_op::flags in a well-defined way... Could we make
-> > > the
-> > > field signed? That seems a bit bad as well...  
+On Tue, Oct 15, 2024 at 03:33:00PM GMT, Krzysztof Kozlowski wrote:
+> On 15/10/2024 14:07, Jyothi Kumar Seerapu wrote:
+> > When high performance with multiple i2c messages in a single transfer
+> > is required, employ Block Event Interrupt (BEI) to trigger interrupts
+> > after specific messages transfer and the last message transfer,
+> > thereby reducing interrupts.
+> > For each i2c message transfer, a series of Transfer Request Elements(TREs)
+> > must be programmed, including config tre for frequency configuration,
+> > go tre for holding i2c address and dma tre for holding dma buffer address,
+> > length as per the hardware programming guide. For transfer using BEI,
+> > multiple I2C messages may necessitate the preparation of config, go,
+> > and tx DMA TREs. However, a channel TRE size of 64 is often insufficient,
+> > potentially leading to failures due to inadequate memory space.
 > > 
-> > Is that a problem? Signed->unsigned conversion is always well-defined
-> > (6.3.1.3 again), since it doesn't depend on how the signed type 
-> > represents negatives.
+> > Adjust the channel TRE size through the device tree.
+> > The default size is 64, but clients can modify this value based on
+> > their heigher channel TRE size requirements.
 > > 
-> > Robin.  
+> > Signed-off-by: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
+> > ---
+> >  arch/arm64/boot/dts/qcom/sc7280.dtsi | 132 +++++++++++++--------------
+> >  1 file changed, 66 insertions(+), 66 deletions(-)
+> > 
+> > diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+> > index 3d8410683402..c7c0e15ff9d3 100644
+> > --- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
+> > +++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+> > @@ -1064,7 +1064,7 @@
+> >  		};
+> >  
+> >  		gpi_dma0: dma-controller@900000 {
+> > -			#dma-cells = <3>;
+> > +			#dma-cells = <4>;
+> >  			compatible = "qcom,sc7280-gpi-dma", "qcom,sm6350-gpi-dma";
+> >  			reg = <0 0x00900000 0 0x60000>;
+> >  			interrupts = <GIC_SPI 244 IRQ_TYPE_LEVEL_HIGH>,
+> > @@ -1114,8 +1114,8 @@
+> >  							"qup-memory";
+> >  				power-domains = <&rpmhpd SC7280_CX>;
+> >  				required-opps = <&rpmhpd_opp_low_svs>;
+> > -				dmas = <&gpi_dma0 0 0 QCOM_GPI_I2C>,
+> > -				       <&gpi_dma0 1 0 QCOM_GPI_I2C>;
+> > +				dmas = <&gpi_dma0 0 0 QCOM_GPI_I2C 64>,
+> > +				       <&gpi_dma0 1 0 QCOM_GPI_I2C 64>;
 > 
-> Ah, you're right. So that could fix the problem, indeed.
+> So everywhere is 64, thus this is fixed. Deduce it from the compatible
+> 
 
-On the other hand, I hate the idea of having -1 << 31 to encode
-bit31-set. That's even worse for DRM_PANTHOR_VM_BIND_OP_TYPE_xxx when
-we'll reach a value above 0x7, because then the negative value is hard
-to map to its unsigned representation. If we really care about this
-corner case, I'd rather go full-defines for flags and call it a day.
+If I understand correctly, it's a software tunable property, used to
+balance how many TRE elements that should be preallocated.
 
+If so, it would not be a property of the hardware/compatible, but rather
+a result of profiling and a balance between memory "waste" and
+performance.
+
+Regards,
+Bjorn
+
+> Best regards,
+> Krzysztof
+> 
