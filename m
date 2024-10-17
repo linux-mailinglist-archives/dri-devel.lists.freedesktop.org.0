@@ -2,164 +2,162 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C70B9A1C3D
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2024 09:59:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B675F9A1C9A
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2024 10:09:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1850310E7B5;
-	Thu, 17 Oct 2024 07:59:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FD9B10E7C4;
+	Thu, 17 Oct 2024 08:09:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="g8n8aYnM";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OJX1N4gx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com
- (mail-sn1nam02on2089.outbound.protection.outlook.com [40.107.96.89])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5CD010E7B4;
- Thu, 17 Oct 2024 07:59:31 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C60AC10E7BF
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2024 08:09:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1729152595; x=1760688595;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=5f+B7n9rHcXaQg4r0InWGZ9OkrEwwm9Zy5RP5BdjOCw=;
+ b=OJX1N4gxv/v76ixKjTqUCEkyxW2sYIf0UNy24TMi1H+50VltnO8pVS4M
+ uflsCwN4Jt1ylF89Gw8bKhSEoy/yikWaAbZN/qopL0W0wGNbS3YaNr7ed
+ Wu2KOfBgECt6ZAq5PTA2SSSdCIu+SEa+0jqZUqjZFQ6qYWCa4rZ+PYoCl
+ s/VAYk739uYu5UrquLJ/n8+3/nuO+jyd/81gvZ1PCFooh67Q70MB84xg5
+ DyaXXFIy6CZEUFOWaCywGar11kBzNhw7noSMq2vcnNSmJvGDvEqwy0bHd
+ jf/eQLniqgeVndxRgIk16knieAgrXuDkgdmuFvcAo04/eqnOHkfmTFbzh Q==;
+X-CSE-ConnectionGUID: kDvtY2tmRkKuZPBnI5yOoQ==
+X-CSE-MsgGUID: M+LkXnyzTbiCHnRURa9CGg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11227"; a="28719537"
+X-IronPort-AV: E=Sophos;i="6.11,210,1725346800"; d="scan'208";a="28719537"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Oct 2024 01:09:55 -0700
+X-CSE-ConnectionGUID: zo6it5+fTemSqlyRAZTYWg==
+X-CSE-MsgGUID: VAt3yBd4TNSfUyyzhl5yUg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,210,1725346800"; d="scan'208";a="78634726"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by orviesa006.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 17 Oct 2024 01:09:56 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Thu, 17 Oct 2024 01:09:55 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Thu, 17 Oct 2024 01:09:55 -0700
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.177)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Thu, 17 Oct 2024 01:09:54 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=n93WxdVp93NeYoCE1dQuzzUZxkeejg7+3+7Cm0GqColzVS0YRkgqe1RVnSiJ9KxWRYVcbfCEm2f9eiWW4ox7x2n27Az6/N14cEcyKypnLWTmKD/PSUpa0ydaCYekvy6EDNhXMsaUGGTotL3OAP+Y8AtUIfHexdONa/0Hxd8lDgUca1Ewx/Xkl6bbyWYRV5YdKvzLhdtTM0ctoExebgFjKgeCmLFCYnf83SlIkoke2LNshK+u4rkoC/eB2mPoCVMcV89UJ3DSdsXvh7JkgYk3lAA7ddxrsoVUyB2cxU0ui+23DEdio6idlNG4+2IWfolHhF57oUhXHrDyH8wFhLZ9ug==
+ b=BVNwvtMM+lEZI7FquRsYBzwEusXZzu2Qgmoo8PSpdQlq/yvKIh+4zLjMkRBQf9z5JXAaRe0yRKwS559Ze655f0Y9i/m/N1lgV93EXhPSml+b8Wb/efXL50YHRYLB8UXER0sAGRXYq10aCmXVHvxdpx0eUj5PnKjsPPOxKW+oHHwRvYestF+Mn2tT2g1L0xbH8XfjHTuqaqBnzQc4aawAgV9KyWfV7gdcaXdhxXME2h61i/prcCAB1DxOvQsqr+pYJXrze6AFUnsZYwTyX5upLbT1S+OTX/N29mwVnviE1AaoiH2fKZcZxjY6xrQvhD9H1DOZ0qQb4PRtCmTPO62HgQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wtciJvTw6sXJJ0DPXoLPNdRorlLls+O+sOCaFYjnCRU=;
- b=ork8m5lZ4kF6v1ghAYSL/9mx8C0N6mY1xGS0+3ynJWDVHSDok3VTbSyX+gqN7qdkfzo7gGrFCOF/uXmoL7oESIlcrcIPB36pCYJ3LznoopDwg5HfoBUNPamqi4wyoPPpAODgPb5jm210kFM1Mk/rumAwYNKqbGQS3qr6nykfPf68nxJlGYZaTig7jl46I1PJXnFROGyQGtT5T5cJKeu5xlaPjWHqnNx2wNJErOCK2UNMzTUDw5X1b3+i5uKAzXpFDvstkIE88KTi/3tzSeTdi8kF8eO4hUNck0cDFVXhgQCgfCWNDVwICaif/z/35/0lmd7h50wuE2AEoIcYodlWWw==
+ bh=d+TRlnlUdEE9gwOnuEL8XhTnH9TfhmH6PA33hZw77YU=;
+ b=QYxfcJv62up2mu9s2mviDn4DwBDrgjaHq3PyNHNbzM8RBQSpCui1+9WANqxH2XYw8PXQ51ldNzQmIgEW9A/cC8mQsq6FKZmHJZPfrFkxnPSX5LuwKwA4bipXIPqAfTwfSPNx2oChwF3C2QoRvVHCPjaMvOMHagHQvSMrf7pEVaCWklGCeVfyiCrij1PAc/E+XFGJBE3YoM645u+E+LOP3HcFEfWvnHFcY8MzllJLgAvZTNqRbnuJUiQKc72w9BdDOxTVVTMwvAA1NP3uDMgHAZ2BHFv0ZM9JYp+656rn9FiVxLmGRgEIqtj3FfRkKDHvFkuAbGleKRV2dSnn9Wv9vA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wtciJvTw6sXJJ0DPXoLPNdRorlLls+O+sOCaFYjnCRU=;
- b=g8n8aYnMV5ONeUQMhV7XRhJ2meYOH2ECXnxGndomeSGtIzcoBfonOPfxUTEaKr3ibQa7ybZFiMjXDsXj7btMlMotq1XLqCNawb8vJNYDcit8mCtA0QItibOcSN+QDraLLL9NCPfzDbJbNLJHn5GlFrIsjikkhwvcspp7z3zRJ+I=
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from SJ0PR12MB5673.namprd12.prod.outlook.com (2603:10b6:a03:42b::13)
- by MN0PR12MB6152.namprd12.prod.outlook.com (2603:10b6:208:3c4::21)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from LV3PR11MB8603.namprd11.prod.outlook.com (2603:10b6:408:1b6::9)
+ by MN6PR11MB8194.namprd11.prod.outlook.com (2603:10b6:208:477::21)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.18; Thu, 17 Oct
- 2024 07:59:27 +0000
-Received: from SJ0PR12MB5673.namprd12.prod.outlook.com
- ([fe80::ec7a:dd71:9d6c:3062]) by SJ0PR12MB5673.namprd12.prod.outlook.com
- ([fe80::ec7a:dd71:9d6c:3062%6]) with mapi id 15.20.8048.020; Thu, 17 Oct 2024
- 07:59:27 +0000
-Message-ID: <9b720b21-6195-408c-88bf-a092e0e7555c@amd.com>
-Date: Thu, 17 Oct 2024 09:59:10 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 1/5] drm: Introduce device wedged event
-To: Raag Jadav <raag.jadav@intel.com>, airlied@gmail.com, simona@ffwll.ch,
- lucas.demarchi@intel.com, thomas.hellstrom@linux.intel.com,
- rodrigo.vivi@intel.com, jani.nikula@linux.intel.com,
- andriy.shevchenko@linux.intel.com, joonas.lahtinen@linux.intel.com,
- tursulin@ursulin.net, lina@asahilina.net
-Cc: intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com,
- francois.dugast@intel.com, aravind.iddamsetty@linux.intel.com,
- anshuman.gupta@intel.com, andi.shyti@linux.intel.com,
- matthew.d.roper@intel.com, boris.brezillon@collabora.com,
- adrian.larumbe@collabora.com, kernel@collabora.com, maraeo@gmail.com,
- friedrich.vock@gmx.de, michel@daenzer.net, joshua@froggi.es,
- alexander.deucher@amd.com, andrealmeid@igalia.com,
- amd-gfx@lists.freedesktop.org
-References: <20240930073845.347326-1-raag.jadav@intel.com>
- <20240930073845.347326-2-raag.jadav@intel.com>
- <ZxB6yKRrgvCoRK7y@black.fi.intel.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <ZxB6yKRrgvCoRK7y@black.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR3P281CA0133.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:94::20) To SJ0PR12MB5673.namprd12.prod.outlook.com
- (2603:10b6:a03:42b::13)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.26; Thu, 17 Oct
+ 2024 08:09:52 +0000
+Received: from LV3PR11MB8603.namprd11.prod.outlook.com
+ ([fe80::4622:29cf:32b:7e5c]) by LV3PR11MB8603.namprd11.prod.outlook.com
+ ([fe80::4622:29cf:32b:7e5c%5]) with mapi id 15.20.8069.018; Thu, 17 Oct 2024
+ 08:09:52 +0000
+Date: Thu, 17 Oct 2024 16:09:42 +0800
+From: kernel test robot <oliver.sang@intel.com>
+To: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
+CC: <oe-lkp@lists.linux.dev>, <lkp@intel.com>, Maxime Ripard
+ <mripard@kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <oliver.sang@intel.com>
+Subject: [linux-next:master] [drm/tests]  d219425604:
+ WARNING:at_drivers/gpu/drm/drm_framebuffer.c:#drm_framebuffer_free[drm]
+Message-ID: <202410171515.c79582d2-oliver.sang@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+X-ClientProxiedBy: KU1PR03CA0028.apcprd03.prod.outlook.com
+ (2603:1096:802:19::16) To LV3PR11MB8603.namprd11.prod.outlook.com
+ (2603:10b6:408:1b6::9)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR12MB5673:EE_|MN0PR12MB6152:EE_
-X-MS-Office365-Filtering-Correlation-Id: e74ca235-90ea-440f-8823-08dcee819f28
+X-MS-TrafficTypeDiagnostic: LV3PR11MB8603:EE_|MN6PR11MB8194:EE_
+X-MS-Office365-Filtering-Correlation-Id: ccd8d1c0-6dda-4c36-fa6a-08dcee8313a9
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|1800799024|7416014|366016|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?MHI5VEJOSTcxQ2drenNDU1pIQjh2UmcybzljR2xoQzQ4cDJTUnh3MkQwWlNk?=
- =?utf-8?B?b0Y5ejlqTmF2WHdPQTlHRnQ4RWIrcEJYV1BXb0hkRWZzQ3dVaFNPeDdab0VZ?=
- =?utf-8?B?ZElKMDRmVGxiR05rUzJVZGJzQlBDT3Z0T0hsdUVZLzVIcVEvdTJuTE8zdmUr?=
- =?utf-8?B?Q3N4VWJpWHZrRGI5cXFhcFdxNzFCdUYxeDE1UDg4RCtMYUJsb0NlRTU5Nm0r?=
- =?utf-8?B?dVhCTFFhSkVvdXNjSXN3Tml1aEdqa0xFc0t4clFEbzF4bmFhZ1RXejhuenhQ?=
- =?utf-8?B?QWFNUStCd2VlbWVPSmxRS0UyOHFIYy9aVlg5MndxdjVybFdWSXRtS1VpSGhR?=
- =?utf-8?B?VGlnb3FmVXptWjBZL3dPWFRTbXBpYjBweDZ3c3A0aC9XQ0RSSDJvUHdqSHk3?=
- =?utf-8?B?SjJEYXIxRXh6YWtsQ01mL21wQ1JzRE4ycXpQUWcyQmNlNlBYazlCZFdEa001?=
- =?utf-8?B?bUVDY2RpamhsbmttL3gxZFYxbFkyODVJdlpwYVpsdVRuUFNUVXNvYy9Nb3RW?=
- =?utf-8?B?ZGg1d2lTcGhxSWZUWTRvamc2QUNuMmVNUUhHZ0x1YnNFZE93ckFxVXhvamR2?=
- =?utf-8?B?dW40aEFPMVJYT2RNUmFLQkQwVDBvSS9MZlphOVhBNVVxS3B5Z0I4UzhibUU4?=
- =?utf-8?B?M1lqS3QwdFIxU3RMM25yUjRLdFBzUEd4clE3cVpRdk1UaHk4Q1JNbzdWWGNh?=
- =?utf-8?B?M29OYVpOeG16L0tBbWVSRWV3YlpReStWTUFpWkExNUkvdE14L1NTRWhyRHhX?=
- =?utf-8?B?dHl2UURTbkw2ZlVIeUZQd2JpaGNaOUtnZ2J2Mm1UTFZQNVlLOWVMSmNVRlBH?=
- =?utf-8?B?VE5CUGRPVmhlSTFDaHJvYmpaRkdHams1d01CSit0SkhBMmJVNk5OTE02SVhW?=
- =?utf-8?B?ZUJ4eFovWW9lOURtek5sbk44cVNlRmlZc285elVFWS9haThKRTFkbGxqbENp?=
- =?utf-8?B?RGkxbUZDN0Q4ZVdLcnRoVVdpS040THVQenZVemp0dnFSK0ZockZsRWliZ0M0?=
- =?utf-8?B?UzRjQmpCMzRpWjNISUpuV3ZEZXZWeU9HRHBsdVM1MEFpU3VnaWpiK003Yzd5?=
- =?utf-8?B?aFJIOTVsVkp5d2lTT1FqVWVvK1JtS2NUak1BdEw2cGFTRDd1MXlXWWl6NlZj?=
- =?utf-8?B?eWdya0IzdG9wc0Y5NXp4RGFmeDlmaThzd0kyUzg4bEFEUmRqV1Q0QTBlSStI?=
- =?utf-8?B?cGpackYvY1B0SWtpNndmblhqdjByOXBObGU0MHRqSjZlZHZ3L2ZOODh3U01M?=
- =?utf-8?B?VGpGZUFVSFhpdDFhdmRLM25EcXlpcGlhMFJlT0hWWmFuckMzaEZRTTFlQitv?=
- =?utf-8?B?T1h5WjdoK2htZ2hEcFg0cFhMa2JGTnBKdUxuS0NjL3Z6OWh1S3BMY2VlbWU0?=
- =?utf-8?B?Y2FqemZJMWZjZ2dmWWUvZkZtMGorb2pHMXJFNmlGU0E4ZGdCSml2QlBSQlMr?=
- =?utf-8?B?MWZHQ1lEQ1d5SzhlVjE1OG9XemhiTUVtNklOS01VYVdhUHRZdU5TYmwvZE5L?=
- =?utf-8?B?U05Edzhwdkl5bzVWZ1hEU3E5RDMvLzNzQVUxUE55eGY1RHZ5eHloVE9JQlpu?=
- =?utf-8?B?ZVJNR1VwcXh6bml4OWtmYTJPd0s4K0tUbXhJQjJWeTRxSUFuM3N6eVJSSDhs?=
- =?utf-8?B?YURVd0dZMTluRnJQS1NWOHpFeUE3SzBUZnlJWXdvbEhGMmJTK0NEaUxJaUpp?=
- =?utf-8?B?YmNvTm9jQlB4VXZoa3R3N2dyRGNITFp6c1h2WEcrMG1nTkQzNkp4TEdXYTM1?=
- =?utf-8?B?NTFLTERuUmsvOXNLNkkxNlpKOXp2aW5IYlZQT294eXJxekFCZytxMjVSYVFF?=
- =?utf-8?B?bGhDbWZGOUZoKzc1NjFlQUFxSWF6VUZnV0R5V1R0L1paMDFZbzZvTFZmeWgr?=
- =?utf-8?Q?Co1HYhD8qf4Mz?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?HzWhsGQi/zXJ+83z2qme4IFnNUO19rk6OD5zcxHLdkg78ExJnKSg/s9rDD1U?=
+ =?us-ascii?Q?QG9i9f8Z7X2kFvn81jVUne2t+hmCTNrG9RHpz0mAAEuz0+jDNmXXGlbj4aYf?=
+ =?us-ascii?Q?iPs2SjKzl2saMpxnIPrD5XSzj9dbtBpSMvEBa7mjZFISZeujzLPyJZzIkLAi?=
+ =?us-ascii?Q?q5X/5duNP2fzT0alNRAPCCB9EvMZ6MWcVl4lrFzCL9GPyYMbtw71bzLn1E5I?=
+ =?us-ascii?Q?dEFwRYbGITOWrB7CnnMjqdeN3sS2OVneMqju0ezSNx8z+cI/imqILSg7tV1U?=
+ =?us-ascii?Q?4/NfBmUA/wS1Di6IHJ09hN+QjfmurKS3iK/o9wnOsxnT7iY1C9f8bx57kop3?=
+ =?us-ascii?Q?081dybBI/keBL8Azwj6AaQC0XN55FoYoU8e5ZFcTrxELBiv5l5I3PHLSJUm4?=
+ =?us-ascii?Q?z3eCo2+C/b1SJ/q1VuZBjb1hqeo3gcqGe27f2BRmOKmN9KVtECtfKv4+x/CF?=
+ =?us-ascii?Q?7sLdhxx9SIdnbSOHZThrajFHrFlC+/lNWsIRoUQEZtciZ+6HMEm48NEHnY0v?=
+ =?us-ascii?Q?VgvZaO9+sRteiVDrNtGn/5XAMSPhz7+NdSmqrHbCQLzA0g9Wjt1vtbudjiv5?=
+ =?us-ascii?Q?MMSkCODIGc7G7b3kALEoNA9QQCDM5NS5zt1yptif66y2VBn2fvDLdrZX6rrW?=
+ =?us-ascii?Q?7ADMhQVzelnpS693NSvWsy8k7lItGGtqpET5KMzUSOGKmlAaSH8oGUd7tVYA?=
+ =?us-ascii?Q?RDET85rj4ZEGSWkDy4chglTO7UaeYzDzhaNfuifsvNMgfrcUG3CTcAKAIlPK?=
+ =?us-ascii?Q?oEJZwlSRV2+wgq2FIO0SeaaLIskoH4s3k24Yla9e0GHMxE9fOnJ58dTnKAoN?=
+ =?us-ascii?Q?ySvLgxtQvKmw1sgxbuJWHhGxsLv6TvuHzF4aSVFiPvBgBtx9VxXdG9Az7wHA?=
+ =?us-ascii?Q?m4sGZN+FELyjsj9i75SUuIPISlomfJ2MTnJBzoTeapTXE2Xk0jSIkLp3lXc2?=
+ =?us-ascii?Q?eh+NjudL63Qo73KPN0ebUdS0T02Es8RN5jq6q6gOkAS6/qhbBr4hG6/8LVIZ?=
+ =?us-ascii?Q?njB+4OQ8Si9BuhgG2MBVlYqFapZBYn7aTb9qP9P0AYFJmZ4xYG1BZten4ixX?=
+ =?us-ascii?Q?eMiMlZZeoZPmRH1XNLOm8UXboev1Aizl5fkuZUMbs1ItcfUNaB9j4N7lbO5G?=
+ =?us-ascii?Q?U9ydEUSp1quaOdJcIwu6AjvHdXP6LPDB94GfxG/4ZHU74Sr6sQz2NoQYXd2n?=
+ =?us-ascii?Q?/3XctYablZ0bqEeuDiNU30QL5oTT2iKSvPHh9B1JNHrMA+jCvVB6GiUj7M3P?=
+ =?us-ascii?Q?4LZL4VsEctRwrUxiq9zhyKktjrSXWZxTSduhO5bGzQ=3D=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SJ0PR12MB5673.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(7416014)(366016)(921020); DIR:OUT; SFP:1101;
+ IPV:NLI; SFV:NSPM; H:LV3PR11MB8603.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MjJVdmFsdExBUHBaQjV5MElxLzlDQjlmV2FCdzE2SEp4THdGeDR2RU9Rb2ZF?=
- =?utf-8?B?eGpGNG9PQkdOOVE1b1VyeVZERVJoRUg4NTB3d3BWcEl1aEFtaHRGNkM4SHpp?=
- =?utf-8?B?bkk3S0t2S3Y0NkE2WjF0UHlVTWp5V2NCcEpnY0Z5S2ZTVFhxSnMvNkpVLytI?=
- =?utf-8?B?ZlBGRkNOdkQ5TEdTbXl5TXhncUIyUmEyd1Z2aXhFdXEyL2hzaE9LcG9sNWxM?=
- =?utf-8?B?M0NKSndsRk4wOU9FRnUzSzFyYUVRUE51RkNJc3MwTUEwbWt5bHI4YlVNUUJR?=
- =?utf-8?B?THlnUkI0WTgwbnBRQlVxMzBZS0oyQ2RRbUFsSFpsM0J0Q01ndHRpL3ptQ2VH?=
- =?utf-8?B?N3RzR3J6TU1LanQ0U3pwVTNTTWlBVkpMVDRwaDdubVJ3T0NFL01HbVhGTHNN?=
- =?utf-8?B?b09lR2hwT2NVQmJVNmJ2OVA2OGlhaDFmc1ZCdy9qVUhScWxycFV3MHNxZXVC?=
- =?utf-8?B?d1ZaU2tiVStZQmZkRTVUQUdRK1RjemlSMnBITU5vMVBobXhWTjdmajZNaisr?=
- =?utf-8?B?VDlPS2R3Q2p6SHI5TDNwcGhsWHM5Nm9vbE1kMmhCR0E5UFBvOFh6ckk3R0pE?=
- =?utf-8?B?MUV4YjRTVkVMTkJyaEp5ZHpiaHVWVmlyaGljUENWQUlHNGtGbmFGQ2x5V1Jz?=
- =?utf-8?B?SUpjNTVKK1lMRWhIV3VmVFJIdlVlclJwM09TSkltR3h5ZURWWGdCeTZxSHFF?=
- =?utf-8?B?WWxHMGxaYk5HSyt3N2NLaE03NVg4REhyRytsdWUrcXM4ei9JNFN2aE9LOXYv?=
- =?utf-8?B?LzZOOVAzTW5NbXIrZGI5TmY4MWFGRUVNanlLMzYxZ2NxSDBUQURwVU5pT2VV?=
- =?utf-8?B?VGNjSVNEMGhCSEdDTUdFSHIvendkTmd6REtUVGlwNGtxR1dyM05wYm5pWStF?=
- =?utf-8?B?WlhyZnFhbHdrSlRxZzFwNFY1Q05BQXh3V1hKUitaWiswZGgrSFY1Q1hNN0VN?=
- =?utf-8?B?Ujk5cGViazAyU3RxZGxpYjRERWxhOWEvMENkeStXcFZNYlZLTHZnR0JpTlVN?=
- =?utf-8?B?SjVFWjJUOWI2WCtxdUYwSDV0OEM5MjBzQm1pc1lzWVJNeGtkeUc0QmlqQXZC?=
- =?utf-8?B?aWZhMm1CU2Z1TmNLcWpRcFBTM2lBQXJKNzR6WWxnVnNmVjU5L3BqbkhDZHZn?=
- =?utf-8?B?WCtwYWx3Yk82a1Zva0hvbzh3ODJEUXVTOHYvTmhHU0JNdkRXenhIdXpmMzNL?=
- =?utf-8?B?eHJYVGk2M281ejlHZTNML3RnZkFZbTA5WGtJTmZabmRuczlhREpLNThheG9o?=
- =?utf-8?B?VkRDWTB3emRQbjhPN2l2ZUt0eVlsYXlQSnBQUW5xa1VPT3R5RWs5azkzcDhw?=
- =?utf-8?B?bmRWTzE3TlB3bEpzK2ZRaUx3LzlKRU4xeU54L1hiZ3lXUDlZV3l0YitvR2hG?=
- =?utf-8?B?UFAyM0RWOXo2RktJQzNBcVhRUTJRbnBIV0JnVmR0ckcvNUxWWWJDdTBTNGdr?=
- =?utf-8?B?T1o5SjZ4U2tXQ1dBOUNUN3BsaGFPREVTZVMrMzZDd2Q0K1FFbFlUenlIRlRk?=
- =?utf-8?B?anRSSEI1QXovbVhiRVFiRnhUNHBSOWtjTTM5QjVYV1grQ29WZEJqdStQWGNZ?=
- =?utf-8?B?VGhjNDAvR3FKQnN3K1VxQmdKV0VwZkVvQ2VGN1dUSTdsaEpnZ0tyelhsTXRP?=
- =?utf-8?B?QURXUy92WnZaVzRSWEtzVDdSMlRpRnJrZHNEZnlaekNMdWxKNDAxY0p4WThn?=
- =?utf-8?B?WkdEODd2SVloYmpmQmRnM0ZPRFlycnhtcXBoZmxzc1ozNnh4ZGljU3FoVTJJ?=
- =?utf-8?B?NWV3aWMzdUMrQUliYWlHbWhUUnJ4SHRVenVQd08xRG55NzJXa2ovZHQ3bGNH?=
- =?utf-8?B?WkJSUU5XNFJCeTN3aG9JWXBtVXpxeSt5NHd5a1VMMGljNkc3dThPT0Q4d2FQ?=
- =?utf-8?B?ZzM3SFlaMkNtQXpRT0RPU2lnbWNrZGdCcHhVOEhWc0ZhVmx5cWdXTUJ4VlhF?=
- =?utf-8?B?WW1sTWk1b3Fodk5qaVQzczlpUUUzK2VMQ0k3allObkFjaEw2KzRMZkdMMzFU?=
- =?utf-8?B?VFluaG1VN2sxMTFHVGtHZXo1dnhlVW84OHFaRGs5MUVFWms2YjBzeUluT0cw?=
- =?utf-8?B?NUZjZXIvVzBLL3pIL1Q3THV0N2FQUlVQaW5iNlBQeVo2YTM1UDFORWxYNzJK?=
- =?utf-8?Q?Nj9EKcshwHaTw/FHG0b6GXwcm?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e74ca235-90ea-440f-8823-08dcee819f28
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR12MB5673.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?DhNuqBB1BvUABs7sA0vD+jCQp4gZzIUyfh0uP64cwADGUJfb2FCoCGEcuikz?=
+ =?us-ascii?Q?BYffV4DF1XumwWPExieekLwjKyOVNPw5q+naGQLAJBV4ywIvOvRQiWyTYjRm?=
+ =?us-ascii?Q?EAkbfIhOzjeSHMwOrVqOncvGrviyz+qRLDQolmUtorvulhgOzZEuuC72xsx2?=
+ =?us-ascii?Q?DWJW2v4rGPqhEXY5chLp+b0P9aOu4Yt5+5Ka9nY8/R6S8k6Ewq5EzSpvYAR1?=
+ =?us-ascii?Q?IZSGlfPwF8YH+SDGHAfWX89CWPb3aaQPFE8/exw7s9KmVTIbvQbJN4MrEbGk?=
+ =?us-ascii?Q?HInBVfdnldPg8pvXfDcGpwtXhNhvs/LspYWqx38d+i1r+nzdTSyuG/JrWADt?=
+ =?us-ascii?Q?fJaTaWkCoaevrBOh/ws6vtiECZh7hYk1jyE17CLTMRxDXBTo8cFvqxVzSfpQ?=
+ =?us-ascii?Q?iDjAWx89KUPqPprWpsPlYBlUyZx9YAH1uIE12QTjljFRaHOh5UJS5NFV3nCi?=
+ =?us-ascii?Q?S2h3QePG4KGNB9C2O/CMb+xKBbvM8/6yLu9u9T5SCRM9UGh3WLaBIz8abc93?=
+ =?us-ascii?Q?A424ahNYR1Zevq0+P4ZN7NjFknvv3az4n/NzstCFS3IpJhDWRbTxIarlebDk?=
+ =?us-ascii?Q?YjO9LqzXq2VYsRMWawAG/AryvDnonPM7IyLFoTJgJNY9GcT92jEq244+68gg?=
+ =?us-ascii?Q?FFwnFR9f0tcokveOK4C9rRlIsWytOkKciecDbNK8rUJrTC5zTTsQT70AmZd3?=
+ =?us-ascii?Q?yfmMc89ipP6DcWr8ZgZZjLXlCFaFweYnXOiPVYIIcx6qzRPFW8921MiHL5Vq?=
+ =?us-ascii?Q?0Tq6YMA/9ugExnVQ/tHpusKjn/yHLhq9k7FtFpne4YD51WU1ellKsiHuwWxx?=
+ =?us-ascii?Q?Bf9sgux5SH/ECDDaTsVfJkUfKvM0+IZNTxhKd2a27uQsV0IvfBujfAJPztEc?=
+ =?us-ascii?Q?Rifa5Q+2xNjpRiO7JI9On6+kH0US5cfBmgWefRtamO1TOBpSzxEX+8EKQ7tk?=
+ =?us-ascii?Q?pfncIgfh/Ea5Vq+f+I6Uc+uOTNa2q2hCqA0OdihT/ofy8SeXm4axcq0fLiDD?=
+ =?us-ascii?Q?2Tm8fsvjazNTXkjZ0PvvObdl4YIGTKgoNBeu0UkyTOHVVw9O/6NdoKQGy79P?=
+ =?us-ascii?Q?JkHteTzpwuSqqbJ7As/FlELU+dlMEDFBPg3ET4WE/H/anfVPNzCoxe0CfbPS?=
+ =?us-ascii?Q?OYMC/VCuaGFyNT6z3Vop+D/WTLTzM05uTswmxIMLbESK+PU0+zhbon0grDZB?=
+ =?us-ascii?Q?Pj+mIC7GjY8wPdrBI7PNNvkiAsCQ8qTvAeZXJgCUjRg0MuXeU+4oRFiKQqGL?=
+ =?us-ascii?Q?BaAJIuVkIsGaK0/fFnttsGvxg4wDl8eI7ZOyAHffhGtgcZ3Q8Qe7yFsOBGcE?=
+ =?us-ascii?Q?cHAkwg5YOOH8K0IH4rNY++685T1yoRPhCpp2x2Waq4KSmWPfymxTPgvyooms?=
+ =?us-ascii?Q?soCVX8rUQ4RzMjXcaub4qfLhf7Bd8i6yutoDLul91+y5joS+23IY9gekz0xn?=
+ =?us-ascii?Q?GSPTms6PYr8rix6GTRGo4HOPICGUXyxFoHcbQJkVZsJzIDc9hxjEjmr7/HKH?=
+ =?us-ascii?Q?WVTK5c+AuQ5DPbtp6WwxqOGvaPeTDOaJQ/LufsAM64xMv70lFZLFkkox1gsj?=
+ =?us-ascii?Q?i3TYZyUkUdO3dOIoi835izg9X4hZ2Szrcs+18aiNTGu7kBJEJ0BtYUjbuoki?=
+ =?us-ascii?Q?Pg=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: ccd8d1c0-6dda-4c36-fa6a-08dcee8313a9
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR11MB8603.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Oct 2024 07:59:27.0784 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Oct 2024 08:09:52.0693 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yxrVT5AUqhiICCDh7Y65ruMDU3JvaxPfuGb2Ya9jyofVOfNd4hVkj45tvmx0D1ie
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6152
+X-MS-Exchange-CrossTenant-UserPrincipalName: hRogCP0GFuzNb1B+E09l1Hkdo8bAuVtldAoUlPgLfDifoeyietvmVUXlMLibxmxX2KuiTUYngtVCkXHY39t4Eg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR11MB8194
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -175,250 +173,129 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 17.10.24 um 04:47 schrieb Raag Jadav:
-> On Mon, Sep 30, 2024 at 01:08:41PM +0530, Raag Jadav wrote:
->> Introduce device wedged event, which will notify userspace of wedged
->> (hanged/unusable) state of the DRM device through a uevent. This is
->> useful especially in cases where the device is no longer operating as
->> expected even after a hardware reset and has become unrecoverable from
->> driver context.
 
-Well introduce is probably the wrong wording since i915 already has that 
-and amdgpu looked into it but never upstreamed the support.
 
-I would rather say standardize.
+Hello,
 
->>
->> Purpose of this implementation is to provide drivers a generic way to
->> recover with the help of userspace intervention. Different drivers may
->> have different ideas of a "wedged device" depending on their hardware
->> implementation, and hence the vendor agnostic nature of the event.
->> It is up to the drivers to decide when they see the need for recovery
->> and how they want to recover from the available methods.
->>
->> Current implementation defines three recovery methods, out of which,
->> drivers can choose to support any one or multiple of them. Preferred
->> recovery method will be sent in the uevent environment as WEDGED=<method>.
->> Userspace consumers (sysadmin) can define udev rules to parse this event
->> and take respective action to recover the device.
->>
->>      =============== ==================================
->>      Recovery method Consumer expectations
->>      =============== ==================================
->>      rebind          unbind + rebind driver
->>      bus-reset       unbind + reset bus device + rebind
->>      reboot          reboot system
->>      =============== ==================================
+kernel test robot noticed "WARNING:at_drivers/gpu/drm/drm_framebuffer.c:#drm_framebuffer_free[drm]" on:
 
-Well that sounds like userspace would need to be involved in recovery.
+commit: d2194256049910d286cd6c308c2689df521d8842 ("drm/tests: Add test for drm_framebuffer_free()")
+https://git.kernel.org/cgit/linux/kernel/git/next/linux-next.git master
 
-That in turn is a complete no-go since we at least need to signal all 
-dma_fences to unblock the kernel. In other words things like bus reset 
-needs to happen inside the kernel and *not* in userspace.
+[test failed on linux-next/master 15e7d45e786a62a211dd0098fee7c57f84f8c681]
 
-What we can do is to signal to userspace: Hey a bus reset of device X 
-happened, maybe restart container, daemon, whatever service which was 
-using this device.
+in testcase: kunit
+version: 
+with following parameters:
 
-Regards,
-Christian.
+	group: group-00
 
->>
->> v4: s/drm_dev_wedged/drm_dev_wedged_event
->>      Use drm_info() (Jani)
->>      Kernel doc adjustment (Aravind)
->> v5: Send recovery method with uevent (Lina)
->> v6: Access wedge_recovery_opts[] using helper function (Jani)
->>      Use snprintf() (Jani)
->> v7: Convert recovery helpers into regular functions (Andy, Jani)
->>      Aesthetic adjustments (Andy)
->>      Handle invalid method cases
->>
->> Signed-off-by: Raag Jadav <raag.jadav@intel.com>
->> ---
-> Cc'ing amd, collabora and others as I found semi-related work at
->
-> https://lore.kernel.org/dri-devel/20230627132323.115440-1-andrealmeid@igalia.com/
-> https://lore.kernel.org/amd-gfx/20240725150055.1991893-1-alexander.deucher@amd.com/
-> https://lore.kernel.org/dri-devel/20241011225906.3789965-3-adrian.larumbe@collabora.com/
-> https://lore.kernel.org/amd-gfx/CAAxE2A5v_RkZ9ex4=7jiBSKVb22_1FAj0AANBcmKtETt5c3gVA@mail.gmail.com/
->
->
-> Please share feedback about usefulness and adoption of this.
-> Improvements are welcome.
->
-> Raag
->
->>   drivers/gpu/drm/drm_drv.c | 77 +++++++++++++++++++++++++++++++++++++++
->>   include/drm/drm_device.h  | 23 ++++++++++++
->>   include/drm/drm_drv.h     |  3 ++
->>   3 files changed, 103 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
->> index ac30b0ec9d93..cfe9600da2ee 100644
->> --- a/drivers/gpu/drm/drm_drv.c
->> +++ b/drivers/gpu/drm/drm_drv.c
->> @@ -26,6 +26,8 @@
->>    * DEALINGS IN THE SOFTWARE.
->>    */
->>   
->> +#include <linux/array_size.h>
->> +#include <linux/build_bug.h>
->>   #include <linux/debugfs.h>
->>   #include <linux/fs.h>
->>   #include <linux/module.h>
->> @@ -33,6 +35,7 @@
->>   #include <linux/mount.h>
->>   #include <linux/pseudo_fs.h>
->>   #include <linux/slab.h>
->> +#include <linux/sprintf.h>
->>   #include <linux/srcu.h>
->>   #include <linux/xarray.h>
->>   
->> @@ -70,6 +73,42 @@ static struct dentry *drm_debugfs_root;
->>   
->>   DEFINE_STATIC_SRCU(drm_unplug_srcu);
->>   
->> +/*
->> + * Available recovery methods for wedged device. To be sent along with device
->> + * wedged uevent.
->> + */
->> +static const char *const drm_wedge_recovery_opts[] = {
->> +	[DRM_WEDGE_RECOVERY_REBIND] = "rebind",
->> +	[DRM_WEDGE_RECOVERY_BUS_RESET] = "bus-reset",
->> +	[DRM_WEDGE_RECOVERY_REBOOT] = "reboot",
->> +};
->> +
->> +static bool drm_wedge_recovery_is_valid(enum drm_wedge_recovery method)
->> +{
->> +	static_assert(ARRAY_SIZE(drm_wedge_recovery_opts) == DRM_WEDGE_RECOVERY_MAX);
->> +
->> +	return method >= DRM_WEDGE_RECOVERY_REBIND && method < DRM_WEDGE_RECOVERY_MAX;
->> +}
->> +
->> +/**
->> + * drm_wedge_recovery_name - provide wedge recovery name
->> + * @method: method to be used for recovery
->> + *
->> + * This validates wedge recovery @method against the available ones in
->> + * drm_wedge_recovery_opts[] and provides respective recovery name in string
->> + * format if found valid.
->> + *
->> + * Returns: pointer to const recovery string on success, NULL otherwise.
->> + */
->> +const char *drm_wedge_recovery_name(enum drm_wedge_recovery method)
->> +{
->> +	if (drm_wedge_recovery_is_valid(method))
->> +		return drm_wedge_recovery_opts[method];
->> +
->> +	return NULL;
->> +}
->> +EXPORT_SYMBOL(drm_wedge_recovery_name);
->> +
->>   /*
->>    * DRM Minors
->>    * A DRM device can provide several char-dev interfaces on the DRM-Major. Each
->> @@ -497,6 +536,44 @@ void drm_dev_unplug(struct drm_device *dev)
->>   }
->>   EXPORT_SYMBOL(drm_dev_unplug);
->>   
->> +/**
->> + * drm_dev_wedged_event - generate a device wedged uevent
->> + * @dev: DRM device
->> + * @method: method to be used for recovery
->> + *
->> + * This generates a device wedged uevent for the DRM device specified by @dev.
->> + * Recovery @method from drm_wedge_recovery_opts[] (if supprted by the device)
->> + * is sent in the uevent environment as WEDGED=<method>, on the basis of which,
->> + * userspace may take respective action to recover the device.
->> + *
->> + * Returns: 0 on success, or negative error code otherwise.
->> + */
->> +int drm_dev_wedged_event(struct drm_device *dev, enum drm_wedge_recovery method)
->> +{
->> +	/* Event string length up to 16+ characters with available methods */
->> +	char event_string[32] = {};
->> +	char *envp[] = { event_string, NULL };
->> +	const char *recovery;
->> +
->> +	recovery = drm_wedge_recovery_name(method);
->> +	if (!recovery) {
->> +		drm_err(dev, "device wedged, invalid recovery method %d\n", method);
->> +		return -EINVAL;
->> +	}
->> +
->> +	if (!test_bit(method, &dev->wedge_recovery)) {
->> +		drm_err(dev, "device wedged, %s based recovery not supported\n",
->> +			drm_wedge_recovery_name(method));
->> +		return -EOPNOTSUPP;
->> +	}
->> +
->> +	snprintf(event_string, sizeof(event_string), "WEDGED=%s", recovery);
->> +
->> +	drm_info(dev, "device wedged, generating uevent for %s based recovery\n", recovery);
->> +	return kobject_uevent_env(&dev->primary->kdev->kobj, KOBJ_CHANGE, envp);
->> +}
->> +EXPORT_SYMBOL(drm_dev_wedged_event);
->> +
->>   /*
->>    * DRM internal mount
->>    * We want to be able to allocate our own "struct address_space" to control
->> diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
->> index c91f87b5242d..fed6f20e52fb 100644
->> --- a/include/drm/drm_device.h
->> +++ b/include/drm/drm_device.h
->> @@ -40,6 +40,26 @@ enum switch_power_state {
->>   	DRM_SWITCH_POWER_DYNAMIC_OFF = 3,
->>   };
->>   
->> +/**
->> + * enum drm_wedge_recovery - Recovery method for wedged device in order of
->> + * severity. To be set as bit fields in drm_device.wedge_recovery variable.
->> + * Drivers can choose to support any one or multiple of them depending on
->> + * their needs.
->> + */
->> +enum drm_wedge_recovery {
->> +	/** @DRM_WEDGE_RECOVERY_REBIND: unbind + rebind driver */
->> +	DRM_WEDGE_RECOVERY_REBIND,
->> +
->> +	/** @DRM_WEDGE_RECOVERY_BUS_RESET: unbind + reset bus device + rebind */
->> +	DRM_WEDGE_RECOVERY_BUS_RESET,
->> +
->> +	/** @DRM_WEDGE_RECOVERY_REBOOT: reboot system */
->> +	DRM_WEDGE_RECOVERY_REBOOT,
->> +
->> +	/** @DRM_WEDGE_RECOVERY_MAX: for bounds checking, do not use */
->> +	DRM_WEDGE_RECOVERY_MAX
->> +};
->> +
->>   /**
->>    * struct drm_device - DRM device structure
->>    *
->> @@ -317,6 +337,9 @@ struct drm_device {
->>   	 * Root directory for debugfs files.
->>   	 */
->>   	struct dentry *debugfs_root;
->> +
->> +	/** @wedge_recovery: Supported recovery methods for wedged device */
->> +	unsigned long wedge_recovery;
->>   };
->>   
->>   #endif
->> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
->> index 02ea4e3248fd..d8dbc77010b0 100644
->> --- a/include/drm/drm_drv.h
->> +++ b/include/drm/drm_drv.h
->> @@ -462,6 +462,9 @@ bool drm_dev_enter(struct drm_device *dev, int *idx);
->>   void drm_dev_exit(int idx);
->>   void drm_dev_unplug(struct drm_device *dev);
->>   
->> +const char *drm_wedge_recovery_name(enum drm_wedge_recovery method);
->> +int drm_dev_wedged_event(struct drm_device *dev, enum drm_wedge_recovery method);
->> +
->>   /**
->>    * drm_dev_is_unplugged - is a DRM device unplugged
->>    * @dev: DRM device
->> -- 
->> 2.34.1
->>
+
+
+config: x86_64-rhel-8.3-kunit
+compiler: gcc-12
+test machine: 4 threads 1 sockets Intel(R) Core(TM) i3-3220 CPU @ 3.30GHz (Ivy Bridge) with 8G memory
+
+(please refer to attached dmesg/kmsg for entire log/backtrace)
+
+
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <oliver.sang@intel.com>
+| Closes: https://lore.kernel.org/oe-lkp/202410171515.c79582d2-oliver.sang@intel.com
+
+
+kern  :warn  : [  111.096210] ------------[ cut here ]------------
+kern  :warn  : [  111.096421] drm-kunit-mock-device drm_test_framebuffer_free.drm-kunit-mock-device: [drm] drm_WARN_ON(!list_empty(&fb->filp_head))
+kern :warn : [  111.096523] WARNING: CPU: 1 PID: 4862 at drivers/gpu/drm/drm_framebuffer.c:832 drm_framebuffer_free (drivers/gpu/drm/drm_framebuffer.c:832) drm
+kern  :warn  : [  111.097075] Modules linked in: drm_framebuffer_test drm_kunit_helpers linear_ranges btrfs intel_rapl_msr intel_rapl_common x86_pkg_temp_thermal intel_powerclamp coretemp blake2b_generic xor kvm_intel raid6_pq libcrc32c kvm crct10dif_pclmul crc32_generic crc32_pclmul crc32c_intel ghash_clmulni_intel sd_mod sg sha512_ssse3 rapl i915 intel_cstate ipmi_devintf ipmi_msghandler ahci libahci intel_uncore ttm intel_gtt libata mei_me drm_display_helper drm_kms_helper mei drm_buddy video wmi drm fuse ip_tables [last unloaded: drm_format_test]
+kern  :warn  : [  111.098045] CPU: 1 UID: 0 PID: 4862 Comm: kunit_try_catch Tainted: G S  B            N 6.11.0-rc7-01411-gd21942560499 #1
+kern  :warn  : [  111.098262] Tainted: [S]=CPU_OUT_OF_SPEC, [B]=BAD_PAGE, [N]=TEST
+kern  :warn  : [  111.098389] Hardware name: Hewlett-Packard p6-1451cx/2ADA, BIOS 8.15 02/05/2013
+kern :warn : [  111.098555] RIP: 0010:drm_framebuffer_free (drivers/gpu/drm/drm_framebuffer.c:832) drm
+kern :warn : [ 111.098795] Code: 8b 74 24 50 4d 85 f6 74 28 4c 89 e7 e8 af a2 96 c2 48 c7 c1 e0 d8 3e c0 4c 89 f2 48 c7 c7 40 d9 3e c0 48 89 c6 e8 66 ca eb c0 <0f> 0b e9 2e ff ff ff 48 b8 00 00 00 00 00 fc ff df 4c 89 e2 48 c1
+All code
+========
+   0:	8b 74 24 50          	mov    0x50(%rsp),%esi
+   4:	4d 85 f6             	test   %r14,%r14
+   7:	74 28                	je     0x31
+   9:	4c 89 e7             	mov    %r12,%rdi
+   c:	e8 af a2 96 c2       	call   0xffffffffc296a2c0
+  11:	48 c7 c1 e0 d8 3e c0 	mov    $0xffffffffc03ed8e0,%rcx
+  18:	4c 89 f2             	mov    %r14,%rdx
+  1b:	48 c7 c7 40 d9 3e c0 	mov    $0xffffffffc03ed940,%rdi
+  22:	48 89 c6             	mov    %rax,%rsi
+  25:	e8 66 ca eb c0       	call   0xffffffffc0ebca90
+  2a:*	0f 0b                	ud2		<-- trapping instruction
+  2c:	e9 2e ff ff ff       	jmp    0xffffffffffffff5f
+  31:	48 b8 00 00 00 00 00 	movabs $0xdffffc0000000000,%rax
+  38:	fc ff df 
+  3b:	4c 89 e2             	mov    %r12,%rdx
+  3e:	48                   	rex.W
+  3f:	c1                   	.byte 0xc1
+
+Code starting with the faulting instruction
+===========================================
+   0:	0f 0b                	ud2
+   2:	e9 2e ff ff ff       	jmp    0xffffffffffffff35
+   7:	48 b8 00 00 00 00 00 	movabs $0xdffffc0000000000,%rax
+   e:	fc ff df 
+  11:	4c 89 e2             	mov    %r12,%rdx
+  14:	48                   	rex.W
+  15:	c1                   	.byte 0xc1
+kern  :warn  : [  111.099136] RSP: 0018:ffffc90000b8fc08 EFLAGS: 00010286
+kern  :warn  : [  111.099253] RAX: 0000000000000000 RBX: ffffc90000b8fcc8 RCX: 0000000000000027
+kern  :warn  : [  111.099400] RDX: 0000000000000027 RSI: 0000000000000004 RDI: ffff8881c0eb0b08
+kern  :warn  : [  111.099560] RBP: ffffc90000b8fca0 R08: 0000000000000001 R09: ffffed10381d6161
+kern  :warn  : [  111.099707] R10: ffff8881c0eb0b0b R11: 0000000000000001 R12: ffff888122f04000
+kern  :warn  : [  111.099852] R13: ffff88821e36b000 R14: ffff888130ed8e80 R15: ffffc90000a1f920
+kern  :warn  : [  111.099996] FS:  0000000000000000(0000) GS:ffff8881c0e80000(0000) knlGS:0000000000000000
+kern  :warn  : [  111.100158] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+kern  :warn  : [  111.100280] CR2: 00000000f7203009 CR3: 00000001047ee005 CR4: 00000000001706f0
+kern  :warn  : [  111.100426] DR0: ffffffff874243e0 DR1: ffffffff874243e1 DR2: ffffffff874243e3
+kern  :warn  : [  111.100581] DR3: ffffffff874243e5 DR6: 00000000ffff0ff0 DR7: 0000000000000600
+kern  :warn  : [  111.100726] Call Trace:
+kern  :warn  : [  111.100793]  <TASK>
+kern :warn : [  111.100853] ? __warn (kernel/panic.c:741) 
+kern :warn : [  111.100940] ? drm_framebuffer_free (drivers/gpu/drm/drm_framebuffer.c:832) drm
+kern :warn : [  111.101164] ? report_bug (lib/bug.c:180 lib/bug.c:219) 
+kern :warn : [  111.101257] ? handle_bug (arch/x86/kernel/traps.c:239) 
+kern :warn : [  111.101346] ? exc_invalid_op (arch/x86/kernel/traps.c:260 (discriminator 1)) 
+kern :warn : [  111.101439] ? asm_exc_invalid_op (arch/x86/include/asm/idtentry.h:621) 
+kern :warn : [  111.101554] ? drm_framebuffer_free (drivers/gpu/drm/drm_framebuffer.c:832) drm
+kern :warn : [  111.101773] ? drm_framebuffer_free (drivers/gpu/drm/drm_framebuffer.c:832) drm
+kern :warn : [  111.101991] drm_test_framebuffer_free (drivers/gpu/drm/tests/drm_framebuffer_test.c:693 (discriminator 5)) drm_framebuffer_test
+kern :warn : [  111.102139] ? __pfx_drm_test_framebuffer_free (drivers/gpu/drm/tests/drm_framebuffer_test.c:670) drm_framebuffer_test
+kern :warn : [  111.102295] ? __pfx_drm_mode_config_init_release (drivers/gpu/drm/drm_mode_config.c:386) drm
+kern :warn : [  111.102539] ? __drmm_add_action (drivers/gpu/drm/drm_managed.c:161) drm
+kern :warn : [  111.102756] ? __schedule (kernel/sched/core.c:6399) 
+kern :warn : [  111.102848] ? __pfx_read_tsc (arch/x86/kernel/tsc.c:1130) 
+kern :warn : [  111.102941] ? ktime_get_ts64 (kernel/time/timekeeping.c:378 (discriminator 4) kernel/time/timekeeping.c:395 (discriminator 4) kernel/time/timekeeping.c:403 (discriminator 4) kernel/time/timekeeping.c:983 (discriminator 4)) 
+kern :warn : [  111.103037] kunit_try_run_case (lib/kunit/test.c:400 lib/kunit/test.c:443) 
+kern :warn : [  111.103135] ? __pfx_kunit_try_run_case (lib/kunit/test.c:430) 
+kern :warn : [  111.103243] ? set_cpus_allowed_ptr (kernel/sched/core.c:3025) 
+kern :warn : [  111.103345] ? __pfx_set_cpus_allowed_ptr (kernel/sched/core.c:3025) 
+kern :warn : [  111.103455] ? __pfx_kunit_try_run_case (lib/kunit/test.c:430) 
+kern :warn : [  111.103574] ? __pfx_kunit_generic_run_threadfn_adapter (lib/kunit/try-catch.c:26) 
+kern :warn : [  111.103705] kunit_generic_run_threadfn_adapter (lib/kunit/try-catch.c:31) 
+kern :warn : [  111.103823] kthread (kernel/kthread.c:389) 
+kern :warn : [  111.103907] ? __pfx_kthread (kernel/kthread.c:342) 
+kern :warn : [  111.103997] ret_from_fork (arch/x86/kernel/process.c:153) 
+kern :warn : [  111.104085] ? __pfx_kthread (kernel/kthread.c:342) 
+kern :warn : [  111.104175] ret_from_fork_asm (arch/x86/entry/entry_64.S:257) 
+kern  :warn  : [  111.104272]  </TASK>
+kern  :warn  : [  111.104334] ---[ end trace 0000000000000000 ]---
+kern  :info  : [  111.116715]     ok 4 drm_test_framebuffer_free
+kern  :info  : [  111.124711]     ok 5 drm_test_framebuffer_init
+
+
+The kernel config and materials to reproduce are available at:
+https://download.01.org/0day-ci/archive/20241017/202410171515.c79582d2-oliver.sang@intel.com
+
+
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
