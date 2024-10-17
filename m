@@ -2,86 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2E7D9A22F6
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2024 15:05:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 032F19A23BA
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2024 15:22:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43F3210E81C;
-	Thu, 17 Oct 2024 13:05:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65A2610E83C;
+	Thu, 17 Oct 2024 13:22:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="nSV39Jl3";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="K4ZH0v1G";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com
- [209.85.219.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 549E010E81A
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2024 13:05:42 +0000 (UTC)
-Received: by mail-qv1-f49.google.com with SMTP id
- 6a1803df08f44-6cbcc2bd7fcso5522316d6.1
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2024 06:05:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ziepe.ca; s=google; t=1729170341; x=1729775141; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Lk++0v4zwR7xUpep4iNg0I6MKOHA7nEjzuqiKjJzkok=;
- b=nSV39Jl3XnhUtZeVlTjVWSPentkawGZGzpbdnBtusByHTauei7eFZiV132d2FhBk5O
- OBMKA9Zf19u3aAfv3FSTZOIBh7NPOUy/pFw5pYsCFgOlzuJmI9bsaw6n0Z72trdRrngh
- 4CnGRiJdf37H6SFEpg+tM/k5b1FC+tU15ndXK+Cnk4Cxpy6C5kzeybxIi640lmlxildV
- 02iZ+1OhveKtMgrJdMNIGbO8xx3aufwK5zbX8z5V+YE6bITgzZEndhorGWn8jf8WNzka
- Y/G6dOf6s57ZpvNDk5iHax+xattGpKIaDo2l4ptWB7QOvEiKaMwqPOCOi0vX2dVcTGea
- MAvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729170341; x=1729775141;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Lk++0v4zwR7xUpep4iNg0I6MKOHA7nEjzuqiKjJzkok=;
- b=laGK9lGIqhBBqPybr1GFZZhiL+CdPtXviWeX2LUaGkCoE5YXZGnsZuEpMZIdhWQodk
- bNbRkSzXB1jr9wyY5Wt/HDuYr9N7UG43jIjbT/n7kP9kmheQbX5UWAF4CLfDSp+mfC6o
- L1wfqKiDngODCKvLgWUTHwOXG/DjNVon08T9xWycfeL7L7ZdPw+bpB8UfV9J6HbfnO8G
- enMC4UJE5Ei1cp6UpYhgq1s11/GKw/R81Bx8Ukxh6/Xt2PQUl2IynQlt30RxMUlM4VRd
- aWVZ/CsT2pABDStmbZJqAh/Hn7X2Y8nBJoMn1yYF+qKJK3lYLdXBWEa7u5xTFsfi4UEQ
- 4p6Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU4W8Op05aJqomVSXhRKhsLKrfMDJNRNvUasWJ9Q7j4W1svpFq0QDEyxqLIitkPe9fTsPLxo8GvLYA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyqISWeUm9MXBA292dJOdbZRAB2uSixG9qW+7uHtUAeo5PHco9F
- ZiXlogyesA4NWcYqdr0erfQ3e9ud2mmZXK9h6p4kaegMPc0OZIwstcfLMD6m/I0=
-X-Google-Smtp-Source: AGHT+IG5n5S3zHSv/JX5s/LYaf+o3YrOaG8HklVpPKUbKJ/yS6kcQbfiEDJXO6iYDC0yAlGNuOhLug==
-X-Received: by 2002:a05:6214:2b93:b0:6cb:d094:d1c4 with SMTP id
- 6a1803df08f44-6cbf009b918mr251899446d6.30.1729170340973; 
- Thu, 17 Oct 2024 06:05:40 -0700 (PDT)
-Received: from ziepe.ca
- (hlfxns017vw-142-68-128-5.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [142.68.128.5]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6cc2290fa01sm27747076d6.24.2024.10.17.06.05.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Oct 2024 06:05:40 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.95)
- (envelope-from <jgg@ziepe.ca>) id 1t1QCB-003suE-SU;
- Thu, 17 Oct 2024 10:05:39 -0300
-Date: Thu, 17 Oct 2024 10:05:39 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Yonatan Maman <ymaman@nvidia.com>, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
- linux-mm@kvack.org, herbst@redhat.com, lyude@redhat.com,
- dakr@redhat.com, airlied@gmail.com, simona@ffwll.ch,
- leon@kernel.org, jglisse@redhat.com, akpm@linux-foundation.org,
- dri-devel@lists.freedesktop.org, apopple@nvidia.com,
- bskeggs@nvidia.com, Gal Shalom <GalShalom@nvidia.com>
-Subject: Re: [PATCH v1 1/4] mm/hmm: HMM API for P2P DMA to device zone pages
-Message-ID: <20241017130539.GA897978@ziepe.ca>
-References: <20241015152348.3055360-1-ymaman@nvidia.com>
- <20241015152348.3055360-2-ymaman@nvidia.com>
- <Zw9F2uiq6-znYmTk@infradead.org>
- <20241016154428.GD4020792@ziepe.ca>
- <Zw_sn_DdZRUw5oxq@infradead.org>
- <20241016174445.GF4020792@ziepe.ca>
- <ZxD71D66qLI0qHpW@infradead.org>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EC3710E83C
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2024 13:22:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1729171351; x=1760707351;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=8xd1OpG5nxp6NH/FQhHvMCZMfE+1UsN1G1aunJtc8yo=;
+ b=K4ZH0v1GoUQoatJ0QcmUaVwR+IOL3rt9axy7dXu94T5dH7ehO/WO2sge
+ lYODcXDdQuqpytIIm5SVrxhF96Ed+pvzYqnHRI8ihC+VPt5UvfSOUTYdk
+ QsAixWMXC5gk08hEV4B662yVDbZgiHgnPAvsjVTcnXt9G7MFb6B21u7Lx
+ +N6Z8Hk8qvr6X50FF7Ymj1yP4Z6KKU4QIKoTi62e7b8ck4K+l+ks8KyRP
+ sOV1uAKvT9x73z6Y2R/72m4IRBE0OuWlmR/dRKkQY7NFWIJBPzYdq6xj0
+ oo1GwP3naLG7PQUbPqkYuf2wUbs//NWgOmNh4kr/ME7jW6orWkycvoH4g A==;
+X-CSE-ConnectionGUID: VelYMO6ZRMKL8niAzDBrrQ==
+X-CSE-MsgGUID: +QQ4++6XTh61Z590aIxnew==
+X-IronPort-AV: E=McAfee;i="6700,10204,11227"; a="54069283"
+X-IronPort-AV: E=Sophos;i="6.11,210,1725346800"; d="scan'208";a="54069283"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Oct 2024 06:22:30 -0700
+X-CSE-ConnectionGUID: Et5xQTGqQ3+53gYqyZWmqg==
+X-CSE-MsgGUID: 6bjV5x8lQtKSTDDmZDfCIA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,210,1725346800"; d="scan'208";a="78689368"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+ by orviesa006.jf.intel.com with ESMTP; 17 Oct 2024 06:22:25 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1t1QSM-000MOH-2D;
+ Thu, 17 Oct 2024 13:22:22 +0000
+Date: Thu, 17 Oct 2024 21:22:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jinjie Ruan <ruanjinjie@huawei.com>, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, christian.koenig@amd.com, ray.huang@amd.com,
+ dmitry.baryshkov@linaro.org, dave.stevenson@raspberrypi.com,
+ mcanal@igalia.com, quic_jjohnson@quicinc.com,
+ karolina.stolarek@intel.com, Arunpravin.PaneerSelvam@amd.com,
+ thomas.hellstrom@linux.intel.com, asomalap@amd.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, ruanjinjie@huawei.com
+Subject: Re: [PATCH 1/3] drm/connector: hdmi: Fix memory leak in
+ drm_display_mode_from_cea_vic()
+Message-ID: <202410172046.2W97YGlm-lkp@intel.com>
+References: <20241014071632.989108-2-ruanjinjie@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZxD71D66qLI0qHpW@infradead.org>
+In-Reply-To: <20241014071632.989108-2-ruanjinjie@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,54 +77,133 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 17, 2024 at 04:58:12AM -0700, Christoph Hellwig wrote:
-> On Wed, Oct 16, 2024 at 02:44:45PM -0300, Jason Gunthorpe wrote:
-> > > > FWIW, I've been expecting this series to be rebased on top of Leon's
-> > > > new DMA API series so it doesn't have this issue..
-> > > 
-> > > That's not going to make a difference at this level.
-> > 
-> > I'm not sure what you are asking then.
-> > 
-> > Patch 2 does pci_p2pdma_add_resource() and so a valid struct page with
-> > a P2P ZONE_DEVICE type exists, and that gets returned back to the
-> > hmm/odp code.
-> > 
-> > Today odp calls dma_map_page() which only works by chance in limited
-> > cases. With Leon's revision it will call hmm_dma_map_pfn() ->
-> > dma_iova_link() which does call pci_p2pdma_map_type() and should do
-> > the right thing.
-> 
-> Again none of this affects the code posted here.  It reshuffles the
-> callers but has no direct affect on the patches posted here.
+Hi Jinjie,
 
-I didn't realize till last night that Leon's series did not have P2P
-support.
+kernel test robot noticed the following build errors:
 
-What I'm trying to say is that this is a multi-series project.
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on linus/master v6.12-rc3 next-20241017]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-A followup based on Leon's initial work will get the ODP DMA mapping
-path able to support ZONE_DEVICE P2P pages.
+url:    https://github.com/intel-lab-lkp/linux/commits/Jinjie-Ruan/drm-connector-hdmi-Fix-memory-leak-in-drm_display_mode_from_cea_vic/20241014-152022
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20241014071632.989108-2-ruanjinjie%40huawei.com
+patch subject: [PATCH 1/3] drm/connector: hdmi: Fix memory leak in drm_display_mode_from_cea_vic()
+config: arm-randconfig-002-20241017 (https://download.01.org/0day-ci/archive/20241017/202410172046.2W97YGlm-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241017/202410172046.2W97YGlm-lkp@intel.com/reproduce)
 
-Once that is done, this series sits on top. This series is only about
-hmm and effectively allows hmm_range_fault() to return a ZONE_DEVICE
-P2P page.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410172046.2W97YGlm-lkp@intel.com/
 
-Yonatan should explain this better in the cover letter and mark it as
-a RFC series.
+All errors (new ones prefixed by >>):
 
-So, I know we are still figuring out the P2P support on the DMA API
-side, but my expectation for hmm is that hmm_range_fault() returing a
-ZONE_DEVICE P2P page is going to be what we want.
+>> drivers/gpu/drm/tests/drm_connector_test.c:1008:24: error: passing 'const struct drm_display_mode *' to parameter of type 'struct drm_display_mode *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+           drm_mode_destroy(drm, mode);
+                                 ^~~~
+   include/drm/drm_modes.h:456:72: note: passing argument to parameter 'mode' here
+   void drm_mode_destroy(struct drm_device *dev, struct drm_display_mode *mode);
+                                                                          ^
+   drivers/gpu/drm/tests/drm_connector_test.c:1031:24: error: passing 'const struct drm_display_mode *' to parameter of type 'struct drm_display_mode *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+           drm_mode_destroy(drm, mode);
+                                 ^~~~
+   include/drm/drm_modes.h:456:72: note: passing argument to parameter 'mode' here
+   void drm_mode_destroy(struct drm_device *dev, struct drm_display_mode *mode);
+                                                                          ^
+   drivers/gpu/drm/tests/drm_connector_test.c:1051:24: error: passing 'const struct drm_display_mode *' to parameter of type 'struct drm_display_mode *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+           drm_mode_destroy(drm, mode);
+                                 ^~~~
+   include/drm/drm_modes.h:456:72: note: passing argument to parameter 'mode' here
+   void drm_mode_destroy(struct drm_device *dev, struct drm_display_mode *mode);
+                                                                          ^
+   drivers/gpu/drm/tests/drm_connector_test.c:1074:24: error: passing 'const struct drm_display_mode *' to parameter of type 'struct drm_display_mode *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+           drm_mode_destroy(drm, mode);
+                                 ^~~~
+   include/drm/drm_modes.h:456:72: note: passing argument to parameter 'mode' here
+   void drm_mode_destroy(struct drm_device *dev, struct drm_display_mode *mode);
+                                                                          ^
+   drivers/gpu/drm/tests/drm_connector_test.c:1094:24: error: passing 'const struct drm_display_mode *' to parameter of type 'struct drm_display_mode *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+           drm_mode_destroy(drm, mode);
+                                 ^~~~
+   include/drm/drm_modes.h:456:72: note: passing argument to parameter 'mode' here
+   void drm_mode_destroy(struct drm_device *dev, struct drm_display_mode *mode);
+                                                                          ^
+   drivers/gpu/drm/tests/drm_connector_test.c:1117:24: error: passing 'const struct drm_display_mode *' to parameter of type 'struct drm_display_mode *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+           drm_mode_destroy(drm, mode);
+                                 ^~~~
+   include/drm/drm_modes.h:456:72: note: passing argument to parameter 'mode' here
+   void drm_mode_destroy(struct drm_device *dev, struct drm_display_mode *mode);
+                                                                          ^
+   drivers/gpu/drm/tests/drm_connector_test.c:1142:24: error: passing 'const struct drm_display_mode *' to parameter of type 'struct drm_display_mode *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+           drm_mode_destroy(drm, mode);
+                                 ^~~~
+   include/drm/drm_modes.h:456:72: note: passing argument to parameter 'mode' here
+   void drm_mode_destroy(struct drm_device *dev, struct drm_display_mode *mode);
+                                                                          ^
+   drivers/gpu/drm/tests/drm_connector_test.c:1182:24: error: passing 'const struct drm_display_mode *' to parameter of type 'struct drm_display_mode *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+           drm_mode_destroy(drm, mode);
+                                 ^~~~
+   include/drm/drm_modes.h:456:72: note: passing argument to parameter 'mode' here
+   void drm_mode_destroy(struct drm_device *dev, struct drm_display_mode *mode);
+                                                                          ^
+   drivers/gpu/drm/tests/drm_connector_test.c:1209:24: error: passing 'const struct drm_display_mode *' to parameter of type 'struct drm_display_mode *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+           drm_mode_destroy(drm, mode);
+                                 ^~~~
+   include/drm/drm_modes.h:456:72: note: passing argument to parameter 'mode' here
+   void drm_mode_destroy(struct drm_device *dev, struct drm_display_mode *mode);
+                                                                          ^
+   drivers/gpu/drm/tests/drm_connector_test.c:1233:24: error: passing 'const struct drm_display_mode *' to parameter of type 'struct drm_display_mode *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+           drm_mode_destroy(drm, mode);
+                                 ^~~~
+   include/drm/drm_modes.h:456:72: note: passing argument to parameter 'mode' here
+   void drm_mode_destroy(struct drm_device *dev, struct drm_display_mode *mode);
+                                                                          ^
+   drivers/gpu/drm/tests/drm_connector_test.c:1257:24: error: passing 'const struct drm_display_mode *' to parameter of type 'struct drm_display_mode *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+           drm_mode_destroy(drm, mode);
+                                 ^~~~
+   include/drm/drm_modes.h:456:72: note: passing argument to parameter 'mode' here
+   void drm_mode_destroy(struct drm_device *dev, struct drm_display_mode *mode);
+                                                                          ^
+   drivers/gpu/drm/tests/drm_connector_test.c:1281:24: error: passing 'const struct drm_display_mode *' to parameter of type 'struct drm_display_mode *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+           drm_mode_destroy(drm, mode);
+                                 ^~~~
+   include/drm/drm_modes.h:456:72: note: passing argument to parameter 'mode' here
+   void drm_mode_destroy(struct drm_device *dev, struct drm_display_mode *mode);
+                                                                          ^
+   12 errors generated.
 
-> (and the current DMA series lacks P2P support, I'm trying to figure
-> out how to properly handle it at the moment).
 
-Yes, I see, I looked through those patches last night and there is a
-gap there.
+vim +1008 drivers/gpu/drm/tests/drm_connector_test.c
 
-Broadly I think whatever flow NVMe uses for P2P will apply to ODP as
-well.
+   987	
+   988	/*
+   989	 * Test that for a given mode, with 8bpc and an RGB output the TMDS
+   990	 * character rate is equal to the mode pixel clock.
+   991	 */
+   992	static void drm_test_drm_hdmi_compute_mode_clock_rgb(struct kunit *test)
+   993	{
+   994		struct drm_connector_init_priv *priv = test->priv;
+   995		const struct drm_display_mode *mode;
+   996		unsigned long long rate;
+   997		struct drm_device *drm = &priv->drm;
+   998	
+   999		mode = drm_display_mode_from_cea_vic(drm, 16);
+  1000		KUNIT_ASSERT_NOT_NULL(test, mode);
+  1001	
+  1002		KUNIT_ASSERT_FALSE(test, mode->flags & DRM_MODE_FLAG_DBLCLK);
+  1003	
+  1004		rate = drm_hdmi_compute_mode_clock(mode, 8, HDMI_COLORSPACE_RGB);
+  1005		KUNIT_ASSERT_GT(test, rate, 0);
+  1006		KUNIT_EXPECT_EQ(test, mode->clock * 1000ULL, rate);
+  1007	
+> 1008		drm_mode_destroy(drm, mode);
+  1009	}
+  1010	
 
-Thanks,
-Jason
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
