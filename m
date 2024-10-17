@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6C0C9A25CA
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2024 16:58:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C00369A25CB
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2024 16:58:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 352AF10E85C;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FE7A10E85E;
 	Thu, 17 Oct 2024 14:58:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="PnLxFJxz";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NQY7dmiJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8679F10E85A
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2024 14:58:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 869A610E85B
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2024 14:58:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1729177117; x=1760713117;
+ t=1729177121; x=1760713121;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=QrRkCicFE7PJNiwRNlzq86FgC/iZrKu0QE7kw9EjTuY=;
- b=PnLxFJxzEu3fTFtM10Te7LYuQHqNxnajQUbtQ5ztzUc0XlsQeCXHeYKc
- /eh/wUcu9RDUzoJ+HUmweVpvMqNwsh9AY5oXrtEFakpTgo1kctP6DgBCU
- h8Yqrw1XwsD/ZzFZx9jwdXt75A6KYKz8+i8+sMSUpsJiSwyFFfN84GqzS
- MvWHg049+3eRQeSxio7ogvv/tw3RjnQTQPISiGtKrnCozHmHrKDIXleIV
- 3BtbyS9MVGsL611biBWFj1UORIOe8Unr05hx+vJO+ALMr+rODgYzfKYf2
- yL+IGh6JfpZ/PsS+WiWC8EhW3cVP+Qr5WO+KyynGbkXI5vp3geN3KrbN5 w==;
-X-CSE-ConnectionGUID: WlYeezCfSPCpUlZYRTZsnA==
-X-CSE-MsgGUID: 2khVTa0wTI+S6zP6VgiZuA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="39790364"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="39790364"
+ bh=GFnMijU1p2X1ZonYZabB+tbN6pf+tMSTHWv2/c2U9Ss=;
+ b=NQY7dmiJ+fYXkWGIm39wcuwTLZTwoNnJKWiJKLHEi3srbqV7afOCfSvX
+ Ghobj/c+KjtJuBSnIkFMraTbfIXlLKj8dwaOLujCGBRY00K3EK0XFsfE6
+ iqWDcufER6Qv7jGgdhzD5A0qMY7/V4kaD6Z4hiYuxYiVHeIH1Dtlpzpro
+ Dcr+wZYgFtmQY/2Vtt2qq1+qFc5tSrfw+saZ4JCQoX6nYzMQ/PT2rBG6y
+ R+OGDRKssDbLX5MZqD8R92qY+Y4ZII7zJ36xcgH3crsDF7v12ciDL1JIf
+ dkDeOqEzvaJiXGtabSUCh4LBzuVWZEKm5lybVxzw8w4JuBNt2A4PcxMi9 g==;
+X-CSE-ConnectionGUID: CIcO9Od9Tv+NFnpcSp4Izg==
+X-CSE-MsgGUID: +eOfSPF8SDOtEJRnv4pmfg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="39790370"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="39790370"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Oct 2024 07:58:37 -0700
-X-CSE-ConnectionGUID: yWv/5C8ASeG91Mt0X7dIyg==
-X-CSE-MsgGUID: JxkATs/DToiIviED/hBLyQ==
+ 17 Oct 2024 07:58:40 -0700
+X-CSE-ConnectionGUID: G18kORvIRTKoSfF3v47ClQ==
+X-CSE-MsgGUID: 2O0DoNtVTJK7PQur21wB7A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,211,1725346800"; d="scan'208";a="109374555"
+X-IronPort-AV: E=Sophos;i="6.11,211,1725346800"; d="scan'208";a="109374562"
 Received: from jlawryno.igk.intel.com ([10.91.220.59])
  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Oct 2024 07:58:36 -0700
+ 17 Oct 2024 07:58:38 -0700
 From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com,
- Maciej Falkowski <maciej.falkowski@linux.intel.com>,
+ Karol Wachowski <karol.wachowski@intel.com>,
  Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Subject: [PATCH 09/11] accel/ivpu: Add debug Kconfig option
-Date: Thu, 17 Oct 2024 16:58:15 +0200
-Message-ID: <20241017145817.121590-10-jacek.lawrynowicz@linux.intel.com>
+Subject: [PATCH 10/11] accel/ivpu: Increase DMA address range
+Date: Thu, 17 Oct 2024 16:58:16 +0200
+Message-ID: <20241017145817.121590-11-jacek.lawrynowicz@linux.intel.com>
 X-Mailer: git-send-email 2.45.1
 In-Reply-To: <20241017145817.121590-1-jacek.lawrynowicz@linux.intel.com>
 References: <20241017145817.121590-1-jacek.lawrynowicz@linux.intel.com>
@@ -69,97 +69,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Maciej Falkowski <maciej.falkowski@linux.intel.com>
+From: Karol Wachowski <karol.wachowski@intel.com>
 
-Add CONFIG_DRM_ACCEL_IVPU_DEBUG option that:
- - Adds -DDEBUG that enables printk regardless of the kernel config
- - Enables unsafe module params (that are now disabled by default)
+Increase DMA address range to:
+ * 128 GB on 37xx (due to MMU limitations)
+ * 256 GB on other generations
+Merge User and DMA ranges on 40xx and above as it is possible
+to access whole 256 GBs from both FW and DMA.
 
-Signed-off-by: Maciej Falkowski <maciej.falkowski@linux.intel.com>
+Increase User range on 37xx from 255MB to 511MB
+to allow loading very large models.
+
+Do not set global_alias_pio_base/size on other generations than 37xx
+as it's only used on 37xx anyway.
+
+Signed-off-by: Karol Wachowski <karol.wachowski@intel.com>
+Signed-off-by: Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
 Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 ---
- drivers/accel/ivpu/Kconfig    | 10 ++++++++++
- drivers/accel/ivpu/Makefile   |  2 ++
- drivers/accel/ivpu/ivpu_drv.c |  2 ++
- drivers/accel/ivpu/ivpu_fw.c  |  2 ++
- drivers/accel/ivpu/ivpu_pm.c  |  2 ++
- 5 files changed, 18 insertions(+)
+ drivers/accel/ivpu/ivpu_fw.c          |  6 ++++--
+ drivers/accel/ivpu/ivpu_hw.c          | 10 +++++-----
+ drivers/accel/ivpu/ivpu_mmu_context.c |  4 ++--
+ 3 files changed, 11 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/accel/ivpu/Kconfig b/drivers/accel/ivpu/Kconfig
-index e4d418b44626e..8858b32e05640 100644
---- a/drivers/accel/ivpu/Kconfig
-+++ b/drivers/accel/ivpu/Kconfig
-@@ -16,3 +16,13 @@ config DRM_ACCEL_IVPU
- 	  and Deep Learning applications.
- 
- 	  If "M" is selected, the module will be called intel_vpu.
-+
-+config DRM_ACCEL_IVPU_DEBUG
-+	bool "Intel NPU debug mode"
-+	depends on DRM_ACCEL_IVPU
-+	default n
-+	help
-+	  Choose this option to enable additional
-+	  debug features for the Intel NPU driver:
-+	  - Always print debug messages regardless of dyndbg config,
-+	  - Enable unsafe module params.
-diff --git a/drivers/accel/ivpu/Makefile b/drivers/accel/ivpu/Makefile
-index e73937c86d9ad..1029e0bab0615 100644
---- a/drivers/accel/ivpu/Makefile
-+++ b/drivers/accel/ivpu/Makefile
-@@ -24,4 +24,6 @@ intel_vpu-$(CONFIG_DEV_COREDUMP) += ivpu_coredump.o
- 
- obj-$(CONFIG_DRM_ACCEL_IVPU) += intel_vpu.o
- 
-+subdir-ccflags-$(CONFIG_DRM_ACCEL_IVPU_DEBUG) += -DDEBUG
-+
- CFLAGS_ivpu_trace_points.o = -I$(src)
-diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
-index f5a8d93fe2a57..ca2bf47ce2484 100644
---- a/drivers/accel/ivpu/ivpu_drv.c
-+++ b/drivers/accel/ivpu/ivpu_drv.c
-@@ -43,8 +43,10 @@ module_param_named(dbg_mask, ivpu_dbg_mask, int, 0644);
- MODULE_PARM_DESC(dbg_mask, "Driver debug mask. See IVPU_DBG_* macros.");
- 
- int ivpu_test_mode;
-+#if IS_ENABLED(CONFIG_DRM_ACCEL_IVPU_DEBUG)
- module_param_named_unsafe(test_mode, ivpu_test_mode, int, 0644);
- MODULE_PARM_DESC(test_mode, "Test mode mask. See IVPU_TEST_MODE_* macros.");
-+#endif
- 
- u8 ivpu_pll_min_ratio;
- module_param_named(pll_min_ratio, ivpu_pll_min_ratio, byte, 0644);
 diff --git a/drivers/accel/ivpu/ivpu_fw.c b/drivers/accel/ivpu/ivpu_fw.c
-index be367465e7df4..d358cf0b0f972 100644
+index d358cf0b0f972..6037ec0b30968 100644
 --- a/drivers/accel/ivpu/ivpu_fw.c
 +++ b/drivers/accel/ivpu/ivpu_fw.c
-@@ -46,8 +46,10 @@
- #define IVPU_FOCUS_PRESENT_TIMER_MS 1000
+@@ -584,8 +584,10 @@ void ivpu_fw_boot_params_setup(struct ivpu_device *vdev, struct vpu_boot_params
+ 	boot_params->ipc_payload_area_start = ipc_mem_rx->vpu_addr + ivpu_bo_size(ipc_mem_rx) / 2;
+ 	boot_params->ipc_payload_area_size = ivpu_bo_size(ipc_mem_rx) / 2;
  
- static char *ivpu_firmware;
-+#if IS_ENABLED(CONFIG_DRM_ACCEL_IVPU_DEBUG)
- module_param_named_unsafe(firmware, ivpu_firmware, charp, 0644);
- MODULE_PARM_DESC(firmware, "NPU firmware binary in /lib/firmware/..");
-+#endif
+-	boot_params->global_aliased_pio_base = vdev->hw->ranges.user.start;
+-	boot_params->global_aliased_pio_size = ivpu_hw_range_size(&vdev->hw->ranges.user);
++	if (ivpu_hw_ip_gen(vdev) == IVPU_HW_IP_37XX) {
++		boot_params->global_aliased_pio_base = vdev->hw->ranges.user.start;
++		boot_params->global_aliased_pio_size = ivpu_hw_range_size(&vdev->hw->ranges.user);
++	}
  
- static struct {
- 	int gen;
-diff --git a/drivers/accel/ivpu/ivpu_pm.c b/drivers/accel/ivpu/ivpu_pm.c
-index e567df79a6129..dbc0711e28d13 100644
---- a/drivers/accel/ivpu/ivpu_pm.c
-+++ b/drivers/accel/ivpu/ivpu_pm.c
-@@ -24,8 +24,10 @@
- #include "vpu_boot_api.h"
+ 	/* Allow configuration for L2C_PAGE_TABLE with boot param value */
+ 	boot_params->autoconfig = 1;
+diff --git a/drivers/accel/ivpu/ivpu_hw.c b/drivers/accel/ivpu/ivpu_hw.c
+index 1c259d7178151..09ada8b500b99 100644
+--- a/drivers/accel/ivpu/ivpu_hw.c
++++ b/drivers/accel/ivpu/ivpu_hw.c
+@@ -114,14 +114,14 @@ static void memory_ranges_init(struct ivpu_device *vdev)
+ {
+ 	if (ivpu_hw_ip_gen(vdev) == IVPU_HW_IP_37XX) {
+ 		ivpu_hw_range_init(&vdev->hw->ranges.global, 0x80000000, SZ_512M);
+-		ivpu_hw_range_init(&vdev->hw->ranges.user,   0xc0000000, 255 * SZ_1M);
++		ivpu_hw_range_init(&vdev->hw->ranges.user,   0x88000000, 511 * SZ_1M);
+ 		ivpu_hw_range_init(&vdev->hw->ranges.shave, 0x180000000, SZ_2G);
+-		ivpu_hw_range_init(&vdev->hw->ranges.dma,   0x200000000, SZ_8G);
++		ivpu_hw_range_init(&vdev->hw->ranges.dma,   0x200000000, SZ_128G);
+ 	} else {
+ 		ivpu_hw_range_init(&vdev->hw->ranges.global, 0x80000000, SZ_512M);
+-		ivpu_hw_range_init(&vdev->hw->ranges.user,   0x80000000, SZ_256M);
+-		ivpu_hw_range_init(&vdev->hw->ranges.shave,  0x80000000 + SZ_256M, SZ_2G - SZ_256M);
+-		ivpu_hw_range_init(&vdev->hw->ranges.dma,   0x200000000, SZ_8G);
++		ivpu_hw_range_init(&vdev->hw->ranges.shave,  0x80000000, SZ_2G);
++		ivpu_hw_range_init(&vdev->hw->ranges.user,  0x100000000, SZ_256G);
++		vdev->hw->ranges.dma = vdev->hw->ranges.user;
+ 	}
+ }
  
- static bool ivpu_disable_recovery;
-+#if IS_ENABLED(CONFIG_DRM_ACCEL_IVPU_DEBUG)
- module_param_named_unsafe(disable_recovery, ivpu_disable_recovery, bool, 0644);
- MODULE_PARM_DESC(disable_recovery, "Disables recovery when NPU hang is detected");
-+#endif
+diff --git a/drivers/accel/ivpu/ivpu_mmu_context.c b/drivers/accel/ivpu/ivpu_mmu_context.c
+index 697b57071d546..891967a95bc3c 100644
+--- a/drivers/accel/ivpu/ivpu_mmu_context.c
++++ b/drivers/accel/ivpu/ivpu_mmu_context.c
+@@ -571,8 +571,8 @@ void ivpu_mmu_context_init(struct ivpu_device *vdev, struct ivpu_mmu_context *ct
+ 		start = vdev->hw->ranges.global.start;
+ 		end = vdev->hw->ranges.shave.end;
+ 	} else {
+-		start = vdev->hw->ranges.user.start;
+-		end = vdev->hw->ranges.dma.end;
++		start = min_t(u64, vdev->hw->ranges.user.start, vdev->hw->ranges.shave.start);
++		end = max_t(u64, vdev->hw->ranges.user.end, vdev->hw->ranges.dma.end);
+ 	}
  
- static unsigned long ivpu_tdr_timeout_ms;
- module_param_named(tdr_timeout_ms, ivpu_tdr_timeout_ms, ulong, 0644);
+ 	drm_mm_init(&ctx->mm, start, end - start);
 -- 
 2.45.1
 
