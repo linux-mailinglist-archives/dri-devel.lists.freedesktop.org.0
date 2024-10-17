@@ -2,172 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83BAE9A1759
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2024 02:57:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F34C39A178E
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2024 03:21:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F3EA10E1A7;
-	Thu, 17 Oct 2024 00:57:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5ADB510E2EB;
+	Thu, 17 Oct 2024 01:21:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="TdhfcRll";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="X1bEM9ON";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2643E10E1A7;
- Thu, 17 Oct 2024 00:57:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1729126631; x=1760662631;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=mohvbuv2c9fjUTyDEWBb0bmC6eZSWfcXRzuAyy4aMgg=;
- b=TdhfcRllXuZ/j2CQtDmMhNPwjfhInEuYW+lM/JwLloZKyaZ3eS5ylD5e
- 5myP/SJVhX5QOc7aLbsDKbol6SO6sU+9cxwfXxYnugq4gbYKcNxLSFsCf
- hmt9ITt6h/XppAQfev8oW1LDKduYyVzstFbc+MuysD/oaZNdeJ/IuwOWw
- 56M0RTwGjF1DzhDv9XtNTisQgemtaSl0Dhh1oxIawJZicFVN6DfnGADhu
- U+cMfiFeYeRuH44RMuaU7ShNsZbW4LWo7aytJuRXcCrWhZQGgseUHpuBV
- /Ocze600tU8SDmAeDWMZsGhUDXUb10o25XJLkEftvi7VG5qDmY8AGb/gN Q==;
-X-CSE-ConnectionGUID: CafMdW0+TkOI2Lh+tsErXg==
-X-CSE-MsgGUID: CmeYAbUERQKW9NRqN80aQA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11226"; a="39180795"
-X-IronPort-AV: E=Sophos;i="6.11,209,1725346800"; d="scan'208";a="39180795"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Oct 2024 17:57:09 -0700
-X-CSE-ConnectionGUID: XqCpf952TpWzUiWsCXGEHA==
-X-CSE-MsgGUID: gdDCzbi4Qiu6qvM70+a0xQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,209,1725346800"; d="scan'208";a="78733973"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by fmviesa010.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 16 Oct 2024 17:57:02 -0700
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Wed, 16 Oct 2024 17:57:01 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Wed, 16 Oct 2024 17:57:01 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Wed, 16 Oct 2024 17:57:01 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.49) by
- edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90DCC10E2E1;
+ Thu, 17 Oct 2024 01:21:27 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49GGQhVl007437;
+ Thu, 17 Oct 2024 01:21:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=CyD0iLBZqT8tzrUbH0vywa
+ 4HA4hnIZnrW7QUtvfUf3Q=; b=X1bEM9ON93O8HZmDWgVzbBTNcu5zf4Esik+bNk
+ VAmYLg+wgipdj7ZXFAMFO3jdJDUkOZp8QDeTg7OquO+JZgOvhvEd+85nCa5wnDCE
+ XoAMw/lsAqM7oYZAPrGLi97RHhBZvXjy5N/s7AGPLi0oDuG+XgoQgLcKoJ7jD33z
+ bAIxFp8yS+GZ9U4JUbX0sBAnzwgGkwSXemzXn7/8Xpgrlcup0RzgpswRHZyBulUf
+ Sipg1J7tU4V+hkDrWd/X16OSZ0d8iT8h2eAvADfhQkVw2mYoJQTOK8OQe6+gVBRT
+ v6yDzLKq+QuYowUFdyUw2uHUYz3zHC2uiLt9FFbLgh5AkAHg==
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 429mjy6fy6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 17 Oct 2024 01:21:17 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49H1LG6i006312
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 17 Oct 2024 01:21:16 GMT
+Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Wed, 16 Oct 2024 17:57:01 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qRjIvFNzxj9P62/HG9HgG45cmYCnYn4Iz9Qi2JlsUA5aMvv1zExwT0gPfW1+fMG94s/BmGEA0C5OUyKDYzw3SlBy3PTlz1+XL/ELlrmaHm5JhkYT5OTdsLvYrSIxfj1il77LhNqscSxYm9dP91PbQ10xJnYN94zBUmh5lC+l/m3yrVI3eeFx3X49suFvOR4mpmTJjnMdpjF4DgKLflPnznbBeE0svaHXCaRskLt6T7BNji5Bx9QFl8Tgpzmw9mM43S6i3ErCrHRBm2OsyxMlOU9Dd3F0Ju2QqH8zrt7QN8Pa31h+jB/H3AoVk3N94gOXdn/HNoqF6lGH2AxUSYme8w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TIyrDMRvv80Snq6hub7vgkXzM65Tgi14yNP50BGdLv0=;
- b=IkUd2QfU16AufW08fzP3NauNNw0xUrMx5GVaayxqdlzJYp0KJhVrTNttbOqCwjTxqObyY4WtJ67nje6wLP5l718PkA9dS/4SzKCq/ZIIX4Fd3i1saGKQgTJy+o6hDqoSCvblp2QGvt6HBZR5Doc4eVjGBjrjvvFSNCSCJKPl0jNJiOktdbAwfYSzwJr7p8XIrabZCxg1jVDpMDOUIeZeoaWBmiBHZ9K6UHmxVNJ79qoZLhmAejx7jBY+Xkc0XcpmGGr183uAanNo9PxmID11WQkR23qOY65ETSUQcnyMQ8t+aX+ayqcoqUswrV5SpN8tdRy+N/TjwdOGf+jwEXzgsQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by CH3PR11MB7762.namprd11.prod.outlook.com (2603:10b6:610:151::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.27; Thu, 17 Oct
- 2024 00:56:53 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332%6]) with mapi id 15.20.8048.020; Thu, 17 Oct 2024
- 00:56:53 +0000
-Date: Thu, 17 Oct 2024 00:56:09 +0000
-From: Matthew Brost <matthew.brost@intel.com>
-To: Alistair Popple <apopple@nvidia.com>
-CC: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <airlied@gmail.com>, <christian.koenig@amd.com>,
- <thomas.hellstrom@linux.intel.com>, <simona.vetter@ffwll.ch>,
- <felix.kuehling@amd.com>, <dakr@kernel.org>
-Subject: Re: [PATCH v2 02/29] mm/migrate: Add migrate_device_prepopulated_range
-Message-ID: <ZxBgqc0sRE2Ur2D4@DUT025-TGLU.fm.intel.com>
-References: <20241016032518.539495-1-matthew.brost@intel.com>
- <20241016032518.539495-3-matthew.brost@intel.com>
- <87o73k8yyq.fsf@nvdebian.thelocal>
- <Zw9FPAzlvGVswwxR@DUT025-TGLU.fm.intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <Zw9FPAzlvGVswwxR@DUT025-TGLU.fm.intel.com>
-X-ClientProxiedBy: SJ0PR13CA0106.namprd13.prod.outlook.com
- (2603:10b6:a03:2c5::21) To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
+ 15.2.1544.9; Wed, 16 Oct 2024 18:21:16 -0700
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+Subject: [PATCH v3 00/23] drm/msm/dpu: Add Concurrent Writeback Support for
+ DPU 10.x+
+Date: Wed, 16 Oct 2024 18:21:06 -0700
+Message-ID: <20241016-concurrent-wb-v3-0-a33cf9b93835@quicinc.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|CH3PR11MB7762:EE_
-X-MS-Office365-Filtering-Correlation-Id: 70aa8603-7927-4343-317e-08dcee46977c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?qo9SrvCeKkfMcza+V4w0LJ//ql8HoGddfxzLYdrEQmDRht9r/l8Sc7BgKO0C?=
- =?us-ascii?Q?mH2Al9CDAfgQGindL53KE0wC2qtSy/A0Q1bSPYeGIfIcFdBdxgVDkuWQa1DF?=
- =?us-ascii?Q?hU+wFn6uoaT+139JLxkeIhBzZla5GJKZ9gm1WW+hYaodKV+6B0UgBRgz5gW/?=
- =?us-ascii?Q?83IMksRLWPyUJdJytTREjnxM9TDRyGZrV4WKzmPTujvhu7FR+go7Rsy/lfYi?=
- =?us-ascii?Q?qZqFHB/sZNjKWcO1dWZAOcwqcQHN911T+X3XFtE0Z4urk6WU+mzm6V1EBbPn?=
- =?us-ascii?Q?yqJgtYDs/wpv4ULzUvQLJgz7hlMXrEOM9Wwu1uVg5evn3MUqIMRcY/foJdVF?=
- =?us-ascii?Q?LB//3brJSsB8erGOZP0nF8sMG/5T3A8rhzp1Ehc9QfdYY2U1N+4LVeCynr+L?=
- =?us-ascii?Q?k1EsuqwRe4+PcEoIGfr8Yu32vw/KCA3d7lks0QgkSmWnotkGxhNft/iW/QMi?=
- =?us-ascii?Q?24GFeRuNNhoVypVWafPfjnR3OTGLq5y1ke/18vVgGgiOUiGEsoOaz/9X7o6U?=
- =?us-ascii?Q?1bWI6VAAdnImf/N2dyPjctnCx+CXcEbX+OY7hX+HShrp3vWCO7HMHe4YHr9G?=
- =?us-ascii?Q?aPc06CEXYmD7jvxHSraD0xIg/eKFs9jN0FPL+z1ObPAdnb4JY02yp70SwK99?=
- =?us-ascii?Q?8Vu5DqZ5sBe8Qu7uk0lBjtGiVCG5MuRGn8x5gVQ2PRG4oLlka/pBDLbAXsVQ?=
- =?us-ascii?Q?mLQ3GbmXi26WCtL4HJBXIbPqj6VIu+uYYLNbALLpzCz8UVUfMzVfedXnhGnE?=
- =?us-ascii?Q?DIauOqonoaxjzlnP7u86p8W7T4+Gi1ft2e4PxfggpfB9I8VilNa9Sm2fSJUh?=
- =?us-ascii?Q?H6nC24Zts6wwT91ezdyvGm6aMqU6374Z24shCHd1J27w+mG+zxQNwsKZqSeI?=
- =?us-ascii?Q?yoIM5TyUNvtYlcRZ4C9BuOFH7UtVhWdUzJISP+qN7fzjqnpruERKT8HIL625?=
- =?us-ascii?Q?A9a8t7G3Mvji3gHOw4ZXA/jdCRDG5d5XyXbIUFv3pJzNYVKsq4fMxRH+QE7h?=
- =?us-ascii?Q?lmJ6ZPWDr5CJmopOrCiFJcs8IPok3qFFEZOPAhpivrfahbggurWfGyjo1u4t?=
- =?us-ascii?Q?0vEzUAuQNVeAZUyuDD4LDQyKeC284rNNkgBh248SVgBudutvjAr305wUm6L0?=
- =?us-ascii?Q?MyvZvrgHUrw8N4iqRtEBcC6VmNPM2q5XzvzR9ZSLJOuq97eD6VpRWcAD8l5r?=
- =?us-ascii?Q?3UfdgcC0taMDzEhUo9kuo3gPEDwrPUyCmxd0fMhXm8aLlmurdiTN0pEmOIdO?=
- =?us-ascii?Q?QUf1m6i0+02yZu27m2mI?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?+pjLtT2rtiZaUD65r0jj14nRbJZI5B3wEdrh2pIgKZwuGXduV8piVDEoSAYj?=
- =?us-ascii?Q?wPBGp1xjbqnH7vCIVbc+I0aGgWRFl1NhVWGKqI6rKlR9B9LJYzQkGOv5oAar?=
- =?us-ascii?Q?/SCleh6W6OrMy76qtLFiL0wp10ymhCHiuv6pXj0zrXX0s+mJ6T+f5uVZceZy?=
- =?us-ascii?Q?T2ZWNThapWjDte7Qw2l7zQUh74bERgIp0dnVuHHfYWNw+jG8ndq/7l0YEqi1?=
- =?us-ascii?Q?Ywxjun6jZtS3yQZssZfwMK+RxubR4mrHmLuAjx7gjaf9+IOash/VfYqvL9Nw?=
- =?us-ascii?Q?GXCsYTs4xKrOrPaoZZCRo/x92+f0WOlXppk3fq+IUCMWHfraY2R6BCy8vASX?=
- =?us-ascii?Q?+8JcNJ9ekSA/5p6lpp58FgINb9jxIetOanoRZpfnkz413Y7rxoWO1kEyb5Li?=
- =?us-ascii?Q?GCzMmRAz0kcnViKtaLgq73yDlobqQvvUauon/tJwte48NwuYN6pg1hCbQH/d?=
- =?us-ascii?Q?a/gqVkxnPA6+cFFRJJlHh0W+oMMncXfRTPqNKZ0BTsCqgTrBuK4yEvNNfhZh?=
- =?us-ascii?Q?/kS4qRduKWf77286eiQGs8zPqgpI39MP2C1AIu6BOvEQYh5D8vlzufas15Vp?=
- =?us-ascii?Q?2wT9eYDIo/hmMqy/EDTEwQiJMaG6VkmJA4iRzE/KKNpfzTqMOm7+sen+DhVf?=
- =?us-ascii?Q?evwpiqQv95yKzHVVk6OfAXnJci2e9C18cMiwDnDB7bX7vipr0rak5Xhvnebs?=
- =?us-ascii?Q?K+zgX6y3i8TR7fyTX0DMpe/7YCNaYfq3PxNFcnyrH91+aOfo4rV5s/xHsaGC?=
- =?us-ascii?Q?wgzHXerdalO4sgBQJiR65xfzoWSZ0eQdGt4bixHxbE/mN7WdXsA6K2rYpRzK?=
- =?us-ascii?Q?I0kSzxYM4mGcupUMGRSsC/LQLX7CQ2OgPZkK88K22dOggiBeaPqYsa+WNKlk?=
- =?us-ascii?Q?VR96hepuU1k/wDapsqwiNjfq4L+W1/dImpXjAr7rn14A0tTofs1tZ660Jl0d?=
- =?us-ascii?Q?Cha0xTMsi2uBpUfoA1JtGxnHuqgpXrRgFpoaqEWFS1amS6ngj+zbyxNfCLYj?=
- =?us-ascii?Q?DBsC4S8XRpRgh4XnKA5uo5S+SQiTKsdU38ohqOxSaruwf8xSFMzru8TX6q1R?=
- =?us-ascii?Q?Fu4rYMR8j0mv7aceTg6c9iHhNZcWkc8k3+csVKINKJvZaRy5Al/zRWGgjg/i?=
- =?us-ascii?Q?/UaEdIL1nV2E5Xfa9bevOwd9hBpvmRZbXKpQV5jq/bhv80N0J76cDgsytabp?=
- =?us-ascii?Q?QAzTT+S/lbxC6W5IplAZ+kHE7ZTKybZcWH697rvY1FaR+/gjVs4E9+PIrxO6?=
- =?us-ascii?Q?BeGsajY11ihf2Rc25YaHJNe/I4DFFTaWR5HSGSG4DRj1Zd2ntnKGYvzkmSyu?=
- =?us-ascii?Q?ualkmOp+UU6Nl8QaPqkVe4tc+JK3B7QHdUWjuItMjQoh5eU0T1OhZyad6qxy?=
- =?us-ascii?Q?/ltZ+Q0uTe09uoaHWkpyOTCxWH64p4YL3eGsfNi57Kdn0ZaWXdZNn9Ev5d/d?=
- =?us-ascii?Q?Ew/vaTF1ZnIhefClskK265IGW/m2QleFv1J5+UhDApJpYjNL+ZBk99S1oU9u?=
- =?us-ascii?Q?tfh0MPnJ2vsvQl7x1T+Fwyj+fcgRlwp+WdAvZiIRRhK6B9f15GzQlxYsLdVP?=
- =?us-ascii?Q?m0POVxgtLcooi15zZn4jQqfsJLkePG3u447QSbWTxFjJbuLLG8DOv9Z19/sa?=
- =?us-ascii?Q?cw=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 70aa8603-7927-4343-317e-08dcee46977c
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Oct 2024 00:56:53.7520 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6N2ffCuavPeL0Y8HjLNoc4MiDmAhl74oF17CK9OWdHu+3y+yPVzRwEokVgaWbfuAhZlyo9ssWbflENrwlsvd1Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB7762
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAIJmEGcC/13MwRKCIBSF4VdpWEcDV0Vo1Xs0LQSvySIoUKpxf
+ PfQFk0uz5n5v4lEDBYjOe4mEjDZaL3Lo9jviOkbd0Vq27wJMCiZ4JIa78wYArqBPjVVdSugkHW
+ nKiC5uQfs7Gv1zpe8exsHH94rn/jyfiUJaiMlThmtGGguGgTU+vQYrbHOHIy/kcVK8OsVlNsec
+ l/LUnWKMZSi+O/nef4A9MmIZ+wAAAA=
+X-Change-ID: 20240618-concurrent-wb-97d62387f952
+To: Rob Clark <robdclark@gmail.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, <quic_abhinavk@quicinc.com>, Sean Paul
+ <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, "David
+ Airlie" <airlied@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter <simona@ffwll.ch>,
+ Simona Vetter <simona.vetter@ffwll.ch>
+CC: <quic_ebharadw@quicinc.com>, <linux-arm-msm@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, Rob Clark <robdclark@chromium.org>,
+ =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
+ "Jessica Zhang" <quic_jesszhan@quicinc.com>
+X-Mailer: b4 0.15-dev-2a633
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1729128075; l=7856;
+ i=quic_jesszhan@quicinc.com; s=20230329; h=from:subject:message-id;
+ bh=53M13DXel/2dnH3acmQOwMvPx5E8LygsMWmgtnK7zEQ=;
+ b=MxcV5uCQdkAdJcV6nK2XffaMjJ5yerhY9GejNrUw0QxFCWIhxFSAL1q2zquDqWLlx0SH508ph
+ 7RUs1PShH0mDbbiA75e/LL7SwCo8kv039Ew7may2wXrZsMTZaSpkZ0x
+X-Developer-Key: i=quic_jesszhan@quicinc.com; a=ed25519;
+ pk=gAUCgHZ6wTJOzQa3U0GfeCDH7iZLlqIEPo4rrjfDpWE=
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: I8-QJShG3lFd1Ph6ehRC5Tz6vWtAOvF2
+X-Proofpoint-ORIG-GUID: I8-QJShG3lFd1Ph6ehRC5Tz6vWtAOvF2
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999 phishscore=0
+ mlxscore=0 lowpriorityscore=0 malwarescore=0 priorityscore=1501
+ impostorscore=0 clxscore=1011 spamscore=0 suspectscore=0 adultscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410170008
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -183,156 +107,163 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 16, 2024 at 04:46:52AM +0000, Matthew Brost wrote:
-> On Wed, Oct 16, 2024 at 03:04:06PM +1100, Alistair Popple wrote:
-> > 
-> > Matthew Brost <matthew.brost@intel.com> writes:
-> > 
-> > > Add migrate_device_prepoluated_range which prepares an array of
-> > > pre-populated device pages for migration.
-> > 
-> > It would be nice if the commit message could also include an explanation
-> > of why the existing migrate_device_range() is inadequate for your needs.
-> > 
-> 
-> Yea, my bad. It should explain this is required for non-contiguous
-> device pages. I suppose I could always iterate for contiguous regions
-> with migrate_device_range too if you think that is better.
-> 
-> > > v2:
-> > >  - s/migrate_device_vma_range/migrate_device_prepopulated_range
-> > >  - Drop extra mmu invalidation (Vetter)
-> > >
-> > > Cc: Andrew Morton <akpm@linux-foundation.org>
-> > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > > ---
-> > >  include/linux/migrate.h |  1 +
-> > >  mm/migrate_device.c     | 35 +++++++++++++++++++++++++++++++++++
-> > >  2 files changed, 36 insertions(+)
-> > >
-> > > diff --git a/include/linux/migrate.h b/include/linux/migrate.h
-> > > index 002e49b2ebd9..9146ed39a2a3 100644
-> > > --- a/include/linux/migrate.h
-> > > +++ b/include/linux/migrate.h
-> > > @@ -229,6 +229,7 @@ void migrate_vma_pages(struct migrate_vma *migrate);
-> > >  void migrate_vma_finalize(struct migrate_vma *migrate);
-> > >  int migrate_device_range(unsigned long *src_pfns, unsigned long start,
-> > >  			unsigned long npages);
-> > > +int migrate_device_prepopulated_range(unsigned long *src_pfns, unsigned long npages);
-> > >  void migrate_device_pages(unsigned long *src_pfns, unsigned long *dst_pfns,
-> > >  			unsigned long npages);
-> > >  void migrate_device_finalize(unsigned long *src_pfns,
-> > > diff --git a/mm/migrate_device.c b/mm/migrate_device.c
-> > > index 9cf26592ac93..f163c2131022 100644
-> > > --- a/mm/migrate_device.c
-> > > +++ b/mm/migrate_device.c
-> > > @@ -924,6 +924,41 @@ int migrate_device_range(unsigned long *src_pfns, unsigned long start,
-> > >  }
-> > >  EXPORT_SYMBOL(migrate_device_range);
-> > >  
-> > > +/**
-> > > + * migrate_device_prepopulated_range() - migrate device private pfns to normal memory.
-> > > + * @src_pfns: pre-popluated array of source device private pfns to migrate.
-> > > + * @npages: number of pages to migrate.
-> > > + *
-> > > + * Similar to migrate_device_range() but supports non-contiguous pre-popluated
-> > > + * array of device pages to migrate.
-> > > + */
-> > > +int migrate_device_prepopulated_range(unsigned long *src_pfns, unsigned long npages)
-> > 
-> > I don't love the name, I think because it is quite long and makes me
-> > think of something complicated like prefaulting. Perhaps
-> > migrate_device_pfns()?
-> > 
-> 
-> Sure.
-> 
-> > > +{
-> > > +	unsigned long i;
-> > > +
-> > > +	for (i = 0; i < npages; i++) {
-> > > +		struct page *page = pfn_to_page(src_pfns[i]);
-> > > +
-> > > +		if (!get_page_unless_zero(page)) {
-> > > +			src_pfns[i] = 0;
-> > > +			continue;
-> > > +		}
-> > > +
-> > > +		if (!trylock_page(page)) {
-> > > +			src_pfns[i] = 0;
-> > > +			put_page(page);
-> > > +			continue;
-> > > +		}
-> > > +
-> > > +		src_pfns[i] = migrate_pfn(src_pfns[i]) | MIGRATE_PFN_MIGRATE;
-> > 
-> > This needs to be converted to use a folio like
-> > migrate_device_range(). But more importantly this should be split out as
-> > a function that both migrate_device_range() and this function can call
-> > given this bit is identical.
-> > 
-> 
-> Missed the folio conversion and agree a helper shared between this
-> function and migrate_device_range would be a good idea. Let add that.
-> 
+DPU supports a single writeback session running concurrently with primary
+display when the CWB mux is configured properly. This series enables
+clone mode for DPU driver and adds support for programming the CWB mux
+in cases where the hardware has dedicated CWB pingpong blocks. Currently,
+the CWB hardware blocks have only been added to the SM8650
+hardware catalog and only DSI has been exposed as a possible_clone of WB.
 
-Alistair,
+This changes are split into two parts:
 
-Ok, I think now I want to go slightly different direction here to give
-GPUSVM a bit more control over several eviction scenarios.
+The first part of the series will pull in Dmitry's patches to refactor
+the DPU resource manager to be based off of CRTC instead of encoder.
+This includes some changes (noted in the relevant commits) by me and
+Abhinav to fix some issues with getting the global state and refactoring
+the CDM allocation to work with Dmitry's changes.
 
-What if I exported the helper discussed above, e.g.,
+The second part of the series will add support for CWB by doing the
+following:
 
- 905 unsigned long migrate_device_pfn_lock(unsigned long pfn)
- 906 {
- 907         struct folio *folio;
- 908
- 909         folio = folio_get_nontail_page(pfn_to_page(pfn));
- 910         if (!folio)
- 911                 return 0;
- 912
- 913         if (!folio_trylock(folio)) {
- 914                 folio_put(folio);
- 915                 return 0;
- 916         }
- 917
- 918         return migrate_pfn(pfn) | MIGRATE_PFN_MIGRATE;
- 919 }
- 920 EXPORT_SYMBOL(migrate_device_pfn_lock);
+1) Add a DRM helper to detect if the current CRTC state is in clone mode
+   and add an "in_clone_mode" entry to the atomic state print
+2) Add the CWB mux to the hardware catalog and clarify the pingpong
+   block index enum to specifiy which pingpong blocks are dedicated to
+   CWB only and which ones are general use pingpong blocks
+3) Add CWB as part of the devcoredump
+4) Add support for configuring the CWB mux via dpu_hw_cwb ops
+5) Add pending flush support for CWB
+6) Add support for validating clone mode in the DPU CRTC and setting up
+   CWB within the encoder
+7) Adjust the encoder trigger flush, trigger start, and kickoff order to
+   accomodate clone mode
+8) Adjust when the frame done timer is started for clone mode
+9) Define the possible clones for DPU encoders so that 
 
-And then also export migrate_device_unmap.
+The feature was tested on SM8650 using IGT's kms_writeback test with the
+following change [1] and dumping the writeback framebuffer when in clone
+mode. I haven't gotten the chance to test it on DP yet, but I've
+validated both single and dual LM on DSI.
 
-The usage here would be let a driver collect the device pages in virtual
-address range via hmm_range_fault, lock device pages under notifier
-lock ensuring device pages are valid, drop the notifier lock and call
-migrate_device_unmap. Sima has strongly suggested avoiding a CPUVMA
-lookup during eviction cases and this would let me fixup
-drm_gpusvm_range_evict in [1] to avoid this.
+To test CWB with IGT, you'll need to apply this series [1] and this
+driver patch [2]. Run the following command to dump the writeback buffer:
 
-It would also make the function exported in this patch unnecessary too
-as non-contiguous pfns can be setup on driver side via
-migrate_device_pfn_lock and then migrate_device_unmap can be called.
-This also another eviction usage in GPUSVM, see drm_gpusvm_evict_to_ram
-in [1].
+IGT_FRAME_DUMP_PATH=<dump path> FRAME_PNG_FILE_NAME=<file name> \
+./build/tests/kms_writeback -d [--run-subtest dump-valid-clones] \
 
-Do you see an issue exporting migrate_device_pfn_lock,
-migrate_device_unmap?
+You can also do CRC validation by running this command:
 
-Matt
+./build/tests/kms_writeback [--run-subtest dump-valid-clones]
 
-[1] https://patchwork.freedesktop.org/patch/619809/?series=137870&rev=2
+NOTE: We are planning to post KUnit tests for the DRM framework changes
+as a separate series
 
-> Matt
-> 
-> > > +	}
-> > > +
-> > > +	migrate_device_unmap(src_pfns, npages, NULL);
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +EXPORT_SYMBOL(migrate_device_prepopulated_range);
-> > > +
-> > >  /*
-> > >   * Migrate a device coherent folio back to normal memory. The caller should have
-> > >   * a reference on folio which will be copied to the new folio if migration is
-> > 
+[1] https://patchwork.freedesktop.org/series/137933/
+[2] https://patchwork.freedesktop.org/series/138284/
+
+---
+Changes in v3:
+- Dropped support for CWB on DP connectors for now
+- Dropped unnecessary PINGPONG array in *_setup_cwb()
+- Add a check to make sure CWB and CDM aren't supported simultaneously
+  (Dmitry)
+- Document cwb_enabled checks in dpu_crtc_get_topology() (Dmitry)
+- Moved implementation of drm_crtc_in_clone_mode() to drm_crtc.c (Jani)
+- Dropped duplicate error message for reserving CWB resources (Dmitry)
+- Added notes in framework changes about posting a separate series to
+  add proper KUnit tests (Maxime)
+- Added commit message note addressing Sima's comment on handling
+  mode_changed (Dmitry)
+- Formatting fixes (Dmitry)
+- Added proper kerneldocs (Dmitry)
+- Renamed dpu_encoder_helper_get_cwb() -> *_get_cwb_mask() (Dmitry)
+- Capitalize all instances of "pingpong" in comments (Dmitry)
+- Link to v2: https://lore.kernel.org/r/20240924-concurrent-wb-v2-0-7849f900e863@quicinc.com
+
+Changes in v2:
+- Moved CWB hardware programming to its own dpu_hw_cwb abstraction
+  (Dmitry)
+- Reserve and get assigned CWB muxes using RM API and KMS global state
+  (Dmitry)
+- Dropped requirement to have only one CWB session at a time
+- Moved valid clone mode check to DRM framework (Dmitry and Ville)
+- Switch to default CWB tap point to LM as the DSPP
+- Dropped printing clone mode status in atomic state (Dmitry)
+- Call dpu_vbif_clear_errors() before dpu_encoder_kickoff() (Dmitry)
+- Squashed setup_input_ctrl() and setup_input_mode() into a single
+  dpu_hw_cwb op (Dmitry)
+- Moved function comment docs to correct place and fixed wording of
+  comments/commit messages (Dmitry)
+- Grabbed old CRTC state using proper drm_atomic_state API in
+  dpu_crtc_atomic_check() (Dmitry)
+- Split HW catalog changes of adding the CWB mux block and changing the
+  dedicated CWB pingpong indices into 2 separate commits (Dmitry)
+- Moved clearing the dpu_crtc_state.num_mixers to "drm/msm/dpu: fill
+  CRTC resources in dpu_crtc.c" (Dmitry)
+- Fixed alignment and other formatting issues (Dmitry)
+- Link to v1: https://lore.kernel.org/r/20240829-concurrent-wb-v1-0-502b16ae2ebb@quicinc.com
+
+---
+Dmitry Baryshkov (4):
+      drm/msm/dpu: get rid of struct dpu_rm_requirements
+      drm/msm/dpu: switch RM to use crtc_id rather than enc_id for allocation
+      drm/msm/dpu: move resource allocation to CRTC
+      drm/msm/dpu: fill CRTC resources in dpu_crtc.c
+
+Esha Bharadwaj (3):
+      drm/msm/dpu: Add CWB entry to catalog for SM8650
+      drm/msm/dpu: add devcoredumps for cwb registers
+      drm/msm/dpu: add CWB support to dpu_hw_wb
+
+Jessica Zhang (16):
+      drm: add clone mode check for CRTC
+      drm: Add valid clones check
+      drm/msm/dpu: Specify dedicated CWB pingpong blocks
+      drm/msm/dpu: Add dpu_hw_cwb abstraction for CWB block
+      drm/msm/dpu: Add RM support for allocating CWB
+      drm/msm/dpu: Add CWB to msm_display_topology
+      drm/msm/dpu: Require modeset if clone mode status changes
+      drm/msm/dpu: Fail atomic_check if CWB and CDM are enabled
+      drm/msm/dpu: Reserve resources for CWB
+      drm/msm/dpu: Configure CWB in writeback encoder
+      drm/msm/dpu: Support CWB in dpu_hw_ctl
+      drm/msm/dpu: Adjust writeback phys encoder setup for CWB
+      drm/msm/dpu: Start frame done timer after encoder kickoff
+      drm/msm/dpu: Skip trigger flush and start for CWB
+      drm/msm/dpu: Reorder encoder kickoff for CWB
+      drm/msm/dpu: Set possible clones for all encoders
+
+ drivers/gpu/drm/drm_atomic_helper.c                |  23 ++
+ drivers/gpu/drm/drm_crtc.c                         |  20 +
+ drivers/gpu/drm/msm/Makefile                       |   1 +
+ .../drm/msm/disp/dpu1/catalog/dpu_10_0_sm8650.h    |  29 +-
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h |   4 +-
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h |   4 +-
+ .../drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h   |   4 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c           | 211 +++++++++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        | 426 +++++++++++++--------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h        |  25 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h   |  12 +-
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c    |  16 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |  13 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c         |  30 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h         |  15 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cwb.c         |  73 ++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cwb.h         |  70 ++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h        |  15 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c          |   4 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |  12 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h            |  13 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c             | 353 ++++++++++-------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h             |  16 +-
+ drivers/gpu/drm/msm/msm_drv.h                      |   2 +
+ include/drm/drm_crtc.h                             |   2 +-
+ 25 files changed, 1037 insertions(+), 356 deletions(-)
+---
+base-commit: 2023aaa11289cab27f69cf7e8111fd233cdf3170
+change-id: 20240618-concurrent-wb-97d62387f952
+
+Best regards,
+-- 
+Jessica Zhang <quic_jesszhan@quicinc.com>
+
