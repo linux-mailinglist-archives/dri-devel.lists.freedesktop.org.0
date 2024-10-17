@@ -2,74 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41EDE9A1DA6
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2024 10:56:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 927759A1DD3
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2024 11:09:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2B9D10E309;
-	Thu, 17 Oct 2024 08:56:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AECBA10E206;
+	Thu, 17 Oct 2024 09:09:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=phytec.de header.i=@phytec.de header.b="PB0BbswE";
+	dkim=pass (2048-bit key; secure) header.d=kwiboo.se header.i=@kwiboo.se header.b="vcbLb3ut";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mickerik.phytec.de (mickerik.phytec.de [91.26.50.163])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1714210E300
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2024 08:56:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; d=phytec.de; s=a4; c=relaxed/simple;
- q=dns/txt; i=@phytec.de; t=1729155405; x=1731747405;
- h=From:Sender:Reply-To:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Type:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=QEnmiH9jI1YFjLImlKAlfNH1g1OGXrwhTMgTXW6e2aE=;
- b=PB0BbswEzE50qq2Ip5IBt7zzOswNSiFq7UeePUFRd7j5rBccYn0Ssv4sk179ai+S
- BZf5cG06vUK6qK3WP8nDF7lePEq/PhYuaNu7xlvmhCfVNeG0epmTCbvy/Du77g/H
- x0oEDaRxJ5eePt9HepcYO5Rr7sU3Bmogj7jakcu7ais=;
-X-AuditID: ac14000a-4637f70000004e2a-88-6710d14d6797
-Received: from berlix.phytec.de (Unknown_Domain [172.25.0.12])
- (using TLS with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (Client did not present a certificate)
- by mickerik.phytec.de (PHYTEC Mail Gateway) with SMTP id A3.81.20010.D41D0176;
- Thu, 17 Oct 2024 10:56:45 +0200 (CEST)
-Received: from augenblix2.phytec.de (172.25.0.11) by Berlix.phytec.de
- (172.25.0.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.6; Thu, 17 Oct
- 2024 10:56:45 +0200
-From: Wadim Egorov <w.egorov@phytec.de>
-To: <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>, <rfoss@kernel.org>
-CC: <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
- <jernej.skrabec@gmail.com>, <maarten.lankhorst@linux.intel.com>,
- <mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
- <simona@ffwll.ch>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <bbrezillon@kernel.org>, <conor+dt@kernel.org>, <krzk+dt@kernel.org>,
- <robh@kernel.org>, <upstream@lists.phytec.de>
-Subject: [PATCH v3 2/2] drm/bridge: sii902x: Set input bus format based on
- bus-width
-Date: Thu, 17 Oct 2024 10:55:56 +0200
-Message-ID: <20241017085556.3045686-3-w.egorov@phytec.de>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20241017085556.3045686-1-w.egorov@phytec.de>
-References: <20241017085556.3045686-1-w.egorov@phytec.de>
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29A2010E206
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2024 09:09:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
+ h=Content-Transfer-Encoding: Content-Type: In-Reply-To: From: References:
+ Cc: To: Subject: MIME-Version: Date: Message-ID; q=dns/txt;
+ s=fe-e1b5cab7be; t=1729156134;
+ bh=dy+VkDErQfJ0xfx5tr89fbY/U4NTS6lYHaZVHtZNXsI=;
+ b=vcbLb3utHi6kN8p+/jRpiaerwYZ73Ng2cGoPe0dIbJiUZLDvRznTTjjw26zuOjWwqvf6/Yo09
+ RU7KkeuKpd4xEkozAYP3TPUSvhn5EhmcPLWqKvQ0qH517pis6TQgpAYaVFDUaOR7KvNF7w4203r
+ 5vFtjw7FsMLCqO9FvOAeX0+b4Ydd+5nJ2n0JBIlv3VEGj0mLqiKCiyWEMw8CZsLH+uyOLELK+ss
+ 64U4PTiLpUDq65Rsm7mZC5w7oXVKofFIA2sv0XPxPkKrs0JQGGT5tdcOfRQCYHoPJbXLS54dBZa
+ ndYUCLcO+gQ0KY5v/4edxCl4TV+XJeAboSWe+ncEGQAA==
+Message-ID: <4c2ebf98-7c0b-418a-a9de-ebe54acd21af@kwiboo.se>
+Date: Thu, 17 Oct 2024 10:58:08 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 02/15] drm/rockchip: Set dma mask to 64 bit
+To: Andy Yan <andyshrk@163.com>, Robin Murphy <robin.murphy@arm.com>
+Cc: heiko@sntech.de, hjc@rock-chips.com, krzk+dt@kernel.org, robh@kernel.org, 
+ conor+dt@kernel.org, s.hauer@pengutronix.de, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ derek.foreman@collabora.com, minhuadotchen@gmail.com,
+ detlev.casanova@collabora.com, xxm@rock-chips.com,
+ Andy Yan <andy.yan@rock-chips.com>
+References: <20240920081626.6433-1-andyshrk@163.com>
+ <20240920082036.6623-1-andyshrk@163.com>
+ <b5e89288-d1c9-4c10-91b3-b1351b623ce6@arm.com>
+ <b7d9dff.663d.192994c6b14.Coremail.andyshrk@163.com>
+Content-Language: en-US
+From: Jonas Karlman <jonas@kwiboo.se>
+In-Reply-To: <b7d9dff.663d.192994c6b14.Coremail.andyshrk@163.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [172.25.0.11]
-X-ClientProxiedBy: Florix.phytec.de (172.25.0.13) To Berlix.phytec.de
- (172.25.0.12)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrPIsWRmVeSWpSXmKPExsWyRpKBR9f3okC6QdNZPosT1xcxWdxf/JnF
- YnXLdEaLNXvPMVnMP3KO1eLK1/dsFs/nr2O0OPnmKovFy1n32Cw6Jy5ht7i8aw6bxcKPW1ks
- 2jqXsVq833mL0WLSvJusFv/37GC3mP1uP7vFljcTWS2636k7CHvs/baAxWPnrLvsHrM7ZrJ6
- LN7zkslj06pONo8TEy4xedy5tofNY97JQI/73ceZPPq7W1g9Np+u9vi8SS6AJ4rLJiU1J7Ms
- tUjfLoEro79/N1PBScGK45+/sDYwbuXrYuTkkBAwkXjz/zdrFyMXh5DAEiaJvkM/GCGcx4wS
- uy48ZwGpYhNQl7iz4RsriC0i4Cdx68s+dpAiZoFNzBKfX+8GSwgLhEj8bd/BBmKzCKhKbLkz
- EyjOwcErYCnx6FgdxDZ5iZmXvrOD2JwCVhKf/l1lBrGFgEo2/DgO1sorIChxcuYTsL3MQPXN
- W2czQ9gSEgdfvICql5d4cWk5C8zMaedeM0PYoRJHNq1mmsAoNAvJqFlIRs1CMmoBI/MqRqHc
- zOTs1KLMbL2CjMqS1GS9lNRNjKBIFmHg2sHYN8fjECMTB+MhRgkOZiUR3kldvOlCvCmJlVWp
- RfnxRaU5qcWHGKU5WJTEeVd3BKcKCaQnlqRmp6YWpBbBZJk4OKUaGFNDp7E43XFM8jqXyb5h
- 2+L0YI7jOovWeh4MeXu8tFfW/q8IS2X1vunRxmIHGVRUlJ6tn+WzOjbHspTvjfoU5RUZZpwm
- av08B2fyVqxaeyno57tivTuqKXduvzCYmlTLGaH9Z86xP2mHFTi3nFQOf2O87rmjHOOSAw8f
- ct0u4D8h5LL3qlBNmRJLcUaioRZzUXEiAG4BDDzSAgAA
+X-Report-Abuse-To: abuse@forwardemail.net
+X-Report-Abuse: abuse@forwardemail.net
+X-Complaints-To: abuse@forwardemail.net
+X-ForwardEmail-Version: 0.4.40
+X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
+ 149.28.215.223
+X-ForwardEmail-ID: 6710d1a6be1821fbc425900a
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,73 +69,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Introduce a bus-width property to define the number of parallel RGB
-input pins connected to the transmitter. The input bus formats are updated
-accordingly. If the property is not specified, default to 24-bit bus-width.
+On 2024-10-17 09:06, Andy Yan wrote:
+> 
+> 
+> Hi Robin,
+> 
+>  Thanks for your comment。
+> 
+> At 2024-10-17 01:38:23, "Robin Murphy" <robin.murphy@arm.com> wrote:
+>> On 2024-09-20 9:20 am, Andy Yan wrote:
+>>> From: Andy Yan <andy.yan@rock-chips.com>
+>>>
+>>> The vop mmu support translate physical address upper 4 GB to iova
+>>> below 4 GB. So set dma mask to 64 bit to indicate we support address
+>>>> 4GB.
+>>>
+>>> This can avoid warnging message like this on some boards with DDR
+>>>> 4 GB:
+>>>
+>>> rockchip-drm display-subsystem: swiotlb buffer is full (sz: 266240 bytes), total 32768 (slots), used 130 (slots)
+>>> rockchip-drm display-subsystem: swiotlb buffer is full (sz: 266240 bytes), total 32768 (slots), used 0 (slots)
+>>> rockchip-drm display-subsystem: swiotlb buffer is full (sz: 266240 bytes), total 32768 (slots), used 130 (slots)
+>>> rockchip-drm display-subsystem: swiotlb buffer is full (sz: 266240 bytes), total 32768 (slots), used 130 (slots)
+>>> rockchip-drm display-subsystem: swiotlb buffer is full (sz: 266240 bytes), total 32768 (slots), used 0 (slots)
+>>
+>> There are several things wrong with this...
+>>
+>> AFAICS the VOP itself still only supports 32-bit addresses, so the VOP 
+>> driver should only be setting a 32-bit DMA mask. The IOMMUs support 
+>> either 32-bit or 40-bit addresses, and the IOMMU driver does set its DMA 
+> Does that mean we can only use the dev of IOMMU ? If that is true， would you
+> please give some inspiration on how to implement this? Or is there any other
+> diver i can follow。Very sorry for that  I'm not familiar with memory management and the IOMMU。
+> 
+> 
+>> mask appropriately. None of those numbers is 64, so that's clearly 
+>> suspicious already. Plus it would seem the claim of the IOMMU being able 
+>> to address >4GB isn't strictly true for RK3288 (which does supposedly 
+>> support 8GB of RAM).
+> 
+> We can set DMA mask per device if we can find a right way to do it。
 
-Signed-off-by: Wadim Egorov <w.egorov@phytec.de>
----
-v3: Ensure bus_width is set/defaults to 24 even if an endpoint is not defined
----
- drivers/gpu/drm/bridge/sii902x.c | 24 +++++++++++++++++++++++-
- 1 file changed, 23 insertions(+), 1 deletion(-)
+Removing the use of custom rockchip_drm_gem and use the common gem dma
+fops should also allow import of framebuffers in >4GB address.
 
-diff --git a/drivers/gpu/drm/bridge/sii902x.c b/drivers/gpu/drm/bridge/sii902x.c
-index 7f91b0db161e..9be9cc5b9025 100644
---- a/drivers/gpu/drm/bridge/sii902x.c
-+++ b/drivers/gpu/drm/bridge/sii902x.c
-@@ -180,6 +180,8 @@ struct sii902x {
- 	struct gpio_desc *reset_gpio;
- 	struct i2c_mux_core *i2cmux;
- 	bool sink_is_hdmi;
-+	u32 bus_width;
-+
- 	/*
- 	 * Mutex protects audio and video functions from interfering
- 	 * each other, by keeping their i2c command sequences atomic.
-@@ -477,6 +479,8 @@ static u32 *sii902x_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
- 						     u32 output_fmt,
- 						     unsigned int *num_input_fmts)
- {
-+
-+	struct sii902x *sii902x = bridge_to_sii902x(bridge);
- 	u32 *input_fmts;
- 
- 	*num_input_fmts = 0;
-@@ -485,7 +489,20 @@ static u32 *sii902x_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
- 	if (!input_fmts)
- 		return NULL;
- 
--	input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X24;
-+	switch (sii902x->bus_width) {
-+	case 16:
-+		input_fmts[0] = MEDIA_BUS_FMT_RGB565_1X16;
-+		break;
-+	case 18:
-+		input_fmts[0] = MEDIA_BUS_FMT_RGB666_1X18;
-+		break;
-+	case 24:
-+		input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X24;
-+		break;
-+	default:
-+		return NULL;
-+	}
-+
- 	*num_input_fmts = 1;
- 
- 	return input_fmts;
-@@ -1167,6 +1184,11 @@ static int sii902x_probe(struct i2c_client *client)
- 		return PTR_ERR(sii902x->reset_gpio);
- 	}
- 
-+	sii902x->bus_width = 24;
-+	endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 0, -1);
-+	if (endpoint)
-+		of_property_read_u32(endpoint, "bus-width", &sii902x->bus_width);
-+
- 	endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 1, -1);
- 	if (endpoint) {
- 		struct device_node *remote = of_graph_get_remote_port_parent(endpoint);
--- 
-2.34.1
+I played around with that [1] last year but never took it further
+because it broke multiple VOPs/IOMMUSs on e.g. rk3288. Only IOMMU dte
+address handling fixes for >4GB support was sent and got merged.
+
+When I tested [1] on an RK3568 back then it was possible to import video
+framebuffers located in >4GB memory and display them on screen without a
+spam of "swiotlb buffer is full" lines.
+
+Maybe there is some part of the current custom rockchip_drm_gem code
+that can be adjusted to work closer to the common gem dma fops?, or
+maybe fully drop rockchip_drm_gem in favor of common gem dma fops could
+be an alternative solution?
+
+[1] https://github.com/Kwiboo/linux-rockchip/commit/70695c8f868adec630592fef536364e59793de81
+
+Regards,
+Jonas
+
+> 
+>>
+>> Furthermore, the "display-subsystem" doesn't even exist - it does not 
+>> represent any actual DMA-capable hardware, so it should not have a DMA 
+>> mask, and it should not be used for DMA API operations. Buffers for the 
+>> VOP should be DMA-mapped for the VOP device itself. At the very least
+>> the rockchip_gem_alloc_dma() path is clearly broken otherwise (I guess 
+>> this patch possibly *would* make that brokenness apparent).
+>>
+>>> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+>>> Tested-by: Derek Foreman <derek.foreman@collabora.com>
+>>> ---
+>>>
+>>> (no changes since v1)
+>>>
+>>>   drivers/gpu/drm/rockchip/rockchip_drm_drv.c | 4 +++-
+>>>   1 file changed, 3 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
+>>> index 04ef7a2c3833..8bc2ff3b04bb 100644
+>>> --- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
+>>> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
+>>> @@ -445,7 +445,9 @@ static int rockchip_drm_platform_probe(struct platform_device *pdev)
+>>>   		return ret;
+>>>   	}
+>>>   
+>>> -	return 0;
+>>> +	ret = dma_coerce_mask_and_coherent(dev, DMA_BIT_MASK(64));
+>>
+>> Finally as a general thing, please don't misuse 
+>> dma_coerce_mask_and_coherent() in platform drivers, just use normal 
+>> dma_set_mask_and_coherent(). The platform bus code has been initialising 
+>> the dev->dma_mask pointer for years now, drivers should not be messing 
+>> with it any more.
+> 
+> Got it ， thanks again。
+> 
+>>
+>> Thanks,
+>> Robin.
+>>
+>>> +
+>>> +	return ret;
+>>>   }
+>>>   
+>>>   static void rockchip_drm_platform_remove(struct platform_device *pdev)
 
