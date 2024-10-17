@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE81E9A2048
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2024 12:46:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4FA69A2068
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2024 13:00:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E03BE10E318;
-	Thu, 17 Oct 2024 10:46:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13C4E10E307;
+	Thu, 17 Oct 2024 11:00:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="D27bsabX";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="lHocLMbZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com
- [209.85.222.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00A8E10E318
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2024 10:46:32 +0000 (UTC)
-Received: by mail-ua1-f51.google.com with SMTP id
- a1e0cc1a2514c-85019a60523so268092241.1
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2024 03:46:32 -0700 (PDT)
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com
+ [209.85.217.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2200010E307
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2024 11:00:42 +0000 (UTC)
+Received: by mail-vs1-f43.google.com with SMTP id
+ ada2fe7eead31-4a5ad828a0fso239098137.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2024 04:00:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1729161992; x=1729766792; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1729162841; x=1729767641; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=5iLc9AQWQ9bPZ9PdWCnYLRDGxR6aVrX6pCcUlaC2gXg=;
- b=D27bsabXAePg3/TwqFvkVf8BMi8ng5OxANeqPoBEeZ6fX7opF67UrqKtZRsfDaWc0+
- dsnBfs6vYkaijVslwIaHM2HAnJ9qZuuxwmvNYbQiq6TWoxeXyU0MJ40+ij2eGo3gGX+i
- YeUNdxrHlEC4etn+tSczDygEvpH84YB11uYJhNtIx4uH+KhCiDYtSym6uOcsU3pslqTk
- yzXbqAv8NCDKPLDfBaUL21T+VgKHT7eZV6dVJhuEWOydBCJ9me9n+gyZ4MD3iok8gs/t
- NCmH0dcwDL32qPxCjj16gBj57KFr3/g9BDYcIWN4fRRDHJ6jtq6IqN/1qeAvpp74bQxQ
- VoWQ==
+ bh=dzueIzrbpWQAQzIPzKgcuzvlN5AJYKxxLdrxhltbeaY=;
+ b=lHocLMbZ8AAiCfbJeBDuMefkT5Y/F0ghoUd9Ut4LarhHKSRE6HpODJ/kb+mKHcnMzd
+ aHNvz4vlXllRR+YEIme8e4PRsZlo9A7K+xFI8FHTqL2tH6bs3rlxsvfwLNyXcU2JxEKl
+ v/nw7vR0cWCNzn2MQoI0yf38egBXTxQ7JYaHTY4Yxpo9J752NaUA+nsCzZXTCWXGgZmd
+ RniMohuS4cpo/JleqBhwmOEu69lg+0jlA2v1uQVWUzLOfSKXny1mU4ndVXWgFVW3k+CV
+ GTtPe0X4VrIFhB9VoMUrPQzN0P1MqxKwOADx81XztVyMcgqs8m0XEChwhLqnsvfe87pv
+ Ba9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729161992; x=1729766792;
+ d=1e100.net; s=20230601; t=1729162841; x=1729767641;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=5iLc9AQWQ9bPZ9PdWCnYLRDGxR6aVrX6pCcUlaC2gXg=;
- b=X9XRlVmC+2BG247Pkv47RHGIReA+xqTwEYRPM/PgXTxQNENwZx349ubGy4WrzMK6L4
- Xks82lZ4P+tc3wbvwXLKDKAoB097OtYhfrUu+sQvbfAp1goICESALrUVgXue1WrdZRUR
- ub2s6kh1Rj8sjKw3Lv4hpzcyu+Vog70tdaakOiXGj/BGzQkG6fjtCTXgifUxGpCD5b4H
- /qGUvov1TIh4gUDdagMQrPmvrUXV0UFLgPYYY16lJuRPTk9HupdcOLbLw8Xkvsku+vWV
- fTs+0eIoiF++H2usqFeGihyloRD6N8eEQmypUX4MA+hOZo5WqroN/FlAjh5fYUkzwxQZ
- Opng==
+ bh=dzueIzrbpWQAQzIPzKgcuzvlN5AJYKxxLdrxhltbeaY=;
+ b=QMP4xHPke4tM5nSzmHGFDslvvTtfBn+29rgqpjFbgEMQCOW7n72NPLUuqEoqLvddZW
+ 5HImztpIaeyioL+S2Rza9YCPFoQPb24CLPvjDLRin8rGu8KlEK7r2e4Ti1vQTB2Skx70
+ pQoTuC6/h2nppmrqed8xCLaAIfv5ILWJ/Mn83GylqpDnCdIFjDOE7T8flsDNypHT96rT
+ kkIJdK417OFUqa0IN3OBlKCFg9b0iAX8LnuDYA8tBDGwbVZQFc/hTT4B2M5A7uzq0xMS
+ DGuYZaOGE22JMV9Red9IThJ9m1jvPSGa36yYObJfkOjZZdCWNDVH8PBbh8FC5F9ZxL4t
+ ICuQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVxmKQtMvPUjaq+EgNCN32Est+K7684z5evk0cMPNarT8Y2W0Jueoe8A2BQqf7jjQDz6+q9BZRfq5k=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxr84aku4tqjtANPf2vUDHkDR68NFtgaP1CndAGCoVv+pv8FkTm
- Du7nNgwCjYPctrRRlPsV7n+cnoZe90QSTEte4j+/UzVMeETffLPR9WNcFQMbSgkxyAOKcCv4JBs
- RIys73dVyw5LC1XM9kLOyoMEPkl409cfbuB0nUw==
-X-Google-Smtp-Source: AGHT+IEhuubEp1XFMcAt1Qdpoup5VxogAcu1pC1JHif0I5jEeCDESB436aTA1yUdhOINM3pMJD6rd6T5GIpOG8DyYOM=
-X-Received: by 2002:a05:6102:26c2:b0:4a4:8ef0:25ba with SMTP id
- ada2fe7eead31-4a5b5a3f858mr5284146137.21.1729161991842; Thu, 17 Oct 2024
- 03:46:31 -0700 (PDT)
+ AJvYcCWVZQTz+Vd5DqdTzzPcNzR/ZaLlTuT//aQSTTbQd4UQRN+izRvDeRff7aVtTpbhjA10UsDAWsQhqfQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxY+3uRNk+XXCMgo4N0CuqqbHyFElT73gthz8AtdlQ5BWECwuiS
+ SUWYiYYM9AGFX7sJwIRcwoyeEcxJBKJ/IpZDHBvggKbuS9mXqn1Pp/l9opt+eb+fvJD5OzsxzxH
+ aEvGAzRPnnu+6TokuySEqSzONXeg+Us1HfHKcJA==
+X-Google-Smtp-Source: AGHT+IFIkSv1zq1QUikiociz6eI2jMdfdZm0OR2khmhrLpWMG/LnXM7lEBRD+jifjqruQfchix8Rv601CB8w9YyRG6g=
+X-Received: by 2002:a05:6102:41a1:b0:4a3:ed09:4746 with SMTP id
+ ada2fe7eead31-4a5b57946e1mr6309322137.0.1729162840664; Thu, 17 Oct 2024
+ 04:00:40 -0700 (PDT)
 MIME-Version: 1.0
 References: <20241015101716.740829-1-jens.wiklander@linaro.org>
-In-Reply-To: <20241015101716.740829-1-jens.wiklander@linaro.org>
+ <20241015101716.740829-3-jens.wiklander@linaro.org>
+In-Reply-To: <20241015101716.740829-3-jens.wiklander@linaro.org>
 From: Sumit Garg <sumit.garg@linaro.org>
-Date: Thu, 17 Oct 2024 16:16:20 +0530
-Message-ID: <CAFA6WYOCDf6RqHr7E9nN7DQdoq+ZDwFO=Y0yB+fzit2GwzDkGg@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 0/2] TEE subsystem for restricted dma-buf
- allocations
+Date: Thu, 17 Oct 2024 16:30:29 +0530
+Message-ID: <CAFA6WYMFys_woiF3dzwaXjMy7Y-gTLgHE0PBZtEf6jH-mkc40g@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 2/2] optee: support restricted memory allocation
 To: Jens Wiklander <jens.wiklander@linaro.org>
 Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
@@ -93,113 +93,266 @@ Hi Jens,
 
 On Tue, 15 Oct 2024 at 15:47, Jens Wiklander <jens.wiklander@linaro.org> wrote:
 >
-> Hi,
+> Add support in the OP-TEE backend driver for restricted memory
+> allocation. The support is limited to only the SMC ABI and for secure
+> video buffers.
 >
-> This patch set allocates the restricted DMA-bufs via the TEE subsystem.
-> This a complete rewrite compared to the previous patch set [1], and other
-> earlier proposals [2] and [3] with a separate restricted heap.
+> OP-TEE is probed for the range of restricted physical memory and a
+> memory pool allocator is initialized if OP-TEE have support for such
+> memory.
 >
-> The TEE subsystem handles the DMA-buf allocations since it is the TEE
-> (OP-TEE, AMD-TEE, TS-TEE, or a future QTEE) which sets up the restrictions
-> for the memory used for the DMA-bufs.
-
-Thanks for proposing this interface. IMHO, this solution will address
-many concerns raised for the prior vendor specific DMA heaps approach
-[1] as follows:
-
-1. User-space interacting with the TEE subsystem for restricted memory
-allocation makes it obvious that the returned DMA buf can't be
-directly mapped by the CPU.
-
-2. All the low level platform details gets abstracted out for
-user-space regarding how the platform specific memory restriction
-comes into play.
-
-3. User-space doesn't have to deal with holding 2 DMA buffer
-references, one after allocation from DMA heap and other for
-communication with the TEE subsystem.
-
-4. Allows for better co-ordination with other kernel subsystems
-dealing with restricted DMA-bufs.
-
-[1] https://lore.kernel.org/linux-arm-kernel/20240515112308.10171-1-yong.wu@mediatek.com/
-
+> Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
+> ---
+>  drivers/tee/optee/core.c          | 21 +++++++++++++++
+>  drivers/tee/optee/optee_private.h |  6 +++++
+>  drivers/tee/optee/optee_smc.h     | 35 ++++++++++++++++++++++++
+>  drivers/tee/optee/smc_abi.c       | 45 ++++++++++++++++++++++++++++---
+>  4 files changed, 104 insertions(+), 3 deletions(-)
 >
-> I've added a new IOCTL, TEE_IOC_RSTMEM_ALLOC, to allocate the restricted
-> DMA-bufs. This new IOCTL reaches the backend TEE driver, allowing it to
-> choose how to allocate the restricted physical memory.
+> diff --git a/drivers/tee/optee/core.c b/drivers/tee/optee/core.c
+> index 39e688d4e974..b6d5cbc6728d 100644
+> --- a/drivers/tee/optee/core.c
+> +++ b/drivers/tee/optee/core.c
+> @@ -95,6 +95,25 @@ void optee_release_supp(struct tee_context *ctx)
+>         optee_supp_release(&optee->supp);
+>  }
 >
-> TEE_IOC_RSTMEM_ALLOC is quite similar to TEE_IOC_SHM_ALLOC so it's tempting
-> to extend TEE_IOC_SHM_ALLOC with two new flags
-> TEE_IOC_SHM_FLAG_SECURE_VIDEO and TEE_IOC_SHM_FLAG_SECURE_TRUSTED_UI for
-> the same feature. However, it might be a bit confusing since
-> TEE_IOC_SHM_ALLOC only returns an anonymous file descriptor, but
-> TEE_IOC_SHM_FLAG_SECURE_VIDEO and TEE_IOC_SHM_FLAG_SECURE_TRUSTED_UI would
-> return a DMA-buf file descriptor instead. What do others think?
+> +int optee_rstmem_alloc(struct tee_context *ctx, struct tee_shm *shm,
+> +                      u32 flags, size_t size)
+> +{
+> +       struct optee *optee = tee_get_drvdata(ctx->teedev);
+> +
+> +       if (!optee->sdp_pool)
+> +               return -EINVAL;
+> +       if (flags != TEE_IOC_FLAG_SECURE_VIDEO)
+> +               return -EINVAL;
+> +       return optee->sdp_pool->ops->alloc(optee->sdp_pool, shm, size, 0);
+> +}
+> +
+> +void optee_rstmem_free(struct tee_context *ctx, struct tee_shm *shm)
+> +{
+> +       struct optee *optee = tee_get_drvdata(ctx->teedev);
+> +
+> +       optee->sdp_pool->ops->free(optee->sdp_pool, shm);
+> +}
+> +
+>  void optee_remove_common(struct optee *optee)
+>  {
+>         /* Unregister OP-TEE specific client devices on TEE bus */
+> @@ -111,6 +130,8 @@ void optee_remove_common(struct optee *optee)
+>         tee_device_unregister(optee->teedev);
+>
+>         tee_shm_pool_free(optee->pool);
+> +       if (optee->sdp_pool)
+> +               optee->sdp_pool->ops->destroy_pool(optee->sdp_pool);
+>         optee_supp_uninit(&optee->supp);
+>         mutex_destroy(&optee->call_queue.mutex);
+>  }
+> diff --git a/drivers/tee/optee/optee_private.h b/drivers/tee/optee/optee_private.h
+> index 424898cdc4e9..1f6b2cc992a9 100644
+> --- a/drivers/tee/optee/optee_private.h
+> +++ b/drivers/tee/optee/optee_private.h
+> @@ -200,6 +200,7 @@ struct optee_ops {
+>   * @notif:             notification synchronization struct
+>   * @supp:              supplicant synchronization struct for RPC to supplicant
+>   * @pool:              shared memory pool
+> + * @sdp_pool:          restricted memory pool for secure data path
+>   * @rpc_param_count:   If > 0 number of RPC parameters to make room for
+>   * @scan_bus_done      flag if device registation was already done.
+>   * @scan_bus_work      workq to scan optee bus and register optee drivers
+> @@ -218,6 +219,7 @@ struct optee {
+>         struct optee_notif notif;
+>         struct optee_supp supp;
+>         struct tee_shm_pool *pool;
+> +       struct tee_shm_pool *sdp_pool;
+>         unsigned int rpc_param_count;
+>         bool   scan_bus_done;
+>         struct work_struct scan_bus_work;
+> @@ -340,6 +342,10 @@ void optee_rpc_cmd(struct tee_context *ctx, struct optee *optee,
+>  int optee_do_bottom_half(struct tee_context *ctx);
+>  int optee_stop_async_notif(struct tee_context *ctx);
+>
+> +int optee_rstmem_alloc(struct tee_context *ctx, struct tee_shm *shm,
+> +                      u32 flags, size_t size);
+> +void optee_rstmem_free(struct tee_context *ctx, struct tee_shm *shm);
+> +
+>  /*
+>   * Small helpers
+>   */
+> diff --git a/drivers/tee/optee/optee_smc.h b/drivers/tee/optee/optee_smc.h
+> index 7d9fa426505b..c3b8a1c204af 100644
+> --- a/drivers/tee/optee/optee_smc.h
+> +++ b/drivers/tee/optee/optee_smc.h
+> @@ -234,6 +234,39 @@ struct optee_smc_get_shm_config_result {
+>         unsigned long settings;
+>  };
+>
+> +/*
+> + * Get Secure Data Path memory config
+> + *
+> + * Returns the Secure Data Path memory config.
+> + *
+> + * Call register usage:
+> + * a0   SMC Function ID, OPTEE_SMC_GET_SDP_CONFIG
+> + * a2-6 Not used, must be zero
+> + * a7   Hypervisor Client ID register
+> + *
+> + * Have config return register usage:
+> + * a0   OPTEE_SMC_RETURN_OK
+> + * a1   Physical address of start of SDP memory
+> + * a2   Size of SDP memory
+> + * a3   Not used
+> + * a4-7 Preserved
+> + *
+> + * Not available register usage:
+> + * a0   OPTEE_SMC_RETURN_ENOTAVAIL
+> + * a1-3 Not used
+> + * a4-7 Preserved
+> + */
+> +#define OPTEE_SMC_FUNCID_GET_SDP_CONFIG        20
+> +#define OPTEE_SMC_GET_SDP_CONFIG \
+> +       OPTEE_SMC_FAST_CALL_VAL(OPTEE_SMC_FUNCID_GET_SDP_CONFIG)
+> +
+> +struct optee_smc_get_sdp_config_result {
+> +       unsigned long status;
+> +       unsigned long start;
+> +       unsigned long size;
+> +       unsigned long flags;
+> +};
+> +
+>  /*
+>   * Exchanges capabilities between normal world and secure world
+>   *
+> @@ -278,6 +311,8 @@ struct optee_smc_get_shm_config_result {
+>  #define OPTEE_SMC_SEC_CAP_ASYNC_NOTIF          BIT(5)
+>  /* Secure world supports pre-allocating RPC arg struct */
+>  #define OPTEE_SMC_SEC_CAP_RPC_ARG              BIT(6)
+> +/* Secure world supports Secure Data Path */
+> +#define OPTEE_SMC_SEC_CAP_SDP                  BIT(7)
+>
+>  #define OPTEE_SMC_FUNCID_EXCHANGE_CAPABILITIES 9
+>  #define OPTEE_SMC_EXCHANGE_CAPABILITIES \
+> diff --git a/drivers/tee/optee/smc_abi.c b/drivers/tee/optee/smc_abi.c
+> index 844285d4f03c..05068c70c791 100644
+> --- a/drivers/tee/optee/smc_abi.c
+> +++ b/drivers/tee/optee/smc_abi.c
+> @@ -1164,6 +1164,8 @@ static void optee_get_version(struct tee_device *teedev,
+>                 v.gen_caps |= TEE_GEN_CAP_REG_MEM;
+>         if (optee->smc.sec_caps & OPTEE_SMC_SEC_CAP_MEMREF_NULL)
+>                 v.gen_caps |= TEE_GEN_CAP_MEMREF_NULL;
+> +       if (optee->sdp_pool)
+> +               v.gen_caps |= TEE_GEN_CAP_RSTMEM;
+>         *vers = v;
+>  }
+>
+> @@ -1186,6 +1188,8 @@ static const struct tee_driver_ops optee_clnt_ops = {
+>         .cancel_req = optee_cancel_req,
+>         .shm_register = optee_shm_register,
+>         .shm_unregister = optee_shm_unregister,
+> +       .rstmem_alloc = optee_rstmem_alloc,
+> +       .rstmem_free = optee_rstmem_free,
+>  };
+>
+>  static const struct tee_desc optee_clnt_desc = {
+> @@ -1202,6 +1206,8 @@ static const struct tee_driver_ops optee_supp_ops = {
+>         .supp_send = optee_supp_send,
+>         .shm_register = optee_shm_register_supp,
+>         .shm_unregister = optee_shm_unregister_supp,
+> +       .rstmem_alloc = optee_rstmem_alloc,
+> +       .rstmem_free = optee_rstmem_free,
+>  };
+>
+>  static const struct tee_desc optee_supp_desc = {
+> @@ -1582,6 +1588,32 @@ static inline int optee_load_fw(struct platform_device *pdev,
+>  }
+>  #endif
+>
+> +static int optee_sdp_pool_init(struct optee *optee)
+> +{
+> +       struct tee_shm_pool *pool;
+> +       union {
+> +               struct arm_smccc_res smccc;
+> +               struct optee_smc_get_sdp_config_result result;
+> +       } res;
+> +
+> +       if (!(optee->smc.sec_caps & OPTEE_SMC_SEC_CAP_SDP))
+> +               return 0;
+> +
+> +       optee->smc.invoke_fn(OPTEE_SMC_GET_SDP_CONFIG, 0, 0, 0, 0, 0, 0, 0,
+> +                            &res.smccc);
 
-I think it's better to keep it as a separate IOCTL given the primary
-objective of buffer allocation and it's usage.
+IMHO, to put more weight on this proposal we should also include
+allocation from the kernel CMA pool alongside the reserved restricted
+memory pool. The implementation would be quite similar to how we
+support dynamic SHM based on platform specific capability:
+OPTEE_SMC_SEC_CAP_DYNAMIC_SHM. We can have a similar capability for
+dynamic restricted memory as: OPTEE_SMC_SEC_CAP_DYNAMIC_RSTMEM.
+
+The major reason to support it is to allow mediatek use-case [1] of
+restricting memory dynamically which gets allocated from the CMA pool.
+Although, it won't be something that we can test on Qemu from a
+hardware enforcement perspective, at least we can test it on Qemu
+conceptually. Thoughts?
+
+[1] https://lore.kernel.org/linux-arm-kernel/20240515112308.10171-9-yong.wu@mediatek.com/
 
 -Sumit
 
+> +       if (res.result.status != OPTEE_SMC_RETURN_OK) {
+> +               pr_err("Secure Data Path service not available\n");
+> +               return 0;
+> +       }
+> +
+> +       pool = tee_rstmem_gen_pool_alloc(res.result.start, res.result.size);
+> +       if (IS_ERR(pool))
+> +               return PTR_ERR(pool);
+> +       optee->sdp_pool = pool;
+> +
+> +       return 0;
+> +}
+> +
+>  static int optee_probe(struct platform_device *pdev)
+>  {
+>         optee_invoke_fn *invoke_fn;
+> @@ -1677,7 +1709,7 @@ static int optee_probe(struct platform_device *pdev)
+>         optee = kzalloc(sizeof(*optee), GFP_KERNEL);
+>         if (!optee) {
+>                 rc = -ENOMEM;
+> -               goto err_free_pool;
+> +               goto err_free_shm_pool;
+>         }
 >
-> This can be tested on QEMU with the following steps:
-> repo init -u https://github.com/jenswi-linaro/manifest.git -m qemu_v8.xml \
->         -b prototype/sdp-v2
-> repo sync -j8
-> cd build
-> make toolchains -j4
-> make all -j$(nproc)
-> make run-only
-> # login and at the prompt:
-> xtest --sdp-basic
+>         optee->ops = &optee_ops;
+> @@ -1685,10 +1717,14 @@ static int optee_probe(struct platform_device *pdev)
+>         optee->smc.sec_caps = sec_caps;
+>         optee->rpc_param_count = rpc_param_count;
 >
-> https://optee.readthedocs.io/en/latest/building/prerequisites.html
-> list dependencies needed to build the above.
+> +       rc = optee_sdp_pool_init(optee);
+> +       if (rc)
+> +               goto err_free_optee;
+> +
+>         teedev = tee_device_alloc(&optee_clnt_desc, NULL, pool, optee);
+>         if (IS_ERR(teedev)) {
+>                 rc = PTR_ERR(teedev);
+> -               goto err_free_optee;
+> +               goto err_sdp_pool_uninit;
+>         }
+>         optee->teedev = teedev;
 >
-> The tests are pretty basic, mostly checking that a Trusted Application in
-> the secure world can access and manipulate the memory. There are also some
-> negative tests for out of bounds buffers etc.
->
-> Thanks,
-> Jens
->
-> [1] https://lore.kernel.org/lkml/20240830070351.2855919-1-jens.wiklander@linaro.org/
-> [2] https://lore.kernel.org/dri-devel/20240515112308.10171-1-yong.wu@mediatek.com/
-> [3] https://lore.kernel.org/lkml/20220805135330.970-1-olivier.masse@nxp.com/
->
-> Changes since the V1 RFC:
-> * Based on v6.11
-> * Complete rewrite, replacing the restricted heap with TEE_IOC_RSTMEM_ALLOC
->
-> Changes since Olivier's post [2]:
-> * Based on Yong Wu's post [1] where much of dma-buf handling is done in
->   the generic restricted heap
-> * Simplifications and cleanup
-> * New commit message for "dma-buf: heaps: add Linaro restricted dmabuf heap
->   support"
-> * Replaced the word "secure" with "restricted" where applicable
->
-> Jens Wiklander (2):
->   tee: add restricted memory allocation
->   optee: support restricted memory allocation
->
->  drivers/tee/Makefile              |   1 +
->  drivers/tee/optee/core.c          |  21 ++++
->  drivers/tee/optee/optee_private.h |   6 +
->  drivers/tee/optee/optee_smc.h     |  35 ++++++
->  drivers/tee/optee/smc_abi.c       |  45 ++++++-
->  drivers/tee/tee_core.c            |  33 ++++-
->  drivers/tee/tee_private.h         |   2 +
->  drivers/tee/tee_rstmem.c          | 200 ++++++++++++++++++++++++++++++
->  drivers/tee/tee_shm.c             |   2 +
->  drivers/tee/tee_shm_pool.c        |  69 ++++++++++-
->  include/linux/tee_core.h          |   6 +
->  include/linux/tee_drv.h           |   9 ++
->  include/uapi/linux/tee.h          |  33 ++++-
->  13 files changed, 455 insertions(+), 7 deletions(-)
->  create mode 100644 drivers/tee/tee_rstmem.c
->
+> @@ -1786,9 +1822,12 @@ static int optee_probe(struct platform_device *pdev)
+>         tee_device_unregister(optee->supp_teedev);
+>  err_unreg_teedev:
+>         tee_device_unregister(optee->teedev);
+> +err_sdp_pool_uninit:
+> +       if (optee->sdp_pool)
+> +               optee->sdp_pool->ops->destroy_pool(optee->sdp_pool);
+>  err_free_optee:
+>         kfree(optee);
+> -err_free_pool:
+> +err_free_shm_pool:
+>         tee_shm_pool_free(pool);
+>         if (memremaped_shm)
+>                 memunmap(memremaped_shm);
 > --
 > 2.43.0
 >
