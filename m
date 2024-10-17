@@ -2,107 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD82C9A1B50
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2024 09:06:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EDA69A1B56
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2024 09:06:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1155F10E7AE;
-	Thu, 17 Oct 2024 07:06:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DAC010E165;
+	Thu, 17 Oct 2024 07:06:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SBiq9cTZ";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="X+THcKB3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 069ED10E7B9;
- Thu, 17 Oct 2024 07:06:00 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id ED60AA40CE0;
- Thu, 17 Oct 2024 07:05:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26DA9C4CEC3;
- Thu, 17 Oct 2024 07:05:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1729148758;
- bh=SgFpsbC6Tqy3VGi3P39l2FUvNyodARhjLejF5vHrNI8=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=SBiq9cTZ1A8xPrct3fK/+oI4NN2GEibr/B8kJCEZNOsPE8mD/1zlVSlShLx+DVEIw
- GYbNxYrE9eU/T2LkyLm0SkCQQQqA94df3vBxdCjmME5ZtHnaBqpnZcdNoSzVSF9qhk
- aQA2ouVIwt3URWtJxgM0kKAtNwRKPgfT7fz2AHGzh39E9h4AJObAc1z5Xl3uUgEOHl
- BQUOenlS/1/t77+I0Z92LxsCQKQUEqn/d9v1CRf6Lq9HE7tsvpQKAFvshMZXMra+iw
- mm7mZFzxC0Cw+TxHG3l/F7BB0DLG2JTx3YfcYBDgr9T8IaVUyBY9GMa1wqyXMQvKoG
- 4D6/2m7xmGVRw==
-Message-ID: <9ac861ae-b0b1-4f7a-a002-7d2048132ef3@kernel.org>
-Date: Thu, 17 Oct 2024 09:05:50 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 3/3] arm64: dts: qcom: x1e80100: Add ACD levels for GPU
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
- Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, devicetree@vger.kernel.org
-References: <20241012-gpu-acd-v1-0-1e5e91aa95b6@quicinc.com>
- <20241012-gpu-acd-v1-3-1e5e91aa95b6@quicinc.com>
- <5axuqj4hetfkgg2f53ph4um24b7xfyumktreglxqyzfsdhy25e@deucq7vqxq5l>
- <20241015193540.mcpp2dvkmikruncj@hu-akhilpo-hyd.qualcomm.com>
- <921d3a39-d95c-4156-b376-44e8dc6a6467@kernel.org>
- <20241017061217.mmq27egyg5cdlubb@hu-akhilpo-hyd.qualcomm.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20241017061217.mmq27egyg5cdlubb@hu-akhilpo-hyd.qualcomm.com>
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 678BE10E165
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2024 07:06:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
+ Message-ID; bh=pZkl+4j57gL89iTlo4E7bNQmxI9KiAdbylpLF6/W3v4=; b=X
+ +THcKB3GsLX7bInI/4LBuZ6oGoEncy/LzEW+A0lar5eW9hqUsA5upOO1IbcEZ/MB
+ S8diIR+IeJ19qbesMAlMlZmA9uDCqwcers8RTR1TgFFqR6yKWTKmp73xIoSSTL1q
+ qmDqVCD25kKG10yBpFAo1uQapSluuBgZhNmKHsoCm4=
+Received: from andyshrk$163.com ( [58.22.7.114] ) by
+ ajax-webmail-wmsvr-40-105 (Coremail) ; Thu, 17 Oct 2024 15:06:15 +0800
+ (CST)
+X-Originating-IP: [58.22.7.114]
+Date: Thu, 17 Oct 2024 15:06:15 +0800 (CST)
+From: "Andy Yan" <andyshrk@163.com>
+To: "Robin Murphy" <robin.murphy@arm.com>
+Cc: heiko@sntech.de, hjc@rock-chips.com, krzk+dt@kernel.org, robh@kernel.org, 
+ conor+dt@kernel.org, s.hauer@pengutronix.de, 
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-rockchip@lists.infradead.org, derek.foreman@collabora.com, 
+ minhuadotchen@gmail.com, detlev.casanova@collabora.com, 
+ xxm@rock-chips.com, "Andy Yan" <andy.yan@rock-chips.com>
+Subject: Re:Re: [PATCH v3 02/15] drm/rockchip: Set dma mask to 64 bit
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
+ Copyright (c) 2002-2024 www.mailtech.cn 163com
+In-Reply-To: <b5e89288-d1c9-4c10-91b3-b1351b623ce6@arm.com>
+References: <20240920081626.6433-1-andyshrk@163.com>
+ <20240920082036.6623-1-andyshrk@163.com>
+ <b5e89288-d1c9-4c10-91b3-b1351b623ce6@arm.com>
+X-NTES-SC: AL_Qu2ZC/2ft08s4yGQZukXn0kXhec2W8Czvvgg34JRP5k0tyTsxzgGbW9cHXjP+s6ULwOhoAi6XyNfxM5FYqxheYeAU5PLuzqMIcuGcmR/o0cw
+Content-Transfer-Encoding: base64
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Message-ID: <b7d9dff.663d.192994c6b14.Coremail.andyshrk@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: aSgvCgDnb0xqtxBnQxQQAA--.38170W
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiqRp7XmcQsHul4QABsv
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,49 +67,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17/10/2024 08:12, Akhil P Oommen wrote:
-> On Wed, Oct 16, 2024 at 09:50:04AM +0200, Krzysztof Kozlowski wrote:
->> On 15/10/2024 21:35, Akhil P Oommen wrote:
->>> On Mon, Oct 14, 2024 at 09:40:13AM +0200, Krzysztof Kozlowski wrote:
->>>> On Sat, Oct 12, 2024 at 01:59:30AM +0530, Akhil P Oommen wrote:
->>>>> Update GPU node to include acd level values.
->>>>>
->>>>> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
->>>>> ---
->>>>>  arch/arm64/boot/dts/qcom/x1e80100.dtsi | 11 ++++++++++-
->>>>>  1 file changed, 10 insertions(+), 1 deletion(-)
->>>>>
->>>>> diff --git a/arch/arm64/boot/dts/qcom/x1e80100.dtsi b/arch/arm64/boot/dts/qcom/x1e80100.dtsi
->>>>> index a36076e3c56b..e6c500480eb1 100644
->>>>> --- a/arch/arm64/boot/dts/qcom/x1e80100.dtsi
->>>>> +++ b/arch/arm64/boot/dts/qcom/x1e80100.dtsi
->>>>> @@ -3323,60 +3323,69 @@ zap-shader {
->>>>>  			};
->>>>>  
->>>>>  			gpu_opp_table: opp-table {
->>>>> -				compatible = "operating-points-v2";
->>>>> +				compatible = "operating-points-v2-adreno";
->>>>
->>>> This nicely breaks all existing users of this DTS. Sorry, no. We are way
->>>> past initial bringup/development. One year past.
-> 
-> How do I identify when devicetree is considered stable? An arbitrary
-> time period doesn't sound like a good idea. Is there a general consensus
-> on this?
-> 
-> X1E chipset is still considered under development at least till the end of this
-> year, right?
-
-Stable could be when people already get their consumer/final product
-with it. I got some weeks ago Lenovo T14s laptop and since yesterday
-working fine with Ubuntu:
-https://discourse.ubuntu.com/t/ubuntu-24-10-concept-snapdragon-x-elite/48800
-
-All chipsets are under development, even old SM8450, but we avoid
-breaking it while doing that.
-
-
-
-Best regards,
-Krzysztof
-
+CgpIaSBSb2JpbiwKCiBUaGFua3MgZm9yIHlvdXIgY29tbWVudOOAggoKQXQgMjAyNC0xMC0xNyAw
+MTozODoyMywgIlJvYmluIE11cnBoeSIgPHJvYmluLm11cnBoeUBhcm0uY29tPiB3cm90ZToKPk9u
+IDIwMjQtMDktMjAgOToyMCBhbSwgQW5keSBZYW4gd3JvdGU6Cj4+IEZyb206IEFuZHkgWWFuIDxh
+bmR5LnlhbkByb2NrLWNoaXBzLmNvbT4KPj4gCj4+IFRoZSB2b3AgbW11IHN1cHBvcnQgdHJhbnNs
+YXRlIHBoeXNpY2FsIGFkZHJlc3MgdXBwZXIgNCBHQiB0byBpb3ZhCj4+IGJlbG93IDQgR0IuIFNv
+IHNldCBkbWEgbWFzayB0byA2NCBiaXQgdG8gaW5kaWNhdGUgd2Ugc3VwcG9ydCBhZGRyZXNzCj4+
+PiA0R0IuCj4+IAo+PiBUaGlzIGNhbiBhdm9pZCB3YXJuZ2luZyBtZXNzYWdlIGxpa2UgdGhpcyBv
+biBzb21lIGJvYXJkcyB3aXRoIEREUgo+Pj4gNCBHQjoKPj4gCj4+IHJvY2tjaGlwLWRybSBkaXNw
+bGF5LXN1YnN5c3RlbTogc3dpb3RsYiBidWZmZXIgaXMgZnVsbCAoc3o6IDI2NjI0MCBieXRlcyks
+IHRvdGFsIDMyNzY4IChzbG90cyksIHVzZWQgMTMwIChzbG90cykKPj4gcm9ja2NoaXAtZHJtIGRp
+c3BsYXktc3Vic3lzdGVtOiBzd2lvdGxiIGJ1ZmZlciBpcyBmdWxsIChzejogMjY2MjQwIGJ5dGVz
+KSwgdG90YWwgMzI3NjggKHNsb3RzKSwgdXNlZCAwIChzbG90cykKPj4gcm9ja2NoaXAtZHJtIGRp
+c3BsYXktc3Vic3lzdGVtOiBzd2lvdGxiIGJ1ZmZlciBpcyBmdWxsIChzejogMjY2MjQwIGJ5dGVz
+KSwgdG90YWwgMzI3NjggKHNsb3RzKSwgdXNlZCAxMzAgKHNsb3RzKQo+PiByb2NrY2hpcC1kcm0g
+ZGlzcGxheS1zdWJzeXN0ZW06IHN3aW90bGIgYnVmZmVyIGlzIGZ1bGwgKHN6OiAyNjYyNDAgYnl0
+ZXMpLCB0b3RhbCAzMjc2OCAoc2xvdHMpLCB1c2VkIDEzMCAoc2xvdHMpCj4+IHJvY2tjaGlwLWRy
+bSBkaXNwbGF5LXN1YnN5c3RlbTogc3dpb3RsYiBidWZmZXIgaXMgZnVsbCAoc3o6IDI2NjI0MCBi
+eXRlcyksIHRvdGFsIDMyNzY4IChzbG90cyksIHVzZWQgMCAoc2xvdHMpCj4KPlRoZXJlIGFyZSBz
+ZXZlcmFsIHRoaW5ncyB3cm9uZyB3aXRoIHRoaXMuLi4KPgo+QUZBSUNTIHRoZSBWT1AgaXRzZWxm
+IHN0aWxsIG9ubHkgc3VwcG9ydHMgMzItYml0IGFkZHJlc3Nlcywgc28gdGhlIFZPUCAKPmRyaXZl
+ciBzaG91bGQgb25seSBiZSBzZXR0aW5nIGEgMzItYml0IERNQSBtYXNrLiBUaGUgSU9NTVVzIHN1
+cHBvcnQgCj5laXRoZXIgMzItYml0IG9yIDQwLWJpdCBhZGRyZXNzZXMsIGFuZCB0aGUgSU9NTVUg
+ZHJpdmVyIGRvZXMgc2V0IGl0cyBETUEgCkRvZXMgdGhhdCBtZWFuIHdlIGNhbiBvbmx5IHVzZSB0
+aGUgZGV2IG9mIElPTU1VID8gSWYgdGhhdCBpcyB0cnVl77yMIHdvdWxkIHlvdQpwbGVhc2UgZ2l2
+ZSBzb21lIGluc3BpcmF0aW9uIG9uIGhvdyB0byBpbXBsZW1lbnQgdGhpcz8gT3IgaXMgdGhlcmUg
+YW55IG90aGVyCmRpdmVyIGkgY2FuIGZvbGxvd+OAglZlcnkgc29ycnkgZm9yIHRoYXQgIEknbSBu
+b3QgZmFtaWxpYXIgd2l0aCBtZW1vcnkgbWFuYWdlbWVudCBhbmQgdGhlIElPTU1V44CCCgoKPm1h
+c2sgYXBwcm9wcmlhdGVseS4gTm9uZSBvZiB0aG9zZSBudW1iZXJzIGlzIDY0LCBzbyB0aGF0J3Mg
+Y2xlYXJseSAKPnN1c3BpY2lvdXMgYWxyZWFkeS4gUGx1cyBpdCB3b3VsZCBzZWVtIHRoZSBjbGFp
+bSBvZiB0aGUgSU9NTVUgYmVpbmcgYWJsZSAKPnRvIGFkZHJlc3MgPjRHQiBpc24ndCBzdHJpY3Rs
+eSB0cnVlIGZvciBSSzMyODggKHdoaWNoIGRvZXMgc3VwcG9zZWRseSAKPnN1cHBvcnQgOEdCIG9m
+IFJBTSkuCgpXZSBjYW4gc2V0IERNQSBtYXNrIHBlciBkZXZpY2UgaWYgd2UgY2FuIGZpbmQgYSBy
+aWdodCB3YXkgdG8gZG8gaXTjgIIKCj4KPkZ1cnRoZXJtb3JlLCB0aGUgImRpc3BsYXktc3Vic3lz
+dGVtIiBkb2Vzbid0IGV2ZW4gZXhpc3QgLSBpdCBkb2VzIG5vdCAKPnJlcHJlc2VudCBhbnkgYWN0
+dWFsIERNQS1jYXBhYmxlIGhhcmR3YXJlLCBzbyBpdCBzaG91bGQgbm90IGhhdmUgYSBETUEgCj5t
+YXNrLCBhbmQgaXQgc2hvdWxkIG5vdCBiZSB1c2VkIGZvciBETUEgQVBJIG9wZXJhdGlvbnMuIEJ1
+ZmZlcnMgZm9yIHRoZSAKPlZPUCBzaG91bGQgYmUgRE1BLW1hcHBlZCBmb3IgdGhlIFZPUCBkZXZp
+Y2UgaXRzZWxmLiBBdCB0aGUgdmVyeSBsZWFzdAo+dGhlIHJvY2tjaGlwX2dlbV9hbGxvY19kbWEo
+KSBwYXRoIGlzIGNsZWFybHkgYnJva2VuIG90aGVyd2lzZSAoSSBndWVzcyAKPnRoaXMgcGF0Y2gg
+cG9zc2libHkgKndvdWxkKiBtYWtlIHRoYXQgYnJva2VubmVzcyBhcHBhcmVudCkuCj4KPj4gU2ln
+bmVkLW9mZi1ieTogQW5keSBZYW4gPGFuZHkueWFuQHJvY2stY2hpcHMuY29tPgo+PiBUZXN0ZWQt
+Ynk6IERlcmVrIEZvcmVtYW4gPGRlcmVrLmZvcmVtYW5AY29sbGFib3JhLmNvbT4KPj4gLS0tCj4+
+IAo+PiAobm8gY2hhbmdlcyBzaW5jZSB2MSkKPj4gCj4+ICAgZHJpdmVycy9ncHUvZHJtL3JvY2tj
+aGlwL3JvY2tjaGlwX2RybV9kcnYuYyB8IDQgKysrLQo+PiAgIDEgZmlsZSBjaGFuZ2VkLCAzIGlu
+c2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKPj4gCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
+dS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX2Rydi5jIGIvZHJpdmVycy9ncHUvZHJtL3JvY2tj
+aGlwL3JvY2tjaGlwX2RybV9kcnYuYwo+PiBpbmRleCAwNGVmN2EyYzM4MzMuLjhiYzJmZjNiMDRi
+YiAxMDA2NDQKPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2RybV9k
+cnYuYwo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX2Rydi5j
+Cj4+IEBAIC00NDUsNyArNDQ1LDkgQEAgc3RhdGljIGludCByb2NrY2hpcF9kcm1fcGxhdGZvcm1f
+cHJvYmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikKPj4gICAJCXJldHVybiByZXQ7Cj4+
+ICAgCX0KPj4gICAKPj4gLQlyZXR1cm4gMDsKPj4gKwlyZXQgPSBkbWFfY29lcmNlX21hc2tfYW5k
+X2NvaGVyZW50KGRldiwgRE1BX0JJVF9NQVNLKDY0KSk7Cj4KPkZpbmFsbHkgYXMgYSBnZW5lcmFs
+IHRoaW5nLCBwbGVhc2UgZG9uJ3QgbWlzdXNlIAo+ZG1hX2NvZXJjZV9tYXNrX2FuZF9jb2hlcmVu
+dCgpIGluIHBsYXRmb3JtIGRyaXZlcnMsIGp1c3QgdXNlIG5vcm1hbCAKPmRtYV9zZXRfbWFza19h
+bmRfY29oZXJlbnQoKS4gVGhlIHBsYXRmb3JtIGJ1cyBjb2RlIGhhcyBiZWVuIGluaXRpYWxpc2lu
+ZyAKPnRoZSBkZXYtPmRtYV9tYXNrIHBvaW50ZXIgZm9yIHllYXJzIG5vdywgZHJpdmVycyBzaG91
+bGQgbm90IGJlIG1lc3NpbmcgCj53aXRoIGl0IGFueSBtb3JlLgoKR290IGl0IO+8jCB0aGFua3Mg
+YWdhaW7jgIIKCj4KPlRoYW5rcywKPlJvYmluLgo+Cj4+ICsKPj4gKwlyZXR1cm4gcmV0Owo+PiAg
+IH0KPj4gICAKPj4gICBzdGF0aWMgdm9pZCByb2NrY2hpcF9kcm1fcGxhdGZvcm1fcmVtb3ZlKHN0
+cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpCg==
