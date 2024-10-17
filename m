@@ -2,69 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A0E39A1F97
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2024 12:19:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2532E9A1FE2
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2024 12:27:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A39C510E7E7;
-	Thu, 17 Oct 2024 10:19:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31DBB10E7E5;
+	Thu, 17 Oct 2024 10:27:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="EIW9+gK3";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="EGhKSI9q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84B9F10E7E7
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2024 10:19:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1729160339;
- bh=KeFu36mCItfWOePECeVZ+XeDaIlTzQ3wJJF1ACCR8i0=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=EIW9+gK301gAQ/bKH0OL+b8GExqE4i31EKVwqBPoMKE1Q+FjLRzKir2TjKUsc27dV
- kFOOyvtt+aXrn3PCcZxiRGNQJuh6rD0l1xODg0Tt1vWsx3QBpOezP5EU73dsne2Bkc
- RKQd03Nggc70KYWiAaxAhOpYQtUitperzhOBW/Ul9YZBDxAEdPIMMatI9vZSnsLFO6
- nDksj6gCfCQRGduKHTCem6DM9h5LxHJ5vyS3Nf92FxsK2tmZOPAh5FuLrXAJEdI7BK
- rYQW3abqSe8zNIoLydQ/jGHtdMBA20GjJtBPuNXnoiF/8Tp4+kiwVYe64rTkCCggok
- +Mm6tbdEv4ORA==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 4553C17E137F;
- Thu, 17 Oct 2024 12:18:58 +0200 (CEST)
-Message-ID: <1d4a042b-8138-4480-b61d-e12b470ef195@collabora.com>
-Date: Thu, 17 Oct 2024 12:18:57 +0200
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D896E10E7E5
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2024 10:27:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1729160873;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Tebt7uiQ9k6gjA4Un2SwZ3IBcgSZIZVhJKjyn+xnrL8=;
+ b=EGhKSI9q8nXamqks/mwKZi9y4XttFm/NrHGzFQKyDWJTtORlgV4KsZsB6/zB6PbcPTd2Pa
+ i9+WwjATPy8V3WmdUXmX4LH3GO0tuemSNr/5NZofqPfxJA+aBso+I5a1NycBw7K7gs4sud
+ rNk3cZEBGcnWNh8Fxs1GD0377/N1Pi4=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-684-3F1eENNYO5SQUOsr7_-g5A-1; Thu, 17 Oct 2024 06:27:52 -0400
+X-MC-Unique: 3F1eENNYO5SQUOsr7_-g5A-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-4315d98a873so2113865e9.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2024 03:27:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1729160871; x=1729765671;
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=taPEqCRPlji4jboR5825QX2km5EX+9qFg+JbCM/A+a8=;
+ b=YeE4vsYPMUtxFrlMMmDkPm/st6y0b5k7XDwrX5Y/3ceLsuWqAwED1swD84RaxXTc/T
+ zKcfANkX18WDAfrYBACrY3aNgFGvSv8M+WUikEI0KEEs3lSPVpAfLwDAYpUCpGM37Z9B
+ 2M5b0m/KRMmGAS3FlZnTzfMSc8ZpLU5nenOeCKbWFuzUqb20dgJKlThXM2N+mSnwyqGj
+ sruh9CDIldTxv1m8mJ0AVF9CeltKkP0/oVuPPtutmzkP/O+tDynx1ZBFAijBZ0/yWhWa
+ RPvTUoHbutQDZ6iq7MjUbng8e5uggpdMb+MZZwA1FC2OlplAxZ6c+2Jzl+9O3E9jl0Y6
+ XEAA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV9WwszOHsKs8ziX3gY9Ou+dnZE4MNAmgU23ZMz1RXpM8vzviBsfnPyWxxKRMA/cD0nSpsl1qv0yog=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy3rTX3UkYwF/WYv2Kthz2gNVzT3hPRfKTp3VZWE5NvHLuCgqFr
+ iLhVjV01SdsOjofRB3W+04ZpLiLxNT4TMQQ3j9Rz/n4NSDL9K81ikxLa/K0HP8D9zM/QTTQ374w
+ Js405ptYW4el0GxrPuFgqgYnutWYw8FvODiN/6gWPY6LmoErfLJZQRpo7fWcmosTsTQ==
+X-Received: by 2002:a05:600c:3552:b0:431:5a93:4e3c with SMTP id
+ 5b1f17b1804b1-4315a93522amr16640335e9.16.1729160871580; 
+ Thu, 17 Oct 2024 03:27:51 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGYOrLKmrJanJl2yz0E0oFd/rJ8qCIuWiY0cjGyTB0R1GhAHe0bUC6RFrLJUZEUoJvhA7qEXQ==
+X-Received: by 2002:a05:600c:3552:b0:431:5a93:4e3c with SMTP id
+ 5b1f17b1804b1-4315a93522amr16640085e9.16.1729160871107; 
+ Thu, 17 Oct 2024 03:27:51 -0700 (PDT)
+Received: from dhcp-64-113.muc.redhat.com (nat-pool-muc-t.redhat.com.
+ [149.14.88.26]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-43158c4de0esm21819805e9.38.2024.10.17.03.27.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Oct 2024 03:27:50 -0700 (PDT)
+Message-ID: <d1a85318f0d657b413a6a16ff3e9845e15d4f52b.camel@redhat.com>
+Subject: Re: [PATCH 4/5] drm/sched: Re-group and rename the entity run-queue
+ lock
+From: Philipp Stanner <pstanner@redhat.com>
+To: Tvrtko Ursulin <tursulin@igalia.com>, dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, 
+ Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Alex Deucher
+ <alexander.deucher@amd.com>, Luben Tuikov <ltuikov89@gmail.com>, Matthew
+ Brost <matthew.brost@intel.com>
+Date: Thu, 17 Oct 2024 12:27:48 +0200
+In-Reply-To: <20241016122013.7857-5-tursulin@igalia.com>
+References: <20241016122013.7857-1-tursulin@igalia.com>
+ <20241016122013.7857-5-tursulin@igalia.com>
+User-Agent: Evolution 3.52.4 (3.52.4-1.fc40)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v12 1/3] dt-bindings: display: mediatek: Add OF graph
- support for board path
-To: Rob Herring <robh@kernel.org>
-Cc: Matthias Brugger <matthias.bgg@gmail.com>, matthias.bgg@kernel.org,
- chunkuang.hu@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- conor+dt@kernel.org, p.zabel@pengutronix.de, airlied@gmail.com,
- daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, shawn.sung@mediatek.com, yu-chang.lee@mediatek.com,
- ck.hu@mediatek.com, jitao.shi@mediatek.com, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- wenst@chromium.org, kernel@collabora.com, sui.jingfeng@linux.dev,
- michael@walle.cc, sjoerd@collabora.com,
- Alexandre Mergnat <amergnat@baylibre.com>, Michael Walle <mwalle@kernel.org>
-References: <20241014085148.71105-1-angelogioacchino.delregno@collabora.com>
- <20241014085148.71105-2-angelogioacchino.delregno@collabora.com>
- <CAL_Jsq+hpTPCkuXoCF88nyS_D+iFZB5osrt1q04RxffDsY7cXw@mail.gmail.com>
- <ec14b01e-7237-4f52-82a6-b8de42fb120b@collabora.com>
- <20241015134802.GB447702-robh@kernel.org>
- <e5612a1d-b609-4f4a-aec4-601f7060e4cf@collabora.com>
- <CAL_JsqLsFbJbLn76QYwzCfu+bmpjfsxCDp_OuKAFnktMXMbTBA@mail.gmail.com>
- <ff272e72-c5a2-4b67-a8c9-ee41219aa1bb@collabora.com>
- <CAL_JsqKXD=2zwckmNvCuZ2qyaopaxDE7WnaYUXkWPXBK2EYBQg@mail.gmail.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <CAL_JsqKXD=2zwckmNvCuZ2qyaopaxDE7WnaYUXkWPXBK2EYBQg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,387 +97,234 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 16/10/24 18:09, Rob Herring ha scritto:
-> On Wed, Oct 16, 2024 at 10:26 AM AngeloGioacchino Del Regno
-> <angelogioacchino.delregno@collabora.com> wrote:
->>
->> Il 16/10/24 16:00, Rob Herring ha scritto:
->>> On Wed, Oct 16, 2024 at 4:23 AM AngeloGioacchino Del Regno
->>> <angelogioacchino.delregno@collabora.com> wrote:
->>>>
->>>> Il 15/10/24 15:48, Rob Herring ha scritto:
->>>>> On Tue, Oct 15, 2024 at 10:32:22AM +0200, AngeloGioacchino Del Regno wrote:
->>>>>> Il 14/10/24 19:36, Rob Herring ha scritto:
->>>>>>> On Mon, Oct 14, 2024 at 3:51 AM AngeloGioacchino Del Regno
->>>>>>> <angelogioacchino.delregno@collabora.com> wrote:
->>>>>>>>
->>>>>>>> The display IPs in MediaTek SoCs support being interconnected with
->>>>>>>> different instances of DDP IPs (for example, merge0 or merge1) and/or
->>>>>>>> with different DDP IPs (for example, rdma can be connected with either
->>>>>>>> color, dpi, dsi, merge, etc), forming a full Display Data Path that
->>>>>>>> ends with an actual display.
->>>>>>>>
->>>>>>>> The final display pipeline is effectively board specific, as it does
->>>>>>>> depend on the display that is attached to it, and eventually on the
->>>>>>>> sensors supported by the board (for example, Adaptive Ambient Light
->>>>>>>> would need an Ambient Light Sensor, otherwise it's pointless!), other
->>>>>>>> than the output type.
->>>>>>>>
->>>>>>>> Add support for OF graphs to most of the MediaTek DDP (display) bindings
->>>>>>>> to add flexibility to build custom hardware paths, hence enabling board
->>>>>>>> specific configuration of the display pipeline and allowing to finally
->>>>>>>> migrate away from using hardcoded paths.
->>>>>>>>
->>>>>>>> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
->>>>>>>> Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
->>>>>>>> Tested-by: Alexandre Mergnat <amergnat@baylibre.com>
->>>>>>>> Reviewed-by: CK Hu <ck.hu@mediatek.com>
->>>>>>>> Tested-by: Michael Walle <mwalle@kernel.org> # on kontron-sbc-i1200
->>>>>>>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
->>>>>>>> ---
->>>>>>>>      .../display/mediatek/mediatek,aal.yaml        | 40 +++++++++++++++++++
->>>>>>>>      .../display/mediatek/mediatek,ccorr.yaml      | 21 ++++++++++
->>>>>>>>      .../display/mediatek/mediatek,color.yaml      | 22 ++++++++++
->>>>>>>>      .../display/mediatek/mediatek,dither.yaml     | 22 ++++++++++
->>>>>>>>      .../display/mediatek/mediatek,dpi.yaml        | 25 +++++++++++-
->>>>>>>>      .../display/mediatek/mediatek,dsc.yaml        | 24 +++++++++++
->>>>>>>>      .../display/mediatek/mediatek,dsi.yaml        | 27 ++++++++++++-
->>>>>>>>      .../display/mediatek/mediatek,ethdr.yaml      | 22 ++++++++++
->>>>>>>>      .../display/mediatek/mediatek,gamma.yaml      | 19 +++++++++
->>>>>>>>      .../display/mediatek/mediatek,merge.yaml      | 23 +++++++++++
->>>>>>>>      .../display/mediatek/mediatek,od.yaml         | 22 ++++++++++
->>>>>>>>      .../display/mediatek/mediatek,ovl-2l.yaml     | 22 ++++++++++
->>>>>>>>      .../display/mediatek/mediatek,ovl.yaml        | 22 ++++++++++
->>>>>>>>      .../display/mediatek/mediatek,postmask.yaml   | 21 ++++++++++
->>>>>>>>      .../display/mediatek/mediatek,rdma.yaml       | 22 ++++++++++
->>>>>>>>      .../display/mediatek/mediatek,ufoe.yaml       | 21 ++++++++++
->>>>>>>>      16 files changed, 372 insertions(+), 3 deletions(-)
->>>>>>>>
->>>>>>>> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yaml
->>>>>>>> index cf24434854ff..47ddba5c41af 100644
->>>>>>>> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yaml
->>>>>>>> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yaml
->>>>>>>> @@ -62,6 +62,27 @@ properties:
->>>>>>>>          $ref: /schemas/types.yaml#/definitions/phandle-array
->>>>>>>>          maxItems: 1
->>>>>>>>
->>>>>>>> +  ports:
->>>>>>>> +    $ref: /schemas/graph.yaml#/properties/ports
->>>>>>>> +    description:
->>>>>>>> +      Input and output ports can have multiple endpoints, each of those
->>>>>>>> +      connects to either the primary, secondary, etc, display pipeline.
->>>>>>>> +
->>>>>>>> +    properties:
->>>>>>>> +      port@0:
->>>>>>>> +        $ref: /schemas/graph.yaml#/properties/port
->>>>>>>> +        description: AAL input port
->>>>>>>> +
->>>>>>>> +      port@1:
->>>>>>>> +        $ref: /schemas/graph.yaml#/properties/port
->>>>>>>> +        description:
->>>>>>>> +          AAL output to the next component's input, for example could be one
->>>>>>>> +          of many gamma, overdrive or other blocks.
->>>>>>>> +
->>>>>>>> +    required:
->>>>>>>> +      - port@0
->>>>>>>> +      - port@1
->>>>>>>> +
->>>>>>>>      required:
->>>>>>>>        - compatible
->>>>>>>>        - reg
->>>>>>>> @@ -89,5 +110,24 @@ examples:
->>>>>>>>                 power-domains = <&scpsys MT8173_POWER_DOMAIN_MM>;
->>>>>>>>                 clocks = <&mmsys CLK_MM_DISP_AAL>;
->>>>>>>>                 mediatek,gce-client-reg = <&gce SUBSYS_1401XXXX 0x5000 0x1000>;
->>>>>>>> +
->>>>>>>> +           ports {
->>>>>>>> +               #address-cells = <1>;
->>>>>>>> +               #size-cells = <0>;
->>>>>>>> +
->>>>>>>> +               port@0 {
->>>>>>>> +                   reg = <0>;
->>>>>>>> +                   aal0_in: endpoint {
->>>>>>>> +                       remote-endpoint = <&ccorr0_out>;
->>>>>>>> +                   };
->>>>>>>> +               };
->>>>>>>> +
->>>>>>>> +               port@1 {
->>>>>>>> +                   reg = <1>;
->>>>>>>> +                   aal0_out: endpoint {
->>>>>>>> +                       remote-endpoint = <&gamma0_in>;
->>>>>>>> +                   };
->>>>>>>> +               };
->>>>>>>> +           };
->>>>>>>>             };
->>>>>>>>          };
->>>>>>>> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.yaml
->>>>>>>> index 9f8366763831..fca8e7bb0cbc 100644
->>>>>>>> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.yaml
->>>>>>>> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.yaml
->>>>>>>> @@ -57,6 +57,27 @@ properties:
->>>>>>>>          $ref: /schemas/types.yaml#/definitions/phandle-array
->>>>>>>>          maxItems: 1
->>>>>>>>
->>>>>>>> +  ports:
->>>>>>>> +    $ref: /schemas/graph.yaml#/properties/ports
->>>>>>>> +    description:
->>>>>>>> +      Input and output ports can have multiple endpoints, each of those
->>>>>>>> +      connects to either the primary, secondary, etc, display pipeline.
->>>>>>>> +
->>>>>>>> +    properties:
->>>>>>>> +      port@0:
->>>>>>>> +        $ref: /schemas/graph.yaml#/properties/port
->>>>>>>> +        description: CCORR input port
->>>>>>>> +
->>>>>>>> +      port@1:
->>>>>>>> +        $ref: /schemas/graph.yaml#/properties/port
->>>>>>>> +        description:
->>>>>>>> +          CCORR output to the input of the next desired component in the
->>>>>>>> +          display pipeline, usually only one of the available AAL blocks.
->>>>>>>> +
->>>>>>>> +    required:
->>>>>>>> +      - port@0
->>>>>>>> +      - port@1
->>>>>>>> +
->>>>>>>>      required:
->>>>>>>>        - compatible
->>>>>>>>        - reg
->>>>>>>> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,color.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,color.yaml
->>>>>>>> index 7df786bbad20..6160439ce4d7 100644
->>>>>>>> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,color.yaml
->>>>>>>> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,color.yaml
->>>>>>>> @@ -65,6 +65,28 @@ properties:
->>>>>>>>          $ref: /schemas/types.yaml#/definitions/phandle-array
->>>>>>>>          maxItems: 1
->>>>>>>>
->>>>>>>> +  ports:
->>>>>>>> +    $ref: /schemas/graph.yaml#/properties/ports
->>>>>>>> +    description:
->>>>>>>> +      Input and output ports can have multiple endpoints, each of those
->>>>>>>> +      connects to either the primary, secondary, etc, display pipeline.
->>>>>>>> +
->>>>>>>> +    properties:
->>>>>>>> +      port@0:
->>>>>>>> +        $ref: /schemas/graph.yaml#/properties/port
->>>>>>>> +        description: COLOR input port
->>>>>>>> +
->>>>>>>> +      port@1:
->>>>>>>> +        $ref: /schemas/graph.yaml#/properties/port
->>>>>>>> +        description:
->>>>>>>> +          COLOR output to the input of the next desired component in the
->>>>>>>> +          display pipeline, for example one of the available CCORR or AAL
->>>>>>>> +          blocks.
->>>>>>>> +
->>>>>>>> +    required:
->>>>>>>> +      - port@0
->>>>>>>> +      - port@1
->>>>>>>> +
->>>>>>>>      required:
->>>>>>>>        - compatible
->>>>>>>>        - reg
->>>>>>>> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dither.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dither.yaml
->>>>>>>> index 6fceb1f95d2a..abaf27916d13 100644
->>>>>>>> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dither.yaml
->>>>>>>> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dither.yaml
->>>>>>>> @@ -56,6 +56,28 @@ properties:
->>>>>>>>          $ref: /schemas/types.yaml#/definitions/phandle-array
->>>>>>>>          maxItems: 1
->>>>>>>>
->>>>>>>> +  ports:
->>>>>>>> +    $ref: /schemas/graph.yaml#/properties/ports
->>>>>>>> +    description:
->>>>>>>> +      Input and output ports can have multiple endpoints, each of those
->>>>>>>> +      connects to either the primary, secondary, etc, display pipeline.
->>>>>>>> +
->>>>>>>> +    properties:
->>>>>>>> +      port@0:
->>>>>>>> +        $ref: /schemas/graph.yaml#/properties/port
->>>>>>>> +        description: DITHER input, usually from a POSTMASK or GAMMA block.
->>>>>>>> +
->>>>>>>> +      port@1:
->>>>>>>> +        $ref: /schemas/graph.yaml#/properties/port
->>>>>>>> +        description:
->>>>>>>> +          DITHER output to the input of the next desired component in the
->>>>>>>> +          display pipeline, for example one of the available DSC compressors,
->>>>>>>> +          DP_INTF, DSI, LVDS or others.
->>>>>>>> +
->>>>>>>> +    required:
->>>>>>>> +      - port@0
->>>>>>>> +      - port@1
->>>>>>>> +
->>>>>>>>      required:
->>>>>>>>        - compatible
->>>>>>>>        - reg
->>>>>>>> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
->>>>>>>> index 3a82aec9021c..b567e3d58aa1 100644
->>>>>>>> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
->>>>>>>> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
->>>>>>>> @@ -71,13 +71,34 @@ properties:
->>>>>>>>            Output port node. This port should be connected to the input port of an
->>>>>>>>            attached HDMI, LVDS or DisplayPort encoder chip.
->>>>>>>>
->>>>>>>> +  ports:
->>>>>>>> +    $ref: /schemas/graph.yaml#/properties/ports
->>>>>>>> +
->>>>>>>> +    properties:
->>>>>>>> +      port@0:
->>>>>>>> +        $ref: /schemas/graph.yaml#/properties/port
->>>>>>>> +        description: DPI input port
->>>>>>>> +
->>>>>>>> +      port@1:
->>>>>>>> +        $ref: /schemas/graph.yaml#/properties/port
->>>>>>>> +        description: DPI output to an HDMI, LVDS or DisplayPort encoder input
->>>>>>>
->>>>>>> This is wrong. The existing 'port' is the output. 'port' and 'port@0'
->>>>>>> are treated as the same thing. Since you are adding an input port, the
->>>>>>> new port has to be 'port@1' (or any number but 0).
->>>>>>>
->>>>>>> I haven't looked at the driver code, but it should request port 0 and
->>>>>>> always get the output port. And requesting port 1 will return an error
->>>>>>> or the input port.
->>>>>>
->>>>>> Hello Rob,
->>>>>>
->>>>>> I want to remind you that in v2 of this series you said that it'd be wrong for
->>>>>> port@0 to be an output, I replied that you misread that as I had modeled it indeed
->>>>>> as an input, and then you gave me your Reviewed-by tag.
->>>>>
->>>>> I have not misread it. Then I guess I forgot about it and missed it the
->>>>> next time on v3.
->>>>>
->>>>
->>>> Okay, that was some misunderstanding then - it's fine, no problem.
->>>>
->>>>>> Anyway - I get your concern about the previous behavior of `port`, but I chose to
->>>>>> model this that way purely for consistency.
->>>>>>
->>>>>> First of all - the driver(s) will check if we're feeding a full graph, as it will
->>>>>> indeed first check if port@1 is present: if it is, then it follows this scheme with
->>>>>> port@0 as INPUT and port@1 as OUTPUT.
->>>>>> If the component in port@0 is an OUTPUT, the bridge attach will fail.
->>>>>>
->>>>>> Getting to bindings themselves, then... it would be a mistake to model port@0 as an
->>>>>> output and port@1 as an input, because that would be not only inconsistent with the
->>>>>> DRM Bridge bindings, but would be highly confusing when reading the devicetree.
->>>>>
->>>>> Somewhat confusing, yes. Highly, no. Put a comment in the DT.
->>>>>
->>>>
->>>> "Somewhat or highly" boils down to personal opinion, so I still go for "highly"
->>>> but won't argue about that as wouldn't be productive and would bring us nowhere
->>>> anyway, so, whatever :-)
->>>>
->>>> Putting a comment in DT is an option, yes, but that comment would need to be put
->>>> on all of the MediaTek SoC device trees - current and future - and IMO would scream
->>>> "inconsistency warning" (in different words, of course) all over, which honestly
->>>> doesn't really look clean... at least to my eyes...
->>>
->>> What I find more confusing is my updated DT doesn't work with my
->>> existing kernel...
->>>
->>>>>> Please note that the bridge bindings are always declaring port@0 as an INPUT and
->>>>>> other ports as OUTPUT(s).
->>>>>
->>>>> There is no guarantee on that. Port numbering is local to the bridge and
->>>>> opaque to anything outside that bridge. That is why you have to document
->>>>> what each port represents.
->>>>>
->>>>
->>>> I know and I agree that there's no guarantee on the numbering. I can see that in
->>>> other non-drm-bridge bindings, and that's fine.
->>>>
->>>>> Would we have followed that convention if all the ports were defined
->>>>> from the start? Certainly. But that didn't happen and you are stuck with
->>>>> the existing binding and ABI.
->>>>>
->>>>
->>>> I thought about adding a new compatible for the new port scheme, but that looked
->>>> even worse to me as, after doing that (yeah, I actually went for it in the first
->>>> version that I have never sent upstream) during my own proof-read I started
->>>> screaming "HACK! HACK! NOOO!" all over, and rewritten the entire thing.
->>>>
->>>>>> As an example, you can check display/bridge/analogix,anx7625.yaml or
->>>>>> display/bridge/samsung,mipi-dsim.yaml (and others) for bridges, otherwise
->>>>>> display/st,stm32mp25-lvds.yaml or display/allwinner,sun4i-a10-display-frontend.yaml
->>>>>> (and others) for display controllers, which do all conform to this logic, where
->>>>>> the input is always @0, and the output is @1.
->>>>>>
->>>>>> Of course, doing this required me to do extra changes to the MTK DRM drivers to
->>>>>> actually be retro-compatible with the old devicetrees as I explained before.
->>>>>
->>>>> You can't fix existing software...
->>>>>
->>>>
->>>> That's true, but I don't see that as an "excuse" (grant me this term please) to
->>>> "carelessly" keep it in a suboptimal state.
->>>>
->>>> This driver has been growing almost uncontrollably with (wrong, anyway!)
->>>> board-specific component vectors - and writing a new one would just add up
->>>> more code duplication to the mix and/or worsen the maintainability of older
->>>> MediaTek SoCs (as the "old" driver will get forgotten and never updated anymore).
->>>>
->>>>> If you want to break the ABI, then that's ultimately up to you and
->>>>> Mediatek maintainers to decide0. This case is easy to avoid, why would
->>>>> you knowingly break the ABI here.
->>>>
->>>> Because if we don't do this, we condemn (forever) this driver, or part of it
->>>> to have an inverted port scheme compared to either:
->>>>     A. The other drm/mediatek components; or
->>>>     B. The other bridge drivers (of which, some are used with MTK as well)
->>>>
->>>> ...and we also condemn (forever, again) all MediaTek device trees to scream
->>>> "port inconsistency warning: A for drm/mediatek components, B for every other
->>>> thing", which would scream "drm/mediatek is somewhat broken", which can be
->>>> avoided.
->>>
->>> Sure. The cost is just an ABI break to do that.
->>>
->>>>> OTOH, this seems like a big enough
->>>>> change I would imagine it is a matter of time before supporting a
->>>>> missing OF graph for the components will be a problem.
->>>>>
->>>>
->>>> Sorry I didn't understand this part, can you please-please-please reword?
->>>
->>> I think keeping the kernel working with the old and new binding will
->>> be a challenge. Partly because testing with the old binding won't
->>> happen, but also if the binding and drivers continue to evolve. So
->>> while maintaining old ABI might be possible with this change, it will
->>> continue to be an issue with each change.
->>
->> That's... exactly my point, so I am happy that we agree on that.
->>
->>> BTW, did you actually test
->>> backwards compatibility with this? I can see you fallback to the old
->>> binding, but there's a lot of other changes in there I can't really
->>> tell by looking at it.
->>
->>
->> Short answer: Yes, largely
->>
->> Long answer:
->>
->> Yes, with this series applied, I have tested both *old* and *new* devicetrees on
->> 7 boards with 4 different SoCs and different display pipelines (hence, graphs):
->> one smartphone (MT6795), a "bunch of" Chromebooks (MT8173, MT8186, MT8195), and
->> a SBC (MT8195).
->>
->> Of course those had DSI or eDP displays, with or without DisplayPort external
->> display support.
->>
->>>
->>> What I haven't heard from you is "yes, we need to maintain the ABI" or
->>> "no, we can break it". Decide that, then the path here is simple.
->>
->> No, we have to break it.
-> 
-> Okay, then my reviewed-by stands. But please make it clear in the
-> binding and dts commit msgs that it is an ABI break.
-> 
-Thanks for that.
+On Wed, 2024-10-16 at 13:20 +0100, Tvrtko Ursulin wrote:
+> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>=20
+> When writing to a drm_sched_entity's run-queue, writers are protected
+> through the lock drm_sched_entity.rq_lock. This naming, however,
+> frequently collides with the separate internal lock of struct
+> drm_sched_rq, resulting in uses like this:
+>=20
+> =09spin_lock(&entity->rq_lock);
+> =09spin_lock(&entity->rq->lock);
+>=20
+> Rename drm_sched_entity.rq_lock to improve readability. While at it,
+> re-order that struct's members to make it more obvious what the lock
+> protects.
+>=20
+> v2:
+> =C2=A0* Rename some rq_lock straddlers in kerneldoc, improve commit text.
+> (Philipp)
+>=20
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> Suggested-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: Luben Tuikov <ltuikov89@gmail.com>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: Philipp Stanner <pstanner@redhat.com>
+> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> ---
+> =C2=A0drivers/gpu/drm/scheduler/sched_entity.c | 28 ++++++++++++---------=
+-
+> --
+> =C2=A0drivers/gpu/drm/scheduler/sched_main.c=C2=A0=C2=A0 |=C2=A0 2 +-
+> =C2=A0include/drm/gpu_scheduler.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 21 +++++++++---------
+> =C2=A03 files changed, 26 insertions(+), 25 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c
+> b/drivers/gpu/drm/scheduler/sched_entity.c
+> index b72cba292839..c013c2b49aa5 100644
+> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> @@ -105,7 +105,7 @@ int drm_sched_entity_init(struct drm_sched_entity
+> *entity,
+> =C2=A0=09/* We start in an idle state. */
+> =C2=A0=09complete_all(&entity->entity_idle);
+> =C2=A0
+> -=09spin_lock_init(&entity->rq_lock);
+> +=09spin_lock_init(&entity->lock);
+> =C2=A0=09spsc_queue_init(&entity->job_queue);
+> =C2=A0
+> =C2=A0=09atomic_set(&entity->fence_seq, 0);
+> @@ -133,10 +133,10 @@ void drm_sched_entity_modify_sched(struct
+> drm_sched_entity *entity,
+> =C2=A0{
+> =C2=A0=09WARN_ON(!num_sched_list || !sched_list);
+> =C2=A0
+> -=09spin_lock(&entity->rq_lock);
+> +=09spin_lock(&entity->lock);
+> =C2=A0=09entity->sched_list =3D sched_list;
+> =C2=A0=09entity->num_sched_list =3D num_sched_list;
+> -=09spin_unlock(&entity->rq_lock);
+> +=09spin_unlock(&entity->lock);
+> =C2=A0}
+> =C2=A0EXPORT_SYMBOL(drm_sched_entity_modify_sched);
+> =C2=A0
+> @@ -244,10 +244,10 @@ static void drm_sched_entity_kill(struct
+> drm_sched_entity *entity)
+> =C2=A0=09if (!entity->rq)
+> =C2=A0=09=09return;
+> =C2=A0
+> -=09spin_lock(&entity->rq_lock);
+> +=09spin_lock(&entity->lock);
+> =C2=A0=09entity->stopped =3D true;
+> =C2=A0=09drm_sched_rq_remove_entity(entity->rq, entity);
+> -=09spin_unlock(&entity->rq_lock);
+> +=09spin_unlock(&entity->lock);
+> =C2=A0
+> =C2=A0=09/* Make sure this entity is not used by the scheduler at the
+> moment */
+> =C2=A0=09wait_for_completion(&entity->entity_idle);
+> @@ -396,9 +396,9 @@ static void drm_sched_entity_wakeup(struct
+> dma_fence *f,
+> =C2=A0void drm_sched_entity_set_priority(struct drm_sched_entity *entity,
+> =C2=A0=09=09=09=09=C2=A0=C2=A0 enum drm_sched_priority priority)
+> =C2=A0{
+> -=09spin_lock(&entity->rq_lock);
+> +=09spin_lock(&entity->lock);
+> =C2=A0=09entity->priority =3D priority;
+> -=09spin_unlock(&entity->rq_lock);
+> +=09spin_unlock(&entity->lock);
+> =C2=A0}
+> =C2=A0EXPORT_SYMBOL(drm_sched_entity_set_priority);
+> =C2=A0
+> @@ -515,10 +515,10 @@ struct drm_sched_job
+> *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
+> =C2=A0
+> =C2=A0=09=09next =3D to_drm_sched_job(spsc_queue_peek(&entity-
+> >job_queue));
+> =C2=A0=09=09if (next) {
+> -=09=09=09spin_lock(&entity->rq_lock);
+> +=09=09=09spin_lock(&entity->lock);
+> =C2=A0=09=09=09drm_sched_rq_update_fifo_locked(entity,
+> =C2=A0=09=09=09=09=09=09=09next-
+> >submit_ts);
+> -=09=09=09spin_unlock(&entity->rq_lock);
+> +=09=09=09spin_unlock(&entity->lock);
+> =C2=A0=09=09}
+> =C2=A0=09}
+> =C2=A0
+> @@ -559,14 +559,14 @@ void drm_sched_entity_select_rq(struct
+> drm_sched_entity *entity)
+> =C2=A0=09if (fence && !dma_fence_is_signaled(fence))
+> =C2=A0=09=09return;
+> =C2=A0
+> -=09spin_lock(&entity->rq_lock);
+> +=09spin_lock(&entity->lock);
+> =C2=A0=09sched =3D drm_sched_pick_best(entity->sched_list, entity-
+> >num_sched_list);
+> =C2=A0=09rq =3D sched ? sched->sched_rq[entity->priority] : NULL;
+> =C2=A0=09if (rq !=3D entity->rq) {
+> =C2=A0=09=09drm_sched_rq_remove_entity(entity->rq, entity);
+> =C2=A0=09=09entity->rq =3D rq;
+> =C2=A0=09}
+> -=09spin_unlock(&entity->rq_lock);
+> +=09spin_unlock(&entity->lock);
+> =C2=A0
+> =C2=A0=09if (entity->num_sched_list =3D=3D 1)
+> =C2=A0=09=09entity->sched_list =3D NULL;
+> @@ -605,9 +605,9 @@ void drm_sched_entity_push_job(struct
+> drm_sched_job *sched_job)
+> =C2=A0=09=09struct drm_sched_rq *rq;
+> =C2=A0
+> =C2=A0=09=09/* Add the entity to the run queue */
+> -=09=09spin_lock(&entity->rq_lock);
+> +=09=09spin_lock(&entity->lock);
+> =C2=A0=09=09if (entity->stopped) {
+> -=09=09=09spin_unlock(&entity->rq_lock);
+> +=09=09=09spin_unlock(&entity->lock);
+> =C2=A0
+> =C2=A0=09=09=09DRM_ERROR("Trying to push to a killed
+> entity\n");
+> =C2=A0=09=09=09return;
+> @@ -621,7 +621,7 @@ void drm_sched_entity_push_job(struct
+> drm_sched_job *sched_job)
+> =C2=A0=09=09if (drm_sched_policy =3D=3D DRM_SCHED_POLICY_FIFO)
+> =C2=A0=09=09=09drm_sched_rq_update_fifo_locked(entity,
+> submit_ts);
+> =C2=A0
+> -=09=09spin_unlock(&entity->rq_lock);
+> +=09=09spin_unlock(&entity->lock);
+> =C2=A0
+> =C2=A0=09=09drm_sched_wakeup(sched);
+> =C2=A0=09}
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
+> b/drivers/gpu/drm/scheduler/sched_main.c
+> index 07ee386b8e4b..2670bf9f34b2 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -176,7 +176,7 @@ void drm_sched_rq_update_fifo_locked(struct
+> drm_sched_entity *entity, ktime_t ts
+> =C2=A0=09 * for entity from within concurrent
+> drm_sched_entity_select_rq and the
+> =C2=A0=09 * other to update the rb tree structure.
+> =C2=A0=09 */
+> -=09lockdep_assert_held(&entity->rq_lock);
+> +=09lockdep_assert_held(&entity->lock);
+> =C2=A0
+> =C2=A0=09spin_lock(&entity->rq->lock);
+> =C2=A0
+> diff --git a/include/drm/gpu_scheduler.h
+> b/include/drm/gpu_scheduler.h
+> index b6d095074c19..8ef33765b3b8 100644
+> --- a/include/drm/gpu_scheduler.h
+> +++ b/include/drm/gpu_scheduler.h
+> @@ -96,14 +96,22 @@ struct drm_sched_entity {
+> =C2=A0=09 */
+> =C2=A0=09struct list_head=09=09list;
+> =C2=A0
+> +=09/**
+> +=09 * @lock:
+> +=09 *
+> +=09 * Lock protecting the run-queue (@rq) to which this entity
+> belongs,
+> +=09 * @priority and the list of schedulers (@sched_list,
+> @num_sched_list).
+> +=09 */
+> +=09spinlock_t=09=09=09lock;
+> +
+> =C2=A0=09/**
+> =C2=A0=09 * @rq:
+> =C2=A0=09 *
+> =C2=A0=09 * Runqueue on which this entity is currently scheduled.
+> =C2=A0=09 *
+> =C2=A0=09 * FIXME: Locking is very unclear for this. Writers are
+> protected by
+> -=09 * @rq_lock, but readers are generally lockless and seem to
+> just race
+> -=09 * with not even a READ_ONCE.
+> +=09 * @lock, but readers are generally lockless and seem to
+> just race with
+> +=09 * not even a READ_ONCE.
+> =C2=A0=09 */
+> =C2=A0=09struct drm_sched_rq=09=09*rq;
+> =C2=A0
+> @@ -136,17 +144,10 @@ struct drm_sched_entity {
+> =C2=A0=09 * @priority:
+> =C2=A0=09 *
+> =C2=A0=09 * Priority of the entity. This can be modified by calling
+> -=09 * drm_sched_entity_set_priority(). Protected by &rq_lock.
+> +=09 * drm_sched_entity_set_priority(). Protected by &lock.
 
-I'll send a v13 that adds a snippet of text in this commit's description stating
-that it breaks the ABI, and I will keep your R-b tag.
+Should be '@lock'.
 
-Cheers,
-Angelo
+I fixed it on my branch.
+
+P.
+
+> =C2=A0=09 */
+> =C2=A0=09enum drm_sched_priority=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 priority;
+> =C2=A0
+> -=09/**
+> -=09 * @rq_lock:
+> -=09 *
+> -=09 * Lock to modify the runqueue to which this entity belongs.
+> -=09 */
+> -=09spinlock_t=09=09=09rq_lock;
+> -
+> =C2=A0=09/**
+> =C2=A0=09 * @job_queue: the list of jobs of this entity.
+> =C2=A0=09 */
+
