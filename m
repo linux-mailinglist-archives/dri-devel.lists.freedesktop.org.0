@@ -2,149 +2,143 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B88CB9A1B9E
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2024 09:24:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD8AD9A1AE9
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2024 08:46:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0AFA10E7B3;
-	Thu, 17 Oct 2024 07:24:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EB5910E2F9;
+	Thu, 17 Oct 2024 06:46:07 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="IWRXXu17";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HNOsHnjC";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="mXZ6+Rt/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SwtbRWLE";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 2200 seconds by postgrey-1.36 at gabe;
- Wed, 16 Oct 2024 09:04:22 UTC
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com
- [205.220.166.238])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B4A410E035
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Oct 2024 09:04:22 +0000 (UTC)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
- by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49G60WR4002866;
- Wed, 16 Oct 2024 01:27:20 -0700
-Received: from nam10-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam10lp2046.outbound.protection.outlook.com [104.47.55.46])
- by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 42a397gc3k-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 16 Oct 2024 01:27:20 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lAfsbv6fPyuGdpsgdqDOh3uGKbsY9+IihBJ4UoX5sBjORLNU9RwzoBxvzMmonKULTw1x39Yt+YfEXPXSLYMP0BkbSPxewaPlOy7WBx0/GoMs6jkUEf6YDrWQtXby0DljntHruhBKXl0EKjIiFMzVZeOLFObgjBnWcmcDZgctxLvnlI71lCf2hVYUts+oE/iCPSHzUD20X9oLm+hrdbd5yxpmWeNjCq7gvgevb02z1TTv2/gcnV8S1AjOJcy5dhoesiJcy0Vkf/saByDPVCCRkIv3YgzVxV5rurC7XJk7YKbX0RiUGB5XvjS8OVIsA4FPUPxSxohU+4ek8jWp+GQ5/w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=f+UE8vjJbeHaW42Q4jY1dKkICD+yVPCTye5SlmN6TOk=;
- b=qMQbJjIZOyXkyf8+9jCjPisFg5pTvoLu8LFHEbhSSUydF1pEPGCj/EfevnUG5tTsnJwF4Bv0uPGLXtQdt4wDAQSAFMk1uHa4tob0d26uF0VVhWIXNGPh+GE+c6HYAgogWHTQCy6fPN+1VsuKMbvJg6Nz0wy2i8ntrbC6XC+jdDQhJsDj7QopADBVh3aYjyKsWZM2Jc0/UqQwGeD9FKMX42LrF0IFmmy+35eujj4xVFxSwknfFsT7jzhySLAcWYdDUdKo6q5ppWVfjiwARKkdFx0jutRRX+PL3jCCU0uNnR0Bu8cRbhWfGpvh0fTTFNXuhIRvoltnAY99kiWZHu3zKQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from SA2PR11MB5193.namprd11.prod.outlook.com (2603:10b6:806:fa::5)
- by SA1PR11MB6710.namprd11.prod.outlook.com (2603:10b6:806:25a::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.27; Wed, 16 Oct
- 2024 08:27:17 +0000
-Received: from SA2PR11MB5193.namprd11.prod.outlook.com
- ([fe80::8ce7:ab08:1934:1d71]) by SA2PR11MB5193.namprd11.prod.outlook.com
- ([fe80::8ce7:ab08:1934:1d71%5]) with mapi id 15.20.8069.016; Wed, 16 Oct 2024
- 08:27:17 +0000
-From: Xulin Sun <xulin.sun@windriver.com>
-To: jyri.sarha@iki.fi, tomi.valkeinen@ideasonboard.com
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, xulin.sun@windriver.com
-Subject: [PATCH] drm/tilcdc: conditionally calling drm_atomic_helper_shutdown()
-Date: Wed, 16 Oct 2024 16:27:02 +0800
-Message-Id: <20241016082702.2981970-1-xulin.sun@windriver.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SI2PR01CA0041.apcprd01.prod.exchangelabs.com
- (2603:1096:4:193::15) To SA2PR11MB5193.namprd11.prod.outlook.com
- (2603:10b6:806:fa::5)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D27E010E2F9
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2024 06:46:06 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 070621F849;
+ Thu, 17 Oct 2024 06:46:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1729147565; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=V8d9pMkiIlWhhhxivpEyxCKOWlEHN3LIE3dsqj8k3Bw=;
+ b=IWRXXu17s6+kjUYiu4rH4ezZIL39Ttc5s7+nl0et0xhIYD70odIRDE1rZhnY3vjfGJkRma
+ i7GE9ELTYHt3nQ7qDFedUiK/P25wd1TUliLss3y8M54JqktlkZfpat7Y2q6JP8BmjDALcr
+ ZbsxCRamvK/vyte8cH7lU5QVF6C58PM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1729147565;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=V8d9pMkiIlWhhhxivpEyxCKOWlEHN3LIE3dsqj8k3Bw=;
+ b=HNOsHnjCG+3AgMewhgtcHTHGLRQyZ1G1SxYKedTSOhW+Rx6SoeXyWa04qH4N2sobsMRwIS
+ PfWlcAgsQ+QjnPCA==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b="mXZ6+Rt/";
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=SwtbRWLE
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1729147564; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=V8d9pMkiIlWhhhxivpEyxCKOWlEHN3LIE3dsqj8k3Bw=;
+ b=mXZ6+Rt/lTnA2CJS0Khl4XIsu0HUz9IS31Re+LishAMOb9paXO1hPTMmHIx1hXpJVLEVy6
+ YLzWTOdRJ24jX5+K2ME6BA1naNB4ZauAPmJpkjZ7mP5tdFoWfxO6mmfwYMYLaMD03FUa3g
+ DkQphmkZKHaoFS7P3w2ERm6KnfX4fu0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1729147564;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=V8d9pMkiIlWhhhxivpEyxCKOWlEHN3LIE3dsqj8k3Bw=;
+ b=SwtbRWLEGmTKFyEVFw2mWOyrCIrzzXfl822dJcLT7pRTVlgVJSbomkvfjMJiZs0bIbvT64
+ udSAqZ4dM2KT3kBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C6ECA13A42;
+ Thu, 17 Oct 2024 06:46:03 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id w7y6LquyEGe1GgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 17 Oct 2024 06:46:03 +0000
+Message-ID: <8d4ccb23-bdce-4320-bddb-33cae0ebc3a5@suse.de>
+Date: Thu, 17 Oct 2024 08:46:03 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PR11MB5193:EE_|SA1PR11MB6710:EE_
-X-MS-Office365-Filtering-Correlation-Id: ad660575-8db9-4327-d62c-08dcedbc588b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|376014|52116014|1800799024|38350700014; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?hGOWC6Q70cSPPj2LcMIL/yUhKV4WN2yJJdZHHu7DewsJFSyiVP/8FUJnec4q?=
- =?us-ascii?Q?kWs/xV1nTjvVunQghphJmgVrZ709lgFOYVxhPtpOOuKyQf5w3CCzckKJgLfn?=
- =?us-ascii?Q?uXOTIJGFqOgrbX+fcnvcTkKid4q7EYIQdZr4HWM2MmxjBiX0R3+nEHSwYcsy?=
- =?us-ascii?Q?Al3QKCBwgeuTzYdTw3bp2Qa+Le43YK0VU/TrBPxKzRb7o7XMj40sr/5kSDuX?=
- =?us-ascii?Q?boEtKKlJUQlaSvyzpSiWrgKIX8xIYFV1GDcwA8NuSqDo34XuLiYX+hsLzmxU?=
- =?us-ascii?Q?kSeP+v9mtS9wHh6BqNlPdr/u+Vf1NNd4p3c9UR1KyZigcnG7GXzAoc9vH60Y?=
- =?us-ascii?Q?Tn2a++7dRW2vy3siL3vbBQbA1TzdXroaHzgVeXVNFtmnjZiF7mxpWyFDkoZC?=
- =?us-ascii?Q?RBMMjwqSoN4EwiNeIPkSa7RsWgyiXwSHeT2KNIH5jpPYfvImwztpacO8rzT1?=
- =?us-ascii?Q?IrgljNYt17KDN3aH16nUbFe0K1AUJYNcqVN2+FgI5fRJPtTQp5mTD5JNd78S?=
- =?us-ascii?Q?yjY12KzJk5MOxzwCNFg9yNRWMinRTLUL/KKhuqYjvlDNafOKes8nu7YYaVjS?=
- =?us-ascii?Q?CdC6vvZvVFWetig4b8Xw0GWI2v3ya1DBybJQQXLuIyDhjEmJk+oHnLE0DRXa?=
- =?us-ascii?Q?eFa88KjXUwc6XgUfQeiBaFlmHwQjwg6w9HRMoWSW3Ho1dKqinSDeJG5kqyDF?=
- =?us-ascii?Q?qbuSHY6Gipi9mFa1liDr2zOJtFn7cS1udF/xVT/zYZyXryZAmKDOnVbf4+IM?=
- =?us-ascii?Q?jdxYwMMpO7YTQGmmlyE/UAfdfSzih/ZXu9r2yiiy7Zv1+SjV5hB9p28k/2CG?=
- =?us-ascii?Q?eUQkDveMzIzOSfztlBDj0VbWh/AUtT/WAfXU6lSqZRQd33xC8JlJb/RzJnsD?=
- =?us-ascii?Q?91EbvBeoawV7HBwyrw/PaOdDFTTJFu7zWMcvPKiCeuUeKLzyh+Y5TpnR98rj?=
- =?us-ascii?Q?nahlbEGHHOxBX7vPOSP7jolRki6m5xPqefcz0yi8QZCO8Ixtl11wdQHvTxQW?=
- =?us-ascii?Q?jj1CF+74zqZgKmZnKD8KB8aJVrfpGbPa4Dd60Z43m527ZDWGDNiLr1cnX9On?=
- =?us-ascii?Q?cuLI/+ehwE46cC1+jb0ZTTZ2LtpWW8zcuhyiHwh0hu4u296eK1WL4sHHFwrb?=
- =?us-ascii?Q?MFO7YCZs8qRHlbiBv9lzGGnWVUrYwhfxMaoM6MvXCMMVVLhj147Mlm3crWjo?=
- =?us-ascii?Q?dN8+Cy69h8i7SVuQfgZBqVr/7mtvwZWSR9J3rSBYB3f5h77lC1UDsAwekpcy?=
- =?us-ascii?Q?MbJudLh4wzuqtV9N7XURlwbMNoozQ02e+9Iwgd6HQMWRfontNdCU+OGD2V14?=
- =?us-ascii?Q?tBOd5gQhCdfhcKIBB/vD0GgJ6adVQTxKCfDf2beX2WBShQ=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SA2PR11MB5193.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(52116014)(1800799024)(38350700014); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?1hxvvNk/ujS9vR6kvbtVhAU63NbDGJ7lh3CvLnJsQOILwCOcbt8CUsgGlYA8?=
- =?us-ascii?Q?QRUMNke0HEMHE5ex5md+YnWnK4Yjk0Cw6DZ4GWnTooPHnaaF583Gce0yqAnm?=
- =?us-ascii?Q?HdXC89GzaC6pnI7yltTUB2/A33tXbcH9MdrkEoj4R2PixRUG7/Rquw7B49dS?=
- =?us-ascii?Q?KNrK1UqleJRxxqJrdVluHwAkpxEW5hraEOF/4YILaX8ws5e/PfWRowRXGDpM?=
- =?us-ascii?Q?nDIB5gPlzWb9HIvpLXdyCHfg3tJCbVhuHhYjTiwxWOAt43azmQvIGYP7VlR/?=
- =?us-ascii?Q?WmtgukAJ2Og9g/MoS1zTC2WjjUnHzxCw5LTObsfCuQvX1fAqaVZp+dQbGvWP?=
- =?us-ascii?Q?7Utwhx+i2MAPTWrlv3Zo+L2CzBwroTz4ra2rTRml3u5nQ2f3vjK8PVNRKe1I?=
- =?us-ascii?Q?XWooqTnSZ8hbkihknBl8sjyOcPTU2Ezj+PDyBbrq7rjvbKPu3773WBlKJN92?=
- =?us-ascii?Q?6f2BgoiG1gxI7GapCTLZDFcAGiGBH8VenwFwb4rUdZH7W/bLYW84IM9jgCOH?=
- =?us-ascii?Q?4qa2b5S3+hDTiFycqgkVNkY1JjvC8qoSFMh104Zw23ai+G1iMlpvBh4tQw4D?=
- =?us-ascii?Q?Ci8bzBY2ne2MNLy1UgbGkWTQtB+S8TG7ZISTIsul31wFcqwwFyrau/5GHemb?=
- =?us-ascii?Q?F1U3pC6ZMCZsuShSQCAmhLr/cVc96SEbBGcqrq/wn06BClUWmjjt3gM3SZ6D?=
- =?us-ascii?Q?Z1IAD4MBOylhSBbXxrGt2R39dlo13heke9I4isxW/RGZcIhZKPglt/N/BGak?=
- =?us-ascii?Q?qFNldh9bs9oC780o/0vf/zNhrqAwEhowqPm2U0zpZnnEAIrZJm9b3r8O4PyQ?=
- =?us-ascii?Q?Z7Xz3dGdA6blTPMqPfZM/Cbd2yBzmQqerOrLmt7qCmwe1FG4gOBeIWMzcIvI?=
- =?us-ascii?Q?+OMv4N/v5vDQPY9RrYZH54isP8M4zgvabWflHOPt9vH9dNEYWYjetTXhp9Vb?=
- =?us-ascii?Q?l/DB58AN1t/Lf3pWxKmuYpnhQiS+zsIvj4eQWjVM+ClRR1W0aslfiEn8pr5z?=
- =?us-ascii?Q?aAL9zVnuUoIvlehb2OTX207qZfTuhQ7r0HmmrYLIaWQyaM8QoNvXP7nH7/FQ?=
- =?us-ascii?Q?N5UFAMgcOELs0I3j1eSLDHqL/ryEIeBdmfdQS2ulK9QMUYytpqbw7rDNsqOZ?=
- =?us-ascii?Q?inPg+Tq4ZvY64O97jLaZHFTxIel4WM8UqvST/o2u6wYFmTwr4ZFpYnG5ThPA?=
- =?us-ascii?Q?Ci0x4mlmxe+YiKEYnMkWwO0/0aM28TUh9KdjiiCFrcm/YoTacFW4XXPW6fDw?=
- =?us-ascii?Q?CnDlVnKoaPdrUT+0ShTbPq7S6NKpIOkA9niGD0M9e/ISUNJqwhwtFTzvROtS?=
- =?us-ascii?Q?Pya1SVG4qNFCyjGCq/OUJeAMFKinHW+n7xBfOufJOwGybPSX6N8brMmipx+n?=
- =?us-ascii?Q?Ny7/jGAlvXbXlBpF0dEj40AH48SBbcc5Oj2ymCbFyy3FAQ7lNaiIH4BGY8NO?=
- =?us-ascii?Q?6tiMsb2T/qcvRIFQ32Yhf2N9SKqoewAtmGwGTPHLJ51o05XQ26jEADhgj2Ra?=
- =?us-ascii?Q?Z3tAP9gKXQn6RjNi28WNsmrQYWeOYxqr9Zq+LgQuFf7qbfnN21PAT14qVYx4?=
- =?us-ascii?Q?ed2+xT3o2txhWxymh/Sa9Un3Sn4xMPwEgdpxonem?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ad660575-8db9-4327-d62c-08dcedbc588b
-X-MS-Exchange-CrossTenant-AuthSource: SA2PR11MB5193.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2024 08:27:17.6315 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AH2AWW5qsaiz8Efaq48biu2FRgyvndtZRgvJtFJjUUVP5/K91KQmjkp2d9CwB2Xjinq5fnTU8v2KkJXxNOG0AQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB6710
-X-Proofpoint-ORIG-GUID: Aniz20oSpSp4EP1qFrQHU5pgqsAzW3O0
-X-Authority-Analysis: v=2.4 cv=Fc1lx4+6 c=1 sm=1 tr=0 ts=670f78e8 cx=c_pps
- a=OGaRt8TyNAR4X2Yz4FfAAw==:117 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
- a=xqWC_Br6kY4A:10 a=DAUX931o1VcA:10 a=bRTqI5nwn0kA:10 a=t7CeM3EgAAAA:8
- a=YuAILjPrcoIfSKu_7RYA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: Aniz20oSpSp4EP1qFrQHU5pgqsAzW3O0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-16_06,2024-10-15_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 clxscore=1011
- spamscore=0 impostorscore=0 malwarescore=0 bulkscore=0 mlxscore=0
- suspectscore=0 adultscore=0 lowpriorityscore=0 priorityscore=1501
- phishscore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
- engine=8.21.0-2409260000 definitions=main-2410160055
-X-Mailman-Approved-At: Thu, 17 Oct 2024 07:24:49 +0000
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/fbdev-dma: remove obsolete kernel-doc references
+To: Randy Dunlap <rdunlap@infradead.org>, dri-devel@lists.freedesktop.org
+Cc: patches@lists.linux.dev, Stephen Rothwell <sfr@canb.auug.org.au>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+References: <20241017024813.61908-1-rdunlap@infradead.org>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20241017024813.61908-1-rdunlap@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 070621F849
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ TO_DN_SOME(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FREEMAIL_CC(0.00)[lists.linux.dev,canb.auug.org.au,gmail.com,ffwll.ch];
+ RCVD_TLS_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ RCPT_COUNT_FIVE(0.00)[6]; MID_RHS_MATCH_FROM(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ DKIM_TRACE(0.00)[suse.de:+];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,
+ imap1.dmz-prg2.suse.org:rdns, suse.de:email, suse.de:dkim, suse.de:mid,
+ lists.freedesktop.org:email, ffwll.ch:email, linux.dev:email,
+ auug.org.au:email, infradead.org:email]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -4.51
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -160,71 +154,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The `drm_atomic_helper_shutdown(dev)` is called only if
-`priv->is_registered` is true, ensuring that it runs only when the device
-has been properly registered. Otherwise, if it encounters a defer probe,
-the following call trace will appear.
 
-WARNING: CPU: 0 PID: 13 at drivers/gpu/drm/drm_atomic_state_helper.c:174 drm_atomic_helper_crtc_duplicate_state+0x68/0x70
-Modules linked in:
-CPU: 0 PID: 13 Comm: kworker/u2:1
-Hardware name: Generic AM33XX (Flattened Device Tree)
-Workqueue: events_unbound deferred_probe_work_func
- unwind_backtrace from show_stack+0x18/0x1c
- show_stack from dump_stack_lvl+0x24/0x2c
- dump_stack_lvl from __warn+0x80/0x134
- __warn from warn_slowpath_fmt+0x19c/0x1a4
- warn_slowpath_fmt from drm_atomic_helper_crtc_duplicate_state+0x68/0x70
- drm_atomic_helper_crtc_duplicate_state from drm_atomic_get_crtc_state+0x70/0x110
- drm_atomic_get_crtc_state from drm_atomic_helper_disable_all+0x98/0x1c8
- drm_atomic_helper_disable_all from drm_atomic_helper_shutdown+0x90/0x144
- drm_atomic_helper_shutdown from tilcdc_fini+0x58/0xe0
- tilcdc_fini from tilcdc_init.constprop.0+0x23c/0x620
- tilcdc_init.constprop.0 from tilcdc_pdev_probe+0x58/0xac
- tilcdc_pdev_probe from platform_probe+0x64/0xb8
- platform_probe from really_probe+0xd0/0x2e0
- really_probe from __driver_probe_device+0x90/0x1a8
- __driver_probe_device from driver_probe_device+0x38/0x10c
- driver_probe_device from __device_attach_driver+0x9c/0x110
- __device_attach_driver from bus_for_each_drv+0x98/0xec
- bus_for_each_drv from __device_attach+0xb0/0x1ac
- __device_attach from bus_probe_device+0x90/0x94
- bus_probe_device from deferred_probe_work_func+0x80/0xac
- deferred_probe_work_func from process_one_work+0x198/0x3f8
- process_one_work from worker_thread+0x35c/0x550
- worker_thread from kthread+0x108/0x124
- kthread from ret_from_fork+0x14/0x28
-Exception stack(0xe0039fb0 to 0xe0039ff8)
-9fa0:                                     00000000 00000000 00000000 00000000
-9fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-9fe0: 00000000 00000000 00000000 00000000 00000013 00000000
----[ end trace 0000000000000000 ]---
-tilcdc 4830e000.lcdc: [drm] *ERROR* Disabling all crtc's during unload failed with -12
 
-Signed-off-by: Xulin Sun <xulin.sun@windriver.com>
----
- drivers/gpu/drm/tilcdc/tilcdc_drv.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+Am 17.10.24 um 04:48 schrieb Randy Dunlap:
+> The kernel-doc comments in these 3 files was removed so remove the
+> references to these files to prevent kernel-doc warnings.
+>
+> drivers/gpu/drm/drm_fbdev_dma.c:1: warning: no structured comments found
+> drivers/gpu/drm/drm_fbdev_shmem.c:1: warning: no structured comments found
+> drivers/gpu/drm/drm_fbdev_ttm.c:1: warning: no structured comments found
+>
+> Fixes: 731fddf4302e ("drm/fbdev-dma: Remove obsolete setup function")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> Closes: https://lore.kernel.org/all/20241002142250.07e1c46c@canb.auug.org.au/
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Simona Vetter <simona@ffwll.ch>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: dri-devel@lists.freedesktop.org
 
-diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.c b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-index cd5eefa06060..9c11ea126b46 100644
---- a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-+++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-@@ -171,11 +171,12 @@ static void tilcdc_fini(struct drm_device *dev)
- 	if (priv->crtc)
- 		tilcdc_crtc_shutdown(priv->crtc);
- 
--	if (priv->is_registered)
-+	if (priv->is_registered) {
- 		drm_dev_unregister(dev);
-+		drm_atomic_helper_shutdown(dev);
-+	}
- 
- 	drm_kms_helper_poll_fini(dev);
--	drm_atomic_helper_shutdown(dev);
- 	tilcdc_irq_uninstall(dev);
- 	drm_mode_config_cleanup(dev);
- 
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+> ---
+> Cc: patches@lists.linux.dev
+>
+>   Documentation/gpu/drm-kms-helpers.rst |    9 ---------
+>   1 file changed, 9 deletions(-)
+>
+> --- linux-next-20241016.orig/Documentation/gpu/drm-kms-helpers.rst
+> +++ linux-next-20241016/Documentation/gpu/drm-kms-helpers.rst
+> @@ -110,15 +110,6 @@ fbdev Helper Functions Reference
+>   .. kernel-doc:: drivers/gpu/drm/drm_fb_helper.c
+>      :doc: fbdev helpers
+>   
+> -.. kernel-doc:: drivers/gpu/drm/drm_fbdev_dma.c
+> -   :export:
+> -
+> -.. kernel-doc:: drivers/gpu/drm/drm_fbdev_shmem.c
+> -   :export:
+> -
+> -.. kernel-doc:: drivers/gpu/drm/drm_fbdev_ttm.c
+> -   :export:
+> -
+>   .. kernel-doc:: include/drm/drm_fb_helper.h
+>      :internal:
+>   
+
 -- 
-2.34.1
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
