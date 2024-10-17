@@ -2,99 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E4139A26D3
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2024 17:35:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E48B19A26DA
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2024 17:36:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C48010E053;
-	Thu, 17 Oct 2024 15:35:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B93410E85F;
+	Thu, 17 Oct 2024 15:36:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="t76RP5Jy";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MNF8iDpY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
- [209.85.221.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB51510E053
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2024 15:35:38 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id
- ffacd0b85a97d-37d50fad249so775567f8f.1
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2024 08:35:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1729179337; x=1729784137; darn=lists.freedesktop.org;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=mqbcP7dK2aMJ0XNQaLg26ntovAXTjd5n1xguqyfCHr4=;
- b=t76RP5Jygxe+L1wS8vdeeu3lT0ISMmWFIPwigX4lx+HO6tw0Ermwn/ESGVQvLNZGHS
- he0Zg8scuWHvxvZ41eGgfiB6seEmul7hKw/cT0hlqR1IMsZwF1GNldkOzxQY8KT2ISe+
- 1Oc2GdTga4F5+DvSF+xXaZHdgtUDQQtac0lw6B9C6qxyp0yuJ4ulBpqG35KC+aOIBaik
- swxiv8I7LSciDEPK+I7101B473pSkm+5Eu3BmwWN/9NnkXFbfCw3wwQELnK6v2JgZNgX
- 3LXQwj3BAr67IGfSmKe+tL8vKdNdiDJEgu+ZM2OGzjt6xwYfKEB89BPo2OI+ozPOcIiV
- mfeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729179337; x=1729784137;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=mqbcP7dK2aMJ0XNQaLg26ntovAXTjd5n1xguqyfCHr4=;
- b=FmH/8zOijhlCwGITh+/l70mWkwNdXTWYb5iESsVoqpt6mwyCnnjfU4MeGaev1+33y0
- nqukYXdZESeXAHci7asyzMZbJklPUqHHlYQwAsudNt/Kc7FFnjLrk/PjZXV/jNvYVBxi
- IZms68b/nwpjq9DWntawjtamF175koVr1UIqZahuFAOBE4bP7XTAfJorLJcZMInoMJ2u
- Cen2qA+FhhGeF2agbnDR5S8gbs94e/EfiyKGQCLSR/eRD+Ik8l5y3zithaXplvPs1lWO
- 95JHih9vzxEMeL5yAetwHgXCI9QE+UEfG501XsqRKeV5mUDeMNGMYqPzHe74GpSlWF5Q
- vbXQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWRVDb9/D65BCZwMa1ju/53enU+JgOLcI1jkINypit4thh5kT3fhaw5722cWR8JpDXCCG8Efb8cKW4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxaLnBUcnmUDB0bMi0SWojLKIMOe7fLGf8BvatU9WpgMXK7mFB5
- HWyX+Dg6jAHJnemEKxgc9Z76NFBwhZeOaXoK4AtHz7VRZ2dkEGT+puAi92GSULc=
-X-Google-Smtp-Source: AGHT+IGjWzA1J/qNb3pu7nTg6gpRfLQvB/Lxros9VoMUt1p74jGUDKAkWTtuNyFTXTsTiI/qZNI/RA==
-X-Received: by 2002:a5d:5192:0:b0:37d:51b9:7f3b with SMTP id
- ffacd0b85a97d-37d86ba44c4mr4689309f8f.11.1729179337047; 
- Thu, 17 Oct 2024 08:35:37 -0700 (PDT)
-Received: from [127.0.1.1] ([82.76.168.176]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-43158c359casm29796145e9.8.2024.10.17.08.35.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Oct 2024 08:35:36 -0700 (PDT)
-From: Abel Vesa <abel.vesa@linaro.org>
-Date: Thu, 17 Oct 2024 18:35:26 +0300
-Subject: [PATCH] drm/bridge: Mark the of_node of the aux bridge device as
- reused
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B75010E85F;
+ Thu, 17 Oct 2024 15:36:04 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 1C454A44137;
+ Thu, 17 Oct 2024 15:35:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A788C4CECD;
+ Thu, 17 Oct 2024 15:35:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1729179362;
+ bh=UaHTT/HCPSCBmEoLaaHxWZ8kYjvp79Mh62xxOcsCz3g=;
+ h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+ b=MNF8iDpYfzr/MllJDBEf+0OjI4ejKzCH1MnIlFSj3P4DjmRkcLc722QW6DzmCk7tb
+ 1S7ib2J0Xvb1jpNMs8ytpfN5Qi0/0k0pt4cipphk4NUuSUB4jpl+Y1EAWfHf7rWRSa
+ icZ9z1Sos4ktrwFWtVXMOXGqVnRCJT7cozsoxHWVqQjuFcQCqdVA1QI/844GH/yd+V
+ 8f1YDsifxmjrF6l1etNSasGvuP36bIXEnpVed/mSWTUqgTIctM5YWgegG1aYN1k/zp
+ NKKkPLdfEjFrblCxAvJk0uBYR/PTRNXWlWhcg//OcuuGVzTLc7rR+XrqyJIu7cjE7z
+ wdHyVJ1tpTIVg==
+From: Vinod Koul <vkoul@kernel.org>
+To: kishon@kernel.org, konradybcio@kernel.org, andersson@kernel.org, 
+ simona@ffwll.ch, dmitry.baryshkov@linaro.org, abel.vesa@linaro.org, 
+ robdclark@gmail.com, quic_abhinavk@quicinc.com, sean@poorly.run, 
+ marijn.suijten@somainline.org, airlied@gmail.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+ quic_khsieh@quicinc.com, quic_parellan@quicinc.com, 
+ quic_bjorande@quicinc.com, Simona Vetter <simona.vetter@ffwll.ch>, 
+ Konrad Dybcio <konradybcio@kernel.org>, 
+ Soutrik Mukhopadhyay <quic_mukhopad@quicinc.com>
+Cc: linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ quic_riteshk@quicinc.com, quic_vproddut@quicinc.com
+In-Reply-To: <20241004103046.22209-1-quic_mukhopad@quicinc.com>
+References: <20241004103046.22209-1-quic_mukhopad@quicinc.com>
+Subject: Re: (subset) [PATCH v4 0/5] Add support for DisplayPort on SA8775P
+ platform
+Message-Id: <172917935474.288841.13832533870290794704.b4-ty@kernel.org>
+Date: Thu, 17 Oct 2024 21:05:54 +0530
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241017-drm-aux-bridge-mark-of-node-reused-v1-1-7cd5702bb4f2@linaro.org>
-X-B4-Tracking: v=1; b=H4sIAL0uEWcC/x2NwQqDMBAFf0X23IUkWKT+SukhdV/aRUzKBosg/
- rvB4zAws1OFKSqN3U6Gv1YtuYG/dTR9Y/6AVRpTcKH3zg8stnBcN36bSrNLtJlL4lwEbFgrhO9
- TAIbepeQf1EI/Q9Ltmjxfx3EC373dpXQAAAA=
-X-Change-ID: 20241017-drm-aux-bridge-mark-of-node-reused-5c2ee740ff19
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: Johan Hovold <johan@kernel.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Abel Vesa <abel.vesa@linaro.org>
-X-Mailer: b4 0.15-dev-dedf8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1148; i=abel.vesa@linaro.org; 
- h=from:subject:message-id;
- bh=h9uykyfO7ScfnJqg9/bvlXoGMVQ8+VTobz4GllhZUUI=; 
- b=owEBbQKS/ZANAwAKARtfRMkAlRVWAcsmYgBnES7CiAGU32p57bHQLiiz0jEimNZ5o5hlcba3q
- uMdixGM9pWJAjMEAAEKAB0WIQRO8+4RTnqPKsqn0bgbX0TJAJUVVgUCZxEuwgAKCRAbX0TJAJUV
- VsUuD/9Lyl7mb7MVnlV/bdmPb2jofWDLNNw990TrN25CZMT+6Xey4jyj66fPIsAvCQuOuLGK0cw
- tntfPGjUDUKhTwEprWx1ncGs9YHR/NPVE6yf16bCFovaMaPAKb4V07nzSq55Hv+outtijYjqVh3
- MKcmL9wmvkFSC9B89girNOV2SCH/oW0/oOCZ97UVXYRLsMx3MJ5+bEQSBgNj6VLrfrTAkSbvbZ4
- t5T3IPRbkj490bx8dTMNK8+HwmU4GehktikcASgWXIrc3x7pUU3D2Ilak8K6DBp21981MbZyNpN
- pzodZcrp8lR2peDAYGvKpSLLydwZQOTx/ZjTxt4w4dQyqmiiWzs4mCtniOhoZmX7a+zZgr8kKtO
- GZlJh0CRlnQuBcTmwH6oRd59m2ELukq7l1L+FTcPFdh0ZDixsOvwuxIsJzvfHObX+0ATZOWA635
- XQuGVKb3GM27unPpOoeiizlZ7zIVYmQcvsCfdBiPG/lGg2wuHa6TDK3jqUvEWzMv4aCMb1ci3D9
- JUDjyre3uERimQLS2TgbX7na7WfyqgW+0ClRAgLJO860ee9Bi6R10u/aYsHl1zxjmYtwukx/Rqi
- eCxLoyU458FrWNEBAoVUjWAhRWKKcXeUHOZGBrwT+1pLCEGlza1Q9dmsa2sHaXkntxwTuzpsAFK
- TxMqU3ZDBr0tLVw==
-X-Developer-Key: i=abel.vesa@linaro.org; a=openpgp;
- fpr=6AFF162D57F4223A8770EF5AF7BF214136F41FAE
+X-Mailer: b4 0.14.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,34 +70,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are some cases where sharing the of_node renders different resources
-providers confused about the same resource being shared by two different
-devices. Avoid that by marking the of_node as reused since the aux bridge
-device is reusing the parent of_node.
 
-Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
----
- drivers/gpu/drm/bridge/aux-bridge.c | 1 +
- 1 file changed, 1 insertion(+)
+On Fri, 04 Oct 2024 16:00:41 +0530, Soutrik Mukhopadhyay wrote:
+> This series adds support for the DisplayPort controller
+> and eDP PHY v5 found on the Qualcomm SA8775P platform.
+> 
 
-diff --git a/drivers/gpu/drm/bridge/aux-bridge.c b/drivers/gpu/drm/bridge/aux-bridge.c
-index b29980f95379ec7af873ed6e0fb79a9abb663c7b..ec3299ae49d6abdb75ee98acfe0682f1acc459f8 100644
---- a/drivers/gpu/drm/bridge/aux-bridge.c
-+++ b/drivers/gpu/drm/bridge/aux-bridge.c
-@@ -60,6 +60,7 @@ int drm_aux_bridge_register(struct device *parent)
- 	adev->dev.parent = parent;
- 	adev->dev.of_node = of_node_get(parent->of_node);
- 	adev->dev.release = drm_aux_bridge_release;
-+	adev->dev.of_node_reused = true;
- 
- 	ret = auxiliary_device_init(adev);
- 	if (ret) {
+Applied, thanks!
 
----
-base-commit: d61a00525464bfc5fe92c6ad713350988e492b88
-change-id: 20241017-drm-aux-bridge-mark-of-node-reused-5c2ee740ff19
+[1/5] dt-bindings: phy: Add eDP PHY compatible for sa8775p
+      commit: 7adb3d221a4d6a4f5e0793c3bd35f1168934035c
+[2/5] phy: qcom: edp: Introduce aux_cfg array for version specific aux settings
+      commit: 913463587d528d766a8e12c7790995e273ec84fb
+[3/5] phy: qcom: edp: Add support for eDP PHY on SA8775P
+      commit: 3f12bf16213c30d8e645027efd94a19c13ee0253
 
 Best regards,
 -- 
-Abel Vesa <abel.vesa@linaro.org>
+~Vinod
+
 
