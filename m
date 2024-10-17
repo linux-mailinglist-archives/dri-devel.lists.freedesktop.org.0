@@ -2,63 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC54E9A1D8F
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2024 10:51:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3A709A1DA4
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2024 10:56:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF9DE10E10F;
-	Thu, 17 Oct 2024 08:51:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED5C010E300;
+	Thu, 17 Oct 2024 08:56:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=erik.faye-lund@collabora.com header.b="BgqrFMoB";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=phytec.de header.i=@phytec.de header.b="afsw8czs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35F3110E10F
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2024 08:51:47 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1729155098; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=WaiW/+sWjw1sgNyKIwVGTRiKCJMssF9mzKqrOpOezCvxl9GSdcTX8vQsjZotaVgUs9jBz5RrvcxD9NlZHEOFA8ed+ZVfNIjPhSCzuk8dXUnP/ZjKCoBW+vnBG3EIWKNP0qrMYyt5ogbMJkUPJL9n/LgrDXTPlwSyFXW6tDFI7Lo=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1729155098;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=KXBkxKNVs6wE+YT1mA1bDTsal53xZCrh2yGOcHdlcSw=; 
- b=AedCuAgFL1SiCCXAbVesjDhc+c07R6+GXjIkSM3SMlp6pU5vnS5Pt09IELqsxdf/Q5JyTSRddka9f7RuwqZE2MQZOm5hFUN/gEsyP0E4wE4TQd7S+WC9vPMP33TSLEuRe6aYloV6srtG5CBujCzLgr9NqIdCbSIVjrfIUo29icQ=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=erik.faye-lund@collabora.com;
- dmarc=pass header.from=<erik.faye-lund@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1729155098; 
- s=zohomail; d=collabora.com; i=erik.faye-lund@collabora.com;
- h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
- bh=KXBkxKNVs6wE+YT1mA1bDTsal53xZCrh2yGOcHdlcSw=;
- b=BgqrFMoBaDs0zKiagjcSl7Jq5fwEdYl3vhRFxtnwXWMROWIQp0E0Ae0YyyUVN4fx
- lzGw4Fkp0Y/eRgRLFkqLicLDOKPR7SjhXk/ZN9+qk/raS/ACF4U0+g9r/ujJIpRHQeo
- JMUtoC62WVcxsJobeNajXDzf14blOuWkEAyalyOY=
-Received: by mx.zohomail.com with SMTPS id 1729155096956592.1643472587784;
- Thu, 17 Oct 2024 01:51:36 -0700 (PDT)
-Message-ID: <e4cd985a471f4ab787ac002ae67e957ee85ede85.camel@collabora.com>
-Subject: Re: [PATCH v6 01/14] drm/panthor: Add uAPI
-From: Erik Faye-Lund <erik.faye-lund@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Robin Murphy <robin.murphy@arm.com>, dri-devel@lists.freedesktop.org, 
- Daniel Stone <daniels@collabora.com>, Liviu Dudau <Liviu.Dudau@arm.com>,
- Steven Price <steven.price@arm.com>, 	kernel@collabora.com, Chris Diamand
- <chris.diamand@foss.arm.com>, Ketil Johnsen	 <ketil.johnsen@arm.com>
-Date: Thu, 17 Oct 2024 10:51:32 +0200
-In-Reply-To: <20241016161833.574494ee@collabora.com>
-References: <20240229162230.2634044-1-boris.brezillon@collabora.com>
- <20240229162230.2634044-2-boris.brezillon@collabora.com>
- <64ff75ddede7623c16ed0272eef5e950ae34e7d5.camel@collabora.com>
- <1bd37b18455607b709529c8def963c4561e2ff1e.camel@collabora.com>
- <abded30f-3333-49e5-aac2-8da6ac64903b@arm.com>
- <da2c1dcbefcc25760d6a452e04d870987daf0a27.camel@collabora.com>
- <20241016161833.574494ee@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.0 (by Flathub.org) 
+Received: from mickerik.phytec.de (mickerik.phytec.de [91.26.50.163])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68DFF10E300
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2024 08:56:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; d=phytec.de; s=a4; c=relaxed/simple;
+ q=dns/txt; i=@phytec.de; t=1729155405; x=1731747405;
+ h=From:Sender:Reply-To:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Type:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=p9lHJGDnOyVNG8VW73a+G3JiuEx6zQ94Mj/zJcCD5Ho=;
+ b=afsw8czsyWC5+mdJ5AsMVelrB33rCVrzr+NVmoumXh87wYUqS8cEMuDJsNX3GT+v
+ igpji+/teN/pyk55NiCLP990xIMYLTO5AGZEfdZ+hGgRwPlzE1lGXPY5m1jFdkOr
+ r/BaGc+NGsfcvXqH61cM1cI4YSlzPNdB4UoAXqoRUNE=;
+X-AuditID: ac14000a-4577e70000004e2a-86-6710d14c6578
+Received: from berlix.phytec.de (Unknown_Domain [172.25.0.12])
+ (using TLS with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Client did not present a certificate)
+ by mickerik.phytec.de (PHYTEC Mail Gateway) with SMTP id 21.81.20010.C41D0176;
+ Thu, 17 Oct 2024 10:56:44 +0200 (CEST)
+Received: from augenblix2.phytec.de (172.25.0.11) by Berlix.phytec.de
+ (172.25.0.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.6; Thu, 17 Oct
+ 2024 10:56:44 +0200
+From: Wadim Egorov <w.egorov@phytec.de>
+To: <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>, <rfoss@kernel.org>
+CC: <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
+ <jernej.skrabec@gmail.com>, <maarten.lankhorst@linux.intel.com>,
+ <mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
+ <simona@ffwll.ch>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <bbrezillon@kernel.org>, <conor+dt@kernel.org>, <krzk+dt@kernel.org>,
+ <robh@kernel.org>, <upstream@lists.phytec.de>
+Subject: [PATCH v3 0/2] Introduce bus-width property for input bus format
+Date: Thu, 17 Oct 2024 10:55:54 +0200
+Message-ID: <20241017085556.3045686-1-w.egorov@phytec.de>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-ZohoMailClient: External
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [172.25.0.11]
+X-ClientProxiedBy: Florix.phytec.de (172.25.0.13) To Berlix.phytec.de
+ (172.25.0.12)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrOIsWRmVeSWpSXmKPExsWyRpKBR9f3okC6weUmFosT1xcxWdxf/JnF
+ YnXLdEaLNXvPMVnMP3KO1eLK1/dsFs/nr2O0OPnmKovFy1n32Cw6Jy5ht7i8aw6bxcKPW1ks
+ 2jqXsVq833mL0WLSvJusFv/37GC3mP1uP7vFljcTWS2636k7CHvs/baAxWPnrLvsHrM7ZrJ6
+ LN7zkslj06pONo8TEy4xedy5tofNY97JQI/73ceZPPq7W1g9Np+u9vi8SS6AJ4rLJiU1J7Ms
+ tUjfLoEr48GUeawFd9gqFq/qYW5gPMbaxcjJISFgIrH/9x8wW0hgCZPE7/0FXYxcQPZjRokX
+ 15oYQRJsAuoSdzZ8AysSEfCTuPVlHztIEbPAJmaJz693gyWEBTwlbjztZAOxWQRUJTYevgHW
+ zCtgKdF3YgMzxDZ5iZmXvrNDxAUlTs58wgJiMwPFm7fOZoawJSQOvnjBDHGRvMSLS8tZYHqn
+ nXsNNSdU4sim1UwTGAVmIRk1C8moWUhGLWBkXsUolJuZnJ1alJmtV5BRWZKarJeSuokRFJki
+ DFw7GPvmeBxiZOJgPMQowcGsJMI7qYs3XYg3JbGyKrUoP76oNCe1+BCjNAeLkjjv6o7gVCGB
+ 9MSS1OzU1ILUIpgsEwenVAPjkovnXG++79l4tKd+vcldM8W55zWuHLZzfHmKJfs1B29K8SXz
+ /buap2yYqC747+oTyTwLi9BIXeYNGzZIXNZ90XnCi1M87GVvbN2z5PVHdskonP2roZ7JeJ93
+ /j/J7mamhg8LPJ8u4nVLEGS0ZrBa8GLi3TVt25i23pB7wPxvRUiK23xdxtMySizFGYmGWsxF
+ xYkA9FwOJLoCAAA=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,124 +82,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2024-10-16 at 16:18 +0200, Boris Brezillon wrote:
-> On Wed, 16 Oct 2024 16:05:55 +0200
-> Erik Faye-Lund <erik.faye-lund@collabora.com> wrote:
->=20
-> > On Wed, 2024-10-16 at 15:02 +0100, Robin Murphy wrote:
-> > > On 2024-10-16 2:50 pm, Erik Faye-Lund wrote:=C2=A0=20
-> > > > On Wed, 2024-10-16 at 15:16 +0200, Erik Faye-Lund wrote:=C2=A0=20
-> > > > > On Thu, 2024-02-29 at 17:22 +0100, Boris Brezillon wrote:=C2=A0=
-=20
-> > > > > > +/**
-> > > > > > + * enum drm_panthor_sync_op_flags - Synchronization
-> > > > > > operation
-> > > > > > flags.
-> > > > > > + */
-> > > > > > +enum drm_panthor_sync_op_flags {
-> > > > > > +	/** @DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_MASK:
-> > > > > > Synchronization
-> > > > > > handle type mask. */
-> > > > > > +	DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_MASK =3D 0xff,
-> > > > > > +
-> > > > > > +	/** @DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_SYNCOBJ:
-> > > > > > Synchronization object type. */
-> > > > > > +	DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_SYNCOBJ =3D 0,
-> > > > > > +
-> > > > > > +	/**
-> > > > > > +	 *
-> > > > > > @DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_TIMELINE_SYNCOBJ:
-> > > > > > Timeline synchronization
-> > > > > > +	 * object type.
-> > > > > > +	 */
-> > > > > > +	DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_TIMELINE_SYNCOBJ =3D
-> > > > > > 1,
-> > > > > > +
-> > > > > > +	/** @DRM_PANTHOR_SYNC_OP_WAIT: Wait operation. */
-> > > > > > +	DRM_PANTHOR_SYNC_OP_WAIT =3D 0 << 31,
-> > > > > > +
-> > > > > > +	/** @DRM_PANTHOR_SYNC_OP_SIGNAL: Signal operation.
-> > > > > > */
-> > > > > > +	DRM_PANTHOR_SYNC_OP_SIGNAL =3D (int)(1u << 31),=C2=A0=20
-> > > > >=20
-> > > > > Why do we cast to int here? 1u << 31 doesn't fit in a 32-bit
-> > > > > signed
-> > > > > integer, so isn't this undefined behavior in C?
-> > > > > =C2=A0=20
-> > > >=20
-> > > > Seems this was proposed here:
-> > > > https://lore.kernel.org/dri-devel/89be8f8f-7c4e-4efd-0b7b-c30bcfbf1=
-d23@arm.com/
-> > > >=20
-> > > > ...that kinda sounds like bad advice to me.
-> > > >=20
-> > > > Also, it's been pointed out to me elsewhere that this isn't
-> > > > *technically speaking* undefined, it's "implementation
-> > > > defined".
-> > > > But as
-> > > > far as kernel interfaces goes, that's pretty much the same; we
-> > > > can't
-> > > > guarantee that the kernel and the user-space is using the same
-> > > > implementation.
-> > > >=20
-> > > > Here's the quote from the C99 spec, section 6.3.1.3 "Signed and
-> > > > unsigned integers":
-> > > >=20
-> > > > """
-> > > > Otherwise, the new type is signed and the value cannot be
-> > > > represented
-> > > > in it; either the result is implementation-defined or an
-> > > > implementation-defined signal is raised
-> > > > """"
-> > > >=20
-> > > > I think a better approach be to use -1 << 31, which is well-
-> > > > defined.
-> > > > But the problem then becomes assigning it into
-> > > > drm_panthor_sync_op::flags in a well-defined way... Could we
-> > > > make
-> > > > the
-> > > > field signed? That seems a bit bad as well...=C2=A0=20
-> > >=20
-> > > Is that a problem? Signed->unsigned conversion is always well-
-> > > defined
-> > > (6.3.1.3 again), since it doesn't depend on how the signed type=20
-> > > represents negatives.
-> > >=20
-> > > Robin.=C2=A0=20
-> >=20
-> > Ah, you're right. So that could fix the problem, indeed.
->=20
-> On the other hand, I hate the idea of having -1 << 31 to encode
-> bit31-set. That's even worse for DRM_PANTHOR_VM_BIND_OP_TYPE_xxx when
-> we'll reach a value above 0x7, because then the negative value is
-> hard
-> to map to its unsigned representation. If we really care about this
-> corner case, I'd rather go full-defines for flags and call it a day.
->=20
+This patch series introduces a bus-width property for the SI9022 HDMI
+transmitter, allowing the input bus format to be configured based on the
+number of RGB input pins. The default is set to 24-bit if unspecified.
 
-Yeah, I suppose it can get ugly for some other cases.
+v3:
+  - Add Reviewed-by tag from Krzysztof
+  - Ensure bus_width is set/defaults to 24 even if an endpoint is not defined
 
-If we rule that out, I think there's only two options I can think of
-left:
+v2: https://lore.kernel.org/lkml/20241007085213.2918982-1-w.egorov@phytec.de/
+v1: https://lore.kernel.org/lkml/20241003082006.2728617-1-w.egorov@phytec.de/T/
 
-1. Using #defines instead, like Boris suggested
-2. Using 64 bit signed enums (e.g "1ll << 31" instead)
+Wadim Egorov (2):
+  dt-bindings: display: bridge: sil,sii9022: Add bus-width
+  drm/bridge: sii902x: Set input bus format based on bus-width
 
-Again, #2 here would be the smaller change. But I kinda think I lean
-towards #1, because... These aren't really enumerators. They are flags.
+ .../bindings/display/bridge/sil,sii9022.yaml  | 15 +++++++++++-
+ drivers/gpu/drm/bridge/sii902x.c              | 24 ++++++++++++++++++-
+ 2 files changed, 37 insertions(+), 2 deletions(-)
 
-...Yeah, sure. In C the practical difference isn't huge. But if we ever
-wanted to support using these enums from C++ code, we'd need to add
-overloaded operators, because C++ doesn't allow ORing together enums
-out of the box.
+-- 
+2.34.1
 
-I'm not saying I have any plans on using the uAPI from C++, just saying
-that if we're going to tackle this, we might as well tackle it
-completely...
-
-Also, expanding the enum-type to 64 bits might have some additional
-consequences, like needlessly needing more stack-space to pass values
-around etc.
-
-Thoughts? Surely there must be some precedence on using the top bit for
-flags in the kernel, no?
