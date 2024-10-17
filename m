@@ -2,53 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A28589A25BB
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2024 16:58:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE64F9A25BD
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2024 16:58:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17F4410E84D;
-	Thu, 17 Oct 2024 14:58:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D15E10E84E;
+	Thu, 17 Oct 2024 14:58:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KQyz0GG0";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OgovP5uV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3005F10E348
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2024 14:58:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13C0610E348
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2024 14:58:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1729177101; x=1760713101;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=gCTFqiO4gEP5qD5NSl5Q1QVJpn+PZoq8+q/3xaOEB6s=;
- b=KQyz0GG0Fzc+8S2vDj8p85M+S2u71eIaCJIjYG0wWftoJLQsgHBOYaom
- 2O/emlXi9DJoAZf0YtvXOGU4mjhyb/O0inevwFMI8vXQkVnDhOZJpvA7z
- T1ZErY89CJCEM/5HWw7540fm6u44+8dmmEzp4fDnIBUYMNOvhanqGzUl7
- Mxw35JDEbITscJLveFPRfI8EMmknnLdLj9Or7B1bTNgNJGoQXkXHjUB1j
- cV6oBbPKingjwD6ZWduVWxl4HCMsbQ+kenc2nIwPPbbhT+qd/kyzFXT/Q
- 3icL/VWa5bZDZNSvHRsHwrJTtbfNL5+hPsONmBfLr3257tiXUwlos0Scq Q==;
-X-CSE-ConnectionGUID: QESZpKLLTyKj7Ga9zsm3Og==
-X-CSE-MsgGUID: 4hlecogqRfi/Lp55NcndlQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="39790308"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="39790308"
+ t=1729177103; x=1760713103;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=vVk505yvv0t1phznf67/3wFGVIpfV6Y4iEr4HLDY0Cw=;
+ b=OgovP5uVbQ4sCwXWDVIfKHdOdIHwM+yCu2ZlbRNokcgSGjgo/pU1F3z+
+ MRHneIHAQSCz8T0yBucObdapVK4xXi927HCkXWbXMXkAjrIFIC0eTEj0C
+ V+M9Lea8P52AbhZzA8x6BbagXW2yBZNnInIykjoDVTorTEtvCp174LpBI
+ UVxDv11JvJILm/es9QnSnkqwgvmsEBxrmrWp3C1/HguLxKs5ME3OPZsbY
+ 6jOh7cLIoe43LzcmZHJHaMy8wsz2ao6bDlSuYdFimYx1dLe0vKTuX/kvp
+ lWTtexgZHRazX4druDlt+z64b/VjIRTHAQgfvn//Gogdj5szADIZKY1iE g==;
+X-CSE-ConnectionGUID: fDO1gJdXToCd36zrHX7aDA==
+X-CSE-MsgGUID: Gaf2iOhxSRa8yUJMRoi+XQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="39790314"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="39790314"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Oct 2024 07:58:21 -0700
-X-CSE-ConnectionGUID: yUuUuzXZRxuWWhrclyKmZA==
-X-CSE-MsgGUID: AR7QHtTvRS+Ou11vew8E7w==
+ 17 Oct 2024 07:58:23 -0700
+X-CSE-ConnectionGUID: t1TqNvchSzyPxL3J6FcoSg==
+X-CSE-MsgGUID: cRHeQif/RDmbEg2Cxosw9A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,211,1725346800"; d="scan'208";a="109374479"
+X-IronPort-AV: E=Sophos;i="6.11,211,1725346800"; d="scan'208";a="109374489"
 Received: from jlawryno.igk.intel.com ([10.91.220.59])
  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Oct 2024 07:58:20 -0700
+ 17 Oct 2024 07:58:22 -0700
 From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com,
+ Karol Wachowski <karol.wachowski@intel.com>,
  Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Subject: [PATCH 00/11] accel/ivpu: Changes for 6.13-rc5
-Date: Thu, 17 Oct 2024 16:58:06 +0200
-Message-ID: <20241017145817.121590-1-jacek.lawrynowicz@linux.intel.com>
+Subject: [PATCH 01/11] accel/ivpu: Do not fail when more than 1 tile is fused
+Date: Thu, 17 Oct 2024 16:58:07 +0200
+Message-ID: <20241017145817.121590-2-jacek.lawrynowicz@linux.intel.com>
 X-Mailer: git-send-email 2.45.1
+In-Reply-To: <20241017145817.121590-1-jacek.lawrynowicz@linux.intel.com>
+References: <20241017145817.121590-1-jacek.lawrynowicz@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -66,45 +69,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
- - Remove support for deprecated and unused copy engine
- - Improved open() performance by lazy allocating MMU page tables
- - Error handling fixes in MMU code
- - Extend VPU address ranges to allow bigger workloads
+From: Karol Wachowski <karol.wachowski@intel.com>
 
-Andrzej Kacprowski (1):
-  accel/ivpu: Remove copy engine support
+Allow TILE_FUSE register to disable more than 1 tile.
+The driver should not prevent such configurations from being functional.
 
-Karol Wachowski (9):
-  accel/ivpu: Do not fail when more than 1 tile is fused
-  accel/ivpu: Defer MMU root page table allocation
-  accel/ivpu: Clear CDTAB entry in case of failure
-  accel/ivpu: Unmap partially mapped BOs in case of errors
-  accel/ivpu: Use xa_alloc_cyclic() instead of custom function
-  accel/ivpu: Make command queue ID allocated on XArray
-  accel/ivpu: Don't allocate preemption buffers when MIP is disabled
-  accel/ivpu: Increase DMA address range
-  accel/ivpu: Move secondary preemption buffer allocation to DMA range
+Signed-off-by: Karol Wachowski <karol.wachowski@intel.com>
+Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+---
+ drivers/accel/ivpu/ivpu_hw_btrs.c | 12 +++---------
+ 1 file changed, 3 insertions(+), 9 deletions(-)
 
-Maciej Falkowski (1):
-  accel/ivpu: Add debug Kconfig option
-
- drivers/accel/ivpu/Kconfig            |  10 ++
- drivers/accel/ivpu/Makefile           |   2 +
- drivers/accel/ivpu/ivpu_drv.c         |  31 +++--
- drivers/accel/ivpu/ivpu_drv.h         |  16 +--
- drivers/accel/ivpu/ivpu_fw.c          |   8 +-
- drivers/accel/ivpu/ivpu_hw.c          |  10 +-
- drivers/accel/ivpu/ivpu_hw_btrs.c     |  12 +-
- drivers/accel/ivpu/ivpu_job.c         | 148 ++++++++++--------------
- drivers/accel/ivpu/ivpu_job.h         |   2 +
- drivers/accel/ivpu/ivpu_jsm_msg.c     |   8 +-
- drivers/accel/ivpu/ivpu_mmu.c         | 101 ++++++----------
- drivers/accel/ivpu/ivpu_mmu.h         |   4 +-
- drivers/accel/ivpu/ivpu_mmu_context.c | 158 ++++++++++++++------------
- drivers/accel/ivpu/ivpu_mmu_context.h |   9 +-
- drivers/accel/ivpu/ivpu_pm.c          |   2 +
- include/uapi/drm/ivpu_accel.h         |   6 +-
- 16 files changed, 243 insertions(+), 284 deletions(-)
-
---
+diff --git a/drivers/accel/ivpu/ivpu_hw_btrs.c b/drivers/accel/ivpu/ivpu_hw_btrs.c
+index 6d5f1cc711435..3212c99f36823 100644
+--- a/drivers/accel/ivpu/ivpu_hw_btrs.c
++++ b/drivers/accel/ivpu/ivpu_hw_btrs.c
+@@ -141,16 +141,10 @@ static int read_tile_config_fuse(struct ivpu_device *vdev, u32 *tile_fuse_config
+ 	}
+ 
+ 	config = REG_GET_FLD(VPU_HW_BTRS_LNL_TILE_FUSE, CONFIG, fuse);
+-	if (!tile_disable_check(config)) {
+-		ivpu_err(vdev, "Fuse: Invalid tile disable config (0x%x)\n", config);
+-		return -EIO;
+-	}
++	if (!tile_disable_check(config))
++		ivpu_warn(vdev, "More than 1 tile disabled, tile fuse config mask: 0x%x\n", config);
+ 
+-	if (config)
+-		ivpu_dbg(vdev, MISC, "Fuse: %d tiles enabled. Tile number %d disabled\n",
+-			 BTRS_LNL_TILE_MAX_NUM - 1, ffs(config) - 1);
+-	else
+-		ivpu_dbg(vdev, MISC, "Fuse: All %d tiles enabled\n", BTRS_LNL_TILE_MAX_NUM);
++	ivpu_dbg(vdev, MISC, "Tile disable config mask: 0x%x\n", config);
+ 
+ 	*tile_fuse_config = config;
+ 	return 0;
+-- 
 2.45.1
+
