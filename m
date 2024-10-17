@@ -2,83 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1827D9A22C2
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2024 14:52:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2E7D9A22F6
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2024 15:05:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6727E10E810;
-	Thu, 17 Oct 2024 12:52:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43F3210E81C;
+	Thu, 17 Oct 2024 13:05:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="E5dy1gVx";
+	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="nSV39Jl3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5182510E80D
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2024 12:52:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1729169524;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=um5kPuJ64llVoLwmFFHr1GyuNJY8DQ3vVEayxTgqCeU=;
- b=E5dy1gVxmvfk0XYRD/baQIi3nwupZvRpkC8wJWuBXNqfJ0Di5DKF31sMdql8P5CMKvfHOK
- VH2IajWhl6H5obMkcQdwAUjoCuxEjsS7SHgOizb/MpJTXR1zDAREWYpPU6F3L8XHb3mWKP
- bHqtZDT1XLVnpKGtCxGRwlVefKq69oM=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-649-QywWVGU5PrmP5zSyhHdoRg-1; Thu, 17 Oct 2024 08:52:01 -0400
-X-MC-Unique: QywWVGU5PrmP5zSyhHdoRg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-43151e4ef43so6653975e9.3
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2024 05:52:01 -0700 (PDT)
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com
+ [209.85.219.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 549E010E81A
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2024 13:05:42 +0000 (UTC)
+Received: by mail-qv1-f49.google.com with SMTP id
+ 6a1803df08f44-6cbcc2bd7fcso5522316d6.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2024 06:05:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ziepe.ca; s=google; t=1729170341; x=1729775141; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=Lk++0v4zwR7xUpep4iNg0I6MKOHA7nEjzuqiKjJzkok=;
+ b=nSV39Jl3XnhUtZeVlTjVWSPentkawGZGzpbdnBtusByHTauei7eFZiV132d2FhBk5O
+ OBMKA9Zf19u3aAfv3FSTZOIBh7NPOUy/pFw5pYsCFgOlzuJmI9bsaw6n0Z72trdRrngh
+ 4CnGRiJdf37H6SFEpg+tM/k5b1FC+tU15ndXK+Cnk4Cxpy6C5kzeybxIi640lmlxildV
+ 02iZ+1OhveKtMgrJdMNIGbO8xx3aufwK5zbX8z5V+YE6bITgzZEndhorGWn8jf8WNzka
+ Y/G6dOf6s57ZpvNDk5iHax+xattGpKIaDo2l4ptWB7QOvEiKaMwqPOCOi0vX2dVcTGea
+ MAvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729169520; x=1729774320;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=um5kPuJ64llVoLwmFFHr1GyuNJY8DQ3vVEayxTgqCeU=;
- b=cYAqc747BrPa5Tz0IqIW77iXV+MuJx8Sx5N3/ak2NVg6aOg+NpCJC8H3BqFjPww82Y
- NCV8QTtZp8+NQXRGdMAp7UKHsyeDXYHGgLpGVihUuUzJ3VZsLu2jTJ9paxyiXtRI3Bqg
- MeyUXzta36S++WfprVW3YjeukVkadAGp+EpCXMGwwPgu26G9T6R6/f0YPTBk9vc0k+1W
- ZKPg1zSwJMK7KeuvqwQOHNAkvgx+2UukKBlLgKZujkrnQ9w+UIqApmC99piYcAuS8EqD
- U3GJjWAvcjjiSDXEZpSGl2Nb6x9wWtfaSIV6YU4Rc5SLdGaHKH67iWAM4xTGkeHyVhHg
- BVqA==
+ d=1e100.net; s=20230601; t=1729170341; x=1729775141;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Lk++0v4zwR7xUpep4iNg0I6MKOHA7nEjzuqiKjJzkok=;
+ b=laGK9lGIqhBBqPybr1GFZZhiL+CdPtXviWeX2LUaGkCoE5YXZGnsZuEpMZIdhWQodk
+ bNbRkSzXB1jr9wyY5Wt/HDuYr9N7UG43jIjbT/n7kP9kmheQbX5UWAF4CLfDSp+mfC6o
+ L1wfqKiDngODCKvLgWUTHwOXG/DjNVon08T9xWycfeL7L7ZdPw+bpB8UfV9J6HbfnO8G
+ enMC4UJE5Ei1cp6UpYhgq1s11/GKw/R81Bx8Ukxh6/Xt2PQUl2IynQlt30RxMUlM4VRd
+ aWVZ/CsT2pABDStmbZJqAh/Hn7X2Y8nBJoMn1yYF+qKJK3lYLdXBWEa7u5xTFsfi4UEQ
+ 4p6Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW8+b0DHvMij5l3Tdrql35CF4pMlAlm17tXgr4XiIuqA84ZeuCXRDnhBYVVXB4/eMfwlS0wkiGfh2g=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw6eYnMGT2H54H4eDuioM7SuIspXmvBk3hncvpuZcgkncWgb6ox
- g1fJUUg3lXVm7O0czp71+UG4KM784FARTrx8hj4lokQnzzP0SVi5gMW4WvHqRavBw+xL2gLIuxF
- kKKdQ2SgumLUvNKhTIocRBKx4WdjL/OA5oxiV1uC3W/6W/+T0TS4unaqR/L6M2t92+g==
-X-Received: by 2002:a05:600c:510f:b0:431:5bf2:2d4 with SMTP id
- 5b1f17b1804b1-4315bf20381mr16130625e9.29.1729169520175; 
- Thu, 17 Oct 2024 05:52:00 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEGYFzQ02xHqa9DwuB2IQl1STrx/TjGYcJn3bnqxHl7RZjfzQiYdIGcS5/o7InyDdXexXUkSg==
-X-Received: by 2002:a05:600c:510f:b0:431:5bf2:2d4 with SMTP id
- 5b1f17b1804b1-4315bf20381mr16130475e9.29.1729169519778; 
- Thu, 17 Oct 2024 05:51:59 -0700 (PDT)
-Received: from eisenberg.redhat.com (nat-pool-muc-t.redhat.com. [149.14.88.26])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-37d7fbf8228sm7178054f8f.81.2024.10.17.05.51.58
+ AJvYcCU4W8Op05aJqomVSXhRKhsLKrfMDJNRNvUasWJ9Q7j4W1svpFq0QDEyxqLIitkPe9fTsPLxo8GvLYA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyqISWeUm9MXBA292dJOdbZRAB2uSixG9qW+7uHtUAeo5PHco9F
+ ZiXlogyesA4NWcYqdr0erfQ3e9ud2mmZXK9h6p4kaegMPc0OZIwstcfLMD6m/I0=
+X-Google-Smtp-Source: AGHT+IG5n5S3zHSv/JX5s/LYaf+o3YrOaG8HklVpPKUbKJ/yS6kcQbfiEDJXO6iYDC0yAlGNuOhLug==
+X-Received: by 2002:a05:6214:2b93:b0:6cb:d094:d1c4 with SMTP id
+ 6a1803df08f44-6cbf009b918mr251899446d6.30.1729170340973; 
+ Thu, 17 Oct 2024 06:05:40 -0700 (PDT)
+Received: from ziepe.ca
+ (hlfxns017vw-142-68-128-5.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [142.68.128.5]) by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-6cc2290fa01sm27747076d6.24.2024.10.17.06.05.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Oct 2024 05:51:59 -0700 (PDT)
-From: Philipp Stanner <pstanner@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: virtualization@lists.linux.dev, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Philipp Stanner <pstanner@redhat.com>
-Subject: [PATCH] drm/bochs: Replace deprecated PCI implicit devres
-Date: Thu, 17 Oct 2024 14:51:46 +0200
-Message-ID: <20241017125145.34729-2-pstanner@redhat.com>
-X-Mailer: git-send-email 2.47.0
+ Thu, 17 Oct 2024 06:05:40 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.95)
+ (envelope-from <jgg@ziepe.ca>) id 1t1QCB-003suE-SU;
+ Thu, 17 Oct 2024 10:05:39 -0300
+Date: Thu, 17 Oct 2024 10:05:39 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Yonatan Maman <ymaman@nvidia.com>, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
+ linux-mm@kvack.org, herbst@redhat.com, lyude@redhat.com,
+ dakr@redhat.com, airlied@gmail.com, simona@ffwll.ch,
+ leon@kernel.org, jglisse@redhat.com, akpm@linux-foundation.org,
+ dri-devel@lists.freedesktop.org, apopple@nvidia.com,
+ bskeggs@nvidia.com, Gal Shalom <GalShalom@nvidia.com>
+Subject: Re: [PATCH v1 1/4] mm/hmm: HMM API for P2P DMA to device zone pages
+Message-ID: <20241017130539.GA897978@ziepe.ca>
+References: <20241015152348.3055360-1-ymaman@nvidia.com>
+ <20241015152348.3055360-2-ymaman@nvidia.com>
+ <Zw9F2uiq6-znYmTk@infradead.org>
+ <20241016154428.GD4020792@ziepe.ca>
+ <Zw_sn_DdZRUw5oxq@infradead.org>
+ <20241016174445.GF4020792@ziepe.ca>
+ <ZxD71D66qLI0qHpW@infradead.org>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZxD71D66qLI0qHpW@infradead.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,54 +97,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-bochs uses pcim_enable_device(), which causes pci_request_region() to
-implicitly set up devres callbacks which will release the region on
-driver detach. Despite this, the driver calls pci_release_regions()
-manually on driver teardown.
+On Thu, Oct 17, 2024 at 04:58:12AM -0700, Christoph Hellwig wrote:
+> On Wed, Oct 16, 2024 at 02:44:45PM -0300, Jason Gunthorpe wrote:
+> > > > FWIW, I've been expecting this series to be rebased on top of Leon's
+> > > > new DMA API series so it doesn't have this issue..
+> > > 
+> > > That's not going to make a difference at this level.
+> > 
+> > I'm not sure what you are asking then.
+> > 
+> > Patch 2 does pci_p2pdma_add_resource() and so a valid struct page with
+> > a P2P ZONE_DEVICE type exists, and that gets returned back to the
+> > hmm/odp code.
+> > 
+> > Today odp calls dma_map_page() which only works by chance in limited
+> > cases. With Leon's revision it will call hmm_dma_map_pfn() ->
+> > dma_iova_link() which does call pci_p2pdma_map_type() and should do
+> > the right thing.
+> 
+> Again none of this affects the code posted here.  It reshuffles the
+> callers but has no direct affect on the patches posted here.
 
-Implicit devres has been deprecated in PCI in commit 81fcf28e74a3 ("PCI:
-Document hybrid devres hazards").
+I didn't realize till last night that Leon's series did not have P2P
+support.
 
-Replace the calls to pci_request_region() with ones to always-managed
-pcim_request_region(). Remove the unnecessary call to
-pci_release_regions().
+What I'm trying to say is that this is a multi-series project.
 
-Signed-off-by: Philipp Stanner <pstanner@redhat.com>
----
- drivers/gpu/drm/tiny/bochs.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+A followup based on Leon's initial work will get the ODP DMA mapping
+path able to support ZONE_DEVICE P2P pages.
 
-diff --git a/drivers/gpu/drm/tiny/bochs.c b/drivers/gpu/drm/tiny/bochs.c
-index 31fc5d839e10..888f12a67470 100644
---- a/drivers/gpu/drm/tiny/bochs.c
-+++ b/drivers/gpu/drm/tiny/bochs.c
-@@ -217,7 +217,7 @@ static int bochs_hw_init(struct drm_device *dev)
- 
- 	if (pdev->resource[2].flags & IORESOURCE_MEM) {
- 		/* mmio bar with vga and bochs registers present */
--		if (pci_request_region(pdev, 2, "bochs-drm") != 0) {
-+		if (pcim_request_region(pdev, 2, "bochs-drm") != 0) {
- 			DRM_ERROR("Cannot request mmio region\n");
- 			return -EBUSY;
- 		}
-@@ -258,7 +258,7 @@ static int bochs_hw_init(struct drm_device *dev)
- 		size = min(size, mem);
- 	}
- 
--	if (pci_request_region(pdev, 0, "bochs-drm") != 0)
-+	if (pcim_request_region(pdev, 0, "bochs-drm") != 0)
- 		DRM_WARN("Cannot request framebuffer, boot fb still active?\n");
- 
- 	bochs->fb_map = ioremap(addr, size);
-@@ -302,7 +302,7 @@ static void bochs_hw_fini(struct drm_device *dev)
- 		release_region(VBE_DISPI_IOPORT_INDEX, 2);
- 	if (bochs->fb_map)
- 		iounmap(bochs->fb_map);
--	pci_release_regions(to_pci_dev(dev->dev));
-+
- 	drm_edid_free(bochs->drm_edid);
- }
- 
--- 
-2.47.0
+Once that is done, this series sits on top. This series is only about
+hmm and effectively allows hmm_range_fault() to return a ZONE_DEVICE
+P2P page.
 
+Yonatan should explain this better in the cover letter and mark it as
+a RFC series.
+
+So, I know we are still figuring out the P2P support on the DMA API
+side, but my expectation for hmm is that hmm_range_fault() returing a
+ZONE_DEVICE P2P page is going to be what we want.
+
+> (and the current DMA series lacks P2P support, I'm trying to figure
+> out how to properly handle it at the moment).
+
+Yes, I see, I looked through those patches last night and there is a
+gap there.
+
+Broadly I think whatever flow NVMe uses for P2P will apply to ODP as
+well.
+
+Thanks,
+Jason
