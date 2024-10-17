@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C86199A1964
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2024 05:41:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38FC19A1966
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2024 05:42:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48B6E10E791;
-	Thu, 17 Oct 2024 03:41:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57CBA10E792;
+	Thu, 17 Oct 2024 03:41:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=uniontech.com header.i=@uniontech.com header.b="WKRco6As";
+	dkim=pass (1024-bit key; unprotected) header.d=uniontech.com header.i=@uniontech.com header.b="B8AsVGSx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bg5.exmail.qq.com (bg5.exmail.qq.com [43.154.209.5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACC2610E791
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2024 03:41:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8544510E790
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2024 03:41:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
- s=onoh2408; t=1729136456;
- bh=+/DdLbFCN3x83oxAHHqnPnAEM1hgWNumW7T/6E5yt74=;
+ s=onoh2408; t=1729136461;
+ bh=78SgngBKZBmCahApQZmS491yViuhV7ff/MsyOqzu+jA=;
  h=From:To:Subject:Date:Message-ID:MIME-Version;
- b=WKRco6AsmfxtEMP9CkPU7erStzwBvOrE0s2tcGLdGamLgj1bl3Tz2NfClzs+kSrJR
- Ltfukwa1TQxH3MUOM+3/Y9rVFbJcL/hvhWvW2He6G1UkrTMYTIIxFVJ9Q50vj6MM/k
- WX5JQeGt5pAZxK3G/8PzwPn/yMy8RAT0CjicfFLo=
-X-QQ-mid: bizesmtpsz5t1729136418tu84pku
-X-QQ-Originating-IP: MYne5dTKV5TL2KIkHVQVbuEnwE0v/dd4ms9SyKz2d5Y=
+ b=B8AsVGSx0hVuCzU6Ipdz/4Qr9mmGNOKdnZsuYmfQPY21A94FpBmaSjPp5Ane4RUTB
+ M8/sMwe8BPubqA5Zfi34+G3aMOJ7v6+eOa+blD0vjS6JczUT5buKyBlYO6LMKHJWEO
+ AAXzW/jz2Xm4Qm6zH0DLnEqLxZ2QDkibWEOGE+OU=
+X-QQ-mid: bizesmtpsz5t1729136421t6cqswj
+X-QQ-Originating-IP: rXPvY4BJUX6p6wMFauN6Wjp5w10TLU8HpMXjjfqb9Ow=
 Received: from localhost.localdomain ( [113.57.152.160])
  by bizesmtp.qq.com (ESMTP) with 
- id ; Thu, 17 Oct 2024 11:40:16 +0800 (CST)
+ id ; Thu, 17 Oct 2024 11:40:20 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 5065782363297022121
+X-BIZMAIL-ID: 727155235365520417
 From: WangYuli <wangyuli@uniontech.com>
 To: helen.koike@collabora.com, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
  simona@ffwll.ch, wangyuli@uniontech.com, david.heidelberg@collabora.com
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  guanwentao@uniontech.com, zhanjun@uniontech.com
-Subject: [RESEND. PATCH 3/5] drm/ci: Upgrade requests requirement to 2.32.0
-Date: Thu, 17 Oct 2024 11:39:50 +0800
-Message-ID: <0984066064003022+20241017034004.113456-3-wangyuli@uniontech.com>
+Subject: [RESEND. PATCH 4/5] drm/ci: Upgrade idna requirement to 3.7
+Date: Thu, 17 Oct 2024 11:39:51 +0800
+Message-ID: <B855B90C2EECA04E+20241017034004.113456-4-wangyuli@uniontech.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20241017034004.113456-1-wangyuli@uniontech.com>
 References: <20241017034004.113456-1-wangyuli@uniontech.com>
@@ -46,23 +46,23 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
 Feedback-ID: bizesmtpsz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: MbSuBwOrED9vvWtKS77uCvoDSQ0z3MT2NGBfyfpRwX0hGDGKP2V5VBoV
- WWDImpLaFTOmvNgGnnpGuMlqx1J8RFmxCs54LUwBvrneRFvl+wYkGtqJdB5h2Bb33dHZE0c
- IkTgJXKijETjY6QH6OwKgJgej5/5nW7MrwbvqtlW3dfiUgKetWmZDLNZAK9RIcyAHI4tdd5
- Q7uPTaMmqy+rPwnO2EDgOS/EA4wEsWUFZCIRotw6lyWxHpEnl0i7PJmIl+2J+ZIybigUVhS
- M14dTYorZsrsWiGPPk8b3E6HY9qys3DzKdZ6iFmtt4SGSFrJieADtFtYp1d9x0Gt/7zqxOv
- GZbXla4cU3s3MIAyK3zrC4xYQeioWm/XnoUyCUldxkQYBfKWjjH68pdGo4i0nVYxQrAnRYl
- UgOmNTGa04BBDs4uevX3PAX+LChzBI58lBN05ZTzxGo4n5hJ9FPwYktSN8fP8yz7iKsOKnw
- MLJID96IDL9wFLXzmaLR4RtRBS/Ar0lZtZ9swy/0Ja8ncezf/MpQwqgJX5P71K0qsmsTnXp
- s4JAM5m8IJmNqXSMNdTMVMUA4o7H3N8W4nfC15yZjXTQOogzWm8esGTtoTNzs1YD6OWVqF/
- BEQCAZkgzDcGZ/El20zRhd3iymSkjAheB449rtKv6bM3mQyQqGK6oWWlIEIJpKe276tE8Uy
- CR9b1fcLRBlxDw0rw1Vo+1Iskb110dRPCzrhKkWsadgBRKpdGNxlKwVQzg8Od4YxLen27Oc
- DebbB0rW5JLNa8bZEOkv0U1aHudV6Yb5ZDSkvLNY3OQfVm6xI70WHXYcqnah+4YLBfqq2oU
- xfhE5YH/Joar/514+hqxC5vCVihmIZG9Y0/apSz7ozbv617gUUW5hqV6K0B11jCwY6L1SKD
- Y5zg/HhlVsmf6wYVuofwD5ZSjMUWJyDnMOvGq9uh51Xue8AUZifwdHqm3MKMv156WRBT5BO
- X6kgluQ6ZExm0bOQhBLk+45PY3Y5fkr3OQum9JXAqkqdYRl+chF6YreSkj/9lbBZojsZzwu
- oHQciMPKSuFeUJElWGBXR5gbrTBck=
-X-QQ-XMRINFO: MPJ6Tf5t3I/ycC2BItcBVIA=
+X-QQ-XMAILINFO: NkHKfw09D6j8P0bEV2lHjYpHUuReeqTD6h7WCZKxWeA7jlCNqduC7pb0
+ m1JktPzZh7x7sEu6Kb3PVoAgp9WPH9Ksh3EMHurv6MCgoli21ggvcYRD3dP+yS+2FuW/he/
+ uB8xdl7Dx3EcIWS3j6cbl/Fb1QovaoRwPxM3I2hID8bMa6O/xkY76lsrR+e02KbaYpcq3Zd
+ LDIgRKxf+QC7AH3CNoPcGMHWMBJP4Pymwk8Bt4qwKLUfIv3xZYWBQOgm4q5mYfSr5UK3Kzm
+ HkLe/6khqVprDVHIGyzd488/sMGWtOIipIDRNZ2wSk+HgveJTF4C9zFKTc+uQdypst4MIRx
+ xU4D1LckbCQFZ93Mj5rU/SSxdaD3MVGVC7tuEtCaJ1X2yGmllNBln6F2SZ8jRh8vz7T3GaZ
+ UATA+AZ3TFGTrrE0/1Fs7MfeSH7juMDKoR4/QZ21CjotAt8Em2NbZUmbQ47wLFrmXE8tF0W
+ 2Fj8yz3NfyUU/2ys2r+p4lR4NMUvQ8u6mDIg5zuMcXBcbWHHDnPWGSJtlacHhFM8r43mBWP
+ 6HdLd4nWbByRIqnRbsdv8u5blf8KLJhsd+BECcm8jjq2ugp7vw1T9yWEIYqU59nnTdpbV1r
+ W2aABAuycjmu2qujgVz2kDA0dNqPabG41k33u7oneHWqk5pWsFdnxvEZA/w4ALXeRltGQhz
+ 34UmmHfomHjA5UaUO666ouLqDG57SMyY0LayVxnNjPM3duyqI7hlE+bwxI4V/VxMuCUVjDF
+ 3kZEmsLS1QxBwHFgD+bpIvbQzUE1oiH5wPjSDJ1Om9RZ8pq90+xGflVHtjtL11/LC+mDYsp
+ sHSeVXPfjPepDwmlmDualAnsmWpxButjJ+wXdXssyWB21QJUsZlGLGRXdLux149eo1DFRdH
+ f/Tp8LEQJlBPrNu68rztEOfs+p+U+jrwvaJqeB7oZGabObay8kMPITo5vsT1UNtzaI2Xk2t
+ GO24EjmkqD8qSk11Um9s7HcNzubgT9PJ/p3bwjteTkSHqN3Ti9dIvkslsp7aBsBaJ/yZLmC
+ GbNJVTcr9lhivIlDS6UCuLuOnAJx+dwLTmurrUPJwBEFYpRkdy
+X-QQ-XMRINFO: OWPUhxQsoeAVDbp3OJHYyFg=
 X-QQ-RECHKSPAM: 0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -81,51 +81,49 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 GitHub Dependabot has issued the following alert:
 
-"build(deps): bump requests from 2.31.0 to 2.32.2 in
- /drivers/gpu/drm/ci/xfails.
+"build(deps): bump idna from 3.4 to 3.7 in /drivers/gpu/drm/ci/xfails.
 
- When making requests through a Requests Session, if the first
- request is made with verify=False to disable cert verification,
- all subsequent requests to the same origin will continue to ignore
- cert verification regardless of changes to the value of verify.
- This behavior will continue for the lifecycle of the connection in
- the connection pool.
+ A specially crafted argument to the function could consume
+ significant resources. This may lead to a denial-of-service.
 
- Severity: 5.6 / 10 (Moderate)
+ The function has been refined to reject such strings without the
+ associated resource consumption in version 3.7.
+
+ Severity: 6.9 / 10 (Moderate)
  Attack vector:          Local
- Attack complexity:       High
- Privileges required:     High
- User interaction:    Required
- Scope:              Unchanged
- Confidentiality:         High
- Integrity:               High
- Availability:            None
- CVE ID:        CVE-2024-35195"
+ Attack complexity:        Low
+ Attack Requirements:     None
+ Privileges required:     None
+ User interaction:        None
+ Confidentiality:         None
+ Integrity:               None
+ Availability:            High
+ CVE ID:         CVE-2024-3651"
 
 To avoid disturbing everyone with the kernel repo hosted on GitHub,
 I suggest we upgrade our python dependencies once again to appease
 GitHub Dependabot.
 
 Link: https://github.com/dependabot
-Link: https://github.com/psf/requests/pull/6655
+Link: https://huntr.com/bounties/93d78d07-d791-4b39-a845-cbfabc44aadb
 Signed-off-by: WangYuli <wangyuli@uniontech.com>
 ---
  drivers/gpu/drm/ci/xfails/requirements.txt | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/ci/xfails/requirements.txt b/drivers/gpu/drm/ci/xfails/requirements.txt
-index 2fae1299e07b..f69b58356a37 100644
+index f69b58356a37..8b2b1fa16614 100644
 --- a/drivers/gpu/drm/ci/xfails/requirements.txt
 +++ b/drivers/gpu/drm/ci/xfails/requirements.txt
-@@ -7,7 +7,7 @@ charset-normalizer==3.2.0
- idna==3.4
+@@ -4,7 +4,7 @@ termcolor==2.3.0
+ # ci-collate dependencies
+ certifi==2023.7.22
+ charset-normalizer==3.2.0
+-idna==3.4
++idna==3.7
  pip==23.3
  python-gitlab==3.15.0
--requests==2.31.0
-+requests==2.32.0
- requests-toolbelt==1.0.0
- ruamel.yaml==0.17.32
- ruamel.yaml.clib==0.2.7
+ requests==2.32.0
 -- 
 2.45.2
 
