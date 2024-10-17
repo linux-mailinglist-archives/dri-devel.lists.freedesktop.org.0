@@ -2,175 +2,175 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E7509A1999
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2024 06:08:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4EDC9A1998
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2024 06:07:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C603210E79A;
-	Thu, 17 Oct 2024 04:08:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7583910E796;
+	Thu, 17 Oct 2024 04:07:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BJo3+mID";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="T8sVJT86";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C57810E797;
- Thu, 17 Oct 2024 04:08:10 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A2B610E1CB;
+ Thu, 17 Oct 2024 04:07:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1729138090; x=1760674090;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=fS+nhejbpaY9qhAyIYkJO2wmTM/gXk3Hl/cr0FDDQ4M=;
- b=BJo3+mIDczzaJAw2tRlzVH1pblptyS+cDRNJCh5BizhbYB8GUVQaFCS6
- kRSikr/oFI7gWhR8OpzR8CPaHSoOnYFZ+/gmEBmkqy/ZuvBvOlg+BfXW4
- Zc9+FEgrB2/I2JDEKmGdL2VcFddTw/s9jm/ArFxqQvLpU5FyOuSDyAskw
- nq/eqzjsVtEFT4omiy1v/TzN6JR1NvaIimhMKK0VLDeopvkVq4quQoAey
- dooLhtBAaBm2NkySMA88jSK28zLjfDhRSygHXexyl8z14sG7svF1kQkMT
- sXZDDfOpheL3Ro1yxKdFHDOGmKIwA2kxmPDg4s7X8+ymrQWyyklTGEVOa A==;
-X-CSE-ConnectionGUID: TcBijWXETWCQZf9vdEJVHQ==
-X-CSE-MsgGUID: 1hiYot0ISxK2vouaIFRyvQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11226"; a="28490581"
-X-IronPort-AV: E=Sophos;i="6.11,210,1725346800"; d="scan'208";a="28490581"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Oct 2024 21:08:10 -0700
-X-CSE-ConnectionGUID: DdPk1pwJRpGKatJifVMm8w==
-X-CSE-MsgGUID: XD0FPlhBSr64yciK6wyqRw==
+ t=1729138059; x=1760674059;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=yy1+IJ1Ce9KADOWK1dLatML+QVy+l4FXFXKb4oo0Pxc=;
+ b=T8sVJT86sBbBrrR77sqn1cP5B83JAPx3zwac7TgaGJ1lDY5sbSb45yca
+ uUPafetnneOvBPlaTEc3p7QAiuUfC9//ndNp97uKAHf0EOAmORdwvSJYY
+ NHcdCsy+iQRjhOkBL11qBbv55kdi/EqVEcBsFJhCvvkJTeElvwh1EQhgZ
+ k5cZpxyFJTJCrIH+fFIvscRc3zVaELVhgZ1i1y9ShKeauwNrIsBfJwsaq
+ AfquH6ve5xMAKe59t4IKJ7RVFjI+cO7NJgsJbC5mhlfSUg3fUoAJ1XMc/
+ Mwy6E6mxN78osiKD365fjlA7JmcMih5Vadv4MGhMnjyiNR0JsqjIbXgvJ g==;
+X-CSE-ConnectionGUID: 0sfAhwvqTYSBWGmLH7ze7Q==
+X-CSE-MsgGUID: k7HsFyRDSKGicmhj4+J4uQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="39733352"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="39733352"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Oct 2024 21:07:38 -0700
+X-CSE-ConnectionGUID: Kr5975eOQ+yyaiEg98pRQQ==
+X-CSE-MsgGUID: Xu9mZsD2TCasrY6kj6lyrA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,210,1725346800"; d="scan'208";a="109232410"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by orviesa002.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 16 Oct 2024 21:08:10 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="6.11,210,1725346800"; d="scan'208";a="78040903"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+ by fmviesa006.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 16 Oct 2024 21:07:38 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Wed, 16 Oct 2024 21:08:09 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ 15.1.2507.39; Wed, 16 Oct 2024 21:07:37 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Wed, 16 Oct 2024 21:08:09 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Wed, 16 Oct 2024 21:08:09 -0700
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.170)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ 15.1.2507.39 via Frontend Transport; Wed, 16 Oct 2024 21:07:37 -0700
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (104.47.57.40) by
+ edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Wed, 16 Oct 2024 21:08:09 -0700
+ 15.1.2507.39; Wed, 16 Oct 2024 21:07:37 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XyhAaYCSRjzo7Z6f2ljSphKeFUQhrZDXGbFZgT3wDwszZBPrcWqVeoH+FYuLZH1yYo9knTewyKJBCpdVEtAO/dj02O9JoFj9/nVseEfTLxpsHXeSCvldXRDXmWQTeznXqyIw7dTYGBVVTe7YGcLeYTZ8UMkPBJNByYlCsLGnKX+T4dd+caUxWSnnjHNZBeGMIfgMjuj92wwfi2PMXtnYOVnLnX6w8Fl1i0+JTowyAoSVV0JuX0n4Jd97UXXkz+Lyi7tY3S27OrbMTSuXhMrN0kgGmyhlt0ZsYeitgtABIyZFbi7WUos2HVaeSduH24ykARSFQOtoSBlJpnq+vXECLg==
+ b=K9B3MIxsPsy3o8xRQibIR8ljOF8UmGxkiVWwl0hqI6KeRCgTrv0XO9VorUnE7hF0Z+vclwShklZbd4m4twmmv0IjOEdK2ZCxRuH2kdKHJA0/lzbZzTI/3yN7Ue031U/fGW5zZVPQzSRLmRsHdy6XE9j1VKDz88W0F5d72ujZSoybzCF3S2wTWRqfoWdWyjntJQPoGY4xvf94cjyWH/cDljugAcXhXH3xY6qZR0iyJTdng4Qxz5Lyqk9Ju+BuT+8QoS0ypmkVlMFLQsQyBf19hWFkvr12jr1ieM1y5GPv6pEKJBtj7LU4N+RYVWiMfEDQ7YgJOAOAbODYA5X3v3jOew==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vngaEFp2wDH/A9mUphw/BYhkn8ZqjjOq8extVTEw6nM=;
- b=GqNZPxY4qEmF+MAlDM/LBny4/kvH0D+rwV6wVW0jhsQjP6l3Ys1P6N8/XfgQrvx2zQdYsxRMKB22tewtL8YB+AIwAG2mvOlW+H3YTr2C2WWqCtsT9YFd2tFcXxE0ZF0d1IjZ3eRhE0lQ0PN1zgIVxdbn0CCwSy0JMQiv3ufFJ9/XIh8rOHm09J/JdF4G1VwwzeJAm4bgcT+cJUcyBmLzRusmDHrwYM+SA/BIt/tFdxnJ+1qOp/fEAqUPQ384wkhnJfhxcwSoP6SkTNg3tELEAIPgkjM3pqipabwLN2p+EuD4/pT4lfC71PanGcaa3z98+pSz9LpBeWXpH7DIKv5wXA==
+ bh=bRlmS2IzC8we60ceb2/WLocLTdvLHWhyenV1Dsx4qoc=;
+ b=Sgxovb5JS7pNIqjtM1id2bxn8zulfcszOlO1crTxEPRfRe+Dehe+tkTiHl4vM3RwYL14dVVePNQwXlLV/rN2Rfw2cR2oVLSsVXS+1J1VIGS9T0e+wE0IIWN2KcX6HpnjPAZaIXvCh6olZF+W9GN6vOMhHCCm4K1KYuThhwsGN/Aflb02ROsv8Qt2bpPNH4jdEJZFtXTxRJ/gor+nROvk3Obx3W76HTP7ph39VJ9fzdzqgqEWWwXUPyGqrHFGQ6B9qR3r9Uxslpq64/Ogw20rJa1+WSTbR+TXFrlfVQVrSYPS3zHRzm0oJYxDUWdFbVRlKSiumPX9fakKXxS+qTPWaA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by PH0PR11MB5806.namprd11.prod.outlook.com (2603:10b6:510:14b::20)
+Received: from IA0PR11MB7307.namprd11.prod.outlook.com (2603:10b6:208:437::10)
+ by SN7PR11MB7438.namprd11.prod.outlook.com (2603:10b6:806:32b::14)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.18; Thu, 17 Oct
- 2024 04:08:06 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332%6]) with mapi id 15.20.8069.016; Thu, 17 Oct 2024
- 04:08:06 +0000
-Date: Thu, 17 Oct 2024 04:07:21 +0000
-From: Matthew Brost <matthew.brost@intel.com>
-To: Alistair Popple <apopple@nvidia.com>
-CC: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <airlied@gmail.com>, <christian.koenig@amd.com>,
- <thomas.hellstrom@linux.intel.com>, <simona.vetter@ffwll.ch>,
- <felix.kuehling@amd.com>, <dakr@kernel.org>
-Subject: Re: [PATCH v2 02/29] mm/migrate: Add migrate_device_prepopulated_range
-Message-ID: <ZxCNeUqqd7os5fyn@DUT025-TGLU.fm.intel.com>
-References: <20241016032518.539495-1-matthew.brost@intel.com>
- <20241016032518.539495-3-matthew.brost@intel.com>
- <87o73k8yyq.fsf@nvdebian.thelocal>
- <Zw9FPAzlvGVswwxR@DUT025-TGLU.fm.intel.com>
- <ZxBgqc0sRE2Ur2D4@DUT025-TGLU.fm.intel.com>
- <87h69bo5u2.fsf@nvdebian.thelocal>
- <ZxB6NypgrYN1spYc@DUT025-TGLU.fm.intel.com>
- <874j5bo0yu.fsf@nvdebian.thelocal>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <874j5bo0yu.fsf@nvdebian.thelocal>
-X-ClientProxiedBy: SJ0PR13CA0031.namprd13.prod.outlook.com
- (2603:10b6:a03:2c2::6) To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.24; Thu, 17 Oct
+ 2024 04:07:35 +0000
+Received: from IA0PR11MB7307.namprd11.prod.outlook.com
+ ([fe80::dafa:d38d:8ac1:e843]) by IA0PR11MB7307.namprd11.prod.outlook.com
+ ([fe80::dafa:d38d:8ac1:e843%4]) with mapi id 15.20.8069.016; Thu, 17 Oct 2024
+ 04:07:35 +0000
+From: "Murthy, Arun R" <arun.r.murthy@intel.com>
+To: =?iso-8859-1?Q?Ville_Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+CC: "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Subject: RE: [PATCH] drm/i915/display: plane property for async supported
+ modifiers
+Thread-Topic: [PATCH] drm/i915/display: plane property for async supported
+ modifiers
+Thread-Index: AQHbH47FDuXGqBVxjkSYyqY0UpsJ5rKJX/iAgAAGqYCAAAHsAIAA65ew
+Date: Thu, 17 Oct 2024 04:07:35 +0000
+Message-ID: <IA0PR11MB73076CAE9CF2258CF83F8F49BA472@IA0PR11MB7307.namprd11.prod.outlook.com>
+References: <20241016053626.2850384-1-arun.r.murthy@intel.com>
+ <Zw-_6yuy139Zmir3@intel.com> <Zw_FgeZFATAk-aMf@intel.com>
+ <Zw_HHn42gYFvjWmP@intel.com>
+In-Reply-To: <Zw_HHn42gYFvjWmP@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: IA0PR11MB7307:EE_|SN7PR11MB7438:EE_
+x-ms-office365-filtering-correlation-id: 53abfdf3-98ff-4b72-268e-08dcee613b48
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|10070799003|1800799024|376014|366016|38070700018; 
+x-microsoft-antispam-message-info: =?iso-8859-1?Q?Ghh5EkEcXwRL8naWzK39I8xZiyI2bGOPOZwIkuc6tTEMzcdWwQyc2JS9u+?=
+ =?iso-8859-1?Q?+UPIBfthnACJk8gEW+OavL8AXuYUcrh31ay85sbu5K6w9iXLuT5+JlOKPH?=
+ =?iso-8859-1?Q?fNOnuA7kNi2GC42fOSYbVJauuk3b2Lh5zGg9PhDpKzm8E+X4kaRyKAcYP4?=
+ =?iso-8859-1?Q?8msv5qzeafa2MDYcp+ojSdrmSQU4oL3b0SIW3OlDvAZLT9sQLz8oCHDN0C?=
+ =?iso-8859-1?Q?rjFba25rAxluGldGIMJjFmL5m85XbH0GGNYLJymBbkYFOSNfC54rYxILLk?=
+ =?iso-8859-1?Q?ipsIDZdHWy3LBs0aj8xR5wIJbdiDlpdYMLFOavGu9EhwciGjsmzZckzv4O?=
+ =?iso-8859-1?Q?EnyGnKmBHebc7+qyEDQy6araeSNV3g5kWkYajARD52ZKbrJ2w4HCBvJR8h?=
+ =?iso-8859-1?Q?uTCk859E07xv5H3FeIt7A43EiqScOpIgRQ31vp25caCr5TQD2jTxbhQZe6?=
+ =?iso-8859-1?Q?hXokEQL1mYcvHRTtfZpl/acofyh99XGwoCR6Y9bZgZvnBIcgmIS25xUoij?=
+ =?iso-8859-1?Q?eaqPpmGVrFE1kHa91YlsTwT5MyM14OPP/c/k8/x+RhBIk0AJ5gBBIXZJzS?=
+ =?iso-8859-1?Q?16qrIn9L43TSCCCmKkuqx2ik0TS90H3VLnYzUj5JOFALNFT9FtwFWgUxO7?=
+ =?iso-8859-1?Q?yiCB47iwvMcD2Wl7rm/TNHTAyjvMc98UmTjJ3G+mIZbAohDyRIPPcr+FTR?=
+ =?iso-8859-1?Q?M4iYOHaEo78ljC6w5vgMT43oHBvSPY/DOVkWZ4AuDZSmCIZ3tVKtzJMaDk?=
+ =?iso-8859-1?Q?7COthAEXe+PAZWfs/5UFDo9kRXOXH2L06G8Ylk9in+52DiupsCx5Avpp+P?=
+ =?iso-8859-1?Q?rROoT5H8/DKINVX9cRNVC0nfCbvy9qKnZslZr+Bwdd14BxTVNVUvZ7180s?=
+ =?iso-8859-1?Q?KX6fdlkZLsuVIyptljGwh+fzQTKJm+fRQv0oL8wfCpJlfNpFUSq3fApUdW?=
+ =?iso-8859-1?Q?4uFlqJdqSVM5QqUZRUqKijTHi5iRxLCyyIGtld9QWXubemUtnM9GIbrewQ?=
+ =?iso-8859-1?Q?nFZHzFXKdjceXE5DgDJo5ZRzTbgmwVMIjdI65yQJTbEQMUfrjotgeSptXq?=
+ =?iso-8859-1?Q?hdtvP2Ppio9Rj1c7/uPRkCK0Nl5dVMht8ZdDdmqYbT6d3gwPcxeQmGV3P3?=
+ =?iso-8859-1?Q?4Yv7cs5yxR6NNn1nhxS8e7qt2egVSKEtvyZWtIavazdeJvhP8dxTQi+Orm?=
+ =?iso-8859-1?Q?dA8JBJtm2yXDXByVigWNRaSdzrB6ZLmIvyPY2WAXdr1CCh9MsiHFtKXVU6?=
+ =?iso-8859-1?Q?G7oWimTd7tnhV8oI18FSESDI6Hmn3FUgJi0sirL8MDLr6Ku07rEl2eHyxW?=
+ =?iso-8859-1?Q?T/rXlzubXGhT8Zd0IYLZT1mRtOwRas7QNipzAJMP5ae4yK8ugBOaG8VB5f?=
+ =?iso-8859-1?Q?q+mx4xuMvo?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:IA0PR11MB7307.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(10070799003)(1800799024)(376014)(366016)(38070700018); DIR:OUT;
+ SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?eNZ/9BsDaqDTyg4e5uXh/cUdRkrEzdW/aDdJFSMa6nbnsy3tj93S516gLS?=
+ =?iso-8859-1?Q?gR4z2btaZruTUIJfYsk0oghuViLN4XGwMgFfHQqpMjffaKLMERN1Yz4YKr?=
+ =?iso-8859-1?Q?pyvABbiOqQFsJbk9sZDBiJLu8voT/yCsAb1WaONKx18G5DW3th4s96Nnd7?=
+ =?iso-8859-1?Q?tNDdaPdVB3+opAL8shr0p8FWl8nkGMQ96IJulmXkfl2yvGDWc976phO3wZ?=
+ =?iso-8859-1?Q?Dnoj3Q2kBJY9WVGeuNkr59KDXukk/+98P/u6X6qTxH+aZUQ069541xZAiL?=
+ =?iso-8859-1?Q?UusB9HHhSOhPRdSLmH8gxieqDI20Zwmfkadm9QxSLn+ysJVBPabm5GoRZW?=
+ =?iso-8859-1?Q?jGtfkhiIBpmbUxX94F43iRnDkwauYZhiyuyQ8n8IxtOnSEeq+C48+IXnAh?=
+ =?iso-8859-1?Q?bdf3shoAHtIbVvG0bVbhwn/dIHw/7uotTczP0XVQoOD/wEo3s0Fd9d7aZs?=
+ =?iso-8859-1?Q?bh66o0eyVJSF4gNH4r3lQ8QFQrt+i1UJlkhxDUwXkKnLXbgLONL2PcpYGZ?=
+ =?iso-8859-1?Q?oP5clzUnt7CrmpgR+iYMQ+NJ79GaCRcch1P4QTBUQt2yzmEm02BCMcxcOf?=
+ =?iso-8859-1?Q?QCbAHb1LQFjwm9MUHjyxG4zYtaA2qpWvW8kmCO6nSj/apNIaN6s/9epwM9?=
+ =?iso-8859-1?Q?/t5OJZi83X+R2UGHOtgfSqnegHkM239h3nGvN8NIQgLH5yGSiNDIwdi/EI?=
+ =?iso-8859-1?Q?8lSVInR9gyrixaprCcso2D0WLARHDiK5bIwE/wtQWJT9LzCBkOGpVdsLh1?=
+ =?iso-8859-1?Q?Elen8B3oCCl/XB1it7Hp+JJzrSIgqSSxBu5RsYr7GoIYCiiZ9dEqcALb4+?=
+ =?iso-8859-1?Q?KX3NqYbtT4XGzmWaYCZm96eDe9v6CpGasC59l1kqnfdzh33ZGRUz19tA32?=
+ =?iso-8859-1?Q?FySD7Jp4AH9bWJHvTNGzMDtopn22kumdq5YudO0i3VoVmcR8zwOGb72B4t?=
+ =?iso-8859-1?Q?7RrKofrF2zAIl/wu+le8gEJv0I0Q6zdFJt8Vn/ZvWVCPtzhihMdbhc/pno?=
+ =?iso-8859-1?Q?CE/5hxrVILKsM3sVc/fbBImXJz2NqZ4YXbGeIhgE5ZHG6EENEc29peP7/J?=
+ =?iso-8859-1?Q?M2vsYvbsEAbUrUqpGAtdGXX11mzGSkRg2Gp8/+15AT3kQ+2D2IHP1Hqwkg?=
+ =?iso-8859-1?Q?7ia6Amx1y5CR5J3ziLt9jpTucnTU9SpoIb7qIOD/s2ZoNBeuTNrE+lvlzM?=
+ =?iso-8859-1?Q?EpYtJWXJHGQjN1xz0jN2uXSKL/pd7EOvPtbj29oHF2odSjS1yfVS0FM8Uq?=
+ =?iso-8859-1?Q?+skfeGEcHkuhGqa+IIkKEmw28uPQLBW3PY2ZLzsDAjXTGD29XptoT5Y5qI?=
+ =?iso-8859-1?Q?pBdNDoa0ySu3y8CVNaxukpzk6+1xUo/+SdN5QsKYqq9q5hpFo37BUyhAyP?=
+ =?iso-8859-1?Q?vt09wXRSgvYxibz/z7pWUbOdw+BXzCjmMZn1JofsFuC3RXfGB3otpFaAAD?=
+ =?iso-8859-1?Q?kAD/fAiZCy51vth+8IlXcEy0Upir510dbmC+AJmu5RpmbYWBnHnEY5afWX?=
+ =?iso-8859-1?Q?IA2WB4JDsLK7bu3dvuhdkKl4i/rA64EOgXkiOVlRd7fgpTk7+OR35X3RHf?=
+ =?iso-8859-1?Q?nOvMMzVpAhZClL7hFRAbNZ0hSjYHEGOTJyIx/pBpr+3sMvwsML4zbkKXnP?=
+ =?iso-8859-1?Q?O8u1x34cZehzPLMXlfY0Gfmh0cFb0tkMS08esldWhWdiGD6pBXk5dpvxES?=
+ =?iso-8859-1?Q?h2aEqVLpYgOHfWnL5Dcq/62xY2rFnrKaKz5Jij/Z?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|PH0PR11MB5806:EE_
-X-MS-Office365-Filtering-Correlation-Id: 459b8c43-fe87-4dc4-5c06-08dcee614dcc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Ca/fj+pMSRZQa2/F4x+Xc49etKCiZLMAYMcbXaIJUiil1Q/S5dD0Cow6Jqpu?=
- =?us-ascii?Q?UqJHXbEx1dKh1M0MoAj1U11MoEARsqoWi4in1tV556M0nK5wUVZRltBL3oJd?=
- =?us-ascii?Q?BglnoZzaPK4x3qSJ9qo++LJXiju2dHojP94f6BIJp4pxFWW3T5h9b7rzJEsM?=
- =?us-ascii?Q?Z+xvJ6wRvjoIkBjSOFCG5/etOSk4WwSCRZuHbaNAPn0rqINyYLSWYuXic7BL?=
- =?us-ascii?Q?OClK+0RxxV+x7skR95xPOFLJU6dWjfAzS/YWE5FL3rmCWlpKw7H/wGEEokKE?=
- =?us-ascii?Q?gmSUVO/QlxkkNAd3E+jvoC2GKgK2pJDIY2lbfXhwsMqGkl+zQWrgTIAyjuac?=
- =?us-ascii?Q?rr58iynN5fbOmpyeDUYl5bf2VWFoRK07lxuPoJeQkuzQYi8WSJJVJhkOJaNj?=
- =?us-ascii?Q?tZvU6t02vtJaWNBGypFEKgKV7LRcoHkBlfh9VC7KtiPYql0P1ozXn6q+HLnp?=
- =?us-ascii?Q?4JbtCTGOcmdaPgPU/uuL4GLIixc/tpbl5vrn2Yq3xvy2GYhFUy7PfMvrYJIh?=
- =?us-ascii?Q?YvVq7JCQFNLor19g19Hnmnd9d2RoKwFhiwr+en9V1iCjor1NZr3P8A/v9fmu?=
- =?us-ascii?Q?7V2CCeC7Aj8cMQAesAhgIohioIcz7/QEKoumwaeuLJo6MBx7X2Gh1u3H0VW6?=
- =?us-ascii?Q?WNKT0XBIXIu6FYvpo3WPVxQ5/woy41yBlOvNmcNrN2evvXr5R9IM4V/iPFsj?=
- =?us-ascii?Q?9SdHtemTObuHNlrXYKslDnyZmkgYhbbY9a2t4qZ0RtaLHz1qRnI5LuEoX9ct?=
- =?us-ascii?Q?zfVlUKmuAvBI5VFbg0RvYhRW9iuPMX6zLuQmGiMZAgtLQoLhy+024dpW4bN5?=
- =?us-ascii?Q?SLHM1jTuMUH/4E9YCSKQVuKYaqswO/YuHIEJOat2pQzhglLNtesfoXQhu5fX?=
- =?us-ascii?Q?UDWfZFCBe3TZwAKUHLKICIStVnKfSY57h/nel7PTo4ofPdY2fpCUMxtXErp+?=
- =?us-ascii?Q?kSH3hYvnYv248Wvs1K3jYembM0kIC874ur1QT+Y2cvpgxOhUJ53nIY4Ad4Qs?=
- =?us-ascii?Q?2A6gtLdyPkSIgx5F6aYEy1WRRDMoNZGhsrhhKngGwjLxMBxr8mv0fOQXE7h8?=
- =?us-ascii?Q?nwiUOXHf0iwYFx1zfECby6IxT7pn7BwY/TarSGuAys5ULfbkUVKhQNf5EI93?=
- =?us-ascii?Q?mQBStntHqVRYX6vcmOtWf1xdTses8BwDautfiMBgDwz4Pw/m298Q5vOM0qRk?=
- =?us-ascii?Q?NbFRlcGwddI0EKQOhdwP7b4kDH8/36p/iXab2r52t8ewPJ3z/NCU/BVRLAQq?=
- =?us-ascii?Q?8FaYIl8IRTfw01jRVtM72QG4zFUiTBqRuwAtC/ZMOg=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?YEotU7bmbOZxvUvQbQQ+999M23kG9KgGwg/WfcoV60iDxBaENN8KSHkCQHMA?=
- =?us-ascii?Q?yV7UvrRl9iCBwTpIObB4plvY7RHSQX7MALla1I1MnBQwyyC2rd7tv/Z3m5Na?=
- =?us-ascii?Q?vL9/cxZ4rDSv4N3NyUGVYGGrmZUrLedV4u4VCPSkDGzH7tiPKecdcMrJaxeQ?=
- =?us-ascii?Q?xMx2hPjaeTPiCf8RHvKxNTFEX7vuOUDrdl5OxCdSszCuCWW+PL3dHYRJ5vkf?=
- =?us-ascii?Q?DmMb6d2YK5IMH5fAcZcuBQiiDfHNFn+s+iGudgky+TPWyCqAcj0fFwAqker6?=
- =?us-ascii?Q?85YIl61DhJ1WshdoGFkbk217fPXOLwvUMQ3HhYgENJDwXdcC7nPqR5nGGVA4?=
- =?us-ascii?Q?H8yZe4TeDNezcazyLbqsivjOIJQX0IsCbwMJR6uas7lnR44aZKg+JfrOmqnE?=
- =?us-ascii?Q?FRSextrcFDrxdwReAZCa7FfM8kZUlhperLJgWgapu8uoPA9RM5c37K6tOnR9?=
- =?us-ascii?Q?GaF/fUWitMlpOJjabiiyRpsLogxU9YNJ0GLVUz1fIHvA0R4mkGahPV/Zasbq?=
- =?us-ascii?Q?eMn2JbluGgnU8fIbDaUBfxsom3w8qY5uvgOGGjTTqGQilJZLR93C06Gvy7gu?=
- =?us-ascii?Q?HsxDTWeFXe8WFX9uahrHaoxaxTXkXGh37fNcTEto0xlTyCM+k2RraSeoQpuA?=
- =?us-ascii?Q?g/xFUIvwQUHbpUSGXeql9xtJ5TNQzqx2WQRqH640+J09/c3tVGy7rI8IaEaM?=
- =?us-ascii?Q?XAM5JOJz5jKLuVGoAqdWBjhFPbeMjL6C1Sn4bJ/xrNCWiWeXVi+gMMgcrxF9?=
- =?us-ascii?Q?/61atn9Zcgm6F+x03ghVTAncWQXW2mVGnhKsH5ypBBZNF1zSnYEgxxc1qv4N?=
- =?us-ascii?Q?AzwgU/rTb5hLwbcOhueMENTwihWSMx801rYd/HQwsJp7LgSstFAJgjjRYu4y?=
- =?us-ascii?Q?HmFCFuPYcbkYAeABv5ccuvY/0/3/1ddDPNnpai8Pp/hn9nTp0412b0swRByW?=
- =?us-ascii?Q?o8dDvZES9CSSCnCjCX1lKKAudqQBK5W6YkC2qNXUxacqP7IWXl0BsCiSFOJh?=
- =?us-ascii?Q?Uqn+CVIMsCZaGYso+WMHQ7hjydXIqrLFaPX+RahXH/2h9ST/WFzpK+YaYZm6?=
- =?us-ascii?Q?JGLQiZzXsyhNh1Mrbacc8c441japeQQ9i/yqHtPz5vNhtIZpYyo3M4mrbARO?=
- =?us-ascii?Q?QSAHGcTKDcNdLllQtvXsXkb0LOZboFtCWyXWxza1z3RFwHwDp9ddrL0T/wIe?=
- =?us-ascii?Q?guIyaH43bbA4rxJqz+K/lZk3+5ozbi7MSdahGyrQeKmsOHZXZKXQ6lgQfYZ/?=
- =?us-ascii?Q?9X3bqBFC4LbV55YxdMjEET9U6OfvNOPs10Z98Rt6XMOj+WA+IdcrdB2AI7i8?=
- =?us-ascii?Q?ZkxvplvsuT3JyKPctoaPhpM3gQtEz/eboiMLBfQwu3EbHNu/DsW9WlXG5IBt?=
- =?us-ascii?Q?YNOt+8ZCZtALBx6r3cV0JplCAETWzRzLH96DK5gQDZvxhsJG0qBZlfogXdUu?=
- =?us-ascii?Q?snQ1CPHrNgHsVmgqpwQYvVXy37jJA1ePIRFgfsKRygquSuF0vlgh94C4PpoS?=
- =?us-ascii?Q?vFBbc0WfRDk4OsyQZ8NCTJuXrxBPbp3l/jjDWh4woUAHkzG96hJAFdX9b2kU?=
- =?us-ascii?Q?Kk2JHjar/N00+jshODQ8MMWZ3hC0Oy2Qx2V1o2wLNUgLmt+xGzKZro9cZ3Yc?=
- =?us-ascii?Q?dA=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 459b8c43-fe87-4dc4-5c06-08dcee614dcc
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Oct 2024 04:08:06.5300 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: sqNs2mdY5qysJreJE/YaxP78hJOs39+qQb9O8/JqtJs+V8d0bAkbcWeQKsS2x9LwIwXkFjpDXGSKMdB3iL0eEA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5806
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR11MB7307.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 53abfdf3-98ff-4b72-268e-08dcee613b48
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Oct 2024 04:07:35.3138 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: xv+6pthQhec+fSIPLsdvpckSkC3x90MzAaQ65bn/Kc+ZfxHy5Subh0nPPlSOkhQ9bM0WWU+nJIcqsa/iAigapw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB7438
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -187,252 +187,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 17, 2024 at 02:21:13PM +1100, Alistair Popple wrote:
-> 
-> Matthew Brost <matthew.brost@intel.com> writes:
-> 
-> > On Thu, Oct 17, 2024 at 12:49:55PM +1100, Alistair Popple wrote:
-> >> 
-> >> Matthew Brost <matthew.brost@intel.com> writes:
-> >> 
-> >> > On Wed, Oct 16, 2024 at 04:46:52AM +0000, Matthew Brost wrote:
-> >> >> On Wed, Oct 16, 2024 at 03:04:06PM +1100, Alistair Popple wrote:
-> >> 
-> >> [...]
-> >> 
-> >> >> > > +{
-> >> >> > > +	unsigned long i;
-> >> >> > > +
-> >> >> > > +	for (i = 0; i < npages; i++) {
-> >> >> > > +		struct page *page = pfn_to_page(src_pfns[i]);
-> >> >> > > +
-> >> >> > > +		if (!get_page_unless_zero(page)) {
-> >> >> > > +			src_pfns[i] = 0;
-> >> >> > > +			continue;
-> >> >> > > +		}
-> >> >> > > +
-> >> >> > > +		if (!trylock_page(page)) {
-> >> >> > > +			src_pfns[i] = 0;
-> >> >> > > +			put_page(page);
-> >> >> > > +			continue;
-> >> >> > > +		}
-> >> >> > > +
-> >> >> > > +		src_pfns[i] = migrate_pfn(src_pfns[i]) | MIGRATE_PFN_MIGRATE;
-> >> >> > 
-> >> >> > This needs to be converted to use a folio like
-> >> >> > migrate_device_range(). But more importantly this should be split out as
-> >> >> > a function that both migrate_device_range() and this function can call
-> >> >> > given this bit is identical.
-> >> >> > 
-> >> >> 
-> >> >> Missed the folio conversion and agree a helper shared between this
-> >> >> function and migrate_device_range would be a good idea. Let add that.
-> >> >> 
-> >> >
-> >> > Alistair,
-> >> >
-> >> > Ok, I think now I want to go slightly different direction here to give
-> >> > GPUSVM a bit more control over several eviction scenarios.
-> >> >
-> >> > What if I exported the helper discussed above, e.g.,
-> >> >
-> >> >  905 unsigned long migrate_device_pfn_lock(unsigned long pfn)
-> >> >  906 {
-> >> >  907         struct folio *folio;
-> >> >  908
-> >> >  909         folio = folio_get_nontail_page(pfn_to_page(pfn));
-> >> >  910         if (!folio)
-> >> >  911                 return 0;
-> >> >  912
-> >> >  913         if (!folio_trylock(folio)) {
-> >> >  914                 folio_put(folio);
-> >> >  915                 return 0;
-> >> >  916         }
-> >> >  917
-> >> >  918         return migrate_pfn(pfn) | MIGRATE_PFN_MIGRATE;
-> >> >  919 }
-> >> >  920 EXPORT_SYMBOL(migrate_device_pfn_lock);
-> >> >
-> >> > And then also export migrate_device_unmap.
-> >> >
-> >> > The usage here would be let a driver collect the device pages in virtual
-> >> > address range via hmm_range_fault, lock device pages under notifier
-> >> > lock ensuring device pages are valid, drop the notifier lock and call
-> >> > migrate_device_unmap.
-> >> 
-> >> I'm still working through this series but that seems a bit dubious, the
-> >> locking here is pretty subtle and easy to get wrong so seeing some code
-> >> would help me a lot in understanding what you're suggesting.
-> >>
+> -----Original Message-----
+> From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> Sent: Wednesday, October 16, 2024 7:31 PM
+> To: Murthy, Arun R <arun.r.murthy@intel.com>
+> Cc: intel-xe@lists.freedesktop.org; intel-gfx@lists.freedesktop.org; dri-
+> devel@lists.freedesktop.org
+> Subject: Re: [PATCH] drm/i915/display: plane property for async supported
+> modifiers
+>=20
+> On Wed, Oct 16, 2024 at 04:54:09PM +0300, Ville Syrj=E4l=E4 wrote:
+> > On Wed, Oct 16, 2024 at 04:30:19PM +0300, Ville Syrj=E4l=E4 wrote:
+> > > On Wed, Oct 16, 2024 at 11:06:26AM +0530, Arun R Murthy wrote:
+> > > > Create a i915 private plane property for sharing the async
+> > > > supported modifiers to the user.
+> > > > UMD related discussion requesting the same
+> > > > https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/29618#no
+> > > > te_2487123
+> > > >
+> > > > Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
+> > > > ---
+> > > >  .../gpu/drm/i915/display/intel_atomic_plane.c |  6 +++
+> > > >  .../drm/i915/display/intel_display_types.h    |  4 ++
+> > > >  .../drm/i915/display/skl_universal_plane.c    | 49 +++++++++++++++=
++++-
+> > >
+> > > This whole thing belongs in the drm core.
 > >
-> > For sure locking in tricky, my mistake on not working through this
-> > before sending out the next rev but it came to mind after sending +
-> > regarding some late feedback from Thomas about using hmm for eviction
-> > [2]. His suggestion of using hmm_range_fault to trigger migration
-> > doesn't work for coherent pages, while something like below does.
+> > And I don't even see an actual implementation of anything here.
+> > Why did you even post this when it doesn't do anything?
 > >
-> > [2] https://patchwork.freedesktop.org/patch/610957/?series=137870&rev=1#comment_1125461
-> >
-> > Here is a snippet I have locally which seems to work.
-> >
-> > 2024 retry:
-> > 2025         hmm_range.notifier_seq = mmu_interval_read_begin(notifier);
-> > 2026         hmm_range.hmm_pfns = src;
-> > 2027
-> > 2028         while (true) {
-> > 2029                 mmap_read_lock(mm);
-> > 2030                 err = hmm_range_fault(&hmm_range);
-> > 2031                 mmap_read_unlock(mm);
-> > 2032                 if (err == -EBUSY) {
-> > 2033                         if (time_after(jiffies, timeout))
-> > 2034                                 break;
-> > 2035
-> > 2036                         hmm_range.notifier_seq = mmu_interval_read_begin(notifier);
-> > 2037                         continue;
-> > 2038                 }
-> > 2039                 break;
-> > 2040         }
-> > 2041         if (err)
-> > 2042                 goto err_put;
-> > 2043
-> > 2044         drm_gpusvm_notifier_lock(gpusvm);
-> > 2045         if (mmu_interval_read_retry(notifier, hmm_range.notifier_seq)) {
-> > 2046                 drm_gpusvm_notifier_unlock(gpusvm);
-> > 2047                 memset(src, 0, sizeof(*src) * npages);
-> > 2048                 goto retry;
-> > 2049         }
-> > 2050         for (i = 0; i < npages; ++i) {
-> > 2051                 struct page *page = hmm_pfn_to_page(src[i]);
-> > 2052
-> > 2053                 if (page && (is_device_private_page(page) ||
-> > 2054                     is_device_coherent_page(page)) && page->zone_device_data)
-> > 2055                         src[i] = src[i] & ~HMM_PFN_FLAGS;
-> > 2056                 else
-> > 2057                         src[i] = 0;
-> > 2058                 if (src[i])
-> > 2059                         src[i] = migrate_device_pfn_lock(src[i]);
-> > 2060         }
-> > 2061         drm_gpusvm_notifier_unlock(gpusvm);
-> 
-> Practically for eviction isn't this much the same as calling
-> migrate_vma_setup()? And also for eviction as Sima mentioned you
-> probably shouldn't be looking at mm/vma structs.
-> 
+> > Anyways, thinking about how we might actually implement this, we can
+> > probably leverage
+> > https://patchwork.freedesktop.org/patch/619047/?series=3D139807&rev=3D3
+>=20
+> Although we should probably pass the format to that as well...
+>=20
+The blob points to the struct with elements, modifier and formats.=20
+The main intention of this patch to get the i915 plane private property.
+The reason for not having this as drm property is we are the only user for =
+this and no other vendor has this restriction.=20
 
-hmm_range_fault is just collecting the pages, internally I suppose it
-does look at a VMA (struct vm_area_struct) but I think the point is
-drivers should not be looking at VMA here.
-
-> > 2063         migrate_device_unmap(src, npages, NULL);
-> > ...
-> > 2101         migrate_device_pages(src, dst, npages);
-> > 2102         migrate_device_finalize(src, dst, npages);
-> >
-> >
-> >> > Sima has strongly suggested avoiding a CPUVMA
-> >> > lookup during eviction cases and this would let me fixup
-> >> > drm_gpusvm_range_evict in [1] to avoid this.
-> >> 
-> >> That sounds reasonable but for context do you have a link to the
-> >> comments/discussion on this? I couldn't readily find it, but I may have
-> >> just missed it.
-> >> 
-> >
-> > See in [4], search for '2. eviction' comment from sima.
-> 
-> Thanks for pointing that out. For reference here's Sima's comment:
-> 
-> > 2. eviction
-> > 
-> > Requirements much like migrate_to_ram, because otherwise we break the
-> > migration gurantee:
-> > 
-> > - Only looking at physical memory datastructures and locks, no looking at
-> >   mm/vma structs or relying on those being locked. We rely entirely on
-> >   reverse maps from try_to_migrate to find all the mappings on both cpu
-> >   and gpu side (cpu only zone device swap or migration pte entries ofc).
-> 
-> I also very much agree with this. That's basically why I added
-> migrate_device_range(), so that we can forcibly evict pages when the
-> driver needs them freed (eg. driver unload, low memory, etc.). In
-> general it is impossible to guarantee eviction og all pages using just
-> hmm_range_fault().
-> 
-
-In this code path we don't have device pages available, hence the
-purposed collection via hmm_range_fault.
-
-> > [3] https://patchwork.freedesktop.org/patch/610957/?series=137870&rev=1#comment_1110726
-> > [4] https://lore.kernel.org/all/BYAPR11MB3159A304925168D8B6B4671292692@BYAPR11MB3159.namprd11.prod.outlook.com/T/#m89cd6a37778ba5271d5381ebeb03e1f963856a78
-> >
-> >> > It would also make the function exported in this patch unnecessary too
-> >> > as non-contiguous pfns can be setup on driver side via
-> >> > migrate_device_pfn_lock and then migrate_device_unmap can be called.
-> >> > This also another eviction usage in GPUSVM, see drm_gpusvm_evict_to_ram
-> >> > in [1].
-> >> >
-> >> > Do you see an issue exporting migrate_device_pfn_lock,
-> >> > migrate_device_unmap?
-> >> 
-> >> If there is a good justification for it I can't see a problem with
-> >> exporting it. That said I don't really understand why you would
-> >> want/need to split those steps up but I'll wait to see the code.
-> >>
-> >
-> > It is so the device pages returned from hmm_range_fault, which are only
-> > guaranteed to be valid under the notifier lock + a seqno check, to be
-> > locked and ref taken for migration. migrate_device_unmap() can trigger a
-> > MMU invalidation which takes the notifier lock thus calling the function
-> > which combines migrate_device_pfn_lock + migrate_device_unmap deadlocks.
-> >
-> > I think this flow makes sense and agree in general this likely better
-> > than looking at a CPUVMA.
-> 
-> I'm still a bit confused about what is better with this flow if you are
-> still calling hmm_range_fault(). How is it better than just calling
-> migrate_vma_setup()? Obviously it will fault the pages in, but it seems
-
-The code in rev2 calls migrate_vma_setup but the requires a struct
-vm_area_struct argument whereas hmm_range_fault does not.
-
-> we're talking about eviction here so I don't understand why that would
-> be relevant. And hmm_range_fault() still requires the VMA, although I
-> need to look at the patches more closely, probably CPUVMA is a DRM
-
-'hmm_range_fault() still requires the VMA' internal yes, but again not
-as argument. This is about avoiding a driver side lookup of the VMA.
-
-CPUVMA == struct vm_area_struct in this email.
-
-Matt
-
-> specific concept?
-> 
-> Thanks.
-> 
->  - Alistair
-> 
-> > Matt
-> >  
-> >>  - Alistair
-> >> 
-> >> > Matt
-> >> >
-> >> > [1] https://patchwork.freedesktop.org/patch/619809/?series=137870&rev=2
-> >> >
-> >> >> Matt
-> >> >> 
-> >> >> > > +	}
-> >> >> > > +
-> >> >> > > +	migrate_device_unmap(src_pfns, npages, NULL);
-> >> >> > > +
-> >> >> > > +	return 0;
-> >> >> > > +}
-> >> >> > > +EXPORT_SYMBOL(migrate_device_prepopulated_range);
-> >> >> > > +
-> >> >> > >  /*
-> >> >> > >   * Migrate a device coherent folio back to normal memory. The caller should have
-> >> >> > >   * a reference on folio which will be copied to the new folio if migration is
-> >> >> > 
-> >> 
-> 
+Thanks and Regards,
+Arun R Murthy
+--------------------
