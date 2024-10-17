@@ -2,65 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDB329A1D37
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2024 10:31:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E713F9A1D71
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Oct 2024 10:43:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AA3F10E7C1;
-	Thu, 17 Oct 2024 08:31:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53E3A10E1CF;
+	Thu, 17 Oct 2024 08:43:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jOb/fx69";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="AfYLf3QO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E892B10E7BC;
- Thu, 17 Oct 2024 08:31:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1729153916; x=1760689916;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=Ii1v0FtqU8oTZXDztwaS+oUGSNl+R8s0xWhdAHmPyDI=;
- b=jOb/fx69nJUIIW0ei9PeRdJnXOuQJ5bo7vlNfRB3KJU+yEddStymCS2j
- THx4slSb0bNDw2Zw14La4LW5gZyoqPfwFlLhJ4FDPF69JKAkobN5v7JJV
- TMya9mwMYr+OdqpY8+Hy2612ErYb6o0IHBRVQrAzUsbywpMGNVDfx+mys
- 5N35QUH0OdglQNMpLl7SyJGljwW/0GapIKSlp9Xm+yb7dnQoSQuUDCLhf
- JUQ9eqr2aUBiZXCLEMTB2rI/NNMDdsFo1OFqjGEdJvH6/YrVSiXYQFCtX
- WVLsRkPm4kP9OKtSoK20/QWRkT1NN6SVU4OvBVSXUN98H8CjKZQRcViLs A==;
-X-CSE-ConnectionGUID: Y3tjZMmIQAChcun8MiNTIg==
-X-CSE-MsgGUID: MlEl6QqqQXiMmM90o2mPZQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11227"; a="39265768"
-X-IronPort-AV: E=Sophos;i="6.11,210,1725346800"; d="scan'208";a="39265768"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Oct 2024 01:31:55 -0700
-X-CSE-ConnectionGUID: WprSBoEoTWKK4qU6deXbzg==
-X-CSE-MsgGUID: RENHn+cPQEmbP0llsXPuTw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,210,1725346800"; d="scan'208";a="83035203"
-Received: from mlehtone-mobl.ger.corp.intel.com (HELO localhost)
- ([10.245.244.51])
- by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Oct 2024 01:31:51 -0700
-Date: Thu, 17 Oct 2024 11:31:48 +0300
-From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-intel-fixes
-Message-ID: <ZxDLdML9Dwqkb1AW@jlahtine-mobl.ger.corp.intel.com>
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com
+ [209.85.216.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68F5A10E1CF;
+ Thu, 17 Oct 2024 08:43:13 +0000 (UTC)
+Received: by mail-pj1-f53.google.com with SMTP id
+ 98e67ed59e1d1-2e2a999b287so558498a91.0; 
+ Thu, 17 Oct 2024 01:43:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1729154593; x=1729759393; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:from:content-language
+ :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=yQAB3nnQ+Mdlc/tt0eBAd1ec+dzX44ggYry/kZq7/hI=;
+ b=AfYLf3QOsX9ZhB3XAQPYF12xh25nA9V5CgX3ujOXuwkDeIdtcRetx22Y76PVMkxdZQ
+ ULTI6C2nN9aKa6qCjdWQgx1ShMMXjOHwTF21HJvig0x+vLa9M/XI0H3O7Upu0e6Nhh65
+ MDD9BBWc/GJRGG9hB5X649MUlLkz2P69/aTzHsnT2EJaqusRxAWvAWWqpPiz4Y56+X7i
+ VEw39pmJ/5tfVdhjVTJ0LSDmgKbrzXbGGzpXNydq/mM3IH5KKynlHPNe4eeTKbOT3jbr
+ PKY2pktiADuOO3d3kYlbdZp0oMP3va3KzeaoxQIg0FFT7+Lu7IAF5j/Qx0jLMHz5DvxS
+ bVww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1729154593; x=1729759393;
+ h=content-transfer-encoding:cc:to:subject:from:content-language
+ :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=yQAB3nnQ+Mdlc/tt0eBAd1ec+dzX44ggYry/kZq7/hI=;
+ b=BY5RhF727T1qfV4cxzZIOb8PZ5F/n/zJuE+EZwrQuhU3EjaVNVgsndcIymqejxKzuV
+ uvUjsl69vXUjrEuzj3CWp5lWPX5tYNs3obhgfu530yKqGzRRqFZzKIGbK1gIx57b1WT8
+ 00tEOhz4ttFeoF1LHbBwb2ts9QpVRBkRERiv4xRNQxEB2pRrqAAtFgUibqu+7XHLlfHC
+ ZQqulIvYptp01FQyWjGUJ8MhSYVZ0t8u9tkSBama+dLPtUXsftbtNmteAvHQAiRbVZlH
+ hp1VLPUtzI45G1StuW6DjBgCSSlsG3MADoM0/DOh37yjnYXOaHEdwlF9c7oeOJzZcRca
+ q5Sg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX5Z5X4cvC3eQOwzLflgWQCfLHXfPTDGHQWlA1YfiZNJMbjZtUo/ThRRRAd0DSNg4KqJCNp2blsvjk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzoBBH3y6mbVrwq4x2GkGwvV2HEWmiiO5jAMnQRIEvAz7TAXEt4
+ ShgMQPGtiWpQ92wDaXsaUaEBCbaOX+6qxTel9as1mKV6M+2NKc0d
+X-Google-Smtp-Source: AGHT+IGyP031j7KiczoaeT0zkXTCu6uPPcWuYBfUrEHy6wZ3NZAs2wt8XjaAOno4+gv2ZLCwzZsYcA==
+X-Received: by 2002:a17:90a:d808:b0:2e2:d74f:65b5 with SMTP id
+ 98e67ed59e1d1-2e2f0ad1729mr23181386a91.16.1729154592825; 
+ Thu, 17 Oct 2024 01:43:12 -0700 (PDT)
+Received: from [192.168.1.101] (14-202-215-216.tpgi.com.au. [14.202.215.216])
+ by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-2e3e090756bsm1280567a91.50.2024.10.17.01.43.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Oct 2024 01:43:12 -0700 (PDT)
+Message-ID: <65fe0dd4-e7bb-40d1-9b89-7b330984268a@gmail.com>
+Date: Thu, 17 Oct 2024 16:43:04 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+From: Tuo Li <islituo@gmail.com>
+Subject: [BUG] drm/amd/display: possible null-pointer dereference or redundant
+ null check in amdgpu_dm.c
+To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, simona@ffwll.ch, alex.hung@amd.com,
+ hamza.mahfooz@amd.com, Roman.Li@amd.com, chiahsuan.chung@amd.com,
+ aurabindo.pillai@amd.com, Wayne.Lin@amd.com, hersenxs.wu@amd.com
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, baijiaju1990@gmail.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,39 +88,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave & Sima,
+Hello,
 
-Here goes drm-intel-fixes towards v6.12-rc4.
+Our static analysis tool has identified a potential null-pointer dereference or
+redundant null check related to the wait-completion synchronization mechanism in
+amdgpu_dm.c in Linux 6.11.
 
-Just two DP MST fixes this round.
+Consider the following execution scenario:
 
-Regards, Joonas
+  dmub_aux_setconfig_callback()      //731
+    if (adev->dm.dmub_notify)        //734
+    complete(&adev->dm.dmub_aux_transfer_done);  //737
 
-***
+The variable adev->dm.dmub_notify is checked by an if statement at Line 734,
+which indicates that adev->dm.dmub_notify can NULL. Then, complete() is called
+at Line 737 which wakes up the wait_for_completion().
 
-drm-intel-fixes-2024-10-17:
+Consider the wait_for_completion()
 
-- Two DP bandwidth related MST fixes
+  amdgpu_dm_process_dmub_aux_transfer_sync()    //12271
+    p_notify = adev->dm.dmub_notify;            //12278
+    wait_for_completion_timeout(&adev->dm.dmub_aux_transfer_done, ...); // 12287
+    if (p_notify->result != AUX_RET_SUCCESS)    //12293
 
-The following changes since commit 8e929cb546ee42c9a61d24fae60605e9e3192354:
+The value of adev->dm.dmub_notify is assigned to p_notify at Line 12278. If
+adev->dm.dmub_notify at Line 734 is checked to be NULL, the value p_notify after
+the wait_for_completion_timeout() at Line 12278 can also be NULL. However, it is
+dereferenced at Line 12293 without rechecking, causing a possible null dereference.
 
-  Linux 6.12-rc3 (2024-10-13 14:33:32 -0700)
+In fact, dmub_aux_setconfig_callback() is registered only if
+adev->dm.dmub_notify is checked to be not NULL:
 
-are available in the Git repository at:
+  adev->dm.dmub_notify = kzalloc(...);    //2006
+  if (!adev->dm.dmub_notify) {            //2007
+    ......
+    goto error;                           //2009
+  }                                       //2010
+  ......
+  register_dmub_notify_callback(..., dmub_aux_setconfig_callback, ...)  //2019
 
-  https://gitlab.freedesktop.org/drm/i915/kernel.git tags/drm-intel-fixes-2024-10-17
+I am not sure if adev->dm.dmub_notify is assigned with NULL elsewhere. If not,
+the if check at Line 734 can be redundant.
+Any feedback would be appreciated, thanks!
 
-for you to fetch changes up to 2f54e71359eb2abc0bdf6619cd356e5e350ff27b:
+Sincerely,
+Tuo Li
 
-  drm/i915/dp_mst: Don't require DSC hblank quirk for a non-DSC compatible mode (2024-10-16 14:56:40 +0300)
 
-----------------------------------------------------------------
-- Two DP bandwidth related MST fixes
-
-----------------------------------------------------------------
-Imre Deak (2):
-      drm/i915/dp_mst: Handle error during DSC BW overhead/slice calculation
-      drm/i915/dp_mst: Don't require DSC hblank quirk for a non-DSC compatible mode
-
- drivers/gpu/drm/i915/display/intel_dp_mst.c | 40 +++++++++++++++++++++--------
- 1 file changed, 30 insertions(+), 10 deletions(-)
