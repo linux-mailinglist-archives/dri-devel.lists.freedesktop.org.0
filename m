@@ -2,53 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEA0D9A3F31
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Oct 2024 15:10:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 889229A3F38
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Oct 2024 15:13:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02B4310E35D;
-	Fri, 18 Oct 2024 13:10:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F83F10E913;
+	Fri, 18 Oct 2024 13:13:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="RTNCoAWW";
+	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="OrqihEER";
+	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="l4abCq4G";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F014810E35D
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2024 13:10:41 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
- [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id B809721C;
- Fri, 18 Oct 2024 15:08:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1729256936;
- bh=1vTBt3XGnJR90JCL6rOhjfoYCG2YNW38fXFpkdEspTI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=RTNCoAWWuVD/LIR9YrhL4tfBMddRa18ORKRI0DqReHsJ/JM4+2t3KCR6USRx507GP
- Zj/ZImJGRrU2OYlOqCsPBmx+NjUKT+x7aV4Fjs/TfIZRar4/cmgYDR56V7iuirQD7L
- lr6mWgQ0+TrAhQ/3gay9Y5iXfs11co/ZigChstQ0=
-Date: Fri, 18 Oct 2024 16:10:35 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Douglas Anderson <dianders@chromium.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: Fix multiple instances
-Message-ID: <20241018131035.GA20602@pendragon.ideasonboard.com>
-References: <8c2df6a903f87d4932586b25f1d3bd548fe8e6d1.1729180470.git.geert+renesas@glider.be>
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D63EF10E913
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2024 13:12:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1729257180; x=1760793180;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=xrzeEoBsCionoKUR266fpAo3BaG9LZtKR8xkrwhis4I=;
+ b=OrqihEERv6KkH9Q43iTvx5STt7IoUcFRHJcfGdgOGh3nKt0eaklPD++C
+ Q3mpbUhppvGVQAcyyMikAxA0SIviMPiIZwjk26Gcqhoh69VQ4oC/v/ij3
+ mdh8ZAuK/iEnH9O/RFuD3l5UyTEfM6+RGUeXZnPuUEizh8ptbE9TSHIMm
+ jUCnNoM5Au/Kj4huRttUjDc1L/itMVNs4eb2NCK5sKDgnzNc7Y/tVQrTK
+ z3Nzk9GNBlx1Gy98salSUVt71+sq4ZuVaJJNMHhP/mfvMTv+tNGKwVLNw
+ 9nQXOQQuwuiD7KgkHt5CmIdrbpmFNgJRoiVNfnC33fqe3WIHq/e2Ks5F8 Q==;
+X-CSE-ConnectionGUID: 3KoUDJEnQRaRloi9VBQ63A==
+X-CSE-MsgGUID: NPQH+y/pSTScykETWFj9YQ==
+X-IronPort-AV: E=Sophos;i="6.11,213,1725314400"; d="scan'208";a="39543900"
+Received: from vmailcow01.tq-net.de ([10.150.86.48])
+ by mx1.tq-group.com with ESMTP; 18 Oct 2024 15:12:58 +0200
+X-CheckPoint: {67125EDA-9-BD84CFBF-E7C15A70}
+X-MAIL-CPID: 1966C4EF9B0FB9E0C3310EAEA66099E9_3
+X-Control-Analysis: str=0001.0A682F19.67125EDA.0060, ss=1, re=0.000, recu=0.000,
+ reip=0.000, cl=1, cld=1, fgs=0
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id AB87F16ACBC; Fri, 18 Oct 2024 15:12:49 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
+ s=dkim; t=1729257173;
+ h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:in-reply-to:references;
+ bh=xrzeEoBsCionoKUR266fpAo3BaG9LZtKR8xkrwhis4I=;
+ b=l4abCq4GzoqmZ9BJX3njeI/FwjZI05uwLBz+mQMuGVbCBcbm1vRsJbUvYSO5vvavbmWhEv
+ y38ZqQMrSpXDdl5nfXYT/JHFBzztTs0+BGKJtB9TRP8jNwct3OJ9BGPLlxMHQ1nzO+uSHY
+ jW9NvLXRt1L/k40SMmI0ImpPm8H38zP7b5Z7XVkCk3kS16WZnpnoRaHh4qSSAYXxmc0YCj
+ H7nii7oha2YVtDLjD33iRrAzwTQHHLIjVaVBh6G8uWt63MyibvhKD5GUYIZfI3gEY9CsBw
+ /LumWuZE7UPbJBgSvdhgHmK6/uEGDhg9kGk6WHA9AhAxqiQ2JZRqA/LO6JWM2g==
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Liu Ying <victor.liu@nxp.com>, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
+ kernel@pengutronix.de, festevam@gmail.com, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org, Laurent.pinchart@ideasonboard.com,
+ jonas@kwiboo.se, jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ marex@denx.de, stefan@agner.ch, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH 4/5] drm/bridge: imx8mp-hdmi-tx: Set output_port to 1
+Date: Fri, 18 Oct 2024 15:12:49 +0200
+Message-ID: <5035853.0VBMTVartN@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <vvsj6ri2ke25nzocbq736yv7rphzma6pn3yk2uh7iu43zfe2sa@2fwye4k4w6he>
+References: <20241018064813.2750016-1-victor.liu@nxp.com>
+ <20241018064813.2750016-5-victor.liu@nxp.com>
+ <vvsj6ri2ke25nzocbq736yv7rphzma6pn3yk2uh7iu43zfe2sa@2fwye4k4w6he>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <8c2df6a903f87d4932586b25f1d3bd548fe8e6d1.1729180470.git.geert+renesas@glider.be>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,113 +87,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Geert,
+Am Freitag, 18. Oktober 2024, 14:31:20 CEST schrieb Dmitry Baryshkov:
+> On Fri, Oct 18, 2024 at 02:48:12PM +0800, Liu Ying wrote:
+> > Set DW HDMI platform data's output_port to 1 in imx8mp_dw_hdmi_probe()
+> > so that dw_hdmi_probe() called by imx8mp_dw_hdmi_probe() can tell the
+> > DW HDMI bridge core driver about the output port we are using, hence
+> > the next bridge can be found in dw_hdmi_parse_dt() according to the port
+> > index, and furthermore the next bridge can be attached to bridge chain =
+in
+> > dw_hdmi_bridge_attach() when the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag is
+> > set.  The output_port value aligns to the value used by devicetree.
+> > This is a preparation for making the i.MX8MP LCDIF driver use
+> > drm_bridge_connector which requires the DRM_BRIDGE_ATTACH_NO_CONNECTOR
+> > flag.
+> >=20
+> > Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> > ---
+> >  drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> >=20
+> > diff --git a/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c b/drivers/gpu/=
+drm/bridge/imx/imx8mp-hdmi-tx.c
+> > index 8fcc6d18f4ab..54a53f96929a 100644
+> > --- a/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c
+> > +++ b/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c
+> > @@ -96,6 +96,7 @@ static int imx8mp_dw_hdmi_probe(struct platform_devic=
+e *pdev)
+> >  		return dev_err_probe(dev, PTR_ERR(hdmi->pixclk),
+> >  				     "Unable to get pixel clock\n");
+> > =20
+> > +	plat_data->output_port =3D 1;
+>=20
+> This will break compatibility with older DT files, which don't have
+> output port. I think you need to add output_port_optional flag to
+> dw_hdmi_plat_data and still return 0 from dw_hdmi_parse_dt() if the flag
+> is set, but there is no remote node.
+>=20
+> Last, but not least, this changes behaviour of the connector.
+> dw_hdmi_connector_create() implements CEC support, handles
+> ycbcr_420_allowed, HDR metadata, etc.
 
-Thank you for the patch.
+Mh, I was suspecting the same, but I couldn't see any regression regarding =
+CEC.
+Maybe the change is not doing what it is supposed to do...
+I'll check again on Monday.
 
-On Fri, Oct 18, 2024 at 09:45:52AM +0200, Geert Uytterhoeven wrote:
-> Each bridge instance creates up to four auxiliary devices with different
-> names.  However, their IDs are always zero, causing duplicate filename
-> errors when a system has multiple bridges:
-> 
->     sysfs: cannot create duplicate filename '/bus/auxiliary/devices/ti_sn65dsi86.gpio.0'
-> 
-> Fix this by using a unique instance ID per bridge instance.
+Best regards,
+Alexander
 
-Isn't this something that should be handled by the AUX core ? The code
-below would otherwise need to be duplicated by all drivers, which seems
-a burden we should avoid.
+> We are slowly moving towards the supporting all of this in bridge
+> connector via the HDMI Connector framework, but this is not
+> implemented for now.
+>=20
+> >  	plat_data->mode_valid =3D imx8mp_hdmi_mode_valid;
+> >  	plat_data->phy_ops =3D &imx8mp_hdmi_phy_ops;
+> >  	plat_data->phy_name =3D "SAMSUNG HDMI TX PHY";
+>=20
+>=20
 
-> Fixes: bf73537f411b0d4f ("drm/bridge: ti-sn65dsi86: Break GPIO and MIPI-to-eDP bridge into sub-drivers")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> /sys/bus/auxiliary/devices
-> ├── ti_sn65dsi86.gpio.0
-> ├── ti_sn65dsi86.pwm.0
-> ├── ti_sn65dsi86.aux.0
-> ├── ti_sn65dsi86.bridge.0
-> ├── ti_sn65dsi86.gpio.1
-> ├── ti_sn65dsi86.pwm.1
-> ├── ti_sn65dsi86.aux.1
-> └── ti_sn65dsi86.bridge.1
-> ---
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 24 ++++++++++++++++++++++++
->  1 file changed, 24 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> index 9e31f750fd889745..8f6ac48aefdb70b3 100644
-> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> @@ -13,6 +13,7 @@
->  #include <linux/gpio/consumer.h>
->  #include <linux/gpio/driver.h>
->  #include <linux/i2c.h>
-> +#include <linux/idr.h>
->  #include <linux/iopoll.h>
->  #include <linux/module.h>
->  #include <linux/of_graph.h>
-> @@ -168,6 +169,7 @@
->   * @pwm_enabled:  Used to track if the PWM signal is currently enabled.
->   * @pwm_pin_busy: Track if GPIO4 is currently requested for GPIO or PWM.
->   * @pwm_refclk_freq: Cache for the reference clock input to the PWM.
-> + * @id:           Unique instance ID
->   */
->  struct ti_sn65dsi86 {
->  	struct auxiliary_device		*bridge_aux;
-> @@ -202,8 +204,11 @@ struct ti_sn65dsi86 {
->  	atomic_t			pwm_pin_busy;
->  #endif
->  	unsigned int			pwm_refclk_freq;
-> +	int				id;
->  };
->  
-> +static DEFINE_IDA(ti_sn65dsi86_ida);
-> +
->  static const struct regmap_range ti_sn65dsi86_volatile_ranges[] = {
->  	{ .range_min = 0, .range_max = 0xFF },
->  };
-> @@ -488,6 +493,7 @@ static int ti_sn65dsi86_add_aux_device(struct ti_sn65dsi86 *pdata,
->  		return -ENOMEM;
->  
->  	aux->name = name;
-> +	aux->id = pdata->id;
->  	aux->dev.parent = dev;
->  	aux->dev.release = ti_sn65dsi86_aux_device_release;
->  	device_set_of_node_from_dev(&aux->dev, dev);
-> @@ -1889,6 +1895,13 @@ static int ti_sn65dsi86_parse_regulators(struct ti_sn65dsi86 *pdata)
->  				       pdata->supplies);
->  }
->  
-> +static void ti_sn65dsi86_devm_ida_free(void *data)
-> +{
-> +	struct ti_sn65dsi86 *pdata = data;
-> +
-> +	ida_free(&ti_sn65dsi86_ida, pdata->id);
-> +}
-> +
->  static int ti_sn65dsi86_probe(struct i2c_client *client)
->  {
->  	struct device *dev = &client->dev;
-> @@ -1903,6 +1916,17 @@ static int ti_sn65dsi86_probe(struct i2c_client *client)
->  	pdata = devm_kzalloc(dev, sizeof(struct ti_sn65dsi86), GFP_KERNEL);
->  	if (!pdata)
->  		return -ENOMEM;
-> +
-> +	ret = ida_alloc(&ti_sn65dsi86_ida, GFP_KERNEL);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	pdata->id = ret;
-> +
-> +	ret = devm_add_action_or_reset(dev, ti_sn65dsi86_devm_ida_free, pdata);
-> +	if (ret)
-> +		return ret;
-> +
->  	dev_set_drvdata(dev, pdata);
->  	pdata->dev = dev;
->  
 
--- 
-Regards,
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
 
-Laurent Pinchart
+
