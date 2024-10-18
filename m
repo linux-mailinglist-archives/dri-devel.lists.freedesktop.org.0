@@ -2,81 +2,114 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7867C9A4218
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Oct 2024 17:16:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BD319A4235
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Oct 2024 17:22:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 808C310E078;
-	Fri, 18 Oct 2024 15:16:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2678510E951;
+	Fri, 18 Oct 2024 15:22:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="qlQUVIsD";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="fq7uaf0m";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com
- [209.85.160.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C26A10E95D
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2024 15:16:49 +0000 (UTC)
-Received: by mail-oa1-f45.google.com with SMTP id
- 586e51a60fabf-2689e7a941fso1151935fac.3
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2024 08:16:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1729264608; x=1729869408; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=jAytm+vTrrtYhXgD+UllQFjS/zTHJKwJ78TI6ibsmew=;
- b=qlQUVIsDQbpNsT/N5N3fJnGZDDMELjFXfYFvoO4vAh3Ipu3hiUhJxgSHymaLzHfsDj
- sxp7tVvmyg1e3UPmBxgTm9mD9+gXgdXypIVyKl+DDYlOSn0WchzozeDeVEwq9j7mG+ep
- OUwcWIm0DKsftb9QC5+WAA35rDMbs+pHL+92GpgqtmCPQcy10TGAqbIlPNW6tkxeTnq7
- cEW7G6oB42HGUdR/EKLb9Q45wysE1nkS+FoL3mtN4wWlV74z3Dap89NlH7aAYB9GcynB
- rALZFvBuUVUJvcZ6pfIVsNgwMBGM1y1NH28DDs3qBdAxbErh+bQWroM4uDlY/G7cPlYj
- 9x7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729264608; x=1729869408;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=jAytm+vTrrtYhXgD+UllQFjS/zTHJKwJ78TI6ibsmew=;
- b=HX3J3IFCcXSCqe8aUQUqEe2pHVE4EpBJtpwnYK02PXVP5AWEzYAj5bH4HY0IdpIUDK
- gtTTLvo7xj0CLErpljPbqblWwF141AtOBNn/0pC1S9CTZEWi8zWip6kLkyiCXzXJIHgk
- pksHlVWI+XrMgFllelEOECvkWCQtLqvNBFQZ27eWC8cOt/5Vt3vsUmZl6FKebmRqTIWZ
- O9KMft034Fmzkx6quTeg1St1Uc9GhxwO4DBtSapbEIlGSao6asQm4MkOmTr4b6MWCQt9
- +3zeziU2vQqQCyPUXtAiSVCMbfWFVWOn1EcEoSnAqm3VEU98Slmk1T6qahJIiJ34xyOh
- Ut/g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW2qNObAj04SJbJ+xikDurcBVoG/elIJ5vDoK3cJcT5F3+DSX3SOOSCWuIH556zoO2C32dRTx/KIWY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzxxKPD1zmNn/D4PvNWmpJoFd46LosilXFiGn9iHeEB5KNLghwl
- +jDiG89Sj2yuZt84gXKuv0vHCQ3Cktq/7GreCi81BssSpH8fqw3hwv5T0DuGFErl+F2uF7tI2qB
- 4myJMw1Et0184v2EBb2SG6Xf1HGjVCO+4Im10nQ==
-X-Google-Smtp-Source: AGHT+IGolIsaMF++Cy6m1kdkSWxRaRgoSmJ+SJAAIuYVSNeW7g86RMg1ygCv7BHSNEhaFysoGwUOjmgwMXq354t4fEo=
-X-Received: by 2002:a05:6870:1594:b0:288:2906:6877 with SMTP id
- 586e51a60fabf-2892c5b26d6mr2532230fac.45.1729264608454; Fri, 18 Oct 2024
- 08:16:48 -0700 (PDT)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F66210E951
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2024 15:21:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+ s=s31663417; t=1729264913; x=1729869713; i=deller@gmx.de;
+ bh=PX6VK8Wu/KjUGeHBXCFkx/jxNlw2dzyABWxlMNKiUGE=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+ References:From:In-Reply-To:Content-Type:
+ Content-Transfer-Encoding:cc:content-transfer-encoding:
+ content-type:date:from:message-id:mime-version:reply-to:subject:
+ to;
+ b=fq7uaf0mJQ5SPC4lINmz+MbT5dstJ7gz/KUVjO5A2B2f/t7L7d+sf5NTDVRvQyog
+ pOEfHA9U4o6Ly06RaSB6cXJirqFyEDCBwq9164tG1vIiY2aNL8uG1PgSFHN5DUmf3
+ GQtgSB5jL2QroZaIXgadkKvpsoDEQ2EHMkCkWM7BGdfSVwFWejdXBZJa3LBxfDVoB
+ mtjJEHKBNvsrA3UywXqwyM+q/I5W5eiXKRZFUL7qyPcY3sjNrZ7bfoBFwfoZEOH18
+ sK0Vhg2deLJUio9rCi1ef03tMbFimJnyj1Zqd/NWQYpcz8wskOmw5Y76mTVwSK3ZE
+ uOohpcvDVX70ll7nZg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.55] ([109.250.63.79]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1N3KPg-1u0tyk41Kc-00uz0y; Fri, 18
+ Oct 2024 17:21:53 +0200
+Message-ID: <42e4e6b4-05c1-4e12-b6d6-d07b7d44c592@gmx.de>
+Date: Fri, 18 Oct 2024 17:21:51 +0200
 MIME-Version: 1.0
-References: <20241015101716.740829-1-jens.wiklander@linaro.org>
- <CAFA6WYOCDf6RqHr7E9nN7DQdoq+ZDwFO=Y0yB+fzit2GwzDkGg@mail.gmail.com>
-In-Reply-To: <CAFA6WYOCDf6RqHr7E9nN7DQdoq+ZDwFO=Y0yB+fzit2GwzDkGg@mail.gmail.com>
-From: Jens Wiklander <jens.wiklander@linaro.org>
-Date: Fri, 18 Oct 2024 17:16:36 +0200
-Message-ID: <CAHUa44Fonf1RdEJ-_SmBS_9+QZmhJ-O0UCi_FNm1xs655oM2Tw@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 0/2] TEE subsystem for restricted dma-buf
- allocations
-To: Sumit Garg <sumit.garg@linaro.org>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org, 
- Olivier Masse <olivier.masse@nxp.com>,
- Thierry Reding <thierry.reding@gmail.com>, 
- Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, 
- John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- azarrabi@qti.qualcomm.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] fbdev/wm8505fb: select CONFIG_FB_IOMEM_FOPS
+To: Arnd Bergmann <arnd@kernel.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Arnd Bergmann <arnd@arndb.de>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20241018151258.3574617-1-arnd@kernel.org>
+Content-Language: en-US
+From: Helge Deller <deller@gmx.de>
+Autocrypt: addr=deller@gmx.de; keydata=
+ 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
+In-Reply-To: <20241018151258.3574617-1-arnd@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:VYMOrfsD/aY7fho3C9Po9tnM74xgqJjn7ICLLmnBgadTxV1eYHF
+ IDyzeA3FKO7UBLCdhx9cp6S/tos15tRFpx6McZX+s8cZ151Z4WODbe+VPh6ZSVuOgdNHzQl
+ P+WhYm8HXwKhBtuZVl/TRPeRcjzmhPuWfKBFy8QYPcXYUtd8mgSJroVZh0Sbf2bEZFuuVAl
+ fXZcGEW+LSsaG9Yy+08Ww==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:H9VPzDtQf0U=;nSRfwufOexpp/GC5PO/xx8IseYh
+ j2NuEWV7+uG+ypwTwLu5Ytptybjbj6xTaTwK5qGG6uT8ZCnLztXcgQAIBiTqObium37PZarIR
+ I0WckGx5apNQA7PT6CwIVa0uUL8cBvEivviBeucaMZTM6uqAR3SCEOVVcRd/xGN7rC0YokaGv
+ Z1xGEIkNOfuEmcgsJHCFHFQlolZVBavn0RshWthoB31zhh4XemErBR65xAjUZQlNvDeAN6iNI
+ u0V9097nBqa+Mfl0CotlgqvEAOVawWpbQKFkPzUyhLrmTUvIfyYpe7a+UnSZtG0KU5l7Ph201
+ 9ssDccI7XdyVHxImFesKi+pDnfR5mTsP0CIJ7O5rE2GwVP9kpYDLLR3PNu2xSKwt4xOXMMi4J
+ IJapEgIQxseA2J7yxA50Q/Xqny//I4dP5n2AXKgz3sbIs+SgxfAntX5m9vN50rIZW4W5P+1zy
+ WW2guctJFAYkor6v+eoFRK9r3jdIxNfiFCNNdtROvRfz4+oHALBUnRPVZt2dO2XrmQIQLKHst
+ 6z51JUOgDhgQYl0DbySpJIJttgujdjcoo1+YifLqnWZk+v91kbSlgTYWjVOYrmhKBipre+tRE
+ B1wY275/OREU3tbhWP2EJUxGLI2ZKMp8mKa5U+VP7pZd38JPvxSnNSM0s32eyHXRPrJCRINrR
+ z5T9VqzbEn8zch52Us8cTxeKzNZMMEA4HMI/RzDf/TMJ4JV0qdxA1COFVoWbfoRuUb00Oh+CO
+ WJmJZwl/2bOUL38wAELkajVWLap+9hOawulTAfcX88feh9WXCuAy+X7hErAX+nK+voQB/lfyb
+ NB5CwfDmHWv0n+Ay1T5uexIQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,142 +125,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 17, 2024 at 12:46=E2=80=AFPM Sumit Garg <sumit.garg@linaro.org>=
- wrote:
+On 10/18/24 17:12, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 >
-> Hi Jens,
+> The fb_io_mmap() function is used in the file operations but
+> not enabled in all configurations unless FB_IOMEM_FOPS gets
+> selected:
 >
-> On Tue, 15 Oct 2024 at 15:47, Jens Wiklander <jens.wiklander@linaro.org> =
-wrote:
-> >
-> > Hi,
-> >
-> > This patch set allocates the restricted DMA-bufs via the TEE subsystem.
-> > This a complete rewrite compared to the previous patch set [1], and oth=
-er
-> > earlier proposals [2] and [3] with a separate restricted heap.
-> >
-> > The TEE subsystem handles the DMA-buf allocations since it is the TEE
-> > (OP-TEE, AMD-TEE, TS-TEE, or a future QTEE) which sets up the restricti=
-ons
-> > for the memory used for the DMA-bufs.
+> ld.lld-20: error: undefined symbol: fb_io_mmap
+>>>> referenced by wm8505fb.c
+>>>>                drivers/video/fbdev/wm8505fb.o:(wm8505fb_ops) in archi=
+ve vmlinux.a
 >
-> Thanks for proposing this interface. IMHO, this solution will address
-> many concerns raised for the prior vendor specific DMA heaps approach
-> [1] as follows:
->
-> 1. User-space interacting with the TEE subsystem for restricted memory
-> allocation makes it obvious that the returned DMA buf can't be
-> directly mapped by the CPU.
->
-> 2. All the low level platform details gets abstracted out for
-> user-space regarding how the platform specific memory restriction
-> comes into play.
->
-> 3. User-space doesn't have to deal with holding 2 DMA buffer
-> references, one after allocation from DMA heap and other for
-> communication with the TEE subsystem.
->
-> 4. Allows for better co-ordination with other kernel subsystems
-> dealing with restricted DMA-bufs.
->
-> [1] https://lore.kernel.org/linux-arm-kernel/20240515112308.10171-1-yong.=
-wu@mediatek.com/
->
-> >
-> > I've added a new IOCTL, TEE_IOC_RSTMEM_ALLOC, to allocate the restricte=
-d
-> > DMA-bufs. This new IOCTL reaches the backend TEE driver, allowing it to
-> > choose how to allocate the restricted physical memory.
-> >
-> > TEE_IOC_RSTMEM_ALLOC is quite similar to TEE_IOC_SHM_ALLOC so it's temp=
-ting
-> > to extend TEE_IOC_SHM_ALLOC with two new flags
-> > TEE_IOC_SHM_FLAG_SECURE_VIDEO and TEE_IOC_SHM_FLAG_SECURE_TRUSTED_UI fo=
-r
-> > the same feature. However, it might be a bit confusing since
-> > TEE_IOC_SHM_ALLOC only returns an anonymous file descriptor, but
-> > TEE_IOC_SHM_FLAG_SECURE_VIDEO and TEE_IOC_SHM_FLAG_SECURE_TRUSTED_UI wo=
-uld
-> > return a DMA-buf file descriptor instead. What do others think?
->
-> I think it's better to keep it as a separate IOCTL given the primary
-> objective of buffer allocation and it's usage.
+> Fixes: 11754a504608 ("fbdev/wm8505fb: Initialize fb_ops to fbdev I/O-mem=
+ory helpers")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-Agreed.
+applied.
+Thanks!
+Helge
 
-Thanks,
-Jens
-
->
-> -Sumit
->
-> >
-> > This can be tested on QEMU with the following steps:
-> > repo init -u https://github.com/jenswi-linaro/manifest.git -m qemu_v8.x=
-ml \
-> >         -b prototype/sdp-v2
-> > repo sync -j8
-> > cd build
-> > make toolchains -j4
-> > make all -j$(nproc)
-> > make run-only
-> > # login and at the prompt:
-> > xtest --sdp-basic
-> >
-> > https://optee.readthedocs.io/en/latest/building/prerequisites.html
-> > list dependencies needed to build the above.
-> >
-> > The tests are pretty basic, mostly checking that a Trusted Application =
-in
-> > the secure world can access and manipulate the memory. There are also s=
-ome
-> > negative tests for out of bounds buffers etc.
-> >
-> > Thanks,
-> > Jens
-> >
-> > [1] https://lore.kernel.org/lkml/20240830070351.2855919-1-jens.wiklande=
-r@linaro.org/
-> > [2] https://lore.kernel.org/dri-devel/20240515112308.10171-1-yong.wu@me=
-diatek.com/
-> > [3] https://lore.kernel.org/lkml/20220805135330.970-1-olivier.masse@nxp=
-.com/
-> >
-> > Changes since the V1 RFC:
-> > * Based on v6.11
-> > * Complete rewrite, replacing the restricted heap with TEE_IOC_RSTMEM_A=
-LLOC
-> >
-> > Changes since Olivier's post [2]:
-> > * Based on Yong Wu's post [1] where much of dma-buf handling is done in
-> >   the generic restricted heap
-> > * Simplifications and cleanup
-> > * New commit message for "dma-buf: heaps: add Linaro restricted dmabuf =
-heap
-> >   support"
-> > * Replaced the word "secure" with "restricted" where applicable
-> >
-> > Jens Wiklander (2):
-> >   tee: add restricted memory allocation
-> >   optee: support restricted memory allocation
-> >
-> >  drivers/tee/Makefile              |   1 +
-> >  drivers/tee/optee/core.c          |  21 ++++
-> >  drivers/tee/optee/optee_private.h |   6 +
-> >  drivers/tee/optee/optee_smc.h     |  35 ++++++
-> >  drivers/tee/optee/smc_abi.c       |  45 ++++++-
-> >  drivers/tee/tee_core.c            |  33 ++++-
-> >  drivers/tee/tee_private.h         |   2 +
-> >  drivers/tee/tee_rstmem.c          | 200 ++++++++++++++++++++++++++++++
-> >  drivers/tee/tee_shm.c             |   2 +
-> >  drivers/tee/tee_shm_pool.c        |  69 ++++++++++-
-> >  include/linux/tee_core.h          |   6 +
-> >  include/linux/tee_drv.h           |   9 ++
-> >  include/uapi/linux/tee.h          |  33 ++++-
-> >  13 files changed, 455 insertions(+), 7 deletions(-)
-> >  create mode 100644 drivers/tee/tee_rstmem.c
-> >
-> > --
-> > 2.43.0
-> >
