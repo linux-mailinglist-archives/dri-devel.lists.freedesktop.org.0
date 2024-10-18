@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 249449A3BC2
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Oct 2024 12:40:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99BD49A3BC3
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Oct 2024 12:41:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3F3B10E351;
-	Fri, 18 Oct 2024 10:40:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16C4A10E8E4;
+	Fri, 18 Oct 2024 10:41:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="n7vbtedh";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="DZOcHvVP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77C4110E351
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2024 10:40:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E1C710E8E4
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2024 10:41:02 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id B8132A431D8;
- Fri, 18 Oct 2024 10:40:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3598C4CEC3;
- Fri, 18 Oct 2024 10:40:31 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 67C53A41033;
+ Fri, 18 Oct 2024 10:40:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA9EEC4CEC3;
+ Fri, 18 Oct 2024 10:41:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1729248032;
- bh=ExXbrLYGzfMwbVsdet+ymRsPwBBSokUMzEXgBO3JpCY=;
+ s=korg; t=1729248061;
+ bh=smLLhFZpVbhSgmjJkR2cTxEEdhzF5Ihg5mRdy5HmSgU=;
  h=Subject:To:Cc:From:Date:From;
- b=n7vbtedhTFuv9IxLLD0OqhdGbiRoels0TdHzMqmYmxR6Kb+iOghVoY0EXFH/9xCQV
- kq8CYV0c4iBnWNDTgEqlIh/IUPEnl4VJeNgzchT+PJA1Dn25f8f4CGkbXN7B/D/NWj
- LHPTnADn8QGfzdxvQ+uNbgfeYXPqeYVpfnzJg0dg=
+ b=DZOcHvVPTQG1oyPe5yLQdPROaW9dGsp4xmuDix+KpCAkE1Qa88iQZNGyeJ5uvefI/
+ OtKLXah1rzFFaMv3MbVANKCLI2CQjPyqxqOzrdiNS5okyFlN5gqNKF9HaNf8ISZxrA
+ s5Q7bi/GLEJym8VBMS8vtBL6ipJ3vE3I7OpC3eOQ=
 Subject: Patch "drm/shmem-helper: Fix BUG_ON() on mmap(PROT_WRITE,
- MAP_PRIVATE)" has been added to the 5.15-stable tree
+ MAP_PRIVATE)" has been added to the 6.1-stable tree
 To: airlied@gmail.com, daniel.vetter@ffwll.ch, daniel@ffwll.ch,
  dri-devel@lists.freedesktop.org, eric@anholt.net, gregkh@linuxfoundation.org,
  jacek.lawrynowicz@linux.intel.com, karol.wachowski@intel.com,
@@ -36,8 +36,8 @@ To: airlied@gmail.com, daniel.vetter@ffwll.ch, daniel@ffwll.ch,
  robh@kernel.org, sherry.yang@oracle.com, tzimmermann@suse.de
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
-Date: Fri, 18 Oct 2024 12:40:20 +0200
-Message-ID: <2024101820-shabby-ahead-044a@gregkh>
+Date: Fri, 18 Oct 2024 12:40:33 +0200
+Message-ID: <2024101833-vision-education-0571@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -63,12 +63,12 @@ This is a note to let you know that I've just added the patch titled
 
     drm/shmem-helper: Fix BUG_ON() on mmap(PROT_WRITE, MAP_PRIVATE)
 
-to the 5.15-stable tree which can be found at:
+to the 6.1-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      drm-shmem-helper-fix-bug_on-on-mmap-prot_write-map_private.patch
-and it can be found in the queue-5.15 subdirectory.
+and it can be found in the queue-6.1 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -123,7 +123,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
 +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -607,6 +607,9 @@ int drm_gem_shmem_mmap(struct drm_gem_sh
+@@ -638,6 +638,9 @@ int drm_gem_shmem_mmap(struct drm_gem_sh
  		return ret;
  	}
  
@@ -137,4 +137,4 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from karol.wachowski@intel.com are
 
-queue-5.15/drm-shmem-helper-fix-bug_on-on-mmap-prot_write-map_private.patch
+queue-6.1/drm-shmem-helper-fix-bug_on-on-mmap-prot_write-map_private.patch
