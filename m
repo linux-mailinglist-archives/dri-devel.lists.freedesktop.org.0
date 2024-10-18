@@ -2,81 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAC1E9A48AA
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Oct 2024 23:01:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 699519A48B2
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Oct 2024 23:07:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B2E410E9A2;
-	Fri, 18 Oct 2024 21:01:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7EE5910E9A3;
+	Fri, 18 Oct 2024 21:07:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="UNVT3fJd";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="VwuPK+vR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3749910E9A2
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2024 21:01:51 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49ICGTe5020850;
- Fri, 18 Oct 2024 21:01:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- pDHC/e17+8DUmuZglJqWLj+6wKJ0YGpCOEYVA4nBZ+Q=; b=UNVT3fJd+z+Y0UXX
- fCVjVaOXT6FMsit1CKxgO1hpAC13008BfYBGZhqLGyMiUI4czKk2Gz52qkb/PzEm
- 9Gmt5Kn/m4CmM8fUcxtgslpLR7FcoztFDPY/2v+gu4vmWq8da+McUXfB69kxLFU2
- F9VAG+goaHZmyOgqM1eDKLwjnTi6QHmX3S933SbxTHFFLPzDExkU7Gdq8aFx78fR
- Mp0QI81+NW1FgKLyeAkZwANk1lZZIjdc47V7l873xtp+rwm/7iSzVds0wcU1vPqr
- wFzh0LaRNfNVJd5FpnjSAiRsA+2Ysi3CxHnMLIY9KnT4e9vEBzYNd68l89IG8BsD
- ayJ2iA==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42bexpawq5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 18 Oct 2024 21:01:47 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49IL1kLC010399
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 18 Oct 2024 21:01:46 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 18 Oct
- 2024 14:01:45 -0700
-Message-ID: <1c16640f-0bc3-2692-910f-09ea5869a5b6@quicinc.com>
-Date: Fri, 18 Oct 2024 15:01:45 -0600
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
+ [209.85.216.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82CA810E9A7;
+ Fri, 18 Oct 2024 21:07:35 +0000 (UTC)
+Received: by mail-pj1-f54.google.com with SMTP id
+ 98e67ed59e1d1-2e2da8529e1so357322a91.1; 
+ Fri, 18 Oct 2024 14:07:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1729285655; x=1729890455; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=GilArzcu4Hbn+I4UKAApN9Owi+SU2WsB5zAzUG0U1kQ=;
+ b=VwuPK+vRui4gw3z08Wy522i6ifU8HEURM0nKuQPD7XWBQYsQOZCtBR4mF8dKK4jJaT
+ lYYlZX0AdhvxrO4BPw1aT6nUyF9Hr45SnkLK7n22pipM97duXp0QBsfPR8vJLtH0ukXj
+ LnxLCuFk0cAU5yvG4NQibIIxoh+is383c1LGb1yEzlxQZTuC/VzBtAv7bZbxzJzvyCnn
+ PQQBgcLgNT4LmRW36LGET8QJDeM2au2tm57i1xnIpYCHpLWlPxR2gso60ZmOsZd9fYHO
+ pbF/PaGsGsLYvvJvzBO1LubeNFnr3JSMrb0756fCtbbEVrpV08jDWdrPCNBkervE8UH5
+ W0Vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1729285655; x=1729890455;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=GilArzcu4Hbn+I4UKAApN9Owi+SU2WsB5zAzUG0U1kQ=;
+ b=MW/atw/JTpso3vPBCZNvHkrV/Xn9hoq4oKRBNn4QW1P2EE+tIZ3IkUlbeTaZDllpt6
+ qri2Ne/j2J6Jlesm7iMu/BjspTDvy90Zz9PuwHER+QHb7VG0pbpUzApiQoljde0pzj/G
+ HiaaazpvD8TMyeN6RcNpsp8MkwgSihp7Rd+BaWSyODqOhjHivFbkPygTZM7cts12g98m
+ nj0r92TfQGI72Z6DYWcsY5OSU0lYd5yFMrN4J1dAuX0GxYVKVRWhUq8bpmCdt6D1Jiav
+ cSJwpu+z/v+H6m73/lkQTNcAYSYqQrAlME3XI92gblQefGXw67aJT7YHn96P2+ZmQwUO
+ xAZQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU7OTeD7teN3x+0DUjTpMk92cTQBKF3sNYyc7wsx5os2knY5jA3DE+8fYh274GfcYbEeitPfucllcY=@lists.freedesktop.org,
+ AJvYcCW/wh6BI2CjDQH4DeH1yN7vewB8XpNQmdNhZub1OT16Nv4MdWlum92cFJamfPRLpEkkjFFcKF64nLg=@lists.freedesktop.org,
+ AJvYcCXGSByGWUniqzSIo1mAoT63CQeRCioI29WEuw6RisylzkZDUKZnsM8AXgWugWU8LrGQxUIuEAzIwmFl@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyA+VTJ3hlMNrdWmRDYBCp5hZ9Pw//UzmrcbOB5McU3a1CBFmzj
+ wdOqPUPIADKtdya/rLgSr5sq98BgW8Pu1QJglvieZHRQhyKbpuG+PCqhzWLxtg/NiudM1Xb7UBB
+ /ME1QkVm1PVq+V9CJHvrcgtCX7eg29g==
+X-Google-Smtp-Source: AGHT+IFwr7vwyC0hDdtyxQgt8YmggDPsbKGu0sdvg54UaQ0r5Dm5gv6GH/d4TyHy+/nYRP9nYoWc1g99caCbKP4i6QI=
+X-Received: by 2002:a17:90a:1784:b0:2e2:da69:e3fa with SMTP id
+ 98e67ed59e1d1-2e5616c5312mr2012101a91.2.1729285654958; Fri, 18 Oct 2024
+ 14:07:34 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH V4 09/10] accel/amdxdna: Add error handling
-Content-Language: en-US
-To: Lizhi Hou <lizhi.hou@amd.com>, <ogabbay@kernel.org>,
- <dri-devel@lists.freedesktop.org>
-CC: <linux-kernel@vger.kernel.org>, <min.ma@amd.com>, <max.zhen@amd.com>,
- <sonal.santan@amd.com>, <king.tam@amd.com>
-References: <20241011231244.3182625-1-lizhi.hou@amd.com>
- <20241011231244.3182625-10-lizhi.hou@amd.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20241011231244.3182625-10-lizhi.hou@amd.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: 3d8QqqbVV7ximTssG3lBjpEsrs6mGESp
-X-Proofpoint-ORIG-GUID: 3d8QqqbVV7ximTssG3lBjpEsrs6mGESp
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 mlxscore=0
- clxscore=1015 spamscore=0 lowpriorityscore=0 mlxlogscore=999 adultscore=0
- suspectscore=0 priorityscore=1501 impostorscore=0 malwarescore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2410180134
+References: <20240930073845.347326-1-raag.jadav@intel.com>
+ <20240930073845.347326-2-raag.jadav@intel.com>
+ <ed8cb1e9-df05-44a7-9088-90b3ee8dce85@igalia.com> <ZxJ3DJWY9Lsc9Mn4@intel.com>
+ <CADnq5_M62YZRvBT7sQwrZTiHrUsifaqqgrWOD_z+YY=EiBtEcA@mail.gmail.com>
+ <3fac9971-8d26-4d52-badb-2b14b3f84263@igalia.com>
+In-Reply-To: <3fac9971-8d26-4d52-badb-2b14b3f84263@igalia.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 18 Oct 2024 17:07:22 -0400
+Message-ID: <CADnq5_PmHnYDvQpGNCF_3xP0a84EKsEuMqrj0MuUC=TyKTTrDg@mail.gmail.com>
+Subject: Re: [PATCH v7 1/5] drm: Introduce device wedged event
+To: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>, Raag Jadav <raag.jadav@intel.com>, 
+ intel-xe@lists.freedesktop.org, thomas.hellstrom@linux.intel.com, 
+ simona@ffwll.ch, intel-gfx@lists.freedesktop.org, 
+ joonas.lahtinen@linux.intel.com, dri-devel@lists.freedesktop.org, 
+ himal.prasad.ghimiray@intel.com, lucas.demarchi@intel.com, 
+ tursulin@ursulin.net, francois.dugast@intel.com, jani.nikula@linux.intel.com, 
+ airlied@gmail.com, aravind.iddamsetty@linux.intel.com, 
+ anshuman.gupta@intel.com, andi.shyti@linux.intel.com, 
+ matthew.d.roper@intel.com, andriy.shevchenko@linux.intel.com, 
+ lina@asahilina.net, kernel-dev@igalia.com, 
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,133 +95,116 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/11/2024 5:12 PM, Lizhi Hou wrote:
-> When there is a hardware error, the NPU firmware notifies the host through
-> a mailbox message. The message includes details of the error, such as the
-> tile and column indexes where the error occurred.
-> 
-> The driver starts a thread to handle the NPU error message. The thread
-> stops the clients which are using the column where error occurred. Then
-> the driver resets that column.
-> 
-> Co-developed-by: Min Ma<min.ma@amd.com>
-> Signed-off-by: Min Ma<min.ma@amd.com>
-> Signed-off-by: Lizhi Hou<lizhi.hou@amd.com>
-> ---
->   drivers/accel/amdxdna/Makefile       |   1 +
->   drivers/accel/amdxdna/aie2_error.c   | 356 +++++++++++++++++++++++++++
->   drivers/accel/amdxdna/aie2_message.c |  19 ++
->   drivers/accel/amdxdna/aie2_pci.c     |  32 +++
->   drivers/accel/amdxdna/aie2_pci.h     |   9 +
->   5 files changed, 417 insertions(+)
->   create mode 100644 drivers/accel/amdxdna/aie2_error.c
-> 
-> diff --git a/drivers/accel/amdxdna/Makefile b/drivers/accel/amdxdna/Makefile
-> index a688c378761f..ed6f87910880 100644
-> --- a/drivers/accel/amdxdna/Makefile
-> +++ b/drivers/accel/amdxdna/Makefile
-> @@ -2,6 +2,7 @@
->   
->   amdxdna-y := \
->   	aie2_ctx.o \
-> +	aie2_error.o \
->   	aie2_message.o \
->   	aie2_pci.o \
->   	aie2_psp.o \
-> diff --git a/drivers/accel/amdxdna/aie2_error.c b/drivers/accel/amdxdna/aie2_error.c
-> new file mode 100644
-> index 000000000000..d2787549f3b7
-> --- /dev/null
-> +++ b/drivers/accel/amdxdna/aie2_error.c
-> @@ -0,0 +1,356 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (C) 2023-2024, Advanced Micro Devices, Inc.
-> + */
-> +
-> +#include <drm/drm_cache.h>
-> +#include <drm/drm_device.h>
-> +#include <drm/drm_print.h>
-> +#include <drm/gpu_scheduler.h>
-> +#include <linux/dma-mapping.h>
-> +#include <linux/kthread.h>
-> +#include <linux/kernel.h>
-> +
-> +#include "aie2_msg_priv.h"
-> +#include "aie2_pci.h"
-> +#include "amdxdna_mailbox.h"
-> +#include "amdxdna_pci_drv.h"
-> +
-> +struct async_event {
-> +	struct amdxdna_dev_hdl		*ndev;
-> +	struct async_event_msg_resp	resp;
-> +	struct workqueue_struct		*wq;
-> +	struct work_struct		work;
-> +	u8				*buf;
-> +	dma_addr_t			addr;
-> +	u32				size;
-> +};
-> +
-> +struct async_events {
-> +	struct workqueue_struct		*wq;
-> +	u8				*buf;
-> +	dma_addr_t			addr;
-> +	u32				size;
-> +	u32				event_cnt;
-> +	struct async_event		event[] __counted_by(event_cnt);
-> +};
-> +
-> +/*
-> + * Below enum, struct and lookup tables are porting from XAIE util header file.
-> + *
-> + * Below data is defined by AIE device and it is used for decode error message
-> + * from the device.
-> + */
-> +
-> +enum aie_module_type {
-> +	AIE_MEM_MOD = 0,
-> +	AIE_CORE_MOD,
-> +	AIE_PL_MOD,
-> +};
-> +
-> +enum aie_error_category {
-> +	AIE_ERROR_SATURATION = 0,
-> +	AIE_ERROR_FP,
-> +	AIE_ERROR_STREAM,
-> +	AIE_ERROR_ACCESS,
-> +	AIE_ERROR_BUS,
-> +	AIE_ERROR_INSTRUCTION,
-> +	AIE_ERROR_ECC,
-> +	AIE_ERROR_LOCK,
-> +	AIE_ERROR_DMA,
-> +	AIE_ERROR_MEM_PARITY,
-> +	/* Unknown is not from XAIE, added for better category */
-> +	AIE_ERROR_UNKNOWN,
-> +};
-> +
-> +/* Don't pack, unless XAIE side changed */
-> +struct aie_error {
-> +	u8			row;
-> +	u8			col;
-> +	u32			mod_type;
-> +	u8			event_id;
-> +};
+On Fri, Oct 18, 2024 at 1:56=E2=80=AFPM Andr=C3=A9 Almeida <andrealmeid@iga=
+lia.com> wrote:
+>
+> Em 18/10/2024 12:31, Alex Deucher escreveu:
+> > On Fri, Oct 18, 2024 at 11:23=E2=80=AFAM Rodrigo Vivi <rodrigo.vivi@int=
+el.com> wrote:
+> >>
+> >> On Thu, Oct 17, 2024 at 04:16:09PM -0300, Andr=C3=A9 Almeida wrote:
+> >>> Hi Raag,
+> >>>
+> >>> Em 30/09/2024 04:38, Raag Jadav escreveu:
+> >>>> Introduce device wedged event, which will notify userspace of wedged
+> >>>> (hanged/unusable) state of the DRM device through a uevent. This is
+> >>>> useful especially in cases where the device is no longer operating a=
+s
+> >>>> expected even after a hardware reset and has become unrecoverable fr=
+om
+> >>>> driver context.
+> >>>>
+> >>>> Purpose of this implementation is to provide drivers a generic way t=
+o
+> >>>> recover with the help of userspace intervention. Different drivers m=
+ay
+> >>>> have different ideas of a "wedged device" depending on their hardwar=
+e
+> >>>> implementation, and hence the vendor agnostic nature of the event.
+> >>>> It is up to the drivers to decide when they see the need for recover=
+y
+> >>>> and how they want to recover from the available methods.
+> >>>>
+> >>>> Current implementation defines three recovery methods, out of which,
+> >>>> drivers can choose to support any one or multiple of them. Preferred
+> >>>> recovery method will be sent in the uevent environment as WEDGED=3D<=
+method>.
+> >>>> Userspace consumers (sysadmin) can define udev rules to parse this e=
+vent
+> >>>> and take respective action to recover the device.
+> >>>>
+> >>>>       =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
+> >>>>       Recovery method Consumer expectations
+> >>>>       =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
+> >>>>       rebind          unbind + rebind driver
+> >>>>       bus-reset       unbind + reset bus device + rebind
+> >>>>       reboot          reboot system
+> >>>>       =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
+> >>>>
+> >>>>
+> >>>
+> >>> I proposed something similar in the past: https://lore.kernel.org/dri=
+-devel/20221125175203.52481-1-andrealmeid@igalia.com/
+> >>>
+> >>> The motivation was that amdgpu was getting stuck after every GPU rese=
+t, and
+> >>> there was just a black screen. The uevent would then trigger a daemon=
+ to
+> >>> reset the compositor and getting things back together. As you can see=
+ in my
+> >>> thread, the feature was blocked in favor of getting better overall GP=
+U reset
+> >>> from the kernel side.
+> >>>
+> >>> Which kind of scenarios are making i915/xe the need to have userspace
+> >>> involvement? I tested a bunch of resets in i915 but never managed to =
+get the
+> >>> driver stuck.
+> >>
+> >> 2 scenarios:
+> >>
+> >> 1. Multiple levels of reset has failed and device was declared wedged.=
+ This is
+> >> rare indeed as the resets improved a lot.
+> >> 2. Debug case. We can boot the driver with option to declare device we=
+dged at
+> >> any timeout, so the device can be debugged.
+> >>
+> >>>
+> >>> For the bus-reset, amdgpu does that too, but it doesn't require users=
+pace
+> >>> intervention.
+> >>
+> >> How do you trigger that?
+> >
+> > What do you mean by bus reset?  I think Chrisitian is just referring
+> > to a full adapter reset (as opposed to a queue reset or something more
+> > fine grained).  Driver can reset the device via MMIO or firmware,
+> > depending on the device.  I think there are also PCI helpers for
+> > things like PCI FLR.
+> >
+>
+> I was referring to AMD_RESET_PCI:
+>
+> "Does a full bus reset using core Linux subsystem PCI reset and does a
+> secondary bus reset or FLR, depending on what the underlying hardware
+> supports."
+>
+> And that can be triggered by using `amdgpu_reset_method=3D5` as the modul=
+e
+> option.
+>
 
-This looks like it is a structure to decode data from an external 
-device.  Assuming that is so, the wrong types are used here.  Should be 
-the "__" types like "__u8", no?  Normal u8, etc are kernel internal only 
-types.
+That option doesn't actually do anything useful on most AMD GPUs.  We
+don't support FLR on most boards and SBR doesn't work once the driver
+has been loaded except for really old chips.  That said, internally
+these all end up being mode1 or mode2 resets which the driver can
+trigger directly and which are the defaults.
 
-> +
-> +struct aie_err_info {
-> +	u32			err_cnt;
-> +	u32			ret_code;
-> +	u32			rsvd;
-> +	struct aie_error	payload[] __counted_by(err_cnt);
-> +};
-> +
-> +struct aie_event_category {
-> +	u8			event_id;
-> +	enum aie_error_category category;
-> +};
-
+Alex
