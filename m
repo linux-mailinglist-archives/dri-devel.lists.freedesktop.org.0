@@ -2,84 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABD619A482E
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Oct 2024 22:35:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 984409A4865
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Oct 2024 22:45:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E74310E984;
-	Fri, 18 Oct 2024 20:35:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14A3010E1A6;
+	Fri, 18 Oct 2024 20:44:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Ixq2X3oO";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="DSgVihOz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
- [209.85.167.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7055010E984
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2024 20:35:36 +0000 (UTC)
-Received: by mail-lf1-f53.google.com with SMTP id
- 2adb3069b0e04-539e5c15fd3so2468576e87.3
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2024 13:35:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1729283734; x=1729888534; darn=lists.freedesktop.org;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=DkSqDVM+OnjF+v0+0ZQEDga6Q+ZMXwj1q1eJK3kt87E=;
- b=Ixq2X3oOPB2NNA7RQLviUmGBvwjYgnSGDj3zpnb0ZF8Mz+uGPzKrKjvk03cJac4rSE
- J/koEHR/vriRBBw2uSYM7JNFcTQlF2m6Us0bIQRHoVtmpd7E5K27ywxcG6GrsxwwNRcw
- vgAndte7+2R18YEvGz584rYHa3X+uz60UIkK5sR4JZHhQRmfkG0jTejSIe9u2JiqVoXS
- GqN0UXhp9UsMWMoSk6t+ULCFtEHwtqwmRn2g9W1CQMGBX+R6lx0e66JjGkoR/D3QCgRx
- QKG7CW1eCFOV/PzSBQTrDfqg48mEgy7I7pa19wrpzbJzKP8Wml4fIwuSmtbrv7Sjw/v2
- JGUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729283734; x=1729888534;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=DkSqDVM+OnjF+v0+0ZQEDga6Q+ZMXwj1q1eJK3kt87E=;
- b=DmR5bmexHDsIgDHJ/zJGFDDYaWsx13Bm8yNjPMoZrwqc05qEFH+9rjfXwIr082bUUM
- LDCZZR0aiUvQRqca/pn7Rsip3xJ5YzeG45NBO0L0opcyu1FIS2LqYilqDlQsx9rUzW3u
- wDg//Qu2Em8Uf7uV7cqCatNT6XSCI2JDcTllAujW1FAeCULU/XaO94auOxWZS7JWP+Gx
- mrrIaRG51Z0xrD/uLL9/0Rc8eb6O4uTWO6rWq5BraLm5bX1azc9g1o03jGVP/wr1Tj5h
- +f1tIn8NAtyHxRXMRHrdWIX9Q00hUyPjGxRVMPXzWezx5P1y9JppjDosD2IZQggCpkbS
- fDgQ==
-X-Gm-Message-State: AOJu0YxD1+5H4Z+NiVCYmX1MIxFBD3EGZ6zdcyg1pKO14X5sMZHEWedv
- 4A0L6R95RvzOXOfHlFRwi7Xqf16YO3A1qaKo+mPIFB74L47oauXrtHxPVpyDqkg=
-X-Google-Smtp-Source: AGHT+IHzYkuJZ6He3xwlqBtuptVarSRmqR+0hl1ibW2ueCQLRNIsql9cH5DCivezs4UNKzkdg1gvbg==
-X-Received: by 2002:a05:6512:3a93:b0:539:8df0:4d3f with SMTP id
- 2adb3069b0e04-53a15445cefmr2551963e87.40.1729283734514; 
- Fri, 18 Oct 2024 13:35:34 -0700 (PDT)
-Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53a152044adsm319315e87.193.2024.10.18.13.35.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Oct 2024 13:35:33 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 18 Oct 2024 23:35:30 +0300
-Subject: [PATCH] drm/fbdev: fix drm_fb_helper_deferred_io() build failure
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1D1510E1A6
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2024 20:44:56 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49I9dh3g019911;
+ Fri, 18 Oct 2024 20:44:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ djD97t/1pqdO0YvT1XfLWBgRvfISWNevVPNgZchv8oE=; b=DSgVihOz02yS+yx4
+ YrZSKDQLSwjoK5+Zq5wn3L4JpOdIghkrfhtMW80VCRGyhMQx1V+ZW0A0DaRSLoRU
+ Lfut+dN2QPs8PoAGZZzXgDTM4JDQ97IbWkhl4jzpPDsZEDMFlJNiITBmO6DhSu/C
+ CCKvChY0hPNntxEDCVsCrZgxziIxl64d5w3DYnfICIQTy5U6g1DvAmuPXMFiscUb
+ Xy7o83T4hseOwm1cSldAIAn/Pa0zD0auPHhKEuI1hbH3KFf88Fm0CwcYlxhKLnlY
+ PTk7a0QmIkuRGBkti1HqWa5uV3GyMav7lnQQOm1G/OB+FKItaSqk6pfOJMbQmKK6
+ OttK2w==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42b0rx5asr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 18 Oct 2024 20:44:53 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49IKiqiJ029692
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 18 Oct 2024 20:44:52 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 18 Oct
+ 2024 13:44:52 -0700
+Message-ID: <96bfcac0-603e-0cc8-b267-e9ba43fe913e@quicinc.com>
+Date: Fri, 18 Oct 2024 14:44:51 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH] accel/ivpu: Fix NOC firewall interrupt handling
+Content-Language: en-US
+To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ <dri-devel@lists.freedesktop.org>
+CC: <oded.gabbay@gmail.com>, Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>,
+ <stable@vger.kernel.org>
+References: <20241017144958.79327-1-jacek.lawrynowicz@linux.intel.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20241017144958.79327-1-jacek.lawrynowicz@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241018-fix-drm-deferred-v1-1-c33bf5d209b0@linaro.org>
-X-B4-Tracking: v=1; b=H4sIAJHGEmcC/x2MQQqAMAzAviI9W1hFpvMr4mFsVXtwSgciyP7u8
- BhI8kJmFc4wNS8o35LlTBWobSDsPm2MEitDZ7qeDI24yoNRD4y8sipHNBScczbQ4C3U7FKuzr+
- cl1I+kvcAz2IAAAA=
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jonathan Cavitt <jonathan.cavitt@intel.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1374;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=pKk163LMDVj6v54mfPGIRdSC85Ls7fSRSTyM5dZXEbA=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnEsaU4LCIhqwK2qU4tiDA2tygruguQJdK+imJc
- t/DCOHd0JeJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZxLGlAAKCRCLPIo+Aiko
- 1SrhCACLFFYBzpvpksP0UsaEaxLJSu1Llqw2vqRrWTtntnAKSGUVGkj4rugWxIq6348zsbxSTBL
- 8wp9JGXOm8Nz39ST3FBJEwIIrAtU6+yjVQvpmAE9cBrubxYTYI4JwheotPmBWy7xdF7DrY0rsjt
- G4iXtAjowJZE64QFkikieA+I3yB/n6pz7Kp2rO3n3mIOE/gO/NsgoXeSe/g0VQ2nOQI90R8wjoG
- X/heHdaoZv+D7GE93f4zcHJ5P4Ti4XhjgCV9d5FcgQf5w4/688TY1sX1yOWT28CqQKAU56tgSSI
- f5FoRwwvkz/pKtLVGuo4eQwPKi097e8MTD5vD5wJeiJhT4OA
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: zTuv5g5ayVBdMLwF2O79RCufW-aep9Hs
+X-Proofpoint-ORIG-GUID: zTuv5g5ayVBdMLwF2O79RCufW-aep9Hs
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 clxscore=1011
+ mlxscore=0 priorityscore=1501 spamscore=0 suspectscore=0 impostorscore=0
+ mlxlogscore=999 malwarescore=0 lowpriorityscore=0 adultscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410180132
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,43 +91,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The drm_fb_helper_deferred_io() uses struct fb_deferred_io_pageref,
-which isn't available without CONFIG_FB_DEFERRED_IO. Put the function
-under corresponding #ifdef to fix build failure if deferred I/O isn't
-enabled.
+On 10/17/2024 8:49 AM, Jacek Lawrynowicz wrote:
+> From: Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
+> 
+> The NOC firewall interrupt means that the HW prevented
+> unauthorized access to a protected resource, so there
+> is no need to trigger device reset in such case.
+> 
+> To facilitate security testing add firewall_irq_counter
+> debugfs file that tracks firewall interrupts.
+> 
+> Fixes: 8a27ad81f7d3 ("accel/ivpu: Split IP and buttress code")
+> Cc: <stable@vger.kernel.org> # v6.11+
+> Signed-off-by: Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
+> Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+> ---
+>   drivers/accel/ivpu/ivpu_debugfs.c | 9 +++++++++
+>   drivers/accel/ivpu/ivpu_hw.c      | 1 +
+>   drivers/accel/ivpu/ivpu_hw.h      | 1 +
+>   drivers/accel/ivpu/ivpu_hw_ip.c   | 5 ++++-
+>   4 files changed, 15 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/accel/ivpu/ivpu_debugfs.c b/drivers/accel/ivpu/ivpu_debugfs.c
+> index 8958145c49adb..8180b95ed69dc 100644
+> --- a/drivers/accel/ivpu/ivpu_debugfs.c
+> +++ b/drivers/accel/ivpu/ivpu_debugfs.c
+> @@ -116,6 +116,14 @@ static int reset_pending_show(struct seq_file *s, void *v)
+>   	return 0;
+>   }
+>   
+> +static int firewall_irq_counter_show(struct seq_file *s, void *v)
+> +{
+> +	struct ivpu_device *vdev = seq_to_ivpu(s);
+> +
+> +	seq_printf(s, "%d\n", atomic_read(&vdev->hw->firewall_irq_counter));
+> +	return 0;
+> +}
+> +
+>   static const struct drm_debugfs_info vdev_debugfs_list[] = {
+>   	{"bo_list", bo_list_show, 0},
+>   	{"fw_name", fw_name_show, 0},
+> @@ -125,6 +133,7 @@ static const struct drm_debugfs_info vdev_debugfs_list[] = {
+>   	{"last_bootmode", last_bootmode_show, 0},
+>   	{"reset_counter", reset_counter_show, 0},
+>   	{"reset_pending", reset_pending_show, 0},
+> +	{"firewall_irq_counter", firewall_irq_counter_show, 0},
+>   };
+>   
+>   static int dvfs_mode_get(void *data, u64 *dvfs_mode)
+> diff --git a/drivers/accel/ivpu/ivpu_hw.c b/drivers/accel/ivpu/ivpu_hw.c
+> index 09ada8b500b99..4e1054f3466e8 100644
+> --- a/drivers/accel/ivpu/ivpu_hw.c
+> +++ b/drivers/accel/ivpu/ivpu_hw.c
+> @@ -252,6 +252,7 @@ int ivpu_hw_init(struct ivpu_device *vdev)
+>   	platform_init(vdev);
+>   	wa_init(vdev);
+>   	timeouts_init(vdev);
+> +	atomic_set(&vdev->hw->firewall_irq_counter, 0);
+>   
+>   	return 0;
+>   }
+> diff --git a/drivers/accel/ivpu/ivpu_hw.h b/drivers/accel/ivpu/ivpu_hw.h
+> index dc5518248c405..fc4dbfc980c81 100644
+> --- a/drivers/accel/ivpu/ivpu_hw.h
+> +++ b/drivers/accel/ivpu/ivpu_hw.h
+> @@ -51,6 +51,7 @@ struct ivpu_hw_info {
+>   	int dma_bits;
+>   	ktime_t d0i3_entry_host_ts;
+>   	u64 d0i3_entry_vpu_ts;
+> +	atomic_t firewall_irq_counter;
 
-Fixes: 8058944f5226 ("drm/fbdev: Select fbdev I/O helpers from modules that require them")
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/drm_fb_helper.c | 2 ++
- 1 file changed, 2 insertions(+)
+Why atomic?
 
-diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-index d5e8994345bb..c9008113111b 100644
---- a/drivers/gpu/drm/drm_fb_helper.c
-+++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -697,6 +697,7 @@ void drm_fb_helper_damage_area(struct fb_info *info, u32 x, u32 y, u32 width, u3
- }
- EXPORT_SYMBOL(drm_fb_helper_damage_area);
- 
-+#ifdef CONFIG_FB_DEFERRED_IO
- /**
-  * drm_fb_helper_deferred_io() - fbdev deferred_io callback function
-  * @info: fb_info struct pointer
-@@ -740,6 +741,7 @@ void drm_fb_helper_deferred_io(struct fb_info *info, struct list_head *pagerefli
- 	}
- }
- EXPORT_SYMBOL(drm_fb_helper_deferred_io);
-+#endif
- 
- /**
-  * drm_fb_helper_set_suspend - wrapper around fb_set_suspend
-
----
-base-commit: 2063ca42486bc07b49bc145b5dfcb421f4deebaf
-change-id: 20241018-fix-drm-deferred-01c9996c17a6
-
-Best regards,
--- 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>   };
+>   
+>   int ivpu_hw_init(struct ivpu_device *vdev);
+> diff --git a/drivers/accel/ivpu/ivpu_hw_ip.c b/drivers/accel/ivpu/ivpu_hw_ip.c
+> index b9b16f4041434..029dd065614b2 100644
+> --- a/drivers/accel/ivpu/ivpu_hw_ip.c
+> +++ b/drivers/accel/ivpu/ivpu_hw_ip.c
+> @@ -1073,7 +1073,10 @@ static void irq_wdt_mss_handler(struct ivpu_device *vdev)
+>   
+>   static void irq_noc_firewall_handler(struct ivpu_device *vdev)
+>   {
+> -	ivpu_pm_trigger_recovery(vdev, "NOC Firewall IRQ");
+> +	atomic_inc(&vdev->hw->firewall_irq_counter);
+> +
+> +	ivpu_dbg(vdev, IRQ, "NOC Firewall interrupt detected, counter %d\n",
+> +		 atomic_read(&vdev->hw->firewall_irq_counter));
+>   }
+>   
+>   /* Handler for IRQs from NPU core */
 
