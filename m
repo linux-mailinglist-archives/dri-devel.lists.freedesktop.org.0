@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2D919A48C2
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Oct 2024 23:10:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBF329A48C1
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Oct 2024 23:10:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8ACD310E9BA;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BDE610E9B0;
 	Fri, 18 Oct 2024 21:10:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RpJpVlWW";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mWS1M0BY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 015C810E9AA;
- Fri, 18 Oct 2024 21:10:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27F2410E9B1;
+ Fri, 18 Oct 2024 21:10:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1729285840; x=1760821840;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=CSdOD2U5eijtsUahA+Onxv41UTOlcf16XCKGkQeIqoY=;
- b=RpJpVlWW6SS3o2/tZ+EvxOdK8tJ1aPjzfiuxYsroPpGrk35byG9ws8c8
- 1is7DxTpbExRtm5f9C4YRns9Dt4dFOkIWXr1+SoXZSaRPYSE9fyE6VFEX
- osz+ViAgKKCXT0PWOn2CuYl1o/sZFNTOCwHdXK9NLNz5H45Gz8yXRLIgf
- K9Ty3rk2JGNqNgk6kSADmw0M6gzdzUj7n/83cIzEak4O3Gc+NqgS8EPMa
- 7sfQXuH4juO3W7y2T2Z4YpnF16hXHoxXiZgncjQ7awwB7mVkwmDHRxhzQ
- yg6w49e1uzybtX9hX8TXK1lxNFbMO7JGRx+JaKY/1mY9IGeR37pGS67F9 Q==;
-X-CSE-ConnectionGUID: wkDwj1pARNmMKP6qjYHpDg==
-X-CSE-MsgGUID: ApyWpK5wTXyX0Mg/5Szupg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11229"; a="54241734"
-X-IronPort-AV: E=Sophos;i="6.11,214,1725346800"; d="scan'208";a="54241734"
+ bh=RqYbb/5kgM8RqJScYe4258g9LPWqoUfhryQi96wIhi4=;
+ b=mWS1M0BYk1+p+WBnX5YxCfvun9HeluWi7i70d9QzyShQCIxoJsr5+gqh
+ b4NvDfWcZHyz45LQNrFCmPlPPspJWD9hPRk4L0EXQv5owV3nJmwjGq9n3
+ aiRYasyQrhDIunRRDmAApMZBSqalk+M8dOULO806g5Gk2W0WTvBPsfsuV
+ +wvvynzo/quVJSwhO+e2fjBr2ZkZhpe4fzgK7IY8yBlCsggKMWUFOL081
+ ZZSaTI06KYLxNw/+FPQxBJiBf7BbpMcb1cNsQjCOMBjdTbEIhXO3wrsYE
+ mYLeYw/gwwzJXcgzBkZ0wTWPIfaKPZ6uAgz9NTKpj/6ZciqHolzG6aCm7 A==;
+X-CSE-ConnectionGUID: Hi/KUCsDSAiRECKpXtL/eQ==
+X-CSE-MsgGUID: n+jGRPU2QryMQjILVlh05Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11229"; a="54241736"
+X-IronPort-AV: E=Sophos;i="6.11,214,1725346800"; d="scan'208";a="54241736"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  18 Oct 2024 14:10:40 -0700
-X-CSE-ConnectionGUID: 8cAi/5DmS2GK/vIT9ZIYRA==
-X-CSE-MsgGUID: Mxm0nx1zS+qzgbhD8xoI0w==
+X-CSE-ConnectionGUID: oy5jwcoCT0eJC3Ks1ZJa0A==
+X-CSE-MsgGUID: xe48bGU2T5CSzHtekJzsIw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,214,1725346800"; d="scan'208";a="79311944"
+X-IronPort-AV: E=Sophos;i="6.11,214,1725346800"; d="scan'208";a="79311947"
 Received: from lstrano-desk.jf.intel.com ([10.54.39.91])
  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  18 Oct 2024 14:10:39 -0700
@@ -46,14 +46,14 @@ To: intel-xe@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
 Cc: matthew.auld@intel.com,
 	thomas.hellstrom@linux.intel.com
-Subject: [PATCH 2/3] drm/xe: Add xe_ttm_access_memory
-Date: Fri, 18 Oct 2024 14:11:02 -0700
-Message-Id: <20241018211103.1367643-3-matthew.brost@intel.com>
+Subject: [PATCH 3/3] drm/xe: Use ttm_bo_access in
+ xe_vm_snapshot_capture_delayed
+Date: Fri, 18 Oct 2024 14:11:03 -0700
+Message-Id: <20241018211103.1367643-4-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241018211103.1367643-1-matthew.brost@intel.com>
 References: <20241018211103.1367643-1-matthew.brost@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,108 +70,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Non-contiguous VRAM cannot easily be mapped in TTM nor can non-visible
-VRAM easily be accessed. Add xe_ttm_access_memory which hooks into
-ttm_bo_access to access such memory.
+Non-contiguous mapping of BO in VRAM doesn't work, use ttm_bo_access
+instead.
 
-Reported-by: Christoph Manszewski <christoph.manszewski@intel.com>
-Suggested-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Fixes: 0eb2a18a8fad ("drm/xe: Implement VM snapshot support for BO's and userptr")
+Suggested-by: Matthew Auld <matthew.auld@intel.com>
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 ---
- drivers/gpu/drm/xe/xe_bo.c | 57 ++++++++++++++++++++++++++++++++++++--
- 1 file changed, 54 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/xe/xe_vm.c | 17 ++++++-----------
+ 1 file changed, 6 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
-index 5b232f2951b1..9a5c1ed7ae97 100644
---- a/drivers/gpu/drm/xe/xe_bo.c
-+++ b/drivers/gpu/drm/xe/xe_bo.c
-@@ -442,6 +442,14 @@ static void xe_ttm_tt_destroy(struct ttm_device *ttm_dev, struct ttm_tt *tt)
- 	kfree(tt);
- }
+diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
+index c99380271de6..2eae9ce41c06 100644
+--- a/drivers/gpu/drm/xe/xe_vm.c
++++ b/drivers/gpu/drm/xe/xe_vm.c
+@@ -3303,7 +3303,6 @@ void xe_vm_snapshot_capture_delayed(struct xe_vm_snapshot *snap)
  
-+static bool xe_ttm_resource_visible(struct ttm_resource *mem)
-+{
-+	struct xe_ttm_vram_mgr_resource *vres =
-+		to_xe_ttm_vram_mgr_resource(mem);
-+
-+	return vres->used_visible_size == mem->size;
-+}
-+
- static int xe_ttm_io_mem_reserve(struct ttm_device *bdev,
- 				 struct ttm_resource *mem)
- {
-@@ -453,11 +461,9 @@ static int xe_ttm_io_mem_reserve(struct ttm_device *bdev,
- 		return 0;
- 	case XE_PL_VRAM0:
- 	case XE_PL_VRAM1: {
--		struct xe_ttm_vram_mgr_resource *vres =
--			to_xe_ttm_vram_mgr_resource(mem);
- 		struct xe_mem_region *vram = res_to_mem_region(mem);
+ 	for (int i = 0; i < snap->num_snaps; i++) {
+ 		struct xe_bo *bo = snap->snap[i].bo;
+-		struct iosys_map src;
+ 		int err;
  
--		if (vres->used_visible_size < mem->size)
-+		if (!xe_ttm_resource_visible(mem))
- 			return -EINVAL;
+ 		if (IS_ERR(snap->snap[i].data))
+@@ -3316,16 +3315,12 @@ void xe_vm_snapshot_capture_delayed(struct xe_vm_snapshot *snap)
+ 		}
  
- 		mem->bus.offset = mem->start << PAGE_SHIFT;
-@@ -1111,6 +1117,50 @@ static void xe_ttm_bo_swap_notify(struct ttm_buffer_object *ttm_bo)
- 	}
- }
+ 		if (bo) {
+-			xe_bo_lock(bo, false);
+-			err = ttm_bo_vmap(&bo->ttm, &src);
+-			if (!err) {
+-				xe_map_memcpy_from(xe_bo_device(bo),
+-						   snap->snap[i].data,
+-						   &src, snap->snap[i].bo_ofs,
+-						   snap->snap[i].len);
+-				ttm_bo_vunmap(&bo->ttm, &src);
+-			}
+-			xe_bo_unlock(bo);
++			err = ttm_bo_access(&bo->ttm, snap->snap[i].bo_ofs,
++					    snap->snap[i].data, snap->snap[i].len, 0);
++			if (!(err < 0) && err != snap->snap[i].len)
++				err = -EIO;
++			else
++				err = 0;
+ 		} else {
+ 			void __user *userptr = (void __user *)(size_t)snap->snap[i].bo_ofs;
  
-+static int xe_ttm_access_memory(struct ttm_buffer_object *ttm_bo,
-+				unsigned long offset, void *buf, int len,
-+				int write)
-+{
-+	struct xe_bo *bo = ttm_to_xe_bo(ttm_bo);
-+	struct xe_device *xe = ttm_to_xe_device(ttm_bo->bdev);
-+	struct iosys_map vmap;
-+	struct xe_res_cursor cursor;
-+	struct xe_mem_region *vram;
-+	int bytes_left = len;
-+
-+	xe_bo_assert_held(bo);
-+
-+	if (!mem_type_is_vram(ttm_bo->resource->mem_type))
-+		return -EIO;
-+
-+	/* FIXME: Use GPU for non-visible VRAM */
-+	if (!xe_ttm_resource_visible(ttm_bo->resource))
-+		return -EIO;
-+
-+	vram = res_to_mem_region(ttm_bo->resource);
-+	xe_res_first(ttm_bo->resource, offset & PAGE_MASK, bo->size, &cursor);
-+
-+	do {
-+		unsigned long page_offset = (offset & ~PAGE_MASK);
-+		int byte_count = min((int)(PAGE_SIZE - page_offset), bytes_left);
-+
-+		iosys_map_set_vaddr_iomem(&vmap, (u8 __iomem *)vram->mapping +
-+					  cursor.start);
-+		if (write)
-+			xe_map_memcpy_to(xe, &vmap, page_offset, buf, byte_count);
-+		else
-+			xe_map_memcpy_from(xe, buf, &vmap, page_offset, byte_count);
-+
-+		offset += byte_count;
-+		buf += byte_count;
-+		bytes_left -= byte_count;
-+		if (bytes_left)
-+			xe_res_next(&cursor, PAGE_SIZE);
-+	} while (bytes_left);
-+
-+	return len;
-+}
-+
- const struct ttm_device_funcs xe_ttm_funcs = {
- 	.ttm_tt_create = xe_ttm_tt_create,
- 	.ttm_tt_populate = xe_ttm_tt_populate,
-@@ -1120,6 +1170,7 @@ const struct ttm_device_funcs xe_ttm_funcs = {
- 	.move = xe_bo_move,
- 	.io_mem_reserve = xe_ttm_io_mem_reserve,
- 	.io_mem_pfn = xe_ttm_io_mem_pfn,
-+	.access_memory = xe_ttm_access_memory,
- 	.release_notify = xe_ttm_bo_release_notify,
- 	.eviction_valuable = ttm_bo_eviction_valuable,
- 	.delete_mem_notify = xe_ttm_bo_delete_mem_notify,
 -- 
 2.34.1
 
