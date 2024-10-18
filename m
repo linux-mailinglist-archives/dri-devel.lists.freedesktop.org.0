@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65E889A3DF3
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Oct 2024 14:15:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50C749A3E73
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Oct 2024 14:31:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B64C110E110;
-	Fri, 18 Oct 2024 12:15:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF7B710E901;
+	Fri, 18 Oct 2024 12:31:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="TZCTyURO";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="e3bE0oQm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com
- [209.85.208.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F07510E110
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2024 12:15:07 +0000 (UTC)
-Received: by mail-lj1-f169.google.com with SMTP id
- 38308e7fff4ca-2fb5740a03bso24289331fa.1
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2024 05:15:07 -0700 (PDT)
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
+ [209.85.167.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24F3D10E901
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2024 12:31:25 +0000 (UTC)
+Received: by mail-lf1-f43.google.com with SMTP id
+ 2adb3069b0e04-539fb49c64aso3016320e87.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2024 05:31:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1729253706; x=1729858506; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1729254683; x=1729859483; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=QjL3pHhlawZmked9cDer2cCqaq7RfeznftLlGVpNcgU=;
- b=TZCTyUROLHYob1z+B2BzQD1GY9Vev4sV21gfe04CquJAcaoCZjuDN9/4ZFN5PEcdus
- uxPVZH5s4Ehypk7a/ZmNYhJAf0nBjzwiHmQG8cVs6IsGudG3rgntq3fEApg7eMxnS9vP
- BfVjncdzVyGpmIQFTgJ4p7+A3dunMyAyt4CZtKrWXTmZU4fam1bNAgRhG7RP8mmChQKY
- /GjzCJPMd/ywwIqpwvzPkXrwrc5D0qMnu2aJ4oxMvIIN8A5zMGjiIJRRHuX1jIbTCocY
- 5yR5PItwpLk5Fy9Cyg3uYlr9tbWvvACwZoUNnHzvAK7HsAXHzMbMIVEn68I4KZpMvY8Q
- g4rQ==
+ bh=8AGZam4n06viI04ibKwIHu8ebEmTULIu0XIfkMmLleM=;
+ b=e3bE0oQmQp+x7mw263M124Z+iDlLmyiooOLfQny01hXTXBRetifCQe/CREqDYG3G6k
+ dlPTxyn6vXqxuJtujBdqB/FJPzf3PUEi5sEa95DMxEPqZ+R4FV0broKYgmaB9DNDnmvT
+ NSZLl0/i3FF409IjDw5Ltl1BvJDxoa9IvJextZDNRBVkXWH5vq2mr82o2RzG2CtmPkTy
+ iaDUvpaI7v2HYpD7ZPys18WNdK8F6LMSDwt//qd4jEdctfUak75gow3JApCKwkl+2D9h
+ 2gn3IAIF8TZb1El9/kJRFoV1GALWwWW8lOEihVRDFnnHRm9N89VNrzBlqEM3nIlIxmv/
+ tXGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729253706; x=1729858506;
+ d=1e100.net; s=20230601; t=1729254683; x=1729859483;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=QjL3pHhlawZmked9cDer2cCqaq7RfeznftLlGVpNcgU=;
- b=QwKus4KKSMgCpnUqCOkS3Zn09cLKwVWszefPVpt1RsHaDXxdd3Nm5QohJuMt2EO4Uu
- 9yqmezbsMR7EApJxmSncVMITfYIQ/X7xew2fE4Dss0+gaCxJWAnLoc6sqpZj/LWetMSz
- V3BB97B/ygus87psmaPEQ+qoeA3bQv9yD+r7y+SGQcznqn+c/1taw+4xzSyZijFfw/OB
- e7KiUQAolz4ZVfoXPSc6LSBmbpzH2wQBCDedW9Dkhs1DY+ZzEfgbRBEMvHy4YebLGWmG
- tOM46+TJqe7+8nZg/8X/kb91dnfUseo0YGuufAxKLQX/HX5Aghjk4W1eyKdcR7A1lHI3
- KB1Q==
+ bh=8AGZam4n06viI04ibKwIHu8ebEmTULIu0XIfkMmLleM=;
+ b=ETWuSZDbh82iizGwFlwdKIhDaicehdSd7JxN2cfT/lcokTpyzD90cBjX9cpngz25qF
+ AQm+UNtJvy5o294iWcz/3io5BM+N3Q0UWCkEsVWt4MtJEK8O/j2hy+2yY1/D3AWCvBE1
+ wcRIW77rvHnREEnwhLAyg20RvNjEwMHXzY3rRdAzjs7nZVbqBoF8zfOJPwqVG4/RKD5k
+ hqAz6BoFOMNhsW/bf40az9sRFlqODsHCi+ve6nSHinOzvYMQ40E93ciR/l9UhyS2+AWC
+ mGG1WeW/0yAsQgYcrvUStav+pk+UGhIdBVAKK8YAAc+aG8gCeOy8VeLpNueWjtwBlUwD
+ Oapg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXhCfaHx+32+b535sPOMtMnl+aWHLXj00UmKU3/UUDHHXdIlYu7MyW3k0XijdsYJR1CMIYk8BHUztQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywo68XFMxaJj/+FDddOYF4UDr6X8nbTUttUKVgrGF4GQy59fOj6
- iqjOImjUMZ5BHqS9YP4/Cm11JzK+aVXJU72tOGkUR2T4r29w6yYOrO05Bn7w/Fg=
-X-Google-Smtp-Source: AGHT+IF5eDKvPUdoitD+7fdWywacF4U/7oQTrEfnwaNWZvVwt8eJAqa0dkV02VzR/63JN4AWDeU6JA==
-X-Received: by 2002:a05:651c:b13:b0:2fb:569a:553d with SMTP id
- 38308e7fff4ca-2fb8323b1fdmr11544041fa.42.1729253705640; 
- Fri, 18 Oct 2024 05:15:05 -0700 (PDT)
+ AJvYcCUK+HlyRnGOyqop/H9FsDpzmRKuFTRoTCOTXM5R+nmoj/Wg2LV8+iWb1b61c3LM3Hk9JGhC4VwG0ts=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxe8C/jqqq+QcKgnZNJVTgWfua36H3kAZE+oIcoweJ5kWayIdJ7
+ zhAWNtV/B7c/jSXQQs90bhmoRNiLksvNXFzvWOh+hZ/BFPYvLpNLWXPs41iVCHE=
+X-Google-Smtp-Source: AGHT+IF5+uQbidjUeJm/YIP54JRQhHenrE8LF08c1wGN7AL7hbF7Y70yrjPM2DsLa+7UkJwLWiqkDA==
+X-Received: by 2002:a05:6512:1384:b0:53a:64:6818 with SMTP id
+ 2adb3069b0e04-53a154c9d93mr2164357e87.47.1729254683205; 
+ Fri, 18 Oct 2024 05:31:23 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2fb809f9b62sm2015311fa.96.2024.10.18.05.15.03
+ 2adb3069b0e04-53a1521fecdsm206273e87.298.2024.10.18.05.31.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Oct 2024 05:15:04 -0700 (PDT)
-Date: Fri, 18 Oct 2024 15:15:01 +0300
+ Fri, 18 Oct 2024 05:31:22 -0700 (PDT)
+Date: Fri, 18 Oct 2024 15:31:20 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Liu Ying <victor.liu@nxp.com>
 Cc: devicetree@vger.kernel.org, imx@lists.linux.dev, 
@@ -68,14 +68,14 @@ Cc: devicetree@vger.kernel.org, imx@lists.linux.dev,
  Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com, 
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  airlied@gmail.com, simona@ffwll.ch, marex@denx.de, stefan@agner.ch
-Subject: Re: [PATCH 5/5] drm: lcdif: Use drm_bridge_connector
-Message-ID: <7isauhmti3vtyseanqveizlhrwmg2iade6kixhhx27edfk4bbm@yj4mekgbvpj4>
+Subject: Re: [PATCH 4/5] drm/bridge: imx8mp-hdmi-tx: Set output_port to 1
+Message-ID: <vvsj6ri2ke25nzocbq736yv7rphzma6pn3yk2uh7iu43zfe2sa@2fwye4k4w6he>
 References: <20241018064813.2750016-1-victor.liu@nxp.com>
- <20241018064813.2750016-6-victor.liu@nxp.com>
+ <20241018064813.2750016-5-victor.liu@nxp.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241018064813.2750016-6-victor.liu@nxp.com>
+In-Reply-To: <20241018064813.2750016-5-victor.liu@nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,81 +91,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 18, 2024 at 02:48:13PM +0800, Liu Ying wrote:
-> Initialize a connector by calling drm_bridge_connector_init() for
-> each encoder so that down stream bridge drivers don't need to create
-> connectors any more.
+On Fri, Oct 18, 2024 at 02:48:12PM +0800, Liu Ying wrote:
+> Set DW HDMI platform data's output_port to 1 in imx8mp_dw_hdmi_probe()
+> so that dw_hdmi_probe() called by imx8mp_dw_hdmi_probe() can tell the
+> DW HDMI bridge core driver about the output port we are using, hence
+> the next bridge can be found in dw_hdmi_parse_dt() according to the port
+> index, and furthermore the next bridge can be attached to bridge chain in
+> dw_hdmi_bridge_attach() when the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag is
+> set.  The output_port value aligns to the value used by devicetree.
+> This is a preparation for making the i.MX8MP LCDIF driver use
+> drm_bridge_connector which requires the DRM_BRIDGE_ATTACH_NO_CONNECTOR
+> flag.
 > 
 > Signed-off-by: Liu Ying <victor.liu@nxp.com>
 > ---
->  drivers/gpu/drm/mxsfb/Kconfig     |  1 +
->  drivers/gpu/drm/mxsfb/lcdif_drv.c | 17 ++++++++++++++++-
->  2 files changed, 17 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/drivers/gpu/drm/mxsfb/Kconfig b/drivers/gpu/drm/mxsfb/Kconfig
-> index 264e74f45554..06c95e556380 100644
-> --- a/drivers/gpu/drm/mxsfb/Kconfig
-> +++ b/drivers/gpu/drm/mxsfb/Kconfig
-> @@ -27,6 +27,7 @@ config DRM_IMX_LCDIF
->  	depends on DRM && OF
->  	depends on COMMON_CLK
->  	depends on ARCH_MXC || COMPILE_TEST
-> +	select DRM_BRIDGE_CONNECTOR
->  	select DRM_CLIENT_SELECTION
+> diff --git a/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c b/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c
+> index 8fcc6d18f4ab..54a53f96929a 100644
+> --- a/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c
+> +++ b/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c
+> @@ -96,6 +96,7 @@ static int imx8mp_dw_hdmi_probe(struct platform_device *pdev)
+>  		return dev_err_probe(dev, PTR_ERR(hdmi->pixclk),
+>  				     "Unable to get pixel clock\n");
+>  
+> +	plat_data->output_port = 1;
 
-Missing `select DRM_DISPLAY_HELPER`. LGTM otherwise.
+This will break compatibility with older DT files, which don't have
+output port. I think you need to add output_port_optional flag to
+dw_hdmi_plat_data and still return 0 from dw_hdmi_parse_dt() if the flag
+is set, but there is no remote node.
 
->  	select DRM_MXS
->  	select DRM_KMS_HELPER
-> diff --git a/drivers/gpu/drm/mxsfb/lcdif_drv.c b/drivers/gpu/drm/mxsfb/lcdif_drv.c
-> index 58ccad9c425d..d4521da6675e 100644
-> --- a/drivers/gpu/drm/mxsfb/lcdif_drv.c
-> +++ b/drivers/gpu/drm/mxsfb/lcdif_drv.c
-> @@ -16,7 +16,9 @@
->  
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_bridge.h>
-> +#include <drm/drm_bridge_connector.h>
->  #include <drm/drm_client_setup.h>
-> +#include <drm/drm_connector.h>
->  #include <drm/drm_drv.h>
->  #include <drm/drm_encoder.h>
->  #include <drm/drm_fbdev_dma.h>
-> @@ -56,6 +58,7 @@ static int lcdif_attach_bridge(struct lcdif_drm_private *lcdif)
->  		struct device_node *remote;
->  		struct of_endpoint of_ep;
->  		struct drm_encoder *encoder;
-> +		struct drm_connector *connector;
->  
->  		remote = of_graph_get_remote_port_parent(ep);
->  		if (!of_device_is_available(remote)) {
-> @@ -97,13 +100,25 @@ static int lcdif_attach_bridge(struct lcdif_drm_private *lcdif)
->  			return ret;
->  		}
->  
-> -		ret = drm_bridge_attach(encoder, bridge, NULL, 0);
-> +		ret = drm_bridge_attach(encoder, bridge, NULL,
-> +					DRM_BRIDGE_ATTACH_NO_CONNECTOR);
->  		if (ret) {
->  			of_node_put(ep);
->  			return dev_err_probe(dev, ret,
->  					     "Failed to attach bridge for endpoint%u\n",
->  					     of_ep.id);
->  		}
-> +
-> +		connector = drm_bridge_connector_init(lcdif->drm, encoder);
-> +		if (IS_ERR(connector)) {
-> +			ret = PTR_ERR(connector);
-> +			dev_err(dev, "Failed to initialize bridge connector: %d\n",
-> +				ret);
-> +			of_node_put(ep);
-> +			return ret;
-> +		}
-> +
-> +		drm_connector_attach_encoder(connector, encoder);
->  	}
->  
->  	return 0;
+Last, but not least, this changes behaviour of the connector.
+dw_hdmi_connector_create() implements CEC support, handles
+ycbcr_420_allowed, HDR metadata, etc.
+
+We are slowly moving towards the supporting all of this in bridge
+connector via the HDMI Connector framework, but this is not
+implemented for now.
+
+>  	plat_data->mode_valid = imx8mp_hdmi_mode_valid;
+>  	plat_data->phy_ops = &imx8mp_hdmi_phy_ops;
+>  	plat_data->phy_name = "SAMSUNG HDMI TX PHY";
 > -- 
 > 2.34.1
 > 
