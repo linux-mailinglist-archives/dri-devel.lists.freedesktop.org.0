@@ -2,82 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A559A9A4801
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Oct 2024 22:31:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74B989A4818
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Oct 2024 22:34:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1D4A10E97F;
-	Fri, 18 Oct 2024 20:31:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 815B210E982;
+	Fri, 18 Oct 2024 20:34:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="POyUYBiD";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="I95QQOv+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA45B10E97F
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2024 20:31:35 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49IDc3UC016598;
- Fri, 18 Oct 2024 20:31:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- NG/xyfizzcfYfSTeCTDclLa2qHCQ3KBPpWpPOo590Qs=; b=POyUYBiDyAiXwi85
- CSE47AbG7pyPFDfUlWEWwkpO1vxw3EADUXqwH0Xp276g5tezAivmBWTLgcNZk5h3
- d3xbxa9DmuNlyOJ3LLffrR7LS96924mNHmNMFmt1oDpSiMlv7rUHSNVM2L/hW76c
- dUU4AUmhIb+7xwrbdjkW0tLuGgxGJXO8uM/4kFBAOJUnMzkeK7dRPsRXJVZAyGq6
- OyXOAcBhMLnG9sEGHLWccixU/DvsEfMBalFjT5/7uJzRUJha/HBGqZX+M0mqwoLO
- Ro0mD0eEM2AfGtjdymh6VeDsyvmlBwTo3dlD9HwwE5dVYccLkci0E8stPcC4fL1K
- eMFSeA==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42bh3pamks-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 18 Oct 2024 20:31:30 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49IKVTHw012229
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 18 Oct 2024 20:31:29 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 18 Oct
- 2024 13:31:28 -0700
-Message-ID: <9b3e351d-a0f2-5b8f-59ae-e1029ca0b18d@quicinc.com>
-Date: Fri, 18 Oct 2024 14:31:28 -0600
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
+ [209.85.167.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F06F510E982
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2024 20:34:33 +0000 (UTC)
+Received: by mail-lf1-f43.google.com with SMTP id
+ 2adb3069b0e04-539f72c8fc1so3009571e87.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2024 13:34:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1729283672; x=1729888472; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=sCcPwV47XH0yJdbksS/rJtyE3ZkZ9IgFn3oQZBYAYBs=;
+ b=I95QQOv+Ju3ouSlKRyowJuhBPVu7nt7lmMwwjxLuGCb4O+Pv156AKUhAojjDS3U7PR
+ eNQmqgQblRS07GcyxfjRYmAQ59anFvvmrxzised65GtNI6ZBEUCrUQA3ikUvfUTPM2z6
+ Rg1ti244SppnF5R2uNDdKaIcuBqcgcGG3TxIWbKTSaKKtGWmlNyVAMYSvl8/x8kXn8Mv
+ ChGnV1WO4mb2Wu8jWcTCc58uxM8o4ltSNkCOX6b9Az/Cns/+JDWypf7EOtuT9vDkj2Ac
+ fTI/xEW9I70R8MpSkAGToln0zQVqiHDOizE2Lnry8du4pZROc+A0FJXLqYf8gc5jJ0Q/
+ t9ig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1729283672; x=1729888472;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=sCcPwV47XH0yJdbksS/rJtyE3ZkZ9IgFn3oQZBYAYBs=;
+ b=KQf/aIVO71C+E3cOF0wyEwFlQb7lQeyQRKpeg9lWFwQEgyvu96k0vqZBS4HdTVqBSk
+ eZn1r7y29ccqiiX8W+re1xBA64VMV09NJzvHu02jZCAedzt1TVvQnLvvGSKzLSUwFdns
+ A7rilJXs1c+w9qV781o8Svf3cMpPOtzwJle18GOkBJpQ0Zphiqha1OpkRUFYUuP6653V
+ xHI/+pK55z3OkWL/DRMdEuociTFZZBIH5LHBQCguwxj3Rjm81nHJVWdln8cbdkrafFbI
+ t/QOv95lCfAxqy4DI1FFRKodSa2gmW/b7ncEBPDcG1SZ84lujH0xKl51OlzENsT4ywaT
+ g0bg==
+X-Gm-Message-State: AOJu0YzYhhIolfZR679CviwYeneLE2cEMHkSNnvFlvQCdLXPTHTPWMzD
+ ythEHWcbiqY2w7H6Msi6hskg+w3F4Y9nMMHXn6j1JG39C7pXIb9eA5EtbxpCtYw=
+X-Google-Smtp-Source: AGHT+IELPtenzGW4LLaGWUAYzBlOsnHcuhLHJ49lUB7TfHK/mvIGRg0GSftC9WVPQgye44/HgrcATg==
+X-Received: by 2002:a05:6512:1387:b0:539:d428:fbf2 with SMTP id
+ 2adb3069b0e04-53a152170ccmr2519278e87.13.1729283672001; 
+ Fri, 18 Oct 2024 13:34:32 -0700 (PDT)
+Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-53a151f0e09sm314047e87.146.2024.10.18.13.34.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 18 Oct 2024 13:34:31 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [PATCH 0/6] drm/display: hdmi: add drm_hdmi_connector_mode_valid()
+Date: Fri, 18 Oct 2024 23:34:18 +0300
+Message-Id: <20241018-hdmi-mode-valid-v1-0-6e49ae4801f7@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH V4 02/10] accel/amdxdna: Add a new driver for AMD AI Engine
-Content-Language: en-US
-To: Lizhi Hou <lizhi.hou@amd.com>, <ogabbay@kernel.org>,
- <dri-devel@lists.freedesktop.org>
-CC: <linux-kernel@vger.kernel.org>, <min.ma@amd.com>, <max.zhen@amd.com>,
- <sonal.santan@amd.com>, <king.tam@amd.com>, Narendra Gutta
- <VenkataNarendraKumar.Gutta@amd.com>, George Yang <George.Yang@amd.com>
-References: <20241011231244.3182625-1-lizhi.hou@amd.com>
- <20241011231244.3182625-3-lizhi.hou@amd.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20241011231244.3182625-3-lizhi.hou@amd.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: D39JgtSzJhBfF7tH71tnLJcDpMWoM-OL
-X-Proofpoint-ORIG-GUID: D39JgtSzJhBfF7tH71tnLJcDpMWoM-OL
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- suspectscore=0 bulkscore=0 lowpriorityscore=0 mlxscore=0 malwarescore=0
- clxscore=1015 phishscore=0 priorityscore=1501 spamscore=0 mlxlogscore=746
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2410180131
+X-B4-Tracking: v=1; b=H4sIAErGEmcC/x3MQQqAIBBA0avErBtQMZCuEi1EpxxIDQUJwrsnL
+ d/i/xcqFaYK6/RCocaVcxqQ8wQu2HQSsh8GJZSWQhoMPjLG7AmbvdijteS0VmYR0sGo7kIHP/9
+ x23v/AGP7nrlhAAAA
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+X-Mailer: b4 0.14.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1527;
+ i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
+ bh=NVgLRwt8YngxLk2l766d34PGqOxCoja034TmXCo3gEs=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnEsZWTzWWmG5oZnAvNyyF1pWnZXCGdwJa35Rle
+ GgQVwoA06yJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZxLGVgAKCRCLPIo+Aiko
+ 1YBNB/9soM6Y9tnx5H+1z9yVAqXzFA2tjpHv/OUSQ/QJrgTGwHmMNVvs8UGD+b5nNxwZIi06/eG
+ mlCQ67VnWcoy9ujIYfTcMYLozAEAZ01tgSB9DR7HObujc/XwiC+X8gWLQdPxV4FJ9tNHy/KCzr7
+ dujoIoUyiNpD4N5o+67DuTbxTptGAwxhyYT5pP9qVNFXGom7P2bmDPQzaWzVV6tyhcKI1tVTy3b
+ liBsVRSceDQf4G/OX/tYWsOxp4ZogmNzFLtny0b0eMGaWJkGgLLn4AnwgMP/LuJTbA4wfa5X1bt
+ ZfojiYFL+0Hgx2XNPRHTvRLcpebRRnTE6IML2YkVsDihRZan
+X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,23 +104,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/11/2024 5:12 PM, Lizhi Hou wrote:
-> AMD AI Engine forms the core of AMD NPU and can be used for accelerating
-> machine learning applications.
-> 
-> Add the driver to support AI Engine integrated to AMD CPU.
-> Only very basic functionalities are added.
->    - module and PCI device initialization
->    - firmware load
->    - power up
->    - low level hardware initialization
-> 
-> Co-developed-by: Narendra Gutta<VenkataNarendraKumar.Gutta@amd.com>
-> Signed-off-by: Narendra Gutta<VenkataNarendraKumar.Gutta@amd.com>
-> Co-developed-by: George Yang<George.Yang@amd.com>
-> Signed-off-by: George Yang<George.Yang@amd.com>
-> Co-developed-by: Min Ma<min.ma@amd.com>
-> Signed-off-by: Min Ma<min.ma@amd.com>
-> Signed-off-by: Lizhi Hou<lizhi.hou@amd.com>
+Several HDMI drivers have common code pice in the .mode_valid function
+that validates RGB / 8bpc rate using the TMDS char rate callbacks.
 
-Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Move this code piece to the common helper and remove the need to perform
+this check manually. In case of DRM_BRIDGE_OP_HDMI bridges the check can
+be dropped in favour of performing it in drm_bridge_connector.
+
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+Dmitry Baryshkov (6):
+      drm/display: hdmi: add generic mode_valid helper
+      drm/sun4i: use drm_hdmi_connector_mode_valid()
+      drm/vc4: use drm_hdmi_connector_mode_valid()
+      drm/display: bridge_connector: use drm_bridge_connector_mode_valid()
+      drm/bridge: lontium-lt9611: drop TMDS char rate check in mode_valid
+      drm/bridge: dw-hdmi-qp: replace mode_valid with tmds_char_rate
+
+ drivers/gpu/drm/bridge/lontium-lt9611.c        |  4 +---
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c   | 12 +++++-------
+ drivers/gpu/drm/display/drm_bridge_connector.c | 16 +++++++++++++++-
+ drivers/gpu/drm/display/drm_hdmi_helper.c      | 25 +++++++++++++++++++++++++
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c         | 12 +-----------
+ drivers/gpu/drm/vc4/vc4_hdmi.c                 |  4 +---
+ include/drm/display/drm_hdmi_helper.h          |  4 ++++
+ 7 files changed, 52 insertions(+), 25 deletions(-)
+---
+base-commit: af44b5b5776cc6ac1891393a37b1424509f07b35
+change-id: 20241018-hdmi-mode-valid-aaec4428501c
+
+Best regards,
+-- 
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
