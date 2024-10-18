@@ -2,100 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF0DC9A4322
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Oct 2024 18:01:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22F6A9A432D
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Oct 2024 18:05:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CDC610E00E;
-	Fri, 18 Oct 2024 16:01:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AD6210E376;
+	Fri, 18 Oct 2024 16:05:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=arndb.de header.i=@arndb.de header.b="itViWaYU";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="KOkWr2j2";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="JuKxIlkt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fout-a1-smtp.messagingengine.com
- (fout-a1-smtp.messagingengine.com [103.168.172.144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB7C210E00E
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2024 16:01:40 +0000 (UTC)
-Received: from phl-compute-10.internal (phl-compute-10.phl.internal
- [10.202.2.50])
- by mailfout.phl.internal (Postfix) with ESMTP id 0E9E013800DF;
- Fri, 18 Oct 2024 12:01:40 -0400 (EDT)
-Received: from phl-imap-11 ([10.202.2.101])
- by phl-compute-10.internal (MEProxy); Fri, 18 Oct 2024 12:01:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
- :cc:content-transfer-encoding:content-type:content-type:date
- :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=fm2; t=1729267300;
- x=1729353700; bh=P9Apt1nbtdeQ0a3W4zKojvEn5mSX00mXwGNDKio6VuA=; b=
- itViWaYUMUHdgEj0/RGD3MHHtpT00hsX18QqDhvwSGaheJylGRD/iUev36w15HsT
- CKZ96iuR9T+QWdhl1tPJXO0i+prMHO4UGh++1HIK7uySy4aQs7PM0+tPCG5/mVlO
- 64gymRo0qsybCk15k7o4jxRAk0avjsuVDxQaI5qysA3dKXWoRnr3NEuTsnT2MnoJ
- mmRsLEqSesPwFk67GU609sroX0cZOV1pGlhRhsiSZqVtXrWfP+OtYqvezjkFJMAt
- bbOR9LS9Wkn8Xb7M/Y+mbnHI1zLvwsQMeeeju1DJFkv8tMJOCVCQx1TFUfcKueuL
- wmVJ8Wysmb4auhHEsvetOQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1729267300; x=
- 1729353700; bh=P9Apt1nbtdeQ0a3W4zKojvEn5mSX00mXwGNDKio6VuA=; b=K
- OkWr2j2KA9PZTfz8FsltzY6mii397Uwei7+Lyh1qin2lDXR05aiM/c4YB5ka8qZU
- PQ/UecOZXq5cbSHzRI+3iIY90eSFVqrQGs0fqjcJTFs2ClgKibqyAjGBuJ2wwum9
- ofV1KMypFkDo4+78pQv38bGQNWB0jBMSmXgXN7+vvG+4nmgie9ermoMLNmhXfkep
- wJMt3/ivfXLjxXoiCPCpGIy53Ycy9iDeLOj0BJUmZBB0CMjFEc3doeQC7AbnvPgW
- WFso6La3AITqObeQ0qzZWRDPKcRKQuXpZhLmjOkIHo9GoGzWsA6t6GqtalmY3xGT
- T3fAKIbQ9aEfi6Wn7oIMQ==
-X-ME-Sender: <xms:Y4YSZ-Jk-3QxjSsGxYuMfxPJ0VaJ_JXetxfiEAIUc5O5dD971KGe2w>
- <xme:Y4YSZ2Ic--_EqLXAfAOBqYmFD77GogjXUIRnyRxovo3zHBfKbtbAoB9h2RSydCPJE
- r5jLL-sNMKZ7qqNt2o>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdehfedgleegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
- rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
- htshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddt
- necuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrd
- guvgeqnecuggftrfgrthhtvghrnhephfdthfdvtdefhedukeetgefggffhjeeggeetfefg
- gfevudegudevledvkefhvdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
- hmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepudef
- pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtg
- hhpdhrtghpthhtohepghgvvghrthdorhgvnhgvshgrshesghhlihguvghrrdgsvgdprhgt
- phhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepihhmrhgvrd
- guvggrkhesihhnthgvlhdrtghomhdprhgtphhtthhopehjrghnihdrnhhikhhulhgrsehi
- nhhtvghlrdgtohhmpdhrtghpthhtoheprghrnhgusehkvghrnhgvlhdrohhrghdprhgtph
- htthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopegumhhithhr
- hidrsggrrhihshhhkhhovheslhhinhgrrhhordhorhhgpdhrtghpthhtohepmhgrrghrth
- gvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomh
-X-ME-Proxy: <xmx:Y4YSZ-t5I-fEAq27p_KSet2yelvgn8up0UqbHYA8yn_okz2f89-c1w>
- <xmx:Y4YSZzZ3K730ejWLxZpZfUwY714xJpE_70oYGFkUCPNdyk3g_UPhTQ>
- <xmx:Y4YSZ1YKqI64KlYFX2vi-n1fZIvYZgE1MtS1r3Icc_u_6S_-Do2DOw>
- <xmx:Y4YSZ_BGBFMXihQtIJduRVeRXIV5L56OJK_QN3RCQ3wu3N-ausZYpg>
- <xmx:ZIYSZ5Q_NBdb3MDcJjpwcOwmj3wdrJqSdJjniD9faQeTTvAcy3AvtiHh>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
- id 4ADB62220072; Fri, 18 Oct 2024 12:01:39 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
+ [209.85.208.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4C3810E376
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2024 16:05:44 +0000 (UTC)
+Received: by mail-lj1-f182.google.com with SMTP id
+ 38308e7fff4ca-2f7657f9f62so24912471fa.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2024 09:05:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1729267543; x=1729872343; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=8lHZpTCnaSttFJL3uIXwXWK6iRmjck9Nu4C1mKRZ028=;
+ b=JuKxIlkthnSBvqL7GiL1DnRKaT7o40vdySWvdXM/dHb3sXzOAgQS4elp/0hu7Da2+X
+ 3zuGKf4AP4RBNGAUc88l1rQIjnhRbmGXip2KAEw+DqVI+lazdGbsH2PxZDfZ6wbI/sHz
+ +fByyO/zLeAKNn7KBtTRdIXYQnXOEnsHqpnzxv19KRT9putXOEozwbBTmTI4zNrjQMef
+ y4EXM/Z80Kd/SWvvTrDjhOZ0saThJTEeedwWTprVZbc91DMiJjPGbwXvelWip+IV8m+i
+ rL+JuZHVzf6J6XHmwD7SAjLFZne4/EMbQy+8QRp1VvET22O6R5MNdCFqSKUHZ7jMW9t8
+ SB3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1729267543; x=1729872343;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8lHZpTCnaSttFJL3uIXwXWK6iRmjck9Nu4C1mKRZ028=;
+ b=aYJJpy1Pgl6nW+Ee1YtqHRpK6tjTBNzqOZxe/zedYRV2HFkbZDxKy2rqO5T3z+M4vE
+ pqr5JaCwB/cOEIsU0kS6JyP+06jCb1Nqj34I3/0hGRV7XstxItS3lyIbgSK0+0UHiU9K
+ 9xKQ5eZEXia1Lnklulf3cw2QgybjqjZSLdV9wFv9mQH08JN912nm43wlvVZupimE7V9P
+ sobbS2GOqcpOz2tf8lwWDWKklNFMu17O5FsL0LgzFNEo8WrnMTTF8lAfVyQDA4jra83I
+ 4qI6ej/nclmr9Nh8raIZA0zmAP7w1bbd86/LTFiuPScEZqkkaegPIuCgJ4JhrH/2bmFo
+ Sl5Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXyBgIeaJmF25N8LlwB3M0rpl355B8MwoR97mQZ6uTe97PYHzLJEgZDTkfFMUvdHMmsXwrX+JrWXUE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzrIgUsZtMtY6eEn81kkcqNsBs/F9ijL2cnPeC17irp3mWiaH0/
+ gOPgY+VNh+PsECxgI2BWHdDLpX8s6hrLjjTmHYRUM+Vu3CMLWi6R6l2r536P6qw=
+X-Google-Smtp-Source: AGHT+IEpeWFLJ8yL29qE6iphuWnFhSa96/H/Y2vX/YZ6kUiZe2MzqHfEFttDD3Eg9ojiGCjOGWPbXw==
+X-Received: by 2002:a2e:712:0:b0:2fb:5504:7966 with SMTP id
+ 38308e7fff4ca-2fb831e92aemr16524871fa.30.1729267542646; 
+ Fri, 18 Oct 2024 09:05:42 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-2fb809a69f3sm2445361fa.26.2024.10.18.09.05.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 18 Oct 2024 09:05:41 -0700 (PDT)
+Date: Fri, 18 Oct 2024 19:05:38 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, Arnd Bergmann <arnd@arndb.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, 
+ Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] drm/imx: parallel-display: add legacy bridge Kconfig
+ dependency
+Message-ID: <ccpkyf46bbfe4z4lo76kokixocgfofc4gltifnlesnvfuj4ndc@q66ke2mf5uqu>
+References: <20241015073004.4066457-1-arnd@kernel.org>
 MIME-Version: 1.0
-Date: Fri, 18 Oct 2024 16:01:17 +0000
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>,
- "Arnd Bergmann" <arnd@kernel.org>
-Cc: "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "Dave Airlie" <airlied@gmail.com>, 
- "Simona Vetter" <simona@ffwll.ch>, "Philipp Zabel" <p.zabel@pengutronix.de>,
- "Jani Nikula" <jani.nikula@intel.com>,
- "Geert Uytterhoeven" <geert+renesas@glider.be>,
- "Imre Deak" <imre.deak@intel.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Message-Id: <19944f9b-e7d7-45da-bf1c-0c3eeda27c12@app.fastmail.com>
-In-Reply-To: <3yqpyobkkvnan4fo5h3vx5jw5ke4zqoavo354rkw7h3frleurn@oag6vpmedaz6>
-References: <20241018150850.3418359-1-arnd@kernel.org>
- <3yqpyobkkvnan4fo5h3vx5jw5ke4zqoavo354rkw7h3frleurn@oag6vpmedaz6>
-Subject: Re: [PATCH] drm/bridge-connector: select DRM_DISPLAY_HELPER from
- DRM_BRIDGE_CONNECTOR
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241015073004.4066457-1-arnd@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,43 +94,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 18, 2024, at 15:42, Dmitry Baryshkov wrote:
-> On Fri, Oct 18, 2024 at 03:08:45PM +0000, Arnd Bergmann wrote:
->> From: Arnd Bergmann <arnd@arndb.de>
->> 
->> The imx display drivers use the new bridge connector helpers but don't
->> explicitly select CONFIG_DRM_DISPLAY_HELPER, leading to a link failure
->> in rare configurations:
->> 
->> ld.lld-20: error: undefined symbol: drm_bridge_connector_init
->> >>> referenced by imx-ldb.c
->> >>>               drivers/gpu/drm/imx/ipuv3/imx-ldb.o:(imx_ldb_bind) in archive vmlinux.a
->> >>> referenced by parallel-display.c
->> >>>               drivers/gpu/drm/imx/ipuv3/parallel-display.o:(imx_pd_bind) in archive vmlinux.a
->> 
->> Move DRM_BRIDGE_CONNECTOR out of the DRM_DISPLAY_HELPER block and
->> instead select that symbol indirectly.
->> 
->> Fixes: f94b9707a1c9 ("drm/imx: parallel-display: switch to imx_legacy_bridge / drm_bridge_connector")
->> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
->
-> I think a correct fix is to select DRM_DISPLAY_HELPER instead.
+On Tue, Oct 15, 2024 at 07:29:57AM +0000, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> The driver now uses the legacy bridge helper code but can be configured
+> to get built without it:
+> 
+> ERROR: modpost: "devm_imx_drm_legacy_bridge" [drivers/gpu/drm/imx/ipuv3/parallel-display.ko] undefined!
+> 
+> Add the required dependency, same as in the ldb driver.
+> 
+> Fixes: f94b9707a1c9 ("drm/imx: parallel-display: switch to imx_legacy_bridge / drm_bridge_connector")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  drivers/gpu/drm/imx/ipuv3/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
+> 
 
-I think I just didn't express that clearly enough, selecting
-DRM_DISPLAY_HELPER is what I did and what I tried to explain:
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
->>  config DRM_BRIDGE_CONNECTOR
->>  	bool
->>  	select DRM_DISPLAY_HDMI_STATE_HELPER
->> +	select DRM_DISPLAY_HELPER
->>  	help
->>  	  DRM connector implementation terminating DRM bridge chains.
-
-I had to move the 'if' block just to avoid a circular
-dependency.
-
-Or did you mean the imx driver is the one that should
-'select DRM_DISPLAY_HELPER'? That would also work, but
-adds a bit more complexity.
-
-      Arnd
+-- 
+With best wishes
+Dmitry
