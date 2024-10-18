@@ -2,52 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B4469A42A9
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Oct 2024 17:39:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 302149A42AD
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Oct 2024 17:41:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06B9C10E0E1;
-	Fri, 18 Oct 2024 15:39:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B41210E132;
+	Fri, 18 Oct 2024 15:40:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="QPkph3RR";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="iE2uVE0l";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD5B210E0E1;
- Fri, 18 Oct 2024 15:39:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=uAKgg0PK3Ns1x2j047c/B6AdWZAjNNefT0K3xPP74cw=; b=QPkph3RRLqyDXrExJ2lSKpUEvE
- rogiffyMTz+OK4bPc2OtBBLfWegHAJ+uSD7QoDsPizthMzgSTIeqWivBZlRug9GYov5Zsb37lgXIE
- pC1ioyo9emSBwDHbFYOHPdioYM6ykp2QfMuEOx2sInmVdpyNz04SE6WFsUhozXU0FfRL11c5HGfJP
- HyZoJn6UEXw+kFJB9f3AKqLh5ztPPHR+ozktDvkW2mk5wWpW9r2Kvp/KvKC881m+OkUzXKhocog/W
- K+yINRF7SLGSZeXNAe1ol0w6I3vYloujWg6jx68j5wTQvNA1z9Wz5EU8u5SnWhOXCwoEqSKYHZ+Y7
- p5S2zZHg==;
-Received: from [90.241.98.187] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1t1p4v-00C8S4-Sz; Fri, 18 Oct 2024 17:39:49 +0200
-Message-ID: <4d281aa4-1271-40bb-aa11-adc68b588a55@igalia.com>
-Date: Fri, 18 Oct 2024 16:39:49 +0100
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
+ [209.85.208.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC9C110E132
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2024 15:40:55 +0000 (UTC)
+Received: by mail-lj1-f177.google.com with SMTP id
+ 38308e7fff4ca-2fb5014e2daso25536421fa.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2024 08:40:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1729266054; x=1729870854; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=w3bvwu3OzUWCf73MooSLxJMXXTcmaKvPuHjhrRvynjw=;
+ b=iE2uVE0lGPCf1QFeKmzMgnbPO6WovbZAc681UAXO919ipLNXnrUbdNyc118PxhYGjF
+ vllwDUQriKuwmNMi4j9nd5aRuckzZeJhFuamgRe4jgaUXxNvvLG2AZa4k/fBkhJtq4Y1
+ S1uVBrGKcWKheyE3wfo/MrxaP6hr5OCpro73JQhwisrgAf5952Y71xE2cl/AyirBLnG3
+ r5RTGxzbB6rjiqj6Ii/YPhIQtdMivTA7Ja15zbpLO0JZRIVByOLZnFcf9147k8Ndy/fn
+ vq3VuAj+2WSmyk/DlhHgQjZBF8jLu7XaTuWFpxz4lsLJ0F+j+bLg4Pr56BHq7q0Q1A2r
+ wB2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1729266054; x=1729870854;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=w3bvwu3OzUWCf73MooSLxJMXXTcmaKvPuHjhrRvynjw=;
+ b=Oh8S34k/fyx1lG3k14x+PhPvRqqZVNDK1+uWuqIM8oLHmPrlKnf8Er/fU+Q0MMxZBj
+ Jk0Vwxaesqw3BqtIA6PUw8MMeV4/Cs2ckQ0TIf1dwFd4xYOx1Xym2krnFYgU5LY6GrH5
+ Gu97BnUi7OQjVxJR8pH65U/RuKxBqWoaDId/y5OaHFpAP7sCtQ7jjeWho5tm8ixEDZGA
+ WZAXOOXSuMvO3pmOzUevWWq3B6f5/TpeIjS+668pBUakgc9n1AH7HG0qa0S4nPDNTCAE
+ XtfDMDDTdAdxxZ2gmrbKTgUmm4c6sm6zXzHEqOhyrjwdmuVxkByIXGaFk9r97sp/oyvX
+ +INg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW7M4CR+AqfJmTrfDpW/Ar5GrLEcgx/7uvEtmMfCxypxYwU4ELQcG5OW4V4EZsK/+DshSMhXSWmiqc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyhGOofN0MW9DlVGmUQE5qLLP3YXUUP0oYke05Jjs06TprUrkt7
+ Sis5I3b9lWs/petcv6cXUjLsklKjq0v+340zZzQVHd27M7MWPM6xu4Qr+utqt80=
+X-Google-Smtp-Source: AGHT+IFNy+IiwoNEkyZ2thYD/crdC0LJwLRi3uLBZU4IijiXr13fyi0mObCfVy8zlYe+NMMkBbwE/Q==
+X-Received: by 2002:a2e:7c16:0:b0:2fa:d84a:bd8f with SMTP id
+ 38308e7fff4ca-2fb831e6dfemr12851361fa.30.1729266053851; 
+ Fri, 18 Oct 2024 08:40:53 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-2fb809a69fesm2479441fa.11.2024.10.18.08.40.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 18 Oct 2024 08:40:52 -0700 (PDT)
+Date: Fri, 18 Oct 2024 18:40:51 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] drm/drm_mode_object: fix typo in kerneldoc
+Message-ID: <exqgw35skr7mdllf47k7dejcex3lh23kx5jh3vv6ln3m22nlig@zbefnqjlohsr>
+References: <20241018-drm-small-improvements-v1-0-cc316e1a98c9@bootlin.com>
+ <20241018-drm-small-improvements-v1-1-cc316e1a98c9@bootlin.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/4] drm/amdgpu: make drm-memory-* report resident
- memory
-To: Yunxiang Li <Yunxiang.Li@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-Cc: Alexander.Deucher@amd.com, christian.koenig@amd.com
-References: <20241018133308.889-1-Yunxiang.Li@amd.com>
- <20241018133308.889-3-Yunxiang.Li@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <20241018133308.889-3-Yunxiang.Li@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241018-drm-small-improvements-v1-1-cc316e1a98c9@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,76 +87,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 18/10/2024 14:33, Yunxiang Li wrote:
-> The old behavior reports the resident memory usage for this key and the
-> documentation say so as well. However this was accidentally changed to
-> include buffers that was evicted.
+On Fri, Oct 18, 2024 at 05:26:51PM +0200, Luca Ceresoli wrote:
+> Remove unintended extra word.
 > 
-> Fixes: a2529f67e2ed ("drm/amdgpu: Use drm_print_memory_stats helper from fdinfo")
-> Signed-off-by: Yunxiang Li <Yunxiang.Li@amd.com>
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 > ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c | 7 ++++---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 1 -
->   drivers/gpu/drm/amd/amdgpu/amdgpu_object.h | 1 -
->   3 files changed, 4 insertions(+), 5 deletions(-)
+>  include/drm/drm_mode_object.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
-> index 00a4ab082459f..8281dd45faaa0 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
-> @@ -33,6 +33,7 @@
->   #include <drm/amdgpu_drm.h>
->   #include <drm/drm_debugfs.h>
->   #include <drm/drm_drv.h>
-> +#include <drm/drm_file.h>
->   
->   #include "amdgpu.h"
->   #include "amdgpu_vm.h"
-> @@ -95,11 +96,11 @@ void amdgpu_show_fdinfo(struct drm_printer *p, struct drm_file *file)
->   
->   	/* Legacy amdgpu keys, alias to drm-resident-memory-: */
->   	drm_printf(p, "drm-memory-vram:\t%llu KiB\n",
-> -		   stats[TTM_PL_VRAM].total/1024UL);
-> +		   stats[TTM_PL_VRAM].drm.resident/1024UL);
->   	drm_printf(p, "drm-memory-gtt: \t%llu KiB\n",
-> -		   stats[TTM_PL_TT].total/1024UL);
-> +		   stats[TTM_PL_TT].drm.resident/1024UL);
->   	drm_printf(p, "drm-memory-cpu: \t%llu KiB\n",
-> -		   stats[TTM_PL_SYSTEM].total/1024UL);
-> +		   stats[TTM_PL_SYSTEM].drm.resident/1024UL);
->   
->   	/* Amdgpu specific memory accounting keys: */
->   	drm_printf(p, "amd-memory-visible-vram:\t%llu KiB\n",
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> index 045222b6bd049..2a53e72f3964f 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> @@ -1223,7 +1223,6 @@ void amdgpu_bo_get_memory(struct amdgpu_bo *bo,
->   
->   	/* DRM stats common fields: */
->   
-> -	stats[type].total += size;
->   	if (drm_gem_object_is_shared_for_memory_stats(obj))
->   		stats[type].drm.shared += size;
->   	else
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
-> index 7260349917ef0..a5653f474f85c 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
-> @@ -142,7 +142,6 @@ struct amdgpu_bo_vm {
->   struct amdgpu_mem_stats {
->   	struct drm_memory_stats drm;
->   
-> -	uint64_t total;
->   	uint64_t visible;
->   	uint64_t evicted;
->   	uint64_t evicted_visible;
 
-LGTM, thanks for fixing it!
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-
-Regards,
-
-Tvrtko
+-- 
+With best wishes
+Dmitry
