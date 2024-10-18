@@ -2,66 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 304CA9A31D8
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Oct 2024 03:01:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 700A29A31E2
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Oct 2024 03:16:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 395D810E049;
-	Fri, 18 Oct 2024 01:01:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBC6A10E340;
+	Fri, 18 Oct 2024 01:16:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="WKf0/rOA";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="J0DaNpR/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18CF910E049
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2024 01:01:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1729213261; x=1760749261;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=8eDAVp1llPMRkGyKgFcN6O8Gea7/aRAoPbW6MBfBBsU=;
- b=WKf0/rOAoO2yQUV4rYkFMm3ERVOBkXIjgAPuhRyj2nCnEkGbBr9Yp+4o
- JCHXcwjL3HfQTYxgWjdd9G5Ry6HweYLfJMS1AeG3GukNGWKyL/IRYtDS4
- 55S4wfCzAaDmYIQapG4Imbwl0iclWw/c8IXZ0LI/pbVpW4FvyA4Cn7sCm
- 1ck2C165TPW6UIAoV+Ti83aPiECwWNpuBA9nlIpaG79VZMkYUCfPciLjt
- UFUv0tGb/9sdaH6oTqqHofRFm9+fHtzvWaKJlviBUL/TCtpZp1sSjjUpG
- juhO29kYkMPSVHWmpnM+0aZInjRyIbWWS/qCVAEqvDfXaF8e4uCRnGynr A==;
-X-CSE-ConnectionGUID: mYhuwpSLQBSf6mcOkFiTVg==
-X-CSE-MsgGUID: 5VjWjbavRmGOx/IyyOMY7A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28521393"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="28521393"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Oct 2024 18:01:01 -0700
-X-CSE-ConnectionGUID: 28lpL1nKRDGpS4/ddyn14w==
-X-CSE-MsgGUID: xPSXlSHtR5yf0gLTgidBQA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,212,1725346800"; d="scan'208";a="83792523"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
- by orviesa004.jf.intel.com with ESMTP; 17 Oct 2024 18:00:56 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1t1bMM-000N5r-0A;
- Fri, 18 Oct 2024 01:00:54 +0000
-Date: Fri, 18 Oct 2024 09:00:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jinjie Ruan <ruanjinjie@huawei.com>, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, christian.koenig@amd.com, ray.huang@amd.com,
- dmitry.baryshkov@linaro.org, dave.stevenson@raspberrypi.com,
- mcanal@igalia.com, quic_jjohnson@quicinc.com,
- karolina.stolarek@intel.com, Arunpravin.PaneerSelvam@amd.com,
- thomas.hellstrom@linux.intel.com, asomalap@amd.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, ruanjinjie@huawei.com
-Subject: Re: [PATCH 1/3] drm/connector: hdmi: Fix memory leak in
- drm_display_mode_from_cea_vic()
-Message-ID: <202410180830.oitxTsOv-lkp@intel.com>
-References: <20241014071632.989108-2-ruanjinjie@huawei.com>
+Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
+ [209.85.222.193])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CFC710E231
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2024 01:16:44 +0000 (UTC)
+Received: by mail-qk1-f193.google.com with SMTP id
+ af79cd13be357-7b1363c7977so155816185a.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Oct 2024 18:16:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1729214203; x=1729819003; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=L+jeEzvzeBO0CSepYbmjdJpmL4Dx0CLgyilp0Lr7mac=;
+ b=J0DaNpR/Wv1RSPsA5ilT8UAMPE8J+BJcZd+cFkLp9QqymSf4plnyhezIZTFMva9ifF
+ 3xMUmvUuFahRCRg2DyOoQBjgS+4Oebs252kBqxm6BVM5Y0WIgaYGMEZAvbeq9lahEae4
+ KjHy2h9A4Af5luLqAf1u+LmWm+Oc2YiQ+kgFxhVgxkfjo2SAORB1CLfCuen7woyr44P4
+ 1QVL/LMYlnv4JmT90/nxzFvWqQ1UlfiqluicBoeCLeryDSZUbkTSji/QUTZwAyttGC5p
+ A9FNCNxLp2wYdTlvBpmyKF9Wz1h3+pjJvFDxNysDKtJAjnZCg1XyMY2q2ad1vUh2xd2N
+ blrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1729214203; x=1729819003;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=L+jeEzvzeBO0CSepYbmjdJpmL4Dx0CLgyilp0Lr7mac=;
+ b=Hy511sYHUUKUNEv5P+B7BPzxP0PKAbBWCIERgzraoo6tCFqD8pQsJIrU/oq+Bbz2IB
+ VLP5BxO9yTlMZbm+tM/oeEnAkEXsFGgOgfXRAPg8YjZm0pQk7SzhSn9cDtcdIVexOAym
+ ytBuvA+tzoh2pELwtpk0QKcE2Mkx/EjqQRLvWeElHdtOIFL9RMRjMHAyWBkm85jrBumL
+ bmoBtU4me5nFLGMuVE7NFANc0lEghnuAsKeQqni2Ukjnk6BQi8ZkSmakGTt6kk/MpjM1
+ JbqfLMc4Gc8Ps498T+/NC36+fi6IRTWLRyTKKum2XqzrK+Zrf8Z87mHJ6bJ1Y6DS3/cr
+ crQA==
+X-Gm-Message-State: AOJu0YyTadV+9AtXPVb14418jizEri9MCiVQ7/sJoXe34m/v3OD4Tw9N
+ UWYcJPN4zGyhBd/vjtEctGo4Ohl6WZAT2OFefoiMAMzablmAT7ba
+X-Google-Smtp-Source: AGHT+IHHFnNKX+aO1kFP+z5fdwNhVe0jV7E5UYmQLhZyHyGqgaPqopnARtqKFCzaWvPE4BOI1xJEnw==
+X-Received: by 2002:a05:620a:1995:b0:7b1:50a8:3394 with SMTP id
+ af79cd13be357-7b157b7d45dmr85250685a.36.1729214203021; 
+ Thu, 17 Oct 2024 18:16:43 -0700 (PDT)
+Received: from localhost.localdomain (mobile-130-126-255-54.near.illinois.edu.
+ [130.126.255.54]) by smtp.gmail.com with ESMTPSA id
+ af79cd13be357-7b156f9858esm24367585a.40.2024.10.17.18.16.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Oct 2024 18:16:42 -0700 (PDT)
+From: Gax-c <zichenxie0106@gmail.com>
+To: inki.dae@samsung.com, sw0312.kim@samsung.com, kyungmin.park@samsung.com,
+ airlied@gmail.com, simona@ffwll.ch, alim.akhtar@samsung.com
+Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, zzjas98@gmail.com, chenyuan0y@gmail.com,
+ Zichen Xie <zichenxie0106@gmail.com>
+Subject: [PATCH] drm/exynos: fix potential integer overflow in
+ exynos_drm_gem_dumb_create()
+Date: Thu, 17 Oct 2024 20:16:05 -0500
+Message-Id: <20241018011604.24875-1-zichenxie0106@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241014071632.989108-2-ruanjinjie@huawei.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,151 +81,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jinjie,
+From: Zichen Xie <zichenxie0106@gmail.com>
 
-kernel test robot noticed the following build warnings:
+This was found by a static analyzer.
+There may be potential integer overflow issue in
+exynos_drm_gem_dumb_create(). args->size is defined
+as "__u64" while args->pitch and args->height are
+both defined as "__u32". The result of
+"args->pitch * args->height" will be limited to
+"__u32" without correct casting.
+Even if the overflow is quite difficult to
+happen, we still recommand adding an extra cast.
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on linus/master v6.12-rc3 next-20241017]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Fixes: 7da5907c84f8 ("drm/exynos: fixed page align bug.")
+Signed-off-by: Zichen Xie <zichenxie0106@gmail.com>
+---
+ drivers/gpu/drm/exynos/exynos_drm_gem.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jinjie-Ruan/drm-connector-hdmi-Fix-memory-leak-in-drm_display_mode_from_cea_vic/20241014-152022
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20241014071632.989108-2-ruanjinjie%40huawei.com
-patch subject: [PATCH 1/3] drm/connector: hdmi: Fix memory leak in drm_display_mode_from_cea_vic()
-config: arc-randconfig-002-20241017 (https://download.01.org/0day-ci/archive/20241018/202410180830.oitxTsOv-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241018/202410180830.oitxTsOv-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410180830.oitxTsOv-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/gpu/drm/tests/drm_connector_test.c: In function 'drm_test_drm_hdmi_compute_mode_clock_rgb':
->> drivers/gpu/drm/tests/drm_connector_test.c:1008:31: warning: passing argument 2 of 'drm_mode_destroy' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-    1008 |         drm_mode_destroy(drm, mode);
-         |                               ^~~~
-   In file included from drivers/gpu/drm/tests/drm_connector_test.c:13:
-   include/drm/drm_modes.h:456:72: note: expected 'struct drm_display_mode *' but argument is of type 'const struct drm_display_mode *'
-     456 | void drm_mode_destroy(struct drm_device *dev, struct drm_display_mode *mode);
-         |                                               ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
-   drivers/gpu/drm/tests/drm_connector_test.c: In function 'drm_test_drm_hdmi_compute_mode_clock_rgb_10bpc':
-   drivers/gpu/drm/tests/drm_connector_test.c:1031:31: warning: passing argument 2 of 'drm_mode_destroy' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-    1031 |         drm_mode_destroy(drm, mode);
-         |                               ^~~~
-   include/drm/drm_modes.h:456:72: note: expected 'struct drm_display_mode *' but argument is of type 'const struct drm_display_mode *'
-     456 | void drm_mode_destroy(struct drm_device *dev, struct drm_display_mode *mode);
-         |                                               ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
-   drivers/gpu/drm/tests/drm_connector_test.c: In function 'drm_test_drm_hdmi_compute_mode_clock_rgb_10bpc_vic_1':
-   drivers/gpu/drm/tests/drm_connector_test.c:1051:31: warning: passing argument 2 of 'drm_mode_destroy' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-    1051 |         drm_mode_destroy(drm, mode);
-         |                               ^~~~
-   include/drm/drm_modes.h:456:72: note: expected 'struct drm_display_mode *' but argument is of type 'const struct drm_display_mode *'
-     456 | void drm_mode_destroy(struct drm_device *dev, struct drm_display_mode *mode);
-         |                                               ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
-   drivers/gpu/drm/tests/drm_connector_test.c: In function 'drm_test_drm_hdmi_compute_mode_clock_rgb_12bpc':
-   drivers/gpu/drm/tests/drm_connector_test.c:1074:31: warning: passing argument 2 of 'drm_mode_destroy' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-    1074 |         drm_mode_destroy(drm, mode);
-         |                               ^~~~
-   include/drm/drm_modes.h:456:72: note: expected 'struct drm_display_mode *' but argument is of type 'const struct drm_display_mode *'
-     456 | void drm_mode_destroy(struct drm_device *dev, struct drm_display_mode *mode);
-         |                                               ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
-   drivers/gpu/drm/tests/drm_connector_test.c: In function 'drm_test_drm_hdmi_compute_mode_clock_rgb_12bpc_vic_1':
-   drivers/gpu/drm/tests/drm_connector_test.c:1094:31: warning: passing argument 2 of 'drm_mode_destroy' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-    1094 |         drm_mode_destroy(drm, mode);
-         |                               ^~~~
-   include/drm/drm_modes.h:456:72: note: expected 'struct drm_display_mode *' but argument is of type 'const struct drm_display_mode *'
-     456 | void drm_mode_destroy(struct drm_device *dev, struct drm_display_mode *mode);
-         |                                               ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
-   drivers/gpu/drm/tests/drm_connector_test.c: In function 'drm_test_drm_hdmi_compute_mode_clock_rgb_double':
-   drivers/gpu/drm/tests/drm_connector_test.c:1117:31: warning: passing argument 2 of 'drm_mode_destroy' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-    1117 |         drm_mode_destroy(drm, mode);
-         |                               ^~~~
-   include/drm/drm_modes.h:456:72: note: expected 'struct drm_display_mode *' but argument is of type 'const struct drm_display_mode *'
-     456 | void drm_mode_destroy(struct drm_device *dev, struct drm_display_mode *mode);
-         |                                               ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
-   drivers/gpu/drm/tests/drm_connector_test.c: In function 'drm_test_connector_hdmi_compute_mode_clock_yuv420_valid':
-   drivers/gpu/drm/tests/drm_connector_test.c:1142:31: warning: passing argument 2 of 'drm_mode_destroy' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-    1142 |         drm_mode_destroy(drm, mode);
-         |                               ^~~~
-   include/drm/drm_modes.h:456:72: note: expected 'struct drm_display_mode *' but argument is of type 'const struct drm_display_mode *'
-     456 | void drm_mode_destroy(struct drm_device *dev, struct drm_display_mode *mode);
-         |                                               ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
-   drivers/gpu/drm/tests/drm_connector_test.c: In function 'drm_test_connector_hdmi_compute_mode_clock_yuv420_10_bpc':
-   drivers/gpu/drm/tests/drm_connector_test.c:1182:31: warning: passing argument 2 of 'drm_mode_destroy' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-    1182 |         drm_mode_destroy(drm, mode);
-         |                               ^~~~
-   include/drm/drm_modes.h:456:72: note: expected 'struct drm_display_mode *' but argument is of type 'const struct drm_display_mode *'
-     456 | void drm_mode_destroy(struct drm_device *dev, struct drm_display_mode *mode);
-         |                                               ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
-   drivers/gpu/drm/tests/drm_connector_test.c: In function 'drm_test_connector_hdmi_compute_mode_clock_yuv420_12_bpc':
-   drivers/gpu/drm/tests/drm_connector_test.c:1209:31: warning: passing argument 2 of 'drm_mode_destroy' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-    1209 |         drm_mode_destroy(drm, mode);
-         |                               ^~~~
-   include/drm/drm_modes.h:456:72: note: expected 'struct drm_display_mode *' but argument is of type 'const struct drm_display_mode *'
-     456 | void drm_mode_destroy(struct drm_device *dev, struct drm_display_mode *mode);
-         |                                               ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
-   drivers/gpu/drm/tests/drm_connector_test.c: In function 'drm_test_connector_hdmi_compute_mode_clock_yuv422_8_bpc':
-   drivers/gpu/drm/tests/drm_connector_test.c:1233:31: warning: passing argument 2 of 'drm_mode_destroy' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-    1233 |         drm_mode_destroy(drm, mode);
-         |                               ^~~~
-   include/drm/drm_modes.h:456:72: note: expected 'struct drm_display_mode *' but argument is of type 'const struct drm_display_mode *'
-     456 | void drm_mode_destroy(struct drm_device *dev, struct drm_display_mode *mode);
-         |                                               ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
-   drivers/gpu/drm/tests/drm_connector_test.c: In function 'drm_test_connector_hdmi_compute_mode_clock_yuv422_10_bpc':
-   drivers/gpu/drm/tests/drm_connector_test.c:1257:31: warning: passing argument 2 of 'drm_mode_destroy' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-    1257 |         drm_mode_destroy(drm, mode);
-         |                               ^~~~
-   include/drm/drm_modes.h:456:72: note: expected 'struct drm_display_mode *' but argument is of type 'const struct drm_display_mode *'
-     456 | void drm_mode_destroy(struct drm_device *dev, struct drm_display_mode *mode);
-         |                                               ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
-   drivers/gpu/drm/tests/drm_connector_test.c: In function 'drm_test_connector_hdmi_compute_mode_clock_yuv422_12_bpc':
-   drivers/gpu/drm/tests/drm_connector_test.c:1281:31: warning: passing argument 2 of 'drm_mode_destroy' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-    1281 |         drm_mode_destroy(drm, mode);
-         |                               ^~~~
-   include/drm/drm_modes.h:456:72: note: expected 'struct drm_display_mode *' but argument is of type 'const struct drm_display_mode *'
-     456 | void drm_mode_destroy(struct drm_device *dev, struct drm_display_mode *mode);
-         |                                               ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [y]:
-   - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
-
-
-vim +1008 drivers/gpu/drm/tests/drm_connector_test.c
-
-   987	
-   988	/*
-   989	 * Test that for a given mode, with 8bpc and an RGB output the TMDS
-   990	 * character rate is equal to the mode pixel clock.
-   991	 */
-   992	static void drm_test_drm_hdmi_compute_mode_clock_rgb(struct kunit *test)
-   993	{
-   994		struct drm_connector_init_priv *priv = test->priv;
-   995		const struct drm_display_mode *mode;
-   996		unsigned long long rate;
-   997		struct drm_device *drm = &priv->drm;
-   998	
-   999		mode = drm_display_mode_from_cea_vic(drm, 16);
-  1000		KUNIT_ASSERT_NOT_NULL(test, mode);
-  1001	
-  1002		KUNIT_ASSERT_FALSE(test, mode->flags & DRM_MODE_FLAG_DBLCLK);
-  1003	
-  1004		rate = drm_hdmi_compute_mode_clock(mode, 8, HDMI_COLORSPACE_RGB);
-  1005		KUNIT_ASSERT_GT(test, rate, 0);
-  1006		KUNIT_EXPECT_EQ(test, mode->clock * 1000ULL, rate);
-  1007	
-> 1008		drm_mode_destroy(drm, mode);
-  1009	}
-  1010	
-
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_gem.c b/drivers/gpu/drm/exynos/exynos_drm_gem.c
+index 638ca96830e9..de2126853d2c 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_gem.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_gem.c
+@@ -337,7 +337,7 @@ int exynos_drm_gem_dumb_create(struct drm_file *file_priv,
+ 	 */
+ 
+ 	args->pitch = args->width * ((args->bpp + 7) / 8);
+-	args->size = args->pitch * args->height;
++	args->size = (__u64)args->pitch * args->height;
+ 
+ 	if (is_drm_iommu_supported(dev))
+ 		flags = EXYNOS_BO_NONCONTIG | EXYNOS_BO_WC;
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.34.1
+
