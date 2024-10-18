@@ -2,86 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B92D59A4A08
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Oct 2024 01:22:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A71FA9A4A11
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Oct 2024 01:24:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FE1810E24F;
-	Fri, 18 Oct 2024 23:22:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1020A10E18B;
+	Fri, 18 Oct 2024 23:24:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="jOwLr7HS";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="czN82VKh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
- [209.85.167.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81AF410E24F
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2024 23:22:53 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id
- 2adb3069b0e04-539fbbadf83so3450361e87.0
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2024 16:22:53 -0700 (PDT)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
+ [209.85.167.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C6F710E18B
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2024 23:24:47 +0000 (UTC)
+Received: by mail-lf1-f46.google.com with SMTP id
+ 2adb3069b0e04-5366fd6fdf1so4260801e87.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2024 16:24:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1729293771; x=1729898571; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=aX1Ed3MLmjAUFYDzujQv0rzYaNVm2pPy+pKKKWr8v3w=;
- b=jOwLr7HSWvGb9KS79fVoOKKNQMzF+fdM+qY7Ox6tg0elLrfwD8IXN1e2Lu5e9CnQ3c
- 22V8Gq/SewtF6/Ajx6eIA5Tg+yXT3jLsQeNHb3cx8AwYvEgiUbPBD6wv2qrG34kasLqr
- DcJJLsU1rZdvrG4WDt5caIOdeEbIVqYmB7V3vyKd/SpsWig8dQOABBnzSYBtqyHqFJCH
- vBClVh4votYdl0uWxYVFWz0e4ideY+HvWZSMkn9nJMQQ5PkTAH7TI23vPqIRGnzv/BpB
- wndVFX97EDJr/UOjtOeffZFcYoyINrR6IH6UANpHSm72EzZ8cAMZQtn4Hoz/+DN5hS8V
- 83vw==
+ d=linaro.org; s=google; t=1729293886; x=1729898686; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=/XL7RU0wcJwiLmyi3rltL96OHQM/RvogtscZRbUMIBE=;
+ b=czN82VKhl5XtIQ5FtLG491Fltj4zcLy4PzsotW74iGMBg7a3WADgJep7KqoWSZwAEm
+ nQDXMi7yLSxOqSkzFaihI7aRSBUKHrgJ45Ocan0t9kSGaFTX2ZBPBBAPoY0fuIymltV2
+ c9m/qbCa9seIcKxhoHbStyctiAjVQ+nLwWIRfjIguZMk2w6JgNVuPj9tRltM+WZkMNVX
+ L0ZiOLyieuz4HU3+OtAymO61W+XCYq97jWVj3QEQgpVIoQZcGRu/UkrHOtJQQipyuy+o
+ 1qP1fjU6z2PFBMPGLr7AmU4on0E3r2X/ONhnTX70zQLnWGE6gwqaTOCLRoJa79MXwKlu
+ 74Cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729293771; x=1729898571;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=aX1Ed3MLmjAUFYDzujQv0rzYaNVm2pPy+pKKKWr8v3w=;
- b=Ho9jTUuqtiN/CtDnfvG7kFifAqYuDNxL7bUGc80K2hlIyFmhUJHBQYYfVaGvKpWrOO
- 7OCuB9xdEeERl+bO/5w8yBOm4U2wvbQpFgVFg6vwO+fWTummjR2Zd7Lz9xpCOzEIiLlE
- Z51EvnJaFs++7HZ6Uh4vUhyf0qurYFs9l/7hgPASOE8NfTJhbei/t1rT7XKDAEsbdN0R
- mMD1SAtwMGFoIQZU/efJQ/76zWwvYpej84ArZYR5AO0moHQV5oelwousR/58VCsVZP5N
- PCKXAHLEFzDe73wPxO1IlQ/2bbj3ivQdC03W6CB1w1w4dV5ki1fQE95N4HzPG5eYAufx
- KNwA==
+ d=1e100.net; s=20230601; t=1729293886; x=1729898686;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=/XL7RU0wcJwiLmyi3rltL96OHQM/RvogtscZRbUMIBE=;
+ b=ku710kMwq0oByOsZjsRv5sq0l2r7AdktXR6Cb0V2HGnsmrY4wecVHzK2BNangcNy66
+ ebNkbMlQggnfzjc+FxX7S867EUlXB91BE1PwniMsl2wpxUIOZR6p2jpcW0H+3J1s6GQ6
+ BjyAvaKhzGfL/9LstsIgh5nDb/6bpnYyiuWdxGEiHMRrkwhDOvZM6f5KG30qvmOa+T/b
+ OJl4e/nGAg57Nosen8RwjU0RQkcfctQXc7Io2wD2SPJGZBAcyhjv1L00DU7CFiDRcVJD
+ 3j2vhgXfrZZtG1/hYH2jpxMZ/CEPdfBhnaPQ8wD6w+mNZLaZzfj+wc7+eMA2xn2h2HpQ
+ LMcg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUSbTlQtysy0xMkfqEpbU9fRtkRSRFUI1N5jt/SnE83X26hZ0FB0nfAMdI8NP7JSspOEqSavNQl7TU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw2xPp9QMUxEEXURXmA057ur8w1Wh4Y7043yWi+pmpBeNCcL3Y6
- t0Mdj1/WLIy6D2cd/+qvQ9HeXGtkoQKaezqQJTxrBgzIO4dn6AHghdYyssSciDE=
-X-Google-Smtp-Source: AGHT+IGyfftMjWZHfQWKqWoQYQ8JI+p/ypISrL5eJ6+gCuABF4WiTfoXGbQLBF2l4svs55N/Vw1Axg==
-X-Received: by 2002:a05:6512:3192:b0:539:fa3d:a73 with SMTP id
- 2adb3069b0e04-53a154e7966mr2320766e87.39.1729293771084; 
- Fri, 18 Oct 2024 16:22:51 -0700 (PDT)
-Received: from eriador.lan (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00::b8c]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53a151b9151sm349825e87.75.2024.10.18.16.22.49
+ AJvYcCXd6ynVT0XYmYUFHwViFXEfNYIj8fJ3bUVEuQUUjidXa84HYmBxu7os8jAEGrweWgE8tNN/+eRFZow=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzGE7PZTCbn9SdBSQxL1LixG+A/qkZYs19i/kX8oxIh91T8/6LN
+ E5GomQniltJCWroME99OYlfDBZMKiBGb5qw/zsOAB9+QTdCFPeii0WPlITP56RM=
+X-Google-Smtp-Source: AGHT+IGxQH8jPhf8nHBxYihXlnaykZShcOq9fR2nMiH4MBnj0+03pyQXpR9uKc/6SVuSIxYNBKMpGQ==
+X-Received: by 2002:a05:6512:10c6:b0:539:9746:2d77 with SMTP id
+ 2adb3069b0e04-53a154e049bmr2567706e87.61.1729293885758; 
+ Fri, 18 Oct 2024 16:24:45 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-53a151b90b5sm356121e87.88.2024.10.18.16.24.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Oct 2024 16:22:50 -0700 (PDT)
+ Fri, 18 Oct 2024 16:24:45 -0700 (PDT)
+Date: Sat, 19 Oct 2024 02:24:42 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: u.kleine-koenig@baylibre.com,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
- David Lechner <david@lechnology.com>,
- Mehdi Djait <mehdi.djait@bootlin.com>,
- Alex Lanzano <lanzano.alex@gmail.com>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org
-Subject: Re: [PATCH v11 0/2] Add driver for Sharp Memory LCD
-Date: Sat, 19 Oct 2024 02:22:47 +0300
-Message-ID: <172929376314.2587927.2624699121778996381.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20241015230617.3020230-1-lanzano.alex@gmail.com>
-References: <20241015230617.3020230-1-lanzano.alex@gmail.com>
+To: Manikandan Muralidharan <manikandan.m@microchip.com>
+Cc: sam@ravnborg.org, bbrezillon@kernel.org, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, 
+ simona@ffwll.ch, nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com, 
+ claudiu.beznea@tuxon.dev, Hari.PrasathGE@microchip.com,
+ durai.manickamkr@microchip.com, 
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, Cyrille Pitchen <cyrille.pitchen@microchip.com>
+Subject: Re: [PATCH] drm: atmel-hlcdc: fix atmel_xlcdc_plane_setup_scaler()
+Message-ID: <qsfos3biidabnzdji5hkgmup3nmkeve43hwgqsaaod5npssjgt@277cxzczsv33>
+References: <20241014094942.325211-1-manikandan.m@microchip.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241014094942.325211-1-manikandan.m@microchip.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,25 +89,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 15 Oct 2024 19:05:42 -0400, Alex Lanzano wrote:
-> This patch series add support for the monochrome Sharp Memory LCD
-> panels. This series is based off of the work done by Mehdi Djait.
+On Mon, Oct 14, 2024 at 03:19:42PM +0530, Manikandan Muralidharan wrote:
+> From: Cyrille Pitchen <cyrille.pitchen@microchip.com>
 > 
-> References:
-> https://lore.kernel.org/dri-devel/71a9dbf4609dbba46026a31f60261830163a0b99.1701267411.git.mehdi.djait@bootlin.com/
-> https://www.sharpsde.com/fileadmin/products/Displays/2016_SDE_App_Note_for_Memory_LCD_programming_V1.3.pdf
+> On SoCs, like the SAM9X75, which embed the XLCDC ip, the registers that
+> configure the unified scaling engine were not filled with proper values.
 > 
-> [...]
+> Indeed, for YCbCr formats, the VXSCFACT bitfield of the HEOCFG25
+> register and the HXSCFACT bitfield of the HEOCFG27 register were
+> incorrect.
+> 
+> For 4:2:0 formats, both vertical and horizontal factors for
+> chroma chanels should be divided by 2 from the factors for the luma
+> channel. Hence:
+> 
+> HEOCFG24.VXSYFACT = VFACTOR
+> HEOCFG25.VSXCFACT = VFACTOR / 2
+> HEOCFG26.HXSYFACT = HFACTOR
+> HEOCFG27.HXSCFACT = HFACTOR / 2
+> 
+> However, for 4:2:2 formats, only the horizontal factor for chroma
+> chanels should be divided by 2 from the factor for the luma channel;
+> the vertical factor is the same for all the luma and chroma channels.
+> Hence:
+> 
+> HEOCFG24.VXSYFACT = VFACTOR
+> HEOCFG25.VXSCFACT = VFACTOR
+> HEOCFG26.HXSYFACT = HFACTOR
+> HEOCFG27.HXSCFACT = HFACTOR / 2
+> 
+> Fixes: d498771b0b83 ("drm: atmel_hlcdc: Add support for XLCDC using IP specific driver ops")
+> Signed-off-by: Cyrille Pitchen <cyrille.pitchen@microchip.com>
+> ---
+>  .../gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c   | 27 ++++++++++++++++---
+>  1 file changed, 24 insertions(+), 3 deletions(-)
+> 
 
-Applied to drm-misc-next, thanks!
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-[1/2] dt-bindings: display: Add Sharp Memory LCD bindings
-      commit: 12f6baa472e097d4d55dfef9eacc36b04071bdc1
-[2/2] drm/tiny: Add driver for Sharp Memory LCD
-      commit: b8f9f21716fecac41d083ec8c77809ecd0b100d8
-
-Best regards,
 -- 
 With best wishes
 Dmitry
-
