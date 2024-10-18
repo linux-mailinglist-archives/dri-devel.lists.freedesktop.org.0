@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DA519A4927
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Oct 2024 23:49:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D62109A492B
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Oct 2024 23:49:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDB3A10E9B4;
-	Fri, 18 Oct 2024 21:49:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2AB910E9C0;
+	Fri, 18 Oct 2024 21:49:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="liPrWkS+";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="RoB5vV0b";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
- [209.85.167.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E03FC10E9B4
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2024 21:49:21 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id
- 2adb3069b0e04-539e8607c2aso2954642e87.3
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2024 14:49:21 -0700 (PDT)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
+ [209.85.167.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D7C910E9BC
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2024 21:49:23 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id
+ 2adb3069b0e04-539f7606199so3077774e87.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2024 14:49:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1729288160; x=1729892960; darn=lists.freedesktop.org;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=2irfqM3Mz+ZCMqnLHdPvZOQQDp0yyhpcI0682bVeu5Q=;
- b=liPrWkS+KOPkCZGYSue1awMLQUmzMDC7ryUXggMJDKwnTVw5lkpK0pQ2y+o1MWIvs9
- JRakfUsbAWnf+FZNmOJp443DZsL0/z4rHR7gqjJbJS2nQUAfYmF663qAzaMlQXnoqdA2
- gvUo7jY7M6pBtwD+X+fog8ax4iqYxsmTugKSRIVOieCyEVxLHjQsQqn/3rzhzbJnJKBL
- tIbBi4en7HPhyfX6KDAMWf8GmmB6Dv4LCDhXUzZPjryat0axhmzhwzw7G/eddBKJkzsI
- aW1TDljPPjLF39UxVsOuVGJvvyNPmLDB5BJJRj71kQhrfo0I090+sTGf9h77hYXnPFan
- IINQ==
+ d=linaro.org; s=google; t=1729288161; x=1729892961; darn=lists.freedesktop.org;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=9z8gZhR6xKvHdHJfRz4craU+dxQh5f6YMki2hXyc4YM=;
+ b=RoB5vV0b/Q3cE3KhDFk24kOLKnjzGZPZ1KII+h98ym6qQBnmMH+zHPEAYIN+WPW6Do
+ O2DHri5iR0P0D/rWBDSqoQZVFfjcwqgxsbA3PB+8KBMuu69mP98q5B6tLbr1VZrwxc3R
+ cNZOIJ/uex38Rn+HPfNVDxTfxdhq58B8IMb/PhSQudUUzDInfPxIXxRLSRArQAoqVlH0
+ ta5q0/WP7zDd8OY0oSw4MQ8eRuVqOFAxdENxXf5ArsR5tBfwHpVHe/UvBJ7FSWJg3aJU
+ 9sL0Ot1Ivi4M5cuvrRRirZY2vCIDoejF5d1qZy+rJHcfZPdT4Fn2vc9FNGvjTvoQ2yIz
+ gqmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729288160; x=1729892960;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=2irfqM3Mz+ZCMqnLHdPvZOQQDp0yyhpcI0682bVeu5Q=;
- b=EAzcPoHibYyvuFeB7+8yWty3qNQX3ndKszDR0oeQsF9BYVXGdW+U9RBtnrkYJX/mBd
- iMoLBiZ0Gpv2LlFMhDA5IvsqxGdui7JgQPpQT3splL0VzMh/xHZKYjTK6Lp20ImLxUAq
- lzMn0BrovP0mBpdS3CHhqisDESFYOktxm/l6th80ybjlifMkpUGGIWOmAyHnEQI4XFcX
- H6MBMCt9gualUk7UeWDx9LVIGQfLf6O6lFQlCDzJjXSZ8DOMgFVtJ+OLECFeEwf9mNZ1
- cStnw0eZf8NUagSlbt/iXWvUrkiiP/wLEyTJHf1Ypw5RWQrxuR6orvJvC8ra8t5uTpl+
- 3ekA==
-X-Gm-Message-State: AOJu0Yw0ouvc76oPv3Wb8wbwHp+8fhW4L8OEcK9B8ZPbEvuH1Mn/Cj+C
- 1WqS8QRYTzP2rVJcBQsMDDpIRRU4B3koGdLL0LGmalZAwE6k3oFXkKC2SVhV5xw=
-X-Google-Smtp-Source: AGHT+IEbiJcmWXouY2jzgYsz1mAYDcJJqc+sw2cz5Y/7CShkoDoNITpXxcWA9aiNYwpu42eBhOkvxQ==
-X-Received: by 2002:a05:6512:10c9:b0:539:fc86:ce21 with SMTP id
- 2adb3069b0e04-53a154d8042mr2351360e87.56.1729288159777; 
- Fri, 18 Oct 2024 14:49:19 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1729288161; x=1729892961;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=9z8gZhR6xKvHdHJfRz4craU+dxQh5f6YMki2hXyc4YM=;
+ b=W5HGBmmQ1syuGblS5tm1mOV21lV9t7JF21dauEDvgi/DJulUELjtybDuqtsJkazp7G
+ EwD7BBMwrfuM1zNm27C8ayqfyVFcRGavQ7UV3riK0DbJe6f24bo/CG47gXH5juOp8UTv
+ bvETqHFmMCTgLSHozZhTQN0E8jG3rZVJG4IOYSKkj4fz8X6Qgdta65445dxMwX3uEHFu
+ p43YOMfloMgRAWT9Wytfa9rC+c+aGM4ZFv0abagJiU24xwYOZ6RMPTVBGmrDZXq9sV7V
+ prrXi6qvHNpx9hNVpTbXWT2Xf7XYc4vWVUmE6L9DkPRBKRkQhSsYDdiEvW6GaV8Mp+xi
+ VK+A==
+X-Gm-Message-State: AOJu0YzCuXTUnsADJFbdB49q5Ipx9nwPNtQxnOsOAzR4v2bPZY588dD+
+ ws58GzusODyop7u0PbcEytMDwrYgXmyu6QJ++u/iEtJJCZ5ooGVKrfu89/j8uUk=
+X-Google-Smtp-Source: AGHT+IEvBA85x80m9/B/gJoVTav3nM1QjDIWITUKAkImXSQZnUaTDoetNxkyXbVIvGvOnxTTs+hpZQ==
+X-Received: by 2002:a05:6512:3a8d:b0:536:7362:5923 with SMTP id
+ 2adb3069b0e04-53a1520b285mr2619592e87.1.1729288161371; 
+ Fri, 18 Oct 2024 14:49:21 -0700 (PDT)
 Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53a151f0ce5sm332088e87.181.2024.10.18.14.49.18
+ 2adb3069b0e04-53a151f0ce5sm332088e87.181.2024.10.18.14.49.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Oct 2024 14:49:18 -0700 (PDT)
+ Fri, 18 Oct 2024 14:49:21 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [PATCH 0/6] drm/bridge: add ycbcr_420_allowed support
-Date: Sat, 19 Oct 2024 00:49:11 +0300
-Message-Id: <20241019-bridge-yuv420-v1-0-d74efac9e4e6@linaro.org>
+Date: Sat, 19 Oct 2024 00:49:12 +0300
+Subject: [PATCH 1/6] drm/display: bridge_connector: handle
+ ycbcr_420_allowed
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIANfXEmcC/x2MSwqAIBQAryJvnaCi9LlKtNB81dtYKEkh3j1pO
- QMzBRJGwgQTKxAxU6IzNJAdg/WwYUdOvjEoobQUcuAukm/2vbNWglvrRu216Y1HaM0VcaPn/81
- LrR/2t2sqXwAAAA==
+Message-Id: <20241019-bridge-yuv420-v1-1-d74efac9e4e6@linaro.org>
+References: <20241019-bridge-yuv420-v1-0-d74efac9e4e6@linaro.org>
+In-Reply-To: <20241019-bridge-yuv420-v1-0-d74efac9e4e6@linaro.org>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
@@ -72,19 +72,18 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
  Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
- Alexander Stein <alexander.stein@ew.tq-group.com>
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
 X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1747;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2190;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=N+kyiXcXGEQOjxyQVLv1O81JcpLhZLN4HcL9iV6FSeM=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnEtfdCBDgl7FQjfXSf2tJ9+FrltUIZ2yvXc2UL
- nd4Mv5dt4KJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZxLX3QAKCRCLPIo+Aiko
- 1UoDB/9tf8rz41U8BqlfA2hhJZm+2syJYLEaVjFa1Q68ReF4WqMafeD1JFGZYEiZdh0oaUaiDfP
- hhq+PMs9h5dHSTS+TSGF3ZeOnxmgNKHqbDq4CPnPTvUFUNOu+2007NZuyiFoaUr7nNzLb6PFomT
- RdqDXDXXDHk0bim3SeSAg6EgK3aLzF3NSboFpb6qf/m6pO9109gTI5wDoYFGrH4I2jLo9b3LssZ
- v4OQU8lZDJMOfqHar2+H/ccgaTwC5zubTeJutpjk28IQyCs3DcQUMiwWBIigjVtXufF/0Q77KAL
- d7eFTwj5PUVZBXzIkOTMvfaRBjDkmalVhXaNrx4Qev2kHNye
+ bh=XEeB8zSmc5l7zbT8EsjhmWQeibYM5q3N2PhNmNxtKME=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnEtfdkI2xvvDyeAfQVDQUi0tdefgLR6vV7buRI
+ tI484ScB1+JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZxLX3QAKCRCLPIo+Aiko
+ 1WeWCAClFBFBl2ZmrqDc2fZN2aSCu3RdrzJkvaupwJdyhURATXsaWpT9bGsmOd2MjKTxT0Loq9p
+ C8WpoBOLd6UjVr13L7T8l6Sq3H77uEMREgloAxbbLVaW05xKTeFdS/KSTJr5oABdtTDqZzsxg0a
+ slmypGrkSSKs3m2pJ/DXM/2yZYvIrGD8OmlpV1P5VSrCKXjNvMsek2LHuHrBDKxtfqjjTxMjDIl
+ /ZBvupf/oBQ5XheDg1XSudap4ydX+m2c6+pZUkxgA/53WVDoyKOv5rDrinCM9gnbKDAFnC8Cm6z
+ PiycyIZiFvnah4d49hQ0ije+kgj0w9K8xM9FIx6zlu5k5KN6
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -102,41 +101,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-One of the features that drm_bridge_connector can't handle currently is
-setting of the ycbcr_420_allowed flag on the connector. Add the flag to
-the drm_bridge struct and propagate it to the drm_connector as AND of
-all flags in the bridge chain.
-
-As an example of the conversion, enable the flag on the DW HDMI bridge,
-MSM DP bridge, display connector drivers (for DisplayPort and HDMI
-outputs) and AUX bridges.
+Follow the interlace_allowed example and calculate drm_connector's
+ycbcr_420_allowed flag as AND of all drm_bridge's ycbcr_420_allowed
+flags in a chain. This is one of the gaps between several
+bridge-specific connector implementations and drm_bridge_connector.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
-Dmitry Baryshkov (6):
-      drm/display: bridge_connector: handle ycbcr_420_allowed
-      drm/atomic: add interlaced and ycbcr_420 flags to connector's state dump
-      drm/bridge: display-connector: allow YCbCr 420 for HDMI and DP
-      drm/bridge: aux: allow interlaced and YCbCr 420 output
-      drm/msm/dp: migrate the ycbcr_420_allowed to drm_bridge
-      drm/bridge: dw-hdmi: set bridge's ycbcr_420_allowed flag
+ drivers/gpu/drm/display/drm_bridge_connector.c | 6 ++++--
+ include/drm/drm_bridge.h                       | 5 +++++
+ 2 files changed, 9 insertions(+), 2 deletions(-)
 
- drivers/gpu/drm/bridge/aux-bridge.c            |  4 ++++
- drivers/gpu/drm/bridge/aux-hpd-bridge.c        |  4 ++++
- drivers/gpu/drm/bridge/display-connector.c     |  4 ++++
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c      |  3 +++
- drivers/gpu/drm/display/drm_bridge_connector.c |  6 ++++--
- drivers/gpu/drm/drm_atomic.c                   |  2 ++
- drivers/gpu/drm/msm/dp/dp_display.c            |  4 ++--
- drivers/gpu/drm/msm/dp/dp_drm.c                | 10 ++++------
- drivers/gpu/drm/msm/dp/dp_drm.h                |  7 ++++---
- include/drm/drm_bridge.h                       |  5 +++++
- 10 files changed, 36 insertions(+), 13 deletions(-)
----
-base-commit: 7f796de9da37b78e05edde94ebc7e3f9ee53b3b4
-change-id: 20241018-bridge-yuv420-aab94d4575de
+diff --git a/drivers/gpu/drm/display/drm_bridge_connector.c b/drivers/gpu/drm/display/drm_bridge_connector.c
+index 3da5b8bf8259..320c297008aa 100644
+--- a/drivers/gpu/drm/display/drm_bridge_connector.c
++++ b/drivers/gpu/drm/display/drm_bridge_connector.c
+@@ -397,11 +397,11 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
+ 	bridge_connector->encoder = encoder;
+ 
+ 	/*
+-	 * TODO: Handle doublescan_allowed, stereo_allowed and
+-	 * ycbcr_420_allowed.
++	 * TODO: Handle doublescan_allowed and stereo_allowed.
+ 	 */
+ 	connector = &bridge_connector->base;
+ 	connector->interlace_allowed = true;
++	connector->ycbcr_420_allowed = true;
+ 
+ 	/*
+ 	 * Initialise connector status handling. First locate the furthest
+@@ -414,6 +414,8 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
+ 	drm_for_each_bridge_in_chain(encoder, bridge) {
+ 		if (!bridge->interlace_allowed)
+ 			connector->interlace_allowed = false;
++		if (!bridge->ycbcr_420_allowed)
++			connector->ycbcr_420_allowed = false;
+ 
+ 		if (bridge->ops & DRM_BRIDGE_OP_EDID)
+ 			bridge_connector->bridge_edid = bridge;
+diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+index 75019d16be64..e8d735b7f6a4 100644
+--- a/include/drm/drm_bridge.h
++++ b/include/drm/drm_bridge.h
+@@ -802,6 +802,11 @@ struct drm_bridge {
+ 	 * modes.
+ 	 */
+ 	bool interlace_allowed;
++	/**
++	 * @ycbcr_420_allowed: Indicate that the bridge can handle YCbCr 420
++	 * output.
++	 */
++	bool ycbcr_420_allowed;
+ 	/**
+ 	 * @pre_enable_prev_first: The bridge requires that the prev
+ 	 * bridge @pre_enable function is called before its @pre_enable,
 
-Best regards,
 -- 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+2.39.5
 
