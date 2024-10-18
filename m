@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69CE99A492A
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Oct 2024 23:49:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DF319A4933
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Oct 2024 23:49:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE51810E9BD;
-	Fri, 18 Oct 2024 21:49:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B17610E9C3;
+	Fri, 18 Oct 2024 21:49:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="F36R66Lu";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="A1XjI/J+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
- [209.85.167.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED25B10E9BE
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2024 21:49:24 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id
- 2adb3069b0e04-53a0c160b94so543940e87.2
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2024 14:49:24 -0700 (PDT)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
+ [209.85.167.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FDDB10E9C1
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2024 21:49:27 +0000 (UTC)
+Received: by mail-lf1-f45.google.com with SMTP id
+ 2adb3069b0e04-539d9fffea1so2706771e87.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2024 14:49:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1729288163; x=1729892963; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1729288165; x=1729892965; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=Go5ATa3ANcllBgMb3i995a+Tn/9iklS8uo3r/4fZl+Y=;
- b=F36R66LuKG537OMcWvhgMUFYHHNhV6tpLOHDBBorjRfpPHMR6P9eVAN+nzKtODXWTB
- EjeJ/QRZWfCLriYqgZ+fp/ZAhqc2jq+Gyxo8r3XCd6xWXCYorSpslUfn7oFmOg3VT5Ai
- WMvmQs7m90ALVouK451Pa4AGCq4s/GyZdzrYrHT74zmt6WFeJYeocmuvi6Ea64oj7gzv
- UwTqB3K+a2GF6pKOzeM0BRfN7iQiRPS/7/w8RIyhV6LYWrCnv8JJVLNaRJrLqDmqdXTV
- laW/DpnQ4WluYI0NhWK+d1h+ZQ80EIyrF0VVo71LILFgX6DnJ5p3KLpBI0K/Gt3FhhUh
- j2gA==
+ :reply-to; bh=gaBPMg1AmxsxPM/D5Hee5JcN9a25p5bXN91ymYiIy5c=;
+ b=A1XjI/J+sm+t+aDK1wIoogJ+h+ePemaFdERES5EOks+hmuhaG9j8MdfqjdMkay5dvZ
+ gGf1/xht/ijwvwpyVH08cWlFrQ6ddXo+y9ARqwu4fp3/U8/1EDDA2MrM0ciOWFNBrqZ9
+ e1Ju0K32wWtXDsAOtjdXzq5Va4DVLsipyJj4yaFH482sghY3Zm/jO/Vdr5Z3wJLfpujA
+ Yk66LNDEzONyzQzEvDFKKgaYkkPahf1b9Kq9BC52EnfhhXSbrd8CO3pxl29DPv7SCANO
+ TPWl65dN7Id0EufipU8DhiyxMrTdhmRRegqbY+S5s2owa8KuvbH0k7roXzOYDpBEIp6P
+ RZaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729288163; x=1729892963;
+ d=1e100.net; s=20230601; t=1729288165; x=1729892965;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Go5ATa3ANcllBgMb3i995a+Tn/9iklS8uo3r/4fZl+Y=;
- b=RFJ8hg4B6HC2A7nv3CyuKbDXJf5kPUyutwDATXUrY09IbQurxRebEDBrv+AUjWQjk4
- WcOYe09F6bh75x9A7pYWMdD/XLMnzr1/hw4v5mgOwvdeGrUVSeLHEEbzeRrbGu540oGd
- 1Z2ysIhBZf6bLJotbGj+1mF+ludinZFwZLvAiOynl3C+KN269zFowXMHFy/J+CRU6sCG
- AUSHGuAgPZwTbfXGNnXBDFubihCI8aUkDdDN6vfG+tf4OOyx65yttcYP4aXQsOfTT4as
- UUu/t2xT/fECeH04y9dgS2fCvw71f5udYhrxUFfC8CVRIP/O08JaqH7wi07XqalWYLzR
- m/rg==
-X-Gm-Message-State: AOJu0YxHlr61thoPSrSxdLs/atx3HgnEj7N10Ih2p9rrjSn51Xc+OMfZ
- WWL4vE5cZYbI9hPh2c7fWPgnYwXfJjb2nDW7RfuLhT3d936EUHnQhT7emH1OQkc=
-X-Google-Smtp-Source: AGHT+IEo/FMuV8BXcaeTLXW0eKYEblPO9D0Z6JBXczbnQvEt9ytqgCebRe6synIHwL/ExZe7lEvCMQ==
-X-Received: by 2002:a05:6512:3c9e:b0:536:a695:942c with SMTP id
- 2adb3069b0e04-53a1520be7dmr2388053e87.7.1729288163023; 
- Fri, 18 Oct 2024 14:49:23 -0700 (PDT)
+ bh=gaBPMg1AmxsxPM/D5Hee5JcN9a25p5bXN91ymYiIy5c=;
+ b=na/jb+k/LuuUaYEsU14oSVZxHL0kPZvnkykB4v7KZgpcy8WS5aJC0mAbFbJmNw/i4M
+ AptSwBxyjwr1zGZD5u2HcC0fsM/PVAG7y15uNIGEo5TcMiZBmVNaEC7A7HYQY0wzqIsN
+ WOldCYlRjXJMbh5SWS/BAbmC1Kag16GJiBoMlqKtCvOOSccpKQdZKrR3XQ6O12xhq/P2
+ n4eKx6rFzKgUBYSeYVvnNg0Q1NpT95qesgmio81rXOEPoZs4qexWGObH8oSeEbPEqycr
+ i2SJT2AINu1hteEqiNWIgdXQWH8QsfwZq6pbOyI4h/MkHvIToi+/M7pECS341Qmfrl7h
+ pDBw==
+X-Gm-Message-State: AOJu0Yy3DMzivIXOpJVxaAW3AT6TKN+Sz6dzRJ0tjHYUoM93G9bGz6V3
+ X83rXZK+g0+pb18ZXlLBv8A81HzZ8ju7/1CAkEuxy3yUGYiztRm+iJZj3ABvznM=
+X-Google-Smtp-Source: AGHT+IEwsp3DJLispc5Uu+bsLkWA9jEEfNgUg2fe0AkZdKhNFZlyKLrQPTa06UtCmputrUq6ijp2uw==
+X-Received: by 2002:a05:6512:1598:b0:539:f886:31d6 with SMTP id
+ 2adb3069b0e04-53a1520bd09mr2482354e87.2.1729288165534; 
+ Fri, 18 Oct 2024 14:49:25 -0700 (PDT)
 Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53a151f0ce5sm332088e87.181.2024.10.18.14.49.21
+ 2adb3069b0e04-53a151f0ce5sm332088e87.181.2024.10.18.14.49.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Oct 2024 14:49:21 -0700 (PDT)
+ Fri, 18 Oct 2024 14:49:24 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sat, 19 Oct 2024 00:49:13 +0300
-Subject: [PATCH 2/6] drm/atomic: add interlaced and ycbcr_420 flags to
- connector's state dump
+Date: Sat, 19 Oct 2024 00:49:14 +0300
+Subject: [PATCH 3/6] drm/bridge: display-connector: allow YCbCr 420 for
+ HDMI and DP
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241019-bridge-yuv420-v1-2-d74efac9e4e6@linaro.org>
+Message-Id: <20241019-bridge-yuv420-v1-3-d74efac9e4e6@linaro.org>
 References: <20241019-bridge-yuv420-v1-0-d74efac9e4e6@linaro.org>
 In-Reply-To: <20241019-bridge-yuv420-v1-0-d74efac9e4e6@linaro.org>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -74,16 +74,16 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>,
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
 X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1201;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1023;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=bRmnoe4tVoeG590rXiMuIqAybo/BJ38wHNkcgqIlmso=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnEtfdV58nH3hPAsgrDZ9l/GYMAVX0S0QXyB3Om
- au9VDJz5tGJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZxLX3QAKCRCLPIo+Aiko
- 1VjhCACxMe6Efsk0jMD+km71rST56+FRiTPqH+ulz1SSX9gFC5ae64pRNdtVSouzjEQta4XWO55
- TR8odbc1YUb62bW4jdPyQ6hWGQ+m2pnJ76JcZTNomBlvh9WBURN/nn7j3Izw6QJK3o/hozejaOu
- VVfbcWJGzREM7vnHQV3i5fpBqIbd31u9+zf4karPkxgVnUj+6FuOCVsmV/Fp1rRJZQKlpiKq0yd
- MRJFtyJTPKHvXbPGc/wautX5WvPq9TLXrfb8bbaATPxf3th7DP5WbsDfNMSyrfyOjEMsspoQ8Jd
- YGmInnt4UhpdCGWANP5rPQGdkFDWgZc3Rs/ou8nS5YNF2/Go
+ bh=pZFlU5ikCJDIckLBlIAUq/awzCCp0+P63uSXEOzs+Ls=;
+ b=owGbwMvMwMXYbdNlx6SpcZXxtFoSQ7rQ9bvcVYyXhH4v2nbOrW+V56fz/nM6Ra8qGUUzfkmXz
+ NR4wOHRyWjMwsDIxSArpsjiU9AyNWZTctiHHVPrYQaxMoFMYeDiFICJ+Gaz/2LKWimrkK2V+Hly
+ 9qLrbbUCO2cI9V7mf7l3qX6f6v9FgsWWBgt90p1C/+yM65wm/SHu3mEdAWNz/tpN4YYiFU5P1vc
+ 0LNFboKga0HF5U5fM7Oq8he8cZR9Fnt0edGyC6mfnsgcMTi6zmD7rOf7ilxVcwJA4Y4vzC0HHLd
+ MPXdjRzXE74Nnk09ndskoTuzzXxz9uDuWW/r9NneNNSYEmx8q/Byp6Pau1Zh6cd+3RXtHmmmmbc
+ rM3H4qPaGu5djjsyMtNhm3VfVzLRRbaaseJJq1Zx7iN3yRoqYnCtKbvZ4+qvz/wIeGu38/XHoam
+ 8w82aNZNXnNxQqlatk+4mN4BlsZ0H2OThUov9TNsDCoCAQ==
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -101,28 +101,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Although the interlace_allowed and ycbcr_420_allowed flags are a part of
-the struct drm_connector rather than struct drm_connector_state, still
-include them into state dump in order to ease debugging of the setup
-issues.
+Allow YCbCr 420 output for HDMI and DisplayPort connectors. Other
+bridges in the chain still might limit YCbCr 420 support on the
+corresponding connector.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/drm_atomic.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/bridge/display-connector.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-index 0fc99da93afe..9ea2611770f4 100644
---- a/drivers/gpu/drm/drm_atomic.c
-+++ b/drivers/gpu/drm/drm_atomic.c
-@@ -1132,6 +1132,8 @@ static void drm_atomic_connector_print_state(struct drm_printer *p,
- 	drm_printf(p, "connector[%u]: %s\n", connector->base.id, connector->name);
- 	drm_printf(p, "\tcrtc=%s\n", state->crtc ? state->crtc->name : "(null)");
- 	drm_printf(p, "\tself_refresh_aware=%d\n", state->self_refresh_aware);
-+	drm_printf(p, "\tinterlace_allowed=%d\n", connector->interlace_allowed);
-+	drm_printf(p, "\tycbcr_420_allowed=%d\n", connector->ycbcr_420_allowed);
- 	drm_printf(p, "\tmax_requested_bpc=%d\n", state->max_requested_bpc);
- 	drm_printf(p, "\tcolorspace=%s\n", drm_get_colorspace_name(state->colorspace));
+diff --git a/drivers/gpu/drm/bridge/display-connector.c b/drivers/gpu/drm/bridge/display-connector.c
+index ab8e00baf3f1..aab9ce7be94c 100644
+--- a/drivers/gpu/drm/bridge/display-connector.c
++++ b/drivers/gpu/drm/bridge/display-connector.c
+@@ -270,6 +270,10 @@ static int display_connector_probe(struct platform_device *pdev)
+ 	/* All the supported connector types support interlaced modes. */
+ 	conn->bridge.interlace_allowed = true;
+ 
++	if (type == DRM_MODE_CONNECTOR_HDMIA ||
++	    type == DRM_MODE_CONNECTOR_DisplayPort)
++		conn->bridge.ycbcr_420_allowed = true;
++
+ 	/* Get the optional connector label. */
+ 	of_property_read_string(pdev->dev.of_node, "label", &label);
  
 
 -- 
