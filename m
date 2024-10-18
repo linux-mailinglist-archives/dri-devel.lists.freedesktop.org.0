@@ -2,82 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FE749A4596
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Oct 2024 20:15:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25D039A45B4
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Oct 2024 20:22:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE4EA10E964;
-	Fri, 18 Oct 2024 18:15:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3530910E383;
+	Fri, 18 Oct 2024 18:22:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="Ce944a95";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kenaPXZS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B230510E383;
- Fri, 18 Oct 2024 18:15:36 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49IF1Zbj007753;
- Fri, 18 Oct 2024 18:15:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- bhA28BU6El0DJUZoB4jqjni3gLuzg3EG2xRIHXxrnGs=; b=Ce944a95RdH92ru8
- 3oLRLTLufJLhzVIQftwAjglxztEDqWuChySdsFPuqQeFW/Tqx0H0S5ZOX2C159bl
- JuJKJWjkKgiQv7jjE4UpVg6KmwYzZdQNI5F93HgRoN+DZccgoeNZlQ4g0dIG4rgm
- sraJkPjpJvAsyv14WMCCr/hpB74DrMdVg0TXyGoECKAMqK+2ngUu73RLIfq22G4f
- EHnZVpJEDUhMOyKR6Ylv7mGiYS6gl1xnj9nJhg73mbWcEJSFMQo34q9m/7FRhC8W
- Xu16V58Wx2RhtGklVYdVDzZ+8c/3tHPD4F5B+vkmfj5XFMVox+rxm8mLEq/8snWe
- DYY16A==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42b5hsv4w9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 18 Oct 2024 18:15:34 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49IIFW2I021080
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 18 Oct 2024 18:15:32 GMT
-Received: from [10.110.77.126] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 18 Oct
- 2024 11:15:31 -0700
-Message-ID: <e68b5271-01e9-46f5-bee0-c086e38927a2@quicinc.com>
-Date: Fri, 18 Oct 2024 11:15:30 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] drm/msm: move MDSS registers to separate header file
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, Simona
- Vetter <simona@ffwll.ch>
-CC: <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>
-References: <20240921-msm-mdss-ubwc-v1-0-411dcf309d05@linaro.org>
- <20240921-msm-mdss-ubwc-v1-1-411dcf309d05@linaro.org>
-Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20240921-msm-mdss-ubwc-v1-1-411dcf309d05@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: lqmNtzgceJTXxv-p_zWgB_Y8luMtJw7N
-X-Proofpoint-ORIG-GUID: lqmNtzgceJTXxv-p_zWgB_Y8luMtJw7N
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 impostorscore=0
- mlxscore=0 malwarescore=0 mlxlogscore=902 spamscore=0 adultscore=0
- lowpriorityscore=0 suspectscore=0 bulkscore=0 phishscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2410180116
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCDDA10E383
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2024 18:22:09 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 600065C3D72;
+ Fri, 18 Oct 2024 18:22:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F8C9C4CEC3;
+ Fri, 18 Oct 2024 18:22:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1729275728;
+ bh=s+bgolo34tH6sENSucwrWV78GxVY30I0uO5gO3vy+kU=;
+ h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+ b=kenaPXZSO8nkGSPtgIy4jiJOsoe3OxOmfr+rY75ff+1UOJzzHfrFjv+a0+LCbF8Zz
+ 3f9w0DlNh5YV3NBskPio1IW0FY/5rZQDy9B6h53Oy8GfPkhfKgz5X6QxjshQYLbG+E
+ 8sGqRbyRwpoV11pYeficmV03z2/Jw4qE/g605KxNJrnzcOonvw/+F3PffdRK0jQHWP
+ xZfQFEtST5wX1Mi9lq/wLJZf6r4cICzpfZey7bo2OwVw/y3CLpwXKyTZJZspILBhKB
+ msA6JmRk88XZ4bwDhSxm/vRAC6YIFj7wJ4/ruTKqmm6ja6Vs9Eh2nQpGiuFce+zHdR
+ QcFPOzFlSePqg==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+ by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id
+ 341093805CC0; Fri, 18 Oct 2024 18:22:15 +0000 (UTC)
+Subject: Re: [git pull] drm fixes for 6.12-rc4
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <CAPM=9ty_pQme=1c-KkA0yAR-X1PiUMqf8JiUnsCdGSOuM3fdpA@mail.gmail.com>
+References: <CAPM=9ty_pQme=1c-KkA0yAR-X1PiUMqf8JiUnsCdGSOuM3fdpA@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAPM=9ty_pQme=1c-KkA0yAR-X1PiUMqf8JiUnsCdGSOuM3fdpA@mail.gmail.com>
+X-PR-Tracked-Remote: https://gitlab.freedesktop.org/drm/kernel.git
+ tags/drm-fixes-2024-10-18
+X-PR-Tracked-Commit-Id: 83f000784844cb9d4669ef1a3366479db3197b33
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 5d97dde4d5f751858390b557729a1a12210024c1
+Message-Id: <172927573370.3196569.11915116378841687780.pr-tracker-bot@kernel.org>
+Date: Fri, 18 Oct 2024 18:22:13 +0000
+To: Dave Airlie <airlied@gmail.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Sima Vetter <sima@ffwll.ch>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,18 +66,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The pull request you sent on Fri, 18 Oct 2024 15:53:18 +1000:
 
+> https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2024-10-18
 
-On 9/21/2024 1:17 AM, Dmitry Baryshkov wrote:
-> In preparation of adding more registers, move MDSS-related headers to
-> the separate top-level file.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   drivers/gpu/drm/msm/Makefile                   |  1 +
->   drivers/gpu/drm/msm/registers/display/mdp5.xml | 16 ----------------
->   drivers/gpu/drm/msm/registers/display/mdss.xml | 23 +++++++++++++++++++++++
->   3 files changed, 24 insertions(+), 16 deletions(-)
-> 
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/5d97dde4d5f751858390b557729a1a12210024c1
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
