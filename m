@@ -2,75 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29B8B9A3EAC
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Oct 2024 14:46:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF6B39A3EB7
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Oct 2024 14:49:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0F2110E084;
-	Fri, 18 Oct 2024 12:46:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C3E410E194;
+	Fri, 18 Oct 2024 12:49:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mHoq06sj";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="o8zSCyWV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 031D310E084;
- Fri, 18 Oct 2024 12:46:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1729255590; x=1760791590;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=4Vl7QAqoHmPO1FKzXLGkpJuzOb1E6R705GR2DJYGtMY=;
- b=mHoq06sj0O1364/La36n61LPPj/PivUALCMyRif2+Xlmb1O//YxByvWS
- 1felh0E/OewyxjoMiv7IW+nxKzQwPKAJux6S1iU6pOx/XEeeRfO17pTRs
- ghi8QC+409FQq+y5cg4oL97MESBZLU0+AW2mx2EM3mi2KTu3PHOvZwPA3
- A2/e/dLWvDeF8bkV20Ypr8updQZwGSj7SUvxPkpDWOTaBbWDCFNJfIkFk
- 97JxrwcbRZMGJ1xoEFmYplVIm0lRRnflva9hY4dV8aPlV4eQRwLsUie/F
- ZjAcd3IMzPtICqUSZ7P1zyvA8fcR1fFe1o5lwmXYRW0flHlVRkEX2yDkh g==;
-X-CSE-ConnectionGUID: FCND1UG4R66aKEZXlwfTBA==
-X-CSE-MsgGUID: as7x/x9vTk61jq/EmgsV9Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28942633"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="28942633"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Oct 2024 05:46:29 -0700
-X-CSE-ConnectionGUID: dvIp3lWnTWK6Y5ImBxC1GA==
-X-CSE-MsgGUID: LnNpM252TDGdpzMhHSWKgA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="83684011"
-Received: from black.fi.intel.com ([10.237.72.28])
- by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Oct 2024 05:46:22 -0700
-Date: Fri, 18 Oct 2024 15:46:19 +0300
-From: Raag Jadav <raag.jadav@intel.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>, airlied@gmail.com,
- simona@ffwll.ch, lucas.demarchi@intel.com,
- thomas.hellstrom@linux.intel.com, jani.nikula@linux.intel.com,
- andriy.shevchenko@linux.intel.com, joonas.lahtinen@linux.intel.com,
- tursulin@ursulin.net, lina@asahilina.net,
- intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com,
- francois.dugast@intel.com, aravind.iddamsetty@linux.intel.com,
- anshuman.gupta@intel.com, andi.shyti@linux.intel.com,
- matthew.d.roper@intel.com, boris.brezillon@collabora.com,
- adrian.larumbe@collabora.com, kernel@collabora.com,
- maraeo@gmail.com, friedrich.vock@gmx.de, michel@daenzer.net,
- joshua@froggi.es, alexander.deucher@amd.com, andrealmeid@igalia.com,
- amd-gfx@lists.freedesktop.org
-Subject: Re: [PATCH v7 1/5] drm: Introduce device wedged event
-Message-ID: <ZxJYm6epuuConWdz@black.fi.intel.com>
-References: <20240930073845.347326-1-raag.jadav@intel.com>
- <20240930073845.347326-2-raag.jadav@intel.com>
- <ZxB6yKRrgvCoRK7y@black.fi.intel.com>
- <9b720b21-6195-408c-88bf-a092e0e7555c@amd.com>
- <ZxE-x6osh_jFHl5X@intel.com>
- <5a89757f-7000-4ccc-8762-1befe1fae258@amd.com>
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+ [209.85.221.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 025BC10E194
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2024 12:49:45 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id
+ ffacd0b85a97d-37ed3bd6114so243018f8f.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2024 05:49:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1729255784; x=1729860584; darn=lists.freedesktop.org;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=wNoX5IHrzAxgidozBILlAFDudMpJyA8374WuU9SBpdg=;
+ b=o8zSCyWVbUchRTf9QUJdL4d85dzGsG3Tppa3/nS+vEte4Xoluc6/HYXiQAqynGrhZ0
+ L3MuTytI0UgNjYvFZdOP6XThOxIVqcwWqIfAbuw36MNL8dHy635osBOcgpAzdeJZb5ow
+ 83bzfBT75u12/UHQonOPMO3qsLdXncJnoEd/wE2A2KG7roXWh/dkgN6IUQAF92TZuZXG
+ ui1G4nxjJoUkbjIlASoiHCg6E3eCwJgVIjz43+1rmjanpVPhKNqbNCP5weBHNDwSAwv8
+ r0zjKicdT3ebkUMlWben9JYlV1mSRvYj0wdcJDrWt3Y20PjctIqaH02mlOPnMaAm6J1H
+ i19A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1729255784; x=1729860584;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=wNoX5IHrzAxgidozBILlAFDudMpJyA8374WuU9SBpdg=;
+ b=K8QDFGkS75d0ebVGbCVfIPzGa7UjravyeeGoaaR15IwFVaEBUooN5Ko258OjgsW2oe
+ dIwQd86xrHbIkB4M3jlf24KaYoehdq/85cqY2Ucbxgs0nUSJOsW/K7NfO9QnPeu+mNB9
+ IAghSlkHni2IEQJkOVPFMftGh5phm3qABvyG5kf9nRE6UHQn4XVYclxvfvwG2QNYytXH
+ lVbZZTybS6vyX/t/QBWP8hzjanVFMclKVW4N7MBU1IBYma0OlfF4zMyfj58hjTUoRgVc
+ +3j/16dQJiIGB+VSMpaanyDmPniBWaFAXCCXpkTd01iBZD/0jyl4n2ruuvcF3/b1FWQw
+ C83Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXQ6XH17I0Zb5KHirXA/bnchKnHd7uexVw3g0uYz205YNBZDe9pn9lxdVty/3MGO4lC/B/RbPk5E0s=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyOEoEFq3GTpXH+E9UswssYD+qmFf36A+3aG0bOswDSqnVaemjW
+ yFuHj/Q1BIL5gEZGZRqXCg5umhmmsFWouSy9TV99BUTMxCgSmRaGx73dVh8Nn/s=
+X-Google-Smtp-Source: AGHT+IE0g5FUhbZpxx/i7vohMC6D1yREIsPBdB29vyxyl4XkKH0dXnNvgXo8WwLLiI1oQb6uoUq09A==
+X-Received: by 2002:adf:ffc5:0:b0:37d:5338:872c with SMTP id
+ ffacd0b85a97d-37ea2136f6emr1545159f8f.1.1729255784024; 
+ Fri, 18 Oct 2024 05:49:44 -0700 (PDT)
+Received: from [127.0.1.1] ([82.76.168.176]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4316067dc56sm26751725e9.3.2024.10.18.05.49.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 18 Oct 2024 05:49:43 -0700 (PDT)
+From: Abel Vesa <abel.vesa@linaro.org>
+Date: Fri, 18 Oct 2024 15:49:34 +0300
+Subject: [PATCH v2] drm/bridge: Fix assignment of the of_node of the parent
+ to aux bridge
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5a89757f-7000-4ccc-8762-1befe1fae258@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20241018-drm-aux-bridge-mark-of-node-reused-v2-1-aeed1b445c7d@linaro.org>
+X-B4-Tracking: v=1; b=H4sIAF1ZEmcC/5WNQQ6CMBBFr0Jm7Zi2gTS68h6GRaFTmCitmQrBE
+ O5u5QYu3//JextkEqYM12oDoYUzp1jAnCroRxcHQvaFwShTa6UtepnQzSt2wr68k5MHpoAxeUK
+ hOZPHpjdEtlYh6AsU0Uso8HpE7m3hkfM7yedoLvq3/qVfNGq0vW+sMl1XB3N7cnSSzkkGaPd9/
+ wLdUh+W1QAAAA==
+X-Change-ID: 20241017-drm-aux-bridge-mark-of-node-reused-5c2ee740ff19
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: Johan Hovold <johan@kernel.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ stable@vger.kernel.org, Abel Vesa <abel.vesa@linaro.org>
+X-Mailer: b4 0.15-dev-dedf8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1833; i=abel.vesa@linaro.org; 
+ h=from:subject:message-id;
+ bh=kfWulNWqB4gXHg5uFx3b3lXmDfL4uoz1uwfWItgVKtM=; 
+ b=owEBbQKS/ZANAwAKARtfRMkAlRVWAcsmYgBnEllg/6+luv/EDjB6p7bP/2XwiFNKKUBTqWE/k
+ gyey9MA9L+JAjMEAAEKAB0WIQRO8+4RTnqPKsqn0bgbX0TJAJUVVgUCZxJZYAAKCRAbX0TJAJUV
+ Viq2D/4ogi9WzQdFvO605u37JteTykuywyIuZKo4ul7KwGW2DSVO7LZ1vaYl5FU9HiS/EBcv6RY
+ bah13DqPLIq88p5509alQOJbS2wIRVDYywa2NbUR0ZyVFQbjzWXpvN/8Du2K6F8j18pnnvJLXIE
+ 9os5LVxYeBjawUIFuDvdt5MUj1vxpYrdpcDtG5LCfKus6vjET03/hvebfcNx2tsNp3aeZR6F90w
+ lWt2r833KeBE/QCFdUC0eKtor3U/rr8cQPKpDI5XhuJXkQsfZMVErhk9aLOhfQAGtP6Gy36t++u
+ uBkQ4OAPSGbGkdqfSAP7ZsScfKEm0veOjXLUdsYkcUknoizIhlRgZjQ8sYi7WU1lrfUE9sFrhAX
+ Hlf63ITK382waV1tQd9zd1ylpQJhetrl64HyYLNwXaenjtHoPL/Vi1jX2YX3EbQBNRKDOsI5ir/
+ dWQNJLeRy1exV6vQuaE8jlceCe795hDdGL26FvHce9QP7sLVfkvRbDQkcySesq9MhpuAGHaQ8ZQ
+ 7bwXCHdyILO9dTa0U1//fMaOpmsruQFnqte+buQpTi4OtjKaXCj2hyG+ils+9O7FfDMa8YDTh02
+ YpRNb5UOxLTKJdbcW05MWShGfs3gUtpJ6W/Ep9aaulkt6WYvwESX99S9O+uLKZVd/QsGrkuDYs5
+ wK1rlN6/xHnaHMw==
+X-Developer-Key: i=abel.vesa@linaro.org; a=openpgp;
+ fpr=6AFF162D57F4223A8770EF5AF7BF214136F41FAE
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,80 +111,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 18, 2024 at 12:58:09PM +0200, Christian König wrote:
-> Am 17.10.24 um 18:43 schrieb Rodrigo Vivi:
-> > On Thu, Oct 17, 2024 at 09:59:10AM +0200, Christian König wrote:
-> > > > > Purpose of this implementation is to provide drivers a generic way to
-> > > > > recover with the help of userspace intervention. Different drivers may
-> > > > > have different ideas of a "wedged device" depending on their hardware
-> > > > > implementation, and hence the vendor agnostic nature of the event.
-> > > > > It is up to the drivers to decide when they see the need for recovery
-> > > > > and how they want to recover from the available methods.
-> > > > > 
-> > > > > Current implementation defines three recovery methods, out of which,
-> > > > > drivers can choose to support any one or multiple of them. Preferred
-> > > > > recovery method will be sent in the uevent environment as WEDGED=<method>.
-> > > > > Userspace consumers (sysadmin) can define udev rules to parse this event
-> > > > > and take respective action to recover the device.
-> > > > > 
-> > > > >       =============== ==================================
-> > > > >       Recovery method Consumer expectations
-> > > > >       =============== ==================================
-> > > > >       rebind          unbind + rebind driver
-> > > > >       bus-reset       unbind + reset bus device + rebind
-> > > > >       reboot          reboot system
-> > > > >       =============== ==================================
-> > > Well that sounds like userspace would need to be involved in recovery.
-> > > 
-> > > That in turn is a complete no-go since we at least need to signal all
-> > > dma_fences to unblock the kernel. In other words things like bus reset needs
-> > > to happen inside the kernel and *not* in userspace.
-> > > 
-> > > What we can do is to signal to userspace: Hey a bus reset of device X
-> > > happened, maybe restart container, daemon, whatever service which was using
-> > > this device.
-> > Well, when we declare device 'wedged' it is because we don't want to take
-> > any drastic measures inside the kernel and want to leave it in a protected
-> > and unusable state. In a way that users wouldn't lose display for instance,
-> > or at least the device is in a debugable state.
-> 
-> Uff, that needs to be very very well documented or otherwise the whole
-> approach is an absolutely clear NAK from my side as DMA-buf maintainer.
-> 
-> > 
-> > Then, the instructions here is to tell what could possibly be attempted
-> > from userspace to get the device to an usable state.
-> > 
-> > The 'wedge' mode (the one emiting this uevent) needs to be responsible
-> > for signaling all the fences and everything needed for a clean unbind
-> > and whatever next step might be indicated to userspace.
-> > 
-> > That should already be part of any wedged mode, regardless the uevent
-> > to inform the userspace here.
-> 
-> You need to approach that from a different side. With the current patch set
-> you are ignoring documented mandatory driver behavior as far as I can see.
-> 
-> So first of all describe in the documentation what the wedged mode is and
-> what requirements a driver has to fulfill to enter it:
-> https://docs.kernel.org/gpu/drm-uapi.html#device-reset
->
-> Especially document that all system memory accesses of the device needs to
-> be blocked by (for example) disabling DMA accesses in the PCI config space.
-> 
-> When it is guaranteed that the device can't access any system memory any
-> more the device driver should signal all pending fences of this device.
-> 
-> And only after all of that is done the driver  can send an uevent to inform
-> userspace that it can debug the hanged state.
+The assignment of the of_node to the aux bridge needs to mark the
+of_node as reused as well, otherwise resource providers like pinctrl will
+report a gpio as already requested by a different device when both pinconf
+and gpios property are present.
+Fix that by using the device_set_of_node_from_dev() helper instead.
 
-Sure, will do.
+Fixes: 6914968a0b52 ("drm/bridge: properly refcount DT nodes in aux bridge drivers")
+Cc: stable@vger.kernel.org      # 6.8
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
+---
+Changes in v2:
+- Re-worded commit to be more explicit of what it fixes, as Johan suggested
+- Used device_set_of_node_from_dev() helper, as per Johan's suggestion
+- Added Fixes tag and cc'ed stable
+- Link to v1: https://lore.kernel.org/r/20241017-drm-aux-bridge-mark-of-node-reused-v1-1-7cd5702bb4f2@linaro.org
+---
+ drivers/gpu/drm/bridge/aux-bridge.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-> As far as I can see this makes the enum how to recover the device
-> superfluous because you will most likely always need a bus reset to get out
-> of this again.
+diff --git a/drivers/gpu/drm/bridge/aux-bridge.c b/drivers/gpu/drm/bridge/aux-bridge.c
+index b29980f95379ec7af873ed6e0fb79a9abb663c7b..295e9d031e2dc86cbfd2a7350718fca181c99487 100644
+--- a/drivers/gpu/drm/bridge/aux-bridge.c
++++ b/drivers/gpu/drm/bridge/aux-bridge.c
+@@ -58,9 +58,10 @@ int drm_aux_bridge_register(struct device *parent)
+ 	adev->id = ret;
+ 	adev->name = "aux_bridge";
+ 	adev->dev.parent = parent;
+-	adev->dev.of_node = of_node_get(parent->of_node);
+ 	adev->dev.release = drm_aux_bridge_release;
+ 
++	device_set_of_node_from_dev(&adev->dev, parent);
++
+ 	ret = auxiliary_device_init(adev);
+ 	if (ret) {
+ 		ida_free(&drm_aux_bridge_ida, adev->id);
 
-That depends on the kind of fault the device has encountered and the bus it is
-sitting on. There could be buses that don't support reset.
+---
+base-commit: d61a00525464bfc5fe92c6ad713350988e492b88
+change-id: 20241017-drm-aux-bridge-mark-of-node-reused-5c2ee740ff19
 
-Raag
+Best regards,
+-- 
+Abel Vesa <abel.vesa@linaro.org>
+
