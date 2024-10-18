@@ -2,49 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 991239A41FA
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Oct 2024 17:10:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE6BB9A4201
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Oct 2024 17:11:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0E2F10E944;
-	Fri, 18 Oct 2024 15:10:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BC3510E94C;
+	Fri, 18 Oct 2024 15:11:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QTsLzh6l";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="o3xQvM09";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EE5110E944
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2024 15:10:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3EA310E948;
+ Fri, 18 Oct 2024 15:11:51 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 2DBFD5C4D58;
- Fri, 18 Oct 2024 15:10:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05FA7C4CEC3;
- Fri, 18 Oct 2024 15:10:18 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 8F39D5C5C76;
+ Fri, 18 Oct 2024 15:11:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6BAEC4CEC3;
+ Fri, 18 Oct 2024 15:11:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1729264222;
- bh=1PJEXr3kEPCQZZ5V+Hy5FS8SkVqvabwVcmhCAPX1iOQ=;
+ s=k20201202; t=1729264310;
+ bh=ozQGRjTiJsgBjbD1hrI8hLdNjmZDLyuYj4VRqdkZMfs=;
  h=From:To:Cc:Subject:Date:From;
- b=QTsLzh6lThzlelfZBn/cIWOm1pUUnVUt4PEgpXo6zcTOjv7CgYPjb979ht52ZkEwY
- oYEq8dlQK+JvichsF/8JBqw1yXlpH8EngGrGEG2gb0SKoKCHRmGjtBJyd2Mxu5psRj
- J1hYFJaT41xlRHJH+8Sz3ibTLpBEteYzOXaz3fiIH5fs4PN1pE4XnQgeHft2pQiNkH
- jcz5w/I8o6EFgpHSBWzoH9wvoPcwNokJxYvYITsksrU3yFhDPiyu8bjKvdlx7oClds
- GEqxnMcPj5e/Pt7/k/ZlK4qtptReFNQtcQ3WuU0InCF4klTC9nNGerwH2R/8LhDdn4
- +K6SEWbKYMA0Q==
+ b=o3xQvM092JnNMfXjoiZXQ3+03M4ehf+23ubfGB63ZUkeZcA6TcPHiiEj1O/FkZ1ty
+ F4e+jaMZ/V7rVsM5dqLbmJUsa88Ud2R3o97PZqdQ+y099WhpGIDaWtzJwkJq65ojPr
+ jcgntWoGHOLS5LrcXLFq55jYN/8EdpChcmHgRWPQS5LHahiHkt4t42Hu53K3dzEPGx
+ qEjhzWmr3Sm3uNSuxdyeeP0r4J8jrr5K94+1lGA3Pa8qt+pEiIuisx3JXasvn+Bces
+ jnZNab9TtabZfeuFYQd5JKb8O7SYEO9Rm5nm5PtOlPFil/jGA8O0S9//dxmEbkb5Sy
+ XdxW58/uAiOUg==
 From: Arnd Bergmann <arnd@kernel.org>
-To: Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Algea Cao <algea.cao@rock-chips.com>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/rockchip: avoid 64-bit division
-Date: Fri, 18 Oct 2024 15:10:10 +0000
-Message-Id: <20241018151016.3496613-1-arnd@kernel.org>
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Nathan Chancellor <nathan@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Nick Desaulniers <ndesaulniers@google.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ llvm@lists.linux.dev
+Subject: [PATCH] drm: a6xx: avoid excessive stack usage
+Date: Fri, 18 Oct 2024 15:11:38 +0000
+Message-Id: <20241018151143.3543939-1-arnd@kernel.org>
 X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -65,31 +66,119 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-Dividing a 64-bit integer prevents building this for 32-bit targets:
+Clang-19 and above sometimes end up with multiple copies of the large
+a6xx_hfi_msg_bw_table structure on the stack. The problem is that
+a6xx_hfi_send_bw_table() calls a number of device specific functions to
+fill the structure, but these create another copy of the structure on
+the stack which gets copied to the first.
 
-ERROR: modpost: "__aeabi_uldivmod" [drivers/gpu/drm/rockchip/rockchipdrm.ko] undefined!
+If the functions get inlined, that busts the warning limit:
 
-As this function is not performance criticial, just Use the div_u64() helper.
+drivers/gpu/drm/msm/adreno/a6xx_hfi.c:631:12: error: stack frame size (1032) exceeds limit (1024) in 'a6xx_hfi_send_bw_table' [-Werror,-Wframe-larger-than]
 
-Fixes: 128a9bf8ace2 ("drm/rockchip: Add basic RK3588 HDMI output support")
+Mark all of them as 'noinline_for_stack' ensure we only have one copy
+of the structure per function.
+
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/msm/adreno/a6xx_hfi.c | 21 +++++++++++----------
+ 1 file changed, 11 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-index 9c796ee4c303..c8b362cc2b95 100644
---- a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-+++ b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-@@ -82,7 +82,7 @@ static void dw_hdmi_qp_rockchip_encoder_enable(struct drm_encoder *encoder)
- 		 * comment in rk_hdptx_phy_power_on() from
- 		 * drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c
- 		 */
--		phy_set_bus_width(hdmi->phy, rate / 100);
-+		phy_set_bus_width(hdmi->phy, div_u64(rate, 100));
- 	}
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_hfi.c b/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
+index cdb3f6e74d3e..5699e0420eb8 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
+@@ -259,7 +259,8 @@ static int a6xx_hfi_send_perf_table(struct a6xx_gmu *gmu)
+ 		NULL, 0);
  }
  
+-static void a618_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
++/* noinline to avoid having multiple copies of 'msg' on stack */
++static noinline_for_stack void a618_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+ {
+ 	/* Send a single "off" entry since the 618 GMU doesn't do bus scaling */
+ 	msg->bw_level_num = 1;
+@@ -287,7 +288,7 @@ static void a618_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+ 	msg->cnoc_cmds_data[1][0] =  0x60000001;
+ }
+ 
+-static void a619_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
++static noinline_for_stack void a619_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+ {
+ 	msg->bw_level_num = 13;
+ 
+@@ -346,7 +347,7 @@ static void a619_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+ 	msg->cnoc_cmds_data[0][0] = 0x40000000;
+ }
+ 
+-static void a640_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
++static noinline_for_stack void a640_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+ {
+ 	/*
+ 	 * Send a single "off" entry just to get things running
+@@ -385,7 +386,7 @@ static void a640_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+ 	msg->cnoc_cmds_data[1][2] =  0x60000001;
+ }
+ 
+-static void a650_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
++static noinline_for_stack void a650_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+ {
+ 	/*
+ 	 * Send a single "off" entry just to get things running
+@@ -416,7 +417,7 @@ static void a650_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+ 	msg->cnoc_cmds_data[1][0] =  0x60000001;
+ }
+ 
+-static void a690_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
++static noinline_for_stack void a690_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+ {
+ 	/*
+ 	 * Send a single "off" entry just to get things running
+@@ -447,7 +448,7 @@ static void a690_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+ 	msg->cnoc_cmds_data[1][0] =  0x60000001;
+ }
+ 
+-static void a660_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
++static noinline_for_stack void a660_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+ {
+ 	/*
+ 	 * Send a single "off" entry just to get things running
+@@ -478,7 +479,7 @@ static void a660_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+ 	msg->cnoc_cmds_data[1][0] =  0x60000001;
+ }
+ 
+-static void adreno_7c3_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
++static noinline_for_stack void adreno_7c3_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+ {
+ 	/*
+ 	 * Send a single "off" entry just to get things running
+@@ -509,7 +510,7 @@ static void adreno_7c3_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+ 	msg->cnoc_cmds_data[1][0] =  0x60000001;
+ }
+ 
+-static void a730_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
++static noinline_for_stack void a730_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+ {
+ 	msg->bw_level_num = 12;
+ 
+@@ -565,7 +566,7 @@ static void a730_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+ 	msg->cnoc_cmds_data[1][0] = 0x60000001;
+ }
+ 
+-static void a740_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
++static noinline_for_stack void a740_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+ {
+ 	msg->bw_level_num = 1;
+ 
+@@ -590,7 +591,7 @@ static void a740_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+ 	msg->cnoc_cmds_data[1][0] = 0x60000001;
+ }
+ 
+-static void a6xx_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
++static noinline_for_stack void a6xx_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+ {
+ 	/* Send a single "off" entry since the 630 GMU doesn't do bus scaling */
+ 	msg->bw_level_num = 1;
 -- 
 2.39.5
 
