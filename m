@@ -2,61 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC5149A50B3
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Oct 2024 22:12:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E876B9A5102
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Oct 2024 23:49:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46E4010E3BF;
-	Sat, 19 Oct 2024 20:11:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C81F910E3C8;
+	Sat, 19 Oct 2024 21:49:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="BMYh/ZhX";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="N2u8pOFe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com
- [91.218.175.185])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2B0510E3C4
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Oct 2024 20:11:47 +0000 (UTC)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1729368375;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MomBfC6s5I7qc72i5NikheUPdujvsPHHXt70Q6r3yPA=;
- b=BMYh/ZhX42oQxkt0fRDXYxsbwZmAe/BjQF46BHScJ62+XtH4oFwAG4FXsep6InVHCfNg56
- 6br/kWNaPkFrKriBwC6fdfRhf/8rtolm21GoKbU3TBxmsECQyiSRd6urJO4pMXuoVHaekP
- x0G2j/TTpQPHdqUvP/GWOzpxv0BQYxA=
-From: Aradhya Bhatia <aradhya.bhatia@linux.dev>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A784410E06A
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Oct 2024 21:49:08 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 70A015B3;
+ Sat, 19 Oct 2024 23:47:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1729374442;
+ bh=tfvr+zOblZGTruP4mpM7adeSPSX93PwmhoRyBwJcdvw=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=N2u8pOFedv7qs9a38FB00VK5lo+s5Aa9K2tmh+IO3EPzKYlum3L5Ul7q7fpKpwkpP
+ X7S/hTezjEY3SibLzlGLMWj5DgK4aoOnSAVQknLcwSaYYAS9CT4Ywx3qknvhASgow+
+ inV+coV7B7KeHSXZdKcysF/dh9KmvE30E8GIS0MQ=
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <f4b083ec-58b5-477a-a0a4-c4c8d02027a7@denx.de>
+References: <20240531202813.277109-1-marex@denx.de>
+ <ab2eb32e-a458-4c9b-8324-27ccb00336c5@denx.de>
+ <7ae0cd7774f4b3e30cc033a7e543546732dbced0.camel@ideasonboard.com>
+ <de285fc0-728f-4ba0-86e0-0069d2cc9a35@denx.de>
+ <64e18ceed5279a9346a6a1141f02ead93383bd1e.camel@ideasonboard.com>
+ <84f505af-1066-4fcf-84b7-28c152c09b89@denx.de>
+ <a7143bd9-a5e0-4afc-98ed-2d4d58171a32@nxp.com>
+ <d70a9c51-6fd7-46fe-8009-b42d0ab4e142@denx.de>
+ <23d9df90-cb80-4d97-afd6-5c573face4bc@nxp.com>
+ <f4b083ec-58b5-477a-a0a4-c4c8d02027a7@denx.de>
+Subject: Re: [PATCH] drm: lcdif: Use adjusted_mode .clock instead of
+ .crtc_clock
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Fabio Estevam <festevam@gmail.com>, Lucas Stach <l.stach@pengutronix.de>,
+ Lukas F . Hartmann <lukas@mntmn.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: Dominik Haller <d.haller@phytec.de>, Sam Ravnborg <sam@ravnborg.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
- Devarsh Thakkar <devarsht@ti.com>, Praneeth Bajjuri <praneeth@ti.com>,
- Udit Kumar <u-kumar1@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>,
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- Aradhya Bhatia <aradhya.bhatia@linux.dev>
-Subject: [PATCH v5 13/13] drm/bridge: cdns-dsi: Use pre_enable/post_disable to
- enable/disable
-Date: Sun, 20 Oct 2024 01:35:30 +0530
-Message-Id: <20241019200530.270738-6-aradhya.bhatia@linux.dev>
-In-Reply-To: <20241019200530.270738-1-aradhya.bhatia@linux.dev>
-References: <20241019195411.266860-1-aradhya.bhatia@linux.dev>
- <20241019200530.270738-1-aradhya.bhatia@linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Stefan Agner <stefan@agner.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ imx@lists.linux.dev, kernel@dh-electronics.com,
+ linux-arm-kernel@lists.infradead.org
+To: Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Isaac Scott <isaac.scott@ideasonboard.com>, Liu Ying <victor.liu@nxp.com>,
+ Marek Vasut <marex@denx.de>, dri-devel@lists.freedesktop.org
+Date: Sat, 19 Oct 2024 22:49:04 +0100
+Message-ID: <172937454426.2485972.12472740284222343769@ping.linuxembedded.co.uk>
+User-Agent: alot/0.10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,149 +75,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Aradhya Bhatia <a-bhatia1@ti.com>
+Quoting Marek Vasut (2024-10-12 21:37:59)
+> On 10/11/24 5:10 AM, Liu Ying wrote:
+>=20
+> Hi,
+>=20
+> >>>> This Video PLL1 configuration since moved to &media_blk_ctrl {} , bu=
+t it is still in the imx8mp.dtsi . Therefore, to make your panel work at th=
+e correct desired pixel clock frequency instead of some random one inherite=
+d from imx8mp.dtsi, add the following to the pollux DT, I believe that will=
+ fix the problem and is the correct fix:
+> >>>>
+> >>>> &media_blk_ctrl {
+> >>>>  =C2=A0=C2=A0=C2=A0 // 506800000 =3D 72400000 * 7 (for single-link L=
+VDS, this is enough)
+> >>>>  =C2=A0=C2=A0=C2=A0 // there is no need to multiply the clock by * 2
+> >>>>  =C2=A0=C2=A0=C2=A0 assigned-clock-rates =3D <500000000>, <200000000=
+>, <0>, <0>, <500000000>, <506800000>;
+> >>>
+> >>> This assigns "video_pll1" clock rate to 506.8MHz which is currently n=
+ot
+> >>> listed in imx_pll1443x_tbl[].
+> >>
+> >> Since commit b09c68dc57c9 ("clk: imx: pll14xx: Support dynamic rates")=
+ the 1443x PLLs can be configured to arbitrary rates which for video PLL is=
+ desirable as those should produce accurate clock.
+> >=20
+> > Ack.
+> >=20
+> >>
+> >>> Does the below patch[1] fix the regression issue? It explicitly sets
+> >>> the clock frequency of the panel timing to 74.25MHz.
+> >>>
+> >>> [1] https://patchwork.freedesktop.org/patch/616905/?series=3D139266&r=
+ev=3D1
+> >> That patch is wrong, there is an existing entry for this panel in pane=
+l-simple.c which is correct and precise, please do not add that kind of imp=
+recise duplicate timings into DT.
+> >=20
+> > At least the patch[1] is legitimate now to override the display
+> > timing of the panel because the override mode is something
+> > panel-simple.c supports.
+>=20
+> It may be possible to override the mode, but why would this be the=20
+> desired if the panel-simple.c already contains valid accurate timings=20
+> for this particular panel ?
 
-The cdns-dsi controller requires that it be turned on completely before
-the input DPI's source has begun streaming[0]. Not having that, allows
-for a small window before cdns-dsi enable and after cdns-dsi disable
-where the previous entity (in this case tidss's videoport) to continue
-streaming DPI video signals. This small window where cdns-dsi is
-disabled but is still receiving signals causes the input FIFO of
-cdns-dsi to get corrupted. This causes the colors to shift on the output
-display. The colors can either shift by one color component (R->G, G->B,
-B->R), or by two color components (R->B, G->R, B->G).
+I'm confused a little here. Why is it that setting the panel timings in
+the DT as per [1] make the display work, while the panel timeings in
+panel-simple alone are not enough?
 
-Since tidss's videoport starts streaming via crtc enable hooks, we need
-cdns-dsi to be up and running before that. Now that the bridges are
-pre_enabled before crtc is enabled, and post_disabled after crtc is
-disabled, use the pre_enable and post_disable hooks to get cdns-dsi
-ready and running before the tidss videoport to get pass the color shift
-issues.
+Is there some difference in code path for 'how' the panel timings are
+set as to whether they will apply fully or not ?
 
-[0]: See section 12.6.5.7.3 "Start-up Procedure" in J721E SoC TRM
-     TRM Link: http://www.ti.com/lit/pdf/spruil1
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
-Signed-off-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
----
- .../gpu/drm/bridge/cadence/cdns-dsi-core.c    | 62 ++++++++++---------
- 1 file changed, 34 insertions(+), 28 deletions(-)
+--
+Kieran
 
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-index 79d8c2264c14..dfeb53841ebc 100644
---- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-@@ -658,13 +658,28 @@ cdns_dsi_bridge_mode_valid(struct drm_bridge *bridge,
- 	return MODE_OK;
- }
- 
--static void cdns_dsi_bridge_atomic_disable(struct drm_bridge *bridge,
--					   struct drm_bridge_state *old_bridge_state)
-+static void cdns_dsi_bridge_atomic_post_disable(struct drm_bridge *bridge,
-+						struct drm_bridge_state *old_bridge_state)
- {
- 	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
- 	struct cdns_dsi *dsi = input_to_dsi(input);
- 	u32 val;
- 
-+	/*
-+	 * The cdns-dsi controller needs to be disabled after it's DPI source
-+	 * has stopped streaming. If this is not followed, there is a brief
-+	 * window before DPI source is disabled and after cdns-dsi controller
-+	 * has been disabled where the DPI stream is still on, but the cdns-dsi
-+	 * controller is not ready anymore to accept the incoming signals. This
-+	 * is one of the reasons why a shift in pixel colors is observed on
-+	 * displays that have cdns-dsi as one of the bridges.
-+	 *
-+	 * To mitigate this, disable this bridge from the bridge post_disable()
-+	 * hook, instead of the bridge _disable() hook. The bridge post_disable()
-+	 * hook gets called after the CRTC disable, where often many DPI sources
-+	 * disable their streams.
-+	 */
-+
- 	val = readl(dsi->regs + MCTL_MAIN_DATA_CTL);
- 	val &= ~(IF_VID_SELECT_MASK | IF_VID_MODE | VID_EN | HOST_EOT_GEN |
- 		 DISP_EOT_GEN);
-@@ -683,15 +698,6 @@ static void cdns_dsi_bridge_atomic_disable(struct drm_bridge *bridge,
- 	pm_runtime_put(dsi->base.dev);
- }
- 
--static void cdns_dsi_bridge_atomic_post_disable(struct drm_bridge *bridge,
--						struct drm_bridge_state *old_bridge_state)
--{
--	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
--	struct cdns_dsi *dsi = input_to_dsi(input);
--
--	pm_runtime_put(dsi->base.dev);
--}
--
- static void cdns_dsi_hs_init(struct cdns_dsi *dsi)
- {
- 	struct cdns_dsi_output *output = &dsi->output;
-@@ -760,8 +766,8 @@ static void cdns_dsi_init_link(struct cdns_dsi *dsi)
- 	dsi->link_initialized = true;
- }
- 
--static void cdns_dsi_bridge_atomic_enable(struct drm_bridge *bridge,
--					  struct drm_bridge_state *old_bridge_state)
-+static void cdns_dsi_bridge_atomic_pre_enable(struct drm_bridge *bridge,
-+					      struct drm_bridge_state *old_bridge_state)
- {
- 	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
- 	struct cdns_dsi *dsi = input_to_dsi(input);
-@@ -776,6 +782,21 @@ static void cdns_dsi_bridge_atomic_enable(struct drm_bridge *bridge,
- 	if (WARN_ON(pm_runtime_get_sync(dsi->base.dev) < 0))
- 		return;
- 
-+	/*
-+	 * The cdns-dsi controller needs to be enabled before it's DPI source
-+	 * has begun streaming. If this is not followed, there is a brief window
-+	 * after DPI source enable and before cdns-dsi controller enable where
-+	 * the DPI stream is on, but the cdns-dsi controller is not ready to
-+	 * accept the incoming signals. This is one of the reasons why a shift
-+	 * in pixel colors is observed on displays that have cdns-dsi as one of
-+	 * the bridges.
-+	 *
-+	 * To mitigate this, enable this bridge from the bridge pre_enable()
-+	 * hook, instead of the bridge _enable() hook. The bridge pre_enable()
-+	 * hook gets called before the CRTC enable, where often many DPI sources
-+	 * enable their streams.
-+	 */
-+
- 	if (dsi->platform_ops && dsi->platform_ops->enable)
- 		dsi->platform_ops->enable(dsi);
- 
-@@ -912,19 +933,6 @@ static void cdns_dsi_bridge_atomic_enable(struct drm_bridge *bridge,
- 	writel(tmp, dsi->regs + MCTL_MAIN_EN);
- }
- 
--static void cdns_dsi_bridge_atomic_pre_enable(struct drm_bridge *bridge,
--					      struct drm_bridge_state *old_bridge_state)
--{
--	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
--	struct cdns_dsi *dsi = input_to_dsi(input);
--
--	if (WARN_ON(pm_runtime_get_sync(dsi->base.dev) < 0))
--		return;
--
--	cdns_dsi_init_link(dsi);
--	cdns_dsi_hs_init(dsi);
--}
--
- static u32 *cdns_dsi_bridge_get_input_bus_fmts(struct drm_bridge *bridge,
- 					       struct drm_bridge_state *bridge_state,
- 					       struct drm_crtc_state *crtc_state,
-@@ -968,9 +976,7 @@ static int cdns_dsi_bridge_atomic_check(struct drm_bridge *bridge,
- static const struct drm_bridge_funcs cdns_dsi_bridge_funcs = {
- 	.attach = cdns_dsi_bridge_attach,
- 	.mode_valid = cdns_dsi_bridge_mode_valid,
--	.atomic_disable = cdns_dsi_bridge_atomic_disable,
- 	.atomic_pre_enable = cdns_dsi_bridge_atomic_pre_enable,
--	.atomic_enable = cdns_dsi_bridge_atomic_enable,
- 	.atomic_post_disable = cdns_dsi_bridge_atomic_post_disable,
- 	.atomic_check = cdns_dsi_bridge_atomic_check,
- 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
--- 
-2.34.1
 
+>=20
+> > And, pixel clock @74.25MHz is not out
+> > of the panel specification since edt_etml1010g3dra_timing
+> > indicates the minimum as 66.3MHz and the maximum as 78.9MHz.
+>=20
+> The panel-simple.c already contains timings for this panel, which are=20
+> accurate and follow the panel datasheet. If the goal here is to support=20
+> approximate panel timings between the currently available three options=20
+> (min/typ/max) listed in panel-simple, then that is another discussion=20
+> for another patch.
+>=20
+> > Furthermore, if "PHYTEC phyBOARD-Pollux i.MX8MP" also supports
+> > something like MIPI DSI to HDMI, then 74.25MHz panel pixel clock
+> > rate is more desirable because the LVDS display and the MIPI DSI
+> > display pipeline with typical 148.5MHz/74.25MHz pixel clock rates
+> > may use one single "video_pll1" clock.
+>=20
+> I actually do have exactly this use case on one system -- one LVDS panel =
+
+> and one MIPI DSI panel -- the solution is really easy, source the LVDS=20
+> pixel clock from Video PLL and the DSI clock from e.g. PLL3 .
+>=20
+> > Anyway, I think it is ok to use the patch[1] or assigning
+> > "video_pll1" clock rate to 506.8MHz in DT(no things like MIPI
+> > DSI to HDMI in existing DT).
+> I believe for the current release, it is better to update the Video PLL=20
+> clock in this one board DT, because that is minimum impact change=20
+> isolated to this board and fixes a real issue where the LVDS panel=20
+> worked within specification only by sheer chance.
