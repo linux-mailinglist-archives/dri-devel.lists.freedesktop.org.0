@@ -2,78 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 344289A4E7D
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Oct 2024 16:06:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEE329A4E83
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Oct 2024 16:11:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3316710E286;
-	Sat, 19 Oct 2024 14:06:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AB8210E29E;
+	Sat, 19 Oct 2024 14:11:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ccyb3K5l";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="StMndGhe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com
- [209.85.208.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0468910E286
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Oct 2024 14:06:50 +0000 (UTC)
-Received: by mail-lj1-f178.google.com with SMTP id
- 38308e7fff4ca-2fb5111747cso36839611fa.2
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Oct 2024 07:06:50 -0700 (PDT)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
+ [209.85.167.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B06710E29E
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Oct 2024 14:11:08 +0000 (UTC)
+Received: by mail-lf1-f53.google.com with SMTP id
+ 2adb3069b0e04-539f4d8ef66so4212853e87.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Oct 2024 07:11:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1729346809; x=1729951609; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1729347066; x=1729951866; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=uZX3L8vj0+pZ3viwMUU5rczwa59QJIn6phjkq4UGtpg=;
- b=ccyb3K5lWfj3wvU0rvqJ0ALRUFD5tZD7hlGNJ8LoOv8fhMY4iDx9G+tYhFWAlRLsFB
- CRmaikQNSB9+7I9bAWL0rEzLgz/ktUNVbMcM8A3nTIIAAEDViRQIA2wwE3RTqsI1q7Jz
- 5gUXSvaP1yi4MvUjTVykYDtuMw2sSXWgcmgILpKw7InXzprFhfanFBhdmp2tYi9k927G
- xDciyUiHS+gITAZHWkL9SaP9oQG3uSpwrkcjcbNll+FozQiIROxuna3vnofEC0CzfgTC
- O3hiH/LsE5keay8GOHZ/Wy6zOQPZ+yqixrCw90d8pOCUnsh67Brj1axLByPBf8/Xz1LF
- E9GQ==
+ bh=KFyqMGDzEiD8SJfgSIuL6OhjikfOSZdJxwOOF791tUo=;
+ b=StMndGheo+U6KxSI4zEtZQTARq0kFgFm2FvPp810XoTFvJxXzlBZjbz+7u576Tz8PG
+ eYgTMYb20e9Zt5IzWnP/hAZzcr2uBszmhNa8zv1iflkGXuuY4XQyvIx5SZpWqSwkZ/3/
+ YySohs5q8qPXfJMqlJyRCQHa8/i4ZIzBKQGqJxmCncNeaJ4cqSOFsBMcVq4ght2v4UgP
+ tYoJQFtcaS2GAicrMU/EG2M40NfFUGJZzAbPiPw3WWFCVow5MP2hOcD54mlIMoW0alaz
+ RxAAy7Y9iNbmgqB01X9qkdme2Lu8YJ+RME/60ufh5gs3JEiFNjX1nZMHOc/KnFuXuu94
+ NZYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729346809; x=1729951609;
+ d=1e100.net; s=20230601; t=1729347066; x=1729951866;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=uZX3L8vj0+pZ3viwMUU5rczwa59QJIn6phjkq4UGtpg=;
- b=nwjPxpMgvqj85xB5keFvqmSqoZ01PZKWxNsXPV3my+n+SphDELYZuntExrMa5oRueo
- Q1ZPLUd6WfY829GAWNd3tMw7yWEkte6m6iuX4+cq9qUWpTbRO8G1/RjX+pkoacQrYz+t
- vuxbZBx/w/rkvaVpp9IysstcwlMu1cx3oF5deKhUGItuBgY7AmAp/5Klsaha+9kyDW01
- 1uHghnh/MFu0FGF+9du0I1x/SZXeD2WeR0OT+PADo3WXRY2/RVxysh5VaPJ7OUvvixUC
- /4E3/9GcAt7v5MvUFsvS4h1NiNzEk/hHGPHnEd0z0K9FlpqEyGIv9MmigGL8U4uqognn
- 4fng==
+ bh=KFyqMGDzEiD8SJfgSIuL6OhjikfOSZdJxwOOF791tUo=;
+ b=q1z8t4XUvuC0ZkM+CCff3K6S5Qrqpw6UclqGdQgJa+ToEeRQ+i8PkfUDwdL/q2qoku
+ oJkDSKkhLHqJWHCpzwWREUyqkPBumBZWz71AkkH48pjD9YuvtPwpUKvnuCK8isS6FRt3
+ I90q+hg+qMJv+CDJ5Mcw4yuRFCZKYlBxqBLOhzWvxvpztyQKQEjt3HjH/3h3eiAktHH9
+ jz1jIReDXwbd9UHEsx+QWzB7TREQCLDfy+OGbFWc0j4itZNEIF2dsXpRzT49Kd4Ft/QH
+ U7uR9nlS5JJye5YeNBYIBFnYvq8gmgIKAkfsbmq1mKKdVyX3gqpULPl0JaMR/wvhfgkJ
+ tK5w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVPRmZYLo3seRnU16tYjw/KgQBs3jQSm2NeocQS+GyXKfBP55w9ctP6Q2lQS0o/L5EftSOcmTy3rcc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwwOHrRbZR2gsImjc+ZtitNOGgE/j1T3+InjBRJU/3zdsrxxR55
- oZ1Y0EVKwmBblgpkEUCs+Y/jGflUoqMdqNgDPF/KrNewZOhCR1vIyymafIg98+s=
-X-Google-Smtp-Source: AGHT+IFnKepQrt3KjstKwoxDrbwPp3YtLP62lKS2Z/Xn6PX8nRZiXrbbNPjqK0PsayIqYwEjyqpqmg==
-X-Received: by 2002:a2e:b8cb:0:b0:2fb:656b:4c8e with SMTP id
- 38308e7fff4ca-2fb8320f626mr28703751fa.42.1729346808455; 
- Sat, 19 Oct 2024 07:06:48 -0700 (PDT)
+ AJvYcCXIOT3a627VgV1PTZdfXr52gnnFGHRcK29B+uY2kk8zB6ixWqzPl4EegkMRTiVYN4CIiwUJ7JFf7Ag=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwKoozqWXXAThaq4WRNRTadLNJ2kfMGj03eI1EB8rWNq5NwSFLL
+ pEPctX3VlOfAND9C+0otyv2DqKynf4pOWUbbFQeJPiuR+n/fw6baoWh+iLuYnzs=
+X-Google-Smtp-Source: AGHT+IHpUlM2mb4sZE/F8kO/aL/+SbKMUhUOFGlRdpwHPf22GTTWehOQZojukTZmgNNOEorXiPGafQ==
+X-Received: by 2002:a05:6512:3e0b:b0:539:eb44:7ec3 with SMTP id
+ 2adb3069b0e04-53a1522d8bfmr3412287e87.31.1729347066370; 
+ Sat, 19 Oct 2024 07:11:06 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2fb809b2faasm5274891fa.46.2024.10.19.07.06.46
+ 2adb3069b0e04-53a152203c2sm543967e87.299.2024.10.19.07.11.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 19 Oct 2024 07:06:47 -0700 (PDT)
-Date: Sat, 19 Oct 2024 17:06:45 +0300
+ Sat, 19 Oct 2024 07:11:05 -0700 (PDT)
+Date: Sat, 19 Oct 2024 17:11:03 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: shiyongbang <shiyongbang@huawei.com>
-Cc: xinliang.liu@linaro.org, tiantao6@hisilicon.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, 
- daniel@ffwll.ch, kong.kongxinwei@hisilicon.com, liangjian010@huawei.com, 
- chenjianmin@huawei.com, lidongming5@huawei.com, libaihan@huawei.com, 
- shenjian15@huawei.com, shaojijie@huawei.com, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH drm-dp 4/4] drm/hisilicon/hibmc: add dp module in hibmc
-Message-ID: <xeemxeld4cqpx47kzb5qqsawk7mu5kje6r7n335dhe2s7ynw6m@eaiowriiilgr>
-References: <20240930100610.782363-1-shiyongbang@huawei.com>
- <20240930100610.782363-5-shiyongbang@huawei.com>
+To: Ryan Walklin <ryan@testtoast.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Andre Przywara <andre.przywara@arm.com>, 
+ Chris Morgan <macroalpha82@gmail.com>, dri-devel@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ devicetree@vger.kernel.org, linux-clk@vger.kernel.org
+Subject: Re: [PATCH v5 01/26] drm: sun4i: de2/de3: Change CSC argument
+Message-ID: <635hn2vkmoyna7fxzgrzp7q3tlk76aoggssjbt2mpkhpvvo4fx@2pmvvxgvmfpq>
+References: <20240929091107.838023-1-ryan@testtoast.com>
+ <20240929091107.838023-2-ryan@testtoast.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240930100610.782363-5-shiyongbang@huawei.com>
+In-Reply-To: <20240929091107.838023-2-ryan@testtoast.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,341 +93,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 30, 2024 at 06:06:10PM +0800, shiyongbang wrote:
-> From: baihan li <libaihan@huawei.com>
+On Sun, Sep 29, 2024 at 10:04:33PM +1300, Ryan Walklin wrote:
+> From: Jernej Skrabec <jernej.skrabec@gmail.com>
 > 
-> To support DP interface displaying in hibmc driver. Add
-> a encoder and connector for DP modual.
+> Currently, CSC module takes care only for converting YUV to RGB.
+> However, DE3 is more suited to work in YUV color space. Change CSC mode
+> argument to format type to be more neutral. New argument only tells
+> layer format type and doesn't imply output type.
 > 
-> Signed-off-by: baihan li <libaihan@huawei.com>
+> This commit doesn't make any functional change.
+> 
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
+> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
 > ---
->  drivers/gpu/drm/hisilicon/hibmc/Makefile      |   2 +-
->  .../gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c    | 195 ++++++++++++++++++
->  .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c   |  17 +-
->  .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h   |   5 +
->  4 files changed, 217 insertions(+), 2 deletions(-)
->  create mode 100644 drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
+>  drivers/gpu/drm/sun4i/sun8i_csc.c      | 22 +++++++++++-----------
+>  drivers/gpu/drm/sun4i/sun8i_csc.h      | 10 +++++-----
+>  drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 16 ++++++++--------
+>  3 files changed, 24 insertions(+), 24 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/hisilicon/hibmc/Makefile b/drivers/gpu/drm/hisilicon/hibmc/Makefile
-> index 693036dfab52..8cf74e0d4785 100644
-> --- a/drivers/gpu/drm/hisilicon/hibmc/Makefile
-> +++ b/drivers/gpu/drm/hisilicon/hibmc/Makefile
-> @@ -1,5 +1,5 @@
->  # SPDX-License-Identifier: GPL-2.0-only
->  hibmc-drm-y := hibmc_drm_drv.o hibmc_drm_de.o hibmc_drm_vdac.o hibmc_drm_i2c.o \
-> -	       dp/dp_aux.o dp/dp_link.o dp/dp_kapi.o
-> +	       dp/dp_aux.o dp/dp_link.o dp/dp_kapi.o hibmc_drm_dp.o
+>  void sun8i_csc_enable_ccsc(struct sun8i_mixer *mixer, int layer, bool enable)
+> diff --git a/drivers/gpu/drm/sun4i/sun8i_csc.h b/drivers/gpu/drm/sun4i/sun8i_csc.h
+> index 828b86fd0cabb..7322770f39f03 100644
+> --- a/drivers/gpu/drm/sun4i/sun8i_csc.h
+> +++ b/drivers/gpu/drm/sun4i/sun8i_csc.h
+> @@ -22,14 +22,14 @@ struct sun8i_mixer;
 >  
->  obj-$(CONFIG_DRM_HISI_HIBMC) += hibmc-drm.o
-> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
-> new file mode 100644
-> index 000000000000..7a50f1d81aac
-> --- /dev/null
-> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
-> @@ -0,0 +1,195 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +
-> +#include <linux/io.h>
-> +
-> +#include <drm/drm_probe_helper.h>
-> +#include <drm/drm_simple_kms_helper.h>
-> +#include <drm/drm_atomic_helper.h>
-> +#include <drm/drm_drv.h>
-> +#include <drm/drm_edid.h>
-> +
-> +#include "hibmc_drm_drv.h"
-> +#include "dp/dp_kapi.h"
-> +
-> +static int hibmc_dp_connector_get_modes(struct drm_connector *connector)
-> +{
-> +	int count;
-> +
-> +	count = drm_add_modes_noedid(connector, connector->dev->mode_config.max_width,
-> +				     connector->dev->mode_config.max_height);
-> +	drm_set_preferred_mode(connector, 800, 600); /* default 800x600 */
-
-What? Please parse EDID instead.
-
-> +
-> +	return count;
-> +}
-> +
-> +static const struct drm_connector_helper_funcs hibmc_dp_conn_helper_funcs = {
-> +	.get_modes = hibmc_dp_connector_get_modes,
-> +};
-> +
-> +static const struct drm_connector_funcs hibmc_dp_conn_funcs = {
-> +	.reset = drm_atomic_helper_connector_reset,
-> +	.fill_modes = drm_helper_probe_single_connector_modes,
-> +	.destroy = drm_connector_cleanup,
-> +	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
-> +	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-> +};
-> +
-> +static void dp_mode_cfg(struct drm_device *dev, struct dp_mode *dp_mode,
-> +			struct drm_display_mode *mode)
-> +{
-> +	dp_mode->field_rate = drm_mode_vrefresh(mode);
-> +	dp_mode->pixel_clock = mode->clock / 1000; /* 1000: khz to hz */
-> +
-> +	dp_mode->h_total = mode->htotal;
-> +	dp_mode->h_active = mode->hdisplay;
-> +	dp_mode->h_blank = mode->htotal - mode->hdisplay;
-> +	dp_mode->h_front = mode->hsync_start - mode->hdisplay;
-> +	dp_mode->h_sync = mode->hsync_end - mode->hsync_start;
-> +	dp_mode->h_back = mode->htotal - mode->hsync_end;
-> +
-> +	dp_mode->v_total = mode->vtotal;
-> +	dp_mode->v_active = mode->vdisplay;
-> +	dp_mode->v_blank = mode->vtotal - mode->vdisplay;
-> +	dp_mode->v_front = mode->vsync_start - mode->vdisplay;
-> +	dp_mode->v_sync = mode->vsync_end - mode->vsync_start;
-> +	dp_mode->v_back = mode->vtotal - mode->vsync_end;
-
-No need to copy the bits around. Please use drm_display_mode directly.
-
-> +
-> +	if (mode->flags & DRM_MODE_FLAG_PHSYNC) {
-> +		drm_info(dev, "horizontal sync polarity: positive\n");
-> +		dp_mode->h_pol = 1;
-> +	} else if (mode->flags & DRM_MODE_FLAG_NHSYNC) {
-> +		drm_info(dev, "horizontal sync polarity: negative\n");
-> +		dp_mode->h_pol = 0;
-> +	} else {
-> +		drm_err(dev, "horizontal sync polarity: unknown or not set\n");
-> +	}
-> +
-> +	if (mode->flags & DRM_MODE_FLAG_PVSYNC) {
-> +		drm_info(dev, "vertical sync polarity: positive\n");
-> +		dp_mode->v_pol = 1;
-> +	} else if (mode->flags & DRM_MODE_FLAG_NVSYNC) {
-> +		drm_info(dev, "vertical sync polarity: negative\n");
-
-No spamming, use DRM debugging macros.
-
-> +		dp_mode->v_pol = 0;
-> +	} else {
-> +		drm_err(dev, "vertical sync polarity: unknown or not set\n");
-> +	}
-> +}
-> +
-> +static int dp_prepare(struct hibmc_dp *dp, struct drm_display_mode *mode)
-> +{
-> +	struct dp_mode dp_mode = {0};
-> +	int ret;
-> +
-> +	hibmc_dp_display_en(dp, false);
-> +
-> +	dp_mode_cfg(dp->drm_dev, &dp_mode, mode);
-> +	ret = hibmc_dp_mode_set(dp, &dp_mode);
-> +	if (ret)
-> +		drm_err(dp->drm_dev, "hibmc dp mode set failed: %d\n", ret);
-> +
-> +	return ret;
-> +}
-> +
-> +static void dp_enable(struct hibmc_dp *dp)
-> +{
-> +	hibmc_dp_display_en(dp, true);
-> +}
-> +
-> +static void dp_disable(struct hibmc_dp *dp)
-> +{
-> +	hibmc_dp_display_en(dp, false);
-> +}
-> +
-> +static int hibmc_dp_hw_init(struct hibmc_drm_private *priv)
-> +{
-> +	int ret;
-> +
-> +	ret = hibmc_dp_kapi_init(&priv->dp);
-> +	if (ret)
-> +		return ret;
-> +
-> +	hibmc_dp_display_en(&priv->dp, false);
-> +
-> +	return 0;
-> +}
-> +
-> +static void hibmc_dp_hw_uninit(struct hibmc_drm_private *priv)
-> +{
-> +	hibmc_dp_kapi_uninit(&priv->dp);
-> +}
-
-Inline all these one-line wrappers, they serve no purpose.
-
-> +
-> +static void hibmc_dp_encoder_enable(struct drm_encoder *drm_encoder,
-> +				    struct drm_atomic_state *state)
-> +{
-> +	struct hibmc_dp *dp = container_of(drm_encoder, struct hibmc_dp, encoder);
-> +	struct drm_display_mode *mode = &drm_encoder->crtc->state->mode;
-> +
-> +	if (dp_prepare(dp, mode))
-> +		return;
-> +
-> +	dp_enable(dp);
-> +}
-> +
-> +static void hibmc_dp_encoder_disable(struct drm_encoder *drm_encoder,
-> +				     struct drm_atomic_state *state)
-> +{
-> +	struct hibmc_dp *dp = container_of(drm_encoder, struct hibmc_dp, encoder);
-> +
-> +	dp_disable(dp);
-> +}
-> +
-> +static const struct drm_encoder_helper_funcs hibmc_dp_encoder_helper_funcs = {
-> +	.atomic_enable = hibmc_dp_encoder_enable,
-> +	.atomic_disable = hibmc_dp_encoder_disable,
-> +};
-> +
-> +void hibmc_dp_uninit(struct hibmc_drm_private *priv)
-> +{
-> +	hibmc_dp_hw_uninit(priv);
-> +}
-> +
-> +int hibmc_dp_init(struct hibmc_drm_private *priv)
-> +{
-> +	struct drm_device *dev = &priv->dev;
-> +	struct drm_crtc *crtc = &priv->crtc;
-> +	struct hibmc_dp *dp = &priv->dp;
-> +	struct drm_connector *connector = &dp->connector;
-> +	struct drm_encoder *encoder = &dp->encoder;
-> +	int ret;
-> +
-> +	dp->mmio = priv->mmio;
-> +	dp->drm_dev = dev;
-> +
-> +	ret = hibmc_dp_hw_init(priv);
-> +	if (ret) {
-> +		drm_err(dev, "dp hw init failed: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	encoder->possible_crtcs = drm_crtc_mask(crtc);
-> +	ret = drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_TMDS);
-
-I think drm_simple_foo interfaces are being deprecated. Please copy
-required code into the driver instead.
-
-> +	if (ret) {
-> +		drm_err(dev, "init dp encoder failed: %d\n", ret);
-> +		goto err_init;
-> +	}
-> +
-> +	drm_encoder_helper_add(encoder, &hibmc_dp_encoder_helper_funcs);
-> +
-> +	ret = drm_connector_init(dev, connector, &hibmc_dp_conn_funcs,
-> +				 DRM_MODE_CONNECTOR_DisplayPort);
-> +	if (ret) {
-> +		drm_err(dev, "init dp connector failed: %d\n", ret);
-> +		goto err_init;
-> +	}
-> +
-> +	drm_connector_helper_add(connector, &hibmc_dp_conn_helper_funcs);
-> +
-> +	drm_connector_attach_encoder(connector, encoder);
-> +
-> +	return 0;
-> +
-> +err_init:
-> +	hibmc_dp_hw_uninit(priv);
-> +
-> +	return ret;
-> +}
-> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> index 9f9b19ea0587..c90a8db021b0 100644
-> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> @@ -93,6 +93,10 @@ static const struct drm_mode_config_funcs hibmc_mode_funcs = {
+>  #define SUN8I_CSC_CTRL_EN		BIT(0)
 >  
->  static int hibmc_kms_init(struct hibmc_drm_private *priv)
->  {
-> +#define DP_HOST_SERDES_CTRL		0x1f001c
-> +#define DP_HOST_SERDES_CTRL_VAL		0x8A00
-> +#define DP_HOST_SERDES_CTRL_MASK	0x7FFFE
-> +
+> -enum sun8i_csc_mode {
+> -	SUN8I_CSC_MODE_OFF,
+> -	SUN8I_CSC_MODE_YUV2RGB,
+> -	SUN8I_CSC_MODE_YVU2RGB,
+> +enum format_type {
 
-#defines outside of the function body.
+enum sun8i_format_type, unless there is a strong reason to name it
+otherwise.
 
->  	struct drm_device *dev = &priv->dev;
->  	int ret;
->  
-> @@ -116,10 +120,17 @@ static int hibmc_kms_init(struct hibmc_drm_private *priv)
->  		return ret;
->  	}
->  
-> +	/* if DP existed, init DP */
-> +	if ((readl(priv->mmio + DP_HOST_SERDES_CTRL) &
-> +	     DP_HOST_SERDES_CTRL_MASK) == DP_HOST_SERDES_CTRL_VAL) {
-> +		ret = hibmc_dp_init(priv);
-> +		if (ret)
-> +			drm_err(dev, "failed to init dp: %d\n", ret);
-> +	}
-> +
->  	ret = hibmc_vdac_init(priv);
->  	if (ret) {
->  		drm_err(dev, "failed to init vdac: %d\n", ret);
-> -		return ret;
-
-Why?
-
->  	}
->  
->  	return 0;
-> @@ -239,6 +250,7 @@ static int hibmc_hw_init(struct hibmc_drm_private *priv)
->  
->  static int hibmc_unload(struct drm_device *dev)
->  {
-> +	struct hibmc_drm_private *priv = to_hibmc_drm_private(dev);
->  	struct pci_dev *pdev = to_pci_dev(dev->dev);
->  
->  	drm_atomic_helper_shutdown(dev);
-> @@ -247,6 +259,9 @@ static int hibmc_unload(struct drm_device *dev)
->  
->  	pci_disable_msi(to_pci_dev(dev->dev));
->  
-> +	if (priv->dp.encoder.possible_crtcs)
-> +		hibmc_dp_uninit(priv);
-> +
->  	return 0;
->  }
->  
-> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-> index 6b566f3aeecb..aa79903fe022 100644
-> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-> @@ -19,6 +19,7 @@
->  #include <linux/i2c.h>
->  
->  #include <drm/drm_framebuffer.h>
-> +#include "dp/dp_kapi.h"
->  
->  struct hibmc_connector {
->  	struct drm_connector base;
-> @@ -37,6 +38,7 @@ struct hibmc_drm_private {
->  	struct drm_crtc crtc;
->  	struct drm_encoder encoder;
->  	struct hibmc_connector connector;
-
-It seems this needs to be refactored too, to separate VGA connector /
-encoder / CRTC to a child struct.
-
-> +	struct hibmc_dp dp;
+> +	FORMAT_TYPE_RGB,
+> +	FORMAT_TYPE_YUV,
+> +	FORMAT_TYPE_YVU,
 >  };
 >  
->  static inline struct hibmc_connector *to_hibmc_connector(struct drm_connector *connector)
-> @@ -59,4 +61,7 @@ int hibmc_vdac_init(struct hibmc_drm_private *priv);
->  
->  int hibmc_ddc_create(struct drm_device *drm_dev, struct hibmc_connector *connector);
->  
-> +int hibmc_dp_init(struct hibmc_drm_private *priv);
-> +void hibmc_dp_uninit(struct hibmc_drm_private *priv);
-> +
->  #endif
-> -- 
-> 2.33.0
+>  void sun8i_csc_set_ccsc_coefficients(struct sun8i_mixer *mixer, int layer,
+> -				     enum sun8i_csc_mode mode,
+> +				     enum format_type fmt_type,
+>  				     enum drm_color_encoding encoding,
+>  				     enum drm_color_range range);
+>  void sun8i_csc_enable_ccsc(struct sun8i_mixer *mixer, int layer, bool enable);
 > 
 
 -- 
