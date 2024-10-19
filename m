@@ -2,78 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A71FA9A4A11
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Oct 2024 01:24:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C11B9A4AF9
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Oct 2024 04:44:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1020A10E18B;
-	Fri, 18 Oct 2024 23:24:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7554C10E0B0;
+	Sat, 19 Oct 2024 02:44:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="czN82VKh";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="MWL2/C1k";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
- [209.85.167.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C6F710E18B
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2024 23:24:47 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id
- 2adb3069b0e04-5366fd6fdf1so4260801e87.0
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2024 16:24:47 -0700 (PDT)
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com
+ [209.85.128.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9268310E0B0
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Oct 2024 02:44:36 +0000 (UTC)
+Received: by mail-yw1-f178.google.com with SMTP id
+ 00721157ae682-6e214c3d045so22379837b3.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Oct 2024 19:44:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1729293886; x=1729898686; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=/XL7RU0wcJwiLmyi3rltL96OHQM/RvogtscZRbUMIBE=;
- b=czN82VKhl5XtIQ5FtLG491Fltj4zcLy4PzsotW74iGMBg7a3WADgJep7KqoWSZwAEm
- nQDXMi7yLSxOqSkzFaihI7aRSBUKHrgJ45Ocan0t9kSGaFTX2ZBPBBAPoY0fuIymltV2
- c9m/qbCa9seIcKxhoHbStyctiAjVQ+nLwWIRfjIguZMk2w6JgNVuPj9tRltM+WZkMNVX
- L0ZiOLyieuz4HU3+OtAymO61W+XCYq97jWVj3QEQgpVIoQZcGRu/UkrHOtJQQipyuy+o
- 1qP1fjU6z2PFBMPGLr7AmU4on0E3r2X/ONhnTX70zQLnWGE6gwqaTOCLRoJa79MXwKlu
- 74Cw==
+ d=linaro.org; s=google; t=1729305875; x=1729910675; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=miaF/bzpaXxt5iwAcqBRvDZdA63BMI9c1o0s4Dvr9rc=;
+ b=MWL2/C1kkPiVcWvBoF+aYBfNB8mxWIoO3SZEUq9BJr8m88MOPxUE4kt+9PzgwgDJ4G
+ PThog0wnGEHmB7ZPIRDP6stV9GSBFRBDd2u2UimPgIhjQVZ6eA/fD7B1FRIEiHhj93SG
+ zreojeSp3CEbBOpo92ssMwLEvNpP+pHcgBhwCWloT36SnsxxGIkqQ/jq/XAvDFa+Cccj
+ 5fFmNyWW3X7kcmiDEdOVisSJJ0G7bz/msipD93oaGo6f4quGx5XXZlZ/YemsbiivISNK
+ tFHTm1+MU00SqtFuBYQH18vBa5+0ghs8IOHwU0FCLjnoc6iAmz5A1SoPusfmXJe5YDc8
+ N+yA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729293886; x=1729898686;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/XL7RU0wcJwiLmyi3rltL96OHQM/RvogtscZRbUMIBE=;
- b=ku710kMwq0oByOsZjsRv5sq0l2r7AdktXR6Cb0V2HGnsmrY4wecVHzK2BNangcNy66
- ebNkbMlQggnfzjc+FxX7S867EUlXB91BE1PwniMsl2wpxUIOZR6p2jpcW0H+3J1s6GQ6
- BjyAvaKhzGfL/9LstsIgh5nDb/6bpnYyiuWdxGEiHMRrkwhDOvZM6f5KG30qvmOa+T/b
- OJl4e/nGAg57Nosen8RwjU0RQkcfctQXc7Io2wD2SPJGZBAcyhjv1L00DU7CFiDRcVJD
- 3j2vhgXfrZZtG1/hYH2jpxMZ/CEPdfBhnaPQ8wD6w+mNZLaZzfj+wc7+eMA2xn2h2HpQ
- LMcg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXd6ynVT0XYmYUFHwViFXEfNYIj8fJ3bUVEuQUUjidXa84HYmBxu7os8jAEGrweWgE8tNN/+eRFZow=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzGE7PZTCbn9SdBSQxL1LixG+A/qkZYs19i/kX8oxIh91T8/6LN
- E5GomQniltJCWroME99OYlfDBZMKiBGb5qw/zsOAB9+QTdCFPeii0WPlITP56RM=
-X-Google-Smtp-Source: AGHT+IGxQH8jPhf8nHBxYihXlnaykZShcOq9fR2nMiH4MBnj0+03pyQXpR9uKc/6SVuSIxYNBKMpGQ==
-X-Received: by 2002:a05:6512:10c6:b0:539:9746:2d77 with SMTP id
- 2adb3069b0e04-53a154e049bmr2567706e87.61.1729293885758; 
- Fri, 18 Oct 2024 16:24:45 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53a151b90b5sm356121e87.88.2024.10.18.16.24.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Oct 2024 16:24:45 -0700 (PDT)
-Date: Sat, 19 Oct 2024 02:24:42 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Manikandan Muralidharan <manikandan.m@microchip.com>
-Cc: sam@ravnborg.org, bbrezillon@kernel.org, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, 
- simona@ffwll.ch, nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com, 
- claudiu.beznea@tuxon.dev, Hari.PrasathGE@microchip.com,
- durai.manickamkr@microchip.com, 
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, Cyrille Pitchen <cyrille.pitchen@microchip.com>
-Subject: Re: [PATCH] drm: atmel-hlcdc: fix atmel_xlcdc_plane_setup_scaler()
-Message-ID: <qsfos3biidabnzdji5hkgmup3nmkeve43hwgqsaaod5npssjgt@277cxzczsv33>
-References: <20241014094942.325211-1-manikandan.m@microchip.com>
+ d=1e100.net; s=20230601; t=1729305875; x=1729910675;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=miaF/bzpaXxt5iwAcqBRvDZdA63BMI9c1o0s4Dvr9rc=;
+ b=bqq3gJi3phfGudJcI0Do1oJwzv5/woJBJhuwQtXpQlGK9oNtRF0/ATVzfud9jvFu16
+ DjcA7WJrv8pEgHIFwk8dtGzeuoGMICqX7anm2Es6/5JkPNB6VXdzBBJDUn9GPdy6hdJp
+ 3V89P0wXZeq5yYtXAEd9BBRZZbYzsdyfFgU7r3flBUH14WfJEy2leGgXk/18ze10J9lJ
+ z+Eh0hsvCZ9ogVMn72wAM2FD5hVi4FbTpHfEQpQ13cJRl+3ps63Z/o08ADPUlHNIlbR9
+ GwrgOv8cKkisWB+tDNPty4A6LtgGB1uWLAQBOhS533QoZ/dvri1Esv0A1+DN2m7Tv9q2
+ UbZQ==
+X-Gm-Message-State: AOJu0Yw44Cs6qb+cW5sZPgNWtmk1I6f8JEmNc1l/wzhK8LK5/eMsDQ2O
+ 2B+ECJ1FqHzE/ZSPdjYIPuM7RqUHfqIhpAoZZkr13EhbuIQz0C9BEiyL6uLc+MvDTzyBVAzDaXx
+ zEn5JAVcCPtb0fKnWMkfUTJrur8CmP9IO1AkTsA==
+X-Google-Smtp-Source: AGHT+IET/AXMNwoRFwVXHuhBACWA9SQCiFexSXwoY0rVTaRw1no0IViR/dKMbVXvof5PtqZm9DbMaQZ30RW3YSLJrLM=
+X-Received: by 2002:a05:690c:ecc:b0:65f:a0e5:8324 with SMTP id
+ 00721157ae682-6e5bf72bf64mr50318227b3.4.1729305875248; Fri, 18 Oct 2024
+ 19:44:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241014094942.325211-1-manikandan.m@microchip.com>
+References: <20241012073543.1388069-1-victor.liu@nxp.com>
+ <20241012073543.1388069-6-victor.liu@nxp.com>
+ <4a7rwguypyaspgr5akpxgw4c45gph4h3lx6nkjv3znn32cldrk@k7qskts7ws73>
+ <07b47f70-5dab-4813-97fa-388a0c0f42e9@nxp.com>
+ <dvcdy32dig3w3r3a7eib576zaumsoxw4xb5iw6u6b2rds3zaov@lvdevbyl6skf>
+ <90e0c4ac-1636-4936-ba40-2f7693bc6b32@nxp.com>
+ <lcogrc6uztckwwwsuag5tlk5otidmo7rudsl7zshe3wpfot3wc@ziljns5phhfe>
+ <d5d62f61-808f-4c40-bc71-4e168baf4b1b@nxp.com>
+In-Reply-To: <d5d62f61-808f-4c40-bc71-4e168baf4b1b@nxp.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Sat, 19 Oct 2024 05:44:23 +0300
+Message-ID: <CAA8EJpqcm66+3d6Qi02pjmiBipFeV7dDdY8m=NR2Q=L9EgRVcA@mail.gmail.com>
+Subject: Re: [PATCH v2 5/9] dt-bindings: display: bridge: Add ITE IT6263 LVDS
+ to HDMI converter
+To: Liu Ying <victor.liu@nxp.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, andrzej.hajda@intel.com, 
+ neil.armstrong@linaro.org, rfoss@kernel.org, 
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com, 
+ airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com, 
+ mripard@kernel.org, tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org, 
+ conor+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de, 
+ kernel@pengutronix.de, festevam@gmail.com, catalin.marinas@arm.com, 
+ will@kernel.org, quic_bjorande@quicinc.com, geert+renesas@glider.be, 
+ arnd@arndb.de, nfraprado@collabora.com, o.rempel@pengutronix.de, 
+ y.moog@phytec.de, marex@denx.de, isaac.scott@ideasonboard.com, 
+ biju.das.jz@bp.renesas.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,43 +94,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 14, 2024 at 03:19:42PM +0530, Manikandan Muralidharan wrote:
-> From: Cyrille Pitchen <cyrille.pitchen@microchip.com>
-> 
-> On SoCs, like the SAM9X75, which embed the XLCDC ip, the registers that
-> configure the unified scaling engine were not filled with proper values.
-> 
-> Indeed, for YCbCr formats, the VXSCFACT bitfield of the HEOCFG25
-> register and the HXSCFACT bitfield of the HEOCFG27 register were
-> incorrect.
-> 
-> For 4:2:0 formats, both vertical and horizontal factors for
-> chroma chanels should be divided by 2 from the factors for the luma
-> channel. Hence:
-> 
-> HEOCFG24.VXSYFACT = VFACTOR
-> HEOCFG25.VSXCFACT = VFACTOR / 2
-> HEOCFG26.HXSYFACT = HFACTOR
-> HEOCFG27.HXSCFACT = HFACTOR / 2
-> 
-> However, for 4:2:2 formats, only the horizontal factor for chroma
-> chanels should be divided by 2 from the factor for the luma channel;
-> the vertical factor is the same for all the luma and chroma channels.
-> Hence:
-> 
-> HEOCFG24.VXSYFACT = VFACTOR
-> HEOCFG25.VXSCFACT = VFACTOR
-> HEOCFG26.HXSYFACT = HFACTOR
-> HEOCFG27.HXSCFACT = HFACTOR / 2
-> 
-> Fixes: d498771b0b83 ("drm: atmel_hlcdc: Add support for XLCDC using IP specific driver ops")
-> Signed-off-by: Cyrille Pitchen <cyrille.pitchen@microchip.com>
-> ---
->  .../gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c   | 27 ++++++++++++++++---
->  1 file changed, 24 insertions(+), 3 deletions(-)
-> 
+On Tue, 15 Oct 2024 at 09:27, Liu Ying <victor.liu@nxp.com> wrote:
+>
+> On 10/14/2024, Dmitry Baryshkov wrote:
+> > On Mon, Oct 14, 2024 at 01:33:44PM +0800, Liu Ying wrote:
+> >> On 10/14/2024, Dmitry Baryshkov wrote:
+> >>> On Sat, Oct 12, 2024 at 05:14:13PM +0800, Liu Ying wrote:
+> >>>> On 10/12/2024, Dmitry Baryshkov wrote:
+> >>>>> On Sat, Oct 12, 2024 at 03:35:39PM +0800, Liu Ying wrote:
+> >>>>>> Document ITE IT6263 LVDS to HDMI converter.
+> >>>>>>
+> >>>>>> Product link:
+> >>>>>> https://www.ite.com.tw/en/product/cate1/IT6263
+> >>>>>>
+> >>>>>> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> >>>>>> ---
+> >>>>>> v2:
+> >>>>>> * Document number of LVDS link data lanes.  (Biju)
+> >>>>>> * Simplify ports property by dropping "oneOf".  (Rob)
+> >>>>>>
+> >>>>>>  .../bindings/display/bridge/ite,it6263.yaml   | 276 ++++++++++++++++++
+> >>>>>>  1 file changed, 276 insertions(+)
+> >>>>>>  create mode 100644 Documentation/devicetree/bindings/display/bridge/ite,it6263.yaml
+> >>>>>>
+> >>>>>> diff --git a/Documentation/devicetree/bindings/display/bridge/ite,it6263.yaml b/Documentation/devicetree/bindings/display/bridge/ite,it6263.yaml
+> >>>>>> new file mode 100644
+> >>>>>> index 000000000000..bc2bbec07623
+> >>>>>> --- /dev/null
+> >>>>>> +++ b/Documentation/devicetree/bindings/display/bridge/ite,it6263.yaml
+> >>>>>> @@ -0,0 +1,276 @@
+> >>>>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> >>>>>> +%YAML 1.2
+> >>>>>> +---
+> >>>>>> +$id: http://devicetree.org/schemas/display/bridge/ite,it6263.yaml#
+> >>>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> >>>>>> +
+> >>>>>> +title: ITE IT6263 LVDS to HDMI converter
+> >>>>>> +
+> >>>>>> +maintainers:
+> >>>>>> +  - Liu Ying <victor.liu@nxp.com>
+> >>>>>> +
+> >>>>>> +description: |
+> >>>>>> +  The IT6263 is a high-performance single-chip De-SSC(De-Spread Spectrum) LVDS
+> >>>>>> +  to HDMI converter.  Combined with LVDS receiver and HDMI 1.4a transmitter,
+> >>>>>> +  the IT6263 supports LVDS input and HDMI 1.4 output by conversion function.
+> >>>>>> +  The built-in LVDS receiver can support single-link and dual-link LVDS inputs,
+> >>>>>> +  and the built-in HDMI transmitter is fully compliant with HDMI 1.4a/3D, HDCP
+> >>>>>> +  1.2 and backward compatible with DVI 1.0 specification.
+> >>>>>> +
+> >>>>>> +  The IT6263 also encodes and transmits up to 8 channels of I2S digital audio,
+> >>>>>> +  with sampling rate up to 192KHz and sample size up to 24 bits. In addition,
+> >>>>>> +  an S/PDIF input port takes in compressed audio of up to 192KHz frame rate.
+> >>>>>> +
+> >>>>>> +  The newly supported High-Bit Rate(HBR) audio by HDMI specifications v1.3 is
+> >>>>>> +  provided by the IT6263 in two interfaces: the four I2S input ports or the
+> >>>>>> +  S/PDIF input port.  With both interfaces the highest possible HBR frame rate
+> >>>>>> +  is supported at up to 768KHz.
+> >>>>>> +
+> >>>>>> +properties:
+> >>>>>
+> >>>>> No LVDS data-mapping support?
+> >>>>
+> >>>> It is enough to document number of LVDS link data lanes
+> >>>> because OS should be able to determine the data-mapping
+> >>>> by looking at the number and the data-mapping capability
+> >>>> of the other side of the LVDS link.
+> >>>
+> >>> From what I can see, data-mapping is specified on the consumer sink side
+> >>> of the LVDS link. This means it should go to the bridge's device node.
+> >>
+> >> Then, I won't define data-lanes, because data-mapping implies it,
+> >> e.g., jeida-24 implies data lanes 0/1/2/3, see lvds-data-mapping.yaml.
+> >>
+> >> Please let me know which one you prefer.
+> >
+> > I'd prefer data-mapping.
+>
+> Before I go ahead to use it, I'd like to get confirmation that
+> it'll cover data mapping which supports 30-bit RGB pixel transmission,
+> because it is something supported by IT6263 as I mentioned in v1
+> dt-binding discussion.  For now, data-mapping only supports jeida-18,
+> jeida-24 and vesa-24, see lvds-data-mapping.yaml.  And, I'm not
+> sure the 30-bit data mappings specified in IT6263 datasheet are
+> standard or not.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+It is not. At the time the standards were written, nobody was actually
+thinking about the 30bpp panels.
+
+> Note that if we use data-lanes instead, then this is not a concern
+> from DT PoV, as data mapping can be inferred by OS.
+
+It can not. There is no way to determine if JEIDA or VESA / SPWG
+format is being used if it is not declared.
+Moreover, <uapi/linux/media-bus-format.h> doesn't declare 1X7X5
+formats. If you are to support 30bpp LVDS, you'd need to define two
+corresponding constants, then extend data-mapping definition and code
+by documenting 5-lane LVDS as standards extension to support 30bpp
+transfers.
+
 
 -- 
 With best wishes
