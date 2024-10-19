@@ -2,92 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B63EB9A4C00
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Oct 2024 10:30:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59BB59A4CA0
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Oct 2024 11:32:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D959210E246;
-	Sat, 19 Oct 2024 08:30:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF94910E270;
+	Sat, 19 Oct 2024 09:32:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="ORUMewL+";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="md0/PKJK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BAE110E23B;
- Sat, 19 Oct 2024 08:30:08 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49J805p3030117;
- Sat, 19 Oct 2024 08:29:56 GMT
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 741CA10E270;
+ Sat, 19 Oct 2024 09:32:07 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49J6QlrC000372;
+ Sat, 19 Oct 2024 09:31:56 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
  cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=emllR5JbPryq2TscDbpDv5cW
- SwVM0+1pn14ciuws77o=; b=ORUMewL+t29qNQUByzmn/UrHs2WSjgY3CzAo/A8B
- ES+WXGn7JXLm1rS2HrpdzDm2cRlCW4ku18nZ9+GpT5D6VCggPuX4aH3PT7SMTDbf
- 8lbPSUDot1yhi3XONHNXv8R1+aq4sx+0cHdEwts8JNvYhy6hI6dK0Y9Xszmysl/6
- IxH2KMJgqqwJZJZt4X/VR7qAvTiPnlZZltc6zKEMGN96nhtUoEuPjnFwRgAz7qKD
- krzzVgCgpjwysFyBWlqBIBxY9fXF4Sv0+Ttxzec+bpJC1xRI3k95xBaZiC6XNZaP
- Rx4KyUCuw0uSTy51gabOqhj2L7aMIF5FWQ9CZz1hRe81sA==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ :references:subject:to; s=qcppdkim1; bh=Hgx2tTwrqqvVBfxhaLy1gvXS
+ 6S7MhvjClP7ml6upya8=; b=md0/PKJK8DiQcoyWfDEg27QQrA9aHyibg2bRRAHE
+ K9w14w6lpr1LQn/5XI9LyqtpE6uBV03bMeKtD5LH5deZGqakkdor3yn1EW1nDhve
+ 9jU3Iwp6j34y+TlPgaCXKEzqPAys0YNCsl43ARazc1CLyvb1E7AVF5xFIztdpq93
+ L8sP2EDB88WAQh+/ywQmQ1sb5Fy6GnhLssGg4UdtgSy94cSdbNIxncFq1fb3z+aY
+ ZaZ8NDD+1ZmfSoGQ1u0zcp/dXoHxLASQRSInPgSYnC6w21CNWyu4qeOsUKw26/bs
+ VjAdaF7Qz276oHR3XkR3vRSmPMDAfice83vsg5UBsLzQnA==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42c6sj87r9-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42c6vxra2f-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 19 Oct 2024 08:29:56 +0000 (GMT)
+ Sat, 19 Oct 2024 09:31:56 +0000 (GMT)
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49J8TtIm015223
+ by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49J9Vu9F019795
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 19 Oct 2024 08:29:55 GMT
+ Sat, 19 Oct 2024 09:31:56 GMT
 Received: from hu-akhilpo-hyd.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Sat, 19 Oct 2024 01:29:48 -0700
-Date: Sat, 19 Oct 2024 13:59:44 +0530
+ 15.2.1544.9; Sat, 19 Oct 2024 02:31:50 -0700
+Date: Sat, 19 Oct 2024 15:01:46 +0530
 From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, "Konrad
- Dybcio" <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Simona
- Vetter" <simona@ffwll.ch>,
- Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
- Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <linux-pm@vger.kernel.org>, <devicetree@vger.kernel.org>
-Subject: Re: [PATCH RFC 3/3] arm64: dts: qcom: x1e80100: Add ACD levels for GPU
-Message-ID: <20241019082944.w2xnks54i34vj4qx@hu-akhilpo-hyd.qualcomm.com>
-References: <20241012-gpu-acd-v1-0-1e5e91aa95b6@quicinc.com>
- <20241012-gpu-acd-v1-3-1e5e91aa95b6@quicinc.com>
- <5axuqj4hetfkgg2f53ph4um24b7xfyumktreglxqyzfsdhy25e@deucq7vqxq5l>
- <20241015193540.mcpp2dvkmikruncj@hu-akhilpo-hyd.qualcomm.com>
- <921d3a39-d95c-4156-b376-44e8dc6a6467@kernel.org>
- <20241017061217.mmq27egyg5cdlubb@hu-akhilpo-hyd.qualcomm.com>
- <9ac861ae-b0b1-4f7a-a002-7d2048132ef3@kernel.org>
+To: Arnd Bergmann <arnd@kernel.org>
+CC: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, "Nathan
+ Chancellor" <nathan@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Sean Paul
+ <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>, Marijn Suijten
+ <marijn.suijten@somainline.org>,
+ Nick Desaulniers <ndesaulniers@google.com>,
+ Bill Wendling <morbo@google.com>,
+ Justin Stitt <justinstitt@google.com>, <linux-arm-msm@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <llvm@lists.linux.dev>
+Subject: Re: [PATCH] drm: a6xx: avoid excessive stack usage
+Message-ID: <20241019093146.kdp25pir5onjmg4g@hu-akhilpo-hyd.qualcomm.com>
+References: <20241018151143.3543939-1-arnd@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <9ac861ae-b0b1-4f7a-a002-7d2048132ef3@kernel.org>
+In-Reply-To: <20241018151143.3543939-1-arnd@kernel.org>
 X-Originating-IP: [10.80.80.8]
 X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: gCOussZQS0CKV-Lk2cyLze9bBgMj7q8d
-X-Proofpoint-ORIG-GUID: gCOussZQS0CKV-Lk2cyLze9bBgMj7q8d
+X-Proofpoint-ORIG-GUID: c7ebgBZlxI-XvLuA55_ZBEz9X2lqhSug
+X-Proofpoint-GUID: c7ebgBZlxI-XvLuA55_ZBEz9X2lqhSug
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
  definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 adultscore=0
- bulkscore=0 phishscore=0 mlxlogscore=289 clxscore=1015 priorityscore=1501
- lowpriorityscore=0 malwarescore=0 suspectscore=0 spamscore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2409260000
- definitions=main-2410190059
+ mlxscore=0 suspectscore=0
+ clxscore=1011 malwarescore=0 mlxlogscore=999 bulkscore=0 impostorscore=0
+ lowpriorityscore=0 adultscore=0 phishscore=0 priorityscore=1501
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410190068
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,57 +95,127 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 17, 2024 at 09:05:50AM +0200, Krzysztof Kozlowski wrote:
-> On 17/10/2024 08:12, Akhil P Oommen wrote:
-> > On Wed, Oct 16, 2024 at 09:50:04AM +0200, Krzysztof Kozlowski wrote:
-> >> On 15/10/2024 21:35, Akhil P Oommen wrote:
-> >>> On Mon, Oct 14, 2024 at 09:40:13AM +0200, Krzysztof Kozlowski wrote:
-> >>>> On Sat, Oct 12, 2024 at 01:59:30AM +0530, Akhil P Oommen wrote:
-> >>>>> Update GPU node to include acd level values.
-> >>>>>
-> >>>>> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
-> >>>>> ---
-> >>>>>  arch/arm64/boot/dts/qcom/x1e80100.dtsi | 11 ++++++++++-
-> >>>>>  1 file changed, 10 insertions(+), 1 deletion(-)
-> >>>>>
-> >>>>> diff --git a/arch/arm64/boot/dts/qcom/x1e80100.dtsi b/arch/arm64/boot/dts/qcom/x1e80100.dtsi
-> >>>>> index a36076e3c56b..e6c500480eb1 100644
-> >>>>> --- a/arch/arm64/boot/dts/qcom/x1e80100.dtsi
-> >>>>> +++ b/arch/arm64/boot/dts/qcom/x1e80100.dtsi
-> >>>>> @@ -3323,60 +3323,69 @@ zap-shader {
-> >>>>>  			};
-> >>>>>  
-> >>>>>  			gpu_opp_table: opp-table {
-> >>>>> -				compatible = "operating-points-v2";
-> >>>>> +				compatible = "operating-points-v2-adreno";
-> >>>>
-> >>>> This nicely breaks all existing users of this DTS. Sorry, no. We are way
-> >>>> past initial bringup/development. One year past.
-> > 
-> > How do I identify when devicetree is considered stable? An arbitrary
-> > time period doesn't sound like a good idea. Is there a general consensus
-> > on this?
-> > 
-> > X1E chipset is still considered under development at least till the end of this
-> > year, right?
+On Fri, Oct 18, 2024 at 03:11:38PM +0000, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> Stable could be when people already get their consumer/final product
-> with it. I got some weeks ago Lenovo T14s laptop and since yesterday
-> working fine with Ubuntu:
-> https://discourse.ubuntu.com/t/ubuntu-24-10-concept-snapdragon-x-elite/48800
+> Clang-19 and above sometimes end up with multiple copies of the large
+> a6xx_hfi_msg_bw_table structure on the stack. The problem is that
+> a6xx_hfi_send_bw_table() calls a number of device specific functions to
+> fill the structure, but these create another copy of the structure on
+> the stack which gets copied to the first.
 > 
-> All chipsets are under development, even old SM8450, but we avoid
-> breaking it while doing that.
+> If the functions get inlined, that busts the warning limit:
 > 
-I still have questions about the practicality especially in IoT/Auto chipsets,
-but I will try to get it clarified when I face them.
+> drivers/gpu/drm/msm/adreno/a6xx_hfi.c:631:12: error: stack frame size (1032) exceeds limit (1024) in 'a6xx_hfi_send_bw_table' [-Werror,-Wframe-larger-than]
 
-I will go ahead and send out the v2 series addressing the suggestions.
+Why does this warning says that the limit is 1024? 1024 bytes is too small, isn't it?
 
 -Akhil.
 
 > 
+> Mark all of them as 'noinline_for_stack' ensure we only have one copy
+> of the structure per function.
 > 
-> Best regards,
-> Krzysztof
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  drivers/gpu/drm/msm/adreno/a6xx_hfi.c | 21 +++++++++++----------
+>  1 file changed, 11 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_hfi.c b/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
+> index cdb3f6e74d3e..5699e0420eb8 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
+> @@ -259,7 +259,8 @@ static int a6xx_hfi_send_perf_table(struct a6xx_gmu *gmu)
+>  		NULL, 0);
+>  }
+>  
+> -static void a618_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+> +/* noinline to avoid having multiple copies of 'msg' on stack */
+> +static noinline_for_stack void a618_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+>  {
+>  	/* Send a single "off" entry since the 618 GMU doesn't do bus scaling */
+>  	msg->bw_level_num = 1;
+> @@ -287,7 +288,7 @@ static void a618_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+>  	msg->cnoc_cmds_data[1][0] =  0x60000001;
+>  }
+>  
+> -static void a619_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+> +static noinline_for_stack void a619_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+>  {
+>  	msg->bw_level_num = 13;
+>  
+> @@ -346,7 +347,7 @@ static void a619_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+>  	msg->cnoc_cmds_data[0][0] = 0x40000000;
+>  }
+>  
+> -static void a640_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+> +static noinline_for_stack void a640_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+>  {
+>  	/*
+>  	 * Send a single "off" entry just to get things running
+> @@ -385,7 +386,7 @@ static void a640_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+>  	msg->cnoc_cmds_data[1][2] =  0x60000001;
+>  }
+>  
+> -static void a650_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+> +static noinline_for_stack void a650_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+>  {
+>  	/*
+>  	 * Send a single "off" entry just to get things running
+> @@ -416,7 +417,7 @@ static void a650_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+>  	msg->cnoc_cmds_data[1][0] =  0x60000001;
+>  }
+>  
+> -static void a690_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+> +static noinline_for_stack void a690_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+>  {
+>  	/*
+>  	 * Send a single "off" entry just to get things running
+> @@ -447,7 +448,7 @@ static void a690_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+>  	msg->cnoc_cmds_data[1][0] =  0x60000001;
+>  }
+>  
+> -static void a660_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+> +static noinline_for_stack void a660_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+>  {
+>  	/*
+>  	 * Send a single "off" entry just to get things running
+> @@ -478,7 +479,7 @@ static void a660_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+>  	msg->cnoc_cmds_data[1][0] =  0x60000001;
+>  }
+>  
+> -static void adreno_7c3_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+> +static noinline_for_stack void adreno_7c3_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+>  {
+>  	/*
+>  	 * Send a single "off" entry just to get things running
+> @@ -509,7 +510,7 @@ static void adreno_7c3_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+>  	msg->cnoc_cmds_data[1][0] =  0x60000001;
+>  }
+>  
+> -static void a730_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+> +static noinline_for_stack void a730_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+>  {
+>  	msg->bw_level_num = 12;
+>  
+> @@ -565,7 +566,7 @@ static void a730_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+>  	msg->cnoc_cmds_data[1][0] = 0x60000001;
+>  }
+>  
+> -static void a740_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+> +static noinline_for_stack void a740_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+>  {
+>  	msg->bw_level_num = 1;
+>  
+> @@ -590,7 +591,7 @@ static void a740_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+>  	msg->cnoc_cmds_data[1][0] = 0x60000001;
+>  }
+>  
+> -static void a6xx_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+> +static noinline_for_stack void a6xx_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+>  {
+>  	/* Send a single "off" entry since the 630 GMU doesn't do bus scaling */
+>  	msg->bw_level_num = 1;
+> -- 
+> 2.39.5
 > 
