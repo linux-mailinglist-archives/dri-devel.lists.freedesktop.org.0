@@ -2,88 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D2F29A4F99
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Oct 2024 18:13:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 502639A5067
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Oct 2024 21:08:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A097C10E39F;
-	Sat, 19 Oct 2024 16:13:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E85910E137;
+	Sat, 19 Oct 2024 19:08:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="hOG8ss0J";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fg8qI09f";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
- [209.85.167.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56ADF10E39F
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Oct 2024 16:13:18 +0000 (UTC)
-Received: by mail-lf1-f51.google.com with SMTP id
- 2adb3069b0e04-539fbbadf83so3977516e87.0
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Oct 2024 09:13:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1729354396; x=1729959196; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Eyqsi5/T3uW08fQdohg8/tA9trO3ULnXgBI887qHaFA=;
- b=hOG8ss0JVV7d8d1kjjknAy3eMmWKRBFlXRIoay5ZqqR1Gcd7jGWsvFYZ5/Ylc6LKYF
- PwJ4Rx9qqgxRpknegpVZOC0AAHTdyz/Fk2vq0Lb35wVa6Aoh3nmPh3E+kJJr3YUMDPEk
- m6E8YeeOO42qvHwrattsIoMZUlXvjW1qcfP2XGI5xhV/TdxCVYCo/GMKG1086gYNeqWk
- Oi4wcQ7JJVcepYz2kq3Tcb3qlnfQif/0iWi0YKeNl7TiyJrlAKIO8jdwQ0WJ/1unPJEG
- nJVS320rAiWRpz3qc1okAAUgo6inQiBU05GDJsP/hg8kgn5Wbve4Dc/TrZrzwOx3a9Dj
- nq7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729354396; x=1729959196;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Eyqsi5/T3uW08fQdohg8/tA9trO3ULnXgBI887qHaFA=;
- b=WjHxRnsGLRTOJ6y4ZZpgkEY80uEVII9zqlXeRqF7Kc8AYJQvVEle/GJWCrXxuZ9vZ7
- Ua5hYi70IWZsOOinn5LtvjmunRX+PC9i2I86rzP/r4ZAJbivP9+mL448PSjKEjcsXm8z
- jcFtsOeZU23bffr9MwhBzZhZIXL8cnzNbOQyu0jF4pmgr2mAnKG9GMNlNr0oubmkJgm5
- oXit6438j42az1q/nwo6DMfxLwPnPXt3Sa2JQxyMH4jW50dex4QdE8ZKIqbnEPBy24Dt
- w3NOMBi8NhrA44OMh4ctMDjV82Bee+9QHgSIyDiQWQjgfuu+Z/FazwTeAtPquKM7dsV/
- csCw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUZlUSwPwpVYT9azW2Og+G1H7+hBYfm353kz9dFnlqhn5ajLcbihZO+xXyQ9IrPwYZnP0eBkNoVbP4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzFfYbDZZ7h2MkwKDcjub/W8qO2raK2F+RCm4oMKtyhwBNd6vUI
- ZvVWREQBAfsP9V+/+8TtAt6UyZKGof241Mkl2MoGQT8U/LIP8Q5igVMWQUNQnKw=
-X-Google-Smtp-Source: AGHT+IFWgrZia2nkdXraoHHT50Jbl2vwki91dY9I8mJ543UJdCNHT1fkfo2f/WFCMjjCtYRhtihkIw==
-X-Received: by 2002:a05:6512:b9b:b0:539:f1a6:6ca5 with SMTP id
- 2adb3069b0e04-53a1549dbf9mr3051471e87.26.1729354396042; 
- Sat, 19 Oct 2024 09:13:16 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53a151b92f7sm562207e87.71.2024.10.19.09.13.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 19 Oct 2024 09:13:14 -0700 (PDT)
-Date: Sat, 19 Oct 2024 19:13:12 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Mahadevan P <quic_mahap@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Kalyan Thota <quic_kalyant@quicinc.com>,
- Jayaprakash Madisetty <quic_jmadiset@quicinc.com>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v4 0/5] Display enablement changes for Qualcomm SA8775P
- platform
-Message-ID: <nka6tuz5ackflwzkvqwkn2sqt4rgmmib3n5sywdawsfay7xyte@nejv7uuldg3z>
-References: <20241019-patchv3_1-v4-0-a95d8f0eae37@quicinc.com>
- <85873886-c578-4f42-a46e-728f9a92f837@quicinc.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D28C210E027;
+ Sat, 19 Oct 2024 19:08:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1729364934; x=1760900934;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=724JEb7bJx5KyvA4qk7Tfnw3+GQOoVld9sssFLU4zw4=;
+ b=fg8qI09foSDX/VCopRBuGy9x1fq+x4pTQm55+yp4rw+dMq3EdA1dTtOO
+ mNVpemikgtLcLv6+d0a1ALOZ/IoL2bwsAJMzWGUafxExXW4wL2EpMwfjG
+ /hVF7HNzarWKseqJw0xDJCKqRGxUXBYyZiZo2MZUmR36UzCfauZf8zTuU
+ qeX4I9nMKAs2GuDL04cXlDoFO1/nrZ9oHlAn3qYNrKJ7fYzL9q0BOpJGe
+ Nj8bZl8OeULOHDj7hzHRxs/nFesoVn84+BX3S0Amo+QwDcheV7rvxFwVq
+ o61c84j48x29oMEoC8gvSzp1B0Tw7eruWxahRNgP5EjIhMdL6T7cBqG6Z g==;
+X-CSE-ConnectionGUID: +gwYFhu/RpGhMt5sVc4wiw==
+X-CSE-MsgGUID: HjvrDRyZTVqnVZgn3zJ37g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11230"; a="16502761"
+X-IronPort-AV: E=Sophos;i="6.11,217,1725346800"; d="scan'208";a="16502761"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Oct 2024 12:08:53 -0700
+X-CSE-ConnectionGUID: YS1EsQPsS56fLTMtrAi0nw==
+X-CSE-MsgGUID: mjSvnrv4SiylaFNdE64qEQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,217,1725346800"; d="scan'208";a="83940563"
+Received: from black.fi.intel.com ([10.237.72.28])
+ by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Oct 2024 12:08:48 -0700
+Date: Sat, 19 Oct 2024 22:08:45 +0300
+From: Raag Jadav <raag.jadav@intel.com>
+To: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>
+Cc: intel-xe@lists.freedesktop.org, rodrigo.vivi@intel.com,
+ thomas.hellstrom@linux.intel.com, simona@ffwll.ch,
+ intel-gfx@lists.freedesktop.org, joonas.lahtinen@linux.intel.com,
+ dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com,
+ lucas.demarchi@intel.com, tursulin@ursulin.net,
+ francois.dugast@intel.com, jani.nikula@linux.intel.com,
+ airlied@gmail.com, aravind.iddamsetty@linux.intel.com,
+ anshuman.gupta@intel.com, andi.shyti@linux.intel.com,
+ matthew.d.roper@intel.com, andriy.shevchenko@linux.intel.com,
+ lina@asahilina.net, kernel-dev@igalia.com,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH v7 1/5] drm: Introduce device wedged event
+Message-ID: <ZxQDvSfFiAjDqEE8@black.fi.intel.com>
+References: <20240930073845.347326-1-raag.jadav@intel.com>
+ <20240930073845.347326-2-raag.jadav@intel.com>
+ <ed8cb1e9-df05-44a7-9088-90b3ee8dce85@igalia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <85873886-c578-4f42-a46e-728f9a92f837@quicinc.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ed8cb1e9-df05-44a7-9088-90b3ee8dce85@igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,101 +81,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Oct 19, 2024 at 09:13:23PM +0530, Mahadevan P wrote:
-> I apologize for the inconvenience caused by uploading the incorrect patch
-> (v4). Kindly disregard it.
-
-One thing makes me wonder. You are using b4 tool. It should handle
-versioning, changelogs, etc for you. However despite all of that you
-somehow have sent a duplicate version of the patchset. And the changelog
-also doesn't follow B4 style (which is useful BTW).
-
-Could you (and possibly some of your colleagues) please stop doing
-whatever strange things you are doing and just use the tool properly?
-This way, each time you send a series you'll get an automatic version
-rollup _and_ a properly formatted changelog with all the links to the
-previous iterations, etc.
-
-Please stop making your life harder than it is and just use the tool in
-a way it should be used. At the same time it will make our (maintainers
-/ reviewers) life much easier.
-
-Thank you.
-
+On Thu, Oct 17, 2024 at 04:16:09PM -0300, André Almeida wrote:
+> Hi Raag,
 > 
-> On 10/19/2024 8:46 PM, Mahadevan wrote:
-> > This series introduces support to enable the Mobile Display Subsystem (MDSS)
-> > and Display Processing Unit (DPU) for the Qualcomm SA8775P target. It
-> > includes the addition of the hardware catalog, compatible string,
-> > relevant device tree changes, and their YAML bindings.
+> Em 30/09/2024 04:38, Raag Jadav escreveu:
+> > Introduce device wedged event, which will notify userspace of wedged
+> > (hanged/unusable) state of the DRM device through a uevent. This is
+> > useful especially in cases where the device is no longer operating as
+> > expected even after a hardware reset and has become unrecoverable from
+> > driver context.
 > > 
-> > ---
-> > In this series
-> > - PATCH 1: "dt-bindings: display/msm: Document MDSS on SA8775P" depends on dp
-> >    binding documetion in this change:
-> >    https://lore.kernel.org/all/20240923113150.24711-5-quic_mukhopad@quicinc.com/
-> > - PATCH 5: "arm64: dts: qcom: sa8775p: add display dt nodes for MDSS0 and DPU"
-> >    depends on the clock enablement change:
-> >    https://lore.kernel.org/all/20240816-sa8775p-mm-v3-v1-0-77d53c3c0cef@quicinc.com/
+> > Purpose of this implementation is to provide drivers a generic way to
+> > recover with the help of userspace intervention. Different drivers may
+> > have different ideas of a "wedged device" depending on their hardware
+> > implementation, and hence the vendor agnostic nature of the event.
+> > It is up to the drivers to decide when they see the need for recovery
+> > and how they want to recover from the available methods.
 > > 
-> > ---
-> > [v5]
-> > - Update clock-name of display-controller in MDSS documentation to align with
-> >    qcom,sm8650-dpu.yaml. [Rob]
-> > - Update power-domains of display-controller in DT to do proper voting on MMCX
-> >    rail. [Internal Review]
+> > Current implementation defines three recovery methods, out of which,
+> > drivers can choose to support any one or multiple of them. Preferred
+> > recovery method will be sent in the uevent environment as WEDGED=<method>.
+> > Userspace consumers (sysadmin) can define udev rules to parse this event
+> > and take respective action to recover the device.
 > > 
-> > [v4]
-> > - Removed new YAML added for sa8775p dpu dt-binding documention as it is similar
-> >    to qcom,sm8650-dpu.yaml and added the compatible in same. [Krzysztof]
+> >      =============== ==================================
+> >      Recovery method Consumer expectations
+> >      =============== ==================================
+> >      rebind          unbind + rebind driver
+> >      bus-reset       unbind + reset bus device + rebind
+> >      reboot          reboot system
+> >      =============== ==================================
 > > 
-> > [v3]
-> > -Edited copyright for catalog changes. [Dmitry]
-> > -Fix dt_binding_check tool errors(update reg address as address-cells and
-> >   size-cells of root node one and maintain the same for child nodes of mdss,
-> >   added additionalProperties in schema).
-> >   [Rob, Bjorn, Krzysztof]
-> > -Add QCOM_ICC_TAG_ACTIVE_ONLY interconnect path tag to mdp0-mem and mdp1-mem
-> >   path in devicetree. [Dmitry]
-> > -Update commit subject and message for DT change. [Dmitry]
-> > -Remove interconnect path tags from dt bindings. (ref sm8450-mdss yaml)
 > > 
-> > [v2]
-> > - Updated cover letter subject and message. [Dmitry]
-> > - Use fake DISPCC nodes to avoid clock dependencies in dt-bindings. [Dmitry]
-> > - Update bindings by fixing dt_binding_check tool errors (update includes in example),
-> >    adding proper spacing and indentation in the binding example, droping unused labels,
-> >    droping status disable, adding reset node. [Dmitry, Rob, Krzysztof]
-> > - Reorder compatible string of MDSS and DPU based on alphabetical order.[Dmitry]
-> > - add reg_bus_bw in msm_mdss_data. [Dmitry]
-> > - Fix indentation in the devicetree. [Dmitry]
-> > 
-> > --
-> > 2.34.1
-> > 
-> > ---
-> > Mahadevan (5):
-> >        dt-bindings: display/msm: Document MDSS on SA8775P
-> >        dt-bindings: display/msm: Document the DPU for SA8775P
-> >        drm/msm: mdss: Add SA8775P support
-> >        drm/msm/dpu: Add SA8775P support
-> >        arm64: dts: qcom: sa8775p: add display dt nodes for MDSS0 and DPU
-> > 
-> >   .../bindings/display/msm/qcom,sa8775p-mdss.yaml    | 241 ++++++++++
-> >   .../bindings/display/msm/qcom,sm8650-dpu.yaml      |   1 +
-> >   arch/arm64/boot/dts/qcom/sa8775p.dtsi              |  89 ++++
-> >   .../drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h    | 485 +++++++++++++++++++++
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |   1 +
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   1 +
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   1 +
-> >   drivers/gpu/drm/msm/msm_mdss.c                     |  11 +
-> >   8 files changed, 830 insertions(+)
-> > ---
-> > base-commit: e390603cfa79c860ed35e073f5fe77805b067a8e
-> > change-id: 20240930-patchv3_1-600cbc1549e8
-> > 
-> > Best regards,
+> 
+> I proposed something similar in the past:
+> https://lore.kernel.org/dri-devel/20221125175203.52481-1-andrealmeid@igalia.com/
 
--- 
-With best wishes
-Dmitry
+Thanks for sharing. I went through it and I think we can use some of the ideas
+with generic adaption.
+
+While we can always execute scripts on uevent, it'd be good to have a userspace
+daemon applying automated policies for wedge cases based on admin/user needs.
+This way we can also manage repeat offenders.
+
+Xe has devcoredump so telemetry would also be a nice addition.
+
+Great opportunity to collaborate here.
+
+> The motivation was that amdgpu was getting stuck after every GPU reset, and
+> there was just a black screen. The uevent would then trigger a daemon to
+> reset the compositor and getting things back together. As you can see in my
+> thread, the feature was blocked in favor of getting better overall GPU reset
+> from the kernel side.
+
+We have hardware level resets but (although rare) they're also prone to failure.
+We do what we can to recover from driver context but it adds on to the complexity
+overtime. Something like wedging, if done right, would be much more robust IMHO.
+
+Raag
