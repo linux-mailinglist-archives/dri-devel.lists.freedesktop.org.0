@@ -2,82 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D10FA9A4E1A
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Oct 2024 15:14:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9425B9A4E68
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Oct 2024 15:52:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBE4E10E111;
-	Sat, 19 Oct 2024 13:14:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBCE410E0EA;
+	Sat, 19 Oct 2024 13:52:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="tQ6dVtWF";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="bSPoMted";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
- [209.85.208.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FA1410E111
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Oct 2024 13:14:19 +0000 (UTC)
-Received: by mail-lj1-f174.google.com with SMTP id
- 38308e7fff4ca-2fb587d0436so30521161fa.2
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Oct 2024 06:14:19 -0700 (PDT)
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com
+ [209.85.208.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 969D110E25E
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Oct 2024 13:52:15 +0000 (UTC)
+Received: by mail-lj1-f169.google.com with SMTP id
+ 38308e7fff4ca-2fb3ce15172so37624281fa.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Oct 2024 06:52:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1729343657; x=1729948457; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1729345934; x=1729950734; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=DsxiJAaLUxZ8WyINPgvN9VPitcA+1/D6dK458s/cN50=;
- b=tQ6dVtWFlDiifLXaVhRmqy75wdVX6y6oQxY0aQOdI321r+807ScS1/s01vqNCQA6Bw
- PAs5L6m0ltwYRbcJxitXltUEGDFtCyH3OPyUExyVSYbt0QjmG4ED89Y6yHiROevQBU8K
- qXkEnwugfyquvcmoqLQCbJmEdRkSZjKD3MsY/L7aefvN5TTqUi/nFs/c+M8YbAn6Rcz9
- 1gOMJNTwKWN6n9kUMK8wYY4rxDsE+cS02Me1i8th5wjt1F72ekutf40BTWzZPHsyofCB
- RuziivmSAr5vMb6VrQNsWRdJN1MSXAtDqLKtct87KT/Cz6WYhu28Av5zkhSNFD3swLxM
- 84Fw==
+ bh=vQwmYNtzm3cZvNfpTYZFoEiYNHH4mYbWhA3IgVfwxn8=;
+ b=bSPoMtedn5f+zQiZucnMzvaVtLoZVgrZykBTyorsMiK8zYx9VUnL5OF56HR8pEWnDR
+ vaQwil2X9Le2syiBW9qVEBPKWwP3cPklnGsg5DLW4v4ltNbKBPcC0pB7QNNre5vXLZnp
+ gvGtck0cK9al3tnGZ0rwhQgP0bBBF7W6iRTfXnwKY0bNG4Iq0IXmMhaMh2m4x+byLG0F
+ 65RPDbfCxHFJh3wwMYHYOSBwOpMQtOsC2WTkjYlBeeXa7yKnIegdOTYbe4BuK2JTj41Y
+ nDlL7Yk4wv53zE3UwcAykVEy8xCi52slK1Y7GGn+f8KkYj25Jpzin+cw02h0yebmaSDK
+ AF1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729343657; x=1729948457;
+ d=1e100.net; s=20230601; t=1729345934; x=1729950734;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=DsxiJAaLUxZ8WyINPgvN9VPitcA+1/D6dK458s/cN50=;
- b=ooxmfXqCb7AZPW9RhSR5EbpWcIMVNCRC6LVrYqdFkytJFH5Brmb23WWC/ZjQalbISh
- FAvWqgzZFG4CAiuAwKXLEJLmegF0vnlQHx8Wg6plhZ3m5olwqMgxw/owMQkyYtY5My6D
- lyyJ5oZ4aZE1tYD7MCdbuIGFeF2rF31KMSwNjpxFEsa9p++3FbN0CwQ6JPjOotmf87Ek
- ic3iEQnAt7ogZLElaEPcOi8SVTIRSVvLCqD+eto5E/DVFjPDZ5jKgIkQldGD/vOHBrBw
- j9xQXUmhu7UC6vnWmhelfWMWu7mVH/vNvmU6eUSlF3Blde2vAF7lfBSwNjUPiAx5q62F
- GV6w==
+ bh=vQwmYNtzm3cZvNfpTYZFoEiYNHH4mYbWhA3IgVfwxn8=;
+ b=pExnR4iREKwQoTu27xTpRJgW5zVRINvDWm723RinzbWYqGtmBffk/PE98DheeAtEl/
+ Lr39SXhv7m5vRK8YvREA0DV/Pgh1s9DCOKXlxq+HnNCAlyBKaeiiL5B+dJSMsZZPuz80
+ qlHuCHoegE2eYc8Y2anVQEPI0qlMhwdfvUZ2iJyzHOxRr7KiytPzTteiyYeUZifWafXw
+ NkcZnFGOK0xzHottRAlXlMxtuMv3Phg9wq7yGaKoIOsuzgFFWXpA3vNvgpRyIvQCP1cZ
+ G+E/B+KVD+nZaGm4cOLMq+6vkNQ22BRxWkNUniJG14bIAwl/5FDkt5ox+ckNPTM3bMQO
+ swgg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXdmJRGBzp/d1fmpK8tCaUNveVTlAiEoOpLft4ycR7VbKSxI/4rfIKA2RC7USZzOwG+rH/CVeiNo/k=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyIY6Vj3VOZt8SrkQ0aPVFvW43sN65/eGBlSLmPwLpThXkORS8R
- bTX/UMBeMZDg9W6NfK9ig0puqeaI/mbvXkCvzQGTkbFlHKLIwjCX+XNUevOdCmo=
-X-Google-Smtp-Source: AGHT+IEjv+MXakpefCsgi5HLZxPHwYDurtx/yD0nuWtCXMQYx9C38W3JKkkERUExxV4d2KBsbM6yEQ==
-X-Received: by 2002:a2e:e01:0:b0:2fa:cdd1:4f16 with SMTP id
- 38308e7fff4ca-2fb82ea761bmr22402471fa.14.1729343657256; 
- Sat, 19 Oct 2024 06:14:17 -0700 (PDT)
+ AJvYcCXUxFLrIGIB3bpdJ1U6FAtqZV9GUiruovRji/OQrSERv9Sz5fRYN2wOhcmZcISseRZjsH7hotro9tg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyuRQoxi3sZkgt2SzzuZyAQIMm1EbqeVF9L4akxt2PmcsPw+nNg
+ Bp8r+Eu7CsSUE7Wo/nbs/4xSAd+jz3jM/drwO9Ikdr/JBwK0VJsnvGQecF+gEBY=
+X-Google-Smtp-Source: AGHT+IHtKTwuA/16eF7+hnpWDZ2rjnjnTyFtXBWks05kOqX6iBQ8/kSxxHlzDOwjU9qt3ITnAANufg==
+X-Received: by 2002:a05:6512:2210:b0:52c:ad70:6feb with SMTP id
+ 2adb3069b0e04-53a15b808bcmr1583655e87.20.1729345933627; 
+ Sat, 19 Oct 2024 06:52:13 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2fb80712069sm5028321fa.0.2024.10.19.06.14.14
+ 2adb3069b0e04-53a15211e36sm534215e87.283.2024.10.19.06.52.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 19 Oct 2024 06:14:15 -0700 (PDT)
-Date: Sat, 19 Oct 2024 16:14:13 +0300
+ Sat, 19 Oct 2024 06:52:13 -0700 (PDT)
+Date: Sat, 19 Oct 2024 16:52:11 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Cc: Arnd Bergmann <arnd@kernel.org>, Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Nathan Chancellor <nathan@kernel.org>, 
- Arnd Bergmann <arnd@arndb.de>, Sean Paul <sean@poorly.run>, 
- Konrad Dybcio <konradybcio@kernel.org>,
- Marijn Suijten <marijn.suijten@somainline.org>, 
- Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
- Justin Stitt <justinstitt@google.com>, linux-arm-msm@vger.kernel.org,
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: javierm@redhat.com, airlied@gmail.com, simona@ffwll.ch, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
  dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- llvm@lists.linux.dev
-Subject: Re: [PATCH] drm: a6xx: avoid excessive stack usage
-Message-ID: <k42wmgziqia6balqsrfualbg73giesjxxtyaldkxsrdxkro2li@6neybqsu27me>
-References: <20241018151143.3543939-1-arnd@kernel.org>
- <20241019093146.kdp25pir5onjmg4g@hu-akhilpo-hyd.qualcomm.com>
+ amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, 
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>
+Subject: Re: [PATCH 11/28] drm/msm: Use video aperture helpers
+Message-ID: <nua5c3v4vxxqlhtozshhhw6u2fpnhjzmmnbnx7joknlzotm5yr@zbhplfbawmu4>
+References: <20240930130921.689876-1-tzimmermann@suse.de>
+ <20240930130921.689876-12-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241019093146.kdp25pir5onjmg4g@hu-akhilpo-hyd.qualcomm.com>
+In-Reply-To: <20240930130921.689876-12-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,25 +89,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Oct 19, 2024 at 03:01:46PM +0530, Akhil P Oommen wrote:
-> On Fri, Oct 18, 2024 at 03:11:38PM +0000, Arnd Bergmann wrote:
-> > From: Arnd Bergmann <arnd@arndb.de>
-> > 
-> > Clang-19 and above sometimes end up with multiple copies of the large
-> > a6xx_hfi_msg_bw_table structure on the stack. The problem is that
-> > a6xx_hfi_send_bw_table() calls a number of device specific functions to
-> > fill the structure, but these create another copy of the structure on
-> > the stack which gets copied to the first.
-> > 
-> > If the functions get inlined, that busts the warning limit:
-> > 
-> > drivers/gpu/drm/msm/adreno/a6xx_hfi.c:631:12: error: stack frame size (1032) exceeds limit (1024) in 'a6xx_hfi_send_bw_table' [-Werror,-Wframe-larger-than]
+On Mon, Sep 30, 2024 at 03:03:09PM +0200, Thomas Zimmermann wrote:
+> DRM's aperture functions have long been implemented as helpers
+> under drivers/video/ for use with fbdev. Avoid the DRM wrappers by
+> calling the video functions directly.
 > 
-> Why does this warning says that the limit is 1024? 1024 bytes is too small, isn't it?
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Rob Clark <robdclark@gmail.com>
+> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Cc: Sean Paul <sean@poorly.run>
+> Cc: Marijn Suijten <marijn.suijten@somainline.org>
+> ---
+>  drivers/gpu/drm/msm/msm_kms.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
 
-Kernel stacks are expected to be space limited, so 1024 is a logical
-limit for a single function.
-
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 -- 
 With best wishes
