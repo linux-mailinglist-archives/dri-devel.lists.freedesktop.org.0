@@ -2,57 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C72DA9A4E14
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Oct 2024 15:05:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D10FA9A4E1A
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Oct 2024 15:14:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9638B10E28A;
-	Sat, 19 Oct 2024 13:04:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBE4E10E111;
+	Sat, 19 Oct 2024 13:14:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=wiredspace.de header.i=@wiredspace.de header.b="Kvfm+hiT";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="tQ6dVtWF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-185.mta1.migadu.com (out-185.mta1.migadu.com
- [95.215.58.185])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA17910E0FA
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Oct 2024 08:41:37 +0000 (UTC)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wiredspace.de;
- s=key1; t=1729327296;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=agn0+hQD08F841t4QY/P0Zr6g22Zhtf7LMnklweDjms=;
- b=Kvfm+hiTsQ3pcAMuEr450e9s29CFWzIUrS/dJ7oE6i4oN9vKCc2Ybk7zcVpdEovUK8kOgl
- xYnKd5e3dWmO7WRFc2dd60Sqvl7Cq+iqP6Rbnlu85fjBjbJqDb/xNdju1aiQMXZdodfSTj
- JDe1fza3mc81f6Z5Q5aZfWSE8I/CRIE=
-From: =?UTF-8?q?Thomas=20B=C3=B6hler?= <witcher@wiredspace.de>
-To: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Jocelyn Falempe <jfalempe@redhat.com>
-Cc: Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- rust-for-linux@vger.kernel.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,
- =?UTF-8?q?Thomas=20B=C3=B6hler?= <witcher@wiredspace.de>
-Subject: [PATCH v2 7/7] drm/panic: allow verbose version check
-Date: Sat, 19 Oct 2024 10:22:52 +0200
-Message-ID: <20241019084048.22336-8-witcher@wiredspace.de>
-In-Reply-To: <20241019084048.22336-1-witcher@wiredspace.de>
-References: <20241019084048.22336-1-witcher@wiredspace.de>
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
+ [209.85.208.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FA1410E111
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Oct 2024 13:14:19 +0000 (UTC)
+Received: by mail-lj1-f174.google.com with SMTP id
+ 38308e7fff4ca-2fb587d0436so30521161fa.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Oct 2024 06:14:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1729343657; x=1729948457; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=DsxiJAaLUxZ8WyINPgvN9VPitcA+1/D6dK458s/cN50=;
+ b=tQ6dVtWFlDiifLXaVhRmqy75wdVX6y6oQxY0aQOdI321r+807ScS1/s01vqNCQA6Bw
+ PAs5L6m0ltwYRbcJxitXltUEGDFtCyH3OPyUExyVSYbt0QjmG4ED89Y6yHiROevQBU8K
+ qXkEnwugfyquvcmoqLQCbJmEdRkSZjKD3MsY/L7aefvN5TTqUi/nFs/c+M8YbAn6Rcz9
+ 1gOMJNTwKWN6n9kUMK8wYY4rxDsE+cS02Me1i8th5wjt1F72ekutf40BTWzZPHsyofCB
+ RuziivmSAr5vMb6VrQNsWRdJN1MSXAtDqLKtct87KT/Cz6WYhu28Av5zkhSNFD3swLxM
+ 84Fw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1729343657; x=1729948457;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=DsxiJAaLUxZ8WyINPgvN9VPitcA+1/D6dK458s/cN50=;
+ b=ooxmfXqCb7AZPW9RhSR5EbpWcIMVNCRC6LVrYqdFkytJFH5Brmb23WWC/ZjQalbISh
+ FAvWqgzZFG4CAiuAwKXLEJLmegF0vnlQHx8Wg6plhZ3m5olwqMgxw/owMQkyYtY5My6D
+ lyyJ5oZ4aZE1tYD7MCdbuIGFeF2rF31KMSwNjpxFEsa9p++3FbN0CwQ6JPjOotmf87Ek
+ ic3iEQnAt7ogZLElaEPcOi8SVTIRSVvLCqD+eto5E/DVFjPDZ5jKgIkQldGD/vOHBrBw
+ j9xQXUmhu7UC6vnWmhelfWMWu7mVH/vNvmU6eUSlF3Blde2vAF7lfBSwNjUPiAx5q62F
+ GV6w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXdmJRGBzp/d1fmpK8tCaUNveVTlAiEoOpLft4ycR7VbKSxI/4rfIKA2RC7USZzOwG+rH/CVeiNo/k=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyIY6Vj3VOZt8SrkQ0aPVFvW43sN65/eGBlSLmPwLpThXkORS8R
+ bTX/UMBeMZDg9W6NfK9ig0puqeaI/mbvXkCvzQGTkbFlHKLIwjCX+XNUevOdCmo=
+X-Google-Smtp-Source: AGHT+IEjv+MXakpefCsgi5HLZxPHwYDurtx/yD0nuWtCXMQYx9C38W3JKkkERUExxV4d2KBsbM6yEQ==
+X-Received: by 2002:a2e:e01:0:b0:2fa:cdd1:4f16 with SMTP id
+ 38308e7fff4ca-2fb82ea761bmr22402471fa.14.1729343657256; 
+ Sat, 19 Oct 2024 06:14:17 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-2fb80712069sm5028321fa.0.2024.10.19.06.14.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 19 Oct 2024 06:14:15 -0700 (PDT)
+Date: Sat, 19 Oct 2024 16:14:13 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Cc: Arnd Bergmann <arnd@kernel.org>, Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Nathan Chancellor <nathan@kernel.org>, 
+ Arnd Bergmann <arnd@arndb.de>, Sean Paul <sean@poorly.run>, 
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
+ Justin Stitt <justinstitt@google.com>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ llvm@lists.linux.dev
+Subject: Re: [PATCH] drm: a6xx: avoid excessive stack usage
+Message-ID: <k42wmgziqia6balqsrfualbg73giesjxxtyaldkxsrdxkro2li@6neybqsu27me>
+References: <20241018151143.3543939-1-arnd@kernel.org>
+ <20241019093146.kdp25pir5onjmg4g@hu-akhilpo-hyd.qualcomm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
-X-Mailman-Approved-At: Sat, 19 Oct 2024 13:04:47 +0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241019093146.kdp25pir5onjmg4g@hu-akhilpo-hyd.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,42 +93,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Clippy warns about a reimplementation of `RangeInclusive::contains`:
+On Sat, Oct 19, 2024 at 03:01:46PM +0530, Akhil P Oommen wrote:
+> On Fri, Oct 18, 2024 at 03:11:38PM +0000, Arnd Bergmann wrote:
+> > From: Arnd Bergmann <arnd@arndb.de>
+> > 
+> > Clang-19 and above sometimes end up with multiple copies of the large
+> > a6xx_hfi_msg_bw_table structure on the stack. The problem is that
+> > a6xx_hfi_send_bw_table() calls a number of device specific functions to
+> > fill the structure, but these create another copy of the structure on
+> > the stack which gets copied to the first.
+> > 
+> > If the functions get inlined, that busts the warning limit:
+> > 
+> > drivers/gpu/drm/msm/adreno/a6xx_hfi.c:631:12: error: stack frame size (1032) exceeds limit (1024) in 'a6xx_hfi_send_bw_table' [-Werror,-Wframe-larger-than]
+> 
+> Why does this warning says that the limit is 1024? 1024 bytes is too small, isn't it?
 
-    error: manual `!RangeInclusive::contains` implementation
-       --> drivers/gpu/drm/drm_panic_qr.rs:986:8
-        |
-    986 |     if version < 1 || version > 40 {
-        |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: use: `!(1..=40).contains(&version)`
-        |
-        = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#manual_range_contains
-        = note: `-D clippy::manual-range-contains` implied by `-D warnings`
-        = help: to override `-D warnings` add `#[allow(clippy::manual_range_contains)]`
+Kernel stacks are expected to be space limited, so 1024 is a logical
+limit for a single function.
 
-Ignore this and keep the current implementation as that makes it easier
-to read.
 
-Fixes: cb5164ac43d0 ("drm/panic: Add a QR code panic screen")
-Reported-by: Miguel Ojeda <ojeda@kernel.org>
-Link: https://github.com/Rust-for-Linux/linux/issues/1123
-Signed-off-by: Thomas Böhler <witcher@wiredspace.de>
-Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
----
- drivers/gpu/drm/drm_panic_qr.rs | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/gpu/drm/drm_panic_qr.rs b/drivers/gpu/drm/drm_panic_qr.rs
-index 2d4e367f0fcd..09500cddc009 100644
---- a/drivers/gpu/drm/drm_panic_qr.rs
-+++ b/drivers/gpu/drm/drm_panic_qr.rs
-@@ -983,6 +983,7 @@ fn draw_all(&mut self, data: impl Iterator<Item = u8>) {
- /// * If `url_len` = 0, only removes 3 bytes for 1 binary segment.
- #[no_mangle]
- pub extern "C" fn drm_panic_qr_max_data_size(version: u8, url_len: usize) -> usize {
-+    #[expect(clippy::manual_range_contains)]
-     if version < 1 || version > 40 {
-         return 0;
-     }
 -- 
-2.46.2
-
+With best wishes
+Dmitry
