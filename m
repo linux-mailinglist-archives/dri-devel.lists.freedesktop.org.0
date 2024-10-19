@@ -2,82 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91A359A4E8C
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Oct 2024 16:14:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F08E9A4EA6
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Oct 2024 16:31:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BBBD10E29F;
-	Sat, 19 Oct 2024 14:14:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E721A10E362;
+	Sat, 19 Oct 2024 14:31:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="WHnTcBfH";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="BTEuXN77";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
- [209.85.208.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 760AF10E29F
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Oct 2024 14:14:25 +0000 (UTC)
-Received: by mail-lj1-f176.google.com with SMTP id
- 38308e7fff4ca-2fb5a9c7420so30579691fa.3
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Oct 2024 07:14:25 -0700 (PDT)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+ [209.85.167.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F1C710E2A5
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Oct 2024 14:31:02 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id
+ 2adb3069b0e04-539fe76e802so3555670e87.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Oct 2024 07:31:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1729347264; x=1729952064; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1729348260; x=1729953060; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=sZQKGhids4Q82uDym0yxnTsBolQaUr1BmnikbSV6eUY=;
- b=WHnTcBfHeB+STZ9UNs6cZbbnEQufEYi7hgWbb/UdzMfKDzsxgH4+Jy21zwW1UPEbO3
- 428pOL1Gf61m438cYh5sxfRmUUo74upW6qX35xTk5ASsDIa3eXMZiGZk42FS8jqZw9hS
- cmIjrZQ6Vpg+HdHe98IQ3C0YtE3kjic7mbA4NPI16Dv6EYQKMaI7ao4Dhm/yFSj3nTco
- 3h13rxMQqYKgdL4q/zAPDoRUuWK+GWyD01F/xL7zEsc8/YwZrdNP28Ck28aFx0tXM8jG
- 9bCSnhTf8CnLYydrHDqgi+kDnoes/GrwJ1YyPmy7qEmaiHbDloj9ihp8k51ZbDSaHQNR
- QuEA==
+ bh=v1OZg2lit8ojUrZI5PFtcsvJA55BRZgPzGoX56nWOWU=;
+ b=BTEuXN770obBdumTF5RaoU+diXSWW1H1OZ75lVGhRAUVjW/0WvsvQBvSJMdyH7xACb
+ LZDKeh1UsLgJ7IA0pyQj+BRjEq3zJdfMkJR/YbmcOH8vfKdcxgI15CuitjsJ7sWcHxzR
+ XJhiDrtjoPv9kwLI12we1y/qzQfKunugez68QUzKdCAErFY1+LMTivgKKw8obrrnrezJ
+ bO+i8uGTcJIXMp/qP8IwugrbW5/p/sTRjy16pnUs+BZS+BhWrlTCPj0cvBK+m7e8dlW1
+ Mw8y3sR76pEOfclXbKKs/7TFKZ9ELsrZVRRmEn7EINuaAYk8G/IeaXkasrICwlqEM3d7
+ czeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729347264; x=1729952064;
+ d=1e100.net; s=20230601; t=1729348260; x=1729953060;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=sZQKGhids4Q82uDym0yxnTsBolQaUr1BmnikbSV6eUY=;
- b=QZQekaQvHWoeLGHx7kbqhCjnRWwRkl5AZ3TYLQvBXdIa32uhss/cr8WsuXzUDyaDkC
- XFlqcdF+asMCZyqaDPFFbd9DGHkfQP98TX1/VLEEBTp9s5FHxnEJmwsSXLqWDdgYtw/Y
- tOniBk7sEItR41M1qnGPmZZqtkQ+qp6Wm56Eg9sh9S7ADAoa3yBTKugyCT3rHi07+6Ms
- m3gd1e89tHmqm5iHzV9HcE7qcHAuE+vJy+3lxPHk7YQNAmSdE2Qo9rpSUw4AN+RcMz+f
- KC0WWoYPM26TU8KbCfXbZu2PwHiKscb4dZzVBzQZMGkQgZDzS2exqhKWDwvSLsaln1KV
- cHyQ==
+ bh=v1OZg2lit8ojUrZI5PFtcsvJA55BRZgPzGoX56nWOWU=;
+ b=VenLPiqzNajRbros289MQaiBOaM48iSEuLfbMOHmBeTF/8LeEwhGjODdalk+PvjnwO
+ dE6xZQvXni/8UsZmwCNELbhZjl8dtRo5Lzx2cSargjRcXIpFELDv8+YnqHnqv40B12Jp
+ qw8OXnIgLPbiO6dYgCzqVwe8RLtE7Fx9Pvt481mtAFQk9S7Ex0P+V8IYYjvRZizvdN0k
+ 03TszOBVnvNF9atgYaF4RlVBFuqht9qQH8n//XpuE1e9PbkiRxTlKYaKgCkFAfPpaINI
+ z/iV4SEgZxIs7ZVf5y30pWOtXXFnZQVkcJWX2ZPenffvzjzd300t8593AdH2hlX8GybQ
+ nFCQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVF8CmA6ma9O/4SEcM7lpC85WYOE+P5VTkxsMyhZYHpzaOsluzvWO3z/31rYw8pddQYUkG8AL1Gi7k=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwkJJZjzqialC63rcPNQDv4VegiLrhoi9Jn5Ws3/AjIyAXTEzny
- Kz+X2fHwuzMM1YQ4G0YfBbZQKbKNOAzNyXfR2HGh4IUzBZyYIIhCyLU/2g1fdrY=
-X-Google-Smtp-Source: AGHT+IGzHb1rffWyHrZTm2xiGlwmytyCfNCauniR0HmfW31srODVd8fWJi7jNSl4XxdH6Wu9L+Un6g==
-X-Received: by 2002:a2e:1309:0:b0:2fb:8df3:2291 with SMTP id
- 38308e7fff4ca-2fb8df322ddmr11397241fa.16.1729347263486; 
- Sat, 19 Oct 2024 07:14:23 -0700 (PDT)
+ AJvYcCXVW2981Wuyq1iWcv6bxVLoV9FfL/AX617gg99bRPO26Spk8e6wS7JNy8zcZYpmRZFJKD1CnSAenDQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx5uF6B9YizRjZIFc5eiJduRxFMNaOefwXcnYCbw/uaIDRl5wTE
+ XMG2+WJ6L/ZCUdrIe1+e4QalW/IlKxJhe6sUGDxaRSsxrgbm8qUdJmTJfX52osw=
+X-Google-Smtp-Source: AGHT+IEN3EZQT9uQn9oZnEUWGdt0rQ6BiPDob8tepon8ZdjaPQoA3NoiyC4bQ5Ivan7fSfYkwlvodA==
+X-Received: by 2002:a05:6512:691:b0:52c:9468:c991 with SMTP id
+ 2adb3069b0e04-53a15459cefmr3394100e87.14.1729348260129; 
+ Sat, 19 Oct 2024 07:31:00 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2fb80a082b8sm5061001fa.101.2024.10.19.07.14.21
+ 2adb3069b0e04-53a15214e95sm538762e87.287.2024.10.19.07.30.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 19 Oct 2024 07:14:23 -0700 (PDT)
-Date: Sat, 19 Oct 2024 17:14:20 +0300
+ Sat, 19 Oct 2024 07:30:59 -0700 (PDT)
+Date: Sat, 19 Oct 2024 17:30:57 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Ryan Walklin <ryan@testtoast.com>
-Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+To: Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc: Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>, 
+ David Airlie <airlied@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Matthias Schiffer <matthias.schiffer@tq-group.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Andre Przywara <andre.przywara@arm.com>, 
- Chris Morgan <macroalpha82@gmail.com>, dri-devel@lists.freedesktop.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- devicetree@vger.kernel.org, linux-clk@vger.kernel.org
-Subject: Re: [PATCH v5 08/26] drm: sun4i: de3: add YUV support to the DE3 mixer
-Message-ID: <4cumvwkhmbi7fecjeq6r7elon63u3ytootqcvavjg5vfnargy3@wrjpy6pnphmb>
-References: <20240929091107.838023-1-ryan@testtoast.com>
- <20240929091107.838023-9-ryan@testtoast.com>
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] drm: fsl-dcu: enable PIXCLK on LS1021A
+Message-ID: <mbgd2mjqjhlytvpkljrvlcva7qzahex4qcrfusy2vijz6ysq7a@6baliilco6ab>
+References: <20240926055552.1632448-1-alexander.stein@ew.tq-group.com>
+ <2754373.mvXUDI8C0e@steina-w>
+ <ovzeljss5uv6rymlbdfjolnjox3dklcv3v2km73gqnh6vejxvg@afhyhfwmt3nf>
+ <2007957.usQuhbGJ8B@steina-w>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240929091107.838023-9-ryan@testtoast.com>
+In-Reply-To: <2007957.usQuhbGJ8B@steina-w>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,138 +92,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Sep 29, 2024 at 10:04:40PM +1300, Ryan Walklin wrote:
-> From: Jernej Skrabec <jernej.skrabec@gmail.com>
+On Thu, Oct 17, 2024 at 08:50:43AM +0200, Alexander Stein wrote:
+> Hi everyone,
 > 
-> The mixer in the DE3 display engine supports YUV 8 and 10 bit
-> formats in addition to 8-bit RGB. Add the required register
-> configuration and format enumeration callback functions to the mixer,
-> and store the in-use output format (defaulting to RGB) and color
-> encoding in engine variables.
+> Am Freitag, 27. September 2024, 01:13:57 CEST schrieb Dmitry Baryshkov:
+> > On Thu, Sep 26, 2024 at 04:09:03PM GMT, Alexander Stein wrote:
+> > > Hi Dmitry,
+> > > 
+> > > Am Donnerstag, 26. September 2024, 08:05:56 CEST schrieb Dmitry Baryshkov:
+> > > > On Thu, Sep 26, 2024 at 07:55:51AM GMT, Alexander Stein wrote:
+> > > > > From: Matthias Schiffer <matthias.schiffer@tq-group.com>
+> > > > > 
+> > > > > The PIXCLK needs to be enabled in SCFG before accessing certain DCU
+> > > > > registers, or the access will hang. For simplicity, the PIXCLK is enabled
+> > > > > unconditionally, resulting in increased power consumption.
+> > > > 
+> > > > By this description it looks like a fix. What is the first broken
+> > > > commit? It needs to be mentioned in the Fixes: tag. Or is it hat
+> > > > existing devices have been enabling SCFG in some other way?
+> > > 
+> > > We discussed this internally and it seems this never worked, unless PIXCLK
+> > > was already enabled in SCFG by a different way, e.g. firmware, etc.
+> > 
+> > My bet was on the firmware, but I never touched Layerscape platforms.
+> > Anyway,
+> > 
+> > Fixes: 109eee2f2a18 ("drm/layerscape: Add Freescale DCU DRM driver")
+> > Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > 
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
-> 
-> ---
-> Changelog v4..v5:
-> - Remove trailing whitespace
-> ---
->  drivers/gpu/drm/sun4i/sun8i_mixer.c  | 53 ++++++++++++++++++++++++++--
->  drivers/gpu/drm/sun4i/sunxi_engine.h |  5 +++
->  2 files changed, 55 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> index 252827715de1d..a50c583852edf 100644
-> --- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> @@ -23,7 +23,10 @@
->  #include <drm/drm_gem_dma_helper.h>
->  #include <drm/drm_probe_helper.h>
->  
-> +#include <uapi/linux/media-bus-format.h>
-> +
->  #include "sun4i_drv.h"
-> +#include "sun50i_fmt.h"
->  #include "sun8i_mixer.h"
->  #include "sun8i_ui_layer.h"
->  #include "sun8i_vi_layer.h"
-> @@ -390,12 +393,52 @@ static void sun8i_mixer_mode_set(struct sunxi_engine *engine,
->  
->  	DRM_DEBUG_DRIVER("Switching display mixer interlaced mode %s\n",
->  			 interlaced ? "on" : "off");
-> +
-> +	if (engine->format == MEDIA_BUS_FMT_RGB888_1X24)
-> +		val = SUN8I_MIXER_BLEND_COLOR_BLACK;
-> +	else
-> +		val = 0xff108080;
-> +
-> +	regmap_write(mixer->engine.regs,
-> +		     SUN8I_MIXER_BLEND_BKCOLOR(bld_base), val);
-> +	regmap_write(mixer->engine.regs,
-> +		     SUN8I_MIXER_BLEND_ATTR_FCOLOR(bld_base, 0), val);
-> +
-> +	if (mixer->cfg->has_formatter)
-> +		sun50i_fmt_setup(mixer, mode->hdisplay,
-> +				 mode->vdisplay, mixer->engine.format);
-> +}
-> +
-> +static u32 *sun8i_mixer_get_supported_fmts(struct sunxi_engine *engine, u32 *num)
-> +{
-> +	struct sun8i_mixer *mixer = engine_to_sun8i_mixer(engine);
-> +	u32 *formats, count;
-> +
-> +	count = 0;
-> +
-> +	formats = kcalloc(5, sizeof(*formats), GFP_KERNEL);
-> +	if (!formats)
-> +		return NULL;
-> +
-> +	if (mixer->cfg->has_formatter) {
-> +		formats[count++] = MEDIA_BUS_FMT_UYYVYY10_0_5X30;
-> +		formats[count++] = MEDIA_BUS_FMT_YUV8_1X24;
-> +		formats[count++] = MEDIA_BUS_FMT_UYVY8_1X16;
-> +		formats[count++] = MEDIA_BUS_FMT_UYYVYY8_0_5X24;
-> +	}
-> +
-> +	formats[count++] = MEDIA_BUS_FMT_RGB888_1X24;
-> +
-> +	*num = count;
-> +
-> +	return formats;
->  }
->  
->  static const struct sunxi_engine_ops sun8i_engine_ops = {
-> -	.commit		= sun8i_mixer_commit,
-> -	.layers_init	= sun8i_layers_init,
-> -	.mode_set	= sun8i_mixer_mode_set,
-> +	.commit			= sun8i_mixer_commit,
-> +	.layers_init		= sun8i_layers_init,
-> +	.mode_set		= sun8i_mixer_mode_set,
-> +	.get_supported_fmts	= sun8i_mixer_get_supported_fmts,
->  };
->  
->  static const struct regmap_config sun8i_mixer_regmap_config = {
-> @@ -456,6 +499,10 @@ static int sun8i_mixer_bind(struct device *dev, struct device *master,
->  	dev_set_drvdata(dev, mixer);
->  	mixer->engine.ops = &sun8i_engine_ops;
->  	mixer->engine.node = dev->of_node;
-> +	/* default output format, supported by all mixers */
-> +	mixer->engine.format = MEDIA_BUS_FMT_RGB888_1X24;
-> +	/* default color encoding, ignored with RGB I/O */
-> +	mixer->engine.encoding = DRM_COLOR_YCBCR_BT601;
->  
->  	if (of_property_present(dev->of_node, "iommus")) {
->  		/*
-> diff --git a/drivers/gpu/drm/sun4i/sunxi_engine.h b/drivers/gpu/drm/sun4i/sunxi_engine.h
-> index c48cbc1aceb80..ffafc29b3a0c3 100644
-> --- a/drivers/gpu/drm/sun4i/sunxi_engine.h
-> +++ b/drivers/gpu/drm/sun4i/sunxi_engine.h
-> @@ -6,6 +6,8 @@
->  #ifndef _SUNXI_ENGINE_H_
->  #define _SUNXI_ENGINE_H_
->  
-> +#include <drm/drm_color_mgmt.h>
-> +
->  struct drm_plane;
->  struct drm_crtc;
->  struct drm_device;
-> @@ -151,6 +153,9 @@ struct sunxi_engine {
->  
->  	int id;
->  
-> +	u32				format;
-> +	enum drm_color_encoding		encoding;
+> Any additional feedback?
 
-Should these be a part of the state instead of being a part of the
-sunxi_engine?
-
-> +
->  	/* Engine list management */
->  	struct list_head		list;
->  };
-> -- 
-> 2.46.1
-> 
+No response from Stefan and Alison for nearly a month...
 
 -- 
 With best wishes
