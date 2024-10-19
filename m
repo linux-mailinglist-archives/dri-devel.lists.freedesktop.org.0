@@ -2,31 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E55C9A4E0E
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Oct 2024 15:04:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A42759A4E10
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Oct 2024 15:04:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90F2C10E1C6;
-	Sat, 19 Oct 2024 13:04:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76B5210E28B;
+	Sat, 19 Oct 2024 13:04:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=wiredspace.de header.i=@wiredspace.de header.b="Vy+O6DGU";
+	dkim=pass (1024-bit key; unprotected) header.d=wiredspace.de header.i=@wiredspace.de header.b="elMYD0Ul";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com
- [95.215.58.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E40110E0FA
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Oct 2024 08:41:13 +0000 (UTC)
+Received: from out-174.mta1.migadu.com (out-174.mta1.migadu.com
+ [95.215.58.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E0CC10E23B
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Oct 2024 08:41:18 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wiredspace.de;
- s=key1; t=1729327271;
+ s=key1; t=1729327276;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=bbAs0TRfliKVT6GU9TEAPy0g/6tMD6uUNyQ5bBgcgz4=;
- b=Vy+O6DGU3TETIO1c+DK7b3WRhznZrucfviXFE9izV77hP7ZEQYbf3TTLkcEVCd6F3DGPGc
- mfr7VPWpXMJPVaTqQeEyE5nwUrMsz6dYL8KdA4DhibIf7rxcb06qYG0KXLZ38SV3cICsGr
- lVTz2nWa99Ao/ogvJqsQNk7VE9YZSH4=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5h88aRCX075gQyacCBN//xbLtbJ+w9Ld3N3jt4xAwmA=;
+ b=elMYD0Ulyk0Ph6cf+QJs8Gb5ybPcrTxhHxPtJxdXOERuk4TzCZt85jgcGI02gA2eO9rnOy
+ ZHaIxZmXqamLRy7xXhUt7Lshwb/1UyddIaGj4f2TcPOnvqV/yRTERoMxf0nMjD0nMOQsuV
+ SQuTBf4WV/+Rs8eQnQtC5HIELNW9QOU=
 From: =?UTF-8?q?Thomas=20B=C3=B6hler?= <witcher@wiredspace.de>
 To: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
  Jocelyn Falempe <jfalempe@redhat.com>
@@ -42,9 +43,11 @@ Cc: Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
  Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org,
  =?UTF-8?q?Thomas=20B=C3=B6hler?= <witcher@wiredspace.de>
-Subject: [PATCH v2 0/7] Cleanup Clippy issues in drm_panic_qr.rs
-Date: Sat, 19 Oct 2024 10:22:45 +0200
-Message-ID: <20241019084048.22336-1-witcher@wiredspace.de>
+Subject: [PATCH v2 1/7] drm/panic: avoid reimplementing Iterator::find
+Date: Sat, 19 Oct 2024 10:22:46 +0200
+Message-ID: <20241019084048.22336-2-witcher@wiredspace.de>
+In-Reply-To: <20241019084048.22336-1-witcher@wiredspace.de>
+References: <20241019084048.22336-1-witcher@wiredspace.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -65,30 +68,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The file drivers/gpu/drm/drm_panic_qr.rs has some lints that Clippy
-complains about. This series cleans them up by either allowing what is
-written or conforming to what Clippy expects where it makes sense.
+Rust's standard library's `std::iter::Iterator` trait provides a function
+`find` that finds the first element that satisfies a predicate.
+The function `Version::from_segments` is doing the same thing but is
+implementing the same logic itself.
 
-All explicitly allowed lints are marked with `#[expect(...)]`.
+Clippy complains about this in the `manual_find` lint:
 
-v1 -> v2:
-- Add "Fixes" trailers and rename "Closes" to "Link" trailers as
-  the patches all fix part of the issue.
-- Replace `#[allow(...)]` with `#[expect(...)]`. Support for `expect` is
-  already in rust-next, which is where this series will be merged into.
+    error: manual implementation of `Iterator::find`
+       --> drivers/gpu/drm/drm_panic_qr.rs:212:9
+        |
+    212 | /         for v in (1..=40).map(|k| Version(k)) {
+    213 | |             if v.max_data() * 8 >= segments.iter().map(|s| s.total_size_bits(v)).sum() {
+    214 | |                 return Some(v);
+    215 | |             }
+    216 | |         }
+    217 | |         None
+        | |____________^ help: replace with an iterator: `(1..=40).map(|k| Version(k)).find(|&v| v.max_data() * 8 >= segments.iter().map(|s| s.total_size_bits(v)).sum())`
+        |
+        = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#manual_find
+        = note: `-D clippy::manual-find` implied by `-D warnings`
+        = help: to override `-D warnings` add `#[allow(clippy::manual_find)]`
 
-Thomas Böhler (7):
-  drm/panic: avoid reimplementing Iterator::find
-  drm/panic: remove unnecessary borrow in alignment_pattern
-  drm/panic: prefer eliding lifetimes
-  drm/panic: remove redundant field when assigning value
-  drm/panic: correctly indent continuation of line in list item
-  drm/panic: allow verbose boolean for clarity
-  drm/panic: allow verbose version check
+Use `Iterator::find` instead to make the intention clearer.
 
- drivers/gpu/drm/drm_panic_qr.rs | 23 ++++++++++++-----------
- 1 file changed, 12 insertions(+), 11 deletions(-)
+Fixes: cb5164ac43d0 ("drm/panic: Add a QR code panic screen")
+Reported-by: Miguel Ojeda <ojeda@kernel.org>
+Link: https://github.com/Rust-for-Linux/linux/issues/1123
+Signed-off-by: Thomas Böhler <witcher@wiredspace.de>
+Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+---
+ drivers/gpu/drm/drm_panic_qr.rs | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
+diff --git a/drivers/gpu/drm/drm_panic_qr.rs b/drivers/gpu/drm/drm_panic_qr.rs
+index 1ef56cb07dfb..76decf49e678 100644
+--- a/drivers/gpu/drm/drm_panic_qr.rs
++++ b/drivers/gpu/drm/drm_panic_qr.rs
+@@ -209,12 +209,9 @@
+ impl Version {
+     /// Returns the smallest QR version than can hold these segments.
+     fn from_segments(segments: &[&Segment<'_>]) -> Option<Version> {
+-        for v in (1..=40).map(|k| Version(k)) {
+-            if v.max_data() * 8 >= segments.iter().map(|s| s.total_size_bits(v)).sum() {
+-                return Some(v);
+-            }
+-        }
+-        None
++        (1..=40)
++            .map(Version)
++            .find(|&v| v.max_data() * 8 >= segments.iter().map(|s| s.total_size_bits(v)).sum())
+     }
+ 
+     fn width(&self) -> u8 {
 -- 
 2.46.2
 
