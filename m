@@ -2,78 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3BDE9A56E7
-	for <lists+dri-devel@lfdr.de>; Sun, 20 Oct 2024 23:04:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19CB99A5762
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2024 00:49:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A18610E121;
-	Sun, 20 Oct 2024 21:04:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C831110E122;
+	Sun, 20 Oct 2024 22:49:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="IsJejgCI";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="ZnZ5Hu/H";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com
- [209.85.216.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77B0A10E121
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Oct 2024 21:04:29 +0000 (UTC)
-Received: by mail-pj1-f51.google.com with SMTP id
- 98e67ed59e1d1-2e31977c653so684905a91.0
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Oct 2024 14:04:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1729458269; x=1730063069; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=pUATmSfCv27W3Mka25ndw/fZUUEfWKvZU2Hc9HtXU4g=;
- b=IsJejgCIw8hyZ6fYk4OFuKxfxC9SGINh7bfhrjhNt1nlWPxA0AphSth6buoZLu//Lh
- W/9lRL3MwvBb7amBoE2G3oyLIOY3BCidgTWYrwymu0un1MV+lgNpovuMXl7uSlgo5Ipa
- BpYG8r9PyXBW5Rd9PwukZuPofDA9EFObNIK5oKPPk/PCVyI+/EszG3KEwuY8+GMbs0jz
- DXNuBjtbenskjjlm/WccAFJXaIvV2fG0cZ4iuLz3BI9qQ7HmEEwA7G5vez6795DCcBAS
- 7JiSw1+OZO25CjFB78TVb5zAibCw6FhAOeDrdKYyLhzFchk8dltq6eXA0bl5kCaNnwtp
- BxVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729458269; x=1730063069;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=pUATmSfCv27W3Mka25ndw/fZUUEfWKvZU2Hc9HtXU4g=;
- b=DSxsRNygHVrudgexgucuTPTKPJ8ZC48CcPZDjeJLpG0WSdJApa8h7wQNcfz/eUIe91
- GX67YpPa98djQThuEKE736nxWeSlDrdyQYt5OTtBV9nPz7XEEmN3XoNKtr5pQUpH/ueQ
- GZ3jYab+QdbKpaSEEpUYYkGrCVAKVdLVSpxTU4dCPwMFt3ERJPYXNZ9PFRTHurmmrVne
- jfiwIhZbELj7lm4kW6IOBoHSEK3H13VUp/xF/Mv0BG3yxd/+BIHtboOSgVUhDxzXj6Q+
- pOdKTr2M0RNooNRuAcmPOsQNtcRsyMckX0N/Nj1LEh0T9TMYFCxFmgbhfEZIrtlrqU6d
- TQ6w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWbqIqf67e4UCfVZDKtbr8X5sgjh/7qnsOwWGyyRgyGM12FxYAWac7hIjcbzFC61XYPNoQyYECwKBs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy6KZLlE9ymD2Yt4KCKaDNYa9xN+ZcJuPWYmyUMnVKGScWlUXOq
- 4H9CYNSfr/0x9oEffYCaZOmNWXmlyzH+nOR4+DSyp9vmVGo1EEZ37g5JhGCpB6BLBVrvbcYMltP
- NomFBEuDiFhaAsJQ2PQJGRLAcJPGSkdJpHIc=
-X-Google-Smtp-Source: AGHT+IGbb8SvqnhDRVnQof3SJzAdGMzboePIlLB2BLxQxSnmOnedwP/eIElCwjyUsMPZIW7RxW8ToytJ0ApID//+6SE=
-X-Received: by 2002:a17:90b:1889:b0:2e2:c1e5:2df3 with SMTP id
- 98e67ed59e1d1-2e561856753mr4552264a91.8.1729458268896; Sun, 20 Oct 2024
- 14:04:28 -0700 (PDT)
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0186910E122
+ for <dri-devel@lists.freedesktop.org>; Sun, 20 Oct 2024 22:48:58 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1729464530; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=d2WFfHEHA0Xx31UrFydpEFfccdsBUKikdaczwif03n9Dflha03mJib4ob4W28sz7wiWKDOth5bw5Wrx+MwlHPfrWXpno0s53rq/KMiRshIBQ0Zy1WE1E9M5lTWVPm9b5NCL8Mot/3n0pL4ayUkCA6MkaiSG326JinAhJjN+xKh8=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1729464530;
+ h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=7LvLwytRtn5CBeDLReQUVN22EMuJFh+Y13/Wh+lWpKk=; 
+ b=f2Is/tkUUD2NvABkJ7golLcVp/IVjMjeAYp/4o7jAmih9X8Z7Lgwl0RnzIvb1XdcFFp2qmlPozy2/7FWnUNEQ0XL+6z5HmoWDlco/mnNHzvFtmwjiIxVxLaceBBo184X3pZBVoJ8zCbOegJfvw4TECC7Wvjudu7afrGasbHf/kk=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
+ dmarc=pass header.from=<dmitry.osipenko@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1729464530; 
+ s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=7LvLwytRtn5CBeDLReQUVN22EMuJFh+Y13/Wh+lWpKk=;
+ b=ZnZ5Hu/Hxunhx5lvJGNHTSOMPo0NRpl4rDkhI9V/emmGAQC9H2jKuzMqck05I+RZ
+ dbvkxovMow+M77dVZJW9XYeY6fxaFRAaLqu3y5BEfWd8lSLHax/BCDe37tgNx1YgxNJ
+ iLEwY4y+TQfFBEeSnWo5p2tAfZQib6RD53EyuKzU=
+Received: by mx.zohomail.com with SMTPS id 1729464528968517.9489015511994;
+ Sun, 20 Oct 2024 15:48:48 -0700 (PDT)
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+To: David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Chia-I Wu <olvaffe@gmail.com>, Rob Clark <robdclark@gmail.com>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+Cc: dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ linux-kernel@vger.kernel.org, kernel@collabora.com
+Subject: [PATCH v1] drm/virtio: Don't create a context with default param if
+ context_init is supported
+Date: Mon, 21 Oct 2024 01:47:25 +0300
+Message-ID: <20241020224725.179937-1-dmitry.osipenko@collabora.com>
+X-Mailer: git-send-email 2.47.0
 MIME-Version: 1.0
-References: <20241019084048.22336-1-witcher@wiredspace.de>
-In-Reply-To: <20241019084048.22336-1-witcher@wiredspace.de>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sun, 20 Oct 2024 23:04:16 +0200
-Message-ID: <CANiq72=FAV_aijHyPLO3EJ4LVXQVysNfK6y=RqNZSKdDTXkg6w@mail.gmail.com>
-Subject: Re: [PATCH v2 0/7] Cleanup Clippy issues in drm_panic_qr.rs
-To: =?UTF-8?Q?Thomas_B=C3=B6hler?= <witcher@wiredspace.de>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
- Jocelyn Falempe <jfalempe@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>, 
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- rust-for-linux@vger.kernel.org, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,21 +67,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Oct 19, 2024 at 10:41=E2=80=AFAM Thomas B=C3=B6hler <witcher@wireds=
-pace.de> wrote:
->
-> The file drivers/gpu/drm/drm_panic_qr.rs has some lints that Clippy
-> complains about. This series cleans them up by either allowing what is
-> written or conforming to what Clippy expects where it makes sense.
+From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
 
-Applied to `rust-next` -- thanks everyone!
+Xorg context creation fails for native contexts that use
+VIRTGPU_CONTEXT_INIT because context is already initialized implicitly
+when dumb buffer is created. Fix it by not creating default vrend context
+if context_init is supported.
 
-    [ Reworded to indent Clippy's message. - Miguel ]
+Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+---
+ drivers/gpu/drm/virtio/virtgpu_gem.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-    [ Reworded to add Clippy warning like it is done in the rest of the
-      series. - Miguel ]
+diff --git a/drivers/gpu/drm/virtio/virtgpu_gem.c b/drivers/gpu/drm/virtio/virtgpu_gem.c
+index 7db48d17ee3a..67f557e058b4 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_gem.c
++++ b/drivers/gpu/drm/virtio/virtgpu_gem.c
+@@ -127,15 +127,17 @@ int virtio_gpu_gem_object_open(struct drm_gem_object *obj,
+ 	/* the context might still be missing when the first ioctl is
+ 	 * DRM_IOCTL_MODE_CREATE_DUMB or DRM_IOCTL_PRIME_FD_TO_HANDLE
+ 	 */
+-	virtio_gpu_create_context(obj->dev, file);
++	if (!vgdev->has_context_init)
++		virtio_gpu_create_context(obj->dev, file);
+ 
+ 	objs = virtio_gpu_array_alloc(1);
+ 	if (!objs)
+ 		return -ENOMEM;
+ 	virtio_gpu_array_add_obj(objs, obj);
+ 
+-	virtio_gpu_cmd_context_attach_resource(vgdev, vfpriv->ctx_id,
+-					       objs);
++	if (vfpriv->ctx_id)
++		virtio_gpu_cmd_context_attach_resource(vgdev, vfpriv->ctx_id, objs);
++
+ out_notify:
+ 	virtio_gpu_notify(vgdev);
+ 	return 0;
+-- 
+2.47.0
 
-    [ Reworded to mention the redundant closure cleanup too. - Miguel ]
-
-Cheers,
-Miguel
