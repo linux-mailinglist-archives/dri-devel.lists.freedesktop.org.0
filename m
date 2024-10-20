@@ -2,88 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5AC49A53CC
-	for <lists+dri-devel@lfdr.de>; Sun, 20 Oct 2024 13:34:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 455ED9A53CE
+	for <lists+dri-devel@lfdr.de>; Sun, 20 Oct 2024 13:35:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12D0110E08D;
-	Sun, 20 Oct 2024 11:34:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B213C10E220;
+	Sun, 20 Oct 2024 11:35:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="RziD2Igh";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="vsLyHLQP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
- [209.85.208.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 444BC10E08D
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Oct 2024 11:34:35 +0000 (UTC)
-Received: by mail-lj1-f182.google.com with SMTP id
- 38308e7fff4ca-2fb59652cb9so34266711fa.3
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Oct 2024 04:34:35 -0700 (PDT)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+ [209.85.167.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A99C10E220
+ for <dri-devel@lists.freedesktop.org>; Sun, 20 Oct 2024 11:34:58 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id
+ 2adb3069b0e04-539ee1acb86so1424362e87.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 20 Oct 2024 04:34:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1729424073; x=1730028873; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=QC0KnB6o2h4mn/hVK+dZGyuz3d5o2C5KLZTYulXkdRQ=;
- b=RziD2Igh3pzANGUKg5DoEfK7TKmzWMVB8eaBl2tmyNt3i7k5+YqGJt8zpu3cnIjVQD
- 6LPQkhZA3p8kvL0FQb7EkmoIymIad6cdu8TCQIkoJSb68sDRTAwBELaZx8lmwwaGZXOQ
- mqkAS4e6ghh//97sHbZMoISjygslJ6VKo/7zOwkEHg/Y48tyRJSN9dIyNd9v/uQYwuxY
- 84WeuBFjUJwBQbBkqwYSm7GlbvaSv4eToDiwXcsYiSPvxXX3JObPb8xyfR/67mrSfoBY
- xnm4+Tf70QDMPcPNoF0srqWvp6X3fNx39mizhy32klYmqeL8sVTIQBhP//vfhiXJ8Fo/
- rq/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729424073; x=1730028873;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ d=linaro.org; s=google; t=1729424096; x=1730028896; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=QC0KnB6o2h4mn/hVK+dZGyuz3d5o2C5KLZTYulXkdRQ=;
- b=qV1fRdwe8Zu/X01viGSuND+W12/l83Tjh8pXvTVpFY2YV2Ya+TiZ9WTeP9k53RH70Z
- ptkUItWtBlzpRe4dMsgmrQ3AtLzNRT9Cb1q8YVA6ZNU/4gM0j+q3u2PYQPSqSWwWqaIw
- P6X5n860UEQ9mK+zeZyIxBoH1W3+UEuxWWMgswb2vtfxcBYs6jRiiie/FQbiF4FlZqpV
- 8NRb9uZ14miRZCnqJ81v7oPciNdNtswQu4ACFSw96v/dRFcGTNVm9DgeIdg5H8XqEi4y
- oiVH2j2s2mORPqfhSJue6CTSQbzZ4b5xEzRF6AIxu8BzrJvyx+38+So1eSJHFDGRKU/v
- OptA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV7dhjKRY1tkx2I3V3ihBMxH6h0Ln3HVq0WVlO0c7dOa7G73GPLu+moMjYYKerRAgBEZU+dM7NISVI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwdIkdgOfFYSxGN+dMhxxIve4UpYdEzuXog9eKv9INj6KMRjj1H
- Isi3xhha9BdBf3p+Q2WlseAJShYVPMz8J1JeP1fRFM9I8rdqgI3Cxe1hqNtBtOw=
-X-Google-Smtp-Source: AGHT+IHw7JUxCsHiCWKAeBC9lGrE1QOYEOuzwLBF37sN/Bov8L27eTs6yeqUaRmGDeoT/SoNNTNn6w==
-X-Received: by 2002:a05:6512:1384:b0:536:55a9:4b6c with SMTP id
- 2adb3069b0e04-53a1545338fmr4077961e87.13.1729424073213; 
- Sun, 20 Oct 2024 04:34:33 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53a2243edb9sm195178e87.274.2024.10.20.04.34.32
+ bh=MRt6enI5ko0LZqY7RinaKQGYLU2W/bGx6fEsADiHq5w=;
+ b=vsLyHLQPBWoQmv/FrtiLFN1OtUJPT953tIwBsNthX4d9KoegWwuFnSzVAy5HmYwiuC
+ WkbGqEQWBMbo6iQfwPy7KE1jJjmutiehNCDEUETxdreGFeto0NncrhEQ6d93j4QWwLP9
+ DBqWpSnPxQJD8ubfJ3jdmssC6T84o5JfBnWDevjUSZ5VUK2tRdvIYtmS6SVO5Sx/3Ije
+ LeB5YqG7IJ5y4O/HkCF7NkGaV1d4JG0pWWinPe5sUhxRcSVpBlFVeKrSUZL8PNvaznr2
+ rOdk5QeOKjeIqUx7eG6nBBveeulnMrSakNGCeUwUyEHAkcSYCO2C7WOt8WUfQpcfFW7i
+ GlTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1729424096; x=1730028896;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=MRt6enI5ko0LZqY7RinaKQGYLU2W/bGx6fEsADiHq5w=;
+ b=hZLHMp+mE0epz37SOXjXZPEkXKm0vJclNXp4kGOOGZ7d5igp0Ctu0ZSj9qJ/pT3q6T
+ dlj5877AJd8ZkbF81fM4XK1fnfBBv+m78F9V/EJNIziDABTY58UwyS3dm4J241T/YBGs
+ zjnkzz4O6M5VRjDoCwyS4GI7DkzjrfP4hooOu5jnvBeqiIEJnmhjIeOwCct7ynXZ1/Gp
+ iDuwAbV+kEtQlU6du6vZ+tE2YDeBYCkYDyhQDC0SdL2kszTDg4A9Sb6pC0Y/hvPb8X8S
+ hvLBIy/eqMHP2+nzwzhiwfXteNDrFH2CbyKTcYImDqx1YYRP5vkmAe/1czxRsRj9l++n
+ eJxA==
+X-Gm-Message-State: AOJu0Yzqr52BQDMlsoeJTX2i1Qb99ZGMSSd+ks2yhbUXdwq9kZxiQ56U
+ IdTGVH/FInHRf7ARVdWIMB5TccdZW1bncMrtK9VaqJlt5LV1T4FHJzcgDAknAHHYj7k/N3KnRDb
+ JiL8=
+X-Google-Smtp-Source: AGHT+IFR2NcypCaN4eOHDhvz8LdFW2aNsn9ZbQ+tMnn51f3T95e3n3u1SUNT3hVXdo31XY/fBfGtbQ==
+X-Received: by 2002:a05:6512:12cb:b0:539:9594:b226 with SMTP id
+ 2adb3069b0e04-53a1522dba5mr3787132e87.34.1729424096435; 
+ Sun, 20 Oct 2024 04:34:56 -0700 (PDT)
+Received: from eriador.lan (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00::b8c]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-53a22440492sm195656e87.289.2024.10.20.04.34.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 20 Oct 2024 04:34:32 -0700 (PDT)
-Date: Sun, 20 Oct 2024 14:34:30 +0300
+ Sun, 20 Oct 2024 04:34:56 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Aradhya Bhatia <aradhya.bhatia@linux.dev>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Dominik Haller <d.haller@phytec.de>, Sam Ravnborg <sam@ravnborg.org>, 
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Nishanth Menon <nm@ti.com>, 
- Vignesh Raghavendra <vigneshr@ti.com>, Devarsh Thakkar <devarsht@ti.com>, 
- Praneeth Bajjuri <praneeth@ti.com>, Udit Kumar <u-kumar1@ti.com>, 
- Jayesh Choudhary <j-choudhary@ti.com>,
- DRI Development List <dri-devel@lists.freedesktop.org>, 
- Linux Kernel List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v5 03/13] drm/bridge: cdns-dsi: Fix Phy _init() and _exit()
-Message-ID: <i5o65ui4psc7b4hsqq5hl7t2hvf43xc7pmvlrcstjhqp2okwx3@izezpdd7tmk2>
-References: <20241019195411.266860-1-aradhya.bhatia@linux.dev>
- <20241019195411.266860-4-aradhya.bhatia@linux.dev>
+To: dri-devel@lists.freedesktop.org,
+	Ryan Walklin <ryan@testtoast.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Hironori KIKUCHI <kikuchan98@gmail.com>,
+ Chris Morgan <macroalpha82@gmail.com>,
+ Simona Vetter <simona.vetter@ffwll.ch>
+Subject: Re: [PATCH RESEND] drm: panel: nv3052c: correct spi_device_id for
+ RG35XX panel
+Date: Sun, 20 Oct 2024 14:34:53 +0300
+Message-ID: <172942408877.2805126.3289122620465684612.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20241020083836.175733-1-ryan@testtoast.com>
+References: <20241020083836.175733-1-ryan@testtoast.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241019195411.266860-4-aradhya.bhatia@linux.dev>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,78 +94,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Oct 20, 2024 at 01:24:01AM +0530, Aradhya Bhatia wrote:
-> From: Aradhya Bhatia <a-bhatia1@ti.com>
+On Sun, 20 Oct 2024 21:37:41 +1300, Ryan Walklin wrote:
+> The Anbernic RG35XX devices use an SPI LCD panel from an unknown OEM,
+> with an NV3052C driver chip.
 > 
-> Initialize the Phy during the cdns-dsi _resume(), and de-initialize it
-> during the _suspend().
+> As discussed previously, the integrating vendor and device name are
+> preferred instead of the OEM serial. A previous patch corrected the
+> device tree binding and of_device_id in the NV3052C driver, however the
+> spi_device_id also needs correction.
 > 
-> Also power-off the Phy from bridge_disable.
+> [...]
 
-Please describe why, not what. Especially, if it is considered a fix.
+Applied to drm-misc-next, thanks!
 
-> 
-> Fixes: fced5a364dee ("drm/bridge: cdns: Convert to phy framework")
-> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
-> Signed-off-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
-> ---
->  drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-> index 5159c3f0853e..d89c32bae2b9 100644
-> --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-> +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-> @@ -672,6 +672,10 @@ static void cdns_dsi_bridge_disable(struct drm_bridge *bridge)
->  	if (dsi->platform_ops && dsi->platform_ops->disable)
->  		dsi->platform_ops->disable(dsi);
->  
-> +	phy_power_off(dsi->dphy);
-> +	dsi->link_initialized = false;
-> +	dsi->phy_initialized = false;
-> +
->  	pm_runtime_put(dsi->base.dev);
->  }
->  
-> @@ -698,7 +702,6 @@ static void cdns_dsi_hs_init(struct cdns_dsi *dsi)
->  	       DPHY_CMN_PDN | DPHY_PLL_PDN,
->  	       dsi->regs + MCTL_DPHY_CFG0);
->  
-> -	phy_init(dsi->dphy);
+[1/1] drm: panel: nv3052c: correct spi_device_id for RG35XX panel
+      commit: 45608a3eb4902f32010a8328c0a01ccda4b38c9b
 
-This moves the call order, moving phy_init() before
-platform_ops->enable(). It should be documented with the clear pointer
-that it considered to be safe.
-
->  	phy_set_mode(dsi->dphy, PHY_MODE_MIPI_DPHY);
->  	phy_configure(dsi->dphy, &output->phy_opts);
->  	phy_power_on(dsi->dphy);
-> @@ -1120,6 +1123,8 @@ static int __maybe_unused cdns_dsi_resume(struct device *dev)
->  	clk_prepare_enable(dsi->dsi_p_clk);
->  	clk_prepare_enable(dsi->dsi_sys_clk);
->  
-> +	phy_init(dsi->dphy);
-> +
->  	return 0;
->  }
->  
-> @@ -1127,10 +1132,11 @@ static int __maybe_unused cdns_dsi_suspend(struct device *dev)
->  {
->  	struct cdns_dsi *dsi = dev_get_drvdata(dev);
->  
-> +	phy_exit(dsi->dphy);
-> +
->  	clk_disable_unprepare(dsi->dsi_sys_clk);
->  	clk_disable_unprepare(dsi->dsi_p_clk);
->  	reset_control_assert(dsi->dsi_p_rst);
-> -	dsi->link_initialized = false;
->  	return 0;
->  }
->  
-> -- 
-> 2.34.1
-> 
-
+Best regards,
 -- 
 With best wishes
 Dmitry
+
