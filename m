@@ -2,97 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3ABFE9A5328
-	for <lists+dri-devel@lfdr.de>; Sun, 20 Oct 2024 10:38:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1C919A535A
+	for <lists+dri-devel@lfdr.de>; Sun, 20 Oct 2024 11:35:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4988D10E025;
-	Sun, 20 Oct 2024 08:38:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9872810E030;
+	Sun, 20 Oct 2024 09:35:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=testtoast.com header.i=@testtoast.com header.b="MvGxRld0";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="SdU8FXd8";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="IQImqM8d";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fout-a2-smtp.messagingengine.com
- (fout-a2-smtp.messagingengine.com [103.168.172.145])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6929B10E025
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Oct 2024 08:38:54 +0000 (UTC)
-Received: from phl-compute-06.internal (phl-compute-06.phl.internal
- [10.202.2.46])
- by mailfout.phl.internal (Postfix) with ESMTP id 55B7A138024F;
- Sun, 20 Oct 2024 04:38:53 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
- by phl-compute-06.internal (MEProxy); Sun, 20 Oct 2024 04:38:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
- h=cc:cc:content-transfer-encoding:content-type:date:date:from
- :from:in-reply-to:message-id:mime-version:reply-to:subject
- :subject:to:to; s=fm3; t=1729413533; x=1729499933; bh=sKpH++97KE
- AvO07TgH6eUmUY+xGWIkr9L2yNLe7qN90=; b=MvGxRld0pBy8k1M6FydnyqlzlT
- Clv5i7b0iMlhz8VTrdhKaKmbZxcAJzZgdVePjwHTdWSAswWxaasIpC5mpyz9j/oa
- BJq/Z2mYMTdA2JxpmL2feeXLIRaPjQLsW/5JImBzRL3iQ0n/6FkdeI3OJT0LCIJi
- 5oFJen43TahYXT7DbZ/us1+u0VJxiqtNQfmwGcfW74ZbjxVnEH35QWB7d7aDfPyn
- wiT45zX9Xr5F502nXScNPG6ALTPFqWw5vV0ZEQ4B/Wc/qLz2+oOFY6uc4PuGwVXv
- DVqTkWSZ7ncr2wol9kAisk1dLPsWvdXpDoSUFI9a3j0yGRHjXrRg0Vm3JN6Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:message-id:mime-version:reply-to:subject:subject:to
- :to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; t=1729413533; x=1729499933; bh=sKpH++97KEAvO07TgH6eUmUY+xGW
- Ikr9L2yNLe7qN90=; b=SdU8FXd8cuivgm8FTYizFsJph6vnmyL5SB1F6BbQYejj
- eP/P8v0iiAff6keFfT8pNP0HI1utV0qHAGr0Ir+/3DzJZ76Y9NoVh5pVtSdtb7dq
- ZXhqdj7+JMyX601jqr9Beb2gYvchwuFeGUJh2J8feRuBT2l8poHdrHulMazogPiy
- BsyKHNzZotljuDxPnLQ9a4h58ub3HkS1n/PcCK1QbIv4ZeWuCZR5tRCqAMVgIwmf
- yPHyqqUrisW5rzfjJrBaI1oZQlKGjYSqdNwc/WHGR4UYQcpCOP0cDpqQZ/xmxyzx
- m9zJBQP5BvF5f9tNCK1YwtG8VZwEJK1rwYJ/aFrvng==
-X-ME-Sender: <xms:nMEUZ4Vj_mbrh7yHAtyghnr42XTEF0DrIYObUyBkVWOYT5-4j77fJQ>
- <xme:nMEUZ8n5S8TZviOJP9n2H4IEyLqeH_YlsmDouY1zH4scnRCySC2TTPuSJVwPhseLB
- JMOz380AOXEC9K7SA>
-X-ME-Received: <xmr:nMEUZ8ZIcGHw8mvZ1pqK2s8V-LcNSbYO1PR_Iie1rZOcgZWR7j0X5ktGqRD7p6iVrRT4YVzUhkWgcFZPmfkBMuMHx9I0b1z-47nT-Cel9iwBuT1i>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdehjedgtdejucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
- rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
- htshculddquddttddmnecujfgurhephffvvefufffkofgggfestdekredtredttdenucfh
- rhhomheptfihrghnucghrghlkhhlihhnuceorhihrghnsehtvghsthhtohgrshhtrdgtoh
- hmqeenucggtffrrghtthgvrhhnpeduvdeuudeugedtueffteevveegheehvdfhfeduudev
- kefggfeftdehgeethffhffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmh
- grihhlfhhrohhmpehrhigrnhesthgvshhtthhorghsthdrtghomhdpnhgspghrtghpthht
- ohepudehpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegurhhiqdguvghvvghlse
- hlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepnhgvihhlrdgr
- rhhmshhtrhhonhhgsehlihhnrghrohdrohhrghdprhgtphhtthhopehquhhitggpjhgvsh
- hsiihhrghnsehquhhitghinhgtrdgtohhmpdhrtghpthhtohepshgrmhesrhgrvhhnsgho
- rhhgrdhorhhgpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtph
- htthhopegurghnihgvlhesfhhffihllhdrtghhpdhrtghpthhtohepmhgrrghrthgvnhdr
- lhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmrh
- hiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehtiihimhhmvghrmhgrnhhn
- sehsuhhsvgdruggv
-X-ME-Proxy: <xmx:nMEUZ3VMnG03KEi6tz-lKzET5Y93FJfs06JGKMAkmbIPTzxOZBs7UA>
- <xmx:nMEUZylwXUYZHZjadZlV0CM61XjrI98DTVp2SKyvHzy7aM955EI8XA>
- <xmx:nMEUZ8czQF39M1HccnmSDF92Nr6fF4o6obBPLLqF7Rv9NevBs4xC2A>
- <xmx:nMEUZ0Fn7CKsdQOAw5B3mzN_Pq6wIXw_DkIhYE4R63IxTP-G9ONA0g>
- <xmx:ncEUZ-l3phaCZsrLaeCqzUiP8nbhIvt-nI4mbBK89b-ckmnyOZn5-dip>
-Feedback-ID: idc0145fc:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 20 Oct 2024 04:38:48 -0400 (EDT)
-From: Ryan Walklin <ryan@testtoast.com>
-To: dri-devel@lists.freedesktop.org
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Hironori KIKUCHI <kikuchan98@gmail.com>,
- Chris Morgan <macroalpha82@gmail.com>, Ryan Walklin <ryan@testtoast.com>
-Subject: [PATCH RESEND] drm: panel: nv3052c: correct spi_device_id for RG35XX
- panel
-Date: Sun, 20 Oct 2024 21:37:41 +1300
-Message-ID: <20241020083836.175733-1-ryan@testtoast.com>
-X-Mailer: git-send-email 2.47.0
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDAE110E030
+ for <dri-devel@lists.freedesktop.org>; Sun, 20 Oct 2024 09:35:40 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 968C05C035C;
+ Sun, 20 Oct 2024 09:35:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAB93C4CEC6;
+ Sun, 20 Oct 2024 09:35:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1729416939;
+ bh=BfjIyq7leKhpMrANpaMjx3RXuo4N3PcS5+7YU14FOiA=;
+ h=Subject:To:Cc:From:Date:From;
+ b=IQImqM8dvVwLq5nVe5oJGQcJ+C8g91lnAUC2Psklj4Emldz97ts/yj/iBIFd1nbs2
+ WDq2wrlMOAZf56dxBBH+9Yn0oYMraKEgGiDI2klHDrjWhQc2aL4jiIZtilyiK7mdLu
+ EWYzeW4WE1RcEhNkqw3dpMleBFUL94arTZ/jiDq4=
+Subject: Patch "drm/vmwgfx: Cleanup kms setup without 3d" has been added to
+ the 6.11-stable tree
+To: bcm-kernel-feedback-list@broadcom.com, dri-devel@lists.freedesktop.org,
+ gregkh@linuxfoundation.org, maaz.mombasawala@broadcom.com,
+ martin.krastev@broadcom.com, zack.rusin@broadcom.com
+Cc: <stable-commits@vger.kernel.org>
+From: <gregkh@linuxfoundation.org>
+Date: Sun, 20 Oct 2024 11:35:04 +0200
+Message-ID: <2024102003-traps-duplicate-df44@gregkh>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
+X-stable: commit
+X-Patchwork-Hint: ignore 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,36 +56,124 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Anbernic RG35XX devices use an SPI LCD panel from an unknown OEM,
-with an NV3052C driver chip.
 
-As discussed previously, the integrating vendor and device name are
-preferred instead of the OEM serial. A previous patch corrected the
-device tree binding and of_device_id in the NV3052C driver, however the
-spi_device_id also needs correction.
+This is a note to let you know that I've just added the patch titled
 
-Correct the spi_device_id for the RG35XX panel.
+    drm/vmwgfx: Cleanup kms setup without 3d
 
-Signed-off-by: Ryan Walklin <ryan@testtoast.com>
-Fixes: 76dce2a9 ("drm: panel: nv3052c: Correct WL-355608-A8 panel compatible")
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+to the 6.11-stable tree which can be found at:
+    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+
+The filename of the patch is:
+     drm-vmwgfx-cleanup-kms-setup-without-3d.patch
+and it can be found in the queue-6.11 subdirectory.
+
+If you, or anyone else, feels it should not be added to the stable tree,
+please let <stable@vger.kernel.org> know about it.
+
+
+From 512a9721cae0d88d34ff441f2f5917cd149af8af Mon Sep 17 00:00:00 2001
+From: Zack Rusin <zack.rusin@broadcom.com>
+Date: Tue, 27 Aug 2024 00:39:05 -0400
+Subject: drm/vmwgfx: Cleanup kms setup without 3d
+
+From: Zack Rusin <zack.rusin@broadcom.com>
+
+commit 512a9721cae0d88d34ff441f2f5917cd149af8af upstream.
+
+Do not validate format equality for the non 3d cases to allow xrgb to
+argb copies and make sure the dx binding flags are only used
+on dx compatible surfaces.
+
+Fixes basic 2d kms setup on configurations without 3d. There's little
+practical benefit to it because kms framebuffer coherence is disabled
+on configurations without 3d but with those changes the code actually
+makes sense.
+
+v2: Remove the now unused format variable
+
+Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
+Fixes: d6667f0ddf46 ("drm/vmwgfx: Fix handling of dumb buffers")
+Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: <stable@vger.kernel.org> # v6.9+
+Cc: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
+Cc: Martin Krastev <martin.krastev@broadcom.com>
+Reviewed-by: Martin Krastev <martin.krastev@broadcom.com>
+Reviewed-by: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20240827043905.472825-1-zack.rusin@broadcom.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/gpu/drm/panel/panel-newvision-nv3052c.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c     |   29 -----------------------------
+ drivers/gpu/drm/vmwgfx/vmwgfx_surface.c |    9 ++++++---
+ 2 files changed, 6 insertions(+), 32 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-newvision-nv3052c.c b/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
-index d3baccfe6286b..06e16a7c14a75 100644
---- a/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
-+++ b/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
-@@ -917,7 +917,7 @@ static const struct nv3052c_panel_info wl_355608_a8_panel_info = {
- static const struct spi_device_id nv3052c_ids[] = {
- 	{ "ltk035c5444t", },
- 	{ "fs035vg158", },
--	{ "wl-355608-a8", },
-+	{ "rg35xx-plus-panel", },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(spi, nv3052c_ids);
--- 
-2.47.0
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+@@ -1283,7 +1283,6 @@ static int vmw_kms_new_framebuffer_surfa
+ {
+ 	struct drm_device *dev = &dev_priv->drm;
+ 	struct vmw_framebuffer_surface *vfbs;
+-	enum SVGA3dSurfaceFormat format;
+ 	struct vmw_surface *surface;
+ 	int ret;
+ 
+@@ -1320,34 +1319,6 @@ static int vmw_kms_new_framebuffer_surfa
+ 		return -EINVAL;
+ 	}
+ 
+-	switch (mode_cmd->pixel_format) {
+-	case DRM_FORMAT_ARGB8888:
+-		format = SVGA3D_A8R8G8B8;
+-		break;
+-	case DRM_FORMAT_XRGB8888:
+-		format = SVGA3D_X8R8G8B8;
+-		break;
+-	case DRM_FORMAT_RGB565:
+-		format = SVGA3D_R5G6B5;
+-		break;
+-	case DRM_FORMAT_XRGB1555:
+-		format = SVGA3D_A1R5G5B5;
+-		break;
+-	default:
+-		DRM_ERROR("Invalid pixel format: %p4cc\n",
+-			  &mode_cmd->pixel_format);
+-		return -EINVAL;
+-	}
+-
+-	/*
+-	 * For DX, surface format validation is done when surface->scanout
+-	 * is set.
+-	 */
+-	if (!has_sm4_context(dev_priv) && format != surface->metadata.format) {
+-		DRM_ERROR("Invalid surface format for requested mode.\n");
+-		return -EINVAL;
+-	}
+-
+ 	vfbs = kzalloc(sizeof(*vfbs), GFP_KERNEL);
+ 	if (!vfbs) {
+ 		ret = -ENOMEM;
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
+@@ -2276,9 +2276,12 @@ int vmw_dumb_create(struct drm_file *fil
+ 	const struct SVGA3dSurfaceDesc *desc = vmw_surface_get_desc(format);
+ 	SVGA3dSurfaceAllFlags flags = SVGA3D_SURFACE_HINT_TEXTURE |
+ 				      SVGA3D_SURFACE_HINT_RENDERTARGET |
+-				      SVGA3D_SURFACE_SCREENTARGET |
+-				      SVGA3D_SURFACE_BIND_SHADER_RESOURCE |
+-				      SVGA3D_SURFACE_BIND_RENDER_TARGET;
++				      SVGA3D_SURFACE_SCREENTARGET;
++
++	if (vmw_surface_is_dx_screen_target_format(format)) {
++		flags |= SVGA3D_SURFACE_BIND_SHADER_RESOURCE |
++			 SVGA3D_SURFACE_BIND_RENDER_TARGET;
++	}
+ 
+ 	/*
+ 	 * Without mob support we're just going to use raw memory buffer
 
+
+Patches currently in stable-queue which might be from zack.rusin@broadcom.com are
+
+queue-6.11/drm-vmwgfx-cleanup-kms-setup-without-3d.patch
+queue-6.11/drm-vmwgfx-handle-surface-check-failure-correctly.patch
