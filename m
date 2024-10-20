@@ -2,79 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 562229A5385
-	for <lists+dri-devel@lfdr.de>; Sun, 20 Oct 2024 12:45:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD5179A538A
+	for <lists+dri-devel@lfdr.de>; Sun, 20 Oct 2024 12:49:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60C1610E039;
-	Sun, 20 Oct 2024 10:45:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2099110E051;
+	Sun, 20 Oct 2024 10:49:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="UnvccJQe";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Dg2mRkvC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
- [209.85.208.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F85110E039
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Oct 2024 10:45:05 +0000 (UTC)
-Received: by mail-lj1-f175.google.com with SMTP id
- 38308e7fff4ca-2fb51e00c05so48402711fa.0
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Oct 2024 03:45:05 -0700 (PDT)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
+ [209.85.167.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C005710E051
+ for <dri-devel@lists.freedesktop.org>; Sun, 20 Oct 2024 10:49:08 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id
+ 2adb3069b0e04-539f72c913aso4116398e87.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 20 Oct 2024 03:49:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1729421103; x=1730025903; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1729421347; x=1730026147; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=FMxI1YT7fY8R2Gwx5nUSrhOH40ODKKKLqekW6RGCnQ4=;
- b=UnvccJQePmx4FkWmys3wppivf4ctKwpSclNrLdimSTkVlQPWjKDRl3UbLiVbI09I8M
- LOmlX2hrTfdQK891SyomgmMPadVuV9AY6b3FUT4clx9C8Jeox5hfxsbLN8Cam3qR9mQm
- cBZuiIZr0R0VhEEUyOzdFg0l41JE5lmp7YVMTepY3P1C3E4v1ZcksFBWBwkjjFlW2qnf
- cr+VGD1OgzPeZZ+894GfwF8iOPmIB2CiSY2FnrgJIXiiCrsmbvf/uca7GXYHBsuyMHIx
- khvo670w+iMNf9WfNjJsIMmhHnJAB5ajYsMm/VH3x6IXacbtotMDyxpBFo3xwMjF9eWo
- Pr1Q==
+ bh=3XnRvKQZOPjLLwFgoT+R7Kj3/LS+KzGl7QLkoKVG53M=;
+ b=Dg2mRkvCwUIfo4dtzNpCYnlJvY1cHk4lCn15nGh4L6c465KyHmB8F8BG56vmdOVUIW
+ 6bY9V1bFevvBCvo8F5Mcx0ZeZT7OmJm8V/Tm9Fzf544VQJGnzaBS+LYjoI1yOYrnNFLw
+ qLvvtE2twpepsGa+ENAQjUxuJxQBtFN2EaxEB3lAB0Of7KxcgeDhxzRveRTPc1slj/T/
+ qWbGvIQ2u/TSitcDNA1REA3VymVndBZ/Ci3RBGQbPm7YFXqCna/lKX/4S67WAfjPp+pG
+ pHbHxw0yUTEbNu4IK0j/ZSxTNsKA7zURN35I8Aq8xNrLH9FNqtzu2Hy5g/rGdqmVxPKn
+ dgKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729421103; x=1730025903;
+ d=1e100.net; s=20230601; t=1729421347; x=1730026147;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=FMxI1YT7fY8R2Gwx5nUSrhOH40ODKKKLqekW6RGCnQ4=;
- b=VlYMrPiRZgTx4z2cprehIi9LCvUaOlT3OT/vQlL1eC8tkjoR9S5jWKEHjCl6rCV6HO
- 8GoKDPknUwmZUzLmVxys0gxcHom86igwbDUTbXLQRi+FQPFybJIYvEnWrUg011HEQMpz
- hvpA2olvMP3Hjvhl44d0Ae0Ri7dxA8Llz7tyNhd7Xptg549N4wta7o0vR6AbemrlWjne
- 7J0P/1D473XRon5QgUn8OXtCkZYNYK3kOiO6a2EgxqRh0gsYtI+Le4p6Aw0PsfEaIBe3
- ZSSr2tHliTmdRTT7BOwQtmUkjXONFmgbSZhqayH1lutcvlcPK6NSkDTrcoFjbiBlmntY
- 00jg==
-X-Gm-Message-State: AOJu0YyIlENVMMEwGV/SfSAE+4uKR6dSQmUS4qbxUx1YLApGM8tiQ1tU
- zzagasXDD+FCjYbzOfCoYQdaYgWQ9mTfAU9whaHgTsxFYr1rI87ZAa0Ok4nHG6U=
-X-Google-Smtp-Source: AGHT+IEsJY83W2ZGtSSto4X5XtgrmNRhpxdoqC6ehrNq9gmJc1J4y4RXQiSZx2CaJIAqs/ELodb/xg==
-X-Received: by 2002:a05:6512:689:b0:52e:936e:a237 with SMTP id
- 2adb3069b0e04-53a15445207mr7030409e87.16.1729421103146; 
- Sun, 20 Oct 2024 03:45:03 -0700 (PDT)
+ bh=3XnRvKQZOPjLLwFgoT+R7Kj3/LS+KzGl7QLkoKVG53M=;
+ b=qGPgyFfG3QgDZEoSDSMjmvdpuSbJDjxPWH30h2gPUEeyQEmDTicjhZeNbGOmI75Ej8
+ 1RyXGKmOC0BZSCKTAri/tJpgaiyBlje7d2QIIEbZHsGscFS6rIjcz2kOuE9hk2RQizbx
+ /vjWDkG1wis1rFjB9oaUoPpzpjFWoZniey1fXjvkQKxeRyAi7Vz3jh2IwQJdNuwX0TFr
+ 9O9EwfoEKDyBmOG4ftNsbFsqLJ+ydCcK747YobV/y2nJEPdQscqBuw5xMpn0OCGVujFm
+ mZKUAGMMP3ZB9aKFVozKHKFWXu9O16Iob7Q+JcaVdk9IPR11Qk8AHQT2KW9lRMCeY0Ka
+ RfMg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWNIKDjgYDp8+/E/djKI4t86wfytv6dLtgoPPRAg/mSMOerKGnL31p/ug8dJq5BeBciF9t1avfS1ec=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzhJ392Aj8PYIsatA34V62X4ki1z+ch8IY9Vke4m2YtQXRCIX0j
+ wTjKp/dgdllCkUZxg373qO1+zxyK4+1QvKFkiWCfDwrVRd7M5wQuKzdh1yWKA2Y=
+X-Google-Smtp-Source: AGHT+IG15odfy1uIpfdw/x7yt8H3vJ7DWHk8bseIVvdVWT8X/fdgPz4GJSpxX6HrPRoBkC049bAgNA==
+X-Received: by 2002:a05:6512:ea2:b0:539:f995:5b00 with SMTP id
+ 2adb3069b0e04-53a1520b222mr4261814e87.7.1729421346743; 
+ Sun, 20 Oct 2024 03:49:06 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53a223e55f5sm187782e87.34.2024.10.20.03.45.00
+ 2adb3069b0e04-53a223e587fsm190423e87.10.2024.10.20.03.49.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 20 Oct 2024 03:45:01 -0700 (PDT)
-Date: Sun, 20 Oct 2024 13:44:59 +0300
+ Sun, 20 Oct 2024 03:49:05 -0700 (PDT)
+Date: Sun, 20 Oct 2024 13:49:02 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Ryan Walklin <ryan@testtoast.com>
-Cc: dri-devel@lists.freedesktop.org, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>,
+To: Aradhya Bhatia <aradhya.bhatia@linux.dev>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Hironori KIKUCHI <kikuchan98@gmail.com>, 
- Chris Morgan <macroalpha82@gmail.com>
-Subject: Re: [PATCH RESEND] drm: panel: nv3052c: correct spi_device_id for
- RG35XX panel
-Message-ID: <k2g5qgtat5ln2pdvgbnbqv6calqyen7soer6kpvdzzaielogca@7cmqnda5c6mp>
-References: <20241020083836.175733-1-ryan@testtoast.com>
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Dominik Haller <d.haller@phytec.de>, Sam Ravnborg <sam@ravnborg.org>, 
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Nishanth Menon <nm@ti.com>, 
+ Vignesh Raghavendra <vigneshr@ti.com>, Devarsh Thakkar <devarsht@ti.com>, 
+ Praneeth Bajjuri <praneeth@ti.com>, Udit Kumar <u-kumar1@ti.com>, 
+ Jayesh Choudhary <j-choudhary@ti.com>,
+ DRI Development List <dri-devel@lists.freedesktop.org>, 
+ Linux Kernel List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v5 02/13] drm/bridge: cdns-dsi: Move to
+ devm_drm_of_get_bridge()
+Message-ID: <pw2zhwnyx6xn7lgondigds55ow6fkdbyh54sfuk3zqvsdsedtz@nnfsv7wenqrv>
+References: <20241019195411.266860-1-aradhya.bhatia@linux.dev>
+ <20241019195411.266860-3-aradhya.bhatia@linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241020083836.175733-1-ryan@testtoast.com>
+In-Reply-To: <20241019195411.266860-3-aradhya.bhatia@linux.dev>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,49 +100,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Oct 20, 2024 at 09:37:41PM +1300, Ryan Walklin wrote:
-> The Anbernic RG35XX devices use an SPI LCD panel from an unknown OEM,
-> with an NV3052C driver chip.
+On Sun, Oct 20, 2024 at 01:24:00AM +0530, Aradhya Bhatia wrote:
+> From: Aradhya Bhatia <a-bhatia1@ti.com>
 > 
-> As discussed previously, the integrating vendor and device name are
-> preferred instead of the OEM serial. A previous patch corrected the
-> device tree binding and of_device_id in the NV3052C driver, however the
-> spi_device_id also needs correction.
+> Instead of manually finding the next bridge/panel, and maintaining the
+> panel-bridge (in-case the next entity is a panel), switch to using the
+> automatically managing devm_drm_of_get_bridge() API.
 > 
-> Correct the spi_device_id for the RG35XX panel.
+> Drop the drm_panel support completely from the driver while at it.
 > 
-> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
-> Fixes: 76dce2a9 ("drm: panel: nv3052c: Correct WL-355608-A8 panel compatible")
-
-I had to fix the Fixes tag when applying the patch. It is recommended to
-use 12 chars of the commit id. For example in my ~/.gitconfig I have the
-following part, so `git log --pretty=fixes` gives me correct Fixes
-line:
-
-[pretty]
-        fixes = %C(auto)commit %H%Creset%nFixes: %h (\"%s\")%nAuthor: %aN <%aE>%nDate: %aD%nComitter-Date: %cD%n%n%w(0,4,4)%b
-
-> Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
+> Signed-off-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
 > ---
->  drivers/gpu/drm/panel/panel-newvision-nv3052c.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-newvision-nv3052c.c b/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
-> index d3baccfe6286b..06e16a7c14a75 100644
-> --- a/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
-> +++ b/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
-> @@ -917,7 +917,7 @@ static const struct nv3052c_panel_info wl_355608_a8_panel_info = {
->  static const struct spi_device_id nv3052c_ids[] = {
->  	{ "ltk035c5444t", },
->  	{ "fs035vg158", },
-> -	{ "wl-355608-a8", },
-> +	{ "rg35xx-plus-panel", },
->  	{ /* sentinel */ }
->  };
->  MODULE_DEVICE_TABLE(spi, nv3052c_ids);
-> -- 
-> 2.47.0
-> 
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 -- 
 With best wishes
