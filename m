@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BD059A60D7
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2024 11:57:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D77F9A60D5
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2024 11:57:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35AE810E478;
-	Mon, 21 Oct 2024 09:57:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8416910E477;
+	Mon, 21 Oct 2024 09:57:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="g40tiUs8";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="iccwf/ZP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
- [209.85.128.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B33F10E476
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 09:57:44 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id
- 5b1f17b1804b1-43168d9c6c9so21399875e9.3
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 02:57:44 -0700 (PDT)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+ [209.85.128.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2446C10E477
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 09:57:42 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id
+ 5b1f17b1804b1-431688d5127so19158575e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 02:57:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1729504662; x=1730109462; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1729504660; x=1730109460; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
  :reply-to; bh=YFJZ4BI8JgbDyIrmdc3YWzeoobktonPl/4kNXWfXXdA=;
- b=g40tiUs8QErL1LFEE6MzxaKzUpmdmsyFymz2qpjRUh//VQIpnAPZEPUiJYwLWA6w3Z
- Khjc8lEj6ievwMJNLFdnvOk2bledfTcnIyChrKetyqzvwA914elAE6CsKer8Q9sskrc/
- rDFNnrnpCVkl63ASQTKBoWyJ5UOmrguG7HSDr4IYuFCCRvCvgzWPynNDcoheFOEA0BiM
- uGuvRcDICBJIZhH3gwFqvhjKuesl8VyeJTtacFx4fNlxw85Di4xC1VWpUcSCVkCn341K
- w65yI/dL6lIJ+NZ45apZTkWptL9cluXk5RCTinq4JVrrtrwoSc2yiE1bn/BriQmOjlll
- AepQ==
+ b=iccwf/ZPAysziiomG2fNAV8m3apilbZYw5MaqWqsOnjcUVs5h1Rz32WOgN/LD2eKJB
+ uAkkeYari6O7rDEa7eUS8aFcj/HfWJaieqH37haCQ+uFZ8WZ/Yv4tAk9j1GGmvoATY24
+ S2Y2xHg/vx+7gH0w28Q+8RSHF+QfRVvnqU57J5pGdvH6WFf/u1xn8Ilm3EebeYLQeUMK
+ Iav7MHB9wqyuaDyUTk1PTGB7ywS13inWVRXZ6kXl6sa8P4zN3ixQeUwLzHYx/YudF5kt
+ 3t1aME3yb8dFHcdquEDJCQrxRjxqVgvjgyuMSdgFW3m/vP2B9zxh8FhCYZ59ZXDvxJW4
+ h3Jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729504662; x=1730109462;
+ d=1e100.net; s=20230601; t=1729504660; x=1730109460;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
  bh=YFJZ4BI8JgbDyIrmdc3YWzeoobktonPl/4kNXWfXXdA=;
- b=lW+Q85k9Yf6nXFoUy2zutleplWSGjDrAcjB/e1kQEp3+1t4kbNrYvYzfz27Anob5dO
- lQfGWWm/E7RJXCFznGQ1ichtgi/MKUPjVnT+TYxYm7Ve2iyvqZvNyYQacNrj8LqnL2jU
- ULwW98Za3CzYhY2dFnKO9VNi0+qiQfpD8bn/Sj1WHFkmMAm/Lcy/FnrAg0iD6DTMqgHZ
- fiOHGfzH2vwWc8yw1cv2HndenockW+NyVd9a2DdNy/6LfuZ120lte+mY3VSud1IKfgOv
- 9Z1hB1FHSvPNLo78BNnfPVg6i2w37xyatVheGM+GkbL4DYCf/Zg4ipwd2SBCFGl9h4Bv
- SYEg==
-X-Gm-Message-State: AOJu0YwcTLEqkIKfaQny2oxOGPEOi7MFsHYlfZ/D6ZSCb1fql07TO7VT
- rXBp8G2VjZzgPSbzIvZSUqG1/38y7W42WWoZQh8MsETq06UYTV3qQbgn26+PaMA=
-X-Google-Smtp-Source: AGHT+IGeGSva1dCGKJK0ItMljEFaN9RGTBSz4M7spLmPszck8GeOtwhoBXXlA6N5i6PY8nRM5qgSIQ==
-X-Received: by 2002:a05:600c:3b08:b0:42c:b4f2:7c30 with SMTP id
- 5b1f17b1804b1-43161687de8mr86397695e9.23.1729504662459; 
- Mon, 21 Oct 2024 02:57:42 -0700 (PDT)
+ b=IN94qEO2np5g8VzQV3r/DZndvGuauPFFl10L90pkapsJiGzv+v0RHMTbDY7B3U7MwS
+ pmL+1D7TMrOUvlt8d73xm8umlZX6AQWeNwMINCMY9KOAbawcW8vfpBY7lsi178e/XkP1
+ Q1Jub6IGh8l8g54RYXVP+kXYFLtkhTkxjjqaKme8XcP8k41WXSr5cs9KhzUGn4+uogHG
+ K5Y8ml4KoahQcwXx0lerDw2FwMFTKFC4klT2RIFMq5RO/wLzgWaTQmJy2hqKPFce1lmI
+ ospyYLg/CPcDN0ewjnigCOCrnl9HBV/u57YhY/fKNwymVSSFox/99y/Ll6keYE+7BD0w
+ XXCA==
+X-Gm-Message-State: AOJu0YzfI0xmFABUpmC/L0r1YHzr/nKYZInGVWrvK0kUjmGKR4mxFWgE
+ gQnbnYk6pHKVSpW/LFlbtZwp9gp3lAqFsQDh0vdKKcMK0KY0TeNHzuVVZYz4pRU=
+X-Google-Smtp-Source: AGHT+IFO9lcqmPoRyt0ErX5LTdNaVWVLlMS40TYpxYmHtzPlwUZJjen/Bk/r/iHiP055Nka13xV0cQ==
+X-Received: by 2002:a5d:6584:0:b0:374:c8a0:5d05 with SMTP id
+ ffacd0b85a97d-37eb48a0e89mr7173964f8f.50.1729504660440; 
+ Mon, 21 Oct 2024 02:57:40 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:982:cbb0:3908:dea6:2ddd:be97?
  ([2a01:e0a:982:cbb0:3908:dea6:2ddd:be97])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-37ee0a37b35sm3926555f8f.2.2024.10.21.02.57.40
+ ffacd0b85a97d-37ee0a37b35sm3926555f8f.2.2024.10.21.02.57.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Oct 2024 02:57:42 -0700 (PDT)
-Message-ID: <3731a3d4-6435-4594-b97f-45c10d9cfcfd@linaro.org>
+ Mon, 21 Oct 2024 02:57:40 -0700 (PDT)
+Message-ID: <0dc5489c-f835-4319-baa0-546c5c5fb296@linaro.org>
 Date: Mon, 21 Oct 2024 11:57:37 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
