@@ -2,37 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F3A29A6B9C
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2024 16:08:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32DC89A6B9F
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2024 16:08:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABEFB10E525;
-	Mon, 21 Oct 2024 14:08:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8967710E533;
+	Mon, 21 Oct 2024 14:08:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SlEDc8Bm";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="EDpDAXaJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A78F10E524
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0137010E524
  for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 14:08:20 +0000 (UTC)
 Received: from [127.0.1.1] (91-157-155-49.elisa-laajakaista.fi [91.157.155.49])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id EAB5E19F8;
- Mon, 21 Oct 2024 16:06:32 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id A96A01A37;
+ Mon, 21 Oct 2024 16:06:33 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1729519593;
- bh=3lKvoJyc5GCASmOzrHd7zuyVDvlv3n+wB5AYfd2tH3M=;
+ s=mail; t=1729519594;
+ bh=IUMNEAvo290khRZh9z7VJP/IFs8nq3LUEXQk5ge19vg=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=SlEDc8Bm5JwReBKKhmIzf2Kpaj0X8qJs80rKRIEuEAf9vGmx6ePxD7ulrdqdm9A7P
- CY+FwHJuQPjVz57xAARYkPS5n+GZi+V44nqe85cL4SDiS0aCOqjzrISfKQ5eFRuzn5
- NpXGIG8jJbCJ8ZaJoK9z0Xq/pj6LbTiEEV+E11D8=
+ b=EDpDAXaJKRLnbe1mHspqU8ZHw4u79YMPYDN4+ed/4NF5AppC4vdKqOOaqcqIl3hzQ
+ lPXdgY5vrZK0snIxRD0TeQpKpObT7keeKroUPpoh87l5p/u56y5qTt2KBn8hp6jmZ9
+ owhNhCKF5+6FtxbpZK9UqLt4bbDlKkziFRdf4L2s=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Mon, 21 Oct 2024 17:07:48 +0300
-Subject: [PATCH 4/7] drm/tidss: Add printing of underflows
+Date: Mon, 21 Oct 2024 17:07:49 +0300
+Subject: [PATCH 5/7] drm/tidss: Clear the interrupt status for interrupts
+ being disabled
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241021-tidss-irq-fix-v1-4-82ddaec94e4a@ideasonboard.com>
+Message-Id: <20241021-tidss-irq-fix-v1-5-82ddaec94e4a@ideasonboard.com>
 References: <20241021-tidss-irq-fix-v1-0-82ddaec94e4a@ideasonboard.com>
 In-Reply-To: <20241021-tidss-irq-fix-v1-0-82ddaec94e4a@ideasonboard.com>
 To: Devarsh Thakkar <devarsht@ti.com>, Jyri Sarha <jyri.sarha@iki.fi>
@@ -41,23 +42,23 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Jonathan Cormier <jcormier@criticallink.com>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, stable@vger.kernel.org
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2501;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2574;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=3lKvoJyc5GCASmOzrHd7zuyVDvlv3n+wB5AYfd2tH3M=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBnFmBN0uzdnlnXgYBoLHvewlQcuKZ2YjzxIEHo8
- l6U4vEbzheJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZxZgTQAKCRD6PaqMvJYe
- 9d/DEACsWQSvvw1DFMNhDBKPKC5ATHWGCl/HqMpfy+YZxFiI9QM0r0HNAa6cujKt+NM0Oie6CE0
- +FEgyfyH73S5QNNTGASLx2WbE9WxzlolHN6+ROSSunNaaxMOvuZ3uhmSGLIArH9C5REpd2N4giz
- SAGxlQ0zP5V7RvXCpDlEV5oX6iFLLSIHjzaDwJ78WXzayJuekZJ0fwFWA47a96nAGxFxsG7YaoI
- BlAH+EtecDH9+zIo1yuBmTyntIGO9Zh8yTUmUtz3FNiycpu77UNW3DsimyjBmhU109H55YBqaL4
- 7Y+CFOYz4XIWaYK4MOYkmke4nD8naZQSAgfYDxrLTE/SGFI2Ue2QeRZ3kIa6ktt/i/zrP5b+4fx
- r59RyYffgkdOqN8PABzSHkKFZFztF8FGkrCUn4Zj/wCHubaxNKNU9I1A8+4Q7au2dXyQFC7MJiC
- 8y2W4Zt61lVWqbnO/YzPFuuOvCnGe3nSoIihw52eoArceKrQXtO7ZX4dInzXqwjBgE9TI0D4mjx
- Y29cf03a7RNHQ+2y2kquAANHR2OJW88qv4bm0SD7uMWyHH7sIKOpFYnJQaB1RDERNrKC73luO/B
- TZ9UYPUJvOiOKJ2/1kr35+1dGj+L+KGkJpMWVWaxAz9s2z4YIEqXx5QBv72h4XHruCChyD9hTUW
- Xn9DL2e7CixOdQw==
+ bh=6GwpZAEtux7Bj7g4mSltZcfqft3v17bYy0VmOFldnf0=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBnFmBODQnh5GB565MHl21A3bV188NxrRKELGA+w
+ iKNyiRnU1mJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZxZgTgAKCRD6PaqMvJYe
+ 9XDuD/9bhlDfWWlSRHjmPYpcwrqbB6WCgpk35PnSJvY5NBPD7Q8787LL9qoFne+VIQRgldrTTVi
+ dvzbIPZEbv5OLIVeck5+JnR6bQSsdO+3QdiFXHAQo6JRgsIcWi/LmmQzqqhWONHgikqsJpb7YyI
+ H6+s/1UwliotxpWCm5+waN3pqUvMbqQlTUm2Gc9KEDPlBwh410tW+zH9YtMTaM7GuINJZxn4iMS
+ hA7a1rsZeU7n8zGH1UwyZCJ0WDniX6SitrwtyKMDaWu2HBcPXet8fLGy6chdZbqPVRdYZBx0zJN
+ D5xKs20pUCU3qDHoMK2iXfJkNXCk5ttcZvg8k0LFiz/xWSdH5AkHIJWiSoSqrM7OwIvu/sY4cAJ
+ +ns9J51IKBoDWkUPGtYn3X2a/GrPoW8HFsM1oOKXydbg3HaG+Ds6IHKqJt6GzaSUjYn18D22/CM
+ gVtPqGqf+3i5wyEDz3IXmkNHph1etIG3o32lYFjbkDkkpywL65BEUY/nDKvsvwYkfV65FepZ12p
+ V2vHf/5L/pAYKrSuMSpQQhZH/1IkdfteZO7df87bI3BHxdPi+0zoJyKdUCsKWshlklmBdnJAB00
+ hjP/EwkI4IL+aP4y7Os7Xaw7Nnoko9qx+NhKGFihixwlsxeJnsb7EtO/EsbxeMae5OxdmfwbOqX
+ 7kfP6QvxzfjryrA==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,77 +76,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add printing of underflows the same way as we handle sync losts.
+From: Devarsh Thakkar <devarsht@ti.com>
 
+The driver does not touch the irqstatus register when it is disabling
+interrupts.  This might cause an interrupt to trigger for an interrupt
+that was just disabled.
+
+To fix the issue, clear the irqstatus registers right after disabling
+the interrupts.
+
+Fixes: 32a1795f57ee ("drm/tidss: New driver for TI Keystone platform Display SubSystem")
+Cc: stable@vger.kernel.org
+Reported-by: Jonathan Cormier <jcormier@criticallink.com>
+Closes: https://e2e.ti.com/support/processors-group/processors/f/processors-forum/1394222/am625-issue-about-tidss-rcu_preempt-self-detected-stall-on-cpu/5424479#5424479
+Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
+[Tomi: mostly rewrote the patch]
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/gpu/drm/tidss/tidss_irq.c   | 14 ++++++++++++++
- drivers/gpu/drm/tidss/tidss_plane.c |  8 ++++++++
- drivers/gpu/drm/tidss/tidss_plane.h |  2 ++
- 3 files changed, 24 insertions(+)
+ drivers/gpu/drm/tidss/tidss_dispc.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/tidss/tidss_irq.c b/drivers/gpu/drm/tidss/tidss_irq.c
-index 91498ff664a2..3cc4024ec7ff 100644
---- a/drivers/gpu/drm/tidss/tidss_irq.c
-+++ b/drivers/gpu/drm/tidss/tidss_irq.c
-@@ -78,6 +78,14 @@ static irqreturn_t tidss_irq_handler(int irq, void *arg)
- 			tidss_crtc_error_irq(crtc, irqstatus);
- 	}
+diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
+index 99a1138f3e69..515f82e8a0a5 100644
+--- a/drivers/gpu/drm/tidss/tidss_dispc.c
++++ b/drivers/gpu/drm/tidss/tidss_dispc.c
+@@ -700,7 +700,7 @@ void dispc_k2g_set_irqenable(struct dispc_device *dispc, dispc_irq_t mask)
+ {
+ 	dispc_irq_t old_mask = dispc_k2g_read_irqenable(dispc);
  
-+	for (unsigned int i = 0; i < tidss->num_planes; ++i) {
-+		struct drm_plane *plane = tidss->planes[i];
-+		struct tidss_plane *tplane = to_tidss_plane(plane);
+-	/* clear the irqstatus for newly enabled irqs */
++	/* clear the irqstatus for irqs that will be enabled */
+ 	dispc_k2g_clear_irqstatus(dispc, (mask ^ old_mask) & mask);
+ 
+ 	dispc_k2g_vp_set_irqenable(dispc, 0, mask);
+@@ -708,6 +708,9 @@ void dispc_k2g_set_irqenable(struct dispc_device *dispc, dispc_irq_t mask)
+ 
+ 	dispc_write(dispc, DISPC_IRQENABLE_SET, (1 << 0) | (1 << 7));
+ 
++	/* clear the irqstatus for irqs that were disabled */
++	dispc_k2g_clear_irqstatus(dispc, (mask ^ old_mask) & old_mask);
 +
-+		if (irqstatus & DSS_IRQ_PLANE_FIFO_UNDERFLOW(tplane->hw_plane_id))
-+			tidss_plane_error_irq(plane, irqstatus);
-+	}
-+
- 	return IRQ_HANDLED;
+ 	/* flush posted write */
+ 	dispc_k2g_read_irqenable(dispc);
  }
+@@ -837,7 +840,7 @@ static void dispc_k3_set_irqenable(struct dispc_device *dispc,
  
-@@ -112,6 +120,12 @@ int tidss_irq_install(struct drm_device *ddev, unsigned int irq)
- 		tidss->irq_mask |= DSS_IRQ_VP_FRAME_DONE(tcrtc->hw_videoport);
- 	}
+ 	old_mask = dispc_k3_read_irqenable(dispc);
  
-+	for (unsigned int i = 0; i < tidss->num_planes; ++i) {
-+		struct tidss_plane *tplane = to_tidss_plane(tidss->planes[i]);
+-	/* clear the irqstatus for newly enabled irqs */
++	/* clear the irqstatus for irqs that will be enabled */
+ 	dispc_k3_clear_irqstatus(dispc, (old_mask ^ mask) & mask);
+ 
+ 	for (i = 0; i < dispc->feat->num_vps; ++i) {
+@@ -862,6 +865,9 @@ static void dispc_k3_set_irqenable(struct dispc_device *dispc,
+ 	if (main_disable)
+ 		dispc_write(dispc, DISPC_IRQENABLE_CLR, main_disable);
+ 
++	/* clear the irqstatus for irqs that were disabled */
++	dispc_k3_clear_irqstatus(dispc, (old_mask ^ mask) & old_mask);
 +
-+		tidss->irq_mask |= DSS_IRQ_PLANE_FIFO_UNDERFLOW(tplane->hw_plane_id);
-+	}
-+
- 	return 0;
+ 	/* Flush posted writes */
+ 	dispc_read(dispc, DISPC_IRQENABLE_SET);
  }
- 
-diff --git a/drivers/gpu/drm/tidss/tidss_plane.c b/drivers/gpu/drm/tidss/tidss_plane.c
-index a5d86822c9e3..116de124bddb 100644
---- a/drivers/gpu/drm/tidss/tidss_plane.c
-+++ b/drivers/gpu/drm/tidss/tidss_plane.c
-@@ -18,6 +18,14 @@
- #include "tidss_drv.h"
- #include "tidss_plane.h"
- 
-+void tidss_plane_error_irq(struct drm_plane *plane, u64 irqstatus)
-+{
-+	struct tidss_plane *tplane = to_tidss_plane(plane);
-+
-+	dev_err_ratelimited(plane->dev->dev, "Plane%u underflow (irq %llx)\n",
-+			    tplane->hw_plane_id, irqstatus);
-+}
-+
- /* drm_plane_helper_funcs */
- 
- static int tidss_plane_atomic_check(struct drm_plane *plane,
-diff --git a/drivers/gpu/drm/tidss/tidss_plane.h b/drivers/gpu/drm/tidss/tidss_plane.h
-index e933e158b617..aecaf2728406 100644
---- a/drivers/gpu/drm/tidss/tidss_plane.h
-+++ b/drivers/gpu/drm/tidss/tidss_plane.h
-@@ -22,4 +22,6 @@ struct tidss_plane *tidss_plane_create(struct tidss_device *tidss,
- 				       u32 crtc_mask, const u32 *formats,
- 				       u32 num_formats);
- 
-+void tidss_plane_error_irq(struct drm_plane *plane, u64 irqstatus);
-+
- #endif
 
 -- 
 2.43.0
