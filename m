@@ -2,74 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F1239A7300
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2024 21:11:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CA219A8FD6
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2024 21:33:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54AA510E580;
-	Mon, 21 Oct 2024 19:11:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF4B810E589;
+	Mon, 21 Oct 2024 19:32:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="x45Npq1L";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XxvmOwlB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com
- [209.85.128.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AD4B10E580
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 19:11:20 +0000 (UTC)
-Received: by mail-yw1-f181.google.com with SMTP id
- 00721157ae682-6e59a9496f9so54353757b3.0
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 12:11:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1729537879; x=1730142679; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=/46rT7qZaHMrXH+D9ho6f1HAKACXK0e68cmApVPza48=;
- b=x45Npq1LxcThOVZmmnDekpe83wsTehREztj7zzfPsZMfhMf6VRSxHU5kma5kBmex0E
- aQff07NyGku5fw8p8Gmw+V4b/g7M89VXDrquUxAFP31gOJIZr50fSAH5mC+oQ2kPZQYu
- cXwigdC+C7lfBSh6YwMD82opLkD1n71h+wV23u+KgnQek0P6x+IcIgi9DUa9ptV05dx1
- n9kBotM7ZX0t0wFg8AHiqHotH8TW1F9tAgV5maa5Io7EIuRvnSE6ddVRTvmHEDUbrZSr
- C+BMwhlQvolFbiepGbs8gKpqD0d0rrwE6K7ZcQ7CbPwX/35F5CP49uhrRUP1t7Bw9LsN
- Ongw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729537879; x=1730142679;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=/46rT7qZaHMrXH+D9ho6f1HAKACXK0e68cmApVPza48=;
- b=DX97KAzDp9YnWAXaBJbl9B98ZNBSaSDLN8wjRSdpyo4kaZh8hQJHQ7mhj0Dh7dtVaE
- i2atHVPLR7kxJC6CwgVM/thSSH1F5qexJrpuDqAoOEEFuVqZvQBVn9GpB6lbVLyz9YNJ
- /QfSm2hGXxT2bYBObCRNCV779nfJKVVeFK+7iyzjkcQN+RAU+Hy5IsybDVlEKF7KUEMM
- xc5+XQa9K0CSuOIXC0Z/ksXpQUzS5+cKq0C/0Oh+an0V/CuxE5MEYetCpbFypy3swjRb
- PQ2tNxY0z6PdPjXP0HujuTDSqWjnqSfT098chRSSyOi7+87tYMshBsbgZvw9UcocioFS
- BuHw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV/Q39ySmKQMhQ2A/Jd1X9iGkARmD5UAnL7EFX3OACX/+cGcWpv20lXjOw1csSVRV1eVIOV31Q8k5I=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzzGdcIbVcWxxfFCvCPzXaqz6TrD+ZHv6eU7bkPz4aV61rDYWDS
- 1MLV4nhOUhrRgXB5GgHpeYu61P1c0cjvhVyJjYIgU3II4PbYH9Sek0YYBTf6WBF4qcHyJ/eCA7k
- kmlEAHyTtrT9ix1u3T82VBHWM6Ot18yZCWNKp0A==
-X-Google-Smtp-Source: AGHT+IE50840gfrhIlHnI8IWVXrdwhJPgN1AcLZFAPN7gDJn915Lj1OE3NzM+QPshp0P84IBdPXg1C6/WJ/NnySPopk=
-X-Received: by 2002:a05:690c:700a:b0:6dd:cdd7:ce5a with SMTP id
- 00721157ae682-6e7d824d029mr800267b3.18.1729537879474; Mon, 21 Oct 2024
- 12:11:19 -0700 (PDT)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B81510E589
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 19:32:57 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id BF389A438AA;
+ Mon, 21 Oct 2024 19:32:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 565E5C4CEC3;
+ Mon, 21 Oct 2024 19:32:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1729539175;
+ bh=gD0ZzmIV4/MlGmBFySRwVIU98Rh6f1sZhpdiCLGXqRc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=XxvmOwlBbLAX+xo8z1ab8vZL4BACarSmTkN6zt0cPNNSShyJMRr+DJyyfrMjdQ669
+ pTRTgse8o7rOOFXN061RSxBGlZ8P6b2lC6ygE3Loj5BzBjBsW4wk4UCGkJRLHcjQ5i
+ H4ZSC+i6vNs6XTKAmunYtdmYFzRImMJ7O800DbTt/ZCqqE9pWdIIDXuoTO47AgFmPl
+ C6J2Z1J5Yk3vy5q4ynjhwstIeZv5TI7utkBC4W3RbeHoZiFw8JzjncjUFXgmAdbGzR
+ sq66sy8LKoQcL1gfEw+IG2PbqaGVPyWNTJ+lc4ifiQEWSX4s00sudm6CaGXzmKGTJJ
+ 4SQucOUubnD4g==
+Date: Mon, 21 Oct 2024 14:32:54 -0500
+From: Rob Herring <robh@kernel.org>
+To: Liu Ying <victor.liu@nxp.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, airlied@gmail.com, simona@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, krzk+dt@kernel.org, conor+dt@kernel.org,
+ quic_jesszhan@quicinc.com, mchehab@kernel.org, shawnguo@kernel.org,
+ s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+ catalin.marinas@arm.com, will@kernel.org,
+ sakari.ailus@linux.intel.com, hverkuil@xs4all.nl,
+ tomi.valkeinen@ideasonboard.com, quic_bjorande@quicinc.com,
+ geert+renesas@glider.be, dmitry.baryshkov@linaro.org, arnd@arndb.de,
+ nfraprado@collabora.com, thierry.reding@gmail.com,
+ prabhakar.mahadev-lad.rj@bp.renesas.com, sam@ravnborg.org,
+ marex@denx.de, biju.das.jz@bp.renesas.com
+Subject: Re: [PATCH v3 08/15] dt-bindings: display: Document dual-link LVDS
+ display common properties
+Message-ID: <20241021193254.GA1000195-robh@kernel.org>
+References: <20241021064446.263619-1-victor.liu@nxp.com>
+ <20241021064446.263619-9-victor.liu@nxp.com>
+ <y6xpffdtpd4baczoatbotghhes3owh44tzdqvdgv3id4jj6jhj@nrqjn6d3wndx>
+ <8f63ae16-f484-401c-a3e7-6c12a2343cc3@nxp.com>
 MIME-Version: 1.0
-References: <20240930100610.782363-1-shiyongbang@huawei.com>
- <20240930100610.782363-4-shiyongbang@huawei.com>
- <eslfc3ejjjpbw5wuf4khcoixeaitpb47iwf6kug7cryplcxcui@sieiyekdpczn>
- <c95252f7-12a7-49b8-8bf6-2ff3ada845ff@huawei.com>
-In-Reply-To: <c95252f7-12a7-49b8-8bf6-2ff3ada845ff@huawei.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 21 Oct 2024 22:11:09 +0300
-Message-ID: <CAA8EJppmrizqHjqYrRBVdjpTYLbPrrX+2wzeFhnVumifN_B0nQ@mail.gmail.com>
-Subject: Re: [PATCH drm-dp 3/4] drm/hisilicon/hibmc: add dp kapi moduel in
- hibmc drivers
-To: Yongbang Shi <shiyongbang@huawei.com>
-Cc: xinliang.liu@linaro.org, tiantao6@hisilicon.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- airlied@gmail.com, daniel@ffwll.ch, kong.kongxinwei@hisilicon.com, 
- liangjian010@huawei.com, chenjianmin@huawei.com, lidongming5@huawei.com, 
- libaihan@huawei.com, shenjian15@huawei.com, shaojijie@huawei.com, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8f63ae16-f484-401c-a3e7-6c12a2343cc3@nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,179 +77,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 21 Oct 2024 at 15:22, Yongbang Shi <shiyongbang@huawei.com> wrote:
->
-> Hi Dmitry,
-> There're some format problems with the previous replies. Send it again here.
-> Thanks for your advices, I'll resolve the problems you mentioned.
->
-> > On Mon, Sep 30, 2024 at 06:06:09PM +0800, shiyongbang wrote:
-> >> From: baihan li <libaihan@huawei.com>
+On Mon, Oct 21, 2024 at 04:19:52PM +0800, Liu Ying wrote:
+> On 10/21/2024, Krzysztof Kozlowski wrote:
+> > On Mon, Oct 21, 2024 at 02:44:39PM +0800, Liu Ying wrote:
+> >> Dual-link LVDS displays receive odd pixels and even pixels separately from
+> >> dual LVDS links.  One link receives odd pixels and the other receives even
+> >> pixels.  Some of those displays may also use only one LVDS link to receive
+> >> all pixels, being odd and even agnostic.  Document common properties for
+> >> those displays by extending LVDS display common properties defined in
+> >> lvds.yaml.
 > >>
-> >> Build a kapi level that hibmc driver can enable dp by
-> >> calling these kapi functions.
-> >>
-> >> Signed-off-by: baihan li <libaihan@huawei.com>
+> >> Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> >> Signed-off-by: Liu Ying <victor.liu@nxp.com>
 > >> ---
-> >>   drivers/gpu/drm/hisilicon/hibmc/Makefile      |  2 +-
-> >>   .../gpu/drm/hisilicon/hibmc/dp/dp_config.h    | 20 ++++++++
-> >>   drivers/gpu/drm/hisilicon/hibmc/dp/dp_kapi.c  | 12 ++---
-> >>   drivers/gpu/drm/hisilicon/hibmc/dp/dp_kapi.h  | 48 +++++++++++++++++++
-> >>   4 files changed, 75 insertions(+), 7 deletions(-)
-> >>   create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_config.h
-> >>   create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_kapi.h
+> >> v3:
+> >> * New patch.  (Dmitry)
 > >>
-> >> diff --git a/drivers/gpu/drm/hisilicon/hibmc/Makefile b/drivers/gpu/drm/hisilicon/hibmc/Makefile
-> >> index 94d77da88bbf..693036dfab52 100644
-> >> --- a/drivers/gpu/drm/hisilicon/hibmc/Makefile
-> >> +++ b/drivers/gpu/drm/hisilicon/hibmc/Makefile
-> >> @@ -1,5 +1,5 @@
-> >>   # SPDX-License-Identifier: GPL-2.0-only
-> >>   hibmc-drm-y := hibmc_drm_drv.o hibmc_drm_de.o hibmc_drm_vdac.o hibmc_drm_i2c.o \
-> >> -           dp/dp_aux.o dp/dp_link.o
-> >> +           dp/dp_aux.o dp/dp_link.o dp/dp_kapi.o
+> >>  .../bindings/display/lvds-dual-ports.yaml     | 76 +++++++++++++++++++
+> >>  1 file changed, 76 insertions(+)
+> >>  create mode 100644 Documentation/devicetree/bindings/display/lvds-dual-ports.yaml
 > >>
-> >>   obj-$(CONFIG_DRM_HISI_HIBMC) += hibmc-drm.o
-> >> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_config.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_config.h
+> >> diff --git a/Documentation/devicetree/bindings/display/lvds-dual-ports.yaml b/Documentation/devicetree/bindings/display/lvds-dual-ports.yaml
 > >> new file mode 100644
-> >> index 000000000000..a6353a808cc4
+> >> index 000000000000..0ac4c06d0a17
 > >> --- /dev/null
-> >> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_config.h
-> >> @@ -0,0 +1,20 @@
-> >> +/* SPDX-License-Identifier: GPL-2.0-or-later */
-> >> +/* Copyright (c) 2024 Hisilicon Limited. */
+> >> +++ b/Documentation/devicetree/bindings/display/lvds-dual-ports.yaml
+> >> @@ -0,0 +1,76 @@
+> >> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> >> +%YAML 1.2
+> >> +---
+> >> +$id: http://devicetree.org/schemas/display/lvds-dual-ports.yaml#
+> >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > >> +
-> >> +#ifndef DP_CONFIG_H
-> >> +#define DP_CONFIG_H
+> >> +title: Dual-link LVDS Display Common Properties
 > >> +
-> >> +#define DP_BPP 24
-> >> +#define DP_SYMBOL_PER_FCLK 4
-> >> +#define DP_MIN_PULSE_NUM 0x9
-> >> +#define DP_MSA1 0x20
-> >> +#define DP_MSA2 0x845c00
-> >> +#define DP_OFFSET 0x1e0000
-> >> +#define DP_HDCP 0x2
-> >> +#define DP_INT_RST 0xffff
-> >> +#define DP_DPTX_RST 0x3ff
-> >> +#define DP_CLK_EN 0x7
-> >> +#define DP_SYNC_EN_MASK 0x3
-> >> +#define DP_LINK_RATE_CAL 27
-> > I think some of these defines were used in previous patches. Please make
-> > sure that at each step the code builds without errors.
-> >
+> >> +maintainers:
+> >> +  - Liu Ying <victor.liu@nxp.com>
 > >> +
-> >> +#endif
-> >> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_kapi.c b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_kapi.c
-> >> index 4091723473ad..ca7edc69427c 100644
-> >> --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_kapi.c
-> >> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_kapi.c
-> >> @@ -64,12 +64,12 @@ static void hibmc_dp_set_tu(struct hibmc_dp_dev *dp, struct dp_mode *mode)
-> >>      rate_ks = dp->link.cap.link_rate * DP_LINK_RATE_CAL;
-> >>      value = (pixel_clock * bpp * 5000) / (61 * lane_num * rate_ks);
-> >>
-> >> -    if (value % 10 == 9) { /* 10: div, 9: carry */
-> >> -            tu_symbol_size = value / 10 + 1; /* 10: div */
-> >> +    if (value % 10 == 9) { /* 9 carry */
-> >> +            tu_symbol_size = value / 10 + 1;
-> >>              tu_symbol_frac_size = 0;
-> >>      } else {
-> >> -            tu_symbol_size = value / 10; /* 10: div */
-> >> -            tu_symbol_frac_size = value % 10 + 1; /* 10: div */
-> >> +            tu_symbol_size = value / 10;
-> >> +            tu_symbol_frac_size = value % 10 + 1;
-> >>      }
-> >>
-> >>      drm_info(dp->dev, "tu value: %u.%u value: %u\n",
-> >> @@ -158,7 +158,7 @@ static void hibmc_dp_link_cfg(struct hibmc_dp_dev *dp, struct dp_mode *mode)
-> >>      dp_write_bits(dp->base + DP_VIDEO_CTRL,
-> >>                    DP_CFG_STREAM_HSYNC_POLARITY, mode->h_pol);
-> >>
-> >> -    /* MSA mic 0 and 1*/
-> >> +    /* MSA mic 0 and 1 */
-> >>      writel(DP_MSA1, dp->base + DP_VIDEO_MSA1);
-> >>      writel(DP_MSA2, dp->base + DP_VIDEO_MSA2);
-> >>
-> >> @@ -167,7 +167,7 @@ static void hibmc_dp_link_cfg(struct hibmc_dp_dev *dp, struct dp_mode *mode)
-> >>      dp_write_bits(dp->base + DP_VIDEO_CTRL, DP_CFG_STREAM_RGB_ENABLE, 0x1);
-> >>      dp_write_bits(dp->base + DP_VIDEO_CTRL, DP_CFG_STREAM_VIDEO_MAPPING, 0);
-> >>
-> >> -    /*divide 2: up even */
-> >> +    /* divide 2: up even */
-> >>      if (timing_delay % 2)
-> >>              timing_delay++;
-> >>
-> > This should be squashed into the previous commits.
-> >
-> >> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_kapi.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_kapi.h
-> >> new file mode 100644
-> >> index 000000000000..6b07642d55b8
-> >> --- /dev/null
-> >> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_kapi.h
-> >> @@ -0,0 +1,48 @@
-> >> +/* SPDX-License-Identifier: GPL-2.0-or-later */
-> >> +/* Copyright (c) 2024 Hisilicon Limited. */
-> >> +
-> >> +#ifndef DP_KAPI_H
-> >> +#define DP_KAPI_H
-> >> +
-> >> +#include <linux/types.h>
-> >> +#include <drm/drm_device.h>
-> >> +#include <drm/drm_encoder.h>
-> >> +#include <drm/drm_connector.h>
-> >> +#include <drm/drm_print.h>
-> >> +#include <linux/delay.h>
-> > Sort the headers, please.
-> >
-> >> +
-> >> +struct hibmc_dp_dev;
-> >> +
-> >> +struct dp_mode {
-> >> +    u32 h_total;
-> >> +    u32 h_active;
-> >> +    u32 h_blank;
-> >> +    u32 h_front;
-> >> +    u32 h_sync;
-> >> +    u32 h_back;
-> >> +    bool h_pol;
-> >> +    u32 v_total;
-> >> +    u32 v_active;
-> >> +    u32 v_blank;
-> >> +    u32 v_front;
-> >> +    u32 v_sync;
-> >> +    u32 v_back;
-> >> +    bool v_pol;
-> >> +    u32 field_rate;
-> >> +    u32 pixel_clock; // khz
-> > Why do you need a separate struct for this?
->
-> I can try to use drm_mode function and refactor this struct, but they're insufficient for our scenarios.
-> Here's change template bellow:
+> >> +description: |
+> >> +  This binding documents common properties for LVDS displays with dual LVDS
+> > 
+> > s/This binding documents//
+> 
+> Ack.
+> 
+> > 
+> > But anyway there is a binding for common properties used in dual-link
+> > panels: panel-common-dual. How is it different? Why this is not suitable
+> > there? Why entirely different file name?
+> 
+> This one references lvds.yaml, which allows data-mapping and data-mirror.
+> They are not something common for dual-link panels.
+> 
+> Also, this one is supposed to cover all dual-link LVDS displays including
+> display panels and display bridges, while pane-common-dual.yaml is for
+> panels only.
 
-But you are generating the data from struct drm_display_mode. Please
-use the existing struct instead and generate the blank and porch
-timings when you have to program them.
-There is really no need to define another struct just to temporarily
-hold the same data.
+That's all fine, but refactor what is there, don't just duplicate 
+things.
 
-> struct dp_mode {
->          sturct videomode mode;
->          u32 h_total;
->          u32 h_blank;
->          u32 v_total;
->          u32 v_blank;
->          u32 field_rate;
-> };
-> static void dp_mode_cfg(struct dp_mode *dp_mode, struct drm_display_mode *mode)
-> {
->          dp_mode->field_rate = drm_mode_vrefresh(mode);
->          drm_display_mode_to_videomode(mode, &dp_mode->vmode);
->          dp_mode->h_total = mode->htotal;
->          dp_mode->h_blank = mode->htotal - mode->hdisplay;
->          dp_mode->v_total = mode->vtotal;
->          dp_mode->v_blank = mode->vtotal - mode->vdisplay;
-> }
->
+If we have the same property name defined (with a type) in 2 or more 
+places, then that's a problem.
 
--- 
-With best wishes
-Dmitry
+Rob
