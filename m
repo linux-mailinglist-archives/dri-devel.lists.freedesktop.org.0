@@ -2,61 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A81B69A6014
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2024 11:32:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37AF19A6047
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2024 11:38:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25EE210E465;
-	Mon, 21 Oct 2024 09:32:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF45D10E2F3;
+	Mon, 21 Oct 2024 09:38:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MBagr1e0";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Qshzu1NG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26B7B10E465;
- Mon, 21 Oct 2024 09:32:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1729503155; x=1761039155;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=CCjJiWPFa4J3/Smv4s+kInMJz1s1vf5h/chaW40idSA=;
- b=MBagr1e06mJ9KeMrSWHEkN8ku5kN9hIViY94irND0cRx0Z0bqpyVXxb1
- xgopeKtnlH+daNbNBzcxUytWCdjOqm80ou0CyQw4XE+9liDR2pkxBu1mD
- MU+EKBxuwOYiiXdi6tOlhcBVh7b00cj3m6Jh4BxI4/cYJa1n6e8YL+yMa
- 0g+bqFZiQMAzYWTx9TMnrXn0Ekdt6prKwbZh6yMwLZCF1wk2uZG5OIsq0
- 3LMXObbdB1varHDhFb1269aG6EsWZDZYIUihL5nJ5Fq2MBpSoklAVMbcT
- PZ6s2pSf1eysDHcD18l51oA2Vc3uE8Ks5pGhmGCMcxRU0cksoH8XM5NHe Q==;
-X-CSE-ConnectionGUID: s1ZFngyaRGiGjsKJl6XHtQ==
-X-CSE-MsgGUID: y8BmT95ST72wIaDDUDITVA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29096088"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="29096088"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Oct 2024 02:32:35 -0700
-X-CSE-ConnectionGUID: nPYjcclSSA2nl002c/nztA==
-X-CSE-MsgGUID: fw4oc+49Sg6ipZdbA9tXSA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,220,1725346800"; d="scan'208";a="79544863"
-Received: from dneilan-mobl1.ger.corp.intel.com (HELO [10.245.245.206])
- ([10.245.245.206])
- by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Oct 2024 02:32:33 -0700
-Message-ID: <73e19e35-4deb-4337-8ba7-30cd84dcfed0@intel.com>
-Date: Mon, 21 Oct 2024 10:32:31 +0100
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B599D10E2F3
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 09:38:47 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49KNVIBa029542
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 09:38:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ gn+gkmOeUyjRBUooDRR+2My5sXvmwkHI88BMxZAlKmE=; b=Qshzu1NGPFV8rsTh
+ txIOPB3GFuckqrBScsLkjnrIuuT7jhuJiOz6yvjMOpWyZRN5rKHEvIet1nKtgOxZ
+ xRjTgCApXxaGFy5Uspt38X1yhYRPKGdbw5DykooS4TvsXhfT5crN/yTF1rG8WthK
+ o/PWB8BUzZUpcpjGci3nE1zaFet6EfRwlt64/kco889eZ/zeYDjKA6vcoaKwJHih
+ PbX/R/39BknU39Mxqa1Wu09I1z48fwrNB7LCoTlsfEQ2ambgf+1dyAepy5wDpAgm
+ vBTMHBogS3iqAZuJ35s4zfihjB5vgQMoXKc4cOqb9wNNTfkfpVBpyZIP2p2mRejF
+ 4cI7Dw==
+Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
+ [209.85.166.70])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42c6vc44bv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 09:38:47 +0000 (GMT)
+Received: by mail-io1-f70.google.com with SMTP id
+ ca18e2360f4ac-83ac065de2fso25565239f.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 02:38:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1729503526; x=1730108326;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=gn+gkmOeUyjRBUooDRR+2My5sXvmwkHI88BMxZAlKmE=;
+ b=gEWDeVxojII8lEYVILd2kMmRPstzEHvtKSb5UqGzSIpaI57kOnJaZMP4Isg6ascLfY
+ 9LSXdjy7xcKSXwJY049AHEerJujEGDKlmaUZXoAlN3RBkolRPZxoP2PXu98M9x8nQwFd
+ Vy8qSUTNWgM2GManbZHa6NwiHdBIaRN8Xf3oGxEkFUrDkDZDfxoEL6rCFEp0debuhc8y
+ WkGXj4b7Z5o0Exp5QvLlQXlyiMzIRFegLQP2E+zNQInRTTNfXtheuwNgI5o7766Oabvn
+ ww/hwwrbik3nIcauXKOJY+6zwdOIxpDv81imwuUewMn5vxga6tgVfjEERGWRcqBB4BOB
+ cQag==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWAvseJ+10/4addPKOvBfra8d1dcySV3YSKtSeO/y7T762pfqxT+leVLQj0QotklYByAlqWIe7v/JQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzuUg9NDuj3Y/AZdh5U81YEHAt8KZmLCMzuzI0n9vXkjOIGaZx0
+ bH63kIh2ZmH34/kCQnAeWzaSCM9NnNkgqjSCX/py1Wx/Lmi91p8OAoe+d01UnivSmbXSFHEli6P
+ Y0IilwxgvKjeM99DiNPh+V2FYwOV9X4ZqNMVXqEjcU7QEKKBZR1teHCNX2dra69V1AqU=
+X-Received: by 2002:a05:6e02:b2f:b0:3a2:6cd7:3255 with SMTP id
+ e9e14a558f8ab-3a3f40b41afmr29449015ab.6.1729503526140; 
+ Mon, 21 Oct 2024 02:38:46 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF/wHHBGM3zQyx0/OSXW35rXmYHrOpG+GrEQovUlYPyc88a/4376jQdZSvI4nY76nZm9i7w0w==
+X-Received: by 2002:a05:6e02:b2f:b0:3a2:6cd7:3255 with SMTP id
+ e9e14a558f8ab-3a3f40b41afmr29448885ab.6.1729503525721; 
+ Mon, 21 Oct 2024 02:38:45 -0700 (PDT)
+Received: from [192.168.212.120] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a9a912d6225sm185228266b.11.2024.10.21.02.38.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 21 Oct 2024 02:38:44 -0700 (PDT)
+Message-ID: <1543ae2a-76ff-4b36-adae-37076e48b7f8@oss.qualcomm.com>
+Date: Mon, 21 Oct 2024 11:38:41 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 6/6] drm/xe: Only allow contiguous BOs to use xe_bo_vmap
-To: Matthew Brost <matthew.brost@intel.com>, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: thomas.hellstrom@linux.intel.com
-References: <20241019192030.1505020-1-matthew.brost@intel.com>
- <20241019192030.1505020-7-matthew.brost@intel.com>
-Content-Language: en-GB
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <20241019192030.1505020-7-matthew.brost@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH RFC 1/3] drm/msm/adreno: Add support for ACD
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
+ Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org, devicetree@vger.kernel.org
+References: <20241012-gpu-acd-v1-0-1e5e91aa95b6@quicinc.com>
+ <20241012-gpu-acd-v1-1-1e5e91aa95b6@quicinc.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20241012-gpu-acd-v1-1-1e5e91aa95b6@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: Gq1cyiJX18OGCHjgZI9OIKwQbty535I3
+X-Proofpoint-ORIG-GUID: Gq1cyiJX18OGCHjgZI9OIKwQbty535I3
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 clxscore=1015
+ priorityscore=1501 impostorscore=0 lowpriorityscore=0 suspectscore=0
+ spamscore=0 phishscore=0 bulkscore=0 mlxscore=0 adultscore=0
+ mlxlogscore=990 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410210069
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,80 +118,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19/10/2024 20:20, Matthew Brost wrote:
-> xe_bo_vmap only works on contiguous BOs, disallow xe_bo_vmap on BO
-> unless we are certain the BO is contiguous.
+On 11.10.2024 10:29 PM, Akhil P Oommen wrote:
+> ACD a.k.a Adaptive Clock Distribution is a feature which helps to reduce
+> the power consumption. In some chipsets, it is also a requirement to
+> support higher GPU frequencies. This patch adds support for GPU ACD by
+> sending necessary data to GMU and AOSS. The feature support for the
+> chipset is detected based on devicetree data.
 > 
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
 > ---
->   drivers/gpu/drm/xe/xe_bo.c | 23 ++++++++++++++---------
->   1 file changed, 14 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
-> index 0a7b91df69c2..46c640f8db9e 100644
-> --- a/drivers/gpu/drm/xe/xe_bo.c
-> +++ b/drivers/gpu/drm/xe/xe_bo.c
-> @@ -162,6 +162,15 @@ static void try_add_system(struct xe_device *xe, struct xe_bo *bo,
->   	}
->   }
->   
-> +static bool force_contiguous(u32 bo_flags)
-> +{
-> +	/*
-> +	 * For eviction / restore on suspend / resume objects pinned in VRAM
-> +	 * must be contiguous, also only contiguous BOs support xe_bo_vmap.
-> +	 */
-> +	return bo_flags & (XE_BO_FLAG_PINNED | XE_BO_FLAG_GGTT);
-> +}
+
+[...]
+
 > +
->   static void add_vram(struct xe_device *xe, struct xe_bo *bo,
->   		     struct ttm_place *places, u32 bo_flags, u32 mem_type, u32 *c)
->   {
-> @@ -175,12 +184,7 @@ static void add_vram(struct xe_device *xe, struct xe_bo *bo,
->   	xe_assert(xe, vram && vram->usable_size);
->   	io_size = vram->io_size;
->   
-> -	/*
-> -	 * For eviction / restore on suspend / resume objects
-> -	 * pinned in VRAM must be contiguous
-> -	 */
-> -	if (bo_flags & (XE_BO_FLAG_PINNED |
-> -			XE_BO_FLAG_GGTT))
-> +	if (force_contiguous(bo_flags))
->   		place.flags |= TTM_PL_FLAG_CONTIGUOUS;
->   
->   	if (io_size < vram->usable_size) {
-> @@ -212,8 +216,7 @@ static void try_add_stolen(struct xe_device *xe, struct xe_bo *bo,
->   
->   		bo->placements[*c] = (struct ttm_place) {
->   			.mem_type = XE_PL_STOLEN,
-> -			.flags = bo_flags & (XE_BO_FLAG_PINNED |
-> -					     XE_BO_FLAG_GGTT) ?
-> +			.flags = force_contiguous(bo_flags) ?
->   				TTM_PL_FLAG_CONTIGUOUS : 0,
->   		};
->   		*c += 1;
-> @@ -2024,13 +2027,15 @@ dma_addr_t xe_bo_addr(struct xe_bo *bo, u64 offset, size_t page_size)
->   
->   int xe_bo_vmap(struct xe_bo *bo)
->   {
-> +	struct xe_device *xe = ttm_to_xe_device(bo->ttm.bdev);
->   	void *virtual;
->   	bool is_iomem;
->   	int ret;
->   
->   	xe_bo_assert_held(bo);
->   
-> -	if (!(bo->flags & XE_BO_FLAG_NEEDS_CPU_ACCESS))
-> +	if (drm_WARN_ON(&xe->drm, !(bo->flags & XE_BO_FLAG_NEEDS_CPU_ACCESS) ||
-> +			!force_contiguous(bo->flags)))
+> +	/* Initialize qmp node to talk to AOSS */
+> +	gmu->qmp = qmp_get(gmu->dev);
+> +	if (IS_ERR(gmu->qmp)) {
+> +		cmd->enable_by_level = 0;
+> +		return dev_err_probe(gmu->dev, PTR_ERR(gmu->qmp), "Failed to initialize qmp\n");
+> +	}
 
-Hmm was confused why this is not popping in CI for the clear color case, 
-but looks like that is directly calling ttm_bo_kmap()...
+I'm still in favor of keeping qmp_get where it currently is, so that
+probe can fail/defer faster
 
-Anyway, for this patch,
-Reviewed-by: Matthew Auld <matthew.auld@intel.com>
-
->   		return -EINVAL;
->   
->   	if (!iosys_map_is_null(&bo->vmap))
+Konrad
