@@ -2,77 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 162B49A694E
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2024 14:59:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2A379A6951
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2024 14:59:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 064B710E08F;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30C4410E4E2;
 	Mon, 21 Oct 2024 12:59:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="an3VPxfn";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="SlcNYPwc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
- [209.85.128.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69EAF10E4E2
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 12:59:06 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id
- 5b1f17b1804b1-4314fa33a35so45630535e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 05:59:06 -0700 (PDT)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
+ [209.85.221.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6632F10E4E3
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 12:59:07 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id
+ ffacd0b85a97d-37ed7eb07a4so1517192f8f.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 05:59:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1729515545; x=1730120345; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1729515546; x=1730120346; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=lExjalvfmMpq5gwOfsIudp0zxSzrAVtFOo5di0TIink=;
- b=an3VPxfnhuEgib5V6jR92MWJLHOl8nXrVbuczKvUfvQszHC9v/tH8AFiIMmk3ju9ql
- LCnLC87OTMsHJ2QI0Useg5TvfJMpTK/OK/g4TIRrkuAzm7rRf80sFoYj0pPCdkugV/R0
- 8JCtwVIOWrs7cckd1F7Q/kfEYMvLlNPEcQWNfTY+UNFH6uE4kjDYMJCoxlW7FMgZz0b1
- NC54dTFG+XUWurX7t7gNS8QO5I0/Fe2NyvGMkEvIvVgmEiDMI1YOdHFEy87//0Vkobqb
- +0IKLlkgqyE04mLYFvwQM9EjJTASBCdUL3r7g6mErQaLGDElb4VJR38PvIbAWCCMW/wp
- vnIg==
+ :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=snkHEJasim77LVJkaTI1NaouVUr0haIlOruAFQp37Sc=;
+ b=SlcNYPwcJhViMtbAivq8QrjAy0w65xSkdjlhz+Bryn3aLMbt2QytMmzYXJnXiCpc81
+ SFpddQo0klo8NKj0KTdIcZvR4uGJODQfc8zztsMZhPn9i0EtxeTyj/oQ5mPEkarf9303
+ J49RyJFxtYN37lrTUoM78FWoF+xy0KUgKluc5S3Ubxt/5rVbGmF1fTVxTRGPSEFN5LwD
+ 2zfvyTT7GHNEYEl9suKasaFF5ZEV9HGqdHINy0e+FxxM170vIxcOG9tcPkG2FRz3hCXu
+ N9kqNqG09SdI0zG/LiYie4n3vv9sYXkGwqBUc2pecrWtZPUgAeQHZAGJeckGsDbeHPKJ
+ 88mA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729515545; x=1730120345;
+ d=1e100.net; s=20230601; t=1729515546; x=1730120346;
  h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:to:from:x-gm-message-state:from:to:cc
+ :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=lExjalvfmMpq5gwOfsIudp0zxSzrAVtFOo5di0TIink=;
- b=cR6S0s0v0w0w9qf1aHYrbDBgnwFfM1XFOyv5l8MjyaPxT21LPz0f26q2hIjvrjvrv9
- 9/IITATdgBjzmML5ZKJoglRYehY50HO1VG++pVmad+U/zh8e8VJAQLyP1xbNe77HRyv/
- w2MU1SdguOE1YUujY0Bd8uLRCHK90xzVW6BNSpqkXCrB1vRFIpObSjakXFf1hgHShiSK
- 6mywZUgDwpE6iLu9ki1/Y9GBycsy0ZAOtfwdtsJxUB1UyXg/T2B4KrSHkJySbDKBzxG4
- m2+0Gv1z6KJQ+AO+OXUkFMP4HPPmjPLmOcZJ0YKsoCQzi628f1F0PEvGF73KAevoEQQo
- PK0w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVl7szF7PeFLiyfVqXCaj8BAeFeIwT+4soVXyMO7clP9lgi0YiJLd1N6GPeQUtXJf3wDo8MdJcP9Bs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy/krPhEtVBqe1YjnVlq+LxuLKOU/TTU4CMdjAXnbcolcY7bEP2
- O4hbcNVBkiFucg2ni8d7PD0kaVoi6GuzHplFH//a8nVOjSRdnmGmi7fS1D9mBIk=
-X-Google-Smtp-Source: AGHT+IELOxD1yYGmtKz5NVs7Cif1bPDnq58GzcXrZcoKhOuT3MoVscto3WdxUTfJOlW5oxtkimx4dA==
-X-Received: by 2002:a05:600c:1d8d:b0:431:55af:a230 with SMTP id
- 5b1f17b1804b1-431616977d8mr85207285e9.33.1729515544800; 
- Mon, 21 Oct 2024 05:59:04 -0700 (PDT)
+ bh=snkHEJasim77LVJkaTI1NaouVUr0haIlOruAFQp37Sc=;
+ b=bSfyrLD6/kU1M1O8dDyMobFkkJalRbiZG3vPlLlF13t9oLXt/3cTZa9dH5yLOKMq85
+ Mrx+obIOK6kCKvKNbYC8VawEd8psjpKjExA48PWeTpA5NA5n2ZTc00Fuek8HL+Tiwyev
+ i6IiLxdwh4+rRTw3jDeRDr8ooDD/KUjBaEEQ3+x6O3tDXCcCr+Bxm3GKu1FBbo20p221
+ 5nRIbzbJ5cPAAOhwvlvU8+MbZDiKydknuMl5l2FMpg/M4TL03XPz9gHHOxZ4DDQzQu/k
+ 8mT8l0jMOuolJ0wiVDNgIi803J9QaoIlCNME7ThncGsVaZDEHZFmH9taGHY17xr5v8kP
+ 2fvA==
+X-Gm-Message-State: AOJu0YwjeC1OOACdwc0QggcjQ4TJUVuOT6EeSY6W4pXzDFeK24NYEwU2
+ ZNV/IVZ9buUHlaD/qZYeyRapgL158dMpT1CEDpTGZKEpJxlcHRB8iE5QQ9W+510=
+X-Google-Smtp-Source: AGHT+IFcSRL1L5YHF/PkaNiNkO4kEWCwjKaC1ui26pVWmEyhTmr7noeg3F7eX1DbwNQQs0VgkqCXRQ==
+X-Received: by 2002:a5d:4044:0:b0:37d:4e03:ff8e with SMTP id
+ ffacd0b85a97d-37ea21a1f42mr8442388f8f.28.1729515545757; 
+ Mon, 21 Oct 2024 05:59:05 -0700 (PDT)
 Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4316f5cc4dfsm57452995e9.45.2024.10.21.05.59.03
+ 5b1f17b1804b1-4316f5cc4dfsm57452995e9.45.2024.10.21.05.59.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Oct 2024 05:59:04 -0700 (PDT)
+ Mon, 21 Oct 2024 05:59:05 -0700 (PDT)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Peter Ujfalusi <peter.ujfalusi@ti.com>, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20241003133904.69244-1-krzysztof.kozlowski@linaro.org>
-References: <20241003133904.69244-1-krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH 1/2] dt-bindings: display: bridge: tc358768: switch to
- bus-width
-Message-Id: <172951554381.1240386.8857314666442848881.b4-ty@linaro.org>
-Date: Mon, 21 Oct 2024 14:59:03 +0200
+To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Liu Ying <victor.liu@nxp.com>
+Cc: ple@baylibre.com, andrzej.hajda@intel.com, rfoss@kernel.org, 
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, 
+ jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com, 
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
+In-Reply-To: <20241010092643.1048116-1-victor.liu@nxp.com>
+References: <20241010092643.1048116-1-victor.liu@nxp.com>
+Subject: Re: [PATCH] drm/bridge: ite-it66121: Drop
+ hdmi_avi_infoframe_init() function call
+Message-Id: <172951554492.1240386.12723814267685320903.b4-ty@linaro.org>
+Date: Mon, 21 Oct 2024 14:59:04 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
@@ -94,19 +88,18 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Thu, 03 Oct 2024 15:39:03 +0200, Krzysztof Kozlowski wrote:
-> "data-lines" property is way too similar to "data-lanes".  It is also
-> duplicating "bus-width" from video-interfaces.yaml schema.  Deprecate
-> "data-lines" and use the common property.
+On Thu, 10 Oct 2024 17:26:43 +0800, Liu Ying wrote:
+> drm_hdmi_avi_infoframe_from_display_mode() called from
+> it66121_bridge_mode_set() already calls hdmi_avi_infoframe_init() to
+> initialize an HDMI AVI infoframe.  So, drop the redundant
+> hdmi_avi_infoframe_init() function call from it66121_bridge_mode_set().
 > 
 > 
 
 Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-next)
 
-[1/2] dt-bindings: display: bridge: tc358768: switch to bus-width
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/d704a2fe530caa7023949b513b8d1c364b5832fb
-[2/2] drm/bridge: tc358768: switch to bus-width
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/bf7c079902c34f8b16ea3484de080a7bb4ad0367
+[1/1] drm/bridge: ite-it66121: Drop hdmi_avi_infoframe_init() function call
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/c7671949791fb1142d0ae37343759d608a21bf28
 
 -- 
 Neil
