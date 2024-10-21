@@ -2,102 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 864189A60F7
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2024 12:01:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B30959A61A2
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2024 12:08:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BBC610E471;
-	Mon, 21 Oct 2024 10:01:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FF8510E476;
+	Mon, 21 Oct 2024 10:08:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=arndb.de header.i=@arndb.de header.b="fW8qPxjG";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="jABelndI";
+	dkim=pass (2048-bit key; unprotected) header.d=arndb.de header.i=@arndb.de header.b="ne/IPE08";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="c+yT9YJV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fhigh-a6-smtp.messagingengine.com
- (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5E3410E471
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 10:01:49 +0000 (UTC)
+Received: from flow-a6-smtp.messagingengine.com
+ (flow-a6-smtp.messagingengine.com [103.168.172.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72CA210E035;
+ Mon, 21 Oct 2024 10:08:42 +0000 (UTC)
 Received: from phl-compute-10.internal (phl-compute-10.phl.internal
  [10.202.2.50])
- by mailfhigh.phl.internal (Postfix) with ESMTP id 16752114014E;
- Mon, 21 Oct 2024 06:01:49 -0400 (EDT)
+ by mailflow.phl.internal (Postfix) with ESMTP id BAD6B2001BC;
+ Mon, 21 Oct 2024 06:08:41 -0400 (EDT)
 Received: from phl-imap-11 ([10.202.2.101])
- by phl-compute-10.internal (MEProxy); Mon, 21 Oct 2024 06:01:49 -0400
+ by phl-compute-10.internal (MEProxy); Mon, 21 Oct 2024 06:08:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
  :cc:content-transfer-encoding:content-type:content-type:date
  :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=fm2; t=1729504909;
- x=1729591309; bh=PsU+reKmiMH+6dEqfODUv58RE75ILNro4ASwJ7hVYxU=; b=
- fW8qPxjG7VpETcQZqSN8x7slQpdpGZSXj/1i0G+iYnzS65RSdZDu6nZKZPCwUA5D
- ojXmy4onqcjAyxlTVJWvzsQlwrpSU2ec1WElDzalvD5hSrKR/FqaxWfmoa+FjFIn
- 8qHR8WUVFURK9guGsh+p/m8xI/jJhtpx4CndtTxPGbI1JP/93O+zMEWLiVuuKMXq
- KT4PnTiqc/FHg3PTyXM4rNfgPAnyISRYqGIZkaHr12QwQFAM143HuiRU/sS7U1Pv
- m/3/ucIdtZ930Tt8EplH01vxQIITKJQ4VQMsxSetNWPkzXl3dS2TwpsF2q2VZdPI
- B1YWt/SPaAIF/LJoP+jidg==
+ :references:reply-to:subject:subject:to:to; s=fm2; t=1729505321;
+ x=1729512521; bh=ghSlNe0tmFIbW8pbUYudW/CbWTjZ+S6+ujlr6qqnF/E=; b=
+ ne/IPE08UonRdshCEbTY4eWggIuJdw7ggRLwVWX6T78qDjRqTQRxe8A6YsUhbWkX
+ fIjZUVpDjQEEtkjJlKtRrQ4SzcACH9iXutk4zanQBogR4otxUePp6c6f1IjcMh20
+ EHYmUpptTI/quDvu8UjQi8cNIZ1tO11br17DIeQbvohy5u+KEpGpa69ULQPI/WMV
+ Ci8IqRqEH5xOzjI16MWAtEJ56raEr0Wi5FT44Hr8BoB4dzFA7DgYJhnIpFXC9r6P
+ +yH6cvNHjo3+zsJmhNTDhNzqy9nmPdQ0cC2UY1Be+GpI1+K6KfZQC4IdLuzXGg3s
+ lpgYr94GWBUllJMI63hVxg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:content-type:date:date:feedback-id:feedback-id
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1729504909; x=
- 1729591309; bh=PsU+reKmiMH+6dEqfODUv58RE75ILNro4ASwJ7hVYxU=; b=j
- ABelndIinU4Ip3zsU2JLWu9OK82+lIcLkoK5GjsL5/jsw1zKkhfVn87BBhhcQ0sY
- YcSo0fbRVJ+zy0dv7SdcLIZ06MvtdZyaLXBXLPdCL5vLh8GCmnxwstvBHB/hZ076
- veSSNj5kIpJdAMv5lAQLfcieGl8N8xmZ6f3drRv5X+ij2fjGyRovySrqe/gWazf2
- tdAyMRPLsmAXMgOMBIhkoMj/cLZIww0lTO4sr8yLe/LQW6wJoDzQ51W+yC//+/5V
- +DASU2O1z+aCWeUy7pcg8CV1qDymURDlSP8IyaaFKL/j5Rk9s7wLbCiRp9Wyg6gE
- Ho/1rOjSmtDbZfNnGvSEw==
-X-ME-Sender: <xms:jCYWZyUjmgpQ2rFm9PI5WmhydfRMwhu9juI9XhP6D2OsvcwxWs82Ow>
- <xme:jCYWZ-lQRsM5NJjNwLZ6fQUj_ZKsDF8ejCoV8ENmeVk7Eeo3xjeixatFiPkVVt-V6
- OQy4SUeKpBMchwfMrc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdehledgvdefucetufdoteggodetrfdotf
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1729505321; x=
+ 1729512521; bh=ghSlNe0tmFIbW8pbUYudW/CbWTjZ+S6+ujlr6qqnF/E=; b=c
+ +yT9YJVNdsrrwGaHaBDLiJ9XZ4izTUNteC1asRAHk8AdWfX3WorexOGb71M8j4uC
+ zORjv/TdqGZDpylQB0WryzahKC4T3PQnVwuG1fgtzPPCVzBEpdXnGLxATCsmIig/
+ H96DDBEWYMOty9sHtCLaZ93EKfqIQ9GQUldQShv6EqsRiJ2YyaiOSfUhYdT4UfU7
+ MEZh6q1r48ORtasV2o1IOR+T/D2+qmbYUNoOyJCD12cuIgp1CNyi58VEbLkN3AqD
+ 3i05ArUpxC7CCQcPNoNHHDKliwuCUHAyCxhbku0HVNvpSCwTHglC6p6cDZaamA4N
+ UtpN4HsdEnl6gCT6kEuwQ==
+X-ME-Sender: <xms:KSgWZ6S6R2n1f2T0QCQexTgiV-KSMlaMM2gkoOq12JijmTNZ1Da6pA>
+ <xme:KSgWZ_zrX9SKSefI_hsukUWNkowAAXFNzJVOU5WQN8cskfd-UktwCKcRh5niCSPF9
+ B-wUzhhhk-7zGgwpLQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdehledgvdegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
  rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
  htshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddt
  necuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrd
  guvgeqnecuggftrfgrthhtvghrnhephfdthfdvtdefhedukeetgefggffhjeeggeetfefg
  gfevudegudevledvkefhvdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
- hmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepudel
+ hmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepvdel
  pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtg
- hhpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopehr
- ohgsuggtlhgrrhhksehgmhgrihhlrdgtohhmpdhrtghpthhtohepjhhushhtihhnshhtih
- htthesghhoohhglhgvrdgtohhmpdhrtghpthhtohepmhhorhgsohesghhoohhglhgvrdgt
- ohhmpdhrtghpthhtohepnhguvghsrghulhhnihgvrhhssehgohhoghhlvgdrtghomhdprh
- gtphhtthhopegrrhhnugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhhonhhrrggu
- higstghioheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhgrthhhrghnsehkvghrnh
- gvlhdrohhrgh
-X-ME-Proxy: <xmx:jCYWZ2Yhzu2akfZrZXSayTsw8WmZoV4vH5mcPhNJLxFvmlBalUAOIg>
- <xmx:jCYWZ5VIsfWAmVcaWQKxstu8OQDdUJtPWNuBN-ZbW147Cqn0LKlIYA>
- <xmx:jCYWZ8mJUT9n2g6iT5Vrxtvhy6sC4Z0m9JF6HpeMyAeerDFjgYSkqw>
- <xmx:jCYWZ-fctAsd8clqYV3sdEV6qpUbmzALG6BHgPI5dZp61ACP49y5VQ>
- <xmx:jSYWZ7cl9AYBzFKgb6f7YxD93SOgWHmFu6zwK5_rHqop8fDSx6LV_fYq>
+ hhpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopehl
+ uhhiiidruggvnhhtiiesghhmrghilhdrtghomhdprhgtphhtthhopehprghtrhhikhdrrh
+ drjhgrkhhosghsshhonhesghhmrghilhdrtghomhdprhgtphhtthhopehmrghrtggvlhes
+ hhholhhtmhgrnhhnrdhorhhgpdhrtghpthhtoheplhhutggrshdruggvmhgrrhgthhhise
+ hinhhtvghlrdgtohhmpdhrtghpthhtoheprhhoughrihhgohdrvhhivhhisehinhhtvghl
+ rdgtohhmpdhrtghpthhtoheprghrnhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhope
+ hjihhrihhslhgrsgihsehkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:KSgWZ306jKZbZyxIuNn24nj8C_gZvqx8j2vZtEOD83IWkVo0nTYHqw>
+ <xmx:KSgWZ2ChYHyNQtPFROKXIN2jjht4D_m7Shh_6ifCQapVKZZio003WA>
+ <xmx:KSgWZzi65AZ8OiKDEBbUvjM6UWP-jI8InMkFEuc1FbIPK1bIuuD40g>
+ <xmx:KSgWZyo2OCvdSDoNogZ2pNuyd_R1Z-2mydlod75TWuAx6fAolN5qiA>
+ <xmx:KSgWZ05XjI0ejUOeJbkMdLt1Sg5fEKNECBVD0njAWDAczeUufW1V0bbf>
 Feedback-ID: i56a14606:Fastmail
 Received: by mailuser.phl.internal (Postfix, from userid 501)
- id 2A3942220072; Mon, 21 Oct 2024 06:01:48 -0400 (EDT)
+ id 003F42220071; Mon, 21 Oct 2024 06:08:40 -0400 (EDT)
 X-Mailer: MessagingEngine.com Webmail Interface
 MIME-Version: 1.0
-Date: Mon, 21 Oct 2024 10:01:27 +0000
+Date: Mon, 21 Oct 2024 10:08:19 +0000
 From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Akhil P Oommen" <quic_akhilpo@quicinc.com>,
- "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>
-Cc: "Arnd Bergmann" <arnd@kernel.org>, "Rob Clark" <robdclark@gmail.com>,
- "Abhinav Kumar" <quic_abhinavk@quicinc.com>,
- "Dave Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
- "Nathan Chancellor" <nathan@kernel.org>, "Sean Paul" <sean@poorly.run>,
- "Konrad Dybcio" <konradybcio@kernel.org>,
- "Marijn Suijten" <marijn.suijten@somainline.org>,
- "Nick Desaulniers" <ndesaulniers@google.com>,
- "Bill Wendling" <morbo@google.com>, "Justin Stitt" <justinstitt@google.com>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- llvm@lists.linux.dev
-Message-Id: <cb728358-ac32-4b37-a954-967f338385e2@app.fastmail.com>
-In-Reply-To: <20241021092509.tm4w3ufdgcd7of37@hu-akhilpo-hyd.qualcomm.com>
-References: <20241018151143.3543939-1-arnd@kernel.org>
- <20241019093146.kdp25pir5onjmg4g@hu-akhilpo-hyd.qualcomm.com>
- <k42wmgziqia6balqsrfualbg73giesjxxtyaldkxsrdxkro2li@6neybqsu27me>
- <20241021092509.tm4w3ufdgcd7of37@hu-akhilpo-hyd.qualcomm.com>
-Subject: Re: [PATCH] drm: a6xx: avoid excessive stack usage
+To: "Thomas Zimmermann" <tzimmermann@suse.de>,
+ "Niklas Schnelle" <schnelle@linux.ibm.com>, "Brian Cain" <bcain@quicinc.com>, 
+ "Marcel Holtmann" <marcel@holtmann.org>,
+ "Luiz Augusto von Dentz" <luiz.dentz@gmail.com>,
+ "Patrik Jakobsson" <patrik.r.jakobsson@gmail.com>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ "Maxime Ripard" <mripard@kernel.org>, "Dave Airlie" <airlied@gmail.com>,
+ "Simona Vetter" <simona@ffwll.ch>, "Dave Airlie" <airlied@redhat.com>,
+ "Gerd Hoffmann" <kraxel@redhat.com>,
+ "Lucas De Marchi" <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ "Rodrigo Vivi" <rodrigo.vivi@intel.com>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Jiri Slaby" <jirislaby@kernel.org>, "Maciej W. Rozycki" <macro@orcam.me.uk>, 
+ "Heiko Carstens" <hca@linux.ibm.com>
+Cc: linux-kernel@vger.kernel.org, linux-hexagon@vger.kernel.org,
+ linux-bluetooth@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, linux-serial@vger.kernel.org,
+ Linux-Arch <linux-arch@vger.kernel.org>, "Arnd Bergmann" <arnd@kernel.org>
+Message-Id: <a25086c4-e2fc-4ffc-bc20-afa50e560d96@app.fastmail.com>
+In-Reply-To: <64cc9c8f-fff3-4845-bb32-d7f1046ef619@suse.de>
+References: <20241008-b4-has_ioport-v8-0-793e68aeadda@linux.ibm.com>
+ <20241008-b4-has_ioport-v8-3-793e68aeadda@linux.ibm.com>
+ <64cc9c8f-fff3-4845-bb32-d7f1046ef619@suse.de>
+Subject: Re: [PATCH v8 3/5] drm: handle HAS_IOPORT dependencies
 Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -115,37 +121,117 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 21, 2024, at 09:25, Akhil P Oommen wrote:
-> On Sat, Oct 19, 2024 at 04:14:13PM +0300, Dmitry Baryshkov wrote:
->> On Sat, Oct 19, 2024 at 03:01:46PM +0530, Akhil P Oommen wrote:
->> > On Fri, Oct 18, 2024 at 03:11:38PM +0000, Arnd Bergmann wrote:
->> > > From: Arnd Bergmann <arnd@arndb.de>
->> > > 
->> > > Clang-19 and above sometimes end up with multiple copies of the large
->> > > a6xx_hfi_msg_bw_table structure on the stack. The problem is that
->> > > a6xx_hfi_send_bw_table() calls a number of device specific functions to
->> > > fill the structure, but these create another copy of the structure on
->> > > the stack which gets copied to the first.
->> > > 
->> > > If the functions get inlined, that busts the warning limit:
->> > > 
->> > > drivers/gpu/drm/msm/adreno/a6xx_hfi.c:631:12: error: stack frame size (1032) exceeds limit (1024) in 'a6xx_hfi_send_bw_table' [-Werror,-Wframe-larger-than]
->> > 
->> > Why does this warning says that the limit is 1024? 1024 bytes is too small, isn't it?
->> 
->> Kernel stacks are expected to be space limited, so 1024 is a logical
->> limit for a single function.
+On Mon, Oct 21, 2024, at 07:52, Thomas Zimmermann wrote:
+> Am 08.10.24 um 14:39 schrieb Niklas Schnelle:
+d 100644
+>> --- a/drivers/gpu/drm/qxl/Kconfig
+>> +++ b/drivers/gpu/drm/qxl/Kconfig
+>> @@ -2,6 +2,7 @@
+>>   config DRM_QXL
+>>   	tristate "QXL virtual GPU"
+>>   	depends on DRM && PCI && MMU
+>> +	depends on HAS_IOPORT
 >
-> Thanks for the clarification. I think it is better to move this table to
-> struct a6xx_gmu which is required anyway when we implement dynamic generation
-> of bw table. Also, we can skip initializing it in subsequent gpu wake ups.
+> Is there a difference between this style (multiple 'depends on') and the 
+> one used for gma500 (&& && &&)?
+
+No, it's the same. Doing it in one line is mainly useful
+if you have some '||' as well.
+
+>> @@ -105,7 +106,9 @@ static void bochs_vga_writeb(struct bochs_device *bochs, u16 ioport, u8 val)
+>>   
+>>   		writeb(val, bochs->mmio + offset);
+>>   	} else {
+>> +#ifdef CONFIG_HAS_IOPORT
+>>   		outb(val, ioport);
+>> +#endif
 >
-> Arnd, do you think that would be sufficient? I can send that patch if you
-> want help.
+> Could you provide empty defines for the out() interfaces at the top of 
+> the file?
 
-Yes, that should work. I actually tried first to turn the model
-specific data into static const structures but that ended up 
-not working because some of them have a couple of dynamically
-computed values. I think that would have been even nicer.
+That no longer works since there are now __compiletime_error()
+versions of these funcitons. However we can do it more nicely like:
 
-      Arnd
+diff --git a/drivers/gpu/drm/tiny/bochs.c b/drivers/gpu/drm/tiny/bochs.c
+index 9b337f948434..034af6e32200 100644
+--- a/drivers/gpu/drm/tiny/bochs.c
++++ b/drivers/gpu/drm/tiny/bochs.c
+@@ -112,14 +112,12 @@ static void bochs_vga_writeb(struct bochs_device *bochs, u16 ioport, u8 val)
+ 	if (WARN_ON(ioport < 0x3c0 || ioport > 0x3df))
+ 		return;
+ 
+-	if (bochs->mmio) {
++	if (!IS_DEFINED(CONFIG_HAS_IOPORT) || bochs->mmio) {
+ 		int offset = ioport - 0x3c0 + 0x400;
+ 
+ 		writeb(val, bochs->mmio + offset);
+ 	} else {
+-#ifdef CONFIG_HAS_IOPORT
+ 		outb(val, ioport);
+-#endif
+ 	}
+ }
+ 
+@@ -128,16 +126,12 @@ static u8 bochs_vga_readb(struct bochs_device *bochs, u16 ioport)
+ 	if (WARN_ON(ioport < 0x3c0 || ioport > 0x3df))
+ 		return 0xff;
+ 
+-	if (bochs->mmio) {
++	if (!IS_DEFINED(CONFIG_HAS_IOPORT) || bochs->mmio) {
+ 		int offset = ioport - 0x3c0 + 0x400;
+ 
+ 		return readb(bochs->mmio + offset);
+ 	} else {
+-#ifdef CONFIG_HAS_IOPORT
+ 		return inb(ioport);
+-#else
+-		return 0xff;
+-#endif
+ 	}
+ }
+ 
+@@ -145,32 +139,26 @@ static u16 bochs_dispi_read(struct bochs_device *bochs, u16 reg)
+ {
+ 	u16 ret = 0;
+ 
+-	if (bochs->mmio) {
++	if (!IS_DEFINED(CONFIG_HAS_IOPORT) || bochs->mmio) {
+ 		int offset = 0x500 + (reg << 1);
+ 
+ 		ret = readw(bochs->mmio + offset);
+ 	} else {
+-#ifdef CONFIG_HAS_IOPORT
+ 		outw(reg, VBE_DISPI_IOPORT_INDEX);
+ 		ret = inw(VBE_DISPI_IOPORT_DATA);
+-#else
+-		ret = 0xffff;
+-#endif
+ 	}
+ 	return ret;
+ }
+ 
+ static void bochs_dispi_write(struct bochs_device *bochs, u16 reg, u16 val)
+ {
+-	if (bochs->mmio) {
++	if (!IS_DEFINED(CONFIG_HAS_IOPORT) || bochs->mmio) {
+ 		int offset = 0x500 + (reg << 1);
+ 
+ 		writew(val, bochs->mmio + offset);
+ 	} else {
+-#ifdef CONFIG_HAS_IOPORT
+ 		outw(reg, VBE_DISPI_IOPORT_INDEX);
+ 		outw(val, VBE_DISPI_IOPORT_DATA);
+-#endif
+ 	}
+ }
+ 
+> And the in() interfaces could be defined to 0xff[ff].
+>
+> I assume that you don't want to provide such empty macros in the 
+> kernel's io.h header?
+
+That was the original idea many years ago, but Linus rejected
+my pull request for it, so Niklas worked through all drivers
+individually to add the dependencies instead.
+
+     Arnd
