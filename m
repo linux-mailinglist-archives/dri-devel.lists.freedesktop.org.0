@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1C159A6409
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2024 12:42:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C978A9A6465
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2024 12:46:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D89EC10E2D8;
-	Mon, 21 Oct 2024 10:41:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D0B310E487;
+	Mon, 21 Oct 2024 10:46:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="GsA4YmaI";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="TNuTxnKB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 232C310E2D8
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 10:41:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB3AE10E47F
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 10:46:29 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id C2CA25C5C7E;
- Mon, 21 Oct 2024 10:41:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6101CC4CEC3;
- Mon, 21 Oct 2024 10:41:55 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id A13755C3FCD;
+ Mon, 21 Oct 2024 10:46:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AA97C4CEC3;
+ Mon, 21 Oct 2024 10:46:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1729507315;
- bh=qspK7hCPLXW+pwQYd8wngaaqTnlSINgfSqbWAZMt84k=;
+ s=korg; t=1729507588;
+ bh=qzytvI6X6dYy7p2w81r5U/ZElz8EZ4aONiOBsJPLfUA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=GsA4YmaIaoZquBxBhLktwuknfKshPRtAhzhecxyFHbcRnXpN0ygGchOGSSSCjRmjd
- bt4tqbjrdRlui1+Oiy4+vet0U8pB9RMGYuNcE04ROGvRYKd5Pndy1HNzLhKNAUH0kM
- VwnST+YnFTZBNkBRwbSoHCd31quCnp0Fv7oEaCGk=
+ b=TNuTxnKB7WN9vYFSQmHZ33h9rDDFRG9ZBuSZuTSKfFCLhP0obQBaiKB7pkGv4+gWC
+ 42YT/bDOd3wJLx0ypigJ5zgddmkvoh5azT+bDr5HXOI7DWqUG+3Szfex6qQAmHV+oY
+ YxDZEA0YmIKrjVRyR4eaH4fnj7yqU69OrZpkAZVs=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
@@ -40,13 +40,13 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
  Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
  Daniel Vetter <daniel.vetter@ffwll.ch>,
  Sherry Yang <sherry.yang@oracle.com>
-Subject: [PATCH 6.1 37/91] drm/shmem-helper: Fix BUG_ON() on mmap(PROT_WRITE,
+Subject: [PATCH 5.15 35/82] drm/shmem-helper: Fix BUG_ON() on mmap(PROT_WRITE,
  MAP_PRIVATE)
-Date: Mon, 21 Oct 2024 12:24:51 +0200
-Message-ID: <20241021102251.270257207@linuxfoundation.org>
+Date: Mon, 21 Oct 2024 12:25:16 +0200
+Message-ID: <20241021102248.630465317@linuxfoundation.org>
 X-Mailer: git-send-email 2.47.0
-In-Reply-To: <20241021102249.791942892@linuxfoundation.org>
-References: <20241021102249.791942892@linuxfoundation.org>
+In-Reply-To: <20241021102247.209765070@linuxfoundation.org>
+References: <20241021102247.209765070@linuxfoundation.org>
 User-Agent: quilt/0.67
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -68,7 +68,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-6.1-stable review patch.  If anyone has any objections, please let me know.
+5.15-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
@@ -113,7 +113,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
 +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -638,6 +638,9 @@ int drm_gem_shmem_mmap(struct drm_gem_sh
+@@ -607,6 +607,9 @@ int drm_gem_shmem_mmap(struct drm_gem_sh
  		return ret;
  	}
  
