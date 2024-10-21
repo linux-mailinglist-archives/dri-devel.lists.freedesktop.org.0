@@ -2,54 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 330D99A6B97
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2024 16:08:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95A879A6BBE
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2024 16:11:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC65710E517;
-	Mon, 21 Oct 2024 14:08:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B681410E15F;
+	Mon, 21 Oct 2024 14:11:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="R+ZT0LCk";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Fs+EI15h";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE1AC10E517
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 14:08:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1729519680;
- bh=hp1nFcv/cw2s7r/PFwgkDdXRyrA3l8PSWu+z40NPYF0=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=R+ZT0LCkIgysznj3jyQGw/RCgT60fIQRhn13UUZHe5CGoSZ3H71HAMXwKIAsKX8od
- HcqAYENXbN5F109ijKQBbKPYa+zlp4YiUpkdXFKxUQ6pzDIhceodsqWaNwZQ2PA6Q+
- HbOtJsjmdNLfi8wd3yfFZeGUzWvxGhKRIsXO4gu4cbIepxaOXIR+9eWAi5JotCF7MG
- SPNSqSjdq66UJxWe1rYV6GfSqPFnjqUkfCApmuVey3uJqfb61ZR5f2mes2Tkul6GQ3
- PNRB0RM2IVJpeoEpGl7UxyNKsdLU8QnJy4S02yP9sCROCqTHHu3d/rEqg3Q3uMaYpQ
- TUGtGvinFC0iA==
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 0484D17E361F;
- Mon, 21 Oct 2024 16:07:59 +0200 (CEST)
-Date: Mon, 21 Oct 2024 16:07:56 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
-Cc: Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Philipp Zabel
- <p.zabel@pengutronix.de>, kernel@collabora.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/9] drm/panfrost: handle error when allocating AS number
-Message-ID: <20241021160756.442e7e55@collabora.com>
-In-Reply-To: <20241014233758.994861-3-adrian.larumbe@collabora.com>
-References: <20241014233758.994861-1-adrian.larumbe@collabora.com>
- <20241014233758.994861-3-adrian.larumbe@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0529D10E15F
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 14:11:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1729519889; x=1761055889;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=XkdqeatQDCxubXBfPkfBchjPnMYSbzeBn/G0Sha+xE0=;
+ b=Fs+EI15hBWGsLH0o/8FD7e9c9fB4cJ90xqH3fynBbbr2tHpRzJR3LsTA
+ Jh6Rw/97DOchkhUXShV0KZ9yolQEnL2iMdL3LebGFDpnCke/IQ2zEzE0x
+ Qt9QDIqt51OJ6GifzeQrOkAvbpghQgkPU0nrVjqKzqHSBvwVhr9vngDTD
+ Ddxi4nEE9AOPIOioSpYywKhHHgsSKgQNZO73IRAV9jM+ivAeqBbpYJ8Ok
+ 6UWGbhOKrdqRJhOfdUcnDTeLTlwNAUnIm2YzsjH8HWme6dDaFUEhowws9
+ iHpN/zJxKKjqYVwlNz+mLLZ0dqbUiHt60s3BHnUU1aPS89oUd8EJ4c2mC A==;
+X-CSE-ConnectionGUID: IvqmaHrSQ4aP60rY7m7R9g==
+X-CSE-MsgGUID: Ur23pyZZQX6WpUIwK3CZ8g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11232"; a="28445772"
+X-IronPort-AV: E=Sophos;i="6.11,221,1725346800"; d="scan'208";a="28445772"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Oct 2024 07:11:28 -0700
+X-CSE-ConnectionGUID: MuaBI2t+Sq+qsLRXTM36Fw==
+X-CSE-MsgGUID: O0WjhHM4SZKSfVvQ2Q2/3Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,221,1725346800"; d="scan'208";a="79484935"
+Received: from lbogdanm-mobl3.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.222])
+ by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Oct 2024 07:11:25 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Vamsi Krishna Brahmajosyula <vamsikrishna.brahmajosyula@gmail.com>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ skhan@linuxfoundation.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/edid: transition to passing struct cea_db * to
+ cae_db_payload_len
+In-Reply-To: <CAJvTgAjb1h=1vn3MVNbTu=qrxf2zaG1RgF4jTM3uobTfpd9YRw@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20241011152929.10145-1-vamsikrishna.brahmajosyula@gmail.com>
+ <87jze1y3mb.fsf@intel.com>
+ <CAJvTgAjb1h=1vn3MVNbTu=qrxf2zaG1RgF4jTM3uobTfpd9YRw@mail.gmail.com>
+Date: Mon, 21 Oct 2024 17:11:21 +0300
+Message-ID: <87h695y29i.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,16 +75,316 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 15 Oct 2024 00:31:38 +0100
-Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
+On Mon, 21 Oct 2024, Vamsi Krishna Brahmajosyula <vamsikrishna.brahmajosyul=
+a@gmail.com> wrote:
+> On Mon, Oct 21, 2024 at 7:12=E2=80=AFPM Jani Nikula <jani.nikula@linux.in=
+tel.com> wrote:
+>>
+>> On Fri, 11 Oct 2024, Vamsi Krishna Brahmajosyula <vamsikrishna.brahmajos=
+yula@gmail.com> wrote:
+>> > Address the FIXME in cea_db_payload_len
+>> >       Transition to passing struct cea_db * everywhere
+>>
+>> You've misunderstood the comment. The point is to pass struct cea_db *
+>> around, not to stick to u8 * and drop calls to cea_db_payload_len().
+>>
+> Thank you for the response.
+> Would below be an acceptable change for the FIXME?
+> 1. Use a macro to extract length from  (db->tag_length & 0x1f)
 
-> -u32 panfrost_mmu_as_get(struct panfrost_device *pfdev, struct panfrost_m=
-mu *mmu)
-> +int panfrost_mmu_as_get(struct panfrost_device *pfdev, struct panfrost_m=
-mu *mmu, u32 *asi)
+No, why would you do that? We have the function.
 
-Or, we return an int that encodes the AS id when >=3D 0, and the error
-code when < 0.
+> 2. Pass struct cea_db * to all individual parsers
 
->  {
->  	int as;
+Yes. Look at all callers of cea_db_payload_len() and propagate struct
+cea_db *db to them instead of u8 *db.
+
+The related and relevant other FIXME comment is in drm_parse_cea_ext():
+
+	/* FIXME: convert parsers to use struct cea_db */
+
+That's where you should start. Some of the parsers already handle struct
+cea_db, and others need to use const u8 *data.
+
+Please don't cram all of this in one patch, probably start off function
+by function. It's easier to squash patches later than to split.
+Yes.
+
+> 3. Use db->data? / convert to u8 and use db[i] where needed.
+
+There's cea_db_data() for this. The slightly annoying part is that for
+extended tags and vendor blocks the "actual" data is at an offset. See
+for example drm_parse_hdmi_vsdb_video(). It's good that the len checks
+and db dereferences match, and that they match what's written in the
+spec, but it's a bit funny in the code. Maybe not something you need to
+worry about at this point.
+
+
+BR,
+Jani.
+
+
+>
+>> BR,
+>> Jani.
+>>
+>> >
+>> > Precompute the payload length in drm_parse_cea_ext and pass to
+>> > individual parsers to avoid casting struct cea_db pointer to u8
+>> > pointer where length is needed.
+>> >
+>> > Since the type of payload length is inconsistent in the file,
+>> > use u8, u16 where it was already in place, use int elsewhere.
+>> >
+>> > Signed-off-by: Vamsi Krishna Brahmajosyula <vamsikrishna.brahmajosyula=
+@gmail.com>
+>> > ---
+>> >  drivers/gpu/drm/drm_edid.c | 63 ++++++++++++++++----------------------
+>> >  1 file changed, 27 insertions(+), 36 deletions(-)
+>> >
+>> > diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+>> > index 855beafb76ff..80442e8b8ac6 100644
+>> > --- a/drivers/gpu/drm/drm_edid.c
+>> > +++ b/drivers/gpu/drm/drm_edid.c
+>> > @@ -4977,11 +4977,8 @@ static int cea_db_tag(const struct cea_db *db)
+>> >       return db->tag_length >> 5;
+>> >  }
+>> >
+>> > -static int cea_db_payload_len(const void *_db)
+>> > +static int cea_db_payload_len(const struct cea_db *db)
+>> >  {
+>> > -     /* FIXME: Transition to passing struct cea_db * everywhere. */
+>> > -     const struct cea_db *db =3D _db;
+>> > -
+>> >       return db->tag_length & 0x1f;
+>> >  }
+>> >
+>> > @@ -5432,22 +5429,18 @@ static uint8_t hdr_metadata_type(const u8 *edi=
+d_ext)
+>> >  }
+>> >
+>> >  static void
+>> > -drm_parse_hdr_metadata_block(struct drm_connector *connector, const u=
+8 *db)
+>> > +drm_parse_hdr_metadata_block(struct drm_connector *connector, const u=
+8 *db, const u16 payload_len)
+>> >  {
+>> > -     u16 len;
+>> > -
+>> > -     len =3D cea_db_payload_len(db);
+>> > -
+>> >       connector->hdr_sink_metadata.hdmi_type1.eotf =3D
+>> >                                               eotf_supported(db);
+>> >       connector->hdr_sink_metadata.hdmi_type1.metadata_type =3D
+>> >                                               hdr_metadata_type(db);
+>> >
+>> > -     if (len >=3D 4)
+>> > +     if (payload_len >=3D 4)
+>> >               connector->hdr_sink_metadata.hdmi_type1.max_cll =3D db[4=
+];
+>> > -     if (len >=3D 5)
+>> > +     if (payload_len >=3D 5)
+>> >               connector->hdr_sink_metadata.hdmi_type1.max_fall =3D db[=
+5];
+>> > -     if (len >=3D 6) {
+>> > +     if (payload_len >=3D 6) {
+>> >               connector->hdr_sink_metadata.hdmi_type1.min_cll =3D db[6=
+];
+>> >
+>> >               /* Calculate only when all values are available */
+>> > @@ -5457,20 +5450,18 @@ drm_parse_hdr_metadata_block(struct drm_connec=
+tor *connector, const u8 *db)
+>> >
+>> >  /* HDMI Vendor-Specific Data Block (HDMI VSDB, H14b-VSDB) */
+>> >  static void
+>> > -drm_parse_hdmi_vsdb_audio(struct drm_connector *connector, const u8 *=
+db)
+>> > +drm_parse_hdmi_vsdb_audio(struct drm_connector *connector, const u8 *=
+db, u8 payload_len)
+>> >  {
+>> > -     u8 len =3D cea_db_payload_len(db);
+>> > -
+>> > -     if (len >=3D 6 && (db[6] & (1 << 7)))
+>> > +     if (payload_len >=3D 6 && (db[6] & (1 << 7)))
+>> >               connector->eld[DRM_ELD_SAD_COUNT_CONN_TYPE] |=3D DRM_ELD=
+_SUPPORTS_AI;
+>> >
+>> > -     if (len >=3D 10 && hdmi_vsdb_latency_present(db)) {
+>> > +     if (payload_len >=3D 10 && hdmi_vsdb_latency_present(db)) {
+>> >               connector->latency_present[0] =3D true;
+>> >               connector->video_latency[0] =3D db[9];
+>> >               connector->audio_latency[0] =3D db[10];
+>> >       }
+>> >
+>> > -     if (len >=3D 12 && hdmi_vsdb_i_latency_present(db)) {
+>> > +     if (payload_len >=3D 12 && hdmi_vsdb_i_latency_present(db)) {
+>> >               connector->latency_present[1] =3D true;
+>> >               connector->video_latency[1] =3D db[11];
+>> >               connector->audio_latency[1] =3D db[12];
+>> > @@ -5695,7 +5686,7 @@ static void drm_edid_to_eld(struct drm_connector=
+ *connector,
+>> >               case CTA_DB_VENDOR:
+>> >                       /* HDMI Vendor-Specific Data Block */
+>> >                       if (cea_db_is_hdmi_vsdb(db))
+>> > -                             drm_parse_hdmi_vsdb_audio(connector, (co=
+nst u8 *)db);
+>> > +                             drm_parse_hdmi_vsdb_audio(connector, (co=
+nst u8 *)db, len);
+>> >                       break;
+>> >               default:
+>> >                       break;
+>> > @@ -6122,7 +6113,7 @@ static void drm_parse_ycbcr420_deep_color_info(s=
+truct drm_connector *connector,
+>> >  }
+>> >
+>> >  static void drm_parse_dsc_info(struct drm_hdmi_dsc_cap *hdmi_dsc,
+>> > -                            const u8 *hf_scds)
+>> > +                            const u8 *hf_scds, int payload_len)
+>> >  {
+>> >       hdmi_dsc->v_1p2 =3D hf_scds[11] & DRM_EDID_DSC_1P2;
+>> >
+>> > @@ -6142,7 +6133,7 @@ static void drm_parse_dsc_info(struct drm_hdmi_d=
+sc_cap *hdmi_dsc,
+>> >               /* Supports min 8 BPC if DSC 1.2 is supported*/
+>> >               hdmi_dsc->bpc_supported =3D 8;
+>> >
+>> > -     if (cea_db_payload_len(hf_scds) >=3D 12 && hf_scds[12]) {
+>> > +     if (payload_len >=3D 12 && hf_scds[12]) {
+>> >               u8 dsc_max_slices;
+>> >               u8 dsc_max_frl_rate;
+>> >
+>> > @@ -6188,13 +6179,13 @@ static void drm_parse_dsc_info(struct drm_hdmi=
+_dsc_cap *hdmi_dsc,
+>> >               }
+>> >       }
+>> >
+>> > -     if (cea_db_payload_len(hf_scds) >=3D 13 && hf_scds[13])
+>> > +     if (payload_len >=3D 13 && hf_scds[13])
+>> >               hdmi_dsc->total_chunk_kbytes =3D hf_scds[13] & DRM_EDID_=
+DSC_TOTAL_CHUNK_KBYTES;
+>> >  }
+>> >
+>> >  /* Sink Capability Data Structure */
+>> >  static void drm_parse_hdmi_forum_scds(struct drm_connector *connector,
+>> > -                                   const u8 *hf_scds)
+>> > +                                   const u8 *hf_scds, int payload_len)
+>> >  {
+>> >       struct drm_display_info *info =3D &connector->display_info;
+>> >       struct drm_hdmi_info *hdmi =3D &info->hdmi;
+>> > @@ -6247,8 +6238,8 @@ static void drm_parse_hdmi_forum_scds(struct drm=
+_connector *connector,
+>> >
+>> >       drm_parse_ycbcr420_deep_color_info(connector, hf_scds);
+>> >
+>> > -     if (cea_db_payload_len(hf_scds) >=3D 11 && hf_scds[11]) {
+>> > -             drm_parse_dsc_info(hdmi_dsc, hf_scds);
+>> > +     if (payload_len >=3D 11 && hf_scds[11]) {
+>> > +             drm_parse_dsc_info(hdmi_dsc, hf_scds, payload_len);
+>> >               dsc_support =3D true;
+>> >       }
+>> >
+>> > @@ -6259,7 +6250,7 @@ static void drm_parse_hdmi_forum_scds(struct drm=
+_connector *connector,
+>> >  }
+>> >
+>> >  static void drm_parse_hdmi_deep_color_info(struct drm_connector *conn=
+ector,
+>> > -                                        const u8 *hdmi)
+>> > +                                        const u8 *hdmi, const u8 payl=
+oad_len)
+>> >  {
+>> >       struct drm_display_info *info =3D &connector->display_info;
+>> >       unsigned int dc_bpc =3D 0;
+>> > @@ -6267,7 +6258,7 @@ static void drm_parse_hdmi_deep_color_info(struc=
+t drm_connector *connector,
+>> >       /* HDMI supports at least 8 bpc */
+>> >       info->bpc =3D 8;
+>> >
+>> > -     if (cea_db_payload_len(hdmi) < 6)
+>> > +     if (payload_len < 6)
+>> >               return;
+>> >
+>> >       if (hdmi[6] & DRM_EDID_HDMI_DC_30) {
+>> > @@ -6320,18 +6311,17 @@ static void drm_parse_hdmi_deep_color_info(str=
+uct drm_connector *connector,
+>> >
+>> >  /* HDMI Vendor-Specific Data Block (HDMI VSDB, H14b-VSDB) */
+>> >  static void
+>> > -drm_parse_hdmi_vsdb_video(struct drm_connector *connector, const u8 *=
+db)
+>> > +drm_parse_hdmi_vsdb_video(struct drm_connector *connector, const u8 *=
+db, const u8 payload_len)
+>> >  {
+>> >       struct drm_display_info *info =3D &connector->display_info;
+>> > -     u8 len =3D cea_db_payload_len(db);
+>> >
+>> >       info->is_hdmi =3D true;
+>> >
+>> >       info->source_physical_address =3D (db[4] << 8) | db[5];
+>> >
+>> > -     if (len >=3D 6)
+>> > +     if (payload_len >=3D 6)
+>> >               info->dvi_dual =3D db[6] & 1;
+>> > -     if (len >=3D 7)
+>> > +     if (payload_len >=3D 7)
+>> >               info->max_tmds_clock =3D db[7] * 5000;
+>> >
+>> >       /*
+>> > @@ -6340,14 +6330,14 @@ drm_parse_hdmi_vsdb_video(struct drm_connector=
+ *connector, const u8 *db)
+>> >        * HDMI infoframe support was first added in HDMI 1.4. Assume th=
+e sink
+>> >        * supports infoframes if HDMI_Video_present is set.
+>> >        */
+>> > -     if (len >=3D 8 && db[8] & BIT(5))
+>> > +     if (payload_len >=3D 8 && db[8] & BIT(5))
+>> >               info->has_hdmi_infoframe =3D true;
+>> >
+>> >       drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] HDMI: DVI dual %d=
+, max TMDS clock %d kHz\n",
+>> >                   connector->base.id, connector->name,
+>> >                   info->dvi_dual, info->max_tmds_clock);
+>> >
+>> > -     drm_parse_hdmi_deep_color_info(connector, db);
+>> > +     drm_parse_hdmi_deep_color_info(connector, db, payload_len);
+>> >  }
+>> >
+>> >  /*
+>> > @@ -6410,12 +6400,13 @@ static void drm_parse_cea_ext(struct drm_conne=
+ctor *connector,
+>> >       cea_db_iter_for_each(db, &iter) {
+>> >               /* FIXME: convert parsers to use struct cea_db */
+>> >               const u8 *data =3D (const u8 *)db;
+>> > +             int len =3D cea_db_payload_len(db);
+>> >
+>> >               if (cea_db_is_hdmi_vsdb(db))
+>> > -                     drm_parse_hdmi_vsdb_video(connector, data);
+>> > +                     drm_parse_hdmi_vsdb_video(connector, data, len);
+>> >               else if (cea_db_is_hdmi_forum_vsdb(db) ||
+>> >                        cea_db_is_hdmi_forum_scdb(db))
+>> > -                     drm_parse_hdmi_forum_scds(connector, data);
+>> > +                     drm_parse_hdmi_forum_scds(connector, data, len);
+>> >               else if (cea_db_is_microsoft_vsdb(db))
+>> >                       drm_parse_microsoft_vsdb(connector, data);
+>> >               else if (cea_db_is_y420cmdb(db))
+>> > @@ -6425,7 +6416,7 @@ static void drm_parse_cea_ext(struct drm_connect=
+or *connector,
+>> >               else if (cea_db_is_vcdb(db))
+>> >                       drm_parse_vcdb(connector, data);
+>> >               else if (cea_db_is_hdmi_hdr_metadata_block(db))
+>> > -                     drm_parse_hdr_metadata_block(connector, data);
+>> > +                     drm_parse_hdr_metadata_block(connector, data, le=
+n);
+>> >               else if (cea_db_tag(db) =3D=3D CTA_DB_VIDEO)
+>> >                       parse_cta_vdb(connector, db);
+>> >               else if (cea_db_tag(db) =3D=3D CTA_DB_AUDIO)
+>> >
+>> > base-commit: 1d227fcc72223cbdd34d0ce13541cbaab5e0d72f
+>>
+>> --
+>> Jani Nikula, Intel
+> Thanks,
+> Vamsi
+
+--=20
+Jani Nikula, Intel
