@@ -2,56 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D8F89A95F7
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2024 04:07:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A06C9A95F8
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2024 04:07:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE1DF10E2EF;
-	Tue, 22 Oct 2024 02:07:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D0E110E5D1;
+	Tue, 22 Oct 2024 02:07:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="alDO9aCH";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="u9jMSfvk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 777AC10E1A7
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Oct 2024 02:07:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30EE810E1A7
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Oct 2024 02:07:27 +0000 (UTC)
 Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id D308588F4F;
- Tue, 22 Oct 2024 04:07:22 +0200 (CEST)
+ by phobos.denx.de (Postfix) with ESMTPSA id 9B0CF88F50;
+ Tue, 22 Oct 2024 04:07:24 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1729562844;
- bh=59zZ86KbR0eSe7tOpX+4JjORXjImszu7jagouoaujTg=;
+ s=phobos-20191101; t=1729562845;
+ bh=KvoIfgTw758HN/EUbdpapAE48zsQN5quZbh1yOAlSA8=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=alDO9aCHL+TxHH435J+X3yEyxlr0ovAacFGQUC2AqUvVj3ryOPM01Zfoj5U6Q1CEL
- Xer6fIWvF2KpM2Vu19hDckyj769VFV2i4cbxtxt7XCbgDsWJ3gEtvPrppR8JStH0dl
- u2Y+k+OLdp4mIZDAydBc05ivXoK4Toa0Q/FsGUOBD9e35l/qGvDiqu2RqCNvV2ifBi
- 3rrCaSXsjZGWSHAoXCsXhXBaWpueg9fqCo3Zu2kaSZejvERUB1OgS93vrCFJzD+d7e
- OrkNd1TWbGGCjwYUEzOHnKOCeYnv/oPe0rFmrXAzm4QMcWIhNBfQDiEKaaLbhJMYhW
- 0kmtDYhUpfZLg==
-Message-ID: <377f62e8-f622-4c54-bd44-00ee67829607@denx.de>
-Date: Mon, 21 Oct 2024 23:00:43 +0200
+ b=u9jMSfvkl6u4S8A0Gd6YUmSZ1B/g7UAx72XatFmV8bPbEUmCDU/xPxOgEpzxST4cb
+ mU32LgiADXOfjWCn7qIwI58rOZgj7GSia+d0zyj4EVbf17RIfeoPyM7rT2gQsaNEF0
+ +CA45NV6Jr2iuvFuXFmBkkaT6TgYi99IXD1ZKgSJbUzuHe/ZQMLnSmGCpAVsPMbM3B
+ qUergK7IXsHjgfjCeAX/VsXfTTWPqHrigwwvQIDlYREjPaSimGLIOpLdQji5fX7xZe
+ fJJEhT0V1nq9oQKD5Rry2Y7jD275VFJm0TvAab3aqdvqZfN6/rR9D77HYhTRiE1O0m
+ 37W3sIaOJ2b3Q==
+Message-ID: <be5b6cfb-49da-4c8f-9189-a9e5e8b903d5@denx.de>
+Date: Mon, 21 Oct 2024 23:07:26 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] drm: lcdif: Use adjusted_mode .clock instead of
  .crtc_clock
-To: Kieran Bingham <kieran.bingham@ideasonboard.com>,
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>,
  Alexander Stein <alexander.stein@ew.tq-group.com>,
  Isaac Scott <isaac.scott@ideasonboard.com>, Liu Ying <victor.liu@nxp.com>,
- dri-devel@lists.freedesktop.org
-Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Fabio Estevam <festevam@gmail.com>, Lucas Stach <l.stach@pengutronix.de>,
- "Lukas F.Hartmann" <lukas@mntmn.com>,
+ dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, Fabio Estevam <festevam@gmail.com>,
+ Lucas Stach <l.stach@pengutronix.de>, "Lukas F.Hartmann" <lukas@mntmn.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
  Pengutronix Kernel Team <kernel@pengutronix.de>,
  Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
  Stefan Agner <stefan@agner.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
  imx@lists.linux.dev, kernel@dh-electronics.com,
  linux-arm-kernel@lists.infradead.org
-References: <20240531202813.277109-1-marex@denx.de>
+References: <7ae0cd7774f4b3e30cc033a7e543546732dbced0.camel@ideasonboard.com>
  <de285fc0-728f-4ba0-86e0-0069d2cc9a35@denx.de>
  <64e18ceed5279a9346a6a1141f02ead93383bd1e.camel@ideasonboard.com>
  <84f505af-1066-4fcf-84b7-28c152c09b89@denx.de>
@@ -61,10 +60,10 @@ References: <20240531202813.277109-1-marex@denx.de>
  <f4b083ec-58b5-477a-a0a4-c4c8d02027a7@denx.de>
  <172937454426.2485972.12472740284222343769@ping.linuxembedded.co.uk>
  <eee5649b-ca5a-42c5-a6ec-246ee21fb6e4@denx.de>
- <172950900212.3353069.2089097805440086007@ping.linuxembedded.co.uk>
+ <20241021-silky-aspiring-bonobo-f4ecf7@houat>
 Content-Language: en-US
 From: Marek Vasut <marex@denx.de>
-In-Reply-To: <172950900212.3353069.2089097805440086007@ping.linuxembedded.co.uk>
+In-Reply-To: <20241021-silky-aspiring-bonobo-f4ecf7@houat>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
@@ -84,8 +83,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/21/24 1:10 PM, Kieran Bingham wrote:
-> Quoting Marek Vasut (2024-10-20 03:49:29)
+On 10/21/24 1:48 PM, Maxime Ripard wrote:
+> On Sun, Oct 20, 2024 at 04:49:29AM +0200, Marek Vasut wrote:
 >> On 10/19/24 11:49 PM, Kieran Bingham wrote:
 >>> Quoting Marek Vasut (2024-10-12 21:37:59)
 >>>> On 10/11/24 5:10 AM, Liu Ying wrote:
@@ -127,56 +126,33 @@ On 10/21/24 1:10 PM, Kieran Bingham wrote:
 >>>
 >>> Is there some difference in code path for 'how' the panel timings are
 >>> set as to whether they will apply fully or not ?
->> Because [1] sets inaccurate pixel clock of 74.25 MHz, which can be
->> divided down from random default Video PLL setting of 1039.5 MHz set in
->> imx8mp.dtsi media_blk_ctrl , 1039.5 / 74.25 = 14 .
+>> Because [1] sets inaccurate pixel clock of 74.25 MHz, which can be divided
+>> down from random default Video PLL setting of 1039.5 MHz set in imx8mp.dtsi
+>> media_blk_ctrl , 1039.5 / 74.25 = 14 .
 >>
->> The panel-simple pixel clock are 72.4 MHz, to achieve that accurately,
->> it is necessary to reconfigure the Video PLL frequency to 506.8 MHz ,
->> which LCDIFv3 can do, but LDB can not, hence it has to be done in DT for
->> now.
+>> The panel-simple pixel clock are 72.4 MHz, to achieve that accurately, it is
+>> necessary to reconfigure the Video PLL frequency to 506.8 MHz , which
+>> LCDIFv3 can do, but LDB can not, hence it has to be done in DT for now.
 > 
-> Aha - right - Thanks, I'd missed the part that 74.25 MHz /is not/ the
-> correct or supported pixel clock for the panel
-
-It is inaccurate, it is still within the spec ...
-
-> , so it just becomes
-> 'close enough' and lucky that it works...
-
-... but only by sheer chance, because the Video PLL in imx8mp.dtsi is 
-accidentally set to frequency that is just close enough to be divisible 
-to the inaccurate 74.25 MHz .
-
-> Now I understand how your proposed :
-> 
->>>>>>>> &media_blk_ctrl {
->>>>>>>>        // 506800000 = 72400000 * 7 (for single-link LVDS, this is enough)
->>>>>>>>        // there is no need to multiply the clock by * 2
->>>>>>>>        assigned-clock-rates = <500000000>, <200000000>, <0>, <0>, <500000000>, <506800000>;
->>>>>>>
->>>>>>> This assigns "video_pll1" clock rate to 506.8MHz which is currently not
->>>>>>> listed in imx_pll1443x_tbl[].
-> 
-> is more accurate. But is that acceptable for DT ? To just hardcode
-> clocks like that?
-
-I am not happy about it, but it is the best we can do right now.
+> That the clock driver is broken and thus should be fixed through the DT is a
+> bit backward, don't you think?
 
 See these two patches, they might address that part for next cycle:
 
 clk: imx: clk-imx8mp: Allow LDB serializer clock reconfigure parent rate
 drm: bridge: ldb: Configure LDB clock in .mode_set
 
-> Or is this something we'll then remove when the additional patches make
-> it upstream? (I'm curious on the basis that I thought we treat DT as
-> 'firmware' so if we put this in we expect it to be there forever?)
+For this cycle, fixing up the frequency that is already incorrectly set 
+in imx8mp.dtsi in board DT is the least impact approach, see
 
-It is already there in imx8mp.dtsi , so we are not making the situation 
-any worse, rather the opposite.
+arm64: dts: imx8mp-phyboard-pollux: Set Video PLL1 frequency to 506.8 MHz
 
-> All of this seems like perhaps it should be in an overlay for the
-> display too - but given this board comes with this panel as a kit - I
-> suspect it's fine to keep it all there.
-That's a separate topic, but yes, DTOs for displays are a good thing to 
-have.
+> AFAIU, the clock can't reach the ideal pixel clock panel-simple has. Do
+> you have the datasheet for that panel?
+
+No
+
+> If so, using display_timings and shortening/extending the blanking
+> timings to match the clock that can be provided seems like a more robust
+> solution.
+The PLL has to be configured correctly, see the two patches listed above.
