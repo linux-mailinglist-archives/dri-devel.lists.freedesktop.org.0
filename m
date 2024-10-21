@@ -2,62 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23CC89A5FB2
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2024 11:07:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E63E49A5FB9
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2024 11:11:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C24810E456;
-	Mon, 21 Oct 2024 09:07:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4D9910E118;
+	Mon, 21 Oct 2024 09:11:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Gsx/PQSd";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="aSWl6uGp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C8F710E456;
- Mon, 21 Oct 2024 09:07:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1729501655; x=1761037655;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=wpRhA2ljVPeCf5nT5C2lTaLYCpjjggu0c9MRoee2Fwc=;
- b=Gsx/PQSd3upnfMGrL/YLwiRI3fajjGpEQnylvY8AFbk84ahkWQaDpZLC
- pDUypY6H8VoACk8adSr9/X3b+uSR37CqxG8d+CN+EZ+815h2/DLaTNsJu
- QTEFvBt/WeSmZI6agXzCiVMNC29xygKmrQK0nIdh2F3j8vTIrkoOJm56Q
- xfh04xEH+EJ1DFL/nGc6tPkax3zy9gAPK8Et40sLeaQPEzPEAFcdHid0S
- QoBoJlc4yu/zZTgJZXAxv36guwiW5s+aTquYxsXAXBzq0240gjeTXXBQC
- yLojiXEieTg0H7nTpAp5BWEsn/LFkctfFA1kD2akyZr4qRBpMtu4eRvY0 w==;
-X-CSE-ConnectionGUID: QL7ScAQ6QyWSsfnAXoZYlA==
-X-CSE-MsgGUID: bW3LDq5HRPmBe2/5/hvtEw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11231"; a="28852621"
-X-IronPort-AV: E=Sophos;i="6.11,220,1725346800"; d="scan'208";a="28852621"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Oct 2024 02:07:35 -0700
-X-CSE-ConnectionGUID: vkvvP4UMQ1WqdZve735COA==
-X-CSE-MsgGUID: 8tg4+vsWSsehcexGEQjzgQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,220,1725346800"; d="scan'208";a="79468322"
-Received: from dneilan-mobl1.ger.corp.intel.com (HELO [10.245.245.206])
- ([10.245.245.206])
- by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Oct 2024 02:07:33 -0700
-Message-ID: <3a956975-4e6b-4990-80e2-769872d17816@intel.com>
-Date: Mon, 21 Oct 2024 10:07:31 +0100
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BBC310E118
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 09:11:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1729501885;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=h/cZ9ik40jZqCmA8LDM3aEei04H39Rf+nKGJ7o3V87g=;
+ b=aSWl6uGpfwVHLkkdyCEzCafIi0JNqezsLGix9XwpF5R9/1eYv2syP9N2oFrbTrYvEYMqk2
+ OoTvZ596p0YNBFO1I068dho18AkfUYtx4VPNyK0YIbGLte/HFUE5AW8USQUd7K0oFBXXlV
+ MP7N5/ZYvSGqjLl7tHEeGy2jGLoy+oE=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-518-XAuzdnn-NrqoFzHEWB7bhg-1; Mon, 21 Oct 2024 05:11:22 -0400
+X-MC-Unique: XAuzdnn-NrqoFzHEWB7bhg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-42ac185e26cso34518665e9.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 02:11:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1729501881; x=1730106681;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=h/cZ9ik40jZqCmA8LDM3aEei04H39Rf+nKGJ7o3V87g=;
+ b=L2VvN60lAeRUoBczZBBbX+xYgr4UNgLnO/leM7peg6gqY54nmu8J0NKJ0DuR7oha8d
+ DAYAduiWSi7HVbVmh3/44ZqKbOCKnxHiuJRitytNlMKZ7x3c0w8uoXHKmgqk9wQY4kGJ
+ B+0gJBd3EzALwwoO0UkTPlCnXTFNzL4emmUw9bBlyuRtiZNugpveXYN+iMkmpqdAXQWN
+ rYTy2dyFRYEZNMNfGUggQ+8ResObBftfZ9r7Lumee8O8CHX0oFdfFNC8bKKaUInFe5N/
+ unF7Ax6X3hgAFTc6NX5HPVBbZaQzgUSdmC651ibq+De28YVUnA9mwB//E6eEG9Rw2hYi
+ D0xw==
+X-Gm-Message-State: AOJu0YzRsFTVGrjZCLlvCkc8lZyjo1OgwNwIk1KAab4mMBOmVSN/2yeG
+ XEIxf27kiiXaDUWl+BcRkB/7lJ1pLA2PK9dxj8OgqG76qk9sWwUlCTiKESR46R/KhiNXoCp2d56
+ eIIfyO/Zgf6QTJDERzxGZQE+7DMrlVQCcbahWhM6qN+3yBqMZMImazuEOrr+SIldq4Q==
+X-Received: by 2002:a5d:5649:0:b0:37d:4cef:538b with SMTP id
+ ffacd0b85a97d-37eb486aaa5mr6145651f8f.26.1729501880847; 
+ Mon, 21 Oct 2024 02:11:20 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEKnogqVvTQRgKVaEROMhzo1GOWp3yCyMp59Ns7uFRLsJYvM2xSpczrhdqT2HHz14fDdQIqlw==
+X-Received: by 2002:a5d:5649:0:b0:37d:4cef:538b with SMTP id
+ ffacd0b85a97d-37eb486aaa5mr6145636f8f.26.1729501880417; 
+ Mon, 21 Oct 2024 02:11:20 -0700 (PDT)
+Received: from eisenberg.fritz.box
+ (200116b82d449800aee93296d73e68da.dip.versatel-1u1.de.
+ [2001:16b8:2d44:9800:aee9:3296:d73e:68da])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-37ee0b94356sm3804855f8f.67.2024.10.21.02.11.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 21 Oct 2024 02:11:20 -0700 (PDT)
+From: Philipp Stanner <pstanner@redhat.com>
+To: Sui Jingfeng <suijingfeng@loongson.cn>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Philipp Stanner <pstanner@redhat.com>
+Subject: [PATCH] drm/lsdc: Request PCI BAR
+Date: Mon, 21 Oct 2024 11:11:16 +0200
+Message-ID: <20241021091116.14368-1-pstanner@redhat.com>
+X-Mailer: git-send-email 2.47.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/6] drm/xe: Use ttm_bo_access in
- xe_vm_snapshot_capture_delayed
-To: Matthew Brost <matthew.brost@intel.com>, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: thomas.hellstrom@linux.intel.com
-References: <20241019192030.1505020-1-matthew.brost@intel.com>
- <20241019192030.1505020-5-matthew.brost@intel.com>
-Content-Language: en-GB
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <20241019192030.1505020-5-matthew.brost@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,60 +94,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19/10/2024 20:20, Matthew Brost wrote:
-> Non-contiguous mapping of BO in VRAM doesn't work, use ttm_bo_access
-> instead.
-> 
-> v2:
->   - Fix error handling
-> 
-> Fixes: 0eb2a18a8fad ("drm/xe: Implement VM snapshot support for BO's and userptr")
-> Suggested-by: Matthew Auld <matthew.auld@intel.com>
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+lsdc currently just ioremaps its PCI BAR with pcim_iomap(). Performing
+a region regquest additionally can make the driver more robust.
 
-The other user looks to be the clear color stuff for display. See 
-intel_bo_read_from_page(). I think that is also potentially busted?
+Replace pcim_iomap() with the managed function pcim_iomap_region() which
+performs the request and ioremaps the BAR.
 
-> ---
->   drivers/gpu/drm/xe/xe_vm.c | 17 ++++++-----------
->   1 file changed, 6 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
-> index c99380271de6..c8782da3a5c3 100644
-> --- a/drivers/gpu/drm/xe/xe_vm.c
-> +++ b/drivers/gpu/drm/xe/xe_vm.c
-> @@ -3303,7 +3303,6 @@ void xe_vm_snapshot_capture_delayed(struct xe_vm_snapshot *snap)
->   
->   	for (int i = 0; i < snap->num_snaps; i++) {
->   		struct xe_bo *bo = snap->snap[i].bo;
-> -		struct iosys_map src;
->   		int err;
->   
->   		if (IS_ERR(snap->snap[i].data))
-> @@ -3316,16 +3315,12 @@ void xe_vm_snapshot_capture_delayed(struct xe_vm_snapshot *snap)
->   		}
->   
->   		if (bo) {
-> -			xe_bo_lock(bo, false);
+Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+---
+ drivers/gpu/drm/loongson/lsdc_drv.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-I think we still need the lock, or is that grabbed somewhere else? Also 
-I guess CI doesn't currently hit this path?
+diff --git a/drivers/gpu/drm/loongson/lsdc_drv.c b/drivers/gpu/drm/loongson/lsdc_drv.c
+index adc7344d2f80..592d01b6767e 100644
+--- a/drivers/gpu/drm/loongson/lsdc_drv.c
++++ b/drivers/gpu/drm/loongson/lsdc_drv.c
+@@ -230,9 +230,9 @@ lsdc_create_device(struct pci_dev *pdev,
+ 	lsdc_gem_init(ddev);
+ 
+ 	/* Bar 0 of the DC device contains the MMIO register's base address */
+-	ldev->reg_base = pcim_iomap(pdev, 0, 0);
+-	if (!ldev->reg_base)
+-		return ERR_PTR(-ENODEV);
++	ldev->reg_base = pcim_iomap_region(pdev, 0, "lsdc");
++	if (IS_ERR(ldev->reg_base))
++		return ldev->reg_base;
+ 
+ 	spin_lock_init(&ldev->reglock);
+ 
+-- 
+2.47.0
 
-> -			err = ttm_bo_vmap(&bo->ttm, &src);
-> -			if (!err) {
-> -				xe_map_memcpy_from(xe_bo_device(bo),
-> -						   snap->snap[i].data,
-> -						   &src, snap->snap[i].bo_ofs,
-> -						   snap->snap[i].len);
-> -				ttm_bo_vunmap(&bo->ttm, &src);
-> -			}
-> -			xe_bo_unlock(bo);
-> +			err = ttm_bo_access(&bo->ttm, snap->snap[i].bo_ofs,
-> +					    snap->snap[i].data, snap->snap[i].len, 0);
-> +			if (!(err < 0) && err != snap->snap[i].len)
-> +				err = -EIO;
-> +			else if (!(err < 0))
-> +				err = 0;
->   		} else {
->   			void __user *userptr = (void __user *)(size_t)snap->snap[i].bo_ofs;
->   
