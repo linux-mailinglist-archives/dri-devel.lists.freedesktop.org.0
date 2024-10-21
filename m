@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A518C9A92F5
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2024 00:07:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B21699A92F9
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2024 00:07:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CE3210E06B;
-	Mon, 21 Oct 2024 22:07:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10FEC10E5B4;
+	Mon, 21 Oct 2024 22:07:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56F7210E4A6
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 11:57:10 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.88.214])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4XXDFq4QvSz1HLJh;
- Mon, 21 Oct 2024 19:52:47 +0800 (CST)
+Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4A4010E079
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 12:22:23 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.88.234])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4XXDtJ2shXz2Fb4l;
+ Mon, 21 Oct 2024 20:20:56 +0800 (CST)
 Received: from kwepemd500013.china.huawei.com (unknown [7.221.188.12])
- by mail.maildlp.com (Postfix) with ESMTPS id 6C4291A016C;
- Mon, 21 Oct 2024 19:57:06 +0800 (CST)
+ by mail.maildlp.com (Postfix) with ESMTPS id 18BB41401F1;
+ Mon, 21 Oct 2024 20:22:17 +0800 (CST)
 Received: from [10.159.166.136] (10.159.166.136) by
  kwepemd500013.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.34; Mon, 21 Oct 2024 19:57:04 +0800
-Message-ID: <0cfe73f0-01a3-4dd6-becf-7662498d56b3@huawei.com>
-Date: Mon, 21 Oct 2024 19:57:03 +0800
+ 15.2.1258.34; Mon, 21 Oct 2024 20:22:15 +0800
+Message-ID: <c95252f7-12a7-49b8-8bf6-2ff3ada845ff@huawei.com>
+Date: Mon, 21 Oct 2024 20:22:14 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH drm-dp 3/4] drm/hisilicon/hibmc: add dp kapi moduel in
@@ -40,12 +40,12 @@ CC: <xinliang.liu@linaro.org>, <tiantao6@hisilicon.com>,
 References: <20240930100610.782363-1-shiyongbang@huawei.com>
  <20240930100610.782363-4-shiyongbang@huawei.com>
  <eslfc3ejjjpbw5wuf4khcoixeaitpb47iwf6kug7cryplcxcui@sieiyekdpczn>
-From: s00452708 <shiyongbang@huawei.com>
+From: Yongbang Shi <shiyongbang@huawei.com>
 In-Reply-To: <eslfc3ejjjpbw5wuf4khcoixeaitpb47iwf6kug7cryplcxcui@sieiyekdpczn>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Originating-IP: [10.159.166.136]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
  kwepemd500013.china.huawei.com (7.221.188.12)
 X-Mailman-Approved-At: Mon, 21 Oct 2024 22:07:41 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -64,6 +64,7 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Dmitry,
+There're some format problems with the previous replies. Send it again here.
 Thanks for your advices, I'll resolve the problems you mentioned.
 
 > On Mon, Sep 30, 2024 at 06:06:09PM +0800, shiyongbang wrote:
@@ -204,14 +205,29 @@ Thanks for your advices, I'll resolve the problems you mentioned.
 >> +	u32 field_rate;
 >> +	u32 pixel_clock; // khz
 > Why do you need a separate struct for this?
-> I can try to use drm_mode function and refactor this struct, but they're insufficient for ourscenarios.Here's change template bellow: struct dp_mode { sturct 
-> videomode mode; u32 h_total; u32 h_blank; u32 v_total; u32 v_blank; 
-> u32 field_rate; }; static void dp_mode_cfg(struct dp_mode *dp_mode, 
-> struct drm_display_mode *mode) { dp_mode->field_rate = 
-> drm_mode_vrefresh(mode); drm_display_mode_to_videomode(mode, 
-> &dp_mode->vmode); dp_mode->h_total = mode->htotal; dp_mode->h_blank = 
-> mode->htotal - mode->hdisplay; dp_mode->v_total = mode->vtotal; 
-> dp_mode->v_blank = mode->vtotal - mode->vdisplay; }
+
+I can try to use drm_mode function and refactor this struct, but they're insufficient for our scenarios.
+Here's change template bellow:
+struct dp_mode {
+         sturct videomode mode;
+         u32 h_total;
+         u32 h_blank;
+         u32 v_total;
+         u32 v_blank;
+         u32 field_rate;
+};
+static void dp_mode_cfg(struct dp_mode *dp_mode, struct drm_display_mode *mode)
+{
+         dp_mode->field_rate = drm_mode_vrefresh(mode);
+         drm_display_mode_to_videomode(mode, &dp_mode->vmode);
+         dp_mode->h_total = mode->htotal;
+         dp_mode->h_blank = mode->htotal - mode->hdisplay;
+         dp_mode->v_total = mode->vtotal;
+         dp_mode->v_blank = mode->vtotal - mode->vdisplay;
+
+}
+
+
 >> +};
 >> +
 >> +struct hibmc_dp {
