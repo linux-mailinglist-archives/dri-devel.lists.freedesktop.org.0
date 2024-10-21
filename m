@@ -2,80 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93D779A67DA
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2024 14:17:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88A3B9A67DD
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2024 14:18:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66B1C10E4B8;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95EAD10E4BC;
 	Mon, 21 Oct 2024 12:17:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="c3hn7/VD";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ft04Dkyz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
- [209.85.167.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CCED10E4B8
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
+ [209.85.208.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EEF9910E4B8
  for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 12:17:55 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id
- 2adb3069b0e04-539f6e1f756so5065608e87.0
+Received: by mail-lj1-f170.google.com with SMTP id
+ 38308e7fff4ca-2f7657f9f62so41196891fa.3
  for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 05:17:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1729513073; x=1730117873; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1729513074; x=1730117874; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=++p6IK2xyUkmxIiDtF8Kg/j4cQViLTJqoFU8d2o1atw=;
- b=c3hn7/VDnLmMTngmJpq2YFhj7mYpEwK5wNdgJck6kbnWnT70OqUYgIri2Qg73Q/KLe
- 2ghNOJMJ3Qzptv9ZzAsKFKU1nB+oKvSVdl6pc4bZWktvZgpN3Rgm6LutW9PIs0AT8XRw
- QI6miaXanfSBeIXmJxGnAwvZtWovNc63s3je5phi2b4Nc+AwyYy7VTIsHt3feMJ+cce4
- 3VvbXYKgshsYFH3NUdHmt/xeqdZBzcvL64KQHigjz04U8p7uOJYDtibT1iaackuOAs9h
- QiX5a+bAfBpZ9HjH3KtBKf+c1PKWDMYXsZ7PwC6rld0DAbt3MxjPM7u3ZrhsQ7vuopWo
- szPw==
+ bh=f9yzL3cq6refE/8jHrgfUykQ00f5QT9/9b/0xTf+sbg=;
+ b=ft04Dkyz7OsCWy/rwwMiMdPMTUHhexmOW4DDhe3q3Mg1zwizxbJ5j1cfhDLxU4HiBi
+ 29PsCgqU2K0tfuibgfWZw+N8DirJqB4eUNbVCp1vNEangBJGtKjAln1PTpEM90Lwqaez
+ WQFCISxDrID5T7fgijUMD0n1Fqhp5Mk/s7xOgSE1RW7s3yBRaM9r+4sNHrtKbOTXDd1U
+ qcuqobYSqjy586hcYSEKh24w7V0W+H404+2heh7aHDCRjFy/3Do3toGxMtWn6XoZ1ZRE
+ B9tTiHIQYA5f9BS2WgpnuXKmjO5zLCpv+dGWzIKtfITnyjYz8lnxnW5AFTTw6NBARVbC
+ Aq+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729513073; x=1730117873;
+ d=1e100.net; s=20230601; t=1729513074; x=1730117874;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=++p6IK2xyUkmxIiDtF8Kg/j4cQViLTJqoFU8d2o1atw=;
- b=eAKMsY5ZE+DlRG+IlYd+JOc6q7DV8k7bOcFKOTrH/d1az43lxiVIBU1bYsUBojMRux
- qvfcOd25OqbvTKeDrVOT27EIzPJb9YZrstlVuBP6pFlszXXsJ4UhHAns+65rpkEPwJ3f
- RB2hSKvjNw9bdNU1cKXqbz57GfaCHPUe6t2Hk4uIqcgRQXRYEQT3f+o22EgdiqTLlP+I
- JFAeahrPiN5wevCdGuBKFlAeJyJcfCOCC35btpBSifhdO0BtmrH+fwnpvUUUnZfCLnSm
- c7ZXxEHIRekPG/PK24cFHKy3d/eOLI8/T6D52fsSrtTVMzw+/GeVy+Pi73+v+Gm/7OXm
- jV3g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVsuuGt9nXUDqElsOq4TyuNTCbmAD7OTMpFnrooNIHWM9jxayjEgrDQdjPrE1FpxHfDGJGiC6FjTYo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxqWDFzS5w45/u/InNzAcIH76VabqJhE+2VnnSwqBE0IT96X9DA
- U7TI70pZe+ILi4rLoVCcdewr5vogrrne4th1+rI6lo2iky6eCRHYlrnKv9TDx68=
-X-Google-Smtp-Source: AGHT+IEaBDgO0bJNd009iFuyYoVj9ZrfomLRDAMi/yxMGgNzbZQlm++57S0iUYR+s+bCy7ZAO9vNng==
-X-Received: by 2002:a05:6512:2356:b0:539:e317:b05f with SMTP id
- 2adb3069b0e04-53a15229d00mr5612912e87.28.1729513073320; 
+ bh=f9yzL3cq6refE/8jHrgfUykQ00f5QT9/9b/0xTf+sbg=;
+ b=bWcBog9VKn6o9UQOJnzGgmSrfzggrRGB0TNMuO7zwgjNb5OUwFeMZHlrhcPfu8j8sh
+ 4OMI3GiE4uat1UqCVRHPFQmCALn5aT/KE0TM9qk27RbrRYF+OI2nFV72OyTHmq3HL1uJ
+ IsoROtl3O6nKxGl70fRudsYZWPeanHPX7DE0oBaX4pMUXmsZ7GhaLhAQfi3Lsi5lFv6m
+ 4peb4FH70dWDi2grDMFGfBiZh/vRs+9Scm9r/ED68QPZ3kc8NoWW0Qxto4BZyUH/bEHR
+ sRJkE6+N6QikP4PvjaRr2EFM3CJhB/2FmSZUkhaflobIgxmKDCf7IaC+tM+kLxNtmONz
+ bsmA==
+X-Gm-Message-State: AOJu0Ywy5xrVZx3q4+fk1Fhl8c4wckEyzzHfW+4Fp/lw+9r0Hv/QcWpc
+ Jy8hlqKpKHULqeb4t97Dd3Sv6Sl8zfMvcvWnjhrTQ7dj5fJIevD7nFiFq0pMK1A=
+X-Google-Smtp-Source: AGHT+IEsjekVnrcVqImxMZbmo0i6wP10FDI9NRJIYrGYKmreelLfg+89QH4satNGiJJ0wxtZuHKbxw==
+X-Received: by 2002:a05:6512:2393:b0:539:f65b:401 with SMTP id
+ 2adb3069b0e04-53a154a2413mr4923387e87.57.1729513073979; 
  Mon, 21 Oct 2024 05:17:53 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.90])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53a22431454sm464210e87.212.2024.10.21.05.17.52
+ 2adb3069b0e04-53a22431454sm464210e87.212.2024.10.21.05.17.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Oct 2024 05:17:52 -0700 (PDT)
+ Mon, 21 Oct 2024 05:17:53 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: vkoul@kernel.org, kishon@kernel.org, konradybcio@kernel.org,
- andersson@kernel.org, simona@ffwll.ch, abel.vesa@linaro.org,
- robdclark@gmail.com, quic_abhinavk@quicinc.com, sean@poorly.run,
- marijn.suijten@somainline.org, airlied@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- quic_khsieh@quicinc.com, quic_parellan@quicinc.com,
- quic_bjorande@quicinc.com, Simona Vetter <simona.vetter@ffwll.ch>,
- Soutrik Mukhopadhyay <quic_mukhopad@quicinc.com>
-Cc: linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- quic_riteshk@quicinc.com, quic_vproddut@quicinc.com
-Subject: Re: [PATCH v5 0/5] Add support for DisplayPort on SA8775P platform
-Date: Mon, 21 Oct 2024 15:17:42 +0300
-Message-Id: <172950935864.2053501.518573859877352853.b4-ty@linaro.org>
+To: javierm@redhat.com, airlied@gmail.com, simona@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Subject: Re: (subset) [PATCH 00/28] drm: Remove DRM aperture helpers
+Date: Mon, 21 Oct 2024 15:17:43 +0300
+Message-Id: <172950935856.2053501.4410265648664199730.b4-ty@linaro.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20241018070706.28980-1-quic_mukhopad@quicinc.com>
-References: <20241018070706.28980-1-quic_mukhopad@quicinc.com>
+In-Reply-To: <20240930130921.689876-1-tzimmermann@suse.de>
+References: <20240930130921.689876-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -95,17 +85,23 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Fri, 18 Oct 2024 12:37:01 +0530, Soutrik Mukhopadhyay wrote:
-> This series adds support for the DisplayPort controller
-> and eDP PHY v5 found on the Qualcomm SA8775P platform.
+On Mon, 30 Sep 2024 15:02:58 +0200, Thomas Zimmermann wrote:
+> DRM's aperture helpers are merely wrappers around the respective
+> helpers in drivers/video/. The DRM interface existed first, but was
+> later generalized for use with fbdev and a few other graphics-related
+> places in the kernel. It is time to remove the DRM wrappers and call
+> the video helpers directly.
 > 
+> No functional changes intended. This series should replace one interface
+> with another. Individual patches could go into the various trees and the
+> DRM wrappers can be removed when all driver changes have been merged.
+> 
+> [...]
 
 Applied, thanks!
 
-[4/5] dt-bindings: display: msm: dp-controller: document SA8775P compatible
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/c51ff89a8139
-[5/5] drm/msm/dp: Add DisplayPort controller for SA8775P
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/dcb380d19e58
+[11/28] drm/msm: Use video aperture helpers
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/42170670ee76
 
 Best regards,
 -- 
