@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CF729A5D09
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2024 09:30:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E0F79A5D10
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2024 09:30:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E75E410E434;
-	Mon, 21 Oct 2024 07:29:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7639010E425;
+	Mon, 21 Oct 2024 07:30:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="KQO5qKMP";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ZdMK8fCJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1F2E10E428
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 07:29:56 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id
- 5b1f17b1804b1-4315e62afe0so38630135e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 00:29:56 -0700 (PDT)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+ [209.85.128.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7F1710E425
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 07:30:13 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id
+ 5b1f17b1804b1-4315c1c7392so36570755e9.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 00:30:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1729495795; x=1730100595; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1729495812; x=1730100612; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=YNOZqddaoOrk8/x4u3nq9GdRCqUuOFLmAqZeR4UqCCw=;
- b=KQO5qKMPFyfeBZZ6IJZcZ3jNwyX+BM1fJFLU2VqbDLeHT5XeRBT7FCU6LRiS4RkJmY
- nEUHsT1qKZPwnZEl54MKwEASCu/dC7RQwarvp9qRFp2H/KIIItGjGvOhB37+Tzi3PM77
- GNF85sMo+cYesMKhBM8jQ2h1g/WrclAaEUjWZQEpD6t4c8iy5+SSdw7QOxWOcqgT7QgY
- LkWX4C6syKIuxYEq7gg7amrv6HV17rxM8HZVb5Xd4InM4HaLHD9NhfopNHvz+E/ZI5Lh
- vOyIwu7Hj1MDi967P2NhVoIYlGlXA5AkBwDrAuMVgBg4+PWb+LjseThQP8we5SZuushn
- 6Hqg==
+ :reply-to; bh=rFWiSRU+E0T2EnN+h3/EdYDS8QJTZn1YySSnOLAXaNA=;
+ b=ZdMK8fCJ4SMYyXnicIOCDD6PVzjO7ebHbUpRNsqE156NXIyWm9Z9NYf3YYkoSKfRAO
+ mAo/oHSnVasfUTJjTA4MVW1v+1sYZyTh9bgXn8iJFNJVpjIQUirw127wcyCwvobwZMZ4
+ J/82rlshk1Xbwkm2oKpERug7yqibBwbfVtJwkLEWCjrPh6JqKBiCuTaAGOKvEwfXn4Qf
+ yfiFSO3TUdUETvmYoOMz70CdOGlNmyLCaea/CP2y/VxIldKtMOMno4rK/Q/XnaB9pGWq
+ B3JpozznTH2HcVRtur06TVHzWr/sdmmd9YiPQfByyODc4manJ5jTk0WH8pKdi4QbkldU
+ 7tNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729495795; x=1730100595;
+ d=1e100.net; s=20230601; t=1729495812; x=1730100612;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=YNOZqddaoOrk8/x4u3nq9GdRCqUuOFLmAqZeR4UqCCw=;
- b=YEMer4xdTsSv5sgkOCBcTDk5IAV2QUnF6zSiwDvlFecbPSL0wu4OoITmzsGtzCrq/d
- XL3O714pc5E6YrR2pIcLJ7K/4yyAtAqlVj0hTrjgfQhBm+an7UXT01y4H5kbv9q8WKH7
- epMnb9fWsvzuTeGok/A1/n0O32ZREjjwX5l69obT1PnrtWjdIhHPLtr1E6Tl9oAUXgPF
- SWOqMz0WBBZlEP7e3i2fPnh4Ttv04J5IqZTzGZweLRhJSmrtYm6sPNKJqH4Gs7VV09Ld
- lvby9Z7xNRb8G9cZuCcHrU4B94vkRUMWbIVrihKNrG6KQ81QK15rnM9RLzkzntxE6dV4
- RiNA==
-X-Gm-Message-State: AOJu0YxbKaOjA98Y2C+Q/EqshgwcWGjtizwBDNmarSCMypTsA8Lc6RtK
- KM74SNSkbiI/YFpuWUqWJEN9XGm6LHAnRbvNHavqPdaEeX0oZ+FMNmsccMovFL4=
-X-Google-Smtp-Source: AGHT+IFJuoUGb5krhAn5cqCgAJnC/ljP9vnIC3rDFQBRXtRPQG7LFSg4zpy9bDNhkNTbxSQjbnPvqQ==
-X-Received: by 2002:a05:600c:1d04:b0:431:1a98:cb40 with SMTP id
- 5b1f17b1804b1-43161667bddmr62590085e9.18.1729495794803; 
- Mon, 21 Oct 2024 00:29:54 -0700 (PDT)
+ bh=rFWiSRU+E0T2EnN+h3/EdYDS8QJTZn1YySSnOLAXaNA=;
+ b=mGvknwaOwK2EcFYPCYoEVvBheNOkcu/FN4J6pRLNQpKN+0MHMpRwtqpoHSiXNFQ5Q1
+ OOUi2bfiQIgef+tOXTZwTz4Hb+4K61vOjiPviVGCtRQuqlGRD0Kd+ObkDU6c/gfaI34S
+ spjYqsz6CBUvWbMndzQiw6rI0FY9fl6f3dpOSn89PQecBjskraGBA4x4I8gfu9rxQO9h
+ IADkqg9N0Z+9gptMfxJZ6+34kJfTqsg1iWQo3QML1MTMnkG5Svu6rNu4begI9I1w6dbU
+ nOD8vODAQ94XxZAMsXg3EfL71CHhlO7B2yGKPwmLVgopwdY+pZa5TljSb7oM6vj3RMtB
+ jdcA==
+X-Gm-Message-State: AOJu0YwmK3TzKfyIRfdixX+oQNZ0xXCVpQhkBrTp5qgm1WyOD8/slV3B
+ yT0fFz3r8J5A/1+Hai61VGuOojkaln3d7sYk4Kijsdh0azB93/NGyEeHxAp8cbk=
+X-Google-Smtp-Source: AGHT+IEWHJSABtiE4Y1+3d+0nQDBiBZ/096ktfb8dHOQacmmZT08uUrkQlfuwa4ruGF8dEl9Wva13g==
+X-Received: by 2002:a05:600c:674a:b0:42f:8229:a0a1 with SMTP id
+ 5b1f17b1804b1-431616adba5mr73274585e9.33.1729495812076; 
+ Mon, 21 Oct 2024 00:30:12 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:982:cbb0:3908:dea6:2ddd:be97?
  ([2a01:e0a:982:cbb0:3908:dea6:2ddd:be97])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4316f5709efsm47712795e9.10.2024.10.21.00.29.53
+ 5b1f17b1804b1-4316f5cc5b9sm47149335e9.45.2024.10.21.00.30.10
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Oct 2024 00:29:54 -0700 (PDT)
-Message-ID: <28fb5aed-0387-4c16-96fb-c2c23ae315b0@linaro.org>
-Date: Mon, 21 Oct 2024 09:29:54 +0200
+ Mon, 21 Oct 2024 00:30:11 -0700 (PDT)
+Message-ID: <2bcb1942-f636-4e1e-aa32-7755309ca655@linaro.org>
+Date: Mon, 21 Oct 2024 09:30:11 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 3/6] drm/bridge: display-connector: allow YCbCr 420 for
- HDMI and DP
+Subject: Re: [PATCH 6/6] drm/bridge: dw-hdmi: set bridge's ycbcr_420_allowed
+ flag
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
@@ -73,9 +73,10 @@ To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ Alexander Stein <alexander.stein@ew.tq-group.com>
 References: <20241019-bridge-yuv420-v1-0-d74efac9e4e6@linaro.org>
- <20241019-bridge-yuv420-v1-3-d74efac9e4e6@linaro.org>
+ <20241019-bridge-yuv420-v1-6-d74efac9e4e6@linaro.org>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -102,7 +103,7 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <20241019-bridge-yuv420-v1-3-d74efac9e4e6@linaro.org>
+In-Reply-To: <20241019-bridge-yuv420-v1-6-d74efac9e4e6@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -122,33 +123,29 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 18/10/2024 23:49, Dmitry Baryshkov wrote:
-> Allow YCbCr 420 output for HDMI and DisplayPort connectors. Other
-> bridges in the chain still might limit YCbCr 420 support on the
-> corresponding connector.
+> Set the drm_bridge's ycbcr_420_allowed flag if the YCbCr 420 output is
+> supported by the hardware.
 > 
+> Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
->   drivers/gpu/drm/bridge/display-connector.c | 4 ++++
->   1 file changed, 4 insertions(+)
+>   drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 3 +++
+>   1 file changed, 3 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/bridge/display-connector.c b/drivers/gpu/drm/bridge/display-connector.c
-> index ab8e00baf3f1..aab9ce7be94c 100644
-> --- a/drivers/gpu/drm/bridge/display-connector.c
-> +++ b/drivers/gpu/drm/bridge/display-connector.c
-> @@ -270,6 +270,10 @@ static int display_connector_probe(struct platform_device *pdev)
->   	/* All the supported connector types support interlaced modes. */
->   	conn->bridge.interlace_allowed = true;
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> index 0031f3c54882..996733ed2c00 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> @@ -3503,6 +3503,9 @@ struct dw_hdmi *dw_hdmi_probe(struct platform_device *pdev,
+>   	hdmi->bridge.of_node = pdev->dev.of_node;
+>   	hdmi->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
 >   
-> +	if (type == DRM_MODE_CONNECTOR_HDMIA ||
-> +	    type == DRM_MODE_CONNECTOR_DisplayPort)
-> +		conn->bridge.ycbcr_420_allowed = true;
+> +	if (hdmi->version >= 0x200a)
+> +		hdmi->bridge.ycbcr_420_allowed = plat_data->ycbcr_420_allowed;
 > +
->   	/* Get the optional connector label. */
->   	of_property_read_string(pdev->dev.of_node, "label", &label);
->   
+>   	memset(&pdevinfo, 0, sizeof(pdevinfo));
+>   	pdevinfo.parent = dev;
+>   	pdevinfo.id = PLATFORM_DEVID_AUTO;
 > 
 
-I think we should make sure all HDMI bridges can filter out 420 before
-landing this, no ?
-
-Neil
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
