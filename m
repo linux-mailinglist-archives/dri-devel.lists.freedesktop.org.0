@@ -2,88 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F73D9A9303
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2024 00:09:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 611019A937E
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2024 00:43:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85BAA10E5B8;
-	Mon, 21 Oct 2024 22:09:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9614510E5BF;
+	Mon, 21 Oct 2024 22:43:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="SD2QvFNj";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Qskf1m10";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2A7910E5B7;
- Mon, 21 Oct 2024 22:09:47 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49LKfrJ0029542;
- Mon, 21 Oct 2024 22:09:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=wpi7o+07TDt9MzAXwaqEjlsG
- 7+hYbr7RYO3nHtxlHmo=; b=SD2QvFNjfRKCxEmdlgivknQwgtNpKaChveNeCVqg
- oaYYKP0Q+wS7V+d/F0ZA/B3vaaph6ZO/8zK/kyiQcYXbGIQi7QIRoC0+XD4t/AG8
- aA3zJSoLv34YwX3uZTrYnTBaAEADleKh9HsMiG+xzl414/3rUQ6KjxsrCrhPRe6l
- wjMzULcJhSGLaPjJAbHd5FffmTzFU4yAcuoABU2oSnsOElyCZr7z0vXGZtU9byoB
- VHtIVSgoZV6HkafQTqDHPZtkdDBT9e+B88Mvx0YdiS5CLFeXawgE7QyQWMDLC7YD
- 70xE7olMEH8e/r31qbza/tQyquRl6HMIwb1AM/z7MQn6yg==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42c6vc67be-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 21 Oct 2024 22:09:41 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49LM9OXp029974
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 21 Oct 2024 22:09:24 GMT
-Received: from hu-akhilpo-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Mon, 21 Oct 2024 15:09:18 -0700
-Date: Tue, 22 Oct 2024 03:39:14 +0530
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, "Konrad
- Dybcio" <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Simona
- Vetter" <simona@ffwll.ch>,
- Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
- Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <linux-pm@vger.kernel.org>, <devicetree@vger.kernel.org>
-Subject: Re: [PATCH RFC 1/3] drm/msm/adreno: Add support for ACD
-Message-ID: <20241021220914.vrxiyeoxjyxweovu@hu-akhilpo-hyd.qualcomm.com>
-References: <20241012-gpu-acd-v1-0-1e5e91aa95b6@quicinc.com>
- <20241012-gpu-acd-v1-1-1e5e91aa95b6@quicinc.com>
- <1543ae2a-76ff-4b36-adae-37076e48b7f8@oss.qualcomm.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8D8C10E112;
+ Mon, 21 Oct 2024 22:43:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1729550599; x=1761086599;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=JR28UEzQgZRkSPMn4zXER/xKd4JgLndGP4iEnIVFpkU=;
+ b=Qskf1m10GfOu/OkmL+qbUGLaKws12dfnfwlPgCQX9lR+n7s44BZopSdx
+ HrFMatqpclLtLlcos4AxrT6bVxM82EeNxue5bev6V35V0xvL2BwdDehfN
+ BQcB3lMggMnAdkWe2wwHgqB+ar8LjWrsTP9HQtlWAXS7c24NGNe1AXuCo
+ LK58WwSFhX2ANP2MC7zJKJEhVTlj15ipRts8mXoyPT/G7gIgdRV00lnQ+
+ dYFXr18VVfPVSSjElPXJ+PUifASlu4rV9/6qaquLzNKJQGW/E1bVoRxMe
+ /DTwrFb+y7C5M4KZ4qALamCRzxhSkGYqQvWH3l2Wn2WO04fy3Lo15cQwT A==;
+X-CSE-ConnectionGUID: D5T6+XDyTXy7OaEqgYUWkQ==
+X-CSE-MsgGUID: Tib/fFEBRQGIhWKJuzLSEA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11232"; a="54464078"
+X-IronPort-AV: E=Sophos;i="6.11,221,1725346800"; d="scan'208";a="54464078"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Oct 2024 15:43:18 -0700
+X-CSE-ConnectionGUID: 40Jg7XaaToWC0vXdmhLm9Q==
+X-CSE-MsgGUID: VwMwfcjWQQmTD+CQdoQlqA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,221,1725346800"; d="scan'208";a="79751014"
+Received: from guc-pnp-dev-box-1.fm.intel.com ([10.1.27.7])
+ by fmviesa008.fm.intel.com with ESMTP; 21 Oct 2024 15:43:18 -0700
+From: Zhanjun Dong <zhanjun.dong@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Cc: Zhanjun Dong <zhanjun.dong@intel.com>
+Subject: [PATCH v2 0/1] FOR-CI: drm/i915/guc: Move destroy context at end of
+ reset prepare
+Date: Mon, 21 Oct 2024 15:43:15 -0700
+Message-Id: <20241021224316.293590-1-zhanjun.dong@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <1543ae2a-76ff-4b36-adae-37076e48b7f8@oss.qualcomm.com>
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: NsB4opqiPqmhR1jwMIwzlPqCN0S6yBOw
-X-Proofpoint-ORIG-GUID: NsB4opqiPqmhR1jwMIwzlPqCN0S6yBOw
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 clxscore=1015
- priorityscore=1501 impostorscore=0 lowpriorityscore=0 suspectscore=0
- spamscore=0 phishscore=0 bulkscore=0 mlxscore=0 adultscore=0
- mlxlogscore=985 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2410210158
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,44 +66,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 21, 2024 at 11:38:41AM +0200, Konrad Dybcio wrote:
-> On 11.10.2024 10:29 PM, Akhil P Oommen wrote:
-> > ACD a.k.a Adaptive Clock Distribution is a feature which helps to reduce
-> > the power consumption. In some chipsets, it is also a requirement to
-> > support higher GPU frequencies. This patch adds support for GPU ACD by
-> > sending necessary data to GMU and AOSS. The feature support for the
-> > chipset is detected based on devicetree data.
-> > 
-> > Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
-> > ---
-> 
-> [...]
-> 
-> > +
-> > +	/* Initialize qmp node to talk to AOSS */
-> > +	gmu->qmp = qmp_get(gmu->dev);
-> > +	if (IS_ERR(gmu->qmp)) {
-> > +		cmd->enable_by_level = 0;
-> > +		return dev_err_probe(gmu->dev, PTR_ERR(gmu->qmp), "Failed to initialize qmp\n");
-> > +	}
-> 
-> I'm still in favor of keeping qmp_get where it currently is, so that
-> probe can fail/defer faster
+During GuC reset prepare, interrupt disabled before hardware reset,
+although interrupt disabled, the ct is still enabled, the host-GuC
+communication is still active.
+Move the destroy part to the end of reset preparation to avoid the
+situation of host processing G2H messages about an context, but the
+context already been destroyed.
 
-Sorry, I somehow missed this email from you until now.
+Signed-off-by: Zhanjun Dong <zhanjun.dong@intel.com>
 
-If it fails, then it probably doesn't matter if it is a bit late. But for defer, isn't there
-some optimizations to track the dependency from devicetree data? I am
-not entirely sure!
+Zhanjun Dong (1):
+  drm/i915/guc: Move destroy context at end of reset prepare
 
-Since qmp node is related to ACD, I felt it is better to:
-  1. Keep all acd probe related code in a single place.
-  2. Be more opportunistic in skipping qmp_get() wherever possible.
+ drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-But if you still have strong opinion on this, I can move it back in the
-next revision (v3).
+-- 
+2.34.1
 
--Akhil
-
-> 
-> Konrad
