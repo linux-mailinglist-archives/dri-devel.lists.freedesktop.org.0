@@ -2,112 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39D029A6680
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2024 13:21:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3E8E9A669B
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2024 13:32:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 207BE10E4A0;
-	Mon, 21 Oct 2024 11:21:25 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=arndb.de header.i=@arndb.de header.b="ulqzTF6d";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="JxpTRpOJ";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F06910E49D;
+	Mon, 21 Oct 2024 11:32:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from flow-a2-smtp.messagingengine.com
- (flow-a2-smtp.messagingengine.com [103.168.172.137])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC41D10E4A2;
- Mon, 21 Oct 2024 11:21:22 +0000 (UTC)
-Received: from phl-compute-10.internal (phl-compute-10.phl.internal
- [10.202.2.50])
- by mailflow.phl.internal (Postfix) with ESMTP id 1134D200206;
- Mon, 21 Oct 2024 07:21:22 -0400 (EDT)
-Received: from phl-imap-11 ([10.202.2.101])
- by phl-compute-10.internal (MEProxy); Mon, 21 Oct 2024 07:21:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
- :cc:content-transfer-encoding:content-type:content-type:date
- :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=fm2; t=1729509682;
- x=1729516882; bh=fvD3ctpqrCWAfhRvwnz/vMYY3oWGeyeXaHqmlBQJW9U=; b=
- ulqzTF6dqm9TDZQpemlAVPsLUXyYkvNAzrfcULOOPesTtIz+Z4Ai0z12HABf1ctb
- 23jnEQISppKaZtN6R9jusvv7XqVCi0GMq66sPA8O1L7cdwWtoeVCMtKVTY2w3haz
- rR27LXnZBNV800rflp1teAMig+lDUvZYxCWza+PX2DR439QxbF0PkDODEoGNUrfW
- uGbdoE84+5R3BJtwqf3G5Velav1VcdQq1cU6M6bhPD4PYg0M+daEBboU4PXXFuFP
- 6Yl3lx39pHOGWiPPfJt+bY029hBO3KTVN6+6fzhbPZfDaS3w3qYPY+gJMUHqeNuK
- jUSdbxK0JB8OePnbvxPktA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1729509682; x=
- 1729516882; bh=fvD3ctpqrCWAfhRvwnz/vMYY3oWGeyeXaHqmlBQJW9U=; b=J
- xpTRpOJ4uJFwt33ULhA4kXA4a69HtyOOzm7oX2UNenK3N/lPf3Zz1ZBrrZnSJNYZ
- wQAzuMzfS4Ki7UDhYhHkMeh/yNkBJufymBB/OQTgsngdWT9YJl7jWeFKgOK5Y88Y
- spFb7baVoJP9/V7CXc0MIMDhLF13YbMlhL3dYiqR6EfIMoWXO1tdm8GFNOyH5WKM
- vJPia/cKnpVJ3vVqUzwCxhP3JUsM9zzdcgzWBH879ZQBBxJf+/Zf5BLdrJyDeDpm
- bjQoUwGM+18gRD90QgYWxo0Hx2AiPhq0U+bV5AfGcFGBppQPrm5TCZ+HKwBRszPT
- Z42mn8unbo1AXgbzzs5cQ==
-X-ME-Sender: <xms:MTkWZ22VTNkVIywiKLmtz380cPoWc7iOcVWQx0cbwZL_zea-JlVLLw>
- <xme:MTkWZ5GpTeL7YzfMr3FRdWC5EOA-Ex1W4Xq2UVEGQF2VCJyx3kpnP8L8tMW9sVCAS
- puxE_DA0EG9LBRlhZA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdehledggedtucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
- rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
- htshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtqhertdertdej
- necuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrd
- guvgeqnecuggftrfgrthhtvghrnhepvdfhvdekueduveffffetgfdvveefvdelhedvvdeg
- jedvfeehtdeggeevheefleejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
- hmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepvdel
- pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtg
- hhpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopehl
- uhhiiidruggvnhhtiiesghhmrghilhdrtghomhdprhgtphhtthhopehprghtrhhikhdrrh
- drjhgrkhhosghsshhonhesghhmrghilhdrtghomhdprhgtphhtthhopehmrghrtggvlhes
- hhholhhtmhgrnhhnrdhorhhgpdhrtghpthhtoheplhhutggrshdruggvmhgrrhgthhhise
- hinhhtvghlrdgtohhmpdhrtghpthhtoheprhhoughrihhgohdrvhhivhhisehinhhtvghl
- rdgtohhmpdhrtghpthhtoheprghrnhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhope
- hjihhrihhslhgrsgihsehkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:MTkWZ-7QdSiiIGy0vrhYQCsmMwygcvB-Q-0Wm6NmjI3Y8Q1M0bbqnw>
- <xmx:MTkWZ301K1iwMIhsTcnFUngtniJVM2fWmbJjNAvDI5KAN7BEu1xNvw>
- <xmx:MTkWZ5HY801U3mzpDI6Nkai1KBdpOODBwoYuAdLiNoXCOdAjHV96fA>
- <xmx:MTkWZw8Y-CkdqEhfxR3RiTbMpKUABg-0CW3NZxU18UUaJHLwCQjamQ>
- <xmx:MjkWZ-s9DCM7I8in58DNLWEmCFENsnEANFLsBcYnqsHEooUFVPU72N_x>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
- id 268142220071; Mon, 21 Oct 2024 07:21:21 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9830110E49D
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 11:32:27 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CBD21DA7;
+ Mon, 21 Oct 2024 04:32:55 -0700 (PDT)
+Received: from [10.57.24.27] (unknown [10.57.24.27])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id ECE3C3F528;
+ Mon, 21 Oct 2024 04:32:23 -0700 (PDT)
+Message-ID: <850c70ff-a7f0-4a0b-83a4-0b03a039831d@arm.com>
+Date: Mon, 21 Oct 2024 12:32:21 +0100
 MIME-Version: 1.0
-Date: Mon, 21 Oct 2024 11:21:00 +0000
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Thomas Zimmermann" <tzimmermann@suse.de>,
- "Niklas Schnelle" <schnelle@linux.ibm.com>, "Brian Cain" <bcain@quicinc.com>, 
- "Marcel Holtmann" <marcel@holtmann.org>,
- "Luiz Augusto von Dentz" <luiz.dentz@gmail.com>,
- "Patrik Jakobsson" <patrik.r.jakobsson@gmail.com>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Maxime Ripard" <mripard@kernel.org>, "Dave Airlie" <airlied@gmail.com>,
- "Simona Vetter" <simona@ffwll.ch>, "Dave Airlie" <airlied@redhat.com>,
- "Gerd Hoffmann" <kraxel@redhat.com>,
- "Lucas De Marchi" <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- "Rodrigo Vivi" <rodrigo.vivi@intel.com>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Jiri Slaby" <jirislaby@kernel.org>, "Maciej W. Rozycki" <macro@orcam.me.uk>, 
- "Heiko Carstens" <hca@linux.ibm.com>
-Cc: linux-kernel@vger.kernel.org, linux-hexagon@vger.kernel.org,
- linux-bluetooth@vger.kernel.org, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, linux-serial@vger.kernel.org,
- Linux-Arch <linux-arch@vger.kernel.org>, "Arnd Bergmann" <arnd@kernel.org>
-Message-Id: <c7592bd4-a9f9-43b0-a243-0fb2ef6bb83d@app.fastmail.com>
-In-Reply-To: <aa679655-290e-4d19-9195-1a581431b9e6@suse.de>
-References: <20241008-b4-has_ioport-v8-0-793e68aeadda@linux.ibm.com>
- <20241008-b4-has_ioport-v8-3-793e68aeadda@linux.ibm.com>
- <64cc9c8f-fff3-4845-bb32-d7f1046ef619@suse.de>
- <a25086c4-e2fc-4ffc-bc20-afa50e560d96@app.fastmail.com>
- <aa679655-290e-4d19-9195-1a581431b9e6@suse.de>
-Subject: Re: [PATCH v8 3/5] drm: handle HAS_IOPORT dependencies
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] iommu/io-pgtable-arm: Remove split on unmap behavior
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Jason Gunthorpe <jgg@nvidia.com>
+Cc: iommu@lists.linux.dev, Joerg Roedel <joro@8bytes.org>,
+ linux-arm-kernel@lists.infradead.org, Robin Murphy <robin.murphy@arm.com>,
+ Will Deacon <will@kernel.org>, dri-devel@lists.freedesktop.org,
+ Liviu Dudau <liviu.dudau@arm.com>, patches@lists.linux.dev
+References: <0-v1-8c5f369ec2e5+75-arm_no_split_jgg@nvidia.com>
+ <20241021111758.561c81ca@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20241021111758.561c81ca@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,42 +51,173 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 21, 2024, at 10:58, Thomas Zimmermann wrote:
-> Am 21.10.24 um 12:08 schrieb Arnd Bergmann:
->> On Mon, Oct 21, 2024, at 07:52, Thomas Zimmermann wrote:
->> --- a/drivers/gpu/drm/tiny/bochs.c
->> +++ b/drivers/gpu/drm/tiny/bochs.c
->> @@ -112,14 +112,12 @@ static void bochs_vga_writeb(struct bochs_devic=
-e *bochs, u16 ioport, u8 val)
->>   	if (WARN_ON(ioport < 0x3c0 || ioport > 0x3df))
->>   		return;
->>  =20
->> -	if (bochs->mmio) {
->> +	if (!IS_DEFINED(CONFIG_HAS_IOPORT) || bochs->mmio) {
+On 21/10/2024 10:17, Boris Brezillon wrote:
+> On Fri, 18 Oct 2024 14:19:26 -0300
+> Jason Gunthorpe <jgg@nvidia.com> wrote:
+> 
+>> Of the page table implementations (AMD v1/2, VT-D SS, ARM32, DART)
+>> arm_lpae is unique in how it handles partial unmap of large IOPTEs.
+>>
+>> All other drivers will unmap the large IOPTE and return it's length.  For
+>> example if a 2M IOPTE is present and the first 4K is requested to be
+>> unmapped then unmap will remove the whole 2M and report 2M as the result.
+>>
+>> arm_lpae instead replaces the IOPTE with a table of smaller IOPTEs, unmaps
+>> the 4K and returns 4k. This is actually an illegal/non-hitless operation
+>> on at least SMMUv3 because of the BBM level 0 rules.
 
-I meant IS_ENABLED() of course.
+Mali GPUs can (theoretically) do this safely because we can lock a
+region during the operation (LOCKADDR register). But neither Panfrost
+nor Panthor make use of this today.
 
-> For all functions with such a pattern, could we use:
->
-> bool bochs_uses_mmio(bochs)
-> {
->  =C2=A0=C2=A0=C2=A0 return !IS_DEFINED(CONFIG_HAS_IOPORT) || bochs->mm=
-io
-> }
->
-> void writeb_func()
-> {
->  =C2=A0=C2=A0=C2=A0 if (bochs_uses_mmio()) {
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 writeb()
-> #if CONFIG_HAS_IOPORT
->  =C2=A0=C2=A0=C2=A0 } else {
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 outb()
-> #endif
->  =C2=A0=C2=A0=C2=A0 }
+>> Long ago VFIO could trigger a path like this, today I know of no user of
+>> this functionality.
+>>
+>> Given it doesn't work fully correctly on SMMUv3 and would create
+>> portability problems if any user depends on it, remove the unique support
+>> in arm_lpae and align with the expected iommu interface.
+>>
+>> Outside the iommu users, this will potentially effect io_pgtable users of
+>> ARM_32_LPAE_S1, ARM_32_LPAE_S2, ARM_64_LPAE_S1, ARM_64_LPAE_S2, and
+>> ARM_MALI_LPAE formats.
+>>
+>> Cc: Boris Brezillon <boris.brezillon@collabora.com>
+>> Cc: Steven Price <steven.price@arm.com>
+>> Cc: Liviu Dudau <liviu.dudau@arm.com>
+>> Cc: dri-devel@lists.freedesktop.org
+>> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+>> ---
+>>  drivers/iommu/io-pgtable-arm.c | 72 +++-------------------------------
+>>  1 file changed, 6 insertions(+), 66 deletions(-)
+>>
+>> I don't know anything in the iommu space that needs this, and this is the only
+>> page table implementation in iommu that does it.
+>>
+>> I'm not sure about DRM, I looked for awhile and only Panthor was unclear.
+> 
+> I theory, Panthor can do partial unmaps (unmapping a subregion of a
+> physically contiguous 2M section). In practice, it's not something we
+> rely on yet, so I don't think it's a blocker. If we ever want to support
 
-Yes, that helper function look fine, but it should then
-be either __always_inline or a macro. With that, the
-#ifdef is not needed since gcc only warns if there is
-a path that leads to outb() actually getting called.
+As above, we fail to lock the 2M section before updating the page
+tables, so this functionality is broken today in Panthor.
 
-      Arnd
+> that, we can always do it in two steps (unmap the 2M region and remap
+> the borders). At some point it'd be good to have some kind of atomic
+> page table updates, so we don't have this short period of time during
+> which nothing is mapped (between the unmap and the remap), but that's a
+> different story.
+
+The GPU hardware provides that. The only possible missing piece is that
+the driver needs to know ahead of time that the unmap would unmap the 2M
+region so it can do the correct lock before the entries are removed.
+
+> 
+>>
+>> If DRM does use this, I'd respin this to make it into a quirk and iommu won't
+>> set it.
+
+You should be safe as far as Panfrost and Panthor are concerned.
+
+Thanks,
+Steve
+
+>>
+>> Thanks,
+>> Jason
+>>
+>>
+>> diff --git a/drivers/iommu/io-pgtable-arm.c b/drivers/iommu/io-pgtable-arm.c
+>> index 0e67f1721a3d98..a51fae9c909111 100644
+>> --- a/drivers/iommu/io-pgtable-arm.c
+>> +++ b/drivers/iommu/io-pgtable-arm.c
+>> @@ -569,66 +569,6 @@ static void arm_lpae_free_pgtable(struct io_pgtable *iop)
+>>  	kfree(data);
+>>  }
+>>  
+>> -static size_t arm_lpae_split_blk_unmap(struct arm_lpae_io_pgtable *data,
+>> -				       struct iommu_iotlb_gather *gather,
+>> -				       unsigned long iova, size_t size,
+>> -				       arm_lpae_iopte blk_pte, int lvl,
+>> -				       arm_lpae_iopte *ptep, size_t pgcount)
+>> -{
+>> -	struct io_pgtable_cfg *cfg = &data->iop.cfg;
+>> -	arm_lpae_iopte pte, *tablep;
+>> -	phys_addr_t blk_paddr;
+>> -	size_t tablesz = ARM_LPAE_GRANULE(data);
+>> -	size_t split_sz = ARM_LPAE_BLOCK_SIZE(lvl, data);
+>> -	int ptes_per_table = ARM_LPAE_PTES_PER_TABLE(data);
+>> -	int i, unmap_idx_start = -1, num_entries = 0, max_entries;
+>> -
+>> -	if (WARN_ON(lvl == ARM_LPAE_MAX_LEVELS))
+>> -		return 0;
+>> -
+>> -	tablep = __arm_lpae_alloc_pages(tablesz, GFP_ATOMIC, cfg, data->iop.cookie);
+>> -	if (!tablep)
+>> -		return 0; /* Bytes unmapped */
+>> -
+>> -	if (size == split_sz) {
+>> -		unmap_idx_start = ARM_LPAE_LVL_IDX(iova, lvl, data);
+>> -		max_entries = ptes_per_table - unmap_idx_start;
+>> -		num_entries = min_t(int, pgcount, max_entries);
+>> -	}
+>> -
+>> -	blk_paddr = iopte_to_paddr(blk_pte, data);
+>> -	pte = iopte_prot(blk_pte);
+>> -
+>> -	for (i = 0; i < ptes_per_table; i++, blk_paddr += split_sz) {
+>> -		/* Unmap! */
+>> -		if (i >= unmap_idx_start && i < (unmap_idx_start + num_entries))
+>> -			continue;
+>> -
+>> -		__arm_lpae_init_pte(data, blk_paddr, pte, lvl, 1, &tablep[i]);
+>> -	}
+>> -
+>> -	pte = arm_lpae_install_table(tablep, ptep, blk_pte, data);
+>> -	if (pte != blk_pte) {
+>> -		__arm_lpae_free_pages(tablep, tablesz, cfg, data->iop.cookie);
+>> -		/*
+>> -		 * We may race against someone unmapping another part of this
+>> -		 * block, but anything else is invalid. We can't misinterpret
+>> -		 * a page entry here since we're never at the last level.
+>> -		 */
+>> -		if (iopte_type(pte) != ARM_LPAE_PTE_TYPE_TABLE)
+>> -			return 0;
+>> -
+>> -		tablep = iopte_deref(pte, data);
+>> -	} else if (unmap_idx_start >= 0) {
+>> -		for (i = 0; i < num_entries; i++)
+>> -			io_pgtable_tlb_add_page(&data->iop, gather, iova + i * size, size);
+>> -
+>> -		return num_entries * size;
+>> -	}
+>> -
+>> -	return __arm_lpae_unmap(data, gather, iova, size, pgcount, lvl, tablep);
+>> -}
+>> -
+>>  static size_t __arm_lpae_unmap(struct arm_lpae_io_pgtable *data,
+>>  			       struct iommu_iotlb_gather *gather,
+>>  			       unsigned long iova, size_t size, size_t pgcount,
+>> @@ -678,12 +618,12 @@ static size_t __arm_lpae_unmap(struct arm_lpae_io_pgtable *data,
+>>  
+>>  		return i * size;
+>>  	} else if (iopte_leaf(pte, lvl, iop->fmt)) {
+>> -		/*
+>> -		 * Insert a table at the next level to map the old region,
+>> -		 * minus the part we want to unmap
+>> -		 */
+>> -		return arm_lpae_split_blk_unmap(data, gather, iova, size, pte,
+>> -						lvl + 1, ptep, pgcount);
+>> +		/* Unmap the entire large IOPTE and return its size */
+>> +		size = ARM_LPAE_BLOCK_SIZE(lvl, data);
+>> +		__arm_lpae_clear_pte(ptep, &iop->cfg, 1);
+>> +		if (gather && !iommu_iotlb_gather_queued(gather))
+>> +			io_pgtable_tlb_add_page(iop, gather, iova, size);
+>> +		return size;
+>>  	}
+>>  
+>>  	/* Keep on walkin' */
+>>
+>> base-commit: 27ab08d646a1b53330229a97100200c9567d28b5
+> 
+
