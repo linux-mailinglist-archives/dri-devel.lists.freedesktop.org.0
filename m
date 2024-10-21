@@ -2,57 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51E609A59E1
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2024 07:46:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18F4A9A59DF
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2024 07:46:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C4AB10E405;
-	Mon, 21 Oct 2024 05:46:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 376DF10E2CF;
+	Mon, 21 Oct 2024 05:46:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Iu695Xly";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="X6LoQN9b";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 252A910E0A1;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A1CD10E282;
  Mon, 21 Oct 2024 05:46:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1729489568; x=1761025568;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=WvVNhqh7Bwb6iLfqs+U77vNGCodYNky0QU/wAp4qxm4=;
- b=Iu695XlyLDqqz+4vafVbPVQM9Ib+dAVnx2SbJ+ibnD9icmIvV2MOwe+n
- J0cv+pe3yI4GHdmKhL6OJayQAn1ONi6HL+er4z8SdtyAbf68FipRuMJmv
- peOfA73wq3EwmXw5PSfPAx+2G1yJCZYo28qYxx5BQHE47Pva5A8+WumWy
- BbpbP/LgziAdVmrigQ5xwwDZTajK9aHIWyoLA4LBke03DS3/Y3ZGzsTCp
- EuwkzWEAL6PYme/kKBg3gjk3QOpA51VrdqzBm58eOIr1zkltXHTjZwBok
- WiCZvkQ51InXmYVB8pj9mB9ZjqvV2kSkroI1cCGvUZqOS1sv46aurpW7q Q==;
-X-CSE-ConnectionGUID: Ffhx4qthTou9y57r8o+G5w==
-X-CSE-MsgGUID: eYKGE5wYTJ2chcZCpxyY3A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11231"; a="40345942"
-X-IronPort-AV: E=Sophos;i="6.11,220,1725346800"; d="scan'208";a="40345942"
+ bh=8XWLiBEU7K7TxvavInh4Ggaazz1BEyz1cNNbHNSVdNc=;
+ b=X6LoQN9bSIAZ7+aBPkWqURVue3ew8g/y8wM+s/lTauqhQujtWkpDqqMe
+ H0MEwWCiGtiJ3DtAcb9tZ0XwLQ2G6G0NL7ra5nzwG+pqsP7MZJFOT3R4b
+ fTi+HTpiG3NWLOojxBT+by7wRSssseGC3ulTpd1I/vIdqPSRCSEzX4euR
+ tuZL7a+WIq3NZFZrS0cqIzDxdxuFuuRcv9IMANR7ZcLpQZ++NDll+QOtC
+ zlOMIhiP1HLVm8gbLysIhexb6LVbVbBnm4CfjWdpq9otLHJJus4k6lXc6
+ QNI0DQNME8zOuoZbkvUonHriVuthZ31rORh9HcDRGvrUbIgsP14ubNMbg A==;
+X-CSE-ConnectionGUID: JGEv9QK2Ro6U9wtFLio2AA==
+X-CSE-MsgGUID: P57tTV8xTxOUBza8GL4kGw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11231"; a="40345943"
+X-IronPort-AV: E=Sophos;i="6.11,220,1725346800"; d="scan'208";a="40345943"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  20 Oct 2024 22:46:07 -0700
-X-CSE-ConnectionGUID: CP45vE/mTEWzbuu7lFCDCw==
-X-CSE-MsgGUID: ixgAtctART+or2VjFpQD0Q==
+X-CSE-ConnectionGUID: XViG+FOZTGaQaPll6pP1pw==
+X-CSE-MsgGUID: 3VhXmuujRxKnZ3+Mkf4nmQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,220,1725346800"; d="scan'208";a="110180214"
+X-IronPort-AV: E=Sophos;i="6.11,220,1725346800"; d="scan'208";a="110180217"
 Received: from vkasired-desk2.fm.intel.com ([10.105.128.132])
  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Oct 2024 22:46:05 -0700
+ 20 Oct 2024 22:46:06 -0700
 From: Vivek Kasireddy <vivek.kasireddy@intel.com>
 To: dri-devel@lists.freedesktop.org,
 	intel-xe@lists.freedesktop.org
-Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>
-Subject: [PATCH v2 3/5] drm/xe/pf: Add a helper function to get a VF's backing
- object in LMEM
-Date: Sun, 20 Oct 2024 22:21:31 -0700
-Message-ID: <20241021052236.1820329-4-vivek.kasireddy@intel.com>
+Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Subject: [PATCH v2 4/5] drm/xe/bo: Create new dma_addr array for dmabuf BOs
+ associated with VFs
+Date: Sun, 20 Oct 2024 22:21:32 -0700
+Message-ID: <20241021052236.1820329-5-vivek.kasireddy@intel.com>
 X-Mailer: git-send-email 2.45.1
 In-Reply-To: <20241021052236.1820329-1-vivek.kasireddy@intel.com>
 References: <20241021052236.1820329-1-vivek.kasireddy@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,66 +72,239 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To properly import a dmabuf that is associated with a VF (or that
-originates in a Guest VM that includes a VF), we need to know where
-in LMEM the VF's allocated regions exist. Therefore, introduce a
-new helper to return the object that backs the VF's regions in LMEM.
+For BOs of type ttm_bo_type_sg, that are backed by PCI BAR addresses
+associated with a VF, we need to adjust and translate these addresses
+to LMEM addresses to make the BOs usable by the PF. Otherwise, the BOs
+(i.e, PCI BAR addresses) are only accessible by the CPU and not by
+the GPU.
+
+In order to do the above, we first need to identify if the DMA addresses
+associated with an imported BO (type ttm_bo_type_sg) belong to System
+RAM or a VF or other PCI devices. After we confirm that they belong to
+a VF, we convert the DMA addresses (IOVAs in this case) to DPAs and
+create a new dma_addr array (of type drm_pagemap_dma_addr) and populate
+it with the new addresses along with the segment sizes.
 
 v2:
-- Make the helper return the LMEM object instead of the start address.
+- Use dma_addr array instead of sg table to store translated addresses
+  (Matt)
 
+Cc: Matthew Brost <matthew.brost@intel.com>
+Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
 ---
- drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c | 23 ++++++++++++++++++++++
- drivers/gpu/drm/xe/xe_gt_sriov_pf_config.h |  1 +
- 2 files changed, 24 insertions(+)
+ drivers/gpu/drm/xe/xe_bo.c       | 116 +++++++++++++++++++++++++++++--
+ drivers/gpu/drm/xe/xe_bo_types.h |  11 ++-
+ 2 files changed, 120 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c b/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c
-index a863e50b756e..8a5df3d76533 100644
---- a/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c
-+++ b/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c
-@@ -1455,6 +1455,29 @@ u64 xe_gt_sriov_pf_config_get_lmem(struct xe_gt *gt, unsigned int vfid)
- 	return size;
+diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
+index 5b232f2951b1..81a2f8c8031a 100644
+--- a/drivers/gpu/drm/xe/xe_bo.c
++++ b/drivers/gpu/drm/xe/xe_bo.c
+@@ -6,6 +6,7 @@
+ #include "xe_bo.h"
+ 
+ #include <linux/dma-buf.h>
++#include <linux/iommu.h>
+ 
+ #include <drm/drm_drv.h>
+ #include <drm/drm_gem_ttm_helper.h>
+@@ -15,16 +16,19 @@
+ #include <drm/ttm/ttm_tt.h>
+ #include <uapi/drm/xe_drm.h>
+ 
++#include "regs/xe_bars.h"
+ #include "xe_device.h"
+ #include "xe_dma_buf.h"
+ #include "xe_drm_client.h"
+ #include "xe_ggtt.h"
+ #include "xe_gt.h"
++#include "xe_gt_sriov_pf_config.h"
+ #include "xe_map.h"
+ #include "xe_migrate.h"
+ #include "xe_pm.h"
+ #include "xe_preempt_fence.h"
+ #include "xe_res_cursor.h"
++#include "xe_sriov_pf_helpers.h"
+ #include "xe_trace_bo.h"
+ #include "xe_ttm_stolen_mgr.h"
+ #include "xe_vm.h"
+@@ -543,6 +547,94 @@ static int xe_bo_trigger_rebind(struct xe_device *xe, struct xe_bo *bo,
+ 	return ret;
  }
  
-+/**
-+ * xe_gt_sriov_pf_config_get_lmem_obj - Get VF's LMEM BO.
-+ * @gt: the &xe_gt
-+ * @vfid: the VF identifier
-+ *
-+ * This function can only be called on PF.
-+ *
-+ * Return: BO that is backing VF's quota in LMEM.
-+ */
-+struct xe_bo *xe_gt_sriov_pf_config_get_lmem_obj(struct xe_gt *gt,
-+						 unsigned int vfid)
++static struct pci_dev *xe_find_vf_dev(struct xe_device *xe,
++				      phys_addr_t phys)
 +{
-+	struct xe_gt_sriov_config *config;
-+	struct xe_bo *lmem_obj;
++	struct pci_dev *pdev, *pf_pdev = to_pci_dev(xe->drm.dev);
++	resource_size_t io_start, io_size;
 +
-+	mutex_lock(xe_gt_sriov_pf_master_mutex(gt));
-+	config = pf_pick_vf_config(gt, vfid);
-+	lmem_obj = config->lmem_obj;
-+	mutex_unlock(xe_gt_sriov_pf_master_mutex(gt));
++	list_for_each_entry(pdev, &pf_pdev->bus->devices, bus_list) {
++		if (pdev->is_physfn)
++			continue;
 +
-+	return lmem_obj;
++		io_start = pci_resource_start(pdev, LMEM_BAR);
++		io_size = pci_resource_len(pdev, LMEM_BAR);
++
++		if (phys >= io_start &&
++		    phys < (io_start + io_size - PAGE_SIZE))
++			return pdev;
++	}
++
++	return NULL;
 +}
 +
- /**
-  * xe_gt_sriov_pf_config_set_lmem - Provision VF with LMEM.
-  * @gt: the &xe_gt (can't be media)
-diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.h b/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.h
-index b74ec38baa18..7779dc9f9c8d 100644
---- a/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.h
-+++ b/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.h
-@@ -31,6 +31,7 @@ int xe_gt_sriov_pf_config_set_fair_dbs(struct xe_gt *gt, unsigned int vfid, unsi
- int xe_gt_sriov_pf_config_bulk_set_dbs(struct xe_gt *gt, unsigned int vfid, unsigned int num_vfs,
- 				       u32 num_dbs);
++
++static void xe_bo_translate_iova_to_dpa(struct iommu_domain *domain,
++					struct xe_bo *bo, struct sg_table *sg,
++					resource_size_t io_start, int vfid)
++{
++	struct xe_device *xe = xe_bo_device(bo);
++	struct xe_gt *gt = xe_root_mmio_gt(xe);
++	struct scatterlist *sgl;
++	struct xe_bo *lmem_bo;
++	phys_addr_t phys;
++	dma_addr_t addr;
++	u64 offset, i;
++
++	lmem_bo = xe_gt_sriov_pf_config_get_lmem_obj(gt, ++vfid);
++
++	for_each_sgtable_dma_sg(sg, sgl, i) {
++		phys = iommu_iova_to_phys(domain, sg_dma_address(sgl));
++		offset = phys - io_start;
++		addr = xe_bo_addr(lmem_bo, offset, sg_dma_len(sgl));
++
++		bo->dma_addr[i] = drm_pagemap_dma_addr_encode(addr,
++						DRM_INTERCONNECT_DRIVER,
++						get_order(sg_dma_len(sgl)),
++						DMA_BIDIRECTIONAL);
++	}
++}
++
++static int xe_bo_sg_to_dma_addr_array(struct sg_table *sg, struct xe_bo *bo)
++{
++	struct xe_device *xe = xe_bo_device(bo);
++	struct iommu_domain *domain;
++	resource_size_t io_start;
++	struct pci_dev *pdev;
++	phys_addr_t phys;
++	int vfid;
++
++	if (!IS_SRIOV_PF(xe))
++		return 0;
++
++	domain = iommu_get_domain_for_dev(xe->drm.dev);
++	if (!domain)
++		return 0;
++
++	phys = iommu_iova_to_phys(domain, sg_dma_address(sg->sgl));
++	if (page_is_ram(PFN_DOWN(phys)))
++		return 0;
++
++	pdev = xe_find_vf_dev(xe, phys);
++	if (!pdev)
++		return 0;
++
++	vfid = pci_iov_vf_id(pdev);
++	if (vfid < 0)
++		return 0;
++
++	bo->dma_addr = kmalloc_array(sg->nents, sizeof(*bo->dma_addr),
++				     GFP_KERNEL);
++	if (!bo->dma_addr)
++		return -ENOMEM;
++
++	bo->is_devmem_external = true;
++	io_start = pci_resource_start(pdev, LMEM_BAR);
++	xe_bo_translate_iova_to_dpa(domain, bo, sg, io_start, vfid);
++
++	return 0;
++}
++
+ /*
+  * The dma-buf map_attachment() / unmap_attachment() is hooked up here.
+  * Note that unmapping the attachment is deferred to the next
+@@ -560,12 +652,15 @@ static int xe_bo_move_dmabuf(struct ttm_buffer_object *ttm_bo,
+ 					       ttm);
+ 	struct xe_device *xe = ttm_to_xe_device(ttm_bo->bdev);
+ 	struct sg_table *sg;
++	int ret;
  
-+struct xe_bo *xe_gt_sriov_pf_config_get_lmem_obj(struct xe_gt *gt, unsigned int vfid);
- u64 xe_gt_sriov_pf_config_get_lmem(struct xe_gt *gt, unsigned int vfid);
- int xe_gt_sriov_pf_config_set_lmem(struct xe_gt *gt, unsigned int vfid, u64 size);
- int xe_gt_sriov_pf_config_set_fair_lmem(struct xe_gt *gt, unsigned int vfid, unsigned int num_vfs);
+ 	xe_assert(xe, attach);
+ 	xe_assert(xe, ttm_bo->ttm);
+ 
+-	if (new_res->mem_type == XE_PL_SYSTEM)
+-		goto out;
++	if (new_res->mem_type == XE_PL_SYSTEM) {
++		ttm_bo_move_null(ttm_bo, new_res);
++		return 0;
++	}
+ 
+ 	if (ttm_bo->sg) {
+ 		dma_buf_unmap_attachment(attach, ttm_bo->sg, DMA_BIDIRECTIONAL);
+@@ -576,13 +671,16 @@ static int xe_bo_move_dmabuf(struct ttm_buffer_object *ttm_bo,
+ 	if (IS_ERR(sg))
+ 		return PTR_ERR(sg);
+ 
++	ret = xe_bo_sg_to_dma_addr_array(sg, ttm_to_xe_bo(ttm_bo));
++	if (ret < 0) {
++		dma_buf_unmap_attachment(attach, sg, DMA_BIDIRECTIONAL);
++		return ret;
++	}
++
+ 	ttm_bo->sg = sg;
+ 	xe_tt->sg = sg;
+ 
+-out:
+-	ttm_bo_move_null(ttm_bo, new_res);
+-
+-	return 0;
++	return ret;
+ }
+ 
+ /**
+@@ -1066,6 +1164,8 @@ static void xe_ttm_bo_release_notify(struct ttm_buffer_object *ttm_bo)
+ 
+ static void xe_ttm_bo_delete_mem_notify(struct ttm_buffer_object *ttm_bo)
+ {
++	struct xe_bo *bo = ttm_to_xe_bo(ttm_bo);
++
+ 	if (!xe_bo_is_xe_bo(ttm_bo))
+ 		return;
+ 
+@@ -1079,6 +1179,10 @@ static void xe_ttm_bo_delete_mem_notify(struct ttm_buffer_object *ttm_bo)
+ 
+ 		dma_buf_unmap_attachment(ttm_bo->base.import_attach, ttm_bo->sg,
+ 					 DMA_BIDIRECTIONAL);
++
++		if (bo->is_devmem_external) {
++			kfree(bo->dma_addr);
++		}
+ 		ttm_bo->sg = NULL;
+ 		xe_tt->sg = NULL;
+ 	}
+diff --git a/drivers/gpu/drm/xe/xe_bo_types.h b/drivers/gpu/drm/xe/xe_bo_types.h
+index 13c6d8a69e91..f74876be3f8d 100644
+--- a/drivers/gpu/drm/xe/xe_bo_types.h
++++ b/drivers/gpu/drm/xe/xe_bo_types.h
+@@ -66,7 +66,16 @@ struct xe_bo {
+ 
+ 	/** @ccs_cleared */
+ 	bool ccs_cleared;
+-
++	/**
++	 * @is_devmem_external: Whether this BO is an imported dma-buf that
++	 * is LMEM based.
++	 */
++	bool is_devmem_external;
++	/**
++	 * @dma_addr: An array to store DMA addresses (DPAs) for imported
++	 * dmabuf BOs that are LMEM based.
++	 */
++	struct drm_pagemap_dma_addr *dma_addr;
+ 	/**
+ 	 * @cpu_caching: CPU caching mode. Currently only used for userspace
+ 	 * objects. Exceptions are system memory on DGFX, which is always
 -- 
 2.45.1
 
