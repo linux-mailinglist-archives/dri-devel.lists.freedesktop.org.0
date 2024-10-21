@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7383D9A91ED
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2024 23:18:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C832B9A91F0
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2024 23:18:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AABBC10E5A7;
-	Mon, 21 Oct 2024 21:18:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7F9B10E5B2;
+	Mon, 21 Oct 2024 21:18:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="EJdIuy4B";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="GgAhkswS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8148C10E119;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A3B410E191;
  Mon, 21 Oct 2024 21:18:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1729545493; x=1761081493;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=nZMJwEdjNoBvlGVgeI7A/wYeq0nHCWPF1Z/N58o2JT8=;
- b=EJdIuy4B3asCvTA2X6DUS00PFach7Mn9oQCg4PT1EvqozGEyF10BvRbN
- EwyWTIyFm6DQL69xkWmk5ZTUZCIH1/kkrCIIezcCbD/llBlPycMk4ogJF
- X/cs4wbbgwEZ1VtIdhs5fO94Pga/6LqQv0tCAUxD1ebLJv8oDDlVZLEuo
- LOQvQWE1y2/hdOfzJcDJgMGDOi2l//OM9PBv0KFL4SCtux0LU3twEipNU
- WJDrYLWKasTAURUjaDI00SLTLbdhb3yDcEYuIpYsXbQUyATLr7ReGGW5N
- BTtuhX9vizczF00syg2DQBSmm6Cz+s83XKnRN+N4AQkep8Iw5y8np82C+ w==;
-X-CSE-ConnectionGUID: Mxa6Yd0nQAi/LmTT3yEQ8g==
-X-CSE-MsgGUID: cPVPKNbAQ/WQecnGny+b5w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11232"; a="29257688"
-X-IronPort-AV: E=Sophos;i="6.11,221,1725346800"; d="scan'208";a="29257688"
+ bh=eSG5vY32/ZdefK/ah9eMHe8q26+p/YDG8IpBok17Zzc=;
+ b=GgAhkswSRA2tKUMVHR2yC+HkBSUvQQflKenli6RDdX70XnxbXV2eFSKi
+ cAyEd28qpC7OgY1Do0jVQTBziZQ1lRmWvAU2aHVTYRZigF9xG+X8LjEOE
+ Iwv9lo2aCTW8pZ1R8dLiKgsSMfI6JyYydP0xYS+FEJMq54Ww1qlQ4GoUE
+ fedSuR+anqmznmjlbQCy7lJjHRwX5mZR3tx2IawlAQ7zTZrMLurRSFHxj
+ ObfBvGTajEXNRyGMF5yCHMjTNkbltNCY9Bogo5lgJ1ahxpRKIK1h/CHH/
+ ybqbIvyKD/FUAB/J0Lf/w5zhZsXEopHVOm/a47Ym/TN40FmvqrvAKi1U2 Q==;
+X-CSE-ConnectionGUID: /qsRLJUvQ9mNeUp1GYMWaQ==
+X-CSE-MsgGUID: o9Vt3JgCSGq70L1YGAf4sQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11232"; a="29257689"
+X-IronPort-AV: E=Sophos;i="6.11,221,1725346800"; d="scan'208";a="29257689"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  21 Oct 2024 14:18:11 -0700
-X-CSE-ConnectionGUID: zJ+P3zgNRsGfzTYeIR0NWQ==
-X-CSE-MsgGUID: LXJvVhDVSr6d30UATVHo2A==
+X-CSE-ConnectionGUID: 38RZgWlmTK+MGInACneSqQ==
+X-CSE-MsgGUID: 6rX2DUHbQb2/cO9/tmEUgQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,221,1725346800"; d="scan'208";a="80469603"
+X-IronPort-AV: E=Sophos;i="6.11,221,1725346800"; d="scan'208";a="80469606"
 Received: from lstrano-desk.jf.intel.com ([10.54.39.91])
  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  21 Oct 2024 14:18:10 -0700
@@ -46,9 +46,9 @@ To: intel-xe@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
 Cc: mika.kuoppala@intel.com, matthew.auld@intel.com,
  thomas.hellstrom@linux.intel.com
-Subject: [PATCH v5 8/9] drm/xe: Set XE_BO_FLAG_PINNED in migrate selftest BOs
-Date: Mon, 21 Oct 2024 14:18:34 -0700
-Message-Id: <20241021211835.1675640-9-matthew.brost@intel.com>
+Subject: [PATCH v5 9/9] drm/xe: Only allow contiguous BOs to use xe_bo_vmap
+Date: Mon, 21 Oct 2024 14:18:35 -0700
+Message-Id: <20241021211835.1675640-10-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241021211835.1675640-1-matthew.brost@intel.com>
 References: <20241021211835.1675640-1-matthew.brost@intel.com>
@@ -69,61 +69,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We only allow continguous BOs to be vmapped, set XE_BO_FLAG_PINNED on
-BOs in migrate selftest as this forces continguous BOs and selftest uses
-vmaps.
+xe_bo_vmap only works on contiguous BOs, disallow xe_bo_vmap on BO
+unless we are certain the BO is contiguous.
 
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 Reviewed-by: Matthew Auld <matthew.auld@intel.com>
 ---
- drivers/gpu/drm/xe/tests/xe_migrate.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/xe/xe_bo.c | 23 ++++++++++++++---------
+ 1 file changed, 14 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/xe/tests/xe_migrate.c b/drivers/gpu/drm/xe/tests/xe_migrate.c
-index 1a192a2a941b..4cef3b20bd17 100644
---- a/drivers/gpu/drm/xe/tests/xe_migrate.c
-+++ b/drivers/gpu/drm/xe/tests/xe_migrate.c
-@@ -83,7 +83,8 @@ static void test_copy(struct xe_migrate *m, struct xe_bo *bo,
- 						   bo->size,
- 						   ttm_bo_type_kernel,
- 						   region |
--						   XE_BO_FLAG_NEEDS_CPU_ACCESS);
-+						   XE_BO_FLAG_NEEDS_CPU_ACCESS |
-+						   XE_BO_FLAG_PINNED);
- 	if (IS_ERR(remote)) {
- 		KUNIT_FAIL(test, "Failed to allocate remote bo for %s: %pe\n",
- 			   str, remote);
-@@ -642,7 +643,9 @@ static void validate_ccs_test_run_tile(struct xe_device *xe, struct xe_tile *til
+diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
+index 4e1f54aad5bc..59766369a15b 100644
+--- a/drivers/gpu/drm/xe/xe_bo.c
++++ b/drivers/gpu/drm/xe/xe_bo.c
+@@ -162,6 +162,15 @@ static void try_add_system(struct xe_device *xe, struct xe_bo *bo,
+ 	}
+ }
  
- 	sys_bo = xe_bo_create_user(xe, NULL, NULL, SZ_4M,
- 				   DRM_XE_GEM_CPU_CACHING_WC,
--				   XE_BO_FLAG_SYSTEM | XE_BO_FLAG_NEEDS_CPU_ACCESS);
-+				   XE_BO_FLAG_SYSTEM |
-+				   XE_BO_FLAG_NEEDS_CPU_ACCESS |
-+				   XE_BO_FLAG_PINNED);
++static bool force_contiguous(u32 bo_flags)
++{
++	/*
++	 * For eviction / restore on suspend / resume objects pinned in VRAM
++	 * must be contiguous, also only contiguous BOs support xe_bo_vmap.
++	 */
++	return bo_flags & (XE_BO_FLAG_PINNED | XE_BO_FLAG_GGTT);
++}
++
+ static void add_vram(struct xe_device *xe, struct xe_bo *bo,
+ 		     struct ttm_place *places, u32 bo_flags, u32 mem_type, u32 *c)
+ {
+@@ -175,12 +184,7 @@ static void add_vram(struct xe_device *xe, struct xe_bo *bo,
+ 	xe_assert(xe, vram && vram->usable_size);
+ 	io_size = vram->io_size;
  
- 	if (IS_ERR(sys_bo)) {
- 		KUNIT_FAIL(test, "xe_bo_create() failed with err=%ld\n",
-@@ -666,7 +669,8 @@ static void validate_ccs_test_run_tile(struct xe_device *xe, struct xe_tile *til
+-	/*
+-	 * For eviction / restore on suspend / resume objects
+-	 * pinned in VRAM must be contiguous
+-	 */
+-	if (bo_flags & (XE_BO_FLAG_PINNED |
+-			XE_BO_FLAG_GGTT))
++	if (force_contiguous(bo_flags))
+ 		place.flags |= TTM_PL_FLAG_CONTIGUOUS;
  
- 	ccs_bo = xe_bo_create_user(xe, NULL, NULL, SZ_4M,
- 				   DRM_XE_GEM_CPU_CACHING_WC,
--				   bo_flags | XE_BO_FLAG_NEEDS_CPU_ACCESS);
-+				   bo_flags | XE_BO_FLAG_NEEDS_CPU_ACCESS |
-+				   XE_BO_FLAG_PINNED);
+ 	if (io_size < vram->usable_size) {
+@@ -212,8 +216,7 @@ static void try_add_stolen(struct xe_device *xe, struct xe_bo *bo,
  
- 	if (IS_ERR(ccs_bo)) {
- 		KUNIT_FAIL(test, "xe_bo_create() failed with err=%ld\n",
-@@ -690,7 +694,8 @@ static void validate_ccs_test_run_tile(struct xe_device *xe, struct xe_tile *til
+ 		bo->placements[*c] = (struct ttm_place) {
+ 			.mem_type = XE_PL_STOLEN,
+-			.flags = bo_flags & (XE_BO_FLAG_PINNED |
+-					     XE_BO_FLAG_GGTT) ?
++			.flags = force_contiguous(bo_flags) ?
+ 				TTM_PL_FLAG_CONTIGUOUS : 0,
+ 		};
+ 		*c += 1;
+@@ -2033,13 +2036,15 @@ dma_addr_t xe_bo_addr(struct xe_bo *bo, u64 offset, size_t page_size)
  
- 	vram_bo = xe_bo_create_user(xe, NULL, NULL, SZ_4M,
- 				    DRM_XE_GEM_CPU_CACHING_WC,
--				    bo_flags | XE_BO_FLAG_NEEDS_CPU_ACCESS);
-+				    bo_flags | XE_BO_FLAG_NEEDS_CPU_ACCESS |
-+				    XE_BO_FLAG_PINNED);
- 	if (IS_ERR(vram_bo)) {
- 		KUNIT_FAIL(test, "xe_bo_create() failed with err=%ld\n",
- 			   PTR_ERR(vram_bo));
+ int xe_bo_vmap(struct xe_bo *bo)
+ {
++	struct xe_device *xe = ttm_to_xe_device(bo->ttm.bdev);
+ 	void *virtual;
+ 	bool is_iomem;
+ 	int ret;
+ 
+ 	xe_bo_assert_held(bo);
+ 
+-	if (!(bo->flags & XE_BO_FLAG_NEEDS_CPU_ACCESS))
++	if (drm_WARN_ON(&xe->drm, !(bo->flags & XE_BO_FLAG_NEEDS_CPU_ACCESS) ||
++			!force_contiguous(bo->flags)))
+ 		return -EINVAL;
+ 
+ 	if (!iosys_map_is_null(&bo->vmap))
 -- 
 2.34.1
 
