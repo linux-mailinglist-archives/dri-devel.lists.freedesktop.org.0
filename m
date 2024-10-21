@@ -2,96 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62CC89A6723
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2024 13:55:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 980369A67BA
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2024 14:15:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C268D10E4A8;
-	Mon, 21 Oct 2024 11:55:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0421110E1E4;
+	Mon, 21 Oct 2024 12:15:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="GjQjqaTe";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="BnKX6ZcI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B859210E4A8;
- Mon, 21 Oct 2024 11:55:32 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49L8VwhH014493;
- Mon, 21 Oct 2024 11:55:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- PDz3KYrnNjKa/ecyIrk93047MeD5GWsgjdUbxViQq2M=; b=GjQjqaTeXzN6bfkJ
- I+HRfcTbmGM4+gym42aPkuPueJQ1hTCe9UcHJ1Ig3IQb8kjQ5HjEDDNMUhunCgs/
- 92tK1ROAkjlJ9+2HrprNN6sluNqgq/ZyuL8LzapJYJVNMPf5tMFflUcx5zxoToGE
- zRFCxE3Ng6TqekGHmgbtNt1ZrOQnzXzvGtkytcpVXi/h/viZA1+f4fKIMxaorcOY
- McBcJVEN8phwSE0dEBHrz6G0wOwAdYEifhDwM+wD5n7MligO/hJSelmgYd0qSryB
- /Hc5LD4DIHCpF/j/OjC8ajyByE65jD/0RQmQ1jPd2wA2MNpm6YKLzVamUTbxyVkg
- VtU7gA==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42dkhd0rxc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 21 Oct 2024 11:55:27 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49LBtQXw011529
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 21 Oct 2024 11:55:26 GMT
-Received: from [10.213.111.143] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 21 Oct
- 2024 04:55:20 -0700
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Date: Mon, 21 Oct 2024 17:23:44 +0530
-Subject: [PATCH v2 3/3] arm64: dts: qcom: x1e80100: Add ACD levels for GPU
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
+ [209.85.208.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2B7510E1E4
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 12:15:36 +0000 (UTC)
+Received: by mail-lj1-f175.google.com with SMTP id
+ 38308e7fff4ca-2fb4af0b6beso67298591fa.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 05:15:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1729512935; x=1730117735; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=ixvYPjSjHOI3A6bs62BEm+orBMViEbYtWgKUxWp9vmA=;
+ b=BnKX6ZcIGBtWE4atihBDVcsq45ofE4JDcjRBHAO2Juzndb/3TZ8rT/mz6ZC2jaenpw
+ YCIl3I6f+mSp3wpBE8F23cELeRITIINtXd7FNfTJgTReXE2iBzp+7EdJRffs5lL7kKAh
+ pBwKH7W7GYeuCeFx6xiudkpmYkipb3ncO7eHmTBqs94yjfO9d89BC0uDsaFU+zT/lzjS
+ OxkQeSQ90X5O3UXmnL6YN4cQVV20WtdxcrjMw0i0uoRjUDlC3xKSyZdyDe7s2tbTp0bQ
+ etxLR/Z/Z1H+3i8X+fv8YKHUs64Z8sB4a6PH0Ds2PropppCm/x/hvgx3JMhNNh5kiJU0
+ ly1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1729512935; x=1730117735;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ixvYPjSjHOI3A6bs62BEm+orBMViEbYtWgKUxWp9vmA=;
+ b=g9DC7u58tEXWuG2VgRYHoDsQTVbsGGVMHef++51DlH5BAdq3EJOQHg9b6RVxrc+H5/
+ 4UykwCH/yEOhzQqpUXwPZLTrEwO21OMRze4Hh/s+UPq+RXqnZGw7b9TWF63EEAPMUaPR
+ sJCR/IG/m5LPkK0abGyopiMqFlXnPAAvx9KDaudQ10kSrY04N356nBjLMapcGY2REWLH
+ FyNaHlK2z7UoVjPx2wGmofOfFl0x0cAXwAwjYybPXEzNBfpi8FnYhr4h0vY7kfo7H8Py
+ 5JSaMLxpKZgMGx3oYo+lgviWvD52o6B1/S0EWZN05MEchBADbTpr283D17ywlploJv94
+ Emiw==
+X-Gm-Message-State: AOJu0Yx8cubNKlwNmO7ofiUHDqUqIhD1Mvax78Q6oqhsqew5FE2zW0rl
+ Jt3F0z6du+Zs8gIl28yCXNGUJKSrhm1CckhRG0kXrnayrzAjDfQjpKJeLo+IiqE=
+X-Google-Smtp-Source: AGHT+IEkcKoatMCDEuy5jqS04CW2sFmKYlfJWSMdE2NyRaxseViNDhyaFOJIPHQ/mBlzZ4JfzX+iAA==
+X-Received: by 2002:a05:651c:2124:b0:2fa:d7ea:a219 with SMTP id
+ 38308e7fff4ca-2fb8320f101mr78774851fa.37.1729512934612; 
+ Mon, 21 Oct 2024 05:15:34 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-2fb9ad60d95sm4785161fa.33.2024.10.21.05.15.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 21 Oct 2024 05:15:33 -0700 (PDT)
+Date: Mon, 21 Oct 2024 15:15:31 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Liu Ying <victor.liu@nxp.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, 
+ rfoss@kernel.org, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, 
+ jernej.skrabec@gmail.com, airlied@gmail.com, simona@ffwll.ch, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ robh@kernel.org, 
+ krzk+dt@kernel.org, conor+dt@kernel.org, quic_jesszhan@quicinc.com, 
+ mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de, 
+ kernel@pengutronix.de, festevam@gmail.com, catalin.marinas@arm.com,
+ will@kernel.org, sakari.ailus@linux.intel.com, hverkuil@xs4all.nl,
+ tomi.valkeinen@ideasonboard.com, 
+ quic_bjorande@quicinc.com, geert+renesas@glider.be, arnd@arndb.de,
+ nfraprado@collabora.com, 
+ thierry.reding@gmail.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
+ sam@ravnborg.org, marex@denx.de, biju.das.jz@bp.renesas.com
+Subject: Re: [PATCH v3 06/15] drm: of: Add
+ drm_of_lvds_get_dual_link_pixel_order_sink()
+Message-ID: <zaraulehid255ij3hs7hazd463ye4l5ju6sguoos243kda6552@lztoq22vzqyk>
+References: <20241021064446.263619-1-victor.liu@nxp.com>
+ <20241021064446.263619-7-victor.liu@nxp.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20241021-gpu-acd-v2-3-9c25a62803bc@quicinc.com>
-References: <20241021-gpu-acd-v2-0-9c25a62803bc@quicinc.com>
-In-Reply-To: <20241021-gpu-acd-v2-0-9c25a62803bc@quicinc.com>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, "Konrad
- Dybcio" <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Simona
- Vetter" <simona@ffwll.ch>,
- Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
- Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>, Bjorn Andersson
- <andersson@kernel.org>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <linux-pm@vger.kernel.org>, <devicetree@vger.kernel.org>
-X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1729511702; l=2473;
- i=quic_akhilpo@quicinc.com; s=20240726; h=from:subject:message-id;
- bh=K4uDSeAHPqOF4dC/WveDCmG62plfuwrsaEiIRm+b/HM=;
- b=Tf6TshaeMcHaxPvEKYzkoSzM6VVlj92PY39DFNU6ywFxnG1ElvCn7hZucYqwdEC5uys4pJ2lB
- LxySXa7xU65BpI6tTFoA6I494oYHj1dOCbkimDsruky3wNZV/MH3xlg
-X-Developer-Key: i=quic_akhilpo@quicinc.com; a=ed25519;
- pk=lmVtttSHmAUYFnJsQHX80IIRmYmXA4+CzpGcWOOsfKA=
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: SffZm4rIcDV7iLvG4r8Rl6vOxJvQf6Gh
-X-Proofpoint-GUID: SffZm4rIcDV7iLvG4r8Rl6vOxJvQf6Gh
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 adultscore=0
- phishscore=0 spamscore=0 clxscore=1015 priorityscore=1501 impostorscore=0
- mlxscore=0 suspectscore=0 lowpriorityscore=0 bulkscore=0 mlxlogscore=779
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2409260000
- definitions=main-2410210085
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241021064446.263619-7-victor.liu@nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,89 +98,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Update GPU node to include acd level values.
+On Mon, Oct 21, 2024 at 02:44:37PM +0800, Liu Ying wrote:
+> drm_of_lvds_get_dual_link_pixel_order() gets LVDS dual-link source pixel
+> order.  Similar to it, add it's counterpart function
+> drm_of_lvds_get_dual_link_pixel_order_sink() to get LVDS dual-link sink
+> pixel order.
+> 
+> Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> ---
+> v3:
+> * New patch.  (Dmitry)
+> 
+>  drivers/gpu/drm/drm_of.c | 76 ++++++++++++++++++++++++++++++++++------
+>  include/drm/drm_of.h     |  9 +++++
+>  2 files changed, 74 insertions(+), 11 deletions(-)
+> 
 
-Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
----
- arch/arm64/boot/dts/qcom/x1e80100.dtsi | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
-
-diff --git a/arch/arm64/boot/dts/qcom/x1e80100.dtsi b/arch/arm64/boot/dts/qcom/x1e80100.dtsi
-index a36076e3c56b..81ce8bccc7a5 100644
---- a/arch/arm64/boot/dts/qcom/x1e80100.dtsi
-+++ b/arch/arm64/boot/dts/qcom/x1e80100.dtsi
-@@ -3323,60 +3323,69 @@ zap-shader {
- 			};
- 
- 			gpu_opp_table: opp-table {
--				compatible = "operating-points-v2";
-+				compatible = "operating-points-v2-adreno", "operating-points-v2";
- 
- 				opp-1100000000 {
- 					opp-hz = /bits/ 64 <1100000000>;
- 					opp-level = <RPMH_REGULATOR_LEVEL_TURBO_L1>;
- 					opp-peak-kBps = <16500000>;
-+					qcom,opp-acd-level = <0xa82a5ffd>;
- 				};
- 
- 				opp-1000000000 {
- 					opp-hz = /bits/ 64 <1000000000>;
- 					opp-level = <RPMH_REGULATOR_LEVEL_TURBO>;
- 					opp-peak-kBps = <14398438>;
-+					qcom,opp-acd-level = <0xa82b5ffd>;
- 				};
- 
- 				opp-925000000 {
- 					opp-hz = /bits/ 64 <925000000>;
- 					opp-level = <RPMH_REGULATOR_LEVEL_NOM_L1>;
- 					opp-peak-kBps = <14398438>;
-+					qcom,opp-acd-level = <0xa82b5ffd>;
- 				};
- 
- 				opp-800000000 {
- 					opp-hz = /bits/ 64 <800000000>;
- 					opp-level = <RPMH_REGULATOR_LEVEL_NOM>;
- 					opp-peak-kBps = <12449219>;
-+					qcom,opp-acd-level = <0xa82c5ffd>;
- 				};
- 
- 				opp-744000000 {
- 					opp-hz = /bits/ 64 <744000000>;
- 					opp-level = <RPMH_REGULATOR_LEVEL_SVS_L2>;
- 					opp-peak-kBps = <10687500>;
-+					qcom,opp-acd-level = <0x882e5ffd>;
- 				};
- 
- 				opp-687000000 {
- 					opp-hz = /bits/ 64 <687000000>;
- 					opp-level = <RPMH_REGULATOR_LEVEL_SVS_L1>;
- 					opp-peak-kBps = <8171875>;
-+					qcom,opp-acd-level = <0x882e5ffd>;
- 				};
- 
- 				opp-550000000 {
- 					opp-hz = /bits/ 64 <550000000>;
- 					opp-level = <RPMH_REGULATOR_LEVEL_SVS>;
- 					opp-peak-kBps = <6074219>;
-+					qcom,opp-acd-level = <0xc0285ffd>;
- 				};
- 
- 				opp-390000000 {
- 					opp-hz = /bits/ 64 <390000000>;
- 					opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS>;
- 					opp-peak-kBps = <3000000>;
-+					qcom,opp-acd-level = <0xc0285ffd>;
- 				};
- 
- 				opp-300000000 {
- 					opp-hz = /bits/ 64 <300000000>;
- 					opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS_D1>;
- 					opp-peak-kBps = <2136719>;
-+					qcom,opp-acd-level = <0xc02b5ffd>;
- 				};
- 			};
- 		};
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 -- 
-2.45.2
-
+With best wishes
+Dmitry
