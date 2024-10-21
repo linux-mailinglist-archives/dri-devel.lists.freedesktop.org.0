@@ -2,56 +2,139 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D109F9A5C83
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2024 09:17:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16C2E9A5C8B
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2024 09:18:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F79C10E421;
-	Mon, 21 Oct 2024 07:17:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8799C10E422;
+	Mon, 21 Oct 2024 07:18:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="BDKxBnuN";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="ITrggtpv";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="AMOSKynn";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ITrggtpv";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="AMOSKynn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1F8B10E42B;
- Mon, 21 Oct 2024 07:17:53 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 93C965C5A43;
- Mon, 21 Oct 2024 07:17:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BCE3C4CEC3;
- Mon, 21 Oct 2024 07:17:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1729495072;
- bh=JlgTjAP3ky+Oilz/rDXUrx4ib4ZWloaLx9eDP59DYWc=;
- h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=BDKxBnuN3ge25rZUKYv5xiZkNYQgrhZSQ8Jr08+i5cOzT9JA5Dmt/lhz12B15J+fm
- QqADyFxeGpf/1Qko/jWk2VXs36TK3Drvuid/d9p7+gIGss1BDUM3BJgnfqsc0KfqrP
- L6QJHwp8ClnSclGLms11w1haL+20RXJGV06b40xY+vHUI2xTAw3XQJ3X9FFILw5uTc
- U4uZ/M8qPZzKdz7zqnk37yd974cREL8+0KY/ZPjongWzDQZWzlkm6jsTvCUiStywMH
- DFtZOOySch1FMrti2ntpVXeXDKEUHkVIpLHM4IK3eDLrdBBuRTBFE0gOoeHyYjtOic
- evFfuHYc8reog==
-Message-ID: <7f54c943d952a8bbc0f725304b8ab907@kernel.org>
-Date: Mon, 21 Oct 2024 07:17:49 +0000
-From: "Maxime Ripard" <mripard@kernel.org>
-To: "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH 0/6] drm/bridge: add ycbcr_420_allowed support
-In-Reply-To: <20241019-bridge-yuv420-v1-0-d74efac9e4e6@linaro.org>
-References: <20241019-bridge-yuv420-v1-0-d74efac9e4e6@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, "Abhinav
- Kumar" <quic_abhinavk@quicinc.com>,
- "Alexander Stein" <alexander.stein@ew.tq-group.com>, "Andrzej
- Hajda" <andrzej.hajda@intel.com>, "David Airlie" <airlied@gmail.com>, "Jernej
- Skrabec" <jernej.skrabec@gmail.com>, "Jonas Karlman" <jonas@kwiboo.se>,
- "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Marijn
- Suijten" <marijn.suijten@somainline.org>, "Maxime Ripard" <mripard@kernel.org>,
- "Neil
- Armstrong" <neil.armstrong@linaro.org>, "Rob Clark" <robdclark@gmail.com>,
- "Robert Foss" <rfoss@kernel.org>, "Sean Paul" <sean@poorly.run>,
- "Simona Vetter" <simona@ffwll.ch>, "Thomas
- Zimmermann" <tzimmermann@suse.de>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4CD110E41C
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 07:18:48 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 4BD0921FD5;
+ Mon, 21 Oct 2024 07:18:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1729495127; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=HNbyQoXVQquH9JVbDoOEKqtihMmHAXKjzZ4EryKWiuc=;
+ b=ITrggtpvRbEUpQD6JJmeuJ1idcl02eACFwMYhBR2mECitznOw0tJSWJKl7ITcfyRiVxft+
+ zqjKr3Qv4ABsrl3VVMvXK1n8Zo7mcb7WcQjD1SC0VeTRLfLxFfB0CvAKNXMwTm8YNVrXS9
+ LUXJkikkRxnmwk5LthltUhV/P5wNByc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1729495127;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=HNbyQoXVQquH9JVbDoOEKqtihMmHAXKjzZ4EryKWiuc=;
+ b=AMOSKynnAohrmgQUmIAiaKh8XL9e7OMIXeh/JXHFeABaiixyh0zugEDvKbsziCXj+rqHnY
+ rovChOGFUq52+xAA==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ITrggtpv;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=AMOSKynn
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1729495127; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=HNbyQoXVQquH9JVbDoOEKqtihMmHAXKjzZ4EryKWiuc=;
+ b=ITrggtpvRbEUpQD6JJmeuJ1idcl02eACFwMYhBR2mECitznOw0tJSWJKl7ITcfyRiVxft+
+ zqjKr3Qv4ABsrl3VVMvXK1n8Zo7mcb7WcQjD1SC0VeTRLfLxFfB0CvAKNXMwTm8YNVrXS9
+ LUXJkikkRxnmwk5LthltUhV/P5wNByc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1729495127;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=HNbyQoXVQquH9JVbDoOEKqtihMmHAXKjzZ4EryKWiuc=;
+ b=AMOSKynnAohrmgQUmIAiaKh8XL9e7OMIXeh/JXHFeABaiixyh0zugEDvKbsziCXj+rqHnY
+ rovChOGFUq52+xAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 125FF136DC;
+ Mon, 21 Oct 2024 07:18:47 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 9e00A1cAFmcCTQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 21 Oct 2024 07:18:47 +0000
+Message-ID: <0bbc250b-fe6a-4e8e-927b-35bd47475d69@suse.de>
+Date: Mon, 21 Oct 2024 09:18:46 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/fbdev: fix drm_fb_helper_deferred_io() build failure
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Jonathan Cavitt <jonathan.cavitt@intel.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20241018-fix-drm-deferred-v1-1-c33bf5d209b0@linaro.org>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20241018-fix-drm-deferred-v1-1-c33bf5d209b0@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 4BD0921FD5
+X-Spam-Score: -4.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[];
+ FREEMAIL_TO(0.00)[linaro.org,linux.intel.com,kernel.org,gmail.com,ffwll.ch,intel.com];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ RCPT_COUNT_SEVEN(0.00)[8]; MIME_TRACE(0.00)[0:+];
+ ARC_NA(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:url,suse.de:mid,suse.de:dkim];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,16 +150,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 19 Oct 2024 00:49:11 +0300, Dmitry Baryshkov wrote:
-> One of the features that drm_bridge_connector can't handle currently is
-> setting of the ycbcr_420_allowed flag on the connector. Add the flag to
-> the drm_bridge struct and propagate it to the drm_connector as AND of
-> all flags in the bridge chain.
-> 
-> 
-> [ ... ]
+Hi
 
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
+Am 18.10.24 um 22:35 schrieb Dmitry Baryshkov:
+> The drm_fb_helper_deferred_io() uses struct fb_deferred_io_pageref,
+> which isn't available without CONFIG_FB_DEFERRED_IO. Put the function
+> under corresponding #ifdef to fix build failure if deferred I/O isn't
+> enabled.
+>
+> Fixes: 8058944f5226 ("drm/fbdev: Select fbdev I/O helpers from modules that require them")
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>   drivers/gpu/drm/drm_fb_helper.c | 2 ++
 
-Thanks!
-Maxime
+Thanks for this fix. The combination of all these fbdev options is a bit 
+of headache. Could you please also protect the function's declaration? [1]
+
+[1] 
+https://elixir.bootlin.com/linux/v6.11/source/include/drm/drm_fb_helper.h#L259
+
+Best regards
+Thomas
+
+>   1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+> index d5e8994345bb..c9008113111b 100644
+> --- a/drivers/gpu/drm/drm_fb_helper.c
+> +++ b/drivers/gpu/drm/drm_fb_helper.c
+> @@ -697,6 +697,7 @@ void drm_fb_helper_damage_area(struct fb_info *info, u32 x, u32 y, u32 width, u3
+>   }
+>   EXPORT_SYMBOL(drm_fb_helper_damage_area);
+>   
+> +#ifdef CONFIG_FB_DEFERRED_IO
+>   /**
+>    * drm_fb_helper_deferred_io() - fbdev deferred_io callback function
+>    * @info: fb_info struct pointer
+> @@ -740,6 +741,7 @@ void drm_fb_helper_deferred_io(struct fb_info *info, struct list_head *pagerefli
+>   	}
+>   }
+>   EXPORT_SYMBOL(drm_fb_helper_deferred_io);
+> +#endif
+>   
+>   /**
+>    * drm_fb_helper_set_suspend - wrapper around fb_set_suspend
+>
+> ---
+> base-commit: 2063ca42486bc07b49bc145b5dfcb421f4deebaf
+> change-id: 20241018-fix-drm-deferred-01c9996c17a6
+>
+> Best regards,
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
