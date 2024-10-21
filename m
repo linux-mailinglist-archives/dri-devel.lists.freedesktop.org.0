@@ -2,41 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8CF69A6AFF
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2024 15:50:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D21DA9A6B0F
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2024 15:52:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CF6510E50B;
-	Mon, 21 Oct 2024 13:50:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54C2210E510;
+	Mon, 21 Oct 2024 13:52:35 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; secure) header.d=steffen.cc header.i=@steffen.cc header.b="XMxIfD+P";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id A756D10E50B
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 13:50:38 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D1048DA7;
- Mon, 21 Oct 2024 06:51:07 -0700 (PDT)
-Received: from [10.1.196.40] (e121345-lin.cambridge.arm.com [10.1.196.40])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8A5223F73B;
- Mon, 21 Oct 2024 06:50:36 -0700 (PDT)
-Message-ID: <d9f64a98-2091-4882-8a2c-115fe24f6f77@arm.com>
-Date: Mon, 21 Oct 2024 14:50:34 +0100
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EE5110E510
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 13:52:34 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4XXGvz1TLnz9slY;
+ Mon, 21 Oct 2024 15:52:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=steffen.cc; s=MBO0001; 
+ t=1729518751;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Qm5H3iVaNzE/cyspTjKRSfgDmWv1EYY1JXmeR3OStN0=;
+ b=XMxIfD+P3ISrQks2rwOErN9A6YAYxfM7D0T4pCxnbRmIlO75GEod6Mhh33eBZT+WmukFkp
+ uMqRneVZN8q+pD2r2bQpUeUNWy+DTLeucJKnwz/zlCmynBGm6qwkGeYwHbPxXttYvjKsWM
+ gvI+6wnCkfxZAaynQicQwB0/Okjq504R+VI/h36p2Do6cI5EQ+kMpSoQTZaq47EkIGE91g
+ Zw7razQ4yNqzXXD3Ozei+raosuWEVcITchEPgZZKkeIuxgnKXPljqM0Ejl3rfkUO2sYkZp
+ 86exRn19aAB62irJozoiI8UjB88qMnq1AQ2aaSSdlABzM86C7JVyxjCPMM0+dA==
+From: Steffen Dirkwinkel <lists@steffen.cc>
+To: dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Steffen Dirkwinkel <s.dirkwinkel@beckhoff.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Michal Simek <michal.simek@amd.com>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm: xlnx: zynqmp_disp: layer may be null while releasing
+Date: Mon, 21 Oct 2024 15:51:27 +0200
+Message-ID: <20241021135127.218947-1-lists@steffen.cc>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] iommu/io-pgtable-arm: Remove split on unmap behavior
-To: Jason Gunthorpe <jgg@nvidia.com>, Steven Price <steven.price@arm.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>, iommu@lists.linux.dev,
- Joerg Roedel <joro@8bytes.org>, linux-arm-kernel@lists.infradead.org,
- Will Deacon <will@kernel.org>, dri-devel@lists.freedesktop.org,
- Liviu Dudau <liviu.dudau@arm.com>, patches@lists.linux.dev
-References: <0-v1-8c5f369ec2e5+75-arm_no_split_jgg@nvidia.com>
- <20241021111758.561c81ca@collabora.com>
- <850c70ff-a7f0-4a0b-83a4-0b03a039831d@arm.com>
- <20241021121724.GN3559746@nvidia.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20241021121724.GN3559746@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,37 +62,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/10/2024 1:17 pm, Jason Gunthorpe wrote:
-> On Mon, Oct 21, 2024 at 12:32:21PM +0100, Steven Price wrote:
-> 
->>> that, we can always do it in two steps (unmap the 2M region and remap
->>> the borders). At some point it'd be good to have some kind of atomic
->>> page table updates, so we don't have this short period of time during
->>> which nothing is mapped (between the unmap and the remap), but that's a
->>> different story.
->>
->> The GPU hardware provides that. The only possible missing piece is that
->> the driver needs to know ahead of time that the unmap would unmap the 2M
->> region so it can do the correct lock before the entries are removed.
-> 
-> It looks like we need atomic update for some confidential compute
-> scenarios, so I am working toward that with the coming generic pt
-> stuff.
+From: Steffen Dirkwinkel <s.dirkwinkel@beckhoff.com>
 
-Beware that whatever the Mali drivers might have the option to do for 
-themselves, there's still no notion of "atomic update" for SMMU and 
-io-pgtable-arm in general, other than perhaps for permission changes - 
-even BBML is quite explicitly non-atomic, as it's defined in terms of 
-two otherwise-identical mappings existing at the same time, just 
-guaranteeing that while they do, you'll still get behaviour consistent 
-with one *or* the other, and not anything in-between.
+layer->info can be null if we have an error on the first layer in
+zynqmp_disp_create_layers
 
-As far as this patch goes, though, I would not be at all unhappy to see 
-the back of split_blk_unmap... However if we are going to do this then 
-I'd like even more to formally define it as the behaviour of 
-iommu_unmap() and fix up all the other drivers which behave still 
-differently (the statement in the commit message is incorrect - 
-io-pgtable-arm-v7s still splits; at least exynos fails the unmap entirely.)
+Signed-off-by: Steffen Dirkwinkel <s.dirkwinkel@beckhoff.com>
+---
+ drivers/gpu/drm/xlnx/zynqmp_disp.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Thanks,
-Robin.
+diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
+index 9368acf56eaf..e4e0e299e8a7 100644
+--- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
++++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
+@@ -1200,6 +1200,9 @@ static void zynqmp_disp_layer_release_dma(struct zynqmp_disp *disp,
+ {
+ 	unsigned int i;
+ 
++	if (!layer->info)
++		return;
++
+ 	for (i = 0; i < layer->info->num_channels; i++) {
+ 		struct zynqmp_disp_layer_dma *dma = &layer->dmas[i];
+ 
+-- 
+2.47.0
+
