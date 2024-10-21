@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BB969A91EF
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2024 23:18:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7383D9A91ED
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2024 23:18:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E83CF10E5AA;
+	by gabe.freedesktop.org (Postfix) with ESMTP id AABBC10E5A7;
 	Mon, 21 Oct 2024 21:18:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="n5DVA5dZ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="EJdIuy4B";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6603410E0B4;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8148C10E119;
  Mon, 21 Oct 2024 21:18:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1729545493; x=1761081493;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=rgdWjLCAsWDICAk8WcCYB+yo/wtl3ra7r8m7MBpFXLE=;
- b=n5DVA5dZbkVEWtfIRxulVnvXmNbxnLr2hrUu+PW/aT1V6qRx0SOBxd23
- olyziKyNWTD5vkW7x2DbJ+1hrpzN39G0jRjyPHoG/RXrvdcr8pUxBGQdj
- eKGazCx6ld3cfEwGQsVdICPp99Bs3ud5KOPdY4xruSDgU0T4/ljhQbKOd
- X3AedaRyMOGj9iyBHMW3gUIPzpmF+29bqMZvsJ+h3n3OfJgRTbyQBGpvn
- 8oXc8jC6EgTk+Acq/v65ALIL8KkjMq58Vo76noO3+LwAzNNOLSWdCx3BR
- Iz73yn2mtskp0vtf+rNMIT027YEHHxvH2m0Rpz5W+fLTncpf77nCmYfgR g==;
-X-CSE-ConnectionGUID: /Nhn1Wr1TFCIuNlXXs6rBQ==
-X-CSE-MsgGUID: yd2hc8olSZeHa3Q0T5KfTw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11232"; a="29257686"
-X-IronPort-AV: E=Sophos;i="6.11,221,1725346800"; d="scan'208";a="29257686"
+ bh=nZMJwEdjNoBvlGVgeI7A/wYeq0nHCWPF1Z/N58o2JT8=;
+ b=EJdIuy4B3asCvTA2X6DUS00PFach7Mn9oQCg4PT1EvqozGEyF10BvRbN
+ EwyWTIyFm6DQL69xkWmk5ZTUZCIH1/kkrCIIezcCbD/llBlPycMk4ogJF
+ X/cs4wbbgwEZ1VtIdhs5fO94Pga/6LqQv0tCAUxD1ebLJv8oDDlVZLEuo
+ LOQvQWE1y2/hdOfzJcDJgMGDOi2l//OM9PBv0KFL4SCtux0LU3twEipNU
+ WJDrYLWKasTAURUjaDI00SLTLbdhb3yDcEYuIpYsXbQUyATLr7ReGGW5N
+ BTtuhX9vizczF00syg2DQBSmm6Cz+s83XKnRN+N4AQkep8Iw5y8np82C+ w==;
+X-CSE-ConnectionGUID: Mxa6Yd0nQAi/LmTT3yEQ8g==
+X-CSE-MsgGUID: cPVPKNbAQ/WQecnGny+b5w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11232"; a="29257688"
+X-IronPort-AV: E=Sophos;i="6.11,221,1725346800"; d="scan'208";a="29257688"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  21 Oct 2024 14:18:11 -0700
-X-CSE-ConnectionGUID: tqQFife7TDyk8EkrfPPUbw==
-X-CSE-MsgGUID: GZbL78PPS9uSjvmteDtI1g==
+X-CSE-ConnectionGUID: zJ+P3zgNRsGfzTYeIR0NWQ==
+X-CSE-MsgGUID: LXJvVhDVSr6d30UATVHo2A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,221,1725346800"; d="scan'208";a="80469598"
+X-IronPort-AV: E=Sophos;i="6.11,221,1725346800"; d="scan'208";a="80469603"
 Received: from lstrano-desk.jf.intel.com ([10.54.39.91])
  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  21 Oct 2024 14:18:10 -0700
@@ -46,10 +46,9 @@ To: intel-xe@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
 Cc: mika.kuoppala@intel.com, matthew.auld@intel.com,
  thomas.hellstrom@linux.intel.com
-Subject: [PATCH v5 7/9] drm/xe: Use ttm_bo_access in
- xe_vm_snapshot_capture_delayed
-Date: Mon, 21 Oct 2024 14:18:33 -0700
-Message-Id: <20241021211835.1675640-8-matthew.brost@intel.com>
+Subject: [PATCH v5 8/9] drm/xe: Set XE_BO_FLAG_PINNED in migrate selftest BOs
+Date: Mon, 21 Oct 2024 14:18:34 -0700
+Message-Id: <20241021211835.1675640-9-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241021211835.1675640-1-matthew.brost@intel.com>
 References: <20241021211835.1675640-1-matthew.brost@intel.com>
@@ -70,54 +69,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Non-contiguous mapping of BO in VRAM doesn't work, use ttm_bo_access
-instead.
+We only allow continguous BOs to be vmapped, set XE_BO_FLAG_PINNED on
+BOs in migrate selftest as this forces continguous BOs and selftest uses
+vmaps.
 
-v2:
- - Fix error handling
-
-Fixes: 0eb2a18a8fad ("drm/xe: Implement VM snapshot support for BO's and userptr")
-Suggested-by: Matthew Auld <matthew.auld@intel.com>
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
 ---
- drivers/gpu/drm/xe/xe_vm.c | 17 ++++++-----------
- 1 file changed, 6 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/xe/tests/xe_migrate.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
-index c99380271de6..c8782da3a5c3 100644
---- a/drivers/gpu/drm/xe/xe_vm.c
-+++ b/drivers/gpu/drm/xe/xe_vm.c
-@@ -3303,7 +3303,6 @@ void xe_vm_snapshot_capture_delayed(struct xe_vm_snapshot *snap)
+diff --git a/drivers/gpu/drm/xe/tests/xe_migrate.c b/drivers/gpu/drm/xe/tests/xe_migrate.c
+index 1a192a2a941b..4cef3b20bd17 100644
+--- a/drivers/gpu/drm/xe/tests/xe_migrate.c
++++ b/drivers/gpu/drm/xe/tests/xe_migrate.c
+@@ -83,7 +83,8 @@ static void test_copy(struct xe_migrate *m, struct xe_bo *bo,
+ 						   bo->size,
+ 						   ttm_bo_type_kernel,
+ 						   region |
+-						   XE_BO_FLAG_NEEDS_CPU_ACCESS);
++						   XE_BO_FLAG_NEEDS_CPU_ACCESS |
++						   XE_BO_FLAG_PINNED);
+ 	if (IS_ERR(remote)) {
+ 		KUNIT_FAIL(test, "Failed to allocate remote bo for %s: %pe\n",
+ 			   str, remote);
+@@ -642,7 +643,9 @@ static void validate_ccs_test_run_tile(struct xe_device *xe, struct xe_tile *til
  
- 	for (int i = 0; i < snap->num_snaps; i++) {
- 		struct xe_bo *bo = snap->snap[i].bo;
--		struct iosys_map src;
- 		int err;
+ 	sys_bo = xe_bo_create_user(xe, NULL, NULL, SZ_4M,
+ 				   DRM_XE_GEM_CPU_CACHING_WC,
+-				   XE_BO_FLAG_SYSTEM | XE_BO_FLAG_NEEDS_CPU_ACCESS);
++				   XE_BO_FLAG_SYSTEM |
++				   XE_BO_FLAG_NEEDS_CPU_ACCESS |
++				   XE_BO_FLAG_PINNED);
  
- 		if (IS_ERR(snap->snap[i].data))
-@@ -3316,16 +3315,12 @@ void xe_vm_snapshot_capture_delayed(struct xe_vm_snapshot *snap)
- 		}
+ 	if (IS_ERR(sys_bo)) {
+ 		KUNIT_FAIL(test, "xe_bo_create() failed with err=%ld\n",
+@@ -666,7 +669,8 @@ static void validate_ccs_test_run_tile(struct xe_device *xe, struct xe_tile *til
  
- 		if (bo) {
--			xe_bo_lock(bo, false);
--			err = ttm_bo_vmap(&bo->ttm, &src);
--			if (!err) {
--				xe_map_memcpy_from(xe_bo_device(bo),
--						   snap->snap[i].data,
--						   &src, snap->snap[i].bo_ofs,
--						   snap->snap[i].len);
--				ttm_bo_vunmap(&bo->ttm, &src);
--			}
--			xe_bo_unlock(bo);
-+			err = ttm_bo_access(&bo->ttm, snap->snap[i].bo_ofs,
-+					    snap->snap[i].data, snap->snap[i].len, 0);
-+			if (!(err < 0) && err != snap->snap[i].len)
-+				err = -EIO;
-+			else if (!(err < 0))
-+				err = 0;
- 		} else {
- 			void __user *userptr = (void __user *)(size_t)snap->snap[i].bo_ofs;
+ 	ccs_bo = xe_bo_create_user(xe, NULL, NULL, SZ_4M,
+ 				   DRM_XE_GEM_CPU_CACHING_WC,
+-				   bo_flags | XE_BO_FLAG_NEEDS_CPU_ACCESS);
++				   bo_flags | XE_BO_FLAG_NEEDS_CPU_ACCESS |
++				   XE_BO_FLAG_PINNED);
  
+ 	if (IS_ERR(ccs_bo)) {
+ 		KUNIT_FAIL(test, "xe_bo_create() failed with err=%ld\n",
+@@ -690,7 +694,8 @@ static void validate_ccs_test_run_tile(struct xe_device *xe, struct xe_tile *til
+ 
+ 	vram_bo = xe_bo_create_user(xe, NULL, NULL, SZ_4M,
+ 				    DRM_XE_GEM_CPU_CACHING_WC,
+-				    bo_flags | XE_BO_FLAG_NEEDS_CPU_ACCESS);
++				    bo_flags | XE_BO_FLAG_NEEDS_CPU_ACCESS |
++				    XE_BO_FLAG_PINNED);
+ 	if (IS_ERR(vram_bo)) {
+ 		KUNIT_FAIL(test, "xe_bo_create() failed with err=%ld\n",
+ 			   PTR_ERR(vram_bo));
 -- 
 2.34.1
 
