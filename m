@@ -2,79 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AB689A69B4
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2024 15:08:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48C719A69E6
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2024 15:19:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D59D710E4F8;
-	Mon, 21 Oct 2024 13:08:10 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="OsbctjZC";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11FCC10E00C;
+	Mon, 21 Oct 2024 13:19:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
- [209.85.221.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE91B10E4F8
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 13:08:06 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id
- ffacd0b85a97d-37d533b5412so3035818f8f.2
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 06:08:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1729516085; x=1730120885; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=FtUpr+A+8LtT2m5vyRDBgWkwHEqK1Wfgx4gBKVx1DVI=;
- b=OsbctjZCcvUvIAY74ACdRs8pY0IQ23ETU+IZuvUfXCdil/5FfWfz2Q24xrIC5ZoOMn
- otbvK84wOzIPFUi5yRa5LbglSm1DMjfv8aouwlOLmsm1lLInYNJnvZzObS1l3BXsEW/o
- yR5lOE8o3DeoJs9jGqt9zeturQFkfUpN53aK9VbKxswt3ZZTkv71QLqvvFgjNo/SsYzs
- Ef7QwpqndDZeeRKEuLN4ZlcrpvSlDj2RzU+uYLZB7yotGWHKyVos88/zHB05wl0tGrRI
- lobYaJObcaYfbficYVi3fhkl6P8VeUfHa3D8+jjYPE2CjdGQgDK+hRxMXb7mjv96dhWb
- YydA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729516085; x=1730120885;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=FtUpr+A+8LtT2m5vyRDBgWkwHEqK1Wfgx4gBKVx1DVI=;
- b=OrK3jkrszAUsb/TOOXK+prfm+DiDoipt5UieowRWXo2lQ/4755QXra48kIzdcQwKsy
- vVnY7S1YxhWBzybjRJna+8m1yZwakWrUvo8bCLVLWlwkw1lmTDuo7DEfHGyT13EuSlLR
- aPkL20gInABTpbpRr1AA1yVE3i1nIbNb5I00hoA72urO+XLMaVxGtTgKxTQ3fVhbSVga
- KHOwjG8y0Nte5hrI2CXA9cOw/3w5bTfmfjE89cH+/3mc19cp5Gf4bXgKAm/YoWaH2kAF
- 4erUH6i4kFPsQOv4SzfVCxoBWeqJseeFrfVwzDoxdjx4b/TYcd0h6GrI/xsFgSfl7HUr
- Xm1w==
-X-Gm-Message-State: AOJu0YycEOR68E4tYtZLpN6IaeLZzyMS8c4i7fVtNtBi3GQLXh9pqydi
- hR0HHSo1wHCOkvfca28N6qvc+e4N+6K61DVZeH/pzVzKQS1tMRB7eJGBphgv9kI=
-X-Google-Smtp-Source: AGHT+IEipzMV/DPPme98h3B4GD5zXCo8HzlYNMbwlWUDSxFvwffIlkT58hrTwZJo/fDp/R6yYxaAzA==
-X-Received: by 2002:adf:f209:0:b0:37d:4d72:dca3 with SMTP id
- ffacd0b85a97d-37eab7137dbmr7801233f8f.31.1729516085193; 
- Mon, 21 Oct 2024 06:08:05 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-37ee0a4864csm4327496f8f.35.2024.10.21.06.08.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Oct 2024 06:08:04 -0700 (PDT)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Alexander Stein <alexander.stein@ew.tq-group.com>, 
- Marek Vasut <marex@denx.de>, 
- Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20241013-tc358767-of_node_put-v1-1-97431772c0ff@gmail.com>
-References: <20241013-tc358767-of_node_put-v1-1-97431772c0ff@gmail.com>
-Subject: Re: [PATCH] drm/bridge: tc358767: fix missing of_node_put() in
- for_each_endpoint_of_node()
-Message-Id: <172951608433.1285208.7143753103186144460.b4-ty@linaro.org>
-Date: Mon, 21 Oct 2024 15:08:04 +0200
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 18AD810E00C
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 13:19:21 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1BED1DA7
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 06:19:50 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 36CCF3F73B
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 06:19:20 -0700 (PDT)
+Date: Mon, 21 Oct 2024 14:19:16 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Steven Price <steven.price@arm.com>,
+ =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>,
+ dri-devel@lists.freedesktop.org, kernel@collabora.com
+Subject: Re: [PATCH v2] drm/panthor: Fix firmware initialization on systems
+ with a page size > 4k
+Message-ID: <ZxZU1CMRSF14UMZK@e110455-lin.cambridge.arm.com>
+References: <20241014093134.464059-1-boris.brezillon@collabora.com>
+ <Zw3Anj_54VAcZiA-@e110455-lin.cambridge.arm.com>
+ <20241015090351.0838fca7@collabora.com>
+ <Zw7eyWCqKb7CMDif@e110455-lin.cambridge.arm.com>
+ <20241016085352.4a5c0beb@collabora.com>
+ <20241016114906.7d29e1c1@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241016114906.7d29e1c1@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,23 +54,136 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Sun, 13 Oct 2024 20:11:29 +0200, Javier Carrasco wrote:
-> for_each_endpoint_of_node() requires a call to of_node_put() for every
-> early exit. A new error path was added to the loop without observing
-> this requirement.
+On Wed, Oct 16, 2024 at 11:49:06AM +0200, Boris Brezillon wrote:
+> On Wed, 16 Oct 2024 08:53:52 +0200
+> Boris Brezillon <boris.brezillon@collabora.com> wrote:
 > 
-> Add the missing call to of_node_put() in the error path.
+> > On Tue, 15 Oct 2024 22:29:45 +0100
+> > Liviu Dudau <liviu.dudau@arm.com> wrote:
+> > 
+> > > On Tue, Oct 15, 2024 at 09:03:51AM +0200, Boris Brezillon wrote:  
+> > > > Hi Liviu,
+> > > > 
+> > > > On Tue, 15 Oct 2024 02:08:46 +0100
+> > > > Liviu Dudau <liviu.dudau@arm.com> wrote:
+> > > >     
+> > > > > Hi Boris,
+> > > > > 
+> > > > > I'm a bit confused, I thought the plan was to separate the FW_PAGE_SIZE
+> > > > > from the rest of Panthor's PAGE_SIZE.
+> > > > > 
+> > > > > On Mon, Oct 14, 2024 at 11:31:34AM +0200, Boris Brezillon wrote:    
+> > > > > > The system and GPU MMU page size might differ, which becomes a
+> > > > > > problem for FW sections that need to be mapped at explicit address
+> > > > > > since our PAGE_SIZE alignment might cover a VA range that's
+> > > > > > expected to be used for another section.
+> > > > > > 
+> > > > > > Make sure we never map more than we need.      
+> > > > > 
+> > > > > This ^
+> > > > >     
+> > > > > > 
+> > > > > > Fixes: 2718d91816ee ("drm/panthor: Add the FW logical block")
+> > > > > > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > > > > > ---
+> > > > > > Steve, Liviu, Adrian, I intentionally dropped the R-b because of
+> > > > > > the panthor_vm_page_size() change. Feel free to add it back if
+> > > > > > you're happy with the new version.
+> > > > > > ---
+> > > > > >  drivers/gpu/drm/panthor/panthor_fw.c  |  4 ++--
+> > > > > >  drivers/gpu/drm/panthor/panthor_gem.c | 11 ++++++++---
+> > > > > >  drivers/gpu/drm/panthor/panthor_mmu.c | 16 +++++++++++++---
+> > > > > >  drivers/gpu/drm/panthor/panthor_mmu.h |  1 +
+> > > > > >  4 files changed, 24 insertions(+), 8 deletions(-)
+> > > > > > 
+> > > > > > diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
+> > > > > > index ef232c0c2049..4e2d3a02ea06 100644
+> > > > > > --- a/drivers/gpu/drm/panthor/panthor_fw.c
+> > > > > > +++ b/drivers/gpu/drm/panthor/panthor_fw.c
+> > > > > > @@ -487,6 +487,7 @@ static int panthor_fw_load_section_entry(struct panthor_device *ptdev,
+> > > > > >  					 struct panthor_fw_binary_iter *iter,
+> > > > > >  					 u32 ehdr)
+> > > > > >  {
+> > > > > > +	ssize_t vm_pgsz = panthor_vm_page_size(ptdev->fw->vm);
+> > > > > >  	struct panthor_fw_binary_section_entry_hdr hdr;
+> > > > > >  	struct panthor_fw_section *section;
+> > > > > >  	u32 section_size;
+> > > > > > @@ -515,8 +516,7 @@ static int panthor_fw_load_section_entry(struct panthor_device *ptdev,
+> > > > > >  		return -EINVAL;
+> > > > > >  	}
+> > > > > >  
+> > > > > > -	if ((hdr.va.start & ~PAGE_MASK) != 0 ||
+> > > > > > -	    (hdr.va.end & ~PAGE_MASK) != 0) {
+> > > > > > +	if (!IS_ALIGNED(hdr.va.start, vm_pgsz) || !IS_ALIGNED(hdr.va.end, vm_pgsz)) {      
+> > > > > 
+> > > > > is falsified by this.    
+> > > > 
+> > > > I don't think it is. panthor_vm_page_size() is returning SZ_4K since
+> > > > pgsize_bitmap is set to SZ_4K | SZ_2M in panthor_vm_create().
+> > > >     
+> > > > > 
+> > > > > I think panthor_vm_page_size() is an useful helper to have, but in panthor_fw.c we should use
+> > > > > the 4K page mask for allocating firmware sections.    
+> > > > 
+> > > > That's something we pick at VM creation time. Right now everyone is
+> > > > using 4K pages, but I can see a future where user VMs would have a page
+> > > > size selected based on the system page size. Basically something like
+> > > > that in panthor_vm_create():
+> > > > 
+> > > >    if (PAGE_SIZE < SZ_64K || for_mcu)
+> > > >       pgsize_bitmap = SZ_4K | SZ_2M;
+> > > >    else
+> > > >       pgsize_bitmap = SZ_64K;
+> > > >     
+> > > > > 
+> > > > > I've asked for confirmation from the firmware team regarding plans for the future wrt section's page size
+> > > > > and will get back to you if my assumption that is going to stay at 4K is wrong.    
+> > > > 
+> > > > My intention has never been to use 64K pages for the MCU page table.
+> > > > Given the size of the sections mapped there, I don't think it'd make
+> > > > sense. What we could do though, is use a kmem_cache cache for such
+> > > > allocations, to avoid losing the remaining of the PAGE_SIZE when FW
+> > > > sections/allocations are not 4K aligned, but that's a different kind of
+> > > > optimization.    
+> > > 
+> > > Right, so depending on what firmware/GPU combination you have the firmware in the future can use
+> > > either 4K (current public firmware), 64K or 16K for its sections. I'm working with the firmware team
+> > > to expose the information somewhere in the headers of the binary.
+> > > 
+> > > What I was trying to say in my comments is that panthor_fw.c should not use the same function as
+> > > the rest of panthor code to get the alignment for the sections as there could be a mismatch between
+> > > the two (4K FW sections on 16K system pages, or 16K FW sections on 4K system pages).  
+> > 
+> > We have the for_mcu parameter that can be used to change the
+> > io_pgtable_cfg::pgsize_bitmap (see my pseudo-code above)
 > 
+> If the FW page size is dynamic, we can also easily extend
+> panthor_vm_create() to take the page size, or have a
+> panthor_fw_page_size() helper that's called when for_mcu=true.
+
+Yes, I think that is coming at some moment as there is more memory available
+to supported devices. With a future patch to handle non-4K firmware pages in mind,
+
+Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+
+Best regards,
+Liviu
+
 > 
-> [...]
-
-Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-fixes)
-
-[1/1] drm/bridge: tc358767: fix missing of_node_put() in for_each_endpoint_of_node()
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/5c23878252515b8d2b86839bd4cb7dea7088aacd
+> > , and this very
+> > same config is used to extract the page size in panthor_vm_page_size(),
+> > so I don't really see what the problem is. panthor_vm_page_size() will
+> > always return the page size that's used for a specific VM, so, if we
+> > use a different page size for the MCU VM, it will cope with that
+> > without any modification and without needing a new function.
+> 
 
 -- 
-Neil
-
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
