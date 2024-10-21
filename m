@@ -2,110 +2,162 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45CAB9A5C1F
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2024 09:12:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17A399A5C52
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2024 09:15:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1413A10E2D4;
-	Mon, 21 Oct 2024 07:12:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A57310E142;
+	Mon, 21 Oct 2024 07:15:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="wRM/3ATL";
+	dkim=pass (1024-bit key; unprotected) header.d=mysnt.onmicrosoft.com header.i=@mysnt.onmicrosoft.com header.b="eKamUIes";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6342410E2D4
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 07:12:38 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id
- 5b1f17b1804b1-4314c4cb752so43407925e9.2
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 00:12:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1729494756; x=1730099556; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=Qcm1v2bTZyXU4vDGpi0B+UhZSQuP815LX7k5XuMY/5U=;
- b=wRM/3ATLyvEGdRpu84jfJ1WSDFtYeo175o2YYZLHgU+Mct0kXBODcCFPK0C/gQWhv1
- C4UiHhVoZAqpWCSjVE1abqZWy7/NcftBDR0AVcc7e4unKcNNtMrJSTg31hr42Zk9rJU/
- Vm8fCU4ffM8AFW4pe4PlmOv3eiWpFvE93wvN0SLunBYanLigBcwQclttW69kZia3LuKv
- 6/7wyvKbyEBr+iTrcHQHSLChnEfhP55Fciom9uMrgqBMD1thk1CVrO6t3VRYfUPYwro9
- A3YraMiOe+YiyH0zLDBZfZF/exeRpi2Ycz+BH0S+IW3MgoZasx9Xfr/qRY1sEUz9VE9+
- GikQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729494756; x=1730099556;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=Qcm1v2bTZyXU4vDGpi0B+UhZSQuP815LX7k5XuMY/5U=;
- b=UP/NEYrT1enWMLChgecDIsxOovkka475l62UbIbwBxkIyamsaQw95CF6wicsw/YOJk
- smd8nm5B+TtYKOBXOppF1INruJ+5zScwb2oMvpW6AsCkY8/9lcfFGOUzX+h+ArGyu5/Z
- v/kji8PEdNP+BNb7FsS3a8ooJgQrSIhHZLalKA78whvht2sTuHptf5YtP3Jor3QfbQBO
- otS0SIWser4LFY3+jLw3x/x6cjGmVPwDm9NHV5TPSL0SbalxV6l/nZKy/wZbA1e/YfX6
- QybQtsTJ9POOHhplI0koxnMV8PSfzD+tA66q+uvmwDXXZFakbfZz2d4Tnv/UUxOGVIAz
- BLhw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUKOVEvk+AN/6Xyu/yAeBrfMB1+TESXziOgW9BI7tm7jGYVnk+pT0Qo/uTezeGfkM0Tz6D6ieMu8pE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy5nlqF2rUSjMw/5pC6o5u6zfDANUs4d3NbRtK9uys2u7upkd9Y
- V8yIcPf9kMLtBBcI9LOo5ualem7Yr8a2drTNlKYNI2Xkb12COSKcw0zsw1rggXQ=
-X-Google-Smtp-Source: AGHT+IGpl6JMnMrYtUkza0HWfuTecrkb9l67H3tR/tiZP3auPNJFcRmSnNiCcgftPVWXOFvAlvSm4A==
-X-Received: by 2002:a05:600c:3b05:b0:42c:b5f1:44ff with SMTP id
- 5b1f17b1804b1-43161686a4cmr87117595e9.24.1729494755999; 
- Mon, 21 Oct 2024 00:12:35 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:3908:dea6:2ddd:be97?
- ([2a01:e0a:982:cbb0:3908:dea6:2ddd:be97])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4316f5cbe7dsm46527555e9.39.2024.10.21.00.12.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Oct 2024 00:12:35 -0700 (PDT)
-Message-ID: <87d7d767-2058-49e6-9f36-5a79d5b0b5b6@linaro.org>
-Date: Mon, 21 Oct 2024 09:12:36 +0200
-MIME-Version: 1.0
+Received: from EUR03-AM7-obe.outbound.protection.outlook.com
+ (mail-am7eur03on2132.outbound.protection.outlook.com [40.107.105.132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96E8A10E142
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 07:15:42 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=vPUffj3VCtsGE7UpIUTTBi42o7B7iPZgfu+LWaOhRfU+htKZh2ikxoo53/iD1PSb24ZwT6Ip6kq2s+un+WdM1ctOGUv7uUpN1g9ThAHPdzfG4OADNYKzVeWiovxLPPEKKAXE+9mGYUhTJS3tRHMmVKPLfLtJ46vhtTQWFYqyqaV7wi22DFimV2Grc8/MKNqRtGdK0jZ/Gi5PCUDsWy9BCsDl46D7WFWisNdLPauJgFQgqcl6DR5S48neudUsgoIIV3hSnkSFFsn5RNdtFGOAKxQps51vJxn2E1+vAkSQ/UC2pgCzaTkHp0pILv0EAG9OeyVtZrMzPOUWdj/+VRL5Yw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Ctd0f6L4K1XhFc7JeBoR6LmMSQMEs5ngVfPaLiXd+BI=;
+ b=V68Bbilpx1W6+rWwh7lFhvIa2d9prd1QWrwCitYl+BRmzHgj1cU75XLhbrrew+wJoPNUlfCIwDr3b/qcuQN1yqYuHt4BTiPN02cAD48xdbBf4hf1M48xTZAbWFMcd3jRYIGHMn58qzHpC9ETYLFlowNIiM+z4CSZIcCpJGVyzsYEHzd6UqA7t8d6uuayL1f6YqYjeyF+yjy1s/uHxKlOzxVfiz6qU9A0G+vqHg9S5+W1nj7gRlXG7oRY3TcQahY3Ji0itMETMJuQeCwZUGCfyCz990G5IIL1PTtDmXbn2YyGjAKju2uFGFUz2TLhHzsawpdQJQbdyVqzhL8/rPV4uw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=kontron.de; dmarc=pass action=none header.from=kontron.de;
+ dkim=pass header.d=kontron.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mysnt.onmicrosoft.com; 
+ s=selector2-mysnt-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ctd0f6L4K1XhFc7JeBoR6LmMSQMEs5ngVfPaLiXd+BI=;
+ b=eKamUIesA6Wm0e+2OtZ9h9OY9EvzMwH39USqhh9i2IayNgQ1yf/KLDTky6V4JdmE7etr53y6xH28S2+Qg6hHyqqP/sPuEFJhxlLWW4Mu6Ws4/fcGXAzJQh3WMaIPWM0UTKnwiuYWqeICGKVsdMjPA/GXyW+8Fg5R1JX+0pBkLJ8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=kontron.de;
+Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:263::10)
+ by VI1PR10MB3501.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:800:132::24)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.15; Mon, 21 Oct
+ 2024 07:15:39 +0000
+Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::b854:7611:1533:2a19]) by PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::b854:7611:1533:2a19%4]) with mapi id 15.20.8093.013; Mon, 21 Oct 2024
+ 07:15:39 +0000
+Message-ID: <48e42fa7-f36e-4d38-b60b-51c9a6748de6@kontron.de>
+Date: Mon, 21 Oct 2024 09:15:38 +0200
 User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v2] drm/bridge: Fix assignment of the of_node of the
- parent to aux bridge
-To: Abel Vesa <abel.vesa@linaro.org>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: Johan Hovold <johan@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-References: <20241018-drm-aux-bridge-mark-of-node-reused-v2-1-aeed1b445c7d@linaro.org>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20241018-drm-aux-bridge-mark-of-node-reused-v2-1-aeed1b445c7d@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 3/5] arm64: dts: imx8mp-msc-sm2s-ep1: Add HDMI connector
+To: Marek Vasut <marex@denx.de>, Liu Ying <victor.liu@nxp.com>,
+ devicetree@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+ festevam@gmail.com, andrzej.hajda@intel.com, neil.armstrong@linaro.org,
+ rfoss@kernel.org, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ stefan@agner.ch, dmitry.baryshkov@linaro.org
+References: <20241018064813.2750016-1-victor.liu@nxp.com>
+ <20241018064813.2750016-4-victor.liu@nxp.com>
+ <69cc9c59-99c0-479d-8143-63698cc56111@denx.de>
+ <4d1c434e-e7bd-4e53-b110-1f26eb06c59c@nxp.com>
+ <06bb1733-1742-4847-8436-8f9d8d4b7c46@denx.de>
+Content-Language: en-US, de-DE
+From: Frieder Schrempf <frieder.schrempf@kontron.de>
+In-Reply-To: <06bb1733-1742-4847-8436-8f9d8d4b7c46@denx.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR5P281CA0051.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:f0::20) To PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:102:263::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PA4PR10MB5681:EE_|VI1PR10MB3501:EE_
+X-MS-Office365-Filtering-Correlation-Id: 98f299f1-036b-4dfc-cd07-08dcf1a02aba
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?dUJSWEpkKzlxZlE2bVNFNnVuTGFtVnZCU2I2ZHkxTEJwVzdxT0VaMWNIak1v?=
+ =?utf-8?B?c2NSNEpRVWlxKzJreEJyaXd2S1pIUHlCeHVBaGZUK3J4dFVxdEVqaWNoMEFR?=
+ =?utf-8?B?Q3ZUb3ZUQkxLeGtOOXVZeWNnaVJoUm9GRG92T3VUenRDc2IxcTJ1Z2M3V3BG?=
+ =?utf-8?B?cTUzOHBlN09PbE1KWnlueXFuTWtZVHIwdmszT2JFSFFHTU14QVBaUlV1TjRt?=
+ =?utf-8?B?YXg0eFBVZWxENE04dGpwSE5IYXhveFd6cEhTa3hydkZWWnVnU2pPQWFjS3k2?=
+ =?utf-8?B?TUZ2MzZPeWFXKzE2MWEweUdJMDlxc1A0R1hwSlZyUlFlRlVlK2hKZVdzSHA5?=
+ =?utf-8?B?WHRYYVhYcEdBangzN0lNeENFdXB1eVcrbUY1ZktWSzFHaSs0bnYyV2c4bCtH?=
+ =?utf-8?B?TGpEb3o0emUxZVlVVzJYYjROZjAzdUlKZDFZOTE1MVJOMHdNR0dycFMycEZo?=
+ =?utf-8?B?M3AzZ005akNoQXFldmFoY0xKbjVRblk2NGRoRW5pM3l2ZHYrMW9SdFhwV1ZQ?=
+ =?utf-8?B?YnpLRkxzVURkK1MrMS9vRnloS2lwT2xmMW1PY250K1FMK3pjRDJnU0ZGRC8r?=
+ =?utf-8?B?YjFUSVJlRzNFYmo5UEZvLzNPYmZIczlxZVFzUkJwNFhTTkY4YUpMNnowb2VL?=
+ =?utf-8?B?Y0x3YWM5eFJmRjVQNy9yMkxva00ySkJhcDRGa2FPem9lSGdZSG93RjhTMXB2?=
+ =?utf-8?B?VVkzZjE5T2FZZkxSU1MvNnNLMWRTZkY0VTBFNzZ0OFZyS1hRUUQ0cEd4QThG?=
+ =?utf-8?B?aUZaNmtJV2x6c1h1ZytSdjk2cURCWmRjZFFiV1hwV2ZZaU5XRUJLUTFuWTU1?=
+ =?utf-8?B?c0pkR1hPWUtabmw2OW1hWVlXYmtSMlFuTUhBQllWbHNBcG8zMGVQTmdSMFd2?=
+ =?utf-8?B?N1YrMnFtYXJoQnZnaXFycURSRmN3STM5UTlpcERVUFl2cUFvZGZIc2hNMFNh?=
+ =?utf-8?B?ZU5XZkFtdzhLWEdBYzRSUDVaM0k0elV3RkdUYWhBazAza1RpZG1DbVlTQkhF?=
+ =?utf-8?B?MnZhWUZKc3lNOFNaUGluY2N4RExyenRPN25oRVNqTUwxbHhrLzlnNVQxTHJ2?=
+ =?utf-8?B?U09HT1lBbVFwcFl5K3ZTSjZtZnVUR01VSklUNHRnYXNXc0ZtTDdZbUZBbUQ3?=
+ =?utf-8?B?NU9HekFEQmdMa0Z1Tmw3TUtwOEpUMkJLK0ErWVZMSWtmbTJadlh0eC9uVWVr?=
+ =?utf-8?B?bDFPMEpobzRYV3orSHR1NVlTVDZaL3Buck52U3lsR1FGNDYxQmFiblVWN0NX?=
+ =?utf-8?B?YXhuZUhrN3Z0cFA0aGlxVmVib2luRXR5azk4cGNKdjlMMHZZTDhmTm9PS05J?=
+ =?utf-8?B?bU5pM01lUXRud0FvY3FMaVRGRmhJWmFmRHpLUUkrYldUMlNuUmRtY3BaRW1Q?=
+ =?utf-8?B?ZTZsWVdqZ1pyT2hRdUdKbGxlUkRlRlUyczlSclhKa2JUNmVTaWNEMCtPVDRo?=
+ =?utf-8?B?YmxPSEFKTTgvb2lBaG5sR0ZRQmFxSEhiVHJWR3g4SnVGL084VkNUTmFzN00x?=
+ =?utf-8?B?WFNmU3hpSmtMYUxKQUd6dlVobmJjd0VUMHpxRCtLbzkzSEdudnlQMk1aUEdw?=
+ =?utf-8?B?aVNneTgrQllRRUxweTViTHErczFGcXFSU0ZBVXZsQVkxaGs5OVFuM1cvcUF1?=
+ =?utf-8?B?ZHlUQzg2NHBYb2tVVXBrSVlsM0NBS2VFdXhjSjlVT01WNjhHMi9uYS9YR01F?=
+ =?utf-8?B?RmhFN05uTER5UHpjWlFwZ1VLcnMxcC9WSEd4RW9TN3FvR3JFZEhHVVMvaDZX?=
+ =?utf-8?Q?rIKnBZ77P9kC19oqOW6nkE57u2FO/ZF7/itBVJ8?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(1800799024)(366016); DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UUpheEY4WWRkZjRkUXdkMzBjdEdwbkI1anpVVGRFVGRnMXNBMkJIak42YVVo?=
+ =?utf-8?B?bHcyNkxOdnlYNm9zeXpuc1I5d3JXZ0RMRXNMYThocnFZb3FjdUlqNDJ2R0Va?=
+ =?utf-8?B?eU1zY2VwYzRZS3MzLzBKQ1I0d25OZ3VJNUhlSnVaZkVaZzNETlRtcGdnc3ZS?=
+ =?utf-8?B?T3d5Q2xtc3NmK3RJUmIxeVRadnRxZWRET3pZcnNETUgzMXZEMG55TGl3amFN?=
+ =?utf-8?B?c2NhczFqNmpzMHFTdC9tUi85aEI4ZzkyWlB5QjFCZ0tnMS9nMmc0OWRvd09Y?=
+ =?utf-8?B?TVlYd21IOWUweG9iR29ka01sOVppM21OekVuUmxXZTZvT0pxMkJkV3h1NkJF?=
+ =?utf-8?B?ZnN1ZEQ1Y3ViMmw3NEdGY3RjS1BpWXJzM0xSNm5YcVJsRHlsUlJRRGQ2enpL?=
+ =?utf-8?B?bDVicTk4aEZialRzQUUrdkF3U2FBODBjTDY1ajJuUXBYclFneWxCTDhJdDZo?=
+ =?utf-8?B?Q2Fwb1Q2dkNXaHZ6QzVqNk0wWXlXOWcwamJ4dlM1QUU0U2dNUy90RXpjdDIz?=
+ =?utf-8?B?S3l0ZUkrMEhkblhrZFdUSTRHL04rV2N6UGpuT0Z5ZjVEWHVtZW5RWVp2MzI3?=
+ =?utf-8?B?TUhyRGs0emQrNVBuRkVEVFNYK2tmWmhETHFWQU9ZdjlIU2Fia0J2VFJoN3NK?=
+ =?utf-8?B?WlRscWtGdkNuQm9yV3N0ekQ4MkJQS2pKWjVWY1hVZkhManh6M0MvR3crcnFu?=
+ =?utf-8?B?eVBTTWlkSnAwVUVSaUxuSjUzTkZVOXpwK0crRFVESStKYlp4a3ZZdlY3MmJG?=
+ =?utf-8?B?RmFVcFJGM2NvWERhMW5YZXcxbDAvYllIeXR1Q0s1a2NFdXErU29QM0hHWE1N?=
+ =?utf-8?B?VGpiMUxuOUNhSUlEeS93WU83bmhFTXZ2NEMxSS9ma0xETzhWQzBZbkdBbmFC?=
+ =?utf-8?B?bVNSMUNCNEd2QkpmYnc4eXdMRTUzYXBxbjRDMFdhNkFtL2pGM1BqZTB3TjVV?=
+ =?utf-8?B?SllIQ20vQ1lLNVFGcnhIaUpleHVxOG1JeHZUclU1OEpzMnRXWDRESnpzdzBl?=
+ =?utf-8?B?bFBjZjhualJXd0xzMStCN0d4NjlxUmZsOFJQM1BOK3prYStJSW0vRXZGTEdv?=
+ =?utf-8?B?aTgxUEZHclVRQ3c5M1ZMczZpZDlCVkJMM3FmTXl6ayttTkxtY0hReTl6MUFp?=
+ =?utf-8?B?YnZ1Y1NLcGVPa2JTTXVLeWFzS3d6QUU1cy85bHltNVJrYnVydWFmc2Zaa09p?=
+ =?utf-8?B?am50MjRsV3liVWl1TnBBdTIvL1JGaVlxZWN0dGtydUJTcG9LYWlzQ01RZ2Jn?=
+ =?utf-8?B?N3hvMVhEWHlEbEZVaUVRenMzWEhQbmY5LzZJb09yajhjWWVuWjU4TUNwRU1h?=
+ =?utf-8?B?RXlVUWVPdmJUV3dqeExQbDNQeVJMdkE3a2RXaWR3d0M5QTJacEpPdU1Mb2xD?=
+ =?utf-8?B?d0I5Sy9aUWx0RG5Ma25sN3hZaGhqc1pGbWJuTFhHaFRuTnpHQnByVkJYK0tn?=
+ =?utf-8?B?blVTSkNJeU41dExFNC9RTlcrdVpuMkxyR1pEcWt2RjliaXFGRXhaMVN4ZzhP?=
+ =?utf-8?B?WC81bjFyS1gvTkVsSHAwdUZHOE5hZzZTVE1mRUd0NS85ZkRRQ1hXc2w0cGxi?=
+ =?utf-8?B?WFN0ZEp6aW1tR0t5MFhQd1pOSzhEaDhZOGVESDkwdUFTN0I4VWFqSnhIWkdI?=
+ =?utf-8?B?TFBNeHZRd0VRQng1VFdJQytQdGh6S21QNGZJYjZqUCtNdkprODU3czkxS1dC?=
+ =?utf-8?B?MnU4dGZ4bjExb2RhNVlQcm1zcDRNdGJyanErbVQ4M2pUNUFWV1BMV3ZKeEFi?=
+ =?utf-8?B?WlhZOHVaQTdYYVhRU2JMYUpqVjF6K3BmVU1FeTFMelI3QnVPWGUrYjQycDFq?=
+ =?utf-8?B?Nkpnank3UElqWGZGUFhjN0lHOWlmK0w0UFg3WnlkL3lqRkxITTA3L2xsek84?=
+ =?utf-8?B?VFV1d1RXM0FTcDBlTkxlWUk0RHpBQml3dzJoekptbjROSE5VSVdtUDUwaVhH?=
+ =?utf-8?B?VC8vS3pEVnd2VnYxazI0RTZUd2ZFenZDYkJWd3UwalVXUGtmUi9hWlhHblFu?=
+ =?utf-8?B?R2l4WVdQdmRlZ0VWS0hBUWR5R0hKREdPUlJEaUU1c1ZjaVRxblFvWFluVjY4?=
+ =?utf-8?B?SU9YaXRUTm4xZE5IaGZtQXpVelU3Q0hhL2tRQTBtSkFxeEltekUzaDZtcEkr?=
+ =?utf-8?B?aTVCZzhod1ZFOUl4ZFJqRFUySHVndlZxWC9YZkRBaVN0Y0Jta042SnhtNVA0?=
+ =?utf-8?B?anc9PQ==?=
+X-OriginatorOrg: kontron.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 98f299f1-036b-4dfc-cd07-08dcf1a02aba
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2024 07:15:39.4888 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8c9d3c97-3fd9-41c8-a2b1-646f3942daf1
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: eiqdcfRANHJRtcurj254bc/gVm9P1foZ0AIeUKkouPDb8ZrEXvOgV9QJ8mp82ygDSI5/Q+KYxri7KeXHdivvVdjCGLTD5HqeQzISaE60z4E=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR10MB3501
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,52 +170,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18/10/2024 14:49, Abel Vesa wrote:
-> The assignment of the of_node to the aux bridge needs to mark the
-> of_node as reused as well, otherwise resource providers like pinctrl will
-> report a gpio as already requested by a different device when both pinconf
-> and gpios property are present.
-> Fix that by using the device_set_of_node_from_dev() helper instead.
-> 
-> Fixes: 6914968a0b52 ("drm/bridge: properly refcount DT nodes in aux bridge drivers")
-> Cc: stable@vger.kernel.org      # 6.8
-> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
-> ---
-> Changes in v2:
-> - Re-worded commit to be more explicit of what it fixes, as Johan suggested
-> - Used device_set_of_node_from_dev() helper, as per Johan's suggestion
-> - Added Fixes tag and cc'ed stable
-> - Link to v1: https://lore.kernel.org/r/20241017-drm-aux-bridge-mark-of-node-reused-v1-1-7cd5702bb4f2@linaro.org
-> ---
->   drivers/gpu/drm/bridge/aux-bridge.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/aux-bridge.c b/drivers/gpu/drm/bridge/aux-bridge.c
-> index b29980f95379ec7af873ed6e0fb79a9abb663c7b..295e9d031e2dc86cbfd2a7350718fca181c99487 100644
-> --- a/drivers/gpu/drm/bridge/aux-bridge.c
-> +++ b/drivers/gpu/drm/bridge/aux-bridge.c
-> @@ -58,9 +58,10 @@ int drm_aux_bridge_register(struct device *parent)
->   	adev->id = ret;
->   	adev->name = "aux_bridge";
->   	adev->dev.parent = parent;
-> -	adev->dev.of_node = of_node_get(parent->of_node);
->   	adev->dev.release = drm_aux_bridge_release;
->   
-> +	device_set_of_node_from_dev(&adev->dev, parent);
-> +
->   	ret = auxiliary_device_init(adev);
->   	if (ret) {
->   		ida_free(&drm_aux_bridge_ida, adev->id);
-> 
-> ---
-> base-commit: d61a00525464bfc5fe92c6ad713350988e492b88
-> change-id: 20241017-drm-aux-bridge-mark-of-node-reused-5c2ee740ff19
-> 
-> Best regards,
+On 18.10.24 11:35 AM, Marek Vasut wrote:
+> On 10/18/24 11:00 AM, Liu Ying wrote:
+>> On 10/18/2024, Marek Vasut wrote:
+>>> On 10/18/24 8:48 AM, Liu Ying wrote:
+>>>> Add a HDMI connector to connect with i.MX8MP HDMI TX output.
+>>>> This is a preparation for making the i.MX8MP LCDIF driver use
+>>>> drm_bridge_connector which requires the DRM_BRIDGE_ATTACH_NO_CONNECTOR
+>>>> flag.  With that flag, the DW HDMI bridge core driver would
+>>>> try to attach the next bridge which is the HDMI connector.
+>>>>
+>>>> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+>>>> ---
+>>>>    .../dts/freescale/imx8mp-msc-sm2s-ep1.dts     | 19 ++++++++++++++
+>>>> +++++
+>>>>    1 file changed, 19 insertions(+)
+>>>>
+>>>> diff --git a/arch/arm64/boot/dts/freescale/imx8mp-msc-sm2s-ep1.dts
+>>>> b/arch/arm64/boot/dts/freescale/imx8mp-msc-sm2s-ep1.dts
+>>>> index 83194ea7cb81..b776646a258a 100644
+>>>> --- a/arch/arm64/boot/dts/freescale/imx8mp-msc-sm2s-ep1.dts
+>>>> +++ b/arch/arm64/boot/dts/freescale/imx8mp-msc-sm2s-ep1.dts
+>>>> @@ -15,6 +15,17 @@ / {
+>>>>                 "avnet,sm2s-imx8mp-14N0600E", "avnet,sm2s-imx8mp",
+>>>>                 "fsl,imx8mp";
+>>>>    +    hdmi-connector {
+>>>> +        compatible = "hdmi-connector";
+>>>> +        type = "a";
+>>> Shouldn't this also have a 'label' property ?
+>>
+>> 'label' property is not required by hdmi-connector.yaml and there
+>> are in-tree hdmi-connector nodes that haven't got it.
+>> I tried to find schematics for the board online, but failed.
+>> I don't have the board to see the label printed in silk layer, either.
+>>
+>> If anyone can provide a valid label name, I may add it.
+> For the Kontron board, Frieder might be able to look it up for you ?
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+The Kontron PCB doesn't have a silkscreen label for the connector. The
+schematic has the label "X801" for the part and the signals on the
+connector are prefixed with "HDMI_CON".
