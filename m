@@ -2,60 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 360F89A69B2
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2024 15:08:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AB689A69B4
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2024 15:08:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C1AC10E4F7;
-	Mon, 21 Oct 2024 13:08:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D59D710E4F8;
+	Mon, 21 Oct 2024 13:08:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="iXv9AZ8L";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="OsbctjZC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
- [209.85.221.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D848910E4F7
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 13:08:05 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id
- ffacd0b85a97d-37ed3bd6114so1949827f8f.2
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 06:08:05 -0700 (PDT)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+ [209.85.221.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE91B10E4F8
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 13:08:06 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id
+ ffacd0b85a97d-37d533b5412so3035818f8f.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 06:08:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1729516084; x=1730120884; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1729516085; x=1730120885; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:date:message-id:subject
  :references:in-reply-to:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=VqnULJngiAuI4PU+WENgbKZbOXrbYOY8YLdD1t2buO4=;
- b=iXv9AZ8LqECjk1PSpne8UPq5YLKU11RJJbkgvlBFQ+4/FtbxbXdLAzwmoIjke1/MFy
- FqUJN4liZupnEx+nYwe8LIk74CMYExA2NhHBxdxts3vy/7fP2IHnZlxEUnbunN1OktBh
- Oro1JUkxTXY1iPkXzzeHSX1DbgNsgfzeYspxUiVEZfqiuboHVE5AhfkRw6kH+6jMVa2t
- OX3veVAviGvzHt1Y/LZFihMNl6gYcVZweNZKw+uqdqmsrGGaSQ50qTsHY1a7lV7lOmmw
- IkzMIFs8rg9m24udBcm2sYErEwqyHfi4n5aSzJE8HbYKbyD2/4oFgT0VwSM/0Qkvnqap
- wwug==
+ bh=FtUpr+A+8LtT2m5vyRDBgWkwHEqK1Wfgx4gBKVx1DVI=;
+ b=OsbctjZCcvUvIAY74ACdRs8pY0IQ23ETU+IZuvUfXCdil/5FfWfz2Q24xrIC5ZoOMn
+ otbvK84wOzIPFUi5yRa5LbglSm1DMjfv8aouwlOLmsm1lLInYNJnvZzObS1l3BXsEW/o
+ yR5lOE8o3DeoJs9jGqt9zeturQFkfUpN53aK9VbKxswt3ZZTkv71QLqvvFgjNo/SsYzs
+ Ef7QwpqndDZeeRKEuLN4ZlcrpvSlDj2RzU+uYLZB7yotGWHKyVos88/zHB05wl0tGrRI
+ lobYaJObcaYfbficYVi3fhkl6P8VeUfHa3D8+jjYPE2CjdGQgDK+hRxMXb7mjv96dhWb
+ YydA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729516084; x=1730120884;
+ d=1e100.net; s=20230601; t=1729516085; x=1730120885;
  h=content-transfer-encoding:mime-version:date:message-id:subject
  :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=VqnULJngiAuI4PU+WENgbKZbOXrbYOY8YLdD1t2buO4=;
- b=FkfYiNJIBQPAZLGROFtGLJ6LezsKC15b0eTKk5RqKTvJKxtAtT/rb+3lq3PLRUFvlU
- TByoUQh9lq4HUaT//mdwUQc0/i5XBm1aOkviaaNFGXIaMyOQ4MNHOxZ6lfPMuLZlyEwn
- XSeXNrXnJ1CEDrm3oyse7+WD2x37V0aCyIJp7I07Kk0sFQ8DGevxc5a7pRfRO+2/msvO
- lumgudZtjWcG5qonemH38WiTknEiuhoqpvpvWomaWq3hSMl0YzStMe/tZhyxSVllDXiG
- d0RKcG72GbTasTnEd9jLIaVBpRI7gtoPr3kyaC+2gv2CrNZBp+sgPWxgcgMW9FJuuy8I
- SSZg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUOl1Q92Z/Qf7HbLMc6Dl+fqmq6U0r//DW9uMBxBf8snsqXsMjJ2oOoZieGX/MEKKEHz9/itAFcjf8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzoRbRjk1VklDoBfnF0bDniJ6ZrAuROuqM02HOYlUdeE8o7nzTD
- S1wRdvnkmXPXodak9GQc/Q4HRI61T23UyQhPcWz69n4tX+KMzVbnIVeq13tFpVA=
-X-Google-Smtp-Source: AGHT+IGm1/5Xh2Z81XQToS4JZjHin15PG7qBhTsyW0jnN8vOfqwSxnZN3dWJ97hienGRAVBco+uHkQ==
-X-Received: by 2002:a05:6000:b45:b0:37d:54d0:1f20 with SMTP id
- ffacd0b85a97d-37ea218b5ecmr7255011f8f.24.1729516084157; 
- Mon, 21 Oct 2024 06:08:04 -0700 (PDT)
+ bh=FtUpr+A+8LtT2m5vyRDBgWkwHEqK1Wfgx4gBKVx1DVI=;
+ b=OrK3jkrszAUsb/TOOXK+prfm+DiDoipt5UieowRWXo2lQ/4755QXra48kIzdcQwKsy
+ vVnY7S1YxhWBzybjRJna+8m1yZwakWrUvo8bCLVLWlwkw1lmTDuo7DEfHGyT13EuSlLR
+ aPkL20gInABTpbpRr1AA1yVE3i1nIbNb5I00hoA72urO+XLMaVxGtTgKxTQ3fVhbSVga
+ KHOwjG8y0Nte5hrI2CXA9cOw/3w5bTfmfjE89cH+/3mc19cp5Gf4bXgKAm/YoWaH2kAF
+ 4erUH6i4kFPsQOv4SzfVCxoBWeqJseeFrfVwzDoxdjx4b/TYcd0h6GrI/xsFgSfl7HUr
+ Xm1w==
+X-Gm-Message-State: AOJu0YycEOR68E4tYtZLpN6IaeLZzyMS8c4i7fVtNtBi3GQLXh9pqydi
+ hR0HHSo1wHCOkvfca28N6qvc+e4N+6K61DVZeH/pzVzKQS1tMRB7eJGBphgv9kI=
+X-Google-Smtp-Source: AGHT+IEipzMV/DPPme98h3B4GD5zXCo8HzlYNMbwlWUDSxFvwffIlkT58hrTwZJo/fDp/R6yYxaAzA==
+X-Received: by 2002:adf:f209:0:b0:37d:4d72:dca3 with SMTP id
+ ffacd0b85a97d-37eab7137dbmr7801233f8f.31.1729516085193; 
+ Mon, 21 Oct 2024 06:08:05 -0700 (PDT)
 Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-37ee0a4864csm4327496f8f.35.2024.10.21.06.08.03
+ ffacd0b85a97d-37ee0a4864csm4327496f8f.35.2024.10.21.06.08.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Oct 2024 06:08:03 -0700 (PDT)
+ Mon, 21 Oct 2024 06:08:04 -0700 (PDT)
 From: Neil Armstrong <neil.armstrong@linaro.org>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>, 
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
@@ -63,17 +61,16 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Abel Vesa <abel.vesa@linaro.org>
-Cc: Johan Hovold <johan@kernel.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- stable@vger.kernel.org
-In-Reply-To: <20241018-drm-aux-bridge-mark-of-node-reused-v2-1-aeed1b445c7d@linaro.org>
-References: <20241018-drm-aux-bridge-mark-of-node-reused-v2-1-aeed1b445c7d@linaro.org>
-Subject: Re: [PATCH v2] drm/bridge: Fix assignment of the of_node of the
- parent to aux bridge
-Message-Id: <172951608323.1285208.3162107667310691864.b4-ty@linaro.org>
-Date: Mon, 21 Oct 2024 15:08:03 +0200
+ Alexander Stein <alexander.stein@ew.tq-group.com>, 
+ Marek Vasut <marex@denx.de>, 
+ Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20241013-tc358767-of_node_put-v1-1-97431772c0ff@gmail.com>
+References: <20241013-tc358767-of_node_put-v1-1-97431772c0ff@gmail.com>
+Subject: Re: [PATCH] drm/bridge: tc358767: fix missing of_node_put() in
+ for_each_endpoint_of_node()
+Message-Id: <172951608433.1285208.7143753103186144460.b4-ty@linaro.org>
+Date: Mon, 21 Oct 2024 15:08:04 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
@@ -95,20 +92,20 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Fri, 18 Oct 2024 15:49:34 +0300, Abel Vesa wrote:
-> The assignment of the of_node to the aux bridge needs to mark the
-> of_node as reused as well, otherwise resource providers like pinctrl will
-> report a gpio as already requested by a different device when both pinconf
-> and gpios property are present.
-> Fix that by using the device_set_of_node_from_dev() helper instead.
+On Sun, 13 Oct 2024 20:11:29 +0200, Javier Carrasco wrote:
+> for_each_endpoint_of_node() requires a call to of_node_put() for every
+> early exit. A new error path was added to the loop without observing
+> this requirement.
+> 
+> Add the missing call to of_node_put() in the error path.
 > 
 > 
 > [...]
 
 Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-fixes)
 
-[1/1] drm/bridge: Fix assignment of the of_node of the parent to aux bridge
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/85e444a68126a631221ae32c63fce882bb18a262
+[1/1] drm/bridge: tc358767: fix missing of_node_put() in for_each_endpoint_of_node()
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/5c23878252515b8d2b86839bd4cb7dea7088aacd
 
 -- 
 Neil
