@@ -2,40 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3E8E9A669B
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2024 13:32:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08DB19A66AB
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2024 13:35:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F06910E49D;
-	Mon, 21 Oct 2024 11:32:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9EF610E063;
+	Mon, 21 Oct 2024 11:35:23 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="mla1iWyj";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9830110E49D
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 11:32:27 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CBD21DA7;
- Mon, 21 Oct 2024 04:32:55 -0700 (PDT)
-Received: from [10.57.24.27] (unknown [10.57.24.27])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id ECE3C3F528;
- Mon, 21 Oct 2024 04:32:23 -0700 (PDT)
-Message-ID: <850c70ff-a7f0-4a0b-83a4-0b03a039831d@arm.com>
-Date: Mon, 21 Oct 2024 12:32:21 +0100
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D129610E063
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 11:35:22 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id B08AAA42739;
+ Mon, 21 Oct 2024 11:35:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B92C5C4CEC7;
+ Mon, 21 Oct 2024 11:35:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1729510521;
+ bh=NnP5FFpDfPfkxNfCzIGryQtgDRYsg/mYEfAboo/domI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=mla1iWyj+nVKFELG9OM0sl2Ck1pK3QghS6o/oTV8/yZO3sp8Lrhej6jSyClxHf+SQ
+ thPx5XAP1aAUIJ1n8IT0COeQ4y0ZeVIqMSpf0KwzwyvEUW9s7CpWQwsoC15nBySc43
+ 1cy71HCUjzwiKPiqnJy1LGnFMjS+WcWEl/d6TXrgcRP3gxmWkzvOsGdhscwZhcZYrz
+ xhHGMzlQnf9vWaZ5V5glMtdfRFtUVNGW7ulbJj5vilV63osFGEpT2UZxNnnfvBzD/p
+ Yfm4VG1cmtIGDWWByk79cW/pP9OY7bGx9FXTAiU4LoOm6WYZbCJdJpch2JniAKpXnK
+ toLAL2wB0CzAw==
+Date: Mon, 21 Oct 2024 12:35:16 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Fei Shao <fshao@chromium.org>
+Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, CK Hu <ck.hu@mediatek.com>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH] dt-bindings: display: mediatek: dpi: Update device list
+ with power-domains
+Message-ID: <20241021-january-dissuade-d391a189007b@spud>
+References: <20241019052935.553886-1-fshao@chromium.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] iommu/io-pgtable-arm: Remove split on unmap behavior
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Jason Gunthorpe <jgg@nvidia.com>
-Cc: iommu@lists.linux.dev, Joerg Roedel <joro@8bytes.org>,
- linux-arm-kernel@lists.infradead.org, Robin Murphy <robin.murphy@arm.com>,
- Will Deacon <will@kernel.org>, dri-devel@lists.freedesktop.org,
- Liviu Dudau <liviu.dudau@arm.com>, patches@lists.linux.dev
-References: <0-v1-8c5f369ec2e5+75-arm_no_split_jgg@nvidia.com>
- <20241021111758.561c81ca@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20241021111758.561c81ca@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="y8NnBLaHu/CIQkrF"
+Content-Disposition: inline
+In-Reply-To: <20241019052935.553886-1-fshao@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,173 +67,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/10/2024 10:17, Boris Brezillon wrote:
-> On Fri, 18 Oct 2024 14:19:26 -0300
-> Jason Gunthorpe <jgg@nvidia.com> wrote:
-> 
->> Of the page table implementations (AMD v1/2, VT-D SS, ARM32, DART)
->> arm_lpae is unique in how it handles partial unmap of large IOPTEs.
->>
->> All other drivers will unmap the large IOPTE and return it's length.  For
->> example if a 2M IOPTE is present and the first 4K is requested to be
->> unmapped then unmap will remove the whole 2M and report 2M as the result.
->>
->> arm_lpae instead replaces the IOPTE with a table of smaller IOPTEs, unmaps
->> the 4K and returns 4k. This is actually an illegal/non-hitless operation
->> on at least SMMUv3 because of the BBM level 0 rules.
 
-Mali GPUs can (theoretically) do this safely because we can lock a
-region during the operation (LOCKADDR register). But neither Panfrost
-nor Panthor make use of this today.
+--y8NnBLaHu/CIQkrF
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->> Long ago VFIO could trigger a path like this, today I know of no user of
->> this functionality.
->>
->> Given it doesn't work fully correctly on SMMUv3 and would create
->> portability problems if any user depends on it, remove the unique support
->> in arm_lpae and align with the expected iommu interface.
->>
->> Outside the iommu users, this will potentially effect io_pgtable users of
->> ARM_32_LPAE_S1, ARM_32_LPAE_S2, ARM_64_LPAE_S1, ARM_64_LPAE_S2, and
->> ARM_MALI_LPAE formats.
->>
->> Cc: Boris Brezillon <boris.brezillon@collabora.com>
->> Cc: Steven Price <steven.price@arm.com>
->> Cc: Liviu Dudau <liviu.dudau@arm.com>
->> Cc: dri-devel@lists.freedesktop.org
->> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
->> ---
->>  drivers/iommu/io-pgtable-arm.c | 72 +++-------------------------------
->>  1 file changed, 6 insertions(+), 66 deletions(-)
->>
->> I don't know anything in the iommu space that needs this, and this is the only
->> page table implementation in iommu that does it.
->>
->> I'm not sure about DRM, I looked for awhile and only Panthor was unclear.
-> 
-> I theory, Panthor can do partial unmaps (unmapping a subregion of a
-> physically contiguous 2M section). In practice, it's not something we
-> rely on yet, so I don't think it's a blocker. If we ever want to support
+On Sat, Oct 19, 2024 at 01:26:56PM +0800, Fei Shao wrote:
+> There are two kinds of MediaTek DPI devices in the tree: the ones with a
+> power domain and those without (or missing). The former are the majority
+> and are more common in newer DTs. Only three older DTs fall into the
+> latter category: MT2701, MT7623 and MT8192.
+>=20
+> However, the current binding only allows particular DPI devices to have
+> power domains, which results in spurious binding check errors against
+> existing and new DTs.
+>=20
+> Instead of diligently maintaining the allowed list, let's do it the
+> other way around - create an exception list for devices that are fine
+> not specifying a power domain. This list is expected to be fixed, and it
+> encourages new MTK DPI devices to describe their power domain whenever
+> possible; if not, those should be listed with proper rationale.
+>=20
+> Signed-off-by: Fei Shao <fshao@chromium.org>
 
-As above, we fail to lock the 2M section before updating the page
-tables, so this functionality is broken today in Panthor.
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-> that, we can always do it in two steps (unmap the 2M region and remap
-> the borders). At some point it'd be good to have some kind of atomic
-> page table updates, so we don't have this short period of time during
-> which nothing is mapped (between the unmap and the remap), but that's a
-> different story.
+--y8NnBLaHu/CIQkrF
+Content-Type: application/pgp-signature; name="signature.asc"
 
-The GPU hardware provides that. The only possible missing piece is that
-the driver needs to know ahead of time that the unmap would unmap the 2M
-region so it can do the correct lock before the entries are removed.
+-----BEGIN PGP SIGNATURE-----
 
-> 
->>
->> If DRM does use this, I'd respin this to make it into a quirk and iommu won't
->> set it.
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZxY8dAAKCRB4tDGHoIJi
+0syAAP0c5qRTn8GS7F+N997ftgRYudfJIwY28xnK83tSh6fSbwEAnGMsiLIl6DTW
+PLKeegSHvQKodm39IEv39tGUs88enQE=
+=R8QS
+-----END PGP SIGNATURE-----
 
-You should be safe as far as Panfrost and Panthor are concerned.
-
-Thanks,
-Steve
-
->>
->> Thanks,
->> Jason
->>
->>
->> diff --git a/drivers/iommu/io-pgtable-arm.c b/drivers/iommu/io-pgtable-arm.c
->> index 0e67f1721a3d98..a51fae9c909111 100644
->> --- a/drivers/iommu/io-pgtable-arm.c
->> +++ b/drivers/iommu/io-pgtable-arm.c
->> @@ -569,66 +569,6 @@ static void arm_lpae_free_pgtable(struct io_pgtable *iop)
->>  	kfree(data);
->>  }
->>  
->> -static size_t arm_lpae_split_blk_unmap(struct arm_lpae_io_pgtable *data,
->> -				       struct iommu_iotlb_gather *gather,
->> -				       unsigned long iova, size_t size,
->> -				       arm_lpae_iopte blk_pte, int lvl,
->> -				       arm_lpae_iopte *ptep, size_t pgcount)
->> -{
->> -	struct io_pgtable_cfg *cfg = &data->iop.cfg;
->> -	arm_lpae_iopte pte, *tablep;
->> -	phys_addr_t blk_paddr;
->> -	size_t tablesz = ARM_LPAE_GRANULE(data);
->> -	size_t split_sz = ARM_LPAE_BLOCK_SIZE(lvl, data);
->> -	int ptes_per_table = ARM_LPAE_PTES_PER_TABLE(data);
->> -	int i, unmap_idx_start = -1, num_entries = 0, max_entries;
->> -
->> -	if (WARN_ON(lvl == ARM_LPAE_MAX_LEVELS))
->> -		return 0;
->> -
->> -	tablep = __arm_lpae_alloc_pages(tablesz, GFP_ATOMIC, cfg, data->iop.cookie);
->> -	if (!tablep)
->> -		return 0; /* Bytes unmapped */
->> -
->> -	if (size == split_sz) {
->> -		unmap_idx_start = ARM_LPAE_LVL_IDX(iova, lvl, data);
->> -		max_entries = ptes_per_table - unmap_idx_start;
->> -		num_entries = min_t(int, pgcount, max_entries);
->> -	}
->> -
->> -	blk_paddr = iopte_to_paddr(blk_pte, data);
->> -	pte = iopte_prot(blk_pte);
->> -
->> -	for (i = 0; i < ptes_per_table; i++, blk_paddr += split_sz) {
->> -		/* Unmap! */
->> -		if (i >= unmap_idx_start && i < (unmap_idx_start + num_entries))
->> -			continue;
->> -
->> -		__arm_lpae_init_pte(data, blk_paddr, pte, lvl, 1, &tablep[i]);
->> -	}
->> -
->> -	pte = arm_lpae_install_table(tablep, ptep, blk_pte, data);
->> -	if (pte != blk_pte) {
->> -		__arm_lpae_free_pages(tablep, tablesz, cfg, data->iop.cookie);
->> -		/*
->> -		 * We may race against someone unmapping another part of this
->> -		 * block, but anything else is invalid. We can't misinterpret
->> -		 * a page entry here since we're never at the last level.
->> -		 */
->> -		if (iopte_type(pte) != ARM_LPAE_PTE_TYPE_TABLE)
->> -			return 0;
->> -
->> -		tablep = iopte_deref(pte, data);
->> -	} else if (unmap_idx_start >= 0) {
->> -		for (i = 0; i < num_entries; i++)
->> -			io_pgtable_tlb_add_page(&data->iop, gather, iova + i * size, size);
->> -
->> -		return num_entries * size;
->> -	}
->> -
->> -	return __arm_lpae_unmap(data, gather, iova, size, pgcount, lvl, tablep);
->> -}
->> -
->>  static size_t __arm_lpae_unmap(struct arm_lpae_io_pgtable *data,
->>  			       struct iommu_iotlb_gather *gather,
->>  			       unsigned long iova, size_t size, size_t pgcount,
->> @@ -678,12 +618,12 @@ static size_t __arm_lpae_unmap(struct arm_lpae_io_pgtable *data,
->>  
->>  		return i * size;
->>  	} else if (iopte_leaf(pte, lvl, iop->fmt)) {
->> -		/*
->> -		 * Insert a table at the next level to map the old region,
->> -		 * minus the part we want to unmap
->> -		 */
->> -		return arm_lpae_split_blk_unmap(data, gather, iova, size, pte,
->> -						lvl + 1, ptep, pgcount);
->> +		/* Unmap the entire large IOPTE and return its size */
->> +		size = ARM_LPAE_BLOCK_SIZE(lvl, data);
->> +		__arm_lpae_clear_pte(ptep, &iop->cfg, 1);
->> +		if (gather && !iommu_iotlb_gather_queued(gather))
->> +			io_pgtable_tlb_add_page(iop, gather, iova, size);
->> +		return size;
->>  	}
->>  
->>  	/* Keep on walkin' */
->>
->> base-commit: 27ab08d646a1b53330229a97100200c9567d28b5
-> 
-
+--y8NnBLaHu/CIQkrF--
