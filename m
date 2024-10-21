@@ -2,83 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E63E49A5FB9
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2024 11:11:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 563CE9A5FCF
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Oct 2024 11:18:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4D9910E118;
-	Mon, 21 Oct 2024 09:11:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4278310E452;
+	Mon, 21 Oct 2024 09:18:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="aSWl6uGp";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="iRiLxaJY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BBC310E118
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 09:11:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1729501885;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=h/cZ9ik40jZqCmA8LDM3aEei04H39Rf+nKGJ7o3V87g=;
- b=aSWl6uGpfwVHLkkdyCEzCafIi0JNqezsLGix9XwpF5R9/1eYv2syP9N2oFrbTrYvEYMqk2
- OoTvZ596p0YNBFO1I068dho18AkfUYtx4VPNyK0YIbGLte/HFUE5AW8USQUd7K0oFBXXlV
- MP7N5/ZYvSGqjLl7tHEeGy2jGLoy+oE=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-518-XAuzdnn-NrqoFzHEWB7bhg-1; Mon, 21 Oct 2024 05:11:22 -0400
-X-MC-Unique: XAuzdnn-NrqoFzHEWB7bhg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-42ac185e26cso34518665e9.3
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 02:11:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729501881; x=1730106681;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=h/cZ9ik40jZqCmA8LDM3aEei04H39Rf+nKGJ7o3V87g=;
- b=L2VvN60lAeRUoBczZBBbX+xYgr4UNgLnO/leM7peg6gqY54nmu8J0NKJ0DuR7oha8d
- DAYAduiWSi7HVbVmh3/44ZqKbOCKnxHiuJRitytNlMKZ7x3c0w8uoXHKmgqk9wQY4kGJ
- B+0gJBd3EzALwwoO0UkTPlCnXTFNzL4emmUw9bBlyuRtiZNugpveXYN+iMkmpqdAXQWN
- rYTy2dyFRYEZNMNfGUggQ+8ResObBftfZ9r7Lumee8O8CHX0oFdfFNC8bKKaUInFe5N/
- unF7Ax6X3hgAFTc6NX5HPVBbZaQzgUSdmC651ibq+De28YVUnA9mwB//E6eEG9Rw2hYi
- D0xw==
-X-Gm-Message-State: AOJu0YzRsFTVGrjZCLlvCkc8lZyjo1OgwNwIk1KAab4mMBOmVSN/2yeG
- XEIxf27kiiXaDUWl+BcRkB/7lJ1pLA2PK9dxj8OgqG76qk9sWwUlCTiKESR46R/KhiNXoCp2d56
- eIIfyO/Zgf6QTJDERzxGZQE+7DMrlVQCcbahWhM6qN+3yBqMZMImazuEOrr+SIldq4Q==
-X-Received: by 2002:a5d:5649:0:b0:37d:4cef:538b with SMTP id
- ffacd0b85a97d-37eb486aaa5mr6145651f8f.26.1729501880847; 
- Mon, 21 Oct 2024 02:11:20 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEKnogqVvTQRgKVaEROMhzo1GOWp3yCyMp59Ns7uFRLsJYvM2xSpczrhdqT2HHz14fDdQIqlw==
-X-Received: by 2002:a5d:5649:0:b0:37d:4cef:538b with SMTP id
- ffacd0b85a97d-37eb486aaa5mr6145636f8f.26.1729501880417; 
- Mon, 21 Oct 2024 02:11:20 -0700 (PDT)
-Received: from eisenberg.fritz.box
- (200116b82d449800aee93296d73e68da.dip.versatel-1u1.de.
- [2001:16b8:2d44:9800:aee9:3296:d73e:68da])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-37ee0b94356sm3804855f8f.67.2024.10.21.02.11.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Oct 2024 02:11:20 -0700 (PDT)
-From: Philipp Stanner <pstanner@redhat.com>
-To: Sui Jingfeng <suijingfeng@loongson.cn>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Philipp Stanner <pstanner@redhat.com>
-Subject: [PATCH] drm/lsdc: Request PCI BAR
-Date: Mon, 21 Oct 2024 11:11:16 +0200
-Message-ID: <20241021091116.14368-1-pstanner@redhat.com>
-X-Mailer: git-send-email 2.47.0
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37FCD10E452
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Oct 2024 09:18:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1729502282;
+ bh=llXWt9EDhIYDizPZ/i9tAy/u1WhV07tHJvNbQJI8fKs=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=iRiLxaJYj2gJ8NB+toquY4hFDZlDvXrtQOIjIVyInTjcCyWgo6y4me+DUzJnRZidj
+ ogODuuGnQq0CyLvAdQEXXhZZ+AdBGGRxcTlrd3mcpqxUoU+RAY7S88Fuw6tIs1a/G4
+ zJN2w8MSlv5JxDHrpY4sjuNnPXeLLan0ntA2goGvPWmb4xHrGrUnqXOWENnMwDgOaS
+ JrUNzCt+/F8IafMZUs0pUBt162K6Ktoc6w6FF10QOa/yaKPcfo7xBWsBfeyL0Ym6OF
+ LN0nARUNuYt4s6qnYwuS0Nv3jrizRGPxIijnxl5c8OVC+ZYLREK8jUpkY1zLLLYufv
+ C17ckxOyMHBZw==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 35E0F17E05BD;
+ Mon, 21 Oct 2024 11:18:02 +0200 (CEST)
+Date: Mon, 21 Oct 2024 11:17:58 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: iommu@lists.linux.dev, Joerg Roedel <joro@8bytes.org>,
+ linux-arm-kernel@lists.infradead.org, Robin Murphy <robin.murphy@arm.com>,
+ Will Deacon <will@kernel.org>, dri-devel@lists.freedesktop.org, Liviu Dudau
+ <liviu.dudau@arm.com>, patches@lists.linux.dev, Steven Price
+ <steven.price@arm.com>
+Subject: Re: [PATCH] iommu/io-pgtable-arm: Remove split on unmap behavior
+Message-ID: <20241021111758.561c81ca@collabora.com>
+In-Reply-To: <0-v1-8c5f369ec2e5+75-arm_no_split_jgg@nvidia.com>
+References: <0-v1-8c5f369ec2e5+75-arm_no_split_jgg@nvidia.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,34 +64,152 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-lsdc currently just ioremaps its PCI BAR with pcim_iomap(). Performing
-a region regquest additionally can make the driver more robust.
+On Fri, 18 Oct 2024 14:19:26 -0300
+Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-Replace pcim_iomap() with the managed function pcim_iomap_region() which
-performs the request and ioremaps the BAR.
+> Of the page table implementations (AMD v1/2, VT-D SS, ARM32, DART)
+> arm_lpae is unique in how it handles partial unmap of large IOPTEs.
+> 
+> All other drivers will unmap the large IOPTE and return it's length.  For
+> example if a 2M IOPTE is present and the first 4K is requested to be
+> unmapped then unmap will remove the whole 2M and report 2M as the result.
+> 
+> arm_lpae instead replaces the IOPTE with a table of smaller IOPTEs, unmaps
+> the 4K and returns 4k. This is actually an illegal/non-hitless operation
+> on at least SMMUv3 because of the BBM level 0 rules.
+> 
+> Long ago VFIO could trigger a path like this, today I know of no user of
+> this functionality.
+> 
+> Given it doesn't work fully correctly on SMMUv3 and would create
+> portability problems if any user depends on it, remove the unique support
+> in arm_lpae and align with the expected iommu interface.
+> 
+> Outside the iommu users, this will potentially effect io_pgtable users of
+> ARM_32_LPAE_S1, ARM_32_LPAE_S2, ARM_64_LPAE_S1, ARM_64_LPAE_S2, and
+> ARM_MALI_LPAE formats.
+> 
+> Cc: Boris Brezillon <boris.brezillon@collabora.com>
+> Cc: Steven Price <steven.price@arm.com>
+> Cc: Liviu Dudau <liviu.dudau@arm.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
+>  drivers/iommu/io-pgtable-arm.c | 72 +++-------------------------------
+>  1 file changed, 6 insertions(+), 66 deletions(-)
+> 
+> I don't know anything in the iommu space that needs this, and this is the only
+> page table implementation in iommu that does it.
+> 
+> I'm not sure about DRM, I looked for awhile and only Panthor was unclear.
 
-Signed-off-by: Philipp Stanner <pstanner@redhat.com>
----
- drivers/gpu/drm/loongson/lsdc_drv.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+I theory, Panthor can do partial unmaps (unmapping a subregion of a
+physically contiguous 2M section). In practice, it's not something we
+rely on yet, so I don't think it's a blocker. If we ever want to support
+that, we can always do it in two steps (unmap the 2M region and remap
+the borders). At some point it'd be good to have some kind of atomic
+page table updates, so we don't have this short period of time during
+which nothing is mapped (between the unmap and the remap), but that's a
+different story.
 
-diff --git a/drivers/gpu/drm/loongson/lsdc_drv.c b/drivers/gpu/drm/loongson/lsdc_drv.c
-index adc7344d2f80..592d01b6767e 100644
---- a/drivers/gpu/drm/loongson/lsdc_drv.c
-+++ b/drivers/gpu/drm/loongson/lsdc_drv.c
-@@ -230,9 +230,9 @@ lsdc_create_device(struct pci_dev *pdev,
- 	lsdc_gem_init(ddev);
- 
- 	/* Bar 0 of the DC device contains the MMIO register's base address */
--	ldev->reg_base = pcim_iomap(pdev, 0, 0);
--	if (!ldev->reg_base)
--		return ERR_PTR(-ENODEV);
-+	ldev->reg_base = pcim_iomap_region(pdev, 0, "lsdc");
-+	if (IS_ERR(ldev->reg_base))
-+		return ldev->reg_base;
- 
- 	spin_lock_init(&ldev->reglock);
- 
--- 
-2.47.0
+> 
+> If DRM does use this, I'd respin this to make it into a quirk and iommu won't
+> set it.
+> 
+> Thanks,
+> Jason
+> 
+> 
+> diff --git a/drivers/iommu/io-pgtable-arm.c b/drivers/iommu/io-pgtable-arm.c
+> index 0e67f1721a3d98..a51fae9c909111 100644
+> --- a/drivers/iommu/io-pgtable-arm.c
+> +++ b/drivers/iommu/io-pgtable-arm.c
+> @@ -569,66 +569,6 @@ static void arm_lpae_free_pgtable(struct io_pgtable *iop)
+>  	kfree(data);
+>  }
+>  
+> -static size_t arm_lpae_split_blk_unmap(struct arm_lpae_io_pgtable *data,
+> -				       struct iommu_iotlb_gather *gather,
+> -				       unsigned long iova, size_t size,
+> -				       arm_lpae_iopte blk_pte, int lvl,
+> -				       arm_lpae_iopte *ptep, size_t pgcount)
+> -{
+> -	struct io_pgtable_cfg *cfg = &data->iop.cfg;
+> -	arm_lpae_iopte pte, *tablep;
+> -	phys_addr_t blk_paddr;
+> -	size_t tablesz = ARM_LPAE_GRANULE(data);
+> -	size_t split_sz = ARM_LPAE_BLOCK_SIZE(lvl, data);
+> -	int ptes_per_table = ARM_LPAE_PTES_PER_TABLE(data);
+> -	int i, unmap_idx_start = -1, num_entries = 0, max_entries;
+> -
+> -	if (WARN_ON(lvl == ARM_LPAE_MAX_LEVELS))
+> -		return 0;
+> -
+> -	tablep = __arm_lpae_alloc_pages(tablesz, GFP_ATOMIC, cfg, data->iop.cookie);
+> -	if (!tablep)
+> -		return 0; /* Bytes unmapped */
+> -
+> -	if (size == split_sz) {
+> -		unmap_idx_start = ARM_LPAE_LVL_IDX(iova, lvl, data);
+> -		max_entries = ptes_per_table - unmap_idx_start;
+> -		num_entries = min_t(int, pgcount, max_entries);
+> -	}
+> -
+> -	blk_paddr = iopte_to_paddr(blk_pte, data);
+> -	pte = iopte_prot(blk_pte);
+> -
+> -	for (i = 0; i < ptes_per_table; i++, blk_paddr += split_sz) {
+> -		/* Unmap! */
+> -		if (i >= unmap_idx_start && i < (unmap_idx_start + num_entries))
+> -			continue;
+> -
+> -		__arm_lpae_init_pte(data, blk_paddr, pte, lvl, 1, &tablep[i]);
+> -	}
+> -
+> -	pte = arm_lpae_install_table(tablep, ptep, blk_pte, data);
+> -	if (pte != blk_pte) {
+> -		__arm_lpae_free_pages(tablep, tablesz, cfg, data->iop.cookie);
+> -		/*
+> -		 * We may race against someone unmapping another part of this
+> -		 * block, but anything else is invalid. We can't misinterpret
+> -		 * a page entry here since we're never at the last level.
+> -		 */
+> -		if (iopte_type(pte) != ARM_LPAE_PTE_TYPE_TABLE)
+> -			return 0;
+> -
+> -		tablep = iopte_deref(pte, data);
+> -	} else if (unmap_idx_start >= 0) {
+> -		for (i = 0; i < num_entries; i++)
+> -			io_pgtable_tlb_add_page(&data->iop, gather, iova + i * size, size);
+> -
+> -		return num_entries * size;
+> -	}
+> -
+> -	return __arm_lpae_unmap(data, gather, iova, size, pgcount, lvl, tablep);
+> -}
+> -
+>  static size_t __arm_lpae_unmap(struct arm_lpae_io_pgtable *data,
+>  			       struct iommu_iotlb_gather *gather,
+>  			       unsigned long iova, size_t size, size_t pgcount,
+> @@ -678,12 +618,12 @@ static size_t __arm_lpae_unmap(struct arm_lpae_io_pgtable *data,
+>  
+>  		return i * size;
+>  	} else if (iopte_leaf(pte, lvl, iop->fmt)) {
+> -		/*
+> -		 * Insert a table at the next level to map the old region,
+> -		 * minus the part we want to unmap
+> -		 */
+> -		return arm_lpae_split_blk_unmap(data, gather, iova, size, pte,
+> -						lvl + 1, ptep, pgcount);
+> +		/* Unmap the entire large IOPTE and return its size */
+> +		size = ARM_LPAE_BLOCK_SIZE(lvl, data);
+> +		__arm_lpae_clear_pte(ptep, &iop->cfg, 1);
+> +		if (gather && !iommu_iotlb_gather_queued(gather))
+> +			io_pgtable_tlb_add_page(iop, gather, iova, size);
+> +		return size;
+>  	}
+>  
+>  	/* Keep on walkin' */
+> 
+> base-commit: 27ab08d646a1b53330229a97100200c9567d28b5
 
