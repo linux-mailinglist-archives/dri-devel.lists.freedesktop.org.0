@@ -2,39 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3FEA9A98A0
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2024 07:36:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9427C9A98CD
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2024 07:43:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EA8410E5BA;
-	Tue, 22 Oct 2024 05:36:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 863CF10E029;
+	Tue, 22 Oct 2024 05:43:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rO6GUJnd";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="CVQzIT3Q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7302110E5BA
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Oct 2024 05:36:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1F3A10E029
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Oct 2024 05:43:52 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id F084BA43D8C;
- Tue, 22 Oct 2024 05:36:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FF35C4CEC7;
- Tue, 22 Oct 2024 05:36:19 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 77C65A40793;
+ Tue, 22 Oct 2024 05:43:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C1A1C4CEC3;
+ Tue, 22 Oct 2024 05:43:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1729575386;
- bh=u7PMHWbaYwoD+m3HKWRCrVBQIUxw6mA45pdQQu+ljpY=;
+ s=k20201202; t=1729575831;
+ bh=GwxDxDoeyBK62Hochtj/t2RR/Cl82p6Om5xIRuyQs0s=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=rO6GUJndyv1kw9iqU97/yaoaIENRKgozgYuSw35ZRtOG7ui+8iaLWdiOzJlaDlSuH
- jZdIrmU2XU16hHrk6uCZZpdi3DURETPEjfrAh8VstrEAUsQVedd6fIYSBFpbysCioN
- DxgAAYcX0m68ILh/si3FfCYK3z4NV/xZMsfR870q8rq+TeBSZ0SKfvhkeks29lQEtj
- pTd93iXc1mqd1nW2Sr4outC1e3xFh0IfyLm1YI5AzO5d1Dg1ZkRvULarH9eVskmfoL
- 7bK5C+W4VUaGsCjyBT13Ypz5dfXX0bAeVuoreRoQuAHOLVhJ0CJgXGGzRy3qAGxYuc
- 9xz1SdP4mAXHQ==
-Message-ID: <35d27ab4-c0df-4b82-a53c-9dc8d55a6048@kernel.org>
-Date: Tue, 22 Oct 2024 07:36:16 +0200
+ b=CVQzIT3Qp8oOeEpx5K1XZO7DkJkuUMZ4X+vkYJFS9LTFWGUA9VVm8nsNQBviwNrzi
+ LtiPlGQ7Mip/sXrlr6vYg1BGmG2lnNadQI2SzvH6662qFdMPJYnfol8nKI03O2LT0u
+ DEL1sdN0ZtsXfaiRq/u/gW8/fMR9JZl8gONjFAcesiQJe3yMCUALB3hjfxsJJv9jR2
+ ud30fWXMjZIW3R2NDfj4PbRrXF/Zm+X6HUuelRMUNOHmzL/ZfTPj4xaGLttiabxJjf
+ Nd1xp9wAQyxiWChqgesdv54lBwrbAYQ1y4hrL8Z125aUzgAgnFfITeb1Ob7mUkRNPE
+ yrJi04ZvtPstQ==
+Message-ID: <3fe52ed8-aeb2-49d9-9b81-b6cd53b83425@kernel.org>
+Date: Tue, 22 Oct 2024 07:43:40 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 01/10] dt-bindings: media: mediatek: add camsys device
+Subject: Re: [PATCH v1 04/10] media: platform: mediatek: add isp_7x cam-raw
+ unit
 To: Shu-hsiang Yang <Shu-hsiang.Yang@mediatek.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
@@ -50,7 +51,7 @@ Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
  teddy.chen@mediatek.com, hidenorik@chromium.org, yunkec@chromium.org,
  shun-yi.wang@mediatek.com
 References: <20241009111551.27052-1-Shu-hsiang.Yang@mediatek.com>
- <20241009111551.27052-2-Shu-hsiang.Yang@mediatek.com>
+ <20241009111551.27052-5-Shu-hsiang.Yang@mediatek.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -96,7 +97,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20241009111551.27052-2-Shu-hsiang.Yang@mediatek.com>
+In-Reply-To: <20241009111551.27052-5-Shu-hsiang.Yang@mediatek.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -115,161 +116,275 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 09/10/2024 13:15, Shu-hsiang Yang wrote:
-> 1. Add camera isp7x module device document
-> 2. Add camera interface device document
+> Introduces the ISP pipeline driver for the MediaTek ISP raw and yuv
+> modules. Key functionalities include data processing, V4L2 integration,
+> resource management, debug support, and various control operations.
+> Additionally, IRQ handling, platform device management, and MediaTek
+> ISP DMA format support are also included.
 > 
 > Signed-off-by: Shu-hsiang Yang <Shu-hsiang.Yang@mediatek.com>
-> ---
->  .../media/mediatek/mediatek,cam-raw.yaml      | 169 ++++++++++++++++++
->  .../media/mediatek/mediatek,cam-yuv.yaml      | 148 +++++++++++++++
->  .../media/mediatek/mediatek,camisp.yaml       |  71 ++++++++
->  .../media/mediatek/mediatek,seninf-core.yaml  | 106 +++++++++++
->  .../media/mediatek/mediatek,seninf.yaml       |  88 +++++++++
->  5 files changed, 582 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek/mediatek,cam-raw.yaml
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek/mediatek,cam-yuv.yaml
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek/mediatek,camisp.yaml
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek/mediatek,seninf-core.yaml
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek/mediatek,seninf.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/mediatek/mediatek,cam-raw.yaml b/Documentation/devicetree/bindings/media/mediatek/mediatek,cam-raw.yaml
-> new file mode 100644
-> index 000000000000..c709e4bf0a18
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/mediatek/mediatek,cam-raw.yaml
-> @@ -0,0 +1,169 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +# Copyright (c) 2024 MediaTek Inc.
-> +
 
-Drop blank line
-
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/mediatek/mediatek,cam-raw.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: The cam-raw unit of MediaTek ISP system
-> +
-> +maintainers:
-> +  - Shu-hsiang Yang <shu-hsiang.yang@mediatek.com>
-> +  - Shun-yi Wang <shun-yi.wang@mediatek.com>
-> +  - Teddy Chen <teddy.chen@mediatek.com>
-> +
-> +description:
-> +  MediaTek cam-raw is the camera RAW processing unit in MediaTek SoC.
-> +
-> +properties:
-> +  compatible:
-> +    const: mediatek,cam-raw
-
-SoC specific compatible instead. I see Rob gave you review, so few more
-points.
 ...
 
 > +
-> +  assigned-clocks:
-> +    maxItems: 1
+> +static int mtk_yuv_of_probe(struct platform_device *pdev,
+> +			    struct mtk_yuv_device *drvdata)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	struct resource *res;
+> +	int irq, ret;
+> +	int n_clks;
 > +
-> +  assigned-clock-parents:
-> +    maxItems: 1
+> +	ret = of_property_read_u32(dev->of_node, "mediatek,cam-id",
+> +				   &drvdata->id);
+> +	if (ret) {
+> +		dev_dbg(dev, "missing camid property\n");
 
-Drop assigned-clock*
+Debug? Or error?
+
+> +		return ret;
+> +	}
+> +
+> +	if (dma_set_mask_and_coherent(dev, DMA_BIT_MASK(34))) {
+> +		dev_err(dev, "%s: No suitable DMA available\n", __func__);
+> +		return -EIO;
+> +	}
+> +
+> +	if (!dev->dma_parms) {
+> +		dev->dma_parms =
+> +			devm_kzalloc(dev, sizeof(*dev->dma_parms), GFP_KERNEL);
+> +		if (!dev->dma_parms)
+> +			return -ENOMEM;
+> +	}
+> +
+> +	dma_set_max_seg_size(dev, UINT_MAX);
+> +
+> +	/* base outer register */
+> +	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "base");
+> +	if (!res) {
+> +		dev_err(dev, "failed to get mem\n");
+> +		return -ENODEV;
+> +	}
+> +
+> +	drvdata->base = devm_ioremap_resource(dev, res);
+> +	if (IS_ERR(drvdata->base)) {
+> +		dev_dbg(dev, "failed to map register base\n");
+
+Dbg? What?
+
+> +		return PTR_ERR(drvdata->base);
+> +	}
+> +
+> +	irq = platform_get_irq(pdev, 0);
+> +	if (irq < 0) {
+> +		dev_err(dev, "failed to get irq\n");
+> +		return -ENODEV;
+> +	}
+> +
+> +	ret = devm_request_irq(dev, irq, mtk_irq_yuv, 0,
+> +			       dev_name(dev), drvdata);
+> +	if (ret) {
+> +		dev_err(dev, "failed to request irq=%d\n", irq);
+> +		return ret;
+> +	}
+> +	dev_dbg(dev, "registered irq=%d\n", irq);
+
+Drop
 
 > +
-> +  iommus:
-> +    description:
-> +      Points to the respective IOMMU block with master port as argument, see
-> +      Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml for details.
-> +      Ports are according to the HW.
-> +    minItems: 1
-> +    maxItems: 32
+> +	n_clks = devm_clk_bulk_get_all(dev, &drvdata->clk_b);
+> +	if (n_clks < 0) {
+> +		dev_err(dev, "failed to devm_clk_bulk_get_all=%d\n", n_clks);
+
+Syntax is: return dev_err_probe()
+
+> +		return n_clks;
+> +	}
 > +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - reg-names
-> +  - interrupts
-> +  - power-domains
-> +  - clocks
-> +  - clock-names
-> +  - iommus
+> +	drvdata->num_clks = n_clks;
+> +	dev_info(dev, "clk_num:%d\n", drvdata->num_clks);
+
+Drop
+
 > +
-> +additionalProperties: false
+> +#ifdef CONFIG_PM_SLEEP
+> +	drvdata->pm_notifier.notifier_call = yuv_pm_notifier;
+> +	ret = register_pm_notifier(&drvdata->pm_notifier);
+> +	if (ret) {
+> +		dev_err(dev, "failed to register notifier block.\n");
+> +		return ret;
+> +	}
+> +#endif
 > +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    #include <dt-bindings/power/mediatek,mt8188-power.h>
-> +    #include <dt-bindings/clock/mediatek,mt8188-clk.h>
-> +    #include <dt-bindings/memory/mediatek,mt8188-memory-port.h>
+> +	return 0;
+> +}
 > +
-> +    soc {
-> +      #address-cells = <2>;
-> +      #size-cells = <2>;
+> +static int mtk_yuv_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	struct mtk_yuv_device *drvdata;
+> +	struct v4l2_subdev *sd;
+> +	int ret;
 > +
-> +      cam_raw_a@16030000 {
+> +	dev_dbg(dev, "camsys | start %s\n", __func__);
 
-Node names should be generic. See also an explanation and list of
-examples (not exhaustive) in DT specification:
-https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+NAK
 
-e.g. isp
+> +
+> +	drvdata = devm_kzalloc(dev, sizeof(*drvdata), GFP_KERNEL);
+> +	if (!drvdata)
+> +		return -ENOMEM;
+> +
+> +	drvdata->dev = dev;
+> +	dev_set_drvdata(dev, drvdata);
+> +
+> +	ret = mtk_yuv_of_probe(pdev, drvdata);
+> +	if (ret) {
+> +		dev_info(dev, "mtk_yuv_of_probe failed\n");
 
-Also, underscores are not allowed in node names. Please do not send to
-us your downstream code. Read DTS coding style and write code maching
-upstream style.
+NAK. Neither info nor proper for memory allocation errors. Drop.
+
+> +		return ret;
+> +	}
+> +
+> +	/* register yuv as mtk_cam async child */
+> +	sd = &drvdata->subdev;
+> +	v4l2_subdev_init(sd, &mtk_raw_subdev_ops);
+> +	sd->internal_ops = &mtk_raw_subdev_internal_ops;
+> +	snprintf(sd->name, sizeof(sd->name), "%s",
+> +		 of_node_full_name(dev->of_node));
+> +	sd->dev = dev;
+> +	sd->owner = THIS_MODULE;
+> +
+> +	ret = v4l2_async_register_subdev(sd);
+> +	if (ret) {
+> +		dev_err(dev, "%s failed on async_register_subdev\n", __func__);
+> +		return ret;
+> +	}
+> +
+> +	pm_runtime_enable(dev);
+> +
+> +	dev_info(dev, "camsys | [%s] success\n", __func__);
+
+NAK
+
+> +
+> +	return 0;
+> +}
+> +
+> +static void mtk_yuv_remove(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	struct mtk_yuv_device *yuv_dev = dev_get_drvdata(dev);
+> +	struct v4l2_subdev *sd = &yuv_dev->subdev;
+> +
+> +	dev_dbg(dev, "camsys | start %s\n", __func__);
+
+NAK
+
+> +
+> +	unregister_pm_notifier(&yuv_dev->pm_notifier);
+> +
+> +	pm_runtime_disable(dev);
+> +
+> +	v4l2_async_unregister_subdev(sd);
+> +}
+> +
+> +/* driver for yuv part */
+> +static int mtk_yuv_runtime_suspend(struct device *dev)
+> +{
+> +	struct mtk_yuv_device *drvdata = dev_get_drvdata(dev);
+> +
+> +	dev_info(dev, "%s:disable clock\n", __func__);
+
+NAK
+
+> +
+> +	clk_bulk_disable_unprepare(drvdata->num_clks, drvdata->clk_b);
+> +
+> +	return 0;
+> +}
+> +
+> +static int mtk_yuv_runtime_resume(struct device *dev)
+> +{
+> +	struct mtk_yuv_device *drvdata = dev_get_drvdata(dev);
+> +	int ret;
+> +
+> +	dev_info(dev, "%s:enable clock\n", __func__);
+
+NAK. Not even dev_dbg. Please don't ever post such code.
 
 
-> +        compatible = "mediatek,cam-raw";
-> +        reg = <0 0x16030000 0 0x8000>,
-> +              <0 0x16038000 0 0x8000>;
-> +        reg-names = "base", "inner_base";
-> +        mediatek,cam-id = <0>;
-> +        mediatek,larbs = <&larb16a>;
-> +        interrupts = <GIC_SPI 300 IRQ_TYPE_LEVEL_HIGH 0>;
-> +        #address-cells = <2>;
-> +        #size-cells = <2>;
-> +        dma-ranges = <0x2 0x0 0x0 0x40000000 0x1 0x0>;
-> +        power-domains = <&spm MT8188_POWER_DOMAIN_CAM_SUBA>;
-> +        clocks = <&camsys CLK_CAM_MAIN_CAM2MM0_GALS>,
-> +            <&camsys CLK_CAM_MAIN_CAM2MM1_GALS>,
-> +            <&camsys CLK_CAM_MAIN_CAM2SYS_GALS>,
-> +            <&camsys CLK_CAM_MAIN_CAM>,
-> +            <&camsys CLK_CAM_MAIN_CAMTG>,
-> +            <&camsys_rawa CLK_CAM_RAWA_LARBX>,
-> +            <&camsys_rawa CLK_CAM_RAWA_CAM>,
-> +            <&camsys_rawa CLK_CAM_RAWA_CAMTG>,
-> +            <&topckgen CLK_TOP_CAM>,
-> +            <&topckgen CLK_TOP_CAMTG>,
-> +            <&topckgen CLK_TOP_CAMTM>;
+> +
+> +	ret = clk_bulk_prepare_enable(drvdata->num_clks, drvdata->clk_b);
+> +	if (ret) {
+> +		dev_info(dev, "failed at clk_bulk_prepare_enable, ret = %d\n", ret);
+> +		clk_bulk_disable_unprepare(drvdata->num_clks, drvdata->clk_b);
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct dev_pm_ops mtk_yuv_pm_ops = {
+> +	SET_RUNTIME_PM_OPS(mtk_yuv_runtime_suspend, mtk_yuv_runtime_resume,
+> +			   NULL)
+> +};
+> +
+> +static const struct of_device_id mtk_yuv_of_ids[] = {
+> +	{.compatible = "mediatek,cam-yuv",},
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(of, mtk_yuv_of_ids);
+> +
+> +struct platform_driver mtk_cam_yuv_driver = {
+> +	.probe   = mtk_yuv_probe,
+> +	.remove  = mtk_yuv_remove,
+> +	.driver  = {
+> +		.name  = "mtk-cam yuv",
+> +		.of_match_table = of_match_ptr(mtk_yuv_of_ids),
 
-Messed alignment.
+Drop of_match_ptr(), you will have here warnings.
 
-> +        clock-names = "camsys_cam2mm0_cgpdn",
-> +            "camsys_cam2mm1_cgpdn",
-> +            "camsys_cam2sys_cgpdn",
-> +            "camsys_cam_cgpdn",
-> +            "camsys_camtg_cgpdn",
-> +            "camsys_rawa_larbx_cgpdn",
-> +            "camsys_rawa_cam_cgpdn",
-> +            "camsys_rawa_camtg_cgpdn",
-> +            "topckgen_top_cam",
-> +            "topckgen_top_camtg",
-> +            "topckgen_top_camtm";
+> +		.pm     = &mtk_yuv_pm_ops,
+> +	}
+> +};
 
-Also misaligned.
-
-> +        assigned-clocks = <&topckgen CLK_TOP_CAM>;
-> +        assigned-clock-parents = <&topckgen CLK_TOP_UNIVPLL_D5>;
-> +        iommus = <&vpp_iommu M4U_PORT_L16A_IMGO_R1>,
-> +            <&vpp_iommu M4U_PORT_L16A_CQI_R1>,
-
-Also misaligned.
+...
 
 
-All comments apply to other files as well.
+
+> diff --git a/drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_camera-v4l2-controls.h b/drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_camera-v4l2-controls.h
+> new file mode 100644
+> index 000000000000..b775e6c30aa1
+> --- /dev/null
+> +++ b/drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_camera-v4l2-controls.h
+> @@ -0,0 +1,65 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (c) 2022 MediaTek Inc.
+> + */
+> +
+> +#ifndef __MTK_CAMERA_V4l2_CONTROLS_H
+> +#define __MTK_CAMERA_V4l2_CONTROLS_H
+> +
+> +#include <linux/videodev2.h>
+> +#include <linux/v4l2-controls.h>
+> +#include <linux/mtkisp_camsys.h>
+
+How these headers are used here? I don't see. Don't include unrelated
+stuff in your files.
+
+> +
+> +/* Allowed value of V4L2_CID_MTK_CAM_RAW_PATH_SELECT */
+> +#define V4L2_MTK_CAM_RAW_PATH_SELECT_BPC	1
+> +#define V4L2_MTK_CAM_RAW_PATH_SELECT_FUS	3
+> +#define V4L2_MTK_CAM_RAW_PATH_SELECT_DGN	4
+> +#define V4L2_MTK_CAM_RAW_PATH_SELECT_LSC	5
+> +#define V4L2_MTK_CAM_RAW_PATH_SELECT_LTM	7
+> +
+> +#define V4L2_MBUS_FRAMEFMT_PAD_ENABLE  BIT(1)
+
 
 Best regards,
 Krzysztof
