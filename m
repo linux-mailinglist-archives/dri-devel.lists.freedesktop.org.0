@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9427C9A98CD
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2024 07:43:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 020EB9A98D1
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2024 07:45:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 863CF10E029;
-	Tue, 22 Oct 2024 05:43:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AA9A10E12D;
+	Tue, 22 Oct 2024 05:45:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="CVQzIT3Q";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="CljLVCBW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1F3A10E029
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Oct 2024 05:43:52 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 196FB10E12D
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Oct 2024 05:44:59 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 77C65A40793;
- Tue, 22 Oct 2024 05:43:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C1A1C4CEC3;
- Tue, 22 Oct 2024 05:43:42 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id A29475C5CFD;
+ Tue, 22 Oct 2024 05:44:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31C3BC4CEC3;
+ Tue, 22 Oct 2024 05:44:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1729575831;
- bh=GwxDxDoeyBK62Hochtj/t2RR/Cl82p6Om5xIRuyQs0s=;
+ s=k20201202; t=1729575897;
+ bh=fwAB4lN4ySrOldfC1ebFo4dTdh5jfFE8TRdPDvEge3c=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=CVQzIT3Qp8oOeEpx5K1XZO7DkJkuUMZ4X+vkYJFS9LTFWGUA9VVm8nsNQBviwNrzi
- LtiPlGQ7Mip/sXrlr6vYg1BGmG2lnNadQI2SzvH6662qFdMPJYnfol8nKI03O2LT0u
- DEL1sdN0ZtsXfaiRq/u/gW8/fMR9JZl8gONjFAcesiQJe3yMCUALB3hjfxsJJv9jR2
- ud30fWXMjZIW3R2NDfj4PbRrXF/Zm+X6HUuelRMUNOHmzL/ZfTPj4xaGLttiabxJjf
- Nd1xp9wAQyxiWChqgesdv54lBwrbAYQ1y4hrL8Z125aUzgAgnFfITeb1Ob7mUkRNPE
- yrJi04ZvtPstQ==
-Message-ID: <3fe52ed8-aeb2-49d9-9b81-b6cd53b83425@kernel.org>
-Date: Tue, 22 Oct 2024 07:43:40 +0200
+ b=CljLVCBW6toX501JM+W1HWb2ASiYzOPDhD/rRsnvm8K34UG3L+yaqi01WA/z50xhM
+ kiW/qPCE2Eb03IeWidN8/x1fDherJd5Cme0SNchukqpmJ9P0G1BX/IKwrsaB11Ia7d
+ Ximv4EwHSc+EKTK+kyO+SagGOQ9iXAJN2PTTwVvTcUFZFidTv03YMk2xO53tbA0apt
+ v0ayYAhO4kEP42Y/IILYSy9o4QSJCw0GpL5C5dAH/h2+K3s2f02RFtVdxtUqUV4N04
+ eMTs6m0Vts6swSoN0zPtI/rLsZ0Im4irMhll5A30f3U5rh+3zD1eSWK3bQ5eIqcb1y
+ sSXxgLpGQXNyg==
+Message-ID: <abe77aed-c777-4892-9fce-aaad508700f6@kernel.org>
+Date: Tue, 22 Oct 2024 07:44:46 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 04/10] media: platform: mediatek: add isp_7x cam-raw
- unit
+Subject: Re: [PATCH v1 05/10] media: platform: mediatek: add isp_7x camsys unit
 To: Shu-hsiang Yang <Shu-hsiang.Yang@mediatek.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
@@ -51,7 +50,7 @@ Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
  teddy.chen@mediatek.com, hidenorik@chromium.org, yunkec@chromium.org,
  shun-yi.wang@mediatek.com
 References: <20241009111551.27052-1-Shu-hsiang.Yang@mediatek.com>
- <20241009111551.27052-5-Shu-hsiang.Yang@mediatek.com>
+ <20241009111551.27052-6-Shu-hsiang.Yang@mediatek.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -97,7 +96,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20241009111551.27052-5-Shu-hsiang.Yang@mediatek.com>
+In-Reply-To: <20241009111551.27052-6-Shu-hsiang.Yang@mediatek.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -116,34 +115,36 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 09/10/2024 13:15, Shu-hsiang Yang wrote:
-> Introduces the ISP pipeline driver for the MediaTek ISP raw and yuv
-> modules. Key functionalities include data processing, V4L2 integration,
-> resource management, debug support, and various control operations.
-> Additionally, IRQ handling, platform device management, and MediaTek
-> ISP DMA format support are also included.
+> Introduces the top media device driver for the MediaTek ISP7X CAMSYS.
+> The driver maintains the camera system, including sub-device management,
+> DMA operations, and integration with the V4L2 framework. It handles
+> request stream data, buffer management, and MediaTek-specific features,
+> and pipeline management, streaming control, error handling mechanism.
+> Additionally, it aggregates sub-drivers for the camera interface, raw
+> and yuv pipelines.
 > 
 > Signed-off-by: Shu-hsiang Yang <Shu-hsiang.Yang@mediatek.com>
 
 ...
 
 > +
-> +static int mtk_yuv_of_probe(struct platform_device *pdev,
-> +			    struct mtk_yuv_device *drvdata)
+> +static int mtk_cam_probe(struct platform_device *pdev)
 > +{
+> +	struct mtk_cam_device *cam_dev;
 > +	struct device *dev = &pdev->dev;
 > +	struct resource *res;
-> +	int irq, ret;
-> +	int n_clks;
+> +	int ret;
+> +	unsigned int i;
 > +
-> +	ret = of_property_read_u32(dev->of_node, "mediatek,cam-id",
-> +				   &drvdata->id);
-> +	if (ret) {
-> +		dev_dbg(dev, "missing camid property\n");
+> +	dev_dbg(dev, "camsys | start %s\n", __func__);
 
-Debug? Or error?
+NAK. Same issues.
 
-> +		return ret;
-> +	}
+> +
+> +	/* initialize structure */
+> +	cam_dev = devm_kzalloc(dev, sizeof(*cam_dev), GFP_KERNEL);
+> +	if (!cam_dev)
+> +		return -ENOMEM;
 > +
 > +	if (dma_set_mask_and_coherent(dev, DMA_BIT_MASK(34))) {
 > +		dev_err(dev, "%s: No suitable DMA available\n", __func__);
@@ -159,231 +160,135 @@ Debug? Or error?
 > +
 > +	dma_set_max_seg_size(dev, UINT_MAX);
 > +
-> +	/* base outer register */
-> +	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "base");
+> +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
 > +	if (!res) {
 > +		dev_err(dev, "failed to get mem\n");
 > +		return -ENODEV;
 > +	}
 > +
-> +	drvdata->base = devm_ioremap_resource(dev, res);
-> +	if (IS_ERR(drvdata->base)) {
-> +		dev_dbg(dev, "failed to map register base\n");
-
-Dbg? What?
-
-> +		return PTR_ERR(drvdata->base);
+> +	cam_dev->base = devm_ioremap_resource(dev, res);
+> +	if (IS_ERR(cam_dev->base)) {
+> +		dev_err(dev, "failed to map register base\n");
+> +		return PTR_ERR(cam_dev->base);
 > +	}
 > +
-> +	irq = platform_get_irq(pdev, 0);
-> +	if (irq < 0) {
-> +		dev_err(dev, "failed to get irq\n");
-> +		return -ENODEV;
-> +	}
+> +	cam_dev->dev = dev;
+> +	dev_set_drvdata(dev, cam_dev);
 > +
-> +	ret = devm_request_irq(dev, irq, mtk_irq_yuv, 0,
-> +			       dev_name(dev), drvdata);
-> +	if (ret) {
-> +		dev_err(dev, "failed to request irq=%d\n", irq);
-> +		return ret;
-> +	}
-> +	dev_dbg(dev, "registered irq=%d\n", irq);
-
-Drop
-
+> +	cam_dev->composer_cnt = 0;
+> +	cam_dev->num_seninf_devices = 0;
 > +
-> +	n_clks = devm_clk_bulk_get_all(dev, &drvdata->clk_b);
-> +	if (n_clks < 0) {
-> +		dev_err(dev, "failed to devm_clk_bulk_get_all=%d\n", n_clks);
-
-Syntax is: return dev_err_probe()
-
-> +		return n_clks;
-> +	}
-> +
-> +	drvdata->num_clks = n_clks;
-> +	dev_info(dev, "clk_num:%d\n", drvdata->num_clks);
-
-Drop
-
-> +
-> +#ifdef CONFIG_PM_SLEEP
-> +	drvdata->pm_notifier.notifier_call = yuv_pm_notifier;
-> +	ret = register_pm_notifier(&drvdata->pm_notifier);
-> +	if (ret) {
-> +		dev_err(dev, "failed to register notifier block.\n");
-> +		return ret;
-> +	}
-> +#endif
-> +
-> +	return 0;
-> +}
-> +
-> +static int mtk_yuv_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct mtk_yuv_device *drvdata;
-> +	struct v4l2_subdev *sd;
-> +	int ret;
-> +
-> +	dev_dbg(dev, "camsys | start %s\n", __func__);
-
-NAK
-
-> +
-> +	drvdata = devm_kzalloc(dev, sizeof(*drvdata), GFP_KERNEL);
-> +	if (!drvdata)
+> +	cam_dev->max_stream_num = MTKCAM_SUBDEV_MAX;
+> +	cam_dev->ctxs = devm_kcalloc(dev, cam_dev->max_stream_num,
+> +				     sizeof(*cam_dev->ctxs), GFP_KERNEL);
+> +	if (!cam_dev->ctxs)
 > +		return -ENOMEM;
 > +
-> +	drvdata->dev = dev;
-> +	dev_set_drvdata(dev, drvdata);
+> +	cam_dev->streaming_ctx = 0;
+> +	for (i = 0; i < cam_dev->max_stream_num; i++)
+> +		mtk_cam_ctx_init(cam_dev->ctxs + i, cam_dev, i);
 > +
-> +	ret = mtk_yuv_of_probe(pdev, drvdata);
-> +	if (ret) {
-> +		dev_info(dev, "mtk_yuv_of_probe failed\n");
-
-NAK. Neither info nor proper for memory allocation errors. Drop.
-
-> +		return ret;
-> +	}
+> +	cam_dev->running_job_count = 0;
+> +	spin_lock_init(&cam_dev->pending_job_lock);
+> +	spin_lock_init(&cam_dev->running_job_lock);
+> +	INIT_LIST_HEAD(&cam_dev->pending_job_list);
+> +	INIT_LIST_HEAD(&cam_dev->running_job_list);
 > +
-> +	/* register yuv as mtk_cam async child */
-> +	sd = &drvdata->subdev;
-> +	v4l2_subdev_init(sd, &mtk_raw_subdev_ops);
-> +	sd->internal_ops = &mtk_raw_subdev_internal_ops;
-> +	snprintf(sd->name, sizeof(sd->name), "%s",
-> +		 of_node_full_name(dev->of_node));
-> +	sd->dev = dev;
-> +	sd->owner = THIS_MODULE;
+> +	cam_dev->dma_processing_count = 0;
+> +	spin_lock_init(&cam_dev->dma_pending_lock);
+> +	spin_lock_init(&cam_dev->dma_processing_lock);
+> +	INIT_LIST_HEAD(&cam_dev->dma_pending);
+> +	INIT_LIST_HEAD(&cam_dev->dma_processing);
 > +
-> +	ret = v4l2_async_register_subdev(sd);
-> +	if (ret) {
-> +		dev_err(dev, "%s failed on async_register_subdev\n", __func__);
-> +		return ret;
-> +	}
+> +	mutex_init(&cam_dev->queue_lock);
 > +
 > +	pm_runtime_enable(dev);
 > +
+> +	ret = mtk_cam_of_rproc(cam_dev, pdev);
+> +	if (ret)
+> +		goto fail_destroy_mutex;
+> +
+> +	ret = register_sub_drivers(dev);
+> +	if (ret) {
+> +		dev_err(dev, "fail to register_sub_drivers\n");
+> +		goto fail_destroy_mutex;
+> +	}
+> +
+> +	/* register mtk_cam as all isp subdev async parent */
+> +	cam_dev->notifier.ops = &mtk_cam_async_nf_ops;
+> +	v4l2_async_nf_init(&cam_dev->notifier, &cam_dev->v4l2_dev);
+> +	ret = mtk_cam_async_subdev_add(dev); /* wait all isp sub drivers */
+> +	if (ret) {
+> +		dev_err(dev, "%s failed mtk_cam_async_subdev_add\n", __func__);
+> +		goto fail_unregister_sub_drivers;
+> +	}
+> +
+> +	ret = v4l2_async_nf_register(&cam_dev->notifier);
+> +	if (ret) {
+> +		dev_err(dev, "%s async_nf_register ret:%d\n", __func__, ret);
+> +		v4l2_async_nf_cleanup(&cam_dev->notifier);
+> +		goto fail_unregister_sub_drivers;
+> +	}
+> +
+> +	ret = mtk_cam_debug_fs_init(cam_dev);
+> +	if (ret < 0)
+> +		goto fail_unregister_async_nf;
+> +
 > +	dev_info(dev, "camsys | [%s] success\n", __func__);
 
-NAK
+NAK. Same issues.
 
 > +
 > +	return 0;
+> +
+> +fail_unregister_async_nf:
+> +	v4l2_async_nf_unregister(&cam_dev->notifier);
+> +
+> +fail_unregister_sub_drivers:
+> +	unregister_sub_drivers(dev);
+> +
+> +fail_destroy_mutex:
+> +	mutex_destroy(&cam_dev->queue_lock);
+> +
+> +	return ret;
 > +}
 > +
-> +static void mtk_yuv_remove(struct platform_device *pdev)
+> +static void mtk_cam_remove(struct platform_device *pdev)
 > +{
 > +	struct device *dev = &pdev->dev;
-> +	struct mtk_yuv_device *yuv_dev = dev_get_drvdata(dev);
-> +	struct v4l2_subdev *sd = &yuv_dev->subdev;
-> +
-> +	dev_dbg(dev, "camsys | start %s\n", __func__);
-
-NAK
-
-> +
-> +	unregister_pm_notifier(&yuv_dev->pm_notifier);
+> +	struct mtk_cam_device *cam_dev = dev_get_drvdata(dev);
 > +
 > +	pm_runtime_disable(dev);
 > +
-> +	v4l2_async_unregister_subdev(sd);
+> +	mtk_cam_debug_fs_deinit(cam_dev);
+> +
+> +	v4l2_async_nf_unregister(&cam_dev->notifier);
+> +
+> +	unregister_sub_drivers(dev);
+> +
+> +	mutex_destroy(&cam_dev->queue_lock);
 > +}
 > +
-> +/* driver for yuv part */
-> +static int mtk_yuv_runtime_suspend(struct device *dev)
-> +{
-> +	struct mtk_yuv_device *drvdata = dev_get_drvdata(dev);
-> +
-> +	dev_info(dev, "%s:disable clock\n", __func__);
-
-NAK
-
-> +
-> +	clk_bulk_disable_unprepare(drvdata->num_clks, drvdata->clk_b);
-> +
-> +	return 0;
-> +}
-> +
-> +static int mtk_yuv_runtime_resume(struct device *dev)
-> +{
-> +	struct mtk_yuv_device *drvdata = dev_get_drvdata(dev);
-> +	int ret;
-> +
-> +	dev_info(dev, "%s:enable clock\n", __func__);
-
-NAK. Not even dev_dbg. Please don't ever post such code.
-
-
-> +
-> +	ret = clk_bulk_prepare_enable(drvdata->num_clks, drvdata->clk_b);
-> +	if (ret) {
-> +		dev_info(dev, "failed at clk_bulk_prepare_enable, ret = %d\n", ret);
-> +		clk_bulk_disable_unprepare(drvdata->num_clks, drvdata->clk_b);
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct dev_pm_ops mtk_yuv_pm_ops = {
-> +	SET_RUNTIME_PM_OPS(mtk_yuv_runtime_suspend, mtk_yuv_runtime_resume,
+> +static const struct dev_pm_ops mtk_cam_pm_ops = {
+> +	SET_RUNTIME_PM_OPS(mtk_cam_runtime_suspend, mtk_cam_runtime_resume,
 > +			   NULL)
 > +};
 > +
-> +static const struct of_device_id mtk_yuv_of_ids[] = {
-> +	{.compatible = "mediatek,cam-yuv",},
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(of, mtk_yuv_of_ids);
-> +
-> +struct platform_driver mtk_cam_yuv_driver = {
-> +	.probe   = mtk_yuv_probe,
-> +	.remove  = mtk_yuv_remove,
+> +static struct platform_driver mtk_cam_driver = {
+> +	.probe   = mtk_cam_probe,
+> +	.remove  = mtk_cam_remove,
 > +	.driver  = {
-> +		.name  = "mtk-cam yuv",
-> +		.of_match_table = of_match_ptr(mtk_yuv_of_ids),
+> +		.name  = "mtk-cam",
+> +		.of_match_table = of_match_ptr(mtk_cam_of_ids),
 
-Drop of_match_ptr(), you will have here warnings.
+Same issues as in previous patch.
 
-> +		.pm     = &mtk_yuv_pm_ops,
+All my comments apply to all your patches in this thread.
+
+> +		.pm     = &mtk_cam_pm_ops,
 > +	}
 > +};
 
-...
-
-
-
-> diff --git a/drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_camera-v4l2-controls.h b/drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_camera-v4l2-controls.h
-> new file mode 100644
-> index 000000000000..b775e6c30aa1
-> --- /dev/null
-> +++ b/drivers/media/platform/mediatek/isp/isp_7x/camsys/mtk_camera-v4l2-controls.h
-> @@ -0,0 +1,65 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Copyright (c) 2022 MediaTek Inc.
-> + */
-> +
-> +#ifndef __MTK_CAMERA_V4l2_CONTROLS_H
-> +#define __MTK_CAMERA_V4l2_CONTROLS_H
-> +
-> +#include <linux/videodev2.h>
-> +#include <linux/v4l2-controls.h>
-> +#include <linux/mtkisp_camsys.h>
-
-How these headers are used here? I don't see. Don't include unrelated
-stuff in your files.
-
-> +
-> +/* Allowed value of V4L2_CID_MTK_CAM_RAW_PATH_SELECT */
-> +#define V4L2_MTK_CAM_RAW_PATH_SELECT_BPC	1
-> +#define V4L2_MTK_CAM_RAW_PATH_SELECT_FUS	3
-> +#define V4L2_MTK_CAM_RAW_PATH_SELECT_DGN	4
-> +#define V4L2_MTK_CAM_RAW_PATH_SELECT_LSC	5
-> +#define V4L2_MTK_CAM_RAW_PATH_SELECT_LTM	7
-> +
-> +#define V4L2_MBUS_FRAMEFMT_PAD_ENABLE  BIT(1)
 
 
 Best regards,
