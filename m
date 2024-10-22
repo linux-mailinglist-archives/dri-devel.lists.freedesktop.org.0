@@ -2,68 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A9069A9B76
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2024 09:50:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1180A9A9B7F
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2024 09:51:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96EB410E2F9;
-	Tue, 22 Oct 2024 07:50:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7EECE10E5F8;
+	Tue, 22 Oct 2024 07:51:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oZEo4z6c";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="e/tRKJqL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEF2E10E2F9
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Oct 2024 07:50:28 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 6677E5C5CFA;
- Tue, 22 Oct 2024 07:50:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27C7FC4CEC3;
- Tue, 22 Oct 2024 07:50:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1729583427;
- bh=gbeWCIO9Ao198j49EzWUIGHbVOEQyu22n3aIfHPCsQY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=oZEo4z6cPLgawcEkuwfQqtUX8Yw7wJqlDNry2YOo3Ve27Ri+WGu2mShxYq6OrqYgZ
- TgU44b6g/SWDktQQIWdqAZ692VAk8MhTXVmV5a3O+O/v2m0Dd9wtd76GsrEsLy5lrx
- wzfeoRgn+c+3naavRyp91CKr3+pMfIAEK9gv1kK2fhCPf8Bmi+WHBxztg9IYBsbOcZ
- NHu4nZoMc34g0tj5pjYu5oiackr/COvmjfp8Wjltrdi3X7su8pzxvA6Zy6oEIJ0jBn
- Jnb8vedP/DK8Jt2pHDLj5p/PnsvPUjT2eJvUzrnc2x5n+9vsFlwp4INqjF0wyclekS
- tmzTDCjmW5m2w==
-Date: Tue, 22 Oct 2024 09:50:24 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Liu Ying <victor.liu@nxp.com>
-Cc: Marek Vasut <marex@denx.de>, dri-devel@lists.freedesktop.org, 
- Abel Vesa <abelvesa@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>, 
- David Airlie <airlied@gmail.com>, Fabio Estevam <festevam@gmail.com>, 
- Isaac Scott <isaac.scott@ideasonboard.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Jonas Karlman <jonas@kwiboo.se>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Michael Turquette <mturquette@baylibre.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Peng Fan <peng.fan@nxp.com>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, Robert Foss <rfoss@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, 
- Stephen Boyd <sboyd@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- imx@lists.linux.dev, 
- kernel@dh-electronics.com, linux-arm-kernel@lists.infradead.org,
- linux-clk@vger.kernel.org
-Subject: Re: [PATCH 1/2] clk: imx: clk-imx8mp: Allow LDB serializer clock
- reconfigure parent rate
-Message-ID: <20241022-quirky-ubiquitous-hamster-11dca5@houat>
-References: <20241008223846.337162-1-marex@denx.de>
- <dbede671-c97b-4ad7-8a54-f1b381fea082@nxp.com>
- <00ffd38c-b01a-40cd-9130-19c35a387ca0@denx.de>
- <819380c3-d13f-4989-b305-388fc60d30e4@nxp.com>
- <d99e0021-3253-4312-9b50-6031ae0f8d8e@denx.de>
- <d1307426-9a86-4356-93b8-9a10c8369ad8@nxp.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4859610E5F8
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Oct 2024 07:51:33 +0000 (UTC)
+Received: from [192.168.88.20] (91-157-155-49.elisa-laajakaista.fi
+ [91.157.155.49])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 22E50D49;
+ Tue, 22 Oct 2024 09:49:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1729583385;
+ bh=r0CoE8FwPMvdIcoU6xj671xyo7U+T9r3UXKzQdwkclc=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=e/tRKJqLs8q3kpkwIeYAMhbdpVbXxby6LFvaN96TQ/S48CrW7ZZlQWRcDMjqwLEp0
+ 2XPTlZ+ZGo/XvgJIMkS8lU696cJiWHwJNUkRInjNIpDhJkkapzHFeadsR/Ss+bc4n8
+ Poog0tTcWUcXWCiQvai6+wTvgtJ1vTC7ya8ypi3M=
+Message-ID: <4a25cd50-06be-4e95-b29e-4f5eb23d8bca@ideasonboard.com>
+Date: Tue, 22 Oct 2024 10:51:28 +0300
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="5ljitx3vl2u5lehv"
-Content-Disposition: inline
-In-Reply-To: <d1307426-9a86-4356-93b8-9a10c8369ad8@nxp.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: fw_devlinks preventing a panel driver from probing
+To: Saravana Kannan <saravanak@google.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Linux Kernel List <linux-kernel@vger.kernel.org>,
+ Aradhya Bhatia <aradhya.bhatia@linux.dev>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Devarsh Thakkar <devarsht@ti.com>
+References: <1a1ab663-d068-40fb-8c94-f0715403d276@ideasonboard.com>
+ <CAGETcx-LtuMJM1205FwMy0U-fetAKhFdon65qAxHKV3Q2cUOGQ@mail.gmail.com>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <CAGETcx-LtuMJM1205FwMy0U-fetAKhFdon65qAxHKV3Q2cUOGQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,249 +104,250 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
---5ljitx3vl2u5lehv
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 1/2] clk: imx: clk-imx8mp: Allow LDB serializer clock
- reconfigure parent rate
-MIME-Version: 1.0
+On 22/10/2024 02:29, Saravana Kannan wrote:
+> Hi Tomi,
+> 
+> Sorry it took a while to get back.
+> 
+> On Mon, Sep 16, 2024 at 4:52 AM Tomi Valkeinen
+> <tomi.valkeinen@ideasonboard.com> wrote:
+>>
+>> Hi,
+>>
+>> We have an issue where two devices have dependencies to each other,
+>> according to drivers/base/core.c's fw_devlinks, and this prevents them
+>> from probing. I've been adding debugging to the core.c, but so far I
+>> don't quite grasp the issue, so I thought to ask. Maybe someone can
+>> instantly say that this just won't work...
+>>
+>> So, we have two devices, DSS (display subsystem) and an LVDS panel. The
+>> DSS normally outputs parallel video from its video ports (VP), but it
+>> has an integrated LVDS block (OLDI, Open LVDS Display Interface). The
+>> OLDI block takes input from DSS's parallel outputs. The OLDI is not
+>> modeled as a separate device (neither in the DT nor in the Linux device
+>> model) as it has no register space, and is controlled fully by the DSS.
+>>
+>> To support dual-link LVDS, the DSS has two OLDI instances. They both
+>> take their input from the same parallel video port, but each OLDI sends
+>> alternate lines forward. So for a dual-link setup the connections would
+>> be like this:
+>>
+>> +-----+-----+         +-------+         +----------+
+>> |     |     |         |       |         |          |
+>> |     | VP1 +----+--->| OLDI0 +-------->|          |
+>> |     |     |    |    |       |         |          |
+>> | DSS +-----+    |    +-------+         |  Panel   |
+>> |     |     |    |    |       |         |          |
+>> |     | VP2 |    +--->| OLDI1 +-------->|          |
+>> |     |     |         |       |         |          |
+>> +-----+-----+         +-------+         +----------+
+>>
+>> As the OLDI is not a separate device, it also does not have an
+>> independent device tree node, but rather it's inside DSS's node. The DSS
+>> parallel outputs are under a normal "ports" node, but OLDI ports are
+>> under "oldi-txes/ports" (see below for dts to clarify this).
+>>
+>> And I think (guess...) this is the root of the issue we're seeing, as it
+>> means the following, one or both of which might be the reason for this
+>> issue:
+>>
+>> - OLDI fwnodes don't have an associated struct device *. I think the
+>> reason is that the OLDI media graph ports are one level too deep in the
+>> hierarchy. So while the DSS ports are associated with the DSS device,
+>> OLDI ports are not.
+> 
+> This is the root cause of the issue in some sense. fw_devlink doesn't
+> know that DSS depends on the VP. In the current DT, it only appears as
+> if the OLDI depends on VP. See further below for the fix.
+> 
+>>
+>> - The VP ports inside the DSS point to OLDI ports, which are also inside
+>> DSS. So ports from a device point to ports in the same device (and back).
+>>
+>> If I understand the fw_devlink code correctly, in a normal case the
+>> links formed with media graphs are marked as a cycle
+>> (FWLINK_FLAG_CYCLE), and then ignored as far as probing goes.
+>>
+>> What we see here is that when using a single-link OLDI panel, the panel
+>> driver's probe never gets called, as it depends on the OLDI, and the
+>> link between the panel and the OLDI is not a cycle.
+>>
+>> The DSS driver probes, but the probe fails as it requires all the panel
+>> devices to have been probed (and thus registered to the DRM framework)
+>> before it can finish its setup.
+>>
+>> With dual-link, probing does happen and the drivers work. But I believe
+>> this is essentially an accident, in the sense that the first link
+>> between the panel and the OLDI still blocks the probing, but the second
+>> links allows the driver core to traverse the devlinks further, causing
+>> it to mark the links to the panel as FWLINK_FLAG_CYCLE (or maybe it only
+>> marks one of those links, and that's enough).
+>>
+>> If I set fw_devlink=off as a kernel parameter, the probing proceeds
+>> successfully in both single- and dual-link cases.
+>>
+>> Now, my questions is, is this a bug in the driver core, a bug in the DT
+>> bindings, or something in between (DT is fine-ish, but the structure is
+>> something that won't be supported by the driver core).
+>>
+>> And a follow-up question, regardless of the answer to the first one:
+>> which direction should I go from here =).
+>>
+>> The device tree data (simplified) for this is as follows, first the
+>> dual-link case, then the single-link case:
+>>
+>> /* Dual-link */
+>>
+>> dss: dss@30200000 {
+>>          compatible = "ti,am625-dss";
+>>
+>>          oldi-txes {
+>>                  oldi0: oldi@0 {
+>>                          oldi0_ports: ports {
+>>                                  port@0 {
+>>                                          oldi_0_in: endpoint {
+>>                                                  remote-endpoint = <&dpi0_out0>;
+>>                                          };
+>>                                  };
+>>
+>>                                  port@1 {
+>>                                          oldi_0_out: endpoint {
+>>                                                  remote-endpoint = <&lcd_in0>;
+>>                                          };
+>>                                  };
+>>                          };
+>>                  };
+>>
+>>                  oldi1: oldi@1 {
+>>                          oldi1_ports: ports {
+>>                                  port@0 {
+>>                                          oldi_1_in: endpoint {
+>>                                                  remote-endpoint = <&dpi0_out1>;
+>>                                          };
+>>                                  };
+>>
+>>                                  port@1 {
+>>                                          oldi_1_out: endpoint {
+>>                                                  remote-endpoint = <&lcd_in1>;
+>>                                          };
+>>                                  };
+>>                          };
+>>                  };
+>>          };
+>>
+>>          dss_ports: ports {
+>>                  port@0 {
+>>                          dpi0_out0: endpoint@0 {
+>>                                  remote-endpoint = <&oldi_0_in>;
+>>                          };
+>>                          dpi0_out1: endpoint@1 {
+>>                                  remote-endpoint = <&oldi_1_in>;
+>>                          };
+>>                  };
+>>          };
+>> };
+>>
+>> display {
+>>          compatible = "microtips,mf-101hiebcaf0", "panel-simple";
+> 
+> In here, add this new property that I added some time back.
+> 
+> post-init-providers = <&oldi-txes>;
 
-On Tue, Oct 22, 2024 at 02:13:57PM +0800, Liu Ying wrote:
-> On 10/13/2024, Marek Vasut wrote:
-> > On 10/11/24 8:18 AM, Liu Ying wrote:
-> >> On 10/11/2024, Marek Vasut wrote:
-> >>> On 10/10/24 7:22 AM, Liu Ying wrote:
-> >>>> On 10/09/2024, Marek Vasut wrote:
-> >>>>> The media_ldb_root_clk supply LDB serializer. These clock are usual=
-ly
-> >>>>> shared with the LCDIFv3 pixel clock and supplied by the Video PLL on
-> >>>>> i.MX8MP, but the LDB clock run at either x7 or x14 rate of the LCDI=
-Fv3
-> >>>>> pixel clock. Allow the LDB to reconfigure Video PLL as needed, as t=
-hat
-> >>>>> results in accurate serializer clock.
-> >>>>>
-> >>>>> Signed-off-by: Marek Vasut <marex@denx.de>
-> >>>>> ---
-> >>>>> Cc: Abel Vesa <abelvesa@kernel.org>
-> >>>>> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> >>>>> Cc: David Airlie <airlied@gmail.com>
-> >>>>> Cc: Fabio Estevam <festevam@gmail.com>
-> >>>>> Cc: Isaac Scott <isaac.scott@ideasonboard.com>
-> >>>>> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> >>>>> Cc: Jonas Karlman <jonas@kwiboo.se>
-> >>>>> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> >>>>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> >>>>> Cc: Maxime Ripard <mripard@kernel.org>
-> >>>>> Cc: Michael Turquette <mturquette@baylibre.com>
-> >>>>> Cc: Neil Armstrong <neil.armstrong@linaro.org>
-> >>>>> Cc: Peng Fan <peng.fan@nxp.com>
-> >>>>> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-> >>>>> Cc: Robert Foss <rfoss@kernel.org>
-> >>>>> Cc: Sascha Hauer <s.hauer@pengutronix.de>
-> >>>>> Cc: Shawn Guo <shawnguo@kernel.org>
-> >>>>> Cc: Simona Vetter <simona@ffwll.ch>
-> >>>>> Cc: Stephen Boyd <sboyd@kernel.org>
-> >>>>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> >>>>> Cc: dri-devel@lists.freedesktop.org
-> >>>>> Cc: imx@lists.linux.dev
-> >>>>> Cc: kernel@dh-electronics.com
-> >>>>> Cc: linux-arm-kernel@lists.infradead.org
-> >>>>> Cc: linux-clk@vger.kernel.org
-> >>>>> ---
-> >>>>> =A0=A0 drivers/clk/imx/clk-imx8mp.c | 2 +-
-> >>>>> =A0=A0 1 file changed, 1 insertion(+), 1 deletion(-)
-> >>>>>
-> >>>>> diff --git a/drivers/clk/imx/clk-imx8mp.c b/drivers/clk/imx/clk-imx=
-8mp.c
-> >>>>> index 516dbd170c8a3..2e61d340b8ab7 100644
-> >>>>> --- a/drivers/clk/imx/clk-imx8mp.c
-> >>>>> +++ b/drivers/clk/imx/clk-imx8mp.c
-> >>>>> @@ -611,7 +611,7 @@ static int imx8mp_clocks_probe(struct platform_=
-device *pdev)
-> >>>>> =A0=A0=A0=A0=A0=A0 hws[IMX8MP_CLK_MEDIA_MIPI_PHY1_REF] =3D imx8m_cl=
-k_hw_composite("media_mipi_phy1_ref", imx8mp_media_mipi_phy1_ref_sels, ccm_=
-base + 0xbd80);
-> >>>>> =A0=A0=A0=A0=A0=A0 hws[IMX8MP_CLK_MEDIA_DISP1_PIX] =3D imx8m_clk_hw=
-_composite_bus_flags("media_disp1_pix", imx8mp_media_disp_pix_sels, ccm_bas=
-e + 0xbe00, CLK_SET_RATE_PARENT);
-> >>>>> =A0=A0=A0=A0=A0=A0 hws[IMX8MP_CLK_MEDIA_CAM2_PIX] =3D imx8m_clk_hw_=
-composite("media_cam2_pix", imx8mp_media_cam2_pix_sels, ccm_base + 0xbe80);
-> >>>>> -=A0=A0=A0 hws[IMX8MP_CLK_MEDIA_LDB] =3D imx8m_clk_hw_composite("me=
-dia_ldb", imx8mp_media_ldb_sels, ccm_base + 0xbf00);
-> >>>>> +=A0=A0=A0 hws[IMX8MP_CLK_MEDIA_LDB] =3D imx8m_clk_hw_composite_bus=
-_flags("media_ldb", imx8mp_media_ldb_sels, ccm_base + 0xbf00, CLK_SET_RATE_=
-PARENT);
-> >>>>
-> >>>> This patch would cause the below in-flight LDB bridge driver
-> >>>> patch[1] fail to do display mode validation upon display modes
-> >>>> read from LVDS to HDMI converter IT6263's DDC I2C bus.
-> >>>
-> >>> Why ?
-> >>
-> >> Mode validation is affected only for dual LVDS link mode.
-> >> For single LVDS link mode, this patch does open more display
-> >> modes read from the DDC I2C bus.=A0 The reason behind is that
-> >> LVDS serial clock rate/pixel clock rate =3D 3.5 for dual LVDS
-> >> link mode, while it's 7 for single LVDS link mode.
-> >>
-> >> In my system, "video_pll1" clock rate is assigned to 1.0395GHz
-> >> in imx8mp.dtsi.=A0 For 1920x1080-60.00Hz with 148.5MHz pixel
-> >> clock rate, "media_ldb" clock rate is 519.75MHz and
-> >> "media_disp2_pix" clock rate is 148.5MHz, which is fine for
-> >> dual LVDS link mode(x3.5).=A0 For newly opened up 1920x1080-59.94Hz
-> >> with 148.352MHz pixel clock rate, "video_pll1" clock rate will
-> >> be changed to 519.232MHz, "media_ldb" clock rate is 519.232MHz
-> >> and "media_disp2_pix" clock rate is wrongly set to 519.232MHz
-> >> too because "media_disp2_pix" clock cannot handle the 3.5
-> >> division ratio from "video_pll1_out" clock running at
-> >> 519.232MHz.=A0 See the below clk_summary.
-> >=20
-> > Shouldn't this patch help exactly with that ?
->=20
-> No, it doesn't help but only makes clk_round_rate() called in
-> LDB driver's .mode_valid() against 148.352MHz return 148.352MHz
-> which allows the unexpected 1920x1080-59.94Hz display mode.
->=20
-> >=20
-> > It should allow you to set video_pll1_out to whatever is necessary by L=
-DB first, fixate that frequency, and the LCDIFv3 would then be forced to us=
-e /7 divider from faster Video PLL1 , right ?
->=20
-> Yes, it allows that for single-link LVDS use cases.
-> And, __no__, for dual-link LVDS use cases because the
-> video_pll1_out clock rate needs to be 2x the LVDS serial clock
-> rate.=20
->=20
-> >=20
-> >> =A0=A0=A0=A0 video_pll1_ref_sel=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0 1=A0=A0=A0=A0=A0=A0 1=A0=A0=A0=A0=A0=A0=A0 0=A0=A0=A0=A0=A0=A0=A0 24000=
-000=A0=A0=A0 0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0=A0=A0=A0=A0 50000=A0=A0=A0=A0=
-=A0 Y=A0=A0=A0=A0=A0 deviceless=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0 no_connection_id
-> >> =A0=A0=A0=A0=A0=A0=A0 video_pll1=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0 1=A0=A0=A0=A0=A0=A0 1=A0=A0=A0=A0=A0=A0=A0 0=A0=A0=A0=
-=A0=A0=A0=A0 519232000=A0=A0 0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0=A0=A0=A0=A0 500=
-00=A0=A0=A0=A0=A0 Y=A0=A0=A0=A0=A0=A0=A0=A0 deviceless=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 no_connection_id
-> >> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 video_pll1_bypass=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0 1=A0=A0=A0=A0=A0=A0 1=A0=A0=A0=A0=A0=A0=A0 0=A0=A0=A0=A0=A0=A0=A0 51=
-9232000=A0=A0 0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0=A0=A0=A0=A0 50000=A0=A0=A0=A0=
-=A0 Y=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 deviceless=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 no_connection_id
-> >> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 video_pll1_out=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0 2=A0=A0=A0=A0=A0=A0 2=A0=A0=A0=A0=A0=A0=A0 0=A0=A0=A0=A0=A0=A0=
-=A0 519232000=A0=A0 0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0=A0=A0=A0=A0 50000=A0=A0=
-=A0=A0=A0 Y=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 deviceless=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 no_connection_id
-> >> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 media_ldb=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0 1=A0=A0=A0=A0=A0=A0 1=A0=A0=A0=A0=A0=A0=A0 0=A0=A0=A0=
-=A0=A0=A0=A0 519232000=A0=A0 0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0=A0=A0=A0=A0 500=
-00=A0=A0=A0=A0=A0 Y=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 devi=
-celess=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 no_co=
-nnection_id
-> >> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 media_ldb_ro=
-ot_clk 1=A0=A0=A0=A0=A0=A0 1=A0=A0=A0=A0=A0=A0=A0 0=A0=A0=A0=A0=A0=A0=A0 51=
-9232000=A0=A0 0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0=A0=A0=A0=A0 50000=A0=A0=A0=A0=
-=A0 Y=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 32ec0000.=
-blk-ctrl:bridge@5c=A0=A0=A0=A0 ldb
-> >> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0 deviceless=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0 no_connection_id
-> >> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 media_disp1_pix=A0=A0=
-=A0=A0=A0 0=A0=A0=A0=A0=A0=A0 0=A0=A0=A0=A0=A0=A0=A0 0=A0=A0=A0=A0=A0=A0=A0=
- 129808000=A0=A0 0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0=A0=A0=A0=A0 50000=A0=A0=A0=
-=A0=A0 N=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 deviceless=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 no_connection_=
-id
-> >> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 media_disp1_=
-pix_root_clk 0=A0=A0=A0=A0=A0=A0 0=A0=A0=A0=A0=A0=A0=A0 0=A0=A0=A0=A0=A0=A0=
-=A0 129808000=A0=A0 0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0=A0=A0=A0=A0 50000=A0=A0=
-=A0=A0=A0 N=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 32e=
-80000.display-controller=A0=A0=A0=A0 pix
-> >> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0 32ec0000.blk-ctrl=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 disp1
-> >> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0 deviceless=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0 no_connection_id
-> >> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 media_disp2_pix=A0=A0=
-=A0=A0=A0 1=A0=A0=A0=A0=A0=A0 1=A0=A0=A0=A0=A0=A0=A0 0=A0=A0=A0=A0=A0=A0=A0=
- 519232000=A0=A0 0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0=A0=A0=A0=A0 50000=A0=A0=A0=
-=A0=A0 Y=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 deviceless=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 no_connection_=
-id
-> >> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 media_disp2_=
-pix_root_clk 1=A0=A0=A0=A0=A0=A0 1=A0=A0=A0=A0=A0=A0=A0 0=A0=A0=A0=A0=A0=A0=
-=A0 519232000=A0=A0 0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0=A0=A0=A0=A0 50000=A0=A0=
-=A0=A0=A0 Y=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 32e=
-90000.display-controller=A0=A0=A0=A0 pix
-> >> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0 32ec0000.blk-ctrl=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 disp2
-> >> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0 deviceless=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0 no_connection_id
-> >>
-> >> Single LVDS link mode is not affected because "media_disp2_pix"
-> >> clock can handle the 7 division ratio.
-> >>
-> >> To support the dual LVDS link mode, "video_pll1" clock rate needs
-> >> to be x2 "media_ldb" clock rate so that "media_disp2_pix" clock
-> >> can use 7 division ratio to achieve the /3.5 clock rate comparing
-> >> to "media_ldb" clock rate.=A0 However, "video_pll1" is not seen by
-> >> LDB driver thus not directly controlled by it.=A0 This is another
-> >> reason why assigning a reasonable "video_pll1" clock rate in DT
-> >> makes sense.
-> >=20
-> > I agree that _right_now_, the DT clock assignment is the only option.
-> > I would like to see that DT part disappear and instead would prefer if =
-the LDB/LCDIF could figure out the clock tree configuration themselves.
->=20
-> I think we'll live with the assigned clock rate in DT, because the
-> i.MX8MP LDB and Samsung MIPI DSI display pipelines need to share a
-> video PLL, like I mentioned in comments for patch 2.
+Thanks! This helps:
 
-Guys. There's 4 different discussions that look to be on the same topic,
-and doing workarounds in the DT, DRM driver and clock driver for
-something that looks like a broken clock.
+post-init-providers = <&oldi0>;
 
-Could we have *somewhere* a proper description of what the problem is
-exactly, so we can review it? Because at the moment, it's certainly not
-helping.
+or for dual-link:
 
-Maxime
+post-init-providers = <&oldi0>, <&oldi1>;
 
---5ljitx3vl2u5lehv
-Content-Type: application/pgp-signature; name="signature.asc"
+> This tells fw_devlink that VP doesn't depend on this node for
+> initialization/probing. This property is basically available to break
+> cycles in DT and mark one of the edges of the cycles as "not a real
+> init dependency".
+> 
+> You should do the same for the single link case too.
 
------BEGIN PGP SIGNATURE-----
+While this helps, it's not very nice... Every new DT overlay that uses 
+OLDI display needs to have these.
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZxdZNwAKCRAnX84Zoj2+
-do5AAYD9Cvhd9aqpnBOy5WzwqBPOkxSDwk7s4YVwlvjsU4LO9OXrAFitX8qW8dCA
-yF4+UCEBgOkuykrO2NWU3AO6aoUlJKlKGLDsPZFS7OLTIppco01TwDhTsxQNM0Qu
-2py5EVywJg==
-=Pvc4
------END PGP SIGNATURE-----
+I'm still confused about why this is needed. OF graphs are _always_ 
+two-way links. Doesn't that mean that OF graphs never can be used for 
+dependencies, as they go both ways? If so, shouldn't we just always 
+ignore all OF graphs for dependency checking?
 
---5ljitx3vl2u5lehv--
+  Tomi
+
+> 
+> Hope that helps. Let me know.
+> 
+> Thanks,
+> Saravana
+> 
+>>
+>>          ports {
+>>                  port@0 {
+>>                          lcd_in0: endpoint {
+>>                                  remote-endpoint = <&oldi_0_out>;
+>>                          };
+>>                  };
+>>
+>>                  port@1 {
+>>                          lcd_in1: endpoint {
+>>                                  remote-endpoint = <&oldi_1_out>;
+>>                          };
+>>                  };
+>>          };
+>> };
+>>
+>>
+>> /* Single-link */
+>>
+>> dss: dss@30200000 {
+>>          compatible = "ti,am625-dss";
+>>
+>>          oldi-txes {
+>>                  oldi0: oldi@0 {
+>>                          oldi0_ports: ports {
+>>                                  port@0 {
+>>                                          oldi_0_in: endpoint {
+>>                                                  remote-endpoint = <&dpi0_out0>;
+>>                                          };
+>>                                  };
+>>
+>>                                  port@1 {
+>>                                          oldi_0_out: endpoint {
+>>                                                  remote-endpoint = <&lcd_in0>;
+>>                                          };
+>>                                  };
+>>                          };
+>>                  };
+>>          };
+>>
+>>          dss_ports: ports {
+>>                  port@0 {
+>>                          dpi0_out0: endpoint@0 {
+>>                                  remote-endpoint = <&oldi_0_in>;
+>>                          };
+>>                  };
+>>          };
+>> };
+>>
+>> display {
+>>          compatible = "microtips,mf-101hiebcaf0", "panel-simple";
+>>
+>>          ports {
+>>                  port@0 {
+>>                          lcd_in0: endpoint {
+>>                                  remote-endpoint = <&oldi_0_out>;
+>>                          };
+>>                  };
+>>          };
+>> };
+>>
+>>    Tomi
+>>
+
