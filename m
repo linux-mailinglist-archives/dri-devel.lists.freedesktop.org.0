@@ -2,151 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87CC59AA32C
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2024 15:31:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 353139AB003
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2024 15:49:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D2D910E083;
-	Tue, 22 Oct 2024 13:31:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D01DB10E320;
+	Tue, 22 Oct 2024 13:49:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="i9Qd1lfM";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="hqnXgwm8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2050.outbound.protection.outlook.com [40.107.93.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93F9E10E083
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Oct 2024 13:31:35 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ejvAtzDdfqXxl6ywBIDyE24JfS9/3qO8cD6HqIhX09QpnAzuT9ry1RCiHR/a/Iu5G5KjQ08EE4e0ucaRJuBLp7W8fboMiMYTC2yiAYvmDBdT5PDX1GBIw+O75lgD7loP0H2h/yTv8dYzQzne0ao0cRUj3BM0he3mVF7JDVtIjW9uSJ4TcIKbdHE19+aLHXQZ8afxo5RbcsGSqrO1iuQaphBpJE6K6++MeNIchWcM0d2yW1j/m5jz0tFL1lsC7JlAqw/mXn30caUBFpiFo9biUJxEYC0dO8G4/L52Wn6FC8zYbTn2ZMFTQ3+pWmKLliZ53YV3RuAUxLaiDBEdYzcxAw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=m4JhdY1mHnh7Ybdo6Hbk3RyWIyYqGzz/dnVp69U3/kM=;
- b=xvpdh5mCSKrdPtW96Nb0GRsNNMe5Yo8Yi7xROjPebBd9g1esCm5GRPoN9NMel/mY69+UYmGBX/AQa52PLnay4PUc7qMQdz8no4wZIEMzPFsBC1mTy0WBq8j1gFeb0BoEGXlE3BVwuUTAcBKkQWv921eJSK0AwLqkzM22e+yFAHwDV0UhBY9n2V7TpAdgv2uezcEadaf3epoosmmhfz2RmtwEe6ydDRRNW3uBPo0DVODwDQ4yEaMxFuxIJzuF/DZzdheBaNg7Txvd1GJ2W94GCy1H5zhkUqR8umb6BYXN5SaRt8wLPVKaMlRqlC6i2zhDpOgzx3np0i07yr2v7PeZeA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=m4JhdY1mHnh7Ybdo6Hbk3RyWIyYqGzz/dnVp69U3/kM=;
- b=i9Qd1lfM1ExuY9Qgfjpd7oUMU/VGHlqQy6I6gjLeFZ+1qDYDiHDjmjoxKh+rYu28QTzXkaw4yuIBosfMHaCyeYh//Izvp40RhmB089SbDLARcYy3lD3w+2H4MtpeHZuae8QtYJenvGC0o4AGdDLnemRxXo5HBpNjEBwD9LYH6JgiSTeYu31tpYVhFtXYLej7KMnjxeiFd5m/qjHeEXaAOSBIY7W8/9oU3rM8LiWjLZlEADgg70qD8X/gAdCTzH3wMJQ7ZNMKm7uAHUCkSOIXNDoD3DoQ0aR4BGgEaA/64eqTcbWZHzBABpL8rM99ogA8oVVGW4pGGD6p/uIcMsLung==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from SJ2PR12MB8784.namprd12.prod.outlook.com (2603:10b6:a03:4d0::11)
- by LV3PR12MB9214.namprd12.prod.outlook.com (2603:10b6:408:1a4::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.16; Tue, 22 Oct
- 2024 13:31:31 +0000
-Received: from SJ2PR12MB8784.namprd12.prod.outlook.com
- ([fe80::1660:3173:eef6:6cd9]) by SJ2PR12MB8784.namprd12.prod.outlook.com
- ([fe80::1660:3173:eef6:6cd9%5]) with mapi id 15.20.8093.014; Tue, 22 Oct 2024
- 13:31:31 +0000
-Message-ID: <1094c262-9d39-4a7b-bede-dc927cd1f52a@nvidia.com>
-Date: Tue, 22 Oct 2024 14:31:25 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 42/43] drm/fbdev-generic: Convert to fbdev-ttm
-To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
- airlied@gmail.com, deller@gmx.de, javierm@redhat.com
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
-References: <20240312154834.26178-1-tzimmermann@suse.de>
- <20240312154834.26178-43-tzimmermann@suse.de>
-From: Jon Hunter <jonathanh@nvidia.com>
-Content-Language: en-US
-In-Reply-To: <20240312154834.26178-43-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AS8P189CA0027.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:31f::28) To SJ2PR12MB8784.namprd12.prod.outlook.com
- (2603:10b6:a03:4d0::11)
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com
+ [209.85.219.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9407210E320
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Oct 2024 13:49:29 +0000 (UTC)
+Received: by mail-yb1-f182.google.com with SMTP id
+ 3f1490d57ef6-e28fea0f5b8so5315038276.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Oct 2024 06:49:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1729604968; x=1730209768; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=lPMWABfKMwqxFTz9FHojirf6MTCFH8/NXsyive4Igq4=;
+ b=hqnXgwm8OhhQNfpBoZy3dUCJ8xNu26eDVvQCnVALtuGG+R6F3iyvnj1YR8Us8J3/SI
+ VDsFcQP89+AaXPXpfeBH1iWCTvm7JLzg4KDx1SZyhlc241iHAr4R6NorMAwog39D/VVf
+ f29xa4Vo66A+2HFTh4cPNVLQxHb4uH7dG1Sio8vgSEP/71tygnnVdzK7r5eogc3SnqL/
+ q1gnepJfUIaSJSq1sT65C2BGb4HSLK5gjIu5RofChC3xqQlCvnOfcwIryXXUx1HWzF0O
+ E/RbshkxWir4wrd7c00uT608MCHXUibi2BovjBC0cL1bZHHUaXoT4PsVwbOIZZaL4JLh
+ UMtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1729604968; x=1730209768;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=lPMWABfKMwqxFTz9FHojirf6MTCFH8/NXsyive4Igq4=;
+ b=wvj60kYkBvTaaG0kvwCW89Sk9rXb/MMslMzjAv5nZIo8nGDFbsznDZo0+HoWywmMa8
+ bjmHqdT9WiAOdMoxZEaBQKvLXL7CgAFF/66CmO0ketsEL2MKN1c5PyZh9zdSSVxjZaX2
+ 4qBXkjCvt3YX4HY5AId7HLc/yhOmB/cOp+sczzDqifJjMGs6FWZXD3zB5l94EG43QNo2
+ mjziAcII+2CrdTmEM9b0oP/7HgQ5H/kd1LbhIOJVK/mxKOQnxq+nyV1EFOHrp8vjXUXW
+ fiUEGZ/OrN/J51r6waePHNq46NURHGxZabSW9MojXL6ys7IUBJR+SXz/NIfQHtAa8z/0
+ /SeQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWqGwfS5oo3H6HQ42C4HPWtrEyDmvvhWrZT9bRNcSG9j1dM1r8cxWkDhg9VXya0YYJS34wTeeR8Sus=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyMPqalIQKgDylmtLHx0Y57u86tn4r7rD2FYfNdvsU2oWa0envH
+ mTPmmZUwcUerNR0NFICTD3XkentCV3CFYO5SqM8uht6wsZ7O/B6ZOP+/i8rUGzuCy7BiJCHePiq
+ nmxsWXlFM+4W6ltJuGhj12qsoVPq8D1t8/gihdg==
+X-Google-Smtp-Source: AGHT+IH8AJZe9CNBMK163sA3qBNj/VMWDJsw3ri8QqBOcJP/ird9g+2hOU2EyHrCoKBZfqpgD4sTnerVT0UMKoaOj0o=
+X-Received: by 2002:a05:690c:4905:b0:6e2:aceb:fb47 with SMTP id
+ 00721157ae682-6e5bf72c5f0mr153974527b3.2.1729604968546; Tue, 22 Oct 2024
+ 06:49:28 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR12MB8784:EE_|LV3PR12MB9214:EE_
-X-MS-Office365-Filtering-Correlation-Id: 383b67e0-aa0f-4f40-8c15-08dcf29dd734
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?bDU0OFZySUU4WmJ5TVJEek9LbnFlT2hrVWNDd3c3Wlh1QXMxMXM2akNEOXA5?=
- =?utf-8?B?UDVCOXltSkJuaE5SR0RndlFPVTBZa0lra2RtWmFNcGx6QmtUOTFONXNNV0U3?=
- =?utf-8?B?Q3BTZ1N5NmkwYWlIbVhRbUFwWFVQME9HN2tNOWEzRkdlWmhIN3UvQmJvTHIz?=
- =?utf-8?B?RzBYeHdPUVQ4U2lvV0dsZEhCRWVMOGtRRS9lc0ZidStTRnNOaEFFb1M2eWhY?=
- =?utf-8?B?a3dUWjErOFFvT0gxR1pSenA2Ty84MUs2LzA4dEYzTU5KL0p1bFlFWm5rQjAz?=
- =?utf-8?B?WXlpUzlwMm5oOGEyeWltcGd6eVFSUmk4dEpxNHd0LzlZREU0bEs2UjlHQ3Y0?=
- =?utf-8?B?a1pXMmZPS1p5UjZxam4vR2E3Y0FVKzIxM2QveHNwSVAyVGRaN05XUWhRc21r?=
- =?utf-8?B?TFdRNDFSUCtSRy91Nm8zSjgzNjMxNkV0SitQckJGRDl3MGdLN2VpK2lBRlZP?=
- =?utf-8?B?SzM3akNybUs0TkhmSUV1LzFBV0tpMFJyRExtNnZoUjZqU1ptZ3dZRGVESk9M?=
- =?utf-8?B?SG1QMysyV1JUTnBFdXN0VW84TlRlM3cxaitnM05vdktSUk43M283TnV0SEpM?=
- =?utf-8?B?eGtCdDFIUzVyYjBTYkdkTzNBTmUrOXIrdVBmMVBHanRBSzJLTWJZVEluQnNq?=
- =?utf-8?B?Qi9taG8xS3ZZZElicFhrWTdDakhzKzFLSUI4aU1CbTRtVEl2TWhOeXJHY0w0?=
- =?utf-8?B?L1JEeU5EbkdKRHlwRDYvamNUVUxjbXM2VE1uQ1NHTUtxSENsanVkT1psOGRp?=
- =?utf-8?B?UnVNRFVXRDVpSFlvaG80dmpvU3ZJYUF0ZTlMWjUzOWtZczNuOEhCb08wNFRV?=
- =?utf-8?B?dEhDdlloaUVGOWtVY2lGWTQvLzFXRFh4VFU0SXdNQ3BYazNTU0V0WmE3Y1BU?=
- =?utf-8?B?NzR6L2xmWlJ5bVhyQm9xZDNVRUl5TkRtUFRPVXVkSmNzMXlxYXB1MzMycVNt?=
- =?utf-8?B?TzBmT3RYbGhua21wbmY1MXkxbnJYd0hWNkRvR3ZweWhRbmRGeWhpdnVjd3hB?=
- =?utf-8?B?VEFneWJKWkxrNE9GYzd6MjN6Qm9KdlQ3WTMyemxLZzVET3JCbDRLc1Rabyti?=
- =?utf-8?B?R2NQK3pTTTZxc29MUER5dFhBaEJnL2JCSEtVcHUvODhLZ1JvWk5TcTJjR2F6?=
- =?utf-8?B?b0Nlb3czMkNTeng0OWI1ODNzWHh2c3E0SDZHUWVNVUVnQmxKT0grWFUwaTNS?=
- =?utf-8?B?NmpGbVdWNlJrTTdDY3JEa1plS0pJUjNseG5tTzEwdVpreXFaVytKbG84U25E?=
- =?utf-8?B?K0ZWSjQ3bHlNcG9pQU54aGNwdkRQKzR4a1ExcnVpMTNXelAxOHpyZ2VQUXBw?=
- =?utf-8?B?MUJ1bjBSc1B4RG9yalhCZUwxTEE0SERld2JyRDZlQy8vSExlVGc5Nys1S1Zy?=
- =?utf-8?B?SU9LUjFxQ21FREpsbW1kUGlQZ3RTY0tFZCtQL3paOWxtWU5rb0ViSk0walJQ?=
- =?utf-8?B?VVVIU21JRG9DSksyUE5CVHZkSHd2QVRQREJVS0hGa2ZPNzZjd3NhWi90dTY5?=
- =?utf-8?B?ZytKSVA5Z3BSN0tXaFVWZG4xQUxCSGd6aE1DM3A4UkRKaUZVQW81TjNYM3dJ?=
- =?utf-8?B?aWtRQ25pVlJsemFMdFdOZldyUmVJWS9HOUxUeUMvMjdFa1o3Sm9Qb2Uvam95?=
- =?utf-8?B?Nm0xMEVZMUNydEc3YTZHZ3RwSGNuUnhEVjFLdlVSVFBJM1FuUkx3eE5LS3ZS?=
- =?utf-8?B?RWdZb1FtWE44bk0wRXYxOGlJWDc0Y0VSV0lSU2J3Q3lUZDNXdFJoUVJhdzNE?=
- =?utf-8?Q?tfqX/1kFF5YiICY/hV1S7tzXr5NbjwCsUQnw0LO?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SJ2PR12MB8784.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WnJ5aGczaE1pQVBxUHh1NFZLOFQzRmpyT2pOdStJeVFUWW8xdUFHWnpDcW9B?=
- =?utf-8?B?NlFxcTBPYU80VHAyb1ozcEhqMEE2S0d3QStWcDFremFsSk1UV2xPVkxPNm9s?=
- =?utf-8?B?SC85Tmh0N0dobGkzbk9NbWlWVDZQeFp6V1pRL0xGYm9LbHFzUUpKSXdoN0dt?=
- =?utf-8?B?YUhEanMwcFAxOTJUNVhuS3d5dERMVmdWNVFGd3VlQXhQMklJZzN0cG1WdGdI?=
- =?utf-8?B?RWt6U2ZKMGg0QlpheTVuL25HYmJtTFN4bGs2SEdROW02cUJYVDc0QVVnZjF0?=
- =?utf-8?B?Q1Z3WE1IaXI4cGtyQXB3d1FtWktBUlR4QXdrcXJvd1lOYlBPdGIxVStNeVdN?=
- =?utf-8?B?ZzA1aTZVQzlkR1hBUkdPckkxZE5Cb2o3bWppR2hadXBCcUhuMEc0anh3Q2px?=
- =?utf-8?B?aE5tYmUvRFBFcWQ4VjdhOXQ0RlMyK29BdFRWcUpQTEpvZXVWZ0kxU0c1VHMz?=
- =?utf-8?B?dnFPTytQSFgyYTlCSVRiazZ5RXlLU0FIaXBFNFoyYUxsRjc3ODZ0VVFmV3lz?=
- =?utf-8?B?VThXblNKcGhYS0RNSHM5eG4zNDhFckM5LzVzVjhmUWp0WitzTFNaa04wK0w5?=
- =?utf-8?B?QlprQnY4SC9hMnhjTjRBdmxJY2xuSGpoYWR3NE02VXNwTEp1ZUh1UHM3NnM0?=
- =?utf-8?B?bGlpcWJsc3VCendVSmpvS1ZKOUR6YXJMTE1jNW9yQXMyRXlaT0VJdFpsdkNO?=
- =?utf-8?B?OXBzNE1mWnlZdXpvMFZrWTV3Y2tJT0RHYW5hQ2o5aER6Q3RKcHZOR2hzbW1D?=
- =?utf-8?B?T1lBeVJsUVZJZmloblZIZHZmcFZ0ZzdpcWRCeW1EREZrUDlWaEU5ei9BNEUr?=
- =?utf-8?B?dlRNeWZaWXJiRTJ6UEJ5VlUrUWNaYVZyQUxXL0FMd2RSSGROK1EzTFRvRDhT?=
- =?utf-8?B?UXhQOEpzbUpKVldwUUkzTGplQnF0MFhNSjFTT21xeDBKckI3Q1hLbHRCSlBU?=
- =?utf-8?B?QW41ZnBKVUVCRXNzeGJEN05iR1pucGQ1eW1IZG5oL2R2SHAraXBkNXBXdFVm?=
- =?utf-8?B?SGNlMWNDM3FjcjZKN0MwRUZGRjc3K1hQTVRXS3FQWTVOSzNZVzcvdUpxdjBN?=
- =?utf-8?B?bUp4SklEaXNlN3A4ZmxxTEg2VzF6ODZ3VTQ5SnVjT2o1YlFOWjdhcldsL1FH?=
- =?utf-8?B?OXZXZ3FMY2xDQlV3dGdWck9YWWJJL2VUY2c1RTdGUXlhajdNUVFWbXBPZXVi?=
- =?utf-8?B?VW41cS9hMHYwQVdBVmdISVlSSC83V2lIaEpqUURvb1RZVW5EcTNkbWo1ZjRo?=
- =?utf-8?B?TW9vOXZvSXl0bVZ2ZGlpdXF4RGVyZEN2WTRuVlRBZFJrak02c0I1L25Nbnc1?=
- =?utf-8?B?STFSUDJaRjV6MUtkYk1Zd0c4dk82YytMNmlSWWl3dENuaTJIRW04RWdsc2hm?=
- =?utf-8?B?akhIbTlzcTNtZ2k5NWxEeEZwTVNpdjY5VGhpclJLMGI4SWdGTFBMN2xMelQ2?=
- =?utf-8?B?SGRUS1NpYStlSkttdUFod0lFRnVkWHl2K2F1dFlWeERscGFlQXZhVjBnTlRn?=
- =?utf-8?B?L0xVdFRacjBYVzN4dGRLTkI3Mi9aenZtZXgrR21QUUhCQWpBM2RXaUV2cGtO?=
- =?utf-8?B?SkZZaFE5UDBKK3BsTVZJQ1ltVWZ0K0IyT2t1dXFoaWV2Z1Q0TjhxbitYQzJ0?=
- =?utf-8?B?d2N6YXFVV0trNS91YTFHTFJSYVg0UXUwc0J2dVllaWxuN21uNlBDMlEyM28r?=
- =?utf-8?B?T2xqY1RXQnV4eXhZNlNWd3JXUEVmaUg4aE1DNkxVZzRNbnZxd0ltdW80U0ZP?=
- =?utf-8?B?Sm0xSkk0OTN0ZURzUmxEMmIvM0YvU1BmWjlRcVBwU0hsTjNHMFRmb1NhVElG?=
- =?utf-8?B?K1NMejVIa0tKakdCbFNCOVg2ejFpRzNYMmQzdVJISUZiNjRsV3NDVk85SkM2?=
- =?utf-8?B?ZVFPOWVxK1dTdDV6aUxNWEtIdEdWMHNHS1VmcW9TOXFvZlRkTTExaEJiOGlD?=
- =?utf-8?B?Y01QdFZESWNvMDVhazRwSVN3S0lmY1ZJcDcwUlRxbkRZajJiMTVWVVllYWcr?=
- =?utf-8?B?RTQyQS9YcnNkeGpYSVlQTGxWOHg0c1pZUS8xdEpHWlVBVDFhTXQ1SE1SV0V3?=
- =?utf-8?B?NndaRElxZHd1dXBVeFIvQ2hrc243QTBIM1RtZWU4MklLcUlXWERLSzc0cS8x?=
- =?utf-8?Q?T8hsQgIgG+Kizu8hbe2axPD0i?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 383b67e0-aa0f-4f40-8c15-08dcf29dd734
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR12MB8784.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2024 13:31:31.5843 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 49CVbxWyC2zBKJVnUgoF+gwai0YRmeoCa7IXVRz+xA/NBVA0vwhJd6PQsAJHKQJX+w+sLNFWqpz7avNVwDv0cw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR12MB9214
+References: <20240930100610.782363-1-shiyongbang@huawei.com>
+ <20240930100610.782363-5-shiyongbang@huawei.com>
+ <xeemxeld4cqpx47kzb5qqsawk7mu5kje6r7n335dhe2s7ynw6m@eaiowriiilgr>
+ <ede06bc0-0719-4a6f-b67a-d7b576ca4df9@huawei.com>
+In-Reply-To: <ede06bc0-0719-4a6f-b67a-d7b576ca4df9@huawei.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 22 Oct 2024 16:49:17 +0300
+Message-ID: <CAA8EJpq5MED1gScw=L-7fvO1MPOFgc+P_0K+GimtXdMTJu67RQ@mail.gmail.com>
+Subject: Re: [PATCH drm-dp 4/4] drm/hisilicon/hibmc: add dp module in hibmc
+To: Yongbang Shi <shiyongbang@huawei.com>
+Cc: xinliang.liu@linaro.org, tiantao6@hisilicon.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+ airlied@gmail.com, daniel@ffwll.ch, kong.kongxinwei@hisilicon.com, 
+ liangjian010@huawei.com, chenjianmin@huawei.com, lidongming5@huawei.com, 
+ libaihan@huawei.com, shenjian15@huawei.com, shaojijie@huawei.com, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -162,89 +84,353 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+On Tue, 22 Oct 2024 at 15:24, Yongbang Shi <shiyongbang@huawei.com> wrote:
+>
+>
+> > On Mon, Sep 30, 2024 at 06:06:10PM +0800, shiyongbang wrote:
+> >> From: baihan li <libaihan@huawei.com>
+> >>
+> >> To support DP interface displaying in hibmc driver. Add
+> >> a encoder and connector for DP modual.
+> >>
+> >> Signed-off-by: baihan li <libaihan@huawei.com>
+> >> ---
+> >>   drivers/gpu/drm/hisilicon/hibmc/Makefile      |   2 +-
+> >>   .../gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c    | 195 ++++++++++++++++++
+> >>   .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c   |  17 +-
+> >>   .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h   |   5 +
+> >>   4 files changed, 217 insertions(+), 2 deletions(-)
+> >>   create mode 100644 drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
+> >>
+> >> diff --git a/drivers/gpu/drm/hisilicon/hibmc/Makefile b/drivers/gpu/drm/hisilicon/hibmc/Makefile
+> >> index 693036dfab52..8cf74e0d4785 100644
+> >> --- a/drivers/gpu/drm/hisilicon/hibmc/Makefile
+> >> +++ b/drivers/gpu/drm/hisilicon/hibmc/Makefile
+> >> @@ -1,5 +1,5 @@
+> >>   # SPDX-License-Identifier: GPL-2.0-only
+> >>   hibmc-drm-y := hibmc_drm_drv.o hibmc_drm_de.o hibmc_drm_vdac.o hibmc_drm_i2c.o \
+> >> -           dp/dp_aux.o dp/dp_link.o dp/dp_kapi.o
+> >> +           dp/dp_aux.o dp/dp_link.o dp/dp_kapi.o hibmc_drm_dp.o
+> >>
+> >>   obj-$(CONFIG_DRM_HISI_HIBMC) += hibmc-drm.o
+> >> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
+> >> new file mode 100644
+> >> index 000000000000..7a50f1d81aac
+> >> --- /dev/null
+> >> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
+> >> @@ -0,0 +1,195 @@
+> >> +// SPDX-License-Identifier: GPL-2.0-or-later
+> >> +
+> >> +#include <linux/io.h>
+> >> +
+> >> +#include <drm/drm_probe_helper.h>
+> >> +#include <drm/drm_simple_kms_helper.h>
+> >> +#include <drm/drm_atomic_helper.h>
+> >> +#include <drm/drm_drv.h>
+> >> +#include <drm/drm_edid.h>
+> >> +
+> >> +#include "hibmc_drm_drv.h"
+> >> +#include "dp/dp_kapi.h"
+> >> +
+> >> +static int hibmc_dp_connector_get_modes(struct drm_connector *connector)
+> >> +{
+> >> +    int count;
+> >> +
+> >> +    count = drm_add_modes_noedid(connector, connector->dev->mode_config.max_width,
+> >> +                                 connector->dev->mode_config.max_height);
+> >> +    drm_set_preferred_mode(connector, 800, 600); /* default 800x600 */
+> > What? Please parse EDID instead.
+> >
+> >> +
+> >> +    return count;
+> >> +}
+> >> +
+> >> +static const struct drm_connector_helper_funcs hibmc_dp_conn_helper_funcs = {
+> >> +    .get_modes = hibmc_dp_connector_get_modes,
+> >> +};
+> >> +
+> >> +static const struct drm_connector_funcs hibmc_dp_conn_funcs = {
+> >> +    .reset = drm_atomic_helper_connector_reset,
+> >> +    .fill_modes = drm_helper_probe_single_connector_modes,
+> >> +    .destroy = drm_connector_cleanup,
+> >> +    .atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+> >> +    .atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+> >> +};
+> >> +
+> >> +static void dp_mode_cfg(struct drm_device *dev, struct dp_mode *dp_mode,
+> >> +                    struct drm_display_mode *mode)
+> >> +{
+> >> +    dp_mode->field_rate = drm_mode_vrefresh(mode);
+> >> +    dp_mode->pixel_clock = mode->clock / 1000; /* 1000: khz to hz */
+> >> +
+> >> +    dp_mode->h_total = mode->htotal;
+> >> +    dp_mode->h_active = mode->hdisplay;
+> >> +    dp_mode->h_blank = mode->htotal - mode->hdisplay;
+> >> +    dp_mode->h_front = mode->hsync_start - mode->hdisplay;
+> >> +    dp_mode->h_sync = mode->hsync_end - mode->hsync_start;
+> >> +    dp_mode->h_back = mode->htotal - mode->hsync_end;
+> >> +
+> >> +    dp_mode->v_total = mode->vtotal;
+> >> +    dp_mode->v_active = mode->vdisplay;
+> >> +    dp_mode->v_blank = mode->vtotal - mode->vdisplay;
+> >> +    dp_mode->v_front = mode->vsync_start - mode->vdisplay;
+> >> +    dp_mode->v_sync = mode->vsync_end - mode->vsync_start;
+> >> +    dp_mode->v_back = mode->vtotal - mode->vsync_end;
+> > No need to copy the bits around. Please use drm_display_mode directly.
+> >
+> >> +
+> >> +    if (mode->flags & DRM_MODE_FLAG_PHSYNC) {
+> >> +            drm_info(dev, "horizontal sync polarity: positive\n");
+> >> +            dp_mode->h_pol = 1;
+> >> +    } else if (mode->flags & DRM_MODE_FLAG_NHSYNC) {
+> >> +            drm_info(dev, "horizontal sync polarity: negative\n");
+> >> +            dp_mode->h_pol = 0;
+> >> +    } else {
+> >> +            drm_err(dev, "horizontal sync polarity: unknown or not set\n");
+> >> +    }
+> >> +
+> >> +    if (mode->flags & DRM_MODE_FLAG_PVSYNC) {
+> >> +            drm_info(dev, "vertical sync polarity: positive\n");
+> >> +            dp_mode->v_pol = 1;
+> >> +    } else if (mode->flags & DRM_MODE_FLAG_NVSYNC) {
+> >> +            drm_info(dev, "vertical sync polarity: negative\n");
+> > No spamming, use DRM debugging macros.
+> >
+> >> +            dp_mode->v_pol = 0;
+> >> +    } else {
+> >> +            drm_err(dev, "vertical sync polarity: unknown or not set\n");
+> >> +    }
+> >> +}
+> >> +
+> >> +static int dp_prepare(struct hibmc_dp *dp, struct drm_display_mode *mode)
+> >> +{
+> >> +    struct dp_mode dp_mode = {0};
+> >> +    int ret;
+> >> +
+> >> +    hibmc_dp_display_en(dp, false);
+> >> +
+> >> +    dp_mode_cfg(dp->drm_dev, &dp_mode, mode);
+> >> +    ret = hibmc_dp_mode_set(dp, &dp_mode);
+> >> +    if (ret)
+> >> +            drm_err(dp->drm_dev, "hibmc dp mode set failed: %d\n", ret);
+> >> +
+> >> +    return ret;
+> >> +}
+> >> +
+> >> +static void dp_enable(struct hibmc_dp *dp)
+> >> +{
+> >> +    hibmc_dp_display_en(dp, true);
+> >> +}
+> >> +
+> >> +static void dp_disable(struct hibmc_dp *dp)
+> >> +{
+> >> +    hibmc_dp_display_en(dp, false);
+> >> +}
+> >> +
+> >> +static int hibmc_dp_hw_init(struct hibmc_drm_private *priv)
+> >> +{
+> >> +    int ret;
+> >> +
+> >> +    ret = hibmc_dp_kapi_init(&priv->dp);
+> >> +    if (ret)
+> >> +            return ret;
+> >> +
+> >> +    hibmc_dp_display_en(&priv->dp, false);
+> >> +
+> >> +    return 0;
+> >> +}
+> >> +
+> >> +static void hibmc_dp_hw_uninit(struct hibmc_drm_private *priv)
+> >> +{
+> >> +    hibmc_dp_kapi_uninit(&priv->dp);
+> >> +}
+> > Inline all these one-line wrappers, they serve no purpose.
+>
+> Hi Dmitry,
+>
+> Yes, it make sense to be inline. But it is generally better to let the compiler decide when to inline a function.
 
-On 12/03/2024 15:45, Thomas Zimmermann wrote:
-> Only TTM-based drivers use fbdev-generic. Rename it to fbdev-ttm and
-> change the symbol infix from _generic_ to _ttm_. Link the source file
-> into TTM helpers, so that it is only build if TTM-based drivers have
-> been selected. Select DRM_TTM_HELPER for loongson.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->   Documentation/gpu/drm-kms-helpers.rst         |  2 +-
->   drivers/gpu/drm/Makefile                      |  5 +-
->   drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       |  6 +-
->   .../{drm_fbdev_generic.c => drm_fbdev_ttm.c}  | 80 +++++++++----------
->   .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c   |  4 +-
->   drivers/gpu/drm/loongson/Kconfig              |  1 +
->   drivers/gpu/drm/loongson/lsdc_drv.c           |  4 +-
->   drivers/gpu/drm/nouveau/nouveau_drm.c         |  6 +-
->   drivers/gpu/drm/qxl/qxl_drv.c                 |  4 +-
->   drivers/gpu/drm/tiny/bochs.c                  |  4 +-
->   drivers/gpu/drm/vboxvideo/vbox_drv.c          |  4 +-
->   drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           |  4 +-
->   include/drm/drm_fbdev_generic.h               | 15 ----
->   include/drm/drm_fbdev_ttm.h                   | 15 ++++
->   14 files changed, 77 insertions(+), 77 deletions(-)
->   rename drivers/gpu/drm/{drm_fbdev_generic.c => drm_fbdev_ttm.c} (76%)
->   delete mode 100644 include/drm/drm_fbdev_generic.h
->   create mode 100644 include/drm/drm_fbdev_ttm.h
+Please excuse me for not being explicit or clear enough. Drop the
+one-line wrappers and just call the necessary functions directly.
+There is no need to have such wrappers.
 
-...
+>
+> Thanks,
+> Baihan
+>
+>
+> >> +
+> >> +static void hibmc_dp_encoder_enable(struct drm_encoder *drm_encoder,
+> >> +                                struct drm_atomic_state *state)
+> >> +{
+> >> +    struct hibmc_dp *dp = container_of(drm_encoder, struct hibmc_dp, encoder);
+> >> +    struct drm_display_mode *mode = &drm_encoder->crtc->state->mode;
+> >> +
+> >> +    if (dp_prepare(dp, mode))
+> >> +            return;
+> >> +
+> >> +    dp_enable(dp);
+> >> +}
+> >> +
+> >> +static void hibmc_dp_encoder_disable(struct drm_encoder *drm_encoder,
+> >> +                                 struct drm_atomic_state *state)
+> >> +{
+> >> +    struct hibmc_dp *dp = container_of(drm_encoder, struct hibmc_dp, encoder);
+> >> +
+> >> +    dp_disable(dp);
+> >> +}
+> >> +
+> >> +static const struct drm_encoder_helper_funcs hibmc_dp_encoder_helper_funcs = {
+> >> +    .atomic_enable = hibmc_dp_encoder_enable,
+> >> +    .atomic_disable = hibmc_dp_encoder_disable,
+> >> +};
+> >> +
+> >> +void hibmc_dp_uninit(struct hibmc_drm_private *priv)
+> >> +{
+> >> +    hibmc_dp_hw_uninit(priv);
+> >> +}
+> >> +
+> >> +int hibmc_dp_init(struct hibmc_drm_private *priv)
+> >> +{
+> >> +    struct drm_device *dev = &priv->dev;
+> >> +    struct drm_crtc *crtc = &priv->crtc;
+> >> +    struct hibmc_dp *dp = &priv->dp;
+> >> +    struct drm_connector *connector = &dp->connector;
+> >> +    struct drm_encoder *encoder = &dp->encoder;
+> >> +    int ret;
+> >> +
+> >> +    dp->mmio = priv->mmio;
+> >> +    dp->drm_dev = dev;
+> >> +
+> >> +    ret = hibmc_dp_hw_init(priv);
+> >> +    if (ret) {
+> >> +            drm_err(dev, "dp hw init failed: %d\n", ret);
+> >> +            return ret;
+> >> +    }
+> >> +
+> >> +    encoder->possible_crtcs = drm_crtc_mask(crtc);
+> >> +    ret = drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_TMDS);
+> > I think drm_simple_foo interfaces are being deprecated. Please copy
+> > required code into the driver instead.
+> >
+> >> +    if (ret) {
+> >> +            drm_err(dev, "init dp encoder failed: %d\n", ret);
+> >> +            goto err_init;
+> >> +    }
+> >> +
+> >> +    drm_encoder_helper_add(encoder, &hibmc_dp_encoder_helper_funcs);
+> >> +
+> >> +    ret = drm_connector_init(dev, connector, &hibmc_dp_conn_funcs,
+> >> +                             DRM_MODE_CONNECTOR_DisplayPort);
+> >> +    if (ret) {
+> >> +            drm_err(dev, "init dp connector failed: %d\n", ret);
+> >> +            goto err_init;
+> >> +    }
+> >> +
+> >> +    drm_connector_helper_add(connector, &hibmc_dp_conn_helper_funcs);
+> >> +
+> >> +    drm_connector_attach_encoder(connector, encoder);
+> >> +
+> >> +    return 0;
+> >> +
+> >> +err_init:
+> >> +    hibmc_dp_hw_uninit(priv);
+> >> +
+> >> +    return ret;
+> >> +}
+> >> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+> >> index 9f9b19ea0587..c90a8db021b0 100644
+> >> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+> >> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+> >> @@ -93,6 +93,10 @@ static const struct drm_mode_config_funcs hibmc_mode_funcs = {
+> >>
+> >>   static int hibmc_kms_init(struct hibmc_drm_private *priv)
+> >>   {
+> >> +#define DP_HOST_SERDES_CTRL         0x1f001c
+> >> +#define DP_HOST_SERDES_CTRL_VAL             0x8A00
+> >> +#define DP_HOST_SERDES_CTRL_MASK    0x7FFFE
+> >> +
+> > #defines outside of the function body.
+> >
+> >>      struct drm_device *dev = &priv->dev;
+> >>      int ret;
+> >>
+> >> @@ -116,10 +120,17 @@ static int hibmc_kms_init(struct hibmc_drm_private *priv)
+> >>              return ret;
+> >>      }
+> >>
+> >> +    /* if DP existed, init DP */
+> >> +    if ((readl(priv->mmio + DP_HOST_SERDES_CTRL) &
+> >> +         DP_HOST_SERDES_CTRL_MASK) == DP_HOST_SERDES_CTRL_VAL) {
+> >> +            ret = hibmc_dp_init(priv);
+> >> +            if (ret)
+> >> +                    drm_err(dev, "failed to init dp: %d\n", ret);
+> >> +    }
+> >> +
+> >>      ret = hibmc_vdac_init(priv);
+> >>      if (ret) {
+> >>              drm_err(dev, "failed to init vdac: %d\n", ret);
+> >> -            return ret;
+> > Why?
+> >
+> >>      }
+> >>
+> >>      return 0;
+> >> @@ -239,6 +250,7 @@ static int hibmc_hw_init(struct hibmc_drm_private *priv)
+> >>
+> >>   static int hibmc_unload(struct drm_device *dev)
+> >>   {
+> >> +    struct hibmc_drm_private *priv = to_hibmc_drm_private(dev);
+> >>      struct pci_dev *pdev = to_pci_dev(dev->dev);
+> >>
+> >>      drm_atomic_helper_shutdown(dev);
+> >> @@ -247,6 +259,9 @@ static int hibmc_unload(struct drm_device *dev)
+> >>
+> >>      pci_disable_msi(to_pci_dev(dev->dev));
+> >>
+> >> +    if (priv->dp.encoder.possible_crtcs)
+> >> +            hibmc_dp_uninit(priv);
+> >> +
+> >>      return 0;
+> >>   }
+> >>
+> >> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
+> >> index 6b566f3aeecb..aa79903fe022 100644
+> >> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
+> >> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
+> >> @@ -19,6 +19,7 @@
+> >>   #include <linux/i2c.h>
+> >>
+> >>   #include <drm/drm_framebuffer.h>
+> >> +#include "dp/dp_kapi.h"
+> >>
+> >>   struct hibmc_connector {
+> >>      struct drm_connector base;
+> >> @@ -37,6 +38,7 @@ struct hibmc_drm_private {
+> >>      struct drm_crtc crtc;
+> >>      struct drm_encoder encoder;
+> >>      struct hibmc_connector connector;
+> > It seems this needs to be refactored too, to separate VGA connector /
+> > encoder / CRTC to a child struct.
+> >
+> >> +    struct hibmc_dp dp;
+> >>   };
+> >>
+> >>   static inline struct hibmc_connector *to_hibmc_connector(struct drm_connector *connector)
+> >> @@ -59,4 +61,7 @@ int hibmc_vdac_init(struct hibmc_drm_private *priv);
+> >>
+> >>   int hibmc_ddc_create(struct drm_device *drm_dev, struct hibmc_connector *connector);
+> >>
+> >> +int hibmc_dp_init(struct hibmc_drm_private *priv);
+> >> +void hibmc_dp_uninit(struct hibmc_drm_private *priv);
+> >> +
+> >>   #endif
+> >> --
+> >> 2.33.0
+> >>
 
-> diff --git a/include/drm/drm_fbdev_ttm.h b/include/drm/drm_fbdev_ttm.h
-> new file mode 100644
-> index 0000000000000..9e6c3bdf35376
-> --- /dev/null
-> +++ b/include/drm/drm_fbdev_ttm.h
-> @@ -0,0 +1,15 @@
-> +/* SPDX-License-Identifier: MIT */
-> +
-> +#ifndef DRM_FBDEV_TTM_H
-> +#define DRM_FBDEV_TTM_H
-> +
-> +struct drm_device;
-> +
-> +#ifdef CONFIG_DRM_FBDEV_EMULATION
-> +void drm_fbdev_ttm_setup(struct drm_device *dev, unsigned int preferred_bpp);
-> +#else
-> +static inline void drm_fbdev_ttm_setup(struct drm_device *dev, unsigned int preferred_bpp)
-> +{ }
-> +#endif
-> +
-> +#endif
 
-
-I recently noticed that with Linux v6.11 it is possible to enable
-CONFIG_DRM_FBDEV_EMULATION without enabling CONFIG_DRM_TTM_HELPER. Now
-while this does not currently cause any build issues, I believe that if
-the function drm_fbdev_ttm_setup() is ever used somewhere that does not
-explicitly select CONFIG_DRM_TTM_HELPER, then you could get a 'ERROR:
-modpost: "drm_fbdev_ttm_setup"'.
-
-So I was thinking that may be this should be ...
-
-diff --git a/include/drm/drm_fbdev_ttm.h b/include/drm/drm_fbdev_ttm.h
-index 9e6c3bdf3537..5b6723a37caa 100644
---- a/include/drm/drm_fbdev_ttm.h
-+++ b/include/drm/drm_fbdev_ttm.h
-@@ -5,7 +5,7 @@
-  
-  struct drm_device;
-  
--#ifdef CONFIG_DRM_FBDEV_EMULATION
-+#if defined(CONFIG_DRM_FBDEV_EMULATION) && defined(CONFIG_DRM_TTM_HELPER)
-  void drm_fbdev_ttm_setup(struct drm_device *dev, unsigned int preferred_bpp);
-  #else
-  static inline void drm_fbdev_ttm_setup(struct drm_device *dev, unsigned int preferred_bpp)
-
-
-The above function has been removed now in -next, but I believe we could
-have the same problem with drm_fbdev_ttm_helper_fb_probe()?
-
-Cheers
-Jon
 
 -- 
-nvpublic
+With best wishes
+Dmitry
