@@ -2,52 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB74D9AA20F
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2024 14:26:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 774959AA238
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2024 14:38:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2057910E670;
-	Tue, 22 Oct 2024 12:26:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE53210E67A;
+	Tue, 22 Oct 2024 12:38:14 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="cgbNgDpO";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAADA10E670
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Oct 2024 12:26:03 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.162.112])
- by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4XXrxq02PCz1ynMP;
- Tue, 22 Oct 2024 20:26:07 +0800 (CST)
-Received: from kwepemd500013.china.huawei.com (unknown [7.221.188.12])
- by mail.maildlp.com (Postfix) with ESMTPS id DF8D2140361;
- Tue, 22 Oct 2024 20:25:59 +0800 (CST)
-Received: from [10.159.166.136] (10.159.166.136) by
- kwepemd500013.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.34; Tue, 22 Oct 2024 20:25:58 +0800
-Message-ID: <cdb654ff-d881-4a5e-980e-5e2c0248bf33@huawei.com>
-Date: Tue, 22 Oct 2024 20:25:57 +0800
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5872510E67A;
+ Tue, 22 Oct 2024 12:38:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1729600694; x=1761136694;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=DLgB0RyK7HecqWHWaSWB1KTGQ554aUd6uSiDOmYkCe0=;
+ b=cgbNgDpOHra8yBzY/KVO35hnHC2CvN8Vv7OhvSjeUyI9L0qPeprN03te
+ CqWyqW5fRb7Lcty78WuB/63elGgKYehkCKGazK7sazjXWv363HB69T3bA
+ 4l/6nFuCwg4+n1F7D7dPNwdzLZqVY3A3cRI6S8PygBlTkLUWFSp9rafC4
+ zEa9n68+pFAj8MFaYZBF/s2Dg0YvmN9S6O1U+8RnszVxvxkjwH3TLA96b
+ EdcsBQcs/wRKZBRxTIOgS2dl0xkbjcjnZe5C8999R8ehPvBU60x1zM4H9
+ oWT3C8jZa566h2f1H8GhQvmMvx9HuApDSOLHCGIg4AHhk8/cWXg7M9svN Q==;
+X-CSE-ConnectionGUID: TTMndQEVS8+sCkBvi6U44g==
+X-CSE-MsgGUID: RxXXZty3Tn2bIIxYHJMcmQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11232"; a="39750064"
+X-IronPort-AV: E=Sophos;i="6.11,223,1725346800"; d="scan'208";a="39750064"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Oct 2024 05:38:13 -0700
+X-CSE-ConnectionGUID: O9Tb6A5AR5W9iUWUW6VQPQ==
+X-CSE-MsgGUID: uVZBeJNwSIiZgxEq7MrWaQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,223,1725346800"; d="scan'208";a="79922838"
+Received: from lfiedoro-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.4])
+ by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Oct 2024 05:38:09 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Rodrigo Vivi
+ <rodrigo.vivi@intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/i915/display: Remove kstrdup_const() and
+ kfree_const() usage
+In-Reply-To: <6673435f-250a-4fb7-9843-20f050e85c7c@wanadoo.fr>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <f82be2ee3ac7d18dd9982b5368a88a5bf2aeb777.1727977199.git.christophe.jaillet@wanadoo.fr>
+ <87h69srz1q.fsf@intel.com>
+ <6673435f-250a-4fb7-9843-20f050e85c7c@wanadoo.fr>
+Date: Tue, 22 Oct 2024 15:38:06 +0300
+Message-ID: <87iktkuxch.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH drm-dp 3/4] drm/hisilicon/hibmc: add dp kapi moduel in
- hibmc drivers
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: <xinliang.liu@linaro.org>, <tiantao6@hisilicon.com>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
- <kong.kongxinwei@hisilicon.com>, <liangjian010@huawei.com>,
- <chenjianmin@huawei.com>, <lidongming5@huawei.com>, <libaihan@huawei.com>,
- <shenjian15@huawei.com>, <shaojijie@huawei.com>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20240930100610.782363-1-shiyongbang@huawei.com>
- <20240930100610.782363-4-shiyongbang@huawei.com>
- <eslfc3ejjjpbw5wuf4khcoixeaitpb47iwf6kug7cryplcxcui@sieiyekdpczn>
- <c95252f7-12a7-49b8-8bf6-2ff3ada845ff@huawei.com>
- <CAA8EJppmrizqHjqYrRBVdjpTYLbPrrX+2wzeFhnVumifN_B0nQ@mail.gmail.com>
-From: Yongbang Shi <shiyongbang@huawei.com>
-In-Reply-To: <CAA8EJppmrizqHjqYrRBVdjpTYLbPrrX+2wzeFhnVumifN_B0nQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.159.166.136]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- kwepemd500013.china.huawei.com (7.221.188.12)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,179 +77,170 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-> On Mon, 21 Oct 2024 at 15:22, Yongbang Shi <shiyongbang@huawei.com> wrote:
->> Hi Dmitry,
->> There're some format problems with the previous replies. Send it again here.
->> Thanks for your advices, I'll resolve the problems you mentioned.
->>
->>> On Mon, Sep 30, 2024 at 06:06:09PM +0800, shiyongbang wrote:
->>>> From: baihan li <libaihan@huawei.com>
->>>>
->>>> Build a kapi level that hibmc driver can enable dp by
->>>> calling these kapi functions.
->>>>
->>>> Signed-off-by: baihan li <libaihan@huawei.com>
->>>> ---
->>>>    drivers/gpu/drm/hisilicon/hibmc/Makefile      |  2 +-
->>>>    .../gpu/drm/hisilicon/hibmc/dp/dp_config.h    | 20 ++++++++
->>>>    drivers/gpu/drm/hisilicon/hibmc/dp/dp_kapi.c  | 12 ++---
->>>>    drivers/gpu/drm/hisilicon/hibmc/dp/dp_kapi.h  | 48 +++++++++++++++++++
->>>>    4 files changed, 75 insertions(+), 7 deletions(-)
->>>>    create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_config.h
->>>>    create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_kapi.h
->>>>
->>>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/Makefile b/drivers/gpu/drm/hisilicon/hibmc/Makefile
->>>> index 94d77da88bbf..693036dfab52 100644
->>>> --- a/drivers/gpu/drm/hisilicon/hibmc/Makefile
->>>> +++ b/drivers/gpu/drm/hisilicon/hibmc/Makefile
->>>> @@ -1,5 +1,5 @@
->>>>    # SPDX-License-Identifier: GPL-2.0-only
->>>>    hibmc-drm-y := hibmc_drm_drv.o hibmc_drm_de.o hibmc_drm_vdac.o hibmc_drm_i2c.o \
->>>> -           dp/dp_aux.o dp/dp_link.o
->>>> +           dp/dp_aux.o dp/dp_link.o dp/dp_kapi.o
->>>>
->>>>    obj-$(CONFIG_DRM_HISI_HIBMC) += hibmc-drm.o
->>>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_config.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_config.h
->>>> new file mode 100644
->>>> index 000000000000..a6353a808cc4
->>>> --- /dev/null
->>>> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_config.h
->>>> @@ -0,0 +1,20 @@
->>>> +/* SPDX-License-Identifier: GPL-2.0-or-later */
->>>> +/* Copyright (c) 2024 Hisilicon Limited. */
->>>> +
->>>> +#ifndef DP_CONFIG_H
->>>> +#define DP_CONFIG_H
->>>> +
->>>> +#define DP_BPP 24
->>>> +#define DP_SYMBOL_PER_FCLK 4
->>>> +#define DP_MIN_PULSE_NUM 0x9
->>>> +#define DP_MSA1 0x20
->>>> +#define DP_MSA2 0x845c00
->>>> +#define DP_OFFSET 0x1e0000
->>>> +#define DP_HDCP 0x2
->>>> +#define DP_INT_RST 0xffff
->>>> +#define DP_DPTX_RST 0x3ff
->>>> +#define DP_CLK_EN 0x7
->>>> +#define DP_SYNC_EN_MASK 0x3
->>>> +#define DP_LINK_RATE_CAL 27
->>> I think some of these defines were used in previous patches. Please make
->>> sure that at each step the code builds without errors.
+On Fri, 04 Oct 2024, Christophe JAILLET <christophe.jaillet@wanadoo.fr> wro=
+te:
+> Le 04/10/2024 =C3=A0 11:35, Jani Nikula a =C3=A9crit=C2=A0:
+>> On Thu, 03 Oct 2024, Christophe JAILLET <christophe.jaillet@wanadoo.fr> =
+wrote:
+>>> kstrdup_const() and kfree_const() can be confusing in code built as a
+>>> module. In such a case, it does not do what one could expect from the n=
+ame
+>>> of the functions.
 >>>
->>>> +
->>>> +#endif
->>>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_kapi.c b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_kapi.c
->>>> index 4091723473ad..ca7edc69427c 100644
->>>> --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_kapi.c
->>>> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_kapi.c
->>>> @@ -64,12 +64,12 @@ static void hibmc_dp_set_tu(struct hibmc_dp_dev *dp, struct dp_mode *mode)
->>>>       rate_ks = dp->link.cap.link_rate * DP_LINK_RATE_CAL;
->>>>       value = (pixel_clock * bpp * 5000) / (61 * lane_num * rate_ks);
->>>>
->>>> -    if (value % 10 == 9) { /* 10: div, 9: carry */
->>>> -            tu_symbol_size = value / 10 + 1; /* 10: div */
->>>> +    if (value % 10 == 9) { /* 9 carry */
->>>> +            tu_symbol_size = value / 10 + 1;
->>>>               tu_symbol_frac_size = 0;
->>>>       } else {
->>>> -            tu_symbol_size = value / 10; /* 10: div */
->>>> -            tu_symbol_frac_size = value % 10 + 1; /* 10: div */
->>>> +            tu_symbol_size = value / 10;
->>>> +            tu_symbol_frac_size = value % 10 + 1;
->>>>       }
->>>>
->>>>       drm_info(dp->dev, "tu value: %u.%u value: %u\n",
->>>> @@ -158,7 +158,7 @@ static void hibmc_dp_link_cfg(struct hibmc_dp_dev *dp, struct dp_mode *mode)
->>>>       dp_write_bits(dp->base + DP_VIDEO_CTRL,
->>>>                     DP_CFG_STREAM_HSYNC_POLARITY, mode->h_pol);
->>>>
->>>> -    /* MSA mic 0 and 1*/
->>>> +    /* MSA mic 0 and 1 */
->>>>       writel(DP_MSA1, dp->base + DP_VIDEO_MSA1);
->>>>       writel(DP_MSA2, dp->base + DP_VIDEO_MSA2);
->>>>
->>>> @@ -167,7 +167,7 @@ static void hibmc_dp_link_cfg(struct hibmc_dp_dev *dp, struct dp_mode *mode)
->>>>       dp_write_bits(dp->base + DP_VIDEO_CTRL, DP_CFG_STREAM_RGB_ENABLE, 0x1);
->>>>       dp_write_bits(dp->base + DP_VIDEO_CTRL, DP_CFG_STREAM_VIDEO_MAPPING, 0);
->>>>
->>>> -    /*divide 2: up even */
->>>> +    /* divide 2: up even */
->>>>       if (timing_delay % 2)
->>>>               timing_delay++;
->>>>
->>> This should be squashed into the previous commits.
+>>> The code is not wrong by itself, but in such a case, it is equivalent to
+>>> kstrdup() and kfree().
 >>>
->>>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_kapi.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_kapi.h
->>>> new file mode 100644
->>>> index 000000000000..6b07642d55b8
->>>> --- /dev/null
->>>> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_kapi.h
->>>> @@ -0,0 +1,48 @@
->>>> +/* SPDX-License-Identifier: GPL-2.0-or-later */
->>>> +/* Copyright (c) 2024 Hisilicon Limited. */
->>>> +
->>>> +#ifndef DP_KAPI_H
->>>> +#define DP_KAPI_H
->>>> +
->>>> +#include <linux/types.h>
->>>> +#include <drm/drm_device.h>
->>>> +#include <drm/drm_encoder.h>
->>>> +#include <drm/drm_connector.h>
->>>> +#include <drm/drm_print.h>
->>>> +#include <linux/delay.h>
->>> Sort the headers, please.
+>>> So, keep thinks simple and straightforward.
 >>>
->>>> +
->>>> +struct hibmc_dp_dev;
->>>> +
->>>> +struct dp_mode {
->>>> +    u32 h_total;
->>>> +    u32 h_active;
->>>> +    u32 h_blank;
->>>> +    u32 h_front;
->>>> +    u32 h_sync;
->>>> +    u32 h_back;
->>>> +    bool h_pol;
->>>> +    u32 v_total;
->>>> +    u32 v_active;
->>>> +    u32 v_blank;
->>>> +    u32 v_front;
->>>> +    u32 v_sync;
->>>> +    u32 v_back;
->>>> +    bool v_pol;
->>>> +    u32 field_rate;
->>>> +    u32 pixel_clock; // khz
->>> Why do you need a separate struct for this?
->> I can try to use drm_mode function and refactor this struct, but they're insufficient for our scenarios.
->> Here's change template bellow:
-> But you are generating the data from struct drm_display_mode. Please
-> use the existing struct instead and generate the blank and porch
-> timings when you have to program them.
-> There is really no need to define another struct just to temporarily
-> hold the same data.
+>>> This reverts commit 379b63e7e682 ("drm/i915/display: Save a few bytes of
+>>> memory in intel_backlight_device_register()")
+>>=20
+>> Sorry, I guess I'm confused here. Or I just didn't read the commit
+>> message to [1] properly. Or both.
+>>=20
+>> So the whole point of [1] was that the _const versions can be confusing
+>> if i915 is builtin? But not wrong?
+>
+> I'll try to explain the whole story and (try to) be clearer.
 
-I got it! I'll directly use drm_mode values in dp config.
+Thanks for the thorough explanations, pushed to drm-intel-next.
 
-Thanks,
-Baihan
+BR,
+Jani.
 
+>
+>
+> [2] the intent of this initial patch was a micro-optimization which was=20
+> expected to save a few bytes of memory. The naming of the function=20
+> looked promising. However kstrdup_const() only saves the allocation=20
+> within the rodata section of the kernel [5,6]. The mechanism does not=20
+> work for code built as module.
+>
+> This patch *is not* broken by itself, it is just pointless most of the=20
+> time. So keeping it as-is is just fine, from my point of view.
+>
+> If built as a module, kstrdup_const() is just a plain kstrdup() and=20
+> kfree_const() is just kfree().
+>
+>
+>
+> [3] was a variation that tried to avoid the allocation in all cases,=20
+> should it be built as a module or not.
+> Being a micro-optimization of a slow path, your argument of keeping=20
+> things simple is just fine for me.
+>
+>
+>
+> [4] just revert [2].
+> [2] was not broken, so [4] does not fix anything. It just makes things=20
+> simpler and as before.
+>
+>
+> So the whole point of [1,3] was that the _const versions can be=20
+> confusing if i915 is *NOT* builtin.
+> But it *is* not wrong, just likely useless in such a case.
+>
+> So, from my point of view, keeping [2] as is, or applying [3] or [4] on=20
+> top of it does not change things much, and each solution is correct.
+>
+>
+>
+> The idea behind removing some usage of _const() function in modules is=20
+> related to the patch proposal [7] and more precisely the response of=20
+> Christoph Hellwig [8]. The patch [7] will not be applied because it=20
+> breaks things.
+> So, should this API be removed one day, or at least removed for modules,=
+=20
+> the more preparation work is already done (up to now: 4,9,10] the better=
+=20
+> it is.
+>
+> CJ
+>
+>
+>
+> [2]: 379b63e7e682 ("drm/i915/display: Save a few bytes of memory in=20
+> intel_backlight_device_register()")
+>
+> [3]:=20
+> https://lore.kernel.org/all/3b3d3af8739e3016f3f80df0aa85b3c06230a385.1727=
+533674.git.christophe.jaillet@wanadoo.fr/
+>
+> [4]:=20
+> https://lore.kernel.org/all/f82be2ee3ac7d18dd9982b5368a88a5bf2aeb777.1727=
+977199.git.christophe.jaillet@wanadoo.fr/
+>
+> [5]: https://elixir.bootlin.com/linux/v6.12-rc1/source/mm/util.c#L84
+> [6]:=20
+> https://elixir.bootlin.com/linux/v6.12-rc1/source/include/asm-generic/sec=
+tions.h#L177
+>
+> [7]:=20
+> https://lore.kernel.org/all/20240924050937.697118-1-senozhatsky@chromium.=
+org/
+> [8]: https://lore.kernel.org/all/ZvJfhDrv-eArtU8Y@infradead.org/
+>
+> [9]:=20
+> https://lore.kernel.org/all/63ac20f64234b7c9ea87a7fa9baf41e8255852f7.1727=
+374631.git.christophe.jaillet@wanadoo.fr/
+> [10]:=20
+> https://lore.kernel.org/all/06630f9ec3e153d0e7773b8d97a17e7c53e0d606.1727=
+375615.git.christophe.jaillet@wanadoo.fr/
+>
+>>=20
+>> BR,
+>> Jani.
+>>=20
+>>=20
+>> [1] https://lore.kernel.org/r/3b3d3af8739e3016f3f80df0aa85b3c06230a385.1=
+727533674.git.christophe.jaillet@wanadoo.fr
+>>=20
+>>=20
+>>=20
+>>>
+>>> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+>>> ---
+>>>   drivers/gpu/drm/i915/display/intel_backlight.c | 6 +++---
+>>>   1 file changed, 3 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/display/intel_backlight.c b/drivers/g=
+pu/drm/i915/display/intel_backlight.c
+>>> index 9e05745d797d..3f81a726cc7d 100644
+>>> --- a/drivers/gpu/drm/i915/display/intel_backlight.c
+>>> +++ b/drivers/gpu/drm/i915/display/intel_backlight.c
+>>> @@ -949,7 +949,7 @@ int intel_backlight_device_register(struct intel_co=
+nnector *connector)
+>>>   	else
+>>>   		props.power =3D BACKLIGHT_POWER_OFF;
+>>>=20=20=20
+>>> -	name =3D kstrdup_const("intel_backlight", GFP_KERNEL);
+>>> +	name =3D kstrdup("intel_backlight", GFP_KERNEL);
+>>>   	if (!name)
+>>>   		return -ENOMEM;
+>>>=20=20=20
+>>> @@ -963,7 +963,7 @@ int intel_backlight_device_register(struct intel_co=
+nnector *connector)
+>>>   		 * compatibility. Use unique names for subsequent backlight devices=
+ as a
+>>>   		 * fallback when the default name already exists.
+>>>   		 */
+>>> -		kfree_const(name);
+>>> +		kfree(name);
+>>>   		name =3D kasprintf(GFP_KERNEL, "card%d-%s-backlight",
+>>>   				 i915->drm.primary->index, connector->base.name);
+>>>   		if (!name)
+>>> @@ -987,7 +987,7 @@ int intel_backlight_device_register(struct intel_co=
+nnector *connector)
+>>>   		    connector->base.base.id, connector->base.name, name);
+>>>=20=20=20
+>>>   out:
+>>> -	kfree_const(name);
+>>> +	kfree(name);
+>>>=20=20=20
+>>>   	return ret;
+>>>   }
+>>=20
+>
 
->> struct dp_mode {
->>           sturct videomode mode;
->>           u32 h_total;
->>           u32 h_blank;
->>           u32 v_total;
->>           u32 v_blank;
->>           u32 field_rate;
->> };
->> static void dp_mode_cfg(struct dp_mode *dp_mode, struct drm_display_mode *mode)
->> {
->>           dp_mode->field_rate = drm_mode_vrefresh(mode);
->>           drm_display_mode_to_videomode(mode, &dp_mode->vmode);
->>           dp_mode->h_total = mode->htotal;
->>           dp_mode->h_blank = mode->htotal - mode->hdisplay;
->>           dp_mode->v_total = mode->vtotal;
->>           dp_mode->v_blank = mode->vtotal - mode->vdisplay;
->> }
->>
+--=20
+Jani Nikula, Intel
