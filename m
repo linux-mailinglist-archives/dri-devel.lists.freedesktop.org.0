@@ -2,88 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDE799A9A91
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2024 09:12:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0DD69A9ADC
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2024 09:22:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09E9410E2E6;
-	Tue, 22 Oct 2024 07:12:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8239D10E5ED;
+	Tue, 22 Oct 2024 07:22:31 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="exyDNaON";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com
- [209.85.219.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FAF810E2E6
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Oct 2024 07:12:04 +0000 (UTC)
-Received: by mail-yb1-f171.google.com with SMTP id
- 3f1490d57ef6-e2bd258e521so2354606276.0
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Oct 2024 00:12:04 -0700 (PDT)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57A9E10E2F7;
+ Tue, 22 Oct 2024 07:22:30 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id
+ 5b1f17b1804b1-43158625112so52036995e9.3; 
+ Tue, 22 Oct 2024 00:22:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1729581748; x=1730186548; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=1075N6EGx5cGX8UdqJNi9Z9bX7D4dEepvGzP5+3JAHo=;
+ b=exyDNaONq7tprVuu/vFZCk3DVXiFKxvnhhR9c4jq8CaicFyInpQ+u2uHpXVirb2JG3
+ rpUEQLq5JoOj9ep+Nz3/CRqqUiwXbL4p5IH+ehYiW9QPtnvuL0aW/I7S8bozd/9DgPwa
+ tDuo8iuPlflSLcLaddexWp5M1AFSM8Qepl+dtmqgDKly929y2xec8iH2RQOcWeGblpkG
+ GdhIxWW+JHLectNEqnbKi8WXrsT1r36dSnCv87/TLi6dKJSdN4CCBnx14Q5XCJvDwrmu
+ ld+yqqGHdQO56roXoF0acBhSDecpDh5RC6bXp+CqsFlF6vsjxsHaNaMJfOX8UZHBUOpA
+ igDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729581123; x=1730185923;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=BVQdFAeVpsUga9FGk0oPTUCDCiNtszo7965bicRHB8I=;
- b=F8jPkqcp97qyKBsWsQMs/lOeNDioteRpYT4ugYGOLkdef2nVyd+tc3HsHLq1WWhtmn
- /ne+0sLWb7sil0frHb05hTziH7pNw49l1WaGb0z8DqFr/0bBm/Ce2JuLmVuDvwX6d6Dz
- i7eG6e7ijDHvmqGD+M3QZXN+oKO6/1z5Iugzbdg/SPOh+DhrUT7WwRiB7wfddzxwsLdc
- 3SjB/4FXeSkS5Va7GoX3SSN1tLatj0F048FYAeV6f6wufFlHAjvQfBTKMKTWJ5wFjKB6
- 8LBr65wNZHMAOSaNVN78AYZfJWMqUZG0h+CIDswbLePjtM9ufNK7INtmdW63KTAJvZc6
- X4NA==
+ d=1e100.net; s=20230601; t=1729581748; x=1730186548;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=1075N6EGx5cGX8UdqJNi9Z9bX7D4dEepvGzP5+3JAHo=;
+ b=LpqCmLCFevoGpCT/Hpy+m5AGxj8F+fkXmhH0TFP7mZt0vlTpyZLQCdWAOMmzVDkJ76
+ k7zsfl6aGfVmslZYu9pLNF+NQvSA9cmOEWFk1EEynk8Dd0Kp1mO3h+1B/k/kH7pL9mDt
+ lsUi1r0QO39dks6k3yzyn/wNkuGngAfg21z53/NmWzDWiCqiXtMqDqTsIwdAjTINeXH0
+ R+6WCfE20bkcSGacAQe1RltNQug/zJY3mtfOGEEa0b8NPuTAuhuNfykSUR1fn9e6/D/g
+ OZeu2ohWOzQIdUesfy/FZ1yBlfBPC5dzvn+C9+iWwFwzyoglUP0K3iOkYcPhGmqQSohi
+ BxsQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWvkLQRKEpa40/chXj4QKxeChfO/xNEYa9Sfgstcn1B9j87ncjqE/IjdUnMPYw2P4Liz1hvRx5aMLU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx6MTAmX6U5fCv0yEa16PvxqUV3P8RW8FlMrhN94cZYMt3UIguL
- sPiKXVagB+77stezm/s//OAt4nMVqtwCfBqHd9VvLNe85SMVVWotJjT3xARv
-X-Google-Smtp-Source: AGHT+IFurih9Z86Vxk/sa1vhmoSmaytlfY7moO8ZTBx2jgs35N3vpw0sX6J+OjqKnFcHgeGhhvQA6w==
-X-Received: by 2002:a25:3621:0:b0:e2b:d75b:7630 with SMTP id
- 3f1490d57ef6-e2e2742e592mr1163305276.35.1729581122974; 
- Tue, 22 Oct 2024 00:12:02 -0700 (PDT)
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com.
- [209.85.128.179]) by smtp.gmail.com with ESMTPSA id
- 3f1490d57ef6-e2bdcb02b5csm1017958276.53.2024.10.22.00.12.02
- for <dri-devel@lists.freedesktop.org>
+ AJvYcCUSSMFnNjLHFniK6Yo+4aWH1TanZQtKmGG+D0Eu+wwv+78qQpVVH+vS13gnsKXwH/VdSnB4h98M@lists.freedesktop.org,
+ AJvYcCVmYND1v2s2WjiINvnvnV2HQnJgM5kI9OUqxkaB4vT7YzGF/8iVCjHcQ3cHtIy6LP1Srf3MqBldujXQ@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxOM1psS1OZ3uJQyl8/l24WEEPw+VWughRPsq72vdaKVE3hvl8M
+ f0jH1+Niwq3RCSZsKV/f/R99xVi166+IWcdPveaemepW1N4h/l3w
+X-Google-Smtp-Source: AGHT+IHSDQDm0RPzCuK6NQX7aqtIGn9s0fQItFGjye0NsjqXxWPXpWVpcXApKAKvoZZ6/krwMTa9yg==
+X-Received: by 2002:a05:600c:674a:b0:431:54f3:11af with SMTP id
+ 5b1f17b1804b1-431616ad566mr99508045e9.31.1729581748242; 
+ Tue, 22 Oct 2024 00:22:28 -0700 (PDT)
+Received: from [10.254.108.81] (munvpn.amd.com. [165.204.72.6])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4316f57fbe8sm78462885e9.18.2024.10.22.00.22.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Oct 2024 00:12:02 -0700 (PDT)
-Received: by mail-yw1-f179.google.com with SMTP id
- 00721157ae682-6e3d97b8274so44213927b3.1
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Oct 2024 00:12:02 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXMUeCXVu4t8T3LYLvuhhjDKSgYjt34ARSAGFY/aO73GI+b58zmsxnwLNOH64UFpMJPgmEKd/2b8d8=@lists.freedesktop.org
-X-Received: by 2002:a05:690c:c0e:b0:6e2:985:f4df with SMTP id
- 00721157ae682-6e7d82e594bmr17577917b3.44.1729581122444; Tue, 22 Oct 2024
- 00:12:02 -0700 (PDT)
+ Tue, 22 Oct 2024 00:22:27 -0700 (PDT)
+Message-ID: <06fec703-4e0b-475e-84cd-c7a270deec82@gmail.com>
+Date: Tue, 22 Oct 2024 09:22:26 +0200
 MIME-Version: 1.0
-References: <8c2df6a903f87d4932586b25f1d3bd548fe8e6d1.1729180470.git.geert+renesas@glider.be>
- <20241018131035.GA20602@pendragon.ideasonboard.com>
- <CAMuHMdVrahM9GYDX4FBZ31YBUZWm67-KoG-EBTDL8LU9bv2qsg@mail.gmail.com>
- <2024101855-judo-tattered-bc3c@gregkh>
- <20241018142522.GA28934@pendragon.ideasonboard.com>
- <2024101837-crushed-emphasis-b496@gregkh>
- <20241020143629.GC28934@pendragon.ideasonboard.com>
- <2024102119-oversweet-labored-aa07@gregkh>
- <CAMuHMdUWAQKRy6F-zyCK6efhSYDRo2Go-f-=t2kRnPQoNdw0og@mail.gmail.com>
- <2024102137-repost-visiting-323d@gregkh>
- <CAMuHMdWOLD13hzERAgaH5zg5FsVZZZnQoFdkRzv+E6r6BTAixA@mail.gmail.com>
- <CAMuHMdXXokfQziiE9_5oYpcUsWVn6i-0v__D0U1cbRkV4K9jqA@mail.gmail.com>
- <CAD=FV=VHxvbofWmq6bPVcVokn4kqZ9Bckytw5cv-xYFEGpEtcg@mail.gmail.com>
-In-Reply-To: <CAD=FV=VHxvbofWmq6bPVcVokn4kqZ9Bckytw5cv-xYFEGpEtcg@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 22 Oct 2024 09:11:49 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXAKH224=fFjohM0Kg702bc7xP+rErtiNDAu+LgFBhX2Q@mail.gmail.com>
-Message-ID: <CAMuHMdXAKH224=fFjohM0Kg702bc7xP+rErtiNDAu+LgFBhX2Q@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: Fix multiple instances
-To: Doug Anderson <dianders@chromium.org>
-Cc: Greg KH <gregkh@linuxfoundation.org>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Linus Walleij <linus.walleij@linaro.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 3/4] drm/amdgpu: stop tracking visible memory stats
+To: Yunxiang Li <Yunxiang.Li@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+Cc: Alexander.Deucher@amd.com, christian.koenig@amd.com,
+ tvrtko.ursulin@igalia.com
+References: <20241018133308.889-1-Yunxiang.Li@amd.com>
+ <20241018133308.889-4-Yunxiang.Li@amd.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <20241018133308.889-4-Yunxiang.Li@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,213 +88,129 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Doug,
-
-On Tue, Oct 22, 2024 at 2:28=E2=80=AFAM Doug Anderson <dianders@chromium.or=
-g> wrote:
-> On Mon, Oct 21, 2024 at 1:48=E2=80=AFAM Geert Uytterhoeven <geert@linux-m=
-68k.org> wrote:
-> > On Mon, Oct 21, 2024 at 10:23=E2=80=AFAM Geert Uytterhoeven
-> > <geert@linux-m68k.org> wrote:
-> > > On Mon, Oct 21, 2024 at 9:27=E2=80=AFAM Greg KH <gregkh@linuxfoundati=
-on.org> wrote:
-> > > > On Mon, Oct 21, 2024 at 08:58:30AM +0200, Geert Uytterhoeven wrote:
-> > > > > On Mon, Oct 21, 2024 at 8:39=E2=80=AFAM Greg KH <gregkh@linuxfoun=
-dation.org> wrote:
-> > > > > > On Sun, Oct 20, 2024 at 05:36:29PM +0300, Laurent Pinchart wrot=
-e:
-> > > > > > > On Fri, Oct 18, 2024 at 04:31:21PM +0200, Greg KH wrote:
-> > > > > > > > On Fri, Oct 18, 2024 at 05:25:22PM +0300, Laurent Pinchart =
-wrote:
-> > > > > > > > > On Fri, Oct 18, 2024 at 04:09:26PM +0200, Greg KH wrote:
-> > > > > > > > > > On Fri, Oct 18, 2024 at 03:36:48PM +0200, Geert Uytterh=
-oeven wrote:
-> > > > > > > > > > > On Fri, Oct 18, 2024 at 3:10=E2=80=AFPM Laurent Pinch=
-art wrote:
-> > > > > > > > > > > > On Fri, Oct 18, 2024 at 09:45:52AM +0200, Geert Uyt=
-terhoeven wrote:
-> > > > > > > > > > > > > Each bridge instance creates up to four auxiliary=
- devices with different
-> > > > > > > > > > > > > names.  However, their IDs are always zero, causi=
-ng duplicate filename
-> > > > > > > > > > > > > errors when a system has multiple bridges:
-> > > > > > > > > > > > >
-> > > > > > > > > > > > >     sysfs: cannot create duplicate filename '/bus=
-/auxiliary/devices/ti_sn65dsi86.gpio.0'
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > Fix this by using a unique instance ID per bridge=
- instance.
-> > > > > > > > > > > >
-> > > > > > > > > > > > Isn't this something that should be handled by the =
-AUX core ? The code
-> > > > > > > > > > > > below would otherwise need to be duplicated by all =
-drivers, which seems
-> > > > > > > > > > > > a burden we should avoid.
-> > > > > > > > > > >
-> > > > > > > > > > > According to the documentation, this is the responsib=
-ility of the caller
-> > > > > > > > > > > https://elixir.bootlin.com/linux/v6.11.4/source/inclu=
-de/linux/auxiliary_bus.h#L81
-> > > > > > > > > > > I believe this is the same for platform devices.
-> > > > > > > > > > > See also the example at
-> > > > > > > > > > > https://elixir.bootlin.com/linux/v6.11.4/source/inclu=
-de/linux/auxiliary_bus.h#L116
-> > > > > > > > > > >
-> > > > > > > > > > > Note: the platform bus supports PLATFORM_DEVID_AUTO, =
-but the auxiliary
-> > > > > > > > > > > bus does not.
-> > > > > > > > > >
-> > > > > > > > > > Yes, it does not as it's up to the caller to create a u=
-nique name, like
-> > > > > > > > > > your patch here does.  I'd argue that platform should a=
-lso not do
-> > > > > > > > > > automatic device ids, but that's a different argument :=
-)
-> > > > > > > > >
-> > > > > > > > > __auxiliary_device_add() creates the device name with
-> > > > > > > > >
-> > > > > > > > >   dev_set_name(dev, "%s.%s.%d", modname, auxdev->name, au=
-xdev->id);
-> > > > > > > > >
-> > > > > > > > > I'm not calling for a PLATFORM_DEVID_AUTO-like feature he=
-re, but
-> > > > > > > > > shouldn't the first component of the device name use the =
-parent's name
-> > > > > > > > > instead of the module name ?
-> > > > > > > >
-> > > > > > > > Why would the parent's name not be the module name?  That n=
-ame is
-> > > > > > > > guaranteed unique in the system.  If you want "uniqueness" =
-within the
-> > > > > > > > driver/module, use the name and id field please.
-> > > > > > > >
-> > > > > > > > That's worked well so far, but to be fair, aux devices are =
-pretty new.
-> > > > > > > > What problem is this naming scheme causing?
-> > > > > > >
-> > > > > > > Auxiliary devices are created as children of a parent device.=
- When
-> > > > > > > multiple instances of the same parent type exist, this will b=
-e reflected
-> > > > > > > in the /sys/devices/ devices tree hierarchy without any issue=
-. The
-> > > > > > > problem comes from the fact the the auxiliary devices need a =
-unique name
-> > > > > > > for /sys/bus/auxialiary/devices/, where we somehow have to di=
-fferenciate
-> > > > > > > devices of identical types.
-> > > > > > >
-> > > > > > > Essentially, we're trying to summarize a whole hierarchy (pat=
-h in
-> > > > > > > /sys/devices/) into a single string. There are different ways=
- to solve
-> > > > > > > this. For platform devices, we use a device ID. For I2C devic=
-es, we use
-> > > > > > > the parent's bus number. Other buses use different schemes.
-> > > > > > >
-> > > > > > > Geert's patch implements a mechanism in the ti-sn65dsi86 driv=
-er to
-> > > > > > > handle this, and assign an id managed by the parent. In a sen=
-se we could
-> > > > > > > consider this to be similar to what is done for I2C, where th=
-e bus
-> > > > > > > number is also a property of the parent. However, the big dif=
-ference is
-> > > > > > > that the I2C bus number is managed by the I2C subsystem, whil=
-e here the
-> > > > > > > id is managed by the ti-sn65dsi86 driver, not by the auxiliar=
-y device
-> > > > > > > core. This would require duplicating the same mechanism in ev=
-ery single
-> > > > > > > driver creating auxiliary devices. This strikes me as a fairl=
-y bad idea.
-> > > > > > > The problem should be solved by the core, not by individual d=
-rivers.
-> > > > > >
-> > > > > > The "id" is just a unique number, it is "managed" by the thing =
-that is
-> > > > > > creating the devices themselves, not the aux core code.  I don'=
-t see why
-> > > > > > the i2c bus number has to match the same number that the ti dri=
-ver
-> > > > > > creates, it could be anything, as long as it doesn't match anyt=
-hing else
-> > > > > > currently created by that driver.
-> > > > >
-> > > > > Laurent does not say it has to match the i2c bus number.
-> > > > > He does think the auxilliary bus should provide a mechanism to
-> > > > > allocate these IDs (e.g. usin g AUX_DEVID_AUTO?).
-> > > >
-> > > > As this is the first subsystem to ask for such a thing, I didn't th=
-ink
-> > > > it was needed, but the aux subsystem is new :)
-> > > >
-> > > > > However, using i2c_client->adapter->nr instead of ida_alloc()
-> > > > > in the TI driver does sound like a good idea to me...
-> > > >
-> > > > Great!
-> >
-> > > With the I2C adapter numbers, that becomes:
-> > >
-> > >     /sys/bus/auxiliary/devices
-> > >     =E2=94=9C=E2=94=80=E2=94=80 ti_sn65dsi86.gpio.1
-> > >     =E2=94=9C=E2=94=80=E2=94=80 ti_sn65dsi86.pwm.1
-> > >     =E2=94=9C=E2=94=80=E2=94=80 ti_sn65dsi86.aux.1
-> > >     =E2=94=9C=E2=94=80=E2=94=80 ti_sn65dsi86.bridge.1
-> > >     =E2=94=9C=E2=94=80=E2=94=80 ti_sn65dsi86.gpio.4
-> > >     =E2=94=9C=E2=94=80=E2=94=80 ti_sn65dsi86.pwm.4
-> > >     =E2=94=9C=E2=94=80=E2=94=80 ti_sn65dsi86.aux.4
-> > >     =E2=94=94=E2=94=80=E2=94=80 ti_sn65dsi86.bridge.4
-> > >
-> > > > adapter->nr instead like other aux subsystems already do.
-> >
-> > Unfortunately the devil is in the details, as usual: there can be
-> > multiple instances of the sn65dsi86 bridge on a single I2C bus,
-> > so adapter->nr is not guaranteed to generate a unique name.
+Am 18.10.24 um 15:33 schrieb Yunxiang Li:
+> Since on modern systems all of vram can be made visible anyways, to
+> simplify the new implementation, drops tracking how much memory is
+> visible for now. If this is really needed we can add it back on top of
+> the new implementation, or just report all the BOs as visible.
 >
-> In the case of sn65dsi86 I think we'd actually be OK. The TI bridge
-> chip is always at bus address 0x2d so you can't have more than one on
-> the same bus. Unless you added something funky atop it (like a mux of
-> some sort) you might be OK.
+> Signed-off-by: Yunxiang Li <Yunxiang.Li@amd.com>
 
-It's 0x2c on mine ;-)
+Reviewed-by: Christian König <christian.koenig@amd.com>
 
-    8.5.1 Local I2C Interface Overview
-    The 7-bit device address for SN65DSI86 is factory preset to 010110X
-    with the least significant bit being determined by the ADDR control
-    input.
-
-> > Changing the auxiliary bus to use the parent's name instead of the
-> > module name, as suggested by Laurent, would fix that.
+> ---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c |  6 ------
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 12 ++----------
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_object.h | 10 ----------
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h     | 11 ++++++++++-
+>   4 files changed, 12 insertions(+), 27 deletions(-)
 >
-> Right. On my system dev_name() of the sn65dsi86 device is "2-002d". If
-> we had a second on i2c bus 4, we'd have:
->
->     /sys/bus/auxiliary/devices
->     =E2=94=9C=E2=94=80=E2=94=80 2-002d.gpio.0
->     =E2=94=9C=E2=94=80=E2=94=80 2-002d.pwm.0
->     =E2=94=9C=E2=94=80=E2=94=80 2-002d.aux.0
->     =E2=94=9C=E2=94=80=E2=94=80 2-002d.bridge.0
->     =E2=94=9C=E2=94=80=E2=94=80 4-002d.gpio.0
->     =E2=94=9C=E2=94=80=E2=94=80 4-002d.pwm.0
->     =E2=94=9C=E2=94=80=E2=94=80 4-002d.aux.0
->     =E2=94=94=E2=94=80=E2=94=80 4-002d.bridge.0
->
-> ...and I think that's guaranteed to be unique because all the i2c
-> devices are flat in "/sys/bus/i2c/devices".
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
+> index 8281dd45faaa0..7a9573958d87c 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
+> @@ -103,16 +103,10 @@ void amdgpu_show_fdinfo(struct drm_printer *p, struct drm_file *file)
+>   		   stats[TTM_PL_SYSTEM].drm.resident/1024UL);
+>   
+>   	/* Amdgpu specific memory accounting keys: */
+> -	drm_printf(p, "amd-memory-visible-vram:\t%llu KiB\n",
+> -		   stats[TTM_PL_VRAM].visible/1024UL);
+>   	drm_printf(p, "amd-evicted-vram:\t%llu KiB\n",
+>   		   stats[TTM_PL_VRAM].evicted/1024UL);
+> -	drm_printf(p, "amd-evicted-visible-vram:\t%llu KiB\n",
+> -		   stats[TTM_PL_VRAM].evicted_visible/1024UL);
+>   	drm_printf(p, "amd-requested-vram:\t%llu KiB\n",
+>   		   stats[TTM_PL_VRAM].requested/1024UL);
+> -	drm_printf(p, "amd-requested-visible-vram:\t%llu KiB\n",
+> -		   stats[TTM_PL_VRAM].requested_visible/1024UL);
+>   	drm_printf(p, "amd-requested-gtt:\t%llu KiB\n",
+>   		   stats[TTM_PL_TT].requested/1024UL);
+>   
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> index 2a53e72f3964f..2436b7c9ad12b 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> @@ -40,6 +40,7 @@
+>   #include "amdgpu_trace.h"
+>   #include "amdgpu_amdkfd.h"
+>   #include "amdgpu_vram_mgr.h"
+> +#include "amdgpu_vm.h"
+>   
+>   /**
+>    * DOC: amdgpu_object
+> @@ -1235,23 +1236,14 @@ void amdgpu_bo_get_memory(struct amdgpu_bo *bo,
+>   			stats[type].drm.active += size;
+>   		else if (bo->flags & AMDGPU_GEM_CREATE_DISCARDABLE)
+>   			stats[type].drm.purgeable += size;
+> -
+> -		if (type == TTM_PL_VRAM && amdgpu_res_cpu_visible(adev, res))
+> -			stats[type].visible += size;
+>   	}
+>   
+>   	/* amdgpu specific stats: */
+>   
+>   	if (bo->preferred_domains & AMDGPU_GEM_DOMAIN_VRAM) {
+>   		stats[TTM_PL_VRAM].requested += size;
+> -		if (bo->flags & AMDGPU_GEM_CREATE_CPU_ACCESS_REQUIRED)
+> -			stats[TTM_PL_VRAM].requested_visible += size;
+> -
+> -		if (type != TTM_PL_VRAM) {
+> +		if (type != TTM_PL_VRAM)
+>   			stats[TTM_PL_VRAM].evicted += size;
+> -			if (bo->flags & AMDGPU_GEM_CREATE_CPU_ACCESS_REQUIRED)
+> -				stats[TTM_PL_VRAM].evicted_visible += size;
+> -		}
+>   	} else if (bo->preferred_domains & AMDGPU_GEM_DOMAIN_GTT) {
+>   		stats[TTM_PL_TT].requested += size;
+>   	}
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
+> index a5653f474f85c..be6769852ece4 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
+> @@ -139,16 +139,6 @@ struct amdgpu_bo_vm {
+>   	struct amdgpu_vm_bo_base        entries[];
+>   };
+>   
+> -struct amdgpu_mem_stats {
+> -	struct drm_memory_stats drm;
+> -
+> -	uint64_t visible;
+> -	uint64_t evicted;
+> -	uint64_t evicted_visible;
+> -	uint64_t requested;
+> -	uint64_t requested_visible;
+> -};
+> -
+>   static inline struct amdgpu_bo *ttm_to_amdgpu_bo(struct ttm_buffer_object *tbo)
+>   {
+>   	return container_of(tbo, struct amdgpu_bo, tbo);
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
+> index 428f7379bd759..6a1b344e15e1b 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
+> @@ -42,7 +42,6 @@ struct amdgpu_bo_va;
+>   struct amdgpu_job;
+>   struct amdgpu_bo_list_entry;
+>   struct amdgpu_bo_vm;
+> -struct amdgpu_mem_stats;
+>   
+>   /*
+>    * GPUVM handling
+> @@ -322,6 +321,16 @@ struct amdgpu_vm_fault_info {
+>   	unsigned int	vmhub;
+>   };
+>   
+> +struct amdgpu_mem_stats {
+> +	struct drm_memory_stats drm;
+> +
+> +	/* buffers that requested this placement */
+> +	uint64_t requested;
+> +	/* buffers that requested this placement
+> +	 * but are currently evicted */
+> +	uint64_t evicted;
+> +};
+> +
+>   struct amdgpu_vm {
+>   	/* tree of virtual addresses mapped */
+>   	struct rb_root_cached	va;
 
-Correct.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
