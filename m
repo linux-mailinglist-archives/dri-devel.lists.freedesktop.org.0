@@ -2,62 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F3BB9A9D43
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2024 10:43:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 937239A9D73
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2024 10:51:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B879210E622;
-	Tue, 22 Oct 2024 08:43:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FF5110E1AD;
+	Tue, 22 Oct 2024 08:51:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ksC2E1xu";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GwqCG5zN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F12810E621;
- Tue, 22 Oct 2024 08:43:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1729586620; x=1761122620;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=1xVCYWdghfTV8CkKUBjePtTCTdXLlD0E0XcWTMYLx+k=;
- b=ksC2E1xuVBAHtdAysujTjLTD69YGKJjr9WqddCawkVdP4Nz4ZRo8KUBr
- mepI3+wk2NUuML97lfJJtMJuVaRV///Jb0F1uXAEjjvLoHqVD/0EbLptz
- UWVJiT5RLUuTTaDqrwGs9cUakrg90vJ5NkMbZB5UWml0axsEvtdRVw223
- Z6f12wZTqShRqCiV4Zi5/xIlXHXCArghADO6ATg1VBZFYiQAATKHhAjuX
- 8ho1xGW8sYMuwd2D4bZAQMy3DN2WCWGDzFDfmccxaBZYr7JlVhgA0/0PD
- YoaGHboCnX9VbkML8ATtnExoadgQP1NbMtzyHL0eDKlHEl/UMh9F4YnTv Q==;
-X-CSE-ConnectionGUID: WGN81RnITCG4fP9zG2T5NQ==
-X-CSE-MsgGUID: 4oIE/jhBTs6ykhRjmglQCQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="39652119"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="39652119"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Oct 2024 01:43:39 -0700
-X-CSE-ConnectionGUID: VUgapydwSoqChTZJZhk1qw==
-X-CSE-MsgGUID: 1+KmKN4rQMCSMTu84/+Kaw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,222,1725346800"; d="scan'208";a="79866599"
-Received: from sosterlu-desk.ger.corp.intel.com (HELO [10.245.244.157])
- ([10.245.244.157])
- by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Oct 2024 01:43:38 -0700
-Message-ID: <0dbc501e-c0b0-426b-83bb-fd07c8560876@intel.com>
-Date: Tue, 22 Oct 2024 09:43:35 +0100
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 01C8D10E1AD
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Oct 2024 08:51:39 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 8F3F15C04BB;
+ Tue, 22 Oct 2024 08:51:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9EA6C4CEC3;
+ Tue, 22 Oct 2024 08:51:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1729587098;
+ bh=qqV0Cw4G1rGc92pDeHBVr7u8eN+MvnuOQbCULxR7YYc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=GwqCG5zNGfobP04GollHwemOFiANjht8MfZD3gxpn6uaLoUFbUbYSTiaPR4Wt3laM
+ t07Y8I07CLJh1SAAZ0QP4iwPUk5eMpI/pQfu7tJkPDEJKel5WyRt485nf0jItrY/Bw
+ 5+Wl1O5ruAySb/iltex/+2c52o5dPeejaTP4YF1utDh27taZx0TZBPPp3KD//DFz9Q
+ A0T1OTMxxSkNixYaeV820T4xhY/xr5ttvfqMx6v0KWPfqemzYgL07bPO/15SrFSSzB
+ 58zoVib349eXauKxN1a0iDAPNm3QkKrOVckmrTab5kf4mrKmtIsc2H8up/cs3wVWuq
+ ef5wX85Bd77Fg==
+Date: Tue, 22 Oct 2024 10:51:33 +0200
+From: Benjamin Tissoires <bentiss@kernel.org>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Armin Wolf <W_Armin@gmx.de>, Pavel Machek <pavel@ucw.cz>, 
+ Werner Sembach <wse@tuxedocomputers.com>,
+ Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
+ dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
+ lee@kernel.org, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-leds@vger.kernel.org, 
+ miguel.ojeda.sandonis@gmail.com, ojeda@kernel.org, onitake@gmail.com, 
+ platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH 1/1] platform/x86/tuxedo: Add virtual LampArray for
+ TUXEDO NB04 devices
+Message-ID: <kywhqw5ef6hioemoydwub57dcmfuu3bwqpz3vjur4pkabboydo@2hrqj3zy4txv>
+References: <sih5i2ausorlpiosifvj2vvlut4ok6bbgt6cympuxhdbjljjiw@gg2r5al552az>
+ <82a6eca1-728c-436f-8c4d-073d8a43ee27@tuxedocomputers.com>
+ <5crqia4gecxg62n2m2lf6haiifue4wlxrr3g35dyoaa3svjyuj@cd5bhouz5rlh>
+ <4a761cd0-611a-4245-8353-5c66ba133715@tuxedocomputers.com>
+ <rszv4p34oivysoyi337dxwooebipiikzd3pyq7rof5r3agbzce@xejutpd4jcfv>
+ <06c58141-4aa9-4b54-8ae4-e27069561ac9@tuxedocomputers.com>
+ <48a8d62f-ea3f-4f17-b917-ff3aaa83e89c@gmx.de>
+ <ZwlDpCPhieF3tezX@duo.ucw.cz>
+ <a796f0e7-47a8-40fa-a64e-9dd56117bf78@gmx.de>
+ <c52019d7-01b4-4585-a2d1-b44b0a773fc9@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 6/9] drm/xe/display: Update intel_bo_read_from_page to
- use ttm_bo_access
-To: Matthew Brost <matthew.brost@intel.com>, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: mika.kuoppala@intel.com, thomas.hellstrom@linux.intel.com
-References: <20241021211835.1675640-1-matthew.brost@intel.com>
- <20241021211835.1675640-7-matthew.brost@intel.com>
-Content-Language: en-GB
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <20241021211835.1675640-7-matthew.brost@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <c52019d7-01b4-4585-a2d1-b44b0a773fc9@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,56 +74,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/10/2024 22:18, Matthew Brost wrote:
-> Don't open code vmap of a BO, use ttm_bo_access helper which is safe for
-> non-contiguous BOs and non-visible BOs.
+On Oct 22 2024, Hans de Goede wrote:
+> Hi Armin,
 > 
-> Suggested-by: Matthew Auld <matthew.auld@intel.com>
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-
-I guess needs fixes tag?
-
-With that,
-Reviewed-by: Matthew Auld <matthew.auld@intel.com>
-
-> ---
->   drivers/gpu/drm/xe/display/intel_bo.c | 25 +------------------------
->   1 file changed, 1 insertion(+), 24 deletions(-)
+> On 21-Oct-24 10:26 PM, Armin Wolf wrote:
+> > Am 11.10.24 um 17:26 schrieb Pavel Machek:
+> > 
+> >> Hi!
+> >>
+> >>>> 1.
+> >>>> https://lore.kernel.org/all/6b32fb73-0544-4a68-95ba-e82406a4b188@gmx.de/
+> >>>> -> Should be no problem? Because this is not generally exposing wmi
+> >>>> calls, just mapping two explicitly with sanitized input (whitelisting
+> >>>> basically).
+> >>> It would be OK to expose a selected set of WMI calls to userspace and sanitizing the input of protect potentially buggy firmware from userspace.
+> >>>
+> >> I don't believe this is good idea. Passthrough interfaces where
+> >> userland talks directly to hardware are very tricky.
+> >>
+> >>> Regarding the basic idea of having a virtual HID interface: i would prefer to create a illumination subsystem instead, but i have to agree that we should be doing this
+> >>> only after enough drivers are inside the kernel, so we can design a
+> >>> suitable interface for them. For now, creating a virtual HID
+> >>> interface seems to be good enough.
+> >> I have an RGB keyboard, and would like to get it supported. I already
+> >> have kernel driver for LEDs (which breaks input functionality). I'd
+> >> like to cooperate on "illumination" subsystem.
+> >>
+> >> Best regards,
+> >>                                 Pavel
+> > 
+> > Sorry for taking a bit long to respond.
+> > 
+> > This "illumination" subsystem would (from my perspective) act like some sort of LED subsystem
+> > for devices with a high count of LEDs, like some RGB keyboards.
+> > 
+> > This would allow us too:
+> > - provide an abstract interface for userspace applications like OpenRGB
+> > - provide an generic LED subsystem emulation on top of the illumination device (optional)
+> > - support future RGB controllers in a generic way
+> > 
+> > Advanced features like RGB effects, etc can be added later should the need arise.
+> > 
+> > I would suggest that we model it after the HID LampArray interface:
+> > 
+> > - interface for querying:
+> >  - number of LEDs
+> >  - supported colors, etc of those LEDs
+> >  - position of those LEDs if available
+> >  - kind (keyboard, ...)
+> >  - latency, etc
+> > - interface for setting multiple LEDs at once
+> > - interface for setting a range of LEDs at once
+> > - interface for getting the current LED colors
+> > 
+> > Since sysfs has a "one value per file" rule, i suggest that we use a chardev interface
+> > for querying per-LED data and for setting/getting LED colors.
+> > 
+> > I do not know if mixing sysfs (for controller attributes like number of LEDs, etc) and IOCTL
+> > (for setting/getting LED colors) is a good idea, any thoughts?
 > 
-> diff --git a/drivers/gpu/drm/xe/display/intel_bo.c b/drivers/gpu/drm/xe/display/intel_bo.c
-> index 9f54fad0f1c0..43141964f6f2 100644
-> --- a/drivers/gpu/drm/xe/display/intel_bo.c
-> +++ b/drivers/gpu/drm/xe/display/intel_bo.c
-> @@ -40,31 +40,8 @@ int intel_bo_fb_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
->   int intel_bo_read_from_page(struct drm_gem_object *obj, u64 offset, void *dst, int size)
->   {
->   	struct xe_bo *bo = gem_to_xe_bo(obj);
-> -	struct ttm_bo_kmap_obj map;
-> -	void *src;
-> -	bool is_iomem;
-> -	int ret;
->   
-> -	ret = xe_bo_lock(bo, true);
-> -	if (ret)
-> -		return ret;
-> -
-> -	ret = ttm_bo_kmap(&bo->ttm, offset >> PAGE_SHIFT, 1, &map);
-> -	if (ret)
-> -		goto out_unlock;
-> -
-> -	offset &= ~PAGE_MASK;
-> -	src = ttm_kmap_obj_virtual(&map, &is_iomem);
-> -	src += offset;
-> -	if (is_iomem)
-> -		memcpy_fromio(dst, (void __iomem *)src, size);
-> -	else
-> -		memcpy(dst, src, size);
-> -
-> -	ttm_bo_kunmap(&map);
-> -out_unlock:
-> -	xe_bo_unlock(bo);
-> -	return ret;
-> +	return ttm_bo_access(&bo->ttm, offset, dst, size, 0);
->   }
->   
->   struct intel_frontbuffer *intel_bo_get_frontbuffer(struct drm_gem_object *obj)
+> I wonder what the advantage of this approach is over simply using HID LampArray
+> (emulation), openRGB is already going to support HID LampArray and since Microsoft
+> is pushing this we will likely see it getting used more and more.
+> 
+> Using HID LampArray also has the advantage that work has landed and is landing
+> to allow safely handing over raw HID access to userspace programs or even
+> individual graphical apps with the option to revoke that access when it is
+> no longer desired for the app to have access.
+> 
+> HID LampArray gives us a well designed API + a safe way to give direct access
+> to e.g. games to control the lighting. I really don't see the advantage of
+> inventing our own API here only to then also have to design + code some way to
+> safely give access to sandboxed apps.
+> 
+> Note that giving access to sandboxed apps is a lot of work, it is not just
+> kernel API it also requires designing a portal interface + implementing
+> that portal for at least GNOME, KDE and wlroots.
+> 
+> Personally I really like the idea to just emulate a HID LampArray device
+> for this instead or rolling our own API.  I believe there need to be
+> strong arguments to go with some alternative NIH API and I have not
+> heard such arguments yet.
+
+Agreed on everything Hans said.
+
+I'll personnaly fight against any new "illumination" API as long as we
+don't have committed users. This is the same policy the DRM folks are
+applying and it makes a lot of sense:
+We can devise a lot about this new API, but if we don't have users for
+it, it's energy wasted.
+
+When I mean users, I'm not talking about an example in the kernel tree
+or some quick prototype. I mean talking to the existing folks already
+doing that and getting their stamp of approval and have an actual
+integrated prototype.
+
+We know that OpenRGB and probably others will implement LampArray, if
+not for Linux, at least for Mac and Windows. So we will have users for
+this protocol. A new Linux specific protocol should be discussed with
+them, but I doubt that they'll be happy writing an entirely new
+abstraction layer because of Linux.
+
+Cheers,
+Benjamin
