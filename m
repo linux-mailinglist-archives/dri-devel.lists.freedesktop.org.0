@@ -2,64 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8C3A9A9FF4
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2024 12:27:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 491F99AA01B
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2024 12:31:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38A0D10E303;
-	Tue, 22 Oct 2024 10:27:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A305210E309;
+	Tue, 22 Oct 2024 10:31:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZH+mEtuK";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ZugQ+dNW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83EAC10E300;
- Tue, 22 Oct 2024 10:27:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1729592823; x=1761128823;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=9FZ5ssmarZf/O4MWtFd4ckA+07hvM1UbBGqTaa/fvBs=;
- b=ZH+mEtuKXzDBMsy0wtOOG+CjIv0jp3M3LCwOD3EYHEp8yNEmgcvkMxSs
- rAYhxEKttAnXI8JZOp59s1BsEmQaJCmRNgrppkG0TVVfEt7rZD7a+d32S
- aLKlefBhSGzO6MEmCsQ90kKDTv2khzf5meLgDySPpesvYaj0Z6VV1xM3J
- t9c4X46KLdWoU9SeFUz9UbpYTenj/PboPnP1jWTaLUdk7SVCYSrtjnm31
- 5di7BmF0fZ3OAeThKCcwknAXxloCGXhLA7TlGUrxE3y4IPvjqgxTBAhmv
- c2d4DEoOVkUcCaSorRpHosQ0r2/3LVb5nEh+Vy1O9CgFpdiJATVnUFRaB g==;
-X-CSE-ConnectionGUID: nCg9H3zJSH+3XoM1B9Knsw==
-X-CSE-MsgGUID: TXE4Qi19Ss+IKDA0kCXljw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29058709"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="29058709"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Oct 2024 03:27:00 -0700
-X-CSE-ConnectionGUID: 0k/is+bsTY62TWjhwvxgjA==
-X-CSE-MsgGUID: KtQALvB5QYadkpzzJFYzCw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,222,1725346800"; d="scan'208";a="79895298"
-Received: from lfiedoro-mobl.ger.corp.intel.com (HELO localhost)
- ([10.245.246.4])
- by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Oct 2024 03:26:56 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: R Sundar <prosunofficial@gmail.com>, Rodrigo Vivi
- <rodrigo.vivi@intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7589610E309
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Oct 2024 10:30:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1729593058;
+ bh=ckwdXkesd1lkAUGXB2NkOvoDnLV225VqIN/edVwVwvc=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=ZugQ+dNW06+dJxsk1cWVB+lYF0mpPSqkQYI/H3V6ossWlAgrWOLWyA7p1B8q27PrB
+ l8twj9/sEBjLFl18AyixCNfEeif9uS6QGxJryyxGUL2ERta8Q/6JNYh1P4VOOnL/HT
+ OD8VsV2vB2lVJ+GvQtvk3T/3m/CO1B/C+lKCjyYcaCFJHg9SXZyvPSLRV/T1zu0iYK
+ wZD6FUFQZ6Cma4BpUAnRnoSOv0p9g7yZcy6hjeTw8ow3jZ4G8UeCQZTAp7PquALZdQ
+ Fm+qFuO8iCbEz1QfJCb3hPBvdc4kUxCi5Ci8oxEDNBTZ4t6qN4X8groTTTNdpt3/wN
+ JldAru3d8U/Jg==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id CBB9D17E1522;
+ Tue, 22 Oct 2024 12:30:57 +0200 (CEST)
+Date: Tue, 22 Oct 2024 12:30:52 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Chia-I Wu <olvaffe@gmail.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- imre.deak@intel.com
-Cc: R Sundar <prosunofficial@gmail.com>, kernel test robot <lkp@intel.com>,
- Julia Lawall <julia.lawall@inria.fr>
-Subject: Re: [PATCH linux-next] drm/i915/ddi: use string choice helpers
-In-Reply-To: <20241007173300.83902-1-prosunofficial@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20241007173300.83902-1-prosunofficial@gmail.com>
-Date: Tue, 22 Oct 2024 13:26:53 +0300
-Message-ID: <87o73cv3f6.fsf@intel.com>
+ faith.ekstrand@collabora.com
+Subject: Re: [PATCH] drm/syncobj: ensure progress for syncobj queries
+Message-ID: <20241022123052.3e0f3f17@collabora.com>
+In-Reply-To: <20241017162054.2701638-1-olvaffe@gmail.com>
+References: <20241017162054.2701638-1-olvaffe@gmail.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,49 +64,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 07 Oct 2024, R Sundar <prosunofficial@gmail.com> wrote:
-> Use str_enabled_disabled string helpers for better readability and to
-> fix cocci warning.
->
-> Reported-by: kernel test robot <lkp@intel.com>
-> Reported-by: Julia Lawall <julia.lawall@inria.fr>
-> Closes: https://lore.kernel.org/r/202410071601.TFpXoqgW-lkp@intel.com/
-> Signed-off-by: R Sundar <prosunofficial@gmail.com>
+On Thu, 17 Oct 2024 09:20:53 -0700
+Chia-I Wu <olvaffe@gmail.com> wrote:
 
-Pushed to drm-intel-next, thanks for the patch.
+> Userspace might poll a syncobj with the query ioctl.  Call
+> dma_fence_enable_sw_signaling to ensure dma_fence_is_signaled returns
+> true in finite time.
+> 
+> ---
+> 
+> panvk hits this issue when timeline semaphore is enabled.  It uses the
+> transfer ioctl to propagate fences.  dma_fence_unwrap_merge converts the
+> dma_fence_chain to a dma_fence_array.  dma_fence_array_signaled never
+> return true unless signaling is enabled.
 
-BR,
-Jani.
+Looks like a bugfix to me. Should we add Fixes+Cc-stable tags so it
+gets backported to stable branches.
 
 > ---
->
-> Reported in linux repo:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
->
-> cocci warnings: (new ones prefixed by >>)
->>> drivers/gpu/drm/i915/display/intel_ddi.c:2225:7-13: opportunity for str_enabled_disabled(enable)
->
-> vim +2225 drivers/gpu/drm/i915/display/intel_ddi.c
->
-> compile tested only.
->
->  drivers/gpu/drm/i915/display/intel_ddi.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
-> index fe1ded6707f9..ff4c633c8546 100644
-> --- a/drivers/gpu/drm/i915/display/intel_ddi.c
-> +++ b/drivers/gpu/drm/i915/display/intel_ddi.c
-> @@ -2236,7 +2236,7 @@ static void intel_dp_sink_set_fec_ready(struct intel_dp *intel_dp,
->  	if (drm_dp_dpcd_writeb(&intel_dp->aux, DP_FEC_CONFIGURATION,
->  			       enable ? DP_FEC_READY : 0) <= 0)
->  		drm_dbg_kms(display->drm, "Failed to set FEC_READY to %s in the sink\n",
-> -			    enable ? "enabled" : "disabled");
-> +			    str_enabled_disabled(enable));
->  
->  	if (enable &&
->  	    drm_dp_dpcd_writeb(&intel_dp->aux, DP_FEC_STATUS,
+>  drivers/gpu/drm/drm_syncobj.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
+> index 4fcfc0b9b386c..58c5593c897a2 100644
+> --- a/drivers/gpu/drm/drm_syncobj.c
+> +++ b/drivers/gpu/drm/drm_syncobj.c
+> @@ -1689,6 +1689,9 @@ int drm_syncobj_query_ioctl(struct drm_device *dev, void *data,
+>  			    DRM_SYNCOBJ_QUERY_FLAGS_LAST_SUBMITTED) {
+>  				point = fence->seqno;
+>  			} else {
+> +				/* ensure forward progress */
+> +				dma_fence_enable_sw_signaling(fence);
+> +
+>  				dma_fence_chain_for_each(iter, fence) {
+>  					if (iter->context != fence->context) {
+>  						dma_fence_put(iter);
 
--- 
-Jani Nikula, Intel
