@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DEE69AB64C
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2024 20:56:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 199D79AB64D
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2024 20:56:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78E3710E624;
-	Tue, 22 Oct 2024 18:56:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 806DB10E6EE;
+	Tue, 22 Oct 2024 18:56:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="XEABDg/d";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Jy8ezpqy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA39D10E32A
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Oct 2024 18:56:19 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 486F210E6EC
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Oct 2024 18:56:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1729623379;
+ s=mimecast20190719; t=1729623381;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sIebS6dUMD5Xkf2nEFyb4E9/NZ6DwCvnfmCp5lAiOj0=;
- b=XEABDg/dzI2ne6Gjey86s4K7kYDPrmqD7OQaAjmVmRzC6T7+/YyCpW33PkCbbSErjBm88/
- zfM/yR4QcUFbEEo/d1/R8g7/UTC5fQapaXaKOjkDcVVS+13qc1K4rlqE0DJNNasOw7do20
- 01iPh8oS3RRZ2PA9chSmYyO9Odm0R6k=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ bh=VOzq4T50fZyYLmRt/2e9SF+eLnqabVHyt6C4AdsRK3A=;
+ b=Jy8ezpqybNknb15K+SqosYAi/YEuZp0qps6LEL1xSfDWCKW3VJfOBfvEZ3D0tMHcfwoi5O
+ miThPbIM/ijhL4sI65SZWcAHOZdqywWEUK1ME0BUg9oxFKkTNfVagvcQFsm1lEPJ0ZJWk1
+ kjdl8eJZ5ACOoVz4xg0HUUL5XwhxNSM=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-179-0pt-69vwO5qZpHsfzmEqdA-1; Tue,
- 22 Oct 2024 14:56:15 -0400
-X-MC-Unique: 0pt-69vwO5qZpHsfzmEqdA-1
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-636-Y9rtsdf8MlqLr-o7c28eNQ-1; Tue,
+ 22 Oct 2024 14:56:18 -0400
+X-MC-Unique: Y9rtsdf8MlqLr-o7c28eNQ-1
 Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 9267D1955E85; Tue, 22 Oct 2024 18:56:13 +0000 (UTC)
+ by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 0A65C1956083; Tue, 22 Oct 2024 18:56:17 +0000 (UTC)
 Received: from hydra.redhat.com (unknown [10.39.193.145])
  by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 8D8711955EA3; Tue, 22 Oct 2024 18:56:10 +0000 (UTC)
+ id 0AD041956056; Tue, 22 Oct 2024 18:56:13 +0000 (UTC)
 From: Jocelyn Falempe <jfalempe@redhat.com>
 To: Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
  Danilo Krummrich <dakr@redhat.com>, David Airlie <airlied@gmail.com>,
@@ -51,10 +51,9 @@ To: Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
  nouveau@lists.freedesktop.org
 Cc: Jocelyn Falempe <jfalempe@redhat.com>
-Subject: [PATCH v4 2/3] drm/nouveau/disp: Move tiling functions to
- dispnv50/tile.h
-Date: Tue, 22 Oct 2024 20:39:48 +0200
-Message-ID: <20241022185553.1103384-3-jfalempe@redhat.com>
+Subject: [PATCH v4 3/3] drm/nouveau: Add drm_panic support for nv50+
+Date: Tue, 22 Oct 2024 20:39:49 +0200
+Message-ID: <20241022185553.1103384-4-jfalempe@redhat.com>
 In-Reply-To: <20241022185553.1103384-1-jfalempe@redhat.com>
 References: <20241022185553.1103384-1-jfalempe@redhat.com>
 MIME-Version: 1.0
@@ -78,178 +77,192 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Refactor, and move the tiling geometry functions to dispnv50/tile.h,
-so they can be re-used by drm_panic.
-No functional impact.
+Add drm_panic support for nv50+ cards.
+It's enough to get the panic screen while running Gnome/Wayland with
+an nv50+ nvidia GPU.
+It doesn't support multi-plane or compressed format yet.
+Tiling is tested on GTX1650 (Turing), GeForce GT 1030 (Pascal) and
+Geforce 8800 GTS (Tesla).
 
 Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+Reviewed-by: Lyude Paul <lyude@redhat.com>
 ---
 
- drivers/gpu/drm/nouveau/dispnv50/tile.h   | 63 +++++++++++++++++++++++
- drivers/gpu/drm/nouveau/nouveau_display.c | 59 ++++-----------------
- 2 files changed, 73 insertions(+), 49 deletions(-)
- create mode 100644 drivers/gpu/drm/nouveau/dispnv50/tile.h
+v4:
+ * Refactor get_scanout_buffer() to use the new dispnv50/tile.h
+ * use drm_warn() instead of pr_warn() in get_scanout_buffer
 
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/tile.h b/drivers/gpu/drm/nouveau/dispnv50/tile.h
-new file mode 100644
-index 0000000000000..e8769d1886b11
---- /dev/null
-+++ b/drivers/gpu/drm/nouveau/dispnv50/tile.h
-@@ -0,0 +1,63 @@
-+/* SPDX-License-Identifier: MIT */
-+#ifndef __NV50_TILE_H__
-+#define __NV50_TILE_H__
-+
-+#include <linux/types.h>
-+#include <linux/math.h>
-+
-+/*
-+ * Tiling parameters for NV50+.
-+ * GOB = Group of bytes, the main unit for tiling blocks.
-+ * Tiling blocks are a power of 2 number of GOB.
-+ * All GOBs and blocks have the same width: 64 bytes (so 16 pixels in 32bits).
-+ * tile_mode is the log2 of the number of GOB per block.
-+ */
-+
-+#define NV_TILE_GOB_HEIGHT_TESLA 4	/* 4 x 64 bytes = 256 bytes for a GOB on Tesla*/
-+#define NV_TILE_GOB_HEIGHT 8		/* 8 x 64 bytes = 512 bytes for a GOB on Fermi and later */
-+#define NV_TILE_GOB_WIDTH_BYTES 64
-+
-+/* Number of blocks to cover the width of the framebuffer */
-+static inline u32 nouveau_get_width_in_blocks(u32 stride)
-+{
-+	return DIV_ROUND_UP(stride, NV_TILE_GOB_WIDTH_BYTES);
-+}
-+
-+/* Return the height in pixel of one GOB */
-+static inline u32 nouveau_get_gob_height(u16 family)
-+{
-+	if (family == NV_DEVICE_INFO_V0_TESLA)
-+		return NV_TILE_GOB_HEIGHT_TESLA;
-+	else
-+		return NV_TILE_GOB_HEIGHT;
-+}
-+
-+/* Number of blocks to cover the heigth of the framebuffer */
-+static inline u32 nouveau_get_height_in_blocks(u32 height, u32 gobs_in_block, u16 family)
-+{
-+	return DIV_ROUND_UP(height, nouveau_get_gob_height(family) * gobs_in_block);
-+}
-+
-+/* Return the GOB size in bytes */
-+static inline u32 nouveau_get_gob_size(u16 family)
-+{
-+	return nouveau_get_gob_height(family) * NV_TILE_GOB_WIDTH_BYTES;
-+}
-+
-+/* Return the number of GOB in a block */
-+static inline int nouveau_get_gobs_in_block(u32 tile_mode, u16 chipset)
-+{
-+	if (chipset >= 0xc0)
-+		return 1 << (tile_mode >> 4);
-+	return 1 << tile_mode;
-+}
-+
-+/* Return true if tile_mode is invalid */
-+static inline bool nouveau_check_tile_mode(u32 tile_mode, u16 chipset)
-+{
-+	if (chipset >= 0xc0)
-+		return (tile_mode & 0xfffff0f);
-+	return (tile_mode & 0xfffffff0);
-+}
-+
-+#endif
-diff --git a/drivers/gpu/drm/nouveau/nouveau_display.c b/drivers/gpu/drm/nouveau/nouveau_display.c
-index 619a3efbe8c88..add006fc8d818 100644
---- a/drivers/gpu/drm/nouveau/nouveau_display.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_display.c
-@@ -44,6 +44,7 @@
- #include <nvif/if0011.h>
- #include <nvif/if0013.h>
- #include <dispnv50/crc.h>
-+#include <dispnv50/tile.h>
+ drivers/gpu/drm/nouveau/dispnv50/wndw.c | 129 +++++++++++++++++++++++-
+ 1 file changed, 127 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/wndw.c b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
+index 7a2cceaee6e97..45c5efbab4a32 100644
+--- a/drivers/gpu/drm/nouveau/dispnv50/wndw.c
++++ b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
+@@ -30,14 +30,20 @@
+ #include <nvhw/class/cl507e.h>
+ #include <nvhw/class/clc37e.h>
  
- int
- nouveau_display_vblank_enable(struct drm_crtc *crtc)
-@@ -220,69 +221,29 @@ nouveau_validate_decode_mod(struct nouveau_drm *drm,
++#include <linux/iosys-map.h>
++
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_blend.h>
+-#include <drm/drm_gem_atomic_helper.h>
+ #include <drm/drm_fourcc.h>
++#include <drm/drm_framebuffer.h>
++#include <drm/drm_gem_atomic_helper.h>
++#include <drm/drm_panic.h>
++#include <drm/ttm/ttm_bo.h>
+ 
+ #include "nouveau_bo.h"
+ #include "nouveau_gem.h"
++#include "tile.h"
+ 
+ static void
+ nv50_wndw_ctxdma_del(struct nv50_wndw_ctxdma *ctxdma)
+@@ -577,6 +583,114 @@ nv50_wndw_prepare_fb(struct drm_plane *plane, struct drm_plane_state *state)
  	return 0;
  }
  
--static inline uint32_t
--nouveau_get_width_in_blocks(uint32_t stride)
--{
--	/* GOBs per block in the x direction is always one, and GOBs are
--	 * 64 bytes wide
--	 */
--	static const uint32_t log_block_width = 6;
--
--	return (stride + (1 << log_block_width) - 1) >> log_block_width;
--}
--
--static inline uint32_t
--nouveau_get_height_in_blocks(struct nouveau_drm *drm,
--			     uint32_t height,
--			     uint32_t log_block_height_in_gobs)
--{
--	uint32_t log_gob_height;
--	uint32_t log_block_height;
--
--	BUG_ON(drm->client.device.info.family < NV_DEVICE_INFO_V0_TESLA);
--
--	if (drm->client.device.info.family < NV_DEVICE_INFO_V0_FERMI)
--		log_gob_height = 2;
--	else
--		log_gob_height = 3;
--
--	log_block_height = log_block_height_in_gobs + log_gob_height;
--
--	return (height + (1 << log_block_height) - 1) >> log_block_height;
--}
--
- static int
- nouveau_check_bl_size(struct nouveau_drm *drm, struct nouveau_bo *nvbo,
- 		      uint32_t offset, uint32_t stride, uint32_t h,
- 		      uint32_t tile_mode)
- {
--	uint32_t gob_size, bw, bh;
-+	uint32_t gob_size, bw, bh, gobs_in_block;
- 	uint64_t bl_size;
++/* Only used by drm_panic get_scanout_buffer() and set_pixel(), so it is
++ * protected by the drm panic spinlock
++ */
++static u32 nv50_panic_blk_h;
++
++/* Return the framebuffer offset of the start of the block where pixel(x,y) is */
++static u32
++nv50_get_block_off(unsigned int x, unsigned int y, unsigned int pitch)
++{
++	u32 blk_x, blk_y, blk_columns;
++
++	blk_columns = nouveau_get_width_in_blocks(pitch);
++	blk_x = (x * 4) / NV_TILE_GOB_WIDTH_BYTES;
++	blk_y = y / nv50_panic_blk_h;
++
++	return ((blk_y * blk_columns) + blk_x) * NV_TILE_GOB_WIDTH_BYTES * nv50_panic_blk_h;
++}
++
++/* Turing and later have 2 level of tiles inside the block */
++static void
++nv50_set_pixel_swizzle(struct drm_scanout_buffer *sb, unsigned int x,
++		       unsigned int y, u32 color)
++{
++	u32 blk_off, off, swizzle;
++
++	blk_off = nv50_get_block_off(x, y, sb->pitch[0]);
++
++	y = y % nv50_panic_blk_h;
++
++	/* Inside the block, use the fast address swizzle to compute the offset
++	 * For nvidia blocklinear, bit order is yn..y3 x3 y2 x2 y1 y0 x1 x0
++	 */
++	swizzle = (x & 3) | (y & 3) << 2 | (x & 4) << 2 | (y & 4) << 3;
++	swizzle |= (x & 8) << 3 | (y >> 3) << 7;
++	off = blk_off + swizzle * 4;
++
++	iosys_map_wr(&sb->map[0], off, u32, color);
++}
++
++static void
++nv50_set_pixel(struct drm_scanout_buffer *sb, unsigned int x, unsigned int y,
++	       u32 color)
++{
++	u32 blk_off, off;
++
++	blk_off = nv50_get_block_off(x, y, sb->width);
++
++	x = x % (NV_TILE_GOB_WIDTH_BYTES / 4);
++	y = y % nv50_panic_blk_h;
++	off = blk_off + x * 4 + y * NV_TILE_GOB_WIDTH_BYTES;
++
++	iosys_map_wr(&sb->map[0], off, u32, color);
++}
++
++static int
++nv50_wndw_get_scanout_buffer(struct drm_plane *plane, struct drm_scanout_buffer *sb)
++{
++	struct drm_framebuffer *fb;
++	struct nouveau_bo *nvbo;
++	struct nouveau_drm *drm = nouveau_drm(plane->dev);
++	u16 chipset = drm->client.device.info.chipset;
++	u8 family = drm->client.device.info.family;
++	u32 tile_mode;
++	u8 kind;
++
++	if (!plane->state || !plane->state->fb)
++		return -EINVAL;
++
++	fb = plane->state->fb;
++	nvbo = nouveau_gem_object(fb->obj[0]);
++
++	/* Don't support compressed format, or multiplane yet. */
++	if (nvbo->comp || fb->format->num_planes != 1)
++		return -EOPNOTSUPP;
++
++	if (nouveau_bo_map(nvbo)) {
++		drm_warn(plane->dev, "nouveau bo map failed, panic won't be displayed\n");
++		return -ENOMEM;
++	}
++
++	if (nvbo->kmap.bo_kmap_type & TTM_BO_MAP_IOMEM_MASK)
++		iosys_map_set_vaddr_iomem(&sb->map[0], (void __iomem *) nvbo->kmap.virtual);
++	else
++		iosys_map_set_vaddr(&sb->map[0], nvbo->kmap.virtual);
++
++	sb->height = fb->height;
++	sb->width = fb->width;
++	sb->pitch[0] = fb->pitches[0];
++	sb->format = fb->format;
++
++	nouveau_framebuffer_get_layout(fb, &tile_mode, &kind);
++	if (kind) {
++		/* If tiling is enabled, use set_pixel() to display correctly.
++		 * Only handle 32bits format for now.
++		 */
++		if (fb->format->cpp[0] != 4)
++			return -EOPNOTSUPP;
++		nv50_panic_blk_h = nouveau_get_gob_height(family) *
++				   nouveau_get_gobs_in_block(tile_mode, chipset);
++
++		if (chipset >= 0x160)
++			sb->set_pixel = nv50_set_pixel_swizzle;
++		else
++			sb->set_pixel = nv50_set_pixel;
++	}
++	return 0;
++}
++
+ static const struct drm_plane_helper_funcs
+ nv50_wndw_helper = {
+ 	.prepare_fb = nv50_wndw_prepare_fb,
+@@ -584,6 +698,14 @@ nv50_wndw_helper = {
+ 	.atomic_check = nv50_wndw_atomic_check,
+ };
  
- 	BUG_ON(drm->client.device.info.family < NV_DEVICE_INFO_V0_TESLA);
++static const struct drm_plane_helper_funcs
++nv50_wndw_primary_helper = {
++	.prepare_fb = nv50_wndw_prepare_fb,
++	.cleanup_fb = nv50_wndw_cleanup_fb,
++	.atomic_check = nv50_wndw_atomic_check,
++	.get_scanout_buffer = nv50_wndw_get_scanout_buffer,
++};
++
+ static void
+ nv50_wndw_atomic_destroy_state(struct drm_plane *plane,
+ 			       struct drm_plane_state *state)
+@@ -732,7 +854,10 @@ nv50_wndw_new_(const struct nv50_wndw_func *func, struct drm_device *dev,
+ 		return ret;
+ 	}
  
--	if (drm->client.device.info.chipset >= 0xc0) {
--		if (tile_mode & 0xF)
--			return -EINVAL;
--		tile_mode >>= 4;
--	}
--
--	if (tile_mode & 0xFFFFFFF0)
-+	if (nouveau_check_tile_mode(tile_mode, drm->client.device.info.chipset))
- 		return -EINVAL;
+-	drm_plane_helper_add(&wndw->plane, &nv50_wndw_helper);
++	if (type == DRM_PLANE_TYPE_PRIMARY)
++		drm_plane_helper_add(&wndw->plane, &nv50_wndw_primary_helper);
++	else
++		drm_plane_helper_add(&wndw->plane, &nv50_wndw_helper);
  
--	if (drm->client.device.info.family < NV_DEVICE_INFO_V0_FERMI)
--		gob_size = 256;
--	else
--		gob_size = 512;
--
-+	gobs_in_block = nouveau_get_gobs_in_block(tile_mode, drm->client.device.info.chipset);
- 	bw = nouveau_get_width_in_blocks(stride);
--	bh = nouveau_get_height_in_blocks(drm, h, tile_mode);
-+	bh = nouveau_get_height_in_blocks(h, gobs_in_block, drm->client.device.info.family);
-+	gob_size = nouveau_get_gob_size(drm->client.device.info.family);
- 
--	bl_size = bw * bh * (1 << tile_mode) * gob_size;
-+	bl_size = bw * bh * gobs_in_block * gob_size;
- 
--	DRM_DEBUG_KMS("offset=%u stride=%u h=%u tile_mode=0x%02x bw=%u bh=%u gob_size=%u bl_size=%llu size=%zu\n",
--		      offset, stride, h, tile_mode, bw, bh, gob_size, bl_size,
--		      nvbo->bo.base.size);
-+	DRM_DEBUG_KMS("offset=%u stride=%u h=%u gobs_in_block=%u bw=%u bh=%u gob_size=%u bl_size=%llu size=%zu\n",
-+		      offset, stride, h, gobs_in_block, bw, bh, gob_size,
-+		      bl_size, nvbo->bo.base.size);
- 
- 	if (bl_size + offset > nvbo->bo.base.size)
- 		return -ERANGE;
+ 	if (wndw->func->ilut) {
+ 		ret = nv50_lut_init(disp, mmu, &wndw->ilut);
 -- 
 2.47.0
 
