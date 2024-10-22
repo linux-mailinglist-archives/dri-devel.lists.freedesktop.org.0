@@ -2,112 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA4F49AA1F9
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2024 14:16:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A03EF9AA203
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2024 14:21:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD21410E316;
-	Tue, 22 Oct 2024 12:16:00 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="cM4DjDjC";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5E3910E31A;
+	Tue, 22 Oct 2024 12:21:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
- [209.85.128.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0D7010E316
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Oct 2024 12:15:59 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id
- 5b1f17b1804b1-4314c452180so43824975e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Oct 2024 05:15:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1729599358; x=1730204158; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=hzfBBiQZO/3JmQPAp3trpD9H/FhA5SSKZP4PSmekS78=;
- b=cM4DjDjC1K2mOrzJ9Lme8mCW2FsowQguXr8EdIVCovQLTMEIz6QzXc2TXCvJC0Yj0X
- ObSznX1nfR1SDRoUBbb3b3bznK2xNO7wBYS2mBHBw6Mfg09moiMHaCfxfw7hIDPd6+Bu
- vvbQ3+FEsNbzD9ebBjDv2lSqqo7d6l0BSHtfRBMvp4FPfbh+66n0q8Ysi+aPGCDn0cI6
- Bf0L4jE0mpq+3pI6SuuAmcml/RqqCvFtTo4+02pCSIBdSzBolvaiJj4Ti5pBDS7QmIhf
- qkierOWxEKEEWnJ9DiIS71807BCBPlJ0PlfCAYeXkxuE7gE8/PSMgwpyw0LrzsGpDYYD
- ZbdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729599358; x=1730204158;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=hzfBBiQZO/3JmQPAp3trpD9H/FhA5SSKZP4PSmekS78=;
- b=pMrIbuBw629AkuAEuhIy0IsCXKzuDSgX7K5GI1IjB2ELZySQpPOnlWjDdHbFAWMHhx
- P1cIlMscLK1Q0slTKEiGmNVVAPe/3DKdzjizQVE62cTmJ8cngd6+xvNUSAe+WgGKnP03
- E0nhAcKraOnkPaa7fJA0HqpnKumNcotX8O1WWD+QJSkBq99WuI2oDbB1oY5oK8nA4b1E
- WqO4w4DtfjQS8+bZvfZU7XVgtcvmgcxR75PfNF4IoP7gfsY40ZJ0XTcAiFfBc7PClsWG
- pjXUrsqyvSl0AgD8PQcw+3iZhkpCiLvUFllybP7razosPhP+pshT+YMknhhWKwKuAOQl
- 2IZw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUXNbO5MUXluUwXcA9A+D/dJJ84xQdcxSVK14/jei4yJkCNs7/SIzTFgWcd0s5wtRDHrHUck9uIgoE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzRV/UKstgyeomtxDA5PFewE0ft90MSntsqxvQDgqSL6m3LSELc
- hv7Vztr0fdP0w0DLqicq8RLQoQmrCH8kQDUrhCPvjCaNEd1OJkl77b8x8NTuWE4=
-X-Google-Smtp-Source: AGHT+IHT8U2le7TP7Fhl0aRlnvkTfgE3DG0+6uSqVHO9u7XR2ZILafOv7A3oM9rdGHL/IP38m1XIAA==
-X-Received: by 2002:a05:600c:1d8e:b0:431:4e33:98b6 with SMTP id
- 5b1f17b1804b1-4317bd858camr19814435e9.5.1729599358069; 
- Tue, 22 Oct 2024 05:15:58 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:43af:403f:2c26:9ea7?
- ([2a01:e0a:982:cbb0:43af:403f:2c26:9ea7])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4316f5cbe64sm86619065e9.40.2024.10.22.05.15.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Oct 2024 05:15:57 -0700 (PDT)
-Message-ID: <ad1d1208-fb0d-4656-80e7-1af0e8a4e421@linaro.org>
-Date: Tue, 22 Oct 2024 14:15:56 +0200
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13F6010E31A
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Oct 2024 12:21:26 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.162.254])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4XXrp44BWNzpX8V;
+ Tue, 22 Oct 2024 20:19:24 +0800 (CST)
+Received: from kwepemd500013.china.huawei.com (unknown [7.221.188.12])
+ by mail.maildlp.com (Postfix) with ESMTPS id B97D018010F;
+ Tue, 22 Oct 2024 20:21:21 +0800 (CST)
+Received: from [10.159.166.136] (10.159.166.136) by
+ kwepemd500013.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.34; Tue, 22 Oct 2024 20:21:20 +0800
+Message-ID: <0ba91907-d3f5-4665-9a63-0b10b5d03f38@huawei.com>
+Date: Tue, 22 Oct 2024 20:21:19 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: neil.armstrong@linaro.org
-Subject: Re: [PATCH 0/6] drm/bridge: add ycbcr_420_allowed support
+Subject: Re: [PATCH drm-dp 4/4] drm/hisilicon/hibmc: add dp module in hibmc
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- Alexander Stein <alexander.stein@ew.tq-group.com>
-References: <20241019-bridge-yuv420-v1-0-d74efac9e4e6@linaro.org>
- <a2d20619-0724-4b16-a9a5-4a3680f21c99@linaro.org>
- <CAA8EJpoy=nYMix3m2n7KkwemCNoh_qg8FH0ENaa8VNcLtqZuww@mail.gmail.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <CAA8EJpoy=nYMix3m2n7KkwemCNoh_qg8FH0ENaa8VNcLtqZuww@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+CC: <xinliang.liu@linaro.org>, <tiantao6@hisilicon.com>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <kong.kongxinwei@hisilicon.com>, <liangjian010@huawei.com>,
+ <chenjianmin@huawei.com>, <lidongming5@huawei.com>, <libaihan@huawei.com>,
+ <shenjian15@huawei.com>, <shaojijie@huawei.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <shiyongbang@huawei.com>
+References: <20240930100610.782363-1-shiyongbang@huawei.com>
+ <20240930100610.782363-5-shiyongbang@huawei.com>
+ <xeemxeld4cqpx47kzb5qqsawk7mu5kje6r7n335dhe2s7ynw6m@eaiowriiilgr>
+ <277b126d-e17c-4ef9-a6fe-56f36061606e@huawei.com>
+ <CAA8EJpontTXUd0TzvwJZ4gCZ2i6vdB8+PqE+W3ChCuBH3WkfaA@mail.gmail.com>
+From: Yongbang Shi <shiyongbang@huawei.com>
+In-Reply-To: <CAA8EJpontTXUd0TzvwJZ4gCZ2i6vdB8+PqE+W3ChCuBH3WkfaA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.159.166.136]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ kwepemd500013.china.huawei.com (7.221.188.12)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,43 +60,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/10/2024 20:22, Dmitry Baryshkov wrote:
-> On Mon, 21 Oct 2024 at 15:32, Neil Armstrong <neil.armstrong@linaro.org> wrote:
+Okay, I'll fix them.
+Thanks,
+Baihan
+
+> On Mon, 21 Oct 2024 at 14:54, s00452708 <shiyongbang@huawei.com> wrote:
+>> Thanks, I will modify codes according to your comments, and I also
+>> replied some questions or reasons why I did it below.
 >>
->> Hi,
->>
->> On 18/10/2024 23:49, Dmitry Baryshkov wrote:
->>> One of the features that drm_bridge_connector can't handle currently is
->>> setting of the ycbcr_420_allowed flag on the connector. Add the flag to
->>> the drm_bridge struct and propagate it to the drm_connector as AND of
->>> all flags in the bridge chain.
->>>
->>> As an example of the conversion, enable the flag on the DW HDMI bridge,
->>> MSM DP bridge, display connector drivers (for DisplayPort and HDMI
->>> outputs) and AUX bridges.
->>>
->>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>> ---
->>> Dmitry Baryshkov (6):
->>>         drm/display: bridge_connector: handle ycbcr_420_allowed
->>>         drm/atomic: add interlaced and ycbcr_420 flags to connector's state dump
->>>         drm/bridge: display-connector: allow YCbCr 420 for HDMI and DP
->>>         drm/bridge: aux: allow interlaced and YCbCr 420 output
->>>         drm/msm/dp: migrate the ycbcr_420_allowed to drm_bridge
->>
->> How do you plan to merge this serie ?
-> 
-> Once Abhinav ack's the msm/dp change, I'd like to land it through
-> drm-misc. I think it's the most logical way to go.
-
-Yup, Abhinav acked it, LGTM
-
-Neil
-
-> 
-> 
-
+>>> On Mon, Sep 30, 2024 at 06:06:10PM +0800, shiyongbang wrote:
+>>>> From: baihan li <libaihan@huawei.com>
+>>>>
+>>>> To support DP interface displaying in hibmc driver. Add
+>>>> a encoder and connector for DP modual.
+>>>>
+>>>> Signed-off-by: baihan li <libaihan@huawei.com>
+>>>> ---
+>>>>    drivers/gpu/drm/hisilicon/hibmc/Makefile      |   2 +-
+>>>>    .../gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c    | 195 ++++++++++++++++++
+>>>>    .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c   |  17 +-
+>>>>    .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h   |   5 +
+>>>>    4 files changed, 217 insertions(+), 2 deletions(-)
+>>>>    create mode 100644 drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
+>>>>
+> [...]
+>
+>>>> +
+>>>> +static int hibmc_dp_connector_get_modes(struct drm_connector *connector)
+>>>> +{
+>>>> +    int count;
+>>>> +
+>>>> +    count = drm_add_modes_noedid(connector, connector->dev->mode_config.max_width,
+>>>> +                                 connector->dev->mode_config.max_height);
+>>>> +    drm_set_preferred_mode(connector, 800, 600); /* default 800x600 */
+>>> What? Please parse EDID instead.
+>>> I'll add aux over i2c r/w and get edid functions in next patch.
+> At least please mention that it's a temporal stub which will be changed later.
+>
+>>>> +
+>>>> +    return count;
+>>>> +}
+>>>> +
+> [...]
+>
+>>>> @@ -116,10 +120,17 @@ static int hibmc_kms_init(struct hibmc_drm_private *priv)
+>>>>               return ret;
+>>>>       }
+>>>>
+>>>> +    /* if DP existed, init DP */
+>>>> +    if ((readl(priv->mmio + DP_HOST_SERDES_CTRL) &
+>>>> +         DP_HOST_SERDES_CTRL_MASK) == DP_HOST_SERDES_CTRL_VAL) {
+>>>> +            ret = hibmc_dp_init(priv);
+>>>> +            if (ret)
+>>>> +                    drm_err(dev, "failed to init dp: %d\n", ret);
+>>>> +    }
+>>>> +
+>>>>       ret = hibmc_vdac_init(priv);
+>>>>       if (ret) {
+>>>>               drm_err(dev, "failed to init vdac: %d\n", ret);
+>>>> -            return ret;
+>>> Why?
+>>> We have two display cables, if VGA cannot work, this change makes DP
+>>> still work.
+> But that has nothing to do with init errors. If initialising (aka
+> probing) VGA fails, then the driver init should fail. At the runtime
+> the VGA and DP should be independent and it should be possible to
+> drive just one output, that's true.
+>
