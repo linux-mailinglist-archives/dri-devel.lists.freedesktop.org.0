@@ -2,150 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D8019A9A5C
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2024 09:00:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDE799A9A91
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2024 09:12:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1550410E5EA;
-	Tue, 22 Oct 2024 07:00:27 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="dS/0NBm1";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09E9410E2E6;
+	Tue, 22 Oct 2024 07:12:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2053.outbound.protection.outlook.com [40.107.93.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFBCC10E5EA;
- Tue, 22 Oct 2024 07:00:25 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=u5LWw/ER0pvVPEnjppgTDY6nkzwX95DZEx06sXW3YaBDkwUJGu7XSMVQU15b+i2FJrkf6eB/+69kdRv8FpBgN/JrqrKo6k3205iRyhhW8n1odjD1Wd1OMCVNLmM9N/8+oKntbLjB8Ea+ATda65Gx0FdRwZiuCOSxy6e1chjKf+va7+XwxXeHZCpU5W2EThfX5KMbm7NDhTd2e+1nGtc/6qOYh020JwK+u4ETwdPPd7A9n+2seVQvaQxxgNYXIgHo1kGkkRc9b5JpBDe9mtdahpDNT9s//qAS81WqOcC5eR5k+/ceAxqQdqjyHQ0rnh2HTIfWn2zGbx+CwL2Fwg6+dw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6WXPHZN9iKXs0h29LmWY7QWpZD9z9SVZi2WWqTPH9LQ=;
- b=wJecA1XR9swoTviBRlN5pzjJiZCBXTcelJ/MW+sqJ8ygQ1iHWlX+nv6zHkk3mT3uJENSX7yMjUkasPOtZ50sngEDUxKE/0ll+kh+x9iK5cLfZj+7tt9hWQXX4ZJU5X8MfO7MGcv2bg2xzWbmh1Pp0wCkA6kODQu6/FgKgaVTxLvC8Rxq1+QmSTWreBWoOMOoNx+wrBBzAxb1tUivF+6bnecWwaYM3Ey5QfDtoZxvrlcMmMWf/qKKbdUonVPOc6qB5LrvXGN4NjCwJ+Z6MYu1+fOBLnzVEekB12lC/upFsC/pPKoz7q6sfCFBecqOVIPHKlu1mYVWdzfQwqjiLNAAOQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6WXPHZN9iKXs0h29LmWY7QWpZD9z9SVZi2WWqTPH9LQ=;
- b=dS/0NBm1FCn91nGgiWzYnS0+FtZdtd/WXSxIikF4Oo50rUKTAwhJ4tGxJWCSKIjH3+8MZJ/tuVv+YGtGorDLmPQg7YX1XPevpwpXFGRYN3M4TctAoVHaGNnDRXtfBeGXlH+axAzNYxXBkGX5aMoRoG+OpXZ9cWAkQPD/wNVlQ4g=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by MN0PR12MB5788.namprd12.prod.outlook.com (2603:10b6:208:377::5)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.28; Tue, 22 Oct
- 2024 07:00:21 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%2]) with mapi id 15.20.8069.027; Tue, 22 Oct 2024
- 07:00:21 +0000
-Message-ID: <93f99003-f534-4e1e-985d-6dc64e469abb@amd.com>
-Date: Tue, 22 Oct 2024 09:00:16 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/4] drm/amdgpu: make drm-memory-* report resident
- memory
-To: Yunxiang Li <Yunxiang.Li@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-Cc: Alexander.Deucher@amd.com, tvrtko.ursulin@igalia.com
-References: <20241018133308.889-1-Yunxiang.Li@amd.com>
- <20241018133308.889-3-Yunxiang.Li@amd.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20241018133308.889-3-Yunxiang.Li@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR0P281CA0234.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:b2::18) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com
+ [209.85.219.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FAF810E2E6
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Oct 2024 07:12:04 +0000 (UTC)
+Received: by mail-yb1-f171.google.com with SMTP id
+ 3f1490d57ef6-e2bd258e521so2354606276.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Oct 2024 00:12:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1729581123; x=1730185923;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=BVQdFAeVpsUga9FGk0oPTUCDCiNtszo7965bicRHB8I=;
+ b=F8jPkqcp97qyKBsWsQMs/lOeNDioteRpYT4ugYGOLkdef2nVyd+tc3HsHLq1WWhtmn
+ /ne+0sLWb7sil0frHb05hTziH7pNw49l1WaGb0z8DqFr/0bBm/Ce2JuLmVuDvwX6d6Dz
+ i7eG6e7ijDHvmqGD+M3QZXN+oKO6/1z5Iugzbdg/SPOh+DhrUT7WwRiB7wfddzxwsLdc
+ 3SjB/4FXeSkS5Va7GoX3SSN1tLatj0F048FYAeV6f6wufFlHAjvQfBTKMKTWJ5wFjKB6
+ 8LBr65wNZHMAOSaNVN78AYZfJWMqUZG0h+CIDswbLePjtM9ufNK7INtmdW63KTAJvZc6
+ X4NA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWvkLQRKEpa40/chXj4QKxeChfO/xNEYa9Sfgstcn1B9j87ncjqE/IjdUnMPYw2P4Liz1hvRx5aMLU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx6MTAmX6U5fCv0yEa16PvxqUV3P8RW8FlMrhN94cZYMt3UIguL
+ sPiKXVagB+77stezm/s//OAt4nMVqtwCfBqHd9VvLNe85SMVVWotJjT3xARv
+X-Google-Smtp-Source: AGHT+IFurih9Z86Vxk/sa1vhmoSmaytlfY7moO8ZTBx2jgs35N3vpw0sX6J+OjqKnFcHgeGhhvQA6w==
+X-Received: by 2002:a25:3621:0:b0:e2b:d75b:7630 with SMTP id
+ 3f1490d57ef6-e2e2742e592mr1163305276.35.1729581122974; 
+ Tue, 22 Oct 2024 00:12:02 -0700 (PDT)
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com.
+ [209.85.128.179]) by smtp.gmail.com with ESMTPSA id
+ 3f1490d57ef6-e2bdcb02b5csm1017958276.53.2024.10.22.00.12.02
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 22 Oct 2024 00:12:02 -0700 (PDT)
+Received: by mail-yw1-f179.google.com with SMTP id
+ 00721157ae682-6e3d97b8274so44213927b3.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Oct 2024 00:12:02 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXMUeCXVu4t8T3LYLvuhhjDKSgYjt34ARSAGFY/aO73GI+b58zmsxnwLNOH64UFpMJPgmEKd/2b8d8=@lists.freedesktop.org
+X-Received: by 2002:a05:690c:c0e:b0:6e2:985:f4df with SMTP id
+ 00721157ae682-6e7d82e594bmr17577917b3.44.1729581122444; Tue, 22 Oct 2024
+ 00:12:02 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MN0PR12MB5788:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1d504fd5-1f21-4a6d-81c7-08dcf26731b9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?czJ4cG1aVGdiRHVQOUZwbTBpbVFwT0RUbnE3enNNcHk4THFoRUFPbFZxZHFw?=
- =?utf-8?B?cGpHcFMvaXcvNEpQK3ZOK1VxLzVTak1nSW0wL3JMd0wzWFZmTytYVXYrL2dm?=
- =?utf-8?B?TlAzK2IzckNGeHloS0dXMG1XdXo3bkxmcHBLUE0zNGs3VDRWajdDNHBtcXIr?=
- =?utf-8?B?RzYwLzgvZXArMjQwcFU5bkgzd2N6b0xXb1RQTTJEaWNybkRYZFpwL3ZJNWlV?=
- =?utf-8?B?djREMUI0ZFZwZDQ3cDNpSE5IWDVValhNKy9rWHczSHh4UnFPYTkrOFhKeVBa?=
- =?utf-8?B?clRDazg0SE5KbmxiYjVGb3VPY1Ixd0NkVkFJVnA4SzhEZlA0NXRNOGZmRy9i?=
- =?utf-8?B?MFp3RTI3OElFWFI0dDBlZzRHdU5Ka0hYbkFXbW51OFZaOXpTeXNrYjZFb0hJ?=
- =?utf-8?B?Y1dFRFhQRVVLT3BpME9ocFVKZGY4YldMc0gvTkVodE1BUlU2ZEUvaE9KYUlq?=
- =?utf-8?B?ZlBuWm56L0VqWTVtUU9JLzJ1Q3NxVWxiTmllTE1CRUIzZzFvbEJuZThmU0Ir?=
- =?utf-8?B?clAraHVvV0lzRmZMVEk2QzFjV0FTaDhTL1BwUjJxd3dpUUZCM016cGcvdlNa?=
- =?utf-8?B?cUh4V09xK01lUDQxemN6d2YyM2huY0NJbldRRVJaVVNRWDVBMlpIWHJFNGdY?=
- =?utf-8?B?OEthMFVZMUJCQmtGNVIrUVVPdWo0Wm1qN2FDRzBhc2E5QVFKaXdkcVdiOE5S?=
- =?utf-8?B?NlhmUlN4aHVqUldXUUNXQnl5TmE5aHg4LzF4R0RmZnJvSEw2R0JwdzV2dTBq?=
- =?utf-8?B?a005TldBVm9ITmhXYTV5b2xJSzlQSUdybW9EeERla29kSjZWUTNmRzVxWDZ0?=
- =?utf-8?B?dzJGT240SmwrUUlTTjlLRTJ1czAvb29YeHBPTnNaM0FLdmxtOWMyN0EySUpq?=
- =?utf-8?B?bnpBOUg4SHJYME90OXhReUV3L0N1SEZEQitxc2pNWGZEVWFiNTBGYnUxNEVh?=
- =?utf-8?B?elhYNXg4OFIrOFZFNStTbStWUmdYRzNsOVlwbXJnV1pCOFFrUjJFUkZIanRS?=
- =?utf-8?B?NG16TFhqNS9laHpta3ozaCsxNDVhbmtJd2F6dWt5WnQyY3RMUHpWOUdkZnRJ?=
- =?utf-8?B?Z1BOQWpMVDZTenRMdzBlL0wrWWlrTElOL29uN3R2UEtyd1ZRR1h6SlVOT0Qv?=
- =?utf-8?B?YklSVmZJcGFzdkhRKy9yMmdRRFBQTGM0SEtkMDFyZ3VhbTdSblJmSHN4Vjgv?=
- =?utf-8?B?Mk1ZRUE4dEsxZkFNdStGSGpUNUhPcVl3R1ZIa3Zkam5aTitzT3NNWVk0cWFQ?=
- =?utf-8?B?LzUrQUYrekxTR1BZcWlOQlNmSEl1NHlaTGRCajUvWW4xanpvUk1vS2N0cGVp?=
- =?utf-8?B?ME9lbFJRU2tCWk9GWGJ3V0c3Wk41ak53ZEk1eVE0TDhTTnBtWmF2bU5NcWdx?=
- =?utf-8?B?MUFLQWhnUTl5M01uYTBPN1Z2UHlZRlFTY2VJdDZZZ1B5QXZPd1R4Tmcyb1My?=
- =?utf-8?B?Wm50NmdYN3hwMmZ1a0IrU1pnZE1TU1pnTHpxYzBkN3AwblQrSnk3ZzBYQjZO?=
- =?utf-8?B?YTJkS3lyWXN6UVV3TnBJN2R2UGJxYlNqM0R4azUyeE9qUUQzU3ppbU9rMUdw?=
- =?utf-8?B?c3UybEdGMVA2SVd1OHVabG43dWhzLzNJMWl0VmpyTTZENHo3Nkw2ZVlZaFJL?=
- =?utf-8?B?dDR2dVhVNExjeDBwem1hTTBaV2ZVdCtVdDNadDcwR3VYTWU5cmNZSy9IL1Yw?=
- =?utf-8?B?M3UvcXpWVHZTWkU5QmpWR2t6Rm56c25icmgrUEJneXR4Mm9heFBKaTNLeWVN?=
- =?utf-8?Q?lv/YPhPHx46vclnCT9GPoY5OLQNBSrIoCXLi0au?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VWFJR2dGZlM2eG5vM29wWTBmQnU2TmNtYndsRElDcFU4WGxTMDE3R1FSZXZ5?=
- =?utf-8?B?cndLc1FhRXpEd2lkY0hTL1pBZ09ZQk5vVlF3T0JicjRnTHBvc1owbFFYZita?=
- =?utf-8?B?Y3NrbEUwMWxPa2lCekpFUzJTV0x2KzZuN0hiNHJtZVc5Z1Jxc0ZSUTFYdkRH?=
- =?utf-8?B?YVVEMit1aTBmWTJDdkVSVEdNY05BUnhrL05zeXdrTFJtMEV5b2t5V04yelZ4?=
- =?utf-8?B?dmY2TXVRakVqT3kvejNCSXdYREFHY2J4dXNQZVlCWUVHK1kvYis2U3NJSkEv?=
- =?utf-8?B?OXducW1VNGJkYjZzNG9DMEM0cFprYlBqV3oxNzBZNGN1cDB5QUdPSmovKzdq?=
- =?utf-8?B?MXhKT3JCS3RrY3Q4TktoSlQ4RnZ6TCtMckpQckNpS1pXNkhjR1NWTjdndXFv?=
- =?utf-8?B?ZjZNL2tFRE43SFR2N2ZwUk5aMDFJK0YwRFk5K3MxZ1AxblRmalkrUERuQ0lm?=
- =?utf-8?B?SHpRb2tjUk5nMTQwb3dIWkZQdTZ4eU5hczVQWEZocS9kOU9oYzZUS3M4MDVl?=
- =?utf-8?B?U2VGNnE4MmZYVkIxLytOdXFsWndML1h6enF4OFJUd0RwRnpoZm13aXl2RUhW?=
- =?utf-8?B?SmVvVHNQZUVSYTNhSTdLZTc0OC9OY1dDTGhOcjdiRTZrNEVSMWVBTWtJQUEv?=
- =?utf-8?B?RXYwb29VK2pXdzFtaWlHYnRDOE4wbURVUTdwVDcvU3IzZ0xIYVlXT01veGxa?=
- =?utf-8?B?QzhhUklqYVA0b2hxNmpZY3R5ckx6ejlhSnEvZm9zVXZpREdHNjBpTzhCOFY4?=
- =?utf-8?B?bFVBTXN6eE1vUk9ubUhwcVAxS29mbFN5SWdCekZVc2xzcC90QlZKR0dSVTN2?=
- =?utf-8?B?RVFGcm94ZmxqVi9YdjRGVTh6RXdFRnEvNDR4ZnlsSmVKcmJRZHNZeGFlVnhx?=
- =?utf-8?B?QU5WdWI3QzE3bzY1RXZIMytTeGM3aXV0NlNITHFnUjNZVEZUMlNWOU5HNzR5?=
- =?utf-8?B?SS9TNU10SmVIS3VSTitNaGllM2Q2eDU0ekx2ZUhOVHBzQ3VuMmxqeXBmMkw3?=
- =?utf-8?B?U0MrQ0VtbzNpaWZlMzRYWkg1c0dhQkpIbW5TWUtYTHlFWXp5N3B3YjgrY0JK?=
- =?utf-8?B?dDJjck5XL3dHbzhCaTEySDU4ZTRtMnVIdldHeGw4K1NBTlE5ZFBFQ3J6dWJa?=
- =?utf-8?B?MDZjWDNHN0lXbVl3NTVLdVdvUTJiTW1UNGU2ZHNCekxJNEJzNXFVNEt4OGEv?=
- =?utf-8?B?MHNDbU9vNnk2TXlTZFMvUEJ2aUlSTGRWQzNRVmhoaWx5KzBxRkdVVHdqb0F5?=
- =?utf-8?B?NjVkU2NhTDlzdlMzRHJOVUNXYjE5bk9sNTh0bkNJOWsvalh6Ni83aEVBelpl?=
- =?utf-8?B?RzMyc2UrNmZWaEpQUDZpUERIVU1wczF0R25tY2VxekY2bDBlMDZkOG0yQnZD?=
- =?utf-8?B?MExzejNhMUhJUlM5eDV3dndYczVrNjFsQzBCOHM5NGR1Uk1tZmkxMmh5TkVD?=
- =?utf-8?B?bXpnL2tES25Ba2MxanBVL1JCaEp2U1VNMHluandTbW01VEVCdGpCem9sM0Ji?=
- =?utf-8?B?R041SjRRMmZmVUtsbTZxOHNxcDY0bUhwUU5YWjBxYURtMFA3V2RVcTdkYi91?=
- =?utf-8?B?RlpRTDBhYXZ3SHEzaldzM1dEbXNibzczL3FVZ3ZMNVpqNmVndWpsWDBzQWJT?=
- =?utf-8?B?dlZDY3ZEWEI3VlFIRGdyNDB5akkyWjN5WSszbHBVd2ZtNktZM1p3MmdkWFVs?=
- =?utf-8?B?NGZhUWlvSGR6R2h2M0tHMExGak1GY3ArblRzZmV4Mkl1WlpzT29GWDlkeFZE?=
- =?utf-8?B?cERWbVhsZ2lZNmlJeGY2azhIM2tyMGlBVEk4L3VtQnRMM001UWVQMkZ2ZFBm?=
- =?utf-8?B?NXJpYktMdFRiVHova3ovQnE3RGxuMWpZVWlSdzl1MGtCRGVFMm5MMnVweTNi?=
- =?utf-8?B?aTdRVjlOeG8wZ2tzRmFhQWFtYzgrSkFpUFJnaHI4TnJXanFoNllnQk1ibmgx?=
- =?utf-8?B?bXVYMEpaSklYU0tMVG9DTVpOQ2RYVEYvMGhNWDVCS3hvREt2a3JUdllSR3NW?=
- =?utf-8?B?R0NJTjdRdDQvN0k2aTNPVVA5NjY0NzRJL3ZYLzJMcU5qYkpvQktzOStWclZX?=
- =?utf-8?B?R2lIbi9EOHExck1ESzdkcXlHQmZISitic2xqbmM5VUhtNmN1aVgzemk5eTlC?=
- =?utf-8?Q?ksX+LpNGUo28//cqlsTVddAZM?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1d504fd5-1f21-4a6d-81c7-08dcf26731b9
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2024 07:00:21.1283 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8kMnQ8IwK3JCviVYfzhAaBeJjWqQlfgCUJE6Gac3RkXW4lFdEtugozwEBogEM3/0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5788
+References: <8c2df6a903f87d4932586b25f1d3bd548fe8e6d1.1729180470.git.geert+renesas@glider.be>
+ <20241018131035.GA20602@pendragon.ideasonboard.com>
+ <CAMuHMdVrahM9GYDX4FBZ31YBUZWm67-KoG-EBTDL8LU9bv2qsg@mail.gmail.com>
+ <2024101855-judo-tattered-bc3c@gregkh>
+ <20241018142522.GA28934@pendragon.ideasonboard.com>
+ <2024101837-crushed-emphasis-b496@gregkh>
+ <20241020143629.GC28934@pendragon.ideasonboard.com>
+ <2024102119-oversweet-labored-aa07@gregkh>
+ <CAMuHMdUWAQKRy6F-zyCK6efhSYDRo2Go-f-=t2kRnPQoNdw0og@mail.gmail.com>
+ <2024102137-repost-visiting-323d@gregkh>
+ <CAMuHMdWOLD13hzERAgaH5zg5FsVZZZnQoFdkRzv+E6r6BTAixA@mail.gmail.com>
+ <CAMuHMdXXokfQziiE9_5oYpcUsWVn6i-0v__D0U1cbRkV4K9jqA@mail.gmail.com>
+ <CAD=FV=VHxvbofWmq6bPVcVokn4kqZ9Bckytw5cv-xYFEGpEtcg@mail.gmail.com>
+In-Reply-To: <CAD=FV=VHxvbofWmq6bPVcVokn4kqZ9Bckytw5cv-xYFEGpEtcg@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 22 Oct 2024 09:11:49 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXAKH224=fFjohM0Kg702bc7xP+rErtiNDAu+LgFBhX2Q@mail.gmail.com>
+Message-ID: <CAMuHMdXAKH224=fFjohM0Kg702bc7xP+rErtiNDAu+LgFBhX2Q@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: Fix multiple instances
+To: Doug Anderson <dianders@chromium.org>
+Cc: Greg KH <gregkh@linuxfoundation.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Linus Walleij <linus.walleij@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -161,71 +99,213 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 18.10.24 um 15:33 schrieb Yunxiang Li:
-> The old behavior reports the resident memory usage for this key and the
-> documentation say so as well. However this was accidentally changed to
-> include buffers that was evicted.
+Hi Doug,
+
+On Tue, Oct 22, 2024 at 2:28=E2=80=AFAM Doug Anderson <dianders@chromium.or=
+g> wrote:
+> On Mon, Oct 21, 2024 at 1:48=E2=80=AFAM Geert Uytterhoeven <geert@linux-m=
+68k.org> wrote:
+> > On Mon, Oct 21, 2024 at 10:23=E2=80=AFAM Geert Uytterhoeven
+> > <geert@linux-m68k.org> wrote:
+> > > On Mon, Oct 21, 2024 at 9:27=E2=80=AFAM Greg KH <gregkh@linuxfoundati=
+on.org> wrote:
+> > > > On Mon, Oct 21, 2024 at 08:58:30AM +0200, Geert Uytterhoeven wrote:
+> > > > > On Mon, Oct 21, 2024 at 8:39=E2=80=AFAM Greg KH <gregkh@linuxfoun=
+dation.org> wrote:
+> > > > > > On Sun, Oct 20, 2024 at 05:36:29PM +0300, Laurent Pinchart wrot=
+e:
+> > > > > > > On Fri, Oct 18, 2024 at 04:31:21PM +0200, Greg KH wrote:
+> > > > > > > > On Fri, Oct 18, 2024 at 05:25:22PM +0300, Laurent Pinchart =
+wrote:
+> > > > > > > > > On Fri, Oct 18, 2024 at 04:09:26PM +0200, Greg KH wrote:
+> > > > > > > > > > On Fri, Oct 18, 2024 at 03:36:48PM +0200, Geert Uytterh=
+oeven wrote:
+> > > > > > > > > > > On Fri, Oct 18, 2024 at 3:10=E2=80=AFPM Laurent Pinch=
+art wrote:
+> > > > > > > > > > > > On Fri, Oct 18, 2024 at 09:45:52AM +0200, Geert Uyt=
+terhoeven wrote:
+> > > > > > > > > > > > > Each bridge instance creates up to four auxiliary=
+ devices with different
+> > > > > > > > > > > > > names.  However, their IDs are always zero, causi=
+ng duplicate filename
+> > > > > > > > > > > > > errors when a system has multiple bridges:
+> > > > > > > > > > > > >
+> > > > > > > > > > > > >     sysfs: cannot create duplicate filename '/bus=
+/auxiliary/devices/ti_sn65dsi86.gpio.0'
+> > > > > > > > > > > > >
+> > > > > > > > > > > > > Fix this by using a unique instance ID per bridge=
+ instance.
+> > > > > > > > > > > >
+> > > > > > > > > > > > Isn't this something that should be handled by the =
+AUX core ? The code
+> > > > > > > > > > > > below would otherwise need to be duplicated by all =
+drivers, which seems
+> > > > > > > > > > > > a burden we should avoid.
+> > > > > > > > > > >
+> > > > > > > > > > > According to the documentation, this is the responsib=
+ility of the caller
+> > > > > > > > > > > https://elixir.bootlin.com/linux/v6.11.4/source/inclu=
+de/linux/auxiliary_bus.h#L81
+> > > > > > > > > > > I believe this is the same for platform devices.
+> > > > > > > > > > > See also the example at
+> > > > > > > > > > > https://elixir.bootlin.com/linux/v6.11.4/source/inclu=
+de/linux/auxiliary_bus.h#L116
+> > > > > > > > > > >
+> > > > > > > > > > > Note: the platform bus supports PLATFORM_DEVID_AUTO, =
+but the auxiliary
+> > > > > > > > > > > bus does not.
+> > > > > > > > > >
+> > > > > > > > > > Yes, it does not as it's up to the caller to create a u=
+nique name, like
+> > > > > > > > > > your patch here does.  I'd argue that platform should a=
+lso not do
+> > > > > > > > > > automatic device ids, but that's a different argument :=
+)
+> > > > > > > > >
+> > > > > > > > > __auxiliary_device_add() creates the device name with
+> > > > > > > > >
+> > > > > > > > >   dev_set_name(dev, "%s.%s.%d", modname, auxdev->name, au=
+xdev->id);
+> > > > > > > > >
+> > > > > > > > > I'm not calling for a PLATFORM_DEVID_AUTO-like feature he=
+re, but
+> > > > > > > > > shouldn't the first component of the device name use the =
+parent's name
+> > > > > > > > > instead of the module name ?
+> > > > > > > >
+> > > > > > > > Why would the parent's name not be the module name?  That n=
+ame is
+> > > > > > > > guaranteed unique in the system.  If you want "uniqueness" =
+within the
+> > > > > > > > driver/module, use the name and id field please.
+> > > > > > > >
+> > > > > > > > That's worked well so far, but to be fair, aux devices are =
+pretty new.
+> > > > > > > > What problem is this naming scheme causing?
+> > > > > > >
+> > > > > > > Auxiliary devices are created as children of a parent device.=
+ When
+> > > > > > > multiple instances of the same parent type exist, this will b=
+e reflected
+> > > > > > > in the /sys/devices/ devices tree hierarchy without any issue=
+. The
+> > > > > > > problem comes from the fact the the auxiliary devices need a =
+unique name
+> > > > > > > for /sys/bus/auxialiary/devices/, where we somehow have to di=
+fferenciate
+> > > > > > > devices of identical types.
+> > > > > > >
+> > > > > > > Essentially, we're trying to summarize a whole hierarchy (pat=
+h in
+> > > > > > > /sys/devices/) into a single string. There are different ways=
+ to solve
+> > > > > > > this. For platform devices, we use a device ID. For I2C devic=
+es, we use
+> > > > > > > the parent's bus number. Other buses use different schemes.
+> > > > > > >
+> > > > > > > Geert's patch implements a mechanism in the ti-sn65dsi86 driv=
+er to
+> > > > > > > handle this, and assign an id managed by the parent. In a sen=
+se we could
+> > > > > > > consider this to be similar to what is done for I2C, where th=
+e bus
+> > > > > > > number is also a property of the parent. However, the big dif=
+ference is
+> > > > > > > that the I2C bus number is managed by the I2C subsystem, whil=
+e here the
+> > > > > > > id is managed by the ti-sn65dsi86 driver, not by the auxiliar=
+y device
+> > > > > > > core. This would require duplicating the same mechanism in ev=
+ery single
+> > > > > > > driver creating auxiliary devices. This strikes me as a fairl=
+y bad idea.
+> > > > > > > The problem should be solved by the core, not by individual d=
+rivers.
+> > > > > >
+> > > > > > The "id" is just a unique number, it is "managed" by the thing =
+that is
+> > > > > > creating the devices themselves, not the aux core code.  I don'=
+t see why
+> > > > > > the i2c bus number has to match the same number that the ti dri=
+ver
+> > > > > > creates, it could be anything, as long as it doesn't match anyt=
+hing else
+> > > > > > currently created by that driver.
+> > > > >
+> > > > > Laurent does not say it has to match the i2c bus number.
+> > > > > He does think the auxilliary bus should provide a mechanism to
+> > > > > allocate these IDs (e.g. usin g AUX_DEVID_AUTO?).
+> > > >
+> > > > As this is the first subsystem to ask for such a thing, I didn't th=
+ink
+> > > > it was needed, but the aux subsystem is new :)
+> > > >
+> > > > > However, using i2c_client->adapter->nr instead of ida_alloc()
+> > > > > in the TI driver does sound like a good idea to me...
+> > > >
+> > > > Great!
+> >
+> > > With the I2C adapter numbers, that becomes:
+> > >
+> > >     /sys/bus/auxiliary/devices
+> > >     =E2=94=9C=E2=94=80=E2=94=80 ti_sn65dsi86.gpio.1
+> > >     =E2=94=9C=E2=94=80=E2=94=80 ti_sn65dsi86.pwm.1
+> > >     =E2=94=9C=E2=94=80=E2=94=80 ti_sn65dsi86.aux.1
+> > >     =E2=94=9C=E2=94=80=E2=94=80 ti_sn65dsi86.bridge.1
+> > >     =E2=94=9C=E2=94=80=E2=94=80 ti_sn65dsi86.gpio.4
+> > >     =E2=94=9C=E2=94=80=E2=94=80 ti_sn65dsi86.pwm.4
+> > >     =E2=94=9C=E2=94=80=E2=94=80 ti_sn65dsi86.aux.4
+> > >     =E2=94=94=E2=94=80=E2=94=80 ti_sn65dsi86.bridge.4
+> > >
+> > > > adapter->nr instead like other aux subsystems already do.
+> >
+> > Unfortunately the devil is in the details, as usual: there can be
+> > multiple instances of the sn65dsi86 bridge on a single I2C bus,
+> > so adapter->nr is not guaranteed to generate a unique name.
 >
-> Fixes: a2529f67e2ed ("drm/amdgpu: Use drm_print_memory_stats helper from fdinfo")
-> Signed-off-by: Yunxiang Li <Yunxiang.Li@amd.com>
+> In the case of sn65dsi86 I think we'd actually be OK. The TI bridge
+> chip is always at bus address 0x2d so you can't have more than one on
+> the same bus. Unless you added something funky atop it (like a mux of
+> some sort) you might be OK.
 
-Acked-by: Christian König <christian.koenig@amd.com>
+It's 0x2c on mine ;-)
 
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c | 7 ++++---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 1 -
->   drivers/gpu/drm/amd/amdgpu/amdgpu_object.h | 1 -
->   3 files changed, 4 insertions(+), 5 deletions(-)
+    8.5.1 Local I2C Interface Overview
+    The 7-bit device address for SN65DSI86 is factory preset to 010110X
+    with the least significant bit being determined by the ADDR control
+    input.
+
+> > Changing the auxiliary bus to use the parent's name instead of the
+> > module name, as suggested by Laurent, would fix that.
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
-> index 00a4ab082459f..8281dd45faaa0 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
-> @@ -33,6 +33,7 @@
->   #include <drm/amdgpu_drm.h>
->   #include <drm/drm_debugfs.h>
->   #include <drm/drm_drv.h>
-> +#include <drm/drm_file.h>
->   
->   #include "amdgpu.h"
->   #include "amdgpu_vm.h"
-> @@ -95,11 +96,11 @@ void amdgpu_show_fdinfo(struct drm_printer *p, struct drm_file *file)
->   
->   	/* Legacy amdgpu keys, alias to drm-resident-memory-: */
->   	drm_printf(p, "drm-memory-vram:\t%llu KiB\n",
-> -		   stats[TTM_PL_VRAM].total/1024UL);
-> +		   stats[TTM_PL_VRAM].drm.resident/1024UL);
->   	drm_printf(p, "drm-memory-gtt: \t%llu KiB\n",
-> -		   stats[TTM_PL_TT].total/1024UL);
-> +		   stats[TTM_PL_TT].drm.resident/1024UL);
->   	drm_printf(p, "drm-memory-cpu: \t%llu KiB\n",
-> -		   stats[TTM_PL_SYSTEM].total/1024UL);
-> +		   stats[TTM_PL_SYSTEM].drm.resident/1024UL);
->   
->   	/* Amdgpu specific memory accounting keys: */
->   	drm_printf(p, "amd-memory-visible-vram:\t%llu KiB\n",
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> index 045222b6bd049..2a53e72f3964f 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> @@ -1223,7 +1223,6 @@ void amdgpu_bo_get_memory(struct amdgpu_bo *bo,
->   
->   	/* DRM stats common fields: */
->   
-> -	stats[type].total += size;
->   	if (drm_gem_object_is_shared_for_memory_stats(obj))
->   		stats[type].drm.shared += size;
->   	else
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
-> index 7260349917ef0..a5653f474f85c 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
-> @@ -142,7 +142,6 @@ struct amdgpu_bo_vm {
->   struct amdgpu_mem_stats {
->   	struct drm_memory_stats drm;
->   
-> -	uint64_t total;
->   	uint64_t visible;
->   	uint64_t evicted;
->   	uint64_t evicted_visible;
+> Right. On my system dev_name() of the sn65dsi86 device is "2-002d". If
+> we had a second on i2c bus 4, we'd have:
+>
+>     /sys/bus/auxiliary/devices
+>     =E2=94=9C=E2=94=80=E2=94=80 2-002d.gpio.0
+>     =E2=94=9C=E2=94=80=E2=94=80 2-002d.pwm.0
+>     =E2=94=9C=E2=94=80=E2=94=80 2-002d.aux.0
+>     =E2=94=9C=E2=94=80=E2=94=80 2-002d.bridge.0
+>     =E2=94=9C=E2=94=80=E2=94=80 4-002d.gpio.0
+>     =E2=94=9C=E2=94=80=E2=94=80 4-002d.pwm.0
+>     =E2=94=9C=E2=94=80=E2=94=80 4-002d.aux.0
+>     =E2=94=94=E2=94=80=E2=94=80 4-002d.bridge.0
+>
+> ...and I think that's guaranteed to be unique because all the i2c
+> devices are flat in "/sys/bus/i2c/devices".
 
+Correct.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
