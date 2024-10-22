@@ -2,52 +2,187 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54A689A9EF7
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2024 11:46:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAE829A9EFE
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2024 11:46:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB3FC10E648;
-	Tue, 22 Oct 2024 09:46:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 279EF10E642;
+	Tue, 22 Oct 2024 09:46:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="OItmUG7Q";
+	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="O4POdFpz";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b="NVysE2Cr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDE5010E647;
- Tue, 22 Oct 2024 09:46:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1729590361;
- bh=zRu04J1zS0vKaLEgYmvdCC8mwi/AOPZWEzLfldNwN5o=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=OItmUG7QFJANjEZAr12qqOphTEfwTF/rhvmGc1+qSpDXK0wPPGVHvhzHfkOpmHcNK
- sLSo0qpZZ1a9PsuWJycfRk8n+4bS9r3maea2qc2FPzgkW+1qP6QWHU4yLEDMouvhQ7
- 3vzBmhqajc03qL2gitQgXQx9GZRYx2n3fWUEjmtfZmqoompdhTnnEkXEmRjRQLthw7
- w1BlaC6wNtHtXp/mzh97cLBVNdfjTVuchm3ykq4MEEZejwj28epbkpCYUr58fohh5Q
- AOMw63RST0Z/r5K4rvTBpaBdS/SD4QmE2If18QEgSYKtZHm/NoGBoDwpZAUHXTz3dA
- KoznVZrrXLcaw==
-Received: from localhost.localdomain (unknown [171.76.81.24])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: vignesh)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 9DF7317E14D5;
- Tue, 22 Oct 2024 11:45:58 +0200 (CEST)
-From: Vignesh Raman <vignesh.raman@collabora.com>
-To: dri-devel@lists.freedesktop.org
-Cc: daniels@collabora.com, helen.koike@collabora.com, airlied@gmail.com,
- daniel@ffwll.ch, robdclark@gmail.com, guilherme.gallo@collabora.com,
- sergi.blanch.torne@collabora.com, deborah.brouwer@collabora.com,
- dmitry.baryshkov@linaro.org, quic_abhinavk@quicinc.com,
- linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- virtualization@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/2] drm/ci: add sm8350-hdk
-Date: Tue, 22 Oct 2024 15:15:05 +0530
-Message-ID: <20241022094509.85510-3-vignesh.raman@collabora.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241022094509.85510-1-vignesh.raman@collabora.com>
-References: <20241022094509.85510-1-vignesh.raman@collabora.com>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0187610E642
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Oct 2024 09:46:31 +0000 (UTC)
+X-UUID: 822bbe80905a11efbd192953cf12861f-20241022
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-ID:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From;
+ bh=UZP5ar1gErtyVh/kg3fGfp8ASkFvFimeVAWPi5bhzrA=; 
+ b=O4POdFpzPOKcGw9AcKgPFGUidF3d9l5GE03ABZdsim9RLwka/j/Ll9rPWkcw4liqJHY2Cp/KQo5QJvldMfuU/Z7NSOLErJOEBcDnbRADu0uJZjA5QLGlU7J4tmHbBvIY8NL15vpvBTyFERw+a2muOz56yi6/4e1rrEo0C7q99mI=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.42, REQID:cfb22a21-9d24-4521-af58-55a77e871df9, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:b0fcdc3, CLOUDID:9e037625-9cd9-4037-af6e-f4241b90f84d,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:1|-5,EDM:-3,IP:ni
+ l,URL:11|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,
+ LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
+X-UUID: 822bbe80905a11efbd192953cf12861f-20241022
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+ mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1957085082; Tue, 22 Oct 2024 17:46:27 +0800
+Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
+ mtkmbs13n2.mediatek.inc (172.21.101.108) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Tue, 22 Oct 2024 17:46:26 +0800
+Received: from HK2PR02CU002.outbound.protection.outlook.com (172.21.101.237)
+ by mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Tue, 22 Oct 2024 17:46:26 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=BKVa/mnAzAOC0B7/T03o2+zWvei+l3uqus2RAKZEXLTQewRGKzlgvppFeMtseWrRvOeo59Or2euILciLlkxUg7aPTW4/2dmKLGxGHdu9xatCLdj9u0z/mlZudNa+lJ5Yi3Kp8QTEn3yQm252xmJlpgztRrtaIuIzyV+Mg+n+JOwsZLY+nF8Vg2GJFlPCIkOdLse64kBxdDZmIkATe8s7m8hsE8pzOZcImIWY/r6EoFzpEDeFva7xBS5NKBjTxTMz141XJYQ7l4/2e21jAOz6YewR4/PBTKWmvysr6ZdUhcJw98AWQWJcTdJgzEFSWBucB6z6bBIVnhUMGAr4mQWbfg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=K7oF5MOHq7cVS3x8jurLG036op0+ugr/Ksz18+iToKI=;
+ b=SIx4Wmb0CucQJtETBXSdh07PvDR6EQmbXDNFQQ2rdfsXn4V/tYvTYIEaHkZ+olcZiaypmwlh/CjYDteZGj3ZfOSbUPb2ndi/L0hCcUWuUvw4LJBgQjeERBZwD4qAuOpxzDLDMy2R8+TZOY3U6hnKRC0sTqilcy1BtOi224RCXipKQW6NCQ/j27iriDNhsRhqVb0c7fjOPxXUIWgnyyPGfKA8ii5WbiaTJOBGBMDxkVmx6VxnXhgVQzUnGfYJmi3PQn6t4wQyxD7Qp+JU4YnvasufPcmbyN8sPdlFzzqDy7qCtkMEM3F1DEtYLbyTernqfpyPVHXzEP6nhMOH99kqYA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
+ dkim=pass header.d=mediatek.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=K7oF5MOHq7cVS3x8jurLG036op0+ugr/Ksz18+iToKI=;
+ b=NVysE2Crqhn8Evozf2FKp+mqpjd+dkcKsKLFVaKkPdpiuwnQ9WMhf3YXUTXLyH8s1MarCb5LDECcSavepwYSxbqXHcfK/HKLUqwZIZTA6wQGhwkCXDaIA/ZO/bADUD4nrbMiwvVJ266jRTQvn9JikZCpNPNplN0aQcQCtqvv0Fw=
+Received: from TYZPR03MB6624.apcprd03.prod.outlook.com (2603:1096:400:1f4::13)
+ by SG2PR03MB6777.apcprd03.prod.outlook.com (2603:1096:4:1de::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.29; Tue, 22 Oct
+ 2024 09:46:24 +0000
+Received: from TYZPR03MB6624.apcprd03.prod.outlook.com
+ ([fe80::9ce6:1e85:c4a7:2a54]) by TYZPR03MB6624.apcprd03.prod.outlook.com
+ ([fe80::9ce6:1e85:c4a7:2a54%7]) with mapi id 15.20.8069.024; Tue, 22 Oct 2024
+ 09:46:24 +0000
+From: =?utf-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
+To: "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+CC: "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>
+Subject: Re: [PATCH v2 09/10] drm/mediatek: Allow build with COMPILE_TEST=y
+Thread-Topic: [PATCH v2 09/10] drm/mediatek: Allow build with COMPILE_TEST=y
+Thread-Index: AQHbFYZGXQhSYURdx0Gm+WdO7yD3TbKSo3WA
+Date: Tue, 22 Oct 2024 09:46:24 +0000
+Message-ID: <574344f74186e9cf930fb20289a0ed48d7ee436b.camel@mediatek.com>
+References: <20241003111851.10453-1-ville.syrjala@linux.intel.com>
+ <20241003111851.10453-10-ville.syrjala@linux.intel.com>
+In-Reply-To: <20241003111851.10453-10-ville.syrjala@linux.intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mediatek.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYZPR03MB6624:EE_|SG2PR03MB6777:EE_
+x-ms-office365-filtering-correlation-id: bbdbc4ec-e2b8-4f00-58b2-08dcf27e6448
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0; ARA:13230040|1800799024|376014|366016|38070700018;
+x-microsoft-antispam-message-info: =?utf-8?B?QmpDd093dXFhTm41RGEwaEtuejd3MjVwMHljaXNOSTBLYWU0RWJvVWdPekw0?=
+ =?utf-8?B?UUlhbXVlV2l1VUo4cUlObU51Vy8raXRHZDVhYXljTFlLTkpqVHJORmtabGVR?=
+ =?utf-8?B?N29IWUtLUE9hV1lNb1ZJM3Q5ejhpbWgvYkNZaWNXckZMQ2ZqZUhOT3pYaUxh?=
+ =?utf-8?B?S1FYV1lUQXhtT1pxc29OcDk0bk5oTVBmS2o3NVNTTGZjN0hiTWIyaGFqUkNM?=
+ =?utf-8?B?d0hMK04zdWFLOW1sMHlCc2czTUViTWtSRWFYclFQY1N5NjZiSTNsY3lneEpp?=
+ =?utf-8?B?RUt3TzVMN0lNbmtDQnEzQzRJWmVVcFJ4K29vVnlzWFl4aVI4bWgwWnBHWE5t?=
+ =?utf-8?B?NDhYR0ZaSytNQ0lXMExBRkJqU1lFSjF1a0lBWnRRRFg1N3c4cEluRTQ3OTdp?=
+ =?utf-8?B?ajMrcE9BZWVNdkRJWE5HSVhaY3M0OWFvR3pkSzdaazdhOENFTnJ3YmdmVS9E?=
+ =?utf-8?B?ODlDMXhGMjMxNjlNR2hxc2ZMcUxyanhiN3NHNUgyblExczBGMkFjTHBHR2Jx?=
+ =?utf-8?B?RTNMbTRTb21qQUdFeHVXbldrQklibzhJdjdXeUdnRE9SSnplYUI0bTRSTndI?=
+ =?utf-8?B?TnpZOWVnWFdkaThWcldVbWtFYlFoWnNYSFFGTWFzRzRYZFNDWmNJMXFweXNZ?=
+ =?utf-8?B?U09nSHNyQ095clRMZXVWZ2xYdVdIcURFTm9KUnRHK2VRdE9NbEZPL2NwNmo4?=
+ =?utf-8?B?b3RnVFZpM25ycmZ0ZncwL0JacDlVUWhKK0M4cUZacmtSRGZNOHh6bWRFcVpL?=
+ =?utf-8?B?QjRxYUFLUlcyZmw1RUVybnZCZlVwTUJtWmhreExlOG04YzU5QUFYTFBXUFp2?=
+ =?utf-8?B?eXhuQlVOZnNHUWxzZTBhVFZLVWdiL2QrWTY2TVlGRDQwQklNeXEybWpzcmN5?=
+ =?utf-8?B?dVdjSVRya0FJOGpyWkxFL2JPZkk4YW0zd0xtU016NWVkeFBnWU5NbCtZRUk0?=
+ =?utf-8?B?a1ZVZkhpU2RPWGV2R0V0OVJRZTQ1b255eTJ3M01VckVVTFJxSUdhSzB3RVdJ?=
+ =?utf-8?B?bWg1a1hCK0R3c1RURG1nN0h0dmZKbXk3MGF0dGxLd1o4NjQ0K01MVUdMMUl4?=
+ =?utf-8?B?V1k2Sks0RzJna0lwYnliYTZhaE8welpnQUk5WEFVZU9ZTmJvUUx1NWpPU3RP?=
+ =?utf-8?B?NlV5NEdzZlZHcDhlK2QwdUlCOWhXa1JkZ2FyUFc4RXJjNjRyTTlYOWFEMk5T?=
+ =?utf-8?B?am1wY0Q4T1Vqd1FrR25JM3BIZU1NWCtVbDJTM01TN2tmR2NKcEdYQ0NCZEZV?=
+ =?utf-8?B?MkUyL1g0dHUxL0JaR0tzMDRCZnczQjZobzYrd1M4aXNWZkNoVDNGOGM1LzVv?=
+ =?utf-8?B?TmhIR3FrRmxyZ2Q1RkR5c1dIT2JwTnFSczA1QUtBVXFDSDg4R2lsZzRWTlVW?=
+ =?utf-8?B?c2d4L2Z6eTVxdlhrbDRZcWRNSlphNXl2ZmlPdmtZUUJzZ3RsblNHOS9wZ3pE?=
+ =?utf-8?B?cExBWnIvU2tLWkhnUzRNTWdJcE5FQ20yM1E3VUlHM1F2Vmg2YmdVQWlxQkpO?=
+ =?utf-8?B?ZVV2V3lhcDlHOUllWnR3SXJyNzVISmtHdHlaaE9LOElUQU5RUktiOTFDRjFW?=
+ =?utf-8?B?bGxMczJvR1dvVkUrYlFnRmlKc1Q3eUNRZDVIbU9aa1pFeGt6RjEwcVdhN2tP?=
+ =?utf-8?B?R2doRHhsd0VreXRXSnJjNlVJRlQ2U3psL2R3Ymg5L3NZMUc3Zk93cUpsL3VM?=
+ =?utf-8?B?SEJ1TmZxeWxrcTNHenFJQ3pINnBUQWJwUEtZZEkyNU1GSVhFSllwbmlPRXo2?=
+ =?utf-8?B?dFp4MDRlSjRTcm1TR2FhS2FWTVY4WFlPWHRib0x3RGhhQWtaOGNKTWJuVDB3?=
+ =?utf-8?Q?i33rs0OSBu8izvm+IgjJWsG119dZcnweK/J7s=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:TYZPR03MB6624.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(366016)(38070700018); DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?TVNvVjlDU2hxYmdIL2wxNXV6anBQcVBwN09iV2RTNWtSWW9tUlcwUmIwUmpX?=
+ =?utf-8?B?ZFRSNHNjMEdid3phOUVKZUlERHhJL1FGLzVVanc4MUFlSlZXY1BvWEpoUnFL?=
+ =?utf-8?B?SlZkMXlIQ3ZQRWNPVDZhVXQ0bEVOaU92cmlTL0VyQlVldU5KSHluSjBoaEFU?=
+ =?utf-8?B?MFQwSk81YmZHMEliM21OMzNkRkdoTHZUY2ZDeldJQTcvWjlLRVRZdGU0SFlw?=
+ =?utf-8?B?bjF0U3AxUTZCQ2phRzkyeGdmSGUwcW9nYzBDaDdtdFpZZzJ3bjVjZjQ1QUcr?=
+ =?utf-8?B?Tk5MOHlsazd4bnpmWkdJZGFQeDA5S3hDMGNEbFZYczlnS0V3bFRQVGdMYW10?=
+ =?utf-8?B?RWs5RGRkMC90QlM5aFdRR09YWElDNGVyUUg1VzJicEllYklpZ1NLTXNEbkI1?=
+ =?utf-8?B?aTI1T3pncUZuOXMyN3R0VmJlTHAxQXIwUGlhNWZWejlIeUF6Q3hGRytjVTJF?=
+ =?utf-8?B?dzlvOWlER0dJNVVKQ2xVYWVkSmtsanRzdUw5dDBHVUR0VHliQ2dJbjJLT3pp?=
+ =?utf-8?B?OWpsZFI2dFlIUkxEakhZa0ppeDNzeWZLQXpLUFM1UDVaeSs4UlVBeUh5NzBo?=
+ =?utf-8?B?YVh0OCtzcGFYKzVvZW9FTXhIRUFQY1pab3RtK0ZFTHE5MzZHWERmNmF2Z25r?=
+ =?utf-8?B?Y0R3cCsySW9pdU9xRVdTbVZJMXY1N00wMXBWamhTb1BmV0ZkZHVzT2VSRlA2?=
+ =?utf-8?B?bWJJSThuSFdBc1N4UndNcWxJRzArZzNnUUNqRmFNVzRBTVprVTBXc3o1R21N?=
+ =?utf-8?B?YVRuRjlRcDRCbkVqK3F0ZUd4N0psK0ZPRzhQZHAremltcHdvL0hRRjY3TWky?=
+ =?utf-8?B?WWZCa29HMDBscUtQbWs1RE1uY2FoSWlkaFVpYWxNMnpuSVFsSGFmQXJxQkds?=
+ =?utf-8?B?dW1Ha2U0aFVzT3BaNmFFcGVLN3o1YjNLQzhrRHRnVVk0ZmFsek55dzFvb3lk?=
+ =?utf-8?B?SXlJUmxoZ1l1MER4YVRYOGNZc25wRVd1WkFUQm5JSUJuaTY4RmxQU3EvUmh4?=
+ =?utf-8?B?cXdrdU5LbUJvZDV1aXp5Si9Td1lOcGlMaVA3RkRwSTZwamExZ3N2Tll2SE40?=
+ =?utf-8?B?TGlBS0U4dEh1V1A0ZUFTaTBOTzhIY3ltb2x2Q3drcFQxTzZmVmRlZGdnYU9S?=
+ =?utf-8?B?aUJrQmNtMnF6OE5mc2VwdXZ6WTB0dFV5TVpLSDZmOVZtK0QzN1FiUVRZRXB3?=
+ =?utf-8?B?VHZnci9UajVLcVJmNGxiTVpvL1lZK00xMG0rQ2pDaEZBNmg5ZHB3c3drT1Rx?=
+ =?utf-8?B?Ymg2Y3IzT1I3ZnB2c0RCejNZMmdrOHFRb3NieGlLbTYwcW4vVklMLzZPZEIv?=
+ =?utf-8?B?dHVBcXR5bHF5ZFJZZkQ2OHRvUWlWUHduRnhJbDEwN0pjVjQzcUVPRGQzUTVw?=
+ =?utf-8?B?SW1ZSnYzMi8yVUtjbHZCcm94TTBvMXBZekszNDlVTWkxQ3NxdjNwTTBadWxY?=
+ =?utf-8?B?anRwMnIrbUxEelJISTNvOUU3bWlpZW9VSUZ0cE1tZi9aNWs1ZEZkZmJDay9H?=
+ =?utf-8?B?aHZCbUJ4T2l5bnlFTTNVM3c3UlI5YnVPYjh3c2dBU3IySEpxeG5FMm9ZVG5t?=
+ =?utf-8?B?b3dQamJ4TmdIMjZHQnlSYVdXUkZXL1FVaEdiMkM1SU5wMjNPY0diUFZacFBk?=
+ =?utf-8?B?QzgvUTRnZUgzSGMvSkpLSy8wVS9landsUDhXUzhHcDdPblo2NHVlRTZES3d6?=
+ =?utf-8?B?NDB6RXhlcFBzbnNONm1iNzVrZWNydklpU1VNREtjSWlQV05VaS9FWWozOGNj?=
+ =?utf-8?B?QytYelhQVWoxRFE1bjN6SStZcy80YjJLRHA0L3ZKc3g3NkJxa3ZaM3NwMzB2?=
+ =?utf-8?B?NEk0SXhLd2VkRW1UMlRuYW1aSnIvZ3dIUGZmZjVzeDVMczY0WEd4aXQyb0xE?=
+ =?utf-8?B?SlpPVXBJSjViaHJmM2NEMG5JeE5jZGZtbCs3VDFtaEIyeG9RZ0Vqdmg5VytR?=
+ =?utf-8?B?d0w5MS9ubUtlT1hTbDdaME1HblAwOU1UVS9QQ0cydHA5aHlQMDBxSnZkSXl0?=
+ =?utf-8?B?ZUxxdEtTanQwWVp2MFlqUzFoemdMRXNmdEVjYnplRERtUlNwK3VuQ2hGbFlt?=
+ =?utf-8?B?YzgxNkpQRG4xN1pHNlFEYkZZLzlHMEpodWFGK2ZGZ0ZqM29NVC9yZm5oMnl6?=
+ =?utf-8?B?ZUl4UURGWjI0dm0zUDk4bzRWWEM2dHN5U2lFTE50STlHcmJNVEo1Ry85VmVq?=
+ =?utf-8?B?bFE9PQ==?=
+Content-ID: <0427130A66A69843842B08641CBCBF6A@apcprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYZPR03MB6624.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bbdbc4ec-e2b8-4f00-58b2-08dcf27e6448
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Oct 2024 09:46:24.1991 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: c77dvrNJB8JxQc/eaSxIbBuSW0DJF4DFY7FgUt45zQI9k4LhrVZJYO5LiqaPa1o9XGh+cr1P2P85qJIZRGQpEw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SG2PR03MB6777
+Content-Type: multipart/alternative;
+ boundary="__=_Part_Boundary_006_298475714.1396757908"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,335 +198,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add job that executes the IGT test suite for sm8350-hdk.
+--__=_Part_Boundary_006_298475714.1396757908
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
----
+SGksIFZpbGxlOg0KDQpPbiBUaHUsIDIwMjQtMTAtMDMgYXQgMTQ6MTggKzAzMDAsIFZpbGxlIFN5
+cmphbGEgd3JvdGU6DQo+ICAJIA0KPiBFeHRlcm5hbCBlbWFpbCA6IFBsZWFzZSBkbyBub3QgY2xp
+Y2sgbGlua3Mgb3Igb3BlbiBhdHRhY2htZW50cyB1bnRpbCB5b3UgaGF2ZSB2ZXJpZmllZCB0aGUg
+c2VuZGVyIG9yIHRoZSBjb250ZW50Lg0KPiAgRnJvbTogVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5z
+eXJqYWxhQGxpbnV4LmludGVsLmNvbT4NCj4gDQo+IEFsbG93IG1lZGlhdGVrIHRvIGJlIGJ1aWx0
+IHdpdGggQ09NUElMRV9URVNUPXkgZm9yIGdyZWF0ZXINCj4gY292ZXJhZ2UuIEJ1aWxkcyBmaW5l
+IG9uIHg4Ni94ODZfNjQgYXQgbGVhc3QuDQoNCkkgZG9uJ3Qga25vdyB3aHkgbmVlZCB0aGlzIGdy
+ZWF0ZXIgY292ZXJhZ2U/DQpUaGlzIGRyaXZlciBhbHdheXMgZXhlY3V0ZSBvbiBBUk0uDQoNClJl
+Z2FyZHMsDQpDSw0KDQo+IA0KPiBDYzogQ2h1bi1LdWFuZyBIdSA8Y2h1bmt1YW5nLmh1QGtlcm5l
+bC5vcmc+DQo+IENjOiBQaGlsaXBwIFphYmVsIDxwLnphYmVsQHBlbmd1dHJvbml4LmRlPg0KPiBD
+YzogbGludXgtbWVkaWF0ZWtAbGlzdHMuaW5mcmFkZWFkLm9yZw0KPiBTaWduZWQtb2ZmLWJ5OiBW
+aWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPg0KPiAtLS0NCj4g
+IGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9LY29uZmlnIHwgNCArKy0tDQo+ICAxIGZpbGUgY2hh
+bmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBh
+L2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9LY29uZmlnIGIvZHJpdmVycy9ncHUvZHJtL21lZGlh
+dGVrL0tjb25maWcNCj4gaW5kZXggM2QyNDM2MjcyZmYyLi4yZTBlN2M0MDc5YjYgMTAwNjQ0DQo+
+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9LY29uZmlnDQo+ICsrKyBiL2RyaXZlcnMv
+Z3B1L2RybS9tZWRpYXRlay9LY29uZmlnDQo+IEBAIC0yLDkgKzIsOSBAQA0KPiAgY29uZmlnIERS
+TV9NRURJQVRFSw0KPiAgdHJpc3RhdGUgIkRSTSBTdXBwb3J0IGZvciBNZWRpYXRlayBTb0NzIg0K
+PiAgZGVwZW5kcyBvbiBEUk0NCj4gLWRlcGVuZHMgb24gQVJDSF9NRURJQVRFSyB8fCAoQVJNICYm
+IENPTVBJTEVfVEVTVCkNCj4gK2RlcGVuZHMgb24gKEFSQ0hfTUVESUFURUsgJiYgQVJNKSB8fCBD
+T01QSUxFX1RFU1QNCj4gIGRlcGVuZHMgb24gQ09NTU9OX0NMSw0KPiAtZGVwZW5kcyBvbiBIQVZF
+X0FSTV9TTUNDQw0KPiArZGVwZW5kcyBvbiBIQVZFX0FSTV9TTUNDQyB8fCBDT01QSUxFX1RFU1QN
+Cj4gIGRlcGVuZHMgb24gT0YNCj4gIGRlcGVuZHMgb24gTVRLX01NU1lTDQo+ICBzZWxlY3QgRFJN
+X0NMSUVOVF9TRUxFQ1RJT04NCj4gLS0gDQo+IDIuNDUuMg0KPiANCg==
 
-v2:
-   - Add gitlab issue link for flake tests.
+--__=_Part_Boundary_006_298475714.1396757908
+Content-Type: text/html;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
----
- drivers/gpu/drm/ci/arm64.config               |   7 +-
- drivers/gpu/drm/ci/build.sh                   |   1 +
- drivers/gpu/drm/ci/test.yml                   |  16 ++
- .../drm/ci/xfails/msm-sm8350-hdk-fails.txt    |  15 ++
- .../drm/ci/xfails/msm-sm8350-hdk-flakes.txt   |   6 +
- .../drm/ci/xfails/msm-sm8350-hdk-skips.txt    | 211 ++++++++++++++++++
- 6 files changed, 255 insertions(+), 1 deletion(-)
- create mode 100644 drivers/gpu/drm/ci/xfails/msm-sm8350-hdk-fails.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/msm-sm8350-hdk-flakes.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/msm-sm8350-hdk-skips.txt
+PGh0bWw+PGJvZHk+PHA+DQo8cHJlPg0KSGksJiMzMjtWaWxsZToNCg0KT24mIzMyO1RodSwmIzMy
+OzIwMjQtMTAtMDMmIzMyO2F0JiMzMjsxNDoxOCYjMzI7KzAzMDAsJiMzMjtWaWxsZSYjMzI7U3ly
+amFsYSYjMzI7d3JvdGU6DQomZ3Q7JiMzMjsmIzMyOyYjMzI7DQomZ3Q7JiMzMjtFeHRlcm5hbCYj
+MzI7ZW1haWwmIzMyOzomIzMyO1BsZWFzZSYjMzI7ZG8mIzMyO25vdCYjMzI7Y2xpY2smIzMyO2xp
+bmtzJiMzMjtvciYjMzI7b3BlbiYjMzI7YXR0YWNobWVudHMmIzMyO3VudGlsJiMzMjt5b3UmIzMy
+O2hhdmUmIzMyO3ZlcmlmaWVkJiMzMjt0aGUmIzMyO3NlbmRlciYjMzI7b3ImIzMyO3RoZSYjMzI7
+Y29udGVudC4NCiZndDsmIzMyOyYjMzI7RnJvbTomIzMyO1ZpbGxlJiMzMjtTeXJqJiMyMjg7bCYj
+MjI4OyYjMzI7Jmx0O3ZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tJmd0Ow0KJmd0OyYjMzI7
+DQomZ3Q7JiMzMjtBbGxvdyYjMzI7bWVkaWF0ZWsmIzMyO3RvJiMzMjtiZSYjMzI7YnVpbHQmIzMy
+O3dpdGgmIzMyO0NPTVBJTEVfVEVTVD15JiMzMjtmb3ImIzMyO2dyZWF0ZXINCiZndDsmIzMyO2Nv
+dmVyYWdlLiYjMzI7QnVpbGRzJiMzMjtmaW5lJiMzMjtvbiYjMzI7eDg2L3g4Nl82NCYjMzI7YXQm
+IzMyO2xlYXN0Lg0KDQpJJiMzMjtkb24mIzM5O3QmIzMyO2tub3cmIzMyO3doeSYjMzI7bmVlZCYj
+MzI7dGhpcyYjMzI7Z3JlYXRlciYjMzI7Y292ZXJhZ2UmIzYzOw0KVGhpcyYjMzI7ZHJpdmVyJiMz
+MjthbHdheXMmIzMyO2V4ZWN1dGUmIzMyO29uJiMzMjtBUk0uDQoNClJlZ2FyZHMsDQpDSw0KDQom
+Z3Q7JiMzMjsNCiZndDsmIzMyO0NjOiYjMzI7Q2h1bi1LdWFuZyYjMzI7SHUmIzMyOyZsdDtjaHVu
+a3VhbmcuaHVAa2VybmVsLm9yZyZndDsNCiZndDsmIzMyO0NjOiYjMzI7UGhpbGlwcCYjMzI7WmFi
+ZWwmIzMyOyZsdDtwLnphYmVsQHBlbmd1dHJvbml4LmRlJmd0Ow0KJmd0OyYjMzI7Q2M6JiMzMjts
+aW51eC1tZWRpYXRla0BsaXN0cy5pbmZyYWRlYWQub3JnDQomZ3Q7JiMzMjtTaWduZWQtb2ZmLWJ5
+OiYjMzI7VmlsbGUmIzMyO1N5cmomIzIyODtsJiMyMjg7JiMzMjsmbHQ7dmlsbGUuc3lyamFsYUBs
+aW51eC5pbnRlbC5jb20mZ3Q7DQomZ3Q7JiMzMjstLS0NCiZndDsmIzMyOyYjMzI7ZHJpdmVycy9n
+cHUvZHJtL21lZGlhdGVrL0tjb25maWcmIzMyO3wmIzMyOzQmIzMyOysrLS0NCiZndDsmIzMyOyYj
+MzI7MSYjMzI7ZmlsZSYjMzI7Y2hhbmdlZCwmIzMyOzImIzMyO2luc2VydGlvbnMoKyksJiMzMjsy
+JiMzMjtkZWxldGlvbnMoLSkNCiZndDsmIzMyOw0KJmd0OyYjMzI7ZGlmZiYjMzI7LS1naXQmIzMy
+O2EvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL0tjb25maWcmIzMyO2IvZHJpdmVycy9ncHUvZHJt
+L21lZGlhdGVrL0tjb25maWcNCiZndDsmIzMyO2luZGV4JiMzMjszZDI0MzYyNzJmZjIuLjJlMGU3
+YzQwNzliNiYjMzI7MTAwNjQ0DQomZ3Q7JiMzMjstLS0mIzMyO2EvZHJpdmVycy9ncHUvZHJtL21l
+ZGlhdGVrL0tjb25maWcNCiZndDsmIzMyOysrKyYjMzI7Yi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0
+ZWsvS2NvbmZpZw0KJmd0OyYjMzI7QEAmIzMyOy0yLDkmIzMyOysyLDkmIzMyO0BADQomZ3Q7JiMz
+MjsmIzMyO2NvbmZpZyYjMzI7RFJNX01FRElBVEVLDQomZ3Q7JiMzMjsmIzMyO3RyaXN0YXRlJiMz
+MjsmcXVvdDtEUk0mIzMyO1N1cHBvcnQmIzMyO2ZvciYjMzI7TWVkaWF0ZWsmIzMyO1NvQ3MmcXVv
+dDsNCiZndDsmIzMyOyYjMzI7ZGVwZW5kcyYjMzI7b24mIzMyO0RSTQ0KJmd0OyYjMzI7LWRlcGVu
+ZHMmIzMyO29uJiMzMjtBUkNIX01FRElBVEVLJiMzMjt8fCYjMzI7KEFSTSYjMzI7JmFtcDsmYW1w
+OyYjMzI7Q09NUElMRV9URVNUKQ0KJmd0OyYjMzI7K2RlcGVuZHMmIzMyO29uJiMzMjsoQVJDSF9N
+RURJQVRFSyYjMzI7JmFtcDsmYW1wOyYjMzI7QVJNKSYjMzI7fHwmIzMyO0NPTVBJTEVfVEVTVA0K
+Jmd0OyYjMzI7JiMzMjtkZXBlbmRzJiMzMjtvbiYjMzI7Q09NTU9OX0NMSw0KJmd0OyYjMzI7LWRl
+cGVuZHMmIzMyO29uJiMzMjtIQVZFX0FSTV9TTUNDQw0KJmd0OyYjMzI7K2RlcGVuZHMmIzMyO29u
+JiMzMjtIQVZFX0FSTV9TTUNDQyYjMzI7fHwmIzMyO0NPTVBJTEVfVEVTVA0KJmd0OyYjMzI7JiMz
+MjtkZXBlbmRzJiMzMjtvbiYjMzI7T0YNCiZndDsmIzMyOyYjMzI7ZGVwZW5kcyYjMzI7b24mIzMy
+O01US19NTVNZUw0KJmd0OyYjMzI7JiMzMjtzZWxlY3QmIzMyO0RSTV9DTElFTlRfU0VMRUNUSU9O
+DQomZ3Q7JiMzMjstLSYjMzI7DQomZ3Q7JiMzMjsyLjQ1LjINCiZndDsmIzMyOw0KDQo8L3ByZT4N
+CjwvcD48L2JvZHk+PC9odG1sPjwhLS10eXBlOnRleHQtLT48IS0tey0tPjxwcmU+KioqKioqKioq
+KioqKiBNRURJQVRFSyBDb25maWRlbnRpYWxpdHkgTm90aWNlDQogKioqKioqKioqKioqKioqKioq
+KioNClRoZSBpbmZvcm1hdGlvbiBjb250YWluZWQgaW4gdGhpcyBlLW1haWwgbWVzc2FnZSAoaW5j
+bHVkaW5nIGFueSANCmF0dGFjaG1lbnRzKSBtYXkgYmUgY29uZmlkZW50aWFsLCBwcm9wcmlldGFy
+eSwgcHJpdmlsZWdlZCwgb3Igb3RoZXJ3aXNlDQpleGVtcHQgZnJvbSBkaXNjbG9zdXJlIHVuZGVy
+IGFwcGxpY2FibGUgbGF3cy4gSXQgaXMgaW50ZW5kZWQgdG8gYmUgDQpjb252ZXllZCBvbmx5IHRv
+IHRoZSBkZXNpZ25hdGVkIHJlY2lwaWVudChzKS4gQW55IHVzZSwgZGlzc2VtaW5hdGlvbiwgDQpk
+aXN0cmlidXRpb24sIHByaW50aW5nLCByZXRhaW5pbmcgb3IgY29weWluZyBvZiB0aGlzIGUtbWFp
+bCAoaW5jbHVkaW5nIGl0cyANCmF0dGFjaG1lbnRzKSBieSB1bmludGVuZGVkIHJlY2lwaWVudChz
+KSBpcyBzdHJpY3RseSBwcm9oaWJpdGVkIGFuZCBtYXkgDQpiZSB1bmxhd2Z1bC4gSWYgeW91IGFy
+ZSBub3QgYW4gaW50ZW5kZWQgcmVjaXBpZW50IG9mIHRoaXMgZS1tYWlsLCBvciBiZWxpZXZlDQog
+DQp0aGF0IHlvdSBoYXZlIHJlY2VpdmVkIHRoaXMgZS1tYWlsIGluIGVycm9yLCBwbGVhc2Ugbm90
+aWZ5IHRoZSBzZW5kZXIgDQppbW1lZGlhdGVseSAoYnkgcmVwbHlpbmcgdG8gdGhpcyBlLW1haWwp
+LCBkZWxldGUgYW55IGFuZCBhbGwgY29waWVzIG9mIA0KdGhpcyBlLW1haWwgKGluY2x1ZGluZyBh
+bnkgYXR0YWNobWVudHMpIGZyb20geW91ciBzeXN0ZW0sIGFuZCBkbyBub3QNCmRpc2Nsb3NlIHRo
+ZSBjb250ZW50IG9mIHRoaXMgZS1tYWlsIHRvIGFueSBvdGhlciBwZXJzb24uIFRoYW5rIHlvdSEN
+CjwvcHJlPjwhLS19LS0+
 
-diff --git a/drivers/gpu/drm/ci/arm64.config b/drivers/gpu/drm/ci/arm64.config
-index 66e70ced796f..a8fca079921b 100644
---- a/drivers/gpu/drm/ci/arm64.config
-+++ b/drivers/gpu/drm/ci/arm64.config
-@@ -90,7 +90,12 @@ CONFIG_QCOM_GPI_DMA=y
- CONFIG_USB_ONBOARD_DEV=y
- CONFIG_NVMEM_QCOM_QFPROM=y
- CONFIG_PHY_QCOM_USB_SNPS_FEMTO_V2=y
--
-+CONFIG_REGULATOR_QCOM_REFGEN=y
-+CONFIG_TYPEC_MUX_FSA4480=y
-+CONFIG_QCOM_PMIC_GLINK=y
-+CONFIG_UCSI_PMIC_GLINK=y
-+CONFIG_QRTR=y
-+CONFIG_QRTR_SMD=y
- 
- # db410c ethernet
- CONFIG_USB_RTL8152=y
-diff --git a/drivers/gpu/drm/ci/build.sh b/drivers/gpu/drm/ci/build.sh
-index 5a3bdcffae32..139b81db6312 100644
---- a/drivers/gpu/drm/ci/build.sh
-+++ b/drivers/gpu/drm/ci/build.sh
-@@ -30,6 +30,7 @@ if [[ "$KERNEL_ARCH" = "arm64" ]]; then
-     DEVICE_TREES+=" arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb"
-     DEVICE_TREES+=" arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor-limozeen-nots-r5.dtb"
-     DEVICE_TREES+=" arch/arm64/boot/dts/qcom/sc7180-trogdor-kingoftown.dtb"
-+    DEVICE_TREES+=" arch/arm64/boot/dts/qcom/sm8350-hdk.dtb"
- elif [[ "$KERNEL_ARCH" = "arm" ]]; then
-     GCC_ARCH="arm-linux-gnueabihf"
-     DEBIAN_ARCH="armhf"
-diff --git a/drivers/gpu/drm/ci/test.yml b/drivers/gpu/drm/ci/test.yml
-index d0bfe6aab58a..f0ef60c8f56d 100644
---- a/drivers/gpu/drm/ci/test.yml
-+++ b/drivers/gpu/drm/ci/test.yml
-@@ -162,6 +162,22 @@ msm:sdm845:
-   script:
-     - ./install/bare-metal/cros-servo.sh
- 
-+msm:sm8350-hdk:
-+  extends:
-+    - .lava-igt:arm64
-+  stage: msm
-+  parallel: 4
-+  variables:
-+    BOOT_METHOD: fastboot
-+    DEVICE_TYPE: sm8350-hdk
-+    DRIVER_NAME: msm
-+    DTB: ${DEVICE_TYPE}
-+    FARM: collabora
-+    GPU_VERSION: ${DEVICE_TYPE}
-+    KERNEL_IMAGE_NAME: "Image.gz"
-+    KERNEL_IMAGE_TYPE: ""
-+    RUNNER_TAG: mesa-ci-x86-64-lava-sm8350-hdk
-+
- .rockchip-device:
-   variables:
-     DTB: ${DEVICE_TYPE}
-diff --git a/drivers/gpu/drm/ci/xfails/msm-sm8350-hdk-fails.txt b/drivers/gpu/drm/ci/xfails/msm-sm8350-hdk-fails.txt
-new file mode 100644
-index 000000000000..4892c0c70a6d
---- /dev/null
-+++ b/drivers/gpu/drm/ci/xfails/msm-sm8350-hdk-fails.txt
-@@ -0,0 +1,15 @@
-+kms_3d,Fail
-+kms_cursor_legacy@forked-bo,Fail
-+kms_cursor_legacy@forked-move,Fail
-+kms_cursor_legacy@single-bo,Fail
-+kms_cursor_legacy@single-move,Fail
-+kms_cursor_legacy@torture-bo,Fail
-+kms_cursor_legacy@torture-move,Fail
-+kms_hdmi_inject@inject-4k,Fail
-+kms_lease@lease-uevent,Fail
-+kms_plane_alpha_blend@alpha-7efc,Fail
-+kms_plane_alpha_blend@alpha-basic,Fail
-+kms_plane_alpha_blend@alpha-opaque-fb,Fail
-+kms_plane_alpha_blend@alpha-transparent-fb,Fail
-+kms_plane_alpha_blend@constant-alpha-max,Fail
-+msm/msm_recovery@gpu-fault-parallel,Fail
-diff --git a/drivers/gpu/drm/ci/xfails/msm-sm8350-hdk-flakes.txt b/drivers/gpu/drm/ci/xfails/msm-sm8350-hdk-flakes.txt
-new file mode 100644
-index 000000000000..c1859d9b165f
---- /dev/null
-+++ b/drivers/gpu/drm/ci/xfails/msm-sm8350-hdk-flakes.txt
-@@ -0,0 +1,6 @@
-+# Board Name: sm8350-hdk
-+# Bug Report: https://gitlab.freedesktop.org/drm/msm/-/issues/65
-+# Failure Rate: 100
-+# IGT Version: 1.28-ga73311079
-+# Linux Version: 6.12.0-rc1
-+msm/msm_recovery@gpu-fault
-diff --git a/drivers/gpu/drm/ci/xfails/msm-sm8350-hdk-skips.txt b/drivers/gpu/drm/ci/xfails/msm-sm8350-hdk-skips.txt
-new file mode 100644
-index 000000000000..329770c520d9
---- /dev/null
-+++ b/drivers/gpu/drm/ci/xfails/msm-sm8350-hdk-skips.txt
-@@ -0,0 +1,211 @@
-+# Skip driver specific tests
-+^amdgpu.*
-+nouveau_.*
-+^panfrost.*
-+^v3d.*
-+^vc4.*
-+^vmwgfx*
-+
-+# Skip intel specific tests
-+gem_.*
-+i915_.*
-+tools_test.*
-+
-+# Currently fails and causes coverage loss for other tests
-+# since core_getversion also fails.
-+core_hotunplug.*
-+
-+# Kernel panic
-+msm/msm_mapping@ring
-+# DEBUG - Begin test msm/msm_mapping@ring
-+# [  200.874157] [IGT] msm_mapping: executing
-+# [  200.880236] [IGT] msm_mapping: starting subtest ring
-+# [  200.895243] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=PERMISSION source=CP (0,0,0,1)
-+# [  200.906885] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  200.917625] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  200.928353] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  200.939084] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  200.949815] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  200.950227] platform 3d6a000.gmu: [drm:a6xx_hfi_send_msg.constprop.0] *ERROR* Message HFI_H2F_MSG_GX_BW_PERF_VOTE id 25 timed out waiting for response
-+# [  200.960467] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  200.960500] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  200.995966] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  201.006702] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  204.213387] platform 3d6a000.gmu: GMU watchdog expired
-+# [  205.909103] adreno_fault_handler: 224274 callbacks suppressed
-+# [  205.909108] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  205.925794] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  205.936529] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  205.947263] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  205.957997] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  205.968731] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  205.979465] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  205.990199] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  206.000932] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  206.011666] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  210.925090] adreno_fault_handler: 224511 callbacks suppressed
-+# [  210.925096] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  210.941781] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  210.952517] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  210.963250] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  210.973985] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  210.984719] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  210.995452] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  211.006186] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  211.016921] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  211.027655] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  215.937100] adreno_fault_handler: 223760 callbacks suppressed
-+# [  215.937106] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  215.953824] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  215.964573] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  215.975321] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  215.986067] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  215.996815] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  216.007563] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  216.018310] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  216.029057] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  216.039805] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  220.945182] adreno_fault_handler: 222822 callbacks suppressed
-+# [  220.945188] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  220.961897] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  220.972645] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  220.983392] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  220.994140] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  221.004889] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  221.015636] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  221.026383] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  221.037130] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  221.047879] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  225.953179] adreno_fault_handler: 223373 callbacks suppressed
-+# [  225.953184] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  225.969883] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  225.980617] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  225.991350] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  226.002084] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  226.012818] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  226.023551] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  226.034285] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  226.045019] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  226.055753] *** gpu fault: ttbr0=00000001160d6000 iova=0001000000001000 dir=WRITE type=UNKNOWN source=CP (0,0,0,1)
-+# [  228.001087] rcu: INFO: rcu_preempt detected stalls on CPUs/tasks:
-+# [  228.007412] rcu: 	0-....: (524 ticks this GP) idle=4ffc/1/0x4000000000000000 softirq=9367/9368 fqs=29
-+# [  228.017097] rcu: 	(detected by 1, t=6504 jiffies, g=29837, q=6 ncpus=8)
-+# [  228.023959] Sending NMI from CPU 1 to CPUs 0:
-+# [  228.161164] watchdog: BUG: soft lockup - CPU#0 stuck for 26s! [gpu-worker:150]
-+# [  228.173169] Modules linked in:
-+# [  228.176361] irq event stamp: 2809595
-+# [  228.180083] hardirqs last  enabled at (2809594): [<ffffd3bc52cb91ac>] exit_to_kernel_mode+0x38/0x130
-+# [  228.189547] hardirqs last disabled at (2809595): [<ffffd3bc52cb92c8>] el1_interrupt+0x24/0x64
-+# [  228.198377] softirqs last  enabled at (1669060): [<ffffd3bc51936f98>] handle_softirqs+0x4a4/0x4bc
-+# [  228.207565] softirqs last disabled at (1669063): [<ffffd3bc518905a4>] __do_softirq+0x14/0x20
-+# [  228.216316] CPU: 0 UID: 0 PID: 150 Comm: gpu-worker Not tainted 6.12.0-rc1-g685d530dc83a #1
-+# [  228.224966] Hardware name: Qualcomm Technologies, Inc. SM8350 HDK (DT)
-+# [  228.231730] pstate: 00400005 (nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-+# [  228.238948] pc : tcp_fastretrans_alert+0x0/0x884
-+# [  228.243751] lr : tcp_ack+0x9d4/0x1238
-+# [  228.247562] sp : ffff8000800036d0
-+# [  228.251011] x29: ffff8000800036d0 x28: 000000000000000c x27: 0000000000000001
-+# [  228.258421] x26: ffff704683cd8000 x25: 0000000000000403 x24: ffff70468b7e7c00
-+# [  228.265829] x23: 0000000000000000 x22: 0000000000000004 x21: 000000000000140f
-+# [  228.273237] x20: 00000000f1de79f7 x19: 00000000f1de7a5f x18: 0000000000000001
-+# [  228.280644] x17: 00000000302d6762 x16: 632d6b64682d3035 x15: ffff704683c39000
-+# [  228.288051] x14: 00000000000e2000 x13: ffff704683df6000 x12: 0000000000000000
-+# [  228.295458] x11: 00000000000000a0 x10: 0000000000000000 x9 : ffffd3bc551a9a20
-+# [  228.302865] x8 : ffff800080003640 x7 : 0000000000040faa x6 : 00000000ffff9634
-+# [  228.310271] x5 : 00000000000005a8 x4 : ffff800080003788 x3 : ffff80008000377c
-+# [  228.317679] x2 : 0000000000000000 x1 : 00000000f1de79f7 x0 : ffff704683cd8000
-+# [  228.325087] Call trace:
-+# [  228.327640]  tcp_fastretrans_alert+0x0/0x884
-+# [  228.332082]  tcp_rcv_established+0x7c4/0x8bc
-+# [  228.336523]  tcp_v4_do_rcv+0x244/0x31c
-+# [  228.340429]  tcp_v4_rcv+0xcc4/0x1084
-+# [  228.344155]  ip_protocol_deliver_rcu+0x64/0x218
-+# [  228.348862]  ip_local_deliver_finish+0xb8/0x1ac
-+# [  228.353566]  ip_local_deliver+0x84/0x254
-+# [  228.357651]  ip_sublist_rcv_finish+0x84/0xb8
-+# [  228.362092]  ip_sublist_rcv+0x11c/0x2f0
-+# [  228.366081]  ip_list_rcv+0xfc/0x190
-+# [  228.369711]  __netif_receive_skb_list_core+0x174/0x208
-+# [  228.375050]  netif_receive_skb_list_internal+0x204/0x3ac
-+# [  228.380564]  napi_complete_done+0x64/0x1d0
-+# [  228.384826]  lan78xx_poll+0x71c/0x9cc
-+# [  228.388638]  __napi_poll.constprop.0+0x3c/0x254
-+# [  228.393341]  net_rx_action+0x164/0x2d4
-+# [  228.397244]  handle_softirqs+0x128/0x4bc
-+# [  228.401329]  __do_softirq+0x14/0x20
-+# [  228.404958]  ____do_softirq+0x10/0x1c
-+# [  228.408769]  call_on_irq_stack+0x24/0x4c
-+# [  228.412854]  do_softirq_own_stack+0x1c/0x28
-+# [  228.417199]  __irq_exit_rcu+0x124/0x164
-+# [  228.421188]  irq_exit_rcu+0x10/0x38
-+# [  228.424819]  el1_interrupt+0x38/0x64
-+# [  228.428546]  el1h_64_irq_handler+0x18/0x24
-+# [  228.432807]  el1h_64_irq+0x64/0x68
-+# [  228.436354]  lock_acquire+0x214/0x32c
-+# [  228.440166]  __mutex_lock+0x98/0x3d0
-+# [  228.443893]  mutex_lock_nested+0x24/0x30
-+# [  228.447978]  fault_worker+0x58/0x184
-+# [  228.451704]  kthread_worker_fn+0xf4/0x320
-+# [  228.455873]  kthread+0x114/0x118
-+# [  228.459243]  ret_from_fork+0x10/0x20
-+# [  228.462970] Kernel panic - not syncing: softlockup: hung tasks
-+# [  228.469018] CPU: 0 UID: 0 PID: 150 Comm: gpu-worker Tainted: G             L     6.12.0-rc1-g685d530dc83a #1
-+# [  228.479190] Tainted: [L]=SOFTLOCKUP
-+# [  228.482815] Hardware name: Qualcomm Technologies, Inc. SM8350 HDK (DT)
-+# [  228.489574] Call trace:
-+# [  228.492125]  dump_backtrace+0x98/0xf0
-+# [  228.495931]  show_stack+0x18/0x24
-+# [  228.499380]  dump_stack_lvl+0x38/0xd0
-+# [  228.503189]  dump_stack+0x18/0x24
-+# [  228.506639]  panic+0x3bc/0x41c
-+# [  228.509826]  watchdog_timer_fn+0x254/0x2e4
-+# [  228.514087]  __hrtimer_run_queues+0x3b0/0x40c
-+# [  228.518612]  hrtimer_interrupt+0xe8/0x248
-+# [  228.522777]  arch_timer_handler_virt+0x2c/0x44
-+# [  228.527399]  handle_percpu_devid_irq+0xa8/0x2c4
-+# [  228.532103]  generic_handle_domain_irq+0x2c/0x44
-+# [  228.536902]  gic_handle_irq+0x4c/0x11c
-+# [  228.540802]  do_interrupt_handler+0x50/0x84
-+# [  228.545146]  el1_interrupt+0x34/0x64
-+# [  228.548870]  el1h_64_irq_handler+0x18/0x24
-+# [  228.553128]  el1h_64_irq+0x64/0x68
-+# [  228.556672]  tcp_fastretrans_alert+0x0/0x884
-+# [  228.561110]  tcp_rcv_established+0x7c4/0x8bc
-+# [  228.565548]  tcp_v4_do_rcv+0x244/0x31c
-+# [  228.569449]  tcp_v4_rcv+0xcc4/0x1084
-+# [  228.573171]  ip_protocol_deliver_rcu+0x64/0x218
-+# [  228.577873]  ip_local_deliver_finish+0xb8/0x1ac
-+# [  228.582574]  ip_local_deliver+0x84/0x254
-+# [  228.586655]  ip_sublist_rcv_finish+0x84/0xb8
-+# [  228.591092]  ip_sublist_rcv+0x11c/0x2f0
-+# [  228.595079]  ip_list_rcv+0xfc/0x190
-+# [  228.598706]  __netif_receive_skb_list_core+0x174/0x208
-+# [  228.604039]  netif_receive_skb_list_internal+0x204/0x3ac
-+# [  228.609549]  napi_complete_done+0x64/0x1d0
-+# [  228.613808]  lan78xx_poll+0x71c/0x9cc
-+# [  228.617614]  __napi_poll.constprop.0+0x3c/0x254
-+# [  228.622314]  net_rx_action+0x164/0x2d4
-+# [  228.626214]  handle_softirqs+0x128/0x4bc
-+# [  228.630297]  __do_softirq+0x14/0x20
-+# [  228.633923]  ____do_softirq+0x10/0x1c
-+# [  228.637729]  call_on_irq_stack+0x24/0x4c
-+# [  228.641811]  do_softirq_own_stack+0x1c/0x28
-+# [  228.646152]  __irq_exit_rcu+0x124/0x164
-+# [  228.650139]  irq_exit_rcu+0x10/0x38
-+# [  228.653768]  el1_interrupt+0x38/0x64
-+# [  228.657491]  el1h_64_irq_handler+0x18/0x24
-+# [  228.661750]  el1h_64_irq+0x64/0x68
-+# [  228.665293]  lock_acquire+0x214/0x32c
-+# [  228.669098]  __mutex_lock+0x98/0x3d0
-+# [  228.672821]  mutex_lock_nested+0x24/0x30
-+# [  228.676903]  fault_worker+0x58/0x184
-+# [  228.680626]  kthread_worker_fn+0xf4/0x320
-+# [  228.684790]  kthread+0x114/0x118
-+# [  228.688156]  ret_from_fork+0x10/0x20
-+# [  228.691882] SMP: stopping secondary CPUs
-+# [  229.736843] SMP: failed to stop secondary CPUs 1,4
-+# [  229.741827] Kernel Offset: 0x53bbd1880000 from 0xffff800080000000
-+# [  229.748159] PHYS_OFFSET: 0xfff08fba80000000
-+# [  229.752499] CPU features: 0x18,00000017,00200928,4200720b
-+# [  229.758095] Memory Limit: none
-+# [  229.761291] ---[ end Kernel panic - not syncing: softlockup: hung tasks ]---
--- 
-2.43.0
+--__=_Part_Boundary_006_298475714.1396757908--
 
