@@ -2,26 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAD069AA270
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2024 14:47:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 914FC9AA26D
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2024 14:47:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 386EB10E321;
-	Tue, 22 Oct 2024 12:47:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34FD910E671;
+	Tue, 22 Oct 2024 12:47:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7132A10E145
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAE0910E321
  for <dri-devel@lists.freedesktop.org>; Tue, 22 Oct 2024 12:47:02 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.163.174])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4XXsM11nWXzfdM9;
- Tue, 22 Oct 2024 20:44:29 +0800 (CST)
+Received: from mail.maildlp.com (unknown [172.19.162.112])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4XXsJw2bl7z1HLKC;
+ Tue, 22 Oct 2024 20:42:40 +0800 (CST)
 Received: from kwepemd500013.china.huawei.com (unknown [7.221.188.12])
- by mail.maildlp.com (Postfix) with ESMTPS id 271C514022E;
- Tue, 22 Oct 2024 20:46:59 +0800 (CST)
+ by mail.maildlp.com (Postfix) with ESMTPS id 4B65B140361;
+ Tue, 22 Oct 2024 20:47:00 +0800 (CST)
 Received: from localhost.huawei.com (10.169.71.169) by
  kwepemd500013.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.34; Tue, 22 Oct 2024 20:46:57 +0800
+ 15.2.1258.34; Tue, 22 Oct 2024 20:46:58 +0800
 From: Yongbang Shi <shiyongbang@huawei.com>
 To: <xinliang.liu@linaro.org>, <tiantao6@hisilicon.com>,
  <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
@@ -31,9 +31,9 @@ CC: <liangjian010@huawei.com>, <chenjianmin@huawei.com>,
  <lidongming5@huawei.com>, <shiyongbang@huawei.com>, <libaihan@huawei.com>,
  <shenjian15@huawei.com>, <shaojijie@huawei.com>,
  <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH V2 drm-dp 1/4] drm/hisilicon/hibmc: add dp aux in hibmc
-Date: Tue, 22 Oct 2024 20:41:45 +0800
-Message-ID: <20241022124148.1952761-2-shiyongbang@huawei.com>
+Subject: [PATCH V2 drm-dp 2/4] drm/hisilicon/hibmc: add dp link moduel in hibmc
+Date: Tue, 22 Oct 2024 20:41:46 +0800
+Message-ID: <20241022124148.1952761-3-shiyongbang@huawei.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20241022124148.1952761-1-shiyongbang@huawei.com>
 References: <20241022124148.1952761-1-shiyongbang@huawei.com>
@@ -60,404 +60,414 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: baihan li <libaihan@huawei.com>
 
-Add dp aux read/write functions. They are basic functions
-and will be used later.
+Add link training process functions in this moduel.
 
 Signed-off-by: baihan li <libaihan@huawei.com>
 ---
 ChangeLog:
 v1 -> v2:
-  - using drm_dp_aux frame implement dp aux read and write functions, suggested by Jani Nikula.
-  - using drm dp header files' dp macros instead, suggested by Andy Yan.
+  - using drm_dp_* functions implement dp link training process, suggested by Jani Nikula.
+  - fix build errors reported by kernel test robot <lkp@intel.com>
+    Closes: https://lore.kernel.org/oe-kbuild-all/202410031735.8iRZZR6T-lkp@intel.com/
   v1:https://lore.kernel.org/all/20240930100610.782363-1-shiyongbang@huawei.com/
 ---
- drivers/gpu/drm/hisilicon/hibmc/Makefile     |   3 +-
- drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c  | 162 +++++++++++++++++++
- drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.h  |  31 ++++
- drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h |  74 +++++++++
- drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h  |  76 +++++++++
- 5 files changed, 345 insertions(+), 1 deletion(-)
- create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c
- create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.h
- create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h
- create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h
+ drivers/gpu/drm/hisilicon/hibmc/Makefile     |   2 +-
+ drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c | 344 +++++++++++++++++++
+ drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.h |  25 ++
+ 3 files changed, 370 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c
+ create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.h
 
 diff --git a/drivers/gpu/drm/hisilicon/hibmc/Makefile b/drivers/gpu/drm/hisilicon/hibmc/Makefile
-index d25c75e60d3d..8770ec6dfffd 100644
+index 8770ec6dfffd..94d77da88bbf 100644
 --- a/drivers/gpu/drm/hisilicon/hibmc/Makefile
 +++ b/drivers/gpu/drm/hisilicon/hibmc/Makefile
-@@ -1,4 +1,5 @@
+@@ -1,5 +1,5 @@
  # SPDX-License-Identifier: GPL-2.0-only
--hibmc-drm-y := hibmc_drm_drv.o hibmc_drm_de.o hibmc_drm_vdac.o hibmc_drm_i2c.o
-+hibmc-drm-y := hibmc_drm_drv.o hibmc_drm_de.o hibmc_drm_vdac.o hibmc_drm_i2c.o \
-+	       dp/dp_aux.o
+ hibmc-drm-y := hibmc_drm_drv.o hibmc_drm_de.o hibmc_drm_vdac.o hibmc_drm_i2c.o \
+-	       dp/dp_aux.o
++	       dp/dp_aux.o dp/dp_link.o
  
  obj-$(CONFIG_DRM_HISI_HIBMC) += hibmc-drm.o
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c
 new file mode 100644
-index 000000000000..0078cafdf86d
+index 000000000000..b02a536e0689
 --- /dev/null
-+++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c
-@@ -0,0 +1,162 @@
++++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c
+@@ -0,0 +1,344 @@
 +// SPDX-License-Identifier: GPL-2.0-or-later
 +// Copyright (c) 2024 Hisilicon Limited.
 +
-+#include <linux/io.h>
-+#include <linux/iopoll.h>
-+#include <linux/minmax.h>
++#include <linux/delay.h>
 +#include <drm/drm_device.h>
 +#include <drm/drm_print.h>
 +#include "dp_comm.h"
 +#include "dp_reg.h"
++#include "dp_link.h"
 +#include "dp_aux.h"
 +
-+#define DP_MIN_PULSE_NUM 0x9
++const u8 link_rate_map[] = {DP_LINK_BW_1_62, DP_LINK_BW_2_7,
++			    DP_LINK_BW_5_4, DP_LINK_BW_8_1};
 +
-+static void dp_aux_reset(const struct dp_dev *dp)
++static int dp_link_training_configure(struct dp_dev *dp)
 +{
-+	dp_write_bits(dp->base + DP_DPTX_RST_CTRL, DP_CFG_AUX_RST_N, 0x0);
-+	usleep_range(10, 15);
-+	dp_write_bits(dp->base + DP_DPTX_RST_CTRL, DP_CFG_AUX_RST_N, 0x1);
-+}
++	u8 buf[2];
++	int ret;
 +
-+static void dp_aux_read_data(struct dp_dev *dp, u8 *buf, u8 size)
-+{
-+	u32 reg_num;
-+	u32 value;
-+	u32 num;
-+	u8 i, j;
++	/* DP 2 lane */
++	dp_write_bits(dp->base + DP_PHYIF_CTRL0, DP_CFG_LANE_DATA_EN,
++		      dp->link.cap.lanes == DP_LANE_NUM_2 ? 0x3 : 0x1);
++	dp_write_bits(dp->base + DP_DPTX_GCTL0, DP_CFG_PHY_LANE_NUM,
++		      dp->link.cap.lanes == DP_LANE_NUM_2 ? 0x1 : 0);
 +
-+	reg_num = round_up(size, AUX_4_BYTE) / AUX_4_BYTE;
-+	for (i = 0; i < reg_num; i++) {
-+		/* number of bytes read from a single register */
-+		num = min(size - i * AUX_4_BYTE, AUX_4_BYTE);
-+		value = readl(dp->base + DP_AUX_RD_DATA0 + i * AUX_4_BYTE);
-+		/* convert the 32-bit value of the register to the buffer. */
-+		for (j = 0; j < num; j++)
-+			buf[i * AUX_4_BYTE + j] = value >> (j * AUX_8_BIT);
++	/* enhanced frame */
++	dp_write_bits(dp->base + DP_VIDEO_CTRL, DP_CFG_STREAM_FRAME_MODE, 0x1);
++
++	/* set rate and lane count */
++	buf[0] = dp_get_link_rate(dp->link.cap.link_rate);
++	buf[1] = DP_LANE_COUNT_ENHANCED_FRAME_EN | dp->link.cap.lanes;
++	ret = drm_dp_dpcd_write(&dp->aux, DP_LINK_BW_SET, buf, sizeof(buf));
++	if (ret != sizeof(buf)) {
++		drm_err(dp->dev, "dp aux write link rate and lanes failed, ret: %d\n", ret);
++		return ret;
 +	}
-+}
 +
-+static void dp_aux_write_data(struct dp_dev *dp, u8 *buf, u8 size)
-+{
-+	u32 reg_num;
-+	u32 value;
-+	u8 i, j;
-+	u32 num;
++	/* set 8b/10b and downspread */
++	buf[0] = 0x10;
++	buf[1] = 0x1;
++	ret = drm_dp_dpcd_write(&dp->aux, DP_DOWNSPREAD_CTRL, buf, sizeof(buf));
++	if (ret != sizeof(buf))
++		drm_err(dp->dev, "dp aux write 8b/10b and downspread failed, ret: %d\n", ret);
 +
-+	reg_num = round_up(size, AUX_4_BYTE) / AUX_4_BYTE;
-+	for (i = 0; i < reg_num; i++) {
-+		/* number of bytes written to a single register */
-+		num = min_t(u8, size - i * AUX_4_BYTE, AUX_4_BYTE);
-+		value = 0;
-+		/* obtain the 32-bit value written to a single register. */
-+		for (j = 0; j < num; j++)
-+			value |= buf[i * AUX_4_BYTE + j] << (j * AUX_8_BIT);
-+		/* writing data to a single register */
-+		writel(value, dp->base + DP_AUX_WR_DATA0 + i * AUX_4_BYTE);
-+	}
-+}
-+
-+static u32 dp_aux_build_cmd(const struct drm_dp_aux_msg *msg)
-+{
-+	u32 aux_cmd = msg->request;
-+
-+	if (msg->size)
-+		aux_cmd |= (msg->size - 1) << AUX_CMD_REQ_LEN_S;
-+	else
-+		aux_cmd |= 1 << AUX_CMD_I2C_ADDR_ONLY_S;
-+
-+	aux_cmd |= msg->address << AUX_CMD_ADDR_S;
-+
-+	return aux_cmd;
-+}
-+
-+/* ret >= 0 ,ret is size; ret < 0, ret is err code */
-+static int dp_aux_parse_xfer(struct dp_dev *dp, struct drm_dp_aux_msg *msg)
-+{
-+	u32 buf_data_cnt;
-+	u32 aux_status;
-+	int ret = 0;
-+
-+	aux_status = readl(dp->base + DP_AUX_STATUS);
-+	msg->reply = FIELD_GET(DP_CFG_AUX_STATUS, aux_status);
-+
-+	if (aux_status & DP_CFG_AUX_TIMEOUT)
-+		return -ETIMEDOUT;
-+
-+	/* only address */
-+	if (!msg->size)
-+		return 0;
-+
-+	if (msg->reply != DP_AUX_NATIVE_REPLY_ACK)
-+		return 0;
-+
-+	buf_data_cnt = FIELD_GET(DP_CFG_AUX_READY_DATA_BYTE, aux_status);
-+
-+	switch (msg->request) {
-+	case DP_AUX_NATIVE_WRITE:
-+		ret = msg->size;
-+		break;
-+	case DP_AUX_I2C_WRITE | DP_AUX_I2C_MOT:
-+		if (buf_data_cnt == AUX_I2C_WRITE_SUCCESS)
-+			ret = msg->size;
-+		else if (buf_data_cnt == AUX_I2C_WRITE_PARTIAL_SUCCESS)
-+			ret = FIELD_GET(DP_CFG_AUX, aux_status);
-+		break;
-+	case DP_AUX_NATIVE_READ:
-+	case DP_AUX_I2C_READ | DP_AUX_I2C_MOT:
-+		buf_data_cnt--;
-+		/* only the successful part of data is read */
-+		if (buf_data_cnt != msg->size) {
-+			ret = -EBUSY;
-+		} else { /* all data is successfully read */
-+			dp_aux_read_data(dp, msg->buffer, msg->size);
-+			ret = msg->size;
-+		}
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
++	ret = drm_dp_read_dpcd_caps(&dp->aux, dp->dpcd);
++	if (ret)
++		drm_err(dp->dev, "dp aux read dpcd failed, ret: %d\n", ret);
 +
 +	return ret;
 +}
 +
-+/* ret >= 0 ,ret is size; ret < 0, ret is err code */
-+static ssize_t dp_aux_xfer(struct drm_dp_aux *aux, struct drm_dp_aux_msg *msg)
++static int dp_link_pattern2dpcd(struct dp_dev *dp, enum dp_pattern_e pattern)
 +{
-+	struct dp_dev *dp = container_of(aux, struct dp_dev, aux);
-+	u32 aux_cmd;
++	switch (pattern) {
++	case DP_PATTERN_NO:
++		return DP_TRAINING_PATTERN_DISABLE;
++	case DP_PATTERN_TPS1:
++		return DP_TRAINING_PATTERN_1;
++	case DP_PATTERN_TPS2:
++		return DP_TRAINING_PATTERN_2;
++	case DP_PATTERN_TPS3:
++		return DP_TRAINING_PATTERN_3;
++	case DP_PATTERN_TPS4:
++		return DP_TRAINING_PATTERN_4;
++	default:
++		drm_err(dp->dev, "dp link unknown pattern %d\n", pattern);
++		return -EINVAL;
++	}
++}
++
++static int dp_link_set_pattern(struct dp_dev *dp, enum dp_pattern_e pattern)
++{
 +	int ret;
-+	u32 val; /* val will be assigned at the beginning of readl_poll_timeout function */
++	u8 buf;
 +
-+	writel(0, dp->base + DP_AUX_WR_DATA0);
-+	writel(0, dp->base + DP_AUX_WR_DATA1);
-+	writel(0, dp->base + DP_AUX_WR_DATA2);
-+	writel(0, dp->base + DP_AUX_WR_DATA3);
-+
-+	dp_aux_write_data(dp, msg->buffer, msg->size);
-+
-+	aux_cmd = dp_aux_build_cmd(msg);
-+	writel(aux_cmd, dp->base + DP_AUX_CMD_ADDR);
-+
-+	/* enable aux transfer */
-+	dp_write_bits(dp->base + DP_AUX_REQ, DP_CFG_AUX_REQ, 0x1);
-+	ret = readl_poll_timeout(dp->base + DP_AUX_REQ, val, !(val & DP_CFG_AUX_REQ), 50, 5000);
-+	if (ret) {
-+		dp_aux_reset(dp);
++	ret = dp_link_pattern2dpcd(dp, pattern);
++	if (ret < 0)
 +		return ret;
++
++	buf = (u8)ret;
++	if (pattern != DP_TRAINING_PATTERN_DISABLE && pattern != DP_TRAINING_PATTERN_4) {
++		buf |= DP_LINK_SCRAMBLING_DISABLE;
++		dp_write_bits(dp->base + DP_PHYIF_CTRL0, DP_CFG_SCRAMBLE_EN, 0x1);
++	} else {
++		dp_write_bits(dp->base + DP_PHYIF_CTRL0, DP_CFG_SCRAMBLE_EN, 0);
 +	}
 +
-+	return dp_aux_parse_xfer(dp, msg);
++	dp_write_bits(dp->base + DP_PHYIF_CTRL0, DP_CFG_PAT_SEL, pattern);
++
++	ret = drm_dp_dpcd_write(&dp->aux, DP_TRAINING_PATTERN_SET, &buf, sizeof(buf));
++	if (ret != sizeof(buf))
++		drm_err(dp->dev, "dp aux write training pattern set failed\n");
++
++	return 0;
 +}
 +
-+void dp_aux_init(struct dp_dev *dp)
++static int dp_link_training_cr_pre(struct dp_dev *dp)
 +{
-+	dp_write_bits(dp->base + DP_AUX_REQ, DP_CFG_AUX_SYNC_LEN_SEL, 0x0);
-+	dp_write_bits(dp->base + DP_AUX_REQ, DP_CFG_AUX_TIMER_TIMEOUT, 0x1);
-+	dp_write_bits(dp->base + DP_AUX_REQ, DP_CFG_AUX_MIN_PULSE_NUM, DP_MIN_PULSE_NUM);
++	u8 *train_set = dp->link.train_set;
++	int ret;
++	u8 i;
 +
-+	dp->aux.transfer = dp_aux_xfer;
-+	dp->aux.is_remote = 0;
-+	drm_dp_aux_init(&dp->aux);
++	ret = dp_link_training_configure(dp);
++	if (ret)
++		return ret;
++
++	ret = dp_link_set_pattern(dp, DP_PATTERN_TPS1);
++	if (ret)
++		return ret;
++
++	for (i = 0; i < dp->link.cap.lanes; i++)
++		train_set[i] = DP_TRAIN_VOLTAGE_SWING_LEVEL_2;
++
++	ret = drm_dp_dpcd_write(&dp->aux, DP_TRAINING_LANE0_SET, train_set, dp->link.cap.lanes);
++	if (ret != dp->link.cap.lanes)
++		drm_err(dp->dev, "dp aux write training lane set failed\n");
++
++	return 0;
 +}
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.h
++
++static bool dp_link_get_adjust_train(struct dp_dev *dp, u8 lane_status[DP_LINK_STATUS_SIZE])
++{
++	u8 pre_emph[DP_LANE_NUM_MAX] = {0};
++	u8 voltage[DP_LANE_NUM_MAX] = {0};
++	bool changed = false;
++	u8 train_set;
++	u8 lane;
++
++	/* not support level 3 */
++	for (lane = 0; lane < dp->link.cap.lanes; lane++) {
++		voltage[lane] = drm_dp_get_adjust_request_voltage(lane_status, lane);
++		pre_emph[lane] = drm_dp_get_adjust_request_pre_emphasis(lane_status, lane);
++	}
++
++	for (lane = 0; lane < dp->link.cap.lanes; lane++) {
++		train_set = voltage[lane] | pre_emph[lane];
++		if (dp->link.train_set[lane] != train_set) {
++			changed = true;
++			dp->link.train_set[lane] = train_set;
++		}
++	}
++
++	return changed;
++}
++
++u8 dp_get_link_rate(u8 index)
++{
++	return link_rate_map[index];
++}
++
++static int dp_link_reduce_rate(struct dp_dev *dp)
++{
++	if (dp->link.cap.link_rate > 0) {
++		dp->link.cap.link_rate--;
++		return 0;
++	}
++
++	drm_err(dp->dev, "dp link training reduce rate failed, already lowest rate\n");
++
++	return -EFAULT;
++}
++
++static int dp_link_reduce_lane(struct dp_dev *dp)
++{
++	if (dp->link.cap.lanes == DP_LANE_NUM_1) {
++		drm_err(dp->dev, "dp link training reduce lane failed, already reach minimum\n");
++		return -EFAULT;
++	}
++
++	/* currently only 1 lane */
++	dp->link.cap.lanes = DP_LANE_NUM_1;
++
++	return 0;
++}
++
++static int dp_link_training_cr(struct dp_dev *dp)
++{
++	u8 lane_status[DP_LINK_STATUS_SIZE] = {0};
++	bool level_changed;
++	u32 voltage_tries;
++	u32 cr_tries;
++	u32 max_cr;
++	int ret;
++
++	/*
++	 * DP 1.4 spec define 10 for maxtries value, for pre DP 1.4 version set a limit of 80
++	 * (4 voltage levels x 4 preemphasis levels x 5 identical voltage retries)
++	 */
++	max_cr = dp->link.cap.rx_dpcd_revision >= DPCD_REVISION_14 ? 10 : 80;
++
++	voltage_tries = 1;
++	for (cr_tries = 0; cr_tries < max_cr; cr_tries++) {
++		drm_dp_link_train_clock_recovery_delay(&dp->aux, dp->dpcd);
++
++		ret = drm_dp_dpcd_read_link_status(&dp->aux, lane_status);
++		if (ret != DP_LINK_STATUS_SIZE) {
++			drm_err(dp->dev, "Get lane status failed\n");
++			return ret;
++		}
++
++		if (drm_dp_clock_recovery_ok(lane_status, dp->link.cap.lanes)) {
++			drm_info(dp->dev, "dp link training cr done\n");
++			dp->link.status.clock_recovered = true;
++			return 0;
++		}
++
++		if (voltage_tries == 5) {
++			drm_info(dp->dev, "same voltage tries 5 times\n");
++			dp->link.status.clock_recovered = false;
++			return 0;
++		}
++
++		level_changed = dp_link_get_adjust_train(dp, lane_status);
++		ret = drm_dp_dpcd_write(&dp->aux, DP_TRAINING_LANE0_SET, dp->link.train_set,
++					dp->link.cap.lanes);
++		if (ret != dp->link.cap.lanes) {
++			drm_err(dp->dev, "Update link training failed\n");
++			return ret;
++		}
++
++		voltage_tries = level_changed ? 1 : voltage_tries + 1;
++	}
++
++	drm_err(dp->dev, "dp link training clock recovery %u timers failed\n", max_cr);
++	dp->link.status.clock_recovered = false;
++
++	return 0;
++}
++
++static int dp_link_training_channel_eq(struct dp_dev *dp)
++{
++	u8 lane_status[DP_LINK_STATUS_SIZE] = {0};
++	enum dp_pattern_e tps;
++	u8 eq_tries;
++	int ret;
++
++	if (dp->link.cap.is_tps4)
++		tps = DP_PATTERN_TPS4;
++	else if (dp->link.cap.is_tps3)
++		tps = DP_PATTERN_TPS3;
++	else
++		tps = DP_PATTERN_TPS2;
++
++	ret = dp_link_set_pattern(dp, tps);
++	if (ret)
++		return ret;
++
++	for (eq_tries = 0; eq_tries < EQ_MAX_RETRY; eq_tries++) {
++		drm_dp_link_train_channel_eq_delay(&dp->aux, dp->dpcd);
++
++		ret = drm_dp_dpcd_read_link_status(&dp->aux, lane_status);
++		if (ret != DP_LINK_STATUS_SIZE) {
++			drm_err(dp->dev, "get lane status failed\n");
++			break;
++		}
++
++		if (!drm_dp_clock_recovery_ok(lane_status, dp->link.cap.lanes)) {
++			drm_info(dp->dev, "clock recovery check failed\n");
++			drm_info(dp->dev, "cannot continue channel equalization\n");
++			dp->link.status.clock_recovered = false;
++			break;
++		}
++
++		if (drm_dp_channel_eq_ok(lane_status, dp->link.cap.lanes)) {
++			dp->link.status.channel_equalized = true;
++			drm_info(dp->dev, "dp link training eq done\n");
++			break;
++		}
++
++		dp_link_get_adjust_train(dp, lane_status);
++		ret = drm_dp_dpcd_write(&dp->aux, DP_TRAINING_LANE0_SET,
++					dp->link.train_set, dp->link.cap.lanes);
++		if (ret != dp->link.cap.lanes) {
++			drm_err(dp->dev, "Update link training failed\n");
++			break;
++		}
++	}
++
++	if (eq_tries == EQ_MAX_RETRY)
++		drm_err(dp->dev, "channel equalization failed %u times\n", eq_tries);
++
++	dp_link_set_pattern(dp, DP_PATTERN_NO);
++
++	return ret < 0 ? ret : 0;
++}
++
++static int dp_link_downgrade_training_cr(struct dp_dev *dp)
++{
++	if (dp_link_reduce_rate(dp))
++		return dp_link_reduce_lane(dp);
++
++	return 0;
++}
++
++static int dp_link_downgrade_training_eq(struct dp_dev *dp)
++{
++	if ((dp->link.status.clock_recovered && !dp->link.status.channel_equalized)) {
++		if (!dp_link_reduce_lane(dp))
++			return 0;
++	}
++
++	return dp_link_reduce_rate(dp);
++}
++
++int dp_link_training(struct dp_dev *dp)
++{
++	struct hibmc_dp_link *link = &dp->link;
++	int ret;
++
++	while (true) {
++		ret = dp_link_training_cr_pre(dp);
++		if (ret)
++			goto err;
++
++		ret = dp_link_training_cr(dp);
++		if (ret)
++			goto err;
++
++		if (!link->status.clock_recovered) {
++			ret = dp_link_downgrade_training_cr(dp);
++			if (ret)
++				goto err;
++			continue;
++		}
++
++		ret = dp_link_training_channel_eq(dp);
++		if (ret)
++			goto err;
++
++		if (!link->status.channel_equalized) {
++			ret = dp_link_downgrade_training_eq(dp);
++			if (ret)
++				goto err;
++			continue;
++		}
++
++		return 0;
++	}
++
++err:
++	dp_link_set_pattern(dp, DP_PATTERN_NO);
++
++	return ret;
++}
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.h
 new file mode 100644
-index 000000000000..6f95a3750d60
+index 000000000000..38877d8f473b
 --- /dev/null
-+++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.h
-@@ -0,0 +1,31 @@
++++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.h
+@@ -0,0 +1,25 @@
 +/* SPDX-License-Identifier: GPL-2.0-or-later */
 +/* Copyright (c) 2024 Hisilicon Limited. */
 +
-+#ifndef DP_AUX_H
-+#define DP_AUX_H
++#ifndef DP_LINK_H
++#define DP_LINK_H
 +
-+#include <linux/bitops.h>
 +#include "dp_comm.h"
 +
-+#define AUX_I2C_WRITE_SUCCESS		0x1
-+#define AUX_I2C_WRITE_PARTIAL_SUCCESS	0x2
++#define DP_LANE_NUM_MAX		2
++#define DP_LANE_STATUS_SIZE	1
++#define DP_LANE_NUM_1		0x1
++#define DP_LANE_NUM_2		0x2
 +
-+#define EQ_MAX_RETRY			5
-+
-+#define DP_CFG_AUX_S			17
-+#define DP_CFG_AUX_STATUS_S		4
-+
-+#define AUX_4_BYTE			4
-+#define AUX_4_BIT			4
-+#define AUX_8_BIT			8
-+
-+#define AUX_READY_DATA_BYTE_S		12
-+
-+/* aux_cmd_addr register shift */
-+#define AUX_CMD_REQ_LEN_S		4
-+#define AUX_CMD_ADDR_S			8
-+#define AUX_CMD_I2C_ADDR_ONLY_S		28
-+
-+void dp_aux_init(struct dp_dev *dp);
-+
-+#endif
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h
-new file mode 100644
-index 000000000000..26d97929dc06
---- /dev/null
-+++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h
-@@ -0,0 +1,74 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+/* Copyright (c) 2024 Hisilicon Limited. */
-+
-+#ifndef DP_COMM_H
-+#define DP_COMM_H
-+
-+#include <linux/types.h>
-+#include <linux/bitops.h>
-+#include <linux/errno.h>
-+#include <linux/mutex.h>
-+#include <linux/kernel.h>
-+#include <linux/bitfield.h>
-+#include <linux/io.h>
-+
-+#include <drm/display/drm_dp_helper.h>
-+
-+#define REG_LENGTH 32
-+
-+static inline u32 dp_read_bits(void __iomem *addr, u32 bit_mask)
-+{
-+	u32 reg_val;
-+
-+	reg_val = readl(addr);
-+
-+	return (reg_val & bit_mask) >> __ffs(bit_mask);
-+}
-+
-+static inline void dp_write_bits(void __iomem *addr, u32 bit_mask, u32 val)
-+{
-+	u32 reg_val;
-+
-+	reg_val = readl(addr);
-+	reg_val &= ~bit_mask;
-+	reg_val |= (val << __ffs(bit_mask)) & bit_mask;
-+	writel(reg_val, addr);
-+}
-+
-+enum dpcd_revision {
-+	DPCD_REVISION_10 = 0x10,
-+	DPCD_REVISION_11,
-+	DPCD_REVISION_12,
-+	DPCD_REVISION_13,
-+	DPCD_REVISION_14,
++enum dp_pattern_e {
++	DP_PATTERN_NO = 0,
++	DP_PATTERN_TPS1,
++	DP_PATTERN_TPS2,
++	DP_PATTERN_TPS3,
++	DP_PATTERN_TPS4,
 +};
 +
-+struct link_status {
-+	bool clock_recovered;
-+	bool channel_equalized;
-+	u8 cr_done_lanes;
-+};
-+
-+struct link_cap {
-+	enum dpcd_revision rx_dpcd_revision;
-+	u8 link_rate;
-+	u8 lanes;
-+	bool is_tps3;
-+	bool is_tps4;
-+};
-+
-+struct hibmc_dp_link {
-+	struct link_status status;
-+	u8 *train_set;
-+	struct link_cap cap;
-+};
-+
-+struct dp_dev {
-+	struct hibmc_dp_link link;
-+	struct drm_dp_aux aux;
-+	struct drm_device *dev;
-+	void __iomem *base;
-+	u8 dpcd[DP_RECEIVER_CAP_SIZE];
-+};
-+
-+#endif
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h
-new file mode 100644
-index 000000000000..3dcb847057a4
---- /dev/null
-+++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h
-@@ -0,0 +1,76 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+/* Copyright (c) 2024 Hisilicon Limited. */
-+
-+#ifndef DP_REG_H
-+#define DP_REG_H
-+
-+#define DP_AUX_CMD_ADDR			0x50
-+#define DP_AUX_WR_DATA0			0x54
-+#define DP_AUX_WR_DATA1			0x58
-+#define DP_AUX_WR_DATA2			0x5c
-+#define DP_AUX_WR_DATA3			0x60
-+#define DP_AUX_RD_DATA0			0x64
-+#define DP_AUX_REQ			0x74
-+#define DP_AUX_STATUS			0x78
-+#define DP_PHYIF_CTRL0			0xa0
-+#define DP_VIDEO_CTRL			0x100
-+#define DP_VIDEO_CONFIG0		0x104
-+#define DP_VIDEO_CONFIG1		0x108
-+#define DP_VIDEO_CONFIG2		0x10c
-+#define DP_VIDEO_CONFIG3		0x110
-+#define DP_VIDEO_PACKET			0x114
-+#define DP_VIDEO_MSA0			0x118
-+#define DP_VIDEO_MSA1			0x11c
-+#define DP_VIDEO_MSA2			0x120
-+#define DP_VIDEO_HORIZONTAL_SIZE	0X124
-+#define DP_TIMING_GEN_CONFIG0		0x26c
-+#define DP_TIMING_GEN_CONFIG2		0x274
-+#define DP_TIMING_GEN_CONFIG3		0x278
-+#define DP_HDCP_CFG			0x600
-+#define DP_INTR_ENABLE			0x720
-+#define DP_INTR_ORIGINAL_STATUS		0x728
-+#define DP_DPTX_RST_CTRL		0x700
-+#define DP_DPTX_CLK_CTRL		0x704
-+#define DP_DPTX_GCTL0			0x708
-+#define DP_TIMING_MODEL_CTRL		0x884
-+#define DP_TIMING_SYNC_CTRL		0xFF0
-+
-+#define DP_CFG_AUX_SYNC_LEN_SEL			BIT(1)
-+#define DP_CFG_AUX_TIMER_TIMEOUT		BIT(2)
-+#define DP_CFG_STREAM_FRAME_MODE		BIT(6)
-+#define DP_CFG_AUX_MIN_PULSE_NUM		GENMASK(13, 9)
-+#define DP_CFG_LANE_DATA_EN			GENMASK(11, 8)
-+#define DP_CFG_PHY_LANE_NUM			GENMASK(2, 1)
-+#define DP_CFG_AUX_REQ				BIT(0)
-+#define DP_CFG_AUX_RST_N			BIT(4)
-+#define DP_CFG_AUX_TIMEOUT			BIT(0)
-+#define DP_CFG_AUX_READY_DATA_BYTE		GENMASK(16, 12)
-+#define DP_CFG_AUX				GENMASK(24, 17)
-+#define DP_CFG_AUX_STATUS			GENMASK(11, 4)
-+#define DP_CFG_SCRAMBLE_EN			BIT(0)
-+#define DP_CFG_PAT_SEL				GENMASK(7, 4)
-+#define DP_CFG_TIMING_GEN0_HACTIVE		GENMASK(31, 16)
-+#define DP_CFG_TIMING_GEN0_HBLANK		GENMASK(15, 0)
-+#define DP_CFG_TIMING_GEN0_VACTIVE		GENMASK(31, 16)
-+#define DP_CFG_TIMING_GEN0_VBLANK		GENMASK(15, 0)
-+#define DP_CFG_TIMING_GEN0_VFRONT_PORCH		GENMASK(31, 16)
-+#define DP_CFG_STREAM_HACTIVE			GENMASK(31, 16)
-+#define DP_CFG_STREAM_HBLANK			GENMASK(15, 0)
-+#define DP_CFG_STREAM_HSYNC_WIDTH		GENMASK(15, 0)
-+#define DP_CFG_STREAM_VACTIVE			GENMASK(31, 16)
-+#define DP_CFG_STREAM_VBLANK			GENMASK(15, 0)
-+#define DP_CFG_STREAM_VFRONT_PORCH		GENMASK(31, 16)
-+#define DP_CFG_STREAM_VSYNC_WIDTH		GENMASK(15, 0)
-+#define DP_CFG_STREAM_VSTART			GENMASK(31, 16)
-+#define DP_CFG_STREAM_HSTART			GENMASK(15, 0)
-+#define DP_CFG_STREAM_VSYNC_POLARITY		BIT(8)
-+#define DP_CFG_STREAM_HSYNC_POLARITY		BIT(7)
-+#define DP_CFG_STREAM_RGB_ENABLE		BIT(1)
-+#define DP_CFG_STREAM_VIDEO_MAPPING		GENMASK(5, 2)
-+#define DP_CFG_PIXEL_NUM_TIMING_MODE_SEL1	GENMASK(31, 16)
-+#define DP_CFG_STREAM_TU_SYMBOL_SIZE		GENMASK(5, 0)
-+#define DP_CFG_STREAM_TU_SYMBOL_FRAC_SIZE	GENMASK(9, 6)
-+#define DP_CFG_STREAM_HTOTAL_SIZE		GENMASK(31, 16)
-+#define DP_CFG_STREAM_HBLANK_SIZE		GENMASK(15, 0)
++int dp_link_training(struct dp_dev *dp);
++u8 dp_get_link_rate(u8 index);
 +
 +#endif
 -- 
