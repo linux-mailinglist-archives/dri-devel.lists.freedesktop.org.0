@@ -2,101 +2,167 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8D8A9A9BA7
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2024 09:58:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A11E9A9C15
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2024 10:10:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5D7210E600;
-	Tue, 22 Oct 2024 07:58:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1E4110E165;
+	Tue, 22 Oct 2024 08:10:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="GweyATkd";
+	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="XXs1UNiY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E61C10E600
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Oct 2024 07:58:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1729583934;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/toOIhDFxtm2KiH53yytgdrHcc4/hOCbQgrRu1IsbBM=;
- b=GweyATkdPlz0anyMzAz6zXPcWMA27iYEuO3M3LQ6iQb/kjW6uw99NsXwpEZMhqsDCBItwW
- A8vjzzuLMXG0Fgahfefy2hD9sCOtugivyRKBCVH4FLc8A4HJRgC7KweOah9jIZAdgFOFLb
- pBihlF67nq8Dy/vnrzV7TzqDvOEKbCA=
-Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
- [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-138-2wjOR0UlM6mWW7lRQdRcmQ-1; Tue, 22 Oct 2024 03:58:53 -0400
-X-MC-Unique: 2wjOR0UlM6mWW7lRQdRcmQ-1
-Received: by mail-lf1-f72.google.com with SMTP id
- 2adb3069b0e04-539e5f9df25so3380842e87.0
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Oct 2024 00:58:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729583931; x=1730188731;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=/toOIhDFxtm2KiH53yytgdrHcc4/hOCbQgrRu1IsbBM=;
- b=ckLDMDMSu+fPS9CXHvLH774PmeYuCr+Cf+aQWGhqadZOv2Apd/q6NLGdS6y/jKQ6Cj
- PxxIwa8kbF8ssS4mUioLuWMwdh1fp+2e/+SebejfU6eaSUgWNuaSWSCNuPalQ3PukIzV
- Oci7RM1BRF/KjHdFUyRu9DcUAe1+2TXONl+KMgPFoIRX9P/o4uvhp+AwQxz0URTIaYV1
- ruZOCB7hV0seEdYmHlFUjaqrDjNkNDrkayPtII/8JMb3hMPyiN6nY2YZjUJ9/SmuzMnI
- XSug3FprVuu/btd4CSsrYSA9hjbSEshcOFqxA3+npIsZsyucnYuE1R4d+XYuln6OUftU
- W7LA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW375Zg2T6dVUpW6Hel2ZR9gdfR91IGheJTQAA/WbFxBNTrkV85w/El1ZK6LlZBKYc/vA2AzMhLnEk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxps5aoZVmdTHObxfaHbCLu3fHK/RHoSmi2hsHZzMfqGQAEiiEY
- NrMNfZCgZjcI/GjnAcQkHsmry6rUYy13MqtXQAF3C6qaOqzRLOwfzqo24LKtHbiAXPIk14fcgWo
- j1lZMNTMVoNB+ajjvKOa6WFF10112rqYhpOFKTgZwTG776PC0Wo09gSsWtATQ6fieZw==
-X-Received: by 2002:a05:6512:1396:b0:539:e873:6e6 with SMTP id
- 2adb3069b0e04-53a15445fbbmr6176912e87.43.1729583931522; 
- Tue, 22 Oct 2024 00:58:51 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFHZkuY2o29BsH2nW9fSeox5DGzjxId3xF7ANCRMftKPLZng9BBjKBjW/HI8QrQjL7hrhqDkQ==
-X-Received: by 2002:a05:6512:1396:b0:539:e873:6e6 with SMTP id
- 2adb3069b0e04-53a15445fbbmr6176880e87.43.1729583930939; 
- Tue, 22 Oct 2024 00:58:50 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec?
- (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
- by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-5cb66a6a729sm2841670a12.54.2024.10.22.00.58.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Oct 2024 00:58:50 -0700 (PDT)
-Message-ID: <c52019d7-01b4-4585-a2d1-b44b0a773fc9@redhat.com>
-Date: Tue, 22 Oct 2024 09:58:48 +0200
-MIME-Version: 1.0
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com
+ (mail-am6eur05on2063.outbound.protection.outlook.com [40.107.22.63])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C38D310E165
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Oct 2024 08:10:34 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=yevszvDNeVJX4Hfhz421oKIYte8X7bGKqs0yydEyALo/Mwzd6RvOJM92CdChbHEAffgoJXilc7ZqhsOjVLTTyyXlbiT4pqk9jB/dcJca4J64uohe6+NqLX2LOjPG5hChbNqMwMhFUmVDoTpVrmiJrDm0Y4RYRCSr2rdLsGgh10uturAfWPBaIllQKn9fAHwQ6y0dSFcPRBE4GJOgrBULPwHgHBHN5wtcJR/1QyUH0JzXBkLwiSZmx07chaM8k9+W2AWNZtipt+SvLrYnCUDivHaWh2EETojnJqX10y8e3igA1s8K194sc7ELAcY1sZLQ1kaP+ahsNlJnGgO83Ltmyg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mBT7Yawja4t5KOzpO1HC8aPsQiOUdr1KXHnLoYiFhXE=;
+ b=u+qwQiAWFtNfVNmZfyrIOqsBPxOIsM9a5bYrAsa+Ha9nUkW7RISGEYtDtjhy0JvZKpKhaDkv+uTUbEvgm8+0ZduOuDU4TOUgtMfxxveujtATcPtgU8W3uEJ9rIZFSWii5mSV/2GIPkwbu/W+9NsViAMoeQsBQs4st76dFumOzGrrv/HfwonKJ6QlHcUl4EuGUH9ssfefx3bY9p2dCbnkVHgPgvRoh2kr+8qJsZiwWmfI4iWTklV+61YDgSoc0Udzbu3CxTnH04OqNys3RrArjuwCCnc9J4PwTeNJHaFdPAH+j47t0d18nccYwnfqnlE1SlWIdeMPfZ6GHhpbVcoi3Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mBT7Yawja4t5KOzpO1HC8aPsQiOUdr1KXHnLoYiFhXE=;
+ b=XXs1UNiYivtUZokx6nU3Y7inI9/D6vksx0WD24g4oFGZiacL7OaLhzUqgkxWaI8XVrR75WOkR5d6AdpwOmpZNIYMZIeynn9VP9sLs8rQ+zyoUhFdgAIsAp28ijmeaDGK/uVQld3nsz/XVMdwcPbcm6gia2LvN787Mk/lHHIlrwUDZioNhW1g7S8quz0JwcldqtI6+B3h04dQhKYrg2bC63dcTy2HooSmWKJiQL6sbXkEVt4/eySBMCMw4qbdewYuq7wVKvBaBjEhwZIJmLR9Ns97uP9f73CQjTth6VqiTgaxSyewVEp1eil59iXNZZ0xlMG0DcJx2ebSI+Q32fOvfQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
+ by AS5PR04MB10020.eurprd04.prod.outlook.com (2603:10a6:20b:682::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.28; Tue, 22 Oct
+ 2024 08:10:28 +0000
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::d1ce:ea15:6648:6f90]) by AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::d1ce:ea15:6648:6f90%4]) with mapi id 15.20.8069.027; Tue, 22 Oct 2024
+ 08:10:28 +0000
+Message-ID: <7a83230b-292c-4e28-813d-a07ea1b6a66a@nxp.com>
+Date: Tue, 22 Oct 2024 16:10:51 +0800
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] platform/x86/tuxedo: Add virtual LampArray for TUXEDO
- NB04 devices
-To: Armin Wolf <W_Armin@gmx.de>, Pavel Machek <pavel@ucw.cz>
-Cc: Werner Sembach <wse@tuxedocomputers.com>,
- Benjamin Tissoires <bentiss@kernel.org>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
- lee@kernel.org, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-leds@vger.kernel.org, miguel.ojeda.sandonis@gmail.com,
- ojeda@kernel.org, onitake@gmail.com, platform-driver-x86@vger.kernel.org
-References: <7ce4470c-a502-416a-8472-a5b606bb8fd4@tuxedocomputers.com>
- <d7gk2mgihtg6242l3isnhw3xpdt745ehpu2kvim2xxgmxdhat7@g5cqei7uqujj>
- <39f84cfe-bb89-4194-81a9-e178c93e5309@tuxedocomputers.com>
- <sih5i2ausorlpiosifvj2vvlut4ok6bbgt6cympuxhdbjljjiw@gg2r5al552az>
- <82a6eca1-728c-436f-8c4d-073d8a43ee27@tuxedocomputers.com>
- <5crqia4gecxg62n2m2lf6haiifue4wlxrr3g35dyoaa3svjyuj@cd5bhouz5rlh>
- <4a761cd0-611a-4245-8353-5c66ba133715@tuxedocomputers.com>
- <rszv4p34oivysoyi337dxwooebipiikzd3pyq7rof5r3agbzce@xejutpd4jcfv>
- <06c58141-4aa9-4b54-8ae4-e27069561ac9@tuxedocomputers.com>
- <48a8d62f-ea3f-4f17-b917-ff3aaa83e89c@gmx.de> <ZwlDpCPhieF3tezX@duo.ucw.cz>
- <a796f0e7-47a8-40fa-a64e-9dd56117bf78@gmx.de>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <a796f0e7-47a8-40fa-a64e-9dd56117bf78@gmx.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, nl
+Subject: Re: [PATCH v3 12/15] drm/bridge: Add ITE IT6263 LVDS to HDMI converter
+To: Maxime Ripard <mripard@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, airlied@gmail.com, simona@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, quic_jesszhan@quicinc.com,
+ mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
+ kernel@pengutronix.de, festevam@gmail.com, catalin.marinas@arm.com,
+ will@kernel.org, sakari.ailus@linux.intel.com, hverkuil@xs4all.nl,
+ tomi.valkeinen@ideasonboard.com, quic_bjorande@quicinc.com,
+ geert+renesas@glider.be, dmitry.baryshkov@linaro.org, arnd@arndb.de,
+ nfraprado@collabora.com, thierry.reding@gmail.com,
+ prabhakar.mahadev-lad.rj@bp.renesas.com, sam@ravnborg.org, marex@denx.de,
+ biju.das.jz@bp.renesas.com
+References: <20241021064446.263619-1-victor.liu@nxp.com>
+ <20241021064446.263619-13-victor.liu@nxp.com>
+ <20241021-thick-cockle-of-popularity-c5e28c@houat>
+ <889594b9-e6cb-4d90-b959-cd0258b2f166@nxp.com>
+ <20241022-wondrous-fractal-lion-aedcd9@houat>
+From: Liu Ying <victor.liu@nxp.com>
+Content-Language: en-US
+In-Reply-To: <20241022-wondrous-fractal-lion-aedcd9@houat>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SI2P153CA0026.APCP153.PROD.OUTLOOK.COM
+ (2603:1096:4:190::18) To AM7PR04MB7046.eurprd04.prod.outlook.com
+ (2603:10a6:20b:113::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|AS5PR04MB10020:EE_
+X-MS-Office365-Filtering-Correlation-Id: 554f082c-6558-4521-f682-08dcf270fd85
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?cnZqTGR3Q3dkRE1qaWVzNEovTVozRUcwaUZLSkF0UVZhemZSb1o4elRPQ0F1?=
+ =?utf-8?B?TkRVN0d6TnNiMTc5OEFoa2JZOEVBbjdJeTNabUVwdGFqYnp6ZWlZekl2bWV0?=
+ =?utf-8?B?c0xPa255WVZXYTVJZnJBS20zbDNMVE1TZkNnUUpSWU5La0p4dlZicnlnM29F?=
+ =?utf-8?B?KzRlb3R6aE11OEZyZjRaY3E3WHJYdnVQaWtGb2hIanhWWUVFQjZ3eXdHdDNV?=
+ =?utf-8?B?aU9uT1Q4MmtBbDJ1ZjQxT051eHJidTIyUDhVM0Z2ejErZkhmM1Z2MnJaMmto?=
+ =?utf-8?B?S1RuQUE4a0RWSUlXZHMvK1VDNmEvM2pzcFRJazJtVVpMMVI0SXZaNytMb1dZ?=
+ =?utf-8?B?MW5nRHlyNnEwV1RQU2NEaFRzWndSZHcxQlRrWEZ1bDlZZWRkNS9IUERCUU5G?=
+ =?utf-8?B?b1hrMHMwanpFTG1CVFJua1d2SCtPTXozL2pTcFBrVVVlejlmSmgvQlNyaVV5?=
+ =?utf-8?B?b1QwMDBib0dDeU8yR2JGL1lmNENmQVhtODk4Q3dPWkkrZkREbHRRcU1tNG5M?=
+ =?utf-8?B?QmpPc1ZFbGpSU1RqVXhqVElKKzhRRWZFajVBVGQ3RE00QUFFUmNpWVhkLzcx?=
+ =?utf-8?B?dmZMM0JxTjVnNjViN2N2ckQweGpRSy94cml3UDY1ZEE0N2diNmcvaDBya05B?=
+ =?utf-8?B?UHVlM1FPSmFmVmJzMmhsaFFhRThXUU5YcmVWMlcyaUl4bTlMdTVLM2JhVnJ0?=
+ =?utf-8?B?Y2sxTVkwY3hYTW5DUko0WWhZaENGYS8ycEFHZ2U1UVBEY1NLeEdQblpudW9V?=
+ =?utf-8?B?MUs5MHVUMTZ2Q3NRT0lCMU93Y0t5cDBNR1dNWldUd3dETmpLS0hIcEhrUWJK?=
+ =?utf-8?B?VG40bXdSbTA4NVdkc0d6TzA1UldISFVsaHFrMkdBY0NsdXo3azdCSUJoTVlD?=
+ =?utf-8?B?djUrclMxTlVrL05sSjVNalpjZU1xYXNIbCtHQVpGRHF3WXdPaTZhRXI3Y0E5?=
+ =?utf-8?B?enVLWnY3Q3JjeXJtU0FnbVgxTFBTQnl1Qmd0RWgxbG0xcHhaN0ZQaVlqRW5F?=
+ =?utf-8?B?aVd0VkJaVkpBdGNQaFBvU052UE13OTFzVjMyWXlSRmlCMFIvTlQ0SVlnR2ht?=
+ =?utf-8?B?akxoSjBvWHBWN3lGYmVINXExWjlpdC9UbTZJZE1zNWhTRUlBZkgxQXJVRDk3?=
+ =?utf-8?B?Rk1CczdPem9CUmN5V2Y2VTdKZVcyM0dmRzVES2FDd3JPRnJhdGNvRlczRTN5?=
+ =?utf-8?B?a0h6UUM1N05hVXd0dkNzS3B2MnNFLzhjaVk3MzVabUFPeTVkSTJ4WmMvcTh6?=
+ =?utf-8?B?RnpXeXNQRTAyTXhoY1JxTnFWU3pSc0oyMWU3d0ZhK0RBbDBuak1RY1hiMURJ?=
+ =?utf-8?B?ZDJIR3VzYU9pRmF6VkV5Qm85QVJzOVM0MmxXbGg2SHJwK0ZqQWZXc1RKTzJh?=
+ =?utf-8?B?RjhZRlY1V1J2WDRQNFZ4MHd0bnBmNDdwc0lMYUR5enJYU09oSGdYVmJqZUhp?=
+ =?utf-8?B?SVZUUW5yK3l4MGxXVEdJYUg2dE1mbjVjNHI3aE9yWlFKVHVIUXJXTFhsM1dz?=
+ =?utf-8?B?eTBDSytoOWl3WmpyejZSa1NIZm1Hc0lSMkMwVnQyZEJKRmEwSDd2Nm9YQWRk?=
+ =?utf-8?B?b1g3ME9xSDhwaUYwZlRMSDVFNHVSN0c1TlEwVVRTemlMck1EdTh4TUJPb3VJ?=
+ =?utf-8?B?SlFCcmFkZ3V3RksvRzFlWmQrM3NxbStHWE9pTWwwSFowSjdUQk00L0RhRXZl?=
+ =?utf-8?B?WCtRSDJlbEZkQzNRZGp5andGeDhZdzFSdFJvL0JreGVZcWxrVG4rQ0Myb2ZK?=
+ =?utf-8?Q?i2tIkvssAjEKfB5l0zSWGTqWrXqq6pHb7EYAEVW?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UzJRZ3NMNDBrWEo2blNEcm5DelFVQ1JUdGRWM2NpLzFXVDJvSVQ2M3JkUnBx?=
+ =?utf-8?B?cjFZRVFjQVlzZzd4WmJiS2Nvald1QmJtYWNacm55MkZJMmhZelBocnpCd1h0?=
+ =?utf-8?B?NnFORXVYNFl4dDBvWUIwZFdBQy8ydGdIbGlMM1Y2ZXJrZHo5VzRLemNiKy94?=
+ =?utf-8?B?TlFPVGhTUmlTM1pQYU9HMlpSWEdJN1FFQ1A4WVJ5TDBWM1hCV3hnaTVIZzRV?=
+ =?utf-8?B?UzFyM1VTSXNTb1RDMkFnMUZsZGg0SFdaem1Wc2JaSFBPSitKUHpocmxBVTBR?=
+ =?utf-8?B?MVJjc0pLaDFqSnZ1aFB4UkpCb0RmbFBkK0QxMGdHNWhUbjlvSlNKVkNFekUv?=
+ =?utf-8?B?aXFwd2RQd1NSOHlmVTRFRXNlbFpaa0U0Q2ZJTU9hc3VndkJXdFBtMVVMMmR3?=
+ =?utf-8?B?Tk5XRzh6U2dJdzBmL081U24vZFhFWXpoalN3ZU9ucDArekI1MytjdWFzQUVL?=
+ =?utf-8?B?c2xxcVpzRmJOMm4vVjVHOXowZ0pvbk9La1JqanlqSEQya3Rxb0tVRG9FUUNn?=
+ =?utf-8?B?WmdDUEk0UkUrY1FFTVByd0xYTjdUZml6N3R3WVBUanhNODlBcUovU2ZVTGNH?=
+ =?utf-8?B?dGl1NGplVGdMaHVMVEc2RThQNzZGQ3BvdU1QRzZHVWp2OXlWUEhDVU1iYzV0?=
+ =?utf-8?B?eDhucmV6UmtHZjk3eWxkbUZzQ2dZVkxJaTgxQmtvL0FWdzBIamJHK3dHellw?=
+ =?utf-8?B?aklVcUNkZ0wwYTJWekI3QWJPbXl1SjFkOWlpTHNsSlNmUVhEZUZkT29KTnRX?=
+ =?utf-8?B?YnlzSFZxQkhyS00rQVlEYm5aMXFSelJKK2RMZU9Cd2FnbmdIK1ZYQmkvSC9L?=
+ =?utf-8?B?OHZFN3IyUW5TMDF2RVlTakVlMmFka0tTOTlFVWhiRi9yQllIR1liNG9jMTlJ?=
+ =?utf-8?B?SXdNMDRYdndjektXZ0tKYytIQm4raTh0ZFBJWUhqVEd6dGIxanpTVlZxZlda?=
+ =?utf-8?B?VEVGMWttMnVZcWFlWHlqU1E1ZWRyVkNSdHdPeDJPMWNvL3lzZFE0L1JRRyth?=
+ =?utf-8?B?WFpmbW50OTRQdk9saVBLazM4WE1oNkdoYjFsZm40YXVzKzlkMHJ3Rit0UjV5?=
+ =?utf-8?B?cEdOK2dBQVpiVTNKanhoVURtaSs5c3dwWWJlN1ZEZ2tzNG5jR0lKdXJydXAy?=
+ =?utf-8?B?M0ppcGwyY1hpWDl5SUMxeXlXMUY0NTlGK1Y2N1Rnc0g2VWszR1hlYmtIaHdM?=
+ =?utf-8?B?L28zRVJsVno2Y0I5WlF1di81OHNmaDBQVFozMk1UME5UNVBVME0ycXpVaHpX?=
+ =?utf-8?B?WmNZOFI2Vy9lc0hCNHlnWjljcGwvaW01OSt1WGNGRkwxbUkzSjdOcnlydHoy?=
+ =?utf-8?B?K21wQUQwWkhxR1YxbGVGR2JIYi9nUkRTM0l1VmxubUFsVyszd0lxam1TV2xy?=
+ =?utf-8?B?TldGQit0dk54c21Dd3VPR3dsajN3Zk9adjA5SkZyNjhYVE5MWEVqTW9qQ3NI?=
+ =?utf-8?B?MVBPeHgwaWMxalFBWVptaG5IeXJMUVlRS1RXZHc0WHRyY0lvK3hESkN4dW9S?=
+ =?utf-8?B?WGEzVVhocnBYelNldTk5N2FVRFVSb2dhbll2YjJuN2sxRHV4VWhPRGxUeDVM?=
+ =?utf-8?B?OFJLdXBCUFc2RXYwRWlweEI2aW14djl1Z0xrR2U2dFZRR1hENlhmYnlNQmFQ?=
+ =?utf-8?B?MTVsNDE0L2hhTldmRUlPQkY5S2hkZ2RBenZIVmdrNlZGZ2U1RjFiclZwbnFu?=
+ =?utf-8?B?NUJMK21FalZNM2RlZ3FyVjM2SUZ3aVN5YXk3S1dFcVZaekJzQWlXWFlsbFlL?=
+ =?utf-8?B?dkRoU0h3RlJUbXVZUEg1TG0xUk9Vc05SbytVbVYrdm9NV2c5cHhJZVBrdE1h?=
+ =?utf-8?B?QUZwcHNKZWNkQXIrUXNnOHFQVFR2dERzcjZhbUMzSlJqWGszb0FKVXcyWmFZ?=
+ =?utf-8?B?c0Npa05zTzYra1VjQ1pwK0htUWU4NDhhRU5JZWZNcHBUaXlxc0VTblQrbm16?=
+ =?utf-8?B?MmdrMlgxaTFxZXNVNmdJRVA4V0lydTQvZnRuNk9HbXdvcDlYSlVMQVdUNmtx?=
+ =?utf-8?B?N0V5SjBacEI5NGw2V1lpY3ozNnI0OFkvS2lPRU0ySG9tSXNCQXZCUEFsenY3?=
+ =?utf-8?B?Mmt0UnVOd2ZEMTd0V05QVkd6eW5uUlEybVA5L2cxUXNUWnhSeEpudSt6YmhN?=
+ =?utf-8?Q?S6C+npMWG4rb4JPjlu7rtIhhp?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 554f082c-6558-4521-f682-08dcf270fd85
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2024 08:10:28.4710 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zjw0fIC7SsyR6zSy607sBDxCQ5lSJbe+2vEiKmb7LcUgVtyV51GxN+prlm9EGy+yTVycOOfyOuQsxj2rE3Fnwg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS5PR04MB10020
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,91 +178,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Armin,
+Hi Maxime,
 
-On 21-Oct-24 10:26 PM, Armin Wolf wrote:
-> Am 11.10.24 um 17:26 schrieb Pavel Machek:
-> 
->> Hi!
+On 10/22/2024, Maxime Ripard wrote:
+> On Tue, Oct 22, 2024 at 03:36:47PM +0800, Liu Ying wrote:
+>> Hi Maxime,
 >>
->>>> 1.
->>>> https://lore.kernel.org/all/6b32fb73-0544-4a68-95ba-e82406a4b188@gmx.de/
->>>> -> Should be no problem? Because this is not generally exposing wmi
->>>> calls, just mapping two explicitly with sanitized input (whitelisting
->>>> basically).
->>> It would be OK to expose a selected set of WMI calls to userspace and sanitizing the input of protect potentially buggy firmware from userspace.
+>> On 10/21/2024, Maxime Ripard wrote:
+>>> On Mon, Oct 21, 2024 at 02:44:43PM +0800, Liu Ying wrote:
+>>>> +static int it6263_bridge_atomic_check(struct drm_bridge *bridge,
+>>>> +				      struct drm_bridge_state *bridge_state,
+>>>> +				      struct drm_crtc_state *crtc_state,
+>>>> +				      struct drm_connector_state *conn_state)
+>>>> +{
+>>>> +	struct drm_display_mode *mode = &crtc_state->adjusted_mode;
+>>>> +	int ret;
+>>>> +
+>>>> +	ret = drm_atomic_helper_connector_hdmi_check(conn_state->connector,
+>>>> +						     conn_state->state);
+>>>> +	if (ret)
+>>>> +		return ret;
+>>>> +
+>>>> +	return mode->clock > MAX_PIXEL_CLOCK_KHZ ? -EINVAL : 0;
 >>>
->> I don't believe this is good idea. Passthrough interfaces where
->> userland talks directly to hardware are very tricky.
+>>> drm_atomic_helper_connector_hdmi_check will already make that check, so
+>>> it's redundant.
 >>
->>> Regarding the basic idea of having a virtual HID interface: i would prefer to create a illumination subsystem instead, but i have to agree that we should be doing this
->>> only after enough drivers are inside the kernel, so we can design a
->>> suitable interface for them. For now, creating a virtual HID
->>> interface seems to be good enough.
->> I have an RGB keyboard, and would like to get it supported. I already
->> have kernel driver for LEDs (which breaks input functionality). I'd
->> like to cooperate on "illumination" subsystem.
->>
->> Best regards,
->>                                 Pavel
+>> MAX_PIXEL_CLOCK_KHZ is 150MHz. With 150MHz pixel clock rate, we'll get
+>> 150MHz HDMI character rate for 8bpc and 187.5MHz HDMI character rate
+>> for 10bpc, both are lower than MAX_HDMI_TMDS_CHAR_RATE_HZ = 225MHz.
 > 
-> Sorry for taking a bit long to respond.
-> 
-> This "illumination" subsystem would (from my perspective) act like some sort of LED subsystem
-> for devices with a high count of LEDs, like some RGB keyboards.
-> 
-> This would allow us too:
-> - provide an abstract interface for userspace applications like OpenRGB
-> - provide an generic LED subsystem emulation on top of the illumination device (optional)
-> - support future RGB controllers in a generic way
-> 
-> Advanced features like RGB effects, etc can be added later should the need arise.
-> 
-> I would suggest that we model it after the HID LampArray interface:
-> 
-> - interface for querying:
->  - number of LEDs
->  - supported colors, etc of those LEDs
->  - position of those LEDs if available
->  - kind (keyboard, ...)
->  - latency, etc
-> - interface for setting multiple LEDs at once
-> - interface for setting a range of LEDs at once
-> - interface for getting the current LED colors
-> 
-> Since sysfs has a "one value per file" rule, i suggest that we use a chardev interface
-> for querying per-LED data and for setting/getting LED colors.
-> 
-> I do not know if mixing sysfs (for controller attributes like number of LEDs, etc) and IOCTL
-> (for setting/getting LED colors) is a good idea, any thoughts?
+> I guess? I have no idea how that's relevant though. Where are those
+> constraints coming from, and why aren't you checking for them in
+> tmds_char_rate_valid?
 
-I wonder what the advantage of this approach is over simply using HID LampArray
-(emulation), openRGB is already going to support HID LampArray and since Microsoft
-is pushing this we will likely see it getting used more and more.
+All constraints come from IT6263 data sheet. They are also mentioned
+in IT6263 product link(commit message contains the link).
 
-Using HID LampArray also has the advantage that work has landed and is landing
-to allow safely handing over raw HID access to userspace programs or even
-individual graphical apps with the option to revoke that access when it is
-no longer desired for the app to have access.
+https://www.ite.com.tw/en/product/cate1/IT6263
 
-HID LampArray gives us a well designed API + a safe way to give direct access
-to e.g. games to control the lighting. I really don't see the advantage of
-inventing our own API here only to then also have to design + code some way to
-safely give access to sandboxed apps.
+"
+LVDS RX
+Support input clock rate up to 150 MHz
 
-Note that giving access to sandboxed apps is a lot of work, it is not just
-kernel API it also requires designing a portal interface + implementing
-that portal for at least GNOME, KDE and wlroots.
+HDMI TX
+Support link speeds of up to 2.25 Gbps (link clock rate of 225 MHz) 
+"
 
-Personally I really like the idea to just emulate a HID LampArray device
-for this instead or rolling our own API.  I believe there need to be
-strong arguments to go with some alternative NIH API and I have not
-heard such arguments yet.
+If no objection, I'll check mode clock rate against
+MAX_PIXEL_CLOCK_KHZ in tmds_char_rate_valid.
 
+> 
+>> So, it looks like pixel clock rate is the bottleneck.
+> 
+> The bottleneck to what?
+
+To the IT6263 video processing throughput capability.
+
+> 
+>> Remove drm_atomic_helper_connector_hdmi_check() or keep this as-is?
+> 
+> No, like I said, remove the final check for mode->clock.
+> 
+> Maxime
+
+-- 
 Regards,
-
-Hans
-
-
-
+Liu Ying
 
