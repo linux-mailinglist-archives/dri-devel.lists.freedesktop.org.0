@@ -2,53 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 491F99AA01B
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2024 12:31:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A36D29AA066
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2024 12:53:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A305210E309;
-	Tue, 22 Oct 2024 10:31:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61AE510E660;
+	Tue, 22 Oct 2024 10:53:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ZugQ+dNW";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jSbdXl2f";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7589610E309
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Oct 2024 10:30:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1729593058;
- bh=ckwdXkesd1lkAUGXB2NkOvoDnLV225VqIN/edVwVwvc=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=ZugQ+dNW06+dJxsk1cWVB+lYF0mpPSqkQYI/H3V6ossWlAgrWOLWyA7p1B8q27PrB
- l8twj9/sEBjLFl18AyixCNfEeif9uS6QGxJryyxGUL2ERta8Q/6JNYh1P4VOOnL/HT
- OD8VsV2vB2lVJ+GvQtvk3T/3m/CO1B/C+lKCjyYcaCFJHg9SXZyvPSLRV/T1zu0iYK
- wZD6FUFQZ6Cma4BpUAnRnoSOv0p9g7yZcy6hjeTw8ow3jZ4G8UeCQZTAp7PquALZdQ
- Fm+qFuO8iCbEz1QfJCb3hPBvdc4kUxCi5Ci8oxEDNBTZ4t6qN4X8groTTTNdpt3/wN
- JldAru3d8U/Jg==
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id CBB9D17E1522;
- Tue, 22 Oct 2024 12:30:57 +0200 (CEST)
-Date: Tue, 22 Oct 2024 12:30:52 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Chia-I Wu <olvaffe@gmail.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- faith.ekstrand@collabora.com
-Subject: Re: [PATCH] drm/syncobj: ensure progress for syncobj queries
-Message-ID: <20241022123052.3e0f3f17@collabora.com>
-In-Reply-To: <20241017162054.2701638-1-olvaffe@gmail.com>
-References: <20241017162054.2701638-1-olvaffe@gmail.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AEE610E306;
+ Tue, 22 Oct 2024 10:53:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1729594431; x=1761130431;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=X8W2PZaMjTbO7L4oT2o41c/8RKlDJ2p+caMbV4wPX+M=;
+ b=jSbdXl2fVzbREf+7QTpvFkyB7DuHH2HM2b2Ed40AlKlgiuRNJIw96vwZ
+ Rbr/nBKcxxgP8/ktC5ARhxCZ6JJHc5jZqv3NjlLWnKXkjLuX7K7Nd0Jfh
+ 50uJXAtComwuZ+TrIWm6lGsvoqSOoAd3XtKIorFVK1Rw1yjxyVUstdKb/
+ 1XHak0ZX+KW+g4vdpA1fzBU+FVpua5tNCNnGrEjE3DlOrgp6t5r4Vi9n4
+ DsOYP+6YJnX6+wyRPxn8msfPYxWfzL6sougLeou/kSbbtTluIuKC8MBrC
+ kEAarRd3UXC5Z4b4Ve8ch3ZKFYbPkJJsiHiqosGkHCBS0076dWP/6z2T2 A==;
+X-CSE-ConnectionGUID: yyeF412YRCuPYS2Wtn/dWg==
+X-CSE-MsgGUID: tzUpDcuKROyL6feFcrHAyw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11232"; a="39704945"
+X-IronPort-AV: E=Sophos;i="6.11,223,1725346800"; d="scan'208";a="39704945"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by fmvoesa105.fm.intel.com with ESMTP; 22 Oct 2024 03:53:39 -0700
+X-CSE-ConnectionGUID: UREAHlpEQralW+/fzp3LJw==
+X-CSE-MsgGUID: 0rHqH6V4T7es1JCTrMAaZg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,223,1725346800"; d="scan'208";a="79847576"
+Received: from sannilnx-dsk.jer.intel.com ([10.12.231.107])
+ by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Oct 2024 03:53:06 -0700
+From: Alexander Usyskin <alexander.usyskin@intel.com>
+To: Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>
+Cc: Oren Weil <oren.jer.weil@intel.com>, linux-mtd@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ Alexander Usyskin <alexander.usyskin@intel.com>
+Subject: [PATCH 00/10] mtd: add driver for Intel discrete graphics
+Date: Tue, 22 Oct 2024 13:41:09 +0300
+Message-ID: <20241022104119.3149051-1-alexander.usyskin@intel.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,39 +77,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 17 Oct 2024 09:20:53 -0700
-Chia-I Wu <olvaffe@gmail.com> wrote:
+Add driver for access to Intel discrete graphics card
+internal NVM device.
+Expose device on auxiliary bus by i915 and Xe drivers and
+provide mtd driver to register this device with MTD framework.
 
-> Userspace might poll a syncobj with the query ioctl.  Call
-> dma_fence_enable_sw_signaling to ensure dma_fence_is_signaled returns
-> true in finite time.
-> 
-> ---
-> 
-> panvk hits this issue when timeline semaphore is enabled.  It uses the
-> transfer ioctl to propagate fences.  dma_fence_unwrap_merge converts the
-> dma_fence_chain to a dma_fence_array.  dma_fence_array_signaled never
-> return true unless signaling is enabled.
+This is a rewrite of "drm/i915/spi: spi access for discrete graphics"
+and "spi: add driver for Intel discrete graphics"
+series with connection to the Xe driver and splitting
+the spi driver part to separate module in mtd subsystem.
 
-Looks like a bugfix to me. Should we add Fixes+Cc-stable tags so it
-gets backported to stable branches.
+This series intended to be pushed through drm-xe-next.
 
-> ---
->  drivers/gpu/drm/drm_syncobj.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
-> index 4fcfc0b9b386c..58c5593c897a2 100644
-> --- a/drivers/gpu/drm/drm_syncobj.c
-> +++ b/drivers/gpu/drm/drm_syncobj.c
-> @@ -1689,6 +1689,9 @@ int drm_syncobj_query_ioctl(struct drm_device *dev, void *data,
->  			    DRM_SYNCOBJ_QUERY_FLAGS_LAST_SUBMITTED) {
->  				point = fence->seqno;
->  			} else {
-> +				/* ensure forward progress */
-> +				dma_fence_enable_sw_signaling(fence);
-> +
->  				dma_fence_chain_for_each(iter, fence) {
->  					if (iter->context != fence->context) {
->  						dma_fence_put(iter);
+Alexander Usyskin (10):
+  mtd: add driver for intel graphics non-volatile memory device
+  mtd: intel-dg: implement region enumeration
+  mtd: intel-dg: implement access functions
+  mtd: intel-dg: register with mtd
+  mtd: intel-dg: align 64bit read and write
+  mtd: intel-dg: wake card on operations
+  drm/i915/nvm: add nvm device for discrete graphics
+  drm/i915/nvm: add support for access mode
+  drm/xe/nvm: add on-die non-volatile memory device
+  drm/xe/nvm: add support for access mode
+
+ MAINTAINERS                           |   7 +
+ drivers/gpu/drm/i915/Makefile         |   4 +
+ drivers/gpu/drm/i915/i915_driver.c    |   6 +
+ drivers/gpu/drm/i915/i915_drv.h       |   3 +
+ drivers/gpu/drm/i915/i915_reg.h       |   1 +
+ drivers/gpu/drm/i915/intel_nvm.c      | 119 ++++
+ drivers/gpu/drm/i915/intel_nvm.h      |  15 +
+ drivers/gpu/drm/xe/Makefile           |   1 +
+ drivers/gpu/drm/xe/regs/xe_gsc_regs.h |   4 +
+ drivers/gpu/drm/xe/xe_device.c        |   3 +
+ drivers/gpu/drm/xe/xe_device_types.h  |   8 +
+ drivers/gpu/drm/xe/xe_heci_gsc.c      |   5 +-
+ drivers/gpu/drm/xe/xe_nvm.c           | 131 ++++
+ drivers/gpu/drm/xe/xe_nvm.h           |  15 +
+ drivers/gpu/drm/xe/xe_pci.c           |   5 +
+ drivers/mtd/devices/Kconfig           |  11 +
+ drivers/mtd/devices/Makefile          |   1 +
+ drivers/mtd/devices/mtd-intel-dg.c    | 843 ++++++++++++++++++++++++++
+ include/linux/intel_dg_nvm_aux.h      |  27 +
+ 19 files changed, 1205 insertions(+), 4 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/intel_nvm.c
+ create mode 100644 drivers/gpu/drm/i915/intel_nvm.h
+ create mode 100644 drivers/gpu/drm/xe/xe_nvm.c
+ create mode 100644 drivers/gpu/drm/xe/xe_nvm.h
+ create mode 100644 drivers/mtd/devices/mtd-intel-dg.c
+ create mode 100644 include/linux/intel_dg_nvm_aux.h
+
+-- 
+2.43.0
 
