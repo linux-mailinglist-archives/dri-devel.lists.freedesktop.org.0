@@ -2,183 +2,103 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 938F99A9885
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2024 07:34:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3FEA9A98A0
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2024 07:36:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0723110E5DB;
-	Tue, 22 Oct 2024 05:34:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EA8410E5BA;
+	Tue, 22 Oct 2024 05:36:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ihmi2qI4";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rO6GUJnd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41A3C10E5BA;
- Tue, 22 Oct 2024 05:34:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1729575265; x=1761111265;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=0W5d55x2nkQBY7VQf627Cvx2eykeg7xpRlPx+ANQS1E=;
- b=ihmi2qI4rJVXEDInD+cKaZe6oIqMcnd3d+Aq2/pbRBV2v0acuvX1Ocf9
- 6y5aSVuJp2H4K6bhm5eFplpUJONVYWbPU2fhdVsRHvnwXPIgXbJXDa4ru
- pzakFx2hCmYcipTffmrfufxkeRAINIaH9w/iiwx42nEnxGme06gAO8k+B
- XDa81zS+rtcrc9vF6u/Kich21Cwec1in6g3Y67ScfJIwLvOfH0tmQv4be
- wC2eotC686Qs4MPgqOcIHcT0jOGp4v6yde6quI5hdQ/MOjhzdNcQMCGG0
- kQr8aftAv02JPHe/xe1ybMhC9ds/CvDM0AcOUyAWZp+FzLiz0reGouYDt Q==;
-X-CSE-ConnectionGUID: rkyiVwiZSSujgfjpzpsvbw==
-X-CSE-MsgGUID: VhDPAIEVS6S1F9NV94XqUw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11232"; a="39698979"
-X-IronPort-AV: E=Sophos;i="6.11,222,1725346800"; d="scan'208";a="39698979"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Oct 2024 22:34:25 -0700
-X-CSE-ConnectionGUID: hcL1SzRZT2SpMIPM9yxusg==
-X-CSE-MsgGUID: cacAyKkHTOqcdgC5pnwxcw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,222,1725346800"; d="scan'208";a="117171938"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
- by orviesa001.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 21 Oct 2024 22:34:24 -0700
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Mon, 21 Oct 2024 22:34:22 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Mon, 21 Oct 2024 22:34:22 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.41) by
- edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Mon, 21 Oct 2024 22:34:22 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Eyu9Zf2kIctLYKrvRS/Vj6WayeHdgFgx8WDl0yN0t1xkCI7co+F1KuzwP+pRnZv76d+jfV2heRu1Ba5mZvMTF8syMlsAkWt65hO2uBK5U9lvdcUJakWgqixQpfG6l8+vtkceXcM5xpvXgN92naMJxL+5Eqoyn/QeU3Yx6hwttEtk7MbYtVhe4dx+g41DJvWveqsnHUbkuIepwZS77ZT2mf+MezSnoAo5vOsuEOOS32IwElS4RPCvUJwPgIPdo1Wv/egRDssD1MZTTpK8lQceIoP/cd33J0XxS/+ifu5PYeuJjs96jZ8K4oL/3uhnsuxFDh7pqRVqxT05UB87SiM3jg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=z93phCqck/MqE8BtL14HiWOVPUVVWtQrRzSNtd9WTIU=;
- b=pthwzgByHOItRBVQXnwwslxHmxUvaT1b6RZ/GC+XxWsaZORURuQdwHdfVTYAHdhgT85hV9EosTMIUX5vzhzL2z2CG2n1K594aNyu287yzudylrSF3Mw6KVnF3Btz0GH6x5UPcSDUpVzEz8WP9g9v/D6JQex1jxJOLEvUKBEyfANl7krsjrquFODLbacMlEIb7izbLlgf1NRU9XljTBZOsjRANjZnGIH2w0qAkCnjjBGnY3Oa6/hcrZr7VLViI9E9JWeGsMnuP2qChesGDlQpcMjUHKSccUmidaxY3eHOprWpyeXXPFgXd58S4teIRtt4Hm4qNtucCP73eT5BwSRtTw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BN9PR11MB5530.namprd11.prod.outlook.com (2603:10b6:408:103::8)
- by BL1PR11MB5272.namprd11.prod.outlook.com (2603:10b6:208:30a::5)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.29; Tue, 22 Oct
- 2024 05:34:20 +0000
-Received: from BN9PR11MB5530.namprd11.prod.outlook.com
- ([fe80::13bd:eb49:2046:32a9]) by BN9PR11MB5530.namprd11.prod.outlook.com
- ([fe80::13bd:eb49:2046:32a9%7]) with mapi id 15.20.8069.027; Tue, 22 Oct 2024
- 05:34:20 +0000
-Message-ID: <a4715edb-ad88-4c68-81ab-78bc1d779de8@intel.com>
-Date: Tue, 22 Oct 2024 11:04:14 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/4] drm/xe: Mark GGTT work queue with WQ_MEM_RECLAIM
-To: Matthew Brost <matthew.brost@intel.com>, <intel-xe@lists.freedesktop.org>, 
- <dri-devel@lists.freedesktop.org>
-CC: <dakr@kernel.org>, <pstanner@redhat.com>
-References: <20241021175705.1584521-1-matthew.brost@intel.com>
- <20241021175705.1584521-3-matthew.brost@intel.com>
-Content-Language: en-US
-From: "Nilawar, Badal" <badal.nilawar@intel.com>
-In-Reply-To: <20241021175705.1584521-3-matthew.brost@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MA0PR01CA0105.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:af::19) To BN9PR11MB5530.namprd11.prod.outlook.com
- (2603:10b6:408:103::8)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7302110E5BA
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Oct 2024 05:36:28 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id F084BA43D8C;
+ Tue, 22 Oct 2024 05:36:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FF35C4CEC7;
+ Tue, 22 Oct 2024 05:36:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1729575386;
+ bh=u7PMHWbaYwoD+m3HKWRCrVBQIUxw6mA45pdQQu+ljpY=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=rO6GUJndyv1kw9iqU97/yaoaIENRKgozgYuSw35ZRtOG7ui+8iaLWdiOzJlaDlSuH
+ jZdIrmU2XU16hHrk6uCZZpdi3DURETPEjfrAh8VstrEAUsQVedd6fIYSBFpbysCioN
+ DxgAAYcX0m68ILh/si3FfCYK3z4NV/xZMsfR870q8rq+TeBSZ0SKfvhkeks29lQEtj
+ pTd93iXc1mqd1nW2Sr4outC1e3xFh0IfyLm1YI5AzO5d1Dg1ZkRvULarH9eVskmfoL
+ 7bK5C+W4VUaGsCjyBT13Ypz5dfXX0bAeVuoreRoQuAHOLVhJ0CJgXGGzRy3qAGxYuc
+ 9xz1SdP4mAXHQ==
+Message-ID: <35d27ab4-c0df-4b82-a53c-9dc8d55a6048@kernel.org>
+Date: Tue, 22 Oct 2024 07:36:16 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN9PR11MB5530:EE_|BL1PR11MB5272:EE_
-X-MS-Office365-Filtering-Correlation-Id: de52bfc8-3dac-464e-c9f5-08dcf25b2dc9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?R1JabE5VbGR3aDl6Ti8vVitJUDh1WUZwcXBSelFwd2lVZUY1cmZSNUcyZ3Y1?=
- =?utf-8?B?Q053bzBBU2hzZXJnaHdZenhVVzEyeVN0bkVNNEpPVE5UNjRDUDh0eHh4Wm9i?=
- =?utf-8?B?Y3hqS0RzekJhcFVRc3BoQlQwUmJqUkhhTTJRU0FQTWlNRW5Kcy9uSUY1bUhU?=
- =?utf-8?B?Y1JHU1JEN0FqcGxkOHhHSGJyTkg4SU4yMkkzcnZNUTVuYlRuQjYyN09NUzNt?=
- =?utf-8?B?U2ZWYmxQbklaOXIwZzFVblVFdkFWWFRQYjZMdmg5bzRrVFYrOGZxVjlEU1Jx?=
- =?utf-8?B?SWN2UDlVTi9OTG1ZdnZmeTM2SHU2UVNlc3Z3MlJBVGQxV01zT1czN1BQUUpS?=
- =?utf-8?B?cWM0SWw5UjBka2F1S2p2YVFBVkhEMFdUak9VSFdiSkFSQ2JXbVVaaCtMUk5w?=
- =?utf-8?B?TVZtZTNYZWJOS2RnRWtjZFdSRzZiOFBPMW5nb0xISk1EVjBibmMvTWxPbC9R?=
- =?utf-8?B?alErcUhmNko2cGZZMXVSOTB3OGJPRWdGWVZuT09BczBtdDM0bmV1U3l1WW11?=
- =?utf-8?B?MlZKRGRmL2daWHkxbmtHRmlPNUovdjdncDJYVEFoMXZOTnRENlFaTEV5UEVU?=
- =?utf-8?B?eVI4MGlhbzVKVHd5S3FXOG81bWdYUkpvNXRwY3doSlhRekI4U0RDUVh5MTdJ?=
- =?utf-8?B?M0tPdHUzeDFLTDBBc2hTOVVZN0dwdVloZ3JBR0YrYWJKN2JZR05peXlGRmxR?=
- =?utf-8?B?cWhhMDhjQkhNUmZaL1A1THM5akx5aUw1U3BXWld3ekhqTjhqQUUyR09DaFlv?=
- =?utf-8?B?VjJMdm9wOUJiYjFoVGx0aVZ6S3AvN0c5WDZKZFBDQmNTRjM4d3ZPMitoZjBK?=
- =?utf-8?B?dXZQME5IM1hJM2toVndqVjducG1TV29YaGxWenphbm5tSWRhQWJFNzNKK2Vp?=
- =?utf-8?B?VFFiZEhqZ20xVFZPNEZzWjlFZ2t5a2RvNFAyMFlBcGgxQzMyQ1plZVI5RjJl?=
- =?utf-8?B?anZJKzF5TlVocmRtNkJOOHRFUk5jVG5TVStCejdQSk9FSXNXZktXLzJtcGVD?=
- =?utf-8?B?LzZoa3h4bS9iR25EOStUOXZoWGNDRDVSWWhSc2Yvbm9teXVCNXEvZlJmMVJS?=
- =?utf-8?B?bDBldnFUR0FIcXgrYkdoUEkyV1F5S1Q1L3lnR1I2eTd5OUcvdTFBOWkxWXI5?=
- =?utf-8?B?NzY1R2NnSWRvWkVlenJudVM5S0ZaNENxdmMzTGJna0NCVFhHaG4rTEFPT0dM?=
- =?utf-8?B?N2NJTTZPcG5iM0MvOFVFUE82WjlPeGVvREVFZWJMWWMxamh0a1hJdit2RGVB?=
- =?utf-8?B?WmtGaDIybkJ3R0EvSm9vdjl4Znp6Z005dkdueXZ5cDVJRU9lUDFodUFLUFdJ?=
- =?utf-8?B?d2Y2Rm1pWm1uMnhhZUJOV2h3Ukt4Vzd0RGd1cGNzcE92dy8rcWJoSEV0bU1t?=
- =?utf-8?B?dHQ5aEh3SDk1VENDS2lDNmQvTmVBckVZdFdidnZaZzJSMVZuY1lOS0F2RTJ5?=
- =?utf-8?B?N3dtR2lEaWJXeHVjTFI4MHEvMWxCV1NEK1lxTWg1OGhGR01ueG5FUUhoNnpL?=
- =?utf-8?B?Ym5xeTkrQ3hqVnBwbWdJUlVxYURVTm5MVmhuZFZWVkpKeE1pMTFDKzI5dnR5?=
- =?utf-8?B?UjFqUGR1YmxxMVZBWFNBamxHRE1Qa2lCeTZXZGtDbmlRbGVndkZDR0NWMkU5?=
- =?utf-8?B?MmMvaDA4QTZpYUlkZzl0Q3lGMFVwL3FtdllISkczUzdhVkE5eVZaV1ZvNS9p?=
- =?utf-8?B?KzdhbFVpdEZFWjBXUWlFMGd6UGNQeksxSlgyNHJjWldZKzFwVnI4RThjSWZu?=
- =?utf-8?Q?rPdKzdUT3y/a0CZBjY/1eSo4gr6j2qnAGwT34Iw?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR11MB5530.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eWpvTG1rVHNHa0pOdE95b0c2WFhua0NsTDh4cml4cS9xdWpGaEdjN1RyalFr?=
- =?utf-8?B?R3haU280VDcxbTlSZ2JVQzM4eWFDdkZ6Z3FsZ3VSMTBmQk9WWU5DSWdaK2Zn?=
- =?utf-8?B?NGVteDRkZDhSQk5wcllmMjl2QTZtZksxcC9TNHdtQjlaZFFBVE5ETUZMbHNR?=
- =?utf-8?B?bm41L1ErdndtT2Jybi9QL3BZbHAvZmY2KzJ2VjhkVEl4dURFNDUyMlIxaFJl?=
- =?utf-8?B?WDJFQm9WTGQ5ZkNUSlBmU3Z5dXZRZ2VNODFSTE5iV0pEazVEd1plUGhjWDF6?=
- =?utf-8?B?c3NYV2JZVVlDMmtWVGVkaHgrVjEzQlZyb282OGFYQk5iNTNSL205VnVha2or?=
- =?utf-8?B?dzVPQlN3SlhxOTU0cTFFN2ZEWTZ3bmpKcWJOcHl4dSt6SEMwNW90SDdHejR1?=
- =?utf-8?B?V3NXRGxFK3cvWHoxQmNDYlFOcUNxTmRoMlQ3OTJuMmVZT1VsMStaYjdzVGhj?=
- =?utf-8?B?NTE3d2NnR21IM2tKTjZhQjBqRVdUWjBvKzFyOUdFNHFRWG9XTUFNbVpCTW9D?=
- =?utf-8?B?U0x4Rmw2MHJ2cGU3RnN2U2ppc1dRQ0Z4SWxRREswakhYK29oUy9Rb0VnSVVz?=
- =?utf-8?B?aEw2UitpQXNvN3lYaytSNmhUcE1ndFlzTzVxSTFWQ2RHZGdKU2VscEdvSW5s?=
- =?utf-8?B?YVB5ZnpnZnZxK1FpcVd6Vjk5RzErSExxTXdTQjFJNFRWZ0UxYUtlWnA2YWVZ?=
- =?utf-8?B?di9BRThVR2JtZ0Z4SnIxQ01DK3Z5S2s4QVcvZW44dGZpNXltK1h3ZVpPNFRF?=
- =?utf-8?B?RVVJMVVIenJZK3d5KzlpTXFwTFoxdHVjTVRvMjE2Qm9ybzVZRGhEajVERDd2?=
- =?utf-8?B?emtJYXdHSHNuRWZYVzJaTWZCNkhocExaaFZMT0loN0hQMUc5RWkzYUY2UXBZ?=
- =?utf-8?B?ellFNkFEZFpZdm8rdkJRZ3hSTlZRTWVWampwTGE0d0l4WW1iN1AyQ3NEeE1i?=
- =?utf-8?B?Yzc4T1IyWDBPU0xTT09uNlh1cnZZcjF4Qzl4SkVFWCtkaTNPbUVOVWZOV0wx?=
- =?utf-8?B?U1VQSlFWRkpRZE5hVWY2bk1TUlArM3VPdEc5dit3Vk1mZDdPKzBuL1pZdFZC?=
- =?utf-8?B?UkpLck5aZkphTWhxZnE3MHExSUlWcUxNcFRMWEJPSzI2UG5renJkdE1nVStx?=
- =?utf-8?B?NS9XbW5oVDZYbjBTUU1NZzVReFVSbjZLa3E3RjN6U3M2QWMwNjJhKzhzZ2xs?=
- =?utf-8?B?Q293V0lRQTFkenM2cGdENnF6TWVKdmNIdEkreU9hRWpNTk1pdmtiaVpDcEFx?=
- =?utf-8?B?SG90dzBlcXQ0SDZNUisxV3E3QkgrTDMyQjBweDU3WEtNVkZCT3R1R0tLaWYv?=
- =?utf-8?B?UDlNS1RTcEhPYnhINUc0by9OL1J3UEtsS0syTDVZRDhOZk0yTWN2SzFHLzFx?=
- =?utf-8?B?Rmt3WGFseFk1dTNzZnNHWUlyR0ozUDFaWWkyalg3cm1UVUV2cEZwWmdSN0JH?=
- =?utf-8?B?WERQZzdBYzNCdHNmeGZNd09CbmdKV3EySVltdXNRNWtjaXFuaDNWUjVTdUR5?=
- =?utf-8?B?aHRtRldKZVd6OG5NQkxZcFBUVWtxVy9qTXhYZkErVW8yU3I5QmJtZjRVOU8z?=
- =?utf-8?B?MGhHZWJQOUtRVUhLVTV5K0ZSTHlueWVWMXJydEJnR2Q3Qm9lSVZ4dkRNUHdH?=
- =?utf-8?B?S2pmeTRTWExHNk8zUUhwZDcxQVhJeDhITUZWZjRUeVYxamJDclJ5cmt3WmlE?=
- =?utf-8?B?ZG52YWRTbThrclorMTh2bVNZMjlqYWdQQ29VNkEzQlBGVEluU0lNeHVnbk52?=
- =?utf-8?B?c2kzajNLMlQ5ZnZlZFNzVzRYdVV6R3ZwY2hTNnFDWUZjYndlVHVxSVRJRkNW?=
- =?utf-8?B?ZHBMOElTalNpRWxTSHVONjYwNFB2NlpYcFBwbTZlcDZWc2tCRFpuQUtEZ3pv?=
- =?utf-8?B?cTdMeDRSWjk5eG5MV0Y3MENYK1ZKdnE4aHJ1Q0pQckhKQjRrWDYrbVYvakpS?=
- =?utf-8?B?MmltblNHR3RJM1pOUGV4OE5MSmxjK3d0ZkV2TUxIWUhvS29zTkJieFpHdnlJ?=
- =?utf-8?B?M3NCTmc0T2N3QWFsSW5QU1pyb09HZklxc05MQmpGVHFRQkgyQkZvUGZMRmJO?=
- =?utf-8?B?VUlGRFl2cURtaXFPaTUwQld3bVZwQ3dpQnBrYWQ3bmVYV1BhSWhxKzc5a0JZ?=
- =?utf-8?B?WjY2d2tYZUM5c1NKc2s1cHZSMEdFWEtzNGlLNEVmN1h5L2ZkUG4zU2hxRDQ0?=
- =?utf-8?B?RkE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: de52bfc8-3dac-464e-c9f5-08dcf25b2dc9
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5530.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2024 05:34:20.6737 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zXkDp/R/+6kkEw2B2tdeCmyTwrHOZ43uJkgmYxTLTR3uk8Q4izkCgjselxSSeitexAJZnu7yQ2d1JeXaPS7ySA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB5272
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 01/10] dt-bindings: media: mediatek: add camsys device
+To: Shu-hsiang Yang <Shu-hsiang.Yang@mediatek.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian Konig <christian.koenig@amd.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com, yaya.chang@mediatek.com,
+ teddy.chen@mediatek.com, hidenorik@chromium.org, yunkec@chromium.org,
+ shun-yi.wang@mediatek.com
+References: <20241009111551.27052-1-Shu-hsiang.Yang@mediatek.com>
+ <20241009111551.27052-2-Shu-hsiang.Yang@mediatek.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20241009111551.27052-2-Shu-hsiang.Yang@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -194,36 +114,163 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 21-10-2024 23:27, Matthew Brost wrote:
-> GGTT work queue is used to free memory thus we should allow this work
-> queue to run during reclaim. Mark with GGTT work queue with
-> WQ_MEM_RECLAIM appropriately.
+On 09/10/2024 13:15, Shu-hsiang Yang wrote:
+> 1. Add camera isp7x module device document
+> 2. Add camera interface device document
 > 
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> Signed-off-by: Shu-hsiang Yang <Shu-hsiang.Yang@mediatek.com>
 > ---
->   drivers/gpu/drm/xe/xe_ggtt.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>  .../media/mediatek/mediatek,cam-raw.yaml      | 169 ++++++++++++++++++
+>  .../media/mediatek/mediatek,cam-yuv.yaml      | 148 +++++++++++++++
+>  .../media/mediatek/mediatek,camisp.yaml       |  71 ++++++++
+>  .../media/mediatek/mediatek,seninf-core.yaml  | 106 +++++++++++
+>  .../media/mediatek/mediatek,seninf.yaml       |  88 +++++++++
+>  5 files changed, 582 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek/mediatek,cam-raw.yaml
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek/mediatek,cam-yuv.yaml
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek/mediatek,camisp.yaml
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek/mediatek,seninf-core.yaml
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek/mediatek,seninf.yaml
 > 
-> diff --git a/drivers/gpu/drm/xe/xe_ggtt.c b/drivers/gpu/drm/xe/xe_ggtt.c
-> index 1b3178226987..0124ad120c04 100644
-> --- a/drivers/gpu/drm/xe/xe_ggtt.c
-> +++ b/drivers/gpu/drm/xe/xe_ggtt.c
-> @@ -246,7 +246,7 @@ int xe_ggtt_init_early(struct xe_ggtt *ggtt)
->   	else
->   		ggtt->pt_ops = &xelp_pt_ops;
->   
-> -	ggtt->wq = alloc_workqueue("xe-ggtt-wq", 0, 0);
-> +	ggtt->wq = alloc_workqueue("xe-ggtt-wq", 0, WQ_MEM_RECLAIM);
+> diff --git a/Documentation/devicetree/bindings/media/mediatek/mediatek,cam-raw.yaml b/Documentation/devicetree/bindings/media/mediatek/mediatek,cam-raw.yaml
+> new file mode 100644
+> index 000000000000..c709e4bf0a18
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/mediatek/mediatek,cam-raw.yaml
+> @@ -0,0 +1,169 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +# Copyright (c) 2024 MediaTek Inc.
+> +
 
-Looks good to me.
-Reviewed-by: Badal Nilawar <badal.nilawar@intel.com>
+Drop blank line
 
-Regards,
-Badal
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/mediatek/mediatek,cam-raw.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: The cam-raw unit of MediaTek ISP system
+> +
+> +maintainers:
+> +  - Shu-hsiang Yang <shu-hsiang.yang@mediatek.com>
+> +  - Shun-yi Wang <shun-yi.wang@mediatek.com>
+> +  - Teddy Chen <teddy.chen@mediatek.com>
+> +
+> +description:
+> +  MediaTek cam-raw is the camera RAW processing unit in MediaTek SoC.
+> +
+> +properties:
+> +  compatible:
+> +    const: mediatek,cam-raw
 
->   
->   	drm_mm_init(&ggtt->mm, xe_wopcm_size(xe),
->   		    ggtt->size - xe_wopcm_size(xe));
+SoC specific compatible instead. I see Rob gave you review, so few more
+points.
+...
+
+> +
+> +  assigned-clocks:
+> +    maxItems: 1
+> +
+> +  assigned-clock-parents:
+> +    maxItems: 1
+
+Drop assigned-clock*
+
+> +
+> +  iommus:
+> +    description:
+> +      Points to the respective IOMMU block with master port as argument, see
+> +      Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml for details.
+> +      Ports are according to the HW.
+> +    minItems: 1
+> +    maxItems: 32
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - reg-names
+> +  - interrupts
+> +  - power-domains
+> +  - clocks
+> +  - clock-names
+> +  - iommus
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/power/mediatek,mt8188-power.h>
+> +    #include <dt-bindings/clock/mediatek,mt8188-clk.h>
+> +    #include <dt-bindings/memory/mediatek,mt8188-memory-port.h>
+> +
+> +    soc {
+> +      #address-cells = <2>;
+> +      #size-cells = <2>;
+> +
+> +      cam_raw_a@16030000 {
+
+Node names should be generic. See also an explanation and list of
+examples (not exhaustive) in DT specification:
+https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+
+e.g. isp
+
+Also, underscores are not allowed in node names. Please do not send to
+us your downstream code. Read DTS coding style and write code maching
+upstream style.
+
+
+> +        compatible = "mediatek,cam-raw";
+> +        reg = <0 0x16030000 0 0x8000>,
+> +              <0 0x16038000 0 0x8000>;
+> +        reg-names = "base", "inner_base";
+> +        mediatek,cam-id = <0>;
+> +        mediatek,larbs = <&larb16a>;
+> +        interrupts = <GIC_SPI 300 IRQ_TYPE_LEVEL_HIGH 0>;
+> +        #address-cells = <2>;
+> +        #size-cells = <2>;
+> +        dma-ranges = <0x2 0x0 0x0 0x40000000 0x1 0x0>;
+> +        power-domains = <&spm MT8188_POWER_DOMAIN_CAM_SUBA>;
+> +        clocks = <&camsys CLK_CAM_MAIN_CAM2MM0_GALS>,
+> +            <&camsys CLK_CAM_MAIN_CAM2MM1_GALS>,
+> +            <&camsys CLK_CAM_MAIN_CAM2SYS_GALS>,
+> +            <&camsys CLK_CAM_MAIN_CAM>,
+> +            <&camsys CLK_CAM_MAIN_CAMTG>,
+> +            <&camsys_rawa CLK_CAM_RAWA_LARBX>,
+> +            <&camsys_rawa CLK_CAM_RAWA_CAM>,
+> +            <&camsys_rawa CLK_CAM_RAWA_CAMTG>,
+> +            <&topckgen CLK_TOP_CAM>,
+> +            <&topckgen CLK_TOP_CAMTG>,
+> +            <&topckgen CLK_TOP_CAMTM>;
+
+Messed alignment.
+
+> +        clock-names = "camsys_cam2mm0_cgpdn",
+> +            "camsys_cam2mm1_cgpdn",
+> +            "camsys_cam2sys_cgpdn",
+> +            "camsys_cam_cgpdn",
+> +            "camsys_camtg_cgpdn",
+> +            "camsys_rawa_larbx_cgpdn",
+> +            "camsys_rawa_cam_cgpdn",
+> +            "camsys_rawa_camtg_cgpdn",
+> +            "topckgen_top_cam",
+> +            "topckgen_top_camtg",
+> +            "topckgen_top_camtm";
+
+Also misaligned.
+
+> +        assigned-clocks = <&topckgen CLK_TOP_CAM>;
+> +        assigned-clock-parents = <&topckgen CLK_TOP_UNIVPLL_D5>;
+> +        iommus = <&vpp_iommu M4U_PORT_L16A_IMGO_R1>,
+> +            <&vpp_iommu M4U_PORT_L16A_CQI_R1>,
+
+Also misaligned.
+
+
+All comments apply to other files as well.
+
+Best regards,
+Krzysztof
 
