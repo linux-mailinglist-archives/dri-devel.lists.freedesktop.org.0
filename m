@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A7DE9A9C53
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2024 10:24:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7037A9A9C56
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Oct 2024 10:25:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4206410E60F;
-	Tue, 22 Oct 2024 08:24:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF5B310E612;
+	Tue, 22 Oct 2024 08:24:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
- [210.160.252.171])
- by gabe.freedesktop.org (Postfix) with ESMTP id A9A4110E610
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Oct 2024 08:24:43 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="6.11,222,1725289200"; d="scan'208";a="222639816"
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
+ [210.160.252.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3723210E611
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Oct 2024 08:24:57 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="6.11,222,1725289200"; d="scan'208";a="226623645"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
- by relmlie5.idc.renesas.com with ESMTP; 22 Oct 2024 17:24:42 +0900
+ by relmlie6.idc.renesas.com with ESMTP; 22 Oct 2024 17:24:56 +0900
 Received: from localhost.localdomain (unknown [10.226.92.236])
- by relmlir5.idc.renesas.com (Postfix) with ESMTP id 7BF9140078A5;
- Tue, 22 Oct 2024 17:24:36 +0900 (JST)
+ by relmlir5.idc.renesas.com (Postfix) with ESMTP id B6AA74003FAB;
+ Tue, 22 Oct 2024 17:24:40 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
 To: Biju Das <biju.das.jz@bp.renesas.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -31,10 +31,12 @@ Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
  Geert Uytterhoeven <geert+renesas@glider.be>,
  Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
  Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH v2 0/2] Improvements/fixes on the DPI interface
-Date: Tue, 22 Oct 2024 09:24:22 +0100
-Message-ID: <20241022082433.32513-1-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v2 1/2] drm: renesas: rz-du: Drop DU_MCR0_DPI_OE macro
+Date: Tue, 22 Oct 2024 09:24:23 +0100
+Message-ID: <20241022082433.32513-2-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20241022082433.32513-1-biju.das.jz@bp.renesas.com>
+References: <20241022082433.32513-1-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -52,31 +54,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch series aims to add fixes/improvements based on the latest
-RZ/G2UL hardware manual
+The DPI_OE bit is removed from the latest RZ/G2UL and RZ/G2L hardware
+manual. So, drop this macro.
 
-As per Table 33.4 Clock List, the maximum dot clock for the DPI interface
-is 83.5 MHz. so, reject modes higher than 83.5 MHz.
+Fixes: b330f1480172 ("drm: renesas: rz-du: Add RZ/G2UL DU Support")
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+v1->v2:
+ * Added Fixes tag.
+---
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
-Also drop DPI_OE macro as the bit definition is removed from the latest
-RZ/G2UL and RZ/G2L hardware manual.
-
-Changes in v2:
- * Added as a patch series as the patches fix the same driver
- * Added Fixes tag for patch#1
- * Moved .mode_valid from crtc to encoder as the new state is not
-   available in crtc and instead, we could check renc->output for
-   .mode_valid() function of drm_encoder.
- * Dropped rzg2l_du_crtc_atomic_check().
-
-Biju Das (2):
-  drm: renesas: rz-du: Drop DU_MCR0_DPI_OE macro
-  drm: renesas: rz-du: rzg2l_du_encoder: Fix max dot clock for DPI
-
- drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c  |  8 +-------
- .../gpu/drm/renesas/rz-du/rzg2l_du_encoder.c   | 18 ++++++++++++++++++
- 2 files changed, 19 insertions(+), 7 deletions(-)
-
+diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
+index c4c1474d487e..6e7aac6219be 100644
+--- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
++++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
+@@ -28,7 +28,6 @@
+ #include "rzg2l_du_vsp.h"
+ 
+ #define DU_MCR0			0x00
+-#define DU_MCR0_DPI_OE		BIT(0)
+ #define DU_MCR0_DI_EN		BIT(8)
+ 
+ #define DU_DITR0		0x10
+@@ -217,14 +216,9 @@ static void rzg2l_du_crtc_put(struct rzg2l_du_crtc *rcrtc)
+ 
+ static void rzg2l_du_start_stop(struct rzg2l_du_crtc *rcrtc, bool start)
+ {
+-	struct rzg2l_du_crtc_state *rstate = to_rzg2l_crtc_state(rcrtc->crtc.state);
+ 	struct rzg2l_du_device *rcdu = rcrtc->dev;
+-	u32 val = DU_MCR0_DI_EN;
+ 
+-	if (rstate->outputs & BIT(RZG2L_DU_OUTPUT_DPAD0))
+-		val |= DU_MCR0_DPI_OE;
+-
+-	writel(start ? val : 0, rcdu->mmio + DU_MCR0);
++	writel(start ? DU_MCR0_DI_EN : 0, rcdu->mmio + DU_MCR0);
+ }
+ 
+ static void rzg2l_du_crtc_start(struct rzg2l_du_crtc *rcrtc)
 -- 
 2.43.0
 
