@@ -2,54 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C8D19ABFF6
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2024 09:16:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 120399AC060
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2024 09:33:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8AB510E76B;
-	Wed, 23 Oct 2024 07:16:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3CD810E04F;
+	Wed, 23 Oct 2024 07:33:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uFpJiThV";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="mmIBk/Hn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C8E310E76B
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 07:16:46 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 5740C5C5CFE;
- Wed, 23 Oct 2024 07:16:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2659CC4CEC6;
- Wed, 23 Oct 2024 07:16:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1729667805;
- bh=DCuXBhNSmpJbKPA1H6hyuILhm8VSuGuorecsJgBpq6o=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=uFpJiThVkih+4uWPi5B0JyYxg7/P2O523Ym6MKGoWnHZcyFwZkrDNXsOtr755HX2w
- Fe0NNH/BkyVjlAvgHhjy7xdP7+0O+Rit+wxkF/NvuT0eCOgy7U9V9GNlSmZnQ3Uu9p
- /aEJZ0qhkl1NoX6pmdpkwTJJSqAs6LD5W0hMR3+ubGCmCC1ZNoe3L3q2mTGvqEs/t0
- d/o16iZUlBqHkj9VOIwnkBkdNVhVV04LeUd6TrEG/ZsyhCj1VqowV6M4w1UeQbiHii
- DjkuHzQGBpqItkFCQfPrtgEN4GAXfKX+RAyRmt5HHnQ0XdI0JnK0RDU9+6dxuxFlLx
- tm/4/g8i9D/tw==
-Date: Wed, 23 Oct 2024 09:16:42 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Jakob Hauser <jahau@rocketmail.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
-Subject: Re: [PATCH v2 2/5] dt-bindings: display: panel: Add Samsung
- S6E88A0-AMS427AP24 bindings
-Message-ID: <yvuur7pa2msafmh4my4ojtrlir3nenvyqqr2fbb5jt2bevlbm4@iqh5iokm3knx>
-References: <cover.1729630039.git.jahau@rocketmail.com>
- <25370285451d9c22204dfbaa368d48c22efd1eef.1729630039.git.jahau@rocketmail.com>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4061310E04F;
+ Wed, 23 Oct 2024 07:33:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=RMSUwiYfUyQQwRXtCIqQ5coNzdBGxBM/GULfh19f6Z8=; b=mmIBk/HnxwTR7T38kNFlOkuqSS
+ RGtF9REHRh2ELC3m4XLFdX+KUY2LMTuwz+yodNEkimYsIZ+6x24+YhgHZlQCVx7WHdnZdM07j7KOV
+ VJJTLwilF4Sbb2vwZFRQOlplLDijlx2QfE6aQMEC/Tf1STaRCwXGF+66b19qa55fDi0sb8QUX6lCf
+ e/4VmYEHdVV9OOnql7Dj13upF1mhS0Am+RBfcxeRetruM+YjonlOD2Nw3retYFxTGj1iMTJTwjlSf
+ sNf/Na5Re7mxi3HMzzoCRqv9QZdCrrQbLk6YAFj0PkIQVkBc3NcaFVUHfx0Ra1OPLa58Yc1Sdndl5
+ XXF0qPRQ==;
+Received: from [90.241.98.187] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1t3VsJ-00Dw9M-9I; Wed, 23 Oct 2024 09:33:47 +0200
+Message-ID: <8a6e6fce-e3df-40e9-ab1b-f5d641e078bd@igalia.com>
+Date: Wed, 23 Oct 2024 08:33:46 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <25370285451d9c22204dfbaa368d48c22efd1eef.1729630039.git.jahau@rocketmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 4/4] drm/amdgpu: track bo memory stats at runtime
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Li, Yunxiang (Teddy)" <Yunxiang.Li@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
+Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>
+References: <20241018133308.889-1-Yunxiang.Li@amd.com>
+ <20241018133308.889-5-Yunxiang.Li@amd.com>
+ <1057097f-02f4-4f0f-9ac5-37aa84570b47@amd.com>
+ <SA1PR12MB8599E3DD01B4A45AD7CA71FAED4C2@SA1PR12MB8599.namprd12.prod.outlook.com>
+ <53382fc0-0686-46af-9285-0cd6aec314ae@amd.com>
+ <SA1PR12MB859939F759D6B661D49FC924ED4C2@SA1PR12MB8599.namprd12.prod.outlook.com>
+ <3930f491-10a2-4863-8e24-009d3fbc2b23@amd.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <3930f491-10a2-4863-8e24-009d3fbc2b23@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,42 +69,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 22, 2024 at 11:33:36PM +0200, Jakob Hauser wrote:
-> Add bindings for Samsung AMS427AP24 panel with S6E88A0 controller.
+
+On 22/10/2024 18:06, Christian König wrote:
+> Am 22.10.24 um 18:46 schrieb Li, Yunxiang (Teddy):
+>> [Public]
+>>
+>> I suppose we could add a field like amd-memory-private: to cover the 
+>> private placements.
 > 
-> Signed-off-by: Jakob Hauser <jahau@rocketmail.com>
-> ---
-> Patch is based on current branch drm-misc-next.
+> No, that is not really appropriate either. GWS, GDS and OA are not 
+> memory in the first place.
 > 
-> Changes in v2:
->  - Adapted property "flip-horizontal" to being moved to "panel-common.yaml".
-> ---
->  .../panel/samsung,s6e88a0-ams427ap24.yaml     | 65 +++++++++++++++++++
->  1 file changed, 65 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/panel/samsung,s6e88a0-ams427ap24.yaml
+> Those BOs are HW blocks which the driver allocated to use.
 > 
+> So accounting them for the memory usage doesn't make any sense at all.
+> 
+> We could print them in the fdinfo as something special for statistics, 
+> but it's probably not that useful.
+> 
+>>   When would a BO not have a placement, is it when it is being moved?
+> 
+> There are BOs which are only temporary, so when they are evicted their 
+> backing store is just discarded.
+> 
+> Additional to that allocation of backing store is sometimes delayed 
+> until the first use.
 
+Would this work correctly if instead of preferred allowed mask was used?
 
-A nit, subject: drop second/last, redundant "bindings". The
-"dt-bindings" prefix is already stating that these are bindings.
-See also:
-https://elixir.bootlin.com/linux/v6.7-rc8/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
+Point being, to correctly support fdinfo stats drm-total-, *if* a BO 
+*can* have a backing store at any point it should always be counted there.
 
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    dsi {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
+*If* it currently has a placement it is drm-resident-.
 
-Use 4 spaces for example indentation.
+If it has a placement but can be discarded it is drm-purgeable-. Etc.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Regards,
 
-Best regards,
-Krzysztof
+Tvrtko
 
+> 
+>>   Since we are tracking the state changes, I wonder if such situations 
+>> can be avoided now so whenever we call these stat update functions the 
+>> BO would always have a placement.
+> 
+> No, as I said before those use cases are perfectly valid. BO don't need 
+> a backing store nor do they need a placement.
+> 
+> So the code has to gracefully handle that.
+> 
+> Regards,
+> Christian.
+> 
+>>
+>> Teddy
+> 
