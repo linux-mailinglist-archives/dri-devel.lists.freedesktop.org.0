@@ -2,96 +2,157 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B5CB9ABAE3
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2024 03:15:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F28C9ABAFB
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2024 03:27:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 223C710E22D;
-	Wed, 23 Oct 2024 01:15:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 320CA10E28D;
+	Wed, 23 Oct 2024 01:27:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Qy2qkXmo";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="kX5JOCLc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com
- [209.85.160.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBD9B10E22D
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 01:15:49 +0000 (UTC)
-Received: by mail-qt1-f182.google.com with SMTP id
- d75a77b69052e-46098928354so43950821cf.1
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Oct 2024 18:15:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1729646149; x=1730250949;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:from:to:cc:subject:date:message-id
- :reply-to; bh=MDV7eJC3+oDJ66+nOuejsfUlqPbzueqG4aQIpJGm5jM=;
- b=Qy2qkXmoMNZM4U3VcgEeLyiOfm101wQve/GCSnhjDuxHihwunwcT0P2PowAzxxKhZU
- 1Zgvvm8lzTmV4c1pEE1qfTQ1Q0+/6Ue8rW+rVthRQUrkkuFt/MR4yvqma01FuEvpwow5
- Mxqfb1YStBD651b85yDu3+cWkEwiy8he2Q6WE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729646149; x=1730250949;
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=MDV7eJC3+oDJ66+nOuejsfUlqPbzueqG4aQIpJGm5jM=;
- b=wA8kZrVzOspxNn5m8okZGRWQK0nc1HciHzt2RoFXL/x9mrm5zwt3+6lhkcBUXlk+FL
- EotamgeM+44DoUNZy3Z/46o96Zo6o9Co2b3/4mHqwhqgZK/Aat3VHfPJ6+4xkzM0VWPv
- FTt3Fdd4skmYkRXetmp43umaVnX4XfOQfsPuHeibKWub8sYFKN3IjPfl+Bllpi4vEaIA
- rleMT+RMFdsjPok4IvsrvGeaYUugVBbNF9PezA/Apxmz5apLq6sXKzpjtDPZ/TIhrEU+
- wRGJFoHZ/D8QcXQKQLUWOrSyAd5M2F5ADL3XxrZxNi1gdf8LeG4tjejzRdeiHLDPGism
- jh9A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUU/UFpHoz9Shs48p2g6yuKqqmQ/jCV1HPF4nPDXXctIA6uYiksUQNXEc111rXrX9hZr6O/qWb4rGQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxS3Lhgj1A2SPLslErR5sKWJVXuEdH/SnJospYKoTpIgyLi1zf1
- yAeafg4LpHAZ+ORudPV03veyxOWXSc7B3iqjE7VwmTXvFVmCQy1LnEi0Q4BRTryLJ+iHTA1nHXA
- WrFPFkkmM/S/v1o74dZxSUXJSNeqBW8aq2nuK
-X-Google-Smtp-Source: AGHT+IFQcx+O120v4jMcosEsD7YDeJhO0LSJsSQbSB2xO/5x1KCa08838jsJtZu4dV5T3yuW9UjApkWi+Qx0emqLoqU=
-X-Received: by 2002:ac8:7f54:0:b0:460:874f:f8bf with SMTP id
- d75a77b69052e-461146ce389mr10841271cf.34.1729646148785; Tue, 22 Oct 2024
- 18:15:48 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 22 Oct 2024 18:15:48 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2044.outbound.protection.outlook.com [40.107.220.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27CAC10E28D
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 01:27:20 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=udW5altgSX3iyv5WPr+QjQuBlDoPoVYVrQva9UwcSKI587zkTMjGmnYs6nOF8op7zaQwYrg1LhQ7vXjmMcaQpnfbCJ4A31blr+lYtj+2mzjPZGSpF2RMCNCkw3UF4HO+Jdy4PFoRpt/1ii5h7IeHyXDr9HxapX2nmwTgeAEFAl8UIgFJEjvsK4DGtnaizOtEHYD/j3Bt2y3cfNIZ6sbP3v2wwQ5ozqu2Aw9pHylUjyH3YjSEh6jvBqDFCGoBYyC2DCrDlFeSlqM+DTJ3HVL32/u5vIrbogVlQEnhhKvunC9OTGDaA3BKI2h4ySc92UdpMACTSoxWa2vud1XccSQuiA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=sxFaIz2f1CvY3+ShRgywuaxCp2drI642WvTaJ/CXDQU=;
+ b=C7IK1bxB8AGolrhtM6Z5BS37B6eiAdVgeIfyX0uPAYyKyUami+u0p/7RSy9mV5GUMvonSNwiu3z56yD6B1fuB5YEb7PqpxP8vq3qXHAns0t7TJWU25+cGJnTZnEIroYUeI6Drhv6Sl4NTnYNQmfNxgsCtYKqlzrcC+cu7QjnJ937LSFenvSO/b3u6dJ0jFxAL5UAn7Zv3RGDCqm7zwXfKuh3pz4u9ATccffwuy2lCo2J13s9YAqnmgKnNiiCpQxT8aC0NqVbXv2h/ERDRfq1QgRWddXVMNgzYKt+Cxp0t6bQlrZUSJcaTpSaHc5Rzo8DTgu0pf53rBWasPU+ip0tyg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sxFaIz2f1CvY3+ShRgywuaxCp2drI642WvTaJ/CXDQU=;
+ b=kX5JOCLcplV9bbZukrhmyzzSd7HAp8dKyVr+7ICG8M7VF+zP5z4gM/xpWXdBbOYPis8B3xYWhWdtesTGqCtipdpk1UK+Hr7cxTCGzsYGChq0gaYVtlwD07hFKsa8gq0FyE2nvG74Krfl1FZzy+wCAyj+QvWY8bCMV6hDJokQQSkK6Der7DSUPj43JwXyiIQ3Q26J3qGRbjQVsT4bR5wLgsh911G7HsOzuPsvrmXJDe1j3KzztKM/PHJjksMmeu9tkxX7E2hIE/G3G/YkMLz9L6xEgJsuxeR7Z7rBM9gF/NuznP5uZ1P88PdVnB3rwJAw/b/ROMgURUg7wHkgnwwAmA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from PH7PR12MB7914.namprd12.prod.outlook.com (2603:10b6:510:27d::13)
+ by SA1PR12MB8161.namprd12.prod.outlook.com (2603:10b6:806:330::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.17; Wed, 23 Oct
+ 2024 01:27:17 +0000
+Received: from PH7PR12MB7914.namprd12.prod.outlook.com
+ ([fe80::8998:fe5c:833c:f378]) by PH7PR12MB7914.namprd12.prod.outlook.com
+ ([fe80::8998:fe5c:833c:f378%4]) with mapi id 15.20.8069.027; Wed, 23 Oct 2024
+ 01:27:17 +0000
+Message-ID: <fd7cae9a-5ee1-4e18-915d-4115f0a6a156@nvidia.com>
+Date: Wed, 23 Oct 2024 09:27:11 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] PCI/VGA: Don't assume only VGA device found is the boot
+ VGA device
+To: Alex Deucher <alexdeucher@gmail.com>
+Cc: Luke Jones <luke@ljones.dev>, Mario Limonciello <superm1@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>
+References: <20241014152502.1477809-1-superm1@kernel.org>
+ <20b48c6f-7ea9-4571-a39c-f20a9cf62319@app.fastmail.com>
+ <f56c555f-7313-43ff-abe4-28fb246e31cc@nvidia.com>
+ <CADnq5_OjfJzcOqa=NbWVw5ENvi+nmvNAZX0u_0hOvk3EVoh0bw@mail.gmail.com>
+Content-Language: en-US
+From: Kai-Heng Feng <kaihengf@nvidia.com>
+In-Reply-To: <CADnq5_OjfJzcOqa=NbWVw5ENvi+nmvNAZX0u_0hOvk3EVoh0bw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: TPYP295CA0037.TWNP295.PROD.OUTLOOK.COM
+ (2603:1096:7d0:7::16) To PH7PR12MB7914.namprd12.prod.outlook.com
+ (2603:10b6:510:27d::13)
 MIME-Version: 1.0
-In-Reply-To: <phdcjgqqpjpruxp7v2mw446q73xr3eg4wfgfbjw5tasgr2pgg2@77swbk47b2tg>
-References: <20240901040658.157425-1-swboyd@chromium.org>
- <20240901040658.157425-16-swboyd@chromium.org>
- <phdcjgqqpjpruxp7v2mw446q73xr3eg4wfgfbjw5tasgr2pgg2@77swbk47b2tg>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Tue, 22 Oct 2024 18:15:47 -0700
-Message-ID: <CAE-0n514QMaQC2yjKP8bZqyfbv6B3AQm=+NJ87vxo6NdYiL03A@mail.gmail.com>
-Subject: Re: [PATCH v4 15/18] dt-bindings: usb: Add ports to
- google,cros-ec-typec for DP altmode
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
- patches@lists.linux.dev, devicetree@vger.kernel.org, 
- Douglas Anderson <dianders@chromium.org>, Pin-yen Lin <treapking@chromium.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Benson Leung <bleung@chromium.org>, 
- Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>, 
- dri-devel@lists.freedesktop.org, Guenter Roeck <groeck@chromium.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Lee Jones <lee@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Prashant Malani <pmalani@chromium.org>, 
- Robert Foss <rfoss@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Tzung-Bi Shih <tzungbi@kernel.org>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Daniel Scally <djrscally@gmail.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Ivan Orlov <ivan.orlov0322@gmail.com>, 
- linux-acpi@vger.kernel.org, linux-usb@vger.kernel.org, 
- Mika Westerberg <mika.westerberg@linux.intel.com>, 
- "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB7914:EE_|SA1PR12MB8161:EE_
+X-MS-Office365-Filtering-Correlation-Id: 95789409-8b2d-47b5-a8dc-08dcf301d4cf
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?dFFTMUwwZTVTWldFSnhSTzFUNE5PaXpKUWZZUmUvbVNoYkpJdXVieDBsMEtX?=
+ =?utf-8?B?TEM3TFJudHZhSXg0cXVCRVZjRlZnUnNsNy9iTndkYUltVUp6YUdRMmozSlIx?=
+ =?utf-8?B?enFna1J5NzcwTGUwOElMVDZueXl6MXJQSFZZbzRxYldKOXVKVEdScTN6b3Ar?=
+ =?utf-8?B?RlR1ZWdUVlpLcDlURHYzc0hGS3Yvdi9pSE5IK0ZJZmtGeXVvSlNlZExpQ3JJ?=
+ =?utf-8?B?eU9HTWtNQWVHUHRwVGJNSUQ4MjIwTVgrNEloRlFkb0s0S0UwbWM3WHl5L1o2?=
+ =?utf-8?B?cmFWckR3VU9WdDVYZEkwMUxMRnFvM0tzVGRrNzRTbS9BL0d3TnNJc01XcE5B?=
+ =?utf-8?B?V00wZ2NGUWNwSER4cXh2OXl2c0YwTy9POTNWM2FYUFBPc2pJYndJVE5NNTgz?=
+ =?utf-8?B?TG5SNDZCTWtuMmxpK3lnSStHYVZNRFZxdFpoTXBaQ1lkaGE3OEFYL3E0YjFi?=
+ =?utf-8?B?VUZWUlhjWlJHa0dRRFRoZ0x1YTFYRkNXTldZVGNOZXNQbTAzYUFlZkFDSkJM?=
+ =?utf-8?B?VmhmRjVQU0NMUEI0eFdxa2dyN0RjVnYrckI2cHdObC85bWVSdE5NTFdUV2ww?=
+ =?utf-8?B?b1BJMjdhSENMN2VUVC82dXZ1eFBURFV1K2g1aWk5bnNNR3lrby9VVWpXUDhp?=
+ =?utf-8?B?MnRjOWk2VFE2bWs4YzJiNmF4UDh3cFpLalpoSHBoQy85cEhTWnBsTEZNVWtJ?=
+ =?utf-8?B?dnpNYkdMOFhrT1ZhMzE0aHVGS0xSdVBLN2FaZ1RsNGM1cnNLMnhwK0ZEblVC?=
+ =?utf-8?B?Wncyd2NlNy91dU1GaC92b29nTksyeE1maDJoaTBHVkhjY3IvMXlvQmJiaktP?=
+ =?utf-8?B?clVpNS9YUzl2aHZYbzBFMzFRM1d4M091N3U0ZzRpYi9QQmZWL3pOZUlZMHlZ?=
+ =?utf-8?B?VjRCN1FyNFJKbUhYYW5pc1ZURm5xSFdOWEFrcUo3Wnl2NFVMMUh1NmJWKytZ?=
+ =?utf-8?B?U0RsREQ2aFhHeFVDMGQwWlphc1IzOXhIM1NPZWZMTmh1aUFPUXpCamNqTGZs?=
+ =?utf-8?B?MlVXcytKK1BrQjJDOXM5cWljZ1VJb20vNkNiQnpNdzR2Y0k5NjRFWVRUTG9S?=
+ =?utf-8?B?dnpGbWFHbjBhVldVQ3RTeTA2S2k3VVB3RzVvZXFGbFJFUU9uT0doY0dTTXV5?=
+ =?utf-8?B?U3VkL3hlN1dyUFBNVVczZFpGL1FTTnJ5SGxOamg3ZnQreml6TGFYang2b2tw?=
+ =?utf-8?B?SC8xc2lBWVhNZkZuNU8rdy96WTV2TnF0Z0tFZVdRRG5ETmtnT1ErNXZPaENt?=
+ =?utf-8?B?WXJpUmg2cHVCbGd2Z01UL25NOHVpK3pKc2xUalVUVjNsNlJERGdLek1ZYVNm?=
+ =?utf-8?B?NDlacHBWbFd3RXN0MllUT3paR294eXh3bGQ4bXJXc2JtTmZXb1ErNEl0ekYr?=
+ =?utf-8?B?ZHNzemFTQjNueUphcTZ3ZER3RVg5eUt3Q1prMW8yWWFVa3RJdlNZTG5ySTZh?=
+ =?utf-8?B?WTN6b00zTEtqaStzZDU3aXo1L2lUVlRxeXIyTkpObEo5eDZDLzYrZUVoMDYy?=
+ =?utf-8?B?SEViQjlZa1NsVGlTeStXYmExVkI5ZFl3c25POExZaXpiN3NGSVhYZ3RTUGZM?=
+ =?utf-8?B?RW5nRFJnQWlXZi91bWx0TTBKbVRKNFVFZzE4WVJFait4dVpEeGVrUlVNWFZy?=
+ =?utf-8?B?UGRPMU5CbE5xU2t6Q1M3MXJKY01JeXB4cDlvaURLRDRKV2ZoeFFtQkoxa3hh?=
+ =?utf-8?B?YmdGcHM0NFlrVzJSSnM5dTRma3BEcWZ2TjFuaElyYjJEd0lnVVJTSDd3Wk52?=
+ =?utf-8?Q?keeJimRzc8mmI7cBNithVo3jgXeOT7xNxiJFKaD?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB7914.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZXpYVEo4blpTQmwzYmNzUWNFZXpncTI0NUhkQTFraEJ2ck4wbG41VGxhaXlo?=
+ =?utf-8?B?SHZYOTdFVi9OUDVMTkhPVTAxdmVGREdqZTRUSGZJdU9HVnA2SFBOdy92ejFo?=
+ =?utf-8?B?UjZjRldYd3dleEJtYjRMNU5EMENQZ2lrejdMQ0JNNklGSTVrYkdhUnZJZzVn?=
+ =?utf-8?B?Mmc2aytCanNQVjUwVThXcnFOSCs2V3YrSmZHMnN3U3lMSldrRFBleXV4cUg0?=
+ =?utf-8?B?SFNobTVsUXBnMHhQNjE4MTNZQ1kxSHZNOERZU0s3WTlJTmYrZHphZjFsSWtj?=
+ =?utf-8?B?YkZNRFYzelkxaU9GMEgwT050SWNwNVFobjJENnZIcDRuVDByWTZRcW5ZV2Qx?=
+ =?utf-8?B?MGpJYmRDMjR4czAwZWoxcjlqN0pZTU5EWGxyYTVrR2cvRU15ajVBeElyYXFB?=
+ =?utf-8?B?clFnRG13S2FocWpES3FubDMzY1NXdllvMVFCeTJ6QjJjVWpsME5tM0I0UG54?=
+ =?utf-8?B?L0RNenY4SG9NbzdLaGx4VSt5Z2JzUEhTU2p2Y0pVNkU1V1FCQm5TSGZ6Z1Ix?=
+ =?utf-8?B?b2tuV28wbXdKMTY3YXc2aDJpRHVHZ204eXkwcWVPREtCbnM0bFEydTZuWkhM?=
+ =?utf-8?B?RDBVdTlnQTk2WnFkN1BYL2NrUUNYZXBHR0RncVJ1cVMxeUVCcjJFOEV2cUJH?=
+ =?utf-8?B?VVZka0NwaU5pRDU1RDBKVHN2ZHhQUVBJcE04cGZOZ3JRa0VjRE5Ra0lFV2xL?=
+ =?utf-8?B?bG9ncE9KZWJSODBhcGhKYjRmUFN6bjFHWE1jTGRsRWJhNjVvc2hGQWJXaDlH?=
+ =?utf-8?B?bFoyTldTV21uZDAybjdzZzcwendEdzQrN2lSRUFXdG51TjNPdUc2Y1VwNndX?=
+ =?utf-8?B?ZE9xZDUwY2Q0c3Fibk5CMHZVSS9mYWlSUE9welBicURCbVQwdjZSc0NxZzUx?=
+ =?utf-8?B?emlGN3YrR1JHNTNMTzd2U083Z2d2VVRITStsRVNYc0crUzVPRzNUS0xEUTha?=
+ =?utf-8?B?NzZxeEJDOEZmOVJhSzZJU2J5WHZkbm1jNHNXd1E4Qkg1MEczbzFxa2M3SmZT?=
+ =?utf-8?B?VUMzdUl0Z2pjbnhoTVFmRlJDdmJGZ1A2TjJOR3NlL0NvZVQ5R0NEYmZmTlpi?=
+ =?utf-8?B?TmZnaXR4ekpXUVV4ZDRqZkJpNFJNM0Faa1VtU0xlK1ZyemUvT2FKbjBQR0ww?=
+ =?utf-8?B?VVhhVXdQWnRVcFZPWER6TlYwTC94SFREdDBuNm91RnVZdEZER1dhRjVMQktH?=
+ =?utf-8?B?bGZETGJwejI0aVBzektDSGZoY1BIdGRsVVRuK3RQUDFyLzQrcE9vamJ6cFFa?=
+ =?utf-8?B?SnJvRlJrUDNkVndGOWgwQVNtQkorWFFLL2hOOEpBdEZZbG1HMEszcUFWOS85?=
+ =?utf-8?B?dDFmL0p6c0dpcStadERReHdSZ0JEaTRVZXRpWkw5b2dyYy9lZ3E0VlNuYzQ4?=
+ =?utf-8?B?bjl4QnVab3RUNFJNYTViMXRJVHBiQWlhL2tJWnl6N1VLNXpRRDB4N1ZkenhL?=
+ =?utf-8?B?TU00ZnJPMElDUWZhV2FXcTc2dTNmMTZSanZRUHAwaFNOZTBEanQ2MjBJQXVn?=
+ =?utf-8?B?UzRTZWk0aDgxZFNUV0o4L2ZWRllMaEZpU0hybjJqZ2pUTVBvOXh3NEhFVUo0?=
+ =?utf-8?B?bFZyQTRHQWJ1SXp0cXZlRmJNN2UxdEJUdnpKKzBFQkJUMG1WK2NFSFIvd1ZC?=
+ =?utf-8?B?OG5FK2tlejdhVjBwRHpSd0VrUHdGRFdHMkNTeHVFUnJTTURiQW5UZFhid2V4?=
+ =?utf-8?B?elhoOUpLZzB1RjNOYVFjd1lBTzRrMExUY2xLWlJNck9paFdGc2huNlZwejcr?=
+ =?utf-8?B?YXB2NW1DemI4cjdvaldCY2N4bTM0MW1ZQmh6UXpyTFM1TUQyL2NhNkUxMFJL?=
+ =?utf-8?B?NjB4RWt2b2FzZndCbythM1ZaQzZxMVpxVWJrQlhYZlRtNmN2WG9LU0JaK0k0?=
+ =?utf-8?B?aytReUFCKytBWDZHQUxCYlVnUk1VdE5YVUcxR3BvZlFuenJZK215aGoxWFA2?=
+ =?utf-8?B?M0ZENUhJM0ZzWmc5T1JvUnV5QXdpNXQ2YmxMWU1DRGRjR2lyM2crbTY5RVli?=
+ =?utf-8?B?ck9CbWJVVTlXVDVleTBNZmFyME1jSjJjc0JYQ3NIcCtEbUEvdElFR2tsYUNm?=
+ =?utf-8?B?UlZXbWQvYmpZVmhxSDNwZVNhSlRmTHdseXIyS05VWEQrSHpDRWx1QkZEc3c0?=
+ =?utf-8?Q?V9GWTbWJLQvjciklnDtJS5fj7?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 95789409-8b2d-47b5-a8dc-08dcf301d4cf
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB7914.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Oct 2024 01:27:17.1772 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7tQyJ9fzjbek5Bu/ygyvAEeErsmqfX87qCzHtwwse52ELNfEqGRY5YeSZJJZCsccr2VKwwqRFUxdf45gNv4V6w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8161
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,242 +168,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Dmitry Baryshkov (2024-09-20 02:38:53)
-> On Sat, Aug 31, 2024 at 09:06:53PM GMT, Stephen Boyd wrote:
->
-> Based on our disccusions at LPC, here are several DT examples that seem
-> sensible to implement this case and several related cases from other
-> ChromeBooks.
-
-(Apologies for getting back to this late. I've been brewing on this topic
-for a month; only appropriate for Halloween.)
-
-This is the Trogdor case, one DP controller with 2 lanes DP coming out
-that is steered with an analog mux controlled by the EC:
-
->
-> typec {
->         compatible = "google,cros-ec-typec";
->
->         port {
->                 typec_dp_in: endpoint {
->                         remote-endpoint = <&usb_1_qmp_phy_out_dp>;
->                 };
->         };
->
->         usb_c0: connector@0 {
->                 compatible = "usb-c-connector";
->                 reg = <0>;
->
->                 ports {
->                         port@0 {
->                                 reg = <0>;
->                                 usb_c0_hs_in: endpoint {
->                                         remote-endpoint = <&usb_hub_dfp1_hs>;
->                                 };
->                         };
->
->                         port@1 {
->                                 reg = <1>;
->                                 usb_c0_ss_in: endpoint {
->                                         remote-endpoint = <&usb_hub_dfp1_ss>;
->                                 };
->                         };
->                 };
->         };
->
->         usb_c1: connector@1 {
->                 compatible = "usb-c-connector";
->                 reg = <1>;
->
->                 ports {
->                         port@0 {
->                                 reg = <0>;
->                                 usb_c1_hs_in: endpoint {
->                                         remote-endpoint = <&usb_hub_dfp2_hs>;
->                                 };
->                         };
->
->                         port@1 {
->                                 reg = <1>;
->                                 usb_c1_ss_in: endpoint {
->                                         remote-endpoint = <&usb_hub_dfp2_ss>;
->                                 };
->                         };
->                 };
->         };
-> };
->
-> &usb_1_qmpphy {
->         ports {
->                 port@0 {
->                         endpoint@0 {
->                                 data-lanes = <0 1>;
->                                 // this might go to USB-3 hub
->                         };
->
->                         usb_1_qmp_phy_out_dp: endpoint@1 {
->                                 remote-endpoint = <&typec_dp_in>;
->                                 data-lanes = <2 3>;
->                         };
->                 }
->         };
-> };
->
-> -------
-
-This is one Corsola case, one DP controller (IT6505) that's an external
-bridge that has 4 lanes DP but only 2 lanes of DP are usable at a time
-because 2 physical lanes are wired to one usb-c-connector while the
-other 2 physical lanes are wired to the other usb-c-connector. I say
-"one Corsola case" because there's also a DP bridge (ANX7625) on some
-Corsola variants that only has two DP lanes with a crosspoint switch
-that can send those DP lanes out of one of two pairs of lanes. The other
-two lanes are for USB3 output data if the part is connected to USB3 on
-the input side. I suspect this ANX7625 case can be described in the same
-way as below with two output endpoints and data-lanes describing which
-lanes are used for either DP endpoint.
-
->
-> typec {
->         connector@0 {
->                 port@1 {
->                         endpoint@0 {
->                                 remtoe = <&usb_hub_0>;
->                         };
->
->                         endpoint@1 {
->                                 remote = <&dp_bridge_out_0>;
->                         };
-
-(TL;DR: I think I have a plan with the last paragraph in this section, so
-I'll hack on it for a bit to see what happens.)
-
-I'm not thrilled about having two endpoints in the SuperSpeed port@1 to
-hold both signals in the Corsola case but not the Trogdor case. The
-problem is that there's only one DP endpoint on Trogdor and we can't
-have two remote-endpoint properties in there pointing to either
-usb-c-connector. But then on Corsola we have two DP endpoints and they
-both can't go to one DP input node in the typec node's graph.
-
-To harmonize this the typec graph can have one DP input endpoint on
-Trogdor while the typec graph can have two DP input endpoints on
-Corsola. In both cases, the typec graph would have two USB input
-endpoints, and then we can connect output endpoints to each
-usb-c-connector node. It would be similar to my existing binding in this
-series, except now the typec DP port can have multiple input endpoints.
-
-I understand from our discussions at LPC that I should use
-drm_connector_oob_hotplug_event() from the displayport altmode driver
-(drivers/usb/typec/altmodes/displayport.c) to tell the DP bridge like
-ANX7625 or IT6505 which output endpoint should be displaying DP. I think
-dp_altmode_probe() looks at the usb-c-connector node's parent, e.g.
-typec in the examples above, for the drm_bridge. That means we'll need
-to register a drm_bridge in the cros-ec-typec compatible node? Or we
-need to use the 'displayport' property in cros-ec-typec to point at the
-drm_bridge node?
-
-Either way the problem seems to be that I need to associate one
-drm_bridge with two displayport altmode drivers and pass some fwnode
-handle to drm_connector_oob_hotplug_event() in a way that we can map
-that back to the right output endpoint in the DP bridge graph. That
-seems to imply that we need to pass the fwnode for the usb-c-connector
-in addition to the fwnode for the drm_bridge, so that the drm_bridge
-code can look at its DT graph and find the remote node connected.
-Basically something like this:
-
-  void drm_connector_oob_hotplug_event(struct fwnode_handle *connector_fwnode,
-                                       struct fwnode_handle
-*usb_connector_fwnode,
-                                       enum drm_connector_status status)
-
-(We might as well also pass the number of lanes here)
-
-Corsola could work with this design, but we'll need to teach
-dp_altmode_probe() to look for the drm_bridge elsewhere besides as the
-parent of the usb-c-connector node. That implies using the 'displayport'
-property in the cros-ec-typec node or teaching dp_altmode_probe() to
-look for the port@1/endpoint@1 remote-endpoint handle in the
-usb-c-connector graph.
-
-Assuming the bindings you've presented here are fine and good and I got
-over the differences between Trogdor and Corsola, then I can make mostly
-everything work with the drm_connector_oob_hotplug_event() signature
-change from above and some tweaks to dp_altmode_probe() to look for
-port@1/endpoint@1 first because that's the "logical" DP input endpoint
-in the usb-c-connector binding's graph. Great! The final roadblock I'm
-at is that HPD doesn't work on Trogdor, so I can't signal HPD through
-the typec framework.
-
-This series fixes that problem by "capturing" HPD state from the
-upstream drm_bridge, e.g. msm_dp, by hooking the struct
-drm_bridge_funcs::hpd_notify() path and injecting HPD into the typec
-messages received from the EC. That's a workaround to make the typec
-framework see HPD state changes that are otherwise invisible to the
-kernel. Newer firmwares actually tell us the state of HPD properly, but
-even then we have to read a gpio mux controlled by the EC to figure out
-which usb-c-connector is actually muxing DP when HPD changes on either
-typec_port. Having a drm_bridge in cros-ec-typec helped here because we
-could hook this path and signal HPD if we knew the firmware was fixed.
-If we don't have the drm_bridge anymore, I'm lost how to do this.
-
-Maybe the right answer here is to introduce a drm_connector_dp_typec
-structure that is created by the TCPM (cros-ec-typec) that sets a new
-DRM_BRIDGE_OP_DP_TYPEC bridge op flag? And then teach
-drm_bridge_connector about this new flag, similar to the HDMI one. The
-drm_bridge could implement some function that maps the typec_port
-(usb-c-connector) to the upstream drm_bridge (ANX7625) graph port,
-possibly all in drm_bridge_connector_oob_hotplug_event() so that nothing
-else really changes. It could also let us keep hooking the hpd_notify()
-path for the workaround needed on Trogdor. And finally it may let us
-harmonize the two DT bindings so that we only have one port@1/endpoint
-node in the usb-c-connector.
 
 
->                 };
->         };
->
->         connector@1 {
->                 port@1 {
->                         endpoint@0 {
->                                 remtoe = <&usb_hub_1>;
->                         };
->
->                         endpoint@1 {
->                                 remote = <&dp_bridge_out_1>;
->                         };
->                 };
->         };
-> };
->
-> dp_bridge {
->         ports {
->                 port@1 {
->                         dp_bridge_out_0: endpoint@0 {
->                                 remote = <usb_c0_ss_dp>;
->                                 data-lanes = <0 1>;
->                         };
->
->                         dp_bridge_out_1: endpoint@1 {
->                                 remote = <usb_c1_ss_dp>;
->                                 data-lanes = <2 3>;
->                         };
->                 };
->         };
-> };
->
-> -------
->
-> This one is really tough example, we didn't reach a conclusion here.
-> If the EC doesn't handle lane remapping, dp_bridge has to get
-> orientation-switch and mode-switch properties (as in the end it is the
-> dp_bridge that handles reshuffling of the lanes for the Type-C). Per the
-> DisplayPort standard the lanes are fixed (e.g. DPCD 101h explicitly
-> names lane 0, lanes 0-1, lanes 0-1-2-3).
+On 2024/10/22 9:04 PM, Alex Deucher wrote:
+> External email: Use caution opening links or attachments
+> 
+> 
+> On Tue, Oct 22, 2024 at 2:31 AM Kai-Heng Feng <kaihengf@nvidia.com> wrote:
+>>
+>> Hi Luke,
+>>
+>> On 2024/10/15 4:04 PM, Luke Jones wrote:
+>>> On Mon, 14 Oct 2024, at 5:25 PM, Mario Limonciello wrote:
+>>>> From: Mario Limonciello <mario.limonciello@amd.com>
+>>>>
+>>>> The ASUS GA605W has a NVIDIA PCI VGA device and an AMD PCI display device.
+>>>>
+>>>> ```
+>>>> 65:00.0 VGA compatible controller: NVIDIA Corporation AD106M [GeForce
+>>>> RTX 4070 Max-Q / Mobile] (rev a1)
+>>>> 66:00.0 Display controller: Advanced Micro Devices, Inc. [AMD/ATI]
+>>>> Strix [Radeon 880M / 890M] (rev c1)
+>>>> ```
+>>>>
+>>>> The fallback logic in vga_is_boot_device() flags the NVIDIA dGPU as the
+>>>> boot VGA device, but really the eDP is connected to the AMD PCI display
+>>>> device.
+>>>>
+>>>> Drop this case to avoid marking the NVIDIA dGPU as the boot VGA device.
+>>>>
+>>>> Suggested-by: Alex Deucher <alexander.deucher@amd.com>
+>>>> Reported-by: Luke D. Jones <luke@ljones.dev>
+>>>> Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/3673
+>>>> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+>>>> ---
+>>>>    drivers/pci/vgaarb.c | 7 -------
+>>>>    1 file changed, 7 deletions(-)
+>>>>
+>>>> diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
+>>>> index 78748e8d2dba..05ac2b672d4b 100644
+>>>> --- a/drivers/pci/vgaarb.c
+>>>> +++ b/drivers/pci/vgaarb.c
+>>>> @@ -675,13 +675,6 @@ static bool vga_is_boot_device(struct vga_device *vgadev)
+>>>>               return true;
+>>>>       }
+>>>>
+>>>> -    /*
+>>>> -     * Vgadev has neither IO nor MEM enabled.  If we haven't found any
+>>>> -     * other VGA devices, it is the best candidate so far.
+>>>> -     */
+>>>> -    if (!boot_vga)
+>>>> -            return true;
+>>>> -
+>>>>       return false;
+>>>>    }
+>>>>
+>>>> --
+>>>> 2.43.0
+>>>
+>>> Hi Mario,
+>>>
+>>> I can verify that this does leave the `boot_vga` attribute set as 0 for the NVIDIA device.
+>>
+>> Does the following diff work for you?
+>> This variant should be less risky for most systems.
+>>
+>> diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
+>> index 78748e8d2dba..3fb734cb9c1b 100644
+>> --- a/drivers/pci/vgaarb.c
+>> +++ b/drivers/pci/vgaarb.c
+>> @@ -675,6 +675,9 @@ static bool vga_is_boot_device(struct vga_device *vgadev)
+>>                   return true;
+>>           }
+>>
+>> +       if (vga_arb_integrated_gpu(&pdev->dev))
+>> +               return true;
+>> +
+> 
+> The problem is that the integrated graphics does not support VGA.
 
-Are those logical or physical lanes?
+Right, so the check has to be used much earlier.
 
-I think we'll punt on this one anyway though. We don't have any plans to
-do this orientation control mechanism so far. Previous attempts failed
-and we put an extra orientation switch control on the board to do the
-orientation flipping.
+I wonder does the integrated GFX have _DOD/_DOS while the discrete one doesn't? 
+If that's the case, vga_arb_integrated_gpu() can be used to differentiate which 
+one is the boot GFX.
+
+Kai-Heng
+
+> 
+> Alex
+> 
+>>           /*
+>>            * Vgadev has neither IO nor MEM enabled.  If we haven't found any
+>>            * other VGA devices, it is the best candidate so far.
+>>
+>>
+>> Kai-Heng
+>>
+>>>
+>>> Tested-by: Luke D. Jones <luke@ljones.dev>
+>>
+
