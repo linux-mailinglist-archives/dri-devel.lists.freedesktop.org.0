@@ -2,66 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EE2E9AD18F
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2024 18:51:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05DF99AD180
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2024 18:51:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DEB7110E84A;
-	Wed, 23 Oct 2024 16:51:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6618E10E83E;
+	Wed, 23 Oct 2024 16:51:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="UwLLNGuB";
+	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="VzuRKUe6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
- [209.85.128.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E72E410E82D
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 16:50:53 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id
- 5b1f17b1804b1-43168d9c6c9so51276425e9.3
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 09:50:53 -0700 (PDT)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 309BF10E82D
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 16:50:54 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id
+ 5b1f17b1804b1-4315e62afe0so70324025e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 09:50:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=raspberrypi.com; s=google; t=1729702252; x=1730307052;
  darn=lists.freedesktop.org; 
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=rM/PLpT0bJIFrHHYZG7pNuWN750b4ZOA/oUy8wRZ+s0=;
- b=UwLLNGuBw7/ZfXVUpx7hRjTpHi+zex/1/X+D50WC83h5KoW/6eEr5UfB8319tigYjA
- Dvh0MCo6EqauIKN0zN63uEXcrQ0ABdsW53zVwZ5bk91NgZP9l5adseXeY3LqAsLB7kXg
- X4d60Q/g7PzqYd87zRIMFD5TCOfTY4ayhfKUyKKMwqBb2amS9olyxHvRrTedbCrp8JfG
- qdsIdXACjVg5F8jVWfVw+2blXHGoyiPbAa5gBy/U4rBUPQh264vEQbEB+jef8dXuFgN/
- TyQ3NW6QtmyjNq26g8kj4d+xFQEYMqlVXNGGr5KplJIsZZTp37e3jGLmRRxrV3tEeEhR
- GN9g==
+ :reply-to; bh=ts1NDd5vcHREqhcvSTV/1shtmvDfyt1K2xdMF/qf56o=;
+ b=VzuRKUe661qXwl3v0+IR5Gu2Lic5f/GoRmH9iZ3WY2IhLWmsw3p6E/YDIbRJLQ+iNJ
+ 71tlbZErUUBALAUKnbMAv/N930bWEmKKmhrY8Jv4aPk+ZzFcAu3FkLhLaCuV4luWcuPT
+ gKdusbuD4n+g5SVxSoVbrsM5OzoYbkCs36jKWiu5vQzACcT4FQ8IMnhOAKi14FckqQuD
+ w3jaSywd4iRo6HHQFGp0cMdM2YlYbsTfMeZ/vkMjcwLLSsV3z5xvvGRluJ+KriX74iGf
+ kXACl9Wk5GfcKhqEU+hFsalce69eCKJCqOcOJm2aXSqaET4jCOhYgY9iFp8Y3ZScIk1l
+ lJBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20230601; t=1729702252; x=1730307052;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=rM/PLpT0bJIFrHHYZG7pNuWN750b4ZOA/oUy8wRZ+s0=;
- b=nnx0jRUUhRUhHk926qPcvmJOYRoOKvd6msRJMvbab0TjWCJWeNawlFKRv6jZgR9cB3
- OWc61SST2VXgzcmLjY1S2b0oRaGu+9n5mtDZ3N+0haY82CNfDnH+vq86ehv6mvsQaYzI
- HbeLRj8ZiBjtKl8xN47BZ/y+dHGwIXWtwyDmc8Db7sORGzBh/c7cWt1FopOb43mVBIPp
- U+9FpknIPs4oaZ1Dc318PISs8JVwz5iLg0Nme6tLl/JViWR0pVqgDGEtQIQphSV3JqZy
- knBKN/wBxtbunc7P67MNKK8+7TiIfnzCbNufz7D5/7OOGevpbrMbwasCWwdmh1J82urZ
- 8UgA==
-X-Gm-Message-State: AOJu0YxtXqIdmSDqHhEvqhuSi9VA+fpHM+n1ZW+od0SaU4pjdmz9RMaI
- myvqPHBOoePiI0gvhj3rmcu4VKk8fcHR04S0Tred7aC70JknpmpxenfY6HESIM0=
-X-Google-Smtp-Source: AGHT+IHztOCCr87oR87Z3+JBdAivrEgxHT4i0hywZWr6jUvTWMEc0lm3QWh2DVlbarj1WpyyJN12PQ==
-X-Received: by 2002:adf:e009:0:b0:37c:cc60:2c68 with SMTP id
- ffacd0b85a97d-37efcef190cmr2044356f8f.5.1729702250772; 
- Wed, 23 Oct 2024 09:50:50 -0700 (PDT)
+ bh=ts1NDd5vcHREqhcvSTV/1shtmvDfyt1K2xdMF/qf56o=;
+ b=mGIRE7hbbiDDJgAPPFWVsxjZcvpa/EGlk3+AIUy2ce3D0wzfTrKHNwXpp/ucdTHmog
+ gY7zaWJNM0zKqoMzASbMcNnP2jgstl29MCWMiuxKxHmsTCwW81z/EtbSrz0ctv2pXZFX
+ evoYMQrIGSBS+ofNKPk1/bnKx1/3m0WAJ6J4HeZA6+SslCwYKM0dXuJYSUeVSH59rPpJ
+ NPIYJGXx9TDseb7WvET4jwVSbJxGP5jsD0wBf0OhpnuRFpESVZvPnZdocqUp+ihTrBdP
+ PW2ussOo3Xgv37cLqHKpYSfQqbqifogoebhQEZcYSgPawjlz23gTkFEdBDbAobdKLhFi
+ hG5w==
+X-Gm-Message-State: AOJu0Yw8D6gAKMh6xvO3hVzOYGFTqAoE0N/HbrasSdnKswYGLJVq2w+q
+ tJupMJusREOVXyxVUpEf3SSv2tGFQGFL7Shc2v6mtAeU/QUzE0tJ9Dzo3FUHbiI=
+X-Google-Smtp-Source: AGHT+IF+Ep5cy5ocAHASp/06u2OSiKjV3AGCYRQMjGhBm4svhBLkWe/K2mww/KQzVSfsztZblCEfXg==
+X-Received: by 2002:a05:600c:358b:b0:431:46fe:4cad with SMTP id
+ 5b1f17b1804b1-4318413e307mr28468675e9.9.1729702252475; 
+ Wed, 23 Oct 2024 09:50:52 -0700 (PDT)
 Received: from [127.0.1.1] ([2a00:1098:3142:e::8])
  by smtp.googlemail.com with ESMTPSA id
- 5b1f17b1804b1-43186c50445sm21642035e9.39.2024.10.23.09.50.49
+ 5b1f17b1804b1-43186c50445sm21642035e9.39.2024.10.23.09.50.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Oct 2024 09:50:50 -0700 (PDT)
+ Wed, 23 Oct 2024 09:50:52 -0700 (PDT)
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Wed, 23 Oct 2024 17:50:28 +0100
-Subject: [PATCH 31/37] clk: bcm: rpi: Allow cpufreq driver to also adjust
- gpu clocks
+Date: Wed, 23 Oct 2024 17:50:29 +0100
+Subject: [PATCH 32/37] clk: bcm: rpi: Enable minimize for all firmware clocks
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241023-drm-vc4-2712-support-v1-31-1cc2d5594907@raspberrypi.com>
+Message-Id: <20241023-drm-vc4-2712-support-v1-32-1cc2d5594907@raspberrypi.com>
 References: <20241023-drm-vc4-2712-support-v1-0-1cc2d5594907@raspberrypi.com>
 In-Reply-To: <20241023-drm-vc4-2712-support-v1-0-1cc2d5594907@raspberrypi.com>
 To: Maxime Ripard <mripard@kernel.org>, 
@@ -102,27 +101,46 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dom Cobley <popcornmix@gmail.com>
 
-For performance/power it is beneficial to adjust gpu clocks with arm clock.
-This is how the downstream cpufreq driver works
+There isn't a reason not to minimise the clocks, and it saves
+some power.
 
 Signed-off-by: Dom Cobley <popcornmix@gmail.com>
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 ---
- drivers/clk/bcm/clk-raspberrypi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/clk/bcm/clk-raspberrypi.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/drivers/clk/bcm/clk-raspberrypi.c b/drivers/clk/bcm/clk-raspberrypi.c
-index 6d5ee1cddded..274176a938c6 100644
+index 274176a938c6..fd7ae0efcf07 100644
 --- a/drivers/clk/bcm/clk-raspberrypi.c
 +++ b/drivers/clk/bcm/clk-raspberrypi.c
-@@ -156,7 +156,7 @@ static int raspberrypi_clock_property(struct rpi_firmware *firmware,
- 	struct raspberrypi_firmware_prop msg = {
- 		.id = cpu_to_le32(data->id),
- 		.val = cpu_to_le32(*val),
--		.disable_turbo = cpu_to_le32(1),
-+		.disable_turbo = cpu_to_le32(0),
- 	};
- 	int ret;
+@@ -111,21 +111,27 @@ raspberrypi_clk_variants[RPI_FIRMWARE_NUM_CLK_ID] = {
+ 	},
+ 	[RPI_FIRMWARE_V3D_CLK_ID] = {
+ 		.export = true,
++		.minimize = true,
+ 	},
+ 	[RPI_FIRMWARE_PIXEL_CLK_ID] = {
+ 		.export = true,
++		.minimize = true,
+ 	},
+ 	[RPI_FIRMWARE_HEVC_CLK_ID] = {
+ 		.export = true,
++		.minimize = true,
+ 	},
+ 	[RPI_FIRMWARE_ISP_CLK_ID] = {
+ 		.export = true,
++		.minimize = true,
+ 	},
+ 	[RPI_FIRMWARE_PIXEL_BVB_CLK_ID] = {
+ 		.export = true,
++		.minimize = true,
+ 	},
+ 	[RPI_FIRMWARE_VEC_CLK_ID] = {
+ 		.export = true,
++		.minimize = true,
+ 	},
+ };
  
 
 -- 
