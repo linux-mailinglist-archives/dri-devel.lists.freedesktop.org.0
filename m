@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C9059AD187
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2024 18:51:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC79C9AD18A
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2024 18:51:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A00B910E844;
-	Wed, 23 Oct 2024 16:51:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27AA410E846;
+	Wed, 23 Oct 2024 16:51:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="LcSCAZbf";
+	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="AKQR8Qag";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
- [209.85.128.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F38CE10E82D
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 16:50:55 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id
- 5b1f17b1804b1-43161c0068bso56792765e9.1
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 09:50:55 -0700 (PDT)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2730710E82D
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 16:50:57 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id
+ 5b1f17b1804b1-43152b79d25so68537355e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 09:50:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google; t=1729702254; x=1730307054;
+ d=raspberrypi.com; s=google; t=1729702255; x=1730307055;
  darn=lists.freedesktop.org; 
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=PFtxhxYujLumaUhYyF7W41V3jkXWk5OXPRGFqIjwWy0=;
- b=LcSCAZbf77K16RYlJrT917JoxgmA0LQ/vLcU1ZQYOqxXror8Z51OdUm3+Kh8KBwbHX
- t/rX2remoCw19WZWwPWOikAUiHVy8Mzg4kmZxNSdCNMD/BYmyFiVXK5vhOFn0AVPVVnP
- NV/SRNQebHFZ8gHhbSsU75PV6ATz1kQBdR7IkEkvTo3n3oK7Y5KeWad00ajJ2s0SYojK
- e8PyfX1PBwK5OX8o1tQMu3ACVvG9mvNoR6yYm+RGFXM+0a6+fpUl1UhHYBXZOBeWFX/v
- FpDXKA/v19slPUnQHvuN1GEn3RyknU9r2WCoCMi5zQBWVYLQ4k9nIsLxlpC8AVYqt40Z
- WHrg==
+ :reply-to; bh=n6ynqPw+aFyVqyQgEAy8+ChgZ/7ftlVoUYbZGJVl5Fw=;
+ b=AKQR8QagPRLczU/CCC2TSw0DHG/onakIObBZ8oXNYZDY/mSL2F4l0OzvDkcCDjgCIs
+ 7M+PvYKoxV/AqwDe80m8FKjPC2lctmPx+Uhy88SSII0IXDoIX1FbHI/nHTshGGewk2OW
+ uk+nClAL1wgc/aZSq3rE+TCnJ+CN9549Lkb+jHzhlpVOJOvCe2LpO5Nshq2zGVmdZI6/
+ 4D84k0XY6RCwMdBpzuZG5gMMKRbnD1z+BeeQKD22cJxnK955M7qkrB/A52BmT+YGz8Ov
+ +6EA1a2Vw1HfuYXmAdqm/ajwgXH8t/MUxNRKvDSg5QW4vG3ZMo6fRUCryWCpvuP0i6UH
+ Ttzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729702254; x=1730307054;
+ d=1e100.net; s=20230601; t=1729702255; x=1730307055;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=PFtxhxYujLumaUhYyF7W41V3jkXWk5OXPRGFqIjwWy0=;
- b=mfVks/j2FBGTqNUxjpBU6J7r3VffD84TyEQuhcsE3/3NBeJBCZXYxSMytKqWnTlIOH
- eFKpjSodfI0uBmdSD6anSgymRKItYZTEPiyeMcKSApzJ0t1vVwceB6hCfLg0yjo4LeTB
- ea2d7xn2qLXyqsO5Wd0cLD+OJpptQjDjAPBuoOinFm6y7mGmr98j7C/oxwOTaffM1qdP
- bZAEIDNLkABWfkH7of7T3MwZPKyKPQBn0/kgKlwg1VjyddySPsN6/EX6nGBA6GTdEhT4
- wBDxS/X1QS7RnQ37MT+Vv86HBvKzbADxN8K8lJgMR0dkDLKctTi3LkKdXrFtD4njonmY
- 6e+g==
-X-Gm-Message-State: AOJu0YzMjI1kAYLjbfdtMEtpFR1uQ8ueRLDsAwXYttbHUdYKzR3xaTP8
- C9+MeOn0sC6bs2fbaspE1FT0QhTaRBOSa04DU909rslA568SEhVI6qxUbkTS2Q8d4yvZPV8GauP
- 1oRw=
-X-Google-Smtp-Source: AGHT+IH4dOnkzCDNmAk4RGF4mcO+87rO9BS2DXATZO3jiQ7gGdJCQSnc4CC+BnBw8QyI1TRa/qtaAA==
-X-Received: by 2002:a05:600c:4a9a:b0:431:57e5:b245 with SMTP id
- 5b1f17b1804b1-4318423b9e1mr26772775e9.23.1729702254379; 
- Wed, 23 Oct 2024 09:50:54 -0700 (PDT)
+ bh=n6ynqPw+aFyVqyQgEAy8+ChgZ/7ftlVoUYbZGJVl5Fw=;
+ b=hrbKjxqL86Z0wjSFedkdr7tj9b90LPS3l1RB9uCUsqL8qjttHERD8fq01a5UQHLeWw
+ nMUvrdzYv6ndxDJlKcNXf2MW1NTZIw8feNKayYQvC/A4awAmfxwtleaqubfdfrdIYa/c
+ 804E1gd3qbl5raTW3IDaq789kcwOSFf4xGVWfKTByeCefi3twe/iE7wNi7BVA81vKFHQ
+ s2Bj3qWfu0rIaub+wYkw/VVSYzNCImII19qyTz0gm6Y/k9e3TCYBaTOZ7WhvR4vWUXur
+ WvopWU7Cl+WqDGQ//CCa/J+KzlhP29FyI+0a9B/PcPDqvQKEDQfmn3IafIqwcEYSX2yF
+ DyPw==
+X-Gm-Message-State: AOJu0YyuMP05HJ333MLLiFAyNkKYvuliS/U/NemRNe+t6kr450I118Kw
+ PAM94ebeh4pZdQ3XjOx1mDM+LThJ5o/sw1l/INLazqGvKng6M+xWRX7vXomqEXU=
+X-Google-Smtp-Source: AGHT+IFBguMU8OEAESQDL/dSrL8fzEBB5IpCHLayBxdUcUsJXhruVCscX1KffjfpU7lvEVL73DyGQA==
+X-Received: by 2002:a05:600c:3b1b:b0:431:594b:8e2b with SMTP id
+ 5b1f17b1804b1-4318413ee73mr31043765e9.12.1729702255516; 
+ Wed, 23 Oct 2024 09:50:55 -0700 (PDT)
 Received: from [127.0.1.1] ([2a00:1098:3142:e::8])
  by smtp.googlemail.com with ESMTPSA id
- 5b1f17b1804b1-43186c50445sm21642035e9.39.2024.10.23.09.50.53
+ 5b1f17b1804b1-43186c50445sm21642035e9.39.2024.10.23.09.50.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Oct 2024 09:50:53 -0700 (PDT)
+ Wed, 23 Oct 2024 09:50:54 -0700 (PDT)
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Wed, 23 Oct 2024 17:50:31 +0100
-Subject: [PATCH 34/37] clk: bcm: rpi: Add disp clock
+Date: Wed, 23 Oct 2024 17:50:32 +0100
+Subject: [PATCH 35/37] arm64: dts: broadcom: Add firmware clocks and power
+ nodes to Pi5 DT
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241023-drm-vc4-2712-support-v1-34-1cc2d5594907@raspberrypi.com>
+Message-Id: <20241023-drm-vc4-2712-support-v1-35-1cc2d5594907@raspberrypi.com>
 References: <20241023-drm-vc4-2712-support-v1-0-1cc2d5594907@raspberrypi.com>
 In-Reply-To: <20241023-drm-vc4-2712-support-v1-0-1cc2d5594907@raspberrypi.com>
 To: Maxime Ripard <mripard@kernel.org>, 
@@ -99,54 +99,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Maxime Ripard <mripard@kernel.org>
+BCM2712 still uses the firmware clocks and power drivers, so add
+them to the base device tree.
 
-BCM2712 has an extra clock exposed by the firmware called DISP, and used
-by (at least) the HVS. Let's add it to the list of clocks to register in
-Linux.
-
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 ---
- drivers/clk/bcm/clk-raspberrypi.c          | 5 +++++
- include/soc/bcm2835/raspberrypi-firmware.h | 1 +
- 2 files changed, 6 insertions(+)
+ arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dts | 28 ++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
-diff --git a/drivers/clk/bcm/clk-raspberrypi.c b/drivers/clk/bcm/clk-raspberrypi.c
-index 89e2c0241ff6..aff9f3195573 100644
---- a/drivers/clk/bcm/clk-raspberrypi.c
-+++ b/drivers/clk/bcm/clk-raspberrypi.c
-@@ -34,6 +34,7 @@ static char *rpi_firmware_clk_names[] = {
- 	[RPI_FIRMWARE_M2MC_CLK_ID]	= "m2mc",
- 	[RPI_FIRMWARE_PIXEL_BVB_CLK_ID]	= "pixel-bvb",
- 	[RPI_FIRMWARE_VEC_CLK_ID]	= "vec",
-+	[RPI_FIRMWARE_DISP_CLK_ID]	= "disp",
+diff --git a/arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dts b/arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dts
+index 2bdbb6780242..92a2ada037f3 100644
+--- a/arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dts
++++ b/arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dts
+@@ -62,3 +62,31 @@ &sdio1 {
+ 	sd-uhs-ddr50;
+ 	sd-uhs-sdr104;
  };
- 
- #define RPI_FIRMWARE_STATE_ENABLE_BIT	BIT(0)
-@@ -139,6 +140,10 @@ raspberrypi_clk_variants[RPI_FIRMWARE_NUM_CLK_ID] = {
- 		.export = true,
- 		.minimize = true,
- 	},
-+	[RPI_FIRMWARE_DISP_CLK_ID] = {
-+		.export = true,
-+		.minimize = true,
-+	},
- };
- 
- /*
-diff --git a/include/soc/bcm2835/raspberrypi-firmware.h b/include/soc/bcm2835/raspberrypi-firmware.h
-index 73cac8d0287e..e1f87fbfe554 100644
---- a/include/soc/bcm2835/raspberrypi-firmware.h
-+++ b/include/soc/bcm2835/raspberrypi-firmware.h
-@@ -152,6 +152,7 @@ enum rpi_firmware_clk_id {
- 	RPI_FIRMWARE_M2MC_CLK_ID,
- 	RPI_FIRMWARE_PIXEL_BVB_CLK_ID,
- 	RPI_FIRMWARE_VEC_CLK_ID,
-+	RPI_FIRMWARE_DISP_CLK_ID,
- 	RPI_FIRMWARE_NUM_CLK_ID,
- };
- 
++
++&soc {
++	firmware: firmware {
++		compatible = "raspberrypi,bcm2835-firmware", "simple-mfd";
++		#address-cells = <1>;
++		#size-cells = <1>;
++
++		mboxes = <&mailbox>;
++		dma-ranges;
++
++		firmware_clocks: clocks {
++			compatible = "raspberrypi,firmware-clocks";
++			#clock-cells = <1>;
++		};
++
++		reset: reset {
++			compatible = "raspberrypi,firmware-reset";
++			#reset-cells = <1>;
++		};
++	};
++
++	power: power {
++		compatible = "raspberrypi,bcm2835-power";
++		firmware = <&firmware>;
++		#power-domain-cells = <1>;
++	};
++
++};
 
 -- 
 2.34.1
