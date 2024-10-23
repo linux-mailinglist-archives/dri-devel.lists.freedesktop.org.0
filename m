@@ -2,94 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FE429AC831
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2024 12:47:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CEFE9AC875
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2024 13:03:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11B9510E074;
-	Wed, 23 Oct 2024 10:47:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B59110E353;
+	Wed, 23 Oct 2024 11:03:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="u8gcHKiE";
+	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="ab8f5i78";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8439D10E074
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 10:47:06 +0000 (UTC)
-Received: from [192.168.88.20] (91-157-155-49.elisa-laajakaista.fi
- [91.157.155.49])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 47CB7169;
- Wed, 23 Oct 2024 12:45:17 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1729680317;
- bh=1aUwh7M2CVh9uYUCo+mpzgabGTGHha0z3nBcBVPdCVE=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=u8gcHKiEZOTbl/vjaUuxKC4po20kbJ5UenYe3R8fefyZ1AAuU7KRkWIjvEsebXKBx
- E2B0r36OeLz5cDrd4XnepV6VaQXBu1QbZAsO50ippNXBALwd6dweIdgE5hYAaY3AWL
- SURtfEKBU+hKyewWwzkhgdnITdPNLU4l+6POuJlg=
-Message-ID: <f7fbd696-d739-457b-bebb-571b32ecc1d6@ideasonboard.com>
-Date: Wed, 23 Oct 2024 13:47:01 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm: xlnx: zynqmp_dpsub: fix hotplug detection
-To: Steffen Dirkwinkel <lists@steffen.cc>, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Steffen Dirkwinkel <s.dirkwinkel@beckhoff.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Michal Simek <michal.simek@amd.com>, linux-arm-kernel@lists.infradead.org,
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8436A10E353
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 11:03:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+ ; s=bytemarkmx;
+ h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
+ :Subject; bh=bHGP7JRBaCSysfpKlshFcLgSRwMDYg7xmq1kLK1A24s=; b=ab8f5i78WdZUXwGp
+ wbqtbsfxiYAumw4Utmi29eFbkaMVABYBaZz68D5czH649u5ecSTBAoQU/BhSm42j1G7F031d8EgNn
+ V3Gq7frcwiEie57ldcEwp0vbI6ZmsoxCaX1e4XgqA4gfw/VjArQ6al9KJPDqzsNp83fMYH6X7OrWd
+ 50uocxktXGnkyCdHPkw3jYfjC1sINTEH6Wa5U+w2xWTRxrX01HMX+u9nEYH5W7mUAASe8u5s3BV1r
+ LalTExpRCnLN/GSBAYmkn5Fmjw5MrzPuNEeojqe8r61odsbnrQaIKYHtwmceUlvmiH5AQ6oI1g+8B
+ me/PBtU7Uyjnmnv3hg==;
+Received: from dg by mx.treblig.org with local (Exim 4.96)
+ (envelope-from <dg@treblig.org>) id 1t3Z9J-00CzTf-1G;
+ Wed, 23 Oct 2024 11:03:33 +0000
+Date: Wed, 23 Oct 2024 11:03:33 +0000
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
+To: Jocelyn Falempe <jfalempe@redhat.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-References: <20241021134115.216568-1-lists@steffen.cc>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20241021134115.216568-1-lists@steffen.cc>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 4/5] drm/client: Remove unused drm_client_framebuffer_flush
+Message-ID: <ZxjYBbusIbQU6WDv@gallifrey>
+References: <20241022232934.238124-1-linux@treblig.org>
+ <20241022232934.238124-5-linux@treblig.org>
+ <a56b486c-9341-41aa-a3ab-090f7ffd56d6@suse.de>
+ <44141638-4d8f-4e11-9ede-51cdb51d3a28@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <44141638-4d8f-4e11-9ede-51cdb51d3a28@redhat.com>
+X-Chocolate: 70 percent or better cocoa solids preferably
+X-Operating-System: Linux/6.1.0-21-amd64 (x86_64)
+X-Uptime: 11:01:50 up 167 days, 22:15,  1 user,  load average: 0.06, 0.03, 0.00
+User-Agent: Mutt/2.2.12 (2023-09-09)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,41 +64,116 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/10/2024 16:41, Steffen Dirkwinkel wrote:
-> From: Steffen Dirkwinkel <s.dirkwinkel@beckhoff.com>
+* Jocelyn Falempe (jfalempe@redhat.com) wrote:
+> On 23/10/2024 08:46, Thomas Zimmermann wrote:
+> > Hi
+> > 
+> > Am 23.10.24 um 01:29 schrieb linux@treblig.org:
+> > > From: "Dr. David Alan Gilbert" <linux@treblig.org>
+> > > 
+> > > drm_client_framebuffer_flush() was explicitly added in 2020
+> > > by
+> > > commit c9c03e3cf072 ("drm/client: Add drm_client_framebuffer_flush()")
+> > > but has never been used.
+> > > 
+> > > Remove it.
+> > 
+> > I had a patchset to use this helper for fbdev emulation. It just needs
+> > preparation in a number of drivers.
 > 
-> drm_kms_helper_poll_init needs to be called after zynqmp_dpsub_kms_init.
-> zynqmp_dpsub_kms_init creates the connector and without it we don't
-> enable hotplug detection.
+> It is used by drm_log, which is under review.
+> Please don't remove it.
+
+OK, no problem.
+
+Reviews on the rest of the series would be great.
+
+Dave
+
+> https://patchwork.freedesktop.org/series/136789/
 > 
-> Signed-off-by: Steffen Dirkwinkel <s.dirkwinkel@beckhoff.com>
-> ---
->   drivers/gpu/drm/xlnx/zynqmp_kms.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+> -- 
 > 
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_kms.c b/drivers/gpu/drm/xlnx/zynqmp_kms.c
-> index bd1368df7870..311397cee5ca 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_kms.c
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_kms.c
-> @@ -509,12 +509,12 @@ int zynqmp_dpsub_drm_init(struct zynqmp_dpsub *dpsub)
->   	if (ret)
->   		return ret;
->   
-> -	drm_kms_helper_poll_init(drm);
-> -
->   	ret = zynqmp_dpsub_kms_init(dpsub);
->   	if (ret < 0)
->   		goto err_poll_fini;
->   
-> +	drm_kms_helper_poll_init(drm);
-> +
->   	/* Reset all components and register the DRM device. */
->   	drm_mode_config_reset(drm);
->   
-
-Thanks, this indeed fixes the HPD issue.
-
-But shouldn't this have a Fixes tag, and cc stable?
-
-  Tomi
-
+> Jocelyn
+> 
+> 
+> > 
+> > Best regards
+> > Thomas
+> > 
+> > > 
+> > > Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+> > > ---
+> > >   drivers/gpu/drm/drm_client.c | 33 ---------------------------------
+> > >   include/drm/drm_client.h     |  1 -
+> > >   2 files changed, 34 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/drm_client.c b/drivers/gpu/drm/drm_client.c
+> > > index bfedcbf516db..5d10ad3c2ca5 100644
+> > > --- a/drivers/gpu/drm/drm_client.c
+> > > +++ b/drivers/gpu/drm/drm_client.c
+> > > @@ -552,39 +552,6 @@ void drm_client_framebuffer_delete(struct
+> > > drm_client_buffer *buffer)
+> > >   }
+> > >   EXPORT_SYMBOL(drm_client_framebuffer_delete);
+> > > -/**
+> > > - * drm_client_framebuffer_flush - Manually flush client framebuffer
+> > > - * @buffer: DRM client buffer (can be NULL)
+> > > - * @rect: Damage rectangle (if NULL flushes all)
+> > > - *
+> > > - * This calls &drm_framebuffer_funcs->dirty (if present) to flush
+> > > buffer changes
+> > > - * for drivers that need it.
+> > > - *
+> > > - * Returns:
+> > > - * Zero on success or negative error code on failure.
+> > > - */
+> > > -int drm_client_framebuffer_flush(struct drm_client_buffer *buffer,
+> > > struct drm_rect *rect)
+> > > -{
+> > > -    if (!buffer || !buffer->fb || !buffer->fb->funcs->dirty)
+> > > -        return 0;
+> > > -
+> > > -    if (rect) {
+> > > -        struct drm_clip_rect clip = {
+> > > -            .x1 = rect->x1,
+> > > -            .y1 = rect->y1,
+> > > -            .x2 = rect->x2,
+> > > -            .y2 = rect->y2,
+> > > -        };
+> > > -
+> > > -        return buffer->fb->funcs->dirty(buffer->fb, buffer->client-
+> > > >file,
+> > > -                        0, 0, &clip, 1);
+> > > -    }
+> > > -
+> > > -    return buffer->fb->funcs->dirty(buffer->fb, buffer->client->file,
+> > > -                    0, 0, NULL, 0);
+> > > -}
+> > > -EXPORT_SYMBOL(drm_client_framebuffer_flush);
+> > > -
+> > >   #ifdef CONFIG_DEBUG_FS
+> > >   static int drm_client_debugfs_internal_clients(struct seq_file *m,
+> > > void *data)
+> > >   {
+> > > diff --git a/include/drm/drm_client.h b/include/drm/drm_client.h
+> > > index bc0e66f9c425..560aae47e06d 100644
+> > > --- a/include/drm/drm_client.h
+> > > +++ b/include/drm/drm_client.h
+> > > @@ -165,7 +165,6 @@ struct drm_client_buffer {
+> > >   struct drm_client_buffer *
+> > >   drm_client_framebuffer_create(struct drm_client_dev *client, u32
+> > > width, u32 height, u32 format);
+> > >   void drm_client_framebuffer_delete(struct drm_client_buffer *buffer);
+> > > -int drm_client_framebuffer_flush(struct drm_client_buffer *buffer,
+> > > struct drm_rect *rect);
+> > >   int drm_client_buffer_vmap_local(struct drm_client_buffer *buffer,
+> > >                    struct iosys_map *map_copy);
+> > >   void drm_client_buffer_vunmap_local(struct drm_client_buffer *buffer);
+> > 
+> 
+-- 
+ -----Open up your eyes, open up your mind, open up your code -------   
+/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
+\        dave @ treblig.org |                               | In Hex /
+ \ _________________________|_____ http://www.treblig.org   |_______/
