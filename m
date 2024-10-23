@@ -2,62 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C9A09ACBDC
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2024 16:04:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D914A9ACBF8
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2024 16:13:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C104610E084;
-	Wed, 23 Oct 2024 14:04:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFBEE89101;
+	Wed, 23 Oct 2024 14:12:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qdbkBEO0";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="W+br8yx0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 411CE10E084
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 14:04:05 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EEF5189101
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 14:12:51 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id CBB8D5C5F3E
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 14:03:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07126C4CEE9
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 14:04:03 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 8AB86A44E2E
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 14:12:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18C2DC4CEE6
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 14:12:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1729692244;
- bh=3MPewIa2RjMP+i+zsFQ9KeXkrzNB/sGLihdu9ZgX1Xs=;
+ s=k20201202; t=1729692770;
+ bh=lT+2VpBy0BT7oY5bPbktSNUFx97M8RvIUrfH+KcF/Dc=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=qdbkBEO03QRVYRTMpVXLWE71cKSwutRohJy5TwoxqVHO0wkbQW0YgPfaX29DAqor+
- 94w70E+QfzZ8tOiLhZfTmGiJXyMfqIA9WandhakNjKEstnVmIpxmGu2JbDDQdDkS/w
- NWQ5ig4TJSBvkyDfxXkdP1g4/5AMAMuOW+QINcxLUcscOsXdpJ71ovHR+NONEqypC5
- qgw07B94tMVCL2IjSWYlKY/0RtTHeZ/Be19Cfta+jos4swJIdpy6az0lvXq7d+OIrR
- 7twC2anxpXhsptQC9SoqaW0MPESbGAV3lm1ehUPtatYHeVZzrTS+E2Vi0mR8iuJp36
- nvIMrFdhieGFQ==
-Received: by mail-pg1-f169.google.com with SMTP id
- 41be03b00d2f7-7e6ed072cdaso4907171a12.0
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 07:04:03 -0700 (PDT)
+ b=W+br8yx0K06VIfrfvTTPp6H8RvGMv96AxJZySLP4dlcJFUhpirDAHaTFpIcPpoz/A
+ N6QCXxzTD4M+AcJ6ap7fC3t/tpBJY9/E8+TUs6f/aQ8mO3vyHnxuTnyRZBeSEqLC7v
+ C4Oa5C156i+HZJokRBkMJJt24mfC3vO3F05rKjaRqv9MUjPFz1MPgH3M2T16szp2XJ
+ GhibYZl4h9CkJ46uip0M/M5DD1w9HsHBWwm8TnGy9BHdQMRTJx5OmlfCvnKkdo8UET
+ jHEf+ItWv3xYMXwUYmIgW34LPDtXlrCeKIY8d6+WpoV8SvGQqyFeDBZybAhztAPfPV
+ uL0NgWplSc4bg==
+Received: by mail-pg1-f176.google.com with SMTP id
+ 41be03b00d2f7-7ea7e2ff5ceso5297707a12.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 07:12:50 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCW5X4p+/5ijx6/nlNvztVN1Msxd65X24Q9rMGQXF2UtFLPowPQl/eSSPWra8gJ7nbOHM1BNlfcFkcA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzx0ZK6LBO6oQmzOnxrrfqnuy2dO4Blz0Etuy31iwP90AxPgsKs
- 1HHUEoRmTm+hd2ZHLC8UznXMZH1LbT23OA9aQrdCktao/4fGwuXLNiNm4c1nNRfYVmqu9mN8fib
- OS+oQPPc0XB9vZYwCj14L5JCAiQ==
-X-Google-Smtp-Source: AGHT+IF5Q62FJLxl3oE9wLeYU7rpvkWxnbOMZ2oAU54lobEqlwICxfdK2vspUXn7Guq+K/KROXh3ysDXrXOnjtvP2zM=
-X-Received: by 2002:a05:6a21:2d8b:b0:1d9:3957:8c24 with SMTP id
- adf61e73a8af0-1d978b39ee6mr2739553637.21.1729692243502; Wed, 23 Oct 2024
- 07:04:03 -0700 (PDT)
+ AJvYcCUHeTxq78+XGlvMTd4EATpEYyLvZXa8bUlk3CTFVa/KsKUefUxll3RrkyZlWmLGYLPIDEC1cBx+iVc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YydP5LaNatt89Gq4os0fTDWDDze/KuyPAzPOvVGw1YQBW7ru4ZD
+ S1DmuKOiwyMp3nnxtDTNg66k2u58y3bhFd3IdWAdFv7oX2WpshxdgBXU7uZx5oziSdKn3UQyVIO
+ w2tOHZNqdMEFZKItZ6qiRWh7PVQ==
+X-Google-Smtp-Source: AGHT+IFlsad2/fwPdFPf6XhOvIClD0wIrRQ18NzI0oBgziJzaXBbTh6qI7+JGmlilOHZTPE+QeviZQ7b6sPyVX5hBBk=
+X-Received: by 2002:a05:6a21:3a41:b0:1d8:a247:945d with SMTP id
+ adf61e73a8af0-1d978bef8bdmr2663185637.50.1729692769613; Wed, 23 Oct 2024
+ 07:12:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240923132521.22785-1-liankun.yang@mediatek.com>
-In-Reply-To: <20240923132521.22785-1-liankun.yang@mediatek.com>
+References: <cc537bd6-837f-4c85-a37b-1a007e268310@stanley.mountain>
+In-Reply-To: <cc537bd6-837f-4c85-a37b-1a007e268310@stanley.mountain>
 From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Wed, 23 Oct 2024 22:04:24 +0800
-X-Gmail-Original-Message-ID: <CAAOTY__3PvRUaU0a8E0X82yaTjYe8c5J6Uud5+SzMQhew+srgA@mail.gmail.com>
-Message-ID: <CAAOTY__3PvRUaU0a8E0X82yaTjYe8c5J6Uud5+SzMQhew+srgA@mail.gmail.com>
-Subject: Re: [PATCH v5 1/1] drm/mediatek: Fix get efuse issue for MT8188 DPTX
-To: Liankun Yang <liankun.yang@mediatek.com>
-Cc: chunkuang.hu@kernel.org, p.zabel@pengutronix.de, airlied@gmail.com, 
- simona@ffwll.ch, matthias.bgg@gmail.com, 
- angelogioacchino.delregno@collabora.com, ck.hu@mediatek.com, 
- shuijing.li@mediatek.com, jitao.shi@mediatek.com, mac.shen@mediatek.com, 
- peng.liu@mediatek.com, Project_Global_Chrome_Upstream_Group@mediatek.com, 
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Date: Wed, 23 Oct 2024 22:13:10 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_8kG67ns8OokhzujmH7UNM-O+4Aa=GruO_spLOALMeARA@mail.gmail.com>
+Message-ID: <CAAOTY_8kG67ns8OokhzujmH7UNM-O+4Aa=GruO_spLOALMeARA@mail.gmail.com>
+Subject: Re: [PATCH] drm/mediatek: Fix potential NULL dereference in
+ mtk_crtc_destroy()
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ dri-devel@lists.freedesktop.org, 
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, kernel-janitors@vger.kernel.org, 
+ =?UTF-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,16 +78,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Liankun:
+Hi, Dan:
 
-Liankun Yang <liankun.yang@mediatek.com> =E6=96=BC 2024=E5=B9=B49=E6=9C=882=
-3=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=889:25=E5=AF=AB=E9=81=93=EF=
+Dan Carpenter <dan.carpenter@linaro.org> =E6=96=BC 2024=E5=B9=B49=E6=9C=881=
+2=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=884:45=E5=AF=AB=E9=81=93=EF=
 =BC=9A
 >
-> Update efuse data for MT8188 displayport.
+> In mtk_crtc_create(), if the call to mbox_request_channel() fails then we
+> set the "mtk_crtc->cmdq_client.chan" pointer to NULL.  In that situation,
+> we do not call cmdq_pkt_create().
 >
-> The DP monitor can not display when DUT connected to USB-c to DP dongle.
-> Analysis view is invalid DP efuse data.
+> During the cleanup, we need to check if the "mtk_crtc->cmdq_client.chan"
+> is NULL first before calling cmdq_pkt_destroy().  Calling
+> cmdq_pkt_destroy() is unnecessary if we didn't call cmdq_pkt_create() and
+> it will result in a NULL pointer dereference.
 
 Applied to mediatek-drm-fixes [1], thanks.
 
@@ -95,150 +102,29 @@ Regards,
 Chun-Kuang.
 
 >
-> Fixes: 350c3fe907fb ("drm/mediatek: dp: Add support MT8188 dp/edp functio=
-n")
-> Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collab=
-ora.com>
-> Signed-off-by: Liankun Yang <liankun.yang@mediatek.com>
+> Fixes: 7627122fd1c0 ("drm/mediatek: Add cmdq_handle in mtk_crtc")
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 > ---
-> Changes in V5:
-> - No change.
-> Per suggestion from the previous thread:
-> https://patchwork.kernel.org/project/linux-mediatek/patch/20240905124041.=
-3658-1-liankun.yang@mediatek.com/
+>  drivers/gpu/drm/mediatek/mtk_crtc.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 >
-> Changes in V4:
-> - Remove excess newlines.
-> Per suggestion from the previous thread:
-> https://patchwork.kernel.org/project/linux-mediatek/patch/20240903121028.=
-20689-1-liankun.yang@mediatek.com/
+> diff --git a/drivers/gpu/drm/mediatek/mtk_crtc.c b/drivers/gpu/drm/mediat=
+ek/mtk_crtc.c
+> index 175b00e5a253..c15013792583 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_crtc.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_crtc.c
+> @@ -127,9 +127,8 @@ static void mtk_crtc_destroy(struct drm_crtc *crtc)
 >
-> Changes in V3
-> - Update change log position in commit message.
-> Per suggestion from the previous thread:
-> https://patchwork.kernel.org/project/linux-mediatek/patch/20240902133736.=
-16461-1-liankun.yang@mediatek.com/
->
-> Changes in V2
-> - Add Fixes tag.
-> - Update the commit title.
-> - Update the commit description.
-> Per suggestion from the previous thread:
-> https://patchwork.kernel.org/project/linux-mediatek/patch/20240510061716.=
-31103-1-liankun.yang@mediatek.com/
-> ---
->  drivers/gpu/drm/mediatek/mtk_dp.c | 85 ++++++++++++++++++++++++++++++-
->  1 file changed, 84 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek=
-/mtk_dp.c
-> index d8796a904eca..f2bee617f063 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dp.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dp.c
-> @@ -145,6 +145,89 @@ struct mtk_dp_data {
->         u16 audio_m_div2_bit;
->  };
->
-> +static const struct mtk_dp_efuse_fmt mt8188_dp_efuse_fmt[MTK_DP_CAL_MAX]=
- =3D {
-> +       [MTK_DP_CAL_GLB_BIAS_TRIM] =3D {
-> +               .idx =3D 0,
-> +               .shift =3D 10,
-> +               .mask =3D 0x1f,
-> +               .min_val =3D 1,
-> +               .max_val =3D 0x1e,
-> +               .default_val =3D 0xf,
-> +       },
-> +       [MTK_DP_CAL_CLKTX_IMPSE] =3D {
-> +               .idx =3D 0,
-> +               .shift =3D 15,
-> +               .mask =3D 0xf,
-> +               .min_val =3D 1,
-> +               .max_val =3D 0xe,
-> +               .default_val =3D 0x8,
-> +       },
-> +       [MTK_DP_CAL_LN_TX_IMPSEL_PMOS_0] =3D {
-> +               .idx =3D 1,
-> +               .shift =3D 0,
-> +               .mask =3D 0xf,
-> +               .min_val =3D 1,
-> +               .max_val =3D 0xe,
-> +               .default_val =3D 0x8,
-> +       },
-> +       [MTK_DP_CAL_LN_TX_IMPSEL_PMOS_1] =3D {
-> +               .idx =3D 1,
-> +               .shift =3D 8,
-> +               .mask =3D 0xf,
-> +               .min_val =3D 1,
-> +               .max_val =3D 0xe,
-> +               .default_val =3D 0x8,
-> +       },
-> +       [MTK_DP_CAL_LN_TX_IMPSEL_PMOS_2] =3D {
-> +               .idx =3D 1,
-> +               .shift =3D 16,
-> +               .mask =3D 0xf,
-> +               .min_val =3D 1,
-> +               .max_val =3D 0xe,
-> +               .default_val =3D 0x8,
-> +       },
-> +       [MTK_DP_CAL_LN_TX_IMPSEL_PMOS_3] =3D {
-> +               .idx =3D 1,
-> +               .shift =3D 24,
-> +               .mask =3D 0xf,
-> +               .min_val =3D 1,
-> +               .max_val =3D 0xe,
-> +               .default_val =3D 0x8,
-> +       },
-> +       [MTK_DP_CAL_LN_TX_IMPSEL_NMOS_0] =3D {
-> +               .idx =3D 1,
-> +               .shift =3D 4,
-> +               .mask =3D 0xf,
-> +               .min_val =3D 1,
-> +               .max_val =3D 0xe,
-> +               .default_val =3D 0x8,
-> +       },
-> +       [MTK_DP_CAL_LN_TX_IMPSEL_NMOS_1] =3D {
-> +               .idx =3D 1,
-> +               .shift =3D 12,
-> +               .mask =3D 0xf,
-> +               .min_val =3D 1,
-> +               .max_val =3D 0xe,
-> +               .default_val =3D 0x8,
-> +       },
-> +       [MTK_DP_CAL_LN_TX_IMPSEL_NMOS_2] =3D {
-> +               .idx =3D 1,
-> +               .shift =3D 20,
-> +               .mask =3D 0xf,
-> +               .min_val =3D 1,
-> +               .max_val =3D 0xe,
-> +               .default_val =3D 0x8,
-> +       },
-> +       [MTK_DP_CAL_LN_TX_IMPSEL_NMOS_3] =3D {
-> +               .idx =3D 1,
-> +               .shift =3D 28,
-> +               .mask =3D 0xf,
-> +               .min_val =3D 1,
-> +               .max_val =3D 0xe,
-> +               .default_val =3D 0x8,
-> +       },
-> +};
-> +
->  static const struct mtk_dp_efuse_fmt mt8195_edp_efuse_fmt[MTK_DP_CAL_MAX=
-] =3D {
->         [MTK_DP_CAL_GLB_BIAS_TRIM] =3D {
->                 .idx =3D 3,
-> @@ -2771,7 +2854,7 @@ static SIMPLE_DEV_PM_OPS(mtk_dp_pm_ops, mtk_dp_susp=
-end, mtk_dp_resume);
->  static const struct mtk_dp_data mt8188_dp_data =3D {
->         .bridge_type =3D DRM_MODE_CONNECTOR_DisplayPort,
->         .smc_cmd =3D MTK_DP_SIP_ATF_VIDEO_UNMUTE,
-> -       .efuse_fmt =3D mt8195_dp_efuse_fmt,
-> +       .efuse_fmt =3D mt8188_dp_efuse_fmt,
->         .audio_supported =3D true,
->         .audio_pkt_in_hblank_area =3D true,
->         .audio_m_div2_bit =3D MT8188_AUDIO_M_CODE_MULT_DIV_SEL_DP_ENC0_P0=
-_DIV_2,
+>         mtk_mutex_put(mtk_crtc->mutex);
+>  #if IS_REACHABLE(CONFIG_MTK_CMDQ)
+> -       cmdq_pkt_destroy(&mtk_crtc->cmdq_client, &mtk_crtc->cmdq_handle);
+> -
+>         if (mtk_crtc->cmdq_client.chan) {
+> +               cmdq_pkt_destroy(&mtk_crtc->cmdq_client, &mtk_crtc->cmdq_=
+handle);
+>                 mbox_free_channel(mtk_crtc->cmdq_client.chan);
+>                 mtk_crtc->cmdq_client.chan =3D NULL;
+>         }
 > --
 > 2.45.2
 >
