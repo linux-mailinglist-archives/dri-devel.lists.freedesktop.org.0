@@ -2,65 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF9EF9AD182
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2024 18:51:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EE2E9AD18F
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2024 18:51:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B20910E840;
-	Wed, 23 Oct 2024 16:51:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEB7110E84A;
+	Wed, 23 Oct 2024 16:51:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="lLd5D2da";
+	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="UwLLNGuB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
- [209.85.128.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8286D10E82D
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 16:50:51 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id
- 5b1f17b1804b1-4314c452180so7942525e9.0
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 09:50:51 -0700 (PDT)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+ [209.85.128.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E72E410E82D
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 16:50:53 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id
+ 5b1f17b1804b1-43168d9c6c9so51276425e9.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 09:50:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google; t=1729702250; x=1730307050;
+ d=raspberrypi.com; s=google; t=1729702252; x=1730307052;
  darn=lists.freedesktop.org; 
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=5HllG+0A2vmKjdDSzHIHJZeNfO9C2BUneILRyscFdw0=;
- b=lLd5D2daNwoy+UBI/ddRUO9dEAe+tu/43EoVpD3rcqxkRA3cKPeZIlhPu7p25rPBW1
- Dihe31Gd8Qvy7bm2ROu8CVa9ak5qmDutx+7aGLAi9JB5w3mWh1et7VdgmeqJoefgAFZn
- tTRq6jmb4Iouoh9uFlk3sZnBc0picdgPnMz7B9NM+iDNg6XfWr3MM0xBh1YMqUJkVWvn
- x1kV2VSB5Lh2K0TarLJMgShqIuG2Nlh+XWycISePiYzpvbLusjLczabR5/oUiXFxz2Ds
- AC8nKNK9hGB/4gzHNef2LFEUJZRCO+JyA+aVR96bhnAwga4BL/1ERGRjQA/vjWC+2viP
- GrAQ==
+ :reply-to; bh=rM/PLpT0bJIFrHHYZG7pNuWN750b4ZOA/oUy8wRZ+s0=;
+ b=UwLLNGuBw7/ZfXVUpx7hRjTpHi+zex/1/X+D50WC83h5KoW/6eEr5UfB8319tigYjA
+ Dvh0MCo6EqauIKN0zN63uEXcrQ0ABdsW53zVwZ5bk91NgZP9l5adseXeY3LqAsLB7kXg
+ X4d60Q/g7PzqYd87zRIMFD5TCOfTY4ayhfKUyKKMwqBb2amS9olyxHvRrTedbCrp8JfG
+ qdsIdXACjVg5F8jVWfVw+2blXHGoyiPbAa5gBy/U4rBUPQh264vEQbEB+jef8dXuFgN/
+ TyQ3NW6QtmyjNq26g8kj4d+xFQEYMqlVXNGGr5KplJIsZZTp37e3jGLmRRxrV3tEeEhR
+ GN9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729702250; x=1730307050;
+ d=1e100.net; s=20230601; t=1729702252; x=1730307052;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=5HllG+0A2vmKjdDSzHIHJZeNfO9C2BUneILRyscFdw0=;
- b=KLq1f1w5OynnYddsuTT0m1CyLRJrOtFMtvrS2zM1+orbkqynYgCs8yeoYzf0qsYHlp
- jirJkpwyRdbmcLFOySrTKip62fmdoMEqY9j33tIoU1i6qSLpjK3QLcdKnXaj3rDL3rS+
- YVwSlO6ShiXDueNV3edBe7hP3yI2q+OF9cfBZolBf1iTnzhlr3PL81O1D7gkhYK7khb7
- QfG+N4+lyaRvngHmQFFjTAXLQ5PWcCV5yHNTYl7n9ZL+mdZpTH1qWzTU7rAL/8lN0Iaa
- PzQQJoUNYr9354ESU26Zqy48Q/67AbokLCzVcb+5A/51FGMAIETONO68LfEshw8KDb/m
- NMxQ==
-X-Gm-Message-State: AOJu0YwyGF7A2gNICcVu6kmJzvaRPw5g3eDuhY6lGozS5d3hAhIa+tjm
- NmozxphN8QZiY/FAtqBWWVpNrn+6B5b2Huzl17PfOjh5O/P0cVi8Smecfn4D52c=
-X-Google-Smtp-Source: AGHT+IHiThpqNk1aykeI/HCv+JYxamwU4EBdrmtK4EAyvKSVy0PZGtmgt/LXmRWsriS/yuXmN6RtIA==
-X-Received: by 2002:adf:e88d:0:b0:37d:47eb:b586 with SMTP id
- ffacd0b85a97d-37ef12592e5mr5273994f8f.4.1729702249886; 
- Wed, 23 Oct 2024 09:50:49 -0700 (PDT)
+ bh=rM/PLpT0bJIFrHHYZG7pNuWN750b4ZOA/oUy8wRZ+s0=;
+ b=nnx0jRUUhRUhHk926qPcvmJOYRoOKvd6msRJMvbab0TjWCJWeNawlFKRv6jZgR9cB3
+ OWc61SST2VXgzcmLjY1S2b0oRaGu+9n5mtDZ3N+0haY82CNfDnH+vq86ehv6mvsQaYzI
+ HbeLRj8ZiBjtKl8xN47BZ/y+dHGwIXWtwyDmc8Db7sORGzBh/c7cWt1FopOb43mVBIPp
+ U+9FpknIPs4oaZ1Dc318PISs8JVwz5iLg0Nme6tLl/JViWR0pVqgDGEtQIQphSV3JqZy
+ knBKN/wBxtbunc7P67MNKK8+7TiIfnzCbNufz7D5/7OOGevpbrMbwasCWwdmh1J82urZ
+ 8UgA==
+X-Gm-Message-State: AOJu0YxtXqIdmSDqHhEvqhuSi9VA+fpHM+n1ZW+od0SaU4pjdmz9RMaI
+ myvqPHBOoePiI0gvhj3rmcu4VKk8fcHR04S0Tred7aC70JknpmpxenfY6HESIM0=
+X-Google-Smtp-Source: AGHT+IHztOCCr87oR87Z3+JBdAivrEgxHT4i0hywZWr6jUvTWMEc0lm3QWh2DVlbarj1WpyyJN12PQ==
+X-Received: by 2002:adf:e009:0:b0:37c:cc60:2c68 with SMTP id
+ ffacd0b85a97d-37efcef190cmr2044356f8f.5.1729702250772; 
+ Wed, 23 Oct 2024 09:50:50 -0700 (PDT)
 Received: from [127.0.1.1] ([2a00:1098:3142:e::8])
  by smtp.googlemail.com with ESMTPSA id
- 5b1f17b1804b1-43186c50445sm21642035e9.39.2024.10.23.09.50.48
+ 5b1f17b1804b1-43186c50445sm21642035e9.39.2024.10.23.09.50.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Oct 2024 09:50:49 -0700 (PDT)
+ Wed, 23 Oct 2024 09:50:50 -0700 (PDT)
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Wed, 23 Oct 2024 17:50:27 +0100
-Subject: [PATCH 30/37] clk: bcm: rpi: Add ISP to exported clocks
+Date: Wed, 23 Oct 2024 17:50:28 +0100
+Subject: [PATCH 31/37] clk: bcm: rpi: Allow cpufreq driver to also adjust
+ gpu clocks
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241023-drm-vc4-2712-support-v1-30-1cc2d5594907@raspberrypi.com>
+Message-Id: <20241023-drm-vc4-2712-support-v1-31-1cc2d5594907@raspberrypi.com>
 References: <20241023-drm-vc4-2712-support-v1-0-1cc2d5594907@raspberrypi.com>
 In-Reply-To: <20241023-drm-vc4-2712-support-v1-0-1cc2d5594907@raspberrypi.com>
 To: Maxime Ripard <mripard@kernel.org>, 
@@ -101,29 +102,28 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dom Cobley <popcornmix@gmail.com>
 
-The ISP clock can be controlled by the driver, so register it
-with the clock subsystem.
+For performance/power it is beneficial to adjust gpu clocks with arm clock.
+This is how the downstream cpufreq driver works
 
 Signed-off-by: Dom Cobley <popcornmix@gmail.com>
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 ---
- drivers/clk/bcm/clk-raspberrypi.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/clk/bcm/clk-raspberrypi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/clk/bcm/clk-raspberrypi.c b/drivers/clk/bcm/clk-raspberrypi.c
-index a18a8768feb4..6d5ee1cddded 100644
+index 6d5ee1cddded..274176a938c6 100644
 --- a/drivers/clk/bcm/clk-raspberrypi.c
 +++ b/drivers/clk/bcm/clk-raspberrypi.c
-@@ -118,6 +118,9 @@ raspberrypi_clk_variants[RPI_FIRMWARE_NUM_CLK_ID] = {
- 	[RPI_FIRMWARE_HEVC_CLK_ID] = {
- 		.export = true,
- 	},
-+	[RPI_FIRMWARE_ISP_CLK_ID] = {
-+		.export = true,
-+	},
- 	[RPI_FIRMWARE_PIXEL_BVB_CLK_ID] = {
- 		.export = true,
- 	},
+@@ -156,7 +156,7 @@ static int raspberrypi_clock_property(struct rpi_firmware *firmware,
+ 	struct raspberrypi_firmware_prop msg = {
+ 		.id = cpu_to_le32(data->id),
+ 		.val = cpu_to_le32(*val),
+-		.disable_turbo = cpu_to_le32(1),
++		.disable_turbo = cpu_to_le32(0),
+ 	};
+ 	int ret;
+ 
 
 -- 
 2.34.1
