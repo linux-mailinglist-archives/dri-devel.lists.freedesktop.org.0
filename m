@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 331FC9AD16D
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2024 18:50:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 899F19AD168
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2024 18:50:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 890EF10E82E;
-	Wed, 23 Oct 2024 16:50:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAA2710E236;
+	Wed, 23 Oct 2024 16:50:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="gXDLTsgz";
+	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="esL7dm50";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
- [209.85.128.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EEA010E236
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 16:50:32 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id
- 5b1f17b1804b1-43155abaf0bso70106025e9.0
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 09:50:32 -0700 (PDT)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+ [209.85.128.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EC3610E236
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 16:50:33 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id
+ 5b1f17b1804b1-4316a44d1bbso42937585e9.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 09:50:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google; t=1729702230; x=1730307030;
+ d=raspberrypi.com; s=google; t=1729702231; x=1730307031;
  darn=lists.freedesktop.org; 
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=eMBkh/eftMTOn1DNe16yd6Y0TGrb136mnMNPmU1BY5A=;
- b=gXDLTsgzZZ6KObEK09RktyKMLZxRaSR7bQzoAyPneALgp/myDPxNsRfQuz2MzPnWxy
- ttoI1ngVepMzIDxgGDHp5ej3b/VaREzr/g0ILpaNz/F9oU6+Nd/aY8mrFrhNIjDcqMxE
- GAPmq3uh8fS79CSAQpdlRpd6DP0PczLKN5p1pVXgS9KVDptVT+8h8MkP3Bym91khKdsZ
- uUwfiQb/P20jzaZzdMpXV87lGHNAB0JaLMOHAZs94Gv2vlRrijNF1qb9OdVaur55qAuG
- 5ZW1aweCa+UgfFgqmaS/w38fmIjMermMD1dDfVIIzsn9iNm4sTkt668M7Cxlt9KraPqR
- ofTQ==
+ :reply-to; bh=RWOdbW9r291k0JLZ0WclOypLE+F7cuj+vNJzDbk38ZI=;
+ b=esL7dm50GGAVFFXl/gV7GP0f/gcIaCpGB7/3HqYz6jMww8A0Fv0eeXDZyGbG5HPgUf
+ yqgaqor7THzRbkY2PUfVi0NQBKWLoMcBtj37DNPU/Jgqalzf0GHL0bqDY1H/F4OZKJf2
+ qKnEBzVkU1Vni6yAxvGWxDZ7CSwLtfEXXB1Sjo/xIzk7iQ8zVak36E1PsJRqEHpqf9zT
+ WNlef93i/7OUhnxP60D4tDBsOWaNVd+irHV2XV8DwoCWS0Gf0O9IJDAy4jvHaM57hAP/
+ tWbjVccl3WlpfNZdZgXJ11ZDZD0iRCJgRRVNiYwi/jNhaLOpY9dWl13VVl2YKdmpestC
+ B3pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729702230; x=1730307030;
+ d=1e100.net; s=20230601; t=1729702231; x=1730307031;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=eMBkh/eftMTOn1DNe16yd6Y0TGrb136mnMNPmU1BY5A=;
- b=rjaHSe54y7wBwgpNRXK5Xbw8KMJRshDbT3agZECvnd7cX3fkdqBNNfLiHi7TBMkUaE
- qHQI13+3l+Icl6TyI7mvg45/msAnGwFBm42wsJKhGR3wvIJlWd0PsE/xO2t5zNj5LiUh
- IA67qnhuPfCfZLoUswg6pmUrlVGPPwMEzzxniXi74SpMgG/R8ts7C5YZAgikWhPLJ/LS
- FxP4pyWGIkfS2uYoKYeevMkHtqPZhfQWslS8ggGXpt12uRhIw1J6B4EfOibJ9X00S+nK
- +K6G9P7RdhqSBuhL9YNKRUsEvg9OIeH2K9vd3bfxLdXKkstyjNaCalIKwf2jGm8a+Nlx
- FsaA==
-X-Gm-Message-State: AOJu0YzWU7OrisIImzIRj4uDDZRlsH9MMeVGzoUGXKuNQP2IC8d7G4pM
- D+M+QnMDpZhkoR/s2wbQc31v7siALHPLm0B0IJb3Mj8kIym36ZgeMaizlv1CVs0=
-X-Google-Smtp-Source: AGHT+IFCvi+5ahxplV53y8LUMCNwv9cz+F40idXE3AmypoYPX6CS2lFPTrKeznboS3XkfQRNLTCaGg==
-X-Received: by 2002:a05:600c:46c4:b0:42a:a6d2:3270 with SMTP id
- 5b1f17b1804b1-43184224094mr28879375e9.21.1729702230506; 
- Wed, 23 Oct 2024 09:50:30 -0700 (PDT)
+ bh=RWOdbW9r291k0JLZ0WclOypLE+F7cuj+vNJzDbk38ZI=;
+ b=XO2k0P/UiAOsdvoRIWGkX5bU07mrTU0i9LnOtpSV48OLXyECzKdCvef/rbbPUyzXJV
+ 8335h2OCG8f6TDwmIuVPIphfG7e24FrX8mhj8/9ZpXFrk+iSfa8iFEATZZ9LiKZM9blc
+ O8F61o0SOKdTeiqCBFZ0PYwiCXrmQ2HSPU7WgNVKidCUxPUdFdPTePBAupKwRc2W+i5Y
+ RCFhWZjo7MiRNLA0LMJgosrQqT3S6CPgvEtv00zW64O9AJH1AgJ1DxW2RwMNviIiFvOq
+ RNN+r2BnzJc9tO0jxHxAhCaGdoSxMfIhXb9V+WcjuSF258VNJTVOJQZgwv0B4NqnAZfX
+ GOsw==
+X-Gm-Message-State: AOJu0YxVAIqMjVm3MpJEcfGIXOT75Ajg5dnFOLqoMpadIQ9McFwi3Tz/
+ wp3k6XNC1RxsUisxfz3uGeHaPD+fry1zBzeO+oO4fhuMOYEIozfucnINDGBh9ks=
+X-Google-Smtp-Source: AGHT+IGFlT9aIT0ELBQ3fGLuocjkqWYAz5lioaoVMV3JghaR5fVi3lzSzAvTX/9JlAsFJlj3SG7awA==
+X-Received: by 2002:a05:600c:4f10:b0:431:5bf2:2d4 with SMTP id
+ 5b1f17b1804b1-431841a2ee1mr29394055e9.29.1729702231586; 
+ Wed, 23 Oct 2024 09:50:31 -0700 (PDT)
 Received: from [127.0.1.1] ([2a00:1098:3142:e::8])
  by smtp.googlemail.com with ESMTPSA id
- 5b1f17b1804b1-43186c50445sm21642035e9.39.2024.10.23.09.50.29
+ 5b1f17b1804b1-43186c50445sm21642035e9.39.2024.10.23.09.50.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Oct 2024 09:50:29 -0700 (PDT)
+ Wed, 23 Oct 2024 09:50:31 -0700 (PDT)
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Wed, 23 Oct 2024 17:50:19 +0100
-Subject: [PATCH 22/37] drm/vc4: txp: Add BCM2712 MOPLET support
+Date: Wed, 23 Oct 2024 17:50:20 +0100
+Subject: [PATCH 23/37] drm/vc4: drv: Add support for 2712 D-step
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241023-drm-vc4-2712-support-v1-22-1cc2d5594907@raspberrypi.com>
+Message-Id: <20241023-drm-vc4-2712-support-v1-23-1cc2d5594907@raspberrypi.com>
 References: <20241023-drm-vc4-2712-support-v1-0-1cc2d5594907@raspberrypi.com>
 In-Reply-To: <20241023-drm-vc4-2712-support-v1-0-1cc2d5594907@raspberrypi.com>
 To: Maxime Ripard <mripard@kernel.org>, 
@@ -98,49 +98,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Maxime Ripard <mripard@kernel.org>
+Add in the compatible string and VC4_GEN_ enum for the D-step
 
-The BCM2712 features a simpler TXP called MOPLET. Let's add support for
-it.
-
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 ---
- drivers/gpu/drm/vc4/vc4_txp.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ drivers/gpu/drm/vc4/vc4_drv.c  | 1 +
+ drivers/gpu/drm/vc4/vc4_drv.h  | 1 +
+ drivers/gpu/drm/vc4/vc4_hvs.c  | 4 ++++
+ drivers/gpu/drm/vc4/vc4_regs.h | 3 +++
+ 4 files changed, 9 insertions(+)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
-index befb99c9b5bb..aab6fa7a8838 100644
---- a/drivers/gpu/drm/vc4/vc4_txp.c
-+++ b/drivers/gpu/drm/vc4/vc4_txp.c
-@@ -524,6 +524,19 @@ const struct vc4_txp_data bcm2712_mop_data = {
- 	.supports_40bit_addresses = true,
+diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
+index 94e01ce2b1ef..fb91e771e345 100644
+--- a/drivers/gpu/drm/vc4/vc4_drv.c
++++ b/drivers/gpu/drm/vc4/vc4_drv.c
+@@ -466,6 +466,7 @@ static void vc4_platform_drm_shutdown(struct platform_device *pdev)
+ 
+ static const struct of_device_id vc4_of_match[] = {
+ 	{ .compatible = "brcm,bcm2711-vc5", .data = (void *)VC4_GEN_5 },
++	/* NB GEN_6_C will be corrected on D0 hw to GEN_6_D via vc4_hvs_bind */
+ 	{ .compatible = "brcm,bcm2712-vc6", .data = (void *)VC4_GEN_6_C },
+ 	{ .compatible = "brcm,bcm2835-vc4", .data = (void *)VC4_GEN_4 },
+ 	{ .compatible = "brcm,cygnus-vc4", .data = (void *)VC4_GEN_4 },
+diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
+index de2107e593c2..e3983a44e35e 100644
+--- a/drivers/gpu/drm/vc4/vc4_drv.h
++++ b/drivers/gpu/drm/vc4/vc4_drv.h
+@@ -85,6 +85,7 @@ enum vc4_gen {
+ 	VC4_GEN_4,
+ 	VC4_GEN_5,
+ 	VC4_GEN_6_C,
++	VC4_GEN_6_D,
  };
  
-+const struct vc4_txp_data bcm2712_moplet_data = {
-+	.base = {
-+		.name = "moplet",
-+		.debugfs_name = "moplet_regs",
-+		.hvs_available_channels = BIT(1),
-+		.hvs_output = 4,
-+	},
-+	.encoder_type = VC4_ENCODER_TYPE_TXP1,
-+	.high_addr_ptr_reg = TXP_DST_PTR_HIGH_MOPLET,
-+	.size_minus_one = true,
-+	.supports_40bit_addresses = true,
-+};
+ struct vc4_dev {
+diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
+index 5606ded928e4..b698f7070510 100644
+--- a/drivers/gpu/drm/vc4/vc4_hvs.c
++++ b/drivers/gpu/drm/vc4/vc4_hvs.c
+@@ -1532,6 +1532,10 @@ static int vc4_hvs_bind(struct device *dev, struct device *master, void *data)
+ 	if (vc4->gen >= VC4_GEN_6_C) {
+ 		hvs->regset.regs = vc6_hvs_regs;
+ 		hvs->regset.nregs = ARRAY_SIZE(vc6_hvs_regs);
 +
- const struct vc4_txp_data bcm2835_txp_data = {
- 	.base = {
- 		.name = "txp",
-@@ -630,6 +643,7 @@ static void vc4_txp_remove(struct platform_device *pdev)
++		if (VC4_GET_FIELD(HVS_READ(SCALER6_VERSION), SCALER6_VERSION) ==
++						SCALER6_VERSION_D0)
++			vc4->gen = VC4_GEN_6_D;
+ 	} else {
+ 		hvs->regset.regs = vc4_hvs_regs;
+ 		hvs->regset.nregs = ARRAY_SIZE(vc4_hvs_regs);
+diff --git a/drivers/gpu/drm/vc4/vc4_regs.h b/drivers/gpu/drm/vc4/vc4_regs.h
+index 731b13742ef5..df44a4a4009f 100644
+--- a/drivers/gpu/drm/vc4/vc4_regs.h
++++ b/drivers/gpu/drm/vc4/vc4_regs.h
+@@ -527,6 +527,9 @@
+ #define SCALER5_DLIST_START			0x00004000
  
- static const struct of_device_id vc4_txp_dt_match[] = {
- 	{ .compatible = "brcm,bcm2712-mop", .data = &bcm2712_mop_data },
-+	{ .compatible = "brcm,bcm2712-moplet", .data = &bcm2712_moplet_data },
- 	{ .compatible = "brcm,bcm2835-txp", .data = &bcm2835_txp_data },
- 	{ /* sentinel */ },
- };
+ #define SCALER6_VERSION				0x00000000
++# define SCALER6_VERSION_MASK			VC4_MASK(7, 0)
++# define SCALER6_VERSION_C0			0x00000053
++# define SCALER6_VERSION_D0			0x00000054
+ #define SCALER6_CXM_SIZE			0x00000004
+ #define SCALER6_LBM_SIZE			0x00000008
+ #define SCALER6_UBM_SIZE			0x0000000c
 
 -- 
 2.34.1
