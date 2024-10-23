@@ -2,46 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 416D29ACC58
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2024 16:31:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB7279ACC5D
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2024 16:31:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B55DA10E7DC;
-	Wed, 23 Oct 2024 14:30:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3914810E7F0;
+	Wed, 23 Oct 2024 14:31:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HpjxtX3R";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HiE4B1JD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB78810E7DC;
- Wed, 23 Oct 2024 14:30:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA36F10E7EF;
+ Wed, 23 Oct 2024 14:31:04 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 8467BA44F33;
- Wed, 23 Oct 2024 14:30:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 003B6C4CEC6;
- Wed, 23 Oct 2024 14:30:55 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id D369FA44EA5;
+ Wed, 23 Oct 2024 14:30:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDCE6C4CEC6;
+ Wed, 23 Oct 2024 14:31:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1729693857;
- bh=Nk8qCWQ307kmEpfsHVOuCm6C4sREZOR7OsOzfBSl3g4=;
+ s=k20201202; t=1729693863;
+ bh=jk4gZ318ElIT3NFdJQ1M7kZzjg1NdLC7IU9xiNjjbxs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=HpjxtX3Rx7+ZL1tOnAvamtWQQYSYJn1mIbzhYJWmythzBtIixUwMcNWv8tHkWa31M
- ISdDzXQtKagJeqhU7Yy47sh34+1a9yvmyDFewduCF9MTac/c/RH05t34DZLmNx///Z
- +5aiNrrLuvdhayU2u7CCTa3meqT4qLoKcGsPhTY318VVjaXxyLzDk5YQaPTpOk3zAL
- YqNJSIo+CW6nLcMsP28Gg4o5A1jIQH7t8lRId/3uE9MSlt1BiI+q+M7OOQgZWGaxwh
- QxhvwgiJk+R/gKPp+evOxdVbJwlETLbU68DdOPcFsOWabvZWV9LED8udTn4rqBSMSd
- mItrTH6lq48Bw==
+ b=HiE4B1JDyjn7q0jX1YKQ95GQ2wmMIC2ikObLNKInLb/smdbF3wAwK7fabCrKUnmAV
+ 0lNQbzTH6J6vI3A8jWjYXwI5c1HHW2oSd5noRPauBJ0YM25bftdO4GSNrisvMvXUDw
+ 6+7bBwYOChXEaTkzGSjNHp5C4ITv9iA3ABVEZwkki9dWEpwURuHmpWR/Hx+yQ1W4a0
+ dSJJjOT4Q0mkYOSFCNJYtnfJMu8I0HxWZ50+mQEypCSm4b+H2HGCoPxtlB3NqB1vN6
+ ltsBzpyYxvZ3ai3jFIcctHKRyEhHaBaSUzkszeSvlS9dq35XWvqNoI6+uU4is/ifY7
+ PAafT5JZm8zSw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Philip Yang <Philip.Yang@amd.com>, Felix Kuehling <felix.kuehling@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- Felix.Kuehling@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, simona@ffwll.ch, amd-gfx@lists.freedesktop.org,
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
+ Szymon Morek <szymon.morek@intel.com>,
+ Matt Roper <matthew.d.roper@intel.com>, Sasha Levin <sashal@kernel.org>,
+ thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, intel-xe@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.11 25/30] drm/amdkfd: Accounting pdd vram_usage for
- svm
-Date: Wed, 23 Oct 2024 10:29:50 -0400
-Message-ID: <20241023143012.2980728-25-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.11 28/30] drm/xe/query: Increase timestamp width
+Date: Wed, 23 Oct 2024 10:29:53 -0400
+Message-ID: <20241023143012.2980728-28-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241023143012.2980728-1-sashal@kernel.org>
 References: <20241023143012.2980728-1-sashal@kernel.org>
@@ -65,147 +66,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Philip Yang <Philip.Yang@amd.com>
+From: Lucas De Marchi <lucas.demarchi@intel.com>
 
-[ Upstream commit 68d26c10ef503175df3142db6fcd75dd94860592 ]
+[ Upstream commit 477d665e9b6a1369968383f50c688d56b692a155 ]
 
-Process device data pdd->vram_usage is read by rocm-smi via sysfs, this
-is currently missing the svm_bo usage accounting, so "rocm-smi
---showpids" per process VRAM usage report is incorrect.
+Starting with Xe2 the timestamp is a full 64 bit counter, contrary to
+the 36 bit that was available before. Although 36 should be sufficient
+for any reasonable delta calculation (for Xe2, of about 30min), it's
+surprising to userspace to get something truncated. Also if the
+timestamp being compared to is coming from the GPU and the application
+is not careful enough to apply the width there, a delta calculation
+would be wrong.
 
-Add pdd->vram_usage accounting when svm_bo allocation and release,
-change to atomic64_t type because it is updated outside process mutex
-now.
+Extend it to full 64-bits starting with Xe2.
 
-Signed-off-by: Philip Yang <Philip.Yang@amd.com>
-Reviewed-by: Felix Kuehling <felix.kuehling@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-(cherry picked from commit 98c0b0efcc11f2a5ddf3ce33af1e48eedf808b04)
+v2: Expand width=64 to media gt, as it's just a wrong tagging in the
+spec - empirical tests show it goes beyond 36 bits and match the engines
+for the main gt
+
+Bspec: 60411
+Cc: Szymon Morek <szymon.morek@intel.com>
+Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20241011035618.1057602-1-lucas.demarchi@intel.com
+Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+(cherry picked from commit 9d559cdcb21f42188d4c3ff3b4fe42b240f4af5d)
+Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_chardev.c |  6 +++---
- drivers/gpu/drm/amd/amdkfd/kfd_priv.h    |  2 +-
- drivers/gpu/drm/amd/amdkfd/kfd_process.c |  4 ++--
- drivers/gpu/drm/amd/amdkfd/kfd_svm.c     | 26 ++++++++++++++++++++++++
- 4 files changed, 32 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/xe/xe_query.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-index 546b02f2241a6..5953bc5f31192 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-@@ -1170,7 +1170,7 @@ static int kfd_ioctl_alloc_memory_of_gpu(struct file *filep,
+diff --git a/drivers/gpu/drm/xe/xe_query.c b/drivers/gpu/drm/xe/xe_query.c
+index 4e01df6b1b7a1..3a30b12e22521 100644
+--- a/drivers/gpu/drm/xe/xe_query.c
++++ b/drivers/gpu/drm/xe/xe_query.c
+@@ -161,7 +161,11 @@ query_engine_cycles(struct xe_device *xe,
+ 			  cpu_clock);
  
- 		if (flags & KFD_IOC_ALLOC_MEM_FLAGS_AQL_QUEUE_MEM)
- 			size >>= 1;
--		WRITE_ONCE(pdd->vram_usage, pdd->vram_usage + PAGE_ALIGN(size));
-+		atomic64_add(PAGE_ALIGN(size), &pdd->vram_usage);
- 	}
- 
- 	mutex_unlock(&p->mutex);
-@@ -1241,7 +1241,7 @@ static int kfd_ioctl_free_memory_of_gpu(struct file *filep,
- 		kfd_process_device_remove_obj_handle(
- 			pdd, GET_IDR_HANDLE(args->handle));
- 
--	WRITE_ONCE(pdd->vram_usage, pdd->vram_usage - size);
-+	atomic64_sub(size, &pdd->vram_usage);
- 
- err_unlock:
- err_pdd:
-@@ -2346,7 +2346,7 @@ static int criu_restore_memory_of_gpu(struct kfd_process_device *pdd,
- 	} else if (bo_bucket->alloc_flags & KFD_IOC_ALLOC_MEM_FLAGS_VRAM) {
- 		bo_bucket->restored_offset = offset;
- 		/* Update the VRAM usage count */
--		WRITE_ONCE(pdd->vram_usage, pdd->vram_usage + bo_bucket->size);
-+		atomic64_add(bo_bucket->size, &pdd->vram_usage);
- 	}
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
-index 2b3ec92981e8f..f35741fade911 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
-@@ -766,7 +766,7 @@ struct kfd_process_device {
- 	enum kfd_pdd_bound bound;
- 
- 	/* VRAM usage */
--	uint64_t vram_usage;
-+	atomic64_t vram_usage;
- 	struct attribute attr_vram;
- 	char vram_filename[MAX_SYSFS_FILENAME_LEN];
- 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process.c b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-index e44892109f71b..8343b3e4de7b5 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-@@ -306,7 +306,7 @@ static ssize_t kfd_procfs_show(struct kobject *kobj, struct attribute *attr,
- 	} else if (strncmp(attr->name, "vram_", 5) == 0) {
- 		struct kfd_process_device *pdd = container_of(attr, struct kfd_process_device,
- 							      attr_vram);
--		return snprintf(buffer, PAGE_SIZE, "%llu\n", READ_ONCE(pdd->vram_usage));
-+		return snprintf(buffer, PAGE_SIZE, "%llu\n", atomic64_read(&pdd->vram_usage));
- 	} else if (strncmp(attr->name, "sdma_", 5) == 0) {
- 		struct kfd_process_device *pdd = container_of(attr, struct kfd_process_device,
- 							      attr_sdma);
-@@ -1599,7 +1599,7 @@ struct kfd_process_device *kfd_create_process_device_data(struct kfd_node *dev,
- 	pdd->bound = PDD_UNBOUND;
- 	pdd->already_dequeued = false;
- 	pdd->runtime_inuse = false;
--	pdd->vram_usage = 0;
-+	atomic64_set(&pdd->vram_usage, 0);
- 	pdd->sdma_past_activity_counter = 0;
- 	pdd->user_gpu_id = dev->id;
- 	atomic64_set(&pdd->evict_duration_counter, 0);
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-index bd9c2921e0dcc..7d00d89586a10 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-@@ -404,6 +404,27 @@ static void svm_range_bo_release(struct kref *kref)
- 		spin_lock(&svm_bo->list_lock);
- 	}
- 	spin_unlock(&svm_bo->list_lock);
+ 	xe_force_wake_put(gt_to_fw(gt), XE_FORCEWAKE_ALL);
+-	resp.width = 36;
 +
-+	if (mmget_not_zero(svm_bo->eviction_fence->mm)) {
-+		struct kfd_process_device *pdd;
-+		struct kfd_process *p;
-+		struct mm_struct *mm;
-+
-+		mm = svm_bo->eviction_fence->mm;
-+		/*
-+		 * The forked child process takes svm_bo device pages ref, svm_bo could be
-+		 * released after parent process is gone.
-+		 */
-+		p = kfd_lookup_process_by_mm(mm);
-+		if (p) {
-+			pdd = kfd_get_process_device_data(svm_bo->node, p);
-+			if (pdd)
-+				atomic64_sub(amdgpu_bo_size(svm_bo->bo), &pdd->vram_usage);
-+			kfd_unref_process(p);
-+		}
-+		mmput(mm);
-+	}
-+
- 	if (!dma_fence_is_signaled(&svm_bo->eviction_fence->base))
- 		/* We're not in the eviction worker. Signal the fence. */
- 		dma_fence_signal(&svm_bo->eviction_fence->base);
-@@ -531,6 +552,7 @@ int
- svm_range_vram_node_new(struct kfd_node *node, struct svm_range *prange,
- 			bool clear)
- {
-+	struct kfd_process_device *pdd;
- 	struct amdgpu_bo_param bp;
- 	struct svm_range_bo *svm_bo;
- 	struct amdgpu_bo_user *ubo;
-@@ -622,6 +644,10 @@ svm_range_vram_node_new(struct kfd_node *node, struct svm_range *prange,
- 	list_add(&prange->svm_bo_list, &svm_bo->range_list);
- 	spin_unlock(&svm_bo->list_lock);
++	if (GRAPHICS_VER(xe) >= 20)
++		resp.width = 64;
++	else
++		resp.width = 36;
  
-+	pdd = svm_range_get_pdd_by_node(prange, node);
-+	if (pdd)
-+		atomic64_add(amdgpu_bo_size(bo), &pdd->vram_usage);
-+
- 	return 0;
- 
- reserve_bo_failed:
+ 	/* Only write to the output fields of user query */
+ 	if (put_user(resp.cpu_timestamp, &query_ptr->cpu_timestamp))
 -- 
 2.43.0
 
