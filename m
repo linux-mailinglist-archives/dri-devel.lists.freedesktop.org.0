@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E6069AD157
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2024 18:50:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B79039AD156
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2024 18:50:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DF6010E195;
-	Wed, 23 Oct 2024 16:50:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2B7A10E17F;
+	Wed, 23 Oct 2024 16:50:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="s5HPq5dT";
+	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="SlB7IdOH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F05DE10E17F
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 16:50:10 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id
- 5b1f17b1804b1-4314fa33a35so72276445e9.1
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 09:50:10 -0700 (PDT)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+ [209.85.221.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3716110E17F
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 16:50:12 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id
+ ffacd0b85a97d-37d4821e6b4so4810845f8f.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 09:50:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google; t=1729702209; x=1730307009;
+ d=raspberrypi.com; s=google; t=1729702210; x=1730307010;
  darn=lists.freedesktop.org; 
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=m0VXG7M0+edMYKBQpiJHMGtp1VEyRPMm6kVJ0JBtPBU=;
- b=s5HPq5dTfzDtj6mfU6IANvbB+3ycZPUPFGd7zN5OxQkerKGxUgQA7qid7QfVy6gGG6
- E4adk/oPKa6zNfJ4NPUhgYDyOrOZq8qGYGGYF21hTmmC6H54TE8q9A2PJ5a9EFSLvRnQ
- 3mJLyQ1GpE6Nxd5fNuMO0Zloq8xjhACYZnLRe6EbEoH+XicUUyyaW1UbBXhHFz+oWQmY
- 6+kJikDr83zb/IdFKmGo1NL2lWW3UdGGHd7nh+XVcXyFAP3XFHnQ3om2n80Dr7uoRMZ2
- CVigw8bdl/lgaOrc/ZnRJ3g0glY44WWcf2HljVgZzO5Lo0d8XF0WiBHW7SiGxwMrMqOe
- uWGg==
+ :reply-to; bh=5WK3Wcz0LjTp23A2ibh778TvWVk0jVp3LvtNmMQecJo=;
+ b=SlB7IdOHdn25Qo2BOciWBK0nhuQqW0JxLaFSznH/mAVR2Q/wk1hX8D1ZfH77gDNPsy
+ iFdtKnxHx9V8/eCKhBiJQD5UOjUBYlb3AzJ/u3/v80xPhi7tU1/Tdk/VRIBk1yHOZEQY
+ Xyc0oP1Ydke8RHrIUxIYGXJMg66NKS8fyHXte4phPZTQ2afbTHoVrx9aWOlAjla36ePN
+ voo1R8I6cODLErv0tQPMKDNJ3a0zz0FfjX8vPFPCb2mUJiZRFrXBh+KYD5vlWjfSalBR
+ Te38lvJ8VKA56Igff08J5kMWU3tEkZum1cOBC6fnIiyp0nRk8adLgzb8/Oi7uoJvuZrz
+ +Q6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729702209; x=1730307009;
+ d=1e100.net; s=20230601; t=1729702210; x=1730307010;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=m0VXG7M0+edMYKBQpiJHMGtp1VEyRPMm6kVJ0JBtPBU=;
- b=EcLDepRRrgfen4PN6v5uXaQOy8h20ttbe2Oy9WGN8t8qAjgFut/9vHWdotU/MoJb5H
- HxmOuctZykKOR5yFrp8PI3SzCp+2pdNcNH/pwRo8+APRk7P1DzhJl9WmMPHqGR9HW/x1
- gZge+7xESEyBJJx131COaHH4dW2Vhqmt2fKGSOc4RyGTiMKdMTfbKA59NLaSWi11kjdc
- xUJYyUj/8B+MhVJAaqNcPWwhYttw3gMf2xW8gSOpVHASU/2aAhfp56t+uAixT2ZIGXwB
- NBvSUtDNcvqnpjnnmsEfEgcuWwgxfFGLXYlZuxZ4L1BogZyFkc0igP6EqK4Vt1ViOior
- XJ+w==
-X-Gm-Message-State: AOJu0YzZYHaRuQ0ksjeA4bUE8tvCMNXeV+OULusWsnYiqHgFpywYGa6g
- kVl7ZkdY4dOaD1S2T9JF2OWHvcpww83cJyArFq3tG4zBwwPHTzyA785xdPVC3Dg=
-X-Google-Smtp-Source: AGHT+IERCELF/aNULiFYaJhFKCUgkKnhHnsR2hcb6th/CbnCs93DrujrebahUME8WNgVcpsKAm29Eg==
-X-Received: by 2002:a05:6000:1887:b0:37c:f933:48a9 with SMTP id
- ffacd0b85a97d-37efcef117cmr2285226f8f.1.1729702209268; 
- Wed, 23 Oct 2024 09:50:09 -0700 (PDT)
+ bh=5WK3Wcz0LjTp23A2ibh778TvWVk0jVp3LvtNmMQecJo=;
+ b=DJF33nBB4nHICvve5wwEdWyxdPUEmdl22d/i0tV0UwPPvr/O3fTWRQ8i6mVUIjjJKT
+ 2ARmf2/1XRb2YQ4d5TUTD9R25+Skv7OEjbfLy7XjGxk24yRSMl8NwODi/WVJJD8kb8kw
+ BGFp3X7lCESrvVtdlmm5gTlyYjUdS7VjNz5714n1JsTPXcgr3GjYvytyRb8z9e+6KE3B
+ IXdmiIwChqqLcGIyZcTXGpV1oPY3/U0xnmlUjx/+TU/wlPkd42UfpRw6jfY5VzncStFm
+ 6Jafr2BeW9t7p704q9PFwY0GSthUGwxWRkKOfp0Zn6xu6dxbuP40QN1j/gYks1I/pzHk
+ zqIg==
+X-Gm-Message-State: AOJu0YznJ4a2fLGen3HkBbnWy68wevEtbl+1wFVW+8aXPAR+YEifaaN3
+ /T3FzE0boBBBbbDQhZlNfMdd6AYYGbMOTu9qqMwZ6NfZfAHK8zy5P+XtvF3muTo=
+X-Google-Smtp-Source: AGHT+IF8V/3kWZEsM033mvmCNVLqu8ni3b3xlel5RuPa1mpKVOt5Sj94RWpbn1HR47WB9YguGyyFfQ==
+X-Received: by 2002:a5d:420f:0:b0:37d:47d8:5fff with SMTP id
+ ffacd0b85a97d-37efcf7ecc8mr1949275f8f.37.1729702210382; 
+ Wed, 23 Oct 2024 09:50:10 -0700 (PDT)
 Received: from [127.0.1.1] ([2a00:1098:3142:e::8])
  by smtp.googlemail.com with ESMTPSA id
- 5b1f17b1804b1-43186c50445sm21642035e9.39.2024.10.23.09.50.08
+ 5b1f17b1804b1-43186c50445sm21642035e9.39.2024.10.23.09.50.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Oct 2024 09:50:08 -0700 (PDT)
+ Wed, 23 Oct 2024 09:50:09 -0700 (PDT)
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Wed, 23 Oct 2024 17:49:58 +0100
-Subject: [PATCH 01/37] drm/vc4: Limit max_bpc to 8 on Pi0-3
+Date: Wed, 23 Oct 2024 17:49:59 +0100
+Subject: [PATCH 02/37] drm/vc4: Use of_device_get_match_data to set generation
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241023-drm-vc4-2712-support-v1-1-1cc2d5594907@raspberrypi.com>
+Message-Id: <20241023-drm-vc4-2712-support-v1-2-1cc2d5594907@raspberrypi.com>
 References: <20241023-drm-vc4-2712-support-v1-0-1cc2d5594907@raspberrypi.com>
 In-Reply-To: <20241023-drm-vc4-2712-support-v1-0-1cc2d5594907@raspberrypi.com>
 To: Maxime Ripard <mripard@kernel.org>, 
@@ -98,32 +98,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Pi 0-3 have no deep colour support and only 24bpp output,
-so max_bpc should remain as 8, and no HDR metadata property
-should be registered.
+Use of_device_get_match_data to retrieve the generation value
+as set in the struct of_device_id, rather than manually comparing
+compatible strings.
 
-Fixes: ba8c0faebbb0 ("drm/vc4: hdmi: Enable 10/12 bpc output")
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/gpu/drm/vc4/vc4_drv.c | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 62b82b1eeb36..6ebcc38be291 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -640,6 +640,11 @@ static int vc4_hdmi_connector_init(struct drm_device *dev,
- 	if (ret)
- 		return ret;
+diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
+index d47e5967592f..3099292f22a5 100644
+--- a/drivers/gpu/drm/vc4/vc4_drv.c
++++ b/drivers/gpu/drm/vc4/vc4_drv.c
+@@ -300,10 +300,7 @@ static int vc4_drm_bind(struct device *dev)
  
-+	if (vc4_hdmi->variant->supports_hdr)
-+		drm_connector_attach_max_bpc_property(connector, 8, 12);
-+	else
-+		drm_connector_attach_max_bpc_property(connector, 8, 8);
-+
- 	drm_connector_attach_encoder(connector, encoder);
+ 	dev->coherent_dma_mask = DMA_BIT_MASK(32);
  
- 	return 0;
+-	if (of_device_is_compatible(dev->of_node, "brcm,bcm2711-vc5"))
+-		gen = VC4_GEN_5;
+-	else
+-		gen = VC4_GEN_4;
++	gen = (enum vc4_gen)of_device_get_match_data(dev);
+ 
+ 	if (gen > VC4_GEN_4)
+ 		driver = &vc5_drm_driver;
+@@ -462,9 +459,9 @@ static void vc4_platform_drm_shutdown(struct platform_device *pdev)
+ }
+ 
+ static const struct of_device_id vc4_of_match[] = {
+-	{ .compatible = "brcm,bcm2711-vc5", },
+-	{ .compatible = "brcm,bcm2835-vc4", },
+-	{ .compatible = "brcm,cygnus-vc4", },
++	{ .compatible = "brcm,bcm2711-vc5", .data = (void *)VC4_GEN_5 },
++	{ .compatible = "brcm,bcm2835-vc4", .data = (void *)VC4_GEN_4 },
++	{ .compatible = "brcm,cygnus-vc4", .data = (void *)VC4_GEN_4 },
+ 	{},
+ };
+ MODULE_DEVICE_TABLE(of, vc4_of_match);
 
 -- 
 2.34.1
