@@ -2,119 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AB2D9AD379
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2024 20:02:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96C0E9AD48D
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2024 21:13:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0C3F10E852;
-	Wed, 23 Oct 2024 18:02:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F92F10E853;
+	Wed, 23 Oct 2024 19:13:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="0CVrsVp3";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="QYHEncOH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2077.outbound.protection.outlook.com [40.107.244.77])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7438F10E850;
- Wed, 23 Oct 2024 18:02:27 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fU2V4PI4TISBLZl78wiuc7EmvE6QMqF8YTkVvFUQ5nIwKTpN4c03uEwhIRT2XDRX+iqjlZzubSdqCeXgIUnGutrxx74W821H2Pm8um5YgSE9kjvQUplYEH7wBcoKwafi6wETfR6Ed5V+i6Y5wTbuxK1+reRCq7l85Dh1nG3bM9r8xEcdC4eOZPlXSXyuuxy0M4UorlniGe+nIkcbap3vvOlvqa7zXpsLZgc4eh2L7Wu9mRMPKqtHMbV5QRFbr6AsYNbmZR1rA6INmenjrqqUn/FOibbxTMkbJjZHT/EqrYvt+3/yaYCw3x8z5b9P4dIjaLtZ4v2AcFV5ZTKfEN1tTA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9C9icd8EKBnaMjBLzWAvqsykVby+tbLNUyMM/uPOLEE=;
- b=R7Iqga3ekNFImJRHtZZkX9TvdWQDcvsbmg5ov7z13r9IfAJcQ0iTEMY5ea9slBhmT+PNvo1baNp4+fBnFJxZhY+RMRgJnjXKjL3X+Fvx/C5lHBwFtFItHTZxuYd2BjpPg4SzcwNQhsyRwQopD+KZpFMCQ1XhGQV9qjxeNN1bgcwSTy0fKpZuvFHhzRn0SoQjRY1p4LJlRTQ3duBBHVbnu04Hw6IdbyOeBvh1feZXUOPQyvMLaHFAtRnUiGl83bk/HegHMzPETRkrP0Pj/DNuyHFbbw8nFfrAIHy1RpmRKQF3BYD993rsl5TDsY315VFs8tiMSMrOTkzxdJzlxs/jjw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9C9icd8EKBnaMjBLzWAvqsykVby+tbLNUyMM/uPOLEE=;
- b=0CVrsVp30RSvSv1Bim20u6LbY7lZiTZmFddWk5ASvgnSRMird7UjS4Jr92Mme/yhLoavD1+3Q8TjNpF7ppAmDoTlgPCQWziVYviqYrb5e4kvCI9gYYOicCGz2VEPufJtZxAMTemPgXJrjy72HcWk2i6kdQb2vT06D9cx31cbGjk=
-Received: from SJ0PR03CA0191.namprd03.prod.outlook.com (2603:10b6:a03:2ef::16)
- by CH3PR12MB8877.namprd12.prod.outlook.com (2603:10b6:610:170::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.18; Wed, 23 Oct
- 2024 18:02:22 +0000
-Received: from SJ5PEPF0000020A.namprd05.prod.outlook.com
- (2603:10b6:a03:2ef:cafe::dd) by SJ0PR03CA0191.outlook.office365.com
- (2603:10b6:a03:2ef::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.29 via Frontend
- Transport; Wed, 23 Oct 2024 18:02:22 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SJ5PEPF0000020A.mail.protection.outlook.com (10.167.244.43) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8093.14 via Frontend Transport; Wed, 23 Oct 2024 18:02:22 +0000
-Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 23 Oct
- 2024 13:02:20 -0500
-From: Alex Deucher <alexander.deucher@amd.com>
-To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <airlied@gmail.com>, <simona.vetter@ffwll.ch>
-CC: Alex Deucher <alexander.deucher@amd.com>
-Subject: [pull] amdgpu drm-fixes-6.12
-Date: Wed, 23 Oct 2024 14:02:08 -0400
-Message-ID: <20241023180208.452636-1-alexander.deucher@amd.com>
-X-Mailer: git-send-email 2.46.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF0000020A:EE_|CH3PR12MB8877:EE_
-X-MS-Office365-Filtering-Correlation-Id: c3a5b97f-6155-48d9-d6c4-08dcf38cd7f3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|36860700013|376014|82310400026; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?cP5U0r17Yx36Ir8G5KMBwoIDJQ1uYrSVzGc6FXMkUsIAGoXBa0DQpIJlelDm?=
- =?us-ascii?Q?B1xhMi5dDJUve9d16wr6ujdUyAAzMOvp8xTDihE2o8sQGNDwMLm65MoG+ZXM?=
- =?us-ascii?Q?GAPAs0oj1u1EwarUaDcSTGmGuorCapJ88ArKX5/HZ9NwTOxLmsysY58SfBtY?=
- =?us-ascii?Q?ckKQF5F1j0m11Y5m8nZrsqkNzsruZx18s56THO5vDfsIXdt/2Eb71wEyn752?=
- =?us-ascii?Q?gWqvVEoiOyCOz+G3kuM1Gdbv1QSTq9mWc4cZ3d+okGArLWQ+o0nN8m+oky+5?=
- =?us-ascii?Q?lkxhN5hXcgcBVrb4E7VFbZWE2GNzKmvQU7RLQHEOdvHCcJ+3vS/zBbq0LaLu?=
- =?us-ascii?Q?jaiJjoMGApbhR+/AX7B5LF1Uz+bjYt2RKpo9nqHxqjUNNxO1uFqG7AD/fv8l?=
- =?us-ascii?Q?l+oxBkmzbB1mLmIO499NmgdWbXWDEQCEwR3mDWMxYYEplaRirqgZUlyo1w4Y?=
- =?us-ascii?Q?NvKwQR/k0oOYsry7XqICU0QCbIOJZRN4upFd2O535jdFvqRJeYcu9ebi+mRH?=
- =?us-ascii?Q?QNadsPOyyG6D9NHl35DvaEHS+9AmFqmD98aB47n3XbdoqzBnKoAaWTmXvUF2?=
- =?us-ascii?Q?lp/gkEW410VDuVvGvcyWKMHy7oUOzvpqnirqpSN4cT6syuT0+1ArXoOgPInT?=
- =?us-ascii?Q?q7rBtWUZayigxLCzHQRy5sv5xoWdV0zxTjY71VESp4YCq+Ul6W9vlRigqd/2?=
- =?us-ascii?Q?SDn6WH8nIV58H0vgpdI6eeNORuLke3jLu8a2g/Fs56NfGbRaV5l8mrawkujO?=
- =?us-ascii?Q?sDIRSCusb0u2/Mzgcxi0XNRE7BuutT/dQNJI89KXSeJoqyxw21gnhK2V5eY+?=
- =?us-ascii?Q?M/ETi3xG5LnWsD0X6FB5rh6cB3v2qAoeWg541j85RCvay6Nz5yRni+f6E0/5?=
- =?us-ascii?Q?GhKxrDF30I5RG+LBMpAWeLhS+dMPdgDzbksw3I9FhIuooG1thFSAKyqAabmx?=
- =?us-ascii?Q?fM7udsTOuEfD02qlfYwt75Gr/Lp/9QnxCSDvBab/zcDYsM3muIWckbiAuXHB?=
- =?us-ascii?Q?WJDbSISoFO8PAD4+2eoaQz7pUldkStj+DNpFv1VSf+0FypJ2Vmne0Tfawtqq?=
- =?us-ascii?Q?BTVBbEWy2J9Sehhf0P4ncZhEGJEAn6tVVr0PFJdYbzXYiwMIiHXuCxIAJhqo?=
- =?us-ascii?Q?L5w5HK3m4xjyv+yul0i5iYFg/J5BJD5CQBwrIbYqoIchHEKTm/KfE4Mueg2s?=
- =?us-ascii?Q?jbQpTBgjHroPIKki6Y+ozoWZf7yLaYgNMG0fasFXApVNnScyZ9LV3V6602Mn?=
- =?us-ascii?Q?heyJCssQY9UJp9ibcD9Q+YnWeXha48wMnHrjdPdif6BZtPNqOM/rJoLVcHCj?=
- =?us-ascii?Q?5znMJKw1q/eflCgenu5DWsWUGJ2MgykhxRVp71IAvGv+fqW3JAd3NG+aBz7k?=
- =?us-ascii?Q?2A3mf5Q=3D?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(1800799024)(36860700013)(376014)(82310400026); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Oct 2024 18:02:22.2414 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c3a5b97f-6155-48d9-d6c4-08dcf38cd7f3
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: SJ5PEPF0000020A.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8877
+Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com
+ [209.85.219.202])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A09FC10E853
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 19:13:45 +0000 (UTC)
+Received: by mail-yb1-f202.google.com with SMTP id
+ 3f1490d57ef6-e165fc5d94fso284875276.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 12:13:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1729710825; x=1730315625;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:from:subject:mime-version
+ :message-id:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=9XbsmUl/ykzeRnfUHw2btfSodiXu3QqAkcfgdiNebV8=;
+ b=QYHEncOHS5BqF7V2DzR29RQceEvOWP8TnfEX2JnYKW7KlZtHMz+nrL/aOr+T6Ypq1b
+ BgpU351otaNI6E+6CnTlH5BEo2BG9GWwku+CG5jAdfTFceRvCSs8jmoracrWlqiwn0Ef
+ v+82TVMsfZBYWqWXV0ogccxRl0ZbD979y/WOkRNLr/c7YeA7nT0HHXgdC3NVF4gJlWe4
+ +wWqp0WVdTJOWqN3BB+ID/Hs0LmJGqMf467He7yclNQR4ZZUMWMg/CWz1yOLrnKklXTr
+ LRP1s5DAocrvbQB54nk3ZcUNrZporQZVeCUWLbtYuqwXZe12fSkeMG29iZXCDjjwIqJ4
+ eDMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1729710825; x=1730315625;
+ h=content-transfer-encoding:cc:to:from:subject:mime-version
+ :message-id:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=9XbsmUl/ykzeRnfUHw2btfSodiXu3QqAkcfgdiNebV8=;
+ b=YMVspqz4lQg/4DyVcgKh+NTQfI4wmut0RoNl9vcp15hfLfkyGbV3/Rf+v4KQhk7sZM
+ iTxk0TD3N74d6WPY6fBMTkGC3HsacJ3TWgf9/1DPKFLryMlURfsrkQ99o08EYN1AQiQb
+ DH1fus54BWqWRBBH/zV62OEDWb94yvkyYPpQPpRff4V9vOIT9YYR+OOfLko8OgxJ0b84
+ lrb1Zqjwal0bAlNNCLAkHn16ShEEiY6OS46arIZ58Hpky0sYKBTMxfYjWYYRK1YLg/aG
+ OBevSWG4mDP5zY7wymZqPQ4qn9FkxJ9ht+8jF4SQTGFLw0RIU3BJdFfRqT2eV56u0o2J
+ JOCw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVkLwc5lEDNtgHYUOp9pjxuKzFILLL3IR8cfL3dwYT7vxzNmCnvdjKP0amSGGNbxSHtMOcQb6/4Rtc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw0wjPfqY9kUFy+jmc5vlkKPvpirIeH5awbm2fBnLV58Wnv2hWY
+ 2xfFUp+m5C1D4xM5G4OoMEoLc+ixzuE97NUm/2zg4w/RwwaBW/a+Rs12m8QEuZm23PYTwxEscqm
+ 6yjFq231EBxTX+w==
+X-Google-Smtp-Source: AGHT+IGtw++CFsHM6UsXTaa07P8s7oTXdItvei/TRQB3GwOD9DmownHZlFBOwrDDCuKJGIw70cl6vC5daxpXLbk=
+X-Received: from saravanak.san.corp.google.com
+ ([2620:15c:2d:3:965e:f81d:c9fb:b352])
+ (user=saravanak job=sendgmr) by 2002:a5b:602:0:b0:e28:f2a5:f1d with SMTP id
+ 3f1490d57ef6-e2e3a632bffmr3981276.4.1729710824576; Wed, 23 Oct 2024 12:13:44
+ -0700 (PDT)
+Date: Wed, 23 Oct 2024 12:13:36 -0700
+Message-Id: <20241023191339.1491282-1-saravanak@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.47.0.105.g07ac214952-goog
+Subject: [PATCH] drm: display: Set fwnode for aux bus devices
+From: Saravana Kannan <saravanak@google.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Saravana Kannan <saravanak@google.com>, 
+ "=?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?="
+ <nfraprado@collabora.com>, Jon Hunter <jonathanh@nvidia.com>,
+ kernel-team@android.com, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,61 +89,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Simona,
+fwnode needs to be set for a device for fw_devlink to be able to
+track/enforce its dependencies correctly. Without this, you'll see error
+messages like this when the supplier has probed and tries to make sure
+all its fwnode consumers are linked to it using device links:
 
-Fixes for 6.12.
+mediatek-drm-dp 1c500000.edp-tx: Failed to create device link (0x180) with =
+backlight-lcd0
+tegra-xusb-padctl 3520000.padctl: Failed to create device link (0x180) with=
+ 1-0008
 
-The following changes since commit 42f7652d3eb527d03665b09edac47f85fb600924:
+Reported-by: "N=C3=ADcolas F. R. A. Prado" <nfraprado@collabora.com>
+Closes: https://lore.kernel.org/all/7b995947-4540-4b17-872e-e107adca4598@no=
+tapiano/
+Tested-by: "N=C3=ADcolas F. R. A. Prado" <nfraprado@collabora.com>
+Reported-by: Jon Hunter <jonathanh@nvidia.com>
+Closes: https://lore.kernel.org/all/20240910130019.35081-1-jonathanh@nvidia=
+.com/
+Signed-off-by: Saravana Kannan <saravanak@google.com>
+---
 
-  Linux 6.12-rc4 (2024-10-20 15:19:38 -0700)
+Don't pull this into stable branches unless its causing a regression in
+older LTS branches. fw_devlink code is complicated and it might end up
+with missing dependencies picking up changes piecemeal.
 
-are available in the Git repository at:
+-Saravana
 
-  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.12-2024-10-23
 
-for you to fetch changes up to 7c210ca5a2d72868e5a052fc533d5dcb7e070f89:
+ drivers/gpu/drm/display/drm_dp_aux_bus.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  drm/amdgpu: handle default profile on on devices without fullscreen 3D (2024-10-22 18:21:51 -0400)
+diff --git a/drivers/gpu/drm/display/drm_dp_aux_bus.c b/drivers/gpu/drm/dis=
+play/drm_dp_aux_bus.c
+index d810529ebfb6..ec7eac6b595f 100644
+--- a/drivers/gpu/drm/display/drm_dp_aux_bus.c
++++ b/drivers/gpu/drm/display/drm_dp_aux_bus.c
+@@ -292,7 +292,7 @@ int of_dp_aux_populate_bus(struct drm_dp_aux *aux,
+ 	aux_ep->dev.parent =3D aux->dev;
+ 	aux_ep->dev.bus =3D &dp_aux_bus_type;
+ 	aux_ep->dev.type =3D &dp_aux_device_type_type;
+-	aux_ep->dev.of_node =3D of_node_get(np);
++	device_set_node(&aux_ep->dev, of_fwnode_handle(of_node_get(np)));
+ 	dev_set_name(&aux_ep->dev, "aux-%s", dev_name(aux->dev));
+=20
+ 	ret =3D device_register(&aux_ep->dev);
+--=20
+2.47.0.105.g07ac214952-goog
 
-----------------------------------------------------------------
-amd-drm-fixes-6.12-2024-10-23:
-
-amdgpu:
-- ACPI method handling fixes
-- SMU 14.x fixes
-- Display idle optimization fix
-- DP link layer compliance fix
-- SDMA 7.x fix
-- PSR-SU fix
-- SWSMU fix
-
-----------------------------------------------------------------
-Alex Deucher (1):
-      drm/amdgpu: handle default profile on on devices without fullscreen 3D
-
-Aurabindo Pillai (2):
-      drm/amd/display: temp w/a for dGPU to enter idle optimizations
-      drm/amd/display: temp w/a for DP Link Layer compliance
-
-Frank Min (1):
-      drm/amdgpu: fix random data corruption for sdma 7
-
-Kenneth Feng (3):
-      drm/amd/pm: update the driver-fw interface file for smu v14.0.2/3
-      drm/amd/pm: update overdrive function on smu v14.0.2/3
-      drm/amd/pm: update deep sleep status on smu v14.0.2/3
-
-Mario Limonciello (2):
-      drm/amd: Guard against bad data for ATIF ACPI method
-      drm/amd/display: Disable PSR-SU on Parade 08-01 TCON too
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c           |  15 ++-
- drivers/gpu/drm/amd/amdgpu/sdma_v7_0.c             |   9 +-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |   3 +-
- .../drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c  |  13 ++
- .../drm/amd/display/modules/power/power_helpers.c  |   2 +
- drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c          |  11 +-
- .../pm/swsmu/inc/pmfw_if/smu14_driver_if_v14_0.h   | 132 +++++++++++++--------
- drivers/gpu/drm/amd/pm/swsmu/inc/smu_v14_0.h       |   2 +-
- .../gpu/drm/amd/pm/swsmu/smu14/smu_v14_0_2_ppt.c   |  66 ++++-------
- 9 files changed, 156 insertions(+), 97 deletions(-)
