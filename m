@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B79039AD156
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2024 18:50:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FC2A9AD158
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2024 18:50:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2B7A10E17F;
-	Wed, 23 Oct 2024 16:50:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38EE710E1D0;
+	Wed, 23 Oct 2024 16:50:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="SlB7IdOH";
+	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="okHShdDc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
- [209.85.221.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3716110E17F
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 16:50:12 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id
- ffacd0b85a97d-37d4821e6b4so4810845f8f.3
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+ [209.85.128.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 030E810E195
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 16:50:13 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id
+ 5b1f17b1804b1-4315abed18aso67271495e9.2
  for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 09:50:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google; t=1729702210; x=1730307010;
+ d=raspberrypi.com; s=google; t=1729702211; x=1730307011;
  darn=lists.freedesktop.org; 
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=5WK3Wcz0LjTp23A2ibh778TvWVk0jVp3LvtNmMQecJo=;
- b=SlB7IdOHdn25Qo2BOciWBK0nhuQqW0JxLaFSznH/mAVR2Q/wk1hX8D1ZfH77gDNPsy
- iFdtKnxHx9V8/eCKhBiJQD5UOjUBYlb3AzJ/u3/v80xPhi7tU1/Tdk/VRIBk1yHOZEQY
- Xyc0oP1Ydke8RHrIUxIYGXJMg66NKS8fyHXte4phPZTQ2afbTHoVrx9aWOlAjla36ePN
- voo1R8I6cODLErv0tQPMKDNJ3a0zz0FfjX8vPFPCb2mUJiZRFrXBh+KYD5vlWjfSalBR
- Te38lvJ8VKA56Igff08J5kMWU3tEkZum1cOBC6fnIiyp0nRk8adLgzb8/Oi7uoJvuZrz
- +Q6w==
+ :reply-to; bh=DHsrd+uLJ3zzJTfflluftUpg1xM7uGde28YhgXiEaII=;
+ b=okHShdDccY/j6YlLsljBNNB9Ex2yVUJnw8U5m9YoshBL8fyKNagvdlr98FvzzqlVcU
+ d0KznKf2BxNnJjsvY15FjFU5HAEatyBu7FbA7wHaD/PvZOWpJtBm3/BB/iVIUElZKBMJ
+ A7bkQBdPDj/4ULU6+XrTLyvIAFrjT+DqiV/Y34HyIuDJcKiR1w2gFh9IXDh24BUNtxqm
+ qhAnxeIMAoW7ftUWNEyJeMwdBp07w6XbbV++A2GwLiapezO8j7J278rN9A8lwvdQB7OV
+ 5uLSqaTu7FedWjYYj49GCroRcDgs9CuxlBHvx3mbq8srRtZQwU6sK4sSmbrApU19KuDS
+ fvvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729702210; x=1730307010;
+ d=1e100.net; s=20230601; t=1729702211; x=1730307011;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=5WK3Wcz0LjTp23A2ibh778TvWVk0jVp3LvtNmMQecJo=;
- b=DJF33nBB4nHICvve5wwEdWyxdPUEmdl22d/i0tV0UwPPvr/O3fTWRQ8i6mVUIjjJKT
- 2ARmf2/1XRb2YQ4d5TUTD9R25+Skv7OEjbfLy7XjGxk24yRSMl8NwODi/WVJJD8kb8kw
- BGFp3X7lCESrvVtdlmm5gTlyYjUdS7VjNz5714n1JsTPXcgr3GjYvytyRb8z9e+6KE3B
- IXdmiIwChqqLcGIyZcTXGpV1oPY3/U0xnmlUjx/+TU/wlPkd42UfpRw6jfY5VzncStFm
- 6Jafr2BeW9t7p704q9PFwY0GSthUGwxWRkKOfp0Zn6xu6dxbuP40QN1j/gYks1I/pzHk
- zqIg==
-X-Gm-Message-State: AOJu0YznJ4a2fLGen3HkBbnWy68wevEtbl+1wFVW+8aXPAR+YEifaaN3
- /T3FzE0boBBBbbDQhZlNfMdd6AYYGbMOTu9qqMwZ6NfZfAHK8zy5P+XtvF3muTo=
-X-Google-Smtp-Source: AGHT+IF8V/3kWZEsM033mvmCNVLqu8ni3b3xlel5RuPa1mpKVOt5Sj94RWpbn1HR47WB9YguGyyFfQ==
-X-Received: by 2002:a5d:420f:0:b0:37d:47d8:5fff with SMTP id
- ffacd0b85a97d-37efcf7ecc8mr1949275f8f.37.1729702210382; 
- Wed, 23 Oct 2024 09:50:10 -0700 (PDT)
+ bh=DHsrd+uLJ3zzJTfflluftUpg1xM7uGde28YhgXiEaII=;
+ b=Jdv0iZkapqDG1oR6iWbe5fJt6k0nXHWTDr3Plhot3dCkn+bynzk0FG5hgztppqTEzN
+ DccQm/2ssladsj4/qhUfebcP0uME65g00QW/aadjPyjO+RQ8CI0XbwLJwwjEXovweI1X
+ Nskp0XkCDXqWwi1KSh69lkT0jpcICoDs3SDjA0898mRtI9BiaqVom8tJ4GilwCsGqM+8
+ q1raV570j8Trlq6oMzGSMR8VEj8mXU6GwZD6FT+PnBeJumHiahgK+oF4ccD6NHGxyuRe
+ S0mEre74x3mB+VEXo1ULGFC4r6NUvLxM+JmGlbpWMgbt0u2EB8dUSjml3ENRWHCdkeY/
+ xbtw==
+X-Gm-Message-State: AOJu0YyRpS0TbuY9RBQZwwA8drVvwqu+puPSXshx+eu3l1OP4EAimKcA
+ 9nHdEPtvGA79OAtja+blHu1NxCzj4QFQF++pEdYFjfpLupiZOaimiWrxgzEjJTw=
+X-Google-Smtp-Source: AGHT+IERhAzD85giYVwWPW2yr0xeM1afTBRNEqyh3+VJ9Dt+uRH4uKHHawanviz9+PlgBvlZWTrZUA==
+X-Received: by 2002:a05:600c:3b07:b0:431:5c1c:250b with SMTP id
+ 5b1f17b1804b1-431841e0ff1mr27913915e9.1.1729702211354; 
+ Wed, 23 Oct 2024 09:50:11 -0700 (PDT)
 Received: from [127.0.1.1] ([2a00:1098:3142:e::8])
  by smtp.googlemail.com with ESMTPSA id
- 5b1f17b1804b1-43186c50445sm21642035e9.39.2024.10.23.09.50.09
+ 5b1f17b1804b1-43186c50445sm21642035e9.39.2024.10.23.09.50.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Oct 2024 09:50:09 -0700 (PDT)
+ Wed, 23 Oct 2024 09:50:10 -0700 (PDT)
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Wed, 23 Oct 2024 17:49:59 +0100
-Subject: [PATCH 02/37] drm/vc4: Use of_device_get_match_data to set generation
+Date: Wed, 23 Oct 2024 17:50:00 +0100
+Subject: [PATCH 03/37] drm/vc4: Fix reading of frame count on GEN5 / Pi4
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241023-drm-vc4-2712-support-v1-2-1cc2d5594907@raspberrypi.com>
+Message-Id: <20241023-drm-vc4-2712-support-v1-3-1cc2d5594907@raspberrypi.com>
 References: <20241023-drm-vc4-2712-support-v1-0-1cc2d5594907@raspberrypi.com>
 In-Reply-To: <20241023-drm-vc4-2712-support-v1-0-1cc2d5594907@raspberrypi.com>
 To: Maxime Ripard <mripard@kernel.org>, 
@@ -98,44 +98,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use of_device_get_match_data to retrieve the generation value
-as set in the struct of_device_id, rather than manually comparing
-compatible strings.
+The frame count values moved within registers DISPSTAT1 and
+DISPSTAT2 with GEN5, so update the accessor function to
+accommodate that.
 
+Fixes: b51cd7ad143d ("drm/vc4: hvs: Fix frame count register readout")
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 ---
- drivers/gpu/drm/vc4/vc4_drv.c | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/vc4/vc4_hvs.c  | 45 +++++++++++++++++++++++++++++++-----------
+ drivers/gpu/drm/vc4/vc4_regs.h |  6 ++++++
+ 2 files changed, 40 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
-index d47e5967592f..3099292f22a5 100644
---- a/drivers/gpu/drm/vc4/vc4_drv.c
-+++ b/drivers/gpu/drm/vc4/vc4_drv.c
-@@ -300,10 +300,7 @@ static int vc4_drm_bind(struct device *dev)
+diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
+index 1edf6e3fa7e6..f8edb0791091 100644
+--- a/drivers/gpu/drm/vc4/vc4_hvs.c
++++ b/drivers/gpu/drm/vc4/vc4_hvs.c
+@@ -272,19 +272,42 @@ u8 vc4_hvs_get_fifo_frame_count(struct vc4_hvs *hvs, unsigned int fifo)
+ 	if (!drm_dev_enter(drm, &idx))
+ 		return 0;
  
- 	dev->coherent_dma_mask = DMA_BIT_MASK(32);
+-	switch (fifo) {
+-	case 0:
+-		field = VC4_GET_FIELD(HVS_READ(SCALER_DISPSTAT1),
+-				      SCALER_DISPSTAT1_FRCNT0);
+-		break;
+-	case 1:
+-		field = VC4_GET_FIELD(HVS_READ(SCALER_DISPSTAT1),
+-				      SCALER_DISPSTAT1_FRCNT1);
++	switch (vc4->gen) {
++	case VC4_GEN_5:
++		switch (fifo) {
++		case 0:
++			field = VC4_GET_FIELD(HVS_READ(SCALER_DISPSTAT1),
++					      SCALER5_DISPSTAT1_FRCNT0);
++			break;
++		case 1:
++			field = VC4_GET_FIELD(HVS_READ(SCALER_DISPSTAT1),
++					      SCALER5_DISPSTAT1_FRCNT1);
++			break;
++		case 2:
++			field = VC4_GET_FIELD(HVS_READ(SCALER_DISPSTAT2),
++					      SCALER5_DISPSTAT2_FRCNT2);
++			break;
++		}
+ 		break;
+-	case 2:
+-		field = VC4_GET_FIELD(HVS_READ(SCALER_DISPSTAT2),
+-				      SCALER_DISPSTAT2_FRCNT2);
++	case VC4_GEN_4:
++		switch (fifo) {
++		case 0:
++			field = VC4_GET_FIELD(HVS_READ(SCALER_DISPSTAT1),
++					      SCALER_DISPSTAT1_FRCNT0);
++			break;
++		case 1:
++			field = VC4_GET_FIELD(HVS_READ(SCALER_DISPSTAT1),
++					      SCALER_DISPSTAT1_FRCNT1);
++			break;
++		case 2:
++			field = VC4_GET_FIELD(HVS_READ(SCALER_DISPSTAT2),
++					      SCALER_DISPSTAT2_FRCNT2);
++			break;
++		}
+ 		break;
++	default:
++		drm_err(drm, "Unknown VC4 generation: %d", vc4->gen);
++		return 0;
+ 	}
  
--	if (of_device_is_compatible(dev->of_node, "brcm,bcm2711-vc5"))
--		gen = VC4_GEN_5;
--	else
--		gen = VC4_GEN_4;
-+	gen = (enum vc4_gen)of_device_get_match_data(dev);
+ 	drm_dev_exit(idx);
+diff --git a/drivers/gpu/drm/vc4/vc4_regs.h b/drivers/gpu/drm/vc4/vc4_regs.h
+index c55dec383929..341a75cf92e5 100644
+--- a/drivers/gpu/drm/vc4/vc4_regs.h
++++ b/drivers/gpu/drm/vc4/vc4_regs.h
+@@ -418,6 +418,10 @@
+ # define SCALER_DISPSTAT1_FRCNT0_SHIFT		18
+ # define SCALER_DISPSTAT1_FRCNT1_MASK		VC4_MASK(17, 12)
+ # define SCALER_DISPSTAT1_FRCNT1_SHIFT		12
++# define SCALER5_DISPSTAT1_FRCNT0_MASK		VC4_MASK(25, 20)
++# define SCALER5_DISPSTAT1_FRCNT0_SHIFT		20
++# define SCALER5_DISPSTAT1_FRCNT1_MASK		VC4_MASK(19, 14)
++# define SCALER5_DISPSTAT1_FRCNT1_SHIFT		14
  
- 	if (gen > VC4_GEN_4)
- 		driver = &vc5_drm_driver;
-@@ -462,9 +459,9 @@ static void vc4_platform_drm_shutdown(struct platform_device *pdev)
- }
+ #define SCALER_DISPSTATX(x)			(SCALER_DISPSTAT0 +        \
+ 						 (x) * (SCALER_DISPSTAT1 - \
+@@ -436,6 +440,8 @@
+ #define SCALER_DISPSTAT2                        0x00000068
+ # define SCALER_DISPSTAT2_FRCNT2_MASK		VC4_MASK(17, 12)
+ # define SCALER_DISPSTAT2_FRCNT2_SHIFT		12
++# define SCALER5_DISPSTAT2_FRCNT2_MASK		VC4_MASK(19, 14)
++# define SCALER5_DISPSTAT2_FRCNT2_SHIFT		14
  
- static const struct of_device_id vc4_of_match[] = {
--	{ .compatible = "brcm,bcm2711-vc5", },
--	{ .compatible = "brcm,bcm2835-vc4", },
--	{ .compatible = "brcm,cygnus-vc4", },
-+	{ .compatible = "brcm,bcm2711-vc5", .data = (void *)VC4_GEN_5 },
-+	{ .compatible = "brcm,bcm2835-vc4", .data = (void *)VC4_GEN_4 },
-+	{ .compatible = "brcm,cygnus-vc4", .data = (void *)VC4_GEN_4 },
- 	{},
- };
- MODULE_DEVICE_TABLE(of, vc4_of_match);
+ #define SCALER_DISPBASE2                        0x0000006c
+ #define SCALER_DISPALPHA2                       0x00000070
 
 -- 
 2.34.1
