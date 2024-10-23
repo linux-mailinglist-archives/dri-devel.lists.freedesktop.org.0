@@ -2,65 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 531D39AD18E
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2024 18:51:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09E709AD17D
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2024 18:51:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B495110E847;
-	Wed, 23 Oct 2024 16:51:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7A3010E834;
+	Wed, 23 Oct 2024 16:51:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="PsNoFMPq";
+	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="S/v2s2+z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7613310E82D
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 16:50:49 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id
- 5b1f17b1804b1-4315abed18aso67277225e9.2
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 09:50:49 -0700 (PDT)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+ [209.85.128.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D2DE10E82D
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 16:50:50 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id
+ 5b1f17b1804b1-4315f24a6bbso62470795e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 09:50:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google; t=1729702248; x=1730307048;
+ d=raspberrypi.com; s=google; t=1729702249; x=1730307049;
  darn=lists.freedesktop.org; 
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=LXVu+XPK1twrhAqeJinZn0FZ1mNK/jEIbakCvmjUtPs=;
- b=PsNoFMPqrd6gDN52yi0TfLZ9cOYlHdpC6lJeLuS/8K/nOR0mvuP/1MP3znfVu3uZ24
- joinvWBRVHCMwrSpUGdQuaMFJuQ8XbnkJb+JPBay/sRWEvwPQONOHoDtqmXkjVaiwwbH
- sBwLY1OnsK/BqOBeqaOm9MrIvYus7K/5CtgqoBHHbYwddxaZ6MLLGwwo5dlQ3FQoR6Tm
- pnFz1c9qUxyeRtnHm+/Ou6+gXJkehXhDIYq1iWCA7v6beYlRV30eBxlHvSr/j42Rel+y
- 0L0uusy0+3WAv5KpBBs+yM85oMG7vucRUUQzQqx+0wqQJxiJxxEy4IW6T1HhZI57pAal
- KApw==
+ :reply-to; bh=1187eCau7YQm+fLqvdnzaKIPua1eXW5DaRGJ7Ln3ZlQ=;
+ b=S/v2s2+zU7TlW17Md/I0bkezrHxq4Q8TQH5JZsYNWG38KoAtQvVRzD/MR9Ugd86bXu
+ Cq87aRA4LhsWB6VisluQmBOqQ33+FtJf+iy+djdtmd2wvyYkTVdPKzshFo8S/MLow6PE
+ FMGNj4VauWR9APDaKWzOWKiI6JFJHVYBI30gjrHykfdEuNkUGCd6DO3htK/YgDysBC1x
+ +446Wp6tyVp9E32YUUuCtSsLcdG30JfHWn+nQV2VDSREO/zBohCnbFx+RkZHseTvQkzU
+ vcS84kcdBEqOVT1aYRJauWRWIMdSS7QcpSYbW+EadMVesNQPlehlr7uLTR/8aRQcZDNJ
+ O3IA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729702248; x=1730307048;
+ d=1e100.net; s=20230601; t=1729702249; x=1730307049;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=LXVu+XPK1twrhAqeJinZn0FZ1mNK/jEIbakCvmjUtPs=;
- b=SSjBhZgbDGCcl5yG/b6HGFiiBbZbioyfAJNKdF47hJk9dlVHZ0RKul+hat0xpI2y7e
- WBq/SeTfohJtqNQIHqJKOi+JPs2zd3cYPZEoGFKppQqpkXJfHE9mlonXXuLyzF3NG9pd
- q53Wq+0MDxLr2vDozb9DDARCdR+nCL0apCcjkhvBpU4I6pKLgx3BW896plNgf7ub1pQI
- HaN9jR31wxERAbfmMrdu4g4RZiGjmyJWwMeAsy2OZjPDtjVeVYi40pNXzIRBfdPHq5Rd
- cIN4Z4ic5RdcFD3T59RSH50i8UGbrkUT8SldO5CJm4ubkNoZvx98X0qWPjocT/tU8c3W
- 4sjw==
-X-Gm-Message-State: AOJu0Yw3601nzHnprSCifVIjLT8gBA28iMdAKWl20xhnaVQygAf3E4sh
- qYZogAhyHTRHZYAm/4YERebhQb5UKj6dLq1NS+Y0UZjtoK8la0GT6dyEN1rxq98=
-X-Google-Smtp-Source: AGHT+IE4mgCaYm2elKT76LlNq3zUCFQBwxYPgla+kkQUxdQtty9ocFGx1hYzfLUy3hw38CapCGa/1g==
-X-Received: by 2002:a05:600c:4ecd:b0:431:612f:189b with SMTP id
- 5b1f17b1804b1-431841fdademr30938035e9.12.1729702247813; 
- Wed, 23 Oct 2024 09:50:47 -0700 (PDT)
+ bh=1187eCau7YQm+fLqvdnzaKIPua1eXW5DaRGJ7Ln3ZlQ=;
+ b=mHx/PgiiKnzD670W9yglq7bAhJpna6uVesZ8FVU8/pdFMeV7v7ET347Gl4WC8JmgKh
+ NX0N9zi/dPAC/zxS9PJqAj6Qg17dDeN8d1aq0LnDCC5u/urONotRwspZU6p0wNnvC8Hg
+ mQ4bfTbf3M27MvQLMafgyVl9XEplOZZM2mcXjp7FFFtieedfdUBXkU5UMHh3tMTU9QtU
+ iuEotrPxxRS8j+6XM53KrWnpwrqIM6G6g6+wG/l3myxjztE3zmb4ZxSnq8VmUzkEA0Oq
+ v7c+dDxH37VlaXEI0Ft9RJafiIICEzH54zsqwteeyGJkVAUEdcowGmNmSFwDQ8qrW4dx
+ CxZw==
+X-Gm-Message-State: AOJu0YxINoNaMckyCDwZnfP/66sCbS+vjc2Ekr4I8OZ2CvEUISpNL+jD
+ tav+aCiuUYU2qNYBqVKOpDVdU4EiaE+VUKIBL9fVzzrIJ4s/jO+bRjlFEmqXw/4=
+X-Google-Smtp-Source: AGHT+IGnOy6934iu4X4nAJLDq42XcldaiFx0K1e85HTnwt0PFdy3j0mfVRmbr6x1y+nTvJQlVW7Bhg==
+X-Received: by 2002:a05:600c:46d0:b0:431:4e25:fe42 with SMTP id
+ 5b1f17b1804b1-4318419f2dcmr33339855e9.32.1729702248667; 
+ Wed, 23 Oct 2024 09:50:48 -0700 (PDT)
 Received: from [127.0.1.1] ([2a00:1098:3142:e::8])
  by smtp.googlemail.com with ESMTPSA id
- 5b1f17b1804b1-43186c50445sm21642035e9.39.2024.10.23.09.50.42
+ 5b1f17b1804b1-43186c50445sm21642035e9.39.2024.10.23.09.50.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Oct 2024 09:50:47 -0700 (PDT)
+ Wed, 23 Oct 2024 09:50:48 -0700 (PDT)
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Wed, 23 Oct 2024 17:50:25 +0100
-Subject: [PATCH 28/37] drm/vc4: Enable bg_fill if there are no planes enabled
+Date: Wed, 23 Oct 2024 17:50:26 +0100
+Subject: [PATCH 29/37] drm/vc4: Drop planes that are completely off-screen
+ or 0 crtc size
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241023-drm-vc4-2712-support-v1-28-1cc2d5594907@raspberrypi.com>
+Message-Id: <20241023-drm-vc4-2712-support-v1-29-1cc2d5594907@raspberrypi.com>
 References: <20241023-drm-vc4-2712-support-v1-0-1cc2d5594907@raspberrypi.com>
 In-Reply-To: <20241023-drm-vc4-2712-support-v1-0-1cc2d5594907@raspberrypi.com>
 To: Maxime Ripard <mripard@kernel.org>, 
@@ -98,32 +99,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The default was to have enable_bg_fill disabled and the first
-plane set it if it wasn't opaque and covering the whole screen.
-However that meant that if no planes were enabled, then the
-background fill wasn't enabled, and would give a striped
-output from the uninitialised output buffer.
+It is permitted for a plane to be configured such that none
+of it is on-screen via either negative dest rectangle X,Y
+offset, or an offset that is greater than the crtc dimensions.
 
-Initialise it to enabled to avoid this.
+These planes were resized via drm_atomic_helper_check_plane_state
+such that the source rectangle had a zero width or height, but
+they still created a dlist entry even though they contributed
+no pixels. In the case of vc6_plane_mode_set, that it could result
+in negative values being written into registers, which caused
+incorrect behaviour.
+
+Drop planes that result in a source width or height of 0 pixels
+or an on-screen size of 0 pixels to avoid the incorrect rendering.
 
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 ---
- drivers/gpu/drm/vc4/vc4_hvs.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/vc4/vc4_plane.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
-index f15aba4b81d7..5d40bbcb3b54 100644
---- a/drivers/gpu/drm/vc4/vc4_hvs.c
-+++ b/drivers/gpu/drm/vc4/vc4_hvs.c
-@@ -936,7 +936,7 @@ void vc4_hvs_atomic_flush(struct drm_crtc *crtc,
- 	struct drm_plane *plane;
- 	struct vc4_plane_state *vc4_plane_state;
- 	bool debug_dump_regs = false;
--	bool enable_bg_fill = false;
-+	bool enable_bg_fill = true;
- 	u32 __iomem *dlist_start = vc4->hvs->dlist + vc4_state->mm.start;
- 	u32 __iomem *dlist_next = dlist_start;
- 	unsigned int zpos = 0;
+diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_plane.c
+index c084967d3527..94737c587f20 100644
+--- a/drivers/gpu/drm/vc4/vc4_plane.c
++++ b/drivers/gpu/drm/vc4/vc4_plane.c
+@@ -1230,6 +1230,13 @@ static int vc4_plane_mode_set(struct drm_plane *plane,
+ 	if (ret)
+ 		return ret;
+ 
++	if (!vc4_state->src_w[0] || !vc4_state->src_h[0] ||
++	    !vc4_state->crtc_w || !vc4_state->crtc_h) {
++		/* 0 source size probably means the plane is offscreen */
++		vc4_state->dlist_initialized = 1;
++		return 0;
++	}
++
+ 	width = vc4_state->src_w[0] >> 16;
+ 	height = vc4_state->src_h[0] >> 16;
+ 
+@@ -1753,6 +1760,15 @@ static int vc6_plane_mode_set(struct drm_plane *plane,
+ 	if (ret)
+ 		return ret;
+ 
++	if (!vc4_state->src_w[0] || !vc4_state->src_h[0] ||
++	    !vc4_state->crtc_w || !vc4_state->crtc_h) {
++		/* 0 source size probably means the plane is offscreen.
++		 * 0 destination size is a redundant plane.
++		 */
++		vc4_state->dlist_initialized = 1;
++		return 0;
++	}
++
+ 	width = vc4_state->src_w[0] >> 16;
+ 	height = vc4_state->src_h[0] >> 16;
+ 
+@@ -2135,6 +2151,10 @@ static int vc4_plane_atomic_check(struct drm_plane *plane,
+ 	if (ret)
+ 		return ret;
+ 
++	if (!vc4_state->src_w[0] || !vc4_state->src_h[0] ||
++	    !vc4_state->crtc_w || !vc4_state->crtc_h)
++		return 0;
++
+ 	ret = vc4_plane_allocate_lbm(new_plane_state);
+ 	if (ret)
+ 		return ret;
 
 -- 
 2.34.1
