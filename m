@@ -2,93 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC0C79AC87B
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2024 13:05:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADED29AC922
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2024 13:37:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F75C10E352;
-	Wed, 23 Oct 2024 11:05:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC47910E356;
+	Wed, 23 Oct 2024 11:37:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Q4seVCQb";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="EmL9fpIb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 254AD10E352
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 11:05:26 +0000 (UTC)
-Received: from [192.168.88.20] (91-157-155-49.elisa-laajakaista.fi
- [91.157.155.49])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6E58C82A;
- Wed, 23 Oct 2024 13:03:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1729681418;
- bh=RPtPaNfh73PTPeam2PIrfOky9Qc7nOQ7+pNv5Bj6hI8=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Q4seVCQbCo0luGcALfKykpIdgx808Mwpqliw4kJHvF4/Zy+6kBvqhXVnB6SMHjITQ
- ki/roc66Nv+s9wSizQwaOSabf6kkF/nWhZY8zTDPBXSxtfEBmn0brqklR5MdbTXc5N
- NWzVMnCRy2XofRmLvJKMyVlOdnYxD7GfqJHzYPzo=
-Message-ID: <79aca344-b27e-4b77-aa92-6e4c079486e0@ideasonboard.com>
-Date: Wed, 23 Oct 2024 14:05:21 +0300
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA8C410E356;
+ Wed, 23 Oct 2024 11:37:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=ZidyqIINZpBg8NrzEWqy1KWAOmZqjZpRvrahwOfe+Ow=; b=EmL9fpIb35/GZKiyzeb9RPx8HN
+ IwsG6kBbDOh585L9nvEYItKvwldsSeMLoFF9XXHbya2ckwa4r0GAmX1ZuE8Dkd8ZSEnVgF3P96MbK
+ n34yVUOcYQhTBgSM+69uRY+ijIst6P13ThrlbE9KqUiH+0RGP9S0KwixvOpwAVIuiepdqdFzrPa3Z
+ ysBEvoFkQqWgfgyNxLpk9jjCmHmguGq4FW0UGp+Lv+mw1hUHyGurK0iUpCz1dicX3FJoRqZiH8Gln
+ 8nRIndeZtxV6O/lvbMhbYseqAh/6QMufqsl1Isc2uT0o2lMcVxTeoGccJPkwma4fvvmZpCbRDNpGv
+ dAWhz4Qg==;
+Received: from [90.241.98.187] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1t3Zfo-00E0il-Qd; Wed, 23 Oct 2024 13:37:08 +0200
+Message-ID: <6d324aca-76fd-420b-9bae-6c0984e659e1@igalia.com>
+Date: Wed, 23 Oct 2024 12:37:08 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm: xlnx: zynqmp_disp: layer may be null while releasing
-To: Steffen Dirkwinkel <lists@steffen.cc>, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Steffen Dirkwinkel <s.dirkwinkel@beckhoff.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Michal Simek <michal.simek@amd.com>, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <20241021135127.218947-1-lists@steffen.cc>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20241021135127.218947-1-lists@steffen.cc>
+Subject: Re: [PATCH v5 4/4] drm/amdgpu: track bo memory stats at runtime
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Li, Yunxiang (Teddy)" <Yunxiang.Li@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
+Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>
+References: <20241018133308.889-1-Yunxiang.Li@amd.com>
+ <20241018133308.889-5-Yunxiang.Li@amd.com>
+ <1057097f-02f4-4f0f-9ac5-37aa84570b47@amd.com>
+ <SA1PR12MB8599E3DD01B4A45AD7CA71FAED4C2@SA1PR12MB8599.namprd12.prod.outlook.com>
+ <53382fc0-0686-46af-9285-0cd6aec314ae@amd.com>
+ <cd2b57c6-1947-4dbd-bae8-ecdb2b42de72@igalia.com>
+ <47e4b79b-2c08-4ee8-b472-5482bc159856@amd.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <47e4b79b-2c08-4ee8-b472-5482bc159856@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,36 +69,188 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On 21/10/2024 16:51, Steffen Dirkwinkel wrote:
-> From: Steffen Dirkwinkel <s.dirkwinkel@beckhoff.com>
+On 23/10/2024 10:14, Christian König wrote:
+> Am 23.10.24 um 09:38 schrieb Tvrtko Ursulin:
+>>
+>> On 22/10/2024 17:24, Christian König wrote:
+>>> Am 22.10.24 um 17:17 schrieb Li, Yunxiang (Teddy):
+>>>> [Public]
+>>>>
+>>>>>> +static uint32_t fold_memtype(uint32_t memtype) {
+>>>>> In general please add prefixes to even static functions, e.g. 
+>>>>> amdgpu_vm_ or
+>>>>> amdgpu_bo_.
+>>>>>
+>>>>>> +   /* Squash private placements into 'cpu' to keep the legacy 
+>>>>>> userspace view.
+>>>>> */
+>>>>>> +   switch (mem_type) {
+>>>>>> +   case TTM_PL_VRAM:
+>>>>>> +   case TTM_PL_TT:
+>>>>>> +           return memtype
+>>>>>> +   default:
+>>>>>> +           return TTM_PL_SYSTEM;
+>>>>>> +   }
+>>>>>> +}
+>>>>>> +
+>>>>>> +static uint32_t bo_get_memtype(struct amdgpu_bo *bo) {
+>>>>> That whole function belongs into amdgpu_bo.c
+>>>> Do you mean bo_get_memtype or fold_memtype? I debated whether 
+>>>> bo_get_memtype should go into amdgpu_vm.c or amdgpu_bo.c, and since 
+>>>> it's using fold_memtype and only useful for memory stats because of 
+>>>> folding the private placements I just left them here together with 
+>>>> the other mem stats code.
+>>>>
+>>>> I can move it to amdgpu_bo.c make it return the memtype verbatim and 
+>>>> just fold it when I do the accounting.
+>>>
+>>> I think that folding GDS, GWS and OA into system is also a bug. We 
+>>> should really not doing that.
+>>>
+>>> Just wanted to point out for this round that the code to query the 
+>>> current placement from a BO should probably go into amdgpu_bo.c and 
+>>> not amdgpu_vm.c
+>>>
+>>>>
+>>>>>> +   struct ttm_resource *res = bo->tbo.resource;
+>>>>>> +   const uint32_t domain_to_pl[] = {
+>>>>>> +           [ilog2(AMDGPU_GEM_DOMAIN_CPU)]      = TTM_PL_SYSTEM,
+>>>>>> +           [ilog2(AMDGPU_GEM_DOMAIN_GTT)]      = TTM_PL_TT,
+>>>>>> +           [ilog2(AMDGPU_GEM_DOMAIN_VRAM)]     = TTM_PL_VRAM,
+>>>>>> +           [ilog2(AMDGPU_GEM_DOMAIN_GDS)]      = AMDGPU_PL_GDS,
+>>>>>> +           [ilog2(AMDGPU_GEM_DOMAIN_GWS)]      = AMDGPU_PL_GWS,
+>>>>>> +           [ilog2(AMDGPU_GEM_DOMAIN_OA)]       = AMDGPU_PL_OA,
+>>>>>> +           [ilog2(AMDGPU_GEM_DOMAIN_DOORBELL)] =
+>>>>> AMDGPU_PL_DOORBELL,
+>>>>>> +   };
+>>>>>> +   uint32_t domain;
+>>>>>> +
+>>>>>> +   if (res)
+>>>>>> +           return fold_memtype(res->mem_type);
+>>>>>> +
+>>>>>> +   /*
+>>>>>> +    * If no backing store use one of the preferred domain for basic
+>>>>>> +    * stats. We take the MSB since that should give a reasonable
+>>>>>> +    * view.
+>>>>>> +    */
+>>>>>> +   BUILD_BUG_ON(TTM_PL_VRAM < TTM_PL_TT || TTM_PL_VRAM <
+>>>>> TTM_PL_SYSTEM);
+>>>>>> +   domain = fls(bo->preferred_domains & AMDGPU_GEM_DOMAIN_MASK);
+>>>>>> +   if (drm_WARN_ON_ONCE(&adev->ddev,
+>>>>>> +                        domain == 0 || --domain >= 
+>>>>>> ARRAY_SIZE(domain_to_pl)))
+>>>>> It's perfectly legal to create a BO without a placement. That one 
+>>>>> just won't have a
+>>>>> backing store.
+>>>>>
+>>>> This is lifted from the previous change I'm rebasing onto. I think 
+>>>> what it’s trying to do is if the BO doesn't have a placement, use 
+>>>> the "biggest" (VRAM > TT > SYSTEM) preferred placement for the 
+>>>> purpose of accounting. Previously we just ignore BOs that doesn't 
+>>>> have a placement. I guess there's argument for going with either 
+>>>> approaches.
+>>>
+>>> I was not arguing, I'm simply pointing out a bug. It's perfectly 
+>>> valid for bo->preferred_domains to be 0.
+>>>
+>>> So the following WARN_ON() that no bit is set is incorrect.
+>>>
+>>>>
+>>>>>> +           return 0;
+>>>>>> +   return fold_memtype(domain_to_pl[domain])
+>>>>> That would need specular execution mitigation if I'm not completely 
+>>>>> mistaken.
+>>>>>
+>>>>> Better use a switch/case statement.
+>>>>>
+>>>> Do you mean change the array indexing to a switch statement?
+>>>
+>>> Yes.
+>>
+>> Did you mean array_index_nospec?
 > 
-> layer->info can be null if we have an error on the first layer in
-> zynqmp_disp_create_layers
+> Yes.
 > 
-> Signed-off-by: Steffen Dirkwinkel <s.dirkwinkel@beckhoff.com>
-> ---
->   drivers/gpu/drm/xlnx/zynqmp_disp.c | 3 +++
->   1 file changed, 3 insertions(+)
+>> Domain is not a direct userspace input and is calculated from the mask 
+>> which sanitized to allowed values prior to this call. So I *think* 
+>> switch is an overkill but don't mind it either. Just commenting FWIW.
 > 
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-> index 9368acf56eaf..e4e0e299e8a7 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-> @@ -1200,6 +1200,9 @@ static void zynqmp_disp_layer_release_dma(struct zynqmp_disp *disp,
->   {
->   	unsigned int i;
->   
-> +	if (!layer->info)
-> +		return;
-> +
->   	for (i = 0; i < layer->info->num_channels; i++) {
->   		struct zynqmp_disp_layer_dma *dma = &layer->dmas[i];
->   
+> I missed that the mask is applied.
+> 
+> Thinking more about it I'm not sure if we should do this conversion in 
+> the first place. IIRC Tvrtko you once suggested a patch which switched a 
+> bunch of code to use the TTM placement instead of the UAPI flags.
 
-I think this should also have the Fixes tag, but probably not stable 
-material.
+Maybe 8fb0efb10184 ("drm/amdgpu: Reduce mem_type to domain double 
+indirection") is what are you thinking of?
 
-  Tomi
+> Going more into this direction I think when we want to look at the 
+> current placement we should probably also use the TTM PL enumeration 
+> directly.
 
+It does this already. The placement flags are just to "invent" a TTM PL 
+enum when bo->tbo.resource == NULL.
+
+         if (!res) {
+                 /*
+                  * If no backing store use one of the preferred domain 
+for basic
+                  * stats. We take the MSB since that should give a 
+reasonable
+                  * view.
+                  */
+                 BUILD_BUG_ON(TTM_PL_VRAM < TTM_PL_TT ||
+                              TTM_PL_VRAM < TTM_PL_SYSTEM);
+                 type = fls(bo->preferred_domains & AMDGPU_GEM_DOMAIN_MASK);
+                 if (!type)
+                         return;
+                 type--;
+                 if (drm_WARN_ON_ONCE(&adev->ddev,
+                                      type >= ARRAY_SIZE(domain_to_pl)))
+                         return;
+                 type = domain_to_pl[type];
+         } else {
+                 type = res->mem_type;
+         }
+...
+         stats[type].total += size;
+         if (drm_gem_object_is_shared_for_memory_stats(obj))
+                 stats[type].drm.shared += size;
+         else
+                 stats[type].drm.private += size;
+... etc ...
+
+So all actual stat accounting is based on TTM PL type enum. And then 
+later at fdinfo print time:
+
+         for (i = 0; i < TTM_PL_PRIV; i++)
+                 drm_print_memory_stats(p,
+                                        &stats[i].drm,
+                                        DRM_GEM_OBJECT_RESIDENT |
+                                        DRM_GEM_OBJECT_PURGEABLE,
+                                        pl_name[i]);
+
+Again, based of the same enum. Not sure if you have something other in 
+mind or you are happy with that?
+
+Then what Teddy does is IMO only tangential, he just changes when stats 
+are collected and not this aspect.
+
+To fold or not the special placements (GWS, GDS & co) is also 
+tangential. In my patch I just preserved the legacy behaviour so it can 
+easily be tweaked on top.
+
+Regards,
+
+Tvrtko
+
+> 
+> Regards,
+> Christian.
+> 
+>>
+>> Regards,
+>>
+>> Tvrtko
+> 
