@@ -2,85 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0FB19ACC91
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2024 16:34:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58F939ACCA2
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2024 16:35:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 328A810E7F6;
-	Wed, 23 Oct 2024 14:34:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCFB310E7F7;
+	Wed, 23 Oct 2024 14:35:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Ql7wNzuc";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZnYAi8xh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com
- [209.85.218.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D88110E7F6
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 14:34:19 +0000 (UTC)
-Received: by mail-ej1-f51.google.com with SMTP id
- a640c23a62f3a-a9a156513a1so937954166b.0
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 07:34:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1729694058; x=1730298858; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Q4kJampXEx3nv7rxbRRPQLyxusFtEFCb6+hV0uyGoRA=;
- b=Ql7wNzucxIhcKuCpPaA2/KZ1C32fvKECDl/H66jtHn7x0l/0VS9C7sG1xKBm+o96zI
- 6toCmUH76rNfzpRPhUTP5HIHVfmO2SCuL+W4zO2SqaF/1aQwhevFNN49M6O6E8hylONe
- /Imcae5ISSNDeXuQ/q7e9dCGhu17K9TiF2F8MmvrpYHWSAPZOeKu8oK0gOjG6L3heFpP
- L6RySKm+jps0O3C+AUWoGM37+LhqYIElF/h2OtzFhpblnzFT2mTApEJaRpS2zak6TaSm
- Y4iX+pIxzt+K9tV6bXtUASIYzgUuVnonfKecnHYX8nQ1/ar2aMvFUNisKyveJ3DFkRIm
- Gy8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729694058; x=1730298858;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Q4kJampXEx3nv7rxbRRPQLyxusFtEFCb6+hV0uyGoRA=;
- b=gU4doYmWgH8KW9M3hoqj5pvQJI5XI2zIp6klV4FL+sIZgBMkmvzGDDjXIArdshnDEM
- E9qERCuFM/n2rX5sCPBJZ9T2YGP4KyUpgUTCA2f3VqvVySJGJyOlGBaDtv2/lb5VJHJJ
- K9Jwj9Cw8FqiUvREIWh/os0NAGgXvjXX7htXEa6NDHUTto+tC4i3wah1Pu8w8f63fLct
- uZ9Pr2EGobsdGVSHixWZyJCx1QE/Vkl03hLZIbmkVJepVT1PEaLR15TGT9DUfFxuLjWJ
- OvuFg3X9pPuwZkTgOwx3JIvDRYZsgDSXgdjT3AVkzeMkaHgy43Ji5M++2eJq8vVf2KCn
- PKSA==
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 388E410E7F7
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 14:35:40 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 203935C4131
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 14:35:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B739C4CEE9
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 14:35:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1729694138;
+ bh=azQJ3eGowkkRjf7a7p4DUvh4rfik/bDhwyFQa/WiKhg=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=ZnYAi8xhKVOwyN23dtadpHuhJyihl2MDeOhcQoE63BUztJTDrQrBBwrL0rvXULRRk
+ /EFa+6zg5Ddujjug7EamJ/cDRT+F0n5FadFPs185ur2IGAhnK07Kmcr8OjBt76bQ89
+ xdKfco3k3sJZQ9GLwbol3zWK6QVhvu+w4FRlxVHZXIFRI2mwDg7qL2wQ+HR6rKvF8G
+ kUo/FrbFc4h6odrkyoxm7pftbyFcU+pO7+Bz6hiRg52IOGIvtWkFV3jNHNRyyPyj+a
+ iXHCBRPQD5/Viy+XTVHPQU2zx7IYfNY9fpUDzARmP5MmPnJpLyUW0Gxe88IYv5BtAg
+ YvuzrVYk9TYRg==
+Received: by mail-pf1-f179.google.com with SMTP id
+ d2e1a72fcca58-71e61b47c6cso5301192b3a.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 07:35:38 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCV+8huy/HzeoctoZEWIv2dKisb5Uuph0ovZ1lyQ5MlCuojmmD0OkGzDmdFwsb7kEVENR/mpoJgX3VY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw4yH+5B5OVMlXivZXh5ctn+PSpGj445pWn60LDCrPxQ3e4vplA
- CUW843uiurJ9kbjP7QrhyYje4vyANiLUuQD1n3dOcLe7NYp4IFSU
-X-Google-Smtp-Source: AGHT+IHpnzei1u28XJ/Cb4x4LM2CIq79av1YBmoRQwGIYPDEwnobftY+MUQkzpScEWtj5S2LMvBtDQ==
-X-Received: by 2002:a17:907:960b:b0:a9a:e2b:1711 with SMTP id
- a640c23a62f3a-a9abf5288bdmr329808366b.0.1729694057334; 
- Wed, 23 Oct 2024 07:34:17 -0700 (PDT)
-Received: from [192.168.8.113] ([148.252.141.112])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a9a91573645sm479309066b.182.2024.10.23.07.34.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Oct 2024 07:34:17 -0700 (PDT)
-Message-ID: <264c8f95-2a69-4d49-8af6-d035fa890ef1@gmail.com>
-Date: Wed, 23 Oct 2024 15:34:53 +0100
+ AJvYcCWa/i6+b5KfHb/kEG4941v5fts1dMv42s4RnRhJSVmVDAW53+IBZusxYD9ShbSOFl8rpXRFKLhbVSY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyyV+RRkIvlWOAlkvsQ8XXnpQuj2t0ryqYI3fkR5SZJizdO/p0B
+ Xcqhhdk35p6cjFvMbK9pg2W5+ZSk/GEfzkQVcFa9ZboahHxJRr746P9Bh3rfgWgWALvqG36UyJw
+ 54VUXef808P2KX6trmnesZfwfrQ==
+X-Google-Smtp-Source: AGHT+IGotfPUjuCyXnHej963WsiwtwAVlBk0onYdkHZONBPgcS/jZacTHxq70ShX22L6ObDnMI+HTy8A/5j0aUTa/2E=
+X-Received: by 2002:a05:6a00:3d15:b0:70b:176e:b3bc with SMTP id
+ d2e1a72fcca58-72030bdca55mr4263603b3a.28.1729694137938; Wed, 23 Oct 2024
+ 07:35:37 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 02/15] net: generalise net_iov chunk owners
-To: Christoph Hellwig <hch@infradead.org>, David Wei <dw@davidwei.uk>
-Cc: io-uring@vger.kernel.org, netdev@vger.kernel.org,
- Jens Axboe <axboe@kernel.dk>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jesper Dangaard Brouer
- <hawk@kernel.org>, David Ahern <dsahern@kernel.org>,
- Mina Almasry <almasrymina@google.com>,
- Stanislav Fomichev <stfomichev@gmail.com>, Joe Damato <jdamato@fastly.com>,
- Pedro Tammela <pctammela@mojatatu.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-References: <20241016185252.3746190-1-dw@davidwei.uk>
- <20241016185252.3746190-3-dw@davidwei.uk> <ZxijxiqNGONin3IY@infradead.org>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <ZxijxiqNGONin3IY@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20241003030919.17980-1-macpaul.lin@mediatek.com>
+ <20241003030919.17980-4-macpaul.lin@mediatek.com>
+In-Reply-To: <20241003030919.17980-4-macpaul.lin@mediatek.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Wed, 23 Oct 2024 22:35:58 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_-6tHK7xq3JUWSX--2mZqHQE-bzfaCwzuYHY5crFtYNxQ@mail.gmail.com>
+Message-ID: <CAAOTY_-6tHK7xq3JUWSX--2mZqHQE-bzfaCwzuYHY5crFtYNxQ@mail.gmail.com>
+Subject: Re: [PATCH v6 4/4] dt-bindings: display: mediatek: dpi: correct
+ power-domains property
+To: Macpaul Lin <macpaul.lin@mediatek.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Yong Wu <yong.wu@mediatek.com>, 
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Rohit Agarwal <rohiagar@chromium.org>, dri-devel@lists.freedesktop.org, 
+ linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, iommu@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, 
+ Alexandre Mergnat <amergnat@baylibre.com>, Bear Wang <bear.wang@mediatek.com>, 
+ Pablo Sun <pablo.sun@mediatek.com>, Macpaul Lin <macpaul@gmail.com>, 
+ Sen Chu <sen.chu@mediatek.com>, Chris-qj chen <chris-qj.chen@mediatek.com>, 
+ MediaTek Chromebook Upstream
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>, 
+ Chen-Yu Tsai <wenst@chromium.org>, Jitao Shi <jitao.shi@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,26 +92,121 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/23/24 08:20, Christoph Hellwig wrote:
-> On Wed, Oct 16, 2024 at 11:52:39AM -0700, David Wei wrote:
->> From: Pavel Begunkov <asml.silence@gmail.com>
->>
->> Currently net_iov stores a pointer to struct dmabuf_genpool_chunk_owner,
->> which serves as a useful abstraction to share data and provide a
->> context. However, it's too devmem specific, and we want to reuse it for
->> other memory providers, and for that we need to decouple net_iov from
->> devmem. Make net_iov to point to a new base structure called
->> net_iov_area, which dmabuf_genpool_chunk_owner extends.
-> 
-> We've been there before.  Instead of reinventing your own memory
-> provider please enhance dmabufs for your use case.  We don't really
-> need to build memory buffer abstraction over memory buffer abstraction.
+Hi, Macpaul:
 
-It doesn't care much what kind of memory it is, nor it's important
-for internals how it's imported, it's user addresses -> pages for
-user convenience sake. All the net_iov setup code is in the page pool
-core code. What it does, however, is implementing the user API, so
-There is no relevance with dmabufs.
+Macpaul Lin <macpaul.lin@mediatek.com> =E6=96=BC 2024=E5=B9=B410=E6=9C=883=
+=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8A=E5=8D=8811:09=E5=AF=AB=E9=81=93=EF=
+=BC=9A
+>
+> The MediaTek DPI module is typically associated with one of the
+> following multimedia power domains:
+>  - POWER_DOMAIN_DISPLAY
+>  - POWER_DOMAIN_VDOSYS
+>  - POWER_DOMAIN_MM
+> The specific power domain used varies depending on the SoC design.
+>
+> These power domains are shared by multiple devices within the SoC.
+> In most cases, these power domains are enabled by other devices.
+> As a result, the DPI module of legacy SoCs often functions correctly
+> even without explicit configuration.
+>
+> It is recommended to explicitly add the appropriate power domain
+> property to the DPI node in the device tree. Hence drop the
+> compatible checking for specific SoCs.
 
--- 
-Pavel Begunkov
+Applied to mediatek-drm-fixes [1], thanks.
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
+log/?h=3Dmediatek-drm-fixes
+
+Regards,
+Chun-Kuang.
+
+>
+> Fixes: 5474d49b2f79 ("dt-bindings: display: mediatek: dpi: Add power doma=
+ins")
+> Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
+> Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
+> Signed-off-by: Pablo Sun <pablo.sun@mediatek.com>
+> Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
+> ---
+>  .../display/mediatek/mediatek,dpi.yaml        | 24 ++++++++-----------
+>  1 file changed, 10 insertions(+), 14 deletions(-)
+>
+> Changes for v2:
+>  - Because of the corresponding dts fix has been reviewed with a Reviewed=
+-by: tag.
+>    [1] https://lore.kernel.org/all/20240925080515.16377-1-macpaul.lin@med=
+iatek.com/
+>    We still need this change to fix the 2 dtbs_check errors.
+>    So keeps no change here.
+>
+> Changes for v3:
+>  - The origin patch is [2]
+>    https://lore.kernel.org/all/20240926111449.9245-2-macpaul.lin@mediatek=
+.com/
+>  - Thanks for Conor's reminding, after MediaTek's internal discussion,
+>    This patch v3 is the replacement of [2] v2.
+>    Because the DPI module should has a explicit configuration with power =
+domain.
+>  - Drop Acked-by: tag since v3 is nearly a new patch for different approa=
+ch.
+>
+> Changes for v4:
+>  - No change. Please help to review it again.
+>
+> Changes for v5:
+>  - Add missing Reviewed-by Tag from Krzysztof. Thanks.
+>
+> Changes for v6:
+>  - No change.
+>
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,=
+dpi.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.=
+yaml
+> index 3a82aec9021c..497c0eb4ed0b 100644
+> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yam=
+l
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yam=
+l
+> @@ -63,6 +63,16 @@ properties:
+>        - const: sleep
+>
+>    power-domains:
+> +    description: |
+> +      The MediaTek DPI module is typically associated with one of the
+> +      following multimedia power domains:
+> +        POWER_DOMAIN_DISPLAY
+> +        POWER_DOMAIN_VDOSYS
+> +        POWER_DOMAIN_MM
+> +      The specific power domain used varies depending on the SoC design.
+> +
+> +      It is recommended to explicitly add the appropriate power domain
+> +      property to the DPI node in the device tree.
+>      maxItems: 1
+>
+>    port:
+> @@ -79,20 +89,6 @@ required:
+>    - clock-names
+>    - port
+>
+> -allOf:
+> -  - if:
+> -      not:
+> -        properties:
+> -          compatible:
+> -            contains:
+> -              enum:
+> -                - mediatek,mt6795-dpi
+> -                - mediatek,mt8173-dpi
+> -                - mediatek,mt8186-dpi
+> -    then:
+> -      properties:
+> -        power-domains: false
+> -
+>  additionalProperties: false
+>
+>  examples:
+> --
+> 2.45.2
+>
