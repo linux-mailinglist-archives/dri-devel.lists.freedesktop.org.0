@@ -2,85 +2,103 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D5E49AC0FA
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2024 10:04:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 884009AC193
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2024 10:28:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82FD110E222;
-	Wed, 23 Oct 2024 08:04:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2A8410E790;
+	Wed, 23 Oct 2024 08:28:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="cm8QoREx";
+	dkim=pass (2048-bit key; unprotected) header.d=ljones.dev header.i=@ljones.dev header.b="EnqjKD4/";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="PlEBN4IM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7561410E788
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 08:04:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1729670647;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1HJeCjnMIw12TEWY04xj2y1qbuaADV67keXH+V6fBEY=;
- b=cm8QoRExGv68lufHktfTBQiVtmI9vSlm8309GBPQKfYJGoIWoTgaYtaUyncn8z2fsGK4Rp
- JmjIRf0Wj02EMqGpljCx96n5cShuct4E52G4WWj8BrqVPbjuHOsGgRIA+/OLyclBcpj2PG
- cvbspreX3ovOfWY7KZbeioD/uQ41gOQ=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-364-HK1c62MoMT2XXaIQah9x-w-1; Wed, 23 Oct 2024 04:04:06 -0400
-X-MC-Unique: HK1c62MoMT2XXaIQah9x-w-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-4316138aff6so42408705e9.1
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 01:04:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729670645; x=1730275445;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1HJeCjnMIw12TEWY04xj2y1qbuaADV67keXH+V6fBEY=;
- b=q9fQyM0efR/ncp9hOuvsk3AvOdP0B/AFvncnzFYImgKBmjKWDCQfrH9Cj3j046sgs0
- pW5sxG8dfyp/5op8Dl3SjiK05Bg6r0TgVYfMLnNbFUNNqLRyNukB0BhxYjfJn4WqKVlc
- qTnNaMLGxUu6wsVeIo3jccoQ0Qs27LnWYahGSqQq33YQKL/Shc32vtBhhMoH/WdYt9gj
- ibHUYQhtHeUChOZkN+vmmQIXUzy7/htPLzK7U+OWxtceof99FNX4luoI0MDjV9I59OMK
- 5nxQrZYzW5Rv2yEKSTtR913RLTfaVHLKyh5IQwmXJRZCSFLiXCkQLuubinybBsnFTawe
- 68Bg==
-X-Gm-Message-State: AOJu0YyssVBR/nuHoX6qH3nSXg969HdhmJIY14txUg5C+Ucgxy22iIb5
- WcPpus7ZCPrBJDrdVXjrXdb50bI2ncSPaDaIQAURPjvwdMAnA+hrdBqsC6y+uHUwWC1zmeOSaFO
- zL3Om64n49lhOLz2RwpS53dGHEAjAKuayHTPIs+jSfKGLAM9Yz/AG7o3GTtnJScgLsg==
-X-Received: by 2002:a05:600c:1e28:b0:426:627e:37af with SMTP id
- 5b1f17b1804b1-4318412fd23mr15814815e9.3.1729670644882; 
- Wed, 23 Oct 2024 01:04:04 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFxvfVsE8Z/Bj4nM5IJVIdgM3fqMDZ+BQkr47XiNieWjM3E3mpsBv2Zmc+c3HsbEOTIR8ZDBA==
-X-Received: by 2002:a05:600c:1e28:b0:426:627e:37af with SMTP id
- 5b1f17b1804b1-4318412fd23mr15814545e9.3.1729670644357; 
- Wed, 23 Oct 2024 01:04:04 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-37ee0a365e5sm8357499f8f.21.2024.10.23.01.04.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Oct 2024 01:04:03 -0700 (PDT)
-Message-ID: <44141638-4d8f-4e11-9ede-51cdb51d3a28@redhat.com>
-Date: Wed, 23 Oct 2024 10:04:02 +0200
+Received: from fhigh-a2-smtp.messagingengine.com
+ (fhigh-a2-smtp.messagingengine.com [103.168.172.153])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B34B910E790
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 08:28:12 +0000 (UTC)
+Received: from phl-compute-08.internal (phl-compute-08.phl.internal
+ [10.202.2.48])
+ by mailfhigh.phl.internal (Postfix) with ESMTP id 3487B1140135;
+ Wed, 23 Oct 2024 04:28:11 -0400 (EDT)
+Received: from phl-imap-01 ([10.202.2.91])
+ by phl-compute-08.internal (MEProxy); Wed, 23 Oct 2024 04:28:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ljones.dev; h=cc
+ :cc:content-transfer-encoding:content-type:content-type:date
+ :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to; s=fm1; t=1729672091;
+ x=1729758491; bh=Q99IEpRDwsQRu7/QpTx/OJI3t5lg9MCdu26wf4vKknI=; b=
+ EnqjKD4/h8D8/l8WZO46e1ElVhjhcQDKpVSnLJ4BfRgbMrYVais8akyr2U0692ep
+ zMF/JdT+kXwg2fHKWqHW8FYFdEx+3UBA6C31pNk8ff+XCnwGoC1rXiYhSSjUttI8
+ x7MQA5xNwb0snxIJDI5Mx5FzuKsPuLGAtnJnSqs2joKj1g5VBtdr2mxmPgL8wuhP
+ ERJRnec2IKfeQRJslleQavu2h9dr8lzlLXyumZHGSUpXSPyrKvNmHRr0BBqiVhSp
+ xGLFFBHaR0vrTCGcaDArcNpn/c23Fdv0mvtA11MbN8HzZe24XsOejJUjJ4KYyB2W
+ gNC646+qFkp8rWbhehFd1Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:content-type:date:date:feedback-id:feedback-id
+ :from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1729672091; x=
+ 1729758491; bh=Q99IEpRDwsQRu7/QpTx/OJI3t5lg9MCdu26wf4vKknI=; b=P
+ lEBN4IM0J23/qTbvz4rnlNKapBm7qpFJCi2v1jIGUeXo8v/Oo502wwWIni7QD8Rc
+ /n7kGuV2lGK4e9K5lhd64jRt00qmuD+RfxwARO971otT/xatnki+H4KLp21Xue2Q
+ EnPbg1WuY74JV5w3zAG9EN9PfuwPS3/dhyzTIkEakF82mfxakotybWQjM2dmSWaL
+ vH8A0J9fGN7Q5vx3y3mn5BJ+6hlw7kHnj/yGbdJTQi5fBFoLOTkwZgFqOeEzuQfS
+ uojC6CFqeWPcqYi6GUag5n26pTY5TEFJEMMGDtmsFQXp1DYRDmr8L2Wj3tT0ubly
+ HQ+GLctbYgPsqI1/vDk/g==
+X-ME-Sender: <xms:mrMYZyKXUiDaKpV8SNe7SHC26_seOY_U8VcRGh8j24R3l-iTLcSJLQ>
+ <xme:mrMYZ6IBQQ7R5vAobb7NNcRMOUEik4QhTS0dL0u-Rv9IS_GDbtiBhyXJICbWRgwGl
+ nKOAOqYuH_Fja-6GWc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdeijedgtdefucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+ rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+ htshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtqhertdertdej
+ necuhfhrohhmpedfnfhukhgvucflohhnvghsfdcuoehluhhkvgeslhhjohhnvghsrdguvg
+ hvqeenucggtffrrghtthgvrhhnpeekieeftdeltdevudeukeefleejjeeitedttdfhteek
+ jefhteduhffhjefhfeejjeenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrgh
+ dpghhithhlrggsrdgtohhmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehm
+ rghilhhfrhhomheplhhukhgvsehljhhonhgvshdruggvvhdpnhgspghrtghpthhtoheple
+ dpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheprghlvgigrghnuggvrhdruggvuhgt
+ hhgvrhesrghmugdrtghomhdprhgtphhtthhopehmrghrihhordhlihhmohhntghivghllh
+ hosegrmhgurdgtohhmpdhrtghpthhtoheprghlvgiguggvuhgthhgvrhesghhmrghilhdr
+ tghomhdprhgtphhtthhopegshhgvlhhgrggrshesghhoohhglhgvrdgtohhmpdhrtghpth
+ htohepshhuphgvrhhmudeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepughrihdquggv
+ vhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopehkrg
+ hihhgvnhhgfhesnhhvihguihgrrdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhn
+ vghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqphgtih
+ esvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:mrMYZyuW3W0ma7h3VYDAUpt35VMBgnhLeQd_7vLkh_KOfMCG5wanuQ>
+ <xmx:mrMYZ3b-ytoP3tvYoZ9oqvhzjW_h3Itluae8uXJbd_8FZSbB185aYg>
+ <xmx:mrMYZ5YgGK7kE0WuxIaxBWGt_MpPh8oyeEBLWrwrfrKDgs5vOUdezQ>
+ <xmx:mrMYZzBAu2wV-Swtd5bfuvdCmTgiEQIsR6YeSXgp-gynqN2OJSqhWQ>
+ <xmx:m7MYZ144VpCsV5mA50Qdc7OjWgQHdGVdEeDnvFwarLP58Z4SX_FOneCZ>
+Feedback-ID: i5ec1447f:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+ id C3E47336007C; Wed, 23 Oct 2024 04:28:10 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/5] drm/client: Remove unused drm_client_framebuffer_flush
-To: Thomas Zimmermann <tzimmermann@suse.de>, linux@treblig.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20241022232934.238124-1-linux@treblig.org>
- <20241022232934.238124-5-linux@treblig.org>
- <a56b486c-9341-41aa-a3ab-090f7ffd56d6@suse.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <a56b486c-9341-41aa-a3ab-090f7ffd56d6@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Date: Wed, 23 Oct 2024 10:27:49 +0200
+From: "Luke Jones" <luke@ljones.dev>
+To: "Kai-Heng Feng" <kaihengf@nvidia.com>,
+ "Alex Deucher" <alexdeucher@gmail.com>
+Cc: "Mario Limonciello" <superm1@kernel.org>,
+ "Bjorn Helgaas" <bhelgaas@google.com>,
+ "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
+ "open list" <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ "Mario Limonciello" <mario.limonciello@amd.com>,
+ "Alex Deucher" <alexander.deucher@amd.com>
+Message-Id: <eef7035c-2ffc-485f-b123-fffd3719be28@app.fastmail.com>
+In-Reply-To: <fd7cae9a-5ee1-4e18-915d-4115f0a6a156@nvidia.com>
+References: <20241014152502.1477809-1-superm1@kernel.org>
+ <20b48c6f-7ea9-4571-a39c-f20a9cf62319@app.fastmail.com>
+ <f56c555f-7313-43ff-abe4-28fb246e31cc@nvidia.com>
+ <CADnq5_OjfJzcOqa=NbWVw5ENvi+nmvNAZX0u_0hOvk3EVoh0bw@mail.gmail.com>
+ <fd7cae9a-5ee1-4e18-915d-4115f0a6a156@nvidia.com>
+Subject: Re: [PATCH] PCI/VGA: Don't assume only VGA device found is the boot
+ VGA device
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,104 +114,127 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23/10/2024 08:46, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 23.10.24 um 01:29 schrieb linux@treblig.org:
->> From: "Dr. David Alan Gilbert" <linux@treblig.org>
->>
->> drm_client_framebuffer_flush() was explicitly added in 2020
->> by
->> commit c9c03e3cf072 ("drm/client: Add drm_client_framebuffer_flush()")
->> but has never been used.
->>
->> Remove it.
-> 
-> I had a patchset to use this helper for fbdev emulation. It just needs 
-> preparation in a number of drivers.
-
-It is used by drm_log, which is under review.
-Please don't remove it.
-
-https://patchwork.freedesktop.org/series/136789/
-
--- 
-
-Jocelyn
 
 
-> 
-> Best regards
-> Thomas
-> 
->>
->> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
->> ---
->>   drivers/gpu/drm/drm_client.c | 33 ---------------------------------
->>   include/drm/drm_client.h     |  1 -
->>   2 files changed, 34 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_client.c b/drivers/gpu/drm/drm_client.c
->> index bfedcbf516db..5d10ad3c2ca5 100644
->> --- a/drivers/gpu/drm/drm_client.c
->> +++ b/drivers/gpu/drm/drm_client.c
->> @@ -552,39 +552,6 @@ void drm_client_framebuffer_delete(struct 
->> drm_client_buffer *buffer)
->>   }
->>   EXPORT_SYMBOL(drm_client_framebuffer_delete);
->> -/**
->> - * drm_client_framebuffer_flush - Manually flush client framebuffer
->> - * @buffer: DRM client buffer (can be NULL)
->> - * @rect: Damage rectangle (if NULL flushes all)
->> - *
->> - * This calls &drm_framebuffer_funcs->dirty (if present) to flush 
->> buffer changes
->> - * for drivers that need it.
->> - *
->> - * Returns:
->> - * Zero on success or negative error code on failure.
->> - */
->> -int drm_client_framebuffer_flush(struct drm_client_buffer *buffer, 
->> struct drm_rect *rect)
->> -{
->> -    if (!buffer || !buffer->fb || !buffer->fb->funcs->dirty)
->> -        return 0;
->> -
->> -    if (rect) {
->> -        struct drm_clip_rect clip = {
->> -            .x1 = rect->x1,
->> -            .y1 = rect->y1,
->> -            .x2 = rect->x2,
->> -            .y2 = rect->y2,
->> -        };
->> -
->> -        return buffer->fb->funcs->dirty(buffer->fb, buffer->client- 
->> >file,
->> -                        0, 0, &clip, 1);
->> -    }
->> -
->> -    return buffer->fb->funcs->dirty(buffer->fb, buffer->client->file,
->> -                    0, 0, NULL, 0);
->> -}
->> -EXPORT_SYMBOL(drm_client_framebuffer_flush);
->> -
->>   #ifdef CONFIG_DEBUG_FS
->>   static int drm_client_debugfs_internal_clients(struct seq_file *m, 
->> void *data)
->>   {
->> diff --git a/include/drm/drm_client.h b/include/drm/drm_client.h
->> index bc0e66f9c425..560aae47e06d 100644
->> --- a/include/drm/drm_client.h
->> +++ b/include/drm/drm_client.h
->> @@ -165,7 +165,6 @@ struct drm_client_buffer {
->>   struct drm_client_buffer *
->>   drm_client_framebuffer_create(struct drm_client_dev *client, u32 
->> width, u32 height, u32 format);
->>   void drm_client_framebuffer_delete(struct drm_client_buffer *buffer);
->> -int drm_client_framebuffer_flush(struct drm_client_buffer *buffer, 
->> struct drm_rect *rect);
->>   int drm_client_buffer_vmap_local(struct drm_client_buffer *buffer,
->>                    struct iosys_map *map_copy);
->>   void drm_client_buffer_vunmap_local(struct drm_client_buffer *buffer);
-> 
+On Wed, 23 Oct 2024, at 3:27 AM, Kai-Heng Feng wrote:
+> On 2024/10/22 9:04 PM, Alex Deucher wrote:
+>> External email: Use caution opening links or attachments
+>>=20
+>>=20
+>> On Tue, Oct 22, 2024 at 2:31=E2=80=AFAM Kai-Heng Feng <kaihengf@nvidi=
+a.com> wrote:
+>>>
+>>> Hi Luke,
+>>>
+>>> On 2024/10/15 4:04 PM, Luke Jones wrote:
+>>>> On Mon, 14 Oct 2024, at 5:25 PM, Mario Limonciello wrote:
+>>>>> From: Mario Limonciello <mario.limonciello@amd.com>
+>>>>>
+>>>>> The ASUS GA605W has a NVIDIA PCI VGA device and an AMD PCI display=
+ device.
+>>>>>
+>>>>> ```
+>>>>> 65:00.0 VGA compatible controller: NVIDIA Corporation AD106M [GeFo=
+rce
+>>>>> RTX 4070 Max-Q / Mobile] (rev a1)
+>>>>> 66:00.0 Display controller: Advanced Micro Devices, Inc. [AMD/ATI]
+>>>>> Strix [Radeon 880M / 890M] (rev c1)
+>>>>> ```
+>>>>>
+>>>>> The fallback logic in vga_is_boot_device() flags the NVIDIA dGPU a=
+s the
+>>>>> boot VGA device, but really the eDP is connected to the AMD PCI di=
+splay
+>>>>> device.
+>>>>>
+>>>>> Drop this case to avoid marking the NVIDIA dGPU as the boot VGA de=
+vice.
+>>>>>
+>>>>> Suggested-by: Alex Deucher <alexander.deucher@amd.com>
+>>>>> Reported-by: Luke D. Jones <luke@ljones.dev>
+>>>>> Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/3673
+>>>>> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+>>>>> ---
+>>>>>    drivers/pci/vgaarb.c | 7 -------
+>>>>>    1 file changed, 7 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
+>>>>> index 78748e8d2dba..05ac2b672d4b 100644
+>>>>> --- a/drivers/pci/vgaarb.c
+>>>>> +++ b/drivers/pci/vgaarb.c
+>>>>> @@ -675,13 +675,6 @@ static bool vga_is_boot_device(struct vga_dev=
+ice *vgadev)
+>>>>>               return true;
+>>>>>       }
+>>>>>
+>>>>> -    /*
+>>>>> -     * Vgadev has neither IO nor MEM enabled.  If we haven't foun=
+d any
+>>>>> -     * other VGA devices, it is the best candidate so far.
+>>>>> -     */
+>>>>> -    if (!boot_vga)
+>>>>> -            return true;
+>>>>> -
+>>>>>       return false;
+>>>>>    }
+>>>>>
+>>>>> --
+>>>>> 2.43.0
+>>>>
+>>>> Hi Mario,
+>>>>
+>>>> I can verify that this does leave the `boot_vga` attribute set as 0=
+ for the NVIDIA device.
+>>>
+>>> Does the following diff work for you?
+>>> This variant should be less risky for most systems.
+>>>
+>>> diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
+>>> index 78748e8d2dba..3fb734cb9c1b 100644
+>>> --- a/drivers/pci/vgaarb.c
+>>> +++ b/drivers/pci/vgaarb.c
+>>> @@ -675,6 +675,9 @@ static bool vga_is_boot_device(struct vga_device=
+ *vgadev)
+>>>                   return true;
+>>>           }
+>>>
+>>> +       if (vga_arb_integrated_gpu(&pdev->dev))
+>>> +               return true;
+>>> +
+>>=20
+>> The problem is that the integrated graphics does not support VGA.
+>
+> Right, so the check has to be used much earlier.
+>
+> I wonder does the integrated GFX have _DOD/_DOS while the discrete one=
+ doesn't?=20
+> If that's the case, vga_arb_integrated_gpu() can be used to differenti=
+ate which=20
+> one is the boot GFX.
 
+Discrete might be missing the _DOS? I'm not sure how to interpret the gp=
+u related DSL. You can see the dump here https://gitlab.com/asus-linux/r=
+everse-engineering/-/tree/master/uncategorized/GA605WI?ref_type=3Dheads
+
+ssdt1.dsl contains _DOD and looks to be the discrete unit, does not cont=
+ain _DOS. the dsdt contains both under "Device (VGA)"
+
+Regards,
+Luke.
+
+> Kai-Heng
+>
+>>=20
+>> Alex
+>>=20
+>>>           /*
+>>>            * Vgadev has neither IO nor MEM enabled.  If we haven't f=
+ound any
+>>>            * other VGA devices, it is the best candidate so far.
+>>>
+>>>
+>>> Kai-Heng
+>>>
+>>>>
+>>>> Tested-by: Luke D. Jones <luke@ljones.dev>
+>>>
