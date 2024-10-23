@@ -2,57 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5744B9AC349
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2024 11:16:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0E579AC6AE
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2024 11:33:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4944710E7A3;
-	Wed, 23 Oct 2024 09:16:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE44110E7A7;
+	Wed, 23 Oct 2024 09:33:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="IpT5ayGc";
+	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="h1ZsddYx";
+	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="jj7j6Aiv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CECFD10E375;
- Wed, 23 Oct 2024 09:16:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
- Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=2JGW/uDgq/+QFMvMCjmmFYjOZSDMvbEDxKhKwJbwj3g=; b=IpT5ayGceBbkF65INElCc0Oawh
- a+FdjjSFEuM5Y2TYugCfQIjCRdi9HkaNs2tiCtxnkMWdskUNOEFQsEGQScTRsAM59wPZ8HVsoh1Yh
- jc2ENu6qvG9Qy2QSj7i/PtFmu5pkOh4O7INwAMwvAjElsOzWEanN450igNiB1Q48bqSn9u2Fs7kW1
- PrAqFNzB8qZIuMxTbaxhVFx8gPDXhETPuRG5kXfELMDUv1lGY+nCSRQdjGETWU0UmUMzW0uiKk1NA
- 4NOscFeDY+/fJEFDPbyCP1b4+jMumJg56bUX8IDmNnF8sizj3EzE8pfej5J5HruVNYStdtKocq0D8
- tS2sOyGw==;
-Received: from [90.241.98.187] (helo=localhost)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1t3XTp-00Dxvc-4I; Wed, 23 Oct 2024 11:16:37 +0200
-Date: Wed, 23 Oct 2024 10:16:36 +0100
-From: Tvrtko Ursulin <tursulin@igalia.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-intel-gt-next
-Message-ID: <Zxi-3wkIwI-Y1Qvj@linux>
+X-Greylist: delayed 431 seconds by postgrey-1.36 at gabe;
+ Wed, 23 Oct 2024 09:33:44 UTC
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70B3889E69
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 09:33:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1729676024; x=1761212024;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=+BKf5KNrU31RpU4f9DG5CAmvfL+4I9L1qsDYZ+zZzCE=;
+ b=h1ZsddYxNBCkmWoI4Fg95rmAMqUN1Q8PLatFLrSVRqnfEMMfewBcl0uF
+ fHCyQLDGofbGGVM2u8g9lkI1mARv1yutQWF1FrK0IiuBgZRg08ClOJ5zJ
+ 0z53mltEU2HYEZfGHMUAPEhR1wHycNKRpV849RO70cOrHuVQhfMTWNvTK
+ xAWoEf5+BxmVmdHkpR6JSF72bwofb2+bUZwpktGTja643SMtDkK5bJUVz
+ oKGJnYGGK2ciW0Ltas7ojPqsIYqtf7V+DTJ0227VQbHOj0L7zb5s/rgj7
+ NJbvJwc43mWSjOl8jI5KzXoUNXPLCBIslNlGw7aoPS4kJkdGVpzGWZfjg Q==;
+X-CSE-ConnectionGUID: N5sDUTW0TzWaNZbOIF1DaQ==
+X-CSE-MsgGUID: BV9o/6MzQE6vVbNfyAy0Jg==
+X-IronPort-AV: E=Sophos;i="6.11,225,1725314400"; d="scan'208";a="39619700"
+Received: from vmailcow01.tq-net.de ([10.150.86.48])
+ by mx1.tq-group.com with ESMTP; 23 Oct 2024 11:26:31 +0200
+X-CheckPoint: {6718C147-4-21611FC3-DAD22B0C}
+X-MAIL-CPID: B425432F9F0D62CAF79F75DB369425F4_4
+X-Control-Analysis: str=0001.0A682F25.6718C147.006C, ss=1, re=0.000, recu=0.000,
+ reip=0.000, cl=1, cld=1, fgs=0
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 9D4FB163EF1; Wed, 23 Oct 2024 11:26:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
+ s=dkim; t=1729675586;
+ h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:in-reply-to:references;
+ bh=+BKf5KNrU31RpU4f9DG5CAmvfL+4I9L1qsDYZ+zZzCE=;
+ b=jj7j6AivhZGqdOxW9K9Ox6trqW/UaA2OOFLhI/gKvbP1o7poL8tpQ9wuO2AhzuMpDwhlb7
+ t9XNkJBSYJ/rqr9suy69zOGSjwhFOGsY6YzPqh+oAilizzZMix+sXu+mOnUc9ARBH9yz0i
+ ugvhNjdcQb3KpD6g/VgdvwtFuyDTm2DZVRie0/llR8O/W2R511Z2/GWiveARKmJCYIY5Au
+ Yij+bpuudRSNyGbgWleh8E7OSxaOnZcc0FStMNXsJ0Kid5imp8nt5Nad0eKxxliNmigoIl
+ qkBxf9W408ds5fwHtbA0eEQ4XWjLRewijHyvjIAlb5tnnsMSHxyZ0/+s9UnV3A==
+Message-ID: <e45a5f9a63e6dba8eb57bac3c5001e8a360af393.camel@ew.tq-group.com>
+Subject: Re: [PATCH next] drm/fsl-dcu: prevent error pointer dereference in
+ fsl_dcu_load()
+From: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Alexander Stein
+ <alexander.stein@ew.tq-group.com>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+Date: Wed, 23 Oct 2024 11:26:24 +0200
+In-Reply-To: <e4e078ed-9342-48f4-80c5-28f0f7b711b0@stanley.mountain>
+References: <e4e078ed-9342-48f4-80c5-28f0f7b711b0@stanley.mountain>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4-0ubuntu2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,94 +86,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, 2024-10-23 at 11:35 +0300, Dan Carpenter wrote:
+>=20
+> The syscon_regmap_lookup_by_compatible() function returns -ENODEV if
+> there isn't a compatible for it or other error pointers on error.  This
+> code only checks for -ENODEV instead of checking for other errors so it
+> could lead to an error pointer dereference inside the regmap_update_bits(=
+)
+> function.
+>=20
+> Fixes: ffcde9e44d3e ("drm: fsl-dcu: enable PIXCLK on LS1021A")
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 
-Hi Dave, Sima,
+Reviewed-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
 
-This is the main pull request for 6.13 merge window.
 
-PXP GuC auto-teardown feature got enabled, GPU reset robustness improvement
-for Haswell and basic PMU functionality was enabled for Gen2 platforms.
 
-The rest is a handful of small cleanups.
+> ---
+>  drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c b/drivers/gpu/drm/=
+fsl-dcu/fsl_dcu_drm_drv.c
+> index 91a48d774cf7..5997d9b4a431 100644
+> --- a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
+> +++ b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
+> @@ -109,7 +109,9 @@ static int fsl_dcu_load(struct drm_device *dev, unsig=
+ned long flags)
+>  		return dev_err_probe(dev->dev, ret, "failed to initialize mode setting=
+\n");
+> =20
+>  	scfg =3D syscon_regmap_lookup_by_compatible("fsl,ls1021a-scfg");
+> -	if (PTR_ERR(scfg) !=3D -ENODEV) {
+> +	if (IS_ERR(scfg) && PTR_ERR(scfg) !=3D -ENODEV)
+> +		return dev_err_probe(dev->dev, PTR_ERR(scfg), "failed to find regmap\n=
+");
+> +	if (!IS_ERR(scfg)) {
+>  		/*
+>  		 * For simplicity, enable the PIXCLK unconditionally,
+>  		 * resulting in increased power consumption. Disabling
 
-Regards,
-
-Tvrtko
-
-drm-intel-gt-next-2024-10-23:
-Driver Changes:
-
-Fixes/improvements/new stuff:
-
-- Enable PXP GuC autoteardown flow [guc] (Juston Li)
-- Retry RING_HEAD reset until it sticks [gt] (Nitin Gote)
-- Add basic PMU support for gen2 [pmu] (Ville Syrjälä)
-
-Miscellaneous:
-
-- Prevent a possible int overflow in wq offsets [guc] (Nikita Zhandarovich)
-- PMU code cleanups (Lucas De Marchi)
-- Fixed "CPU" -> "GPU" typo [gt] (Zhang He)
-- Gen2/3 interrupt handling cleanup (Ville Syrjälä)
-The following changes since commit 596a7f1084e49cc65072c458c348861e9b9ceab9:
-
-  drm/i915: Remove extra unlikely helper (2024-09-05 15:44:37 -0400)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/i915/kernel.git tags/drm-intel-gt-next-2024-10-23
-
-for you to fetch changes up to 6ef0e3ef2662db71d363af77ce31fa940bb7d525:
-
-  drm/i915/gt: Retry RING_HEAD reset until it get sticks (2024-10-22 11:35:07 +0200)
-
-----------------------------------------------------------------
-Driver Changes:
-
-Fixes/improvements/new stuff:
-
-- Enable PXP GuC autoteardown flow [guc] (Juston Li)
-- Retry RING_HEAD reset until it get sticks [gt] (Nitin Gote)
-- Add basic PMU support for gen2 [pmu] (Ville Syrjälä)
-
-Miscellaneous:
-
-- Prevent a possible int overflow in wq offsets [guc] (Nikita Zhandarovich)
-- PMU code cleanups (Lucas De Marchi)
-- Fixed "CPU" -> "GPU" typo [gt] (Zhang He)
-- Gen2/3 interrupt handling cleanup (Ville Syrjälä)
-
-----------------------------------------------------------------
-Juston Li (1):
-      drm/i915/guc: Enable PXP GuC autoteardown flow
-
-Lucas De Marchi (2):
-      drm/i915/pmu: Drop is_igp()
-      drm/i915/pmu: Use event_to_pmu()
-
-Nikita Zhandarovich (1):
-      drm/i915/guc: prevent a possible int overflow in wq offsets
-
-Nitin Gote (1):
-      drm/i915/gt: Retry RING_HEAD reset until it get sticks
-
-Ville Syrjälä (3):
-      drm/i915/gt: Nuke gen2_irq_{enable,disable}()
-      drm/i915/gt: s/gen3/gen2/
-      drm/i915/pmu: Add support for gen2
-
-Zhang He (1):
-      drm/i915/gt: Fixed "CPU" -> "GPU" typo
-
- drivers/gpu/drm/i915/gt/gen2_engine_cs.c          | 23 ++--------
- drivers/gpu/drm/i915/gt/gen2_engine_cs.h          |  6 +--
- drivers/gpu/drm/i915/gt/intel_engine_regs.h       |  2 +-
- drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c     |  2 +-
- drivers/gpu/drm/i915/gt/intel_ring_submission.c   | 38 ++++++++++++----
- drivers/gpu/drm/i915/gt/uc/intel_guc.c            |  8 ++++
- drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h       |  1 +
- drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c |  4 +-
- drivers/gpu/drm/i915/i915_drv.h                   |  3 ++
- drivers/gpu/drm/i915/i915_pmu.c                   | 54 +++++++++++++----------
- drivers/gpu/drm/i915/pxp/intel_pxp.c              |  2 +-
- 11 files changed, 82 insertions(+), 61 deletions(-)
+--=20
+TQ-Systems GmbH | M=C3=BChlstra=C3=9Fe 2, Gut Delling | 82229 Seefeld, Germ=
+any
+Amtsgericht M=C3=BCnchen, HRB 105018
+Gesch=C3=A4ftsf=C3=BChrer: Detlef Schneider, R=C3=BCdiger Stahl, Stefan Sch=
+neider
+https://www.tq-group.com/
