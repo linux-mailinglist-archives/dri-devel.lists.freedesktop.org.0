@@ -2,82 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DE6B9ACE93
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2024 17:23:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED3F29ACEAF
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2024 17:26:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2019F10E80B;
-	Wed, 23 Oct 2024 15:23:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8BFA10E80C;
+	Wed, 23 Oct 2024 15:26:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="Ppf50JkF";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="gvm6E27/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com
- [209.85.128.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E2FF10E80B
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 15:22:59 +0000 (UTC)
-Received: by mail-yw1-f182.google.com with SMTP id
- 00721157ae682-6e35fb3792eso69438037b3.3
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 08:22:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google; t=1729696978; x=1730301778;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=1wIAUWiQJFbl3JJUpj3CluZYI4nD0/WrALu13xFebT0=;
- b=Ppf50JkFIaGqUMNXMLa7dBhwi7xR+nGLOSd+WvIS7OTREnyUQZqXgZUCycQQ+Ek3V4
- gxL6mB7zvbUI08MJ7TVmcw2g5yESdybOtMSfP52FwIjlasEtzaw56MgGO9ckAzhURDuo
- EwFyCtU0RbXwVzhRSMBbiwP9OF/rvX8hGEcdCW+DvVYpUGW0clV1VMjhQ6KXZ8PjjHQD
- Sh4VYPGm6RnQWBAa45sb/WMXCRS+11ajUz5pxGWLXSJAG72w5hUSo2OhemKoDFyDasH1
- tx6YKY6Z93ZWpX/l4wSQX+L2shbVwqYrj/3DCNzN1n8d6Z0aWdFd2txvWnZMM5xfYw5J
- tMvg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C628010E80C
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 15:26:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1729697177;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sUh0g17SqyKPeTvfCPnxLjLxXG/Lptz+4Dsb0wobQHw=;
+ b=gvm6E27/Jc8NOsNzkb9OOBRrudRINxO4j9OXqSngK7BawiKZ3yNQhJSUbvYg/eXyfGnRnj
+ OYwyr7yc/9wmlcvRu3tO1/kwTv2U9kzws7BkBR6/lLa1iDnz31v2iHkzSwPEH6RjBED1fk
+ 3KMjezSAH4lonH9jsxPbQiM74Gj4Oag=
+Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com
+ [209.85.210.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-369-hQ8JUa98O3-eJunF3_qkCw-1; Wed, 23 Oct 2024 11:26:13 -0400
+X-MC-Unique: hQ8JUa98O3-eJunF3_qkCw-1
+Received: by mail-ot1-f69.google.com with SMTP id
+ 46e09a7af769-718074f58fcso5912994a34.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 08:26:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729696978; x=1730301778;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=1wIAUWiQJFbl3JJUpj3CluZYI4nD0/WrALu13xFebT0=;
- b=iyms+M+tscP4Ae9acIZ2kJgZFcnvQDuReFXsBsZWnY6EO2rtpu53YggGhqSojqKLik
- jECLXbped7gGQytC9SmTGEk7cd1sZD3JDBvUrErbHHaDKwZerrZdoO7/oH6SGjTtDRcb
- koDnX/9Bx0XNH6yImu0Hm++ABQzyf3NWxouOK3KqEKG4t6L2Hgpr7gXQrAAcXYDRTyTy
- 2rsOB7A3z/wFOsAoHm5zSdtPlrtA4DQUWo2UyH3N+qS1oEjLN4bRVPKC8vLnGGSpr/Au
- K/Duyfhlo/+fMi0pSbcxFQcq3CgGNNtNTmtiStVGXN1wKEI/6K8AFIxE+V9jslbmLCPV
- ZdXQ==
+ d=1e100.net; s=20230601; t=1729697173; x=1730301973;
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :cc:to:subject:user-agent:mime-version:date:message-id:from
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=sUh0g17SqyKPeTvfCPnxLjLxXG/Lptz+4Dsb0wobQHw=;
+ b=WUb1fumUASLFRDqcqlc6KV0vjKaf/YqU96SXTK2J6hGeEYOP21JGk45RpTZrVxcQ2j
+ ziWTOcB5k34V+WdV4IB/e98jm1zuU9xDvM9rTQVjDiYmQpLkdyh42umRc8zAEjpoGXUJ
+ nmbsNIxzmSerHIlIQ+93a43Bun+dL6z/pVCapVHsxVR4BrKY4s44hpPe3G4EU3urQ1ID
+ XGGAGj+mAedfQSUE32osgxh5rfKZwreG5txto3efRswj2LbcTWiiE+lYeWiusCdLYmsf
+ TTgQ3EtkP128xdWviytwCuhNuJPTtKeKZ53EfZ1JtOM+xvf5Ptzc6Q8NRqKt5HPi483s
+ 7EdA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWUXHg3PN3zc8QvoGa7ZzaZdZeRmlGGREc0Lh/oEE07tdHRPCzL7TiNQVNXPyIOmPYLroop9QgHkTU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzi48q+AeOHnL/GEtFZdsNxg1/WF2e2nGyBQ8CbVN5r61Rl0W/z
- JJPPGcwxwLlojpAKUaIY5Gl7kTZkuI9wDGMN8WQDwpOjtWGUfICU47OdfHhJQ4PCe7vh2JkGSsq
- ZJttmKPkkgDIrDSjoStwbhAOiWBp1eIKulfj25Q==
-X-Google-Smtp-Source: AGHT+IHLPfkgpIzmeX+fNvL+Ec7qidVgvcnf+ivPfa/B5DHsZtweH/1w3Z+SAuGZ5wv0Pl5umDZe3LGupSc+Y+KUkX8=
-X-Received: by 2002:a05:690c:6a02:b0:6db:c847:c8c5 with SMTP id
- 00721157ae682-6e7f0e3ea38mr34711827b3.16.1729696978556; Wed, 23 Oct 2024
- 08:22:58 -0700 (PDT)
+ AJvYcCV/DkYa8qUyzE/44lGrd7crFLn4IcRrq1meM4aRsx9xffnbwTXCQsU1qt1yqEXgV7xW15TBslHTuig=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxzBtSC20tI9/IiLDtA3juqsu9mu+/0OP/YyfRa56ARRkwmbxZh
+ 3NPWHOhItY21F70F1kj+TtCk6dRtFw9KGL0kKRJ0nk/sqAV3QMxWv+aOQs2rpLVZkmAZb5tA6Au
+ UMcahKsqN176Hhx9ZulOi46L6tA61h7OP1fsXCZgJifogno+YH/HGBxzcG6l7Ujx/8w==
+X-Received: by 2002:a05:6830:4428:b0:718:119:ee15 with SMTP id
+ 46e09a7af769-7184b2d43abmr3322097a34.10.1729697173049; 
+ Wed, 23 Oct 2024 08:26:13 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFZ8HZNZZ1NdptD5eLWfYWIKUwYpZpDtDkhL+yfDSXkQRcv/wze/ury8WoK60x0GCFuj5xePQ==
+X-Received: by 2002:a05:6830:4428:b0:718:119:ee15 with SMTP id
+ 46e09a7af769-7184b2d43abmr3322057a34.10.1729697172730; 
+ Wed, 23 Oct 2024 08:26:12 -0700 (PDT)
+Received: from ?IPV6:2601:188:ca00:a00:f844:fad5:7984:7bd7?
+ ([2601:188:ca00:a00:f844:fad5:7984:7bd7])
+ by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-6ce008fb5e0sm40518826d6.33.2024.10.23.08.26.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 23 Oct 2024 08:26:12 -0700 (PDT)
+From: Waiman Long <llong@redhat.com>
+X-Google-Original-From: Waiman Long <longman@redhat.com>
+Message-ID: <813cc1d5-1648-4900-ae56-5405e52926df@redhat.com>
+Date: Wed, 23 Oct 2024 11:26:10 -0400
 MIME-Version: 1.0
-References: <CAPY8ntDAMq_oTM+ua0pcFroTiWkDyhXSj++oGxOq+ODajm8++Q@mail.gmail.com>
- <3f35403e-f42f-4936-9297-68b56818aeee@gmx.net>
- <20241014-warm-savvy-wrasse-ed984e@houat>
- <CAPY8ntAFzT4uBT47kDnDjEcSZXLonV-n_ixZ6L1_LAcfQPwS8Q@mail.gmail.com>
- <17f8f497-1238-4555-824b-b5a3fb699a98@gmx.net>
- <CAPY8ntBegA_L58s30F4FSO+=q78Xt5XA4kvYq38zAvsgR2DSrQ@mail.gmail.com>
- <6465bac6-9841-4f38-b9e1-48e236ada910@gmx.net>
- <CAPY8ntCzg-2vCuX0uaRD1kK5=qhH79hmtvQc=g44bD5iGwi7_w@mail.gmail.com>
- <20241017-kickass-agile-boa-dd5cd3@houat>
- <974f9525-76da-4b3a-ba94-6ac68fc542be@gmx.net>
- <20241017-icy-speedy-okapi-bebdfa@houat>
- <9957cd8b-cd6d-4fbd-a78f-d25814b68e1e@gmx.net>
-In-Reply-To: <9957cd8b-cd6d-4fbd-a78f-d25814b68e1e@gmx.net>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Wed, 23 Oct 2024 16:22:41 +0100
-Message-ID: <CAPY8ntA+adGy3kkDnGUd1REpMc0f5zQD-9HPDTQfd6KUaUSfNw@mail.gmail.com>
-Subject: Re: vc4: HDMI Sink doesn't support RGB, something's wrong.
-To: Stefan Wahren <wahrenst@gmx.net>
-Cc: Maxime Ripard <mripard@kernel.org>,
- =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
- DRI Development <dri-devel@lists.freedesktop.org>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- Florian Fainelli <florian.fainelli@broadcom.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/7] kernel/cgroup: Add "dev" memory accounting cgroup
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ intel-xe@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Tejun Heo <tj@kernel.org>,
+ Zefan Li <lizefan.x@bytedance.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: Friedrich Vock <friedrich.vock@gmx.de>, cgroups@vger.kernel.org,
+ linux-mm@kvack.org, Maxime Ripard <mripard@kernel.org>
+References: <20241023075302.27194-1-maarten.lankhorst@linux.intel.com>
+ <20241023075302.27194-2-maarten.lankhorst@linux.intel.com>
+In-Reply-To: <20241023075302.27194-2-maarten.lankhorst@linux.intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,106 +101,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 19 Oct 2024 at 10:34, Stefan Wahren <wahrenst@gmx.net> wrote:
+On 10/23/24 3:52 AM, Maarten Lankhorst wrote:
+> The initial version was based roughly on the rdma and misc cgroup
+> controllers, with a lot of the accounting code borrowed from rdma.
 >
-> Hi,
+> The current version is a complete rewrite with page counter; it uses
+> the same min/low/max semantics as the memory cgroup as a result.
 >
-> Am 17.10.24 um 17:59 schrieb Maxime Ripard:
-> > On Thu, Oct 17, 2024 at 05:26:46PM GMT, Stefan Wahren wrote:
-> >> Am 17.10.24 um 16:27 schrieb Maxime Ripard:
-> >>> On Wed, Oct 16, 2024 at 07:16:43PM GMT, Dave Stevenson wrote:
-> >>>> Hi Stefan
-> >>>>
-> >>>> On Tue, 15 Oct 2024 at 22:13, Stefan Wahren <wahrenst@gmx.net> wrote:
-> >>>>> Hi Dave,
-> >> ...
-> >>>>> i prepared a branch for you, which contains the latest suspend2idle patches:
-> >>>>>
-> >>>>> https://github.com/lategoodbye/linux-dev/commits/v6.12-pm/
-> >>>>>
-> >>>>> Steps:
-> >>>>> 1. Flash latest Raspberry Pi OS (32 bit) on SD card
-> >>>>> 2. Build Kernel from repo above with arm/multi_v7_defconfig
-> >>>>> 3. Replace Kernel, modules + DTB on SD card with build ones
-> >>>>> 4. add the following to confix.txt
-> >>>>> device_tree=bcm2837-rpi-3-b-plus.dtb
-> >>>>> enable_uart=1
-> >>>>> 5. change/add the following to cmdline.txt
-> >>>>> console=ttyS1,115200
-> >>>>> no_console_suspend=1
-> >>>>> 6. connect the following devices to Raspberry Pi 3 B+ :
-> >>>>> USB mouse
-> >>>>> USB keyboard
-> >>>>> HDMI monitor
-> >>>>> Debug UART adapter (USB side to PC)
-> >>>>> 7. Power on board and boot into X11
-> >>>>> 8. Change to root
-> >>>>> 9. Enable wakeup for ttyS1
-> >>>> So I remember for next time
-> >>>> echo enabled > /sys/class/tty/ttyS1/power/wakeup
-> >>>>
-> >>>>> 10. Trigger suspend to idle via X11 (echo freeze > /sys/power/state)
-> >>>>> 11. Wakeup Raspberry Pi via Debug UART
-> >>>> I don't get the error you are seeing, but I also don't get the display resuming.
-> >>>> pm has obviously killed the power to the HDMI block, and it has the
-> >>>> reset values in as can be seen via /sys/kernel/debug/dri/0/hdmi_regs.
-> >>>> Nothing in the driver restores these registers, and I'm not sure if it
-> >>>> is meant to do so.
-> >>>> Run kmstest or similar from this state and the change of mode
-> >>>> reprogrammes the blocks so we get the display back again.
-> >>>>
-> >>>> I've also enabled CONFIG_DRM_LOAD_EDID_FIRMWARE so that I can use your
-> >>>> EDID, and get the same results.
-> >>>>
-> >>>> Knee-capping the HDMI block on suspend seems an unlikely mechanism to
-> >>>> work reliably. On the more recent Pis there is a need to be quite
-> >>>> careful in disabling the pipeline to avoid getting data stuck in
-> >>>> FIFOs.
-> >>>> I feel I must be missing something here.
-> >>> I think we're probably missing calls to drm_mode_config_helper_suspend and
-> >>> drm_mode_config_helper_resume.
-> >> Okay, i tried this and it works better (HDMI resumes fast), but it also
-> >> triggers a lot of WARN
-> > vc4_plane_reset deviates from the helper there:
-> > https://elixir.bootlin.com/linux/v6.11.3/source/drivers/gpu/drm/drm_atomic_state_helper.c#L326
-> >
-> > We should adjust it.
-> >
-> >> and the "doesn't support RGB ..." warnings are still there.
-> >>
-> >> I pushed my changes to the branch and attached the dmesg output.
-> > I can't help you there, it doesn't make sense to me. The EDID should be correct.
-> Maybe I should clarify that I provided the EDID from the X11 log during
-> normal boot (good case). I wasn't aware how to dump the EDID during the
-> suspend.
+> There's a small mismatch as TTM uses u64, and page_counter long pages.
+> In practice it's not a problem. 32-bits systems don't really come with
+>> =4GB cards and as long as we're consistently wrong with units, it's
+> fine. The device page size may not be in the same units as kernel page
+> size, and each region might also have a different page size (VRAM vs GART
+> for example).
 >
-> I tested with the new branch and these warning doesn't always occurs
-> during resume. So it seems to be timing related.
+> The interface is simple:
+> - populate dev_cgroup_try_charge->regions[..] name and size for each active
+>    region, set num_regions accordingly.
+> - Call (dev,drmm)_cgroup_register_device()
+> - Use dev_cgroup_try_charge to check if you can allocate a chunk of memory,
+>    use dev_cgroup__uncharge when freeing it. This may return an error code,
+>    or -EAGAIN when the cgroup limit is reached. In that case a reference
+>    to the limiting pool is returned.
+> - The limiting cs can be used as compare function for
+>    dev_cgroup_state_evict_valuable.
+> - After having evicted enough, drop reference to limiting cs with
+>    dev_cgroup_pool_state_put.
 >
-> AFAIU the EDID is read via I2C DDC and the attached clock in this case
-> is VPU clock. Correct?
+> This API allows you to limit device resources with cgroups.
+> You can see the supported cards in /sys/fs/cgroup/dev.region.capacity
+> You need to echo +dev to cgroup.subtree_control, and then you can
+> partition memory.
+>
+> Co-developed-by: Friedrich Vock <friedrich.vock@gmx.de>
+> Signed-off-by: Friedrich Vock <friedrich.vock@gmx.de>
+> Co-developed-by: Maxime Ripard <mripard@kernel.org>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> ---
+>   Documentation/admin-guide/cgroup-v2.rst |  51 ++
+>   Documentation/core-api/cgroup.rst       |   9 +
+>   Documentation/core-api/index.rst        |   1 +
+>   Documentation/gpu/drm-compute.rst       |  54 ++
+>   include/linux/cgroup_dev.h              |  91 +++
+>   include/linux/cgroup_subsys.h           |   4 +
+>   include/linux/page_counter.h            |   2 +-
+>   init/Kconfig                            |   7 +
+>   kernel/cgroup/Makefile                  |   1 +
+>   kernel/cgroup/dev.c                     | 893 ++++++++++++++++++++++++
+>   mm/page_counter.c                       |   4 +-
+>   11 files changed, 1114 insertions(+), 3 deletions(-)
+>   create mode 100644 Documentation/core-api/cgroup.rst
+>   create mode 100644 Documentation/gpu/drm-compute.rst
+>   create mode 100644 include/linux/cgroup_dev.h
+>   create mode 100644 kernel/cgroup/dev.c
 
-Yes. It's derived from the core clock, which is often referred to as
-the VPU clock.
+Just a general comment.
 
-> So I added the following to the config.txt
->
-> force_turbo=1
->
-> After that I wasn't able to reproduce these HDMI Sink warnings.
->
-> Is it possible that the I2C data get corrupted by VPU clock changes?
+Cgroup v1 has a legacy device controller in security/device_cgroup.c 
+which is no longer available in cgroup v2. So if you use the name device 
+controller, the documentation must be clear that it is completely 
+different and have no relationship from the device controller in cgroup v1.
 
-It shouldn't, but that doesn't mean that the monitor doesn't like the
-clock change. It should never exceed the 100kHz rate that the HDMI/DVI
-spec states (HDMI v1.4 spec section 8.4.1).
+Cheers,
+Longman
 
-If you set drm module parameter "debug" to 0x04, then DRM should log
-the hotplug handling and EDID parsing in the kernel log.
-The HDMI spec does say that the HDMI sink (ie monitor) can clock
-stretch the DDC transaction. It doesn't state a maximum amount of time
-that it can stretch for, and most I2C drivers will time out
-transactions after some period. The DRM logging would probably show
-something under these conditions though.
-
-  Dave
