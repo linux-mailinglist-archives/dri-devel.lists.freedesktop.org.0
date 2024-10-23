@@ -2,58 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADED29AC922
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2024 13:37:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AFAE9AC96C
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2024 13:53:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC47910E356;
-	Wed, 23 Oct 2024 11:37:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25A6210E20C;
+	Wed, 23 Oct 2024 11:53:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="EmL9fpIb";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="UgBdd0p0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA8C410E356;
- Wed, 23 Oct 2024 11:37:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=ZidyqIINZpBg8NrzEWqy1KWAOmZqjZpRvrahwOfe+Ow=; b=EmL9fpIb35/GZKiyzeb9RPx8HN
- IwsG6kBbDOh585L9nvEYItKvwldsSeMLoFF9XXHbya2ckwa4r0GAmX1ZuE8Dkd8ZSEnVgF3P96MbK
- n34yVUOcYQhTBgSM+69uRY+ijIst6P13ThrlbE9KqUiH+0RGP9S0KwixvOpwAVIuiepdqdFzrPa3Z
- ysBEvoFkQqWgfgyNxLpk9jjCmHmguGq4FW0UGp+Lv+mw1hUHyGurK0iUpCz1dicX3FJoRqZiH8Gln
- 8nRIndeZtxV6O/lvbMhbYseqAh/6QMufqsl1Isc2uT0o2lMcVxTeoGccJPkwma4fvvmZpCbRDNpGv
- dAWhz4Qg==;
-Received: from [90.241.98.187] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1t3Zfo-00E0il-Qd; Wed, 23 Oct 2024 13:37:08 +0200
-Message-ID: <6d324aca-76fd-420b-9bae-6c0984e659e1@igalia.com>
-Date: Wed, 23 Oct 2024 12:37:08 +0100
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E22E10E101
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 11:53:06 +0000 (UTC)
+Received: from [127.0.1.1] (91-157-155-49.elisa-laajakaista.fi [91.157.155.49])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 93653A47;
+ Wed, 23 Oct 2024 13:51:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1729684276;
+ bh=Q5I4r72oA/6A0mpxkrBboGMIhbKMjAbnlCQclz2hNqM=;
+ h=From:Subject:Date:To:Cc:From;
+ b=UgBdd0p0wrxwrHjwmBr8V54eRNOweONCoWruGBpa+lFM//MV3bNlAtKA0/X80Sjuk
+ LzJdODRQfQ1nxCREphnIuZSCqHJWUEgGMkcs2wtdoue8+87GC+na3Pevy2mixlRMQd
+ X+3XKPfccTmGzM1YT8Xa6zTbaynAbpGawO7m/06c=
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v4 0/3] drm: xlnx: zynqmp: Add DP audio support
+Date: Wed, 23 Oct 2024 14:52:40 +0300
+Message-Id: <20241023-xilinx-dp-audio-v4-0-5128881457be@ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 4/4] drm/amdgpu: track bo memory stats at runtime
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- "Li, Yunxiang (Teddy)" <Yunxiang.Li@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
-Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>
-References: <20241018133308.889-1-Yunxiang.Li@amd.com>
- <20241018133308.889-5-Yunxiang.Li@amd.com>
- <1057097f-02f4-4f0f-9ac5-37aa84570b47@amd.com>
- <SA1PR12MB8599E3DD01B4A45AD7CA71FAED4C2@SA1PR12MB8599.namprd12.prod.outlook.com>
- <53382fc0-0686-46af-9285-0cd6aec314ae@amd.com>
- <cd2b57c6-1947-4dbd-bae8-ecdb2b42de72@igalia.com>
- <47e4b79b-2c08-4ee8-b472-5482bc159856@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <47e4b79b-2c08-4ee8-b472-5482bc159856@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAIjjGGcC/3XNTQ7CIBCG4asY1mL4E8SV9zAuKAN2Ei0NaFPT9
+ O6iG020y/dL5pmJlJAxFLJfTSSHAQumroZar4hvXXcOFKE2EUwoJrmgI16wGyn01N0BE1V654C
+ LaKNWpF71OUQc3+LxVLvFckv58X4w8Ne6bA2cMqqt9sZG55vGHhCCK6lrksuw8elKXuQgvhn7y
+ 4jKWAEapDPembDAyA9jOftlZGXMdquZsTIqYH+YeZ6fShmsZkMBAAA=
+To: Lars-Peter Clausen <lars@metafoo.de>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Mark Brown <broonie@kernel.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Michal Simek <michal.simek@amd.com>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Simona Vetter <simona.vetter@ffwll.ch>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, Vishal Sagar <vishal.sagar@amd.com>, 
+ Anatoliy Klymenko <anatoliy.klymenko@amd.com>, 
+ =?utf-8?q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>, 
+ Markus Elfring <Markus.Elfring@web.de>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ "Rob Herring (Arm)" <robh@kernel.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3283;
+ i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
+ bh=Q5I4r72oA/6A0mpxkrBboGMIhbKMjAbnlCQclz2hNqM=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBnGOOYdB4a29tVAERuM4J3tvaK345HA1KyQtUjj
+ TTsMJvwMHGJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZxjjmAAKCRD6PaqMvJYe
+ 9fPjEACbXxnFCCLs8Mot4EVKD+efiSDJolwjJ9LFaYGBQfisgK3vFY392SIR+xdLwqKNSLbUmZP
+ wVfzdCsMJVSSMZenAkFoi2g25R0FzNEsN5M/o9gF23GuJlzazq0w90vvdgMoG4wBzhR3yurw8Dt
+ tPsyt9i+j0IEjUQPyv9dA+4DKtpJKXfDonGYCX8MOQUea4YPG6o83cg6qak0IPUwrE06Pc2KKlQ
+ l9U2WluNZTjRMfPmJWq2M1tEj7xZC38Fctj1EWOQyr36W5mgz2sfzQcI1ppEfTMbRyb588lAD+g
+ nnku4uInc7r+UwDkxC+q9y4j6SBzFLV0xYD01m1BC65QmvW11nlUMWat/H7BF+c5tyl6AnRx72k
+ XPvKVQEOhejBFzZChS4i7OHTr320DGGNus9nkJS00ehD3f5omBBpEcbx3BYIm8IjcjbqJBmMYT+
+ YKbghB2IY+Qjgwccbaefe9kfYIhV6Mmga8LLg5zDXqEX6xbkqvbCMXwk5Q1JKEbDPkCZWF+ej80
+ /3JbNZSfpXgcjWMd0McrdtSnMoOY//W4chNnr8DAWpPpNwu9vEKbb53vsC6oQnm95azwS/6fBM3
+ XWYhhqNFPLqD8Lg36EmegS0sBYGfb/n6KtImFVLXt9aszAFFpp1iLzeZJ+uUrIHZ8O1tJItXREI
+ eIaWoFozhgJjNDw==
+X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
+ fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,188 +89,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Add DisplayPort audio support for Xilinx ZynqMP platforms.
 
-On 23/10/2024 10:14, Christian König wrote:
-> Am 23.10.24 um 09:38 schrieb Tvrtko Ursulin:
->>
->> On 22/10/2024 17:24, Christian König wrote:
->>> Am 22.10.24 um 17:17 schrieb Li, Yunxiang (Teddy):
->>>> [Public]
->>>>
->>>>>> +static uint32_t fold_memtype(uint32_t memtype) {
->>>>> In general please add prefixes to even static functions, e.g. 
->>>>> amdgpu_vm_ or
->>>>> amdgpu_bo_.
->>>>>
->>>>>> +   /* Squash private placements into 'cpu' to keep the legacy 
->>>>>> userspace view.
->>>>> */
->>>>>> +   switch (mem_type) {
->>>>>> +   case TTM_PL_VRAM:
->>>>>> +   case TTM_PL_TT:
->>>>>> +           return memtype
->>>>>> +   default:
->>>>>> +           return TTM_PL_SYSTEM;
->>>>>> +   }
->>>>>> +}
->>>>>> +
->>>>>> +static uint32_t bo_get_memtype(struct amdgpu_bo *bo) {
->>>>> That whole function belongs into amdgpu_bo.c
->>>> Do you mean bo_get_memtype or fold_memtype? I debated whether 
->>>> bo_get_memtype should go into amdgpu_vm.c or amdgpu_bo.c, and since 
->>>> it's using fold_memtype and only useful for memory stats because of 
->>>> folding the private placements I just left them here together with 
->>>> the other mem stats code.
->>>>
->>>> I can move it to amdgpu_bo.c make it return the memtype verbatim and 
->>>> just fold it when I do the accounting.
->>>
->>> I think that folding GDS, GWS and OA into system is also a bug. We 
->>> should really not doing that.
->>>
->>> Just wanted to point out for this round that the code to query the 
->>> current placement from a BO should probably go into amdgpu_bo.c and 
->>> not amdgpu_vm.c
->>>
->>>>
->>>>>> +   struct ttm_resource *res = bo->tbo.resource;
->>>>>> +   const uint32_t domain_to_pl[] = {
->>>>>> +           [ilog2(AMDGPU_GEM_DOMAIN_CPU)]      = TTM_PL_SYSTEM,
->>>>>> +           [ilog2(AMDGPU_GEM_DOMAIN_GTT)]      = TTM_PL_TT,
->>>>>> +           [ilog2(AMDGPU_GEM_DOMAIN_VRAM)]     = TTM_PL_VRAM,
->>>>>> +           [ilog2(AMDGPU_GEM_DOMAIN_GDS)]      = AMDGPU_PL_GDS,
->>>>>> +           [ilog2(AMDGPU_GEM_DOMAIN_GWS)]      = AMDGPU_PL_GWS,
->>>>>> +           [ilog2(AMDGPU_GEM_DOMAIN_OA)]       = AMDGPU_PL_OA,
->>>>>> +           [ilog2(AMDGPU_GEM_DOMAIN_DOORBELL)] =
->>>>> AMDGPU_PL_DOORBELL,
->>>>>> +   };
->>>>>> +   uint32_t domain;
->>>>>> +
->>>>>> +   if (res)
->>>>>> +           return fold_memtype(res->mem_type);
->>>>>> +
->>>>>> +   /*
->>>>>> +    * If no backing store use one of the preferred domain for basic
->>>>>> +    * stats. We take the MSB since that should give a reasonable
->>>>>> +    * view.
->>>>>> +    */
->>>>>> +   BUILD_BUG_ON(TTM_PL_VRAM < TTM_PL_TT || TTM_PL_VRAM <
->>>>> TTM_PL_SYSTEM);
->>>>>> +   domain = fls(bo->preferred_domains & AMDGPU_GEM_DOMAIN_MASK);
->>>>>> +   if (drm_WARN_ON_ONCE(&adev->ddev,
->>>>>> +                        domain == 0 || --domain >= 
->>>>>> ARRAY_SIZE(domain_to_pl)))
->>>>> It's perfectly legal to create a BO without a placement. That one 
->>>>> just won't have a
->>>>> backing store.
->>>>>
->>>> This is lifted from the previous change I'm rebasing onto. I think 
->>>> what it’s trying to do is if the BO doesn't have a placement, use 
->>>> the "biggest" (VRAM > TT > SYSTEM) preferred placement for the 
->>>> purpose of accounting. Previously we just ignore BOs that doesn't 
->>>> have a placement. I guess there's argument for going with either 
->>>> approaches.
->>>
->>> I was not arguing, I'm simply pointing out a bug. It's perfectly 
->>> valid for bo->preferred_domains to be 0.
->>>
->>> So the following WARN_ON() that no bit is set is incorrect.
->>>
->>>>
->>>>>> +           return 0;
->>>>>> +   return fold_memtype(domain_to_pl[domain])
->>>>> That would need specular execution mitigation if I'm not completely 
->>>>> mistaken.
->>>>>
->>>>> Better use a switch/case statement.
->>>>>
->>>> Do you mean change the array indexing to a switch statement?
->>>
->>> Yes.
->>
->> Did you mean array_index_nospec?
-> 
-> Yes.
-> 
->> Domain is not a direct userspace input and is calculated from the mask 
->> which sanitized to allowed values prior to this call. So I *think* 
->> switch is an overkill but don't mind it either. Just commenting FWIW.
-> 
-> I missed that the mask is applied.
-> 
-> Thinking more about it I'm not sure if we should do this conversion in 
-> the first place. IIRC Tvrtko you once suggested a patch which switched a 
-> bunch of code to use the TTM placement instead of the UAPI flags.
+The current DT is, for some reason, missing the DMA channels for the
+audio. This series adds that to the bindings and the dts file, but to
+support older dtb files without the audio DMA, the driver will not fail
+if the audio DMA is missing, but will just mark the audio support as
+disabled.
 
-Maybe 8fb0efb10184 ("drm/amdgpu: Reduce mem_type to domain double 
-indirection") is what are you thinking of?
+To: Lars-Peter Clausen <lars@metafoo.de>
+To: Jaroslav Kysela <perex@perex.cz>
+To: Takashi Iwai <tiwai@suse.com>
+To: Liam Girdwood <lgirdwood@gmail.com>
+To: Mark Brown <broonie@kernel.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+To: David Airlie <airlied@gmail.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+To: Rob Herring <robh+dt@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+To: Conor Dooley <conor+dt@kernel.org>
+To: Michal Simek <michal.simek@amd.com>
+To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: linux-sound@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: Vishal Sagar <vishal.sagar@amd.com>
+Cc: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
+Cc: Péter Ujfalusi <peter.ujfalusi@gmail.com>
+Cc: Markus Elfring <Markus.Elfring@web.de>
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-> Going more into this direction I think when we want to look at the 
-> current placement we should probably also use the TTM PL enumeration 
-> directly.
+Changes in v4:
+- Update copyright year
+- Use guard(mutex) in the zynqmp_dp_audio.c
+- Add Rb and Ab tags
+- Link to v3: https://lore.kernel.org/r/20240910-xilinx-dp-audio-v3-0-75560793f4d0@ideasonboard.com
 
-It does this already. The placement flags are just to "invent" a TTM PL 
-enum when bo->tbo.resource == NULL.
+Changes in v3:
+- Expand the description in "dt-bindings: display/xlnx/zynqmp-dpsub: Add
+  audio DMAs" to be more clear about the DT binding change.
+- Rebased on top of current upstream
+- Link to v2: https://lore.kernel.org/r/20240319-xilinx-dp-audio-v2-0-92d6d3a7ca7e@ideasonboard.com
 
-         if (!res) {
-                 /*
-                  * If no backing store use one of the preferred domain 
-for basic
-                  * stats. We take the MSB since that should give a 
-reasonable
-                  * view.
-                  */
-                 BUILD_BUG_ON(TTM_PL_VRAM < TTM_PL_TT ||
-                              TTM_PL_VRAM < TTM_PL_SYSTEM);
-                 type = fls(bo->preferred_domains & AMDGPU_GEM_DOMAIN_MASK);
-                 if (!type)
-                         return;
-                 type--;
-                 if (drm_WARN_ON_ONCE(&adev->ddev,
-                                      type >= ARRAY_SIZE(domain_to_pl)))
-                         return;
-                 type = domain_to_pl[type];
-         } else {
-                 type = res->mem_type;
-         }
-...
-         stats[type].total += size;
-         if (drm_gem_object_is_shared_for_memory_stats(obj))
-                 stats[type].drm.shared += size;
-         else
-                 stats[type].drm.private += size;
-... etc ...
+Changes in v2:
+- Fix a missing double-quote in the DT binding
+- Link to v1: https://lore.kernel.org/r/20240312-xilinx-dp-audio-v1-0-696c79facbb9@ideasonboard.com
 
-So all actual stat accounting is based on TTM PL type enum. And then 
-later at fdinfo print time:
+---
+Tomi Valkeinen (3):
+      dt-bindings: display/xlnx/zynqmp-dpsub: Add audio DMAs
+      arm64: dts: zynqmp: Add DMA for DP audio
+      drm: xlnx: zynqmp_dpsub: Add DP audio support
 
-         for (i = 0; i < TTM_PL_PRIV; i++)
-                 drm_print_memory_stats(p,
-                                        &stats[i].drm,
-                                        DRM_GEM_OBJECT_RESIDENT |
-                                        DRM_GEM_OBJECT_PURGEABLE,
-                                        pl_name[i]);
+ .../bindings/display/xlnx/xlnx,zynqmp-dpsub.yaml   |  10 +-
+ arch/arm64/boot/dts/xilinx/zynqmp.dtsi             |   7 +-
+ drivers/gpu/drm/xlnx/Kconfig                       |   9 +
+ drivers/gpu/drm/xlnx/Makefile                      |   1 +
+ drivers/gpu/drm/xlnx/zynqmp_disp.c                 |  48 ---
+ drivers/gpu/drm/xlnx/zynqmp_disp_regs.h            |   7 +-
+ drivers/gpu/drm/xlnx/zynqmp_dp.c                   |  54 ++-
+ drivers/gpu/drm/xlnx/zynqmp_dp.h                   |   7 +
+ drivers/gpu/drm/xlnx/zynqmp_dp_audio.c             | 447 +++++++++++++++++++++
+ drivers/gpu/drm/xlnx/zynqmp_dpsub.c                |  39 +-
+ drivers/gpu/drm/xlnx/zynqmp_dpsub.h                |  15 +-
+ 11 files changed, 539 insertions(+), 105 deletions(-)
+---
+base-commit: 42f7652d3eb527d03665b09edac47f85fb600924
+change-id: 20240312-xilinx-dp-audio-468ad12f9f64
 
-Again, based of the same enum. Not sure if you have something other in 
-mind or you are happy with that?
+Best regards,
+-- 
+Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-Then what Teddy does is IMO only tangential, he just changes when stats 
-are collected and not this aspect.
-
-To fold or not the special placements (GWS, GDS & co) is also 
-tangential. In my patch I just preserved the legacy behaviour so it can 
-easily be tweaked on top.
-
-Regards,
-
-Tvrtko
-
-> 
-> Regards,
-> Christian.
-> 
->>
->> Regards,
->>
->> Tvrtko
-> 
