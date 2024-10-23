@@ -2,78 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7D4A9ACB92
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2024 15:49:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD3349ACBB1
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2024 15:53:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4A6F10E1DD;
-	Wed, 23 Oct 2024 13:49:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD87E10E7E6;
+	Wed, 23 Oct 2024 13:53:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CExEHVwj";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="VEb5UO5D";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com
- [209.85.219.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A332710E1DD
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 13:49:49 +0000 (UTC)
-Received: by mail-qv1-f51.google.com with SMTP id
- 6a1803df08f44-6cc2ea27a50so7991746d6.0
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 06:49:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1729691388; x=1730296188; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=1E9hSMuxhJivqZkBd/5Upa72MwomOmtz47hUjemKq0U=;
- b=CExEHVwj7EWWIdsTIm6RrIoXcCj3qZyhCo+7F/ggGeR/E2cz9QGu7dUVVhs8YpoPwB
- hA1pE8myzGOgMfett1a/kLaXjKZLGL9c7wqd3+ukspU97RNbXIviPq0h9++Hcc7kO28M
- Iqw9BeDWJMXDuANm81GEYadJsySo3BG+VWnfdCC7v+5yxVnJMJeteby+BoXKonFTcHbg
- qXcl9y4HkfTf1/e62rjpc2/UBQs3s+EBkVyrAOZJvB/fameZorQa6KOxHbb7b+0OFEO3
- KfkHIvhIgjfiUOQmUJwgKHuau5NqzIDj+kigfnBgM+rOJyWjIHY/pi3f1OTpTMRcrxPb
- 3cHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729691388; x=1730296188;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=1E9hSMuxhJivqZkBd/5Upa72MwomOmtz47hUjemKq0U=;
- b=V//psRObUhBVkQwlrCJUb3XjO/eztPmuO6DneO1JH9zMrWYY5xy4qJXMgi38PcvwuP
- R0pPoYv0mJ8kNJ+Q3YvmLo2/om3KPKs7XAhIEvadMlyPz7T6thx2hPZ/eFOSZUG0aKvs
- z08Ildm0LVO8HmvuuEwiS2WX570mlD7xFUrK/Ahnnm/AJWzuIBNtmrUqPP1BnEPd2cgr
- ZJGZuAt0XaQtaHUUgJBsKdin3vObR+irHzgRggTRlaoWB60kQxDv84LDz2gGV6ASkRu/
- OTGeXvEdmzxPN7baNZYRrRwHldulb/F6JF2Xt+qKJf/4adyCqtCbLcKDliikLz6XIXyG
- kySw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUaK9YF/tEpGi0JsUJFLrUPdskwyldkOV8IRMhtVygUFCMcdLob1SSJPFhNszpHmoeHq9VI2n0kq4U=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyD1QnGlCgmPbwt2Vd5WCMdM4b9TLYLzBrU9ktprXZ4OMkiRpMD
- 2AXvhGlomS7AgmwmFlsGEfHc72XhD7EOd7skPXGeAHAPCM21D126
-X-Google-Smtp-Source: AGHT+IHwhJhDy3VRo4azo5fv6sWbQE1FDHxxvau6WVw6GJudrJZpRkuESW6AiLhrRy7U3PBV/WrnGA==
-X-Received: by 2002:a05:6214:29e1:b0:6cb:fc3f:6cc7 with SMTP id
- 6a1803df08f44-6ce21a7fdcdmr119843906d6.15.1729691388619; 
- Wed, 23 Oct 2024 06:49:48 -0700 (PDT)
-Received: from yoga ([2600:1001:b14e:1ecb:a95c:b3fb:e1a8:befd])
- by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6ce0091ad77sm39274006d6.67.2024.10.23.06.49.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Oct 2024 06:49:48 -0700 (PDT)
-Date: Wed, 23 Oct 2024 09:49:44 -0400
-From: Alex Lanzano <lanzano.alex@gmail.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Mehdi Djait <mehdi.djait@bootlin.com>, 
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH next] drm/sharp-memory: Fix some checks in
- sharp_memory_probe()
-Message-ID: <x6dadpm2zmuuih4ndnpff5ljt2hy5geikjeejwy6v33qzaspsa@grxia5jw6y2j>
-References: <0d307349-c141-49ee-8b34-67caf5f8b638@stanley.mountain>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B7BD10E7E0;
+ Wed, 23 Oct 2024 13:53:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
+ Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=GH2Pjp8Fh5SVIH1VeSvsYsu2EDyCbTsdpiFgGsaHspE=; b=VEb5UO5DkOZlRPbcfP3kTp+bsF
+ sJUsbQUfCv4s7dHMN1Y/FoMKSbgFjhZuTwhqEgrzXcy0OSPw2OtjndXqQvifFrc5Yls8NqXdjE9v4
+ KlsOQSrBzG3r3b7h5QeIoKAVL6If66FtOc5BRJkinZsXHGQHgHu+L0//2zcqouu1VNO0LBezVF2WU
+ TWuf4jbtjj/jJ0ck9gQ4CSkx7GOlaCJB26+nUhPIUBrxlmlBaUK531bYHyucy3q/itG0tqGaVs1Hq
+ N45a1nztZHBa8DHQeFjIphq1CNUxa9jH9xj69SmdI47ODxhes6MEeVUTeS56HlbTXXLtNhiITrrWN
+ MpsHNw9g==;
+Received: from [189.6.17.125] (helo=killbill.home)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1t3bnk-00E3WB-TC; Wed, 23 Oct 2024 15:53:29 +0200
+From: Melissa Wen <mwen@igalia.com>
+To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, daniel@ffwll.ch
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ kernel-dev@igalia.com
+Subject: [PATCH] drm/amd/display: add missing tracepoint event in DM
+ atomic_commit_tail
+Date: Wed, 23 Oct 2024 10:53:17 -0300
+Message-ID: <20241023135321.259494-1-mwen@igalia.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0d307349-c141-49ee-8b34-67caf5f8b638@stanley.mountain>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,46 +60,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 23, 2024 at 11:30:31AM +0300, Dan Carpenter wrote:
-> The devm_drm_dev_alloc() function returns error pointers, it never
-> returns NULL.  Change that check to IS_ERR().
-> 
-> The devm_gpiod_get_optional() function returns a mix of error pointers
-> if there is an error, or NULL if there is no GPIO assigned.  Add a check
-> for error pointers.
-> 
-> Fixes: b8f9f21716fe ("drm/tiny: Add driver for Sharp Memory LCD")
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-> ---
->  drivers/gpu/drm/tiny/sharp-memory.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/tiny/sharp-memory.c b/drivers/gpu/drm/tiny/sharp-memory.c
-> index 2d2315bd6aef..1bcdd79166a4 100644
-> --- a/drivers/gpu/drm/tiny/sharp-memory.c
-> +++ b/drivers/gpu/drm/tiny/sharp-memory.c
-> @@ -543,8 +543,8 @@ static int sharp_memory_probe(struct spi_device *spi)
->  
->  	smd = devm_drm_dev_alloc(dev, &sharp_memory_drm_driver,
->  				 struct sharp_memory_device, drm);
-> -	if (!smd)
-> -		return -ENOMEM;
-> +	if (IS_ERR(smd))
-> +		return PTR_ERR(smd);
->  
->  	spi_set_drvdata(spi, smd);
->  
-> @@ -555,6 +555,8 @@ static int sharp_memory_probe(struct spi_device *spi)
->  		return dev_err_probe(dev, ret, "Failed to initialize drm config\n");
->  
->  	smd->enable_gpio = devm_gpiod_get_optional(dev, "enable", GPIOD_OUT_HIGH);
-> +	if (IS_ERR(smd->enable_gpio))
-> +		return PTR_ERR(smd->enable_gpio);
->  	if (!smd->enable_gpio)
->  		dev_warn(dev, "Enable gpio not defined\n");
->  
-> -- 
-> 2.45.2
-> 
+There are two events to trace the beginning and the end of
+amdgpu_dm_atomic_commit_tail, but only the one ate the beginning was
+placed. Place amdgpu_dm_atomic_commit_tail_finish tracepoint at the end
+than.
 
-Reviewed-by: Alex Lanzano <lanzano.alex@gmail.com>
+Signed-off-by: Melissa Wen <mwen@igalia.com>
+---
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 98f0b142f497..bbfc47f6595f 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -10088,6 +10088,8 @@ static void amdgpu_dm_atomic_commit_tail(struct drm_atomic_state *state)
+ 	for (i = 0; i < crtc_disable_count; i++)
+ 		pm_runtime_put_autosuspend(dev->dev);
+ 	pm_runtime_mark_last_busy(dev->dev);
++
++	trace_amdgpu_dm_atomic_commit_tail_finish(state);
+ }
+ 
+ static int dm_force_atomic_commit(struct drm_connector *connector)
+-- 
+2.45.2
+
