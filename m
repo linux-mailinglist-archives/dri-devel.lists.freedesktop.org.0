@@ -2,17 +2,15 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 655CA9AC0DF
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2024 10:00:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB70C9AC0DE
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2024 10:00:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08D6410E782;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0636410E77F;
 	Wed, 23 Oct 2024 08:00:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 469 seconds by postgrey-1.36 at gabe;
- Wed, 23 Oct 2024 08:00:52 UTC
 Received: from mblankhorst.nl (lankhorst.se [141.105.120.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0E9610E77C
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1B2210E77E
  for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 08:00:52 +0000 (UTC)
 From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 To: intel-xe@lists.freedesktop.org, linux-kernel@vger.kernel.org,
@@ -22,9 +20,9 @@ To: intel-xe@lists.freedesktop.org, linux-kernel@vger.kernel.org,
 Cc: Friedrich Vock <friedrich.vock@gmx.de>, cgroups@vger.kernel.org,
  linux-mm@kvack.org, Maxime Ripard <mripard@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Subject: [PATCH 4/7] drm/xe: Implement cgroup for vram
-Date: Wed, 23 Oct 2024 09:52:57 +0200
-Message-ID: <20241023075302.27194-5-maarten.lankhorst@linux.intel.com>
+Subject: [PATCH 5/7] drm/amdgpu: Add cgroups implementation
+Date: Wed, 23 Oct 2024 09:52:58 +0200
+Message-ID: <20241023075302.27194-6-maarten.lankhorst@linux.intel.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20241023075302.27194-1-maarten.lankhorst@linux.intel.com>
 References: <20241023075302.27194-1-maarten.lankhorst@linux.intel.com>
@@ -45,77 +43,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add vram based cgroup eviction to Xe.
-Most hardware with VRAM uses TTM for its management, and can be
-similarly trivially enabled.
+Similar to xe, enable some simple management of VRAM only.
 
 Co-developed-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 ---
- drivers/gpu/drm/xe/xe_device.c       |  4 ++++
- drivers/gpu/drm/xe/xe_device_types.h |  4 ++++
- drivers/gpu/drm/xe/xe_ttm_vram_mgr.c | 10 ++++++++++
- 3 files changed, 18 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h          | 2 ++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c      | 6 ++++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c | 6 ++++++
+ 3 files changed, 14 insertions(+)
 
-diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
-index 51bb9d875268f..cb4b2013eb808 100644
---- a/drivers/gpu/drm/xe/xe_device.c
-+++ b/drivers/gpu/drm/xe/xe_device.c
-@@ -726,6 +726,10 @@ int xe_device_probe(struct xe_device *xe)
- 	/* Allocate and map stolen after potential VRAM resize */
- 	xe_ttm_stolen_mgr_init(xe);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+index 9b1e0ede05a45..27c11e43f8e9e 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+@@ -43,6 +43,7 @@
+ #include "amdgpu_ctx.h"
  
-+	err = drmm_cgroup_register_device(&xe->drm, &xe->cg);
-+	if (err)
-+		goto err;
-+
- 	/*
- 	 * Now that GT is initialized (TTM in particular),
- 	 * we can try to init display, and inherit the initial fb.
-diff --git a/drivers/gpu/drm/xe/xe_device_types.h b/drivers/gpu/drm/xe/xe_device_types.h
-index 85bede4dd6461..0401b4fe6f645 100644
---- a/drivers/gpu/drm/xe/xe_device_types.h
-+++ b/drivers/gpu/drm/xe/xe_device_types.h
-@@ -7,6 +7,7 @@
- #define _XE_DEVICE_TYPES_H_
- 
- #include <linux/pci.h>
+ #include <linux/atomic.h>
 +#include <linux/cgroup_dev.h>
+ #include <linux/wait.h>
+ #include <linux/list.h>
+ #include <linux/kref.h>
+@@ -835,6 +836,7 @@ struct amdgpu_device {
+ 	struct device			*dev;
+ 	struct pci_dev			*pdev;
+ 	struct drm_device		ddev;
++	struct dev_cgroup_device		cg;
  
- #include <drm/drm_device.h>
- #include <drm/drm_file.h>
-@@ -257,6 +258,9 @@ struct xe_device {
- 	/** @devcoredump: device coredump */
- 	struct xe_devcoredump devcoredump;
+ #ifdef CONFIG_DRM_AMD_ACP
+ 	struct amdgpu_acp		acp;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+index 74adb983ab03e..3f6554c7aac2f 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+@@ -1874,6 +1874,12 @@ int amdgpu_ttm_init(struct amdgpu_device *adev)
+ 		return r;
+ 	}
  
-+	/** @cg: device cgroup bookkeeping */
-+	struct dev_cgroup_device cg;
-+
- 	/** @info: device info */
- 	struct intel_device_info {
- 		/** @info.platform_name: platform name */
-diff --git a/drivers/gpu/drm/xe/xe_ttm_vram_mgr.c b/drivers/gpu/drm/xe/xe_ttm_vram_mgr.c
-index 423b261ea7430..cb463be53f4bc 100644
---- a/drivers/gpu/drm/xe/xe_ttm_vram_mgr.c
-+++ b/drivers/gpu/drm/xe/xe_ttm_vram_mgr.c
-@@ -339,6 +339,16 @@ int __xe_ttm_vram_mgr_init(struct xe_device *xe, struct xe_ttm_vram_mgr *mgr,
- 	struct ttm_resource_manager *man = &mgr->manager;
- 	int err;
- 
-+	if (mem_type != XE_PL_STOLEN) {
-+		int cgregion = xe->cg.num_regions++;
-+
-+		xe->cg.regions[cgregion].size = size;
-+		xe->cg.regions[cgregion].name =
-+			mem_type == XE_PL_VRAM0 ? "vram0" : "vram1";
-+		man->cgdev = &xe->cg;
-+		man->cgidx = cgregion;
++	r = drmm_cgroup_register_device(adev_to_drm(adev), &adev->cg);
++	if (r) {
++		DRM_ERROR("Failed initializing cgroup allocator.\n");
++		return r;
 +	}
 +
- 	man->func = &xe_ttm_vram_mgr_func;
- 	mgr->mem_type = mem_type;
- 	mutex_init(&mgr->lock);
+ 	/* Change the size here instead of the init above so only lpfn is affected */
+ 	amdgpu_ttm_set_buffer_funcs_status(adev, false);
+ #ifdef CONFIG_64BIT
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+index 7d26a962f811c..44d560bef5b7d 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+@@ -927,6 +927,12 @@ int amdgpu_vram_mgr_init(struct amdgpu_device *adev)
+ 		DRM_INFO("Setup dummy vram mgr\n");
+ 	}
+ 
++	adev->cg.regions[0].size = adev->gmc.real_vram_size;
++	adev->cg.regions[0].name = "vram";
++	adev->cg.num_regions++;
++	man->cgdev = &adev->cg;
++	man->cgidx = 0;
++
+ 	ttm_set_driver_manager(&adev->mman.bdev, TTM_PL_VRAM, &mgr->manager);
+ 	ttm_resource_manager_set_used(man, true);
+ 	return 0;
 -- 
 2.45.2
 
