@@ -2,108 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAC5E9AC0F1
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2024 10:03:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D5E49AC0FA
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2024 10:04:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFCDC10E784;
-	Wed, 23 Oct 2024 08:03:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82FD110E222;
+	Wed, 23 Oct 2024 08:04:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="SKgRgtx7";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="cm8QoREx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23EB410E784
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 08:03:27 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id
- 5b1f17b1804b1-4314c452180so3871445e9.0
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 01:03:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1729670605; x=1730275405; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=Jns0AjCrY+/sra6NNKO1WPiOfep6FlanuvD1RpWqF+U=;
- b=SKgRgtx7O5U2Z5/pjdhXcvdBzXBVCmnvI+kLZUvXheX2Pc4/ZI4KqqKYgZS86BlwQ3
- ALgvB9FwR54jRSuoIjR+w3+hdD+mviQjlLaGsPBKTZI09KUSqA2ntwp9i544JKbywi5H
- Raf+phNbXXjzEfUDMYIupgPLGhvk80WNpFZ6TVm/YbkgM5GECmMjQbpD6jDaKdAjQi9/
- /eghLO3vgL2YQoEAPYRrY/1akLdBbjANphUHhilDuM+XEbA6bpCBcLZv30Tb27XtlaYD
- zg9mBcIgwEmvexHkOeT19ke2NLeE63VQx3yPJXHVQKyUyNDu/XsC63J9PcaXKLRAm5u0
- bYjQ==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7561410E788
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 08:04:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1729670647;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1HJeCjnMIw12TEWY04xj2y1qbuaADV67keXH+V6fBEY=;
+ b=cm8QoRExGv68lufHktfTBQiVtmI9vSlm8309GBPQKfYJGoIWoTgaYtaUyncn8z2fsGK4Rp
+ JmjIRf0Wj02EMqGpljCx96n5cShuct4E52G4WWj8BrqVPbjuHOsGgRIA+/OLyclBcpj2PG
+ cvbspreX3ovOfWY7KZbeioD/uQ41gOQ=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-364-HK1c62MoMT2XXaIQah9x-w-1; Wed, 23 Oct 2024 04:04:06 -0400
+X-MC-Unique: HK1c62MoMT2XXaIQah9x-w-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-4316138aff6so42408705e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 01:04:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729670605; x=1730275405;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=Jns0AjCrY+/sra6NNKO1WPiOfep6FlanuvD1RpWqF+U=;
- b=P/efxpW+fSONjDCHhs1CDnSGi50+Wwgdf5LERnCgaPJEhnpmQWUfmpYd7XGRllXVjt
- c+H/39BjHHy/6JEDJixi2yT8ht5T4vm0K/o00HIQrRhXjxb/mBdPAnt3/CIcCKouuYMZ
- S1+ooXSHjKjKqIqp7zwGNTL8VCmy1pWIlyvekQ9mjTHWnlmnAHxuaUEsAaZp6eXrtwFK
- vT8B/0+y4n/0Z4qFvsEq2iXS95VHgQse7WIQdXoE5TIQ+G/ykNvF6QjQlCJHmkvyi0yl
- EZduvOtXWlM+mYucs+kKFiK2VnDOAb6pL/cm+JnP8UWqmT7hZ2XQM89VbC9p6EhP2y1w
- XbuQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXVYIHsjUrSeDo7XTY5PyPOy6ULQgHxay0wFZ63qcmNAasvLbRmRkME8aHDWAiWArmqW03tZI0scZg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxtJZmsxS9ptpgv7bvYExcNuHuZAXOgagulNkGO+cxb0dSbf94b
- 0nGMOlqG0IH7lddDiC7kr5Sd3g5VeLkzXuF/dJCFdI4f+dndx3YaRoOUjTOusOg=
-X-Google-Smtp-Source: AGHT+IEWCBccjn+i9HJOQ1/tjUbWC5+hikC7YmkDAGQe/PxV0SKYHv1wTezrnaRpi1ipxHSEOShBhQ==
-X-Received: by 2002:a05:600c:4589:b0:42c:b697:a62c with SMTP id
- 5b1f17b1804b1-4317bd7f197mr37781505e9.5.1729670605471; 
- Wed, 23 Oct 2024 01:03:25 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:cad:2140:f9e2:19d:5b22:8044?
- ([2a01:e0a:cad:2140:f9e2:19d:5b22:8044])
+ d=1e100.net; s=20230601; t=1729670645; x=1730275445;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=1HJeCjnMIw12TEWY04xj2y1qbuaADV67keXH+V6fBEY=;
+ b=q9fQyM0efR/ncp9hOuvsk3AvOdP0B/AFvncnzFYImgKBmjKWDCQfrH9Cj3j046sgs0
+ pW5sxG8dfyp/5op8Dl3SjiK05Bg6r0TgVYfMLnNbFUNNqLRyNukB0BhxYjfJn4WqKVlc
+ qTnNaMLGxUu6wsVeIo3jccoQ0Qs27LnWYahGSqQq33YQKL/Shc32vtBhhMoH/WdYt9gj
+ ibHUYQhtHeUChOZkN+vmmQIXUzy7/htPLzK7U+OWxtceof99FNX4luoI0MDjV9I59OMK
+ 5nxQrZYzW5Rv2yEKSTtR913RLTfaVHLKyh5IQwmXJRZCSFLiXCkQLuubinybBsnFTawe
+ 68Bg==
+X-Gm-Message-State: AOJu0YyssVBR/nuHoX6qH3nSXg969HdhmJIY14txUg5C+Ucgxy22iIb5
+ WcPpus7ZCPrBJDrdVXjrXdb50bI2ncSPaDaIQAURPjvwdMAnA+hrdBqsC6y+uHUwWC1zmeOSaFO
+ zL3Om64n49lhOLz2RwpS53dGHEAjAKuayHTPIs+jSfKGLAM9Yz/AG7o3GTtnJScgLsg==
+X-Received: by 2002:a05:600c:1e28:b0:426:627e:37af with SMTP id
+ 5b1f17b1804b1-4318412fd23mr15814815e9.3.1729670644882; 
+ Wed, 23 Oct 2024 01:04:04 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFxvfVsE8Z/Bj4nM5IJVIdgM3fqMDZ+BQkr47XiNieWjM3E3mpsBv2Zmc+c3HsbEOTIR8ZDBA==
+X-Received: by 2002:a05:600c:1e28:b0:426:627e:37af with SMTP id
+ 5b1f17b1804b1-4318412fd23mr15814545e9.3.1729670644357; 
+ Wed, 23 Oct 2024 01:04:04 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-43186c1eccesm8882305e9.46.2024.10.23.01.03.21
+ ffacd0b85a97d-37ee0a365e5sm8357499f8f.21.2024.10.23.01.04.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Oct 2024 01:03:25 -0700 (PDT)
-Message-ID: <e28f88ca-357b-4751-8b37-c324ff40f9f5@linaro.org>
-Date: Wed, 23 Oct 2024 10:03:20 +0200
+ Wed, 23 Oct 2024 01:04:03 -0700 (PDT)
+Message-ID: <44141638-4d8f-4e11-9ede-51cdb51d3a28@redhat.com>
+Date: Wed, 23 Oct 2024 10:04:02 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v1] drm/bridge: tc358768: Fix DSI command tx
-To: Francesco Dolcini <francesco@dolcini.it>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: Francesco Dolcini <francesco.dolcini@toradex.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-References: <20240926141246.48282-1-francesco@dolcini.it>
+Subject: Re: [PATCH 4/5] drm/client: Remove unused drm_client_framebuffer_flush
+To: Thomas Zimmermann <tzimmermann@suse.de>, linux@treblig.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20241022232934.238124-1-linux@treblig.org>
+ <20241022232934.238124-5-linux@treblig.org>
+ <a56b486c-9341-41aa-a3ab-090f7ffd56d6@suse.de>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <a56b486c-9341-41aa-a3ab-090f7ffd56d6@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20240926141246.48282-1-francesco@dolcini.it>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,74 +93,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26/09/2024 16:12, Francesco Dolcini wrote:
-> From: Francesco Dolcini <francesco.dolcini@toradex.com>
+On 23/10/2024 08:46, Thomas Zimmermann wrote:
+> Hi
 > 
-> Wait for the command transmission to be completed in the DSI transfer
-> function polling for the dc_start bit to go back to idle state after the
-> transmission is started.
+> Am 23.10.24 um 01:29 schrieb linux@treblig.org:
+>> From: "Dr. David Alan Gilbert" <linux@treblig.org>
+>>
+>> drm_client_framebuffer_flush() was explicitly added in 2020
+>> by
+>> commit c9c03e3cf072 ("drm/client: Add drm_client_framebuffer_flush()")
+>> but has never been used.
+>>
+>> Remove it.
 > 
-> This is documented in the datasheet and failures to do so lead to
-> commands corruption.
-> 
-> Fixes: ff1ca6397b1d ("drm/bridge: Add tc358768 driver")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
-> ---
->   drivers/gpu/drm/bridge/tc358768.c | 21 +++++++++++++++++++--
->   1 file changed, 19 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/tc358768.c b/drivers/gpu/drm/bridge/tc358768.c
-> index 0e8813278a2f..bb1750a3dab0 100644
-> --- a/drivers/gpu/drm/bridge/tc358768.c
-> +++ b/drivers/gpu/drm/bridge/tc358768.c
-> @@ -125,6 +125,9 @@
->   #define TC358768_DSI_CONFW_MODE_CLR	(6 << 29)
->   #define TC358768_DSI_CONFW_ADDR_DSI_CONTROL	(0x3 << 24)
->   
-> +/* TC358768_DSICMD_TX (0x0600) register */
-> +#define TC358768_DSI_CMDTX_DC_START	BIT(0)
-> +
->   static const char * const tc358768_supplies[] = {
->   	"vddc", "vddmipi", "vddio"
->   };
-> @@ -229,6 +232,21 @@ static void tc358768_update_bits(struct tc358768_priv *priv, u32 reg, u32 mask,
->   		tc358768_write(priv, reg, tmp);
->   }
->   
-> +static void tc358768_dsicmd_tx(struct tc358768_priv *priv)
-> +{
-> +	u32 val;
-> +
-> +	/* start transfer */
-> +	tc358768_write(priv, TC358768_DSICMD_TX, TC358768_DSI_CMDTX_DC_START);
-> +	if (priv->error)
-> +		return;
-> +
-> +	/* wait transfer completion */
-> +	priv->error = regmap_read_poll_timeout(priv->regmap, TC358768_DSICMD_TX, val,
-> +					       (val & TC358768_DSI_CMDTX_DC_START) == 0,
-> +					       100, 100000);
-> +}
-> +
->   static int tc358768_sw_reset(struct tc358768_priv *priv)
->   {
->   	/* Assert Reset */
-> @@ -516,8 +534,7 @@ static ssize_t tc358768_dsi_host_transfer(struct mipi_dsi_host *host,
->   		}
->   	}
->   
-> -	/* start transfer */
-> -	tc358768_write(priv, TC358768_DSICMD_TX, 1);
-> +	tc358768_dsicmd_tx(priv);
->   
->   	ret = tc358768_clear_error(priv);
->   	if (ret)
+> I had a patchset to use this helper for fbdev emulation. It just needs 
+> preparation in a number of drivers.
 
-Look good, I'll leave it here a few days if someone has comments
+It is used by drm_log, which is under review.
+Please don't remove it.
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+https://patchwork.freedesktop.org/series/136789/
+
+-- 
+
+Jocelyn
+
+
+> 
+> Best regards
+> Thomas
+> 
+>>
+>> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+>> ---
+>>   drivers/gpu/drm/drm_client.c | 33 ---------------------------------
+>>   include/drm/drm_client.h     |  1 -
+>>   2 files changed, 34 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_client.c b/drivers/gpu/drm/drm_client.c
+>> index bfedcbf516db..5d10ad3c2ca5 100644
+>> --- a/drivers/gpu/drm/drm_client.c
+>> +++ b/drivers/gpu/drm/drm_client.c
+>> @@ -552,39 +552,6 @@ void drm_client_framebuffer_delete(struct 
+>> drm_client_buffer *buffer)
+>>   }
+>>   EXPORT_SYMBOL(drm_client_framebuffer_delete);
+>> -/**
+>> - * drm_client_framebuffer_flush - Manually flush client framebuffer
+>> - * @buffer: DRM client buffer (can be NULL)
+>> - * @rect: Damage rectangle (if NULL flushes all)
+>> - *
+>> - * This calls &drm_framebuffer_funcs->dirty (if present) to flush 
+>> buffer changes
+>> - * for drivers that need it.
+>> - *
+>> - * Returns:
+>> - * Zero on success or negative error code on failure.
+>> - */
+>> -int drm_client_framebuffer_flush(struct drm_client_buffer *buffer, 
+>> struct drm_rect *rect)
+>> -{
+>> -    if (!buffer || !buffer->fb || !buffer->fb->funcs->dirty)
+>> -        return 0;
+>> -
+>> -    if (rect) {
+>> -        struct drm_clip_rect clip = {
+>> -            .x1 = rect->x1,
+>> -            .y1 = rect->y1,
+>> -            .x2 = rect->x2,
+>> -            .y2 = rect->y2,
+>> -        };
+>> -
+>> -        return buffer->fb->funcs->dirty(buffer->fb, buffer->client- 
+>> >file,
+>> -                        0, 0, &clip, 1);
+>> -    }
+>> -
+>> -    return buffer->fb->funcs->dirty(buffer->fb, buffer->client->file,
+>> -                    0, 0, NULL, 0);
+>> -}
+>> -EXPORT_SYMBOL(drm_client_framebuffer_flush);
+>> -
+>>   #ifdef CONFIG_DEBUG_FS
+>>   static int drm_client_debugfs_internal_clients(struct seq_file *m, 
+>> void *data)
+>>   {
+>> diff --git a/include/drm/drm_client.h b/include/drm/drm_client.h
+>> index bc0e66f9c425..560aae47e06d 100644
+>> --- a/include/drm/drm_client.h
+>> +++ b/include/drm/drm_client.h
+>> @@ -165,7 +165,6 @@ struct drm_client_buffer {
+>>   struct drm_client_buffer *
+>>   drm_client_framebuffer_create(struct drm_client_dev *client, u32 
+>> width, u32 height, u32 format);
+>>   void drm_client_framebuffer_delete(struct drm_client_buffer *buffer);
+>> -int drm_client_framebuffer_flush(struct drm_client_buffer *buffer, 
+>> struct drm_rect *rect);
+>>   int drm_client_buffer_vmap_local(struct drm_client_buffer *buffer,
+>>                    struct iosys_map *map_copy);
+>>   void drm_client_buffer_vunmap_local(struct drm_client_buffer *buffer);
+> 
+
