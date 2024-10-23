@@ -2,67 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D914A9ACBF8
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2024 16:13:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B83179ACC0D
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Oct 2024 16:16:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFBEE89101;
-	Wed, 23 Oct 2024 14:12:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 368F410E7D5;
+	Wed, 23 Oct 2024 14:16:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="W+br8yx0";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="dvEIsDUi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EEF5189101
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 14:12:51 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 8AB86A44E2E
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 14:12:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18C2DC4CEE6
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 14:12:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1729692770;
- bh=lT+2VpBy0BT7oY5bPbktSNUFx97M8RvIUrfH+KcF/Dc=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=W+br8yx0K06VIfrfvTTPp6H8RvGMv96AxJZySLP4dlcJFUhpirDAHaTFpIcPpoz/A
- N6QCXxzTD4M+AcJ6ap7fC3t/tpBJY9/E8+TUs6f/aQ8mO3vyHnxuTnyRZBeSEqLC7v
- C4Oa5C156i+HZJokRBkMJJt24mfC3vO3F05rKjaRqv9MUjPFz1MPgH3M2T16szp2XJ
- GhibYZl4h9CkJ46uip0M/M5DD1w9HsHBWwm8TnGy9BHdQMRTJx5OmlfCvnKkdo8UET
- jHEf+ItWv3xYMXwUYmIgW34LPDtXlrCeKIY8d6+WpoV8SvGQqyFeDBZybAhztAPfPV
- uL0NgWplSc4bg==
-Received: by mail-pg1-f176.google.com with SMTP id
- 41be03b00d2f7-7ea7e2ff5ceso5297707a12.2
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 07:12:50 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUHeTxq78+XGlvMTd4EATpEYyLvZXa8bUlk3CTFVa/KsKUefUxll3RrkyZlWmLGYLPIDEC1cBx+iVc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YydP5LaNatt89Gq4os0fTDWDDze/KuyPAzPOvVGw1YQBW7ru4ZD
- S1DmuKOiwyMp3nnxtDTNg66k2u58y3bhFd3IdWAdFv7oX2WpshxdgBXU7uZx5oziSdKn3UQyVIO
- w2tOHZNqdMEFZKItZ6qiRWh7PVQ==
-X-Google-Smtp-Source: AGHT+IFlsad2/fwPdFPf6XhOvIClD0wIrRQ18NzI0oBgziJzaXBbTh6qI7+JGmlilOHZTPE+QeviZQ7b6sPyVX5hBBk=
-X-Received: by 2002:a05:6a21:3a41:b0:1d8:a247:945d with SMTP id
- adf61e73a8af0-1d978bef8bdmr2663185637.50.1729692769613; Wed, 23 Oct 2024
- 07:12:49 -0700 (PDT)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E552910E7D5
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 14:16:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1729692972;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=lu+U1UtLeYKuG7KvpNGTP1vzTWevM8/vvCGog3NAbpM=;
+ b=dvEIsDUiYhXBb0mbQgNbdOJdRrs4Cl1SaVgHnrFfUIHIyZeEs8a9CRHtBddjCNJ88Bfqtf
+ S1ocw3XJevjpyfVqOZYa2ybman6D0gJnXDdI+xDfVqoC4tTaj1FSrlh8Qd3q7kxdxGRJLj
+ GFPbcQAjlCP4btNlrHkcvjqqbTyZCII=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-104-YLM4h7iuMAG6Ap0Z1o77nw-1; Wed, 23 Oct 2024 10:16:11 -0400
+X-MC-Unique: YLM4h7iuMAG6Ap0Z1o77nw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-43151e4ef43so50584565e9.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 07:16:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1729692969; x=1730297769;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=lu+U1UtLeYKuG7KvpNGTP1vzTWevM8/vvCGog3NAbpM=;
+ b=uiGaHBNTRoelSJTSPcK4f/jyG8eo7MD+cjnQHU4AWjRwg0D2/PkFfvc5upXmbbUm2d
+ lAmiIQckHlGy3LXJa8dQ2gvlxc34wSCqv/ZsSSecTk/6mw92fYgLKEXBUzUtUfBojDNf
+ 18hcYj2x+K3/+VrtId2wFssJn23I9zQRn7hk9qWs4sh4U6aEvs9LtixfvNux0hDzFVT5
+ vebkKfXPBfvBTei6+9cz+zLmTNYapyUTldUi0ENMKXH82K2NqUlAbbip7991JFROJEwr
+ xVg9jeieDPHSEGMLrkbQGjZ32cMvB556WzIFqlORWznbcl6btQd1rjZWKft4z7bNsfT/
+ 3DmA==
+X-Gm-Message-State: AOJu0YyI4KpLW1h7xV7gJraHQ/tI6bvzXnaRj6izhF+6kxHOqR82vjPm
+ j77qmpRpKS7URPzEkvW2l57uUPxRhZKsH2DmxRIYbAl1PbHsbOAn1tOccPNPYmk2b4SbNImjDjI
+ OZg1y/+9AUByoYLkoiLkiPtAExNAekp+Ie3bOHwP7Cn1gJLJsoz8KnULqEqGT8t3/Ww==
+X-Received: by 2002:a05:600c:1d27:b0:431:57d2:d7b4 with SMTP id
+ 5b1f17b1804b1-43184189bf9mr24038095e9.26.1729692969162; 
+ Wed, 23 Oct 2024 07:16:09 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHar1p9asUu+YXdAKrBOIOL/4ioKmiQlOhE0COxng/W6LCWD1YB5yXLgKgHAXBJX00kApY/Ag==
+X-Received: by 2002:a05:600c:1d27:b0:431:57d2:d7b4 with SMTP id
+ 5b1f17b1804b1-43184189bf9mr24037725e9.26.1729692968775; 
+ Wed, 23 Oct 2024 07:16:08 -0700 (PDT)
+Received: from eisenberg.fritz.box ([2001:16b8:3dac:2f00:8834:dd3a:39b8:e43b])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-37ee0a48d51sm8961432f8f.38.2024.10.23.07.16.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Oct 2024 07:16:08 -0700 (PDT)
+From: Philipp Stanner <pstanner@redhat.com>
+To: Luben Tuikov <ltuikov89@gmail.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <pstanner@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Tvrtko Ursulin <tursulin@igalia.com>
+Cc: dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/sched: warn about drm_sched_job_init()'s partial init
+Date: Wed, 23 Oct 2024 16:15:31 +0200
+Message-ID: <20241023141530.113370-2-pstanner@redhat.com>
+X-Mailer: git-send-email 2.47.0
 MIME-Version: 1.0
-References: <cc537bd6-837f-4c85-a37b-1a007e268310@stanley.mountain>
-In-Reply-To: <cc537bd6-837f-4c85-a37b-1a007e268310@stanley.mountain>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Wed, 23 Oct 2024 22:13:10 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_8kG67ns8OokhzujmH7UNM-O+4Aa=GruO_spLOALMeARA@mail.gmail.com>
-Message-ID: <CAAOTY_8kG67ns8OokhzujmH7UNM-O+4Aa=GruO_spLOALMeARA@mail.gmail.com>
-Subject: Re: [PATCH] drm/mediatek: Fix potential NULL dereference in
- mtk_crtc_destroy()
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- dri-devel@lists.freedesktop.org, 
- linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, kernel-janitors@vger.kernel.org, 
- =?UTF-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,53 +96,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Dan:
+drm_sched_job_init()'s name suggests that after the function succeeded,
+parameter "job" will be fully initialized. This is not the case; some
+members are only later set, notably drm_sched_job.sched by
+drm_sched_job_arm().
 
-Dan Carpenter <dan.carpenter@linaro.org> =E6=96=BC 2024=E5=B9=B49=E6=9C=881=
-2=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=884:45=E5=AF=AB=E9=81=93=EF=
-=BC=9A
->
-> In mtk_crtc_create(), if the call to mbox_request_channel() fails then we
-> set the "mtk_crtc->cmdq_client.chan" pointer to NULL.  In that situation,
-> we do not call cmdq_pkt_create().
->
-> During the cleanup, we need to check if the "mtk_crtc->cmdq_client.chan"
-> is NULL first before calling cmdq_pkt_destroy().  Calling
-> cmdq_pkt_destroy() is unnecessary if we didn't call cmdq_pkt_create() and
-> it will result in a NULL pointer dereference.
+Document that drm_sched_job_init() does not set all struct members.
 
-Applied to mediatek-drm-fixes [1], thanks.
+Document the lifetime of drm_sched_job.sched.
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
-log/?h=3Dmediatek-drm-fixes
+Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+---
+ drivers/gpu/drm/scheduler/sched_main.c | 4 ++++
+ include/drm/gpu_scheduler.h            | 8 ++++++++
+ 2 files changed, 12 insertions(+)
 
-Regards,
-Chun-Kuang.
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index dab8cca79eb7..8c1c4739f36d 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -771,6 +771,10 @@ EXPORT_SYMBOL(drm_sched_resubmit_jobs);
+  * Drivers must make sure drm_sched_job_cleanup() if this function returns
+  * successfully, even when @job is aborted before drm_sched_job_arm() is called.
+  *
++ * Note that this function does not assign a valid value to each struct member
++ * of struct drm_sched_job. Take a look at that struct's documentation to see
++ * who sets which struct member with what lifetime.
++ *
+  * WARNING: amdgpu abuses &drm_sched.ready to signal when the hardware
+  * has died, which can mean that there's no valid runqueue for a @entity.
+  * This function returns -ENOENT in this case (which probably should be -EIO as
+diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+index ab161289d1bf..95e17504e46a 100644
+--- a/include/drm/gpu_scheduler.h
++++ b/include/drm/gpu_scheduler.h
+@@ -340,6 +340,14 @@ struct drm_sched_fence *to_drm_sched_fence(struct dma_fence *f);
+ struct drm_sched_job {
+ 	struct spsc_node		queue_node;
+ 	struct list_head		list;
++
++	/**
++	 * @sched:
++	 *
++	 * The scheduler this job is or will be scheduled on. Gets set by
++	 * drm_sched_job_arm(). Valid until drm_sched_backend_ops.free_job()
++	 * has finished.
++	 */
+ 	struct drm_gpu_scheduler	*sched;
+ 	struct drm_sched_fence		*s_fence;
+ 
+-- 
+2.47.0
 
->
-> Fixes: 7627122fd1c0 ("drm/mediatek: Add cmdq_handle in mtk_crtc")
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-> ---
->  drivers/gpu/drm/mediatek/mtk_crtc.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/mediatek/mtk_crtc.c b/drivers/gpu/drm/mediat=
-ek/mtk_crtc.c
-> index 175b00e5a253..c15013792583 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_crtc.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_crtc.c
-> @@ -127,9 +127,8 @@ static void mtk_crtc_destroy(struct drm_crtc *crtc)
->
->         mtk_mutex_put(mtk_crtc->mutex);
->  #if IS_REACHABLE(CONFIG_MTK_CMDQ)
-> -       cmdq_pkt_destroy(&mtk_crtc->cmdq_client, &mtk_crtc->cmdq_handle);
-> -
->         if (mtk_crtc->cmdq_client.chan) {
-> +               cmdq_pkt_destroy(&mtk_crtc->cmdq_client, &mtk_crtc->cmdq_=
-handle);
->                 mbox_free_channel(mtk_crtc->cmdq_client.chan);
->                 mtk_crtc->cmdq_client.chan =3D NULL;
->         }
-> --
-> 2.45.2
->
