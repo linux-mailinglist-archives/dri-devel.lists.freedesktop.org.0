@@ -2,62 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3D1C9ADBCC
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2024 08:13:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BAB59ADBCF
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2024 08:14:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 188C310E8A7;
-	Thu, 24 Oct 2024 06:13:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DB9210E1F1;
+	Thu, 24 Oct 2024 06:13:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="3WELXQXq";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="nAmPt8U9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f201.google.com (mail-yw1-f201.google.com
- [209.85.128.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56D4110E8A7
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 06:13:52 +0000 (UTC)
-Received: by mail-yw1-f201.google.com with SMTP id
- 00721157ae682-6e376aa4586so10675877b3.1
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 23:13:52 -0700 (PDT)
+Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com
+ [209.85.128.202])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB18110E1F1
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 06:13:56 +0000 (UTC)
+Received: by mail-yw1-f202.google.com with SMTP id
+ 00721157ae682-6e3705b2883so11402417b3.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Oct 2024 23:13:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1729750431; x=1730355231;
+ d=google.com; s=20230601; t=1729750436; x=1730355236;
  darn=lists.freedesktop.org; 
- h=cc:to:from:subject:mime-version:message-id:date:from:to:cc:subject
- :date:message-id:reply-to;
- bh=55/hvgYNWdvBpZX8vS6a0ZNEj9vu+ZIZIEdADHyK4mM=;
- b=3WELXQXqqy4b+zD5PU/Z6qVSwF1UcCBKFpd+S+lbXHMY8F4Qftu3zyJ92SAHH2gn+i
- 0GjkqkpeJrDAZ3nlKIMGVjqblozyyM96ddClBd+6IOdmVZbSfX6yL0rbMWyyixxdXmQ0
- kyrn5P78pL9Ic32rz/0xfXSW9S4iVq8R5gVi3yxd3KeUGMtWucUEvJA+pK0/lLnpHEr0
- +6Vvt5RupU5+A6SSfHpRwHQX8Y5SQv4/AmeN2VgcP4rcZYi58ijHlIhv9LBa7mvpo7wx
- 3K0K+59C3WN/sFILUqUI6B1dIfVjT/wvktfedSnaO08YpreBpo8y3iUruZliShA7Qu1i
- /1PA==
+ h=content-transfer-encoding:cc:to:from:subject:references
+ :mime-version:message-id:in-reply-to:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ULy+zyN1BivKyLwzuPRCl/8UJCnpTGDPYrNtb9eDcL4=;
+ b=nAmPt8U9d8sCyHWUN3yxfD4Sy94ki7EFFsrEzrB4+WmNTlJuPWYgIkuPB2vzyN8PUJ
+ fBgmeKSQX8MCSTmwUt9FqB6NkQONjQShm8giskDzjW8Ww8vq5zyddSct0MrRFvj0z8iY
+ +Q82VHcoVkDavhhlB87g6KyFR5ooOppJlG/PguxbUvCV/oJ85a04XyM115rv7h80QUwh
+ 9bB68uWnAcPzm/wacRCSBWQTqGGfR0g9oRlBbQhz5qIN1JeGS9ORaksAEVrYKd1rdWlA
+ Tj0oABXT2qJbyDSoAOPo/5or8XAikoMm431kNsKpPzrGnQL8siIaSN7bcUN1L1ftkjnB
+ /w+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729750431; x=1730355231;
- h=cc:to:from:subject:mime-version:message-id:date:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=55/hvgYNWdvBpZX8vS6a0ZNEj9vu+ZIZIEdADHyK4mM=;
- b=LaffuKHntgw6PvjVV3xPQCkmg0JJtGszIbv9OnVscZ/HJPmYwoCbayw4DXtx9P1ZzY
- Tb18/795aoTxCWD4/rYCWi1nJiHbbT3Sdy4g7T8YqtbdwpQMfUoiVQzyCxo4A2pLPQEo
- tRfQkBEi3mNa9u1dt0cZhdOPg5BOJCbYJI0X7/kaiS7XUV0IAAJ/ADTD/2sMDbTSInyA
- wH+DkAYI+gHWeri1MinKPr6Yg3tXWTkdf/RjVxHctYIVXb/qSRtjxJ4IkTv4imKFQo6a
- AFFSHLUV6CCi/szFySw5bGrsUxVkxLCAIA33KMaUnRMkxPw9ytn8J6mXpQ9aES+sYixS
- 0lEQ==
+ d=1e100.net; s=20230601; t=1729750436; x=1730355236;
+ h=content-transfer-encoding:cc:to:from:subject:references
+ :mime-version:message-id:in-reply-to:date:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=ULy+zyN1BivKyLwzuPRCl/8UJCnpTGDPYrNtb9eDcL4=;
+ b=vNPuI+QeCMaGAHw8OU5zEHGL5yRjz7p7p7YocIAhS2wY3UsPjhpchDjN8onUuvQQoI
+ ZH2AB+zN/+xE2VUvTOSnhLNr8fQG9OIgEt6u7kYLtt2adM1ifW0rMIY7JZC5LFXP8HXI
+ qNS9z2gHB1BA5Pqyfy5AB9Hzpev01AjjlhwTXV2kkWYa98zmivbikkPXA5tdPdfB7jkU
+ RDfG3+GcBE3S/JDitq0UMJRXKZr42CX7B1PAZGLW0Qec19XCgrhX1fBNmwnwbNlrvl8P
+ c0BUQ/PmiQBs18DWDtMkyEayS0GJIM5hWmyHxR2WgFeisWRNliLNgjmsO79btXwJhVOx
+ IoVg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV6Xv4yYNuOXAafpaVWg2EMDAiUSDh7hY+LZT2BFDTOsTioiPx7mO9z4S6RDhM66o7n+22nmrqao9A=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzoLgXLbPLUsglOdXBntF4rcdE/Aj/TpPihvleTLXsDzp+gv0rt
- 9ugfgJNvi0k/DaPx7KQeqVuVHCgz/lFGt2CaH+REB9hmi4ln7DK/yGOqU/oBFa9tyT4mKlDgcLK
- OMRzlb2SHnqnybw==
-X-Google-Smtp-Source: AGHT+IEjm5xZ8oWEf7u6//TA4Kt5HjH6iFnxvFJipXmVy8asdr1VaVjmTPVebbvVpJLKuPZgRMsL7ilkx4vd+j0=
+ AJvYcCVV9eePuAimKz3t7+iQnjQqwoSpk/BZ1auF5wFVxifvXS3Rqtj71u99hSFVmYuL0sTaQeRa2t78b1A=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzna8IuY+GYCViTxnZGs7p0MohXC84HmtwHik4hKA+onTs3Rqnj
+ 3T5z5lUXeqVQ/8ji1Rw8FFDIQzQs+6SDTgYsQ9b3Hy8tQqBsEPIO5ITMws8jayyBqMEr8nrQpgT
+ Seg2aj/E+VLeCoQ==
+X-Google-Smtp-Source: AGHT+IHCEMkQ2RfyYdNtjaLmn7Q1IV6vv3d2IoDuURVXiH0KtdFNDJTv0BNk9TxANKxuJUTxCoodn7NIA1qQz7g=
 X-Received: from saravanak.san.corp.google.com
  ([2620:15c:2d:3:965e:f81d:c9fb:b352])
- (user=saravanak job=sendgmr) by 2002:a05:690c:7082:b0:6e7:e493:2db6 with SMTP
- id 00721157ae682-6e86632ee4bmr196737b3.3.1729750431239; Wed, 23 Oct 2024
- 23:13:51 -0700 (PDT)
-Date: Wed, 23 Oct 2024 23:13:41 -0700
-Message-Id: <20241024061347.1771063-1-saravanak@google.com>
+ (user=saravanak job=sendgmr) by 2002:a05:690c:6811:b0:6e3:19d7:382a with SMTP
+ id 00721157ae682-6e85813d7f5mr589267b3.1.1729750435897; Wed, 23 Oct 2024
+ 23:13:55 -0700 (PDT)
+Date: Wed, 23 Oct 2024 23:13:42 -0700
+In-Reply-To: <20241024061347.1771063-1-saravanak@google.com>
+Message-Id: <20241024061347.1771063-2-saravanak@google.com>
 Mime-Version: 1.0
+References: <20241024061347.1771063-1-saravanak@google.com>
 X-Mailer: git-send-email 2.47.0.105.g07ac214952-goog
-Subject: [PATCH 0/3] A few minor fw_devlink fixes
+Subject: [PATCH 1/3] drm: display: Set fwnode for aux bus devices
 From: Saravana Kannan <saravanak@google.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  "Rafael J. Wysocki" <rafael@kernel.org>, 
@@ -78,6 +82,7 @@ Cc: Saravana Kannan <saravanak@google.com>,
  linux-phy@lists.infradead.org, linux-tegra@vger.kernel.org, 
  linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,27 +98,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Probably easiest for Greg to pull in these changes?
+fwnode needs to be set for a device for fw_devlink to be able to
+track/enforce its dependencies correctly. Without this, you'll see error
+messages like this when the supplier has probed and tries to make sure
+all its fwnode consumers are linked to it using device links:
 
-PSA: Do not pull any of these patches into stable kernels. fw_devlink
-had a lot of changes that landed in the last year. It's hard to ensure
-cherry-picks have picked up all the dependencies correctly. If any of
-these really need to get cherry-picked into stable kernels, cc me and
-wait for my explicit Ack.
+mediatek-drm-dp 1c500000.edp-tx: Failed to create device link (0x180) with =
+backlight-lcd0
 
-Thanks,
-Saravana
-
-Saravana Kannan (3):
-  drm: display: Set fwnode for aux bus devices
-  phy: tegra: xusb: Set fwnode for xusb port devices
-  drivers: core: fw_devlink: Make the error message a bit more useful
-
- drivers/base/core.c                      | 4 ++--
+Reported-by: "N=C3=ADcolas F. R. A. Prado" <nfraprado@collabora.com>
+Closes: https://lore.kernel.org/all/7b995947-4540-4b17-872e-e107adca4598@no=
+tapiano/
+Tested-by: "N=C3=ADcolas F. R. A. Prado" <nfraprado@collabora.com>
+Signed-off-by: Saravana Kannan <saravanak@google.com>
+---
  drivers/gpu/drm/display/drm_dp_aux_bus.c | 2 +-
- drivers/phy/tegra/xusb.c                 | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
--- 
+diff --git a/drivers/gpu/drm/display/drm_dp_aux_bus.c b/drivers/gpu/drm/dis=
+play/drm_dp_aux_bus.c
+index d810529ebfb6..ec7eac6b595f 100644
+--- a/drivers/gpu/drm/display/drm_dp_aux_bus.c
++++ b/drivers/gpu/drm/display/drm_dp_aux_bus.c
+@@ -292,7 +292,7 @@ int of_dp_aux_populate_bus(struct drm_dp_aux *aux,
+ 	aux_ep->dev.parent =3D aux->dev;
+ 	aux_ep->dev.bus =3D &dp_aux_bus_type;
+ 	aux_ep->dev.type =3D &dp_aux_device_type_type;
+-	aux_ep->dev.of_node =3D of_node_get(np);
++	device_set_node(&aux_ep->dev, of_fwnode_handle(of_node_get(np)));
+ 	dev_set_name(&aux_ep->dev, "aux-%s", dev_name(aux->dev));
+=20
+ 	ret =3D device_register(&aux_ep->dev);
+--=20
 2.47.0.105.g07ac214952-goog
 
