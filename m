@@ -2,76 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3054F9ADEC6
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2024 10:17:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 922089ADEF6
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2024 10:20:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D51110E13B;
-	Thu, 24 Oct 2024 08:17:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E469510E399;
+	Thu, 24 Oct 2024 08:20:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="c2RmtRy/";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WF0cVyl1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
- [209.85.128.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3E6310E8AE
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 08:17:22 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id
- 5b1f17b1804b1-431481433bdso6149785e9.3
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 01:17:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1729757841; x=1730362641; darn=lists.freedesktop.org;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :from:to:cc:subject:date:message-id:reply-to;
- bh=jmI8CZ4fHAq0Xmul0DkZ8lYpCWQ/gTUaITTUgzA92+U=;
- b=c2RmtRy/TIg0nBSP0MqppUOL6RdgnGOn9fRmmLwMznsloRodFx5YrVPEtKwQ3KQzME
- MG+8+WT/9jK8rzoWzXyL4FZehVaRNq5Dd/TyRXhALwKQGx3zhyoXf0ngTx7IOLoSXaPu
- fqEgyoXF/jbgzXz4/dQOm1YGM4Z8c05CI8uP8g2rhTWqdvy6z8XpbK/g3vvv/ZjvYjyF
- hqwBOqKDXj7KyvDjGgLFBaIkpSCUAG6onGmOqYe8c5vKnxtY+L33XJfvXYj4dUsDGzt9
- m7bk6J8YQjqFy2H3KqNKeaDCm0VHFIDWriTHHJo/+y4iCbiT26btZFHIQTXZM1YsUOJK
- eovQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729757841; x=1730362641;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=jmI8CZ4fHAq0Xmul0DkZ8lYpCWQ/gTUaITTUgzA92+U=;
- b=g0bOQRYZR29Mc5xCzVg+kKwqFKwmlnj+uE3Q9PFEjEdyeRIAedMmnCY85+fZIFOuSI
- 8M3NQj4fqvEDp3FfToDuxQCY0wgCscEJcspGMFWC34EefI7kxUpKeENBjjLrvyrTuqls
- 4+qvrubkyKdD9qsUpJe8gLcbWQkIZHR6UidehSwOP1ncAfk1UsER1ll5eI9gV2oGccPq
- H1Q/f/siAKz981uzZzoDfSdOMhpgKVH7OT4OdJHExNaw64V3KM8DMchGJXYBu6sr5wrl
- Pyj5KgLPNHIb2WH6DsXU7Q2V7EVgdzisFu4+1FieQ/FFFZIhRr8phjmu4ydBpzU8Cx0x
- 7j3A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWMvfan/NVSVOe0nfXtB2Uo9EESiuIgcfo0L2GtnUqTBmcnINCE+DcIy4S6d9/rdVVmD6e6hhujIEQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx6mvW2fH1za3iHCJTHxZI/EKP7PFfVBoobC/O6OB3AIZw4WtWh
- TF8o+eO/+ZJxxFO5mST0S9vG+HMcPVim0hAgJRYbmWv87sZoheTWvGGh61asknE=
-X-Google-Smtp-Source: AGHT+IE3Nx3OTYwJ2zj5wQUJ52gt4WAcF+S2WAkAz8S9e4+HmoQbErAeCCyoj3cZNQaSJWvWbko8rg==
-X-Received: by 2002:a05:600c:1c11:b0:42c:a574:6360 with SMTP id
- 5b1f17b1804b1-431841aff4emr45292785e9.29.1729757840836; 
- Thu, 24 Oct 2024 01:17:20 -0700 (PDT)
-Received: from localhost ([196.207.164.177]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-43186c0f4cbsm38315275e9.38.2024.10.24.01.17.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Oct 2024 01:17:20 -0700 (PDT)
-Date: Thu, 24 Oct 2024 11:17:16 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Sunil Khatri <sunil.khatri@amd.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Lijo Lazar <lijo.lazar@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Ma Jun <Jun.Ma2@amd.com>, Victor Lu <victorchengchi.lu@amd.com>,
- Yunxiang Li <Yunxiang.Li@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org
-Subject: [PATCH next] drm/amdgpu: Fix amdgpu_ip_block_hw_fini()
-Message-ID: <f4fc849e-4e76-4448-8657-caa4c69910b0@stanley.mountain>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB6F710E399
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 08:20:05 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 7DF9A5C5570;
+ Thu, 24 Oct 2024 08:20:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61B0AC4CEC7;
+ Thu, 24 Oct 2024 08:20:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1729758004;
+ bh=K5sKOy6tY7heI8aybC+Dts0yJNvkoBAm47lR7ke4zpw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=WF0cVyl1s5gb+qNVxZ/tD7tpy6FtaotyaP1VOlIaZsVmuSOrl6G5Ju5M3OHtXs2jZ
+ 0OiUMWb9rApd2WyEhSjTPFdW2hy2eij3GdEZs0nEhixXKNxoqoQ1yiDMijlGCdEhrL
+ Y/hg8gSsqf0ifRG2of7EsXaA9BgFzzus1U/GVzD1i40ZnHxKFwJ2mU4g2DZYEP7+6j
+ lzClmk0sAS09w+o6LOGGMiDJQyio6AhKmUNnD7HQAzut9Je2Uz1PwxKwDtGBULnYuf
+ fm6HzB2jYsUwoEYIQlwGQEhSkvPRf2TkCW+7qE3t3tnht1b5SztBaai231q8+OQo75
+ YRcQ09Jbmc40w==
+Date: Thu, 24 Oct 2024 10:19:56 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Louis Chauvet <louis.chauvet@bootlin.com>
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
+ Melissa Wen <melissa.srw@gmail.com>,
+ =?utf-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>, 
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Simona Vetter <simona.vetter@ffwll.ch>, 
+ dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net,
+ linux-kernel@vger.kernel.org, 
+ jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
+ thomas.petazzoni@bootlin.com, 
+ seanpaul@google.com, nicolejadeyee@google.com, 
+ 20241010-vkms-remove-index-v2-1-6b8d6cfd5a15@bootlin.com
+Subject: Re: [PATCH v4 4/5] drm: writeback: Introduce drm managed helpers
+Message-ID: <20241024-slim-onyx-emu-3e4869@houat>
+References: <20241010-google-vkms-managed-v4-0-ed04a62ad2e3@bootlin.com>
+ <20241010-google-vkms-managed-v4-4-ed04a62ad2e3@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="o5dho5pvqeibpqga"
 Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
+In-Reply-To: <20241010-google-vkms-managed-v4-4-ed04a62ad2e3@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,27 +70,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This NULL check is reversed so the function doesn't work.
 
-Fixes: dad01f93f432 ("drm/amdgpu: validate hw_fini before function call")
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--o5dho5pvqeibpqga
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v4 4/5] drm: writeback: Introduce drm managed helpers
+MIME-Version: 1.0
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index 91c1f2188498..f12fab13386a 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -3309,7 +3309,7 @@ static void amdgpu_ip_block_hw_fini(struct amdgpu_ip_block *ip_block)
- {
- 	int r;
- 
--	if (ip_block->version->funcs->hw_fini) {
-+	if (!ip_block->version->funcs->hw_fini) {
- 		DRM_ERROR("hw_fini of IP block <%s> not defined\n",
- 			  ip_block->version->funcs->name);
- 	} else {
--- 
-2.45.2
+Hi,
 
+On Thu, Oct 10, 2024 at 07:39:06PM +0200, Louis Chauvet wrote:
+> Currently drm_writeback_connector are created by
+> drm_writeback_connector_init or drm_writeback_connector_init_with_encoder.
+> Both of the function uses drm_connector_init and drm_encoder_init, but
+> there is no way to properly clean those structure from outside. By using
+> drm managed variants, we can ensure that the writeback connector is
+> properly cleaned.
+>=20
+> This patch introduce drmm_writeback_connector_init, an helper to initiali=
+ze
+> a writeback connector using drm managed helpers. This function allows the
+> caller to use its own encoder.
+>=20
+> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> ---
+>  drivers/gpu/drm/drm_connector.c |   4 +
+>  drivers/gpu/drm/drm_writeback.c | 224 ++++++++++++++++++++++++++++++++++=
+------
+>  include/drm/drm_writeback.h     |  10 ++
+>  3 files changed, 208 insertions(+), 30 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connec=
+tor.c
+> index fc35f47e2849..fe4c1967860a 100644
+> --- a/drivers/gpu/drm/drm_connector.c
+> +++ b/drivers/gpu/drm/drm_connector.c
+> @@ -613,6 +613,7 @@ static void drm_mode_remove(struct drm_connector *con=
+nector,
+>  	drm_mode_destroy(connector->dev, mode);
+>  }
+> =20
+> +void drm_writeback_connector_cleanup(struct drm_device *dev, void *data);
+>  /**
+>   * drm_connector_cleanup - cleans up an initialised connector
+>   * @connector: connector to cleanup
+> @@ -631,6 +632,9 @@ void drm_connector_cleanup(struct drm_connector *conn=
+ector)
+>  		    DRM_CONNECTOR_REGISTERED))
+>  		drm_connector_unregister(connector);
+> =20
+> +	if (connector->connector_type =3D=3D DRM_MODE_CONNECTOR_WRITEBACK)
+> +		drm_writeback_connector_cleanup(dev, connector);
+> +
+
+So I think it should live in its own patch.
+
+You're doing multiple things here. There's a) the bug that writeback
+connectors aren't built properly, b) the discussion about how it's best to
+clean it up, and c) how to make every driver clean up properly.
+
+AFAIU, you're trying to address a and c here.
+
+I think putting that call in drm_connector_cleanup is backward compared
+to the pattern we're using in the rest of DRM.
+
+drm_connector_cleanup should just clean what was allocated by
+drm_connector_init, and that's it.
+
+So we should create a drm_writeback_connector_cleanup function to
+address a). That should be your first patch.
+
+Now, it would indeed be best if drm_writeback_connector_cleanup didn't
+need to be called at all. That's the second part of your patch, and
+should be in its own patch as well. It would address b).
+
+And finally, addressing c will require some driver changes, to either a
+call to drmm_writeback_connector_init_* or by using
+drm_writeback_connector_cleanup, but we'll have to make that change in
+every driver.
+
+Maxime
+
+--o5dho5pvqeibpqga
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZxoDJQAKCRAnX84Zoj2+
+du3bAYDYtM57/go755CLaBUrfDiCBY8n1D+4kvkJfiaa7gCpFikF4h3VBPgRcBDW
+SP7pTQ4BgJRqMFQVXtGc9XarQJFeooYfRcrZ+wFWsyaMsD56J7OSsGOjSIwdz876
+syUY5lnVuQ==
+=Cnum
+-----END PGP SIGNATURE-----
+
+--o5dho5pvqeibpqga--
