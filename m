@@ -2,110 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC1889AE55B
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2024 14:49:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4FCD9AE597
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2024 15:06:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 216E910E930;
-	Thu, 24 Oct 2024 12:49:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B82710E933;
+	Thu, 24 Oct 2024 13:06:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="IeLaMLom";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bwPn/WK+";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IeLaMLom";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bwPn/WK+";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Vy1Wn4fL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E381310E930;
- Thu, 24 Oct 2024 12:49:24 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 4CE521FDB7;
- Thu, 24 Oct 2024 12:49:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1729774163; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=TNZyzsAZPH1onMcnoCmPu3rQFvjSIdxP5wWbG6tr7sE=;
- b=IeLaMLomb4JJ20ZBEjnHUquzUfNZtz1ws3YUDLGZoxGmxwJ8T6n9rfSBiI4HeouFCa2qo2
- lJ9qiw+Rol4FkCkESL0BEyNzLCyPjTY8xsvKkrXm5cZTmCcyJTaGRoujbeUcLvvbAZWRnY
- Th8vfTqZui2Z5rYwP2zoeDgzvqciGoY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1729774163;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=TNZyzsAZPH1onMcnoCmPu3rQFvjSIdxP5wWbG6tr7sE=;
- b=bwPn/WK+TtzEvhZZ05Q/8A0xgJFiv7wJP4RqVLps10tVM0cmVT3FACZjqLwORhmpSeDrx9
- ztoC3PG2HqO/lHBA==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=IeLaMLom;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="bwPn/WK+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1729774163; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=TNZyzsAZPH1onMcnoCmPu3rQFvjSIdxP5wWbG6tr7sE=;
- b=IeLaMLomb4JJ20ZBEjnHUquzUfNZtz1ws3YUDLGZoxGmxwJ8T6n9rfSBiI4HeouFCa2qo2
- lJ9qiw+Rol4FkCkESL0BEyNzLCyPjTY8xsvKkrXm5cZTmCcyJTaGRoujbeUcLvvbAZWRnY
- Th8vfTqZui2Z5rYwP2zoeDgzvqciGoY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1729774163;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=TNZyzsAZPH1onMcnoCmPu3rQFvjSIdxP5wWbG6tr7sE=;
- b=bwPn/WK+TtzEvhZZ05Q/8A0xgJFiv7wJP4RqVLps10tVM0cmVT3FACZjqLwORhmpSeDrx9
- ztoC3PG2HqO/lHBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DB8F2136F5;
- Thu, 24 Oct 2024 12:49:22 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 6OjhM1JCGmeoDQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 24 Oct 2024 12:49:22 +0000
-Date: Thu, 24 Oct 2024 14:49:21 +0200
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-misc-fixes
-Message-ID: <20241024124921.GA20475@localhost.localdomain>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7466510E933
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 13:05:59 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 5C76DA4540C;
+ Thu, 24 Oct 2024 13:05:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79411C4CEC7;
+ Thu, 24 Oct 2024 13:05:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1729775158;
+ bh=QXk1V7bH3HsTPiuM9A5Py2vZdwbkg6MWH803SOVsaJ4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Vy1Wn4fLlykC16tJY9EfRKt3126lvfGKufGOM2l0XlojP1032MOTW502xrrPTywyV
+ 7Y69l4ulKnMB3iVxDKBaWdiHt+3LGuqNttl8YRItkAI3MzFSIvjfDjADzGcwCu4QPo
+ oVMqArtpEcrXEoIT+Noe46x2BFsVNjtLtp+5vmkOIr1A4jwvVZnTmW3Nqqo9rnI4mA
+ N0P0leVPPbKzcS+U68XbM42bL1qeS0CFMha/ha1PQk+vXDdznGF5M0aEQmPY51S8iy
+ EI5eUEGub5heUuD/638YAHa/pS8V/4jbNgLRfJBpGxVjOwrQweu0clK9gwGog1w3XI
+ Wziem035r2IIA==
+Date: Thu, 24 Oct 2024 14:05:53 +0100
+From: Will Deacon <will@kernel.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: iommu@lists.linux.dev, Joerg Roedel <joro@8bytes.org>,
+ linux-arm-kernel@lists.infradead.org, Robin Murphy <robin.murphy@arm.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ dri-devel@lists.freedesktop.org, Liviu Dudau <liviu.dudau@arm.com>,
+ patches@lists.linux.dev, Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH] iommu/io-pgtable-arm: Remove split on unmap behavior
+Message-ID: <20241024130550.GE30704@willie-the-truck>
+References: <0-v1-8c5f369ec2e5+75-arm_no_split_jgg@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Rspamd-Queue-Id: 4CE521FDB7
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[99.99%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; FREEMAIL_TO(0.00)[gmail.com,ffwll.ch];
- RCVD_VIA_SMTP_AUTH(0.00)[]; MISSING_XM_UA(0.00)[];
- ARC_NA(0.00)[]; RCPT_COUNT_TWELVE(0.00)[16];
- MIME_TRACE(0.00)[0:+]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,gitlab.freedesktop.org:url];
- RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -4.51
-X-Spam-Flag: NO
+In-Reply-To: <0-v1-8c5f369ec2e5+75-arm_no_split_jgg@nvidia.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,53 +61,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Sima,
+Hi Jason,
 
-this is the PR for drm-misc-fixes.
+On Fri, Oct 18, 2024 at 02:19:26PM -0300, Jason Gunthorpe wrote:
+> Of the page table implementations (AMD v1/2, VT-D SS, ARM32, DART)
+> arm_lpae is unique in how it handles partial unmap of large IOPTEs.
+> 
+> All other drivers will unmap the large IOPTE and return it's length.  For
+> example if a 2M IOPTE is present and the first 4K is requested to be
+> unmapped then unmap will remove the whole 2M and report 2M as the result.
+> 
+> arm_lpae instead replaces the IOPTE with a table of smaller IOPTEs, unmaps
+> the 4K and returns 4k. This is actually an illegal/non-hitless operation
+> on at least SMMUv3 because of the BBM level 0 rules.
+> 
+> Long ago VFIO could trigger a path like this, today I know of no user of
+> this functionality.
+> 
+> Given it doesn't work fully correctly on SMMUv3 and would create
+> portability problems if any user depends on it, remove the unique support
+> in arm_lpae and align with the expected iommu interface.
+> 
+> Outside the iommu users, this will potentially effect io_pgtable users of
+> ARM_32_LPAE_S1, ARM_32_LPAE_S2, ARM_64_LPAE_S1, ARM_64_LPAE_S2, and
+> ARM_MALI_LPAE formats.
+> 
+> Cc: Boris Brezillon <boris.brezillon@collabora.com>
+> Cc: Steven Price <steven.price@arm.com>
+> Cc: Liviu Dudau <liviu.dudau@arm.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
+>  drivers/iommu/io-pgtable-arm.c | 72 +++-------------------------------
+>  1 file changed, 6 insertions(+), 66 deletions(-)
 
-Best regards
-Thomas
+I'd love to drop this, but I'm sure it was needed when I added it :/
 
-drm-misc-fixes-2024-10-24:
-Short summary of fixes pull:
+My recollection is hazy, but I seem to remember VFIO using the largest
+page sizes in the IOMMU 'pgsize_bitmap' for map() requests but then
+using the smallest page size for unmap() requests, so you'd end up
+cracking block mappings when tearing down a VM with assigne devices.
 
-bridge:
-- aux: Fix assignment of OF node
-- tc358767: Add missing of_node_put() in error path
-The following changes since commit 83f000784844cb9d4669ef1a3366479db3197b33:
+Is this what you're referring to when you say?
 
-  Merge tag 'drm-xe-fixes-2024-10-17' of https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes (2024-10-18 13:53:41 +1000)
+  > Long ago VFIO could trigger a path like this, today I know of no user of
+  > this functionality.
 
-are available in the Git repository at:
+If so, please can you provide a reference to the patch that moved VFIO
+off that problematic behaviour?
 
-  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-fixes-2024-10-24
+Thanks!
 
-for you to fetch changes up to 5c23878252515b8d2b86839bd4cb7dea7088aacd:
-
-  drm/bridge: tc358767: fix missing of_node_put() in for_each_endpoint_of_node() (2024-10-21 15:00:35 +0200)
-
-----------------------------------------------------------------
-Short summary of fixes pull:
-
-bridge:
-- aux: Fix assignment of OF node
-- tc358767: Add missing of_node_put() in error path
-
-----------------------------------------------------------------
-Abel Vesa (1):
-      drm/bridge: Fix assignment of the of_node of the parent to aux bridge
-
-Javier Carrasco (1):
-      drm/bridge: tc358767: fix missing of_node_put() in for_each_endpoint_of_node()
-
- drivers/gpu/drm/bridge/aux-bridge.c | 3 ++-
- drivers/gpu/drm/bridge/tc358767.c   | 1 +
- 2 files changed, 3 insertions(+), 1 deletion(-)
-
--- 
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+Will
