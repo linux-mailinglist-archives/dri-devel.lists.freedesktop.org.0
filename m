@@ -2,56 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E6699AE404
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2024 13:35:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FC659AE413
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2024 13:44:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1F9B10E904;
-	Thu, 24 Oct 2024 11:35:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 887A010E288;
+	Thu, 24 Oct 2024 11:44:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Jhv2OSwn";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="TNmmqt6H";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6720710E904
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 11:35:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1729769748;
- bh=BLP2qSk59XHygRuGtwvvviZHLismYalYrgP+lhwiV8k=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Jhv2OSwnszDSFGVPFqjILsZE1X2ReJHgp8WHeWdMv6Zsp6Ll1unmY9mgeJSKjxB9B
- mEjNgsWWD0PT2cbTzMv0c3SSxNIpI8cXU9S6Oq/L8gALXkPeL+OU4O7rn4KmxyNJbr
- dplZUqsXXvoPIdGhu/pBalDD5WIV5npfwPUGKyr15sjE+sg83nmft8tpN0i+7/39Vh
- JEtm5uanLs3k5TyC1Habi76PiqfhLiP45fDsFlSBLCJoXV6dwWl1K31uuKqoYy30KK
- qKKntmQnWevYFnGX9FJqETrcIs1gHtyOXUjSJPFs6o1Zc7mFlhlS1XFDx/nxPIbqxY
- QVmqxnMDNBkuQ==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 8697417E35D1;
- Thu, 24 Oct 2024 13:35:47 +0200 (CEST)
-Message-ID: <f21fd6bd-b3d5-48f3-8693-48668ee5036a@collabora.com>
-Date: Thu, 24 Oct 2024 13:35:47 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4886710E116;
+ Thu, 24 Oct 2024 11:44:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1729770287; x=1761306287;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=9mSzhO+ErZOeRSj52LzGOO8SchPTv+grUXxOUAT11hQ=;
+ b=TNmmqt6HCw0DCYBp49nuzUNKAlnhxuKsz0Pe6C3Ojobb0XjFTwhcLMgZ
+ ct+j8PX5O353d3k1VOISoqoYXfmeLJ+7U3oKS5sqbF49XsgxeCQjNO+hW
+ uKV5nkplFiV7j12YpbbEyDagjtwWEbi4EVDJeZ2bdxGNnNXsLTRVIMNC+
+ HaKkDpyUU9304bChupOid1yqHfRklpvMuWdrBbKUgSj8EbCl9CcwrYKBT
+ LglQovO/GIApdGmwuXuJZJynde+dzFZnV3tZLuvMj483jKWqhuEPPWA47
+ mAurCu3u5jtA0mvKiffIkNhFD0NpFMTdZvWfxDVXnzJcWKjgjKyt8wduH g==;
+X-CSE-ConnectionGUID: 2099tUqPR+OBEJG9LEiZeQ==
+X-CSE-MsgGUID: cnHC3+qDThOTQXlJZaGG2Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29558823"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="29558823"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Oct 2024 04:44:47 -0700
+X-CSE-ConnectionGUID: v8oXwH+SQkiBscjtsC2V8Q==
+X-CSE-MsgGUID: ureBgiElTpK572YobXQzpQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,229,1725346800"; d="scan'208";a="118038115"
+Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.245.128.192])
+ ([10.245.128.192])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Oct 2024 04:44:45 -0700
+Message-ID: <74f7344a-dd8e-4b20-a980-daf9b188df7b@linux.intel.com>
+Date: Thu, 24 Oct 2024 13:44:41 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm: display: Set fwnode for aux bus devices
-To: Saravana Kannan <saravanak@google.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Matthias Brugger <matthias.bgg@gmail.com>
-Cc: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
- Jon Hunter <jonathanh@nvidia.com>, kernel-team@android.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-References: <20241023191339.1491282-1-saravanak@google.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH v2] drm/sched: Mark scheduler work queues with
+ WQ_MEM_RECLAIM
+To: Matthew Brost <matthew.brost@intel.com>, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: dakr@kernel.org, pstanner@redhat.com, ltuikov89@gmail.com
+References: <20241023235917.1836428-1-matthew.brost@intel.com>
 Content-Language: en-US
-In-Reply-To: <20241023191339.1491282-1-saravanak@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Nirmoy Das <nirmoy.das@linux.intel.com>
+In-Reply-To: <20241023235917.1836428-1-matthew.brost@intel.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,24 +72,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 23/10/24 21:13, Saravana Kannan ha scritto:
-> fwnode needs to be set for a device for fw_devlink to be able to
-> track/enforce its dependencies correctly. Without this, you'll see error
-> messages like this when the supplier has probed and tries to make sure
-> all its fwnode consumers are linked to it using device links:
-> 
-> mediatek-drm-dp 1c500000.edp-tx: Failed to create device link (0x180) with backlight-lcd0
-> tegra-xusb-padctl 3520000.padctl: Failed to create device link (0x180) with 1-0008
-> 
-> Reported-by: "Nícolas F. R. A. Prado" <nfraprado@collabora.com>
-> Closes: https://lore.kernel.org/all/7b995947-4540-4b17-872e-e107adca4598@notapiano/
-> Tested-by: "Nícolas F. R. A. Prado" <nfraprado@collabora.com>
-> Reported-by: Jon Hunter <jonathanh@nvidia.com>
-> Closes: https://lore.kernel.org/all/20240910130019.35081-1-jonathanh@nvidia.com/
-> Signed-off-by: Saravana Kannan <saravanak@google.com>
+
+On 10/24/2024 1:59 AM, Matthew Brost wrote:
+> drm_gpu_scheduler.submit_wq is used to submit jobs, jobs are in the path
+> of dma-fences, and dma-fences are in the path of reclaim. Mark scheduler
+> work queue with WQ_MEM_RECLAIM to ensure forward progress during
+> reclaim; without WQ_MEM_RECLAIM, work queues cannot make forward
+> progress during reclaim.
+>
+> v2:
+>  - Fixes tags (Philipp)
+>  - Reword commit message (Philipp)
+>
+> Cc: Luben Tuikov <ltuikov89@gmail.com>
+> Cc: Danilo Krummrich <dakr@kernel.org>
+> Cc: Philipp Stanner <pstanner@redhat.com>
+> Cc: stable@vger.kernel.org
+> Fixes: 34f50cc6441b ("drm/sched: Use drm sched lockdep map for submit_wq")
+> Fixes: a6149f039369 ("drm/sched: Convert drm scheduler to use a work queue rather than kthread")
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+
+Acked-by: Nirmoy Das <nirmoy.das@intel.com>
+
+Looks like Xe has a dependency on this now that xe->ordered_wq is allocated with  WQ_MEM_RECLAIM flag:
+
+https://intel-gfx-ci.01.org/tree/intel-xe/xe-pw-140135v2/bat-lnl-1/igt@xe_exec_fault_mode@twice-invalid-fault.html
+
 > ---
-
-On MT8186, MT8192, MT8195 Chromebooks:
-
-Tested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-
+>  drivers/gpu/drm/scheduler/sched_main.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index 540231e6bac6..df0a5abb1400 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -1283,10 +1283,11 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
+>  		sched->own_submit_wq = false;
+>  	} else {
+>  #ifdef CONFIG_LOCKDEP
+> -		sched->submit_wq = alloc_ordered_workqueue_lockdep_map(name, 0,
+> +		sched->submit_wq = alloc_ordered_workqueue_lockdep_map(name,
+> +								       WQ_MEM_RECLAIM,
+>  								       &drm_sched_lockdep_map);
+>  #else
+> -		sched->submit_wq = alloc_ordered_workqueue(name, 0);
+> +		sched->submit_wq = alloc_ordered_workqueue(name, WQ_MEM_RECLAIM);
+>  #endif
+>  		if (!sched->submit_wq)
+>  			return -ENOMEM;
