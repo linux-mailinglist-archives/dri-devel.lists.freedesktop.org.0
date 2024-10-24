@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D029D9AE9DB
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2024 17:09:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59C549AE9E0
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2024 17:09:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 112D410E29E;
-	Thu, 24 Oct 2024 15:09:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB93710E95F;
+	Thu, 24 Oct 2024 15:09:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hVaIwfYm";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZvPDyC2U";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4805810E29E
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 15:09:23 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D21A710E960
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 15:09:39 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 0FD74A45588;
- Thu, 24 Oct 2024 15:09:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 314CDC4CEE3;
- Thu, 24 Oct 2024 15:09:21 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 9F5725C6037;
+ Thu, 24 Oct 2024 15:09:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DB4EC4CEE4;
+ Thu, 24 Oct 2024 15:09:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1729782561;
- bh=ojYx0PQYtL8ocNe8PCalEPMZedU+ieflQax3vzhR5e0=;
+ s=k20201202; t=1729782578;
+ bh=GIiZShzCqbp99Okh9K2VfkZMwriJp7KN0xaKA+283IY=;
  h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=hVaIwfYmQk52sKxzCADhMo0WcbOetCF2g/REWq7oymjGx8oRznaiKgKrGPKVmxD6k
- PQT7/n9GQAnqpln1MfosQhKztUZg7X2MGKQTBYttK+vdGWxXLQHPVRshralR0mIGEY
- v8DKcZD84N6WtUowmVQU/LS00nA/JYP7l3lxmKLAKcNqdnHkVDf8zi9uMLFuaRaswO
- rbrSS41iWYkqBh7Ze1XQ6gH5cxF666cxMZiPJDRJp3rt45BLxOP5VRxMEPtbNDfN0B
- pVLq26dqM8iFN9nnKp1bmf83dNRkQCdzL1WOaTBhy+gRFvRNfV67d33AiaqBuByYaT
- mcuFPQ5XcnmHw==
-Message-ID: <c7a4b58f0b557fab0c2b7824d50583e4@kernel.org>
-Date: Thu, 24 Oct 2024 15:09:19 +0000
+ b=ZvPDyC2Un38oYBtXvX62d7ZiTOxbZfyC6ow/5abzyjUw3l5wdjqrX+maMLCxsR4Hd
+ sRNWXU9EdpeaIeGxfMMwYLRbm6VNHAJRUeD2vf5/cGiA2Y8ZpvTLygF1N71EpJJ2CY
+ 5W84akyxhzpMGZY0Eulx8m+WnlIKA8CZUqE3GBza5Pi9rhTYPkJjG55F7QSngHM5NI
+ mfuVjIqjRpjLYkSR11vOuiePNEjHfHfr2GW6ABT8jDV0nb+Vu0pzBiOYA6aukTXLVo
+ 9hcGC22txWIX0M1ttV5FEfeQjBKTvB/aE4IhyePcahWN12A1RaQarZy/1z65AQNd81
+ tTLlgpCR2iyuQ==
+Message-ID: <66e7319a4805b42af2b2a4a20dc8faa9@kernel.org>
+Date: Thu, 24 Oct 2024 15:09:36 +0000
 From: "Maxime Ripard" <mripard@kernel.org>
 To: "Dave Stevenson" <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH 25/37] drm/vc4: plane: Add support for 2712 D-step.
-In-Reply-To: <20241023-drm-vc4-2712-support-v1-25-1cc2d5594907@raspberrypi.com>
-References: <20241023-drm-vc4-2712-support-v1-25-1cc2d5594907@raspberrypi.com>
+Subject: Re: [PATCH 26/37] drm/vc4: hdmi: Support 2712 D-step register map
+In-Reply-To: <20241023-drm-vc4-2712-support-v1-26-1cc2d5594907@raspberrypi.com>
+References: <20241023-drm-vc4-2712-support-v1-26-1cc2d5594907@raspberrypi.com>
 Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, "Broadcom
@@ -71,11 +71,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 23 Oct 2024 17:50:22 +0100, Dave Stevenson wrote:
-> There are a few minor changes in the display list generation
-> for the D-step of the chip, so add them.
+On Wed, 23 Oct 2024 17:50:23 +0100, Dave Stevenson wrote:
+> The D-step has increased FIFO sizes of the MAI_THR blocks,
+> resulting in changes to the register masking. Add support for
+> it.
 > 
 > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> 
+> [ ... ]
 
 Reviewed-by: Maxime Ripard <mripard@kernel.org>
 
