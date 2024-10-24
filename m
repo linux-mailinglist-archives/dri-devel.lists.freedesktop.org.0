@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A28A29B042E
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 15:33:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C62529B0422
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 15:33:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 552D310EAE5;
-	Fri, 25 Oct 2024 13:33:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0A7410EAD8;
+	Fri, 25 Oct 2024 13:33:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=arm.com header.i=@arm.com header.b="ATJuv2LB";
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="ATJuv2LB";
+	dkim=pass (1024-bit key; unprotected) header.d=arm.com header.i=@arm.com header.b="dgXwylta";
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="dgXwylta";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com
- (mail-vi1eur05on2059.outbound.protection.outlook.com [40.107.21.59])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7E6A10E0EA
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 14:55:17 +0000 (UTC)
+Received: from EUR02-DB5-obe.outbound.protection.outlook.com
+ (mail-db5eur02on2072.outbound.protection.outlook.com [40.107.249.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A0DA10E0EA
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 14:55:21 +0000 (UTC)
 ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=GGIzOOIowpBywDorKDUU4oY9hI6gY1yEXDbB3r+sLk/rLyo5v8PV/OQ9aAUmFD4k9fwbIMK/RBFLqMkHoTquXZPnbmeuNgXEt/o4R6Vrp2PFiyQaYUxXMqhVDf3FH+CurnmvxyttfzA4+4nYQ+YkwDt1E3uxJ8NSoUF5Q4xmUNo43zR6cIFemN/rVrs9EAjd8lonq1HMuLBzIvvzQYOfxLhVrW/d8UrsZNrcG4tsvb4JKt93nUmFd+I8BkuNb526aLsGsKILYStArneWOtY0aXRKCVuhO4fsKKr1hF+yUbZ6CX+wVCpdj5gH98Snf6LHiyRijWgv56NnTyYbcUtxrA==
+ b=N1VjrfRYV9STJMoQgGVs+8iAPtJ2QJDxo2duzIykSJFrZihp/JaxwMbMt46805uYB1kuiieqgmucz++U9dzvjtjqwLWIrBfgZoyilLFMIu8kdUarRIg+myEPVcIMwJUAy5fj6lfNa7PEY0WlCWtP/zAcBNZYu1ky6Ef+yYsX74SWUR6KtLoLi6sLGDbqCHL9o1dWgy59wWS8dLHsXnYy5Hy1aOvmsUMhA/9/NzQIN6hrm0twAc6eFjBGtzK3f3Sigi4WWDnDzxsoJ3ubZpUSpA/lmVzDrw3Kpc546kCEJek0DSelXW9k3TBzW04grh4gNh0fS7spM1bzRi9n3ujZOA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Y9scCfDORPSH8x2FzZou9SIUQuCUSGsR2CCaTY9VGBc=;
- b=xwZysK8L3VhXDdYIwp7kloKahgxYu7hw7K9kJEFdBxsS5nr8vjnJQyvrXYy1bTbBT8/BQOKFnAWggJlSYMGOKEYXJCKMspsnrqmZzvNuezZ0sqkz43nQ9Yb737/QdNhC575DwRicG0MikfOtXZFTsPuLw3K+BBMU5aJfzxZdxvat24XFtR8sscxMWYzpYb3WutRO3gBzd9vZEuDHWTvHhJOedhGx4iwaEc3/Ug0HvesBAqEndZwFesKFCAtOVJObptxl/qCPo+iYD8VV/nz5Qfyoj0Bmk7NeptsX4o70SlK3YEKUb01ndDSnEItW3Tb9CuXwivD+8wW7ggmubeLgzQ==
+ bh=xWEtEPyiOmxtlOJjv6s9XyE2N03ec/56aFKp9m4srrY=;
+ b=MKoCjK7vlofCHNFoMAnKhdOdwG/eKnqVG0Ao62XYioAwUTQCTpkD1zcdCxcAVHCMhGXkUEUYuiWkFtZ12qViaLs4rm3LZ+r9AqGdru/4Sur8KjUwLvE6kIi1VHjc/iZXZ1UFC0ClgRjB/swDOQgcHvRLqe+lpnlC3Rms1BXRC+sQADDhqVRlLlBlNwINNVjwNIELTHPrh4kke2ain8CH1jBD3Jn9h2BzNQMPwOLZ16mOCa1TKyIl63gEAUyFdbb893e2KyyG//VtKMXtxZntkoxU3wrsvFvL0OLQdqlf85UnnVPrJqoai0jG/Trm+wytnkM1mGQb8VdvSiM4xddowQ==
 ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
  63.35.35.123) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=arm.com;
  dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
@@ -32,18 +32,18 @@ ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
  dmarc=[1,1,header.from=arm.com])
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Y9scCfDORPSH8x2FzZou9SIUQuCUSGsR2CCaTY9VGBc=;
- b=ATJuv2LBv2BeDvIaiRciRB2oaFonfm/mNmj1Lg/+y250iFG2y11AGLS9yt9mpjGXPx2IYOXaENlniyLAq+yxu25X0p0c663NMz/ffhgUWZILqhvFv7/NUFxiFxUkTUd2sUP9K4p+SRj5O8nfJ5caSqGxYizx7NVICuSqwUHiV6c=
-Received: from AS4P189CA0034.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:5dd::12)
- by AS2PR08MB9788.eurprd08.prod.outlook.com (2603:10a6:20b:603::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.17; Thu, 24 Oct
- 2024 14:55:12 +0000
-Received: from AM4PEPF00027A67.eurprd04.prod.outlook.com
- (2603:10a6:20b:5dd:cafe::f6) by AS4P189CA0034.outlook.office365.com
- (2603:10a6:20b:5dd::12) with Microsoft SMTP Server (version=TLS1_2,
+ bh=xWEtEPyiOmxtlOJjv6s9XyE2N03ec/56aFKp9m4srrY=;
+ b=dgXwyltazcrBualPIvzEFHAq8cBWWjZ5S6UTF3qiIjhCqnyYdx5ZaQcWpg2h8be+4UnRjdOvHpd/aJpwfxWhPRiRO85JTTjfbsUMjK+TeHBeYqNG+psTdSTKR9iEApjABr/wCKf35QFbr5EaYgB3uKP9GQa42havHGiybxqhYCg=
+Received: from DU6P191CA0022.EURP191.PROD.OUTLOOK.COM (2603:10a6:10:540::13)
+ by PAXPR08MB6701.eurprd08.prod.outlook.com (2603:10a6:102:132::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.20; Thu, 24 Oct
+ 2024 14:55:14 +0000
+Received: from DU6PEPF00009526.eurprd02.prod.outlook.com
+ (2603:10a6:10:540:cafe::76) by DU6P191CA0022.outlook.office365.com
+ (2603:10a6:10:540::13) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.20 via Frontend
- Transport; Thu, 24 Oct 2024 14:55:12 +0000
+ Transport; Thu, 24 Oct 2024 14:55:14 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
  smtp.mailfrom=arm.com; dkim=pass (signature was verified)
  header.d=arm.com;dmarc=pass action=none header.from=arm.com;
@@ -52,49 +52,49 @@ Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
  client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
  pr=C
 Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- AM4PEPF00027A67.mail.protection.outlook.com (10.167.16.84) with
- Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8093.14
- via Frontend Transport; Thu, 24 Oct 2024 14:55:11 +0000
-Received: ("Tessian outbound 99870d44e01c:v490");
- Thu, 24 Oct 2024 14:55:11 +0000
+ DU6PEPF00009526.mail.protection.outlook.com (10.167.8.7) with
+ Microsoft SMTP
+ Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8093.14 via
+ Frontend Transport; Thu, 24 Oct 2024 14:55:14 +0000
+Received: ("Tessian outbound 4a86a9c66651:v490");
+ Thu, 24 Oct 2024 14:55:13 +0000
 X-CheckRecipientChecked: true
-X-CR-MTA-CID: 38642131af2d5fce
-X-TessianGatewayMetadata: E/gheL5YIo3CGH9/C8UQs7ToJ4LI4qjaHV+w0wUESYkjfzFOZ+UYfzK8Hw3/4SiSjER6/gbedA4yUGyGAFnrZ+oS4oA0kLhM8uHNghPHp2MTQ2xUpOWzTgblFjwsTG2NhPsrMHFDLAir58WkTd92QZp76IswQjWKVZW71I4wMv8=
+X-CR-MTA-CID: 35d0c8f192506e5f
+X-TessianGatewayMetadata: 9yoxV4jJXpW60vB3dhXQ1yF25K7+h/mv4p4bpmaTD3YiMIZUJCw95BZpJeRR0/fs0O1vJObZaMr/r02iLed41nLl+oiuN9G6t9aEljnP5icJ67JIAvgwpztXVPwdaUa4XSADMVQBELXGR16fNmQmVoZIOQl1O+AAUpB/8QL5o2g=
 X-CR-MTA-TID: 64aa7808
-Received: from L2869cc968543.1
+Received: from Lb20fe2b11398.1
  by 64aa7808-outbound-1.mta.getcheckrecipient.com id
- 11190802-E05E-43C6-86F8-F172746A2D96.1; 
- Thu, 24 Oct 2024 14:54:58 +0000
-Received: from EUR02-DB5-obe.outbound.protection.outlook.com
+ 749673E5-863D-4275-B6D0-40521E1E5FEE.1; 
+ Thu, 24 Oct 2024 14:55:02 +0000
+Received: from EUR03-AM7-obe.outbound.protection.outlook.com
  by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id
- L2869cc968543.1 (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
- Thu, 24 Oct 2024 14:54:58 +0000
+ Lb20fe2b11398.1 (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+ Thu, 24 Oct 2024 14:55:02 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=v558CKjbY3MRK2zSTonMQJdvQ8FNDGXrge4YQIBzekUzM82vgLcfHJOlRo+pYB6kf9QLmKDUKWYShIRTL9rVsROXwoH4c0KiURCwZhwfeeNmcWImNVvyoYNZMkSDjeawJUH6K5U1sEKGGaJowSp+w8FPPLP7ExwVVNy5/oi1DxsjzRcnsYCU1UV9L3bgZAV0JyKirQ+NqMTiRCdN4umjBB5bND/bylVYirjSixwOwOeQukI9t6V48X1c+KVKAMHY467iAofS82rbX2phs7bNLEC+HG399HsR9MPnJDYHuWQgl2saJdTsZxzLe8uSiurskKmadLY8QVje9qkEXHZgXA==
+ b=a6lTnsSHNsbFW/SNTfmPJs+5P4zbWGJFzlURuEgBM3oWN1HKt9cIHyGOJIRqQvrkaoyzebeCczW53aDV4sq+LLXC0Vhn7/m7dMtkWdYMKVXv6gVJ1QN2x/qkpMV6ztB65pOmY9On/nDia1RFmiEJw9z17NHuc4opKnsRuXBpEHGjjkRu05eYoDN8HqLqnV8ajII+egUqPTORSftHTSopbt5rao8XnV2gpfeRnDcC8nAy5Y4Pp+t1nFEExB12+E+oBezSc30QfATDX429mzuNeq+0iBxPsVIQqyREw0doxF2ddty9wKIQjmNu/jdX677OEsoWYZHgYgjiTPKMKZ5fdg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Y9scCfDORPSH8x2FzZou9SIUQuCUSGsR2CCaTY9VGBc=;
- b=LHqYkISJalAI2m+2lkvu9X2WccegeaZbap/RIVfkVYJd7ZOjGfenxqiPTh0Os8NXCf5oRKDM4YkAnvkhKeF1JOjSBXzYlTCw6D39SU6WUtlu6LP53GMVoxi3cC5zidgDOrNcRiIZy0HVUgSj0+3wUL5NsYxl8Xhx6f4s4yF5eLErBCJUaTQHPdpejb7eqZMRTEpIzmDVzzymKj8rSUMUEOSp4XO0dh09fF8Ewz0tLUXkaaw0blTwP0Lvs0aHjMn7bFhagcBYCAVRehbd1gzECaYzqiUaRhei7/1I3yI5hJ78p5/VJIAFc4/RE9huy3/JHPvOF2/yCdtmVq6bVrs5Vw==
+ bh=xWEtEPyiOmxtlOJjv6s9XyE2N03ec/56aFKp9m4srrY=;
+ b=hnt7xjvJlaTfI7VMBIMCZXMhT7sCbOYN0Cuv9kAx07l/Mkhfhvu/jezHe0JFUahUtwrrFL+KSWUex8tpI23XpGI7YeDEDBZtimzWFTBSPDvRFyLH/Pg72XiZcKh7Wkd+EgZFXnoD4IDyEkAIYA9kTxoRQF9aI5OO/xefSImuT2rq+rwy8yVWyT3wx3W8k9+vwOstMs9Sh5BUoWYIKr1ydBTVvrEJH9xQHUoOVB54MnqaAMWfR4MELB71XH5J6Rq1YwxfdKisnRIoGWj+MFxzkV7x2viYi63GNCy3E9odeR8xhH9yh7XwaNl0OLbpfXwfyRErjpwpHfkg+CiVfi3e5w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
  header.d=arm.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Y9scCfDORPSH8x2FzZou9SIUQuCUSGsR2CCaTY9VGBc=;
- b=ATJuv2LBv2BeDvIaiRciRB2oaFonfm/mNmj1Lg/+y250iFG2y11AGLS9yt9mpjGXPx2IYOXaENlniyLAq+yxu25X0p0c663NMz/ffhgUWZILqhvFv7/NUFxiFxUkTUd2sUP9K4p+SRj5O8nfJ5caSqGxYizx7NVICuSqwUHiV6c=
+ bh=xWEtEPyiOmxtlOJjv6s9XyE2N03ec/56aFKp9m4srrY=;
+ b=dgXwyltazcrBualPIvzEFHAq8cBWWjZ5S6UTF3qiIjhCqnyYdx5ZaQcWpg2h8be+4UnRjdOvHpd/aJpwfxWhPRiRO85JTTjfbsUMjK+TeHBeYqNG+psTdSTKR9iEApjABr/wCKf35QFbr5EaYgB3uKP9GQa42havHGiybxqhYCg=
 Authentication-Results-Original: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=arm.com;
 Received: from AM9PR08MB6982.eurprd08.prod.outlook.com (2603:10a6:20b:415::16)
  by PAVPR08MB9650.eurprd08.prod.outlook.com (2603:10a6:102:31a::21)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.18; Thu, 24 Oct
- 2024 14:54:56 +0000
+ 2024 14:55:00 +0000
 Received: from AM9PR08MB6982.eurprd08.prod.outlook.com
  ([fe80::5d5d:a4a7:198c:fbdd]) by AM9PR08MB6982.eurprd08.prod.outlook.com
  ([fe80::5d5d:a4a7:198c:fbdd%3]) with mapi id 15.20.8069.016; Thu, 24 Oct 2024
- 14:54:56 +0000
+ 14:55:00 +0000
 From: Akash Goel <akash.goel@arm.com>
 To: boris.brezillon@collabora.com, liviu.dudau@arm.com, steven.price@arm.com
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
@@ -102,50 +102,49 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  airlied@gmail.com, daniel@ffwll.ch, nd@arm.com,
  Akash Goel <akash.goel@arm.com>
-Subject: [PATCH 1/3] drm/panthor: Update memattr programing to align with GPU
- spec
-Date: Thu, 24 Oct 2024 15:54:30 +0100
-Message-Id: <20241024145432.934086-2-akash.goel@arm.com>
+Subject: [PATCH 2/3] drm/panthor: Explicitly set the coherency mode
+Date: Thu, 24 Oct 2024 15:54:31 +0100
+Message-Id: <20241024145432.934086-3-akash.goel@arm.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20241024145432.934086-1-akash.goel@arm.com>
 References: <20241024145432.934086-1-akash.goel@arm.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: LO4P123CA0056.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:153::7) To AM9PR08MB6982.eurprd08.prod.outlook.com
+X-ClientProxiedBy: LO4P265CA0061.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:2af::7) To AM9PR08MB6982.eurprd08.prod.outlook.com
  (2603:10a6:20b:415::16)
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic: AM9PR08MB6982:EE_|PAVPR08MB9650:EE_|AM4PEPF00027A67:EE_|AS2PR08MB9788:EE_
-X-MS-Office365-Filtering-Correlation-Id: fc2041d4-2c2a-45f7-af31-08dcf43bdc80
+X-MS-TrafficTypeDiagnostic: AM9PR08MB6982:EE_|PAVPR08MB9650:EE_|DU6PEPF00009526:EE_|PAXPR08MB6701:EE_
+X-MS-Office365-Filtering-Correlation-Id: fa24655f-f43b-4079-4c65-08dcf43bddd3
 X-LD-Processed: f34e5979-57d9-4aaa-ad4d-b122a662184d,ExtAddr
 x-checkrecipientrouted: true
 NoDisclaimer: true
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam-Untrusted: BCL:0;ARA:13230040|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info-Original: =?us-ascii?Q?ZzG0/YsK2HHTcyOpBDxwtQ/EjY5hJfXqfYagsj7znURJDXJjFV6vIMBuycXg?=
- =?us-ascii?Q?JlVMmyOeWmPE1iczTNAi8amMMWKxOHUpgqB7baO+jTyk/we8xSbzeaaRDxst?=
- =?us-ascii?Q?kpwROZ/+8F2rvxd1oVErpLbonY0R6yuRCKxGWqUocqaEdSFCVOu4cUZUfpX7?=
- =?us-ascii?Q?OARfOAC/fibD/75MVC6Q0tqbA0QCMGoyKRTxGD9bQ+FPAyVaC1qh+ET+E66L?=
- =?us-ascii?Q?aePsd4q2hW1DugUU/GmckBOIAqHCAlJUAhoz5kIPhlDiGY0H/YksCTK5ZvYf?=
- =?us-ascii?Q?LXsuHD8IRtR+twjosz4hPgB7xkCVyaCRqLJXPqJmi91SYgb6+oHcxpXX8bKT?=
- =?us-ascii?Q?Y/AP7K4TrIxEK1RNgM6x4Q3MHXlK/QYQG32/mpRCf1K6HvNMQ05Y0MxZoWMv?=
- =?us-ascii?Q?GHzCsDUmF/M657Zsva6pmC0LsKtpvxKGBRNpF6s1LMp4UqUvmxL9Q+m0/Yme?=
- =?us-ascii?Q?mJOj8IyIZsWaeeLsGw5JE0LQ+Y3eWzqYurzl0miimZU4x2TpbbG/UuCdFaUl?=
- =?us-ascii?Q?aCKS7YmPcZ8vHN2CNwDjjHbdkDceHslFXav4wz8QRSIGSvGzdyrNZpZRltop?=
- =?us-ascii?Q?LEPERBLrt7vO4wor3fagVsZBFCpdrO1jIjkE8V5s4dYPQE49/i36uU55tghK?=
- =?us-ascii?Q?Kx15e0HDpQeir1tc2hivP5k2Q6u4TMu1zRBBBs/u6xbtHAfEevMMmIW9cUbj?=
- =?us-ascii?Q?Pkgn2FJP5pG0HbkO4aK60yLSHZuGb47pWpAA3F4FcEaK3CWE/fCzo8IswIXA?=
- =?us-ascii?Q?U10pZABPqCoTEYbzUKrJ8MqziOErOFKPCsYawCBHaKanSLB08nnhPtQKKp4I?=
- =?us-ascii?Q?ZRH60B7GbQONC4k3vhdPSECUvBXpNSj4qjDLGDAzGIo4pYnq9Z3cK3A11D86?=
- =?us-ascii?Q?hpgjo/D53JwaRHnx6L0amSmvPQErXXUAq3du7Jr6i9HESJ4dq6nOs0x0YEWT?=
- =?us-ascii?Q?b7g0aEXF1eaVSTsjhWmFX4AOYEdwYHa2r8Xkd8U/xJq2rkUwoKI2+Mc5BIBQ?=
- =?us-ascii?Q?Vifglq3yS1J3VrcDYwyirXk1tgRwPuNOwk3LvLawDnUa5FgOtC7HPrfrnGpc?=
- =?us-ascii?Q?Lks53a2/cifGUWjtWTuLPA2IcOtb1nt4lBw706udnk98EMpyw67FREeK5EBv?=
- =?us-ascii?Q?nCwNStT6oLy5ZRZ9tupsgtPIhjyfGesMH/tF23CEOsT8C879IWIE0jAopEw+?=
- =?us-ascii?Q?valtEBE3ahqEx6kJUxvap7C6VitFIcWuoZmfWTbFAznMXU7cI3GYuXR8Cd4V?=
- =?us-ascii?Q?WLR1pUD85YusPMQadWiI4UItgunh15g1hsoJ/SAJjj1Qgwh6vPEChCy6RCd+?=
- =?us-ascii?Q?nH2ghRUJKU53vMeTyWIyG8ZG?=
+X-Microsoft-Antispam-Message-Info-Original: =?us-ascii?Q?Or/4ow7xan+uJ/C0poaJc1me6yKt0bdWQxj3vKy5S++55rXy1q4qV1gKOElD?=
+ =?us-ascii?Q?Qu2wgCNMSgGSO/0t1lPnVi+F+Afm8lhsdo+3JkA9NymKjpmtVsvWmnsQw+Zk?=
+ =?us-ascii?Q?MpCPYNPVlDx2MfTGUFv7DwiI8qh/B7FU+Dno3nEyo4dnoS2o5ENEVn2MNUYp?=
+ =?us-ascii?Q?Mf4hsihmMFypZ7oRP6fkjfALv1O5wK8EX1A/c+I8vXUSxJbTnHpbxs6dyVYt?=
+ =?us-ascii?Q?y/HVXHcYoYHjLMGltUUN5X8/WfD0/iJAXmthDRIXpS1DeOnGmGbqF0cT46jx?=
+ =?us-ascii?Q?MSMYy2ruPHPyVodmqSccc12kFKw5VmMkR05PJF9VVQ6S/gQ1ulxDKhBiOWLB?=
+ =?us-ascii?Q?t4nOMAzSb6q2rr8hvoUR0fqwp9Qf27fHpQZowoj/mUxhDemq6rBOzZOZpj6J?=
+ =?us-ascii?Q?GySimZ4z78KT/rLjGQLAe26+IQ+V1JCq/SZMOEsP8JscvK9BQyEa5dElWKe5?=
+ =?us-ascii?Q?babU4D52CYz+IM/YhYLQFCyd3r4SHFLjtXcaSbsqql/7yRpGk3zWQJkIFglB?=
+ =?us-ascii?Q?ETVXoLjOQQmFFq+q2z5//vV//H8JMa3c97GNn6mNPqvLEpGhhlOfxyW6Eo+g?=
+ =?us-ascii?Q?bcTw3JHoqVKhZ+rVjxvbT5yo4xowarqlLq8RhmtFy4yPVxvWVwIJDfiyuoGq?=
+ =?us-ascii?Q?B5KEKmYDFJl+2bKmD2NqereaS1aXCZvAq/qfuq/p14jTiAbehW5n8rg/4q9L?=
+ =?us-ascii?Q?/oliSODJOl67O6H+V0Qqzi2ne8/gAumC753owF4/Xo62ek6RBJ4MhqCjRFlv?=
+ =?us-ascii?Q?aKcNq5Fd9Xc3R4VwF6uygq8QqOCu6Ubm9HJ7e3KApT2JO16+xL36DxsD6Phl?=
+ =?us-ascii?Q?xRy0eTWuc0cLzmgxSCuseHH7ddsdP0hxgN4aoKdnoDU5J7jVgDlhI3ja0svB?=
+ =?us-ascii?Q?BGeD+VucfEDwVwfTUgcdBAz5lTxQ14nNf9tJx0i3WbmWRnV3kNC3VRZfFOva?=
+ =?us-ascii?Q?d6ohTFOWp21uZ7ZUgv2MTBGu2PkLHUCvO7nyNXYSIUXR1pGsGL79eMU8F0By?=
+ =?us-ascii?Q?Mnhm7fA6V9cBXcb4tXbi5YOUa8ekA75FmxQ0JOLvAu/GeDtDXsP80i6GYseo?=
+ =?us-ascii?Q?ZHaJPiuB87swFKzu00Gp4Giv9zYAMXo4TNQ2ZbIBJT9IfZvEnZ+3l910yzMW?=
+ =?us-ascii?Q?qCT+8ni0QrtYMnOCxGkEXKCyFkhent559DAPmvgJPC1fECs1yVZbxgOPpNnE?=
+ =?us-ascii?Q?HYOJe/YQ1O8o7nL4wnq53MuxFu3PxhpONvEiWpVB6brKVJbP09kRLNmxiFiL?=
+ =?us-ascii?Q?swH6FS2vSyCiqCR9Ax0B8GxrqI2yeb9kNyMgZ3B59PDHug0qWsBCmstyPIrM?=
+ =?us-ascii?Q?zrc=3D?=
 X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
  SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:AM9PR08MB6982.eurprd08.prod.outlook.com;
  PTR:; CAT:NONE; SFS:(13230040)(1800799024)(366016)(376014); DIR:OUT; SFP:1101;
@@ -155,50 +154,50 @@ Original-Authentication-Results: dkim=none (message not signed)
 X-EOPAttributedMessage: 0
 X-MS-Exchange-SkipListedInternetSender: ip=[2603:10a6:20b:415::16];
  domain=AM9PR08MB6982.eurprd08.prod.outlook.com
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: AM4PEPF00027A67.eurprd04.prod.outlook.com
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: DU6PEPF00009526.eurprd02.prod.outlook.com
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 05d963d0-3dcd-4465-fa3e-08dcf43bd34f
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 3af7d2f4-1823-4006-770b-08dcf43bd45c
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|82310400026|35042699022|376014|1800799024|36860700013; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?+goLv0lZkBMTldC2CbqECDkZ8vLBFsu0lUKVgZ9JbnKTwclXdH/mgT4/s4mS?=
- =?us-ascii?Q?XzZNbpaPvmixM/drXdSeYvskXQHt3ZjoLEYonBeYxK/SqqTfDu+PfIp4NQcH?=
- =?us-ascii?Q?ZWk+99LeGGNa5xlFgUJssYDvzk6z8jPwrl00B9wviUx2insf/stSKQkakrfM?=
- =?us-ascii?Q?+/elrzD2L2NL6H2+OiTSfVrCRM3D5GuAaEIIO98VyILzIxx1g+zswoSHOouf?=
- =?us-ascii?Q?5Prd+hN/esOcW9MJmzR3iy8aJ4T0CLmksvG78KuNcz0ob8bhhvtMuDb3PySU?=
- =?us-ascii?Q?WRi5AsOz/6K7rvlqRAoIx0I2YGJMkObLKMSvZRQoXhqxhBDCAkP5gbhIhzdY?=
- =?us-ascii?Q?QRpxQaVXKxviYYgdUynxiSVFZ0drfmHp6Nu0X+IWifsfe/DaCQaSq0TfJuZj?=
- =?us-ascii?Q?ylIhmos346dQpDp+MzfGxLIVAUwozL0LkXAfEOoqanm8eRs0yZSYN8RrE4Zw?=
- =?us-ascii?Q?taUchhSbB99q4rAZF7QJquDgewbrWr28VSbd79iu6fvzglg3yZmK+9NehMrP?=
- =?us-ascii?Q?h6y50CCBonFDjW7G0XcTrArihX0xtT4Aq2aBF+/N/jEwZ7/Cj49VVbWfht4I?=
- =?us-ascii?Q?R6Y6YkQwwfoF0IJF4DWqyX7UFbTUSdROt0dNT4vcN4rLltYMspDele60LiCm?=
- =?us-ascii?Q?DLUuxgYkp4T5hU7MZ+9jW4cNsabc8AfvFHQijY3WNYxQ0ASEdpP6pW3MoHez?=
- =?us-ascii?Q?gQ/J0xfiFwKMZ/sQKPacRM4xRTyzjvzcrQXbe3F4f6HIoibm55CXdzgMa2Xa?=
- =?us-ascii?Q?flhUYLhstjMBr6D5kunr11LsMf2fTDl+FaK+Aybu9uNIjqjcK7zlxE0q/UUY?=
- =?us-ascii?Q?0IcOqEtzxogmZpEkF6+qw7avK/WxkL4Uqlubq3HxrExxCwHRuSomzEmK/LMF?=
- =?us-ascii?Q?WqIrB4daVyxrd/kTzdu0ok9daKgEq5eSBejoo148H+Lh4IBAZzi1K63DQy+m?=
- =?us-ascii?Q?G7ldhUevBHhftfcUIroUNOehwnWFcmsicix52yKwyB9qS6P/9vl5gYsfO48d?=
- =?us-ascii?Q?jD65JNG9slZuRumS7Tqq7t/46zrcBrIx+l7zd62+6PF/VE/rV9gz/IyC5df8?=
- =?us-ascii?Q?j16ynFgfRCgOA2N7Fr45p8839q2zxhzRCjKLdxnosFZcO7K1vhsSxGTJm4Vc?=
- =?us-ascii?Q?90jqubpsvSpoNpWc2/osgdtyj2Q+lUMqadtbbMkI0LPEW/gs/wHuOwXbiNmZ?=
- =?us-ascii?Q?NltE2sUAZFUZyWsNONBSQGp+sWDN44GBrlMcBfHs7dEvYtvZvKdX382himaE?=
- =?us-ascii?Q?gv75PrQTmWcWCiwUlmlQH1Mfwa2oKftONUfyBzPowjCGJYm66O2fsetFZLv8?=
- =?us-ascii?Q?tUNGKSeO40kQZovNg/LKjZelZXac1hnCSE8WafGEd1XJt6JeW505jWVr+Mf4?=
- =?us-ascii?Q?zPnpTZD6+v2pLtbyttQlPITGaSRUW9XfLk+4/ahGe1X6/FBnCA=3D=3D?=
+ ARA:13230040|35042699022|36860700013|1800799024|376014|82310400026; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?0Nc6E8bfbkQuSyG/buWXZ7LozbTscUs9uU+qmbV5JLCkvxkvlteIzoDsXYMR?=
+ =?us-ascii?Q?NLHq4BwQjWnuVclWC08+ChFeg8fwIP2WeFTu5xMRblRXz/mzdpJvsZP/jVBL?=
+ =?us-ascii?Q?kYkTitrf0f4DsRkViru5C7o9y58zth/keqzLZGAu0wk6pxzbPUXVObX/cCVg?=
+ =?us-ascii?Q?9GmW5wlf7pQUbCV+wmjIUlcVDDvLwPMG2grzqcKqhfTrg1ffzt1ufBk/tK47?=
+ =?us-ascii?Q?wPXR/8ry3f3EIcEsQQbFAOwtQBPUTUCHH7TLNF8vbzO1RNvT/Mg0tkoPzWWn?=
+ =?us-ascii?Q?uhplPEc7FeEH2DmvFUvaOD2gRX/qCTsZInLZnhskSVAraFagvqaAy+BlxRbG?=
+ =?us-ascii?Q?c6Gjx+7/j3rboefEBuSSMw+wjPYwZcqwaJ6puUZ1RWIQnwX+Cn5z7r8R1uQV?=
+ =?us-ascii?Q?nr/6xY6zgViqaBP8MOx346Di9pxJf28hUdnMs5poH0tEdEHrT9rZf4G2mtF5?=
+ =?us-ascii?Q?6ehGYsPvFt0GBZXQajBsxza9Zs6+F7BcEXr1UOIHa+qpjRU/fVVbSjaNe4oV?=
+ =?us-ascii?Q?lDxwOPLGwMjQ/TzScmK3HsIBrh8wRt3gpM5OeGaK1TIBgaOswvQgkJuCIKUF?=
+ =?us-ascii?Q?swk4jFP7epW4bijF+znEUpBGVz2O6W15obToc2A48QJXPE2zOCqos4lQgyry?=
+ =?us-ascii?Q?WvvmMneD5NaDb3A4IZ6qmo+GkdFCSJF/eB0BEmu0Nhm8HGmeAx3DbetOCqQ1?=
+ =?us-ascii?Q?4zILkWB41B0x6y7y1NgAKTOfn1sYM32qYIOEaqrAeRRhZ632x6apHwi0RwRb?=
+ =?us-ascii?Q?HiOxrRplst/RG2T3HZqZIQrMTYSr/Tidc3rS5hsoACfPjj9MNSQUTPXXmQwn?=
+ =?us-ascii?Q?WGI0r2sl49Q4th958EO4xr/8aaplAzz9o+PFbTb/89rNdKzwEXGj72CK98Pb?=
+ =?us-ascii?Q?bWiss6/XKYi7Uh+ZT1TYHqHBzfUXet8ugUswj3QXCtc1IJA0H8j01w0rjjZv?=
+ =?us-ascii?Q?8L4pYf1pMdK+Pgg0m48yRJ5yu2/e9WbDQ4XcdZ6ZPj7P1rK41VLSUPaeE7jf?=
+ =?us-ascii?Q?ZvsnkUQlKTBwBCdZdGYMpgoTSHwRHB8GqkyRcJhHwnRKRGJsi7ImnA2SCrQb?=
+ =?us-ascii?Q?ePYfd4r3kKc9rUlxykpwzPY7SKjAgzdvFHLKcZpOLHo8iSoVDJUe6Fmrho9a?=
+ =?us-ascii?Q?SEJsxlt58Nf4aPsSMKaKTLuDYxx7fI/buZRiIXMelz8BCMtwkCsd864tNF9w?=
+ =?us-ascii?Q?FugL+kY17QRM8c85jk67mOe0bPdUoZ7toF3ufk0C8bAXahwjtETAmA7CwVd8?=
+ =?us-ascii?Q?HfYxV7tY0F31JFQRubXVkAQWXttaAyY5NFTWByYFYsvTCi2WicA1vtIrjEcd?=
+ =?us-ascii?Q?2d2m6q9ieVv9P7RNXZCBsk4wIYoju7emuJJWJ24g5nYE0WFBlLppkadW07y6?=
+ =?us-ascii?Q?R5fj5RBhWu8zlfmU/BqqgoJNfdaeUfiWBrS+qEQh0ZWsLipUlw=3D=3D?=
 X-Forefront-Antispam-Report: CIP:63.35.35.123; CTRY:IE; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:64aa7808-outbound-1.mta.getcheckrecipient.com;
  PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com; CAT:NONE;
- SFS:(13230040)(82310400026)(35042699022)(376014)(1800799024)(36860700013);
+ SFS:(13230040)(35042699022)(36860700013)(1800799024)(376014)(82310400026);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Oct 2024 14:55:11.8968 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: fc2041d4-2c2a-45f7-af31-08dcf43bdc80
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Oct 2024 14:55:14.1471 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: fa24655f-f43b-4079-4c65-08dcf43bddd3
 X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[63.35.35.123];
  Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: AM4PEPF00027A67.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: DU6PEPF00009526.eurprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR08MB9788
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR08MB6701
 X-Mailman-Approved-At: Fri, 25 Oct 2024 13:32:50 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -215,83 +214,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Mali GPU Arch spec forbids the GPU PTEs to indicate Inner or Outer
-shareability when no_coherency protocol is selected. Doing so results in
-unexpected or undesired snooping of the CPU caches on some platforms,
-such as Juno FPGA, causing functional issues. For example the boot of
-MCU firmware fails as GPU ends up reading stale data for the FW memory
-pages from the CPU's cache. The FW memory pages are initialized with
-uncached mapping when the device is not reported to be dma-coherent.
-The shareability bits are set to inner-shareable when IOMMU_CACHE flag
-is passed to map_pages() callback and IOMMU_CACHE flag is passed by
-Panthor driver when memory needs to be mapped as cached on the GPU side.
-
-IOMMU_CACHE seems to imply cache coherent and is probably not fit for
-purpose for the memory that is mapped as cached on GPU side but doesn't
-need to remain coherent with the CPU.
-
-This commit updates the programming of MEMATTR register to use
-MIDGARD_INNER instead of CPU_INNER when coherency is disabled. That way
-the inner-shareability specified in the GPU PTEs would map to Mali's
-internal-shareable mode, which is always supported by the GPU regardless
-of the coherency protocal and is required by the Userspace driver to
-ensure coherency between the shader cores.
+This commit fixes the potential misalignment between the value of device
+tree property "dma-coherent" and default value of COHERENCY_ENABLE
+register.
+Panthor driver didn't explicitly program the COHERENCY_ENABLE register
+with the desired coherency mode. The default value of COHERENCY_ENABLE
+register is implementation defined, so it may not be always aligned with
+the "dma-coherent" property value.
+The commit also checks the COHERENCY_FEATURES register to confirm that
+the coherency protocol is actually supported or not.
 
 Signed-off-by: Akash Goel <akash.goel@arm.com>
 ---
- drivers/gpu/drm/panthor/panthor_mmu.c | 23 +++++++++++++++--------
- 1 file changed, 15 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/panthor/panthor_device.c | 22 +++++++++++++++++++++-
+ drivers/gpu/drm/panthor/panthor_gpu.c    |  9 +++++++++
+ 2 files changed, 30 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
-index f3ee5d2753f1..f522a116c1b1 100644
---- a/drivers/gpu/drm/panthor/panthor_mmu.c
-+++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-@@ -1927,7 +1927,7 @@ struct panthor_heap_pool *panthor_vm_get_heap_pool(struct panthor_vm *vm, bool c
- 	return pool;
+diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
+index 4082c8f2951d..984615f4ed27 100644
+--- a/drivers/gpu/drm/panthor/panthor_device.c
++++ b/drivers/gpu/drm/panthor/panthor_device.c
+@@ -22,6 +22,24 @@
+ #include "panthor_regs.h"
+ #include "panthor_sched.h"
+ 
++static int panthor_gpu_coherency_init(struct panthor_device *ptdev)
++{
++	ptdev->coherent = device_get_dma_attr(ptdev->base.dev) == DEV_DMA_COHERENT;
++
++	if (!ptdev->coherent)
++		return 0;
++
++	/* Check if the ACE-Lite coherency protocol is actually supported by the GPU.
++	 * ACE protocol has never been supported for command stream frontend GPUs.
++	 */
++	if ((gpu_read(ptdev, GPU_COHERENCY_FEATURES) &
++		      GPU_COHERENCY_PROT_BIT(ACE_LITE)))
++		return 0;
++
++	drm_err(&ptdev->base, "Coherency not supported by the device");
++	return -ENOTSUPP;
++}
++
+ static int panthor_clk_init(struct panthor_device *ptdev)
+ {
+ 	ptdev->clks.core = devm_clk_get(ptdev->base.dev, NULL);
+@@ -156,7 +174,9 @@ int panthor_device_init(struct panthor_device *ptdev)
+ 	struct page *p;
+ 	int ret;
+ 
+-	ptdev->coherent = device_get_dma_attr(ptdev->base.dev) == DEV_DMA_COHERENT;
++	ret = panthor_gpu_coherency_init(ptdev);
++	if (ret)
++		return ret;
+ 
+ 	init_completion(&ptdev->unplug.done);
+ 	ret = drmm_mutex_init(&ptdev->base, &ptdev->unplug.lock);
+diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
+index 5251d8764e7d..1e24f08a519a 100644
+--- a/drivers/gpu/drm/panthor/panthor_gpu.c
++++ b/drivers/gpu/drm/panthor/panthor_gpu.c
+@@ -77,6 +77,12 @@ static const struct panthor_model gpu_models[] = {
+ 	 GPU_IRQ_RESET_COMPLETED | \
+ 	 GPU_IRQ_CLEAN_CACHES_COMPLETED)
+ 
++static void panthor_gpu_coherency_set(struct panthor_device *ptdev)
++{
++	gpu_write(ptdev, GPU_COHERENCY_PROTOCOL,
++		ptdev->coherent ? GPU_COHERENCY_PROT_BIT(ACE_LITE) : GPU_COHERENCY_NONE);
++}
++
+ static void panthor_gpu_init_info(struct panthor_device *ptdev)
+ {
+ 	const struct panthor_model *model;
+@@ -365,6 +371,9 @@ int panthor_gpu_l2_power_on(struct panthor_device *ptdev)
+ 			      hweight64(ptdev->gpu_info.shader_present));
+ 	}
+ 
++	/* Set the desired coherency mode before the power up of L2 */
++	panthor_gpu_coherency_set(ptdev);
++
+ 	return panthor_gpu_power_on(ptdev, L2, 1, 20000);
  }
  
--static u64 mair_to_memattr(u64 mair)
-+static u64 mair_to_memattr(u64 mair, bool coherent)
- {
- 	u64 memattr = 0;
- 	u32 i;
-@@ -1946,14 +1946,21 @@ static u64 mair_to_memattr(u64 mair)
- 				   AS_MEMATTR_AARCH64_SH_MIDGARD_INNER |
- 				   AS_MEMATTR_AARCH64_INNER_ALLOC_EXPL(false, false);
- 		} else {
--			/* Use SH_CPU_INNER mode so SH_IS, which is used when
--			 * IOMMU_CACHE is set, actually maps to the standard
--			 * definition of inner-shareable and not Mali's
--			 * internal-shareable mode.
--			 */
- 			out_attr = AS_MEMATTR_AARCH64_INNER_OUTER_WB |
--				   AS_MEMATTR_AARCH64_SH_CPU_INNER |
- 				   AS_MEMATTR_AARCH64_INNER_ALLOC_EXPL(inner & 1, inner & 2);
-+			/* Use SH_MIDGARD_INNER mode when device isn't coherent,
-+			 * so SH_IS, which is used when IOMMU_CACHE is set, maps
-+			 * to Mali's internal-shareable mode. As per the Mali
-+			 * Spec, inner and outer-shareable modes aren't allowed
-+			 * for WB memory when coherency is disabled.
-+			 * Use SH_CPU_INNER mode when coherency is enabled, so
-+			 * that SH_IS actually maps to the standard definition of
-+			 * inner-shareable.
-+			 */
-+			if (!coherent)
-+				out_attr |= AS_MEMATTR_AARCH64_SH_MIDGARD_INNER;
-+			else
-+				out_attr |= AS_MEMATTR_AARCH64_SH_CPU_INNER;
- 		}
- 
- 		memattr |= (u64)out_attr << (8 * i);
-@@ -2325,7 +2332,7 @@ panthor_vm_create(struct panthor_device *ptdev, bool for_mcu,
- 		goto err_sched_fini;
- 
- 	mair = io_pgtable_ops_to_pgtable(vm->pgtbl_ops)->cfg.arm_lpae_s1_cfg.mair;
--	vm->memattr = mair_to_memattr(mair);
-+	vm->memattr = mair_to_memattr(mair, ptdev->coherent);
- 
- 	mutex_lock(&ptdev->mmu->vm.lock);
- 	list_add_tail(&vm->node, &ptdev->mmu->vm.list);
 -- 
 2.25.1
 
