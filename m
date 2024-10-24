@@ -2,53 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 694F39ADD7A
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2024 09:20:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA08D9ADE40
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2024 09:53:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 132B410E8C2;
-	Thu, 24 Oct 2024 07:20:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F03E410E8CB;
+	Thu, 24 Oct 2024 07:53:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Bzz1vsgY";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="UKT1mdyx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AF6910E8BF;
- Thu, 24 Oct 2024 07:20:47 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 40324A45168;
- Thu, 24 Oct 2024 07:20:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB0CEC4CEC7;
- Thu, 24 Oct 2024 07:20:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1729754446;
- bh=LR1LZ3CSRozgUjzx0t7w7Gn9212nLYiLXlkoAsdr8HA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Bzz1vsgYeJqxYsK9+eDf7kMxZK/M4s6G+t1xvYk/JmC6Tj5g/BAduwh++eLiA7bL0
- 8I1E1yUKMUJ7qqWH4IVu2LGv8rcEf9Y14Ov8/1oCRuduyXOcW6BmZnpZP7hUGlMq+9
- 0C44DJw7jbCaGNQMAv6aewqv11xbQmBCunMTz/RYSmEj58slP0EtxdpcWl0mcqa6ra
- bsibUS4+6bPpVC0VPYd/iC4exPI/mE3qLOkZAzhuMqtEtQEbSoOnmV+UpOfSUcLpbZ
- JL/UkfFq/VGGc3y+Bbdm33XZkvzlJd3qRNuiKIMewBsC3o5iZtC0EStbdE7+LJr5ua
- mwRiK2bpn18Fg==
-Date: Thu, 24 Oct 2024 09:20:43 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Tejun Heo <tj@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- intel-xe@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- Zefan Li <lizefan.x@bytedance.com>, Johannes Weiner <hannes@cmpxchg.org>, 
- Andrew Morton <akpm@linux-foundation.org>,
- Friedrich Vock <friedrich.vock@gmx.de>, cgroups@vger.kernel.org, 
- linux-mm@kvack.org
-Subject: Re: [PATCH 0/7] kernel/cgroups: Add "dev" memory accounting cgroup.
-Message-ID: <20241024-beautiful-spaniel-of-youth-f75b61@houat>
-References: <20241023075302.27194-1-maarten.lankhorst@linux.intel.com>
- <ZxlRLMwkabTaOrjc@slm.duckdns.org>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 068C310E8CA;
+ Thu, 24 Oct 2024 07:53:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1729756406; x=1761292406;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=vTR/z9BcUAT3VxLFbbZPQzWa9IVKBORmnnBMh89ROnU=;
+ b=UKT1mdyxCzFHfkyYI5rb9A1kCb1Wn9C2G6heErJ+pGRbG6SocKM60eWx
+ /tiYzyQycbQLN6AE1aghCrfbuzoqHRQXldIn+STwcHVXsLkbTwptt4ffh
+ UOii5lS3nAJ9njUXiyBpzCeUSHOuH6/4zmnzi8WZn4g4T1F76QlC1+E+X
+ 0EBZxBcU50iq7McQ6SXVQL0/4ED1GokBRjj+DVgtCtDNk3OoS3OMmBlaw
+ SkZTbYjObrGbMSYhmRc19Ggg09Hp+978aHqKrq1GQvGSNx4V7G8UpEoBQ
+ NVlajf+WgE/D1LpNcVztQw9daXKsPlr9QqOH+o5xdthPVPLP4H3UGQWN4 A==;
+X-CSE-ConnectionGUID: CFAoeyEqTra3CprlznLkFA==
+X-CSE-MsgGUID: OWMhu3rESYmodbiCMmVhEA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11234"; a="29270632"
+X-IronPort-AV: E=Sophos;i="6.11,228,1725346800"; d="scan'208";a="29270632"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Oct 2024 00:53:25 -0700
+X-CSE-ConnectionGUID: 0lLHbDrnQ9KHDHsCweoesw==
+X-CSE-MsgGUID: S7AEVMjAQRObk+BjmCEdTg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,228,1725346800"; d="scan'208";a="80934902"
+Received: from mkuoppal-desk.fi.intel.com (HELO localhost) ([10.237.72.193])
+ by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Oct 2024 00:53:23 -0700
+From: Mika Kuoppala <mika.kuoppala@intel.com>
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ matthew.auld@intel.com, thomas.hellstrom@linux.intel.com
+Subject: Re: [PATCH v5 2/9] drm/ttm: Add ttm_bo_access
+In-Reply-To: <Zxl6ExJzU0QO2lht@DUT025-TGLU.fm.intel.com>
+References: <20241021211835.1675640-1-matthew.brost@intel.com>
+ <20241021211835.1675640-3-matthew.brost@intel.com>
+ <87bjzcze9v.fsf@mkuoppal-desk> <Zxl6ExJzU0QO2lht@DUT025-TGLU.fm.intel.com>
+Date: Thu, 24 Oct 2024 10:42:41 +0300
+Message-ID: <878queymj2.fsf@mkuoppal-desk>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="j6zj4jbcyydfxuo7"
-Content-Disposition: inline
-In-Reply-To: <ZxlRLMwkabTaOrjc@slm.duckdns.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,101 +70,239 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Matthew Brost <matthew.brost@intel.com> writes:
 
---j6zj4jbcyydfxuo7
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 0/7] kernel/cgroups: Add "dev" memory accounting cgroup.
-MIME-Version: 1.0
+> On Tue, Oct 22, 2024 at 12:18:52PM +0300, Mika Kuoppala wrote:
+>> Matthew Brost <matthew.brost@intel.com> writes:
+>>=20
+>> > Non-contiguous VRAM cannot easily be mapped in TTM nor can non-visible
+>> > VRAM easily be accessed. Add ttm_bo_access, which is similar to
+>> > ttm_bo_vm_access, to access such memory.
+>> >
+>> > v4:
+>> >  - Fix checkpatch warnings (CI)
+>> > v5:
+>> >  - Fix checkpatch warnings (CI)
+>> >
+>> > Reported-by: Christoph Manszewski <christoph.manszewski@intel.com>
+>> > Suggested-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+>> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+>>=20
+>> With the igt/xe_eudebug* coverage,
+>>=20
+>> Tested-by: Mika Kuoppala <mika.kuoppala@linux.intel.com>
+>
+> Thanks! Is this for the series or just this patch?
+>
 
-Hi Tejun,
+Whole series applied but the coverage tested only
+ttm_bo_access().
+-Mika
 
-Thanks a lot for your review.
-
-On Wed, Oct 23, 2024 at 09:40:28AM -1000, Tejun Heo wrote:
-> On Wed, Oct 23, 2024 at 09:52:53AM +0200, Maarten Lankhorst wrote:
-> > New submission!
-> > I've added documentation for each call, and integrated the renaming from
-> > drm cgroup to dev cgroup, based on maxime ripard's work.
-> >=20
-> > Maxime has been testing this with dma-buf heaps and v4l2 too, and it se=
-ems to work.
-> > In the initial submission, I've decided to only add the smallest enable=
-ment possible,
-> > to have less chance of breaking things.
-> >=20
-> > The API has been changed slightly, from "$name region.$regionname=3D$li=
-mit" in a file called
-> > dev.min/low/max to "$subsystem/$name $regionname=3D$limit" in a file ca=
-lled dev.region.min/low/max.
-> >=20
-> > This hopefully allows us to perhaps extend the API later on with the po=
-ssibility to
-> > set scheduler weights on the device, like in
-> >=20
-> > https://blogs.igalia.com/tursulin/drm-scheduling-cgroup-controller/
-> >=20
-> > Maarten Lankhorst (5):
-> >   kernel/cgroup: Add "dev" memory accounting cgroup
->=20
-> Yeah, let's not use "dev" name for this. As Waiman pointed out, it confli=
-cts
-> with the devices controller from cgroup1. While cgroup1 is mostly
-> deprecated, the same features are provided through BPF in systemd using t=
-he
-> same terminologies, so this is going to be really confusing.
-
-Yeah, I agree. We switched to dev because we want to support more than
-just DRM, but all DMA-able memory. We have patches to support for v4l2
-and dma-buf heaps, so using the name DRM didn't feel great either.
-
-Do you have a better name in mind? "device memory"? "dma memory"?
-
-> What happened with Tvrtko's weighted implementation? I've seen many propo=
-sed
-> patchsets in this area but as far as I could see none could establish
-> consensus among GPU crowd and that's one of the reasons why nothing ever
-> landed. Is the aim of this patchset establishing such consensus?
-
-Yeah, we have a consensus by now I think. Valve, Intel, Google, and Red
-Hat have been involved in that series and we all agree on the implementatio=
-n.
-
-Tvrtko aims at a different feature set though: this one is about memory
-allocation limits, Tvrtko's about scheduling.
-
-Scheduling doesn't make much sense for things outside of DRM (and even
-for a fraction of all DRM devices), and it's pretty much orthogonal. So
-i guess you can expect another series from Tvrtko, but I don't think
-they should be considered equivalent or dependent on each other.
-
-> If reaching consensus doesn't seem feasible in a predictable timeframe, my
-> suggesstion is just extending the misc controller. If the only way forward
-> here is fragmented vendor(s)-specific implementations, let's throw them i=
-nto
-> the misc controller.
-
-I don't think we have a fragmented implementation here, at all. The last
-patch especially implements it for all devices implementing the GEM
-interface in DRM, which would be around 100 drivers from various vendors.
-
-It's marked as a discussion because we don't quite know how to plumb it
-in for all drivers in the current DRM framework, but it's very much what
-we want to achieve.
-
-Maxime
-
---j6zj4jbcyydfxuo7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZxn1RAAKCRAnX84Zoj2+
-dhOFAYDnvKCdtdyZtwff6yW6hwWh0NyRRb2B3Gl+YlgcVCEGJ4qVIO4uviaD2Pzc
-m1KnTrMBewRZ74IdWG+6paWjlbKquoDIPMwSmvXh2qaS8OsgoVJqlXVFoJp6wzt/
-3ARaU1tySQ==
-=b4FA
------END PGP SIGNATURE-----
-
---j6zj4jbcyydfxuo7--
+> Matt
+>
+>>=20
+>> > ---
+>> >  drivers/gpu/drm/ttm/ttm_bo_util.c | 86 +++++++++++++++++++++++++++++++
+>> >  drivers/gpu/drm/ttm/ttm_bo_vm.c   | 65 +----------------------
+>> >  include/drm/ttm/ttm_bo.h          |  2 +
+>> >  3 files changed, 89 insertions(+), 64 deletions(-)
+>> >
+>> > diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/t=
+tm_bo_util.c
+>> > index d939925efa81..41bb5a7477d3 100644
+>> > --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
+>> > +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+>> > @@ -919,3 +919,89 @@ s64 ttm_lru_walk_for_evict(struct ttm_lru_walk *w=
+alk, struct ttm_device *bdev,
+>> >=20=20
+>> >  	return progress;
+>> >  }
+>> > +
+>> > +static int ttm_bo_access_kmap(struct ttm_buffer_object *bo,
+>> > +			      unsigned long offset,
+>> > +			      void *buf, int len, int write)
+>> > +{
+>> > +	unsigned long page =3D offset >> PAGE_SHIFT;
+>> > +	unsigned long bytes_left =3D len;
+>> > +	int ret;
+>> > +
+>> > +	/* Copy a page at a time, that way no extra virtual address
+>> > +	 * mapping is needed
+>> > +	 */
+>> > +	offset -=3D page << PAGE_SHIFT;
+>> > +	do {
+>> > +		unsigned long bytes =3D min(bytes_left, PAGE_SIZE - offset);
+>> > +		struct ttm_bo_kmap_obj map;
+>> > +		void *ptr;
+>> > +		bool is_iomem;
+>> > +
+>> > +		ret =3D ttm_bo_kmap(bo, page, 1, &map);
+>> > +		if (ret)
+>> > +			return ret;
+>> > +
+>> > +		ptr =3D (void *)ttm_kmap_obj_virtual(&map, &is_iomem) + offset;
+>> > +		WARN_ON_ONCE(is_iomem);
+>> > +		if (write)
+>> > +			memcpy(ptr, buf, bytes);
+>> > +		else
+>> > +			memcpy(buf, ptr, bytes);
+>> > +		ttm_bo_kunmap(&map);
+>> > +
+>> > +		page++;
+>> > +		buf +=3D bytes;
+>> > +		bytes_left -=3D bytes;
+>> > +		offset =3D 0;
+>> > +	} while (bytes_left);
+>> > +
+>> > +	return len;
+>> > +}
+>> > +
+>> > +/**
+>> > + * ttm_bo_access - Helper to access a buffer object
+>> > + *
+>> > + * @bo: ttm buffer object
+>> > + * @offset: access offset into buffer object
+>> > + * @buf: pointer to caller memory to read into or write from
+>> > + * @len: length of access
+>> > + * @write: write access
+>> > + *
+>> > + * Utility function to access a buffer object. Useful when buffer obj=
+ect cannot
+>> > + * be easily mapped (non-contiguous, non-visible, etc...).
+>> > + *
+>> > + * Returns:
+>> > + * 0 if successful, negative error code on failure.
+>> > + */
+>> > +int ttm_bo_access(struct ttm_buffer_object *bo, unsigned long offset,
+>> > +		  void *buf, int len, int write)
+>> > +{
+>> > +	int ret;
+>> > +
+>> > +	if (len < 1 || (offset + len) > bo->base.size)
+>> > +		return -EIO;
+>> > +
+>> > +	ret =3D ttm_bo_reserve(bo, true, false, NULL);
+>> > +	if (ret)
+>> > +		return ret;
+>> > +
+>> > +	switch (bo->resource->mem_type) {
+>> > +	case TTM_PL_SYSTEM:
+>> > +		fallthrough;
+>> > +	case TTM_PL_TT:
+>> > +		ret =3D ttm_bo_access_kmap(bo, offset, buf, len, write);
+>> > +		break;
+>> > +	default:
+>> > +		if (bo->bdev->funcs->access_memory)
+>> > +			ret =3D bo->bdev->funcs->access_memory
+>> > +				(bo, offset, buf, len, write);
+>> > +		else
+>> > +			ret =3D -EIO;
+>> > +	}
+>> > +
+>> > +	ttm_bo_unreserve(bo);
+>> > +
+>> > +	return ret;
+>> > +}
+>> > +EXPORT_SYMBOL(ttm_bo_access);
+>> > diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/ttm=
+_bo_vm.c
+>> > index 2c699ed1963a..20b1e5f78684 100644
+>> > --- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
+>> > +++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+>> > @@ -366,45 +366,6 @@ void ttm_bo_vm_close(struct vm_area_struct *vma)
+>> >  }
+>> >  EXPORT_SYMBOL(ttm_bo_vm_close);
+>> >=20=20
+>> > -static int ttm_bo_vm_access_kmap(struct ttm_buffer_object *bo,
+>> > -				 unsigned long offset,
+>> > -				 uint8_t *buf, int len, int write)
+>> > -{
+>> > -	unsigned long page =3D offset >> PAGE_SHIFT;
+>> > -	unsigned long bytes_left =3D len;
+>> > -	int ret;
+>> > -
+>> > -	/* Copy a page at a time, that way no extra virtual address
+>> > -	 * mapping is needed
+>> > -	 */
+>> > -	offset -=3D page << PAGE_SHIFT;
+>> > -	do {
+>> > -		unsigned long bytes =3D min(bytes_left, PAGE_SIZE - offset);
+>> > -		struct ttm_bo_kmap_obj map;
+>> > -		void *ptr;
+>> > -		bool is_iomem;
+>> > -
+>> > -		ret =3D ttm_bo_kmap(bo, page, 1, &map);
+>> > -		if (ret)
+>> > -			return ret;
+>> > -
+>> > -		ptr =3D (uint8_t *)ttm_kmap_obj_virtual(&map, &is_iomem) + offset;
+>> > -		WARN_ON_ONCE(is_iomem);
+>> > -		if (write)
+>> > -			memcpy(ptr, buf, bytes);
+>> > -		else
+>> > -			memcpy(buf, ptr, bytes);
+>> > -		ttm_bo_kunmap(&map);
+>> > -
+>> > -		page++;
+>> > -		buf +=3D bytes;
+>> > -		bytes_left -=3D bytes;
+>> > -		offset =3D 0;
+>> > -	} while (bytes_left);
+>> > -
+>> > -	return len;
+>> > -}
+>> > -
+>> >  int ttm_bo_vm_access(struct vm_area_struct *vma, unsigned long addr,
+>> >  		     void *buf, int len, int write)
+>> >  {
+>> > @@ -412,32 +373,8 @@ int ttm_bo_vm_access(struct vm_area_struct *vma, =
+unsigned long addr,
+>> >  	unsigned long offset =3D (addr) - vma->vm_start +
+>> >  		((vma->vm_pgoff - drm_vma_node_start(&bo->base.vma_node))
+>> >  		 << PAGE_SHIFT);
+>> > -	int ret;
+>> > -
+>> > -	if (len < 1 || (offset + len) > bo->base.size)
+>> > -		return -EIO;
+>> >=20=20
+>> > -	ret =3D ttm_bo_reserve(bo, true, false, NULL);
+>> > -	if (ret)
+>> > -		return ret;
+>> > -
+>> > -	switch (bo->resource->mem_type) {
+>> > -	case TTM_PL_SYSTEM:
+>> > -		fallthrough;
+>> > -	case TTM_PL_TT:
+>> > -		ret =3D ttm_bo_vm_access_kmap(bo, offset, buf, len, write);
+>> > -		break;
+>> > -	default:
+>> > -		if (bo->bdev->funcs->access_memory)
+>> > -			ret =3D bo->bdev->funcs->access_memory(
+>> > -				bo, offset, buf, len, write);
+>> > -		else
+>> > -			ret =3D -EIO;
+>> > -	}
+>> > -
+>> > -	ttm_bo_unreserve(bo);
+>> > -
+>> > -	return ret;
+>> > +	return ttm_bo_access(bo, offset, buf, len, write);
+>> >  }
+>> >  EXPORT_SYMBOL(ttm_bo_vm_access);
+>> >=20=20
+>> > diff --git a/include/drm/ttm/ttm_bo.h b/include/drm/ttm/ttm_bo.h
+>> > index 5804408815be..8ea11cd8df39 100644
+>> > --- a/include/drm/ttm/ttm_bo.h
+>> > +++ b/include/drm/ttm/ttm_bo.h
+>> > @@ -421,6 +421,8 @@ void ttm_bo_unpin(struct ttm_buffer_object *bo);
+>> >  int ttm_bo_evict_first(struct ttm_device *bdev,
+>> >  		       struct ttm_resource_manager *man,
+>> >  		       struct ttm_operation_ctx *ctx);
+>> > +int ttm_bo_access(struct ttm_buffer_object *bo, unsigned long offset,
+>> > +		  void *buf, int len, int write);
+>> >  vm_fault_t ttm_bo_vm_reserve(struct ttm_buffer_object *bo,
+>> >  			     struct vm_fault *vmf);
+>> >  vm_fault_t ttm_bo_vm_fault_reserved(struct vm_fault *vmf,
+>> > --=20
+>> > 2.34.1
