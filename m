@@ -2,85 +2,110 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A746B9AE542
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2024 14:44:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC1889AE55B
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2024 14:49:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FB2910E25F;
-	Thu, 24 Oct 2024 12:44:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 216E910E930;
+	Thu, 24 Oct 2024 12:49:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="JMUr7oHl";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="IeLaMLom";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bwPn/WK+";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IeLaMLom";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bwPn/WK+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7311710E25F
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 12:44:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1729773843;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=soTVn8jOTtJo/F47kpcNgbF25y0oIJ4WelERMykKhFc=;
- b=JMUr7oHlWMV1D6x9up5Wxd2yWBrvACnQyrOfjCsMBt+RdXwuD9ZW3mL8aonj6swEZIJQWX
- aGh2duuXGFuAu+iZhT7dIjDbTM7M/+UsxzBmE8SKcsRZILW3HtEIDCwdkqSW/a0xaHNYmw
- S5m1JgcgYIZUizhWyWIZ7UVQSzz/iMg=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-325-4V1skK3AN9WGiHpl24T5Jg-1; Thu, 24 Oct 2024 08:43:57 -0400
-X-MC-Unique: 4V1skK3AN9WGiHpl24T5Jg-1
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-37d52ccc50eso432379f8f.3
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 05:43:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729773836; x=1730378636;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=soTVn8jOTtJo/F47kpcNgbF25y0oIJ4WelERMykKhFc=;
- b=H2IXOj1zcMBNRopqvzvWd1BlM8wN0ZyystkhMmz/hvV5tWCMUhA9cHX6f3Q1rpj58r
- AcylfeWPsnjKbJr9gux4F7VtLU+LTT0iBIhCkIHiKe5LDa8T9NLhcMe7/ZxqlNapRxPU
- EEWoqKwnLv5lftwPgW+RlZvkGKIvxMT8ORopRE5DLLD2QWqM4LU3Ka4f7pVC0qrVVztd
- 72mAErynzXDZnG4n09RuDJDQ8oV3fyExC9dWX4qmg2i9PLdC1SFGQJBP4e1ZC8s8zCJn
- C6fgeD2lgYNjCkG8B/9oCP/WWhyG8/2XfF5SXkKovp5PGzny4ufFl8NYNpfgBy1PG01o
- 5ncA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW2k5+E498KFiM9sdV8Sy0vHIu/L0xhqrAZ7VOBtAgAecm5qE1Fd7JFLqpfV2kVNr5vuXgJZNM8xpM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxRsbBYAh1OwwQOkAZgxP1Wm2icdEYjdIj+/5eCRnTVEm/XMRif
- lBOz7GZcOCrY+pHJ1lHjOLWyoKEzSuqtCzNYaTG/2VhJv3EZWY3rA27Ko1rsmXS37v+34WblyxS
- WnLZv6IRvEfPUSPl1YKJ9ZsThv2eUuVWfT6Y0fij0zYkJLBWPYtjdPEugsbFvq62Gjg==
-X-Received: by 2002:a5d:4142:0:b0:37d:45c3:3459 with SMTP id
- ffacd0b85a97d-38045868631mr1406150f8f.21.1729773836513; 
- Thu, 24 Oct 2024 05:43:56 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFVbvOG1PHT58hTHz0WF2cadGoIHw+bWT3MYYe4Dm2aD5pRMmMvuOzcSo+7YMei1rplLxREbQ==
-X-Received: by 2002:a5d:4142:0:b0:37d:45c3:3459 with SMTP id
- ffacd0b85a97d-38045868631mr1406134f8f.21.1729773836026; 
- Thu, 24 Oct 2024 05:43:56 -0700 (PDT)
-Received: from localhost ([2a01:e0a:b25:f902::ff])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-37ee0a47caesm11160337f8f.28.2024.10.24.05.43.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Oct 2024 05:43:55 -0700 (PDT)
-Date: Thu, 24 Oct 2024 14:43:54 +0200
-From: Maxime Ripard <mripard@redhat.com>
-To: Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc: John Stultz <jstultz@google.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
- Brian Starkey <Brian.Starkey@arm.com>, "T.J. Mercier" <tjmercier@google.com>, 
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-Subject: Re: Requirements to merge new heaps in the kernel
-Message-ID: <20241024-giraffe-of-pastoral-hail-3141a9@houat>
-References: <20241022-macaw-of-spectacular-joy-8dcefa@houat>
- <CANDhNCoLgzy=CPBWjBKLiJzRdnf=SS3AgtFJNB-CBYAo=UEQJA@mail.gmail.com>
- <f8831b4e658b19a1df4cc02449bb74d730908de6.camel@ndufresne.ca>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E381310E930;
+ Thu, 24 Oct 2024 12:49:24 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 4CE521FDB7;
+ Thu, 24 Oct 2024 12:49:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1729774163; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=TNZyzsAZPH1onMcnoCmPu3rQFvjSIdxP5wWbG6tr7sE=;
+ b=IeLaMLomb4JJ20ZBEjnHUquzUfNZtz1ws3YUDLGZoxGmxwJ8T6n9rfSBiI4HeouFCa2qo2
+ lJ9qiw+Rol4FkCkESL0BEyNzLCyPjTY8xsvKkrXm5cZTmCcyJTaGRoujbeUcLvvbAZWRnY
+ Th8vfTqZui2Z5rYwP2zoeDgzvqciGoY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1729774163;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=TNZyzsAZPH1onMcnoCmPu3rQFvjSIdxP5wWbG6tr7sE=;
+ b=bwPn/WK+TtzEvhZZ05Q/8A0xgJFiv7wJP4RqVLps10tVM0cmVT3FACZjqLwORhmpSeDrx9
+ ztoC3PG2HqO/lHBA==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=IeLaMLom;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="bwPn/WK+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1729774163; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=TNZyzsAZPH1onMcnoCmPu3rQFvjSIdxP5wWbG6tr7sE=;
+ b=IeLaMLomb4JJ20ZBEjnHUquzUfNZtz1ws3YUDLGZoxGmxwJ8T6n9rfSBiI4HeouFCa2qo2
+ lJ9qiw+Rol4FkCkESL0BEyNzLCyPjTY8xsvKkrXm5cZTmCcyJTaGRoujbeUcLvvbAZWRnY
+ Th8vfTqZui2Z5rYwP2zoeDgzvqciGoY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1729774163;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=TNZyzsAZPH1onMcnoCmPu3rQFvjSIdxP5wWbG6tr7sE=;
+ b=bwPn/WK+TtzEvhZZ05Q/8A0xgJFiv7wJP4RqVLps10tVM0cmVT3FACZjqLwORhmpSeDrx9
+ ztoC3PG2HqO/lHBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DB8F2136F5;
+ Thu, 24 Oct 2024 12:49:22 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 6OjhM1JCGmeoDQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 24 Oct 2024 12:49:22 +0000
+Date: Thu, 24 Oct 2024 14:49:21 +0200
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-misc-fixes
+Message-ID: <20241024124921.GA20475@localhost.localdomain>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="v3j6hycuvpl6yppp"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f8831b4e658b19a1df4cc02449bb74d730908de6.camel@ndufresne.ca>
+X-Rspamd-Queue-Id: 4CE521FDB7
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[99.99%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; FREEMAIL_TO(0.00)[gmail.com,ffwll.ch];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; MISSING_XM_UA(0.00)[];
+ ARC_NA(0.00)[]; RCPT_COUNT_TWELVE(0.00)[16];
+ MIME_TRACE(0.00)[0:+]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,gitlab.freedesktop.org:url];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -4.51
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,99 +121,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Dave, Sima,
 
---v3j6hycuvpl6yppp
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: Requirements to merge new heaps in the kernel
-MIME-Version: 1.0
+this is the PR for drm-misc-fixes.
 
-On Tue, Oct 22, 2024 at 01:58:47PM -0400, Nicolas Dufresne wrote:
-> Hi,
->=20
-> Le mardi 22 octobre 2024 =C3=A0 09:19 -0700, John Stultz a =C3=A9crit=C2=
-=A0:
-> > On Tue, Oct 22, 2024 at 1:38=E2=80=AFAM Maxime Ripard <mripard@redhat.c=
-om> wrote:
-> > >=20
-> > > I wanted to follow-up on the discussion we had at Plumbers with John =
-and
-> > > T.J. about (among other things) adding new heaps to the kernel.
-> > >=20
-> > > I'm still interested in merging a carve-out driver[1], since it seems=
- to be
-> > > in every vendor BSP and got asked again last week.
-> > >=20
-> > > I remember from our discussion that for new heap types to be merged, =
-we
-> > > needed a kernel use-case. Looking back, I'm not entirely sure how one
-> > > can provide that given that heaps are essentially facilities for
-> > > user-space.
-> > >=20
-> > > Am I misremembering or missing something? What are the requirements f=
-or
-> > > you to consider adding a new heap driver?
-> >=20
-> > It's basically the same as the DRM subsystem rules.
-> > https://docs.kernel.org/gpu/drm-uapi.html#open-source-userspace-require=
-ments
-> > ie: There has to be opensource user for it, and the user has to be
-> > more significant than a "toy" implementation (which can be a bit
-> > subjective and contentious when trying to get out of a chicken and egg
-> > loop).
->=20
-> If there is a generic logic to decide to use a carve-out when using some
-> specific device on specific platform, it would not be a problem to make
-> userspace for it. I'm happy to take DMABuf patches in GStreamer notably (=
-which
-> could greatly help ensuring zero-copy path).
+Best regards
+Thomas
 
-Yeah, that's one of the things we discussed at Plumbers too. My
-point-of-view was that userspace also had no way to tell which kind of
-buffers it would get. We settled down on the heap name providing those
-semantics, and it resulted in:
+drm-misc-fixes-2024-10-24:
+Short summary of fixes pull:
 
-https://lore.kernel.org/r/20240930144057.453751-1-mripard@kernel.org
+bridge:
+- aux: Fix assignment of OF node
+- tc358767: Add missing of_node_put() in error path
+The following changes since commit 83f000784844cb9d4669ef1a3366479db3197b33:
 
-> But so far, all the proposals was just a base allocator, no way to know w=
-hen to
-> use it and for which device. The actual mapping of heaps and device was l=
-eft to
-> userspace, which to be honest would only work with a userspace Linux Allo=
-cator
-> library, with userspace drivers, or inside mesa if the devices are GPUs/N=
-PUs.
-> This is a project Laurent Pinchard have hosted a workshop about during XD=
-C.
+  Merge tag 'drm-xe-fixes-2024-10-17' of https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes (2024-10-18 13:53:41 +1000)
 
-Yeah, that's another issue that needs to be tackled at some point indeed.
+are available in the Git repository at:
 
-> p.s. libcamera have device specific knowledge, and could of course be a s=
-horter
-> term user. Note that major distro are not happy that there is no memory
-> accounting for dmabuf, bypassing sandboxes and limits.
+  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-fixes-2024-10-24
 
-Meh. The same argument could be said for v4l2 or DRM/KMS, and it never
-bothered anyone.
+for you to fetch changes up to 5c23878252515b8d2b86839bd4cb7dea7088aacd:
 
-Fortunately, we're tackling that issue as well:
-https://lore.kernel.org/dri-devel/20241023075302.27194-1-maarten.lankhorst@=
-linux.intel.com/
+  drm/bridge: tc358767: fix missing of_node_put() in for_each_endpoint_of_node() (2024-10-21 15:00:35 +0200)
 
-Maxime
+----------------------------------------------------------------
+Short summary of fixes pull:
 
---v3j6hycuvpl6yppp
-Content-Type: application/pgp-signature; name="signature.asc"
+bridge:
+- aux: Fix assignment of OF node
+- tc358767: Add missing of_node_put() in error path
 
------BEGIN PGP SIGNATURE-----
+----------------------------------------------------------------
+Abel Vesa (1):
+      drm/bridge: Fix assignment of the of_node of the parent to aux bridge
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZxpBCgAKCRAnX84Zoj2+
-dgHXAX0SfWtyKH8RpB7e4T3vbSYwKEoZUIpBDgIWE798YzT0YS6TlcfW1VbbXaFb
-5TMwUn4Bfi40qfBijP19+Y4SSRBZfhLYDP3AtTs1/Ek/rVRaXeHPDj6OYn8LAGq3
-DBUHkmX4vQ==
-=b82R
------END PGP SIGNATURE-----
+Javier Carrasco (1):
+      drm/bridge: tc358767: fix missing of_node_put() in for_each_endpoint_of_node()
 
---v3j6hycuvpl6yppp--
+ drivers/gpu/drm/bridge/aux-bridge.c | 3 ++-
+ drivers/gpu/drm/bridge/tc358767.c   | 1 +
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
+-- 
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
