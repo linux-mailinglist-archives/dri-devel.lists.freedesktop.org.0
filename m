@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E8939AEA18
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2024 17:14:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BBAC9AEA21
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2024 17:16:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2760610E2BB;
-	Thu, 24 Oct 2024 15:14:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C55310E963;
+	Thu, 24 Oct 2024 15:16:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UV0Y7R/6";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EWjQjEyl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4189310E963
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 15:14:48 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C216010E963
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 15:16:03 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 2720EA45434;
- Thu, 24 Oct 2024 15:14:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65B0DC4CEE4;
- Thu, 24 Oct 2024 15:14:46 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 9EB1F5C601A;
+ Thu, 24 Oct 2024 15:15:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FC13C4CEC7;
+ Thu, 24 Oct 2024 15:16:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1729782886;
- bh=Fhhtx0SKw8R7fwmiWBICVYOc8q6+cAez3j0Ek1hM190=;
+ s=k20201202; t=1729782962;
+ bh=/gnpu4B8t4IL7ynEXrUUxsgwtBS+XtHTbgdzxW9txJc=;
  h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=UV0Y7R/6YQiFBOZvJUQydU4Yxt+U9SxMjlRxZMea1owRTDM7Fti6imYGZVsIfWN41
- oDctMYnTbJkbl3KGUJT+O1oXccwmPXnsC/EhPzxPzT/Lle/JOhuEXOXAKocPRREOom
- pTNzMTAIv3X/bQqAFV5AaPLK7Zc5DyqeJeVz0+nyoasRrT5zawOKBSgfqyI+m3RHVg
- 3mYcbqSAiNv+U5FoLoYpHzXS3BCnWzINmPdSbeXL41n/j6FBSHLIdYaHnatCaxhwMR
- igF5ds7OCBby6INyeeOz0c9DLocUYF1KlKyHVDOlzuu+hvA8E5RVkxbLwbENIzdlIE
- YbwEs/93bZDJw==
-Message-ID: <baa171fd4e0cd7ddf2d4ce593b690ed3@kernel.org>
-Date: Thu, 24 Oct 2024 15:14:44 +0000
+ b=EWjQjEylN9jN2AYF2Z+Buio7/U4Het2kbl4zvp7VcNMpe6uoxAQnKKAheRPTROr1y
+ 4KXRC7fWnDWpF3EOlNWbZhf7g5pYMZrH/GOJ7zGGnEop5veigljsQuodcz56osmzJ5
+ myqrlmGwY+71MRipkTD0WB6g4wWycrRyhrgFd2ChRzAia1fuC8CZR3SvriCiaElllI
+ rBTRXObrnyhUHOEXb32JT8kEDLsDSaMEqCHVStep7+CGKa6NSuVeXQvSlqKDW1EdXV
+ puab9WgqJpvvQXLLnMUHWE05nGDShEetrFoMi9HspQhyDJfo+j8dBPImpNV5++Wcsr
+ DMxmwgT9KrjOA==
+Message-ID: <499656b677fc13544f5e0e46e5e887ec@kernel.org>
+Date: Thu, 24 Oct 2024 15:16:00 +0000
 From: "Maxime Ripard" <mripard@kernel.org>
 To: "Dave Stevenson" <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH 02/37] drm/vc4: Use of_device_get_match_data to set
- generation
-In-Reply-To: <20241023-drm-vc4-2712-support-v1-2-1cc2d5594907@raspberrypi.com>
-References: <20241023-drm-vc4-2712-support-v1-2-1cc2d5594907@raspberrypi.com>
+Subject: Re: [PATCH 03/37] drm/vc4: Fix reading of frame count on GEN5 / Pi4
+In-Reply-To: <20241023-drm-vc4-2712-support-v1-3-1cc2d5594907@raspberrypi.com>
+References: <20241023-drm-vc4-2712-support-v1-3-1cc2d5594907@raspberrypi.com>
 Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, "Broadcom
@@ -72,12 +71,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 23 Oct 2024 17:49:59 +0100, Dave Stevenson wrote:
-> Use of_device_get_match_data to retrieve the generation value
-> as set in the struct of_device_id, rather than manually comparing
-> compatible strings.
+On Wed, 23 Oct 2024 17:50:00 +0100, Dave Stevenson wrote:
+> The frame count values moved within registers DISPSTAT1 and
+> DISPSTAT2 with GEN5, so update the accessor function to
+> accommodate that.
 > 
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> Fixes: b51cd7ad143d ("drm/vc4: hvs: Fix frame count register readout")
 > 
 > [ ... ]
 
