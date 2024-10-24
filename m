@@ -2,60 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92B519AE1F1
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2024 12:02:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EB1A9AE2B3
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2024 12:35:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26A0A10E8EA;
-	Thu, 24 Oct 2024 10:02:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EE3E10E256;
+	Thu, 24 Oct 2024 10:35:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="VbCsqeHF";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hdlP448B";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5C9F10E903
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 10:02:34 +0000 (UTC)
-Received: from relay2-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::222])
- by mslow1.mail.gandi.net (Postfix) with ESMTP id 9B477C3629
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 09:55:47 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPA id E5EC140010;
- Thu, 24 Oct 2024 09:55:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1729763745;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nUQXtdTvn9UVSZH4EkPi10r3WhhKAUdc+B9p/wH61yw=;
- b=VbCsqeHFuQuz6k8aevTlfEhl56CY4MWWNhlHmsvB6VkN8iPVhuEauYY+AZNnirOHwO0Apv
- AUNnXTHt0tgm7OHwmuyfKOV47SEzDT9JD1flKPQ7VZ3LX/bitFkSeIUkM91wEQMfgEr1zz
- cF4PQltKsnh0jX9Yq91L1cfjam1tm9zy6SEWHjjUdq8yeT8SxIIctrUrZ5+dTlD4pLUYnr
- LUjoEsHYcRjW5hBVYm5srZIZI6QPxtO+0H/gAR2tSzT8UgZmoyy/Hq0i8PETZn/zl0+qlo
- /6wbDUbZLbZfeTEOV6DIj64Xkk9kMklqbn2fD+j/hknCeCsZy0sGHMXmCC+rKA==
-From: Herve Codina <herve.codina@bootlin.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B49310E004;
+ Thu, 24 Oct 2024 10:35:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1729766152; x=1761302152;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=UW0hE31GGN8jgPgRZbodK9mIg08FV4Mhsd8DDDS0j2M=;
+ b=hdlP448BcP+e2EmJITpYMAHNAJ1qv3PXbCG7enlW9f7QDrh4ep3K7KSh
+ VjvqULwvVeQBgc2al4zrQO82RfNSffwSJTVLIVFowhd5Z0mcHS5XfWVi9
+ rays/txXl4dd9itf8Q8zaOSeIVpBvYp7TODJNj1mMAJgI0vLpVdC1/s4e
+ iD+E2rds6ve+xuzwfWYKfys4kw3mwlvY6VNXcRTdSp9QAVQCjqCLryBxa
+ qCmz7ZvlL0FgnqQF42NniPcnK/gen+gPiiMQAkAd77jqy+Icj/Bs0t4uU
+ f6rknhvsZ9Y056sD+D0EDE57VmzkSdjGGocJSf+4mdTB3dmCtNTwVFgR6 g==;
+X-CSE-ConnectionGUID: QjbqwF4PSQeI76oHEUqbuw==
+X-CSE-MsgGUID: CCAnZiqMTqizsk4Kj1smaw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11234"; a="46879012"
+X-IronPort-AV: E=Sophos;i="6.11,229,1725346800"; d="scan'208";a="46879012"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Oct 2024 03:35:51 -0700
+X-CSE-ConnectionGUID: X7Jcr4c5Q3mLZGLgDfcadA==
+X-CSE-MsgGUID: ZHEPrOvDR4mIJDGgHS9iMQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,229,1725346800"; d="scan'208";a="111368091"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+ by fmviesa001.fm.intel.com with ESMTP; 24 Oct 2024 03:35:48 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1t3vBx-000WH7-26;
+ Thu, 24 Oct 2024 10:35:45 +0000
+Date: Thu, 24 Oct 2024 18:35:27 +0800
+From: kernel test robot <lkp@intel.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ intel-xe@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Tejun Heo <tj@kernel.org>,
+ Zefan Li <lizefan.x@bytedance.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ Friedrich Vock <friedrich.vock@gmx.de>, cgroups@vger.kernel.org,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Marek Vasut <marex@denx.de>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Herve Codina <herve.codina@bootlin.com>
-Subject: [PATCH 2/2] drm: bridge: ti-sn65dsi83: Add error recovery mechanism
-Date: Thu, 24 Oct 2024 11:55:38 +0200
-Message-ID: <20241024095539.1637280-3-herve.codina@bootlin.com>
-X-Mailer: git-send-email 2.46.2
-In-Reply-To: <20241024095539.1637280-1-herve.codina@bootlin.com>
-References: <20241024095539.1637280-1-herve.codina@bootlin.com>
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Subject: Re: [PATCH 2/7] drm/drv: Add drmm cgroup registration for dev cgroups.
+Message-ID: <202410241806.p6u3FcGS-lkp@intel.com>
+References: <20241023075302.27194-3-maarten.lankhorst@linux.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-GND-Sasl: herve.codina@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241023075302.27194-3-maarten.lankhorst@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,219 +77,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In some cases observed during ESD tests, the TI SN65DSI83 cannot recover
-from errors by itself. A full restart of the bridge is needed in those
-cases to have the bridge output LVDS signals again.
+Hi Maarten,
 
-The TI SN65DSI83 has some error detection capabilities. Introduce an
-error recovery mechanism based on this detection.
+kernel test robot noticed the following build errors:
 
-The errors detected are signaled through an interrupt. On system where
-this interrupt is not available, the driver uses a polling monitoring
-fallback to check for errors. When an error is present, the recovery
-process is launched.
+[auto build test ERROR on drm/drm-next]
+[also build test ERROR on drm-exynos/exynos-drm-next next-20241024]
+[cannot apply to tj-cgroup/for-next drm-xe/drm-xe-next akpm-mm/mm-everything drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip linus/master v6.12-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Restarting the bridge needs to redo the initialization sequence. This
-initialization sequence has to be done with the DSI data lanes driven in
-LP11 state. In order to do that, the recovery process resets the entire
-pipeline.
+url:    https://github.com/intel-lab-lkp/linux/commits/Maarten-Lankhorst/kernel-cgroup-Add-dev-memory-accounting-cgroup/20241023-155504
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+patch link:    https://lore.kernel.org/r/20241023075302.27194-3-maarten.lankhorst%40linux.intel.com
+patch subject: [PATCH 2/7] drm/drv: Add drmm cgroup registration for dev cgroups.
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241024/202410241806.p6u3FcGS-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241024/202410241806.p6u3FcGS-lkp@intel.com/reproduce)
 
-Signed-off-by: Herve Codina <herve.codina@bootlin.com>
----
- drivers/gpu/drm/bridge/ti-sn65dsi83.c | 128 ++++++++++++++++++++++++++
- 1 file changed, 128 insertions(+)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410241806.p6u3FcGS-lkp@intel.com/
 
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-index 96e829163d87..22975b60e80f 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-@@ -35,9 +35,12 @@
- #include <linux/of_graph.h>
- #include <linux/regmap.h>
- #include <linux/regulator/consumer.h>
-+#include <linux/timer.h>
-+#include <linux/workqueue.h>
- 
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
-+#include <drm/drm_drv.h> /* DRM_MODESET_LOCK_ALL_BEGIN() need drm_drv_uses_atomic_modeset() */
- #include <drm/drm_mipi_dsi.h>
- #include <drm/drm_of.h>
- #include <drm/drm_panel.h>
-@@ -147,6 +150,9 @@ struct sn65dsi83 {
- 	struct regulator		*vcc;
- 	bool				lvds_dual_link;
- 	bool				lvds_dual_link_even_odd_swap;
-+	bool				use_irq;
-+	struct delayed_work		monitor_work;
-+	struct work_struct		reset_work;
- };
- 
- static const struct regmap_range sn65dsi83_readable_ranges[] = {
-@@ -321,6 +327,92 @@ static u8 sn65dsi83_get_dsi_div(struct sn65dsi83 *ctx)
- 	return dsi_div - 1;
- }
- 
-+static int sn65dsi83_reset_pipeline(struct sn65dsi83 *sn65dsi83)
-+{
-+	struct drm_device *dev = sn65dsi83->bridge.dev;
-+	struct drm_modeset_acquire_ctx ctx;
-+	struct drm_atomic_state *state;
-+	int err;
-+
-+	/* Use operation done in drm_atomic_helper_suspend() followed by
-+	 * operation done in drm_atomic_helper_resume() but without releasing
-+	 * the lock between suspend()/resume()
-+	 */
-+
-+	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, err);
-+
-+	state = drm_atomic_helper_duplicate_state(dev, &ctx);
-+	if (IS_ERR(state)) {
-+		err = PTR_ERR(state);
-+		goto unlock;
-+	}
-+
-+	err = drm_atomic_helper_disable_all(dev, &ctx);
-+	if (err < 0)
-+		goto unlock;
-+
-+	drm_mode_config_reset(dev);
-+
-+	err = drm_atomic_helper_commit_duplicated_state(state, &ctx);
-+
-+unlock:
-+	DRM_MODESET_LOCK_ALL_END(dev, ctx, err);
-+	if (!IS_ERR(state))
-+		drm_atomic_state_put(state);
-+	return err;
-+}
-+
-+static void sn65dsi83_reset_work(struct work_struct *ws)
-+{
-+	struct sn65dsi83 *ctx = container_of(ws, struct sn65dsi83, reset_work);
-+	int ret;
-+
-+	dev_warn(ctx->dev, "reset pipeline\n");
-+
-+	/* Reset the pipeline */
-+	ret = sn65dsi83_reset_pipeline(ctx);
-+	if (ret) {
-+		dev_err(ctx->dev, "reset pipeline failed %pe\n", ERR_PTR(ret));
-+		return;
-+	}
-+}
-+
-+static void sn65dsi83_handle_errors(struct sn65dsi83 *ctx)
-+{
-+	unsigned int irq_stat;
-+	int ret;
-+
-+	/*
-+	 * Schedule a reset in case of:
-+	 *  - the bridge doesn't answer
-+	 *  - the bridge signals an error
-+	 */
-+
-+	ret = regmap_read(ctx->regmap, REG_IRQ_STAT, &irq_stat);
-+	if (ret || irq_stat)
-+		schedule_work(&ctx->reset_work);
-+}
-+
-+static void sn65dsi83_monitor_work(struct work_struct *work)
-+{
-+	struct sn65dsi83 *ctx = container_of(to_delayed_work(work),
-+					     struct sn65dsi83, monitor_work);
-+
-+	sn65dsi83_handle_errors(ctx);
-+
-+	schedule_delayed_work(&ctx->monitor_work, msecs_to_jiffies(1000));
-+}
-+
-+static void sn65dsi83_monitor_start(struct sn65dsi83 *ctx)
-+{
-+	schedule_delayed_work(&ctx->monitor_work, msecs_to_jiffies(1000));
-+}
-+
-+static void sn65dsi83_monitor_stop(struct sn65dsi83 *ctx)
-+{
-+	cancel_delayed_work_sync(&ctx->monitor_work);
-+}
-+
- static void sn65dsi83_atomic_pre_enable(struct drm_bridge *bridge,
- 					struct drm_bridge_state *old_bridge_state)
- {
-@@ -509,6 +601,15 @@ static void sn65dsi83_atomic_enable(struct drm_bridge *bridge,
- 	regmap_read(ctx->regmap, REG_IRQ_STAT, &pval);
- 	if (pval)
- 		dev_err(ctx->dev, "Unexpected link status 0x%02x\n", pval);
-+
-+	if (ctx->use_irq) {
-+		/* Enable irq to detect errors */
-+		regmap_write(ctx->regmap, REG_IRQ_GLOBAL, REG_IRQ_GLOBAL_IRQ_EN);
-+		regmap_write(ctx->regmap, REG_IRQ_EN, 0xff);
-+	} else {
-+		/* Use the polling task */
-+		sn65dsi83_monitor_start(ctx);
-+	}
- }
- 
- static void sn65dsi83_atomic_disable(struct drm_bridge *bridge,
-@@ -517,6 +618,15 @@ static void sn65dsi83_atomic_disable(struct drm_bridge *bridge,
- 	struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
- 	int ret;
- 
-+	if (ctx->use_irq) {
-+		/* Disable irq */
-+		regmap_write(ctx->regmap, REG_IRQ_EN, 0x0);
-+		regmap_write(ctx->regmap, REG_IRQ_GLOBAL, 0x0);
-+	} else {
-+		/* Stop the polling task */
-+		sn65dsi83_monitor_stop(ctx);
-+	}
-+
- 	/* Put the chip in reset, pull EN line low, and assure 10ms reset low timing. */
- 	gpiod_set_value_cansleep(ctx->enable_gpio, 0);
- 	usleep_range(10000, 11000);
-@@ -673,6 +783,14 @@ static int sn65dsi83_host_attach(struct sn65dsi83 *ctx)
- 	return 0;
- }
- 
-+static irqreturn_t sn65dsi83_irq(int irq, void *data)
-+{
-+	struct sn65dsi83 *ctx = data;
-+
-+	sn65dsi83_handle_errors(ctx);
-+	return IRQ_HANDLED;
-+}
-+
- static int sn65dsi83_probe(struct i2c_client *client)
- {
- 	const struct i2c_device_id *id = i2c_client_get_device_id(client);
-@@ -686,6 +804,8 @@ static int sn65dsi83_probe(struct i2c_client *client)
- 		return -ENOMEM;
- 
- 	ctx->dev = dev;
-+	INIT_WORK(&ctx->reset_work, sn65dsi83_reset_work);
-+	INIT_DELAYED_WORK(&ctx->monitor_work, sn65dsi83_monitor_work);
- 
- 	if (dev->of_node) {
- 		model = (enum sn65dsi83_model)(uintptr_t)
-@@ -710,6 +830,14 @@ static int sn65dsi83_probe(struct i2c_client *client)
- 	if (IS_ERR(ctx->regmap))
- 		return dev_err_probe(dev, PTR_ERR(ctx->regmap), "failed to get regmap\n");
- 
-+	if (client->irq) {
-+		ret = devm_request_threaded_irq(ctx->dev, client->irq, NULL, sn65dsi83_irq,
-+						IRQF_ONESHOT, dev_name(ctx->dev), ctx);
-+		if (ret)
-+			return dev_err_probe(dev, ret, "failed to request irq\n");
-+		ctx->use_irq = true;
-+	}
-+
- 	dev_set_drvdata(dev, ctx);
- 	i2c_set_clientdata(client, ctx);
- 
+All error/warnings (new ones prefixed by >>):
+
+   In file included from drivers/gpu/drm/drm_drv.c:29:
+>> include/linux/cgroup_dev.h:61:12: error: two or more data types in declaration specifiers
+      61 | static int int dev_cgroup_try_charge(struct dev_cgroup_device *cgdev,
+         |            ^~~
+>> include/linux/cgroup_dev.h:65:1: error: expected identifier or '(' before '{' token
+      65 | {
+         | ^
+>> include/linux/cgroup_dev.h:61:16: warning: 'dev_cgroup_try_charge' declared 'static' but never defined [-Wunused-function]
+      61 | static int int dev_cgroup_try_charge(struct dev_cgroup_device *cgdev,
+         |                ^~~~~~~~~~~~~~~~~~~~~
+
+
+vim +61 include/linux/cgroup_dev.h
+
+487073b1855ef4 Maarten Lankhorst 2024-10-23  60  
+487073b1855ef4 Maarten Lankhorst 2024-10-23 @61  static int int dev_cgroup_try_charge(struct dev_cgroup_device *cgdev,
+487073b1855ef4 Maarten Lankhorst 2024-10-23  62  				     u32 index, u64 size,
+487073b1855ef4 Maarten Lankhorst 2024-10-23  63  				     struct dev_cgroup_pool_state **ret_pool,
+487073b1855ef4 Maarten Lankhorst 2024-10-23  64  				     struct dev_cgroup_pool_state **ret_limit_pool);
+487073b1855ef4 Maarten Lankhorst 2024-10-23 @65  {
+487073b1855ef4 Maarten Lankhorst 2024-10-23  66  	*ret_pool = NULL;
+487073b1855ef4 Maarten Lankhorst 2024-10-23  67  
+487073b1855ef4 Maarten Lankhorst 2024-10-23  68  	if (ret_limit_pool)
+487073b1855ef4 Maarten Lankhorst 2024-10-23  69  		*ret_limit_pool = NULL;
+487073b1855ef4 Maarten Lankhorst 2024-10-23  70  
+487073b1855ef4 Maarten Lankhorst 2024-10-23  71  	return 0;
+487073b1855ef4 Maarten Lankhorst 2024-10-23  72  }
+487073b1855ef4 Maarten Lankhorst 2024-10-23  73  
+
 -- 
-2.46.2
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
