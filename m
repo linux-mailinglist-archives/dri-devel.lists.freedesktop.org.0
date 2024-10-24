@@ -2,105 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C59D9AE71B
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2024 16:03:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CF5C9AE764
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2024 16:06:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25DC510E111;
-	Thu, 24 Oct 2024 14:02:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD19010E298;
+	Thu, 24 Oct 2024 14:06:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="I0c6Knc3";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AWSVnsYK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
- [209.85.221.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA17110E111
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 14:02:56 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id
- ffacd0b85a97d-37d808ae924so656413f8f.0
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 07:02:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1729778575; x=1730383375; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=4pxlHMb5AMgvpVGu1TIrG5oVzbcKbA0wfkWtUQw8bZc=;
- b=I0c6Knc3NI/p8x4TQ6SXDBaUX/MsA9V75FQWARkIKYKH+vhb+9eKEyrdrIE6Gt5qxI
- fqzFo5qrR65fHDIXtqXNkTcU5shZkG4g/ZCjWYciMUOEOpi/VCv9ZfPzBiZWMjJTaNgH
- iKqfmZ3NVb8GuBg8DXkMeWTAG7t1qurXq0rb2Tof/oxNfzA35Jfx/uvtQyjZhPgweMGs
- Pyo3gQclXLzTiDxbhtQKLFlT7aot+IqoPV/PnvWmENiXVyuGa9xpdzrcgSYZwyS4FpxH
- Ppgeu7vdFRgwRBqx7Lu1dHgPRE3pMC2MCCys7auOEy44eZgRS4RmahywXpTjQd13uMuK
- o0Fg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729778575; x=1730383375;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=4pxlHMb5AMgvpVGu1TIrG5oVzbcKbA0wfkWtUQw8bZc=;
- b=TbTwFYyB7g1atoj4qxeuhWL1IqB7zNeoDaDHwYeTfKDXxB5iQwOZ7C+7nmXGNfn+7g
- BakOqNI5jpxK/HCxydNoFl7XvYrdpLlvE3aDnAUOwHT09ALI17Rhz9rpE0qfVyEQAm/A
- xyo4bXiG4KoFOZdDJDkH9n4w2vwPSd5bJ864ZOMTTBaaK1yRMVNXFE/teYOolUwCxBrY
- BB2WWBiuILCBM1RB7DX2qhVvXaxISnp/K/H6lMm3LhybORwo+1kXHsJV5IfkytY7fLp8
- UOxhl0jWqCogS2VWXWmhOrLav3nREO5mo0kJXVKRfr2f2jMoxmz21U2hFd5/71xYVekP
- W21g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVgjaS/So05FqgMmcl3+7Ab3SOGAhKSzP2FTMizOjbIpcVZJ00J1GstqZdd8ztUXz0ivnBCuIICPmQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz9Xf8dhgOjbF15h86ODcimt80Dq/XZs6EjjB/6CuTvJkrYMFW4
- 96ylUiOWjDTeRA6/eGdt6rzZwkFjIimZsXQfwcaSmFI15Jvg3Ro+6Oi/qfIyJTg=
-X-Google-Smtp-Source: AGHT+IHtwZ0D7Hbl6lV9vXaF6Yh+U6E2VIFK5c7xfn2hS1JAXlfziXP71xH9LYJKYWxoN3UwtKx2ZA==
-X-Received: by 2002:adf:f151:0:b0:37d:5338:8733 with SMTP id
- ffacd0b85a97d-380458b6106mr1655793f8f.37.1729778574351; 
- Thu, 24 Oct 2024 07:02:54 -0700 (PDT)
-Received: from [192.168.1.70] (147.48.71.86.rev.sfr.net. [86.71.48.147])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-37ee0a37b5asm11376286f8f.10.2024.10.24.07.02.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Oct 2024 07:02:53 -0700 (PDT)
-Message-ID: <5db25cea-10d5-4ed6-a385-141775a2a8bc@linaro.org>
-Date: Thu, 24 Oct 2024 16:02:51 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B253510E298
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 14:06:09 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 652E15C5FD7;
+ Thu, 24 Oct 2024 14:06:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4A58C4CECC;
+ Thu, 24 Oct 2024 14:06:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1729778766;
+ bh=UqM6Z34E+/K+S+SxZRTtlXPQ0ZdBLSakhVgd6bJmUqM=;
+ h=Date:From:To:Subject:References:In-Reply-To:From;
+ b=AWSVnsYKK9O/yPvErdiTcdH3hjVq5fpl40AxNXggq3RH8elow7SkzmyvIoF7t1bLN
+ MKJIfJGa0o4pPjs4/mosmK5QSMyI+jcWowubSHxrBGrcD3Nat2tm6tSGEBLCT06mCT
+ fmcmk1L+becoisluJQWDYSHNseFS1PZWGO6Y8BD3YnH2cQW2QXqiTmZh5RJPd5vtyP
+ K55c4s7ezXWGC4b+l0jLOUFyi9LF9euF89lPYxjlxjtkEbJhZN/ySHNT1jJOq54qYP
+ vJdBTFHjqAiJPLcwcLCf8J7qEGI2nno0lrH6v6ewqnB5MCvi/C2SgQMTqoyYvccLZ2
+ mBvVhrDdGcaKA==
+Date: Thu, 24 Oct 2024 16:06:03 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
+ Melissa Wen <melissa.srw@gmail.com>, Maaara Canal <mairacanal@riseup.net>, 
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Simona Vetter <simona@ffwll.ch>,
+ rdunlap@infradead.org, 
+ arthurgrillo@riseup.net, pekka.paalanen@haloniitty.fi, 
+ Simona Vetter <simona.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, thomas.petazzoni@bootlin.com,
+ jeremie.dautheribes@bootlin.com, 
+ miquel.raynal@bootlin.com, seanpaul@google.com, marcheu@google.com, 
+ nicolejadeyee@google.com, Pekka Paalanen <pekka.paalanen@collabora.com>
+Subject: Re: [PATCH v12 13/15] drm/vkms: Create KUnit tests for YUV conversions
+Message-ID: <20241024-illustrious-puma-of-superiority-d24a4d@houat>
+References: <20241007-yuv-v12-0-01c1ada6fec8@bootlin.com>
+ <20241007-yuv-v12-13-01c1ada6fec8@bootlin.com>
+ <20241008-ingenious-calm-silkworm-3e99ba@houat>
+ <ZwT6CnyYRKS9QxIS@louis-chauvet-laptop>
+ <20241011-shiny-skua-of-authority-998ad3@houat>
+ <Zwk2RSgfV75LVLpR@louis-chauvet-laptop>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH] drm/panel: synaptics-r63353: Fix regulator unbalance
-To: Dario Binacchi <dario.binacchi@amarulasolutions.com>,
- linux-kernel@vger.kernel.org
-Cc: linux-amarula@amarulasolutions.com,
- Michael Trimarchi <michael@amarulasolutions.com>,
- David Airlie <airlied@gmail.com>, Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
-References: <20241024105050.3483542-1-dario.binacchi@amarulasolutions.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20241024105050.3483542-1-dario.binacchi@amarulasolutions.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="q6c53od3b6prp5tw"
+Content-Disposition: inline
+In-Reply-To: <Zwk2RSgfV75LVLpR@louis-chauvet-laptop>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,45 +71,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 24/10/2024 12:50, Dario Binacchi wrote:
-> From: Michael Trimarchi <michael@amarulasolutions.com>
-> 
-> The shutdown function can be called when the display is already
-> unprepared. For example during reboot this trigger a kernel
-> backlog. Calling the drm_panel_unprepare, allow us to avoid
-> to trigger the kernel warning.
-> 
-> Tested-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-> Signed-off-by: Michael Trimarchi <michael@amarulasolutions.com>
-> Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
 
-Could you add a Fixed tag ?
+--q6c53od3b6prp5tw
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v12 13/15] drm/vkms: Create KUnit tests for YUV
+ conversions
+MIME-Version: 1.0
 
+On Fri, Oct 11, 2024 at 04:29:25PM +0200, Louis Chauvet wrote:
+> On 11/10/24 - 12:49, Maxime Ripard wrote:
+> > On Tue, Oct 08, 2024 at 11:23:22AM GMT, Louis Chauvet wrote:
+> > >=20
+> > > Hi,=20
+> > >=20
+> > > > > + * The YUV color representation were acquired via the colour pyt=
+hon framework.
+> > > > > + * Below are the function calls used for generating each case.
+> > > > > + *
+> > > > > + * For more information got to the docs:
+> > > > > + * https://colour.readthedocs.io/en/master/generated/colour.RGB_=
+to_YCbCr.html
+> > > > > + */
+> > > > > +static struct yuv_u8_to_argb_u16_case yuv_u8_to_argb_u16_cases[]=
+ =3D {
+> > > > > +	/*
+> > > > > +	 * colour.RGB_to_YCbCr(<rgb color in 16 bit form>,
+> > > > > +	 *                     K=3Dcolour.WEIGHTS_YCBCR["ITU-R BT.601"],
+> > > > > +	 *                     in_bits =3D 16,
+> > > > > +	 *                     in_legal =3D False,
+> > > > > +	 *                     in_int =3D True,
+> > > > > +	 *                     out_bits =3D 8,
+> > > > > +	 *                     out_legal =3D False,
+> > > > > +	 *                     out_int =3D True)
+> > > > > +	 */
+> > > >=20
+> > > > We should really detail what the intent and expected outcome is sup=
+posed
+> > > > to be here. Relying on a third-party python library call for
+> > > > documentation isn't great.
+> > >
+> > > This was requested by Pekka in the [v2] of this series.
+> >=20
+> > Ok.
+> >=20
+> > > I can add something like this before each tests, but I think having t=
+he=20
+> > > exact python code used may help people to understand what should be t=
+he=20
+> > > behavior, and refering to the python code to understand the conversio=
+n.
+> >=20
+> > Help, sure. Be the *only* documentation, absolutely not.
+> >=20
+> > Let's turn this around. You run kunit, one of these tests fail:
+> >=20
+> >  - It adds cognitive load to try to identify and make sense of an
+> >    unknown lib.
+> >=20
+> >  - How can we check that the arguments you provided there are the one
+> >    you actually wanted to provide, and you didn't make a typo?
+> >=20
+> > > I can add something like this before each tests to clarify the tested=
+=20
+> > > case:
+> > >=20
+> > > 	Test cases for conversion between YUV BT601 limited range and=20
+> > > 	RGB using the ITU-R BT.601 weights.
+> > >=20
+> > > Or maybe just documenting the structure yuv_u8_to_argb_u16_case:
+> > >=20
+> > > 	@encoding: Encoding used to convert RGB to YUV
+> > > 	@range: Range used to convert RGB to YUV
+> > > 	@n_colors: Count of test colors in this case
+> > > 	@format_pair.name: Name used for this color conversion, used to=20
+> > > 			   clarify the test results
+> > > 	@format_pair.rgb: RGB color tested
+> > > 	@format_pair.yuv: Same color as @format_pair.rgb, but converted to=
+=20
+> > > 			  YUV using @encoding and @range.
+> > >=20
+> > > What do you think?
+> >=20
+> > That it's welcome, but it still doesn't allow to figure out what your
+> > intent was with this test 2 years from now.
+>=20
+> I don't really understand what you want to add. Can you explain what you=
+=20
+> expect here? Did you mean you want a description like this above the test=
+=20
+> function?
 
-> 
-> ---
-> 
->   drivers/gpu/drm/panel/panel-synaptics-r63353.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-synaptics-r63353.c b/drivers/gpu/drm/panel/panel-synaptics-r63353.c
-> index 169c629746c7..17349825543f 100644
-> --- a/drivers/gpu/drm/panel/panel-synaptics-r63353.c
-> +++ b/drivers/gpu/drm/panel/panel-synaptics-r63353.c
-> @@ -325,7 +325,7 @@ static void r63353_panel_shutdown(struct mipi_dsi_device *dsi)
->   {
->   	struct r63353_panel *rpanel = mipi_dsi_get_drvdata(dsi);
->   
-> -	r63353_panel_unprepare(&rpanel->base);
-> +	drm_panel_unprepare(&rpanel->base);
->   }
->   
->   static const struct r63353_desc sharp_ls068b3sx02_data = {
+I want, for each test case, to have a documentation of what case it's
+testing and what the test should expect.
 
-With that:
+So, for the first one, something like:
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+/*
+ * Test the conversion of full range, BT601-encoded, YUVXXX pixel to
+ * ARGBXXXX, for various colors. This has been generated using:
+ *
+ * colour.RGB_to_YCbCR(...)
+ */
+
+And there's other things you need to document. Like, it seems that you
+sometimes pass different values for in_legal and out_legal, and that's
+not clear to me.
+
+It also that you uses a matrix for NV12 but are converting a different
+format. This needs to be documented.
+
+Finally, You should be documented why you are checking that the colors
+difference is less than 257, and not exactly equal.
+
+Maxime
+
+--q6c53od3b6prp5tw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZxpURwAKCRAnX84Zoj2+
+dpnIAYCtzV3UTGshXlT1ay9Ij6pdu3hWrR1lndrGKgCB1XEnKmy4881AJuppJ99z
+FdyPjl8Bf1/NExIEJ9JOwZpOUbCdkop0YSn90LSIqkHC97ab1CPRsC0EIJOtrseB
+NAvTbA189Q==
+=mQrx
+-----END PGP SIGNATURE-----
+
+--q6c53od3b6prp5tw--
