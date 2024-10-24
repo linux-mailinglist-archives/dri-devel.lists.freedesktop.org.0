@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A381D9ADD0F
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2024 09:07:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32F709ADD13
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2024 09:08:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBD2E10E8BB;
-	Thu, 24 Oct 2024 07:07:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92AB910E8BD;
+	Thu, 24 Oct 2024 07:08:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="vcR+ON1z";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="EXDsSjLY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0147B10E8BB
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 07:07:05 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E40C10E8BD
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 07:08:18 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 6C978A450D4;
- Thu, 24 Oct 2024 07:06:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6AE1C4CEC7;
- Thu, 24 Oct 2024 07:07:03 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id AE0AB5C5570;
+ Thu, 24 Oct 2024 07:08:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 659C3C4CEC7;
+ Thu, 24 Oct 2024 07:08:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1729753624;
- bh=C569kiRrg8EBzvrVBxsDovVURiA3bvbD+xQMy8MTaO4=;
+ s=korg; t=1729753696;
+ bh=PKc1Ezq4d15KDwftSYsYrCXzavd/TwVvK03GAg5yH8g=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=vcR+ON1zIdm5O0maAVHBiW/e9Z+mDFWtdnlURA7545m/v7ld0MzrrHrbftr60A8UM
- cjD/QBovrRyxNdG8dH117G4LKWY5cxmnP2FbDJKxlXLsajOk3QcxaeixwRbG3SlP5N
- Cj8fmrhLFnefYYpBpd1lf0IK3VV6qe4wobNUPqdU=
-Date: Thu, 24 Oct 2024 09:06:53 +0200
+ b=EXDsSjLYy/i5gU8PDLYZ96TpQdUoX/l3LzwwOhNGiQ1i+55LFSBuh0KUoAjION0q1
+ 3/eyAr6Zj4/7bU9Gcyj+8Ai+3vS1gTwNeUYvxBUXoUwnGvVSURyPzfUtq7S8GHfSBw
+ CQqZiDGcF6YDPG6noOQlLhky4XPIh7s+ddxatdR4=
+Date: Thu, 24 Oct 2024 09:08:06 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Saravana Kannan <saravanak@google.com>
 Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
@@ -46,16 +46,13 @@ Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
  dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
  linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH 3/3] drivers: core: fw_devlink: Make the error message a
- bit more useful
-Message-ID: <2024102446-robin-outcast-841b@gregkh>
+Subject: Re: [PATCH 0/3] A few minor fw_devlink fixes
+Message-ID: <2024102457-manager-counting-ff68@gregkh>
 References: <20241024061347.1771063-1-saravanak@google.com>
- <20241024061347.1771063-4-saravanak@google.com>
- <CAGETcx_0gqbo5Xf9mZGrBZszZsmKBdqRreb-=O_PvOR_2Yc5Cw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAGETcx_0gqbo5Xf9mZGrBZszZsmKBdqRreb-=O_PvOR_2Yc5Cw@mail.gmail.com>
+In-Reply-To: <20241024061347.1771063-1-saravanak@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,10 +68,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 23, 2024 at 11:16:26PM -0700, Saravana Kannan wrote:
-> Greg,
+On Wed, Oct 23, 2024 at 11:13:41PM -0700, Saravana Kannan wrote:
+> Probably easiest for Greg to pull in these changes?
 > 
-> Can you fix up the commit subject prefix to "driver core: fw_devlink:"
-> please? Don't want to send v2 just for that.
+> PSA: Do not pull any of these patches into stable kernels. fw_devlink
+> had a lot of changes that landed in the last year. It's hard to ensure
+> cherry-picks have picked up all the dependencies correctly. If any of
+> these really need to get cherry-picked into stable kernels, cc me and
+> wait for my explicit Ack.
 
-Will do, thanks!
+You can do that with the correct tag in the commit as per the stable
+documentation if you really want to :)
+
+But why would these not be able to go backwards?  What changed to
+require them now and not be ok for older kernels?
+
+thanks,
+
+greg k-h
