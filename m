@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C62529B0422
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 15:33:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29F569B0425
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 15:33:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0A7410EAD8;
-	Fri, 25 Oct 2024 13:33:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1843A10EAE3;
+	Fri, 25 Oct 2024 13:33:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=arm.com header.i=@arm.com header.b="dgXwylta";
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="dgXwylta";
+	dkim=pass (1024-bit key; unprotected) header.d=arm.com header.i=@arm.com header.b="M6MnQW+0";
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="M6MnQW+0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from EUR02-DB5-obe.outbound.protection.outlook.com
- (mail-db5eur02on2072.outbound.protection.outlook.com [40.107.249.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A0DA10E0EA
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 14:55:21 +0000 (UTC)
+ (mail-db5eur02on2056.outbound.protection.outlook.com [40.107.249.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6652C10E0EA
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 14:55:19 +0000 (UTC)
 ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=N1VjrfRYV9STJMoQgGVs+8iAPtJ2QJDxo2duzIykSJFrZihp/JaxwMbMt46805uYB1kuiieqgmucz++U9dzvjtjqwLWIrBfgZoyilLFMIu8kdUarRIg+myEPVcIMwJUAy5fj6lfNa7PEY0WlCWtP/zAcBNZYu1ky6Ef+yYsX74SWUR6KtLoLi6sLGDbqCHL9o1dWgy59wWS8dLHsXnYy5Hy1aOvmsUMhA/9/NzQIN6hrm0twAc6eFjBGtzK3f3Sigi4WWDnDzxsoJ3ubZpUSpA/lmVzDrw3Kpc546kCEJek0DSelXW9k3TBzW04grh4gNh0fS7spM1bzRi9n3ujZOA==
+ b=IdQ438bddBQ7Nx1MySYOfhWkI1I4O9nhxI3qcYV8Q348smFLe/kjmyY/fzjsVs+Ht1KNrvkCKrm8rbUE5jds/dJ+1YpVXJKje1tn+zvD4H1GtzcXNKi5wS9RR/raeFPx4tRdvTcwRPp2WkH7v/DUXyajAb5m2ob2SJAQeItjQa+PwDDsYELtiIcvT0kmnkRhlxcLqFBgGr871DuBebqYuaAOZ3Hzgv7/qjwUhNUfiFIuGarADbM8vaBDknwDl507/VVVgj3c6l0k3cqK+neXBlS79oUeMeFPa0y5kakXGcnpI4aFi5T0BBja8wWj1YlJ4wfg7tu6UEV9NBYGsSSE7g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xWEtEPyiOmxtlOJjv6s9XyE2N03ec/56aFKp9m4srrY=;
- b=MKoCjK7vlofCHNFoMAnKhdOdwG/eKnqVG0Ao62XYioAwUTQCTpkD1zcdCxcAVHCMhGXkUEUYuiWkFtZ12qViaLs4rm3LZ+r9AqGdru/4Sur8KjUwLvE6kIi1VHjc/iZXZ1UFC0ClgRjB/swDOQgcHvRLqe+lpnlC3Rms1BXRC+sQADDhqVRlLlBlNwINNVjwNIELTHPrh4kke2ain8CH1jBD3Jn9h2BzNQMPwOLZ16mOCa1TKyIl63gEAUyFdbb893e2KyyG//VtKMXtxZntkoxU3wrsvFvL0OLQdqlf85UnnVPrJqoai0jG/Trm+wytnkM1mGQb8VdvSiM4xddowQ==
+ bh=W1k6AHKcebCqZS9bf/ulWbnrH3kW6rKUZhzlMa753s0=;
+ b=O+g1xR6OS88EOVBuw6blm5m3GfWpUSWYh4H4C8Iym3n2u3zAX6YcaTJehFB1yYjK/RCOfhKg7R54rqu7XMj7Qpb2yUHshIqUGgFOggxenepXfS10jg5ueVKMsi1xNno418MpxWat0PuRlbRlgwlfQVccfGdQ2KRqiG1PVhcQSCQ0WwqAXGbvN8i4mTB6OffO8fl5HTGLgUU5n7ZlN6ngy8pDoTRJSygdHELvzkx5bjw/90YWHkk8+DLrvk/fon3dRauiC/7SGC8j9FZDfPWnsDca3HLU51LhjuhMwSENNgAr/5ugoWoel9/ebJnJ9k89lRMRNWpekzAP6iY9yBcoIQ==
 ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
  63.35.35.123) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=arm.com;
  dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
@@ -32,18 +32,18 @@ ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
  dmarc=[1,1,header.from=arm.com])
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xWEtEPyiOmxtlOJjv6s9XyE2N03ec/56aFKp9m4srrY=;
- b=dgXwyltazcrBualPIvzEFHAq8cBWWjZ5S6UTF3qiIjhCqnyYdx5ZaQcWpg2h8be+4UnRjdOvHpd/aJpwfxWhPRiRO85JTTjfbsUMjK+TeHBeYqNG+psTdSTKR9iEApjABr/wCKf35QFbr5EaYgB3uKP9GQa42havHGiybxqhYCg=
-Received: from DU6P191CA0022.EURP191.PROD.OUTLOOK.COM (2603:10a6:10:540::13)
- by PAXPR08MB6701.eurprd08.prod.outlook.com (2603:10a6:102:132::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.20; Thu, 24 Oct
- 2024 14:55:14 +0000
-Received: from DU6PEPF00009526.eurprd02.prod.outlook.com
- (2603:10a6:10:540:cafe::76) by DU6P191CA0022.outlook.office365.com
- (2603:10a6:10:540::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.20 via Frontend
- Transport; Thu, 24 Oct 2024 14:55:14 +0000
+ bh=W1k6AHKcebCqZS9bf/ulWbnrH3kW6rKUZhzlMa753s0=;
+ b=M6MnQW+0PXO0/6idWH9wqnWl4F2w6w7oh0n8qm+WpggiADi2aNCe6vDTgwX31uLhqbl1xlpZ8lOKvLsCBKyxtvp11nf/c0zyAdTxpzmYbE4UNXYhPNmM0WpISuYMiv9qygz96TVDaUlgtMmyl3Vd/R5z5AXjmm4UT+1q07jPgxM=
+Received: from DU2PR04CA0219.eurprd04.prod.outlook.com (2603:10a6:10:2b1::14)
+ by GV2PR08MB8318.eurprd08.prod.outlook.com (2603:10a6:150:b5::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.17; Thu, 24 Oct
+ 2024 14:55:11 +0000
+Received: from DB5PEPF00014B9F.eurprd02.prod.outlook.com
+ (2603:10a6:10:2b1:cafe::6) by DU2PR04CA0219.outlook.office365.com
+ (2603:10a6:10:2b1::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.16 via Frontend
+ Transport; Thu, 24 Oct 2024 14:55:10 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
  smtp.mailfrom=arm.com; dkim=pass (signature was verified)
  header.d=arm.com;dmarc=pass action=none header.from=arm.com;
@@ -52,49 +52,49 @@ Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
  client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
  pr=C
 Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- DU6PEPF00009526.mail.protection.outlook.com (10.167.8.7) with
- Microsoft SMTP
- Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8093.14 via
- Frontend Transport; Thu, 24 Oct 2024 14:55:14 +0000
-Received: ("Tessian outbound 4a86a9c66651:v490");
- Thu, 24 Oct 2024 14:55:13 +0000
+ DB5PEPF00014B9F.mail.protection.outlook.com (10.167.8.169) with
+ Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8093.14
+ via Frontend Transport; Thu, 24 Oct 2024 14:55:10 +0000
+Received: ("Tessian outbound 99870d44e01c:v490");
+ Thu, 24 Oct 2024 14:55:10 +0000
 X-CheckRecipientChecked: true
-X-CR-MTA-CID: 35d0c8f192506e5f
-X-TessianGatewayMetadata: 9yoxV4jJXpW60vB3dhXQ1yF25K7+h/mv4p4bpmaTD3YiMIZUJCw95BZpJeRR0/fs0O1vJObZaMr/r02iLed41nLl+oiuN9G6t9aEljnP5icJ67JIAvgwpztXVPwdaUa4XSADMVQBELXGR16fNmQmVoZIOQl1O+AAUpB/8QL5o2g=
+X-CR-MTA-CID: 717ff9876fee20f5
+X-TessianGatewayMetadata: /arqyLPVBFlv2vFa+ySf3E7Qt4WbzNoYTKAxL09H8rUbD7+GsW/VBcAM0569anH9Jn+18wziLLWIBbdsW6OTR+Re7UWgLl4/9F0YzHlDUsU714nSdp2sQQ7p3DthtplMidhcAYUWwT2VkhP3Yh28HMvuGf8N8msHMO/PhDJoRqI=
 X-CR-MTA-TID: 64aa7808
-Received: from Lb20fe2b11398.1
+Received: from L054ac04ffbd5.1
  by 64aa7808-outbound-1.mta.getcheckrecipient.com id
- 749673E5-863D-4275-B6D0-40521E1E5FEE.1; 
- Thu, 24 Oct 2024 14:55:02 +0000
+ 205136E1-5B90-49D7-8BC9-5B130364E637.1; 
+ Thu, 24 Oct 2024 14:55:03 +0000
 Received: from EUR03-AM7-obe.outbound.protection.outlook.com
  by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id
- Lb20fe2b11398.1 (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
- Thu, 24 Oct 2024 14:55:02 +0000
+ L054ac04ffbd5.1 (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+ Thu, 24 Oct 2024 14:55:03 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=a6lTnsSHNsbFW/SNTfmPJs+5P4zbWGJFzlURuEgBM3oWN1HKt9cIHyGOJIRqQvrkaoyzebeCczW53aDV4sq+LLXC0Vhn7/m7dMtkWdYMKVXv6gVJ1QN2x/qkpMV6ztB65pOmY9On/nDia1RFmiEJw9z17NHuc4opKnsRuXBpEHGjjkRu05eYoDN8HqLqnV8ajII+egUqPTORSftHTSopbt5rao8XnV2gpfeRnDcC8nAy5Y4Pp+t1nFEExB12+E+oBezSc30QfATDX429mzuNeq+0iBxPsVIQqyREw0doxF2ddty9wKIQjmNu/jdX677OEsoWYZHgYgjiTPKMKZ5fdg==
+ b=CqN0uibQmBxx7VFfOefsRJkb5sdbxmMrAJ15BGsEw91BDp3yvoTAeDffrrQHYk8DQXeNWL87inA2jCLmA56MIU4Gho200Csi+/KNa+2irGcc819QUkmhsx/7f1yhHdNkZ4+XsXJtYLXTCanXzgXj4Qag7ix+vpUz91qzBobypYps8eqtOXP4xNec+N4KtbYIZg7SK8YPAXRw39jQZLYe1R9QaJCgnP3VgEVMfsbJT17yLosoO/kaUC2G+KWynXjo1dESZhpRYrIjmNoeA5GSG1iyO51f4wwohEB0s73RJ6kiDk8dTOot/mxbHP+sb8ICqLYxBEC/KG0pFh9kZd6lLA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xWEtEPyiOmxtlOJjv6s9XyE2N03ec/56aFKp9m4srrY=;
- b=hnt7xjvJlaTfI7VMBIMCZXMhT7sCbOYN0Cuv9kAx07l/Mkhfhvu/jezHe0JFUahUtwrrFL+KSWUex8tpI23XpGI7YeDEDBZtimzWFTBSPDvRFyLH/Pg72XiZcKh7Wkd+EgZFXnoD4IDyEkAIYA9kTxoRQF9aI5OO/xefSImuT2rq+rwy8yVWyT3wx3W8k9+vwOstMs9Sh5BUoWYIKr1ydBTVvrEJH9xQHUoOVB54MnqaAMWfR4MELB71XH5J6Rq1YwxfdKisnRIoGWj+MFxzkV7x2viYi63GNCy3E9odeR8xhH9yh7XwaNl0OLbpfXwfyRErjpwpHfkg+CiVfi3e5w==
+ bh=W1k6AHKcebCqZS9bf/ulWbnrH3kW6rKUZhzlMa753s0=;
+ b=gRgQzs+wfkuYlBM7MNb6I0Bzr6+I4pBH4NM4nxEkRgbu+QWRWwW6Os3HYhPBAT36LxTydXnsx1pS7tKOsE9fmsdEPHEBMhPHKoYVXTVrA8kzP60KWb1MwgRLhuoGT16lddRdweVsi0uGP+fWNOsZjk9/KwfelANrKQYP8kGCnfzPjWa2A6VzI1fqKgLTmQC66ygHaPPq4jGVkomePwxZ3pQnfXHQA83avhcjLwb1jCQs3ozQkMuNv1LM+mY0b/ZI1kO8m/9g3ni0g8q2bJntTAigRxfQs7BtS7xom06I7beIurKN7gcnmsIjzZcDF7s5yopvbMObTQz8P5vC++Nj/A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
  header.d=arm.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xWEtEPyiOmxtlOJjv6s9XyE2N03ec/56aFKp9m4srrY=;
- b=dgXwyltazcrBualPIvzEFHAq8cBWWjZ5S6UTF3qiIjhCqnyYdx5ZaQcWpg2h8be+4UnRjdOvHpd/aJpwfxWhPRiRO85JTTjfbsUMjK+TeHBeYqNG+psTdSTKR9iEApjABr/wCKf35QFbr5EaYgB3uKP9GQa42havHGiybxqhYCg=
+ bh=W1k6AHKcebCqZS9bf/ulWbnrH3kW6rKUZhzlMa753s0=;
+ b=M6MnQW+0PXO0/6idWH9wqnWl4F2w6w7oh0n8qm+WpggiADi2aNCe6vDTgwX31uLhqbl1xlpZ8lOKvLsCBKyxtvp11nf/c0zyAdTxpzmYbE4UNXYhPNmM0WpISuYMiv9qygz96TVDaUlgtMmyl3Vd/R5z5AXjmm4UT+1q07jPgxM=
 Authentication-Results-Original: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=arm.com;
 Received: from AM9PR08MB6982.eurprd08.prod.outlook.com (2603:10a6:20b:415::16)
  by PAVPR08MB9650.eurprd08.prod.outlook.com (2603:10a6:102:31a::21)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.18; Thu, 24 Oct
- 2024 14:55:00 +0000
+ 2024 14:55:01 +0000
 Received: from AM9PR08MB6982.eurprd08.prod.outlook.com
  ([fe80::5d5d:a4a7:198c:fbdd]) by AM9PR08MB6982.eurprd08.prod.outlook.com
  ([fe80::5d5d:a4a7:198c:fbdd%3]) with mapi id 15.20.8069.016; Thu, 24 Oct 2024
- 14:55:00 +0000
+ 14:55:01 +0000
 From: Akash Goel <akash.goel@arm.com>
 To: boris.brezillon@collabora.com, liviu.dudau@arm.com, steven.price@arm.com
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
@@ -102,49 +102,49 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  airlied@gmail.com, daniel@ffwll.ch, nd@arm.com,
  Akash Goel <akash.goel@arm.com>
-Subject: [PATCH 2/3] drm/panthor: Explicitly set the coherency mode
-Date: Thu, 24 Oct 2024 15:54:31 +0100
-Message-Id: <20241024145432.934086-3-akash.goel@arm.com>
+Subject: [PATCH 3/3] drm/panthor: Prevent potential overwrite of buffer objects
+Date: Thu, 24 Oct 2024 15:54:32 +0100
+Message-Id: <20241024145432.934086-4-akash.goel@arm.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20241024145432.934086-1-akash.goel@arm.com>
 References: <20241024145432.934086-1-akash.goel@arm.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: LO4P265CA0061.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:2af::7) To AM9PR08MB6982.eurprd08.prod.outlook.com
+X-ClientProxiedBy: LO4P265CA0177.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:312::20) To AM9PR08MB6982.eurprd08.prod.outlook.com
  (2603:10a6:20b:415::16)
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic: AM9PR08MB6982:EE_|PAVPR08MB9650:EE_|DU6PEPF00009526:EE_|PAXPR08MB6701:EE_
-X-MS-Office365-Filtering-Correlation-Id: fa24655f-f43b-4079-4c65-08dcf43bddd3
+X-MS-TrafficTypeDiagnostic: AM9PR08MB6982:EE_|PAVPR08MB9650:EE_|DB5PEPF00014B9F:EE_|GV2PR08MB8318:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1ecfe26f-4819-408b-6e41-08dcf43bdbbd
 X-LD-Processed: f34e5979-57d9-4aaa-ad4d-b122a662184d,ExtAddr
 x-checkrecipientrouted: true
 NoDisclaimer: true
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam-Untrusted: BCL:0;ARA:13230040|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info-Original: =?us-ascii?Q?Or/4ow7xan+uJ/C0poaJc1me6yKt0bdWQxj3vKy5S++55rXy1q4qV1gKOElD?=
- =?us-ascii?Q?Qu2wgCNMSgGSO/0t1lPnVi+F+Afm8lhsdo+3JkA9NymKjpmtVsvWmnsQw+Zk?=
- =?us-ascii?Q?MpCPYNPVlDx2MfTGUFv7DwiI8qh/B7FU+Dno3nEyo4dnoS2o5ENEVn2MNUYp?=
- =?us-ascii?Q?Mf4hsihmMFypZ7oRP6fkjfALv1O5wK8EX1A/c+I8vXUSxJbTnHpbxs6dyVYt?=
- =?us-ascii?Q?y/HVXHcYoYHjLMGltUUN5X8/WfD0/iJAXmthDRIXpS1DeOnGmGbqF0cT46jx?=
- =?us-ascii?Q?MSMYy2ruPHPyVodmqSccc12kFKw5VmMkR05PJF9VVQ6S/gQ1ulxDKhBiOWLB?=
- =?us-ascii?Q?t4nOMAzSb6q2rr8hvoUR0fqwp9Qf27fHpQZowoj/mUxhDemq6rBOzZOZpj6J?=
- =?us-ascii?Q?GySimZ4z78KT/rLjGQLAe26+IQ+V1JCq/SZMOEsP8JscvK9BQyEa5dElWKe5?=
- =?us-ascii?Q?babU4D52CYz+IM/YhYLQFCyd3r4SHFLjtXcaSbsqql/7yRpGk3zWQJkIFglB?=
- =?us-ascii?Q?ETVXoLjOQQmFFq+q2z5//vV//H8JMa3c97GNn6mNPqvLEpGhhlOfxyW6Eo+g?=
- =?us-ascii?Q?bcTw3JHoqVKhZ+rVjxvbT5yo4xowarqlLq8RhmtFy4yPVxvWVwIJDfiyuoGq?=
- =?us-ascii?Q?B5KEKmYDFJl+2bKmD2NqereaS1aXCZvAq/qfuq/p14jTiAbehW5n8rg/4q9L?=
- =?us-ascii?Q?/oliSODJOl67O6H+V0Qqzi2ne8/gAumC753owF4/Xo62ek6RBJ4MhqCjRFlv?=
- =?us-ascii?Q?aKcNq5Fd9Xc3R4VwF6uygq8QqOCu6Ubm9HJ7e3KApT2JO16+xL36DxsD6Phl?=
- =?us-ascii?Q?xRy0eTWuc0cLzmgxSCuseHH7ddsdP0hxgN4aoKdnoDU5J7jVgDlhI3ja0svB?=
- =?us-ascii?Q?BGeD+VucfEDwVwfTUgcdBAz5lTxQ14nNf9tJx0i3WbmWRnV3kNC3VRZfFOva?=
- =?us-ascii?Q?d6ohTFOWp21uZ7ZUgv2MTBGu2PkLHUCvO7nyNXYSIUXR1pGsGL79eMU8F0By?=
- =?us-ascii?Q?Mnhm7fA6V9cBXcb4tXbi5YOUa8ekA75FmxQ0JOLvAu/GeDtDXsP80i6GYseo?=
- =?us-ascii?Q?ZHaJPiuB87swFKzu00Gp4Giv9zYAMXo4TNQ2ZbIBJT9IfZvEnZ+3l910yzMW?=
- =?us-ascii?Q?qCT+8ni0QrtYMnOCxGkEXKCyFkhent559DAPmvgJPC1fECs1yVZbxgOPpNnE?=
- =?us-ascii?Q?HYOJe/YQ1O8o7nL4wnq53MuxFu3PxhpONvEiWpVB6brKVJbP09kRLNmxiFiL?=
- =?us-ascii?Q?swH6FS2vSyCiqCR9Ax0B8GxrqI2yeb9kNyMgZ3B59PDHug0qWsBCmstyPIrM?=
- =?us-ascii?Q?zrc=3D?=
+X-Microsoft-Antispam-Message-Info-Original: =?us-ascii?Q?VDlZ/mJOEoNsY94F+qCXfgQ47C+PM54oxcgDpRvq09OY8i8rUGteUAOqt2sd?=
+ =?us-ascii?Q?7XjJbs0zbwOvSIzGk7ojyJgzaVSkhcGGcquKheSWfYfoN4KTYpp3QqsByOHQ?=
+ =?us-ascii?Q?LiR84sjMSVScLww2sy4D6dHFrnpO5j8EdIAePw3Z2kpRDURG0ZyJddJLUl6H?=
+ =?us-ascii?Q?kG4+JdC8Tvi9WrVgEVSvnfHnghX6LQfjJhIj1w6eWTfYDWbzr8pF/a/BdOvK?=
+ =?us-ascii?Q?PWIE7g48+NoF68QyyfXh74ydSn2UV3Ln1EE65jfipKTKlUQ0WAPjGUSyimy+?=
+ =?us-ascii?Q?5EbrOUxuGQKtBB+eTZxPU0pf/oh9Nn4bEAjciLDQ0XZ0PxNOaoLVH1AZTnNg?=
+ =?us-ascii?Q?G1iLO3exrbZNNEZmWE57cvCELvmjc/ygN3Dqo/bQIRJ5NC4ksA1RyqtR2/+z?=
+ =?us-ascii?Q?JDl8ugerFLEr4Ecs1j1ArnLHloy4jbuU0RQfq/s6+PWPbuqILcf/Ec5qVhOl?=
+ =?us-ascii?Q?sdjd7U/EMjZNqXbk1qXYS8Ma4gdj8fdyvRTKisCE5hgSXvmNImi7/OpbIwpP?=
+ =?us-ascii?Q?chuh0Hun3tuDbv3qenTSRhgELgQWZmE7170UwRutgCi/uJ1DQUBRhsnOi3B8?=
+ =?us-ascii?Q?9+g1/XTEo0lRL5tDpHpf8StxOwbn6wA0StcyWCzQ5KimjQNagWYlvlFrJgaT?=
+ =?us-ascii?Q?7drmyiWVQqpw8r/NgzmBMYw4KI7wELg/v0/oXNW8+5WR1pN51K3o1Sqhcioc?=
+ =?us-ascii?Q?YjpQW/+xzzWzLfMZNXsZH0q+Ncm2uwFm0Z9AzNWqWN569Qlj6j+Xfq+SRAls?=
+ =?us-ascii?Q?vpf8Te+bYii3vREW37JpisY/iafUElX6zZGrgv4i9rGaACx1VOrrTg2x2fTb?=
+ =?us-ascii?Q?IvApdkIQ0jtrxWl3Np+M91Z12NH2kBIFuDJzO9EpU7zwO/MinrYn4emTuCQo?=
+ =?us-ascii?Q?yybfqUnoROozmbj5ykkcsh762uan7wlFL2YhGzT6aevWytr1bpOKJUpuI2lH?=
+ =?us-ascii?Q?ShDhmcpeWOAnPgbgATrdDUWehb4EIpfpbfK1wJWtKZ1tj35cXpX/06dEQN00?=
+ =?us-ascii?Q?uwMpnmnOsOq/AEbSGrteErR5cnIQepRjaGN3OTM4J18bUOzolM2DqP1v/nFI?=
+ =?us-ascii?Q?YY7QqaLh1GAd+3uG9iJgT7itltK6BKSqJeYwPlhXppLYShe/KW/FCwk1Nici?=
+ =?us-ascii?Q?OdqtwAMNtMTod+RWuM2Vke3NqodqNyzFAYL1Y0iBIFn1pN+q3xO3tP7Nn7cg?=
+ =?us-ascii?Q?bMTR7wENdn9AdFvJbCHsEtGMfl2uW4hYrbSRIkq34ouB00p3XpzOA41WMm0X?=
+ =?us-ascii?Q?xJy8DYS8F8x/uhKZRhgGK6jMjfxOzLfOc0ZH2LHaegMA6o2rUursLC4RfoyV?=
+ =?us-ascii?Q?TzeGJMemi9iCdCFdkzcfr2pX?=
 X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
  SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:AM9PR08MB6982.eurprd08.prod.outlook.com;
  PTR:; CAT:NONE; SFS:(13230040)(1800799024)(366016)(376014); DIR:OUT; SFP:1101;
@@ -154,50 +154,50 @@ Original-Authentication-Results: dkim=none (message not signed)
 X-EOPAttributedMessage: 0
 X-MS-Exchange-SkipListedInternetSender: ip=[2603:10a6:20b:415::16];
  domain=AM9PR08MB6982.eurprd08.prod.outlook.com
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: DU6PEPF00009526.eurprd02.prod.outlook.com
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: DB5PEPF00014B9F.eurprd02.prod.outlook.com
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 3af7d2f4-1823-4006-770b-08dcf43bd45c
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 212e5514-41a0-4060-31cb-08dcf43bd673
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|35042699022|36860700013|1800799024|376014|82310400026; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?0Nc6E8bfbkQuSyG/buWXZ7LozbTscUs9uU+qmbV5JLCkvxkvlteIzoDsXYMR?=
- =?us-ascii?Q?NLHq4BwQjWnuVclWC08+ChFeg8fwIP2WeFTu5xMRblRXz/mzdpJvsZP/jVBL?=
- =?us-ascii?Q?kYkTitrf0f4DsRkViru5C7o9y58zth/keqzLZGAu0wk6pxzbPUXVObX/cCVg?=
- =?us-ascii?Q?9GmW5wlf7pQUbCV+wmjIUlcVDDvLwPMG2grzqcKqhfTrg1ffzt1ufBk/tK47?=
- =?us-ascii?Q?wPXR/8ry3f3EIcEsQQbFAOwtQBPUTUCHH7TLNF8vbzO1RNvT/Mg0tkoPzWWn?=
- =?us-ascii?Q?uhplPEc7FeEH2DmvFUvaOD2gRX/qCTsZInLZnhskSVAraFagvqaAy+BlxRbG?=
- =?us-ascii?Q?c6Gjx+7/j3rboefEBuSSMw+wjPYwZcqwaJ6puUZ1RWIQnwX+Cn5z7r8R1uQV?=
- =?us-ascii?Q?nr/6xY6zgViqaBP8MOx346Di9pxJf28hUdnMs5poH0tEdEHrT9rZf4G2mtF5?=
- =?us-ascii?Q?6ehGYsPvFt0GBZXQajBsxza9Zs6+F7BcEXr1UOIHa+qpjRU/fVVbSjaNe4oV?=
- =?us-ascii?Q?lDxwOPLGwMjQ/TzScmK3HsIBrh8wRt3gpM5OeGaK1TIBgaOswvQgkJuCIKUF?=
- =?us-ascii?Q?swk4jFP7epW4bijF+znEUpBGVz2O6W15obToc2A48QJXPE2zOCqos4lQgyry?=
- =?us-ascii?Q?WvvmMneD5NaDb3A4IZ6qmo+GkdFCSJF/eB0BEmu0Nhm8HGmeAx3DbetOCqQ1?=
- =?us-ascii?Q?4zILkWB41B0x6y7y1NgAKTOfn1sYM32qYIOEaqrAeRRhZ632x6apHwi0RwRb?=
- =?us-ascii?Q?HiOxrRplst/RG2T3HZqZIQrMTYSr/Tidc3rS5hsoACfPjj9MNSQUTPXXmQwn?=
- =?us-ascii?Q?WGI0r2sl49Q4th958EO4xr/8aaplAzz9o+PFbTb/89rNdKzwEXGj72CK98Pb?=
- =?us-ascii?Q?bWiss6/XKYi7Uh+ZT1TYHqHBzfUXet8ugUswj3QXCtc1IJA0H8j01w0rjjZv?=
- =?us-ascii?Q?8L4pYf1pMdK+Pgg0m48yRJ5yu2/e9WbDQ4XcdZ6ZPj7P1rK41VLSUPaeE7jf?=
- =?us-ascii?Q?ZvsnkUQlKTBwBCdZdGYMpgoTSHwRHB8GqkyRcJhHwnRKRGJsi7ImnA2SCrQb?=
- =?us-ascii?Q?ePYfd4r3kKc9rUlxykpwzPY7SKjAgzdvFHLKcZpOLHo8iSoVDJUe6Fmrho9a?=
- =?us-ascii?Q?SEJsxlt58Nf4aPsSMKaKTLuDYxx7fI/buZRiIXMelz8BCMtwkCsd864tNF9w?=
- =?us-ascii?Q?FugL+kY17QRM8c85jk67mOe0bPdUoZ7toF3ufk0C8bAXahwjtETAmA7CwVd8?=
- =?us-ascii?Q?HfYxV7tY0F31JFQRubXVkAQWXttaAyY5NFTWByYFYsvTCi2WicA1vtIrjEcd?=
- =?us-ascii?Q?2d2m6q9ieVv9P7RNXZCBsk4wIYoju7emuJJWJ24g5nYE0WFBlLppkadW07y6?=
- =?us-ascii?Q?R5fj5RBhWu8zlfmU/BqqgoJNfdaeUfiWBrS+qEQh0ZWsLipUlw=3D=3D?=
+ ARA:13230040|376014|1800799024|36860700013|35042699022|82310400026; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?pjpoeikLY2WjL4eexRrpYdFynje0D+H4e45eiSxM8IQhHk/n2saocgytC8ZW?=
+ =?us-ascii?Q?u1OyWTEpWbfhdQWL/CBt3VqW0cHzI5Z/ax1e9Myca/k4LHdyZSrZI4lv2pPK?=
+ =?us-ascii?Q?/ikK6mlLvCc3ZTnKwKtGl4Zk1/k/wu97M0OX51V4BTGQSLqKneMJqzA9r0IY?=
+ =?us-ascii?Q?RdzJNG3DKRsgh9J8EQXEcewDlX0AmUw8+ASRFiKAnHBpDlsEC7J08c0qdCqU?=
+ =?us-ascii?Q?pWceAK+4tFN0YlZztHuCOiKD0Wx2oujEvM6BtRhd3TZZGWsmhNYrGEeZpVpz?=
+ =?us-ascii?Q?+obEFgA6djDjYoTX9/Dea8062Vmv6tgPXSBZkmiPHs30L91JJMXK0iC78uJG?=
+ =?us-ascii?Q?XIlBj9o9rmAST0ggSgA3PFqJUptHgi8Po7diOZjYEMebn9bafSn4YYrov/dG?=
+ =?us-ascii?Q?oQ+QWoU9OQ9caMIXQWCNQtYh9CooadXcPOnJAqn78MCPm6tOmx6t5caoYNrW?=
+ =?us-ascii?Q?hyFABEHAPIQLaCbJvL2wfre9xNydaqIjW0FhB5z8btxz9MVG/UZ38jL1CiXa?=
+ =?us-ascii?Q?SimYepnP8msE4sZUQA2LpYPKjMPbNRbGjvFXb3o/GU97lDv+6QWjJZMwVyXM?=
+ =?us-ascii?Q?XP5vEi+TYF3pCJNu+G2EjGPEOTMuA9L5viyi4yb0b6yQckwOOz+sD0hpzfFs?=
+ =?us-ascii?Q?JB737UGPFdGzJBiHygYvi/QyRSZF3ONQ/Uc/tIJwpuhEID6iTBtMIbPYSGhg?=
+ =?us-ascii?Q?GlNIwJt1RwAz483NhZdypJClKeMuL8DQOxvgmDXk3Ai41iMxI0leR889DVQi?=
+ =?us-ascii?Q?nlvaD5Q5muIWN62QzDjtF3cUaNgOlgsJ9kmK9O/0J928xAJ1vPTnQguktTpL?=
+ =?us-ascii?Q?9q95g2kt90QNEn9gS3CYYE5182tkGHRkYqGwsPBM9T74c/NHKtmYBCglD5k/?=
+ =?us-ascii?Q?o34vCpfOZbC028MUWfShxVsWWOJLm0UGfaFmHbHDjVGY+rB6huD5wBbvWUat?=
+ =?us-ascii?Q?QsM4xfDt60wjV6ZYMPLOZzKC1VHbqMcuDU6oYnFoKGnwNoJ1YrgNDzEbX92M?=
+ =?us-ascii?Q?2QQ8CnYhmIkAN2uCCWOmOHILlR3YHh72nPSKgBMgde2m2DSB69BeeVOgt/KD?=
+ =?us-ascii?Q?Vfm7DxXdoa+u9Wi0cAhh0EGEahaW3HVG3Fr5JdPFA0wEUCq6AOqqWcmihmGp?=
+ =?us-ascii?Q?kn0ebUDvtuql5OdBA0iR6FvNIIWw6WtN08CVwf9DT7GZlzk2yFXYOAy3wY2v?=
+ =?us-ascii?Q?v28g1wvKoiCc8iz/8QJ3+FZ47qdEROusAuPJhBfWac6n+FF07ZMjr784Hj+D?=
+ =?us-ascii?Q?b9yF8RXlYxFeESpalMXSH2ksdqolBbjkEQ2kRisxe44XK/JZ3my7KVCzLajo?=
+ =?us-ascii?Q?U7QRIBRyyNjAVOQa0CWT70N7NYaCpdrCcxUT4rF8v1L/9mCCnAJhYlJOiCEs?=
+ =?us-ascii?Q?v8UwZfcQhVf7CVshX/YyAS/p3aCIjjtZLVtf+e49cx7IcwIDcA=3D=3D?=
 X-Forefront-Antispam-Report: CIP:63.35.35.123; CTRY:IE; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:64aa7808-outbound-1.mta.getcheckrecipient.com;
  PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com; CAT:NONE;
- SFS:(13230040)(35042699022)(36860700013)(1800799024)(376014)(82310400026);
+ SFS:(13230040)(376014)(1800799024)(36860700013)(35042699022)(82310400026);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Oct 2024 14:55:14.1471 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: fa24655f-f43b-4079-4c65-08dcf43bddd3
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Oct 2024 14:55:10.6171 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1ecfe26f-4819-408b-6e41-08dcf43bdbbd
 X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[63.35.35.123];
  Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: DU6PEPF00009526.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: DB5PEPF00014B9F.eurprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR08MB6701
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR08MB8318
 X-Mailman-Approved-At: Fri, 25 Oct 2024 13:32:50 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -214,89 +214,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This commit fixes the potential misalignment between the value of device
-tree property "dma-coherent" and default value of COHERENCY_ENABLE
-register.
-Panthor driver didn't explicitly program the COHERENCY_ENABLE register
-with the desired coherency mode. The default value of COHERENCY_ENABLE
-register is implementation defined, so it may not be always aligned with
-the "dma-coherent" property value.
-The commit also checks the COHERENCY_FEATURES register to confirm that
-the coherency protocol is actually supported or not.
+All CPU mappings are forced as uncached for Panthor buffer objects when
+system(IO) coherency is disabled. Physical backing for Panthor BOs is
+allocated by shmem, which clears the pages also after allocation. But
+there is no explicit cache flush done after the clearing of pages.
+So it could happen that there are dirty cachelines in the CPU cache
+for the BOs, when they are accessed from the CPU side through uncached
+CPU mapping, and the eviction of cachelines overwrites the data of BOs.
+
+This commit tries to avoid the potential overwrite scenario.
 
 Signed-off-by: Akash Goel <akash.goel@arm.com>
 ---
- drivers/gpu/drm/panthor/panthor_device.c | 22 +++++++++++++++++++++-
- drivers/gpu/drm/panthor/panthor_gpu.c    |  9 +++++++++
- 2 files changed, 30 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/panthor/panthor_gem.h | 10 ++++++++++
+ drivers/gpu/drm/panthor/panthor_mmu.c |  5 +++++
+ 2 files changed, 15 insertions(+)
 
-diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
-index 4082c8f2951d..984615f4ed27 100644
---- a/drivers/gpu/drm/panthor/panthor_device.c
-+++ b/drivers/gpu/drm/panthor/panthor_device.c
-@@ -22,6 +22,24 @@
- #include "panthor_regs.h"
- #include "panthor_sched.h"
+diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
+index e43021cf6d45..4b0f43f1edf1 100644
+--- a/drivers/gpu/drm/panthor/panthor_gem.h
++++ b/drivers/gpu/drm/panthor/panthor_gem.h
+@@ -46,6 +46,16 @@ struct panthor_gem_object {
  
-+static int panthor_gpu_coherency_init(struct panthor_device *ptdev)
-+{
-+	ptdev->coherent = device_get_dma_attr(ptdev->base.dev) == DEV_DMA_COHERENT;
+ 	/** @flags: Combination of drm_panthor_bo_flags flags. */
+ 	u32 flags;
 +
-+	if (!ptdev->coherent)
-+		return 0;
-+
-+	/* Check if the ACE-Lite coherency protocol is actually supported by the GPU.
-+	 * ACE protocol has never been supported for command stream frontend GPUs.
++	/**
++	 * @cleaned: The buffer object pages have been cleaned.
++	 *
++	 * There could be dirty CPU cachelines for the pages of buffer object
++	 * after allocation, as shmem will zero out the pages. The cachelines
++	 * need to be cleaned if the pages are going to be accessed with an
++	 * uncached CPU mapping.
 +	 */
-+	if ((gpu_read(ptdev, GPU_COHERENCY_FEATURES) &
-+		      GPU_COHERENCY_PROT_BIT(ACE_LITE)))
-+		return 0;
++	bool cleaned;
+ };
+ 
+ /**
+diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+index f522a116c1b1..d8cc9e7d064e 100644
+--- a/drivers/gpu/drm/panthor/panthor_mmu.c
++++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+@@ -1249,6 +1249,11 @@ static int panthor_vm_prepare_map_op_ctx(struct panthor_vm_op_ctx *op_ctx,
+ 
+ 	op_ctx->map.sgt = sgt;
+ 
++	if (bo->base.map_wc && !bo->cleaned) {
++		dma_sync_sgtable_for_device(vm->ptdev->base.dev, sgt, DMA_TO_DEVICE);
++		bo->cleaned = true;
++	}
 +
-+	drm_err(&ptdev->base, "Coherency not supported by the device");
-+	return -ENOTSUPP;
-+}
-+
- static int panthor_clk_init(struct panthor_device *ptdev)
- {
- 	ptdev->clks.core = devm_clk_get(ptdev->base.dev, NULL);
-@@ -156,7 +174,9 @@ int panthor_device_init(struct panthor_device *ptdev)
- 	struct page *p;
- 	int ret;
- 
--	ptdev->coherent = device_get_dma_attr(ptdev->base.dev) == DEV_DMA_COHERENT;
-+	ret = panthor_gpu_coherency_init(ptdev);
-+	if (ret)
-+		return ret;
- 
- 	init_completion(&ptdev->unplug.done);
- 	ret = drmm_mutex_init(&ptdev->base, &ptdev->unplug.lock);
-diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
-index 5251d8764e7d..1e24f08a519a 100644
---- a/drivers/gpu/drm/panthor/panthor_gpu.c
-+++ b/drivers/gpu/drm/panthor/panthor_gpu.c
-@@ -77,6 +77,12 @@ static const struct panthor_model gpu_models[] = {
- 	 GPU_IRQ_RESET_COMPLETED | \
- 	 GPU_IRQ_CLEAN_CACHES_COMPLETED)
- 
-+static void panthor_gpu_coherency_set(struct panthor_device *ptdev)
-+{
-+	gpu_write(ptdev, GPU_COHERENCY_PROTOCOL,
-+		ptdev->coherent ? GPU_COHERENCY_PROT_BIT(ACE_LITE) : GPU_COHERENCY_NONE);
-+}
-+
- static void panthor_gpu_init_info(struct panthor_device *ptdev)
- {
- 	const struct panthor_model *model;
-@@ -365,6 +371,9 @@ int panthor_gpu_l2_power_on(struct panthor_device *ptdev)
- 			      hweight64(ptdev->gpu_info.shader_present));
- 	}
- 
-+	/* Set the desired coherency mode before the power up of L2 */
-+	panthor_gpu_coherency_set(ptdev);
-+
- 	return panthor_gpu_power_on(ptdev, L2, 1, 20000);
- }
- 
+ 	preallocated_vm_bo = drm_gpuvm_bo_create(&vm->base, &bo->base.base);
+ 	if (!preallocated_vm_bo) {
+ 		if (!bo->base.base.import_attach)
 -- 
 2.25.1
 
