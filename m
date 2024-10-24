@@ -2,26 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C022A9B0431
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 15:33:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CF7E9B041F
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 15:33:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDD4510EAE8;
-	Fri, 25 Oct 2024 13:33:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 714CD10EAD5;
+	Fri, 25 Oct 2024 13:33:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com
  [45.249.212.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0AD0610E949;
- Thu, 24 Oct 2024 13:41:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E923F10E94C;
+ Thu, 24 Oct 2024 13:41:51 +0000 (UTC)
 Received: from mail.maildlp.com (unknown [172.19.163.235])
- by dggsgout12.his.huawei.com (SkyGuard) with ESMTP id 4XZ68p08H7z4f3jdS;
- Thu, 24 Oct 2024 21:24:58 +0800 (CST)
+ by dggsgout12.his.huawei.com (SkyGuard) with ESMTP id 4XZ68q1HsGz4f3jdY;
+ Thu, 24 Oct 2024 21:24:59 +0800 (CST)
 Received: from mail02.huawei.com (unknown [10.116.40.128])
- by mail.maildlp.com (Postfix) with ESMTP id 7952E1A0568;
- Thu, 24 Oct 2024 21:25:15 +0800 (CST)
+ by mail.maildlp.com (Postfix) with ESMTP id A117F1A0568;
+ Thu, 24 Oct 2024 21:25:16 +0800 (CST)
 Received: from huaweicloud.com (unknown [10.175.104.67])
- by APP4 (Coremail) with SMTP id gCh0CgD3LMmxShpnmfz6Ew--.42902S10;
- Thu, 24 Oct 2024 21:25:15 +0800 (CST)
+ by APP4 (Coremail) with SMTP id gCh0CgD3LMmxShpnmfz6Ew--.42902S11;
+ Thu, 24 Oct 2024 21:25:16 +0800 (CST)
 From: Yu Kuai <yukuai1@huaweicloud.com>
 To: stable@vger.kernel.org, gregkh@linuxfoundation.org, harry.wentland@amd.com,
  sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, alexander.deucher@amd.com,
@@ -36,19 +36,19 @@ Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
  maple-tree@lists.infradead.org, linux-mm@kvack.org,
  yukuai1@huaweicloud.com, yi.zhang@huawei.com, yangerkun@huawei.com
-Subject: [PATCH 6.6 22/28] libfs: Re-arrange locking in offset_iterate_dir()
-Date: Thu, 24 Oct 2024 21:22:19 +0800
-Message-Id: <20241024132225.2271667-7-yukuai1@huaweicloud.com>
+Subject: [PATCH 6.6 23/28] libfs: Define a minimum directory offset
+Date: Thu, 24 Oct 2024 21:22:20 +0800
+Message-Id: <20241024132225.2271667-8-yukuai1@huaweicloud.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20241024132225.2271667-1-yukuai1@huaweicloud.com>
 References: <20241024132009.2267260-1-yukuai1@huaweicloud.com>
  <20241024132225.2271667-1-yukuai1@huaweicloud.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: gCh0CgD3LMmxShpnmfz6Ew--.42902S10
-X-Coremail-Antispam: 1UD129KBjvJXoWxAFWktw1Uur1UZFy8Zw4DCFg_yoW5AFyUpF
- 9xGasrGr4fW3WjkaykJF1kZ34S93Z0gr47W395Wwn8XFy3trZ8t3ZFyr4Y9ayUZFZ3Cr47
- XF45t3WS9w4UArDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: gCh0CgD3LMmxShpnmfz6Ew--.42902S11
+X-Coremail-Antispam: 1UD129KBjvJXoW7uFW7Zr47XFy5KFWxGw48JFb_yoW8Zw4rpF
+ ZxCa1ftryfXw1xWayDJFsFqFy0gws29w48XFZ3uw4fAryqqrs8K3W2kr4Y9a4YyrWkCrnx
+ trs0yF1SqFy3CrDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
  9KBjDU0xBIdaVrnRJUUUmI14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
  rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
  kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
@@ -82,82 +82,65 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Chuck Lever <chuck.lever@oracle.com>
 
-commit 3f6d810665dfde0d33785420618ceb03fba0619d upstream.
+commit 7beea725a8ca412c6190090ce7c3a13b169592a1 upstream.
 
-Liam and Matthew say that once the RCU read lock is released,
-xa_state is not safe to re-use for the next xas_find() call. But the
-RCU read lock must be released on each loop iteration so that
-dput(), which might_sleep(), can be called safely.
+This value is used in several places, so make it a symbolic
+constant.
 
-Thus we are forced to walk the offset tree with fresh state for each
-directory entry. xa_find() can do this for us, though it might be a
-little less efficient than maintaining xa_state locally.
-
-We believe that in the current code base, inode->i_rwsem provides
-protection for the xa_state maintained in
-offset_iterate_dir(). However, there is no guarantee that will
-continue to be the case in the future.
-
-Since offset_iterate_dir() doesn't build xa_state locally any more,
-there's no longer a strong need for offset_find_next(). Clean up by
-rolling these two helpers together.
-
-Suggested-by: Liam R. Howlett <Liam.Howlett@Oracle.com>
-Message-ID: <170785993027.11135.8830043889278631735.stgit@91.116.238.104.host.secureserver.net>
-Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
-Link: https://lore.kernel.org/r/170820142021.6328.15047865406275957018.stgit@91.116.238.104.host.secureserver.net
 Reviewed-by: Jan Kara <jack@suse.cz>
+Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
+Link: https://lore.kernel.org/r/170820142741.6328.12428356024575347885.stgit@91.116.238.104.host.secureserver.net
 Signed-off-by: Christian Brauner <brauner@kernel.org>
 Signed-off-by: Yu Kuai <yukuai3@huawei.com>
 ---
- fs/libfs.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ fs/libfs.c | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
 diff --git a/fs/libfs.c b/fs/libfs.c
-index dc0f7519045f..430f7c95336c 100644
+index 430f7c95336c..c3dc58e776f9 100644
 --- a/fs/libfs.c
 +++ b/fs/libfs.c
-@@ -401,12 +401,13 @@ static loff_t offset_dir_llseek(struct file *file, loff_t offset, int whence)
- 	return vfs_setpos(file, offset, U32_MAX);
+@@ -239,6 +239,11 @@ const struct inode_operations simple_dir_inode_operations = {
+ };
+ EXPORT_SYMBOL(simple_dir_inode_operations);
+ 
++/* 0 is '.', 1 is '..', so always start with offset 2 or more */
++enum {
++	DIR_OFFSET_MIN	= 2,
++};
++
+ static void offset_set(struct dentry *dentry, u32 offset)
+ {
+ 	dentry->d_fsdata = (void *)((uintptr_t)(offset));
+@@ -260,9 +265,7 @@ void simple_offset_init(struct offset_ctx *octx)
+ {
+ 	xa_init_flags(&octx->xa, XA_FLAGS_ALLOC1);
+ 	lockdep_set_class(&octx->xa.xa_lock, &simple_offset_xa_lock);
+-
+-	/* 0 is '.', 1 is '..', so always start with offset 2 */
+-	octx->next_offset = 2;
++	octx->next_offset = DIR_OFFSET_MIN;
  }
  
--static struct dentry *offset_find_next(struct xa_state *xas)
-+static struct dentry *offset_find_next(struct offset_ctx *octx, loff_t offset)
+ /**
+@@ -275,7 +278,7 @@ void simple_offset_init(struct offset_ctx *octx)
+  */
+ int simple_offset_add(struct offset_ctx *octx, struct dentry *dentry)
  {
- 	struct dentry *child, *found = NULL;
-+	XA_STATE(xas, &octx->xa, offset);
+-	static const struct xa_limit limit = XA_LIMIT(2, U32_MAX);
++	static const struct xa_limit limit = XA_LIMIT(DIR_OFFSET_MIN, U32_MAX);
+ 	u32 offset;
+ 	int ret;
  
- 	rcu_read_lock();
--	child = xas_next_entry(xas, U32_MAX);
-+	child = xas_next_entry(&xas, U32_MAX);
- 	if (!child)
- 		goto out;
- 	spin_lock(&child->d_lock);
-@@ -429,12 +430,11 @@ static bool offset_dir_emit(struct dir_context *ctx, struct dentry *dentry)
+@@ -480,7 +483,7 @@ static int offset_readdir(struct file *file, struct dir_context *ctx)
+ 		return 0;
  
- static void *offset_iterate_dir(struct inode *inode, struct dir_context *ctx)
- {
--	struct offset_ctx *so_ctx = inode->i_op->get_offset_ctx(inode);
--	XA_STATE(xas, &so_ctx->xa, ctx->pos);
-+	struct offset_ctx *octx = inode->i_op->get_offset_ctx(inode);
- 	struct dentry *dentry;
- 
- 	while (true) {
--		dentry = offset_find_next(&xas);
-+		dentry = offset_find_next(octx, ctx->pos);
- 		if (!dentry)
- 			return ERR_PTR(-ENOENT);
- 
-@@ -443,8 +443,8 @@ static void *offset_iterate_dir(struct inode *inode, struct dir_context *ctx)
- 			break;
- 		}
- 
-+		ctx->pos = dentry2offset(dentry) + 1;
- 		dput(dentry);
--		ctx->pos = xas.xa_index + 1;
- 	}
- 	return NULL;
- }
+ 	/* In this case, ->private_data is protected by f_pos_lock */
+-	if (ctx->pos == 2)
++	if (ctx->pos == DIR_OFFSET_MIN)
+ 		file->private_data = NULL;
+ 	else if (file->private_data == ERR_PTR(-ENOENT))
+ 		return 0;
 -- 
 2.39.2
 
