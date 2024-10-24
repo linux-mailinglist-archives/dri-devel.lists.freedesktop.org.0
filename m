@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59C549AE9E0
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2024 17:09:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1BCD9AE9E6
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2024 17:10:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB93710E95F;
-	Thu, 24 Oct 2024 15:09:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC86010E960;
+	Thu, 24 Oct 2024 15:10:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZvPDyC2U";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Z9EC93Ux";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D21A710E960
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 15:09:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 388D610E962
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 15:10:05 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 9F5725C6037;
- Thu, 24 Oct 2024 15:09:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DB4EC4CEE4;
- Thu, 24 Oct 2024 15:09:38 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id E5F125C6023;
+ Thu, 24 Oct 2024 15:09:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1FE0C4CEC7;
+ Thu, 24 Oct 2024 15:10:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1729782578;
- bh=GIiZShzCqbp99Okh9K2VfkZMwriJp7KN0xaKA+283IY=;
+ s=k20201202; t=1729782604;
+ bh=VMFs9dmln36rULHELZnrUMSHBuywGkITllI3k0F8SzM=;
  h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=ZvPDyC2Un38oYBtXvX62d7ZiTOxbZfyC6ow/5abzyjUw3l5wdjqrX+maMLCxsR4Hd
- sRNWXU9EdpeaIeGxfMMwYLRbm6VNHAJRUeD2vf5/cGiA2Y8ZpvTLygF1N71EpJJ2CY
- 5W84akyxhzpMGZY0Eulx8m+WnlIKA8CZUqE3GBza5Pi9rhTYPkJjG55F7QSngHM5NI
- mfuVjIqjRpjLYkSR11vOuiePNEjHfHfr2GW6ABT8jDV0nb+Vu0pzBiOYA6aukTXLVo
- 9hcGC22txWIX0M1ttV5FEfeQjBKTvB/aE4IhyePcahWN12A1RaQarZy/1z65AQNd81
- tTLlgpCR2iyuQ==
-Message-ID: <66e7319a4805b42af2b2a4a20dc8faa9@kernel.org>
-Date: Thu, 24 Oct 2024 15:09:36 +0000
+ b=Z9EC93UxAcJyaTtDojfNt/Fu3i3015IzTXL6vRFRwso6gj8phUyldJ7Ekf5kjNDVT
+ 4N/K+qPmyTw5fFrBwxp3kO/DPWYf3HwhLRsY4Npr7VA/UacwXiNt3QDnAxHE+vk18x
+ 6KT5LkITQb5Qdgy9o8vQfU0iWMsPJ99kHFbAP5lKaAZwW7Af4GRdW6hShEjy/k0J8Q
+ yJybhfMppI7PMbJiYREK5ZOQsy0qCVzxRSLnExvemUjkVWmv0Q/Hrq3buRE7NdpGxx
+ BMIAlMUmtHwn/xfV+Ci85xYy07nFTmncxUt6RTL1Q1OxR+by2JNsJDcdp2WqzPOim1
+ jevI+VjrTD1UQ==
+Message-ID: <76a344eb23149909d13ea46c25b97684@kernel.org>
+Date: Thu, 24 Oct 2024 15:10:01 +0000
 From: "Maxime Ripard" <mripard@kernel.org>
 To: "Dave Stevenson" <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH 26/37] drm/vc4: hdmi: Support 2712 D-step register map
-In-Reply-To: <20241023-drm-vc4-2712-support-v1-26-1cc2d5594907@raspberrypi.com>
-References: <20241023-drm-vc4-2712-support-v1-26-1cc2d5594907@raspberrypi.com>
+Subject: Re: [PATCH 28/37] drm/vc4: Enable bg_fill if there are no planes
+ enabled
+In-Reply-To: <20241023-drm-vc4-2712-support-v1-28-1cc2d5594907@raspberrypi.com>
+References: <20241023-drm-vc4-2712-support-v1-28-1cc2d5594907@raspberrypi.com>
 Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, "Broadcom
@@ -71,12 +72,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 23 Oct 2024 17:50:23 +0100, Dave Stevenson wrote:
-> The D-step has increased FIFO sizes of the MAI_THR blocks,
-> resulting in changes to the register masking. Add support for
-> it.
-> 
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+On Wed, 23 Oct 2024 17:50:25 +0100, Dave Stevenson wrote:
+> The default was to have enable_bg_fill disabled and the first
+> plane set it if it wasn't opaque and covering the whole screen.
+> However that meant that if no planes were enabled, then the
+> background fill wasn't enabled, and would give a striped
+> output from the uninitialised output buffer.
 > 
 > [ ... ]
 
