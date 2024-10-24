@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 164BF9ADA5A
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2024 05:18:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 869049ADA59
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2024 05:18:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1F0810E893;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59D0E10E1CA;
 	Thu, 24 Oct 2024 03:18:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=rocketmail.com header.i=@rocketmail.com header.b="nNyh1LTh";
+	dkim=pass (2048-bit key; unprotected) header.d=rocketmail.com header.i=@rocketmail.com header.b="MH8qn/RU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sonic308-19.consmr.mail.ir2.yahoo.com
- (sonic308-19.consmr.mail.ir2.yahoo.com [77.238.178.147])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 453F010E8A4
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 03:18:42 +0000 (UTC)
+Received: from sonic302-19.consmr.mail.ir2.yahoo.com
+ (sonic302-19.consmr.mail.ir2.yahoo.com [87.248.110.82])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C85B10E89A
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 03:18:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rocketmail.com; s=s2048;
- t=1729739920; bh=V/yLWpCvTEqY5RyESeLn3te4FPujd83OdnV26kczf9A=;
+ t=1729739919; bh=blNveK3/qTop4tO3NKwtrpZ40Njgq9iaYrZB8t0ZO5k=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From:Subject:Reply-To;
- b=nNyh1LThvWIlFJyL0KRwV0yRTduZ0849AHGz4PiYSbwlrlWI0yYevyJWh9+p7mq9EqPWSWUGg1a1V+gy4NzC53+lJB8lZXEAXLVDKZxqxluW6pxt6JfydIeXPP1qr2/hmiNTGSE8y9afFJy7ShOUClbUXFEXavflQMS8AuUUcy2U8Ptnk1cmyE41F7T5riF4c0sAK8mvHxxYUMldnX+PBYhOMocnKhgxHB+7HYev09YCX5qhX9GhDDScVD+qPqXb9tZcoFeRoFDNGUA7m0uNIqesVyGIlSNMxMez2m39Jk06zj7MM0Rde5EGuQbzsnee5Jr3/+pB3nqzRww/iEChTA==
+ b=MH8qn/RUkDnnPCxle5uSLGmU2LVnrHwXCSVdwrORuzHuYp9rM3BuzMWvgFxuUDLv27300ASavizK3LopX3xnLmkeKz9T9n9cYEVq2nrmpJEM7+5rz5uILNSKTg8fyovUUN9He4ETLk07hqRB2z0tg6QueyPn8pr2mdzKZDvCaY+cS4o20Tq9Ei+pBCn8W7zrbsvDH0+Tw/QRW+TPHyCChk/hii2qQg8MsGL0GS/Ug25THfPCM+6dpCz55Ssd/Atb8480gCxBCSxt9epZCP0SfwQbFSs6m6Z0W7az4hoR5+uDVF31pfXAOMvJomARp4ijT21Ok0GIC+E2bze2MOLCSw==
 X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1729739920; bh=6OgYXmWdn4XDiAX90cyBbR4XINglsV92ldmSOIu8o8V=;
+ t=1729739919; bh=4XhhIMpE7TXM6w8LLv2QqEFqXBlBkwC/+vrWjHebZkh=;
  h=X-Sonic-MF:From:To:Subject:Date:From:Subject;
- b=NPpoqfn1ZKxJemqRRDrDbIZC0Hrhyxp+OnNKVGU7ejqAeZpRL/3dw9Lx0SwD+PMqXw5OBwbSZvBT02psp03xYja62c9HrmQ1bp8qnp2aMxnHs58kvTsNV3ZfhskC1XtXR8Sb1AoP+cxYJtwXGH9spynujiw1Bqs3xKswZ52il2bZOOUvRdFyEqLJazFT7/+V/Xm/8hmLDdrGd10GWMwKFNtnHgfr5UDMBE4WYzF/WdkO51Wkg9gGFMSO+N7LiuBRvndnWLbdTkNRngKprnqEXqqUJEyMZ10DMO1nCJU7ZX0FuGyTm3icKaTAzs5ipgw959Dy58Ub/T6EILYiwFFnpw==
-X-YMail-OSG: eRMveYkVM1nvlEsA.JoCYclhfRtMGJejPSdiwDO7iu1ExAZrOUoPtKA32fW4yne
- C4d5E5Aj6jJsPYANZTCux1m6P0DqhQpjbz6f9JjkUJ0QQGSGyFHWRlMR67Bz_aNMtzhMHEOyQ97i
- xEoGoJNSoCs5YMxy9TI4Q6_tAUeyDV61ToNprXQbFcrC8iuKyfK2wC34k_8k3wZClwDeIGMc2ElS
- 3mrSW8rmX8sdxEjhbrz9QCqPI7ozKASgAuwF56bJX1Uyro2hAfYMiCet16HMRNFSA86JsmrX18_o
- 2XBAICGS22a1SGpnrwJTnySYu2Oa8ZiYfWtfOt4HHmjakuFkdKQKex2rhxa92lKuuE5wJPB7txYw
- gEPVqBfzZCULfCwfNzsDHoSNf2qWF4S1Ws8sBs4rXAFf4N5V7dnpU4ftyg.ppfj3Yzd_XQmHAtq8
- e71RPzUKCT0bjrSgGOvtsmLyVZvUaAtxHL3jYlvFaWkVccwo21TPmDY3GimB_3ltdvK81XYHVgIQ
- UnrdrCk5E3oEx96AjWck59DmGHgezvNq2APQHpVpFddLHNp12JgePIuzTRxRI088icxqG65xDjPe
- pZDzcqWQizUUnh7gdrwALuapkuJhk8pIQMqNTneFJqJNxH5w.TRITsZpdrqMB7cbFmllPJHShTrY
- tja0LcTJvlmx1MSieycHg8G5FX5kEc1MYQ7j6yL1lcMCd4jLopZkmCFXchAUb.amt8tqxh1KM.sg
- x8sNEXnckxqpR6L9AspFzugciCb_aKFbnQX2336bBAq6G5mUipIEsbz_8cMEP1C1UHClKBHUiEgQ
- 2mz0zDaGvXDNxbjtk9h26pXPR1gSnRqKcU1cKoADfGuDtZTL5_OUuW0C5nNPV5StxsUUAxWeTUNI
- zyYEEeq4vV5.m2qzn9kKN94znBDoFi_tBjDpTYhIMiQ4z8gKlI2s1wIorxqyHyw3Im_rXTHsnfVk
- yvlzyQcGrfbeINlqoOGjtXSnwhMqWgh7zXMlpqQn2Z2_uLcEHedTdfUjjSQ2Y_w.0jIrKQ_cYFMl
- DFt4eRoLRIIOfqRsQxeJUeWMmws6Ct3ggpprED_O6AyE0zRjIONmPMCwXt9F82V6TOtRfbMcVVz9
- ZGNOvuLLkIMwny1J7Eow13e48Y5oSoql9CHTnuOxHAgAZop.iLm.Fj_c9I5SHkCXlP4GE.r54oIk
- UyPsH5m0zJs9q3Yu7u5_q5yVRNyo_.qMl67nchLS2X2jTvn7qcOULU9Ns.RRaze4DMpBZNrYP.n2
- 2F5DWpVR_tGyP3siQd7Wd6U5mH5Ot2GY8hu49CBNkGgtwt1TpN2wjLq52UWRekHo5b7zgrQIlT.e
- GFG.kRNIdupMQ0Ov3d8l.tF6mGEThqD5ZkmN5bRijKVk899oHcFa.cHzyneMl278mZ_eT4kkfHJu
- EPqU_HolWegI9ynfEFQpp7msjvtFc_9sMbugDRy0cb4XbagDluGmileWe8RAfRZ38hMBfgYdxQip
- Uoqc74Qpo1nWGm_GArWv8L8qmODhcJQDg.lJfFuUdHBxD3aiOUsWgydu8pFBob5YqifMR7ESR4Ue
- MIhifrAW9Vm6YWi1oc3eFUf1nvHXW9rzfVMamwx9paK67d82TFqFRUBSVy2dZabm2yBXU1DenE_W
- vFJSiYKYOE0iAGbn4ZQGwHhAXP9KwfQ2xTZn0YPp6ZMTPfy.HK23vJJ20dtY7zt321xRXseac5x2
- zipXL5lkZoSAilqBQbOG5QzwAZSoLLRJdhTYQZsiv_YwkGZF2qg3nFR2ZOS0HbT2mS5MKMtC7LJf
- vf97WtCGxwiy2jlexuYU.GFp3lJaVMlNCOHa4_5c_vKra3vsihAqUanlnK1vdcYC9gwGDtD9pxgS
- W0cB_1X.7yxX7fKxeRwsxbemEyUT1IebMS2LxFNG224v.2Foz_zSqMx0TiLZU3iWcYuiw3bWXn7O
- HguhF1B6W8p5Y5WNHhpcCPRJPuoPDHlYn.QfAkwfmzz3QEDmlm2asnP5DlhKXT1QMNiHKf1k3Nuv
- opTRdkzA2PeLFNoGf12C_9IR8LkmOK4tBU04gbpd1va8Zqx87_MDsERuabjQkKNZfwBpgZGkOD9M
- 8RWl.OBYUiSFESX5rePqtCV__fVq0Hjjrm2Lt5PZpU5_qt8nNbfES9u7BhpmU6tGKVuQhgpMbe_1
- sit6oyo_6MIB9hA_kmNQLkcTB3.YeAVbzkYOL9TLnBvfsouE_9QYYs9N2BnUyOY3D9FDi36cSXzw
- q6yJFTbULAdxDU2T_TtcWke7WcoSyduk6gluRW75.ml7mjRRNgCRh2SEiDHj.1GVd8WBg4wC3JwW
- wlYvL08.4T3Kyr5He4jBz32PZMLD3gSE9XJxRC3_cJvgD7ZxXmgzl
+ b=AX2/UxzrTlefNPkNy/1w0CF2aPDMCI0izlAbn1VyicCoydPPKk8J3938kgW8yXP4iycLpp406HxcWfejrZlQ+votL0wblrg+jSMkuLt4hdw6NVd8Mv5/DIoLTkj4giE9N8JOpxuh0GWVZeD0YGmi1HAQ3Srj/zs1vomaN8zXXCJz87YHrymeNTyY8ARXlyysfFZtVVF6VQ8Wgp9PJa8BP3dxoopn6pSNw5+rx6bnGeO/iz9rDLSfCuLYXsR43wkTAuck+zCxS5ddz1ilNOco/GEmC6o4acv8FXlrpynwvmU6kc/iJ50TAcn3f/4e9JLmqK44TxOa/jz33Q3dTyrHfg==
+X-YMail-OSG: Fwoh5.AVM1kyqmD473fMZFb_GhGkEqiC2XlEEWDAj3TmKxo59whHirWdV06Kdej
+ BoJopSgxKD_BhFuWhmgqpA8CGA6Kx.jgHBftTzm7PKcmQkZxkjdRIkEeTtOu6GTogTBfVnVkZmcX
+ L.DTBOnIwpPASBLtk6Ulf6sV7IfwVHkwL6IiF4_fmdmCY9cAXxYPI5qnFclRUtOlNoz8S0_gHWMs
+ EQr5GR6hh80pqg3j1to9j3cXyxnfosh5VhkcKlH4MgoU7qOGXIxGo_oNhPk2stI4tS5ZIQTxwE6y
+ aWto3IVe9_QVcAfHpHt_U_WJuduDD2N0ztxSf0S_yHLWiPwF8FhuxrdqRKW6h_oVLAIfuzAEdvxS
+ w_7EZqXQYNJT_pbQnUwQ4NkTH83_poK3sqADWVTlIfP16rWuQLbIAv9fiYU9HGQbdCOdMxi6DIGv
+ g1wcKn7gGfuTChJa76h1ifDEfWhqUMT7tOX2pUqeQrRnJfdOcHNIEzIoLaV7vEr01_Th.rB0is23
+ a4maDIHsqcbG_.J6aIrPlwLQ8petCrdbLlvuOZ9go69TSEOQTZPTly8kzkTfAX4LfnYDklq7Z2I.
+ 2._4EMrAYESqBjv_0F_mB4Yse_gZtcLppDkY_JLJPytdD5JvLF9rEQTzfb1KPUQTVh8wenpjiYz0
+ m4CNn_ZY9J.B54tWobSNSelragO9ZlOhaho0pXrAkXKI0Ee0_MZjEvHTbRmYMn5RPpTeyGvtOeCW
+ gx_qMSQFSCSXnxFxFKarha5a66NhIVB_sMgBpI6FXkGwOwBcTZSpOPRomxCLObO6AzfOnkUr0m5Q
+ DGLwtQE0fdBeU8NpAVu85oVPjMhF1tEUNdWURfiZDRa9e.uKgcLWrZDPdMuXQA76DS0PIs1U6O_h
+ J9p8NoYksWU8CGlaTd3Vap5zisVkcqFIymvgS0Se0Rz3Toa3G0NaGmP6SDUW3gXvR6WVM2_KUMq0
+ cy_XwdE6EcdnnNAnJXj11A22PKjUw2eleass5RVLLxcAsKwWGOEv9Sl4qUFpMK3WMq6mIG5Us4LY
+ xsmg92TyUkg2V9mybmYU9YrNechDpFHlD3.gxgp4A6J7AGMY3AMGlmdVmDpTloM_qUfXHPpLzZjS
+ RjNQPGPqfn2pRK0QcLjoCIzlR7ab4HjODps.kCz9kpkTnswuFNgQch20bQJ.B9WBVLmeZNAvVmD1
+ Xjgi1HGdm_Oz4nAHLi25QThImTwDR6TD9EBHiSKKRS_isvK_YqLCAT6wMaZ29HNfRtM9mjijyPre
+ Gea08r9DPLgd6.RQM9pwKBV.lsiiFoeq2CenpDQnR1Jidks2TXmcnmL8q4ABzddOjCkeg.QVdtL.
+ l8_U5K5RmiJ4dkSW04mIl.lFpdmsjxdO0.07y6lyzbYT4s2KP8W_tNDQ3P6n4n4fgBaDW0YZ.Ej7
+ 7.loL4U1L8HdwQ04ybfZHr8IIKXgKuqzb6PeI6lT_tTXgGApGkJI7i7S09nds8pci1fOybgZ2cgD
+ 6laRM_Dy94oD6FVjCgD7yUnBGKrmS1USbrvcVVH9Q11nzecLyz3e4QJVZvrdaAEvzxHCZzDmK_V2
+ qX8qzrCT_sOpYavf336QXNoMyUDuWocFaGjf6pAeptjaKjdrb8CRnLm8hT4DKQf_hzOrEIzHBHAx
+ jNFaMmnd_Htsk_eSfoAbIWmsgAxAybrKifE7sQMxbQnxLS783Ci9ltacQQfcwZxQLUpST5aELdjr
+ wM77bFxFcUnU2yRBAJ5RlqiyzBXOpfD44KPfCxIEDZJOKimJ56lc3Vday13cwfainLvirkwrpVCv
+ wnofvq5ZYgm1zncy_N.p4Zu0WWFfyRCvQ8NnIzYlFlTYN4N_PUJ5y4q_mfW_aofg3G3Ho4nZVugd
+ tPVLzY3ivqcRzBebcZxCOLfU8AOhGgrexmeFITMslbZoSqW4xQj8yYKMby9N18j7RU.qtdYbVIml
+ Hy0eClL037bS0y8waQ3Jo3cFSl4HhTyp6t4sbuYrb7Ot8vfHpt4c6ON.mAg5uNpd3R.7Lsun.awm
+ GqlgEl4y7T7uydfAAetGvqpO1kxzBWFPtd.4udHRCZaI11JUlkYWOaZfKs7yidGiigoLLGO9Gokm
+ yUuP8xqyRhwyQbqBTHDRRUQwjnI_xgY4EmvO7vde5OVGZ7FrPzc2V.E7Ml0WV.wECg3DvcKRiMX5
+ R616QJdl8CTW0Np_UwSC4zC85h6GrqmQK7SZsZAxKFRIoTqzS.qVEkwGtk_kP_BD0R1T3ZgZAh0E
+ m5GCC7s9EkvotuCerv2dIABys.LJq18zW1OiaXC3JQiInSQ35Qf7hO2ksnNm1kIGdYQ2In6C1T4N
+ wV2s1qVUHdRvBM72Pu7ZzABkS7X.i1PUB.qvV9.tv.pSDM7jX.KmvYw--
 X-Sonic-MF: <jahau@rocketmail.com>
-X-Sonic-ID: 61af113c-0b3c-40b5-acfb-4c058bf6fb03
+X-Sonic-ID: a4d9475d-7c35-4bad-9cf4-39867f92fed6
 Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic308.consmr.mail.ir2.yahoo.com with HTTP; Thu, 24 Oct 2024 03:18:40 +0000
+ sonic302.consmr.mail.ir2.yahoo.com with HTTP; Thu, 24 Oct 2024 03:18:39 +0000
 Received: by hermes--production-ir2-c694d79d9-2zgj2 (Yahoo Inc. Hermes SMTP
  Server) with ESMTPA ID 26d1652bc1703d2ade3e89c3cd33808b; 
- Thu, 24 Oct 2024 03:18:36 +0000 (UTC)
+ Thu, 24 Oct 2024 03:18:38 +0000 (UTC)
 From: Jakob Hauser <jahau@rocketmail.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>,
  Jessica Zhang <quic_jesszhan@quicinc.com>, Rob Herring <robh@kernel.org>,
@@ -72,10 +72,12 @@ Cc: Thierry Reding <thierry.reding@gmail.com>,
  Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
  Andrzej Hajda <andrzej.hajda@intel.com>, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- ~postmarketos/upstreaming@lists.sr.ht, Jakob Hauser <jahau@rocketmail.com>
-Subject: [PATCH v3 0/5] Add new panel driver Samsung S6E88A0-AMS427AP24
-Date: Thu, 24 Oct 2024 05:18:22 +0200
-Message-Id: <cover.1729738189.git.jahau@rocketmail.com>
+ ~postmarketos/upstreaming@lists.sr.ht, Jakob Hauser <jahau@rocketmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v3 1/5] dt-bindings: display: panel: Move flip properties to
+ panel-common
+Date: Thu, 24 Oct 2024 05:18:23 +0200
+Message-Id: <a899d5f0525a76efeab6f734b75e1eb95d9a2ca3.1729738189.git.jahau@rocketmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <cover.1729738189.git.jahau@rocketmail.com>
 References: <cover.1729738189.git.jahau@rocketmail.com>
@@ -96,39 +98,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The patchset adds a new driver for Samsung AMS427AP24 panel with S6E88A0
-controller. Patches are based on current branch drm-misc-next.
+The flip properties were used by "samsung,s6e8aa0.yaml" only so far. By
+introducing "samsung,s6e88a0-ams427ap24.yaml" they become more common.
 
-Changes in v3:
- - Patch 2: Dropped the second "bindings" in the commit subject.
- - Patch 2: Applied 4 spaces indentation in the example.
- - Patch 3: Made struct s6e88a0_ams427ap24_supplies[] "static".
- - Patch 3: Removed the "panel->prepared" parts from functions
-   s6e88a0_ams427ap24_prepare() and s6e88a0_ams427ap24_unprepare().
- - Patch 5: Dissolved function s6e88a0_ams427ap24_parse_dt() and placed
-   the parsing in the probe function. Changed the parsing from
-   of_property_read_bool() to device_property_read_bool().
+Signed-off-by: Jakob Hauser <jahau@rocketmail.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+Patch is based on current branch drm-misc-next.
+---
+ .../bindings/display/panel/panel-common.yaml           |  8 ++++++++
+ .../bindings/display/panel/samsung,s6e8aa0.yaml        | 10 ++--------
+ 2 files changed, 10 insertions(+), 8 deletions(-)
 
-v1: https://lore.kernel.org/dri-devel/cover.1728582727.git.jahau@rocketmail.com/T/#t
-v2: https://lore.kernel.org/dri-devel/cover.1729630039.git.jahau@rocketmail.com/T/#t
-
-Jakob Hauser (5):
-  dt-bindings: display: panel: Move flip properties to panel-common
-  dt-bindings: display: panel: Add Samsung S6E88A0-AMS427AP24
-  drm/panel: samsung-s6e88a0-ams427ap24: Add initial driver
-  drm/panel: samsung-s6e88a0-ams427ap24: Add brightness control
-  drm/panel: samsung-s6e88a0-ams427ap24: Add flip option
-
- .../bindings/display/panel/panel-common.yaml  |   8 +
- .../panel/samsung,s6e88a0-ams427ap24.yaml     |  65 ++
- .../display/panel/samsung,s6e8aa0.yaml        |  10 +-
- drivers/gpu/drm/panel/Kconfig                 |  10 +
- drivers/gpu/drm/panel/Makefile                |   1 +
- .../panel/panel-samsung-s6e88a0-ams427ap24.c  | 754 ++++++++++++++++++
- 6 files changed, 840 insertions(+), 8 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/display/panel/samsung,s6e88a0-ams427ap24.yaml
- create mode 100644 drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams427ap24.c
-
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-common.yaml b/Documentation/devicetree/bindings/display/panel/panel-common.yaml
+index 0a57a31f4f3d..087415753d60 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-common.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-common.yaml
+@@ -51,6 +51,14 @@ properties:
+     $ref: /schemas/types.yaml#/definitions/uint32
+     enum: [0, 90, 180, 270]
+ 
++  flip-horizontal:
++    description: boolean to flip image horizontally
++    type: boolean
++
++  flip-vertical:
++    description: boolean to flip image vertically
++    type: boolean
++
+   # Display Timings
+   panel-timing:
+     description:
+diff --git a/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa0.yaml b/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa0.yaml
+index 4601fa460680..19c8cc83db97 100644
+--- a/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa0.yaml
++++ b/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa0.yaml
+@@ -21,6 +21,8 @@ properties:
+ 
+   reset-gpios: true
+   display-timings: true
++  flip-horizontal: true
++  flip-vertical: true
+ 
+   vdd3-supply:
+     description: core voltage supply
+@@ -46,14 +48,6 @@ properties:
+   panel-height-mm:
+     description: physical panel height [mm]
+ 
+-  flip-horizontal:
+-    description: boolean to flip image horizontally
+-    type: boolean
+-
+-  flip-vertical:
+-    description: boolean to flip image vertically
+-    type: boolean
+-
+ required:
+   - compatible
+   - reg
 -- 
 2.39.5
 
