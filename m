@@ -2,26 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 065A49B0432
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 15:33:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1F1B9B0416
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 15:32:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A95D10EAE7;
-	Fri, 25 Oct 2024 13:33:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE4BB10EAC9;
+	Fri, 25 Oct 2024 13:32:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com
- [45.249.212.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 153F610E950;
- Thu, 24 Oct 2024 13:41:52 +0000 (UTC)
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com
+ [45.249.212.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E24310E94D;
+ Thu, 24 Oct 2024 13:41:28 +0000 (UTC)
 Received: from mail.maildlp.com (unknown [172.19.163.235])
- by dggsgout12.his.huawei.com (SkyGuard) with ESMTP id 4XZ6694nm6z4f3jdY;
+ by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4XZ6696qQBz4f3nV0;
  Thu, 24 Oct 2024 21:22:41 +0800 (CST)
 Received: from mail02.huawei.com (unknown [10.116.40.128])
- by mail.maildlp.com (Postfix) with ESMTP id 23A641A0568;
- Thu, 24 Oct 2024 21:22:59 +0800 (CST)
+ by mail.maildlp.com (Postfix) with ESMTP id 3BE2E1A0568;
+ Thu, 24 Oct 2024 21:23:00 +0800 (CST)
 Received: from huaweicloud.com (unknown [10.175.104.67])
- by APP4 (Coremail) with SMTP id gCh0CgCHusYpShpn7tb6Ew--.444S8;
- Thu, 24 Oct 2024 21:22:58 +0800 (CST)
+ by APP4 (Coremail) with SMTP id gCh0CgCHusYpShpn7tb6Ew--.444S9;
+ Thu, 24 Oct 2024 21:22:59 +0800 (CST)
 From: Yu Kuai <yukuai1@huaweicloud.com>
 To: stable@vger.kernel.org, gregkh@linuxfoundation.org, harry.wentland@amd.com,
  sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, alexander.deucher@amd.com,
@@ -36,18 +36,19 @@ Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
  maple-tree@lists.infradead.org, linux-mm@kvack.org,
  yukuai1@huaweicloud.com, yi.zhang@huawei.com, yangerkun@huawei.com
-Subject: [PATCH 6.6 04/28] maple_tree: skip other tests when BENCH is enabled
-Date: Thu, 24 Oct 2024 21:19:45 +0800
-Message-Id: <20241024132009.2267260-5-yukuai1@huaweicloud.com>
+Subject: [PATCH 6.6 05/28] maple_tree: preserve the tree attributes when
+ destroying maple tree
+Date: Thu, 24 Oct 2024 21:19:46 +0800
+Message-Id: <20241024132009.2267260-6-yukuai1@huaweicloud.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20241024132009.2267260-1-yukuai1@huaweicloud.com>
 References: <20241024132009.2267260-1-yukuai1@huaweicloud.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: gCh0CgCHusYpShpn7tb6Ew--.444S8
-X-Coremail-Antispam: 1UD129KBjvJXoW7WF4DCFykCF18uF13Cr43Awb_yoW8KF1Upw
- 4xCF1UtF1Iyr4xW3y8tay0gFySgFs5G3WUt3ZrCry7ur93Aw4Iq3ySyF1xZrsxWa4xua4f
- Cr1Yg3W7J3WDGaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: gCh0CgCHusYpShpn7tb6Ew--.444S9
+X-Coremail-Antispam: 1UD129KBjvJXoW7KFyfXFW3Ar4kAr4xXry7Wrg_yoW8XF43pr
+ nrGw10qFyIqw18Cay0qay8Ca4UWFs5Wr1Iqa4DCr1UZr98Jws2g3yayrWxZa13Za4DuF15
+ AF4Y934xta4kArJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
  9KBjDU0xBIdaVrnRJUUUmq14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
  rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
  kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
@@ -58,12 +59,12 @@ X-Coremail-Antispam: 1UD129KBjvJXoW7WF4DCFykCF18uF13Cr43Awb_yoW8KF1Upw
  M4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2
  kIc2xKxwCY1x0262kKe7AKxVWrXVW3AwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkE
  bVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67
- AF67kF1VAFwI0_Wrv_Gr1UMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1l
+ AF67kF1VAFwI0_Wrv_Gr1UMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Gr0_Xr1l
  IxAIcVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r
  1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIY
  CTnIWIevJa73UjIFyTuYvjTRAR6zUUUUU
 X-CM-SenderInfo: 51xn3trlr6x35dzhxuhorxvhhfrp/
-X-Mailman-Approved-At: Fri, 25 Oct 2024 13:32:50 +0000
+X-Mailman-Approved-At: Fri, 25 Oct 2024 13:32:49 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,12 +82,13 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Peng Zhang <zhangpeng.00@bytedance.com>
 
-commit f670fa1caadb4ea532a89012c5451e4c6789bfcc upstream.
+commit 8e50d32c7a89bde896945e4e572ef28ccd87bbf8 upstream.
 
-Skip other tests when BENCH is enabled so that performance can be measured
-in user space.
+When destroying maple tree, preserve its attributes and then turn it into
+an empty tree.  This allows it to be reused without needing to be
+reinitialized.
 
-Link: https://lkml.kernel.org/r/20231027033845.90608-8-zhangpeng.00@bytedance.com
+Link: https://lkml.kernel.org/r/20231027033845.90608-10-zhangpeng.00@bytedance.com
 Signed-off-by: Peng Zhang <zhangpeng.00@bytedance.com>
 Reviewed-by: Liam R. Howlett <Liam.Howlett@oracle.com>
 Cc: Christian Brauner <brauner@kernel.org>
@@ -102,50 +104,22 @@ Cc: Suren Baghdasaryan <surenb@google.com>
 Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
 Signed-off-by: Yu Kuai <yukuai3@huawei.com>
 ---
- lib/test_maple_tree.c            | 8 ++++----
- tools/testing/radix-tree/maple.c | 2 ++
- 2 files changed, 6 insertions(+), 4 deletions(-)
+ lib/maple_tree.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/lib/test_maple_tree.c b/lib/test_maple_tree.c
-index 464eeb90d5ad..de470950714f 100644
---- a/lib/test_maple_tree.c
-+++ b/lib/test_maple_tree.c
-@@ -3585,10 +3585,6 @@ static int __init maple_tree_seed(void)
+diff --git a/lib/maple_tree.c b/lib/maple_tree.c
+index 6f1addbbc820..97a610307d38 100644
+--- a/lib/maple_tree.c
++++ b/lib/maple_tree.c
+@@ -6774,7 +6774,7 @@ void __mt_destroy(struct maple_tree *mt)
+ 	if (xa_is_node(root))
+ 		mte_destroy_walk(root, mt);
  
- 	pr_info("\nTEST STARTING\n\n");
- 
--	mt_init_flags(&tree, MT_FLAGS_ALLOC_RANGE);
--	check_root_expand(&tree);
--	mtree_destroy(&tree);
--
- #if defined(BENCH_SLOT_STORE)
- #define BENCH
- 	mt_init_flags(&tree, MT_FLAGS_ALLOC_RANGE);
-@@ -3646,6 +3642,10 @@ static int __init maple_tree_seed(void)
- 	goto skip;
- #endif
- 
-+	mt_init_flags(&tree, MT_FLAGS_ALLOC_RANGE);
-+	check_root_expand(&tree);
-+	mtree_destroy(&tree);
-+
- 	mt_init_flags(&tree, MT_FLAGS_ALLOC_RANGE);
- 	check_iteration(&tree);
- 	mtree_destroy(&tree);
-diff --git a/tools/testing/radix-tree/maple.c b/tools/testing/radix-tree/maple.c
-index 76a8990bb14e..576b825d6bb1 100644
---- a/tools/testing/radix-tree/maple.c
-+++ b/tools/testing/radix-tree/maple.c
-@@ -35938,7 +35938,9 @@ void farmer_tests(void)
- 
- void maple_tree_tests(void)
- {
-+#if !defined(BENCH)
- 	farmer_tests();
-+#endif
- 	maple_tree_seed();
- 	maple_tree_harvest();
+-	mt->ma_flags = 0;
++	mt->ma_flags = mt_attr(mt);
  }
+ EXPORT_SYMBOL_GPL(__mt_destroy);
+ 
 -- 
 2.39.2
 
