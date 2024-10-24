@@ -2,64 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E47549AEBC8
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2024 18:21:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D56479AEBCA
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2024 18:22:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FE2510E2B0;
-	Thu, 24 Oct 2024 16:21:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D24C10E190;
+	Thu, 24 Oct 2024 16:22:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=deltatee.com header.i=@deltatee.com header.b="VZN70DSE";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RZDF0Euv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C712710E2B0;
- Thu, 24 Oct 2024 16:21:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=deltatee.com; s=20200525; h=Subject:In-Reply-To:From:References:Cc:To:
- MIME-Version:Date:Message-ID:content-disposition;
- bh=jDrqNELMr4hJN1aNtpR6XIChV3cdGXU6NdzMsUfUu2Q=; b=VZN70DSEHTNVPzL+RGGTX59N7u
- QP4SQI+9x/ruSZAa/+2N4QB0MjvGWc1r/15twm78XTUiSYkbNBAk1dIUbsV4tADi75JwD18oDlhLO
- N7AHpuDs3tzHWRknPrua4P5B8dIszCAF2cWBGzu1oUYSZZqqJCrJok7qUmzyQwGxoVSN1/oBvTZ/+
- dGuAhXS/xjavYldjg1wkmFUQ+JYPdkN/KlHt2YFupcHxKTZk12iqwZO3aW8IsV2QY1SNDqLe8389m
- qC9Aqf/4h6XH73D45XjvKFxJzRu2j/se9tEqu00LWYUKJWjWHLSguWoUrdlvMiIiFyEBEsjBhi+bO
- dC0ZTsLA==;
-Received: from d104-157-31-28.abhsia.telus.net ([104.157.31.28]
- helo=[192.168.1.250]) by ale.deltatee.com with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.96)
- (envelope-from <logang@deltatee.com>) id 1t40aO-00H4d1-2k;
- Thu, 24 Oct 2024 10:21:21 -0600
-Message-ID: <2e8eec04-c73c-410d-a844-716a68c6dac2@deltatee.com>
-Date: Thu, 24 Oct 2024 10:21:17 -0600
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5400210E190
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 16:22:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1729786967; x=1761322967;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=uBlUnvzp1AbBOJrFVlJAunOvF7oh9ITKUSDVP8d4eOo=;
+ b=RZDF0EuvjoLh3Kvy2u2hL+7+SS+5Q2cOp7HWXfSC6q5ZH7ZEgvfJUDK7
+ 6aylTxlm9JtT4c7Ojw5DTtd9fDqUEyDid2P35mdppSfZfN169IFgnX6df
+ 4iO5VXmGFCXW5YdzFBWfdfr+SEKawnvyERloSRblQPnYVuaxFXIOyFrW/
+ xc3N0LgHZR27Du0PjosHnTvpNr2SpaKm420E8Pzb2G30vXKiXtQx9n27T
+ 0AAHrQEpvUnzsu7Q1/m+Hk2ve/T+UyWFumRjy3vPOhP8DS3wZvGVl8qW0
+ IPVVZdoh4dNBxG4J4jmdR2EVmjGY9mWkm1C7R4I1f8rCsqPt2Pqo713Od w==;
+X-CSE-ConnectionGUID: sBmdTPNgR0yntd3vUTXmxQ==
+X-CSE-MsgGUID: +BUHLUKqQd+mk93jjXDQeg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11235"; a="33232059"
+X-IronPort-AV: E=Sophos;i="6.11,229,1725346800"; d="scan'208";a="33232059"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Oct 2024 09:22:47 -0700
+X-CSE-ConnectionGUID: s8OL97kCQLuUn7GPZIxirw==
+X-CSE-MsgGUID: tIMidi+FRlWuj/N1Wqaq+Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,229,1725346800"; d="scan'208";a="84615714"
+Received: from unknown (HELO localhost) ([10.237.66.160])
+ by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Oct 2024 09:22:44 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: dri-devel@lists.freedesktop.org
+Cc: jani.nikula@intel.com,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, xen-devel@lists.xenproject.org
+Subject: [PATCH 1/2] drm/xen: remove redundant initialization info print
+Date: Thu, 24 Oct 2024 19:22:39 +0300
+Message-Id: <20241024162240.2398664-1-jani.nikula@intel.com>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
- Bjorn Helgaas <helgaas@kernel.org>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
- Bjorn Helgaas <bhelgaas@google.com>,
- "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>
-References: <20241022151616.GA879071@bhelgaas>
- <26d7baf8-cfdc-4118-b423-5935128cc47f@deltatee.com>
- <IA0PR11MB718513F3D07518E9CCF3D498F84E2@IA0PR11MB7185.namprd11.prod.outlook.com>
-Content-Language: en-CA
-From: Logan Gunthorpe <logang@deltatee.com>
-In-Reply-To: <IA0PR11MB718513F3D07518E9CCF3D498F84E2@IA0PR11MB7185.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 104.157.31.28
-X-SA-Exim-Rcpt-To: vivek.kasireddy@intel.com, helgaas@kernel.org,
- dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- bhelgaas@google.com, linux-pci@vger.kernel.org
-X-SA-Exim-Mail-From: logang@deltatee.com
-X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on ale.deltatee.com
-X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
- autolearn=ham autolearn_force=no version=4.0.0
-Subject: Re: [PATCH v2 1/5] PCI/P2PDMA: Don't enforce ACS check for functions
- of same device
-X-SA-Exim-Version: 4.2.1 (built Wed, 06 Jul 2022 17:57:39 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,15 +71,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+drm_dev_register() already prints the same information on successful
+init. Remove the redundant prints.
 
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
-On 2024-10-23 23:50, Kasireddy, Vivek wrote:
->> I'd echo many of Bjorn's concerns. In addition, I think the name of the
->> pci_devs_are_p2pdma_compatible() isn't quite right. Specifically this is
->> dealing with PCI functions within a single device that are known to
->> allow P2P traffic. So I think the name should probably reflect that.
-> Would pci_devfns_support_p2pdma() be a more appropriate name?
+---
 
-That sounds better to me, thanks.
+Note: I prefer to merge this together with the next patch via
+drm-misc-next.
 
-Logan
+Cc: Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
+Cc: xen-devel@lists.xenproject.org
+---
+ drivers/gpu/drm/xen/xen_drm_front.c | 5 -----
+ 1 file changed, 5 deletions(-)
+
+diff --git a/drivers/gpu/drm/xen/xen_drm_front.c b/drivers/gpu/drm/xen/xen_drm_front.c
+index aab79c5e34c2..931d855bfbe8 100644
+--- a/drivers/gpu/drm/xen/xen_drm_front.c
++++ b/drivers/gpu/drm/xen/xen_drm_front.c
+@@ -525,11 +525,6 @@ static int xen_drm_drv_init(struct xen_drm_front_info *front_info)
+ 	if (ret)
+ 		goto fail_register;
+ 
+-	DRM_INFO("Initialized %s %d.%d.%d %s on minor %d\n",
+-		 xen_drm_driver.name, xen_drm_driver.major,
+-		 xen_drm_driver.minor, xen_drm_driver.patchlevel,
+-		 xen_drm_driver.date, drm_dev->primary->index);
+-
+ 	return 0;
+ 
+ fail_register:
+-- 
+2.39.5
+
