@@ -2,54 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EBDA9AEB17
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2024 17:51:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E47549AEBC8
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2024 18:21:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96F3110E396;
-	Thu, 24 Oct 2024 15:51:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FE2510E2B0;
+	Thu, 24 Oct 2024 16:21:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="gNZDMCYG";
+	dkim=pass (2048-bit key; unprotected) header.d=deltatee.com header.i=@deltatee.com header.b="VZN70DSE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E5C010E396
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 15:51:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1729785093;
- bh=HPIGXO+xkN0qQsdXWfvLy1DWxhrKK+4IPK7reQ92mM4=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=gNZDMCYGkiAgZhEO0w0dbTg4Vh/EkpA1U3ghzVR4dIqmMn3fRkMUs7fMOQ31RXEMr
- o16VL0yxBa+YfFXuxP1j/4qQF0GKYh8OQajCD8Zny3z5wrq+d0/GZ1qSSOvbib2IZn
- Vpv6KZfAl6BKfRxbvzlP9UErgO1TCOKu0yIRiu0ba5WchN49vH6jDRR2fXS23wavoQ
- MePQA0u5CBTC9SVT1yq/fykIaocWFzXeBRqino4blJ9u1dQkpPheVuqw1V5tq3I/4H
- fdiD1e5TioJ1XNDe7/mRa+eyu9X2fJoroo5ksauXI8y7A5ewvMVFP1TbHHANCQsPq5
- sK7xCHOYB86hQ==
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 38B9A17E120F;
- Thu, 24 Oct 2024 17:51:33 +0200 (CEST)
-Date: Thu, 24 Oct 2024 17:51:27 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Akash Goel <akash.goel@arm.com>
-Cc: liviu.dudau@arm.com, steven.price@arm.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- mihail.atanassov@arm.com, ketil.johnsen@arm.com, florent.tomasin@arm.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, daniel@ffwll.ch, nd@arm.com
-Subject: Re: [PATCH 2/3] drm/panthor: Explicitly set the coherency mode
-Message-ID: <20241024175127.6c3fcf88@collabora.com>
-In-Reply-To: <20241024145432.934086-3-akash.goel@arm.com>
-References: <20241024145432.934086-1-akash.goel@arm.com>
- <20241024145432.934086-3-akash.goel@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C712710E2B0;
+ Thu, 24 Oct 2024 16:21:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=deltatee.com; s=20200525; h=Subject:In-Reply-To:From:References:Cc:To:
+ MIME-Version:Date:Message-ID:content-disposition;
+ bh=jDrqNELMr4hJN1aNtpR6XIChV3cdGXU6NdzMsUfUu2Q=; b=VZN70DSEHTNVPzL+RGGTX59N7u
+ QP4SQI+9x/ruSZAa/+2N4QB0MjvGWc1r/15twm78XTUiSYkbNBAk1dIUbsV4tADi75JwD18oDlhLO
+ N7AHpuDs3tzHWRknPrua4P5B8dIszCAF2cWBGzu1oUYSZZqqJCrJok7qUmzyQwGxoVSN1/oBvTZ/+
+ dGuAhXS/xjavYldjg1wkmFUQ+JYPdkN/KlHt2YFupcHxKTZk12iqwZO3aW8IsV2QY1SNDqLe8389m
+ qC9Aqf/4h6XH73D45XjvKFxJzRu2j/se9tEqu00LWYUKJWjWHLSguWoUrdlvMiIiFyEBEsjBhi+bO
+ dC0ZTsLA==;
+Received: from d104-157-31-28.abhsia.telus.net ([104.157.31.28]
+ helo=[192.168.1.250]) by ale.deltatee.com with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.96)
+ (envelope-from <logang@deltatee.com>) id 1t40aO-00H4d1-2k;
+ Thu, 24 Oct 2024 10:21:21 -0600
+Message-ID: <2e8eec04-c73c-410d-a844-716a68c6dac2@deltatee.com>
+Date: Thu, 24 Oct 2024 10:21:17 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
+ Bjorn Helgaas <helgaas@kernel.org>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>
+References: <20241022151616.GA879071@bhelgaas>
+ <26d7baf8-cfdc-4118-b423-5935128cc47f@deltatee.com>
+ <IA0PR11MB718513F3D07518E9CCF3D498F84E2@IA0PR11MB7185.namprd11.prod.outlook.com>
+Content-Language: en-CA
+From: Logan Gunthorpe <logang@deltatee.com>
+In-Reply-To: <IA0PR11MB718513F3D07518E9CCF3D498F84E2@IA0PR11MB7185.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 104.157.31.28
+X-SA-Exim-Rcpt-To: vivek.kasireddy@intel.com, helgaas@kernel.org,
+ dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ bhelgaas@google.com, linux-pci@vger.kernel.org
+X-SA-Exim-Mail-From: logang@deltatee.com
+X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on ale.deltatee.com
+X-Spam-Level: 
+X-Spam-Status: No, score=-6.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
+ autolearn=ham autolearn_force=no version=4.0.0
+Subject: Re: [PATCH v2 1/5] PCI/P2PDMA: Don't enforce ACS check for functions
+ of same device
+X-SA-Exim-Version: 4.2.1 (built Wed, 06 Jul 2022 17:57:39 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,93 +75,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 24 Oct 2024 15:54:31 +0100
-Akash Goel <akash.goel@arm.com> wrote:
 
-> This commit fixes the potential misalignment between the value of device
-> tree property "dma-coherent" and default value of COHERENCY_ENABLE
-> register.
-> Panthor driver didn't explicitly program the COHERENCY_ENABLE register
-> with the desired coherency mode. The default value of COHERENCY_ENABLE
-> register is implementation defined, so it may not be always aligned with
-> the "dma-coherent" property value.
-> The commit also checks the COHERENCY_FEATURES register to confirm that
-> the coherency protocol is actually supported or not.
-> 
-> Signed-off-by: Akash Goel <akash.goel@arm.com>
 
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+On 2024-10-23 23:50, Kasireddy, Vivek wrote:
+>> I'd echo many of Bjorn's concerns. In addition, I think the name of the
+>> pci_devs_are_p2pdma_compatible() isn't quite right. Specifically this is
+>> dealing with PCI functions within a single device that are known to
+>> allow P2P traffic. So I think the name should probably reflect that.
+> Would pci_devfns_support_p2pdma() be a more appropriate name?
 
-> ---
->  drivers/gpu/drm/panthor/panthor_device.c | 22 +++++++++++++++++++++-
->  drivers/gpu/drm/panthor/panthor_gpu.c    |  9 +++++++++
->  2 files changed, 30 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
-> index 4082c8f2951d..984615f4ed27 100644
-> --- a/drivers/gpu/drm/panthor/panthor_device.c
-> +++ b/drivers/gpu/drm/panthor/panthor_device.c
-> @@ -22,6 +22,24 @@
->  #include "panthor_regs.h"
->  #include "panthor_sched.h"
->  
-> +static int panthor_gpu_coherency_init(struct panthor_device *ptdev)
-> +{
-> +	ptdev->coherent = device_get_dma_attr(ptdev->base.dev) == DEV_DMA_COHERENT;
-> +
-> +	if (!ptdev->coherent)
-> +		return 0;
-> +
-> +	/* Check if the ACE-Lite coherency protocol is actually supported by the GPU.
-> +	 * ACE protocol has never been supported for command stream frontend GPUs.
-> +	 */
-> +	if ((gpu_read(ptdev, GPU_COHERENCY_FEATURES) &
-> +		      GPU_COHERENCY_PROT_BIT(ACE_LITE)))
-> +		return 0;
-> +
-> +	drm_err(&ptdev->base, "Coherency not supported by the device");
-> +	return -ENOTSUPP;
-> +}
-> +
->  static int panthor_clk_init(struct panthor_device *ptdev)
->  {
->  	ptdev->clks.core = devm_clk_get(ptdev->base.dev, NULL);
-> @@ -156,7 +174,9 @@ int panthor_device_init(struct panthor_device *ptdev)
->  	struct page *p;
->  	int ret;
->  
-> -	ptdev->coherent = device_get_dma_attr(ptdev->base.dev) == DEV_DMA_COHERENT;
-> +	ret = panthor_gpu_coherency_init(ptdev);
-> +	if (ret)
-> +		return ret;
->  
->  	init_completion(&ptdev->unplug.done);
->  	ret = drmm_mutex_init(&ptdev->base, &ptdev->unplug.lock);
-> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
-> index 5251d8764e7d..1e24f08a519a 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gpu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
-> @@ -77,6 +77,12 @@ static const struct panthor_model gpu_models[] = {
->  	 GPU_IRQ_RESET_COMPLETED | \
->  	 GPU_IRQ_CLEAN_CACHES_COMPLETED)
->  
-> +static void panthor_gpu_coherency_set(struct panthor_device *ptdev)
-> +{
-> +	gpu_write(ptdev, GPU_COHERENCY_PROTOCOL,
-> +		ptdev->coherent ? GPU_COHERENCY_PROT_BIT(ACE_LITE) : GPU_COHERENCY_NONE);
-> +}
-> +
->  static void panthor_gpu_init_info(struct panthor_device *ptdev)
->  {
->  	const struct panthor_model *model;
-> @@ -365,6 +371,9 @@ int panthor_gpu_l2_power_on(struct panthor_device *ptdev)
->  			      hweight64(ptdev->gpu_info.shader_present));
->  	}
->  
-> +	/* Set the desired coherency mode before the power up of L2 */
-> +	panthor_gpu_coherency_set(ptdev);
-> +
->  	return panthor_gpu_power_on(ptdev, L2, 1, 20000);
->  }
->  
+That sounds better to me, thanks.
 
+Logan
