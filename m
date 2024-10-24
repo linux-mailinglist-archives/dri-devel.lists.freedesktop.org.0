@@ -2,28 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 128C19B042B
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 15:33:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F10B9B0418
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 15:32:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF74110EADF;
-	Fri, 25 Oct 2024 13:33:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D793210EACB;
+	Fri, 25 Oct 2024 13:32:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1108 seconds by postgrey-1.36 at gabe;
- Thu, 24 Oct 2024 13:41:26 UTC
-Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com
- [45.249.212.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5367B10E258;
- Thu, 24 Oct 2024 13:41:26 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.163.216])
- by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4XZ66H48kJz4f3nZs;
- Thu, 24 Oct 2024 21:22:47 +0800 (CST)
+Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com
+ [45.249.212.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0ACE210E258;
+ Thu, 24 Oct 2024 13:41:50 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.93.142])
+ by dggsgout12.his.huawei.com (SkyGuard) with ESMTP id 4XZ66K42Wfz4f3jdS;
+ Thu, 24 Oct 2024 21:22:49 +0800 (CST)
 Received: from mail02.huawei.com (unknown [10.116.40.128])
- by mail.maildlp.com (Postfix) with ESMTP id D58981A0196;
- Thu, 24 Oct 2024 21:23:05 +0800 (CST)
+ by mail.maildlp.com (Postfix) with ESMTP id 0ACCB1A0359;
+ Thu, 24 Oct 2024 21:23:07 +0800 (CST)
 Received: from huaweicloud.com (unknown [10.175.104.67])
- by APP4 (Coremail) with SMTP id gCh0CgCHusYpShpn7tb6Ew--.444S14;
- Thu, 24 Oct 2024 21:23:05 +0800 (CST)
+ by APP4 (Coremail) with SMTP id gCh0CgCHusYpShpn7tb6Ew--.444S15;
+ Thu, 24 Oct 2024 21:23:06 +0800 (CST)
 From: Yu Kuai <yukuai1@huaweicloud.com>
 To: stable@vger.kernel.org, gregkh@linuxfoundation.org, harry.wentland@amd.com,
  sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, alexander.deucher@amd.com,
@@ -38,34 +36,34 @@ Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
  maple-tree@lists.infradead.org, linux-mm@kvack.org,
  yukuai1@huaweicloud.com, yi.zhang@huawei.com, yangerkun@huawei.com
-Subject: [PATCH 6.6 10/28] maple_tree: use cached node end in mas_next()
-Date: Thu, 24 Oct 2024 21:19:51 +0800
-Message-Id: <20241024132009.2267260-11-yukuai1@huaweicloud.com>
+Subject: [PATCH 6.6 11/28] maple_tree: use cached node end in mas_destroy()
+Date: Thu, 24 Oct 2024 21:19:52 +0800
+Message-Id: <20241024132009.2267260-12-yukuai1@huaweicloud.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20241024132009.2267260-1-yukuai1@huaweicloud.com>
 References: <20241024132009.2267260-1-yukuai1@huaweicloud.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: gCh0CgCHusYpShpn7tb6Ew--.444S14
-X-Coremail-Antispam: 1UD129KBjvJXoWxGrWUuw4rXF43Cr4rCFy7GFg_yoW5WF4Upa
- 4DWa45K39FyF18Krnavr45Zr9Fgr1ak3yUta47Gw15XFyDtr1fXF1DAa48uFs093s2vF13
- Aw45C3WUCws7GaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUmS14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
- kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
- z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr1j6r
- xdM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0D
- M2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjx
- v20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1l
- F7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2
- IY04v7MxkF7I0En4kS14v26rWY6Fy7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY
- 6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17
- CEb7AF67AKxVWrXVW8Jr1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVW8JVW5JwCI
- 42IY6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF
- 4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBI
- daVFxhVjvjDU0xZFpf9x0pR4E__UUUUU=
+X-CM-TRANSID: gCh0CgCHusYpShpn7tb6Ew--.444S15
+X-Coremail-Antispam: 1UD129KBjvdXoWrur1UJF1rZry3tw1Dtw4DCFg_yoWDWrb_C3
+ W8Kr48uF4fJF4Iqa4FkFZ0qF1Yk34rJFsavw1xJFy5XF1jqrZ5t3s7WF4SkasIqayIya45
+ CF9Iqrsay3WjqjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbvAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUAVCq3wA2048vs2
+ IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28E
+ F7xvwVC0I7IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJr0_Gc
+ Wl84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1l
+ e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI
+ 8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwAC
+ jcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka0x
+ kIwI1lc7CjxVAaw2AFwI0_Wrv_ZF1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_
+ Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1V
+ AY17CE14v26rWY6r4UJwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r4j6ryUMIIF
+ 0xvE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCw
+ CI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsG
+ vfC2KfnxnUUI43ZEXa7sREzuWJUUUUU==
 X-CM-SenderInfo: 51xn3trlr6x35dzhxuhorxvhhfrp/
-X-Mailman-Approved-At: Fri, 25 Oct 2024 13:32:49 +0000
+X-Mailman-Approved-At: Fri, 25 Oct 2024 13:32:50 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,86 +81,32 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: "Liam R. Howlett" <Liam.Howlett@oracle.com>
 
-commit e9c52d8940cbfd94b36035bbebce7f55954e7728 upstream.
+commit 1f41ef12abf8538b3d82cdae14c06aa171cb71ce upstream.
 
-When looking for the next entry, don't recalculate the node end as it is
-now tracked in the maple state.
+The node end is set during the walk, so use the resulting end instead of
+re-fetching it.
 
-Link: https://lkml.kernel.org/r/20231101171629.3612299-6-Liam.Howlett@oracle.com
+Link: https://lkml.kernel.org/r/20231101171629.3612299-7-Liam.Howlett@oracle.com
 Signed-off-by: Liam R. Howlett <Liam.Howlett@oracle.com>
 Cc: Peng Zhang <zhangpeng.00@bytedance.com>
 Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
 Signed-off-by: Yu Kuai <yukuai3@huawei.com>
 ---
- lib/maple_tree.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ lib/maple_tree.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/lib/maple_tree.c b/lib/maple_tree.c
-index d19fb14a9635..e0dcc8412da0 100644
+index e0dcc8412da0..3df7e3456205 100644
 --- a/lib/maple_tree.c
 +++ b/lib/maple_tree.c
-@@ -4539,6 +4539,7 @@ static inline int mas_next_node(struct ma_state *mas, struct maple_node *node,
- 	unsigned long min;
- 	unsigned long *pivots;
- 	struct maple_enode *enode;
-+	struct maple_node *tmp;
- 	int level = 0;
- 	unsigned char node_end;
- 	enum maple_type mt;
-@@ -4591,6 +4592,10 @@ static inline int mas_next_node(struct ma_state *mas, struct maple_node *node,
- 		pivots = ma_pivots(node, mt);
+@@ -5587,7 +5587,7 @@ void mas_destroy(struct ma_state *mas)
  
- 	mas->max = mas_safe_pivot(mas, pivots, mas->offset, mt);
-+	tmp = mte_to_node(enode);
-+	mt = mte_node_type(enode);
-+	pivots = ma_pivots(tmp, mt);
-+	mas->end = ma_data_end(tmp, mt, pivots, mas->max);
- 	if (unlikely(ma_dead_node(node)))
- 		return 1;
- 
-@@ -4625,7 +4630,6 @@ static void *mas_next_slot(struct ma_state *mas, unsigned long max, bool empty,
- 	unsigned long pivot;
- 	enum maple_type type;
- 	struct maple_node *node;
--	unsigned char data_end;
- 	unsigned long save_point = mas->last;
- 	void *entry;
- 
-@@ -4633,12 +4637,11 @@ static void *mas_next_slot(struct ma_state *mas, unsigned long max, bool empty,
- 	node = mas_mn(mas);
- 	type = mte_node_type(mas->node);
- 	pivots = ma_pivots(node, type);
--	data_end = ma_data_end(node, type, pivots, mas->max);
- 	if (unlikely(mas_rewalk_if_dead(mas, node, save_point)))
- 		goto retry;
- 
- 	if (mas->max >= max) {
--		if (likely(mas->offset < data_end))
-+		if (likely(mas->offset < mas->end))
- 			pivot = pivots[mas->offset];
- 		else
- 			goto overflow;
-@@ -4650,11 +4653,11 @@ static void *mas_next_slot(struct ma_state *mas, unsigned long max, bool empty,
- 			goto overflow;
- 	}
- 
--	if (likely(mas->offset < data_end)) {
-+	if (likely(mas->offset < mas->end)) {
- 		mas->index = pivots[mas->offset] + 1;
- again:
- 		mas->offset++;
--		if (likely(mas->offset < data_end))
-+		if (likely(mas->offset < mas->end))
- 			mas->last = pivots[mas->offset];
- 		else
- 			mas->last = mas->max;
-@@ -4691,7 +4694,6 @@ static void *mas_next_slot(struct ma_state *mas, unsigned long max, bool empty,
- 			goto overflow;
- 
- 		mas->index = mas->last + 1;
--		/* Node cannot end on NULL, so it's safe to short-cut here */
- 		goto again;
- 	}
+ 		mas_start(mas);
+ 		mtree_range_walk(mas);
+-		end = mas_data_end(mas) + 1;
++		end = mas->end + 1;
+ 		if (end < mt_min_slot_count(mas->node) - 1)
+ 			mas_destroy_rebalance(mas, end);
  
 -- 
 2.39.2
