@@ -2,60 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8EE59ADF18
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2024 10:29:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F4EB9ADF82
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2024 10:53:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2514210E8CE;
-	Thu, 24 Oct 2024 08:29:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0175C10E246;
+	Thu, 24 Oct 2024 08:53:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="gDKxLQ2G";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dM8x/wCz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7FA310E8CE;
- Thu, 24 Oct 2024 08:29:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Ukhu1zEgudrLrY4FbTtrJ0nj4ZcHWLk3Hk7myyRZWso=; b=gDKxLQ2GzSkytVi8d7dxLZowcY
- eKvfDCnK2LvTFU8z1U4GQ0WRLi4OsUTlciXZIEWs+4wRfr3KbOhnEO0hSb6V/HSsSmNEhzPIRk5r7
- SVdIrRR+C4CrpPmnqW7F5AzjIheq/bfkpuHezw5Et8dzbp6y3dLaaHXZWTPZpzPNHfDF2YaaQnBl/
- EsMfHg0SdjaedfIrEUp81uxg3nJV5rh5yJPOiI6v1fVux5JjMZoJocSpNTk48HukrSwyiejkFN43W
- LjHmlTgZXNzRkr+VfP88JHmK30cOE74hlhteEIFdgdPLcbYlY0FKnHGcbS9WrOPGlr1oTUzmai907
- 6v45iEJg==;
-Received: from [90.241.98.187] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1t3tDe-00EQ5y-09; Thu, 24 Oct 2024 10:29:22 +0200
-Message-ID: <50803e40-eaaf-4301-8459-e1b465b2d6f7@igalia.com>
-Date: Thu, 24 Oct 2024 09:29:21 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49BA810E246;
+ Thu, 24 Oct 2024 08:52:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1729759979; x=1761295979;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=DNf5vyaAy97cBjT+9ncS9FQcr815rIqZqus+axexMjE=;
+ b=dM8x/wCzWjv3ExYtNGZf46WS1zrJwgUNhi+6/O+TkJdeI4uXNKyssM8g
+ YozYN49fpAK18CB7gXnKoCigptcMcsbg7XHHmyGDKnY2R0kuWwqJom7RU
+ dBwyed6valELfQzNxHxGS8C0s6Wx2wEhFuDcyL5xoR93is1CsjiNaMJOz
+ NIA/CkZ2bSxJqh44V4yqeQRhmSN8fCWjH44BaOB4/5/2DguWnZjDpD0/K
+ TIyEQtkl4vqNHeN8MFxAMWtIOcsjuW5OOliLAaJlmn7jfohHXj/VegZOh
+ +8xEsBmS7rvbWVjMSN7jaaIx6ycfyHM27b0ZmTEaexjfDMOKBKLEaKInX A==;
+X-CSE-ConnectionGUID: 9Pz8tHjPRcyG8cFkEMy5Yw==
+X-CSE-MsgGUID: zgsgL1V1Q3GX/jW7YHfwNQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11234"; a="17005894"
+X-IronPort-AV: E=Sophos;i="6.11,228,1725346800"; d="scan'208";a="17005894"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Oct 2024 01:52:59 -0700
+X-CSE-ConnectionGUID: lJ8oE/ByQqCLQwUyO1mlJw==
+X-CSE-MsgGUID: R3VzJx5LTI+C9Y1GJIVkwA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,228,1725346800"; d="scan'208";a="80699083"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO [10.245.245.216])
+ ([10.245.245.216])
+ by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Oct 2024 01:52:57 -0700
+Message-ID: <e5eb5da0-5d8b-42cb-90f1-ab2bbba09d5b@intel.com>
+Date: Thu, 24 Oct 2024 09:52:55 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 4/4] drm/amdgpu: track bo memory stats at runtime
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- "Li, Yunxiang (Teddy)" <Yunxiang.Li@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
-Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>
-References: <20241018133308.889-1-Yunxiang.Li@amd.com>
- <20241018133308.889-5-Yunxiang.Li@amd.com>
- <1057097f-02f4-4f0f-9ac5-37aa84570b47@amd.com>
- <SA1PR12MB8599E3DD01B4A45AD7CA71FAED4C2@SA1PR12MB8599.namprd12.prod.outlook.com>
- <53382fc0-0686-46af-9285-0cd6aec314ae@amd.com>
- <cd2b57c6-1947-4dbd-bae8-ecdb2b42de72@igalia.com>
- <47e4b79b-2c08-4ee8-b472-5482bc159856@amd.com>
- <6d324aca-76fd-420b-9bae-6c0984e659e1@igalia.com>
- <7503c3fd-deea-4eb9-9324-ab4f13f70332@amd.com>
- <2141a4f4-bcf4-4419-8756-fb5afd6c7f3a@igalia.com>
- <c80eb8ff-3965-4036-b763-20c4c2550e04@amd.com>
+Subject: Re: [PATCH v5 3/9] drm/xe: Add xe_ttm_access_memory
+To: Matthew Brost <matthew.brost@intel.com>, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: mika.kuoppala@intel.com, thomas.hellstrom@linux.intel.com
+References: <20241021211835.1675640-1-matthew.brost@intel.com>
+ <20241021211835.1675640-4-matthew.brost@intel.com>
 Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <c80eb8ff-3965-4036-b763-20c4c2550e04@amd.com>
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <20241021211835.1675640-4-matthew.brost@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,48 +72,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 23/10/2024 13:56, Christian König wrote:
-> Am 23.10.24 um 14:24 schrieb Tvrtko Ursulin:
->> [SNIP]
->>>> To fold or not the special placements (GWS, GDS & co) is also 
->>>> tangential. In my patch I just preserved the legacy behaviour so it 
->>>> can easily be tweaked on top.
->>>
->>> Yeah, but again the original behavior is completely broken.
->>>
->>> GWS, GDS and OA are counted in blocks of HW units (multiplied by 
->>> PAGE_SIZE IIRC to avoid some GEM&TTM warnings).
->>>
->>> When you accumulate that anywhere in the memory stats then that is 
->>> just completely off.
->>
->> Ooops. :) Are they backed by some memory though, be it system or VRAM?
+On 21/10/2024 22:18, Matthew Brost wrote:
+> Non-contiguous VRAM cannot easily be mapped in TTM nor can non-visible
+> VRAM easily be accessed. Add xe_ttm_access_memory which hooks into
+> ttm_bo_access to access such memory.
 > 
-> GDS is an internal 4 or 64KiB memory block which is only valid while 
-> shaders are running. It is used to communicate stuff between different 
-> shader stages and not even CPU accessible.
+> v4:
+>   - Assert memory access rather than taking RPM ref (Thomas / Auld)
+>   - Fix warning on xe_res_cursor.h for non-zero offset (Mika)
 > 
-> GWS and OA are not even memory, those are just HW blocks which implement 
-> a fixed function.
-> 
-> IIRC most HW generation have 16 of each and when setting up the 
-> application virtual address space you can specify how many will be used 
-> by the application.
-
-I see, thank you! Though I could have bothered to look in the code or 
-even instrument at runtime too.
-
-I agree removing it from system is correct. If wanted and/or desirable 
-some or all could be exported as different memory regions even. DRM 
-fdinfo specs already allows that. Like:
-
-drm-total-vram: ...
-drm-total-gds: ...
-drm-total-oa: ...
-
-Etc.
-
-Regards,
-
-Tvrtko
+> Reported-by: Christoph Manszewski <christoph.manszewski@intel.com>
+> Suggested-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
