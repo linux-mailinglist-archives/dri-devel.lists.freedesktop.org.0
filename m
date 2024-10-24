@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3850F9AE9C7
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2024 17:06:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D02B69AE9CE
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2024 17:07:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C20B10E959;
-	Thu, 24 Oct 2024 15:06:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 407E610E95D;
+	Thu, 24 Oct 2024 15:07:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="G2B8GiT0";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HyklSNg+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8ADB810E959
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 15:06:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 672A910E95D
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 15:07:53 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id F1A0FA45430;
- Thu, 24 Oct 2024 15:05:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4830FC4CEC7;
- Thu, 24 Oct 2024 15:06:01 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 27776A455C5;
+ Thu, 24 Oct 2024 15:07:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E471C4CEC7;
+ Thu, 24 Oct 2024 15:07:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1729782361;
- bh=Ih493C7FW7huTj70GvMdQCxCv0/8gBvIIgko/BVBESQ=;
+ s=k20201202; t=1729782471;
+ bh=gsSRaxF5qMUcw8w2aFZFzRk8Uw2PuZFPXxc0eD5vXhw=;
  h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=G2B8GiT06sGhvAw8upxtM0+4xoxyH2VU5Fs2aV8Al5mf91nP+UD9BCyr8wxtcM8wq
- VCmJN7wdKuj8FdYcDhTFEDpfx1uK0I+897Y5r1LBrarAwoUlKOQB3lAFScFx7ZstWn
- xU2HUvAs/GrFlF1cSAweX7XZ59QcWpNVQfXYA4oXTgzef1RaSzz6mDI/hD52/ki9wj
- Xdi7WTeDIG39ORLQJRsHowGLTWUbFsECRnBcbU91mbvXGGVWvbHiRTKwaDpeYqYr6y
- wAgdjvcRVdhrByzczYohXrfkDIrIv/Yp6HRW+4LMMc3xc1gc8PJCyMYY9kS1Dfnox8
- qH0T0lJDW9jTw==
-Message-ID: <35fc492aa7d6298eba531d08e9fccfa4@kernel.org>
-Date: Thu, 24 Oct 2024 15:05:59 +0000
+ b=HyklSNg+3Iov4TU9gqtKiQUm2hzQu0aZHkrNMPUa6dIsZbb4gGoBaapCT1JtLqTbb
+ CzvBJyu86RqlIErqmui2/Tieibxb12WjJkPOKUeAjKQ5/Bandf78Es5DC/QbL7vaJR
+ W/6CTpsmJD1A39S/EeI62TsB3jj+kMyiPkmWDiWwQ3mUswQc+JuRVzvKu3gBQh3QWF
+ wSWrRJMd/DXp5TIVdyGIqCJYSHRz66TYuazHO9YQaFytFGkAaMECjMYa7ykMH1gxbo
+ kBNeIiFnHilQSeU9bJSuledTFYxrC5piIIjt7t7uF4gQE+iLPGFVkx0ECw1MPavgp0
+ sW3E7vG58mAew==
+Message-ID: <a308178ba289f0df76fbf031b3cb103b@kernel.org>
+Date: Thu, 24 Oct 2024 15:07:49 +0000
 From: "Maxime Ripard" <mripard@kernel.org>
 To: "Dave Stevenson" <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH 23/37] drm/vc4: drv: Add support for 2712 D-step
-In-Reply-To: <20241023-drm-vc4-2712-support-v1-23-1cc2d5594907@raspberrypi.com>
-References: <20241023-drm-vc4-2712-support-v1-23-1cc2d5594907@raspberrypi.com>
+Subject: Re: [PATCH 24/37] drm/vc4: hvs: Add in support for 2712 D-step.
+In-Reply-To: <20241023-drm-vc4-2712-support-v1-24-1cc2d5594907@raspberrypi.com>
+References: <20241023-drm-vc4-2712-support-v1-24-1cc2d5594907@raspberrypi.com>
 Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, "Broadcom
@@ -71,8 +71,9 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 23 Oct 2024 17:50:20 +0100, Dave Stevenson wrote:
-> Add in the compatible string and VC4_GEN_ enum for the D-step
+On Wed, 23 Oct 2024 17:50:21 +0100, Dave Stevenson wrote:
+> THe registers have been moved around, and a couple of minor changes
+> made, so adapt for this.
 > 
 > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
