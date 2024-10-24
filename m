@@ -2,56 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FD599AE4F3
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2024 14:36:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 151A89AE51A
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2024 14:39:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7812610E920;
-	Thu, 24 Oct 2024 12:36:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F76310E928;
+	Thu, 24 Oct 2024 12:39:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="B/gUY8gp";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="QqvklLaH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 562EB10E92A
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 12:36:00 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 03E98A453A5;
- Thu, 24 Oct 2024 12:35:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 625D9C4CECC;
- Thu, 24 Oct 2024 12:35:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1729773358;
- bh=bZLqgD3bwCnrhzSG0ujKytYoFRNy2GAd8aXG7PcqUQk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=B/gUY8gpVxwgzloTNndRWP/FipvgJFBlTFMB6YBFiazqlo6dkhvJG09H2Jh0wEOwa
- 8LdqeDAJ5fAY5NuywAMnA+jZhCUj6mrpRbKrQKdhkVwANZeKAc2aMTsn57cNVvU2bp
- FWQpTlnVPE8U5V/A8ISuZbVTX3rEnQyoiH/VKhFtD8q2OFGSuScRJ9TJsiBE7piDAM
- EPlOorbZtRe42qXX27+TfAMjE7TgtDdGzigLGpykr3Itngos4r1VtbK14+5fxFoSFU
- sCEb+oRwFimSQlxTG4KrfCaB7xudEhE+cAt4LQFntW8Jjv8Gm+77nInncXAdUxXMox
- N0zl+k7R+2j5A==
-Date: Thu, 24 Oct 2024 14:35:55 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Fei Shao <fshao@chromium.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Chen-Yu Tsai <wenst@chromium.org>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- David Airlie <airlied@gmail.com>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH] drm/bridge: panel: Use devm_drm_bridge_add()
-Message-ID: <20241024-stalwart-bandicoot-of-music-bc6b29@houat>
-References: <20241009052402.411978-1-fshao@chromium.org>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C5F110E928
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 12:39:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1729773564;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=5+OQwY4zc6vEVXiNONtzig1xHIyHH/SoXYN3nuyooEc=;
+ b=QqvklLaHUJgksniBgPIYPOn7rFm4jCWTKQiECOD8yQPnPTqci0455nOTNWVl9FPUkCxRP8
+ osvurnZRdgmJbCXKvmbtX8bh1o18qLq/VzCZ1fXmIqT5jhG8XY5K/4/GEy1sUSjZxVTK1W
+ nbvaAZYhVMvJmj1lyNAUQ/p91WVr22w=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-516-EA-p8q9_M3SlZXaAD2ueeQ-1; Thu, 24 Oct 2024 08:39:22 -0400
+X-MC-Unique: EA-p8q9_M3SlZXaAD2ueeQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-4316e2dde9eso8863335e9.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 05:39:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1729773561; x=1730378361;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=5+OQwY4zc6vEVXiNONtzig1xHIyHH/SoXYN3nuyooEc=;
+ b=JT+CnJYzz69B2VlFy6kHbZC1fj0oNYM590lhPEH1hyly//atXb1YbsKz0BJkEDIP3H
+ lsu2g/cuhGAFHpNxv4AHz4UErCw8vAnLJbDL2uAov147IfdnaQjk6BVL2xxKVuK+7Dyh
+ 24m8jwsKHeJ1le8/o7s2oR1TTjc7TG+uAW7suet4g52wYx6Sv52SX0PJ/ZikL7FRZokQ
+ t1YVF2aIiea6WazWzRJg4MSAX3JwJqLUhM/MvhvAHIT0NbX4I3HZYDPGvvqk5QR9lJGb
+ Rep0V2Kd65atz5HJ7M9/V9v45gLf6+3ed4+B7EudqbXbivwQAleUAW5kgP90w/FxIHPk
+ q8SQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXJgVNU701ZPfO2ha9qFv/PoirIHttgVoFgwB1abBArGtrT+Qlzk4U5snUq//I2RAGuZHY74CtnOxQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxzGDXjKQX4v5i8Q+sb2D1TMWzY7jd0LbWk8QPDdLBPusuLoUsu
+ bwjvKNSmrbAeERemAO8gsnIqGWEQPygCvraxfILjWWdu3DAdCrZuHvLOixdR9Sjm9qdoNhbAs1q
+ zF0wTkKZtf5XpFGQ5/fthdjEZgpEaJBItewZ5wN2OBSzAvIi7n6fxFmqYJLTvr36PGQ==
+X-Received: by 2002:a05:600c:3b90:b0:431:6083:cd30 with SMTP id
+ 5b1f17b1804b1-431841eb1f4mr58630645e9.6.1729773561432; 
+ Thu, 24 Oct 2024 05:39:21 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHP4Yt2lWKfiLXUwD5pyhyM9nEq+ovGX7LSbAtjKqBgqeoGKgURQHRk8nXBv2l3UL8PbfGW5A==
+X-Received: by 2002:a05:600c:3b90:b0:431:6083:cd30 with SMTP id
+ 5b1f17b1804b1-431841eb1f4mr58630405e9.6.1729773561037; 
+ Thu, 24 Oct 2024 05:39:21 -0700 (PDT)
+Received: from localhost ([2a01:e0a:b25:f902::ff])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4318b5706c3sm16232465e9.34.2024.10.24.05.39.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Oct 2024 05:39:20 -0700 (PDT)
+Date: Thu, 24 Oct 2024 14:39:20 +0200
+From: Maxime Ripard <mripard@redhat.com>
+To: John Stultz <jstultz@google.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, 
+ "T.J. Mercier" <tjmercier@google.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+Subject: Re: Requirements to merge new heaps in the kernel
+Message-ID: <20241024-nondescript-pogona-of-chemistry-fa4ab4@houat>
+References: <20241022-macaw-of-spectacular-joy-8dcefa@houat>
+ <CANDhNCoLgzy=CPBWjBKLiJzRdnf=SS3AgtFJNB-CBYAo=UEQJA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="dkuvoaq5vcnrqd3p"
+ protocol="application/pgp-signature"; boundary="ebb7ftwkuirg3orl"
 Content-Disposition: inline
-In-Reply-To: <20241009052402.411978-1-fshao@chromium.org>
+In-Reply-To: <CANDhNCoLgzy=CPBWjBKLiJzRdnf=SS3AgtFJNB-CBYAo=UEQJA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,195 +97,56 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---dkuvoaq5vcnrqd3p
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+--ebb7ftwkuirg3orl
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [RFC PATCH] drm/bridge: panel: Use devm_drm_bridge_add()
+Subject: Re: Requirements to merge new heaps in the kernel
 MIME-Version: 1.0
 
-On Wed, Oct 09, 2024 at 01:23:31PM +0800, Fei Shao wrote:
-> In the mtk_dsi driver, its DSI host attach callback calls
-> devm_drm_of_get_bridge() to get the next bridge. If that next bridge is
-> a panel bridge, a panel_bridge object is allocated and managed by the
-> panel device.
+On Tue, Oct 22, 2024 at 09:19:05AM -0700, John Stultz wrote:
+> On Tue, Oct 22, 2024 at 1:38=E2=80=AFAM Maxime Ripard <mripard@redhat.com=
+> wrote:
+> >
+> > I wanted to follow-up on the discussion we had at Plumbers with John and
+> > T.J. about (among other things) adding new heaps to the kernel.
+> >
+> > I'm still interested in merging a carve-out driver[1], since it seems t=
+o be
+> > in every vendor BSP and got asked again last week.
+> >
+> > I remember from our discussion that for new heap types to be merged, we
+> > needed a kernel use-case. Looking back, I'm not entirely sure how one
+> > can provide that given that heaps are essentially facilities for
+> > user-space.
+> >
+> > Am I misremembering or missing something? What are the requirements for
+> > you to consider adding a new heap driver?
 >=20
-> Later, if the attach callback fails with -EPROBE_DEFER from subsequent
-> component_add(), the panel device invoking the callback at probe time
-> also fails, and all device-managed resources are freed accordingly.
->=20
-> This exposes a drm_bridge bridge_list corruption due to the unbalanced
-> lifecycle between the DSI host and the panel devices: the panel_bridge
-> object managed by panel device is freed, while drm_bridge_remove() is
-> bound to DSI host device and never gets called.
-> The next drm_bridge_add() will trigger UAF against the freed bridge list
-> object and result in kernel panic.
->=20
-> This bug is observed on a MediaTek MT8188-based Chromebook with MIPI DSI
-> outputting to a DSI panel (DT is WIP for upstream).
->=20
-> As a fix, using devm_drm_bridge_add() with the panel device in the panel
-> path seems reasonable. This also implies a chain of potential cleanup
-> actions:
->=20
-> 1. Removing drm_bridge_remove() means devm_drm_panel_bridge_release()
->    becomes hollow and can be removed.
->=20
-> 2. devm_drm_panel_bridge_add_typed() is almost emptied except for the
->    `bridge->pre_enable_prev_first` line. Itself can be also removed if
->    we move the line into drm_panel_bridge_add_typed(). (maybe?)
->=20
-> 3. drm_panel_bridge_add_typed() now calls all the needed devm_* calls,
->    so it's essentially the new devm_drm_panel_bridge_add_typed().
->=20
-> 4. drmm_panel_bridge_add() needs to be updated accordingly since it
->    calls drm_panel_bridge_add_typed(). But now there's only one bridge
->    object to be freed, and it's already being managed by panel device.
->    I wonder if we still need both drmm_ and devm_ version in this case.
->    (maybe yes from DRM PoV, I don't know much about the context)
->=20
-> This is a RFC patch since I'm not sure if my understanding is correct
-> (for both the fix and the cleanup). It fixes the issue I encountered,
-> but I don't expect it to be picked up directly due to the redundant
-> commit message and the dangling devm_drm_panel_bridge_release().
-> I plan to resend the official patch(es) once I know what I supposed to
-> do next.
->=20
-> For reference, here's the KASAN report from the device:
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->  BUG: KASAN: slab-use-after-free in drm_bridge_add+0x98/0x230
->  Read of size 8 at addr ffffff80c4e9e100 by task kworker/u32:1/69
->=20
->  CPU: 1 UID: 0 PID: 69 Comm: kworker/u32:1 Not tainted 6.12.0-rc1-next-20=
-241004-kasan-00030-g062135fa4046 #1
->  Hardware name: Google Ciri sku0/unprovisioned board (DT)
->  Workqueue: events_unbound deferred_probe_work_func
->  Call trace:
->   dump_backtrace+0xfc/0x140
->   show_stack+0x24/0x38
->   dump_stack_lvl+0x40/0xc8
->   print_report+0x140/0x700
->   kasan_report+0xcc/0x130
->   __asan_report_load8_noabort+0x20/0x30
->   drm_bridge_add+0x98/0x230
->   devm_drm_panel_bridge_add_typed+0x174/0x298
->   devm_drm_of_get_bridge+0xe8/0x190
->   mtk_dsi_host_attach+0x130/0x2b0
->   mipi_dsi_attach+0x8c/0xe8
->   hx83102_probe+0x1a8/0x368
->   mipi_dsi_drv_probe+0x6c/0x88
->   really_probe+0x1c4/0x698
->   __driver_probe_device+0x160/0x298
->   driver_probe_device+0x7c/0x2a8
->   __device_attach_driver+0x2a0/0x398
->   bus_for_each_drv+0x198/0x200
->   __device_attach+0x1c0/0x308
->   device_initial_probe+0x20/0x38
->   bus_probe_device+0x11c/0x1f8
->   deferred_probe_work_func+0x80/0x250
->   worker_thread+0x9b4/0x2780
->   kthread+0x274/0x350
->   ret_from_fork+0x10/0x20
->=20
->  Allocated by task 69:
->   kasan_save_track+0x40/0x78
->   kasan_save_alloc_info+0x44/0x58
->   __kasan_kmalloc+0x84/0xa0
->   __kmalloc_node_track_caller_noprof+0x228/0x450
->   devm_kmalloc+0x6c/0x288
->   devm_drm_panel_bridge_add_typed+0xa0/0x298
->   devm_drm_of_get_bridge+0xe8/0x190
->   mtk_dsi_host_attach+0x130/0x2b0
->   mipi_dsi_attach+0x8c/0xe8
->   hx83102_probe+0x1a8/0x368
->   mipi_dsi_drv_probe+0x6c/0x88
->   really_probe+0x1c4/0x698
->   __driver_probe_device+0x160/0x298
->   driver_probe_device+0x7c/0x2a8
->   __device_attach_driver+0x2a0/0x398
->   bus_for_each_drv+0x198/0x200
->   __device_attach+0x1c0/0x308
->   device_initial_probe+0x20/0x38
->   bus_probe_device+0x11c/0x1f8
->   deferred_probe_work_func+0x80/0x250
->   worker_thread+0x9b4/0x2780
->   kthread+0x274/0x350
->   ret_from_fork+0x10/0x20
->=20
->  Freed by task 69:
->   kasan_save_track+0x40/0x78
->   kasan_save_free_info+0x58/0x78
->   __kasan_slab_free+0x48/0x68
->   kfree+0xd4/0x750
->   devres_release_all+0x144/0x1e8
->   really_probe+0x48c/0x698
->   __driver_probe_device+0x160/0x298
->   driver_probe_device+0x7c/0x2a8
->   __device_attach_driver+0x2a0/0x398
->   bus_for_each_drv+0x198/0x200
->   __device_attach+0x1c0/0x308
->   device_initial_probe+0x20/0x38
->   bus_probe_device+0x11c/0x1f8
->   deferred_probe_work_func+0x80/0x250
->   worker_thread+0x9b4/0x2780
->   kthread+0x274/0x350
->   ret_from_fork+0x10/0x20
->=20
->  The buggy address belongs to the object at ffffff80c4e9e000
->   which belongs to the cache kmalloc-4k of size 4096
->  The buggy address is located 256 bytes inside of
->   freed 4096-byte region [ffffff80c4e9e000, ffffff80c4e9f000)
->=20
->  The buggy address belongs to the physical page:
->  head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
->  flags: 0x8000000000000040(head|zone=3D2)
->  page_type: f5(slab)
->  page: refcount:1 mapcount:0 mapping:0000000000000000
->  index:0x0 pfn:0x104e98
->  raw: 8000000000000040 ffffff80c0003040 dead000000000122 0000000000000000
->  raw: 0000000000000000 0000000000040004 00000001f5000000 0000000000000000
->  head: 8000000000000040 ffffff80c0003040 dead000000000122 0000000000000000
->  head: 0000000000000000 0000000000040004 00000001f5000000 0000000000000000
->  head: 8000000000000003 fffffffec313a601 ffffffffffffffff 0000000000000000
->  head: 0000000000000008 0000000000000000 00000000ffffffff 0000000000000000
->  page dumped because: kasan: bad access detected
->=20
->  Memory state around the buggy address:
->   ffffff80c4e9e000: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->   ffffff80c4e9e080: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->  >ffffff80c4e9e100: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->                     ^
->   ffffff80c4e9e180: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->   ffffff80c4e9e200: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->=20
-> Signed-off-by: Fei Shao <fshao@chromium.org>
+> It's basically the same as the DRM subsystem rules.
+> https://docs.kernel.org/gpu/drm-uapi.html#open-source-userspace-requireme=
+nts
+> ie: There has to be opensource user for it, and the user has to be
+> more significant than a "toy" implementation (which can be a bit
+> subjective and contentious when trying to get out of a chicken and egg
+> loop).
 
-I was looking at the driver to try to follow your (awesome btw, thanks)
-commit log, and it does have a quite different structure compared to
-what we recommend.
-
-Would following
-https://docs.kernel.org/gpu/drm-kms-helpers.html#special-care-with-mipi-dsi=
--bridges
-help?
+Ok, so I'm definitely misremembering things then, I thought there was
+another requirement in addition to that one. Thanks :)
 
 Maxime
 
---dkuvoaq5vcnrqd3p
+--ebb7ftwkuirg3orl
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZxo/JwAKCRAnX84Zoj2+
-djlwAYDU5AJMts7DqHAI/ZfjLhLmr61kQEljRX2stW/N47ZWhUKplzVN203QoZiz
-mLAgACgBgMguwsc5LMVt2SiVLt90ReG/oNPadAg4oV5U3OKPsVa7t+TiPcgiMRq1
-mvt1lDUj5w==
-=fKn5
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZxo/9wAKCRAnX84Zoj2+
+djn1AX9LL8SXF/jq+RdIeQMizkxZVAraKRt3f6b5NqqRYhNV1s73O/AM40KqrjPO
+PitAa1wBgOVgiPLyWZpw+VK+HqDje4x7HEncok93cPDEPDddu+TgaH7x4+CblDWy
+zUOH8A1wEA==
+=M20y
 -----END PGP SIGNATURE-----
 
---dkuvoaq5vcnrqd3p--
+--ebb7ftwkuirg3orl--
+
