@@ -2,92 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F92D9AF421
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2024 22:54:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB7E39AF449
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2024 23:08:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7E0210E9A1;
-	Thu, 24 Oct 2024 20:54:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E05910E3B5;
+	Thu, 24 Oct 2024 21:08:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="j9HGgmTH";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="o97BU/go";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com
- [209.85.218.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 280D810E9A1
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 20:54:06 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id
- a640c23a62f3a-a9acafdb745so271270866b.0
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 13:54:06 -0700 (PDT)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+ [209.85.128.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 219DE10E3B5
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 21:08:10 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id
+ 5b1f17b1804b1-4315abed18aso13897105e9.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 14:08:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1729803244; x=1730408044;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1729804088; x=1730408888;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=MylHOwKXaTo3xQDXg/sSZOBifyCTeLdawXaFYKq87vU=;
- b=j9HGgmTHtT4UiJe+M9idSCMnfN6KBEoXtSws4gWiIjKvoPKElpAn+D3jjIkzgleSHD
- 5Ou1stv8Ll7BIDF2iUQa5fYBbsUzZLv91EoV0zn3PBas/S2OcAtclog9gFxsMIGsgTkf
- XvMsib3vCJhpEAzVFeB7kW1Ha7w+SRqYm7SGg=
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=JXzfJ7cqlnASO1zqkCXSkoonsDfJDkVTL0G0jDOPo4U=;
+ b=o97BU/goTT2Bv/rhvkyd14Z2DpQopfJgzNRYENuIuRznpdJAKmPA8y1PqdnqWmJ94/
+ nGnJfUYF8VkM0D518gImro8Bz4WVfP6Xlq/0RTzaRzSEplwaOideURW9xcU3sjvHILAT
+ hbtQE16PA1nh+cXLCoRYS4JT18tcmuihYBqaBKvXWa6nODvCLuSJaaJJyFg1Rz/CwYea
+ hBO5J/KS4Io2k79FKk0jG8h61AXSVZSvGGwEsoV0UmJZMzmhzdXBOUTDqhQs5XinHrQ5
+ pjMmQ/d9m4fLi3UzvGY6ZrCys8Ogh3vaMB0kQHXZp4JB2uCKvjh3ke2W+kBTmuWB/c3M
+ Z5aQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729803244; x=1730408044;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=MylHOwKXaTo3xQDXg/sSZOBifyCTeLdawXaFYKq87vU=;
- b=aK/pDHDV5z3/yzwVs6ReFkwScFDMtgAb2Y14MWUxYJu3OgNCsefXmkshmk72FuZeLS
- LznF/g3UGnF+jqWFv0IwYdWnEXDb2t0Mew5MbYrGcJTpA66h4JZYLVVxgzQONt92B6gL
- Sxu+uBIC1I/kaQOf3qZRNyHSZ3RxAcENKvoY1PLQJNid6oWJlztPYJhUb7CGFIbGm/mf
- 9VDrarYnXJ4bFtHb7f/zdpenSBRRrDAozgDVT7gORz5rpBvg3uX1xJf2W/KMhzQs9L4O
- Hu8uJKkgq3kA5u21vhHlUi2Fjf5zIJO9wM+WdNHMjaqfiQAJ5wuD6Q69uDxnI79SNEQR
- woIA==
+ d=1e100.net; s=20230601; t=1729804088; x=1730408888;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=JXzfJ7cqlnASO1zqkCXSkoonsDfJDkVTL0G0jDOPo4U=;
+ b=mfQIEExObMl0ROF6p/Q/t67cC9mqJ1jtAWHo+Wjq14rauvUJqEvJ3ZFdqW8mBYir8R
+ IwG1mYmJuLw0zklGKe4Pe7lZUtrzLaIbGFboOcw/fLS+iFHkXbOGCf7abxuvEjpNsdkg
+ 5sngtNV3Q9jXGva5vWiF8LLnHyKEURS/rnMz0nBGEOOCq1A+DhOojnW8po41c5UZAEWK
+ 3oDMvUVXdr7Qx4MACgA5i7TTaVNars4rgwOJGu4X6PGB0IjPhUXS81VjQtZtDi8WmtZ8
+ Ck/jVYh6zc4MKSpbMKzD+/damH6/e+Sh8PZc8xsus2WCP0elyyW7SLYjL96xZID2cTfO
+ q0vA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVhYsEOFCq/RFkiPrRCtM7/FFBFFyESa7Wb+MZMzoAMhTbuGFnsieG7OSGBtP9nRlgoCM+6zUDDZgA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy5y+OidRE7SIvZ89O/Ss/ZIz6ysTw9/ClYQ55f2b/AimZiAsWK
- V8iwTp4atAnkmPIvMSIlCg8Bu3bJcTtX4+zHmu9Q5hIrZan93OycjdjD0eXHKRNAx2zI3Ptvl1N
- zxZDb
-X-Google-Smtp-Source: AGHT+IHOXC1Houijj4N5qp2pJXNJ/5uTQMIeW4Q+6NGDsxf50oeuQIJ3gMwG44KQvazXPpq3HbhizQ==
-X-Received: by 2002:a17:907:9343:b0:a9a:a3a:6c48 with SMTP id
- a640c23a62f3a-a9ad197af17mr347793966b.2.1729803243527; 
- Thu, 24 Oct 2024 13:54:03 -0700 (PDT)
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com.
- [209.85.208.53]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a9a91370ff9sm661710966b.113.2024.10.24.13.54.03
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Oct 2024 13:54:03 -0700 (PDT)
-Received: by mail-ed1-f53.google.com with SMTP id
- 4fb4d7f45d1cf-5c40aea5c40so2758357a12.0
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 13:54:03 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUVjE/InXxGCTsN9rMvN7Yv8TWBxoKX0mhnT/c1Cu1V3Yzv5zUetPFCeaG0SHcZz96jfDCOcV8NwRk=@lists.freedesktop.org
-X-Received: by 2002:a05:6512:3b8e:b0:53b:205c:e9ac with SMTP id
- 2adb3069b0e04-53b2374a94fmr1177376e87.20.1729802881828; Thu, 24 Oct 2024
- 13:48:01 -0700 (PDT)
+ AJvYcCXL4sa2wvhTFtq+7eLhUJCJawohYdK5yNY8WjuwqxYDLABr7y4lygHqfynbv+IOBmrsVZ8KFEvfl/Q=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyKx7iqvfLDVjqMMVDr0mr0cr58km1eliTe2PJJkP4OdEWhRE3k
+ flzOys4FgDI5qJDdYAiAMYENRT2Dthbp2S4Df1T63LE8V2TKea9aR5ohweNRlBs=
+X-Google-Smtp-Source: AGHT+IFPD1/8m7Hsha9KdxajU1P1rbyaitEfowedegYL3ikz3BOnud7i8xwSlMTzFILBgSYBentRcg==
+X-Received: by 2002:a05:600c:4e8e:b0:426:64a2:5362 with SMTP id
+ 5b1f17b1804b1-431841fd6b6mr59065025e9.8.1729804088119; 
+ Thu, 24 Oct 2024 14:08:08 -0700 (PDT)
+Received: from localhost ([2a02:8071:b783:6940:b203:5494:7e5a:8c7b])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4318b56facasm28351265e9.33.2024.10.24.14.08.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Oct 2024 14:08:07 -0700 (PDT)
+Date: Thu, 24 Oct 2024 23:08:05 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Alex Lanzano <lanzano.alex@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Mehdi Djait <mehdi.djait@bootlin.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH next] drm/sharp-memory: Fix some checks in
+ sharp_memory_probe()
+Message-ID: <hojly7qagyszxbgonzqmuuxucdfqwovrjyiktdxpibku6yodum@n7algnce2tts>
+References: <0d307349-c141-49ee-8b34-67caf5f8b638@stanley.mountain>
 MIME-Version: 1.0
-References: <20240620-igt-v3-0-a9d62d2e2c7e@mediatek.com>
- <20240620-igt-v3-8-a9d62d2e2c7e@mediatek.com>
-In-Reply-To: <20240620-igt-v3-8-a9d62d2e2c7e@mediatek.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 24 Oct 2024 13:47:47 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XTsPBQ7Qp_oQmBXkNY==KQWZdN7VYbuVPoBTHhMvzjUQ@mail.gmail.com>
-Message-ID: <CAD=FV=XTsPBQ7Qp_oQmBXkNY==KQWZdN7VYbuVPoBTHhMvzjUQ@mail.gmail.com>
-Subject: Re: [PATCH v3 08/14] drm/mediatek: Add DRM_MODE_ROTATE_0 to rotation
- property
-To: shawn.sung@mediatek.com
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- CK Hu <ck.hu@mediatek.com>, 
- Bibby Hsieh <bibby.hsieh@mediatek.com>, Daniel Kurtz <djkurtz@chromium.org>, 
- Mao Huang <littlecvr@chromium.org>, "Nancy.Lin" <nancy.lin@mediatek.com>, 
- YT Shen <yt.shen@mediatek.com>, dri-devel@lists.freedesktop.org, 
- linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="3hjnzdxx2pfoo4ij"
+Content-Disposition: inline
+In-Reply-To: <0d307349-c141-49ee-8b34-67caf5f8b638@stanley.mountain>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,37 +90,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On Wed, Jun 19, 2024 at 9:39=E2=80=AFAM Hsiao Chien Sung via B4 Relay
-<devnull+shawn.sung.mediatek.com@kernel.org> wrote:
->
-> From: Hsiao Chien Sung <shawn.sung@mediatek.com>
->
-> Always add DRM_MODE_ROTATE_0 to rotation property to meet
-> IGT's (Intel GPU Tools) requirement.
->
-> Reviewed-by: CK Hu <ck.hu@mediatek.com>
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collab=
-ora.com>
-> Fixes: 119f5173628a ("drm/mediatek: Add DRM Driver for Mediatek SoC MT817=
-3.")
-> Signed-off-by: Hsiao Chien Sung <shawn.sung@mediatek.com>
+--3hjnzdxx2pfoo4ij
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH next] drm/sharp-memory: Fix some checks in
+ sharp_memory_probe()
+MIME-Version: 1.0
+
+On Wed, Oct 23, 2024 at 11:30:31AM +0300, Dan Carpenter wrote:
+> The devm_drm_dev_alloc() function returns error pointers, it never
+> returns NULL.  Change that check to IS_ERR().
+>=20
+> The devm_gpiod_get_optional() function returns a mix of error pointers
+> if there is an error, or NULL if there is no GPIO assigned.  Add a check
+> for error pointers.
+>=20
+> Fixes: b8f9f21716fe ("drm/tiny: Add driver for Sharp Memory LCD")
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 > ---
->  drivers/gpu/drm/mediatek/mtk_ddp_comp.h |  6 +++++-
->  drivers/gpu/drm/mediatek/mtk_disp_ovl.c | 17 +++++------------
->  drivers/gpu/drm/mediatek/mtk_plane.c    |  2 +-
->  3 files changed, 11 insertions(+), 14 deletions(-)
+>  drivers/gpu/drm/tiny/sharp-memory.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/tiny/sharp-memory.c b/drivers/gpu/drm/tiny/s=
+harp-memory.c
+> index 2d2315bd6aef..1bcdd79166a4 100644
+> --- a/drivers/gpu/drm/tiny/sharp-memory.c
+> +++ b/drivers/gpu/drm/tiny/sharp-memory.c
+> @@ -543,8 +543,8 @@ static int sharp_memory_probe(struct spi_device *spi)
+> =20
+>  	smd =3D devm_drm_dev_alloc(dev, &sharp_memory_drm_driver,
+>  				 struct sharp_memory_device, drm);
+> -	if (!smd)
+> -		return -ENOMEM;
+> +	if (IS_ERR(smd))
+> +		return PTR_ERR(smd);
+> =20
+>  	spi_set_drvdata(spi, smd);
+> =20
+> @@ -555,6 +555,8 @@ static int sharp_memory_probe(struct spi_device *spi)
+>  		return dev_err_probe(dev, ret, "Failed to initialize drm config\n");
+> =20
+>  	smd->enable_gpio =3D devm_gpiod_get_optional(dev, "enable", GPIOD_OUT_H=
+IGH);
+> +	if (IS_ERR(smd->enable_gpio))
+> +		return PTR_ERR(smd->enable_gpio);
+>  	if (!smd->enable_gpio)
+>  		dev_warn(dev, "Enable gpio not defined\n");
 
-FWIW, this patch got into ChromeOS's 5.15 branch via stable merge and
-apparently broke things. As a short term fix we've reverted it there:
+Use dev_err_probe() instead of plain returns?
 
-https://crrev.com/c/5960799
+Best regards
+Uwe
 
-...apparently the patch is fine on newer kernels so maybe there is a
-missing dependency? Hopefully someone on this list can dig into this
-and either post the revert to stable 5.15 kernels or suggest
-additional backports.
+--3hjnzdxx2pfoo4ij
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
--Doug
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmcatzIACgkQj4D7WH0S
+/k7sjQf9HxKcouACQt7j/TiWaHv1n9Dw59KVCBvbJ3GvxCTuBeRG+1KI9cKTeumE
+Rm91JB1wya0l0o1QaaYbTq80gBNLIQ+tyVtdhtDh4jJ4gIvtjx6UavyWogj7UQvf
+prverPw2PSS6EMPpeqbJhRFPSsi9Hq6ihXSrm13E5OADjQL3hAof/rDGhCLvf+PH
+9tyFiOFdoQW7WuZHgQ2I+XWj6U/kSPquAA/D6Uf6PlYDEAyUvPcRvC4dMD7GpZ2K
+Y3OxXMcnTSopDGovPgTpiFR9RySYF1+3A5kqz2EFqnytZVZ7+GmsWctY4ZB8F67i
+bL1/7QVqC49NKvRGbl/jE5DHw0/cDA==
+=dMac
+-----END PGP SIGNATURE-----
+
+--3hjnzdxx2pfoo4ij--
