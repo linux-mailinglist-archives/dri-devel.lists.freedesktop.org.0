@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 937AB9AE532
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2024 14:42:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E3709AE533
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2024 14:42:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1633B10E92D;
-	Thu, 24 Oct 2024 12:42:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0420B10E92F;
+	Thu, 24 Oct 2024 12:42:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="PDgdx5hN";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="QhOlARTO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
- [209.85.208.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04B0010E92B
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 12:42:09 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id
- 4fb4d7f45d1cf-5c94861ee25so491036a12.0
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 05:42:09 -0700 (PDT)
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com
+ [209.85.208.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7964410E92E
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 12:42:11 +0000 (UTC)
+Received: by mail-ed1-f47.google.com with SMTP id
+ 4fb4d7f45d1cf-5c94a7239cfso432419a12.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 05:42:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1729773728; x=1730378528; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1729773729; x=1730378529; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=sj6gTNhuF8KQ+mC8FcVavaAooc7DkgFZVC/sO2AOejw=;
- b=PDgdx5hNglIVp0NfehRz5AcHqzQoDRfffk/ZKc68XK+3RCdTDoRt4U9r3MAyauo21H
- uny93Pbclc14viFKdjo3+jSlRaUY4Sfb33FX5oYivxvJmW0Etu9ZjQIIyB2EXaVu/tbT
- zHhcsBhEsmo7xrIOQjGPSOJrvxODPtRbPc+153cWp58CjLjw4YvPm1D2OzrUeJqBBYaV
- XZdgq2MAF9xk/K8twkXomLcR4BZ3Ub8uUhKiNhlW6tf6lPjwBUb+hqx5RQVdorcOHBRQ
- LjCF7/PYROkvJoxU63uuv5MW2Q1vQ2m6+G4Vslqdg8/XXWk68qqLrIbVfC9RTddwWJL3
- RiLQ==
+ :reply-to; bh=LYQP74pAccaxp/bWVaRuhS0QTdY30Bf36SGERpSHwKs=;
+ b=QhOlARTO1zFfR7F0O3YoJGDIZtfRw7EZDl/UZUlsqRiB5BIvqbaZwwKCdeUhMjScdR
+ 5gsATnKHtkF7Tygz5QFmT+i8PKgt1Gnl4lN2GI/dP1to2LiCAbFazJwmN6TnwnsYbGcU
+ kw4Lh9Kf9GIydVTraO+nfl8yY4W3rbTCamxeByM0VmQR5HFEh3lQEIkgoYqXiDyYEFHz
+ Z5cNkngIXCoAeAZvqT5ZByfaeK7W+MbaMyPZBTX/dd6V9xctqYvie5mBSEloG0XCDxP6
+ AFx/0m/9/gcvhAJPg0hgC/GrzK15RUir9FANVSYyjDUDO9RKXLcuopT1af87oKT40KpI
+ cVRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729773728; x=1730378528;
+ d=1e100.net; s=20230601; t=1729773729; x=1730378529;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=sj6gTNhuF8KQ+mC8FcVavaAooc7DkgFZVC/sO2AOejw=;
- b=bUH4pM80X8bDqhw5K78Kg49ryuW/J7f4uovq0LINoEkPVC64L/C53hK2z31oZVTHMM
- Im60hQCLeyz4a8n5fptNAvMKkUijjy6EPuAZ+wnyRSdztK8NLxFhVZQyrVV+drBgxdiq
- aa0W3FBonS/z2w27x1lZXM1vYAah/+hAmBdfsDJnBw/b0/eUK2GRFXeeT6viJQs+kYZJ
- rO7qObo2LQypjqBHzIL1KLqpKLyGZJ0SIlqnT+AKQg2MvrKmrmDrfg3sPu3Qdjb2qnOg
- P72bJB86cDa8eTk8wadDwg+2xZlCEHTwlGMvUUibTx9NzxnOnriAs4Zrsk/h/qQ5lYEN
- 6oGw==
+ bh=LYQP74pAccaxp/bWVaRuhS0QTdY30Bf36SGERpSHwKs=;
+ b=vABACwo4tsVC20Jx4tBIArGntiD87iimnZm9Ta2b9liAUbaKFG7BBZUizQydMgLORw
+ iUpEPUTsVvV83qVcluuiYQrpBBzGYTSEFKLgwC5l/7psn+izlhjLKsio6c3iXUvGeQTy
+ Hl6a/pVAUV6HmUxMo64MimqQfwBXXSPj07GqGruooQ6RUV1xG8CNkU+JppVKDFS3yDnj
+ D4TzoPnFwIIj5Zpo9KilPy1c5J42Y5HQsKcafkaBFm5pXuW9XWAJ4eNpVe6ZpoeVcAeD
+ /gUsUyEilZ4zgMuB/b/j92hCNkCvRrYfEjLVGzuYEIAIhW2pp4dViAzMtV8FPQ3tQlWD
+ lUFg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW/hdYr4dQN5MCBIyofkIlAubQlyrm71HDdWdK7Yp9olxHvZWE89ipARkxIGGHoRUIiYsmwBpCrRFE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzZT/vjJRmvpoLxHCt0VHso2WyLh75IvWUl3r+ILZv9K5DlMt6S
- 8iktWeLkB+bmqZcJCEeHbs8lnQaMgFY37YJauXG/mW/XHfGKFNSP
-X-Google-Smtp-Source: AGHT+IEEuTA8PMmVuhARSpT0IT9Dw6qAIi5njqx7dcLq/evV3H2wVxDBE4GcYae26HsdPCERft1Agg==
-X-Received: by 2002:a05:6402:5d3:b0:5c8:9529:1b59 with SMTP id
- 4fb4d7f45d1cf-5cb8b1e9c71mr5459788a12.20.1729773727785; 
- Thu, 24 Oct 2024 05:42:07 -0700 (PDT)
+ AJvYcCW93piNse0eu/Y9seYVuHekm9mWiyZd135MfUbqIbxnUwlSGFR6zBd3lrUkuOTbhBcs88Y9SP8v3Yo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz17nf3tkszjDeGBu8AASwtWK7gAFE8P1u4ODf70n+c7zB6v8dR
+ PClGfyA/ufj2NVsBSRGIpDnXyTHHfUXFytxASyATRGmUfjJjUXFj
+X-Google-Smtp-Source: AGHT+IEilgT2WydO1IHCnafNNt39ENQJ3H3MKCDUHgc+VjYTRmF5GAqFBuV0eTODjlNsewSKNthecg==
+X-Received: by 2002:a05:6402:43c9:b0:5c9:5928:970 with SMTP id
+ 4fb4d7f45d1cf-5cb8b1c2410mr6786177a12.19.1729773729421; 
+ Thu, 24 Oct 2024 05:42:09 -0700 (PDT)
 Received: from able.fritz.box ([2a00:e180:1550:4200:da3c:7fbc:c60c:ca4b])
  by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-5cb66a65419sm5623026a12.25.2024.10.24.05.42.05
+ 4fb4d7f45d1cf-5cb66a65419sm5623026a12.25.2024.10.24.05.42.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Oct 2024 05:42:06 -0700 (PDT)
+ Thu, 24 Oct 2024 05:42:09 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: friedrich.vock@gmx.de, Richardqi.Liang@amd.com,
  dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
  linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 2/3] dma-buf: sort fences in dma_fence_unwrap_merge
-Date: Thu, 24 Oct 2024 14:41:58 +0200
-Message-Id: <20241024124159.4519-3-christian.koenig@amd.com>
+Subject: [PATCH 3/3] dma-buf: add selftest for fence order after merge
+Date: Thu, 24 Oct 2024 14:41:59 +0200
+Message-Id: <20241024124159.4519-4-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241024124159.4519-1-christian.koenig@amd.com>
 References: <20241024124159.4519-1-christian.koenig@amd.com>
@@ -85,86 +85,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The merge function initially handled only individual fences and
-arrays which in turn were created by the merge function. This allowed
-to create the new array by a simple merge sort based on the fence
-context number.
+Add a test which double checks that fences are in the expected order
+after a merge.
 
-The problem is now that since the addition of timeline sync objects
-userspace can create chain containers in basically any fence context
-order.
-
-If those are merged together it can happen that we create really
-large arrays since the merge sort algorithm doesn't work any more.
-
-So put an insert sort behind the merge sort which kicks in when the
-input fences are not in the expected order. This isn't as efficient
-as a heap sort, but has better properties for the most common use
-case.
+While at it also switch to using a mock array for the complex test
+instead of a merge.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/dma-buf/dma-fence-unwrap.c | 39 ++++++++++++++++++++++++++----
- 1 file changed, 34 insertions(+), 5 deletions(-)
+ drivers/dma-buf/st-dma-fence-unwrap.c | 69 ++++++++++++++++++++++++++-
+ 1 file changed, 68 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/dma-buf/dma-fence-unwrap.c b/drivers/dma-buf/dma-fence-unwrap.c
-index 628af51c81af..d9aa280d9ff6 100644
---- a/drivers/dma-buf/dma-fence-unwrap.c
-+++ b/drivers/dma-buf/dma-fence-unwrap.c
-@@ -106,7 +106,7 @@ struct dma_fence *__dma_fence_unwrap_merge(unsigned int num_fences,
- 		fences[i] = dma_fence_unwrap_first(fences[i], &iter[i]);
+diff --git a/drivers/dma-buf/st-dma-fence-unwrap.c b/drivers/dma-buf/st-dma-fence-unwrap.c
+index f0cee984b6c7..876eabddb08f 100644
+--- a/drivers/dma-buf/st-dma-fence-unwrap.c
++++ b/drivers/dma-buf/st-dma-fence-unwrap.c
+@@ -304,6 +304,72 @@ static int unwrap_merge(void *arg)
+ 	return err;
+ }
  
- 	count = 0;
--	do {
-+	while (true) {
- 		unsigned int sel;
++static int unwrap_merge_order(void *arg)
++{
++	struct dma_fence *fence, *f1, *f2, *a1, *a2, *c1, *c2;
++	struct dma_fence_unwrap iter;
++	int err = 0;
++
++	f1 = mock_fence();
++	if (!f1)
++		return -ENOMEM;
++
++	dma_fence_enable_sw_signaling(f1);
++
++	f2 = mock_fence();
++	if (!f2) {
++		dma_fence_put(f1);
++		return -ENOMEM;
++	}
++
++	dma_fence_enable_sw_signaling(f2);
++
++	a1 = mock_array(2, f1, f2);
++	if (!a1)
++		return -ENOMEM;
++
++	c1 = mock_chain(NULL, dma_fence_get(f1));
++	if (!c1)
++		goto error_put_a1;
++
++	c2 = mock_chain(c1, dma_fence_get(f2));
++	if (!c2)
++		goto error_put_a1;
++
++	/*
++	 * The fences in the chain are the same as in a1 but in oposite order,
++	 * the dma_fence_merge() function should be able to handle that.
++	 */
++	a2 = dma_fence_unwrap_merge(a1, c2);
++
++	dma_fence_unwrap_for_each(fence, &iter, a2) {
++		if (fence == f1) {
++			f1 = NULL;
++			if (!f2)
++				pr_err("Unexpected order!\n");
++		} else if (fence == f2) {
++			f2 = NULL;
++			if (f1)
++				pr_err("Unexpected order!\n");
++		} else {
++			pr_err("Unexpected fence!\n");
++			err = -EINVAL;
++		}
++	}
++
++	if (f1 || f2) {
++		pr_err("Not all fences seen!\n");
++		err = -EINVAL;
++	}
++
++	dma_fence_put(a2);
++	return err;
++
++error_put_a1:
++	dma_fence_put(a1);
++	return -ENOMEM;
++}
++
+ static int unwrap_merge_complex(void *arg)
+ {
+ 	struct dma_fence *fence, *f1, *f2, *f3, *f4, *f5;
+@@ -327,7 +393,7 @@ static int unwrap_merge_complex(void *arg)
+ 		goto error_put_f2;
  
- restart:
-@@ -144,11 +144,40 @@ struct dma_fence *__dma_fence_unwrap_merge(unsigned int num_fences,
- 			}
- 		}
+ 	/* The resulting array has the fences in reverse */
+-	f4 = dma_fence_unwrap_merge(f2, f1);
++	f4 = mock_array(2, dma_fence_get(f2), dma_fence_get(f1));
+ 	if (!f4)
+ 		goto error_put_f3;
  
--		if (tmp) {
--			array[count++] = dma_fence_get(tmp);
--			fences[sel] = dma_fence_unwrap_next(&iter[sel]);
-+		if (!tmp)
-+			break;
-+
-+		/*
-+		 * We could use a binary search here, but since the assumption
-+		 * is that the main input are already sorted dma_fence_arrays
-+		 * just looking from end has a higher chance of finding the
-+		 * right location on the first try
-+		 */
-+
-+		for (i = count; i--;) {
-+			if (likely(array[i]->context < tmp->context))
-+				break;
-+
-+			if (array[i]->context == tmp->context) {
-+				if (dma_fence_is_later(tmp, array[i])) {
-+					dma_fence_put(array[i]);
-+					array[i] = dma_fence_get(tmp);
-+				}
-+				fences[sel] = dma_fence_unwrap_next(&iter[sel]);
-+				goto restart;
-+			}
- 		}
--	} while (tmp);
-+
-+		++i;
-+		/*
-+		 * Make room for the fence, this should be a nop most of the
-+		 * time.
-+		 */
-+		memcpy(&array[i + 1], &array[i], (count - i) * sizeof(*array));
-+		array[i] = dma_fence_get(tmp);
-+		fences[sel] = dma_fence_unwrap_next(&iter[sel]);
-+		count++;
-+	};
+@@ -375,6 +441,7 @@ int dma_fence_unwrap(void)
+ 		SUBTEST(unwrap_chain),
+ 		SUBTEST(unwrap_chain_array),
+ 		SUBTEST(unwrap_merge),
++		SUBTEST(unwrap_merge_order),
+ 		SUBTEST(unwrap_merge_complex),
+ 	};
  
- 	if (count == 0) {
- 		tmp = dma_fence_allocate_private_stub(ktime_get());
 -- 
 2.34.1
 
