@@ -2,26 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 463CB9B0415
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 15:32:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14C469B0417
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 15:32:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E218410EACC;
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3C4710EACA;
 	Fri, 25 Oct 2024 13:32:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com
- [45.249.212.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10C8C10E94F;
- Thu, 24 Oct 2024 13:41:52 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.93.142])
- by dggsgout12.his.huawei.com (SkyGuard) with ESMTP id 4XZ68l4ysvz4f3jdc;
- Thu, 24 Oct 2024 21:24:55 +0800 (CST)
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com
+ [45.249.212.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 922FA10E94A;
+ Thu, 24 Oct 2024 13:41:38 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.163.235])
+ by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4XZ68s6tdRz4f3l95;
+ Thu, 24 Oct 2024 21:25:01 +0800 (CST)
 Received: from mail02.huawei.com (unknown [10.116.40.128])
- by mail.maildlp.com (Postfix) with ESMTP id 2A8A71A018D;
- Thu, 24 Oct 2024 21:25:13 +0800 (CST)
+ by mail.maildlp.com (Postfix) with ESMTP id 533A51A0568;
+ Thu, 24 Oct 2024 21:25:14 +0800 (CST)
 Received: from huaweicloud.com (unknown [10.175.104.67])
- by APP4 (Coremail) with SMTP id gCh0CgD3LMmxShpnmfz6Ew--.42902S8;
- Thu, 24 Oct 2024 21:25:12 +0800 (CST)
+ by APP4 (Coremail) with SMTP id gCh0CgD3LMmxShpnmfz6Ew--.42902S9;
+ Thu, 24 Oct 2024 21:25:13 +0800 (CST)
 From: Yu Kuai <yukuai1@huaweicloud.com>
 To: stable@vger.kernel.org, gregkh@linuxfoundation.org, harry.wentland@amd.com,
  sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, alexander.deucher@amd.com,
@@ -36,20 +36,20 @@ Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
  maple-tree@lists.infradead.org, linux-mm@kvack.org,
  yukuai1@huaweicloud.com, yi.zhang@huawei.com, yangerkun@huawei.com
-Subject: [PATCH 6.6 20/28] lib/maple_tree.c: fix build error due to hotfix
- alteration
-Date: Thu, 24 Oct 2024 21:22:17 +0800
-Message-Id: <20241024132225.2271667-5-yukuai1@huaweicloud.com>
+Subject: [PATCH 6.6 21/28] maple_tree: avoid checking other gaps after getting
+ the largest gap
+Date: Thu, 24 Oct 2024 21:22:18 +0800
+Message-Id: <20241024132225.2271667-6-yukuai1@huaweicloud.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20241024132225.2271667-1-yukuai1@huaweicloud.com>
 References: <20241024132009.2267260-1-yukuai1@huaweicloud.com>
  <20241024132225.2271667-1-yukuai1@huaweicloud.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: gCh0CgD3LMmxShpnmfz6Ew--.42902S8
-X-Coremail-Antispam: 1UD129KBjvJXoWrtr13CryUAF17Xw4rWw13XFb_yoW8Jr43pa
- 9rGr48K3yxuFyxC39Yqw40v3srXFn8Ww40qa4UGr18trn8Jr92q34ruFyI9ayfu34xA3Wa
- gF4Ygw48WFnrZa7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: gCh0CgD3LMmxShpnmfz6Ew--.42902S9
+X-Coremail-Antispam: 1UD129KBjvJXoW7GrW8Cw1xJw1UGFWrCw48JFb_yoW8Jr15pF
+ WDCw1Fg34Ivr1xCryDWa1Fqa4DA3Zaqw1xtayqkrnYqr4UK3Zag34Skw1F9a13W34kCw13
+ Ja1av348ta4Dt37anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
  9KBjDU0xBIdaVrnRJUUUmI14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
  rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
  kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
@@ -81,39 +81,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Andrew Morton <akpm@linux-foundation.org>
+From: Peng Zhang <zhangpeng.00@bytedance.com>
 
-commit 5143eecd2af2b5424f7b96d53f17bb4718e46bd3 upstream.
+commit 7e552dcd803f4ff60165271c573ab2e38d15769f upstream.
 
-Commit 0de56e38b307 ("maple_tree: use maple state end for write
-operations") was broken by a later patch "maple_tree: do not preallocate
-nodes for slot stores".  But the later patch was scheduled ahead of
-0de56e38b307, for 6.7-rc.
+The last range stored in maple tree is typically quite large.  By checking
+if it exceeds the sum of the remaining ranges in that node, it is possible
+to avoid checking all other gaps.
 
-This fixlet undoes the damage.
+Running the maple tree test suite in user mode almost always results in a
+near 100% hit rate for this optimization.
 
-Fixes: 0de56e38b307 ("maple_tree: use maple state end for write operations")
-Cc: Liam R. Howlett <Liam.Howlett@oracle.com>
-Cc: Sidhartha Kumar <sidhartha.kumar@oracle.com>
+Link: https://lkml.kernel.org/r/20231215074632.82045-1-zhangpeng.00@bytedance.com
+Signed-off-by: Peng Zhang <zhangpeng.00@bytedance.com>
+Reviewed-by: Liam R. Howlett <Liam.Howlett@oracle.com>
 Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
 Signed-off-by: Yu Kuai <yukuai3@huawei.com>
 ---
- lib/maple_tree.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ lib/maple_tree.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/lib/maple_tree.c b/lib/maple_tree.c
-index d90f4b7e7511..905fa1143f8d 100644
+index 905fa1143f8d..1af83414877a 100644
 --- a/lib/maple_tree.c
 +++ b/lib/maple_tree.c
-@@ -5524,7 +5524,7 @@ int mas_preallocate(struct ma_state *mas, void *entry, gfp_t gfp)
- 	node_size = mas_wr_new_end(&wr_mas);
+@@ -1547,6 +1547,9 @@ static unsigned long mas_leaf_max_gap(struct ma_state *mas)
+ 		gap = ULONG_MAX - pivots[max_piv];
+ 		if (gap > max_gap)
+ 			max_gap = gap;
++
++		if (max_gap > pivots[max_piv] - mas->min)
++			return max_gap;
+ 	}
  
- 	/* Slot store, does not require additional nodes */
--	if (node_size == wr_mas.node_end) {
-+	if (node_size == mas->end) {
- 		/* reuse node */
- 		if (!mt_in_rcu(mas->tree))
- 			return 0;
+ 	for (; i <= max_piv; i++) {
 -- 
 2.39.2
 
