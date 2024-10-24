@@ -2,26 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14C469B0417
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 15:32:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C022A9B0431
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 15:33:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3C4710EACA;
-	Fri, 25 Oct 2024 13:32:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDD4510EAE8;
+	Fri, 25 Oct 2024 13:33:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com
- [45.249.212.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 922FA10E94A;
- Thu, 24 Oct 2024 13:41:38 +0000 (UTC)
+Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com
+ [45.249.212.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0AD0610E949;
+ Thu, 24 Oct 2024 13:41:50 +0000 (UTC)
 Received: from mail.maildlp.com (unknown [172.19.163.235])
- by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4XZ68s6tdRz4f3l95;
- Thu, 24 Oct 2024 21:25:01 +0800 (CST)
+ by dggsgout12.his.huawei.com (SkyGuard) with ESMTP id 4XZ68p08H7z4f3jdS;
+ Thu, 24 Oct 2024 21:24:58 +0800 (CST)
 Received: from mail02.huawei.com (unknown [10.116.40.128])
- by mail.maildlp.com (Postfix) with ESMTP id 533A51A0568;
- Thu, 24 Oct 2024 21:25:14 +0800 (CST)
+ by mail.maildlp.com (Postfix) with ESMTP id 7952E1A0568;
+ Thu, 24 Oct 2024 21:25:15 +0800 (CST)
 Received: from huaweicloud.com (unknown [10.175.104.67])
- by APP4 (Coremail) with SMTP id gCh0CgD3LMmxShpnmfz6Ew--.42902S9;
- Thu, 24 Oct 2024 21:25:13 +0800 (CST)
+ by APP4 (Coremail) with SMTP id gCh0CgD3LMmxShpnmfz6Ew--.42902S10;
+ Thu, 24 Oct 2024 21:25:15 +0800 (CST)
 From: Yu Kuai <yukuai1@huaweicloud.com>
 To: stable@vger.kernel.org, gregkh@linuxfoundation.org, harry.wentland@amd.com,
  sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, alexander.deucher@amd.com,
@@ -36,20 +36,19 @@ Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
  maple-tree@lists.infradead.org, linux-mm@kvack.org,
  yukuai1@huaweicloud.com, yi.zhang@huawei.com, yangerkun@huawei.com
-Subject: [PATCH 6.6 21/28] maple_tree: avoid checking other gaps after getting
- the largest gap
-Date: Thu, 24 Oct 2024 21:22:18 +0800
-Message-Id: <20241024132225.2271667-6-yukuai1@huaweicloud.com>
+Subject: [PATCH 6.6 22/28] libfs: Re-arrange locking in offset_iterate_dir()
+Date: Thu, 24 Oct 2024 21:22:19 +0800
+Message-Id: <20241024132225.2271667-7-yukuai1@huaweicloud.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20241024132225.2271667-1-yukuai1@huaweicloud.com>
 References: <20241024132009.2267260-1-yukuai1@huaweicloud.com>
  <20241024132225.2271667-1-yukuai1@huaweicloud.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: gCh0CgD3LMmxShpnmfz6Ew--.42902S9
-X-Coremail-Antispam: 1UD129KBjvJXoW7GrW8Cw1xJw1UGFWrCw48JFb_yoW8Jr15pF
- WDCw1Fg34Ivr1xCryDWa1Fqa4DA3Zaqw1xtayqkrnYqr4UK3Zag34Skw1F9a13W34kCw13
- Ja1av348ta4Dt37anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: gCh0CgD3LMmxShpnmfz6Ew--.42902S10
+X-Coremail-Antispam: 1UD129KBjvJXoWxAFWktw1Uur1UZFy8Zw4DCFg_yoW5AFyUpF
+ 9xGasrGr4fW3WjkaykJF1kZ34S93Z0gr47W395Wwn8XFy3trZ8t3ZFyr4Y9ayUZFZ3Cr47
+ XF45t3WS9w4UArDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
  9KBjDU0xBIdaVrnRJUUUmI14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
  rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
  kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
@@ -81,40 +80,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Peng Zhang <zhangpeng.00@bytedance.com>
+From: Chuck Lever <chuck.lever@oracle.com>
 
-commit 7e552dcd803f4ff60165271c573ab2e38d15769f upstream.
+commit 3f6d810665dfde0d33785420618ceb03fba0619d upstream.
 
-The last range stored in maple tree is typically quite large.  By checking
-if it exceeds the sum of the remaining ranges in that node, it is possible
-to avoid checking all other gaps.
+Liam and Matthew say that once the RCU read lock is released,
+xa_state is not safe to re-use for the next xas_find() call. But the
+RCU read lock must be released on each loop iteration so that
+dput(), which might_sleep(), can be called safely.
 
-Running the maple tree test suite in user mode almost always results in a
-near 100% hit rate for this optimization.
+Thus we are forced to walk the offset tree with fresh state for each
+directory entry. xa_find() can do this for us, though it might be a
+little less efficient than maintaining xa_state locally.
 
-Link: https://lkml.kernel.org/r/20231215074632.82045-1-zhangpeng.00@bytedance.com
-Signed-off-by: Peng Zhang <zhangpeng.00@bytedance.com>
-Reviewed-by: Liam R. Howlett <Liam.Howlett@oracle.com>
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+We believe that in the current code base, inode->i_rwsem provides
+protection for the xa_state maintained in
+offset_iterate_dir(). However, there is no guarantee that will
+continue to be the case in the future.
+
+Since offset_iterate_dir() doesn't build xa_state locally any more,
+there's no longer a strong need for offset_find_next(). Clean up by
+rolling these two helpers together.
+
+Suggested-by: Liam R. Howlett <Liam.Howlett@Oracle.com>
+Message-ID: <170785993027.11135.8830043889278631735.stgit@91.116.238.104.host.secureserver.net>
+Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
+Link: https://lore.kernel.org/r/170820142021.6328.15047865406275957018.stgit@91.116.238.104.host.secureserver.net
+Reviewed-by: Jan Kara <jack@suse.cz>
+Signed-off-by: Christian Brauner <brauner@kernel.org>
 Signed-off-by: Yu Kuai <yukuai3@huawei.com>
 ---
- lib/maple_tree.c | 3 +++
- 1 file changed, 3 insertions(+)
+ fs/libfs.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/lib/maple_tree.c b/lib/maple_tree.c
-index 905fa1143f8d..1af83414877a 100644
---- a/lib/maple_tree.c
-+++ b/lib/maple_tree.c
-@@ -1547,6 +1547,9 @@ static unsigned long mas_leaf_max_gap(struct ma_state *mas)
- 		gap = ULONG_MAX - pivots[max_piv];
- 		if (gap > max_gap)
- 			max_gap = gap;
-+
-+		if (max_gap > pivots[max_piv] - mas->min)
-+			return max_gap;
- 	}
+diff --git a/fs/libfs.c b/fs/libfs.c
+index dc0f7519045f..430f7c95336c 100644
+--- a/fs/libfs.c
++++ b/fs/libfs.c
+@@ -401,12 +401,13 @@ static loff_t offset_dir_llseek(struct file *file, loff_t offset, int whence)
+ 	return vfs_setpos(file, offset, U32_MAX);
+ }
  
- 	for (; i <= max_piv; i++) {
+-static struct dentry *offset_find_next(struct xa_state *xas)
++static struct dentry *offset_find_next(struct offset_ctx *octx, loff_t offset)
+ {
+ 	struct dentry *child, *found = NULL;
++	XA_STATE(xas, &octx->xa, offset);
+ 
+ 	rcu_read_lock();
+-	child = xas_next_entry(xas, U32_MAX);
++	child = xas_next_entry(&xas, U32_MAX);
+ 	if (!child)
+ 		goto out;
+ 	spin_lock(&child->d_lock);
+@@ -429,12 +430,11 @@ static bool offset_dir_emit(struct dir_context *ctx, struct dentry *dentry)
+ 
+ static void *offset_iterate_dir(struct inode *inode, struct dir_context *ctx)
+ {
+-	struct offset_ctx *so_ctx = inode->i_op->get_offset_ctx(inode);
+-	XA_STATE(xas, &so_ctx->xa, ctx->pos);
++	struct offset_ctx *octx = inode->i_op->get_offset_ctx(inode);
+ 	struct dentry *dentry;
+ 
+ 	while (true) {
+-		dentry = offset_find_next(&xas);
++		dentry = offset_find_next(octx, ctx->pos);
+ 		if (!dentry)
+ 			return ERR_PTR(-ENOENT);
+ 
+@@ -443,8 +443,8 @@ static void *offset_iterate_dir(struct inode *inode, struct dir_context *ctx)
+ 			break;
+ 		}
+ 
++		ctx->pos = dentry2offset(dentry) + 1;
+ 		dput(dentry);
+-		ctx->pos = xas.xa_index + 1;
+ 	}
+ 	return NULL;
+ }
 -- 
 2.39.2
 
