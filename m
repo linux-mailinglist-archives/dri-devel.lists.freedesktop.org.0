@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 544379ADA5B
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2024 05:18:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 239839ADA5E
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Oct 2024 05:18:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9337310E267;
-	Thu, 24 Oct 2024 03:18:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63AD110E896;
+	Thu, 24 Oct 2024 03:18:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=rocketmail.com header.i=@rocketmail.com header.b="YaD+/h0H";
+	dkim=pass (2048-bit key; unprotected) header.d=rocketmail.com header.i=@rocketmail.com header.b="uBYOQ9XK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sonic305-21.consmr.mail.ir2.yahoo.com
- (sonic305-21.consmr.mail.ir2.yahoo.com [77.238.177.83])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07F3D10E896
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 03:18:42 +0000 (UTC)
+Received: from sonic306-21.consmr.mail.ir2.yahoo.com
+ (sonic306-21.consmr.mail.ir2.yahoo.com [77.238.176.207])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C498F10E895
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 03:18:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rocketmail.com; s=s2048;
- t=1729739921; bh=XLp036BwmbZpgXYR1m9+ojQGCSAhTh/SmX7gBH+7S0Y=;
+ t=1729739924; bh=EfM1/25A+OPg9ISH1DGE8f3ag1AjZNLID2v+xnaR5BU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From:Subject:Reply-To;
- b=YaD+/h0HsolWctHi+VqUr3EcJREbG0AWHWeWSuVoDl9FwkPFPnvqIej6FDY3WqIV5aY9Jf63qcVcupPjwSQvRgtaz/3abdub/vO390yBoGJjMJZmGL6oIOfPexsXGWdskT/BBWvwsKkk6vLcjK+YCI2Tpsht3Pq5hsJifWPxEK4+nwoDSHSnL82MWQtewJwC7gwmtErEhQKdE/AhigfOaid1Wa9MfZy1QAU359haKcrOCNvf8F7fvN0CtxchmdSXvtCdMjbgDvo/yVKx1MzVZKllKzT270yoCtRVY0xd4CV8JMMUUk6HhOhjF8YbtD3mIoo4oPV/62uQWiXyuPrs8w==
+ b=uBYOQ9XKtWJCDnWxZefSGqCIoiCpgDlD29eAzxw+AI1HRE60DaL5/0apKG0Q3zx6fr/6v500E/CeKgiNqqi0dufAOqTTcFQWlgLTCIsPywH0CEdZSUAPTBCl4kQfyg0BjOiwR7e4inZ4z5/+ByaIZAiZs7bS2aCCR7zB8OJY9c8mT6gWHDO2Ud/sYQ10npHZwFW6lbw1mYonuxppovUq6lQ29Dd/UDgw9d0MmgssQpL/B2hmD0O7XWu+yi7AUTl7CzTrmwfh7nlxliMSzeAN8C9xaAO/b42i5GfpV0vClatZmcSLNcr4i6jaKz49U/YXowPXPprg7OvVLof02LsRNA==
 X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1729739921; bh=1ONgEs1S+AC4xzQiUySNLaqJHXBagjxQQZhzRcMYnzE=;
+ t=1729739924; bh=406jbY/ba3fTpmVpDW8DW7OlTLmxmaOXTrfr0zKFunB=;
  h=X-Sonic-MF:From:To:Subject:Date:From:Subject;
- b=Frk2wuWrctiQLImmb5hCWhB9IDqRAyxxu8ZBnltCNDOkf9GyIGa7Bar9OYQg4AtxKk/qTvdvyaeHC26MOjIoiokqd3kxTDJXcvWIYNMISgRsAfklpB+XUjun9hXkiAK/+lni/3VdZPRDisayAJm2MSjVbJb/8JGzBLQp0RV5ZGF5TbUAlhjOQ5X0Ygiq8PPfhumEotHa1QZ0os8da1rPHPSOdPvgHK/8AWrlAp3lnxEVvuCzb5VkXnEYv/4tt8r9sGOB/GrCnE3D295IDcrI5QEnp3O2BGaTKWR3vqkfYkrVnmuLQM+TRoPu8hMsBYhe67FwWVXLmbD45kK2c0EbkA==
-X-YMail-OSG: YMIhNQ0VM1muqvyAB3N9ac.FbFEjrdY9yL_rn2RHXW0YIi9nnVll.MmniK_GwUf
- Dr3oSRVvE14HQp_x.nmvWGriI1eSASMtjQol9hUgbbxShITAQup6M.0jmVPOv.c2ocSUQiBl.vZB
- vlePjOcKdW0N9djY68dtPoyajSyxbtAPCKMtAEONUsldoTL6wtgZ1VKhs7lF4wY.zYiJMM71kM57
- Wl5WTCTHQmu4Z8wJBbkJwEMOz7QFogm0fDBgtcbYVaR3F2Ll0.KX9hi_TTZg8hgw5F3UqMU9HgP4
- Z21Gd2qwIFOUILec6_SeZY4X_PJN4NZ_k0UHuVFhHQ21ylnMcvZF6llq1g0g_IqB0E5YzgYEJ3mZ
- FgH93yqBOeKONSOMkrIt_3x5Lm47ha1RS4ow97LDn.SDMW6PXxKw172DEPsoe_OOYws0bpoFIi6x
- skMzyGyk3O34o9ozaDvnubS0JIQie_O0PzRPAyczknli279EArrnBbUKB6QYtHJ02mRUphplXoGg
- 5b3A6KewoWlF2fsJ73yJ4oN5b7jAckGepiqdgGnkbXqIKDHLnkRmYaIOS6F9W2viOGtzcNKv0iy3
- maIHph1rUVHDesdU69bOUkLs7zIkzQcub2sguon.16YnkTOFZFRwx.bzvW.5Q9PHn11fFEdrEEb5
- gPY3ir3ex2Bml4aJw7ct6x.yj7CoUtdEsnXI6fCYB535AkS6GAKw51GX8e.XRK8YNSUD9BmjtFG4
- q0R8uZItNKsNoG9IDpuyA62HQTcmdYjC_tlpvqfixX3kzOswTsaxOSdEYm9aOgLqDvQnCYlGUFcf
- iKshI7lOzDmLqB3sNpcXJbgwxF9qbw2xg1csdToSaCwa2sPSonFWD66MffWKMAniFuCSVoaudOdy
- 44M.Muy0mEpOp5qN6XPSp49rIW8MXjgFVeOm9D0EDZuw2JvECNfvp9eF1AJeVZfjgvPAkbe0KJ8R
- DVlvdBKUP14KBL2jvUWcj4.VcT8Pzx9ut.N2cJlqS4Yw1SdvarZ7qFD85tLdCmgfG6_bwy51lgQO
- vBt8ZXWeVH_r.hGuibfNf_Wj59Q3yYkAV_GlvvqzFolZ17Sxn2bffS5Fx8IAhsvSoar.bnjcrWD9
- 65_HwM98CjF3CZUBeh9sY8NQ4C0rkkJXF1WKhiv9vwTNd_Ha7ZCZznhbS18v0gNg2Erafmqlq1C0
- 6vcKEZWyFtP5GvVcCFegD_0xTc13MwPmzpNunUa.gDw9I701tGBAnQyseilSDsiwMXu0ikiKtZmA
- UwHUNmO0DLchbmV9QiDRltLKPlkjRBJaYCqhQs6Jce1jju38T.YpketsHucuJ66L.7iCvpkHi6I0
- vHnOIsqS8X6.14q.3C6aPpbsEsMMwWcbVqSPjfZrUg.i_kh_0WJI2aIfB43hwcCvwg.qgg04nEDn
- .Aj.B78bs5okpJ5s8dHQESVo9XFTRMCIJgfbTGQn7z16zSfjvd.qQPs43RPo8iiskwDwiyjVGdDT
- fh5fswhkNa9YC8eBug4DDel.OD7DBaNtnF3OtYl_9Iil3vsQEb_UeB0y02nIMJyLcbF5W2OxlO0T
- vGNao4.LeNEygfHR4JizpFs1T8hyuKHbV0Q2WBUeZDnbE2iYRa6OpIGs8AzODdVZN9wGjg9ky96q
- PVHLaQ1NVsngaWyHGD.r.kkv6eSnsA37NUIPyPVoGX0pJUuYRrad2EguOZY1QN8RsjKLesuMOY_F
- rJs.9m5A.l4RA3ZOzIb.Tl3SOFrXuETFsKfj6XD6Fr8kazwyIwRIdY_6iCYlevZ5kDiO3O3Hay9S
- YqFDCiSAsiyigrjKDHTD9nALkClOLhISk3zhR24q6EblSoKl.4b8y1jdZ7lPahQ6X2cXc76eBOFl
- aG3SLGqQQs3M0JBpFydyVCwnw7kQSX09eXSmfJ05H5uQP4uUXqXMD4sOVA7DwPBOzNvMlbIcB7JP
- 7V0_eIN6p0skZA88U_aFNvoOcWkZlhgoYIlmTcEKLHU9.FMmtWpOKeLaWjc5KGw1JkKHNhA96e.d
- Px9ZhdTyopT.NibNPyx0EW.8p3m9rrc4ti6XgdggpVom5FGMa2OUW5c31dXRJ.ZGZrAcArK47vXF
- QJsOAHcfsVh98SDfoQPs0PpSdzOxgg_6cL17D5jKodpHSNWiE83hfAiAuBJyPWsGAJRsbU2StsA8
- .jAWLpAsPlCg5jaTxFE0dQDhh8HFKV9sjX5kbb5Ty7Izo26KGvyNt9RMqdfeJDbvwNWcvgpp_enJ
- LIl6.QRL1MqSKJcsyFBx8IrtzsU0aJIoMW3m0E6sKUZHh2Up_pzDefPQdaqeW8o.gxkwNWrhABV4
- hjsAxz5ZtN3xyJ2VJqeCfX8j3KELLdqj_XpZ7jEhQEp6vOmZdN9rSkQM-
+ b=Z8V/EbopSfa5mUel0wpxquIRT0rXwz5Kit0zHLhxqBNIv2kd0kcAizWJkn3mNcOIst5ExnRASrChdCBalzblkrMk+2zkxxgkYtGlkhUroVps2QRKa0uY+6DvCrnKswvaFUmmzpM6/rILBjWkEYS15rjwgTw2+7ZPWAkb5qeBmI7z7XVGZ7Mnum3OVTHgxleVFIUbIyXYC72dCiiCdV73sp54Xwh8eUAPpv1pntmMD2cV8qylRz2v90jWTMBXHEycp63rePxnR7Md136HzzBHnD7tF1hUG3RmjAc1IYTcG1gKTOYbxmXkz9oSJs8qstIphkPxxORKbkUvrT4D2XS8pw==
+X-YMail-OSG: BugMrJIVM1nW4nUIX2KBq8JH8Xyl50v8ct4iw2ATxS6Q2vVvHgcDL9UMyIYIz4y
+ rWw9qN97lsd8L0nKp1tWKTGV8_o3hllOoxN4u231cZKE7h53SU5XsEsrJ_mX.vtk5VF6WlM.64.l
+ YMhJuNrw8V.XIr3LsOQDJgrJR4figdXtQMPsugy3QTxVvLPINC5lH.T4TMNzjd1pTxgMJvw8ITqg
+ U08atCuVoFqvmZ5xUq29LEU5HJ_pp5pwnKvphwWBGLagYJKHkB6sdV_CV_JUWA9U9glTsenO2tno
+ je.7yRHIfWoZrQAnATGDh5u8xw1qWNQUjwAEuvNye6awqK8tg_3tOavtlWQ5OSWSWf0Ya3pqlcrd
+ QMSzGbmOe3KbXYa5qcZNWFICnVCQiek2rGDdNc.pQH7yaEQAtpzzsAu127wYO2HaQjBZIvo651ne
+ 74TjbDcGdzXLoImMsU3B0cI8RhHP3E.VffovPWZQdBI8eApP0REuooQAHQehqJV.Av_.nJML6pMZ
+ 8G2skuYKeXpXuxAFoXLTBk4sH7Y0O1bDYoY3IMAublaGbe3NHpUG6Mpdu4V.H8MrVId09JkPUuHK
+ VZM14vRE0fr8LtNttTV7nspxyECkEXF0Za9HiuV5Gi.UfGsmN4bH5jSjmaPKpWJcblispLJ.t70Q
+ kgiwoBbZdPJmYF.TL.5f805c.Pstvq98Et_.tKpqYwgRzeBC077Uu4FydOhD.ZlZzsZDq8reVJh1
+ kJ1S.BUKASH1oIbWaFDrPsA1DGvPmYlUiFMjIrRHi3KijvpYmUJkUPh25c8aner_BmoWFbm1E3Fd
+ jsW9KpuBCyY.G8naDlIyRhARjJN7VyvpF1ChUJfnCoYOdudMvYcOgmMkygOGDFUB1.5iao0VHD7S
+ 0PkyJHgDoL13bpxGrWaxxFUxjrJruchJVx_GaYS_ySOngMGyBI.yo_OTpItet5.nZvB6ZEz8YAWG
+ 34o6PUc1AYMWD1cqyfrF2p_kCAuRY3ELTm1tjxDKRJrhJmBYPB0aVc_zFR_XjkZX2a6ezFKL3ZCy
+ 1WBNQJtD35EQLaPbHNZK28Dk9GrrW3qoikpCpW8bOAZIrNAZKTiA7eVigL9g8oarq7HwPs0WwcEI
+ G6Ge91aUOXJeCz2eqYEhBpRHxv4PY5rjh3egDnB3wezlw04kqqZy.ipJIuWktF9T0wcbDi8tSbfq
+ IeUHds8aaiTo7y5PxXnbywMxHzdDkT7ZLDZKooPjhNMLqf_XRF55o.f0c70doHRluOS0oLN6y_GP
+ Fy7b_jjcwF1lYR2G1nzSABaUYGcZvGmfk44ZmWxP4V8vIx9plv2RZMvErAGpuVFqrV26vuEIxVKc
+ xFS3uGQA.0Pu8jVteRJXXRnfUT7NpERCccPeoJQu.UTAC7uBP2Z.1PXuJNZyGGfE6Lw5GDMohb7h
+ TlZrl21TfV31gegGg28ZygYUyNxnieph4UhXRyURYCouleEqq_DswdWrzNyhn.Ltr.m9tZEIgiiI
+ XLvV942bXEB_nSeDoSSsA9mOHJngBk04kkXYe99F5rxk2glPUaO5o6yoNtC0kBU8eY2M2tQFGGWC
+ LsRiCMS5.aUAspoepUuPfTLXIp4Wt6JnuSGfc82Vf7Vbd3gJ8Dfhc3q4i0wWsy3hRcjVuf5SR7q9
+ KiPOu6Oh88hvbi_1a8n834jLIEuDoEiGqE6ykdsBQDV85bJM.7NNI73QKRxHStKJokZ2H04ZemRx
+ ZeTImifB7TlZzuV6IqqShs12gz7luWeV8VnLRK3hwRfqSuthPf6rtSr2GDOwjdivStfLFogzIYkC
+ NstHApoJi.Yvn4kRurttSeDPxZg8tKxQwPQKIFyzNd0WnQqfuPtFvZ7iV3EODwDS1E6JMY42HFIh
+ 0yUrWbNMmgkc6WFuys3.nvBbzdv5p6nRzzzKdWtHB_ZWmA4CUuMXq5uSWvSlB55xjfrVnS3054XL
+ N2qn9syQ_YLh1kAV0dpv3RjZnNJ74VGzxNmx5lTCSYhpK4rj6crtFGsiVG__huJnDULTVugEuv8Y
+ njzZg71R2T0C3jx2tFSzCGW3ZhhtJ2viPrNz29wxzr9GT0XNqVO5Y3zC1k0t_mMVgsewmv5i4IC9
+ Qz5dIJfOhhcE9VNpVjcSjo.GbP_scYhFBOyFSo_C5jZ1fhlIItJQjdAseZSi65Zt5mkC4ER6TuZN
+ HqfoffPSZxNs4r6NJP3lVXEBMxn8ML3Eyyg4m3G8Eacpicl5CRcFD9SbYGeoOBTvQTV10q9GZ6RC
+ UxO2HaeV2mAJ20lMvsXT6TeCwuIjDMHwt7ewycd3AxH_wWsB46pFXUyfiPbqeJoMGIpOHx1ECVGB
+ Rl7lm0YfHbzmuiBU8IIVrfstGHi2ZoRA5jNus2Gs0E6bjpgoORcM.b34-
 X-Sonic-MF: <jahau@rocketmail.com>
-X-Sonic-ID: 66342042-12ab-43bd-bf63-08845b443e26
+X-Sonic-ID: 493593ba-be62-4d1c-bfbe-6436bcce34e6
 Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic305.consmr.mail.ir2.yahoo.com with HTTP; Thu, 24 Oct 2024 03:18:41 +0000
+ sonic306.consmr.mail.ir2.yahoo.com with HTTP; Thu, 24 Oct 2024 03:18:44 +0000
 Received: by hermes--production-ir2-c694d79d9-2zgj2 (Yahoo Inc. Hermes SMTP
  Server) with ESMTPA ID 26d1652bc1703d2ade3e89c3cd33808b; 
- Thu, 24 Oct 2024 03:18:40 +0000 (UTC)
+ Thu, 24 Oct 2024 03:18:41 +0000 (UTC)
 From: Jakob Hauser <jahau@rocketmail.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>,
  Jessica Zhang <quic_jesszhan@quicinc.com>, Rob Herring <robh@kernel.org>,
@@ -73,10 +73,10 @@ Cc: Thierry Reding <thierry.reding@gmail.com>,
  Andrzej Hajda <andrzej.hajda@intel.com>, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  ~postmarketos/upstreaming@lists.sr.ht, Jakob Hauser <jahau@rocketmail.com>
-Subject: [PATCH v3 3/5] drm/panel: samsung-s6e88a0-ams427ap24: Add initial
- driver
-Date: Thu, 24 Oct 2024 05:18:25 +0200
-Message-Id: <bef462116190c26e6339cd58240773f035efcca9.1729738189.git.jahau@rocketmail.com>
+Subject: [PATCH v3 4/5] drm/panel: samsung-s6e88a0-ams427ap24: Add brightness
+ control
+Date: Thu, 24 Oct 2024 05:18:26 +0200
+Message-Id: <594cc48e98b551cfeeba0fb475755a41b83283a0.1729738189.git.jahau@rocketmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <cover.1729738189.git.jahau@rocketmail.com>
 References: <cover.1729738189.git.jahau@rocketmail.com>
@@ -97,333 +97,635 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This initial part of the panel driver was mostly generated by the
-"linux-mdss-dsi-panel-driver-generator" tool [1], reading downstream
-Android kernel file "dsi_panel_S6E88A0_AMS427AP24_qhd_octa_video.dtsi" [2].
+The tables for brightness to candela, aid and elvss were taken from downstream
+kernel file "dsi_panel_S6E88A0_AMS427AP24_qhd_octa_video.dtsi" [1][2][3].
 
-On top of the generic output of the tool, there were a couple of changes
-applied:
-- Added mipi_dsi_dcs_set_display_on() to function s6e88a0_ams427ap24_on(),
-  otherwise the display does not show up.
-- In functions s6e88a0_ams427ap24_on() and s6e88a0_ams427ap24_off()
-  changed DSI commands to multi context and used "accum_err" returns.
-- In functions s6e88a0_ams427ap24_on() and s6e88a0_ams427ap24_off() replaced
-  msleep() by mipi_dsi_msleep().
-- The function s6e88a0_ams427ap24_get_modes() was changed to make use of
-  drm_connector_helper_get_modes_fixed(). This also required to include
-  drm/drm_probe_helper.h.
-- In function s6e88a0_ams427ap24_probe() registring the regulators was changed
-  to devm_regulator_bulk_get_const(). This required to change supplies in struct
-  s6e88a0_ams427ap24 to a pointer.
-- Removed bool "prepared" from struct s6e88a0_ams427ap24 and according parts in
-  functions s6e88a0_ams427ap24_prepare() and s6e88a0_ams427ap24_unprepare().
+The gamma table gets generated in "ss_dsi_smart_dimming_S6E88A0_AMS427AP24.c" [4]
+with hard-coded starting values. The function smart_dimming_init() [5] goes
+through the v{*}_adjustments, generate_gray_scale and gamma_init procedure.
+Instead of calculating it manually, it's easier to compile a custom downstream
+kernel with SMART_DIMMING_DEBUG enabled and read out dmesg early at boot.
 
-[1] https://github.com/msm8916-mainline/linux-mdss-dsi-panel-driver-generator
-[2] https://github.com/msm8916-mainline/linux-downstream/blob/GT-I9195I/drivers/video/msm/mdss/samsung/S6E88A0_AMS427AP24/dsi_panel_S6E88A0_AMS427AP24_qhd_octa_video.dtsi
+Selection of the values for aid and elvss are again according to downstream
+file "dsi_panel_S6E88A0_AMS427AP24_qhd_octa_video.dtsi" [6][7].
+
+The set of write commands is guided by downstream file "ss_dsi_panel_common.c" [8]
+followed by "ss_dsi_panel_S6E88A0_AMS427AP24.c" [9].
+
+The dsi mode flag MIPI_DSI_MODE_VIDEO_NO_HFP prevents screen flickering while
+changing the brightness.
+
+[1] https://github.com/msm8916-mainline/linux-downstream/blob/GT-I9195I/drivers/video/msm/mdss/samsung/S6E88A0_AMS427AP24/dsi_panel_S6E88A0_AMS427AP24_qhd_octa_video.dtsi#L341-L397
+[2] https://github.com/msm8916-mainline/linux-downstream/blob/GT-I9195I/drivers/video/msm/mdss/samsung/S6E88A0_AMS427AP24/dsi_panel_S6E88A0_AMS427AP24_qhd_octa_video.dtsi#L214-L254
+[3] https://github.com/msm8916-mainline/linux-downstream/blob/GT-I9195I/drivers/video/msm/mdss/samsung/S6E88A0_AMS427AP24/dsi_panel_S6E88A0_AMS427AP24_qhd_octa_video.dtsi#L301-L320
+[4] https://github.com/msm8916-mainline/linux-downstream/blob/GT-I9195I/drivers/video/msm/mdss/samsung/S6E88A0_AMS427AP24/ss_dsi_smart_dimming_S6E88A0_AMS427AP24.c
+[5] https://github.com/msm8916-mainline/linux-downstream/blob/GT-I9195I/drivers/video/msm/mdss/samsung/S6E88A0_AMS427AP24/ss_dsi_smart_dimming_S6E88A0_AMS427AP24.c#L1816-L1900
+[6] https://github.com/msm8916-mainline/linux-downstream/blob/GT-I9195I/drivers/video/msm/mdss/samsung/S6E88A0_AMS427AP24/dsi_panel_S6E88A0_AMS427AP24_qhd_octa_video.dtsi#L256-L268
+[7] https://github.com/msm8916-mainline/linux-downstream/blob/GT-I9195I/drivers/video/msm/mdss/samsung/S6E88A0_AMS427AP24/dsi_panel_S6E88A0_AMS427AP24_qhd_octa_video.dtsi#L322-L334
+[8] https://github.com/msm8916-mainline/linux-downstream/blob/GT-I9195I/drivers/video/msm/mdss/samsung/ss_dsi_panel_common.c#L1389-L1517
+[9] https://github.com/msm8916-mainline/linux-downstream/blob/GT-I9195I/drivers/video/msm/mdss/samsung/S6E88A0_AMS427AP24/ss_dsi_panel_S6E88A0_AMS427AP24.c#L666-L678
 
 Signed-off-by: Jakob Hauser <jahau@rocketmail.com>
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
 ---
-Changes in v3:
- - Made struct s6e88a0_ams427ap24_supplies[] "static".
- - Removed the "panel->prepared" parts from functions
-   s6e88a0_ams427ap24_prepare() and s6e88a0_ams427ap24_unprepare().
----
- drivers/gpu/drm/panel/Kconfig                 |   9 +
- drivers/gpu/drm/panel/Makefile                |   1 +
- .../panel/panel-samsung-s6e88a0-ams427ap24.c  | 252 ++++++++++++++++++
- 3 files changed, 262 insertions(+)
- create mode 100644 drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams427ap24.c
+ drivers/gpu/drm/panel/Kconfig                 |   1 +
+ .../panel/panel-samsung-s6e88a0-ams427ap24.c  | 519 +++++++++++++++++-
+ 2 files changed, 508 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-index bce4cb64184a..f8adc38447fb 100644
+index f8adc38447fb..d7469c565d1d 100644
 --- a/drivers/gpu/drm/panel/Kconfig
 +++ b/drivers/gpu/drm/panel/Kconfig
-@@ -632,6 +632,15 @@ config DRM_PANEL_SAMSUNG_AMS639RQ08
- 	  Say Y or M here if you want to enable support for the
- 	  Samsung AMS639RQ08 FHD Plus (2340x1080@60Hz) CMD mode panel.
- 
-+config DRM_PANEL_SAMSUNG_S6E88A0_AMS427AP24
-+	tristate "Samsung AMS427AP24 panel with S6E88A0 controller"
-+	depends on GPIOLIB && OF && REGULATOR
-+	depends on DRM_MIPI_DSI
-+	help
-+	  Say Y here if you want to enable support for Samsung AMS427AP24 panel
-+	  with S6E88A0 controller (found in Samsung Galaxy S4 Mini Value Edition
-+	  GT-I9195I). To compile this driver as a module, choose M here.
-+
- config DRM_PANEL_SAMSUNG_S6E88A0_AMS452EF01
- 	tristate "Samsung AMS452EF01 panel with S6E88A0 DSI video mode controller"
- 	depends on OF
-diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
-index 4db02c2411ae..7dcf72646cac 100644
---- a/drivers/gpu/drm/panel/Makefile
-+++ b/drivers/gpu/drm/panel/Makefile
-@@ -77,6 +77,7 @@ obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E63J0X03) += panel-samsung-s6e63j0x03.o
- obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E63M0) += panel-samsung-s6e63m0.o
- obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E63M0_SPI) += panel-samsung-s6e63m0-spi.o
- obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E63M0_DSI) += panel-samsung-s6e63m0-dsi.o
-+obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E88A0_AMS427AP24) += panel-samsung-s6e88a0-ams427ap24.o
- obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E88A0_AMS452EF01) += panel-samsung-s6e88a0-ams452ef01.o
- obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E8AA0) += panel-samsung-s6e8aa0.o
- obj-$(CONFIG_DRM_PANEL_SAMSUNG_SOFEF00) += panel-samsung-sofef00.o
+@@ -636,6 +636,7 @@ config DRM_PANEL_SAMSUNG_S6E88A0_AMS427AP24
+ 	tristate "Samsung AMS427AP24 panel with S6E88A0 controller"
+ 	depends on GPIOLIB && OF && REGULATOR
+ 	depends on DRM_MIPI_DSI
++	depends on BACKLIGHT_CLASS_DEVICE
+ 	help
+ 	  Say Y here if you want to enable support for Samsung AMS427AP24 panel
+ 	  with S6E88A0 controller (found in Samsung Galaxy S4 Mini Value Edition
 diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams427ap24.c b/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams427ap24.c
-new file mode 100644
-index 000000000000..7435e0fcb4f5
---- /dev/null
+index 7435e0fcb4f5..9e211be432d7 100644
+--- a/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams427ap24.c
 +++ b/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams427ap24.c
-@@ -0,0 +1,252 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Samsung AMS427AP24 panel with S6E88A0 controller
-+ * Copyright (c) 2024 Jakob Hauser <jahau@rocketmail.com>
-+ */
+@@ -4,6 +4,7 @@
+  * Copyright (c) 2024 Jakob Hauser <jahau@rocketmail.com>
+  */
+ 
++#include <linux/backlight.h>
+ #include <linux/delay.h>
+ #include <linux/gpio/consumer.h>
+ #include <linux/module.h>
+@@ -17,8 +18,17 @@
+ #include <drm/drm_panel.h>
+ #include <drm/drm_probe_helper.h>
+ 
++#define NUM_STEPS_CANDELA	54
++#define NUM_STEPS_AID		39
++#define NUM_STEPS_ELVSS		17
 +
-+#include <linux/delay.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/regulator/consumer.h>
++#define SEQ_LENGTH_AID		5
++#define SEQ_LENGTH_ELVSS	2
++#define SEQ_LENGTH_GAMMA	33
 +
-+#include <video/mipi_display.h>
-+
-+#include <drm/drm_mipi_dsi.h>
-+#include <drm/drm_modes.h>
-+#include <drm/drm_panel.h>
-+#include <drm/drm_probe_helper.h>
-+
-+struct s6e88a0_ams427ap24 {
-+	struct drm_panel panel;
-+	struct mipi_dsi_device *dsi;
-+	struct regulator_bulk_data *supplies;
-+	struct gpio_desc *reset_gpio;
+ struct s6e88a0_ams427ap24 {
+ 	struct drm_panel panel;
++	struct backlight_device *bl_dev;
+ 	struct mipi_dsi_device *dsi;
+ 	struct regulator_bulk_data *supplies;
+ 	struct gpio_desc *reset_gpio;
+@@ -35,6 +45,464 @@ struct s6e88a0_ams427ap24 *to_s6e88a0_ams427ap24(struct drm_panel *panel)
+ 	return container_of(panel, struct s6e88a0_ams427ap24, panel);
+ }
+ 
++enum candela {
++	CANDELA_10CD, /* 0 */
++	CANDELA_11CD,
++	CANDELA_12CD,
++	CANDELA_13CD,
++	CANDELA_14CD,
++	CANDELA_15CD,
++	CANDELA_16CD,
++	CANDELA_17CD,
++	CANDELA_19CD,
++	CANDELA_20CD,
++	CANDELA_21CD,
++	CANDELA_22CD,
++	CANDELA_24CD,
++	CANDELA_25CD,
++	CANDELA_27CD,
++	CANDELA_29CD,
++	CANDELA_30CD,
++	CANDELA_32CD,
++	CANDELA_34CD,
++	CANDELA_37CD,
++	CANDELA_39CD,
++	CANDELA_41CD,
++	CANDELA_44CD,
++	CANDELA_47CD,
++	CANDELA_50CD,
++	CANDELA_53CD,
++	CANDELA_56CD,
++	CANDELA_60CD,
++	CANDELA_64CD,
++	CANDELA_68CD,
++	CANDELA_72CD,
++	CANDELA_77CD,
++	CANDELA_82CD,
++	CANDELA_87CD,
++	CANDELA_93CD,
++	CANDELA_98CD,
++	CANDELA_105CD,
++	CANDELA_111CD,
++	CANDELA_119CD,
++	CANDELA_126CD,
++	CANDELA_134CD,
++	CANDELA_143CD,
++	CANDELA_152CD,
++	CANDELA_162CD,
++	CANDELA_172CD,
++	CANDELA_183CD,
++	CANDELA_195CD,
++	CANDELA_207CD,
++	CANDELA_220CD,
++	CANDELA_234CD,
++	CANDELA_249CD,
++	CANDELA_265CD,
++	CANDELA_282CD,
++	CANDELA_300CD, /* 53 */
 +};
 +
-+static const struct regulator_bulk_data s6e88a0_ams427ap24_supplies[] = {
-+	{ .supply = "vdd3" },
-+	{ .supply = "vci" },
++static const int s6e88a0_ams427ap24_br_to_cd[NUM_STEPS_CANDELA] = {
++	/* brightness till, candela */
++	10, /* 10CD */
++	11, /* 11CD */
++	12, /* 12CD */
++	13, /* 13CD */
++	14, /* 14CD */
++	15, /* 15CD */
++	16, /* 16CD */
++	17, /* 17CD */
++	18, /* 19CD */
++	19, /* 20CD */
++	20, /* 21CD */
++	21, /* 22CD */
++	22, /* 24CD */
++	23, /* 25CD */
++	24, /* 27CD */
++	25, /* 29CD */
++	26, /* 30CD */
++	27, /* 32CD */
++	28, /* 34CD */
++	29, /* 37CD */
++	30, /* 39CD */
++	32, /* 41CD */
++	34, /* 44CD */
++	36, /* 47CD */
++	38, /* 50CD */
++	40, /* 53CD */
++	43, /* 56CD */
++	46, /* 60CD */
++	49, /* 64CD */
++	52, /* 68CD */
++	56, /* 72CD */
++	59, /* 77CD */
++	63, /* 82CD */
++	67, /* 87CD */
++	71, /* 93CD */
++	76, /* 98CD */
++	80, /* 105CD */
++	86, /* 111CD */
++	91, /* 119CD */
++	97, /* 126CD */
++	104, /* 134CD */
++	110, /* 143CD */
++	118, /* 152CD */
++	125, /* 162CD */
++	133, /* 172CD */
++	142, /* 183CD */
++	150, /* 195CD */
++	160, /* 207CD */
++	170, /* 220CD */
++	181, /* 234CD */
++	205, /* 249CD */
++	234, /* 265CD */
++	254, /* 282CD */
++	255, /* 300CD */
 +};
 +
-+static inline
-+struct s6e88a0_ams427ap24 *to_s6e88a0_ams427ap24(struct drm_panel *panel)
-+{
-+	return container_of(panel, struct s6e88a0_ams427ap24, panel);
-+}
++static const u8 s6e88a0_ams427ap24_aid[NUM_STEPS_AID][SEQ_LENGTH_AID] = {
++	{ 0x40, 0x08, 0x20, 0x03, 0x77 }, /* AOR 90.9%, 10CD */
++	{ 0x40, 0x08, 0x20, 0x03, 0x73 }, /* AOR 90.5%, 11CD */
++	{ 0x40, 0x08, 0x20, 0x03, 0x69 }, /* AOR 89.4%, 12CD */
++	{ 0x40, 0x08, 0x20, 0x03, 0x65 }, /* AOR 89.0%, 13CD */
++	{ 0x40, 0x08, 0x20, 0x03, 0x61 }, /* AOR 88.6%, 14CD */
++	{ 0x40, 0x08, 0x20, 0x03, 0x55 }, /* AOR 87.4%, 15CD */
++	{ 0x40, 0x08, 0x20, 0x03, 0x50 }, /* AOR 86.9%, 16CD */
++	{ 0x40, 0x08, 0x20, 0x03, 0x45 }, /* AOR 85.8%, 17CD */
++	{ 0x40, 0x08, 0x20, 0x03, 0x35 }, /* AOR 84.1%, 19CD */
++	{ 0x40, 0x08, 0x20, 0x03, 0x27 }, /* AOR 82.7%, 20CD */
++	{ 0x40, 0x08, 0x20, 0x03, 0x23 }, /* AOR 82.3%, 21CD */
++	{ 0x40, 0x08, 0x20, 0x03, 0x17 }, /* AOR 81.0%, 22CD */
++	{ 0x40, 0x08, 0x20, 0x03, 0x11 }, /* AOR 80.4%, 24CD */
++	{ 0x40, 0x08, 0x20, 0x03, 0x04 }, /* AOR 79.1%, 25CD */
++	{ 0x40, 0x08, 0x20, 0x02, 0xf4 }, /* AOR 77.5%, 27CD */
++	{ 0x40, 0x08, 0x20, 0x02, 0xe3 }, /* AOR 75.7%, 29CD */
++	{ 0x40, 0x08, 0x20, 0x02, 0xd7 }, /* AOR 74.5%, 30CD */
++	{ 0x40, 0x08, 0x20, 0x02, 0xc6 }, /* AOR 72.7%, 32CD */
++	{ 0x40, 0x08, 0x20, 0x02, 0xb7 }, /* AOR 71.2%, 34CD */
++	{ 0x40, 0x08, 0x20, 0x02, 0xa1 }, /* AOR 69.0%, 37CD */
++	{ 0x40, 0x08, 0x20, 0x02, 0x91 }, /* AOR 67.3%, 39CD */
++	{ 0x40, 0x08, 0x20, 0x02, 0x78 }, /* AOR 64.8%, 41CD */
++	{ 0x40, 0x08, 0x20, 0x02, 0x62 }, /* AOR 62.5%, 44CD */
++	{ 0x40, 0x08, 0x20, 0x02, 0x45 }, /* AOR 59.5%, 47CD */
++	{ 0x40, 0x08, 0x20, 0x02, 0x30 }, /* AOR 57.4%, 50CD */
++	{ 0x40, 0x08, 0x20, 0x02, 0x13 }, /* AOR 54.4%, 53CD */
++	{ 0x40, 0x08, 0x20, 0x01, 0xf5 }, /* AOR 51.3%, 56CD */
++	{ 0x40, 0x08, 0x20, 0x01, 0xd3 }, /* AOR 47.8%, 60CD */
++	{ 0x40, 0x08, 0x20, 0x01, 0xb1 }, /* AOR 44.4%, 64CD */
++	{ 0x40, 0x08, 0x20, 0x01, 0x87 }, /* AOR 40.1%, 68CD */
++	{ 0x40, 0x08, 0x20, 0x01, 0x63 }, /* AOR 36.6%, 72CD */
++	{ 0x40, 0x08, 0x20, 0x01, 0x35 }, /* AOR 31.7%, 77CD */
++	{ 0x40, 0x08, 0x20, 0x01, 0x05 }, /* AOR 26.9%, 82CD */
++	{ 0x40, 0x08, 0x20, 0x00, 0xd5 }, /* AOR 21.8%, 87CD */
++	{ 0x40, 0x08, 0x20, 0x00, 0xa1 }, /* AOR 16.5%, 93CD */
++	{ 0x40, 0x08, 0x20, 0x00, 0x6f }, /* AOR 11.4%, 98CD */
++	{ 0x40, 0x08, 0x20, 0x00, 0x31 }, /* AOR 5.0%, 105CD */
++	{ 0x40, 0x08, 0x20, 0x01, 0x86 }, /* AOR 40.0%, 111CD ~ 172CD */
++	{ 0x40, 0x08, 0x20, 0x00, 0x08 }, /* AOR 0.6%, 183CD ~ 300CD */
++};
 +
-+static void s6e88a0_ams427ap24_reset(struct s6e88a0_ams427ap24 *ctx)
-+{
-+	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
-+	usleep_range(5000, 6000);
-+	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-+	usleep_range(1000, 2000);
-+	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
-+	usleep_range(18000, 19000);
-+}
++static const u8 s6e88a0_ams427ap24_elvss[NUM_STEPS_ELVSS][SEQ_LENGTH_ELVSS] = {
++	{ 0x28, 0x14 }, /* 10CD ~ 111CD */
++	{ 0x28, 0x13 }, /* 119CD */
++	{ 0x28, 0x12 }, /* 126CD */
++	{ 0x28, 0x12 }, /* 134CD */
++	{ 0x28, 0x11 }, /* 143CD */
++	{ 0x28, 0x10 }, /* 152CD */
++	{ 0x28, 0x0f }, /* 162CD */
++	{ 0x28, 0x0e }, /* 172CD */
++	{ 0x28, 0x11 }, /* 183CD */
++	{ 0x28, 0x11 }, /* 195CD */
++	{ 0x28, 0x10 }, /* 207CD */
++	{ 0x28, 0x0f }, /* 220CD */
++	{ 0x28, 0x0f }, /* 234CD */
++	{ 0x28, 0x0e }, /* 249CD */
++	{ 0x28, 0x0d }, /* 265CD */
++	{ 0x28, 0x0c }, /* 282CD */
++	{ 0x28, 0x0b }, /* 300CD */
++};
 +
-+static int s6e88a0_ams427ap24_on(struct s6e88a0_ams427ap24 *ctx)
++static const u8 s6e88a0_ams427ap24_gamma[NUM_STEPS_CANDELA][SEQ_LENGTH_GAMMA] = {
++	/* 10CD */
++	{ 0x00, 0xc8, 0x00, 0xc4, 0x00, 0xc5, 0x8c, 0x8a, 0x8a, 0x8c, 0x8b,
++	  0x8c, 0x87, 0x89, 0x89, 0x88, 0x87, 0x8c, 0x80, 0x82, 0x88, 0x7b,
++	  0x72, 0x8c, 0x60, 0x68, 0x8c, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 },
++	/* 11CD */
++	{ 0x00, 0xc8, 0x00, 0xc4, 0x00, 0xc5, 0x8c, 0x8a, 0x8a, 0x8c, 0x8b,
++	  0x8c, 0x87, 0x89, 0x89, 0x88, 0x87, 0x8c, 0x80, 0x82, 0x88, 0x7b,
++	  0x72, 0x8c, 0x60, 0x68, 0x8c, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 },
++	/* 12CD */
++	{ 0x00, 0xc8, 0x00, 0xc4, 0x00, 0xc5, 0x8c, 0x8a, 0x8a, 0x8b, 0x8b,
++	  0x8c, 0x88, 0x89, 0x8a, 0x88, 0x87, 0x8c, 0x81, 0x82, 0x87, 0x7a,
++	  0x72, 0x8b, 0x60, 0x68, 0x8c, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 },
++	/* 13CD */
++	{ 0x00, 0xc8, 0x00, 0xc4, 0x00, 0xc5, 0x8c, 0x8a, 0x8a, 0x8b, 0x8b,
++	  0x8c, 0x88, 0x89, 0x8a, 0x88, 0x87, 0x8c, 0x81, 0x82, 0x87, 0x7a,
++	  0x72, 0x8b, 0x61, 0x69, 0x8c, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 },
++	/* 14CD */
++	{ 0x00, 0xc8, 0x00, 0xc4, 0x00, 0xc5, 0x8c, 0x8a, 0x89, 0x8c, 0x8b,
++	  0x8c, 0x88, 0x89, 0x8a, 0x87, 0x86, 0x8a, 0x82, 0x82, 0x87, 0x79,
++	  0x71, 0x89, 0x63, 0x6c, 0x8e, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 },
++	/* 15CD */
++	{ 0x00, 0xc8, 0x00, 0xc4, 0x00, 0xc5, 0x8c, 0x8a, 0x8a, 0x8c, 0x8c,
++	  0x8c, 0x86, 0x87, 0x88, 0x85, 0x85, 0x8a, 0x83, 0x83, 0x88, 0x78,
++	  0x72, 0x89, 0x64, 0x6c, 0x8e, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 },
++	/* 16CD */
++	{ 0x00, 0xc8, 0x00, 0xc4, 0x00, 0xc5, 0x8c, 0x8a, 0x89, 0x8c, 0x8b,
++	  0x8c, 0x86, 0x88, 0x88, 0x86, 0x86, 0x8a, 0x84, 0x84, 0x88, 0x78,
++	  0x72, 0x89, 0x5d, 0x67, 0x8b, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 },
++	/* 17CD */
++	{ 0x00, 0xc8, 0x00, 0xc4, 0x00, 0xc5, 0x8c, 0x8a, 0x89, 0x8b, 0x8b,
++	  0x8b, 0x87, 0x89, 0x89, 0x86, 0x86, 0x8a, 0x84, 0x83, 0x87, 0x78,
++	  0x73, 0x89, 0x64, 0x6e, 0x8e, 0x38, 0x32, 0x24, 0x00, 0x00, 0x00 },
++	/* 19CD */
++	{ 0x00, 0xc8, 0x00, 0xc4, 0x00, 0xc5, 0x8c, 0x8a, 0x89, 0x8b, 0x8b,
++	  0x8b, 0x87, 0x89, 0x89, 0x86, 0x86, 0x89, 0x84, 0x84, 0x87, 0x77,
++	  0x72, 0x88, 0x65, 0x6f, 0x8e, 0x38, 0x32, 0x24, 0x00, 0x00, 0x00 },
++	/* 20CD */
++	{ 0x00, 0xc8, 0x00, 0xc4, 0x00, 0xc5, 0x8c, 0x8a, 0x89, 0x8b, 0x8b,
++	  0x8b, 0x88, 0x89, 0x89, 0x85, 0x85, 0x88, 0x82, 0x83, 0x85, 0x79,
++	  0x73, 0x88, 0x65, 0x6f, 0x8e, 0x38, 0x32, 0x24, 0x00, 0x00, 0x00 },
++	/* 21CD */
++	{ 0x00, 0xc8, 0x00, 0xc4, 0x00, 0xc5, 0x8c, 0x8a, 0x89, 0x8b, 0x8b,
++	  0x8b, 0x88, 0x89, 0x89, 0x85, 0x85, 0x88, 0x82, 0x83, 0x85, 0x79,
++	  0x74, 0x88, 0x65, 0x6f, 0x8e, 0x38, 0x32, 0x24, 0x00, 0x00, 0x00 },
++	/* 22CD */
++	{ 0x00, 0xc8, 0x00, 0xc4, 0x00, 0xc5, 0x8c, 0x8a, 0x89, 0x8c, 0x8b,
++	  0x8c, 0x86, 0x88, 0x87, 0x86, 0x86, 0x89, 0x82, 0x83, 0x85, 0x7c,
++	  0x75, 0x87, 0x65, 0x6f, 0x8e, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 },
++	/* 24CD */
++	{ 0x00, 0xc8, 0x00, 0xc4, 0x00, 0xc5, 0x8c, 0x8a, 0x89, 0x8c, 0x8b,
++	  0x8c, 0x86, 0x88, 0x87, 0x86, 0x86, 0x89, 0x82, 0x83, 0x85, 0x7c,
++	  0x76, 0x86, 0x66, 0x6f, 0x8e, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 },
++	/* 25CD */
++	{ 0x00, 0xc8, 0x00, 0xc4, 0x00, 0xc5, 0x8c, 0x8a, 0x89, 0x8b, 0x8b,
++	  0x8b, 0x86, 0x89, 0x88, 0x87, 0x87, 0x89, 0x82, 0x82, 0x84, 0x7f,
++	  0x7a, 0x89, 0x6b, 0x73, 0x8f, 0x33, 0x2f, 0x22, 0x00, 0x00, 0x00 },
++	/* 27CD */
++	{ 0x00, 0xc8, 0x00, 0xc4, 0x00, 0xc5, 0x8c, 0x8a, 0x89, 0x8b, 0x8b,
++	  0x8b, 0x86, 0x89, 0x88, 0x87, 0x87, 0x89, 0x82, 0x82, 0x84, 0x7f,
++	  0x7a, 0x89, 0x6b, 0x73, 0x8f, 0x33, 0x2f, 0x22, 0x00, 0x00, 0x00 },
++	/* 29CD */
++	{ 0x00, 0xc8, 0x00, 0xc4, 0x00, 0xc5, 0x8c, 0x8a, 0x89, 0x8b, 0x8b,
++	  0x8b, 0x86, 0x89, 0x88, 0x85, 0x84, 0x87, 0x84, 0x85, 0x86, 0x80,
++	  0x7b, 0x88, 0x6a, 0x73, 0x8f, 0x33, 0x2f, 0x22, 0x00, 0x00, 0x00 },
++	/* 30CD */
++	{ 0x00, 0xc8, 0x00, 0xc4, 0x00, 0xc5, 0x8c, 0x8a, 0x89, 0x8b, 0x8b,
++	  0x8b, 0x86, 0x89, 0x88, 0x85, 0x84, 0x87, 0x84, 0x85, 0x86, 0x80,
++	  0x7b, 0x88, 0x6a, 0x73, 0x8f, 0x33, 0x2f, 0x22, 0x00, 0x00, 0x00 },
++	/* 32CD */
++	{ 0x00, 0xc8, 0x00, 0xc4, 0x00, 0xc5, 0x8c, 0x8a, 0x89, 0x8b, 0x8b,
++	  0x8b, 0x86, 0x89, 0x88, 0x85, 0x84, 0x87, 0x84, 0x85, 0x86, 0x80,
++	  0x7b, 0x88, 0x6a, 0x73, 0x8f, 0x33, 0x2f, 0x22, 0x00, 0x00, 0x00 },
++	/* 34CD */
++	{ 0x00, 0xc8, 0x00, 0xc4, 0x00, 0xc5, 0x8c, 0x8a, 0x89, 0x8b, 0x8b,
++	  0x8b, 0x86, 0x89, 0x88, 0x85, 0x84, 0x87, 0x83, 0x84, 0x84, 0x7f,
++	  0x79, 0x86, 0x6c, 0x76, 0x91, 0x33, 0x2f, 0x22, 0x00, 0x00, 0x00 },
++	/* 37CD */
++	{ 0x00, 0xc8, 0x00, 0xc4, 0x00, 0xc5, 0x8b, 0x89, 0x89, 0x8b, 0x8b,
++	  0x8b, 0x86, 0x88, 0x88, 0x87, 0x86, 0x87, 0x83, 0x84, 0x84, 0x7f,
++	  0x79, 0x86, 0x6c, 0x76, 0x90, 0x33, 0x2f, 0x22, 0x00, 0x00, 0x00 },
++	/* 39CD */
++	{ 0x00, 0xc8, 0x00, 0xc4, 0x00, 0xc5, 0x8b, 0x89, 0x89, 0x8b, 0x8b,
++	  0x8b, 0x86, 0x88, 0x87, 0x84, 0x84, 0x86, 0x83, 0x85, 0x85, 0x80,
++	  0x79, 0x85, 0x6c, 0x76, 0x90, 0x33, 0x2f, 0x22, 0x00, 0x00, 0x00 },
++	/* 41CD */
++	{ 0x00, 0xc8, 0x00, 0xc4, 0x00, 0xc5, 0x8b, 0x89, 0x89, 0x8b, 0x8b,
++	  0x8b, 0x86, 0x88, 0x87, 0x84, 0x84, 0x86, 0x81, 0x84, 0x83, 0x7f,
++	  0x79, 0x84, 0x6e, 0x79, 0x93, 0x33, 0x2f, 0x22, 0x00, 0x00, 0x00 },
++	/* 44CD */
++	{ 0x00, 0xc8, 0x00, 0xc4, 0x00, 0xc5, 0x8b, 0x89, 0x89, 0x8b, 0x8b,
++	  0x8b, 0x86, 0x88, 0x87, 0x84, 0x84, 0x86, 0x81, 0x84, 0x83, 0x7f,
++	  0x79, 0x84, 0x6e, 0x79, 0x92, 0x33, 0x2f, 0x22, 0x00, 0x00, 0x00 },
++	/* 47CD */
++	{ 0x00, 0xc8, 0x00, 0xc4, 0x00, 0xc5, 0x8b, 0x89, 0x89, 0x8b, 0x8b,
++	  0x8b, 0x86, 0x88, 0x87, 0x84, 0x85, 0x86, 0x81, 0x84, 0x83, 0x7f,
++	  0x79, 0x83, 0x6f, 0x79, 0x91, 0x33, 0x2f, 0x22, 0x00, 0x00, 0x00 },
++	/* 50CD */
++	{ 0x00, 0xc8, 0x00, 0xc4, 0x00, 0xc5, 0x8b, 0x89, 0x89, 0x8b, 0x8b,
++	  0x8b, 0x86, 0x88, 0x87, 0x84, 0x85, 0x86, 0x82, 0x84, 0x83, 0x7f,
++	  0x79, 0x83, 0x6f, 0x79, 0x90, 0x33, 0x2f, 0x22, 0x00, 0x00, 0x00 },
++	/* 53CD */
++	{ 0x00, 0xc8, 0x00, 0xc4, 0x00, 0xc5, 0x8b, 0x89, 0x89, 0x8b, 0x8b,
++	  0x8b, 0x86, 0x88, 0x87, 0x83, 0x83, 0x85, 0x84, 0x85, 0x85, 0x7f,
++	  0x79, 0x83, 0x70, 0x79, 0x8f, 0x33, 0x2f, 0x22, 0x00, 0x00, 0x00 },
++	/* 56CD */
++	{ 0x00, 0xc8, 0x00, 0xc4, 0x00, 0xc5, 0x8b, 0x89, 0x89, 0x8b, 0x8a,
++	  0x8a, 0x87, 0x89, 0x87, 0x83, 0x83, 0x85, 0x84, 0x85, 0x84, 0x7f,
++	  0x79, 0x82, 0x70, 0x7a, 0x8e, 0x33, 0x2f, 0x22, 0x00, 0x00, 0x00 },
++	/* 60CD */
++	{ 0x00, 0xc8, 0x00, 0xc4, 0x00, 0xc5, 0x8b, 0x89, 0x89, 0x8b, 0x8a,
++	  0x8a, 0x87, 0x89, 0x87, 0x83, 0x83, 0x85, 0x84, 0x85, 0x84, 0x7e,
++	  0x79, 0x82, 0x71, 0x7a, 0x8d, 0x33, 0x2f, 0x22, 0x00, 0x00, 0x00 },
++	/* 64CD */
++	{ 0x00, 0xc8, 0x00, 0xc4, 0x00, 0xc5, 0x8b, 0x89, 0x89, 0x8b, 0x8a,
++	  0x8a, 0x86, 0x88, 0x86, 0x84, 0x84, 0x86, 0x82, 0x83, 0x82, 0x80,
++	  0x7a, 0x84, 0x71, 0x7a, 0x8c, 0x33, 0x2f, 0x22, 0x00, 0x00, 0x00 },
++	/* 68CD */
++	{ 0x00, 0xc8, 0x00, 0xc4, 0x00, 0xc5, 0x8a, 0x89, 0x89, 0x8c, 0x8a,
++	  0x8a, 0x86, 0x88, 0x86, 0x84, 0x84, 0x86, 0x82, 0x84, 0x82, 0x81,
++	  0x7b, 0x83, 0x72, 0x7b, 0x8b, 0x33, 0x2f, 0x22, 0x00, 0x00, 0x00 },
++	/* 72CD */
++	{ 0x00, 0xc8, 0x00, 0xc4, 0x00, 0xc5, 0x8a, 0x89, 0x89, 0x8c, 0x8a,
++	  0x8a, 0x86, 0x88, 0x86, 0x85, 0x85, 0x86, 0x82, 0x84, 0x82, 0x81,
++	  0x7b, 0x83, 0x72, 0x7c, 0x8a, 0x33, 0x2f, 0x22, 0x00, 0x00, 0x00 },
++	/* 77CD */
++	{ 0x00, 0xc8, 0x00, 0xc4, 0x00, 0xc5, 0x8a, 0x89, 0x89, 0x8c, 0x8a,
++	  0x8a, 0x85, 0x87, 0x85, 0x85, 0x87, 0x87, 0x82, 0x84, 0x82, 0x81,
++	  0x7c, 0x82, 0x72, 0x7c, 0x89, 0x33, 0x2f, 0x22, 0x00, 0x00, 0x00 },
++	/* 82CD */
++	{ 0x00, 0xc8, 0x00, 0xc4, 0x00, 0xc5, 0x8a, 0x89, 0x89, 0x8c, 0x8a,
++	  0x8a, 0x85, 0x87, 0x85, 0x85, 0x87, 0x87, 0x82, 0x84, 0x82, 0x81,
++	  0x7c, 0x82, 0x73, 0x7c, 0x88, 0x33, 0x2f, 0x22, 0x00, 0x00, 0x00 },
++	/* 87CD */
++	{ 0x00, 0xc8, 0x00, 0xc4, 0x00, 0xc5, 0x8a, 0x89, 0x89, 0x8c, 0x8a,
++	  0x8a, 0x85, 0x87, 0x85, 0x84, 0x84, 0x86, 0x80, 0x84, 0x81, 0x80,
++	  0x7a, 0x82, 0x76, 0x7f, 0x89, 0x33, 0x2f, 0x22, 0x00, 0x00, 0x00 },
++	/* 93CD */
++	{ 0x00, 0xc8, 0x00, 0xc4, 0x00, 0xc5, 0x8a, 0x89, 0x89, 0x8b, 0x8a,
++	  0x8a, 0x86, 0x87, 0x85, 0x84, 0x85, 0x86, 0x80, 0x84, 0x80, 0x80,
++	  0x7a, 0x82, 0x76, 0x80, 0x88, 0x33, 0x2f, 0x22, 0x00, 0x00, 0x00 },
++	/* 98CD */
++	{ 0x00, 0xc8, 0x00, 0xc4, 0x00, 0xc5, 0x8a, 0x89, 0x89, 0x8b, 0x8a,
++	  0x8a, 0x86, 0x87, 0x85, 0x85, 0x85, 0x86, 0x80, 0x84, 0x80, 0x80,
++	  0x7a, 0x82, 0x76, 0x80, 0x88, 0x33, 0x2f, 0x22, 0x00, 0x00, 0x00 },
++	/* 105CD */
++	{ 0x00, 0xc8, 0x00, 0xc4, 0x00, 0xc5, 0x89, 0x88, 0x88, 0x8b, 0x8a,
++	  0x8a, 0x84, 0x87, 0x85, 0x85, 0x85, 0x85, 0x80, 0x84, 0x80, 0x7f,
++	  0x79, 0x81, 0x71, 0x7d, 0x87, 0x38, 0x32, 0x24, 0x00, 0x00, 0x00 },
++	/* 111CD */
++	{ 0x00, 0xdf, 0x00, 0xde, 0x00, 0xde, 0x85, 0x85, 0x84, 0x87, 0x86,
++	  0x87, 0x85, 0x86, 0x85, 0x83, 0x83, 0x83, 0x81, 0x82, 0x82, 0x80,
++	  0x7d, 0x82, 0x75, 0x7f, 0x86, 0x85, 0x85, 0x82, 0x00, 0x00, 0x00 },
++	/* 119CD */
++	{ 0x00, 0xe3, 0x00, 0xe1, 0x00, 0xe2, 0x85, 0x85, 0x84, 0x86, 0x85,
++	  0x85, 0x84, 0x85, 0x84, 0x83, 0x83, 0x83, 0x82, 0x82, 0x82, 0x7e,
++	  0x7b, 0x81, 0x75, 0x7f, 0x86, 0x85, 0x85, 0x82, 0x00, 0x00, 0x00 },
++	/* 126CD */
++	{ 0x00, 0xe6, 0x00, 0xe5, 0x00, 0xe5, 0x85, 0x84, 0x84, 0x85, 0x85,
++	  0x85, 0x84, 0x84, 0x84, 0x82, 0x83, 0x83, 0x80, 0x81, 0x81, 0x80,
++	  0x7f, 0x83, 0x73, 0x7c, 0x84, 0x85, 0x85, 0x82, 0x00, 0x00, 0x00 },
++	/* 134CD */
++	{ 0x00, 0xe9, 0x00, 0xe8, 0x00, 0xe8, 0x84, 0x84, 0x83, 0x85, 0x85,
++	  0x85, 0x84, 0x84, 0x83, 0x81, 0x82, 0x82, 0x81, 0x81, 0x81, 0x7f,
++	  0x7d, 0x81, 0x73, 0x7c, 0x83, 0x85, 0x85, 0x82, 0x00, 0x00, 0x00 },
++	/* 143CD */
++	{ 0x00, 0xed, 0x00, 0xec, 0x00, 0xec, 0x84, 0x83, 0x83, 0x84, 0x84,
++	  0x84, 0x84, 0x84, 0x83, 0x82, 0x83, 0x83, 0x81, 0x80, 0x81, 0x7f,
++	  0x7e, 0x81, 0x70, 0x79, 0x81, 0x85, 0x85, 0x82, 0x00, 0x00, 0x00 },
++	/* 152CD */
++	{ 0x00, 0xf0, 0x00, 0xf0, 0x00, 0xf0, 0x83, 0x83, 0x83, 0x83, 0x83,
++	  0x83, 0x84, 0x84, 0x83, 0x81, 0x81, 0x81, 0x80, 0x80, 0x81, 0x80,
++	  0x80, 0x82, 0x6f, 0x78, 0x7f, 0x85, 0x85, 0x82, 0x00, 0x00, 0x00 },
++	/* 162CD */
++	{ 0x00, 0xf4, 0x00, 0xf3, 0x00, 0xf4, 0x83, 0x83, 0x83, 0x83, 0x83,
++	  0x83, 0x82, 0x81, 0x81, 0x81, 0x81, 0x81, 0x80, 0x80, 0x81, 0x80,
++	  0x7f, 0x82, 0x6f, 0x78, 0x7f, 0x85, 0x85, 0x82, 0x00, 0x00, 0x00 },
++	/* 172CD */
++	{ 0x00, 0xf8, 0x00, 0xf8, 0x00, 0xf8, 0x82, 0x82, 0x82, 0x82, 0x82,
++	  0x82, 0x82, 0x81, 0x81, 0x80, 0x81, 0x80, 0x80, 0x80, 0x81, 0x81,
++	  0x80, 0x83, 0x6d, 0x76, 0x7d, 0x85, 0x85, 0x82, 0x00, 0x00, 0x00 },
++	/* 183CD */
++	{ 0x00, 0xe0, 0x00, 0xdf, 0x00, 0xdf, 0x84, 0x84, 0x83, 0x86, 0x86,
++	  0x86, 0x83, 0x84, 0x83, 0x82, 0x82, 0x82, 0x81, 0x83, 0x81, 0x81,
++	  0x7e, 0x81, 0x80, 0x82, 0x84, 0x85, 0x85, 0x82, 0x00, 0x00, 0x00 },
++	/* 195CD */
++	{ 0x00, 0xe4, 0x00, 0xe3, 0x00, 0xe3, 0x84, 0x83, 0x83, 0x85, 0x85,
++	  0x85, 0x83, 0x84, 0x83, 0x81, 0x82, 0x82, 0x82, 0x83, 0x81, 0x81,
++	  0x80, 0x82, 0x7d, 0x7f, 0x81, 0x85, 0x85, 0x82, 0x00, 0x00, 0x00 },
++	/* 207CD */
++	{ 0x00, 0xe7, 0x00, 0xe6, 0x00, 0xe6, 0x83, 0x82, 0x82, 0x85, 0x85,
++	  0x85, 0x82, 0x83, 0x83, 0x82, 0x82, 0x82, 0x80, 0x81, 0x80, 0x81,
++	  0x80, 0x82, 0x7d, 0x7f, 0x81, 0x85, 0x85, 0x82, 0x00, 0x00, 0x00 },
++	/* 220CD */
++	{ 0x00, 0xeb, 0x00, 0xea, 0x00, 0xea, 0x83, 0x83, 0x82, 0x84, 0x84,
++	  0x84, 0x82, 0x83, 0x82, 0x81, 0x81, 0x82, 0x81, 0x82, 0x81, 0x80,
++	  0x7e, 0x80, 0x7d, 0x7f, 0x81, 0x85, 0x85, 0x82, 0x00, 0x00, 0x00 },
++	/* 234CD */
++	{ 0x00, 0xef, 0x00, 0xee, 0x00, 0xee, 0x83, 0x82, 0x82, 0x83, 0x83,
++	  0x83, 0x82, 0x82, 0x82, 0x81, 0x81, 0x81, 0x80, 0x80, 0x80, 0x80,
++	  0x80, 0x81, 0x7b, 0x7c, 0x7f, 0x85, 0x85, 0x82, 0x00, 0x00, 0x00 },
++	/* 249CD */
++	{ 0x00, 0xf3, 0x00, 0xf2, 0x00, 0xf2, 0x82, 0x81, 0x81, 0x83, 0x83,
++	  0x83, 0x82, 0x82, 0x82, 0x81, 0x81, 0x81, 0x80, 0x81, 0x80, 0x7f,
++	  0x7e, 0x7f, 0x7b, 0x7c, 0x7f, 0x85, 0x85, 0x82, 0x00, 0x00, 0x00 },
++	/* 265CD */
++	{ 0x00, 0xf7, 0x00, 0xf7, 0x00, 0xf7, 0x81, 0x81, 0x80, 0x82, 0x82,
++	  0x82, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x81, 0x80, 0x7f,
++	  0x7e, 0x7f, 0x7b, 0x7c, 0x7f, 0x85, 0x85, 0x82, 0x00, 0x00, 0x00 },
++	/* 282CD */
++	{ 0x00, 0xfb, 0x00, 0xfb, 0x00, 0xfb, 0x80, 0x80, 0x80, 0x81, 0x81,
++	  0x81, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x7f, 0x7f, 0x7f, 0x7f,
++	  0x7f, 0x7f, 0x78, 0x79, 0x7d, 0x85, 0x85, 0x82, 0x00, 0x00, 0x00 },
++	/* 300CD */
++	{ 0x01, 0x00, 0x01, 0x00, 0x01, 0x00, 0x80, 0x80, 0x80, 0x80, 0x80,
++	  0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
++	  0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x00, 0x00, 0x00 },
++};
++
++static int s6e88a0_ams427ap24_set_brightness(struct backlight_device *bd)
 +{
++	struct s6e88a0_ams427ap24 *ctx = bl_get_data(bd);
 +	struct mipi_dsi_device *dsi = ctx->dsi;
 +	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
-+
-+	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
-+
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0x5a, 0x5a);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfc, 0x5a, 0x5a);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0, 0x11);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfd, 0x11);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0, 0x13);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfd, 0x18);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0, 0x02);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb8, 0x30);
-+
-+	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
-+	mipi_dsi_msleep(&dsi_ctx, 20);
-+
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf1, 0x5a, 0x5a);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xcc, 0x4c);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf2, 0x03, 0x0d);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf1, 0xa5, 0xa5);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xca,
-+				     0x01, 0x00, 0x01, 0x00, 0x01, 0x00, 0x80,
-+				     0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
-+				     0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
-+				     0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
-+				     0x80, 0x80, 0x00, 0x00, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb2,
-+				     0x40, 0x08, 0x20, 0x00, 0x08);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb6, 0x28, 0x0b);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf7, 0x03);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x55, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0xa5, 0xa5);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfc, 0xa5, 0xa5);
-+
-+	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
-+
-+	return dsi_ctx.accum_err;
-+}
-+
-+static int s6e88a0_ams427ap24_off(struct s6e88a0_ams427ap24 *ctx)
-+{
-+	struct mipi_dsi_device *dsi = ctx->dsi;
-+	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
-+
-+	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
-+
-+	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
-+	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
-+	mipi_dsi_msleep(&dsi_ctx, 120);
-+
-+	return dsi_ctx.accum_err;
-+}
-+
-+static int s6e88a0_ams427ap24_prepare(struct drm_panel *panel)
-+{
-+	struct s6e88a0_ams427ap24 *ctx = to_s6e88a0_ams427ap24(panel);
-+	struct device *dev = &ctx->dsi->dev;
-+	int ret;
-+
-+	ret = regulator_bulk_enable(ARRAY_SIZE(s6e88a0_ams427ap24_supplies),
-+				    ctx->supplies);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to enable regulators: %d\n", ret);
-+		return ret;
-+	}
-+
-+	s6e88a0_ams427ap24_reset(ctx);
-+
-+	ret = s6e88a0_ams427ap24_on(ctx);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to initialize panel: %d\n", ret);
-+		gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-+		regulator_bulk_disable(ARRAY_SIZE(s6e88a0_ams427ap24_supplies),
-+				       ctx->supplies);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int s6e88a0_ams427ap24_unprepare(struct drm_panel *panel)
-+{
-+	struct s6e88a0_ams427ap24 *ctx = to_s6e88a0_ams427ap24(panel);
-+	struct device *dev = &ctx->dsi->dev;
-+	int ret;
-+
-+	ret = s6e88a0_ams427ap24_off(ctx);
-+	if (ret < 0)
-+		dev_err(dev, "Failed to un-initialize panel: %d\n", ret);
-+
-+	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-+	regulator_bulk_disable(ARRAY_SIZE(s6e88a0_ams427ap24_supplies),
-+			       ctx->supplies);
-+
-+	return 0;
-+}
-+
-+static const struct drm_display_mode s6e88a0_ams427ap24_mode = {
-+	.clock = (540 + 94 + 4 + 18) * (960 + 12 + 1 + 3) * 60 / 1000,
-+	.hdisplay = 540,
-+	.hsync_start = 540 + 94,
-+	.hsync_end = 540 + 94 + 4,
-+	.htotal = 540 + 94 + 4 + 18,
-+	.vdisplay = 960,
-+	.vsync_start = 960 + 12,
-+	.vsync_end = 960 + 12 + 1,
-+	.vtotal = 960 + 12 + 1 + 3,
-+	.width_mm = 55,
-+	.height_mm = 95,
-+	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
-+};
-+
-+static int s6e88a0_ams427ap24_get_modes(struct drm_panel *panel,
-+					struct drm_connector *connector)
-+{
-+	return drm_connector_helper_get_modes_fixed(connector,
-+						    &s6e88a0_ams427ap24_mode);
-+}
-+
-+static const struct drm_panel_funcs s6e88a0_ams427ap24_panel_funcs = {
-+	.prepare = s6e88a0_ams427ap24_prepare,
-+	.unprepare = s6e88a0_ams427ap24_unprepare,
-+	.get_modes = s6e88a0_ams427ap24_get_modes,
-+};
-+
-+static int s6e88a0_ams427ap24_probe(struct mipi_dsi_device *dsi)
-+{
 +	struct device *dev = &dsi->dev;
-+	struct s6e88a0_ams427ap24 *ctx;
++	int brightness = bd->props.brightness;
++	int candela_enum;
++	u8 b2[SEQ_LENGTH_AID + 1];
++	u8 b6[SEQ_LENGTH_ELVSS + 1];
++	u8 ca[SEQ_LENGTH_GAMMA + 1];
++
++	/* get candela enum from brightness */
++	for (candela_enum = 0; candela_enum < NUM_STEPS_CANDELA; candela_enum++)
++		if (brightness <= s6e88a0_ams427ap24_br_to_cd[candela_enum])
++			break;
++
++	/* get aid */
++	b2[0] = 0xb2;
++	switch (candela_enum) {
++	case CANDELA_10CD ... CANDELA_105CD:
++		memcpy(&b2[1], s6e88a0_ams427ap24_aid[candela_enum],
++		       SEQ_LENGTH_AID);
++		break;
++	case CANDELA_111CD ... CANDELA_172CD:
++		memcpy(&b2[1], s6e88a0_ams427ap24_aid[CANDELA_111CD],
++		       SEQ_LENGTH_AID);
++		break;
++	case CANDELA_183CD ... CANDELA_300CD:
++		memcpy(&b2[1], s6e88a0_ams427ap24_aid[CANDELA_111CD + 1],
++		       SEQ_LENGTH_AID);
++		break;
++	default:
++		dev_err(dev, "Failed to get aid data\n");
++		return -EINVAL;
++	}
++
++	/* get elvss */
++	b6[0] = 0xb6;
++	if (candela_enum <= CANDELA_111CD) {
++		memcpy(&b6[1], s6e88a0_ams427ap24_elvss[0], SEQ_LENGTH_ELVSS);
++	} else {
++		memcpy(&b6[1], s6e88a0_ams427ap24_elvss[candela_enum - CANDELA_111CD],
++		       SEQ_LENGTH_ELVSS);
++	}
++
++	/* get gamma */
++	ca[0] = 0xca;
++	memcpy(&ca[1], s6e88a0_ams427ap24_gamma[candela_enum], SEQ_LENGTH_GAMMA);
++
++	/* write: key on, aid, acl off, elvss, gamma, gamma update, key off */
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0x5a, 0x5a);
++	mipi_dsi_dcs_write_buffer_multi(&dsi_ctx, b2, ARRAY_SIZE(b2));
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x55, 0x00);
++	mipi_dsi_dcs_write_buffer_multi(&dsi_ctx, b6, ARRAY_SIZE(b6));
++	mipi_dsi_dcs_write_buffer_multi(&dsi_ctx, ca, ARRAY_SIZE(ca));
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf7, 0x03);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0xa5, 0xa5);
++
++	return dsi_ctx.accum_err;
++}
++
+ static void s6e88a0_ams427ap24_reset(struct s6e88a0_ams427ap24 *ctx)
+ {
+ 	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
+@@ -49,6 +517,8 @@ static int s6e88a0_ams427ap24_on(struct s6e88a0_ams427ap24 *ctx)
+ {
+ 	struct mipi_dsi_device *dsi = ctx->dsi;
+ 	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
++	struct device *dev = &dsi->dev;
 +	int ret;
-+
-+	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
-+	if (!ctx)
-+		return -ENOMEM;
-+
-+	ret = devm_regulator_bulk_get_const(dev,
-+				      ARRAY_SIZE(s6e88a0_ams427ap24_supplies),
-+				      s6e88a0_ams427ap24_supplies,
-+				      &ctx->supplies);
-+	if (ret < 0)
-+		return ret;
-+
-+	ctx->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
-+	if (IS_ERR(ctx->reset_gpio))
-+		return dev_err_probe(dev, PTR_ERR(ctx->reset_gpio),
-+				     "Failed to get reset-gpios\n");
-+
-+	ctx->dsi = dsi;
-+	mipi_dsi_set_drvdata(dsi, ctx);
-+
-+	dsi->lanes = 2;
-+	dsi->format = MIPI_DSI_FMT_RGB888;
-+	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
-+			  MIPI_DSI_MODE_NO_EOT_PACKET;
-+
-+	drm_panel_init(&ctx->panel, dev, &s6e88a0_ams427ap24_panel_funcs,
-+		       DRM_MODE_CONNECTOR_DSI);
-+	ctx->panel.prepare_prev_first = true;
-+
-+	drm_panel_add(&ctx->panel);
-+
-+	ret = mipi_dsi_attach(dsi);
+ 
+ 	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
+ 
+@@ -68,20 +538,15 @@ static int s6e88a0_ams427ap24_on(struct s6e88a0_ams427ap24 *ctx)
+ 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xcc, 0x4c);
+ 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf2, 0x03, 0x0d);
+ 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf1, 0xa5, 0xa5);
+-	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xca,
+-				     0x01, 0x00, 0x01, 0x00, 0x01, 0x00, 0x80,
+-				     0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
+-				     0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
+-				     0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
+-				     0x80, 0x80, 0x00, 0x00, 0x00);
+-	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb2,
+-				     0x40, 0x08, 0x20, 0x00, 0x08);
+-	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb6, 0x28, 0x0b);
+-	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf7, 0x03);
+-	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x55, 0x00);
+ 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0xa5, 0xa5);
+ 	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfc, 0xa5, 0xa5);
+ 
++	ret = s6e88a0_ams427ap24_set_brightness(ctx->bl_dev);
 +	if (ret < 0) {
-+		dev_err(dev, "Failed to attach to DSI host: %d\n", ret);
-+		drm_panel_remove(&ctx->panel);
++		dev_err(dev, "Failed to set brightness: %d\n", ret);
 +		return ret;
 +	}
 +
-+	return 0;
-+}
+ 	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
+ 
+ 	return dsi_ctx.accum_err;
+@@ -173,6 +638,32 @@ static const struct drm_panel_funcs s6e88a0_ams427ap24_panel_funcs = {
+ 	.get_modes = s6e88a0_ams427ap24_get_modes,
+ };
+ 
++static const struct backlight_ops s6e88a0_ams427ap24_bl_ops = {
++	.update_status	= s6e88a0_ams427ap24_set_brightness,
++};
 +
-+static void s6e88a0_ams427ap24_remove(struct mipi_dsi_device *dsi)
++static int s6e88a0_ams427ap24_register_backlight(struct s6e88a0_ams427ap24 *ctx)
 +{
-+	struct s6e88a0_ams427ap24 *ctx = mipi_dsi_get_drvdata(dsi);
-+	int ret;
++	struct backlight_properties props = {
++		.type		= BACKLIGHT_RAW,
++		.brightness	= 180,
++		.max_brightness = 255,
++	};
++	struct mipi_dsi_device *dsi = ctx->dsi;
++	struct device *dev = &dsi->dev;
++	int ret = 0;
 +
-+	ret = mipi_dsi_detach(dsi);
-+	if (ret < 0)
-+		dev_err(&dsi->dev, "Failed to detach from DSI host: %d\n", ret);
++	ctx->bl_dev = devm_backlight_device_register(dev, dev_name(dev), dev, ctx,
++						     &s6e88a0_ams427ap24_bl_ops,
++						     &props);
++	if (IS_ERR(ctx->bl_dev)) {
++		ret = PTR_ERR(ctx->bl_dev);
++		dev_err(dev, "error registering backlight device (%d)\n", ret);
++	}
 +
-+	drm_panel_remove(&ctx->panel);
++	return ret;
 +}
 +
-+static const struct of_device_id s6e88a0_ams427ap24_of_match[] = {
-+	{ .compatible = "samsung,s6e88a0-ams427ap24" },
-+	{ /* sentinel */ },
-+};
-+MODULE_DEVICE_TABLE(of, s6e88a0_ams427ap24_of_match);
+ static int s6e88a0_ams427ap24_probe(struct mipi_dsi_device *dsi)
+ {
+ 	struct device *dev = &dsi->dev;
+@@ -201,12 +692,16 @@ static int s6e88a0_ams427ap24_probe(struct mipi_dsi_device *dsi)
+ 	dsi->lanes = 2;
+ 	dsi->format = MIPI_DSI_FMT_RGB888;
+ 	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
+-			  MIPI_DSI_MODE_NO_EOT_PACKET;
++			  MIPI_DSI_MODE_NO_EOT_PACKET | MIPI_DSI_MODE_VIDEO_NO_HFP;
+ 
+ 	drm_panel_init(&ctx->panel, dev, &s6e88a0_ams427ap24_panel_funcs,
+ 		       DRM_MODE_CONNECTOR_DSI);
+ 	ctx->panel.prepare_prev_first = true;
+ 
++	ret = s6e88a0_ams427ap24_register_backlight(ctx);
++	if (ret < 0)
++		return ret;
 +
-+static struct mipi_dsi_driver s6e88a0_ams427ap24_driver = {
-+	.probe = s6e88a0_ams427ap24_probe,
-+	.remove = s6e88a0_ams427ap24_remove,
-+	.driver = {
-+		.name = "panel-s6e88a0-ams427ap24",
-+		.of_match_table = s6e88a0_ams427ap24_of_match,
-+	},
-+};
-+module_mipi_dsi_driver(s6e88a0_ams427ap24_driver);
-+
-+MODULE_AUTHOR("Jakob Hauser <jahau@rocketmail.com>");
-+MODULE_DESCRIPTION("Samsung AMS427AP24 panel with S6E88A0 controller");
-+MODULE_LICENSE("GPL v2");
+ 	drm_panel_add(&ctx->panel);
+ 
+ 	ret = mipi_dsi_attach(dsi);
 -- 
 2.39.5
 
