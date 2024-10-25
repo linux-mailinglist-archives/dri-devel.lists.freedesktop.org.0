@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BE259B018B
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 13:45:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A43A9B01B5
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 13:52:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDFA310E1B2;
-	Fri, 25 Oct 2024 11:44:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB6E210EA87;
+	Fri, 25 Oct 2024 11:52:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="FskVdLwK";
+	dkim=pass (1024-bit key; secure) header.d=tecnico.ulisboa.pt header.i=@tecnico.ulisboa.pt header.b="WE4xFSG0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0336A10E1B2
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 11:44:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1729856696; x=1761392696;
- h=message-id:date:mime-version:subject:to:references:from:
- in-reply-to:content-transfer-encoding;
- bh=KNtMFSkkMw5Z7wPypV/SsQQ8kRVVuQXMwCoZUfucozA=;
- b=FskVdLwKizt6mHmuDHOoyY/kqC9pyOGgKw+6h+zVNsMmrProUSueeYY4
- LqMGO7VhObU19o3eTqesbJgwoBiO2/r/4ZdSAQM+/DBSFcnIAFFnYMwuc
- GT/WmqlLIbxGTT3pKgVli9sJQWmm2r1LuHBa2Ut4lAalD7PGtYEkL2/93
- T2CgdCIHUYivRE3oVbn5ZOU3XVi2PhrR0zH9XaUtFLeWouR+koNeQZkGx
- rezpaq+1t30F/qyNU75vYw6osAj9R53cyxDQRuEVP5mZGe4pWe3nxse9S
- 5AO6bZCU39+N7CBCafOLeKneGnYo2Ah4xxYS4kMsbQ6LmvGtJ4R1rlkPq Q==;
-X-CSE-ConnectionGUID: VSdv6BZ8SWugd3NhfUlXeg==
-X-CSE-MsgGUID: 2bQMpOuSQlagfWMM3WoTDw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11236"; a="54927915"
-X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; d="scan'208";a="54927915"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Oct 2024 04:44:55 -0700
-X-CSE-ConnectionGUID: e4lmiVdQRd260MRAcDmOYQ==
-X-CSE-MsgGUID: 3QVLhxFxT0uTYxU1TkUuMQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; d="scan'208";a="85474371"
-Received: from lwesiers-mobl.ger.corp.intel.com (HELO [10.245.115.50])
- ([10.245.115.50])
- by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Oct 2024 04:44:55 -0700
-Message-ID: <9e1174db-3404-42bd-a847-cb1e72bc91b7@linux.intel.com>
-Date: Fri, 25 Oct 2024 13:44:52 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/ivpu: Fix NOC firewall interrupt handling
-To: dri-devel@lists.freedesktop.org
-References: <20241017144958.79327-1-jacek.lawrynowicz@linux.intel.com>
- <96bfcac0-603e-0cc8-b267-e9ba43fe913e@quicinc.com>
-Content-Language: en-US
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <96bfcac0-603e-0cc8-b267-e9ba43fe913e@quicinc.com>
+Received: from smtp1.tecnico.ulisboa.pt (smtp1.tecnico.ulisboa.pt
+ [193.136.128.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF42610EA87;
+ Fri, 25 Oct 2024 11:52:40 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTP id 4F6CE6002C23;
+ Fri, 25 Oct 2024 12:52:38 +0100 (WEST)
+X-Virus-Scanned: by amavis-2.13.0 (20230106) (Debian) at tecnico.ulisboa.pt
+Received: from smtp1.tecnico.ulisboa.pt ([127.0.0.1])
+ by localhost (smtp1.tecnico.ulisboa.pt [127.0.0.1]) (amavis, port 10025)
+ with LMTP id ujDn4Jn9IZZN; Fri, 25 Oct 2024 12:52:35 +0100 (WEST)
+Received: from mail1.tecnico.ulisboa.pt (mail1.ist.utl.pt
+ [IPv6:2001:690:2100:1::b3dd:b9ac])
+ by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTPS id 8D16F600298B;
+ Fri, 25 Oct 2024 12:52:35 +0100 (WEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tecnico.ulisboa.pt;
+ s=mail; t=1729857155;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=J0w0CRKvFjbgPcKdTa0ghGahWPu5fZXRVHkiS+qSlJ8=;
+ b=WE4xFSG0TOaq5bC+Qk1pRTITv4L/vPKznQe74YzTeYc3Q5P4SbDbp2qYa9P9dZOUgwIuJ/
+ PP/JHfrllj3Lq2PYLgusi5/mfnbeX5lxxxEVQ9IzZ6PGIoZeFNGPU3fe4aHuLprrGmIMpM
+ U4gvormObxE6giQdv6WIVSdrhDj+Hic=
+Received: from localhost (unknown
+ [IPv6:2001:8a0:6a67:5600:aca0:c311:d240:b169])
+ (Authenticated sender: ist187313)
+ by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id C81A83601AD;
+ Fri, 25 Oct 2024 12:52:34 +0100 (WEST)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Date: Fri, 25 Oct 2024 12:52:33 +0100
+Message-Id: <D54V6LMBOVIW.2XKY3HBGCDYPR@tecnico.ulisboa.pt>
+To: "Linux regressions mailing list" <regressions@lists.linux.dev>,
+ <kherbst@redhat.com>, <lyude@redhat.com>, <dakr@redhat.com>,
+ <airlied@gmail.com>, <simona@ffwll.ch>, <dri-devel@lists.freedesktop.org>,
+ <nouveau@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [REGRESSION] GM20B pmu timeout
+From: "Diogo Ivo" <diogo.ivo@tecnico.ulisboa.pt>
+X-Mailer: aerc 0.18.2-0-ge037c095a049
+References: <20241010133253.30311-1-diogo.ivo@tecnico.ulisboa.pt>
+ <041511ee-4556-422a-8604-30b5e0dfd21c@leemhuis.info>
+In-Reply-To: <041511ee-4556-422a-8604-30b5e0dfd21c@leemhuis.info>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,78 +72,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Thorsten,
 
-On 10/18/2024 10:44 PM, Jeffrey Hugo wrote:
-> On 10/17/2024 8:49 AM, Jacek Lawrynowicz wrote:
->> From: Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
->>
->> The NOC firewall interrupt means that the HW prevented
->> unauthorized access to a protected resource, so there
->> is no need to trigger device reset in such case.
->>
->> To facilitate security testing add firewall_irq_counter
->> debugfs file that tracks firewall interrupts.
->>
->> Fixes: 8a27ad81f7d3 ("accel/ivpu: Split IP and buttress code")
->> Cc: <stable@vger.kernel.org> # v6.11+
->> Signed-off-by: Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
->> Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
->> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
->> ---
->>   drivers/accel/ivpu/ivpu_debugfs.c | 9 +++++++++
->>   drivers/accel/ivpu/ivpu_hw.c      | 1 +
->>   drivers/accel/ivpu/ivpu_hw.h      | 1 +
->>   drivers/accel/ivpu/ivpu_hw_ip.c   | 5 ++++-
->>   4 files changed, 15 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/accel/ivpu/ivpu_debugfs.c b/drivers/accel/ivpu/ivpu_debugfs.c
->> index 8958145c49adb..8180b95ed69dc 100644
->> --- a/drivers/accel/ivpu/ivpu_debugfs.c
->> +++ b/drivers/accel/ivpu/ivpu_debugfs.c
->> @@ -116,6 +116,14 @@ static int reset_pending_show(struct seq_file *s, void *v)
->>       return 0;
->>   }
->>   +static int firewall_irq_counter_show(struct seq_file *s, void *v)
->> +{
->> +    struct ivpu_device *vdev = seq_to_ivpu(s);
->> +
->> +    seq_printf(s, "%d\n", atomic_read(&vdev->hw->firewall_irq_counter));
->> +    return 0;
->> +}
->> +
->>   static const struct drm_debugfs_info vdev_debugfs_list[] = {
->>       {"bo_list", bo_list_show, 0},
->>       {"fw_name", fw_name_show, 0},
->> @@ -125,6 +133,7 @@ static const struct drm_debugfs_info vdev_debugfs_list[] = {
->>       {"last_bootmode", last_bootmode_show, 0},
->>       {"reset_counter", reset_counter_show, 0},
->>       {"reset_pending", reset_pending_show, 0},
->> +    {"firewall_irq_counter", firewall_irq_counter_show, 0},
->>   };
->>     static int dvfs_mode_get(void *data, u64 *dvfs_mode)
->> diff --git a/drivers/accel/ivpu/ivpu_hw.c b/drivers/accel/ivpu/ivpu_hw.c
->> index 09ada8b500b99..4e1054f3466e8 100644
->> --- a/drivers/accel/ivpu/ivpu_hw.c
->> +++ b/drivers/accel/ivpu/ivpu_hw.c
->> @@ -252,6 +252,7 @@ int ivpu_hw_init(struct ivpu_device *vdev)
->>       platform_init(vdev);
->>       wa_init(vdev);
->>       timeouts_init(vdev);
->> +    atomic_set(&vdev->hw->firewall_irq_counter, 0);
->>         return 0;
->>   }
->> diff --git a/drivers/accel/ivpu/ivpu_hw.h b/drivers/accel/ivpu/ivpu_hw.h
->> index dc5518248c405..fc4dbfc980c81 100644
->> --- a/drivers/accel/ivpu/ivpu_hw.h
->> +++ b/drivers/accel/ivpu/ivpu_hw.h
->> @@ -51,6 +51,7 @@ struct ivpu_hw_info {
->>       int dma_bits;
->>       ktime_t d0i3_entry_host_ts;
->>       u64 d0i3_entry_vpu_ts;
->> +    atomic_t firewall_irq_counter;
-> 
-> Why atomic?
- 
-So we don't have to worry about synchronization and barriers.
+On Tue Oct 15, 2024 at 7:13 PM WEST, Linux regression tracking (Thorsten Le=
+emhuis) wrote:
+> Hi, Thorsten here, the Linux kernel's regression tracker.
+>
+> On 10.10.24 15:32, Diogo Ivo wrote:
+> >=20
+> > Somewhere between 6.11-rc4 and 6.11-rc5 the following error message is =
+displayed
+> > when trying to initialize a nvc0_screen on the Tegra X1's GM20B:
+> >=20
+> > [ 34.431210] nouveau 57000000.gpu: pmu:hpq: timeout waiting for queue r=
+eady
+> > [ 34.438145] nouveau 57000000.gpu: gr: init failed, -110
+> > nvc0_screen_create:1075 - Error allocating PGRAPH context for M2MF: -11=
+0
+> > failed to create GPU screen
+>
+> Thx for the report. Hmmm. No reply so far. :-/
+>
+> Diogo, maybe report this here as well:
+> https://gitlab.freedesktop.org/drm/nouveau/-/issues/
+>
+> Afterwards drop a link to the ticket here. Reporting nouveau issues via
+> email should work, but maybe you have more luck there.
+>
+> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
 
+I opened the ticket as you mentioned but completely forgot to drop the
+link here, so here goes:
+
+https://gitlab.freedesktop.org/drm/nouveau/-/issues/391
+
+I cannot seem to get it properly formatted there, hopefully it's still
+useful.
+
+Thanks,
+Diogo
