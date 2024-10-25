@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 299F39AFD0F
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 10:49:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32D709AFD11
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 10:49:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93C1D10EA33;
-	Fri, 25 Oct 2024 08:49:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83D6510EA38;
+	Fri, 25 Oct 2024 08:49:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eqp39dA6";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="cWYF6YIO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AD8010EA35;
- Fri, 25 Oct 2024 08:49:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E55610EA36;
+ Fri, 25 Oct 2024 08:49:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1729846147; x=1761382147;
+ t=1729846154; x=1761382154;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=JwkocReqtyRt0zYjlyUPartVAUOebyiEt6E2ydkMjFU=;
- b=eqp39dA65FqQRzeQxZFdS82bD2+NO/l869YFlV7P+GN/0blyrCSpiN8U
- 0O+luLTWjt03gaBv7zJ6VJwJPSQSiJgfuAGc6MfH6lCj+kU0KkpKVHPD+
- bHG7VfcUGdgoqqpeGwotJCh8gqcFcFWyINincbvjCcOw7W3vYiO2NVyRK
- FmIYJGlOUuCvb21w3qq66af3KlLpgVqWcdgZoHYE3xYZvB4L5DoSiyAoy
- f5c1vf8vT2y7RheYjUWrAQlkmWHzLe7fbU+HxAsKpYXpVqHkAlxD43DS5
- LNTCw5zhHbdyqVxBn/4ov1cEXMO2nXGEFfn7An/7PqQH0Iinu4S2jajro w==;
-X-CSE-ConnectionGUID: W2dR/+GJT5qlkrBIIp/SNg==
-X-CSE-MsgGUID: sWOd3+GPTjiDAuMOJprw3w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11235"; a="32369512"
-X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; d="scan'208";a="32369512"
+ bh=DXftr2DH4pg0fUGyeeyFU1Xg9RIPK7GA/zDAk6ZGVJ4=;
+ b=cWYF6YIOF9LDeSf1gdcw/edk4gPh4TDxIeXrtVEsCgBBjZaZexky2liN
+ o9IdokhDnWNoAiO4H/jy+v0aCHjkLqN6goZZc2jLWMPC3aQH9VLguQxUH
+ XsR2uSF2HAa639siqBZnfD94UoFv5EJZnk4EENhroztP6Sl11uZhIpL9u
+ qNX2sGcVnCwlBMfajgqRLGzSKk4zzIeXv0XoEZT2VXKSYMj0ssOXBpMT5
+ sV8Cwf86U7mb0CYBUMRwIK/FGxhe+5tVEEvB8DRrGXjGzILQHOhUuZ7Js
+ KktrEtrbGoyiFru3MpAvXT0DKArwDMUTAmTebaMzr0XVWdjlLQSlHNo8F w==;
+X-CSE-ConnectionGUID: HrseqB1dT+Cgy0mYYI+WCw==
+X-CSE-MsgGUID: e07BSqo0TduYmM0aB5Gg9Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11235"; a="32369517"
+X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; d="scan'208";a="32369517"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Oct 2024 01:49:07 -0700
-X-CSE-ConnectionGUID: a/oWB9piQj+Ee923mMFE5A==
-X-CSE-MsgGUID: J4RLUBdBSmWCe8Oq2B0bBA==
+ 25 Oct 2024 01:49:13 -0700
+X-CSE-ConnectionGUID: tfJiozn1SSOxtuaPY06A/w==
+X-CSE-MsgGUID: R+Twa2AORoe0PTMAS7zhIQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; d="scan'208";a="80768563"
+X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; d="scan'208";a="80768578"
 Received: from jraag-nuc8i7beh.iind.intel.com ([10.145.169.79])
- by orviesa010.jf.intel.com with ESMTP; 25 Oct 2024 01:49:01 -0700
+ by orviesa010.jf.intel.com with ESMTP; 25 Oct 2024 01:49:07 -0700
 From: Raag Jadav <raag.jadav@intel.com>
 To: airlied@gmail.com, simona@ffwll.ch, lucas.demarchi@intel.com,
  rodrigo.vivi@intel.com, jani.nikula@linux.intel.com,
@@ -51,9 +51,9 @@ Cc: intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  alexander.deucher@amd.com, andrealmeid@igalia.com,
  amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com,
  Raag Jadav <raag.jadav@intel.com>
-Subject: [PATCH v8 2/4] drm/doc: Document device wedged event
-Date: Fri, 25 Oct 2024 14:18:15 +0530
-Message-Id: <20241025084817.144621-3-raag.jadav@intel.com>
+Subject: [PATCH v8 3/4] drm/xe: Use device wedged event
+Date: Fri, 25 Oct 2024 14:18:16 +0530
+Message-Id: <20241025084817.144621-4-raag.jadav@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241025084817.144621-1-raag.jadav@intel.com>
 References: <20241025084817.144621-1-raag.jadav@intel.com>
@@ -74,103 +74,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add documentation for device wedged event in a new 'Device wedging'
-chapter. The describes basic definitions and consumer expectations
-along with an example.
+This was previously attempted as xe specific reset uevent but dropped
+in commit 77a0d4d1cea2 ("drm/xe/uapi: Remove reset uevent for now")
+as part of refactoring.
 
-v8: Improve documentation (Christian, Rodrigo)
+Now that we have device wedged event provided by DRM core, make use
+of it and support both driver rebind and bus-reset based recovery.
+With this in place userspace will be notified of wedged device, on
+the basis of which, userspace may take respective action to recover
+the device.
+
+$ udevadm monitor --property --kernel
+monitor will print the received events for:
+KERNEL - the kernel uevent
+
+KERNEL[265.802982] change   /devices/pci0000:00/0000:00:01.0/0000:01:00.0/0000:02:01.0/0000:03:00.0/drm/card0 (drm)
+ACTION=change
+DEVPATH=/devices/pci0000:00/0000:00:01.0/0000:01:00.0/0000:02:01.0/0000:03:00.0/drm/card0
+SUBSYSTEM=drm
+WEDGED=rebind,bus-reset
+DEVNAME=/dev/dri/card0
+DEVTYPE=drm_minor
+SEQNUM=5208
+MAJOR=226
+MINOR=0
+
+v2: Change authorship to Himal (Aravind)
+    Add uevent for all device wedged cases (Aravind)
+v3: Generic re-implementation in DRM subsystem (Lucas)
+v4: Change authorship to Raag (Aravind)
 
 Signed-off-by: Raag Jadav <raag.jadav@intel.com>
 ---
- Documentation/gpu/drm-uapi.rst | 75 ++++++++++++++++++++++++++++++++++
- 1 file changed, 75 insertions(+)
+ drivers/gpu/drm/xe/xe_device.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
-index 370d820be248..11a7446233b5 100644
---- a/Documentation/gpu/drm-uapi.rst
-+++ b/Documentation/gpu/drm-uapi.rst
-@@ -362,6 +362,81 @@ the first place. DRM devices should make use of devcoredump to store relevant
- information about the reset, so this information can be added to user bug
- reports.
+diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
+index 2da4affe4dfd..2477cf043397 100644
+--- a/drivers/gpu/drm/xe/xe_device.c
++++ b/drivers/gpu/drm/xe/xe_device.c
+@@ -999,11 +999,12 @@ static void xe_device_wedged_fini(struct drm_device *drm, void *arg)
+  * xe_device_declare_wedged - Declare device wedged
+  * @xe: xe device instance
+  *
+- * This is a final state that can only be cleared with a mudule
++ * This is a final state that can only be cleared with a module
+  * re-probe (unbind + bind).
+  * In this state every IOCTL will be blocked so the GT cannot be used.
+  * In general it will be called upon any critical error such as gt reset
+- * failure or guc loading failure.
++ * failure or guc loading failure. Userspace will be notified of this state
++ * by a DRM uevent.
+  * If xe.wedged module parameter is set to 2, this function will be called
+  * on every single execution timeout (a.k.a. GPU hang) right after devcoredump
+  * snapshot capture. In this mode, GT reset won't be attempted so the state of
+@@ -1033,6 +1034,10 @@ void xe_device_declare_wedged(struct xe_device *xe)
+ 			"IOCTLs and executions are blocked. Only a rebind may clear the failure\n"
+ 			"Please file a _new_ bug report at https://gitlab.freedesktop.org/drm/xe/kernel/issues/new\n",
+ 			dev_name(xe->drm.dev));
++
++		/* Notify userspace of wedged device */
++		drm_dev_wedged_event(&xe->drm,
++				     DRM_WEDGE_RECOVERY_REBIND | DRM_WEDGE_RECOVERY_BUS_RESET);
+ 	}
  
-+Device wedging
-+==============
-+
-+Drivers can optionally make use of device wedged event (implemented as
-+drm_dev_wedged_event() in DRM subsystem) which notifies userspace of wedged
-+(hanged/unusable) state of the DRM device through a uevent. This is useful
-+especially in cases where the device is no longer operating as expected even
-+after a reset and has become unrecoverable from driver context. Purpose of
-+this implementation is to provide drivers a generic way to recover with the
-+help of userspace intervention without taking any drastic measures in the
-+driver.
-+
-+A 'wedged' device is basically a dead device that needs attention. The
-+uevent is the notification that is sent to userspace along with a hint about
-+what could possibly be attempted to recover the device and bring it back to
-+usable state. Different drivers may have different ideas of a 'wedged' device
-+depending on their hardware implementation, and hence the vendor agnostic
-+nature of the event. It is up to the drivers to decide when they see the need
-+for recovery and how they want to recover from the available methods.
-+
-+Recovery
-+--------
-+
-+Current implementation defines two recovery methods, out of which, drivers
-+can use any one, both or none. Method(s) of choice will be sent in the uevent
-+environment as ``WEDGED=<method1>[,<method2>]`` in order of less to more side
-+effects. If driver is unsure about recovery or method is unknown (like reboot,
-+firmware flashing, hardware replacement or any other procedure which can't be
-+attempted on the fly), ``WEDGED=none`` will be sent instead.
-+
-+It is the responsibility of the driver to perform required cleanups (like
-+disabling system memory access or signalling dma_fences) and prepare itself
-+for the recovery before sending the event. Once the event is sent, driver
-+should block all IOCTLs with an error code. This will signify the reason for
-+wegeding which can be reported to the application if needed.
-+
-+Userspace consumers can parse this event and attempt recovery as per below
-+expectations.
-+
-+    =============== ==================================
-+    Recovery method Consumer expectations
-+    =============== ==================================
-+    rebind          unbind + rebind driver
-+    bus-reset       unbind + reset bus device + rebind
-+    none            admin/user policy
-+    =============== ==================================
-+
-+Example for rebind
-+~~~~~~~~~~~~~~~~~~
-+
-+Udev rule::
-+
-+    SUBSYSTEM=="drm", ENV{WEDGED}=="rebind", DEVPATH=="*/drm/card[0-9]",
-+    RUN+="/path/to/rebind.sh $env{DEVPATH}"
-+
-+Recovery script::
-+
-+    #!/bin/sh
-+
-+    DEVPATH=$(readlink -f /sys/$1/device)
-+    DEVICE=$(basename $DEVPATH)
-+    DRIVER=$(readlink -f $DEVPATH/driver)
-+
-+    echo -n $DEVICE > $DRIVER/unbind
-+    sleep 1
-+    echo -n $DEVICE > $DRIVER/bind
-+
-+Although scripts are simple enough for basic recovery, admin/users can define
-+customized policies around recovery action. For example if the driver supports
-+multiple recovery methods, consumers can opt for the suitable one based on
-+policy definition. Consumers can also take additional steps like gathering
-+telemetry information (devcoredump, syslog), or have the device available for
-+further debugging and data collection before performing the recovery. This is
-+useful especially when the driver is unsure about recovery or method is unknown.
-+
- .. _drm_driver_ioctl:
- 
- IOCTL Support on Device Nodes
+ 	for_each_gt(gt, xe, id)
 -- 
 2.34.1
 
