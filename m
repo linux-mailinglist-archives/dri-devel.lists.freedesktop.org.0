@@ -2,70 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D150E9AF9BB
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 08:16:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 786109AF9EC
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 08:29:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 324C210E9F3;
-	Fri, 25 Oct 2024 06:16:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 164A710E9FE;
+	Fri, 25 Oct 2024 06:28:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="IvdA1i9S";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="lsnCoPuq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 130AC10E9F3;
- Fri, 25 Oct 2024 06:16:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1729837010; x=1761373010;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=c6V1Mv+taW3ICFO5XNnbFK4fCJZFIwQpzeF7YcNeRNs=;
- b=IvdA1i9SI68cqw+Fsqfug1O5+DxmoILdMgfh8qsm14q6P8Y3MKqvDH1Z
- MsjHg1ZxktlPl/1SQva3RrfJgkAThg99Cc954hIHsedyrkM4t5yJxTAWA
- sX1BKA1PsEDZbtQExpAiUxrLjbTdKIaoQgfzh/mk28QnFJY1CR6Kg3ZNI
- PREdFn5KQrzSuPxaMsv4a8dVaXDb72EqQw+P9n+8Sevi3tTWW78wqcoT2
- J3phmuaaK68gdfZjmXlJpOOM20hf4OYUyBMD8Cg/249Ngb//5qFQCT0TX
- h4TVWE+Ur3Bqt0KOch/Hdzi+HFBxhd1odwjcUja3sMFVoHf6n9/c5DKZ6 g==;
-X-CSE-ConnectionGUID: PimQ0CzyRwa74y65+M9ZXQ==
-X-CSE-MsgGUID: qr6TmRq7SnSYUskfTj0Zng==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29274984"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="29274984"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Oct 2024 23:16:49 -0700
-X-CSE-ConnectionGUID: PKYOkV+QSeWAVUQvMAg3ZA==
-X-CSE-MsgGUID: q+TANJcEReWiNuhgN2CKuw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; d="scan'208";a="118287858"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
- by orviesa001.jf.intel.com with ESMTP; 24 Oct 2024 23:16:44 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1t4Dcn-000Xg8-1z;
- Fri, 25 Oct 2024 06:16:41 +0000
-Date: Fri, 25 Oct 2024 14:16:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- jani.nikula@intel.com, David Airlie <airlied@gmail.com>,
- Hamza Mahfooz <hamza.mahfooz@amd.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
- Simon Ser <contact@emersion.fr>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
- amd-gfx@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- nouveau@lists.freedesktop.org, xen-devel@lists.xenproject.org
-Subject: Re: [PATCH 2/2] drm: remove driver date from struct drm_driver and
- all drivers
-Message-ID: <202410251345.nA1iHU0x-lkp@intel.com>
-References: <20241024162240.2398664-2-jani.nikula@intel.com>
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
+ [209.85.208.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C30D510E9FE
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 06:28:40 +0000 (UTC)
+Received: by mail-lj1-f177.google.com with SMTP id
+ 38308e7fff4ca-2fb58980711so16140371fa.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 23:28:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1729837719; x=1730442519; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=ggQprwB+vTricRp85OZCHCZrtqv0PIzjtgOf5gOgeCo=;
+ b=lsnCoPuqkaX7syxX1opA70oW+WVhUyMl3jU9X9EA2QKeyyuHVqmcUO01q9MxbF37/b
+ +EaJyaxvWizKDaPskikys7i7tqxtGEjGBIxHe5r2kNoav9F9RC5+qGEC0aKfrWLmfCAP
+ JFffsbeInq6/i1Rco3DuFDT4JEkwVmTmOjVxn/orAD7Gxmk/0gGJ9quAQgpGioMezWim
+ UEsOjUhTomQ59c952qvobXX8DuAX8l04swlEqibHJhgdvEe4S+/u/HZu+dALkMelDmDx
+ aZF11pQ69Zr4AA1k2tnKuCCY/z7f8IMnv7USZcxsmx7ZxWELxzoP3WCECWkAcjedlu+M
+ hwXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1729837719; x=1730442519;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ggQprwB+vTricRp85OZCHCZrtqv0PIzjtgOf5gOgeCo=;
+ b=O7JuJTIX7aFDiZiu7kND2JkYta1GsEVwG4VRvuccqr6Z2LTb3RiLTmXa5XjeVjF5BC
+ dPQ33lFA4Hv1Ws2p0EOLREzp3EZnZkdE02VZpjJjaRaXGp7b9jUEzhfJALm1iw9xMzF7
+ yAnArtPB6UJH2XDejRBvfisVUL/RcbnegwTSl+prPaV91CgVC0BrW+y/reLlyXy6CgBI
+ UBYEjmMtDefiK6OR3KVBU7pRej/7r8CRjHkG0UcffGqWOcwV+fjqaOjrO0rU1i3BNm2B
+ h5OPbj5lG1ym2D15rqWUVS4tvqS3Wa6+ptEnoK/XMtusw31KKDrDCGn3XAMF+72aOBzN
+ XCsg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVvrFQTwyOCcOAg+4FFhlquFJG9HzFzQZDhgsA558PnO88F9xnKU570PGqRYhyRrHhNVmnQbEDHGdA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyyIKiLqfvcDU32d/MOxCSVQ33S1miqzXMd+uC27OXoDKg7r7lx
+ XKqZb2/vreV5c9/Ytj4b6aZUXzgsy3BVDA3gDQ5LGn3lHKfmpc2w4kETTapeUz0=
+X-Google-Smtp-Source: AGHT+IFaqSi3YpsyTfNZEHslT6tXnIucCTkmvLVJIORZGEveGd+wYqYmRBCEZV5qZEaTCrCcylcBhg==
+X-Received: by 2002:a2e:b8c2:0:b0:2fb:382e:410f with SMTP id
+ 38308e7fff4ca-2fca8227ddbmr26408121fa.26.1729837718711; 
+ Thu, 24 Oct 2024 23:28:38 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-2fcb4612a5asm703221fa.122.2024.10.24.23.28.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Oct 2024 23:28:36 -0700 (PDT)
+Date: Fri, 25 Oct 2024 09:28:33 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, Rob Clark <robdclark@gmail.com>, 
+ Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
+ Stephen Boyd <sboyd@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+ devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 2/3] dt-bindings: opp: Add v2-qcom-adreno vendor
+ bindings
+Message-ID: <4426b4kybtac6rc4twa5pgm3hvlegofemvqjcrvh6ni7f5z2h6@5dnlv3hgywh5>
+References: <20241021-gpu-acd-v2-0-9c25a62803bc@quicinc.com>
+ <20241021-gpu-acd-v2-2-9c25a62803bc@quicinc.com>
+ <mz4zpcr4tqh2w7vt75f4ofxjzfve54ozzgpdbi2jjzk5pdxbk7@t36tlt3mmprt>
+ <d858dadb-4098-4c9f-b4f0-393dc988db5f@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241024162240.2398664-2-jani.nikula@intel.com>
+In-Reply-To: <d858dadb-4098-4c9f-b4f0-393dc988db5f@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,152 +98,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jani,
+On Thu, Oct 24, 2024 at 12:56:58AM +0530, Akhil P Oommen wrote:
+> On 10/22/2024 11:19 AM, Krzysztof Kozlowski wrote:
+> > On Mon, Oct 21, 2024 at 05:23:43PM +0530, Akhil P Oommen wrote:
+> >> Add a new schema which extends opp-v2 to support a new vendor specific
+> >> property required for Adreno GPUs found in Qualcomm's SoCs. The new
+> >> property called "qcom,opp-acd-level" carries a u32 value recommended
+> >> for each opp needs to be shared to GMU during runtime.
+> >>
+> >> Cc: Rob Clark <robdclark@gmail.com>
+> >> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+> >> ---
+> >>  .../bindings/opp/opp-v2-qcom-adreno.yaml           | 96 ++++++++++++++++++++++
+> >>  1 file changed, 96 insertions(+)
+> >>
+> >> diff --git a/Documentation/devicetree/bindings/opp/opp-v2-qcom-adreno.yaml b/Documentation/devicetree/bindings/opp/opp-v2-qcom-adreno.yaml
+> >> new file mode 100644
+> >> index 000000000000..6d50c0405ef8
+> >> --- /dev/null
+> >> +++ b/Documentation/devicetree/bindings/opp/opp-v2-qcom-adreno.yaml
+> >> @@ -0,0 +1,96 @@
+> >> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> >> +%YAML 1.2
+> >> +---
+> >> +$id: http://devicetree.org/schemas/opp/opp-v2-qcom-adreno.yaml#
+> >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> >> +
+> >> +title: Qualcomm Adreno compatible OPP supply
+> >> +
+> >> +description:
+> >> +  Adreno GPUs present in Qualcomm's Snapdragon chipsets uses an OPP specific
+> >> +  ACD related information tailored for the specific chipset. This binding
+> >> +  provides the information needed to describe such a hardware value.
+> >> +
+> >> +maintainers:
+> >> +  - Rob Clark <robdclark@gmail.com>
+> >> +
+> >> +allOf:
+> >> +  - $ref: opp-v2-base.yaml#
+> >> +
+> >> +properties:
+> >> +  compatible:
+> >> +    items:
+> >> +      - const: operating-points-v2-adreno
+> >> +      - const: operating-points-v2
+> >> +
+> >> +patternProperties:
+> >> +  '^opp-?[0-9]+$':
+> > 
+> > '-' should not be optional. opp1 is not expected name.
+> 
+> Agree. Will change this to '^opp-[0-9]+$'
+> 
+> > 
+> >> +    type: object
+> >> +    additionalProperties: false
+> >> +
+> >> +    properties:
+> >> +      opp-hz: true
+> >> +
+> >> +      opp-level: true
+> >> +
+> >> +      opp-peak-kBps: true
+> >> +
+> >> +      opp-supported-hw: true
+> >> +
+> >> +      qcom,opp-acd-level:
+> >> +        description: |
+> >> +          A positive value representing the ACD (Adaptive Clock Distribution,
+> >> +          a fancy name for clk throttling during voltage droop) level associated
+> >> +          with this OPP node. This value is shared to a co-processor inside GPU
+> >> +          (called Graphics Management Unit a.k.a GMU) during wake up. It may not
+> >> +          be present for some OPPs and GMU will disable ACD while transitioning
+> >> +          to that OPP. This value encodes a voltage threshold and few other knobs
+> >> +          which are identified by characterization of the SoC. So, it doesn't have
+> >> +          any unit.
+> > 
+> > Thanks for explanation and other updates. I am still not happy with this
+> > property. I do not see reason why DT should encode magic values in a
+> > quite generic piece of code. This creates poor ABI, difficult to
+> > maintain or understand.
+> > 
+> 
+> Configuring GPU ACD block with its respective value is a requirement for each OPP.
+> So OPP node seems like the natural place for this data.
+> 
+> If it helps to resolve your concerns, I can elaborate the documentation with
+> details on the GMU HFI interface where this value should be passed on to the
+> hardware. Also replace "few other knobs" with "Delay cycles & Calibration margin"
+> in the above doc.
 
-kernel test robot noticed the following build errors:
+Usually the preference for DT is to specify data in a sensible way
+rather than just the values being programmed to the register. Is it
+possible to implement this approach for ACD values?
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on next-20241024]
-[cannot apply to drm-exynos/exynos-drm-next shawnguo/for-next drm-xe/drm-xe-next linus/master v6.12-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/drm-remove-driver-date-from-struct-drm_driver-and-all-drivers/20241025-002344
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20241024162240.2398664-2-jani.nikula%40intel.com
-patch subject: [PATCH 2/2] drm: remove driver date from struct drm_driver and all drivers
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20241025/202410251345.nA1iHU0x-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 5886454669c3c9026f7f27eab13509dd0241f2d6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241025/202410251345.nA1iHU0x-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410251345.nA1iHU0x-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/accel/qaic/qaic_drv.c:7:
-   In file included from include/linux/dma-mapping.h:8:
-   In file included from include/linux/device.h:32:
-   In file included from include/linux/device/driver.h:21:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/s390/include/asm/elf.h:181:
-   In file included from arch/s390/include/asm/mmu_context.h:11:
-   In file included from arch/s390/include/asm/pgalloc.h:18:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/accel/qaic/qaic_drv.c:7:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from drivers/accel/qaic/qaic_drv.c:7:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from drivers/accel/qaic/qaic_drv.c:7:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     693 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     701 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     709 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     718 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     727 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     736 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> drivers/accel/qaic/qaic_drv.c:211:3: error: field designator 'date' does not refer to any field in type 'const struct drm_driver'
-     211 |         .date                   = "20190618",
-         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/accel/qaic/qaic_drv.c:448:46: warning: shift count >= width of type [-Wshift-count-overflow]
-     448 |         ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
-         |                                                     ^~~~~~~~~~~~~~~~
-   include/linux/dma-mapping.h:77:54: note: expanded from macro 'DMA_BIT_MASK'
-      77 | #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
-         |                                                      ^ ~~~
-   17 warnings and 1 error generated.
-
-
-vim +211 drivers/accel/qaic/qaic_drv.c
-
-c501ca23a6a306 Jeffrey Hugo 2023-03-27  205  
-c501ca23a6a306 Jeffrey Hugo 2023-03-27  206  static const struct drm_driver qaic_accel_driver = {
-c501ca23a6a306 Jeffrey Hugo 2023-03-27  207  	.driver_features	= DRIVER_GEM | DRIVER_COMPUTE_ACCEL,
-c501ca23a6a306 Jeffrey Hugo 2023-03-27  208  
-c501ca23a6a306 Jeffrey Hugo 2023-03-27  209  	.name			= QAIC_NAME,
-c501ca23a6a306 Jeffrey Hugo 2023-03-27  210  	.desc			= QAIC_DESC,
-c501ca23a6a306 Jeffrey Hugo 2023-03-27 @211  	.date			= "20190618",
-c501ca23a6a306 Jeffrey Hugo 2023-03-27  212  
-c501ca23a6a306 Jeffrey Hugo 2023-03-27  213  	.fops			= &qaic_accel_fops,
-c501ca23a6a306 Jeffrey Hugo 2023-03-27  214  	.open			= qaic_open,
-c501ca23a6a306 Jeffrey Hugo 2023-03-27  215  	.postclose		= qaic_postclose,
-c501ca23a6a306 Jeffrey Hugo 2023-03-27  216  
-c501ca23a6a306 Jeffrey Hugo 2023-03-27  217  	.ioctls			= qaic_drm_ioctls,
-c501ca23a6a306 Jeffrey Hugo 2023-03-27  218  	.num_ioctls		= ARRAY_SIZE(qaic_drm_ioctls),
-c501ca23a6a306 Jeffrey Hugo 2023-03-27  219  	.gem_prime_import	= qaic_gem_prime_import,
-c501ca23a6a306 Jeffrey Hugo 2023-03-27  220  };
-c501ca23a6a306 Jeffrey Hugo 2023-03-27  221  
+>  
+> > 
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+With best wishes
+Dmitry
