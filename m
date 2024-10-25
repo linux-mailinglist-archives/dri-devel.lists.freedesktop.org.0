@@ -2,65 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2ED919B0ABF
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 19:16:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A2159B0AC3
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 19:16:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A57E910EB31;
-	Fri, 25 Oct 2024 17:16:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 522E710EB34;
+	Fri, 25 Oct 2024 17:16:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="Q8f+qeae";
+	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="LkpGVaW5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
- [209.85.128.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CF2410EB2B
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 17:16:17 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id
- 5b1f17b1804b1-43158625112so22707405e9.3
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 10:16:17 -0700 (PDT)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+ [209.85.221.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6930410EB2B
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 17:16:18 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id
+ ffacd0b85a97d-37d58377339so1728779f8f.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 10:16:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google; t=1729876576; x=1730481376;
+ d=raspberrypi.com; s=google; t=1729876577; x=1730481377;
  darn=lists.freedesktop.org; 
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=QATmMbNk3c4g4hXx1UR19WiwFTrUbM+WoGxURwc9BNY=;
- b=Q8f+qeaekv3Y3QDq5Xszk8H1tU6jLot0/f8hIucxzGo7pmYS2u+/qYVtEivZr+M57X
- J9Z0JriIJmUeEyJQ/0DZ1tol6PjwhfJjKNfmTgkmkcLwbAHDpk5xxtxvH74ZBUjQU2xt
- 0LuBNqMo+rr9Oe5aBdL4aQuylHU60Qko2ZgceS+ScSoO5yOkEZHqhmQiZQdQNm5qkXHn
- yreZs0KpjQj4X23N/+XeQ2gebwKi3KgevBiLszTyjYmObHWAnryFtxnnsvpsGjmM1V3E
- r0uAuXYMoirgiPJqfpjq47YNFkbRa4lIQXboRQZjE4MaF+elzVIa2TaxGxmickcIiRgR
- U49A==
+ :reply-to; bh=AjLOa+CYvpz+BpNsMyaYFjyUkwYrQkclw8bv+vdgZA4=;
+ b=LkpGVaW5eyksQNPoj598RrBrvWx5CDGi1rXq+R9dC9lL2ZaqLmm4XhOdJp8M2SiNYG
+ fnK8bOgaxbP0UU0wvEPoYJaaHkSa4RcTm9b87FKXj6wv27w3vO/XVjnydqkq317dLkzm
+ jMxGGLauXNEQ71/79aGMlOjdWSFEf4zlAJiWgbUSpRTj2S1vOq3/F7P/QGM2ch1NPHZX
+ yUUOdDnbCSxpuScm48ooKl+fTsGHlpu/vowkH4VFM/13MnTXIjF2pVdBNODerBFQ2reg
+ bl2PjawyD/oEY4kjjMn+Y7DRWTC/NTKCPyykI2aqhYkejNe1LgWKDGWshy4sU25VIheq
+ qqcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729876576; x=1730481376;
+ d=1e100.net; s=20230601; t=1729876577; x=1730481377;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=QATmMbNk3c4g4hXx1UR19WiwFTrUbM+WoGxURwc9BNY=;
- b=hq3AhcAgE7vUmZq+DU2jyznJbwf1jcGfheveYxs+yTBD74W3UZyW2t5I5ZlcSvGOm/
- pqv06LfDmpiKDvodRisg/tW+kmNOIOicsVgpWo0yg+GR5woA8Jgbmr5V1EGthJVlnCKm
- MGraCuGe9jJPwOZob7dr4VejqxBMrWZuCs/qd753IwNHNt/u+qlrS5Uvy8jPWv5w4v/n
- +OAPzRfqs6y6abCVCkXHrQCt0RROWNu6cZWohZdFmqISFx+ld8nYUXz9pwS3iJInnRYX
- goMQgfZ60hxnWGFiWExyrdwQmzTHjDXkllTatwKpZcmfLITvoPcw+c3a836R4mCvZNs6
- otjg==
-X-Gm-Message-State: AOJu0YwXLoBEUWIAqCVxJwNMe8JRKE1G4KfRwWzqriWV6J0cV8dRKdrl
- BIcm2os5IMxhNqF+G7A5yPORZx8bzlV0kEzXndWlzMOErZuAMpFbVQzr8ZrYeyw=
-X-Google-Smtp-Source: AGHT+IE/VfikFrZHBGY91VEfdMxjOv4Me9kCVd0mDGc13MQEknYwxLSPdeWAl2uAqA6slK2aB7I+ww==
-X-Received: by 2002:adf:fa83:0:b0:37c:d299:b5f0 with SMTP id
- ffacd0b85a97d-3806120c614mr82922f8f.59.1729876575760; 
- Fri, 25 Oct 2024 10:16:15 -0700 (PDT)
+ bh=AjLOa+CYvpz+BpNsMyaYFjyUkwYrQkclw8bv+vdgZA4=;
+ b=vC6fNkyUz25Il/Ccz9aVe3zgIRovO1+yIe2psTtVmo5eDu0r8qNq9nKJNh28nT+o+Q
+ 7CvjMbm986w3cJWxR9keNT8siqmjaMDd3IpNQZTXw07c+KeIPmJYRrysufhysfgzCjmY
+ Luqik6G3mLTd67e8sAnVKVxxkDhyds/w2r+E6Zn0YQ3AKgjJBLA72UQwsmOQjHUIgt2a
+ 4XUynzxr+rJp24mxwQb29b7kSc/40kzV0/YsMb8bvfKfOgkMJXcEB+dBWBeeyVHPSJ6x
+ MzzyyEpsmhuKH2FQ3uWDL1Yvl9sSYkdfsrNYb1qUYT/GAhwcBFbbUTbutyp3XFamEcAz
+ ozeg==
+X-Gm-Message-State: AOJu0Yyk2p8mS3lP2q3wDR7xgJN236fSQl1hwMerVzFLM816ndf9zTax
+ Tf99P2HlvymGJaGePewUWnHTkxp1PwsZNo6I2AdJix7cC8U4EO79OYechuawJEg=
+X-Google-Smtp-Source: AGHT+IGP9nRcQ2kzvdL+ddPuHATxPAjofcN1yD5KA+iaTZo+WrIoFCmEwqLiAauQ9eDZll9Qzpuj9A==
+X-Received: by 2002:a5d:444f:0:b0:37c:c832:cf95 with SMTP id
+ ffacd0b85a97d-3806123eecfmr110629f8f.50.1729876576741; 
+ Fri, 25 Oct 2024 10:16:16 -0700 (PDT)
 Received: from [127.0.1.1] ([2a00:1098:3142:e::8])
  by smtp.googlemail.com with ESMTPSA id
  ffacd0b85a97d-38058b91f50sm2013649f8f.94.2024.10.25.10.16.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Oct 2024 10:16:15 -0700 (PDT)
+ Fri, 25 Oct 2024 10:16:16 -0700 (PDT)
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Fri, 25 Oct 2024 18:15:46 +0100
-Subject: [PATCH v2 15/36] drm/vc4: txp: Add byte enable toggle bit
+Date: Fri, 25 Oct 2024 18:15:47 +0100
+Subject: [PATCH v2 16/36] drm/vc4: txp: Add horizontal and vertical size
+ offset toggle bit
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241025-drm-vc4-2712-support-v2-15-35efa83c8fc0@raspberrypi.com>
+Message-Id: <20241025-drm-vc4-2712-support-v2-16-35efa83c8fc0@raspberrypi.com>
 References: <20241025-drm-vc4-2712-support-v2-0-35efa83c8fc0@raspberrypi.com>
 In-Reply-To: <20241025-drm-vc4-2712-support-v2-0-35efa83c8fc0@raspberrypi.com>
 To: Maxime Ripard <mripard@kernel.org>, 
@@ -100,62 +101,64 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Maxime Ripard <mripard@kernel.org>
 
-The MOPLET doesn't have the BYTE_ENABLE field to set, but the TXP and
-MOP do, so let's add a boolean to control whether or not we need to set
-it.
+The new writeback controllers that can be found on the BCM2712 require
+to have their horizontal and vertical size reduced by one.
+
+Let's tie that behaviour to the compatible so we can support both the
+new and old controllers.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 ---
- drivers/gpu/drm/vc4/vc4_drv.h | 1 +
- drivers/gpu/drm/vc4/vc4_txp.c | 6 +++++-
- 2 files changed, 6 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/vc4/vc4_drv.h |  1 +
+ drivers/gpu/drm/vc4/vc4_txp.c | 14 ++++++++++++--
+ 2 files changed, 13 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-index e08c90245f94..27deb4cde02d 100644
+index 27deb4cde02d..984fddae0048 100644
 --- a/drivers/gpu/drm/vc4/vc4_drv.h
 +++ b/drivers/gpu/drm/vc4/vc4_drv.h
-@@ -538,6 +538,7 @@ struct vc4_crtc_data {
- 
+@@ -539,6 +539,7 @@ struct vc4_crtc_data {
  struct vc4_txp_data {
  	struct vc4_crtc_data	base;
-+	unsigned int has_byte_enable:1;
+ 	unsigned int has_byte_enable:1;
++	unsigned int size_minus_one:1;
  };
  
  extern const struct vc4_txp_data bcm2835_txp_data;
 diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
-index 6fe378b454ca..eaf30b2cfb5b 100644
+index eaf30b2cfb5b..d2ee872e9c0b 100644
 --- a/drivers/gpu/drm/vc4/vc4_txp.c
 +++ b/drivers/gpu/drm/vc4/vc4_txp.c
-@@ -287,6 +287,7 @@ static void vc4_txp_connector_atomic_commit(struct drm_connector *conn,
- 	struct drm_connector_state *conn_state = drm_atomic_get_new_connector_state(state,
- 										    conn);
- 	struct vc4_txp *txp = connector_to_vc4_txp(conn);
-+	const struct vc4_txp_data *txp_data = txp->data;
+@@ -291,6 +291,8 @@ static void vc4_txp_connector_atomic_commit(struct drm_connector *conn,
  	struct drm_gem_dma_object *gem;
  	struct drm_display_mode *mode;
  	struct drm_framebuffer *fb;
-@@ -309,9 +310,11 @@ static void vc4_txp_connector_atomic_commit(struct drm_connector *conn,
- 		return;
- 
- 	ctrl = TXP_GO | TXP_EI |
--	       VC4_SET_FIELD(0xf, TXP_BYTE_ENABLE) |
- 	       VC4_SET_FIELD(txp_fmts[i], TXP_FORMAT);
- 
-+	if (txp_data->has_byte_enable)
-+		ctrl |= VC4_SET_FIELD(0xf, TXP_BYTE_ENABLE);
++	unsigned int hdisplay;
++	unsigned int vdisplay;
+ 	u32 ctrl;
+ 	int idx;
+ 	int i;
+@@ -330,9 +332,17 @@ static void vc4_txp_connector_atomic_commit(struct drm_connector *conn,
+ 	gem = drm_fb_dma_get_gem_obj(fb, 0);
+ 	TXP_WRITE(TXP_DST_PTR, gem->dma_addr + fb->offsets[0]);
+ 	TXP_WRITE(TXP_DST_PITCH, fb->pitches[0]);
 +
- 	if (fb->format->has_alpha)
- 		ctrl |= TXP_ALPHA_ENABLE;
- 	else
-@@ -492,6 +495,7 @@ const struct vc4_txp_data bcm2835_txp_data = {
- 		.hvs_available_channels = BIT(2),
- 		.hvs_output = 2,
- 	},
-+	.has_byte_enable = true,
- };
++	hdisplay = mode->hdisplay ?: 1;
++	vdisplay = mode->vdisplay ?: 1;
++	if (txp_data->size_minus_one) {
++		hdisplay -= 1;
++		vdisplay -= 1;
++	}
++
+ 	TXP_WRITE(TXP_DIM,
+-		  VC4_SET_FIELD(mode->hdisplay, TXP_WIDTH) |
+-		  VC4_SET_FIELD(mode->vdisplay, TXP_HEIGHT));
++		  VC4_SET_FIELD(hdisplay, TXP_WIDTH) |
++		  VC4_SET_FIELD(vdisplay, TXP_HEIGHT));
  
- static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
+ 	TXP_WRITE(TXP_DST_CTRL, ctrl);
+ 
 
 -- 
 2.34.1
