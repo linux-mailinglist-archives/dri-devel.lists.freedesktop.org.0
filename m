@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BC7F9B0ABD
+	by mail.lfdr.de (Postfix) with ESMTPS id 424ED9B0ABE
 	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 19:16:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 873F910EB2C;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9228D10EB2F;
 	Fri, 25 Oct 2024 17:16:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="nmnwtwp5";
+	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="MARRE6km";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 847C710E3F7
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 17:16:09 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id
- 5b1f17b1804b1-43163667f0eso22136225e9.0
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 10:16:09 -0700 (PDT)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
+ [209.85.221.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7629010EB2B
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 17:16:10 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id
+ ffacd0b85a97d-37d4c1b1455so1467743f8f.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 10:16:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google; t=1729876568; x=1730481368;
+ d=raspberrypi.com; s=google; t=1729876569; x=1730481369;
  darn=lists.freedesktop.org; 
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=fLIH9tyCJziS0oZVp659ectLCUh/04IQKJ1VKaLHRLQ=;
- b=nmnwtwp5bZKA6yCGt9izuhkMlWuE10PLDk08g453cic55Z5Gd8nVNioYqFwprnbbYH
- qPgvnOBfBddfGrDquYbBoWjlhlbpPGbELQXeHKjXR8ppHSea8DsN1VVRfx3R/ibTebWN
- uzAzzAHPrh7WSGbf98mw+eXthUaG9NpY9++hZ+OkRRrIxCT6nubScrhbQk3TtQjWtd8O
- n6DTVdcZH51HwJW+w/XLjjk3AmF+2HeMCEw7NEtAw+Ytx7fbAyLGVRmoRzkCjll55sPC
- 7FoDBU6SWuwKUevA/FmlrLQBTqj8K7QN9OHZ4CfhBHPSlt51S01NIvsO03fP+wcAp+MB
- wC4g==
+ :reply-to; bh=GHIbxCZv7ndlL/NngNJdWVaw8pnmec8lE+r1y4sRvZg=;
+ b=MARRE6km/eTYiTCYH5+8M8g2l9LrvLB4HqgjS/t849CBk5iRrsPBOxlUx9KiCWfSmN
+ jKUu5v76dLuiRCfZ1flMpUWOwNqHAShxe90SN1muX8eB7fE/XaRDSOKM18ytBMDeh7FK
+ nr6OB+NrojEBEE3qDOHYTwP6Yc7XsRTMjaQ1er0LHy85JTp02+evR26E7vReIbKhsML5
+ dSjyStKdhEJaH70I9cUPe+cFiU+PEsU9g8lqIhMMnxIWkIB1/677sAfaN7Wmx3WMZNzo
+ 0IdCZZRlfh6ICwW6DsgFkH5NFQ1U97jCqW+1lDsPvWh2Q9zLTV4nhibvO8gaM4Ztq8tb
+ PRPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729876568; x=1730481368;
+ d=1e100.net; s=20230601; t=1729876569; x=1730481369;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=fLIH9tyCJziS0oZVp659ectLCUh/04IQKJ1VKaLHRLQ=;
- b=and3MhzuBus2uDXi+vzQt6OawijXGx4lFAf88iasGSabh5zIuh2JgWMfEd8EYaKXAO
- El5JZZHM6JUyWC/Si1TEwY33ByRQ8dQhbf5f2L58Uj6eyJ8kZToxvi603tgb9z8ba+pZ
- 3lMH4lWqfM8m8UTw7ExFvmyC2wUg6a5PycsoQUdfWFQR9Vfx5FzZfe/+E2LCjcOh6dcG
- Og9o+2XbkGoIXMNqgHZ2nNBHSsNFbVLzVFYcsDFKZ0hmqWlFR3RA1wz4f6B0zH3ymjsv
- euc73YaKIm/sodc2f8RnF0waxDWEoE2sQqBeFIGB8UnDPffD+91Qd2JrUodKCE9YEIkO
- wSjA==
-X-Gm-Message-State: AOJu0YwaTbG6jbWN1N/sguDZagWpYVk9MzvdWZo1QclfXGcbUX04qze2
- SNsRD/XhvMczmAd8MGHnUBLusbfbuyMwmw3tV5pbvWQ05Jp3sjjU9Lg2V95dhM4=
-X-Google-Smtp-Source: AGHT+IHeSVH8WqDyVkxiZojUuOptC1WUDDZpkGk6AneCSrSzoFw3bb8pQ04irSZpkbra+Ogj57FSIw==
-X-Received: by 2002:a05:600c:3b96:b0:431:50cb:2398 with SMTP id
- 5b1f17b1804b1-431841e13fdmr91410915e9.2.1729876567815; 
- Fri, 25 Oct 2024 10:16:07 -0700 (PDT)
+ bh=GHIbxCZv7ndlL/NngNJdWVaw8pnmec8lE+r1y4sRvZg=;
+ b=u3P6CJE+1EwCHa5burG0xShpIoGudJdFS9aAWlkXJxaYaJS/KPuJ7Npm1XlueotzQO
+ 6ZbkS+zh3ab0j307w2dnYnm9iBMSoR7wqp+S/Rw4h9YldiNtGr8lx/3d4J9dhI8XpPKu
+ y24Ylfq7wHOf0+piWDjqBKYlkyV+81pjQUDp1by3eq/NqKAm+QxwlNaiWwtxCnr11/3c
+ 731VYdp6eS0Ku07ci7f/ae5+SPuy/NYqhSUqW+1QCZ5D6BWCy6LnG8SL9YbOyf6epQcp
+ b6HWNXfIIItQ2/H4O0UxORMvUlgYI1oEIg2D96SKXunVKVTC8+2yNOtbzJVfWpgFh4tv
+ ny/g==
+X-Gm-Message-State: AOJu0Yw9srUJZKgA9QIqQSZXd05N/WMzyyA7Cs2MIixgO+a9eUCn20eC
+ lJwEyJAeveCJu6iOlN42PeQ7ZtBgXsVm86nOFmuY4AI9SQrOcmDGwL1L1oHwTYs=
+X-Google-Smtp-Source: AGHT+IEtkqmEo1cHWR2W1weuYPM4uWgJxftiucw4MZPmb7qQfL+iD3mzdPD9IiAb9rW3E2dTgpbMnA==
+X-Received: by 2002:a5d:6082:0:b0:374:baeb:2ec with SMTP id
+ ffacd0b85a97d-38061122a87mr106867f8f.19.1729876568721; 
+ Fri, 25 Oct 2024 10:16:08 -0700 (PDT)
 Received: from [127.0.1.1] ([2a00:1098:3142:e::8])
  by smtp.googlemail.com with ESMTPSA id
  ffacd0b85a97d-38058b91f50sm2013649f8f.94.2024.10.25.10.16.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Oct 2024 10:16:07 -0700 (PDT)
+ Fri, 25 Oct 2024 10:16:08 -0700 (PDT)
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Fri, 25 Oct 2024 18:15:38 +0100
-Subject: [PATCH v2 07/36] dt-bindings: display: Add BCM2712 MOPLET bindings
+Date: Fri, 25 Oct 2024 18:15:39 +0100
+Subject: [PATCH v2 08/36] dt-bindings: display: Add BCM2712 KMS driver bindings
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241025-drm-vc4-2712-support-v2-7-35efa83c8fc0@raspberrypi.com>
+Message-Id: <20241025-drm-vc4-2712-support-v2-8-35efa83c8fc0@raspberrypi.com>
 References: <20241025-drm-vc4-2712-support-v2-0-35efa83c8fc0@raspberrypi.com>
 In-Reply-To: <20241025-drm-vc4-2712-support-v2-0-35efa83c8fc0@raspberrypi.com>
 To: Maxime Ripard <mripard@kernel.org>, 
@@ -100,30 +100,28 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Maxime Ripard <mripard@kernel.org>
 
-The BCM2712 has a MOPLET controller which is basically a TXP without the
-transpose feature.
-
-Express that by adding a new compatible for it.
+The BCM2712 SoC comes with a new variation of the videocore display
+pipeline. Let's create a new compatible for it.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Acked-by: Rob Herring (Arm) <robh@kernel.org>
 ---
- Documentation/devicetree/bindings/display/brcm,bcm2835-txp.yaml | 1 +
+ Documentation/devicetree/bindings/display/brcm,bcm2835-vc4.yaml | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/display/brcm,bcm2835-txp.yaml b/Documentation/devicetree/bindings/display/brcm,bcm2835-txp.yaml
-index c9c08042cffc..16f45afd2bad 100644
---- a/Documentation/devicetree/bindings/display/brcm,bcm2835-txp.yaml
-+++ b/Documentation/devicetree/bindings/display/brcm,bcm2835-txp.yaml
-@@ -13,6 +13,7 @@ properties:
+diff --git a/Documentation/devicetree/bindings/display/brcm,bcm2835-vc4.yaml b/Documentation/devicetree/bindings/display/brcm,bcm2835-vc4.yaml
+index 49a5e041aa49..2aa9d5d2afff 100644
+--- a/Documentation/devicetree/bindings/display/brcm,bcm2835-vc4.yaml
++++ b/Documentation/devicetree/bindings/display/brcm,bcm2835-vc4.yaml
+@@ -18,6 +18,7 @@ properties:
    compatible:
      enum:
-       - brcm,bcm2712-mop
-+      - brcm,bcm2712-moplet
-       - brcm,bcm2835-txp
+       - brcm,bcm2711-vc5
++      - brcm,bcm2712-vc6
+       - brcm,bcm2835-vc4
+       - brcm,cygnus-vc4
  
-   reg:
 
 -- 
 2.34.1
