@@ -2,192 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCA319B11E8
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 23:51:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CD4E9B123C
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Oct 2024 00:02:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07E8410EB97;
-	Fri, 25 Oct 2024 21:51:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2AE810EB94;
+	Fri, 25 Oct 2024 22:02:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mtN/C0u8";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="mneKf7nz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EE6010EB8E;
- Fri, 25 Oct 2024 21:51:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1729893095; x=1761429095;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=wV/lB3RvOsZOu3vDULszMLNgmlK9960n/gBi+PSlrKE=;
- b=mtN/C0u88n7fls8sZl14u8mQePWdFNs48HeRWSDYEFFgzmXujo7NVuNR
- h8MHzjgZLhg/lJiuC6URkWIKnJk0ZwFENqBmQBTGScoCz9NMAixccjwXf
- FTF2Z0dO7nFRU9H5+jHNXANScLS4/Tmxz/P5EwM47xgwy7Kgx0Nuw5X4A
- OgnahhLyFxZLqQEwi44UX+SyF2wDGhMmaX/kn+zR4VVz+QxzsLuBjNXiI
- OLGVAD3aetN2eGyzF0xGQZzkzFzESVHRIoQ5iXW7LhShvefvhqu4780mU
- IvW/bnk0Qcy4R9y/tkC8/sKbrIqVM4Rbkaq6Pwr/1tVUIXx+AloeadT5/ Q==;
-X-CSE-ConnectionGUID: U/sNaBQPSzeWGC4cHnCL+A==
-X-CSE-MsgGUID: yWztMW3cRWOkg6GsCHQGTA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29750671"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="29750671"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Oct 2024 14:51:34 -0700
-X-CSE-ConnectionGUID: bF8FtKR1SYa0C23rCnraUQ==
-X-CSE-MsgGUID: iRTtAwq/SseoUQScyMBfGw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,233,1725346800"; d="scan'208";a="85816278"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by orviesa005.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 25 Oct 2024 14:51:34 -0700
-Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Fri, 25 Oct 2024 14:51:33 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Fri, 25 Oct 2024 14:51:33 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.170)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Fri, 25 Oct 2024 14:51:33 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BVfGQhUM0duLzY9RXbPECPTozg0n02qOx/cjvozrLi7yaItfV6cx8BM2azZ/QDpdGDrRXeMrGyGT+K/PNRP/XzPWRpHwMexq/OPp6NACdarhWV9tE1dtBHLdjMWi7+igVNIi58U3hm+Q3NN6PbrQfGDFAG8sDJWYjwnaNBjiOAZ1reQsmvB2H5bXdNyVbLqkViKv4Zc/5/cHQM9iabL0eV4cqOlE9Dpq3KNdxFmn9wwJ0cTwk8J7KSWJqAIHZ1nhvmjNrgSCDWFtdtX7NUxPOFeNZgpktnfrPv3e4OP6YnAq0FIT8m30JdyXRs12yLBEoU8lGX1aSeB1t8VR9ecICw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UwNmh+itC+Ul8yFEj6hh3gv/yry98BeOohAwro8BFBU=;
- b=eaSMxNx8RYOFBSApdcTCuN7gjk8b+VYmva8IEdrceCUO0ATisa4gtL4Av/dpyUDv00P6xir9xG7in072pX1PFly83B4hWUkZkOP8Ye2osu+yfnLNLwsaSQAHdm8H7l4gWtIrMJh2PBKsdBuidtc3hg2YzIoTqdQaCBciTEPleMEHo3LYLnakMGH0Owy5dYVYdOzHVyt3fbslepYieGH3f/LaQPoXMPhJjHHZXZlksx8sdDs22XVvvgYFCIQk1ZnbEgFcXvxWeawXnng6u2ZcQK3VOEou/rk3Df2P3k5z1/vX/bSWQfZhg9L6jnnA8fy5H0D5vfGQki5evL05a4TW0A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB5373.namprd11.prod.outlook.com (2603:10b6:5:394::7) by
- CY8PR11MB7745.namprd11.prod.outlook.com (2603:10b6:930:90::13) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8093.16; Fri, 25 Oct 2024 21:51:29 +0000
-Received: from DM4PR11MB5373.namprd11.prod.outlook.com
- ([fe80::927a:9c08:26f7:5b39]) by DM4PR11MB5373.namprd11.prod.outlook.com
- ([fe80::927a:9c08:26f7:5b39%5]) with mapi id 15.20.8093.018; Fri, 25 Oct 2024
- 21:51:29 +0000
-From: =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>
-To: <linux-pci@vger.kernel.org>, <intel-xe@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>, "Bjorn
- Helgaas" <bhelgaas@google.com>, =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>, =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?=
- <kw@linux.com>, =?UTF-8?q?Ilpo=20J=C3=A4rvinen?=
- <ilpo.jarvinen@linux.intel.com>
-CC: Rodrigo Vivi <rodrigo.vivi@intel.com>, Michal Wajdeczko
- <michal.wajdeczko@intel.com>, Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Matt Roper
- <matthew.d.roper@intel.com>, =?UTF-8?q?Micha=C5=82=20Winiarski?=
- <michal.winiarski@intel.com>
-Subject: [PATCH v4 7/7] drm/xe/pf: Set VF LMEM BAR size
-Date: Fri, 25 Oct 2024 23:50:38 +0200
-Message-ID: <20241025215038.3125626-8-michal.winiarski@intel.com>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <20241025215038.3125626-1-michal.winiarski@intel.com>
-References: <20241025215038.3125626-1-michal.winiarski@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: WA0P291CA0011.POLP291.PROD.OUTLOOK.COM
- (2603:10a6:1d0:1::23) To DM4PR11MB5373.namprd11.prod.outlook.com
- (2603:10b6:5:394::7)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 691BD10EB94
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 22:02:22 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49PBaxLZ003726;
+ Fri, 25 Oct 2024 22:02:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ unqZyCgNu9y3JNL4D+vF9Du7quIUHjBrUhkFlZeyWc4=; b=mneKf7nzD3bc2UoU
+ Ps4RPfTPeFtqBo17RUi0clIKsJDXAzfM8qTM5VlX5Y15x8GtdgcCRJtXjN69uK9E
+ zLbS9hzkDpyc4kBHR4RV2MNR3Ln8DmAMcPj7NayWHHUmfCJMJ1AqQ6nUUYbzT3Ej
+ 2lXL9KOL6vp985Y+wBscnKjYSRXc9FCKoVmt5lqR/N4yxiM++Pj7+/9wEKxnH1gK
+ zg5/koF0YW2AUes8+fng8GsdRr2iJ5+vdPfOkFp8jGD46OdzFdnwzbLE9q8cBnUM
+ o3o+SdD8o+3GX3cTBnrUm22Kv3zkZbHsvUdOFdQONnZMLDfUDpaFTIYvVPTwzXkp
+ Ww/OaQ==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42em68ae1e-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 25 Oct 2024 22:02:15 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49PM2EP5016597
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 25 Oct 2024 22:02:14 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 25 Oct
+ 2024 15:02:14 -0700
+Message-ID: <49b76568-572d-b3ef-da79-36f1a3c44f27@quicinc.com>
+Date: Fri, 25 Oct 2024 16:02:13 -0600
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5373:EE_|CY8PR11MB7745:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3bd2660d-564f-476c-8417-08dcf53f2e97
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|366016|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?NlltMEg0Mkhsb2wyVHlwd01CZ21hOTdQcDRaMDNUUFA0RVJibm05MVp2QzZw?=
- =?utf-8?B?dTFtbGgrK3EyRWZaMm8xUncxR1Bta1BmNC9WWVVKM2oyZHBBeElqNDRtM3g0?=
- =?utf-8?B?MEt4U1FySkxtaTIxQ1Z2dFVWRDQ3QytZSVMrckc5M3VDWTh6WUhEc01DT0Jj?=
- =?utf-8?B?N2RaNlFkS0VyR1VyMmJGQ1VWTmZjZWRjYWdjeDdSVzlTY3ROR3UwbWxoOHc2?=
- =?utf-8?B?UDE1Y0RWbW9hR0tQeElHUWRCWXBaakpnZEw0VTZ6c1NkTTBmRytGNmNJdWhW?=
- =?utf-8?B?RlAyR1N6NW9rWVZaNEVmczhrWTgydWlOdGRKYkN6b1RGMWtQVE0zVDVoUTdJ?=
- =?utf-8?B?N1BKdGxSOFd5ajdWNnFMUi9OTldoL0p0SFNpeDBjUzEwQ3hvZFJHRE5tcFpz?=
- =?utf-8?B?L2VINzVVN2FTbVloak1pTHNpSFFGTzNvSldCYkNmVG5TNFlBOHYzaGZCaWth?=
- =?utf-8?B?N1h3VE1UVmtzZG9pdlNqSUtGZkFRcDdUbWtxWVlWc0ErZVExSE5aSnc1ZXFu?=
- =?utf-8?B?OGxkbndvTStObWlYSllZRlBPZXRocDh2bDk5SnFhQ2hRSEUyNmQxT1QxV1hu?=
- =?utf-8?B?Ymc2WFdOdkVIdG9NMDl4b25IL2RGTFZFdjZDd295aXMzQnpMYUpJQ0NOT1dy?=
- =?utf-8?B?VTN0ZE9kTnN5ZWRzbjlOUTRSVCsyWHUwSEtoU2RrYlNkSjBsR3dUbEpFQWFL?=
- =?utf-8?B?UHBSS1pObDduVHFCaEszRWtRYm94aXRVSnFWVGxoalRSQ1F1ckEvSXZHdmpT?=
- =?utf-8?B?czRFV3pxMFF1RmpjOUx5cSs4NVNabjNxSGVWZE5VZDBiczZ6a2tEcmdwMXdw?=
- =?utf-8?B?T0dkNGVYM0l6TUVqRXIweHlhVW1xaGRiRks5UFhvMWJtRmU5S29aeTlpQ2Vn?=
- =?utf-8?B?WDE4NS82cnN2SFBiSGNvUXVETlFuTUI5blc1N1l1ZnR4dUlJaFhCNmFQaU1I?=
- =?utf-8?B?TEJGbGJXdFJsczZtaTVabndkbHdJR3Y1bmwwMnRZa0pvWXdTQ29sWUVFUXdE?=
- =?utf-8?B?N2t4QTFQeXZHWGVPZ1krQ2hrWXdZRFMwQkNHalZMVHRwYVl4dU1IZEdodUIz?=
- =?utf-8?B?dmZKblNPYW05ditycFcvQmt4Vm5MRTVOL1RyaEtiMzdvaHBhTC9zVXVsRG5t?=
- =?utf-8?B?M0VYeTE0QXVLZFRWazFJY0hJV2s4U1Znd1M3SFJham1INXdKQ1BVQkdpQmd5?=
- =?utf-8?B?Q1J2WEN5RnBBZkV0OThPcmhpeU1yaTFvVFRnUldENm9WcmtydlNSRVdCbjZq?=
- =?utf-8?B?RmRtN3dDc1l3alBJZG1HWTlJbW12ZWVISVluUXRaeTA3b216R2xVaHIxRWEr?=
- =?utf-8?B?aExJSTh4SHBZbkNCL2VmSGV0NEM1TmJvNVdqZ05TT3NpZHR6N1hxTnZ1aUxv?=
- =?utf-8?B?MTE2TkVzYTY5bE5IOXJ2L21Fa0l2dThVWVVjTHAzY050a2RCYVVqY1BvS3dn?=
- =?utf-8?B?K0NQZVFhb2hhYzNraGd3ZlRYSW03UXRrQkZvclZjZlBIWW1CNi8rVDJ0N3Z5?=
- =?utf-8?B?c0tWMktMejZlcjVNejJ2dDdUdVRyaitJcEdEM0tDZFVZd0VxelFFYkFtM2Rm?=
- =?utf-8?B?dkRDaTdDMnZDZnljZ3FTYnNHTGtpcVovVzhMNTdCVVNuUUJ4aGt3eHp5THAx?=
- =?utf-8?B?V2o0cUtLV0orczJWRS9sdHVpRk55Nk1YUEFkV2VjUGQ4NzAycndsMC9MbFVx?=
- =?utf-8?B?ZzNTd1g5aDNVaWRDVWZma2V5UWVxaUNGTW9uN2RqV0JDSG9CK2l1UjNRMHZn?=
- =?utf-8?Q?XuTaPaueb7lu1/hQE6+ezIGmcJRVdBPoYj4lgH7?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR11MB5373.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(366016)(1800799024)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RDFka1lDSWJlY2N1NUhYV3RNY1dQK2NHRTFOVlErRjF6QWw3c2VjbkV2QWlY?=
- =?utf-8?B?Y0Z0YWkvMDJha3RpMk5qM0F1YUFnN1lhdVh1bzREWWhLOUt0dVg5S0pxWVkr?=
- =?utf-8?B?N3NWMU4wdHZRclkrVXh6YjFmTC9aT3dtRVMwRU8xeFF6TWxVUk0yM1R1OHAw?=
- =?utf-8?B?MXZHTDhRdWRTb1JuNTdVM2V0RkhIMHAvM21KQUErc1BpMGlLb3piNDZSWlEv?=
- =?utf-8?B?SVYzcnkrZHI3U1dqQkhtaFVFZStnQmJTOEM5VzNDT2tDem00U2IraG91SGR6?=
- =?utf-8?B?TnZtMnNkUjJ6bC9IbW9JeFR2c01FTWpzQWtFSlhJbXBabWJRRFJpUy9TZDdQ?=
- =?utf-8?B?cG1ITlVJNGhld2VFck8xTnhwcWNRQk5iQTlVVU5xVFJ3STJodmJiWEVDNGU2?=
- =?utf-8?B?cFNndFM4Q0tUR0l5Qy9jdDJUNDV3R1lVZ2JndkRLZHRTY0tjV0hySmE1TDV1?=
- =?utf-8?B?S2FLcWxDbmtvUzhnYVhDNCtnbnlVMndFcUd0cVNzOGlPMWFuZXlmMi9rTi8v?=
- =?utf-8?B?Qm90YnNIYUhxL0NLZkZremJmNGt2RnYvTDV5M2pzb3ZiVXI0dUI3R0NIZEVH?=
- =?utf-8?B?d1F0MmRMclZhU1l4MVN2UGdRQU9GUEhTRVBvdDNrZjNNVytMelVMd2kvVmxJ?=
- =?utf-8?B?aXZBTHBBc01QSWpTZ1dlWVQvdVkrKzhqWUx0Y0RtdGpWN2ZvV2c3b3BRbG1w?=
- =?utf-8?B?RlBzV3B0dGVDYlV6ZW5WYTBJY1pKQmtZUW5MbVRrQzhpZXBweGo1ci91ZENn?=
- =?utf-8?B?MTJTWERzSk4vUlNWT1VCVFViL2x5NU1EZjBOZW8xRDdrdWtMK0JNZXB1UEVi?=
- =?utf-8?B?ZmZKZkxzWEFYVWxKMWY2WnNRVmJHdXNXbVNuNGRYd2VEYXpaSkM3NDkxVG9S?=
- =?utf-8?B?T3lxMHV4WitPMkkyQmR0QmJOY1RhQkZNaTJ1VzZ3ell4NTN3N3RCWUtqRVNl?=
- =?utf-8?B?aWZ2ckVuRTVpVWp1N3A1T1hPelNjM2JNczEwUjZ5SWUrQ3Nra290TmZsNXZG?=
- =?utf-8?B?SzBjOXFUUWpRN08wYi9OZUJobm5laG84VXdiUVJQNFdZWS96YW15aGdDcWJz?=
- =?utf-8?B?UFM2Z0dOWHhvSTJsc1YwTnd1M21TYldVVWFjbkF5NkdRRDZURVF2UE1CejFM?=
- =?utf-8?B?Q0gwcEZuVDJJK3c2QTVCWTg5RHdwT3prZk1zTUVXWXhRd3oyQ0liYm10TmFF?=
- =?utf-8?B?bzJIcW1NQmZVYTJZcGdCRmQ1TzJiYXdlS21aY0Zxb2tuT3pYSEo0aTdGUXlS?=
- =?utf-8?B?T3NXVzlqekNHK2p6VDdHbGpJVm15RkJEYkVPMjZvUktMZnBkalRqN2lodUNx?=
- =?utf-8?B?YUQ0S2NOS2FxVUFHMzdpMk90VjFOYkRieHNSRU5qSG1pbzIyYWE5Q25iUVAv?=
- =?utf-8?B?QW1oYkVDMHB3Mk9rWWxGeWkzVXV6bWNoQ00xOHhjWTkvYjVmbElUdUM5cHV5?=
- =?utf-8?B?UWhncjdaYWNMNU5GMGpLT2NFblYxWkw4ZzJoR1FSZHphOG1ha0JUelJ2aWRT?=
- =?utf-8?B?aGhXcFZIME9WODIvNHFaL3F0bXJHL2VCL3R0UGlhdEQ1bHRJb3IzZjdycVZo?=
- =?utf-8?B?Zkt3U3ppSkhUWk1GSXcwZG9MUmdqc0VRMGpyREVhdXJCVXpTTlVxc3FjRUtw?=
- =?utf-8?B?QkpIWG56QVpDZjJ0a1ZLYzJHQ1VGSm5xcTQwSmpXNTZRZ1hXYVhxUGhCRGg5?=
- =?utf-8?B?ZGJleG04L0VvUXR3SnlVQWdRRE9oU0hEcXBLQ01wUXNNVm5kZnJpYWZvOVNL?=
- =?utf-8?B?c3JSQjg5eDRuc0VUYkxQSGNMQ1ZCYTMrTGZzUUxlMzBZRlRsSTY5M010WWNh?=
- =?utf-8?B?dnVwOEk0bVpYWFhFOGZyMGRuRjFkbCtsVUVJMGhuSE9YaXhtMFVNcWhpaU1j?=
- =?utf-8?B?WUFsN05kL1VpdHlMYUs1QThNT0UzWFRmd0tFejl0VDNsREhkNi9LLzhHYjM3?=
- =?utf-8?B?eFJKeVBKOXpYUHBJTERDYVh4Z0RpcnR0VXo3U0NzT05WM1M1cW83R0Q4MFBk?=
- =?utf-8?B?eG5qZHFpZG1DM214VFR4a29XR1FWNXc0SFVSUXlsZVNVY2lUdlowZnl4S1Ey?=
- =?utf-8?B?QkRKdzdwQjdIRWREdVhWeUg1dStHbExCQ0ZUQkVtOGZ5c0Z2TEhudVdrQ0xU?=
- =?utf-8?B?MGp1SGdnUlluVkhzazlycTc3WXBQd3hMU2grQzlBT01zUWFvcTZpZ09DWkc2?=
- =?utf-8?B?Z0E9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3bd2660d-564f-476c-8417-08dcf53f2e97
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5373.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Oct 2024 21:51:29.4417 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3w3Doj34VXuKQocdxUmMW4BEd9xbChY6yNytKjsKl0K+tLWVS1zE6MTurV47t9JQC7OsuKQ5GcORp6oTvw/lT29EpUVWWuMiRnl8jKsFifY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7745
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH V5 00/10] AMD XDNA driver
+Content-Language: en-US
+To: Lizhi Hou <lizhi.hou@amd.com>, <ogabbay@kernel.org>,
+ <dri-devel@lists.freedesktop.org>
+CC: <linux-kernel@vger.kernel.org>, <min.ma@amd.com>, <max.zhen@amd.com>,
+ <sonal.santan@amd.com>, <king.tam@amd.com>
+References: <20241021161931.3701754-1-lizhi.hou@amd.com>
+ <de895a18-e40f-4996-b799-0a957bd3ca48@quicinc.com>
+ <28047f7a-ee20-0b5b-5bdc-5dea8e0bd412@amd.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <28047f7a-ee20-0b5b-5bdc-5dea8e0bd412@amd.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: JADy4uNBJqIGLIjebYbAyP7zIQoDOOCO
+X-Proofpoint-GUID: JADy4uNBJqIGLIjebYbAyP7zIQoDOOCO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 malwarescore=0
+ priorityscore=1501 adultscore=0 bulkscore=0 phishscore=0 mlxscore=0
+ lowpriorityscore=0 mlxlogscore=999 impostorscore=0 suspectscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410250170
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -203,78 +93,281 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-LMEM is partitioned between multiple VFs and we expect that the more
-VFs we have, the less LMEM is assigned to each VF.
-This means that we can achieve full LMEM BAR access without the need to
-attempt full VF LMEM BAR resize via pci_resize_resource().
+On 10/25/2024 3:28 PM, Lizhi Hou wrote:
+> 
+> On 10/25/24 10:55, Jeffrey Hugo wrote:
+>> On 10/21/2024 10:19 AM, Lizhi Hou wrote:
+>>> This patchset introduces a new Linux Kernel Driver, amdxdna for AMD 
+>>> NPUs.
+>>> The driver is based on Linux accel subsystem.
+>>>
+>>> NPU (Neural Processing Unit) is an AI inference accelerator integrated
+>>> into AMD client CPUs. NPU enables efficient execution of Machine 
+>>> Learning
+>>> applications like CNNs, LLMs, etc.  NPU is based on AMD XDNA
+>>> architecture [1].
+>>>
+>>> AMD NPU consists of the following components:
+>>>
+>>>    - Tiled array of AMD AI Engine processors.
+>>>    - Micro Controller which runs the NPU Firmware responsible for
+>>>      command processing, AIE array configuration, and execution 
+>>> management.
+>>>    - PCI EP for host control of the NPU device.
+>>>    - Interconnect for connecting the NPU components together.
+>>>    - SRAM for use by the NPU Firmware.
+>>>    - Address translation hardware for protected host memory access by 
+>>> the
+>>>      NPU.
+>>>
+>>> NPU supports multiple concurrent fully isolated contexts. Concurrent
+>>> contexts may be bound to AI Engine array spatially and or temporarily.
+>>>
+>>> The driver is licensed under GPL-2.0 except for UAPI header which is
+>>> licensed GPL-2.0 WITH Linux-syscall-note.
+>>>
+>>> User mode driver stack consists of XRT [2] and AMD AIE Plugin for 
+>>> IREE [3].
+>>>
+>>> The firmware for the NPU is distributed as a closed source binary, 
+>>> and has
+>>> already been pushed to the DRM firmware repository [4].
+>>>
+>>> [1]https://www.amd.com/en/technologies/xdna.html
+>>> [2]https://github.com/Xilinx/XRT
+>>> [3]https://github.com/nod-ai/iree-amd-aie
+>>> [4]https://gitlab.freedesktop.org/drm/firmware/-/tree/amd-ipu-staging/amdnpu 
+>>>
+>>>
+>>> Changes since v4:
+>>> - Fix lockdep errors
+>>> - Use __u* structure for struct aie_error
+>>
+>> One nit, when you send the next version would you please either To: or 
+>> Cc: me on the entire series?  I only get pieces in my inbox which is 
+>> mildly annoying on my end.
+> Sure.
+>>
+>> Looks like we are getting close here.  One procedural question I have, 
+>> do you have commit permissions to drm-misc?
+> No, I do not have commit permissions yet.
 
-Always set the largest possible BAR size that allows to fit the number
-of enabled VFs.
+You should apply for access.  Assuming this series is ready before that 
+goes through, I'll apply it.
 
-Signed-off-by: Michał Winiarski <michal.winiarski@intel.com>
----
- drivers/gpu/drm/xe/regs/xe_bars.h |  1 +
- drivers/gpu/drm/xe/xe_pci_sriov.c | 22 ++++++++++++++++++++++
- 2 files changed, 23 insertions(+)
+>> I applied the series to drm-misc-next and tried to build.  Got the 
+>> following errors -
+> 
+> Could you share the build command line? So I can reproduce and verify my 
+> fix.
 
-diff --git a/drivers/gpu/drm/xe/regs/xe_bars.h b/drivers/gpu/drm/xe/regs/xe_bars.h
-index ce05b6ae832f1..880140d6ccdca 100644
---- a/drivers/gpu/drm/xe/regs/xe_bars.h
-+++ b/drivers/gpu/drm/xe/regs/xe_bars.h
-@@ -7,5 +7,6 @@
- 
- #define GTTMMADR_BAR			0 /* MMIO + GTT */
- #define LMEM_BAR			2 /* VRAM */
-+#define VF_LMEM_BAR			9 /* VF VRAM */
- 
- #endif
-diff --git a/drivers/gpu/drm/xe/xe_pci_sriov.c b/drivers/gpu/drm/xe/xe_pci_sriov.c
-index aaceee748287e..57cdeb41ef1d9 100644
---- a/drivers/gpu/drm/xe/xe_pci_sriov.c
-+++ b/drivers/gpu/drm/xe/xe_pci_sriov.c
-@@ -3,6 +3,10 @@
-  * Copyright © 2023-2024 Intel Corporation
-  */
- 
-+#include <linux/bitops.h>
-+#include <linux/pci.h>
-+
-+#include "regs/xe_bars.h"
- #include "xe_assert.h"
- #include "xe_device.h"
- #include "xe_gt_sriov_pf_config.h"
-@@ -62,6 +66,18 @@ static void pf_reset_vfs(struct xe_device *xe, unsigned int num_vfs)
- 			xe_gt_sriov_pf_control_trigger_flr(gt, n);
- }
- 
-+static int resize_vf_vram_bar(struct xe_device *xe, int num_vfs)
-+{
-+	struct pci_dev *pdev = to_pci_dev(xe->drm.dev);
-+	u32 sizes;
-+
-+	sizes = pci_iov_vf_bar_get_sizes(pdev, VF_LMEM_BAR, num_vfs);
-+	if (!sizes)
-+		return 0;
-+
-+	return pci_iov_vf_bar_set_size(pdev, VF_LMEM_BAR, __fls(sizes));
-+}
-+
- static int pf_enable_vfs(struct xe_device *xe, int num_vfs)
- {
- 	struct pci_dev *pdev = to_pci_dev(xe->drm.dev);
-@@ -88,6 +104,12 @@ static int pf_enable_vfs(struct xe_device *xe, int num_vfs)
- 	if (err < 0)
- 		goto failed;
- 
-+	if (IS_DGFX(xe)) {
-+		err = resize_vf_vram_bar(xe, num_vfs);
-+		if (err)
-+			xe_sriov_info(xe, "Failed to set VF LMEM BAR size: %d\n", err);
-+	}
-+
- 	err = pci_enable_sriov(pdev, num_vfs);
- 	if (err < 0)
- 		goto failed;
--- 
-2.47.0
+The command is simple:
+make -j20
 
+The system details, incase it somehow matters:
+Ubuntu 22.04 w/ 5.15 kernel
+
+$ lsb_release -a
+No LSB modules are available.
+Distributor ID: Ubuntu
+Description:    Ubuntu 22.04.3 LTS
+Release:        22.04
+Codename:       jammy
+
+$ uname -a
+Linux jhugo-lnx 5.15.0-89-generic #99-Ubuntu SMP Mon Oct 30 20:42:41 UTC 
+2023 x86_64 x86_64 x86_64 GNU/Linux
+
+The kernel config is probably the relevant piece.  When I first built 
+after applying the series, I was asked to choose what to do with the new 
+config item.  I selected =m.
+.config can be found at 
+https://gist.github.com/quic-jhugo/4cc249b1e3ba127039fbc709a513a432
+
+> 
+> I used "make M=drivers/accel/amdxdna" and did not reproduce the error 
+> with drm-misc-next. It looks build robot did not complain with the patch 
+> neither.
+> 
+> $ git branch
+> * drm-misc-next
+> $ make M=drivers/accel/amdxdna
+>    CC [M]  drivers/accel/amdxdna/aie2_ctx.o
+>    CC [M]  drivers/accel/amdxdna/aie2_error.o
+>    CC [M]  drivers/accel/amdxdna/aie2_message.o
+>    CC [M]  drivers/accel/amdxdna/aie2_pci.o
+>    CC [M]  drivers/accel/amdxdna/aie2_psp.o
+>    CC [M]  drivers/accel/amdxdna/aie2_smu.o
+>    CC [M]  drivers/accel/amdxdna/aie2_solver.o
+>    CC [M]  drivers/accel/amdxdna/amdxdna_ctx.o
+>    CC [M]  drivers/accel/amdxdna/amdxdna_gem.o
+>    CC [M]  drivers/accel/amdxdna/amdxdna_mailbox.o
+>    CC [M]  drivers/accel/amdxdna/amdxdna_mailbox_helper.o
+>    CC [M]  drivers/accel/amdxdna/amdxdna_pci_drv.o
+>    CC [M]  drivers/accel/amdxdna/amdxdna_sysfs.o
+>    CC [M]  drivers/accel/amdxdna/npu1_regs.o
+>    CC [M]  drivers/accel/amdxdna/npu2_regs.o
+>    CC [M]  drivers/accel/amdxdna/npu4_regs.o
+>    CC [M]  drivers/accel/amdxdna/npu5_regs.o
+>    LD [M]  drivers/accel/amdxdna/amdxdna.o
+>    MODPOST drivers/accel/amdxdna/Module.symvers
+>    CC [M]  drivers/accel/amdxdna/amdxdna.mod.o
+>    CC [M]  drivers/accel/amdxdna/.module-common.o
+>    LD [M]  drivers/accel/amdxdna/amdxdna.ko
+> $
+> 
+>>
+>>   CC [M]  drivers/accel/amdxdna/aie2_ctx.o
+>>   CC [M]  drivers/accel/amdxdna/aie2_error.o
+>>   CC [M]  drivers/accel/amdxdna/aie2_message.o
+>>   CC [M]  drivers/accel/amdxdna/aie2_pci.o
+>>   CC [M]  drivers/accel/amdxdna/aie2_psp.o
+>>   CC [M]  drivers/accel/amdxdna/aie2_smu.o
+>>   CC [M]  drivers/accel/amdxdna/aie2_solver.o
+>>   CC [M]  drivers/accel/amdxdna/amdxdna_ctx.o
+>>   CC [M]  drivers/accel/amdxdna/amdxdna_gem.o
+>>   CC [M]  drivers/accel/amdxdna/amdxdna_mailbox.o
+>>   CC [M]  drivers/accel/amdxdna/amdxdna_mailbox_helper.o
+>>   CC [M]  drivers/accel/amdxdna/amdxdna_pci_drv.o
+>>   CC [M]  drivers/accel/amdxdna/amdxdna_sysfs.o
+>>   CC [M]  drivers/accel/amdxdna/npu1_regs.o
+>>   CC [M]  drivers/accel/amdxdna/npu2_regs.o
+>>   CC [M]  drivers/accel/amdxdna/npu4_regs.o
+>>   CC [M]  drivers/accel/amdxdna/npu5_regs.o
+>>   AR      drivers/base/firmware_loader/built-in.a
+>>   AR      drivers/base/built-in.a
+>> In file included from drivers/accel/amdxdna/aie2_message.c:19:
+>> drivers/accel/amdxdna/amdxdna_ctx.h: In function ‘amdxdna_cmd_get_op’:
+>> drivers/accel/amdxdna/amdxdna_ctx.h:112:16: error: implicit 
+>> declaration of function ‘FIELD_GET’ 
+>> [-Werror=implicit-function-declaration]
+>>   112 |         return FIELD_GET(AMDXDNA_CMD_OPCODE, cmd->header);
+>>       |                ^~~~~~~~~
+>> In file included from drivers/accel/amdxdna/amdxdna_gem.c:15:
+>> drivers/accel/amdxdna/amdxdna_ctx.h: In function ‘amdxdna_cmd_get_op’:
+>> drivers/accel/amdxdna/amdxdna_ctx.h:112:16: error: implicit 
+>> declaration of function ‘FIELD_GET’ 
+>> [-Werror=implicit-function-declaration]
+>>   112 |         return FIELD_GET(AMDXDNA_CMD_OPCODE, cmd->header);
+>>       |                ^~~~~~~~~
+>> In file included from drivers/accel/amdxdna/aie2_psp.c:11:
+>> drivers/accel/amdxdna/aie2_psp.c: In function ‘psp_exec’:
+>> drivers/accel/amdxdna/aie2_psp.c:62:34: error: implicit declaration of 
+>> function ‘FIELD_GET’ [-Werror=implicit-function-declaration]
+>>    62 | FIELD_GET(PSP_STATUS_READY, ready),
+>>       |                                  ^~~~~~~~~
+>> ./include/linux/iopoll.h:47:21: note: in definition of macro 
+>> ‘read_poll_timeout’
+>>    47 |                 if (cond) \
+>>       |                     ^~~~
+>> drivers/accel/amdxdna/aie2_psp.c:61:15: note: in expansion of macro 
+>> ‘readx_poll_timeout’
+>>    61 |         ret = readx_poll_timeout(readl, PSP_REG(psp, 
+>> PSP_STATUS_REG), ready,
+>>       |               ^~~~~~~~~~~~~~~~~~
+>> drivers/accel/amdxdna/amdxdna_ctx.h: In function ‘amdxdna_cmd_set_state’:
+>> drivers/accel/amdxdna/amdxdna_ctx.h:121:24: error: implicit 
+>> declaration of function ‘FIELD_PREP’ 
+>> [-Werror=implicit-function-declaration]
+>>   121 |         cmd->header |= FIELD_PREP(AMDXDNA_CMD_STATE, s);
+>>       |                        ^~~~~~~~~~
+>> drivers/accel/amdxdna/amdxdna_ctx.h: In function ‘amdxdna_cmd_set_state’:
+>> drivers/accel/amdxdna/amdxdna_ctx.h:121:24: error: implicit 
+>> declaration of function ‘FIELD_PREP’ 
+>> [-Werror=implicit-function-declaration]
+>>   121 |         cmd->header |= FIELD_PREP(AMDXDNA_CMD_STATE, s);
+>>       |                        ^~~~~~~~~~
+>> In file included from drivers/accel/amdxdna/aie2_pci.c:22:
+>> drivers/accel/amdxdna/amdxdna_ctx.h: In function ‘amdxdna_cmd_get_op’:
+>> drivers/accel/amdxdna/amdxdna_ctx.h:112:16: error: implicit 
+>> declaration of function ‘FIELD_GET’ 
+>> [-Werror=implicit-function-declaration]
+>>   112 |         return FIELD_GET(AMDXDNA_CMD_OPCODE, cmd->header);
+>>       |                ^~~~~~~~~
+>> In file included from drivers/accel/amdxdna/aie2_ctx.c:18:
+>> drivers/accel/amdxdna/amdxdna_ctx.h: In function ‘amdxdna_cmd_get_op’:
+>> drivers/accel/amdxdna/amdxdna_ctx.h:112:16: error: implicit 
+>> declaration of function ‘FIELD_GET’ 
+>> [-Werror=implicit-function-declaration]
+>>   112 |         return FIELD_GET(AMDXDNA_CMD_OPCODE, cmd->header);
+>>       |                ^~~~~~~~~
+>> drivers/accel/amdxdna/amdxdna_ctx.h: In function ‘amdxdna_cmd_set_state’:
+>> drivers/accel/amdxdna/amdxdna_ctx.h:121:24: error: implicit 
+>> declaration of function ‘FIELD_PREP’ 
+>> [-Werror=implicit-function-declaration]
+>>   121 |         cmd->header |= FIELD_PREP(AMDXDNA_CMD_STATE, s);
+>>       |                        ^~~~~~~~~~
+>> In file included from drivers/accel/amdxdna/amdxdna_ctx.c:16:
+>> drivers/accel/amdxdna/amdxdna_ctx.h: In function ‘amdxdna_cmd_get_op’:
+>> drivers/accel/amdxdna/amdxdna_ctx.h:112:16: error: implicit 
+>> declaration of function ‘FIELD_GET’ 
+>> [-Werror=implicit-function-declaration]
+>>   112 |         return FIELD_GET(AMDXDNA_CMD_OPCODE, cmd->header);
+>>       |                ^~~~~~~~~
+>> cc1: all warnings being treated as errors
+>> drivers/accel/amdxdna/amdxdna_ctx.h: In function ‘amdxdna_cmd_set_state’:
+>> drivers/accel/amdxdna/amdxdna_ctx.h:121:24: error: implicit 
+>> declaration of function ‘FIELD_PREP’ 
+>> [-Werror=implicit-function-declaration]
+>>   121 |         cmd->header |= FIELD_PREP(AMDXDNA_CMD_STATE, s);
+>>       |                        ^~~~~~~~~~
+>> drivers/accel/amdxdna/aie2_ctx.c: In function ‘aie2_hwctx_restart’:
+>> drivers/accel/amdxdna/aie2_ctx.c:114:9: error: too few arguments to 
+>> function ‘drm_sched_start’
+>>   114 |         drm_sched_start(&hwctx->priv->sched);
+>>       |         ^~~~~~~~~~~~~~~
+>> In file included from ./include/trace/events/amdxdna.h:12,
+>>                  from drivers/accel/amdxdna/aie2_ctx.c:13:
+>> ./include/drm/gpu_scheduler.h:593:6: note: declared here
+>>   593 | void drm_sched_start(struct drm_gpu_scheduler *sched, int errno);
+>>       |      ^~~~~~~~~~~~~~~
+>> make[5]: *** [scripts/Makefile.build:229: 
+>> drivers/accel/amdxdna/aie2_psp.o] Error 1
+>> make[5]: *** Waiting for unfinished jobs....
+>> drivers/accel/amdxdna/amdxdna_ctx.h: In function ‘amdxdna_cmd_set_state’:
+>> drivers/accel/amdxdna/amdxdna_ctx.h:121:24: error: implicit 
+>> declaration of function ‘FIELD_PREP’ 
+>> [-Werror=implicit-function-declaration]
+>>   121 |         cmd->header |= FIELD_PREP(AMDXDNA_CMD_STATE, s);
+>>       |                        ^~~~~~~~~~
+>> In file included from drivers/accel/amdxdna/amdxdna_pci_drv.c:18:
+>> drivers/accel/amdxdna/amdxdna_ctx.h: In function ‘amdxdna_cmd_get_op’:
+>> drivers/accel/amdxdna/amdxdna_ctx.h:112:16: error: implicit 
+>> declaration of function ‘FIELD_GET’ 
+>> [-Werror=implicit-function-declaration]
+>>   112 |         return FIELD_GET(AMDXDNA_CMD_OPCODE, cmd->header);
+>>       |                ^~~~~~~~~
+>> cc1: all warnings being treated as errors
+>> make[5]: *** [scripts/Makefile.build:229: 
+>> drivers/accel/amdxdna/aie2_ctx.o] Error 1
+>> drivers/accel/amdxdna/amdxdna_ctx.h: In function ‘amdxdna_cmd_set_state’:
+>> drivers/accel/amdxdna/amdxdna_ctx.h:121:24: error: implicit 
+>> declaration of function ‘FIELD_PREP’ 
+>> [-Werror=implicit-function-declaration]
+>>   121 |         cmd->header |= FIELD_PREP(AMDXDNA_CMD_STATE, s);
+>>       |                        ^~~~~~~~~~
+>> drivers/accel/amdxdna/amdxdna_mailbox.c: In function 
+>> ‘xdna_mailbox_send_msg’:
+>> drivers/accel/amdxdna/amdxdna_mailbox.c:444:26: error: implicit 
+>> declaration of function ‘FIELD_PREP’ 
+>> [-Werror=implicit-function-declaration]
+>>   444 |         header->sz_ver = FIELD_PREP(MSG_BODY_SZ, 
+>> msg->send_size) |
+>>       |                          ^~~~~~~~~~
+>>
+>>
+>> You also have the following checkpatch issues -
+> 
+> Could you share the command you used?  I tried to use 'dim checkpatch' 
+> and it did not find out the misspelling issue.
+
+./scripts/checkpatch.pl --strict --codespell *.patch
+
+Note, --codespell requires some local setup.  I beleive the comments in 
+the checkpatch.pl script are fairly straightforward.  I use a copy of 
+the database from the github that is rather recent.  The Ubuntu distro 
+package is really out of date and I don't think I looked to see if there 
+is a pythong pip version.  Grabbing the one file from the github repo 
+seemed simple emough.
+
+-Jeff
