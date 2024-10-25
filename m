@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 424ED9B0ABE
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 19:16:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90F249B0AD6
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 19:17:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9228D10EB2F;
-	Fri, 25 Oct 2024 17:16:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8780710EB3F;
+	Fri, 25 Oct 2024 17:16:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="MARRE6km";
+	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="rwBkcbcl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
- [209.85.221.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7629010EB2B
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 17:16:10 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id
- ffacd0b85a97d-37d4c1b1455so1467743f8f.3
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 10:16:10 -0700 (PDT)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+ [209.85.221.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BB7F10EB2B
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 17:16:11 +0000 (UTC)
+Received: by mail-wr1-f44.google.com with SMTP id
+ ffacd0b85a97d-37d4ac91d97so1772000f8f.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 10:16:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google; t=1729876569; x=1730481369;
+ d=raspberrypi.com; s=google; t=1729876570; x=1730481370;
  darn=lists.freedesktop.org; 
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=GHIbxCZv7ndlL/NngNJdWVaw8pnmec8lE+r1y4sRvZg=;
- b=MARRE6km/eTYiTCYH5+8M8g2l9LrvLB4HqgjS/t849CBk5iRrsPBOxlUx9KiCWfSmN
- jKUu5v76dLuiRCfZ1flMpUWOwNqHAShxe90SN1muX8eB7fE/XaRDSOKM18ytBMDeh7FK
- nr6OB+NrojEBEE3qDOHYTwP6Yc7XsRTMjaQ1er0LHy85JTp02+evR26E7vReIbKhsML5
- dSjyStKdhEJaH70I9cUPe+cFiU+PEsU9g8lqIhMMnxIWkIB1/677sAfaN7Wmx3WMZNzo
- 0IdCZZRlfh6ICwW6DsgFkH5NFQ1U97jCqW+1lDsPvWh2Q9zLTV4nhibvO8gaM4Ztq8tb
- PRPQ==
+ :reply-to; bh=5GUojHTwofpiEg2dwpNmSHs/emdcMv58M0L0R39wpRI=;
+ b=rwBkcbcl3E8Vk/vzk5Cwsfh1+NI1XUDM/8w7+qmCDjSdE1ys6KXzCOlxNinArjFFWG
+ Wt8Ae0806L6bpk4zkOkxXSIU6kG8JG3s9rMTpiIXcuS8x4EJk7ruO9bP8WibQv2dq4qX
+ 8x+u6UHQAGIpwO28KD9u0J6FRThAeUqodKKByCUP6zTMinvt5B0Z31I0OBjRfkJS5zwQ
+ 6XK6s7dLBNUU6qykk1k3ti/16rhqNnyhBQEDGhoFf6jd9VhVjqKbUGMe7sg6S0uJ5Rgh
+ UWaf1iDlxetpczeN9638WuLf6SN9lkgFDyjor0wmYQpzzUUtD4L4G5L/nCRT0KUTOgsX
+ NZFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729876569; x=1730481369;
+ d=1e100.net; s=20230601; t=1729876570; x=1730481370;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=GHIbxCZv7ndlL/NngNJdWVaw8pnmec8lE+r1y4sRvZg=;
- b=u3P6CJE+1EwCHa5burG0xShpIoGudJdFS9aAWlkXJxaYaJS/KPuJ7Npm1XlueotzQO
- 6ZbkS+zh3ab0j307w2dnYnm9iBMSoR7wqp+S/Rw4h9YldiNtGr8lx/3d4J9dhI8XpPKu
- y24Ylfq7wHOf0+piWDjqBKYlkyV+81pjQUDp1by3eq/NqKAm+QxwlNaiWwtxCnr11/3c
- 731VYdp6eS0Ku07ci7f/ae5+SPuy/NYqhSUqW+1QCZ5D6BWCy6LnG8SL9YbOyf6epQcp
- b6HWNXfIIItQ2/H4O0UxORMvUlgYI1oEIg2D96SKXunVKVTC8+2yNOtbzJVfWpgFh4tv
- ny/g==
-X-Gm-Message-State: AOJu0Yw9srUJZKgA9QIqQSZXd05N/WMzyyA7Cs2MIixgO+a9eUCn20eC
- lJwEyJAeveCJu6iOlN42PeQ7ZtBgXsVm86nOFmuY4AI9SQrOcmDGwL1L1oHwTYs=
-X-Google-Smtp-Source: AGHT+IEtkqmEo1cHWR2W1weuYPM4uWgJxftiucw4MZPmb7qQfL+iD3mzdPD9IiAb9rW3E2dTgpbMnA==
-X-Received: by 2002:a5d:6082:0:b0:374:baeb:2ec with SMTP id
- ffacd0b85a97d-38061122a87mr106867f8f.19.1729876568721; 
- Fri, 25 Oct 2024 10:16:08 -0700 (PDT)
+ bh=5GUojHTwofpiEg2dwpNmSHs/emdcMv58M0L0R39wpRI=;
+ b=G7PC/BMm7NkJb0Y/tHqKD11yDyQs5K9/UA2YACXGSETMSvaGsceXGd4E1ZETd/Shh7
+ Z72p68chZsYtOd4Ag/jWmpvmGElxBXkX3+8EpeNdnRD+NAxn1A1mAYnMGPYwWQ38T264
+ gXFon6753djCO1XKzAOPahJUvsiEoMF3ncWSQGNpkQZ4dujP/gu36/0n/wfXWvgPldgN
+ lHMQEMZkp2e6qABXXj4xoaDViim6RZuiXXcc1UElvKQTJw9v8NjMwtjUJO4hDYf5eH9o
+ R8GE8jR15O4hH11MddHOK4C5r9Y22ktFx/MiELDwqVMo/RXVdHhCfR1yy5fT+i8YExLn
+ C5iQ==
+X-Gm-Message-State: AOJu0YzOzhogMw5yHfBDRW/JDyimXyA84Aek5Uktb2Z5FHqeb6kcURFR
+ w9qmS2l+cJrxVL1NKEYXQCcmT1pjPCOet5GFvhP6J8VjdmEFPozK8zHXv8nib3k=
+X-Google-Smtp-Source: AGHT+IGCwZV5fbmeF0D4Xme2MrSeeStQPCABILFJnZu8X/UbpKfmCgg7tE2q1WXeLJuU2hjtaGAprQ==
+X-Received: by 2002:a5d:56d2:0:b0:37e:f4a1:2b58 with SMTP id
+ ffacd0b85a97d-38061172aa9mr141238f8f.16.1729876569829; 
+ Fri, 25 Oct 2024 10:16:09 -0700 (PDT)
 Received: from [127.0.1.1] ([2a00:1098:3142:e::8])
  by smtp.googlemail.com with ESMTPSA id
- ffacd0b85a97d-38058b91f50sm2013649f8f.94.2024.10.25.10.16.07
+ ffacd0b85a97d-38058b91f50sm2013649f8f.94.2024.10.25.10.16.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Oct 2024 10:16:08 -0700 (PDT)
+ Fri, 25 Oct 2024 10:16:09 -0700 (PDT)
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Fri, 25 Oct 2024 18:15:39 +0100
-Subject: [PATCH v2 08/36] dt-bindings: display: Add BCM2712 KMS driver bindings
+Date: Fri, 25 Oct 2024 18:15:40 +0100
+Subject: [PATCH v2 09/36] drm/vc4: drv: Support BCM2712
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241025-drm-vc4-2712-support-v2-8-35efa83c8fc0@raspberrypi.com>
+Message-Id: <20241025-drm-vc4-2712-support-v2-9-35efa83c8fc0@raspberrypi.com>
 References: <20241025-drm-vc4-2712-support-v2-0-35efa83c8fc0@raspberrypi.com>
 In-Reply-To: <20241025-drm-vc4-2712-support-v2-0-35efa83c8fc0@raspberrypi.com>
 To: Maxime Ripard <mripard@kernel.org>, 
@@ -100,28 +100,42 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Maxime Ripard <mripard@kernel.org>
 
-The BCM2712 SoC comes with a new variation of the videocore display
-pipeline. Let's create a new compatible for it.
+The BCM2712 has an improved display pipeline, most notably with a
+different HVS and only HDMI and writeback outputs.
+
+Let's introduce it as a new VideoCore generation and compatible.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
 ---
- Documentation/devicetree/bindings/display/brcm,bcm2835-vc4.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/vc4/vc4_drv.c | 1 +
+ drivers/gpu/drm/vc4/vc4_drv.h | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/brcm,bcm2835-vc4.yaml b/Documentation/devicetree/bindings/display/brcm,bcm2835-vc4.yaml
-index 49a5e041aa49..2aa9d5d2afff 100644
---- a/Documentation/devicetree/bindings/display/brcm,bcm2835-vc4.yaml
-+++ b/Documentation/devicetree/bindings/display/brcm,bcm2835-vc4.yaml
-@@ -18,6 +18,7 @@ properties:
-   compatible:
-     enum:
-       - brcm,bcm2711-vc5
-+      - brcm,bcm2712-vc6
-       - brcm,bcm2835-vc4
-       - brcm,cygnus-vc4
+diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
+index 3099292f22a5..417a5b456d80 100644
+--- a/drivers/gpu/drm/vc4/vc4_drv.c
++++ b/drivers/gpu/drm/vc4/vc4_drv.c
+@@ -460,6 +460,7 @@ static void vc4_platform_drm_shutdown(struct platform_device *pdev)
  
+ static const struct of_device_id vc4_of_match[] = {
+ 	{ .compatible = "brcm,bcm2711-vc5", .data = (void *)VC4_GEN_5 },
++	{ .compatible = "brcm,bcm2712-vc6", .data = (void *)VC4_GEN_6_C },
+ 	{ .compatible = "brcm,bcm2835-vc4", .data = (void *)VC4_GEN_4 },
+ 	{ .compatible = "brcm,cygnus-vc4", .data = (void *)VC4_GEN_4 },
+ 	{},
+diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
+index c6be1997f1c7..14b0a7ef2683 100644
+--- a/drivers/gpu/drm/vc4/vc4_drv.h
++++ b/drivers/gpu/drm/vc4/vc4_drv.h
+@@ -84,6 +84,7 @@ struct vc4_perfmon {
+ enum vc4_gen {
+ 	VC4_GEN_4,
+ 	VC4_GEN_5,
++	VC4_GEN_6_C,
+ };
+ 
+ struct vc4_dev {
 
 -- 
 2.34.1
