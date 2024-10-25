@@ -2,61 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 132B69AFAA8
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 09:10:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEB7E9AFB1A
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 09:30:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C89310E105;
-	Fri, 25 Oct 2024 07:10:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 426F210EA0C;
+	Fri, 25 Oct 2024 07:30:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="I0hgd8R3";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Njl7MCnZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
- [209.85.218.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A91B10E105
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 07:10:39 +0000 (UTC)
-Received: by mail-ej1-f52.google.com with SMTP id
- a640c23a62f3a-a99ebb390a5so523937766b.1
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 00:10:39 -0700 (PDT)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+ [209.85.128.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7440810EA0D
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 07:30:50 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id
+ 5b1f17b1804b1-42f6bec84b5so18075625e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 00:30:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1729840237; x=1730445037; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=QN1tsLfbB9d5DyYhuV0X7PZg8MBg1dvti2XZFfsqElk=;
- b=I0hgd8R3ZlvCWOa1ZsHV6tAOtjsfNad1v+9L0ARjZ1yN38kAyUS6ieQZCRiGU+eCZw
- Ssx3IvYto+gcHyA/eqdykSOI8RA9S797CIUTn74sNRXeu/B7WEN9ddZnOIo86znyTQOn
- V49lOEwooNc9mWAv9lNgHTBrb1veisRnhAvcxe5wCh4V7AbSpix8nHY1uZ1GPBZyx9FK
- 0O+0ItfhtsuWArxjoaQ4Bs2LmCg0qySabWAe3U6PpqBcMtyfIJTKCGue6wrOdE65Vvn7
- /lZ865rh2x3m6Syz6p4ny+3A1aqLbXmmK2LTDo12iWRqw2u/VPcs7OGBBfYljluHTl9O
- rM5w==
+ d=linaro.org; s=google; t=1729841449; x=1730446249; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=WtHDy1uLFgkmsG/x5nxbwS/MMMaeDjb30sYbzTEX8Zw=;
+ b=Njl7MCnZ60asl/1jNRjluwzDq+zBJqkK3HpaqGKbleOx9rTCihwvhh8N/L0NIuBHp2
+ CLD7UA4TrqkhsJCLqzZaZjINMoW7Uf+J+nin5ZqjMH7IOJFsl0GIRMDdDL1SjIgoscJI
+ BDZlzE8a2zioeLnqS4eNipQissrd5o4TGVgvCfyiHONJyBHouYEKcIW11h1aD5tgLN/Y
+ 8f92y9cPbB4TdIk9eONqerqHouWEU6MiyDiQ4gJTYbrTMe7TakYbjr8mvDnNfa1+OLBF
+ oFvg8lD9ztrdfYyjh/2jJI4e68Bn3Hz5KOiL67MVSVrcm0rxAbaMGDA2GXPNiowbd0fB
+ DuaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729840237; x=1730445037;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=QN1tsLfbB9d5DyYhuV0X7PZg8MBg1dvti2XZFfsqElk=;
- b=b/3Y1fyBASRpHNHP/pTXdZQLIgHbAdrTUyu5hV4u082OcJjmyv/yyvknRvkmdzWVc5
- RC6m2H090wgtPX4ysldAw+d9rwnpR3unGXiH4QDLFpxXUpMExqrJugrpdGvPjb1fKfkt
- bHCSW5M5Vp6e35VhATBW/ZXTtcTeIJja3x0Pt/KoDERUtGYksGfW2mq4W9ziz3JeWOxV
- Iyn/XRB2esdDkfB5fdlPqr9VSkT8QtkamCxrYub2RW2JRZyROkJSfPSbhrFGMjrGBqGA
- JvooUUEPDQkPP10rDjEZbaEv9l3yRjNrBMghE/100kNKL+CqNul/Sr6or63PlTPa/NYt
- mAYg==
-X-Gm-Message-State: AOJu0YyAu8aNo73n1H1zA7nnQn/jXnzOFmt/XPgGa2SBRQ5D6CbpmuiM
- YuTphGYY+5YMR6g1jx9/emjOue0BDxXnm87G4ttwoeyr77+rluCMY5PJaJ/NexchoSBI74LTnYp
- aQazwk6lINv0tovUZLFVmUrO/XZ7jLdHe
-X-Google-Smtp-Source: AGHT+IE69Rqr3iBH6ZNcjuDegoQGEui60s/sn4mr/tPGvtxt6xXxL+X7hGKebCB5jrKTWLLH0Hq1AL+CvD7/bQpwE+0=
-X-Received: by 2002:a17:907:eab:b0:a99:3db2:eb00 with SMTP id
- a640c23a62f3a-a9ad1add979mr449403266b.28.1729840236927; Fri, 25 Oct 2024
- 00:10:36 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1729841449; x=1730446249;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=WtHDy1uLFgkmsG/x5nxbwS/MMMaeDjb30sYbzTEX8Zw=;
+ b=rV02y0WMLfNKu3V8A5/Bakh9nLHvWXe9oqjnTf5sO9HMnh3LV+QCnr5h/Bll1xtcxF
+ jrNIZBvm2gQokl1CDM/aLeXje7+H/DgvEStZ9ESPFLQ6EFvcGrbNJEyGmxAJ76QmgwqO
+ U7PRFWsZY41hGpJu7SKH9I3SuefPJFZc3cpbx+BD86hay3S+o9bMHPvbG5sm7A/kS7kk
+ FQzJkCDFQ+taOZkuKLjHVtYQSt9s2IPG8lFIn1/n1bMqNMfpEYcVxsra4uYfySfg2PNz
+ CwHS8SWR8HlLnxeIjEuxpR14SX113vnQCp41V0zOB3nLjRCNwW92OKXJvp3QCB6mUSW6
+ hI6A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVYhEWphYZHqukguGKahFl8YfrpfHP9jXZg+dJtcNb/jIzAWTXuYQo6r/TugzL5NUJoR0QptJRc+qQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwGF0zOvsRTnfoQDYsdxI974M3v6SPxzzG1RXYbsJtJY1zQ5RfJ
+ 7XfGTbEaXpGRGjhbW9N/MbcLa88HpHkv6IJ5g9C5AcC0+93Cb3pFV/rZMHScg/8=
+X-Google-Smtp-Source: AGHT+IHxF+XBAnXeDnDqIMGQCJ8rtAbnYKULA9dlRYGwuNkgYKpDnNMejLiqlKZPt83EjxSWFFNeTg==
+X-Received: by 2002:a05:600c:1c01:b0:431:5a0e:fa2e with SMTP id
+ 5b1f17b1804b1-4318c715cc0mr39763695e9.21.1729841448665; 
+ Fri, 25 Oct 2024 00:30:48 -0700 (PDT)
+Received: from localhost ([196.207.164.177]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-38058b71479sm800087f8f.69.2024.10.25.00.30.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 25 Oct 2024 00:30:48 -0700 (PDT)
+Date: Fri, 25 Oct 2024 10:30:44 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Alex Lanzano <lanzano.alex@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Mehdi Djait <mehdi.djait@bootlin.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH next] drm/sharp-memory: Fix some checks in
+ sharp_memory_probe()
+Message-ID: <3c078224-071e-4dd9-bf8d-51dbd0f2a9b2@stanley.mountain>
+References: <0d307349-c141-49ee-8b34-67caf5f8b638@stanley.mountain>
+ <hojly7qagyszxbgonzqmuuxucdfqwovrjyiktdxpibku6yodum@n7algnce2tts>
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 25 Oct 2024 17:10:25 +1000
-Message-ID: <CAPM=9txMNPAbbfxvD+0ouRGY5nojRvu6n+cPc=hjNwQzzj6gtA@mail.gmail.com>
-Subject: [git pull] drm fixes for 6.12-rc5
-To: Linus Torvalds <torvalds@linux-foundation.org>, Sima Vetter <sima@ffwll.ch>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <hojly7qagyszxbgonzqmuuxucdfqwovrjyiktdxpibku6yodum@n7algnce2tts>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,144 +92,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+On Thu, Oct 24, 2024 at 11:08:05PM +0200, Uwe Kleine-König wrote:
+> On Wed, Oct 23, 2024 at 11:30:31AM +0300, Dan Carpenter wrote:
+> > The devm_drm_dev_alloc() function returns error pointers, it never
+> > returns NULL.  Change that check to IS_ERR().
+> > 
+> > The devm_gpiod_get_optional() function returns a mix of error pointers
+> > if there is an error, or NULL if there is no GPIO assigned.  Add a check
+> > for error pointers.
+> > 
+> > Fixes: b8f9f21716fe ("drm/tiny: Add driver for Sharp Memory LCD")
+> > Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > ---
+> >  drivers/gpu/drm/tiny/sharp-memory.c | 6 ++++--
+> >  1 file changed, 4 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/tiny/sharp-memory.c b/drivers/gpu/drm/tiny/sharp-memory.c
+> > index 2d2315bd6aef..1bcdd79166a4 100644
+> > --- a/drivers/gpu/drm/tiny/sharp-memory.c
+> > +++ b/drivers/gpu/drm/tiny/sharp-memory.c
+> > @@ -543,8 +543,8 @@ static int sharp_memory_probe(struct spi_device *spi)
+> >  
+> >  	smd = devm_drm_dev_alloc(dev, &sharp_memory_drm_driver,
+> >  				 struct sharp_memory_device, drm);
+> > -	if (!smd)
+> > -		return -ENOMEM;
+> > +	if (IS_ERR(smd))
+> > +		return PTR_ERR(smd);
+> >  
+> >  	spi_set_drvdata(spi, smd);
+> >  
+> > @@ -555,6 +555,8 @@ static int sharp_memory_probe(struct spi_device *spi)
+> >  		return dev_err_probe(dev, ret, "Failed to initialize drm config\n");
+> >  
+> >  	smd->enable_gpio = devm_gpiod_get_optional(dev, "enable", GPIOD_OUT_HIGH);
+> > +	if (IS_ERR(smd->enable_gpio))
+> > +		return PTR_ERR(smd->enable_gpio);
+> >  	if (!smd->enable_gpio)
+> >  		dev_warn(dev, "Enable gpio not defined\n");
+> 
+> Use dev_err_probe() instead of plain returns?
+> 
 
-Weekly drm fixes, mostly amdgpu and xe, with minor bridge and an i915
-Kconfig fix. Nothing too scary and it seems to be pretty quiet.
+Sure.  Let me resend.
 
-Dave.
+regards,
+dan carpenter
 
-drm-fixes-2024-10-25:
-drm fixes for 6.12-rc5
-
-amdgpu:
-- ACPI method handling fixes
-- SMU 14.x fixes
-- Display idle optimization fix
-- DP link layer compliance fix
-- SDMA 7.x fix
-- PSR-SU fix
-- SWSMU fix
-
-i915:
-- Fix DRM_I915_GVT_KVMGT dependencies in Kconfig
-
-xe:
-- Increase invalidation timeout to avoid errors in some hosts
-- Flush worker on timeout
-- Better handling for force wake failure
-- Improve argument check on user fence creation
-- Don't restart parallel queues multiple times on GT reset
-
-bridge:
-- aux: Fix assignment of OF node
-- tc358767: Add missing of_node_put() in error path
-The following changes since commit 42f7652d3eb527d03665b09edac47f85fb600924:
-
-  Linux 6.12-rc4 (2024-10-20 15:19:38 -0700)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2024-10-25
-
-for you to fetch changes up to 4d95a12beba146b0ca2de59c7ce905bc0aadfd0c:
-
-  Merge tag 'drm-xe-fixes-2024-10-24-1' of
-https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
-(2024-10-25 16:55:39 +1000)
-
-----------------------------------------------------------------
-drm fixes for 6.12-rc5
-
-amdgpu:
-- ACPI method handling fixes
-- SMU 14.x fixes
-- Display idle optimization fix
-- DP link layer compliance fix
-- SDMA 7.x fix
-- PSR-SU fix
-- SWSMU fix
-
-i915:
-- Fix DRM_I915_GVT_KVMGT dependencies in Kconfig
-
-xe:
-- Increase invalidation timeout to avoid errors in some hosts
-- Flush worker on timeout
-- Better handling for force wake failure
-- Improve argument check on user fence creation
-- Don't restart parallel queues multiple times on GT reset
-
-bridge:
-- aux: Fix assignment of OF node
-- tc358767: Add missing of_node_put() in error path
-
-----------------------------------------------------------------
-Abel Vesa (1):
-      drm/bridge: Fix assignment of the of_node of the parent to aux bridge
-
-Alex Deucher (1):
-      drm/amdgpu: handle default profile on on devices without fullscreen 3D
-
-Arnd Bergmann (1):
-      i915: fix DRM_I915_GVT_KVMGT dependencies
-
-Aurabindo Pillai (2):
-      drm/amd/display: temp w/a for dGPU to enter idle optimizations
-      drm/amd/display: temp w/a for DP Link Layer compliance
-
-Badal Nilawar (1):
-      drm/xe/guc/ct: Flush g2h worker in case of g2h response timeout
-
-Dave Airlie (4):
-      Merge tag 'amd-drm-fixes-6.12-2024-10-23' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
-      Merge tag 'drm-intel-fixes-2024-10-24' of
-https://gitlab.freedesktop.org/drm/i915/kernel into drm-fixes
-      Merge tag 'drm-misc-fixes-2024-10-24' of
-https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes
-      Merge tag 'drm-xe-fixes-2024-10-24-1' of
-https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
-
-Frank Min (1):
-      drm/amdgpu: fix random data corruption for sdma 7
-
-Javier Carrasco (1):
-      drm/bridge: tc358767: fix missing of_node_put() in
-for_each_endpoint_of_node()
-
-Kenneth Feng (3):
-      drm/amd/pm: update the driver-fw interface file for smu v14.0.2/3
-      drm/amd/pm: update overdrive function on smu v14.0.2/3
-      drm/amd/pm: update deep sleep status on smu v14.0.2/3
-
-Mario Limonciello (2):
-      drm/amd: Guard against bad data for ATIF ACPI method
-      drm/amd/display: Disable PSR-SU on Parade 08-01 TCON too
-
-Nirmoy Das (2):
-      drm/xe/ufence: Prefetch ufence addr to catch bogus address
-      drm/xe: Don't restart parallel queues multiple times on GT reset
-
-Shuicheng Lin (2):
-      drm/xe: Enlarge the invalidation timeout from 150 to 500
-      drm/xe: Handle unreliable MMIO reads during forcewake
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c           |  15 ++-
- drivers/gpu/drm/amd/amdgpu/sdma_v7_0.c             |   9 +-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |   3 +-
- .../drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c  |  13 ++
- .../drm/amd/display/modules/power/power_helpers.c  |   2 +
- drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c          |  11 +-
- .../pm/swsmu/inc/pmfw_if/smu14_driver_if_v14_0.h   | 132 +++++++++++++--------
- drivers/gpu/drm/amd/pm/swsmu/inc/smu_v14_0.h       |   2 +-
- .../gpu/drm/amd/pm/swsmu/smu14/smu_v14_0_2_ppt.c   |  66 ++++-------
- drivers/gpu/drm/bridge/aux-bridge.c                |   3 +-
- drivers/gpu/drm/bridge/tc358767.c                  |   1 +
- drivers/gpu/drm/i915/Kconfig                       |   3 +-
- drivers/gpu/drm/xe/xe_device.c                     |   2 +-
- drivers/gpu/drm/xe/xe_force_wake.c                 |  12 +-
- drivers/gpu/drm/xe/xe_guc_ct.c                     |  18 +++
- drivers/gpu/drm/xe/xe_guc_submit.c                 |  14 ++-
- drivers/gpu/drm/xe/xe_sync.c                       |   3 +-
- 17 files changed, 202 insertions(+), 107 deletions(-)
