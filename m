@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F19E89B11E1
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 23:51:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00B8C9B11E2
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 23:51:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7246D10E121;
-	Fri, 25 Oct 2024 21:51:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F5B210EB80;
+	Fri, 25 Oct 2024 21:51:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="AFs4lS4t";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="E7P5NFae";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 838B410EB8E;
- Fri, 25 Oct 2024 21:51:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F24E510EB94;
+ Fri, 25 Oct 2024 21:51:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1729893077; x=1761429077;
+ t=1729893082; x=1761429082;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:content-transfer-encoding:mime-version;
- bh=qJltdOa9zzHaE43rZDoTUvvQPNmAf3k66aRnLSDP5W8=;
- b=AFs4lS4tLl6VpuQwFI+cFbDLNt6snfaRtaGUVFQ3dLqJ4SeAf29v4mV2
- NyzLBtGsoRJSuQUpgAKvtXiTLI1Ie+5DXg++iqDw/uX/VmTf/tzU9r50o
- b1n0mDH/he/PzjSyMM4n0ueEY6K4/ENy1FCXFuohCl+UIrOGEwEjhJxXa
- O29c51i4akni1ZVlBD6sbVq+s9vK/ckU8FbFv8GmrdiuacQLX5+uZ0jZP
- JZi85YbcpzLT53qHi2gdqLpa6KfBK6FYy/55evpRAHu3FVouL6+Yocalb
- UCYAt6K/sIz9JQ6Gf18DHozfq/knWPAqeEQVJLHDsi1u2aUN5gbqXIgcv g==;
-X-CSE-ConnectionGUID: UtVfjJd6TLm5Joy0pmXy0w==
-X-CSE-MsgGUID: /LKRNZEbRTunsc5t15TioQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11236"; a="29683426"
-X-IronPort-AV: E=Sophos;i="6.11,233,1725346800"; d="scan'208";a="29683426"
+ bh=S3MtAJFYYvsilqByJKro/df74qguvca7gbT6ls0V49w=;
+ b=E7P5NFaeja/ITBfXK0JGRDmaaD5fR6Vu4/X6SXX89totZFCQRGoXu6bx
+ LleWiItsAX7MpytBnrUfQFvNerGGrBvPo2xM8vCVajvmyRjslSHJaloZe
+ XUeXblXINEhDGi2k/OAHjYR3zDk23m1JXfUh3MPw/yiWTm1yS0mFC05Vy
+ Dz5O7TD0df5iMIdf0Bsu709U8cwCZZcxn+TvVpAWZFxxt6EOkTH111kk+
+ QYDVJO4Kvx/NTOtQvwsDqX1U+obbve1qeWkZOScfTSfKAh7gkGhH007+1
+ XEm70byGsJFfHiy0tgKvMtjDojWViex8NlXrhsCPCq64HjEipCqdexdZW w==;
+X-CSE-ConnectionGUID: AymSF77mQ++TWo1yyKcm+g==
+X-CSE-MsgGUID: ZanY33JfQ0qPGKbSuQBWlw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11236"; a="29683450"
+X-IronPort-AV: E=Sophos;i="6.11,233,1725346800"; d="scan'208";a="29683450"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Oct 2024 14:51:17 -0700
-X-CSE-ConnectionGUID: oDl29PNyT9SimuKdfx/5Yg==
-X-CSE-MsgGUID: XY2ml2VoTZySHarOGi7chg==
+ 25 Oct 2024 14:51:22 -0700
+X-CSE-ConnectionGUID: oeCL1L6rRQarrTCs/L0zWw==
+X-CSE-MsgGUID: L2Ewi+7+Qvyl0kZXkA4b5w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,233,1725346800"; d="scan'208";a="81492900"
+X-IronPort-AV: E=Sophos;i="6.11,233,1725346800"; d="scan'208";a="81492907"
 Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
  by orviesa007.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 25 Oct 2024 14:51:16 -0700
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ 25 Oct 2024 14:51:20 -0700
+Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
  ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Fri, 25 Oct 2024 14:51:15 -0700
+ 15.1.2507.39; Fri, 25 Oct 2024 14:51:19 -0700
 Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Fri, 25 Oct 2024 14:51:15 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.176)
+ 15.1.2507.39 via Frontend Transport; Fri, 25 Oct 2024 14:51:19 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.175)
  by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Fri, 25 Oct 2024 14:51:15 -0700
+ 15.1.2507.39; Fri, 25 Oct 2024 14:51:19 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nXa+T0crMxRVfD+POB1wX1tzkQVUFVzJoXQw/mrbwMSeIpIkXf2eNr2tumtqAYenTglHXtn/r2zuA2IH72XkFVCzOPEMV0OeQbHsU2piyl8Y92hWHWpuB/wDYb22xQHXXZpd1Z3XbAappPSSlrFTbOjjJNIWsztQRhOLQ/DrqCxtxgsYXI9XWb28HCHR64jzOgP6UmPJTWll1pYsV/zwAXkhNH52kmfsDBDu76z+XMz9qhIiJw3cXJEnsdAhQCNsMaWkbVRNQaSq9ehqXGfQAFYkxdRWsxmpFPbnrKpYsd2iYyGMg1hThXJ/kw+LivLS7B80k/ghzZnNwEQU4SDRgA==
+ b=uKbCVaaOFtXjgQR3cKd1JaQzfH44fse3ps3Ppw6Kh+XSTvic/RqzF6ePpl7ZLSOlMJ5Hcqo72wzwlxwSI7n1winl8jQaBdBk59zIRcBXuFDNazUrbvJf80CKRgAeibHxWtG+Om7xq5+oAKBWGR8xrWzy7iGhT3FWkhyeUx0y2efTccc3KGHfqhFAX8n3Z54BDUyz91xQQ2U91BdQSNQDjXitMEKCYda7kgldyKcNuLN9VgXUnNr0AdYXtzSNBHGZqBt5roIInCBTiXRt4Y80kB18sSF2Ih1OiDqxc1h3xVNsds1c0xi8nM0Ciasir2jPsBvJPvvD0DZy5FB/fv3M/Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ROterculxntEPzXGkt8YiHRCMcU9C2S0nxZB0C13n5I=;
- b=lDLPKTqIaVtmFV0E8YaN6mw0ibn6OJWSwz//DvnmZ8u8SlKbF887Qx6YGey24QdHpmxRnQaRogV9pK2CBUS1+UDsszYPbZs0nky9T2R2tphJMYst+hxSTuh3Ds0GkT5FZaNCbkijQGh46byVx8+txBRI5fxxGtuMnKNbg5qcIcfBqKrS6OYj+heYIc7OX4Idpy0AywdkWTVxO0MUP4G5ZKwIIwWiKF/h8BG+QPDU8UoYBJwx5aUk0wlAjgfz6N624Ns9dNwl3b/Z8uFBLuCsfITWkbgCarRTWnRZc+YA2F4/JYplCVeuZwTfZC+Ekcnrr34nXukcY6lVTjnIcleBOA==
+ bh=Sh9KtT2pJ4ZvygJzlA3ulaFMLixbb90nBzVxCGkLSpY=;
+ b=ImTebWVEZNNpAWWnqgFanrqdG9iDf4iHs8Viy5MEe/TB8pyTyGl7Nvskuhk+bR3qxXxjUFlcyvi4QJBiq7jJ9Bt2oiMJWah1X3bwQyFMILx5HdfhL21EEtn1gLV1qX5Z1a08VT+Pipbz3zvGRdbdCfsEFzR4DkS+kkenPxeMVDk3b8+JWvvwvbOxJcpdTrOZPtR/LbHh+ZPrk7WKVvNxsbqji0JwiEafOrUorHQUIEAEwT4z+TQ85eYGH8zsb8XL+fKPzKLnmqa+akKiQrUp5kDomy7iMPSCSsnKeTIVa1+1xwduI3FaNIB/ClhKvnZ++N7WQ9lmRiXF6jLgnewFcg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -69,11 +69,11 @@ Received: from DM4PR11MB5373.namprd11.prod.outlook.com (2603:10b6:5:394::7) by
  CY8PR11MB7745.namprd11.prod.outlook.com (2603:10b6:930:90::13) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8093.16; Fri, 25 Oct 2024 21:51:13 +0000
+ 15.20.8093.16; Fri, 25 Oct 2024 21:51:17 +0000
 Received: from DM4PR11MB5373.namprd11.prod.outlook.com
  ([fe80::927a:9c08:26f7:5b39]) by DM4PR11MB5373.namprd11.prod.outlook.com
  ([fe80::927a:9c08:26f7:5b39%5]) with mapi id 15.20.8093.018; Fri, 25 Oct 2024
- 21:51:13 +0000
+ 21:51:17 +0000
 From: =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>
 To: <linux-pci@vger.kernel.org>, <intel-xe@lists.freedesktop.org>,
  <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>, "Bjorn
@@ -89,104 +89,104 @@ CC: Rodrigo Vivi <rodrigo.vivi@intel.com>, Michal Wajdeczko
  <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Matt Roper
  <matthew.d.roper@intel.com>, =?UTF-8?q?Micha=C5=82=20Winiarski?=
  <michal.winiarski@intel.com>
-Subject: [PATCH v4 3/7] PCI: Add a helper to convert between standard and IOV
- resources
-Date: Fri, 25 Oct 2024 23:50:34 +0200
-Message-ID: <20241025215038.3125626-4-michal.winiarski@intel.com>
+Subject: [PATCH v4 4/7] PCI: Allow IOV resources to be resized in
+ pci_resize_resource()
+Date: Fri, 25 Oct 2024 23:50:35 +0200
+Message-ID: <20241025215038.3125626-5-michal.winiarski@intel.com>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <20241025215038.3125626-1-michal.winiarski@intel.com>
 References: <20241025215038.3125626-1-michal.winiarski@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: WA2P291CA0035.POLP291.PROD.OUTLOOK.COM
- (2603:10a6:1d0:1f::11) To DM4PR11MB5373.namprd11.prod.outlook.com
+X-ClientProxiedBy: WA2P291CA0037.POLP291.PROD.OUTLOOK.COM
+ (2603:10a6:1d0:1f::17) To DM4PR11MB5373.namprd11.prod.outlook.com
  (2603:10b6:5:394::7)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DM4PR11MB5373:EE_|CY8PR11MB7745:EE_
-X-MS-Office365-Filtering-Correlation-Id: 51f4a631-28cf-4329-26c2-08dcf53f2538
+X-MS-Office365-Filtering-Correlation-Id: c697f026-fc7d-4f0d-31f9-08dcf53f27ae
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|366016|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?N0hWSGxBVHdJb2ZmamtOc3licFI4OEMyU0RmNkFLYlBGSzl0VUdTU1VtVDlH?=
- =?utf-8?B?WDFHMHFlVjY1dDlLUVNITjhCYSthTzY5ekxZRlZINFhUUmpTWHpqK21Lbldx?=
- =?utf-8?B?Vmd1b0NsMjZBU3k5ZXlHWjhyM0F1S3BkK3ZKMWpleDdqUjh5OEJwdTlRTjlR?=
- =?utf-8?B?VFJQb1FQNlVBWXRneEpJNUJZZHNPQ3A5MWY5L0Z4MC93bFlKOVd2d2loS1Yv?=
- =?utf-8?B?U0VMR0U2UEtSYW5BTDJUZzZLdmdPRkxmMGxrdStDN0k5YzUrVlpicnRDTGFI?=
- =?utf-8?B?cnk2VXBTT2RLeC9CZWY0cWloa3Z3ZDQ1RkJud3p2TE5DcFBmLzNUVGZzRk13?=
- =?utf-8?B?QTNjS2NyRFFwOUh0NkQ4cHU5VW9UVTZPbllrWWxvSWdPdHZTdjVsZERjV2FH?=
- =?utf-8?B?Kzk3UXpTTHFLY0pTZm5FZURVdUZvOGRtczhEYTdySmQ5TVdod1NKaFVRRUVC?=
- =?utf-8?B?T1VseFgxc1pxY3ZLbWU2eE9sYmlheDlTdWtKVFF0SFJZQzZ2ZkZ2K2JXT2pX?=
- =?utf-8?B?RlFzdWt5TytRekV2bEcrZlVBdmE1aG9Lb21OQ1hQRGZ3a0NqZzIvWmJMYVhS?=
- =?utf-8?B?WDdXTWcvOUpLclJPNFRZVk43N1hHTmJqL3dXazE5cUc3ZGc3SjllMVcwRm0z?=
- =?utf-8?B?ak15ZkVCcXFFTDcxNXZZUk1NcmlrMHFKUHYrSnVHSTI2YzhYQ3VaTUhtSG1w?=
- =?utf-8?B?Q1FWcHhzQ3gyK3hNTkloYnVuM1dTYUxDaUlEUlZyd3FTdjRHYlBXT2FFVCta?=
- =?utf-8?B?amszVW9vT1crSDFSQWk2ZmxTWnNvWFhnUmJiVTFVUHM4THRYeWpTQVFWL3BW?=
- =?utf-8?B?R1VRK1ZUcDlUdjVDVGNqaXNWRmFQYXdvRVYzUEJ6MW91dlFLaTRuMlFZUFRp?=
- =?utf-8?B?cXAvVEdrVTdCa0JSdkt5azdUNWc5REFqKzZydE1nYkNza0RGWUtRYnp0eUtU?=
- =?utf-8?B?cmFsdC94QVlEZWVheXVmOHQzSHV5ZTVzRWNDTWhwZXcyN21PaG9scm9ZclJy?=
- =?utf-8?B?cStBbzF3eGMvTEwrVzFGOU9NREViVTc1NytMSnQzSDlOd3ZSVkhKcjdURWJO?=
- =?utf-8?B?RHdFWGtLZmNJQ0YvQVQ5aGpTRitRMnptUnlOcmZVMWw2d253bVVlclUwdDRO?=
- =?utf-8?B?QWlYMFgvVGNvVzJJenlxdTVCWEU1UXErWFVxS2dpWUZSSGJielJVUmFvcGdK?=
- =?utf-8?B?SkpYczBCbG51eXg4dWhFbE1HemNCVmpIUGZWN2xnSUZvcVBER3lGVTBPVkYw?=
- =?utf-8?B?Q0NiOGUvTy9mMUtCUk55emJTQlJvWHBwUTJDWmhMamVUQkUwRmE4ZTJaOHFC?=
- =?utf-8?B?TWo5U3haY2VGWGZCVmF6a2MxZ3pmUXNsaXFoUGdMRWVLNHVERGJ6cDR6SFlR?=
- =?utf-8?B?L0NBcG5DMmxVcExqRkhXR0RWSHpLTmg0ZzR2VmkrREhpMERrV2pGVDhQTUd4?=
- =?utf-8?B?VTNSd2pVWVBCTkZqSjdXQnQrMTFVMUZQL0lhYmVsQ1dCMndxWlRHQ2dXaVZn?=
- =?utf-8?B?ZE9tZld6cTJsVzdhdGI3REIzV2tDUGpOMDR6RUJHeFRiRHoyb3cwUUYxNlhO?=
- =?utf-8?B?Nkd0MHpiWWNIeFV4N3JBV0NvNzhWRTlkOEJkNVFmd3c1SUQ2ako2NXJlVzF0?=
- =?utf-8?B?S1dFY09YRjVjSCtreHNMTk1JYnFxcXBlQ2p5UXZWVTFQZnJnbHVYSFdvRkVF?=
- =?utf-8?B?cStETHBhWWpEYVo5TExGTVVzeUhUeVhyRXZSZktCZDVQSVFaTmJ6WVFNVWxs?=
- =?utf-8?Q?K42aBJIZKSmB1OM6H49CiHg0BGzjf8QSB67Wm1F?=
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?QkdtSzE1TG44L1dMRW1jNndBamRmN2xlVUNUTGpzSTEvZExUM1FpUTU5akNu?=
+ =?utf-8?B?ejBSZVpzcDBNQ2RCZHNRSUpqaDlLL0FiWkRrTDdoZ1h3SVVIUVBQc3hGMDZs?=
+ =?utf-8?B?UFBkRzdIMjE3S3M1TzZaZHVwK3ZCUjFPMWthdW15UnViU3A5Mzh6ZFIrTU1l?=
+ =?utf-8?B?citvQzJHREh6b25RU3B0aEVqT2R6Z0FXc1JBQWZCTjJLeG92RGFFTVN6QXZx?=
+ =?utf-8?B?R1hzS084dEhnMUR5U0d3aUpBQVFsSW01NkZQM1JFNjRUeG9DTExYWWhuRVov?=
+ =?utf-8?B?NGJhd2JTV2JrR3FvZUlhYWt4V0EyUzdGQnB0OW1rYlFwOGYzUkdZdTBUSnlU?=
+ =?utf-8?B?NXRVQ211YzA3K1pTTm1QdWtuUzhtVWpVYVlJdDBTREFyNUZwUlV3OG9OemYv?=
+ =?utf-8?B?WmwzQWdQSWdjcFJqL0VhTnYzM0p6bVFZK3RKTllZOUovWnJpQzFRUXRPM2Uy?=
+ =?utf-8?B?ajdOdENJSXA0Z3ViSlROaEt1QWc1VFlTcUlaM3YvTnFzVXhTKzlsRDYwWEZr?=
+ =?utf-8?B?TzdDbVlGNFV3OEx5UE4rMEM4RVlHM2pxN25HeEVyMElLMVg2UTlYckFMTCtY?=
+ =?utf-8?B?cVVoVHdQSWpnbkt6U3M3Y1pZQlNmYWt1TUt3VnV5YkZiTHE0TnNEUTMzSGpW?=
+ =?utf-8?B?L0pFclM2aXRwWjg4NkZXaVVhS3FtSTFGVHR3Z0FCOUs3ZU5pM2ZrZmN4SDhK?=
+ =?utf-8?B?OE11Rm51TW1EemFQT2Rhek1PYlgrZG5jUHovNy9mZDg1ZHREUmZiREV1b2pI?=
+ =?utf-8?B?NHk3T2ZHSWdHS25xNlFFdnU1ZmpFWGpyNnZJZjNyb0FFekVMWjZidUhYaVlu?=
+ =?utf-8?B?V2llakVOYWN4TkRFYnRXMDlLb3FiUWRuN1VrM2cvOHFsU1h2SVEyelJNT3pk?=
+ =?utf-8?B?K2lsZ3BiUCtaV0lZek5JelQwVzY2eHpxZlZOdDZVcVJsLzRvM3pxcWorRVVO?=
+ =?utf-8?B?ZFptVDdrcjJ4eW1mY2dlTXJldW5FeEZaK2Vnc21PTGxTTVh1R2ZVMzlvQTh3?=
+ =?utf-8?B?NjN5S25LTXc3MHZWS2gwaFdPRkdkQzFkSVRUS2l3WVR1MUVlZDlEYXNZU1Vj?=
+ =?utf-8?B?dTU4TnlpdjVCMVVLaWwrRmQwWGlLclNzTk5sYmJxWlBxcjNEN0xPTlFGWWpk?=
+ =?utf-8?B?bU5zYm53Z1h6dXc5d1h1TzdJMERQbjZyUS9OclhaZFEvbUZVM0FzL0p2b1FW?=
+ =?utf-8?B?WnY4RlZzZng0YTEwc0ZHbVBEbWN4V1ZlTFNtWURvQUY0cUpMcjRLUjdVV3NU?=
+ =?utf-8?B?azhRTXdObTBtOERkYVZuTFd5Vkd1b2l2dkh3alZtOGREbHRPT2dMazhEZDN1?=
+ =?utf-8?B?SWNCWFQ2TWVveU5COHZ1MlNaei9SWDZqeVl0ZVBTRmZHMVpvNGRDN0tkbW45?=
+ =?utf-8?B?ZzN6c2lTYVV6T0hFMCs4b3RiWGYxL2pyZHN6bEZ3VTJFV3FkalpBTUhEQTd6?=
+ =?utf-8?B?MmFZNys0eDJtOGM1SVdZcmR0eWRWc3Q4b005U0lBbUVLbDY2ZDVWbEMzNkNR?=
+ =?utf-8?B?a1VWOVVSUk5XUFBRS2tKN2hzZXFRbkE3WTZlWWJkZzJPcGFEV3BsdFF4a0Uy?=
+ =?utf-8?B?TmJYeGI4WVFKM3ZvcU9lTGhzUjNlTDVPL2VkQkN4RDY1SlBXd3lEcTFqV1lk?=
+ =?utf-8?B?UHhNcnBFTytpT2E2QUZoTlJtQ0dycHdDMGpqNVRLU1RNMDlLQnFERjRsNlR2?=
+ =?utf-8?B?a2M0MWZQeTJqRDY4blZ2ck1GMjRWVjdnUEtVd2VNdEdJV1cyem1laktDa2JG?=
+ =?utf-8?Q?6Xojk4oQBnNWBdZh8o=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM4PR11MB5373.namprd11.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(7416014)(366016)(1800799024)(376014); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eGtlSmZjUkU0dGZlMnplOXBFM01sK0JBYUp1TTlZUFdvUnR6NUora2RUTi9r?=
- =?utf-8?B?RHZHcS9aaElCT3c2eHlvYmVicXRhYWFRNFZBaTJvSGExVURuK09mZVhrM1Rm?=
- =?utf-8?B?aEVPdkZqMlozYmFrUFNySEdoUk1XTW1WV2xFOHk2ZHJhK0Y4eHVIeE1SRGg0?=
- =?utf-8?B?d1ZuUElPRUl1dWhzZFBIclZFeHhkYUJQYy90K1lLNjhYVU5jK1pXcTJ4RFFk?=
- =?utf-8?B?SFowN0ZzN0xHTEswazU1WXdnSlVocVVZQVFtUzNZSHAwZmE3bU9EVEF1RGtL?=
- =?utf-8?B?ejROOExkcmNwSXdteGhGLzIvU09uOER2SWh1bmRlQTJiTEVOM3dONTZVOTcr?=
- =?utf-8?B?aUhRMXFuTnFadVdUQlJqSmFRZVdrZVNzY2R3c3FuZHQrT3Y3bjlVU1ZPRyt5?=
- =?utf-8?B?VzJjRXZ2UE1lblNFN3ZNdlhlN1lVbzNFU2tTclZoM2RJYm9sYllkWEo5SW9D?=
- =?utf-8?B?cFFIOHRaT1pqZ3R3K2RFY1R5WHhqYmhvbGtlVGF6RTVVY1oxWGtFYzVoM2x6?=
- =?utf-8?B?ZlZKWW9aUEtxaW92MTd1MitNVWY2ejFweEo5cGx6YUJhbzhoMUI5WlJ4dTRD?=
- =?utf-8?B?YnFOYUpucVd3NmJUYnZMYzBOTW5UWjkrWmtmM0J6T1BHRnRxNWQzYjI0a2FZ?=
- =?utf-8?B?OUs2RnpvU3dpQ2Q1aTgvYnZCS096V0orTlNFVXZqenRCa3hEak1OYkdsakM4?=
- =?utf-8?B?NVo4MkdsTThNMGJ3RFY2bVAxaWozSzYvUFIrcTFwMTYxOGtrZUZWNlUwdjBP?=
- =?utf-8?B?ajdhZWF1bHdpMnZzOS9NK1lQSkc0MDNYYkFhVEJLOEJKQTc1TjZvbmpCQktq?=
- =?utf-8?B?dEVKclJuTDVnK0xPRHR0VlhzTkVoYjEzak9TZGJlcTdXQnlRakVsYnM2MXBz?=
- =?utf-8?B?SG8reVo5dTBUTGk1K3ZiSG9iRC9iQU1rV1VlYmIwVGcvN2dLREs1Y1NVMXV1?=
- =?utf-8?B?RnhHN0FjS2pUa3pHTFJadjdaRW92WDdqeldOZ1owWXI4MzYxR21IREtkakJE?=
- =?utf-8?B?STBvWTU2UytoWUR2TnY2UFlpSDllMlhmWUsyMHZDdEFEbkhIZ29oSmhnZVpT?=
- =?utf-8?B?enJvZTdTeU92bjRQa0VsL2dVSGJJZzYrOVBHblJXVEVKQmZNMk94aFN0dW01?=
- =?utf-8?B?bFBhMitEK1VJWW1PVUJNM2lQNEFjRFZGZWE2aVF5K1JtNGl3NmI2NHVXZ0VW?=
- =?utf-8?B?U3o3RVk5bVZiQ2F0WlFCbSs4OE9IbDJaY25qazRGVHJHTTI4OElQZGFXMW15?=
- =?utf-8?B?Yk9yUzdsMG0wVVVBckdnS2EvQnhhc09LTzA1YUVPa21rRGRKUkFlaXB3K0RR?=
- =?utf-8?B?VXRILzI3VjFLeE1rTnNrMUVGaTNPNFU0LzJnWTgwR3Q2WlNNSXNVTkpvcFU5?=
- =?utf-8?B?ZjVabkNCWTZEMDdUbVNhVXJRMDBrTmFIMkI3OWN4YVZ4cFE1WXBEbjBzMnQ4?=
- =?utf-8?B?V01Hc04vOEFrTndORkxHZVNJRTI1TXpWQlJXNmZUMFk3WGxCSk8wRng4MlpN?=
- =?utf-8?B?MERzaXlCdTU5NXI3c2huYzVoOGFNL21qUFY4eFgzNDVXejVkQ0MyN1ErSEtM?=
- =?utf-8?B?T0xYalpUOEFiMTNrNlBSbXRzMVdLMVJDaWRBUzVXWnFyNEdVV2hudUNYUUhn?=
- =?utf-8?B?djlic0xVYjVTcjV2TnNVVlROdy94VnBzN3U1L1h6dE5weGlXYVNQenlvLzdL?=
- =?utf-8?B?aUZTeS91YSs4VDRsZklBOHJiMkFtL1VrK29pMXRVcnVZaHVmK0hyTFVPTXFW?=
- =?utf-8?B?ZFpGMldwNEExaTREV28yWEZHdTZjYW5NL1BjZXdSQkx6TEwvNDJNbGFtQnRl?=
- =?utf-8?B?MzhYSEkvKyttNXdpamJDVjBmM3dGK1pwT2gyckswNVpZaU5KQkNyVWJyV1Bu?=
- =?utf-8?B?dFMxMitjN1BlNUJpK3NQM1lOQVNyekRLaEFIM2VDaFB3QUxwanNjR3ZrYmU1?=
- =?utf-8?B?OG44MDNkUGZQRjVpWlNrOEdoTEU1L1NUNnpiY21ySXlsR2xJY1JzYUFScjNE?=
- =?utf-8?B?d1AzbXVnR0I4T0VGWXlXTHNTVk1iUVFxak1UaFM1ckI3M0s5Y3ZZMTVkMmxw?=
- =?utf-8?B?S3h0R05sTTBuWHk5M3FqR2xNN0NqMzVwdWNLVHhXdEp4VFVxZjJTTngvMEZ6?=
- =?utf-8?B?SVlLZDh3dkN1M2hYblNnVDZMNDh6ckF4S1VqTVhoNjRJMVRML3NOdkRCUnho?=
- =?utf-8?B?enc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 51f4a631-28cf-4329-26c2-08dcf53f2538
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MElhLzJPUllWVnVlcDRsN0pzejhzSTdQWjBDTjhCQnowTmNpelkzOXpTbW9r?=
+ =?utf-8?B?ZXVYSmI4M09IUlc5WngrKzg3Q3RJS2hKblpXb0ovckJxZ1BDeVNsQ21URllp?=
+ =?utf-8?B?Uyt1KzVuVVlYcEh1cmQ1QWVXNFdoeEhtc043SHN2MjhLNFRXV2RGYmRwak9y?=
+ =?utf-8?B?U1hCajFDeGd1ZWdCZ2RMWWQ0V3U1THpsaU1UUlFhU2lkdHg0QktOQUppRk5v?=
+ =?utf-8?B?amJKaEg3NXNwdDFCN1M5dTZoVnRZV04xUnhFQmRYaU45WUVvT0E4Y3NENHFr?=
+ =?utf-8?B?bHZSOURGYkIzYnVYbHpUWG5EeWg1SU10Q2RSTzMyUUxlcnM1TUp5STBOTFdK?=
+ =?utf-8?B?UGhLRWpnSnk4YXFDVUxSQkJkeUc4c2V5eFkzbDI5eEJSZTA4cC9hdTRvRTlw?=
+ =?utf-8?B?bnBjZ3NqMFo2U29sZ0JQdzVQU0RNaStBLzN2alJ5aWNhb2N3b0c4YVN4R3V0?=
+ =?utf-8?B?bFlpdG9rUVUzRzYxRWJENUFaSnp2ejNxeTcrVG1lOVRTczVQQklWWm9sTzRE?=
+ =?utf-8?B?V1UxbThYUHczSklVYkhPc0NqSmJ6RUZLTnIwMFZOYm9PZGQvTkJlU2dMR2JY?=
+ =?utf-8?B?WmZieUpSdWVCa3cyU1Vtc3M3am1ROGplZEMxWE0xSFI4UjJjaGhLbEM0UDht?=
+ =?utf-8?B?OVNmYWFzcW1CSkI2b0RUUHUycXZ4ZFB1VUpxcFltbE16cEVhNkdzYTZlY2di?=
+ =?utf-8?B?TTgyakNPaWkzUGFXQXZqMkREamNRK0pPM2Q2M01hL1NMNHlGbXk0L25SckRt?=
+ =?utf-8?B?aHg3MGFzZlBXTnIxbXdKUDNYVW9Bd215bnh0aGgrdkRUR0JVY1ZKWjFuNEFs?=
+ =?utf-8?B?VnE2dm9WQzRKVDUwUDRrRnU5UGRGMjdBTTlTSlo0SlFmMFVHQ2RZRS94V2Jz?=
+ =?utf-8?B?QS9EUjBZeDRXdjR5WDE0RFR6dGVvekpXUWZEVkduNTlKeklyZ3RmVGJSVjg4?=
+ =?utf-8?B?OENBZmp0cU1ZNmRGWHhIVm4weURWY1dNd3JmaGQ1WFczWnlWcUZsMGdxUUxU?=
+ =?utf-8?B?M01IRVh6OVdvcjhrWGVXRkdoTEdhM2ovODUxc2NZWkhFeVVSb0puZkhsSkNI?=
+ =?utf-8?B?RGRzQXcxZnJiQ3RQZ3FVWTBIaVFmMWZUS21SZUx0VXlXVXJyNzVtZkg5Sk9U?=
+ =?utf-8?B?alpZMWRWcGlkNXc0RnVFL2RoMWkyS3crT1FmdnVaSElTQ2F2eUxzRXJ3d0Za?=
+ =?utf-8?B?MG1ad01oSldnY28yTnVNeml5bktCZWoxbEkxbUxWcHEreEViMTVCR2kwclQw?=
+ =?utf-8?B?ZVNxbExCQWFsUFNlbUtSMDM5eUhZU2h1d09uTzMwYWp6L2RhOGNDOVUrcU94?=
+ =?utf-8?B?TW9jMUsycFNrd2M4SDYvUzB2aXdDMmtoYmJBOUQveU5EWFZndFpoRElhYThl?=
+ =?utf-8?B?SENaSS9wanFoRXpxNjZLOUVMZXZSQ2JZUnZsOXd5R2FnMTBrS2lHTi90Wmor?=
+ =?utf-8?B?SUJvNTB0bUJNUytLcFUra3dYU08vN296M3Qvc1A4TUlOdlhnaEZQYkZZM3pL?=
+ =?utf-8?B?dnJ1akJ1c01ZWUZHSzZoNWJobFdMSm80WndDczVCQTdORzVrM2cvVGd1TWxw?=
+ =?utf-8?B?dDU1L1hsOHljNTBWN3FjSmRUaDNKS3hZN3ZYaFRCRkpmRDJzVlVpVHBtMElh?=
+ =?utf-8?B?WEFKWitIRENRbE0xelpwK01JVG1rL2ZNTFltM1JMNmZKVkx2c0YzS1YyY3hy?=
+ =?utf-8?B?NGdsYXpCSUxscm1lelV4QWF5b24rM0txcFhLekJ0eitTOElkTlRDN1NiNk9M?=
+ =?utf-8?B?NVRrSlBiaG9OSi9DTEJSWWRNc0hUN1Vya3VoSUJtd053eE4vQm1xK1RQWHF2?=
+ =?utf-8?B?MXVRTjY1azZ2ek1adVVKRnJ4V2hGSFJSWkJIbHZSbUkxRmc3cUtWUXBFUzgz?=
+ =?utf-8?B?OEtyaVlyUi9ZdFdZVCtVb1ZiVmhNMi9zT1NiM3VHMUpYb2JOM3RqM2llZzNB?=
+ =?utf-8?B?SXdsZmtPZllZbERYVWZwalkyckw5bDBLVEp4L0xPc3JMSzQ4c25MZ3pobkMz?=
+ =?utf-8?B?Z01BQXpVcU8zT3FlM08zdlUzMHRIRUdzSmRndzQwc3VmMkt3bVZ2Y3VENHFW?=
+ =?utf-8?B?Y0d4M2dRdzllbTJoNUEzYTRvVTJsZ2RYTUpHS21jdXNYNTl6d2xrdU5Ga0FX?=
+ =?utf-8?B?aGNOWHA0U284OG9ZNS84TzNhQVJrUDdQV2c3WlhTVnZnNmhKNk1RUk9FUVNt?=
+ =?utf-8?B?MlE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: c697f026-fc7d-4f0d-31f9-08dcf53f27ae
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5373.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Oct 2024 21:51:13.7509 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Oct 2024 21:51:17.8524 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pIvcSHyDkYMQq+stL701h7HPja+aXIvpo4ZnY9Yz3FbS/dPMhxx5mPo4lOvtbcEpLcYIBfOrewX26zSZfGHW6haPEIKg19tKSwrO0Rgu/GQ=
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZRcEBI2gJ0QJeOH2lroBrnXszOR13W8lchFKxupVDPJHT8gEtwpJz7h6L5AWt803t48sw4ui5JmXtxWVh876GUAHqUiRpxGqYWbz436kFTU=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7745
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -204,146 +204,186 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are multiple places where conversions between IOV resources and
-standard resources are done.
+Similar to regular resizable BAR, VF BAR can also be resized.
 
-Extract the logic to pci_resource_to_iov() and pci_resource_from_iov()
-helpers.
+The structures are very similar, which means we can reuse most of the
+implementation.
 
-Suggested-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+Extend the pci_resize_resource() function to accept IOV resources.
+
+See PCIe r4.0, sec 9.3.7.4.
+
 Signed-off-by: Michał Winiarski <michal.winiarski@intel.com>
 ---
- drivers/pci/iov.c       | 20 ++++++++++----------
- drivers/pci/pci.h       | 18 ++++++++++++++++++
- drivers/pci/setup-bus.c |  2 +-
- 3 files changed, 29 insertions(+), 11 deletions(-)
+ drivers/pci/iov.c       | 21 +++++++++++++++++++++
+ drivers/pci/pci.c       | 10 +++++++++-
+ drivers/pci/pci.h       | 10 +++++++++-
+ drivers/pci/setup-res.c | 36 +++++++++++++++++++++++++++++++-----
+ 4 files changed, 70 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/pci/iov.c b/drivers/pci/iov.c
-index 6bdc9950b9787..eedc1df56c49e 100644
+index eedc1df56c49e..79143c1bc7bb4 100644
 --- a/drivers/pci/iov.c
 +++ b/drivers/pci/iov.c
-@@ -151,7 +151,7 @@ resource_size_t pci_iov_resource_size(struct pci_dev *dev, int resno)
- 	if (!dev->is_physfn)
- 		return 0;
- 
--	return dev->sriov->barsz[resno - PCI_IOV_RESOURCES];
-+	return dev->sriov->barsz[pci_resource_from_iov(resno)];
+@@ -154,6 +154,27 @@ resource_size_t pci_iov_resource_size(struct pci_dev *dev, int resno)
+ 	return dev->sriov->barsz[pci_resource_from_iov(resno)];
  }
  
++void pci_iov_resource_set_size(struct pci_dev *dev, int resno,
++			       resource_size_t size)
++{
++	if (!pci_resource_is_iov(resno)) {
++		pci_warn(dev, "%s is not an IOV resource\n",
++			 pci_resource_name(dev, resno));
++		return;
++	}
++
++	dev->sriov->barsz[pci_resource_from_iov(resno)] = size;
++}
++
++bool pci_iov_is_memory_decoding_enabled(struct pci_dev *dev)
++{
++	u16 cmd;
++
++	pci_read_config_word(dev, dev->sriov->pos + PCI_SRIOV_CTRL, &cmd);
++
++	return cmd & PCI_SRIOV_CTRL_MSE;
++}
++
  static void pci_read_vf_config_common(struct pci_dev *virtfn)
-@@ -322,12 +322,12 @@ int pci_iov_add_virtfn(struct pci_dev *dev, int id)
- 	virtfn->multifunction = 0;
- 
- 	for (i = 0; i < PCI_SRIOV_NUM_BARS; i++) {
--		res = &dev->resource[i + PCI_IOV_RESOURCES];
-+		res = &dev->resource[pci_resource_to_iov(i)];
- 		if (!res->parent)
- 			continue;
- 		virtfn->resource[i].name = pci_name(virtfn);
- 		virtfn->resource[i].flags = res->flags;
--		size = pci_iov_resource_size(dev, i + PCI_IOV_RESOURCES);
-+		size = pci_iov_resource_size(dev, pci_resource_to_iov(i));
- 		virtfn->resource[i].start = res->start + size * id;
- 		virtfn->resource[i].end = virtfn->resource[i].start + size - 1;
- 		rc = request_resource(res, &virtfn->resource[i]);
-@@ -624,8 +624,8 @@ static int sriov_enable(struct pci_dev *dev, int nr_virtfn)
- 
- 	nres = 0;
- 	for (i = 0; i < PCI_SRIOV_NUM_BARS; i++) {
--		bars |= (1 << (i + PCI_IOV_RESOURCES));
--		res = &dev->resource[i + PCI_IOV_RESOURCES];
-+		bars |= (1 << pci_resource_to_iov(i));
-+		res = &dev->resource[pci_resource_to_iov(i)];
- 		if (res->parent)
- 			nres++;
- 	}
-@@ -786,8 +786,8 @@ static int sriov_init(struct pci_dev *dev, int pos)
- 
- 	nres = 0;
- 	for (i = 0; i < PCI_SRIOV_NUM_BARS; i++) {
--		res = &dev->resource[i + PCI_IOV_RESOURCES];
--		res_name = pci_resource_name(dev, i + PCI_IOV_RESOURCES);
-+		res = &dev->resource[pci_resource_to_iov(i)];
-+		res_name = pci_resource_name(dev, pci_resource_to_iov(i));
- 
- 		/*
- 		 * If it is already FIXED, don't change it, something
-@@ -844,7 +844,7 @@ static int sriov_init(struct pci_dev *dev, int pos)
- 	dev->is_physfn = 0;
- failed:
- 	for (i = 0; i < PCI_SRIOV_NUM_BARS; i++) {
--		res = &dev->resource[i + PCI_IOV_RESOURCES];
-+		res = &dev->resource[pci_resource_to_iov(i)];
- 		res->flags = 0;
- 	}
- 
-@@ -906,7 +906,7 @@ static void sriov_restore_state(struct pci_dev *dev)
- 	pci_write_config_word(dev, iov->pos + PCI_SRIOV_CTRL, ctrl);
- 
- 	for (i = 0; i < PCI_SRIOV_NUM_BARS; i++)
--		pci_update_resource(dev, i + PCI_IOV_RESOURCES);
-+		pci_update_resource(dev, pci_resource_to_iov(i));
- 
- 	pci_write_config_dword(dev, iov->pos + PCI_SRIOV_SYS_PGSIZE, iov->pgsz);
- 	pci_iov_set_numvfs(dev, iov->num_VFs);
-@@ -972,7 +972,7 @@ void pci_iov_update_resource(struct pci_dev *dev, int resno)
  {
- 	struct pci_sriov *iov = dev->is_physfn ? dev->sriov : NULL;
- 	struct resource *res = dev->resource + resno;
--	int vf_bar = resno - PCI_IOV_RESOURCES;
-+	int vf_bar = pci_resource_from_iov(resno);
- 	struct pci_bus_region region;
- 	u16 cmd;
- 	u32 new;
+ 	struct pci_dev *physfn = virtfn->physfn;
+diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+index 7d85c04fbba2a..905a533807b32 100644
+--- a/drivers/pci/pci.c
++++ b/drivers/pci/pci.c
+@@ -3720,8 +3720,16 @@ static int pci_rebar_find_pos(struct pci_dev *pdev, int bar)
+ {
+ 	unsigned int pos, nbars, i;
+ 	u32 ctrl;
++	int cap;
+ 
+-	pos = pci_find_ext_capability(pdev, PCI_EXT_CAP_ID_REBAR);
++	if (pci_resource_is_iov(bar)) {
++		cap = PCI_EXT_CAP_ID_VF_REBAR;
++		bar = pci_resource_from_iov(bar);
++	} else {
++		cap = PCI_EXT_CAP_ID_REBAR;
++	}
++
++	pos = pci_find_ext_capability(pdev, cap);
+ 	if (!pos)
+ 		return -ENOTSUPP;
+ 
 diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
-index 48d345607e57e..1f8d88f0243b7 100644
+index 1f8d88f0243b7..4347858007145 100644
 --- a/drivers/pci/pci.h
 +++ b/drivers/pci/pci.h
-@@ -584,6 +584,15 @@ static inline bool pci_resource_is_iov(int resno)
+@@ -580,6 +580,9 @@ void pci_iov_update_resource(struct pci_dev *dev, int resno);
+ resource_size_t pci_sriov_resource_alignment(struct pci_dev *dev, int resno);
+ void pci_restore_iov_state(struct pci_dev *dev);
+ int pci_iov_bus_range(struct pci_bus *bus);
++void pci_iov_resource_set_size(struct pci_dev *dev, int resno,
++			       resource_size_t size);
++bool pci_iov_is_memory_decoding_enabled(struct pci_dev *dev);
+ static inline bool pci_resource_is_iov(int resno)
  {
  	return resno >= PCI_IOV_RESOURCES && resno <= PCI_IOV_RESOURCE_END;
+@@ -613,6 +616,12 @@ static inline int pci_iov_bus_range(struct pci_bus *bus)
+ {
+ 	return 0;
  }
-+static inline int pci_resource_to_iov(int resno)
++static inline void pci_iov_resource_set_size(struct pci_dev *dev, int resno,
++					     resource_size_t size) { }
++static inline bool pci_iov_is_memory_decoding_enabled(struct pci_dev *dev)
 +{
-+	return resno + PCI_IOV_RESOURCES;
++	return false;
 +}
-+
-+static inline int pci_resource_from_iov(int resno)
-+{
-+	return resno - PCI_IOV_RESOURCES;
-+}
- extern const struct attribute_group sriov_pf_dev_attr_group;
- extern const struct attribute_group sriov_vf_dev_attr_group;
- #else
-@@ -608,6 +617,15 @@ static inline bool pci_resource_is_iov(int resno)
+ static inline bool pci_resource_is_iov(int resno)
  {
  	return false;
+@@ -621,7 +630,6 @@ static inline int pci_resource_to_iov(int resno)
+ {
+ 	return -ENODEV;
  }
-+static inline int pci_resource_to_iov(int resno)
+-
+ static inline int pci_resource_from_iov(int resno)
+ {
+ 	return -ENODEV;
+diff --git a/drivers/pci/setup-res.c b/drivers/pci/setup-res.c
+index e2cf79253ebda..cec8f684b7c70 100644
+--- a/drivers/pci/setup-res.c
++++ b/drivers/pci/setup-res.c
+@@ -425,13 +425,40 @@ void pci_release_resource(struct pci_dev *dev, int resno)
+ }
+ EXPORT_SYMBOL(pci_release_resource);
+ 
++static bool pci_resize_is_memory_decoding_enabled(struct pci_dev *dev,
++						  int resno)
 +{
-+	return -ENODEV;
++	u16 cmd;
++
++	if (pci_resource_is_iov(resno))
++		return pci_iov_is_memory_decoding_enabled(dev);
++
++	pci_read_config_word(dev, PCI_COMMAND, &cmd);
++
++	return cmd & PCI_COMMAND_MEMORY;
 +}
 +
-+static inline int pci_resource_from_iov(int resno)
++static void pci_resize_resource_set_size(struct pci_dev *dev, int resno,
++					 int size)
 +{
-+	return -ENODEV;
++	resource_size_t res_size = pci_rebar_size_to_bytes(size);
++	struct resource *res = dev->resource + resno;
++
++	if (!pci_resource_is_iov(resno)) {
++		res->end = res->start + res_size - 1;
++	} else {
++		res->end = res->start +
++			res_size * pci_sriov_get_totalvfs(dev) - 1;
++		pci_iov_resource_set_size(dev, resno, res_size);
++	}
 +}
- #endif /* CONFIG_PCI_IOV */
++
+ int pci_resize_resource(struct pci_dev *dev, int resno, int size)
+ {
+ 	struct resource *res = dev->resource + resno;
+ 	struct pci_host_bridge *host;
+ 	int old, ret;
+ 	u32 sizes;
+-	u16 cmd;
  
- #ifdef CONFIG_PCIE_PTM
-diff --git a/drivers/pci/setup-bus.c b/drivers/pci/setup-bus.c
-index ba293df10c050..c5ad7c4ad6eb1 100644
---- a/drivers/pci/setup-bus.c
-+++ b/drivers/pci/setup-bus.c
-@@ -1778,7 +1778,7 @@ static int iov_resources_unassigned(struct pci_dev *dev, void *data)
- 	bool *unassigned = data;
+ 	/* Check if we must preserve the firmware's resource assignment */
+ 	host = pci_find_host_bridge(dev->bus);
+@@ -442,8 +469,7 @@ int pci_resize_resource(struct pci_dev *dev, int resno, int size)
+ 	if (!(res->flags & IORESOURCE_UNSET))
+ 		return -EBUSY;
  
- 	for (i = 0; i < PCI_SRIOV_NUM_BARS; i++) {
--		struct resource *r = &dev->resource[i + PCI_IOV_RESOURCES];
-+		struct resource *r = &dev->resource[pci_resource_to_iov(i)];
- 		struct pci_bus_region region;
+-	pci_read_config_word(dev, PCI_COMMAND, &cmd);
+-	if (cmd & PCI_COMMAND_MEMORY)
++	if (pci_resize_is_memory_decoding_enabled(dev, resno))
+ 		return -EBUSY;
  
- 		/* Not assigned or rejected by kernel? */
+ 	sizes = pci_rebar_get_possible_sizes(dev, resno);
+@@ -461,7 +487,7 @@ int pci_resize_resource(struct pci_dev *dev, int resno, int size)
+ 	if (ret)
+ 		return ret;
+ 
+-	res->end = res->start + pci_rebar_size_to_bytes(size) - 1;
++	pci_resize_resource_set_size(dev, resno, size);
+ 
+ 	/* Check if the new config works by trying to assign everything. */
+ 	if (dev->bus->self) {
+@@ -473,7 +499,7 @@ int pci_resize_resource(struct pci_dev *dev, int resno, int size)
+ 
+ error_resize:
+ 	pci_rebar_set_size(dev, resno, old);
+-	res->end = res->start + pci_rebar_size_to_bytes(old) - 1;
++	pci_resize_resource_set_size(dev, resno, old);
+ 	return ret;
+ }
+ EXPORT_SYMBOL(pci_resize_resource);
 -- 
 2.47.0
 
