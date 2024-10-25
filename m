@@ -2,65 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1F539AF602
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 02:20:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29D159AF607
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 02:20:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0958D10E9BE;
-	Fri, 25 Oct 2024 00:20:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4ACCE10E03F;
+	Fri, 25 Oct 2024 00:20:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="kqxgWbhl";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="xUqi7IyA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
- [209.85.167.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 287CA10E9BC
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 00:20:17 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id
- 2adb3069b0e04-539fb49c64aso2611726e87.0
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 17:20:16 -0700 (PDT)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
+ [209.85.167.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDE1210E9C1
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 00:20:18 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id
+ 2adb3069b0e04-539983beb19so1935979e87.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Oct 2024 17:20:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1729815615; x=1730420415; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1729815617; x=1730420417; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=+xqrfLhi8maJ3GiZ3G/FlADlqaLUOMJAXiAxxK/1iKc=;
- b=kqxgWbhl270e39uP0GAkLIODKix24wk6GcRBhOZGmAlVzH5/CAriYkM/uxNfqg1PVG
- uvWodGjjqDe42iExcinbxc/ivJNyDo4v7cz6eG2DgpikEYjKLumlzl/INbxBdKbQ8NSt
- XIKWr0A3zCnsnxiO47BgdBTnE9scUU49uAXQ7bSw3TsfjL0oPM2UPgliZFUCRBqhhaIw
- ocpEQbOdXrcq9sgfqHwCBVAmVClb8kaE6TqGdE9Fg+IGx2FuK1XvjOXhpnpGk9qA5jlj
- AHUL9FJLxdvlgS02pHiQ8udayeliFrF6i8R9zJQzSU/1Nj72x3clpKBLp8Jmd7cs2raA
- QGQQ==
+ :reply-to; bh=JazWMIkVQS8p1EyDaDe3Z84iDsKuOpFQiDqKXM3qNvI=;
+ b=xUqi7IyAQhTykw/7TubfUWhQu+KymUCSzMYiiOFgsYcCLyLolq2I31z15/m8ZOG1+Z
+ ncm56uUrAd4jCjGGQPp1oZu559n/mPa1mTMX4PaPA9jkTTQfo4h7Y8x6JoVqZIOU64RH
+ H9EE1UV6X6eNWCBdLmnPB5OB5xbuSVV1ICaaFe6AFrxF4w6RlLUUEdyRNUsc5HAqRqXd
+ t/rX17NpepR5DfLCpEOhLWbvGxBrEwBp+6XRWZT6IQPbSkF9//1gP4YH1pJtHrnw876Z
+ 3sK+71E1duEsGnhUwbKXrVdXwg3Gu2190aDU4mnRNUORbohUOQuq/ZkrWw8BxtUqw9nh
+ uBqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729815615; x=1730420415;
+ d=1e100.net; s=20230601; t=1729815617; x=1730420417;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=+xqrfLhi8maJ3GiZ3G/FlADlqaLUOMJAXiAxxK/1iKc=;
- b=TlBLopSEeYZgGxk7OgQjd4sz9lY09ec80dUSwrHw3JJ/59ysBCkvaOVPByuZ9zb4xn
- T17hYT1YWMlFb/GKUQOgP+/0L3bUb+hAorkEYIFc5P5DiRU6dLD2lxzEciQhLjF4WsuF
- b1T0AiPd5DO7WxJEGRs9+68HfpNbpI93II2hVVfw88UgdBFFSIi/kWFvwgr1alNHqTZW
- UWnk8FItvEJunVIGWNjCy6SflliHcQ6kbB/6aRxEKMVz8SMaqNmPrfQNVfPpLZTfORLW
- fd1Yaaw35mUhHw54Qub9FfMIxOghZaUvjKX31bf7Zlklm4z/4B+SqoJnnEXscpHgxk1u
- KBpQ==
+ bh=JazWMIkVQS8p1EyDaDe3Z84iDsKuOpFQiDqKXM3qNvI=;
+ b=n2Vg/a0X5E6f08OwpKmqMhsaA3FAUppdNJekU3b2hLfxoKguAZc86h+7XV3KSdDPSA
+ WZOGLplKCKhdUmppQZVUX7CYSVQoK7qGsaWUcA4Kv50fn8s93mA2q9ZoWCHihoCB/Lf7
+ Y3P1tmyvQnoNEi7YQV2rGnN74pHCa4yl10iLjXplHVogF1Xg8J/+24ot9xgDg7rVhpnv
+ fN7H/sDko1K8yTGxfHajvveRU/X5UPqa/Un8PGgm2II6yuwyyYj9u/OU4WMrQcAADXgG
+ moxWT44eKrJnpBlJLVAJ12pkakxfznJcxowgg/kov+02H7ZKi/GvLS/NzHZ7H1QTdYj+
+ 8NOQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUiroDNDEQaeT7BPWLb2OwS+ZO8AtA0THVnxP2qHcsepd5VZfxwz/ibrVCObHpUyS6RdUdiaXZJJeY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwIJjzOpD3q/IYG7dKolSIWtgX5ZnEOM+SPTLxkoRHqzirCf+uG
- F54BGfXkeVChg3I7VdJPNaK46Yi9wbsjd2cRiHYHYQ85HoFenkA8Fuisn7BblmY=
-X-Google-Smtp-Source: AGHT+IHMp3Vj8D5xOK8sGcL7IZTD8X2M3Tusli278j57Rh6uC4B2tdfT0DQHDAHKsjpze0EnlHJyZg==
-X-Received: by 2002:a05:6512:350e:b0:53b:1e70:6ab4 with SMTP id
- 2adb3069b0e04-53b1e706b9fmr4865361e87.14.1729815614849; 
- Thu, 24 Oct 2024 17:20:14 -0700 (PDT)
+ AJvYcCVnNrDZW8OguN+M4vVk/rJNEfMe1kfhUeMNYXIYuPuc6p0LkN2fV+YPj2ebJX3fknfHQ7G5Ydj+ZSU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzAxmT9i3ZDmDcp6eqd8dbCNAt7RQF8XKLjRWq9f3JEI3e631NT
+ IOw26jM+wlUeu85RktKM6lEAjXkZvnjQbFoIWdZEiiq4GgbcLQ8vSbEZhzcDs/E=
+X-Google-Smtp-Source: AGHT+IH4ihiQHJARiTWnfLQwFkyVcMpyXvC7EwdHVpv5nSyfcZCcySDU5vmWQQTKvV5ZfTfcCAMgCA==
+X-Received: by 2002:a05:6512:10c7:b0:539:e023:8fce with SMTP id
+ 2adb3069b0e04-53b1a2facb6mr4665041e87.12.1729815616586; 
+ Thu, 24 Oct 2024 17:20:16 -0700 (PDT)
 Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
  2adb3069b0e04-53b2e1b05b3sm6227e87.161.2024.10.24.17.20.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Oct 2024 17:20:14 -0700 (PDT)
+ Thu, 24 Oct 2024 17:20:16 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 25 Oct 2024 03:20:08 +0300
-Subject: [PATCH v6 1/9] drm/msm/dpu: use drm_rect_fp_to_int()
+Date: Fri, 25 Oct 2024 03:20:09 +0300
+Subject: [PATCH v6 2/9] drm/msm/dpu: move pstate->pipe initialization to
+ dpu_plane_atomic_check
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241025-dpu-virtual-wide-v6-1-0310fd519765@linaro.org>
+Message-Id: <20241025-dpu-virtual-wide-v6-2-0310fd519765@linaro.org>
 References: <20241025-dpu-virtual-wide-v6-0-0310fd519765@linaro.org>
 In-Reply-To: <20241025-dpu-virtual-wide-v6-0-0310fd519765@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -70,16 +71,16 @@ To: Rob Clark <robdclark@gmail.com>,
 Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
 X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1020;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2729;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=Z1DUfkZ6/oZuA6xRT2zKvLthKeLBEYc68oLVcqrozCs=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnGuQ5QZvFmOhdu+ChSig00R7PCHyXB/io4gx82
- 9QJ266jmSmJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZxrkOQAKCRCLPIo+Aiko
- 1RuYB/9ryN0Vx5GSVzt0aq/0oxk0TaqWvPjOsc9vwGvdO+M17JlZMARorjXfRX+LVmsgsHRMSpL
- TeR3TE9I6oOQjQbmZrRgw/1QKOowNUQVMeObdT1UshAlhiu4UPLsGSP84itcqEtTo6feXRAs8/O
- iYeyRyUmt7GbRimV8tKYZUCBkHqTE3ZNs1voX7QlW7fpnEpGsnHKLMG5Qe4d2qkvp//XDaxPsw2
- TcLV+wcvgUsB5YtkADcMyKJOtXxvP5crLjWMxyM/HMTt2LxVE4xqTSDbW9rpcfZO4x9Vnj4unbT
- qH228PzTSLSGi5tOrDp7mDMxYYOaQ8cwYMA0P+wFgcpnK8CD
+ bh=PHJ6sTq6uvNcQ3gChU8Ct2HDM9wv2LQmbjOrC4ORXdI=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnGuQ6hQho0KIgBTBFvj9q6BbQKv0Gp3wic2CJz
+ SwNl9VOghaJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZxrkOgAKCRCLPIo+Aiko
+ 1UgnB/4lW/gdxBKLrIy5SBKyqWzevme3eymEBo8+UbDaxqGVnggcx0aM3CP9kZvr0Ii5OvjBcvf
+ 0fSlCwZh/tVpiyYOw+1/ZTNRm7qxPE9FSWmL5GCK0kOeYQ+sPmyHP7kB09bWO8lLVYkJ1srq1WK
+ 0XU9iMZHCM+ZKo00OqpFD3Nw6lhKdSvqauT2HRfoYmhOkTl+DokoGE5EIOW5CwQ97/9xD3I/X6F
+ 0ZBtfkevH5jV4TlTLyUTvnulTMNGBFWdFwZe3igUVvKuTCJt+PzzxmCe5+LmW2iZrPMq51iozPO
+ 7HnoidCOp3JT5A2rfeMCr2jvND7ccagqEPRH7j1IHvNb2/XU
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -97,33 +98,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the drm_rect_fp_to_int() helper instead of using the hand-written
-code.
+In preparation for virtualized planes support, move pstate->pipe
+initialization from dpu_plane_reset() to dpu_plane_atomic_check(). In
+case of virtual planes the plane's pipe will not be known up to the
+point of atomic_check() callback.
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 25 +++++++++++--------------
+ 1 file changed, 11 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-index e935e9c05f04..37faf5b238b0 100644
+index 37faf5b238b0..725c9a5826fd 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-@@ -829,13 +829,8 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
- 		return -EINVAL;
+@@ -797,13 +797,22 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+ 	uint32_t max_linewidth;
+ 	unsigned int rotation;
+ 	uint32_t supported_rotations;
+-	const struct dpu_sspp_cfg *pipe_hw_caps = pstate->pipe.sspp->cap;
+-	const struct dpu_sspp_sub_blks *sblk = pstate->pipe.sspp->cap->sblk;
++	const struct dpu_sspp_cfg *pipe_hw_caps;
++	const struct dpu_sspp_sub_blks *sblk;
+ 
+ 	if (new_plane_state->crtc)
+ 		crtc_state = drm_atomic_get_new_crtc_state(state,
+ 							   new_plane_state->crtc);
+ 
++	pipe->sspp = dpu_rm_get_sspp(&kms->rm, pdpu->pipe);
++	r_pipe->sspp = NULL;
++
++	if (!pipe->sspp)
++		return -EINVAL;
++
++	pipe_hw_caps = pipe->sspp->cap;
++	sblk = pipe->sspp->cap->sblk;
++
+ 	min_scale = FRAC_16_16(1, sblk->maxupscale);
+ 	ret = drm_atomic_helper_check_plane_state(new_plane_state, crtc_state,
+ 						  min_scale,
+@@ -820,7 +829,6 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+ 	pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
+ 	r_pipe->multirect_index = DPU_SSPP_RECT_SOLO;
+ 	r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
+-	r_pipe->sspp = NULL;
+ 
+ 	pstate->stage = DPU_STAGE_0 + pstate->base.normalized_zpos;
+ 	if (pstate->stage >= pdpu->catalog->caps->max_mixer_blendstages) {
+@@ -1286,7 +1294,6 @@ static void dpu_plane_reset(struct drm_plane *plane)
+ {
+ 	struct dpu_plane *pdpu;
+ 	struct dpu_plane_state *pstate;
+-	struct dpu_kms *dpu_kms = _dpu_plane_get_kms(plane);
+ 
+ 	if (!plane) {
+ 		DPU_ERROR("invalid plane\n");
+@@ -1308,16 +1315,6 @@ static void dpu_plane_reset(struct drm_plane *plane)
+ 		return;
  	}
  
--	pipe_cfg->src_rect = new_plane_state->src;
+-	/*
+-	 * Set the SSPP here until we have proper virtualized DPU planes.
+-	 * This is the place where the state is allocated, so fill it fully.
+-	 */
+-	pstate->pipe.sspp = dpu_rm_get_sspp(&dpu_kms->rm, pdpu->pipe);
+-	pstate->pipe.multirect_index = DPU_SSPP_RECT_SOLO;
+-	pstate->pipe.multirect_mode = DPU_SSPP_MULTIRECT_NONE;
 -
- 	/* state->src is 16.16, src_rect is not */
--	pipe_cfg->src_rect.x1 >>= 16;
--	pipe_cfg->src_rect.x2 >>= 16;
--	pipe_cfg->src_rect.y1 >>= 16;
--	pipe_cfg->src_rect.y2 >>= 16;
-+	drm_rect_fp_to_int(&pipe_cfg->src_rect, &new_plane_state->src);
- 
- 	pipe_cfg->dst_rect = new_plane_state->dst;
+-	pstate->r_pipe.sspp = NULL;
+-
+ 	__drm_atomic_helper_plane_reset(plane, &pstate->base);
+ }
  
 
 -- 
