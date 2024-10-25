@@ -2,85 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA3189AFD00
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 10:47:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 510B39AFD0A
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 10:48:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BEFC010EA2A;
-	Fri, 25 Oct 2024 08:47:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1AB910EA2D;
+	Fri, 25 Oct 2024 08:48:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="pBUzlrKo";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Rx45vCsx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DA1E10EA2A
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 08:47:02 +0000 (UTC)
-X-UUID: 932ee6e692ab11efbd192953cf12861f-20241025
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=Ulm1GdYn5AwzGJrnapuHvHX2NA5N+yc7mcixuW0PsW0=; 
- b=pBUzlrKoUT13Vi8gE/TvGemhGlY2CmDFP9Of3OO3eaASNxI2ADP0b6MsDd+8mhLWUkW3nXNHDA1IWstFu393/Rjb+3R3B7obVrDJCTYoGF+3PmzC30Wwc1sdn28TZALZUr50c3QnzLuQ1qFwjsgq/ihvAMbazPu+NwQeOGflDW0=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.42, REQID:034a39fa-362d-475e-8fd7-66b25daa858d, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:0
-X-CID-META: VersionHash:b0fcdc3, CLOUDID:bb9d192e-a7a0-4b06-8464-80be82133975,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
- SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 932ee6e692ab11efbd192953cf12861f-20241025
-Received: from mtkmbs09n1.mediatek.inc [(172.21.101.35)] by
- mailgw02.mediatek.com (envelope-from <liankun.yang@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1012490295; Fri, 25 Oct 2024 16:31:47 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Fri, 25 Oct 2024 16:31:45 +0800
-Received: from mszsdclx1211.gcn.mediatek.inc (10.16.7.31) by
- mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Fri, 25 Oct 2024 16:31:45 +0800
-From: Liankun Yang <liankun.yang@mediatek.com>
-To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@gmail.com>, 
- <simona@ffwll.ch>, <matthias.bgg@gmail.com>,
- <angelogioacchino.delregno@collabora.com>, <ck.hu@mediatek.com>,
- <dmitry.osipenko@collabora.com>, <msp@baylibre.com>,
- <rex-bc.chen@mediatek.com>, <granquet@baylibre.com>, <peng.liu@mediatek.com>, 
- <jitao.shi@mediatek.com>, <mac.shen@mediatek.com>,
- <liankun.yang@mediatek.com>,
- <Project_Global_Chrome_Upstream_Group@mediatek.com>
-CC: <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
- <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
-Subject: [PATCH v2 3/3] drm/mediatek: Adjust bandwidth limit for DP
-Date: Fri, 25 Oct 2024 16:28:29 +0800
-Message-ID: <20241025083036.8829-4-liankun.yang@mediatek.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20241025083036.8829-1-liankun.yang@mediatek.com>
-References: <20241025083036.8829-1-liankun.yang@mediatek.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 781DB10EA2C;
+ Fri, 25 Oct 2024 08:48:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1729846136; x=1761382136;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=HOrpC2uoJMmbO1MzoGJ6GQKp5hqOj/+01ny6zeG0vw0=;
+ b=Rx45vCsxhfxIV/ZvdyZmTGKehs+HxjH75xcScWZDRo12XtOdoHm59+0L
+ pjqDqKoaHLgwW+25NQgL4rPwcOiyzmKd0pbbxXfxU2aO2UsFZyOSdnSG3
+ cXEDMRaeRB5W6NyILyeiiUUXaHgGwA27IraE6j3tJgyZhyZ7YDyLAwDwt
+ 5L1Pa14OyMrIqqm1jDXIj7xIi+g0Ao2a49JmP9evbL7YKV+ipnkqb5K4B
+ lUUVEK1ipecQjMBj4p20iizqNqNWnaUV8VnF9oKjxvkt8UeZl3AhZ8Kge
+ oGu+3TqSFzkwufy2VAsRdlU4FmIKTZT9BdYF7aBQG6WNVRwFnKXN94D16 Q==;
+X-CSE-ConnectionGUID: XDzvbDA3TAGS+SOJAGGuOg==
+X-CSE-MsgGUID: TcF5bxsfRR2sLL/hdEtYUg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11235"; a="32369497"
+X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; d="scan'208";a="32369497"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Oct 2024 01:48:55 -0700
+X-CSE-ConnectionGUID: nEPiNH1VRNuwApaKQmN3uA==
+X-CSE-MsgGUID: rqm0TBk3TGKq+p66FAKmjQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; d="scan'208";a="80768510"
+Received: from jraag-nuc8i7beh.iind.intel.com ([10.145.169.79])
+ by orviesa010.jf.intel.com with ESMTP; 25 Oct 2024 01:48:49 -0700
+From: Raag Jadav <raag.jadav@intel.com>
+To: airlied@gmail.com, simona@ffwll.ch, lucas.demarchi@intel.com,
+ rodrigo.vivi@intel.com, jani.nikula@linux.intel.com,
+ andriy.shevchenko@linux.intel.com, lina@asahilina.net,
+ michal.wajdeczko@intel.com, christian.koenig@amd.com
+Cc: intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com,
+ aravind.iddamsetty@linux.intel.com, anshuman.gupta@intel.com,
+ alexander.deucher@amd.com, andrealmeid@igalia.com,
+ amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com,
+ Raag Jadav <raag.jadav@intel.com>
+Subject: [PATCH v8 0/4] Introduce DRM device wedged event
+Date: Fri, 25 Oct 2024 14:18:13 +0530
+Message-Id: <20241025084817.144621-1-raag.jadav@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--4.892200-8.000000
-X-TMASE-MatchedRID: eEvvxGbtKJXqDJGloYB7/lu4M/xm4KZeB3WB/vm5tBhvOxpHnc6c8tAO
- OSAF0cTNjhjs4bjZeL6wUbC8TG29xsME2BsoiKJMQ4srjeRbxTZMkOX0UoduuQqiCYa6w8tvg7c
- fJQw9FseiXymrvf+Yd78x/CIirHX9UBXVAm5W8RB7k1ZHmKLF7dn+voDzU8zxVz8J52OVy+RtgT
- FkLUu6pv7wSJO97U5mdL6uYg+Eh8xlZ48frA+isodlc1JaOB1TfS0Ip2eEHnz3IzXlXlpamPoLR
- 4+zsDTttrrTuahHzlFM7SgCXiCKPg0pokrqu76d3ChfGQlxUCGwlr1AK4SIq6umutRJso5Pd7HY
- 8VpdQiO3FkU3l1TlG6F3Knlxd+sAvV1+6k7Vw+XyNp7g4PXe0BXsxz6ujBxUq1f8XSkHBUmNJXm
- EMVvLtpRMZUCEHkRt
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--4.892200-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP: FC8D13FAC6F2D1F2D2B6E2E03F161BD2D3BD61356F27743ED310C6690EE78ECF2000:8
-X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,98 +73,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-By adjusting the order of link training and relocating it to HPD,
-link training can identify the usability of each lane in the current link.
+This series introduces device wedged event in DRM subsystem and uses
+it in xe and i915 drivers. Detailed description in commit message.
 
-It also supports handling signal instability and weakness due to
-environmental issues, enabling the acquisition of a stable bandwidth
-for the current link. Subsequently, DP work can proceed based on
-the actual maximum bandwidth.
+This was earlier attempted as xe specific uevent in v1 and v2.
+https://patchwork.freedesktop.org/series/136909/
 
-It should training in the hpd event thread.
-Check the mode with lane count and link rate of training.
+Similar work by André Almeida.
+https://lore.kernel.org/dri-devel/20221125175203.52481-1-andrealmeid@igalia.com/
 
-Signed-off-by: Liankun Yang <liankun.yang@mediatek.com>
----
-- Adjust DP training timing.
-- Adjust parse capabilities timing.
-- Add power on/off for connect/disconnect
----
- drivers/gpu/drm/mediatek/mtk_dp.c | 37 +++++++++++++++++--------------
- 1 file changed, 20 insertions(+), 17 deletions(-)
+v2: Change authorship to Himal (Aravind)
+    Add uevent for all device wedged cases (Aravind)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
-index ae4807823a5c..e87f6f52bcce 100644
---- a/drivers/gpu/drm/mediatek/mtk_dp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dp.c
-@@ -1873,6 +1873,7 @@ static irqreturn_t mtk_dp_hpd_event_thread(int hpd, void *dev)
- 	struct mtk_dp *mtk_dp = dev;
- 	unsigned long flags;
- 	u32 status;
-+	int ret;
- 
- 	if (mtk_dp->need_debounce && mtk_dp->train_info.cable_plugged_in)
- 		msleep(100);
-@@ -1891,9 +1892,28 @@ static irqreturn_t mtk_dp_hpd_event_thread(int hpd, void *dev)
- 			memset(&mtk_dp->info.audio_cur_cfg, 0,
- 			       sizeof(mtk_dp->info.audio_cur_cfg));
- 
-+			mtk_dp->enabled = false;
-+			/* power off aux */
-+			mtk_dp_update_bits(mtk_dp, MTK_DP_TOP_PWR_STATE,
-+			       DP_PWR_STATE_BANDGAP_TPLL,
-+			       DP_PWR_STATE_MASK);
-+
- 			mtk_dp->need_debounce = false;
- 			mod_timer(&mtk_dp->debounce_timer,
- 				  jiffies + msecs_to_jiffies(100) - 1);
-+		} else {
-+			mtk_dp_aux_panel_poweron(mtk_dp, true);
-+
-+			ret = mtk_dp_parse_capabilities(mtk_dp);
-+			if (ret)
-+				drm_err(mtk_dp->drm_dev, "Can't parse capabilities\n");
-+
-+			/* Training */
-+			ret = mtk_dp_training(mtk_dp);
-+			if (ret)
-+				drm_err(mtk_dp->drm_dev, "Training failed, %d\n", ret);
-+
-+			mtk_dp->enabled = true;
- 		}
- 	}
- 
-@@ -2060,16 +2080,6 @@ static const struct drm_edid *mtk_dp_edid_read(struct drm_bridge *bridge,
- 
- 	drm_edid = drm_edid_read_ddc(connector, &mtk_dp->aux.ddc);
- 
--	/*
--	 * Parse capability here to let atomic_get_input_bus_fmts and
--	 * mode_valid use the capability to calculate sink bitrates.
--	 */
--	if (mtk_dp_parse_capabilities(mtk_dp)) {
--		drm_err(mtk_dp->drm_dev, "Can't parse capabilities\n");
--		drm_edid_free(drm_edid);
--		drm_edid = NULL;
--	}
--
- 	if (drm_edid) {
- 		/*
- 		 * FIXME: get rid of drm_edid_raw()
-@@ -2263,13 +2273,6 @@ static void mtk_dp_bridge_atomic_enable(struct drm_bridge *bridge,
- 
- 	mtk_dp_aux_panel_poweron(mtk_dp, true);
- 
--	/* Training */
--	ret = mtk_dp_training(mtk_dp);
--	if (ret) {
--		drm_err(mtk_dp->drm_dev, "Training failed, %d\n", ret);
--		goto power_off_aux;
--	}
--
- 	ret = mtk_dp_video_config(mtk_dp);
- 	if (ret)
- 		goto power_off_aux;
+v3: Generic re-implementation in DRM subsystem (Lucas)
+
+v4: s/drm_dev_wedged/drm_dev_wedged_event
+    Use drm_info() (Jani)
+    Kernel doc adjustment (Aravind)
+    Change authorship to Raag (Aravind)
+
+v5: Send recovery method with uevent (Lina)
+    Expose supported recovery methods via sysfs (Lucas)
+
+v6: Access wedge_recovery_opts[] using helper function (Jani)
+    Use snprintf() (Jani)
+
+v7: Convert recovery helpers into regular functions (Andy, Jani)
+    Aesthetic adjustments (Andy)
+    Handle invalid method cases
+    Add documentation to drm-uapi.rst (Sima)
+
+v8: Drop sysfs and allow sending multiple methods with uevent (Lucas, Michal)
+    Improve documentation (Christian, Rodrigo)
+    static_assert() globally (Andy)
+
+Raag Jadav (4):
+  drm: Introduce device wedged event
+  drm/doc: Document device wedged event
+  drm/xe: Use device wedged event
+  drm/i915: Use device wedged event
+
+ Documentation/gpu/drm-uapi.rst        | 75 +++++++++++++++++++++++++++
+ drivers/gpu/drm/drm_drv.c             | 51 ++++++++++++++++++
+ drivers/gpu/drm/i915/gt/intel_reset.c |  3 ++
+ drivers/gpu/drm/xe/xe_device.c        |  9 +++-
+ include/drm/drm_device.h              |  7 +++
+ include/drm/drm_drv.h                 |  1 +
+ 6 files changed, 144 insertions(+), 2 deletions(-)
+
 -- 
-2.45.2
+2.34.1
 
