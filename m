@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EC349B0AEC
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 19:17:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D1E39B0ACA
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 19:16:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72C8910EB4D;
-	Fri, 25 Oct 2024 17:17:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06F8210EB37;
+	Fri, 25 Oct 2024 17:16:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="mOHjpNPZ";
+	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="nHpC5Q8f";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
- [209.85.221.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC37B10EB2B
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 17:16:33 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id
- ffacd0b85a97d-37d70df0b1aso1770650f8f.3
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 10:16:33 -0700 (PDT)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF32A10EB2B
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 17:16:34 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id
+ 5b1f17b1804b1-4319399a411so7994315e9.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 10:16:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google; t=1729876592; x=1730481392;
+ d=raspberrypi.com; s=google; t=1729876593; x=1730481393;
  darn=lists.freedesktop.org; 
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=yUMbW8c4fnS4xc6t+S+xmsFii0Nh8WSEhqluNBn7tHo=;
- b=mOHjpNPZUZ0GiqPIXiKrfBTRSwan/n/JI6ns3jX0ld8Lc7MrieqW8UNDY4cMQGz5KN
- PRhyBUSPAt8tmhTuJDlsiY6JqbxXUV/CehT5NqmuRGmgIE6DJrMRUNr7okjxS3xDbfs4
- D/6JlFqCrL3akO4mYzKUIHUBdbCqVJ07f1R0ihnPE58nSUufvQLuOL+1fiHGgVL7PGcO
- TuEhWgYU2M6HCYwBV0nFTmPGgDLChhhPAwKrzRHjg7utZdc3Dbs6+XHxAxA14n7FbS4s
- 0Cqt5wL+ajIsJdrzxtxlNya3QqNO7FYw3asQNaFrCTDprxax6X/LW9/BR7NRLjaxt6AN
- yFWw==
+ :reply-to; bh=k+NR5LKr4OxeWQLlNj8flZMDifFbPCFEGLf/3iSNdew=;
+ b=nHpC5Q8f2jc/oBjRNGl31jHMH+O/v11bh0E6mSD3k012kyH6JRBdctzA+ie+RAgiwP
+ MOTtdxsT6mqZXi6CnzysKfVZMBI7wOXGlda68Pn1oFxClJ3P1zuelMngoQ3Y6xpZoK0z
+ 3AKDGfd/2D5BMMAykHLNcIZ/Xa+lAn1fNkXMkhhi9kU2mfScJR5mj79T5BoqaG0oiLpy
+ XIXq60RCenrLZzBvkpue/tj8tWwXnA3NkbSHKM1BAMzxYUe+6iSUrZrsr6cgEBWUpeWX
+ XcGblLRKATwNEGLLAIoU+U1WlBMnfV7XNLdMprkYWCd+bVMHkqGqlO2Rp7/Z4idBNS5b
+ O6eA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1729876592; x=1730481392;
+ d=1e100.net; s=20230601; t=1729876593; x=1730481393;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=yUMbW8c4fnS4xc6t+S+xmsFii0Nh8WSEhqluNBn7tHo=;
- b=iDjomFV/WbgI4fiI3mYtPUSXX543fdmEN5VB/0WrlplfK9IS59BucjcZkHimFXqnEY
- dfwWBBIjsjgbOUkOKVuMyzRr1yath7t6YExXHAiKyFXyzHKXpw+3xG60aror0AzBtU6O
- RKcCaetw/XdYR88BnADJyKbjhSLDks5FaeFsn2FO8vQZ/nzENTljYOnDoS3xtrBWXHC1
- 0h2Kg7gTncuDiIsAyFH9/7UvmreYMhFd6RofatpYvVkMcDvRKM0QAghZUAF+rZ64ODnD
- NIEffnnGn+ix/yjPQA+oaM2OAxQ0sJ+nc0LOF5yJwwteeCe/9q0uZZJS3isbR+w7MQsR
- T2Gw==
-X-Gm-Message-State: AOJu0Yy9B9/BGnAcD79GUOt5qoIhW0WrN2kXM6Ha4XjHXARvS+Vdh1+/
- Qmfylyl3262PZTBBVjhEZcUDV4hQ6BoZZ+L9vNW2SkhgXvECwuWSkgEbVxcNHsw=
-X-Google-Smtp-Source: AGHT+IGlWiJn7Ozkgg+McXgEdyvgzuVLywKtK/tT5oVLgmb42gKrNvsGZclRa3uCRrKPuzJCn2aCmA==
-X-Received: by 2002:adf:9bd4:0:b0:37d:4e74:687 with SMTP id
- ffacd0b85a97d-380611e1392mr111275f8f.41.1729876592186; 
- Fri, 25 Oct 2024 10:16:32 -0700 (PDT)
+ bh=k+NR5LKr4OxeWQLlNj8flZMDifFbPCFEGLf/3iSNdew=;
+ b=eVJYptW7PRH9T3KK5RXxbf/U60MaLSUbx/gCw897CGVvufTyOE1o7LhGDOhJEdvg5D
+ Ejm4/Np61ZzQDn3mCFUeep7zU4q4WLjmJKYefh/wDZR8L4/+PpYvElV/l8RslnZu8u4G
+ UnHjhFBV+ut5LfimrgZS7fCHefmEO0r1q7HYPQx/i5tqk1HNmXy1L2WdA9JYbaHhJgxm
+ rtmETeTbwfnZ34wucUZJDTufu0+3Hy30eGMd6cmM2OLAgQkh1j1If6CYZU8oyPoq8vY9
+ 0YRCBuhk5WS0cGDTzoV62X/Ttq2C78tEW5fea9RQSML8ZZjScRl93WvEMqf5EIf7O/+m
+ FzGQ==
+X-Gm-Message-State: AOJu0Yz++cEt2Jn1RXauny49/Pa+EMF6INNw2IQLif/WG0v9zE2tTItB
+ Vy/AA75pNtjsKfpgFyl9HSb1o+WYlAt7tjx+5xaPul6Y20Ribyy1Ai/SpkYiXS4=
+X-Google-Smtp-Source: AGHT+IHe5tCoSz92UO987eOIzi01b4rnj6tRANtMPS83mpXtoleIp32yTkc1Cq0CRABNQvTNNn9/Eg==
+X-Received: by 2002:a5d:63cf:0:b0:37c:d57d:71cd with SMTP id
+ ffacd0b85a97d-380611ff862mr97480f8f.52.1729876593018; 
+ Fri, 25 Oct 2024 10:16:33 -0700 (PDT)
 Received: from [127.0.1.1] ([2a00:1098:3142:e::8])
  by smtp.googlemail.com with ESMTPSA id
- ffacd0b85a97d-38058b91f50sm2013649f8f.94.2024.10.25.10.16.31
+ ffacd0b85a97d-38058b91f50sm2013649f8f.94.2024.10.25.10.16.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Oct 2024 10:16:31 -0700 (PDT)
+ Fri, 25 Oct 2024 10:16:32 -0700 (PDT)
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Fri, 25 Oct 2024 18:16:03 +0100
-Subject: [PATCH v2 32/36] clk: bcm: rpi: Create helper to retrieve private data
+Date: Fri, 25 Oct 2024 18:16:04 +0100
+Subject: [PATCH v2 33/36] clk: bcm: rpi: Add disp clock
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241025-drm-vc4-2712-support-v2-32-35efa83c8fc0@raspberrypi.com>
+Message-Id: <20241025-drm-vc4-2712-support-v2-33-35efa83c8fc0@raspberrypi.com>
 References: <20241025-drm-vc4-2712-support-v2-0-35efa83c8fc0@raspberrypi.com>
 In-Reply-To: <20241025-drm-vc4-2712-support-v2-0-35efa83c8fc0@raspberrypi.com>
 To: Maxime Ripard <mripard@kernel.org>, 
@@ -100,74 +100,52 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Maxime Ripard <mripard@kernel.org>
 
-The RaspberryPi firmware clocks driver uses in several instances a
-container_of to retrieve the struct raspberrypi_clk_data from a pointer
-to struct clk_hw. Let's create a small function to avoid duplicating it
-all over the place.
+BCM2712 has an extra clock exposed by the firmware called DISP, and used
+by (at least) the HVS. Let's add it to the list of clocks to register in
+Linux.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 ---
- drivers/clk/bcm/clk-raspberrypi.c | 18 ++++++++++--------
- 1 file changed, 10 insertions(+), 8 deletions(-)
+ drivers/clk/bcm/clk-raspberrypi.c          | 5 +++++
+ include/soc/bcm2835/raspberrypi-firmware.h | 1 +
+ 2 files changed, 6 insertions(+)
 
 diff --git a/drivers/clk/bcm/clk-raspberrypi.c b/drivers/clk/bcm/clk-raspberrypi.c
-index 9f716b2223ae..b12d86720207 100644
+index b12d86720207..0e1fe3759530 100644
 --- a/drivers/clk/bcm/clk-raspberrypi.c
 +++ b/drivers/clk/bcm/clk-raspberrypi.c
-@@ -56,6 +56,12 @@ struct raspberrypi_clk_data {
- 	struct raspberrypi_clk *rpi;
+@@ -34,6 +34,7 @@ static char *rpi_firmware_clk_names[] = {
+ 	[RPI_FIRMWARE_M2MC_CLK_ID]	= "m2mc",
+ 	[RPI_FIRMWARE_PIXEL_BVB_CLK_ID]	= "pixel-bvb",
+ 	[RPI_FIRMWARE_VEC_CLK_ID]	= "vec",
++	[RPI_FIRMWARE_DISP_CLK_ID]	= "disp",
  };
  
-+static inline
-+const struct raspberrypi_clk_data *clk_hw_to_data(const struct clk_hw *hw)
-+{
-+	return container_of(hw, struct raspberrypi_clk_data, hw);
-+}
-+
- struct raspberrypi_clk_variant {
- 	bool		export;
- 	char		*clkdev;
-@@ -176,8 +182,7 @@ static int raspberrypi_clock_property(struct rpi_firmware *firmware,
+ #define RPI_FIRMWARE_STATE_ENABLE_BIT	BIT(0)
+@@ -139,6 +140,10 @@ raspberrypi_clk_variants[RPI_FIRMWARE_NUM_CLK_ID] = {
+ 		.export = true,
+ 		.minimize = true,
+ 	},
++	[RPI_FIRMWARE_DISP_CLK_ID] = {
++		.export = true,
++		.minimize = true,
++	},
+ };
  
- static int raspberrypi_fw_is_prepared(struct clk_hw *hw)
- {
--	struct raspberrypi_clk_data *data =
--		container_of(hw, struct raspberrypi_clk_data, hw);
-+	const struct raspberrypi_clk_data *data = clk_hw_to_data(hw);
- 	struct raspberrypi_clk *rpi = data->rpi;
- 	u32 val = 0;
- 	int ret;
-@@ -194,8 +199,7 @@ static int raspberrypi_fw_is_prepared(struct clk_hw *hw)
- static unsigned long raspberrypi_fw_get_rate(struct clk_hw *hw,
- 					     unsigned long parent_rate)
- {
--	struct raspberrypi_clk_data *data =
--		container_of(hw, struct raspberrypi_clk_data, hw);
-+	const struct raspberrypi_clk_data *data = clk_hw_to_data(hw);
- 	struct raspberrypi_clk *rpi = data->rpi;
- 	u32 val = 0;
- 	int ret;
-@@ -211,8 +215,7 @@ static unsigned long raspberrypi_fw_get_rate(struct clk_hw *hw,
- static int raspberrypi_fw_set_rate(struct clk_hw *hw, unsigned long rate,
- 				   unsigned long parent_rate)
- {
--	struct raspberrypi_clk_data *data =
--		container_of(hw, struct raspberrypi_clk_data, hw);
-+	const struct raspberrypi_clk_data *data = clk_hw_to_data(hw);
- 	struct raspberrypi_clk *rpi = data->rpi;
- 	u32 _rate = rate;
- 	int ret;
-@@ -229,8 +232,7 @@ static int raspberrypi_fw_set_rate(struct clk_hw *hw, unsigned long rate,
- static int raspberrypi_fw_dumb_determine_rate(struct clk_hw *hw,
- 					      struct clk_rate_request *req)
- {
--	struct raspberrypi_clk_data *data =
--		container_of(hw, struct raspberrypi_clk_data, hw);
-+	const struct raspberrypi_clk_data *data = clk_hw_to_data(hw);
- 	struct raspberrypi_clk_variant *variant = data->variant;
+ /*
+diff --git a/include/soc/bcm2835/raspberrypi-firmware.h b/include/soc/bcm2835/raspberrypi-firmware.h
+index 73cac8d0287e..e1f87fbfe554 100644
+--- a/include/soc/bcm2835/raspberrypi-firmware.h
++++ b/include/soc/bcm2835/raspberrypi-firmware.h
+@@ -152,6 +152,7 @@ enum rpi_firmware_clk_id {
+ 	RPI_FIRMWARE_M2MC_CLK_ID,
+ 	RPI_FIRMWARE_PIXEL_BVB_CLK_ID,
+ 	RPI_FIRMWARE_VEC_CLK_ID,
++	RPI_FIRMWARE_DISP_CLK_ID,
+ 	RPI_FIRMWARE_NUM_CLK_ID,
+ };
  
- 	/*
 
 -- 
 2.34.1
