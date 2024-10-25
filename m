@@ -2,70 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC8DE9B0617
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 16:46:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBF879B0682
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 16:58:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB01010EB02;
-	Fri, 25 Oct 2024 14:46:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5971810E094;
+	Fri, 25 Oct 2024 14:58:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DUS86jvD";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="lsT0ohrO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B1B010EB17;
- Fri, 25 Oct 2024 14:46:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1729867567; x=1761403567;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=DWrbCb8jkLSPg12nVfEIzA0zjXePOAd2owE8P9KBnUs=;
- b=DUS86jvDMPoMWSX0LgdURBixvt0yHynN0iuBiC5OtDyvadTzgBEJaXzj
- JI5KgpiQFYQ0G7dKU0WHZsA6DmJDDFgkVThdtLkiDcjO0dA9DrcSycqJk
- Q/fY4Vb3CvyBI/Z4jcSwoluwq8gszWb9apYqipdjraSJ/w+4b5POsy8ge
- fHUXs3tkEFhbRUrAYDxCVzdmx2CyegawWUiXj1rmFpsrmyCRg82DyA2b7
- nL7czMu6l9eKDdFZcS4LxqCxRPMAG90ISPvHa6Pg3dsJREQVvlaVMbCD+
- eaWtON6MiiIH0pQ4KIYGRVxepvcXlOtwbYqLfKDFGoLqLNhTMN7rimu1t w==;
-X-CSE-ConnectionGUID: mqzxU+7zTlmtc1kNW9UR6A==
-X-CSE-MsgGUID: lRlGxbFrQ8GbzFKD/Ntghw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29670647"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="29670647"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Oct 2024 07:46:06 -0700
-X-CSE-ConnectionGUID: 7bnmPxxVSPKlCoeAPho3jQ==
-X-CSE-MsgGUID: VALqTUHsRWaZefUSBC0uMg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,232,1725346800"; d="scan'208";a="80579330"
-Received: from smile.fi.intel.com ([10.237.72.154])
- by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Oct 2024 07:46:02 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1t4LZf-00000006wh8-1JgX; Fri, 25 Oct 2024 17:45:59 +0300
-Date: Fri, 25 Oct 2024 17:45:59 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Raag Jadav <raag.jadav@intel.com>, airlied@gmail.com, simona@ffwll.ch,
- lucas.demarchi@intel.com, rodrigo.vivi@intel.com,
- lina@asahilina.net, michal.wajdeczko@intel.com,
- christian.koenig@amd.com, intel-xe@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- himal.prasad.ghimiray@intel.com, aravind.iddamsetty@linux.intel.com,
- anshuman.gupta@intel.com, alexander.deucher@amd.com,
- andrealmeid@igalia.com, amd-gfx@lists.freedesktop.org,
- kernel-dev@igalia.com
-Subject: Re: [PATCH v8 1/4] drm: Introduce device wedged event
-Message-ID: <ZxuvJ1Hhv4nt9oSH@smile.fi.intel.com>
-References: <20241025084817.144621-1-raag.jadav@intel.com>
- <20241025084817.144621-2-raag.jadav@intel.com>
- <87r084r1lp.fsf@intel.com>
+Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com
+ [95.215.58.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E06910E094
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 14:58:07 +0000 (UTC)
+Message-ID: <07766e5e-6009-4b8e-8a50-30ba0fe763f5@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1729868285;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=a8cGWjeBVtubT1nOUtGsNOA8VZMw6hKLHJizMjgK7rM=;
+ b=lsT0ohrOh5E5xFM4/dj8E2d6LS9jzHhErfRZvWVngnIdLZIK7DuzuMzxTL+5FIV4LeCWN+
+ U/20Ma87/13Nzno2oI+HQ5PtOK5L7+Jks9xkOZWaXhupqk0lEsFH/AtfUIT+Sa7/dD0CJJ
+ yt+rOq5RPn/O0mA6h1enlPz24Aq4YXI=
+Date: Fri, 25 Oct 2024 10:58:00 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87r084r1lp.fsf@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Subject: Re: [PATCH v6 0/8] drm: zynqmp_dp: IRQ cleanups and debugfs support
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sean Anderson <sean.anderson@linux.dev>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ David Airlie <airlied@gmail.com>, Michal Simek <michal.simek@amd.com>,
+ Daniel Vetter <daniel@ffwll.ch>, "Sagar, Vishal" <vishal.sagar@amd.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ dri-devel@lists.freedesktop.org
+References: <20240809193600.3360015-1-sean.anderson@linux.dev>
+ <5e9769dd-459a-4ff3-aebb-bb7057192733@linux.dev>
+ <a023bd66-8f42-4f27-9aa2-5097b2574562@ideasonboard.com>
+ <e959a01f-b466-4076-8219-a6c83a7194c0@linux.dev>
+Content-Language: en-US
+In-Reply-To: <e959a01f-b466-4076-8219-a6c83a7194c0@linux.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,41 +66,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 25, 2024 at 12:08:50PM +0300, Jani Nikula wrote:
-> On Fri, 25 Oct 2024, Raag Jadav <raag.jadav@intel.com> wrote:
+Hi Tomi,
 
-...
-
-> > +/*
-> > + * Available recovery methods for wedged device. To be sent along with device
-> > + * wedged uevent.
-> > + */
-> > +static const char *const drm_wedge_recovery_opts[] = {
-> > +	[ffs(DRM_WEDGE_RECOVERY_REBIND) - 1]	= "rebind",
-> > +	[ffs(DRM_WEDGE_RECOVERY_BUS_RESET) - 1]	= "bus-reset",
-> > +};
-> > +static_assert(ARRAY_SIZE(drm_wedge_recovery_opts) == ffs(DRM_WEDGE_RECOVERY_BUS_RESET));
+On 10/3/24 10:53, Sean Anderson wrote:
+> On 10/2/24 10:50, Tomi Valkeinen wrote:
+>> Hi,
+>> 
+>> On 01/10/2024 21:31, Sean Anderson wrote:
+>>> On 8/9/24 15:35, Sean Anderson wrote:
+>>>> This series cleans up the zyqnmp_dp IRQ and locking situation. Once
+>>>> that's done, it adds debugfs support. The intent is to enable compliance
+>>>> testing or to help debug signal-integrity issues.
+>> 
+>> I think the patches 1-7 look fine, and I think I can pick those already to drm-misc if you're ok with that.
+>> 
+>> I'm a bit unsure about patch 8, probably mainly because I don't have experience with the compliance testing.
+>> 
+>> How have you tested this? With some DP analyzer/tester, I presume?
 > 
-> This might work in most cases, but you also might end up finding that
-> there's an arch and compiler combo out there that just won't be able to
-> figure out ffs() at compile time, and the array initialization fails.
-
-We have ilog2() macro for such cases, but it is rather fls() and not ffs(),
-and I have no idea why ffs() even being used here, especially in the index
-part of the array assignments. It's unreadable.
-
-> If that happens, you'd have to either convert back to an enum (and call
-> the wedge event function with BIT(DRM_WEDGE_RECOVERY_REBIND) etc.), or
-> make this a array of structs mapping the macro values to strings and
-> loop over it.
+> For my test setup I used an oscilloscope hooked up to the displayport
+> output using a fixture that broke the signals out to SMA. Since the
+> oscilloscope cannot emulate a sink, I first had the output connected to
+> a monitor. Then I disabled HPD and reconnected the output to my fixture.
+> This process is described in more detail in the documentation.
 > 
-> Also, the main point of the static assert was to ensure the array is
-> updated when a new recovery option is added, and there's no out of
-> bounds access. That no longer holds, and the static assert is pretty
-> much useless. You still have to manually find and update this.
+>> I think none of this (patch 8) is needed by almost anybody.
+> 
+> Well, I found it very useful for debugging a signal integrity issue I
+> was having. Once I could have a look at the signals it was very clear
+> what the problem was.
+> 
+>> Even among zynqmp_dp developers I assume it's very rare to have the
+>> hardware for this. I wonder if it would make sense to have the debugfs
+>> and related code behind a compile option (which would be nice as the
+>> code wouldn't even compiled in), or maybe a module parameter (which
+>> would be nice as then "anyone" can easily enable it for compliance
+>> testing). What do you think?
+> 
+> Other drivers with these features just enabled it unconditionally, so I
+> didn't bother with any special config.
+> 
+>> I also somehow recall that there was some discussion earlier about
+>> how/if other drivers support compliance testing. But I can't find the
+>> discussion. Do you remember if there was such discussion, and what was
+>> the conclusion? With a quick look, everything in the debugfs looks
+>> generic, not xilinx specific.
+> 
+> The last it got discussed was back in [1], but I never got any further
+> response. I agree that some of this is generic, and could probably be
+> reworked into some internal helpers. But I don't have the bandwidth at
+> the moment to do that work.
+> 
+> --Sean
+> 
+> [1] http://lore.kernel.org/dri-devel/cda22b0c-8d7c-4ce2-9a7c-3b5ab540fa1f@linux.dev
 
--- 
-With Best Regards,
-Andy Shevchenko
+Does this all make sense to you? At the moment I don't believe I have any
+changes I need to resend for (although this series is archived in patchwork [1]
+for some reason).
 
+--Sean
 
+[1] https://patchwork.kernel.org/project/dri-devel/list/?series=878338&archive=both
