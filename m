@@ -2,55 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBF879B0682
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 16:58:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4DF39B06C9
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 17:03:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5971810E094;
-	Fri, 25 Oct 2024 14:58:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B67A010E2BD;
+	Fri, 25 Oct 2024 15:02:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="lsT0ohrO";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="eczGVC/B";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com
- [95.215.58.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E06910E094
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 14:58:07 +0000 (UTC)
-Message-ID: <07766e5e-6009-4b8e-8a50-30ba0fe763f5@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1729868285;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=a8cGWjeBVtubT1nOUtGsNOA8VZMw6hKLHJizMjgK7rM=;
- b=lsT0ohrOh5E5xFM4/dj8E2d6LS9jzHhErfRZvWVngnIdLZIK7DuzuMzxTL+5FIV4LeCWN+
- U/20Ma87/13Nzno2oI+HQ5PtOK5L7+Jks9xkOZWaXhupqk0lEsFH/AtfUIT+Sa7/dD0CJJ
- yt+rOq5RPn/O0mA6h1enlPz24Aq4YXI=
-Date: Fri, 25 Oct 2024 10:58:00 -0400
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 278A710E2BD
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 15:02:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=/BzxFH2ZzCndTZzsEVJpCcLisyAzacFj+HW6WN0x7KA=; b=eczGVC/BQmyJuRvutiOFIKpYQV
+ F2WGCOXqyXdeuEVyRhmqyuqf0bMIiwi385UW1/+GQIJP9GKsXb4Svs0ANl9Uc48CUjBuAg+XOrBpj
+ Mesl9O1Wz8Vup+RSbiCmk1ueHOInxrk0X1yymO7CH9OXOCKFRID7haJuhwoCmuXy2H0g/+Pu2P/2K
+ alSTtq4cGTAiFdkrEQmQX5qX8I/d5xhta7B4+p6zyVQhWdIwfU/++6QqerPlOxwiD9akeDW5A3lOP
+ SZkRXgpKZEJelunIpMEZq0+uwvCzvL0pZkpECz2K2GGbjFKsiif3pYztiCn0+Fe5HvK/1S2YPLBiW
+ oFrOgFog==;
+Received: from [187.36.213.55] (helo=[192.168.1.103])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1t4Lq0-00F4PS-Cs; Fri, 25 Oct 2024 17:02:52 +0200
+Message-ID: <9bda38f1-4221-4b3b-bbd6-cf972120bdf3@igalia.com>
+Date: Fri, 25 Oct 2024 12:01:56 -0300
 MIME-Version: 1.0
-Subject: Re: [PATCH v6 0/8] drm: zynqmp_dp: IRQ cleanups and debugfs support
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sean Anderson <sean.anderson@linux.dev>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- David Airlie <airlied@gmail.com>, Michal Simek <michal.simek@amd.com>,
- Daniel Vetter <daniel@ffwll.ch>, "Sagar, Vishal" <vishal.sagar@amd.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- dri-devel@lists.freedesktop.org
-References: <20240809193600.3360015-1-sean.anderson@linux.dev>
- <5e9769dd-459a-4ff3-aebb-bb7057192733@linux.dev>
- <a023bd66-8f42-4f27-9aa2-5097b2574562@ideasonboard.com>
- <e959a01f-b466-4076-8219-a6c83a7194c0@linux.dev>
+User-Agent: Mozilla Thunderbird
+Subject: Re: vc4: HDMI Sink doesn't support RGB, something's wrong.
+To: Stefan Wahren <wahrenst@gmx.net>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Maxime Ripard <mripard@kernel.org>
+Cc: DRI Development <dri-devel@lists.freedesktop.org>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Florian Fainelli <florian.fainelli@broadcom.com>
+References: <c657d3e9-e4fb-4dac-a611-45655511e500@gmx.net>
+ <CAPY8ntDAMq_oTM+ua0pcFroTiWkDyhXSj++oGxOq+ODajm8++Q@mail.gmail.com>
+ <3f35403e-f42f-4936-9297-68b56818aeee@gmx.net>
+ <20241014-warm-savvy-wrasse-ed984e@houat>
+ <CAPY8ntAFzT4uBT47kDnDjEcSZXLonV-n_ixZ6L1_LAcfQPwS8Q@mail.gmail.com>
+ <17f8f497-1238-4555-824b-b5a3fb699a98@gmx.net>
 Content-Language: en-US
-In-Reply-To: <e959a01f-b466-4076-8219-a6c83a7194c0@linux.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <17f8f497-1238-4555-824b-b5a3fb699a98@gmx.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,65 +70,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomi,
+Hi,
 
-On 10/3/24 10:53, Sean Anderson wrote:
-> On 10/2/24 10:50, Tomi Valkeinen wrote:
->> Hi,
->> 
->> On 01/10/2024 21:31, Sean Anderson wrote:
->>> On 8/9/24 15:35, Sean Anderson wrote:
->>>> This series cleans up the zyqnmp_dp IRQ and locking situation. Once
->>>> that's done, it adds debugfs support. The intent is to enable compliance
->>>> testing or to help debug signal-integrity issues.
->> 
->> I think the patches 1-7 look fine, and I think I can pick those already to drm-misc if you're ok with that.
->> 
->> I'm a bit unsure about patch 8, probably mainly because I don't have experience with the compliance testing.
->> 
->> How have you tested this? With some DP analyzer/tester, I presume?
+On 14/10/24 18:16, Stefan Wahren wrote:
 > 
-> For my test setup I used an oscilloscope hooked up to the displayport
-> output using a fixture that broke the signals out to SMA. Since the
-> oscilloscope cannot emulate a sink, I first had the output connected to
-> a monitor. Then I disabled HPD and reconnected the output to my fixture.
-> This process is described in more detail in the documentation.
-> 
->> I think none of this (patch 8) is needed by almost anybody.
-> 
-> Well, I found it very useful for debugging a signal integrity issue I
-> was having. Once I could have a look at the signals it was very clear
-> what the problem was.
-> 
->> Even among zynqmp_dp developers I assume it's very rare to have the
->> hardware for this. I wonder if it would make sense to have the debugfs
->> and related code behind a compile option (which would be nice as the
->> code wouldn't even compiled in), or maybe a module parameter (which
->> would be nice as then "anyone" can easily enable it for compliance
->> testing). What do you think?
-> 
-> Other drivers with these features just enabled it unconditionally, so I
-> didn't bother with any special config.
-> 
->> I also somehow recall that there was some discussion earlier about
->> how/if other drivers support compliance testing. But I can't find the
->> discussion. Do you remember if there was such discussion, and what was
->> the conclusion? With a quick look, everything in the debugfs looks
->> generic, not xilinx specific.
-> 
-> The last it got discussed was back in [1], but I never got any further
-> response. I agree that some of this is generic, and could probably be
-> reworked into some internal helpers. But I don't have the bandwidth at
-> the moment to do that work.
-> 
-> --Sean
-> 
-> [1] http://lore.kernel.org/dri-devel/cda22b0c-8d7c-4ce2-9a7c-3b5ab540fa1f@linux.dev
+> Am 14.10.24 um 12:54 schrieb Dave Stevenson:
+>> On Mon, 14 Oct 2024 at 10:04, Maxime Ripard <mripard@kernel.org> wrote:
+>>> Hi,
+>>>
+>>> On Sun, Oct 13, 2024 at 09:57:58PM GMT, Stefan Wahren wrote:
+>>>> Am 13.10.24 um 21:11 schrieb Dave Stevenson:
+>>>>> Hi Stefan.
+>>>>>
+>>>>> On Sun, 13 Oct 2024, 18:19 Stefan Wahren, <wahrenst@gmx.net> wrote:
+>>>>>
+>>>>>      Hi,
+>>>>>
+>>>>>      i recently switch for my suspend2idle tests from Raspberry Pi 
+>>>>> Bullseye
+>>>>>      to Bookworm. After that testing suspend2idle shows a new warning
+>>>>>      which i
+>>>>>      never saw before:
+>>>>>
+>>>>>      HDMI Sink doesn't support RGB, something's wrong.
+>>>>>
+>>>>>
+>>>>> Can you provide the edid of your display please?
+> ...
+>>>>
+>>>>
+>>>> The failure is coming from sink_supports_format_bpc()[1], but the flag
+>>>> for DRM_COLOR_FORMAT_RGB444 should have been set from
+>>>> update_display_info()[2] parsing the EDID.
+>>>>
+>>>> Loading that EDID in via drm.edid_firmware has given me a console at
+>>>> 1920x1200@60 without any issues, so I'm a little confused as to what
+>>>> is going on.
+> Since this warning only occurs on resume and not during normal boot, i
+> would assume there is no issue with EDID. Maybe the flag get lost. I
+> should have mention that X11 doesn't recover in this case and the
+> display stays black.
 
-Does this all make sense to you? At the moment I don't believe I have any
-changes I need to resend for (although this series is archived in patchwork [1]
-for some reason).
+The same warning appeared to me when running a kernel built on top of
+drm-misc-next on a RPi 4B+. But, in my case, it happened during normal
+boot.
 
---Sean
+The warning showed non-stop and it only stopped appearing when I
+switched displays. In the first case (when the warning was happening), I
+was using a USB video capture device to get the HDMI output. Then, I
+switched to a real display and the warning stopped showing.
 
-[1] https://patchwork.kernel.org/project/dri-devel/list/?series=878338&archive=both
+Best Regards,
+- Maíra
+
+>>>>
+>>>>    Dave
+>>>>
+>>>> [1] 
+>>>> https://elixir.bootlin.com/linux/v6.12-rc2/source/drivers/gpu/drm/display/drm_hdmi_state_helper.c#L130
+>>>> [2] 
+>>>> https://elixir.bootlin.com/linux/v6.12-rc2/source/drivers/gpu/drm/drm_edid.c#L6669
+> 
