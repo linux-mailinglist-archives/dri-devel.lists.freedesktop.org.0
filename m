@@ -2,48 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39B999AFE34
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 11:31:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E055F9AFE1E
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Oct 2024 11:24:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DFF910EA47;
-	Fri, 25 Oct 2024 09:31:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40ACC10E025;
+	Fri, 25 Oct 2024 09:24:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1033 seconds by postgrey-1.36 at gabe;
- Fri, 25 Oct 2024 09:30:59 UTC
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7ABF510EA47;
- Fri, 25 Oct 2024 09:30:59 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.88.194])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4XZcWQ1lk2zQrZF;
- Fri, 25 Oct 2024 17:12:50 +0800 (CST)
-Received: from kwepemm600001.china.huawei.com (unknown [7.193.23.3])
- by mail.maildlp.com (Postfix) with ESMTPS id 4CE25140361;
- Fri, 25 Oct 2024 17:13:44 +0800 (CST)
-Received: from huawei.com (10.175.113.133) by kwepemm600001.china.huawei.com
- (7.193.23.3) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Fri, 25 Oct
- 2024 17:13:42 +0800
-From: Wang Hai <wanghai38@huawei.com>
-To: <lucas.demarchi@intel.com>, <thomas.hellstrom@linux.intel.com>,
- <rodrigo.vivi@intel.com>, <maarten.lankhorst@linux.intel.com>,
- <mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
- <simona@ffwll.ch>, <matthew.auld@intel.com>, <matthew.brost@intel.com>,
- <michal.wajdeczko@intel.com>, <akshata.jahagirdar@intel.com>,
- <david.kershner@intel.com>, <matthew.d.roper@intel.com>,
- <zhangxiaoxu5@huawei.com>
-CC: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <wanghai38@huawei.com>
-Subject: [PATCH] drm/xe/migrate: Fix inappropriate error printing in
- xe_migrate_sanity_test()
-Date: Fri, 25 Oct 2024 17:13:10 +0800
-Message-ID: <20241025091310.15380-1-wanghai38@huawei.com>
-X-Mailer: git-send-email 2.17.1
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7BCFF10E025
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 09:24:36 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 93DDD339
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 02:25:05 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id A91623F528
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Oct 2024 02:24:35 -0700 (PDT)
+Date: Fri, 25 Oct 2024 10:24:32 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Akash Goel <akash.goel@arm.com>, Robin Murphy <robin.murphy@arm.com>,
+ steven.price@arm.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, mihail.atanassov@arm.com,
+ ketil.johnsen@arm.com, florent.tomasin@arm.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch, nd@arm.com
+Subject: Re: [PATCH 1/3] drm/panthor: Update memattr programing to align with
+ GPU spec
+Message-ID: <Zxtj0B3BrMYDt9ID@e110455-lin.cambridge.arm.com>
+References: <20241024145432.934086-1-akash.goel@arm.com>
+ <20241024145432.934086-2-akash.goel@arm.com>
+ <20241024174944.4e811816@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.175.113.133]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- kwepemm600001.china.huawei.com (7.193.23.3)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241024174944.4e811816@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,33 +54,124 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When creating pin map for tiny fails, the PTR_ERR(pt) is printed instead
-of PTR_ERR(tiny), which makes it impossible to accurately get the true
-cause of the error.
+On Thu, Oct 24, 2024 at 05:49:44PM +0200, Boris Brezillon wrote:
+> +Robin for the MMU details
+> 
+> On Thu, 24 Oct 2024 15:54:30 +0100
+> Akash Goel <akash.goel@arm.com> wrote:
+> 
+> > Mali GPU Arch spec forbids the GPU PTEs to indicate Inner or Outer
+> > shareability when no_coherency protocol is selected. Doing so results in
+> > unexpected or undesired snooping of the CPU caches on some platforms,
+> > such as Juno FPGA, causing functional issues. For example the boot of
+> > MCU firmware fails as GPU ends up reading stale data for the FW memory
+> > pages from the CPU's cache. The FW memory pages are initialized with
+> > uncached mapping when the device is not reported to be dma-coherent.
+> > The shareability bits are set to inner-shareable when IOMMU_CACHE flag
+> > is passed to map_pages() callback and IOMMU_CACHE flag is passed by
+> > Panthor driver when memory needs to be mapped as cached on the GPU side.
+> > 
+> > IOMMU_CACHE seems to imply cache coherent and is probably not fit for
+> > purpose for the memory that is mapped as cached on GPU side but doesn't
+> > need to remain coherent with the CPU.
+> 
+> Yeah, IIRC I've been abusing the _CACHE flag to mean GPU-cached, not
+> cache-coherent. I think it be good to sit down with Rob and add the
+> necessary IOMMU_ flags so we can express all the shareability and
+> cacheability variants we have with the "Mali" MMU. For instance, I
+> think the shareability between MCU/GPU can be expressed properly at the
+> moment, and we unconditionally map things uncached because of that.
 
-Print PTR_ERR(tiny) after creating pin map for tiny fails.
+Boris, did you mean to say "shareability between MCU/GPU *can't* be expressed
+properly" ? Currently the sentence reads a bit strange, as if there was a
+negation somewhere.
 
-Fixes: dd08ebf6c352 ("drm/xe: Introduce a new DRM driver for Intel GPUs")
-Signed-off-by: Wang Hai <wanghai38@huawei.com>
----
- drivers/gpu/drm/xe/tests/xe_migrate.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Our GPU's architecture dictates a lot of coherency attributes, especially at
+the read-write/read-only L1$, so using _CACHE as a flag for something else
+is indeed tempting. We should talk with Rob to see how we can improve things
+here.
 
-diff --git a/drivers/gpu/drm/xe/tests/xe_migrate.c b/drivers/gpu/drm/xe/tests/xe_migrate.c
-index 1a192a2a941b..4542925445de 100644
---- a/drivers/gpu/drm/xe/tests/xe_migrate.c
-+++ b/drivers/gpu/drm/xe/tests/xe_migrate.c
-@@ -224,8 +224,8 @@ static void xe_migrate_sanity_test(struct xe_migrate *m, struct kunit *test)
- 				    XE_BO_FLAG_VRAM_IF_DGFX(tile) |
- 				    XE_BO_FLAG_PINNED);
- 	if (IS_ERR(tiny)) {
--		KUNIT_FAIL(test, "Failed to allocate fake pt: %li\n",
--			   PTR_ERR(pt));
-+		KUNIT_FAIL(test, "Failed to allocate fake tiny: %li\n",
-+			   PTR_ERR(tiny));
- 		goto free_pt;
- 	}
- 
+> 
+> > 
+> > This commit updates the programming of MEMATTR register to use
+> > MIDGARD_INNER instead of CPU_INNER when coherency is disabled. That way
+> > the inner-shareability specified in the GPU PTEs would map to Mali's
+> > internal-shareable mode, which is always supported by the GPU regardless
+> > of the coherency protocal and is required by the Userspace driver to
+> > ensure coherency between the shader cores.
+> > 
+> > Signed-off-by: Akash Goel <akash.goel@arm.com>
+> 
+> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+
+Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+
+Best regards,
+Liviu
+
+> 
+> > ---
+> >  drivers/gpu/drm/panthor/panthor_mmu.c | 23 +++++++++++++++--------
+> >  1 file changed, 15 insertions(+), 8 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+> > index f3ee5d2753f1..f522a116c1b1 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> > @@ -1927,7 +1927,7 @@ struct panthor_heap_pool *panthor_vm_get_heap_pool(struct panthor_vm *vm, bool c
+> >  	return pool;
+> >  }
+> >  
+> > -static u64 mair_to_memattr(u64 mair)
+> > +static u64 mair_to_memattr(u64 mair, bool coherent)
+> >  {
+> >  	u64 memattr = 0;
+> >  	u32 i;
+> > @@ -1946,14 +1946,21 @@ static u64 mair_to_memattr(u64 mair)
+> >  				   AS_MEMATTR_AARCH64_SH_MIDGARD_INNER |
+> >  				   AS_MEMATTR_AARCH64_INNER_ALLOC_EXPL(false, false);
+> >  		} else {
+> > -			/* Use SH_CPU_INNER mode so SH_IS, which is used when
+> > -			 * IOMMU_CACHE is set, actually maps to the standard
+> > -			 * definition of inner-shareable and not Mali's
+> > -			 * internal-shareable mode.
+> > -			 */
+> >  			out_attr = AS_MEMATTR_AARCH64_INNER_OUTER_WB |
+> > -				   AS_MEMATTR_AARCH64_SH_CPU_INNER |
+> >  				   AS_MEMATTR_AARCH64_INNER_ALLOC_EXPL(inner & 1, inner & 2);
+> > +			/* Use SH_MIDGARD_INNER mode when device isn't coherent,
+> > +			 * so SH_IS, which is used when IOMMU_CACHE is set, maps
+> > +			 * to Mali's internal-shareable mode. As per the Mali
+> > +			 * Spec, inner and outer-shareable modes aren't allowed
+> > +			 * for WB memory when coherency is disabled.
+> > +			 * Use SH_CPU_INNER mode when coherency is enabled, so
+> > +			 * that SH_IS actually maps to the standard definition of
+> > +			 * inner-shareable.
+> > +			 */
+> > +			if (!coherent)
+> > +				out_attr |= AS_MEMATTR_AARCH64_SH_MIDGARD_INNER;
+> > +			else
+> > +				out_attr |= AS_MEMATTR_AARCH64_SH_CPU_INNER;
+> >  		}
+> >  
+> >  		memattr |= (u64)out_attr << (8 * i);
+> > @@ -2325,7 +2332,7 @@ panthor_vm_create(struct panthor_device *ptdev, bool for_mcu,
+> >  		goto err_sched_fini;
+> >  
+> >  	mair = io_pgtable_ops_to_pgtable(vm->pgtbl_ops)->cfg.arm_lpae_s1_cfg.mair;
+> > -	vm->memattr = mair_to_memattr(mair);
+> > +	vm->memattr = mair_to_memattr(mair, ptdev->coherent);
+> >  
+> >  	mutex_lock(&ptdev->mmu->vm.lock);
+> >  	list_add_tail(&vm->node, &ptdev->mmu->vm.list);
+> 
+
 -- 
-2.17.1
-
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
